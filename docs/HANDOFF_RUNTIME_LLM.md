@@ -1,0 +1,142 @@
+# 実行時プロンプト仕様: LLMプリセット生成
+
+テンプレート2(実装→実行時プロンプト)準拠。この文書の内容は `index.html` に**そのまま**焼き込む。
+
+## 呼び出しコンテキスト
+
+- モデル: `claude-haiku-4-5`(既定)/ フォールバック `claude-sonnet-5`(`thinking:{"type":"disabled"}` を付与)
+- 頻度: 1ユーザー操作あたり1〜3回(検証リトライ・フォールバック込み)。想定月間 ≈ 20回。
+- レイテンシ要件: 10秒以内(UIはスピナー表示、体感許容)
+- max_tokens: **4000** — 最大想定プリセット ≈ 1.2Kトークン + 余裕。コスト上限も兼ねる。
+- プロンプトキャッシュ: **不使用**(散発呼び出し + Haiku 4.5 の最小キャッシュ4096トークン未満のため。
+  MODEL_ROUTING.md 参照)
+
+## リクエスト形状
+
+```jsonc
+POST https://api.anthropic.com/v1/messages
+headers: { "content-type":"application/json", "x-api-key":<key>,
+           "anthropic-version":"2023-06-01",
+           "anthropic-dangerous-direct-browser-access":"true" }
+body: {
+  "model": "claude-haiku-4-5",
+  "max_tokens": 4000,
+  "system": SYSTEM_PROMPT,               // 下記確定版
+  "messages": [{ "role":"user", "content": ユーザー要望テキスト }],
+  "output_config": { "format": { "type":"json_schema", "schema": PRESET_SCHEMA } }
+}
+// フォールバック時のみ "thinking": {"type":"disabled"} を追加(Sonnet 5 は省略時アダプティブ思考が既定のため)
+```
+
+## システムプロンプト(確定版)
+
+```
+あなたは「仮想物理シミュレータ」のプリセット生成器です。ユーザーの要望を読み、下記仕様のシミュレーション設定をJSONで1つだけ出力します。
+
+# シミュレータの物理(要約)
+- 2次元。粒子は質量m・位置(x,y)・速度・スピンs(符号付き角速度=熱)を持つ。
+- 重力: ニュートン的引力(強さG)。円軌道速度は v=√(G×中心質量÷半径)。
+- スピンは熱。高スピン粒子は近接時に斥力(圧力, kRep)を生む。衝突で速度が減衰しスピンに変わる(muF,gammaN)。スピンは近接拡散で平衡化する(kappaS)。
+- 空間は質量に引きずられる(kFrame: 0=通常のニュートン力学, 1=完全な相対空間)。背景決定力D0が大きいほど空間が安定する。
+- rays を指定すると左端から光線が飛び、質量の近くで曲がる(kLens)。
+- 原点は画面中央。camera.scale は画面短辺の半分に相当するワールド長。
+
+# 出力ルール
+1. スキーマに完全準拠したJSONのみを出力する。説明文やコードフェンスは書かない。
+2. physicsは全キーを必ず含める。変更不要なキーは既定値を書く。既定値: G=1, D0=2, kFrame=1, q=2, kRep=1, muF=0.5, gammaN=0.4, kappaS=0.05, Kt=60, kLens=0.002, radiusScale=1.2, softening=2, timeScale=1
+3. 粒子総数は最大600。滑らかに動かすため通常は120〜400にする。
+4. 軌道系を作るとき: 中心に single(質量M・pinned:false)を置き、ring/disk は vMode="kepler", aroundMass=M にする。
+5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。
+6. name は30字以内、description は200字以内の日本語。emoji は絵文字1文字。
+7. 値域(超えると自動修正される): G:0〜100, D0:0〜1000, kFrame:0〜1, q:0.5〜4, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, Kt:1〜10000, kLens:0〜1, radiusScale:0.2〜5, softening:0.5〜20, timeScale:0.1〜16, camera.scale:20〜3000, 座標・長さ:±5000, 質量:0.01〜5000, 速度成分:±50, スピン:±20, omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
+
+# ジェネレータ(bodiesの要素。typeごとに全フィールド必須)
+- single: {type,m,x,y,vx,vy,spin,pinned} — 粒子1個。pinned:true で力を受けず固定。
+- ring: {type,n,cx,cy,rIn,rOut,mMin,mMax,spinMin,spinMax,vMode,aroundMass,omega,vNoise,direction,pinned} — 半径rIn〜rOutの環にn個。vMode: "kepler"(aroundMassの周りを公転)|"omega"(v=omega×r)|"none"。direction: 1=反時計,-1=時計。
+- disk: {type,n,cx,cy,radius,mMin,mMax,spinMin,spinMax,vMode,aroundMass,vScale,direction} — 半径radiusの円盤にn個。vMode: "kepler"(vScaleは倍率,通常1)|"rigid"(vScale=角速度)|"flat"(vScale=一定速さ)|"random"(vScale=速さ)|"none"。
+- box: {type,n,cx,cy,w,h,mMin,mMax,spinMin,spinMax,vScale} — 幅w高さhの矩形にn個、ランダム方向に速さ〜vScale。
+
+# 例
+例1 要望「連星と、その周りを回る惑星たち」
+{"name":"連星系の惑星たち","emoji":"⭐","description":"2つの恒星が共通重心を回り、その外側を小さな惑星たちが公転する。連星の複雑な重力場で軌道が乱される様子が見どころ。","camera":{"scale":320},"world":{"boundary":"none","size":0},"physics":{"G":1,"D0":2,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":60,"kLens":0.002,"radiusScale":1.2,"softening":2,"timeScale":4},"bodies":[{"type":"single","m":500,"x":-60,"y":0,"vx":0,"vy":-1.44,"spin":0.5,"pinned":false},{"type":"single","m":500,"x":60,"y":0,"vx":0,"vy":1.44,"spin":0.5,"pinned":false},{"type":"ring","n":220,"cx":0,"cy":0,"rIn":180,"rOut":290,"mMin":0.05,"mMax":0.3,"spinMin":0,"spinMax":0,"vMode":"kepler","aroundMass":1000,"omega":0,"vNoise":0.05,"direction":1,"pinned":false}],"overlays":{"rotationCurve":false,"tempHistogram":false,"field":false}}
+(連星の公転速度: 半径60・相手質量500 → v≈√(1×500÷(60×2))≈1.44 を互いに逆向きに与える)
+
+例2 要望「熱いガスと冷たいガスが混ざるところ」
+{"name":"高温ガスと低温ガスの混合","emoji":"🔥","description":"箱の左に低温(低スピン)、右に高温(高スピン)のガスを配置。衝突とスピン拡散で温度が均一化し、熱平衡に達する過程を観察できる。","camera":{"scale":240},"world":{"boundary":"box","size":200},"physics":{"G":0.05,"D0":50,"kFrame":0.2,"q":2,"kRep":2,"muF":0.8,"gammaN":0.3,"kappaS":0.15,"Kt":60,"kLens":0.002,"radiusScale":1.2,"softening":2,"timeScale":2},"bodies":[{"type":"box","n":120,"cx":-100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":0,"spinMax":0.2,"vScale":0.3},{"type":"box","n":120,"cx":100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":2,"spinMax":3,"vScale":2.5}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
+
+例3 要望「ブラックホールのそばで光が曲がるのが見たい。星も1000個ちりばめて」
+{"name":"ブラックホールの重力レンズ","emoji":"🕳️","description":"中央の超大質量天体の脇を光線がかすめ、進路が曲がる。周囲の星は数を400に抑えて軽快に動かす(上限と性能の目安のため)。決定力マップ表示付き。","camera":{"scale":300},"world":{"boundary":"none","size":0},"physics":{"G":1,"D0":2,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":30,"kLens":0.01,"radiusScale":1.2,"softening":2,"timeScale":1},"bodies":[{"type":"single","m":2000,"x":0,"y":0,"vx":0,"vy":0,"spin":1,"pinned":true},{"type":"disk","n":400,"cx":0,"cy":0,"radius":280,"mMin":0.05,"mMax":0.2,"spinMin":0,"spinMax":0,"vMode":"kepler","aroundMass":2000,"vScale":1,"direction":1}],"rays":{"n":32,"spread":0.9},"overlays":{"rotationCurve":false,"tempHistogram":false,"field":true}}
+(要望の1000個は上限・性能の推奨に合わせて400に調整し、descriptionでその旨に触れている)
+
+例4 要望「回る空間に引きずられるのを見たい」
+{"name":"回転リングの空間引きずり","emoji":"🌀","description":"重いリングが回転すると内側の空間ごと引きずられ、静止していた粒子が回り始める(マッハの原理)。D0を上げると引きずりが弱まるのも試せる。","camera":{"scale":220},"world":{"boundary":"none","size":0},"physics":{"G":0.02,"D0":0.5,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":60,"kLens":0.002,"radiusScale":1.2,"softening":2,"timeScale":2},"bodies":[{"type":"ring","n":14,"cx":0,"cy":0,"rIn":150,"rOut":150,"mMin":80,"mMax":80,"spinMin":0.5,"spinMax":0.5,"vMode":"omega","aroundMass":0,"omega":0.012,"vNoise":0,"direction":1,"pinned":true},{"type":"disk","n":40,"cx":0,"cy":0,"radius":80,"mMin":0.5,"mMax":0.5,"spinMin":0,"spinMax":0,"vMode":"none","aroundMass":0,"vScale":0,"direction":1}],"overlays":{"rotationCurve":false,"tempHistogram":false,"field":false}}
+```
+
+few-shot は4例: 例1=複数single+速度計算、例2=箱・気体系、例3=**エッジケース**(上限超過要望
+の丁寧な調整)、例4=pinned/omegaレール。
+
+## 出力スキーマ(output_config.format.schema に渡す JSON Schema)
+
+構造化出力の制約(数値の minimum/maximum は不可)に従い、値域はスキーマでなく
+**アプリ内バリデータのクランプ**で担保する。全オブジェクトに `additionalProperties:false`。
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "name": {"type": "string"},
+    "emoji": {"type": "string"},
+    "description": {"type": "string"},
+    "camera": {"type":"object","properties":{"scale":{"type":"number"}},"required":["scale"],"additionalProperties":false},
+    "world": {"type":"object","properties":{"boundary":{"type":"string","enum":["none","box","circle"]},"size":{"type":"number"}},"required":["boundary","size"],"additionalProperties":false},
+    "physics": {"type":"object","properties":{
+      "G":{"type":"number"},"D0":{"type":"number"},"kFrame":{"type":"number"},"q":{"type":"number"},
+      "kRep":{"type":"number"},"muF":{"type":"number"},"gammaN":{"type":"number"},"kappaS":{"type":"number"},
+      "Kt":{"type":"number"},"kLens":{"type":"number"},"radiusScale":{"type":"number"},
+      "softening":{"type":"number"},"timeScale":{"type":"number"}},
+      "required":["G","D0","kFrame","q","kRep","muF","gammaN","kappaS","Kt","kLens","radiusScale","softening","timeScale"],
+      "additionalProperties":false},
+    "bodies": {"type":"array","items":{"anyOf":[
+      {"type":"object","properties":{"type":{"const":"single"},"m":{"type":"number"},"x":{"type":"number"},"y":{"type":"number"},"vx":{"type":"number"},"vy":{"type":"number"},"spin":{"type":"number"},"pinned":{"type":"boolean"}},"required":["type","m","x","y","vx","vy","spin","pinned"],"additionalProperties":false},
+      {"type":"object","properties":{"type":{"const":"ring"},"n":{"type":"integer"},"cx":{"type":"number"},"cy":{"type":"number"},"rIn":{"type":"number"},"rOut":{"type":"number"},"mMin":{"type":"number"},"mMax":{"type":"number"},"spinMin":{"type":"number"},"spinMax":{"type":"number"},"vMode":{"type":"string","enum":["kepler","omega","none"]},"aroundMass":{"type":"number"},"omega":{"type":"number"},"vNoise":{"type":"number"},"direction":{"enum":[1,-1]},"pinned":{"type":"boolean"}},"required":["type","n","cx","cy","rIn","rOut","mMin","mMax","spinMin","spinMax","vMode","aroundMass","omega","vNoise","direction","pinned"],"additionalProperties":false},
+      {"type":"object","properties":{"type":{"const":"disk"},"n":{"type":"integer"},"cx":{"type":"number"},"cy":{"type":"number"},"radius":{"type":"number"},"mMin":{"type":"number"},"mMax":{"type":"number"},"spinMin":{"type":"number"},"spinMax":{"type":"number"},"vMode":{"type":"string","enum":["kepler","rigid","flat","random","none"]},"aroundMass":{"type":"number"},"vScale":{"type":"number"},"direction":{"enum":[1,-1]}},"required":["type","n","cx","cy","radius","mMin","mMax","spinMin","spinMax","vMode","aroundMass","vScale","direction"],"additionalProperties":false},
+      {"type":"object","properties":{"type":{"const":"box"},"n":{"type":"integer"},"cx":{"type":"number"},"cy":{"type":"number"},"w":{"type":"number"},"h":{"type":"number"},"mMin":{"type":"number"},"mMax":{"type":"number"},"spinMin":{"type":"number"},"spinMax":{"type":"number"},"vScale":{"type":"number"}},"required":["type","n","cx","cy","w","h","mMin","mMax","spinMin","spinMax","vScale"],"additionalProperties":false}
+    ]}},
+    "rays": {"type":"object","properties":{"n":{"type":"integer"},"spread":{"type":"number"}},"required":["n","spread"],"additionalProperties":false},
+    "overlays": {"type":"object","properties":{"rotationCurve":{"type":"boolean"},"tempHistogram":{"type":"boolean"},"field":{"type":"boolean"}},"required":["rotationCurve","tempHistogram","field"],"additionalProperties":false}
+  },
+  "required": ["name","description","camera","world","physics","bodies"],
+  "additionalProperties": false
+}
+```
+
+## 検証・リトライ・フォールバック(段構え)
+
+1. HTTPエラー → 種別に応じた日本語メッセージで終了(401/429/529/接続断。実装指示書の表)。
+2. `stop_reason` が `refusal`/`max_tokens` → 失敗メッセージで終了。
+3. 本文(最初の text ブロック)を `JSON.parse` → **アプリ内バリデータ**:
+   - 構造チェック(型・必須キー・ジェネレータ判別)
+   - 値域クランプ(システムプロンプト記載の表と同一。クランプは失敗にしない)
+   - 粒子総数 >600 → 比例縮小(失敗にしない)
+   - 構造チェック失敗のみ「検証エラー」とする
+4. 検証エラー時、同モデルへ**1回だけ**再試行:
+   `messages = [user:要望, assistant:前回出力(そのまま), user:"あなたの出力に検証エラーがあります: <エラー列挙>。同じ要望に対し、エラーを修正した完全なJSONを出力してください。"]`
+5. なお失敗 → `claude-sonnet-5`(thinking無効)で手順3をもう一度 → なお失敗ならエラー表示。
+   (既にユーザーが Sonnet を選択している場合のフォールバック先は Opus 4.8)
+
+## 検証結果(開発時)
+
+実API呼び出しはユーザーのAPIキーで行われるため、開発時は次の機械検証で担保する
+(結果は品質ゲート実施時に記入):
+
+- [x] few-shot 4例の出力JSONが、スキーマ構造チェックとバリデータを**無修正で通過**すること
+- [x] 破壊した入力(必須キー欠落・不正type・型違い・N超過・値域外)が想定どおり
+      「構造エラー検出」または「クランプ修正」に振り分けられること
+
+**QA記録(2026-07-12 実施)**
+- バリデータ: few-shot 4正例 → 全件合格 / 破壊6負例(name欠落・不正type・型違い・
+  boundary不正・direction不正・physics配列)→ 全件エラー検出 / 値域外+N超過 → クランプ+警告で成功。
+- 段構えE2E(APIモック): ネットワーク断→「ネットワークに接続できません」、401→「APIキーが無効です」、
+  1回目検証NG→**同モデルへメッセージ3件(要望/前回出力/修正指示)で1回リトライ**して成功、
+  Haiku2回失敗→**claude-sonnet-5(thinking無効+json_schema)へフォールバック**して成功、
+  refusal→説明メッセージ。**7/7 PASS**。実機Haikuでの初回失敗はこの段構えが吸収する。
