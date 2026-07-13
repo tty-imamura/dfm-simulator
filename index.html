@@ -51,6 +51,9 @@
   .prow label{flex:0 0 118px;font-size:12px;color:var(--fg);}
   .prow input[type=range]{flex:1;min-width:0;accent-color:var(--acc);height:30px;}
   .prow .val{flex:0 0 62px;text-align:right;font-size:12px;color:var(--acc);font-variant-numeric:tabular-nums;}
+  .prow input.valIn{flex:0 0 74px;width:74px;min-height:36px;padding:4px 6px;text-align:right;
+    font-size:12.5px;color:var(--acc);background:var(--panel);border:1px solid var(--line);
+    border-radius:8px;font-variant-numeric:tabular-nums;}
   .prow input[type=checkbox]{width:22px;height:22px;accent-color:var(--acc);}
   .btn{display:inline-block;border:1px solid var(--line);background:var(--panel);
     border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;touch-action:manipulation;}
@@ -174,22 +177,35 @@ const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLM�
 const N_CAP = 600;                        // 粒子総数上限
 const RAY_MASS_MIN = 40;                  // 光線を曲げる最小質量(性能のための近似)
 
-// パラメータUI定義: [キー, 表示名, min, max, step, グループ]
+// パラメータUI定義。mode:"log"=対数スライダー(桁をまたぐ量の微調整用。
+// スライダー範囲外の値(0を含む)は隣の数値入力欄から直接設定できる)
 const PARAM_DEFS = [
-  ["G","重力 G",0,10,0.05,"法則"],
-  ["D0","背景決定力 D₀",0,100,0.5,"法則"],
-  ["kFrame","空間引きずり kFrame",0,1,0.01,"法則"],
-  ["q","引きずり減衰 q",0.5,4,0.1,"法則"],
-  ["kRep","スピン斥力 kRep",0,10,0.1,"法則"],
-  ["muF","摩擦→スピン変換 muF",0,1,0.01,"法則"],
-  ["gammaN","衝突減衰 γn",0,1,0.01,"法則"],
-  ["kappaS","スピン拡散 κs",0,1,0.01,"法則"],
-  ["Kt","時間遅れ係数 Kt",1,1000,1,"法則"],
-  ["kLens","光の屈折 kLens",0,0.02,0.0005,"法則"],
-  ["radiusScale","粒子半径スケール",0.2,4,0.05,"シミュレーション"],
-  ["softening","ソフトニング ε",0.5,10,0.1,"シミュレーション"],
-  ["timeScale","時間倍率",0.25,16,0.25,"シミュレーション"],
+  {key:"G",     label:"重力 G",              mode:"log", lo:0.01,   hi:20,   group:"法則"},
+  {key:"D0",    label:"背景決定力 D₀",       mode:"log", lo:0.05,   hi:200,  group:"法則"},
+  {key:"kFrame",label:"空間引きずり kFrame", mode:"lin", lo:0, hi:1, step:0.01, group:"法則"},
+  {key:"q",     label:"引きずり減衰 q",      mode:"lin", lo:0.5, hi:4, step:0.05, group:"法則"},
+  {key:"kRep",  label:"スピン斥力 kRep",     mode:"lin", lo:0, hi:5, step:0.05, group:"法則"},
+  {key:"muF",   label:"摩擦→スピン変換 muF", mode:"lin", lo:0, hi:1, step:0.01, group:"法則"},
+  {key:"gammaN",label:"衝突減衰 γn",         mode:"lin", lo:0, hi:1, step:0.01, group:"法則"},
+  {key:"kappaS",label:"スピン拡散 κs",       mode:"lin", lo:0, hi:0.5, step:0.005, group:"法則"},
+  {key:"Kt",    label:"時間遅れ係数 Kt",     mode:"log", lo:1, hi:2000, group:"法則"},
+  {key:"kLens", label:"光の屈折 kLens",      mode:"log", lo:0.0002, hi:0.05, group:"法則"},
+  {key:"radiusScale",label:"粒子半径スケール", mode:"lin", lo:0.2, hi:4, step:0.02, group:"シミュレーション"},
+  {key:"softening",  label:"ソフトニング ε",  mode:"lin", lo:0.5, hi:10, step:0.1, group:"シミュレーション"},
+  {key:"timeScale",  label:"時間倍率",        mode:"log", lo:0.1, hi:16, group:"シミュレーション"},
 ];
+function sliderPosToVal(def,pos){
+  if(def.mode==="log") return def.lo*Math.exp((pos/1000)*Math.log(def.hi/def.lo));
+  return pos;
+}
+function valToSliderPos(def,v){
+  if(def.mode==="log"){
+    if(!(v>def.lo)) return 0;
+    if(v>=def.hi) return 1000;
+    return Math.round(1000*Math.log(v/def.lo)/Math.log(def.hi/def.lo));
+  }
+  return v;
+}
 
 // バリデータのクランプ値域(HANDOFF_RUNTIME_LLM.md と同一)
 const CLAMPS = { G:[0,100], D0:[0,1000], kFrame:[0,1], q:[0.5,4], kRep:[0,20], muF:[0,1],
@@ -203,7 +219,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:170}, world:{boundary:"none",size:0},
   physics:{muF:0.6, gammaN:0.5, timeScale:4},
   bodies:[
-    {type:"single", m:1200, x:0,y:0, vx:0,vy:0, spin:0.8, pinned:false},
+    {type:"single", m:1200, x:0,y:0, vx:0,vy:0, spin:0.04, pinned:false},
     {type:"ring", n:340, cx:0,cy:0, rIn:60,rOut:150, mMin:0.05,mMax:0.3,
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:1200, omega:0, vNoise:0.06, direction:1, pinned:false}
   ],
@@ -212,11 +228,11 @@ const BUILTIN_PRESETS = [
 { id:"protodisk", name:"原始惑星系円盤", emoji:"🌀",
   description:"ゆっくり回る塵の雲が、衝突による散逸(速度→スピン変換)で円盤へ整列し、塊(惑星の種)へ集積していく(T3)。",
   camera:{scale:260}, world:{boundary:"none",size:0},
-  physics:{muF:0.7, gammaN:0.6, kappaS:0.1, timeScale:4},
+  physics:{muF:0.5, gammaN:0.6, kappaS:0.1, kRep:0.5, timeScale:4},
   bodies:[
     {type:"single", m:400, x:0,y:0, vx:0,vy:0, spin:0, pinned:false},
     {type:"disk", n:320, cx:0,cy:0, radius:220, mMin:0.2,mMax:1.5,
-     spinMin:-0.2,spinMax:0.2, vMode:"rigid", aroundMass:0, vScale:0.006, direction:1}
+     spinMin:-0.2,spinMax:0.2, vMode:"kepler", aroundMass:400, vScale:0.75, direction:1}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
@@ -225,7 +241,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{D0:1, muF:0.1, gammaN:0.1, kRep:0.5, softening:4, timeScale:4},
   bodies:[
-    {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:1.5, pinned:false},
+    {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:false},
     {type:"disk", n:380, cx:0,cy:0, radius:260, mMin:0.5,mMax:1.2,
      spinMin:0,spinMax:0, vMode:"flat", aroundMass:600, vScale:1.6, direction:1}
   ],
@@ -384,14 +400,23 @@ function makeSim(){
     const phys = Object.assign({},DEFAULT_PHYSICS,preset.physics||{});
     const G = phys.G;
     const push=(o)=>P.push(o);
+    // 大質量天体(m≥40)の内部に他の粒子を生成しない(深い初期重なりは不安定の原因)
+    const bigs=[];
+    const noteBig=(o)=>{ if(o.m>=40) bigs.push({x:o.x,y:o.y,R:phys.radiusScale*Math.sqrt(o.m)}); };
+    const insideBig=(x,y)=>{ for(const b of bigs){ const dx=x-b.x,dy=y-b.y;
+      if(dx*dx+dy*dy<(b.R+1)*(b.R+1)) return true; } return false; };
     for(const b of preset.bodies){
       if(b.type==="single"){
-        push({m:b.m,x:b.x,y:b.y,vx:b.vx,vy:b.vy,spin:b.spin,pinned:b.pinned?1:0,railOmega:0});
+        const o={m:b.m,x:b.x,y:b.y,vx:b.vx,vy:b.vy,spin:b.spin,pinned:b.pinned?1:0,railOmega:0};
+        push(o); noteBig(o);
       } else if(b.type==="ring"){
         for(let i=0;i<b.n;i++){
-          const ang = (i/b.n)*Math.PI*2 + rng()*0.02;
-          const r = b.rIn + (b.rOut-b.rIn)*rng();
-          const x=b.cx+r*Math.cos(ang), y=b.cy+r*Math.sin(ang);
+          let ang,r,x,y,tries=0;
+          do{
+            ang = (i/b.n)*Math.PI*2 + rng()*0.02 + (tries?((rng()-0.5)*0.3):0);
+            r = b.rIn + (b.rOut-b.rIn)*rng();
+            x=b.cx+r*Math.cos(ang); y=b.cy+r*Math.sin(ang);
+          }while(insideBig(x,y) && ++tries<30);
           let vt=0;
           if(b.vMode==="kepler" && b.aroundMass>0 && r>1) vt=Math.sqrt(G*b.aroundMass/r)*b.direction;
           else if(b.vMode==="omega") vt=b.omega*r*b.direction;
@@ -405,8 +430,11 @@ function makeSim(){
         }
       } else if(b.type==="disk"){
         for(let i=0;i<b.n;i++){
-          const ang=rng()*Math.PI*2, r=b.radius*Math.sqrt(rng());
-          const x=b.cx+r*Math.cos(ang), y=b.cy+r*Math.sin(ang);
+          let ang,r,x,y,tries=0;
+          do{
+            ang=rng()*Math.PI*2; r=b.radius*Math.sqrt(rng());
+            x=b.cx+r*Math.cos(ang); y=b.cy+r*Math.sin(ang);
+          }while(insideBig(x,y) && ++tries<30);
           const tx=-Math.sin(ang), ty=Math.cos(ang);
           let vX=0,vY=0;
           if(b.vMode==="kepler" && b.aroundMass>0 && r>1){ const v=Math.sqrt(G*b.aroundMass/r)*b.vScale*b.direction; vX=v*tx; vY=v*ty; }
@@ -419,7 +447,8 @@ function makeSim(){
         }
       } else if(b.type==="box"){
         for(let i=0;i<b.n;i++){
-          const x=b.cx+(rng()-0.5)*b.w, y=b.cy+(rng()-0.5)*b.h;
+          let x,y,tries=0;
+          do{ x=b.cx+(rng()-0.5)*b.w; y=b.cy+(rng()-0.5)*b.h; }while(insideBig(x,y) && ++tries<30);
           const a2=rng()*Math.PI*2, v=b.vScale*rng();
           push({m:b.mMin+(b.mMax-b.mMin)*rng(), x,y, vx:v*Math.cos(a2), vy:v*Math.sin(a2),
             spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:0, railOmega:0});
@@ -491,8 +520,13 @@ function makeSim(){
           const nxv=dx/d, nyv=dy/d;           // n̂ (j→i)
           const invMi=pinned[i]?0:1/mi, invMj=pinned[j]?0:1/mj;
           const K=invMi+invMj;
-          // 法線ばね(重なり解消。対称な力=運動量保存、a=F/m)
-          const Fs=40*(sumR-d);
+          // 法線ばね(換算質量スケール+「軽い側の加速度≤8」の対称な力上限。
+          // 上限を両側独立に掛けると作用反作用が破れ、めり込んだ粒子が
+          // 重い天体を押し続ける「ロケット」になるため、必ず力で対称にキャップする)
+          const muM=mi*mj/(mi+mj);
+          let Fs=40*(sumR-d)*muM;
+          const maxInv=Math.max(invMi,invMj);
+          if(maxInv>0 && Fs*maxInv>8) Fs=8/maxInv;
           ax[i]+=Fs*nxv*invMi; ay[i]+=Fs*nyv*invMi;
           ax[j]-=Fs*nxv*invMj; ay[j]-=Fs*nyv*invMj;
           if(K>0){
@@ -529,14 +563,23 @@ function makeSim(){
     for(let i=0;i<n;i++){
       if(pinned[i]){ S.tauUpdate(i,dt); continue; }
       vx[i]+=ax[i]*dt; vy[i]+=ay[i]*dt;
-      // E6 フレーム引きずり(自分自身は除外して評価)
+      // E6 フレーム引きずり(自分自身は除外して評価。1サブステップの引きずり量は0.8に制限)
       const denom=D0+sumW[i];
       if(denom>1e-9 && kFrame>0){
         const ux=uAx[i]/denom, uy=uAy[i]/denom;
-        if(S.hasU[i]){ vx[i]+=kFrame*(ux-S.uPx[i]); vy[i]+=kFrame*(uy-S.uPy[i]); }
+        if(S.hasU[i]){
+          let dux=ux-S.uPx[i], duy=uy-S.uPy[i];
+          const dl2=dux*dux+duy*duy;
+          if(dl2>0.64){ const sc=0.8/Math.sqrt(dl2); dux*=sc; duy*=sc; }
+          vx[i]+=kFrame*dux; vy[i]+=kFrame*duy;
+        }
         S.uPx[i]=ux; S.uPy[i]=uy; S.hasU[i]=1;
       }
       spin[i]+=ds[i]*dt;
+      // 安全上限(発散防止): 速度100・スピン±40
+      const vv2=vx[i]*vx[i]+vy[i]*vy[i];
+      if(vv2>10000){ const sc=100/Math.sqrt(vv2); vx[i]*=sc; vy[i]*=sc; }
+      if(spin[i]>40) spin[i]=40; else if(spin[i]<-40) spin[i]=-40;
       x[i]+=vx[i]*dt; y[i]+=vy[i]*dt;
       // 境界
       if(b.boundary==="box"){
@@ -899,22 +942,39 @@ function buildParamRows(){
   const host=$("#paramRows"); host.textContent="";
   let curGroup="";
   let groupDiv=null;
-  for(const [key,label,min,max,step] of PARAM_DEFS){
-    const g=PARAM_DEFS.find(d=>d[0]===key)[5];
-    if(g!==curGroup){ curGroup=g;
+  for(const def of PARAM_DEFS){
+    if(def.group!==curGroup){ curGroup=def.group;
       groupDiv=document.createElement("div"); groupDiv.className="group";
-      const h=document.createElement("h3"); h.textContent=g==="法則"?"仮定物理法則":"シミュレーション";
+      const h=document.createElement("h3"); h.textContent=def.group==="法則"?"仮定物理法則":"シミュレーション";
       groupDiv.appendChild(h); host.appendChild(groupDiv); }
+    const key=def.key;
     const row=document.createElement("div"); row.className="prow";
-    const lab=document.createElement("label"); lab.textContent=label;
+    const lab=document.createElement("label"); lab.textContent=def.label;
     const rng=document.createElement("input"); rng.type="range";
-    rng.min=min; rng.max=max; rng.step=step; rng.value=sim.params[key];
-    const val=document.createElement("span"); val.className="val"; val.textContent=fmt(sim.params[key]);
-    rng.addEventListener("input",()=>{  // 実行中いつでも即時反映
-      sim.params[key]=parseFloat(rng.value); val.textContent=fmt(sim.params[key]);
+    if(def.mode==="log"){ rng.min=0; rng.max=1000; rng.step=1; }
+    else { rng.min=def.lo; rng.max=def.hi; rng.step=def.step; }
+    rng.value=valToSliderPos(def,sim.params[key]);
+    // 直値入力欄(スライダー範囲外の値もバリデータ値域 CLAMPS まで設定可)
+    const num=document.createElement("input"); num.type="text"; num.className="valIn";
+    num.inputMode="decimal"; num.autocomplete="off"; num.value=fmt(sim.params[key]);
+    const setParam=(v)=>{
+      const c=CLAMPS[key]; v=clamp(v,c[0],c[1]);
+      sim.params[key]=v;
       if(key==="radiusScale") sim.updateRadii();
+      return v;
+    };
+    rng.addEventListener("input",()=>{  // 実行中いつでも即時反映
+      let v=parseFloat(rng.value);
+      if(def.mode==="log") v=sliderPosToVal(def,v);
+      setParam(v);
+      num.value=fmt(sim.params[key]);
     });
-    row.appendChild(lab); row.appendChild(rng); row.appendChild(val); groupDiv.appendChild(row);
+    num.addEventListener("change",()=>{
+      const v=parseFloat(num.value.replace(/[,、\s]/g,""));
+      if(isFinite(v)){ const applied=setParam(v); rng.value=valToSliderPos(def,applied); num.value=fmt(applied); }
+      else num.value=fmt(sim.params[key]);
+    });
+    row.appendChild(lab); row.appendChild(rng); row.appendChild(num); groupDiv.appendChild(row);
   }
   // 表示設定
   const disp=document.createElement("div"); disp.className="group";
@@ -1038,36 +1098,20 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 例4 要望「回る空間に引きずられるのを見たい」
 {"name":"回転リングの空間引きずり","emoji":"🌀","description":"重いリングが回転すると内側の空間ごと引きずられ、静止していた粒子が回り始める(マッハの原理)。D0を上げると引きずりが弱まるのも試せる。","camera":{"scale":220},"world":{"boundary":"none","size":0},"physics":{"G":0.02,"D0":0.5,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":60,"kLens":0.002,"radiusScale":1.2,"softening":2,"timeScale":2},"bodies":[{"type":"ring","n":14,"cx":0,"cy":0,"rIn":150,"rOut":150,"mMin":80,"mMax":80,"spinMin":0.5,"spinMax":0.5,"vMode":"omega","aroundMass":0,"omega":0.012,"vNoise":0,"direction":1,"pinned":true},{"type":"disk","n":40,"cx":0,"cy":0,"radius":80,"mMin":0.5,"mMax":0.5,"spinMin":0,"spinMax":0,"vMode":"none","aroundMass":0,"vScale":0,"direction":1}],"overlays":{"rotationCurve":false,"tempHistogram":false,"field":false}}`;
 
-const PRESET_SCHEMA = {
-  type:"object",
-  properties:{
-    name:{type:"string"}, emoji:{type:"string"}, description:{type:"string"},
-    camera:{type:"object",properties:{scale:{type:"number"}},required:["scale"],additionalProperties:false},
-    world:{type:"object",properties:{boundary:{type:"string",enum:["none","box","circle"]},size:{type:"number"}},required:["boundary","size"],additionalProperties:false},
-    physics:{type:"object",properties:{
-      G:{type:"number"},D0:{type:"number"},kFrame:{type:"number"},q:{type:"number"},
-      kRep:{type:"number"},muF:{type:"number"},gammaN:{type:"number"},kappaS:{type:"number"},
-      Kt:{type:"number"},kLens:{type:"number"},radiusScale:{type:"number"},
-      softening:{type:"number"},timeScale:{type:"number"}},
-      required:["G","D0","kFrame","q","kRep","muF","gammaN","kappaS","Kt","kLens","radiusScale","softening","timeScale"],
-      additionalProperties:false},
-    bodies:{type:"array",items:{anyOf:[
-      {type:"object",properties:{type:{const:"single"},m:{type:"number"},x:{type:"number"},y:{type:"number"},vx:{type:"number"},vy:{type:"number"},spin:{type:"number"},pinned:{type:"boolean"}},required:["type","m","x","y","vx","vy","spin","pinned"],additionalProperties:false},
-      {type:"object",properties:{type:{const:"ring"},n:{type:"integer"},cx:{type:"number"},cy:{type:"number"},rIn:{type:"number"},rOut:{type:"number"},mMin:{type:"number"},mMax:{type:"number"},spinMin:{type:"number"},spinMax:{type:"number"},vMode:{type:"string",enum:["kepler","omega","none"]},aroundMass:{type:"number"},omega:{type:"number"},vNoise:{type:"number"},direction:{enum:[1,-1]},pinned:{type:"boolean"}},required:["type","n","cx","cy","rIn","rOut","mMin","mMax","spinMin","spinMax","vMode","aroundMass","omega","vNoise","direction","pinned"],additionalProperties:false},
-      {type:"object",properties:{type:{const:"disk"},n:{type:"integer"},cx:{type:"number"},cy:{type:"number"},radius:{type:"number"},mMin:{type:"number"},mMax:{type:"number"},spinMin:{type:"number"},spinMax:{type:"number"},vMode:{type:"string",enum:["kepler","rigid","flat","random","none"]},aroundMass:{type:"number"},vScale:{type:"number"},direction:{enum:[1,-1]}},required:["type","n","cx","cy","radius","mMin","mMax","spinMin","spinMax","vMode","aroundMass","vScale","direction"],additionalProperties:false},
-      {type:"object",properties:{type:{const:"box"},n:{type:"integer"},cx:{type:"number"},cy:{type:"number"},w:{type:"number"},h:{type:"number"},mMin:{type:"number"},mMax:{type:"number"},spinMin:{type:"number"},spinMax:{type:"number"},vScale:{type:"number"}},required:["type","n","cx","cy","w","h","mMin","mMax","spinMin","spinMax","vScale"],additionalProperties:false}
-    ]}},
-    rays:{type:"object",properties:{n:{type:"integer"},spread:{type:"number"}},required:["n","spread"],additionalProperties:false},
-    overlays:{type:"object",properties:{rotationCurve:{type:"boolean"},tempHistogram:{type:"boolean"},field:{type:"boolean"}},required:["rotationCurve","tempHistogram","field"],additionalProperties:false}
-  },
-  required:["name","description","camera","world","physics","bodies"],
-  additionalProperties:false
-};
+// 注: 以前は output_config.format(構造化出力)に JSON Schema を渡していたが、
+// スキーマが大きく「The compiled grammar is too large」(400) となるため撤去した。
+// 出力形式は few-shot + 下記の JSON 抽出 + validatePreset(検証→リトライ→フォールバック)で担保する。
+// (docs/HANDOFF_RUNTIME_LLM.md 改訂 2026-07-13)
+function extractJSON(text){
+  let t=String(text).trim();
+  const f=t.indexOf("{"), l=t.lastIndexOf("}");
+  if(f>=0 && l>f) t=t.slice(f,l+1);   // 前後の説明文・コードフェンスを除去
+  return t;
+}
 
 async function callClaude(model, messages){
   const key=localStorage.getItem("hp_key")||"";
-  const body={ model, max_tokens:4000, system:SYSTEM_PROMPT, messages,
-    output_config:{ format:{ type:"json_schema", schema:PRESET_SCHEMA } } };
+  const body={ model, max_tokens:4000, system:SYSTEM_PROMPT, messages };
   if(model.indexOf("sonnet")>=0 || model.indexOf("opus")>=0) body.thinking={type:"disabled"};
   let resp;
   try{
@@ -1097,7 +1141,7 @@ async function generatePreset(userText, model, onStage){
   const attempt=async (mdl, messages)=>{
     const text=await callClaude(mdl, messages);
     let obj;
-    try{ obj=JSON.parse(text); }catch(e){ return {fail:"JSONとして解釈できませんでした", raw:text}; }
+    try{ obj=JSON.parse(extractJSON(text)); }catch(e){ return {fail:"JSONとして解釈できませんでした", raw:text}; }
     const v=validatePreset(obj);
     if(!v.ok) return {fail:v.errors.join(" / "), raw:text};
     return {preset:v.preset, warnings:v.warnings};
@@ -1229,7 +1273,7 @@ function renderHelp(){
 })();
 
 // ===== デバッグ/テスト用フック(品質ゲートが使用) =====
-window.HP = { sim, loadPreset, allPresets, validatePreset, PRESET_SCHEMA, SYSTEM_PROMPT,
+window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extractJSON,
   running:()=>running, setRunning:(v)=>{running=v;updatePlayBtn();},
   tick:(frames)=>{ for(let f=0;f<frames;f++){ const k=Math.max(1,Math.round(SUBSTEPS*sim.params.timeScale)); for(let s2=0;s2<Math.min(k,24);s2++) sim.step(DT); } render(); } };
 

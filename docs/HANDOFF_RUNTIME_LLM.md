@@ -22,10 +22,19 @@ body: {
   "model": "claude-haiku-4-5",
   "max_tokens": 4000,
   "system": SYSTEM_PROMPT,               // 下記確定版
-  "messages": [{ "role":"user", "content": ユーザー要望テキスト }],
-  "output_config": { "format": { "type":"json_schema", "schema": PRESET_SCHEMA } }
+  "messages": [{ "role":"user", "content": ユーザー要望テキスト }]
 }
 // フォールバック時のみ "thinking": {"type":"disabled"} を追加(Sonnet 5 は省略時アダプティブ思考が既定のため)
+```
+
+> **改訂 2026-07-13: 構造化出力(output_config.format)は使わない。**
+> 本スキーマを渡すと実機で `400 The compiled grammar is too large` となった
+> (bodiesのanyOf 4種×全フィールド必須が文法コンパイル上限を超える)。
+> JSON形式の担保は「few-shot + 応答からの **JSON抽出**(最初の `{` 〜最後の `}` を切り出し、
+> 前置き文・コードフェンスを除去)+ アプリ内バリデータ + リトライ/フォールバック」で行う。
+> スキーマを縮小して再導入する場合も、必ず実機Haikuで400が出ないことを確認してから。
+```jsonc
+// (参考) 撤去前のリクエストには output_config.format(json_schema)が入っていた
 ```
 
 ## システムプロンプト(確定版)
@@ -75,10 +84,10 @@ body: {
 few-shot は4例: 例1=複数single+速度計算、例2=箱・気体系、例3=**エッジケース**(上限超過要望
 の丁寧な調整)、例4=pinned/omegaレール。
 
-## 出力スキーマ(output_config.format.schema に渡す JSON Schema)
+## 出力スキーマ(参考: アプリ内バリデータが強制する形)
 
-構造化出力の制約(数値の minimum/maximum は不可)に従い、値域はスキーマでなく
-**アプリ内バリデータのクランプ**で担保する。全オブジェクトに `additionalProperties:false`。
+APIへは渡さない(上記改訂参照)。下記はプリセットJSONの正の形として文書化しておくもので、
+実際の強制は `validatePreset()`(構造チェック+値域クランプ)が行う。
 
 ```json
 {
@@ -114,7 +123,8 @@ few-shot は4例: 例1=複数single+速度計算、例2=箱・気体系、例3=*
 
 1. HTTPエラー → 種別に応じた日本語メッセージで終了(401/429/529/接続断。実装指示書の表)。
 2. `stop_reason` が `refusal`/`max_tokens` → 失敗メッセージで終了。
-3. 本文(最初の text ブロック)を `JSON.parse` → **アプリ内バリデータ**:
+3. 本文(最初の text ブロック)から **JSONを抽出**(最初の `{` 〜最後の `}`。
+   前置き文やコードフェンスを許容)→ `JSON.parse` → **アプリ内バリデータ**:
    - 構造チェック(型・必須キー・ジェネレータ判別)
    - 値域クランプ(システムプロンプト記載の表と同一。クランプは失敗にしない)
    - 粒子総数 >600 → 比例縮小(失敗にしない)
@@ -140,3 +150,8 @@ few-shot は4例: 例1=複数single+速度計算、例2=箱・気体系、例3=*
   1回目検証NG→**同モデルへメッセージ3件(要望/前回出力/修正指示)で1回リトライ**して成功、
   Haiku2回失敗→**claude-sonnet-5(thinking無効+json_schema)へフォールバック**して成功、
   refusal→説明メッセージ。**7/7 PASS**。実機Haikuでの初回失敗はこの段構えが吸収する。
+
+**QA記録 追補(2026-07-13)** — 実機で構造化出力が `400 grammar too large` となる不具合を受け、
+output_config を撤去し JSON抽出方式へ改訂。モックE2Eを更新して再検証:
+コードフェンス+前置き文付き応答の抽出成功、全リクエストに output_config が無いこと、
+フォールバックの thinking無効を確認し **7/7 PASS**。
