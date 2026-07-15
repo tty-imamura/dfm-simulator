@@ -2,6 +2,8 @@
 
 テンプレート1(設計→実装ハンドオフ)準拠。実装担当 Tier: Sonnet 4.6 相当。
 物理式は `docs/PHYSICS.md` の E1〜E10 と既定パラメータ表を正とし、本書では繰り返さない。
+**v1.1(2026-07-15)**: 物理改訂(A11/A12/A13、E5′/E6′/E8′/E9/E10′/E11)の実装差分は
+**付録B** を正とする(DERIVATIONS.md §7 の添付・詳細化)。
 
 ## 目的(1段落)
 
@@ -200,3 +202,113 @@ const d2 = dx*dx + dy*dy + eps2, inv = 1/(d2*Math.sqrt(d2));
 - LLM出力の eval / Function 化(JSONとしてのみ解釈)。
 - docs/ の仕様と異なる式・スキーマの発明(発見した矛盾は文書改訂として報告)。
 - プリセット調整の名目で physics の式(E1〜E10)自体を変えること。
+
+---
+
+## 付録B: v1.1 物理改訂の実装差分(DERIVATIONS.md §7 の添付)
+
+対象ファイルは `index.html` のみ。式の正は PHYSICS.md v1.1(E5′/E6′/E8′/E9/E10′/E11)。
+以下は実装上の確定事項であり、判断の余地を残さない。
+
+### B1. パラメータ追加(4件)
+
+`DEFAULT_PHYSICS` / `CLAMPS` / `PARAM_DEFS` に追加する:
+
+| キー | 既定 | CLAMPS | スライダー | グループ |
+|---|---|---|---|---|
+| cLight | 60 | [1, 10000] | log, lo:5, hi:1000 | 法則 |
+| bM | 1.0 | [0.001, 1000] | log, lo:0.01, hi:100 | 法則 |
+| etaRad | 0 | [0, 1] | log, lo:1e-6, hi:0.1(0 は直値入力で設定) | 法則 |
+| pRad | 4 | [1, 6] | lin, lo:1, hi:6, step:0.5 | 法則 |
+
+実行時LLMプロンプト(SYSTEM_PROMPT)と HANDOFF_RUNTIME_LLM.md は**意図的に変更しない**。
+LLM が新キーを出力しなくてもバリデータの既定値マージで補完されるため、few-shot 4例は
+そのまま有効。LLM 出力に新キーが含まれた場合は CLAMPS の値域でクランプされる。
+
+### B2. エンジン改修(sim.step の4フェーズ化)
+
+PHYSICS.md v1.1 §5「数値スキーム」の順序どおり。実装の要点:
+
+1. **対距離キャッシュ**: 全対ループで計算した d_ij を `S.pairD`(Float32Array、長さ
+   n(n−1)/2、インデックス `i*n - i*(i+1)/2 + (j-i-1)`)に保存し、反作用対ループで再利用
+   (sqrt の二重計算を避ける)。alloc 時に確保。
+2. **E5′**: `f = kRep * muIJ * (omI*omI + omJ*omJ)`、`a_i += f/m_i * (dx,dy)`、
+   `a_j -= f/m_j * (dx,dy)`。omI/omJ は E2 の ω_i(d), ω_j(d)(既存計算を流用)。
+3. **E9 摩擦(符号・作用線の改訂)**: 実効腕 `Li = Ri*d/(Ri+Rj)`, `Lj = Rj*d/(Ri+Rj)`。
+   `vs = (v_i−v_j)·t̂ − spin_i*Li − spin_j*Lj`、`jt = (muF/3) * mu * vs`
+   (mu は換算質量。pinned 側は invM=0 として K=invMi+invMj で計算し、jt = muF*vs/(3K))。
+   適用: `v_i −= jt*invMi*t̂; v_j += jt*invMj*t̂; spin_i += Li*jt/I_i; spin_j += Lj*jt/I_j`
+   (pinned はスピン変更なし)。旧実装は vs の符号と Δs の符号が PHYSICS.md と不一致で、
+   L を系統的に破っていた(修正後は V1 が合格する)。
+4. **法線減衰の放射帳簿**: 減衰インパルス適用前後の並進運動エネルギー差を `S.radE` に加算。
+5. **E10′**: 拡散重みを `I_j/(I_i+I_j)` に変更。共通係数
+   `c = kappaS*(s_j−s_i)*gg/(I_i+I_j)` を作り `ds_i += c*I_j; ds_j −= c*I_i`
+   (この形なら I_i·Δs_i = −I_j·Δs_j が浮動小数点でも厳密)。
+6. **E6′ 反作用**: 粒子ループで Δp_i = m_i·kFrame·Δu(クランプ後)を `S.dpx/S.dpy` に保存。
+   位置更新はまだしない。反作用対ループで各対 (i,j) につき双方向に:
+   `phi = (m_j/(pairD+eps)) / (D0 + sumW_i)`; j が非pinned なら
+   `v_j −= phi*dp_i/m_j` とし、残余トルク `n = dx*(phi*dpy_i) − dy*(phi*dpx_i)` を
+   `spin_i −= n/(I_i+I_j); spin_j −= n/(I_i+I_j)` として移譲。j が pinned なら
+   運動量 −phi*dp_i とトルク [r_i×phi*dp_i]_z をリザーバへ
+   (`resPx −= phi*dpx_i` 等、`resL −= x_i*phi*dpy_i − y_i*phi*dpx_i`)。
+   背景分 `phiBg = D0/(D0+sumW_i)` も同じ式でリザーバへ。最後の粒子ループで位置・境界・τ 更新。
+7. **E11 冷却**: etaRad>0 かつ s≠0 のとき `T = I*s*s; lam = etaRad*T^pRad;
+   dsC = lam*dt/(I*|s|)` を `min(dsC, 0.5*|s|)` にクランプして |s| を減らす。
+   `radE += ½I(s_before²−s_after²); radL += I*(s_before−s_after)`。
+
+帳簿変数は `S.resPx, S.resPy, S.resL, S.radE, S.radL`(build でゼロ初期化)。
+検証恒等式: P+resP 一定、L+resL+radL 一定(D₀=0・pinnedなし・境界なしなら resP=resL=0)。
+
+### B3. E8′ 光線の媒質随伴
+
+光線積分を共有関数 `traceRay(S, x0, y0, cx0, cy0, maxSteps, dl, emit)` に括り出し、
+描画(drawRays)と検証(V8)の双方から使う。1ステップ:
+- 重い天体(m ≥ RAY_MASS_MIN)のみで n, ∇n, **u** を評価(既存の性能近似を維持)。
+  **u** は E3 と同形: `u = Σ w_j(v_j + ω_j ẑ×(r−r_j)) / (D0 + Σ w_j)`、ω_j は E2。
+- 方向更新は従来どおり(フェルマー則)、位置更新を `r += ĉ·dl + u·(n/cLight)·dl` に変更。
+
+### B4. 表示の改修
+
+- **色マップのキー**: `T_i = ½·m_i·R_i²·s_i²`(= I s²)。正規化は全粒子 T の
+  **90パーセンタイル**(EMA 平滑、係数 0.05)とし、`t = min(1, √(T/p90))` を
+  既存 tempColor に渡す(単一の大質量天体がスケールを飽和させないため。
+  パレット自体は変更しない)。
+- **温度ヒストグラム**: T の定義を同じ I s² に変更、ラベルを「平均温度(Is²)左/右」に。
+- **選択粒子の情報行**: `T=… λ=…`(λ = bM/T、T=0 のときは「λ=—」)を追記。
+- **保存量モニタ**: 表示グループに「保存量モニタ」トグル(既定オフ)を追加。
+  オンのとき HUD 2行目に `P=(Px,Py) L=… | 帳簿 P=(…) L=… 放射E=…` を15フレーム毎に更新表示。
+  P・L は B2 の恒等式の左辺(粒子系のみ)、帳簿はリザーバ変数を表示する。
+
+### B5. 検証フック(HP.verify)と受け入れ条件の追加
+
+`window.HP.verify = { v1(), v2(), v8(), all() }` を実装する。各関数は
+`{id, pass:boolean, detail:string, value:number}` を返す(all は配列)。UI には出さない。
+
+- **v1(T7 保存則)**: makeSim で独立に組み立てる。physics: D₀=0, kFrame=1, G=1, kRep=1,
+  muF=0.5, gammaN=0.4, kappaS=0.05, etaRad=0, softening=2, boundary none。
+  粒子: 疑似乱数(seed 固定)で disk 状に 48 個(m 0.5〜2, |v|≤1.2, spin −2〜2)+
+  m=30 の単体1個。1000 ステップ(dt=0.016)実行し、
+  `|ΔP|/P_scale < 1e-3` かつ `|ΔL|/L_scale < 1e-3` で合格。
+  スケール: P_scale = Σ m|v|(初期)、L_scale = Σ|m(r×v)| + Σ I|s|(初期)。
+- **v2(D1 分光温度計)**: 検証粒子(m=2, R=radiusScale√2, s=1.7)につき
+  T = Is²、λ = bM/T を計算し、`s' = √(bM/(I·λ))` で逆算。相対誤差 < 5% で合格
+  (色マップと HUD が同じ T 定義を共有していることの配線検査を兼ねる)。
+- **v8(T8 非対称レンズ)**: 中央に pinned 単体(m=1500)を置き、spin = +0.5 と −0.5 の
+  2 ケースで、y = ±60 の対称な平行光線を traceRay で 320 ステップ積分。
+  各ケースの上下光線の湾曲角差 Δθ(spin) を測り、`sign(Δθ(+)) ≠ sign(Δθ(−))` かつ
+  `|Δθ| > 1e-4 rad` で合格(kLens=0.004, cLight=60)。
+- **V3〜V7(銀河 r_flat・環の方向選択・𝒟効果・歳差・軌道移動)は長時間実行を要するため
+  自動テスト列に含めない。** DERIVATIONS.md §6 の手順どおり手動実験として実施し、
+  結果は THEORY SYNTHESIS / DERIVATIONS 側に記録する(実装フェーズの受け入れ条件外)。
+
+受け入れ条件(既存リストに追加):
+- [ ] `HP.verify.all()` で v1, v2, v8 が全て pass
+- [ ] 既存6プリセットが v1.1 エンジンでも 120 フレーム console error 0・NaN なし
+- [ ] etaRad=0(既定)のとき、v1.0 と比べてデモの見た目の破綻がない(目視)
+
+### B6. 禁止事項(付録B 固有)
+
+- 実行時LLMプロンプト・few-shot・HANDOFF_RUNTIME_LLM.md の変更(B1 の方針どおり不要)。
+- tempColor のパレット変更(キーの変更のみ)。
+- 旧 E5/E6/E10 の式を kFrame 等のフラグで残すこと(改訂式へ完全置換する。
+  ニュートン退化は従来どおり kFrame=0 で得られる)。
