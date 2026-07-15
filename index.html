@@ -160,6 +160,8 @@
  * 物理式は docs/PHYSICS.md の E1〜E11 を実装(式番号をコメントに付す)
  * v1.1 (2026-07-15): A13相互性(E5′/E6′/E9/E10′で保存則を厳密化)、
  * A11光の媒質随伴(E8′)、A12放射(E11)を反映。docs/DERIVATIONS.md §0〜§1 が正。
+ * v1.2 (2026-07-15): 熱・放射系サンプル6種+スペクトルオーバーレイ(付録C)。
+ * v1.3 (2026-07-15): 理想気体・摩擦熱と熱伝導・星の形成の3サンプル(付録D)。
  * ===================================================================== */
 
 // ===== ユーティリティ =====
@@ -383,6 +385,70 @@ const BUILTIN_PRESETS = [
   bodies:[
     {type:"disk", n:170, cx:0,cy:0, radius:110, mMin:0.8,mMax:1.2,
      spinMin:2,spinMax:3, vMode:"random", aroundMass:0, vScale:0.8, direction:1}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,spectrum:true} },
+
+// ---- v1.3 サンプル3種(HANDOFF_IMPLEMENTATION.md 付録D) ----
+{ id:"idealgas", name:"理想気体の自由膨張", emoji:"🎈",
+  description:"散逸を全て切った「理想気体」。接触は弾性ばね、圧力はスピン斥力 F∝T(P∝nT の類似)。中央の高密度の塊が自由膨張して箱に一様に満ちるが、温度(スピン)は厳密に不変——ジュールの自由膨張。右下の左右平均温度は等しいまま動かない。",
+  camera:{scale:200}, world:{boundary:"box",size:160},
+  physics:{G:0, D0:50, kFrame:0, kRep:2, muF:0, gammaN:0, kappaS:0, etaRad:0, timeScale:2},
+  bodies:[
+    {type:"disk", n:200, cx:0,cy:0, radius:55, mMin:0.5,mMax:0.5,
+     spinMin:2.5,spinMax:2.5, vMode:"random", aroundMass:0, vScale:6, direction:1}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:true,field:false} },
+
+{ id:"grinder", name:"摩擦熱と熱伝導", emoji:"🛞",
+  description:"重力も斥力も切った熱の実験室。回転ドラム(レール輪)に閉じ込められたボールが内面にこすられ続けて熱くなる(摩擦熱: 速度\u2192スピン変換, A9)——無重力ボールミル。熱は接触していない粒の列へスピン拡散(E10\u2032)で飛び移り、端から順に伝わる(熱伝導)。右下: 左が先に熱く、右が遅れて追う。",
+  camera:{scale:190}, world:{boundary:"box",size:150},
+  physics:{G:0, D0:50, kFrame:0, kRep:0, muF:0.9, gammaN:0.4, kappaS:2,
+    etaRad:0, softening:4, timeScale:3},
+  bodies:[
+    {type:"ring", n:14, cx:-79,cy:133, rIn:15,rOut:15, mMin:3,mMax:3,
+     spinMin:0,spinMax:0, vMode:"omega", aroundMass:0, omega:0.2, vNoise:0, direction:1, pinned:true},
+    {type:"single", m:20, x:-79,y:141, vx:0.4,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-49,y:147, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-42,y:147, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-35,y:147, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-28,y:147, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-21,y:147, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-14,y:147, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-7,y:147, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:0,y:147, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:7,y:147, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:14,y:147, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:21,y:147, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:28,y:147, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:35,y:147, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:42,y:147, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:49,y:147, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:56,y:147, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:63,y:147, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:70,y:147, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:77,y:147, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:84,y:147, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:91,y:147, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:98,y:147, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:105,y:147, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:112,y:147, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:119,y:147, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:126,y:147, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:133,y:147, vx:0,vy:0, spin:0, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:true,field:false} },
+
+{ id:"starform", name:"星の形成", emoji:"\u2B50",
+  description:"冷たい塵の雲が、スピンを持つ中心の巨大質量(種)へ自重で崩落する。密集の摩擦で塵は閃光的に加熱され(自重による圧力加熱)、相変化した気体圏が種のスピン斥力クッションと動圧に支えられて収縮が止まる。種の熱が対流を駆動し、放射で冷えながら重力と圧力の釣り合った球状の星として輝き続ける。",
+  camera:{scale:300}, world:{boundary:"circle",size:280},
+  physics:{G:3, D0:5, kFrame:0, kRep:1.5, muF:0.2, gammaN:0.05, kappaS:0.2,
+    etaRad:0.002, pRad:1, radiusScale:1.5, timeScale:4},
+  bodies:[
+    {type:"single", m:300, x:0,y:0, vx:0,vy:0, spin:0.65, pinned:false},
+    {type:"ring", n:165, cx:0,cy:0, rIn:50,rOut:95, mMin:1,mMax:1.6,
+     spinMin:0,spinMax:0.1, vMode:"none", aroundMass:0, omega:0, vNoise:0, direction:1, pinned:false},
+    {type:"ring", n:55, cx:0,cy:0, rIn:118,rOut:140, mMin:2,mMax:3,
+     spinMin:0,spinMax:0.1, vMode:"none", aroundMass:0, omega:0, vNoise:0, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,spectrum:true} },
 ];
