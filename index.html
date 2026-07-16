@@ -1672,8 +1672,9 @@ function renderHelp(){
   }
 })();
 
-// ===== 検証フック HP.verify(DERIVATIONS.md §6 の V1/V2/V8。品質ゲートが使用) =====
-// V3〜V7 は長時間の数値実験のため自動テスト列に含めない(HANDOFF_IMPLEMENTATION.md 付録B B5)
+// ===== 検証フック HP.verify(V1/V2/V6/V8/V9/V10/V11/V12/V13/V16。品質ゲートが使用) =====
+// V3〜V5・V7 は長時間の数値実験のため自動テスト列に含めない(HANDOFF_IMPLEMENTATION.md 付録B B5)。
+// V6 は v1.8 で符号裁定を恒久化する縮小版を自動化(多惑星スケーリング・D₀遮蔽は手動のまま)
 const VERIFY = {
   // V1: T7 保存則。D₀=0・pinnedなし・全相互作用ONで1000ステップ、|ΔP|/P_scale・|ΔL|/L_scale < 1e-3
   v1(){
@@ -1712,6 +1713,45 @@ const VERIFY = {
     const err=Math.abs(sBack-sTrue)/sTrue;
     return {id:"V2", pass:err<0.05, value:err,
       detail:`s=${sTrue} → λ=${lam.toExponential(3)} → s'=${sBack.toFixed(4)} 相対誤差=${err.toExponential(2)} (< 5%)`};
+  },
+  // V6: E6′ 近点移動の符号(v1.8)。第3次レビューで旧 DERIVATIONS §5(a)「順行で前進」と
+  // ChatGPT 連続極限解析「順行で後退」が矛盾 → 機械実験で後者を確認し(D4a′ に訂正)、
+  // 本フックが裁定を恒久化する: 順行軌道+順行スピン(kF>0)で近点は「後退」し、
+  // スピン反転で「前進」へ反転、kF=0 対照は数値ベースライン(Plummer+離散化)のみ。
+  v6(){
+    const run=(S,kf)=>{
+      const s=makeSim();
+      s.build({ id:"verify_v6", name:"V6", camera:{scale:200}, world:{boundary:"none",size:0},
+        physics:{G:1, D0:0.05, kFrame:kf, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, etaRad:0,
+          Kt:60, cLight:60, softening:2, timeScale:1},
+        bodies:[
+          {type:"single", m:150, x:0, y:0, vx:0, vy:0, spin:S, pinned:true},
+          {type:"single", m:0.01, x:30, y:0, vx:0, vy:Math.sqrt(150*1.5/30), spin:0, pinned:false}
+        ], overlays:{} });   // a=60, e=0.5(近点30・遠点90)の順行軌道
+      const peri=[]; let lastK=-1e9, r2=0, r1=0, th1=0;
+      for(let k=0;k<140000 && peri.length<4;k++){
+        s.step(DT);
+        const r=Math.hypot(s.x[1],s.y[1]), th=Math.atan2(s.y[1],s.x[1]);
+        // 真の近点のみ受理(遠点近傍では dr/步→0 で Float32 偽極小が出るため r<50 ゲート+最小間隔)
+        if(k>2 && r1<r2 && r1<r && r1<50 && (k-lastK)>4000){ peri.push(th1); lastK=k; }
+        r2=r1; r1=r; th1=th;
+      }
+      let acc=0;
+      for(let i=1;i<peri.length;i++){
+        let dd=peri[i]-peri[i-1];
+        while(dd>Math.PI) dd-=2*Math.PI; while(dd<-Math.PI) dd+=2*Math.PI;
+        acc+=dd;
+      }
+      return {n:peri.length, drift: peri.length>1 ? acc/(peri.length-1) : 0}; // rad/周
+    };
+    const P=run(0.05,1), M=run(-0.05,1), Z=run(0.05,0);
+    const base=Math.abs(Z.drift);
+    const pass = P.n>=3 && M.n>=3 && Z.n>=3 &&
+      P.drift < -3*base &&   // 順行+S>0: 対照の3倍を超えて「後退」
+      M.drift > +3*base;     // スピン反転で「前進」へ符号反転
+    const f=(x)=>(x*180/Math.PI).toFixed(2);
+    return {id:"V6", pass, value:P.drift,
+      detail:`Δϖ/周: S=+0.05→${f(P.drift)}°(後退) S=−0.05→${f(M.drift)}°(前進) 対照kF=0→${f(Z.drift)}°(実測基準: −7.5/+10.7/−1.0)`};
   },
   // V8: T8 非対称レンズ。±S_c で上下対称光線の湾曲角の和(非対称度)の符号が反転すること
   // v1.7: kLens 廃止に伴い Kt=500(2/Kt=0.004 で旧 kLens=0.004 と湾曲係数が厳密等価)
@@ -1913,7 +1953,7 @@ const VERIFY = {
     return {id:"V16", pass, value:Math.max(errA,errB),
       detail:`τB/t=${(s.tau[1]/s.t).toFixed(4)}(解析${thB.toFixed(4)}) τA/t=${(s.tau[0]/s.t).toFixed(4)}(解析${thA.toFixed(4)}) τB<τA=${s.tau[1]<s.tau[0]} 步幅変動=${(jmax-jmin).toExponential(1)}`};
   },
-  all(){ return [this.v1(), this.v2(), this.v8(), this.v9(), this.v10(), this.v11(),
+  all(){ return [this.v1(), this.v2(), this.v6(), this.v8(), this.v9(), this.v10(), this.v11(),
                  this.v12(), this.v13(), this.v16()]; }
 };
 
