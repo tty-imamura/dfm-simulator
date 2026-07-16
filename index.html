@@ -230,8 +230,9 @@ const CLAMPS = { G:[0,100], D0:[0,1000], kFrame:[0,1], q:[0.5,4], kRep:[0,20], m
 
 // ===== 内蔵プリセット(スキーマは docs/HANDOFF_IMPLEMENTATION.md §契約1) =====
 const BUILTIN_PRESETS = [
-// ===== グループ: 空間と光(付録E E4) =====
-{ id:"mach", name:"マッハのバケツ", emoji:"🪣", group:"空間と光",
+// ===== v1.9 サンプル全面刷新(付録I)。旧16種は廃止し「1サンプル=1効果」で再構成 =====
+// ===== グループ: 空間と時間 =====
+{ id:"mach", name:"マッハのバケツ", emoji:"🪣", group:"空間と時間",
   description:"重い回転リングが内側の空間ごと引きずり、静止していた粒子が回り始める(A4/A5/T2)。D₀(遠方宇宙の決定力)を上げると引きずりが弱まる=空間が安定する(T1と対比)。",
   camera:{scale:220}, world:{boundary:"none",size:0},
   physics:{G:0.02, D0:0.5, timeScale:2},
@@ -243,7 +244,32 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
-{ id:"galaxy", name:"銀河の回転曲線", emoji:"🌌", group:"空間と光",
+{ id:"twin", name:"双子の時計 — 動く時計は遅れる", emoji:"🕰️", group:"空間と時間",
+  description:"光速c₀を12に下げた宇宙。中央の時計は静止、内側の時計は0.5c₀、外側の時計は0.8c₀で周回する。それぞれタップすると固有時計(τ/t)が見える: 1.00/0.87/0.60 — 同じ座標時間tの中で、共動フレームに対して速く動く時計ほどゆっくり刻む(A7′/E7R)。座標時間は宇宙で一意なので「どちらが年を取るか」に曖昧さはない(T9: 時間パラドックスの座標化)。",
+  camera:{scale:150}, world:{boundary:"none",size:0},
+  physics:{G:0, D0:2, kFrame:0, kRep:0, muF:0, gammaN:0, kappaS:0, etaRad:0,
+    Kt:10000, cLight:12, timeScale:2},
+  bodies:[
+    {type:"single", m:2, x:0,y:0, vx:0,vy:0, spin:0, pinned:false},
+    {type:"ring", n:1, cx:0,cy:0, rIn:60,rOut:60, mMin:2,mMax:2,
+     spinMin:0,spinMax:0, vMode:"omega", aroundMass:0, omega:0.1, vNoise:0, direction:1, pinned:true},
+    {type:"ring", n:1, cx:0,cy:0, rIn:110,rOut:110, mMin:2,mMax:2,
+     spinMin:0,spinMax:0, vMode:"omega", aroundMass:0, omega:0.0873, vNoise:0, direction:1, pinned:true}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false} },
+
+{ id:"drag", name:"引きずられる楕円 — 近点の後退", emoji:"💫", group:"空間と時間",
+  description:"ニュートン力学なら楕円軌道は閉じて動かない。中心星のスピンが空間を引きずると(A8+E6′)、楕円ごとゆっくり回転し、光跡が回る花びらを描く。回転の向きは公転と逆=近点の後退で、GRのレンズ=サーリング歳差と同じ符号(v1.8 D4a′。機械裁定=V6)。中心星のスピンを負にすると前進に変わる。",
+  camera:{scale:220}, world:{boundary:"none",size:0},
+  physics:{G:1, D0:0.05, kFrame:1, kRep:0, muF:0, gammaN:0, kappaS:0, etaRad:0,
+    softening:2, timeScale:8},
+  bodies:[
+    {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.09, pinned:true},
+    {type:"single", m:0.5, x:60,y:0, vx:0,vy:3.87, spin:0, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+{ id:"galaxy", name:"銀河の回転曲線", emoji:"🌌", group:"空間と時間",
   description:"円盤銀河。初めは星々がケプラー回転(グラフの点線と一致)しているが、空間の引きずり(kFrame=1)が内側の回転を外へ伝え、回転曲線が平坦化していく(T4)。kFrameを0にすると起きない。右下のグラフ(実線=実測、点線=ケプラー予想)に注目。",
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{D0:1, muF:0.02, gammaN:0.05, kRep:1.0, softening:4, timeScale:4},
@@ -254,8 +280,9 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false} },
 
-{ id:"lensing", name:"重力レンズと時間", emoji:"💡", group:"空間と光",
-  description:"左から飛ぶ光線が、決定力の高い(=時間の遅い)領域で屈折して曲がる(A7′/T5)。v1.7: 時間の遅れと光の屈折は単一のψ=W/Ktで統一(E7R/E8R)— Ktを下げると両方が同時に強まる。強い場では光が捕まって周回する(光子球の類似)。背景の色は決定力Wの強さ。粒子をタップすると固有時計(τ/t)が見える。",
+// ===== グループ: 光 =====
+{ id:"lensing", name:"重力レンズと光子捕捉", emoji:"💡", group:"光",
+  description:"左から飛ぶ光線が、決定力の高い(=時間の遅い)領域で屈折して曲がる(A7′/T5)。時間の遅れと光の屈折は単一のψ=W/Ktで統一(E7R/E8R)— Ktを下げると両方が同時に強まる。強い場では光が捕まって周回する(光子球の類似)。背景の色は決定力Wの強さ。粒子をタップすると固有時計(τ/t)が見える。",
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{Kt:150, timeScale:1},
   bodies:[
@@ -265,33 +292,19 @@ const BUILTIN_PRESETS = [
   rays:{n:26, spread:0.85},
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
-{ id:"spectrum", name:"スピンとスペクトル", emoji:"🌈", group:"空間と光",
-  description:"同じ質量でスピンだけが違う6つの質点。温度T=Is²が放射のピーク波長λ=b_m/Tを決める(A12ウィーン則)。光度はΛ∝T⁴なので高スピンの星から先に冷え、右下のスペクトルの輝線が長波長側へ動く。粒子をタップするとλが見える。",
-  camera:{scale:260}, world:{boundary:"none",size:0},
-  physics:{G:0, kFrame:0, kRep:0, muF:0, gammaN:0, kappaS:0, etaRad:7e-11, pRad:4, timeScale:1},
+{ id:"spinlens", name:"回る星のレンズ — 非対称湾曲", emoji:"🌗", group:"光",
+  description:"中心星が回転すると、光を運ぶ空間(決定フレーム)も回る(A11)。星の回転と同じ向きに進む光は空間に運ばれて遠くへ流され、逆らって進む光は強く曲がる — 上下対称に入射した光線束が非対称に湾曲する(T8。カー・ブラックホールのフレームドラッグの光学類似。機械検証=V8)。背景の色は決定力W。",
+  camera:{scale:300}, world:{boundary:"none",size:0},
+  physics:{Kt:200, cLight:40, timeScale:1},
   bodies:[
-    {type:"single", m:8, x:-200,y:0, vx:0,vy:0, spin:0.6, pinned:false},
-    {type:"single", m:8, x:-120,y:0, vx:0,vy:0, spin:1.2, pinned:false},
-    {type:"single", m:8, x:-40, y:0, vx:0,vy:0, spin:1.8, pinned:false},
-    {type:"single", m:8, x:40,  y:0, vx:0,vy:0, spin:2.4, pinned:false},
-    {type:"single", m:8, x:120, y:0, vx:0,vy:0, spin:3.0, pinned:false},
-    {type:"single", m:8, x:200, y:0, vx:0,vy:0, spin:3.6, pinned:false}
+    {type:"single", m:2000, x:0,y:0, vx:0,vy:0, spin:2, pinned:true}
   ],
-  overlays:{rotationCurve:false,tempHistogram:false,field:false,spectrum:true} },
+  rays:{n:24, spread:0.9},
+  overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
-// ===== グループ: 熱の実験室(付録E E4) =====
-{ id:"idealgas", name:"理想気体の自由膨張", emoji:"🎈", group:"熱の実験室",
-  description:"散逸を全て切った「理想気体」。接触は弾性ばね、圧力はスピン斥力 F∝T(P∝nT の類似)。中央の高密度の塊が自由膨張して箱に一様に満ちるが、温度(スピン)は厳密に不変——ジュールの自由膨張。右下の左右平均温度は等しいまま動かない。",
-  camera:{scale:200}, world:{boundary:"box",size:160},
-  physics:{G:0, D0:50, kFrame:0, kRep:2, muF:0, gammaN:0, kappaS:0, etaRad:0, timeScale:2},
-  bodies:[
-    {type:"disk", n:200, cx:0,cy:0, radius:55, mMin:0.5,mMax:0.5,
-     spinMin:2.5,spinMax:2.5, vMode:"random", aroundMass:0, vScale:6, direction:1}
-  ],
-  overlays:{rotationCurve:false,tempHistogram:true,field:false} },
-
+// ===== グループ: 熱の実験室 =====
 { id:"gas", name:"気体の熱平衡", emoji:"🔥", group:"熱の実験室",
-  description:"左=低温(青)・右=高温(赤)のガス。衝突で速度がスピン(熱)に変換され(A9)、高スピンは斥力=圧力を生み(A10)、スピン拡散で温度が均一化する(T6)。右下に左右の平均温度バー。",
+  description:"左=低温(青)・右=高温(赤)のガス。衝突で速度がスピン(熱)に変換され(A9)、高スピンは斥力=圧力を生み(A10)、スピン拡散で温度が均一化する(T6)。右下に左右の平均温度バー。全粒子が同質量なのは、異粒径系ではsの均一化とT=Is²の均一化が一致しないため(L9)。",
   camera:{scale:240}, world:{boundary:"box",size:200},
   physics:{G:0.05, D0:50, kFrame:0.2, kRep:2, muF:0.8, gammaN:0.3, kappaS:0.15, timeScale:2},
   bodies:[
@@ -300,47 +313,71 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false} },
 
-{ id:"grinder", name:"摩擦熱と熱伝導", emoji:"🛞", group:"熱の実験室",
-  description:"重力も斥力も切った熱の実験室。回転ドラム(レール輪)に閉じ込められたボールが内面にこすられ続けて熱くなる(摩擦熱: 速度\u2192スピン変換, A9)——無重力ボールミル。熱は接触していない粒の列へスピン拡散(E10\u2032)で飛び移り、端から順に伝わる(熱伝導)。右下: 左が先に熱く、右が遅れて追う。",
-  camera:{scale:190}, world:{boundary:"box",size:150},
-  physics:{G:0, D0:50, kFrame:0, kRep:0, muF:0.9, gammaN:0.4, kappaS:2,
-    etaRad:0, softening:4, timeScale:3},
+{ id:"pressure", name:"スピン圧 — 熱は押し広げる", emoji:"🎈", group:"熱の実験室",
+  description:"重力ゼロの円形容器。中央の熱い(高スピン)ガスがスピン斥力(A10)で押しのけ合い、周りの冷たいガスの殻を外へ押し広げていく — 圧力の正体は温度。やがて接触摩擦とスピン拡散で熱が外側へ渡り、全体が同じ温度に落ち着く(T6)。色=温度。※スピン圧の状態方程式は理想気体則とは異なる(P∝ρ²T。第4次裁定・L15)。",
+  camera:{scale:240}, world:{boundary:"circle",size:210},
+  physics:{G:0, D0:50, kFrame:0, kRep:2, muF:0.2, gammaN:0.3, kappaS:0.05, etaRad:0, timeScale:2},
   bodies:[
-    {type:"ring", n:14, cx:-79,cy:133, rIn:15,rOut:15, mMin:3,mMax:3,
-     spinMin:0,spinMax:0, vMode:"omega", aroundMass:0, omega:0.2, vNoise:0, direction:1, pinned:true},
-    {type:"single", m:20, x:-79,y:141, vx:0.4,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-49,y:147, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-42,y:147, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-35,y:147, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-28,y:147, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-21,y:147, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-14,y:147, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-7,y:147, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:0,y:147, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:7,y:147, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:14,y:147, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:21,y:147, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:28,y:147, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:35,y:147, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:42,y:147, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:49,y:147, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:56,y:147, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:63,y:147, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:70,y:147, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:77,y:147, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:84,y:147, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:91,y:147, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:98,y:147, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:105,y:147, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:112,y:147, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:119,y:147, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:126,y:147, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:133,y:147, vx:0,vy:0, spin:0, pinned:false}
+    {type:"disk", n:90, cx:0,cy:0, radius:50, mMin:1,mMax:1,
+     spinMin:6,spinMax:7, vMode:"none", aroundMass:0, vScale:0, direction:1},
+    {type:"ring", n:150, cx:0,cy:0, rIn:95,rOut:190, mMin:1,mMax:1,
+     spinMin:0,spinMax:0, vMode:"none", aroundMass:0, omega:0, vNoise:0, direction:1, pinned:false}
   ],
-  overlays:{rotationCurve:false,tempHistogram:true,field:false} },
+  overlays:{rotationCurve:false,tempHistogram:false,field:false} },
+
+{ id:"conduction", name:"熱伝導 — 近いほど速く伝わる", emoji:"📏", group:"熱の実験室",
+  description:"力を全て切った、静止した粒の列。左端の白熱粒(固定=熱浴)から、接触していない粒の列をスピン拡散(E10′)だけで熱が飛び移っていく。上の列は間隔9、下の列は間隔18 — 飛び移りは近いほど強い(カーネルg(d))ので、密な上の列は同じ距離でも高温になり、列全体が運ぶ熱は約2倍。よく見ると熱は隙間を飛び越えて遠くへも薄く届く(接触不要の長距離伝達 — 第4次裁定L16の可視化)。色=温度。",
+  camera:{scale:200}, world:{boundary:"none",size:0},
+  physics:{G:0, D0:50, kFrame:0, kRep:0, muF:0, gammaN:0, kappaS:1.5, etaRad:0, timeScale:4},
+  bodies:[
+    {type:"single", m:4, x:-150,y:45, vx:0,vy:0, spin:8, pinned:true},
+    {type:"single", m:4, x:-141,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-132,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-123,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-114,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-105,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-96,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-87,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-78,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-69,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-60,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-51,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-42,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-33,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-24,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-15,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-6,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:3,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-150,y:-45, vx:0,vy:0, spin:8, pinned:true},
+    {type:"single", m:4, x:-132,y:-45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-114,y:-45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-96,y:-45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-78,y:-45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-60,y:-45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-42,y:-45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-24,y:-45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:-6,y:-45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:4, x:12,y:-45, vx:0,vy:0, spin:0, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false} },
+
+{ id:"phase", name:"固体・液体・気体", emoji:"🧊", group:"熱の実験室",
+  description:"質量・数・大きさ・初速が完全に同一の3つの雲 — 違いは初期スピン(温度)だけの統制実験。左=低温: 重力で収縮し結晶化する固体。中=中温: 流動する液体。右=高温: スピン斥力で蒸発し箱に充満する気体。※これは束縛と斥力の競合による形態のアナロジーで、実在物質の潜熱・相平衡の再現ではない(第4次裁定)。色=温度。",
+  camera:{scale:260}, world:{boundary:"box",size:240},
+  physics:{G:0.7, D0:30, kFrame:0.3, kRep:0.8, muF:0.6, gammaN:0.85, kappaS:0.02,
+    radiusScale:1.6, timeScale:2},
+  bodies:[ // v1.5(付録F F4a): 3群は spin 以外すべて同一(統制実験)
+    {type:"disk", n:65, cx:-160,cy:0, radius:38, mMin:0.6,mMax:0.6,
+     spinMin:0,spinMax:0, vMode:"none", aroundMass:0, vScale:0, direction:1},
+    {type:"disk", n:65, cx:0,cy:0, radius:38, mMin:0.6,mMax:0.6,
+     spinMin:1.8,spinMax:2.2, vMode:"none", aroundMass:0, vScale:0, direction:1},
+    {type:"disk", n:65, cx:160,cy:0, radius:38, mMin:0.6,mMax:0.6,
+     spinMin:8,spinMax:10, vMode:"none", aroundMass:0, vScale:0, direction:1}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"convection", name:"加熱の対流", emoji:"♨️", group:"熱の実験室",
-  description:"床のヒーター(pinned=スピン一定の熱浴)が、接触摩擦とスピン拡散でガスを加熱する。熱いガスはスピン斥力で膨らんで浮かび、床を離れると放射(η_rad·T⁴)で冷えて沈む——下面加熱の対流。画面外の遠い大質量が箱全体を下向きに引く重力の役をする。",
+  description:"床のヒーター(pinned=スピン一定の熱浴)が、接触摩擦とスピン拡散でガスを加熱する。熱いガスはスピン斥力で膨らんで浮かび、床を離れると放射(η_rad·T⁴)で冷えて沈む——下面加熱の対流。画面外の遠い大質量が箱全体を下向きに引く重力の役をする。※対流の定性デモ(Ra–Nuの定量則は目的外。第4次裁定)。",
   camera:{scale:240}, world:{boundary:"box",size:190},
   physics:{G:4, D0:40, kFrame:0.2, kRep:1, muF:0.5, gammaN:0.3, kappaS:0.4,
     etaRad:1.5e-5, pRad:4, radiusScale:3, softening:4, timeScale:2},
@@ -369,22 +406,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
-{ id:"phase", name:"固体・液体・気体", emoji:"🧊", group:"熱の実験室",
-  description:"質量・数・大きさ・初速が完全に同一の3つの雲 — 違いは初期スピン(温度)だけの統制実験。左=低温: 重力で収縮し結晶化する固体。中=中温: 流動する液体。右=高温: スピン斥力で蒸発し箱に充満する気体。熱源のないこの宇宙では液体もやがて冷えて固まる(❄️雪線)。色=温度。",
-  camera:{scale:260}, world:{boundary:"box",size:240},
-  physics:{G:0.7, D0:30, kFrame:0.3, kRep:0.8, muF:0.6, gammaN:0.85, kappaS:0.02,
-    radiusScale:1.6, timeScale:2},
-  bodies:[ // v1.5(付録F F4a): 3群は spin 以外すべて同一(統制実験)
-    {type:"disk", n:65, cx:-160,cy:0, radius:38, mMin:0.6,mMax:0.6,
-     spinMin:0,spinMax:0, vMode:"none", aroundMass:0, vScale:0, direction:1},
-    {type:"disk", n:65, cx:0,cy:0, radius:38, mMin:0.6,mMax:0.6,
-     spinMin:1.8,spinMax:2.2, vMode:"none", aroundMass:0, vScale:0, direction:1},
-    {type:"disk", n:65, cx:160,cy:0, radius:38, mMin:0.6,mMax:0.6,
-     spinMin:8,spinMax:10, vMode:"none", aroundMass:0, vScale:0, direction:1}
-  ],
-  overlays:{rotationCurve:false,tempHistogram:false,field:false} },
-
-// ===== グループ: 天体の物語(付録E E4) =====
+// ===== グループ: 天体の物語 =====
 { id:"saturn", name:"土星の環", emoji:"🪐", group:"天体の物語",
   description:"中心星のまわりをケプラー運動する環。衝突(muF)が乱れた軌道を円形化し、回転方向が揃っていく(T3)。中心星のスピンは近傍の空間を引きずる(A8)。",
   camera:{scale:170}, world:{boundary:"none",size:0},
@@ -410,70 +432,6 @@ const BUILTIN_PRESETS = [
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:400, omega:0, vNoise:0.05, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false} },
-
-{ id:"protodisk", name:"原始惑星系円盤", emoji:"🌀", group:"天体の物語",
-  description:"ケプラー回転する塵の雲から、衝突の散逸(muF)で惑星の種が集積する(T3)。種は互いに合体しつつも数個が軌道上に生き残り、温かいまま中心星を回り続ける。muFを上げると合体が進み、0にすると種が生まれない。",
-  camera:{scale:260}, world:{boundary:"none",size:0},
-  physics:{muF:0.35, gammaN:0.45, kappaS:0.05, kRep:0.8, timeScale:4},
-  bodies:[
-    {type:"single", m:400, x:0,y:0, vx:0,vy:0, spin:0, pinned:false},
-    {type:"disk", n:320, cx:0,cy:0, radius:220, mMin:0.2,mMax:1.5,
-     spinMin:-0.2,spinMax:0.2, vMode:"kepler", aroundMass:400, vScale:1.0, direction:1}
-  ],
-  overlays:{rotationCurve:false,tempHistogram:false,field:false} },
-
-{ id:"accretion", name:"降着円盤の摩擦発光", emoji:"💫", group:"天体の物語",
-  description:"順行する塵の流れに逆行する塵(2割)が混ざった円盤。すれ違いざまの摩擦で角運動量が打ち消され、塵は光を放ちながら中心星へ落ちていく(降着)。発光はやがて衰え、冷えた地殻が中心星を覆う——この宇宙では高密度の塵は接触で冷えて固まる(三態デモと同じ帰結)。",
-  camera:{scale:260}, world:{boundary:"none",size:0},
-  physics:{G:1, D0:2, kRep:0.3, muF:0.9, gammaN:0.5, kappaS:0.02,
-    etaRad:0.02, pRad:4, timeScale:4},
-  bodies:[
-    {type:"single", m:1200, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
-    {type:"ring", n:250, cx:0,cy:0, rIn:60,rOut:180, mMin:0.1,mMax:0.25,
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:1200, omega:0, vNoise:0.05, direction:1, pinned:false},
-    {type:"ring", n:70, cx:0,cy:0, rIn:70,rOut:160, mMin:0.1,mMax:0.25,
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:1200, omega:0, vNoise:0.05, direction:-1, pinned:false}
-  ],
-  overlays:{rotationCurve:false,tempHistogram:false,field:false,spectrum:true} },
-
-{ id:"collision", name:"二星団の衝突加熱", emoji:"💥", group:"天体の物語",
-  description:"2つの冷たい星団がまず自らの重力で収縮して固まり、静かに落下しあって激突する。衝突の瞬間、並進運動が摩擦でスピン=熱に変わり(A9)、失われた運動エネルギーは衝突閃光として放射帳簿に記録される(A12。保存量モニタでradEが跳ねる)。残骸は冷えて固まる — 塊を再び分かつには熱が要る(❄️雪線)。",
-  camera:{scale:260}, world:{boundary:"none",size:0},
-  physics:{G:2, D0:2, kRep:0.5, muF:1, gammaN:0.25, kappaS:0.02,
-    etaRad:0.0001, pRad:4, timeScale:4},  // v1.5: E1′回帰調整 γn 0.3→0.25(付録F書き戻し)
-  bodies:[
-    {type:"disk", n:85, cx:-120,cy:-40, radius:36, mMin:2,mMax:2.5,
-     spinMin:0,spinMax:0, vMode:"none", aroundMass:0, vScale:0, direction:1},
-    {type:"disk", n:85, cx:120,cy:40, radius:36, mMin:2,mMax:2.5,
-     spinMin:0,spinMax:0, vMode:"none", aroundMass:0, vScale:0, direction:1}
-  ],
-  overlays:{rotationCurve:false,tempHistogram:false,field:false,spectrum:true} },
-
-{ id:"radcool", name:"放射で冷えて固まる星", emoji:"🌠", group:"天体の物語",
-  description:"圧力(スピン斥力)と乱雑な速度で支えられた高温の雲が、放射(Λ∝T⁴)で冷えて圧力を失い、重力で収縮して固まっていく——気体→液体→固体の逆行。右下のスペクトルのピークが長波長側へ移動し続ける(A12/E11)。",
-  camera:{scale:320}, world:{boundary:"circle",size:300},
-  physics:{G:1, D0:5, kFrame:0.5, kRep:1, muF:0.5, gammaN:0.5, kappaS:0.08,
-    etaRad:3e-4, pRad:4, timeScale:2},
-  bodies:[
-    {type:"disk", n:170, cx:0,cy:0, radius:110, mMin:0.8,mMax:1.2,
-     spinMin:2,spinMax:3, vMode:"random", aroundMass:0, vScale:0.8, direction:1}
-  ],
-  overlays:{rotationCurve:false,tempHistogram:false,field:false,spectrum:true} },
-
-{ id:"starform", name:"原始星への降着", emoji:"\u2B50", group:"天体の物語",
-  description:"冷たい塵の雲が、スピンを持つ中心の原始星の種(質量300)へ自重で崩落する。密集の摩擦で塵は閃光的に加熱され(自重による圧力加熱)、相変化した気体圏が種のスピン斥力クッションと動圧に支えられて収縮が止まる。種の熱が対流を駆動し、放射で冷えながら重力と圧力の釣り合った球状の星として輝き続ける。",
-  camera:{scale:300}, world:{boundary:"circle",size:280},
-  physics:{G:3, D0:5, kFrame:0, kRep:1.5, muF:0.2, gammaN:0.05, kappaS:0.2,
-    etaRad:0.002, pRad:1, radiusScale:1.5, timeScale:4},
-  bodies:[
-    {type:"single", m:300, x:0,y:0, vx:0,vy:0, spin:0.65, pinned:false},
-    {type:"ring", n:165, cx:0,cy:0, rIn:50,rOut:95, mMin:1,mMax:1.6,
-     spinMin:0,spinMax:0.1, vMode:"none", aroundMass:0, omega:0, vNoise:0, direction:1, pinned:false},
-    {type:"ring", n:55, cx:0,cy:0, rIn:118,rOut:140, mMin:2,mMax:3,
-     spinMin:0,spinMax:0.1, vMode:"none", aroundMass:0, omega:0, vNoise:0, direction:1, pinned:false}
-  ],
-  overlays:{rotationCurve:false,tempHistogram:false,field:false,spectrum:true} },
-
 ];
 
 // ===== プリセット・バリデータ(LLM出力/インポートの検証。構造NG=エラー、値域外=クランプ) =====
@@ -1162,6 +1120,7 @@ function drawBG(){
 }
 
 let trailsOn=false;
+let trailBuf=[];   // overlays.trail 用の蓄積ポリライン(v1.9。残像トグルとは別方式 — 長周期の軌道形状を保持する)
 function render(){
   ctx.setTransform(dpr,0,0,dpr,0,0);
   if(trailsOn){ ctx.fillStyle="rgba(5,7,15,0.18)"; ctx.fillRect(0,0,cw,ch); }
@@ -1178,6 +1137,15 @@ function render(){
     ctx.setLineDash([]);
   }
   drawRays();
+  // 軌道トレイルの記録(overlays.trail: 自由粒子の経路を最大3000点=約100秒・数周分保持。
+  // 💫近点後退の楕円形状用。描画は粒子の後=グローの上に重ねる)
+  if(sim.overlays.trail && running && (frameCount%2)===0){
+    for(let i=0;i<sim.n;i++){ if(sim.pinned[i]) continue;
+      const b=trailBuf[i]||(trailBuf[i]=[]);
+      b.push(sim.x[i],sim.y[i]);
+      if(b.length>6000) b.splice(0,2);
+    }
+  }
   // 熱=T=Is² の正規化(A9 v1.1。90パーセンタイル+EMA: 単一の大質量天体で飽和させない)
   if(sim.n>0){
     if(!tSort||tSort.length!==sim.n) tSort=new Float32Array(sim.n);
@@ -1202,6 +1170,15 @@ function render(){
     ctx.fillStyle=col;
     ctx.beginPath(); ctx.arc(sx,sy,rr,0,7); ctx.fill();
     if(sim.pinned[i]){ ctx.strokeStyle="rgba(255,255,255,0.75)"; ctx.beginPath(); ctx.arc(sx,sy,rr+2,0,7); ctx.stroke(); }
+  }
+  // 軌道トレイルの描画(記録は上の粒子ループ前。グローに隠れないよう最上層に描く)
+  if(sim.overlays.trail){
+    ctx.strokeStyle="rgba(150,200,255,0.55)"; ctx.lineWidth=1;
+    for(let i=0;i<sim.n;i++){ const b=trailBuf[i]; if(!b||b.length<4) continue;
+      ctx.beginPath(); ctx.moveTo(w2sX(b[0]),w2sY(b[1]));
+      for(let k=2;k<b.length;k+=2) ctx.lineTo(w2sX(b[k]),w2sY(b[k+1]));
+      ctx.stroke();
+    }
   }
   // 選択粒子の固有時計
   if(selIdx>=0&&selIdx<sim.n){
@@ -1290,6 +1267,7 @@ function loadPreset(id, keepPhysics){
   const merged=JSON.parse(JSON.stringify(p));
   if(keepPhysics && basePhysics) merged.physics=Object.assign({},sim.params);
   sim.build(merged);
+  trailBuf=[];  // 軌道トレイルはプリセット読込・⏮初めからでリセット
   basePhysics=Object.assign({},DEFAULT_PHYSICS,p.physics||{});
   camX=0; camY=0; camScale=p.camera.scale; tempP90EMA=0.5; selIdx=-1; nanNotified=false;
   running=false; updatePlayBtn();
@@ -1846,6 +1824,45 @@ const VERIFY = {
     return {id:"V10", pass:resid<7.5e-4, value:resid,
       detail:`|ΔE_総+radE|/E_scale=${resid.toExponential(2)} (< 7.5e-4) radE=${s.radE.toFixed(3)}`};
   },
+  // V10b: 第一法則 — スピン斥力ポテンシャル込み・固定スピン域(v1.9)。
+  // 第4次レビュー指摘: V10 は kRep=0 で構成されており、E5′ の斥力ポテンシャル U_rep を含む
+  // 閉性は未検証だった。スピン固定(κs=μF=γn=ηrad=0・非接触・G=0)なら E5′ は保存力であり
+  // K_trans + U_rep = 一定。U_rep(q=2) = kRep·μ·Σ_a s_a²·R_a⁴·[1/(2(R_a+d)²) − R_a/(3(R_a+d)³)]。
+  // s が変わる過程(E9/E10′/E11)での ΔU_rep は帳簿外のまま = 未解決問題 L17 として明示。
+  v10b(){
+    const kRep=2;
+    const s=makeSim();
+    s.build({ id:"verify_v10b", name:"V10b", camera:{scale:200}, world:{boundary:"none",size:0},
+      physics:{G:0, D0:0, kFrame:0, kRep:kRep, q:2, muF:0, gammaN:0, kappaS:0, etaRad:0,
+        softening:2, timeScale:1},
+      bodies:[
+        {type:"single", m:2,   x:-12, y:0,  vx:0, vy:0, spin:2,    pinned:false},
+        {type:"single", m:3,   x:10,  y:4,  vx:0, vy:0, spin:-1.5, pinned:false},
+        {type:"single", m:2.5, x:-2,  y:14, vx:0, vy:0, spin:1,    pinned:false}
+      ], overlays:{} });
+    const Upair=(i,j)=>{
+      const d=Math.hypot(s.x[i]-s.x[j], s.y[i]-s.y[j]);
+      const mu=s.m[i]*s.m[j]/(s.m[i]+s.m[j]);
+      let U=0;
+      for(const a of [i,j]){
+        const R=s.R[a], u=R+d;
+        U+=s.spin[a]*s.spin[a]*R*R*R*R*(1/(2*u*u)-R/(3*u*u*u));
+      }
+      return kRep*mu*U;
+    };
+    const energy=()=>{
+      let E=0;
+      for(let i=0;i<s.n;i++) E+=0.5*s.m[i]*(s.vx[i]*s.vx[i]+s.vy[i]*s.vy[i]);
+      for(let i=0;i<s.n;i++) for(let j=i+1;j<s.n;j++) E+=Upair(i,j);
+      return E;
+    };
+    const E0=energy();
+    for(let k=0;k<1000;k++) s.step(DT);
+    const E1=energy();
+    const resid=Math.abs(E1-E0)/Math.max(Math.abs(E0),1e-9);
+    return {id:"V10b", pass:resid<1e-3, value:resid,
+      detail:`|ΔE|/E0=${resid.toExponential(2)} (< 1e-3) E0=${E0.toFixed(4)} E1=${E1.toFixed(4)}(固定スピン+kRep=${kRep})`};
+  },
   // V11: T4 の因果性(v1.5 付録F)。同一初期条件の kFrame=0/1 A/B 比較で、
   // 外側の平均回転が kFrame=1 側でのみ増速すること(平坦化の因果が kFrame にあることの検証)。
   // 付録F 追記(2026-07-16): 原定義(R260・800步・終値判定)は T4 連鎖(減速→落下→スピンアップ)の
@@ -1953,8 +1970,8 @@ const VERIFY = {
     return {id:"V16", pass, value:Math.max(errA,errB),
       detail:`τB/t=${(s.tau[1]/s.t).toFixed(4)}(解析${thB.toFixed(4)}) τA/t=${(s.tau[0]/s.t).toFixed(4)}(解析${thA.toFixed(4)}) τB<τA=${s.tau[1]<s.tau[0]} 步幅変動=${(jmax-jmin).toExponential(1)}`};
   },
-  all(){ return [this.v1(), this.v2(), this.v6(), this.v8(), this.v9(), this.v10(), this.v11(),
-                 this.v12(), this.v13(), this.v16()]; }
+  all(){ return [this.v1(), this.v2(), this.v6(), this.v8(), this.v9(), this.v10(), this.v10b(),
+                 this.v11(), this.v12(), this.v13(), this.v16()]; }
 };
 
 // ===== デバッグ/テスト用フック(品質ゲートが使用) =====
