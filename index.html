@@ -85,8 +85,9 @@
 <body>
 <div id="app">
   <header>
-    <div class="title">仮想物理ラボ</div>
+    <div class="title" id="appTitle">仮想物理ラボ</div>
     <select id="presetSelect" aria-label="シミュレーション選択"></select>
+    <button id="btnLang" class="btn" style="flex:0 0 auto;min-height:44px;padding:8px 10px;" aria-label="Language">EN</button>
   </header>
   <div id="canvasWrap">
     <canvas id="cv"></canvas>
@@ -134,22 +135,30 @@
       </div>
     </div>
     <div class="tabPage" id="page-ai">
-      <div class="group"><h3>Claude APIキー</h3>
-        <input type="password" id="apiKey" placeholder="sk-ant-...">
-        <div class="rowBtns"><button class="btn" id="btnKeySave">キーを保存</button></div>
-        <p class="note">キーは<b>この端末のlocalStorageにのみ</b>保存され、送信先は api.anthropic.com だけです。</p>
-        <div class="prow"><label>モデル</label>
-          <select id="aiModel" style="flex:1">
-            <option value="claude-haiku-4-5" selected>Haiku 4.5(推奨・低コスト)</option>
-            <option value="claude-sonnet-5">Sonnet 5(高品質)</option>
+      <div class="group"><h3 id="aiProvHead">AIプロバイダ</h3>
+        <div class="prow"><label id="aiProvLabel">プロバイダ</label>
+          <select id="aiProvider" style="flex:1">
+            <option value="anthropic" selected>Claude API(Anthropic)</option>
+            <option value="openai">OpenAI互換 API</option>
+            <option value="gemini">Google Gemini API</option>
           </select></div>
+        <div class="prow"><label id="aiModelLabel">モデル</label>
+          <input type="text" id="aiModelIn" list="modelSuggest" style="flex:1;min-height:36px;" autocomplete="off">
+          <datalist id="modelSuggest"></datalist></div>
+        <div class="prow" id="baseUrlRow" style="display:none"><label id="aiUrlLabel">API URL</label>
+          <input type="text" id="aiBaseUrl" style="flex:1;min-height:36px;" autocomplete="off" placeholder="https://api.openai.com/v1"></div>
+        <input type="password" id="apiKey" placeholder="APIキー">
+        <div class="prow" style="margin-top:6px"><label id="keyPersistLabel" style="flex:1">キーをこの端末に保存する</label>
+          <input type="checkbox" id="keyPersist"></div>
+        <div class="rowBtns"><button class="btn" id="btnKeySave">キーを設定</button></div>
+        <p class="note" id="aiKeyNote">キーはこの端末内でのみ使われ、送信先は選択したプロバイダのAPIだけです。保存チェックOFFなら端末にも残りません(タブを閉じると消えます)。</p>
       </div>
-      <div class="group"><h3>新しいシミュレーションを生成</h3>
+      <div class="group"><h3 id="aiGenHead">新しいシミュレーションを生成</h3>
         <textarea id="aiPrompt" placeholder="例: 3つの恒星が絡み合う三体問題。まわりに塵の環も欲しい"></textarea>
         <div class="rowBtns"><button class="btn primary" id="btnGenerate">生成する</button></div>
         <div id="aiStatus"></div>
       </div>
-      <div class="group"><h3>生成済みプリセット</h3><div id="customList"></div></div>
+      <div class="group"><h3 id="aiListHead">生成済みプリセット</h3><div id="customList"></div></div>
     </div>
   </section>
 </div>
@@ -178,6 +187,118 @@ function mulberry32(seed){ let a=seed>>>0; return function(){ a|=0; a=(a+0x6D2B7
 function hashStr(s){ let h=2166136261; for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);} return h>>>0; }
 const fmt = (v)=> Math.abs(v)>=100?v.toFixed(0):Math.abs(v)>=10?v.toFixed(1)
   :Math.abs(v)>=0.1||v===0?v.toFixed(2):v.toFixed(4);
+
+// ===== i18n(v1.10): 日本語/英語切り替え。既定 ja、localStorage hp_lang に永続化 =====
+let LANG = (localStorage.getItem("hp_lang")==="en") ? "en" : "ja";
+const I18N = {
+ja: {
+  appTitle:"仮想物理ラボ", docTitle:"仮想物理ラボ — 仮定物理法則シミュレータ",
+  reset:"⏮ 初めから", run:"▶ 実行", resume:"▶ 再開", pause:"⏸ 停止",
+  tabHelp:"説明", tabParams:"パラメータ", tabSaves:"セーブ", tabAI:"AI追加",
+  paramDefault:"プリセット既定値に戻す",
+  paramNote:"※ 物理パラメータは実行中いつでも反映されます。粒子の初期配置・個数はプリセット選択または「⏮ 初めから」で反映されます。",
+  grpLaws:"仮定物理法則", grpSim:"シミュレーション", grpDisplay:"表示",
+  tgTrails:"軌跡を残す", tgField:"決定力マップ", tgCurve:"回転曲線グラフ",
+  tgTemp:"温度グラフ", tgSpectrum:"スペクトル", tgMonitor:"保存量モニタ(P・L・帳簿)",
+  savesHeadSave:"現在のパラメータを保存", savesHeadList:"保存一覧", savesHeadBackup:"バックアップ",
+  saveNamePh:"名前(例: 環が安定する設定)", saveCommentPh:"コメント(例: muFを0.8にすると円形化が速い)",
+  btnSave:"保存", btnExport:"エクスポート(コピー)", btnImport:"インポート",
+  ioPh:"エクスポートJSONの表示 / 貼り付けてインポート",
+  noSaves:"保存はまだありません。", untitled:"無題", origin:"元: ",
+  btnLoad:"読込", btnDelete:"削除", btnOpen:"開く",
+  savedAs:(n)=>"保存しました:"+n, loadedAs:(n)=>"読み込みました:"+n,
+  saveFailed:"保存できませんでした(localStorage容量不足の可能性)",
+  copied:"クリップボードにコピーしました", imported:"インポートしました",
+  importFailed:"読み込めませんでした(JSONが不正です)",
+  presetMissing:"元プリセットが見つからないため既定プリセットに適用しました",
+  resetDone:"初期配置に戻しました(パラメータは保持)", defaultsDone:"プリセットの既定値に戻しました",
+  diverged:"数値が発散しました。パラメータを見直すか「⏮ 初めから」を押してください。",
+  aiProvHead:"AIプロバイダ", aiProvLabel:"プロバイダ", aiModelLabel:"モデル", aiUrlLabel:"API URL",
+  keyPersistLabel:"キーをこの端末に保存する", btnKeySave:"キーを設定",
+  aiKeyNote:"キーはこの端末内でのみ使われ、送信先は選択したプロバイダのAPIだけです。保存チェックOFFなら端末にも残りません(タブを閉じると消えます)。",
+  aiGenHead:"新しいシミュレーションを生成", btnGenerate:"生成する", aiListHead:"生成済みプリセット",
+  aiPromptPh:"例: 3つの恒星が絡み合う三体問題。まわりに塵の環も欲しい",
+  apiKeyPh:"APIキー",
+  keySet:"キーを設定しました", keySetSaved:"キーを設定しました(この端末に保存)", keyCleared:"キーを消去しました",
+  noKey:"APIキーを設定してください", noPrompt:"作りたいシミュレーションの説明を入力してください",
+  generating:(m)=>"生成中("+m+")…", retrying:"検証エラーを修正して再試行中…",
+  fallback:(m)=>"上位モデル("+m+")にフォールバック中…",
+  added:(n)=>"追加しました: "+n, autofix:(w)=>"\n(自動修正: "+w+")",
+  genFailed:(e)=>"生成に失敗しました: "+e,
+  errNet:"ネットワークに接続できません", errKey:"APIキーが無効です",
+  errBusy:"混雑しています。しばらく待って再試行してください",
+  errApi:(s,m)=>"APIエラー("+s+") "+m, errRefusal:"生成が拒否されました。要望の表現を変えてみてください",
+  errLong:"生成が長すぎました。要望を簡潔にしてください", errEmpty:"応答が空でした",
+  noCustoms:"AI生成プリセットはまだありません。",
+  helpOps:"操作",
+  helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)を表示。",
+  helpLaws:"この宇宙の法則(要約)",
+  helpLawsBody:"① 空間は質点の相対配置だけで決まる(絶対空間なし)。② 決定力=質量÷距離。決定力の勾配が重力になる。③ 質点は「近くの空間」に対して慣性を持ち、空間ごと引きずられる(kFrame)。遠方宇宙の決定力がD₀。④ スピン=熱(温度T=Is²)。衝突で速度がスピンに変わり(muF)、スピンは斥力=圧力を生み(kRep)、拡散して平衡になる(κs)。⑤ 決定力が高い場所の時計は遅く、空間(共動フレーム)に対して速く動く時計も遅れる。光は同じψ=W/Ktで屈折して曲がり(n=e^{2ψ}。v1.7で時間と光を単一のψに統一)、「決定した空間」に運ばれる(c₀)。⑥ すべての相互作用は作用反作用対称で、運動量・角運動量を厳密に保存する(遠方宇宙との交換は帳簿に記録=保存量モニタ)。温度Tの質点はλ=b_m/Tの光を放射する(η_rad)。詳細は docs/PHYSICS.md(v1.6)。",
+  ovCurve:"v(r): 実測(青) / ケプラー(点線)", ovTemp:"平均温度(Is²) 左/右", ovLeft:"左", ovRight:"右",
+  ovSpec:"放射ピーク λ=b_m/T", ovSpecNone:"放射なし(T≈0)", ovSpecHot:"短λ=高温", ovSpecCold:"長λ=低温",
+  hudClock:"時計τ/t",
+  groups:{}, params:{},
+},
+en: {
+  appTitle:"Virtual Physics Lab", docTitle:"Virtual Physics Lab — Hypothetical-Physics Simulator",
+  reset:"⏮ Restart", run:"▶ Run", resume:"▶ Resume", pause:"⏸ Pause",
+  tabHelp:"Guide", tabParams:"Parameters", tabSaves:"Saves", tabAI:"AI Create",
+  paramDefault:"Restore preset defaults",
+  paramNote:"※ Physics parameters apply instantly, even while running. Initial particle layout/count applies on preset selection or ⏮ Restart.",
+  grpLaws:"Hypothetical physical laws", grpSim:"Simulation", grpDisplay:"Display",
+  tgTrails:"Motion trails", tgField:"Determinacy map", tgCurve:"Rotation-curve graph",
+  tgTemp:"Temperature graph", tgSpectrum:"Spectrum", tgMonitor:"Conservation monitor (P, L, ledger)",
+  savesHeadSave:"Save current parameters", savesHeadList:"Saved items", savesHeadBackup:"Backup",
+  saveNamePh:"Name (e.g. stable-ring settings)", saveCommentPh:"Comment (e.g. muF=0.8 circularizes faster)",
+  btnSave:"Save", btnExport:"Export (copy)", btnImport:"Import",
+  ioPh:"Exported JSON appears here / paste to import",
+  noSaves:"No saves yet.", untitled:"Untitled", origin:"from: ",
+  btnLoad:"Load", btnDelete:"Delete", btnOpen:"Open",
+  savedAs:(n)=>"Saved: "+n, loadedAs:(n)=>"Loaded: "+n,
+  saveFailed:"Could not save (localStorage may be full)",
+  copied:"Copied to clipboard", imported:"Imported",
+  importFailed:"Could not import (invalid JSON)",
+  presetMissing:"Original preset not found — applied to the default preset",
+  resetDone:"Reset to initial layout (parameters kept)", defaultsDone:"Restored preset defaults",
+  diverged:"Simulation diverged. Adjust parameters or press ⏮ Restart.",
+  aiProvHead:"AI provider", aiProvLabel:"Provider", aiModelLabel:"Model", aiUrlLabel:"API URL",
+  keyPersistLabel:"Remember key on this device", btnKeySave:"Set key",
+  aiKeyNote:"Your key is used only on this device and sent only to the selected provider's API. With the checkbox OFF it is kept in memory only (cleared when the tab closes).",
+  aiGenHead:"Generate a new simulation", btnGenerate:"Generate", aiListHead:"Generated presets",
+  aiPromptPh:"e.g. A chaotic three-star system with a ring of dust around it",
+  apiKeyPh:"API key",
+  keySet:"Key set", keySetSaved:"Key set (saved on this device)", keyCleared:"Key cleared",
+  noKey:"Please set an API key first", noPrompt:"Describe the simulation you want to create",
+  generating:(m)=>"Generating ("+m+")…", retrying:"Fixing validation errors, retrying…",
+  fallback:(m)=>"Falling back to a stronger model ("+m+")…",
+  added:(n)=>"Added: "+n, autofix:(w)=>"\n(auto-corrected: "+w+")",
+  genFailed:(e)=>"Generation failed: "+e,
+  errNet:"Network unreachable", errKey:"Invalid API key",
+  errBusy:"Service busy. Please retry shortly",
+  errApi:(s,m)=>"API error ("+s+") "+m, errRefusal:"Generation was refused. Try rephrasing your request",
+  errLong:"Output too long. Try a simpler request", errEmpty:"Empty response",
+  noCustoms:"No AI-generated presets yet.",
+  helpOps:"Controls",
+  helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t).",
+  helpLaws:"Laws of this universe (summary)",
+  helpLawsBody:"(1) Space is defined only by the relative configuration of masses (no absolute space). (2) Determinacy = mass ÷ distance; its gradient is gravity. (3) Masses have inertia relative to the \"nearby space\" and are dragged along with it (kFrame). D₀ is the determinacy of the distant universe. (4) Spin = heat (T = Is²). Collisions convert velocity to spin (muF), spin creates repulsion = pressure (kRep), and diffuses to equilibrium (κs). (5) Clocks run slow where determinacy is high, and clocks moving fast relative to the comoving frame also run slow. Light refracts under the same ψ = W/Kt (n = e^{2ψ}; time and light unified in v1.7) and is carried by the \"determined space\" (c₀). (6) All interactions are action–reaction symmetric and conserve momentum and angular momentum exactly (exchanges with the distant universe are ledgered — see the conservation monitor). A mass at temperature T radiates at λ = b_m/T (η_rad). Details: docs/PHYSICS.md (v1.6).",
+  ovCurve:"v(r): measured (blue) / Kepler (dotted)", ovTemp:"Mean temperature (Is²) L/R", ovLeft:"L", ovRight:"R",
+  ovSpec:"Radiation peak λ=b_m/T", ovSpecNone:"No radiation (T≈0)", ovSpecHot:"short λ = hot", ovSpecCold:"long λ = cold",
+  hudClock:"clock τ/t",
+  groups:{"空間と時間":"Space & Time","光":"Light","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","AI生成":"AI-generated","内蔵":"Built-in"},
+  params:{G:"Gravity G", D0:"Background determinacy D₀", kFrame:"Frame dragging kFrame",
+    q:"Drag falloff q", kRep:"Spin repulsion kRep", muF:"Friction→spin muF",
+    gammaN:"Collision damping γn", kappaS:"Spin diffusion κs", Kt:"Spacetime Kt (time & light)",
+    cLight:"Light speed c₀", bM:"Wien constant b_m", etaRad:"Radiative cooling η_rad",
+    pRad:"Radiation exponent p", radiusScale:"Particle radius scale", softening:"Softening ε",
+    timeScale:"Time multiplier"},
+},
+};
+function T(key){ const d=I18N[LANG], v=(key in d)? d[key] : I18N.ja[key]; return v; }
+function gName(g){ return (LANG==="en" && I18N.en.groups[g]) || g; }
+function pName(p){ return (LANG==="en" && p.en && p.en.name) || p.name; }
+function pDesc(p){ return (LANG==="en" && p.en && p.en.description) || p.description || ""; }
+function paramLabel(def){ return (LANG==="en" && I18N.en.params[def.key]) || def.label; }
 
 // ===== 物理パラメータ定義(PHYSICS.md §5 既定パラメータ表) =====
 const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
@@ -234,6 +355,7 @@ const BUILTIN_PRESETS = [
 // ===== グループ: 空間と時間 =====
 { id:"mach", name:"マッハのバケツ", emoji:"🪣", group:"空間と時間",
   description:"重い回転リングが内側の空間ごと引きずり、静止していた粒子が回り始める(A4/A5/T2)。D₀(遠方宇宙の決定力)を上げると引きずりが弱まる=空間が安定する(T1と対比)。",
+  en:{name:"Mach's Bucket", description:"A heavy rotating ring drags the space inside it, and particles initially at rest begin to circle (A4/A5/T2). Raise D₀ (the determinacy of the distant universe) and the drag weakens — space becomes rigid (contrast with T1)."},
   camera:{scale:220}, world:{boundary:"none",size:0},
   physics:{G:0.02, D0:0.5, timeScale:2},
   bodies:[
@@ -246,6 +368,7 @@ const BUILTIN_PRESETS = [
 
 { id:"twin", name:"双子の時計 — 動く時計は遅れる", emoji:"🕰️", group:"空間と時間",
   description:"光速c₀を12に下げた宇宙。中央の時計は静止、内側の時計は0.5c₀、外側の時計は0.8c₀で周回する。それぞれタップすると固有時計(τ/t)が見える: 1.00/0.87/0.60 — 同じ座標時間tの中で、共動フレームに対して速く動く時計ほどゆっくり刻む(A7′/E7R)。座標時間は宇宙で一意なので「どちらが年を取るか」に曖昧さはない(T9: 時間パラドックスの座標化)。",
+  en:{name:"Twin Clocks — Moving Clocks Run Slow", description:"A universe with light speed c₀ lowered to 12. The central clock rests; the inner one orbits at 0.5c₀, the outer at 0.8c₀. Tap each to see its proper clock (τ/t): 1.00/0.87/0.60 — within one coordinate time t, clocks moving faster relative to the comoving frame tick slower (A7′/E7R). Coordinate time is unique, so \"who ages more\" is unambiguous (T9)."},
   camera:{scale:150}, world:{boundary:"none",size:0},
   physics:{G:0, D0:2, kFrame:0, kRep:0, muF:0, gammaN:0, kappaS:0, etaRad:0,
     Kt:10000, cLight:12, timeScale:2},
@@ -260,6 +383,7 @@ const BUILTIN_PRESETS = [
 
 { id:"drag", name:"引きずられる楕円 — 近点の後退", emoji:"💫", group:"空間と時間",
   description:"ニュートン力学なら楕円軌道は閉じて動かない。中心星のスピンが空間を引きずると(A8+E6′)、楕円ごとゆっくり回転し、光跡が回る花びらを描く。回転の向きは公転と逆=近点の後退で、GRのレンズ=サーリング歳差と同じ符号(v1.8 D4a′。機械裁定=V6)。中心星のスピンを負にすると前進に変わる。",
+  en:{name:"Dragged Ellipse — Periapsis Regression", description:"In Newtonian mechanics an ellipse stays closed. When the central star's spin drags space (A8+E6′), the whole ellipse slowly rotates, tracing a rosette. The turn opposes the orbit — periapsis regression, the same sign as GR's Lense–Thirring precession (v1.8 D4a′, verified V6). A negative central spin turns it into advance."},
   camera:{scale:220}, world:{boundary:"none",size:0},
   physics:{G:1, D0:0.05, kFrame:1, kRep:0, muF:0, gammaN:0, kappaS:0, etaRad:0,
     softening:2, timeScale:8},
@@ -271,6 +395,7 @@ const BUILTIN_PRESETS = [
 
 { id:"galaxy", name:"銀河の回転曲線", emoji:"🌌", group:"空間と時間",
   description:"円盤銀河。初めは星々がケプラー回転(グラフの点線と一致)しているが、空間の引きずり(kFrame=1)が内側の回転を外へ伝え、回転曲線が平坦化していく(T4)。kFrameを0にすると起きない。右下のグラフ(実線=実測、点線=ケプラー予想)に注目。",
+  en:{name:"Galactic Rotation Curve", description:"A disk galaxy. Stars start on Keplerian orbits (matching the dotted line), but frame dragging (kFrame=1) transports the inner rotation outward and the curve flattens (T4). Set kFrame=0 and it never happens. Watch the bottom-right graph (solid=measured, dotted=Keplerian)."},
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{D0:1, muF:0.02, gammaN:0.05, kRep:1.0, softening:4, timeScale:4},
   bodies:[
@@ -283,6 +408,7 @@ const BUILTIN_PRESETS = [
 // ===== グループ: 光 =====
 { id:"lensing", name:"重力レンズと光子捕捉", emoji:"💡", group:"光",
   description:"左から飛ぶ光線が、決定力の高い(=時間の遅い)領域で屈折して曲がる(A7′/T5)。時間の遅れと光の屈折は単一のψ=W/Ktで統一(E7R/E8R)— Ktを下げると両方が同時に強まる。強い場では光が捕まって周回する(光子球の類似)。背景の色は決定力Wの強さ。粒子をタップすると固有時計(τ/t)が見える。",
+  en:{name:"Gravitational Lensing & Photon Capture", description:"Light rays from the left refract and bend where determinacy is high (= time runs slow) (A7′/T5). Time dilation and refraction are unified by one ψ=W/Kt (E7R/E8R) — lower Kt and both strengthen together. In strong fields light is captured into orbit (photon-sphere analogue). Background color = determinacy W. Tap a particle to see its proper clock (τ/t)."},
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{Kt:150, timeScale:1},
   bodies:[
@@ -294,6 +420,7 @@ const BUILTIN_PRESETS = [
 
 { id:"spinlens", name:"回る星のレンズ — 非対称湾曲", emoji:"🌗", group:"光",
   description:"中心星が回転すると、光を運ぶ空間(決定フレーム)も回る(A11)。星の回転と同じ向きに進む光は空間に運ばれて遠くへ流され、逆らって進む光は強く曲がる — 上下対称に入射した光線束が非対称に湾曲する(T8。カー・ブラックホールのフレームドラッグの光学類似。機械検証=V8)。背景の色は決定力W。",
+  en:{name:"Spinning Star's Lens — Asymmetric Bending", description:"When the central star spins, the space carrying light (the determinacy frame) rotates too (A11). Rays moving with the rotation are swept outward; rays moving against it bend sharply — a vertically symmetric fan bends asymmetrically (T8, an optical analogue of Kerr frame dragging; verified V8). Background color = W."},
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{Kt:200, cLight:40, timeScale:1},
   bodies:[
@@ -305,6 +432,7 @@ const BUILTIN_PRESETS = [
 // ===== グループ: 熱の実験室 =====
 { id:"gas", name:"気体の熱平衡", emoji:"🔥", group:"熱の実験室",
   description:"左=低温(青)・右=高温(赤)のガス。衝突で速度がスピン(熱)に変換され(A9)、高スピンは斥力=圧力を生み(A10)、スピン拡散で温度が均一化する(T6)。右下に左右の平均温度バー。全粒子が同質量なのは、異粒径系ではsの均一化とT=Is²の均一化が一致しないため(L9)。",
+  en:{name:"Thermal Equilibrium of a Gas", description:"Cold gas (blue) on the left, hot (red) on the right. Collisions convert velocity into spin = heat (A9), high spin creates repulsion = pressure (A10), and spin diffusion equalizes temperature (T6). Bottom right: mean-temperature bars. All particles share one mass because with mixed sizes, equalizing s does not equalize T=Is² (L9)."},
   camera:{scale:240}, world:{boundary:"box",size:200},
   physics:{G:0.05, D0:50, kFrame:0.2, kRep:2, muF:0.8, gammaN:0.3, kappaS:0.15, timeScale:2},
   bodies:[
@@ -315,6 +443,7 @@ const BUILTIN_PRESETS = [
 
 { id:"pressure", name:"スピン圧 — 熱は押し広げる", emoji:"🎈", group:"熱の実験室",
   description:"重力ゼロの円形容器。中央の熱い(高スピン)ガスがスピン斥力(A10)で押しのけ合い、周りの冷たいガスの殻を外へ押し広げていく — 圧力の正体は温度。やがて接触摩擦とスピン拡散で熱が外側へ渡り、全体が同じ温度に落ち着く(T6)。色=温度。※スピン圧の状態方程式は理想気体則とは異なる(P∝ρ²T。第4次裁定・L15)。",
+  en:{name:"Spin Pressure — Heat Pushes Outward", description:"A circular container, zero gravity. The hot (high-spin) core pushes outward via spin repulsion (A10), inflating the shell of cold gas — pressure IS temperature. Friction and spin diffusion then pass the heat outward until one temperature remains (T6). Color = temperature. Note: the spin-pressure equation of state is not the ideal-gas law (P∝ρ²T; L15)."},
   camera:{scale:240}, world:{boundary:"circle",size:210},
   physics:{G:0, D0:50, kFrame:0, kRep:2, muF:0.2, gammaN:0.3, kappaS:0.05, etaRad:0, timeScale:2},
   bodies:[
@@ -327,6 +456,7 @@ const BUILTIN_PRESETS = [
 
 { id:"conduction", name:"熱伝導 — 近いほど速く伝わる", emoji:"📏", group:"熱の実験室",
   description:"力を全て切った、静止した粒の列。左端の白熱粒(固定=熱浴)から、接触していない粒の列をスピン拡散(E10′)だけで熱が飛び移っていく。上の列は間隔9、下の列は間隔18 — 飛び移りは近いほど強い(カーネルg(d))ので、密な上の列は同じ距離でも高温になり、列全体が運ぶ熱は約2倍。よく見ると熱は隙間を飛び越えて遠くへも薄く届く(接触不要の長距離伝達 — 第4次裁定L16の可視化)。色=温度。",
+  en:{name:"Heat Conduction — Closer Spreads Faster", description:"Rows of resting particles, all forces off. From the white-hot pinned particle (heat bath) at the left end, heat hops along the non-touching row by spin diffusion (E10′) alone. Top row spacing 9, bottom 18 — hops are stronger when closer (kernel g(d)), so the dense row runs hotter and carries about twice the heat. Look closely: heat also leaks faintly across gaps (contact-free long-range transfer — L16 visualized). Color = temperature."},
   camera:{scale:200}, world:{boundary:"none",size:0},
   physics:{G:0, D0:50, kFrame:0, kRep:0, muF:0, gammaN:0, kappaS:1.5, etaRad:0, timeScale:4},
   bodies:[
@@ -363,6 +493,7 @@ const BUILTIN_PRESETS = [
 
 { id:"phase", name:"固体・液体・気体", emoji:"🧊", group:"熱の実験室",
   description:"質量・数・大きさ・初速が完全に同一の3つの雲 — 違いは初期スピン(温度)だけの統制実験。左=低温: 重力で収縮し結晶化する固体。中=中温: 流動する液体。右=高温: スピン斥力で蒸発し箱に充満する気体。※これは束縛と斥力の競合による形態のアナロジーで、実在物質の潜熱・相平衡の再現ではない(第4次裁定)。色=温度。",
+  en:{name:"Solid, Liquid, Gas", description:"Three clouds identical in mass, count, size and initial speed — only the initial spin (temperature) differs: a controlled experiment. Left = cold: gravity wins, it crystallizes (solid). Middle = warm: it flows (liquid). Right = hot: spin repulsion evaporates it to fill the box (gas). A morphological analogy of binding vs repulsion — not real latent-heat phase transitions. Color = temperature."},
   camera:{scale:260}, world:{boundary:"box",size:240},
   physics:{G:0.7, D0:30, kFrame:0.3, kRep:0.8, muF:0.6, gammaN:0.85, kappaS:0.02,
     radiusScale:1.6, timeScale:2},
@@ -376,50 +507,61 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
-{ id:"convection", name:"加熱の対流", emoji:"♨️", group:"熱の実験室",
-  description:"床のヒーター(pinned=スピン一定の熱浴)が、接触摩擦とスピン拡散でガスを加熱する。熱いガスはスピン斥力で膨らんで浮かび、床を離れると放射(η_rad·T⁴)で冷えて沈む——下面加熱の対流。画面外の遠い大質量が箱全体を下向きに引く重力の役をする。※対流の定性デモ(Ra–Nuの定量則は目的外。第4次裁定)。",
+{ id:"convection", name:"加熱の対流 — 片側ヒーター", emoji:"♨️", group:"熱の実験室",
+  description:"床の左半分だけがヒーター(pinned=スピン一定の熱浴)、右の壁は冷たい壁(スピン0の熱浴)。左で温められたガスはスピン斥力で膨らんで浮かび、右へ流れて冷壁に熱を渡して沈む——片側加熱がつくる一方向の対流セル。画面外の遠い大質量が箱全体を下向きに引く重力の役。※v1.10 再設計: 旧構成(全面ヒーター+重いガス)はガスの自己重力で1塊に凍結した(機械診断で再現)。粒子を軽くして自己重力を消し、左右の温度差でセルを駆動する。左右の平均温度は右下のグラフ。",
+  en:{name:"Convection — Half-Floor Heater", description:"Only the left half of the floor is a heater (pinned = constant-spin heat bath); the right wall is cold (spin-0 bath). Gas warmed on the left inflates via spin repulsion and rises, drifts right, dumps heat into the cold wall and sinks — a one-directional convection cell driven by one-sided heating. A distant mass off-screen provides downward gravity. Redesigned in v1.10: the old setup froze into one clump under the gas's self-gravity (machine-diagnosed); light particles + a lateral temperature contrast keep the cell turning. Bottom right: mean temperatures L/R."},
   camera:{scale:240}, world:{boundary:"box",size:190},
-  physics:{G:4, D0:40, kFrame:0.2, kRep:1, muF:0.5, gammaN:0.3, kappaS:0.4,
-    etaRad:1.5e-5, pRad:4, radiusScale:3, softening:4, timeScale:2},
-  bodies:[
-    {type:"single", m:5000, x:0,y:900, vx:0,vy:0, spin:0, pinned:true},
-    {type:"single", m:1, x:-170,y:186, vx:0,vy:0, spin:8,  pinned:true},
-    {type:"single", m:1, x:-150,y:186, vx:0,vy:0, spin:8,  pinned:true},
-    {type:"single", m:1, x:-130,y:186, vx:0,vy:0, spin:8,  pinned:true},
-    {type:"single", m:1, x:-110,y:186, vx:0,vy:0, spin:8,  pinned:true},
-    {type:"single", m:1, x:-90, y:186, vx:0,vy:0, spin:8,  pinned:true},
-    {type:"single", m:1, x:-70, y:186, vx:0,vy:0, spin:8,  pinned:true},
-    {type:"single", m:1, x:-50, y:186, vx:0,vy:0, spin:8,  pinned:true},
-    {type:"single", m:1, x:-30, y:186, vx:0,vy:0, spin:8,  pinned:true},
-    {type:"single", m:1, x:-10, y:186, vx:0,vy:0, spin:8,  pinned:true},
-    {type:"single", m:1, x:10,  y:186, vx:0,vy:0, spin:8,  pinned:true},
-    {type:"single", m:1, x:30,  y:186, vx:0,vy:0, spin:8,  pinned:true},
-    {type:"single", m:1, x:50,  y:186, vx:0,vy:0, spin:8,  pinned:true},
-    {type:"single", m:1, x:70,  y:186, vx:0,vy:0, spin:8,  pinned:true},
-    {type:"single", m:1, x:90,  y:186, vx:0,vy:0, spin:8,  pinned:true},
-    {type:"single", m:1, x:110, y:186, vx:0,vy:0, spin:8,  pinned:true},
-    {type:"single", m:1, x:130, y:186, vx:0,vy:0, spin:8,  pinned:true},
-    {type:"single", m:1, x:150, y:186, vx:0,vy:0, spin:8,  pinned:true},
-    {type:"single", m:1, x:170, y:186, vx:0,vy:0, spin:8,  pinned:true},
-    {type:"box", n:230, cx:0,cy:-10, w:360,h:330, mMin:0.3,mMax:0.3,
-     spinMin:0,spinMax:0.3, vScale:0.4}
+  physics:{G:1.5, D0:40, kFrame:0.2, kRep:2, muF:0.3, gammaN:0.2, kappaS:0.8,
+    etaRad:1e-5, pRad:2, radiusScale:4, softening:4, timeScale:2},
+  bodies:[ // v1.10(付録J): 機械実験 conv-E1 採用 — 軽量ガス(自己重力消去)+片側ヒーター+冷壁
+    {type:"single", m:13000, x:0,y:900, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", m:1, x:-170,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", m:1, x:-150,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", m:1, x:-130,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", m:1, x:-110,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", m:1, x:-90, y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", m:1, x:-70, y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", m:1, x:-50, y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", m:1, x:-30, y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", m:1, x:-10, y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", m:1, x:170,y:-160, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", m:1, x:170,y:-140, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", m:1, x:170,y:-120, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", m:1, x:170,y:-100, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", m:1, x:170,y:-80,  vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", m:1, x:170,y:-60,  vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", m:1, x:170,y:-40,  vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", m:1, x:170,y:-20,  vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", m:1, x:170,y:0,    vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", m:1, x:170,y:20,   vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", m:1, x:170,y:40,   vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", m:1, x:170,y:60,   vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", m:1, x:170,y:80,   vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", m:1, x:170,y:100,  vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", m:1, x:170,y:120,  vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", m:1, x:170,y:140,  vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", m:1, x:170,y:160,  vx:0,vy:0, spin:0, pinned:true},
+    {type:"box", n:260, cx:0,cy:-10, w:340,h:320, mMin:0.05,mMax:0.05,
+     spinMin:1,spinMax:2, vScale:0.4}
   ],
-  overlays:{rotationCurve:false,tempHistogram:false,field:false} },
+  overlays:{rotationCurve:false,tempHistogram:true,field:false} },
 
 // ===== グループ: 天体の物語 =====
 { id:"saturn", name:"土星の環", emoji:"🪐", group:"天体の物語",
-  description:"中心星のまわりをケプラー運動する環。衝突(muF)が乱れた軌道を円形化し、回転方向が揃っていく(T3)。中心星のスピンは近傍の空間を引きずる(A8)。",
+  description:"中心星のまわりをケプラー運動する環。衝突(muF)が乱れた軌道を円形化し、回転方向が揃っていく(T3)。中心星のスピンは近傍の空間を引きずる(A8)。※v1.10 安定化: 中心星を固定し環を星から離した(旧構成は環の反作用で中心星が漂い、t≈380で環の45%が飛散 — 機械計測で確認。新構成は残存99.7%)。",
+  en:{name:"Saturn's Rings", description:"A ring in Keplerian motion around the central star. Collisions (muF) circularize disturbed orbits and align the rotation (T3). The central star's spin drags nearby space (A8). v1.10 stabilized: the star is pinned and the ring moved outward (machine-measured: 99.7% of the ring survives vs 55% in the old setup)."},
   camera:{scale:170}, world:{boundary:"none",size:0},
   physics:{muF:0.6, gammaN:0.5, timeScale:4},
-  bodies:[
-    {type:"single", m:1200, x:0,y:0, vx:0,vy:0, spin:0.04, pinned:false},
-    {type:"ring", n:340, cx:0,cy:0, rIn:60,rOut:150, mMin:0.05,mMax:0.3,
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:1200, omega:0, vNoise:0.06, direction:1, pinned:false}
+  bodies:[ // v1.10(付録J): 機械実験 saturn-pinned-far 採用 — pinned 中心+rIn75(星半径41.6の1.8倍)
+    {type:"single", m:1200, x:0,y:0, vx:0,vy:0, spin:0.04, pinned:true},
+    {type:"ring", n:340, cx:0,cy:0, rIn:75,rOut:160, mMin:0.05,mMax:0.2,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:1200, omega:0, vNoise:0.03, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"snowline", name:"雪線 — 熱は塊を融かす", emoji:"❄️", group:"天体の物語",
   description:"同じ塵の環を冷たい星(左)と熱い星(右)に与えた対照実験。冷たい環では塵が衝突で固まり小衛星が育つ(T3)が、熱い星の環では星の熱がスピン拡散(E10′)で塵へ流れ込み、生まれかけた塊は摩擦の撹拌(A9)でほどけて塊になれない。環はやがて蒸発し、飛ばされた塵は熱の届かぬ遠方で再び固まる。右下: 左右の平均温度。",
+  en:{name:"The Snow Line — Heat Melts Clumps", description:"The same dust ring around a cold star (left) and a hot star (right) — a controlled contrast. In the cold ring, dust sticks into growing moonlets (T3); in the hot ring, stellar heat flows into the dust by spin diffusion (E10′) and friction churn (A9) unravels nascent clumps. That ring evaporates, and the ejected dust re-condenses far away, beyond the heat's reach. Bottom right: mean temperatures."},
   camera:{scale:380}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0.6, gammaN:0.5, kappaS:1.2,
     etaRad:0.15, pRad:1, timeScale:4},
@@ -1012,7 +1154,7 @@ function drawRotationCurve(){
   ctx.fillStyle="rgba(12,16,34,0.82)"; ctx.fillRect(X,Y,W,H);
   ctx.strokeStyle="#2a3060"; ctx.strokeRect(X,Y,W,H);
   ctx.font="9px sans-serif"; ctx.fillStyle="#8b93c8";
-  ctx.fillText("v(r): 実測(青) / ケプラー(点線)",X+6,Y+11);
+  ctx.fillText(T("ovCurve"),X+6,Y+11);
   let vmax=0.01;
   curveData.meas.forEach(v=>{if(v&&v>vmax)vmax=v;});
   curveData.kep.forEach(v=>{if(v>vmax)vmax=v;});
@@ -1031,6 +1173,7 @@ function drawTempHistogram(){
   if((tempTick++%10)===0){
     let sl=0,cl=0,sr=0,cr=0;
     for(let i=0;i<sim.n;i++){
+      if(sim.pinned[i]) continue; // v1.10: pinned=熱浴・恒星は除外(物質側の温度を測る。付録J)
       const T=0.5*sim.m[i]*sim.R[i]*sim.R[i]*sim.spin[i]*sim.spin[i]; // T=Is²(A9 v1.1)
       if(sim.x[i]<0){sl+=T;cl++;}else{sr+=T;cr++;}
     }
@@ -1041,11 +1184,11 @@ function drawTempHistogram(){
   ctx.fillStyle="rgba(12,16,34,0.82)"; ctx.fillRect(X,Y,W,H);
   ctx.strokeStyle="#2a3060"; ctx.strokeRect(X,Y,W,H);
   ctx.font="9px sans-serif"; ctx.fillStyle="#8b93c8";
-  ctx.fillText("平均温度(Is²) 左/右",X+6,Y+11);
+  ctx.fillText(T("ovTemp"),X+6,Y+11);
   const mx=Math.max(0.01,sim.tempLR[0],sim.tempLR[1]);
   ctx.fillStyle="#6aa5ff"; ctx.fillRect(X+18,Y+H-12-(sim.tempLR[0]/mx)*(H-34),26,(sim.tempLR[0]/mx)*(H-34));
   ctx.fillStyle="#ff9d45"; ctx.fillRect(X+58,Y+H-12-(sim.tempLR[1]/mx)*(H-34),26,(sim.tempLR[1]/mx)*(H-34));
-  ctx.fillStyle="#8b93c8"; ctx.fillText("左",X+26,Y+H-3); ctx.fillText("右",X+66,Y+H-3);
+  ctx.fillStyle="#8b93c8"; ctx.fillText(T("ovLeft"),X+26,Y+H-3); ctx.fillText(T("ovRight"),X+66,Y+H-3);
   // 時系列
   let hm=0.01; sim.histT.forEach(a=>{hm=Math.max(hm,a[0],a[1]);});
   const hx=(k)=>X+96+(k/59)*(W-104);
@@ -1092,8 +1235,8 @@ function drawSpectrum(){
   ctx.fillStyle="rgba(12,16,34,0.82)"; ctx.fillRect(X,Y,W,H);
   ctx.strokeStyle="#2a3060"; ctx.strokeRect(X,Y,W,H);
   ctx.font="9px sans-serif"; ctx.fillStyle="#8b93c8";
-  ctx.fillText("放射ピーク λ=b_m/T",X+6,Y+11);
-  if(specData.empty){ ctx.fillText("放射なし(T≈0)",X+6,Y+H/2); return; }
+  ctx.fillText(T("ovSpec"),X+6,Y+11);
+  if(specData.empty){ ctx.fillText(T("ovSpecNone"),X+6,Y+H/2); return; }
   const bw=(W-16)/BINS;
   for(let b2=0;b2<BINS;b2++){
     if(specData.lum[b2]<=0) continue;
@@ -1104,8 +1247,8 @@ function drawSpectrum(){
     ctx.fillRect(X+8+b2*bw, Y+H-14-h, Math.max(1.5,bw-1), h);
   }
   ctx.fillStyle="#8b93c8";
-  ctx.fillText("短λ=高温",X+6,Y+H-3);
-  const txt="長λ=低温"; ctx.fillText(txt,X+W-6-ctx.measureText(txt).width,Y+H-3);
+  ctx.fillText(T("ovSpecHot"),X+6,Y+H-3);
+  const txt=T("ovSpecCold"); ctx.fillText(txt,X+W-6-ctx.measureText(txt).width,Y+H-3);
   ctx.fillText(fmt(Math.pow(10,specLo)),X+8,Y+22);
   const t2=fmt(Math.pow(10,specHi)); ctx.fillText(t2,X+W-8-ctx.measureText(t2).width,Y+22);
 }
@@ -1192,7 +1335,7 @@ function render(){
     const Ti=0.5*sim.m[i]*sim.R[i]*sim.R[i]*sim.spin[i]*sim.spin[i];
     const lam=(Ti>1e-12)? fmt(sim.params.bM/Ti) : "—";
     ctx.font="10px sans-serif"; ctx.fillStyle="#dfe4ff";
-    ctx.fillText(`m=${fmt(sim.m[i])} s=${fmt(sim.spin[i])} T=${fmt(Ti)} λ=${lam} 時計τ/t=${(frac*100).toFixed(1)}%`,8,ch-10);
+    ctx.fillText(`m=${fmt(sim.m[i])} s=${fmt(sim.spin[i])} T=${fmt(Ti)} λ=${lam} ${T("hudClock")}=${(frac*100).toFixed(1)}%`,8,ch-10);
   }
   if(sim.overlays.rotationCurve) drawRotationCurve();
   if(sim.overlays.tempHistogram) drawTempHistogram();
@@ -1211,7 +1354,7 @@ function loop(now){
     for(let s2=0;s2<k;s2++) sim.step(DT);
     if((frameCount%30)===0 && sim.hasNaN()){
       running=false; updatePlayBtn();
-      notify("数値が発散しました。パラメータを見直すか「⏮ 初めから」を押してください。",4000);
+      notify(T("diverged"),4000);
       nanNotified=true;
     }
   }
@@ -1248,15 +1391,15 @@ function rebuildPresetSelect(selId){
   let og=null, curGroup=null;
   BUILTIN_PRESETS.forEach(p=>{
     const g=p.group||"内蔵";
-    if(g!==curGroup){ curGroup=g; og=document.createElement("optgroup"); og.label=g; sel.appendChild(og); }
+    if(g!==curGroup){ curGroup=g; og=document.createElement("optgroup"); og.label=gName(g); sel.appendChild(og); }
     const o=document.createElement("option");
-    o.value=p.id; o.textContent=(p.emoji||"")+" "+p.name; og.appendChild(o);
+    o.value=p.id; o.textContent=(p.emoji||"")+" "+pName(p); og.appendChild(o);
   });
   const customs=getCustomPresets();
   if(customs.length){
-    const og2=document.createElement("optgroup"); og2.label="AI生成";
+    const og2=document.createElement("optgroup"); og2.label=gName("AI生成");
     customs.forEach(p=>{ const o=document.createElement("option");
-      o.value=p.id; o.textContent="🤖 "+(p.emoji||"")+" "+p.name; og2.appendChild(o); });
+      o.value=p.id; o.textContent="🤖 "+(p.emoji||"")+" "+pName(p); og2.appendChild(o); });
     sel.appendChild(og2);
   }
   if(selId) sel.value=selId;
@@ -1278,7 +1421,7 @@ function loadPreset(id, keepPhysics){
 // ===== トランスポート =====
 function updatePlayBtn(){
   const b=$("#btnPlay");
-  b.textContent=running?"⏸ 停止":"▶ "+(sim.t>0?"再開":"実行");
+  b.textContent=running?T("pause"):(sim.t>0?T("resume"):T("run"));
   b.classList.toggle("playing",running);
 }
 $("#btnPlay").addEventListener("click",()=>{ running=!running; updatePlayBtn(); });
@@ -1288,7 +1431,7 @@ $("#btnReset").addEventListener("click",()=>{
   loadPreset(currentPreset.id,false);
   sim.params=keep; sim.updateRadii();
   buildParamRows();
-  notify("初期配置に戻しました(パラメータは保持)");
+  notify(T("resetDone"));
 });
 $("#speedSel").addEventListener("change",e=>{
   const base=basePhysics?basePhysics.timeScale:1;
@@ -1321,11 +1464,11 @@ function buildParamRows(){
   for(const def of PARAM_DEFS){
     if(def.group!==curGroup){ curGroup=def.group;
       groupDiv=document.createElement("div"); groupDiv.className="group";
-      const h=document.createElement("h3"); h.textContent=def.group==="法則"?"仮定物理法則":"シミュレーション";
+      const h=document.createElement("h3"); h.textContent=def.group==="法則"?T("grpLaws"):T("grpSim");
       groupDiv.appendChild(h); host.appendChild(groupDiv); }
     const key=def.key;
     const row=document.createElement("div"); row.className="prow";
-    const lab=document.createElement("label"); lab.textContent=def.label;
+    const lab=document.createElement("label"); lab.textContent=paramLabel(def);
     const rng=document.createElement("input"); rng.type="range";
     if(def.mode==="log"){ rng.min=0; rng.max=1000; rng.step=1; }
     else { rng.min=def.lo; rng.max=def.hi; rng.step=def.step; }
@@ -1354,13 +1497,13 @@ function buildParamRows(){
   }
   // 表示設定
   const disp=document.createElement("div"); disp.className="group";
-  const h=document.createElement("h3"); h.textContent="表示"; disp.appendChild(h);
-  const toggles=[["trails","軌跡を残す",()=>trailsOn,(v)=>trailsOn=v],
-    ["field","決定力マップ",()=>!!sim.overlays.field,(v)=>sim.overlays.field=v],
-    ["rotationCurve","回転曲線グラフ",()=>!!sim.overlays.rotationCurve,(v)=>sim.overlays.rotationCurve=v],
-    ["tempHistogram","温度グラフ",()=>!!sim.overlays.tempHistogram,(v)=>sim.overlays.tempHistogram=v],
-    ["spectrum","スペクトル",()=>!!sim.overlays.spectrum,(v)=>sim.overlays.spectrum=v],
-    ["monitor","保存量モニタ(P・L・帳簿)",()=>monitorOn,(v)=>monitorOn=v]];
+  const h=document.createElement("h3"); h.textContent=T("grpDisplay"); disp.appendChild(h);
+  const toggles=[["trails",T("tgTrails"),()=>trailsOn,(v)=>trailsOn=v],
+    ["field",T("tgField"),()=>!!sim.overlays.field,(v)=>sim.overlays.field=v],
+    ["rotationCurve",T("tgCurve"),()=>!!sim.overlays.rotationCurve,(v)=>sim.overlays.rotationCurve=v],
+    ["tempHistogram",T("tgTemp"),()=>!!sim.overlays.tempHistogram,(v)=>sim.overlays.tempHistogram=v],
+    ["spectrum",T("tgSpectrum"),()=>!!sim.overlays.spectrum,(v)=>sim.overlays.spectrum=v],
+    ["monitor",T("tgMonitor"),()=>monitorOn,(v)=>monitorOn=v]];
   toggles.forEach(([id,label,get,set])=>{
     const row=document.createElement("div"); row.className="prow";
     const lab=document.createElement("label"); lab.textContent=label; lab.style.flex="1";
@@ -1372,43 +1515,43 @@ function buildParamRows(){
 }
 $("#btnParamDefault").addEventListener("click",()=>{
   sim.params=Object.assign({},basePhysics); sim.updateRadii(); buildParamRows();
-  notify("プリセットの既定値に戻しました");
+  notify(T("defaultsDone"));
 });
 
 // ===== セーブタブ =====
 function getSaves(){ try{ const a=JSON.parse(localStorage.getItem("hp_saves")||"[]"); return Array.isArray(a)?a:[]; }catch(e){ return []; } }
 function setSaves(a){ localStorage.setItem("hp_saves",JSON.stringify(a)); }
 $("#btnSave").addEventListener("click",()=>{
-  const name=($("#saveName").value.trim()||"無題 "+new Date().toLocaleString("ja-JP"));
+  const name=($("#saveName").value.trim()||T("untitled")+" "+new Date().toLocaleString(LANG==="en"?"en-US":"ja-JP"));
   const item={ name, comment:$("#saveComment").value, savedAt:new Date().toISOString(),
     presetId:currentPreset.id, presetName:currentPreset.name,
     physics:Object.assign({},sim.params), cameraScale:camScale };
   try{ const a=getSaves(); a.unshift(item); setSaves(a); }
-  catch(e){ alert("保存できませんでした(localStorage容量不足の可能性)"); return; }
+  catch(e){ alert(T("saveFailed")); return; }
   $("#saveName").value=""; $("#saveComment").value="";
-  renderSaves(); notify("保存しました:"+name);
+  renderSaves(); notify(T("savedAs")(name));
 });
 function renderSaves(){
   const host=$("#saveList"); host.textContent="";
   const a=getSaves();
-  if(!a.length){ const p=document.createElement("p"); p.className="note"; p.textContent="保存はまだありません。"; host.appendChild(p); return; }
+  if(!a.length){ const p=document.createElement("p"); p.className="note"; p.textContent=T("noSaves"); host.appendChild(p); return; }
   a.forEach((s,idx)=>{
     const d=document.createElement("div"); d.className="saveItem";
     const n=document.createElement("div"); n.className="name"; n.textContent=s.name;
     const meta=document.createElement("div"); meta.className="meta";
-    meta.textContent=`${new Date(s.savedAt).toLocaleString("ja-JP")} / 元: ${s.presetName||s.presetId}`;
+    meta.textContent=`${new Date(s.savedAt).toLocaleString(LANG==="en"?"en-US":"ja-JP")} / ${T("origin")}${s.presetName||s.presetId}`;
     const c=document.createElement("div"); c.className="comment"; c.textContent=s.comment||"";
     const btns=document.createElement("div"); btns.className="rowBtns";
-    const bl=document.createElement("button"); bl.className="btn primary"; bl.textContent="読込";
+    const bl=document.createElement("button"); bl.className="btn primary"; bl.textContent=T("btnLoad");
     bl.addEventListener("click",()=>{
       const exists=allPresets().some(p=>p.id===s.presetId);
       loadPreset(exists?s.presetId:BUILTIN_PRESETS[0].id,false);
       sim.params=Object.assign({},DEFAULT_PHYSICS,s.physics); sim.updateRadii();
       if(s.cameraScale) camScale=s.cameraScale;
-      buildParamRows(); notify("読み込みました:"+s.name);
-      if(!exists) notify("元プリセットが見つからないため既定プリセットに適用しました",3500);
+      buildParamRows(); notify(T("loadedAs")(s.name));
+      if(!exists) notify(T("presetMissing"),3500);
     });
-    const bd=document.createElement("button"); bd.className="btn danger"; bd.textContent="削除";
+    const bd=document.createElement("button"); bd.className="btn danger"; bd.textContent=T("btnDelete");
     bd.addEventListener("click",()=>{ const arr=getSaves(); arr.splice(idx,1); setSaves(arr); renderSaves(); });
     btns.appendChild(bl); btns.appendChild(bd);
     d.appendChild(n); d.appendChild(meta); if(s.comment) d.appendChild(c); d.appendChild(btns);
@@ -1418,7 +1561,7 @@ function renderSaves(){
 $("#btnExport").addEventListener("click",()=>{
   const data=JSON.stringify({version:1, saves:getSaves(), customPresets:getCustomPresets()},null,1);
   $("#ioArea").value=data;
-  if(navigator.clipboard) navigator.clipboard.writeText(data).then(()=>notify("クリップボードにコピーしました"),()=>{});
+  if(navigator.clipboard) navigator.clipboard.writeText(data).then(()=>notify(T("copied")),()=>{});
 });
 $("#btnImport").addEventListener("click",()=>{
   try{
@@ -1431,8 +1574,8 @@ $("#btnImport").addEventListener("click",()=>{
         if(v.ok){ v.preset.id=c.id&&String(c.id).startsWith("custom_")?c.id:"custom_"+Date.now()+"_"+add.length; add.push(v.preset); } }
       setCustomPresets(cur.concat(add));
     }
-    rebuildPresetSelect(currentPreset.id); renderSaves(); notify("インポートしました");
-  }catch(e){ notify("読み込めませんでした(JSONが不正です)",3000); }
+    rebuildPresetSelect(currentPreset.id); renderSaves(); notify(T("imported"));
+  }catch(e){ notify(T("importFailed"),3000); }
 });
 
 // ===== AIタブ(実行時LLM: docs/HANDOFF_RUNTIME_LLM.md の焼き込み) =====
@@ -1486,100 +1629,197 @@ function extractJSON(text){
   if(f>=0 && l>f) t=t.slice(f,l+1);   // 前後の説明文・コードフェンスを除去
   return t;
 }
-
-async function callClaude(model, messages){
-  const key=localStorage.getItem("hp_key")||"";
-  const body={ model, max_tokens:4000, system:SYSTEM_PROMPT, messages };
-  if(model.indexOf("sonnet")>=0 || model.indexOf("opus")>=0) body.thinking={type:"disabled"};
-  let resp;
-  try{
-    resp=await fetch("https://api.anthropic.com/v1/messages",{
-      method:"POST",
-      headers:{ "content-type":"application/json", "x-api-key":key,
-        "anthropic-version":"2023-06-01",
-        "anthropic-dangerous-direct-browser-access":"true" },
-      body:JSON.stringify(body) });
-  }catch(e){ throw new Error("ネットワークに接続できません"); }
-  if(!resp.ok){
-    if(resp.status===401) throw new Error("APIキーが無効です");
-    if(resp.status===429||resp.status===529) throw new Error("混雑しています。しばらく待って再試行してください");
-    let msg=""; try{ const j=await resp.json(); msg=j.error&&j.error.message||""; }catch(e){}
-    throw new Error("APIエラー("+resp.status+") "+msg.slice(0,120));
-  }
-  const data=await resp.json();
-  if(data.stop_reason==="refusal") throw new Error("生成が拒否されました。要望の表現を変えてみてください");
-  if(data.stop_reason==="max_tokens") throw new Error("生成が長すぎました。要望を簡潔にしてください");
-  const block=(data.content||[]).find(b=>b.type==="text");
-  if(!block) throw new Error("応答が空でした");
-  return block.text;
+// UI言語が英語のときは name/description を英語で書かせる(few-shot は形式見本として共通)
+function getSystemPrompt(){
+  if(LANG==="en") return SYSTEM_PROMPT +
+    "\n\n# Language override\nWrite the \"name\" (max 30 chars) and \"description\" (max 200 chars) fields in English. All other rules are unchanged.";
+  return SYSTEM_PROMPT;
 }
 
-// 段構え: Haiku → 検証NG時リトライ1回 → Sonnet 5 フォールバック(HANDOFF_RUNTIME_LLM.md)
-async function generatePreset(userText, model, onStage){
+// ===== AIプロバイダ抽象化(v1.10): Claude / OpenAI互換 / Gemini、モデルIDは自由入力 =====
+const AI_PROVIDERS={
+  anthropic:{ models:["claude-haiku-4-5","claude-sonnet-5","claude-opus-4-8"],
+    defModel:"claude-haiku-4-5", keyPh:"sk-ant-..." },
+  openai:{ models:["gpt-5-mini","gpt-5","gpt-4.1-mini"],
+    defModel:"gpt-5-mini", keyPh:"sk-...", defBase:"https://api.openai.com/v1" },
+  gemini:{ models:["gemini-2.5-flash","gemini-2.5-pro"],
+    defModel:"gemini-2.5-flash", keyPh:"AIza..." },
+};
+const sessionKeys={};   // 「この端末に保存」OFF時のキー置き場(メモリのみ。タブを閉じると消える)
+// 旧設定(hp_key/hp_model)からの移行: 既に保存していたユーザーの挙動は維持する
+(function migrateAI(){
+  const ok=localStorage.getItem("hp_key");
+  if(ok && !localStorage.getItem("hp_key_anthropic")) localStorage.setItem("hp_key_anthropic",ok);
+  const om=localStorage.getItem("hp_model");
+  if(om && !localStorage.getItem("hp_model_anthropic")) localStorage.setItem("hp_model_anthropic",om);
+  if(ok) localStorage.removeItem("hp_key");
+  if(om) localStorage.removeItem("hp_model");
+})();
+function aiCfg(){
+  let p=localStorage.getItem("hp_provider")||"anthropic";
+  if(!AI_PROVIDERS[p]) p="anthropic";
+  return { provider:p,
+    model:(localStorage.getItem("hp_model_"+p)||AI_PROVIDERS[p].defModel),
+    baseUrl:(localStorage.getItem("hp_baseurl_openai")||AI_PROVIDERS.openai.defBase).replace(/\/+$/,""),
+    key: sessionKeys[p]!==undefined ? sessionKeys[p] : (localStorage.getItem("hp_key_"+p)||"") };
+}
+async function fetchJSON(url, headers, body){
+  let resp;
+  try{ resp=await fetch(url,{method:"POST",headers,body:JSON.stringify(body)}); }
+  catch(e){ throw new Error(T("errNet")); }
+  if(!resp.ok){
+    if(resp.status===401||resp.status===403) throw new Error(T("errKey"));
+    if(resp.status===429||resp.status===503||resp.status===529) throw new Error(T("errBusy"));
+    let msg=""; try{ const j=await resp.json(); msg=(j.error&&(j.error.message||j.error.msg))||""; }catch(e){}
+    throw new Error(T("errApi")(resp.status,String(msg).slice(0,120)));
+  }
+  return resp.json();
+}
+// 3プロバイダ共通の呼び出し: system+messages(user/assistant)→ 応答テキスト
+async function callLLM(cfg, model, messages){
+  const sys=getSystemPrompt();
+  if(cfg.provider==="anthropic"){
+    const body={ model, max_tokens:4000, system:sys, messages };
+    if(model.indexOf("sonnet")>=0 || model.indexOf("opus")>=0) body.thinking={type:"disabled"};
+    const data=await fetchJSON("https://api.anthropic.com/v1/messages",
+      { "content-type":"application/json", "x-api-key":cfg.key, "anthropic-version":"2023-06-01",
+        "anthropic-dangerous-direct-browser-access":"true" }, body);
+    if(data.stop_reason==="refusal") throw new Error(T("errRefusal"));
+    if(data.stop_reason==="max_tokens") throw new Error(T("errLong"));
+    const block=(data.content||[]).find(b=>b.type==="text");
+    if(!block) throw new Error(T("errEmpty"));
+    return block.text;
+  }
+  if(cfg.provider==="openai"){
+    const body={ model, messages:[{role:"system",content:sys}].concat(messages) };
+    const data=await fetchJSON(cfg.baseUrl+"/chat/completions",
+      { "content-type":"application/json", "authorization":"Bearer "+cfg.key }, body);
+    const ch=data.choices&&data.choices[0];
+    if(!ch||!ch.message||!ch.message.content) throw new Error(T("errEmpty"));
+    if(ch.finish_reason==="length") throw new Error(T("errLong"));
+    return ch.message.content;
+  }
+  // gemini
+  const body={ systemInstruction:{parts:[{text:sys}]},
+    contents:messages.map(m=>({role:m.role==="assistant"?"model":"user", parts:[{text:m.content}]})),
+    generationConfig:{maxOutputTokens:4000} };
+  const data=await fetchJSON("https://generativelanguage.googleapis.com/v1beta/models/"
+    +encodeURIComponent(model)+":generateContent",
+    { "content-type":"application/json", "x-goog-api-key":cfg.key }, body);
+  const cand=data.candidates&&data.candidates[0];
+  const txt=cand&&cand.content&&cand.content.parts ? cand.content.parts.map(p=>p.text||"").join("") : "";
+  if(!txt){
+    if(cand&&cand.finishReason==="MAX_TOKENS") throw new Error(T("errLong"));
+    if(cand&&(cand.finishReason==="SAFETY"||cand.finishReason==="PROHIBITED_CONTENT")) throw new Error(T("errRefusal"));
+    throw new Error(T("errEmpty"));
+  }
+  return txt;
+}
+
+// 段構え: 選択モデル → 検証NG時リトライ1回 → 上位モデルフォールバック
+// (フォールバック連鎖は Anthropic のみ: haiku→sonnet-5、sonnet→opus-4-8。他プロバイダは
+//  モデル階層をアプリが仮定できないためリトライまで。HANDOFF_RUNTIME_LLM.md v1.10)
+async function generatePreset(userText, onStage){
+  const cfg=aiCfg();
   const attempt=async (mdl, messages)=>{
-    const text=await callClaude(mdl, messages);
+    const text=await callLLM(cfg, mdl, messages);
     let obj;
-    try{ obj=JSON.parse(extractJSON(text)); }catch(e){ return {fail:"JSONとして解釈できませんでした", raw:text}; }
+    try{ obj=JSON.parse(extractJSON(text)); }catch(e){ return {fail:"JSON parse error", raw:text}; }
     const v=validatePreset(obj);
     if(!v.ok) return {fail:v.errors.join(" / "), raw:text};
     return {preset:v.preset, warnings:v.warnings};
   };
   const baseMsgs=[{role:"user",content:userText}];
-  onStage("生成中("+model+")…");
-  let r=await attempt(model, baseMsgs);
+  onStage(T("generating")(cfg.model));
+  let r=await attempt(cfg.model, baseMsgs);
   if(r.preset) return r;
-  onStage("検証エラーを修正して再試行中…");
+  onStage(T("retrying"));
   const retryMsgs=[{role:"user",content:userText},
     {role:"assistant",content:r.raw},
     {role:"user",content:"あなたの出力に検証エラーがあります: "+r.fail+"。同じ要望に対し、エラーを修正した完全なJSONを出力してください。"}];
-  r=await attempt(model, retryMsgs);
+  r=await attempt(cfg.model, retryMsgs);
   if(r.preset) return r;
-  const fb=(model==="claude-haiku-4-5")?"claude-sonnet-5":"claude-opus-4-8";
-  onStage("上位モデル("+fb+")にフォールバック中…");
-  r=await attempt(fb, baseMsgs);
-  if(r.preset) return r;
-  throw new Error("生成に失敗しました: "+r.fail);
+  if(cfg.provider==="anthropic"){
+    const fb=(cfg.model.indexOf("haiku")>=0)?"claude-sonnet-5":
+             (cfg.model.indexOf("sonnet")>=0)?"claude-opus-4-8":null;
+    if(fb){
+      onStage(T("fallback")(fb));
+      r=await attempt(fb, baseMsgs);
+      if(r.preset) return r;
+    }
+  }
+  throw new Error(T("genFailed")(r.fail));
 }
 
 function setAiStatus(msg, cls){ const el=$("#aiStatus"); el.className=cls||""; el.textContent="";
   if(cls==="busy"){ const s=document.createElement("span"); s.className="spin"; el.appendChild(s); el.appendChild(document.createTextNode(" "+msg)); }
   else el.textContent=msg; }
-$("#btnKeySave").addEventListener("click",()=>{
-  const k=$("#apiKey").value.trim();
-  if(!k){ localStorage.removeItem("hp_key"); setAiStatus("キーを削除しました","ok"); return; }
-  localStorage.setItem("hp_key",k); setAiStatus("キーを保存しました(この端末のみ)","ok");
+// プロバイダ設定UIの反映
+function renderAiConfig(){
+  const cfg=aiCfg();
+  $("#aiProvider").value=cfg.provider;
+  $("#aiModelIn").value=cfg.model;
+  const dl=$("#modelSuggest"); dl.textContent="";
+  AI_PROVIDERS[cfg.provider].models.forEach(m=>{ const o=document.createElement("option"); o.value=m; dl.appendChild(o); });
+  $("#baseUrlRow").style.display=(cfg.provider==="openai")?"":"none";
+  $("#aiBaseUrl").value=cfg.baseUrl;
+  $("#apiKey").value=cfg.key;
+  $("#apiKey").placeholder=AI_PROVIDERS[cfg.provider].keyPh;
+  $("#keyPersist").checked=!!localStorage.getItem("hp_key_"+cfg.provider);
+}
+$("#aiProvider").addEventListener("change",e=>{ localStorage.setItem("hp_provider",e.target.value); renderAiConfig(); });
+$("#aiModelIn").addEventListener("change",e=>{
+  const p=aiCfg().provider, v=e.target.value.trim();
+  if(v) localStorage.setItem("hp_model_"+p,v); else localStorage.removeItem("hp_model_"+p);
+  renderAiConfig();
 });
-$("#aiModel").addEventListener("change",e=>localStorage.setItem("hp_model",e.target.value));
+$("#aiBaseUrl").addEventListener("change",e=>{
+  const v=e.target.value.trim();
+  if(v) localStorage.setItem("hp_baseurl_openai",v); else localStorage.removeItem("hp_baseurl_openai");
+  renderAiConfig();
+});
+$("#btnKeySave").addEventListener("click",()=>{
+  const p=aiCfg().provider, k=$("#apiKey").value.trim();
+  if(!k){ delete sessionKeys[p]; localStorage.removeItem("hp_key_"+p); setAiStatus(T("keyCleared"),"ok"); return; }
+  if($("#keyPersist").checked){ localStorage.setItem("hp_key_"+p,k); delete sessionKeys[p]; setAiStatus(T("keySetSaved"),"ok"); }
+  else{ sessionKeys[p]=k; localStorage.removeItem("hp_key_"+p); setAiStatus(T("keySet"),"ok"); }
+});
+$("#keyPersist").addEventListener("change",e=>{
+  const p=aiCfg().provider;
+  if(!e.target.checked && localStorage.getItem("hp_key_"+p)){ // 保存済み→セッションのみへ降格
+    sessionKeys[p]=localStorage.getItem("hp_key_"+p); localStorage.removeItem("hp_key_"+p);
+    setAiStatus(T("keySet"),"ok");
+  }
+});
 $("#btnGenerate").addEventListener("click",async ()=>{
-  const key=localStorage.getItem("hp_key")||"";
-  if(!key){ setAiStatus("APIキーを設定してください","err"); return; }
+  const cfg=aiCfg();
+  if(!cfg.key){ setAiStatus(T("noKey"),"err"); return; }
   const text=$("#aiPrompt").value.trim();
-  if(!text){ setAiStatus("作りたいシミュレーションの説明を入力してください","err"); return; }
+  if(!text){ setAiStatus(T("noPrompt"),"err"); return; }
   const btn=$("#btnGenerate"); btn.disabled=true;
   try{
-    const model=localStorage.getItem("hp_model")||"claude-haiku-4-5";
-    const r=await generatePreset(text, model, (m)=>setAiStatus(m,"busy"));
+    const r=await generatePreset(text, (m)=>setAiStatus(m,"busy"));
     r.preset.id="custom_"+Date.now();
     const arr=getCustomPresets(); arr.push(r.preset); setCustomPresets(arr);
     rebuildPresetSelect(r.preset.id);
     loadPreset(r.preset.id,false);
     renderCustomList();
-    setAiStatus("追加しました: "+r.preset.name+(r.warnings.length?"\n(自動修正: "+r.warnings.join("、")+")":""),"ok");
+    setAiStatus(T("added")(r.preset.name)+(r.warnings.length?T("autofix")(r.warnings.join("、")):""),"ok");
   }catch(e){ setAiStatus(String(e.message||e),"err"); }
   btn.disabled=false;
 });
 function renderCustomList(){
   const host=$("#customList"); host.textContent="";
   const arr=getCustomPresets();
-  if(!arr.length){ const p=document.createElement("p"); p.className="note"; p.textContent="AI生成プリセットはまだありません。"; host.appendChild(p); return; }
+  if(!arr.length){ const p=document.createElement("p"); p.className="note"; p.textContent=T("noCustoms"); host.appendChild(p); return; }
   arr.forEach((c,idx)=>{
     const d=document.createElement("div"); d.className="saveItem";
     const n=document.createElement("div"); n.className="name"; n.textContent="🤖 "+(c.emoji||"")+" "+c.name;
     const cm=document.createElement("div"); cm.className="comment"; cm.textContent=c.description||"";
     const btns=document.createElement("div"); btns.className="rowBtns";
-    const bo=document.createElement("button"); bo.className="btn primary"; bo.textContent="開く";
-    bo.addEventListener("click",()=>{ loadPreset(c.id,false); notify("開きました:"+c.name); });
-    const bd=document.createElement("button"); bd.className="btn danger"; bd.textContent="削除";
+    const bo=document.createElement("button"); bo.className="btn primary"; bo.textContent=T("btnOpen");
+    bo.addEventListener("click",()=>{ loadPreset(c.id,false); notify(T("loadedAs")(c.name)); });
+    const bd=document.createElement("button"); bd.className="btn danger"; bd.textContent=T("btnDelete");
     bd.addEventListener("click",()=>{
       const arr2=getCustomPresets(); arr2.splice(idx,1); setCustomPresets(arr2);
       rebuildPresetSelect(currentPreset.id); renderCustomList();
@@ -1591,16 +1831,46 @@ function renderCustomList(){
   });
 }
 
+// ===== 言語切り替え(v1.10)=====
+function applyLang(){
+  document.documentElement.lang=LANG;
+  document.title=T("docTitle");
+  $("#appTitle").textContent=T("appTitle");
+  $("#btnLang").textContent=(LANG==="ja")?"EN":"日本語";
+  $("#btnReset").textContent=T("reset");
+  const tabKeys={help:"tabHelp",params:"tabParams",saves:"tabSaves",ai:"tabAI"};
+  document.querySelectorAll("#tabs button").forEach(b=>{ b.textContent=T(tabKeys[b.dataset.tab]); });
+  $("#btnParamDefault").textContent=T("paramDefault");
+  document.querySelector("#page-params .note").textContent=T("paramNote");
+  const sh=document.querySelectorAll("#page-saves h3");
+  sh[0].textContent=T("savesHeadSave"); sh[1].textContent=T("savesHeadList"); sh[2].textContent=T("savesHeadBackup");
+  $("#saveName").placeholder=T("saveNamePh"); $("#saveComment").placeholder=T("saveCommentPh");
+  $("#btnSave").textContent=T("btnSave"); $("#btnExport").textContent=T("btnExport");
+  $("#btnImport").textContent=T("btnImport"); $("#ioArea").placeholder=T("ioPh");
+  $("#aiProvHead").textContent=T("aiProvHead"); $("#aiProvLabel").textContent=T("aiProvLabel");
+  $("#aiModelLabel").textContent=T("aiModelLabel"); $("#aiUrlLabel").textContent=T("aiUrlLabel");
+  $("#keyPersistLabel").textContent=T("keyPersistLabel"); $("#btnKeySave").textContent=T("btnKeySave");
+  $("#aiKeyNote").textContent=T("aiKeyNote"); $("#aiGenHead").textContent=T("aiGenHead");
+  $("#btnGenerate").textContent=T("btnGenerate"); $("#aiListHead").textContent=T("aiListHead");
+  $("#aiPrompt").placeholder=T("aiPromptPh");
+  rebuildPresetSelect(currentPreset?currentPreset.id:undefined);
+  if(currentPreset){ buildParamRows(); renderHelp(); }
+  renderSaves(); renderCustomList(); renderAiConfig(); updatePlayBtn();
+}
+$("#btnLang").addEventListener("click",()=>{
+  LANG=(LANG==="ja")?"en":"ja"; localStorage.setItem("hp_lang",LANG); applyLang();
+});
+
 // ===== 説明タブ =====
 function renderHelp(){
   const el=$("#helpBody"); el.textContent="";
   const mk=(tag,txt)=>{const e=document.createElement(tag); e.textContent=txt; el.appendChild(e); return e;};
-  mk("h4",(currentPreset.emoji||"")+" "+currentPreset.name);
-  mk("p",currentPreset.description||"");
-  mk("h4","操作");
-  mk("p","▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)を表示。");
-  mk("h4","この宇宙の法則(要約)");
-  mk("p","① 空間は質点の相対配置だけで決まる(絶対空間なし)。② 決定力=質量÷距離。決定力の勾配が重力になる。③ 質点は「近くの空間」に対して慣性を持ち、空間ごと引きずられる(kFrame)。遠方宇宙の決定力がD₀。④ スピン=熱(温度T=Is²)。衝突で速度がスピンに変わり(muF)、スピンは斥力=圧力を生み(kRep)、拡散して平衡になる(κs)。⑤ 決定力が高い場所の時計は遅く、空間(共動フレーム)に対して速く動く時計も遅れる。光は同じψ=W/Ktで屈折して曲がり(n=e^{2ψ}。v1.7で時間と光を単一のψに統一)、「決定した空間」に運ばれる(c₀)。⑥ すべての相互作用は作用反作用対称で、運動量・角運動量を厳密に保存する(遠方宇宙との交換は帳簿に記録=保存量モニタ)。温度Tの質点はλ=b_m/Tの光を放射する(η_rad)。詳細は docs/PHYSICS.md(v1.4)。");
+  mk("h4",(currentPreset.emoji||"")+" "+pName(currentPreset));
+  mk("p",pDesc(currentPreset));
+  mk("h4",T("helpOps"));
+  mk("p",T("helpOpsBody"));
+  mk("h4",T("helpLaws"));
+  mk("p",T("helpLawsBody"));
 }
 
 // ===== タッチ/マウス操作(パン・ピンチ・タップ選択) =====
@@ -1976,16 +2246,16 @@ const VERIFY = {
 
 // ===== デバッグ/テスト用フック(品質ゲートが使用) =====
 window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extractJSON,
-  verify:VERIFY, traceRay,
+  verify:VERIFY, traceRay, getSystemPrompt, aiCfg, T:(k)=>T(k), lang:()=>LANG,
+  setLang:(l)=>{ LANG=(l==="en")?"en":"ja"; localStorage.setItem("hp_lang",LANG); applyLang(); },
   running:()=>running, setRunning:(v)=>{running=v;updatePlayBtn();},
   tick:(frames)=>{ for(let f=0;f<frames;f++){ const k=Math.max(1,Math.round(SUBSTEPS*sim.params.timeScale)); for(let s2=0;s2<Math.min(k,24);s2++) sim.step(DT); } render(); } };
 
 // ===== 起動 =====
-$("#apiKey").value=localStorage.getItem("hp_key")||"";
-$("#aiModel").value=localStorage.getItem("hp_model")||"claude-haiku-4-5";
 rebuildPresetSelect();
 resizeCanvas();
 loadPreset("saturn",false);
+applyLang();   // 静的ラベル+AIプロバイダ設定UIの反映(hp_lang 永続)
 requestAnimationFrame((t)=>{lastFrame=t;requestAnimationFrame(loop);});
 </script>
 </body>

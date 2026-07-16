@@ -28,8 +28,13 @@ iPhoneのブラウザで観察できるシミュレータです。
 - **実行・停止・再開・初めから**、速度倍率(×0.25〜×8)
 - **パラメータはいつでも編集可**(重力G、背景決定力D₀、空間引きずりkFrame、スピン斥力、摩擦、時空係数Kt(時間・光)…)— 実行中に即反映
 - **コメント付きセーブ/ロード**(localStorage保存、JSONエクスポート/インポート対応)
-- **AIでシミュレーション追加** — Claude API(既定: Haiku 4.5)が要望文からプリセットJSONを生成。
-  APIキーは**端末のlocalStorageにのみ**保存され、api.anthropic.com 以外へは送信されません。
+- **日本語 / English 切り替え**(v1.10)— ヘッダーのボタンでUI・サンプル名/説明・ヘルプ・
+  グラフラベルまで全て切り替わり、選択は端末に記憶されます。英語UIではAI生成の名前・説明も英語になります。
+- **AIでシミュレーション追加** — 既定は Claude API(Haiku 4.5 → 検証NGでリトライ →
+  Sonnet 5 フォールバック)。v1.10 からプロバイダを選択可能: **Claude / OpenAI互換 API
+  (URL変更可、ローカルLLMにも接続可) / Google Gemini**。モデルIDは自由入力(候補は datalist で提示)。
+  APIキーはプロバイダ別に管理し、既定では**端末に保存せずメモリのみ**(保存はチェックで明示オプトイン)。
+  送信先は選択したプロバイダのAPIのみです。
 - 1本指ドラッグで移動 / 2本指ピンチで拡大縮小 / 粒子タップで固有時計(τ/t)表示
 
 ## 仮定物理法則(要約)
@@ -63,6 +68,15 @@ iPhoneのブラウザで観察できるシミュレータです。
 | [docs/MODEL_ROUTING.md](docs/MODEL_ROUTING.md) | 開発時/実行時のモデル割当・品質基準・コスト見積り |
 | [docs/HANDOFF_IMPLEMENTATION.md](docs/HANDOFF_IMPLEMENTATION.md) | 設計→実装の実行指示書(改修時はこれを添えて下位モデルに委譲可) |
 | [docs/HANDOFF_RUNTIME_LLM.md](docs/HANDOFF_RUNTIME_LLM.md) | アプリ内蔵のLLMプロンプト仕様(Haiku 4.5→Sonnet 5段構え)と検証結果 |
+
+## 理論・論文化レイヤー(第5次レビュー裁定 #14 で導線追加)
+
+| ファイル | 内容 |
+|---|---|
+| [docs/THEORY_SYNTHESIS.md](docs/THEORY_SYNTHESIS.md) | 論文として主張・防御できる理論構造(3層構造・中核主張 C1〜C8・Negative claims・限界 L1〜L17) |
+| [docs/DERIVATIONS.md](docs/DERIVATIONS.md) | 解析的導出と外部AIレビュー全5次の裁定記録(数学的正本) |
+| [docs/HANDOFF_PAPER.md](docs/HANDOFF_PAPER.md) | 論文ドラフト執筆のハンドオフ(※v1.9 とのずれあり — 自己完結版 V2 の作成が最優先課題。DERIVATIONS §14 裁定 #4) |
+| [docs/EXPLAINER_HIGHSCHOOL.md](docs/EXPLAINER_HIGHSCHOOL.md) | 高校生向け解説 |
 
 ## AI追加機能のコスト
 
@@ -126,3 +140,11 @@ iPhoneのブラウザで観察できるシミュレータです。
   💫引きずられる楕円〔軌道トレイル描画を追加〕・🌗回る星のレンズ・🎈スピン圧・📏熱伝導)。
   全13種の挙動指標を機械検証(τ/t 解析一致・近点後退 −11.3°/周・非対称湾曲 0.75rad・
   熱コア膨張 3.2倍・伝導の距離依存 2.5倍など。付録I=HANDOFF_IMPLEMENTATION)。
+- v1.10(2026-07-16): 第5次外部AIレビュー(文書整合監査)の裁定16件(DERIVATIONS §14)—
+  旧C8近点式の全面改稿・公理個数の現行化・「完全閉性」主張域の併記(THEORY_SYNTHESIS v1.6 /
+  PHYSICS v1.6)。アプリ: **日本語/English 切り替え**(UI・13サンプル説明・グラフまで)、
+  **AIプロバイダ柔軟化**(Claude / OpenAI互換 / Gemini+モデルID自由入力。キーは既定で
+  端末に保存しない)、**♨️対流を片側ヒーター+冷壁構成に再設計**(旧構成はガス自己重力で
+  1塊に凍結 — 軽量粒子化で解消。maxFrac 0.99→0.26)、**🪐土星の環を安定化**(中心星固定+
+  環を外側へ。環残存 55%→99.7%・ドリフト 49→0)。verify 11項目・13プリセット・few-shot・
+  互換の全回帰 PASS(付録J=HANDOFF_IMPLEMENTATION、MODEL_ROUTING v1.10)。
