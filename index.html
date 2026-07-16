@@ -181,8 +181,9 @@ const fmt = (v)=> Math.abs(v)>=100?v.toFixed(0):Math.abs(v)>=10?v.toFixed(1)
 
 // ===== 物理パラメータ定義(PHYSICS.md §5 既定パラメータ表) =====
 const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
-  kappaS:0.05, Kt:60, kLens:0.002, cLight:60, bM:1, etaRad:0, pRad:4,
+  kappaS:0.05, Kt:60, cLight:60, bM:1, etaRad:0, pRad:4,
   radiusScale:1.2, softening:2, timeScale:1 };
+// v1.7: kLens は廃止(E8R で屈折率は n=e^{2W/Kt} に統一。旧セーブの kLens は受理して無視)
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 const RAY_MASS_MIN = 40;                  // 光線を曲げる最小質量(性能のための近似)
@@ -198,8 +199,7 @@ const PARAM_DEFS = [
   {key:"muF",   label:"摩擦→スピン変換 muF", mode:"lin", lo:0, hi:1, step:0.01, group:"法則"},
   {key:"gammaN",label:"衝突減衰 γn",         mode:"lin", lo:0, hi:1, step:0.01, group:"法則"},
   {key:"kappaS",label:"スピン拡散 κs",       mode:"lin", lo:0, hi:0.5, step:0.005, group:"法則"},
-  {key:"Kt",    label:"時間遅れ係数 Kt",     mode:"log", lo:1, hi:2000, group:"法則"},
-  {key:"kLens", label:"光の屈折 kLens",      mode:"log", lo:0.0002, hi:0.05, group:"法則"},
+  {key:"Kt",    label:"時空係数 Kt(時間・光)", mode:"log", lo:1, hi:2000, group:"法則"},
   {key:"cLight",label:"光速 c₀",             mode:"log", lo:5, hi:1000, group:"法則"},
   {key:"bM",    label:"ウィーン定数 b_m",    mode:"log", lo:0.01, hi:100, group:"法則"},
   {key:"etaRad",label:"放射冷却 η_rad",      mode:"log", lo:0.000001, hi:0.1, group:"法則"},
@@ -222,6 +222,7 @@ function valToSliderPos(def,v){
 }
 
 // バリデータのクランプ値域(HANDOFF_RUNTIME_LLM.md と同一)
+// kLens は v1.7 で廃止。旧セーブ・旧AIプリセット互換のため受理のみ(エンジンは参照しない)
 const CLAMPS = { G:[0,100], D0:[0,1000], kFrame:[0,1], q:[0.5,4], kRep:[0,20], muF:[0,1],
   gammaN:[0,1], kappaS:[0,2], Kt:[1,10000], kLens:[0,1],
   cLight:[1,10000], bM:[0.001,1000], etaRad:[0,1], pRad:[1,6], radiusScale:[0.2,5],
@@ -254,9 +255,9 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:true,tempHistogram:false,field:false} },
 
 { id:"lensing", name:"重力レンズと時間", emoji:"💡", group:"空間と光",
-  description:"左から飛ぶ光線が、決定力の高い(=時間の遅い)領域で屈折して曲がる(A7/T5)。背景の色は決定力Wの強さ。粒子をタップすると固有時計(τ/t)が見える。",
+  description:"左から飛ぶ光線が、決定力の高い(=時間の遅い)領域で屈折して曲がる(A7′/T5)。v1.7: 時間の遅れと光の屈折は単一のψ=W/Ktで統一(E7R/E8R)— Ktを下げると両方が同時に強まる。強い場では光が捕まって周回する(光子球の類似)。背景の色は決定力Wの強さ。粒子をタップすると固有時計(τ/t)が見える。",
   camera:{scale:300}, world:{boundary:"none",size:0},
-  physics:{kLens:0.004, Kt:30, timeScale:1},
+  physics:{Kt:150, timeScale:1},
   bodies:[
     {type:"single", m:1500, x:0,y:0, vx:0,vy:0, spin:0.5, pinned:true},
     {type:"single", m:500, x:120,y:-90, vx:0,vy:0, spin:0, pinned:true}
@@ -892,10 +893,21 @@ function makeSim(){
     }
     return {px,py,L};
   };
-  // E7 固有時間(外部の決定力のみで評価)
+  // E7R 固有時間(v1.7・ψ統一): dτ/dt = √(N²−A²|v−u|²/c₀²)、N=e^{−ψ}、A=e^{+ψ}、
+  // ψ = W_ext/Kt(外部の決定力のみ=自己場除外)。u は E3 と同じ自己除外フレーム。
+  // 弱場・低速で 1−ψ−|v−u|²/(2c₀²) となり旧 E7(1/(1+ψ))の一次形と一致し、
+  // 共動フレームに対する運動の時間遅れが加わる(A7′。DERIVATIONS §10.4/§11)
   S.tauUpdate=function(i,dt){
-    const W=S.params.D0+S.sumW[i];
-    S.tau[i]+=dt/(1+W/S.params.Kt);
+    const denom=S.params.D0+S.sumW[i];
+    const psi=denom/S.params.Kt;
+    const N=Math.exp(-psi), A=Math.exp(psi);
+    let rvx=0, rvy=0;
+    if(denom>1e-9){ // フレーム不在(W_ext=0)なら運動は定義されず、運動時間遅れなし(T1 整合)
+      rvx=S.vx[i]-S.uAx[i]/denom; rvy=S.vy[i]-S.uAy[i]/denom;
+    }
+    const c0=S.params.cLight;
+    const rad=N*N - A*A*(rvx*rvx+rvy*rvy)/(c0*c0);
+    S.tau[i]+= rad>0 ? dt*Math.sqrt(rad) : 0; // 根号内≤0 = 局所光速超過(非物理域)→ 時計停止
   };
   // 任意点の決定力 W(可視化・光線用: 全粒子を含む)
   S.Wat=function(px,py){
@@ -929,6 +941,8 @@ function resizeCanvas(){
   ctx.setTransform(dpr,0,0,dpr,0,0);
 }
 window.addEventListener("resize",resizeCanvas);
+// #canvasWrap の高さはパネル開閉でも変わる(window resize は発火しない)ため直接監視する
+if(window.ResizeObserver) new ResizeObserver(resizeCanvas).observe($("#canvasWrap"));
 function w2sX(wx){ return cw/2+(wx-camX)*zoom(); }
 function w2sY(wy){ return ch/2+(wy-camY)*zoom(); }
 function zoom(){ return Math.min(cw,ch)/2/camScale; }
@@ -964,22 +978,23 @@ function drawField(){
   ctx.drawImage(fieldCv,0,0,cw,ch);
 }
 
-// E8′ 光線積分(描画と V8 検証で共有。質量 m≥RAY_MASS_MIN のみが曲げる近似)
-// 方向更新はフェルマー則(E8 と同一)、位置更新に媒質随伴 u·(n/c₀)·dl を加える(A11)。
+// E8R 光線積分(v1.7・ψ統一。描画と V8 検証で共有。質量 m≥RAY_MASS_MIN のみが曲げる近似)
+// 屈折率 n_eff = e^{2ψ} = e^{2W/Kt}(kLens 廃止 — 時計 E7R と同じ ψ が光を曲げる)。
+// 方向更新はフェルマー則 dĉ/dl = (∇n−(∇n·ĉ)ĉ)/n で、∇n/n = 2∇ψ = (2/Kt)∇W と
+// 指数部が消えるため 2∇ψ を直接使う。位置更新に媒質随伴 u·(n_eff/c₀)·dl を加える(A11)。
 // emit(x,y) が false を返すと打ち切り。終端の位置と方向を返す。
 function traceRay(S, px, py, cxv, cyv, dl, maxSteps, emit){
-  const p=S.params, kL=p.kLens, eps=p.softening, eps2=eps*eps, q=p.q, c0=p.cLight, D0=p.D0;
+  const p=S.params, kU=2/p.Kt, eps=p.softening, eps2=eps*eps, q=p.q, c0=p.cLight, D0=p.D0;
   const heavy=[];
   for(let i=0;i<S.n;i++) if(S.m[i]>=RAY_MASS_MIN) heavy.push(i);
   for(let s2=0;s2<maxSteps;s2++){
-    // ∇n = −kLens Σ m (r−r_j)/(d²+ε²)^{3/2}、u は E3 と同形(重い天体のみ)
-    let gx=0, gy=0, nval=1, uNx=0, uNy=0, wSum=0;
+    // 2∇ψ = −(2/Kt) Σ m (r−r_j)/(d²+ε²)^{3/2}、u は E3 と同形(重い天体のみ)
+    let gx=0, gy=0, uNx=0, uNy=0, wSum=0;
     for(const i of heavy){
       const dx=px-S.x[i], dy=py-S.y[i], d2=dx*dx+dy*dy;
       const inv=1/Math.sqrt(d2+eps2);
-      nval+=kL*S.m[i]*inv;
       const inv3=inv*inv*inv;
-      gx-=kL*S.m[i]*dx*inv3; gy-=kL*S.m[i]*dy*inv3;
+      gx-=kU*S.m[i]*dx*inv3; gy-=kU*S.m[i]*dy*inv3;
       const dd=Math.sqrt(d2), w=S.m[i]*inv;   // v1.5: E1′(inv=1/√(d²+ε²) を再利用。dd は下の tt で使用)
       wSum+=w;
       let om=0; const si=S.spin[i];
@@ -987,10 +1002,11 @@ function traceRay(S, px, py, cxv, cyv, dl, maxSteps, emit){
       uNx+=w*(S.vx[i]+om*(-dy)); uNy+=w*(S.vy[i]+om*(dx));
     }
     const dot=gx*cxv+gy*cyv;
-    cxv+=((gx-dot*cxv)/nval)*dl; cyv+=((gy-dot*cyv)/nval)*dl;
+    cxv+=(gx-dot*cxv)*dl; cyv+=(gy-dot*cyv)*dl;
     const cl=Math.sqrt(cxv*cxv+cyv*cyv); cxv/=cl; cyv/=cl;
     const Wtot=D0+wSum;
-    const adv=(Wtot>1e-9)? (nval/c0)*dl/Wtot : 0;
+    const neff=Math.exp(kU*Wtot);            // n_eff = e^{2ψ}(ψ は背景 D₀ を含む全 W)
+    const adv=(Wtot>1e-9)? (neff/c0)*dl/Wtot : 0;
     px+=cxv*dl+uNx*adv; py+=cyv*dl+uNy*adv;
     if(emit && emit(px,py)===false) break;
   }
@@ -1308,7 +1324,7 @@ let curTab="";
 document.querySelectorAll("#tabs button").forEach(b=>{
   b.addEventListener("click",()=>{
     const t=b.dataset.tab;
-    if(curTab===t){ curTab=""; $("#panel").classList.remove("open"); b.classList.remove("on"); return; }
+    if(curTab===t){ curTab=""; $("#panel").classList.remove("open"); b.classList.remove("on"); setTimeout(resizeCanvas,50); return; }
     curTab=t;
     document.querySelectorAll("#tabs button").forEach(x=>x.classList.toggle("on",x===b));
     document.querySelectorAll(".tabPage").forEach(x=>x.classList.toggle("on",x.id==="page-"+t));
@@ -1449,17 +1465,17 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 - 重力: ニュートン的引力(強さG)。円軌道速度は v=√(G×中心質量÷半径)。
 - スピンは熱。高スピン粒子は近接時に斥力(圧力, kRep)を生む。衝突で速度が減衰しスピンに変わる(muF,gammaN)。スピンは近接拡散で平衡化する(kappaS)。
 - 空間は質量に引きずられる(kFrame: 0=通常のニュートン力学, 1=完全な相対空間)。背景決定力D0が大きいほど空間が安定する。
-- rays を指定すると左端から光線が飛び、質量の近くで曲がる(kLens)。
+- rays を指定すると左端から光線が飛び、質量の近くで曲がる(曲がりの強さと時間の遅れは同じKtで決まり、Ktが小さいほど強い)。
 - 原点は画面中央。camera.scale は画面短辺の半分に相当するワールド長。
 
 # 出力ルール
 1. スキーマに完全準拠したJSONのみを出力する。説明文やコードフェンスは書かない。
-2. physicsは全キーを必ず含める。変更不要なキーは既定値を書く。既定値: G=1, D0=2, kFrame=1, q=2, kRep=1, muF=0.5, gammaN=0.4, kappaS=0.05, Kt=60, kLens=0.002, radiusScale=1.2, softening=2, timeScale=1
+2. physicsは全キーを必ず含める。変更不要なキーは既定値を書く。既定値: G=1, D0=2, kFrame=1, q=2, kRep=1, muF=0.5, gammaN=0.4, kappaS=0.05, Kt=60, radiusScale=1.2, softening=2, timeScale=1
 3. 粒子総数は最大600。滑らかに動かすため通常は120〜400にする。
 4. 軌道系を作るとき: 中心に single(質量M・pinned:false)を置き、ring/disk は vMode="kepler", aroundMass=M にする。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。
 6. name は30字以内、description は200字以内の日本語。emoji は絵文字1文字。
-7. 値域(超えると自動修正される): G:0〜100, D0:0〜1000, kFrame:0〜1, q:0.5〜4, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, Kt:1〜10000, kLens:0〜1, radiusScale:0.2〜5, softening:0.5〜20, timeScale:0.1〜16, camera.scale:20〜3000, 座標・長さ:±5000, 質量:0.01〜5000, 速度成分:±50, スピン:±20, omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
+7. 値域(超えると自動修正される): G:0〜100, D0:0〜1000, kFrame:0〜1, q:0.5〜4, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, Kt:1〜10000, radiusScale:0.2〜5, softening:0.5〜20, timeScale:0.1〜16, camera.scale:20〜3000, 座標・長さ:±5000, 質量:0.01〜5000, 速度成分:±50, スピン:±20, omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
 
 # ジェネレータ(bodiesの要素。typeごとに全フィールド必須)
 - single: {type,m,x,y,vx,vy,spin,pinned} — 粒子1個。pinned:true で力を受けず固定。
@@ -1469,18 +1485,18 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 
 # 例
 例1 要望「連星と、その周りを回る惑星たち」
-{"name":"連星系の惑星たち","emoji":"⭐","description":"2つの恒星が共通重心を回り、その外側を小さな惑星たちが公転する。連星の複雑な重力場で軌道が乱される様子が見どころ。","camera":{"scale":320},"world":{"boundary":"none","size":0},"physics":{"G":1,"D0":2,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":60,"kLens":0.002,"radiusScale":1.2,"softening":2,"timeScale":4},"bodies":[{"type":"single","m":500,"x":-60,"y":0,"vx":0,"vy":-1.44,"spin":0.5,"pinned":false},{"type":"single","m":500,"x":60,"y":0,"vx":0,"vy":1.44,"spin":0.5,"pinned":false},{"type":"ring","n":220,"cx":0,"cy":0,"rIn":180,"rOut":290,"mMin":0.05,"mMax":0.3,"spinMin":0,"spinMax":0,"vMode":"kepler","aroundMass":1000,"omega":0,"vNoise":0.05,"direction":1,"pinned":false}],"overlays":{"rotationCurve":false,"tempHistogram":false,"field":false}}
+{"name":"連星系の惑星たち","emoji":"⭐","description":"2つの恒星が共通重心を回り、その外側を小さな惑星たちが公転する。連星の複雑な重力場で軌道が乱される様子が見どころ。","camera":{"scale":320},"world":{"boundary":"none","size":0},"physics":{"G":1,"D0":2,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":60,"radiusScale":1.2,"softening":2,"timeScale":4},"bodies":[{"type":"single","m":500,"x":-60,"y":0,"vx":0,"vy":-1.44,"spin":0.5,"pinned":false},{"type":"single","m":500,"x":60,"y":0,"vx":0,"vy":1.44,"spin":0.5,"pinned":false},{"type":"ring","n":220,"cx":0,"cy":0,"rIn":180,"rOut":290,"mMin":0.05,"mMax":0.3,"spinMin":0,"spinMax":0,"vMode":"kepler","aroundMass":1000,"omega":0,"vNoise":0.05,"direction":1,"pinned":false}],"overlays":{"rotationCurve":false,"tempHistogram":false,"field":false}}
 (連星の公転速度: 半径60・相手質量500 → v≈√(1×500÷(60×2))≈1.44 を互いに逆向きに与える)
 
 例2 要望「熱いガスと冷たいガスが混ざるところ」
-{"name":"高温ガスと低温ガスの混合","emoji":"🔥","description":"箱の左に低温(低スピン)、右に高温(高スピン)のガスを配置。衝突とスピン拡散で温度が均一化し、熱平衡に達する過程を観察できる。","camera":{"scale":240},"world":{"boundary":"box","size":200},"physics":{"G":0.05,"D0":50,"kFrame":0.2,"q":2,"kRep":2,"muF":0.8,"gammaN":0.3,"kappaS":0.15,"Kt":60,"kLens":0.002,"radiusScale":1.2,"softening":2,"timeScale":2},"bodies":[{"type":"box","n":120,"cx":-100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":0,"spinMax":0.2,"vScale":0.3},{"type":"box","n":120,"cx":100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":2,"spinMax":3,"vScale":2.5}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
+{"name":"高温ガスと低温ガスの混合","emoji":"🔥","description":"箱の左に低温(低スピン)、右に高温(高スピン)のガスを配置。衝突とスピン拡散で温度が均一化し、熱平衡に達する過程を観察できる。","camera":{"scale":240},"world":{"boundary":"box","size":200},"physics":{"G":0.05,"D0":50,"kFrame":0.2,"q":2,"kRep":2,"muF":0.8,"gammaN":0.3,"kappaS":0.15,"Kt":60,"radiusScale":1.2,"softening":2,"timeScale":2},"bodies":[{"type":"box","n":120,"cx":-100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":0,"spinMax":0.2,"vScale":0.3},{"type":"box","n":120,"cx":100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":2,"spinMax":3,"vScale":2.5}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
 
 例3 要望「ブラックホールのそばで光が曲がるのが見たい。星も1000個ちりばめて」
-{"name":"ブラックホールの重力レンズ","emoji":"🕳️","description":"中央の超大質量天体の脇を光線がかすめ、進路が曲がる。周囲の星は数を400に抑えて軽快に動かす(上限と性能の目安のため)。決定力マップ表示付き。","camera":{"scale":300},"world":{"boundary":"none","size":0},"physics":{"G":1,"D0":2,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":30,"kLens":0.01,"radiusScale":1.2,"softening":2,"timeScale":1},"bodies":[{"type":"single","m":2000,"x":0,"y":0,"vx":0,"vy":0,"spin":1,"pinned":true},{"type":"disk","n":400,"cx":0,"cy":0,"radius":280,"mMin":0.05,"mMax":0.2,"spinMin":0,"spinMax":0,"vMode":"kepler","aroundMass":2000,"vScale":1,"direction":1}],"rays":{"n":32,"spread":0.9},"overlays":{"rotationCurve":false,"tempHistogram":false,"field":true}}
+{"name":"ブラックホールの重力レンズ","emoji":"🕳️","description":"中央の超大質量天体の脇を光線がかすめ、進路が曲がる。周囲の星は数を400に抑えて軽快に動かす(上限と性能の目安のため)。決定力マップ表示付き。","camera":{"scale":300},"world":{"boundary":"none","size":0},"physics":{"G":1,"D0":2,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":200,"radiusScale":1.2,"softening":2,"timeScale":1},"bodies":[{"type":"single","m":2000,"x":0,"y":0,"vx":0,"vy":0,"spin":1,"pinned":true},{"type":"disk","n":400,"cx":0,"cy":0,"radius":280,"mMin":0.05,"mMax":0.2,"spinMin":0,"spinMax":0,"vMode":"kepler","aroundMass":2000,"vScale":1,"direction":1}],"rays":{"n":32,"spread":0.9},"overlays":{"rotationCurve":false,"tempHistogram":false,"field":true}}
 (要望の1000個は上限・性能の推奨に合わせて400に調整し、descriptionでその旨に触れている)
 
 例4 要望「回る空間に引きずられるのを見たい」
-{"name":"回転リングの空間引きずり","emoji":"🌀","description":"重いリングが回転すると内側の空間ごと引きずられ、静止していた粒子が回り始める(マッハの原理)。D0を上げると引きずりが弱まるのも試せる。","camera":{"scale":220},"world":{"boundary":"none","size":0},"physics":{"G":0.02,"D0":0.5,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":60,"kLens":0.002,"radiusScale":1.2,"softening":2,"timeScale":2},"bodies":[{"type":"ring","n":14,"cx":0,"cy":0,"rIn":150,"rOut":150,"mMin":80,"mMax":80,"spinMin":0.5,"spinMax":0.5,"vMode":"omega","aroundMass":0,"omega":0.012,"vNoise":0,"direction":1,"pinned":true},{"type":"disk","n":40,"cx":0,"cy":0,"radius":80,"mMin":0.5,"mMax":0.5,"spinMin":0,"spinMax":0,"vMode":"none","aroundMass":0,"vScale":0,"direction":1}],"overlays":{"rotationCurve":false,"tempHistogram":false,"field":false}}`;
+{"name":"回転リングの空間引きずり","emoji":"🌀","description":"重いリングが回転すると内側の空間ごと引きずられ、静止していた粒子が回り始める(マッハの原理)。D0を上げると引きずりが弱まるのも試せる。","camera":{"scale":220},"world":{"boundary":"none","size":0},"physics":{"G":0.02,"D0":0.5,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":60,"radiusScale":1.2,"softening":2,"timeScale":2},"bodies":[{"type":"ring","n":14,"cx":0,"cy":0,"rIn":150,"rOut":150,"mMin":80,"mMax":80,"spinMin":0.5,"spinMax":0.5,"vMode":"omega","aroundMass":0,"omega":0.012,"vNoise":0,"direction":1,"pinned":true},{"type":"disk","n":40,"cx":0,"cy":0,"radius":80,"mMin":0.5,"mMax":0.5,"spinMin":0,"spinMax":0,"vMode":"none","aroundMass":0,"vScale":0,"direction":1}],"overlays":{"rotationCurve":false,"tempHistogram":false,"field":false}}`;
 
 // 注: 以前は output_config.format(構造化出力)に JSON Schema を渡していたが、
 // スキーマが大きく「The compiled grammar is too large」(400) となるため撤去した。
@@ -1606,7 +1622,7 @@ function renderHelp(){
   mk("h4","操作");
   mk("p","▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)を表示。");
   mk("h4","この宇宙の法則(要約)");
-  mk("p","① 空間は質点の相対配置だけで決まる(絶対空間なし)。② 決定力=質量÷距離。決定力の勾配が重力になる。③ 質点は「近くの空間」に対して慣性を持ち、空間ごと引きずられる(kFrame)。遠方宇宙の決定力がD₀。④ スピン=熱(温度T=Is²)。衝突で速度がスピンに変わり(muF)、スピンは斥力=圧力を生み(kRep)、拡散して平衡になる(κs)。⑤ 決定力が高い場所は時間が遅く、光は屈折して曲がり(kLens)、「決定した空間」に運ばれる(c₀)。⑥ すべての相互作用は作用反作用対称で、運動量・角運動量を厳密に保存する(遠方宇宙との交換は帳簿に記録=保存量モニタ)。温度Tの質点はλ=b_m/Tの光を放射する(η_rad)。詳細は docs/PHYSICS.md(v1.2)。");
+  mk("p","① 空間は質点の相対配置だけで決まる(絶対空間なし)。② 決定力=質量÷距離。決定力の勾配が重力になる。③ 質点は「近くの空間」に対して慣性を持ち、空間ごと引きずられる(kFrame)。遠方宇宙の決定力がD₀。④ スピン=熱(温度T=Is²)。衝突で速度がスピンに変わり(muF)、スピンは斥力=圧力を生み(kRep)、拡散して平衡になる(κs)。⑤ 決定力が高い場所の時計は遅く、空間(共動フレーム)に対して速く動く時計も遅れる。光は同じψ=W/Ktで屈折して曲がり(n=e^{2ψ}。v1.7で時間と光を単一のψに統一)、「決定した空間」に運ばれる(c₀)。⑥ すべての相互作用は作用反作用対称で、運動量・角運動量を厳密に保存する(遠方宇宙との交換は帳簿に記録=保存量モニタ)。温度Tの質点はλ=b_m/Tの光を放射する(η_rad)。詳細は docs/PHYSICS.md(v1.4)。");
 }
 
 // ===== タッチ/マウス操作(パン・ピンチ・タップ選択) =====
@@ -1698,10 +1714,11 @@ const VERIFY = {
       detail:`s=${sTrue} → λ=${lam.toExponential(3)} → s'=${sBack.toFixed(4)} 相対誤差=${err.toExponential(2)} (< 5%)`};
   },
   // V8: T8 非対称レンズ。±S_c で上下対称光線の湾曲角の和(非対称度)の符号が反転すること
+  // v1.7: kLens 廃止に伴い Kt=500(2/Kt=0.004 で旧 kLens=0.004 と湾曲係数が厳密等価)
   v8(){
     const mk=(sp)=>{ const s=makeSim();
       s.build({ id:"verify_v8", name:"V8", camera:{scale:300}, world:{boundary:"none",size:0},
-        physics:{kLens:0.004, cLight:60, D0:2, kFrame:1, G:1, Kt:30, softening:2, timeScale:1},
+        physics:{cLight:60, D0:2, kFrame:1, G:1, Kt:500, softening:2, timeScale:1},
         bodies:[{type:"single", m:1500, x:0, y:0, vx:0, vy:0, spin:sp, pinned:true}],
         overlays:{} });
       return s; };
@@ -1820,7 +1837,84 @@ const VERIFY = {
     return {id:"V11", pass:(gain>=0.03 && drift<=0.10), value:gain,
       detail:`時間平均gain=${gain.toFixed(3)} (≥0.03) / |g0−vRef|/vRef=${drift.toFixed(3)} (≤0.10)`};
   },
-  all(){ return [this.v1(), this.v2(), this.v8(), this.v9(), this.v10(), this.v11()]; }
+  // V12: E7R 運動時間遅れ(v1.7)。ほぼ一様な背景中で v/c₀ = 0, 0.3, 0.6 の時計を同一 t
+  // 進め、τ/t = √(1−|v−u|²/c₀²) と一致すること(Kt=1e6 で重力項を消し、粒子間は遠隔配置)
+  v12(){
+    const s=makeSim();
+    s.build({ id:"verify_v12", name:"V12", camera:{scale:200}, world:{boundary:"none",size:0},
+      physics:{G:0, D0:2, kFrame:0, kRep:0, muF:0, gammaN:0, kappaS:0, etaRad:0,
+        Kt:1e6, cLight:60, softening:2, timeScale:1},
+      bodies:[
+        {type:"single", m:1, x:0, y:-1500, vx:0,  vy:0, spin:0, pinned:false},
+        {type:"single", m:1, x:0, y:0,     vx:18, vy:0, spin:0, pinned:false},
+        {type:"single", m:1, x:0, y:1500,  vx:36, vy:0, spin:0, pinned:false}
+      ], overlays:{} });
+    for(let k=0;k<1000;k++) s.step(DT);
+    let worst=0; const parts=[];
+    [0,18,36].forEach((v,i)=>{
+      const th=Math.sqrt(1-(v*v)/(60*60));
+      const err=Math.abs(s.tau[i]/s.t-th)/th;
+      if(err>worst) worst=err;
+      parts.push(`v=${v}:τ/t=${(s.tau[i]/s.t).toFixed(4)}(理論${th.toFixed(4)})`);
+    });
+    return {id:"V12", pass:worst<1e-3, value:worst,
+      detail:`最大相対誤差=${worst.toExponential(2)} (< 1e-3) ${parts.join(" ")}`};
+  },
+  // V13: E7R 重力+運動の合成(v1.7)。静的中心場の円軌道時計が解析値
+  // √(N²−A²v²/c₀²)(ψ=(D₀+w_c)/Kt)と一致すること。プローブは重い(m=25)ので、
+  // 自己場が時計に混入する回帰(ψ に +m/ε/Kt≈0.21)があれば即 FAIL する(V17 相当を兼務)
+  v13(){
+    const M=200, r0=80, G=1, Kt=60, c0=5, D0=2;
+    const s=makeSim();
+    s.build({ id:"verify_v13", name:"V13", camera:{scale:200}, world:{boundary:"none",size:0},
+      physics:{G:G, D0:D0, kFrame:0, kRep:0, muF:0, gammaN:0, kappaS:0, etaRad:0,
+        Kt:Kt, cLight:c0, softening:2, timeScale:1},
+      bodies:[
+        {type:"single", m:M,  x:0,  y:0, vx:0, vy:0, spin:0, pinned:true},
+        {type:"single", m:25, x:r0, y:0, vx:0, vy:0, spin:0, pinned:false}
+      ], overlays:{} });
+    const eps=s.params.softening;
+    const v=Math.sqrt(G*M*r0*r0/Math.pow(r0*r0+eps*eps,1.5)); // Plummer 場の厳密な円軌道速度
+    s.vy[1]=v;
+    for(let k=0;k<1000;k++) s.step(DT);
+    const psi=(D0+M/Math.sqrt(r0*r0+eps*eps))/Kt;
+    const N=Math.exp(-psi), A=Math.exp(psi);
+    const th=Math.sqrt(N*N-A*A*v*v/(c0*c0));
+    const err=Math.abs(s.tau[1]/s.t-th)/th;
+    return {id:"V13", pass:err<1e-3, value:err,
+      detail:`τ/t=${(s.tau[1]/s.t).toFixed(4)} 解析値=${th.toFixed(4)} 相対誤差=${err.toExponential(2)} (< 1e-3)`};
+  },
+  // V16: T9 双子時計(v1.7)。一様背景中の静止時計 A と円周回時計 B(レール、v=0.5c₀)で
+  // τ_B < τ_A、双方が解析値と一致し、B の時計に不連続(1ステップの飛び)がないこと
+  v16(){
+    const Kt=60, c0=60, D0=2, rB=400, om=0.075; // |v_B| = om·rB = 30 = 0.5c₀
+    const s=makeSim();
+    s.build({ id:"verify_v16", name:"V16", camera:{scale:200}, world:{boundary:"none",size:0},
+      physics:{G:0, D0:D0, kFrame:0, kRep:0, muF:0, gammaN:0, kappaS:0, etaRad:0,
+        Kt:Kt, cLight:c0, softening:2, timeScale:1},
+      bodies:[
+        {type:"single", m:1, x:0, y:0, vx:0, vy:0, spin:0, pinned:true},
+        {type:"ring", n:1, cx:0, cy:0, rIn:rB, rOut:rB, mMin:1, mMax:1, spinMin:0, spinMax:0,
+         vMode:"omega", aroundMass:0, omega:om, vNoise:0, direction:1, pinned:true}
+      ], overlays:{} });
+    let prev=0, jmin=Infinity, jmax=0;
+    for(let k=0;k<1000;k++){ s.step(DT);
+      const j=s.tau[1]-prev; prev=s.tau[1];
+      if(j<jmin) jmin=j; if(j>jmax) jmax=j; }
+    const psi=(D0+1/rB)/Kt, N=Math.exp(-psi), A=Math.exp(psi);
+    const vB=om*rB;
+    const thB=Math.sqrt(N*N-A*A*vB*vB/(c0*c0)), thA=N;
+    const errB=Math.abs(s.tau[1]/s.t-thB)/thB;
+    const errA=Math.abs(s.tau[0]/s.t-thA)/thA;
+    // 一定レート・非負=不連続なし。閾値 1e-5 は Float32 τ 累積の量子化(≈ε₃₂·τ≈2e-6)を
+    // 許容しつつ、同期切替型のジャンプ(O(0.1) 以上)を確実に検出する
+    const cont=(jmax-jmin)<1e-5 && jmin>0;
+    const pass=(s.tau[1]<s.tau[0]) && errB<1e-3 && errA<1e-3 && cont;
+    return {id:"V16", pass, value:Math.max(errA,errB),
+      detail:`τB/t=${(s.tau[1]/s.t).toFixed(4)}(解析${thB.toFixed(4)}) τA/t=${(s.tau[0]/s.t).toFixed(4)}(解析${thA.toFixed(4)}) τB<τA=${s.tau[1]<s.tau[0]} 步幅変動=${(jmax-jmin).toExponential(1)}`};
+  },
+  all(){ return [this.v1(), this.v2(), this.v8(), this.v9(), this.v10(), this.v11(),
+                 this.v12(), this.v13(), this.v16()]; }
 };
 
 // ===== デバッグ/テスト用フック(品質ゲートが使用) =====

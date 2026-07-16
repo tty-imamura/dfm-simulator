@@ -87,7 +87,7 @@ accompanies the paper.
 m_i, **r**_i, **v**_i(質量・位置・速度)/ s_i(符号付きスピン)/ R_i = r_R√m_i /
 I_i = ½m_iR_i² / d_j = |**r**−**r**_j| / w_j = m_j/d_j(理想形)/ D = Σw_j /
 W = D₀ + D / **u**(**r**)(局所フレーム速度)/ G / k_F(=kFrame)/ q / k_rep /
-μ_f / γ_n / κ_s / K_t / k_L(=kLens)/ τ(固有時)。
+μ_f / γ_n / κ_s / K_t / ψ(=W_ext/K_t。v1.7: k_L は廃止され n_eff=e^{2ψ})/ τ(固有時)。
 シミュレータ変数名(kFrame 等)は本文に出さず、付録の既定パラメータ表(PHYSICS.md §5 末尾の
 表を Table IV として転載)でのみ対応させる。
 
