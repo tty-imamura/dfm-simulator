@@ -929,6 +929,8 @@ function resizeCanvas(){
   ctx.setTransform(dpr,0,0,dpr,0,0);
 }
 window.addEventListener("resize",resizeCanvas);
+// #canvasWrap の高さはパネル開閉でも変わる(window resize は発火しない)ため直接監視する
+if(window.ResizeObserver) new ResizeObserver(resizeCanvas).observe($("#canvasWrap"));
 function w2sX(wx){ return cw/2+(wx-camX)*zoom(); }
 function w2sY(wy){ return ch/2+(wy-camY)*zoom(); }
 function zoom(){ return Math.min(cw,ch)/2/camScale; }
@@ -1308,7 +1310,7 @@ let curTab="";
 document.querySelectorAll("#tabs button").forEach(b=>{
   b.addEventListener("click",()=>{
     const t=b.dataset.tab;
-    if(curTab===t){ curTab=""; $("#panel").classList.remove("open"); b.classList.remove("on"); return; }
+    if(curTab===t){ curTab=""; $("#panel").classList.remove("open"); b.classList.remove("on"); setTimeout(resizeCanvas,50); return; }
     curTab=t;
     document.querySelectorAll("#tabs button").forEach(x=>x.classList.toggle("on",x===b));
     document.querySelectorAll(".tabPage").forEach(x=>x.classList.toggle("on",x.id==="page-"+t));
