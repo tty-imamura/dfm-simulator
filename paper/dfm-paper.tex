@@ -1,0 +1,1134 @@
+% =====================================================================
+% Determinacy-Field Mechanics -- arXiv first draft (v0.1, 2026-07-17)
+% Written per docs/HANDOFF_PAPER_V2.md (sole authoritative writing brief).
+% Input canon: docs/DERIVATIONS.md, docs/PHYSICS.md v1.6,
+%              docs/THEORY_SYNTHESIS.md v1.6, index.html v1.15.
+% Target: American Journal of Physics / European Journal of Physics
+%         (arXiv: physics.ed-ph primary, gr-qc cross-list).
+% Build:  pdflatex dfm-paper.tex  (RevTeX 4.2; see paper/README.md)
+% =====================================================================
+\documentclass[aps,reprint,amsmath,amssymb,nofootinbib,superscriptaddress]{revtex4-2}
+
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{hyperref}
+
+\newcommand{\ud}{\mathrm{d}}
+\newcommand{\vect}[1]{\bm{#1}}
+\newcommand{\Kt}{K_t}
+\newcommand{\Dz}{D_0}
+
+\begin{document}
+
+\title{Determinacy-Field Mechanics: A Machian Toy Universe with Tunable
+Frame Dragging, Emergent Inverse-Square Gravity, and Spin-as-Heat
+Thermodynamics}
+
+\author{Tetsuya Imamura}
+% TODO(author): affiliation line to be confirmed before submission.
+\affiliation{Independent researcher}
+
+\date{July 17, 2026}
+
+\begin{abstract}
+We present Determinacy-Field Mechanics (DFM), an educational toy model in
+which a single scalar field $W$ (the ``determinacy field,'' sourced by
+point masses as $w = m/\sqrt{d^2+\varepsilon^2}$) plays four roles at
+once---the weight defining the local inertial frame, the gravitational
+potential, the local clock rate, and the optical refractive index---while
+a single signed spin degree of freedom $s$ per particle acts as heat.
+The model is specified by axioms A1--A13 and update rules E1$'$--E11 on a
+two-dimensional Euclidean background, and is implemented as a
+self-contained single-file HTML simulator whose principal claims are
+machine-verified by an embedded test suite.
+A one-parameter background determinacy $\Dz$ interpolates continuously
+between Newtonian absolute space ($\Dz \to \infty$) and a fully
+relational, Machian space ($\Dz \to 0$), turning Newton's bucket into a
+parameter scan.
+With frame dragging amplified to order unity ($k_F = 1$), disk systems
+develop flat rotation curves as a mechanism demonstration inside the
+model; with $k_F = 0$ the dynamics reduces exactly to Newtonian $N$-body
+gravity.
+Under the single calibration $\Kt = c^2/G$, the model's weak-field clock
+and light sector reproduces the GPS clock offset, the solar-limb light
+deflection, and the Shapiro delay quantitatively, with the
+gravitational-to-optical ratio $1{:}2$ arising by construction rather
+than by fitting; the same dynamics does \emph{not} reproduce the static
+first post-Newtonian perihelion advance of Mercury, and we exhibit this
+failure in the same calibration table.
+We state explicitly what the model does not claim: it is not a
+description of the real universe, it does not remove the need for dark
+matter, it has no Lorentz invariance or causal propagation, and its
+thermodynamic sector is an analogy rather than a quantitative theory.
+DFM is offered as a compact, fully inspectable laboratory for teaching
+and exploring Machian ideas, weak-field phenomenology, and conservation
+bookkeeping in interactive form.
+\end{abstract}
+
+\maketitle
+
+% =====================================================================
+\section{Introduction}
+\label{sec:intro}
+
+Newton's rotating bucket poses the oldest question about inertia: with
+respect to \emph{what} does the water's surface curve?~\cite{Newton1687}
+Newton answered ``absolute space''; Mach countered that only the
+relative configuration and motion of matter can matter, so the distant
+stars themselves must define the inertial standard~\cite{Mach1883}.
+Sciama later sketched how inertia could be induced by distant
+matter~\cite{Sciama1953}, and Barbour and Bertotti gave relational
+mechanics a rigorous variational formulation~\cite{BarbourBertotti1982}.
+In the real universe, general relativity (GR) settles the question in a
+subtle way: matter does drag local inertial frames (the Lense--Thirring
+effect~\cite{LenseThirring1918}), but the effect is suppressed by
+$v/c^2$ factors and is minute---milliarcseconds per year for Earth
+satellites, confirmed by Gravity Probe~B and LAGEOS
+ranging~\cite{Everitt2011,CiufoliniPavlis2004}.
+
+This paper asks a deliberately counterfactual question and builds the
+smallest working model that answers it:
+\emph{what would mechanics look like if frame dragging were an
+order-unity effect?}
+The answer we construct, Determinacy-Field Mechanics (DFM), is
+\emph{a Machian toy model on a fixed Euclidean background that makes the
+inertial standard emergent from the matter distribution}.
+Every point mass $j$ contributes a scalar ``determinacy''
+$w_j = m_j/\sqrt{d_j^2+\varepsilon^2}$ ($\to m_j/d_j$ as
+$\varepsilon \to 0$), quantifying how strongly it pins down the spatial
+coordinates near it.
+The total field $W = \Dz + \sum_j w_j$, together with one signed spin
+scalar $s_i$ per particle, then plays every dynamical role in the model:
+the determinacy-weighted average of the sources' motion defines the
+local frame $\vect{u}(\vect{r})$ against which inertia holds; the
+gradient of $W$ is the gravitational acceleration; a single
+dimensionless potential $\psi = W/\Kt$ sets both the local clock rate
+and the optical refractive index; and spin doubles as heat, generating
+pressure through spin-induced frame rotation.
+
+The model is intentionally not a candidate description of nature.
+It is an educational and exploratory instrument in the tradition of
+toy universes: small enough to state completely in a few pages
+(axioms A1--A13, update rules E1$'$--E11, consequences T1--T9),
+concrete enough to run as a self-contained single-file HTML application
+with no external dependencies, and honest enough that every quantitative
+claim made below is checked by machine-verifiable tests embedded in the
+implementation (\texttt{HP.verify.all()}, eleven checks, plus a
+59-item continuous-integration suite).
+Where a claim holds only for particular initial conditions or parameter
+ranges, we say so and label it a \emph{conditional numerical
+proposition} rather than a theorem.
+
+\subsection{Contributions}
+\label{sec:contributions}
+
+The paper's contributions, stated with their intended scope:
+
+\begin{enumerate}
+\item[C1.]{\bf Minimality and implementability.}
+A system of thirteen axioms and eleven update rules (A1--A13,
+E1$'$--E11) is shown to be consistent within the verified range and to
+run as a single-file numerical implementation---an existence proof by
+implementation.
+
+\item[C2.]{\bf Structural decomposition of Newtonian gravity.}
+Taking the gradient of the determinacy $w \propto m/d$ as the
+acceleration (axioms A3 and A6) yields the inverse-square law, since
+$\nabla(m/d) \propto m/d^2$.
+This is \emph{not} a derivation of gravity from nothing; it is a
+decomposition of the gravitational law into two assumptions---the field
+distance law $w \propto m/d$ and the gradient response
+$\vect{a} = G\nabla W$.
+
+\item[C3.]{\bf Structural correspondence with weak-field GR.}
+Under the parameter mapping $\Kt = c^2/G$, the model's proper-time and
+light-deflection formulas have the same structure as weak-field GR
+(Sec.~\ref{sec:corr}).
+Since version 1.7 of the model, clock rate and refraction are generated
+by the single potential $\psi$, so the effective lensing coefficient is
+fixed at $2/\Kt$ by construction and is not an independent parameter.
+
+\item[C4.]{\bf Continuous interpolation between absolute and relational
+space.}
+The background determinacy $\Dz$ connects Newtonian absolute space
+($\Dz \to \infty$) to a fully relational space ($\Dz \to 0$) with one
+dial, converting Newton's bucket argument into an executable parameter
+scan.
+
+\item[C5.]{\bf Mechanism demonstration of flat rotation curves.}
+With dragging amplified to $k_F = 1$, disk systems flatten their
+rotation curves, while $k_F = 0$ controls show Keplerian decline.
+This demonstrates \emph{mechanism sufficiency inside the model} and is
+not a claim about real galaxies (Sec.~\ref{sec:negative}).
+
+\item[C6.]{\bf Emergent thermodynamic behavior from spin-as-heat.}
+Contact friction converting translation to spin, spin diffusion, and
+spin repulsion together produce temperature equilibration (a
+zeroth-law analogue) and pressure.
+
+\item[C7.]{\bf Exact conservation laws.}
+The reciprocity axiom A13 with the revised rules E5$'$/E6$'$/E10$'$
+makes linear momentum and total angular momentum (orbital $+$ spin)
+exactly conserved (T7)---closing the books at the equation level in a
+relational dragging theory.
+The reaction bookkeeping further yields outward angular-momentum
+transport, spin--orbit synchronization, and tidal-migration analogues.
+
+\item[C8.]{\bf Derivation and delimitation of the dragging precession.}
+For prograde orbits around a prograde-spinning center, E6$'$ makes the
+periapsis \emph{regress} (machine check V6), with leading scaling
+$\Delta\varpi/\mathrm{orbit} \propto -k_F S_c R_c^2/\sqrt{GMa}$.
+The sign and the spin$\times$radius$^2$ ($\propto J$) factor agree with
+the GR Lense--Thirring periapsis precession, but the radial power
+differs in the near zone ($a^{-1/2}$ per orbit versus $a^{-3/2}$ for
+Lense--Thirring), and the static first post-Newtonian (1PN) perihelion
+advance is not reproduced (Sec.~\ref{sec:negative}).
+The model also predicts a finite flat-rotation zone of length
+$r_{\rm flat} \approx M_d/\Dz$.
+\end{enumerate}
+
+\subsection{What this paper does not claim}
+\label{sec:nc-summary}
+
+Because the credibility of a toy-model paper rests on the absence of
+overclaiming, we summarize here the negative claims that
+Sec.~\ref{sec:negative} states in full:
+(1)~DFM is not proposed as a description of the real universe;
+(2)~the flat-rotation-curve demonstration does not imply that dark
+matter is unnecessary;
+(3)~the model has no Lorentz invariance and no causal (finite-speed)
+propagation of the field;
+(4)~it is two-dimensional and makes no 3D quantitative predictions;
+(5)~it does not reproduce the static 1PN perihelion advance of Mercury;
+and
+(6)~its thermodynamic sector is a qualitative analogy, not a
+quantitative thermodynamic theory.
+
+\subsection{Relation to prior work}
+\label{sec:prior}
+
+DFM sits deliberately between several literatures without belonging to
+any of them.
+Sciama's inertial-induction proposal~\cite{Sciama1953} is the closest
+ancestor in spirit; DFM differs by being an explicit, executable
+discrete dynamics rather than a field-theoretic sketch.
+Barbour--Bertotti relational mechanics~\cite{BarbourBertotti1982}
+derives from a variational principle; DFM currently lacks an action
+principle (open problem L1, Sec.~\ref{sec:limits}) and should be read
+as a phenomenological simplification.
+The flat-rotation-curve literature---the observations~\cite{RubinFord1970},
+the dark-matter interpretation constrained by CMB and lensing
+statistics~\cite{Planck2018}, and MOND~\cite{Milgrom1983}---is engaged
+here only through a third mechanism family (dragging amplification)
+demonstrated inside the model.
+Claims that GR gravitomagnetism alone explains flat rotation curves
+have been made and criticized as orders of magnitude too
+small~\cite{CooperstockTieu2005,Ludwig2021}; DFM does not enter that
+controversy, because it makes $k_F$ a free dial and studies the
+counterfactual.
+The optical-medium formulation of light in a gravitational field goes
+back to classic work~\cite{deFelice1971}; our light rule E8R is a
+direct descendant with the medium additionally \emph{advected} by the
+frame field.
+The attitude that gravity and inertia may be emergent
+phenomena~\cite{Verlinde2017} is shared, but no thermodynamic or
+holographic derivation is attempted.
+Finally, the spin-as-heat sector is a cousin of granular-gas kinetic
+theory~\cite{BrilliantovPoschel2004} with a non-local spin repulsion
+that has no counterpart there.
+
+\subsection{Outline}
+
+Section~\ref{sec:axioms} states the axioms, Sec.~\ref{sec:dynamics} the
+update rules.
+Section~\ref{sec:corr} gives the Newtonian reduction, the weak-field GR
+mapping with its real-data calibration (including the Mercury failure),
+and the structural differences.
+Section~\ref{sec:experiments} presents six numerical experiments with
+machine-verified results.
+Section~\ref{sec:negative} states the limitations and negative claims,
+and Sec.~\ref{sec:conclusion} outlines future work.
+Appendix~\ref{app:si} restores SI units.
+
+% =====================================================================
+\section{Axioms}
+\label{sec:axioms}
+
+\subsection{Ontology and notation}
+
+The world consists of a finite set of point particles $i$ with mass
+$m_i$, position $\vect{r}_i$, velocity $\vect{v}_i$, and a signed spin
+scalar $s_i$ (angular velocity about the out-of-plane axis), evolving
+in discrete time on a two-dimensional Euclidean plane.
+Particles have a finite disk radius $R_i = r_R\sqrt{m_i}$ and moment of
+inertia $I_i = \tfrac{1}{2}m_iR_i^2$.
+We write $d_j = |\vect{r}-\vect{r}_j|$,
+$\hat{n}_{ij} = (\vect{r}_i-\vect{r}_j)/d_{ij}$, and
+$\hat{z}\times(x,y) = (-y,x)$.
+The softening length $\varepsilon$ is a numerical regularization, not
+part of the theory (Sec.~\ref{sec:dynamics}).
+There are exactly two primitive fields derived from the particles: the
+scalar determinacy $W$ and the frame velocity $\vect{u}$; neither is an
+independent dynamical entity.
+Simulation units are dimensionless with $G = 1$; Appendix~\ref{app:si}
+restores SI units.
+
+\subsection{The axioms A1--A13}
+
+\begin{enumerate}
+\item[A1.]{\bf (Particles)} The universe is a finite set of point
+masses. Space itself carries no substance.
+
+\item[A2.]{\bf (Relational space)} Spatial coordinates are defined only
+by the relative configuration of particles. There is no absolute space
+and no absolute rest.
+
+\item[A3.]{\bf (Determinacy)} Particle $j$ contributes determinacy
+$w_j = m_j/\sqrt{d_j^2+\varepsilon^2}$ at distance $d_j$
+($\to m_j/d_j$ as $\varepsilon\to 0$).
+Distant large-scale structure contributes a uniform, isotropic
+\emph{background determinacy} $\Dz$.
+The total field is $W(\vect{r}) = \Dz + \sum_j w_j(\vect{r})$.
+
+\item[A4.]{\bf (Local frame)} The local ``velocity of space''
+$\vect{u}(\vect{r})$ is the determinacy-weighted average of the
+sources' motion (translation plus spin rotation).
+The background $\Dz$ contributes at rest.
+
+\item[A5.]{\bf (Inertia)} A particle preserves its velocity
+\emph{relative to the local frame}, $\vect{v}-\vect{u}$.
+If the frame moves, the particle is carried with it (dragging).
+
+\item[A6.]{\bf (Gravity)} The spatial gradient of determinacy is an
+acceleration: $\vect{a} = G\,\nabla D(\vect{r})$.
+Because $w \propto m/d$, this reproduces the inverse-square law
+(see contribution C2 for the intended logical status).
+
+\item[A7$'$.]{\bf (Time)} The local proper-time rate decreases with
+determinacy and with speed relative to the comoving frame:
+\begin{equation}
+\frac{\ud\tau}{\ud t}
+ = \sqrt{N^2 - A^2\,\frac{|\vect{v}-\vect{u}|^2}{c_0^2}},
+\quad
+N = e^{-\psi},\; A = e^{+\psi},
+\label{eq:A7}
+\end{equation}
+with $\psi = W_{\rm ext}/\Kt$ evaluated excluding the particle's own
+field.
+Where no frame exists ($W_{\rm ext}=0$) motion is undefined and there
+is no kinematic time dilation (consistent with T1); a non-positive
+radicand (local superluminal motion) is unphysical and freezes the
+clock.
+
+\item[A8.]{\bf (Spin dragging)} Spin $s_j$ gives the surrounding frame
+a rotational component $\omega_j(d)$ (a Lense--Thirring analogue),
+matching rigid rotation at the surface and decaying with distance.
+
+\item[A9.]{\bf (Heat $=$ spin)} The square of spin is the particle's
+heat; by equipartition $\tfrac12 I_i s_i^2 = \tfrac12 k_B T_i$, so
+$T_i \equiv I_i s_i^2$ in simulator units ($k_B = 1$).
+On contact, dissipated translational motion converts to spin through
+friction; spins of nearby particles diffuse and equilibrate over time.
+
+\item[A10.]{\bf (Spin repulsion)} A body inside a frame rotating at
+$\omega$ feels the centrifugal acceleration $\omega^2 d$ outward; hot
+(fast-spinning) particles therefore push each other apart---the origin
+of pressure.
+
+\item[A11.]{\bf (Light and simultaneity)} Light propagates
+isotropically at speed $c_0/n_{\rm eff}(\vect{r})$ relative to the
+local determinacy frame $\vect{u}(\vect{r})$ (light is carried by the
+medium).
+Coordinate time $t$ is unique across the universe (absolute
+simultaneity); the proper-time lag is a \emph{dynamical} slowing of
+clocks, not kinematic relativity.
+DFM is explicitly a preferred-frame theory.
+\emph{Addendum:} this preferred frame is not the absolute space denied
+by A2; it is the matter-comoving frame that \emph{emerges} from the
+matter distribution via A3/A4 ($\vect{u}$ is the determinacy-weighted
+average of matter motion, $\Dz$ the coarse-grained distant matter).
+Remove all particles and the frame disappears (T1); the preferred
+frame is a property of the matter configuration, not of space.
+
+\item[A12$'$.]{\bf (Radiation)} A particle of temperature $T_i$
+radiates with a Wien-type peak wavelength
+$\lambda_{\rm peak} = b_m/T_i$ and luminosity
+$\Lambda_i = \eta_{\rm rad}T_i^p$ (default $p = 4$,
+Stefan--Boltzmann-type).
+Translational energy lost to normal-direction damping in collisions is
+radiated as impact flashes; tangential-friction slip losses and the
+rotational energy lost in spin synchronization (E10$'$) are likewise
+booked as radiated energy.
+With these four dissipation channels booked, the first law closes,
+\emph{within the machine-verified claim domain}: either
+$k_{\rm rep}=0$ (check V10) or fixed spins with conservative spin
+repulsion (check V10b); when spin and repulsion potential change
+simultaneously, the account is open (open problem L17).
+
+\item[A13.]{\bf (Reciprocity)} Every interaction---gravity, spin
+repulsion, frame dragging, contact, spin diffusion---is
+action--reaction symmetric pair by pair, and the system conserves
+linear momentum and total angular momentum
+$L_{\rm tot} = \sum_i m_i(\vect{r}_i\times\vect{v}_i)_z
+ + \sum_i I_i s_i$ exactly.
+Momentum exchanged with the background $\Dz$ is booked as transfer to
+a stationary infinite-inertia reservoir (the distant universe)---the
+same sense in which Earth moves imperceptibly toward a falling apple.
+\end{enumerate}
+
+The meaning of $\Dz$ deserves emphasis: it is the model's single most
+important dial.
+It regularizes the frame definition (without it, $\vect{u}$ would be
+undefined at points with no nearby matter), and it interpolates between
+Newtonian absolute space and Machian relational space
+(contribution C4, experiment~1).
+
+% =====================================================================
+\section{Dynamics}
+\label{sec:dynamics}
+
+The update rules E1$'$--E11 below are the complete dynamics; the
+implementation executes them with a semi-implicit (symplectic) Euler
+integrator with substeps.
+All pairwise interactions are $O(N^2)$ with $N \le 600$.
+
+\paragraph*{E1$'$ (Determinacy field).}
+\begin{equation}
+w_j(\vect{r}) = \frac{m_j}{\sqrt{d_j^2+\varepsilon^2}},\qquad
+W(\vect{r}) = \Dz + \sum_j w_j(\vect{r}).
+\label{eq:E1}
+\end{equation}
+The Plummer form makes $\nabla w_j$ exactly consistent with the force
+law Eq.~(\ref{eq:E4}), so A6 holds at finite $\varepsilon$
+(machine check V9, residual $2.4\times10^{-4}$); $\varepsilon$ is a
+numerical device, not physics.
+
+\paragraph*{E2 (Spin-dragging angular velocity).}
+\begin{equation}
+\omega_j(d) = s_j\left(\frac{R_j}{R_j+d}\right)^{q},\qquad
+q = 2 \text{ (default)}.
+\label{eq:E2}
+\end{equation}
+
+\paragraph*{E3 (Local frame velocity).}
+\begin{equation}
+\vect{u}(\vect{r}) =
+\frac{\sum_j w_j\left[\vect{v}_j
+ + \omega_j(d_j)\,\hat{z}\times(\vect{r}-\vect{r}_j)\right]}
+{W(\vect{r})}.
+\label{eq:E3}
+\end{equation}
+
+\paragraph*{E4 (Gravity).}
+\begin{equation}
+\vect{a}_{{\rm grav},i} =
+ -G\sum_{j\ne i} \frac{m_j(\vect{r}_i-\vect{r}_j)}
+ {(d_{ij}^2+\varepsilon^2)^{3/2}}.
+\label{eq:E4}
+\end{equation}
+
+\paragraph*{E5$'$ (Spin repulsion, symmetrized).}
+Per pair, a central force
+\begin{equation}
+\vect{F}_{{\rm rep}}(i{\leftarrow}j) =
+ k_{\rm rep}\,\mu_{ij}
+ \left[\omega_i(d_{ij})^2+\omega_j(d_{ij})^2\right]
+ (\vect{r}_i-\vect{r}_j),
+\label{eq:E5}
+\end{equation}
+with reduced mass $\mu_{ij} = m_im_j/(m_i+m_j)$, applied equally and
+oppositely.
+The far-field limit at $q=2$ is a $1/d^3$ repulsion.
+
+\paragraph*{E6$'$ (Frame dragging: transport $+$ reaction).}
+Each step, with the self-excluded frame
+$\vect{u}_i = \vect{u}(\vect{r}_i)|_{j \ne i}$:
+\begin{equation}
+\Delta\vect{v}_i = k_F\left[\vect{u}_i(\text{now})
+ - \vect{u}_i(\text{previous})\right],
+\label{eq:E6}
+\end{equation}
+a first-order discretization of transport by $D\vect{u}/Dt$.
+The reaction distributes $\Delta\vect{p}_i = m_i\Delta\vect{v}_i$ back
+onto the frame sources $j$ in proportion to their frame weights
+$\phi_{ij} = w_j(\vect{r}_i)/W(\vect{r}_i)$, with the background share
+$\phi_{\rm bg} = \Dz/W$ booked to the reservoir; residual pair torques
+are transferred to spins at equal angular acceleration.
+With $\Dz = 0$ and no pinned particles, $\vect{P}$ and $L_{\rm tot}$
+are conserved to machine precision (T7).
+
+\paragraph*{E7R (Proper time).}
+Equation~(\ref{eq:A7}) integrated per particle,
+$\tau_i \mathrel{+}= \dot\tau_i\,\ud t$, with
+$\psi_i = W_{\rm ext}(\vect{r}_i)/\Kt$ self-excluded.
+Weak-field, low-speed expansion:
+$\dot\tau \approx 1 - \psi - |\vect{v}-\vect{u}|^2/(2c_0^2)$.
+
+\paragraph*{E8R (Light rays).}
+\begin{equation}
+n_{\rm eff}(\vect{r}) = e^{2\psi(\vect{r})},\qquad
+\frac{\ud\vect{r}}{\ud t}
+ = \frac{c_0}{n_{\rm eff}}\,\hat{c} + \vect{u}(\vect{r}),
+\label{eq:E8}
+\end{equation}
+with direction update by Fermat's rule in the frame comoving with
+$\vect{u}$:
+$\ud\hat{c}/\ud l = 2\nabla\psi - (2\nabla\psi\cdot\hat{c})\hat{c}$.
+For rays (which are not particles), $\psi$ includes all masses and
+$\Dz$; a uniform $\Dz$ contributes only a constant refractive index and
+does not deflect.
+Clock rate and refraction are thus generated by the \emph{same}
+potential $\psi$; the weak-field lensing coefficient is the derived
+combination $2/\Kt$, not an independent parameter.
+
+\paragraph*{E9 (Contact).}
+For $d_{ij} < R_i + R_j$: a symmetric normal spring resolves overlap; a
+normal damping impulse (inelasticity $\gamma_n$) radiates its energy
+loss (A12$'$); and tangential friction with effective arms
+$\tilde R_i = R_i d/(R_i{+}R_j)$, $\tilde R_j = R_j d/(R_i{+}R_j)$
+(so $\tilde R_i + \tilde R_j = d$, preserving $L$ exactly) converts
+sliding into spin,
+\begin{align}
+v_s &= (\vect{v}_i-\vect{v}_j)\cdot\hat{t}
+ - s_i\tilde R_i - s_j\tilde R_j,\nonumber\\
+j_t &= \tfrac{\mu_f}{3}\,\mu_{ij}\,v_s,
+\label{eq:E9}
+\end{align}
+applied at a single contact point (action--reaction on one line of
+action), converging to rolling contact; slip dissipation is radiated.
+
+\paragraph*{E10$'$ (Spin diffusion).}
+\begin{equation}
+\frac{\ud s_i}{\ud t} = \kappa_s\sum_{j\ne i}
+ \frac{I_j}{I_i+I_j}\,(s_j-s_i)\,g(d_{ij}),
+\label{eq:E10}
+\end{equation}
+$g(d) = [(R_i{+}R_j)/(R_i{+}R_j{+}d)]^2$.
+The $I$-weighting conserves $\sum_i I_i s_i$ pair by pair; the
+synchronization energy loss is radiated (A12$'$).
+The fixed point is uniformity of $s$, which coincides with temperature
+uniformity only for equal moments of inertia (single particle size;
+open problem L9).
+
+\paragraph*{E11 (Radiative cooling).}
+$T_i = I_i s_i^2$, $\Lambda_i = \eta_{\rm rad}T_i^p$,
+$\ud s_i/\ud t = -\Lambda_i/(I_i s_i)$ preserving the sign of $s$
+(default $\eta_{\rm rad} = 0$, off).
+
+The single potential $\psi = W_{\rm ext}/\Kt$ entering E7R and E8R is
+the structural heart of the clock--light sector: one field, one
+coefficient $\Kt$, both phenomena.
+
+% =====================================================================
+\section{Correspondence}
+\label{sec:corr}
+
+\subsection{Newtonian reduction}
+\label{sec:newton}
+
+Setting $k_F = 0$ (and disabling the spin terms) leaves only E4: the
+model reduces \emph{exactly} to a standard Newtonian $N$-body system.
+The model therefore contains its own control experiment: any run can be
+repeated from identical initial conditions with only $k_F$ changed
+(experiment~2 uses precisely this A/B design).
+
+\subsection{Weak-field mapping and real-data calibration}
+\label{sec:calib}
+
+Let $\Phi_N = -G D$ with $D = \sum_j m_j/d_j$ ($\varepsilon\to0$).
+The weak-field expansion of E7R,
+$\dot\tau \approx 1 - \psi - |\vect{v}-\vect{u}|^2/(2c_0^2)$,
+matches the weak-field, slow-motion GR clock rate
+$1 + \Phi_N/c^2 - v^2/(2c^2)$ under the single identification
+\begin{equation}
+\Kt = \frac{c^2}{G} \approx 1.35\times10^{27}\ {\rm kg\,m^{-1}},
+\label{eq:Kt}
+\end{equation}
+with $\Dz$ contributing a global clock recalibration and the DFM
+velocity referred to $\vect{u}$.
+The refractive index $n_{\rm eff} = e^{2\psi} \approx 1 + 2W/\Kt$
+matches the GR value $n \approx 1 - 2\Phi_N/c^2$ automatically---the
+gravitational-to-optical ratio $1{:}2$ follows from the construction
+(one potential $\psi$), not from a second calibrated coefficient.
+
+Table~\ref{tab:calib} confronts this single-parameter sector with real
+data---successes and failure in the same table.
+The clock-and-light sector matches; the material-orbit 1PN sector does
+not.
+
+\begin{table*}[t]
+\caption{\label{tab:calib}%
+Real-data calibration of the weak-field sector under the single mapping
+$\Kt = c^2/G$ (no further adjustable parameters).
+The first three rows match observation; the fourth does not, and the
+model does not claim it (negative claim~5).
+Values from the project's third external review with independent
+recomputation; the GPS-based inverse calibration of $\Kt$ agrees with
+$c^2/G$ to $0.107\%$.}
+\begin{ruledtabular}
+\begin{tabular}{llll}
+Observable & DFM ($\Kt = c^2/G$) & Observation & Verdict \\
+\hline
+GPS clock net rate &
+$+38.5\ \mu$s/day (gravity $+45.7$, motion $-7.2$) &
+$\approx +38.6\ \mu$s/day & match \\
+Solar-limb light deflection &
+$1.7512''$ (no additional parameter) &
+$\approx 1.75''$ & match \\
+Shapiro delay (Cassini geometry) &
+$(4GM_\odot/c^3)\ln(4r_1r_2/b^2) \approx 281\ \mu$s &
+same level (geometry dependent) & match \\
+Mercury perihelion advance (main term $+42.98''$/century) &
+static field: $0$ (Newtonian reduction); E6$'$ gives only a
+Lense--Thirring-sign regression &
+$+42.98''$/century & \textbf{not reproduced} \\
+\end{tabular}
+\end{ruledtabular}
+\end{table*}
+
+\subsection{Structural differences from GR}
+\label{sec:diff}
+
+The honest differences, stated as structure rather than as small
+corrections:
+
+\begin{enumerate}
+\item {\bf Preferred frame.}
+DFM has absolute simultaneity and a matter-comoving preferred frame
+(A11).
+Only light is advected by the medium; the Lorentzian response of
+\emph{matter}---moving rods, resonators, atomic transitions---is
+undefined, so Michelson--Morley/Kennedy--Thorndike isotropy is not
+reproduced (open problem L12).
+
+\item {\bf Instantaneous action.}
+$\vect{u}$ and $W$ are determined instantaneously by the global
+configuration (the same kind of action at a distance as Newtonian
+gravity; open problem L8).
+Consequently binary-pulsar orbital decay by gravitational-wave
+emission is outside the model in principle.
+
+\item {\bf No static 1PN precession.}
+The dragging rule E6$'$ produces, for prograde orbits around a
+prograde-spinning center, a periapsis \emph{regression}
+\begin{equation}
+\Delta\varpi\ \text{per orbit}
+ = -k_F\,\frac{2\pi\left(1-\sqrt{1-e^2}\right)}{e^2}\,
+ \frac{S_cR_c^2}{\sqrt{GM\,a(1-e^2)}},
+\label{eq:prec}
+\end{equation}
+in the near zone ($M/r \gg \Dz r$, $r \gg R_c$).
+The sign and the $S_cR_c^2 \propto J$ factor agree with the GR
+Lense--Thirring periapsis precession (which is also negative for
+prograde equatorial orbits, $\approx -2$~mas/century for
+Mercury~\cite{Iorio2011}), but the radial power differs
+($a^{-1/2}$ per orbit here versus $a^{-3/2}$ for Lense--Thirring;
+only in the far, $\Dz$-dominated zone does the model recover
+$a^{-3/2}$ per orbit, where the background screens the precession---a
+model-specific prediction).
+No choice of $k_F$ can reproduce the static 1PN advance for several
+planets simultaneously.
+The physically scaled value of $k_F$ consistent with the smallness of
+Lense--Thirring precession is $\lesssim 10^{-6}$; the $k_F = 1$ used
+in demonstrations is a deliberate $\sim\!10^6$-fold amplification.
+\end{enumerate}
+
+% =====================================================================
+\section{Numerical experiments}
+\label{sec:experiments}
+
+All experiments below run in the released single-file implementation
+(version 1.15) on the same engine; each figure is regenerated from the
+simulation by the stated preset or verification hook, with screenshots
+used only as auxiliary illustration.
+Table~\ref{tab:verify} first fixes the bookkeeping ground rules: the
+conservation checks and the first-law checks that gate every result in
+this section.
+
+\begin{table}[b]
+\caption{\label{tab:verify}%
+Machine verification gates for the experiments (embedded suite
+\texttt{HP.verify.all()}; representative items).
+The first-law closure is claimed \emph{only} on the stated domain
+(open problem L17).}
+\begin{ruledtabular}
+\begin{tabular}{lll}
+Check & Domain & Result \\
+\hline
+V1: $|\Delta P|$, $|\Delta L|$ (relative) &
+$\Dz{=}0$, all interactions on & $<10^{-3}$ (pass) \\
+V9: $|\vect{a}-G\nabla W|/|\vect{a}|$ &
+finite $\varepsilon$ & $2.4\times10^{-4}$ (pass) \\
+V10: first law, $k_{\rm rep}{=}0$ &
+4 dissipation channels & $2.5\times10^{-4}$ (pass) \\
+V10b: first law $+U_{\rm rep}$ &
+fixed spins, $k_{\rm rep}{>}0$ & $1.6\times10^{-4}$ (pass) \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+\subsection{Experiment 1: Mach's bucket---from absolute to relational
+space}
+\label{sec:exp1}
+
+A rotating shell of masses surrounds a central test region.
+As $\Dz$ is scanned from large to small, the interior frame passes from
+``absolute'' (unaffected by the shell) to ``relational'' (co-rotating
+with the shell): the entrainment angular rate of interior test
+particles rises from $0$ toward the shell rate.
+This is Newton's bucket as an experiment: the answer to ``does the
+water know it rotates?'' becomes a measurable function of one
+parameter.
+
+\begin{figure}[t]
+\centering
+\framebox[0.95\columnwidth]{\rule{0pt}{4.2cm}\ Fig.~1 placeholder}
+\caption{\label{fig:mach}%
+Entrainment angular velocity of interior test particles versus
+background determinacy $\Dz$ (log scale), normalized to the shell
+rotation rate.
+Generated from preset \texttt{mach} with a manual scan
+$\Dz \in \{0.05, 0.5, 2, 8, 32\}$, all other parameters at preset
+defaults; measured via \texttt{HP.sim} direct drive.}
+\end{figure}
+
+\subsection{Experiment 2: flat rotation curves from amplified dragging}
+\label{sec:exp2}
+
+A disk system (central mass plus $n = 140$ disk particles) is run twice
+from \emph{identical} initial conditions with $k_F = 1$ and $k_F = 0$
+(the built-in Newtonian control, Sec.~\ref{sec:newton}).
+With $k_F = 1$ the collective rotation feeds the frame field
+$u_\varphi(r)$ and the outer stars ride the rotating frame, flattening
+$v(r)$; with $k_F = 0$ the curve declines in Keplerian fashion.
+The machine gate (check V11) measures the outer-band
+($r \in [85,130]$) mean tangential velocity difference, time-averaged
+over steps 1000--2000: gain $0.055 \pm 0.007$ with control drift
+$0.012$; the long-run CI variant measures an outer-band ratio
+$v_{\varphi}(k_F{=}1)/v_{\varphi}(k_F{=}0) = 1.082$ at 6000 steps.
+The self-consistent frame analysis predicts a \emph{finite} flat zone,
+$r_{\rm flat} \approx M_d/\Dz$, beyond which the curve returns to
+Keplerian decline---an internal, testable prediction of the model
+(scan $\Dz$ and watch the break move).
+This experiment is a mechanism demonstration inside the model; see
+negative claim~2.
+
+\begin{figure}[t]
+\centering
+\framebox[0.95\columnwidth]{\rule{0pt}{4.2cm}\ Fig.~2 placeholder}
+\caption{\label{fig:galaxy}%
+Rotation curve $v_\varphi(r)$ for identical initial conditions with
+$k_F = 1$ (flattened) and $k_F = 0$ (Keplerian control), with the
+Keplerian expectation overlaid.
+Generated from preset \texttt{galaxy} (central $m{=}600$, disk
+$n{=}140$, $r{\le}130$, near-Keplerian initialization
+$\times1.05$, $\Dz{=}0.5$) in the built-in A/B comparison mode;
+quantitative gate: verification hook V11 (time-averaged outer-band
+gain $0.055\pm0.007$).}
+\end{figure}
+
+\subsection{Experiment 3: periapsis regression and its reversal}
+\label{sec:exp3}
+
+An eccentric test orbit ($a = 60$, $e = 0.5$) around a pinned spinning
+center is integrated with $k_F \in \{0,1\}$ and center spin
+$S = \pm0.05$.
+The automated check V6 measures $-7.52^\circ$/orbit (prograde spin:
+regression), $+10.71^\circ$/orbit (spin reversed: advance), and
+$-1.03^\circ$/orbit for the $k_F = 0$ numerical control---sign
+reversal under spin reversal, effect three times the control.
+A larger manual configuration ($a=120$, $e=0.5$, $S=+0.01$) gives
+$-2.445^\circ$/orbit with near-linear scaling in $S$, and the
+continuum-limit formula Eq.~(\ref{eq:prec}) reproduces sign, spin
+scaling, and order of magnitude (measured coefficient
+$c_p \approx 0.33$ relative to the far-field kernel approximation).
+The interactive preset \texttt{drag} shows the same physics as a
+rosette traced by the orbit trail ($-11.3^\circ$/orbit at its
+parameters).
+
+\begin{figure}[t]
+\centering
+\framebox[0.95\columnwidth]{\rule{0pt}{4.2cm}\ Fig.~3 placeholder}
+\caption{\label{fig:drag}%
+Periapsis drift per orbit versus center spin sign:
+regression for prograde spin, advance for retrograde, control at
+$k_F{=}0$.
+Generated from verification hook V6 ($a{=}60$, $e{=}0.5$,
+$S{=}\pm0.05$, $k_F\in\{0,1\}$, $\Dz{=}0.05$, dissipation off;
+periapsis detection with $r$-gate and minimum spacing); illustrative
+trail from preset \texttt{drag}.}
+\end{figure}
+
+\subsection{Experiment 4: clocks---gravitational plus kinematic, and
+the twins}
+\label{sec:exp4}
+
+Three machine checks exercise E7R against analytic values:
+(i) pure kinematic dilation (V12): with the gravitational term
+suppressed, $\tau/t = 1.0000/0.9540/0.8001$ at $v/c_0 = 0, 0.3, 0.6$
+versus theory $1/0.9539/0.8000$ (max relative error
+$9.1\times10^{-5}$);
+(ii) combined gravitational $+$ kinematic dilation on a circular orbit
+(V13): $\tau/t = 0.8629$ versus the analytic value (relative error
+$6.8\times10^{-6}$); this check doubles as a self-field-exclusion
+detector;
+(iii) the twin configuration (V16): a circling clock at $v = 0.5c_0$
+against a comoving stationary clock, $\tau_B/t = 0.8174$,
+$\tau_A/t = 0.9672$, both matching the analytic integrals, with no
+discontinuity in any clock at turnaround (step-to-step variation
+$4.8\times10^{-7}$).
+In DFM's preferred-frame representation the twin outcome is a plain
+worldline integral of Eq.~(\ref{eq:A7}); the ``paradox'' machinery of
+relative simultaneity never enters.
+We emphasize the delimitation recorded in the model documents: this is
+a simplification of \emph{representation}, not a refutation of
+relativity---standard relativity also resolves the twins uniquely by
+proper-time integration.
+The interactive preset \texttt{twin} displays three clocks with
+$\tau/t = 1.000/0.874/0.611$.
+
+\begin{figure}[t]
+\centering
+\framebox[0.95\columnwidth]{\rule{0pt}{4.2cm}\ Fig.~4 placeholder}
+\caption{\label{fig:clocks}%
+Clock rates $\tau/t$ versus analytic predictions for kinematic (V12),
+combined (V13), and twin (V16) configurations; all deviations
+$<10^{-3}$.
+Generated from verification hooks V12/V13/V16 at their embedded
+parameters (V12: $\Kt{=}10^6$, $v/c_0\in\{0,0.3,0.6\}$; V16:
+$v{=}0.5c_0$); illustrative display from preset \texttt{twin}.}
+\end{figure}
+
+\subsection{Experiment 5: light---deflection, capture, and asymmetric
+bending}
+\label{sec:exp5}
+
+A fan of 26 parallel rays is traced through the field of a compact
+mass (preset \texttt{lensing}, $\Kt = 150$): mean bending angle
+$48.6^\circ$, with five rays captured into circulating paths---an
+optical analogue of a photon sphere (no claim of black-hole or
+event-horizon physics is made).
+With a spinning center (preset \texttt{spinlens}), the two sides of
+the ray fan bend unequally---the medium advection term
+$\vect{u}$ in Eq.~(\ref{eq:E8}) speeds prograde rays and retards
+retrograde ones (a Kerr-like optical asymmetry, T8).
+The machine gate V8 (run at $\Kt = 500$ for coefficient sensitivity)
+measures the asymmetry at $6.77\times10^{-2}$~rad, proportional to the
+center spin.
+
+\begin{figure}[t]
+\centering
+\framebox[0.95\columnwidth]{\rule{0pt}{4.2cm}\ Fig.~5 placeholder}
+\caption{\label{fig:light}%
+Ray-fan trajectories past a spinning center for $s_c = \pm0.5$,
+showing asymmetric bending and captured circulating rays (an optical
+analogue of a photon sphere).
+Generated from presets \texttt{lensing} ($\Kt{=}150$, 26-ray fan,
+$x_0{=}-300$, $|y_0|\le255$, $\ud l{=}2.73$) and \texttt{spinlens};
+quantitative gate: verification hook V8 (asymmetry
+$6.77\times10^{-2}$~rad at $\Kt{=}500$).}
+\end{figure}
+
+\subsection{Experiment 6: spin-as-heat---equilibration and pressure}
+\label{sec:exp6}
+
+Two demonstrations, both with a single particle size (the domain on
+which spin uniformity and temperature uniformity coincide; L9):
+(i) a hot/cold split gas (preset \texttt{gas}) equilibrates its
+left/right mean temperatures through contact friction and spin
+diffusion---the zeroth-law analogue T6;
+(ii) a hot core inside a cold shell (preset \texttt{pressure})
+expands, the spin repulsion of the heated particles pushing the shell
+outward (mean core radius $34.5 \to 108.8$, a $3.2\times$ expansion)
+---pressure emerging from A10 without a pressure law being written in.
+The spectral thermometer (check V2) closes the loop between A9 and
+A12$'$: spin inferred from radiated color matches the true spin within
+$5\%$.
+We repeat the delimitation of negative claim~6: these are qualitative
+analogies; the model's equation of state scales as $\rho^2 T$ rather
+than the ideal-gas $\rho T$ (L15), and no quantitative thermodynamic
+claims are made.
+
+\begin{figure}[t]
+\centering
+\framebox[0.95\columnwidth]{\rule{0pt}{4.2cm}\ Fig.~6 placeholder}
+\caption{\label{fig:heat}%
+(a)~Left/right mean temperature time series equilibrating (preset
+\texttt{gas}, single particle size).
+(b)~Hot-core expansion against a cold shell (preset \texttt{pressure};
+mean core radius $34.5 \to 108.8$).
+Both generated from the named presets at default parameters via
+\texttt{HP.sim} with the built-in temperature overlay.}
+\end{figure}
+
+% =====================================================================
+\section{Limitations and negative claims}
+\label{sec:negative}
+
+The following six statements are part of the paper's thesis, not
+disclaimers appended to it.
+Open problems referenced as L$n$ are cataloged in the project's
+derivations document (Sec.~\ref{sec:repro}).
+
+\subsection{Negative claim 1: not a description of the real universe}
+DFM is not proposed as a description of nature.
+It is a \emph{theory experiment}: the study of the consequences of a
+counterfactual axiom system---``what if space were purely relational
+and dragging were strong?''
+
+\subsection{Negative claim 2: no statement about dark matter}
+The flat-rotation-curve demonstration (experiment~2) does not imply
+that dark matter is unnecessary.
+In the real universe, GR frame dragging is suppressed by $v/c^2$ and is
+orders of magnitude too weak, and the observational evidence bearing on
+dark matter (CMB anisotropies, gravitational-lensing statistics,
+structure formation) is independent and
+strong~\cite{Planck2018}.
+Experiment~2 demonstrates mechanism sufficiency \emph{inside the
+model}, nothing more.
+
+\subsection{Negative claim 3: no Lorentz invariance, no causal
+propagation}
+The frame $\vect{u}$ and field $W$ are set instantaneously by the
+global configuration (L8), and matter has no Lorentzian response
+(L12): one-way light-speed isotropy for moving apparatus is not
+reproduced.
+Consequently the model cannot, in principle, describe binary-pulsar
+orbital decay by gravitational radiation.
+
+\subsection{Negative claim 4: two-dimensional only}
+The model is 2D; no 3D quantitative predictions are made.
+Spin is a scalar; a 3D extension (vector spin, vector dragging field,
+angular-momentum alignment) is future work (L7).
+
+\subsection{Negative claim 5: Mercury's perihelion advance is not
+reproduced}
+The observed main term ($+42.98''$/century) is a static 1PN effect.
+DFM's static sector is exactly Newtonian
+(Sec.~\ref{sec:newton}), and its dragging term E6$'$ yields only a
+Lense--Thirring-sign \emph{regression} with a different radial power
+[Eq.~(\ref{eq:prec})]; no single $k_F$ fits several planets at once
+(a forced fit to Mercury mispredicts Venus by $1.38\times$, Earth by
+$1.63\times$, Mars by $2.00\times$).
+Meanwhile the clock-and-light sector does match observation at
+$\Kt = c^2/G$ (Table~\ref{tab:calib})---the model is explicit about
+which sector works and which does not.
+
+\subsection{Negative claim 6: thermodynamics is an analogy}
+The heat sector is ``a 2D dissipative particle system with angular
+momentum, given a temperature proxy $T = Is^2$ and a non-local
+repulsion.''
+It does not reproduce the ideal-gas equation of state (its spin
+pressure scales as $\rho^2T$, and at the default $q = 2$ the 2D virial
+integral diverges logarithmically with box size; L15), does not
+contain latent heat or a phase variable (the solid/liquid/gas demo is
+a morphological analogy; the model makes no claim of a
+latent-heat phase transition), does not establish
+Rayleigh--B\'enard criticality (no claim about the critical-Rayleigh
+scaling law is made), and lacks detailed balance (it is a
+dissipative granular-type system, not molecular dynamics converging to
+canonical equilibrium; L16, L17).
+What does hold, qualitatively and single-size only: temperature
+equilibration, emergent pressure, and conduction-like transport.
+
+\subsection{Open problems}
+\label{sec:limits}
+
+The catalogue most relevant to this paper:
+{\bf L1} (no action principle: E6$'$ is an update rule, not derived
+from a Lagrangian---the leading open problem, see
+Sec.~\ref{sec:conclusion});
+{\bf L8} (instantaneous action at a distance);
+{\bf L12} (no Lorentzian matter response);
+{\bf L14} (cosmological $\Dz$ scale problem: counting all matter gives
+$\Dz \sim 10^{27}\,{\rm kg\,m^{-1}} \approx \Kt$, whereas rotation
+curves want $\sim10^{20}$---a seven-order-of-magnitude tension whose
+resolution requires specifying which matter counts, linked to L8);
+{\bf L15--L17} (thermodynamic sector: non-ideal equation of state and
+its $q$-dependence; long-range conduction kernel; the spin-repulsion
+potential bookkeeping that bounds the first-law claim domain).
+
+% =====================================================================
+\section{Conclusion and future work}
+\label{sec:conclusion}
+
+DFM shows how far a deliberately minimal, deliberately counterfactual
+axiom system can go: one scalar field and one spin degree of freedom
+mimic inertia, gravity, dragging, time dilation, light bending, and
+thermodynamic behavior in a single running implementation, with
+conservation laws closed at the equation level and every headline
+number gated by machine checks.
+Its pedagogical value lies precisely in the pairing of a working
+weak-field sector (Table~\ref{tab:calib}) with clearly delimited
+failures (Sec.~\ref{sec:negative}): students can see \emph{both} in
+the same tool, with the Newtonian control one parameter away.
+
+Three lines of future work are fixed:
+
+\paragraph*{(i) Action principle and geodesics (v2.0 core).}
+The clock rule E7R defines a line element
+\begin{equation}
+c^2\ud\tau^2 = e^{-2\psi}c^2\ud t^2
+ - e^{+2\psi}\left|\ud\vect{r}-\vect{u}\,\ud t\right|^2 ,
+\label{eq:line}
+\end{equation}
+and the natural program is to posit the particle action
+$S = -mc^2\!\int\!\ud\tau$ and derive matter, clocks, and light from
+one variational principle.
+The static weak-field expansion of Eq.~(\ref{eq:line}) \emph{suggests}
+PPN $\beta = \gamma = 1$---we record this strictly as a verification
+hypothesis, since the field equations, the $\vect{u}\ne0$ geodesics,
+and self-field exclusion remain undefined; if the program succeeds,
+the static 1PN perihelion advance would arise naturally and $k_F$
+would become a rotation-only parameter.
+The branch criterion is fixed in advance: if the current E4/E6$'$
+dynamics emerges as the slow-motion limit of the geodesics, v1 is
+continuous with v2; if not, v1 is frozen as a phenomenological toy
+and v2 is a different model.
+
+\paragraph*{(ii) The $\Dz$ scale problem.}
+Analyze a background/perturbation split $W = W_{\rm bg}(t) + \delta W$
+first, then a finite-propagation-speed (causal) field, to address the
+seven-order tension of L14.
+
+\paragraph*{(iii) Quantitative thermodynamics profile.}
+A separate parameter profile ($q = 3$, finite-range conduction,
+periodic boundaries) for equation-of-state scans, decoupled from the
+astrophysical demonstrations.
+
+\section*{Reproducibility and companion tool}
+\label{sec:repro}
+
+The complete model---engine, thirteen presets, verification suite, and
+documentation (axioms, derivations, and the adjudication records of
+seven external AI review rounds)---is a single HTML file with no
+external dependencies, archived with the project repository.
+Code is released under the MIT license and documentation under
+CC~BY~4.0.
+% TODO(submission): insert repository URL / Zenodo DOI here.
+All figures in this paper are regenerated from the simulation by the
+preset IDs and verification hooks stated in each caption.
+
+\begin{acknowledgments}
+Mathematical formalization, implementation, and verification were
+carried out in collaboration with AI systems (Anthropic Claude);
+external AI reviews (ChatGPT, Grok, Gemini) were used as adversarial
+checks. All axioms and final decisions are the author's.
+\end{acknowledgments}
+
+% =====================================================================
+\appendix
+
+\section{SI restoration}
+\label{app:si}
+
+The simulator is dimensionless with $G = 1$.
+For the ideal ($\varepsilon \to 0$) formulas:
+
+\begin{table}[h]
+\caption{\label{tab:si}SI restoration of the weak-field mapping.}
+\begin{ruledtabular}
+\begin{tabular}{lll}
+Quantity & Value & Note \\
+\hline
+$[W]$ & ${\rm kg\,m^{-1}}$ & determinacy dimension \\
+$\Kt = c^2/G$ & $\approx 1.35\times10^{27}\ {\rm kg\,m^{-1}}$ &
+clock/light coefficient \\
+$2/\Kt = 2G/c^2$ & $\approx 1.48\times10^{-27}\ {\rm m\,kg^{-1}}$ &
+effective lensing coefficient \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+The effective lensing coefficient $2/\Kt$ is a derived combination
+(Sec.~\ref{sec:dynamics}, E8R), not an independent parameter of the
+model.
+The softening $\varepsilon$ has no SI counterpart: it is numerical
+regularization only.
+
+% =====================================================================
+% Bibliography.  TODO(submission): verify every entry against the
+% original source before submission (per THEORY_SYNTHESIS Sec. 5).
+\begin{thebibliography}{99}
+
+\bibitem{Newton1687}
+I.~Newton, \emph{Philosophi\ae{} Naturalis Principia Mathematica}
+(London, 1687), Scholium to the Definitions.
+
+\bibitem{Mach1883}
+E.~Mach, \emph{Die Mechanik in ihrer Entwickelung} (Brockhaus,
+Leipzig, 1883); English translation: \emph{The Science of Mechanics}
+(Open Court, 1893).
+
+\bibitem{Sciama1953}
+D.~W.~Sciama, ``On the origin of inertia,''
+Mon.\ Not.\ R.\ Astron.\ Soc.\ \textbf{113}, 34--42 (1953).
+
+\bibitem{BarbourBertotti1982}
+J.~B.~Barbour and B.~Bertotti, ``Mach's principle and the structure of
+dynamical theories,''
+Proc.\ R.\ Soc.\ London A \textbf{382}, 295--306 (1982).
+
+\bibitem{LenseThirring1918}
+J.~Lense and H.~Thirring, ``\"Uber den Einfluss der Eigenrotation der
+Zentralk\"orper auf die Bewegung der Planeten und Monde nach der
+Einsteinschen Gravitationstheorie,''
+Phys.\ Z.\ \textbf{19}, 156--163 (1918).
+
+\bibitem{Everitt2011}
+C.~W.~F.~Everitt \emph{et al.}, ``Gravity Probe B: Final results of a
+space experiment to test general relativity,''
+Phys.\ Rev.\ Lett.\ \textbf{106}, 221101 (2011).
+
+\bibitem{CiufoliniPavlis2004}
+I.~Ciufolini and E.~C.~Pavlis, ``A confirmation of the general
+relativistic prediction of the Lense--Thirring effect,''
+Nature \textbf{431}, 958--960 (2004).
+
+\bibitem{RubinFord1970}
+V.~C.~Rubin and W.~K.~Ford, Jr., ``Rotation of the Andromeda nebula
+from a spectroscopic survey of emission regions,''
+Astrophys.\ J.\ \textbf{159}, 379--403 (1970).
+
+\bibitem{Milgrom1983}
+M.~Milgrom, ``A modification of the Newtonian dynamics as a possible
+alternative to the hidden mass hypothesis,''
+Astrophys.\ J.\ \textbf{270}, 365--370 (1983).
+
+\bibitem{Planck2018}
+Planck Collaboration, ``Planck 2018 results. VI. Cosmological
+parameters,'' Astron.\ Astrophys.\ \textbf{641}, A6 (2020).
+
+\bibitem{CooperstockTieu2005}
+F.~I.~Cooperstock and S.~Tieu, ``General relativity resolves galactic
+rotation without exotic dark matter,'' arXiv:astro-ph/0507619 (2005);
+see also the published criticisms of this claim.
+
+\bibitem{Ludwig2021}
+G.~O.~Ludwig, ``Galactic rotation curve and dark matter according to
+gravitomagnetism,'' Eur.\ Phys.\ J.\ C \textbf{81}, 186 (2021);
+see also subsequent critical replies.
+
+\bibitem{deFelice1971}
+F.~de~Felice, ``On the gravitational field acting as an optical
+medium,'' Gen.\ Relativ.\ Gravit.\ \textbf{2}, 347--357 (1971).
+
+\bibitem{Verlinde2017}
+E.~Verlinde, ``Emergent gravity and the dark universe,''
+SciPost Phys.\ \textbf{2}, 016 (2017).
+
+\bibitem{BrilliantovPoschel2004}
+N.~V.~Brilliantov and T.~P\"oschel,
+\emph{Kinetic Theory of Granular Gases}
+(Oxford University Press, Oxford, 2004).
+
+\bibitem{Iorio2011}
+L.~Iorio, ``Perturbed stellar motion around the rotating black hole in
+Sgr A* for a generic orientation of its spin axis,''
+Phys.\ Rev.\ D \textbf{84}, 124001 (2011).
+% TODO(submission): replace with the specific Iorio reference for the
+% solar Lense--Thirring perihelion precession of Mercury (-2 mas/cy).
+
+\end{thebibliography}
+
+\end{document}
