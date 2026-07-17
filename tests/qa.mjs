@@ -1,6 +1,7 @@
 // 機械QAスイート(Phase 1 再現性基盤)。1コマンド実行: `npm test`(または node tests/qa.mjs)
 // - HP.verify.all() / 全内蔵プリセットのスモーク / i18n / few-shot / BH捕捉 / 互換 /
 //   インポート4形式+ID重複 / seed再現性 / 新サンプル挙動 / 🪐の長時間挙動(QA_FAST=1 で省略)
+// - v1.15(第7次裁定): バージョン同期 / スライダー範囲整合 / 外部要素バッジ / おすすめA/B / 🌌平坦化の定量判定
 // - 結果は tests/out/qa-results.json に機械可読で保存(CI が artifact 化)
 // - 1件でも FAIL なら exit code 1
 import { execSync } from 'node:child_process';
@@ -43,6 +44,29 @@ const add = (id, pass, detail) => {
   fs.writeFileSync(tmp, m ? m[1] : 'throw new Error("no script")');
   try { execSync(`node --check ${JSON.stringify(tmp)}`, { stdio: 'pipe' }); add('syntax', true, ''); }
   catch (e) { add('syntax', false, String(e.stderr || e)); }
+}
+
+// ---- 0b) バージョン同期(v1.15 第7次裁定 P0-1): APP_VERSION と package.json の major.minor 一致 ----
+{
+  const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
+  const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const m = html.match(/const APP_VERSION = "([^"]+)"/);
+  add('version.sync', !!m && pkg.version.startsWith(m[1] + '.'),
+    `APP_VERSION=${m && m[1]} package.json=${pkg.version}`);
+}
+
+// ---- 0c) スライダー範囲(v1.15 第7次裁定 P0-2): 内蔵プリセットの physics 値がスライダー上限内 ----
+{
+  const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const defs = {};
+  for (const mm of html.matchAll(/\{key:"(\w+)",\s*label:[^}]*?lo:([\d.eE+-]+),\s*hi:([\d.eE+-]+)/g))
+    defs[mm[1]] = { lo: +mm[2], hi: +mm[3] };
+  const over = [];
+  const presets = html.match(/const BUILTIN_PRESETS = \[([\s\S]*?)\n\];/)[1];
+  for (const mm of presets.matchAll(/physics:\{([\s\S]*?)\}/g))
+    for (const kv of mm[1].matchAll(/(\w+):\s*([\d.eE+-]+)/g))
+      if (defs[kv[1]] && +kv[2] > defs[kv[1]].hi) over.push(`${kv[1]}=${kv[2]}>${defs[kv[1]].hi}`);
+  add('slider.covers-builtins', over.length === 0, over.slice(0, 5).join(' '));
 }
 
 const browser = await getBrowser();
@@ -186,6 +210,39 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   add('theory.panel', r.jaShown && r.enShown, `ja=${r.jaShown} en=${r.enShown}`);
 }
 
+// ---- 7d) 外部要素バッジ(v1.15 第7次裁定): bodies からの自動判定と説明タブ表示 ----
+{
+  const r = await page.evaluate(() => {
+    const tag = (id) => HP.externalTags(HP.allPresets().find(q => q.id === id));
+    const gc = tag('gclock'), f8 = tag('fig8'), mc = tag('mach');
+    HP.loadPreset('gclock', false);
+    const shown = document.querySelector('#helpBody').textContent.includes('外部要素');
+    HP.loadPreset('fig8', false);
+    const closed = document.querySelector('#helpBody').textContent.includes('閉鎖系');
+    return { gcPin: gc.pin, f8Pin: f8.pin, mcRail: mc.rail, mcBath: mc.bath, shown, closed };
+  });
+  add('ext.detect', r.gcPin === 4 && r.f8Pin === 0 && r.mcRail && r.mcBath, JSON.stringify(r)); // gclock は中心+時計3つの全4粒子が pinned(静止統制実験)
+  add('ext.panel', r.shown && r.closed, '');
+}
+
+// ---- 7e) おすすめA/B(v1.15 第7次裁定): abSuggest 宣言の妥当性とワンタップ開始 ----
+{
+  const r = await page.evaluate(() => {
+    const opts = [...document.querySelectorAll('#abParam option')].map(o => o.value);
+    const withS = HP.allPresets().filter(p => p.abSuggest);
+    const bad = withS.filter(p => !opts.includes(p.abSuggest.param) || !isFinite(p.abSuggest.value)).map(p => p.id);
+    HP.loadPreset('galaxy', false);
+    const visible = document.querySelector('#abSuggestRow').style.display !== 'none';
+    document.querySelector('#btnAbSuggest').click();
+    const ab2 = HP.ab();
+    const started = !!ab2 && ab2.key === 'kFrame' && ab2.simB.params.kFrame === 0;
+    HP.abStop(); HP.loadPreset('galaxy', false);
+    return { n: withS.length, bad, visible, started };
+  });
+  add('absuggest.valid', r.bad.length === 0 && r.n >= 5, `n=${r.n} bad=${r.bad.join(',')}`);
+  add('absuggest.one-tap', r.visible && r.started, '');
+}
+
 // ---- 7c) A/B比較モード(v1.13): 同一初期条件・1パラメータ差・両シム同時駆動 ----
 {
   const r = await page.evaluate(async () => {
@@ -210,11 +267,26 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   add('ab.stop', r.stopped, '');
 }
 
-// ---- 8) 長時間挙動: 🪐土星(環残存)。QA_FAST=1 で省略 ----
+// ---- 8) 長時間挙動: 🌌銀河平坦化(定量)と🪐土星(環残存)。QA_FAST=1 で省略 ----
 // (♨️対流の検査は v1.14 のプリセット撤去に伴い削除。検査ロジックは git 履歴 v1.13 に残る)
 if (!FAST) {
   const r = await page.evaluate(() => {
     const s = HP.sim, res = {};
+    // 🌌 galaxy: 主張の定量判定(v1.15 第7次裁定 P0-6)— 実プリセット・同一初期条件で
+    // kFrame=1(A)/0(B) を同時駆動し、外縁帯 r∈[156,286](=[0.6,1.1]×260)の平均接線速度を比較。
+    // 校正実験(付録N N3): 比は 3000步1.02→6000步1.08→9000步1.12 と成長し 12000步で円盤進化により
+    // 反転する。固定シードで決定論的な 6000步時点(実測1.082)を採用し、閾値は2倍マージンの >1.04
+    HP.loadPreset('galaxy', false);
+    HP.abStart('kFrame', 0);
+    const abG = HP.ab();
+    const outer = (sm) => { let sum = 0, c = 0;
+      for (let i = 1; i < sm.n; i++) { const r2 = Math.hypot(sm.x[i], sm.y[i]);
+        if (r2 >= 156 && r2 <= 286) { sum += (sm.x[i] * sm.vy[i] - sm.y[i] * sm.vx[i]) / r2; c++; } }
+      return c ? sum / c : 0; };
+    for (let k = 0; k < 6000; k++) { s.step(0.016); abG.simB.step(0.016); }
+    res.galA = outer(s); res.galB = outer(abG.simB);
+    res.galNaN = s.hasNaN() || abG.simB.hasNaN();
+    HP.abStop();
     // 🪐 saturn
     HP.loadPreset('saturn', false);
     for (let k = 0; k < 24000; k++) s.step(0.016);
@@ -223,6 +295,8 @@ if (!FAST) {
     res.satAnn = inAnn / tot; res.satDrift = Math.hypot(s.x[0], s.y[0]); res.satNaN = s.hasNaN();
     return res;
   });
+  add('claim.galaxy-flatten', !r.galNaN && r.galA > r.galB * 1.04,
+    `vφ外縁 kF1=${r.galA.toFixed(3)} kF0=${r.galB.toFixed(3)} 比=${(r.galA / r.galB).toFixed(3)} (>1.04)`);
   add('behavior.saturn', !r.satNaN && r.satAnn >= 0.95 && r.satDrift < 5,
     `inAnn=${(r.satAnn * 100).toFixed(1)}% drift=${r.satDrift.toFixed(1)}`);
 } else {

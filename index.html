@@ -119,6 +119,7 @@
         <div class="prow"><label id="abBLabel">B側の値</label>
           <input type="text" id="abVal" class="valIn" inputmode="decimal" autocomplete="off" style="flex:1;width:auto;"></div>
         <div class="rowBtns"><button class="btn primary" id="btnAB">A/B比較を開始</button></div>
+        <div class="rowBtns" id="abSuggestRow" style="display:none"><button class="btn" id="btnAbSuggest"></button></div>
         <p class="note" id="abNote">同一の初期配置で宇宙を2つ複製し、選んだ1つのパラメータだけを変えて上下に並べて同時に走らせます(A=上・現在の値、B=下)。実行中のパラメータ編集はA側にのみ効きます。プリセットを切り替えると解除されます。</p>
       </div>
       <div id="paramRows"></div>
@@ -259,6 +260,13 @@ ja: {
   ovCurve:"v(r): 実測(青) / ケプラー(点線)", ovTemp:"平均温度(Is²) 左/右", ovLeft:"左", ovRight:"右",
   ovSpec:"放射ピーク λ=b_m/T", ovSpecNone:"放射なし(T≈0)", ovSpecHot:"短λ=高温", ovSpecCold:"長λ=低温",
   hudClock:"時計τ/t",
+  // v1.15(第7次裁定): 外部要素バッジ(自動判定)と おすすめA/B
+  extHead:"外部要素(自動判定)",
+  extClosed:"閉鎖系 — 固定・規定運動なし。運動量・角運動量は系内(+遠方宇宙の帳簿)で閉じる。",
+  extPinned:(n)=>"固定粒子 "+n+"個 — 位置とスピンを外部が保持。反作用は系外に逃げるため、系内だけを見ると保存則は成り立たないように見える。",
+  extRail:"規定運動(レール駆動)— 外部が決めた軌道で動き、系に仕事をする。",
+  extBath:"スピン浴(熱浴)— スピン固定の粒子が周囲を加熱/冷却する(エネルギーの外部供給・吸収)。",
+  abSuggestBtn:(k,v)=>"おすすめA/B: "+k+" = "+v,
   groups:{}, params:{},
 },
 en: {
@@ -318,6 +326,12 @@ en: {
   ovCurve:"v(r): measured (blue) / Kepler (dotted)", ovTemp:"Mean temperature (Is²) L/R", ovLeft:"L", ovRight:"R",
   ovSpec:"Radiation peak λ=b_m/T", ovSpecNone:"No radiation (T≈0)", ovSpecHot:"short λ = hot", ovSpecCold:"long λ = cold",
   hudClock:"clock τ/t",
+  extHead:"External elements (auto-detected)",
+  extClosed:"Closed system — no constraints or prescribed motion. Momentum and angular momentum close within the system (plus the distant-universe ledger).",
+  extPinned:(n)=>"Pinned bodies ×"+n+" — position and spin are held externally. The reaction leaves the system, so conservation appears broken if you look at the system alone.",
+  extRail:"Prescribed motion (rail-driven) — follows an external schedule and does work on the system.",
+  extBath:"Spin bath (heat bath) — fixed-spin bodies heat/cool their surroundings (external energy source/sink).",
+  abSuggestBtn:(k,v)=>"Suggested A/B: "+k+" = "+v,
   groups:{"空間と時間":"Space & Time","光":"Light","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","AI生成":"AI-generated","内蔵":"Built-in"},
   params:{G:"Gravity G", D0:"Background determinacy D₀", kFrame:"Frame dragging kFrame",
     q:"Drag falloff q", kRep:"Spin repulsion kRep", muF:"Friction→spin muF",
@@ -408,6 +422,18 @@ function extractLawRefs(text){
   for(const r of m){ if(!seen.has(r) && LAWS.ja[r]){ seen.add(r); out.push(r); } }
   return out;
 }
+// v1.15(第7次裁定): 外部要素の自動判定 — プリセットの bodies から固定拘束・規定運動・熱浴を検出
+// (per-preset メタデータではなく機械判定: 理論解説パネルと同じ「保守コストゼロ」方針)
+function externalTags(p){
+  let pin=0, rail=false, bath=false;
+  for(const b of (p.bodies||[])){
+    if(b.type==="single" && b.pinned){ pin++; if(Math.abs(b.spin||0)>0) bath=true; }
+    else if(b.type==="ring" && b.pinned){ pin+=(b.n||0);
+      if(b.vMode==="omega" && b.omega) rail=true;
+      if(Math.abs(b.spinMin||0)>0 || Math.abs(b.spinMax||0)>0) bath=true; }
+  }
+  return {pin, rail, bath};
+}
 function gName(g){ return (LANG==="en" && I18N.en.groups[g]) || g; }
 function pName(p){ return (LANG==="en" && p.en && p.en.name) || p.name; }
 function pDesc(p){ return (LANG==="en" && p.en && p.en.description) || p.description || ""; }
@@ -418,13 +444,15 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
   kappaS:0.05, Kt:60, cLight:60, bM:1, etaRad:0, pRad:4,
   radiusScale:1.2, softening:2, timeScale:1 };
 // v1.7: kLens は廃止(E8R で屈折率は n=e^{2W/Kt} に統一。旧セーブの kLens は受理して無視)
-const APP_VERSION = "1.13";               // エクスポートの appVersion に記録
+const APP_VERSION = "1.15";               // エクスポートの appVersion に記録(package.json と QA で同期検査)
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 const RAY_MASS_MIN = 40;                  // 光線を曲げる最小質量(性能のための近似)
 
 // パラメータUI定義。mode:"log"=対数スライダー(桁をまたぐ量の微調整用。
 // スライダー範囲外の値(0を含む)は隣の数値入力欄から直接設定できる)
+// v1.15(第7次裁定): κs/Kt/etaRad の上限は CLAMPS と同一に拡大 — 内蔵プリセットの値
+// (熱伝導κs1.5・双子時計Kt10000等)がスライダー外に出て端に張り付く問題の解消
 const PARAM_DEFS = [
   {key:"G",     label:"重力 G",              mode:"log", lo:0.01,   hi:20,   group:"法則"},
   {key:"D0",    label:"背景決定力 D₀",       mode:"log", lo:0.05,   hi:200,  group:"法則"},
@@ -433,11 +461,11 @@ const PARAM_DEFS = [
   {key:"kRep",  label:"スピン斥力 kRep",     mode:"lin", lo:0, hi:5, step:0.05, group:"法則"},
   {key:"muF",   label:"摩擦→スピン変換 muF", mode:"lin", lo:0, hi:1, step:0.01, group:"法則"},
   {key:"gammaN",label:"衝突減衰 γn",         mode:"lin", lo:0, hi:1, step:0.01, group:"法則"},
-  {key:"kappaS",label:"スピン拡散 κs",       mode:"lin", lo:0, hi:0.5, step:0.005, group:"法則"},
-  {key:"Kt",    label:"時空係数 Kt(時間・光)", mode:"log", lo:1, hi:2000, group:"法則"},
+  {key:"kappaS",label:"スピン拡散 κs",       mode:"lin", lo:0, hi:2, step:0.01, group:"法則"},
+  {key:"Kt",    label:"時空係数 Kt(時間・光)", mode:"log", lo:1, hi:10000, group:"法則"},
   {key:"cLight",label:"光速 c₀",             mode:"log", lo:5, hi:1000, group:"法則"},
   {key:"bM",    label:"ウィーン定数 b_m",    mode:"log", lo:0.01, hi:100, group:"法則"},
-  {key:"etaRad",label:"放射冷却 η_rad",      mode:"log", lo:0.000001, hi:0.1, group:"法則"},
+  {key:"etaRad",label:"放射冷却 η_rad",      mode:"log", lo:0.000001, hi:1, group:"法則"},
   {key:"pRad",  label:"放射指数 p",          mode:"lin", lo:1, hi:6, step:0.5, group:"法則"},
   {key:"radiusScale",label:"粒子半径スケール", mode:"lin", lo:0.2, hi:4, step:0.02, group:"シミュレーション"},
   {key:"softening",  label:"ソフトニング ε",  mode:"lin", lo:0.5, hi:10, step:0.1, group:"シミュレーション"},
@@ -472,6 +500,7 @@ const BUILTIN_PRESETS = [
   en:{name:"Mach's Bucket", description:"A heavy rotating ring drags the space inside it, and particles initially at rest begin to circle (A4/A5/T2). Raise D₀ (the determinacy of the distant universe) and the drag weakens — space becomes rigid (contrast with T1)."},
   camera:{scale:220}, world:{boundary:"none",size:0},
   physics:{G:0.02, D0:0.5, timeScale:2},
+  abSuggest:{param:"D0", value:50}, // v1.15: 対比=D₀を上げると引きずりが弱まる(説明文の推奨を1タップ化)
   bodies:[
     {type:"ring", n:14, cx:0,cy:0, rIn:150,rOut:150, mMin:80,mMax:80,
      spinMin:0.5,spinMax:0.5, vMode:"omega", aroundMass:0, omega:0.012, vNoise:0, direction:1, pinned:true},
@@ -501,6 +530,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:280}, world:{boundary:"none",size:0},
   physics:{G:0, D0:0, kFrame:0, kRep:0, muF:0, gammaN:0, kappaS:0, etaRad:0,
     Kt:300, cLight:60, timeScale:1},
+  abSuggest:{param:"Kt", value:150}, // v1.15: 対比=Kt 300→150 で3時計の差が同時に拡大(説明文の推奨)
   bodies:[ // v1.12(付録L): 第6次提案 P0-1 採用。τ/t 解析一致を機械検証済み
     {type:"single", m:1500, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
     {type:"single", m:2, x:70,y:0,  vx:0,vy:0, spin:0, pinned:true},
@@ -526,6 +556,7 @@ const BUILTIN_PRESETS = [
   en:{name:"Galactic Rotation Curve", description:"A disk galaxy. Stars start on Keplerian orbits (matching the dotted line), but frame dragging (kFrame=1) transports the inner rotation outward and the curve flattens (T4). Set kFrame=0 and it never happens. Watch the bottom-right graph (solid=measured, dotted=Keplerian)."},
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{D0:1, muF:0.02, gammaN:0.05, kRep:1.0, softening:4, timeScale:4},
+  abSuggest:{param:"kFrame", value:0}, // v1.15: 対比=kFrame0では平坦化が起きない(T4。QAでも定量検証)
   bodies:[
     {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:false},
     {type:"disk", n:380, cx:0,cy:0, radius:260, mMin:0.5,mMax:1.2,
@@ -587,6 +618,7 @@ const BUILTIN_PRESETS = [
   en:{name:"Spin Pressure — Heat Pushes Outward", description:"A circular container, zero gravity. The hot (high-spin) core pushes outward via spin repulsion (A10), inflating the shell of cold gas — pressure IS temperature. Friction and spin diffusion then pass the heat outward until one temperature remains (T6). Color = temperature. Note: the spin-pressure equation of state is not the ideal-gas law (P∝ρ²T; L15)."},
   camera:{scale:240}, world:{boundary:"circle",size:210},
   physics:{G:0, D0:50, kFrame:0, kRep:2, muF:0.2, gammaN:0.3, kappaS:0.05, etaRad:0, timeScale:2},
+  abSuggest:{param:"kRep", value:0}, // v1.15: 対比=kRep0では圧力が消え殻が押し広がらない(A10)
   bodies:[
     {type:"disk", n:90, cx:0,cy:0, radius:50, mMin:1,mMax:1,
      spinMin:6,spinMax:7, vMode:"none", aroundMass:0, vScale:0, direction:1},
@@ -710,6 +742,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:190}, world:{boundary:"none",size:0},
   physics:{G:1, D0:5, kFrame:0, kRep:0, muF:1, gammaN:0.6, kappaS:0.02,
     Kt:10000, etaRad:1e-5, pRad:2, radiusScale:0.8, timeScale:2},
+  abSuggest:{param:"muF", value:0}, // v1.15: 対比=muF0で加熱が完全に止まる(0.76→0.00は機械検証済み)
   bodies:[ // v1.12(付録L): 第6次提案 P0-3 採用。muF=1/0 の加熱対照を機械検証済み
     {type:"single", m:800, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
     {type:"ring", n:140, cx:0,cy:0, rIn:80,rOut:145, mMin:0.12,mMax:0.18,
@@ -725,6 +758,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:160}, world:{boundary:"none",size:0},
   physics:{G:0.9, D0:4.5, kFrame:0.55, q:1.8, kRep:0.8, muF:0.45, gammaN:0.55,
     kappaS:0.12, etaRad:0.0008, Kt:90, cLight:70, softening:3.5, timeScale:1.8},
+  abSuggest:{param:"kFrame", value:0.3}, // v1.15: 対比=kFrame 0.3〜0.9 で合体動力学が変わる(説明文の推奨帯の下端)
   bodies:[ // v1.13(付録M): 第6次提案(Grok #1)を内蔵化(12000步スモーク検証済み)
     {type:"single", m:920, x:-280,y:20, vx:1.35,vy:0.25, spin:0.09, pinned:false},
     {type:"disk", n:195, cx:-280,cy:20, radius:95, mMin:0.25,mMax:1.6,
@@ -741,6 +775,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:280}, world:{boundary:"none",size:0},
   physics:{G:1.4, D0:1.8, kFrame:0.35, kRep:1.2, muF:0.65, gammaN:0.45, kappaS:0.09,
     etaRad:0.004, pRad:2.8, Kt:70, softening:5, timeScale:2.2},
+  abSuggest:{param:"etaRad", value:0}, // v1.15: 対比=冷却なしでは収縮が鈍る(説明文の推奨を1タップ化)
   bodies:[ // v1.13(付録M): 第6次提案(Grok #3)を内蔵化(12000步スモーク検証済み)
     {type:"disk", n:260, cx:0,cy:0, radius:210, mMin:0.15,mMax:0.9,
      spinMin:0,spinMax:0.15, vMode:"random", aroundMass:0, vScale:0.35, direction:1}
@@ -802,43 +837,47 @@ function validatePreset(obj){
   // bodies
   if(!Array.isArray(p.bodies)) bad("bodies(配列)が必要です");
   else {
-    const CO=(v)=>clamp(v,-5000,5000), LEN=(v)=>clamp(v,0,5000), MASS=(v)=>clamp(v,0.01,5000),
-          VEL=(v)=>clamp(v,-50,50), SPN=(v)=>clamp(v,-20,20);
+    // v1.15(第7次裁定 P0): 粒子値のクランプも physics 同様に警告を出す — LLM生成・インポート値が
+    // 黙って書き換わり「検証成功・警告なし」なのに実行値が入力と違う、を防ぐ
+    let at="";
+    const wc=(v,lo,hi,k)=>{ const c=clamp(v,lo,hi); if(c!==v) warnings.push(at+"."+k+" を値域に修正"); return c; };
+    const CO=(v,k)=>wc(v,-5000,5000,k), LEN=(v,k)=>wc(v,0,5000,k), MASS=(v,k)=>wc(v,0.01,5000,k),
+          VEL=(v,k)=>wc(v,-50,50,k), SPN=(v,k)=>wc(v,-20,20,k);
     const out=[];
     p.bodies.forEach((b,idx)=>{
-      const at="bodies["+idx+"]";
+      at="bodies["+idx+"]";
       if(!b||typeof b!=="object"){ bad(at+" がオブジェクトではありません"); return; }
       const t=b.type;
       const needNum=(keys)=>{ for(const k of keys){ if(!isNum(b[k])){ bad(at+"."+k+" が数値ではありません"); return false; } } return true; };
       if(t==="single"){
         if(!needNum(["m","x","y","vx","vy","spin"])) return;
         if(typeof b.pinned!=="boolean"){ bad(at+".pinned(boolean)が必要"); return; }
-        out.push({type:"single", m:MASS(b.m), x:CO(b.x), y:CO(b.y), vx:VEL(b.vx), vy:VEL(b.vy), spin:SPN(b.spin), pinned:b.pinned});
+        out.push({type:"single", m:MASS(b.m,"m"), x:CO(b.x,"x"), y:CO(b.y,"y"), vx:VEL(b.vx,"vx"), vy:VEL(b.vy,"vy"), spin:SPN(b.spin,"spin"), pinned:b.pinned});
       } else if(t==="ring"){
         if(!needNum(["n","cx","cy","rIn","rOut","mMin","mMax","spinMin","spinMax","aroundMass","omega","vNoise"])) return;
         if(["kepler","omega","none"].indexOf(b.vMode)<0){ bad(at+".vMode が不正"); return; }
         if(b.direction!==1 && b.direction!==-1){ bad(at+".direction は 1 か -1"); return; }
         if(typeof b.pinned!=="boolean"){ bad(at+".pinned(boolean)が必要"); return; }
-        out.push({type:"ring", n:clamp(Math.round(b.n),0,N_CAP), cx:CO(b.cx), cy:CO(b.cy),
-          rIn:LEN(Math.min(b.rIn,b.rOut)), rOut:LEN(Math.max(b.rIn,b.rOut)),
-          mMin:MASS(Math.min(b.mMin,b.mMax)), mMax:MASS(Math.max(b.mMin,b.mMax)),
-          spinMin:SPN(Math.min(b.spinMin,b.spinMax)), spinMax:SPN(Math.max(b.spinMin,b.spinMax)),
-          vMode:b.vMode, aroundMass:clamp(b.aroundMass,0,5000), omega:clamp(b.omega,-2,2),
-          vNoise:clamp(b.vNoise,0,1), direction:b.direction, pinned:b.pinned});
+        out.push({type:"ring", n:clamp(Math.round(b.n),0,N_CAP), cx:CO(b.cx,"cx"), cy:CO(b.cy,"cy"),
+          rIn:LEN(Math.min(b.rIn,b.rOut),"rIn"), rOut:LEN(Math.max(b.rIn,b.rOut),"rOut"),
+          mMin:MASS(Math.min(b.mMin,b.mMax),"mMin"), mMax:MASS(Math.max(b.mMin,b.mMax),"mMax"),
+          spinMin:SPN(Math.min(b.spinMin,b.spinMax),"spinMin"), spinMax:SPN(Math.max(b.spinMin,b.spinMax),"spinMax"),
+          vMode:b.vMode, aroundMass:wc(b.aroundMass,0,5000,"aroundMass"), omega:wc(b.omega,-2,2,"omega"),
+          vNoise:wc(b.vNoise,0,1,"vNoise"), direction:b.direction, pinned:b.pinned});
       } else if(t==="disk"){
         if(!needNum(["n","cx","cy","radius","mMin","mMax","spinMin","spinMax","aroundMass","vScale"])) return;
         if(["kepler","rigid","flat","random","none"].indexOf(b.vMode)<0){ bad(at+".vMode が不正"); return; }
         if(b.direction!==1 && b.direction!==-1){ bad(at+".direction は 1 か -1"); return; }
-        out.push({type:"disk", n:clamp(Math.round(b.n),0,N_CAP), cx:CO(b.cx), cy:CO(b.cy), radius:LEN(b.radius),
-          mMin:MASS(Math.min(b.mMin,b.mMax)), mMax:MASS(Math.max(b.mMin,b.mMax)),
-          spinMin:SPN(Math.min(b.spinMin,b.spinMax)), spinMax:SPN(Math.max(b.spinMin,b.spinMax)),
-          vMode:b.vMode, aroundMass:clamp(b.aroundMass,0,5000), vScale:clamp(b.vScale,0,50), direction:b.direction});
+        out.push({type:"disk", n:clamp(Math.round(b.n),0,N_CAP), cx:CO(b.cx,"cx"), cy:CO(b.cy,"cy"), radius:LEN(b.radius,"radius"),
+          mMin:MASS(Math.min(b.mMin,b.mMax),"mMin"), mMax:MASS(Math.max(b.mMin,b.mMax),"mMax"),
+          spinMin:SPN(Math.min(b.spinMin,b.spinMax),"spinMin"), spinMax:SPN(Math.max(b.spinMin,b.spinMax),"spinMax"),
+          vMode:b.vMode, aroundMass:wc(b.aroundMass,0,5000,"aroundMass"), vScale:wc(b.vScale,0,50,"vScale"), direction:b.direction});
       } else if(t==="box"){
         if(!needNum(["n","cx","cy","w","h","mMin","mMax","spinMin","spinMax","vScale"])) return;
-        out.push({type:"box", n:clamp(Math.round(b.n),0,N_CAP), cx:CO(b.cx), cy:CO(b.cy), w:LEN(b.w), h:LEN(b.h),
-          mMin:MASS(Math.min(b.mMin,b.mMax)), mMax:MASS(Math.max(b.mMin,b.mMax)),
-          spinMin:SPN(Math.min(b.spinMin,b.spinMax)), spinMax:SPN(Math.max(b.spinMin,b.spinMax)),
-          vScale:clamp(b.vScale,0,50)});
+        out.push({type:"box", n:clamp(Math.round(b.n),0,N_CAP), cx:CO(b.cx,"cx"), cy:CO(b.cy,"cy"), w:LEN(b.w,"w"), h:LEN(b.h,"h"),
+          mMin:MASS(Math.min(b.mMin,b.mMax),"mMin"), mMax:MASS(Math.max(b.mMin,b.mMax),"mMax"),
+          spinMin:SPN(Math.min(b.spinMin,b.spinMax),"spinMin"), spinMax:SPN(Math.max(b.spinMin,b.spinMax),"spinMax"),
+          vScale:wc(b.vScale,0,50,"vScale")});
       } else bad(at+".type が不正です("+String(t)+")");
     });
     // 粒子総数のクランプ(比例縮小)
@@ -1667,7 +1706,7 @@ function loadPreset(id, keepPhysics){
   basePhysics=Object.assign({},DEFAULT_PHYSICS,p.physics||{});
   camX=0; camY=0; camScale=p.camera.scale; tempP90EMA=0.5; selIdx=-1; nanNotified=false;
   running=false; updatePlayBtn();
-  buildParamRows(); renderHelp();
+  buildParamRows(); renderHelp(); updateAbSuggest();
   $("#presetSelect").value=id;
 }
 
@@ -1709,6 +1748,19 @@ $("#btnAB").addEventListener("click",()=>{
   notify(T("abStarted")(key));
 });
 $("#abParam").addEventListener("change",abPrefill);
+// v1.15(第7次裁定): おすすめA/B — プリセットが宣言する対比(abSuggest:{param,value})を1タップで開始
+function updateAbSuggest(){
+  const s=currentPreset && currentPreset.abSuggest, row=$("#abSuggestRow");
+  if(!s){ row.style.display="none"; return; }
+  row.style.display="";
+  $("#btnAbSuggest").textContent=T("abSuggestBtn")(s.param, s.value);
+}
+$("#btnAbSuggest").addEventListener("click",()=>{
+  const s=currentPreset && currentPreset.abSuggest; if(!s) return;
+  $("#abParam").value=s.param; $("#abVal").value=String(s.value);
+  abStart(s.param, s.value);
+  notify(T("abStarted")(s.param));
+});
 
 // ===== トランスポート =====
 function updatePlayBtn(){
@@ -1945,7 +1997,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 1. スキーマに完全準拠したJSONのみを出力する。説明文やコードフェンスは書かない。
 2. physicsは全キーを必ず含める。変更不要なキーは既定値を書く。既定値: G=1, D0=2, kFrame=1, q=2, kRep=1, muF=0.5, gammaN=0.4, kappaS=0.05, Kt=60, cLight=60, bM=1, etaRad=0, pRad=4, radiusScale=1.2, softening=2, timeScale=1
 3. 粒子総数は最大600。滑らかに動かすため通常は120〜400にする。
-4. 軌道系を作るとき: 中心に single(質量M・pinned:false)を置き、ring/disk は vMode="kepler", aroundMass=M にする。
+4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
 6. name は30字以内、description は200字以内の日本語。emoji は絵文字1文字。
 7. 値域(超えると自動修正される): G:0〜100, D0:0〜1000, kFrame:0〜1, q:0.5〜4, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, Kt:1〜10000, cLight:1〜10000, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, radiusScale:0.2〜5, softening:0.5〜20, timeScale:0.1〜16, camera.scale:20〜3000, 座標・長さ:±5000, 質量:0.01〜5000, 速度成分:±50, スピン:±20, omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
@@ -1972,8 +2024,8 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 {"name":"回転リングの空間引きずり","emoji":"🌀","description":"重いリングが回転すると内側の空間ごと引きずられ、静止していた粒子が回り始める(マッハの原理)。D0を上げると引きずりが弱まるのも試せる。","camera":{"scale":220},"world":{"boundary":"none","size":0},"physics":{"G":0.02,"D0":0.5,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":60,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"radiusScale":1.2,"softening":2,"timeScale":2},"bodies":[{"type":"ring","n":14,"cx":0,"cy":0,"rIn":150,"rOut":150,"mMin":80,"mMax":80,"spinMin":0.5,"spinMax":0.5,"vMode":"omega","aroundMass":0,"omega":0.012,"vNoise":0,"direction":1,"pinned":true},{"type":"disk","n":40,"cx":0,"cy":0,"radius":80,"mMin":0.5,"mMax":0.5,"spinMin":0,"spinMax":0,"vMode":"none","aroundMass":0,"vScale":0,"direction":1}],"overlays":{"rotationCurve":false,"tempHistogram":false,"field":false}}
 
 例5 要望「床で温めて天井で冷やす対流実験」
-{"name":"対流セル — 床加熱・天井冷却","emoji":"♨️","description":"床の左〜中央がヒーター(固定・高スピン)、天井の右側が疎な冷却板(固定・スピン0)。温められたガスはスピン斥力で膨らんで浮かび、天井で熱を渡して右から沈む一方向の対流セル。ガスは軽い粒子にして自己重力の凍結を防ぐ。左右の平均温度グラフ付き。","camera":{"scale":240},"world":{"boundary":"box","size":190},"physics":{"G":1.5,"D0":40,"kFrame":0.2,"q":2,"kRep":2,"muF":0.3,"gammaN":0.2,"kappaS":0.8,"Kt":60,"cLight":60,"bM":1,"etaRad":0.00001,"pRad":2,"radiusScale":4,"softening":4,"timeScale":2},"bodies":[{"type":"single","m":13000,"x":0,"y":900,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":-170,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-150,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-130,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-110,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-90,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-70,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-50,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-30,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-10,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":10,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":30,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":10,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":50,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":90,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":130,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":170,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"box","n":260,"cx":0,"cy":-10,"w":340,"h":320,"mMin":0.05,"mMax":0.05,"spinMin":1,"spinMax":2,"vScale":0.4}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
-(pinned+spin=熱浴の型: 高スピン列=ヒーター、スピン0列=冷却板。床の一部だけを温め、冷却板を天井に疎に置くと一方向の対流セルになり、粒子が冷所に貼り付かない=機械検証済み)`;
+{"name":"対流セル — 床加熱・天井冷却","emoji":"♨️","description":"床の左〜中央がヒーター(固定・高スピン)、天井の右側が疎な冷却板(固定・スピン0)。温められたガスはスピン斥力で膨らんで浮かび、天井で熱を渡して右から沈む一方向の対流セル。ガスは軽い粒子にして自己重力の凍結を防ぐ。左右の平均温度グラフ付き。","camera":{"scale":240},"world":{"boundary":"box","size":190},"physics":{"G":3.9,"D0":40,"kFrame":0.2,"q":2,"kRep":2,"muF":0.3,"gammaN":0.2,"kappaS":0.8,"Kt":60,"cLight":60,"bM":1,"etaRad":0.00001,"pRad":2,"radiusScale":4,"softening":4,"timeScale":2},"bodies":[{"type":"single","m":5000,"x":0,"y":900,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":-170,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-150,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-130,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-110,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-90,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-70,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-50,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-30,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-10,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":10,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":30,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":10,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":50,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":90,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":130,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":170,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"box","n":260,"cx":0,"cy":-10,"w":340,"h":320,"mMin":0.05,"mMax":0.05,"spinMin":1,"spinMax":2,"vScale":0.4}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
+(pinned+spin=熱浴の型: 高スピン列=ヒーター、スピン0列=冷却板。床の一部だけを温め、冷却板を天井に疎に置くと一方向の対流セルになり、粒子が冷所に貼り付かない=機械検証済み。重力は画面外の遠方大質量で箱内をほぼ一様な下向きにする — 質量上限5000のためGを上げてG×mで必要な場の強さを作る)`;
 
 // 注: 以前は output_config.format(構造化出力)に JSON Schema を渡していたが、
 // スキーマが大きく「The compiled grammar is too large」(400) となるため撤去した。
@@ -2214,7 +2266,7 @@ function applyLang(){
   $("#btnGenerate").textContent=T("btnGenerate"); $("#aiListHead").textContent=T("aiListHead");
   $("#aiPrompt").placeholder=T("aiPromptPh");
   rebuildPresetSelect(currentPreset?currentPreset.id:undefined);
-  if(currentPreset){ buildParamRows(); renderHelp(); }
+  if(currentPreset){ buildParamRows(); renderHelp(); updateAbSuggest(); }
   renderSaves(); renderCustomList(); renderAiConfig(); updatePlayBtn();
 }
 $("#btnLang").addEventListener("click",()=>{
@@ -2234,6 +2286,13 @@ function renderHelp(){
     for(const r of refs) mk("p","・"+r+" — "+lawText(r));
     mk("p",T("helpTheoryNote")).style.color="var(--dim)";
   }
+  // v1.15(第7次裁定): 外部要素バッジ — 固定粒子・レール・熱浴と閉鎖系を区別して表示
+  const ext=externalTags(currentPreset);
+  mk("h4",T("extHead"));
+  if(ext.rail) mk("p","・"+T("extRail"));
+  if(ext.pin) mk("p","・"+T("extPinned")(ext.pin));
+  if(ext.bath) mk("p","・"+T("extBath"));
+  if(!ext.rail && !ext.pin) mk("p","・"+T("extClosed"));
   mk("h4",T("helpOps"));
   mk("p",T("helpOpsBody"));
   mk("h4",T("helpLaws"));
@@ -2616,6 +2675,7 @@ const VERIFY = {
 window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extractJSON,
   verify:VERIFY, traceRay, getSystemPrompt, aiCfg, T:(k)=>T(k), lang:()=>LANG,
   extractLawRefs, lawText, ab:()=>ab, abStart, abStop,
+  externalTags, APP_VERSION, currentPreset:()=>currentPreset,  // v1.15: バッジ/バージョン同期のQA用
   setLang:(l)=>{ LANG=(l==="en")?"en":"ja"; localStorage.setItem("hp_lang",LANG); applyLang(); },
   running:()=>running, setRunning:(v)=>{running=v;updatePlayBtn();},
   tick:(frames)=>{ for(let f=0;f<frames;f++){ const k=Math.max(1,Math.round(SUBSTEPS*sim.params.timeScale)); for(let s2=0;s2<Math.min(k,24);s2++) sim.step(DT); } render(); } };
