@@ -1,3 +1,4 @@
 node_modules/
 tests/out/
-package-lock.json  # QAツール(playwright)のみの依存。CI は npm install + playwright install で解決するためロックしない
+# QAツール(playwright)のみの依存。CI は npm install + playwright install で解決するためロックしない
+package-lock.json
