@@ -129,9 +129,11 @@
       <div class="group"><h3>バックアップ</h3>
         <div class="rowBtns">
           <button class="btn" id="btnExport">エクスポート(コピー)</button>
+          <button class="btn" id="btnExportFile">ファイルに保存</button>
           <button class="btn" id="btnImport">インポート</button>
         </div>
         <textarea id="ioArea" placeholder="エクスポートJSONの表示 / 貼り付けてインポート"></textarea>
+        <p class="note" id="ioNote">インポートは「単独プリセット / プリセット配列 / {customPresets:[…]} / バックアップ全体」のどの形式でも自動判別します。既存と同じIDはスキップされます。</p>
       </div>
     </div>
     <div class="tabPage" id="page-ai">
@@ -210,6 +212,9 @@ ja: {
   saveFailed:"保存できませんでした(localStorage容量不足の可能性)",
   copied:"クリップボードにコピーしました", imported:"インポートしました",
   importFailed:"読み込めませんでした(JSONが不正です)",
+  importReport:(a,s,b)=>"インポート: 追加"+a+"件"+(s?" / ID重複スキップ"+s+"件":"")+(b?" / 不正"+b+"件":""),
+  btnExportFile:"ファイルに保存", fileSaved:"ファイルとして保存しました", fileShared:"共有しました",
+  ioNote:"インポートは「単独プリセット / プリセット配列 / {customPresets:[…]} / バックアップ全体」のどの形式でも自動判別します。既存と同じIDはスキップされます。",
   presetMissing:"元プリセットが見つからないため既定プリセットに適用しました",
   resetDone:"初期配置に戻しました(パラメータは保持)", defaultsDone:"プリセットの既定値に戻しました",
   diverged:"数値が発散しました。パラメータを見直すか「⏮ 初めから」を押してください。",
@@ -258,6 +263,9 @@ en: {
   saveFailed:"Could not save (localStorage may be full)",
   copied:"Copied to clipboard", imported:"Imported",
   importFailed:"Could not import (invalid JSON)",
+  importReport:(a,s,b)=>"Import: "+a+" added"+(s?" / "+s+" skipped (duplicate ID)":"")+(b?" / "+b+" invalid":""),
+  btnExportFile:"Save as file", fileSaved:"Saved as a file", fileShared:"Shared",
+  ioNote:"Import auto-detects any of: a single preset / an array of presets / {customPresets:[…]} / a full backup. Presets whose ID already exists are skipped.",
   presetMissing:"Original preset not found — applied to the default preset",
   resetDone:"Reset to initial layout (parameters kept)", defaultsDone:"Restored preset defaults",
   diverged:"Simulation diverged. Adjust parameters or press ⏮ Restart.",
@@ -305,6 +313,7 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
   kappaS:0.05, Kt:60, cLight:60, bM:1, etaRad:0, pRad:4,
   radiusScale:1.2, softening:2, timeScale:1 };
 // v1.7: kLens は廃止(E8R で屈折率は n=e^{2W/Kt} に統一。旧セーブの kLens は受理して無視)
+const APP_VERSION = "1.12";               // エクスポートの appVersion に記録
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 const RAY_MASS_MIN = 40;                  // 光線を曲げる最小質量(性能のための近似)
@@ -380,6 +389,20 @@ const BUILTIN_PRESETS = [
      spinMin:0,spinMax:0, vMode:"omega", aroundMass:0, omega:0.0873, vNoise:0, direction:1, pinned:true}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
+
+{ id:"gclock", name:"重力による時計の遅れ", emoji:"⏱️", group:"空間と時間",
+  description:"中央の大質量天体から距離70・140・240に置いた3つの静止時計。運動を完全に止め、距離=決定力の強さだけを変えた統制実験。時計をタップすると、内側ほど固有時計(τ/t)が小さい: 0.931/0.965/0.979(解析値と1e-5で一致=機械検証)。Ktを300→150に下げると3つの差が同時に拡大する。🕰双子の時計(運動の遅れ)と対をなす、重力の遅れ(A7′/E7R の重力項)の単独デモ。",
+  en:{name:"Gravitational Time Dilation", description:"Three clocks at rest, at distances 70/140/240 from a central mass — motion is eliminated so only distance (= determinacy strength) varies. Tap each clock: the inner one ticks slowest, τ/t = 0.931/0.965/0.979 (matches the analytic value to 1e-5, machine-verified). Lower Kt from 300 to 150 and all three gaps widen together. The gravitational counterpart of the Twin Clocks (motion) demo — the pure gravity term of A7′/E7R."},
+  camera:{scale:280}, world:{boundary:"none",size:0},
+  physics:{G:0, D0:0, kFrame:0, kRep:0, muF:0, gammaN:0, kappaS:0, etaRad:0,
+    Kt:300, cLight:60, timeScale:1},
+  bodies:[ // v1.12(付録L): 第6次提案 P0-1 採用。τ/t 解析一致を機械検証済み
+    {type:"single", m:1500, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", m:2, x:70,y:0,  vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", m:2, x:140,y:0, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", m:2, x:240,y:0, vx:0,vy:0, spin:0, pinned:true}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
 { id:"drag", name:"引きずられる楕円 — 近点の後退", emoji:"💫", group:"空間と時間",
   description:"ニュートン力学なら楕円軌道は閉じて動かない。中心星のスピンが空間を引きずると(A8+E6′)、楕円ごとゆっくり回転し、光跡が回る花びらを描く。回転の向きは公転と逆=近点の後退で、GRのレンズ=サーリング歳差と同じ符号(v1.8 D4a′。機械裁定=V6)。中心星のスピンを負にすると前進に変わる。",
@@ -491,6 +514,19 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
+{ id:"coolrace", name:"放射冷却 — 高温ほど速い", emoji:"🌈", group:"熱の実験室",
+  description:"同じ質量で温度(スピン)だけが2・4・8と異なる3粒子を静止配置。力は全て切ってあり、変わるのは放射冷却(E11、Λ∝T^p)だけの統制実験。最も熱い粒子が最も速く冷え(初期の冷却速度比はほぼ1:8:64=s³則。機械検証)、色が赤→青へ、右下のスペクトルのピークが長波長側へ移る。etaRadを0にすると全てが止まる。",
+  en:{name:"Radiative Cooling — Hotter Cools Faster", description:"Three resting particles of equal mass, differing only in temperature (spin 2/4/8). All forces are off — the only physics is radiative cooling (E11, Λ∝T^p): a controlled experiment. The hottest cools fastest (initial cooling-rate ratio ≈ 1:8:64, the s³ law — machine-verified), colors shift red→blue, and the spectrum peak (bottom right) moves to longer wavelengths. Set etaRad to 0 and everything freezes."},
+  camera:{scale:180}, world:{boundary:"none",size:0},
+  physics:{G:0, D0:50, kFrame:0, kRep:0, muF:0, gammaN:0, kappaS:0,
+    Kt:10000, etaRad:1e-5, pRad:2, timeScale:4},
+  bodies:[ // v1.12(付録L): 第6次提案 P0-2 採用。冷却速度比 8.0/7.8(理論8)を機械検証済み
+    {type:"single", m:4, x:-100,y:0, vx:0,vy:0, spin:2, pinned:false},
+    {type:"single", m:4, x:0,y:0,    vx:0,vy:0, spin:4, pinned:false},
+    {type:"single", m:4, x:100,y:0,  vx:0,vy:0, spin:8, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,spectrum:true} },
+
 { id:"phase", name:"固体・液体・気体", emoji:"🧊", group:"熱の実験室",
   description:"質量・数・大きさ・初速が完全に同一の3つの雲 — 違いは初期スピン(温度)だけの統制実験。左=低温: 重力で収縮し結晶化する固体。中=中温: 流動する液体。右=高温: スピン斥力で蒸発し箱に充満する気体。※これは束縛と斥力の競合による形態のアナロジーで、実在物質の潜熱・相平衡の再現ではない(第4次裁定)。色=温度。",
   en:{name:"Solid, Liquid, Gas", description:"Three clouds identical in mass, count, size and initial speed — only the initial spin (temperature) differs: a controlled experiment. Left = cold: gravity wins, it crystallizes (solid). Middle = warm: it flows (liquid). Right = hot: spin repulsion evaporates it to fill the box (gas). A morphological analogy of binding vs repulsion — not real latent-heat phase transitions. Color = temperature."},
@@ -549,6 +585,21 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
+{ id:"counterring", name:"順行・逆行リングの衝突", emoji:"💥", group:"天体の物語",
+  description:"同じ軌道帯を逆向きに回る2つのリング。正面衝突の接触摩擦(A9)が公転運動をスピン=熱へ変換し、リングが光りながら加熱・降着していく。muFを0にすると加熱が完全に止まる(平均スピン 0.76→0.00の対照=機械検証)。公転エネルギーが熱に変わる「逆回転降着円盤」の思考実験。右下は放射スペクトル。",
+  en:{name:"Prograde vs Retrograde Ring Collision", description:"Two rings share the same orbital band but revolve in opposite directions. Head-on contact friction (A9) converts orbital motion into spin = heat — the rings glow, heat up, and accrete. Set muF to 0 and the heating stops completely (mean spin 0.76 → 0.00, machine-verified contrast). A thought experiment on counter-rotating accretion disks. Bottom right: radiation spectrum."},
+  camera:{scale:190}, world:{boundary:"none",size:0},
+  physics:{G:1, D0:5, kFrame:0, kRep:0, muF:1, gammaN:0.6, kappaS:0.02,
+    Kt:10000, etaRad:1e-5, pRad:2, radiusScale:0.8, timeScale:2},
+  bodies:[ // v1.12(付録L): 第6次提案 P0-3 採用。muF=1/0 の加熱対照を機械検証済み
+    {type:"single", m:800, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
+    {type:"ring", n:140, cx:0,cy:0, rIn:80,rOut:145, mMin:0.12,mMax:0.18,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:800, omega:0, vNoise:0.03, direction:1, pinned:false},
+    {type:"ring", n:140, cx:0,cy:0, rIn:80,rOut:145, mMin:0.12,mMax:0.18,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:800, omega:0, vNoise:0.03, direction:-1, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,spectrum:true} },
+
 { id:"snowline", name:"雪線 — 熱は塊を融かす", emoji:"❄️", group:"天体の物語",
   description:"同じ塵の環を冷たい星(左)と熱い星(右)に与えた対照実験。冷たい環では塵が衝突で固まり小衛星が育つ(T3)が、熱い星の環では星の熱がスピン拡散(E10′)で塵へ流れ込み、生まれかけた塊は摩擦の撹拌(A9)でほどけて塊になれない。環はやがて蒸発し、飛ばされた塵は熱の届かぬ遠方で再び固まる。右下: 左右の平均温度。",
   en:{name:"The Snow Line — Heat Melts Clumps", description:"The same dust ring around a cold star (left) and a hot star (right) — a controlled contrast. In the cold ring, dust sticks into growing moonlets (T3); in the hot ring, stellar heat flows into the dust by spin diffusion (E10′) and friction churn (A9) unravels nascent clumps. That ring evaporates, and the ejected dust re-condenses far away, beyond the heat's reach. Bottom right: mean temperatures."},
@@ -578,6 +629,11 @@ function validatePreset(obj){
   if(typeof p.description!=="string") bad("description(文字列)が必要です");
   else p.description=p.description.slice(0,200);
   if(p.emoji!==undefined && typeof p.emoji!=="string") bad("emojiは文字列");
+  // v1.12: seed(乱数シード)を正式スキーマ化 — 指定時は id/name によらず初期配置を再現
+  if(p.seed!==undefined){
+    if(!isNum(p.seed)){ warnings.push("seedが数値でないため無視"); delete p.seed; }
+    else p.seed=Math.floor(Math.abs(p.seed))>>>0;
+  }
   if(!p.camera || !isNum(p.camera.scale)) bad("camera.scale(数値)が必要です");
   else p.camera={scale:clamp(p.camera.scale,20,3000)};
   const BOUND=["none","box","circle"];
@@ -651,7 +707,7 @@ function validatePreset(obj){
     if(!p.rays || !isNum(p.rays.n) || !isNum(p.rays.spread)) bad("rays.n/spread が不正です");
     else p.rays={n:clamp(Math.round(p.rays.n),0,64), spread:clamp(p.rays.spread,0,1)};
   }
-  const ov={rotationCurve:false,tempHistogram:false,field:false,spectrum:false};
+  const ov={rotationCurve:false,tempHistogram:false,field:false,spectrum:false,trail:false,monitor:false}; // v1.12: trail/monitor を正式化(第6次裁定 7.5)
   if(p.overlays!==undefined){
     if(typeof p.overlays!=="object"||Array.isArray(p.overlays)) bad("overlaysはオブジェクト");
     else for(const k of Object.keys(ov)) if(typeof p.overlays[k]==="boolean") ov[k]=p.overlays[k];
@@ -684,7 +740,8 @@ function makeSim(){
   };
   // プリセット→粒子生成(乱数はプリセットidで固定シード: ⏮で同じ初期配置を再現)
   S.build = function(preset){
-    const rng = mulberry32(hashStr(preset.id||preset.name||"p")+7);
+    // v1.12: preset.seed があれば最優先(ID変更で初期配置が変わる問題の解消)。無指定は従来通り
+    const rng = mulberry32(isNum(preset.seed)? (preset.seed>>>0) : (hashStr(preset.id||preset.name||"p")+7));
     const P = [];
     const phys = Object.assign({},DEFAULT_PHYSICS,preset.physics||{});
     const G = phys.G;
@@ -1401,6 +1458,7 @@ function loadPreset(id, keepPhysics){
   if(keepPhysics && basePhysics) merged.physics=Object.assign({},sim.params);
   sim.build(merged);
   trailBuf=[];  // 軌道トレイルはプリセット読込・⏮初めからでリセット
+  if(sim.overlays && sim.overlays.monitor) monitorOn=true;  // v1.12: プリセット既定の保存量モニタ(ONのみ適用)
   basePhysics=Object.assign({},DEFAULT_PHYSICS,p.physics||{});
   camX=0; camY=0; camScale=p.camera.scale; tempP90EMA=0.5; selIdx=-1; nanNotified=false;
   running=false; updatePlayBtn();
@@ -1548,24 +1606,72 @@ function renderSaves(){
     host.appendChild(d);
   });
 }
+function exportData(){
+  return JSON.stringify({schemaVersion:2, appVersion:APP_VERSION, exportedAt:new Date().toISOString(),
+    saves:getSaves(), customPresets:getCustomPresets()},null,1);
+}
 $("#btnExport").addEventListener("click",()=>{
-  const data=JSON.stringify({version:1, saves:getSaves(), customPresets:getCustomPresets()},null,1);
+  const data=exportData();
   $("#ioArea").value=data;
   if(navigator.clipboard) navigator.clipboard.writeText(data).then(()=>notify(T("copied")),()=>{});
 });
-$("#btnImport").addEventListener("click",()=>{
+// v1.12: JSONファイルとして保存/共有(iPhoneは共有シート、他はダウンロード。第6次裁定 7.6)
+$("#btnExportFile").addEventListener("click",async ()=>{
+  const data=exportData();
+  const name="hypothetical-physics-backup-"+new Date().toISOString().slice(0,10)+".json";
   try{
-    const d=JSON.parse($("#ioArea").value);
-    if(!d||typeof d!=="object") throw 0;
-    if(Array.isArray(d.saves)) setSaves(d.saves.concat(getSaves()));
-    if(Array.isArray(d.customPresets)){
-      const cur=getCustomPresets(), add=[];
-      for(const c of d.customPresets){ const v=validatePreset(c);
-        if(v.ok){ v.preset.id=c.id&&String(c.id).startsWith("custom_")?c.id:"custom_"+Date.now()+"_"+add.length; add.push(v.preset); } }
-      setCustomPresets(cur.concat(add));
+    const file=new File([data], name, {type:"application/json"});
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+      await navigator.share({files:[file], title:name}); notify(T("fileShared")); return;
     }
-    rebuildPresetSelect(currentPreset.id); renderSaves(); notify(T("imported"));
-  }catch(e){ notify(T("importFailed"),3000); }
+  }catch(e){ if(e && e.name==="AbortError") return; }
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([data],{type:"application/json"}));
+  a.download=name; document.body.appendChild(a); a.click();
+  setTimeout(()=>{URL.revokeObjectURL(a.href); a.remove();},2000);
+  notify(T("fileSaved"));
+});
+// v1.12: インポートの4形式自動判別(第6次裁定 7.1)
+// ①バックアップ全体 {saves,customPresets}(v1/v2) ②{customPresets:[...]} ③プリセット配列 ④単独プリセット
+function coerceImport(d){
+  if(Array.isArray(d)) return {saves:[], customPresets:d};
+  if(d && typeof d==="object"){
+    if(Array.isArray(d.customPresets)||Array.isArray(d.saves))
+      return {saves:Array.isArray(d.saves)?d.saves:[], customPresets:Array.isArray(d.customPresets)?d.customPresets:[]};
+    if(Array.isArray(d.bodies)) return {saves:[], customPresets:[d]};
+  }
+  return null;
+}
+$("#btnImport").addEventListener("click",()=>{
+  let d;
+  try{ d=JSON.parse($("#ioArea").value); }catch(e){ notify(T("importFailed"),3000); return; }
+  const co=coerceImport(d);
+  if(!co){ notify(T("importFailed"),3000); return; }
+  // ID重複防止(第6次裁定 7.2): 既存IDはスキップして件数報告。ID無しは付与
+  const cur=getCustomPresets();
+  const seen=new Set(allPresets().map(p=>p.id));
+  let added=0, skipped=0, bad=0, firstErr="";
+  for(const c of co.customPresets){
+    const v=validatePreset(c);
+    if(!v.ok){ bad++; if(!firstErr) firstErr=v.errors[0]||""; continue; }
+    const id=(c && c.id!==undefined)? String(c.id) : "";
+    if(id && seen.has(id)){ skipped++; continue; }
+    v.preset.id = id || ("custom_"+Date.now()+"_"+added);
+    seen.add(v.preset.id); cur.push(v.preset); added++;
+  }
+  setCustomPresets(cur);
+  // セーブは完全一致(savedAt+presetId+name)のみ重複除外して追記
+  if(co.saves.length){
+    const ex=getSaves();
+    const key=(s)=>String(s.savedAt)+"|"+String(s.presetId)+"|"+String(s.name);
+    const have=new Set(ex.map(key));
+    const ns=co.saves.filter(s=>s&&typeof s==="object"&&!have.has(key(s)));
+    setSaves(ns.concat(ex));
+  }
+  rebuildPresetSelect(currentPreset.id); renderSaves(); renderCustomList();
+  let msg=T("importReport")(added,skipped,bad);
+  if(bad>0 && firstErr) msg+=" / "+firstErr;
+  notify(msg, bad>0?4500:3000);
 });
 
 // ===== AIタブ(実行時LLM: docs/HANDOFF_RUNTIME_LLM.md の焼き込み) =====
@@ -1844,6 +1950,7 @@ function applyLang(){
   $("#saveName").placeholder=T("saveNamePh"); $("#saveComment").placeholder=T("saveCommentPh");
   $("#btnSave").textContent=T("btnSave"); $("#btnExport").textContent=T("btnExport");
   $("#btnImport").textContent=T("btnImport"); $("#ioArea").placeholder=T("ioPh");
+  $("#btnExportFile").textContent=T("btnExportFile"); $("#ioNote").textContent=T("ioNote");
   $("#aiProvHead").textContent=T("aiProvHead"); $("#aiProvLabel").textContent=T("aiProvLabel");
   $("#aiModelLabel").textContent=T("aiModelLabel"); $("#aiUrlLabel").textContent=T("aiUrlLabel");
   $("#keyPersistLabel").textContent=T("keyPersistLabel"); $("#btnKeySave").textContent=T("btnKeySave");

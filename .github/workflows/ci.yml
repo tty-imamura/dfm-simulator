@@ -1,0 +1,30 @@
+# Phase 1 再現性基盤: push/PR ごとに機械QA(構文・verify 11項目・全プリセット・i18n・
+# few-shot・BH捕捉・インポート/seed・新サンプル挙動・♨️🪐長時間挙動)を実行し、
+# 機械可読な結果JSONを artifact として保存する(ロードマップ Phase 1 / 第6次裁定)。
+name: QA
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install Playwright
+        run: |
+          npm install
+          npx playwright install --with-deps chromium
+      - name: Run QA suite
+        run: npm test
+      - name: Upload machine-readable results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-results
+          path: tests/out/qa-results.json
