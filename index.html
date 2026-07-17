@@ -112,11 +112,20 @@
   <section id="panel">
     <div class="tabPage" id="page-help"><div id="helpBody"></div></div>
     <div class="tabPage" id="page-params">
+      <div class="group" id="abGroup">
+        <h3 id="abHead">A/B比較</h3>
+        <div class="prow"><label id="abParamLabel">パラメータ</label>
+          <select id="abParam" style="flex:1"></select></div>
+        <div class="prow"><label id="abBLabel">B側の値</label>
+          <input type="text" id="abVal" class="valIn" inputmode="decimal" autocomplete="off" style="flex:1;width:auto;"></div>
+        <div class="rowBtns"><button class="btn primary" id="btnAB">A/B比較を開始</button></div>
+        <p class="note" id="abNote">同一の初期配置で宇宙を2つ複製し、選んだ1つのパラメータだけを変えて上下に並べて同時に走らせます(A=上・現在の値、B=下)。実行中のパラメータ編集はA側にのみ効きます。プリセットを切り替えると解除されます。</p>
+      </div>
       <div id="paramRows"></div>
       <div class="rowBtns">
         <button class="btn" id="btnParamDefault">プリセット既定値に戻す</button>
       </div>
-      <p class="note">※ 物理パラメータは実行中いつでも反映されます。粒子の初期配置・個数はプリセット選択または「⏮ 初めから」で反映されます。</p>
+      <p class="note" id="paramNote">※ 物理パラメータは実行中いつでも反映されます。粒子の初期配置・個数はプリセット選択または「⏮ 初めから」で反映されます。</p>
     </div>
     <div class="tabPage" id="page-saves">
       <div class="group"><h3>現在のパラメータを保存</h3>
@@ -198,6 +207,12 @@ ja: {
   reset:"⏮ 初めから", run:"▶ 実行", resume:"▶ 再開", pause:"⏸ 停止",
   tabHelp:"説明", tabParams:"パラメータ", tabSaves:"セーブ", tabAI:"AI追加",
   paramDefault:"プリセット既定値に戻す",
+  abHead:"A/B比較", abParamLabel:"パラメータ", abBLabel:"B側の値",
+  btnAbStart:"A/B比較を開始", btnAbStop:"A/B比較を終了",
+  abNote:"同一の初期配置で宇宙を2つ複製し、選んだ1つのパラメータだけを変えて上下に並べて同時に走らせます(A=上・現在の値、B=下)。実行中のパラメータ編集はA側にのみ効きます。プリセットを切り替えると解除されます。",
+  abStarted:(k)=>"A/B比較を開始: "+k+"(▶実行で両方が同時に走ります)",
+  abStopped:"A/B比較を終了しました",
+  abResetDone:"A/B両方を初期配置に戻しました",
   paramNote:"※ 物理パラメータは実行中いつでも反映されます。粒子の初期配置・個数はプリセット選択または「⏮ 初めから」で反映されます。",
   grpLaws:"仮定物理法則", grpSim:"シミュレーション", grpDisplay:"表示",
   tgTrails:"軌跡を残す", tgField:"決定力マップ", tgCurve:"回転曲線グラフ",
@@ -235,6 +250,8 @@ ja: {
   errApi:(s,m)=>"APIエラー("+s+") "+m, errRefusal:"生成が拒否されました。要望の表現を変えてみてください",
   errLong:"生成が長すぎました。要望を簡潔にしてください", errEmpty:"応答が空でした",
   noCustoms:"AI生成プリセットはまだありません。",
+  helpTheory:"この現象の法則(自動抽出)",
+  helpTheoryNote:"※ 正確な定義と導出は docs/PHYSICS.md / docs/DERIVATIONS.md を参照。",
   helpOps:"操作",
   helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)を表示。",
   helpLaws:"この宇宙の法則(要約)",
@@ -249,6 +266,12 @@ en: {
   reset:"⏮ Restart", run:"▶ Run", resume:"▶ Resume", pause:"⏸ Pause",
   tabHelp:"Guide", tabParams:"Parameters", tabSaves:"Saves", tabAI:"AI Create",
   paramDefault:"Restore preset defaults",
+  abHead:"A/B Compare", abParamLabel:"Parameter", abBLabel:"Value for B",
+  btnAbStart:"Start A/B compare", btnAbStop:"Stop A/B compare",
+  abNote:"Duplicates the universe with identical initial conditions, changes exactly one parameter, and runs both stacked vertically (A = top, current value; B = bottom). Parameter edits while running affect side A only. Switching presets exits the mode.",
+  abStarted:(k)=>"A/B compare started: "+k+" (press ▶ Run to advance both)",
+  abStopped:"A/B compare stopped",
+  abResetDone:"Both A and B reset to initial layout",
   paramNote:"※ Physics parameters apply instantly, even while running. Initial particle layout/count applies on preset selection or ⏮ Restart.",
   grpLaws:"Hypothetical physical laws", grpSim:"Simulation", grpDisplay:"Display",
   tgTrails:"Motion trails", tgField:"Determinacy map", tgCurve:"Rotation-curve graph",
@@ -286,6 +309,8 @@ en: {
   errApi:(s,m)=>"API error ("+s+") "+m, errRefusal:"Generation was refused. Try rephrasing your request",
   errLong:"Output too long. Try a simpler request", errEmpty:"Empty response",
   noCustoms:"No AI-generated presets yet.",
+  helpTheory:"Laws behind this scene (auto-extracted)",
+  helpTheoryNote:"※ Precise definitions and derivations: docs/PHYSICS.md / docs/DERIVATIONS.md.",
   helpOps:"Controls",
   helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t).",
   helpLaws:"Laws of this universe (summary)",
@@ -303,6 +328,86 @@ en: {
 },
 };
 function T(key){ const d=I18N[LANG], v=(key in d)? d[key] : I18N.ja[key]; return v; }
+
+// ===== 理論用語集(v1.13・理論解説パネル): プリセット説明文中の A/E/T 参照を自動抽出して表示 =====
+const LAWS = {
+ja: {
+  A1:"空間は実体を持たず、質点の相対配置だけで決まる(絶対空間の否定)",
+  A2:"決定力 w=m/√(d²+ε²) — 質量に近い場所ほど座標が強く「決まる」",
+  A3:"遠方宇宙の決定力は一様な背景 D₀ として効く",
+  A4:"質点は「近くの空間」(決定フレーム)に対して慣性を持つ",
+  A5:"決定フレームは決定力で重み付けた物質の平均速度 — 空間は質量に引きずられる(kFrame)",
+  A6:"決定力の勾配が重力になる(a=G∇W → 逆二乗則が自動で出る)",
+  A7:"決定力が強い場所の時計は遅れる(時間率は場で決まる)",
+  "A7′":"決定力が強い場所の時計と、共動フレームに対して速く動く時計は遅れる(E7R)",
+  A8:"スピンする質点は近傍の空間を回転させる(スピン引きずり。届き方は減衰qで決まる)",
+  A9:"スピン=熱(温度T=Is²)。接触摩擦が並進運動をスピンへ変換する(muF)",
+  A10:"高スピン粒子は近接時に斥力=圧力を生む(kRep)",
+  A11:"光は各点の決定フレームに随伴して速さc₀で進む(優先フレームと絶対的同時性)",
+  A12:"温度Tの質点はウィーン則 λ=b_m/T の光を放射する",
+  "A12′":"散逸したエネルギーは全て光として放射され帳簿(radE)に計上される — 第一法則の閉性",
+  A13:"すべての相互作用は作用反作用対称 — 運動量・角運動量が厳密に保存する(相互性)",
+  E4:"重力則 a=G∇W(A6の実装)",
+  "E5′":"スピン斥力 — 対称化された中心力(運動量・角運動量を保存)",
+  "E6′":"フレーム引きずりの輸送則 — 反作用を源へ返し、遠方宇宙との交換は帳簿づけ",
+  E7R:"時計則 dτ/dt=√(N²−A²|v−u|²/c₀²)。重力と運動の遅れが単一のψ=W/Ktから出る",
+  E8R:"光の屈折則 n=e^{2ψ} — 時計と同じψが光を曲げる(独立係数なし)",
+  E9:"接触則 — 法線減衰(γn)と接線摩擦(muF=速度→スピン変換)",
+  "E10′":"スピン拡散 — 近いほど速く熱が飛び移る(I重みで角運動量保存)",
+  E11:"放射冷却 Λ=η_rad·T^p — 熱い粒子ほど速く冷える",
+  T1:"D₀→∞ でニュートンの絶対空間に近づく(空間が「固く」なる)",
+  T2:"回る質量は内側の空間ごと引きずる(マッハのバケツ)",
+  T3:"衝突する環は軌道が円形化し、回転方向が揃っていく",
+  T4:"引きずり(kFrame=1)は銀河の回転曲線を平坦化する(kFrame=0では起きない)",
+  T5:"光線は決定力の高い側へ曲がる(重力レンズ。強い場では光子捕捉=光学類似)",
+  T6:"スピン拡散で温度が均一化する(第0法則の類似。単一粒径の系で成立)",
+  T7:"線運動量と全角運動量(軌道+スピン)は厳密に保存する",
+  T8:"中心星のスピンは光の湾曲を非対称にする(カー・ブラックホールの光学類似)",
+  T9:"座標時間は宇宙で一意 — 「どちらの双子が年を取るか」に曖昧さがない",
+},
+en: {
+  A1:"Space has no substance; it is defined only by the relative configuration of masses (no absolute space)",
+  A2:"Determinacy w=m/√(d²+ε²) — coordinates are more strongly 'decided' near mass",
+  A3:"The distant universe contributes a uniform background determinacy D₀",
+  A4:"Masses have inertia relative to the 'nearby space' (the determinacy frame)",
+  A5:"The determinacy frame is the determinacy-weighted mean velocity of matter — space is dragged by mass (kFrame)",
+  A6:"The gradient of determinacy is gravity (a=G∇W → the inverse-square law emerges)",
+  A7:"Clocks run slow where determinacy is strong (the rate of time is set by the field)",
+  "A7′":"Clocks slow both where determinacy is strong and when moving fast relative to the comoving frame (E7R)",
+  A8:"A spinning mass rotates the space around it (spin dragging; reach set by falloff q)",
+  A9:"Spin = heat (T=Is²). Contact friction converts translational motion into spin (muF)",
+  A10:"High-spin particles repel at close range — pressure (kRep)",
+  A11:"Light rides the local determinacy frame at speed c₀ (preferred frame, absolute simultaneity)",
+  A12:"A mass at temperature T radiates at the Wien wavelength λ=b_m/T",
+  "A12′":"All dissipated energy is radiated as light and ledgered (radE) — closure of the first law",
+  A13:"Every interaction is action–reaction symmetric — momentum and angular momentum are exactly conserved (reciprocity)",
+  E4:"Gravity law a=G∇W (implementation of A6)",
+  "E5′":"Spin repulsion — a symmetrized central force (conserves momentum and angular momentum)",
+  "E6′":"Frame-dragging transport law — reaction returned to sources; exchange with the distant universe is ledgered",
+  E7R:"Clock law dτ/dt=√(N²−A²|v−u|²/c₀²): gravitational and kinetic slowing from a single ψ=W/Kt",
+  E8R:"Light refraction n=e^{2ψ} — the same ψ that slows clocks bends light (no independent coefficient)",
+  E9:"Contact law — normal damping (γn) and tangential friction (muF = velocity→spin conversion)",
+  "E10′":"Spin diffusion — heat hops faster when closer (I-weighted, conserves angular momentum)",
+  E11:"Radiative cooling Λ=η_rad·T^p — hotter particles cool faster",
+  T1:"As D₀→∞ the universe approaches Newton's absolute space (space becomes rigid)",
+  T2:"A rotating mass drags the space inside it (Mach's bucket)",
+  T3:"Colliding rings circularize their orbits and align their rotation",
+  T4:"Dragging (kFrame=1) flattens galactic rotation curves (it doesn't happen at kFrame=0)",
+  T5:"Light bends toward high determinacy (gravitational lensing; photon capture in strong fields — an optical analogue)",
+  T6:"Spin diffusion equalizes temperature (a zeroth-law analogue; holds for equal-size particles)",
+  T7:"Linear momentum and total angular momentum (orbital + spin) are exactly conserved",
+  T8:"A central star's spin makes light bending asymmetric (a Kerr optical analogue)",
+  T9:"Coordinate time is unique to the universe — no ambiguity about which twin ages",
+},
+};
+function lawText(key){ return (LANG==="en" && LAWS.en[key]) || LAWS.ja[key]; }
+// 説明文から A7′/E10′/T4 のような法則参照を抽出(用語集にある物だけ・出現順・重複なし)
+function extractLawRefs(text){
+  const m=String(text).match(/[AET]\d{1,2}[′R]?/g)||[];
+  const seen=new Set(), out=[];
+  for(const r of m){ if(!seen.has(r) && LAWS.ja[r]){ seen.add(r); out.push(r); } }
+  return out;
+}
 function gName(g){ return (LANG==="en" && I18N.en.groups[g]) || g; }
 function pName(p){ return (LANG==="en" && p.en && p.en.name) || p.name; }
 function pDesc(p){ return (LANG==="en" && p.en && p.en.description) || p.description || ""; }
@@ -313,7 +418,7 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
   kappaS:0.05, Kt:60, cLight:60, bM:1, etaRad:0, pRad:4,
   radiusScale:1.2, softening:2, timeScale:1 };
 // v1.7: kLens は廃止(E8R で屈折率は n=e^{2W/Kt} に統一。旧セーブの kLens は受理して無視)
-const APP_VERSION = "1.12";               // エクスポートの appVersion に記録
+const APP_VERSION = "1.13";               // エクスポートの appVersion に記録
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 const RAY_MASS_MIN = 40;                  // 光線を曲げる最小質量(性能のための近似)
@@ -452,6 +557,19 @@ const BUILTIN_PRESETS = [
   rays:{n:24, spread:0.9},
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
+{ id:"blens", name:"連星重力レンズ", emoji:"🔭", group:"光",
+  description:"上下に並ぶ2つの大質量天体へ平行光線束を入射。単一レンズとは異なり、光線が2つの決定力井戸へ分かれて曲がる複合レンズを観察する(T5)。Ktを110→220にすると湾曲が弱まる。スピンは0なので非対称引きずり(T8)とは切り離されている。",
+  en:{name:"Binary Gravitational Lens", description:"A parallel beam enters two large masses stacked vertically. Unlike a single lens, rays split and bend into two determinacy wells — a compound lens (T5). Raise Kt from 110 to 220 and the bending weakens. Spins are zero, isolating this from asymmetric dragging (T8)."},
+  camera:{scale:300}, world:{boundary:"none",size:0},
+  physics:{G:0, D0:2, kFrame:0, kRep:0, muF:0, gammaN:0, kappaS:0, etaRad:0,
+    Kt:110, timeScale:1},
+  bodies:[ // v1.13(付録M): 第6次提案 P1-3 を内蔵化(12000步スモーク検証済み)
+    {type:"single", m:1100, x:0,y:-65, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", m:1100, x:0,y:65,  vx:0,vy:0, spin:0, pinned:true}
+  ],
+  rays:{n:36, spread:0.85},
+  overlays:{rotationCurve:false,tempHistogram:false,field:true} },
+
 // ===== グループ: 熱の実験室 =====
 { id:"gas", name:"気体の熱平衡", emoji:"🔥", group:"熱の実験室",
   description:"左=低温(青)・右=高温(赤)のガス。衝突で速度がスピン(熱)に変換され(A9)、高スピンは斥力=圧力を生み(A10)、スピン拡散で温度が均一化する(T6)。右下に左右の平均温度バー。全粒子が同質量なのは、異粒径系ではsの均一化とT=Is²の均一化が一致しないため(L9)。",
@@ -528,7 +646,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,spectrum:true} },
 
 { id:"phase", name:"固体・液体・気体", emoji:"🧊", group:"熱の実験室",
-  description:"質量・数・大きさ・初速が完全に同一の3つの雲 — 違いは初期スピン(温度)だけの統制実験。左=低温: 重力で収縮し結晶化する固体。中=中温: 流動する液体。右=高温: スピン斥力で蒸発し箱に充満する気体。※これは束縛と斥力の競合による形態のアナロジーで、実在物質の潜熱・相平衡の再現ではない(第4次裁定)。色=温度。",
+  description:"質量・数・大きさ・初速が完全に同一の3つの雲 — 違いは初期スピン(温度)だけの統制実験。左=低温: 重力(A6)で収縮し結晶化する固体。中=中温: 流動する液体。右=高温: スピン斥力(A10)で蒸発し箱に充満する気体。※これは束縛と斥力の競合による形態のアナロジーで、実在物質の潜熱・相平衡の再現ではない(第4次裁定)。色=温度(A9)。",
   en:{name:"Solid, Liquid, Gas", description:"Three clouds identical in mass, count, size and initial speed — only the initial spin (temperature) differs: a controlled experiment. Left = cold: gravity wins, it crystallizes (solid). Middle = warm: it flows (liquid). Right = hot: spin repulsion evaporates it to fill the box (gas). A morphological analogy of binding vs repulsion — not real latent-heat phase transitions. Color = temperature."},
   camera:{scale:260}, world:{boundary:"box",size:240},
   physics:{G:0.7, D0:30, kFrame:0.3, kRep:0.8, muF:0.6, gammaN:0.85, kappaS:0.02,
@@ -544,24 +662,24 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"convection", name:"加熱の対流 — 床加熱・天井冷却", emoji:"♨️", group:"熱の実験室",
-  description:"床の左〜中央がヒーター(pinned=スピン一定の熱浴)、天井の右側が冷却板(スピン0の熱浴)。温められたガスはスピン斥力で膨らんで浮かび、天井で熱を渡して右から沈む——片側加熱がつくる一方向の対流セル。画面外の遠い大質量が箱全体を下向きに引く重力の役。※v1.11 改良: 側面の冷壁は粒子が貼り付いて膠着した(機械計測23%)ため天井の疎な冷却板に変更(膠着4%・循環は全時間帯で同方向)。ガスが軽い粒子なのは自己重力の凍結を防ぐため(v1.10)。左右の平均温度は右下のグラフ。",
-  en:{name:"Convection — Heated Floor, Cooled Ceiling", description:"The left-to-center floor is a heater (pinned = constant-spin heat bath); sparse cooling plates sit on the right ceiling (spin-0 baths). Warmed gas inflates via spin repulsion and rises, dumps heat at the ceiling and sinks on the right — a one-directional convection cell. A distant off-screen mass provides downward gravity. v1.11: the former cold side wall trapped 23% of the gas (machine-measured); ceiling plates cut sticking to 4% while the circulation stays one-directional. Light particles prevent self-gravity freezing (v1.10). Bottom right: mean temperatures L/R."},
+  description:"床の左〜中央がヒーター(pinned=スピン一定の熱浴)、天井の右側が冷却板(スピン0の熱浴)。温められたガスはスピン斥力(A10)で膨らんで浮かび、天井で熱を渡して(E10′)右から沈む——片側加熱がつくる一方向の対流セル。画面外の遠い大質量が箱全体を下向きに引く重力(A6)の役。※v1.13 機械調整: 加熱が強すぎてガスが壁沿いの弾道循環になり中央が空洞化していた(中央占有0〜7%)ため、ヒーター温度を1段下げた(spin12→10。中央占有13〜17%・膠着1.5%・循環は同方向のまま)。左右の平均温度は右下のグラフ。",
+  en:{name:"Convection — Heated Floor, Cooled Ceiling", description:"The left-to-center floor is a heater (pinned = constant-spin heat bath); sparse cooling plates sit on the right ceiling (spin-0 baths). Warmed gas inflates via spin repulsion (A10), rises, dumps heat at the ceiling (E10′) and sinks on the right — a one-directional convection cell. A distant off-screen mass provides downward gravity (A6). v1.13 machine-tuned: heating was too strong, blasting the gas into a hollow wall-hugging loop (center occupancy 0–7%); lowering the heater temperature (spin 12→10) fills the cell (13–17%, sticking 1.5%, circulation still one-directional). Bottom right: mean temperatures L/R."},
   camera:{scale:240}, world:{boundary:"box",size:190},
   physics:{G:1.5, D0:40, kFrame:0.2, kRep:2, muF:0.3, gammaN:0.2, kappaS:0.8,
     etaRad:1e-5, pRad:2, radiusScale:4, softening:4, timeScale:2},
   bodies:[ // v1.11(付録K): 機械実験 conv-G4 採用 — ヒーター11点(床左〜中央)+疎な天井冷却板5点
     {type:"single", m:13000, x:0,y:900, vx:0,vy:0, spin:0, pinned:true},
-    {type:"single", m:1, x:-170,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:-150,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:-130,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:-110,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:-90, y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:-70, y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:-50, y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:-30, y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:-10, y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:10,  y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:30,  y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", m:1, x:-170,y:186, vx:0,vy:0, spin:10, pinned:true},
+    {type:"single", m:1, x:-150,y:186, vx:0,vy:0, spin:10, pinned:true},
+    {type:"single", m:1, x:-130,y:186, vx:0,vy:0, spin:10, pinned:true},
+    {type:"single", m:1, x:-110,y:186, vx:0,vy:0, spin:10, pinned:true},
+    {type:"single", m:1, x:-90, y:186, vx:0,vy:0, spin:10, pinned:true},
+    {type:"single", m:1, x:-70, y:186, vx:0,vy:0, spin:10, pinned:true},
+    {type:"single", m:1, x:-50, y:186, vx:0,vy:0, spin:10, pinned:true},
+    {type:"single", m:1, x:-30, y:186, vx:0,vy:0, spin:10, pinned:true},
+    {type:"single", m:1, x:-10, y:186, vx:0,vy:0, spin:10, pinned:true},
+    {type:"single", m:1, x:10,  y:186, vx:0,vy:0, spin:10, pinned:true},
+    {type:"single", m:1, x:30,  y:186, vx:0,vy:0, spin:10, pinned:true},
     {type:"single", m:1, x:10,  y:-186, vx:0,vy:0, spin:0, pinned:true},
     {type:"single", m:1, x:50,  y:-186, vx:0,vy:0, spin:0, pinned:true},
     {type:"single", m:1, x:90,  y:-186, vx:0,vy:0, spin:0, pinned:true},
@@ -585,6 +703,33 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
+{ id:"binary", name:"連星系と周連星円盤", emoji:"⭐", group:"天体の物語",
+  description:"等質量の2恒星が共通重心を回り、その外側を軽い天体群が公転する。単独星とは異なる時間変動する重力場(E4)が外側の軌道を乱し、恒星の運動は空間を引きずって円盤へ伝わる(A5)。kFrame=0.5→0、D0=10→100の比較(A/B比較モード)がおすすめ。",
+  en:{name:"Binary Stars & Circumbinary Disk", description:"Two equal-mass stars orbit their common barycenter while a ring of light bodies circles outside. The time-varying gravitational field — unlike a single star — perturbs the outer orbits. Try A/B-comparing kFrame 0.5 vs 0 or D0 10 vs 100."},
+  camera:{scale:320}, world:{boundary:"none",size:0},
+  physics:{G:1, D0:10, kFrame:0.5, kRep:0, muF:0.05, gammaN:0.1, kappaS:0,
+    Kt:10000, timeScale:4},
+  bodies:[ // v1.13(付録M): 第6次提案 P1-1 を内蔵化(12000步スモーク・重心ドリフト0.1)
+    {type:"single", m:500, x:-60,y:0, vx:0,vy:-1.44, spin:0.03, pinned:false},
+    {type:"single", m:500, x:60,y:0,  vx:0,vy:1.44,  spin:0.03, pinned:false},
+    {type:"ring", n:240, cx:0,cy:0, rIn:180,rOut:290, mMin:0.05,mMax:0.2,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:1000, omega:0, vNoise:0.04, direction:1, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false} },
+
+{ id:"fig8", name:"三体問題 — 8の字軌道", emoji:"♾️", group:"天体の物語",
+  description:"等質量3天体が重心の周りを交代で通過する8の字周期軌道(機械検証: 12000步でも最大半径87に有界)。引きずりを切った純粋な重力(E4)のニュートン退化で、運動量と角運動量は厳密に保存する(T7)。1天体のvxを0.9028→0.92に変えると周期性が崩れ、三体問題の初期値感度を観察できる。軌跡は自動表示。",
+  en:{name:"Three-Body Problem — Figure-8 Orbit", description:"Three equal masses chase each other along the famous figure-8 periodic orbit (machine-verified bounded to radius 87 over 12,000 steps). Nudge one body's vx from 0.9028 to 0.92 and the periodicity shatters — the three-body problem's sensitivity to initial conditions. Trails shown automatically."},
+  camera:{scale:140}, world:{boundary:"none",size:0},
+  physics:{G:1, D0:100, kFrame:0, kRep:0, muF:0, gammaN:0, kappaS:0, etaRad:0,
+    Kt:10000, radiusScale:0.2, softening:0.5, timeScale:2},
+  bodies:[ // v1.13(付録M): 第6次提案 P1-2 を内蔵化(有界性を機械検証済み)
+    {type:"single", m:300, x:-77.6003,y:19.447, vx:0.9028,vy:0.8373, spin:0, pinned:false},
+    {type:"single", m:300, x:77.6003,y:-19.447, vx:0.9028,vy:0.8373, spin:0, pinned:false},
+    {type:"single", m:300, x:0,y:0, vx:-1.8056,vy:-1.6745, spin:0, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
 { id:"counterring", name:"順行・逆行リングの衝突", emoji:"💥", group:"天体の物語",
   description:"同じ軌道帯を逆向きに回る2つのリング。正面衝突の接触摩擦(A9)が公転運動をスピン=熱へ変換し、リングが光りながら加熱・降着していく。muFを0にすると加熱が完全に止まる(平均スピン 0.76→0.00の対照=機械検証)。公転エネルギーが熱に変わる「逆回転降着円盤」の思考実験。右下は放射スペクトル。",
   en:{name:"Prograde vs Retrograde Ring Collision", description:"Two rings share the same orbital band but revolve in opposite directions. Head-on contact friction (A9) converts orbital motion into spin = heat — the rings glow, heat up, and accrete. Set muF to 0 and the heating stops completely (mean spin 0.76 → 0.00, machine-verified contrast). A thought experiment on counter-rotating accretion disks. Bottom right: radiation spectrum."},
@@ -599,6 +744,34 @@ const BUILTIN_PRESETS = [
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:800, omega:0, vNoise:0.03, direction:-1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,spectrum:true} },
+
+{ id:"merger", name:"銀河合体と潮汐効果", emoji:"🌠", group:"天体の物語",
+  description:"2つの回転円盤銀河が接近・合体する過程。潮汐尾の形成、衝突による加熱(A9のスピン変換)、角運動量の再分配、合体後の回転曲線を観察できる。kFrameを0.3〜0.9で変えるとフレームドラッギング(A8)が合体ダイナミクスに効く。",
+  en:{name:"Galaxy Merger & Tidal Effects", description:"Two rotating disk galaxies approach and merge. Watch tidal tails form, collisions heat the disks (spin conversion, A9), angular momentum redistribute, and the remnant's rotation curve settle. Vary kFrame between 0.3 and 0.9 to see frame dragging (A8) shape the merger."},
+  camera:{scale:160}, world:{boundary:"none",size:0},
+  physics:{G:0.9, D0:4.5, kFrame:0.55, q:1.8, kRep:0.8, muF:0.45, gammaN:0.55,
+    kappaS:0.12, etaRad:0.0008, Kt:90, cLight:70, softening:3.5, timeScale:1.8},
+  bodies:[ // v1.13(付録M): 第6次提案(Grok #1)を内蔵化(12000步スモーク検証済み)
+    {type:"single", m:920, x:-280,y:20, vx:1.35,vy:0.25, spin:0.09, pinned:false},
+    {type:"disk", n:195, cx:-280,cy:20, radius:95, mMin:0.25,mMax:1.6,
+     spinMin:-0.6,spinMax:0.6, vMode:"flat", aroundMass:920, vScale:0.85, direction:1},
+    {type:"single", m:680, x:240,y:-35, vx:-1.65,vy:-0.35, spin:0.07, pinned:false},
+    {type:"disk", n:155, cx:240,cy:-35, radius:78, mMin:0.25,mMax:1.4,
+     spinMin:-0.5,spinMax:0.5, vMode:"flat", aroundMass:680, vScale:0.75, direction:-1}
+  ],
+  overlays:{rotationCurve:true,tempHistogram:true,field:false,trail:true} },
+
+{ id:"collapse", name:"自己重力雲の崩壊と原始星形成", emoji:"🌫️", group:"天体の物語",
+  description:"広がった粒子群が自己重力で崩壊し、中心集中・衝突加熱(A9)・放射冷却(E11)による収縮を観察。クランプ形成と角運動量による回転獲得の過程を体験できる(ジーンズ不安定性のアナロジー)。etaRadやpRadを変えると冷却効率が崩壊速度に効く。",
+  en:{name:"Self-Gravitating Cloud Collapse & Protostar", description:"A dispersed particle cloud collapses under self-gravity: central concentration, collision heating (A9), and radiative-cooling-driven contraction (E11). Watch clumps form and rotation emerge from angular momentum (a Jeans-instability analogy). Vary etaRad/pRad to see how cooling efficiency drives the collapse rate."},
+  camera:{scale:280}, world:{boundary:"none",size:0},
+  physics:{G:1.4, D0:1.8, kFrame:0.35, kRep:1.2, muF:0.65, gammaN:0.45, kappaS:0.09,
+    etaRad:0.004, pRad:2.8, Kt:70, softening:5, timeScale:2.2},
+  bodies:[ // v1.13(付録M): 第6次提案(Grok #3)を内蔵化(12000步スモーク検証済み)
+    {type:"disk", n:260, cx:0,cy:0, radius:210, mMin:0.15,mMax:0.9,
+     spinMin:0,spinMax:0.15, vMode:"random", aroundMass:0, vScale:0.35, direction:1}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true} },
 
 { id:"snowline", name:"雪線 — 熱は塊を融かす", emoji:"❄️", group:"天体の物語",
   description:"同じ塵の環を冷たい星(左)と熱い星(右)に与えた対照実験。冷たい環では塵が衝突で固まり小衛星が育つ(T3)が、熱い星の環では星の熱がスピン拡散(E10′)で塵へ流れ込み、生まれかけた塊は摩擦の撹拌(A9)でほどけて塊になれない。環はやがて蒸発し、飛ばされた塵は熱の届かぬ遠方で再び固まる。右下: 左右の平均温度。",
@@ -1389,6 +1562,62 @@ function render(){
   if(sim.overlays.spectrum) drawSpectrum();
 }
 
+// ===== A/B分割描画(v1.13): 粒子・境界・光線・ラベルの比較ビュー(オーバーレイ類は非表示)=====
+function drawWorldInto(S, y0, hgt, label){
+  ctx.save(); ctx.beginPath(); ctx.rect(0,y0,cw,hgt); ctx.clip();
+  const z=Math.min(cw,hgt)/2/camScale;
+  const sx=(wx)=>cw/2+(wx-camX)*z, sy=(wy)=>y0+hgt/2+(wy-camY)*z;
+  // 境界
+  if(S.world.boundary!=="none"){
+    ctx.strokeStyle="rgba(139,147,200,0.5)"; ctx.setLineDash([5,5]);
+    if(S.world.boundary==="box"){ const s=S.world.size; ctx.strokeRect(sx(-s),sy(-s),2*s*z,2*s*z); }
+    else { ctx.beginPath(); ctx.arc(sx(0),sy(0),S.world.size*z,0,7); ctx.stroke(); }
+    ctx.setLineDash([]);
+  }
+  // 光線(Kt等の比較が見どころになるため半分ずつ独立に飛ばす)
+  if(S.rays && S.rays.n>0){
+    const dl=camScale/110, x0=camX-(cw/2)/z-10;
+    ctx.lineWidth=1; ctx.strokeStyle="rgba(255,240,170,0.55)";
+    for(let r=0;r<S.rays.n;r++){
+      const py=camY+((r+0.5)/S.rays.n-0.5)*2*S.rays.spread*camScale;
+      ctx.beginPath(); ctx.moveTo(sx(x0),sy(py));
+      traceRay(S, x0, py, 1, 0, dl, 340, (nx,ny)=>{
+        ctx.lineTo(sx(nx),sy(ny));
+        return !(Math.abs(nx-camX)>camScale*2.2||Math.abs(ny-camY)>camScale*2.2);
+      });
+      ctx.stroke();
+    }
+  }
+  // 温度正規化(各シム独立の90パーセンタイル)
+  let p90=1e-4;
+  if(S.n>0){
+    const ts=new Float32Array(S.n);
+    for(let i=0;i<S.n;i++) ts[i]=0.5*S.m[i]*S.R[i]*S.R[i]*S.spin[i]*S.spin[i];
+    ts.sort(); p90=Math.max(1e-4, ts[Math.floor(0.9*(S.n-1))]);
+  }
+  for(let i=0;i<S.n;i++){
+    const px=sx(S.x[i]), py=sy(S.y[i]);
+    if(px<-40||px>cw+40||py<y0-40||py>y0+hgt+40) continue;
+    const Ti=0.5*S.m[i]*S.R[i]*S.R[i]*S.spin[i]*S.spin[i];
+    const rr=Math.max(1.2,Math.min(S.R[i]*z,30));
+    ctx.fillStyle=tempColor(Math.min(1,Math.sqrt(Ti/p90)));
+    ctx.beginPath(); ctx.arc(px,py,rr,0,7); ctx.fill();
+    if(S.pinned[i]){ ctx.strokeStyle="rgba(255,255,255,0.75)"; ctx.beginPath(); ctx.arc(px,py,rr+2,0,7); ctx.stroke(); }
+  }
+  ctx.font="11px sans-serif"; ctx.fillStyle="#dfe4ff";
+  ctx.fillText(label, 8, y0+hgt-8);   // 左下(左上は HUD と重なる)
+  ctx.restore();
+}
+function renderAB(){
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.fillStyle="#05070f"; ctx.fillRect(0,0,cw,ch);
+  const hh=ch/2;
+  drawWorldInto(sim, 0, hh, "A: "+ab.key+"="+fmt(sim.params[ab.key]));
+  drawWorldInto(ab.simB, hh, hh-1, "B: "+ab.key+"="+fmt(ab.simB.params[ab.key]));
+  ctx.strokeStyle="#2a3060"; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(0,hh); ctx.lineTo(cw,hh); ctx.stroke(); ctx.lineWidth=1;
+}
+
 // ===== メインループ =====
 let nanNotified=false;
 function loop(now){
@@ -1399,13 +1628,14 @@ function loop(now){
     let k=Math.floor(stepAcc); stepAcc-=k;
     k=Math.min(k,24);
     for(let s2=0;s2<k;s2++) sim.step(DT);
-    if((frameCount%30)===0 && sim.hasNaN()){
+    if(ab) for(let s2=0;s2<k;s2++) ab.simB.step(DT);  // Bも同じ座標時間だけ進める
+    if((frameCount%30)===0 && (sim.hasNaN() || (ab && ab.simB.hasNaN()))){
       running=false; updatePlayBtn();
       notify(T("diverged"),4000);
       nanNotified=true;
     }
   }
-  render();
+  if(ab) renderAB(); else render();
   if((frameCount++%10)===0){
     let txt=`t=${sim.t.toFixed(1)}  N=${sim.n}  ${Math.round(fpsEMA)}fps`;
     if(monitorOn){ // 保存量モニタ(T7): P+帳簿P・L+帳簿L+放射L が一定なら保存則成立
@@ -1452,6 +1682,7 @@ function rebuildPresetSelect(selId){
   if(selId) sel.value=selId;
 }
 function loadPreset(id, keepPhysics){
+  if(ab) abStop();          // プリセット切替・通常ロードで A/B は解除(v1.13)
   const p=allPresets().find(q=>q.id===id) || BUILTIN_PRESETS[0];
   currentPreset=p;
   const merged=JSON.parse(JSON.stringify(p));
@@ -1466,6 +1697,45 @@ function loadPreset(id, keepPhysics){
   $("#presetSelect").value=id;
 }
 
+// ===== A/B比較モード(v1.13・付録M。第6次裁定 7.7)=====
+// 同一プリセット(=同一シード)から2つのシムを構築し、1パラメータだけ変えて同時駆動する。
+let ab=null; // {key, valB, simB}
+function abParamOptions(){
+  const sel=$("#abParam"); sel.textContent="";
+  for(const def of PARAM_DEFS){
+    if(def.key==="timeScale") continue; // 時間同期の前提(両者は同じ座標時間を刻む)
+    const o=document.createElement("option"); o.value=def.key; o.textContent=paramLabel(def);
+    sel.appendChild(o);
+  }
+  if(ab) sel.value=ab.key;
+  abPrefill();
+}
+function abPrefill(){ // B側の初期値: 現在値(編集して開始する)
+  const k=$("#abParam").value; if(!k) return;
+  $("#abVal").value=fmt(sim.params[k]);
+}
+function updateAbBtn(){ $("#btnAB").textContent=ab?T("btnAbStop"):T("btnAbStart"); }
+function abStart(key, valB){
+  const c=CLAMPS[key]; valB=clamp(valB,c[0],c[1]);
+  const mk2=()=>JSON.parse(JSON.stringify(currentPreset));
+  sim.build(mk2()); trailBuf=[]; selIdx=-1; nanNotified=false;
+  basePhysics=Object.assign({},DEFAULT_PHYSICS,currentPreset.physics||{});
+  const simB=makeSim(); simB.build(mk2());
+  simB.params=Object.assign({},sim.params); simB.params[key]=valB; simB.updateRadii();
+  ab={key, valB, simB};
+  running=false; updatePlayBtn(); updateAbBtn(); buildParamRows();
+}
+function abStop(){ ab=null; updateAbBtn(); }
+$("#btnAB").addEventListener("click",()=>{
+  if(ab){ abStop(); loadPreset(currentPreset.id,false); notify(T("abStopped")); return; }
+  const key=$("#abParam").value;
+  const v=parseFloat(String($("#abVal").value).replace(/[,、\s]/g,""));
+  if(!key || !isFinite(v)) return;
+  abStart(key,v);
+  notify(T("abStarted")(key));
+});
+$("#abParam").addEventListener("change",abPrefill);
+
 // ===== トランスポート =====
 function updatePlayBtn(){
   const b=$("#btnPlay");
@@ -1474,6 +1744,15 @@ function updatePlayBtn(){
 }
 $("#btnPlay").addEventListener("click",()=>{ running=!running; updatePlayBtn(); });
 $("#btnReset").addEventListener("click",()=>{
+  if(ab){ // A/B中: 両方を初期配置へ(A側の編集済みパラメータとB差分は保持)
+    const keepA=Object.assign({},sim.params), k=ab.key, vB=ab.simB.params[k];
+    abStart(k,vB);
+    sim.params=keepA; sim.updateRadii();
+    ab.simB.params=Object.assign({},keepA); ab.simB.params[k]=vB; ab.simB.updateRadii();
+    buildParamRows();
+    notify(T("abResetDone"));
+    return;
+  }
   // 現在の物理パラメータを保持したまま初期配置へ(仕様: HANDOFF_IMPLEMENTATION エッジケース表)
   const keep=Object.assign({},sim.params);
   loadPreset(currentPreset.id,false);
@@ -1719,7 +1998,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 {"name":"回転リングの空間引きずり","emoji":"🌀","description":"重いリングが回転すると内側の空間ごと引きずられ、静止していた粒子が回り始める(マッハの原理)。D0を上げると引きずりが弱まるのも試せる。","camera":{"scale":220},"world":{"boundary":"none","size":0},"physics":{"G":0.02,"D0":0.5,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":60,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"radiusScale":1.2,"softening":2,"timeScale":2},"bodies":[{"type":"ring","n":14,"cx":0,"cy":0,"rIn":150,"rOut":150,"mMin":80,"mMax":80,"spinMin":0.5,"spinMax":0.5,"vMode":"omega","aroundMass":0,"omega":0.012,"vNoise":0,"direction":1,"pinned":true},{"type":"disk","n":40,"cx":0,"cy":0,"radius":80,"mMin":0.5,"mMax":0.5,"spinMin":0,"spinMax":0,"vMode":"none","aroundMass":0,"vScale":0,"direction":1}],"overlays":{"rotationCurve":false,"tempHistogram":false,"field":false}}
 
 例5 要望「床で温めて天井で冷やす対流実験」
-{"name":"対流セル — 床加熱・天井冷却","emoji":"♨️","description":"床の左〜中央がヒーター(固定・高スピン)、天井の右側が疎な冷却板(固定・スピン0)。温められたガスはスピン斥力で膨らんで浮かび、天井で熱を渡して右から沈む一方向の対流セル。ガスは軽い粒子にして自己重力の凍結を防ぐ。左右の平均温度グラフ付き。","camera":{"scale":240},"world":{"boundary":"box","size":190},"physics":{"G":1.5,"D0":40,"kFrame":0.2,"q":2,"kRep":2,"muF":0.3,"gammaN":0.2,"kappaS":0.8,"Kt":60,"cLight":60,"bM":1,"etaRad":0.00001,"pRad":2,"radiusScale":4,"softening":4,"timeScale":2},"bodies":[{"type":"single","m":13000,"x":0,"y":900,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":-170,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-150,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-130,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-110,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-90,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-70,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-50,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-30,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-10,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":10,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":30,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":10,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":50,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":90,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":130,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":170,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"box","n":260,"cx":0,"cy":-10,"w":340,"h":320,"mMin":0.05,"mMax":0.05,"spinMin":1,"spinMax":2,"vScale":0.4}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
+{"name":"対流セル — 床加熱・天井冷却","emoji":"♨️","description":"床の左〜中央がヒーター(固定・高スピン)、天井の右側が疎な冷却板(固定・スピン0)。温められたガスはスピン斥力で膨らんで浮かび、天井で熱を渡して右から沈む一方向の対流セル。ガスは軽い粒子にして自己重力の凍結を防ぐ。左右の平均温度グラフ付き。","camera":{"scale":240},"world":{"boundary":"box","size":190},"physics":{"G":1.5,"D0":40,"kFrame":0.2,"q":2,"kRep":2,"muF":0.3,"gammaN":0.2,"kappaS":0.8,"Kt":60,"cLight":60,"bM":1,"etaRad":0.00001,"pRad":2,"radiusScale":4,"softening":4,"timeScale":2},"bodies":[{"type":"single","m":13000,"x":0,"y":900,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":-170,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-150,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-130,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-110,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-90,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-70,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-50,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-30,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-10,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":10,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":30,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":10,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":50,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":90,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":130,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":170,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"box","n":260,"cx":0,"cy":-10,"w":340,"h":320,"mMin":0.05,"mMax":0.05,"spinMin":1,"spinMax":2,"vScale":0.4}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
 (pinned+spin=熱浴の型: 高スピン列=ヒーター、スピン0列=冷却板。床の一部だけを温め、冷却板を天井に疎に置くと一方向の対流セルになり、粒子が冷所に貼り付かない=機械検証済み)`;
 
 // 注: 以前は output_config.format(構造化出力)に JSON Schema を渡していたが、
@@ -1944,7 +2223,10 @@ function applyLang(){
   const tabKeys={help:"tabHelp",params:"tabParams",saves:"tabSaves",ai:"tabAI"};
   document.querySelectorAll("#tabs button").forEach(b=>{ b.textContent=T(tabKeys[b.dataset.tab]); });
   $("#btnParamDefault").textContent=T("paramDefault");
-  document.querySelector("#page-params .note").textContent=T("paramNote");
+  $("#paramNote").textContent=T("paramNote");
+  $("#abHead").textContent=T("abHead"); $("#abParamLabel").textContent=T("abParamLabel");
+  $("#abBLabel").textContent=T("abBLabel"); $("#abNote").textContent=T("abNote");
+  abParamOptions(); updateAbBtn();
   const sh=document.querySelectorAll("#page-saves h3");
   sh[0].textContent=T("savesHeadSave"); sh[1].textContent=T("savesHeadList"); sh[2].textContent=T("savesHeadBackup");
   $("#saveName").placeholder=T("saveNamePh"); $("#saveComment").placeholder=T("saveCommentPh");
@@ -1971,6 +2253,13 @@ function renderHelp(){
   const mk=(tag,txt)=>{const e=document.createElement(tag); e.textContent=txt; el.appendChild(e); return e;};
   mk("h4",(currentPreset.emoji||"")+" "+pName(currentPreset));
   mk("p",pDesc(currentPreset));
+  // v1.13 理論解説パネル: 説明文中の法則参照(A8 等)を自動抽出して1行解説を表示(付録M)
+  const refs=extractLawRefs(currentPreset.description||"");
+  if(refs.length){
+    mk("h4",T("helpTheory"));
+    for(const r of refs) mk("p","・"+r+" — "+lawText(r));
+    mk("p",T("helpTheoryNote")).style.color="var(--dim)";
+  }
   mk("h4",T("helpOps"));
   mk("p",T("helpOpsBody"));
   mk("h4",T("helpLaws"));
@@ -2015,6 +2304,7 @@ function renderHelp(){
   cv.addEventListener("wheel",e=>{ e.preventDefault();
     camScale=clamp(camScale*(e.deltaY>0?1.1:0.9),20,3000); },{passive:false});
   function tapSelect(px,py){
+    if(ab) return; // A/B比較中は粒子選択なし(座標系が分割されるため)
     const rect=cv.getBoundingClientRect();
     const wx=camX+((px-rect.left)-cw/2)/zoom(), wy=camY+((py-rect.top)-ch/2)/zoom();
     let best=-1,bd=(30/zoom())*(30/zoom());
@@ -2351,6 +2641,7 @@ const VERIFY = {
 // ===== デバッグ/テスト用フック(品質ゲートが使用) =====
 window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extractJSON,
   verify:VERIFY, traceRay, getSystemPrompt, aiCfg, T:(k)=>T(k), lang:()=>LANG,
+  extractLawRefs, lawText, ab:()=>ab, abStart, abStop,
   setLang:(l)=>{ LANG=(l==="en")?"en":"ja"; localStorage.setItem("hp_lang",LANG); applyLang(); },
   running:()=>running, setRunning:(v)=>{running=v;updatePlayBtn();},
   tick:(frames)=>{ for(let f=0;f<frames;f++){ const k=Math.max(1,Math.round(SUBSTEPS*sim.params.timeScale)); for(let s2=0;s2<Math.min(k,24);s2++) sim.step(DT); } render(); } };

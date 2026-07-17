@@ -169,26 +169,70 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   add('new.counterring', !r.rNaN && r.rHot > 0.3 && r.rCold < 0.05, `muF1=${r.rHot.toFixed(2)} muF0=${r.rCold.toFixed(3)}`);
 }
 
+// ---- 7b) 理論解説パネル(v1.13): 全内蔵の説明から法則参照が抽出され、ヘルプに表示される ----
+{
+  const r = await page.evaluate(() => {
+    const noRefs = HP.allPresets().filter(p => !String(p.id).startsWith('custom_'))
+      .filter(p => HP.extractLawRefs(p.description || '').length === 0).map(p => p.id);
+    HP.loadPreset('mach', false);
+    const jaShown = document.querySelector('#helpBody').textContent.includes('A4 — ');
+    HP.setLang('en');
+    HP.loadPreset('mach', false);
+    const enShown = document.querySelector('#helpBody').textContent.includes('Masses have inertia');
+    HP.setLang('ja');
+    return { noRefs, jaShown, enShown };
+  });
+  add('theory.refs-all', r.noRefs.length === 0, r.noRefs.join(','));
+  add('theory.panel', r.jaShown && r.enShown, `ja=${r.jaShown} en=${r.enShown}`);
+}
+
+// ---- 7c) A/B比較モード(v1.13): 同一初期条件・1パラメータ差・両シム同時駆動 ----
+{
+  const r = await page.evaluate(async () => {
+    HP.loadPreset('galaxy', false);
+    HP.abStart('kFrame', 0);
+    const ab = HP.ab();
+    const sameInit = Math.abs(HP.sim.x[5] - ab.simB.x[5]) < 1e-9 && Math.abs(HP.sim.y[5] - ab.simB.y[5]) < 1e-9;
+    const paramsDiffer = HP.sim.params.kFrame === 1 && ab.simB.params.kFrame === 0;
+    HP.setRunning(true);
+    await new Promise(res => setTimeout(res, 800));
+    HP.setRunning(false);
+    const bothAdvanced = HP.sim.t > 0.5 && Math.abs(HP.sim.t - ab.simB.t) < 1e-6;
+    const evolvedDiff = Math.abs(HP.sim.x[5] - ab.simB.x[5]) > 1e-6; // kFrame差が軌道に効く
+    HP.abStop(); HP.loadPreset('galaxy', false);
+    const stopped = HP.ab() === null;
+    return { sameInit, paramsDiffer, bothAdvanced, evolvedDiff, stopped };
+  });
+  add('ab.same-init', r.sameInit, '');
+  add('ab.params-differ', r.paramsDiffer, '');
+  add('ab.sync-advance', r.bothAdvanced, '');
+  add('ab.effect-visible', r.evolvedDiff, '');
+  add('ab.stop', r.stopped, '');
+}
+
 // ---- 8) 長時間挙動: ♨️対流(膠着・循環)と🪐土星(環残存)。QA_FAST=1 で省略 ----
 if (!FAST) {
   const r = await page.evaluate(() => {
     const s = HP.sim, res = {};
     // ♨️ convection
     HP.loadPreset('convection', false);
-    const circs = []; let stuckLast = 0;
+    const circs = [], centers = []; let stuckLast = 0;
     for (let k = 1; k <= 24000; k++) { s.step(0.016);
       if (k % 2000 === 0) {
-        let c = 0, cs = 0, nf = 0, stuck = 0; const colds = [];
+        let c = 0, cs = 0, nf = 0, stuck = 0, ctr = 0; const colds = [];
         for (let i = 0; i < s.n; i++) if (s.pinned[i] && Math.abs(s.spin[i]) < 0.5 && s.m[i] < 100) colds.push(i);
         for (let i = 0; i < s.n; i++) { if (s.pinned[i]) continue; nf++;
           cs += s.x[i] * s.vy[i] - s.y[i] * s.vx[i]; c++;
+          if (Math.abs(s.x[i]) < 95 && Math.abs(s.y[i]) < 95) ctr++;
           if (Math.hypot(s.vx[i], s.vy[i]) <= 0.2) for (const j of colds) { if (Math.hypot(s.x[i] - s.x[j], s.y[i] - s.y[j]) < 24) { stuck++; break; } }
         }
-        circs.push(cs / c); stuckLast = stuck / nf;
+        circs.push(cs / c); centers.push(ctr / nf); stuckLast = stuck / nf;
       } }
     const latter = circs.slice(6);
     res.convSign = Math.max(latter.filter(v => v > 0).length, latter.filter(v => v < 0).length);
     res.convN = latter.length; res.convStuck = stuckLast; res.convNaN = s.hasNaN();
+    // v1.13: 空洞化検査 — 後半サンプルの中央占有率(|x|,|y|<95)最小値。過熱の弾道循環だと 0.00〜0.07 に落ちる
+    res.convCenter = Math.min(...centers.slice(6));
     // 🪐 saturn
     HP.loadPreset('saturn', false);
     for (let k = 0; k < 24000; k++) s.step(0.016);
@@ -197,8 +241,8 @@ if (!FAST) {
     res.satAnn = inAnn / tot; res.satDrift = Math.hypot(s.x[0], s.y[0]); res.satNaN = s.hasNaN();
     return res;
   });
-  add('behavior.convection', !r.convNaN && r.convStuck < 0.08 && r.convSign >= r.convN - 1,
-    `stuck=${(r.convStuck * 100).toFixed(1)}% sign=${r.convSign}/${r.convN}`);
+  add('behavior.convection', !r.convNaN && r.convStuck < 0.08 && r.convSign >= r.convN - 1 && r.convCenter >= 0.08,
+    `stuck=${(r.convStuck * 100).toFixed(1)}% sign=${r.convSign}/${r.convN} center≥${(r.convCenter * 100).toFixed(1)}%`);
   add('behavior.saturn', !r.satNaN && r.satAnn >= 0.95 && r.satDrift < 5,
     `inAnn=${(r.satAnn * 100).toFixed(1)}% drift=${r.satDrift.toFixed(1)}`);
 } else {
