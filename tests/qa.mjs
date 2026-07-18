@@ -128,7 +128,7 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   add('compat.kLens', ok, '');
 }
 
-// ---- 6) インポート4形式+ID重複スキップ+seed 再現性 ----
+// ---- 6) インポート4形式+ID重複リネーム(v1.17)+保存一覧登録+seed 再現性 ----
 {
   const r = await page.evaluate(() => {
     const mk = (id) => ({ id, name: 'imp' + id, description: 'd', camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
@@ -136,14 +136,24 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
     const doImport = (obj) => { document.querySelector('#ioArea').value = JSON.stringify(obj); document.querySelector('#btnImport').click(); };
     const count = () => JSON.parse(localStorage.getItem('hp_custom_presets') || '[]').length;
     localStorage.setItem('hp_custom_presets', '[]');
+    localStorage.setItem('hp_saves', '[]');
     const c0 = count();
     doImport(mk('custom_qa_a'));                                   // 単独
     doImport([mk('custom_qa_b'), mk('custom_qa_c')]);              // 配列
     doImport({ customPresets: [mk('custom_qa_d')] });              // ラッパー
     doImport({ schemaVersion: 2, saves: [], customPresets: [mk('custom_qa_e')] }); // バックアップ全体
     const c1 = count();
-    doImport(mk('custom_qa_a'));                                   // 重複 → スキップ
+    doImport(mk('custom_qa_a'));                                   // 重複 → リネームして受け入れ(v1.17)
     const c2 = count();
+    const list = JSON.parse(localStorage.getItem('hp_custom_presets') || '[]');
+    const renamedOk = list.some(p => p.id === 'custom_qa_a_2' && /\(2\)/.test(p.name));
+    // v1.17: インポートしたプリセットは保存一覧にも登録される
+    const saves = JSON.parse(localStorage.getItem('hp_saves') || '[]');
+    const savesOk = saves.length === c2 - c0 && saves.some(s => s.presetId === 'custom_qa_a')
+      && saves.some(s => s.presetId === 'custom_qa_a_2');
+    // v1.17: プルダウンに保存一覧カテゴリ(💾)が現れる
+    const og = [...document.querySelectorAll('#presetSelect optgroup')].map(o => o.label);
+    const ddOk = og.includes('保存一覧') || og.includes('Saved items');
     // seed 再現性: 同じ seed なら id が違っても同一初期配置
     const sp = (id, seed) => ({ id, seed, name: 's', description: 'd', camera: { scale: 200 }, world: { boundary: 'box', size: 200 },
       bodies: [{ type: 'box', n: 30, cx: 0, cy: 0, w: 300, h: 300, mMin: 1, mMax: 2, spinMin: 0, spinMax: 1, vScale: 1 }] });
@@ -151,10 +161,13 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
     const same = layout(sp('idA', 42)) === layout(sp('idB', 42));
     const diff = layout(sp('idA', 42)) !== layout(sp('idA', 43));
     localStorage.setItem('hp_custom_presets', '[]');
-    return { addedAll: c1 - c0, dupDelta: c2 - c1, same, diff };
+    localStorage.setItem('hp_saves', '[]');
+    return { addedAll: c1 - c0, dupDelta: c2 - c1, renamedOk, savesOk, ddOk, same, diff };
   });
   add('import.formats', r.addedAll === 5, `added=${r.addedAll}/5`);
-  add('import.dedup', r.dupDelta === 0, `delta=${r.dupDelta}`);
+  add('import.rename', r.dupDelta === 1 && r.renamedOk, `delta=${r.dupDelta} renamed=${r.renamedOk}`);
+  add('import.to-saves', r.savesOk, '');
+  add('import.saves-dropdown', r.ddOk, '');
   add('seed.deterministic', r.same && r.diff, `sameSeed=${r.same} diffSeed=${r.diff}`);
 }
 
@@ -192,6 +205,24 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   add('new.coolrace', r.cR21 > 5 && r.cR21 < 12 && r.cR32 > 5 && r.cR32 < 12 && r.cDrift < 1e-6,
     `ratio=${r.cR21.toFixed(1)}/${r.cR32.toFixed(1)} (理論8) drift=${r.cDrift}`);
   add('new.counterring', !r.rNaN && r.rHot > 0.3 && r.rCold < 0.05, `muF1=${r.rHot.toFixed(2)} muF0=${r.rCold.toFixed(3)}`);
+}
+
+// ---- 7g) 一様重力場(v1.17): gravityY の等加速度・帳簿記録・外部要素バッジ ----
+{
+  const r = await page.evaluate(() => {
+    const p = HP.validatePreset({ name: 'g', description: 'd', camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+      physics: { G: 0, D0: 2, kFrame: 0, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, gravityY: 0.5 },
+      bodies: [{ type: 'single', m: 2, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+    if (!p.ok) return { ok: false };
+    HP.sim.build(p.preset);
+    for (let k = 0; k < 100; k++) HP.sim.step(0.016);            // t=1.6 → vy=0.8
+    const vy = HP.sim.vy[0], y = HP.sim.y[0];
+    const ledger = Math.abs(2 * vy + HP.sim.resPy) < 1e-4;       // P+帳簿P=一定(T7 恒等式)
+    const tags = HP.externalTags({ physics: { gravityY: 0.5 }, bodies: [] });
+    return { ok: true, vy, y, ledger, grav: !!tags.grav };
+  });
+  add('gravity.uniform', r.ok && Math.abs(r.vy - 0.8) < 1e-3 && r.y > 0 && r.ledger && r.grav,
+    r.ok ? `vy=${r.vy.toFixed(3)}(理論0.8) 帳簿=${r.ledger} badge=${r.grav}` : 'validate failed');
 }
 
 // ---- 7b) 理論解説パネル(v1.13): 全内蔵の説明から法則参照が抽出され、ヘルプに表示される ----
@@ -321,18 +352,33 @@ if (!FAST) {
     res.galA = outer(s); res.galB = outer(abG.simB);
     res.galNaN = s.hasNaN() || abG.simB.hasNaN();
     HP.abStop();
-    // 🪐 saturn
+    // 🪐 saturn(v1.17: 3環帯構成。環帯 135〜248 が全て計測環 45〜280 に収まる)
     HP.loadPreset('saturn', false);
     for (let k = 0; k < 24000; k++) s.step(0.016);
     let inAnn = 0, tot = 0;
     for (let i = 1; i < s.n; i++) { tot++; const r2 = Math.hypot(s.x[i], s.y[i]); if (r2 > 45 && r2 < 280) inAnn++; }
     res.satAnn = inAnn / tot; res.satDrift = Math.hypot(s.x[0], s.y[0]); res.satNaN = s.hasNaN();
+    // ♨️ convection(v1.17 復活): 24000步で NaN なし・循環が正(左で上昇・右で下降=circ>0)・
+    // ガスが凍結しない。温度の床天井差は対流セルでは定常指標にならない(熱柱の頭は天井にある)
+    // ため、循環量そのものを判定する。掃引実測: circ≈50・|v|≈0.6(48000步でも circ>10 持続)
+    HP.loadPreset('convection', false);
+    for (let k = 0; k < 24000; k++) s.step(0.016);
+    let circ = 0, sumV = 0, freeC = 0;
+    for (let i = 0; i < s.n; i++) {
+      if (s.pinned[i]) continue;
+      circ += s.x[i] * s.vy[i] - s.y[i] * s.vx[i];
+      sumV += Math.hypot(s.vx[i], s.vy[i]); freeC++;
+    }
+    res.convCirc = freeC ? circ / freeC : 0;
+    res.convV = freeC ? sumV / freeC : 0; res.convNaN = s.hasNaN();
     return res;
   });
   add('claim.galaxy-flatten', !r.galNaN && r.galA > r.galB * 1.04,
     `vφ外縁 kF1=${r.galA.toFixed(3)} kF0=${r.galB.toFixed(3)} 比=${(r.galA / r.galB).toFixed(3)} (>1.04)`);
   add('behavior.saturn', !r.satNaN && r.satAnn >= 0.95 && r.satDrift < 5,
     `inAnn=${(r.satAnn * 100).toFixed(1)}% drift=${r.satDrift.toFixed(1)}`);
+  add('behavior.convection', !r.convNaN && r.convCirc > 5 && r.convV > 0.3,
+    `循環=${r.convCirc.toFixed(1)} (>5) 平均|v|=${r.convV.toFixed(2)} (>0.3)`);
 } else {
   console.log('SKIP behavior.* (QA_FAST=1)');
 }

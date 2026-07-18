@@ -14,71 +14,89 @@
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
   html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--fg);
     font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
+    font-size:calc(16px*var(--uz,1));
     overscroll-behavior:none;}
   #app{display:flex;flex-direction:column;height:100%;}
   header{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--panel);
     border-bottom:1px solid var(--line);flex:0 0 auto;padding-top:calc(8px + env(safe-area-inset-top,0px));}
-  header .title{font-weight:700;font-size:15px;white-space:nowrap;}
+  header .title{font-weight:700;font-size:calc(15px*var(--uz,1));white-space:nowrap;}
   select,button,input,textarea{font:inherit;color:var(--fg);}
   select{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-height:44px;}
   #presetSelect{flex:1;min-width:0;}
   #canvasWrap{position:relative;flex:1 1 auto;min-height:120px;background:#05070f;}
   canvas#cv{position:absolute;inset:0;width:100%;height:100%;touch-action:none;display:block;}
-  #hud{position:absolute;left:8px;top:6px;font-size:11px;color:var(--dim);pointer-events:none;
+  #hud{position:absolute;left:8px;top:6px;font-size:calc(11px*var(--uz,1));color:var(--dim);pointer-events:none;
     text-shadow:0 1px 2px #000;line-height:1.5;white-space:pre;}
+  /* v1.17: 選択粒子の編集パネル(タップ選択中のみ表示) */
+  #bodyEdit{position:absolute;right:8px;top:8px;width:172px;background:rgba(20,24,48,.94);
+    border:1px solid var(--line);border-radius:10px;padding:8px;display:none;font-size:calc(11.5px*var(--uz,1));}
+  #bodyEdit .beHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;
+    font-weight:700;color:var(--acc);}
+  #bodyEdit .beHead button{background:none;border:none;color:var(--dim);font-size:calc(14px*var(--uz,1));
+    padding:2px 6px;min-height:28px;}
+  #bodyEdit .beRow{display:flex;align-items:center;gap:4px;margin:4px 0;}
+  #bodyEdit .beRow label{flex:0 0 30px;color:var(--dim);}
+  #bodyEdit .beRow input[type=text]{flex:1;min-width:0;min-height:30px;padding:2px 5px;font-size:calc(12px*var(--uz,1));
+    text-align:right;background:var(--panel);border:1px solid var(--line);border-radius:6px;color:var(--acc);}
+  #bodyEdit .beRow input[type=checkbox]{width:18px;height:18px;accent-color:var(--acc);}
+  #bodyEdit .beNote{color:var(--dim);font-size:calc(10px*var(--uz,1));margin-top:4px;line-height:1.4;}
   #notice{position:absolute;left:50%;top:12px;transform:translateX(-50%);max-width:92%;
     background:rgba(20,24,48,.92);border:1px solid var(--line);border-radius:10px;
     padding:8px 12px;font-size:12px;display:none;pointer-events:none;text-align:center;}
   #transport{display:flex;gap:8px;padding:8px 12px;background:var(--panel);
     border-top:1px solid var(--line);flex:0 0 auto;align-items:center;}
   #transport button{flex:1;min-height:46px;border-radius:12px;border:1px solid var(--line);
-    background:var(--panel2);font-size:14px;font-weight:600;touch-action:manipulation;}
+    background:var(--panel2);font-size:calc(14px*var(--uz,1));font-weight:600;touch-action:manipulation;}
   #transport button:active{background:#26305e;}
   #btnPlay.playing{background:#20315f;border-color:var(--acc);}
   #speedSel{flex:0 0 84px;}
   nav#tabs{display:flex;background:var(--panel);border-top:1px solid var(--line);flex:0 0 auto;}
   nav#tabs button{flex:1;min-height:44px;background:none;border:none;border-top:2px solid transparent;
-    color:var(--dim);font-size:12.5px;font-weight:600;touch-action:manipulation;}
+    color:var(--dim);font-size:calc(12.5px*var(--uz,1));font-weight:600;touch-action:manipulation;}
   nav#tabs button.on{color:var(--fg);border-top-color:var(--acc);background:var(--panel2);}
   #panel{flex:0 0 auto;max-height:42vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
     background:var(--panel2);border-top:1px solid var(--line);
     padding:10px 12px calc(10px + var(--sab));display:none;}
   #panel.open{display:block;}
+  /* v1.17: タブパネルの閉じるボタン(スクロールしても右上に留まる) */
+  #btnPanelClose{position:sticky;top:0;float:right;z-index:5;margin:-4px -4px 0 8px;
+    min-height:34px;padding:4px 12px;border:1px solid var(--line);border-radius:10px;
+    background:var(--panel);color:var(--dim);font-size:calc(13px*var(--uz,1));font-weight:700;}
   .tabPage{display:none;} .tabPage.on{display:block;}
   .group{margin:6px 0 14px;}
-  .group>h3{margin:4px 0 8px;font-size:12px;color:var(--dim);font-weight:700;letter-spacing:.06em;}
+  .group>h3{margin:4px 0 8px;font-size:calc(12px*var(--uz,1));color:var(--dim);font-weight:700;letter-spacing:.06em;}
   .prow{display:flex;align-items:center;gap:10px;margin:7px 0;}
-  .prow label{flex:0 0 118px;font-size:12px;color:var(--fg);}
+  .prow label{flex:0 0 118px;font-size:calc(12px*var(--uz,1));color:var(--fg);}
   .prow input[type=range]{flex:1;min-width:0;accent-color:var(--acc);height:30px;}
-  .prow .val{flex:0 0 62px;text-align:right;font-size:12px;color:var(--acc);font-variant-numeric:tabular-nums;}
+  .prow .val{flex:0 0 62px;text-align:right;font-size:calc(12px*var(--uz,1));color:var(--acc);font-variant-numeric:tabular-nums;}
   .prow input.valIn{flex:0 0 74px;width:74px;min-height:36px;padding:4px 6px;text-align:right;
-    font-size:12.5px;color:var(--acc);background:var(--panel);border:1px solid var(--line);
+    font-size:calc(12.5px*var(--uz,1));color:var(--acc);background:var(--panel);border:1px solid var(--line);
     border-radius:8px;font-variant-numeric:tabular-nums;}
   .prow input[type=checkbox]{width:22px;height:22px;accent-color:var(--acc);}
   .btn{display:inline-block;border:1px solid var(--line);background:var(--panel);
-    border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;touch-action:manipulation;}
+    border-radius:10px;padding:10px 14px;font-size:calc(13px*var(--uz,1));font-weight:600;touch-action:manipulation;}
   .btn:active{background:#26305e;}
   .btn.primary{background:#24407e;border-color:var(--acc);}
   .btn.danger{color:var(--err);}
   .btn[disabled]{opacity:.45;}
   input[type=text],input[type=password],textarea{width:100%;background:var(--panel);
-    border:1px solid var(--line);border-radius:10px;padding:10px;min-height:44px;font-size:14px;}
+    border:1px solid var(--line);border-radius:10px;padding:10px;min-height:44px;font-size:calc(14px*var(--uz,1));}
   textarea{min-height:74px;resize:vertical;}
-  .note{font-size:11.5px;color:var(--dim);margin:6px 0;line-height:1.6;}
+  .note{font-size:calc(11.5px*var(--uz,1));color:var(--dim);margin:6px 0;line-height:1.6;}
   .saveItem,.customItem{border:1px solid var(--line);border-radius:10px;background:var(--panel);
     padding:8px 10px;margin:8px 0;}
-  .saveItem .name{font-weight:700;font-size:13.5px;}
-  .saveItem .meta{font-size:11px;color:var(--dim);margin:2px 0;}
-  .saveItem .comment{font-size:12px;margin:4px 0;white-space:pre-wrap;}
+  .saveItem .name{font-weight:700;font-size:calc(13.5px*var(--uz,1));}
+  .saveItem .meta{font-size:calc(11px*var(--uz,1));color:var(--dim);margin:2px 0;}
+  .saveItem .comment{font-size:calc(12px*var(--uz,1));margin:4px 0;white-space:pre-wrap;}
   .rowBtns{display:flex;gap:8px;margin-top:6px;}
   .rowBtns .btn{flex:1;text-align:center;padding:8px;}
-  #aiStatus{font-size:12.5px;margin:8px 0;line-height:1.6;white-space:pre-wrap;}
+  #aiStatus{font-size:calc(12.5px*var(--uz,1));margin:8px 0;line-height:1.6;white-space:pre-wrap;}
   #aiStatus.err{color:var(--err);} #aiStatus.ok{color:var(--ok);}
   .spin{display:inline-block;width:14px;height:14px;border:2px solid var(--dim);
     border-top-color:var(--acc);border-radius:50%;animation:sp 1s linear infinite;vertical-align:-2px;}
   @keyframes sp{to{transform:rotate(360deg)}}
-  #helpBody{font-size:12.5px;line-height:1.75;}
-  #helpBody h4{margin:12px 0 4px;font-size:13px;color:var(--acc);}
+  #helpBody{font-size:calc(12.5px*var(--uz,1));line-height:1.75;}
+  #helpBody h4{margin:12px 0 4px;font-size:calc(13px*var(--uz,1));color:var(--acc);}
   #helpBody p{margin:4px 0;}
 </style>
 </head>
@@ -93,6 +111,15 @@
     <canvas id="cv"></canvas>
     <div id="hud"></div>
     <div id="notice"></div>
+    <div id="bodyEdit">
+      <div class="beHead"><span id="beTitle">選択粒子の編集</span><button id="beClose" aria-label="close">✕</button></div>
+      <div class="beRow"><label id="beLm">m</label><input type="text" id="beM" inputmode="decimal" autocomplete="off">
+        <label id="beLs">s</label><input type="text" id="beS" inputmode="decimal" autocomplete="off"></div>
+      <div class="beRow"><label>vx</label><input type="text" id="beVx" inputmode="decimal" autocomplete="off">
+        <label>vy</label><input type="text" id="beVy" inputmode="decimal" autocomplete="off"></div>
+      <div class="beRow"><label id="beLp" style="flex:1">固定(pinned)</label><input type="checkbox" id="bePin"></div>
+      <div class="beNote" id="beNote">※編集は即時反映。⏮初めからで初期値に戻ります。</div>
+    </div>
   </div>
   <div id="transport">
     <button id="btnReset">⏮ 初めから</button>
@@ -110,6 +137,7 @@
     <button data-tab="ai">AI追加</button>
   </nav>
   <section id="panel">
+    <button id="btnPanelClose" aria-label="close panel">✕ 閉じる</button>
     <div class="tabPage" id="page-help"><div id="helpBody"></div></div>
     <div class="tabPage" id="page-params">
       <div class="group" id="abGroup">
@@ -140,10 +168,14 @@
         <div class="rowBtns">
           <button class="btn" id="btnExport">エクスポート(コピー)</button>
           <button class="btn" id="btnExportFile">ファイルに保存</button>
+        </div>
+        <div class="rowBtns">
+          <button class="btn" id="btnImportFile">ファイルから読込</button>
           <button class="btn" id="btnImport">インポート</button>
         </div>
+        <input type="file" id="importFile" accept=".json,application/json" style="display:none">
         <textarea id="ioArea" placeholder="エクスポートJSONの表示 / 貼り付けてインポート"></textarea>
-        <p class="note" id="ioNote">インポートは「単独プリセット / プリセット配列 / {customPresets:[…]} / バックアップ全体」のどの形式でも自動判別します。既存と同じIDはスキップされます。</p>
+        <p class="note" id="ioNote">インポートは「単独プリセット / プリセット配列 / {customPresets:[…]} / バックアップ全体」のどの形式でも自動判別します。既存と同じIDはIDと名前にサフィックスを付けて追加され、インポートしたプリセットは保存一覧にも登録されます。</p>
       </div>
     </div>
     <div class="tabPage" id="page-ai">
@@ -188,6 +220,12 @@
  * v1.5 (2026-07-16): 整合性修正(付録F=HANDOFF_FIX_V15.md)— E1′(Plummer型)で
  * E4=G∇W が厳密成立(L5解消)、E9すべり散逸・E10′同期散逸を radE に計上(A12′、
  * 第一法則の完全閉性)、検証 V9/V10/V11 追加、phase 統制実験化、starform 改名。
+ * v1.17 (2026-07-18): ①一様重力場 gravityX/gravityY(外部場。地上実験・対流用)
+ * ②♨️加熱の対流を一様重力場ベースで復活 ③🪐土星の環を3環帯構成に刷新(AI生成参考)
+ * ④粒子タップ編集パネル ⑤大粒子の回転方向スポーク表示 ⑥UI文字サイズ設定
+ * ⑦タブパネル閉じるボタン ⑧光線の描画範囲修正(PC横長・パネル開時)+光線表示トグル
+ * ⑨バックアップ: ファイルから読込/ID重複リネーム/インポートの保存一覧登録
+ * ⑩プルダウンに保存一覧カテゴリ ⑪生成済みプリセットの新着順表示
  * ===================================================================== */
 
 // ===== ユーティリティ =====
@@ -218,6 +256,11 @@ ja: {
   grpLaws:"仮定物理法則", grpSim:"シミュレーション", grpDisplay:"表示",
   tgTrails:"軌跡を残す", tgField:"決定力マップ", tgCurve:"回転曲線グラフ",
   tgTemp:"温度グラフ", tgSpectrum:"スペクトル", tgMonitor:"保存量モニタ(P・L・帳簿)",
+  tgRays:"光線", uiScaleLabel:"文字サイズ",
+  uiScaleOpts:[["1","標準"],["1.15","大"],["1.3","特大"]],
+  panelClose:"✕ 閉じる",
+  beTitle:"選択粒子の編集", bePinned:"固定(pinned)",
+  beNote:"※編集は即時反映。⏮初めからで初期値に戻ります。",
   savesHeadSave:"現在のパラメータを保存", savesHeadList:"保存一覧", savesHeadBackup:"バックアップ",
   saveNamePh:"名前(例: 環が安定する設定)", saveCommentPh:"コメント(例: muFを0.8にすると円形化が速い)",
   btnSave:"保存", btnExport:"エクスポート(コピー)", btnImport:"インポート",
@@ -228,9 +271,11 @@ ja: {
   saveFailed:"保存できませんでした(localStorage容量不足の可能性)",
   copied:"クリップボードにコピーしました", imported:"インポートしました",
   importFailed:"読み込めませんでした(JSONが不正です)",
-  importReport:(a,s,b)=>"インポート: 追加"+a+"件"+(s?" / ID重複スキップ"+s+"件":"")+(b?" / 不正"+b+"件":""),
+  importReport:(a,s,b)=>"インポート: 追加"+a+"件"+(s?" / ID重複をリネーム"+s+"件":"")+(b?" / 不正"+b+"件":""),
   btnExportFile:"ファイルに保存", fileSaved:"ファイルとして保存しました", fileShared:"共有しました",
-  ioNote:"インポートは「単独プリセット / プリセット配列 / {customPresets:[…]} / バックアップ全体」のどの形式でも自動判別します。既存と同じIDはスキップされます。",
+  btnImportFile:"ファイルから読込", fileLoaded:"ファイルを読み込みました",
+  unsavedWarn:"※編集中のパラメータは「保存」するまでバックアップに含まれません",
+  ioNote:"インポートは「単独プリセット / プリセット配列 / {customPresets:[…]} / バックアップ全体」のどの形式でも自動判別します。既存と同じIDはIDと名前にサフィックスを付けて追加され、インポートしたプリセットは保存一覧にも登録されます。",
   presetMissing:"元プリセットが見つからないため既定プリセットに適用しました",
   resetDone:"初期配置に戻しました(パラメータは保持)", defaultsDone:"プリセットの既定値に戻しました",
   diverged:"数値が発散しました。パラメータを見直すか「⏮ 初めから」を押してください。",
@@ -254,7 +299,7 @@ ja: {
   helpTheory:"この現象の法則(自動抽出)",
   helpTheoryNote:"※ 正確な定義と導出は docs/PHYSICS.md / docs/DERIVATIONS.md を参照。",
   helpOps:"操作",
-  helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)を表示。",
+  helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。",
   helpLaws:"この宇宙の法則(要約)",
   helpLawsBody:"① 空間は質点の相対配置だけで決まる(絶対空間なし)。② 決定力=質量÷距離。決定力の勾配が重力になる。③ 質点は「近くの空間」に対して慣性を持ち、空間ごと引きずられる(kFrame)。遠方宇宙の決定力がD₀。④ スピン=熱(温度T=Is²)。衝突で速度がスピンに変わり(muF)、スピンは斥力=圧力を生み(kRep)、拡散して平衡になる(κs)。⑤ 決定力が高い場所の時計は遅く、空間(共動フレーム)に対して速く動く時計も遅れる。光は同じψ=W/Ktで屈折して曲がり(n=e^{2ψ}。v1.7で時間と光を単一のψに統一)、「決定した空間」に運ばれる(c₀)。⑥ すべての相互作用は作用反作用対称で、運動量・角運動量を厳密に保存する(遠方宇宙との交換は帳簿に記録=保存量モニタ)。温度Tの質点はλ=b_m/Tの光を放射する(η_rad)。詳細は docs/PHYSICS.md(v1.6)。",
   ovCurve:"v(r): 実測(青) / ケプラー(点線)", ovTemp:"平均温度(Is²) 左/右", ovLeft:"左", ovRight:"右",
@@ -266,6 +311,7 @@ ja: {
   extPinned:(n)=>"固定粒子 "+n+"個 — 位置とスピンを外部が保持。反作用は系外に逃げるため、系内だけを見ると保存則は成り立たないように見える。",
   extRail:"規定運動(レール駆動)— 外部が決めた軌道で動き、系に仕事をする。",
   extBath:"スピン浴(熱浴)— スピン固定の粒子が周囲を加熱/冷却する(エネルギーの外部供給・吸収)。",
+  extGrav:"一様重力場(gravityX/Y)— 画面全体に働く外部の力場。運動量は場との交換として帳簿に記録される。",
   abSuggestBtn:(k,v)=>"おすすめA/B: "+k+" = "+v,
   groups:{}, params:{},
 },
@@ -284,6 +330,11 @@ en: {
   grpLaws:"Hypothetical physical laws", grpSim:"Simulation", grpDisplay:"Display",
   tgTrails:"Motion trails", tgField:"Determinacy map", tgCurve:"Rotation-curve graph",
   tgTemp:"Temperature graph", tgSpectrum:"Spectrum", tgMonitor:"Conservation monitor (P, L, ledger)",
+  tgRays:"Light rays", uiScaleLabel:"Text size",
+  uiScaleOpts:[["1","Standard"],["1.15","Large"],["1.3","X-Large"]],
+  panelClose:"✕ Close",
+  beTitle:"Edit selected body", bePinned:"Pinned",
+  beNote:"Edits apply instantly. ⏮ Restart restores initial values.",
   savesHeadSave:"Save current parameters", savesHeadList:"Saved items", savesHeadBackup:"Backup",
   saveNamePh:"Name (e.g. stable-ring settings)", saveCommentPh:"Comment (e.g. muF=0.8 circularizes faster)",
   btnSave:"Save", btnExport:"Export (copy)", btnImport:"Import",
@@ -294,9 +345,11 @@ en: {
   saveFailed:"Could not save (localStorage may be full)",
   copied:"Copied to clipboard", imported:"Imported",
   importFailed:"Could not import (invalid JSON)",
-  importReport:(a,s,b)=>"Import: "+a+" added"+(s?" / "+s+" skipped (duplicate ID)":"")+(b?" / "+b+" invalid":""),
+  importReport:(a,s,b)=>"Import: "+a+" added"+(s?" / "+s+" renamed (duplicate ID)":"")+(b?" / "+b+" invalid":""),
   btnExportFile:"Save as file", fileSaved:"Saved as a file", fileShared:"Shared",
-  ioNote:"Import auto-detects any of: a single preset / an array of presets / {customPresets:[…]} / a full backup. Presets whose ID already exists are skipped.",
+  btnImportFile:"Load from file", fileLoaded:"File loaded",
+  unsavedWarn:"Note: edited parameters are not included in backups until you press Save",
+  ioNote:"Import auto-detects any of: a single preset / an array of presets / {customPresets:[…]} / a full backup. Duplicate IDs are added with a suffix on the ID and name, and imported presets are also registered in the saved list.",
   presetMissing:"Original preset not found — applied to the default preset",
   resetDone:"Reset to initial layout (parameters kept)", defaultsDone:"Restored preset defaults",
   diverged:"Simulation diverged. Adjust parameters or press ⏮ Restart.",
@@ -320,7 +373,7 @@ en: {
   helpTheory:"Laws behind this scene (auto-extracted)",
   helpTheoryNote:"※ Precise definitions and derivations: docs/PHYSICS.md / docs/DERIVATIONS.md.",
   helpOps:"Controls",
-  helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t).",
+  helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction.",
   helpLaws:"Laws of this universe (summary)",
   helpLawsBody:"(1) Space is defined only by the relative configuration of masses (no absolute space). (2) Determinacy = mass ÷ distance; its gradient is gravity. (3) Masses have inertia relative to the \"nearby space\" and are dragged along with it (kFrame). D₀ is the determinacy of the distant universe. (4) Spin = heat (T = Is²). Collisions convert velocity to spin (muF), spin creates repulsion = pressure (kRep), and diffuses to equilibrium (κs). (5) Clocks run slow where determinacy is high, and clocks moving fast relative to the comoving frame also run slow. Light refracts under the same ψ = W/Kt (n = e^{2ψ}; time and light unified in v1.7) and is carried by the \"determined space\" (c₀). (6) All interactions are action–reaction symmetric and conserve momentum and angular momentum exactly (exchanges with the distant universe are ledgered — see the conservation monitor). A mass at temperature T radiates at λ = b_m/T (η_rad). Details: docs/PHYSICS.md (v1.6).",
   ovCurve:"v(r): measured (blue) / Kepler (dotted)", ovTemp:"Mean temperature (Is²) L/R", ovLeft:"L", ovRight:"R",
@@ -331,13 +384,15 @@ en: {
   extPinned:(n)=>"Pinned bodies ×"+n+" — position and spin are held externally. The reaction leaves the system, so conservation appears broken if you look at the system alone.",
   extRail:"Prescribed motion (rail-driven) — follows an external schedule and does work on the system.",
   extBath:"Spin bath (heat bath) — fixed-spin bodies heat/cool their surroundings (external energy source/sink).",
+  extGrav:"Uniform gravity field (gravityX/Y) — an external force field acting across the scene. Momentum exchange with the field is ledgered.",
   abSuggestBtn:(k,v)=>"Suggested A/B: "+k+" = "+v,
-  groups:{"空間と時間":"Space & Time","光":"Light","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","AI生成":"AI-generated","内蔵":"Built-in"},
+  groups:{"空間と時間":"Space & Time","光":"Light","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
   params:{G:"Gravity G", D0:"Background determinacy D₀", kFrame:"Frame dragging kFrame",
     q:"Drag falloff q", kRep:"Spin repulsion kRep", muF:"Friction→spin muF",
     gammaN:"Collision damping γn", kappaS:"Spin diffusion κs", Kt:"Spacetime Kt (time & light)",
     cLight:"Light speed c₀", bM:"Wien constant b_m", etaRad:"Radiative cooling η_rad",
-    pRad:"Radiation exponent p", radiusScale:"Particle radius scale", softening:"Softening ε",
+    pRad:"Radiation exponent p", gravityX:"Uniform gravity gₓ", gravityY:"Uniform gravity g_y",
+    radiusScale:"Particle radius scale", softening:"Softening ε",
     timeScale:"Time multiplier"},
 },
 };
@@ -432,7 +487,10 @@ function externalTags(p){
       if(b.vMode==="omega" && b.omega) rail=true;
       if(Math.abs(b.spinMin||0)>0 || Math.abs(b.spinMax||0)>0) bath=true; }
   }
-  return {pin, rail, bath};
+  // v1.17: 一様重力場(gravityX/Y)も外部要素として検出
+  const ph=p.physics||{};
+  const grav=!!(ph.gravityX||ph.gravityY);
+  return {pin, rail, bath, grav};
 }
 function gName(g){ return (LANG==="en" && I18N.en.groups[g]) || g; }
 function pName(p){ return (LANG==="en" && p.en && p.en.name) || p.name; }
@@ -442,9 +500,10 @@ function paramLabel(def){ return (LANG==="en" && I18N.en.params[def.key]) || def
 // ===== 物理パラメータ定義(PHYSICS.md §5 既定パラメータ表) =====
 const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
   kappaS:0.05, Kt:60, cLight:60, bM:1, etaRad:0, pRad:4,
+  gravityX:0, gravityY:0,   // v1.17: 一様重力場(外部場。+yは画面下向き)
   radiusScale:1.2, softening:2, timeScale:1 };
 // v1.7: kLens は廃止(E8R で屈折率は n=e^{2W/Kt} に統一。旧セーブの kLens は受理して無視)
-const APP_VERSION = "1.16";               // エクスポートの appVersion に記録(package.json と QA で同期検査)
+const APP_VERSION = "1.17";               // エクスポートの appVersion に記録(package.json と QA で同期検査)
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 const RAY_MASS_MIN = 40;                  // 光線を曲げる最小質量(性能のための近似)
@@ -467,6 +526,8 @@ const PARAM_DEFS = [
   {key:"bM",    label:"ウィーン定数 b_m",    mode:"log", lo:0.01, hi:100, group:"法則"},
   {key:"etaRad",label:"放射冷却 η_rad",      mode:"log", lo:0.000001, hi:1, group:"法則"},
   {key:"pRad",  label:"放射指数 p",          mode:"lin", lo:1, hi:6, step:0.5, group:"法則"},
+  {key:"gravityX",label:"一様重力 gₓ",       mode:"lin", lo:-5, hi:5, step:0.005, group:"法則"},
+  {key:"gravityY",label:"一様重力 g_y",      mode:"lin", lo:-5, hi:5, step:0.005, group:"法則"},
   {key:"radiusScale",label:"粒子半径スケール", mode:"lin", lo:0.2, hi:4, step:0.02, group:"シミュレーション"},
   {key:"softening",  label:"ソフトニング ε",  mode:"lin", lo:0.5, hi:10, step:0.1, group:"シミュレーション"},
   {key:"timeScale",  label:"時間倍率",        mode:"log", lo:0.1, hi:16, group:"シミュレーション"},
@@ -489,6 +550,7 @@ function valToSliderPos(def,v){
 const CLAMPS = { G:[0,100], D0:[0,1000], kFrame:[0,1], q:[0.5,4], kRep:[0,20], muF:[0,1],
   gammaN:[0,1], kappaS:[0,2], Kt:[1,10000], kLens:[0,1],
   cLight:[1,10000], bM:[0.001,1000], etaRad:[0,1], pRad:[1,6], radiusScale:[0.2,5],
+  gravityX:[-10,10], gravityY:[-10,10],
   softening:[0.5,20], timeScale:[0.1,16] };
 
 // ===== 内蔵プリセット(スキーマは docs/HANDOFF_IMPLEMENTATION.md §契約1) =====
@@ -708,19 +770,56 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
-// ♨️加熱の対流(convection)は v1.14 で撤去(原仮定者の指示)。構成と機械調整の系譜は
-// DERIVATIONS 付録K/付録M および HANDOFF_IMPLEMENTATION に記録が残る。
+// ♨️加熱の対流: v1.14 で撤去 → v1.17 で一様重力場(gravityY)ベースに再設計して復活。
+// 旧構成(画面外の遠方大質量で下向き場を代行)は決定力Wの歪み・凍結が撤去理由だった
+// (経緯は DERIVATIONS 付録K/付録M・HANDOFF_IMPLEMENTATION)。gravityY は W に寄与しない
+// 純粋な外部力場なので、時計・光・引きずりを歪めずに箱内へ厳密に一様な下向き場を作れる。
+{ id:"convection", name:"加熱の対流 — 床加熱と天井冷却", emoji:"♨️", group:"熱の実験室",
+  description:"床の左〜中央に固定ヒーター列(高スピン)、天井の右側に疎な冷却板(スピン0)。ガスは床でスピン拡散(E10′)により加熱され、スピン斥力=圧力(A9/A10)で膨らんで浮上し、天井で冷えて右から沈む対流セルを作る(T6の移流拡張)。下向きの場は一様重力場gravityY(外部場)— 遠方大質量の代用ではないため時計や光を歪めない(v1.17)。ガスは軽い粒子で自己重力凍結を防ぐ。kRep=0にすると浮力が消え循環が止まる。色=温度。",
+  en:{name:"Heated Convection — Floor Heat, Ceiling Cool", description:"A row of pinned heaters (high spin) on the left floor and sparse coolers (zero spin) on the right ceiling. Gas heats up at the floor via spin diffusion (E10′), inflates and rises by spin repulsion = pressure (A9/A10), cools at the ceiling and sinks on the right — a convection cell (an advective extension of T6). The downward field is the uniform gravity gravityY (external field, v1.17), which does not distort clocks or light. Light particles avoid self-gravity freezing. Set kRep=0 and the buoyancy — and the circulation — disappears. Color = temperature."},
+  camera:{scale:240}, world:{boundary:"box",size:190},
+  physics:{G:0.05, D0:40, kFrame:0.1, kRep:2, muF:0.2, gammaN:0.1, kappaS:1.2,
+    Kt:60, cLight:60, etaRad:0.00001, pRad:2, gravityY:0.03,
+    radiusScale:4, softening:4, timeScale:2},
+  abSuggest:{param:"kRep", value:0}, // 対比=kRep0では浮力が生まれず対流が止まる(A10)
+  bodies:[ // v1.17: ヒーター11点(床左〜中央)+冷却板5点(天井右・疎)+軽量ガス260。
+           // spin12/κs1.2/低散逸(muF0.2,γn0.1)は48000步の循環持続を機械掃引で確認した構成
+    {type:"single", m:1, x:-170,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", m:1, x:-150,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", m:1, x:-130,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", m:1, x:-110,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", m:1, x:-90,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", m:1, x:-70,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", m:1, x:-50,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", m:1, x:-30,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", m:1, x:-10,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", m:1, x:10,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", m:1, x:30,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", m:1, x:10,y:-186, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", m:1, x:50,y:-186, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", m:1, x:90,y:-186, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", m:1, x:130,y:-186, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", m:1, x:170,y:-186, vx:0,vy:0, spin:0, pinned:true},
+    {type:"box", n:260, cx:0,cy:-10, w:340,h:320, mMin:0.05,mMax:0.05,
+     spinMin:1,spinMax:2, vScale:0.4}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:true,field:false} },
 
 // ===== グループ: 天体の物語 =====
 { id:"saturn", name:"土星の環", emoji:"🪐", group:"天体の物語",
-  description:"中心星のまわりをケプラー運動する環。衝突(muF)が乱れた軌道を円形化し、回転方向が揃っていく(T3)。中心星のスピンは近傍の空間を引きずる(A8)。※v1.10 安定化: 中心星を固定し環を星から離した(旧構成は環の反作用で中心星が漂い、t≈380で環の45%が飛散 — 機械計測で確認。新構成は残存99.7%)。",
-  en:{name:"Saturn's Rings", description:"A ring in Keplerian motion around the central star. Collisions (muF) circularize disturbed orbits and align the rotation (T3). The central star's spin drags nearby space (A8). v1.10 stabilized: the star is pinned and the ring moved outward (machine-measured: 99.7% of the ring survives vs 55% in the old setup)."},
-  camera:{scale:170}, world:{boundary:"none",size:0},
-  physics:{muF:0.6, gammaN:0.5, timeScale:4},
-  bodies:[ // v1.10(付録J): 機械実験 saturn-pinned-far 採用 — pinned 中心+rIn75(星半径41.6の1.8倍)
-    {type:"single", m:1200, x:0,y:0, vx:0,vy:0, spin:0.04, pinned:true},
-    {type:"ring", n:340, cx:0,cy:0, rIn:75,rOut:160, mMin:0.05,mMax:0.2,
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:1200, omega:0, vNoise:0.03, direction:1, pinned:false}
+  description:"中心星のまわりをケプラー運動する3つの環帯。カッシーニの間隙のように環の間に隙間を置いた構成で、衝突(muF)が乱れた軌道を円形化し、回転方向が揃っていく(T3)。中心星のスピンは近傍の空間を引きずる(A8)。※v1.10で中心星固定+環を離して安定化(残存99.7%)、v1.17でAI生成プリセットを参考に3環帯構成へ刷新。muF=0にすると円形化が止まる対照も試せる。",
+  en:{name:"Saturn's Rings", description:"Three Keplerian ring bands around the central star, separated by Cassini-like gaps. Collisions (muF) circularize disturbed orbits and align the rotation (T3). The central star's spin drags nearby space (A8). Stabilized in v1.10 (pinned star, rings moved outward, 99.7% survival); redesigned in v1.17 into three bands, following an AI-generated preset. Try muF=0 to stop the circularization."},
+  camera:{scale:300}, world:{boundary:"none",size:0},
+  physics:{kRep:1.2, muF:0.6, gammaN:0.5, kappaS:0.08, timeScale:3},
+  abSuggest:{param:"muF", value:0}, // v1.17: 対比=muF0で円形化・整列(T3)が止まる
+  bodies:[ // v1.17: AI生成「土星の環」参考 — 間隙を挟む3環帯。中心は固定(外部拘束)
+    {type:"single", m:1500, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
+    {type:"ring", n:170, cx:0,cy:0, rIn:135,rOut:158, mMin:0.08,mMax:0.15,
+     spinMin:0,spinMax:0.1, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.02, direction:1, pinned:false},
+    {type:"ring", n:140, cx:0,cy:0, rIn:180,rOut:200, mMin:0.06,mMax:0.12,
+     spinMin:0,spinMax:0.1, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.03, direction:1, pinned:false},
+    {type:"ring", n:120, cx:0,cy:0, rIn:228,rOut:248, mMin:0.05,mMax:0.1,
+     spinMin:0,spinMax:0.1, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.04, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
@@ -922,7 +1021,7 @@ function makeSim(){
   const S = {
     n:0, t:0, params:Object.assign({},DEFAULT_PHYSICS),
     world:{boundary:"none",size:0}, rays:null, overlays:{},
-    m:null,x:null,y:null,vx:null,vy:null,spin:null,R:null,
+    m:null,x:null,y:null,vx:null,vy:null,spin:null,R:null, rotA:null,
     pinned:null, railR:null, railAng:null, railOmega:null, railCx:null, railCy:null,
     uPx:null,uPy:null,hasU:null, tau:null, ax:null,ay:null, sumW:null,uAx:null,uAy:null, ds:null,
     dpx:null,dpy:null, pairD:null,
@@ -932,7 +1031,7 @@ function makeSim(){
   S.alloc = function(n){
     S.n=n;
     const F=()=>new Float32Array(n);
-    S.m=F();S.x=F();S.y=F();S.vx=F();S.vy=F();S.spin=F();S.R=F();
+    S.m=F();S.x=F();S.y=F();S.vx=F();S.vy=F();S.spin=F();S.R=F();S.rotA=F();
     S.uPx=F();S.uPy=F();S.tau=F();S.ax=F();S.ay=F();S.sumW=F();S.uAx=F();S.uAy=F();S.ds=F();
     S.dpx=F();S.dpy=F();
     S.pairD=new Float32Array(Math.max(1,n*(n-1)/2)); // 対距離キャッシュ(E6′反作用パスで再利用)
@@ -1024,7 +1123,8 @@ function makeSim(){
     const {m,x,y,vx,vy,spin,R,pinned,ax,ay,sumW,uAx,uAy,ds,dpx,dpy,pairD}=S;
     const eps=p.softening, eps2=eps*eps, G=p.G, q=p.q, kRep=p.kRep,
           muF=p.muF, gammaN=p.gammaN, kappaS=p.kappaS, D0=p.D0, kFrame=p.kFrame,
-          etaRad=p.etaRad, pRad=p.pRad;
+          etaRad=p.etaRad, pRad=p.pRad,
+          gX=p.gravityX||0, gY=p.gravityY||0;   // v1.17: 一様重力場(外部場)
     if(Math.abs(R[0]-p.radiusScale*Math.sqrt(m[0]))>1e-6) S.updateRadii(); // radiusScale変更の追従
     ax.fill(0); ay.fill(0); sumW.fill(0); uAx.fill(0); uAy.fill(0); ds.fill(0);
     dpx.fill(0); dpy.fill(0);
@@ -1128,6 +1228,13 @@ function makeSim(){
     for(let i=0;i<n;i++){
       if(pinned[i]) continue;
       vx[i]+=ax[i]*dt; vy[i]+=ay[i]*dt;
+      // v1.17: 一様重力場(外部場)。W に寄与しない純粋な外力なので時計・光は歪めない。
+      // 運動量・角運動量の変化は場との交換として帳簿(リザーバ)に記録する(T7 の恒等式を維持)
+      if(gX!==0||gY!==0){
+        vx[i]+=gX*dt; vy[i]+=gY*dt;
+        S.resPx-=m[i]*gX*dt; S.resPy-=m[i]*gY*dt;
+        S.resL-=m[i]*(x[i]*gY-y[i]*gX)*dt;
+      }
       // E6′ 輸送項(自分自身は除外して評価。1サブステップの引きずり量は0.8に制限)
       const denom=D0+sumW[i];
       if(denom>1e-9 && kFrame>0){
@@ -1210,6 +1317,7 @@ function makeSim(){
     // ===== ④ 粒子ループ: 安全上限・位置更新・境界・時計 =====
     const b=S.world;
     for(let i=0;i<n;i++){
+      S.rotA[i]+=spin[i]*dt;   // v1.17: 表示用の累積回転角(大粒子のスポーク描画で回転方向を可視化)
       if(pinned[i]){ S.tauUpdate(i,dt); continue; }
       // 安全上限(発散防止): 速度100・スピン±40
       const vv2=vx[i]*vx[i]+vy[i]*vy[i];
@@ -1275,6 +1383,12 @@ function makeSim(){
 const sim = makeSim();
 let running=false, currentPreset=null, basePhysics=null, selIdx=-1;
 let camX=0, camY=0, camScale=300, tempP90EMA=0.5, monitorOn=false;
+// v1.17: UI文字サイズ(1=標準/1.15=大/1.3=特大)。HTML側はCSS変数--uz、キャンバス側の
+// 文字・グラフは uiFontScale で追従し、拡大時はグラフ自体を拡大+下端余白を広げて
+// 選択粒子の情報行と重ならないようにする
+let uiFontScale=parseFloat(localStorage.getItem("hp_uiscale")||"1")||1;
+function applyUiScale(){ document.documentElement.style.setProperty("--uz", String(uiFontScale)); }
+let paramsDirty=false;  // v1.17: 「保存」していない編集の有無(バックアップ対象外の注意喚起)
 let tSort=null; // 温度正規化用スクラッチ(90パーセンタイル計算)
 let stepAcc=0, fpsEMA=60, lastFrame=performance.now(), frameCount=0;
 
@@ -1363,14 +1477,20 @@ function traceRay(S, px, py, cxv, cyv, dl, maxSteps, emit){
 function drawRays(){
   const rays=sim.rays; if(!rays||rays.n<1) return;
   const z=zoom(), x0=camX-(cw/2)/z-10;
-  const dl=camScale/110, maxSteps=340;
+  // v1.17: 横長画面(PC)やパネル開時は可視域の半幅 (cw/2)/z が camScale を大きく超え、
+  // 固定 340 ステップでは光線が画面に到達・横断できず「光線が出ない」ように見えた。
+  // 可視域の実寸からステップ数と打ち切り境界を動的に決める。
+  const halfW=(cw/2)/z, halfH=(ch/2)/z;
+  const bx=Math.max(camScale*2.2, halfW+20), by=Math.max(camScale*2.2, halfH+20);
+  const dl=camScale/110;
+  const maxSteps=Math.min(2400, Math.max(340, Math.ceil((halfW+10+bx)*1.3/dl)));
   ctx.lineWidth=1; ctx.strokeStyle="rgba(255,240,170,0.55)";
   for(let r=0;r<rays.n;r++){
     const px=x0, py=camY+((r+0.5)/rays.n-0.5)*2*rays.spread*camScale;
     ctx.beginPath(); ctx.moveTo(w2sX(px),w2sY(py));
     traceRay(sim, px, py, 1, 0, dl, maxSteps, (nx,ny)=>{
       ctx.lineTo(w2sX(nx),w2sY(ny));
-      return !(Math.abs(nx-camX)>camScale*2.2||Math.abs(ny-camY)>camScale*2.2);
+      return !(Math.abs(nx-camX)>bx||Math.abs(ny-camY)>by);
     });
     ctx.stroke();
   }
@@ -1398,7 +1518,9 @@ function drawRotationCurve(){
     }
     curveData={meas,kep};
   }
-  const W=150,H=92,X=cw-W-8,Y=ch-H-28; // v1.14: 下端28px — 選択粒子の情報行(左下 y=ch-10, 10px)と重ならない高さ
+  // v1.17: 文字サイズ設定に合わせてグラフごと拡大し、下端余白 18+10·uz で情報行と重ねない
+  const uz=uiFontScale, W=150,H=92,X=0,Y=0;
+  ctx.save(); ctx.translate(cw-W*uz-8, ch-H*uz-(18+10*uz)); ctx.scale(uz,uz);
   ctx.fillStyle="rgba(12,16,34,0.82)"; ctx.fillRect(X,Y,W,H);
   ctx.strokeStyle="#2a3060"; ctx.strokeRect(X,Y,W,H);
   ctx.font="9px sans-serif"; ctx.fillStyle="#8b93c8";
@@ -1413,6 +1535,7 @@ function drawRotationCurve(){
   let started=false;
   curveData.meas.forEach((v,b2)=>{ if(v==null)return; started?ctx.lineTo(px(b2),py(v)):ctx.moveTo(px(b2),py(v)); started=true; });
   ctx.stroke(); ctx.lineWidth=1;
+  ctx.restore();
 }
 
 // 温度ヒストグラム(左右の平均温度)
@@ -1428,7 +1551,9 @@ function drawTempHistogram(){
     sim.tempLR=[cl?sl/cl:0, cr?sr/cr:0];
     sim.histT.push(sim.tempLR.slice()); if(sim.histT.length>60) sim.histT.shift();
   }
-  const W=150,H=92,X=cw-W-8,Y=ch-H-28; // v1.14: 下端28px — 選択粒子の情報行(左下 y=ch-10, 10px)と重ならない高さ
+  // v1.17: 文字サイズ設定に合わせてグラフごと拡大(下端余白 18+10·uz)
+  const uz=uiFontScale, W=150,H=92,X=0,Y=0;
+  ctx.save(); ctx.translate(cw-W*uz-8, ch-H*uz-(18+10*uz)); ctx.scale(uz,uz);
   ctx.fillStyle="rgba(12,16,34,0.82)"; ctx.fillRect(X,Y,W,H);
   ctx.strokeStyle="#2a3060"; ctx.strokeRect(X,Y,W,H);
   ctx.font="9px sans-serif"; ctx.fillStyle="#8b93c8";
@@ -1445,6 +1570,7 @@ function drawTempHistogram(){
     sim.histT.forEach((a,k)=>{ const yy=Y+H-12-(a[ch2]/hm)*(H-34); k?ctx.lineTo(hx(k),yy):ctx.moveTo(hx(k),yy); });
     ctx.stroke();
   });
+  ctx.restore();
 }
 
 // 放射スペクトル(各粒子のピーク波長 λ=b_m/T の分布。付録C C1)
@@ -1479,12 +1605,14 @@ function drawSpectrum(){
       specData={empty:false, lum, tSum, tCnt, lumMax};
     }
   }
-  const W=150,H=92,X=cw-W-8,Y=ch-H-28; // v1.14: 下端28px — 選択粒子の情報行(左下 y=ch-10, 10px)と重ならない高さ
+  // v1.17: 文字サイズ設定に合わせてグラフごと拡大(下端余白 18+10·uz)
+  const uz=uiFontScale, W=150,H=92,X=0,Y=0;
+  ctx.save(); ctx.translate(cw-W*uz-8, ch-H*uz-(18+10*uz)); ctx.scale(uz,uz);
   ctx.fillStyle="rgba(12,16,34,0.82)"; ctx.fillRect(X,Y,W,H);
   ctx.strokeStyle="#2a3060"; ctx.strokeRect(X,Y,W,H);
   ctx.font="9px sans-serif"; ctx.fillStyle="#8b93c8";
   ctx.fillText(T("ovSpec"),X+6,Y+11);
-  if(specData.empty){ ctx.fillText(T("ovSpecNone"),X+6,Y+H/2); return; }
+  if(specData.empty){ ctx.fillText(T("ovSpecNone"),X+6,Y+H/2); ctx.restore(); return; }
   const bw=(W-16)/BINS;
   for(let b2=0;b2<BINS;b2++){
     if(specData.lum[b2]<=0) continue;
@@ -1499,6 +1627,7 @@ function drawSpectrum(){
   const txt=T("ovSpecCold"); ctx.fillText(txt,X+W-6-ctx.measureText(txt).width,Y+H-3);
   ctx.fillText(fmt(Math.pow(10,specLo)),X+8,Y+22);
   const t2=fmt(Math.pow(10,specHi)); ctx.fillText(t2,X+W-8-ctx.measureText(t2).width,Y+22);
+  ctx.restore();
 }
 
 // 背景の微星(装飾)
@@ -1560,6 +1689,15 @@ function render(){
     }
     ctx.fillStyle=col;
     ctx.beginPath(); ctx.arc(sx,sy,rr,0,7); ctx.fill();
+    // v1.17: 大きく表示される粒子はスポーク(車輪の輻)で回転方向・速さを可視化
+    if(rr>=7 && Math.abs(sim.spin[i])>1e-4){
+      const a0=sim.rotA[i];
+      ctx.strokeStyle="rgba(0,0,0,0.45)"; ctx.lineWidth=Math.max(1,rr*0.1);
+      for(let k3=0;k3<3;k3++){ const a=a0+k3*2.0944;
+        ctx.beginPath(); ctx.moveTo(sx+Math.cos(a)*rr*0.3, sy+Math.sin(a)*rr*0.3);
+        ctx.lineTo(sx+Math.cos(a)*rr*0.92, sy+Math.sin(a)*rr*0.92); ctx.stroke(); }
+      ctx.lineWidth=1;
+    }
     if(sim.pinned[i]){ ctx.strokeStyle="rgba(255,255,255,0.75)"; ctx.beginPath(); ctx.arc(sx,sy,rr+2,0,7); ctx.stroke(); }
   }
   // 軌道トレイルの描画(記録は上の粒子ループ前。グローに隠れないよう最上層に描く)
@@ -1582,7 +1720,7 @@ function render(){
     // 温度 T=Is² と放射ピーク波長 λ=b_m/T(A12 分光温度計)を併記
     const Ti=0.5*sim.m[i]*sim.R[i]*sim.R[i]*sim.spin[i]*sim.spin[i];
     const lam=(Ti>1e-12)? fmt(sim.params.bM/Ti) : "—";
-    ctx.font="10px sans-serif"; ctx.fillStyle="#dfe4ff";
+    ctx.font=(10*uiFontScale)+"px sans-serif"; ctx.fillStyle="#dfe4ff"; // v1.17: 文字サイズ追従
     ctx.fillText(`m=${fmt(sim.m[i])} s=${fmt(sim.spin[i])} T=${fmt(Ti)} λ=${lam} ${T("hudClock")}=${(frac*100).toFixed(1)}%`,8,ch-10);
   }
   if(sim.overlays.rotationCurve) drawRotationCurve();
@@ -1605,13 +1743,17 @@ function drawWorldInto(S, y0, hgt, label){
   // 光線(Kt等の比較が見どころになるため半分ずつ独立に飛ばす)
   if(S.rays && S.rays.n>0){
     const dl=camScale/110, x0=camX-(cw/2)/z-10;
+    // v1.17: 可視域の実寸からステップ数・境界を動的化(drawRays と同じ修正)
+    const halfW=(cw/2)/z, halfH=(hgt/2)/z;
+    const bx=Math.max(camScale*2.2, halfW+20), by=Math.max(camScale*2.2, halfH+20);
+    const maxSteps=Math.min(2400, Math.max(340, Math.ceil((halfW+10+bx)*1.3/dl)));
     ctx.lineWidth=1; ctx.strokeStyle="rgba(255,240,170,0.55)";
     for(let r=0;r<S.rays.n;r++){
       const py=camY+((r+0.5)/S.rays.n-0.5)*2*S.rays.spread*camScale;
       ctx.beginPath(); ctx.moveTo(sx(x0),sy(py));
-      traceRay(S, x0, py, 1, 0, dl, 340, (nx,ny)=>{
+      traceRay(S, x0, py, 1, 0, dl, maxSteps, (nx,ny)=>{
         ctx.lineTo(sx(nx),sy(ny));
-        return !(Math.abs(nx-camX)>camScale*2.2||Math.abs(ny-camY)>camScale*2.2);
+        return !(Math.abs(nx-camX)>bx||Math.abs(ny-camY)>by);
       });
       ctx.stroke();
     }
@@ -1630,6 +1772,14 @@ function drawWorldInto(S, y0, hgt, label){
     const rr=Math.max(1.2,Math.min(S.R[i]*z,30));
     ctx.fillStyle=tempColor(Math.min(1,Math.sqrt(Ti/p90)));
     ctx.beginPath(); ctx.arc(px,py,rr,0,7); ctx.fill();
+    if(rr>=7 && Math.abs(S.spin[i])>1e-4){ // v1.17: 回転方向スポーク(A/B側も同様)
+      const a0=S.rotA[i];
+      ctx.strokeStyle="rgba(0,0,0,0.45)"; ctx.lineWidth=Math.max(1,rr*0.1);
+      for(let k3=0;k3<3;k3++){ const a=a0+k3*2.0944;
+        ctx.beginPath(); ctx.moveTo(px+Math.cos(a)*rr*0.3, py+Math.sin(a)*rr*0.3);
+        ctx.lineTo(px+Math.cos(a)*rr*0.92, py+Math.sin(a)*rr*0.92); ctx.stroke(); }
+      ctx.lineWidth=1;
+    }
     if(S.pinned[i]){ ctx.strokeStyle="rgba(255,255,255,0.75)"; ctx.beginPath(); ctx.arc(px,py,rr+2,0,7); ctx.stroke(); }
   }
   ctx.font="11px sans-serif"; ctx.fillStyle="#dfe4ff";
@@ -1672,6 +1822,8 @@ function loop(now){
       txt+=`\n帳簿P=(${fmt(sim.resPx)}, ${fmt(sim.resPy)})  帳簿L=${fmt(sim.resL)}  放射L=${fmt(sim.radL)}  放射E=${fmt(sim.radE)}`;
     }
     $("#hud").textContent=txt;
+    // v1.17: 実行中は編集パネルの表示値を追従(入力フォーカス中は上書きしない)
+    if(selIdx>=0 && running && !$("#bodyEdit").contains(document.activeElement)) updateBodyEdit();
   }
   requestAnimationFrame(loop);
 }
@@ -1707,7 +1859,26 @@ function rebuildPresetSelect(selId){
       o.value=p.id; o.textContent="🤖 "+(p.emoji||"")+" "+pName(p); og2.appendChild(o); });
     sel.appendChild(og2);
   }
+  // v1.17: 保存一覧もプルダウンから直接開けるように(AI生成とカテゴリを分離)
+  const saves=getSaves();
+  if(saves.length){
+    const og3=document.createElement("optgroup"); og3.label=gName("保存一覧");
+    saves.forEach((s,idx)=>{ const o=document.createElement("option");
+      o.value="save#"+idx; o.textContent="💾 "+(s.name||T("untitled")); og3.appendChild(o); });
+    sel.appendChild(og3);
+  }
   if(selId) sel.value=selId;
+}
+// v1.17: セーブ項目の読込(保存一覧・プルダウン共用)
+function loadSave(s, selValue){
+  const exists=allPresets().some(p=>p.id===s.presetId);
+  loadPreset(exists?s.presetId:BUILTIN_PRESETS[0].id,false);
+  sim.params=Object.assign({},DEFAULT_PHYSICS,s.physics); sim.updateRadii();
+  if(s.cameraScale) camScale=s.cameraScale;
+  paramsDirty=false;
+  buildParamRows(); notify(T("loadedAs")(s.name));
+  if(selValue) $("#presetSelect").value=selValue;
+  if(!exists) notify(T("presetMissing"),3500);
 }
 function loadPreset(id, keepPhysics){
   if(ab) abStop();          // プリセット切替・通常ロードで A/B は解除(v1.13)
@@ -1720,9 +1891,10 @@ function loadPreset(id, keepPhysics){
   if(sim.overlays && sim.overlays.monitor) monitorOn=true;  // v1.12: プリセット既定の保存量モニタ(ONのみ適用)
   basePhysics=Object.assign({},DEFAULT_PHYSICS,p.physics||{});
   camX=0; camY=0; camScale=p.camera.scale; tempP90EMA=0.5; selIdx=-1; nanNotified=false;
-  running=false; updatePlayBtn();
+  paramsDirty=false;   // v1.17: プリセット読込で編集は破棄される(⏮は呼び出し側で維持)
+  running=false; updatePlayBtn(); updateBodyEdit();
   buildParamRows(); renderHelp(); updateAbSuggest();
-  $("#presetSelect").value=id;
+  $("#presetSelect").value=p.id;
 }
 
 // ===== A/B比較モード(v1.13・付録M。第6次裁定 7.7)=====
@@ -1751,7 +1923,7 @@ function abStart(key, valB){
   const simB=makeSim(); simB.build(mk2());
   simB.params=Object.assign({},sim.params); simB.params[key]=valB; simB.updateRadii();
   ab={key, valB, simB};
-  running=false; updatePlayBtn(); updateAbBtn(); buildParamRows();
+  running=false; updatePlayBtn(); updateAbBtn(); buildParamRows(); updateBodyEdit();
 }
 function abStop(){ ab=null; updateAbBtn(); }
 $("#btnAB").addEventListener("click",()=>{
@@ -1795,9 +1967,10 @@ $("#btnReset").addEventListener("click",()=>{
     return;
   }
   // 現在の物理パラメータを保持したまま初期配置へ(仕様: HANDOFF_IMPLEMENTATION エッジケース表)
-  const keep=Object.assign({},sim.params);
+  const keep=Object.assign({},sim.params), wasDirty=paramsDirty;
   loadPreset(currentPreset.id,false);
   sim.params=keep; sim.updateRadii();
+  paramsDirty=wasDirty;   // v1.17: ⏮はパラメータ保持なので未保存状態も維持
   buildParamRows();
   notify(T("resetDone"));
 });
@@ -1806,14 +1979,27 @@ $("#speedSel").addEventListener("change",e=>{
   sim.params.timeScale=clamp(base*parseFloat(e.target.value),CLAMPS.timeScale[0],CLAMPS.timeScale[1]);
   buildParamRows();
 });
-$("#presetSelect").addEventListener("change",e=>loadPreset(e.target.value,false));
+$("#presetSelect").addEventListener("change",e=>{
+  const v=e.target.value;
+  if(v.startsWith("save#")){ // v1.17: 保存一覧カテゴリからの読込
+    const s=getSaves()[+v.slice(5)];
+    if(s) loadSave(s,v); else loadPreset(currentPreset.id,false);
+    return;
+  }
+  loadPreset(v,false);
+});
 
 // ===== タブ =====
 let curTab="";
+function closePanel(){
+  curTab=""; $("#panel").classList.remove("open");
+  document.querySelectorAll("#tabs button").forEach(x=>x.classList.remove("on"));
+  setTimeout(resizeCanvas,50);
+}
 document.querySelectorAll("#tabs button").forEach(b=>{
   b.addEventListener("click",()=>{
     const t=b.dataset.tab;
-    if(curTab===t){ curTab=""; $("#panel").classList.remove("open"); b.classList.remove("on"); setTimeout(resizeCanvas,50); return; }
+    if(curTab===t){ closePanel(); return; }
     curTab=t;
     document.querySelectorAll("#tabs button").forEach(x=>x.classList.toggle("on",x===b));
     document.querySelectorAll(".tabPage").forEach(x=>x.classList.toggle("on",x.id==="page-"+t));
@@ -1823,6 +2009,7 @@ document.querySelectorAll("#tabs button").forEach(b=>{
     setTimeout(resizeCanvas,50);
   });
 });
+$("#btnPanelClose").addEventListener("click",closePanel);  // v1.17: パネルの閉じるボタン
 
 // ===== パラメータタブ =====
 function buildParamRows(){
@@ -1848,6 +2035,7 @@ function buildParamRows(){
       const c=CLAMPS[key]; v=clamp(v,c[0],c[1]);
       sim.params[key]=v;
       if(key==="radiusScale") sim.updateRadii();
+      paramsDirty=true;  // v1.17: 未保存の編集あり(バックアップ対象外の注意喚起に使用)
       return v;
     };
     rng.addEventListener("input",()=>{  // 実行中いつでも即時反映
@@ -1868,6 +2056,10 @@ function buildParamRows(){
   const h=document.createElement("h3"); h.textContent=T("grpDisplay"); disp.appendChild(h);
   const toggles=[["trails",T("tgTrails"),()=>trailsOn,(v)=>trailsOn=v],
     ["field",T("tgField"),()=>!!sim.overlays.field,(v)=>sim.overlays.field=v],
+    // v1.17: 光線トグル — 光線ありプリセットはON/OFF、なしのプリセットも既定束(26本)で点灯できる
+    ["rays",T("tgRays"),()=>!!(sim.rays&&sim.rays.n>0),
+      (v)=>{ if(v) sim.rays=(currentPreset&&currentPreset.rays)?JSON.parse(JSON.stringify(currentPreset.rays)):{n:26,spread:0.85};
+             else sim.rays=null; }],
     ["rotationCurve",T("tgCurve"),()=>!!sim.overlays.rotationCurve,(v)=>sim.overlays.rotationCurve=v],
     ["tempHistogram",T("tgTemp"),()=>!!sim.overlays.tempHistogram,(v)=>sim.overlays.tempHistogram=v],
     ["spectrum",T("tgSpectrum"),()=>!!sim.overlays.spectrum,(v)=>sim.overlays.spectrum=v],
@@ -1879,6 +2071,23 @@ function buildParamRows(){
     cb.addEventListener("change",()=>set(cb.checked));
     row.appendChild(lab); row.appendChild(cb); disp.appendChild(row);
   });
+  // v1.17: UI文字サイズ(標準/大/特大)。localStorage hp_uiscale に永続化
+  {
+    const row=document.createElement("div"); row.className="prow";
+    const lab=document.createElement("label"); lab.textContent=T("uiScaleLabel"); lab.style.flex="1";
+    const sel=document.createElement("select"); sel.style.flex="0 0 110px";
+    for(const [v,name] of T("uiScaleOpts")){
+      const o=document.createElement("option"); o.value=v; o.textContent=name; sel.appendChild(o);
+    }
+    sel.value=String(uiFontScale);
+    if(sel.selectedIndex<0) sel.value="1";
+    sel.addEventListener("change",()=>{
+      uiFontScale=parseFloat(sel.value)||1;
+      localStorage.setItem("hp_uiscale",String(uiFontScale));
+      applyUiScale();
+    });
+    row.appendChild(lab); row.appendChild(sel); disp.appendChild(row);
+  }
   host.appendChild(disp);
 }
 $("#btnParamDefault").addEventListener("click",()=>{
@@ -1897,6 +2106,8 @@ $("#btnSave").addEventListener("click",()=>{
   try{ const a=getSaves(); a.unshift(item); setSaves(a); }
   catch(e){ alert(T("saveFailed")); return; }
   $("#saveName").value=""; $("#saveComment").value="";
+  paramsDirty=false;  // v1.17: 保存済み → バックアップ対象に含まれる
+  rebuildPresetSelect(currentPreset.id);  // v1.17: プルダウンの保存一覧カテゴリを更新
   renderSaves(); notify(T("savedAs")(name));
 });
 function renderSaves(){
@@ -1911,16 +2122,10 @@ function renderSaves(){
     const c=document.createElement("div"); c.className="comment"; c.textContent=s.comment||"";
     const btns=document.createElement("div"); btns.className="rowBtns";
     const bl=document.createElement("button"); bl.className="btn primary"; bl.textContent=T("btnLoad");
-    bl.addEventListener("click",()=>{
-      const exists=allPresets().some(p=>p.id===s.presetId);
-      loadPreset(exists?s.presetId:BUILTIN_PRESETS[0].id,false);
-      sim.params=Object.assign({},DEFAULT_PHYSICS,s.physics); sim.updateRadii();
-      if(s.cameraScale) camScale=s.cameraScale;
-      buildParamRows(); notify(T("loadedAs")(s.name));
-      if(!exists) notify(T("presetMissing"),3500);
-    });
+    bl.addEventListener("click",()=>loadSave(s,"save#"+idx));
     const bd=document.createElement("button"); bd.className="btn danger"; bd.textContent=T("btnDelete");
-    bd.addEventListener("click",()=>{ const arr=getSaves(); arr.splice(idx,1); setSaves(arr); renderSaves(); });
+    bd.addEventListener("click",()=>{ const arr=getSaves(); arr.splice(idx,1); setSaves(arr);
+      rebuildPresetSelect(currentPreset.id); renderSaves(); });
     btns.appendChild(bl); btns.appendChild(bd);
     d.appendChild(n); d.appendChild(meta); if(s.comment) d.appendChild(c); d.appendChild(btns);
     host.appendChild(d);
@@ -1933,10 +2138,14 @@ function exportData(){
 $("#btnExport").addEventListener("click",()=>{
   const data=exportData();
   $("#ioArea").value=data;
-  if(navigator.clipboard) navigator.clipboard.writeText(data).then(()=>notify(T("copied")),()=>{});
+  // v1.17: 未保存の編集はバックアップに入らないことを明示(「保存しないと反映されない」問題の可視化)
+  if(paramsDirty){ notify(T("unsavedWarn"),4000); }
+  else if(navigator.clipboard) navigator.clipboard.writeText(data).then(()=>notify(T("copied")),()=>{});
+  if(paramsDirty && navigator.clipboard) navigator.clipboard.writeText(data).catch(()=>{});
 });
 // v1.12: JSONファイルとして保存/共有(iPhoneは共有シート、他はダウンロード。第6次裁定 7.6)
 $("#btnExportFile").addEventListener("click",async ()=>{
+  if(paramsDirty) notify(T("unsavedWarn"),4000);  // v1.17
   const data=exportData();
   const name="hypothetical-physics-backup-"+new Date().toISOString().slice(0,10)+".json";
   try{
@@ -1962,36 +2171,68 @@ function coerceImport(d){
   }
   return null;
 }
-$("#btnImport").addEventListener("click",()=>{
+function doImportText(text){
   let d;
-  try{ d=JSON.parse($("#ioArea").value); }catch(e){ notify(T("importFailed"),3000); return; }
+  try{ d=JSON.parse(text); }catch(e){ notify(T("importFailed"),3000); return; }
   const co=coerceImport(d);
   if(!co){ notify(T("importFailed"),3000); return; }
-  // ID重複防止(第6次裁定 7.2): 既存IDはスキップして件数報告。ID無しは付与
+  // v1.17(旧: ID重複スキップ): 既存IDは ID と名前にサフィックスを付けて受け入れる。ID無しは付与
   const cur=getCustomPresets();
   const seen=new Set(allPresets().map(p=>p.id));
-  let added=0, skipped=0, bad=0, firstErr="";
+  let added=0, renamed=0, bad=0, firstErr="";
+  const addedPresets=[];   // v1.17: 保存一覧への自動登録用
   for(const c of co.customPresets){
     const v=validatePreset(c);
     if(!v.ok){ bad++; if(!firstErr) firstErr=v.errors[0]||""; continue; }
     const id=(c && c.id!==undefined)? String(c.id) : "";
-    if(id && seen.has(id)){ skipped++; continue; }
-    v.preset.id = id || ("custom_"+Date.now()+"_"+added);
+    if(id && seen.has(id)){
+      let k=2, nid=id+"_2";
+      while(seen.has(nid)){ k++; nid=id+"_"+k; }
+      v.preset.id=nid;
+      v.preset.name=v.preset.name+" ("+k+")";
+      renamed++;
+    } else {
+      v.preset.id = id || ("custom_"+Date.now()+"_"+added);
+    }
     seen.add(v.preset.id); cur.push(v.preset); added++;
+    addedPresets.push({preset:v.preset, origId:id});
   }
   setCustomPresets(cur);
   // セーブは完全一致(savedAt+presetId+name)のみ重複除外して追記
-  if(co.saves.length){
-    const ex=getSaves();
-    const key=(s)=>String(s.savedAt)+"|"+String(s.presetId)+"|"+String(s.name);
-    const have=new Set(ex.map(key));
-    const ns=co.saves.filter(s=>s&&typeof s==="object"&&!have.has(key(s)));
-    setSaves(ns.concat(ex));
+  const key=(s)=>String(s.savedAt)+"|"+String(s.presetId)+"|"+String(s.name);
+  const ex=getSaves();
+  const have=new Set(ex.map(key));
+  const ns=co.saves.filter(s=>s&&typeof s==="object"&&!have.has(key(s)));
+  // v1.17: インポートしたプリセットは必ず保存一覧に載せる(バックアップ内のセーブが
+  // 同じプリセットを参照している場合は二重登録しない)
+  const referenced=new Set(co.saves.map(s=>s&&String(s.presetId)));
+  const now=new Date().toISOString();
+  for(const a of addedPresets){
+    if(referenced.has(a.origId)||referenced.has(a.preset.id)) continue;
+    ns.unshift({ name:a.preset.name, comment:"", savedAt:now,
+      presetId:a.preset.id, presetName:a.preset.name,
+      physics:Object.assign({},DEFAULT_PHYSICS,a.preset.physics||{}),
+      cameraScale:(a.preset.camera&&a.preset.camera.scale)||undefined });
   }
+  if(ns.length) setSaves(ns.concat(ex));
   rebuildPresetSelect(currentPreset.id); renderSaves(); renderCustomList();
-  let msg=T("importReport")(added,skipped,bad);
+  let msg=T("importReport")(added,renamed,bad);
   if(bad>0 && firstErr) msg+=" / "+firstErr;
   notify(msg, bad>0?4500:3000);
+}
+$("#btnImport").addEventListener("click",()=>doImportText($("#ioArea").value));
+// v1.17: ファイルから読込 — 選択したJSONをテキストボックスへ反映してからインポート
+$("#btnImportFile").addEventListener("click",()=>$("#importFile").click());
+$("#importFile").addEventListener("change",async (e)=>{
+  const f=e.target.files && e.target.files[0];
+  e.target.value="";
+  if(!f) return;
+  try{
+    const text=await f.text();
+    $("#ioArea").value=text;   // テキストボックスも更新(仕様)
+    notify(T("fileLoaded"));
+    doImportText(text);
+  }catch(err){ notify(T("importFailed"),3000); }
 });
 
 // ===== AIタブ(実行時LLM: docs/HANDOFF_RUNTIME_LLM.md の焼き込み) =====
@@ -2004,18 +2245,19 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 - pinned:true の粒子は動かずスピンも変わらない=熱浴になる。高スピンのpinned粒子はヒーター、スピン0のpinned粒子は冷却板として、接触摩擦とスピン拡散(kappaS)で周囲を加熱/冷却する。
 - 放射冷却: etaRad>0 にすると温度の高い粒子ほど速く冷えて暗くなる(急峻さはpRad)。加熱・冷却・重力を組み合わせると対流・蒸発・凝集が作れる。
 - 空間は質量に引きずられる(kFrame: 0=通常のニュートン力学, 1=完全な相対空間)。背景決定力D0が大きいほど空間が安定する。
+- 一様重力場: physics.gravityY>0 で画面全体に一様な下向きの外力場がかかる(gravityXは横方向)。地上の実験室・対流・落下のデモに使う。時計や光を歪めないので、画面外に遠方大質量を置く旧手法より安定する。目安は0.02〜0.1。
 - rays を指定すると左端から光線が飛び、質量の近くで曲がる(曲がりの強さと時間の遅れは同じKtで決まり、Ktが小さいほど強い)。超大質量(2000〜3000)をpinnedで置きKtを40〜60に下げると、近くを通る光が捕まって周回する=ブラックホールの光学類似(光子捕捉)。ただし中心のスピンは0〜0.5に抑える(スピンが大きいと空間の引きずりが光を外へ流し、捕捉が消える)。
 - overlays: rotationCurve=回転曲線グラフ, tempHistogram=左右の平均温度グラフ, field=決定力マップ(レンズ系で推奨), spectrum=放射スペクトル。
 - 原点は画面中央。camera.scale は画面短辺の半分に相当するワールド長。
 
 # 出力ルール
 1. スキーマに完全準拠したJSONのみを出力する。説明文やコードフェンスは書かない。
-2. physicsは全キーを必ず含める。変更不要なキーは既定値を書く。既定値: G=1, D0=2, kFrame=1, q=2, kRep=1, muF=0.5, gammaN=0.4, kappaS=0.05, Kt=60, cLight=60, bM=1, etaRad=0, pRad=4, radiusScale=1.2, softening=2, timeScale=1
+2. physicsは全キーを必ず含める。変更不要なキーは既定値を書く。既定値: G=1, D0=2, kFrame=1, q=2, kRep=1, muF=0.5, gammaN=0.4, kappaS=0.05, Kt=60, cLight=60, bM=1, etaRad=0, pRad=4, gravityX=0, gravityY=0, radiusScale=1.2, softening=2, timeScale=1
 3. 粒子総数は最大600。滑らかに動かすため通常は120〜400にする。
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
 6. name は30字以内、description は200字以内の日本語。emoji は絵文字1文字。
-7. 値域(超えると自動修正される): G:0〜100, D0:0〜1000, kFrame:0〜1, q:0.5〜4, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, Kt:1〜10000, cLight:1〜10000, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, radiusScale:0.2〜5, softening:0.5〜20, timeScale:0.1〜16, camera.scale:20〜3000, 座標・長さ:±5000, 質量:0.01〜5000, 速度成分:±50, スピン:±20, omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
+7. 値域(超えると自動修正される): G:0〜100, D0:0〜1000, kFrame:0〜1, q:0.5〜4, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, Kt:1〜10000, cLight:1〜10000, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, radiusScale:0.2〜5, softening:0.5〜20, timeScale:0.1〜16, camera.scale:20〜3000, 座標・長さ:±5000, 質量:0.01〜5000, 速度成分:±50, スピン:±20, omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
 
 # ジェネレータ(bodiesの要素。typeごとに全フィールド必須)
 - single: {type,m,x,y,vx,vy,spin,pinned} — 粒子1個。pinned:true で力を受けず固定。
@@ -2039,8 +2281,8 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 {"name":"回転リングの空間引きずり","emoji":"🌀","description":"重いリングが回転すると内側の空間ごと引きずられ、静止していた粒子が回り始める(マッハの原理)。D0を上げると引きずりが弱まるのも試せる。","camera":{"scale":220},"world":{"boundary":"none","size":0},"physics":{"G":0.02,"D0":0.5,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":60,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"radiusScale":1.2,"softening":2,"timeScale":2},"bodies":[{"type":"ring","n":14,"cx":0,"cy":0,"rIn":150,"rOut":150,"mMin":80,"mMax":80,"spinMin":0.5,"spinMax":0.5,"vMode":"omega","aroundMass":0,"omega":0.012,"vNoise":0,"direction":1,"pinned":true},{"type":"disk","n":40,"cx":0,"cy":0,"radius":80,"mMin":0.5,"mMax":0.5,"spinMin":0,"spinMax":0,"vMode":"none","aroundMass":0,"vScale":0,"direction":1}],"overlays":{"rotationCurve":false,"tempHistogram":false,"field":false}}
 
 例5 要望「床で温めて天井で冷やす対流実験」
-{"name":"対流セル — 床加熱・天井冷却","emoji":"♨️","description":"床の左〜中央がヒーター(固定・高スピン)、天井の右側が疎な冷却板(固定・スピン0)。温められたガスはスピン斥力で膨らんで浮かび、天井で熱を渡して右から沈む一方向の対流セル。ガスは軽い粒子にして自己重力の凍結を防ぐ。左右の平均温度グラフ付き。","camera":{"scale":240},"world":{"boundary":"box","size":190},"physics":{"G":3.9,"D0":40,"kFrame":0.2,"q":2,"kRep":2,"muF":0.3,"gammaN":0.2,"kappaS":0.8,"Kt":60,"cLight":60,"bM":1,"etaRad":0.00001,"pRad":2,"radiusScale":4,"softening":4,"timeScale":2},"bodies":[{"type":"single","m":5000,"x":0,"y":900,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":-170,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-150,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-130,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-110,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-90,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-70,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-50,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-30,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":-10,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":10,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":30,"y":186,"vx":0,"vy":0,"spin":10,"pinned":true},{"type":"single","m":1,"x":10,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":50,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":90,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":130,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":170,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"box","n":260,"cx":0,"cy":-10,"w":340,"h":320,"mMin":0.05,"mMax":0.05,"spinMin":1,"spinMax":2,"vScale":0.4}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
-(pinned+spin=熱浴の型: 高スピン列=ヒーター、スピン0列=冷却板。床の一部だけを温め、冷却板を天井に疎に置くと一方向の対流セルになり、粒子が冷所に貼り付かない=機械検証済み。重力は画面外の遠方大質量で箱内をほぼ一様な下向きにする — 質量上限5000のためGを上げてG×mで必要な場の強さを作る)`;
+{"name":"対流セル — 床加熱・天井冷却","emoji":"♨️","description":"床の左〜中央がヒーター(固定・高スピン)、天井の右側が疎な冷却板(固定・スピン0)。温められたガスはスピン斥力で膨らんで浮かび、天井で熱を渡して右から沈む一方向の対流セル。下向きの場は一様重力場gravityYで作る。ガスは軽い粒子にして自己重力の凍結を防ぐ。左右の平均温度グラフ付き。","camera":{"scale":240},"world":{"boundary":"box","size":190},"physics":{"G":0.05,"D0":40,"kFrame":0.1,"q":2,"kRep":2,"muF":0.2,"gammaN":0.1,"kappaS":1.2,"Kt":60,"cLight":60,"bM":1,"etaRad":0.00001,"pRad":2,"gravityX":0,"gravityY":0.03,"radiusScale":4,"softening":4,"timeScale":2},"bodies":[{"type":"single","m":1,"x":-170,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-150,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-130,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-110,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-90,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-70,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-50,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-30,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-10,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":10,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":30,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":10,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":50,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":90,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":130,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":170,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"box","n":260,"cx":0,"cy":-10,"w":340,"h":320,"mMin":0.05,"mMax":0.05,"spinMin":1,"spinMax":2,"vScale":0.4}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
+(pinned+spin=熱浴の型: 高スピン列=ヒーター、スピン0列=冷却板。床の一部だけを温め、冷却板を天井に疎に置くと一方向の対流セルになり、粒子が冷所に貼り付かない=機械検証済み。下向きの場は gravityY=0.03 — v1.17で導入した一様重力場。時計・光・引きずりを歪めないため、画面外に遠方大質量を置く旧手法より安定する)`;
 
 // 注: 以前は output_config.format(構造化出力)に JSON Schema を渡していたが、
 // スキーマが大きく「The compiled grammar is too large」(400) となるため撤去した。
@@ -2235,7 +2477,8 @@ function renderCustomList(){
   const host=$("#customList"); host.textContent="";
   const arr=getCustomPresets();
   if(!arr.length){ const p=document.createElement("p"); p.className="note"; p.textContent=T("noCustoms"); host.appendChild(p); return; }
-  arr.forEach((c,idx)=>{
+  // v1.17: 新しく追加したデータから表示(配列は追加順=末尾が最新なので逆順に描画)
+  arr.slice().reverse().forEach((c)=>{
     const d=document.createElement("div"); d.className="saveItem";
     const n=document.createElement("div"); n.className="name"; n.textContent="🤖 "+(c.emoji||"")+" "+c.name;
     const cm=document.createElement("div"); cm.className="comment"; cm.textContent=c.description||"";
@@ -2244,7 +2487,9 @@ function renderCustomList(){
     bo.addEventListener("click",()=>{ loadPreset(c.id,false); notify(T("loadedAs")(c.name)); });
     const bd=document.createElement("button"); bd.className="btn danger"; bd.textContent=T("btnDelete");
     bd.addEventListener("click",()=>{
-      const arr2=getCustomPresets(); arr2.splice(idx,1); setCustomPresets(arr2);
+      const arr2=getCustomPresets();
+      const k=arr2.findIndex(p=>p.id===c.id);       // v1.17: 逆順表示のため id で特定して削除
+      if(k>=0){ arr2.splice(k,1); setCustomPresets(arr2); }
       rebuildPresetSelect(currentPreset.id); renderCustomList();
       if(currentPreset.id===c.id) loadPreset(BUILTIN_PRESETS[0].id,false);
     });
@@ -2274,6 +2519,10 @@ function applyLang(){
   $("#btnSave").textContent=T("btnSave"); $("#btnExport").textContent=T("btnExport");
   $("#btnImport").textContent=T("btnImport"); $("#ioArea").placeholder=T("ioPh");
   $("#btnExportFile").textContent=T("btnExportFile"); $("#ioNote").textContent=T("ioNote");
+  $("#btnImportFile").textContent=T("btnImportFile");            // v1.17
+  $("#btnPanelClose").textContent=T("panelClose");               // v1.17
+  $("#beTitle").textContent=T("beTitle"); $("#beLp").textContent=T("bePinned");
+  $("#beNote").textContent=T("beNote");                          // v1.17: 粒子編集パネル
   $("#aiProvHead").textContent=T("aiProvHead"); $("#aiProvLabel").textContent=T("aiProvLabel");
   $("#aiModelLabel").textContent=T("aiModelLabel"); $("#aiUrlLabel").textContent=T("aiUrlLabel");
   $("#keyPersistLabel").textContent=T("keyPersistLabel"); $("#btnKeySave").textContent=T("btnKeySave");
@@ -2307,7 +2556,8 @@ function renderHelp(){
   if(ext.rail) mk("p","・"+T("extRail"));
   if(ext.pin) mk("p","・"+T("extPinned")(ext.pin));
   if(ext.bath) mk("p","・"+T("extBath"));
-  if(!ext.rail && !ext.pin) mk("p","・"+T("extClosed"));
+  if(ext.grav) mk("p","・"+T("extGrav"));
+  if(!ext.rail && !ext.pin && !ext.grav) mk("p","・"+T("extClosed"));
   mk("h4",T("helpOps"));
   mk("p",T("helpOpsBody"));
   mk("h4",T("helpLaws"));
@@ -2359,8 +2609,39 @@ function renderHelp(){
     for(let i=0;i<sim.n;i++){ const dx=sim.x[i]-wx,dy=sim.y[i]-wy,d2=dx*dx+dy*dy;
       if(d2<bd){bd=d2;best=i;} }
     selIdx=(best===selIdx)?-1:best;
+    updateBodyEdit();  // v1.17: 選択粒子の編集パネルを同期
   }
 })();
+
+// ===== v1.17: 選択粒子の編集パネル(質量・スピン・速度・固定を即時編集) =====
+function updateBodyEdit(){
+  const el=$("#bodyEdit");
+  if(selIdx<0||selIdx>=sim.n||ab){ el.style.display="none"; return; }
+  el.style.display="block";
+  const i=selIdx;
+  $("#beM").value=fmt(sim.m[i]); $("#beS").value=fmt(sim.spin[i]);
+  $("#beVx").value=fmt(sim.vx[i]); $("#beVy").value=fmt(sim.vy[i]);
+  $("#bePin").checked=!!sim.pinned[i];
+}
+function beBind(id,fn){
+  $(id).addEventListener("change",()=>{
+    if(selIdx<0||selIdx>=sim.n){ updateBodyEdit(); return; }
+    const v=parseFloat($(id).value.replace(/[,、\s]/g,""));
+    if(isFinite(v)){ fn(selIdx,v); paramsDirty=true; }
+    updateBodyEdit();
+  });
+}
+beBind("#beM",(i,v)=>{ sim.m[i]=clamp(v,0.01,5000); sim.updateRadii(); });
+beBind("#beS",(i,v)=>{ sim.spin[i]=clamp(v,-40,40); });
+beBind("#beVx",(i,v)=>{ sim.vx[i]=clamp(v,-100,100); });
+beBind("#beVy",(i,v)=>{ sim.vy[i]=clamp(v,-100,100); });
+$("#bePin").addEventListener("change",()=>{
+  if(selIdx<0||selIdx>=sim.n) return;
+  sim.pinned[selIdx]=$("#bePin").checked?1:0;
+  if(!$("#bePin").checked) sim.railOmega[selIdx]=0;  // 固定解除でレール駆動も解除
+  paramsDirty=true;
+});
+$("#beClose").addEventListener("click",()=>{ selIdx=-1; updateBodyEdit(); });
 
 // ===== 検証フック HP.verify(V1/V2/V6/V8/V9/V10/V11/V12/V13/V16。品質ゲートが使用) =====
 // V3〜V5・V7 は長時間の数値実験のため自動テスト列に含めない(HANDOFF_IMPLEMENTATION.md 付録B B5)。
@@ -2696,6 +2977,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   tick:(frames)=>{ for(let f=0;f<frames;f++){ const k=Math.max(1,Math.round(SUBSTEPS*sim.params.timeScale)); for(let s2=0;s2<Math.min(k,24);s2++) sim.step(DT); } render(); } };
 
 // ===== 起動 =====
+applyUiScale();   // v1.17: 文字サイズ設定の反映(hp_uiscale 永続)
 rebuildPresetSelect();
 resizeCanvas();
 loadPreset("saturn",false);
