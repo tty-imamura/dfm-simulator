@@ -135,7 +135,7 @@ D₀ はこの模型の面白いツマミで、
 ## 8. 自分で実験してみよう
 
 シミュレータはブラウザで動きます(iPhoneでOK):
-`https://githubseaotter.github.io/HypotheticalPhysics/`
+`https://tty-imamura.github.io/dfm-simulator/`
 
 **実験1 — ダークマターなしで銀河を回す**: 「🌌銀河の回転曲線」を開き、説明タブの
 **おすすめA/B**をタップ。同じ初期配置の宇宙が上下に2つ並び、上は kFrame=1(引きずりあり)、

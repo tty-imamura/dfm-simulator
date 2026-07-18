@@ -7,7 +7,7 @@
 %         (arXiv: physics.ed-ph primary, gr-qc cross-list).
 % Build:  pdflatex dfm-paper.tex  (RevTeX 4.2; see paper/README.md)
 % =====================================================================
-\documentclass[aps,reprint,amsmath,amssymb,nofootinbib,superscriptaddress]{revtex4-2}
+\documentclass[aps,reprint,amsmath,amssymb,nofootinbib,superscriptaddress,floatfix]{revtex4-2}
 
 \usepackage{graphicx}
 \graphicspath{{figures/}}
@@ -569,7 +569,7 @@ Values from the project's third external review with independent
 recomputation; the GPS-based inverse calibration of $\Kt$ agrees with
 $c^2/G$ to $0.107\%$.}
 \begin{ruledtabular}
-\begin{tabular}{llll}
+\begin{tabular}{p{0.20\textwidth}p{0.36\textwidth}p{0.20\textwidth}p{0.12\textwidth}}
 Observable & DFM ($\Kt = c^2/G$) & Observation & Verdict \\
 \hline
 GPS clock net rate &
@@ -655,7 +655,7 @@ Machine verification gates for the experiments (embedded suite
 The first-law closure is claimed \emph{only} on the stated domain
 (open problem L17).}
 \begin{ruledtabular}
-\begin{tabular}{lll}
+\begin{tabular}{lp{0.28\columnwidth}p{0.24\columnwidth}}
 Check & Domain & Result \\
 \hline
 V1: $|\Delta P|$, $|\Delta L|$ (relative) &
@@ -1029,8 +1029,8 @@ documentation (axioms, derivations, and the adjudication records of
 seven external AI review rounds)---is a single HTML file with no
 external dependencies, archived with the project repository.
 Code is released under the MIT license and documentation under
-CC~BY~4.0.
-% TODO(submission): insert repository URL / Zenodo DOI here.
+CC~BY~4.0, at \url{https://github.com/tty-imamura/dfm-simulator}.
+% TODO(submission): insert Zenodo DOI here once minted.
 All figures in this paper are regenerated from the simulation by the
 script \texttt{tools/gen-figures.mjs} (part of the repository), which
 drives the presets and verification hooks stated in each caption and
@@ -1062,7 +1062,7 @@ For the ideal ($\varepsilon \to 0$) formulas:
 \begin{table}[h]
 \caption{\label{tab:si}SI restoration of the weak-field mapping.}
 \begin{ruledtabular}
-\begin{tabular}{lll}
+\begin{tabular}{llp{0.26\columnwidth}}
 Quantity & Value & Note \\
 \hline
 $[W]$ & ${\rm kg\,m^{-1}}$ & determinacy dimension \\
