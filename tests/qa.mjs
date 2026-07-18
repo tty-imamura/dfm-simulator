@@ -70,6 +70,32 @@ const add = (id, pass, detail) => {
   add('slider.covers-builtins', over.length === 0, over.slice(0, 5).join(' '));
 }
 
+// ---- 0d) 内蔵プリセットの physics 完全明示(v1.18 第8次裁定): 18キー全指定+件数がREADMEと一致 ----
+{
+  const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const KEYS = ['G', 'D0', 'kFrame', 'q', 'kRep', 'muF', 'gammaN', 'kappaS', 'Kt', 'cLight', 'bM',
+    'etaRad', 'pRad', 'gravityX', 'gravityY', 'radiusScale', 'softening', 'timeScale'];
+  const block = html.match(/const BUILTIN_PRESETS = \[([\s\S]*?)\n\];/)[1];
+  const missing = [];
+  let nPhys = 0;
+  for (const mm of block.matchAll(/physics:\{([\s\S]*?)\}/g)) {
+    nPhys++;
+    const have = new Set([...mm[1].matchAll(/(\w+)\s*:/g)].map(x => x[1]));
+    for (const k of KEYS) if (!have.has(k)) missing.push(`#${nPhys}:${k}`);
+  }
+  add('builtin.explicit-physics', nPhys > 0 && missing.length === 0, missing.slice(0, 6).join(' '));
+  const nPresets = [...block.matchAll(/\n\{ id:"/g)].length;
+  const readme = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8');
+  const rm = readme.match(/\*\*(\d+)の内蔵シミュレーション\*\*/);
+  add('builtin.count', !!rm && nPresets === +rm[1], `presets=${nPresets} README=${rm && rm[1]}`);
+}
+
+// ---- 0e) ドキュメント同期(v1.18): PHYSICS.md の既定表に一様重力がある ----
+{
+  const phys = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+  add('docs.gravity-params', phys.includes('gravityX') && phys.includes('gravityY'), '');
+}
+
 const browser = await getBrowser();
 const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
 const pageErrors = [];
@@ -219,10 +245,55 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
     const vy = HP.sim.vy[0], y = HP.sim.y[0];
     const ledger = Math.abs(2 * vy + HP.sim.resPy) < 1e-4;       // P+帳簿P=一定(T7 恒等式)
     const tags = HP.externalTags({ physics: { gravityY: 0.5 }, bodies: [] });
-    return { ok: true, vy, y, ledger, grav: !!tags.grav };
+    // v1.18: 解析一致 y = ½gt²(シンプレクティックEulerの離散化誤差 O(dt) 込みで 2% 許容)
+    const yTh = 0.5 * 0.5 * 1.6 * 1.6;
+    const yOk = Math.abs(y - yTh) / yTh < 0.02;
+    return { ok: true, vy, y, yTh, yOk, ledger, grav: !!tags.grav };
   });
-  add('gravity.uniform', r.ok && Math.abs(r.vy - 0.8) < 1e-3 && r.y > 0 && r.ledger && r.grav,
-    r.ok ? `vy=${r.vy.toFixed(3)}(理論0.8) 帳簿=${r.ledger} badge=${r.grav}` : 'validate failed');
+  add('gravity.uniform', r.ok && Math.abs(r.vy - 0.8) < 1e-3 && r.yOk && r.ledger && r.grav,
+    r.ok ? `vy=${r.vy.toFixed(3)}(理論0.8) y=${r.y.toFixed(3)}(理論${r.yTh}) 帳簿=${r.ledger} badge=${r.grav}` : 'validate failed');
+}
+
+// ---- 7i) v1.18 新サンプル/修正の挙動: 浮力分離・merger円盤並進・collapse初期回転 ----
+{
+  const r = await page.evaluate(() => {
+    const s = HP.sim, res = {};
+    // 🧪 buoyancy: 12000步で重い粒子群が軽い粒子群より下(平均yが大きい)に分離する
+    // (掃引実測: 6000步≈20 → 12000步≈50-70 に成長し持続。12000步時点を判定)
+    HP.loadPreset('buoyancy', false);
+    for (let k = 0; k < 12000; k++) s.step(0.016);
+    let hy = 0, hc = 0, ly = 0, lc = 0;
+    for (let i = 0; i < s.n; i++) {
+      if (s.pinned[i]) continue;
+      if (s.m[i] > 1) { hy += s.y[i]; hc++; } else { ly += s.y[i]; lc++; }
+    }
+    res.buoySep = (hc ? hy / hc : 0) - (lc ? ly / lc : 0);   // >0 = 重い側が下
+    res.buoyNaN = s.hasNaN();
+    // 🌠 merger: 円盤が核と同じ並進速度で生成される(bulkVx/Vy。v1.18 修正)
+    HP.loadPreset('merger', false);
+    let dvx = 0, dvy = 0, dc = 0;
+    for (let i = 0; i < s.n; i++) {   // 左銀河: 核=index0、円盤=核から半径130以内の自由粒子
+      if (i === 0 || s.m[i] > 100) continue;
+      const dx = s.x[i] - s.x[0], dy = s.y[i] - s.y[0];
+      if (dx * dx + dy * dy < 130 * 130) { dvx += s.vx[i]; dvy += s.vy[i]; dc++; }
+    }
+    res.mergerDv = Math.hypot(dvx / dc - s.vx[0], dvy / dc - s.vy[0]);
+    // 🌫️ collapse: 初期回転(v1.18)でも有界・NaNなし・全角運動量が正(回転獲得)
+    HP.loadPreset('collapse', false);
+    for (let k = 0; k < 6000; k++) s.step(0.016);
+    let rMax = 0, L = 0;
+    for (let i = 0; i < s.n; i++) {
+      rMax = Math.max(rMax, Math.hypot(s.x[i], s.y[i]));
+      L += s.m[i] * (s.x[i] * s.vy[i] - s.y[i] * s.vx[i]);
+    }
+    res.colRMax = rMax; res.colL = L; res.colNaN = s.hasNaN();
+    return res;
+  });
+  add('behavior.buoyancy', !r.buoyNaN && r.buoySep > 20,
+    `分離(重-軽の平均y差)=${r.buoySep.toFixed(1)} (>20)`);
+  add('merger.bulk-velocity', r.mergerDv < 0.1, `|v̄円盤−v核|=${r.mergerDv.toFixed(3)} (<0.1)`);
+  add('collapse.rotation', !r.colNaN && r.colRMax < 600 && r.colL > 0,
+    `rMax=${r.colRMax.toFixed(0)} (<600) L=${r.colL.toFixed(0)} (>0)`);
 }
 
 // ---- 7b) 理論解説パネル(v1.13): 全内蔵の説明から法則参照が抽出され、ヘルプに表示される ----
