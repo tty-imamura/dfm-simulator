@@ -847,3 +847,39 @@ UI指示1件(セーブタブのバックアップを保存一覧より上へ)。
 - 開発時: 本セッション一回限り。QA・スクリーンショットは headless(¥0)。
 - 実行時 API: 影響なし。
 - 料金確認日: 2026-07-16 の確認値から変更なし(新規の料金依存判断なし)。
+
+## v1.21 改訂(2026-07-18): リポジトリ移行の完了・論文組版修正・第5次模擬査読の準備
+
+タスク(model-routing 指名): ①リポジトリ移行(tty-imamura/dfm-simulator)後の残存クリーンアップと
+機械検証 ②論文の repository URL TODO 解消と pdflatex コンパイル確認(ロードマップ Phase 5-3 前倒し)
+③第5次AI模擬査読の外部AI指示書の作成(査読テンプレートはロードマップ〔手元資料〕に登録)。
+
+### 実施サマリ
+- **移行後クリーンアップ**: 旧名(GitHubSeaOtter/HypotheticalPhysics)残存 7 箇所を新名に更新 —
+  CITATION.cff(repository-code / version 1.19 / date-released 2026-07-18)、LICENSE、docs/LICENSE、
+  README.md(Pages URL)、docs/EXPLAINER_HIGHSCHOOL.md、docs/HANDOFF_PAPER.md、package.json(name)。
+  grep(大文字小文字無視)で残存ゼロを機械確認。
+- **CI 動作確認**: 新リポジトリの Actions で qa ワークフローが main への push を含め全件 success
+  (run #26〜#35)であることを確認(移行手順④のクローズ)。
+- **論文**: Reproducibility 節に \url{https://github.com/tty-imamura/dfm-simulator} を挿入
+  (残 TODO は Zenodo DOI のみ)。pdflatex(TeX Live / revtex4-2)2 パスで 11 ページ・全6図+全3表
+  配置・参照未解決ゼロを確認。組版不良3件を修正: Table I(較正表)の overfull 291pt、Table II の
+  40pt、Table III の 22pt を折返し列(p 指定)化で解消し、フロート停留対策に floatfix を付与。
+- **第5次模擬査読の準備**: AJP 査読者ペルソナ×3観点(論理飛躍・導出検証/先行研究・引用適正/
+  Negative claims 逸脱)の指示書を作成。共通出力フォーマット(重大度+該当箇所必須の指摘リスト)と
+  検収基準(該当箇所引用のない指摘は裁定時に自動棄却)を規定。
+
+### ルーティング表
+
+| フェーズ | 担当 | 割当理由 | 補償策 | 品質ゲート | 概算コスト |
+|---|---|---|---|---|---|
+| ①移行後クリーンアップ | **Fable 5**(本セッション。作業自体は Sonnet 級の機械的置換) | 置換自体は機械的だが、CITATION の version/date 更新判断・package name の残存認定など小さな裁定を含むため単一セッションで一括実施 | 置換対象を grep で全列挙してから編集 | 旧名 grep 0 件+qa 85/85 ALL PASS(フル実行)+ CI success 確認 | 本セッション費 |
+| ②論文組版修正 | **Fable 5**(同上) | overfull の原因特定(自然幅超過)と p 列幅の配分判断 | 修正後に再コンパイル+ページ画像の目視確認(Table I/II/III と URL 組版) | pdflatex 2 パス exit 0・overfull 0 件・全図表配置(pdftotext で FIG.1〜6 / TABLE I〜III 各1回を確認) | 本セッション費 |
+| ③査読指示書の作成 | **Fable 5** | 検出力を左右する観点分割と検収基準の設計=曖昧さ解決を含む上位タスク | 外部AIブリーフ原則(意図の正本+系統別プロンプト+受け入れ条件+直し語彙)に準拠 | 検収基準を指示書内に明文化(戻り MD の機械的検収が可能) | 本セッション費 |
+| ④模擬査読の実行 | **外部AI 3系統**(ChatGPT / Gemini / Grok。ユーザー操作) | v1.16 ④の確定ルーティングを踏襲 — 敵対的多様性の確保 | 系統ごとに観点を分離し重複より網羅を優先 | 検収基準3項目(フォーマット/該当箇所引用/文献実在性表示) | 各社従量(管理外) |
+| ⑤裁定統合(次セッション) | **Fable 5** | 3系統の指摘の採否・矛盾解決・DERIVATIONS/論文への反映は最難関の裁定 | 過去裁定(Negative claims・付録群)を制約として適用 | 裁定表への全件分類 | 次セッション費 |
+
+### コスト見積り
+- 開発時: 本セッション一回限り。grep・pdflatex・qa・ページ画像確認はローカル機械検査(¥0)。
+- 実行時 API: 影響なし(index.html の変更なし。qa 85/85 は回帰確認)。
+- 料金確認日: 2026-07-16 の確認値から変更なし(新規の料金依存判断なし)。

@@ -2,3 +2,9 @@ node_modules/
 tests/out/
 # QAツール(playwright)のみの依存。CI は npm install + playwright install で解決するためロックしない
 package-lock.json
+# LaTeX ビルド生成物(Notes.bib は revtex4-2 の自動生成)
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.pdf
+paper/*Notes.bib

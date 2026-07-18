@@ -9,7 +9,7 @@ iPhoneのブラウザで観察できるシミュレータです。
 `index.html` を開くだけで動きます。ホスティング不要の方法:
 
 1. **GitHub Pages(推奨)** — リポジトリの Settings → Pages → Branch を `main`(root)にして保存。
-   数分後に `https://<ユーザー名>.github.io/HypotheticalPhysics/` をSafariで開く。
+   数分後に `https://tty-imamura.github.io/dfm-simulator/` をSafariで開く。
    共有→「ホーム画面に追加」でアプリのように使えます。
 2. **ファイルとして開く** — `index.html` をiCloud Drive等に保存し、
    「ファイル」アプリからSafariで開くことも可能です。
