@@ -152,7 +152,8 @@ GitHub Actions([.github/workflows/ci.yml](.github/workflows/ci.yml))が push/PR 
   🌀惑星の種が複数、軌道上に持続)。❄️雪線サンプル新設(冷たい星の環は小衛星に集積、
   熱い星の環は生まれかけた塊が融けて塊になれない=塊は熱で分かれることの対照実験)。
   回帰25項目込み計42項目 PASS(HANDOFF_IMPLEMENTATION.md 付録E)。
-- v1.5(2026-07-16): 整合性修正(付録F=docs/HANDOFF_FIX_V15.md)— E1 を Plummer 型
+- v1.5(2026-07-16): 整合性修正(付録F=旧 docs/HANDOFF_FIX_V15.md。役目を終えたため
+  削除済み — 内容は git 履歴参照、裁定の要約は DERIVATIONS §9)— E1 を Plummer 型
   w=m/√(d²+ε²) に統一し A6(E4=G∇W)が厳密成立(V9。修正前 2.7e-1 → 2.4e-4)。
   接線摩擦のすべり散逸・E10′ 同期散逸を radE に計上し第一法則が完全閉性(A12′、V10。
   修正前 1.9e-1 → 2.5e-4)。T4 の因果を kFrame=0/1 の同一初期条件 A/B 比較で機械検証(V11)。
