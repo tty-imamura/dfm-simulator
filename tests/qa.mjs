@@ -502,7 +502,9 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
     const inp = actGroup.querySelector('.prow input.valIn');
     inp.value = '0.33'; inp.dispatchEvent(new Event('change'));
     const editOk = Math.abs(HP.sim.params.muF - 0.33) < 1e-12;
-    return { bad, actRows, nAct: act.length, detRows, nRest: HP.PARAM_DEFS.length - act.length,
+    // v1.23: timeScale は表示グループへ移設されたため、詳細設定の行数からも除外
+    return { bad, actRows, nAct: act.length, detRows,
+      nRest: HP.PARAM_DEFS.filter(d => d.key !== 'timeScale').length - act.length,
       detOpen: det ? det.open : null, headOk, editOk };
   });
   add('activeParams.all', r1.bad.length === 0, r1.bad.join(',') || '全25種で宣言済み');
@@ -562,6 +564,71 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   });
   add('divergence.undo', r4.snapped && r4.stopped && r4.hasBtn && r4.restored,
     `snapshot=${r4.snapped} 停止=${r4.stopped} ボタン=${r4.hasBtn} 復元=${r4.restored}`);
+}
+
+// ---- 7l) v1.23 原仮定者指示: A/B編集対象トグル / 表示の両画面反映 / 時間倍率の表示移設 /
+// ----     描画品質(自動/正確/軽量)----
+{
+  const r = await page.evaluate(() => {
+    const res = {};
+    const findRow = (label) => [...document.querySelectorAll('#paramRows .prow')]
+      .find(x => x.querySelector('label') && x.querySelector('label').textContent === label);
+    const setVal = (row, v) => { const inp = row.querySelector('input.valIn');
+      inp.value = String(v); inp.dispatchEvent(new Event('change')); };
+    // ① A/B編集対象: B を選ぶと編集は B のみに効き、表示値も B のものになる
+    HP.loadPreset('fig8', false);
+    HP.abStart();
+    const simB = HP.ab().simB;
+    HP.setAbTarget('B');
+    res.targetShown = document.querySelector('#abTargetRow').style.display !== 'none';
+    setVal(findRow('重力 G'), 2.5);
+    res.bEdited = Math.abs(simB.params.G - 2.5) < 1e-12 && Math.abs(HP.sim.params.G - 1) < 1e-12;
+    HP.setAbTarget('A');
+    res.aShowsA = findRow('重力 G').querySelector('input.valIn').value === '1.00';
+    setVal(findRow('重力 G'), 3);
+    res.aEdited = Math.abs(HP.sim.params.G - 3) < 1e-12 && Math.abs(simB.params.G - 2.5) < 1e-12;
+    // ② 表示トグルは A/B 両方に反映(決定力マップ・光線)
+    const toggleByLabel = (label, on) => {
+      const row = findRow(label); const cb = row.querySelector('input[type=checkbox]');
+      cb.checked = on; cb.dispatchEvent(new Event('change'));
+    };
+    toggleByLabel('決定力マップ', true);
+    res.fieldBoth = HP.sim.overlays.field === true && simB.overlays.field === true;
+    toggleByLabel('光線', true);
+    res.raysBoth = !!(HP.sim.rays && HP.sim.rays.n > 0) && !!(simB.rays && simB.rays.n > 0);
+    toggleByLabel('光線', false); toggleByLabel('決定力マップ', false);
+    // ③ 時間倍率は表示グループの1行のみ+A/B両方に反映
+    const tsRows = [...document.querySelectorAll('#paramRows .prow')]
+      .filter(x => x.querySelector('label') && x.querySelector('label').textContent === '時間倍率');
+    res.tsSingle = tsRows.length === 1;
+    res.tsInDisplay = !tsRows[0].closest('details');   // 詳細設定(details)の中ではない
+    setVal(tsRows[0], 5);
+    res.tsBoth = Math.abs(HP.sim.params.timeScale - 5) < 1e-12 && Math.abs(simB.params.timeScale - 5) < 1e-12;
+    HP.abStop();
+    // activeParams に timeScale が残っていない(表示グループへ移設済み)
+    res.tsInAct = HP.allPresets().filter(p => !String(p.id).startsWith('custom_'))
+      .filter(p => (p.activeParams || []).includes('timeScale')).map(p => p.id);
+    // ④ 描画品質: 軽量で縮退・正確で全て戻る(既定 auto は headless 60fps でレベル0)
+    HP.setQuality('lite');
+    const lite = HP.qState();
+    HP.setQuality('exact');
+    const exact = HP.qState();
+    HP.setQuality('auto');
+    const auto = HP.qState();
+    res.quality = lite.level === 2 && lite.fieldRes === 32 && Math.abs(lite.rayFactor - 0.55) < 1e-9
+      && exact.level === 0 && exact.fieldRes === 48 && exact.rayFactor === 1
+      && auto.level === 0;
+    res.qualityRow = !!findRow('描画品質');
+    HP.loadPreset('saturn', false);
+    return res;
+  });
+  add('ab.edit-target', r.targetShown && r.bEdited && r.aShowsA && r.aEdited,
+    `トグル表示=${r.targetShown} B編集=${r.bEdited} A表示値=${r.aShowsA} A編集=${r.aEdited}`);
+  add('ab.display-sync', r.fieldBoth && r.raysBoth, `field両方=${r.fieldBoth} rays両方=${r.raysBoth}`);
+  add('display.timescale-both', r.tsSingle && r.tsInDisplay && r.tsBoth && r.tsInAct.length === 0,
+    `行数=${r.tsSingle ? 1 : '複数'} 表示グループ=${r.tsInDisplay} 両方反映=${r.tsBoth} activeParams残=${r.tsInAct.join(',') || 'なし'}`);
+  add('quality.levels', r.quality && r.qualityRow,
+    `軽量/正確/自動の縮退値=${r.quality} セレクト行=${r.qualityRow}`);
 }
 
 // ---- 7c) A/B比較モード(v1.13 → v1.19 コピー方式): 同一初期条件・両シム同時駆動・A継続 ----
