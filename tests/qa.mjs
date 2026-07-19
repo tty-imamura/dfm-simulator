@@ -86,10 +86,11 @@ const add = (id, pass, detail) => {
     for (const k of KEYS) if (!have.has(k)) missing.push(`#${nPhys}:${k}`);
   }
   add('builtin.explicit-physics', nPhys > 0 && missing.length === 0, missing.slice(0, 6).join(' '));
-  const nPresets = [...block.matchAll(/\n\{ id:"/g)].length;
+  // v1.24(原仮定者指示): サンプル総数は変わりやすいため、ドキュメントに固定数を書かない。
+  // README がプリセット総数を数値で謳っていないことを検査する(旧 builtin.count の置き換え)
   const readme = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8');
-  const rm = readme.match(/\*\*(\d+)の内蔵シミュレーション\*\*/);
-  add('builtin.count', !!rm && nPresets === +rm[1], `presets=${nPresets} README=${rm && rm[1]}`);
+  const counted = readme.match(/\d+\s*の内蔵シミュレーション|\d+\s*built-?in simulations/i);
+  add('docs.no-preset-count', !counted, counted ? `README に総数記載: ${counted[0]}` : '');
 }
 
 // ---- 0e) ドキュメント同期(v1.18): PHYSICS.md の既定表に一様重力がある ----
@@ -276,6 +277,9 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
     res.buoySep = (hc ? hy / hc : 0) - (lc ? ly / lc : 0);   // >0 = 重い側が下
     res.buoyNaN = s.hasNaN();
     // 🌠 merger: 円盤が核と同じ並進速度で生成される(bulkVx/Vy。v1.18 修正)
+    // v1.24: 円盤を回転支持(kepler ≈3〜5)にしたため、有限個の回転成分のサンプリング残差
+    // ≈ v/√n ≈ 0.25 が平均に残る(固定シードで決定論的に 0.232)。並進の欠落(旧バグは
+    // |v̄−v核| ≈ 1.4)とは1桁離れており、閾値は 0.35(実測×1.5マージン)で判定する
     HP.loadPreset('merger', false);
     let dvx = 0, dvy = 0, dc = 0;
     for (let i = 0; i < s.n; i++) {   // 左銀河: 核=index0、円盤=核から半径130以内の自由粒子
@@ -297,7 +301,7 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   });
   add('behavior.buoyancy', !r.buoyNaN && r.buoySep > 20,
     `分離(重-軽の平均y差)=${r.buoySep.toFixed(1)} (>20)`);
-  add('merger.bulk-velocity', r.mergerDv < 0.1, `|v̄円盤−v核|=${r.mergerDv.toFixed(3)} (<0.1)`);
+  add('merger.bulk-velocity', r.mergerDv < 0.35, `|v̄円盤−v核|=${r.mergerDv.toFixed(3)} (<0.35 — 回転サンプリング残差込み)`);
   add('collapse.rotation', !r.colNaN && r.colRMax < 600 && r.colL > 0,
     `rMax=${r.colRMax.toFixed(0)} (<600) L=${r.colL.toFixed(0)} (>0)`);
 }
@@ -307,11 +311,11 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   const r = await page.evaluate(() => {
     const noRefs = HP.allPresets().filter(p => !String(p.id).startsWith('custom_'))
       .filter(p => HP.extractLawRefs(p.description || '').length === 0).map(p => p.id);
-    HP.loadPreset('mach', false);
-    const jaShown = document.querySelector('#helpBody').textContent.includes('A4 — ');
+    HP.loadPreset('saturn', false);
+    const jaShown = document.querySelector('#helpBody').textContent.includes('A8 — ');
     HP.setLang('en');
-    HP.loadPreset('mach', false);
-    const enShown = document.querySelector('#helpBody').textContent.includes('Masses have inertia');
+    HP.loadPreset('saturn', false);
+    const enShown = document.querySelector('#helpBody').textContent.includes('A spinning mass rotates the space');
     HP.setLang('ja');
     return { noRefs, jaShown, enShown };
   });
@@ -323,14 +327,15 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
 {
   const r = await page.evaluate(() => {
     const tag = (id) => HP.externalTags(HP.allPresets().find(q => q.id === id));
-    const gc = tag('gclock'), f8 = tag('fig8'), mc = tag('mach');
+    // v1.24: mach 廃止に伴い、熱浴検出は convection(固定ヒーター spin>0)で検査
+    const gc = tag('gclock'), f8 = tag('fig8'), cv = tag('convection');
     HP.loadPreset('gclock', false);
     const shown = document.querySelector('#helpBody').textContent.includes('外部要素');
     HP.loadPreset('fig8', false);
     const closed = document.querySelector('#helpBody').textContent.includes('閉鎖系');
-    return { gcPin: gc.pin, f8Pin: f8.pin, mcRail: mc.rail, mcBath: mc.bath, shown, closed };
+    return { gcPin: gc.pin, f8Pin: f8.pin, cvBath: cv.bath, shown, closed };
   });
-  add('ext.detect', r.gcPin === 4 && r.f8Pin === 0 && r.mcRail && r.mcBath, JSON.stringify(r)); // gclock は中心+時計3つの全4粒子が pinned(静止統制実験)
+  add('ext.detect', r.gcPin === 4 && r.f8Pin === 0 && r.cvBath, JSON.stringify(r)); // gclock は中心+時計3つの全4粒子が pinned(静止統制実験)
   add('ext.panel', r.shown && r.closed, '');
 }
 
@@ -507,7 +512,7 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
       nRest: HP.PARAM_DEFS.filter(d => d.key !== 'timeScale').length - act.length,
       detOpen: det ? det.open : null, headOk, editOk };
   });
-  add('activeParams.all', r1.bad.length === 0, r1.bad.join(',') || '全25種で宣言済み');
+  add('activeParams.all', r1.bad.length === 0, r1.bad.join(',') || '全内蔵で宣言済み');
   add('activeParams.ui', r1.headOk && r1.actRows === r1.nAct && r1.detRows === r1.nRest
     && r1.detOpen === false && r1.editOk,
     `主役${r1.actRows}/${r1.nAct}行 詳細${r1.detRows}/${r1.nRest}行 折りたたみ=${r1.detOpen === false} 編集反映=${r1.editOk}`);
