@@ -1197,7 +1197,7 @@ absuggest.valid / absuggest.one-tap / claim.galaxy-flatten の7項目)+外部要
 | gas 🔥 | G 0.05→0・kFrame 0.2→0 | 熱平衡の統制実験に長距離力は不要(3系統一致) |
 | phase 🧊 | kFrame 0.3→0・気体群 spinMax 10→8.5 | 要因分離+天井張り付き緩和(Gemini 2.1) |
 | merger 🌠 / collapse 🌫️ | overlays.trailTargets:"sampled" | 全粒子軌跡の負荷・視認性(Gemini 1.1 / ChatGPT 4.4) |
-| 全25種 | physics 21キー完全明示(geoPN/lambdaPN/pnAlpha) | qa 0d の 21キー機械強制 |
+| 全内蔵 | physics 21キー完全明示(geoPN/lambdaPN/pnAlpha) | qa 0d の 21キー機械強制 |
 
 ### P4. 次スプリント送り(採用済み・順序の裁定)
 spatial hash(短距離項)・機能マスク・粒子数掃引(galaxy/saturn/binary/merger)・
