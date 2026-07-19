@@ -1168,3 +1168,39 @@ absuggest.valid / absuggest.one-tap / claim.galaxy-flatten の7項目)+外部要
 - [ ] dfm-paper.tex: プレースホルダ6枠を \includegraphics に差し替え、
       HANDOFF_PAPER_V2 §7 の受け入れ grep が引き続き0件
 - [ ] README(計21種・v1.16履歴)・paper/README.md(図生成手順)同期
+
+## 付録P: v1.21 第9次外部AIレビュー裁定(2026-07-19)
+
+### P1. スキーマ変更(契約1への追補)
+- `overlays.trailTargets`: `"all"`(既定・従来どおり全自由粒子)| `"sampled"`
+  (核 m≥100+自由粒子の等間隔サンプル約16個のみ軌跡を記録)。バリデータは
+  `"sampled"` 以外の値を `"all"` に正規化。SYSTEM_PROMPT / few-shot には公開しない
+  (LLM 生成物で指定された場合も受理される後方互換キー)。
+- `PARAM_DEFS[].desc`(ja)+ `I18N.en.paramDescs`: パラメータ名タップ説明。
+  全21キーの存在を qa `params.desc-all` が機械強制。
+
+### P2. エンジン・描画変更(物理式は不変)
+- `traceRay()`: 空間随伴項(u 輸送)に `kFrame` を乗算。屈折(ψ=W/Kt)は不変。
+  内蔵プリセットは kFrame=1(💡🌗)または源が静止・無スピン(🔭🛰)のため描画は不変。
+  🌗spinlens は kFrame=0 が「引きずりなし」の正しい対照実験になる(qa `spinlens.kframe-control`)。
+- オーバーレイスロット: `overlaySlots()` が有効グラフ(回転曲線・温度・スペクトル)に
+  右下から縦積みのスロットを割り当て、`overlayBaseY(slot)` で描画位置を決める
+  (🌠merger の重なり解消。qa `overlay.slots-distinct`)。
+- 温度正規化の90パーセンタイルソートは10フレームに1回(EMA 0.05→0.4 で時定数維持)。
+
+### P3. プリセット調整
+| ID | 変更 | 理由 |
+|---|---|---|
+| mercury ☿ | 説明に「V18〜V20=検証専用条件」と「画面=可視化用初期値」の区別を明記 | ChatGPT 3.1-6(要修正)。内蔵初期値そのものは qa `behavior.mercury-builtin` が検証(較正実測: λ1=+3.77°/周・λ0=−0.65°・比2.96) |
+| projectile ⚾ | 説明「上は斜方投射」→「下段は斜方投射(上向きに発射)」 | 画面座標 +y=下 と配置の不一致(ChatGPT 3.1-8) |
+| spinlens 🌗 | 説明に kFrame=0 の A/B を追記 | traceRay の kFrame 適用に伴う |
+| gas 🔥 | G 0.05→0・kFrame 0.2→0 | 熱平衡の統制実験に長距離力は不要(3系統一致) |
+| phase 🧊 | kFrame 0.3→0・気体群 spinMax 10→8.5 | 要因分離+天井張り付き緩和(Gemini 2.1) |
+| merger 🌠 / collapse 🌫️ | overlays.trailTargets:"sampled" | 全粒子軌跡の負荷・視認性(Gemini 1.1 / ChatGPT 4.4) |
+| 全25種 | physics 21キー完全明示(geoPN/lambdaPN/pnAlpha) | qa 0d の 21キー機械強制 |
+
+### P4. 次スプリント送り(採用済み・順序の裁定)
+spatial hash(短距離項)・機能マスク・粒子数掃引(galaxy/saturn/binary/merger)・
+mach 統制化(リング spin=0 は ext バッジ QA と挙動の再調整が必要)・activeParams
+(サンプル別パラメータUI)・静的描画キャッシュ/停止中 render-on-demand。
+アルゴリズム最適化 → 粒子数再調整の順(ChatGPT §2.3)。

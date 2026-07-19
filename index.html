@@ -54,7 +54,8 @@
   nav#tabs button{flex:1;min-height:44px;background:none;border:none;border-top:2px solid transparent;
     color:var(--dim);font-size:calc(12.5px*var(--uz,1));font-weight:600;touch-action:manipulation;}
   nav#tabs button.on{color:var(--fg);border-top-color:var(--acc);background:var(--panel2);}
-  #panel{flex:0 0 auto;max-height:42vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  /* v1.21: 42vh→50vh(Gemini 第9次 3.2 — 縦長スマホでのスクロール頻発を緩和) */
+  #panel{flex:0 0 auto;max-height:50vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
     background:var(--panel2);border-top:1px solid var(--line);
     padding:10px 12px calc(10px + var(--sab));display:none;}
   #panel.open{display:block;}
@@ -67,6 +68,13 @@
   .group>h3{margin:4px 0 8px;font-size:calc(12px*var(--uz,1));color:var(--dim);font-weight:700;letter-spacing:.06em;}
   .prow{display:flex;align-items:center;gap:10px;margin:7px 0;}
   .prow label{flex:0 0 118px;font-size:calc(12px*var(--uz,1));color:var(--fg);}
+  /* v1.21: パラメータ名タップで説明を開閉(点線下線=タップ可能の合図) */
+  .prow label.tappable{text-decoration:underline dotted var(--dim);text-underline-offset:3px;
+    cursor:pointer;touch-action:manipulation;}
+  .pdesc{display:none;margin:-2px 0 8px;padding:7px 10px;border-left:2px solid var(--acc);
+    background:var(--panel);border-radius:0 8px 8px 0;
+    font-size:calc(11.5px*var(--uz,1));line-height:1.55;color:var(--dim);}
+  .pdesc.open{display:block;}
   .prow input[type=range]{flex:1;min-width:0;accent-color:var(--acc);height:30px;}
   .prow .val{flex:0 0 62px;text-align:right;font-size:calc(12px*var(--uz,1));color:var(--acc);font-variant-numeric:tabular-nums;}
   .prow input.valIn{flex:0 0 74px;width:74px;min-height:36px;padding:4px 6px;text-align:right;
@@ -237,6 +245,15 @@
  * 最後に調整したパラメータの値を両画面に表示 ⑥セーブ名の初期値=プリセット名+
  * サフィックス ⑦インポートの内容重複判定(パラメータ同一はスキップ・名前被りは
  * サフィックス) ⑧保存一覧・生成済みプリセットにJSONコピー
+ * v1.21 (2026-07-19): 第9次外部AIレビュー(ChatGPT/Gemini/Grok)の裁定実装 —
+ * ①パラメータ名タップで説明表示(全21項目 ja/en) ②オーバーレイのスロット配置
+ * (🌠mergerの回転曲線と温度グラフの重なりを解消) ③線の軌跡の対象限定
+ * (overlays.trailTargets:"sampled" — merger/collapse は核+代表16粒子のみ)
+ * ④光線の空間随伴項に kFrame を適用(🌗spinlens で kFrame=0 が対照実験になる)
+ * ⑤☿mercury の説明を「式の検証(V18〜V20)」と「可視化用初期値」に区別
+ * ⑥⚾projectile の説明修正(斜方投射は下段) ⑦🔥gas の統制強化(G=0, kFrame=0)
+ * ⑧🧊phase の要因分離(kFrame=0)+気体群 spinMax 8.5 ⑨温度正規化ソートを
+ * 10フレームごとに ⑩パネル高 50vh ⑪内蔵プリセットの physics を21キー完全明示
  * ===================================================================== */
 
 // ===== ユーティリティ =====
@@ -403,8 +420,33 @@ en: {
     gammaN:"Collision damping γn", kappaS:"Spin diffusion κs", Kt:"Spacetime Kt (time & light)",
     cLight:"Light speed c₀", bM:"Wien constant b_m", etaRad:"Radiative cooling η_rad",
     pRad:"Radiation exponent p", gravityX:"Uniform gravity g_x", gravityY:"Uniform gravity g_y",
+    geoPN:"Geodesic mode geoPN", lambdaPN:"1PN correction λ_PN",
+    pnAlpha:"1PN coefficient α (0.5=time-rate only, 1.5=full)",
     radiusScale:"Particle radius scale", softening:"Softening ε",
     timeScale:"Time multiplier"},
+  // v1.21: タップ説明の英語版(ja は PARAM_DEFS.desc)
+  paramDescs:{
+    G:"Strength of mutual gravity between particles. In this universe gravity is the gradient of determinacy W (A6/E4: a=G∇W). Set 0 to switch self-gravity off (independent of the uniform field g_x/g_y).",
+    D0:"Baseline determinacy contributed by the distant universe (A5). The larger it is, the more space is anchored far away — and the weaker the relative grip of nearby masses (kFrame drag). That is why raising D₀ weakens the drag in 🪣 Mach's Bucket.",
+    kFrame:"How strongly moving or spinning masses drag the 'nearby space' (the determinacy frame) along, carrying matter and light with it (A4/A5/E6′). 1 = fully relational space, 0 = Newtonian rigid space. The lead actor of rotation-curve flattening (T4) and periapsis regression (💫).",
+    q:"Falloff exponent of the rotational drag from spin with distance (E3: (R/(R+d))^q). Larger q confines the drag closer to the body.",
+    kRep:"Repulsion between spinning (= hot) particles (A10/E5′) — the origin of 'pressure' in this universe. Hot gas inflating (🎈) and convection (♨️) are driven by this force.",
+    muF:"Efficiency of converting sliding contact (relative velocity) into spin = heat (A9/E9). At 0, collisions no longer heat anything (try the 💥 contrast experiment).",
+    gammaN:"Normal-direction damping of collisions (how easily bounce is lost). 0 = bouncy, 1 = collisions absorb velocity. The lost energy is ledgered (T7).",
+    kappaS:"Heat conduction by spin diffusion (E10′): spin = heat hops to nearby particles, no contact needed, stronger when closer (📏). At 0 heat does not spread.",
+    Kt:"One coefficient governing both time dilation and light refraction (A7′/E7R/E8R: ψ=W/Kt). Smaller = stronger spacetime effects — clocks slow more and light bends more. The real-world calibration is Kt=c²/G (🛰).",
+    cLight:"Speed of light rays, and the reference for motion time dilation (E7R: clocks moving near c₀ relative to the comoving frame run slow). Lower it to exaggerate relativistic effects (🕰 lowers it to 12).",
+    bM:"Wien constant: a particle at temperature T radiates at peak wavelength λ=b_m/T (A12). Calibrates the spectrum overlay (🌈).",
+    etaRad:"Strength of radiative cooling (E11: cooling rate Λ∝T^p). 0 = no radiation. Hotter particles cool faster (🌈). Radiated energy and angular momentum are ledgered.",
+    pRad:"Temperature steepness of radiative cooling (E11: Λ∝T^p). Larger p means only the hottest bodies cool rapidly.",
+    gravityX:"Uniform external gravity acting horizontally across the whole scene (v1.17). It does not contribute to determinacy W, so it builds a 'ground lab' without distorting clocks, light or dragging. Momentum exchange is ledgered.",
+    gravityY:"Uniform external gravity acting vertically (+y is down on screen). The 'downward gravity' of ⚾ free fall, ♨️ convection and 🧪 buoyancy. Set 0 for weightlessness.",
+    geoPN:"The v2.0 geodesic mode (E12). At 1, matter's motion is derived by an action principle from the same ψ=W/Kt that slows clocks, enabling the 1PN correction (☿); E6′ dragging on matter is disabled (no double counting). 0 = legacy.",
+    lambdaPN:"On/off switch of the 1PN correction in geodesic mode (geoPN=1). At 0 you recover Newtonian gravity and the ellipse closes — the A/B control for ☿ Mercury.",
+    pnAlpha:"Breakdown of the 1PN correction (E12). 1.5 = full (GR's β=γ=1 — the full 42.98″/century of Mercury), 0.5 = time-rate only (advance drops to 1/3). Machine-verified in V18–V20.",
+    radiusScale:"Scale of particle radius R=radiusScale·√m. Affects contact size and the moment of inertia I=½mR² (the I in temperature T=Is²). A discretization setting, not a law of physics.",
+    softening:"Softening length mixed into distances so forces never diverge at close range (E1′ Plummer form: 1/√(d²+ε²)). Smaller = sharper close encounters but numerically rougher.",
+    timeScale:"Multiplier on how fast simulated time advances (fast-forward). The physics is unchanged — only the time per frame. If the simulation diverges, lower this first."},
 },
 };
 function T(key){ const d=I18N[LANG], v=(key in d)? d[key] : I18N.ja[key]; return v; }
@@ -509,6 +551,8 @@ function gName(g){ return (LANG==="en" && I18N.en.groups[g]) || g; }
 function pName(p){ return (LANG==="en" && p.en && p.en.name) || p.name; }
 function pDesc(p){ return (LANG==="en" && p.en && p.en.description) || p.description || ""; }
 function paramLabel(def){ return (LANG==="en" && I18N.en.params[def.key]) || def.label; }
+// v1.21: パラメータ名タップの説明文(ja=PARAM_DEFS.desc / en=I18N.en.paramDescs)
+function paramDesc(def){ return (LANG==="en" && I18N.en.paramDescs[def.key]) || def.desc || ""; }
 
 // ===== 物理パラメータ定義(PHYSICS.md §5 既定パラメータ表) =====
 const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
@@ -517,7 +561,7 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
   geoPN:0, lambdaPN:1, pnAlpha:1.5,   // v1.20: E12 測地線1PN(geoPN=1で有効。BOX_UNIVERSE §5)
   radiusScale:1.2, softening:2, timeScale:1 };
 // v1.7: kLens は廃止(E8R で屈折率は n=e^{2W/Kt} に統一。旧セーブの kLens は受理して無視)
-const APP_VERSION = "1.20";               // エクスポートの appVersion に記録(package.json と QA で同期検査)
+const APP_VERSION = "1.21";               // エクスポートの appVersion に記録(package.json と QA で同期検査)
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 const RAY_MASS_MIN = 40;                  // 光線を曲げる最小質量(性能のための近似)
@@ -528,27 +572,49 @@ const PN_MASS_MIN = 40;                   // E12 1PN補正の源となる最小�
 // v1.15(第7次裁定): κs/Kt/etaRad の上限は CLAMPS と同一に拡大 — 内蔵プリセットの値
 // (熱伝導κs1.5・双子時計Kt10000等)がスライダー外に出て端に張り付く問題の解消
 const PARAM_DEFS = [
-  {key:"G",     label:"重力 G",              mode:"log", lo:0.01,   hi:20,   group:"法則"},
-  {key:"D0",    label:"背景決定力 D₀",       mode:"log", lo:0.05,   hi:200,  group:"法則"},
-  {key:"kFrame",label:"空間引きずり kFrame", mode:"lin", lo:0, hi:1, step:0.01, group:"法則"},
-  {key:"q",     label:"引きずり減衰 q",      mode:"lin", lo:0.5, hi:4, step:0.05, group:"法則"},
-  {key:"kRep",  label:"スピン斥力 kRep",     mode:"lin", lo:0, hi:5, step:0.05, group:"法則"},
-  {key:"muF",   label:"摩擦→スピン変換 muF", mode:"lin", lo:0, hi:1, step:0.01, group:"法則"},
-  {key:"gammaN",label:"衝突減衰 γn",         mode:"lin", lo:0, hi:1, step:0.01, group:"法則"},
-  {key:"kappaS",label:"スピン拡散 κs",       mode:"lin", lo:0, hi:2, step:0.01, group:"法則"},
-  {key:"Kt",    label:"時空係数 Kt(時間・光)", mode:"log", lo:1, hi:10000, group:"法則"},
-  {key:"cLight",label:"光速 c₀",             mode:"log", lo:5, hi:1000, group:"法則"},
-  {key:"bM",    label:"ウィーン定数 b_m",    mode:"log", lo:0.01, hi:100, group:"法則"},
-  {key:"etaRad",label:"放射冷却 η_rad",      mode:"log", lo:0.000001, hi:1, group:"法則"},
-  {key:"pRad",  label:"放射指数 p",          mode:"lin", lo:1, hi:6, step:0.5, group:"法則"},
-  {key:"gravityX",label:"一様重力 g_x",      mode:"lin", lo:-5, hi:5, step:0.005, group:"法則"},
-  {key:"gravityY",label:"一様重力 g_y",      mode:"lin", lo:-5, hi:5, step:0.005, group:"法則"},
-  {key:"geoPN",   label:"測地線モード geoPN", mode:"lin", lo:0, hi:1, step:1,    group:"法則"},
-  {key:"lambdaPN",label:"1PN補正 λ_PN",      mode:"lin", lo:0, hi:1, step:1,    group:"法則"},
-  {key:"pnAlpha", label:"1PN係数 α(0.5=時間率のみ, 1.5=完全)", mode:"lin", lo:0.5, hi:1.5, step:0.5, group:"法則"},
-  {key:"radiusScale",label:"粒子半径スケール", mode:"lin", lo:0.2, hi:4, step:0.02, group:"シミュレーション"},
-  {key:"softening",  label:"ソフトニング ε",  mode:"lin", lo:0.5, hi:10, step:0.1, group:"シミュレーション"},
-  {key:"timeScale",  label:"時間倍率",        mode:"log", lo:0.1, hi:16, group:"シミュレーション"},
+  // v1.21: desc(タップ説明。ja はここ、en は I18N.en.paramDescs)。仕様は docs/PHYSICS.md §5 準拠
+  {key:"G",     label:"重力 G",              mode:"log", lo:0.01,   hi:20,   group:"法則",
+   desc:"粒子同士の万有引力の強さ。この宇宙では決定力Wの勾配が重力になる(A6/E4: a=G∇W)。0にすると自己重力が消える(一様重力g_x/g_yとは別)。"},
+  {key:"D0",    label:"背景決定力 D₀",       mode:"log", lo:0.05,   hi:200,  group:"法則",
+   desc:"遠方宇宙が及ぼす決定力の底値(A5)。大きいほど空間が遠方に固定されて安定し、近くの質量による空間引きずり(kFrame)の効きが相対的に弱まる。🪣マッハのバケツでD₀を上げると引きずりが弱まるのはこのため。"},
+  {key:"kFrame",label:"空間引きずり kFrame", mode:"lin", lo:0, hi:1, step:0.01, group:"法則",
+   desc:"質量が動く・回ると「近くの空間」(決定フレーム)ごと引きずり、そこにある物質と光を運ぶ効果の強さ(A4/A5/E6′)。1=完全な相対空間、0=引きずりなしのニュートン的空間。銀河回転曲線の平坦化(T4)や近点の後退(💫)の主役。"},
+  {key:"q",     label:"引きずり減衰 q",      mode:"lin", lo:0.5, hi:4, step:0.05, group:"法則",
+   desc:"スピン(自転)による回転引きずりが距離とともに弱まる速さの指数(E3: (R/(R+d))^q)。大きいほど引きずりが天体の近くに限定される。"},
+  {key:"kRep",  label:"スピン斥力 kRep",     mode:"lin", lo:0, hi:5, step:0.05, group:"法則",
+   desc:"スピン=熱を持つ粒子同士が押し合う力(A10/E5′)。この宇宙の「圧力」の正体で、熱いガスが膨らむ(🎈)のも対流(♨️)もこの力から生まれる。"},
+  {key:"muF",   label:"摩擦→スピン変換 muF", mode:"lin", lo:0, hi:1, step:0.01, group:"法則",
+   desc:"接触した粒子のすべり(相対速度)をスピン=熱へ変換する摩擦の効率(A9/E9)。0にすると衝突しても加熱されない(💥で対照実験ができる)。"},
+  {key:"gammaN",label:"衝突減衰 γn",         mode:"lin", lo:0, hi:1, step:0.01, group:"法則",
+   desc:"衝突の法線方向の減衰(跳ね返りの失われやすさ)。0=よく弾む、1=ぶつかると速度が失われやすい。失われたエネルギーは帳簿に記録される(T7)。"},
+  {key:"kappaS",label:"スピン拡散 κs",       mode:"lin", lo:0, hi:2, step:0.01, group:"法則",
+   desc:"スピン=熱が近くの粒子へ飛び移って均される熱伝導(E10′)。接触は不要で、近いほど強く伝わる(📏)。0にすると熱が伝わらない。"},
+  {key:"Kt",    label:"時空係数 Kt(時間・光)", mode:"log", lo:1, hi:10000, group:"法則",
+   desc:"時計の遅れと光の屈折を1本で決める係数(A7′/E7R/E8R: ψ=W/Kt)。小さいほど時空効果が強い — 時計はより遅れ、光はより曲がる。現実との較正は Kt=c²/G(🛰)。"},
+  {key:"cLight",label:"光速 c₀",             mode:"log", lo:5, hi:1000, group:"法則",
+   desc:"光線の速さと、運動による時計の遅れの基準(E7R: 共動フレームに対する速さがc₀に近いほど固有時計が遅れる)。下げると相対論的効果が見えやすくなる(🕰は12まで下げている)。"},
+  {key:"bM",    label:"ウィーン定数 b_m",    mode:"log", lo:0.01, hi:100, group:"法則",
+   desc:"温度Tの粒子が放つ光のピーク波長を λ=b_m/T で決める定数(A12)。スペクトル表示(🌈)の横軸の較正に使う。"},
+  {key:"etaRad",label:"放射冷却 η_rad",      mode:"log", lo:0.000001, hi:1, group:"法則",
+   desc:"粒子が光を放って冷える強さ(E11: 冷却率Λ∝T^p)。0で放射なし。高温ほど速く冷える(🌈)。失った角運動量・エネルギーは帳簿に記録される。"},
+  {key:"pRad",  label:"放射指数 p",          mode:"lin", lo:1, hi:6, step:0.5, group:"法則",
+   desc:"放射冷却の温度依存の急峻さ(E11: Λ∝T^p)。大きいほど「熱いものだけが急速に冷える」ようになる。"},
+  {key:"gravityX",label:"一様重力 g_x",      mode:"lin", lo:-5, hi:5, step:0.005, group:"法則",
+   desc:"画面全体に働く横方向の一様な外部重力場(v1.17)。決定力Wには寄与しないので、時計・光・引きずりを歪めずに「地上の実験室」を作れる。運動量は場との交換として帳簿に記録。"},
+  {key:"gravityY",label:"一様重力 g_y",      mode:"lin", lo:-5, hi:5, step:0.005, group:"法則",
+   desc:"画面全体に働く縦方向の一様な外部重力場(+yは画面下向き)。⚾自由落下・♨️対流・🧪浮力の「下向きの重力」はこれ。0にすると無重力になる。"},
+  {key:"geoPN",   label:"測地線モード geoPN", mode:"lin", lo:0, hi:1, step:1,    group:"法則",
+   desc:"v2.0の測地線モード(E12)。1にすると、時計を遅らせるのと同じψ=W/Ktから物質の運動を作用原理で導き、1PN補正が働く(☿)。同時に物質へのE6′引きずりは無効化(二重計上禁止)。0=従来(legacy)。"},
+  {key:"lambdaPN",label:"1PN補正 λ_PN",      mode:"lin", lo:0, hi:1, step:1,    group:"法則",
+   desc:"測地線モード(geoPN=1)の1PN補正のON/OFF。0にするとニュートン重力に戻り、楕円軌道が閉じる — ☿水星のA/B対照実験用スイッチ。"},
+  {key:"pnAlpha", label:"1PN係数 α(0.5=時間率のみ, 1.5=完全)", mode:"lin", lo:0.5, hi:1.5, step:0.5, group:"法則",
+   desc:"1PN補正の強さの内訳(E12)。1.5=完全(GRのβ=γ=1相当 — 水星の前進42.98″/世紀の全量)、0.5=時間率のみ(前進が1/3になる)。V18〜V20で機械検証。"},
+  {key:"radiusScale",label:"粒子半径スケール", mode:"lin", lo:0.2, hi:4, step:0.02, group:"シミュレーション",
+   desc:"粒子の半径 R=radiusScale·√m のスケール。接触判定の大きさと慣性 I=½mR²(=温度T=Is²の I)に効く。物理法則そのものではなく、粒子という「離散化の粒」の設定。"},
+  {key:"softening",  label:"ソフトニング ε",  mode:"lin", lo:0.5, hi:10, step:0.1, group:"シミュレーション",
+   desc:"近距離で力が無限大に発散しないよう距離に混ぜる緩和長(E1′ Plummer型: 1/√(d²+ε²))。小さいほど近接遭遇が鋭くなるが数値的に荒れやすい。"},
+  {key:"timeScale",  label:"時間倍率",        mode:"log", lo:0.1, hi:16, group:"シミュレーション",
+   desc:"シミュレーション時間の進みの倍率(速回し)。物理法則は変わらず、1フレームに進む時間だけが変わる。発散したら下げるのが第一選択。"},
 ];
 function sliderPosToVal(def,pos){
   if(def.mode==="log") return def.lo*Math.exp((pos/1000)*Math.log(def.hi/def.lo));
@@ -581,7 +647,7 @@ const BUILTIN_PRESETS = [
   en:{name:"Mach's Bucket", description:"A heavy rotating ring drags the space inside it, and particles initially at rest begin to circle (A4/A5/T2). Raise D₀ (the determinacy of the distant universe) and the drag weakens — space becomes rigid (contrast with T1)."},
   camera:{scale:220}, world:{boundary:"none",size:0},
   physics:{G:0.02, D0:0.5, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4, kappaS:0.05, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, radiusScale:1.2, softening:2, timeScale:2},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:2},
   bodies:[
     {type:"ring", n:14, cx:0,cy:0, rIn:150,rOut:150, mMin:80,mMax:80,
      spinMin:0.5,spinMax:0.5, vMode:"omega", aroundMass:0, omega:0.012, vNoise:0, direction:1, pinned:true},
@@ -595,7 +661,7 @@ const BUILTIN_PRESETS = [
   en:{name:"Twin Clocks — Moving Clocks Run Slow", description:"A universe with light speed c₀ lowered to 12. The central clock rests; the inner one orbits at 0.5c₀, the outer at 0.8c₀. Tap each to see its proper clock (τ/t): 1.00/0.87/0.60 — within one coordinate time t, clocks moving faster relative to the comoving frame tick slower (A7′/E7R). Coordinate time is unique, so \"who ages more\" is unambiguous (T9)."},
   camera:{scale:150}, world:{boundary:"none",size:0},
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
-    cLight:12, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, radiusScale:1.2, softening:2, timeScale:2},
+    cLight:12, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:2},
   bodies:[
     {type:"single", m:2, x:0,y:0, vx:0,vy:0, spin:0, pinned:false},
     {type:"ring", n:1, cx:0,cy:0, rIn:60,rOut:60, mMin:2,mMax:2,
@@ -610,7 +676,7 @@ const BUILTIN_PRESETS = [
   en:{name:"Gravitational Time Dilation", description:"Three clocks at rest, at distances 70/140/240 from a central mass — motion is eliminated so only distance (= determinacy strength) varies. Tap each clock: the inner one ticks slowest, τ/t = 0.931/0.965/0.979 (matches the analytic value to 1e-5, machine-verified). Lower Kt from 300 to 150 and all three gaps widen together. The gravitational counterpart of the Twin Clocks (motion) demo — the pure gravity term of A7′/E7R."},
   camera:{scale:280}, world:{boundary:"none",size:0},
   physics:{G:0, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:300,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, radiusScale:1.2, softening:2, timeScale:1},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:1},
   bodies:[ // v1.12(付録L): 第6次提案 P0-1 採用。τ/t 解析一致を機械検証済み
     {type:"single", m:1500, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
     {type:"single", m:2, x:70,y:0,  vx:0,vy:0, spin:0, pinned:true},
@@ -624,7 +690,7 @@ const BUILTIN_PRESETS = [
   en:{name:"Weak-Field GR Calibration — GPS, Light, Shapiro", description:"A calibration demo pitting the single-ψ weak-field law (A7′/E7R/E8R/T5) against real observations. With the one mapping Kt=c²/G: net GPS clock rate +38.5 μs/day (gravity +45.7, motion −7.2; observed ≈+38.6) / solar-limb deflection 1.7512″ (observed ≈1.75″) / Shapiro delay ≈281 μs (Cassini geometry) — all match quantitatively. Note: Mercury's perihelion main term (static 1PN, +42.98″/century) is NOT reproduced (Negative claim 5). On screen, the analog: the ground clock (r=60) shows τ/t=0.920 while the orbiting satellite (r=180), though moving, ticks faster at τ/t=0.971 — gravity beats motion, the same sign structure as real GPS. The ray fan from the left refracts in the central field (the same n_eff>1 mechanism as the Shapiro delay); lower Kt and clock gaps and bending strengthen together."},
   camera:{scale:280}, world:{boundary:"none",size:0},
   physics:{G:1, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:300,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, radiusScale:1.2, softening:2, timeScale:2},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:2},
   bodies:[ // 付録O O1: 衛星は Plummer 厳密円軌道 v=√(G·M·r²/(r²+ε²)^{3/2})(V13 と同式)
     {type:"single", m:1500, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
     {type:"single", m:2, x:60,y:0, vx:0,vy:0, spin:0, pinned:true},
@@ -638,7 +704,7 @@ const BUILTIN_PRESETS = [
   en:{name:"Dragged Ellipse — Periapsis Regression", description:"In Newtonian mechanics an ellipse stays closed. When the central star's spin drags space (A8+E6′), the whole ellipse slowly rotates, tracing a rosette. The turn opposes the orbit — periapsis regression, the same sign as GR's Lense–Thirring precession (v1.8 D4a′, verified V6). A negative central spin turns it into advance."},
   camera:{scale:220}, world:{boundary:"none",size:0},
   physics:{G:1, D0:0.05, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, radiusScale:1.2, softening:2, timeScale:8},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:8},
   bodies:[
     {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.09, pinned:true},
     {type:"single", m:0.5, x:60,y:0, vx:0,vy:3.87, spin:0, pinned:false}
@@ -646,8 +712,8 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"mercury", name:"水星の近日点前進 — 測地線1PN", emoji:"☿", group:"空間と時間",
-  description:"v2.0の測地線モード(E12)。時計を遅らせるのと同じψ=W/Ktが物質の軌道も決めると(A7′/E7R の作用化)、楕円軌道は公転と同じ向きにゆっくり回り=近日点の前進、花びら模様を描く。λ_PN(lambdaPN)を0にするとニュートンに戻り楕円は閉じる。pnAlpha=0.5(時間率のみ)では前進が1/3に減る — 実際の水星で42.98″/世紀(全量)と14.33″/世紀(1/3)に対応する(機械検証V18/V19/V20)。💫(E6′の後退)と対比。",
-  en:{name:"Mercury's Perihelion Advance — Geodesic 1PN", description:"The v2.0 geodesic mode (E12). When the same ψ=W/Kt that slows clocks also governs matter orbits (the action form of A7′/E7R), the ellipse slowly rotates in the direction of the orbit — perihelion advance — tracing a rosette. Set λ_PN (lambdaPN) to 0 to recover Newton: the ellipse closes. With pnAlpha=0.5 (time rate only) the advance drops to 1/3 — corresponding to 42.98″/century (full) vs 14.33″/century (1/3) for the real Mercury (verified V18/V19/V20). Contrast with 💫 (the E6′ regression)."},
+  description:"v2.0の測地線モード(E12)。時計を遅らせるのと同じψ=W/Ktが物質の軌道も決めると(A7′/E7R の作用化)、楕円軌道は公転と同じ向きにゆっくり回り=近日点の前進、花びら模様を描く。λ_PN(lambdaPN)を0にするとニュートンに戻り楕円は閉じる。pnAlpha=0.5(時間率のみ)では前進が1/3に減る — 実際の水星で42.98″/世紀(全量)と14.33″/世紀(1/3)に対応する。※V18/V19/V20の機械検証は同じE12式を検証専用の初期値(増幅ε・別のcLight等)で解析式と突き合わせたもの。この画面はその同じ式を、歳差が数周で見えるようさらに増幅した可視化用初期値で走らせている(v1.21で区別を明記。画面初期値そのものの検証はQAのbuiltin-mercuryが担う)。💫(E6′の後退)と対比。",
+  en:{name:"Mercury's Perihelion Advance — Geodesic 1PN", description:"The v2.0 geodesic mode (E12). When the same ψ=W/Kt that slows clocks also governs matter orbits (the action form of A7′/E7R), the ellipse slowly rotates in the direction of the orbit — perihelion advance — tracing a rosette. Set λ_PN (lambdaPN) to 0 to recover Newton: the ellipse closes. With pnAlpha=0.5 (time rate only) the advance drops to 1/3 — corresponding to 42.98″/century (full) vs 14.33″/century (1/3) for the real Mercury. Note: the V18/V19/V20 machine checks verify the same E12 formula against analytic values under dedicated verification conditions (amplified ε, different cLight etc.); this screen runs that same formula with further-amplified visualization initial values (distinction stated in v1.21; the on-screen initial values themselves are covered by the builtin-mercury QA). Contrast with 💫 (the E6′ regression)."},
   camera:{scale:220}, world:{boundary:"none",size:0},
   physics:{G:1, D0:0.05, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
     cLight:25, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
@@ -663,7 +729,7 @@ const BUILTIN_PRESETS = [
   en:{name:"Galactic Rotation Curve", description:"A disk galaxy. Stars start on Keplerian orbits (matching the dotted line), but frame dragging (kFrame=1) transports the inner rotation outward and the curve flattens (T4). Set kFrame=0 and it never happens. Watch the bottom-right graph (solid=measured, dotted=Keplerian)."},
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{G:1, D0:1, kFrame:1, q:2, kRep:1.0, muF:0.02, gammaN:0.05, kappaS:0.05, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, radiusScale:1.2, softening:4, timeScale:4},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:4, timeScale:4},
   bodies:[
     {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:false},
     {type:"disk", n:380, cx:0,cy:0, radius:260, mMin:0.5,mMax:1.2,
@@ -672,11 +738,11 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:true,tempHistogram:false,field:false} },
 
 { id:"projectile", name:"自由落下と放物運動", emoji:"⚾", group:"空間と時間",
-  description:"一様重力場gravityY(v1.17の外部場)だけを働かせた力学実験室。左の2球は質量が2と20の自由落下 — 質量が違っても加速度は同じ(等価原理の簡易デモ)。中は水平投射、上は斜方投射で、軌跡はきれいな放物線を描く。粒子間の重力(A6/E4)・引きずり・熱は全て切ってあり、床と壁は箱境界で跳ね返る。gravityYを変えると加速度が変わり、0にすると等速直線運動になる。",
-  en:{name:"Free Fall & Projectile Motion", description:"A mechanics lab driven only by the uniform gravity field gravityY (the v1.17 external field). The two balls on the left free-fall with masses 2 and 20 — different masses, same acceleration (a simple equivalence-principle demo). The middle ball is launched horizontally, the upper one obliquely; both trace clean parabolas. Inter-particle gravity (A6/E4), dragging and heat are all off; the box boundary acts as floor and walls. Change gravityY to change the acceleration — at 0 the motion becomes uniform and straight."},
+  description:"一様重力場gravityY(v1.17の外部場)だけを働かせた力学実験室。左上の2球は質量が2と20の自由落下 — 質量が違っても加速度は同じ(等価原理の簡易デモ)。中段は水平投射、下段は斜方投射(上向きに発射)で、軌跡はきれいな放物線を描く(v1.21: 説明と画面配置を一致させた)。粒子間の重力(A6/E4)・引きずり・熱は全て切ってあり、床と壁は箱境界で跳ね返る。gravityYを変えると加速度が変わり、0にすると等速直線運動になる。",
+  en:{name:"Free Fall & Projectile Motion", description:"A mechanics lab driven only by the uniform gravity field gravityY (the v1.17 external field). The two balls at the top left free-fall with masses 2 and 20 — different masses, same acceleration (a simple equivalence-principle demo). The middle ball is launched horizontally, the bottom one obliquely upward; both trace clean parabolas (v1.21: description matched to the on-screen layout). Inter-particle gravity (A6/E4), dragging and heat are all off; the box boundary acts as floor and walls. Change gravityY to change the acceleration — at 0 the motion becomes uniform and straight."},
   camera:{scale:220}, world:{boundary:"box",size:190},
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0.08, radiusScale:1.2, softening:2, timeScale:3},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0.08, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:3},
   bodies:[ // v1.18: Gemini/Grok 第8次提案の合議採用(自由落下×2質量+水平投射+斜方投射)
     {type:"single", m:2, x:-150,y:-140, vx:0,vy:0, spin:0, pinned:false},
     {type:"single", m:20, x:-110,y:-140, vx:0,vy:0, spin:0, pinned:false},
@@ -691,7 +757,7 @@ const BUILTIN_PRESETS = [
   en:{name:"Gravitational Lensing & Photon Capture", description:"Light rays from the left refract and bend where determinacy is high (= time runs slow) (A7′/T5). Time dilation and refraction are unified by one ψ=W/Kt (E7R/E8R) — lower Kt and both strengthen together. In strong fields light is captured into orbit (photon-sphere analogue). Background color = determinacy W. Tap a particle to see its proper clock (τ/t)."},
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4, kappaS:0.05, Kt:150,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, radiusScale:1.2, softening:2, timeScale:1},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:1},
   bodies:[
     {type:"single", m:1500, x:0,y:0, vx:0,vy:0, spin:0.5, pinned:true},
     {type:"single", m:500, x:120,y:-90, vx:0,vy:0, spin:0, pinned:true}
@@ -700,11 +766,11 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
 { id:"spinlens", name:"回る星のレンズ — 非対称湾曲", emoji:"🌗", group:"光",
-  description:"中心星が回転すると、光を運ぶ空間(決定フレーム)も回る(A11)。星の回転と同じ向きに進む光は空間に運ばれて遠くへ流され、逆らって進む光は強く曲がる — 上下対称に入射した光線束が非対称に湾曲する(T8。カー・ブラックホールのフレームドラッグの光学類似。機械検証=V8)。背景の色は決定力W。",
-  en:{name:"Spinning Star's Lens — Asymmetric Bending", description:"When the central star spins, the space carrying light (the determinacy frame) rotates too (A11). Rays moving with the rotation are swept outward; rays moving against it bend sharply — a vertically symmetric fan bends asymmetrically (T8, an optical analogue of Kerr frame dragging; verified V8). Background color = W."},
+  description:"中心星が回転すると、光を運ぶ空間(決定フレーム)も回る(A11)。星の回転と同じ向きに進む光は空間に運ばれて遠くへ流され、逆らって進む光は強く曲がる — 上下対称に入射した光線束が非対称に湾曲する(T8。カー・ブラックホールのフレームドラッグの光学類似。機械検証=V8)。kFrameを0にすると引きずりが消え、湾曲は上下対称に戻る(v1.21で光線にもkFrameを適用 — おすすめA/B)。背景の色は決定力W。",
+  en:{name:"Spinning Star's Lens — Asymmetric Bending", description:"When the central star spins, the space carrying light (the determinacy frame) rotates too (A11). Rays moving with the rotation are swept outward; rays moving against it bend sharply — a vertically symmetric fan bends asymmetrically (T8, an optical analogue of Kerr frame dragging; verified V8). Set kFrame to 0 and the drag vanishes — the bending returns to vertical symmetry (kFrame applies to rays since v1.21; suggested A/B). Background color = W."},
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4, kappaS:0.05, Kt:200,
-    cLight:40, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, radiusScale:1.2, softening:2, timeScale:1},
+    cLight:40, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:1},
   bodies:[
     {type:"single", m:2000, x:0,y:0, vx:0,vy:0, spin:2, pinned:true}
   ],
@@ -716,7 +782,7 @@ const BUILTIN_PRESETS = [
   en:{name:"Binary Gravitational Lens", description:"A parallel beam enters two large masses stacked vertically. Unlike a single lens, rays split and bend into two determinacy wells — a compound lens (T5). Raise Kt from 110 to 220 and the bending weakens. Spins are zero, isolating this from asymmetric dragging (T8)."},
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:110,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, radiusScale:1.2, softening:2, timeScale:1},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:1},
   bodies:[ // v1.13(付録M): 第6次提案 P1-3 を内蔵化(12000步スモーク検証済み)
     {type:"single", m:1100, x:0,y:-65, vx:0,vy:0, spin:0, pinned:true},
     {type:"single", m:1100, x:0,y:65,  vx:0,vy:0, spin:0, pinned:true}
@@ -726,11 +792,11 @@ const BUILTIN_PRESETS = [
 
 // ===== グループ: 熱の実験室 =====
 { id:"gas", name:"気体の熱平衡", emoji:"🔥", group:"熱の実験室",
-  description:"左=低温(青)・右=高温(赤)のガス。左右は質量・数・初速分布が同一で、初期スピン(温度)だけが異なる統制実験(v1.18で初速も統一)。衝突で速度がスピン(熱)に変換され(A9)、高スピンは斥力=圧力を生み(A10)、スピン拡散で温度が均一化する(T6)。右下に左右の平均温度バー。全粒子が同質量なのは、異粒径系ではsの均一化とT=Is²の均一化が一致しないため(L9)。",
-  en:{name:"Thermal Equilibrium of a Gas", description:"Cold gas (blue) on the left, hot (red) on the right — the two sides share identical mass, count and initial speed distribution, differing only in initial spin (temperature; speeds were unified in v1.18 to make this a controlled experiment). Collisions convert velocity into spin = heat (A9), high spin creates repulsion = pressure (A10), and spin diffusion equalizes temperature (T6). Bottom right: mean-temperature bars. All particles share one mass because with mixed sizes, equalizing s does not equalize T=Is² (L9)."},
+  description:"左=低温(青)・右=高温(赤)のガス。左右は質量・数・初速分布が同一で、初期スピン(温度)だけが異なる統制実験(v1.18で初速も統一)。衝突で速度がスピン(熱)に変換され(A9)、高スピンは斥力=圧力を生み(A10)、スピン拡散で温度が均一化する(T6)。自己重力と空間引きずりは切ってあり(v1.21: G=0, kFrame=0)、働くのは接触・斥力・拡散の熱過程だけ。右下に左右の平均温度バー。全粒子が同質量なのは、異粒径系ではsの均一化とT=Is²の均一化が一致しないため(L9)。",
+  en:{name:"Thermal Equilibrium of a Gas", description:"Cold gas (blue) on the left, hot (red) on the right — the two sides share identical mass, count and initial speed distribution, differing only in initial spin (temperature; speeds were unified in v1.18 to make this a controlled experiment). Collisions convert velocity into spin = heat (A9), high spin creates repulsion = pressure (A10), and spin diffusion equalizes temperature (T6). Self-gravity and frame dragging are off (v1.21: G=0, kFrame=0) — only the thermal processes of contact, repulsion and diffusion act. Bottom right: mean-temperature bars. All particles share one mass because with mixed sizes, equalizing s does not equalize T=Is² (L9)."},
   camera:{scale:240}, world:{boundary:"box",size:200},
-  physics:{G:0.05, D0:50, kFrame:0.2, q:2, kRep:2, muF:0.8, gammaN:0.3, kappaS:0.15, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, radiusScale:1.2, softening:2, timeScale:2},
+  physics:{G:0, D0:50, kFrame:0, q:2, kRep:2, muF:0.8, gammaN:0.3, kappaS:0.15, Kt:60,
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:2},
   bodies:[ // v1.18(第8次裁定): 右の vScale 2.5→0.3 — 比較条件をスピンのみに(統制実験化)
     {type:"box", n:120, cx:-100,cy:0, w:180,h:360, mMin:1,mMax:1, spinMin:0,spinMax:0.2, vScale:0.3},
     {type:"box", n:120, cx:100,cy:0, w:180,h:360, mMin:1,mMax:1, spinMin:2,spinMax:3, vScale:0.3}
@@ -742,7 +808,7 @@ const BUILTIN_PRESETS = [
   en:{name:"Spin Pressure — Heat Pushes Outward", description:"A circular container, zero gravity. The hot (high-spin) core pushes outward via spin repulsion (A10), inflating the shell of cold gas — pressure IS temperature. Friction and spin diffusion then pass the heat outward until one temperature remains (T6). Color = temperature. Note: the spin-pressure equation of state is not the ideal-gas law (P∝ρ²T; L15)."},
   camera:{scale:240}, world:{boundary:"circle",size:210},
   physics:{G:0, D0:50, kFrame:0, q:2, kRep:2, muF:0.2, gammaN:0.3, kappaS:0.05, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, radiusScale:1.2, softening:2, timeScale:2},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:2},
   bodies:[
     {type:"disk", n:90, cx:0,cy:0, radius:50, mMin:1,mMax:1,
      spinMin:6,spinMax:7, vMode:"none", aroundMass:0, vScale:0, direction:1},
@@ -756,7 +822,7 @@ const BUILTIN_PRESETS = [
   en:{name:"Heat Conduction — Closer Spreads Faster", description:"Rows of resting particles, all forces off. From the white-hot pinned particle (heat bath) at the left end, heat hops along the non-touching row by spin diffusion (E10′) alone. Top row spacing 9, bottom 18 — hops are stronger when closer (kernel g(d)), so the dense row runs hotter and carries about twice the heat. Look closely: heat also leaks faintly across gaps (contact-free long-range transfer — L16 visualized). Color = temperature."},
   camera:{scale:200}, world:{boundary:"none",size:0},
   physics:{G:0, D0:50, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:1.5, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, radiusScale:1.2, softening:2, timeScale:4},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:4},
   bodies:[
     {type:"single", m:4, x:-150,y:45, vx:0,vy:0, spin:8, pinned:true},
     {type:"single", m:4, x:-141,y:45, vx:0,vy:0, spin:0, pinned:false},
@@ -794,7 +860,7 @@ const BUILTIN_PRESETS = [
   en:{name:"Radiative Cooling — Hotter Cools Faster", description:"Three resting particles of equal mass, differing only in temperature (spin 2/4/8). All forces are off — the only physics is radiative cooling (E11, Λ∝T^p): a controlled experiment. The hottest cools fastest (initial cooling-rate ratio ≈ 1:8:64, the s³ law — machine-verified), colors shift red→blue, and the spectrum peak (bottom right) moves to longer wavelengths. Set etaRad to 0 and everything freezes."},
   camera:{scale:180}, world:{boundary:"none",size:0},
   physics:{G:0, D0:50, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
-    cLight:60, bM:1, etaRad:1e-5, pRad:2, gravityX:0, gravityY:0, radiusScale:1.2, softening:2, timeScale:4},
+    cLight:60, bM:1, etaRad:1e-5, pRad:2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:4},
   bodies:[ // v1.12(付録L): 第6次提案 P0-2 採用。冷却速度比 8.0/7.8(理論8)を機械検証済み
     {type:"single", m:4, x:-100,y:0, vx:0,vy:0, spin:2, pinned:false},
     {type:"single", m:4, x:0,y:0,    vx:0,vy:0, spin:4, pinned:false},
@@ -806,15 +872,17 @@ const BUILTIN_PRESETS = [
   description:"質量・数・大きさ・初速が完全に同一の3つの雲 — 違いは初期スピン(温度)だけの統制実験。v1.18で一様重力gravityYを追加し、現実の容器内の三態に近づけた。左=低温: 重力(A6)で収縮し底で結晶化する固体。中=中温: スピン斥力でほぐれ、重力で底に溜まって液面を作る液体。右=高温: スピン斥力(A10)が重力を振り切り箱に充満する気体。※束縛と斥力の競合による形態のアナロジーで、実在物質の潜熱・相平衡の再現ではない(第4次裁定)。色=温度(A9)。",
   en:{name:"Solid, Liquid, Gas", description:"Three clouds identical in mass, count, size and initial speed — only the initial spin (temperature) differs: a controlled experiment. Uniform gravity gravityY was added in v1.18 to mimic matter in a real container. Left = cold: gravity wins, it crystallizes at the bottom (solid). Middle = warm: spin repulsion loosens it and gravity pools it with a surface (liquid). Right = hot: spin repulsion (A10) beats gravity and fills the box (gas). A morphological analogy of binding vs repulsion — not real latent-heat phase transitions. Color = temperature (A9)."},
   camera:{scale:260}, world:{boundary:"box",size:240},
-  physics:{G:0.7, D0:30, kFrame:0.3, q:2, kRep:0.8, muF:0.6, gammaN:0.85, kappaS:0.02, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0.04, radiusScale:1.6, softening:2, timeScale:2},
+  // v1.21(第9次裁定): kFrame 0.3→0(三態比較に引きずりは不要 — 要因分離)
+  physics:{G:0.7, D0:30, kFrame:0, q:2, kRep:0.8, muF:0.6, gammaN:0.85, kappaS:0.02, Kt:60,
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0.04, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.6, softening:2, timeScale:2},
   bodies:[ // v1.5(付録F F4a): 3群は spin 以外すべて同一(統制実験)。v1.18: 少し上から落とす
     {type:"disk", n:65, cx:-160,cy:-50, radius:38, mMin:0.6,mMax:0.6,
      spinMin:0,spinMax:0, vMode:"none", aroundMass:0, vScale:0, direction:1},
     {type:"disk", n:65, cx:0,cy:-50, radius:38, mMin:0.6,mMax:0.6,
      spinMin:1.8,spinMax:2.2, vMode:"none", aroundMass:0, vScale:0, direction:1},
     {type:"disk", n:65, cx:160,cy:-50, radius:38, mMin:0.6,mMax:0.6,
-     spinMin:8,spinMax:10, vMode:"none", aroundMass:0, vScale:0, direction:1}
+     // v1.21: spinMax 10→8.5(Gemini 第9次 2.1 — 気体が天井に張り付かず対流するバランス)
+     spinMin:8,spinMax:8.5, vMode:"none", aroundMass:0, vScale:0, direction:1}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
@@ -827,7 +895,7 @@ const BUILTIN_PRESETS = [
   en:{name:"Heated Convection — Floor Heat, Ceiling Cool", description:"A row of pinned heaters (high spin) on the left floor and sparse coolers (zero spin) on the right ceiling. Gas heats up at the floor via spin diffusion (E10′), inflates and rises by spin repulsion = pressure (A9/A10), cools at the ceiling and sinks on the right — a convection cell (an advective extension of T6). Factors were isolated in v1.18: the only forces are the uniform gravity gravityY (external field) plus spin repulsion and contact — self-gravity, dragging and radiation are all off, making it clear that gravity + thermal expansion alone drive the circulation. Set gravityY to 0 and the circulation stops (suggested A/B). Color = temperature."},
   camera:{scale:240}, world:{boundary:"box",size:190},
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:2, muF:0.2, gammaN:0.1, kappaS:1.2, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:2, gravityX:0, gravityY:0.03, radiusScale:4, softening:4, timeScale:2},
+    cLight:60, bM:1, etaRad:0, pRad:2, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:4, softening:4, timeScale:2},
   bodies:[ // v1.17: ヒーター11点(床左〜中央)+冷却板5点(天井右・疎)+軽量ガス260。
            // spin12/κs1.2/低散逸(muF0.2,γn0.1)は48000步の循環持続を機械掃引で確認した構成
     {type:"single", m:1, x:-170,y:186, vx:0,vy:0, spin:12, pinned:true},
@@ -856,7 +924,7 @@ const BUILTIN_PRESETS = [
   en:{name:"Gravity Separation & Buoyancy", description:"A mixture of particles with different masses in the uniform gravity field gravityY. Heavy cold particles sink and form a bottom layer, while light hot ones are pushed upward against gravity by spin = heat (A9) and spin pressure (A10), forming an 'atmosphere' on top — an analogy of density-driven sedimentation and buoyancy. Factors are isolated: spins stay fixed (muF=kappaS=0, constant temperature) and self-gravity, dragging and radiation are off. Set gravityY to 0 and the separation stops (suggested A/B). Color = temperature."},
   camera:{scale:200}, world:{boundary:"box",size:160},
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:3, muF:0, gammaN:0.1, kappaS:0, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0.05, radiusScale:2.5, softening:2, timeScale:2},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0.05, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:2.5, softening:2, timeScale:2},
   bodies:[ // v1.18: Gemini 第8次提案を機械掃引で調整(スピン固定+radiusScale2.5 — 分離52〜72が持続)
     {type:"box", n:200, cx:0,cy:0, w:280,h:280, mMin:0.2,mMax:0.2, spinMin:4,spinMax:5, vScale:0.5},
     {type:"box", n:80, cx:0,cy:0, w:280,h:280, mMin:3,mMax:3, spinMin:0,spinMax:0, vScale:0.1}
@@ -869,7 +937,7 @@ const BUILTIN_PRESETS = [
   en:{name:"Saturn's Rings", description:"Three Keplerian ring bands around the central star, separated by Cassini-like gaps. Collisions (muF) circularize disturbed orbits and align the rotation (T3). The central star's spin drags nearby space (A8). Stabilized in v1.10 (pinned star, rings moved outward, 99.7% survival); redesigned in v1.17 into three bands, following an AI-generated preset. Try muF=0 to stop the circularization."},
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:1.2, muF:0.6, gammaN:0.5, kappaS:0.08, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, radiusScale:1.2, softening:2, timeScale:3},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:3},
   bodies:[ // v1.17: AI生成「土星の環」参考 — 間隙を挟む3環帯。中心は固定(外部拘束)
     {type:"single", m:1500, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
     {type:"ring", n:170, cx:0,cy:0, rIn:135,rOut:158, mMin:0.08,mMax:0.15,
@@ -886,7 +954,7 @@ const BUILTIN_PRESETS = [
   en:{name:"Binary Stars & Circumbinary Disk", description:"Two equal-mass stars orbit their common barycenter while a ring of light bodies circles outside. The time-varying gravitational field — unlike a single star — perturbs the outer orbits. Try A/B-comparing kFrame 0.5 vs 0 or D0 10 vs 100."},
   camera:{scale:320}, world:{boundary:"none",size:0},
   physics:{G:1, D0:10, kFrame:0.5, q:2, kRep:0, muF:0.05, gammaN:0.1, kappaS:0, Kt:10000,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, radiusScale:1.2, softening:2, timeScale:4},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:4},
   bodies:[ // v1.13(付録M): 第6次提案 P1-1 を内蔵化(12000步スモーク・重心ドリフト0.1)
     {type:"single", m:500, x:-60,y:0, vx:0,vy:-1.44, spin:0.03, pinned:false},
     {type:"single", m:500, x:60,y:0,  vx:0,vy:1.44,  spin:0.03, pinned:false},
@@ -900,7 +968,7 @@ const BUILTIN_PRESETS = [
   en:{name:"Three-Body Problem — Figure-8 Orbit", description:"Three equal masses chase each other along the famous figure-8 periodic orbit (machine-verified bounded to radius 87 over 12,000 steps). Nudge one body's vx from 0.9028 to 0.92 and the periodicity shatters — the three-body problem's sensitivity to initial conditions. Trails shown automatically."},
   camera:{scale:140}, world:{boundary:"none",size:0},
   physics:{G:1, D0:100, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, radiusScale:0.2, softening:0.5, timeScale:2},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:0.2, softening:0.5, timeScale:2},
   bodies:[ // v1.13(付録M): 第6次提案 P1-2 を内蔵化(有界性を機械検証済み)
     {type:"single", m:300, x:-77.6003,y:19.447, vx:0.9028,vy:0.8373, spin:0, pinned:false},
     {type:"single", m:300, x:77.6003,y:-19.447, vx:0.9028,vy:0.8373, spin:0, pinned:false},
@@ -913,7 +981,7 @@ const BUILTIN_PRESETS = [
   en:{name:"Prograde vs Retrograde Ring Collision", description:"Two rings share the same orbital band but revolve in opposite directions. Head-on contact friction (A9) converts orbital motion into spin = heat — the rings glow, heat up, and accrete. Set muF to 0 and the heating stops completely (mean spin 0.76 → 0.00, machine-verified contrast). A thought experiment on counter-rotating accretion disks. Bottom right: radiation spectrum."},
   camera:{scale:190}, world:{boundary:"none",size:0},
   physics:{G:1, D0:5, kFrame:0, q:2, kRep:0, muF:1, gammaN:0.6, kappaS:0.02, Kt:10000,
-    cLight:60, bM:1, etaRad:1e-5, pRad:2, gravityX:0, gravityY:0, radiusScale:0.8, softening:2, timeScale:2},
+    cLight:60, bM:1, etaRad:1e-5, pRad:2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:0.8, softening:2, timeScale:2},
   bodies:[ // v1.12(付録L): 第6次提案 P0-3 採用。muF=1/0 の加熱対照を機械検証済み
     {type:"single", m:800, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
     {type:"ring", n:140, cx:0,cy:0, rIn:80,rOut:145, mMin:0.12,mMax:0.18,
@@ -928,7 +996,7 @@ const BUILTIN_PRESETS = [
   en:{name:"Galaxy Merger & Tidal Effects", description:"Two rotating disk galaxies approach and merge. Watch tidal tails form, collisions heat the disks (spin conversion, A9), angular momentum redistribute, and the remnant's rotation curve settle. Vary kFrame between 0.3 and 0.9 to see frame dragging (A8) shape the merger."},
   camera:{scale:160}, world:{boundary:"none",size:0},
   physics:{G:0.9, D0:4.5, kFrame:0.55, q:1.8, kRep:0.8, muF:0.45, gammaN:0.55, kappaS:0.12, Kt:90,
-    cLight:70, bM:1, etaRad:0.0008, pRad:4, gravityX:0, gravityY:0, radiusScale:1.2, softening:3.5, timeScale:1.8},
+    cLight:70, bM:1, etaRad:0.0008, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:3.5, timeScale:1.8},
   bodies:[ // v1.13(付録M): 第6次提案(Grok #1)を内蔵化。v1.18: 円盤に bulkVx/Vy を付与し
            // 核と円盤が一体で並進するよう修正(旧: 核だけが動き円盤が置き去りになっていた)
     {type:"single", m:920, x:-280,y:20, vx:1.35,vy:0.25, spin:0.09, pinned:false},
@@ -940,28 +1008,28 @@ const BUILTIN_PRESETS = [
      spinMin:-0.5,spinMax:0.5, vMode:"flat", aroundMass:680, vScale:0.75, direction:-1,
      bulkVx:-1.65, bulkVy:-0.35}
   ],
-  overlays:{rotationCurve:true,tempHistogram:true,field:false,trail:true} },
+  overlays:{rotationCurve:true,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"} },
 
 { id:"collapse", name:"自己重力雲の崩壊と原始星形成", emoji:"🌫️", group:"天体の物語",
   description:"広がった粒子群が自己重力で崩壊し、中心集中・衝突加熱(A9)・放射冷却(E11)による収縮を観察。v1.18で雲全体にごくわずかな初期回転(角運動量)を与えた — 現実の分子雲コアと同様、角運動量保存によって収縮とともに回転が増幅され、中心星の周りに円盤構造が形成されやすくなる(ジーンズ不安定性のアナロジー)。etaRadやpRadを変えると冷却効率が崩壊速度に効く。",
   en:{name:"Self-Gravitating Cloud Collapse & Protostar", description:"A dispersed particle cloud collapses under self-gravity: central concentration, collision heating (A9), and radiative-cooling-driven contraction (E11). Since v1.18 the cloud carries a slight initial rotation — as in real molecular-cloud cores, angular-momentum conservation amplifies it during contraction, favoring a disk around the forming star (a Jeans-instability analogy). Vary etaRad/pRad to see how cooling efficiency drives the collapse rate."},
   camera:{scale:280}, world:{boundary:"none",size:0},
   physics:{G:1.4, D0:1.8, kFrame:0.35, q:2, kRep:1.2, muF:0.65, gammaN:0.45, kappaS:0.09, Kt:70,
-    cLight:60, bM:1, etaRad:0.004, pRad:2.8, gravityX:0, gravityY:0, radiusScale:1.2, softening:5, timeScale:2.2},
+    cLight:60, bM:1, etaRad:0.004, pRad:2.8, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:5, timeScale:2.2},
   bodies:[ // v1.13(付録M): 第6次提案(Grok #3)を内蔵化。v1.18: Gemini 第8次提案採用 —
            // vMode rigid の微小回転 + random 相当の乱れは vNoise でなく速度合成で付与できないため
            // rigid(ω=0.004)を基本にし、乱れは disk 生成の±0.02 ノイズに任せる(機械検証済み)
     {type:"disk", n:260, cx:0,cy:0, radius:210, mMin:0.15,mMax:0.9,
      spinMin:0,spinMax:0.15, vMode:"rigid", aroundMass:0, vScale:0.004, direction:1}
   ],
-  overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true} },
+  overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"} },
 
 { id:"snowline", name:"雪線 — 熱は塊を融かす", emoji:"❄️", group:"天体の物語",
   description:"同じ塵の環を冷たい星(左)と熱い星(右)に与えた対照実験。冷たい環では塵が衝突で固まり小衛星が育つ(T3)が、熱い星の環では星の熱がスピン拡散(E10′)で塵へ流れ込み、生まれかけた塊は摩擦の撹拌(A9)でほどけて塊になれない。環はやがて蒸発し、飛ばされた塵は熱の届かぬ遠方で再び固まる。右下: 左右の平均温度。",
   en:{name:"The Snow Line — Heat Melts Clumps", description:"The same dust ring around a cold star (left) and a hot star (right) — a controlled contrast. In the cold ring, dust sticks into growing moonlets (T3); in the hot ring, stellar heat flows into the dust by spin diffusion (E10′) and friction churn (A9) unravels nascent clumps. That ring evaporates, and the ejected dust re-condenses far away, beyond the heat's reach. Bottom right: mean temperatures."},
   camera:{scale:380}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0.6, gammaN:0.5, kappaS:1.2, Kt:60,
-    cLight:60, bM:1, etaRad:0.15, pRad:1, gravityX:0, gravityY:0, radiusScale:1.2, softening:2, timeScale:4},
+    cLight:60, bM:1, etaRad:0.15, pRad:1, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:4},
   bodies:[
     {type:"single", m:400, x:-260,y:0, vx:0,vy:0, spin:0, pinned:true},
     {type:"single", m:400, x:260,y:0, vx:0,vy:0, spin:3.5, pinned:true},
@@ -1073,7 +1141,11 @@ function validatePreset(obj){
   const ov={rotationCurve:false,tempHistogram:false,field:false,spectrum:false,trail:false,monitor:false}; // v1.12: trail/monitor を正式化(第6次裁定 7.5)
   if(p.overlays!==undefined){
     if(typeof p.overlays!=="object"||Array.isArray(p.overlays)) bad("overlaysはオブジェクト");
-    else for(const k of Object.keys(ov)) if(typeof p.overlays[k]==="boolean") ov[k]=p.overlays[k];
+    else {
+      for(const k of Object.keys(ov)) if(typeof p.overlays[k]==="boolean") ov[k]=p.overlays[k];
+      // v1.21: 線の軌跡の対象限定(第9次裁定 4.4)— "all"(既定)| "sampled"(核+代表16粒子)
+      if(p.overlays.trailTargets==="sampled") ov.trailTargets="sampled";
+    }
   }
   p.overlays=ov;
   return errors.length? {ok:false, errors, warnings} : {ok:true, preset:p, warnings};
@@ -1537,7 +1609,10 @@ function drawField(){
 // 指数部が消えるため 2∇ψ を直接使う。位置更新に媒質随伴 u·(n_eff/c₀)·dl を加える(A11)。
 // emit(x,y) が false を返すと打ち切り。終端の位置と方向を返す。
 function traceRay(S, px, py, cxv, cyv, dl, maxSteps, emit){
-  const p=S.params, kU=2/p.Kt, eps=p.softening, eps2=eps*eps, q=p.q, c0=p.cLight, D0=p.D0;
+  // v1.21(第9次裁定): 空間随伴項(u輸送)に kFrame を乗算 — UIの kFrame=0 が光でも
+  // 「引きずりなし」の対照実験になる(🌗spinlens)。屈折(ψ=W/Kt)は kFrame と無関係のまま。
+  // 内蔵プリセットは kFrame=1(💡🌗)または源が静止・無スピン(🔭🛰)のため描画は不変。
+  const p=S.params, kU=2/p.Kt, eps=p.softening, eps2=eps*eps, q=p.q, c0=p.cLight, D0=p.D0, kF=p.kFrame;
   const heavy=[];
   for(let i=0;i<S.n;i++) if(S.m[i]>=RAY_MASS_MIN) heavy.push(i);
   for(let s2=0;s2<maxSteps;s2++){
@@ -1552,7 +1627,7 @@ function traceRay(S, px, py, cxv, cyv, dl, maxSteps, emit){
       wSum+=w;
       let om=0; const si=S.spin[i];
       if(si!==0){ const tt=S.R[i]/(S.R[i]+dd); om=(q===2)? si*tt*tt : si*Math.pow(tt,q); }
-      uNx+=w*(S.vx[i]+om*(-dy)); uNy+=w*(S.vy[i]+om*(dx));
+      uNx+=kF*w*(S.vx[i]+om*(-dy)); uNy+=kF*w*(S.vy[i]+om*(dx));
     }
     const dot=gx*cxv+gy*cyv;
     cxv+=(gx-dot*cxv)*dl; cyv+=(gy-dot*cyv)*dl;
@@ -1587,9 +1662,23 @@ function drawRays(){
   }
 }
 
+// v1.21(第9次裁定 4.5): オーバーレイのスロット配置。複数のグラフが右下の同一矩形に
+// 重なって描かれる問題(🌠merger: 温度グラフが回転曲線を隠す)の解消 — 有効なグラフに
+// 右下から上へ縦積みのスロット番号を割り当てる。QA からは HP.overlaySlots で検査可能。
+function overlaySlots(){
+  const s=[];
+  if(sim.overlays.rotationCurve) s.push("rotationCurve");
+  if(sim.overlays.tempHistogram) s.push("tempHistogram");
+  if(sim.overlays.spectrum) s.push("spectrum");
+  return s;
+}
+function overlayBaseY(slot){
+  const uz=uiFontScale, H=92;
+  return ch-H*uz-(18+10*uz)-slot*(H*uz+6);
+}
 // 回転曲線オーバーレイ(実測 vs ケプラー予想)
 let curveTick=0, curveData=null;
-function drawRotationCurve(){
+function drawRotationCurve(slot=0){
   if((curveTick++%10)===0||!curveData){
     const BINS=12, sums=new Float32Array(BINS), cnts=new Float32Array(BINS);
     let mMax=0, cxm=0, cym=0;
@@ -1611,7 +1700,7 @@ function drawRotationCurve(){
   }
   // v1.17: 文字サイズ設定に合わせてグラフごと拡大し、下端余白 18+10·uz で情報行と重ねない
   const uz=uiFontScale, W=150,H=92,X=0,Y=0;
-  ctx.save(); ctx.translate(cw-W*uz-8, ch-H*uz-(18+10*uz)); ctx.scale(uz,uz);
+  ctx.save(); ctx.translate(cw-W*uz-8, overlayBaseY(slot)); ctx.scale(uz,uz);
   ctx.fillStyle="rgba(12,16,34,0.82)"; ctx.fillRect(X,Y,W,H);
   ctx.strokeStyle="#2a3060"; ctx.strokeRect(X,Y,W,H);
   ctx.font="9px sans-serif"; ctx.fillStyle="#8b93c8";
@@ -1631,7 +1720,7 @@ function drawRotationCurve(){
 
 // 温度ヒストグラム(左右の平均温度)
 let tempTick=0;
-function drawTempHistogram(){
+function drawTempHistogram(slot=0){
   if((tempTick++%10)===0){
     let sl=0,cl=0,sr=0,cr=0;
     for(let i=0;i<sim.n;i++){
@@ -1644,7 +1733,7 @@ function drawTempHistogram(){
   }
   // v1.17: 文字サイズ設定に合わせてグラフごと拡大(下端余白 18+10·uz)
   const uz=uiFontScale, W=150,H=92,X=0,Y=0;
-  ctx.save(); ctx.translate(cw-W*uz-8, ch-H*uz-(18+10*uz)); ctx.scale(uz,uz);
+  ctx.save(); ctx.translate(cw-W*uz-8, overlayBaseY(slot)); ctx.scale(uz,uz);
   ctx.fillStyle="rgba(12,16,34,0.82)"; ctx.fillRect(X,Y,W,H);
   ctx.strokeStyle="#2a3060"; ctx.strokeRect(X,Y,W,H);
   ctx.font="9px sans-serif"; ctx.fillStyle="#8b93c8";
@@ -1666,7 +1755,7 @@ function drawTempHistogram(){
 
 // 放射スペクトル(各粒子のピーク波長 λ=b_m/T の分布。付録C C1)
 let specTick=0, specData=null, specLo=0, specHi=0, specInit=false, specLastT=Infinity;
-function drawSpectrum(){
+function drawSpectrum(slot=0){
   const BINS=28;
   if(sim.t<specLastT){ specInit=false; specData=null; }  // ⏮/プリセット切替で軸範囲をリセット
   specLastT=sim.t;
@@ -1698,7 +1787,7 @@ function drawSpectrum(){
   }
   // v1.17: 文字サイズ設定に合わせてグラフごと拡大(下端余白 18+10·uz)
   const uz=uiFontScale, W=150,H=92,X=0,Y=0;
-  ctx.save(); ctx.translate(cw-W*uz-8, ch-H*uz-(18+10*uz)); ctx.scale(uz,uz);
+  ctx.save(); ctx.translate(cw-W*uz-8, overlayBaseY(slot)); ctx.scale(uz,uz);
   ctx.fillStyle="rgba(12,16,34,0.82)"; ctx.fillRect(X,Y,W,H);
   ctx.strokeStyle="#2a3060"; ctx.strokeRect(X,Y,W,H);
   ctx.font="9px sans-serif"; ctx.fillStyle="#8b93c8";
@@ -1734,8 +1823,20 @@ let trailsOn=false;
 let trailBuf=[];   // overlays.trail 用の蓄積ポリライン(v1.9。残像トグルとは別方式 — 長周期の軌道形状を保持する)
 let trailBufB=[];  // v1.19: A/B比較のB側の線の軌跡
 // 線の軌跡の記録(自由粒子の経路を最大3000点=約100秒・数周分保持)
+// v1.21(第9次裁定 4.4): overlays.trailTargets="sampled" は「核(m≥100)+等間隔サンプル
+// 約16個」だけを記録 — 🌠merger/🌫️collapse の全粒子軌跡(数百本×3000点)による
+// 描画・メモリ負荷と視認性低下を解消。既定 "all" は従来どおり全自由粒子。
 function recTrail(S,buf){
+  const sampled=S.overlays.trailTargets==="sampled";
+  let stride=1;
+  if(sampled){
+    let free=0;
+    for(let i=0;i<S.n;i++) if(!S.pinned[i]&&S.m[i]<100) free++;
+    stride=Math.max(1,Math.ceil(free/16));
+  }
+  let k=0;
   for(let i=0;i<S.n;i++){ if(S.pinned[i]) continue;
+    if(sampled && S.m[i]<100 && (k++%stride)!==0) continue;
     const b=buf[i]||(buf[i]=[]);
     b.push(S.x[i],S.y[i]);
     if(b.length>6000) b.splice(0,2);
@@ -1760,12 +1861,14 @@ function render(){
   // 軌道トレイルの記録(overlays.trail: 💫近点後退の楕円形状用。描画は粒子の後=グローの上に重ねる)
   if(sim.overlays.trail && running && (frameCount%2)===0) recTrail(sim,trailBuf);
   // 熱=T=Is² の正規化(A9 v1.1。90パーセンタイル+EMA: 単一の大質量天体で飽和させない)
-  if(sim.n>0){
+  // v1.21(第9次裁定): 全粒子ソートは10フレームに1回へ(EMA係数 0.05→0.4 で時定数を維持:
+  // (1−0.05)^10 ≈ 0.60 ≈ 1−0.4。描画コストの削減で色の見えは変わらない)
+  if(sim.n>0 && ((frameCount%10)===0 || tempP90EMA===0)){
     if(!tSort||tSort.length!==sim.n) tSort=new Float32Array(sim.n);
     for(let i=0;i<sim.n;i++) tSort[i]=0.5*sim.m[i]*sim.R[i]*sim.R[i]*sim.spin[i]*sim.spin[i];
     tSort.sort();
     const p90=Math.max(1e-4, tSort[Math.floor(0.9*(sim.n-1))]);
-    tempP90EMA+= (p90-tempP90EMA)*0.05;
+    tempP90EMA+= (p90-tempP90EMA)*0.4;
   }
   // 粒子(表示半径は30pxで頭打ち。物理半径Rはそのまま)
   for(let i=0;i<sim.n;i++){
@@ -1816,9 +1919,11 @@ function render(){
     ctx.font=(10*uiFontScale)+"px sans-serif"; ctx.fillStyle="#dfe4ff"; // v1.17: 文字サイズ追従
     ctx.fillText(`m=${fmt(sim.m[i])} s=${fmt(sim.spin[i])} T=${fmt(Ti)} λ=${lam} ${T("hudClock")}=${(frac*100).toFixed(1)}%`,8,ch-10);
   }
-  if(sim.overlays.rotationCurve) drawRotationCurve();
-  if(sim.overlays.tempHistogram) drawTempHistogram();
-  if(sim.overlays.spectrum) drawSpectrum();
+  // v1.21: スロット配置 — 複数グラフは右下から縦に積み、互いを隠さない(🌠merger)
+  const slots=overlaySlots();
+  if(sim.overlays.rotationCurve) drawRotationCurve(slots.indexOf("rotationCurve"));
+  if(sim.overlays.tempHistogram) drawTempHistogram(slots.indexOf("tempHistogram"));
+  if(sim.overlays.spectrum) drawSpectrum(slots.indexOf("spectrum"));
 }
 
 // ===== A/B分割描画(v1.13): 粒子・境界・光線・線の軌跡・ラベルの比較ビュー(オーバーレイ類は非表示)=====
@@ -2118,6 +2223,18 @@ function buildParamRows(){
     const key=def.key;
     const row=document.createElement("div"); row.className="prow";
     const lab=document.createElement("label"); lab.textContent=paramLabel(def);
+    // v1.21: パラメータ名タップで説明を開閉(行の直下に .pdesc を差し込む)
+    if(paramDesc(def)){
+      lab.className="tappable";
+      lab.addEventListener("click",()=>{
+        const open=row.nextElementSibling && row.nextElementSibling.classList
+          && row.nextElementSibling.classList.contains("pdesc") ? row.nextElementSibling : null;
+        if(open){ open.remove(); return; }
+        const d=document.createElement("div"); d.className="pdesc open"; d.dataset.key=key;
+        d.textContent=paramDesc(def);
+        row.after(d);
+      });
+    }
     const rng=document.createElement("input"); rng.type="range";
     if(def.mode==="log"){ rng.min=0; rng.max=1000; rng.step=1; }
     else { rng.min=def.lo; rng.max=def.hi; rng.step=def.step; }
@@ -3190,6 +3307,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   extractLawRefs, lawText, ab:()=>ab, abStart, abStop,
   externalTags, APP_VERSION, currentPreset:()=>currentPreset,  // v1.15: バッジ/バージョン同期のQA用
   speedMul:()=>speedMul, trailBufs:()=>({a:trailBuf,b:trailBufB}),  // v1.19: QA用
+  overlaySlots, overlayBaseY, PARAM_DEFS, paramDesc,  // v1.21: スロット配置/パラメータ説明のQA用
   setLang:(l)=>{ LANG=(l==="en")?"en":"ja"; localStorage.setItem("hp_lang",LANG); applyLang(); },
   running:()=>running, setRunning:(v)=>{running=v;updatePlayBtn();},
   tick:(frames)=>{ for(let f=0;f<frames;f++){ const k=Math.max(1,Math.round(SUBSTEPS*sim.params.timeScale)); for(let s2=0;s2<Math.min(k,24);s2++) sim.step(DT); } render(); } };

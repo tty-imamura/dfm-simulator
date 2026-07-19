@@ -256,3 +256,17 @@ GitHub Actions([.github/workflows/ci.yml](.github/workflows/ci.yml))が push/PR 
   セーブ名の初期値=プリセット名+サフィックス、インポートの内容重複判定
   (パラメータ同一はスキップ・名前被りはサフィックス)、保存一覧・生成済みプリセットに
   **JSONコピー**。QA 85/85 PASS。MODEL_ROUTING v1.19 追補。
+- v1.20(2026-07-19): **v2.0 第1段階 — E12 測地線1PN**(geoPN/lambdaPN/pnAlpha。
+  既定 legacy で既存プリセットの挙動不変、geoPN=1 では物質への E6′ を無効化=二重計上禁止)+
+  **☿水星の近日点前進**(計25種)。検証 V18/V19/V20 を verify.all に追加(全量 1.764°/周 vs
+  解析 1.762°/周=誤差0.1%、時間率のみ=1/3.06)。QA 86/86 PASS。
+  仕様は BOX_UNIVERSE §5・DERIVATIONS §15、MODEL_ROUTING v1.23。
+- v1.21(2026-07-19): **第9次外部AIレビュー(ChatGPT/Gemini/Grok)の裁定実装** —
+  **パラメータ名タップで説明表示**(全21項目 ja/en)、オーバーレイの**スロット配置**
+  (🌠mergerで回転曲線と温度グラフが重なる問題を解消)、線の軌跡の**対象限定**
+  (overlays.trailTargets:"sampled" — 🌠🌫️は核+代表16粒子のみ記録し描画・メモリ負荷を削減)、
+  **光線の空間随伴項に kFrame を適用**(🌗spinlens で kFrame=0 が正しい対照実験になる)、
+  ☿mercuryの説明を「式の検証(V18〜V20)」と「可視化用初期値」に区別+内蔵初期値そのものの
+  機械検証を追加、⚾projectileの説明修正(斜方投射は下段)、🔥gas・🧊phaseの統制強化
+  (G/kFrame=0)、温度正規化ソートの10フレーム化、パネル高50vh。
+  QA 96/96 ALL PASS(21キー完全明示への更新+内蔵☿実条件・spinlens制御ほか新規7件)。MODEL_ROUTING v1.24 追補。

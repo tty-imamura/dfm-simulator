@@ -70,11 +70,13 @@ const add = (id, pass, detail) => {
   add('slider.covers-builtins', over.length === 0, over.slice(0, 5).join(' '));
 }
 
-// ---- 0d) 内蔵プリセットの physics 完全明示(v1.18 第8次裁定): 18キー全指定+件数がREADMEと一致 ----
+// ---- 0d) 内蔵プリセットの physics 完全明示(v1.18 第8次裁定): 21キー全指定+件数がREADMEと一致 ----
+// (v1.21 第9次裁定 P0-1: 1PN 3キー geoPN/lambdaPN/pnAlpha を追加し 18→21 キー)
 {
   const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
   const KEYS = ['G', 'D0', 'kFrame', 'q', 'kRep', 'muF', 'gammaN', 'kappaS', 'Kt', 'cLight', 'bM',
-    'etaRad', 'pRad', 'gravityX', 'gravityY', 'radiusScale', 'softening', 'timeScale'];
+    'etaRad', 'pRad', 'gravityX', 'gravityY', 'geoPN', 'lambdaPN', 'pnAlpha',
+    'radiusScale', 'softening', 'timeScale'];
   const block = html.match(/const BUILTIN_PRESETS = \[([\s\S]*?)\n\];/)[1];
   const missing = [];
   let nPhys = 0;
@@ -418,6 +420,62 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   add('customs.copy-button', r.customCopyBtn, '');
 }
 
+// ---- 7j) v1.21 第9次裁定: パラメータ説明タップ / オーバーレイスロット / 軌跡の対象限定 /
+// ----     spinlens kFrame 制御 / projectile 配置整合 ----
+{
+  const r = await page.evaluate(async () => {
+    const res = {};
+    // ① 全21パラメータに ja(PARAM_DEFS.desc)/ en(I18N.en.paramDescs)の説明がある
+    res.descMissingJa = HP.PARAM_DEFS.filter(d => !d.desc).map(d => d.key);
+    HP.setLang('en');
+    res.descMissingEn = HP.PARAM_DEFS.filter(d => !HP.paramDesc(d) || HP.paramDesc(d) === d.desc).map(d => d.key);
+    HP.setLang('ja');
+    // ② ラベルタップで説明が開閉する
+    HP.loadPreset('saturn', false);
+    const lab = document.querySelector('#paramRows .prow label.tappable');
+    lab.click();
+    const opened = document.querySelector('#paramRows .pdesc');
+    res.descOpen = !!opened && opened.textContent.length > 10;
+    lab.click();
+    res.descClose = !document.querySelector('#paramRows .pdesc');
+    // ③ オーバーレイスロット: merger は回転曲線と温度グラフが別スロット(重ならない)
+    HP.loadPreset('merger', false);
+    const slots = HP.overlaySlots();
+    res.slots = slots;
+    res.slotDistinct = slots.length === 2 &&
+      HP.overlayBaseY(slots.indexOf('rotationCurve')) !== HP.overlayBaseY(slots.indexOf('tempHistogram'));
+    // ④ 軌跡の対象限定: merger(trailTargets:"sampled")は核+代表のみ記録される
+    HP.setRunning(true);
+    await new Promise(res2 => setTimeout(res2, 500));
+    HP.setRunning(false);
+    const nTr = HP.trailBufs().a.filter(b => b && b.length > 0).length;
+    res.trailN = nTr;                     // 全352粒子ではなく核2+代表16前後
+    res.trailSampled = nTr >= 3 && nTr <= 24;
+    // ⑤ spinlens: 光線の空間随伴に kFrame が効く(kF=0 で非対称が消える対照実験)
+    HP.loadPreset('spinlens', false);
+    const asym = (kf) => { HP.sim.params.kFrame = kf;
+      const bend = (y0) => { const t = HP.traceRay(HP.sim, -300, y0, 1, 0, 2.7, 340, null); return Math.atan2(t.cy, t.cx); };
+      return bend(90) + bend(-90); };     // 上下対称なら 0(V8 と同じ非対称度)
+    res.asym1 = asym(1); res.asym0 = asym(0);
+    res.spinlensCtl = Math.abs(res.asym1) > 0.05 && Math.abs(res.asym0) < 1e-6;
+    // ⑥ projectile: 説明と画面配置の一致 — 斜方投射球(最下段=最大y)が上向き(vy<0)に発射
+    const p = HP.allPresets().find(q => q.id === 'projectile');
+    const ys = p.bodies.map(b => b.y);
+    res.projOk = p.description.includes('下段は斜方投射') && p.en.description.includes('bottom one obliquely')
+      && ys[3] === Math.max(...ys) && p.bodies[3].vy < 0;
+    HP.loadPreset('saturn', false);
+    return res;
+  });
+  add('params.desc-all', r.descMissingJa.length === 0 && r.descMissingEn.length === 0,
+    `ja欠落=${r.descMissingJa.join(',') || 'なし'} en欠落=${r.descMissingEn.join(',') || 'なし'}`);
+  add('params.desc-toggle', r.descOpen && r.descClose, '');
+  add('overlay.slots-distinct', r.slotDistinct, `merger slots=${JSON.stringify(r.slots)}`);
+  add('trail.sampled', r.trailSampled, `記録本数=${r.trailN}(核2+代表16前後、全352ではない)`);
+  add('spinlens.kframe-control', r.spinlensCtl,
+    `非対称度 kF=1: ${r.asym1.toExponential(2)} / kF=0: ${r.asym0.toExponential(2)}(0で消失)`);
+  add('projectile.layout', r.projOk, '説明「下段は斜方投射」と bodies[3](最大y・vy<0)の一致');
+}
+
 // ---- 7c) A/B比較モード(v1.13 → v1.19 コピー方式): 同一初期条件・両シム同時駆動・A継続 ----
 {
   const r = await page.evaluate(async () => {
@@ -510,6 +568,50 @@ if (!FAST) {
     `inAnn=${(r.satAnn * 100).toFixed(1)}% drift=${r.satDrift.toFixed(1)}`);
   add('behavior.convection', !r.convNaN && r.convCirc > 5 && r.convV > 0.3,
     `循環=${r.convCirc.toFixed(1)} (>5) 平均|v|=${r.convV.toFixed(2)} (>0.3)`);
+
+  // ---- 8b) v1.21 第9次裁定 P0-3: 内蔵 ☿mercury の実条件検証 ----
+  // 説明が引用する V18〜V20 は検証専用条件のため、内蔵プリセットそのものの初期値でも
+  // E12 の主張(λ=1 で前進 / λ=0 で基線のみ / α=0.5 で 1/3)が成り立つことを機械検証する。
+  // 較正実測(2026-07-19): full=+0.0659 rad/周, zero=−0.0114(Plummer+離散化の数値基線),
+  // half=+0.0147 → 基線差し引き比 (full−zero)/(half−zero)=2.96(理論3)
+  {
+    const m = await page.evaluate(() => {
+      const run = (lam, alpha) => {
+        HP.loadPreset('mercury', false);
+        const s = HP.sim;
+        s.params.lambdaPN = lam; if (alpha !== undefined) s.params.pnAlpha = alpha;
+        const peri = []; let lastK = -1e9, r2 = 0, r1 = 0, th1 = 0;
+        for (let k = 0; k < 120000 && peri.length < 5; k++) {
+          s.step(0.016);
+          const r = Math.hypot(s.x[1], s.y[1]), th = Math.atan2(s.y[1], s.x[1]);
+          // 真の近点のみ受理(近点47.66・遠点72.3 → r<55 ゲート+最小間隔)
+          if (k > 2 && r1 < r2 && r1 < r && r1 < 55 && (k - lastK) > 600) { peri.push(th1); lastK = k; }
+          r2 = r1; r1 = r; th1 = th;
+        }
+        let acc = 0;
+        for (let i = 1; i < peri.length; i++) {
+          let dd = peri[i] - peri[i - 1];
+          while (dd > Math.PI) dd -= 2 * Math.PI; while (dd < -Math.PI) dd += 2 * Math.PI;
+          acc += dd;
+        }
+        const L = s.x[1] * s.vy[1] - s.y[1] * s.vx[1];   // L>0=反時計回り(θ増加=前進が正)
+        return { n: peri.length, drift: peri.length > 1 ? acc / (peri.length - 1) : 0, L, nan: s.hasNaN() };
+      };
+      const full = run(1), zero = run(0), half = run(1, 0.5);
+      HP.loadPreset('saturn', false);
+      return { full, zero, half };
+    });
+    const netF = m.full.drift - m.zero.drift, netH = m.half.drift - m.zero.drift;
+    const ratio = netH !== 0 ? netF / netH : 0;
+    const f = (x) => (x * 180 / Math.PI).toFixed(2);
+    add('behavior.mercury-builtin',
+      !m.full.nan && !m.zero.nan && !m.half.nan &&
+      m.full.n >= 4 && m.zero.n >= 4 && m.half.n >= 4 &&
+      m.full.L > 0 && m.full.drift > 0.03 &&            // 公転と同じ向きに前進(較正0.066)
+      Math.abs(m.zero.drift) < 0.03 &&                  // λ=0 は数値基線のみ(較正−0.011)
+      Math.abs(ratio - 3) < 0.6,                        // 基線差し引きで全量/時間率のみ≈3(較正2.96)
+      `Δϖ/周: λ1=${f(m.full.drift)}° λ0=${f(m.zero.drift)}° α0.5=${f(m.half.drift)}° 比(基線差引)=${ratio.toFixed(2)}(理論3±0.6)`);
+  }
 } else {
   console.log('SKIP behavior.* (QA_FAST=1)');
 }
