@@ -110,11 +110,11 @@ iPhoneのブラウザで観察できるシミュレータです。
 
 ## 開発・QA(Phase 1 再現性基盤)
 
-新規cloneから1コマンドで全機械QA(85項目)を実行できます:
+新規cloneから1コマンドで全機械QA(107項目)を実行できます:
 
 ```bash
 npm install && npx playwright install chromium   # 初回のみ
-npm test          # 全85項目(約5分)。結果は tests/out/qa-results.json
+npm test          # 全107項目(約5分)。結果は tests/out/qa-results.json
 npm run test:fast # 長時間挙動テストを省略した高速版
 ```
 
@@ -127,6 +127,21 @@ GitHub Actions([.github/workflows/ci.yml](.github/workflows/ci.yml))が push/PR 
 - コード(index.html ほか): [MIT License](LICENSE) — © 2026 Tetsuya Imamura
 - 理論文書(docs/): [CC BY 4.0](docs/LICENSE)(表示: Tetsuya Imamura)
 - 引用方法: [CITATION.cff](CITATION.cff)(GitHub の「Cite this repository」からも取得可)
+
+### 提出版タグとアーカイブ DOI の発行手順(論文投稿時。第5次模擬査読 裁定 #14)
+
+論文の全数値を単一の不変コミットに固定するための手順:
+
+1. **提出版タグ**: 投稿対象コミットに注釈付きタグを打つ —
+   `git tag -a paper-v1 -m "arXiv submission version" && git push origin paper-v1`
+   (タグ時点で `npm test` が ALL PASS であることを確認し、`tests/out/qa-results.json` を
+   コミットに含める。結果 JSON には git コミットが自動記録される)
+2. **Zenodo DOI**: Zenodo の GitHub 連携でリポジトリを有効化し、タグ push で
+   自動アーカイブ → 発行された DOI を (a) `paper/dfm-paper.tex` の
+   `% TODO(submission)` 行、(b) `CITATION.cff` の `doi:`、(c) 本節に記載して
+   同タグを付け直す(`paper-v1.1` として再タグ)
+3. **補足資料**: `tests/out/qa-results.json`(全QA結果)と `paper/figures/*.json`
+   (図の生成パラメータ・実測値)を論文の supplementary material として同梱する
 
 ## AI追加機能のコスト
 

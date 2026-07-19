@@ -631,6 +631,94 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
     `軽量/正確/自動の縮退値=${r.quality} セレクト行=${r.qualityRow}`);
 }
 
+// ---- 7m) 論文改稿ゲート(第5次AI模擬査読 裁定 #7/#16。付録C-4 条件4)----
+// ① V1 収束表: 保存則残差が固定総時間 T=16 の dt 掃引で全て丸め床(<1.5e-5)に留まり、
+//    dt に依存しない(=方程式レベルの厳密保存+Float32 丸みのみ。実測 4.5e-6/1.28e-5/4.3e-6)
+// ② zeroth-law 対照: 全冷却・接触チャネル OFF(ηrad=γn=μF=0・κs のみ)の孤立系で
+//    (a) 2粒子の温度差が解析率 κs·g(d) で指数緩和(相対誤差 <1e-2。実測 2.9e-5)
+//    (b) 静止格子アンサンブルの左右温度差が単調減衰し ΣIs が丸め床で保存
+//    → 「温度平衡が冷却の副産物でない」ことの機械分離(論文 Sec. VI 実験6)
+{
+  const r = await page.evaluate(() => {
+    const res = {};
+    // ① V1 と同一構成(verify_v1 の id からシード決定 — 同一初期配置)
+    const v1p = { id: "verify_v1", name: "V1", description: "d", camera: { scale: 200 },
+      world: { boundary: "none", size: 0 },
+      physics: { D0: 0, kFrame: 1, G: 1, kRep: 1, muF: 0.5, gammaN: 0.4, kappaS: 0.05, etaRad: 0,
+        softening: 2, timeScale: 1 },
+      bodies: [
+        { type: "single", m: 30, x: 0, y: 0, vx: 0, vy: 0, spin: 0.5, pinned: false },
+        { type: "disk", n: 48, cx: 0, cy: 0, radius: 120, mMin: 0.5, mMax: 2,
+          spinMin: -2, spinMax: 2, vMode: "random", aroundMass: 0, vScale: 1.2, direction: 1 }
+      ] };
+    const s = HP.sim;
+    const runV1 = (dt, N) => {
+      s.build(HP.validatePreset(v1p).preset);
+      const t0 = s.totals();
+      let pScale = 0, lScale = 0;
+      for (let i = 0; i < s.n; i++) {
+        pScale += s.m[i] * Math.hypot(s.vx[i], s.vy[i]);
+        lScale += Math.abs(s.m[i] * (s.x[i] * s.vy[i] - s.y[i] * s.vx[i]))
+          + 0.5 * s.m[i] * s.R[i] * s.R[i] * Math.abs(s.spin[i]);
+      }
+      for (let k = 0; k < N; k++) s.step(dt);
+      const t1 = s.totals();
+      return { relP: Math.hypot(t1.px + s.resPx - t0.px, t1.py + s.resPy - t0.py) / pScale,
+        relL: Math.abs(t1.L + s.resL + s.radL - t0.L) / lScale };
+    };
+    res.conv = [[0.016, 1000], [0.008, 2000], [0.004, 4000]].map(([dt, N]) => ({ dt, ...runV1(dt, N) }));
+    // ② zeroth-law 孤立対照
+    const iso = (bodies) => ({ id: "qa_zeroth", name: "z", description: "d", camera: { scale: 240 },
+      world: { boundary: "none", size: 0 },
+      physics: { G: 0, D0: 2, kFrame: 0, kRep: 0, muF: 0, gammaN: 0, kappaS: 0.3, etaRad: 0,
+        softening: 2, timeScale: 1 }, bodies });
+    // (a) 2粒子: 解析率 κs·g(d)
+    s.build(HP.validatePreset(iso([
+      { type: "single", m: 2, x: -15, y: 0, vx: 0, vy: 0, spin: 2, pinned: false },
+      { type: "single", m: 2, x: 15, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }])).preset);
+    const sumR = s.R[0] + s.R[1];
+    const rateTh = 0.3 * (sumR / (sumR + 30)) ** 2;
+    const gap0 = s.spin[0] - s.spin[1];
+    for (let k = 0; k < 2500; k++) s.step(0.016);
+    const rateMeas = -Math.log((s.spin[0] - s.spin[1]) / gap0) / s.t;
+    res.rateTh = rateTh; res.rateMeas = rateMeas;
+    res.rateErr = Math.abs(rateMeas - rateTh) / rateTh;
+    // (b) 静止格子 8×6(左 0.3・右 2.5)
+    const bodies = [];
+    for (let ix = 0; ix < 8; ix++) for (let iy = 0; iy < 6; iy++)
+      bodies.push({ type: "single", m: 1, x: -140 + ix * 40, y: -100 + iy * 40, vx: 0, vy: 0,
+        spin: ix < 4 ? 0.3 : 2.5, pinned: false });
+    s.build(HP.validatePreset(iso(bodies)).preset);
+    const stats = () => {
+      let l = 0, lc = 0, rr = 0, rc = 0, Ls = 0;
+      for (let i = 0; i < s.n; i++) {
+        const T2 = 0.5 * s.m[i] * s.R[i] * s.R[i] * s.spin[i] * s.spin[i];
+        Ls += 0.5 * s.m[i] * s.R[i] * s.R[i] * s.spin[i];
+        if (s.x[i] < 0) { l += T2; lc++; } else { rr += T2; rc++; }
+      }
+      return { gap: Math.abs(rr / rc - l / lc), Ls };
+    };
+    const e0 = stats();
+    for (let k = 0; k < 4000; k++) s.step(0.016);
+    const e1 = stats();
+    res.ensGap0 = e0.gap; res.ensGap1 = e1.gap;
+    res.ensRate = -Math.log(e1.gap / e0.gap) / s.t;
+    res.ensLsDrift = Math.abs(e1.Ls - e0.Ls) / Math.abs(e0.Ls);
+    HP.loadPreset('saturn', false);
+    return res;
+  });
+  const worst = Math.max(...r.conv.map(c => Math.max(c.relP, c.relL)));
+  // 閾値 5e-5 = 実測最大 1.5e-5(dt=0.008 の L)×3(V10 と同じマージン規約)。V1 本則 1e-3 の 1/20
+  add('paper.v1-convergence', worst < 5e-5,
+    r.conv.map(c => `dt=${c.dt}: P=${c.relP.toExponential(1)} L=${c.relL.toExponential(1)}`).join(' / ')
+    + '(全て丸め床 <5e-5・dt 非依存)');
+  // ΣIs ドリフト閾値 1e-5 = Float32 丸め実測 1.7e-6 の×3超マージン(48粒子・4000步の累積丸め)
+  add('paper.zeroth-law-isolated',
+    r.rateErr < 1e-2 && r.ensGap1 < r.ensGap0 && r.ensRate > 1e-3 && r.ensLsDrift < 1e-5,
+    `2体率=${r.rateMeas.toExponential(3)} vs 解析 ${r.rateTh.toExponential(3)}(誤差 ${r.rateErr.toExponential(1)}) `
+    + `格子gap ${r.ensGap0.toFixed(2)}→${r.ensGap1.toFixed(2)}(率 ${r.ensRate.toExponential(2)}) ΣIsドリフト=${r.ensLsDrift.toExponential(1)}`);
+}
+
 // ---- 7c) A/B比較モード(v1.13 → v1.19 コピー方式): 同一初期条件・両シム同時駆動・A継続 ----
 {
   const r = await page.evaluate(async () => {

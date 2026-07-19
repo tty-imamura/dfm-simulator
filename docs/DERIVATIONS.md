@@ -831,3 +831,57 @@ Negative claims 5 は BOX_UNIVERSE §5.5 の合意済み条件により THEORY_S
 - 箱宇宙プリセット群(📦 並進・回転/📦 膨張。V23〜V25)— 膨張箱はレール半径の
   時間変化(railRdot)のエンジン対応が必要。
 - V21(水星自己スピン反転)・V22(多惑星無調整スケーリング)の自動化。
+
+---
+
+## 16. 論文改稿記録(2026-07-19)— 第5次AI模擬査読(論文 v0.1)の裁定と実測判断
+
+入力: 論文ドラフト v0.1 への AI 模擬査読3系統(ChatGPT=Major revision 16件/
+Gemini=Minor revision 5件/Grok=Accept)。全21指摘を**採用(棄却0)**し、
+paper/dfm-paper.tex v0.2 に反映した。いずれも中核式の誤りではなく、
+(i) 主張水準の限定、(ii) 定義の明文化(本書の内容の論文への転記が中心)、
+(iii) ベンチマーク入力の固定、(iv) 再現性メタデータ、の4カテゴリ。
+Negative claims 1〜6 の規律は3系統とも遵守と評価 — 主張水準の設計は機能した。
+
+### 16.1 反映の要点(詳細は paper v0.2 の差分)
+
+- **a=b=1 の公理化**(A7′): N=e^{−aψ}, A=e^{+bψ} の一般形を示した上で a=b=1 を
+  公理として一度だけ固定。"follows from the construction" 系の表現を全廃。
+- **A5 のパラメータ化**: Δv = k_F·Δ_path u、Δ_path u = u(r^{n+1},t_{n+1})−u(r^n,t_n)。
+- **A10 の降格**: test-particle motivation とし、E5′ の対称形は A13 から。
+- **E6′ の対更新式と保存証明**を本書 §1 から論文へ転記(ΔP=0・ΔL=0 の対ごとの2行証明)。
+- **A2 の限定**: D₀=0 = relational limit/有限 D₀ = 明示的背景リザーバつき preferred-frame。
+- **表現置換**: 較正表 Verdict は "formula-level agreement"(定義文つき)。
+  "match/reproduce(s) observation" は本文 grep 0件。
+- **ベンチマーク入力の固定**: GPS 入力表・Shapiro 幾何(r₁=1AU, r₂=8.43AU, b=R☉, 往復)を
+  新設 Appendix に。Shapiro の Observation 欄は Cassini の γ−1=(2.1±2.3)×10⁻⁵
+  (Bertotti+2003)に差し替え。
+- **T1〜T9 一覧表**(依存・条件・ゲート・CNP 区分)と **E_tot の定義**+V10/V10b 台帳を追加。
+- **文献追加(書誌検証済み5件)**: Unruh 1981(PRL 46,1351)/Barceló-Liberati-Visser 2005
+  (Living Rev. Relativity 8,12)/Lynden-Bell & Katz 1995(PRD 52,7322)/
+  Assis 1999(Relational Mechanics, Apeiron)/Bertotti-Iess-Tortora 2003(Nature 425,374)。
+- **2Dガウス則の教育注記**(A6)・**K_t 線密度の直観**(SI付録)・**等分配破れ**(NC6/実験6)。
+- Typo x^{-3/2}: 現ツリーに存在せず(全域 grep 0件)— no-op。
+
+### 16.2 実測判断(機械実験。ゲートは tests/qa.mjs 7m節)
+
+1. **V1 の dt 掃引(総時間 T=16 固定、dt=0.016/0.008/0.004)**: 保存残差は
+   |ΔP|/P = 4.5/12.8/4.3 ×10⁻⁶・|ΔL|/L ≤ 1.6×10⁻⁵ — **dt 非依存の Float32 丸め床**。
+   離散化律速ですらないため、論文は「方程式レベルで厳密+数値残差は丸め床」と2層で記述。
+   恒久ゲート `paper.v1-convergence`(閾値 5e-5 = 実測×3規約)。
+2. **平坦性指標 β = dln v_φ/dln r(裁定 #9)**: galaxy A/B 6000步・外縁帯 [156,286]。
+   スナップショット β(kF=1)=−0.24 / β(kF=0)=−0.47 だが、時間平均(4000〜6000步)では
+   −0.35±0.12 / −0.28±0.07 と大小関係が反転 — **N=140 ではビン化傾きがノイズ支配**。
+   → βゲートは新設せず**表現弱化を採用**: "modest outer-velocity enhancement"
+   (ゲートは従来どおり V11 gain と CI 比 1.082)。βの測定事実は論文実験2に明記。
+   r_flat は "background-crossover scale r_bg" に改名し平坦性予測から分離。
+3. **zeroth-law 孤立対照(裁定 #16)**: η_rad=γ_n=μ_f=0・κs=0.3 のみの孤立系で、
+   (a) 2粒子の温度差緩和率が解析値 κs·g(d) と相対誤差 2.9×10⁻⁵ で一致、
+   (b) 8×6 静止格子の左右温度差が指数減衰(率 1.8×10⁻³/単位時間)・ΣIs は丸め床保存。
+   恒久ゲート `paper.zeroth-law-isolated`。**平衡化は冷却の副産物でないことを機械分離**。
+
+### 16.3 受け入れ確認
+
+qa **107項目 ALL PASS**(105+新2ゲート)/pdflatex(RevTeX 4.2)3パス・15ページ・
+未解決参照0/HANDOFF_PAPER_V2 §6 禁止事項 grep 0件/提出版タグ+Zenodo DOI の
+発行手順を README「ライセンス・引用」節に新設。
