@@ -435,6 +435,7 @@ ja: {
   E9:"接触則 — 法線減衰(γn)と接線摩擦(muF=速度→スピン変換)",
   "E10′":"スピン拡散 — 近いほど速く熱が飛び移る(I重みで角運動量保存)",
   E11:"放射冷却 Λ=η_rad·T^p — 熱い粒子ほど速く冷える",
+  E12:"測地線1PN補正(v2.0第1段階) — 時計と同じψから物質の軌道が決まり、近日点が前進する(geoPN=1)",
   T1:"D₀→∞ でニュートンの絶対空間に近づく(空間が「固く」なる)",
   T2:"回る質量は内側の空間ごと引きずる(マッハのバケツ)",
   T3:"衝突する環は軌道が円形化し、回転方向が揃っていく",
@@ -469,6 +470,7 @@ en: {
   E9:"Contact law — normal damping (γn) and tangential friction (muF = velocity→spin conversion)",
   "E10′":"Spin diffusion — heat hops faster when closer (I-weighted, conserves angular momentum)",
   E11:"Radiative cooling Λ=η_rad·T^p — hotter particles cool faster",
+  E12:"Geodesic 1PN correction (v2.0 stage 1) — matter orbits follow the same ψ as clocks, and the perihelion advances (geoPN=1)",
   T1:"As D₀→∞ the universe approaches Newton's absolute space (space becomes rigid)",
   T2:"A rotating mass drags the space inside it (Mach's bucket)",
   T3:"Colliding rings circularize their orbits and align their rotation",
@@ -512,12 +514,14 @@ function paramLabel(def){ return (LANG==="en" && I18N.en.params[def.key]) || def
 const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
   kappaS:0.05, Kt:60, cLight:60, bM:1, etaRad:0, pRad:4,
   gravityX:0, gravityY:0,   // v1.17: 一様重力場(外部場。+yは画面下向き)
+  geoPN:0, lambdaPN:1, pnAlpha:1.5,   // v1.20: E12 測地線1PN(geoPN=1で有効。BOX_UNIVERSE §5)
   radiusScale:1.2, softening:2, timeScale:1 };
 // v1.7: kLens は廃止(E8R で屈折率は n=e^{2W/Kt} に統一。旧セーブの kLens は受理して無視)
-const APP_VERSION = "1.19";               // エクスポートの appVersion に記録(package.json と QA で同期検査)
+const APP_VERSION = "1.20";               // エクスポートの appVersion に記録(package.json と QA で同期検査)
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 const RAY_MASS_MIN = 40;                  // 光線を曲げる最小質量(性能のための近似)
+const PN_MASS_MIN = 40;                   // E12 1PN補正の源となる最小質量(v1.20。RAY_MASS_MIN と同方針の近似)
 
 // パラメータUI定義。mode:"log"=対数スライダー(桁をまたぐ量の微調整用。
 // スライダー範囲外の値(0を含む)は隣の数値入力欄から直接設定できる)
@@ -539,6 +543,9 @@ const PARAM_DEFS = [
   {key:"pRad",  label:"放射指数 p",          mode:"lin", lo:1, hi:6, step:0.5, group:"法則"},
   {key:"gravityX",label:"一様重力 g_x",      mode:"lin", lo:-5, hi:5, step:0.005, group:"法則"},
   {key:"gravityY",label:"一様重力 g_y",      mode:"lin", lo:-5, hi:5, step:0.005, group:"法則"},
+  {key:"geoPN",   label:"測地線モード geoPN", mode:"lin", lo:0, hi:1, step:1,    group:"法則"},
+  {key:"lambdaPN",label:"1PN補正 λ_PN",      mode:"lin", lo:0, hi:1, step:1,    group:"法則"},
+  {key:"pnAlpha", label:"1PN係数 α(0.5=時間率のみ, 1.5=完全)", mode:"lin", lo:0.5, hi:1.5, step:0.5, group:"法則"},
   {key:"radiusScale",label:"粒子半径スケール", mode:"lin", lo:0.2, hi:4, step:0.02, group:"シミュレーション"},
   {key:"softening",  label:"ソフトニング ε",  mode:"lin", lo:0.5, hi:10, step:0.1, group:"シミュレーション"},
   {key:"timeScale",  label:"時間倍率",        mode:"log", lo:0.1, hi:16, group:"シミュレーション"},
@@ -562,6 +569,7 @@ const CLAMPS = { G:[0,100], D0:[0,1000], kFrame:[0,1], q:[0.5,4], kRep:[0,20], m
   gammaN:[0,1], kappaS:[0,2], Kt:[1,10000], kLens:[0,1],
   cLight:[1,10000], bM:[0.001,1000], etaRad:[0,1], pRad:[1,6], radiusScale:[0.2,5],
   gravityX:[-10,10], gravityY:[-10,10],
+  geoPN:[0,1], lambdaPN:[0,1], pnAlpha:[0,2],   // v1.20: E12 測地線1PN
   softening:[0.5,20], timeScale:[0.1,16] };
 
 // ===== 内蔵プリセット(スキーマは docs/HANDOFF_IMPLEMENTATION.md §契約1) =====
@@ -634,6 +642,19 @@ const BUILTIN_PRESETS = [
   bodies:[
     {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.09, pinned:true},
     {type:"single", m:0.5, x:60,y:0, vx:0,vy:3.87, spin:0, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+{ id:"mercury", name:"水星の近日点前進 — 測地線1PN", emoji:"☿", group:"空間と時間",
+  description:"v2.0の測地線モード(E12)。時計を遅らせるのと同じψ=W/Ktが物質の軌道も決めると(A7′/E7R の作用化)、楕円軌道は公転と同じ向きにゆっくり回り=近日点の前進、花びら模様を描く。λ_PN(lambdaPN)を0にするとニュートンに戻り楕円は閉じる。pnAlpha=0.5(時間率のみ)では前進が1/3に減る — 実際の水星で42.98″/世紀(全量)と14.33″/世紀(1/3)に対応する(機械検証V18/V19/V20)。💫(E6′の後退)と対比。",
+  en:{name:"Mercury's Perihelion Advance — Geodesic 1PN", description:"The v2.0 geodesic mode (E12). When the same ψ=W/Kt that slows clocks also governs matter orbits (the action form of A7′/E7R), the ellipse slowly rotates in the direction of the orbit — perihelion advance — tracing a rosette. Set λ_PN (lambdaPN) to 0 to recover Newton: the ellipse closes. With pnAlpha=0.5 (time rate only) the advance drops to 1/3 — corresponding to 42.98″/century (full) vs 14.33″/century (1/3) for the real Mercury (verified V18/V19/V20). Contrast with 💫 (the E6′ regression)."},
+  camera:{scale:220}, world:{boundary:"none",size:0},
+  physics:{G:1, D0:0.05, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
+    cLight:25, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
+    geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:8},
+  bodies:[
+    {type:"single", m:150, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", m:0.5, x:47.66,y:0, vx:0,vy:1.948, spin:0, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -1170,7 +1191,10 @@ function makeSim(){
     const eps=p.softening, eps2=eps*eps, G=p.G, q=p.q, kRep=p.kRep,
           muF=p.muF, gammaN=p.gammaN, kappaS=p.kappaS, D0=p.D0, kFrame=p.kFrame,
           etaRad=p.etaRad, pRad=p.pRad,
-          gX=p.gravityX||0, gY=p.gravityY||0;   // v1.17: 一様重力場(外部場)
+          gX=p.gravityX||0, gY=p.gravityY||0,   // v1.17: 一様重力場(外部場)
+          // v1.20(E12): 測地線1PNモード(BOX_UNIVERSE §5・DERIVATIONS §15。第1段階: 静的大質量源・u=0)
+          geo=(p.geoPN||0)>0, pnA=(p.pnAlpha!==undefined? p.pnAlpha : 1.5),
+          invC2=geo? (p.lambdaPN!==undefined? p.lambdaPN : 1)/(p.cLight*p.cLight) : 0;
     if(Math.abs(R[0]-p.radiusScale*Math.sqrt(m[0]))>1e-6) S.updateRadii(); // radiusScale変更の追従
     ax.fill(0); ay.fill(0); sumW.fill(0); uAx.fill(0); uAy.fill(0); ds.fill(0);
     dpx.fill(0); dpy.fill(0);
@@ -1202,6 +1226,25 @@ function makeSim(){
         const invW=1/Math.sqrt(d2+eps2);
         const wj=mj*invW, wi=mi*invW;
         sumW[i]+=wj; sumW[j]+=wi;
+        // E12 測地線1PN補正(v1.20・v2.0第1段階): a₁ₚₙ = (λ/c²)[((α−½)v² − (1+2α)U)∇U − (1+2α)(∇U·v)v]
+        // U=Gm/√(d²+ε²)、∇U は E4 のニュートン加速度と同一ベクトル。α=1.5 で E7R 完全計量
+        // (等方1PN: a = −μn/r² + μ/(c²r²)[(4μ/r−v²)n + 4ṙv])、α=0.5 で時間率のみの統制。
+        // 源は m≥PN_MASS_MIN の大質量のみ・速度は u=0 の絶対値(第1段階の主張域)。E6′ は②で排他。
+        if(geo && invC2>0){
+          const cA=1+2*pnA, cB=pnA-0.5;
+          if(mj>=PN_MASS_MIN && !pinned[i]){
+            const Uj=G*mj*invW, gux=-fg*mj*dx, guy=-fg*mj*dy;
+            const v2i=vx[i]*vx[i]+vy[i]*vy[i], dU=gux*vx[i]+guy*vy[i];
+            ax[i]+=invC2*((cB*v2i-cA*Uj)*gux - cA*dU*vx[i]);
+            ay[i]+=invC2*((cB*v2i-cA*Uj)*guy - cA*dU*vy[i]);
+          }
+          if(mi>=PN_MASS_MIN && !pinned[j]){
+            const Ui=G*mi*invW, gux=fg*mi*dx, guy=fg*mi*dy;   // j から見た ∇U(符号反転)
+            const v2j=vx[j]*vx[j]+vy[j]*vy[j], dU=gux*vx[j]+guy*vy[j];
+            ax[j]+=invC2*((cB*v2j-cA*Ui)*gux - cA*dU*vx[j]);
+            ay[j]+=invC2*((cB*v2j-cA*Ui)*guy - cA*dU*vy[j]);
+          }
+        }
         // E2/E3 フレーム速度への寄与(並進 + スピン回転 ẑ×(r−r_j)=(−dy,dx))
         let omj=0, omi=0;
         if(sj!==0){ const tt=Rj/(Rj+d); omj = (q===2)? sj*tt*tt : sj*Math.pow(tt,q); }
@@ -1282,8 +1325,10 @@ function makeSim(){
         S.resL-=m[i]*(x[i]*gY-y[i]*gX)*dt;
       }
       // E6′ 輸送項(自分自身は除外して評価。1サブステップの引きずり量は0.8に制限)
+      // v1.20: geoPN=1(E12測地線モード)では物質への E6′ を無効化 — 作用由来の式に
+      // ニュートン重力+フレーム輸送が含まれるため、別途加えると二重計上になる(BOX_UNIVERSE §5.4)
       const denom=D0+sumW[i];
-      if(denom>1e-9 && kFrame>0){
+      if(denom>1e-9 && kFrame>0 && !geo){
         const ux=uAx[i]/denom, uy=uAy[i]/denom;
         if(S.hasU[i]){
           let dux=ux-S.uPx[i], duy=uy-S.uPy[i];
@@ -3069,8 +3114,74 @@ const VERIFY = {
     return {id:"V16", pass, value:Math.max(errA,errB),
       detail:`τB/t=${(s.tau[1]/s.t).toFixed(4)}(解析${thB.toFixed(4)}) τA/t=${(s.tau[0]/s.t).toFixed(4)}(解析${thA.toFixed(4)}) τB<τA=${s.tau[1]<s.tau[0]} 步幅変動=${(jmax-jmin).toExponential(1)}`};
   },
+  // ==== V18/V19/V20: E12 測地線1PN(v1.20・v2.0第1段階。BOX_UNIVERSE §6、DERIVATIONS §15)====
+  // 水星の実離心率 e=0.2056 の軌道(GM=150, a=60)を geoPN=1 で積分し、近点角のドリフトを
+  // λ_PN=0(ニュートン)基線との差で測る(数値基線の相殺は V6 と同方針)。
+  // 解析値: Δϖ/周 = (6πGM/(c²a(1−e²)))·(2+2γ−β)/3 — α=1.5 で β=γ=1(全量)、α=0.5 で γ=0(1/3)。
+  // 実 ε=GM/(ac²)≈2.7e-8 は Float32 で測定不能のため ε=1.56e-3(c₀=40)へ増幅し、
+  // 式の一致を機械検証する。実値換算(同式・水星実値)は 42.98″/世紀(全量)・14.33″/世紀(1/3)。
+  _pnCache:null,
+  _pnRuns(){
+    if(this._pnCache) return this._pnCache;
+    const run=(alpha,lam)=>{
+      const s=makeSim();
+      s.build({ id:"verify_v18", name:"V18", camera:{scale:200}, world:{boundary:"none",size:0},
+        physics:{G:1, D0:0.05, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, etaRad:0,
+          Kt:10000, cLight:40, geoPN:1, lambdaPN:lam, pnAlpha:alpha, softening:0.5, timeScale:1},
+        bodies:[
+          {type:"single", m:150, x:0, y:0, vx:0, vy:0, spin:0, pinned:true},
+          {type:"single", m:0.01, x:47.664, y:0, vx:0, vy:1.94787, spin:0, pinned:false}
+        ], overlays:{} });   // a=60, e=0.2056(近点47.66・遠点72.34)の順行軌道
+      const peri=[]; let lastK=-1e9, r2=0, r1=0, th1=0;
+      for(let k=0;k<80000 && peri.length<4;k++){
+        s.step(DT);
+        const r=Math.hypot(s.x[1],s.y[1]), th=Math.atan2(s.y[1],s.x[1]);
+        if(k>2 && r1<r2 && r1<r && r1<55 && (k-lastK)>6000){ peri.push(th1); lastK=k; }
+        r2=r1; r1=r; th1=th;
+      }
+      let acc=0;
+      for(let i=1;i<peri.length;i++){
+        let dd=peri[i]-peri[i-1];
+        while(dd>Math.PI) dd-=2*Math.PI; while(dd<-Math.PI) dd+=2*Math.PI;
+        acc+=dd;
+      }
+      return {n:peri.length, drift: peri.length>1 ? acc/(peri.length-1) : 0}; // rad/周
+    };
+    const GM=150, a0=60, e0=0.2056, c0=40;
+    const anaFull=6*Math.PI*GM/(c0*c0*a0*(1-e0*e0));   // 0.030754 rad/周(β=γ=1)
+    this._pnCache={ full:run(1.5,1), tOnly:run(0.5,1), newton:run(1.5,0), anaFull };
+    return this._pnCache;
+  },
+  // V18: 水星1PN — λ_PN=0/1 の回帰。前進(正)かつ解析式 6πGM/(c²a(1−e²)) に一致
+  v18(){
+    const r=this._pnRuns();
+    const adv=r.full.drift-r.newton.drift, err=Math.abs(adv-r.anaFull)/r.anaFull;
+    const pass=r.full.n>=3 && r.newton.n>=3 && adv>0 && err<0.12;
+    const f=(x)=>(x*180/Math.PI).toFixed(3);
+    return {id:"V18", pass, value:err,
+      detail:`Δϖ/周: λ=1→${f(r.full.drift)}° λ=0基線→${f(r.newton.drift)}° 差=${f(adv)}°(解析${f(r.anaFull)}°、誤差${(err*100).toFixed(1)}%<12%)。同式の水星実値換算=42.98″/世紀`};
+  },
+  // V19: 統制実験(時間率のみ α=0.5)— 全量の 1/3(γ=0)に一致
+  v19(){
+    const r=this._pnRuns();
+    const advT=r.tOnly.drift-r.newton.drift, ana=r.anaFull/3, err=Math.abs(advT-ana)/ana;
+    const pass=r.tOnly.n>=3 && advT>0 && err<0.12;
+    const f=(x)=>(x*180/Math.PI).toFixed(3);
+    return {id:"V19", pass, value:err,
+      detail:`Δϖ/周(時間率のみ): ${f(advT)}°(解析=全量の1/3=${f(ana)}°、誤差${(err*100).toFixed(1)}%<12%)。実値換算=14.33″/世紀`};
+  },
+  // V20: 時間率+空間率(α=1.5)— 統制の3倍かつ解析値に一致(論文提出ゲート)
+  v20(){
+    const r=this._pnRuns();
+    const adv=r.full.drift-r.newton.drift, advT=r.tOnly.drift-r.newton.drift;
+    const ratio=advT!==0? adv/advT : 0, err=Math.abs(adv-r.anaFull)/r.anaFull;
+    const pass=adv>0 && advT>0 && Math.abs(ratio-3)<0.35 && err<0.12;
+    return {id:"V20", pass, value:ratio,
+      detail:`全量/時間率のみ=${ratio.toFixed(3)}(理論3±0.35) 全量の解析式一致=${(err*100).toFixed(1)}%<12%。実値換算=42.982″/世紀(観測≈42.98″)`};
+  },
   all(){ return [this.v1(), this.v2(), this.v6(), this.v8(), this.v9(), this.v10(), this.v10b(),
-                 this.v11(), this.v12(), this.v13(), this.v16()]; }
+                 this.v11(), this.v12(), this.v13(), this.v16(),
+                 this.v18(), this.v19(), this.v20()]; }
 };
 
 // ===== デバッグ/テスト用フック(品質ゲートが使用) =====
