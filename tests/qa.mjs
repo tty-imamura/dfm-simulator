@@ -375,8 +375,11 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   const r = await page.evaluate(() => {
     const res = {};
     // 直値入力はそのまま反映(fmt 丸め表示に置き換えない)
+    // v1.22: activeParams 導入で先頭行は G と限らないため、ラベル「重力 G」で行を特定する
     HP.loadPreset('saturn', false);
-    const inp = document.querySelector('#paramRows .prow input.valIn');   // 先頭行 = G
+    const gRow = [...document.querySelectorAll('#paramRows .prow')]
+      .find(x => x.querySelector('label') && x.querySelector('label').textContent === '重力 G');
+    const inp = gRow.querySelector('input.valIn');
     inp.value = '0.123'; inp.dispatchEvent(new Event('change'));
     res.direct = Math.abs(HP.sim.params.G - 0.123) < 1e-12 && inp.value === '0.123';
     // 表示グループに「線の軌跡」トグルがあり、overlays.trail と連動する
@@ -474,6 +477,91 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   add('spinlens.kframe-control', r.spinlensCtl,
     `非対称度 kF=1: ${r.asym1.toExponential(2)} / kF=0: ${r.asym0.toExponential(2)}(0で消失)`);
   add('projectile.layout', r.projOk, '説明「下段は斜方投射」と bodies[3](最大y・vy<0)の一致');
+}
+
+// ---- 7k) v1.22 性能・UXスプリント: activeParams / 描画オンデマンド / 光線・フィールド
+// ----     キャッシュ / 発散Undo ----
+{
+  // ① 全内蔵プリセットに activeParams があり、キーが PARAM_DEFS に存在する
+  const r1 = await page.evaluate(() => {
+    const keys = new Set(HP.PARAM_DEFS.map(d => d.key));
+    const bad = HP.allPresets().filter(p => !String(p.id).startsWith('custom_'))
+      .filter(p => !Array.isArray(p.activeParams) || p.activeParams.length === 0
+        || p.activeParams.some(k => !keys.has(k)))
+      .map(p => p.id);
+    // ② UI: saturn は主役グループ(activeParams と同数の行)+詳細設定 <details> に残り全行
+    HP.loadPreset('saturn', false);
+    const act = HP.allPresets().find(p => p.id === 'saturn').activeParams;
+    const groups = [...document.querySelectorAll('#paramRows > .group')];
+    const actGroup = groups[0];
+    const actRows = actGroup ? actGroup.querySelectorAll('.prow').length : 0;
+    const det = document.querySelector('#paramRows details.advParams');
+    const detRows = det ? det.querySelectorAll('.prow').length : 0;
+    const headOk = actGroup && actGroup.querySelector('h3').textContent === 'このサンプルの主役';
+    // 主役行の編集が反映される(先頭= muF)
+    const inp = actGroup.querySelector('.prow input.valIn');
+    inp.value = '0.33'; inp.dispatchEvent(new Event('change'));
+    const editOk = Math.abs(HP.sim.params.muF - 0.33) < 1e-12;
+    return { bad, actRows, nAct: act.length, detRows, nRest: HP.PARAM_DEFS.length - act.length,
+      detOpen: det ? det.open : null, headOk, editOk };
+  });
+  add('activeParams.all', r1.bad.length === 0, r1.bad.join(',') || '全25種で宣言済み');
+  add('activeParams.ui', r1.headOk && r1.actRows === r1.nAct && r1.detRows === r1.nRest
+    && r1.detOpen === false && r1.editOk,
+    `主役${r1.actRows}/${r1.nAct}行 詳細${r1.detRows}/${r1.nRest}行 折りたたみ=${r1.detOpen === false} 編集反映=${r1.editOk}`);
+
+  // ③ 停止中の描画オンデマンド化: 操作がなければ render が走らず、操作で走る
+  const r2 = await page.evaluate(async () => {
+    HP.loadPreset('fig8', false);           // running=false・requestRender が1回入る
+    await new Promise(res => setTimeout(res, 300));   // 読込直後の1描画を排出
+    const c0 = HP.stats().renderCount;
+    await new Promise(res => setTimeout(res, 500));
+    const c1 = HP.stats().renderCount;
+    HP.requestRender();                     // 操作相当(パン・パラメータ変更などが呼ぶ)
+    await new Promise(res => setTimeout(res, 200));
+    const c2 = HP.stats().renderCount;
+    return { idle: c1 - c0, wake: c2 - c1 };
+  });
+  add('render.on-demand', r2.idle === 0 && r2.wake >= 1,
+    `停止500msの描画=${r2.idle}回(0) 操作後=${r2.wake}回(≥1)`);
+
+  // ④ 光線・フィールドのキー比較キャッシュ: 💡lensing は全固定源なので、実行中に
+  //    毎フレーム描画されても再積分・再計算はほぼ増えない(初回のみ)
+  const r3 = await page.evaluate(async () => {
+    HP.loadPreset('lensing', false);
+    await new Promise(res => setTimeout(res, 300));
+    const s0 = HP.stats();
+    HP.setRunning(true);
+    await new Promise(res => setTimeout(res, 700));
+    HP.setRunning(false);
+    const s1 = HP.stats();
+    return { renders: s1.renderCount - s0.renderCount,
+      rays: s1.rayTraceCount - s0.rayTraceCount,
+      fields: s1.fieldCalcCount - s0.fieldCalcCount };
+  });
+  add('cache.rays-field', r3.renders > 10 && r3.rays <= 2 && r3.fields <= 2,
+    `描画${r3.renders}回の間に 光線再積分=${r3.rays}(≤2) フィールド再計算=${r3.fields}(≤2)`);
+
+  // ⑤ 発散Undo: 2秒毎スナップショット→NaN注入→通知ボタン→復元(初期配置+発散前パラメータ)
+  const r4 = await page.evaluate(async () => {
+    HP.loadPreset('fig8', false);
+    const g0 = HP.sim.params.G;
+    HP.setRunning(true);
+    await new Promise(res => setTimeout(res, 3000));  // ≈180フレーム → snapB 確保
+    const snapped = !!(HP.divSnaps().a || HP.divSnaps().b);
+    HP.sim.params.G = 100;                            // 「壊れた」変更(スナップには入らない想定)
+    HP.sim.x[0] = NaN;                                // 発散を注入
+    await new Promise(res => setTimeout(res, 800));   // 30フレーム毎の検査に掛かる
+    const stopped = !HP.running();
+    const btn = document.querySelector('#notice button');
+    const hasBtn = !!btn && document.querySelector('#notice').style.display !== 'none';
+    if (btn) btn.click();                             // ⏪ 直前の設定に戻して初めから
+    const restored = !HP.sim.hasNaN() && HP.sim.t === 0 && Math.abs(HP.sim.params.G - g0) < 1e-12;
+    HP.loadPreset('saturn', false);
+    return { snapped, stopped, hasBtn, restored };
+  });
+  add('divergence.undo', r4.snapped && r4.stopped && r4.hasBtn && r4.restored,
+    `snapshot=${r4.snapped} 停止=${r4.stopped} ボタン=${r4.hasBtn} 復元=${r4.restored}`);
 }
 
 // ---- 7c) A/B比較モード(v1.13 → v1.19 コピー方式): 同一初期条件・両シム同時駆動・A継続 ----
