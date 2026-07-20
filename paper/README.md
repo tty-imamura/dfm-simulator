@@ -52,11 +52,12 @@ headless Chromium + HP フック駆動(依存は `npm ci` の playwright のみ)
 - [x] 書誌の全件検証(2026-07-18: 外部AI 3系統のクロス検証で全25件確認)
 - [x] 著者所属行の確定(Independent Researcher, Tokyo, Japan)
 - [x] 英文校閲(v0.3)・第6次外部AI査読の裁定(v0.5)・タイトル確定(v0.6)
+- [x] Table I/IV の標準資料引用(v0.8: CODATA 2022 / IAU 2015 B3(Prša+16)/
+      Ashby 2003 — 一次資料照合済み。第6次査読 Major 12)
+- [x] pdflatex 2パス+ページ数確定(**16ページ** — エラー0・未解決参照0。
+      arXiv Comments 欄確定)
 - [ ] リポジトリ提出版タグ+Zenodo DOI の挿入(tex 内 `TODO(submission)`。
       手順はルート README「提出版タグとアーカイブ DOI の発行手順」)
-- [ ] Table I/IV の標準資料引用(CODATA / IAU nominal values / GPS IS —
-      一次資料照合の上で追加。第6次査読 Major 12)
-- [ ] ローカル pdflatex 2パス+ページ数確定(arXiv Comments 欄用)
 - [ ] 日本語要旨(国内発表用・必要なら)
 
 ## 受け入れ条件(HANDOFF_PAPER_V2 §7)と検査
