@@ -1,7 +1,32 @@
 {
- "commit": "ab529f2",
- "generated": "2026-07-20T07:08:32.560Z",
+ "commit": "082fc0b",
+ "generated": "2026-07-20T09:14:31.608Z",
  "gates": [
+  {
+   "id": "fig1.dial",
+   "pass": true,
+   "detail": "om40: 0.417→0.024 解析との差=0.0%"
+  },
+  {
+   "id": "fig2.flatten",
+   "pass": true,
+   "detail": "外縁比 kF1/kF0=1.082 (>1.04)"
+  },
+  {
+   "id": "fig3.sign",
+   "pass": true,
+   "detail": "+S=-7.52 −S=10.71 ctrl=-1.03"
+  },
+  {
+   "id": "fig4.analytic",
+   "pass": true,
+   "detail": "最大相対誤差=9.13e-5 (<1e-3)"
+  },
+  {
+   "id": "fig5.asym",
+   "pass": true,
+   "detail": "Δθ(+0.5)=-6.77e-2 Δθ(−0.5)=6.77e-2"
+  },
   {
    "id": "fig6.expand",
    "pass": true,
