@@ -477,7 +477,7 @@ en: {
   paramDescs:{
     G:"Strength of mutual gravity between particles. In this universe gravity is the gradient of determinacy W (A6/E4: a=G∇W). Set 0 to switch self-gravity off (independent of the uniform field g_x/g_y).",
     D0:"Baseline determinacy contributed by the distant universe (A5). The larger it is, the more space is anchored far away — and the weaker the relative grip of nearby masses (kFrame drag).",
-    kFrame:"How strongly moving or spinning masses drag the 'nearby space' (the determinacy frame) along, carrying matter and light with it (A4/A5/E6′). 1 = fully relational space, 0 = Newtonian rigid space. The lead actor of rotation-curve flattening (T4).",
+    kFrame:"How strongly moving or spinning masses drag the 'nearby space' (the determinacy frame) along, carrying matter and light with it (A4/A5/E6′). 1 = fully relational space, 0 = Newtonian rigid space. The lead actor of the outer-velocity enhancement in rotation curves (T4).",
     q:"Falloff exponent of the rotational drag from spin with distance (E3: (R/(R+d))^q). Larger q confines the drag closer to the body.",
     kRep:"Repulsion between spinning (= hot) particles (A10/E5′) — the origin of 'pressure' in this universe. Hot gas inflating (🎈) and convection (♨️) are driven by this force.",
     muF:"Efficiency of converting sliding contact (relative velocity) into spin = heat (A9/E9). At 0, collisions no longer heat anything (try the 💥 contrast experiment).",
@@ -530,7 +530,7 @@ ja: {
   T1:"D₀→∞ でニュートンの絶対空間に近づく(空間が「固く」なる)",
   T2:"回る質量は内側の空間ごと引きずる(マッハのバケツ)",
   T3:"衝突する環は軌道が円形化し、回転方向が揃っていく",
-  T4:"引きずり(kFrame=1)は銀河の回転曲線を平坦化する(kFrame=0では起きない)",
+  T4:"引きずり(kFrame=1)は銀河外縁の回転速度を増強する(kFrame=0では起きない。平坦化の断定はしない)",
   T5:"光線は決定力の高い側へ曲がる(重力レンズ。強い場では光子捕捉=光学類似)",
   T6:"スピン拡散で温度が均一化する(第0法則の類似。単一粒径の系で成立)",
   T7:"線運動量と全角運動量(軌道+スピン)は厳密に保存する",
@@ -565,7 +565,7 @@ en: {
   T1:"As D₀→∞ the universe approaches Newton's absolute space (space becomes rigid)",
   T2:"A rotating mass drags the space inside it (Mach's bucket)",
   T3:"Colliding rings circularize their orbits and align their rotation",
-  T4:"Dragging (kFrame=1) flattens galactic rotation curves (it doesn't happen at kFrame=0)",
+  T4:"Dragging (kFrame=1) enhances outer rotation velocities in galaxies (absent at kFrame=0; no flatness claim)",
   T5:"Light bends toward high determinacy (gravitational lensing; photon capture in strong fields — an optical analogue)",
   T6:"Spin diffusion equalizes temperature (a zeroth-law analogue; holds for equal-size particles)",
   T7:"Linear momentum and total angular momentum (orbital + spin) are exactly conserved",
@@ -610,7 +610,7 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
   geoPN:0, lambdaPN:1, pnAlpha:1.5,   // v1.20: E12 測地線1PN(geoPN=1で有効。BOX_UNIVERSE §5)
   radiusScale:1.2, softening:2, timeScale:1 };
 // v1.7: kLens は廃止(E8R で屈折率は n=e^{2W/Kt} に統一。旧セーブの kLens は受理して無視)
-const APP_VERSION = "1.24";               // エクスポートの appVersion に記録(package.json と QA で同期検査)
+const APP_VERSION = "1.25";             // エクスポートの appVersion に記録(package.json と QA で同期検査)
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 const RAY_MASS_MIN = 40;                  // 光線を曲げる最小質量(性能のための近似)
@@ -627,7 +627,7 @@ const PARAM_DEFS = [
   {key:"D0",    label:"背景決定力 D₀",       mode:"log", lo:0.05,   hi:200,  group:"法則",
    desc:"遠方宇宙が及ぼす決定力の底値(A5)。大きいほど空間が遠方に固定されて安定し、近くの質量による空間引きずり(kFrame)の効きが相対的に弱まる。"},
   {key:"kFrame",label:"空間引きずり kFrame", mode:"lin", lo:0, hi:1, step:0.01, group:"法則",
-   desc:"質量が動く・回ると「近くの空間」(決定フレーム)ごと引きずり、そこにある物質と光を運ぶ効果の強さ(A4/A5/E6′)。1=完全な相対空間、0=引きずりなしのニュートン的空間。銀河回転曲線の平坦化(T4)の主役。"},
+   desc:"質量が動く・回ると「近くの空間」(決定フレーム)ごと引きずり、そこにある物質と光を運ぶ効果の強さ(A4/A5/E6′)。1=完全な相対空間、0=引きずりなしのニュートン的空間。銀河外縁の回転速度増強(T4)の主役。"},
   {key:"q",     label:"引きずり減衰 q",      mode:"lin", lo:0.5, hi:4, step:0.05, group:"法則",
    desc:"スピン(自転)による回転引きずりが距離とともに弱まる速さの指数(E3: (R/(R+d))^q)。大きいほど引きずりが天体の近くに限定される。"},
   {key:"kRep",  label:"スピン斥力 kRep",     mode:"lin", lo:0, hi:5, step:0.05, group:"法則",
@@ -707,8 +707,8 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
 { id:"grcal", name:"弱場GR較正 — GPS・光・シャピロ", emoji:"🛰️", group:"空間と時間",
-  description:"時計と光を1本のψ=W/Ktで決める弱場則(A7′/E7R/E8R/T5)を、現実の観測と突き合わせる較正デモ。Kt=c²/Gの1本で: GPS時計の正味進み +38.5μs/日(重力+45.7・運動−7.2。観測≈+38.6)/太陽縁の光偏向 1.7512″(観測≈1.75″)/シャピロ遅延 ≈281μs(カッシーニ幾何)が定量一致する。水星の近日点前進は☿(測地線1PN・E12)が扱う。画面はそのアナログ: 地上時計(r=60)はτ/t=0.920、周回衛星(r=180)は運動しているのにτ/t=0.971で速く進む — 重力項が運動項に勝つ、実GPSと同じ符号構造。左からの光線ファンは中心星の場で屈折し(シャピロ遅延と同じn_eff>1の機構)、Ktを下げると時計差と湾曲が同時に強まる。",
-  en:{name:"Weak-Field GR Calibration — GPS, Light, Shapiro", description:"A calibration demo pitting the single-ψ weak-field law (A7′/E7R/E8R/T5) against real observations. With the one mapping Kt=c²/G: net GPS clock rate +38.5 μs/day (gravity +45.7, motion −7.2; observed ≈+38.6) / solar-limb deflection 1.7512″ (observed ≈1.75″) / Shapiro delay ≈281 μs (Cassini geometry) — all match quantitatively. Mercury's perihelion advance is covered by ☿ (geodesic 1PN, E12). On screen, the analog: the ground clock (r=60) shows τ/t=0.920 while the orbiting satellite (r=180), though moving, ticks faster at τ/t=0.971 — gravity beats motion, the same sign structure as real GPS. The ray fan from the left refracts in the central field (the same n_eff>1 mechanism as the Shapiro delay); lower Kt and clock gaps and bending strengthen together."},
+  description:"時計と光を1本のψ=W/Ktで決める弱場則(A7′/E7R/E8R/T5)を、現実の観測と突き合わせる較正デモ。Kt=c²/Gの1本で: GPS時計の正味進み +38.5μs/日(重力+45.7・運動−7.2。観測≈+38.6)/太陽縁の光偏向 1.7512″(観測≈1.75″)/シャピロ遅延 ≈281μs(カッシーニ幾何)が定量一致する。水星の近日点前進は☿(測地線1PN・E12)が扱う。画面はそのアナログ: 地上時計(r=60)はτ/t=0.920、周回衛星(r=180)は運動しているのにτ/t=0.971で速く進む — 重力項が運動項に勝つ、実GPSと同じ符号構造。左からの光線ファンは中心星の場で屈折し(シャピロ遅延と同じn_eff>1の機構)、Ktを下げると時計差と湾曲が同時に強まる。※SI較正の数値はKt=c²/G写像の式計算によるもの。画面初期値は見やすさ優先の誇張アナログで、物理対応条件 Kt=cLight²/G は満たしていない(v1.25明記。PHYSICS §5 物理対応条件)。",
+  en:{name:"Weak-Field GR Calibration — GPS, Light, Shapiro", description:"A calibration demo pitting the single-ψ weak-field law (A7′/E7R/E8R/T5) against real observations. With the one mapping Kt=c²/G: net GPS clock rate +38.5 μs/day (gravity +45.7, motion −7.2; observed ≈+38.6) / solar-limb deflection 1.7512″ (observed ≈1.75″) / Shapiro delay ≈281 μs (Cassini geometry) — all match quantitatively. Mercury's perihelion advance is covered by ☿ (geodesic 1PN, E12). On screen, the analog: the ground clock (r=60) shows τ/t=0.920 while the orbiting satellite (r=180), though moving, ticks faster at τ/t=0.971 — gravity beats motion, the same sign structure as real GPS. The ray fan from the left refracts in the central field (the same n_eff>1 mechanism as the Shapiro delay); lower Kt and clock gaps and bending strengthen together. Note: the SI-calibrated numbers come from formula-level computation under the mapping Kt=c²/G; the on-screen initial values are a visibility-first exaggerated analog and do not satisfy the physical-correspondence condition Kt=cLight²/G (stated in v1.25; see PHYSICS §5)."},
   activeParams:["Kt","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:280}, world:{boundary:"none",size:0},
   physics:{G:1, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:300,
@@ -722,8 +722,8 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
 { id:"mercury", name:"水星の近日点前進 — 測地線1PN", emoji:"☿", group:"空間と時間",
-  description:"v2.0の測地線モード(E12)。時計を遅らせるのと同じψ=W/Ktが物質の軌道も決めると(A7′/E7R の作用化)、楕円軌道は公転と同じ向きにゆっくり回り=近日点の前進、花びら模様を描く。λ_PN(lambdaPN)を0にするとニュートンに戻り楕円は閉じる。pnAlpha=0.5(時間率のみ)では前進が1/3に減る — 実際の水星で42.98″/世紀(全量)と14.33″/世紀(1/3)に対応する。※V18/V19/V20の機械検証は同じE12式を検証専用の初期値(増幅ε・別のcLight等)で解析式と突き合わせたもの。この画面はその同じ式を、歳差が数周で見えるようさらに増幅した可視化用初期値で走らせている(v1.21で区別を明記。画面初期値そのものの検証はQAのbuiltin-mercuryが担う)。",
-  en:{name:"Mercury's Perihelion Advance — Geodesic 1PN", description:"The v2.0 geodesic mode (E12). When the same ψ=W/Kt that slows clocks also governs matter orbits (the action form of A7′/E7R), the ellipse slowly rotates in the direction of the orbit — perihelion advance — tracing a rosette. Set λ_PN (lambdaPN) to 0 to recover Newton: the ellipse closes. With pnAlpha=0.5 (time rate only) the advance drops to 1/3 — corresponding to 42.98″/century (full) vs 14.33″/century (1/3) for the real Mercury. Note: the V18/V19/V20 machine checks verify the same E12 formula against analytic values under dedicated verification conditions (amplified ε, different cLight etc.); this screen runs that same formula with further-amplified visualization initial values (distinction stated in v1.21; the on-screen initial values themselves are covered by the builtin-mercury QA)."},
+  description:"v2.0の測地線モード(E12)。時計を遅らせるのと同じψ=W/Ktが物質の軌道も決めると(A7′/E7R の作用化)、楕円軌道は公転と同じ向きにゆっくり回り=近日点の前進、花びら模様を描く。λ_PN(lambdaPN)を0にするとニュートンに戻り楕円は閉じる。pnAlpha=0.5(時間率のみ)では前進が1/3に減る — 実際の水星で42.98″/世紀(全量)と14.33″/世紀(1/3)に対応する。※V18/V19/V20の機械検証は同じE12式を検証専用の初期値(増幅ε・別のcLight等)で解析式と突き合わせたもの。この画面はその同じ式を、歳差が数周で見えるようさらに増幅した可視化用初期値で走らせている(v1.21で区別を明記。画面初期値そのものの検証はQAのbuiltin-mercuryが担う)。※画面初期値は物理対応条件 Kt=cLight²/G を満たさない誇張アナログ(v1.25明記。PHYSICS §5 物理対応条件)。",
+  en:{name:"Mercury's Perihelion Advance — Geodesic 1PN", description:"The v2.0 geodesic mode (E12). When the same ψ=W/Kt that slows clocks also governs matter orbits (the action form of A7′/E7R), the ellipse slowly rotates in the direction of the orbit — perihelion advance — tracing a rosette. Set λ_PN (lambdaPN) to 0 to recover Newton: the ellipse closes. With pnAlpha=0.5 (time rate only) the advance drops to 1/3 — corresponding to 42.98″/century (full) vs 14.33″/century (1/3) for the real Mercury. Note: the V18/V19/V20 machine checks verify the same E12 formula against analytic values under dedicated verification conditions (amplified ε, different cLight etc.); this screen runs that same formula with further-amplified visualization initial values (distinction stated in v1.21; the on-screen initial values themselves are covered by the builtin-mercury QA). Also note: the on-screen initial values are an exaggerated analog that does not satisfy the physical-correspondence condition Kt=cLight²/G (stated in v1.25; see PHYSICS §5)."},
   activeParams:["lambdaPN","pnAlpha","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:220}, world:{boundary:"none",size:0},
   physics:{G:1, D0:0.05, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
@@ -736,8 +736,8 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"galaxy", name:"銀河の回転曲線", emoji:"🌌", group:"空間と時間",
-  description:"円盤銀河。初めは星々がケプラー回転(グラフの点線と一致)しているが、空間の引きずり(kFrame=1)が内側の回転を外へ伝え、回転曲線が平坦化していく(T4)。kFrameを0にすると起きない。右下のグラフ(実線=実測、点線=ケプラー予想)に注目。",
-  en:{name:"Galactic Rotation Curve", description:"A disk galaxy. Stars start on Keplerian orbits (matching the dotted line), but frame dragging (kFrame=1) transports the inner rotation outward and the curve flattens (T4). Set kFrame=0 and it never happens. Watch the bottom-right graph (solid=measured, dotted=Keplerian)."},
+  description:"円盤銀河。初めは星々がケプラー回転(グラフの点線と一致)しているが、空間の引きずり(kFrame=1)が内側の回転を外へ伝え、外縁の回転速度がケプラー予想より高く保たれる(T4: 外縁速度の増強。曲線全体の「平坦化」までは主張しない — 論文v0.2整合)。kFrameを0にすると起きない。右下のグラフ(実線=実測、点線=ケプラー予想)に注目。※この画面のD₀はモデル内の調整値で、現実の予言値ではない(L14)。",
+  en:{name:"Galactic Rotation Curve", description:"A disk galaxy. Stars start on Keplerian orbits (matching the dotted line), but frame dragging (kFrame=1) transports the inner rotation outward, keeping outer velocities above the Keplerian prediction (T4: outer-velocity enhancement; no claim of full flattening — aligned with paper v0.2). Set kFrame=0 and it never happens. Watch the bottom-right graph (solid=measured, dotted=Keplerian). Note: D₀ here is a model-internal tuning value, not a real-world prediction (L14)."},
   activeParams:["kFrame","D0","G"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{G:1, D0:1, kFrame:1, q:2, kRep:1.0, muF:0.02, gammaN:0.05, kappaS:0.05, Kt:60,
@@ -3350,7 +3350,7 @@ const VERIFY = {
       detail:`|ΔE|/E0=${resid.toExponential(2)} (< 1e-3) E0=${E0.toFixed(4)} E1=${E1.toFixed(4)}(固定スピン+kRep=${kRep})`};
   },
   // V11: T4 の因果性(v1.5 付録F)。同一初期条件の kFrame=0/1 A/B 比較で、
-  // 外側の平均回転が kFrame=1 側でのみ増速すること(平坦化の因果が kFrame にあることの検証)。
+  // 外側の平均回転が kFrame=1 側でのみ増速すること(外縁速度増強の因果が kFrame にあることの検証)。
   // 付録F 追記(2026-07-16): 原定義(R260・800步・終値判定)は T4 連鎖(減速→落下→スピンアップ)の
   // 力学時間に対し窓が短くゲインが負。縮小銀河(R130、力学時間 2.4×短縮)+D0 0.5+
   // 時間平均ゲイン(1000〜2000步を100步毎に採取)に改訂。実測プラトー 0.055±0.007 に対し閾値 0.03

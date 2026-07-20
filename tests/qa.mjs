@@ -91,6 +91,16 @@ const add = (id, pass, detail) => {
   const readme = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8');
   const counted = readme.match(/\d+\s*の内蔵シミュレーション|\d+\s*built-?in simulations/i);
   add('docs.no-preset-count', !counted, counted ? `README に総数記載: ${counted[0]}` : '');
+  // v1.25(第10次裁定 P1): QA 項目数も増減するため README に固定数を書かない
+  // (更新履歴の過去記録「QA 104/104」等は対象外 — 現在形の総数宣言のみ検出)
+  const qaCounted = readme.match(/全機械QA\(\d+項目\)|全\d+項目\(約/);
+  add('docs.no-qa-count', !qaCounted, qaCounted ? `README に QA 総数記載: ${qaCounted[0]}` : '');
+  // v1.25(第10次裁定 P0-5): PHYSICS §6 のサンプル表が全内蔵プリセット ID を含む(機械同期)
+  const phys6 = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+  const ids = [...block.matchAll(/\{ id:"(\w+)"/g)].map(x => x[1]);
+  const absent = ids.filter(id => !phys6.includes(`| ${id} |`));
+  add('docs.preset-table-sync', ids.length > 0 && absent.length === 0,
+    absent.length ? `PHYSICS §6 に不在: ${absent.join(' ')}` : `${ids.length} ids`);
 }
 
 // ---- 0e) ドキュメント同期(v1.18): PHYSICS.md の既定表に一様重力がある ----
