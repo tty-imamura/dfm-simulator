@@ -1,11 +1,18 @@
 % =====================================================================
-% Determinacy-Field Mechanics -- arXiv draft (v0.2, 2026-07-19)
+% Determinacy-Field Mechanics -- arXiv draft (v0.3, 2026-07-20)
 % Written per docs/HANDOFF_PAPER_V2.md (sole authoritative writing brief).
 % v0.2: all 21 adjudicated items of the fifth AI mock review applied
 %       (claim-level restriction, axiom clarifications A2/A5/A10,
 %       E6' pair-update transcription, benchmark-input fixing,
 %       reproducibility metadata; adjudication record: docs/DERIVATIONS.md
 %       Sec. 16).
+% v0.3: English proofreading pass. Three external AI proofreading
+%       reports (ChatGPT / Grok / Gemini, 2026-07-20) adjudicated and
+%       applied: grammar, idiom, compound-modifier consistency
+%       (clock-and-light sector), jargon reduction, and precise wording
+%       for the V6 gate factor and the V16 reference clock (both fixed
+%       against the implementation). No number, claim, equation, or
+%       mandated positioning phrase changed.
 % Input canon: docs/DERIVATIONS.md, docs/PHYSICS.md v1.6,
 %              docs/THEORY_SYNTHESIS.md v1.7, index.html v1.23.
 % Target: American Journal of Physics / European Journal of Physics
@@ -34,32 +41,34 @@ Thermodynamics}
 % Affiliation confirmed 2026-07-18 (author's decision).
 \affiliation{Independent Researcher, Tokyo, Japan}
 
-\date{July 19, 2026}
+\date{July 20, 2026}
 
 \begin{abstract}
 We present Determinacy-Field Mechanics (DFM), an educational toy model in
 which a single scalar field $W$ (the ``determinacy field,'' sourced by
-point masses as $w = m/\sqrt{d^2+\varepsilon^2}$) plays four roles at
-once---the weight defining the local inertial frame, the gravitational
-potential, the local clock rate, and the optical refractive index---while
-a single signed spin degree of freedom $s$ per particle acts as heat.
+point masses as $w = m/\sqrt{d^2+\varepsilon^2}$) simultaneously plays
+four roles---the weight defining the local inertial frame, the
+gravitational potential, the local clock rate, and the optical
+refractive index---while a single signed spin degree of freedom $s$ per
+particle acts as heat.
 The model is specified by axioms A1--A13 and update rules E1$'$--E11 on a
 two-dimensional Euclidean background, and is implemented as a
 self-contained single-file HTML simulator whose principal claims are
 machine-verified by an embedded test suite.
 A one-parameter background determinacy $\Dz$ interpolates continuously
 between Newtonian absolute space ($\Dz \to \infty$) and a fully
-relational, Machian space ($\Dz \to 0$), turning Newton's bucket into a
-parameter scan.
+relational, Machian space ($\Dz \to 0$), turning Newton's bucket into
+an executable parameter scan.
 With frame dragging amplified to order unity ($k_F = 1$), disk systems
 develop a modest outer-velocity enhancement---a machine-gated increase
-of the outer rotation velocities relative to the $k_F = 0$ control---as
-a mechanism demonstration inside the model; with $k_F = 0$ the dynamics
-reduces exactly to Newtonian $N$-body gravity.
-Under the single calibration $\Kt = c^2/G$, with the observational
-inputs of each benchmark fixed in an appendix, the model's weak-field
-clock and light sector reproduces the leading weak-field benchmark
-formulas for the GPS clock offset, the solar-limb light deflection, and
+in the outer rotation velocities relative to the $k_F = 0$ control---as
+a demonstration of the mechanism within the model; with $k_F = 0$ the
+dynamics reduces exactly to Newtonian $N$-body gravity.
+Under the single calibration $\Kt = c^2/G$, and with the observational
+inputs for each benchmark specified in an appendix, the model's
+weak-field clock-and-light sector reproduces the leading weak-field
+benchmark formulas for the GPS clock offset, the solar-limb light
+deflection, and
 the Shapiro delay (formula-level benchmark agreement), with the
 gravitational-to-optical ratio $1{:}2$ fixed by the single axiomatic
 exponent choice $a = b = 1$ rather than by per-observable fitting; the
@@ -67,9 +76,10 @@ same dynamics does \emph{not} reproduce the static first
 post-Newtonian perihelion advance of Mercury, and we exhibit this
 failure in the same calibration table.
 We state explicitly what the model does not claim: it is not a
-description of the real universe, it does not remove the need for dark
-matter, it has no Lorentz invariance or causal propagation, and its
-thermodynamic sector is an analogy rather than a quantitative theory.
+description of the real universe; it does not remove the need for dark
+matter; it has neither Lorentz invariance nor causal propagation; and
+its thermodynamic sector is an analogy rather than a quantitative
+theory.
 DFM is offered as a compact, fully inspectable laboratory for teaching
 and exploring Machian ideas, weak-field phenomenology, and conservation
 bookkeeping in interactive form.
@@ -81,7 +91,8 @@ bookkeeping in interactive form.
 \section{Introduction}
 \label{sec:intro}
 
-Newton's rotating bucket poses the oldest question about inertia: with
+Newton's rotating bucket poses one of the oldest questions about
+inertia: with
 respect to \emph{what} does the water's surface curve?~\cite{Newton1687}
 Newton answered ``absolute space''; Mach countered that only the
 relative configuration and motion of matter can matter, so the distant
@@ -100,7 +111,8 @@ This paper asks a deliberately counterfactual question and builds the
 smallest working model that answers it:
 \emph{what would mechanics look like if frame dragging were an
 order-unity effect?}
-The answer we construct, Determinacy-Field Mechanics (DFM), is
+The model we construct in response, Determinacy-Field Mechanics (DFM),
+is
 \emph{a Machian toy model on a fixed Euclidean background that makes the
 inertial standard emergent from the matter distribution}.
 Every point mass $j$ contributes a scalar ``determinacy''
@@ -118,7 +130,7 @@ pressure through spin-induced frame rotation.
 
 The model is intentionally not a candidate description of nature.
 It is an educational and exploratory instrument in the tradition of
-toy universes: small enough to state completely in a few pages
+toy universes: small enough to specify completely in a few pages
 (axioms A1--A13, update rules E1$'$--E11, consequences T1--T9),
 concrete enough to run as a self-contained single-file HTML application
 with no external dependencies, and honest enough that every quantitative
@@ -137,7 +149,8 @@ The paper's contributions, stated with their intended scope:
 \begin{enumerate}
 \item[C1.]{\bf Minimality and implementability.}
 A system of thirteen axioms and eleven update rules (A1--A13,
-E1$'$--E11) is shown to be consistent within the verified range and to
+E1$'$--E11) is shown to be consistent within the verified parameter
+range and to
 run as a single-file numerical implementation---an existence proof by
 implementation.
 
@@ -158,7 +171,8 @@ idealization, Sec.~\ref{sec:axioms}).
 Under the parameter mapping $\Kt = c^2/G$, the model's proper-time and
 light-deflection formulas have the same structure as weak-field GR
 (Sec.~\ref{sec:corr}).
-Since version 1.7 of the model, clock rate and refraction are generated
+Beginning with version 1.7 of the model, clock rate and refraction are
+generated
 by the single potential $\psi$ through $N = e^{-a\psi}$ and
 $A = e^{+b\psi}$ with the exponents fixed once, axiomatically, at
 $a = b = 1$; under that choice the effective lensing coefficient is the
@@ -173,12 +187,12 @@ dial, converting Newton's bucket argument into an executable parameter
 scan.
 
 \item[C5.]{\bf Mechanism demonstration of outer-velocity enhancement.}
-With dragging amplified to $k_F = 1$, disk systems raise their outer
-rotation velocities relative to the $k_F = 0$ Keplerian control run
-from identical initial conditions (machine-gated gain
+With dragging amplified to $k_F = 1$, disk systems exhibit higher
+outer rotation velocities relative to the $k_F = 0$ Keplerian control
+run from identical initial conditions (machine-gated gain
 $0.055 \pm 0.007$; outer-band ratio $1.082$ at 6000 steps).
 This demonstrates \emph{mechanism sufficiency for outer-velocity
-enhancement inside the model}---not flatness of the curve
+enhancement within the model}---not flatness of the curve
 (Sec.~\ref{sec:exp2})---and is not a claim about real galaxies
 (Sec.~\ref{sec:negative}).
 
@@ -233,8 +247,8 @@ quantitative thermodynamic theory.
 \subsection{Relation to prior work}
 \label{sec:prior}
 
-DFM sits deliberately between several literatures without belonging to
-any of them.
+DFM deliberately draws on several bodies of literature without
+belonging fully to any one of them.
 Sciama's inertial-induction proposal~\cite{Sciama1953} is the closest
 ancestor in spirit; DFM differs by being an explicit, executable
 discrete dynamics rather than a field-theoretic sketch.
@@ -244,9 +258,9 @@ principle (open problem L1, Sec.~\ref{sec:limits}) and should be read
 as a phenomenological simplification.
 The flat-rotation-curve literature---the observations~\cite{RubinFord1970},
 the dark-matter interpretation constrained by CMB and lensing
-statistics~\cite{Planck2018}, and MOND~\cite{Milgrom1983}---is engaged
-here only through a third mechanism family (dragging amplification)
-demonstrated inside the model.
+statistics~\cite{Planck2018}, and MOND~\cite{Milgrom1983}---is
+relevant here only as context for a third class of mechanisms
+(dragging amplification) demonstrated within the model.
 Claims that GR gravitomagnetism alone explains flat rotation curves
 have been made~\cite{CooperstockTieu2005,Ludwig2021} and challenged
 by subsequent analyses concerning the source model, singular matter
@@ -300,7 +314,8 @@ consequences T1--T9 with their conditions and machine gates.
 
 \subsection{Ontology and notation}
 
-The world consists of a finite set of point particles $i$ with mass
+The world consists of a finite set of point particles indexed by $i$,
+with mass
 $m_i$, position $\vect{r}_i$, velocity $\vect{v}_i$, and a signed spin
 scalar $s_i$ (angular velocity about the out-of-plane axis), evolving
 in discrete time on a two-dimensional Euclidean plane.
@@ -349,7 +364,7 @@ The background $\Dz$ contributes at rest.
 
 \item[A5.]{\bf (Inertia, parameterized)} A particle responds to changes
 of the local frame along its own path with strength $k_F$:
-per update,
+at each update,
 $\Delta\vect{v} = k_F\,\Delta_{\rm path}\vect{u}$, where
 $\Delta_{\rm path}\vect{u}
  = \vect{u}(\vect{r}^{\,n+1},t_{n+1}) - \vect{u}(\vect{r}^{\,n},t_n)$
@@ -389,10 +404,10 @@ field.
 The exponents in the general two-parameter family
 $N = e^{-a\psi}$, $A = e^{+b\psi}$ are fixed \emph{once, as part of
 this axiom}, at $a = b = 1$; they are never retuned per observable.
-Every weak-field coefficient of the clock--light sector below,
-including the effective lensing coefficient $(a+b)/\Kt = 2/\Kt$, is a
-consequence of this single axiomatic choice, not an output forced by
-the existence of a single potential $\psi$ alone.
+Every weak-field coefficient of the clock-and-light sector presented
+below, including the effective lensing coefficient
+$(a+b)/\Kt = 2/\Kt$, is a consequence of this single axiomatic choice,
+not a consequence merely of using a single potential $\psi$.
 Where no frame exists ($W_{\rm ext}=0$) motion is undefined and there
 is no kinematic time dilation (consistent with T1); a non-positive
 radicand (local superluminal motion) is unphysical and freezes the
@@ -453,14 +468,15 @@ repulsion (check V10b); when spin and repulsion potential change
 simultaneously, the account is open (open problem L17).
 
 \item[A13.]{\bf (Reciprocity)} Every interaction---gravity, spin
-repulsion, frame dragging, contact, spin diffusion---is
-action--reaction symmetric pair by pair, and the system conserves
+repulsion, frame dragging, contact, spin diffusion---obeys pairwise
+action--reaction symmetry, and the system conserves
 linear momentum and total angular momentum
 $L_{\rm tot} = \sum_i m_i(\vect{r}_i\times\vect{v}_i)_z
  + \sum_i I_i s_i$ exactly.
 Momentum exchanged with the background $\Dz$ is booked as transfer to
 a stationary infinite-inertia reservoir (the distant universe)---the
-same sense in which Earth moves imperceptibly toward a falling apple.
+same sense in which the Earth moves imperceptibly toward a falling
+apple.
 \end{enumerate}
 
 The meaning of $\Dz$ deserves emphasis: it is the model's single most
@@ -489,7 +505,8 @@ increment, with E11 cooling;
 residual-torque spin transfer, reservoir bookkeeping);
 (iv)~a particle loop performs the position drift, boundaries, and the
 clock update E7R.
-All pairwise interactions are $O(N^2)$ with $N \le 600$.
+Evaluating all pairwise interactions scales as $O(N^2)$, with
+$N \le 600$.
 
 \paragraph*{E1$'$ (Determinacy field).}
 \begin{equation}
@@ -566,11 +583,13 @@ n_{ij} &= \left[(\vect{r}_i-\vect{r}_j)\times
 \Delta s_i = \Delta s_j = -\frac{n_{ij}}{I_i+I_j},
 \label{eq:E6pair}
 \end{align}
-where $n_{ij}$ is the residual pair torque and the spin transfer is at
+where $n_{ij}$ denotes the residual pair torque and the spin transfer
+is at
 equal angular acceleration; the background torque
 $[\vect{r}_i \times \phi_{\rm bg}\Delta\vect{p}_i]_z$ goes to the
 reservoir ledger.
-All increments are computed from the same-step frame field and applied
+All increments are computed from the frame field evaluated at the same
+time step and applied
 simultaneously; pinned (externally held) particles are booked to the
 reservoir, making such runs explicitly open systems.
 \emph{Pairwise conservation proof:} particle $i$ receives momentum
@@ -600,7 +619,8 @@ n_{\rm eff}(\vect{r}) = e^{2\psi(\vect{r})},\qquad
  = \frac{c_0}{n_{\rm eff}}\,\hat{c} + \vect{u}(\vect{r}),
 \label{eq:E8}
 \end{equation}
-with direction update by Fermat's rule in the frame comoving with
+with the direction updated according to Fermat's rule in the frame
+comoving with
 $\vect{u}$:
 $\ud\hat{c}/\ud l = 2\nabla\psi - (2\nabla\psi\cdot\hat{c})\hat{c}$.
 For rays (which are not particles), $\psi$ includes all masses and
@@ -642,12 +662,12 @@ open problem L9).
 
 \paragraph*{E11 (Radiative cooling).}
 $T_i = I_i s_i^2$, $\Lambda_i = \eta_{\rm rad}T_i^p$,
-$\ud s_i/\ud t = -\Lambda_i/(I_i s_i)$ preserving the sign of $s$
-(default $\eta_{\rm rad} = 0$, off).
+$\ud s_i/\ud t = -\Lambda_i/(I_i s_i)$, which preserves the sign of
+$s$ (default $\eta_{\rm rad} = 0$, off).
 
 The single potential $\psi = W_{\rm ext}/\Kt$ entering E7R and E8R is
-the structural heart of the clock--light sector: one field, one
-coefficient $\Kt$, both phenomena.
+the structural heart of the clock-and-light sector: a single field and
+a single coefficient, $\Kt$, govern both phenomena.
 
 % =====================================================================
 \section{Correspondence}
@@ -680,18 +700,18 @@ The refractive index $n_{\rm eff} = e^{2\psi} \approx 1 + 2W/\Kt$ then
 has the same weak-field form as the GR value
 $n \approx 1 - 2\Phi_N/c^2$---the gravitational-to-optical ratio
 $1{:}2$ is fixed by the single axiomatic exponent choice $a = b = 1$
-(A7$'$), one potential and one choice, not by a second calibrated
-coefficient.
+(A7$'$)---through one potential and one axiomatic choice, rather than
+through a second calibrated coefficient.
 
-Table~\ref{tab:calib} confronts this sector with the standard
-weak-field benchmarks---successes and failure in the same table.
+Table~\ref{tab:calib} compares this sector with the standard
+weak-field benchmarks and reports both its successes and its failure.
 Each benchmark requires, besides $\Kt = c^2/G$, a set of fixed
 \emph{observational inputs} (masses, radii, orbit radii, geometry) and
 two conventions ($c_0 = c$; the frame velocity $\vect{u} = 0$ for the
 solar-system configuration); these are tabulated once in
 Appendix~\ref{app:inputs} so that every number in
 Table~\ref{tab:calib} is recomputable.
-``One-parameter'' therefore means: one \emph{model} parameter beyond
+``One-parameter'' therefore means one \emph{model} parameter beyond
 the stated observational inputs.
 The clock-and-light sector agrees at the level of the leading
 weak-field formulas; the material-orbit 1PN sector does not.
@@ -708,8 +728,9 @@ experiment---not that DFM has been fitted to, or tested against, the
 experimental data themselves.
 The first three rows show formula-level benchmark agreement; the
 fourth does not, and the model does not claim it (negative claim~5).
-Values from the project's third external review with independent
-recomputation; the GPS-based inverse calibration of $\Kt$ agrees with
+The values were obtained during the project's third external review
+and independently recomputed; the GPS-based inverse calibration of
+$\Kt$ agrees with
 $c^2/G$ to $0.107\%$.}
 \begin{ruledtabular}
 \begin{tabular}{p{0.18\textwidth}p{0.32\textwidth}p{0.26\textwidth}p{0.12\textwidth}}
@@ -781,8 +802,9 @@ $a^{-3/2}$ per orbit, where the background screens the precession---a
 model-specific prediction).
 No choice of $k_F$ can reproduce the static 1PN advance for several
 planets simultaneously.
-The physically scaled value of $k_F$ consistent with the smallness of
-Lense--Thirring precession is $\lesssim 10^{-6}$; the $k_F = 1$ used
+A physically realistic value of $k_F$, consistent with the smallness
+of the Lense--Thirring precession, is $\lesssim 10^{-6}$; the
+$k_F = 1$ used
 in demonstrations is a deliberate $\sim\!10^6$-fold amplification.
 \end{enumerate}
 
@@ -792,9 +814,9 @@ in demonstrations is a deliberate $\sim\!10^6$-fold amplification.
 
 All experiments below run in the released single-file implementation
 (version 1.23) on the same engine; each figure is regenerated from the
-simulation by the stated preset or verification hook, with screenshots
-used only as auxiliary illustration.
-Table~\ref{tab:verify} first fixes the bookkeeping ground rules: the
+simulation by the stated preset or verification routine, with
+screenshots used only as auxiliary illustration.
+Table~\ref{tab:verify} first fixes the bookkeeping conventions: the
 conservation checks and the first-law checks that gate every result in
 this section (full configurations in Appendix~\ref{app:inputs}).
 
@@ -868,10 +890,11 @@ passes from ``absolute'' (static, unaffected by the shell) to
 $\omega_u/\Omega_{\rm shell}$ of the local frame $\vect{u}$, read
 directly from the frame rule E3 at interior probe points, rises from
 $\approx 0$ toward its shell-locked value, following the weight
-fraction $\bar w/(\bar w + \Dz)$ exactly (the $\Dz$ dependence enters
-only through the denominator of E3, so the scaling is a constructive
-identity, machine-checked to $<0.1\%$).
-In the interactive preset the same dial is felt dynamically: interior
+fraction $\bar w/(\bar w + \Dz)$ (the $\Dz$ dependence enters only
+through the denominator of E3, so the scaling is a constructive
+identity; the numerical implementation agrees with it to $<0.1\%$).
+In the interactive preset the same parameter has directly observable
+dynamical consequences: interior
 particles begin to circle with the shell at small $\Dz$ and ignore it
 at large $\Dz$.
 This is Newton's bucket as an experiment: the answer to ``does the
@@ -901,8 +924,9 @@ A disk system (central mass plus $n = 140$ disk particles) is run twice
 from \emph{identical} initial conditions with $k_F = 1$ and $k_F = 0$
 (the built-in Newtonian control, Sec.~\ref{sec:newton}).
 With $k_F = 1$ the collective rotation feeds the frame field
-$u_\varphi(r)$ and the outer stars ride the rotating frame, raising the
-outer $v(r)$; with $k_F = 0$ the curve declines in Keplerian fashion.
+$u_\varphi(r)$ and the outer stars are advected by the rotating frame,
+raising the outer $v(r)$; with $k_F = 0$ the curve declines in
+Keplerian fashion.
 The machine gate (check V11) measures the outer-band
 ($r \in [85,130]$) mean tangential velocity difference, time-averaged
 over steps 1000--2000: gain $0.055 \pm 0.007$ with control drift
@@ -917,16 +941,16 @@ $\beta \approx -0.2$ to $-0.5$ depending on band, binning, and epoch,
 against $-0.5$ Keplerian; a single-epoch snapshot at 6000 steps gives
 $\beta = -0.24$ versus $-0.47$ for the control).
 The honest machine-gated statement is therefore a \emph{modest
-outer-velocity enhancement} with a slope shallower than or comparable
-to Keplerian---not a demonstrated flat segment.
+outer-velocity enhancement} with a slope shallower than, or comparable
+to, the Keplerian slope---not a demonstrated flat segment.
 The self-consistent frame analysis further yields a
 \emph{background-crossover scale}, $r_{\rm bg} \sim M_d/\Dz$, beyond
 which the background determinacy screens the disk's frame contribution
 and any enhancement must die away ($u_\varphi \to 0$, Keplerian
 recovery); measuring the break radius by a $\Dz$ scan is left as an
 optional exercise rather than claimed as a verified prediction.
-This experiment is a mechanism demonstration inside the model; see
-negative claim~2.
+This experiment is a demonstration of the mechanism within the model;
+see negative claim~2.
 
 \begin{figure}[t]
 \centering
@@ -938,7 +962,7 @@ control), with the Keplerian expectation overlaid.
 Generated from preset \texttt{galaxy} (central $m{=}600$, disk
 $n{=}140$, $r{\le}130$, near-Keplerian initialization
 $\times1.05$, $\Dz{=}0.5$) in the built-in A/B comparison mode;
-quantitative gate: verification hook V11 (time-averaged outer-band
+quantitative gate: verification routine V11 (time-averaged outer-band
 gain $0.055\pm0.007$).}
 \end{figure}
 
@@ -950,8 +974,10 @@ center is integrated with $k_F \in \{0,1\}$ and center spin
 $S = \pm0.05$.
 The automated check V6 measures $-7.52^\circ$/orbit (prograde spin:
 regression), $+10.71^\circ$/orbit (spin reversed: advance), and
-$-1.03^\circ$/orbit for the $k_F = 0$ numerical control---sign
-reversal under spin reversal, effect three times the control.
+$-1.03^\circ$/orbit for the $k_F = 0$ numerical control---the sign
+reverses under spin reversal, and the gate requires the effect to
+exceed three times the numerical-control drift (the measured prograde
+effect is about seven times the control).
 A larger manual configuration ($a=120$, $e=0.5$, $S=+0.01$) gives
 $-2.445^\circ$/orbit with near-linear scaling in $S$, and the
 continuum-limit formula Eq.~(\ref{eq:prec}) reproduces sign, spin
@@ -991,13 +1017,14 @@ $9.1\times10^{-5}$);
 $6.8\times10^{-6}$); this check doubles as a self-field-exclusion
 detector;
 (iii) the twin configuration (V16): a circling clock at $v = 0.5c_0$
-against a comoving stationary clock, $\tau_B/t = 0.8174$,
+against a reference clock at rest in the local frame,
+$\tau_B/t = 0.8174$,
 $\tau_A/t = 0.9672$, both matching the analytic integrals, with no
 discontinuity in any clock at turnaround (step-to-step variation
 $4.8\times10^{-7}$).
 In DFM's preferred-frame representation the twin outcome is a plain
-worldline integral of Eq.~(\ref{eq:A7}); the ``paradox'' machinery of
-relative simultaneity never enters.
+worldline integral of Eq.~(\ref{eq:A7}); the conceptual apparatus
+associated with the ``paradox'' of relative simultaneity never enters.
 We emphasize the delimitation recorded in the model documents: this is
 a simplification of \emph{representation}, not a refutation of
 relativity---standard relativity also resolves the twins uniquely by
@@ -1009,7 +1036,7 @@ $\tau/t = 1.000/0.874/0.611$.
 \centering
 \includegraphics[width=\columnwidth]{fig4.pdf}
 \caption{\label{fig:clocks}%
-Clock rates $\tau/t$, measured versus analytic, for the kinematic
+Measured and analytic clock rates $\tau/t$ for the kinematic
 (V12), combined gravitational$+$kinematic (V13), and twin (V16)
 configurations; the worst relative deviation across all six clocks is
 $9.1\times10^{-5}$.
@@ -1025,9 +1052,10 @@ bending}
 
 A fan of 26 parallel rays is traced through the field of a compact
 mass (preset \texttt{lensing}, $\Kt = 150$): mean bending angle
-$48.6^\circ$, with five rays captured into circulating paths---an
-optical analogue of a photon sphere (no claim of black-hole or
-event-horizon physics is made).
+$48.6^\circ$, with five rays captured into circulating paths that
+persist for the duration of the integration---an optical analogue of a
+photon sphere (no claim of black-hole or event-horizon physics is
+made).
 With a spinning center (preset \texttt{spinlens}), the two sides of
 the ray fan bend unequally---the medium advection term
 $\vect{u}$ in Eq.~(\ref{eq:E8}) speeds prograde rays and retards
@@ -1048,23 +1076,23 @@ sphere).
 $\Kt{=}500$): the upper and lower halves bend unequally because the
 medium is advected by the rotating frame.
 Generated by \texttt{tools/gen-figures.mjs} via the shared ray tracer
-(rule E8R); quantitative gate: verification hook V8, asymmetry
+(rule E8R); quantitative gate: verification routine V8, asymmetry
 $\pm6.77\times10^{-2}$~rad with sign reversing under spin reversal.}
 \end{figure}
 
 \subsection{Experiment 6: spin-as-heat---equilibration and pressure}
 \label{sec:exp6}
 
-Two demonstrations, both with a single particle size (the domain on
-which spin uniformity and temperature uniformity coincide; L9):
+Two demonstrations, both restricted to a single particle size, for
+which spin uniformity and temperature uniformity coincide (L9):
 (i) a hot/cold split gas (preset \texttt{gas}) equilibrates its
 left/right mean temperatures through contact friction and spin
 diffusion---the zeroth-law analogue T6;
 (ii) a hot core inside a cold shell (preset \texttt{pressure})
 expands, the spin repulsion of the heated particles pushing the shell
 outward (mean core radius $34.5 \to 140.9$, a $4.1\times$ expansion
-with a mild overshoot before settling)---pressure emerging from A10
-without a pressure law being written in.
+with a mild overshoot before settling)---pressure emerges from A10
+without an explicitly imposed pressure law.
 Because the \texttt{gas} run is dissipative (its booked channels cool
 the whole system while the gap closes), we separate equilibration from
 cooling with an \emph{isolated control} in the CI suite: with all
@@ -1078,15 +1106,15 @@ relaxation rate $\kappa_s\,g(d)$ of Eq.~(\ref{eq:E10}) to
 $3\times10^{-5}$ relative error.
 Equilibration is thus a property of the diffusion rule itself, not an
 artifact of everything decaying to zero.
-The spectral thermometer (check V2) closes the loop between A9 and
-A12$'$: spin inferred from radiated color reproduces the true spin
-within $5\%$.
+The spectral thermometer (check V2) provides an independent
+consistency check linking A9 and A12$'$: spin inferred from radiated
+color reproduces the true spin within $5\%$.
 We repeat the delimitation of negative claim~6: these are qualitative
 analogies; the model's equation of state scales as $\rho^2 T$ rather
 than the ideal-gas $\rho T$ (L15), and no quantitative thermodynamic
 claims are made.
-We also note (single-size restriction, stated reason): with unequal
-particle sizes E10$'$ uniformizes the angular velocity $s$, not the
+The reason for the single-size restriction is that with unequal
+particle sizes E10$'$ equalizes the angular velocity $s$, not the
 temperature $T = I s^2$, so equipartition is broken and heat can flow
 from a colder small particle to a hotter large one---which is why all
 quantitative heat demonstrations here use one particle size (L9).
@@ -1128,7 +1156,7 @@ orders of magnitude too weak, and the observational evidence bearing on
 dark matter (CMB anisotropies, gravitational-lensing statistics,
 structure formation) is independent and
 strong~\cite{Planck2018}.
-Experiment~2 demonstrates mechanism sufficiency \emph{inside the
+Experiment~2 demonstrates mechanism sufficiency \emph{within the
 model}, nothing more.
 
 \subsection{Negative claim 3: no Lorentz invariance, no causal
@@ -1172,10 +1200,11 @@ Rayleigh--B\'enard criticality (no claim about the critical-Rayleigh
 scaling law is made), and lacks detailed balance (it is a
 dissipative granular-type system, not molecular dynamics converging to
 canonical equilibrium; L16, L17), and breaks equipartition across
-particle sizes (E10$'$ uniformizes angular velocity, not $T = Is^2$,
+particle sizes (E10$'$ equalizes angular velocity, not $T = Is^2$,
 so cold-to-hot heat flow between unequal sizes is possible; L9).
-What does hold, qualitatively and single-size only: temperature
-equilibration, emergent pressure, and conduction-like transport.
+What does hold qualitatively, and only for a single particle size, is
+the following: temperature equilibration, emergent pressure, and
+conduction-like transport.
 
 \subsection{Open problems}
 \label{sec:limits}
@@ -1201,15 +1230,16 @@ potential bookkeeping that bounds the first-law claim domain).
 DFM shows how far a deliberately minimal, deliberately counterfactual
 axiom system can go: one scalar field and one spin degree of freedom
 mimic inertia, gravity, dragging, time dilation, light bending, and
-thermodynamic behavior in a single running implementation, with
-conservation laws closed at the equation level and every headline
-number gated by machine checks.
+thermodynamic behavior in a single running implementation, with the
+conservation laws satisfied exactly at the equation level and every
+principal numerical result verified by automated checks.
 Its pedagogical value lies precisely in the pairing of a working
 weak-field sector (Table~\ref{tab:calib}) with clearly delimited
 failures (Sec.~\ref{sec:negative}): students can see \emph{both} in
-the same tool, with the Newtonian control one parameter away.
+the same tool, with the Newtonian control obtained by changing a
+single parameter.
 
-Three lines of future work are fixed:
+Three directions for future work are identified:
 
 \paragraph*{(i) Action principle and geodesics (v2.0 core).}
 The clock rule E7R defines a line element
@@ -1218,12 +1248,12 @@ c^2\ud\tau^2 = e^{-2\psi}c^2\ud t^2
  - e^{+2\psi}\left|\ud\vect{r}-\vect{u}\,\ud t\right|^2 ,
 \label{eq:line}
 \end{equation}
-and the natural program is to posit the particle action
+and the natural next step is to posit the particle action
 $S = -mc^2\!\int\!\ud\tau$ and derive matter, clocks, and light from
 one variational principle.
 The static weak-field expansion of Eq.~(\ref{eq:line}) \emph{suggests}
-PPN $\beta = \gamma = 1$---we record this strictly as a verification
-hypothesis, since the field equations, the $\vect{u}\ne0$ geodesics,
+PPN $\beta = \gamma = 1$---we state this strictly as a hypothesis to
+be verified, since the field equations, the $\vect{u}\ne0$ geodesics,
 and self-field exclusion remain undefined; if the program succeeds,
 the static 1PN perihelion advance would arise naturally and $k_F$
 would become a rotation-only parameter.
@@ -1234,8 +1264,8 @@ and v2 is a different model.
 
 \paragraph*{(ii) The $\Dz$ scale problem.}
 Analyze a background/perturbation split $W = W_{\rm bg}(t) + \delta W$
-first, then a finite-propagation-speed (causal) field, to address the
-seven-order tension of L14.
+first, then a causal field with a finite propagation speed, to address
+the seven-order tension of L14.
 
 \paragraph*{(iii) Quantitative thermodynamics profile.}
 A separate parameter profile ($q = 3$, finite-range conduction,
@@ -1251,10 +1281,10 @@ of all external AI review rounds)---is a single HTML file with no
 external dependencies, archived with the project repository.
 Code is released under the MIT license and documentation under
 CC~BY~4.0, at \url{https://github.com/tty-imamura/dfm-simulator}.
-The version of record for this paper is fixed by a git tag on the
-repository (\texttt{v1.23}-series; the submission tag and a Zenodo
+The version of record for this paper will be fixed by a git tag on the
+repository (\texttt{v1.23} series); the submission tag and a Zenodo
 archival DOI minted from it will be inserted here at submission, so
-that every number in the paper is tied to one immutable commit).
+that every number in the paper is tied to one immutable commit.
 % TODO(submission): insert submission tag + Zenodo DOI here once minted.
 Machine-verification outputs are part of that record: the
 continuous-integration suite (\texttt{tests/qa.mjs}, 107 items
@@ -1263,12 +1293,12 @@ sweep of Table~\ref{tab:verify}, and the isolated zeroth-law control
 of Sec.~\ref{sec:exp6}) writes a machine-readable results file
 (\texttt{tests/out/qa-results.json}, stamped with the git commit) that
 is archived as supplementary material together with the per-figure
-JSON records described below; the exact configurations (all physics
+JSON records described below; the exact configurations (all physical
 parameters, seeds, and step counts) of the verification runs quoted in
 this paper are listed in Appendix~\ref{app:inputs}.
 All figures in this paper are regenerated from the simulation by the
 script \texttt{tools/gen-figures.mjs} (part of the repository), which
-drives the presets and verification hooks stated in each caption and
+runs the presets and verification routines stated in each caption and
 emits, next to each figure, a JSON record of the generation parameters
 and measured values.
 The companion tool also includes a weak-field calibration preset
@@ -1451,7 +1481,8 @@ strong fields capture rays (optical photon-sphere analogue) &
 A7$'$, A11, E8R & weak-field formula $+$ CNP & deflection formula
 (Table~\ref{tab:calib}); capture in preset \texttt{lensing} \\
 T6 & Spin-as-heat equilibrates temperature (zeroth-law analogue)
-and generates pressure; single particle size only & A9, A10,
+and generates pressure (valid only for a single particle size) & A9,
+A10,
 E5$'$, E9, E10$'$ & CNP (single size; L9) & \texttt{gas} /
 \texttt{pressure} gates; isolated zeroth-law control
 (Sec.~\ref{sec:exp6}) \\
