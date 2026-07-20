@@ -24,6 +24,28 @@ pdflatex dfm-paper.tex && pdflatex dfm-paper.tex
 RevTeX 4.2 が必要(TeX Live 標準同梱)。現行クラスオプションは `aps,reprint`
 (ドラフト用)。AJP 投稿時は誌のテンプレート指定に合わせて差し替える。
 
+## 日本語版(dfm-paper-ja.tex)
+
+英語版 v0.9(記録版 = タグ `paper-v1`、doi:10.5281/zenodo.21454189)の
+著者による日本語全訳。国内発表・国内読者向け。正本は英語版であり、
+相違がある場合は英語版が優先する(訳注として第1ページに明記)。
+数値・数式・主張・参考文献は英語版と同一。著者名は「今村哲矢」表記。
+訳語は `docs/THEORY_SYNTHESIS.md` §9 の用語対訳表に統一
+(決定力 / 背景決定力 D₀ / 局所フレーム u / フレーム引きずり k_F /
+スピン引きずり / スピン斥力 k_rep / 固有時間 τ / 決定ポテンシャル ψ /
+スピン=熱。和名は「決定力場モデル」、A13 は相互性公理、
+レンズ=サーリング表記)。
+
+```sh
+lualatex dfm-paper-ja.tex && lualatex dfm-paper-ja.tex
+```
+
+LuaLaTeX + luatexja + 原ノ味フォント(TeX Live の
+`texlive-luatex` / `texlive-lang-japanese` 相当)が必要。クラスは
+`ltjsarticle`(2段組)。図は英語版と同じ `figures/` を参照する。
+生成 PDF(20ページ)は英語版と同様ビルド成果物扱いでコミットしない
+(`.gitignore` の `paper/*.pdf`)。
+
 ## 図の再生成(機械生成 — スクリーンショットは補助のみ)
 
 ```sh
@@ -58,7 +80,8 @@ headless Chromium + HP フック駆動(依存は `npm ci` の playwright のみ)
       arXiv Comments 欄確定)
 - [x] リポジトリ提出版タグ+Zenodo DOI の挿入(v0.9: タグ `paper-v1`・
       **doi:10.5281/zenodo.21454189** を Reproducibility 節に確定。TODO 解消)
-- [ ] 日本語要旨(国内発表用・必要なら)
+- [x] 日本語要旨(国内発表用・必要なら)→ 全訳版 `dfm-paper-ja.tex` として
+      実施(2026-07-20。要旨のみでなく本文・付録・図表キャプション含む全訳)
 
 ## 受け入れ条件(HANDOFF_PAPER_V2 §7)と検査
 
