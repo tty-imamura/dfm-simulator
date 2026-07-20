@@ -68,7 +68,8 @@ function lineChart({ w = 520, h = 360, ml = 62, mr = 14, mt = 14, mb = 46, xlab,
   }
   // 凡例
   const lx = legend === 'tr' ? w - mr - 150 : ml + 12, ly = mt + 10;
-  series.forEach((s, i) => {
+  // 凡例はラベル付き系列のみ描く(ラベル空の解析曲線ペアで空行が出ないように — 論文 Fig.1 指摘対応)
+  series.filter(s => s.label).forEach((s, i) => {
     const stroke = s.gray ? '#888' : 'black', dash = s.dash ? ` stroke-dasharray="${s.dash}"` : '';
     g += `<line x1="${lx}" y1="${ly + i * 18 + 4}" x2="${lx + 26}" y2="${ly + i * 18 + 4}" stroke="${stroke}" stroke-width="${s.wide ? 2 : 1.3}"${dash}/>` +
       `<text x="${lx + 32}" y="${ly + i * 18 + 8}" font-size="12" ${FONT}>${esc(s.label)}</text>`;
@@ -163,12 +164,20 @@ const gate = (id, pass, detail) => { gates.push({ id, pass, detail }); console.l
 // 内側プローブ(r=40/80 各4方位)で読む方式に確定。ω_u ∝ w̄/(w̄+D₀) の「バケツのダイヤル」)----
 if (want(1)) {
   const d = await page.evaluate(() => {
-    const base = HP.allPresets().find(p => p.id === 'mach');
+    // v1.24 で 🪣mach プリセットは廃止(後継=箱宇宙は Phase 2)。図の出典が壊れないよう、
+    // 旧 mach のリング構成(リングのみ+D₀ 上書き — 従来の filter 結果と同一)をここに明示する。
+    const base = { id: 'fig_mach', name: 'Mach ring', camera: { scale: 220 }, world: { boundary: 'none', size: 0 },
+      physics: { G: 0.02, D0: 0.5, kFrame: 1, q: 2, kRep: 1, muF: 0.5, gammaN: 0.4, kappaS: 0.05, Kt: 60,
+        cLight: 60, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1, pnAlpha: 1.5,
+        radiusScale: 1.2, softening: 2, timeScale: 2 },
+      bodies: [
+        { type: 'ring', n: 14, cx: 0, cy: 0, rIn: 150, rOut: 150, mMin: 80, mMax: 80,
+          spinMin: 0.5, spinMax: 0.5, vMode: 'omega', aroundMass: 0, omega: 0.012, vNoise: 0, direction: 1, pinned: true }
+      ], overlays: {} };
     const OMEGA = 0.012, out = [];
     for (const D0 of [0.05, 0.2, 0.5, 1, 2, 4, 8, 16, 32, 64, 128]) {
       const p = JSON.parse(JSON.stringify(base));
       p.physics = Object.assign({}, p.physics, { D0 });
-      p.bodies = p.bodies.filter(b => b.type === 'ring'); // リングのみ+プローブ(内側粒子は測定に不要)
       for (const r of [40, 80]) for (const a of [0, 90, 180, 270]) {
         const th = a * Math.PI / 180;
         p.bodies.push({ type: 'single', m: 0.01, x: r * Math.cos(th), y: r * Math.sin(th),
@@ -203,7 +212,7 @@ if (want(1)) {
     ]
   });
   const err = Math.max(...d.map((q, i) => Math.abs(q.om40 - ana('om40', 'w40')[i][1]) / Math.max(1e-9, q.om40)));
-  await writeFig(pdfPage, 1, fig, { preset: 'mach (ring only + 8 probes)', scan: { D0: d.map(q => q.D0) },
+  await writeFig(pdfPage, 1, fig, { preset: 'bucket ring config (14 pinned ring sources + 8 probes; former mach preset)', scan: { D0: d.map(q => q.D0) },
     scalingRelErr: err, data: d });
   gate('fig1.dial', d[0].om40 > 10 * d[d.length - 1].om40 && d.every((q, i) => i === 0 || q.om40 <= d[i - 1].om40 + 1e-6) && err < 0.05,
     `om40: ${d[0].om40.toFixed(3)}→${d[d.length - 1].om40.toFixed(3)} 解析との差=${(err * 100).toFixed(1)}%`);
@@ -273,14 +282,24 @@ if (want(3)) {
       return (peri.length > 1 ? acc / (peri.length - 1) : 0) * 180 / Math.PI;
     };
     const plus = run(0.05, 1), minus = run(-0.05, 1), ctrl = run(0.05, 0);
-    HP.loadPreset('drag', false);
-    const s = HP.sim, pts = [];
+    // v1.24 で 💫drag プリセットは廃止(☿mercury に役割統合)。ロゼットは旧 drag の構成を
+    // ここに明示して再現する(物理エンジンは不変のため軌跡は同一)。
+    const s = HP.sim;
+    s.build({ id: 'fig_rosette', name: 'rosette', camera: { scale: 220 }, world: { boundary: 'none', size: 0 },
+      physics: { G: 1, D0: 0.05, kFrame: 1, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, Kt: 60,
+        cLight: 60, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1, pnAlpha: 1.5,
+        radiusScale: 1.2, softening: 2, timeScale: 8 },
+      bodies: [
+        { type: 'single', m: 600, x: 0, y: 0, vx: 0, vy: 0, spin: 0.09, pinned: true },
+        { type: 'single', m: 0.5, x: 60, y: 0, vx: 0, vy: 3.87, spin: 0, pinned: false }
+      ], overlays: {} });
+    const pts = [];
     // 軌道周期 T≈335(a≈120)。8周(≈168000步・歳差合計≈−90°)が花びらの判別に最適(付録O 書き戻し:
     // 20周では環に潰れる)
     for (let k = 0; k < 168000; k++) { s.step(0.016); if (k % 80 === 0) pts.push([+s.x[1].toFixed(2), +s.y[1].toFixed(2)]); }
     return { plus, minus, ctrl, rosette: pts, rosetteBody: [0, 0, 1.2 * Math.sqrt(600)] };
   });
-  const a = rayPanel({ h: 300, rays: [d.rosette], bodies: [d.rosetteBody], box: 110, title: 'preset drag: orbit trail (rosette)' });
+  const a = rayPanel({ h: 300, rays: [d.rosette], bodies: [d.rosetteBody], box: 110, title: 'rosette configuration: orbit trail' });
   const b = barChart({
     h: 300, ylab: 'periapsis drift (deg/orbit)',
     cats: [
@@ -290,7 +309,7 @@ if (want(3)) {
     ], seriesLabels: ['V6 configuration (a=60, e=0.5)']
   });
   const fig = panelStack([a, b]);
-  await writeFig(pdfPage, 3, fig, { hook: 'V6 (a=60,e=0.5,S=±0.05,kF∈{0,1},D0=0.05)', rosettePreset: 'drag 168000 steps (~8 orbits)',
+  await writeFig(pdfPage, 3, fig, { hook: 'V6 (a=60,e=0.5,S=±0.05,kF∈{0,1},D0=0.05)', rosettePreset: 'rosette config (former drag preset) 168000 steps (~8 orbits)',
     driftDegPerOrbit: { plus: d.plus, minus: d.minus, ctrl: d.ctrl } });
   gate('fig3.sign', d.plus < 0 && d.minus > 0 && Math.abs(d.plus) > 3 * Math.abs(d.ctrl),
     `+S=${d.plus.toFixed(2)} −S=${d.minus.toFixed(2)} ctrl=${d.ctrl.toFixed(2)}`);
@@ -416,7 +435,9 @@ if (want(6)) {
     HP.loadPreset('gas', false);
     let s = HP.sim;
     const gas = [];
-    for (let k = 0; k < 16000; k++) { s.step(0.016); if (k % 100 === 0) gas.push({ t: +s.t.toFixed(2), L: meanT(s, true), R: meanT(s, false) }); }
+    // v1.18/v1.21 の統制化(G=0・kFrame=0・初速統一)で平衡化が緩やかになったため、
+    // 旧 16000 步 → 64000 步(ギャップ 4.36→0.29。ゲート <0.2× を実測で満たす長さ)
+    for (let k = 0; k < 64000; k++) { s.step(0.016); if (k % 400 === 0) gas.push({ t: +s.t.toFixed(2), L: meanT(s, true), R: meanT(s, false) }); }
     const gasNaN = s.hasNaN();
     HP.loadPreset('pressure', false);
     s = HP.sim;
@@ -441,7 +462,7 @@ if (want(6)) {
   const fig = panelStack([a, b]);
   const r0 = d.core[0].r, r1 = d.core[d.core.length - 1].r;
   const gap0 = Math.abs(d.gas[0].R - d.gas[0].L), gap1 = Math.abs(d.gas[d.gas.length - 1].R - d.gas[d.gas.length - 1].L);
-  await writeFig(pdfPage, 6, fig, { presets: 'gas (16000 steps, every 100) + pressure (16000 steps, every 50)',
+  await writeFig(pdfPage, 6, fig, { presets: 'gas (64000 steps, every 400) + pressure (16000 steps, every 50)',
     coreRadius: { start: r0, end: r1, ratio: r1 / r0 }, tempGap: { start: gap0, end: gap1, ratio: gap1 / gap0 } });
   gate('fig6.expand', !d.gasNaN && !d.coreNaN && r1 / r0 > 2, `コア半径 ${r0.toFixed(1)}→${r1.toFixed(1)} (×${(r1 / r0).toFixed(2)})`);
   gate('fig6.equalize', gap1 < 0.2 * gap0, `左右温度ギャップ ${gap0.toFixed(2)}→${gap1.toFixed(2)} (<0.2×)`);

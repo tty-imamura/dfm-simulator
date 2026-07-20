@@ -1,7 +1,8 @@
 # HANDOFF_PAPER_V2: 論文ドラフト執筆の実行指示書(自己完結版)
 
 作成: 2026-07-16(第5次レビュー裁定 #4 — DERIVATIONS §14)
-改訂: 2026-07-20(**原仮定者承認 — ロードマップ決断事項 4-17**。禁止事項 6/7 を
+改訂: 2026-07-20(**原仮定者承認 — ロードマップ決断事項 4-17・4-19**。§2 のタイトルを
+4-19 承認どおり改訂(Emergent 削除・Thermodynamics→Analogies)。禁止事項 6/7 を
 BOX_UNIVERSE §5.5 の合意条件・THEORY_SYNTHESIS v1.7 §6-5 と整合化し、
 測地線オプション E12 の記述条件を明文化。paper v0.4 §IV D が実装例。
 なお §1 の版番号は作成時点のスナップショット — 矛盾時は常に最新正本が優先)
@@ -34,7 +35,7 @@ DERIVATIONS §14.3)。
   > (ChatGPT, Grok, Gemini) were used as adversarial checks. All axioms and
   > final decisions are the author's.
 - タイトル(確定): *Determinacy-Field Mechanics: A Machian Toy Universe with
-  Tunable Frame Dragging, Emergent Inverse-Square Gravity, and Spin-as-Heat
+  Tunable Frame Dragging, Inverse-Square Gravity, and Spin-as-Heat
   Thermodynamics*
 - 投稿先: 第1候補 *American Journal of Physics* / *European Journal of Physics*、
   第2候補 *Foundations of Physics* / *SciPost Physics Core*(DERIVATIONS §14 裁定 #15)
