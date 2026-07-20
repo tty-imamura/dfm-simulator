@@ -13,6 +13,13 @@
 %       for the V6 gate factor and the V16 reference clock (both fixed
 %       against the implementation). No number, claim, equation, or
 %       mandated positioning phrase changed.
+% v0.4: geodesic option E12 (static 1PN sector) transcribed from the
+%       canon (THEORY_SYNTHESIS v1.7 Sec. 6-5, DERIVATIONS Sec. 15,
+%       BOX_UNIVERSE Sec. 5.5 agreed conditions; V18-V20 PASS
+%       2026-07-19; author precondition "submit after V20" satisfied).
+%       New Sec. IV D; negative claim 5 rescoped to the base dynamics
+%       E1'-E11 exactly as adjudicated; Table I Mercury row updated;
+%       L1 marked partially resolved. Base-dynamics claims unchanged.
 % Input canon: docs/DERIVATIONS.md, docs/PHYSICS.md v1.6,
 %              docs/THEORY_SYNTHESIS.md v1.7, index.html v1.23.
 % Target: American Journal of Physics / European Journal of Physics
@@ -75,6 +82,11 @@ exponent choice $a = b = 1$ rather than by per-observable fitting; the
 same dynamics does \emph{not} reproduce the static first
 post-Newtonian perihelion advance of Mercury, and we exhibit this
 failure in the same calibration table.
+A clearly labeled geodesic option (E12), obtained by promoting the
+same line element that drives the clocks to the matter action,
+recovers the full 1PN advance ($\beta = \gamma = 1$; $+42.98''$/century
+for Mercury) with no additional free coefficient, machine-checked
+against the analytic formula (V18--V20).
 We state explicitly what the model does not claim: it is not a
 description of the real universe; it does not remove the need for dark
 matter; it has neither Lorentz invariance nor causal propagation; and
@@ -178,6 +190,9 @@ $A = e^{+b\psi}$ with the exponents fixed once, axiomatically, at
 $a = b = 1$; under that choice the effective lensing coefficient is the
 derived combination $(a+b)/\Kt = 2/\Kt$ and is never retuned per
 observable.
+The geodesic option E12 (Sec.~\ref{sec:e12}), derived from the same
+potential's line element, extends the correspondence to the static 1PN
+sector (Mercury's perihelion advance, $\beta = \gamma = 1$).
 
 \item[C4.]{\bf Continuous interpolation between absolute and relational
 space.}
@@ -219,7 +234,9 @@ The sign and the spin$\times$radius$^2$ ($\propto J$) factor agree with
 the GR Lense--Thirring periapsis precession, but the radial power
 differs in the near zone ($a^{-1/2}$ per orbit versus $a^{-3/2}$ for
 Lense--Thirring), and the static first post-Newtonian (1PN) perihelion
-advance is not reproduced (Sec.~\ref{sec:negative}).
+advance is not reproduced by the base rules E1$'$--E11
+(Sec.~\ref{sec:negative}); the geodesic option E12 recovers it
+(Sec.~\ref{sec:e12}).
 The model also exhibits a background-crossover scale
 $r_{\rm bg} \sim M_d/\Dz$ beyond which the background determinacy
 screens the disk's frame contribution---an estimate of where the
@@ -239,8 +256,9 @@ dark matter is unnecessary;
 (3)~the model has no Lorentz invariance and no causal (finite-speed)
 propagation of the field;
 (4)~it is two-dimensional and makes no 3D quantitative predictions;
-(5)~it does not reproduce the static 1PN perihelion advance of Mercury;
-and
+(5)~its base dynamics E1$'$--E11 does not reproduce the static 1PN
+perihelion advance of Mercury (the clearly labeled geodesic option E12
+does, Sec.~\ref{sec:e12}); and
 (6)~its thermodynamic sector is a qualitative analogy, not a
 quantitative thermodynamic theory.
 
@@ -297,8 +315,9 @@ that has no counterpart there.
 Section~\ref{sec:axioms} states the axioms, Sec.~\ref{sec:dynamics} the
 update rules.
 Section~\ref{sec:corr} gives the Newtonian reduction, the weak-field GR
-mapping with its real-data calibration (including the Mercury failure),
-and the structural differences.
+mapping with its real-data calibration (including the Mercury failure
+of the base dynamics), the structural differences, and the geodesic
+option E12 that recovers the static 1PN sector.
 Section~\ref{sec:experiments} presents six numerical experiments with
 machine-verified results.
 Section~\ref{sec:negative} states the limitations and negative claims,
@@ -490,9 +509,10 @@ Newtonian absolute space and Machian relational space
 \section{Dynamics}
 \label{sec:dynamics}
 
-The update rules E1$'$--E11 below are the complete dynamics; the
-implementation executes them with a semi-implicit Euler integrator with
-substeps.
+The update rules E1$'$--E11 below are the complete dynamics of the
+base model (the clearly labeled geodesic option E12, off by default,
+is described in Sec.~\ref{sec:e12}); the implementation executes them
+with a semi-implicit Euler integrator with substeps.
 (We avoid calling the full scheme ``symplectic'': only its conservative
 kick--drift substep is symplectic; the dissipative and bookkeeping
 operators are not Hamiltonian.)
@@ -714,7 +734,9 @@ Table~\ref{tab:calib} is recomputable.
 ``One-parameter'' therefore means one \emph{model} parameter beyond
 the stated observational inputs.
 The clock-and-light sector agrees at the level of the leading
-weak-field formulas; the material-orbit 1PN sector does not.
+weak-field formulas; the material-orbit 1PN sector of the base
+dynamics does not (the geodesic option E12 recovers it,
+Sec.~\ref{sec:e12}).
 
 \begin{table*}[t]
 \caption{\label{tab:calib}%
@@ -727,7 +749,9 @@ weak field, to the same leading benchmark formula that describes the
 experiment---not that DFM has been fitted to, or tested against, the
 experimental data themselves.
 The first three rows show formula-level benchmark agreement; the
-fourth does not, and the model does not claim it (negative claim~5).
+fourth is not reproduced by the base dynamics E1$'$--E11 (negative
+claim~5) and is recovered by the geodesic option E12
+(Sec.~\ref{sec:e12}).
 The values were obtained during the project's third external review
 and independently recomputed; the GPS-based inverse calibration of
 $\Kt$ agrees with
@@ -752,10 +776,11 @@ Cassini radio links constrain the PPN coefficient of this formula:
 $\gamma - 1 = (2.1 \pm 2.3)\times10^{-5}$~\cite{Bertotti2003} &
 formula-level agreement \\
 Mercury perihelion advance (main term $+42.98''$/century) &
-static field: $0$ (Newtonian reduction); E6$'$ gives only a
-Lense--Thirring-sign regression &
+base dynamics: static field $0$ (Newtonian reduction), E6$'$ gives
+only a Lense--Thirring-sign regression; geodesic option E12:
+$+42.98''$/century ($\beta = \gamma = 1$, Sec.~\ref{sec:e12}) &
 $+42.98''$/century &
-\textbf{not reproduced} \\
+\textbf{not reproduced} by E1$'$--E11; recovered by E12 \\
 \end{tabular}
 \end{ruledtabular}
 \end{table*}
@@ -807,6 +832,66 @@ of the Lense--Thirring precession, is $\lesssim 10^{-6}$; the
 $k_F = 1$ used
 in demonstrations is a deliberate $\sim\!10^6$-fold amplification.
 \end{enumerate}
+
+\subsection{Geodesic option E12: recovering the static 1PN sector}
+\label{sec:e12}
+
+The clock rule E7R defines a line element
+\begin{equation}
+c^2\ud\tau^2 = e^{-2\psi}c^2\ud t^2
+ - e^{+2\psi}\left|\ud\vect{r}-\vect{u}\,\ud t\right|^2 ,
+\label{eq:line}
+\end{equation}
+and the natural question---answered affirmatively here for the static
+sector---is whether the matter dynamics can be derived from it.
+Promoting Eq.~(\ref{eq:line}) to the matter action
+$S_m = -mc^2\!\int\!\ud\tau$ and expanding to first post-Newtonian
+order in the static, $\vect{u} = 0$ domain yields an additional
+acceleration, included in the released implementation as the clearly
+labeled \emph{geodesic option} E12 (engine switch \texttt{geoPN}, off
+by default):
+\begin{equation}
+\vect{a}_{\rm 1PN} = \frac{\lambda_{\rm PN}}{c_0^2}
+ \left[\Bigl((\alpha-\tfrac12)v^2 - (1+2\alpha)U\Bigr)\nabla U
+ - (1+2\alpha)(\nabla U\cdot\vect{v})\,\vect{v}\right],
+\label{eq:e12}
+\end{equation}
+with $U = \sum_j Gm_j/\sqrt{d_j^2+\varepsilon^2}$ (so $\nabla U$ is
+the E4 acceleration).
+The metric exponent $\alpha = 3/2$ follows from the full E7R metric
+and gives the isotropic 1PN equation of motion with
+$\beta = \gamma = 1$; $\alpha = 1/2$ retains only the time-rate part
+($\gamma = 0$) and serves as a control; $\lambda_{\rm PN} \in \{0,1\}$
+is an A/B switch, not a fitted coefficient.
+
+Because Mercury's real expansion parameter
+$GM_\odot/(c^2a) \approx 2.7\times10^{-8}$ is unmeasurable in a
+single-precision engine, the machine checks keep Mercury's
+eccentricity $e = 0.2056$ and amplify the parameter to
+$GM/(c_0^2a) = 1.56\times10^{-3}$ ($GM = 150$, $a = 60$, $c_0 = 40$),
+subtracting the $\lambda_{\rm PN} = 0$ numerical baseline (the same
+policy as check V6; configurations in Appendix~\ref{app:inputs}).
+Check V18 measures $+1.764^\circ$/orbit against the analytic
+$6\pi GM/[c_0^2a(1-e^2)] = 1.762^\circ$/orbit ($0.1\%$ relative
+error); the time-rate-only control V19 gives $1/3$ of the full advance
+to $2.0\%$; and V20 gates the full-to-control ratio at $3.06$ (theory
+$3$).
+The same formula at Mercury's real values gives $+42.98''$/century
+($\beta = \gamma = 1$; the time-rate-only value would be
+$+14.33''$/century)---recovered under the same single calibration
+$\Kt = c^2/G$ with no additional free coefficient.
+
+The claim domain of this first stage is deliberately narrow: sources
+are massive bodies only; velocities are referred to the static
+background ($\vect{u} = 0$); the E6$'$ transport is disabled for
+matter under \texttt{geoPN} $= 1$ (the action already contains
+Newtonian gravity, so double counting is forbidden); and a pinned
+source makes the run an explicitly open system (outside T7).
+The unification with $\vect{u} \ne 0$ (E6$'$) in one variational
+principle remains the leading open problem (L1, partially resolved;
+Sec.~\ref{sec:conclusion}).
+With \texttt{geoPN} $= 0$ (the default) every other claim, experiment,
+and conservation statement in this paper is unaffected.
 
 % =====================================================================
 \section{Numerical experiments}
@@ -1173,8 +1258,8 @@ The model is 2D; no 3D quantitative predictions are made.
 Spin is a scalar; a 3D extension (vector spin, vector dragging field,
 angular-momentum alignment) is future work (L7).
 
-\subsection{Negative claim 5: Mercury's perihelion advance is not
-reproduced}
+\subsection{Negative claim 5: the base dynamics does not reproduce
+Mercury's perihelion advance}
 The observed main term ($+42.98''$/century) is a static 1PN effect.
 DFM's static sector is exactly Newtonian
 (Sec.~\ref{sec:newton}), and its dragging term E6$'$ yields only a
@@ -1185,6 +1270,14 @@ $1.63\times$, Mars by $2.00\times$).
 Meanwhile the clock-and-light sector does show formula-level benchmark
 agreement at $\Kt = c^2/G$ (Table~\ref{tab:calib})---the model is
 explicit about which sector works and which does not.
+This claim is scoped to the base dynamics E1$'$--E11 and stands
+unchanged.
+The clearly labeled geodesic option E12 (Sec.~\ref{sec:e12}) recovers
+the full advance ($\beta = \gamma = 1$, $+42.98''$/century) at the
+same $\Kt = c^2/G$ with no additional free coefficient (checks
+V18/V20, with the time-rate-only control V19 at $1/3$); strong-field
+and gravitational-wave phenomena remain outside the model in either
+mode (L8, L12).
 
 \subsection{Negative claim 6: thermodynamics is an analogy}
 The heat sector is ``a 2D dissipative particle system with angular
@@ -1210,8 +1303,11 @@ conduction-like transport.
 \label{sec:limits}
 
 The catalogue most relevant to this paper:
-{\bf L1} (no action principle: E6$'$ is an update rule, not derived
-from a Lagrangian---the leading open problem, see
+{\bf L1} (action principle: partially resolved---the static
+weak-field geodesics of the E7R line element are implemented and
+machine-verified as the geodesic option E12 (Sec.~\ref{sec:e12}),
+but E6$'$ itself is still an update rule, and the $\vect{u}\ne0$
+unification remains the leading open problem, see
 Sec.~\ref{sec:conclusion});
 {\bf L8} (instantaneous action at a distance);
 {\bf L12} (no Lorentzian matter response);
@@ -1242,21 +1338,15 @@ single parameter.
 Three directions for future work are identified:
 
 \paragraph*{(i) Action principle and geodesics (v2.0 core).}
-The clock rule E7R defines a line element
-\begin{equation}
-c^2\ud\tau^2 = e^{-2\psi}c^2\ud t^2
- - e^{+2\psi}\left|\ud\vect{r}-\vect{u}\,\ud t\right|^2 ,
-\label{eq:line}
-\end{equation}
-and the natural next step is to posit the particle action
-$S = -mc^2\!\int\!\ud\tau$ and derive matter, clocks, and light from
-one variational principle.
-The static weak-field expansion of Eq.~(\ref{eq:line}) \emph{suggests}
-PPN $\beta = \gamma = 1$---we state this strictly as a hypothesis to
-be verified, since the field equations, the $\vect{u}\ne0$ geodesics,
-and self-field exclusion remain undefined; if the program succeeds,
-the static 1PN perihelion advance would arise naturally and $k_F$
-would become a rotation-only parameter.
+The static first stage of this program is already implemented and
+machine-verified as the geodesic option E12 (Sec.~\ref{sec:e12}): the
+static weak-field geodesics of the line element Eq.~(\ref{eq:line})
+give PPN $\beta = \gamma = 1$ and recover the 1PN perihelion advance.
+The remaining program is to derive matter, clocks, and light in full
+from the single action $S = -mc^2\!\int\!\ud\tau$: the field
+equations, the $\vect{u}\ne0$ geodesics (the E6$'$ unification), and
+self-field exclusion remain undefined; if it succeeds, $k_F$ would
+become a rotation-only parameter.
 The branch criterion is fixed in advance: if the current E4/E6$'$
 dynamics emerges as the slow-motion limit of the geodesics, v1 is
 continuous with v2; if not, v1 is frozen as a phenomenological toy
@@ -1436,6 +1526,13 @@ $\mu_f{=}\gamma_n{=}\eta_{\rm rad}{=}0$, $\kappa_s{=}0.3$;
 $8\times6$ static lattice (spacing 40), $m{=}1$, spins $0.3$
 (left) / $2.5$ (right), 4000 steps; two-body variant $m{=}2$,
 $d{=}30$, spins $2/0$, 2500 steps \\
+V18--V20 & $G{=}1$, $\Dz{=}0.05$, $k_F{=}0$, $k_{\rm rep}{=}0$, all
+dissipation off, $\Kt{=}10^4$, $c_0{=}40$, \texttt{geoPN}{=}1,
+$\varepsilon{=}0.5$; pinned source $m{=}150$ at origin, test
+$m{=}0.01$ at $(47.664,0)$ with $v_y{=}1.94787$ ($a{=}60$,
+$e{=}0.2056$); three runs $(\alpha,\lambda_{\rm PN}) =
+(1.5,1)/(0.5,1)/(1.5,0)$, 80\,000 steps each; periapsis detection
+with $r$-gate and minimum spacing \\
 \end{tabular}
 \end{ruledtabular}
 \end{table}
