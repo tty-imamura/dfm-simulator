@@ -151,8 +151,10 @@ GitHub Actions([.github/workflows/ci.yml](.github/workflows/ci.yml))が push/PR 
    タグ時点の `npm test` は 109/109 ALL PASS、`tests/out/qa-results.json` と全図 JSON が
    同一コミット SHA+実行環境を記録)
 2. **Zenodo DOI** ✅ — GitHub 連携の Release 公開で自動アーカイブし、
-   **doi:10.5281/zenodo.21454189** が発行された。(a) `paper/dfm-paper.tex` の
-   Reproducibility 節、(b) `CITATION.cff` の `doi:`、(c) 本節に記載済み。
+   **Version DOI: doi:10.5281/zenodo.21454189**(paper-v1 当該コミット固定 — 論文が引用)と
+   **Concept DOI: doi:10.5281/zenodo.21454188**(全バージョン共通 — `CITATION.cff` が使用)が
+   発行された。(a) `paper/dfm-paper.tex` の Reproducibility 節、(b) `CITATION.cff` の
+   `doi:`、(c) 本節に記載済み。
    DOI 挿入後のコミットには `paper-v1.1` を再タグする(**GitHub Release は作らない** —
    第2の DOI 発行を防ぐ。Zenodo は Release 公開で発火するため)
 3. **補足資料**: `tests/out/qa-results.json`(全QA結果)と `paper/figures/*.json`
