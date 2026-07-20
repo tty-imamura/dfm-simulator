@@ -3,6 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Docs: CC BY 4.0](https://img.shields.io/badge/Docs-CC%20BY%204.0-lightgrey.svg)](docs/LICENSE)
 [![QA](https://github.com/tty-imamura/dfm-simulator/actions/workflows/ci.yml/badge.svg)](https://github.com/tty-imamura/dfm-simulator/actions/workflows/ci.yml)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21454189.svg)](https://doi.org/10.5281/zenodo.21454189)
 
 「空間座標は質点の相対位置で決まる」「スピン=熱」といった**仮定の物理法則**を体系化し、
 その帰結(回転方向の整列、銀河外縁の回転速度増強、熱平衡、光の湾曲、空間の引きずり)を
@@ -142,18 +143,18 @@ GitHub Actions([.github/workflows/ci.yml](.github/workflows/ci.yml))が push/PR 
 - 理論文書(docs/): [CC BY 4.0](docs/LICENSE)(表示: Tetsuya Imamura)
 - 引用方法: [CITATION.cff](CITATION.cff)(GitHub の「Cite this repository」からも取得可)
 
-### 提出版タグとアーカイブ DOI の発行手順(論文投稿時。第5次模擬査読 裁定 #14)
+### 提出版タグとアーカイブ DOI(論文投稿時。第5次模擬査読 裁定 #14 — **2026-07-20 実施済み**)
 
-論文の全数値を単一の不変コミットに固定するための手順:
+論文の全数値を単一の不変コミットに固定する手順と、その実施記録:
 
-1. **提出版タグ**: 投稿対象コミットに注釈付きタグを打つ —
-   `git tag -a paper-v1 -m "arXiv submission version" && git push origin paper-v1`
-   (タグ時点で `npm test` が ALL PASS であることを確認し、`tests/out/qa-results.json` を
-   コミットに含める。結果 JSON には git コミットが自動記録される)
-2. **Zenodo DOI**: Zenodo の GitHub 連携でリポジトリを有効化し、タグ push で
-   自動アーカイブ → 発行された DOI を (a) `paper/dfm-paper.tex` の
-   `% TODO(submission)` 行、(b) `CITATION.cff` の `doi:`、(c) 本節に記載して
-   同タグを付け直す(`paper-v1.1` として再タグ)
+1. **提出版タグ** ✅ — `paper-v1`(注釈付き、= paper v0.8 / release v1.27.0 系のコミット。
+   タグ時点の `npm test` は 109/109 ALL PASS、`tests/out/qa-results.json` と全図 JSON が
+   同一コミット SHA+実行環境を記録)
+2. **Zenodo DOI** ✅ — GitHub 連携の Release 公開で自動アーカイブし、
+   **doi:10.5281/zenodo.21454189** が発行された。(a) `paper/dfm-paper.tex` の
+   Reproducibility 節、(b) `CITATION.cff` の `doi:`、(c) 本節に記載済み。
+   DOI 挿入後のコミットには `paper-v1.1` を再タグする(**GitHub Release は作らない** —
+   第2の DOI 発行を防ぐ。Zenodo は Release 公開で発火するため)
 3. **補足資料**: `tests/out/qa-results.json`(全QA結果)と `paper/figures/*.json`
    (図の生成パラメータ・実測値)を論文の supplementary material として同梱する
 

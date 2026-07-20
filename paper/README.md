@@ -56,8 +56,8 @@ headless Chromium + HP フック駆動(依存は `npm ci` の playwright のみ)
       Ashby 2003 — 一次資料照合済み。第6次査読 Major 12)
 - [x] pdflatex 2パス+ページ数確定(**16ページ** — エラー0・未解決参照0。
       arXiv Comments 欄確定)
-- [ ] リポジトリ提出版タグ+Zenodo DOI の挿入(tex 内 `TODO(submission)`。
-      手順はルート README「提出版タグとアーカイブ DOI の発行手順」)
+- [x] リポジトリ提出版タグ+Zenodo DOI の挿入(v0.9: タグ `paper-v1`・
+      **doi:10.5281/zenodo.21454189** を Reproducibility 節に確定。TODO 解消)
 - [ ] 日本語要旨(国内発表用・必要なら)
 
 ## 受け入れ条件(HANDOFF_PAPER_V2 §7)と検査
