@@ -1,5 +1,5 @@
 % =====================================================================
-% Determinacy-Field Mechanics -- arXiv draft (v0.3, 2026-07-20)
+% Determinacy-Field Mechanics -- arXiv draft (v0.7, 2026-07-20)
 % Written per docs/HANDOFF_PAPER_V2.md (sole authoritative writing brief).
 % v0.2: all 21 adjudicated items of the fifth AI mock review applied
 %       (claim-level restriction, axiom clarifications A2/A5/A10,
@@ -34,11 +34,20 @@
 %       noted as J/M_c, epsilon has length dimensions, V2 labeled an
 %       algebraic round-trip, uncertainty definitions clarified.
 %       Title change and T->T_eff renaming deferred to the author.
+%       (Historical note: the "Input canon" line above reflects v0.2;
+%       current canon is PHYSICS v1.9 / THEORY_SYNTHESIS v1.7+ /
+%       index.html v1.27 — see paper/README.md.)
 % v0.6: title change approved (roadmap decision 4-19, 2026-07-20):
 %       "Emergent Inverse-Square Gravity" -> "Inverse-Square Gravity"
 %       (C2 states a decomposition, not an emergence from nothing) and
 %       "Spin-as-Heat Thermodynamics" -> "Spin-as-Heat Analogies"
 %       (consistent with negative claim 6). No other change.
+% v0.7: release-readiness sync (seventh external AI review of the
+%       repository, 2026-07-20): implementation version references
+%       updated to 1.27 (frame-time accounting fix + prompt/E12 key
+%       sync + viewport accessibility -- per-step physics unchanged),
+%       CI suite count updated to 109 (two release-readiness gates
+%       added). No claim, number, or equation changed.
 % Input canon: docs/DERIVATIONS.md, docs/PHYSICS.md v1.6,
 %              docs/THEORY_SYNTHESIS.md v1.7, index.html v1.23.
 % Target: American Journal of Physics / European Journal of Physics
@@ -174,7 +183,7 @@ concrete enough to run as a self-contained single-file HTML application
 with no external dependencies, and honest enough that every quantitative
 claim made below is checked by machine-verifiable tests embedded in the
 implementation (\texttt{HP.verify.all()}, fourteen checks, plus a
-107-item continuous-integration suite).
+109-item continuous-integration suite).
 Throughout, ``machine-verified'' means checked by this embedded
 automated suite against stated gates or independently derived analytic
 formulas---regression-style verification of the implementation, not
@@ -974,8 +983,8 @@ and conservation statement in this paper is unaffected.
 \label{sec:experiments}
 
 All experiments below run in the released single-file implementation
-(version 1.26; the physics engine is unchanged since the E12/E8R
-revisions of versions 1.20--1.21) on the same engine; each figure is
+(version 1.27; the per-step physics engine is unchanged since the
+E12/E8R revisions of versions 1.20--1.21) on the same engine; each figure is
 regenerated from the simulation by the stated preset, verification
 routine, or explicitly stated configuration, with
 screenshots used only as auxiliary illustration.
@@ -1486,12 +1495,12 @@ external dependencies, archived with the project repository.
 Code is released under the MIT license and documentation under
 CC~BY~4.0, at \url{https://github.com/tty-imamura/dfm-simulator}.
 The version of record for this paper will be fixed by a git tag on the
-repository (\texttt{v1.26} series); the submission tag and a Zenodo
+repository (\texttt{v1.27} series); the submission tag and a Zenodo
 archival DOI minted from it will be inserted here at submission, so
 that every number in the paper is tied to one immutable commit.
 % TODO(submission): insert submission tag + Zenodo DOI here once minted.
 Machine-verification outputs are part of that record: the
-continuous-integration suite (\texttt{tests/qa.mjs}, 107 items
+continuous-integration suite (\texttt{tests/qa.mjs}, 109 items
 including the embedded \texttt{HP.verify.all()} checks, the time-step
 sweep of Table~\ref{tab:verify}, and the isolated zeroth-law control
 of Sec.~\ref{sec:exp6}) writes a machine-readable results file

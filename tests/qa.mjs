@@ -65,9 +65,34 @@ const add = (id, pass, detail) => {
   const over = [];
   const presets = html.match(/const BUILTIN_PRESETS = \[([\s\S]*?)\n\];/)[1];
   for (const mm of presets.matchAll(/physics:\{([\s\S]*?)\}/g))
-    for (const kv of mm[1].matchAll(/(\w+):\s*([\d.eE+-]+)/g))
-      if (defs[kv[1]] && +kv[2] > defs[kv[1]].hi) over.push(`${kv[1]}=${kv[2]}>${defs[kv[1]].hi}`);
+    for (const kv of mm[1].matchAll(/(\w+):\s*(-?[\d.eE+-]+)/g)) {
+      // v1.27(公開前レビュー P1-2): 上限だけでなく下限・非数も検査。
+      // 0 は「機能OFF」の正規状態(G=0・D0=0・etaRad=0 等。対数スライダーの lo>0 とは別に
+      // 直接入力・プリセットで設定可能)なので下限検査から除外する。
+      if (!defs[kv[1]]) continue;
+      const v = +kv[2];
+      if (!Number.isFinite(v)) over.push(`${kv[1]}=${kv[2]} (NaN/Inf)`);
+      else if (v > defs[kv[1]].hi) over.push(`${kv[1]}=${kv[2]}>${defs[kv[1]].hi}`);
+      else if (v !== 0 && v < defs[kv[1]].lo) over.push(`${kv[1]}=${kv[2]}<${defs[kv[1]].lo}`);
+    }
   add('slider.covers-builtins', over.length === 0, over.slice(0, 5).join(' '));
+
+  // ---- v1.27(公開前レビュー P1-1): SYSTEM_PROMPT の physics キー集合 = 正規21キー ----
+  {
+    const KEYS = ['G', 'D0', 'kFrame', 'q', 'kRep', 'muF', 'gammaN', 'kappaS', 'Kt', 'cLight', 'bM',
+      'etaRad', 'pRad', 'gravityX', 'gravityY', 'geoPN', 'lambdaPN', 'pnAlpha',
+      'radiusScale', 'softening', 'timeScale'];
+    const sp = html.match(/const SYSTEM_PROMPT\s*=\s*`([\s\S]*?)`/);
+    const missDefaults = [], missShot = [];
+    if (sp) {
+      const defaultsLine = (sp[1].match(/既定値: ([^\n]+)/) || [, ''])[1];
+      for (const k of KEYS) if (!new RegExp(`\\b${k}=`).test(defaultsLine)) missDefaults.push(k);
+      const shots = [...sp[1].matchAll(/"physics":\{([\s\S]*?)\}/g)];
+      shots.forEach((s, i) => { for (const k of KEYS) if (!s[1].includes(`"${k}"`)) missShot.push(`shot${i + 1}:${k}`); });
+    }
+    add('prompt.physics-keys', !!sp && missDefaults.length === 0 && missShot.length === 0,
+      `defaults欠落=[${missDefaults.join(',')}] few-shot欠落=[${missShot.slice(0, 6).join(',')}]`);
+  }
 }
 
 // ---- 0d) 内蔵プリセットの physics 完全明示(v1.18 第8次裁定): 21キー全指定+件数がREADMEと一致 ----
@@ -682,6 +707,25 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
     + `Kt直編集=${r.snapBack}/表示${r.snapShown} G=0クランプ=${r.edge.applied}(近似=${r.edge.clamped}) 解除後=${r.after}`);
 }
 
+// ---- v1.27(公開前レビュー P0-1): ステップ会計 — 高倍率でも要求分を黙って破棄しない ----
+{
+  const r = await page.evaluate(() => {
+    const runs = {};
+    let acc = 0, total = 0;
+    for (let f = 0; f < 100; f++) { const b = HP.stepBudget(acc, 8); acc = b.acc; total += b.k; }
+    runs.low = total;                                       // 要求 ≤24/フレーム: 合計=要求合計
+    acc = 0; total = 0; let maxAcc = 0;
+    for (let f = 0; f < 100; f++) { const b = HP.stepBudget(acc, 64); acc = b.acc; total += b.k; if (b.acc > maxAcc) maxAcc = b.acc; }
+    runs.high = total; runs.maxAcc = maxAcc;                // 持続的過負荷: 24/フレームに飽和・繰越は有界
+    acc = 0; total = 0;
+    for (let f = 0; f < 5; f++) { const b = HP.stepBudget(acc, f === 0 ? 60 : 0); acc = b.acc; total += b.k; }
+    runs.burst = total;                                     // 一時バースト: 繰越上限まで後続で消化(24+24)
+    return runs;
+  });
+  add('time.step-accounting', Math.abs(r.low - 800) <= 1 && r.high === 2400 && r.maxAcc <= 24 && r.burst === 48,
+    `低負荷=${r.low}/800 過負荷=${r.high}/2400 繰越最大=${r.maxAcc}≤24 バースト=${r.burst}/48`);
+}
+
 // ---- 7m) 論文改稿ゲート(第5次AI模擬査読 裁定 #7/#16。付録C-4 条件4)----
 // ① V1 収束表: 保存則残差が固定総時間 T=16 の dt 掃引で全て丸め床(<1.5e-5)に留まり、
 //    dt に依存しない(=方程式レベルの厳密保存+Float32 丸みのみ。実測 4.5e-6/1.28e-5/4.3e-6)
@@ -917,8 +961,12 @@ await browser.close();
 let commit = 'unknown';
 try { commit = execSync('git rev-parse HEAD', { cwd: ROOT, stdio: 'pipe' }).toString().trim(); } catch {}
 const pass = results.every(r => r.pass);
+// v1.27(公開前レビュー P0-5): 実行環境のメタデータを結果JSONへ必須記録
+let playwrightVersion = 'unknown';
+try { playwrightVersion = JSON.parse(fs.readFileSync(path.join(ROOT, 'node_modules/playwright/package.json'), 'utf8')).version; } catch {}
 fs.writeFileSync(path.join(OUT_DIR, 'qa-results.json'), JSON.stringify({
   commit, date: new Date().toISOString(), fast: FAST,
+  env: { node: process.version, playwright: playwrightVersion, platform: `${process.platform}/${process.arch}` },
   total: results.length, failed: results.filter(r => !r.pass).length, pass, results,
 }, null, 1));
 console.log(`\n${pass ? 'ALL PASS' : 'FAILED'} (${results.filter(r => r.pass).length}/${results.length}) → tests/out/qa-results.json`);

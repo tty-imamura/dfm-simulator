@@ -1,8 +1,15 @@
 # 仮想物理ラボ — 仮定物理法則シミュレータ
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Docs: CC BY 4.0](https://img.shields.io/badge/Docs-CC%20BY%204.0-lightgrey.svg)](docs/LICENSE)
+[![QA](https://github.com/tty-imamura/dfm-simulator/actions/workflows/ci.yml/badge.svg)](https://github.com/tty-imamura/dfm-simulator/actions/workflows/ci.yml)
+
 「空間座標は質点の相対位置で決まる」「スピン=熱」といった**仮定の物理法則**を体系化し、
 その帰結(回転方向の整列、銀河外縁の回転速度増強、熱平衡、光の湾曲、空間の引きずり)を
 iPhoneのブラウザで観察できるシミュレータです。
+
+> 🚀 **オンラインで試す**: https://tty-imamura.github.io/dfm-simulator/
+> (GitHub Pages 有効化後に利用可能 — Settings → Pages → Branch: `main` / root)
 
 ## 使い方(iPhone)
 
@@ -59,7 +66,16 @@ iPhoneのブラウザで観察できるシミュレータです。
   Sonnet 5 フォールバック)。v1.10 からプロバイダを選択可能: **Claude / OpenAI互換 API
   (URL変更可、ローカルLLMにも接続可) / Google Gemini**。モデルIDは自由入力(候補は datalist で提示)。
   APIキーはプロバイダ別に管理し、既定では**端末に保存せずメモリのみ**(保存はチェックで明示オプトイン)。
-  送信先は選択したプロバイダのAPIのみです。v1.11 で生成の表現力を拡張:
+  送信先は**選択・設定したAPIエンドポイント**です(OpenAI互換では入力したベースURLへ送信されるため、
+  URLは必ず確認してください)。
+
+  > ⚠️ **APIキーの取り扱いに関する注意(BYOK方式)**: 本アプリはバックエンドを持たず、
+  > キーはブラウザ内でのみ使用されます。ただし一般に、ブラウザへの長期APIキーの入力は
+  > 各プロバイダが本番用途に推奨する方式ではありません(公式推奨はバックエンド経由)。
+  > 利用する場合は **(1) 利用上限を設定した専用キーを使う (2) 「キーを保存」は共有端末では
+  > 使わない (3) `localStorage` は暗号化保管庫ではないと理解する (4) エクスポートした
+  > JSON・スクリーンショットにキーを含めない**、を推奨します。キーが漏えいした可能性が
+  > ある場合は、プロバイダのコンソールから直ちに無効化してください。v1.11 で生成の表現力を拡張:
   **熱浴(ヒーター/冷却板)・放射冷却・対流・ブラックホール(光子捕捉)**が要望文から
   生成できます(例:「ブラックホールが見たい」「床で温めて天井で冷やす対流実験」)。
 - 1本指ドラッグで移動 / 2本指ピンチで拡大縮小 / 粒子タップで固有時計(τ/t)表示
