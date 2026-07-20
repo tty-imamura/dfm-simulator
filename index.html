@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b0e1a">
 <title>仮想物理ラボ — 仮定物理法則シミュレータ</title>
 <style>
@@ -218,7 +218,7 @@
         <div class="prow" style="margin-top:6px"><label id="keyPersistLabel" style="flex:1">キーをこの端末に保存する</label>
           <input type="checkbox" id="keyPersist"></div>
         <div class="rowBtns"><button class="btn" id="btnKeySave">キーを設定</button></div>
-        <p class="note" id="aiKeyNote">キーはこの端末内でのみ使われ、送信先は選択したプロバイダのAPIだけです。保存チェックOFFなら端末にも残りません(タブを閉じると消えます)。</p>
+        <p class="note" id="aiKeyNote">キーはこの端末内でのみ使われ、送信先は選択・設定したAPIエンドポイントだけです(OpenAI互換では入力したベースURLへ送信されます — URLは必ず確認してください)。保存チェックOFFなら端末にも残りません(タブを閉じると消えます)。ブラウザへのキー入力にはリスクが伴うため、利用上限を設定した専用キーを推奨します。</p>
       </div>
       <div class="group"><h3 id="aiGenHead">新しいシミュレーションを生成</h3>
         <textarea id="aiPrompt" placeholder="例: 3つの恒星が絡み合う三体問題。まわりに塵の環も欲しい"></textarea>
@@ -358,7 +358,7 @@ ja: {
   diverged:"数値が発散しました。パラメータを見直すか「⏮ 初めから」を押してください。",
   aiProvHead:"AIプロバイダ", aiProvLabel:"プロバイダ", aiModelLabel:"モデル", aiUrlLabel:"API URL",
   keyPersistLabel:"キーをこの端末に保存する", btnKeySave:"キーを設定",
-  aiKeyNote:"キーはこの端末内でのみ使われ、送信先は選択したプロバイダのAPIだけです。保存チェックOFFなら端末にも残りません(タブを閉じると消えます)。",
+  aiKeyNote:"キーはこの端末内でのみ使われ、送信先は選択・設定したAPIエンドポイントだけです(OpenAI互換では入力したベースURLへ送信されます — URLは必ず確認してください)。保存チェックOFFなら端末にも残りません(タブを閉じると消えます)。ブラウザへのキー入力にはリスクが伴うため、利用上限を設定した専用キーを推奨します。",
   aiGenHead:"新しいシミュレーションを生成", btnGenerate:"生成する", aiListHead:"生成済みプリセット",
   aiPromptPh:"例: 3つの恒星が絡み合う三体問題。まわりに塵の環も欲しい",
   apiKeyPh:"APIキー",
@@ -447,7 +447,7 @@ en: {
   diverged:"Simulation diverged. Adjust parameters or press ⏮ Restart.",
   aiProvHead:"AI provider", aiProvLabel:"Provider", aiModelLabel:"Model", aiUrlLabel:"API URL",
   keyPersistLabel:"Remember key on this device", btnKeySave:"Set key",
-  aiKeyNote:"Your key is used only on this device and sent only to the selected provider's API. With the checkbox OFF it is kept in memory only (cleared when the tab closes).",
+  aiKeyNote:"Your key is used only on this device and sent only to the API endpoint you select or configure (with the OpenAI-compatible option it is sent to the base URL you enter — always verify that URL). With the checkbox OFF it is kept in memory only (cleared when the tab closes). Entering API keys in a browser carries risk; use a dedicated key with a spending limit.",
   aiGenHead:"Generate a new simulation", btnGenerate:"Generate", aiListHead:"Generated presets",
   aiPromptPh:"e.g. A chaotic three-star system with a ring of dust around it",
   apiKeyPh:"API key",
@@ -624,7 +624,7 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
   geoPN:0, lambdaPN:1, pnAlpha:1.5,   // v1.20: E12 測地線1PN(geoPN=1で有効。BOX_UNIVERSE §5)
   radiusScale:1.2, softening:2, timeScale:1 };
 // v1.7: kLens は廃止(E8R で屈折率は n=e^{2W/Kt} に統一。旧セーブの kLens は受理して無視)
-const APP_VERSION = "1.26";             // エクスポートの appVersion に記録(package.json と QA で同期検査)
+const APP_VERSION = "1.27";             // エクスポートの appVersion に記録(package.json と QA で同期検査)
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 const RAY_MASS_MIN = 40;                  // 光線を曲げる最小質量(性能のための近似)
@@ -1607,6 +1607,15 @@ function applyUiScale(){ document.documentElement.style.setProperty("--uz", Stri
 let paramsDirty=false;  // v1.17: 「保存」していない編集の有無(バックアップ対象外の注意喚起)
 let tSort=null; // 温度正規化用スクラッチ(90パーセンタイル計算)
 let stepAcc=0, fpsEMA=60, lastFrame=performance.now(), frameCount=0;
+// v1.27: ステップ会計の純関数(P0-1 修正の本体。QA `time.step-accounting` が直接検証)
+// acc に要求ステップを積み、実行分 k(上限24)だけ差し引く。繰越は 24 まで。
+function stepBudget(acc, want){
+  acc+=want;
+  const k=Math.min(Math.floor(acc),24);
+  acc-=k;
+  if(acc>24) acc=24;
+  return {k, acc};
+}
 // ===== v1.23: 描画品質(自動/正確/軽量)— 処理負荷の縮退は描画のみ。物理(S.step)は不変 =====
 // レベル0=最高品質(既定・QA/検証はこれ)。1・2 は DPR・決定力マップの格子/更新間隔・
 // 光線本数・軌跡記録間隔・温度ソート間隔を段階的に軽くする。
@@ -2154,9 +2163,13 @@ function loop(now){
     else lowFpsMs=0;
   }
   if(running){
-    stepAcc+=SUBSTEPS*sim.params.timeScale*speedMul;   // v1.19: 時間倍率×プルダウン倍率
-    let k=Math.floor(stepAcc); stepAcc-=k;
-    k=Math.min(k,24);
+    // v1.27(公開前レビュー P0-1): 実行した分だけ stepAcc から差し引く(旧実装は要求全量を
+    // 差し引いてから 24 へクランプしており、高倍率時に超過分を黙って破棄 → 表示倍率と
+    // 座標時間が不一致だった)。繰越は1フレーム分(24)までクランプし、復帰不能な
+    // バックログ蓄積を防ぐ。持続的過負荷時の実効レートは 24步/フレームに飽和する(仕様)。
+    const b=stepBudget(stepAcc, SUBSTEPS*sim.params.timeScale*speedMul);   // v1.19: 時間倍率×プルダウン倍率
+    stepAcc=b.acc;
+    const k=b.k;
     for(let s2=0;s2<k;s2++) sim.step(DT);
     if(ab) for(let s2=0;s2<k;s2++) ab.simB.step(DT);  // Bも同じ座標時間だけ進める
     if((frameCount%30)===0){
@@ -2819,12 +2832,12 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 
 # 出力ルール
 1. スキーマに完全準拠したJSONのみを出力する。説明文やコードフェンスは書かない。
-2. physicsは全キーを必ず含める。変更不要なキーは既定値を書く。既定値: G=1, D0=2, kFrame=1, q=2, kRep=1, muF=0.5, gammaN=0.4, kappaS=0.05, Kt=60, cLight=60, bM=1, etaRad=0, pRad=4, gravityX=0, gravityY=0, radiusScale=1.2, softening=2, timeScale=1
+2. physicsは全キーを必ず含める。変更不要なキーは既定値を書く。既定値: G=1, D0=2, kFrame=1, q=2, kRep=1, muF=0.5, gammaN=0.4, kappaS=0.05, Kt=60, cLight=60, bM=1, etaRad=0, pRad=4, gravityX=0, gravityY=0, geoPN=0, lambdaPN=1, pnAlpha=1.5, radiusScale=1.2, softening=2, timeScale=1
 3. 粒子総数は最大600。滑らかに動かすため通常は120〜400にする。
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
 6. name は30字以内、description は200字以内の日本語。emoji は絵文字1文字。
-7. 値域(超えると自動修正される): G:0〜100, D0:0〜1000, kFrame:0〜1, q:0.5〜4, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, Kt:1〜10000, cLight:1〜10000, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, radiusScale:0.2〜5, softening:0.5〜20, timeScale:0.1〜16, camera.scale:20〜3000, 座標・長さ:±5000, 質量:0.01〜5000, 速度成分:±50, スピン:±20, omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
+7. 値域(超えると自動修正される): G:0〜100, D0:0〜1000, kFrame:0〜1, q:0.5〜4, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, Kt:1〜10000, cLight:1〜10000, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜1(整数), lambdaPN:0〜1(整数), pnAlpha:0.5〜1.5, radiusScale:0.2〜5, softening:0.5〜20, timeScale:0.1〜16, camera.scale:20〜3000, 座標・長さ:±5000, 質量:0.01〜5000, 速度成分:±50, スピン:±20, omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
 
 # ジェネレータ(bodiesの要素。typeごとに全フィールド必須)
 - single: {type,m,x,y,vx,vy,spin,pinned} — 粒子1個。pinned:true で力を受けず固定。
@@ -2835,21 +2848,21 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 
 # 例
 例1 要望「連星と、その周りを回る惑星たち」
-{"name":"連星系の惑星たち","emoji":"⭐","description":"2つの恒星が共通重心を回り、その外側を小さな惑星たちが公転する。連星の複雑な重力場で軌道が乱される様子が見どころ。","camera":{"scale":320},"world":{"boundary":"none","size":0},"physics":{"G":1,"D0":2,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":60,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"radiusScale":1.2,"softening":2,"timeScale":4},"bodies":[{"type":"single","m":500,"x":-60,"y":0,"vx":0,"vy":-1.44,"spin":0.5,"pinned":false},{"type":"single","m":500,"x":60,"y":0,"vx":0,"vy":1.44,"spin":0.5,"pinned":false},{"type":"ring","n":220,"cx":0,"cy":0,"rIn":180,"rOut":290,"mMin":0.05,"mMax":0.3,"spinMin":0,"spinMax":0,"vMode":"kepler","aroundMass":1000,"omega":0,"vNoise":0.05,"direction":1,"pinned":false}],"overlays":{"rotationCurve":false,"tempHistogram":false,"field":false}}
+{"name":"連星系の惑星たち","emoji":"⭐","description":"2つの恒星が共通重心を回り、その外側を小さな惑星たちが公転する。連星の複雑な重力場で軌道が乱される様子が見どころ。","camera":{"scale":320},"world":{"boundary":"none","size":0},"physics":{"G":1,"D0":2,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":60,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1.2,"softening":2,"timeScale":4},"bodies":[{"type":"single","m":500,"x":-60,"y":0,"vx":0,"vy":-1.44,"spin":0.5,"pinned":false},{"type":"single","m":500,"x":60,"y":0,"vx":0,"vy":1.44,"spin":0.5,"pinned":false},{"type":"ring","n":220,"cx":0,"cy":0,"rIn":180,"rOut":290,"mMin":0.05,"mMax":0.3,"spinMin":0,"spinMax":0,"vMode":"kepler","aroundMass":1000,"omega":0,"vNoise":0.05,"direction":1,"pinned":false}],"overlays":{"rotationCurve":false,"tempHistogram":false,"field":false}}
 (連星の公転速度: 半径60・相手質量500 → v≈√(1×500÷(60×2))≈1.44 を互いに逆向きに与える)
 
 例2 要望「熱いガスと冷たいガスが混ざるところ」
-{"name":"高温ガスと低温ガスの混合","emoji":"🔥","description":"箱の左に低温(低スピン)、右に高温(高スピン)のガスを配置。衝突とスピン拡散で温度が均一化し、熱平衡に達する過程を観察できる。","camera":{"scale":240},"world":{"boundary":"box","size":200},"physics":{"G":0.05,"D0":50,"kFrame":0.2,"q":2,"kRep":2,"muF":0.8,"gammaN":0.3,"kappaS":0.15,"Kt":60,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"radiusScale":1.2,"softening":2,"timeScale":2},"bodies":[{"type":"box","n":120,"cx":-100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":0,"spinMax":0.2,"vScale":0.3},{"type":"box","n":120,"cx":100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":2,"spinMax":3,"vScale":2.5}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
+{"name":"高温ガスと低温ガスの混合","emoji":"🔥","description":"箱の左に低温(低スピン)、右に高温(高スピン)のガスを配置。衝突とスピン拡散で温度が均一化し、熱平衡に達する過程を観察できる。","camera":{"scale":240},"world":{"boundary":"box","size":200},"physics":{"G":0.05,"D0":50,"kFrame":0.2,"q":2,"kRep":2,"muF":0.8,"gammaN":0.3,"kappaS":0.15,"Kt":60,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1.2,"softening":2,"timeScale":2},"bodies":[{"type":"box","n":120,"cx":-100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":0,"spinMax":0.2,"vScale":0.3},{"type":"box","n":120,"cx":100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":2,"spinMax":3,"vScale":2.5}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
 
 例3 要望「ブラックホールが見たい。光が吸い込まれるところも。星も1000個ちりばめて」
-{"name":"ブラックホール — 光子捕捉","emoji":"🕳️","description":"中央の超大質量天体(ブラックホールの光学類似)。左からの光線が強く曲がり、近くを通る光は捕まって光子球のような円軌道に巻き付く(光子捕捉)。周囲の星は数を400に抑えて軽快に動かす。決定力マップ表示付き。","camera":{"scale":300},"world":{"boundary":"none","size":0},"physics":{"G":1,"D0":2,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":40,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"radiusScale":1.2,"softening":2,"timeScale":1},"bodies":[{"type":"single","m":2000,"x":0,"y":0,"vx":0,"vy":0,"spin":0.5,"pinned":true},{"type":"disk","n":400,"cx":0,"cy":0,"radius":280,"mMin":0.05,"mMax":0.2,"spinMin":0,"spinMax":0,"vMode":"kepler","aroundMass":2000,"vScale":1,"direction":1}],"rays":{"n":32,"spread":0.7},"overlays":{"rotationCurve":false,"tempHistogram":false,"field":true}}
+{"name":"ブラックホール — 光子捕捉","emoji":"🕳️","description":"中央の超大質量天体(ブラックホールの光学類似)。左からの光線が強く曲がり、近くを通る光は捕まって光子球のような円軌道に巻き付く(光子捕捉)。周囲の星は数を400に抑えて軽快に動かす。決定力マップ表示付き。","camera":{"scale":300},"world":{"boundary":"none","size":0},"physics":{"G":1,"D0":2,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":40,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1.2,"softening":2,"timeScale":1},"bodies":[{"type":"single","m":2000,"x":0,"y":0,"vx":0,"vy":0,"spin":0.5,"pinned":true},{"type":"disk","n":400,"cx":0,"cy":0,"radius":280,"mMin":0.05,"mMax":0.2,"spinMin":0,"spinMax":0,"vMode":"kepler","aroundMass":2000,"vScale":1,"direction":1}],"rays":{"n":32,"spread":0.7},"overlays":{"rotationCurve":false,"tempHistogram":false,"field":true}}
 (質量2000+Kt=40+スピン0.5で光子捕捉が起きる=機械検証済み。要望の1000個は上限・性能の推奨に合わせて400に調整し、descriptionでその旨に触れている)
 
 例4 要望「回る空間に引きずられるのを見たい」
-{"name":"回転リングの空間引きずり","emoji":"🌀","description":"重いリングが回転すると内側の空間ごと引きずられ、静止していた粒子が回り始める(マッハの原理)。D0を上げると引きずりが弱まるのも試せる。","camera":{"scale":220},"world":{"boundary":"none","size":0},"physics":{"G":0.02,"D0":0.5,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":60,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"radiusScale":1.2,"softening":2,"timeScale":2},"bodies":[{"type":"ring","n":14,"cx":0,"cy":0,"rIn":150,"rOut":150,"mMin":80,"mMax":80,"spinMin":0.5,"spinMax":0.5,"vMode":"omega","aroundMass":0,"omega":0.012,"vNoise":0,"direction":1,"pinned":true},{"type":"disk","n":40,"cx":0,"cy":0,"radius":80,"mMin":0.5,"mMax":0.5,"spinMin":0,"spinMax":0,"vMode":"none","aroundMass":0,"vScale":0,"direction":1}],"overlays":{"rotationCurve":false,"tempHistogram":false,"field":false}}
+{"name":"回転リングの空間引きずり","emoji":"🌀","description":"重いリングが回転すると内側の空間ごと引きずられ、静止していた粒子が回り始める(マッハの原理)。D0を上げると引きずりが弱まるのも試せる。","camera":{"scale":220},"world":{"boundary":"none","size":0},"physics":{"G":0.02,"D0":0.5,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":60,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1.2,"softening":2,"timeScale":2},"bodies":[{"type":"ring","n":14,"cx":0,"cy":0,"rIn":150,"rOut":150,"mMin":80,"mMax":80,"spinMin":0.5,"spinMax":0.5,"vMode":"omega","aroundMass":0,"omega":0.012,"vNoise":0,"direction":1,"pinned":true},{"type":"disk","n":40,"cx":0,"cy":0,"radius":80,"mMin":0.5,"mMax":0.5,"spinMin":0,"spinMax":0,"vMode":"none","aroundMass":0,"vScale":0,"direction":1}],"overlays":{"rotationCurve":false,"tempHistogram":false,"field":false}}
 
 例5 要望「床で温めて天井で冷やす対流実験」
-{"name":"対流セル — 床加熱・天井冷却","emoji":"♨️","description":"床の左〜中央がヒーター(固定・高スピン)、天井の右側が疎な冷却板(固定・スピン0)。温められたガスはスピン斥力で膨らんで浮かび、天井で熱を渡して右から沈む一方向の対流セル。下向きの場は一様重力場gravityYで作る。ガスは軽い粒子にして自己重力の凍結を防ぐ。左右の平均温度グラフ付き。","camera":{"scale":240},"world":{"boundary":"box","size":190},"physics":{"G":0,"D0":2,"kFrame":0,"q":2,"kRep":2,"muF":0.2,"gammaN":0.1,"kappaS":1.2,"Kt":60,"cLight":60,"bM":1,"etaRad":0,"pRad":2,"gravityX":0,"gravityY":0.03,"radiusScale":4,"softening":4,"timeScale":2},"bodies":[{"type":"single","m":1,"x":-170,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-150,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-130,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-110,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-90,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-70,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-50,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-30,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-10,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":10,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":30,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":10,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":50,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":90,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":130,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":170,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"box","n":260,"cx":0,"cy":-10,"w":340,"h":320,"mMin":0.05,"mMax":0.05,"spinMin":1,"spinMax":2,"vScale":0.4}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
+{"name":"対流セル — 床加熱・天井冷却","emoji":"♨️","description":"床の左〜中央がヒーター(固定・高スピン)、天井の右側が疎な冷却板(固定・スピン0)。温められたガスはスピン斥力で膨らんで浮かび、天井で熱を渡して右から沈む一方向の対流セル。下向きの場は一様重力場gravityYで作る。ガスは軽い粒子にして自己重力の凍結を防ぐ。左右の平均温度グラフ付き。","camera":{"scale":240},"world":{"boundary":"box","size":190},"physics":{"G":0,"D0":2,"kFrame":0,"q":2,"kRep":2,"muF":0.2,"gammaN":0.1,"kappaS":1.2,"Kt":60,"cLight":60,"bM":1,"etaRad":0,"pRad":2,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"gravityX":0,"gravityY":0.03,"radiusScale":4,"softening":4,"timeScale":2},"bodies":[{"type":"single","m":1,"x":-170,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-150,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-130,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-110,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-90,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-70,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-50,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-30,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-10,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":10,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":30,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":10,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":50,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":90,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":130,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":170,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"box","n":260,"cx":0,"cy":-10,"w":340,"h":320,"mMin":0.05,"mMax":0.05,"spinMin":1,"spinMax":2,"vScale":0.4}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
 (pinned+spin=熱浴の型: 高スピン列=ヒーター、スピン0列=冷却板。床の一部だけを温め、冷却板を天井に疎に置くと一方向の対流セルになり、粒子が冷所に貼り付かない=機械検証済み。下向きの場は gravityY=0.03 — v1.17で導入した一様重力場。時計・光・引きずりを歪めないため、画面外に遠方大質量を置く旧手法より安定する。自己重力・引きずり・放射は0にして「重力+熱膨張」だけで循環を作ると要因が明確になる)`;
 
 // 注: 以前は output_config.format(構造化出力)に JSON Schema を渡していたが、
@@ -3624,6 +3637,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   setQuality:setQualityMode,
   // v1.26: 物理対応ロック(4-12)のQA用
   setPhysLock, physLock:()=>physLock, physLockCalc, physLockSatisfied,
+  stepBudget,  // v1.27: ステップ会計の純関数(P0-1 修正。QA time.step-accounting 用)
   qState:()=>({mode:qualityMode, level:qLevel(), dprCap:Q_DPR[qLevel()],
     fieldRes:Q_FRES[qLevel()], rayFactor:Q_RAY[qLevel()], trailEvery:Q_TREC[qLevel()]}),
   setLang:(l)=>{ LANG=(l==="en")?"en":"ja"; localStorage.setItem("hp_lang",LANG); applyLang(); },
