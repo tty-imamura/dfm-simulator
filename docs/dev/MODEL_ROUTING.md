@@ -1,6 +1,13 @@
 # 仮定物理シミュレーションアプリ モデルルーティング計画
 
 model-routing スキルに基づく計画書。作成日: 2026-07-12。
+
+> **2026-07-21 更新**: 中位 Tier の現行推奨を Sonnet 4.6 → **Sonnet 5**(`claude-sonnet-5`、
+> $3/$15 per MTok・2026-08-31 まで導入価格 $2/$10。Sonnet 4.6 と同一定価のため見積り不変)に変更。
+> 更新対象は前向きの指針(委譲先 Tier・コスト見積り)のみ。過去の改訂記録(v1.x 節)中の
+> 「Sonnet 4.6 相当」は当時の実績記録としてそのまま残す。実行時 LLM は v1.10 以降すでに
+> `claude-sonnet-5` フォールバックを実装済み(index.html AI_PROVIDERS)。
+> 本書は 2026-07-21 に docs/dev/ へ移動(開発者向け内部資料の整理)。
 本プロジェクトは「開発時」(このリポジトリの成果物を作る作業)と「実行時」
 (完成アプリがユーザーの iPhone 上で Claude API を呼ぶ処理)を分けてルーティングする。
 
@@ -19,7 +26,7 @@ model-routing スキルに基づく計画書。作成日: 2026-07-12。
    - [ ] AIタブ: APIキーは localStorage のみに保存され、生成されたプリセットが選択肢に追加される
    - [ ] APIキー未設定・不正キー・ネットワーク断で日本語のエラーメッセージが表示され、アプリは壊れない
 3. 実行時 LLM — few-shot+JSON抽出+アプリ内検証+リトライ+上位モデルフォールバックの段構え
-   (docs/HANDOFF_RUNTIME_LLM.md 参照。構造化出力 output_config は実機で
+   (docs/dev/HANDOFF_RUNTIME_LLM.md 参照。構造化出力 output_config は実機で
    `400 grammar too large` となったため 2026-07-13 に撤去)。
 4. 機械的検査: 埋め込み JS が `node --check` を通過し、headless Chromium で全プリセットの
    スクリーンショットが取得できる。
@@ -29,7 +36,7 @@ model-routing スキルに基づく計画書。作成日: 2026-07-12。
 | フェーズ | 担当モデル/AI | 割当理由 | 補償策 | 品質ゲート | 概算コスト |
 |---|---|---|---|---|---|
 | ①設計: 物理法則の体系化・計算式立案・アーキテクチャ | **Claude Fable 5**(本セッション) | 原仮定に曖昧さ・未決定事項が多く(距離減衰則、保存則の扱い、フレーム離散化)、前例のない力学系の発明が必要 → ルーブリック「上位以上」該当。本セッションが Fable 5 のため最上位で実施 | — | 全15法則との対応表を PHYSICS.md §1 に明示し漏れゼロを機械的に確認 | 開発セッション費に含む(一回限り) |
-| ②実装: index.html / README | **Sonnet 4.6 相当**(本セッションでハンドオフ文書の規律に従い実行) | 仕様は HANDOFF_IMPLEMENTATION.md で全て確定済み=「仕様書どおりに書き下す作業」。単一モデル実行でも文書規律を適用(スキル原則)。**将来の改修も同文書を渡せば Sonnet 4.6 で十分** | 実装指示書(インターフェース契約・エッジケース表・受け入れ条件) | `node --check` + Playwright 全プリセット起動 | 一回限り |
+| ②実装: index.html / README | **Sonnet 4.6 相当**(本セッションでハンドオフ文書の規律に従い実行) | 仕様は HANDOFF_IMPLEMENTATION.md で全て確定済み=「仕様書どおりに書き下す作業」。単一モデル実行でも文書規律を適用(スキル原則)。**将来の改修も同文書を渡せば Sonnet 5 で十分**(2026-07-21 更新。旧記載 Sonnet 4.6) | 実装指示書(インターフェース契約・エッジケース表・受け入れ条件) | `node --check` + Playwright 全プリセット起動 | 一回限り |
 | ③実行時: LLMによるプリセット生成 | **Claude Haiku 4.5**(既定)→ 失敗時 **Claude Sonnet 5** | 入出力が固定スキーマの JSON 生成=「分類・抽出・整形に閉じる」→ 下位で十分。ユーザーの端末で毎回課金されるため最もコスト感度が高い | few-shot 4例(エッジケース含む)+ JSON抽出 + 機械検証 → 失敗理由付きリトライ1回 → Sonnet 5 フォールバック(構造化出力は grammar 上限超過のため不使用) | アプリ内バリデータ(構造チェック+値域クランプ)。不合格 JSON はプリセット登録しない | 下記「実行時」参照 |
 | ④レビュー/QA | **Fable 5**(本セッション)+ 機械検査 | 機械検査を最優先(費用ゼロ)。設計意図との整合(T3整列・T4平坦化が実際に見えるか)はスクリーンショット目視で1 Tier上が検査 | レビュー指示=受け入れ条件との差分列挙 | 上記 品質基準 2,4 | 一回限り |
 | ⑤外部AI生成 | **なし** | 画像・音声等の外部生成物は本アプリに不要(描画は全て Canvas 手続き生成) | — | — | ¥0 |
@@ -50,15 +57,16 @@ model-routing スキルに基づく計画書。作成日: 2026-07-12。
 
 ## ハンドオフ文書
 
-- 設計→実装: `docs/HANDOFF_IMPLEMENTATION.md`(テンプレート1準拠)
-- 実装→実行時プロンプト: `docs/HANDOFF_RUNTIME_LLM.md`(テンプレート2準拠。
+- 設計→実装: `docs/dev/HANDOFF_IMPLEMENTATION.md`(テンプレート1準拠)
+- 実装→実行時プロンプト: `docs/dev/HANDOFF_RUNTIME_LLM.md`(テンプレート2準拠。
   システムプロンプト確定版・few-shot・出力スキーマ・フォールバック条件を含み、
   そのまま `index.html` に焼き込まれている)
 
 ## コスト見積り
 
 - **開発時**: 本セッション(Fable 5)一回限り。以後の軽微な改修は HANDOFF_IMPLEMENTATION.md を
-  添えて Sonnet 4.6($3/$15 per MTok)に委譲可能。
+  添えて Sonnet 5($3/$15 per MTok。2026-08-31 まで導入価格 $2/$10)に委譲可能
+  (2026-07-21 更新。旧記載 Sonnet 4.6 — 同一料金のためコスト見積りは不変)。
 - **実行時(1リクエストあたり、プリセット生成1回)**:
   - 入力 ≈ 3.6Kトークン(システム+few-shot+スキーマ+ユーザー記述)、出力 ≈ 1.2Kトークン
   - Haiku 4.5: 3.6K×$1/1M + 1.2K×$5/1M ≈ **$0.010**
@@ -650,7 +658,7 @@ HANDOFF_PAPER_V2 §7 の6項目を正とする:
 | ⑤実行時 LLM | **変更なし** | アプリ非変更(論文はリポジトリ追加のみ) | — | — | 差分 $0 |
 
 ### ハンドオフ文書
-- 執筆指示書: `docs/HANDOFF_PAPER_V2.md`(入力正本 = DERIVATIONS / PHYSICS v1.6 /
+- 執筆指示書: `docs/dev/HANDOFF_PAPER_V2.md`(入力正本 = DERIVATIONS / PHYSICS v1.6 /
   THEORY_SYNTHESIS v1.6 / index.html v1.15。旧 HANDOFF_PAPER.md は参照禁止)
 - 成果物: `paper/dfm-paper.tex`(RevTeX 4.2)+ `paper/README.md`(ビルド・図再生成手順)
 
@@ -857,7 +865,7 @@ UI指示1件(セーブタブのバックアップを保存一覧より上へ)。
 ### 実施サマリ
 - **移行後クリーンアップ**: 旧名(GitHubSeaOtter/HypotheticalPhysics)残存 7 箇所を新名に更新 —
   CITATION.cff(repository-code / version 1.19 / date-released 2026-07-18)、LICENSE、docs/LICENSE、
-  README.md(Pages URL)、docs/EXPLAINER_HIGHSCHOOL.md、docs/HANDOFF_PAPER.md、package.json(name)。
+  README.md(Pages URL)、docs/EXPLAINER_HIGHSCHOOL.md、docs/dev/HANDOFF_PAPER.md、package.json(name)。
   grep(大文字小文字無視)で残存ゼロを機械確認。
 - **CI 動作確認**: 新リポジトリの Actions で qa ワークフローが main への push を含め全件 success
   (run #26〜#35)であることを確認(移行手順④のクローズ)。

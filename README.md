@@ -109,9 +109,9 @@ iPhoneのブラウザで観察できるシミュレータです。
 | ファイル | 内容 |
 |---|---|
 | [docs/PHYSICS.md](docs/PHYSICS.md) | 仮定物理法則の体系化・調整と補完・計算式 |
-| [docs/MODEL_ROUTING.md](docs/MODEL_ROUTING.md) | 開発時/実行時のモデル割当・品質基準・コスト見積り |
-| [docs/HANDOFF_IMPLEMENTATION.md](docs/HANDOFF_IMPLEMENTATION.md) | 設計→実装の実行指示書(改修時はこれを添えて下位モデルに委譲可) |
-| [docs/HANDOFF_RUNTIME_LLM.md](docs/HANDOFF_RUNTIME_LLM.md) | アプリ内蔵のLLMプロンプト仕様(Haiku 4.5→Sonnet 5段構え)と検証結果 |
+| [docs/dev/MODEL_ROUTING.md](docs/dev/MODEL_ROUTING.md) | 開発時/実行時のモデル割当・品質基準・コスト見積り |
+| [docs/dev/HANDOFF_IMPLEMENTATION.md](docs/dev/HANDOFF_IMPLEMENTATION.md) | 設計→実装の実行指示書(改修時はこれを添えて下位モデルに委譲可) |
+| [docs/dev/HANDOFF_RUNTIME_LLM.md](docs/dev/HANDOFF_RUNTIME_LLM.md) | アプリ内蔵のLLMプロンプト仕様(Haiku 4.5→Sonnet 5段構え)と検証結果 |
 
 ## 理論・論文化レイヤー(第5次レビュー裁定 #14 で導線追加)
 
@@ -119,7 +119,7 @@ iPhoneのブラウザで観察できるシミュレータです。
 |---|---|
 | [docs/THEORY_SYNTHESIS.md](docs/THEORY_SYNTHESIS.md) | 論文として主張・防御できる理論構造(3層構造・中核主張 C1〜C8・Negative claims・限界 L1〜L17) |
 | [docs/DERIVATIONS.md](docs/DERIVATIONS.md) | 解析的導出と外部AIレビュー全5次の裁定記録(数学的正本) |
-| [docs/HANDOFF_PAPER_V2.md](docs/HANDOFF_PAPER_V2.md) | 論文ドラフト執筆の実行指示書(自己完結版。著者・投稿先・実験選定・禁止事項を確定) |
+| [docs/dev/HANDOFF_PAPER_V2.md](docs/dev/HANDOFF_PAPER_V2.md) | 論文ドラフト執筆の実行指示書(自己完結版。著者・投稿先・実験選定・禁止事項を確定) |
 | [docs/EXPLAINER_HIGHSCHOOL.md](docs/EXPLAINER_HIGHSCHOOL.md) | 高校生向け解説 |
 
 ## 開発・QA(Phase 1 再現性基盤)
