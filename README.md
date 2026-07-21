@@ -137,6 +137,27 @@ GitHub Actions([.github/workflows/ci.yml](.github/workflows/ci.yml))が push/PR 
 同じスイートを実行し、機械可読な結果JSONを artifact として保存します。
 アプリ本体(index.html)は引き続き依存ゼロの単一ファイルです。
 
+### 公開サイトに影響を与えないテスト運用(v1.27 公開後の3層方式)
+
+本番(GitHub Pages のルート)は **main のルート `index.html`** だけが正です。
+変更のテストは以下の3層で行い、本番には最後のマージまで触れません:
+
+1. **ローカル + 実機(推奨・第一選択)** — 開発ブランチで
+   ```bash
+   python3 -m http.server 8080   # リポジトリ直下で
+   ```
+   を起動し、同一 Wi-Fi の iPhone Safari から `http://<PCのIPアドレス>:8080/` を開く。
+   `file://` では確認できない HTTP 挙動(保存・入出力・AI接続)も検証でき、
+   公開には一切影響しない。機械QA(`npm test`)もブランチ上で完結する。
+2. **公開ベータ(サブパス)** — 候補版を main の `beta/index.html` として置くと
+   `https://tty-imamura.github.io/dfm-simulator/beta/` で共有できる(ルートは無影響)。
+   ⚠ **同一オリジンのため localStorage(`hp_*` — セーブ・言語設定・APIキー)は本番と
+   共有される**。ベータ試験の前にセーブを JSON エクスポートでバックアップし、
+   スキーマを壊しうる実験は第1層で行うこと。試験後は `beta/` を削除してよい。
+3. **完全分離が必要な場合** — 公開の別リポジトリ(例: `dfm-simulator-dev`)に
+   Pages を有効化し、`git push <dev-remote> <branch>:main` で配備する。
+   別オリジンになるため localStorage も完全分離される(大規模な UI/スキーマ変更向け)。
+
 ## ライセンス・引用
 
 - コード(index.html ほか): [MIT License](LICENSE) — © 2026 Tetsuya Imamura
