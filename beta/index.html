@@ -4,6 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b0e1a">
+<!-- P2(beta): OGP(og:url/og:image は昇格後も有効なルート正規URLを指す) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="仮想物理ラボ — 決定力場モデル(DFM)シミュレータ">
+<meta property="og:description" content="「もし空間がこのように振る舞ったら?」— 決定力場モデル(DFM)の仮定物理法則を、ブラウザだけで動かせる単一HTMLの物理シミュレータ。iPhone対応・依存ゼロ。">
+<meta property="og:url" content="https://tty-imamura.github.io/dfm-simulator/">
+<meta property="og:image" content="https://tty-imamura.github.io/dfm-simulator/ogp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<!-- P2(beta): PWA(manifest/アイコンは相対パス — beta/ でもルート昇格後でもそのまま動く) -->
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
 <title>仮想物理ラボ — 仮定物理法則シミュレータ</title>
 <style>
   :root{
@@ -111,6 +125,7 @@
   .saveItem .comment{font-size:calc(12px*var(--uz,1));margin:4px 0;white-space:pre-wrap;}
   .rowBtns{display:flex;gap:8px;margin-top:6px;}
   .rowBtns .btn{flex:1;text-align:center;padding:8px;}
+  #dirtyBadge{display:none;align-self:center;white-space:nowrap;color:#ffb020;font-size:calc(12px*var(--uz,1));}
   #aiStatus{font-size:calc(12.5px*var(--uz,1));margin:8px 0;line-height:1.6;white-space:pre-wrap;}
   #aiStatus.err{color:var(--err);} #aiStatus.ok{color:var(--ok);}
   .spin{display:inline-block;width:14px;height:14px;border:2px solid var(--dim);
@@ -184,7 +199,7 @@
         <input type="text" id="saveName" placeholder="名前(例: 環が安定する設定)">
         <div style="height:8px"></div>
         <textarea id="saveComment" placeholder="コメント(例: muFを0.8にすると円形化が速い)"></textarea>
-        <div class="rowBtns"><button class="btn primary" id="btnSave">保存</button></div>
+        <div class="rowBtns"><button class="btn primary" id="btnSave">保存</button><span id="dirtyBadge">● 未保存の編集あり</span></div>
       </div>
       <div class="group"><h3>バックアップ</h3><!-- v1.18: 保存一覧より上に配置(原仮定者の指示) -->
         <div class="rowBtns">
@@ -340,6 +355,7 @@ ja: {
   savesHeadSave:"現在のパラメータを保存", savesHeadList:"保存一覧", savesHeadBackup:"バックアップ",
   saveNamePh:"名前(例: 環が安定する設定)", saveCommentPh:"コメント(例: muFを0.8にすると円形化が速い)",
   btnSave:"保存", btnExport:"エクスポート(コピー)", btnImport:"インポート",
+  dirtyBadge:"● 未保存の編集あり",
   ioPh:"エクスポートJSONの表示 / 貼り付けてインポート",
   noSaves:"保存はまだありません。", untitled:"無題", origin:"元: ",
   btnLoad:"読込", btnDelete:"削除", btnOpen:"開く", btnCopy:"コピー",
@@ -429,6 +445,7 @@ en: {
   savesHeadSave:"Save current parameters", savesHeadList:"Saved items", savesHeadBackup:"Backup",
   saveNamePh:"Name (e.g. stable-ring settings)", saveCommentPh:"Comment (e.g. muF=0.8 circularizes faster)",
   btnSave:"Save", btnExport:"Export (copy)", btnImport:"Import",
+  dirtyBadge:"● Unsaved edits",
   ioPh:"Exported JSON appears here / paste to import",
   noSaves:"No saves yet.", untitled:"Untitled", origin:"from: ",
   btnLoad:"Load", btnDelete:"Delete", btnOpen:"Open", btnCopy:"Copy",
@@ -1605,6 +1622,8 @@ let camX=0, camY=0, camScale=300, tempP90EMA=0.5, monitorOn=false;
 let uiFontScale=parseFloat(localStorage.getItem("hp_uiscale")||"1")||1;
 function applyUiScale(){ document.documentElement.style.setProperty("--uz", String(uiFontScale)); if(typeof requestRender==="function") requestRender(); }
 let paramsDirty=false;  // v1.17: 「保存」していない編集の有無(バックアップ対象外の注意喚起)
+// P2(beta): 未保存フラグ強調 — 保存ボタン横バッジを paramsDirty に常時同期(v1.17 の notify は補助に降格)
+function setParamsDirty(v){ paramsDirty=v; const b=document.getElementById("dirtyBadge"); if(b) b.style.display=v?"inline-block":"none"; }
 let tSort=null; // 温度正規化用スクラッチ(90パーセンタイル計算)
 let stepAcc=0, fpsEMA=60, lastFrame=performance.now(), frameCount=0;
 // v1.27: ステップ会計の純関数(P0-1 修正の本体。QA `time.step-accounting` が直接検証)
@@ -2150,7 +2169,7 @@ function restoreLastGood(){
   if(ab) abStop();                       // A/B中の発散はAの復元に一本化
   loadPreset(currentPreset.id,false);    // 初期配置へ(スナップショットもクリアされる)
   sim.params=Object.assign({},snap); sim.updateRadii();
-  paramsDirty=true;                      // 復元値はプリセット既定と異なりうる(未保存扱い)
+  setParamsDirty(true);                      // 復元値はプリセット既定と異なりうる(未保存扱い)
   buildParamRows(); requestRender();
   notify(T("divRestored"),4000);
 }
@@ -2258,7 +2277,7 @@ function loadSave(s, selValue){
   loadPreset(exists?s.presetId:BUILTIN_PRESETS[0].id,false);
   sim.params=Object.assign({},DEFAULT_PHYSICS,s.physics); sim.updateRadii();
   if(s.cameraScale) camScale=s.cameraScale;
-  paramsDirty=false;
+  setParamsDirty(false);
   buildParamRows(); notify(T("loadedAs")(s.name));
   if(selValue) $("#presetSelect").value=selValue;
   if(!exists) notify(T("presetMissing"),3500);
@@ -2275,7 +2294,7 @@ function loadPreset(id, keepPhysics){
   basePhysics=Object.assign({},DEFAULT_PHYSICS,p.physics||{});
   camX=0; camY=0; camScale=p.camera.scale; tempP90EMA=0.5; selIdx=-1; nanNotified=false;
   paramSnapA=paramSnapB=null;   // v1.22: 発散Undoのスナップショットはプリセット単位
-  paramsDirty=false;   // v1.17: プリセット読込で編集は破棄される(⏮は呼び出し側で維持)
+  setParamsDirty(false);   // v1.17: プリセット読込で編集は破棄される(⏮は呼び出し側で維持)
   running=false; updatePlayBtn(); updateBodyEdit();
   buildParamRows(); renderHelp();
   $("#presetSelect").value=p.id;
@@ -2356,7 +2375,7 @@ $("#btnReset").addEventListener("click",()=>{
   const keep=Object.assign({},sim.params), wasDirty=paramsDirty;
   loadPreset(currentPreset.id,false);
   sim.params=keep; sim.updateRadii();
-  paramsDirty=wasDirty;   // v1.17: ⏮はパラメータ保持なので未保存状態も維持
+  setParamsDirty(wasDirty);   // v1.17: ⏮はパラメータ保持なので未保存状態も維持
   buildParamRows();
   notify(T("resetDone"));
 });
@@ -2477,7 +2496,7 @@ function buildParamRows(){
         if(key==="radiusScale") S.updateRadii();
       }
       if(ab) ab.lastKey=key;  // v1.19: A/B比較中は「最後に調整したパラメータ」を両画面に表示
-      paramsDirty=true;  // v1.17: 未保存の編集あり(バックアップ対象外の注意喚起に使用)
+      setParamsDirty(true);  // v1.17: 未保存の編集あり(バックアップ対象外の注意喚起に使用)
       // v1.26: 物理対応ロック — Kt/cLight/G の編集後に Kt=cLight²/G を自動維持
       // (Ktの直接編集も導出値へ戻す)。ロックOFF時もバッジの成立表示を更新する
       if(key==="Kt"||key==="cLight"||key==="G"){
@@ -2655,7 +2674,7 @@ $("#btnSave").addEventListener("click",()=>{
   catch(e){ alert(T("saveFailed")); return; }
   $("#saveComment").value="";
   updateSaveNameDefault();   // v1.19: 次のデフォルト名(連番が進む)を再セット
-  paramsDirty=false;  // v1.17: 保存済み → バックアップ対象に含まれる
+  setParamsDirty(false);  // v1.17: 保存済み → バックアップ対象に含まれる
   rebuildPresetSelect(currentPreset.id);  // v1.17: プルダウンの保存一覧カテゴリを更新
   renderSaves(); notify(T("savedAs")(name));
 });
@@ -3102,6 +3121,7 @@ function applyLang(){
   sh[0].textContent=T("savesHeadSave"); sh[1].textContent=T("savesHeadBackup"); sh[2].textContent=T("savesHeadList");
   $("#saveName").placeholder=T("saveNamePh"); $("#saveComment").placeholder=T("saveCommentPh");
   $("#btnSave").textContent=T("btnSave"); $("#btnExport").textContent=T("btnExport");
+  $("#dirtyBadge").textContent=T("dirtyBadge");
   $("#btnImport").textContent=T("btnImport"); $("#ioArea").placeholder=T("ioPh");
   $("#btnExportFile").textContent=T("btnExportFile"); $("#ioNote").textContent=T("ioNote");
   $("#btnImportFile").textContent=T("btnImportFile");            // v1.17
@@ -3216,7 +3236,7 @@ function beBind(id,fn){
   $(id).addEventListener("change",()=>{
     if(selIdx<0||selIdx>=sim.n){ updateBodyEdit(); return; }
     const v=parseFloat($(id).value.replace(/[,、\s]/g,"").replace(/[−ー–—－]/g,"-"));  // v1.24: 全角マイナス等も受理
-    if(isFinite(v)){ fn(selIdx,v); paramsDirty=true; requestRender(); }
+    if(isFinite(v)){ fn(selIdx,v); setParamsDirty(true); requestRender(); }
     updateBodyEdit();
   });
 }
@@ -3228,7 +3248,7 @@ $("#bePin").addEventListener("change",()=>{
   if(selIdx<0||selIdx>=sim.n) return;
   sim.pinned[selIdx]=$("#bePin").checked?1:0;
   if(!$("#bePin").checked) sim.railOmega[selIdx]=0;  // 固定解除でレール駆動も解除
-  paramsDirty=true; requestRender();
+  setParamsDirty(true); requestRender();
 });
 $("#beClose").addEventListener("click",()=>{ selIdx=-1; updateBodyEdit(); });
 
@@ -3651,6 +3671,10 @@ resizeCanvas();
 loadPreset("saturn",false);
 applyLang();   // 静的ラベル+AIプロバイダ設定UIの反映(hp_lang 永続)
 requestAnimationFrame((t)=>{lastFrame=t;requestAnimationFrame(loop);});
+// P2(beta): PWA — Service Worker 登録(http(s) 配信時のみ。file:// の QA・ローカル直開きでは無効)
+if("serviceWorker" in navigator && /^https?:$/.test(location.protocol)){
+  addEventListener("load",()=>{ navigator.serviceWorker.register("./sw.js").catch(()=>{}); });
+}
 </script>
 </body>
 </html>
