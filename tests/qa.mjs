@@ -1031,6 +1031,50 @@ if (!FAST) {
   }
 }
 
+// ---- 8d) 第12次裁定(2026-07-22): 🧊 saturnIce(氷・低熱結合)のQA ----
+// 対象に saturnIce がある場合のみ実行(beta 先行)。🧭 の trail 既定ONもここで検査
+{
+  const hasIce = await page.evaluate(() => !!(window.HP && HP.allPresets().some(p => p.id === 'saturnIce')));
+  if (hasIce) {
+    // 原仮定者指示: 🧭 は線の軌跡(overlays.trail)を既定ONにする
+    const tr = await page.evaluate(() => { HP.loadPreset('saturnZonal', false); return !!HP.sim.overlays.trail; });
+    add('zonal.trail-default', tr, `overlays.trail=${tr}`);
+    // E10′ 停止の機械検証: kappaS=0 では拡散配列 ds が全ゼロ / 0.08 では大多数が非ゼロ
+    const dz = await page.evaluate(() => {
+      HP.loadPreset('saturnIce', false);
+      const s = HP.sim;
+      for (let k = 0; k < 5; k++) s.step(0.016);
+      let nz0 = 0; for (let i = 0; i < s.n; i++) if (s.ds[i] !== 0) nz0++;
+      s.params.kappaS = 0.08;
+      for (let k = 0; k < 5; k++) s.step(0.016);
+      let nz8 = 0; for (let i = 0; i < s.n; i++) if (s.ds[i] !== 0) nz8++;
+      return { nz0, nz8, n: s.n };
+    });
+    add('ice.e10-off', dz.nz0 === 0 && dz.nz8 >= dz.n * 0.9,
+      `ds非ゼロ: kappaS=0 → ${dz.nz0}/${dz.n}(=0)/ kappaS=0.08 → ${dz.nz8}/${dz.n}(≥90%)`);
+    if (!FAST) {
+      // 熱分離の長時間検証: 6000步後も大多数の環粒子が spin=熱 厳密0を維持(接触した粒だけ E9 で回る)
+      const iso = await page.evaluate(() => {
+        HP.loadPreset('saturnIce', false);
+        const s = HP.sim;
+        for (let k = 0; k < 6000; k++) s.step(0.016);
+        let zero = 0, sum = 0, inB = 0;
+        for (let i = 1; i < s.n; i++) {
+          const a = Math.abs(s.spin[i]); sum += a; if (a < 1e-12) zero++;
+          const r = Math.hypot(s.x[i], s.y[i]); if (r > 110 && r < 240) inB++;
+        }
+        HP.loadPreset('saturn', false);
+        return { fracZero: zero / (s.n - 1), mean: sum / (s.n - 1), inBand: inB / (s.n - 1), nan: s.hasNaN() };
+      });
+      add('ice.thermal-isolation',
+        !iso.nan && iso.fracZero >= 0.9 && iso.mean < 0.05 && iso.inBand >= 0.95,
+        `spin厳密0率=${(iso.fracZero * 100).toFixed(1)}%(≥90%) 平均|spin|=${iso.mean.toFixed(4)}(<0.05) 帯内率=${(iso.inBand * 100).toFixed(1)}%(≥95%)`);
+    }
+  } else {
+    console.log('SKIP ice.*(対象に saturnIce なし — beta 昇格まで対象外)');
+  }
+}
+
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
 await browser.close();
 

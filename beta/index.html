@@ -1014,13 +1014,15 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"saturnZonal", name:"土星の近点移動(現実較正)", emoji:"🧭", group:"天体の物語",
-  description:"現実の土星の扁平さ(帯状重力調和係数 J2〜J12、Cassini 実測値)を中心星の属性として与えた較正デモ(E13)。近点方向を揃えた楕円軌道のテスト粒子は、近点が公転と同じ向きに回り続け、内側ほど速い(差動近点移動)。D68 リングレット相当では解析式が Cassini 観測 38.243°/日 と 0.03% で一致(QA が機械検証)。トレイル表示をONにすると楕円の向きの回転が見やすい。狭いリングレットが一体で歳差するには自己重力・衝突・共鳴の補償が要る(本デモは扁平重力のみ)。DFM 本来の環の物語は 🪐 を参照。",
-  en:{name:"Saturn Apsidal Precession (Real-Calibrated)", description:"A calibration demo (E13) that gives the central star the real oblateness of Saturn (zonal gravity harmonics J2\u2013J12, Cassini values). Test particles on apse-aligned elliptical orbits precess prograde, faster on inner orbits (differential apsidal precession). At the D68-ringlet radius the analytic rate matches the Cassini observation of 38.243\u00b0/day to 0.03% (machine-checked by QA). Turn on trails to see the ellipse orientation rotate. Note a narrow ringlet needs self-gravity, collisions and resonances to precess as one body \u2014 this demo has oblateness only. See \ud83e\ude90 for the DFM-native ring story."},
+  description:"現実の土星の扁平さ(帯状重力調和係数 J2〜J12、Cassini 実測値)を中心星の属性として与えた較正デモ(E13)。近点方向を揃えた楕円軌道のテスト粒子は、近点が公転と同じ向きに回り続け、内側ほど速い(差動近点移動)。D68 リングレット相当では解析式が Cassini 観測 38.243°/日 と 0.03% で一致(QA が機械検証)。線の軌跡は既定ONで、楕円の向きがゆっくり回るのがそのまま見える。狭いリングレットが一体で歳差するには自己重力・衝突・共鳴の補償が要る(本デモは扁平重力のみ)。DFM 本来の環の物語は 🪐 を参照。",
+  en:{name:"Saturn Apsidal Precession (Real-Calibrated)", description:"A calibration demo (E13) that gives the central star the real oblateness of Saturn (zonal gravity harmonics J2\u2013J12, Cassini values). Test particles on apse-aligned elliptical orbits precess prograde, faster on inner orbits (differential apsidal precession). At the D68-ringlet radius the analytic rate matches the Cassini observation of 38.243\u00b0/day to 0.03% (machine-checked by QA). Trails are on by default so you can watch the ellipse orientation slowly rotate. Note a narrow ringlet needs self-gravity, collisions and resonances to precess as one body \u2014 this demo has oblateness only. See \ud83e\ude90 for the DFM-native ring story."},
   activeParams:["G","softening"],
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
     cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:1, lambdaPN:0, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:3},
   bodies:[ // 第11次裁定(2026-07-22): 中心に Cassini 重力解 J2〜J12(基準半径 R_S=100 sim units)。
+           // 第12次(同日・原仮定者指示): overlays.trail=true — 線の軌跡を既定ONにして
+           // 楕円の向きの回転(差動近点移動)が開いた瞬間から見えるようにする。
            // geoPN=1・λ_PN=0 = E6′排他+純ニュートン(E12 も無効)— ☿ の λ=0 統制と同じ構成。
            // kFrame=0 なら等価だが、スライダーで kFrame を上げても E6′ が復活しない防御的分離。
            // テスト粒子は e=0.05・近点+x方向で整列(r_p=a(1−e), v_p=√[μ(1+e)/r_p], μ=G·M=1500)。
@@ -1038,6 +1040,29 @@ const BUILTIN_PRESETS = [
     {type:"single", m:0.05, x:195.70,y:0, vx:0,vy:2.8369, spin:0, pinned:false},
     {type:"single", m:0.05, x:216.60,y:0, vx:0,vy:2.6966, spin:0, pinned:false},
     {type:"single", m:0.05, x:239.40,y:0, vx:0,vy:2.5649, spin:0, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+{ id:"saturnIce", name:"土星の環(氷・低熱結合)", emoji:"🧊", group:"天体の物語",
+  description:"環の成分が氷(低質量・スピン0)で、粒が互いに離れているため熱がほぼ伝わらない — という仮定の実装(第12次裁定)。kappaS=0 で非接触のスピン拡散(E10′)を完全に停止し(kFrame も 0 — E6′ 経由の熱代理量の移動も遮断)、まれな接触のときだけ摩擦と減衰(E9: muF=0.2/gammaN=0.15)が働く。ほとんどの粒はスピン=熱が厳密に 0 のまま公転を続ける(機械検証)。環帯は現実の C/B/A 環の半径比(124–153/153–195/203–227、間隙195–203=カッシーニの間隙)に合わせ、中心天体の表示半径も現実の比率に近づけた(radiusScale 1.8)。A/B比較で kappaS を 0.08(🪐標準)にすると、熱結合の有無の差が見える。中心は固定の展示用天体 — 自転による扁平化・コア差動回転(多層土星モデル)は未実装で開発キューにある。",
+  en:{name:"Saturn's Rings (Icy, Thermally Isolated)", description:"Implements the assumption that the rings are made of ice grains too far apart to conduct heat (12th adjudication). kappaS=0 fully disables non-contact spin diffusion (E10\u2032), and kFrame=0 also blocks heat-proxy transfer via E6\u2032; only rare contacts dissipate via friction and damping (E9: muF=0.2, gammaN=0.15). Most grains keep exactly zero spin = heat while orbiting (machine-verified). The three bands follow the real C/B/A radius ratios (124\u2013153 / 153\u2013195 / 203\u2013227, with the 195\u2013203 gap as the Cassini Division), and the central body is drawn near the real proportion (radiusScale 1.8). A/B-compare with kappaS=0.08 (the \ud83e\ude90 default) to see the effect of thermal coupling. The center is a fixed display body \u2014 spin-driven oblateness and core differential rotation (a layered Saturn model) are not yet implemented and sit in the development queue."},
+  activeParams:["kappaS","muF","gammaN"],
+  camera:{scale:280}, world:{boundary:"none",size:0},
+  physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0.2, gammaN:0.15, kappaS:0, Kt:60,
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.8, softening:2, timeScale:3},
+  bodies:[ // 第12次裁定(2026-07-22): ChatGPT 暫定案 §8 を内蔵化(現行スキーマの範囲 —
+           // 材質別係数・多層土星・E13適用はスキーマ拡張後の課題として保留)。
+           // 氷粒子: m=0.01–0.03・スピン0・低ノイズ(vNoise=0.005)。kappaS=0 が本プリセットの主役。
+           // kFrame は提案の 0.2 から 0 に裁定変更: DFM では spin=熱の代理量で、E6′ の残余トルク
+           // 移譲(A13 帳簿)が kFrame>0 だと非接触でスピンを動かし「熱がほぼ伝わらない」仮定に
+           // 反するため(実測: kFrame=0.2 → 全粒子 spin≠0 / kFrame=0 → 98.7% が厳密 0 を維持)。
+    {type:"single", m:1500, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
+    {type:"ring", n:90, cx:0,cy:0, rIn:124,rOut:153, mMin:0.01,mMax:0.03,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.005, direction:1, pinned:false},
+    {type:"ring", n:120, cx:0,cy:0, rIn:153,rOut:195, mMin:0.01,mMax:0.03,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.005, direction:1, pinned:false},
+    {type:"ring", n:90, cx:0,cy:0, rIn:203,rOut:227, mMin:0.01,mMax:0.03,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.005, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
