@@ -957,6 +957,80 @@ if (!FAST) {
   console.log('SKIP behavior.* (QA_FAST=1)');
 }
 
+// ---- 8c) 第11次裁定(2026-07-22): E13 帯状重力補正(beta 先行)のQA ----
+// 対象に E13 がある場合のみ実行(ルート版は昇格まで対象外 — QA 項目数は対象により変わる)
+{
+  const hasZonal = await page.evaluate(() => !!(window.HP && HP.zonal));
+  if (hasZonal) {
+    // P0-1/P0-2: D68 リングレットの解析検証(実単位・純数学 — Cassini 重力解 J2〜J12)
+    // P0-3: 点質量退化(J=0 で ϖ̇=0・係数項ゼロ)
+    const zr = await page.evaluate(() => {
+      const MU = 37931207.7, R = 60330;  // km^3/s^2, km(J_n の基準半径 — 60,268 と混同しない)
+      const J = { 2: 16290.573e-6, 4: -935.314e-6, 6: 86.340e-6, 8: -14.624e-6, 10: 4.672e-6, 12: -0.997e-6 };
+      const k = 86400 * 180 / Math.PI;   // rad/s → deg/day
+      return {
+        base: HP.zonal.apsidal(MU, R, J, 67627, 1).apsidal * k,
+        cal:  HP.zonal.apsidal(MU, R, J, 67627, 1.000302283).apsidal * k,
+        zero: HP.zonal.apsidal(MU, R, { 2: 0 }, 67627, 1).apsidal * k,
+        coeffsEmpty: HP.zonal.coeffs({ 2: 0, 4: 0 }).length,
+      };
+    });
+    add('zonal.analytic-d68',
+      Math.abs(zr.base - 38.231443) < 0.05 && Math.abs(zr.cal - 38.243) < 0.002,
+      `ϖ̇=${zr.base.toFixed(6)}°/日(38.231443±0.05) 較正=${zr.cal.toFixed(6)}(38.243±0.002)`);
+    add('zonal.point-mass-degenerate', Math.abs(zr.zero) < 1e-12 && zr.coeffsEmpty === 0,
+      `J=0 → ϖ̇=${zr.zero} 係数項=${zr.coeffsEmpty}`);
+
+    if (!FAST) {
+      // 実測: saturnZonal 最内テスト粒子(名目 a=108, e=0.05)の Δϖ/動径周期を実測し、
+      // 実効半長径 a_eff=(rmin+rmax)/2 での解析値 2π(Ω/κ−1) と比較する。
+      // - 開始点はケプラー初期条件のため J 補正下では真の近点ではない(実効軌道は a_eff≈104)。
+      //   k>3000 のウォームアップ+近点ゲート r<103 で開始直後の擬似極小を排除する(較正 2026-07-22:
+      //   これを怠ると初回区間が汚染され実測 1.4°/9.5° に化ける)。
+      // - J=0 走行は数値基線のみ(softening+隣接粒子 ≈ +0.19°/周)= 単極子二重計上なしの実測確認
+      const zm = await page.evaluate(() => {
+        const run = (zeroJ) => {
+          HP.loadPreset('saturnZonal', false);
+          const s = HP.sim;
+          if (zeroJ) { s.zonal.J = { 2: 0 }; s.zonal._A = null; }
+          let rmin = 1e9, rmax = 0; const peri = []; let lastK = -1e9, r2 = 0, r1 = 0, th1 = 0;
+          for (let k = 0; k < 90000 && peri.length < 5; k++) {
+            s.step(0.016);
+            const r = Math.hypot(s.x[1], s.y[1]), th = Math.atan2(s.y[1], s.x[1]);
+            if (k > 3000) {
+              if (r < rmin) rmin = r; if (r > rmax) rmax = r;
+              if (r1 < r2 && r1 < r && r1 < 103 && (k - lastK) > 5000) { peri.push(th1); lastK = k; }
+            }
+            r2 = r1; r1 = r; th1 = th;
+          }
+          let acc = 0;
+          for (let i = 1; i < peri.length; i++) {
+            let dd = peri[i] - peri[i - 1];
+            while (dd > Math.PI) dd -= 2 * Math.PI; while (dd < -Math.PI) dd += 2 * Math.PI;
+            acc += dd;
+          }
+          return { n: peri.length, drift: peri.length > 1 ? acc / (peri.length - 1) : 0, rmin, rmax, nan: s.hasNaN() };
+        };
+        const on = run(false), off = run(true);
+        const J = { 2: 0.016290573, 4: -0.000935314, 6: 0.000086340, 8: -0.000014624, 10: 0.000004672, 12: -0.000000997 };
+        const aEff = (on.rmin + on.rmax) / 2;
+        const th = HP.zonal.apsidal(1500, 100, J, aEff, 1);
+        HP.loadPreset('saturn', false);
+        return { on, off, aEff, expect: 2 * Math.PI * (th.omega / th.kappa - 1) };
+      });
+      const relErr = Math.abs(zm.on.drift - zm.expect) / zm.expect;
+      add('zonal.sim-precession',
+        !zm.on.nan && zm.on.n >= 4 && zm.on.drift > 0 && relErr < 0.15,
+        `Δϖ/周 実測=${(zm.on.drift * 180 / Math.PI).toFixed(3)}° 解析(a_eff=${zm.aEff.toFixed(1)})=${(zm.expect * 180 / Math.PI).toFixed(3)}°(相対差 ${(relErr * 100).toFixed(2)}% <15%)`);
+      add('zonal.no-double-count',
+        !zm.off.nan && zm.off.n >= 4 && Math.abs(zm.off.drift) < 0.02,
+        `J=0 実測基線=${(zm.off.drift * 180 / Math.PI).toFixed(3)}°(<1.15°)`);
+    }
+  } else {
+    console.log('SKIP zonal.*(対象に E13 なし — beta 昇格まで対象外)');
+  }
+}
+
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
 await browser.close();
 
