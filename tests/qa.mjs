@@ -10,7 +10,10 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const INDEX = 'file://' + path.join(ROOT, 'index.html');
+// P2(beta 運用): QA_TARGET で検査対象を切替可能(例: QA_TARGET=beta/index.html npm test)。
+// 既定は従来どおり index.html — CI の挙動は不変。
+const TARGET = process.env.QA_TARGET || 'index.html';
+const INDEX = 'file://' + path.join(ROOT, TARGET);
 const OUT_DIR = path.join(ROOT, 'tests', 'out');
 const FAST = process.env.QA_FAST === '1';
 
@@ -38,7 +41,7 @@ const add = (id, pass, detail) => {
 
 // ---- 0) 構文検査(node --check)----
 {
-  const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   const m = html.match(/<script>([\s\S]*)<\/script>/);
   const tmp = path.join(OUT_DIR, '_extracted.js');
   fs.mkdirSync(OUT_DIR, { recursive: true });
@@ -50,7 +53,7 @@ const add = (id, pass, detail) => {
 // ---- 0b) バージョン同期(v1.15 第7次裁定 P0-1): APP_VERSION と package.json の major.minor 一致 ----
 {
   const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
-  const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   const m = html.match(/const APP_VERSION = "([^"]+)"/);
   add('version.sync', !!m && pkg.version.startsWith(m[1] + '.'),
     `APP_VERSION=${m && m[1]} package.json=${pkg.version}`);
@@ -58,7 +61,7 @@ const add = (id, pass, detail) => {
 
 // ---- 0c) スライダー範囲(v1.15 第7次裁定 P0-2): 内蔵プリセットの physics 値がスライダー上限内 ----
 {
-  const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   const defs = {};
   for (const mm of html.matchAll(/\{key:"(\w+)",\s*label:[^}]*?lo:([\d.eE+-]+),\s*hi:([\d.eE+-]+)/g))
     defs[mm[1]] = { lo: +mm[2], hi: +mm[3] };
@@ -98,7 +101,7 @@ const add = (id, pass, detail) => {
 // ---- 0d) 内蔵プリセットの physics 完全明示(v1.18 第8次裁定): 21キー全指定+件数がREADMEと一致 ----
 // (v1.21 第9次裁定 P0-1: 1PN 3キー geoPN/lambdaPN/pnAlpha を追加し 18→21 キー)
 {
-  const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   const KEYS = ['G', 'D0', 'kFrame', 'q', 'kRep', 'muF', 'gammaN', 'kappaS', 'Kt', 'cLight', 'bM',
     'etaRad', 'pRad', 'gravityX', 'gravityY', 'geoPN', 'lambdaPN', 'pnAlpha',
     'radiusScale', 'softening', 'timeScale'];
@@ -410,7 +413,7 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
 // ---- 7e) v1.19 UI改善: 表記統一 / 直値入力 / 線の軌跡トグル / 速度倍率 / セーブ名初期値 / コピー ----
 {
   // 一様重力の表記統一(g_x / g_y。Unicode 下付き gₓ の混在を排除)
-  const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   add('label.gravity-notation', html.includes('一様重力 g_x') && html.includes('一様重力 g_y') && !html.includes('gₓ'), '');
   const r = await page.evaluate(() => {
     const res = {};
@@ -966,6 +969,7 @@ let playwrightVersion = 'unknown';
 try { playwrightVersion = JSON.parse(fs.readFileSync(path.join(ROOT, 'node_modules/playwright/package.json'), 'utf8')).version; } catch {}
 fs.writeFileSync(path.join(OUT_DIR, 'qa-results.json'), JSON.stringify({
   commit, date: new Date().toISOString(), fast: FAST,
+  target: TARGET,  // P2: 検査対象(beta 検証時に結果JSONを取り違えないため)
   env: { node: process.version, playwright: playwrightVersion, platform: `${process.platform}/${process.arch}` },
   total: results.length, failed: results.filter(r => !r.pass).length, pass, results,
 }, null, 1));
