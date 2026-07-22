@@ -1,8 +1,8 @@
 {
- "commit": "6ea83e75f21637c3da698abcebb50d142a510c23",
- "date": "2026-07-22T16:06:43.740Z",
+ "commit": "7e856ae0af6b7a8d777d7879aafe39a62c291b0b",
+ "date": "2026-07-22T18:40:16.263Z",
  "fast": false,
- "target": "index.html",
+ "target": "beta/index.html",
  "run": {
   "githubRunId": null,
   "runNumber": null,
@@ -17,7 +17,7 @@
   "playwright": "1.61.1",
   "platform": "linux/x64"
  },
- "total": 121,
+ "total": 133,
  "failed": 0,
  "pass": true,
  "results": [
@@ -59,7 +59,7 @@
   {
    "id": "docs.preset-table-sync",
    "pass": true,
-   "detail": "23 ids"
+   "detail": "26 ids"
   },
   {
    "id": "docs.gravity-params",
@@ -217,9 +217,24 @@
    "detail": "n=11"
   },
   {
+   "id": "preset.saturnZonalD68",
+   "pass": true,
+   "detail": "n=11"
+  },
+  {
    "id": "preset.saturn",
    "pass": true,
    "detail": "n=301"
+  },
+  {
+   "id": "preset.saturnMulti",
+   "pass": true,
+   "detail": "n=301"
+  },
+  {
+   "id": "preset.saturnRes",
+   "pass": true,
+   "detail": "n=302"
   },
   {
    "id": "preset.binary",
@@ -459,7 +474,7 @@
   {
    "id": "cache.rays-field",
    "pass": true,
-   "detail": "描画43回の間に 光線再積分=0(≤2) フィールド再計算=0(≤2)"
+   "detail": "描画42回の間に 光線再積分=0(≤2) フィールド再計算=0(≤2)"
   },
   {
    "id": "divergence.undo",
@@ -587,6 +602,21 @@
    "detail": "ϖ̇(a) は a=66000→120000(実単位)で単調減少=true"
   },
   {
+   "id": "zonal.ai-open",
+   "pass": true,
+   "detail": "受理/クランプ(refR→5000, calib→2, J2→0.1)/奇数次は警告無視/refR欠落は拒否 — 警告4件"
+  },
+  {
+   "id": "zonal.d68-preset",
+   "pass": true,
+   "detail": "zonal.calib=1.000302283"
+  },
+  {
+   "id": "zonal.peri-ui",
+   "pass": true,
+   "detail": "最内粒子(a_eff=104.2): 実測=9.46°/周 解析=9.53°/周(相対差 0.7% <25%・n=4)"
+  },
+  {
    "id": "zonal.sim-precession",
    "pass": true,
    "detail": "Δϖ/周 実測=9.464° 解析(a_eff=104.2)=9.529°(相対差 0.68% <15%)"
@@ -614,12 +644,42 @@
   {
    "id": "pwa.sw-offline",
    "pass": true,
-   "detail": "SW=true アセット200=true 名前空間dfm-release-*=true(dfm-release-v1.28) オフライン再読込=true"
+   "detail": "SW=true アセット200=true 名前空間dfm-beta-*=true(dfm-beta-v1.28-b4) オフライン再読込=true"
+  },
+  {
+   "id": "pwa.sw-fail-ui",
+   "pass": true,
+   "detail": "登録失敗の通知表示=true(オフライン用キャッシュ(Service Worker)の登録に失…)"
   },
   {
    "id": "behavior.saturnExp",
    "pass": true,
    "detail": "t≈600: 帯内=99.3%(≥95%) 落下=0.3%(≤2%) 散逸=0.0%(≤5%) 平均|spin|=0.157(<0.5)"
+  },
+  {
+   "id": "behavior.saturnMulti",
+   "pass": true,
+   "detail": "間隙 t150=15.9(≥8) t600=-18.2(<8=閉鎖) 帯中央値 C/B/A=107/137/175(順序保持) 帯内=99.7% 落下=0.0% 散逸=0.0%"
+  },
+  {
+   "id": "behavior.saturnRes",
+   "pass": true,
+   "detail": "間隙 t150=16.8(≥12) t600=10.8(≥8=残存) 8幅窓侵入=9(≤15) 帯中央値 C/B/A=124/160/209 衛星R=299.7(288〜312) 帯内=100.0% 落下=0.0% 散逸=0.0%"
+  },
+  {
+   "id": "draft.restore",
+   "pass": true,
+   "detail": "confirm=1 muF=0.77(0.77) badge=inline-block 未保存として再保存=true"
+  },
+  {
+   "id": "draft.discard",
+   "pass": true,
+   "detail": "confirm=2 muF=0.77(0.55 は不適用・直前値 0.77 のまま) 下書き消去=true"
+  },
+  {
+   "id": "ui.landscape",
+   "pass": true,
+   "detail": "grid=true 2カラム=true キャンバス=655×707 パネル右=true パネル高>300=true 縦積み復帰(390px)=true"
   },
   {
    "id": "page.no-errors",

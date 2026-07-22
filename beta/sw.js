@@ -7,7 +7,7 @@
 // 接頭辞の名前空間に限定する(ルート版とβ版が互いのキャッシュを壊さない)。
 // 昇格時は CACHE_PREFIX を "dfm-release-" へ切り替えること(昇格手順書参照)。
 const CACHE_PREFIX = "dfm-beta-";
-const CACHE = CACHE_PREFIX + "v1.28-b3"; // アプリ更新時は末尾を変えると旧キャッシュが activate で破棄される
+const CACHE = CACHE_PREFIX + "v1.28-b4"; // アプリ更新時は末尾を変えると旧キャッシュが activate で破棄される
 const PRECACHE = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./icon-180.png"];
 
 self.addEventListener("install", (e) => {
