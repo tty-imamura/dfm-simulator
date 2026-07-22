@@ -1,13 +1,13 @@
-// P2(beta): PWA Service Worker — 保守的なキャッシュ戦略。
+// PWA Service Worker(v1.28 で beta から昇格)— 保守的なキャッシュ戦略。
 // ・ナビゲーション(index.html)= network-first(更新が即時に届く。オフライン時のみキャッシュ)
 // ・静的アセット(manifest/アイコン)= cache-first
-// ・スコープは登録位置基準(beta/ でもルート昇格後でもそのまま動く)
+// ・スコープは登録位置基準
 // ・API 呼び出し(api.anthropic.com 等クロスオリジン)は一切介入しない
 // 第13次裁定 P0-2: Cache Storage はオリジン単位で共有されるため、削除・照合を自分の
 // 接頭辞の名前空間に限定する(ルート版とβ版が互いのキャッシュを壊さない)。
-// 昇格時は CACHE_PREFIX を "dfm-release-" へ切り替えること(昇格手順書参照)。
-const CACHE_PREFIX = "dfm-beta-";
-const CACHE = CACHE_PREFIX + "v1.28-b1"; // アプリ更新時は末尾を変えると旧キャッシュが activate で破棄される
+// ルート版の接頭辞は "dfm-release-"(β版は "dfm-beta-")。
+const CACHE_PREFIX = "dfm-release-";
+const CACHE = CACHE_PREFIX + "v1.28"; // アプリ更新時は末尾を変えると旧キャッシュが activate で破棄される
 const PRECACHE = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./icon-180.png"];
 
 self.addEventListener("install", (e) => {

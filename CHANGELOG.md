@@ -4,9 +4,13 @@
 2026-07-21 に分離 — ロードマップ P2 群)。新しい版が上。バージョンは `APP_VERSION`
 (index.html)と package.json の major.minor が QA `version.sync` で同期検査される。
 
-## v1.28(未リリース — beta 検証中)
+## v1.28(2026-07-22)— beta からルート昇格
 
-beta(`beta/index.html`)で先行検証中の変更。ルート昇格時に本節を確定する。
+beta(`beta/index.html`)で先行検証していた以下をルートへ昇格(原仮定者裁定 2026-07-22)。
+昇格は PWA 一式(index.html/manifest/sw.js/アイコン3点)の1コミットで実施し、ルート SW の
+キャッシュ接頭辞は `dfm-release-`(β版 `dfm-beta-` と分離 — 第13次裁定 P0-2)。
+QA `behavior.saturnExp` の安定実走は **t=600 まで**に短縮(原仮定者裁定 — 昇格でルートも
+実行対象になるため。t≈1200 の較正実測は裁定記録第12次 §6.1 に保存済み)。
 
 - **E13 帯状重力補正**+🧭「土星の近点移動(現実較正)」— Cassini 実測 J2〜J12、
   D68 で観測と −0.03% 一致(第11次裁定。QA `zonal.*` 4項目)

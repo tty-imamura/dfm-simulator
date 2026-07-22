@@ -1,14 +1,14 @@
 {
- "commit": "3ada2242a907e8993fef753f14638e6de59af508",
- "date": "2026-07-22T03:56:24.638Z",
+ "commit": "443b904e7c879784917c424fc92b08f4748d919d",
+ "date": "2026-07-22T05:27:20.734Z",
  "fast": false,
- "target": "index.html",
+ "target": "beta/index.html",
  "env": {
   "node": "v22.22.2",
   "playwright": "1.61.1",
   "platform": "linux/x64"
  },
- "total": 109,
+ "total": 118,
  "failed": 0,
  "pass": true,
  "results": [
@@ -20,7 +20,7 @@
   {
    "id": "version.sync",
    "pass": true,
-   "detail": "APP_VERSION=1.27 package.json=1.27.0"
+   "detail": "APP_VERSION=1.28 package.json=1.28.0"
   },
   {
    "id": "slider.covers-builtins",
@@ -50,7 +50,7 @@
   {
    "id": "docs.preset-table-sync",
    "pass": true,
-   "detail": "22 ids"
+   "detail": "23 ids"
   },
   {
    "id": "docs.gravity-params",
@@ -201,6 +201,11 @@
    "id": "preset.buoyancy",
    "pass": true,
    "detail": "n=280"
+  },
+  {
+   "id": "preset.saturnZonal",
+   "pass": true,
+   "detail": "n=11"
   },
   {
    "id": "preset.saturn",
@@ -435,7 +440,7 @@
   {
    "id": "activeParams.ui",
    "pass": true,
-   "detail": "主役4/4行 詳細16/16行 折りたたみ=true 編集反映=true"
+   "detail": "主役3/3行 詳細17/17行 折りたたみ=true 編集反映=true"
   },
   {
    "id": "render.on-demand",
@@ -551,6 +556,46 @@
    "id": "behavior.mercury-builtin",
    "pass": true,
    "detail": "Δϖ/周: λ1=3.77° λ0=-0.65° α0.5=0.84° 比(基線差引)=2.97(理論3±0.6)"
+  },
+  {
+   "id": "zonal.analytic-d68",
+   "pass": true,
+   "detail": "ϖ̇=38.231443°/日(38.231443±0.05) 較正=38.243000(38.243±0.002)"
+  },
+  {
+   "id": "zonal.point-mass-degenerate",
+   "pass": true,
+   "detail": "J=0 → ϖ̇=0 係数項=0"
+  },
+  {
+   "id": "zonal.sim-precession",
+   "pass": true,
+   "detail": "Δϖ/周 実測=9.464° 解析(a_eff=104.2)=9.529°(相対差 0.68% <15%)"
+  },
+  {
+   "id": "zonal.no-double-count",
+   "pass": true,
+   "detail": "J=0 実測基線=0.187°(<1.15°)"
+  },
+  {
+   "id": "zonal.trail-default",
+   "pass": true,
+   "detail": "overlays.trail=true"
+  },
+  {
+   "id": "ice.e10-off",
+   "pass": true,
+   "detail": "ds非ゼロ: kappaS=0 → 0/301(=0)/ kappaS=0.08 → 301/301(≥90%)"
+  },
+  {
+   "id": "pwa.sw-offline",
+   "pass": true,
+   "detail": "SW=true アセット200=true 名前空間dfm-beta-*=true(dfm-beta-v1.28-b1) オフライン再読込=true"
+  },
+  {
+   "id": "behavior.saturnExp",
+   "pass": true,
+   "detail": "t≈600: 帯内=99.3%(≥95%) 落下=0.3%(≤2%) 散逸=0.0%(≤5%) 平均|spin|=0.157(<0.5)"
   },
   {
    "id": "page.no-errors",
