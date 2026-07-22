@@ -1,6 +1,8 @@
 # Phase 1 再現性基盤: push/PR ごとに機械QA(構文・verify 11項目・全プリセット・i18n・
 # few-shot・BH捕捉・インポート/seed・新サンプル挙動・🪐長時間挙動)を実行し、
 # 機械可読な結果JSONを artifact として保存する(ロードマップ Phase 1 / 第6次裁定)。
+# 第13次裁定 P0-1: root / beta のマトリクス化 — beta 固有 QA(zonal.*/ice.*/behavior.saturnExp/
+# pwa.*)も CI で必須実行し、Release 証跡として対象別 artifact に保存する。
 name: QA
 on:
   push:
@@ -10,7 +12,17 @@ on:
 jobs:
   qa:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: root
+            target: index.html
+          - name: beta
+            target: beta/index.html
+    env:
+      QA_TARGET: ${{ matrix.target }}
     steps:
       # P2: サプライチェーン対策 — actions をコミット SHA で固定(タグは移動しうるため)
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
@@ -21,11 +33,11 @@ jobs:
         run: |
           npm ci
           npx playwright install --with-deps chromium
-      - name: Run QA suite
+      - name: Run QA suite (${{ matrix.name }})
         run: npm test
       - name: Upload machine-readable results
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          name: qa-results
+          name: qa-results-${{ matrix.name }}
           path: tests/out/qa-results.json

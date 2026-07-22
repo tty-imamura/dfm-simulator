@@ -4,6 +4,22 @@
 2026-07-21 に分離 — ロードマップ P2 群)。新しい版が上。バージョンは `APP_VERSION`
 (index.html)と package.json の major.minor が QA `version.sync` で同期検査される。
 
+## v1.28(未リリース — beta 検証中)
+
+beta(`beta/index.html`)で先行検証中の変更。ルート昇格時に本節を確定する。
+
+- **E13 帯状重力補正**+🧭「土星の近点移動(現実較正)」— Cassini 実測 J2〜J12、
+  D68 で観測と −0.03% 一致(第11次裁定。QA `zonal.*` 4項目)
+- **🪐「土星の環(実験)」** — 旧🪐と🧊(氷)を統合しデフォルト化。初期配置を t=300〜600 の
+  実測安定分布に再設計、t≈1200 の長時間安定を QA `behavior.saturnExp` で恒久検証
+  (第12次裁定+原仮定者調整)
+- **PWA**(manifest/Service Worker/アイコン)・**OGP**・**未保存編集バッジ**(P2群)。
+  SW のキャッシュ削除・照合を `dfm-beta-*` 名前空間に限定(第13次裁定 P0-2)
+- **未保存編集の破棄確認**(プリセット/セーブ読込前)と **β版共有ストレージ警告**
+  (第13次裁定 P1-2/P1-3)
+- CI を root/beta マトリクス化し、beta 固有 QA(zonal/ice/saturnExp/pwa)を必須実行・
+  対象別 artifact 保存(第13次裁定 P0-1)。PWA の HTTP 実動作 QA `pwa.sw-offline` を新設(P1-1)
+
 ## v1.27(2026-07-20)— 公開リリース
 
 - GitHub Pages で公開: https://tty-imamura.github.io/dfm-simulator/(タグ `v1.27.0`)

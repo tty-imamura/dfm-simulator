@@ -368,6 +368,8 @@ ja: {
   btnExportFile:"ファイルに保存", fileSaved:"ファイルとして保存しました", fileShared:"共有しました",
   btnImportFile:"ファイルから読込", fileLoaded:"ファイルを読み込みました",
   unsavedWarn:"※編集中のパラメータは「保存」するまでバックアップに含まれません",
+  confirmDiscard:"未保存の編集があります。破棄して読み込みますか?",
+  betaShared:"β版はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。",
   ioNote:"インポートは「単独プリセット / プリセット配列 / {customPresets:[…]} / バックアップ全体」のどの形式でも自動判別します。パラメータが全く同じデータは取り込まず、名前が同じでパラメータが異なるデータは名前にサフィックスを付けて追加します。インポートしたプリセットは保存一覧にも登録されます。",
   presetMissing:"元プリセットが見つからないため既定プリセットに適用しました",
   resetDone:"初期配置に戻しました(パラメータは保持)", defaultsDone:"プリセットの既定値に戻しました",
@@ -458,6 +460,8 @@ en: {
   btnExportFile:"Save as file", fileSaved:"Saved as a file", fileShared:"Shared",
   btnImportFile:"Load from file", fileLoaded:"File loaded",
   unsavedWarn:"Note: edited parameters are not included in backups until you press Save",
+  confirmDiscard:"You have unsaved edits. Discard them and load?",
+  betaShared:"This beta shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.",
   ioNote:"Import auto-detects any of: a single preset / an array of presets / {customPresets:[…]} / a full backup. Data with identical parameters is skipped; data whose name collides but whose parameters differ is added with a name suffix. Imported presets are also registered in the saved list.",
   presetMissing:"Original preset not found — applied to the default preset",
   resetDone:"Reset to initial layout (parameters kept)", defaultsDone:"Restored preset defaults",
@@ -2446,6 +2450,11 @@ let speedMul=1;
 $("#speedSel").addEventListener("change",e=>{ speedMul=parseFloat(e.target.value)||1; });
 $("#presetSelect").addEventListener("change",e=>{
   const v=e.target.value;
+  // 第13次裁定 P1-2: 未保存編集はプリセット/セーブ読込で無警告消失していた — 確認を挟む
+  if(paramsDirty && !confirm(T("confirmDiscard"))){
+    e.target.value = currentPreset ? currentPreset.id : v;   // 選択を戻して中止
+    return;
+  }
   if(v.startsWith("save#")){ // v1.17: 保存一覧カテゴリからの読込
     const s=getSaves()[+v.slice(5)];
     if(s) loadSave(s,v); else loadPreset(currentPreset.id,false);
@@ -2751,7 +2760,10 @@ function renderSaves(){
     const c=document.createElement("div"); c.className="comment"; c.textContent=s.comment||"";
     const btns=document.createElement("div"); btns.className="rowBtns";
     const bl=document.createElement("button"); bl.className="btn primary"; bl.textContent=T("btnLoad");
-    bl.addEventListener("click",()=>loadSave(s,"save#"+idx));
+    bl.addEventListener("click",()=>{
+      if(paramsDirty && !confirm(T("confirmDiscard"))) return;   // 第13次裁定 P1-2
+      loadSave(s,"save#"+idx);
+    });
     // v1.19: JSONコピー(インポート可能な {saves:[…]} 形式)
     const bc=document.createElement("button"); bc.className="btn"; bc.textContent=T("btnCopy");
     bc.addEventListener("click",()=>copyJSON(JSON.stringify({saves:[s]},null,1)));
@@ -3757,6 +3769,13 @@ applyUiScale();   // v1.17: 文字サイズ設定の反映(hp_uiscale 永続)
 rebuildPresetSelect();
 resizeCanvas();
 loadPreset("saturn",false);
+// 第13次裁定 P1-3: β版はルートと localStorage を共有 — 初回起動時に1度だけ明示する
+// (http(s) 配信の /beta/ 配下でのみ発火。file:// の QA・ルート昇格後は発火しない)
+if(/^https?:$/.test(location.protocol) && /\/beta\//.test(location.pathname)
+   && !localStorage.getItem("hp_beta_notice")){
+  try{ localStorage.setItem("hp_beta_notice","1"); }catch(_){}
+  notify(T("betaShared"), 9000);
+}
 applyLang();   // 静的ラベル+AIプロバイダ設定UIの反映(hp_lang 永続)
 requestAnimationFrame((t)=>{lastFrame=t;requestAnimationFrame(loop);});
 // P2(beta): PWA — Service Worker 登録(http(s) 配信時のみ。file:// の QA・ローカル直開きでは無効)

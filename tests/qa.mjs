@@ -1055,6 +1055,55 @@ if (!FAST) {
     });
     add('ice.e10-off', dz.nz0 === 0 && dz.nz8 >= dz.n * 0.9,
       `ds非ゼロ: kappaS=0 → ${dz.nz0}/${dz.n}(=0)/ kappaS=0.08 → ${dz.nz8}/${dz.n}(≥90%)`);
+
+    // ---- 第13次裁定 P1-1: PWA の HTTP 実動作(SW 登録・precache・オフライン再読込・名前空間)----
+    // 既存 QA は file:// のため SW が未検証だった。ローカル HTTP で beta/ を配信して検査する。
+    // キャッシュ名前空間は dfm-beta-* に限定(第13次 P0-2: ルート版のキャッシュを壊さない)
+    {
+      const http = await import('node:http');
+      const MIME = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript',
+        '.webmanifest': 'application/manifest+json', '.png': 'image/png', '.json': 'application/json' };
+      const srv = http.createServer((req, res) => {
+        try {
+          let up = decodeURIComponent(new URL(req.url, 'http://x').pathname);
+          if (up.endsWith('/')) up += 'index.html';
+          const fp = path.join(ROOT, up);
+          if (!fp.startsWith(ROOT) || !fs.existsSync(fp) || fs.statSync(fp).isDirectory()) { res.writeHead(404); res.end(); return; }
+          res.writeHead(200, { 'content-type': MIME[path.extname(fp)] || 'application/octet-stream' });
+          res.end(fs.readFileSync(fp));
+        } catch { res.writeHead(500); res.end(); }
+      });
+      await new Promise(r => srv.listen(0, '127.0.0.1', r));
+      const port = srv.address().port;
+      const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+      const pw = await ctx.newPage();
+      let sw = { ready: false }, assets = {}, offlineOk = false, cacheKeys = [];
+      try {
+        await pw.goto(`http://127.0.0.1:${port}/beta/`, { waitUntil: 'load' });
+        sw = await pw.evaluate(async () => {
+          if (!('serviceWorker' in navigator)) return { ready: false, sup: false };
+          const reg = await Promise.race([navigator.serviceWorker.ready,
+            new Promise((_, j) => setTimeout(() => j(new Error('sw-ready timeout')), 15000))]);
+          return { ready: !!reg.active, sup: true, scope: reg.scope };
+        }).catch(e => ({ ready: false, err: String(e).slice(0, 80) }));
+        assets = await pw.evaluate(async () => {
+          const out = {};
+          for (const u of ['./manifest.webmanifest', './sw.js', './icon-180.png', './icon-192.png', './icon-512.png'])
+            out[u] = (await fetch(u)).status;
+          return out;
+        });
+        cacheKeys = await pw.evaluate(() => caches.keys());
+        await ctx.setOffline(true);
+        await pw.reload({ waitUntil: 'load' });
+        offlineOk = await pw.waitForFunction(() => !!window.HP, null, { timeout: 15000 })
+          .then(() => true).catch(() => false);
+        await ctx.setOffline(false);
+      } finally { await ctx.close(); srv.close(); }
+      const assetsOk = Object.values(assets).length === 5 && Object.values(assets).every(v => v === 200);
+      const nsOk = cacheKeys.length >= 1 && cacheKeys.every(k => k.startsWith('dfm-beta-'));
+      add('pwa.sw-offline', sw.ready === true && assetsOk && nsOk && offlineOk,
+        `SW=${sw.ready} アセット200=${assetsOk} 名前空間dfm-beta-*=${nsOk}(${cacheKeys.join(',')}) オフライン再読込=${offlineOk}`);
+    }
     if (!FAST) {
       // 🪐(実験)の長時間安定(原仮定者指示: t≈1200 まで安定):
       // 初期配置は t=300〜600 の実測分布に再設計済み(第4便)。t≈1200(75000步)まで回し、
