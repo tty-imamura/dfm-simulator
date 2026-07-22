@@ -1,14 +1,19 @@
 {
- "commit": "443b904e7c879784917c424fc92b08f4748d919d",
- "date": "2026-07-22T05:27:20.734Z",
+ "commit": "b65a74336d146f9bda658cbc3eca65437cca30ff",
+ "date": "2026-07-22T14:34:55.040Z",
  "fast": false,
- "target": "beta/index.html",
+ "target": "index.html",
+ "run": {
+  "githubRunId": null,
+  "runNumber": null,
+  "attempt": null
+ },
  "env": {
   "node": "v22.22.2",
   "playwright": "1.61.1",
   "platform": "linux/x64"
  },
- "total": 118,
+ "total": 121,
  "failed": 0,
  "pass": true,
  "results": [
@@ -450,7 +455,7 @@
   {
    "id": "cache.rays-field",
    "pass": true,
-   "detail": "描画42回の間に 光線再積分=0(≤2) フィールド再計算=0(≤2)"
+   "detail": "描画40回の間に 光線再積分=0(≤2) フィールド再計算=0(≤2)"
   },
   {
    "id": "divergence.undo",
@@ -568,6 +573,16 @@
    "detail": "J=0 → ϖ̇=0 係数項=0"
   },
   {
+   "id": "zonal.order-convergence",
+   "pass": true,
+   "detail": "J2k 打ち切り増分 |Δϖ̇| が単調減衰: 7.8e-7 > 1.0e-7 > 2.0e-8 > 7.1e-9 > 1.6e-9"
+  },
+  {
+   "id": "zonal.radial-monotonic",
+   "pass": true,
+   "detail": "ϖ̇(a) は a=66000→120000(実単位)で単調減少=true"
+  },
+  {
    "id": "zonal.sim-precession",
    "pass": true,
    "detail": "Δϖ/周 実測=9.464° 解析(a_eff=104.2)=9.529°(相対差 0.68% <15%)"
@@ -576,6 +591,11 @@
    "id": "zonal.no-double-count",
    "pass": true,
    "detail": "J=0 実測基線=0.187°(<1.15°)"
+  },
+  {
+   "id": "zonal.dt-convergence",
+   "pass": true,
+   "detail": "Δϖ/周: dt=0.016 → 9.464° / dt=0.008 → 9.428°(相対差 0.38% <10%)"
   },
   {
    "id": "zonal.trail-default",
@@ -590,7 +610,7 @@
   {
    "id": "pwa.sw-offline",
    "pass": true,
-   "detail": "SW=true アセット200=true 名前空間dfm-beta-*=true(dfm-beta-v1.28-b1) オフライン再読込=true"
+   "detail": "SW=true アセット200=true 名前空間dfm-release-*=true(dfm-release-v1.28) オフライン再読込=true"
   },
   {
    "id": "behavior.saturnExp",

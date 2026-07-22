@@ -4,6 +4,24 @@
 2026-07-21 に分離 — ロードマップ P2 群)。新しい版が上。バージョンは `APP_VERSION`
 (index.html)と package.json の major.minor が QA `version.sync` で同期検査される。
 
+## v1.29(未リリース — beta 検証中)
+
+第11次・第13次裁定の保留分を実施(原仮定者指示 2026-07-22)。beta(`beta/index.html`)で
+先行検証中 — ルート昇格時に本節を確定する。
+
+- **🛰️「土星の近点移動(D68精密較正)」新設** — 🧭 と同一構成で較正係数 C=1.0003023
+  (zonal.calib)を与え、D68 の近点移動を観測 38.243°/日 へ精密一致(第11次保留分)
+- **近点検出器の UI 表示** — E13 中心天体のあるプリセットで、最内粒子の実測 Δϖ/周 と
+  解析値を画面左上に併記(engine periDet。QA `zonal.peri-ui` が一致を機械検証)
+- **AI 生成プリセットへの zonal 開放** — validatePreset が single の zonal を受理
+  (偶数次 J2〜J12・|J|≤0.1・refR/calib クランプ)。SYSTEM_PROMPT に仕様を追記
+- **未保存編集の自動ドラフト** — 編集を sessionStorage へ即時保存し、誤リロード後に
+  復元を提案(第13次 P1-2 後半。タブ単位・タブを閉じると消える)
+- **SW 登録失敗の画面表示**(第13次 P1-1 後半)
+- QA 追加: `zonal.order-convergence`(J2k 打ち切りの単調減衰)・`zonal.radial-monotonic`・
+  `zonal.dt-convergence`(dt/2 で Δϖ/周 一致)・`zonal.ai-open`・`zonal.d68-preset`・
+  `zonal.peri-ui`。結果 JSON に CI run ID を記録(第13次 P2-2 後半)
+
 ## v1.28(2026-07-22)— beta からルート昇格
 
 beta(`beta/index.html`)で先行検証していた以下をルートへ昇格(原仮定者裁定 2026-07-22)。

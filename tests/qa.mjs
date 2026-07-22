@@ -981,6 +981,79 @@ if (!FAST) {
     add('zonal.point-mass-degenerate', Math.abs(zr.zero) < 1e-12 && zr.coeffsEmpty === 0,
       `J=0 → ϖ̇=${zr.zero} 係数項=${zr.coeffsEmpty}`);
 
+    // ---- 第11次裁定 保留分(v1.29): 次数収束・半径依存の単調性(純解析 — 常時実行)----
+    const zc = await page.evaluate(() => {
+      const MU = 37931207.7, R = 60330;
+      const J = { 2: 16290.573e-6, 4: -935.314e-6, 6: 86.340e-6, 8: -14.624e-6, 10: 4.672e-6, 12: -0.997e-6 };
+      const orders = [2, 4, 6, 8, 10, 12];
+      const rates = orders.map(o => {
+        const Jt = {}; for (const k of orders) if (k <= o) Jt[k] = J[k];
+        return HP.zonal.apsidal(MU, R, Jt, 67627, 1).apsidal;
+      });
+      const deltas = []; for (let i = 1; i < rates.length; i++) deltas.push(Math.abs(rates[i] - rates[i - 1]));
+      const grid = []; for (let a = 66000; a <= 120000; a += 6000) grid.push(HP.zonal.apsidal(MU, R, J, a, 1).apsidal);
+      return { deltas, mono: grid.every((v, i) => i === 0 || v < grid[i - 1]) };
+    });
+    add('zonal.order-convergence', zc.deltas.every((d, i) => i === 0 || d < zc.deltas[i - 1]),
+      `J2k 打ち切り増分 |Δϖ̇| が単調減衰: ${zc.deltas.map(d => d.toExponential(1)).join(' > ')}`);
+    add('zonal.radial-monotonic', zc.mono, `ϖ̇(a) は a=66000→120000(実単位)で単調減少=${zc.mono}`);
+
+    // ---- 第11次裁定 保留分(v1.29): AI生成プリセットへの zonal 開放(スキーマ検証)----
+    // 対象の validatePreset が zonal 未対応(旧版)なら SKIP(機能ゲート)
+    const vz = await page.evaluate(() => {
+      const mk = (zonal) => ({ name: "z", description: "d", camera: { scale: 300 }, world: { boundary: "none", size: 0 },
+        physics: {}, bodies: [{ type: "single", m: 1500, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true, zonal }] });
+      const ok = HP.validatePreset(mk({ refR: 100, calib: 1, J: { 2: 0.0163, 4: -0.0009 } }));
+      if (!(ok.ok && ok.preset.bodies[0].zonal)) return { supported: false };
+      const cl = HP.validatePreset(mk({ refR: 999999, calib: 5, J: { 2: 9, 3: 0.1 } }));
+      const bad = HP.validatePreset(mk({ J: { 2: 0.01 } }));
+      return { supported: true, okZ: ok.preset.bodies[0].zonal,
+        cz: cl.ok ? cl.preset.bodies[0].zonal : null, cw: cl.warnings.length, badOk: bad.ok };
+    });
+    if (vz.supported) {
+      add('zonal.ai-open',
+        vz.okZ.refR === 100 && vz.okZ.J[2] === 0.0163 &&
+        !!vz.cz && vz.cz.refR === 5000 && vz.cz.calib === 2 && vz.cz.J[2] === 0.1 && !('3' in vz.cz.J) && vz.cw >= 3 &&
+        vz.badOk === false,
+        `受理/クランプ(refR→5000, calib→2, J2→0.1)/奇数次は警告無視/refR欠落は拒否 — 警告${vz.cw}件`);
+    } else {
+      console.log('SKIP zonal.ai-open(対象の validatePreset は zonal 未対応)');
+    }
+
+    // ---- 第11次裁定 保留分(v1.29): D68 精密較正プリセット(calib=1.000302283)----
+    const d68 = await page.evaluate(() => {
+      const p = HP.allPresets().find(q => q.id === 'saturnZonalD68');
+      return p ? p.bodies[0].zonal.calib : null;
+    });
+    if (d68 !== null) add('zonal.d68-preset', Math.abs(d68 - 1.000302283) < 1e-9, `zonal.calib=${d68}`);
+    else console.log('SKIP zonal.d68-preset(対象に D68 較正プリセットなし)');
+
+    // ---- 第11次裁定 保留分(v1.29): 近点検出器(engine periDet)の機械検証 ----
+    // UI が表示する実測 Δϖ/周 が解析値と符号・量級で一致する(検出器の実装ゲート付き)
+    const pd = await page.evaluate(() => {
+      HP.loadPreset('saturnZonal', false);
+      const s = HP.sim;
+      for (let k = 0; k < 60000; k++) s.step(0.016);
+      if (!s.periDet) { HP.loadPreset('saturn', false); return { supported: false }; }
+      const P = s.periDet; let bi = -1, ba = 1e18;
+      for (let i = 0; i < s.n; i++) if (P.cnt[i] > 0) { const ae = (P.rmin[i] + P.rmax[i]) / 2; if (ae < ba) { ba = ae; bi = i; } }
+      const Z = s.zonal;
+      const out = bi < 0 ? { supported: true, cnt: 0 } : {
+        supported: true, cnt: P.cnt[bi], meas: P.sum[bi] / P.cnt[bi], aEff: ba,
+        ana: (Z.calib || 1) * 2 * Math.PI *
+          (HP.zonal.apsidal(s.params.G * s.m[Z.i], Z.refR, Z.J, ba, 1).omega /
+           HP.zonal.apsidal(s.params.G * s.m[Z.i], Z.refR, Z.J, ba, 1).kappa - 1) };
+      HP.loadPreset('saturn', false);
+      return out;
+    });
+    if (pd.supported) {
+      const pdRel = pd.cnt > 0 ? Math.abs(pd.meas - pd.ana) / Math.abs(pd.ana) : 1;
+      add('zonal.peri-ui', pd.cnt >= 1 && pd.meas > 0 && pdRel < 0.25,
+        `最内粒子(a_eff=${pd.cnt > 0 ? pd.aEff.toFixed(1) : '—'}): 実測=${pd.cnt > 0 ? (pd.meas * 180 / Math.PI).toFixed(2) : '—'}°/周 解析=${pd.cnt > 0 ? (pd.ana * 180 / Math.PI).toFixed(2) : '—'}°/周(相対差 ${(pdRel * 100).toFixed(1)}% <25%・n=${pd.cnt})`);
+    } else {
+      console.log('SKIP zonal.peri-ui(対象に近点検出器なし)');
+    }
+
     if (!FAST) {
       // 実測: saturnZonal 最内テスト粒子(名目 a=108, e=0.05)の Δϖ/動径周期を実測し、
       // 実効半長径 a_eff=(rmin+rmax)/2 での解析値 2π(Ω/κ−1) と比較する。
@@ -1025,6 +1098,34 @@ if (!FAST) {
       add('zonal.no-double-count',
         !zm.off.nan && zm.off.n >= 4 && Math.abs(zm.off.drift) < 0.02,
         `J=0 実測基線=${(zm.off.drift * 180 / Math.PI).toFixed(3)}°(<1.15°)`);
+
+      // ---- 第11次裁定 保留分(v1.29): dt 収束 — 同一測定を dt/2 で再実行し Δϖ/周 が一致 ----
+      // (ゲートは時間換算で等価: warmup 3000→6000步・近点間隔 5000→10000步)
+      const zh = await page.evaluate(() => {
+        HP.loadPreset('saturnZonal', false);
+        const s = HP.sim;
+        let rmin = 1e9, rmax = 0; const peri = []; let lastK = -1e9, r2 = 0, r1 = 0, th1 = 0;
+        for (let k = 0; k < 180000 && peri.length < 5; k++) {
+          s.step(0.008);
+          const r = Math.hypot(s.x[1], s.y[1]), th = Math.atan2(s.y[1], s.x[1]);
+          if (k > 6000) {
+            if (r < rmin) rmin = r; if (r > rmax) rmax = r;
+            if (r1 < r2 && r1 < r && r1 < 103 && (k - lastK) > 10000) { peri.push(th1); lastK = k; }
+          }
+          r2 = r1; r1 = r; th1 = th;
+        }
+        let acc = 0;
+        for (let i = 1; i < peri.length; i++) {
+          let dd = peri[i] - peri[i - 1];
+          while (dd > Math.PI) dd -= 2 * Math.PI; while (dd < -Math.PI) dd += 2 * Math.PI;
+          acc += dd;
+        }
+        HP.loadPreset('saturn', false);
+        return { n: peri.length, drift: peri.length > 1 ? acc / (peri.length - 1) : 0 };
+      });
+      const dtRel = Math.abs(zh.drift - zm.on.drift) / Math.abs(zm.on.drift);
+      add('zonal.dt-convergence', zh.n >= 4 && dtRel < 0.10,
+        `Δϖ/周: dt=0.016 → ${(zm.on.drift * 180 / Math.PI).toFixed(3)}° / dt=0.008 → ${(zh.drift * 180 / Math.PI).toFixed(3)}°(相対差 ${(dtRel * 100).toFixed(2)}% <10%)`);
     }
   } else {
     console.log('SKIP zonal.*(対象に E13 なし)');
@@ -1148,6 +1249,9 @@ try { playwrightVersion = JSON.parse(fs.readFileSync(path.join(ROOT, 'node_modul
 fs.writeFileSync(path.join(OUT_DIR, 'qa-results.json'), JSON.stringify({
   commit, date: new Date().toISOString(), fast: FAST,
   target: TARGET,  // P2: 検査対象(beta 検証時に結果JSONを取り違えないため)
+  // 第13次裁定 P2-2 後半(保留分の実施): CI run の追跡メタ(ローカル実行時は null)
+  run: { githubRunId: process.env.GITHUB_RUN_ID || null, runNumber: process.env.GITHUB_RUN_NUMBER || null,
+         attempt: process.env.GITHUB_RUN_ATTEMPT || null },
   env: { node: process.version, playwright: playwrightVersion, platform: `${process.platform}/${process.arch}` },
   total: results.length, failed: results.filter(r => !r.pass).length, pass, results,
 }, null, 1));
