@@ -993,26 +993,6 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 // ===== グループ: 天体の物語 =====
-{ id:"saturn", name:"土星の環", emoji:"🪐", group:"天体の物語",
-  description:"中心星のまわりをケプラー運動する3つの環帯。カッシーニの間隙のように環の間に隙間を置いた構成で、衝突(muF)が乱れた軌道を円形化し、回転方向が揃っていく(T3)。中心星のスピンは近傍の空間を引きずる(A8)。v1.24: 初期配置を長時間実行後の安定分布(実測)に合わせて再設計 — 近点移動が軌道を混ぜ、衝突円形化(T3)が環を保つ状態から始まる。muF=0にすると円形化が止まる対照も試せる。※現実の土星の近点移動は主に扁平度(J2 等)によるもので、ここで見える近点移動はDFM側の機構(ソフトニング・自己重力・フレーム引きずり)による類似現象。現実較正は 🧭 を参照。",
-  en:{name:"Saturn's Rings", description:"Three Keplerian ring bands around the central star, separated by Cassini-like gaps. Collisions (muF) circularize disturbed orbits and align the rotation (T3). The central star's spin drags nearby space (A8). v1.24: the initial layout was redesigned to match the measured long-run steady distribution — the run starts in the state where apsidal mixing and collisional circularization (T3) maintain the rings. Try muF=0 to stop the circularization. Note: real Saturn's apsidal precession is mainly due to oblateness (J2 etc.); the precession seen here arises from DFM-side mechanisms (softening, self-gravity, frame drag). See \ud83e\udded for the real-calibrated demo."},
-  activeParams:["muF","G","kFrame","gammaN"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
-  camera:{scale:300}, world:{boundary:"none",size:0},
-  physics:{G:1, D0:2, kFrame:1, q:2, kRep:1.2, muF:0.6, gammaN:0.5, kappaS:0.08, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:3},
-  bodies:[ // v1.17: AI生成「土星の環」参考 — 間隙を挟む3環帯。中心は固定(外部拘束)。
-           // v1.24: 24000步実測の安定分布に環帯を合わせ(内帯は内側へ・帯幅は拡大)、
-           // 粒子数を431→301へ適正化(全対計算の対数 −51%。初期→24000步の分布移動 0.24)
-    {type:"single", m:1500, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
-    {type:"ring", n:120, cx:0,cy:0, rIn:118,rOut:162, mMin:0.06,mMax:0.12,
-     spinMin:0,spinMax:0.1, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.015, direction:1, pinned:false},
-    {type:"ring", n:100, cx:0,cy:0, rIn:172,rOut:212, mMin:0.06,mMax:0.12,
-     spinMin:0,spinMax:0.1, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.015, direction:1, pinned:false},
-    {type:"ring", n:80, cx:0,cy:0, rIn:220,rOut:258, mMin:0.06,mMax:0.12,
-     spinMin:0,spinMax:0.1, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.015, direction:1, pinned:false}
-  ],
-  overlays:{rotationCurve:false,tempHistogram:false,field:false} },
-
 { id:"saturnZonal", name:"土星の近点移動(現実較正)", emoji:"🧭", group:"天体の物語",
   description:"現実の土星の扁平さ(帯状重力調和係数 J2〜J12、Cassini 実測値)を中心星の属性として与えた較正デモ(E13)。近点方向を揃えた楕円軌道のテスト粒子は、近点が公転と同じ向きに回り続け、内側ほど速い(差動近点移動)。D68 リングレット相当では解析式が Cassini 観測 38.243°/日 と 0.03% で一致(QA が機械検証)。線の軌跡は既定ONで、楕円の向きがゆっくり回るのがそのまま見える。狭いリングレットが一体で歳差するには自己重力・衝突・共鳴の補償が要る(本デモは扁平重力のみ)。DFM 本来の環の物語は 🪐 を参照。",
   en:{name:"Saturn Apsidal Precession (Real-Calibrated)", description:"A calibration demo (E13) that gives the central star the real oblateness of Saturn (zonal gravity harmonics J2\u2013J12, Cassini values). Test particles on apse-aligned elliptical orbits precess prograde, faster on inner orbits (differential apsidal precession). At the D68-ringlet radius the analytic rate matches the Cassini observation of 38.243\u00b0/day to 0.03% (machine-checked by QA). Trails are on by default so you can watch the ellipse orientation slowly rotate. Note a narrow ringlet needs self-gravity, collisions and resonances to precess as one body \u2014 this demo has oblateness only. See \ud83e\ude90 for the DFM-native ring story."},
@@ -1043,26 +1023,26 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"saturnIce", name:"土星の環(氷)", emoji:"🧊", group:"天体の物語",
-  description:"氷の粒(低質量 m=0.01–0.03)でできた環を、現実の C/B/A 環の半径比(124–153/153–195/203–227、間隙195–203=カッシーニの間隙)に配置したサンプル(第12次裁定+原仮定者調整 2026-07-22)。岩粒の🪐(muF=0.6/γN=0.5)より氷は散逸が弱い(muF=0.2/γN=0.15)が、中心星のスピンが空間を引きずり(kFrame=1・A8)、衝突円形化(T3)と合わさって t≈300 で綺麗な環に落ち着く(原仮定者の実機実測)。Kt=3600 は物理対応ロック Kt=c²/G の成立値。中心天体の表示半径も現実の比率に近づけた(radiusScale 1.8)。中心は固定の展示用天体 — 自転による扁平化・コア差動回転(多層土星モデル)は開発キューにある。",
-  en:{name:"Saturn's Rings (Icy)", description:"Rings of icy grains (low mass m=0.01\u20130.03) laid out at the real C/B/A radius ratios (124\u2013153 / 153\u2013195 / 203\u2013227, with the 195\u2013203 gap as the Cassini Division) \u2014 12th adjudication plus the originator's tuning (2026-07-22). Ice dissipates less than the rocky grains of \ud83e\ude90 (muF=0.2/\u03b3N=0.15 vs 0.6/0.5), but the central star's spin drags nearby space (kFrame=1, A8) and, together with collisional circularization (T3), the rings settle into a clean shape by t\u2248300 (measured on-device by the originator). Kt=3600 satisfies the GR-calibration lock Kt=c\u00b2/G. The central body is drawn near the real proportion (radiusScale 1.8) and is a fixed display body \u2014 spin-driven oblateness and core differential rotation (a layered Saturn model) sit in the development queue."},
-  activeParams:["kFrame","muF","kappaS"],
+{ id:"saturn", name:"土星の環(実験)", emoji:"🪐", group:"天体の物語",
+  description:"氷の粒(低質量・低散逸 muF=0.2/γN=0.15)の環の実験サンプル(旧「土星の環」を置換 — 原仮定者調整 2026-07-22)。中心星のスピンが空間を引きずり(kFrame=1・A8)、氷粒の衝突円形化(T3)と合わさって長時間安定な環を保つ。初期配置は t=300〜600 の実測安定分布に合わせて再設計し、t≈1200 まで落下・散逸ゼロを機械検証(v1.24 と同じ流儀)。環は空間引きずりで [ゆっくり内側へ漂いながら] 形を保つ — muF=0 にすると円形化が止まる対照も試せる。Kt=3600 は物理対応ロック Kt=c²/G の成立値。中心天体の表示半径は現実の比率に近い(radiusScale 1.8)。現実較正の近点移動は 🧭 を参照。",
+  en:{name:"Saturn's Rings (Experimental)", description:"An experimental ring of icy grains (low mass, low dissipation: muF=0.2/\u03b3N=0.15), replacing the former Saturn sample (originator's tuning, 2026-07-22). The central star's spin drags nearby space (kFrame=1, A8) and, with collisional circularization (T3), keeps the ring stable for a long run. The initial layout was redesigned to match the measured relaxed distribution at t=300\u2013600, and machine-verified to stay intact (zero falls/escapes) to t\u22481200 \u2014 the same recipe as v1.24. Try muF=0 to stop the circularization. Kt=3600 satisfies the GR-calibration lock Kt=c\u00b2/G; the central body is drawn near the real proportion (radiusScale 1.8). See \ud83e\udded for the real-calibrated apsidal precession."},
+  activeParams:["muF","kFrame","kappaS"],   // QA activeParams.ui が先頭=muF の編集反映を検査するため muF を先頭に
   camera:{scale:340}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:1.2, muF:0.2, gammaN:0.15, kappaS:0.08, Kt:3600,
     cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.8, softening:2, timeScale:3},
-  bodies:[ // 第12次裁定(2026-07-22): ChatGPT 暫定案 §8 の環配置(現実の C/B/A 比率)を内蔵化。
-           // 原仮定者裁定(同日): physics は実機で t≈300 の安定環を確認した調整版セーブに合わせる —
-           // kFrame=1(空間引きずりが無いと DFM サンプルとしての意義が薄い)・kRep=1.2・
-           // kappaS=0.08・Kt=3600(物理対応ロック Kt=c²/G 成立値)。氷のスピン0制約も撤廃
-           // (spinMin=0, spinMax=0.1 = 🪐と同じ)。「熱の厳密分離」統制は材質別係数
-           // (多層土星スプリント)で扱う方針に変更。
+  bodies:[ // 原仮定者裁定(2026-07-22): physics は実機確認済みの調整版セーブ — kFrame=1(空間
+           // 引きずりが無いと DFM サンプルの意義が薄い)・kRep=1.2・kappaS=0.08・Kt=3600(物理対応
+           // ロック成立値)。第4便: 初期配置を t=300〜600 の実測安定分布に再設計(v1.24 の流儀)。
+           // 実測 p5/p25/p50/p75/p95 ≈ 112/132/165/186/197・平均|spin|≈0.15 に合わせた3環帯。
+           // 旧 C/B/A 配置(124–227)は空間引きずりで内側へ緩和するため、緩和後の姿から開始する。
+           // 検証: この初期値で t≈1200 まで落下(<r90)0・散逸(>r320)0(QA behavior.saturnExp)。
     {type:"single", m:1500, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
-    {type:"ring", n:90, cx:0,cy:0, rIn:124,rOut:153, mMin:0.01,mMax:0.03,
-     spinMin:0,spinMax:0.1, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.005, direction:1, pinned:false},
-    {type:"ring", n:120, cx:0,cy:0, rIn:153,rOut:195, mMin:0.01,mMax:0.03,
-     spinMin:0,spinMax:0.1, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.005, direction:1, pinned:false},
-    {type:"ring", n:90, cx:0,cy:0, rIn:203,rOut:227, mMin:0.01,mMax:0.03,
-     spinMin:0,spinMax:0.1, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.005, direction:1, pinned:false}
+    {type:"ring", n:75, cx:0,cy:0, rIn:104,rOut:132, mMin:0.01,mMax:0.03,
+     spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false},
+    {type:"ring", n:150, cx:0,cy:0, rIn:132,rOut:190, mMin:0.01,mMax:0.03,
+     spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false},
+    {type:"ring", n:75, cx:0,cy:0, rIn:190,rOut:212, mMin:0.01,mMax:0.03,
+     spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 

@@ -3,7 +3,7 @@
 // ・静的アセット(manifest/アイコン)= cache-first
 // ・スコープは登録位置基準(beta/ でもルート昇格後でもそのまま動く)
 // ・API 呼び出し(api.anthropic.com 等クロスオリジン)は一切介入しない
-const CACHE = "dfm-v1.27-beta.4"; // アプリ更新時はここを変えると旧キャッシュが activate で破棄される
+const CACHE = "dfm-v1.27-beta.5"; // アプリ更新時はここを変えると旧キャッシュが activate で破棄される
 const PRECACHE = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./icon-180.png"];
 
 self.addEventListener("install", (e) => {
