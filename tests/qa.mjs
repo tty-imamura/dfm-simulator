@@ -1310,6 +1310,54 @@ if (!FAST) {
   }
 }
 
+// ---- 8d3) 4-31 第2弾(2026-07-23 第11便): 🌙 saturnRes — 共鳴衛星あり版の間隙安定 ----
+// 「間隙が安定した状態を、改めて初期値とする」(原仮定者指示): 円軌道速度の実測較正で
+// 近円生成 → t300 緩和 → 間隙内粒子を帯へ再配置 → 全302粒子スナップショットが初期値。
+// 検証: 間隙が t600 まで帯として残る(💍 の閉鎖との対照)・帯順序・衛星の 2:1 軌道維持。
+// 実測較正(2026-07-23・決定論): 間隙幅 t0=18.3 / t150=16.8 / t600=10.8。中心8幅窓の侵入
+// t600=9。帯中央値 C/B/A=124/160/209。衛星軌道 298〜300。落下/散逸 0。
+{
+  const hasRes = await page.evaluate(() =>
+    !!(window.HP && HP.allPresets().some(p => p.id === 'saturnRes')));
+  if (hasRes && !FAST) {
+    const rr = await page.evaluate(() => {
+      HP.loadPreset('saturnRes', false);
+      const s = HP.sim;
+      const band = (lo, hi) => { const rs = []; for (let i = lo; i <= hi; i++) rs.push(Math.hypot(s.x[i], s.y[i])); rs.sort((a, b) => a - b); return rs; };
+      const q = (rs, p) => rs[Math.floor(p * (rs.length - 1))];
+      const metric = () => {
+        const C = band(1, 50), B = band(51, 220), A = band(221, 300);
+        let fall = 0, esc = 0, inB = 0, inG8 = 0;
+        for (let i = 1; i <= 300; i++) { const r = Math.hypot(s.x[i], s.y[i]);
+          if (r < 85) fall++; if (r > 320) esc++; if (r >= 95 && r <= 290) inB++;
+          if (r >= 186 && r <= 194) inG8++; }   // 間隙中心8幅窓への侵入
+        return { gap: q(A, .05) - q(B, .95), Cp50: q(C, .5), Bp50: q(B, .5), Ap50: q(A, .5),
+          inG8, moonR: Math.hypot(s.x[301], s.y[301]),
+          inB: inB / 300, fall: fall / 300, esc: esc / 300, nan: s.hasNaN() };
+      };
+      for (let k = 0; k < 9375; k++) s.step(0.016);
+      const m150 = metric();
+      for (let k = 0; k < 28125; k++) s.step(0.016);
+      const m600 = metric();
+      HP.loadPreset('saturn', false);
+      return { m150, m600 };
+    });
+    add('behavior.saturnRes',
+      !rr.m150.nan && !rr.m600.nan &&
+      rr.m150.gap >= 12 && rr.m600.gap >= 8 &&                     // 間隙が t600 まで帯として残る
+      rr.m600.inG8 <= 15 &&                                        // 中心8幅窓の侵入が準定常以下
+      (rr.m600.Bp50 - rr.m600.Cp50) >= 10 && (rr.m600.Ap50 - rr.m600.Bp50) >= 10 &&
+      rr.m600.moonR >= 288 && rr.m600.moonR <= 312 &&              // 衛星が 2:1 軌道 a≈300 を維持
+      rr.m600.inB >= 0.95 && rr.m600.fall <= 0.02 && rr.m600.esc <= 0.05,
+      `間隙 t150=${rr.m150.gap.toFixed(1)}(≥12) t600=${rr.m600.gap.toFixed(1)}(≥8=残存) ` +
+      `8幅窓侵入=${rr.m600.inG8}(≤15) 帯中央値 C/B/A=${rr.m600.Cp50.toFixed(0)}/${rr.m600.Bp50.toFixed(0)}/${rr.m600.Ap50.toFixed(0)} ` +
+      `衛星R=${rr.m600.moonR.toFixed(1)}(288〜312) 帯内=${(rr.m600.inB * 100).toFixed(1)}% ` +
+      `落下=${(rr.m600.fall * 100).toFixed(1)}% 散逸=${(rr.m600.esc * 100).toFixed(1)}%`);
+  } else if (!hasRes) {
+    console.log('SKIP behavior.saturnRes(対象に 🌙共鳴衛星版なし)');
+  }
+}
+
 // ---- 8e) 第14次裁定 P2-1(2026-07-23): 自動ドラフトの復元/破棄 E2E(専用ページで再読込を伴う)----
 {
   // 注: file:// では sessionStorage が再読込を跨いで保持されない(Chromium の origin 扱い)ため、
