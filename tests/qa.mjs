@@ -957,7 +957,7 @@ if (!FAST) {
   console.log('SKIP behavior.* (QA_FAST=1)');
 }
 
-// ---- 8c) 第11次裁定(2026-07-22): E13 帯状重力補正(beta 先行)のQA ----
+// ---- 8c) 第11次裁定(2026-07-22): E13 帯状重力補正のQA(v1.28 でルート昇格)----
 // 対象に E13 がある場合のみ実行(ルート版は昇格まで対象外 — QA 項目数は対象により変わる)
 {
   const hasZonal = await page.evaluate(() => !!(window.HP && HP.zonal));
@@ -1027,12 +1027,12 @@ if (!FAST) {
         `J=0 実測基線=${(zm.off.drift * 180 / Math.PI).toFixed(3)}°(<1.15°)`);
     }
   } else {
-    console.log('SKIP zonal.*(対象に E13 なし — beta 昇格まで対象外)');
+    console.log('SKIP zonal.*(対象に E13 なし)');
   }
 }
 
 // ---- 8d) 第12次裁定(2026-07-22): 🧊 saturnIce(氷・低熱結合)のQA ----
-// 対象に saturnIce がある場合のみ実行(beta 先行)。🧭 の trail 既定ONもここで検査
+// 対象に 🪐(実験)がある場合のみ実行(v1.28 でルート昇格)。🧭 の trail 既定ONもここで検査
 {
   const hasIce = await page.evaluate(() =>
     !!(window.HP && HP.allPresets().some(p => p.id === 'saturn' && /実験/.test(p.name || ''))));
@@ -1057,8 +1057,9 @@ if (!FAST) {
       `ds非ゼロ: kappaS=0 → ${dz.nz0}/${dz.n}(=0)/ kappaS=0.08 → ${dz.nz8}/${dz.n}(≥90%)`);
 
     // ---- 第13次裁定 P1-1: PWA の HTTP 実動作(SW 登録・precache・オフライン再読込・名前空間)----
-    // 既存 QA は file:// のため SW が未検証だった。ローカル HTTP で beta/ を配信して検査する。
-    // キャッシュ名前空間は dfm-beta-* に限定(第13次 P0-2: ルート版のキャッシュを壊さない)
+    // 既存 QA は file:// のため SW が未検証だった。ローカル HTTP で対象ディレクトリを配信して検査する。
+    // キャッシュ名前空間は対象別に限定(第13次 P0-2: ルート dfm-release-* / beta dfm-beta-* が
+    // 互いのキャッシュを壊さない)。v1.28 昇格でルートも PWA 一式を持つため両対象で実行。
     {
       const http = await import('node:http');
       const MIME = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript',
@@ -1075,11 +1076,13 @@ if (!FAST) {
       });
       await new Promise(r => srv.listen(0, '127.0.0.1', r));
       const port = srv.address().port;
+      const basePath = TARGET.includes('beta/') ? '/beta/' : '/';
+      const cachePfx = TARGET.includes('beta/') ? 'dfm-beta-' : 'dfm-release-';
       const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
       const pw = await ctx.newPage();
       let sw = { ready: false }, assets = {}, offlineOk = false, cacheKeys = [];
       try {
-        await pw.goto(`http://127.0.0.1:${port}/beta/`, { waitUntil: 'load' });
+        await pw.goto(`http://127.0.0.1:${port}${basePath}`, { waitUntil: 'load' });
         sw = await pw.evaluate(async () => {
           if (!('serviceWorker' in navigator)) return { ready: false, sup: false };
           const reg = await Promise.race([navigator.serviceWorker.ready,
@@ -1100,19 +1103,20 @@ if (!FAST) {
         await ctx.setOffline(false);
       } finally { await ctx.close(); srv.close(); }
       const assetsOk = Object.values(assets).length === 5 && Object.values(assets).every(v => v === 200);
-      const nsOk = cacheKeys.length >= 1 && cacheKeys.every(k => k.startsWith('dfm-beta-'));
+      const nsOk = cacheKeys.length >= 1 && cacheKeys.every(k => k.startsWith(cachePfx));
       add('pwa.sw-offline', sw.ready === true && assetsOk && nsOk && offlineOk,
-        `SW=${sw.ready} アセット200=${assetsOk} 名前空間dfm-beta-*=${nsOk}(${cacheKeys.join(',')}) オフライン再読込=${offlineOk}`);
+        `SW=${sw.ready} アセット200=${assetsOk} 名前空間${cachePfx}*=${nsOk}(${cacheKeys.join(',')}) オフライン再読込=${offlineOk}`);
     }
     if (!FAST) {
-      // 🪐(実験)の長時間安定(原仮定者指示: t≈1200 まで安定):
-      // 初期配置は t=300〜600 の実測分布に再設計済み(第4便)。t≈1200(75000步)まで回し、
-      // 帯保持・落下/散逸ゼロ・NaNなしを検査。較正実測(2026-07-22 第4便): 旧初期値でも
-      // t1200 で落下0・散逸0(r∈[98,251])— 再設計後はさらに分布移動が小さい。
+      // 🪐(実験)の長時間安定。原仮定者裁定(2026-07-22 昇格便): フルQAでの安定確認は
+      // **t=600 まで**とする(QA 時間短縮 — 昇格でルートも実行対象になるため)。
+      // 初期配置は t=300〜600 の実測分布に再設計済み(第4便)。t≈600(37500步)まで回し、
+      // 帯保持・落下/散逸ゼロ・NaNなしを検査。t≈1200 の較正実測(第4便: 帯内99.3%・落下1粒・
+      // 散逸0)は裁定記録第12次 §6.1 に記録済み — 閾値は t1200 時と同一のまま流用。
       const iso = await page.evaluate(() => {
         HP.loadPreset('saturn', false);
         const s = HP.sim;
-        for (let k = 0; k < 75000; k++) s.step(0.016);
+        for (let k = 0; k < 37500; k++) s.step(0.016);
         let inB = 0, fall = 0, esc = 0, sum = 0;
         for (let i = 1; i < s.n; i++) {
           const r = Math.hypot(s.x[i], s.y[i]);
@@ -1124,10 +1128,10 @@ if (!FAST) {
       });
       add('behavior.saturnExp',
         !iso.nan && iso.inB >= 0.95 && iso.fall <= 0.02 && iso.esc <= 0.05 && iso.mean < 0.5,
-        `t≈1200: 帯内=${(iso.inB * 100).toFixed(1)}%(≥95%) 落下=${(iso.fall * 100).toFixed(1)}%(≤2%) 散逸=${(iso.esc * 100).toFixed(1)}%(≤5%) 平均|spin|=${iso.mean.toFixed(3)}(<0.5)`);
+        `t≈600: 帯内=${(iso.inB * 100).toFixed(1)}%(≥95%) 落下=${(iso.fall * 100).toFixed(1)}%(≤2%) 散逸=${(iso.esc * 100).toFixed(1)}%(≤5%) 平均|spin|=${iso.mean.toFixed(3)}(<0.5)`);
     }
   } else {
-    console.log('SKIP ice./saturnExp(対象に 🪐実験版なし — beta 昇格まで対象外)');
+    console.log('SKIP ice./saturnExp(対象に 🪐実験版なし)');
   }
 }
 

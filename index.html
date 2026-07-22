@@ -4,6 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b0e1a">
+<!-- P2(beta): OGP(og:url/og:image は昇格後も有効なルート正規URLを指す) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="仮想物理ラボ — 決定力場モデル(DFM)シミュレータ">
+<meta property="og:description" content="「もし空間がこのように振る舞ったら?」— 決定力場モデル(DFM)の仮定物理法則を、ブラウザだけで動かせる単一HTMLの物理シミュレータ。iPhone対応・依存ゼロ。">
+<meta property="og:url" content="https://tty-imamura.github.io/dfm-simulator/">
+<meta property="og:image" content="https://tty-imamura.github.io/dfm-simulator/ogp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<!-- P2(beta): PWA(manifest/アイコンは相対パス — beta/ でもルート昇格後でもそのまま動く) -->
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
 <title>仮想物理ラボ — 仮定物理法則シミュレータ</title>
 <style>
   :root{
@@ -111,6 +125,7 @@
   .saveItem .comment{font-size:calc(12px*var(--uz,1));margin:4px 0;white-space:pre-wrap;}
   .rowBtns{display:flex;gap:8px;margin-top:6px;}
   .rowBtns .btn{flex:1;text-align:center;padding:8px;}
+  #dirtyBadge{display:none;align-self:center;white-space:nowrap;color:#ffb020;font-size:calc(12px*var(--uz,1));}
   #aiStatus{font-size:calc(12.5px*var(--uz,1));margin:8px 0;line-height:1.6;white-space:pre-wrap;}
   #aiStatus.err{color:var(--err);} #aiStatus.ok{color:var(--ok);}
   .spin{display:inline-block;width:14px;height:14px;border:2px solid var(--dim);
@@ -184,7 +199,7 @@
         <input type="text" id="saveName" placeholder="名前(例: 環が安定する設定)">
         <div style="height:8px"></div>
         <textarea id="saveComment" placeholder="コメント(例: muFを0.8にすると円形化が速い)"></textarea>
-        <div class="rowBtns"><button class="btn primary" id="btnSave">保存</button></div>
+        <div class="rowBtns"><button class="btn primary" id="btnSave">保存</button><span id="dirtyBadge">● 未保存の編集あり</span></div>
       </div>
       <div class="group"><h3>バックアップ</h3><!-- v1.18: 保存一覧より上に配置(原仮定者の指示) -->
         <div class="rowBtns">
@@ -340,6 +355,7 @@ ja: {
   savesHeadSave:"現在のパラメータを保存", savesHeadList:"保存一覧", savesHeadBackup:"バックアップ",
   saveNamePh:"名前(例: 環が安定する設定)", saveCommentPh:"コメント(例: muFを0.8にすると円形化が速い)",
   btnSave:"保存", btnExport:"エクスポート(コピー)", btnImport:"インポート",
+  dirtyBadge:"● 未保存の編集あり",
   ioPh:"エクスポートJSONの表示 / 貼り付けてインポート",
   noSaves:"保存はまだありません。", untitled:"無題", origin:"元: ",
   btnLoad:"読込", btnDelete:"削除", btnOpen:"開く", btnCopy:"コピー",
@@ -352,6 +368,8 @@ ja: {
   btnExportFile:"ファイルに保存", fileSaved:"ファイルとして保存しました", fileShared:"共有しました",
   btnImportFile:"ファイルから読込", fileLoaded:"ファイルを読み込みました",
   unsavedWarn:"※編集中のパラメータは「保存」するまでバックアップに含まれません",
+  confirmDiscard:"未保存の編集があります。破棄して読み込みますか?",
+  betaShared:"β版はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。",
   ioNote:"インポートは「単独プリセット / プリセット配列 / {customPresets:[…]} / バックアップ全体」のどの形式でも自動判別します。パラメータが全く同じデータは取り込まず、名前が同じでパラメータが異なるデータは名前にサフィックスを付けて追加します。インポートしたプリセットは保存一覧にも登録されます。",
   presetMissing:"元プリセットが見つからないため既定プリセットに適用しました",
   resetDone:"初期配置に戻しました(パラメータは保持)", defaultsDone:"プリセットの既定値に戻しました",
@@ -429,6 +447,7 @@ en: {
   savesHeadSave:"Save current parameters", savesHeadList:"Saved items", savesHeadBackup:"Backup",
   saveNamePh:"Name (e.g. stable-ring settings)", saveCommentPh:"Comment (e.g. muF=0.8 circularizes faster)",
   btnSave:"Save", btnExport:"Export (copy)", btnImport:"Import",
+  dirtyBadge:"● Unsaved edits",
   ioPh:"Exported JSON appears here / paste to import",
   noSaves:"No saves yet.", untitled:"Untitled", origin:"from: ",
   btnLoad:"Load", btnDelete:"Delete", btnOpen:"Open", btnCopy:"Copy",
@@ -441,6 +460,8 @@ en: {
   btnExportFile:"Save as file", fileSaved:"Saved as a file", fileShared:"Shared",
   btnImportFile:"Load from file", fileLoaded:"File loaded",
   unsavedWarn:"Note: edited parameters are not included in backups until you press Save",
+  confirmDiscard:"You have unsaved edits. Discard them and load?",
+  betaShared:"This beta shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.",
   ioNote:"Import auto-detects any of: a single preset / an array of presets / {customPresets:[…]} / a full backup. Data with identical parameters is skipped; data whose name collides but whose parameters differ is added with a name suffix. Imported presets are also registered in the saved list.",
   presetMissing:"Original preset not found — applied to the default preset",
   resetDone:"Reset to initial layout (parameters kept)", defaultsDone:"Restored preset defaults",
@@ -541,6 +562,7 @@ ja: {
   "E10′":"スピン拡散 — 近いほど速く熱が飛び移る(I重みで角運動量保存)",
   E11:"放射冷却 Λ=η_rad·T^p — 熱い粒子ほど速く冷える",
   E12:"測地線1PN補正(v2.0第1段階) — 時計と同じψから物質の軌道が決まり、近日点が前進する(geoPN=1)",
+  E13:"帯状重力補正(現実較正・beta先行) — 扁平中心天体のJ2〜J12が近点を順行させる(ϖ̇=Ω−κ。D68でCassini観測と0.03%一致)",
   T1:"D₀→∞ でニュートンの絶対空間に近づく(空間が「固く」なる)",
   T2:"回る質量は内側の空間ごと引きずる(マッハのバケツ)",
   T3:"衝突する環は軌道が円形化し、回転方向が揃っていく",
@@ -576,6 +598,7 @@ en: {
   "E10′":"Spin diffusion — heat hops faster when closer (I-weighted, conserves angular momentum)",
   E11:"Radiative cooling Λ=η_rad·T^p — hotter particles cool faster",
   E12:"Geodesic 1PN correction (v2.0 stage 1) — matter orbits follow the same ψ as clocks, and the perihelion advances (geoPN=1)",
+  E13:"Zonal gravity correction (real-calibrated, beta) — an oblate primary's J2\u2013J12 drive prograde apsidal precession (\u03d6\u0307=\u03a9\u2212\u03ba; matches Cassini D68 to 0.03%)",
   T1:"As D₀→∞ the universe approaches Newton's absolute space (space becomes rigid)",
   T2:"A rotating mass drags the space inside it (Mach's bucket)",
   T3:"Colliding rings circularize their orbits and align their rotation",
@@ -624,7 +647,7 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
   geoPN:0, lambdaPN:1, pnAlpha:1.5,   // v1.20: E12 測地線1PN(geoPN=1で有効。BOX_UNIVERSE §5)
   radiusScale:1.2, softening:2, timeScale:1 };
 // v1.7: kLens は廃止(E8R で屈折率は n=e^{2W/Kt} に統一。旧セーブの kLens は受理して無視)
-const APP_VERSION = "1.27";             // エクスポートの appVersion に記録(package.json と QA で同期検査)
+const APP_VERSION = "1.28";             // エクスポートの appVersion に記録(package.json と QA で同期検査)
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 const RAY_MASS_MIN = 40;                  // 光線を曲げる最小質量(性能のための近似)
@@ -974,23 +997,56 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 // ===== グループ: 天体の物語 =====
-{ id:"saturn", name:"土星の環", emoji:"🪐", group:"天体の物語",
-  description:"中心星のまわりをケプラー運動する3つの環帯。カッシーニの間隙のように環の間に隙間を置いた構成で、衝突(muF)が乱れた軌道を円形化し、回転方向が揃っていく(T3)。中心星のスピンは近傍の空間を引きずる(A8)。v1.24: 初期配置を長時間実行後の安定分布(実測)に合わせて再設計 — 近点移動が軌道を混ぜ、衝突円形化(T3)が環を保つ状態から始まる。muF=0にすると円形化が止まる対照も試せる。",
-  en:{name:"Saturn's Rings", description:"Three Keplerian ring bands around the central star, separated by Cassini-like gaps. Collisions (muF) circularize disturbed orbits and align the rotation (T3). The central star's spin drags nearby space (A8). v1.24: the initial layout was redesigned to match the measured long-run steady distribution — the run starts in the state where apsidal mixing and collisional circularization (T3) maintain the rings. Try muF=0 to stop the circularization."},
-  activeParams:["muF","G","kFrame","gammaN"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+{ id:"saturnZonal", name:"土星の近点移動(現実較正)", emoji:"🧭", group:"天体の物語",
+  description:"現実の土星の扁平さ(帯状重力調和係数 J2〜J12、Cassini 実測値)を中心星の属性として与えた較正デモ(E13)。近点方向を揃えた楕円軌道のテスト粒子は、近点が公転と同じ向きに回り続け、内側ほど速い(差動近点移動)。D68 リングレット相当では解析式が Cassini 観測 38.243°/日 と 0.03% で一致(QA が機械検証)。線の軌跡は既定ONで、楕円の向きがゆっくり回るのがそのまま見える。狭いリングレットが一体で歳差するには自己重力・衝突・共鳴の補償が要る(本デモは扁平重力のみ)。DFM 本来の環の物語は 🪐 を参照。",
+  en:{name:"Saturn Apsidal Precession (Real-Calibrated)", description:"A calibration demo (E13) that gives the central star the real oblateness of Saturn (zonal gravity harmonics J2\u2013J12, Cassini values). Test particles on apse-aligned elliptical orbits precess prograde, faster on inner orbits (differential apsidal precession). At the D68-ringlet radius the analytic rate matches the Cassini observation of 38.243\u00b0/day to 0.03% (machine-checked by QA). Trails are on by default so you can watch the ellipse orientation slowly rotate. Note a narrow ringlet needs self-gravity, collisions and resonances to precess as one body \u2014 this demo has oblateness only. See \ud83e\ude90 for the DFM-native ring story."},
+  activeParams:["G","softening"],
   camera:{scale:300}, world:{boundary:"none",size:0},
-  physics:{G:1, D0:2, kFrame:1, q:2, kRep:1.2, muF:0.6, gammaN:0.5, kappaS:0.08, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:3},
-  bodies:[ // v1.17: AI生成「土星の環」参考 — 間隙を挟む3環帯。中心は固定(外部拘束)。
-           // v1.24: 24000步実測の安定分布に環帯を合わせ(内帯は内側へ・帯幅は拡大)、
-           // 粒子数を431→301へ適正化(全対計算の対数 −51%。初期→24000步の分布移動 0.24)
+  physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:1, lambdaPN:0, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:3},
+  bodies:[ // 第11次裁定(2026-07-22): 中心に Cassini 重力解 J2〜J12(基準半径 R_S=100 sim units)。
+           // 第12次(同日・原仮定者指示): overlays.trail=true — 線の軌跡を既定ONにして
+           // 楕円の向きの回転(差動近点移動)が開いた瞬間から見えるようにする。
+           // geoPN=1・λ_PN=0 = E6′排他+純ニュートン(E12 も無効)— ☿ の λ=0 統制と同じ構成。
+           // kFrame=0 なら等価だが、スライダーで kFrame を上げても E6′ が復活しない防御的分離。
+           // テスト粒子は e=0.05・近点+x方向で整列(r_p=a(1−e), v_p=√[μ(1+e)/r_p], μ=G·M=1500)。
+           // DFM 効果(kFrame/kRep/muF/γN)は 0 にして扁平重力の効果だけを分離(サンプル分割A)。
+    {type:"single", m:1500, x:0,y:0, vx:0,vy:0, spin:0, pinned:true,
+     zonal:{refR:100, calib:1, J:{2:0.016290573, 4:-0.000935314, 6:0.000086340,
+            8:-0.000014624, 10:0.000004672, 12:-0.000000997}}},
+    {type:"single", m:0.05, x:102.60,y:0, vx:0,vy:3.9180, spin:0, pinned:false},
+    {type:"single", m:0.05, x:110.20,y:0, vx:0,vy:3.7805, spin:0, pinned:false},
+    {type:"single", m:0.05, x:119.70,y:0, vx:0,vy:3.6274, spin:0, pinned:false},
+    {type:"single", m:0.05, x:131.10,y:0, vx:0,vy:3.4661, spin:0, pinned:false},
+    {type:"single", m:0.05, x:144.40,y:0, vx:0,vy:3.3026, spin:0, pinned:false},
+    {type:"single", m:0.05, x:159.60,y:0, vx:0,vy:3.1414, spin:0, pinned:false},
+    {type:"single", m:0.05, x:176.70,y:0, vx:0,vy:2.9855, spin:0, pinned:false},
+    {type:"single", m:0.05, x:195.70,y:0, vx:0,vy:2.8369, spin:0, pinned:false},
+    {type:"single", m:0.05, x:216.60,y:0, vx:0,vy:2.6966, spin:0, pinned:false},
+    {type:"single", m:0.05, x:239.40,y:0, vx:0,vy:2.5649, spin:0, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+{ id:"saturn", name:"土星の環(実験)", emoji:"🪐", group:"天体の物語",
+  description:"氷の粒(低質量・低散逸 muF=0.2/γN=0.15)の環の実験サンプル(旧「土星の環」を置換 — 原仮定者調整 2026-07-22)。中心星のスピンが空間を引きずり(kFrame=1・A8)、氷粒の衝突円形化(T3)と合わさって長時間安定な環を保つ。初期配置は t=300〜600 の実測安定分布に合わせて再設計し、t≈1200 まで落下・散逸ゼロを機械検証(v1.24 と同じ流儀)。環は空間引きずりで [ゆっくり内側へ漂いながら] 形を保つ — muF=0 にすると円形化が止まる対照も試せる。Kt=3600 は物理対応ロック Kt=c²/G の成立値。中心天体の表示半径は現実の比率に近い(radiusScale 1.8)。現実較正の近点移動は 🧭 を参照。",
+  en:{name:"Saturn's Rings (Experimental)", description:"An experimental ring of icy grains (low mass, low dissipation: muF=0.2/\u03b3N=0.15), replacing the former Saturn sample (originator's tuning, 2026-07-22). The central star's spin drags nearby space (kFrame=1, A8) and, with collisional circularization (T3), keeps the ring stable for a long run. The initial layout was redesigned to match the measured relaxed distribution at t=300\u2013600, and machine-verified to stay intact (zero falls/escapes) to t\u22481200 \u2014 the same recipe as v1.24. Try muF=0 to stop the circularization. Kt=3600 satisfies the GR-calibration lock Kt=c\u00b2/G; the central body is drawn near the real proportion (radiusScale 1.8). See \ud83e\udded for the real-calibrated apsidal precession."},
+  activeParams:["muF","kFrame","kappaS"],   // QA activeParams.ui が先頭=muF の編集反映を検査するため muF を先頭に
+  camera:{scale:340}, world:{boundary:"none",size:0},
+  physics:{G:1, D0:2, kFrame:1, q:2, kRep:1.2, muF:0.2, gammaN:0.15, kappaS:0.08, Kt:3600,
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.8, softening:2, timeScale:3},
+  bodies:[ // 原仮定者裁定(2026-07-22): physics は実機確認済みの調整版セーブ — kFrame=1(空間
+           // 引きずりが無いと DFM サンプルの意義が薄い)・kRep=1.2・kappaS=0.08・Kt=3600(物理対応
+           // ロック成立値)。第4便: 初期配置を t=300〜600 の実測安定分布に再設計(v1.24 の流儀)。
+           // 実測 p5/p25/p50/p75/p95 ≈ 112/132/165/186/197・平均|spin|≈0.15 に合わせた3環帯。
+           // 旧 C/B/A 配置(124–227)は空間引きずりで内側へ緩和するため、緩和後の姿から開始する。
+           // 検証: この初期値で t≈1200 まで落下(<r90)0・散逸(>r320)0(QA behavior.saturnExp)。
     {type:"single", m:1500, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
-    {type:"ring", n:120, cx:0,cy:0, rIn:118,rOut:162, mMin:0.06,mMax:0.12,
-     spinMin:0,spinMax:0.1, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.015, direction:1, pinned:false},
-    {type:"ring", n:100, cx:0,cy:0, rIn:172,rOut:212, mMin:0.06,mMax:0.12,
-     spinMin:0,spinMax:0.1, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.015, direction:1, pinned:false},
-    {type:"ring", n:80, cx:0,cy:0, rIn:220,rOut:258, mMin:0.06,mMax:0.12,
-     spinMin:0,spinMax:0.1, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.015, direction:1, pinned:false}
+    {type:"ring", n:75, cx:0,cy:0, rIn:104,rOut:132, mMin:0.01,mMax:0.03,
+     spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false},
+    {type:"ring", n:150, cx:0,cy:0, rIn:132,rOut:190, mMin:0.01,mMax:0.03,
+     spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false},
+    {type:"ring", n:75, cx:0,cy:0, rIn:190,rOut:212, mMin:0.01,mMax:0.03,
+     spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
@@ -1242,6 +1298,7 @@ function makeSim(){
     for(const b of preset.bodies){
       if(b.type==="single"){
         const o={m:b.m,x:b.x,y:b.y,vx:b.vx,vy:b.vy,spin:b.spin,pinned:b.pinned?1:0,railOmega:0};
+        if(b.zonal) o.zonal=b.zonal;   // E13(第11次裁定): 扁平中心天体の帯状重力属性
         push(o); noteBig(o);
       } else if(b.type==="ring"){
         for(let i=0;i<b.n;i++){
@@ -1294,9 +1351,11 @@ function makeSim(){
       }
     }
     S.alloc(P.length);
+    S.zonal=null;   // E13(第11次裁定): 帯状重力属性を持つ中心天体(builtin プリセット専用)
     P.forEach((o,i)=>{ S.m[i]=o.m; S.x[i]=o.x; S.y[i]=o.y; S.vx[i]=o.vx; S.vy[i]=o.vy;
       S.spin[i]=o.spin; S.pinned[i]=o.pinned; S.railOmega[i]=o.railOmega||0;
       if(o.railOmega){ S.railR[i]=o.railR; S.railAng[i]=o.railAng; S.railCx[i]=o.railCx; S.railCy[i]=o.railCy; }
+      if(o.zonal) S.zonal={i, refR:o.zonal.refR, J:o.zonal.J, calib:(o.zonal.calib||1), _A:null};
     });
     S.params = phys;
     S.world = preset.world; S.rays = preset.rays||null; S.overlays = preset.overlays||{};
@@ -1434,6 +1493,29 @@ function makeSim(){
             ds[i]+=c*Ij;
             ds[j]-=c*Ii;
           }
+        }
+      }
+    }
+    // ===== E13 帯状重力補正(現実較正・beta 先行 — 第11次裁定 2026-07-22)=====
+    // 扁平中心天体の偶数帯状調和係数 J2k による赤道面補正。単極子は E4 が計算済みのため
+    // 補正項のみを加える(二重計上防止): Δa_r = −C·(G·m_p/r²)·Σ_k (2k+1)A_{2k}(R_S/r)^{2k},
+    // A_{2k} = −J_{2k}·P_{2k}(0)。低離心率での近点移動率は ϖ̇ = C(Ω−κ)(zonalApsidal が解析値)。
+    if(S.zonal){
+      const Z=S.zonal, zi=Z.i;
+      const A = Z._A || (Z._A = zonalA(Z.J));
+      if(A.length && zi<n){
+        const cal=Z.calib||1, refR=Z.refR, mzi=m[zi], xz=x[zi], yz=y[zi];
+        for(let jz=0;jz<n;jz++){
+          if(jz===zi) continue;
+          const dxz=x[jz]-xz, dyz=y[jz]-yz;
+          const r2z=dxz*dxz+dyz*dyz, rz=Math.sqrt(r2z);
+          if(!(rz>1e-9)) continue;
+          const rr=refR/rz; let zsum=0;
+          for(let t2=0;t2<A.length;t2++) zsum+=A[t2][1]*Math.pow(rr,A[t2][0]);
+          const daz=-cal*G*mzi/r2z*zsum;
+          const axz=daz*dxz/rz, ayz=daz*dyz/rz;
+          ax[jz]+=axz; ay[jz]+=ayz;
+          ax[zi]-=axz*m[jz]/mzi; ay[zi]-=ayz*m[jz]/mzi;   // 作用反作用(帳簿の対称性。中心は pinned 想定)
         }
       }
     }
@@ -1605,6 +1687,8 @@ let camX=0, camY=0, camScale=300, tempP90EMA=0.5, monitorOn=false;
 let uiFontScale=parseFloat(localStorage.getItem("hp_uiscale")||"1")||1;
 function applyUiScale(){ document.documentElement.style.setProperty("--uz", String(uiFontScale)); if(typeof requestRender==="function") requestRender(); }
 let paramsDirty=false;  // v1.17: 「保存」していない編集の有無(バックアップ対象外の注意喚起)
+// P2(beta): 未保存フラグ強調 — 保存ボタン横バッジを paramsDirty に常時同期(v1.17 の notify は補助に降格)
+function setParamsDirty(v){ paramsDirty=v; const b=document.getElementById("dirtyBadge"); if(b) b.style.display=v?"inline-block":"none"; }
 let tSort=null; // 温度正規化用スクラッチ(90パーセンタイル計算)
 let stepAcc=0, fpsEMA=60, lastFrame=performance.now(), frameCount=0;
 // v1.27: ステップ会計の純関数(P0-1 修正の本体。QA `time.step-accounting` が直接検証)
@@ -2150,7 +2234,7 @@ function restoreLastGood(){
   if(ab) abStop();                       // A/B中の発散はAの復元に一本化
   loadPreset(currentPreset.id,false);    // 初期配置へ(スナップショットもクリアされる)
   sim.params=Object.assign({},snap); sim.updateRadii();
-  paramsDirty=true;                      // 復元値はプリセット既定と異なりうる(未保存扱い)
+  setParamsDirty(true);                      // 復元値はプリセット既定と異なりうる(未保存扱い)
   buildParamRows(); requestRender();
   notify(T("divRestored"),4000);
 }
@@ -2258,7 +2342,7 @@ function loadSave(s, selValue){
   loadPreset(exists?s.presetId:BUILTIN_PRESETS[0].id,false);
   sim.params=Object.assign({},DEFAULT_PHYSICS,s.physics); sim.updateRadii();
   if(s.cameraScale) camScale=s.cameraScale;
-  paramsDirty=false;
+  setParamsDirty(false);
   buildParamRows(); notify(T("loadedAs")(s.name));
   if(selValue) $("#presetSelect").value=selValue;
   if(!exists) notify(T("presetMissing"),3500);
@@ -2275,7 +2359,7 @@ function loadPreset(id, keepPhysics){
   basePhysics=Object.assign({},DEFAULT_PHYSICS,p.physics||{});
   camX=0; camY=0; camScale=p.camera.scale; tempP90EMA=0.5; selIdx=-1; nanNotified=false;
   paramSnapA=paramSnapB=null;   // v1.22: 発散Undoのスナップショットはプリセット単位
-  paramsDirty=false;   // v1.17: プリセット読込で編集は破棄される(⏮は呼び出し側で維持)
+  setParamsDirty(false);   // v1.17: プリセット読込で編集は破棄される(⏮は呼び出し側で維持)
   running=false; updatePlayBtn(); updateBodyEdit();
   buildParamRows(); renderHelp();
   $("#presetSelect").value=p.id;
@@ -2356,7 +2440,7 @@ $("#btnReset").addEventListener("click",()=>{
   const keep=Object.assign({},sim.params), wasDirty=paramsDirty;
   loadPreset(currentPreset.id,false);
   sim.params=keep; sim.updateRadii();
-  paramsDirty=wasDirty;   // v1.17: ⏮はパラメータ保持なので未保存状態も維持
+  setParamsDirty(wasDirty);   // v1.17: ⏮はパラメータ保持なので未保存状態も維持
   buildParamRows();
   notify(T("resetDone"));
 });
@@ -2366,6 +2450,11 @@ let speedMul=1;
 $("#speedSel").addEventListener("change",e=>{ speedMul=parseFloat(e.target.value)||1; });
 $("#presetSelect").addEventListener("change",e=>{
   const v=e.target.value;
+  // 第13次裁定 P1-2: 未保存編集はプリセット/セーブ読込で無警告消失していた — 確認を挟む
+  if(paramsDirty && !confirm(T("confirmDiscard"))){
+    e.target.value = currentPreset ? currentPreset.id : v;   // 選択を戻して中止
+    return;
+  }
   if(v.startsWith("save#")){ // v1.17: 保存一覧カテゴリからの読込
     const s=getSaves()[+v.slice(5)];
     if(s) loadSave(s,v); else loadPreset(currentPreset.id,false);
@@ -2477,7 +2566,7 @@ function buildParamRows(){
         if(key==="radiusScale") S.updateRadii();
       }
       if(ab) ab.lastKey=key;  // v1.19: A/B比較中は「最後に調整したパラメータ」を両画面に表示
-      paramsDirty=true;  // v1.17: 未保存の編集あり(バックアップ対象外の注意喚起に使用)
+      setParamsDirty(true);  // v1.17: 未保存の編集あり(バックアップ対象外の注意喚起に使用)
       // v1.26: 物理対応ロック — Kt/cLight/G の編集後に Kt=cLight²/G を自動維持
       // (Ktの直接編集も導出値へ戻す)。ロックOFF時もバッジの成立表示を更新する
       if(key==="Kt"||key==="cLight"||key==="G"){
@@ -2655,7 +2744,7 @@ $("#btnSave").addEventListener("click",()=>{
   catch(e){ alert(T("saveFailed")); return; }
   $("#saveComment").value="";
   updateSaveNameDefault();   // v1.19: 次のデフォルト名(連番が進む)を再セット
-  paramsDirty=false;  // v1.17: 保存済み → バックアップ対象に含まれる
+  setParamsDirty(false);  // v1.17: 保存済み → バックアップ対象に含まれる
   rebuildPresetSelect(currentPreset.id);  // v1.17: プルダウンの保存一覧カテゴリを更新
   renderSaves(); notify(T("savedAs")(name));
 });
@@ -2671,7 +2760,10 @@ function renderSaves(){
     const c=document.createElement("div"); c.className="comment"; c.textContent=s.comment||"";
     const btns=document.createElement("div"); btns.className="rowBtns";
     const bl=document.createElement("button"); bl.className="btn primary"; bl.textContent=T("btnLoad");
-    bl.addEventListener("click",()=>loadSave(s,"save#"+idx));
+    bl.addEventListener("click",()=>{
+      if(paramsDirty && !confirm(T("confirmDiscard"))) return;   // 第13次裁定 P1-2
+      loadSave(s,"save#"+idx);
+    });
     // v1.19: JSONコピー(インポート可能な {saves:[…]} 形式)
     const bc=document.createElement("button"); bc.className="btn"; bc.textContent=T("btnCopy");
     bc.addEventListener("click",()=>copyJSON(JSON.stringify({saves:[s]},null,1)));
@@ -3102,6 +3194,7 @@ function applyLang(){
   sh[0].textContent=T("savesHeadSave"); sh[1].textContent=T("savesHeadBackup"); sh[2].textContent=T("savesHeadList");
   $("#saveName").placeholder=T("saveNamePh"); $("#saveComment").placeholder=T("saveCommentPh");
   $("#btnSave").textContent=T("btnSave"); $("#btnExport").textContent=T("btnExport");
+  $("#dirtyBadge").textContent=T("dirtyBadge");
   $("#btnImport").textContent=T("btnImport"); $("#ioArea").placeholder=T("ioPh");
   $("#btnExportFile").textContent=T("btnExportFile"); $("#ioNote").textContent=T("ioNote");
   $("#btnImportFile").textContent=T("btnImportFile");            // v1.17
@@ -3216,7 +3309,7 @@ function beBind(id,fn){
   $(id).addEventListener("change",()=>{
     if(selIdx<0||selIdx>=sim.n){ updateBodyEdit(); return; }
     const v=parseFloat($(id).value.replace(/[,、\s]/g,"").replace(/[−ー–—－]/g,"-"));  // v1.24: 全角マイナス等も受理
-    if(isFinite(v)){ fn(selIdx,v); paramsDirty=true; requestRender(); }
+    if(isFinite(v)){ fn(selIdx,v); setParamsDirty(true); requestRender(); }
     updateBodyEdit();
   });
 }
@@ -3228,7 +3321,7 @@ $("#bePin").addEventListener("change",()=>{
   if(selIdx<0||selIdx>=sim.n) return;
   sim.pinned[selIdx]=$("#bePin").checked?1:0;
   if(!$("#bePin").checked) sim.railOmega[selIdx]=0;  // 固定解除でレール駆動も解除
-  paramsDirty=true; requestRender();
+  setParamsDirty(true); requestRender();
 });
 $("#beClose").addEventListener("click",()=>{ selIdx=-1; updateBodyEdit(); });
 
@@ -3623,6 +3716,32 @@ const VERIFY = {
 };
 
 // ===== デバッグ/テスト用フック(品質ゲートが使用) =====
+// ===== E13 ヘルパ(帯状重力・現実較正 — 第11次裁定 2026-07-22。beta 先行)=====
+// P_{2k}(0): 偶数ルジャンドル多項式の赤道面値
+const ZONAL_P0={2:-1/2, 4:3/8, 6:-5/16, 8:35/128, 10:-63/256, 12:231/1024};
+// 前計算 [[2k,(2k+1)·A_{2k}],…](A_{2k}=−J_{2k}·P_{2k}(0))。J が全て 0 なら空 = 補正ゼロ
+function zonalA(J){
+  const out=[];
+  for(const l of [2,4,6,8,10,12]){
+    const v=(J && +J[l]) || 0;
+    if(v!==0) out.push([l, (l+1)*(-v*ZONAL_P0[l])]);
+  }
+  return out;
+}
+// 解析式(単位系任意): Ω²=(μ/a³)[1+Σ(2k+1)A_{2k}z^k], κ²=(μ/a³)[1+Σ(2k+1)(1−2k)A_{2k}z^k],
+// z=(R_S/a)², ϖ̇=C(Ω−κ)。実単位(km, s)なら Cassini 観測と直接比較できる(QA が D68 で検証)
+function zonalApsidal(mu, refR, J, a, calib){
+  let sO=0, sK=0;
+  for(const l of [2,4,6,8,10,12]){
+    const v=(J && +J[l]) || 0;
+    if(!v) continue;
+    const A=-v*ZONAL_P0[l], z=A*Math.pow(refR/a, l);
+    sO+=(l+1)*z; sK+=(l+1)*(1-l)*z;
+  }
+  const n0=Math.sqrt(mu/(a*a*a));
+  const omega=n0*Math.sqrt(1+sO), kappa=n0*Math.sqrt(1+sK);
+  return {omega, kappa, apsidal:(calib||1)*(omega-kappa)};
+}
 window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extractJSON,
   verify:VERIFY, traceRay, getSystemPrompt, aiCfg, T:(k)=>T(k), lang:()=>LANG,
   extractLawRefs, lawText, ab:()=>ab, abStart, abStop,
@@ -3638,6 +3757,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // v1.26: 物理対応ロック(4-12)のQA用
   setPhysLock, physLock:()=>physLock, physLockCalc, physLockSatisfied,
   stepBudget,  // v1.27: ステップ会計の純関数(P0-1 修正。QA time.step-accounting 用)
+  zonal:{P0:ZONAL_P0, coeffs:zonalA, apsidal:zonalApsidal},  // 第11次裁定: E13 帯状重力のQA用
   qState:()=>({mode:qualityMode, level:qLevel(), dprCap:Q_DPR[qLevel()],
     fieldRes:Q_FRES[qLevel()], rayFactor:Q_RAY[qLevel()], trailEvery:Q_TREC[qLevel()]}),
   setLang:(l)=>{ LANG=(l==="en")?"en":"ja"; localStorage.setItem("hp_lang",LANG); applyLang(); },
@@ -3649,8 +3769,19 @@ applyUiScale();   // v1.17: 文字サイズ設定の反映(hp_uiscale 永続)
 rebuildPresetSelect();
 resizeCanvas();
 loadPreset("saturn",false);
+// 第13次裁定 P1-3: β版はルートと localStorage を共有 — 初回起動時に1度だけ明示する
+// (http(s) 配信の /beta/ 配下でのみ発火。file:// の QA・ルート昇格後は発火しない)
+if(/^https?:$/.test(location.protocol) && /\/beta\//.test(location.pathname)
+   && !localStorage.getItem("hp_beta_notice")){
+  try{ localStorage.setItem("hp_beta_notice","1"); }catch(_){}
+  notify(T("betaShared"), 9000);
+}
 applyLang();   // 静的ラベル+AIプロバイダ設定UIの反映(hp_lang 永続)
 requestAnimationFrame((t)=>{lastFrame=t;requestAnimationFrame(loop);});
+// P2(beta): PWA — Service Worker 登録(http(s) 配信時のみ。file:// の QA・ローカル直開きでは無効)
+if("serviceWorker" in navigator && /^https?:$/.test(location.protocol)){
+  addEventListener("load",()=>{ navigator.serviceWorker.register("./sw.js").catch(()=>{}); });
+}
 </script>
 </body>
 </html>
