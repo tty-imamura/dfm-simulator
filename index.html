@@ -42,7 +42,8 @@
   #hud{position:absolute;left:8px;top:6px;font-size:calc(11px*var(--uz,1));color:var(--dim);pointer-events:none;
     text-shadow:0 1px 2px #000;line-height:1.5;white-space:pre;}
   /* v1.17: 選択粒子の編集パネル(タップ選択中のみ表示) */
-  #bodyEdit{position:absolute;right:8px;top:8px;width:172px;background:rgba(20,24,48,.94);
+  /* 第12便: z-index — 狭い横画面等でキャンバスが低くても、後続UI(操作列・タブ)に隠れず操作できる */
+  #bodyEdit{position:absolute;right:8px;top:8px;width:172px;z-index:6;background:rgba(20,24,48,.94);
     border:1px solid var(--line);border-radius:10px;padding:8px;display:none;font-size:calc(11.5px*var(--uz,1));}
   #bodyEdit .beHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;
     font-weight:700;color:var(--acc);}
@@ -134,6 +135,21 @@
   #helpBody{font-size:calc(12.5px*var(--uz,1));line-height:1.75;}
   #helpBody h4{margin:12px 0 4px;font-size:calc(13px*var(--uz,1));color:var(--acc);}
   #helpBody p{margin:4px 0;}
+  /* ===== 横画面レイアウト(4-35 裁定: タブレット・PC 想定)=====
+     landscape かつ幅 900px 以上で、キャンバス左・操作列/タブ/パネル右の2カラムに組み替える。
+     スマホの横持ち(幅 900px 未満)は従来の縦積みのまま。DOM 順は不変で CSS のみ —
+     #canvasWrap は ResizeObserver 監視済みなので列替えでもキャンバス解像度は追随する。 */
+  @media (orientation:landscape) and (min-width:900px){
+    #app{display:grid;grid-template-columns:minmax(0,1fr) clamp(320px,36vw,420px);
+      grid-template-rows:auto auto auto minmax(0,1fr);
+      grid-template-areas:"hd hd" "cv tp" "cv tb" "cv pn";}
+    header{grid-area:hd;}
+    #canvasWrap{grid-area:cv;min-height:0;border-right:1px solid var(--line);}
+    #transport{grid-area:tp;border-top:none;}
+    nav#tabs{grid-area:tb;}
+    /* パネルは右カラム残り高さをすべて使う(縦積み時の 50vh 上限は解除) */
+    #panel{grid-area:pn;max-height:none;min-height:0;border-top:1px solid var(--line);}
+  }
 </style>
 </head>
 <body>
@@ -150,8 +166,12 @@
     <div id="bodyEdit">
       <div class="beHead"><span id="beTitle">選択粒子の編集</span><button id="beClose" aria-label="close">✕</button></div>
       <!-- v1.24: 負値を取り得る s/vx/vy は inputmode=text(iOS の数字キーパッドに「−」が無いため) -->
-      <div class="beRow"><label id="beLm">m</label><input type="text" id="beM" inputmode="decimal" autocomplete="off">
+      <!-- 第12便: m は負値も受理するため inputmode=text(iOS の数字キーパッドに「−」が無い) -->
+      <div class="beRow"><label id="beLm">m</label><input type="text" id="beM" inputmode="text" autocomplete="off">
         <label id="beLs">s</label><input type="text" id="beS" inputmode="text" autocomplete="off"></div>
+      <!-- 第14便: 主星2層(比率)— コア質量比 mc/m(既定0・負値=空洞)とコアスピン比 sc/s(既定1) -->
+      <div class="beRow"><label id="beLmc" style="min-width:34px">mc/m</label><input type="text" id="beMc" inputmode="text" autocomplete="off">
+        <label id="beLsc" style="min-width:30px">sc/s</label><input type="text" id="beSc" inputmode="text" autocomplete="off"></div>
       <div class="beRow"><label>vx</label><input type="text" id="beVx" inputmode="text" autocomplete="off">
         <label>vy</label><input type="text" id="beVy" inputmode="text" autocomplete="off"></div>
       <div class="beRow"><label id="beLp" style="flex:1">固定(pinned)</label><input type="checkbox" id="bePin"></div>
@@ -370,6 +390,9 @@ ja: {
   unsavedWarn:"※編集中のパラメータは「保存」するまでバックアップに含まれません",
   confirmDiscard:"未保存の編集があります。破棄して読み込みますか?",
   betaShared:"β版はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。",
+  draftRestore:"未保存の編集の下書きが見つかりました(再読込前の状態)。復元しますか?",
+  swFail:"オフライン用キャッシュ(Service Worker)の登録に失敗しました。オンラインでは通常どおり使えます。",
+  periHud:(m,a)=>`近点移動(最内粒子): 実測 ${m}°/周 / 解析 ${a}°/周`,
   ioNote:"インポートは「単独プリセット / プリセット配列 / {customPresets:[…]} / バックアップ全体」のどの形式でも自動判別します。パラメータが全く同じデータは取り込まず、名前が同じでパラメータが異なるデータは名前にサフィックスを付けて追加します。インポートしたプリセットは保存一覧にも登録されます。",
   presetMissing:"元プリセットが見つからないため既定プリセットに適用しました",
   resetDone:"初期配置に戻しました(パラメータは保持)", defaultsDone:"プリセットの既定値に戻しました",
@@ -462,6 +485,9 @@ en: {
   unsavedWarn:"Note: edited parameters are not included in backups until you press Save",
   confirmDiscard:"You have unsaved edits. Discard them and load?",
   betaShared:"This beta shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.",
+  draftRestore:"Found a draft of unsaved edits (from before the last reload). Restore it?",
+  swFail:"Offline cache (Service Worker) registration failed. The app still works normally online.",
+  periHud:(m,a)=>`Apsidal drift (innermost): measured ${m}°/orbit / analytic ${a}°/orbit`,
   ioNote:"Import auto-detects any of: a single preset / an array of presets / {customPresets:[…]} / a full backup. Data with identical parameters is skipped; data whose name collides but whose parameters differ is added with a name suffix. Imported presets are also registered in the saved list.",
   presetMissing:"Original preset not found — applied to the default preset",
   resetDone:"Reset to initial layout (parameters kept)", defaultsDone:"Restored preset defaults",
@@ -647,7 +673,7 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
   geoPN:0, lambdaPN:1, pnAlpha:1.5,   // v1.20: E12 測地線1PN(geoPN=1で有効。BOX_UNIVERSE §5)
   radiusScale:1.2, softening:2, timeScale:1 };
 // v1.7: kLens は廃止(E8R で屈折率は n=e^{2W/Kt} に統一。旧セーブの kLens は受理して無視)
-const APP_VERSION = "1.28";             // エクスポートの appVersion に記録(package.json と QA で同期検査)
+const APP_VERSION = "1.29";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 const RAY_MASS_MIN = 40;                  // 光線を曲げる最小質量(性能のための近似)
@@ -997,22 +1023,20 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 // ===== グループ: 天体の物語 =====
-{ id:"saturnZonal", name:"土星の近点移動(現実較正)", emoji:"🧭", group:"天体の物語",
-  description:"現実の土星の扁平さ(帯状重力調和係数 J2〜J12、Cassini 実測値)を中心星の属性として与えた較正デモ(E13)。近点方向を揃えた楕円軌道のテスト粒子は、近点が公転と同じ向きに回り続け、内側ほど速い(差動近点移動)。D68 リングレット相当では解析式が Cassini 観測 38.243°/日 と 0.03% で一致(QA が機械検証)。線の軌跡は既定ONで、楕円の向きがゆっくり回るのがそのまま見える。狭いリングレットが一体で歳差するには自己重力・衝突・共鳴の補償が要る(本デモは扁平重力のみ)。DFM 本来の環の物語は 🪐 を参照。",
-  en:{name:"Saturn Apsidal Precession (Real-Calibrated)", description:"A calibration demo (E13) that gives the central star the real oblateness of Saturn (zonal gravity harmonics J2\u2013J12, Cassini values). Test particles on apse-aligned elliptical orbits precess prograde, faster on inner orbits (differential apsidal precession). At the D68-ringlet radius the analytic rate matches the Cassini observation of 38.243\u00b0/day to 0.03% (machine-checked by QA). Trails are on by default so you can watch the ellipse orientation slowly rotate. Note a narrow ringlet needs self-gravity, collisions and resonances to precess as one body \u2014 this demo has oblateness only. See \ud83e\ude90 for the DFM-native ring story."},
+{ id:"saturnZonalD68", name:"土星の近点移動(D68精密較正)", emoji:"🛰️", group:"天体の物語",
+  description:"現実の土星の扁平さ(帯状重力調和係数 J2〜J12、Cassini 実測値)を中心星の属性として与えた較正デモ(E13)。近点方向を揃えた楕円軌道のテスト粒子は、近点が公転と同じ向きに回り続け、内側ほど速い(差動近点移動)。線の軌跡は既定ONで、楕円の向きがゆっくり回るのがそのまま見える。解析式は J2〜J12 で打ち切るため D68 実測 38.243°/日 に対し −0.03% の残差が残るので、較正係数 C=1.0003023(高次項・離心率補正の代替)を中心星の zonal.calib に与えて観測値へ精密一致させている(QA が 38.243±0.002 を機械検証)。旧「現実較正」版(C=1)は本サンプルへ一本化(2026-07-23 原仮定者裁定 — 差は 0.03% で画面では区別できないため)。DFM 本来の環の物語は 🪐 を参照。",
+  en:{name:"Saturn Apsidal Precession (D68 Calibrated)", description:"A calibration demo (E13) that gives the central star the real oblateness of Saturn (zonal gravity harmonics J2–J12, Cassini values). Test particles on apse-aligned elliptical orbits precess prograde, faster on inner orbits (differential apsidal precession); trails are on by default so the slow rotation of the ellipse orientation is directly visible. Truncating at J2–J12 leaves a −0.03% residual vs the observed 38.243°/day at D68, so the calibration factor C=1.0003023 (standing in for higher-order terms) is applied via the central star's zonal.calib, matching the observation (QA checks 38.243±0.002). The former “real-calibrated” variant (C=1) was merged into this sample (originator's ruling, 2026-07-23 — the 0.03% difference is invisible on screen). See 🪐 for the DFM-native ring story."},
   activeParams:["G","softening"],
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
     cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:1, lambdaPN:0, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:3},
-  bodies:[ // 第11次裁定(2026-07-22): 中心に Cassini 重力解 J2〜J12(基準半径 R_S=100 sim units)。
-           // 第12次(同日・原仮定者指示): overlays.trail=true — 線の軌跡を既定ONにして
-           // 楕円の向きの回転(差動近点移動)が開いた瞬間から見えるようにする。
-           // geoPN=1・λ_PN=0 = E6′排他+純ニュートン(E12 も無効)— ☿ の λ=0 統制と同じ構成。
-           // kFrame=0 なら等価だが、スライダーで kFrame を上げても E6′ が復活しない防御的分離。
-           // テスト粒子は e=0.05・近点+x方向で整列(r_p=a(1−e), v_p=√[μ(1+e)/r_p], μ=G·M=1500)。
-           // DFM 効果(kFrame/kRep/muF/γN)は 0 にして扁平重力の効果だけを分離(サンプル分割A)。
+  bodies:[ // 第11次裁定 保留分(v1.29): 中心に Cassini 重力解 J2〜J12(基準半径 R_S=100 sim units)+
+           // calib=1.000302283(D68 精密較正)。テスト粒子は e=0.05・近点+x方向で整列
+           // (r_p=a(1−e), v_p=√[μ(1+e)/r_p], μ=G·M=1500)。DFM 効果(kFrame/kRep/muF/γN)は 0 に
+           // して扁平重力の効果だけを分離。geoPN=1・λ_PN=0 = E6′排他+純ニュートン。
+           // 旧 🧭(現実較正 C=1)は 2026-07-23 原仮定者裁定で本サンプルへ一本化・廃止
     {type:"single", m:1500, x:0,y:0, vx:0,vy:0, spin:0, pinned:true,
-     zonal:{refR:100, calib:1, J:{2:0.016290573, 4:-0.000935314, 6:0.000086340,
+     zonal:{refR:100, calib:1.000302283, J:{2:0.016290573, 4:-0.000935314, 6:0.000086340,
             8:-0.000014624, 10:0.000004672, 12:-0.000000997}}},
     {type:"single", m:0.05, x:102.60,y:0, vx:0,vy:3.9180, spin:0, pinned:false},
     {type:"single", m:0.05, x:110.20,y:0, vx:0,vy:3.7805, spin:0, pinned:false},
@@ -1028,8 +1052,8 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"saturn", name:"土星の環(実験)", emoji:"🪐", group:"天体の物語",
-  description:"氷の粒(低質量・低散逸 muF=0.2/γN=0.15)の環の実験サンプル(旧「土星の環」を置換 — 原仮定者調整 2026-07-22)。中心星のスピンが空間を引きずり(kFrame=1・A8)、氷粒の衝突円形化(T3)と合わさって長時間安定な環を保つ。初期配置は t=300〜600 の実測安定分布に合わせて再設計し、t≈1200 まで落下・散逸ゼロを機械検証(v1.24 と同じ流儀)。環は空間引きずりで [ゆっくり内側へ漂いながら] 形を保つ — muF=0 にすると円形化が止まる対照も試せる。Kt=3600 は物理対応ロック Kt=c²/G の成立値。中心天体の表示半径は現実の比率に近い(radiusScale 1.8)。現実較正の近点移動は 🧭 を参照。",
-  en:{name:"Saturn's Rings (Experimental)", description:"An experimental ring of icy grains (low mass, low dissipation: muF=0.2/\u03b3N=0.15), replacing the former Saturn sample (originator's tuning, 2026-07-22). The central star's spin drags nearby space (kFrame=1, A8) and, with collisional circularization (T3), keeps the ring stable for a long run. The initial layout was redesigned to match the measured relaxed distribution at t=300\u2013600, and machine-verified to stay intact (zero falls/escapes) to t\u22481200 \u2014 the same recipe as v1.24. Try muF=0 to stop the circularization. Kt=3600 satisfies the GR-calibration lock Kt=c\u00b2/G; the central body is drawn near the real proportion (radiusScale 1.8). See \ud83e\udded for the real-calibrated apsidal precession."},
+  description:"氷の粒(低質量・低散逸 muF=0.2/γN=0.15)の環の実験サンプル(旧「土星の環」を置換 — 原仮定者調整 2026-07-22)。中心星のスピンが空間を引きずり(kFrame=1・A8)、氷粒の衝突円形化(T3)と合わさって長時間安定な環を保つ。初期配置は t=300〜600 の実測安定分布に合わせて再設計し、t≈1200 まで落下・散逸ゼロを機械検証(v1.24 と同じ流儀)。環は空間引きずりで [ゆっくり内側へ漂いながら] 形を保つ — muF=0 にすると円形化が止まる対照も試せる。Kt=3600 は物理対応ロック Kt=c²/G の成立値。中心天体の表示半径は現実の比率に近い(radiusScale 1.8)。現実較正の近点移動は 🛰️ を参照。",
+  en:{name:"Saturn's Rings (Experimental)", description:"An experimental ring of icy grains (low mass, low dissipation: muF=0.2/\u03b3N=0.15), replacing the former Saturn sample (originator's tuning, 2026-07-22). The central star's spin drags nearby space (kFrame=1, A8) and, with collisional circularization (T3), keeps the ring stable for a long run. The initial layout was redesigned to match the measured relaxed distribution at t=300\u2013600, and machine-verified to stay intact (zero falls/escapes) to t\u22481200 \u2014 the same recipe as v1.24. Try muF=0 to stop the circularization. Kt=3600 satisfies the GR-calibration lock Kt=c\u00b2/G; the central body is drawn near the real proportion (radiusScale 1.8). See \ud83d\udef0\ufe0f for the real-calibrated apsidal precession."},
   activeParams:["muF","kFrame","kappaS"],   // QA activeParams.ui が先頭=muF の編集反映を検査するため muF を先頭に
   camera:{scale:340}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:1.2, muF:0.2, gammaN:0.15, kappaS:0.08, Kt:3600,
@@ -1049,6 +1073,71 @@ const BUILTIN_PRESETS = [
      spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
+
+{ id:"saturnLayered", name:"土星の環(主星2層)", emoji:"🎯", group:"天体の物語",
+  // 第14便: seed を 🪐(hashStr("saturn")+7)に固定 — 初期配置が 🪐 と完全一致し、
+  // 「同一初期配置での姉妹比較」になる(id 由来の別シードでは冷スタート過渡の谷が
+  // t≈360 に当たる実現があり、安定 QA の t360 短縮と干渉した — 実測 2026-07-23)
+  seed:1501780989,
+  description:"主星にコア(質量比 mc/m=0.18)を持たせた 🪐 の姉妹版(第14便で比率仕様へ — 元になる数値をそのまま使える様に、m は総質量 1500 のまま)。コア質量比 18% は Cassini 後の重元素集中の推定(≈17地球質量/95地球質量)、コア半径比 Rc/R=42% は希薄コア(半径の約1/2)の推定に対応。sc/s はコアスピン比で、剛体回転(sc/s=1)なら単層と厳密等価 — 差動分だけが ω += (mc/m)·s·(sc/s−1)·f(Rc,d) としてコア核 Rc から追加の空間引きずり(A8)に効く(既定 sc/s=1.05 は教材用に差を強調した仮定値。地震学的推定は ≈1.01)。コアスピンは熱・散逸(T3/E10′)と切り離された固定内部回転源(反作用で変化しない外部拘束)であり、閉じた2層天体ではなく統制実験である点に注意。中心天体をタップして mc/m・sc/s を編集: sc/s=10(高速コア)・sc/s<0(逆回転コア)・mc/m<0(空洞 — 殻に質量集中し差動引きずりの符号が反転する思考実験)・A/B比較で kFrame=1 vs 0 などが見どころ。氷粒の衝突円形化(T3)は 🪐 と同一。",
+  en:{name:"Saturn's Rings (Two-Layer Primary)", description:"Sister sample of 🪐 whose primary has a core specified by ratios (14th shipment): m stays the total mass 1500, the core mass ratio mc/m=0.18 matches post-Cassini estimates of heavy-element concentration (≈17 of 95 Earth masses), and Rc/R=42% matches the dilute core extending to roughly half the radius. sc/s is the core spin ratio: rigid rotation (sc/s=1) is exactly equivalent to the single-layer body, and only the differential part adds frame dragging (A8) through the smaller core kernel: ω += (mc/m)·s·(sc/s−1)·f(Rc,d). The default sc/s=1.05 exaggerates the contrast for teaching (seismology suggests ≈1.01). The core spin is a fixed internal rotation source decoupled from heat and dissipation (T3/E10′) — a controlled experiment, not a closed two-layer body. Tap the central body to edit mc/m and sc/s: try sc/s=10 (fast core), sc/s<0 (counter-rotating core), mc/m<0 (a hollow shell — the differential drag flips sign), or A/B-compare kFrame 1 vs 0. Icy-grain circularization (T3) is identical to 🪐."},
+  activeParams:["kFrame","muF","kappaS"],
+  camera:{scale:340}, world:{boundary:"none",size:0},
+  physics:{G:1, D0:2, kFrame:1, q:2, kRep:1.2, muF:0.2, gammaN:0.15, kappaS:0.08, Kt:3600,
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.8, softening:2, timeScale:3},
+  bodies:[ // 第12〜14便(2026-07-23 原仮定者指示): 主星2層は比率仕様 — m は総質量のまま
+           // (元になる数値をそのまま使える)、coreMR=mc/m(既定0・負値=空洞)・
+           // coreSR=sc/s(既定1=剛体回転=単層等価。コアは推測なので比率が調整し易い)。
+           // 値は第15次レビュー 推奨A: mc/m=0.18(重元素集中≈18%・Rc/R=√0.18=42.4%)・
+           // sc/s=1.05(教材既定。地震学的推定は ≈1.01)。差動形なので環付近への追加引きずりは
+           // (mc/m)·s·(sc/s−1)·f(Rc,d) ≈ +0.1% と説明に整合する規模。
+           // 環の帯・physics は 🪐(実験)と同一 — sc/s=1 で 🪐 と厳密等価(QA core.twolayer)。
+    {type:"single", m:1500, coreMR:0.18, coreSR:1.05, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
+    {type:"ring", n:75, cx:0,cy:0, rIn:104,rOut:132, mMin:0.01,mMax:0.03,
+     spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false},
+    {type:"ring", n:150, cx:0,cy:0, rIn:132,rOut:190, mMin:0.01,mMax:0.03,
+     spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false},
+    {type:"ring", n:75, cx:0,cy:0, rIn:190,rOut:212, mMin:0.01,mMax:0.03,
+     spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false} },
+
+{ id:"earthMoon", name:"地球と月", emoji:"🌍", group:"天体の物語",
+  description:"月が地球のまわりを公転する二体デモ(第15便で公転版・第16便=第17次レビューでコアを現実値へ較正)。質量比は現実どおり m月/m地球=0.0123。月は同期自転 — spin を実測公転角速度 ω=0.013908 に一致させてあり、スポーク(車輪の輻)の同じ面が常に地球を向き続ける(潮汐固定)。コアは観測値: 地球 mc/m=0.325(PREM系の全コア質量比 32.5%)・月 mc/m=0.0168(月レーザー測距の 1.59〜1.77% の中央値)。sc/s=1.0(剛体回転)は中立既定 — 現実の地球内核の差動は ≈1.0000008 と桁違いに小さく、固定比で表せる値ではないため(第17次レビュー)。地球をタップして sc/s を上げると空間引きずり(A8)経由で月軌道への効きが試せる。円軌道速度は E6′ 込みの実測較正 v=1.063×ケプラー値(Plummer軟化込み)— 4周で半径ドリフト0.09%・同期維持を機械検証(QA behavior.earthMoon)。地球の自転(0.05)は E6′ 安定域に収めた較正値 — 現実の比(月の27.4倍)では引きずり風が重力(E4)を超えて軌道が崩れる(実測記録)。現実の自転比で見たい場合は 🌕(自由二体・kFrame=0)を参照。地球は pinned の展示系。Kt=10000 は物理対応ロック Kt=c²/G の成立値。",
+  en:{name:"Earth & Moon", description:"A two-body demo with the Moon orbiting Earth (cores calibrated to observed values after the 17th review). The mass ratio is the real one: mMoon/mEarth=0.0123. The Moon rotates synchronously \u2014 its spin equals the measured orbital angular velocity \u03c9=0.013908, so the same face of its spoke wheel always points at Earth (tidal locking). Cores use observed values: Earth mc/m=0.325 (PREM whole-core mass fraction) and Moon mc/m=0.0168 (lunar-laser-ranging median of 1.59\u20131.77%). sc/s=1.0 (rigid rotation) is the neutral default \u2014 the real inner-core differential is \u22481.0000008, orders of magnitude smaller than any fixed teaching value (17th review). Tap Earth and raise sc/s to probe the frame-dragging (A8) effect on the Moon's orbit. The circular-orbit speed is calibrated with E6\u2032 included: v=1.063\u00d7 Keplerian (Plummer-softened) \u2014 radius drift 0.09% over 4 orbits, sync machine-verified (QA behavior.earthMoon). Earth's spin (0.05) is calibrated into the E6\u2032-stable regime \u2014 at the real ratio (27.4\u00d7 the Moon's) the drag wind exceeds gravity (E4) and the orbit collapses (measured). For the real spin ratio, see \ud83c\udf15 (free two-body, kFrame=0). Earth is pinned (exhibit system). Kt=10000 satisfies the GR-calibration lock Kt=c\u00b2/G."},
+  activeParams:["kFrame","G","D0"],
+  camera:{scale:220}, world:{boundary:"none",size:0},
+  physics:{G:1, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
+    cLight:100, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.5, softening:2, timeScale:5},
+  bodies:[ // 第15便: 公転版(v=1.063×軟化ケプラー値の実測較正・地球 pinned の展示系 —
+           // 自由二体は D0 リザーバ移譲で重心漂流のため。詳細はロードマップ)。
+           // 第16便(第17次レビュー 推奨A): コアを観測値へ — 地球 mc/m=0.325(PREM 32.5%)・
+           // 月 mc/m=0.0168(LLR 1.59〜1.77% の中央値)・sc/s=1.0(中立 — 現実の内核差動
+           // ≈1.0000008 に対し 1.05 は過大)。コア差動項ゼロ化に伴い ω を再実測(0.013931→
+           // 0.013908)し月 spin を追随。検証: t2000(4.4周)で r=179.996〜180.163・NaN なし。
+           // 粒子の並び: 0=地球(2層コア), 1=月(2層コア・同期自転)
+    {type:"single", m:1000, coreMR:0.325, coreSR:1.0, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
+    {type:"single", m:12.3, coreMR:0.0168, coreSR:1.0, x:180,y:0, vx:0,vy:2.5053, spin:0.013908, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+{ id:"earthMoonFree", name:"地球と月(自由二体・物理比)", emoji:"🌕", group:"天体の物語",
+  description:"地球を固定しない重心系の二体問題(第16便=第17次レビュー 推奨B)。kFrame=0 の純ニュートン対照 — E6′ 引きずりを切ると spin は軌道に影響しないため、現実の自転比をそのまま入れられる: 地球 spin=0.3609(月の公転の27.4倍=実比)・月は同期自転 spin=ω=0.013174。質量比 0.0123・コアも観測値(地球 mc/m=0.325・月 mc/m=0.0168)。重心を原点に置き全運動量 0 の閉鎖系(外部拘束なし — 保存則が系内で閉じる)。機械検証: t=5000(10.5周)で半径 179.97〜180.02(0.03%)・重心移動 0.001 未満・同期誤差 0.31°/周(QA behavior.earthMoonFree)。A/B比較で kFrame=1 にすると引きずり(A8)の風が強すぎて軌道が崩れる — 🌍(展示版)が自転を安定域へ圧縮している理由が、その対比で見える。重力(E4)は Plummer 軟化込みの円軌道速度で初期化。",
+  en:{name:"Earth & Moon (Free Two-Body)", description:"A barycentric two-body problem with nothing pinned (17th review, proposal B). With kFrame=0 (pure Newtonian control) spin does not affect orbits, so the REAL spin ratio can be used directly: Earth spin=0.3609 (27.4\u00d7 the Moon's orbital rate \u2014 the actual ratio) and the Moon rotates synchronously at spin=\u03c9=0.013174. Mass ratio 0.0123; cores at observed values (Earth mc/m=0.325, Moon mc/m=0.0168). Initialized at the barycenter with zero total momentum \u2014 a closed system with no external constraint. Machine-verified: over t=5000 (10.5 orbits) the separation stays 179.97\u2013180.02 (0.03%), the center of mass moves less than 0.001, and the sync error is 0.31\u00b0/orbit (QA behavior.earthMoonFree). A/B-compare with kFrame=1: the drag wind (A8) destabilizes the orbit \u2014 which is exactly why \ud83c\udf0d (the exhibit version) compresses Earth's spin into the stable regime. Gravity (E4) uses the Plummer-softened circular speed."},
+  activeParams:["G","kFrame","D0"],
+  camera:{scale:220}, world:{boundary:"none",size:0},
+  physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
+    cLight:100, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.5, softening:2, timeScale:5},
+  bodies:[ // 第16便(第17次レビュー 推奨B — ChatGPT §7 の導出値を実エンジンで追認):
+           // 重心座標 xE=−D·mM/MT・xM=+D·mE/MT(D=180)、全運動量0の速度配分、
+           // vRel=√[G·MT·D²/(D²+ε²)^1.5]=2.371254(kFrame=0 なので f 補正不要)。
+           // 実測: t5000(10.48周)r=179.974〜180.020・重心移動最大0.0009・同期誤差0.31°/周。
+           // 自転は実比: 地球=27.39646523×ω=0.360911・月=ω=0.013174(同期)。
+           // 粒子の並び: 0=地球, 1=月
+    {type:"single", m:1000, coreMR:0.325, coreSR:1.0, x:-2.187105191,y:0, vx:0,vy:-0.028812128, spin:0.360911060, pinned:false},
+    {type:"single", m:12.300037, coreMR:0.0168, coreSR:1.0, x:177.812894809,y:0, vx:0,vy:2.342442349, spin:0.013173636, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"binary", name:"連星系と周連星円盤", emoji:"⭐", group:"天体の物語",
   description:"等質量の2恒星が共通重心を回り、その外側を軽い天体群が公転する。単独星とは異なる時間変動する重力場(E4)が外側の軌道を乱し、恒星の運動は空間を引きずって円盤へ伝わる(A5)。kFrame=0.5→0、D0=10→100の比較(A/B比較モード)がおすすめ。",
@@ -1203,7 +1292,29 @@ function validatePreset(obj){
       if(t==="single"){
         if(!needNum(["m","x","y","vx","vy","spin"])) return;
         if(typeof b.pinned!=="boolean"){ bad(at+".pinned(boolean)が必要"); return; }
-        out.push({type:"single", m:MASS(b.m,"m"), x:CO(b.x,"x"), y:CO(b.y,"y"), vx:VEL(b.vx,"vx"), vy:VEL(b.vy,"vy"), spin:SPN(b.spin,"spin"), pinned:b.pinned});
+        const o={type:"single", m:MASS(b.m,"m"), x:CO(b.x,"x"), y:CO(b.y,"y"), vx:VEL(b.vx,"vx"), vy:VEL(b.vy,"vy"), spin:SPN(b.spin,"spin"), pinned:b.pinned};
+        // 第14便: 主星2層(比率仕様)— coreMR=コア質量比 mc/m(既定0・負値=空洞〔殻集中〕)・
+        // coreSR=コアスピン比 sc/s(既定1=剛体回転=単層等価)
+        if(b.coreMR!==undefined || b.coreSR!==undefined){
+          if(b.coreMR!==undefined && !isNum(b.coreMR)){ bad(at+".coreMR が数値ではありません"); return; }
+          if(b.coreSR!==undefined && !isNum(b.coreSR)){ bad(at+".coreSR が数値ではありません"); return; }
+          o.coreMR=isNum(b.coreMR)? wc(b.coreMR,-1,1,"coreMR") : 0;
+          o.coreSR=isNum(b.coreSR)? wc(b.coreSR,-20,20,"coreSR") : 1;
+        }
+        // E13(第11次裁定 保留分の実施): AI生成・インポートへ zonal を開放。
+        // 偶数次 J2〜J12 のみ受理し、|J|≤0.1・refR 1〜5000・calib 0〜2 にクランプする
+        if(b.zonal!==undefined){
+          const z=b.zonal;
+          if(!z||typeof z!=="object"||Array.isArray(z)||!isNum(z.refR)||!z.J||typeof z.J!=="object"||Array.isArray(z.J)){ bad(at+".zonal が不正(refR:数値・J:オブジェクト が必要)"); return; }
+          const J={};
+          for(const k of Object.keys(z.J)){
+            if(["2","4","6","8","10","12"].indexOf(String(k))<0){ warnings.push(at+".zonal.J の未対応次数 "+k+" を無視(偶数2〜12のみ)"); continue; }
+            if(!isNum(z.J[k])){ bad(at+".zonal.J["+k+"] が数値ではありません"); return; }
+            J[k]=wc(z.J[k],-0.1,0.1,"zonal.J["+k+"]");
+          }
+          o.zonal={refR:wc(z.refR,1,5000,"zonal.refR"), calib:isNum(z.calib)?wc(z.calib,0,2,"zonal.calib"):1, J};
+        }
+        out.push(o);
       } else if(t==="ring"){
         if(!needNum(["n","cx","cy","rIn","rOut","mMin","mMax","spinMin","spinMax","aroundMass","omega","vNoise"])) return;
         if(["kepler","omega","none"].indexOf(b.vMode)<0){ bad(at+".vMode が不正"); return; }
@@ -1266,6 +1377,12 @@ function makeSim(){
     n:0, t:0, params:Object.assign({},DEFAULT_PHYSICS),
     world:{boundary:"none",size:0}, rays:null, overlays:{},
     m:null,x:null,y:null,vx:null,vy:null,spin:null,R:null, rotA:null,
+    // 第12〜14便(2026-07-23): 主星2層 — 第14便で比率仕様へ(原仮定者指示: 元になる数値を
+    // そのまま使える様に・コアは推測なので比率が調整し易い)。m は総質量のまま、
+    // coreMR=コア質量比 mc/m(既定0。負値=空洞〔殻に質量集中〕)/ coreSR=コアスピン比 sc/s
+    // (既定1=剛体回転=単層と厳密等価)。Rc=radiusScale·√(|coreMR|·|m|)。mEff は m の
+    // 下限保護(|m|≥0.01)付き別名(負質量実験の0除算保護)
+    coreMR:null, coreSR:null, mEff:null, Rc:null, rotAc:null, hasCore:false,
     pinned:null, railR:null, railAng:null, railOmega:null, railCx:null, railCy:null,
     uPx:null,uPy:null,hasU:null, tau:null, ax:null,ay:null, sumW:null,uAx:null,uAy:null, ds:null,
     dpx:null,dpy:null, pairD:null,
@@ -1276,6 +1393,8 @@ function makeSim(){
     S.n=n;
     const F=()=>new Float32Array(n);
     S.m=F();S.x=F();S.y=F();S.vx=F();S.vy=F();S.spin=F();S.R=F();S.rotA=F();
+    S.coreMR=F();S.coreSR=F();S.mEff=F();S.Rc=F();S.rotAc=F();   // 主星2層(第12〜14便)
+    S.coreSR.fill(1);   // コアスピン比の既定は 1(剛体回転=単層等価)
     S.uPx=F();S.uPy=F();S.tau=F();S.ax=F();S.ay=F();S.sumW=F();S.uAx=F();S.uAy=F();S.ds=F();
     S.dpx=F();S.dpy=F();
     S.pairD=new Float32Array(Math.max(1,n*(n-1)/2)); // 対距離キャッシュ(E6′反作用パスで再利用)
@@ -1297,7 +1416,9 @@ function makeSim(){
       if(dx*dx+dy*dy<(b.R+1)*(b.R+1)) return true; } return false; };
     for(const b of preset.bodies){
       if(b.type==="single"){
-        const o={m:b.m,x:b.x,y:b.y,vx:b.vx,vy:b.vy,spin:b.spin,pinned:b.pinned?1:0,railOmega:0};
+        const o={m:b.m,x:b.x,y:b.y,vx:b.vx,vy:b.vy,spin:b.spin,pinned:b.pinned?1:0,railOmega:0,
+          // 主星2層(第14便: 比率仕様)。coreMR=mc/m(既定0)・coreSR=sc/s(既定1)
+          coreMR:b.coreMR||0, coreSR:(b.coreSR===undefined?1:b.coreSR)};
         if(b.zonal) o.zonal=b.zonal;   // E13(第11次裁定): 扁平中心天体の帯状重力属性
         push(o); noteBig(o);
       } else if(b.type==="ring"){
@@ -1351,9 +1472,11 @@ function makeSim(){
       }
     }
     S.alloc(P.length);
-    S.zonal=null;   // E13(第11次裁定): 帯状重力属性を持つ中心天体(builtin プリセット専用)
+    S.zonal=null;   // E13(第11次裁定): 帯状重力属性を持つ中心天体(v1.29: AI生成・インポートにも開放)
+    S.periDet=null; // 近点検出器は再構築でリセット(第11次裁定 保留分)
     P.forEach((o,i)=>{ S.m[i]=o.m; S.x[i]=o.x; S.y[i]=o.y; S.vx[i]=o.vx; S.vy[i]=o.vy;
       S.spin[i]=o.spin; S.pinned[i]=o.pinned; S.railOmega[i]=o.railOmega||0;
+      S.coreMR[i]=o.coreMR||0; S.coreSR[i]=(o.coreSR===undefined?1:o.coreSR);
       if(o.railOmega){ S.railR[i]=o.railR; S.railAng[i]=o.railAng; S.railCx[i]=o.railCx; S.railCy[i]=o.railCy; }
       if(o.zonal) S.zonal={i, refR:o.zonal.refR, J:o.zonal.J, calib:(o.zonal.calib||1), _A:null};
     });
@@ -1363,15 +1486,28 @@ function makeSim(){
     S.resPx=0; S.resPy=0; S.resL=0; S.radE=0; S.radL=0;
     S.curveBins=null; S.tempLR=[0,0]; S.histT=[];
   };
-  S.updateRadii = function(){ // R_i = radiusScale·√m (PHYSICS.md §2)
+  S.updateRadii = function(){ // R_i = radiusScale·√|m| (PHYSICS.md §2)
     const rs=S.params.radiusScale;
-    for(let i=0;i<S.n;i++) S.R[i]=rs*Math.sqrt(S.m[i]);
+    let hc=false;
+    for(let i=0;i<S.n;i++){
+      const mt=S.m[i];   // 第14便: 比率仕様 — m は総質量そのもの(コアは m の内訳)
+      // 質量の下限 ±0.01(慣性の除算保護。負質量は実験用に符号を保持 — 第12便)
+      S.mEff[i]=(Math.abs(mt)<0.01)? (mt<0? -0.01 : 0.01) : mt;
+      S.R[i]=rs*Math.sqrt(Math.abs(S.mEff[i]));
+      S.Rc[i]=rs*Math.sqrt(Math.abs(S.coreMR[i]*S.mEff[i]));   // コア核半径(|mc|=|coreMR·m|)
+      if(S.coreMR[i]!==0) hc=true;
+    }
+    S.hasCore=hc;   // コアなし(全 coreMR=0)の宇宙は従来ループのまま(高速化)
   };
   // 1サブステップ(PHYSICS.md v1.1 §5 数値スキーム: ①全対 → ②粒子 → ③反作用対 → ④位置)
   S.step = function(dt){
     const n=S.n, p=S.params;
     if(!n){ S.t+=dt; return; }
-    const {m,x,y,vx,vy,spin,R,pinned,ax,ay,sumW,uAx,uAy,ds,dpx,dpy,pairD}=S;
+    // 第12〜14便: m は下限保護(|m|≥0.01)付き別名 mEff を一貫使用(負質量実験の0除算保護。
+    // 第14便: 比率仕様 — m は総質量そのもので、コアは m の内訳。運動量・角運動量の恒等式は
+    // 全用途一貫なら保存される。coreMR=0(既定)なら従来と厳密等価)
+    const {mEff:m,x,y,vx,vy,spin,R,pinned,ax,ay,sumW,uAx,uAy,ds,dpx,dpy,pairD,coreMR,coreSR,Rc}=S;
+    const hasCore=S.hasCore;
     const eps=p.softening, eps2=eps*eps, G=p.G, q=p.q, kRep=p.kRep,
           muF=p.muF, gammaN=p.gammaN, kappaS=p.kappaS, D0=p.D0, kFrame=p.kFrame,
           etaRad=p.etaRad, pRad=p.pRad,
@@ -1379,7 +1515,7 @@ function makeSim(){
           // v1.20(E12): 測地線1PNモード(BOX_UNIVERSE §5・DERIVATIONS §15。第1段階: 静的大質量源・u=0)
           geo=(p.geoPN||0)>0, pnA=(p.pnAlpha!==undefined? p.pnAlpha : 1.5),
           invC2=geo? (p.lambdaPN!==undefined? p.lambdaPN : 1)/(p.cLight*p.cLight) : 0;
-    if(Math.abs(R[0]-p.radiusScale*Math.sqrt(m[0]))>1e-6) S.updateRadii(); // radiusScale変更の追従
+    if(Math.abs(R[0]-p.radiusScale*Math.sqrt(Math.abs(m[0])))>1e-6) S.updateRadii(); // radiusScale変更の追従
     ax.fill(0); ay.fill(0); sumW.fill(0); uAx.fill(0); uAy.fill(0); ds.fill(0);
     dpx.fill(0); dpy.fill(0);
     // レール粒子(pinned+omega)の位置・速度を先に更新
@@ -1433,10 +1569,24 @@ function makeSim(){
         let omj=0, omi=0;
         if(sj!==0){ const tt=Rj/(Rj+d); omj = (q===2)? sj*tt*tt : sj*Math.pow(tt,q); }
         if(si!==0){ const tt=Ri/(Ri+d); omi = (q===2)? si*tt*tt : si*Math.pow(tt,q); }
+        if(hasCore){ // 主星2層(第13便=差動形/第14便=比率仕様):
+                     // coreMR=コア質量比 mc/m(負値=空洞〔殻集中〕)・coreSR=コアスピン比 sc/s。
+                     // 剛体回転(coreSR=1)は単層と厳密等価で、差動分だけがコア核 Rc から効く:
+                     //   ω_frame = s·f(R,d) + coreMR·s·(coreSR−1)·f(Rc,d)
+                     // (= 第13便の (coreM/mEff)·(sc−s)·f(Rc,d) の比率表記。空洞 coreMR<0 は
+                     //  差動引きずりの符号が反転する)。coreMR=0 は寄与なし。
+                     // hasCore=false の宇宙はこの分岐ごと素通り(高速化)
+          const cmr=coreMR[j];
+          if(cmr!==0 && sj!==0 && Rc[j]>0){ const chi=coreSR[j];
+            if(chi!==1){ const tt=Rc[j]/(Rc[j]+d); omj += cmr*sj*(chi-1)*((q===2)? tt*tt : Math.pow(tt,q)); } }
+          const cmri=coreMR[i];
+          if(cmri!==0 && si!==0 && Rc[i]>0){ const chi=coreSR[i];
+            if(chi!==1){ const tt=Rc[i]/(Rc[i]+d); omi += cmri*si*(chi-1)*((q===2)? tt*tt : Math.pow(tt,q)); } }
+        }
         uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));
         uAx[j]+=wi*(vx[i]+omi*(dy));  uAy[j]+=wi*(vy[i]+omi*(-dx));
         // E5′ スピン斥力(対称化・中心力): F = kRep·μ·(ω_i²+ω_j²)·(r_i−r_j)
-        if(kRep>0 && (omi!==0||omj!==0)){
+        if(kRep>0 && (omi!==0||omj!==0) && Math.abs(mi+mj)>1e-9){   // 第12便: 負質量実験時の0除算保護
           const f=kRep*(mi*mj/(mi+mj))*(omi*omi+omj*omj);
           ax[i]+=f/mi*dx; ay[i]+=f/mi*dy;
           ax[j]-=f/mj*dx; ay[j]-=f/mj*dy;
@@ -1450,7 +1600,8 @@ function makeSim(){
           // 法線ばね(換算質量スケール+「軽い側の加速度≤8」の対称な力上限。
           // 上限を両側独立に掛けると作用反作用が破れ、めり込んだ粒子が
           // 重い天体を押し続ける「ロケット」になるため、必ず力で対称にキャップする)
-          const muM=mi*mj/(mi+mj);
+          const msum=mi+mj;
+          const muM=(Math.abs(msum)>1e-9)? mi*mj/msum : 0;   // 第12便: 負質量実験時の0除算保護
           let Fs=40*(sumR-d)*muM;
           const maxInv=Math.max(invMi,invMj);
           if(maxInv>0 && Fs*maxInv>8) Fs=8/maxInv;
@@ -1488,10 +1639,12 @@ function makeSim(){
         if(kappaS>0){
           const g=(sumR/(sumR+d)); const gg=g*g;
           if(gg>1e-4){
-            const Ii=0.5*mi*Ri*Ri, Ij=0.5*mj*Rj*Rj;
-            const c=kappaS*(sj-si)*gg/(Ii+Ij);
-            ds[i]+=c*Ij;
-            ds[j]-=c*Ii;
+            const Ii=0.5*mi*Ri*Ri, Ij=0.5*mj*Rj*Rj, IJ=Ii+Ij;
+            if(Math.abs(IJ)>1e-9){   // 第12便: 負質量実験時の0除算保護
+              const c=kappaS*(sj-si)*gg/IJ;
+              ds[i]+=c*Ij;
+              ds[j]-=c*Ii;
+            }
           }
         }
       }
@@ -1554,7 +1707,7 @@ function makeSim(){
         S.radE+=0.5*IiD*(s0D*s0D-spin[i]*spin[i]);
       }
       // E11 放射冷却(A12): Λ = η_rad·T^p、T = I·s²。|Δs| ≤ 0.5|s| にクランプ
-      if(etaRad>0 && spin[i]!==0){
+      if(etaRad>0 && spin[i]!==0 && m[i]>0){   // 第12便: 負質量(負の慣性)は放射冷却の対象外
         const Ii=0.5*m[i]*R[i]*R[i], s0=spin[i], T=Ii*s0*s0;
         let dsC=etaRad*Math.pow(T,pRad)*dt/(Ii*Math.abs(s0));
         const lim=0.5*Math.abs(s0); if(dsC>lim) dsC=lim;
@@ -1585,8 +1738,11 @@ function makeSim(){
             if(pinned[j]){ S.resPx-=rpx; S.resPy-=rpy; S.resL-=xi*rpy-yi*rpx; }
             else{
               vx[j]-=rpx/m[j]; vy[j]-=rpy/m[j];
-              const dsn=(dx*rpy-dy*rpx)/(Ii+Ij);  // 残余トルク n_ij を等角加速度で移譲
-              spin[i]-=dsn; spin[j]-=dsn;
+              const IJ=Ii+Ij;
+              if(Math.abs(IJ)>1e-9){                // 第12便: 負質量実験時の0除算保護
+                const dsn=(dx*rpy-dy*rpx)/IJ;       // 残余トルク n_ij を等角加速度で移譲
+                spin[i]-=dsn; spin[j]-=dsn;
+              }
             }
           }
           if(hasJ){ // j が受けた Δp_j の反作用をソース i へ(φ_ji = w_i(r_j)/W(r_j))
@@ -1595,8 +1751,11 @@ function makeSim(){
             if(pinned[i]){ S.resPx-=rpx; S.resPy-=rpy; S.resL-=x[j]*rpy-y[j]*rpx; }
             else{
               vx[i]-=rpx/mi; vy[i]-=rpy/mi;
-              const dsn=((x[j]-xi)*rpy-(y[j]-yi)*rpx)/(Ii+Ij);
-              spin[j]-=dsn; spin[i]-=dsn;
+              const IJ=Ii+Ij;
+              if(Math.abs(IJ)>1e-9){                // 第12便: 負質量実験時の0除算保護
+                const dsn=((x[j]-xi)*rpy-(y[j]-yi)*rpx)/IJ;
+                spin[j]-=dsn; spin[i]-=dsn;
+              }
             }
           }
         }
@@ -1616,6 +1775,7 @@ function makeSim(){
     const b=S.world;
     for(let i=0;i<n;i++){
       S.rotA[i]+=spin[i]*dt;   // v1.17: 表示用の累積回転角(大粒子のスポーク描画で回転方向を可視化)
+      if(hasCore && coreMR[i]!==0) S.rotAc[i]+=coreSR[i]*spin[i]*dt;   // コアのスポーク角(sc=coreSR·s)
       if(pinned[i]){ S.tauUpdate(i,dt); continue; }
       // 安全上限(発散防止): 速度100・スピン±40
       const vv2=vx[i]*vx[i]+vy[i]*vy[i];
@@ -1635,6 +1795,37 @@ function makeSim(){
           x[i]=nx2*s; y[i]=ny2*s; }
       }
       S.tauUpdate(i,dt);
+    }
+    // ===== 近点検出器(第11次裁定 保留分の実施): E13 中心天体のあるプリセットで、各周回粒子の
+    // 動径極小(近点)通過角を追跡し Δϖ/周 を実測する。UI が解析値と並べて表示(QA も機械検証)。
+    // 数値ジッタの擬似極小を拾わないよう 2% ヒステリシス方式: 最小値候補から r が 2% 立ち上がって
+    // 初めて近点確定 → 最大値から 2% 下がって再アーム。e が小さすぎる軌道(振幅<2%)では発火しない。
+    // 最初の2確定は基準登録のみ(開始アプシスは定常の動径振動と位相がずれており、初回区間は
+    // 汚染される — 実測較正 2026-07-22: 初回 dd=−13.7° に対し以降 +9.4°/+8.4° と定常)。
+    if(S.zonal && n<=64){
+      let P=S.periDet;
+      if(!P||P.n!==n) P=S.periDet={n, mode:new Int8Array(n), candR:new Float64Array(n).fill(1e18),
+        candTh:new Float64Array(n), refR:new Float64Array(n), lastTh:new Float64Array(n), warm:new Int8Array(n),
+        sum:new Float64Array(n), cnt:new Int32Array(n), rmin:new Float64Array(n).fill(1e18), rmax:new Float64Array(n)};
+      const zi=S.zonal.i, xz=x[zi], yz=y[zi], H=0.02;
+      for(let i=0;i<n;i++){
+        if(i===zi||pinned[i]) continue;
+        const rP=Math.hypot(x[i]-xz,y[i]-yz), thP=Math.atan2(y[i]-yz,x[i]-xz);
+        if(P.mode[i]===0){                       // 近点探索: 最小値候補を更新し、2% 立ち上がりで確定
+          if(rP<P.candR[i]){ P.candR[i]=rP; P.candTh[i]=thP; }
+          else if(rP>P.candR[i]*(1+H)){
+            if(P.warm[i]<2) P.warm[i]++;
+            else { let dd=P.candTh[i]-P.lastTh[i];
+              while(dd>Math.PI)dd-=2*Math.PI; while(dd<-Math.PI)dd+=2*Math.PI;
+              P.sum[i]+=dd; P.cnt[i]++; }
+            P.lastTh[i]=P.candTh[i]; P.mode[i]=1; P.refR[i]=rP;
+          }
+        } else {                                 // 再アーム: 最大値追跡 → 2% 下降で次の近点探索へ
+          if(rP>P.refR[i]) P.refR[i]=rP;
+          else if(rP<P.refR[i]*(1-H)){ P.mode[i]=0; P.candR[i]=rP; P.candTh[i]=thP; }
+        }
+        if(P.warm[i]){ if(rP<P.rmin[i])P.rmin[i]=rP; if(rP>P.rmax[i])P.rmax[i]=rP; }
+      }
     }
     S.t+=dt;
   };
@@ -1680,6 +1871,9 @@ function makeSim(){
 // ===== アプリ状態 =====
 const sim = makeSim();
 let running=false, currentPreset=null, basePhysics=null, selIdx=-1;
+// 第12便: A/B比較中も粒子編集を可能に — 選択粒子がどちらの宇宙かを保持(A=上/B=下)
+let selWorld="A";
+function selSimRef(){ return (ab && selWorld==="B")? ab.simB : sim; }
 let camX=0, camY=0, camScale=300, tempP90EMA=0.5, monitorOn=false;
 // v1.17: UI文字サイズ(1=標準/1.15=大/1.3=特大)。HTML側はCSS変数--uz、キャンバス側の
 // 文字・グラフは uiFontScale で追従し、拡大時はグラフ自体を拡大+下端余白を広げて
@@ -1688,7 +1882,30 @@ let uiFontScale=parseFloat(localStorage.getItem("hp_uiscale")||"1")||1;
 function applyUiScale(){ document.documentElement.style.setProperty("--uz", String(uiFontScale)); if(typeof requestRender==="function") requestRender(); }
 let paramsDirty=false;  // v1.17: 「保存」していない編集の有無(バックアップ対象外の注意喚起)
 // P2(beta): 未保存フラグ強調 — 保存ボタン横バッジを paramsDirty に常時同期(v1.17 の notify は補助に降格)
-function setParamsDirty(v){ paramsDirty=v; const b=document.getElementById("dirtyBadge"); if(b) b.style.display=v?"inline-block":"none"; }
+function setParamsDirty(v){ paramsDirty=v; const b=document.getElementById("dirtyBadge"); if(b) b.style.display=v?"inline-block":"none"; saveDraft(v); }
+// 第13次裁定 P1-2 後半(保留分の実施): 未保存編集を sessionStorage に自動ドラフト保存し、
+// 誤リロードで編集が消えるのを防ぐ(タブ単位 — タブを閉じると消える。ルート/β間も干渉しない)。
+// beforeunload は iOS Safari で発火が保証されないため、編集のたびに即時保存する方式を採る。
+function saveDraft(dirty){
+  try{
+    if(!dirty){ sessionStorage.removeItem("hp_draft"); return; }
+    if(typeof sim==="undefined"||!sim||!sim.params) return;
+    sessionStorage.setItem("hp_draft", JSON.stringify({
+      presetId: currentPreset?currentPreset.id:null,
+      physics: sim.params, cameraScale: camScale, at: new Date().toISOString()}));
+  }catch(_){/* プライベートモード等の保存失敗でも本体動作は不変 */}
+}
+function restoreDraft(){
+  let d=null;
+  try{ d=JSON.parse(sessionStorage.getItem("hp_draft")||"null"); }catch(_){}
+  if(!d||!d.physics) return;
+  try{ sessionStorage.removeItem("hp_draft"); }catch(_){}
+  if(!confirm(T("draftRestore"))) return;
+  if(d.presetId && allPresets().some(p=>p.id===d.presetId)) loadPreset(d.presetId,false);
+  sim.params=Object.assign({},DEFAULT_PHYSICS,d.physics); sim.updateRadii();
+  if(d.cameraScale) camScale=d.cameraScale;
+  setParamsDirty(true); buildParamRows();
+}
 let tSort=null; // 温度正規化用スクラッチ(90パーセンタイル計算)
 let stepAcc=0, fpsEMA=60, lastFrame=performance.now(), frameCount=0;
 // v1.27: ステップ会計の純関数(P0-1 修正の本体。QA `time.step-accounting` が直接検証)
@@ -2087,7 +2304,7 @@ function render(){
     if(sx<-40||sx>cw+40||sy<-40||sy>ch+40) continue;
     const T=0.5*sim.m[i]*sim.R[i]*sim.R[i]*sim.spin[i]*sim.spin[i];
     const rr=Math.max(1.2,Math.min(sim.R[i]*z,30));
-    const col=tempColor(Math.min(1,Math.sqrt(T/Math.max(1e-4,tempP90EMA))));
+    const col=tempColor(Math.min(1,Math.sqrt(Math.max(0,T)/Math.max(1e-4,tempP90EMA))));   // 第12便: 負質量はT=0色
     if(rr>=7){ // 大きな天体はグロー付きで描く
       const g=ctx.createRadialGradient(sx,sy,rr*0.4,sx,sy,rr*2.4);
       g.addColorStop(0,col); g.addColorStop(1,"rgba(0,0,0,0)");
@@ -2104,6 +2321,21 @@ function render(){
         ctx.beginPath(); ctx.moveTo(sx+Math.cos(a)*rr*0.3, sy+Math.sin(a)*rr*0.3);
         ctx.lineTo(sx+Math.cos(a)*rr*0.92, sy+Math.sin(a)*rr*0.92); ctx.stroke(); }
       ctx.lineWidth=1;
+    }
+    // 第12〜14便: 主星2層 — コア(coreMR≠0)を内側の暗い円+白スポークで可視化(差動回転が見える)。
+    // 空洞(coreMR<0)はさらに暗い「穴」として描く
+    if(sim.coreMR[i]!==0 && rr>=7){
+      const rc=Math.max(3,Math.min(sim.Rc[i]*z,rr*0.92));
+      ctx.fillStyle=(sim.coreMR[i]<0)? "rgba(3,4,10,0.85)" : "rgba(10,12,24,0.55)";
+      ctx.beginPath(); ctx.arc(sx,sy,rc,0,7); ctx.fill();
+      if(Math.abs(sim.coreSR[i]*sim.spin[i])>1e-4){
+        const a0=sim.rotAc[i];
+        ctx.strokeStyle="rgba(255,255,255,0.5)"; ctx.lineWidth=Math.max(1,rc*0.12);
+        for(let k3=0;k3<3;k3++){ const a=a0+k3*2.0944;
+          ctx.beginPath(); ctx.moveTo(sx+Math.cos(a)*rc*0.25, sy+Math.sin(a)*rc*0.25);
+          ctx.lineTo(sx+Math.cos(a)*rc*0.88, sy+Math.sin(a)*rc*0.88); ctx.stroke(); }
+        ctx.lineWidth=1;
+      }
     }
     if(sim.pinned[i]){ ctx.strokeStyle="rgba(255,255,255,0.75)"; ctx.beginPath(); ctx.arc(sx,sy,rr+2,0,7); ctx.stroke(); }
   }
@@ -2128,13 +2360,26 @@ function render(){
     const Ti=0.5*sim.m[i]*sim.R[i]*sim.R[i]*sim.spin[i]*sim.spin[i];
     const lam=(Ti>1e-12)? fmt(sim.params.bM/Ti) : "—";
     ctx.font=(10*uiFontScale)+"px sans-serif"; ctx.fillStyle="#dfe4ff"; // v1.17: 文字サイズ追従
-    ctx.fillText(`m=${fmt(sim.m[i])} s=${fmt(sim.spin[i])} T=${fmt(Ti)} λ=${lam} ${T("hudClock")}=${(frac*100).toFixed(1)}%`,8,ch-10);
+    const coreTxt=(sim.coreMR[i]!==0)? ` mc/m=${fmt(sim.coreMR[i])} sc/s=${fmt(sim.coreSR[i])}` : "";  // 第14便: 比率表示
+    ctx.fillText(`m=${fmt(sim.m[i])}${coreTxt} s=${fmt(sim.spin[i])} T=${fmt(Ti)} λ=${lam} ${T("hudClock")}=${(frac*100).toFixed(1)}%`,8,ch-10);
   }
   // v1.21: スロット配置 — 複数グラフは右下から縦に積み、互いを隠さない(🌠merger)
   const slots=overlaySlots();
   if(sim.overlays.rotationCurve) drawRotationCurve(slots.indexOf("rotationCurve"));
   if(sim.overlays.tempHistogram) drawTempHistogram(slots.indexOf("tempHistogram"));
   if(sim.overlays.spectrum) drawSpectrum(slots.indexOf("spectrum"));
+  // 近点検出器の UI 表示(第11次裁定 保留分): 最内粒子の実測 Δϖ/周 と E13 解析値を左上に併記
+  if(sim.zonal && sim.periDet){
+    const P=sim.periDet; let bi=-1, ba=1e18;
+    for(let i=0;i<sim.n;i++) if(P.cnt[i]>0){ const ae=(P.rmin[i]+P.rmax[i])/2; if(ae<ba){ba=ae;bi=i;} }
+    if(bi>=0){
+      const mdeg=(P.sum[bi]/P.cnt[bi])*180/Math.PI;
+      const Z=sim.zonal, th=zonalApsidal(sim.params.G*sim.m[Z.i], Z.refR, Z.J, ba, 1);
+      const adeg=(Z.calib||1)*2*Math.PI*(th.omega/th.kappa-1)*180/Math.PI;
+      ctx.font=(10*uiFontScale)+"px sans-serif"; ctx.fillStyle="#8b93c8";
+      ctx.fillText(T("periHud")(mdeg.toFixed(2), adeg.toFixed(2)), 8, 20);
+    }
+  }
 }
 
 // ===== A/B分割描画(v1.13): 粒子・境界・光線・線の軌跡・ラベルの比較ビュー(オーバーレイ類は非表示)=====
@@ -2183,7 +2428,7 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
     if(px<-40||px>cw+40||py<y0-40||py>y0+hgt+40) continue;
     const Ti=0.5*S.m[i]*S.R[i]*S.R[i]*S.spin[i]*S.spin[i];
     const rr=Math.max(1.2,Math.min(S.R[i]*z,30));
-    ctx.fillStyle=tempColor(Math.min(1,Math.sqrt(Ti/p90)));
+    ctx.fillStyle=tempColor(Math.min(1,Math.sqrt(Math.max(0,Ti)/p90)));   // 第12便: 負質量はT=0色
     ctx.beginPath(); ctx.arc(px,py,rr,0,7); ctx.fill();
     if(rr>=7 && Math.abs(S.spin[i])>1e-4){ // v1.17: 回転方向スポーク(A/B側も同様)
       const a0=S.rotA[i];
@@ -2193,7 +2438,24 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
         ctx.lineTo(px+Math.cos(a)*rr*0.92, py+Math.sin(a)*rr*0.92); ctx.stroke(); }
       ctx.lineWidth=1;
     }
+    if(S.coreMR[i]!==0 && rr>=7){   // 主星2層のコア(A/B側も同様。空洞=より暗い穴)
+      const rc=Math.max(3,Math.min(S.Rc[i]*z,rr*0.92));
+      ctx.fillStyle=(S.coreMR[i]<0)? "rgba(3,4,10,0.85)" : "rgba(10,12,24,0.55)";
+      ctx.beginPath(); ctx.arc(px,py,rc,0,7); ctx.fill();
+      if(Math.abs(S.coreSR[i]*S.spin[i])>1e-4){
+        const a0=S.rotAc[i];
+        ctx.strokeStyle="rgba(255,255,255,0.5)"; ctx.lineWidth=Math.max(1,rc*0.12);
+        for(let k3=0;k3<3;k3++){ const a=a0+k3*2.0944;
+          ctx.beginPath(); ctx.moveTo(px+Math.cos(a)*rc*0.25, py+Math.sin(a)*rc*0.25);
+          ctx.lineTo(px+Math.cos(a)*rc*0.88, py+Math.sin(a)*rc*0.88); ctx.stroke(); }
+        ctx.lineWidth=1;
+      }
+    }
     if(S.pinned[i]){ ctx.strokeStyle="rgba(255,255,255,0.75)"; ctx.beginPath(); ctx.arc(px,py,rr+2,0,7); ctx.stroke(); }
+    if(selIdx===i && S===selSimRef()){   // 第12便: A/B比較中の選択リング(選択された宇宙側にのみ描く)
+      ctx.strokeStyle="#59d499"; ctx.lineWidth=1.5;
+      ctx.beginPath(); ctx.arc(px,py,Math.max(6,S.R[i]*z+5),0,7); ctx.stroke(); ctx.lineWidth=1;
+    }
   }
   // v1.19: 線の軌跡(A/B比較でも表示)
   if(S.overlays.trail && tbuf){
@@ -2388,7 +2650,9 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   const simB=makeSim(); simB.build(JSON.parse(JSON.stringify(currentPreset)));
   if(simB.n===sim.n){
     for(const k of ["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy",
+      "coreMR","coreSR","mEff","Rc","rotAc",   // 主星2層の状態も転写(第14便: 比率仕様)
       "railR","railAng","railOmega","railCx","railCy"]) simB[k].set(sim[k]);
+    simB.hasCore=sim.hasCore;
     simB.pinned.set(sim.pinned); simB.hasU.set(sim.hasU);
   }
   simB.t=sim.t; simB.resPx=sim.resPx; simB.resPy=sim.resPy; simB.resL=sim.resL;
@@ -2408,9 +2672,9 @@ function abStart(key, valB){
     ab.simB.params[key]=clamp(valB,c[0],c[1]); ab.simB.updateRadii();
     ab.lastKey=key;
   }
-  selIdx=-1; abTarget="A"; updateAbBtn(); updateAbTargetUI(); buildParamRows(); updateBodyEdit(); requestRender();
+  selIdx=-1; selWorld="A"; abTarget="A"; updateAbBtn(); updateAbTargetUI(); buildParamRows(); updateBodyEdit(); requestRender();
 }
-function abStop(){ ab=null; abTarget="A"; trailBufB=[]; updateAbBtn(); updateAbTargetUI(); buildParamRows(); updateBodyEdit(); requestRender(); }
+function abStop(){ ab=null; selIdx=-1; selWorld="A"; abTarget="A"; trailBufB=[]; updateAbBtn(); updateAbTargetUI(); buildParamRows(); updateBodyEdit(); requestRender(); }
 $("#btnAB").addEventListener("click",()=>{
   if(ab){ abStop(); notify(T("abStopped")); return; }   // A の状態を継続し B を破棄
   abStart();
@@ -2937,6 +3201,8 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 - disk: {type,n,cx,cy,radius,mMin,mMax,spinMin,spinMax,vMode,aroundMass,vScale,direction} — 半径radiusの円盤にn個。vMode: "kepler"(vScaleは倍率,通常1)|"rigid"(vScale=角速度)|"flat"(vScale=一定速さ)|"random"(vScale=速さ)|"none"。
 - box: {type,n,cx,cy,w,h,mMin,mMax,spinMin,spinMax,vScale} — 幅w高さhの矩形にn個、ランダム方向に速さ〜vScale。
 - ring/disk/box には省略可の bulkVx,bulkVy(母集団の並進速度)を指定できる。移動する天体(vx,vyを持つ single)の周りに円盤・環を置くときは、必ず同じ値を bulkVx,bulkVy に与えて核と一体で動かすこと。
+- single には省略可の zonal(扁平中心天体の帯状重力補正 E13)を指定できる: {"refR":基準半径,"calib":1,"J":{"2":0.0163,"4":-0.0009}}。偶数次 J2〜J12 のみ・|J|≤0.1・refR:1〜5000・calib:0〜2。中心の大質量 pinned 粒子に付けると周回粒子の楕円軌道の近点が前進する(内側ほど速い差動近点移動 — 画面左上に実測/解析の近点移動が表示される)。土星なら J2≈0.0163。要望が扁平天体・歳差・近点移動のときだけ使う高度な属性で、通常のプリセットでは指定しない。
+- single には省略可の coreMR,coreSR(主星2層 — コアの質量比とスピン比)を指定できる。m は総質量のままで、coreMR=mc/m(−1〜1。既定0。負値=空洞〔殻に質量集中〕)・coreSR=sc/s(既定1=剛体回転=単層と等価)。差動分だけが ω += coreMR·s·(coreSR−1)·(Rc/(Rc+d))^q(Rc=radiusScale·√|coreMR·m|)として追加の空間引きずりに効く。要望がコア/深部回転・空洞天体・2層天体のときだけ使う高度な属性。
 
 # 例
 例1 要望「連星と、その周りを回る惑星たち」
@@ -3283,44 +3549,61 @@ function renderHelp(){
   cv.addEventListener("wheel",e=>{ e.preventDefault();
     camScale=clamp(camScale*(e.deltaY>0?1.1:0.9),20,3000); requestRender(); },{passive:false});
   function tapSelect(px,py){
-    if(ab) return; // A/B比較中は粒子選択なし(座標系が分割されるため)
     const rect=cv.getBoundingClientRect();
-    const wx=camX+((px-rect.left)-cw/2)/zoom(), wy=camY+((py-rect.top)-ch/2)/zoom();
-    let best=-1,bd=(30/zoom())*(30/zoom());
-    for(let i=0;i<sim.n;i++){ const dx=sim.x[i]-wx,dy=sim.y[i]-wy,d2=dx*dx+dy*dy;
+    const cx=px-rect.left, cy=py-rect.top;
+    let S=sim, world="A", z=zoom(), wx, wy;
+    if(ab){ // 第12便: A/B比較中も選択可 — タップ位置の半面(A=上/B=下)の宇宙から拾う
+      const hh=ch/2, inB=cy>=hh, y0=inB? hh : 0;
+      S=inB? ab.simB : sim; world=inB? "B" : "A";
+      z=Math.min(cw,hh)/2/camScale;   // drawWorldInto と同じ分割ビュー変換の逆写像
+      wx=camX+(cx-cw/2)/z; wy=camY+(cy-(y0+hh/2))/z;
+    } else {
+      wx=camX+(cx-cw/2)/z; wy=camY+(cy-ch/2)/z;
+    }
+    let best=-1,bd=(30/z)*(30/z);
+    for(let i=0;i<S.n;i++){ const dx=S.x[i]-wx,dy=S.y[i]-wy,d2=dx*dx+dy*dy;
       if(d2<bd){bd=d2;best=i;} }
-    selIdx=(best===selIdx)?-1:best;
+    selIdx=(best===selIdx && world===selWorld)?-1:best;
+    selWorld=world;
     updateBodyEdit();  // v1.17: 選択粒子の編集パネルを同期
     requestRender();   // v1.22: 停止中でも選択リングを即描画
   }
 })();
 
 // ===== v1.17: 選択粒子の編集パネル(質量・スピン・速度・固定を即時編集) =====
+// 第12便: A/B比較中も編集可(選択された宇宙 selSimRef() を編集)・2層情報(mc/sc)・m は負値も受理
 function updateBodyEdit(){
   const el=$("#bodyEdit");
-  if(selIdx<0||selIdx>=sim.n||ab){ el.style.display="none"; return; }
+  const S=selSimRef();
+  if(selIdx<0||selIdx>=S.n){ el.style.display="none"; return; }
   el.style.display="block";
   const i=selIdx;
-  $("#beM").value=fmt(sim.m[i]); $("#beS").value=fmt(sim.spin[i]);
-  $("#beVx").value=fmt(sim.vx[i]); $("#beVy").value=fmt(sim.vy[i]);
-  $("#bePin").checked=!!sim.pinned[i];
+  $("#beTitle").textContent=T("beTitle")+(ab? `(${selWorld})` : "");   // どちらの宇宙かを明示
+  $("#beM").value=fmt(S.m[i]); $("#beS").value=fmt(S.spin[i]);
+  $("#beMc").value=fmt(S.coreMR[i]); $("#beSc").value=fmt(S.coreSR[i]);
+  $("#beVx").value=fmt(S.vx[i]); $("#beVy").value=fmt(S.vy[i]);
+  $("#bePin").checked=!!S.pinned[i];
 }
 function beBind(id,fn){
   $(id).addEventListener("change",()=>{
-    if(selIdx<0||selIdx>=sim.n){ updateBodyEdit(); return; }
+    const S=selSimRef();
+    if(selIdx<0||selIdx>=S.n){ updateBodyEdit(); return; }
     const v=parseFloat($(id).value.replace(/[,、\s]/g,"").replace(/[−ー–—－]/g,"-"));  // v1.24: 全角マイナス等も受理
-    if(isFinite(v)){ fn(selIdx,v); setParamsDirty(true); requestRender(); }
+    if(isFinite(v)){ fn(S,selIdx,v); setParamsDirty(true); requestRender(); }
     updateBodyEdit();
   });
 }
-beBind("#beM",(i,v)=>{ sim.m[i]=clamp(v,0.01,5000); sim.updateRadii(); });
-beBind("#beS",(i,v)=>{ sim.spin[i]=clamp(v,-40,40); });
-beBind("#beVx",(i,v)=>{ sim.vx[i]=clamp(v,-100,100); });
-beBind("#beVy",(i,v)=>{ sim.vy[i]=clamp(v,-100,100); });
+beBind("#beM",(S,i,v)=>{ S.m[i]=clamp(v,-5000,5000); S.updateRadii(); });     // 第12便: 負質量も実験用に受理
+beBind("#beMc",(S,i,v)=>{ S.coreMR[i]=clamp(v,-1,1); S.updateRadii(); });   // コア質量比 mc/m(負値=空洞)
+beBind("#beSc",(S,i,v)=>{ S.coreSR[i]=clamp(v,-20,20); });                  // コアスピン比 sc/s(既定1)
+beBind("#beS",(S,i,v)=>{ S.spin[i]=clamp(v,-40,40); });
+beBind("#beVx",(S,i,v)=>{ S.vx[i]=clamp(v,-100,100); });
+beBind("#beVy",(S,i,v)=>{ S.vy[i]=clamp(v,-100,100); });
 $("#bePin").addEventListener("change",()=>{
-  if(selIdx<0||selIdx>=sim.n) return;
-  sim.pinned[selIdx]=$("#bePin").checked?1:0;
-  if(!$("#bePin").checked) sim.railOmega[selIdx]=0;  // 固定解除でレール駆動も解除
+  const S=selSimRef();
+  if(selIdx<0||selIdx>=S.n) return;
+  S.pinned[selIdx]=$("#bePin").checked?1:0;
+  if(!$("#bePin").checked) S.railOmega[selIdx]=0;  // 固定解除でレール駆動も解除
   setParamsDirty(true); requestRender();
 });
 $("#beClose").addEventListener("click",()=>{ selIdx=-1; updateBodyEdit(); });
@@ -3762,6 +4045,9 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
     fieldRes:Q_FRES[qLevel()], rayFactor:Q_RAY[qLevel()], trailEvery:Q_TREC[qLevel()]}),
   setLang:(l)=>{ LANG=(l==="en")?"en":"ja"; localStorage.setItem("hp_lang",LANG); applyLang(); },
   running:()=>running, setRunning:(v)=>{running=v;updatePlayBtn();},
+  // 第12便: 粒子選択のQA用(A/B比較中の編集検証 — world: "A"|"B")
+  selectBody:(i,world)=>{ selWorld=(world==="B")?"B":"A"; selIdx=i; updateBodyEdit(); },
+  selInfo:()=>({selIdx, selWorld}), selSimRef,
   tick:(frames)=>{ for(let f=0;f<frames;f++){ const k=Math.max(1,Math.round(SUBSTEPS*sim.params.timeScale)); for(let s2=0;s2<Math.min(k,24);s2++) sim.step(DT); } render(); } };
 
 // ===== 起動 =====
@@ -3769,6 +4055,7 @@ applyUiScale();   // v1.17: 文字サイズ設定の反映(hp_uiscale 永続)
 rebuildPresetSelect();
 resizeCanvas();
 loadPreset("saturn",false);
+restoreDraft();   // 第13次裁定 P1-2 後半: 直前の未保存編集ドラフトがあれば復元を提案
 // 第13次裁定 P1-3: β版はルートと localStorage を共有 — 初回起動時に1度だけ明示する
 // (http(s) 配信の /beta/ 配下でのみ発火。file:// の QA・ルート昇格後は発火しない)
 if(/^https?:$/.test(location.protocol) && /\/beta\//.test(location.pathname)
@@ -3780,7 +4067,8 @@ applyLang();   // 静的ラベル+AIプロバイダ設定UIの反映(hp_lang 永
 requestAnimationFrame((t)=>{lastFrame=t;requestAnimationFrame(loop);});
 // P2(beta): PWA — Service Worker 登録(http(s) 配信時のみ。file:// の QA・ローカル直開きでは無効)
 if("serviceWorker" in navigator && /^https?:$/.test(location.protocol)){
-  addEventListener("load",()=>{ navigator.serviceWorker.register("./sw.js").catch(()=>{}); });
+  // 第13次裁定 P1-1 後半(保留分の実施): 登録失敗を黙殺せず画面に表示(オンライン動作は無影響)
+  addEventListener("load",()=>{ navigator.serviceWorker.register("./sw.js").catch(()=>{ notify(T("swFail"),8000); }); });
 }
 </script>
 </body>

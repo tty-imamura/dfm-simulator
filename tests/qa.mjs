@@ -34,9 +34,13 @@ async function getBrowser() {
 }
 
 const results = [];
+// 第17便: 項目別の所要時間(ms)を記録 — 直前の add() からの経過を当該項目の実測とする
+// (準備処理を含む壁時計。フルQAの時間内訳を結果JSONから機械集計できるようにする)
+let lastAddAt = Date.now();
 const add = (id, pass, detail) => {
-  results.push({ id, pass: !!pass, detail: String(detail ?? '') });
-  console.log(`${pass ? 'PASS' : 'FAIL'} ${id}${detail ? '  ' + detail : ''}`);
+  const now = Date.now(); const ms = now - lastAddAt; lastAddAt = now;
+  results.push({ id, pass: !!pass, detail: String(detail ?? ''), ms });
+  console.log(`${pass ? 'PASS' : 'FAIL'} ${id}${detail ? '  ' + detail : ''}  [${(ms / 1000).toFixed(1)}s]`);
 };
 
 // ---- 0) 構文検査(node --check)----
@@ -1591,7 +1595,9 @@ fs.writeFileSync(path.join(OUT_DIR, 'qa-results.json'), JSON.stringify({
          ref: process.env.GITHUB_REF || null, headRef: process.env.GITHUB_HEAD_REF || null,
          baseRef: process.env.GITHUB_BASE_REF || null },
   env: { node: process.version, playwright: playwrightVersion, platform: `${process.platform}/${process.arch}` },
-  total: results.length, failed: results.filter(r => !r.pass).length, pass, results,
+  total: results.length, failed: results.filter(r => !r.pass).length, pass,
+  durationMs: results.reduce((a, r) => a + (r.ms || 0), 0),  // 第17便: 項目別 ms の合計
+  results,
 }, null, 1));
 console.log(`\n${pass ? 'ALL PASS' : 'FAILED'} (${results.filter(r => r.pass).length}/${results.length}) → tests/out/qa-results.json`);
 process.exit(pass ? 0 : 1);
