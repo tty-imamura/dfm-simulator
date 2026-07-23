@@ -1075,17 +1075,19 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"saturnLayered", name:"土星の環(主星2層)", emoji:"🎯", group:"天体の物語",
-  description:"主星をコア(mc=900)と外層(m=600)の2層に分けた 🪐 の姉妹版(第12便・2026-07-23)。総質量は1500で 🪐 と同一 — 重力も見かけの半径も変わらず、コアのスピン sc だけが表面 s と独立に持てる(既定 χ=sc/s=1.05 — 土星の深部回転が表面より速いという推定に合わせた仮定値)。コアは半径 Rc=radiusScale·√mc の小さな第2の引きずり核として空間を引きずる(A8)。中心天体をタップすると mc/sc を編集でき、コアを速く回す(例 sc=0.5)と環への引きずりの効き方が変わるのを試せる。sc=0 なら 🪐 と厳密に等価(質量の2層分割は力学に影響しない — QA が機械検証)。氷粒の衝突円形化(T3)は 🪐 と同一。コア/外層の角速度分離(差動回転)実験の第一歩。",
-  en:{name:"Saturn's Rings (Two-Layer Primary)", description:"Sister sample of 🪐 with the primary split into a core (mc=900) and an outer layer (m=600). Total mass stays 1500 — gravity and apparent radius are unchanged — but the core spin sc is independent of the surface spin s (default χ=sc/s=1.05, matching the estimate that Saturn's deep interior rotates slightly faster than its surface). The core acts as a second, smaller frame-dragging kernel of radius Rc=radiusScale·√mc (A8). Tap the central body to edit mc/sc — spin the core up (e.g. sc=0.5) and watch how the drag on the rings changes. With sc=0 this is exactly equivalent to 🪐 (splitting mass into layers has no dynamical effect — machine-verified). Collisional circularization of the icy grains (T3) is identical to 🪐. A first step toward core/surface differential-rotation experiments."},
+  description:"主星をコア(mc=270)と外層(m=1230)の2層に分けた 🪐 の姉妹版(第12便・第13便=第15次レビューで較正)。総質量は1500で 🪐 と同一 — 重力も見かけの半径も変わらない。コア質量比18%は Cassini 後の重元素集中の推定(≈17地球質量/95地球質量)、コア半径比 Rc/R=42% は希薄コア(半径の約1/2)の推定に対応。sc は「コアの絶対角速度」で、剛体回転(sc=s)なら単層と厳密等価 — 差動分 (sc−s) だけが質量重み mc/M とコア核 Rc から追加の空間引きずり(A8)として効く(既定 χ=sc/s=1.05 は教材用に差を強調した仮定値。地震学的推定は χ≈1.01)。コアスピンは熱・散逸(T3/E10′)と切り離された固定内部回転源(反作用で変化しない外部拘束)であり、閉じた2層天体ではなく統制実験である点に注意。中心天体をタップして mc/sc を編集: sc=0.5(高速コア)・sc<0(逆回転コア)・A/B比較で kFrame=1 vs 0 などが見どころ。氷粒の衝突円形化(T3)は 🪐 と同一。",
+  en:{name:"Saturn's Rings (Two-Layer Primary)", description:"Sister sample of 🪐 with the primary split into a core (mc=270) and an outer layer (m=1230); calibrated after the 15th external review. Total mass stays 1500 — gravity and apparent radius are unchanged. The 18% core-mass fraction matches post-Cassini estimates of heavy-element concentration (≈17 of 95 Earth masses) and Rc/R=42% matches the dilute core extending to roughly half the radius. sc is the core's absolute angular velocity: rigid rotation (sc=s) is exactly equivalent to the single-layer body, and only the differential part (sc−s), weighted by mc/M, adds frame dragging (A8) through the smaller core kernel Rc. The default χ=sc/s=1.05 exaggerates the contrast for teaching (seismology suggests χ≈1.01). The core spin is a fixed internal rotation source decoupled from heat and dissipation (T3/E10′) — a controlled experiment, not a closed two-layer body. Tap the central body to edit mc/sc: try sc=0.5 (fast core), sc<0 (counter-rotating core), or A/B-compare kFrame 1 vs 0. Icy-grain circularization (T3) is identical to 🪐."},
   activeParams:["kFrame","muF","kappaS"],
   camera:{scale:340}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:1.2, muF:0.2, gammaN:0.15, kappaS:0.08, Kt:3600,
     cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.8, softening:2, timeScale:3},
   bodies:[ // 第12便(2026-07-23 原仮定者指示): 主星2層 — コアの m と spin を追加パラメータとし、
            // coreM=0 を既定とすることで既存データと整合(mEff=m+coreM・R=radiusScale·√|mEff|)。
-           // ここでは m=600+mc=900(総質量1500=🪐と同一)・sc=0.0525(χ=1.05)。
-           // 環の帯・physics は 🪐(実験)と同一 — sc=0 で 🪐 と厳密等価(QA core.twolayer)。
-    {type:"single", m:600, coreM:900, coreSpin:0.0525, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
+           // 第13便(第15次レビュー 推奨A): m=1230+mc=270(重元素集中≈18%・Rc/R=42.4%)。
+           // sc=0.0525(χ=1.05 — 教材既定。現実の地震学的推定は χ≈1.01)。差動形なので
+           // 環付近への追加引きずりは (mc/M)·(sc−s)·f(Rc,d) ≈ +0.1% と説明に整合する規模。
+           // 環の帯・physics は 🪐(実験)と同一 — sc=s で 🪐 と厳密等価(QA core.twolayer)。
+    {type:"single", m:1230, coreM:270, coreSpin:0.0525, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
     {type:"ring", n:75, cx:0,cy:0, rIn:104,rOut:132, mMin:0.01,mMax:0.03,
      spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false},
     {type:"ring", n:150, cx:0,cy:0, rIn:132,rOut:190, mMin:0.01,mMax:0.03,
@@ -1518,10 +1520,19 @@ function makeSim(){
         let omj=0, omi=0;
         if(sj!==0){ const tt=Rj/(Rj+d); omj = (q===2)? sj*tt*tt : sj*Math.pow(tt,q); }
         if(si!==0){ const tt=Ri/(Ri+d); omi = (q===2)? si*tt*tt : si*Math.pow(tt,q); }
-        if(hasCore){ // 主星2層(第12便): コアは小さい半径 Rc の第2の引きずり核(A8)。
-                     // coreM=0 なら Rc=0 で寄与なし。hasCore=false の宇宙はこの分岐ごと素通り(高速化)
-          const scj=coreSpin[j]; if(scj!==0 && Rc[j]>0){ const tt=Rc[j]/(Rc[j]+d); omj += (q===2)? scj*tt*tt : scj*Math.pow(tt,q); }
-          const sci=coreSpin[i]; if(sci!==0 && Rc[i]>0){ const tt=Rc[i]/(Rc[i]+d); omi += (q===2)? sci*tt*tt : sci*Math.pow(tt,q); }
+        if(hasCore){ // 主星2層(第12便。第13便=第15次レビュー P1 で差動形に修正):
+                     // coreSpin は「コアの絶対角速度」。剛体回転(sc=s)は単層と厳密等価で、
+                     // 差動分 (sc−s) だけが質量重み coreM/mEff とコア核 Rc から追加で効く:
+                     //   ω_frame = s·f(R,d) + (coreM/mEff)·(sc−s)·f(Rc,d)
+                     // 旧・加算形(ω += sc·f(Rc,d))は χ=1.05 でも環付近の引きずりを+71〜75%
+                     // にしてしまう説明齟齬があった(ChatGPT 第15次 §5.3 — 実測追認済み)。
+                     // coreM=0 は寄与なし。hasCore=false の宇宙はこの分岐ごと素通り(高速化)
+          const cmj=S.coreM[j];
+          if(cmj!==0 && Rc[j]>0){ const dsj=coreSpin[j]-sj;
+            if(dsj!==0){ const tt=Rc[j]/(Rc[j]+d); omj += (cmj/mj)*dsj*((q===2)? tt*tt : Math.pow(tt,q)); } }
+          const cmi=S.coreM[i];
+          if(cmi!==0 && Rc[i]>0){ const dsi=coreSpin[i]-si;
+            if(dsi!==0){ const tt=Rc[i]/(Rc[i]+d); omi += (cmi/mi)*dsi*((q===2)? tt*tt : Math.pow(tt,q)); } }
         }
         uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));
         uAx[j]+=wi*(vx[i]+omi*(dy));  uAy[j]+=wi*(vy[i]+omi*(-dx));
@@ -3141,7 +3152,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 - box: {type,n,cx,cy,w,h,mMin,mMax,spinMin,spinMax,vScale} — 幅w高さhの矩形にn個、ランダム方向に速さ〜vScale。
 - ring/disk/box には省略可の bulkVx,bulkVy(母集団の並進速度)を指定できる。移動する天体(vx,vyを持つ single)の周りに円盤・環を置くときは、必ず同じ値を bulkVx,bulkVy に与えて核と一体で動かすこと。
 - single には省略可の zonal(扁平中心天体の帯状重力補正 E13)を指定できる: {"refR":基準半径,"calib":1,"J":{"2":0.0163,"4":-0.0009}}。偶数次 J2〜J12 のみ・|J|≤0.1・refR:1〜5000・calib:0〜2。中心の大質量 pinned 粒子に付けると周回粒子の楕円軌道の近点が前進する(内側ほど速い差動近点移動 — 画面左上に実測/解析の近点移動が表示される)。土星なら J2≈0.0163。要望が扁平天体・歳差・近点移動のときだけ使う高度な属性で、通常のプリセットでは指定しない。
-- single には省略可の coreM,coreSpin(主星2層 — コアの質量とスピン)を指定できる。総質量は m+coreM。コアは半径 radiusScale·√coreM の第2の空間引きずり核になり、coreSpin は表面 spin と独立(差動回転)。coreM=0(既定)で従来の単層。要望がコア/深部回転・2層天体のときだけ使う高度な属性。
+- single には省略可の coreM,coreSpin(主星2層 — コアの質量とスピン)を指定できる。総質量は m+coreM。coreSpin はコアの絶対角速度で、剛体回転(coreSpin=spin)は単層と等価 — 差動分 (coreSpin−spin) だけが質量重みとコア核(半径 radiusScale·√coreM)から追加の空間引きずりとして効く。coreM=0(既定)で従来の単層。要望がコア/深部回転・2層天体のときだけ使う高度な属性。
 
 # 例
 例1 要望「連星と、その周りを回る惑星たち」
