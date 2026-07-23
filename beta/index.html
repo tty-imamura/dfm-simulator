@@ -172,6 +172,10 @@
       <!-- 第14便: 主星2層(比率)— コア質量比 mc/m(既定0・負値=空洞)とコアスピン比 sc/s(既定1) -->
       <div class="beRow"><label id="beLmc" style="min-width:34px">mc/m</label><input type="text" id="beMc" inputmode="text" autocomplete="off">
         <label id="beLsc" style="min-width:30px">sc/s</label><input type="text" id="beSc" inputmode="text" autocomplete="off"></div>
+      <!-- 4-43(第20便・beta 先行): スピン役割分離 — s(引)=sFrame・s(熱)=sTherm・s(斥)=sRep(既定1) -->
+      <div class="beRow"><label id="beLsf" style="min-width:34px">s(引)</label><input type="text" id="beSf" inputmode="decimal" autocomplete="off">
+        <label id="beLst" style="min-width:30px">s(熱)</label><input type="text" id="beSt" inputmode="decimal" autocomplete="off"></div>
+      <div class="beRow"><label id="beLsr" style="min-width:34px">s(斥)</label><input type="text" id="beSr" inputmode="decimal" autocomplete="off"><span style="flex:1"></span></div>
       <div class="beRow"><label>vx</label><input type="text" id="beVx" inputmode="text" autocomplete="off">
         <label>vy</label><input type="text" id="beVy" inputmode="text" autocomplete="off"></div>
       <div class="beRow"><label id="beLp" style="flex:1">固定(pinned)</label><input type="checkbox" id="bePin"></div>
@@ -371,6 +375,7 @@ ja: {
   tsBothNote:"時間倍率はA/B比較中も両方の画面に反映されます。",
   panelClose:"✕ 閉じる",
   beTitle:"選択粒子の編集", bePinned:"固定(pinned)",
+  beLsf:"s(引)", beLst:"s(熱)", beLsr:"s(斥)",   // 4-43: スピン役割分離の係数ラベル
   beNote:"※編集は即時反映。⏮初めからで初期値に戻ります。",
   savesHeadSave:"現在のパラメータを保存", savesHeadList:"保存一覧", savesHeadBackup:"バックアップ",
   saveNamePh:"名前(例: 環が安定する設定)", saveCommentPh:"コメント(例: muFを0.8にすると円形化が速い)",
@@ -466,6 +471,7 @@ en: {
   tsBothNote:"The time multiplier applies to both views during A/B compare.",
   panelClose:"✕ Close",
   beTitle:"Edit selected body", bePinned:"Pinned",
+  beLsf:"s·drag", beLst:"s·heat", beLsr:"s·rep",   // 4-43: spin-role coupling labels
   beNote:"Edits apply instantly. ⏮ Restart restores initial values.",
   savesHeadSave:"Save current parameters", savesHeadList:"Saved items", savesHeadBackup:"Backup",
   saveNamePh:"Name (e.g. stable-ring settings)", saveCommentPh:"Comment (e.g. muF=0.8 circularizes faster)",
@@ -809,6 +815,42 @@ const BUILTIN_PRESETS = [
     {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:false},
     {type:"disk", n:380, cx:0,cy:0, radius:260, mMin:0.5,mMax:1.2,
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:600, vScale:1.05, direction:1}
+  ],
+  overlays:{rotationCurve:true,tempHistogram:false,field:false} },
+
+{ id:"darkrotor", name:"冷たい暗黒ローターの銀河", emoji:"🕶️", group:"空間と時間",
+  // 4-43(第20便・beta 先行): スピン役割分離の代表サンプル。ハロー20体(m30×20=600)は
+  // 第19便実験B(tests/exp-darkrotor.mjs halo-aligned-kRep0)と同配置。seed 固定で決定論
+  description:"銀河円盤(🌌と同じ)を、光では見えない20個の「暗黒ローター」のハローが囲む思考実験。ローターはスピン役割分離(4-43)で sTherm=0(冷たい=光らず放射しない)・sRep=0(スピン圧で押さない)・空間引きずりだけを残した仮想のダークマター候補。ハローの質量が井戸を深くして外縁の回転速度を押し上げ、揃った高速スピン(s=2)が決定フレームを同方向へ回す — リングの外側では順行の押し上げ(u_φ +11%)、内側では渦の裏側の逆行、という渦場の構造ごと QA sep.darkrotor-uphi が機械検証(第19便実験Bの内蔵化。長時間の外縁増強量は時刻と乱数seedに敏感 — 第19便実測)。kFrameを0にすると引きずり経路ごと消える(おすすめA/B)。粒子をタップすると s(引)/s(熱)/s(斥) を個別に編集できる。※モデル内の理論実験であり、実宇宙のダークマターの主張ではない(T4の防御線を維持)。",
+  en:{name:"Cold Dark-Rotor Galaxy", description:"A thought experiment: the 🌌 galactic disk surrounded by a halo of 20 invisible 'dark rotors'. With spin-role separation (4-43) each rotor has sTherm=0 (cold — never glows or radiates) and sRep=0 (no spin pressure), keeping only frame dragging — a hypothetical dark-matter candidate acting through mass and space drag alone. The halo mass deepens the well and lifts the outer rotation speed, and the aligned fast spins (s=2) rotate the determinacy frame the same way — a prograde boost outside the rings (u_phi +11%) and a retrograde backflow inside them, the full vortex structure machine-checked by QA sep.darkrotor-uphi (built-in version of Delivery-19 Experiment B; the long-run outer enhancement is sensitive to time and random seed — Delivery-19 measurements). Set kFrame to 0 and the drag channel vanishes (suggested A/B). Tap a body to edit s·drag / s·heat / s·rep individually. A model-internal experiment — not a claim about real dark matter (T4 disclaimer upheld)."},
+  activeParams:["kFrame","D0","G"],
+  camera:{scale:300}, world:{boundary:"none",size:0}, seed:20260723,
+  physics:{G:1, D0:1, kFrame:1, q:2, kRep:1.0, muF:0.02, gammaN:0.05, kappaS:0.05, Kt:60,
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:4, timeScale:4},
+  bodies:[
+    {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:false},
+    {type:"disk", n:380, cx:0,cy:0, radius:260, mMin:0.5,mMax:1.2,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:600, vScale:1.05, direction:1},
+    {type:"single", m:30, x:170.000,y:0.000, vx:-0.0000,vy:2.0853, spin:2, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:137.533,y:99.923, vx:-1.2257,vy:1.6871, spin:2, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:52.533,y:161.680, vx:-1.9833,vy:0.6444, spin:2, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:-52.533,y:161.680, vx:-1.9833,vy:-0.6444, spin:2, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:-137.533,y:99.923, vx:-1.2257,vy:-1.6871, spin:2, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:-170.000,y:0.000, vx:-0.0000,vy:-2.0853, spin:2, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:-137.533,y:-99.923, vx:1.2257,vy:-1.6871, spin:2, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:-52.533,y:-161.680, vx:1.9833,vy:-0.6444, spin:2, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:52.533,y:-161.680, vx:1.9833,vy:0.6444, spin:2, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:137.533,y:-99.923, vx:1.2257,vy:1.6871, spin:2, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:218.743,y:71.074, vx:-0.6938,vy:2.1352, spin:2, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:135.191,y:186.074, vx:-1.8163,vy:1.3196, spin:2, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:0.000,y:230.000, vx:-2.2451,vy:0.0000, spin:2, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:-135.191,y:186.074, vx:-1.8163,vy:-1.3196, spin:2, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:-218.743,y:71.074, vx:-0.6938,vy:-2.1352, spin:2, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:-218.743,y:-71.074, vx:0.6938,vy:-2.1352, spin:2, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:-135.191,y:-186.074, vx:1.8163,vy:-1.3196, spin:2, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:-0.000,y:-230.000, vx:2.2451,vy:-0.0000, spin:2, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:135.191,y:-186.074, vx:1.8163,vy:1.3196, spin:2, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:218.743,y:-71.074, vx:0.6938,vy:2.1352, spin:2, sTherm:0, sRep:0, pinned:false}
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false} },
 
@@ -1301,6 +1343,15 @@ function validatePreset(obj){
           o.coreMR=isNum(b.coreMR)? wc(b.coreMR,-1,1,"coreMR") : 0;
           o.coreSR=isNum(b.coreSR)? wc(b.coreSR,-20,20,"coreSR") : 1;
         }
+        // 4-43(第20便・beta 先行): スピン役割分離 — 結合係数 sFrame(空間引きずり)・
+        // sTherm(温度・放射)・sRep(スピン斥力)。既定1=従来と厳密等価。0〜2 にクランプ
+        if(b.sFrame!==undefined || b.sTherm!==undefined || b.sRep!==undefined){
+          for(const k of ["sFrame","sTherm","sRep"])
+            if(b[k]!==undefined && !isNum(b[k])){ bad(at+"."+k+" が数値ではありません"); return; }
+          o.sFrame=isNum(b.sFrame)? wc(b.sFrame,0,2,"sFrame") : 1;
+          o.sTherm=isNum(b.sTherm)? wc(b.sTherm,0,2,"sTherm") : 1;
+          o.sRep=isNum(b.sRep)? wc(b.sRep,0,2,"sRep") : 1;
+        }
         // E13(第11次裁定 保留分の実施): AI生成・インポートへ zonal を開放。
         // 偶数次 J2〜J12 のみ受理し、|J|≤0.1・refR 1〜5000・calib 0〜2 にクランプする
         if(b.zonal!==undefined){
@@ -1383,6 +1434,11 @@ function makeSim(){
     // (既定1=剛体回転=単層と厳密等価)。Rc=radiusScale·√(|coreMR|·|m|)。mEff は m の
     // 下限保護(|m|≥0.01)付き別名(負質量実験の0除算保護)
     coreMR:null, coreSR:null, mEff:null, Rc:null, rotAc:null, hasCore:false,
+    // 4-43(第20便・beta 先行): スピン役割分離 — 結合係数(single のみ・既定1)。
+    // ω_frame = sFrame·s·f(R,d)(E3/E8R)・ω_rep = sRep·s·f(R,d)(E5′)・T = ½I(sTherm·s)²(E11/表示)。
+    // 全て1なら従来と厳密等価(hasSep=false の宇宙は乗算自体を素通り)。E9/E10′/E6′反作用は
+    // 物理スピン(角運動量)の帳簿なので係数を掛けない — L 保存は従来どおり厳密
+    sF:null, sT:null, sRp:null, hasSep:false,
     pinned:null, railR:null, railAng:null, railOmega:null, railCx:null, railCy:null,
     uPx:null,uPy:null,hasU:null, tau:null, ax:null,ay:null, sumW:null,uAx:null,uAy:null, ds:null,
     dpx:null,dpy:null, pairD:null,
@@ -1394,6 +1450,7 @@ function makeSim(){
     const F=()=>new Float32Array(n);
     S.m=F();S.x=F();S.y=F();S.vx=F();S.vy=F();S.spin=F();S.R=F();S.rotA=F();
     S.coreMR=F();S.coreSR=F();S.mEff=F();S.Rc=F();S.rotAc=F();   // 主星2層(第12〜14便)
+    S.sF=F();S.sT=F();S.sRp=F();                                 // スピン役割分離(4-43・第20便)
     S.coreSR.fill(1);   // コアスピン比の既定は 1(剛体回転=単層等価)
     S.uPx=F();S.uPy=F();S.tau=F();S.ax=F();S.ay=F();S.sumW=F();S.uAx=F();S.uAy=F();S.ds=F();
     S.dpx=F();S.dpy=F();
@@ -1418,7 +1475,10 @@ function makeSim(){
       if(b.type==="single"){
         const o={m:b.m,x:b.x,y:b.y,vx:b.vx,vy:b.vy,spin:b.spin,pinned:b.pinned?1:0,railOmega:0,
           // 主星2層(第14便: 比率仕様)。coreMR=mc/m(既定0)・coreSR=sc/s(既定1)
-          coreMR:b.coreMR||0, coreSR:(b.coreSR===undefined?1:b.coreSR)};
+          coreMR:b.coreMR||0, coreSR:(b.coreSR===undefined?1:b.coreSR),
+          // スピン役割分離(4-43・第20便): 既定1=従来と厳密等価
+          sFrame:(b.sFrame===undefined?1:b.sFrame), sTherm:(b.sTherm===undefined?1:b.sTherm),
+          sRep:(b.sRep===undefined?1:b.sRep)};
         if(b.zonal) o.zonal=b.zonal;   // E13(第11次裁定): 扁平中心天体の帯状重力属性
         push(o); noteBig(o);
       } else if(b.type==="ring"){
@@ -1477,6 +1537,8 @@ function makeSim(){
     P.forEach((o,i)=>{ S.m[i]=o.m; S.x[i]=o.x; S.y[i]=o.y; S.vx[i]=o.vx; S.vy[i]=o.vy;
       S.spin[i]=o.spin; S.pinned[i]=o.pinned; S.railOmega[i]=o.railOmega||0;
       S.coreMR[i]=o.coreMR||0; S.coreSR[i]=(o.coreSR===undefined?1:o.coreSR);
+      S.sF[i]=(o.sFrame===undefined?1:o.sFrame); S.sT[i]=(o.sTherm===undefined?1:o.sTherm);
+      S.sRp[i]=(o.sRep===undefined?1:o.sRep);
       if(o.railOmega){ S.railR[i]=o.railR; S.railAng[i]=o.railAng; S.railCx[i]=o.railCx; S.railCy[i]=o.railCy; }
       if(o.zonal) S.zonal={i, refR:o.zonal.refR, J:o.zonal.J, calib:(o.zonal.calib||1), _A:null};
     });
@@ -1498,6 +1560,10 @@ function makeSim(){
       if(S.coreMR[i]!==0) hc=true;
     }
     S.hasCore=hc;   // コアなし(全 coreMR=0)の宇宙は従来ループのまま(高速化)
+    // 4-43: 分離なし(全係数1)の宇宙は従来経路のまま(高速化+厳密等価の保証)
+    let hs=false;
+    for(let i=0;i<S.n;i++) if(S.sF[i]!==1||S.sT[i]!==1||S.sRp[i]!==1){ hs=true; break; }
+    S.hasSep=hs;
   };
   // 1サブステップ(PHYSICS.md v1.1 §5 数値スキーム: ①全対 → ②粒子 → ③反作用対 → ④位置)
   S.step = function(dt){
@@ -1506,7 +1572,8 @@ function makeSim(){
     // 第12〜14便: m は下限保護(|m|≥0.01)付き別名 mEff を一貫使用(負質量実験の0除算保護。
     // 第14便: 比率仕様 — m は総質量そのもので、コアは m の内訳。運動量・角運動量の恒等式は
     // 全用途一貫なら保存される。coreMR=0(既定)なら従来と厳密等価)
-    const {mEff:m,x,y,vx,vy,spin,R,pinned,ax,ay,sumW,uAx,uAy,ds,dpx,dpy,pairD,coreMR,coreSR,Rc}=S;
+    const {mEff:m,x,y,vx,vy,spin,R,pinned,ax,ay,sumW,uAx,uAy,ds,dpx,dpy,pairD,coreMR,coreSR,Rc,sF,sT,sRp}=S;
+    const sep=S.hasSep;   // 4-43: 全係数1なら従来と厳密等価な高速経路
     const hasCore=S.hasCore;
     const eps=p.softening, eps2=eps*eps, G=p.G, q=p.q, kRep=p.kRep,
           muF=p.muF, gammaN=p.gammaN, kappaS=p.kappaS, D0=p.D0, kFrame=p.kFrame,
@@ -1583,11 +1650,15 @@ function makeSim(){
           if(cmri!==0 && si!==0 && Rc[i]>0){ const chi=coreSR[i];
             if(chi!==1){ const tt=Rc[i]/(Rc[i]+d); omi += cmri*si*(chi-1)*((q===2)? tt*tt : Math.pow(tt,q)); } }
         }
-        uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));
-        uAx[j]+=wi*(vx[i]+omi*(dy));  uAy[j]+=wi*(vy[i]+omi*(-dx));
+        // 4-43(第20便): スピン役割分離 — フレーム源 ω_F=sFrame·ω・斥力源 ω_R=sRep·ω。
+        // 分離なし(sep=false)は従来式そのまま(×1 も掛けない厳密等価の高速経路)
+        const omjF=sep? omj*sF[j] : omj, omiF=sep? omi*sF[i] : omi;
+        uAx[i]+=wj*(vx[j]+omjF*(-dy)); uAy[i]+=wj*(vy[j]+omjF*(dx));
+        uAx[j]+=wi*(vx[i]+omiF*(dy));  uAy[j]+=wi*(vy[i]+omiF*(-dx));
         // E5′ スピン斥力(対称化・中心力): F = kRep·μ·(ω_i²+ω_j²)·(r_i−r_j)
-        if(kRep>0 && (omi!==0||omj!==0) && Math.abs(mi+mj)>1e-9){   // 第12便: 負質量実験時の0除算保護
-          const f=kRep*(mi*mj/(mi+mj))*(omi*omi+omj*omj);
+        const omjR=sep? omj*sRp[j] : omj, omiR=sep? omi*sRp[i] : omi;
+        if(kRep>0 && (omiR!==0||omjR!==0) && Math.abs(mi+mj)>1e-9){   // 第12便: 負質量実験時の0除算保護
+          const f=kRep*(mi*mj/(mi+mj))*(omiR*omiR+omjR*omjR);
           ax[i]+=f/mi*dx; ay[i]+=f/mi*dy;
           ax[j]-=f/mj*dx; ay[j]-=f/mj*dy;
         }
@@ -1707,8 +1778,10 @@ function makeSim(){
         S.radE+=0.5*IiD*(s0D*s0D-spin[i]*spin[i]);
       }
       // E11 放射冷却(A12): Λ = η_rad·T^p、T = I·s²。|Δs| ≤ 0.5|s| にクランプ
-      if(etaRad>0 && spin[i]!==0 && m[i]>0){   // 第12便: 負質量(負の慣性)は放射冷却の対象外
-        const Ii=0.5*m[i]*R[i]*R[i], s0=spin[i], T=Ii*s0*s0;
+      if(etaRad>0 && spin[i]!==0 && m[i]>0 && (!sep || sT[i]!==0)){   // 第12便: 負質量(負の慣性)は放射冷却の対象外
+        // 4-43: 温度は T=½I(sTherm·s)²(sTherm=0 の冷たい天体は放射しない)。冷却が減らすのは
+        // 物理スピンで、帳簿 radE/radL も物理スピンの実減少分 — T7 恒等式は従来どおり閉じる
+        const Ii=0.5*m[i]*R[i]*R[i], s0=spin[i], sTe=sep? sT[i]*s0 : s0, T=Ii*sTe*sTe;
         let dsC=etaRad*Math.pow(T,pRad)*dt/(Ii*Math.abs(s0));
         const lim=0.5*Math.abs(s0); if(dsC>lim) dsC=lim;
         const s1=(s0>0)? s0-dsC : s0+dsC;
@@ -2025,7 +2098,7 @@ function traceRay(S, px, py, cxv, cyv, dl, maxSteps, emit){
       gx-=kU*S.m[i]*dx*inv3; gy-=kU*S.m[i]*dy*inv3;
       const dd=Math.sqrt(d2), w=S.m[i]*inv;   // v1.5: E1′(inv=1/√(d²+ε²) を再利用。dd は下の tt で使用)
       wSum+=w;
-      let om=0; const si=S.spin[i];
+      let om=0; const si=S.spin[i]*(S.sF? S.sF[i] : 1);   // 4-43: 光のフレーム随伴も sFrame 経由(E8R)
       if(si!==0){ const tt=S.R[i]/(S.R[i]+dd); om=(q===2)? si*tt*tt : si*Math.pow(tt,q); }
       uNx+=kF*w*(S.vx[i]+om*(-dy)); uNy+=kF*w*(S.vy[i]+om*(dx));
     }
@@ -2052,7 +2125,7 @@ function rayKeyOf(rays){
     sim.params.Kt+","+sim.params.cLight+","+sim.params.D0+","+sim.params.q+","+
     sim.params.softening+","+sim.params.kFrame;
   for(let i=0;i<sim.n;i++) if(sim.m[i]>=RAY_MASS_MIN)
-    h+=";"+i+","+sim.x[i]+","+sim.y[i]+","+sim.vx[i]+","+sim.vy[i]+","+sim.spin[i]+","+sim.R[i]+","+sim.m[i];
+    h+=";"+i+","+sim.x[i]+","+sim.y[i]+","+sim.vx[i]+","+sim.vy[i]+","+sim.spin[i]+","+sim.R[i]+","+sim.m[i]+","+sim.sF[i];
   return h;
 }
 function drawRays(){
@@ -2152,7 +2225,7 @@ function drawTempHistogram(slot=0){
     let sl=0,cl=0,sr=0,cr=0;
     for(let i=0;i<sim.n;i++){
       if(sim.pinned[i]) continue; // v1.10: pinned=熱浴・恒星は除外(物質側の温度を測る。付録J)
-      const T=0.5*sim.m[i]*sim.R[i]*sim.R[i]*sim.spin[i]*sim.spin[i]; // T=Is²(A9 v1.1)
+      const T=0.5*sim.m[i]*sim.R[i]*sim.R[i]*(sim.sT[i]*sim.spin[i])*(sim.sT[i]*sim.spin[i]); // T=Is²(A9 v1.1)
       if(sim.x[i]<0){sl+=T;cl++;}else{sr+=T;cr++;}
     }
     sim.tempLR=[cl?sl/cl:0, cr?sr/cr:0];
@@ -2190,7 +2263,7 @@ function drawSpectrum(slot=0){
     const ls=[], Ts=[], p=sim.params.pRad;
     let lMin=Infinity, lMax=-Infinity;
     for(let i=0;i<sim.n;i++){
-      const T=0.5*sim.m[i]*sim.R[i]*sim.R[i]*sim.spin[i]*sim.spin[i];
+      const T=0.5*sim.m[i]*sim.R[i]*sim.R[i]*(sim.sT[i]*sim.spin[i])*(sim.sT[i]*sim.spin[i]);
       if(T<=1e-9) continue;
       const l=Math.log10(sim.params.bM/T);
       ls.push(l); Ts.push(T);
@@ -2293,7 +2366,7 @@ function render(){
   // v1.23: 品質レベルで 10/15/20 フレームに1回へ
   if(sim.n>0 && ((frameCount%Q_TSORT[qLevel()])===0 || tempP90EMA===0)){
     if(!tSort||tSort.length!==sim.n) tSort=new Float32Array(sim.n);
-    for(let i=0;i<sim.n;i++) tSort[i]=0.5*sim.m[i]*sim.R[i]*sim.R[i]*sim.spin[i]*sim.spin[i];
+    for(let i=0;i<sim.n;i++) tSort[i]=0.5*sim.m[i]*sim.R[i]*sim.R[i]*(sim.sT[i]*sim.spin[i])*(sim.sT[i]*sim.spin[i]);
     tSort.sort();
     const p90=Math.max(1e-4, tSort[Math.floor(0.9*(sim.n-1))]);
     tempP90EMA+= (p90-tempP90EMA)*0.4;
@@ -2302,7 +2375,7 @@ function render(){
   for(let i=0;i<sim.n;i++){
     const sx=w2sX(sim.x[i]), sy=w2sY(sim.y[i]);
     if(sx<-40||sx>cw+40||sy<-40||sy>ch+40) continue;
-    const T=0.5*sim.m[i]*sim.R[i]*sim.R[i]*sim.spin[i]*sim.spin[i];
+    const T=0.5*sim.m[i]*sim.R[i]*sim.R[i]*(sim.sT[i]*sim.spin[i])*(sim.sT[i]*sim.spin[i]);
     const rr=Math.max(1.2,Math.min(sim.R[i]*z,30));
     const col=tempColor(Math.min(1,Math.sqrt(Math.max(0,T)/Math.max(1e-4,tempP90EMA))));   // 第12便: 負質量はT=0色
     if(rr>=7){ // 大きな天体はグロー付きで描く
@@ -2357,7 +2430,7 @@ function render(){
     ctx.beginPath(); ctx.arc(sx,sy,Math.max(10,sim.R[i]*z+9),-Math.PI/2,-Math.PI/2+frac*Math.PI*2);
     ctx.strokeStyle="#ffd166"; ctx.stroke(); ctx.lineWidth=1;
     // 温度 T=Is² と放射ピーク波長 λ=b_m/T(A12 分光温度計)を併記
-    const Ti=0.5*sim.m[i]*sim.R[i]*sim.R[i]*sim.spin[i]*sim.spin[i];
+    const Ti=0.5*sim.m[i]*sim.R[i]*sim.R[i]*(sim.sT[i]*sim.spin[i])*(sim.sT[i]*sim.spin[i]);
     const lam=(Ti>1e-12)? fmt(sim.params.bM/Ti) : "—";
     ctx.font=(10*uiFontScale)+"px sans-serif"; ctx.fillStyle="#dfe4ff"; // v1.17: 文字サイズ追従
     const coreTxt=(sim.coreMR[i]!==0)? ` mc/m=${fmt(sim.coreMR[i])} sc/s=${fmt(sim.coreSR[i])}` : "";  // 第14便: 比率表示
@@ -2419,14 +2492,14 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
   if(S.n>0 && (!S._p90 || (frameCount%Q_TSORT[qLevel()])===0)){
     if(!S._ts||S._ts.length!==S.n) S._ts=new Float32Array(S.n);
     const ts=S._ts;
-    for(let i=0;i<S.n;i++) ts[i]=0.5*S.m[i]*S.R[i]*S.R[i]*S.spin[i]*S.spin[i];
+    for(let i=0;i<S.n;i++) ts[i]=0.5*S.m[i]*S.R[i]*S.R[i]*(S.sT[i]*S.spin[i])*(S.sT[i]*S.spin[i]);
     ts.sort(); p90=Math.max(1e-4, ts[Math.floor(0.9*(S.n-1))]);
     S._p90=p90;
   }
   for(let i=0;i<S.n;i++){
     const px=sx(S.x[i]), py=sy(S.y[i]);
     if(px<-40||px>cw+40||py<y0-40||py>y0+hgt+40) continue;
-    const Ti=0.5*S.m[i]*S.R[i]*S.R[i]*S.spin[i]*S.spin[i];
+    const Ti=0.5*S.m[i]*S.R[i]*S.R[i]*(S.sT[i]*S.spin[i])*(S.sT[i]*S.spin[i]);
     const rr=Math.max(1.2,Math.min(S.R[i]*z,30));
     ctx.fillStyle=tempColor(Math.min(1,Math.sqrt(Math.max(0,Ti)/p90)));   // 第12便: 負質量はT=0色
     ctx.beginPath(); ctx.arc(px,py,rr,0,7); ctx.fill();
@@ -2651,8 +2724,9 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   if(simB.n===sim.n){
     for(const k of ["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy",
       "coreMR","coreSR","mEff","Rc","rotAc",   // 主星2層の状態も転写(第14便: 比率仕様)
+      "sF","sT","sRp",                         // スピン役割分離の係数も転写(4-43・第20便)
       "railR","railAng","railOmega","railCx","railCy"]) simB[k].set(sim[k]);
-    simB.hasCore=sim.hasCore;
+    simB.hasCore=sim.hasCore; simB.hasSep=sim.hasSep;
     simB.pinned.set(sim.pinned); simB.hasU.set(sim.hasU);
   }
   simB.t=sim.t; simB.resPx=sim.resPx; simB.resPy=sim.resPy; simB.resL=sim.resL;
@@ -3203,6 +3277,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 - ring/disk/box には省略可の bulkVx,bulkVy(母集団の並進速度)を指定できる。移動する天体(vx,vyを持つ single)の周りに円盤・環を置くときは、必ず同じ値を bulkVx,bulkVy に与えて核と一体で動かすこと。
 - single には省略可の zonal(扁平中心天体の帯状重力補正 E13)を指定できる: {"refR":基準半径,"calib":1,"J":{"2":0.0163,"4":-0.0009}}。偶数次 J2〜J12 のみ・|J|≤0.1・refR:1〜5000・calib:0〜2。中心の大質量 pinned 粒子に付けると周回粒子の楕円軌道の近点が前進する(内側ほど速い差動近点移動 — 画面左上に実測/解析の近点移動が表示される)。土星なら J2≈0.0163。要望が扁平天体・歳差・近点移動のときだけ使う高度な属性で、通常のプリセットでは指定しない。
 - single には省略可の coreMR,coreSR(主星2層 — コアの質量比とスピン比)を指定できる。m は総質量のままで、coreMR=mc/m(−1〜1。既定0。負値=空洞〔殻に質量集中〕)・coreSR=sc/s(既定1=剛体回転=単層と等価)。差動分だけが ω += coreMR·s·(coreSR−1)·(Rc/(Rc+d))^q(Rc=radiusScale·√|coreMR·m|)として追加の空間引きずりに効く。要望がコア/深部回転・空洞天体・2層天体のときだけ使う高度な属性。
+- single には省略可の sFrame,sTherm,sRep(スピン役割分離 4-43 — 空間引きずり・温度/放射・スピン斥力への結合係数。各0〜2・既定1=従来どおり)を指定できる。例: sTherm:0,sRep:0 は「冷たく・押さないが、空間だけ引きずる」暗黒ローター。要望がダークマター/暗黒天体・冷たい高速回転体のときだけ使う高度な属性で、通常のプリセットでは指定しない。
 
 # 例
 例1 要望「連星と、その周りを回る惑星たち」
@@ -3466,6 +3541,7 @@ function applyLang(){
   $("#btnImportFile").textContent=T("btnImportFile");            // v1.17
   $("#btnPanelClose").textContent=T("panelClose");               // v1.17
   $("#beTitle").textContent=T("beTitle"); $("#beLp").textContent=T("bePinned");
+  $("#beLsf").textContent=T("beLsf"); $("#beLst").textContent=T("beLst"); $("#beLsr").textContent=T("beLsr");   // 4-43
   $("#beNote").textContent=T("beNote");                          // v1.17: 粒子編集パネル
   $("#aiProvHead").textContent=T("aiProvHead"); $("#aiProvLabel").textContent=T("aiProvLabel");
   $("#aiModelLabel").textContent=T("aiModelLabel"); $("#aiUrlLabel").textContent=T("aiUrlLabel");
@@ -3581,6 +3657,7 @@ function updateBodyEdit(){
   $("#beTitle").textContent=T("beTitle")+(ab? `(${selWorld})` : "");   // どちらの宇宙かを明示
   $("#beM").value=fmt(S.m[i]); $("#beS").value=fmt(S.spin[i]);
   $("#beMc").value=fmt(S.coreMR[i]); $("#beSc").value=fmt(S.coreSR[i]);
+  $("#beSf").value=fmt(S.sF[i]); $("#beSt").value=fmt(S.sT[i]); $("#beSr").value=fmt(S.sRp[i]);   // 4-43
   $("#beVx").value=fmt(S.vx[i]); $("#beVy").value=fmt(S.vy[i]);
   $("#bePin").checked=!!S.pinned[i];
 }
@@ -3597,6 +3674,10 @@ beBind("#beM",(S,i,v)=>{ S.m[i]=clamp(v,-5000,5000); S.updateRadii(); });     //
 beBind("#beMc",(S,i,v)=>{ S.coreMR[i]=clamp(v,-1,1); S.updateRadii(); });   // コア質量比 mc/m(負値=空洞)
 beBind("#beSc",(S,i,v)=>{ S.coreSR[i]=clamp(v,-20,20); });                  // コアスピン比 sc/s(既定1)
 beBind("#beS",(S,i,v)=>{ S.spin[i]=clamp(v,-40,40); });
+// 4-43: スピン役割分離の係数(0〜2)。編集で hasSep を更新(updateRadii が再判定)
+beBind("#beSf",(S,i,v)=>{ S.sF[i]=clamp(v,0,2); S.updateRadii(); });
+beBind("#beSt",(S,i,v)=>{ S.sT[i]=clamp(v,0,2); S.updateRadii(); });
+beBind("#beSr",(S,i,v)=>{ S.sRp[i]=clamp(v,0,2); S.updateRadii(); });
 beBind("#beVx",(S,i,v)=>{ S.vx[i]=clamp(v,-100,100); });
 beBind("#beVy",(S,i,v)=>{ S.vy[i]=clamp(v,-100,100); });
 $("#bePin").addEventListener("change",()=>{

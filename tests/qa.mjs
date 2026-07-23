@@ -1575,6 +1575,124 @@ if (!FAST) {
   }
 }
 
+// ---- 4-43(第20便・beta 先行): スピン役割分離(sFrame/sTherm/sRep)----
+// 対象に sF 配列があるときだけ実行(ルート昇格前は SKIP)。較正実測は 2026-07-23 第20便:
+// 等価性 maxd=0(bit)・冷却対照 0.00035・斥力対照 29.2・単一ローター u_φ(60)=11.79・
+// 🕶️ t=0 の u_φ(200) 比 1.112 / u_φ(140) は内側逆行(渦場の構造)
+{
+  const hasSep = await page.evaluate(() => !!(window.HP && HP.sim && HP.sim.sF));
+  if (hasSep) {
+    // 等価性: 明示 sFrame:1,sTherm:1,sRep:1 は省略時と bit 等価(回帰の錨)
+    const eq = await page.evaluate(() => {
+      const mk = (withKeys) => {
+        const b = { type: 'single', m: 500, x: -40, y: 0, vx: 0, vy: -1.2, spin: 1.5, pinned: false };
+        if (withKeys) Object.assign(b, { sFrame: 1, sTherm: 1, sRep: 1 });
+        return { name: 'eq', description: 'd', seed: 7, camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+          physics: { G: 1, D0: 2, kFrame: 1, q: 2, kRep: 1, muF: 0.5, gammaN: 0.4, kappaS: 0.05, Kt: 60, cLight: 60,
+            bM: 1, etaRad: 0.001, pRad: 2, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1, pnAlpha: 1.5,
+            radiusScale: 1.2, softening: 2, timeScale: 1 },
+          bodies: [b, { type: 'single', m: 500, x: 40, y: 0, vx: 0, vy: 1.2, spin: -0.8, pinned: false },
+            { type: 'disk', n: 60, cx: 0, cy: 0, radius: 150, mMin: 0.5, mMax: 1.5, spinMin: -2, spinMax: 2,
+              vMode: 'kepler', aroundMass: 1000, vScale: 1, direction: 1 }] };
+      };
+      const run = (withKeys) => { HP.sim.build(HP.validatePreset(mk(withKeys)).preset);
+        for (let k = 0; k < 300; k++) HP.sim.step(0.016);
+        return { sep: HP.sim.hasSep, x: Array.from(HP.sim.x), y: Array.from(HP.sim.y), s: Array.from(HP.sim.spin) }; };
+      const a = run(true), b = run(false);
+      let maxd = 0;
+      for (let i = 0; i < a.x.length; i++)
+        maxd = Math.max(maxd, Math.abs(a.x[i] - b.x[i]), Math.abs(a.y[i] - b.y[i]), Math.abs(a.s[i] - b.s[i]));
+      return { maxd, sepA: a.sep, sepB: b.sep };
+    });
+    add('sep.equivalence', eq.maxd === 0 && !eq.sepA && !eq.sepB,
+      `maxd=${eq.maxd}(=0: bit等価) hasSep=[${eq.sepA},${eq.sepB}](全係数1は高速経路)`);
+
+    // 3チャネルの分離: 冷(sTherm=0 は η_rad>0 でもスピン不変)・斥(sRep=0 は径方向加速ゼロ)・
+    // 引(sFrame で u_φ が0↔実測値に切り替わる)
+    const ch = await page.evaluate(() => {
+      const mkRotor = (over) => Object.assign({ type: 'single', m: 600, x: 0, y: 0, vx: 0, vy: 0, spin: 2, pinned: true }, over);
+      const base = (rotor, phys) => ({ name: 'ch', description: 'd', seed: 7, camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+        physics: Object.assign({ G: 1, D0: 1, kFrame: 1, q: 2, kRep: 1, muF: 0, gammaN: 0, kappaS: 0, Kt: 60, cLight: 60,
+          bM: 1, etaRad: 0, pRad: 2, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1, pnAlpha: 1.5,
+          radiusScale: 1.2, softening: 2, timeScale: 1 }, phys || {}),
+        bodies: [rotor, { type: 'single', m: 1, x: 60, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+      // E11 は pinned をスキップするため冷却対照は pinned:false(G=0 で静止のまま)
+      const cool = (sT) => { HP.sim.build(HP.validatePreset(base(mkRotor({ sTherm: sT, sRep: 0, pinned: false }), { etaRad: 0.5, G: 0 })).preset);
+        const s0 = HP.sim.spin[0]; for (let k = 0; k < 500; k++) HP.sim.step(0.016); return HP.sim.spin[0] / s0; };
+      const rep = (sR) => { HP.sim.build(HP.validatePreset(base(mkRotor({ sTherm: 0, sRep: sR }), { G: 0, kRep: 5, kFrame: 0 })).preset);
+        for (let k = 0; k < 200; k++) HP.sim.step(0.016);
+        return (HP.sim.x[1] * HP.sim.vx[1] + HP.sim.y[1] * HP.sim.vy[1]) / Math.hypot(HP.sim.x[1], HP.sim.y[1]); };
+      const uphi = (sF) => { HP.sim.build(HP.validatePreset(base(mkRotor({ sFrame: sF, sTherm: 0, sRep: 0 }))).preset);
+        const s = HP.sim, p = s.params, eps2 = p.softening * p.softening;
+        const px = 0, py = 60; let uNx = 0, uNy = 0, W = p.D0;
+        const dx = px - s.x[0], dy = py - s.y[0], d2 = dx * dx + dy * dy;
+        const inv = 1 / Math.sqrt(d2 + eps2), w = s.m[0] * inv, d = Math.sqrt(d2);
+        W += w; const sEff = s.spin[0] * s.sF[0]; const tt = s.R[0] / (s.R[0] + d);
+        const om = sEff * tt * tt; uNx = w * (om * (-dy)); uNy = w * (om * dx);
+        return (px * uNy - py * uNx) / 60 / W; };
+      return { coolCold: cool(0), coolHot: cool(1), repOff: rep(0), repOn: rep(1), uOn: uphi(1), uOff: uphi(0) };
+    });
+    add('sep.channels',
+      ch.coolCold === 1 && ch.coolHot < 0.5 && ch.repOff === 0 && ch.repOn > 1 && ch.uOff === 0 && ch.uOn > 5,
+      `冷: sT0=${ch.coolCold}(=1) sT1=${ch.coolHot.toExponential(1)}(<0.5) ` +
+      `斥: sR0=${ch.repOff}(=0) sR1=${ch.repOn.toFixed(1)}(>1) 引: sF0=${ch.uOff}(=0) sF1=${ch.uOn.toFixed(2)}(>5)`);
+
+    // 🕶️ darkrotor: t=0 の決定フレーム渦場 — リング外側(r=200)で順行 +5% 超・
+    // リング内側(r=140)で逆行(u_φ 低下)。t=0 なので完全決定論(seed 固定)
+    const up = await page.evaluate(() => {
+      const uphiAt = (s, r) => {
+        const p = s.params, eps2 = p.softening * p.softening, q = p.q;
+        let acc = 0;
+        for (let a = 0; a < 16; a++) {
+          const th = (a / 16) * Math.PI * 2, px = r * Math.cos(th), py = r * Math.sin(th);
+          let uNx = 0, uNy = 0, W = p.D0;
+          for (let j = 0; j < s.n; j++) {
+            const dx = px - s.x[j], dy = py - s.y[j], d2 = dx * dx + dy * dy;
+            const inv = 1 / Math.sqrt(d2 + eps2), w = s.m[j] * inv, d = Math.sqrt(d2);
+            W += w;
+            const sEff = s.spin[j] * s.sF[j];
+            let om = 0;
+            if (sEff !== 0) { const tt = s.R[j] / (s.R[j] + d); om = sEff * Math.pow(tt, q); }
+            uNx += w * (s.vx[j] + om * (-dy)); uNy += w * (s.vy[j] + om * dx);
+          }
+          acc += (px * uNy - py * uNx) / r / W;
+        }
+        return acc / 16;
+      };
+      const run = (frameOff) => { HP.loadPreset('darkrotor', false);
+        const s = HP.sim;
+        if (frameOff) { for (let i = 381; i < s.n; i++) s.sF[i] = 0; s.updateRadii(); }
+        return { u200: uphiAt(s, 200), u140: uphiAt(s, 140) }; };
+      return { on: run(false), off: run(true) };
+    });
+    add('sep.darkrotor-uphi', up.on.u200 > up.off.u200 * 1.05 && up.on.u140 < up.off.u140,
+      `u_φ(200)=${up.on.u200.toFixed(4)}/${up.off.u200.toFixed(4)} 比=${(up.on.u200 / up.off.u200).toFixed(3)}(>1.05) ` +
+      `u_φ(140)=${up.on.u140.toFixed(4)}<${up.off.u140.toFixed(4)}(内側は逆行)`);
+
+    // 🕶️ の中期安定(!FAST): 冷たいローター(sRep=0)は円盤を壊さない — 第19便の kRep=1 破壊
+    // (r90 517〜680)との対比。較正実測: 3000步 外縁v_φ=1.97・6000步 r90=188・NaNなし
+    if (!FAST) {
+      const st = await page.evaluate(() => {
+        HP.loadPreset('darkrotor', false);
+        const s = HP.sim;
+        for (let k = 0; k < 3000; k++) s.step(0.016);
+        let sum = 0, c = 0; const rs = [];
+        for (let i = 1; i <= 380; i++) { const r = Math.hypot(s.x[i], s.y[i]); rs.push(r);
+          if (r >= 156 && r <= 286) { sum += (s.x[i] * s.vy[i] - s.y[i] * s.vx[i]) / r; c++; } }
+        rs.sort((a, b) => a - b);
+        let inside = 0;
+        for (let i = 381; i < s.n; i++) { const r = Math.hypot(s.x[i], s.y[i]); if (r > 60 && r < 400) inside++; }
+        return { outer: c ? sum / c : 0, r90: rs[Math.floor(rs.length * 0.9)], inside, nHalo: s.n - 381, nan: s.hasNaN() };
+      });
+      add('behavior.darkrotor', !st.nan && st.r90 < 320 && st.outer > 1.5 && st.inside >= 17,
+        `外縁v_φ=${st.outer.toFixed(3)}(>1.5) r90=${st.r90.toFixed(1)}(<320: 円盤非破壊) ` +
+        `ハロー残存=${st.inside}/${st.nHalo}(≥17) NaN=${st.nan}`);
+    }
+  } else {
+    console.log('SKIP sep.*(対象にスピン役割分離なし)');
+  }
+}
+
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
 await browser.close();
 
