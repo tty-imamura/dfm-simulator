@@ -1480,7 +1480,7 @@ if (!FAST) {
       });
       const emSpinRel = Math.abs(em.spinM - em.omMeas) / em.omMeas;
       add('behavior.earthMoon',
-        !em.nan && em.mcr === 0.33 && Math.abs(em.scr - 1.05) < 1e-6 &&
+        !em.nan && Math.abs(em.mcr - 0.33) < 1e-6 && Math.abs(em.scr - 1.05) < 1e-6 &&   // Float32格納の丸め許容
         em.rMin >= 180 * 0.98 && em.rMax <= 180 * 1.02 &&        // 円軌道が ±2% で維持
         em.orbits > 1.5 &&                                        // 2周走行の確認
         em.syncPerOrbit <= 2 &&                                   // 潮汐固定: 同期誤差 ≤2°/周
