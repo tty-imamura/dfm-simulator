@@ -1,6 +1,6 @@
 {
- "commit": "7e856ae0af6b7a8d777d7879aafe39a62c291b0b",
- "date": "2026-07-22T18:40:16.263Z",
+ "commit": "e55e835f7a2d412d4c9c39f5b672576394e60672",
+ "date": "2026-07-23T00:44:57.173Z",
  "fast": false,
  "target": "beta/index.html",
  "run": {
@@ -17,7 +17,7 @@
   "playwright": "1.61.1",
   "platform": "linux/x64"
  },
- "total": 133,
+ "total": 131,
  "failed": 0,
  "pass": true,
  "results": [
@@ -59,7 +59,7 @@
   {
    "id": "docs.preset-table-sync",
    "pass": true,
-   "detail": "26 ids"
+   "detail": "24 ids"
   },
   {
    "id": "docs.gravity-params",
@@ -212,11 +212,6 @@
    "detail": "n=280"
   },
   {
-   "id": "preset.saturnZonal",
-   "pass": true,
-   "detail": "n=11"
-  },
-  {
    "id": "preset.saturnZonalD68",
    "pass": true,
    "detail": "n=11"
@@ -227,14 +222,9 @@
    "detail": "n=301"
   },
   {
-   "id": "preset.saturnMulti",
+   "id": "preset.saturnLayered",
    "pass": true,
    "detail": "n=301"
-  },
-  {
-   "id": "preset.saturnRes",
-   "pass": true,
-   "detail": "n=302"
   },
   {
    "id": "preset.binary",
@@ -629,7 +619,7 @@
   {
    "id": "zonal.dt-convergence",
    "pass": true,
-   "detail": "Δϖ/周: dt=0.016 → 9.464° / dt=0.008 → 9.428°(相対差 0.38% <10%)"
+   "detail": "Δϖ/周: dt=0.016 → 9.464° / dt=0.008 → 9.465°(相対差 0.02% <10%)"
   },
   {
    "id": "zonal.trail-default",
@@ -644,7 +634,7 @@
   {
    "id": "pwa.sw-offline",
    "pass": true,
-   "detail": "SW=true アセット200=true 名前空間dfm-beta-*=true(dfm-beta-v1.28-b4) オフライン再読込=true"
+   "detail": "SW=true アセット200=true 名前空間dfm-beta-*=true(dfm-beta-v1.28-b5) オフライン再読込=true"
   },
   {
    "id": "pwa.sw-fail-ui",
@@ -657,16 +647,6 @@
    "detail": "t≈600: 帯内=99.3%(≥95%) 落下=0.3%(≤2%) 散逸=0.0%(≤5%) 平均|spin|=0.157(<0.5)"
   },
   {
-   "id": "behavior.saturnMulti",
-   "pass": true,
-   "detail": "間隙 t150=15.9(≥8) t600=-18.2(<8=閉鎖) 帯中央値 C/B/A=107/137/175(順序保持) 帯内=99.7% 落下=0.0% 散逸=0.0%"
-  },
-  {
-   "id": "behavior.saturnRes",
-   "pass": true,
-   "detail": "間隙 t150=16.8(≥12) t600=10.8(≥8=残存) 8幅窓侵入=9(≤15) 帯中央値 C/B/A=124/160/209 衛星R=299.7(288〜312) 帯内=100.0% 落下=0.0% 散逸=0.0%"
-  },
-  {
    "id": "draft.restore",
    "pass": true,
    "detail": "confirm=1 muF=0.77(0.77) badge=inline-block 未保存として再保存=true"
@@ -675,6 +655,16 @@
    "id": "draft.discard",
    "pass": true,
    "detail": "confirm=2 muF=0.77(0.55 は不適用・直前値 0.77 のまま) 下書き消去=true"
+  },
+  {
+   "id": "core.twolayer",
+   "pass": true,
+   "detail": "🎯 n=301 core=900/0.0525 R/Rc=69.7/54.0 2層分割等価=0(<1e-9) mc=0高速パス=true&等価0 sc=2効果=154.14(>0.1) 負質量NaNなし=true"
+  },
+  {
+   "id": "core.ab-body-edit",
+   "pass": true,
+   "detail": "B選択表示=true(選択粒子の編集(B)) m(B)=-2受理=true A非波及=true mc(B)=50/mc(A)=0 sc(A)=1.5/sc(B)=0.00 終了で選択解除=true"
   },
   {
    "id": "ui.landscape",
