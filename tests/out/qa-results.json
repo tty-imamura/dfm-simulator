@@ -1,6 +1,6 @@
 {
- "commit": "a87cbff1f32dfbce0e9711917ecb339d6887c724",
- "date": "2026-07-23T04:52:50.180Z",
+ "commit": "ebbb21a2c9473f004baf975c63e0619721d3e3ae",
+ "date": "2026-07-23T09:10:50.504Z",
  "fast": false,
  "target": "beta/index.html",
  "run": {
@@ -229,7 +229,7 @@
   {
    "id": "preset.earthMoon",
    "pass": true,
-   "detail": "n=42"
+   "detail": "n=2"
   },
   {
    "id": "preset.binary",
@@ -639,7 +639,7 @@
   {
    "id": "pwa.sw-offline",
    "pass": true,
-   "detail": "SW=true アセット200=true 名前空間dfm-beta-*=true(dfm-beta-v1.28-b7) オフライン再読込=true"
+   "detail": "SW=true アセット200=true 名前空間dfm-beta-*=true(dfm-beta-v1.28-b8) オフライン再読込=true"
   },
   {
    "id": "pwa.sw-fail-ui",
@@ -677,9 +677,9 @@
    "detail": "t≈360: 帯内=97.0%(≥95%) 落下=0.3%(≤2%) 散逸=0.0%(≤5%) 平均|spin|=0.163(<0.5) 帯中央値=117/141/200 剛体回転との帯中央値差(t150)=0.02(≤8)"
   },
   {
-   "id": "core.hollow",
+   "id": "behavior.earthMoon",
    "pass": true,
-   "detail": "🌍 t≈150: 束縛率 空洞=98%/中実=100%(≥90%) 空洞vs中実の軌道差=174.8(>0.5=符号反転が効いている) NaNなし=true"
+   "detail": "🌍 t≈900(2.00周): r=179.8〜180.0(180±2%) 同期誤差=0.04°/周(≤2) spin月/ω実測 相対差=0.0%(<5%) 地球コア mc/m=0.33000001311302185/sc/s=1.0499999523162842 NaNなし=true"
   },
   {
    "id": "ui.landscape",
