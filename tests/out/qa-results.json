@@ -1,6 +1,6 @@
 {
- "commit": "86bdb8860979c36f2e3639fe29ab7d403e928b5e",
- "date": "2026-07-23T02:44:15.705Z",
+ "commit": "a87cbff1f32dfbce0e9711917ecb339d6887c724",
+ "date": "2026-07-23T04:52:50.180Z",
  "fast": false,
  "target": "beta/index.html",
  "run": {
@@ -17,7 +17,7 @@
   "playwright": "1.61.1",
   "platform": "linux/x64"
  },
- "total": 132,
+ "total": 134,
  "failed": 0,
  "pass": true,
  "results": [
@@ -59,7 +59,7 @@
   {
    "id": "docs.preset-table-sync",
    "pass": true,
-   "detail": "24 ids"
+   "detail": "25 ids"
   },
   {
    "id": "docs.gravity-params",
@@ -225,6 +225,11 @@
    "id": "preset.saturnLayered",
    "pass": true,
    "detail": "n=301"
+  },
+  {
+   "id": "preset.earthMoon",
+   "pass": true,
+   "detail": "n=42"
   },
   {
    "id": "preset.binary",
@@ -634,7 +639,7 @@
   {
    "id": "pwa.sw-offline",
    "pass": true,
-   "detail": "SW=true アセット200=true 名前空間dfm-beta-*=true(dfm-beta-v1.28-b6) オフライン再読込=true"
+   "detail": "SW=true アセット200=true 名前空間dfm-beta-*=true(dfm-beta-v1.28-b7) オフライン再読込=true"
   },
   {
    "id": "pwa.sw-fail-ui",
@@ -644,7 +649,7 @@
   {
    "id": "behavior.saturnExp",
    "pass": true,
-   "detail": "t≈600: 帯内=99.3%(≥95%) 落下=0.3%(≤2%) 散逸=0.0%(≤5%) 平均|spin|=0.157(<0.5)"
+   "detail": "t≈360: 帯内=96.7%(≥95%) 落下=0.7%(≤2%) 散逸=0.0%(≤5%) 平均|spin|=0.153(<0.5)"
   },
   {
    "id": "draft.restore",
@@ -659,17 +664,22 @@
   {
    "id": "core.twolayer",
    "pass": true,
-   "detail": "🎯 n=301 core=270/0.0525 R/Rc=69.7/29.6 剛体回転分割等価=0(<1e-9) コア静止差=2.8e-1(>1e-4) mc=0高速パス=true&等価0 sc=2効果=55.84(>0.1) 負質量NaNなし=true"
+   "detail": "🎯 n=301 mc/m=0.18 sc/s=1.05 R/Rc=69.7/29.6 剛体回転(sc/s=1)等価=0(<1e-9) コア静止差=2.8e-1(>1e-4) mc/m=0高速パス=true&等価0 高速コア効果=12.30(>0.1) 空洞NaNなし=true&効果=13.19 負質量NaNなし=true"
   },
   {
    "id": "core.ab-body-edit",
    "pass": true,
-   "detail": "B選択表示=true(選択粒子の編集(B)) m(B)=-2受理=true A非波及=true mc(B)=50/mc(A)=0 sc(A)=1.5/sc(B)=0.00 終了で選択解除=true"
+   "detail": "B選択表示=true(選択粒子の編集(B)) m(B)=-2受理=true A非波及=true mc/m(B)=0.5/mc/m(A)=0 sc/s(A)=1.5/sc/s(B)=1(既定1) 終了で選択解除=true"
   },
   {
    "id": "behavior.saturnLayered",
    "pass": true,
-   "detail": "t≈600: 帯内=99.0%(≥95%) 落下=0.0%(≤2%) 散逸=0.0%(≤5%) 平均|spin|=0.140(<0.5) 帯中央値=107/149/178 sc=0との帯中央値差(t150)=0.48(≤8)"
+   "detail": "t≈360: 帯内=97.0%(≥95%) 落下=0.3%(≤2%) 散逸=0.0%(≤5%) 平均|spin|=0.163(<0.5) 帯中央値=117/141/200 剛体回転との帯中央値差(t150)=0.02(≤8)"
+  },
+  {
+   "id": "core.hollow",
+   "pass": true,
+   "detail": "🌍 t≈150: 束縛率 空洞=98%/中実=100%(≥90%) 空洞vs中実の軌道差=174.8(>0.5=符号反転が効いている) NaNなし=true"
   },
   {
    "id": "ui.landscape",
