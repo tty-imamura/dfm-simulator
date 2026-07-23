@@ -1075,6 +1075,10 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"saturnLayered", name:"土星の環(主星2層)", emoji:"🎯", group:"天体の物語",
+  // 第14便: seed を 🪐(hashStr("saturn")+7)に固定 — 初期配置が 🪐 と完全一致し、
+  // 「同一初期配置での姉妹比較」になる(id 由来の別シードでは冷スタート過渡の谷が
+  // t≈360 に当たる実現があり、安定 QA の t360 短縮と干渉した — 実測 2026-07-23)
+  seed:1501780989,
   description:"主星にコア(質量比 mc/m=0.18)を持たせた 🪐 の姉妹版(第14便で比率仕様へ — 元になる数値をそのまま使える様に、m は総質量 1500 のまま)。コア質量比 18% は Cassini 後の重元素集中の推定(≈17地球質量/95地球質量)、コア半径比 Rc/R=42% は希薄コア(半径の約1/2)の推定に対応。sc/s はコアスピン比で、剛体回転(sc/s=1)なら単層と厳密等価 — 差動分だけが ω += (mc/m)·s·(sc/s−1)·f(Rc,d) としてコア核 Rc から追加の空間引きずり(A8)に効く(既定 sc/s=1.05 は教材用に差を強調した仮定値。地震学的推定は ≈1.01)。コアスピンは熱・散逸(T3/E10′)と切り離された固定内部回転源(反作用で変化しない外部拘束)であり、閉じた2層天体ではなく統制実験である点に注意。中心天体をタップして mc/m・sc/s を編集: sc/s=10(高速コア)・sc/s<0(逆回転コア)・mc/m<0(空洞 — 🌍 を参照)・A/B比較で kFrame=1 vs 0 などが見どころ。氷粒の衝突円形化(T3)は 🪐 と同一。",
   en:{name:"Saturn's Rings (Two-Layer Primary)", description:"Sister sample of 🪐 whose primary has a core specified by ratios (14th shipment): m stays the total mass 1500, the core mass ratio mc/m=0.18 matches post-Cassini estimates of heavy-element concentration (≈17 of 95 Earth masses), and Rc/R=42% matches the dilute core extending to roughly half the radius. sc/s is the core spin ratio: rigid rotation (sc/s=1) is exactly equivalent to the single-layer body, and only the differential part adds frame dragging (A8) through the smaller core kernel: ω += (mc/m)·s·(sc/s−1)·f(Rc,d). The default sc/s=1.05 exaggerates the contrast for teaching (seismology suggests ≈1.01). The core spin is a fixed internal rotation source decoupled from heat and dissipation (T3/E10′) — a controlled experiment, not a closed two-layer body. Tap the central body to edit mc/m and sc/s: try sc/s=10 (fast core), sc/s<0 (counter-rotating core), mc/m<0 (hollow — see 🌍), or A/B-compare kFrame 1 vs 0. Icy-grain circularization (T3) is identical to 🪐."},
   activeParams:["kFrame","muF","kappaS"],
@@ -1106,13 +1110,15 @@ const BUILTIN_PRESETS = [
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:0, muF:0.1, gammaN:0.1, kappaS:0, Kt:10000,
     cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:3},
   bodies:[ // 第14便(2026-07-23 原仮定者指示): コア質量比の負値=空洞のサンプル(例: 地球と月で
-           // 月が空洞)。月は mc/m=−0.5(殻集中)・s=0.3・sc/s=4 — 差動項 (mc/m)·s·(sc/s−1) の
+           // 月が空洞)。月は mc/m=−0.5(殻集中)・s=0.25・sc/s=3 — 差動項 (mc/m)·s·(sc/s−1) の
+           // 振幅は掃引で較正(2026-07-23: m=120/s=0.25/sc/s=3/環12-24 → t150 束縛 空洞98%・
+           // 中実100%・軌道差150。旧 m=80/s=0.3/sc/s=4/環14-26 は空洞50%で散逸過多)。
            // 符号が mc/m で反転し、月周回粒子の近点移動の向きが変わる(重力では見分けられない)。
            // 地球・月は pinned の展示系(統制実験)。粒子の並び: 0=地球, 1=月, 2..41=月周回粒子
     {type:"single", m:1000, x:0,y:0, vx:0,vy:0, spin:0.1, pinned:true},
-    {type:"single", m:80, coreMR:-0.5, coreSR:4, x:200,y:0, vx:0,vy:0, spin:0.3, pinned:true},
-    {type:"ring", n:40, cx:200,cy:0, rIn:14,rOut:26, mMin:0.01,mMax:0.02,
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:80, omega:0, vNoise:0.005, direction:1, pinned:false}
+    {type:"single", m:120, coreMR:-0.5, coreSR:3, x:200,y:0, vx:0,vy:0, spin:0.25, pinned:true},
+    {type:"ring", n:40, cx:200,cy:0, rIn:12,rOut:24, mMin:0.01,mMax:0.02,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:120, omega:0, vNoise:0.005, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
