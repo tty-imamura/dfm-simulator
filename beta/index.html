@@ -172,6 +172,8 @@
       <!-- 第14便: 主星2層(比率)— コア質量比 mc/m(既定0・負値=空洞)とコアスピン比 sc/s(既定1) -->
       <div class="beRow"><label id="beLmc" style="min-width:34px">mc/m</label><input type="text" id="beMc" inputmode="text" autocomplete="off">
         <label id="beLsc" style="min-width:30px">sc/s</label><input type="text" id="beSc" inputmode="text" autocomplete="off"></div>
+      <!-- 第21便: coreTR=コア温度倍率(Tc = coreTR·Ic·sc²。表示のみ) -->
+      <div class="beRow"><label id="beLtr" style="min-width:34px">Tc×</label><input type="text" id="beTr" inputmode="decimal" autocomplete="off"><span style="flex:1"></span></div>
       <!-- 4-43(第20便・beta 先行): スピン役割分離 — s(引)=sFrame・s(熱)=sTherm・s(斥)=sRep(既定1) -->
       <div class="beRow"><label id="beLsf" style="min-width:34px">s(引)</label><input type="text" id="beSf" inputmode="decimal" autocomplete="off">
         <label id="beLst" style="min-width:30px">s(熱)</label><input type="text" id="beSt" inputmode="decimal" autocomplete="off"></div>
@@ -394,7 +396,7 @@ ja: {
   btnImportFile:"ファイルから読込", fileLoaded:"ファイルを読み込みました",
   unsavedWarn:"※編集中のパラメータは「保存」するまでバックアップに含まれません",
   confirmDiscard:"未保存の編集があります。破棄して読み込みますか?",
-  betaShared:"β版はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。",
+  betaShared:"β版(beta v1.30-b2)はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。",
   draftRestore:"未保存の編集の下書きが見つかりました(再読込前の状態)。復元しますか?",
   swFail:"オフライン用キャッシュ(Service Worker)の登録に失敗しました。オンラインでは通常どおり使えます。",
   periHud:(m,a)=>`近点移動(最内粒子): 実測 ${m}°/周 / 解析 ${a}°/周`,
@@ -490,7 +492,7 @@ en: {
   btnImportFile:"Load from file", fileLoaded:"File loaded",
   unsavedWarn:"Note: edited parameters are not included in backups until you press Save",
   confirmDiscard:"You have unsaved edits. Discard them and load?",
-  betaShared:"This beta shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.",
+  betaShared:"This beta (v1.30-b2) shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.",
   draftRestore:"Found a draft of unsaved edits (from before the last reload). Restore it?",
   swFail:"Offline cache (Service Worker) registration failed. The app still works normally online.",
   periHud:(m,a)=>`Apsidal drift (innermost): measured ${m}°/orbit / analytic ${a}°/orbit`,
@@ -818,39 +820,42 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false} },
 
-{ id:"darkrotor", name:"冷たい暗黒ローターの銀河", emoji:"🕶️", group:"空間と時間",
-  // 4-43(第20便・beta 先行): スピン役割分離の代表サンプル。ハロー20体(m30×20=600)は
-  // 第19便実験B(tests/exp-darkrotor.mjs halo-aligned-kRep0)と同配置。seed 固定で決定論
-  description:"銀河円盤(🌌と同じ)を、光では見えない20個の「暗黒ローター」のハローが囲む思考実験。ローターはスピン役割分離(4-43)で sTherm=0(冷たい=光らず放射しない)・sRep=0(スピン圧で押さない)・空間引きずりだけを残した仮想のダークマター候補。ハローの質量が井戸を深くして外縁の回転速度を押し上げ、揃った高速スピン(s=2)が決定フレームを同方向へ回す — リングの外側では順行の押し上げ(u_φ +11%)、内側では渦の裏側の逆行、という渦場の構造ごと QA sep.darkrotor-uphi が機械検証(第19便実験Bの内蔵化。長時間の外縁増強量は時刻と乱数seedに敏感 — 第19便実測)。kFrameを0にすると引きずり経路ごと消える(おすすめA/B)。粒子をタップすると s(引)/s(熱)/s(斥) を個別に編集できる。※モデル内の理論実験であり、実宇宙のダークマターの主張ではない(T4の防御線を維持)。",
-  en:{name:"Cold Dark-Rotor Galaxy", description:"A thought experiment: the 🌌 galactic disk surrounded by a halo of 20 invisible 'dark rotors'. With spin-role separation (4-43) each rotor has sTherm=0 (cold — never glows or radiates) and sRep=0 (no spin pressure), keeping only frame dragging — a hypothetical dark-matter candidate acting through mass and space drag alone. The halo mass deepens the well and lifts the outer rotation speed, and the aligned fast spins (s=2) rotate the determinacy frame the same way — a prograde boost outside the rings (u_phi +11%) and a retrograde backflow inside them, the full vortex structure machine-checked by QA sep.darkrotor-uphi (built-in version of Delivery-19 Experiment B; the long-run outer enhancement is sensitive to time and random seed — Delivery-19 measurements). Set kFrame to 0 and the drag channel vanishes (suggested A/B). Tap a body to edit s·drag / s·heat / s·rep individually. A model-internal experiment — not a claim about real dark matter (T4 disclaimer upheld)."},
+{ id:"darkrotor", name:"ダークローターの銀河", emoji:"🕶️", group:"空間と時間",
+  // 第21便(原仮定者裁定): ダークローター=高速回転ブラックホールのモデル。v2 で「巨大ローターは
+  // コア/外殻+pinned で安定・軽いローターはコア無し+散逸平衡で安定」の設計則を較正実装
+  // (軽い天体にコアを与えると E6′ 反作用トルク×コア比の正帰還でスピン暴走 — 第21便実測)。
+  // 中心: mc/m=0.9・sc/s=10(コア実スピン1.0)・Tc×2 の隠れた高温核・pinned(帳簿はリザーバ)
+  description:"銀河円盤(🌌と同じ)を囲む20個の「ダークローター」ハローと、銀河中心の巨大ダークローター。ダークローターは高速回転ブラックホールをモデルにした天体 — 静かな外殻の内部で高速コア(mc/m=0.9・sc/s=10)が空間だけを強く引きずり、熱い核(Tc×=2)は外殻に隠れて外からは見えない(熱くても構わない)。中心ローターは決定フレームを実測×2.3(u_φ(200)・t=0)押し上げ、外縁の回転を増強する(QA sep.darkrotor-uphi / behavior.darkrotor が機械検証)。軽いハローのローターにコアを与えると反作用の正帰還でスピンが暴走するため(第21便実測)、ハローはコア無しで小さな散逸(muF/κs)と平衡させて安定化。中心は固定(外部拘束 — 反作用はリザーバに帳簿)。粒子をタップすると s(引)/s(熱)/s(斥) と Tc× を個別に編集できる。kFrameを0にすると引きずり経路ごと消える(おすすめA/B)。※モデル内の理論実験であり、実宇宙のダークマターの主張ではない(T4の防御線を維持)。",
+  en:{name:"Dark-Rotor Galaxy", description:"The 🌌 galactic disk surrounded by a halo of 20 'dark rotors', plus a giant dark rotor at the galactic center. A dark rotor is modeled on a fast-spinning black hole — inside a quiet shell, a fast core (mc/m=0.9, sc/s=10) drags space alone, and the hot core (Tc×=2) stays hidden behind the shell (it may be hot — it is invisible from outside). The central rotor lifts the determinacy frame by a measured ×2.3 (u_phi(200), t=0), enhancing the outer rotation (machine-checked by QA sep.darkrotor-uphi / behavior.darkrotor). Giving cores to the light halo rotors makes their spin run away via the reaction-torque feedback (measured in Delivery 21), so the halo rotors are core-less and stabilized in equilibrium with small dissipation (muF/kappaS). The center is pinned (external constraint — reactions are ledgered to the reservoir). Tap a body to edit s-drag / s-heat / s-rep and Tc× individually. Set kFrame to 0 and the whole drag channel vanishes (suggested A/B). A model-internal experiment — not a claim about real dark matter (T4 disclaimer upheld)."},
   activeParams:["kFrame","D0","G"],
   camera:{scale:300}, world:{boundary:"none",size:0}, seed:20260723,
   physics:{G:1, D0:1, kFrame:1, q:2, kRep:1.0, muF:0.02, gammaN:0.05, kappaS:0.05, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:4, timeScale:4},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:4, timeScale:2},
   bodies:[
-    {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:false},
+    {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.1, coreMR:0.9, coreSR:10, coreTR:2,
+     sFrame:1, sTherm:0, sRep:0, pinned:true},
     {type:"disk", n:380, cx:0,cy:0, radius:260, mMin:0.5,mMax:1.2,
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:600, vScale:1.05, direction:1},
-    {type:"single", m:30, x:170.000,y:0.000, vx:-0.0000,vy:2.0853, spin:2, sTherm:0, sRep:0, pinned:false},
-    {type:"single", m:30, x:137.533,y:99.923, vx:-1.2257,vy:1.6871, spin:2, sTherm:0, sRep:0, pinned:false},
-    {type:"single", m:30, x:52.533,y:161.680, vx:-1.9833,vy:0.6444, spin:2, sTherm:0, sRep:0, pinned:false},
-    {type:"single", m:30, x:-52.533,y:161.680, vx:-1.9833,vy:-0.6444, spin:2, sTherm:0, sRep:0, pinned:false},
-    {type:"single", m:30, x:-137.533,y:99.923, vx:-1.2257,vy:-1.6871, spin:2, sTherm:0, sRep:0, pinned:false},
-    {type:"single", m:30, x:-170.000,y:0.000, vx:-0.0000,vy:-2.0853, spin:2, sTherm:0, sRep:0, pinned:false},
-    {type:"single", m:30, x:-137.533,y:-99.923, vx:1.2257,vy:-1.6871, spin:2, sTherm:0, sRep:0, pinned:false},
-    {type:"single", m:30, x:-52.533,y:-161.680, vx:1.9833,vy:-0.6444, spin:2, sTherm:0, sRep:0, pinned:false},
-    {type:"single", m:30, x:52.533,y:-161.680, vx:1.9833,vy:0.6444, spin:2, sTherm:0, sRep:0, pinned:false},
-    {type:"single", m:30, x:137.533,y:-99.923, vx:1.2257,vy:1.6871, spin:2, sTherm:0, sRep:0, pinned:false},
-    {type:"single", m:30, x:218.743,y:71.074, vx:-0.6938,vy:2.1352, spin:2, sTherm:0, sRep:0, pinned:false},
-    {type:"single", m:30, x:135.191,y:186.074, vx:-1.8163,vy:1.3196, spin:2, sTherm:0, sRep:0, pinned:false},
-    {type:"single", m:30, x:0.000,y:230.000, vx:-2.2451,vy:0.0000, spin:2, sTherm:0, sRep:0, pinned:false},
-    {type:"single", m:30, x:-135.191,y:186.074, vx:-1.8163,vy:-1.3196, spin:2, sTherm:0, sRep:0, pinned:false},
-    {type:"single", m:30, x:-218.743,y:71.074, vx:-0.6938,vy:-2.1352, spin:2, sTherm:0, sRep:0, pinned:false},
-    {type:"single", m:30, x:-218.743,y:-71.074, vx:0.6938,vy:-2.1352, spin:2, sTherm:0, sRep:0, pinned:false},
-    {type:"single", m:30, x:-135.191,y:-186.074, vx:1.8163,vy:-1.3196, spin:2, sTherm:0, sRep:0, pinned:false},
-    {type:"single", m:30, x:-0.000,y:-230.000, vx:2.2451,vy:-0.0000, spin:2, sTherm:0, sRep:0, pinned:false},
-    {type:"single", m:30, x:135.191,y:-186.074, vx:1.8163,vy:1.3196, spin:2, sTherm:0, sRep:0, pinned:false},
-    {type:"single", m:30, x:218.743,y:-71.074, vx:0.6938,vy:2.1352, spin:2, sTherm:0, sRep:0, pinned:false}
+    {type:"single", m:30, x:170.000,y:0.000, vx:-0.0000,vy:2.0853, spin:2, sFrame:1, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:137.533,y:99.923, vx:-1.2257,vy:1.6871, spin:2, sFrame:1, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:52.533,y:161.680, vx:-1.9833,vy:0.6444, spin:2, sFrame:1, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:-52.533,y:161.680, vx:-1.9833,vy:-0.6444, spin:2, sFrame:1, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:-137.533,y:99.923, vx:-1.2257,vy:-1.6871, spin:2, sFrame:1, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:-170.000,y:0.000, vx:-0.0000,vy:-2.0853, spin:2, sFrame:1, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:-137.533,y:-99.923, vx:1.2257,vy:-1.6871, spin:2, sFrame:1, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:-52.533,y:-161.680, vx:1.9833,vy:-0.6444, spin:2, sFrame:1, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:52.533,y:-161.680, vx:1.9833,vy:0.6444, spin:2, sFrame:1, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:137.533,y:-99.923, vx:1.2257,vy:1.6871, spin:2, sFrame:1, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:218.743,y:71.074, vx:-0.6938,vy:2.1352, spin:2, sFrame:1, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:135.191,y:186.074, vx:-1.8163,vy:1.3196, spin:2, sFrame:1, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:0.000,y:230.000, vx:-2.2451,vy:0.0000, spin:2, sFrame:1, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:-135.191,y:186.074, vx:-1.8163,vy:-1.3196, spin:2, sFrame:1, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:-218.743,y:71.074, vx:-0.6938,vy:-2.1352, spin:2, sFrame:1, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:-218.743,y:-71.074, vx:0.6938,vy:-2.1352, spin:2, sFrame:1, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:-135.191,y:-186.074, vx:1.8163,vy:-1.3196, spin:2, sFrame:1, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:-0.000,y:-230.000, vx:2.2451,vy:-0.0000, spin:2, sFrame:1, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:135.191,y:-186.074, vx:1.8163,vy:1.3196, spin:2, sFrame:1, sTherm:0, sRep:0, pinned:false},
+    {type:"single", m:30, x:218.743,y:-71.074, vx:0.6938,vy:2.1352, spin:2, sFrame:1, sTherm:0, sRep:0, pinned:false}
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false} },
 
@@ -1343,6 +1348,11 @@ function validatePreset(obj){
           o.coreMR=isNum(b.coreMR)? wc(b.coreMR,-1,1,"coreMR") : 0;
           o.coreSR=isNum(b.coreSR)? wc(b.coreSR,-20,20,"coreSR") : 1;
         }
+        // 第21便: coreTR=コア温度倍率(Tc = coreTR·Ic·sc²。表示のみ・既定1・0〜1000)
+        if(b.coreTR!==undefined){
+          if(!isNum(b.coreTR)){ bad(at+".coreTR が数値ではありません"); return; }
+          o.coreTR=wc(b.coreTR,0,1000,"coreTR");
+        }
         // 4-43(第20便・beta 先行): スピン役割分離 — 結合係数 sFrame(空間引きずり)・
         // sTherm(温度・放射)・sRep(スピン斥力)。既定1=従来と厳密等価。0〜2 にクランプ
         if(b.sFrame!==undefined || b.sTherm!==undefined || b.sRep!==undefined){
@@ -1434,6 +1444,10 @@ function makeSim(){
     // (既定1=剛体回転=単層と厳密等価)。Rc=radiusScale·√(|coreMR|·|m|)。mEff は m の
     // 下限保護(|m|≥0.01)付き別名(負質量実験の0除算保護)
     coreMR:null, coreSR:null, mEff:null, Rc:null, rotAc:null, hasCore:false,
+    // 第21便(原仮定者裁定): coreTR=コア温度倍率。コア温度 Tc = coreTR·(Ic·sc²)(A9 をコアに
+    // 適用した回転温度基準の倍率。既定1)。表示(HUD・コア描画色)のみでエンジンには作用しない —
+    // コアは深部で熱的に非結合(外から見えないので熱くても構わない=BH型の隠れた高温核)
+    coreTR:null,
     // 4-43(第20便・beta 先行): スピン役割分離 — 結合係数(single のみ・既定1)。
     // ω_frame = sFrame·s·f(R,d)(E3/E8R)・ω_rep = sRep·s·f(R,d)(E5′)・T = ½I(sTherm·s)²(E11/表示)。
     // 全て1なら従来と厳密等価(hasSep=false の宇宙は乗算自体を素通り)。E9/E10′/E6′反作用は
@@ -1450,6 +1464,7 @@ function makeSim(){
     const F=()=>new Float32Array(n);
     S.m=F();S.x=F();S.y=F();S.vx=F();S.vy=F();S.spin=F();S.R=F();S.rotA=F();
     S.coreMR=F();S.coreSR=F();S.mEff=F();S.Rc=F();S.rotAc=F();   // 主星2層(第12〜14便)
+    S.coreTR=F();                                                // コア温度倍率(第21便)
     S.sF=F();S.sT=F();S.sRp=F();                                 // スピン役割分離(4-43・第20便)
     S.coreSR.fill(1);   // コアスピン比の既定は 1(剛体回転=単層等価)
     S.uPx=F();S.uPy=F();S.tau=F();S.ax=F();S.ay=F();S.sumW=F();S.uAx=F();S.uAy=F();S.ds=F();
@@ -1476,6 +1491,7 @@ function makeSim(){
         const o={m:b.m,x:b.x,y:b.y,vx:b.vx,vy:b.vy,spin:b.spin,pinned:b.pinned?1:0,railOmega:0,
           // 主星2層(第14便: 比率仕様)。coreMR=mc/m(既定0)・coreSR=sc/s(既定1)
           coreMR:b.coreMR||0, coreSR:(b.coreSR===undefined?1:b.coreSR),
+          coreTR:(b.coreTR===undefined?1:b.coreTR),
           // スピン役割分離(4-43・第20便): 既定1=従来と厳密等価
           sFrame:(b.sFrame===undefined?1:b.sFrame), sTherm:(b.sTherm===undefined?1:b.sTherm),
           sRep:(b.sRep===undefined?1:b.sRep)};
@@ -1537,6 +1553,7 @@ function makeSim(){
     P.forEach((o,i)=>{ S.m[i]=o.m; S.x[i]=o.x; S.y[i]=o.y; S.vx[i]=o.vx; S.vy[i]=o.vy;
       S.spin[i]=o.spin; S.pinned[i]=o.pinned; S.railOmega[i]=o.railOmega||0;
       S.coreMR[i]=o.coreMR||0; S.coreSR[i]=(o.coreSR===undefined?1:o.coreSR);
+      S.coreTR[i]=(o.coreTR===undefined?1:o.coreTR);
       S.sF[i]=(o.sFrame===undefined?1:o.sFrame); S.sT[i]=(o.sTherm===undefined?1:o.sTherm);
       S.sRp[i]=(o.sRep===undefined?1:o.sRep);
       if(o.railOmega){ S.railR[i]=o.railR; S.railAng[i]=o.railAng; S.railCx[i]=o.railCx; S.railCy[i]=o.railCy; }
@@ -2399,8 +2416,14 @@ function render(){
     // 空洞(coreMR<0)はさらに暗い「穴」として描く
     if(sim.coreMR[i]!==0 && rr>=7){
       const rc=Math.max(3,Math.min(sim.Rc[i]*z,rr*0.92));
-      ctx.fillStyle=(sim.coreMR[i]<0)? "rgba(3,4,10,0.85)" : "rgba(10,12,24,0.55)";
-      ctx.beginPath(); ctx.arc(sx,sy,rc,0,7); ctx.fill();
+      // 第21便: coreTR≠1 のコアは温度色で描く(Tc = coreTR·Ic·sc²)。coreTR=1(既定)・空洞は従来描画
+      if(sim.coreMR[i]>0 && sim.coreTR[i]!==1){
+        const sc2=sim.coreSR[i]*sim.spin[i];
+        const Tc=sim.coreTR[i]*0.5*Math.abs(sim.coreMR[i]*sim.m[i])*sim.Rc[i]*sim.Rc[i]*sc2*sc2;
+        ctx.globalAlpha=0.8;
+        ctx.fillStyle=tempColor(Math.min(1,Math.sqrt(Math.max(0,Tc)/Math.max(1e-4,tempP90EMA))));
+      } else ctx.fillStyle=(sim.coreMR[i]<0)? "rgba(3,4,10,0.85)" : "rgba(10,12,24,0.55)";
+      ctx.beginPath(); ctx.arc(sx,sy,rc,0,7); ctx.fill(); ctx.globalAlpha=1;
       if(Math.abs(sim.coreSR[i]*sim.spin[i])>1e-4){
         const a0=sim.rotAc[i];
         ctx.strokeStyle="rgba(255,255,255,0.5)"; ctx.lineWidth=Math.max(1,rc*0.12);
@@ -2433,7 +2456,10 @@ function render(){
     const Ti=0.5*sim.m[i]*sim.R[i]*sim.R[i]*(sim.sT[i]*sim.spin[i])*(sim.sT[i]*sim.spin[i]);
     const lam=(Ti>1e-12)? fmt(sim.params.bM/Ti) : "—";
     ctx.font=(10*uiFontScale)+"px sans-serif"; ctx.fillStyle="#dfe4ff"; // v1.17: 文字サイズ追従
-    const coreTxt=(sim.coreMR[i]!==0)? ` mc/m=${fmt(sim.coreMR[i])} sc/s=${fmt(sim.coreSR[i])}` : "";  // 第14便: 比率表示
+    // 第14便: 比率表示+第21便: コア温度 Tc = coreTR·Ic·sc²(表示のみ)
+    const scH=sim.coreSR[i]*sim.spin[i];
+    const coreTxt=(sim.coreMR[i]!==0)? ` mc/m=${fmt(sim.coreMR[i])} sc/s=${fmt(sim.coreSR[i])}`+
+      ` Tc=${fmt(sim.coreTR[i]*0.5*Math.abs(sim.coreMR[i]*sim.m[i])*sim.Rc[i]*sim.Rc[i]*scH*scH)}` : "";
     ctx.fillText(`m=${fmt(sim.m[i])}${coreTxt} s=${fmt(sim.spin[i])} T=${fmt(Ti)} λ=${lam} ${T("hudClock")}=${(frac*100).toFixed(1)}%`,8,ch-10);
   }
   // v1.21: スロット配置 — 複数グラフは右下から縦に積み、互いを隠さない(🌠merger)
@@ -2513,8 +2539,13 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
     }
     if(S.coreMR[i]!==0 && rr>=7){   // 主星2層のコア(A/B側も同様。空洞=より暗い穴)
       const rc=Math.max(3,Math.min(S.Rc[i]*z,rr*0.92));
-      ctx.fillStyle=(S.coreMR[i]<0)? "rgba(3,4,10,0.85)" : "rgba(10,12,24,0.55)";
-      ctx.beginPath(); ctx.arc(px,py,rc,0,7); ctx.fill();
+      if(S.coreMR[i]>0 && S.coreTR[i]!==1){   // 第21便: coreTR≠1 は温度色(A側と同様)
+        const sc2=S.coreSR[i]*S.spin[i];
+        const Tc=S.coreTR[i]*0.5*Math.abs(S.coreMR[i]*S.m[i])*S.Rc[i]*S.Rc[i]*sc2*sc2;
+        ctx.globalAlpha=0.8;
+        ctx.fillStyle=tempColor(Math.min(1,Math.sqrt(Math.max(0,Tc)/Math.max(1e-4,tempP90EMA))));
+      } else ctx.fillStyle=(S.coreMR[i]<0)? "rgba(3,4,10,0.85)" : "rgba(10,12,24,0.55)";
+      ctx.beginPath(); ctx.arc(px,py,rc,0,7); ctx.fill(); ctx.globalAlpha=1;
       if(Math.abs(S.coreSR[i]*S.spin[i])>1e-4){
         const a0=S.rotAc[i];
         ctx.strokeStyle="rgba(255,255,255,0.5)"; ctx.lineWidth=Math.max(1,rc*0.12);
@@ -2644,6 +2675,8 @@ function getCustomPresets(){
 }
 function setCustomPresets(a){ localStorage.setItem("hp_custom_presets",JSON.stringify(a)); }
 function allPresets(){ return BUILTIN_PRESETS.concat(getCustomPresets()); }
+// 第21便: プルダウン表示用の kFrame タグ(physics 未保持の項目は付けない)
+function kfTag(ph){ return (ph && typeof ph.kFrame==="number")? " (kF="+(+ph.kFrame)+")" : ""; }
 function rebuildPresetSelect(selId){
   const sel=$("#presetSelect"); sel.textContent="";
   // 内蔵プリセットは group ごとの optgroup(付録E E4。配列順=表示順)
@@ -2652,13 +2685,14 @@ function rebuildPresetSelect(selId){
     const g=p.group||"内蔵";
     if(g!==curGroup){ curGroup=g; og=document.createElement("optgroup"); og.label=gName(g); sel.appendChild(og); }
     const o=document.createElement("option");
-    o.value=p.id; o.textContent=(p.emoji||"")+" "+pName(p); og.appendChild(o);
+    // 第21便(原仮定者指示): サンプルの kFrame を選択時に判別できるよう名前へ (kF=N) を付記
+    o.value=p.id; o.textContent=(p.emoji||"")+" "+pName(p)+kfTag(p.physics); og.appendChild(o);
   });
   const customs=getCustomPresets();
   if(customs.length){
     const og2=document.createElement("optgroup"); og2.label=gName("AI生成");
     customs.forEach(p=>{ const o=document.createElement("option");
-      o.value=p.id; o.textContent="🤖 "+(p.emoji||"")+" "+pName(p); og2.appendChild(o); });
+      o.value=p.id; o.textContent="🤖 "+(p.emoji||"")+" "+pName(p)+kfTag(p.physics); og2.appendChild(o); });
     sel.appendChild(og2);
   }
   // v1.17: 保存一覧もプルダウンから直接開けるように(AI生成とカテゴリを分離)
@@ -2666,7 +2700,7 @@ function rebuildPresetSelect(selId){
   if(saves.length){
     const og3=document.createElement("optgroup"); og3.label=gName("保存一覧");
     saves.forEach((s,idx)=>{ const o=document.createElement("option");
-      o.value="save#"+idx; o.textContent="💾 "+(s.name||T("untitled")); og3.appendChild(o); });
+      o.value="save#"+idx; o.textContent="💾 "+(s.name||T("untitled"))+kfTag(s.physics); og3.appendChild(o); });
     sel.appendChild(og3);
   }
   if(selId) sel.value=selId;
@@ -2723,7 +2757,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   const simB=makeSim(); simB.build(JSON.parse(JSON.stringify(currentPreset)));
   if(simB.n===sim.n){
     for(const k of ["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy",
-      "coreMR","coreSR","mEff","Rc","rotAc",   // 主星2層の状態も転写(第14便: 比率仕様)
+      "coreMR","coreSR","mEff","Rc","rotAc","coreTR",   // 主星2層の状態も転写(第14便: 比率仕様+第21便 coreTR)
       "sF","sT","sRp",                         // スピン役割分離の係数も転写(4-43・第20便)
       "railR","railAng","railOmega","railCx","railCy"]) simB[k].set(sim[k]);
     simB.hasCore=sim.hasCore; simB.hasSep=sim.hasSep;
@@ -3276,8 +3310,8 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 - box: {type,n,cx,cy,w,h,mMin,mMax,spinMin,spinMax,vScale} — 幅w高さhの矩形にn個、ランダム方向に速さ〜vScale。
 - ring/disk/box には省略可の bulkVx,bulkVy(母集団の並進速度)を指定できる。移動する天体(vx,vyを持つ single)の周りに円盤・環を置くときは、必ず同じ値を bulkVx,bulkVy に与えて核と一体で動かすこと。
 - single には省略可の zonal(扁平中心天体の帯状重力補正 E13)を指定できる: {"refR":基準半径,"calib":1,"J":{"2":0.0163,"4":-0.0009}}。偶数次 J2〜J12 のみ・|J|≤0.1・refR:1〜5000・calib:0〜2。中心の大質量 pinned 粒子に付けると周回粒子の楕円軌道の近点が前進する(内側ほど速い差動近点移動 — 画面左上に実測/解析の近点移動が表示される)。土星なら J2≈0.0163。要望が扁平天体・歳差・近点移動のときだけ使う高度な属性で、通常のプリセットでは指定しない。
-- single には省略可の coreMR,coreSR(主星2層 — コアの質量比とスピン比)を指定できる。m は総質量のままで、coreMR=mc/m(−1〜1。既定0。負値=空洞〔殻に質量集中〕)・coreSR=sc/s(既定1=剛体回転=単層と等価)。差動分だけが ω += coreMR·s·(coreSR−1)·(Rc/(Rc+d))^q(Rc=radiusScale·√|coreMR·m|)として追加の空間引きずりに効く。要望がコア/深部回転・空洞天体・2層天体のときだけ使う高度な属性。
-- single には省略可の sFrame,sTherm,sRep(スピン役割分離 4-43 — 空間引きずり・温度/放射・スピン斥力への結合係数。各0〜2・既定1=従来どおり)を指定できる。例: sTherm:0,sRep:0 は「冷たく・押さないが、空間だけ引きずる」暗黒ローター。要望がダークマター/暗黒天体・冷たい高速回転体のときだけ使う高度な属性で、通常のプリセットでは指定しない。
+- single には省略可の coreMR,coreSR,coreTR(主星2層 — コアの質量比・スピン比・温度倍率〔Tc=coreTR·Ic·sc²、表示のみ〕)を指定できる。m は総質量のままで、coreMR=mc/m(−1〜1。既定0。負値=空洞〔殻に質量集中〕)・coreSR=sc/s(既定1=剛体回転=単層と等価)。差動分だけが ω += coreMR·s·(coreSR−1)·(Rc/(Rc+d))^q(Rc=radiusScale·√|coreMR·m|)として追加の空間引きずりに効く。要望がコア/深部回転・空洞天体・2層天体のときだけ使う高度な属性。
+- single には省略可の sFrame,sTherm,sRep(スピン役割分離 4-43 — 空間引きずり・温度/放射・スピン斥力への結合係数。各0〜2・既定1=従来どおり)を指定できる。例: sTherm:0,sRep:0 は「冷たく・押さないが、空間だけ引きずる」ダークローター。要望がダークマター/暗黒天体・冷たい高速回転体のときだけ使う高度な属性で、通常のプリセットでは指定しない。
 
 # 例
 例1 要望「連星と、その周りを回る惑星たち」
@@ -3658,6 +3692,7 @@ function updateBodyEdit(){
   $("#beM").value=fmt(S.m[i]); $("#beS").value=fmt(S.spin[i]);
   $("#beMc").value=fmt(S.coreMR[i]); $("#beSc").value=fmt(S.coreSR[i]);
   $("#beSf").value=fmt(S.sF[i]); $("#beSt").value=fmt(S.sT[i]); $("#beSr").value=fmt(S.sRp[i]);   // 4-43
+  $("#beTr").value=fmt(S.coreTR[i]);   // 第21便: コア温度倍率
   $("#beVx").value=fmt(S.vx[i]); $("#beVy").value=fmt(S.vy[i]);
   $("#bePin").checked=!!S.pinned[i];
 }
@@ -3678,6 +3713,7 @@ beBind("#beS",(S,i,v)=>{ S.spin[i]=clamp(v,-40,40); });
 beBind("#beSf",(S,i,v)=>{ S.sF[i]=clamp(v,0,2); S.updateRadii(); });
 beBind("#beSt",(S,i,v)=>{ S.sT[i]=clamp(v,0,2); S.updateRadii(); });
 beBind("#beSr",(S,i,v)=>{ S.sRp[i]=clamp(v,0,2); S.updateRadii(); });
+beBind("#beTr",(S,i,v)=>{ S.coreTR[i]=clamp(v,0,1000); });   // 第21便: コア温度倍率(表示のみ)
 beBind("#beVx",(S,i,v)=>{ S.vx[i]=clamp(v,-100,100); });
 beBind("#beVy",(S,i,v)=>{ S.vy[i]=clamp(v,-100,100); });
 $("#bePin").addEventListener("change",()=>{
@@ -3688,6 +3724,14 @@ $("#bePin").addEventListener("change",()=>{
   setParamsDirty(true); requestRender();
 });
 $("#beClose").addEventListener("click",()=>{ selIdx=-1; updateBodyEdit(); });
+
+// 第21便(原仮定者指示): 値の直接入力はタップ(フォーカス)で全選択 — 1タップで上書き入力できる
+// (iOS Safari は focus 直後の select が解除されることがあるため setTimeout(0) で確定させる)
+document.addEventListener("focusin",(e)=>{
+  const t=e.target;
+  if(t && t.tagName==="INPUT" && (t.type==="text"||t.type==="number"))
+    setTimeout(()=>{ try{ t.select(); }catch(_){} },0);
+});
 
 // ===== 検証フック HP.verify(V1/V2/V6/V8/V9/V10/V11/V12/V13/V16。品質ゲートが使用) =====
 // V3〜V5・V7 は長時間の数値実験のため自動テスト列に含めない(HANDOFF_IMPLEMENTATION.md 付録B B5)。

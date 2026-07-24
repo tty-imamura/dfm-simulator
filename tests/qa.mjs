@@ -1637,8 +1637,9 @@ if (!FAST) {
       `冷: sT0=${ch.coolCold}(=1) sT1=${ch.coolHot.toExponential(1)}(<0.5) ` +
       `斥: sR0=${ch.repOff}(=0) sR1=${ch.repOn.toFixed(1)}(>1) 引: sF0=${ch.uOff}(=0) sF1=${ch.uOn.toFixed(2)}(>5)`);
 
-    // 🕶️ darkrotor: t=0 の決定フレーム渦場 — リング外側(r=200)で順行 +5% 超・
-    // リング内側(r=140)で逆行(u_φ 低下)。t=0 なので完全決定論(seed 固定)
+    // 🕶️ darkrotor v2(第21便): t=0 の決定フレーム — 全ダークローター(中心コアローター+
+    // ハロー20体)の sFrame を 0 にすると u_φ が大きく低下する(中心コアの引きずり ×2 超)。
+    // u_φ の評価はエンジンの ω 計算と同形(コア差動項込み・sFrame 乗算込み)。t=0 決定論
     const up = await page.evaluate(() => {
       const uphiAt = (s, r) => {
         const p = s.params, eps2 = p.softening * p.softening, q = p.q;
@@ -1650,9 +1651,12 @@ if (!FAST) {
             const dx = px - s.x[j], dy = py - s.y[j], d2 = dx * dx + dy * dy;
             const inv = 1 / Math.sqrt(d2 + eps2), w = s.m[j] * inv, d = Math.sqrt(d2);
             W += w;
-            const sEff = s.spin[j] * s.sF[j];
-            let om = 0;
-            if (sEff !== 0) { const tt = s.R[j] / (s.R[j] + d); om = sEff * Math.pow(tt, q); }
+            let om = 0; const sj = s.spin[j];
+            if (sj !== 0) { const tt = s.R[j] / (s.R[j] + d); om = sj * Math.pow(tt, q); }
+            if (s.coreMR[j] !== 0 && sj !== 0 && s.Rc[j] > 0 && s.coreSR[j] !== 1) {
+              const tt = s.Rc[j] / (s.Rc[j] + d); om += s.coreMR[j] * sj * (s.coreSR[j] - 1) * Math.pow(tt, q);
+            }
+            om *= s.sF[j];
             uNx += w * (s.vx[j] + om * (-dy)); uNy += w * (s.vy[j] + om * dx);
           }
           acc += (px * uNy - py * uNx) / r / W;
@@ -1661,32 +1665,60 @@ if (!FAST) {
       };
       const run = (frameOff) => { HP.loadPreset('darkrotor', false);
         const s = HP.sim;
-        if (frameOff) { for (let i = 381; i < s.n; i++) s.sF[i] = 0; s.updateRadii(); }
+        if (frameOff) { s.sF[0] = 0; for (let i = 381; i < s.n; i++) s.sF[i] = 0; s.updateRadii(); }
         return { u200: uphiAt(s, 200), u140: uphiAt(s, 140) }; };
       return { on: run(false), off: run(true) };
     });
-    add('sep.darkrotor-uphi', up.on.u200 > up.off.u200 * 1.05 && up.on.u140 < up.off.u140,
-      `u_φ(200)=${up.on.u200.toFixed(4)}/${up.off.u200.toFixed(4)} 比=${(up.on.u200 / up.off.u200).toFixed(3)}(>1.05) ` +
-      `u_φ(140)=${up.on.u140.toFixed(4)}<${up.off.u140.toFixed(4)}(内側は逆行)`);
+    add('sep.darkrotor-uphi', up.on.u200 > up.off.u200 * 1.8 && up.on.u140 > up.off.u140 * 1.8,
+      `u_φ(200)=${up.on.u200.toFixed(4)}/${up.off.u200.toFixed(4)} 比=${(up.on.u200 / up.off.u200).toFixed(3)}(>1.8) ` +
+      `u_φ(140)=${up.on.u140.toFixed(4)}/${up.off.u140.toFixed(4)} 比=${(up.on.u140 / up.off.u140).toFixed(3)}(>1.8)`);
 
-    // 🕶️ の中期安定(!FAST): 冷たいローター(sRep=0)は円盤を壊さない — 第19便の kRep=1 破壊
-    // (r90 517〜680)との対比。較正実測: 3000步 外縁v_φ=1.97・6000步 r90=188・NaNなし
+    // 🕶️ coreTR(第21便): 受理・クランプ・配列反映・A/B転写(コア温度 Tc = coreTR·Ic·sc² は表示のみ)
+    const ct = await page.evaluate(() => {
+      const mk = (tr) => ({ name: 'ct', description: 'd', seed: 7, camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+        physics: { G: 1, D0: 1, kFrame: 1, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, Kt: 60, cLight: 60,
+          bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1, pnAlpha: 1.5,
+          radiusScale: 1.2, softening: 2, timeScale: 1 },
+        bodies: [{ type: 'single', m: 100, x: 0, y: 0, vx: 0, vy: 0, spin: 0.5, coreMR: 0.5, coreSR: 4, coreTR: tr, pinned: true }] });
+      const v1 = HP.validatePreset(mk(3)); HP.sim.build(v1.preset);
+      const okSet = HP.sim.coreTR[0] === 3;
+      // A/B転写は currentPreset と粒子数が一致する経路で検査(clone は同一プリセット確保→状態転写)
+      HP.loadPreset('darkrotor', false);
+      HP.sim.coreTR[0] = 7;
+      HP.abStart(); const okClone = HP.ab().simB.coreTR[0] === 7; HP.abStop();
+      const v2 = HP.validatePreset(mk(5000));
+      const okClamp = v2.ok && v2.preset.bodies[0].coreTR === 1000 && v2.warnings.some(w => /coreTR/.test(w));
+      const v3 = HP.validatePreset(mk('x'));
+      return { okSet, okClone, okClamp, okReject: !v3.ok };
+    });
+    add('core.coreTR', ct.okSet && ct.okClone && ct.okClamp && ct.okReject,
+      `set=${ct.okSet} A/B転写=${ct.okClone} clamp1000+警告=${ct.okClamp} 非数拒否=${ct.okReject}`);
+
+    // 🕶️ の中期安定 v2(!FAST・第21便): pinned 中心コアローター+コア無しハロー+散逸平衡の
+    // 安定構成 — 3000步で円盤非破壊・ハロー残存・中心スピン厳密不変(pinned は E9/E10′/E11/E6′
+    // トルクの対象外)・ハローはまだ回っている。較正実測(第21便): 外縁2.139・r90=212・
+    // ハロー|spin|=1.35・12000步まで有界(r90 160〜249)
     if (!FAST) {
       const st = await page.evaluate(() => {
         HP.loadPreset('darkrotor', false);
         const s = HP.sim;
+        const s0 = s.spin[0];
         for (let k = 0; k < 3000; k++) s.step(0.016);
         let sum = 0, c = 0; const rs = [];
         for (let i = 1; i <= 380; i++) { const r = Math.hypot(s.x[i], s.y[i]); rs.push(r);
           if (r >= 156 && r <= 286) { sum += (s.x[i] * s.vy[i] - s.y[i] * s.vx[i]) / r; c++; } }
         rs.sort((a, b) => a - b);
-        let inside = 0;
-        for (let i = 381; i < s.n; i++) { const r = Math.hypot(s.x[i], s.y[i]); if (r > 60 && r < 400) inside++; }
-        return { outer: c ? sum / c : 0, r90: rs[Math.floor(rs.length * 0.9)], inside, nHalo: s.n - 381, nan: s.hasNaN() };
+        let inside = 0, hs = 0;
+        for (let i = 381; i < s.n; i++) { const r = Math.hypot(s.x[i], s.y[i]);
+          if (r > 60 && r < 400) inside++; hs += Math.abs(s.spin[i]); }
+        return { outer: c ? sum / c : 0, r90: rs[Math.floor(rs.length * 0.9)], inside, nHalo: s.n - 381,
+          haloSpin: hs / (s.n - 381), cSpinKeep: Math.abs(s.spin[0] - s0) < 1e-9, nan: s.hasNaN() };
       });
-      add('behavior.darkrotor', !st.nan && st.r90 < 320 && st.outer > 1.5 && st.inside >= 17,
-        `外縁v_φ=${st.outer.toFixed(3)}(>1.5) r90=${st.r90.toFixed(1)}(<320: 円盤非破壊) ` +
-        `ハロー残存=${st.inside}/${st.nHalo}(≥17) NaN=${st.nan}`);
+      add('behavior.darkrotor', !st.nan && st.r90 < 320 && st.outer > 1.6 && st.inside >= 17
+        && st.cSpinKeep && st.haloSpin > 0.3,
+        `外縁v_φ=${st.outer.toFixed(3)}(>1.6) r90=${st.r90.toFixed(1)}(<320: 円盤非破壊) ` +
+        `ハロー残存=${st.inside}/${st.nHalo}(≥17) ハロー|spin|=${st.haloSpin.toFixed(3)}(>0.3) ` +
+        `中心スピン不変=${st.cSpinKeep}(pinned) NaN=${st.nan}`);
     }
   } else {
     console.log('SKIP sep.*(対象にスピン役割分離なし)');
