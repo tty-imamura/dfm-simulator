@@ -7,7 +7,7 @@
 // 接頭辞の名前空間に限定する(ルート版とβ版が互いのキャッシュを壊さない)。
 // ルート(release)版 — β版 sw.js との差分は CACHE_PREFIX とキャッシュ名のみ。
 const CACHE_PREFIX = "dfm-release-";
-const CACHE = CACHE_PREFIX + "v1.29";    // アプリ更新時は末尾を変えると旧キャッシュが activate で破棄される
+const CACHE = CACHE_PREFIX + "v1.30";    // アプリ更新時は末尾を変えると旧キャッシュが activate で破棄される
 const PRECACHE = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./icon-180.png"];
 
 self.addEventListener("install", (e) => {

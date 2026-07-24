@@ -420,7 +420,7 @@ ja: {
   btnImportFile:"ファイルから読込", fileLoaded:"ファイルを読み込みました",
   unsavedWarn:"※編集中のパラメータは「保存」するまでバックアップに含まれません",
   confirmDiscard:"未保存の編集があります。破棄して読み込みますか?",
-  betaShared:"β版(beta v1.30-b4)はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。",
+  betaShared:"β版(beta v1.30-b5)はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。",
   draftRestore:"未保存の編集の下書きが見つかりました(再読込前の状態)。復元しますか?",
   swFail:"オフライン用キャッシュ(Service Worker)の登録に失敗しました。オンラインでは通常どおり使えます。",
   periHud:(m,a)=>`近点移動(最内粒子): 実測 ${m}°/周 / 解析 ${a}°/周`,
@@ -538,7 +538,7 @@ en: {
   btnImportFile:"Load from file", fileLoaded:"File loaded",
   unsavedWarn:"Note: edited parameters are not included in backups until you press Save",
   confirmDiscard:"You have unsaved edits. Discard them and load?",
-  betaShared:"This beta (v1.30-b4) shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.",
+  betaShared:"This beta (v1.30-b5) shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.",
   draftRestore:"Found a draft of unsaved edits (from before the last reload). Restore it?",
   swFail:"Offline cache (Service Worker) registration failed. The app still works normally online.",
   periHud:(m,a)=>`Apsidal drift (innermost): measured ${m}°/orbit / analytic ${a}°/orbit`,
@@ -727,7 +727,7 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
   geoPN:0, lambdaPN:1, pnAlpha:1.5,   // v1.20: E12 測地線1PN(geoPN=1で有効。BOX_UNIVERSE §5)
   radiusScale:1.2, softening:2, timeScale:1 };
 // v1.7: kLens は廃止(E8R で屈折率は n=e^{2W/Kt} に統一。旧セーブの kLens は受理して無視)
-const APP_VERSION = "1.29";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
+const APP_VERSION = "1.30";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 const RAY_MASS_MIN = 40;                  // 光線を曲げる最小質量(性能のための近似)
