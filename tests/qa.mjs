@@ -296,6 +296,65 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   add('new.counterring', !r.rNaN && r.rHot > 0.3 && r.rCold < 0.05, `muF1=${r.rHot.toFixed(2)} muF0=${r.rCold.toFixed(3)}`);
 }
 
+// ---- 7h) 箱宇宙(第31便 — BOX_UNIVERSE v1.2): サンプル挙動と universeBox スキーマ
+// ----     (beta 先行 — 箱宇宙プリセットの無い対象〔root=v1.31〕ではスキップ)----
+{
+  const hasBoxUniverse = await page.evaluate(() => HP.allPresets().some(p => p.id === 'boxtrans'));
+  if (hasBoxUniverse) {
+  const r = await page.evaluate(() => {
+    const s = HP.sim, res = {};
+    const meanR = (i0, i1) => { let a = 0; for (let i = i0; i < i1; i++) a += Math.hypot(s.x[i], s.y[i]); return a / (i1 - i0); };
+    // 📦 boxtrans: 箱と共動する時計は遅れず、「絶対静止」の時計だけが遅れる(T10 並進不可知)
+    HP.loadPreset('boxtrans', false);
+    for (let k = 0; k < 2000; k++) s.step(0.016);
+    res.tComv = s.tau[s.n - 2] / s.t;   // 共動時計
+    res.tRest = s.tau[s.n - 1] / s.t;   // 「絶対静止」時計 — 箱に対しては運動している
+    res.transNaN = s.hasNaN();
+    // 🌀 boxrot: kFrame=1 で内側リング(Ω/2 共回転)の半径が維持され(空間の支え)、kFrame=0 で飛散
+    HP.loadPreset('boxrot', false);
+    const rot0 = meanR(96, 104);
+    for (let k = 0; k < 3000; k++) s.step(0.016);
+    res.rotKeep = meanR(96, 104) / rot0;
+    HP.loadPreset('boxrot', false); s.params.kFrame = 0;
+    for (let k = 0; k < 3000; k++) s.step(0.016);
+    res.rotFly = meanR(96, 104) / rot0;
+    // 📈 boxexpand: 半分の Hubble 流を与えたトレーサは √a に追随(利得 g=1/2 の時間応答)
+    HP.loadPreset('boxexpand', false);
+    const exp0 = meanR(96, 120);
+    for (let k = 0; k < 3000; k++) s.step(0.016);
+    res.expRatio = meanR(96, 120) / exp0 / Math.exp(0.005 * s.t / 2);
+    // 🫁 boxbreath: 散逸ゼロなら一周期(T=2π/0.08)でほぼ初期配置へ戻る(幾何学的周期の可逆性)
+    HP.loadPreset('boxbreath', false);
+    const bx = [], by = []; for (let i = 0; i < s.n; i++) { bx.push(s.x[i]); by.push(s.y[i]); }
+    const stepsT = Math.round(2 * Math.PI / 0.08 / 0.016);
+    for (let k = 0; k < stepsT; k++) s.step(0.016);
+    let rms = 0; for (let i = 0; i < s.n; i++) rms += (s.x[i] - bx[i]) ** 2 + (s.y[i] - by[i]) ** 2;
+    res.breathRMS = Math.sqrt(rms / s.n);
+    return res;
+  });
+  add('box.trans-clocks', !r.transNaN && r.tComv > 0.999 && r.tRest < 0.99,
+    `共動τ/t=${r.tComv.toFixed(4)}(≈1 — 箱と動く運動は「静止」) 絶対静止τ/t=${r.tRest.toFixed(4)}(<0.99)`);
+  add('box.rot-support', Math.abs(r.rotKeep - 1) < 0.05 && r.rotFly > 1.5,
+    `kF=1 半径比=${r.rotKeep.toFixed(3)}(維持) kF=0 半径比=${r.rotFly.toFixed(2)}(>1.5 飛散)`);
+  add('box.expand-sqrt', Math.abs(r.expRatio - 1) < 0.03, `r̄/(r̄₀·√a)=${r.expRatio.toFixed(4)}(√a 追随)`);
+  add('box.breath-return', r.breathRMS < 1, `1周期後RMS=${r.breathRMS.toFixed(3)}(<1 可逆 — 散逸ゼロ)`);
+  // universeBox スキーマ検証: 値域クランプ+railH の pinned 限定(警告つき無効化)
+  const v = await page.evaluate(() => {
+    const p1 = HP.validatePreset({ name: '箱', description: 'universeBox スキーマ検査', camera: { scale: 300 },
+      world: { boundary: 'none', size: 0 }, physics: {},
+      universeBox: { mode: 'exp', H0: 5, D: 99999 },
+      bodies: [{ type: 'ring', n: 8, cx: 0, cy: 0, rIn: 100, rOut: 100, mMin: 1, mMax: 1, spinMin: 0, spinMax: 0,
+        vMode: 'none', aroundMass: 0, omega: 0, vNoise: 0, direction: 1, pinned: false, railH: 0.01 }] });
+    return { ok: p1.ok, H0: p1.ok ? p1.preset.universeBox.H0 : null, D: p1.ok ? p1.preset.universeBox.D : null,
+      railH: p1.ok ? p1.preset.bodies[0].railH : null, warns: p1.warnings.length };
+  });
+  add('box.schema-clamp', v.ok && v.H0 === 0.2 && v.D === 10000 && v.railH === 0 && v.warns >= 3,
+    `H0→${v.H0} D→${v.D} 非pinned railH→${v.railH} warns=${v.warns}`);
+  } else {
+    console.log('SKIP 第31便系(box.trans-clocks / box.rot-support / box.expand-sqrt / box.breath-return / box.schema-clamp — 対象に箱宇宙プリセットなし)');
+  }
+}
+
 // ---- 7g) 一様重力場(v1.17): gravityY の等加速度・帳簿記録・外部要素バッジ ----
 {
   const r = await page.evaluate(() => {
@@ -1721,11 +1780,15 @@ if (!FAST) {
   if (hasV26) {
     const r = await page.evaluate(() => {
       const res = {};
-      // ① カテゴリ再編: 内蔵 optgroup の並び(ja)
+      // ① カテゴリ再編: 内蔵 optgroup の並び(ja)。第31便: 「箱宇宙」グループの有無で
+      // 期待並びを切替(root=v1.31 は5グループ・beta v1.32 以降は6グループ — 昇格後も通る)
       HP.setLang('ja');
       const labels = [...document.querySelectorAll('#presetSelect optgroup')].map(o => o.label);
-      res.groups = labels.slice(0, 5);
-      res.groupsOk = JSON.stringify(res.groups) === JSON.stringify(['空間と時間', '銀河', '光', '熱の実験室', '天体の物語']);
+      const hasBox = HP.allPresets().some(p => p.group === '箱宇宙');
+      const want = hasBox ? ['空間と時間', '箱宇宙', '銀河', '光', '熱の実験室', '天体の物語']
+                          : ['空間と時間', '銀河', '光', '熱の実験室', '天体の物語'];
+      res.groups = labels.slice(0, want.length);
+      res.groupsOk = JSON.stringify(res.groups) === JSON.stringify(want);
       // ② kFrame 中間値の解消: 全内蔵の physics.kFrame は 0 か 1
       res.kfBad = HP.allPresets().filter(p => !String(p.id).startsWith('custom_'))
         .filter(p => p.physics.kFrame !== 0 && p.physics.kFrame !== 1).map(p => p.id);
