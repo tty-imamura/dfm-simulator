@@ -4,9 +4,14 @@
 2026-07-21 に分離 — ロードマップ P2 群)。新しい版が上。バージョンは `APP_VERSION`
 (index.html)と package.json の major.minor が QA `version.sync` で同期検査される。
 
-## v1.31(未リリース — beta 先行中 `beta/index.html`・第25〜29便)
+## v1.31(2026-07-25)— beta からルート昇格
 
-昇格前の草案(第24次レビュー ChatGPT 提案 — 昇格コミットで確定させる)。ルートは v1.30 のまま。
+第25〜29便(第24次リリースレビュー・第25次性能レビューの裁定実装、サンプル再編・レール駆動・
+AIベースサンプル・UI改善・処理の高速化)を beta(`beta/index.html`)で検証のうえルートへ昇格
+(原仮定者指示 2026-07-25)。昇格は PWA 一式(index.html/sw.js)+版数の1コミットで実施し、
+ルート SW のキャッシュキーは `dfm-release-v1.31`(β版は `dfm-beta-v1.31-b6` へ更新 —
+内容はルートと同一)。昇格によりルートでも第25〜29便系 QA が有効化され、`version.sw-sync`
+(SW キャッシュ=dfm-release-v{APP_VERSION} の厳密一致 — 第24次 P0-1 の明示ゲート)を追加。
 
 - **サンプル**: カテゴリ再編(5グループ — 「銀河」新設: 🌌🕶️🌠🌫️)/ 内蔵の kFrame を 0/1 に
   統一(⭐0.5→1・🌠0.55→1・🌫️0.35→1)/ 🌠銀河合体の負荷 −61%(q=2 高速経路+円盤 150/120)/
@@ -30,7 +35,8 @@
   radiusScale 既定 1.2→1(内蔵は明示値のため挙動不変)
 - **設定の変化**: 新規ユーザーの文字サイズ既定 1→1.15(保存済み hp_uiscale は尊重)。
   旧 hp_sizemode は無視(半径準拠固定)
-- **QA**: beta 163項目(第25〜29便で +22 — ルート対象時は SKIP)。第28便: railOmega 直接回帰・
+- **QA**: 第25〜29便で +22 項目(beta 先行 — 昇格でルートも有効化: ルート 141→164・beta 163。
+  +1 はルートのみの昇格整合 version.sw-sync)。第28便: railOmega 直接回帰・
   粒子数キャップの静的ゲート・QA結果への targetSha256/appVersion/swCache 記録を追加。
   第29便: perf.convection-timescale / perf.rail-indices / perf.trail-cap / perf.draw-radius-cap +
   動的性能ゲート(tests/perf.mjs — CI 独立ジョブ・perf-results.json を証跡化)

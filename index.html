@@ -41,6 +41,17 @@
   canvas#cv{position:absolute;inset:0;width:100%;height:100%;touch-action:none;display:block;}
   #hud{position:absolute;left:8px;top:6px;font-size:calc(11px*var(--uz,1));color:var(--dim);pointer-events:none;
     text-shadow:0 1px 2px #000;line-height:1.5;white-space:pre;}
+  /* 第27便: タイトルタップのアプリ説明パネル */
+  .title{cursor:pointer;}
+  #aboutPanel{position:absolute;left:8px;right:8px;top:8px;bottom:8px;z-index:7;display:none;
+    background:rgba(20,24,48,.96);border:1px solid var(--line);border-radius:10px;padding:10px;
+    overflow-y:auto;font-size:calc(12px*var(--uz,1));line-height:1.6;}
+  #aboutPanel .beHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;
+    font-weight:700;color:var(--acc);}
+  #aboutPanel .beHead button{background:none;border:none;color:var(--dim);font-size:calc(14px*var(--uz,1));
+    padding:2px 6px;min-height:28px;}
+  #aboutPanel h4{color:var(--acc);margin:10px 0 4px;}
+  #aboutPanel p{color:var(--fg);margin:4px 0;}
   /* v1.17: 選択粒子の編集パネル(タップ選択中のみ表示) */
   /* 第12便: z-index — 狭い横画面等でキャンバスが低くても、後続UI(操作列・タブ)に隠れず操作できる */
   #bodyEdit{position:absolute;right:8px;top:8px;width:172px;z-index:6;background:rgba(20,24,48,.94);
@@ -56,6 +67,9 @@
     text-align:right;background:var(--panel);border:1px solid var(--line);border-radius:6px;color:var(--acc);}
   #bodyEdit .beRow input[type=checkbox]{width:18px;height:18px;accent-color:var(--acc);}
   #bodyEdit .beNote{color:var(--dim);font-size:calc(10px*var(--uz,1));margin-top:4px;line-height:1.4;}
+  /* 第26便(原仮定者指示): 編集パネルの最小化 — ヘッダだけ残して行を畳む(✕廃止→最小化トグル) */
+  #bodyEdit.min .beRow,#bodyEdit.min .beNote{display:none;}
+  #bodyEdit.min{width:auto;min-width:120px;}
   #notice{position:absolute;left:50%;top:12px;transform:translateX(-50%);max-width:92%;
     background:rgba(20,24,48,.92);border:1px solid var(--line);border-radius:10px;
     padding:8px 12px;font-size:12px;display:none;pointer-events:none;text-align:center;}
@@ -155,7 +169,7 @@
 <body>
 <div id="app">
   <header>
-    <div class="title" id="appTitle">DFM Lab</div>
+    <div class="title" id="appTitle" role="button" tabindex="0" aria-expanded="false" aria-controls="aboutPanel">DFM Lab</div>
     <select id="presetSelect" aria-label="シミュレーション選択"></select>
     <button id="btnLang" class="btn" style="flex:0 0 auto;min-height:44px;padding:8px 10px;" aria-label="Language">EN</button>
   </header>
@@ -163,21 +177,28 @@
     <canvas id="cv"></canvas>
     <div id="hud"></div>
     <div id="notice"></div>
+    <!-- 第27便(原仮定者指示): タイトルタップでアプリの説明(操作・法則要約は説明タブから移動) -->
+    <div id="aboutPanel" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+      <div class="beHead"><span id="aboutTitle">このアプリについて</span><button id="aboutClose" aria-label="close">✕</button></div>
+      <div id="aboutBody"></div>
+    </div>
     <div id="bodyEdit">
-      <div class="beHead"><span id="beTitle">選択粒子の編集</span><button id="beClose" aria-label="close">✕</button></div>
+      <!-- 第26便(原仮定者指示): 閉じる✕ → 最小化トグル(−/＋)。選択解除は粒子の再タップ/空白タップ -->
+      <div class="beHead"><span id="beTitle">選択粒子の編集</span><button id="beClose" aria-label="minimize">−</button></div>
       <!-- v1.24: 負値を取り得る s/vx/vy は inputmode=text(iOS の数字キーパッドに「−」が無いため) -->
       <!-- 第12便: m は負値も受理するため inputmode=text(iOS の数字キーパッドに「−」が無い) -->
-      <div class="beRow"><label id="beLm">m</label><input type="text" id="beM" inputmode="text" autocomplete="off">
-        <label id="beLs">s</label><input type="text" id="beS" inputmode="text" autocomplete="off"></div>
+      <!-- 第25便(原仮定者指示): 行構成を対で整理 — m|mc/m・s|sc/s・R|Rc/R・To×|TcO×・掻出 -->
       <!-- 第14便: 主星2層(比率)— コア質量比 mc/m(既定0・負値=空洞)とコアスピン比 sc/s(既定1) -->
-      <div class="beRow"><label id="beLmc" style="min-width:34px">mc/m</label><input type="text" id="beMc" inputmode="text" autocomplete="off">
+      <div class="beRow"><label id="beLm">m</label><input type="text" id="beM" inputmode="text" autocomplete="off">
+        <label id="beLmc" style="min-width:30px">mc/m</label><input type="text" id="beMc" inputmode="text" autocomplete="off"></div>
+      <div class="beRow"><label id="beLs">s</label><input type="text" id="beS" inputmode="text" autocomplete="off">
         <label id="beLsc" style="min-width:30px">sc/s</label><input type="text" id="beSc" inputmode="text" autocomplete="off"></div>
       <!-- 第22便: 半径R(明示指定)・コア半径比 Rc/R・観測温度係数 To×・光掻き出し・コア観測温度比率 TcO× -->
-      <div class="beRow"><label id="beLr" style="min-width:34px">R</label><input type="text" id="beR" inputmode="decimal" autocomplete="off">
+      <div class="beRow"><label id="beLr">R</label><input type="text" id="beR" inputmode="decimal" autocomplete="off">
         <label id="beLrr" style="min-width:30px">Rc/R</label><input type="text" id="beRr" inputmode="decimal" autocomplete="off"></div>
-      <div class="beRow"><label id="beLot" style="min-width:34px">To×</label><input type="text" id="beOt" inputmode="decimal" autocomplete="off">
-        <label id="beLsw" style="min-width:30px">掻出</label><input type="text" id="beSw" inputmode="decimal" autocomplete="off"></div>
-      <div class="beRow"><label id="beLoc" style="min-width:34px">TcO×</label><input type="text" id="beOc" inputmode="decimal" autocomplete="off"><span style="flex:1"></span></div>
+      <div class="beRow"><label id="beLot">To×</label><input type="text" id="beOt" inputmode="decimal" autocomplete="off">
+        <label id="beLoc" style="min-width:30px">TcO×</label><input type="text" id="beOc" inputmode="decimal" autocomplete="off"></div>
+      <div class="beRow"><label id="beLsw" style="min-width:34px">掻出</label><input type="text" id="beSw" inputmode="decimal" autocomplete="off"><span style="flex:1"></span></div>
       <div class="beRow"><label id="beLvx">vx</label><input type="text" id="beVx" inputmode="text" autocomplete="off">
         <label id="beLvy">vy</label><input type="text" id="beVy" inputmode="text" autocomplete="off"></div>
       <div class="beRow"><label id="beLp" style="flex:1">固定(pinned)</label><input type="checkbox" id="bePin"></div>
@@ -212,7 +233,9 @@
           <button class="btn" id="btnAbTargetA">A</button>
           <button class="btn" id="btnAbTargetB">B</button>
         </div>
-        <p class="note" id="abNote">今の状態をAとして、そのコピーのBを作り、上下に並べて同時に走らせます(A=上、B=下)。実行中のパラメータ編集はA側にのみ効き、最後に調整したパラメータの値が両画面に表示されます。「終了」でAの状態を継続しBを破棄します。プリセットを切り替えると解除されます。</p>
+        <!-- 第27便(原仮定者指示): A/B比較の説明は畳んでおく -->
+        <details id="abNoteWrap"><summary id="abNoteSum" class="note" style="cursor:pointer">A/B比較とは</summary>
+        <p class="note" id="abNote">今の状態をAとして、そのコピーのBを作り、上下に並べて同時に走らせます(A=上、B=下)。実行中のパラメータ編集はA側にのみ効き、最後に調整したパラメータの値が両画面に表示されます。「終了」でAの状態を継続しBを破棄します。プリセットを切り替えると解除されます。</p></details>
       </div>
       <div id="paramRows"></div>
       <div class="rowBtns">
@@ -262,6 +285,10 @@
         <p class="note" id="aiKeyNote">キーはこの端末内でのみ使われ、送信先は選択・設定したAPIエンドポイントだけです(OpenAI互換では入力したベースURLへ送信されます — URLは必ず確認してください)。保存チェックOFFなら端末にも残りません(タブを閉じると消えます)。ブラウザへのキー入力にはリスクが伴うため、利用上限を設定した専用キーを推奨します。</p>
       </div>
       <div class="group"><h3 id="aiGenHead">新しいシミュレーションを生成</h3>
+        <!-- 第26便(原仮定者指示): ベースのサンプル選択(任意)— 参考サンプルをAI生成に利用 -->
+        <div class="prow"><label id="aiBaseLabel">ベースのサンプル(任意)</label>
+          <select id="aiBasePreset" style="flex:1"></select></div>
+        <p class="note" id="aiBaseNote">ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの coreMR/lightSweep や 🛰️の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信されます。</p>
         <textarea id="aiPrompt" placeholder="例: 3つの恒星が絡み合う三体問題。まわりに塵の環も欲しい"></textarea>
         <div class="rowBtns"><button class="btn primary" id="btnGenerate">生成する</button></div>
         <div id="aiStatus"></div>
@@ -351,7 +378,7 @@ ja: {
   abHead:"A/B比較",
   btnAbStart:"A/B比較を開始", btnAbStop:"A/B比較を終了",
   abNote:"今の状態をAとして、そのコピーのBを作り、上下に並べて同時に走らせます(A=上、B=下)。「編集対象」でパラメータ編集をA/Bどちらに効かせるか切り替えられ、最後に調整したパラメータの値が両画面に表示されます。表示設定と時間倍率は常にA/B両方に反映されます。「終了」でAの状態を継続しBを破棄します。プリセットを切り替えると解除されます。",
-  abTargetLabel:"編集対象",
+  abTargetLabel:"編集対象", abNoteSum:"A/B比較とは(タップで説明)",   // 第27便
   abStarted:"A/B比較を開始: 今の状態をBに複製しました(▶実行で両方が同時に走ります)",
   abStopped:"A/B比較を終了しました",
   abResetDone:"A/B両方を初期配置に戻しました",
@@ -370,7 +397,6 @@ ja: {
   tgTrails:"軌跡を残す", tgTrailLine:"線の軌跡", tgField:"決定力マップ", tgCurve:"回転曲線グラフ",
   tgTemp:"温度グラフ", tgSpectrum:"スペクトル", tgMonitor:"保存量モニタ(P・L・帳簿)",
   tgRays:"光線", uiScaleLabel:"文字サイズ",
-  sizeModeLabel:"粒子サイズ表示", sizeModeOpts:[["cap","現状(上限あり)"],["radius","半径準拠"]],
   // 第23便(原仮定者指示): 「表示」各行のタップ説明
   tgTrailsDesc:"画面を消さずに粒子の残像を重ねる表示効果。物理には影響しない。",
   tgTrailLineDesc:"粒子の軌道を線で記録して描く(☿の楕円歳差など)。記録間隔は描画品質に従う。",
@@ -381,7 +407,6 @@ ja: {
   tgSpectrumDesc:"放射スペクトル(A12: ピーク波長 λ=b_m/T のウィーン型)。表示は観測温度基準。",
   tgMonitorDesc:"運動量P・角運動量Lとリザーバ帳簿(E6′/E11)の保存量モニタ(T7)。",
   uiScaleDesc:"UI文字の拡大率。表示のみで物理・保存データには影響しない。",
-  sizeModeDesc:"粒子の描画サイズ。「現状」は30pxで頭打ち(見やすさ優先)、「半径準拠」は物理半径Rの縮尺どおり(radius指定の確認に)。物理には影響しない。",
   // 第23便: 粒子編集のパラメータ名タップ説明
   beDm:"m: 質量。重力(E4)と決定力場W(E1′)の源。負値は実験用(±5000)。",
   beDs:"s: スピン(自転角速度)。空間引きずり(A8)・温度T=Is²(A9)・スピン斥力(A10)の源。",
@@ -394,7 +419,7 @@ ja: {
   beDoc:"TcO×: コア観測温度比率。Tc_obs=TcO×·(1−掻出)·Ic·sc²(表示のみ)。",
   beDv:"vx/vy: 速度成分。慣性は局所フレームuに対して働く(A5)。",
   beDp:"固定: 位置・速度・スピンを外部拘束で固定(力・トルクを受けない)。反作用はリザーバへ帳簿(A13)。",
-  uiScaleOpts:[["1","標準"],["1.15","大"],["1.3","特大"]],
+  uiScaleOpts:[["1","小"],["1.15","標準"],["1.3","大"]],   // 第27便: 3段階を繰り下げ(既定=1.15)
   qualityLabel:"描画品質",
   qualityOpts:[["auto","自動"],["exact","正確"],["lite","軽量"]],
   qualityDesc:"描画だけを段階的に軽くします(物理計算は不変)。自動=フレームレートが落ちたら自動で軽く / 正確=常に最高品質(検証・QA用) / 軽量=常に軽く(旧端末向け)。縮退の対象: 解像度・決定力マップの格子と更新間隔・光線の本数・軌跡の記録間隔。",
@@ -420,7 +445,7 @@ ja: {
   btnImportFile:"ファイルから読込", fileLoaded:"ファイルを読み込みました",
   unsavedWarn:"※編集中のパラメータは「保存」するまでバックアップに含まれません",
   confirmDiscard:"未保存の編集があります。破棄して読み込みますか?",
-  betaShared:"β版(beta v1.30-b5)はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。",
+  betaShared:"β版(beta v1.31-b6)はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。",
   draftRestore:"未保存の編集の下書きが見つかりました(再読込前の状態)。復元しますか?",
   swFail:"オフライン用キャッシュ(Service Worker)の登録に失敗しました。オンラインでは通常どおり使えます。",
   periHud:(m,a)=>`近点移動(最内粒子): 実測 ${m}°/周 / 解析 ${a}°/周`,
@@ -432,6 +457,8 @@ ja: {
   keyPersistLabel:"キーをこの端末に保存する", btnKeySave:"キーを設定",
   aiKeyNote:"キーはこの端末内でのみ使われ、送信先は選択・設定したAPIエンドポイントだけです(OpenAI互換では入力したベースURLへ送信されます — URLは必ず確認してください)。保存チェックOFFなら端末にも残りません(タブを閉じると消えます)。ブラウザへのキー入力にはリスクが伴うため、利用上限を設定した専用キーを推奨します。",
   aiGenHead:"新しいシミュレーションを生成", btnGenerate:"生成する", aiListHead:"生成済みプリセット",
+  aiBaseLabel:"ベースのサンプル(任意)", aiBaseNone:"なし(要望だけで生成)",   // 第26便
+  aiBaseNote:"ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの coreMR/lightSweep や 🛰️の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信されます。",
   aiPromptPh:"例: 3つの恒星が絡み合う三体問題。まわりに塵の環も欲しい",
   apiKeyPh:"APIキー",
   keySet:"キーを設定しました", keySetSaved:"キーを設定しました(この端末に保存)", keyCleared:"キーを消去しました",
@@ -447,6 +474,8 @@ ja: {
   noCustoms:"AI生成プリセットはまだありません。",
   helpTheory:"この現象の法則(自動抽出)",
   helpTheoryNote:"※ 正確な定義と導出は docs/PHYSICS.md / docs/DERIVATIONS.md を参照。",
+  aboutTitle:"このアプリについて",   // 第27便: タイトルタップの説明パネル
+  aboutBody:"DFM Lab は、仮定の物理法則「決定力場モデル(DFM)」の帰結をその場で走らせて観察する実験室です。サンプルを選び、パラメータを変えて、重力・時間・光・熱のふるまいを比較できます。現実の物理の代替ではなく、明示した仮定から何が導かれるかを見る教育用のトイモデルです(詳細は docs/PHYSICS.md)。",
   helpOps:"操作",
   helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。",
   helpLaws:"この宇宙の法則(要約)",
@@ -471,7 +500,7 @@ en: {
   abHead:"A/B Compare",
   btnAbStart:"Start A/B compare", btnAbStop:"Stop A/B compare",
   abNote:"Takes the current state as A, creates a copy as B, and runs both stacked vertically (A = top, B = bottom). Use \"Edit target\" to choose whether parameter edits apply to A or B; the value of the last-adjusted parameter is shown on both views. Display settings and the time multiplier always apply to both A and B. Stopping keeps A and discards B. Switching presets exits the mode.",
-  abTargetLabel:"Edit target",
+  abTargetLabel:"Edit target", abNoteSum:"About A/B compare (tap)",
   abStarted:"A/B compare started: current state copied to B (press ▶ Run to advance both)",
   abStopped:"A/B compare stopped",
   abResetDone:"Both A and B reset to initial layout",
@@ -490,7 +519,6 @@ en: {
   tgTrails:"Motion trails", tgTrailLine:"Line trails", tgField:"Determinacy map", tgCurve:"Rotation-curve graph",
   tgTemp:"Temperature graph", tgSpectrum:"Spectrum", tgMonitor:"Conservation monitor (P, L, ledger)",
   tgRays:"Light rays", uiScaleLabel:"Text size",
-  sizeModeLabel:"Particle size", sizeModeOpts:[["cap","Standard (capped)"],["radius","True radius"]],
   tgTrailsDesc:"Overlays fading afterimages of the particles. Display only — physics unchanged.",
   tgTrailLineDesc:"Records and draws orbit lines (e.g. Mercury's precessing ellipse). Recording interval follows render quality.",
   tgFieldDesc:"Background color map of the determinacy W (A3/E1'). Brighter = higher W.",
@@ -500,7 +528,6 @@ en: {
   tgSpectrumDesc:"Radiation spectrum (A12, Wien-type peak lambda=b_m/T). Uses observed temperature.",
   tgMonitorDesc:"Conservation monitor (T7): momentum P, angular momentum L, and the reservoir ledger (E6'/E11).",
   uiScaleDesc:"UI text scale. Display only.",
-  sizeModeDesc:"Particle draw size. 'Standard' caps at 30 px (readability); 'True radius' draws the physical radius R to scale (to inspect explicit radius). Physics unchanged.",
   beDm:"m: mass. Source of gravity (E4) and the determinacy field W (E1'). Negative values are experimental.",
   beDs:"s: spin (rotation rate). Source of frame dragging (A8), temperature T=Is^2 (A9), and spin repulsion (A10).",
   beDmc:"mc/m: core mass ratio (two-layer). 0 = single layer. Negative = hollow shell (differential drag flips).",
@@ -512,7 +539,7 @@ en: {
   beDoc:"TcO x: core observed-temperature ratio. Tc_obs = TcO x (1-sweep) x Ic sc^2 (display only).",
   beDv:"vx/vy: velocity components. Inertia acts relative to the local frame u (A5).",
   beDp:"Pinned: externally constrained (receives no force or torque; spin fixed). Reactions are ledgered to the reservoir (A13).",
-  uiScaleOpts:[["1","Standard"],["1.15","Large"],["1.3","X-Large"]],
+  uiScaleOpts:[["1","Small"],["1.15","Standard"],["1.3","Large"]],
   qualityLabel:"Render quality",
   qualityOpts:[["auto","Auto"],["exact","Accurate"],["lite","Lite"]],
   qualityDesc:"Steps down rendering only (physics is unchanged). Auto = degrade when the frame rate drops / Accurate = always full quality (for verification & QA) / Lite = always light (older devices). Affected: resolution, determinacy-map grid & update interval, ray count, trail recording interval.",
@@ -538,7 +565,7 @@ en: {
   btnImportFile:"Load from file", fileLoaded:"File loaded",
   unsavedWarn:"Note: edited parameters are not included in backups until you press Save",
   confirmDiscard:"You have unsaved edits. Discard them and load?",
-  betaShared:"This beta (v1.30-b5) shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.",
+  betaShared:"This beta (v1.31-b6) shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.",
   draftRestore:"Found a draft of unsaved edits (from before the last reload). Restore it?",
   swFail:"Offline cache (Service Worker) registration failed. The app still works normally online.",
   periHud:(m,a)=>`Apsidal drift (innermost): measured ${m}°/orbit / analytic ${a}°/orbit`,
@@ -550,6 +577,8 @@ en: {
   keyPersistLabel:"Remember key on this device", btnKeySave:"Set key",
   aiKeyNote:"Your key is used only on this device and sent only to the API endpoint you select or configure (with the OpenAI-compatible option it is sent to the base URL you enter — always verify that URL). With the checkbox OFF it is kept in memory only (cleared when the tab closes). Entering API keys in a browser carries risk; use a dedicated key with a spending limit.",
   aiGenHead:"Generate a new simulation", btnGenerate:"Generate", aiListHead:"Generated presets",
+  aiBaseLabel:"Base sample (optional)", aiBaseNone:"None (generate from the request only)",
+  aiBaseNote:"Pick a base to have the AI modify that sample's JSON to your request \u2014 reference structures (\ud83d\udd76\ufe0f dark-rotor coreMR/lightSweep, \ud83d\udef0\ufe0f zonal, etc.) carry over. The selected base JSON (including custom presets) is sent to the currently selected AI provider on generation.",
   aiPromptPh:"e.g. A chaotic three-star system with a ring of dust around it",
   apiKeyPh:"API key",
   keySet:"Key set", keySetSaved:"Key set (saved on this device)", keyCleared:"Key cleared",
@@ -565,6 +594,8 @@ en: {
   noCustoms:"No AI-generated presets yet.",
   helpTheory:"Laws behind this scene (auto-extracted)",
   helpTheoryNote:"※ Precise definitions and derivations: docs/PHYSICS.md / docs/DERIVATIONS.md.",
+  aboutTitle:"About this app",
+  aboutBody:"DFM Lab is a laboratory for running and observing the consequences of a hypothetical physics — the Determinacy Field Model (DFM). Pick a sample, change parameters, and compare how gravity, time, light and heat behave. It is an educational toy model that shows what follows from explicit assumptions — not a replacement for real physics (details: docs/PHYSICS.md).",
   helpOps:"Controls",
   helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction.",
   helpLaws:"Laws of this universe (summary)",
@@ -578,7 +609,7 @@ en: {
   extRail:"Prescribed motion (rail-driven) — follows an external schedule and does work on the system.",
   extBath:"Spin bath (heat bath) — fixed-spin bodies heat/cool their surroundings (external energy source/sink).",
   extGrav:"Uniform gravity field (gravityX/Y) — an external force field acting across the scene. Momentum exchange with the field is ledgered.",
-  groups:{"空間と時間":"Space & Time","光":"Light","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
+  groups:{"空間と時間":"Space & Time","銀河":"Galaxies","光":"Light","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
   params:{G:"Gravity G", D0:"Background determinacy D₀", kFrame:"Frame dragging kFrame",
     q:"Drag falloff q", kRep:"Spin repulsion kRep", muF:"Friction→spin muF",
     gammaN:"Collision damping γn", kappaS:"Spin diffusion κs", Kt:"Spacetime Kt (time & light)",
@@ -703,7 +734,7 @@ function extractLawRefs(text){
 function externalTags(p){
   let pin=0, rail=false, bath=false;
   for(const b of (p.bodies||[])){
-    if(b.type==="single" && b.pinned){ pin++; if(Math.abs(b.spin||0)>0) bath=true; }
+    if(b.type==="single" && b.pinned){ pin++; if(Math.abs(b.spin||0)>0) bath=true; if(b.railOmega) rail=true; }   // 第27便: 単体レールも検出
     else if(b.type==="ring" && b.pinned){ pin+=(b.n||0);
       if(b.vMode==="omega" && b.omega) rail=true;
       if(Math.abs(b.spinMin||0)>0 || Math.abs(b.spinMax||0)>0) bath=true; }
@@ -725,9 +756,9 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
   kappaS:0.05, Kt:60, cLight:60, bM:1, etaRad:0, pRad:4,
   gravityX:0, gravityY:0,   // v1.17: 一様重力場(外部場。+yは画面下向き)
   geoPN:0, lambdaPN:1, pnAlpha:1.5,   // v1.20: E12 測地線1PN(geoPN=1で有効。BOX_UNIVERSE §5)
-  radiusScale:1.2, softening:2, timeScale:1 };
+  radiusScale:1, softening:2, timeScale:1 };   // 第26便: radiusScale 既定 1.2→1(内蔵は明示値を維持)
 // v1.7: kLens は廃止(E8R で屈折率は n=e^{2W/Kt} に統一。旧セーブの kLens は受理して無視)
-const APP_VERSION = "1.30";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
+const APP_VERSION = "1.31";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 const RAY_MASS_MIN = 40;                  // 光線を曲げる最小質量(性能のための近似)
@@ -807,10 +838,11 @@ const CLAMPS = { G:[0,100], D0:[0,1000], kFrame:[0,1], q:[0.5,4], kRep:[0,20], m
 // ===== 内蔵プリセット(スキーマは docs/dev/HANDOFF_IMPLEMENTATION.md §契約1) =====
 const BUILTIN_PRESETS = [
 // ===== v1.9 サンプル全面刷新(付録I)。旧16種は廃止し「1サンプル=1効果」で再構成 =====
+// 第26便(原仮定者指示): カテゴリ分け・表示順を再編 — 銀河系サンプルを「銀河」グループへ集約。配列順=表示順
 // ===== グループ: 空間と時間 =====
 { id:"gclock", name:"重力による時計の遅れ", emoji:"⏱️", group:"空間と時間",
-  description:"中央の大質量天体から距離70・140・240に置いた3つの静止時計。運動を完全に止め、距離=決定力の強さだけを変えた統制実験。時計をタップすると、内側ほど固有時計(τ/t)が小さい: 0.931/0.965/0.979(解析値と1e-5で一致=機械検証)。Ktを300→150に下げると3つの差が同時に拡大する。運動による時計の遅れ(E7R の運動項)と対をなす、重力の遅れ(A7′/E7R の重力項)の単独デモ。",
-  en:{name:"Gravitational Time Dilation", description:"Three clocks at rest, at distances 70/140/240 from a central mass — motion is eliminated so only distance (= determinacy strength) varies. Tap each clock: the inner one ticks slowest, τ/t = 0.931/0.965/0.979 (matches the analytic value to 1e-5, machine-verified). Lower Kt from 300 to 150 and all three gaps widen together. The gravitational counterpart of motion time dilation (the E7R motion term) — the pure gravity term of A7′/E7R."},
+  description:"中央の大質量天体から距離70・140・240に置いた3つの静止時計。運動を完全に止め、距離=決定力の強さだけを変えた統制実験。時計をタップすると、内側ほど固有時計(τ/t)が小さい: 0.931/0.965/0.979(解析値と1e-5で一致)。Ktを300→150に下げると3つの差が同時に拡大する。運動による時計の遅れ(E7R の運動項)と対をなす、重力の遅れ(A7′/E7R の重力項)の単独デモ。",
+  en:{name:"Gravitational Time Dilation", description:"Three clocks at rest, at distances 70/140/240 from a central mass — motion is eliminated so only distance (= determinacy strength) varies. Tap each clock: the inner one ticks slowest, τ/t = 0.931/0.965/0.979 (matches the analytic value to 1e-5). Lower Kt from 300 to 150 and all three gaps widen together. The gravitational counterpart of motion time dilation (the E7R motion term) — the pure gravity term of A7′/E7R."},
   activeParams:["Kt"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:280}, world:{boundary:"none",size:0},
   physics:{G:0, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:300,
@@ -824,8 +856,8 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
 { id:"grcal", name:"弱場GR較正 — GPS・光・シャピロ", emoji:"🛰️", group:"空間と時間",
-  description:"時計と光を1本のψ=W/Ktで決める弱場則(A7′/E7R/E8R/T5)を、現実の観測と突き合わせる較正デモ。Kt=c²/Gの1本で: GPS時計の正味進み +38.5μs/日(重力+45.7・運動−7.2。観測≈+38.6)/太陽縁の光偏向 1.7512″(観測≈1.75″)/シャピロ遅延 ≈281μs(カッシーニ幾何)が定量一致する。水星の近日点前進は☿(測地線1PN・E12)が扱う。画面はそのアナログ: 地上時計(r=60)はτ/t=0.920、周回衛星(r=180)は運動しているのにτ/t=0.971で速く進む — 重力項が運動項に勝つ、実GPSと同じ符号構造。左からの光線ファンは中心星の場で屈折し(シャピロ遅延と同じn_eff>1の機構)、Ktを下げると時計差と湾曲が同時に強まる。※SI較正の数値はKt=c²/G写像の式計算によるもの。画面初期値は見やすさ優先の誇張アナログで、物理対応条件 Kt=cLight²/G は満たしていない(v1.25明記。PHYSICS §5 物理対応条件)。",
-  en:{name:"Weak-Field GR Calibration — GPS, Light, Shapiro", description:"A calibration demo pitting the single-ψ weak-field law (A7′/E7R/E8R/T5) against real observations. With the one mapping Kt=c²/G: net GPS clock rate +38.5 μs/day (gravity +45.7, motion −7.2; observed ≈+38.6) / solar-limb deflection 1.7512″ (observed ≈1.75″) / Shapiro delay ≈281 μs (Cassini geometry) — all match quantitatively. Mercury's perihelion advance is covered by ☿ (geodesic 1PN, E12). On screen, the analog: the ground clock (r=60) shows τ/t=0.920 while the orbiting satellite (r=180), though moving, ticks faster at τ/t=0.971 — gravity beats motion, the same sign structure as real GPS. The ray fan from the left refracts in the central field (the same n_eff>1 mechanism as the Shapiro delay); lower Kt and clock gaps and bending strengthen together. Note: the SI-calibrated numbers come from formula-level computation under the mapping Kt=c²/G; the on-screen initial values are a visibility-first exaggerated analog and do not satisfy the physical-correspondence condition Kt=cLight²/G (stated in v1.25; see PHYSICS §5)."},
+  description:"時計と光を1本のψ=W/Ktで決める弱場則(A7′/E7R/E8R/T5)を、現実の観測と突き合わせる較正デモ。Kt=c²/Gの1本で: GPS時計の正味進み +38.5μs/日(重力+45.7・運動−7.2。観測≈+38.6)/太陽縁の光偏向 1.7512″(観測≈1.75″)/シャピロ遅延 ≈281μs(カッシーニ幾何)が定量一致する。水星の近日点前進は☿(測地線1PN・E12)が扱う。画面はそのアナログ: 地上時計(r=60)はτ/t=0.920、周回衛星(r=180)は運動しているのにτ/t=0.971で速く進む — 重力項が運動項に勝つ、実GPSと同じ符号構造。左からの光線ファンは中心星の場で屈折し(シャピロ遅延と同じn_eff>1の機構)、Ktを下げると時計差と湾曲が同時に強まる。※SI較正の数値はKt=c²/G写像の式計算によるもの。画面初期値は見やすさ優先の誇張アナログで、物理対応条件 Kt=cLight²/G は満たしていない(PHYSICS §5 物理対応条件)。",
+  en:{name:"Weak-Field GR Calibration — GPS, Light, Shapiro", description:"A calibration demo pitting the single-ψ weak-field law (A7′/E7R/E8R/T5) against real observations. With the one mapping Kt=c²/G: net GPS clock rate +38.5 μs/day (gravity +45.7, motion −7.2; observed ≈+38.6) / solar-limb deflection 1.7512″ (observed ≈1.75″) / Shapiro delay ≈281 μs (Cassini geometry) — all match quantitatively. Mercury's perihelion advance is covered by ☿ (geodesic 1PN, E12). On screen, the analog: the ground clock (r=60) shows τ/t=0.920 while the orbiting satellite (r=180), though moving, ticks faster at τ/t=0.971 — gravity beats motion, the same sign structure as real GPS. The ray fan from the left refracts in the central field (the same n_eff>1 mechanism as the Shapiro delay); lower Kt and clock gaps and bending strengthen together. Note: the SI-calibrated numbers come from formula-level computation under the mapping Kt=c²/G; the on-screen initial values are a visibility-first exaggerated analog and do not satisfy the physical-correspondence condition Kt=cLight²/G (see PHYSICS §5)."},
   activeParams:["Kt","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:280}, world:{boundary:"none",size:0},
   physics:{G:1, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:300,
@@ -839,8 +871,8 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
 { id:"mercury", name:"水星の近日点前進 — 測地線1PN", emoji:"☿", group:"空間と時間",
-  description:"v2.0の測地線モード(E12)。時計を遅らせるのと同じψ=W/Ktが物質の軌道も決めると(A7′/E7R の作用化)、楕円軌道は公転と同じ向きにゆっくり回り=近日点の前進、花びら模様を描く。λ_PN(lambdaPN)を0にするとニュートンに戻り楕円は閉じる。pnAlpha=0.5(時間率のみ)では前進が1/3に減る — 実際の水星で42.98″/世紀(全量)と14.33″/世紀(1/3)に対応する。※V18/V19/V20の機械検証は同じE12式を検証専用の初期値(増幅ε・別のcLight等)で解析式と突き合わせたもの。この画面はその同じ式を、歳差が数周で見えるようさらに増幅した可視化用初期値で走らせている(v1.21で区別を明記。画面初期値そのものの検証はQAのbuiltin-mercuryが担う)。※画面初期値は物理対応条件 Kt=cLight²/G を満たさない誇張アナログ(v1.25明記。PHYSICS §5 物理対応条件)。",
-  en:{name:"Mercury's Perihelion Advance — Geodesic 1PN", description:"The v2.0 geodesic mode (E12). When the same ψ=W/Kt that slows clocks also governs matter orbits (the action form of A7′/E7R), the ellipse slowly rotates in the direction of the orbit — perihelion advance — tracing a rosette. Set λ_PN (lambdaPN) to 0 to recover Newton: the ellipse closes. With pnAlpha=0.5 (time rate only) the advance drops to 1/3 — corresponding to 42.98″/century (full) vs 14.33″/century (1/3) for the real Mercury. Note: the V18/V19/V20 machine checks verify the same E12 formula against analytic values under dedicated verification conditions (amplified ε, different cLight etc.); this screen runs that same formula with further-amplified visualization initial values (distinction stated in v1.21; the on-screen initial values themselves are covered by the builtin-mercury QA). Also note: the on-screen initial values are an exaggerated analog that does not satisfy the physical-correspondence condition Kt=cLight²/G (stated in v1.25; see PHYSICS §5)."},
+  description:"測地線モード(E12)。時計を遅らせるのと同じψ=W/Ktが物質の軌道も決めると(A7′/E7R の作用化)、楕円軌道は公転と同じ向きにゆっくり回り=近日点の前進、花びら模様を描く。λ_PN(lambdaPN)を0にするとニュートンに戻り楕円は閉じる。pnAlpha=0.5(時間率のみ)では前進が1/3に減る — 実際の水星で42.98″/世紀(全量)と14.33″/世紀(1/3)に対応する。※画面の初期値は、歳差が数周で見える様に増幅した可視化用の誇張アナログで、物理対応条件 Kt=cLight²/G は満たさない(実値換算は同じ式の解析検証による。PHYSICS §5 物理対応条件)。",
+  en:{name:"Mercury's Perihelion Advance — Geodesic 1PN", description:"The geodesic mode (E12). When the same ψ=W/Kt that slows clocks also governs matter orbits (the action form of A7′/E7R), the ellipse slowly rotates in the direction of the orbit — perihelion advance — tracing a rosette. Set λ_PN (lambdaPN) to 0 to recover Newton: the ellipse closes. With pnAlpha=0.5 (time rate only) the advance drops to 1/3 — corresponding to 42.98″/century (full) vs 14.33″/century (1/3) for the real Mercury. Note: the on-screen initial values are an exaggerated visualization analog — amplified so the precession shows within a few orbits — and do not satisfy the physical-correspondence condition Kt=cLight²/G (the real-value conversion rests on analytic checks of the same formula; see PHYSICS §5)."},
   activeParams:["lambdaPN","pnAlpha","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:220}, world:{boundary:"none",size:0},
   physics:{G:1, D0:0.05, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
@@ -852,7 +884,23 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"galaxy", name:"銀河の回転曲線", emoji:"🌌", group:"空間と時間",
+{ id:"projectile", name:"自由落下と放物運動", emoji:"⚾", group:"空間と時間",
+  description:"一様重力場gravityY(外部場)だけを働かせた力学実験室。左上の2球は質量が2と20の自由落下 — 質量が違っても加速度は同じ(等価原理の簡易デモ)。中段は水平投射、下段は斜方投射(上向きに発射)で、軌跡はきれいな放物線を描く。粒子間の重力(A6/E4)・引きずり・熱は全て切ってあり、床と壁は箱境界で跳ね返る。gravityYを変えると加速度が変わり、0にすると等速直線運動になる。",
+  en:{name:"Free Fall & Projectile Motion", description:"A mechanics lab driven only by the uniform gravity field gravityY (an external field). The two balls at the top left free-fall with masses 2 and 20 — different masses, same acceleration (a simple equivalence-principle demo). The middle ball is launched horizontally, the bottom one obliquely upward; both trace clean parabolas. Inter-particle gravity (A6/E4), dragging and heat are all off; the box boundary acts as floor and walls. Change gravityY to change the acceleration — at 0 the motion becomes uniform and straight."},
+  activeParams:["gravityY","gravityX"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+  camera:{scale:220}, world:{boundary:"box",size:190},
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0.08, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:3},
+  bodies:[ // v1.18: Gemini/Grok 第8次提案の合議採用(自由落下×2質量+水平投射+斜方投射)
+    {type:"single", m:2, x:-150,y:-140, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:20, x:-110,y:-140, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", m:2, x:-170,y:-20, vx:3,vy:0, spin:0, pinned:false},
+    {type:"single", m:2, x:-170,y:100, vx:3,vy:-3.6, spin:0, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+// ===== グループ: 銀河 =====
+{ id:"galaxy", name:"銀河の回転曲線", emoji:"🌌", group:"銀河",
   description:"円盤銀河。初めは星々がケプラー回転(グラフの点線と一致)しているが、空間の引きずり(kFrame=1)が内側の回転を外へ伝え、外縁の回転速度がケプラー予想より高く保たれる(T4: 外縁速度の増強。曲線全体の「平坦化」までは主張しない — 論文v0.2整合)。kFrameを0にすると起きない。右下のグラフ(実線=実測、点線=ケプラー予想)に注目。※この画面のD₀はモデル内の調整値で、現実の予言値ではない(L14)。",
   en:{name:"Galactic Rotation Curve", description:"A disk galaxy. Stars start on Keplerian orbits (matching the dotted line), but frame dragging (kFrame=1) transports the inner rotation outward, keeping outer velocities above the Keplerian prediction (T4: outer-velocity enhancement; no claim of full flattening — aligned with paper v0.2). Set kFrame=0 and it never happens. Watch the bottom-right graph (solid=measured, dotted=Keplerian). Note: D₀ here is a model-internal tuning value, not a real-world prediction (L14)."},
   activeParams:["kFrame","D0","G"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
@@ -866,13 +914,15 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false} },
 
-{ id:"darkrotor", name:"ダークローターの銀河", emoji:"🕶️", group:"空間と時間",
+{ id:"darkrotor", name:"ダークローターの銀河", emoji:"🕶️", group:"銀河",
   // 第22便(原仮定者裁定)v3: ダークローター=高速スピンのコア+圧倒的重量の外殻。
   // コアのスピンは自星の光を掻き出す(lightSweep=1 — 自星だけ隠れれば良い)→ 観測温度 0。
   // 外殻(質量の9割・半径R=45 明示指定)のスピンによる引きずりが銀河スケールに及ぶ。
-  // 較正(第22便): u_φ 比 1.95/1.54/1.56(r=140/200/260)・12000步安定(r90 220〜239 有界)
-  description:"銀河円盤(🌌と同じ)を囲む20個のダークローターと、銀河中心の巨大ダークローター。ダークローターは高速回転ブラックホールをモデルにした天体で、高速スピンのコア(sc/s=20)と圧倒的重量の外殻(mc/m=0.1 — 質量の9割が外殻)で構成される。コアのスピンは自星の光を掻き出して外に出さない(掻出=1 — 自星だけ隠れれば良い)ため、観測温度は計測できず見掛けは冷たい。一方、外殻のスピンによる空間引きずりは銀河スケールに及び(半径R=45の明示指定)、決定フレーム u_φ を実測×1.5〜2.0 押し上げて外縁の回転を増強する(QA darkrotor.uphi / behavior.darkrotor が機械検証)。中心は固定(外部拘束 — 反作用はリザーバに帳簿)。粒子をタップすると半径R・Rc/R・観測温度To×・掻出・TcO×・扁平率 f を確認・編集できる — 掻出を0にすると隠れていた高温核が見える。qやD0を下げると引きずりの届く範囲が広がる(実験)。kFrameを0にすると引きずり経路ごと消える(おすすめA/B)。※モデル内の理論実験であり、実宇宙のダークマターの主張ではない(T4の防御線を維持)。",
-  en:{name:"Dark-Rotor Galaxy", description:"The 🌌 galactic disk surrounded by 20 dark rotors, plus a giant dark rotor at the galactic center. A dark rotor is modeled on a fast-spinning black hole: a fast-spinning core (sc/s=20) inside an overwhelmingly heavy shell (mc/m=0.1 — 90% of the mass is the shell). The core's spin sweeps the star's own light out of escape (sweep=1 — it only needs to hide the star itself), so the observed temperature cannot be measured and it looks cold. The shell's spin, meanwhile, drags space on galactic scales (explicit radius R=45), lifting the determinacy frame u_phi by a measured x1.5-2.0 and enhancing the outer rotation (machine-checked by QA darkrotor.uphi / behavior.darkrotor). The center is pinned (external constraint — reactions ledgered to the reservoir). Tap a body to inspect and edit radius R, Rc/R, observed-temperature To x, sweep, TcO x, and the oblateness f — set sweep to 0 to reveal the hidden hot core. Lowering q or D0 extends the drag's reach (experiment). Set kFrame to 0 and the whole drag channel vanishes (suggested A/B). A model-internal experiment — not a claim about real dark matter (T4 disclaimer upheld)."},
+  // 較正(第22便): u_φ 比 1.95/1.54/1.56(r=140/200/260)
+  // 第27便: ハロー20体をレール駆動化(pinned+railOmega=v/r) — 自由N体では 12000步以降に相互散乱で
+  // 系が飛散(実測: t24000 で p50 182→309・ハロー 625 へ拡散)。規定軌道なら u場への運動寄与を保ったまま形状が保存される
+  description:"銀河円盤(🌌と同じ)を囲む20個のダークローターと、銀河中心の巨大ダークローター。ダークローターは高速回転ブラックホールをモデルにした天体で、高速スピンのコア(sc/s=20)と圧倒的重量の外殻(mc/m=0.1 — 質量の9割が外殻)で構成される。コアのスピンは自星の光を掻き出して外に出さない(掻出=1 — 自星だけ隠れれば良い)ため、観測温度は計測できず見掛けは冷たい。一方、外殻のスピンによる空間引きずりは銀河スケールに及び(半径R=45の明示指定)、決定フレーム u_φ を実測×1.5〜2.0 押し上げて外縁の回転を増強する。中心は固定、ハローの20体はレール駆動 — 20体の自由N体は長時間で相互散乱するため、軌道を外部が規定した展示系(反作用はリザーバに帳簿)。粒子をタップすると半径R・Rc/R・観測温度To×・掻出・TcO×・扁平率 f を確認・編集できる — 掻出を0にすると隠れていた高温核が見える。qやD0を下げると引きずりの届く範囲が広がる(実験)。kFrameを0にすると引きずり経路ごと消える(おすすめA/B)。※モデル内の理論実験であり、実宇宙のダークマターの主張ではない(T4の防御線を維持)。",
+  en:{name:"Dark-Rotor Galaxy", description:"The 🌌 galactic disk surrounded by 20 dark rotors, plus a giant dark rotor at the galactic center. A dark rotor is modeled on a fast-spinning black hole: a fast-spinning core (sc/s=20) inside an overwhelmingly heavy shell (mc/m=0.1 — 90% of the mass is the shell). The core's spin sweeps the star's own light out of escape (sweep=1 — it only needs to hide the star itself), so the observed temperature cannot be measured and it looks cold. The shell's spin, meanwhile, drags space on galactic scales (explicit radius R=45), lifting the determinacy frame u_phi by a measured x1.5-2.0 and enhancing the outer rotation. The center is pinned and the 20 halo rotors are rail-driven — a free 20-body halo eventually scatters itself, so their orbits are externally prescribed (an exhibit system; reactions ledgered to the reservoir). Tap a body to inspect and edit radius R, Rc/R, observed-temperature To x, sweep, TcO x, and the oblateness f — set sweep to 0 to reveal the hidden hot core. Lowering q or D0 extends the drag's reach (experiment). Set kFrame to 0 and the whole drag channel vanishes (suggested A/B). A model-internal experiment — not a claim about real dark matter (T4 disclaimer upheld)."},
   activeParams:["kFrame","D0","q"],
   camera:{scale:300}, world:{boundary:"none",size:0}, seed:20260723,
   physics:{G:1, D0:1, kFrame:1, q:2, kRep:1.0, muF:0.02, gammaN:0.05, kappaS:0.05, Kt:60,
@@ -882,43 +932,65 @@ const BUILTIN_PRESETS = [
      lightSweep:1, pinned:true},
     {type:"disk", n:380, cx:0,cy:0, radius:260, mMin:0.5,mMax:1.2,
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:600, vScale:1.05, direction:1},
-    {type:"single", m:30, x:170.000,y:0.000, vx:-0.0000,vy:2.0853, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:30, x:137.533,y:99.923, vx:-1.2257,vy:1.6871, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:30, x:52.533,y:161.680, vx:-1.9833,vy:0.6444, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:30, x:-52.533,y:161.680, vx:-1.9833,vy:-0.6444, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:30, x:-137.533,y:99.923, vx:-1.2257,vy:-1.6871, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:30, x:-170.000,y:0.000, vx:-0.0000,vy:-2.0853, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:30, x:-137.533,y:-99.923, vx:1.2257,vy:-1.6871, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:30, x:-52.533,y:-161.680, vx:1.9833,vy:-0.6444, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:30, x:52.533,y:-161.680, vx:1.9833,vy:0.6444, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:30, x:137.533,y:-99.923, vx:1.2257,vy:1.6871, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:30, x:218.743,y:71.074, vx:-0.6938,vy:2.1352, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:30, x:135.191,y:186.074, vx:-1.8163,vy:1.3196, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:30, x:0.000,y:230.000, vx:-2.2451,vy:0.0000, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:30, x:-135.191,y:186.074, vx:-1.8163,vy:-1.3196, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:30, x:-218.743,y:71.074, vx:-0.6938,vy:-2.1352, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:30, x:-218.743,y:-71.074, vx:0.6938,vy:-2.1352, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:30, x:-135.191,y:-186.074, vx:1.8163,vy:-1.3196, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:30, x:-0.000,y:-230.000, vx:2.2451,vy:-0.0000, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:30, x:135.191,y:-186.074, vx:1.8163,vy:1.3196, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:30, x:218.743,y:-71.074, vx:0.6938,vy:2.1352, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false}
+    {type:"single", m:30, x:170.000,y:0.000, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0122665},
+    {type:"single", m:30, x:137.533,y:99.923, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0122667},
+    {type:"single", m:30, x:52.533,y:161.680, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0122668},
+    {type:"single", m:30, x:-52.533,y:161.680, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0122668},
+    {type:"single", m:30, x:-137.533,y:99.923, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0122667},
+    {type:"single", m:30, x:-170.000,y:0.000, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0122665},
+    {type:"single", m:30, x:-137.533,y:-99.923, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0122667},
+    {type:"single", m:30, x:-52.533,y:-161.680, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0122668},
+    {type:"single", m:30, x:52.533,y:-161.680, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0122668},
+    {type:"single", m:30, x:137.533,y:-99.923, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0122667},
+    {type:"single", m:30, x:218.743,y:71.074, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0097613},
+    {type:"single", m:30, x:135.191,y:186.074, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0097611},
+    {type:"single", m:30, x:0.000,y:230.000, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0097613},
+    {type:"single", m:30, x:-135.191,y:186.074, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0097611},
+    {type:"single", m:30, x:-218.743,y:71.074, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0097613},
+    {type:"single", m:30, x:-218.743,y:-71.074, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0097613},
+    {type:"single", m:30, x:-135.191,y:-186.074, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0097611},
+    {type:"single", m:30, x:-0.000,y:-230.000, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0097613},
+    {type:"single", m:30, x:135.191,y:-186.074, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0097611},
+    {type:"single", m:30, x:218.743,y:-71.074, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0097613}
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false} },
 
-{ id:"projectile", name:"自由落下と放物運動", emoji:"⚾", group:"空間と時間",
-  description:"一様重力場gravityY(v1.17の外部場)だけを働かせた力学実験室。左上の2球は質量が2と20の自由落下 — 質量が違っても加速度は同じ(等価原理の簡易デモ)。中段は水平投射、下段は斜方投射(上向きに発射)で、軌跡はきれいな放物線を描く(v1.21: 説明と画面配置を一致させた)。粒子間の重力(A6/E4)・引きずり・熱は全て切ってあり、床と壁は箱境界で跳ね返る。gravityYを変えると加速度が変わり、0にすると等速直線運動になる。",
-  en:{name:"Free Fall & Projectile Motion", description:"A mechanics lab driven only by the uniform gravity field gravityY (the v1.17 external field). The two balls at the top left free-fall with masses 2 and 20 — different masses, same acceleration (a simple equivalence-principle demo). The middle ball is launched horizontally, the bottom one obliquely upward; both trace clean parabolas (v1.21: description matched to the on-screen layout). Inter-particle gravity (A6/E4), dragging and heat are all off; the box boundary acts as floor and walls. Change gravityY to change the acceleration — at 0 the motion becomes uniform and straight."},
-  activeParams:["gravityY","gravityX"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
-  camera:{scale:220}, world:{boundary:"box",size:190},
-  physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0.08, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:3},
-  bodies:[ // v1.18: Gemini/Grok 第8次提案の合議採用(自由落下×2質量+水平投射+斜方投射)
-    {type:"single", m:2, x:-150,y:-140, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:20, x:-110,y:-140, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:2, x:-170,y:-20, vx:3,vy:0, spin:0, pinned:false},
-    {type:"single", m:2, x:-170,y:100, vx:3,vy:-3.6, spin:0, pinned:false}
+{ id:"merger", name:"銀河合体と潮汐効果", emoji:"🌠", group:"銀河",
+  description:"2つの回転円盤銀河が接近・合体する過程。潮汐尾の形成、衝突による加熱(A9のスピン変換)、角運動量の再分配、合体後の回転曲線を観察できる。kFrame=1のフレームドラッギング(A8)が合体ダイナミクスに効く — 0にすると引きずりなしの純重力合体と比較できる(おすすめA/B)。円盤は回転支持(kepler)で初期化してある。",
+  en:{name:"Galaxy Merger & Tidal Effects", description:"Two rotating disk galaxies approach and merge. Watch tidal tails form, collisions heat the disks (spin conversion, A9), angular momentum redistribute, and the remnant's rotation curve settle. Frame dragging at kFrame=1 (A8) shapes the merger — set kFrame to 0 to compare a drag-free, gravity-only merger (suggested A/B). The disks are initialized rotation-supported (kepler)."},
+  activeParams:["kFrame","G","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+  camera:{scale:160}, world:{boundary:"none",size:0},
+  physics:{G:0.9, D0:4.5, kFrame:1, q:2, kRep:0.8, muF:0.45, gammaN:0.55, kappaS:0.12, Kt:90,   // 第26便: kFrame 0.55→1 / 第27便: q 1.8→2(整数冪の高速経路 −34%)・円盤 150/120(負荷改善 — 合計 4320→1681ms/600步・12000步 r90=159 有界を実測)
+    cLight:70, bM:1, etaRad:0.0008, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:3.5, timeScale:1.8},
+  bodies:[ // v1.13(付録M): 第6次提案(Grok #1)を内蔵化。v1.18: 円盤に bulkVx/Vy を付与し
+           // 核と円盤が一体で並進するよう修正(旧: 核だけが動き円盤が置き去りになっていた)。
+           // v1.24: vMode flat(vScale0.85=必要円軌道速度の1/4以下)で円盤が合体前に核へ
+           // 崩落していたため kepler(回転支持)へ修正 — 接近12000步まで保持率95%+を実測
+    {type:"single", m:920, x:-280,y:20, vx:1.35,vy:0.25, spin:0.09, pinned:false},
+    {type:"disk", n:150, cx:-280,cy:20, radius:95, mMin:0.25,mMax:1.6,
+     spinMin:-0.6,spinMax:0.6, vMode:"kepler", aroundMass:920, vScale:1.0, direction:1,
+     bulkVx:1.35, bulkVy:0.25},
+    {type:"single", m:680, x:240,y:-35, vx:-1.65,vy:-0.35, spin:0.07, pinned:false},
+    {type:"disk", n:120, cx:240,cy:-35, radius:78, mMin:0.25,mMax:1.4,
+     spinMin:-0.5,spinMax:0.5, vMode:"kepler", aroundMass:680, vScale:1.0, direction:-1,
+     bulkVx:-1.65, bulkVy:-0.35}
   ],
-  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+  overlays:{rotationCurve:true,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"} },
+
+{ id:"collapse", name:"自己重力雲の崩壊と原始星形成", emoji:"🌫️", group:"銀河",
+  description:"広がった粒子群が自己重力で崩壊し、中心集中・衝突加熱(A9)・放射冷却(E11)による収縮を観察。雲全体はごくわずかな初期回転(角運動量)を持つ — 現実の分子雲コアと同様、角運動量保存によって収縮とともに回転が増幅され、中心星の周りに円盤構造が形成されやすくなる(ジーンズ不安定性のアナロジー)。etaRadやpRadを変えると冷却効率が崩壊速度に効く。",
+  en:{name:"Self-Gravitating Cloud Collapse & Protostar", description:"A dispersed particle cloud collapses under self-gravity: central concentration, collision heating (A9), and radiative-cooling-driven contraction (E11). The cloud carries a slight initial rotation — as in real molecular-cloud cores, angular-momentum conservation amplifies it during contraction, favoring a disk around the forming star (a Jeans-instability analogy). Vary etaRad/pRad to see how cooling efficiency drives the collapse rate."},
+  activeParams:["etaRad","pRad","G"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+  camera:{scale:280}, world:{boundary:"none",size:0},
+  physics:{G:1.4, D0:1.8, kFrame:1, q:2, kRep:1.2, muF:0.65, gammaN:0.45, kappaS:0.09, Kt:70,   // 第26便: kFrame 0.35→1(6000步 rMax 257・12000步 500 <600 を実測)
+    cLight:60, bM:1, etaRad:0.004, pRad:2.8, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:5, timeScale:2.2},
+  bodies:[ // v1.13(付録M): 第6次提案(Grok #3)を内蔵化。v1.18: Gemini 第8次提案採用 —
+           // vMode rigid の微小回転 + random 相当の乱れは vNoise でなく速度合成で付与できないため
+           // rigid(ω=0.004)を基本にし、乱れは disk 生成の±0.02 ノイズに任せる(機械検証済み)
+    {type:"disk", n:260, cx:0,cy:0, radius:210, mMin:0.15,mMax:0.9,
+     spinMin:0,spinMax:0.15, vMode:"rigid", aroundMass:0, vScale:0.004, direction:1}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"} },
 
 // ===== グループ: 光 =====
 { id:"lensing", name:"重力レンズと光子捕捉", emoji:"💡", group:"光",
@@ -936,8 +1008,8 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
 { id:"spinlens", name:"回る星のレンズ — 非対称湾曲", emoji:"🌗", group:"光",
-  description:"中心星が回転すると、光を運ぶ空間(決定フレーム)も回る(A11)。星の回転と同じ向きに進む光は空間に運ばれて遠くへ流され、逆らって進む光は強く曲がる — 上下対称に入射した光線束が非対称に湾曲する(T8。カー・ブラックホールのフレームドラッグの光学類似。機械検証=V8)。kFrameを0にすると引きずりが消え、湾曲は上下対称に戻る(v1.21で光線にもkFrameを適用 — おすすめA/B)。背景の色は決定力W。",
-  en:{name:"Spinning Star's Lens — Asymmetric Bending", description:"When the central star spins, the space carrying light (the determinacy frame) rotates too (A11). Rays moving with the rotation are swept outward; rays moving against it bend sharply — a vertically symmetric fan bends asymmetrically (T8, an optical analogue of Kerr frame dragging; verified V8). Set kFrame to 0 and the drag vanishes — the bending returns to vertical symmetry (kFrame applies to rays since v1.21; suggested A/B). Background color = W."},
+  description:"中心星が回転すると、光を運ぶ空間(決定フレーム)も回る(A11)。星の回転と同じ向きに進む光は空間に運ばれて遠くへ流され、逆らって進む光は強く曲がる — 上下対称に入射した光線束が非対称に湾曲する(T8。カー・ブラックホールのフレームドラッグの光学類似)。kFrameを0にすると引きずりが消え、湾曲は上下対称に戻る(おすすめA/B)。背景の色は決定力W。",
+  en:{name:"Spinning Star's Lens — Asymmetric Bending", description:"When the central star spins, the space carrying light (the determinacy frame) rotates too (A11). Rays moving with the rotation are swept outward; rays moving against it bend sharply — a vertically symmetric fan bends asymmetrically (T8, an optical analogue of Kerr frame dragging). Set kFrame to 0 and the drag vanishes — the bending returns to vertical symmetry (suggested A/B). Background color = W."},
   activeParams:["kFrame","Kt","cLight","q"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4, kappaS:0.05, Kt:200,
@@ -964,8 +1036,8 @@ const BUILTIN_PRESETS = [
 
 // ===== グループ: 熱の実験室 =====
 { id:"gas", name:"気体の熱平衡", emoji:"🔥", group:"熱の実験室",
-  description:"左=低温(青)・右=高温(赤)のガス。左右は質量・数・初速分布が同一で、初期スピン(温度)だけが異なる統制実験(v1.18で初速も統一)。衝突で速度がスピン(熱)に変換され(A9)、高スピンは斥力=圧力を生み(A10)、スピン拡散で温度が均一化する(T6)。自己重力と空間引きずりは切ってあり(v1.21: G=0, kFrame=0)、働くのは接触・斥力・拡散の熱過程だけ。右下に左右の平均温度バー。全粒子が同質量なのは、異粒径系ではsの均一化とT=Is²の均一化が一致しないため(L9)。",
-  en:{name:"Thermal Equilibrium of a Gas", description:"Cold gas (blue) on the left, hot (red) on the right — the two sides share identical mass, count and initial speed distribution, differing only in initial spin (temperature; speeds were unified in v1.18 to make this a controlled experiment). Collisions convert velocity into spin = heat (A9), high spin creates repulsion = pressure (A10), and spin diffusion equalizes temperature (T6). Self-gravity and frame dragging are off (v1.21: G=0, kFrame=0) — only the thermal processes of contact, repulsion and diffusion act. Bottom right: mean-temperature bars. All particles share one mass because with mixed sizes, equalizing s does not equalize T=Is² (L9)."},
+  description:"左=低温(青)・右=高温(赤)のガス。左右は質量・数・初速分布が同一で、初期スピン(温度)だけが異なる統制実験。衝突で速度がスピン(熱)に変換され(A9)、高スピンは斥力=圧力を生み(A10)、スピン拡散で温度が均一化する(T6)。自己重力と空間引きずりは切ってあり(G=0, kFrame=0)、働くのは接触・斥力・拡散の熱過程だけ。右下に左右の平均温度バー。全粒子が同質量なのは、異粒径系ではsの均一化とT=Is²の均一化が一致しないため(L9)。",
+  en:{name:"Thermal Equilibrium of a Gas", description:"Cold gas (blue) on the left, hot (red) on the right — the two sides share identical mass, count and initial speed distribution, differing only in initial spin (temperature) — a controlled experiment. Collisions convert velocity into spin = heat (A9), high spin creates repulsion = pressure (A10), and spin diffusion equalizes temperature (T6). Self-gravity and frame dragging are off (G=0, kFrame=0) — only the thermal processes of contact, repulsion and diffusion act. Bottom right: mean-temperature bars. All particles share one mass because with mixed sizes, equalizing s does not equalize T=Is² (L9)."},
   activeParams:["kRep","muF","gammaN","kappaS"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:240}, world:{boundary:"box",size:200},
   physics:{G:0, D0:50, kFrame:0, q:2, kRep:2, muF:0.8, gammaN:0.3, kappaS:0.15, Kt:60,
@@ -977,7 +1049,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:true,field:false} },
 
 { id:"pressure", name:"スピン圧 — 熱は押し広げる", emoji:"🎈", group:"熱の実験室",
-  description:"重力ゼロの円形容器。中央の熱い(高スピン)ガスがスピン斥力(A10)で押しのけ合い、周りの冷たいガスの殻を外へ押し広げていく — 圧力の正体は温度。やがて接触摩擦とスピン拡散で熱が外側へ渡り、全体が同じ温度に落ち着く(T6)。色=温度。※スピン圧の状態方程式は理想気体則とは異なる(P∝ρ²T。第4次裁定・L15)。",
+  description:"重力ゼロの円形容器。中央の熱い(高スピン)ガスがスピン斥力(A10)で押しのけ合い、周りの冷たいガスの殻を外へ押し広げていく — 圧力の正体は温度。やがて接触摩擦とスピン拡散で熱が外側へ渡り、全体が同じ温度に落ち着く(T6)。色=温度。※スピン圧の状態方程式は理想気体則とは異なる(P∝ρ²T — L15)。",
   en:{name:"Spin Pressure — Heat Pushes Outward", description:"A circular container, zero gravity. The hot (high-spin) core pushes outward via spin repulsion (A10), inflating the shell of cold gas — pressure IS temperature. Friction and spin diffusion then pass the heat outward until one temperature remains (T6). Color = temperature. Note: the spin-pressure equation of state is not the ideal-gas law (P∝ρ²T; L15)."},
   activeParams:["kRep","kappaS","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:240}, world:{boundary:"circle",size:210},
@@ -992,7 +1064,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"conduction", name:"熱伝導 — 近いほど速く伝わる", emoji:"📏", group:"熱の実験室",
-  description:"力を全て切った、静止した粒の列。左端の白熱粒(固定=熱浴)から、接触していない粒の列をスピン拡散(E10′)だけで熱が飛び移っていく。上の列は間隔9、下の列は間隔18 — 飛び移りは近いほど強い(カーネルg(d))ので、密な上の列は同じ距離でも高温になり、列全体が運ぶ熱は約2倍。よく見ると熱は隙間を飛び越えて遠くへも薄く届く(接触不要の長距離伝達 — 第4次裁定L16の可視化)。色=温度。",
+  description:"力を全て切った、静止した粒の列。左端の白熱粒(固定=熱浴)から、接触していない粒の列をスピン拡散(E10′)だけで熱が飛び移っていく。上の列は間隔9、下の列は間隔18 — 飛び移りは近いほど強い(カーネルg(d))ので、密な上の列は同じ距離でも高温になり、列全体が運ぶ熱は約2倍。よく見ると熱は隙間を飛び越えて遠くへも薄く届く(接触不要の長距離伝達 — L16の可視化)。色=温度。",
   en:{name:"Heat Conduction — Closer Spreads Faster", description:"Rows of resting particles, all forces off. From the white-hot pinned particle (heat bath) at the left end, heat hops along the non-touching row by spin diffusion (E10′) alone. Top row spacing 9, bottom 18 — hops are stronger when closer (kernel g(d)), so the dense row runs hotter and carries about twice the heat. Look closely: heat also leaks faintly across gaps (contact-free long-range transfer — L16 visualized). Color = temperature."},
   activeParams:["kappaS"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:200}, world:{boundary:"none",size:0},
@@ -1031,8 +1103,8 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"coolrace", name:"放射冷却 — 高温ほど速い", emoji:"🌈", group:"熱の実験室",
-  description:"同じ質量で温度(スピン)だけが2・4・8と異なる3粒子を静止配置。力は全て切ってあり、変わるのは放射冷却(E11、Λ∝T^p)だけの統制実験。最も熱い粒子が最も速く冷え(初期の冷却速度比はほぼ1:8:64=s³則。機械検証)、色が赤→青へ、右下のスペクトルのピークが長波長側へ移る。etaRadを0にすると全てが止まる。",
-  en:{name:"Radiative Cooling — Hotter Cools Faster", description:"Three resting particles of equal mass, differing only in temperature (spin 2/4/8). All forces are off — the only physics is radiative cooling (E11, Λ∝T^p): a controlled experiment. The hottest cools fastest (initial cooling-rate ratio ≈ 1:8:64, the s³ law — machine-verified), colors shift red→blue, and the spectrum peak (bottom right) moves to longer wavelengths. Set etaRad to 0 and everything freezes."},
+  description:"同じ質量で温度(スピン)だけが2・4・8と異なる3粒子を静止配置。力は全て切ってあり、変わるのは放射冷却(E11、Λ∝T^p)だけの統制実験。最も熱い粒子が最も速く冷え(初期の冷却速度比はほぼ1:8:64=s³則)、色が赤→青へ、右下のスペクトルのピークが長波長側へ移る。etaRadを0にすると全てが止まる。",
+  en:{name:"Radiative Cooling — Hotter Cools Faster", description:"Three resting particles of equal mass, differing only in temperature (spin 2/4/8). All forces are off — the only physics is radiative cooling (E11, Λ∝T^p): a controlled experiment. The hottest cools fastest (initial cooling-rate ratio ≈ 1:8:64, the s³ law), colors shift red→blue, and the spectrum peak (bottom right) moves to longer wavelengths. Set etaRad to 0 and everything freezes."},
   activeParams:["etaRad","pRad","bM"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:180}, world:{boundary:"none",size:0},
   physics:{G:0, D0:50, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
@@ -1045,8 +1117,8 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,spectrum:true} },
 
 { id:"phase", name:"固体・液体・気体", emoji:"🧊", group:"熱の実験室",
-  description:"質量・数・大きさ・初速が完全に同一の3つの雲 — 違いは初期スピン(温度)だけの統制実験。v1.18で一様重力gravityYを追加し、現実の容器内の三態に近づけた。左=低温: 重力(A6)で収縮し底で結晶化する固体。中=中温: スピン斥力でほぐれ、重力で底に溜まって液面を作る液体。右=高温: スピン斥力(A10)が重力を振り切り箱に充満する気体。※束縛と斥力の競合による形態のアナロジーで、実在物質の潜熱・相平衡の再現ではない(第4次裁定)。色=温度(A9)。",
-  en:{name:"Solid, Liquid, Gas", description:"Three clouds identical in mass, count, size and initial speed — only the initial spin (temperature) differs: a controlled experiment. Uniform gravity gravityY was added in v1.18 to mimic matter in a real container. Left = cold: gravity wins, it crystallizes at the bottom (solid). Middle = warm: spin repulsion loosens it and gravity pools it with a surface (liquid). Right = hot: spin repulsion (A10) beats gravity and fills the box (gas). A morphological analogy of binding vs repulsion — not real latent-heat phase transitions. Color = temperature (A9)."},
+  description:"質量・数・大きさ・初速が完全に同一の3つの雲 — 違いは初期スピン(温度)だけの統制実験。一様重力gravityYの下に置き、現実の容器内の三態に近づけている。左=低温: 重力(A6)で収縮し底で結晶化する固体。中=中温: スピン斥力でほぐれ、重力で底に溜まって液面を作る液体。右=高温: スピン斥力(A10)が重力を振り切り箱に充満する気体。※束縛と斥力の競合による形態のアナロジーで、実在物質の潜熱・相平衡の再現ではない。色=温度(A9)。",
+  en:{name:"Solid, Liquid, Gas", description:"Three clouds identical in mass, count, size and initial speed — only the initial spin (temperature) differs: a controlled experiment. Uniform gravity gravityY mimics matter in a real container. Left = cold: gravity wins, it crystallizes at the bottom (solid). Middle = warm: spin repulsion loosens it and gravity pools it with a surface (liquid). Right = hot: spin repulsion (A10) beats gravity and fills the box (gas). A morphological analogy of binding vs repulsion — not real latent-heat phase transitions. Color = temperature (A9)."},
   activeParams:["kRep","G","gravityY","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:260}, world:{boundary:"box",size:240},
   // v1.21(第9次裁定): kFrame 0.3→0(三態比較に引きずりは不要 — 要因分離)
@@ -1067,13 +1139,14 @@ const BUILTIN_PRESETS = [
 // 旧構成(画面外の遠方大質量で下向き場を代行)は決定力Wの歪み・凍結が撤去理由だった
 // (経緯は DERIVATIONS 付録K/付録M・HANDOFF_IMPLEMENTATION)。gravityY は W に寄与しない
 // 純粋な外部力場なので、時計・光・引きずりを歪めずに箱内へ厳密に一様な下向き場を作れる。
+
 { id:"convection", name:"加熱の対流 — 床加熱と天井冷却", emoji:"♨️", group:"熱の実験室",
-  description:"床の左〜中央+右寄りまで固定ヒーター列(高スピン)、天井の右側に疎な冷却板(スピン0)。床の右端だけは非加熱で、冷えたガスの下降域になる。ガスは床でスピン拡散(E10′)により加熱され、スピン斥力=圧力(A9/A10)で膨らんで浮上し、天井で冷えて右から沈む対流セルを作る(T6の移流拡張)。働く力は一様重力場gravityY(外部場)とスピン斥力・接触だけで、自己重力・引きずり・放射は切ってある。v1.24: 戻りのガスが右下で冷えて固まる問題を、ヒーター列の延長(機械掃引で採択)で解消。gravityY=0にすると循環が止まる(おすすめA/B)。色=温度。",
-  en:{name:"Heated Convection — Floor Heat, Ceiling Cool", description:"Pinned heaters (high spin) line the floor from the left to right-of-center, with sparse coolers (zero spin) on the right ceiling; only the far-right floor stays unheated, serving as the downwelling zone. Gas heats up at the floor via spin diffusion (E10′), inflates and rises by spin repulsion = pressure (A9/A10), cools at the ceiling and sinks on the right — a convection cell (an advective extension of T6). The only forces are the uniform gravity gravityY (external field) plus spin repulsion and contact — self-gravity, dragging and radiation are all off. v1.24: returning gas used to freeze into a cold pile at the bottom right; extending the heater row (chosen by machine sweep) fixed it. Set gravityY to 0 and the circulation stops (suggested A/B). Color = temperature."},
+  description:"床の左〜中央+右寄りまで固定ヒーター列(高スピン)、天井の右側に疎な冷却板(スピン0)。床の右端だけは非加熱で、冷えたガスの下降域になる。ガスは床でスピン拡散(E10′)により加熱され、スピン斥力=圧力(A9/A10)で膨らんで浮上し、天井で冷えて右から沈む対流セルを作る(T6の移流拡張)。働く力は一様重力場gravityY(外部場)とスピン斥力・接触だけで、自己重力・引きずり・放射は切ってある。gravityY=0にすると循環が止まる(おすすめA/B)。代表粒子の軌跡(線)で循環セルの周回が見える。色=温度。",
+  en:{name:"Heated Convection — Floor Heat, Ceiling Cool", description:"Pinned heaters (high spin) line the floor from the left to right-of-center, with sparse coolers (zero spin) on the right ceiling; only the far-right floor stays unheated, serving as the downwelling zone. Gas heats up at the floor via spin diffusion (E10′), inflates and rises by spin repulsion = pressure (A9/A10), cools at the ceiling and sinks on the right — a convection cell (an advective extension of T6). The only forces are the uniform gravity gravityY (external field) plus spin repulsion and contact — self-gravity, dragging and radiation are all off. Set gravityY to 0 and the circulation stops (suggested A/B). Trails on sampled particles trace the circulation loops. Color = temperature."},
   activeParams:["gravityY","kRep","kappaS","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:240}, world:{boundary:"box",size:190},
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:2, muF:0.2, gammaN:0.1, kappaS:1.2, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:2, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:4, softening:4, timeScale:2},
+    cLight:60, bM:1, etaRad:0, pRad:2, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:4, softening:4, timeScale:2},   // 第29便: timeScale 3→2 復帰(第25次レビュー P0-1 — CPU計算量が理論1.5倍・実測1.522倍の主因。循環の見やすさは軌跡(sampled trail)で維持)
   bodies:[ // v1.17: ヒーター(床)+冷却板5点(天井右・疎)+軽量ガス260。
            // v1.24: 旧11点(〜x=+30)では右下に冷えた塊が滞留し循環が死ぬ(48000步で自由粒子の
            // 84%が右下・循環7)ことを実測。6構成の機械掃引で「+70まで延長・右端床は非加熱の
@@ -1100,7 +1173,7 @@ const BUILTIN_PRESETS = [
     {type:"box", n:260, cx:0,cy:-10, w:340,h:320, mMin:0.05,mMax:0.05,
      spinMin:1,spinMax:2, vScale:0.4}
   ],
-  overlays:{rotationCurve:false,tempHistogram:true,field:false} },
+  overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"}  },
 
 { id:"buoyancy", name:"重力分離と浮力", emoji:"🧪", group:"熱の実験室",
   description:"一様重力場gravityYに置かれた、質量の異なる粒子の混合物。重い冷たい粒子は底へ沈んで層を作り、軽い熱い粒子はスピン=熱(A9)のスピン圧(A10)によって重力に逆らって上へ押し上げられ、上層の「大気」を作る — 密度差による沈降と浮力のアナロジー。要因分離のためスピンは固定(μF=κs=0で温度一定)、自己重力・引きずり・放射も切ってある。gravityYを0にすると分離が止まり混ざったままになる(おすすめA/B)。色=温度。",
@@ -1116,37 +1189,46 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 // ===== グループ: 天体の物語 =====
-{ id:"saturnZonalD68", name:"土星の近点移動(D68精密較正)", emoji:"🛰️", group:"天体の物語",
-  description:"現実の土星の扁平さ(帯状重力調和係数 J2〜J12、Cassini 実測値)を中心星の属性として与えた較正デモ(E13)。近点方向を揃えた楕円軌道のテスト粒子は、近点が公転と同じ向きに回り続け、内側ほど速い(差動近点移動)。線の軌跡は既定ONで、楕円の向きがゆっくり回るのがそのまま見える。解析式は J2〜J12 で打ち切るため D68 実測 38.243°/日 に対し −0.03% の残差が残るので、較正係数 C=1.0003023(高次項・離心率補正の代替)を中心星の zonal.calib に与えて観測値へ精密一致させている(QA が 38.243±0.002 を機械検証)。旧「現実較正」版(C=1)は本サンプルへ一本化(2026-07-23 原仮定者裁定 — 差は 0.03% で画面では区別できないため)。DFM 本来の環の物語は 🪐 を参照。",
-  en:{name:"Saturn Apsidal Precession (D68 Calibrated)", description:"A calibration demo (E13) that gives the central star the real oblateness of Saturn (zonal gravity harmonics J2–J12, Cassini values). Test particles on apse-aligned elliptical orbits precess prograde, faster on inner orbits (differential apsidal precession); trails are on by default so the slow rotation of the ellipse orientation is directly visible. Truncating at J2–J12 leaves a −0.03% residual vs the observed 38.243°/day at D68, so the calibration factor C=1.0003023 (standing in for higher-order terms) is applied via the central star's zonal.calib, matching the observation (QA checks 38.243±0.002). The former “real-calibrated” variant (C=1) was merged into this sample (originator's ruling, 2026-07-23 — the 0.03% difference is invisible on screen). See 🪐 for the DFM-native ring story."},
-  activeParams:["G","softening"],
-  camera:{scale:300}, world:{boundary:"none",size:0},
-  physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:1, lambdaPN:0, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:3},
-  bodies:[ // 第11次裁定 保留分(v1.29): 中心に Cassini 重力解 J2〜J12(基準半径 R_S=100 sim units)+
-           // calib=1.000302283(D68 精密較正)。テスト粒子は e=0.05・近点+x方向で整列
-           // (r_p=a(1−e), v_p=√[μ(1+e)/r_p], μ=G·M=1500)。DFM 効果(kFrame/kRep/muF/γN)は 0 に
-           // して扁平重力の効果だけを分離。geoPN=1・λ_PN=0 = E6′排他+純ニュートン。
-           // 旧 🧭(現実較正 C=1)は 2026-07-23 原仮定者裁定で本サンプルへ一本化・廃止
-    {type:"single", m:1500, x:0,y:0, vx:0,vy:0, spin:0, pinned:true,
-     zonal:{refR:100, calib:1.000302283, J:{2:0.016290573, 4:-0.000935314, 6:0.000086340,
-            8:-0.000014624, 10:0.000004672, 12:-0.000000997}}},
-    {type:"single", m:0.05, x:102.60,y:0, vx:0,vy:3.9180, spin:0, pinned:false},
-    {type:"single", m:0.05, x:110.20,y:0, vx:0,vy:3.7805, spin:0, pinned:false},
-    {type:"single", m:0.05, x:119.70,y:0, vx:0,vy:3.6274, spin:0, pinned:false},
-    {type:"single", m:0.05, x:131.10,y:0, vx:0,vy:3.4661, spin:0, pinned:false},
-    {type:"single", m:0.05, x:144.40,y:0, vx:0,vy:3.3026, spin:0, pinned:false},
-    {type:"single", m:0.05, x:159.60,y:0, vx:0,vy:3.1414, spin:0, pinned:false},
-    {type:"single", m:0.05, x:176.70,y:0, vx:0,vy:2.9855, spin:0, pinned:false},
-    {type:"single", m:0.05, x:195.70,y:0, vx:0,vy:2.8369, spin:0, pinned:false},
-    {type:"single", m:0.05, x:216.60,y:0, vx:0,vy:2.6966, spin:0, pinned:false},
-    {type:"single", m:0.05, x:239.40,y:0, vx:0,vy:2.5649, spin:0, pinned:false}
+{ id:"earthMoon", name:"地球と月", emoji:"🌍", group:"天体の物語",
+  description:"月が地球のまわりを公転する二体デモ(コアは現実の観測値で較正)。質量比は現実どおり m月/m地球=0.0123。月は同期自転 — spin を実測公転角速度 ω=0.013908 に一致させてあり、スポーク(車輪の輻)の同じ面が常に地球を向き続ける(潮汐固定)。コアは観測値: 地球 mc/m=0.325(PREM系の全コア質量比 32.5%)・月 mc/m=0.0168(月レーザー測距の 1.59〜1.77% の中央値)。sc/s=1.0(剛体回転)は中立既定 — 現実の地球内核の差動は ≈1.0000008 と桁違いに小さく、固定比で表せる値ではないため。地球をタップして sc/s を上げると空間引きずり(A8)経由で月軌道への効きが試せる。円軌道速度は E6′ 込みの実測較正 v=1.063×ケプラー値(Plummer軟化込み)— 4周で半径ドリフト0.09%・同期維持。地球の自転(0.05)は E6′ 安定域に収めた較正値 — 現実の比(月の27.4倍)では引きずり風が重力(E4)を超えて軌道が崩れる(実測)。現実の自転比で見たい場合は 🌕(自由二体・kFrame=0)を参照。地球は pinned の展示系。Kt=10000 は物理対応ロック Kt=c²/G の成立値。",
+  en:{name:"Earth & Moon", description:"A two-body demo with the Moon orbiting Earth (cores calibrated to observed values). The mass ratio is the real one: mMoon/mEarth=0.0123. The Moon rotates synchronously \u2014 its spin equals the measured orbital angular velocity \u03c9=0.013908, so the same face of its spoke wheel always points at Earth (tidal locking). Cores use observed values: Earth mc/m=0.325 (PREM whole-core mass fraction) and Moon mc/m=0.0168 (lunar-laser-ranging median of 1.59\u20131.77%). sc/s=1.0 (rigid rotation) is the neutral default \u2014 the real inner-core differential is \u22481.0000008, orders of magnitude smaller than any fixed teaching value. Tap Earth and raise sc/s to probe the frame-dragging (A8) effect on the Moon's orbit. The circular-orbit speed is calibrated with E6\u2032 included: v=1.063\u00d7 Keplerian (Plummer-softened) \u2014 radius drift 0.09% over 4 orbits with sync maintained. Earth's spin (0.05) is calibrated into the E6\u2032-stable regime \u2014 at the real ratio (27.4\u00d7 the Moon's) the drag wind exceeds gravity (E4) and the orbit collapses (measured). For the real spin ratio, see \ud83c\udf15 (free two-body, kFrame=0). Earth is pinned (exhibit system). Kt=10000 satisfies the GR-calibration lock Kt=c\u00b2/G."},
+  activeParams:["kFrame","G","D0"],
+  camera:{scale:220}, world:{boundary:"none",size:0},
+  physics:{G:1, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
+    cLight:100, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.5, softening:2, timeScale:5},
+  bodies:[ // 第15便: 公転版(v=1.063×軟化ケプラー値の実測較正・地球 pinned の展示系 —
+           // 自由二体は D0 リザーバ移譲で重心漂流のため。詳細はロードマップ)。
+           // 第16便(第17次レビュー 推奨A): コアを観測値へ — 地球 mc/m=0.325(PREM 32.5%)・
+           // 月 mc/m=0.0168(LLR 1.59〜1.77% の中央値)・sc/s=1.0(中立 — 現実の内核差動
+           // ≈1.0000008 に対し 1.05 は過大)。コア差動項ゼロ化に伴い ω を再実測(0.013931→
+           // 0.013908)し月 spin を追随。検証: t2000(4.4周)で r=179.996〜180.163・NaN なし。
+           // 粒子の並び: 0=地球(2層コア), 1=月(2層コア・同期自転)
+    {type:"single", m:1000, coreMR:0.325, coreSR:1.0, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
+    {type:"single", m:12.3, coreMR:0.0168, coreSR:1.0, x:180,y:0, vx:0,vy:2.5053, spin:0.013908, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+{ id:"earthMoonFree", name:"地球と月(自由二体・物理比)", emoji:"🌕", group:"天体の物語",
+  description:"地球を固定しない重心系の二体問題。kFrame=0 の純ニュートン対照 — E6′ 引きずりを切ると spin は軌道に影響しないため、現実の自転比をそのまま入れられる: 地球 spin=0.3609(月の公転の27.4倍=実比)・月は同期自転 spin=ω=0.013174。質量比 0.0123・コアも観測値(地球 mc/m=0.325・月 mc/m=0.0168)。重心を原点に置き全運動量 0 の閉鎖系(外部拘束なし — 保存則が系内で閉じる)。実測: t=5000(10.5周)で半径 179.97〜180.02(0.03%)・重心移動 0.001 未満・同期誤差 0.31°/周。A/B比較で kFrame=1 にすると引きずり(A8)の風が強すぎて軌道が崩れる — 🌍(展示版)が自転を安定域へ圧縮している理由が、その対比で見える。重力(E4)は Plummer 軟化込みの円軌道速度で初期化。",
+  en:{name:"Earth & Moon (Free Two-Body)", description:"A barycentric two-body problem with nothing pinned. With kFrame=0 (pure Newtonian control) spin does not affect orbits, so the REAL spin ratio can be used directly: Earth spin=0.3609 (27.4\u00d7 the Moon's orbital rate \u2014 the actual ratio) and the Moon rotates synchronously at spin=\u03c9=0.013174. Mass ratio 0.0123; cores at observed values (Earth mc/m=0.325, Moon mc/m=0.0168). Initialized at the barycenter with zero total momentum \u2014 a closed system with no external constraint. Measured: over t=5000 (10.5 orbits) the separation stays 179.97\u2013180.02 (0.03%), the center of mass moves less than 0.001, and the sync error is 0.31\u00b0/orbit. A/B-compare with kFrame=1: the drag wind (A8) destabilizes the orbit \u2014 which is exactly why \ud83c\udf0d (the exhibit version) compresses Earth's spin into the stable regime. Gravity (E4) uses the Plummer-softened circular speed."},
+  activeParams:["G","kFrame","D0"],
+  camera:{scale:220}, world:{boundary:"none",size:0},
+  physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
+    cLight:100, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.5, softening:2, timeScale:5},
+  bodies:[ // 第16便(第17次レビュー 推奨B — ChatGPT §7 の導出値を実エンジンで追認):
+           // 重心座標 xE=−D·mM/MT・xM=+D·mE/MT(D=180)、全運動量0の速度配分、
+           // vRel=√[G·MT·D²/(D²+ε²)^1.5]=2.371254(kFrame=0 なので f 補正不要)。
+           // 実測: t5000(10.48周)r=179.974〜180.020・重心移動最大0.0009・同期誤差0.31°/周。
+           // 自転は実比: 地球=27.39646523×ω=0.360911・月=ω=0.013174(同期)。
+           // 粒子の並び: 0=地球, 1=月
+    {type:"single", m:1000, coreMR:0.325, coreSR:1.0, x:-2.187105191,y:0, vx:0,vy:-0.028812128, spin:0.360911060, pinned:false},
+    {type:"single", m:12.300037, coreMR:0.0168, coreSR:1.0, x:177.812894809,y:0, vx:0,vy:2.342442349, spin:0.013173636, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"saturn", name:"土星の環(実験)", emoji:"🪐", group:"天体の物語",
-  description:"氷の粒(低質量・低散逸 muF=0.2/γN=0.15)の環の実験サンプル(旧「土星の環」を置換 — 原仮定者調整 2026-07-22)。中心星のスピンが空間を引きずり(kFrame=1・A8)、氷粒の衝突円形化(T3)と合わさって長時間安定な環を保つ。初期配置は t=300〜600 の実測安定分布に合わせて再設計し、t≈1200 まで落下・散逸ゼロを機械検証(v1.24 と同じ流儀)。環は空間引きずりで [ゆっくり内側へ漂いながら] 形を保つ — muF=0 にすると円形化が止まる対照も試せる。Kt=3600 は物理対応ロック Kt=c²/G の成立値。中心天体の表示半径は現実の比率に近い(radiusScale 1.8)。現実較正の近点移動は 🛰️ を参照。",
-  en:{name:"Saturn's Rings (Experimental)", description:"An experimental ring of icy grains (low mass, low dissipation: muF=0.2/\u03b3N=0.15), replacing the former Saturn sample (originator's tuning, 2026-07-22). The central star's spin drags nearby space (kFrame=1, A8) and, with collisional circularization (T3), keeps the ring stable for a long run. The initial layout was redesigned to match the measured relaxed distribution at t=300\u2013600, and machine-verified to stay intact (zero falls/escapes) to t\u22481200 \u2014 the same recipe as v1.24. Try muF=0 to stop the circularization. Kt=3600 satisfies the GR-calibration lock Kt=c\u00b2/G; the central body is drawn near the real proportion (radiusScale 1.8). See \ud83d\udef0\ufe0f for the real-calibrated apsidal precession."},
+  description:"氷の粒(低質量・低散逸 muF=0.2/γN=0.15)で構成された土星の環。中心星のスピンが空間を引きずり(kFrame=1・A8)、氷粒の衝突円形化(T3)と合わさって長時間安定な環を保つ。初期配置は t=300〜600 の実測安定分布に合わせてあり、t≈1200 まで落下・散逸ゼロ。環は空間引きずりで [ゆっくり内側へ漂いながら] 形を保つ — muF=0 にすると円形化が止まる対照も試せる。Kt=3600 は物理対応ロック Kt=c²/G の成立値。中心天体の表示半径は現実の比率に近い(radiusScale 1.8)。現実較正の近点移動は 🛰️ を参照。",
+  en:{name:"Saturn's Rings (Experimental)", description:"Saturn's ring of icy grains (low mass, low dissipation: muF=0.2/\u03b3N=0.15). The central star's spin drags nearby space (kFrame=1, A8) and, with collisional circularization (T3), keeps the ring stable for a long run. The initial layout matches the measured relaxed distribution at t=300\u2013600 and stays intact (zero falls/escapes) to t\u22481200. Try muF=0 to stop the circularization. Kt=3600 satisfies the GR-calibration lock Kt=c\u00b2/G; the central body is drawn near the real proportion (radiusScale 1.8). See \ud83d\udef0\ufe0f for the real-calibrated apsidal precession."},
   activeParams:["muF","kFrame","kappaS"],   // QA activeParams.ui が先頭=muF の編集反映を検査するため muF を先頭に
   camera:{scale:340}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:1.2, muF:0.2, gammaN:0.15, kappaS:0.08, Kt:3600,
@@ -1172,8 +1254,8 @@ const BUILTIN_PRESETS = [
   // 「同一初期配置での姉妹比較」になる(id 由来の別シードでは冷スタート過渡の谷が
   // t≈360 に当たる実現があり、安定 QA の t360 短縮と干渉した — 実測 2026-07-23)
   seed:1501780989,
-  description:"主星にコア(質量比 mc/m=0.18)を持たせた 🪐 の姉妹版(第14便で比率仕様へ — 元になる数値をそのまま使える様に、m は総質量 1500 のまま)。コア質量比 18% は Cassini 後の重元素集中の推定(≈17地球質量/95地球質量)、コア半径比 Rc/R=42% は希薄コア(半径の約1/2)の推定に対応。sc/s はコアスピン比で、剛体回転(sc/s=1)なら単層と厳密等価 — 差動分だけが ω += (mc/m)·s·(sc/s−1)·f(Rc,d) としてコア核 Rc から追加の空間引きずり(A8)に効く(既定 sc/s=1.05 は教材用に差を強調した仮定値。地震学的推定は ≈1.01)。コアスピンは熱・散逸(T3/E10′)と切り離された固定内部回転源(反作用で変化しない外部拘束)であり、閉じた2層天体ではなく統制実験である点に注意。中心天体をタップして mc/m・sc/s を編集: sc/s=10(高速コア)・sc/s<0(逆回転コア)・mc/m<0(空洞 — 殻に質量集中し差動引きずりの符号が反転する思考実験)・A/B比較で kFrame=1 vs 0 などが見どころ。氷粒の衝突円形化(T3)は 🪐 と同一。",
-  en:{name:"Saturn's Rings (Two-Layer Primary)", description:"Sister sample of 🪐 whose primary has a core specified by ratios (14th shipment): m stays the total mass 1500, the core mass ratio mc/m=0.18 matches post-Cassini estimates of heavy-element concentration (≈17 of 95 Earth masses), and Rc/R=42% matches the dilute core extending to roughly half the radius. sc/s is the core spin ratio: rigid rotation (sc/s=1) is exactly equivalent to the single-layer body, and only the differential part adds frame dragging (A8) through the smaller core kernel: ω += (mc/m)·s·(sc/s−1)·f(Rc,d). The default sc/s=1.05 exaggerates the contrast for teaching (seismology suggests ≈1.01). The core spin is a fixed internal rotation source decoupled from heat and dissipation (T3/E10′) — a controlled experiment, not a closed two-layer body. Tap the central body to edit mc/m and sc/s: try sc/s=10 (fast core), sc/s<0 (counter-rotating core), mc/m<0 (a hollow shell — the differential drag flips sign), or A/B-compare kFrame 1 vs 0. Icy-grain circularization (T3) is identical to 🪐."},
+  description:"主星にコア(質量比 mc/m=0.18)を持たせた 🪐 の姉妹版(比率仕様 — m は総質量 1500 のまま)。コア質量比 18% は Cassini 後の重元素集中の推定(≈17地球質量/95地球質量)、コア半径比 Rc/R=42% は希薄コア(半径の約1/2)の推定に対応。sc/s はコアスピン比で、剛体回転(sc/s=1)なら単層と厳密等価 — 差動分だけが ω += (mc/m)·s·(sc/s−1)·f(Rc,d) としてコア核 Rc から追加の空間引きずり(A8)に効く(既定 sc/s=1.05 は教材用に差を強調した仮定値。地震学的推定は ≈1.01)。コアスピンは熱・散逸(T3/E10′)と切り離された固定内部回転源(反作用で変化しない外部拘束)であり、閉じた2層天体ではなく統制実験である点に注意。中心天体をタップして mc/m・sc/s を編集: sc/s=10(高速コア)・sc/s<0(逆回転コア)・mc/m<0(空洞 — 殻に質量集中し差動引きずりの符号が反転する思考実験)・A/B比較で kFrame=1 vs 0 などが見どころ。氷粒の衝突円形化(T3)は 🪐 と同一。",
+  en:{name:"Saturn's Rings (Two-Layer Primary)", description:"Sister sample of 🪐 whose primary has a core specified by ratios: m stays the total mass 1500, the core mass ratio mc/m=0.18 matches post-Cassini estimates of heavy-element concentration (≈17 of 95 Earth masses), and Rc/R=42% matches the dilute core extending to roughly half the radius. sc/s is the core spin ratio: rigid rotation (sc/s=1) is exactly equivalent to the single-layer body, and only the differential part adds frame dragging (A8) through the smaller core kernel: ω += (mc/m)·s·(sc/s−1)·f(Rc,d). The default sc/s=1.05 exaggerates the contrast for teaching (seismology suggests ≈1.01). The core spin is a fixed internal rotation source decoupled from heat and dissipation (T3/E10′) — a controlled experiment, not a closed two-layer body. Tap the central body to edit mc/m and sc/s: try sc/s=10 (fast core), sc/s<0 (counter-rotating core), mc/m<0 (a hollow shell — the differential drag flips sign), or A/B-compare kFrame 1 vs 0. Icy-grain circularization (T3) is identical to 🪐."},
   activeParams:["kFrame","muF","kappaS"],
   camera:{scale:340}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:1.2, muF:0.2, gammaN:0.15, kappaS:0.08, Kt:3600,
@@ -1195,49 +1277,40 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
-{ id:"earthMoon", name:"地球と月", emoji:"🌍", group:"天体の物語",
-  description:"月が地球のまわりを公転する二体デモ(第15便で公転版・第16便=第17次レビューでコアを現実値へ較正)。質量比は現実どおり m月/m地球=0.0123。月は同期自転 — spin を実測公転角速度 ω=0.013908 に一致させてあり、スポーク(車輪の輻)の同じ面が常に地球を向き続ける(潮汐固定)。コアは観測値: 地球 mc/m=0.325(PREM系の全コア質量比 32.5%)・月 mc/m=0.0168(月レーザー測距の 1.59〜1.77% の中央値)。sc/s=1.0(剛体回転)は中立既定 — 現実の地球内核の差動は ≈1.0000008 と桁違いに小さく、固定比で表せる値ではないため(第17次レビュー)。地球をタップして sc/s を上げると空間引きずり(A8)経由で月軌道への効きが試せる。円軌道速度は E6′ 込みの実測較正 v=1.063×ケプラー値(Plummer軟化込み)— 4周で半径ドリフト0.09%・同期維持を機械検証(QA behavior.earthMoon)。地球の自転(0.05)は E6′ 安定域に収めた較正値 — 現実の比(月の27.4倍)では引きずり風が重力(E4)を超えて軌道が崩れる(実測記録)。現実の自転比で見たい場合は 🌕(自由二体・kFrame=0)を参照。地球は pinned の展示系。Kt=10000 は物理対応ロック Kt=c²/G の成立値。",
-  en:{name:"Earth & Moon", description:"A two-body demo with the Moon orbiting Earth (cores calibrated to observed values after the 17th review). The mass ratio is the real one: mMoon/mEarth=0.0123. The Moon rotates synchronously \u2014 its spin equals the measured orbital angular velocity \u03c9=0.013908, so the same face of its spoke wheel always points at Earth (tidal locking). Cores use observed values: Earth mc/m=0.325 (PREM whole-core mass fraction) and Moon mc/m=0.0168 (lunar-laser-ranging median of 1.59\u20131.77%). sc/s=1.0 (rigid rotation) is the neutral default \u2014 the real inner-core differential is \u22481.0000008, orders of magnitude smaller than any fixed teaching value (17th review). Tap Earth and raise sc/s to probe the frame-dragging (A8) effect on the Moon's orbit. The circular-orbit speed is calibrated with E6\u2032 included: v=1.063\u00d7 Keplerian (Plummer-softened) \u2014 radius drift 0.09% over 4 orbits, sync machine-verified (QA behavior.earthMoon). Earth's spin (0.05) is calibrated into the E6\u2032-stable regime \u2014 at the real ratio (27.4\u00d7 the Moon's) the drag wind exceeds gravity (E4) and the orbit collapses (measured). For the real spin ratio, see \ud83c\udf15 (free two-body, kFrame=0). Earth is pinned (exhibit system). Kt=10000 satisfies the GR-calibration lock Kt=c\u00b2/G."},
-  activeParams:["kFrame","G","D0"],
-  camera:{scale:220}, world:{boundary:"none",size:0},
-  physics:{G:1, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
-    cLight:100, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.5, softening:2, timeScale:5},
-  bodies:[ // 第15便: 公転版(v=1.063×軟化ケプラー値の実測較正・地球 pinned の展示系 —
-           // 自由二体は D0 リザーバ移譲で重心漂流のため。詳細はロードマップ)。
-           // 第16便(第17次レビュー 推奨A): コアを観測値へ — 地球 mc/m=0.325(PREM 32.5%)・
-           // 月 mc/m=0.0168(LLR 1.59〜1.77% の中央値)・sc/s=1.0(中立 — 現実の内核差動
-           // ≈1.0000008 に対し 1.05 は過大)。コア差動項ゼロ化に伴い ω を再実測(0.013931→
-           // 0.013908)し月 spin を追随。検証: t2000(4.4周)で r=179.996〜180.163・NaN なし。
-           // 粒子の並び: 0=地球(2層コア), 1=月(2層コア・同期自転)
-    {type:"single", m:1000, coreMR:0.325, coreSR:1.0, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
-    {type:"single", m:12.3, coreMR:0.0168, coreSR:1.0, x:180,y:0, vx:0,vy:2.5053, spin:0.013908, pinned:false}
-  ],
-  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
-
-{ id:"earthMoonFree", name:"地球と月(自由二体・物理比)", emoji:"🌕", group:"天体の物語",
-  description:"地球を固定しない重心系の二体問題(第16便=第17次レビュー 推奨B)。kFrame=0 の純ニュートン対照 — E6′ 引きずりを切ると spin は軌道に影響しないため、現実の自転比をそのまま入れられる: 地球 spin=0.3609(月の公転の27.4倍=実比)・月は同期自転 spin=ω=0.013174。質量比 0.0123・コアも観測値(地球 mc/m=0.325・月 mc/m=0.0168)。重心を原点に置き全運動量 0 の閉鎖系(外部拘束なし — 保存則が系内で閉じる)。機械検証: t=5000(10.5周)で半径 179.97〜180.02(0.03%)・重心移動 0.001 未満・同期誤差 0.31°/周(QA behavior.earthMoonFree)。A/B比較で kFrame=1 にすると引きずり(A8)の風が強すぎて軌道が崩れる — 🌍(展示版)が自転を安定域へ圧縮している理由が、その対比で見える。重力(E4)は Plummer 軟化込みの円軌道速度で初期化。",
-  en:{name:"Earth & Moon (Free Two-Body)", description:"A barycentric two-body problem with nothing pinned (17th review, proposal B). With kFrame=0 (pure Newtonian control) spin does not affect orbits, so the REAL spin ratio can be used directly: Earth spin=0.3609 (27.4\u00d7 the Moon's orbital rate \u2014 the actual ratio) and the Moon rotates synchronously at spin=\u03c9=0.013174. Mass ratio 0.0123; cores at observed values (Earth mc/m=0.325, Moon mc/m=0.0168). Initialized at the barycenter with zero total momentum \u2014 a closed system with no external constraint. Machine-verified: over t=5000 (10.5 orbits) the separation stays 179.97\u2013180.02 (0.03%), the center of mass moves less than 0.001, and the sync error is 0.31\u00b0/orbit (QA behavior.earthMoonFree). A/B-compare with kFrame=1: the drag wind (A8) destabilizes the orbit \u2014 which is exactly why \ud83c\udf0d (the exhibit version) compresses Earth's spin into the stable regime. Gravity (E4) uses the Plummer-softened circular speed."},
-  activeParams:["G","kFrame","D0"],
-  camera:{scale:220}, world:{boundary:"none",size:0},
-  physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
-    cLight:100, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.5, softening:2, timeScale:5},
-  bodies:[ // 第16便(第17次レビュー 推奨B — ChatGPT §7 の導出値を実エンジンで追認):
-           // 重心座標 xE=−D·mM/MT・xM=+D·mE/MT(D=180)、全運動量0の速度配分、
-           // vRel=√[G·MT·D²/(D²+ε²)^1.5]=2.371254(kFrame=0 なので f 補正不要)。
-           // 実測: t5000(10.48周)r=179.974〜180.020・重心移動最大0.0009・同期誤差0.31°/周。
-           // 自転は実比: 地球=27.39646523×ω=0.360911・月=ω=0.013174(同期)。
-           // 粒子の並び: 0=地球, 1=月
-    {type:"single", m:1000, coreMR:0.325, coreSR:1.0, x:-2.187105191,y:0, vx:0,vy:-0.028812128, spin:0.360911060, pinned:false},
-    {type:"single", m:12.300037, coreMR:0.0168, coreSR:1.0, x:177.812894809,y:0, vx:0,vy:2.342442349, spin:0.013173636, pinned:false}
+{ id:"saturnZonalD68", name:"土星の近点移動(D68精密較正)", emoji:"🛰️", group:"天体の物語",
+  description:"現実の土星の扁平さ(帯状重力調和係数 J2〜J12、Cassini 実測値)を中心星の属性として与えた較正デモ(E13)。近点方向を揃えた楕円軌道のテスト粒子は、近点が公転と同じ向きに回り続け、内側ほど速い(差動近点移動)。線の軌跡は既定ONで、楕円の向きがゆっくり回るのがそのまま見える。解析式は J2〜J12 で打ち切るため D68 実測 38.243°/日 に対し −0.03% の残差が残るので、較正係数 C=1.0003023(高次項・離心率補正の代替)を中心星の zonal.calib に与えて観測値へ精密一致させている(実測 38.243±0.002)。旧「現実較正」版(C=1)は本サンプルへ一本化(差は 0.03% で画面では区別できない)。DFM 本来の環の物語は 🪐 を参照。",
+  en:{name:"Saturn Apsidal Precession (D68 Calibrated)", description:"A calibration demo (E13) that gives the central star the real oblateness of Saturn (zonal gravity harmonics J2–J12, Cassini values). Test particles on apse-aligned elliptical orbits precess prograde, faster on inner orbits (differential apsidal precession); trails are on by default so the slow rotation of the ellipse orientation is directly visible. Truncating at J2–J12 leaves a −0.03% residual vs the observed 38.243°/day at D68, so the calibration factor C=1.0003023 (standing in for higher-order terms) is applied via the central star's zonal.calib, matching the observation (measured 38.243±0.002). The former “real-calibrated” variant (C=1) was merged into this sample (the 0.03% difference is invisible on screen). See 🪐 for the DFM-native ring story."},
+  activeParams:["G","softening"],
+  camera:{scale:300}, world:{boundary:"none",size:0},
+  physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:1, lambdaPN:0, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:3},
+  bodies:[ // 第11次裁定 保留分(v1.29): 中心に Cassini 重力解 J2〜J12(基準半径 R_S=100 sim units)+
+           // calib=1.000302283(D68 精密較正)。テスト粒子は e=0.05・近点+x方向で整列
+           // (r_p=a(1−e), v_p=√[μ(1+e)/r_p], μ=G·M=1500)。DFM 効果(kFrame/kRep/muF/γN)は 0 に
+           // して扁平重力の効果だけを分離。geoPN=1・λ_PN=0 = E6′排他+純ニュートン。
+           // 旧 🧭(現実較正 C=1)は 2026-07-23 原仮定者裁定で本サンプルへ一本化・廃止
+    {type:"single", m:1500, x:0,y:0, vx:0,vy:0, spin:0, pinned:true,
+     zonal:{refR:100, calib:1.000302283, J:{2:0.016290573, 4:-0.000935314, 6:0.000086340,
+            8:-0.000014624, 10:0.000004672, 12:-0.000000997}}},
+    {type:"single", m:0.05, x:102.60,y:0, vx:0,vy:3.9180, spin:0, pinned:false},
+    {type:"single", m:0.05, x:110.20,y:0, vx:0,vy:3.7805, spin:0, pinned:false},
+    {type:"single", m:0.05, x:119.70,y:0, vx:0,vy:3.6274, spin:0, pinned:false},
+    {type:"single", m:0.05, x:131.10,y:0, vx:0,vy:3.4661, spin:0, pinned:false},
+    {type:"single", m:0.05, x:144.40,y:0, vx:0,vy:3.3026, spin:0, pinned:false},
+    {type:"single", m:0.05, x:159.60,y:0, vx:0,vy:3.1414, spin:0, pinned:false},
+    {type:"single", m:0.05, x:176.70,y:0, vx:0,vy:2.9855, spin:0, pinned:false},
+    {type:"single", m:0.05, x:195.70,y:0, vx:0,vy:2.8369, spin:0, pinned:false},
+    {type:"single", m:0.05, x:216.60,y:0, vx:0,vy:2.6966, spin:0, pinned:false},
+    {type:"single", m:0.05, x:239.40,y:0, vx:0,vy:2.5649, spin:0, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"binary", name:"連星系と周連星円盤", emoji:"⭐", group:"天体の物語",
-  description:"等質量の2恒星が共通重心を回り、その外側を軽い天体群が公転する。単独星とは異なる時間変動する重力場(E4)が外側の軌道を乱し、恒星の運動は空間を引きずって円盤へ伝わる(A5)。kFrame=0.5→0、D0=10→100の比較(A/B比較モード)がおすすめ。",
-  en:{name:"Binary Stars & Circumbinary Disk", description:"Two equal-mass stars orbit their common barycenter while a ring of light bodies circles outside. The time-varying gravitational field — unlike a single star — perturbs the outer orbits. Try A/B-comparing kFrame 0.5 vs 0 or D0 10 vs 100."},
+  description:"等質量の2恒星が共通重心を回り、その外側を軽い天体群が公転する。単独星とは異なる時間変動する重力場(E4)が外側の軌道を乱し、恒星の運動は空間を引きずって円盤へ伝わる(A5)。kFrame=1→0、D0=10→100の比較(A/B比較モード)がおすすめ。",
+  en:{name:"Binary Stars & Circumbinary Disk", description:"Two equal-mass stars orbit their common barycenter while a ring of light bodies circles outside. The time-varying gravitational field — unlike a single star — perturbs the outer orbits. Try A/B-comparing kFrame 1 vs 0 or D0 10 vs 100."},
   activeParams:["kFrame","D0","G"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:320}, world:{boundary:"none",size:0},
-  physics:{G:1, D0:10, kFrame:0.5, q:2, kRep:0, muF:0.05, gammaN:0.1, kappaS:0, Kt:10000,
+  physics:{G:1, D0:10, kFrame:1, q:2, kRep:0, muF:0.05, gammaN:0.1, kappaS:0, Kt:10000,   // 第26便: kFrame 0.5→1(中間値解消。12000步で束縛・円盤240/240残存を実測)
     cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:4},
   bodies:[ // v1.13(付録M): 第6次提案 P1-1 を内蔵化(12000步スモーク・重心ドリフト0.1)
     {type:"single", m:500, x:-60,y:0, vx:0,vy:-1.44, spin:0.03, pinned:false},
@@ -1248,8 +1321,8 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"fig8", name:"三体問題 — 8の字軌道", emoji:"♾️", group:"天体の物語",
-  description:"等質量3天体が重心の周りを交代で通過する8の字周期軌道(機械検証: 12000步でも最大半径87に有界)。引きずりを切った純粋な重力(E4)のニュートン退化で、運動量と角運動量は厳密に保存する(T7)。1天体のvxを0.9028→0.92に変えると周期性が崩れ、三体問題の初期値感度を観察できる。軌跡は自動表示。",
-  en:{name:"Three-Body Problem — Figure-8 Orbit", description:"Three equal masses chase each other along the famous figure-8 periodic orbit (machine-verified bounded to radius 87 over 12,000 steps). Nudge one body's vx from 0.9028 to 0.92 and the periodicity shatters — the three-body problem's sensitivity to initial conditions. Trails shown automatically."},
+  description:"等質量3天体が重心の周りを交代で通過する8の字周期軌道(12000步でも最大半径87に有界)。引きずりを切った純粋な重力(E4)のニュートン退化で、運動量と角運動量は厳密に保存する(T7)。1天体のvxを0.9028→0.92に変えると周期性が崩れ、三体問題の初期値感度を観察できる。軌跡は自動表示。",
+  en:{name:"Three-Body Problem — Figure-8 Orbit", description:"Three equal masses chase each other along the famous figure-8 periodic orbit (bounded to radius 87 over 12,000 steps). Nudge one body's vx from 0.9028 to 0.92 and the periodicity shatters — the three-body problem's sensitivity to initial conditions. Trails shown automatically."},
   activeParams:["G","softening"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:140}, world:{boundary:"none",size:0},
   physics:{G:1, D0:100, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
@@ -1262,61 +1335,24 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"counterring", name:"順行・逆行リングの衝突", emoji:"💥", group:"天体の物語",
-  description:"同じ軌道帯を逆向きに回る2つのリング。正面衝突の接触摩擦(A9)が公転運動をスピン=熱へ変換し、リングが光りながら加熱・降着していく。muFを0にすると加熱が完全に止まる(平均スピン 0.76→0.00の対照=機械検証)。公転エネルギーが熱に変わる「逆回転降着円盤」の思考実験。右下は放射スペクトル。",
-  en:{name:"Prograde vs Retrograde Ring Collision", description:"Two rings share the same orbital band but revolve in opposite directions. Head-on contact friction (A9) converts orbital motion into spin = heat — the rings glow, heat up, and accrete. Set muF to 0 and the heating stops completely (mean spin 0.76 → 0.00, machine-verified contrast). A thought experiment on counter-rotating accretion disks. Bottom right: radiation spectrum."},
+  description:"同じ軌道帯を逆向きに回る2つのリング。正面衝突の接触摩擦(A9)が公転運動をスピン=熱へ変換し、リングが光りながら加熱・降着していく。muFを0にすると加熱が完全に止まる(平均スピン 0.76→0.00の対照)。公転エネルギーが熱に変わる「逆回転降着円盤」の思考実験。右下は放射スペクトル。",
+  en:{name:"Prograde vs Retrograde Ring Collision", description:"Two rings share the same orbital band but revolve in opposite directions. Head-on contact friction (A9) converts orbital motion into spin = heat — the rings glow, heat up, and accrete. Set muF to 0 and the heating stops completely (mean spin 0.76 → 0.00 contrast). A thought experiment on counter-rotating accretion disks. Bottom right: radiation spectrum."},
   activeParams:["muF","gammaN","etaRad"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:190}, world:{boundary:"none",size:0},
   physics:{G:1, D0:5, kFrame:0, q:2, kRep:0, muF:1, gammaN:0.6, kappaS:0.02, Kt:10000,
     cLight:60, bM:1, etaRad:1e-5, pRad:2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:0.8, softening:2, timeScale:2},
   bodies:[ // v1.12(付録L): 第6次提案 P0-3 採用。muF=1/0 の加熱対照を機械検証済み
     {type:"single", m:800, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
-    {type:"ring", n:140, cx:0,cy:0, rIn:80,rOut:145, mMin:0.12,mMax:0.18,
+    {type:"ring", n:100, cx:0,cy:0, rIn:80,rOut:145, mMin:0.12,mMax:0.18,
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:800, omega:0, vNoise:0.03, direction:1, pinned:false},
-    {type:"ring", n:140, cx:0,cy:0, rIn:80,rOut:145, mMin:0.12,mMax:0.18,
+    {type:"ring", n:100, cx:0,cy:0, rIn:80,rOut:145, mMin:0.12,mMax:0.18,
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:800, omega:0, vNoise:0.03, direction:-1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,spectrum:true} },
 
-{ id:"merger", name:"銀河合体と潮汐効果", emoji:"🌠", group:"天体の物語",
-  description:"2つの回転円盤銀河が接近・合体する過程。潮汐尾の形成、衝突による加熱(A9のスピン変換)、角運動量の再分配、合体後の回転曲線を観察できる。kFrameを0.3〜0.9で変えるとフレームドラッギング(A8)が合体ダイナミクスに効く。v1.24: 円盤を回転支持(kepler)にし、合体前に円盤が核へ崩れる問題を修正。",
-  en:{name:"Galaxy Merger & Tidal Effects", description:"Two rotating disk galaxies approach and merge. Watch tidal tails form, collisions heat the disks (spin conversion, A9), angular momentum redistribute, and the remnant's rotation curve settle. Vary kFrame between 0.3 and 0.9 to see frame dragging (A8) shape the merger. v1.24: disks are now rotation-supported (kepler), fixing their pre-merger collapse onto the nuclei."},
-  activeParams:["kFrame","G","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
-  camera:{scale:160}, world:{boundary:"none",size:0},
-  physics:{G:0.9, D0:4.5, kFrame:0.55, q:1.8, kRep:0.8, muF:0.45, gammaN:0.55, kappaS:0.12, Kt:90,
-    cLight:70, bM:1, etaRad:0.0008, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:3.5, timeScale:1.8},
-  bodies:[ // v1.13(付録M): 第6次提案(Grok #1)を内蔵化。v1.18: 円盤に bulkVx/Vy を付与し
-           // 核と円盤が一体で並進するよう修正(旧: 核だけが動き円盤が置き去りになっていた)。
-           // v1.24: vMode flat(vScale0.85=必要円軌道速度の1/4以下)で円盤が合体前に核へ
-           // 崩落していたため kepler(回転支持)へ修正 — 接近12000步まで保持率95%+を実測
-    {type:"single", m:920, x:-280,y:20, vx:1.35,vy:0.25, spin:0.09, pinned:false},
-    {type:"disk", n:195, cx:-280,cy:20, radius:95, mMin:0.25,mMax:1.6,
-     spinMin:-0.6,spinMax:0.6, vMode:"kepler", aroundMass:920, vScale:1.0, direction:1,
-     bulkVx:1.35, bulkVy:0.25},
-    {type:"single", m:680, x:240,y:-35, vx:-1.65,vy:-0.35, spin:0.07, pinned:false},
-    {type:"disk", n:155, cx:240,cy:-35, radius:78, mMin:0.25,mMax:1.4,
-     spinMin:-0.5,spinMax:0.5, vMode:"kepler", aroundMass:680, vScale:1.0, direction:-1,
-     bulkVx:-1.65, bulkVy:-0.35}
-  ],
-  overlays:{rotationCurve:true,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"} },
-
-{ id:"collapse", name:"自己重力雲の崩壊と原始星形成", emoji:"🌫️", group:"天体の物語",
-  description:"広がった粒子群が自己重力で崩壊し、中心集中・衝突加熱(A9)・放射冷却(E11)による収縮を観察。v1.18で雲全体にごくわずかな初期回転(角運動量)を与えた — 現実の分子雲コアと同様、角運動量保存によって収縮とともに回転が増幅され、中心星の周りに円盤構造が形成されやすくなる(ジーンズ不安定性のアナロジー)。etaRadやpRadを変えると冷却効率が崩壊速度に効く。",
-  en:{name:"Self-Gravitating Cloud Collapse & Protostar", description:"A dispersed particle cloud collapses under self-gravity: central concentration, collision heating (A9), and radiative-cooling-driven contraction (E11). Since v1.18 the cloud carries a slight initial rotation — as in real molecular-cloud cores, angular-momentum conservation amplifies it during contraction, favoring a disk around the forming star (a Jeans-instability analogy). Vary etaRad/pRad to see how cooling efficiency drives the collapse rate."},
-  activeParams:["etaRad","pRad","G"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
-  camera:{scale:280}, world:{boundary:"none",size:0},
-  physics:{G:1.4, D0:1.8, kFrame:0.35, q:2, kRep:1.2, muF:0.65, gammaN:0.45, kappaS:0.09, Kt:70,
-    cLight:60, bM:1, etaRad:0.004, pRad:2.8, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:5, timeScale:2.2},
-  bodies:[ // v1.13(付録M): 第6次提案(Grok #3)を内蔵化。v1.18: Gemini 第8次提案採用 —
-           // vMode rigid の微小回転 + random 相当の乱れは vNoise でなく速度合成で付与できないため
-           // rigid(ω=0.004)を基本にし、乱れは disk 生成の±0.02 ノイズに任せる(機械検証済み)
-    {type:"disk", n:260, cx:0,cy:0, radius:210, mMin:0.15,mMax:0.9,
-     spinMin:0,spinMax:0.15, vMode:"rigid", aroundMass:0, vScale:0.004, direction:1}
-  ],
-  overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"} },
-
-{ id:"snowline", name:"雪線 — 熱は塊を融かす", emoji:"❄️", group:"天体の物語",
-  description:"同じ塵の環を冷たい星(左)と熱い星(右)に与えた対照実験。冷たい環では塵が衝突で固まり小衛星が育つ(T3)が、熱い星の環では星の熱がスピン拡散(E10′)で塵へ流れ込み、生まれかけた塊は摩擦の撹拌(A9)でほどけて塊になれない。環はやがて蒸発し、飛ばされた塵は熱の届かぬ遠方で再び固まる。右下: 左右の平均温度。",
-  en:{name:"The Snow Line — Heat Melts Clumps", description:"The same dust ring around a cold star (left) and a hot star (right) — a controlled contrast. In the cold ring, dust sticks into growing moonlets (T3); in the hot ring, stellar heat flows into the dust by spin diffusion (E10′) and friction churn (A9) unravels nascent clumps. That ring evaporates, and the ejected dust re-condenses far away, beyond the heat's reach. Bottom right: mean temperatures."},
+{ id:"snowline", name:"塵は冷えると固まる — 冷たい星と熱い星", emoji:"❄️", group:"天体の物語",
+  description:"同じ塵の環を冷たい星(左)と熱い星(右)に与えた対照実験。冷たい環では塵が衝突で固まり小衛星が育つ(T3)が、熱い星の環では星の熱がスピン拡散(E10′)で塵へ流れ込み、生まれかけた塊は摩擦の撹拌(A9)でほどけて塊になれない。環はやがて蒸発し、飛ばされた塵は熱の届かぬ遠方で再び固まる — 恒星系の「雪線(スノーライン)」のアナロジー。右下: 左右の平均温度。",
+  en:{name:"Dust Clumps When Cold — Cold Star vs Hot Star", description:"The same dust ring around a cold star (left) and a hot star (right) — a controlled contrast (the snow-line analogy). In the cold ring, dust sticks into growing moonlets (T3); in the hot ring, stellar heat flows into the dust by spin diffusion (E10′) and friction churn (A9) unravels nascent clumps. That ring evaporates, and the ejected dust re-condenses far away, beyond the heat's reach. Bottom right: mean temperatures."},
   activeParams:["kappaS","muF","etaRad"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:380}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0.6, gammaN:0.5, kappaS:1.2, Kt:60,
@@ -1409,6 +1445,12 @@ function validatePreset(obj){
         }
         // E13(第11次裁定 保留分の実施): AI生成・インポートへ zonal を開放。
         // 偶数次 J2〜J12 のみ受理し、|J|≤0.1・refR 1〜5000・calib 0〜2 にクランプする
+                // 第27便: 単体粒子のレール駆動(規定運動)— pinned のときのみ有効。原点中心の円軌道の角速度
+        if(b.railOmega!==undefined){
+          if(!isNum(b.railOmega)){ bad(at+".railOmega が数値ではありません"); return; }
+          o.railOmega=wc(b.railOmega,-2,2,"railOmega");
+          if(!b.pinned){ warnings.push(at+".railOmega は pinned 粒子のみ有効 — 無視します"); o.railOmega=0; }
+        }
         if(b.zonal!==undefined){
           const z=b.zonal;
           if(!z||typeof z!=="object"||Array.isArray(z)||!isNum(z.refR)||!z.J||typeof z.J!=="object"||Array.isArray(z.J)){ bad(at+".zonal が不正(refR:数値・J:オブジェクト が必要)"); return; }
@@ -1517,6 +1559,7 @@ function makeSim(){
     S.pairD=new Float32Array(Math.max(1,n*(n-1)/2)); // 対距離キャッシュ(E6′反作用パスで再利用)
     S.railR=F();S.railAng=F();S.railOmega=F();S.railCx=F();S.railCy=F();
     S.pinned=new Uint8Array(n); S.hasU=new Uint8Array(n);
+    S.railIdx=null;   // 第29便(第25次レビュー P1-1): レール粒子インデックス(step初回に遅延構築)
   };
   // プリセット→粒子生成(乱数はプリセットidで固定シード: ⏮で同じ初期配置を再現)
   S.build = function(preset){
@@ -1541,6 +1584,13 @@ function makeSim(){
           coreOT:(b.coreOT===undefined?1:b.coreOT),
           radius:(b.radius===undefined?0:b.radius), coreRR:(b.coreRR===undefined?0:b.coreRR)};
         if(b.zonal) o.zonal=b.zonal;   // E13(第11次裁定): 扁平中心天体の帯状重力属性
+        // 第27便: 単体粒子のレール駆動(pinned+railOmega — 原点中心の円軌道。🕶️ハローの
+        // 20体相互散乱による形崩れ対策: 軌道を外部が規定し、u場への運動寄与は維持される)
+        if(o.pinned && b.railOmega){
+          o.railOmega=b.railOmega; o.railR=Math.hypot(b.x,b.y); o.railAng=Math.atan2(b.y,b.x);
+          o.railCx=0; o.railCy=0;
+          o.vx=-b.railOmega*o.railR*Math.sin(o.railAng); o.vy=b.railOmega*o.railR*Math.cos(o.railAng);
+        }
         push(o); noteBig(o);
       } else if(b.type==="ring"){
         for(let i=0;i<b.n;i++){
@@ -1644,7 +1694,11 @@ function makeSim(){
     ax.fill(0); ay.fill(0); sumW.fill(0); uAx.fill(0); uAy.fill(0); ds.fill(0);
     dpx.fill(0); dpy.fill(0);
     // レール粒子(pinned+omega)の位置・速度を先に更新
-    for(let i=0;i<n;i++){
+    // 第29便(第25次レビュー P1-1): 構築時のレール候補だけを走査(レール無し宇宙の O(N) 固定費を除去)。
+    // railOmega が非0になるのは build 経由のみ(alloc で railIdx=null に戻る)。編集パネルの固定解除は
+    // railOmega=0 にするだけなのでループ内の再判定で追従する(A/B転写も同一プリセット構築後の遅延再構築)
+    if(S.railIdx===null){ const li=[]; for(let i=0;i<n;i++) if(pinned[i]&&S.railOmega[i]!==0) li.push(i); S.railIdx=li; }
+    for(const i of S.railIdx){
       if(pinned[i] && S.railOmega[i]!==0){
         S.railAng[i]+=S.railOmega[i]*dt;
         const a=S.railAng[i], r=S.railR[i];
@@ -2004,9 +2058,11 @@ let camX=0, camY=0, camScale=300, tempP90EMA=0.5, monitorOn=false;
 // v1.17: UI文字サイズ(1=標準/1.15=大/1.3=特大)。HTML側はCSS変数--uz、キャンバス側の
 // 文字・グラフは uiFontScale で追従し、拡大時はグラフ自体を拡大+下端余白を広げて
 // 選択粒子の情報行と重ならないようにする
-let uiFontScale=parseFloat(localStorage.getItem("hp_uiscale")||"1")||1;
+let uiFontScale=parseFloat(localStorage.getItem("hp_uiscale")||"1.15")||1.15;   // 第27便: 既定=標準(旧「大」)
 // 第22便(原仮定者指示): 粒子サイズ表示モード — "cap"=現状(30px頭打ち)/"radius"=半径準拠(Rの縮尺そのまま)
-let sizeMode=(localStorage.getItem("hp_sizemode")==="radius")?"radius":"cap";
+// 第25便(原仮定者指示): 「半径準拠」に固定(切替UIは「表示」から削除。旧 hp_sizemode は無視)
+// 第29便: 描画時の上限は品質連動 drawRadiusCap() に一本化(正確=無制限で半径準拠を維持)
+const sizeMode="radius";
 function applyUiScale(){ document.documentElement.style.setProperty("--uz", String(uiFontScale)); if(typeof requestRender==="function") requestRender(); }
 let paramsDirty=false;  // v1.17: 「保存」していない編集の有無(バックアップ対象外の注意喚起)
 // P2(beta): 未保存フラグ強調 — 保存ボタン横バッジを paramsDirty に常時同期(v1.17 の notify は補助に降格)
@@ -2054,6 +2110,12 @@ let autoQ=0, lowFpsMs=0;
 function qLevel(){ return qualityMode==="exact"?0 : qualityMode==="lite"?2 : autoQ; }
 const Q_DPR=[2,1.5,1], Q_FRES=[48,40,32], Q_FEVERY=[5,8,12], Q_RAY=[1,0.75,0.55],
       Q_TREC=[2,4,6], Q_TSORT=[10,15,20];
+// 第29便(第25次レビュー P0-2): 描画半径の品質連動上限。「正確」は半径準拠のまま(第25便裁定を
+// 維持 — 物理半径どおり描く)。「自動」は40px・「軽量」(自動の縮退含む)は30pxで頭打ちにし、
+// グロー(塗り画素∝rr²)の暴走を防ぐ。物理半径Rと選択粒子HUDの数値表示は変わらない。
+function drawRadiusCap(){ return qualityMode==="exact"? Infinity : (qLevel()>=2? 30 : 40); }
+// 軌跡バッファの品質別上限(点数)と描画間引き(第25次レビュー P1-2)
+const Q_TRAILPTS=[1500,800,400];
 function setQualityMode(m){
   qualityMode=(m==="exact"||m==="lite")?m:"auto";
   localStorage.setItem("hp_quality",qualityMode);
@@ -2227,13 +2289,43 @@ function overlaySlots(){
   if(sim.overlays.spectrum) s.push("spectrum");
   return s;
 }
+// 第26便(原仮定者指示): グラフの最小化 — キーごとの状態と可変高さのスロット積み。
+// 最小化中はタイトルバー(高さ16)だけを描き、バー全体のタップで復元。展開中は右上「−」で最小化
+const ovMin={rotationCurve:false,tempHistogram:false,spectrum:false};
+const OV_H=92, OV_HMIN=16;
+let ovHit=[];   // グラフのトグル用タップ領域(キャンバス座標。描画のたびに再登録)
 function overlayBaseY(slot){
-  const uz=uiFontScale, H=92;
-  return ch-H*uz-(18+10*uz)-slot*(H*uz+6);
+  const uz=uiFontScale, s=overlaySlots();
+  // 第25便: 選択粒子の情報行(2行)と重ならない下端余白 18+22·uz
+  let y=ch-(18+22*uz);
+  for(let i=0;i<=slot;i++) y-=(ovMin[s[i]]?OV_HMIN:OV_H)*uz+(i>0?6:0);
+  return y;
+}
+// 最小化中の共通バー描画(true=最小化中 — 本体は描かない)
+function ovOverlayMin(key,slot,title){
+  if(!ovMin[key]) return false;
+  const uz=uiFontScale, W=150, H=OV_HMIN, ox=cw-W*uz-8, oy=overlayBaseY(slot);
+  ctx.save(); ctx.translate(ox,oy); ctx.scale(uz,uz);
+  ctx.fillStyle="rgba(12,16,34,0.82)"; ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle="#2a3060"; ctx.strokeRect(0,0,W,H);
+  ctx.font="9px sans-serif"; ctx.fillStyle="#8b93c8";
+  ctx.fillText(title,6,11); ctx.fillText("＋",W-14,11);
+  ctx.restore();
+  ovHit.push({x:ox,y:oy,w:W*uz,h:H*uz,key});
+  return true;
+}
+// 展開中の右上「−」(最上層に重ね描き)+タップ領域の登録
+function ovDrawToggle(key,slot){
+  const uz=uiFontScale, W=150, ox=cw-W*uz-8, oy=overlayBaseY(slot);
+  ctx.save(); ctx.translate(ox,oy); ctx.scale(uz,uz);
+  ctx.font="10px sans-serif"; ctx.fillStyle="#8b93c8"; ctx.fillText("−",W-13,11);
+  ctx.restore();
+  ovHit.push({x:ox+(W-22)*uz,y:oy,w:22*uz,h:14*uz,key});
 }
 // 回転曲線オーバーレイ(実測 vs ケプラー予想)
 let curveTick=0, curveData=null;
 function drawRotationCurve(slot=0){
+  if(ovOverlayMin("rotationCurve",slot,T("ovCurve"))) return;   // 第26便: 最小化
   if((curveTick++%10)===0||!curveData){
     const BINS=12, sums=new Float32Array(BINS), cnts=new Float32Array(BINS);
     let mMax=0, cxm=0, cym=0;
@@ -2271,11 +2363,13 @@ function drawRotationCurve(slot=0){
   curveData.meas.forEach((v,b2)=>{ if(v==null)return; started?ctx.lineTo(px(b2),py(v)):ctx.moveTo(px(b2),py(v)); started=true; });
   ctx.stroke(); ctx.lineWidth=1;
   ctx.restore();
+  ovDrawToggle("rotationCurve",slot);   // 第26便: 最小化トグル(−)
 }
 
 // 温度ヒストグラム(左右の平均温度)
 let tempTick=0;
 function drawTempHistogram(slot=0){
+  if(ovOverlayMin("tempHistogram",slot,T("ovTemp"))) return;   // 第26便: 最小化
   if((tempTick++%10)===0){
     let sl=0,cl=0,sr=0,cr=0;
     for(let i=0;i<sim.n;i++){
@@ -2306,11 +2400,13 @@ function drawTempHistogram(slot=0){
     ctx.stroke();
   });
   ctx.restore();
+  ovDrawToggle("tempHistogram",slot);   // 第26便: 最小化トグル(−)
 }
 
 // 放射スペクトル(各粒子のピーク波長 λ=b_m/T の分布。付録C C1)
 let specTick=0, specData=null, specLo=0, specHi=0, specInit=false, specLastT=Infinity;
 function drawSpectrum(slot=0){
+  if(ovOverlayMin("spectrum",slot,T("ovSpec"))) return;   // 第26便: 最小化
   const BINS=28;
   if(sim.t<specLastT){ specInit=false; specData=null; }  // ⏮/プリセット切替で軸範囲をリセット
   specLastT=sim.t;
@@ -2347,7 +2443,7 @@ function drawSpectrum(slot=0){
   ctx.strokeStyle="#2a3060"; ctx.strokeRect(X,Y,W,H);
   ctx.font="9px sans-serif"; ctx.fillStyle="#8b93c8";
   ctx.fillText(T("ovSpec"),X+6,Y+11);
-  if(specData.empty){ ctx.fillText(T("ovSpecNone"),X+6,Y+H/2); ctx.restore(); return; }
+  if(specData.empty){ ctx.fillText(T("ovSpecNone"),X+6,Y+H/2); ctx.restore(); ovDrawToggle("spectrum",slot); return; }
   const bw=(W-16)/BINS;
   for(let b2=0;b2<BINS;b2++){
     if(specData.lum[b2]<=0) continue;
@@ -2363,6 +2459,7 @@ function drawSpectrum(slot=0){
   ctx.fillText(fmt(Math.pow(10,specLo)),X+8,Y+22);
   const t2=fmt(Math.pow(10,specHi)); ctx.fillText(t2,X+W-8-ctx.measureText(t2).width,Y+22);
   ctx.restore();
+  ovDrawToggle("spectrum",slot);   // 第26便: 最小化トグル(−)
 }
 
 // 背景の微星(装飾)
@@ -2389,12 +2486,15 @@ function recTrail(S,buf){
     for(let i=0;i<S.n;i++) if(!S.pinned[i]&&S.m[i]<100) free++;
     stride=Math.max(1,Math.ceil(free/16));
   }
+  // 第29便(第25次レビュー P1-2): 最大点数を品質連動に(正確1500/自動800/軽量400点。A/B中は半減)。
+  // 満杯後に毎push splice(0,2)で前詰めしていたのをやめ、120点分たまってからまとめて刈る(償却O(1))
+  const capF=(ab? Q_TRAILPTS[qLevel()]>>1 : Q_TRAILPTS[qLevel()])*2;
   let k=0;
   for(let i=0;i<S.n;i++){ if(S.pinned[i]) continue;
     if(sampled && S.m[i]<100 && (k++%stride)!==0) continue;
     const b=buf[i]||(buf[i]=[]);
     b.push(S.x[i],S.y[i]);
-    if(b.length>6000) b.splice(0,2);
+    if(b.length>capF+240) b.splice(0,b.length-capF);
   }
 }
 function render(){
@@ -2426,14 +2526,15 @@ function render(){
     const p90=Math.max(1e-4, tSort[Math.floor(0.9*(sim.n-1))]);
     tempP90EMA+= (p90-tempP90EMA)*0.4;
   }
-  // 粒子(表示半径は30pxで頭打ち。物理半径Rはそのまま)
+  // 粒子(第29便: 表示半径は品質連動で頭打ち — 正確=半径準拠のまま。物理半径Rはそのまま)
+  const rCap=drawRadiusCap(), glowOn=qLevel()===0;
   for(let i=0;i<sim.n;i++){
     const sx=w2sX(sim.x[i]), sy=w2sY(sim.y[i]);
     if(sx<-40||sx>cw+40||sy<-40||sy>ch+40) continue;
     const T=0.5*sim.m[i]*sim.R[i]*sim.R[i]*sim.spin[i]*sim.spin[i]*sim.obsT[i]*(1-sim.lSw[i]);
-    const rr=(sizeMode==="radius")? Math.max(1.2,sim.R[i]*z) : Math.max(1.2,Math.min(sim.R[i]*z,30));
+    const rr=Math.max(1.2,Math.min(sim.R[i]*z,rCap));  // 第25便: 半径準拠固定 → 第29便: 品質連動上限
     const col=tempColor(Math.min(1,Math.sqrt(Math.max(0,T)/Math.max(1e-4,tempP90EMA))));   // 第12便: 負質量はT=0色
-    if(rr>=7){ // 大きな天体はグロー付きで描く
+    if(rr>=7 && glowOn){ // 大きな天体はグロー付きで描く(第29便: 自動縮退・軽量ではグロー省略)
       const g=ctx.createRadialGradient(sx,sy,rr*0.4,sx,sy,rr*2.4);
       g.addColorStop(0,col); g.addColorStop(1,"rgba(0,0,0,0)");
       ctx.globalAlpha=0.45; ctx.fillStyle=g;
@@ -2476,9 +2577,11 @@ function render(){
   // 軌道トレイルの描画(記録は上の粒子ループ前。グローに隠れないよう最上層に描く)
   if(sim.overlays.trail){
     ctx.strokeStyle="rgba(150,200,255,0.55)"; ctx.lineWidth=1;
+    const tst=2*(qLevel()+1);   // 第29便: 描画間引き(正確=全点/自動=1点おき/軽量=2点おき。末尾は必ず描く)
     for(let i=0;i<sim.n;i++){ const b=trailBuf[i]; if(!b||b.length<4) continue;
       ctx.beginPath(); ctx.moveTo(w2sX(b[0]),w2sY(b[1]));
-      for(let k=2;k<b.length;k+=2) ctx.lineTo(w2sX(b[k]),w2sY(b[k+1]));
+      for(let k=tst;k<b.length-2;k+=tst) ctx.lineTo(w2sX(b[k]),w2sY(b[k+1]));
+      ctx.lineTo(w2sX(b[b.length-2]),w2sY(b[b.length-1]));
       ctx.stroke();
     }
   }
@@ -2496,13 +2599,19 @@ function render(){
     ctx.font=(10*uiFontScale)+"px sans-serif"; ctx.fillStyle="#dfe4ff"; // v1.17: 文字サイズ追従
     // 第14便: 比率表示+第22便: コア観測温度 Tc_obs・扁平率 f = 5s²R³/(4Gm)(粒子選択時に表示)
     const scH=sim.coreSR[i]*sim.spin[i];
-    const coreTxt=(sim.coreMR[i]!==0)? ` mc/m=${fmt(sim.coreMR[i])} sc/s=${fmt(sim.coreSR[i])}`+
-      ` Tc=${fmt(sim.coreOT[i]*(1-sim.lSw[i])*0.5*Math.abs(sim.coreMR[i]*sim.m[i])*sim.Rc[i]*sim.Rc[i]*scH*scH)}` : "";
+    // 第25便(原仮定者指示): 縦画面で見切れないよう2行に分割し、表示順を編集パネルの並び
+    // (m|mc/m・s|sc/s・R…)に整合 — 1行目=力学・構造、2行目=観測量(T・Tc・λ)と固有時計
+    const hasCore=(sim.coreMR[i]!==0);
+    const mcTxt=hasCore? ` mc/m=${fmt(sim.coreMR[i])}` : "";
+    const scTxt=hasCore? ` sc/s=${fmt(sim.coreSR[i])}` : "";
+    const coreTTxt=hasCore? ` Tc=${fmt(sim.coreOT[i]*(1-sim.lSw[i])*0.5*Math.abs(sim.coreMR[i]*sim.m[i])*sim.Rc[i]*sim.Rc[i]*scH*scH)}` : "";
     const fObl=(sim.params.G>0&&sim.m[i]>0)? 1.25*sim.spin[i]*sim.spin[i]*sim.R[i]*sim.R[i]*sim.R[i]/(sim.params.G*sim.m[i]) : NaN;
     const fTxt=isFinite(fObl)? ` f=${fmt(Math.min(fObl,9999))}` : "";
-    ctx.fillText(`m=${fmt(sim.m[i])}${coreTxt} s=${fmt(sim.spin[i])} T=${fmt(Ti)}${fTxt} λ=${lam} ${T("hudClock")}=${(frac*100).toFixed(1)}%`,8,ch-10);
+    ctx.fillText(`m=${fmt(sim.m[i])}${mcTxt} s=${fmt(sim.spin[i])}${scTxt} R=${fmt(sim.R[i])}${fTxt}`,8,ch-10-12*uiFontScale);
+    ctx.fillText(`T=${fmt(Ti)}${coreTTxt} λ=${lam} ${T("hudClock")}=${(frac*100).toFixed(1)}%`,8,ch-10);
   }
   // v1.21: スロット配置 — 複数グラフは右下から縦に積み、互いを隠さない(🌠merger)
+  ovHit=[];   // 第26便: グラフのトグル領域を毎描画で再登録
   const slots=overlaySlots();
   if(sim.overlays.rotationCurve) drawRotationCurve(slots.indexOf("rotationCurve"));
   if(sim.overlays.tempHistogram) drawTempHistogram(slots.indexOf("tempHistogram"));
@@ -2566,7 +2675,7 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
     const px=sx(S.x[i]), py=sy(S.y[i]);
     if(px<-40||px>cw+40||py<y0-40||py>y0+hgt+40) continue;
     const Ti=0.5*S.m[i]*S.R[i]*S.R[i]*S.spin[i]*S.spin[i]*S.obsT[i]*(1-S.lSw[i]);
-    const rr=(sizeMode==="radius")? Math.max(1.2,S.R[i]*z) : Math.max(1.2,Math.min(S.R[i]*z,30));
+    const rr=Math.max(1.2,Math.min(S.R[i]*z,drawRadiusCap()));   // 第29便: 品質連動上限(正確=半径準拠)
     ctx.fillStyle=tempColor(Math.min(1,Math.sqrt(Math.max(0,Ti)/p90)));   // 第12便: 負質量はT=0色
     ctx.beginPath(); ctx.arc(px,py,rr,0,7); ctx.fill();
     if(rr>=7 && Math.abs(S.spin[i])>1e-4){ // v1.17: 回転方向スポーク(A/B側も同様)
@@ -2604,9 +2713,11 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
   // v1.19: 線の軌跡(A/B比較でも表示)
   if(S.overlays.trail && tbuf){
     ctx.strokeStyle="rgba(150,200,255,0.55)"; ctx.lineWidth=1;
+    const tst=2*(qLevel()+1);   // 第29便: 描画間引き(メインビューと同じ)
     for(let i=0;i<S.n;i++){ const b=tbuf[i]; if(!b||b.length<4) continue;
       ctx.beginPath(); ctx.moveTo(sx(b[0]),sy(b[1]));
-      for(let k=2;k<b.length;k+=2) ctx.lineTo(sx(b[k]),sy(b[k+1]));
+      for(let k=tst;k<b.length-2;k+=tst) ctx.lineTo(sx(b[k]),sy(b[k+1]));
+      ctx.lineTo(sx(b[b.length-2]),sy(b[b.length-1]));
       ctx.stroke();
     }
   }
@@ -2744,6 +2855,28 @@ function rebuildPresetSelect(selId){
     sel.appendChild(og3);
   }
   if(selId) sel.value=selId;
+  rebuildAiBaseSelect();   // 第26便: AIタブのベース候補も同期
+}
+// 第26便(原仮定者指示): AI生成のベースサンプル候補(なし+内蔵+AI生成)
+function rebuildAiBaseSelect(){
+  const sel=$("#aiBasePreset"); if(!sel) return;
+  const cur=sel.value;
+  sel.textContent="";
+  const o0=document.createElement("option"); o0.value=""; o0.textContent=T("aiBaseNone"); sel.appendChild(o0);
+  let og=null, curGroup=null;
+  BUILTIN_PRESETS.forEach(p=>{
+    const g=p.group||"内蔵";
+    if(g!==curGroup){ curGroup=g; og=document.createElement("optgroup"); og.label=gName(g); sel.appendChild(og); }
+    const o=document.createElement("option"); o.value=p.id; o.textContent=(p.emoji||"")+" "+pName(p); og.appendChild(o);
+  });
+  const customs=getCustomPresets();
+  if(customs.length){
+    const og2=document.createElement("optgroup"); og2.label=gName("AI生成");
+    customs.forEach(p=>{ const o=document.createElement("option");
+      o.value=p.id; o.textContent="🤖 "+(p.emoji||"")+" "+pName(p); og2.appendChild(o); });
+    sel.appendChild(og2);
+  }
+  if(cur && [...sel.options].some(o=>o.value===cur)) sel.value=cur;
 }
 // v1.17: セーブ項目の読込(保存一覧・プルダウン共用)
 function loadSave(s, selValue){
@@ -3115,19 +3248,7 @@ function buildParamRows(){
     sel.addEventListener("change",()=>setQualityMode(sel.value));
     row.appendChild(lab); row.appendChild(sel); disp.appendChild(row);
   }
-  // 第22便(原仮定者指示): 粒子サイズ表示(現状=30px頭打ち/半径準拠)。hp_sizemode に永続
-  {
-    const row=document.createElement("div"); row.className="prow";
-    const lab=document.createElement("label"); lab.textContent=T("sizeModeLabel"); lab.style.flex="1";
-    tapDesc(row,lab,"sizeModeDesc");   // 第23便: タップ説明
-    const sel=document.createElement("select"); sel.style.flex="0 0 110px";
-    for(const [v,name] of T("sizeModeOpts")){
-      const o=document.createElement("option"); o.value=v; o.textContent=name; sel.appendChild(o);
-    }
-    sel.value=sizeMode;
-    sel.addEventListener("change",()=>{ sizeMode=sel.value; localStorage.setItem("hp_sizemode",sizeMode); requestRender(); });
-    row.appendChild(lab); row.appendChild(sel); disp.appendChild(row);
-  }
+  // 第25便(原仮定者指示): 粒子サイズ表示の切替UIを廃止 — 「半径準拠」に固定(sizeMode 定数)
   // v1.17: UI文字サイズ(標準/大/特大)。localStorage hp_uiscale に永続化
   {
     const row=document.createElement("div"); row.className="prow";
@@ -3364,7 +3485,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 
 # 出力ルール
 1. スキーマに完全準拠したJSONのみを出力する。説明文やコードフェンスは書かない。
-2. physicsは全キーを必ず含める。変更不要なキーは既定値を書く。既定値: G=1, D0=2, kFrame=1, q=2, kRep=1, muF=0.5, gammaN=0.4, kappaS=0.05, Kt=60, cLight=60, bM=1, etaRad=0, pRad=4, gravityX=0, gravityY=0, geoPN=0, lambdaPN=1, pnAlpha=1.5, radiusScale=1.2, softening=2, timeScale=1
+2. physicsは全キーを必ず含める。変更不要なキーは既定値を書く。既定値: G=1, D0=2, kFrame=1, q=2, kRep=1, muF=0.5, gammaN=0.4, kappaS=0.05, Kt=60, cLight=60, bM=1, etaRad=0, pRad=4, gravityX=0, gravityY=0, geoPN=0, lambdaPN=1, pnAlpha=1.5, radiusScale=1, softening=2, timeScale=1
 3. 粒子総数は最大600。滑らかに動かすため通常は120〜400にする。
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
@@ -3419,7 +3540,7 @@ function getSystemPrompt(){
 
 // ===== AIプロバイダ抽象化(v1.10): Claude / OpenAI互換 / Gemini、モデルIDは自由入力 =====
 const AI_PROVIDERS={
-  anthropic:{ models:["claude-haiku-4-5","claude-sonnet-5","claude-opus-4-8"],
+  anthropic:{ models:["claude-haiku-4-5","claude-sonnet-5","claude-opus-5"],   // 第25便: Opus 5(同価格の置き換え上位)
     defModel:"claude-haiku-4-5", keyPh:"sk-ant-..." },
   openai:{ models:["gpt-5-mini","gpt-5","gpt-4.1-mini"],
     defModel:"gpt-5-mini", keyPh:"sk-...", defBase:"https://api.openai.com/v1" },
@@ -3497,8 +3618,28 @@ async function callLLM(cfg, model, messages){
   return txt;
 }
 
+// 第26便(原仮定者指示): ベースサンプル選択時は、そのJSONを土台として改変生成させる
+// (ダークローターの coreMR/lightSweep・🛰️の zonal など参考サンプルの構成をAI生成に利用)。
+// 送るのはシミュレーション定義のみ(en/activeParams等のUI付帯情報は省いてトークンを節約)
+function aiUserContent(userText){
+  const sel=document.querySelector("#aiBasePreset");
+  const bid=sel? sel.value : "";
+  if(!bid) return userText;
+  const p=allPresets().find(q=>String(q.id)===String(bid));
+  if(!p) return userText;
+  const base={name:p.name, emoji:p.emoji, description:p.description,
+    camera:p.camera, world:p.world, physics:p.physics, bodies:p.bodies};
+  if(p.seed!==undefined) base.seed=p.seed;
+  if(p.rays) base.rays=p.rays;
+  if(p.overlays) base.overlays=p.overlays;
+  const head=(LANG==="en")
+    ? "Use the following base sample JSON as the starting point and output a new preset modified to the request. Keep the structure and values that the request does not ask to change.\nBase sample: "
+    : "以下のベースサンプルのJSONを土台に、要望に合わせて改変した新しいプリセットを出力してください。要望と無関係な構成・数値は維持してください。\nベースサンプル: ";
+  const tail=(LANG==="en")? "\n\nRequest: " : "\n\n要望: ";
+  return head+JSON.stringify(base)+tail+userText;
+}
 // 段構え: 選択モデル → 検証NG時リトライ1回 → 上位モデルフォールバック
-// (フォールバック連鎖は Anthropic のみ: haiku→sonnet-5、sonnet→opus-4-8。他プロバイダは
+// (フォールバック連鎖は Anthropic のみ: haiku→sonnet-5、sonnet→opus-5〔第25便: Opus 4.8 と同価格の後継〕。他プロバイダは
 //  モデル階層をアプリが仮定できないためリトライまで。HANDOFF_RUNTIME_LLM.md v1.10)
 async function generatePreset(userText, onStage){
   const cfg=aiCfg();
@@ -3510,19 +3651,20 @@ async function generatePreset(userText, onStage){
     if(!v.ok) return {fail:v.errors.join(" / "), raw:text};
     return {preset:v.preset, warnings:v.warnings};
   };
-  const baseMsgs=[{role:"user",content:userText}];
+  const userContent=aiUserContent(userText);   // 第26便: ベースサンプル選択を反映
+  const baseMsgs=[{role:"user",content:userContent}];
   onStage(T("generating")(cfg.model));
   let r=await attempt(cfg.model, baseMsgs);
   if(r.preset) return r;
   onStage(T("retrying"));
-  const retryMsgs=[{role:"user",content:userText},
+  const retryMsgs=[{role:"user",content:userContent},
     {role:"assistant",content:r.raw},
     {role:"user",content:"あなたの出力に検証エラーがあります: "+r.fail+"。同じ要望に対し、エラーを修正した完全なJSONを出力してください。"}];
   r=await attempt(cfg.model, retryMsgs);
   if(r.preset) return r;
   if(cfg.provider==="anthropic"){
     const fb=(cfg.model.indexOf("haiku")>=0)?"claude-sonnet-5":
-             (cfg.model.indexOf("sonnet")>=0)?"claude-opus-4-8":null;
+             (cfg.model.indexOf("sonnet")>=0)?"claude-opus-5":null;
     if(fb){
       onStage(T("fallback")(fb));
       r=await attempt(fb, baseMsgs);
@@ -3630,6 +3772,8 @@ function applyLang(){
   $("#btnParamDefault").textContent=T("paramDefault");
   $("#paramNote").textContent=T("paramNote");
   $("#abHead").textContent=T("abHead"); $("#abNote").textContent=T("abNote");
+  $("#abNoteSum").textContent=T("abNoteSum");   // 第27便
+  $("#aboutTitle").textContent=T("aboutTitle"); buildAbout();   // 第27便
   $("#abTargetLabel").textContent=T("abTargetLabel");
   updateAbBtn();
   const sh=document.querySelectorAll("#page-saves h3");
@@ -3649,6 +3793,8 @@ function applyLang(){
   $("#aiModelLabel").textContent=T("aiModelLabel"); $("#aiUrlLabel").textContent=T("aiUrlLabel");
   $("#keyPersistLabel").textContent=T("keyPersistLabel"); $("#btnKeySave").textContent=T("btnKeySave");
   $("#aiKeyNote").textContent=T("aiKeyNote"); $("#aiGenHead").textContent=T("aiGenHead");
+  $("#aiBaseLabel").textContent=T("aiBaseLabel"); $("#aiBaseNote").textContent=T("aiBaseNote");   // 第26便
+  rebuildAiBaseSelect();   // 第26便: 言語切替でベース候補名も更新
   $("#btnGenerate").textContent=T("btnGenerate"); $("#aiListHead").textContent=T("aiListHead");
   $("#aiPrompt").placeholder=T("aiPromptPh");
   rebuildPresetSelect(currentPreset?currentPreset.id:undefined);
@@ -3681,11 +3827,31 @@ function renderHelp(){
   if(ext.bath) mk("p","・"+T("extBath"));
   if(ext.grav) mk("p","・"+T("extGrav"));
   if(!ext.rail && !ext.pin && !ext.grav) mk("p","・"+T("extClosed"));
+  // 第27便(原仮定者指示): 「操作」「この宇宙の法則(要約)」はタイトルタップの説明パネルへ移動
+}
+// 第27便: アプリ説明パネル(タイトルタップ)— アプリ説明+操作+法則要約
+function buildAbout(){
+  const el=$("#aboutBody"); if(!el) return;
+  el.textContent="";
+  const mk=(tag,txt)=>{const e=document.createElement(tag); e.textContent=txt; el.appendChild(e); return e;};
+  mk("p",T("aboutBody"));
   mk("h4",T("helpOps"));
   mk("p",T("helpOpsBody"));
   mk("h4",T("helpLaws"));
   mk("p",T("helpLawsBody"));
 }
+// 第28便(第24次レビュー): キーボード・フォーカス対応(Enter/Space で開閉・Escape で閉じる)
+function aboutToggle(show){
+  const el=$("#aboutPanel");
+  const to=(show===undefined)? el.style.display!=="block" : !!show;
+  el.style.display=to?"block":"none";
+  $("#appTitle").setAttribute("aria-expanded",String(to));
+  if(to) $("#aboutClose").focus(); else $("#appTitle").focus();
+}
+$("#appTitle").addEventListener("click",()=>aboutToggle());
+$("#appTitle").addEventListener("keydown",(e)=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); aboutToggle(); } });
+$("#aboutClose").addEventListener("click",()=>aboutToggle(false));
+document.addEventListener("keydown",(e)=>{ if(e.key==="Escape" && $("#aboutPanel").style.display==="block") aboutToggle(false); });
 
 // ===== タッチ/マウス操作(パン・ピンチ・タップ選択) =====
 (function(){
@@ -3729,6 +3895,9 @@ function renderHelp(){
   function tapSelect(px,py){
     const rect=cv.getBoundingClientRect();
     const cx=px-rect.left, cy=py-rect.top;
+    // 第26便: グラフ最小化トグルのタップを最優先で処理(A/B中はオーバーレイ非表示のため対象外)
+    if(!ab){ for(const r of ovHit){ if(cx>=r.x&&cx<=r.x+r.w&&cy>=r.y&&cy<=r.y+r.h){
+      ovMin[r.key]=!ovMin[r.key]; requestRender(); return; } } }
     let S=sim, world="A", z=zoom(), wx, wy;
     if(ab){ // 第12便: A/B比較中も選択可 — タップ位置の半面(A=上/B=下)の宇宙から拾う
       const hh=ch/2, inB=cy>=hh, y0=inB? hh : 0;
@@ -3792,7 +3961,11 @@ $("#bePin").addEventListener("change",()=>{
   if(!$("#bePin").checked) S.railOmega[selIdx]=0;  // 固定解除でレール駆動も解除
   setParamsDirty(true); requestRender();
 });
-$("#beClose").addEventListener("click",()=>{ selIdx=-1; updateBodyEdit(); });
+// 第26便(原仮定者指示): ✕(選択解除)→ 最小化トグルへ変更。選択解除は粒子の再タップ/空白タップで可能
+let beMin=false;
+function applyBeMin(){ $("#bodyEdit").classList.toggle("min",beMin); $("#beClose").textContent=beMin?"＋":"−";
+  $("#beClose").setAttribute("aria-label",beMin?"expand":"minimize"); }
+$("#beClose").addEventListener("click",()=>{ beMin=!beMin; applyBeMin(); });
 // 第23便(原仮定者指示): 粒子編集のパラメータ名タップで説明を表示(同じ名前を再タップで元に戻る)
 let beDescShown=null;
 {
@@ -4239,6 +4412,8 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   externalTags, APP_VERSION, currentPreset:()=>currentPreset,  // v1.15: バッジ/バージョン同期のQA用
   speedMul:()=>speedMul, trailBufs:()=>({a:trailBuf,b:trailBufB}),  // v1.19: QA用
   overlaySlots, overlayBaseY, PARAM_DEFS, paramDesc,  // v1.21: スロット配置/パラメータ説明のQA用
+  ovMin, aiUserContent,  // 第26便: グラフ最小化/AIベースサンプルのQA用
+  uiScale:()=>uiFontScale,  // 第27便: 文字サイズ既定変更のQA用
   stats:()=>({renderCount,rayTraceCount,fieldCalcCount}), requestRender,  // v1.22: 描画統計のQA用
   divSnaps:()=>({a:paramSnapA,b:paramSnapB}), restoreLastGood,            // v1.22: 発散UndoのQA用
   // v1.23: A/B編集対象・描画品質のQA用
@@ -4253,6 +4428,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
     fieldRes:Q_FRES[qLevel()], rayFactor:Q_RAY[qLevel()], trailEvery:Q_TREC[qLevel()]}),
   setLang:(l)=>{ LANG=(l==="en")?"en":"ja"; localStorage.setItem("hp_lang",LANG); applyLang(); },
   running:()=>running, setRunning:(v)=>{running=v;updatePlayBtn();},
+  recTrail, drawRadiusCap, Q_TRAILPTS,  // 第29便: 軌跡上限・描画半径上限のQA用
   // 第12便: 粒子選択のQA用(A/B比較中の編集検証 — world: "A"|"B")
   selectBody:(i,world)=>{ selWorld=(world==="B")?"B":"A"; selIdx=i; updateBodyEdit(); },
   selInfo:()=>({selIdx, selWorld}), selSimRef,

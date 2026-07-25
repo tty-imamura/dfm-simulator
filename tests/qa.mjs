@@ -64,6 +64,19 @@ const add = (id, pass, detail) => {
     `APP_VERSION=${m && m[1]} package.json=${pkg.version}`);
 }
 
+// ---- 0b2) 昇格整合(第30便 — 第24次 P0-1 の明示ゲート): ルート対象時、SW キャッシュが
+// ----      dfm-release-v{APP_VERSION} と厳密一致(昇格コミットの版数取り違え・SW 接頭辞の
+// ----      切替忘れを機械検出。beta は開発中 APP_VERSION が旧版のままの設計なので対象外)----
+if (!TARGET.startsWith('beta/')) {
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const av = (html.match(/const APP_VERSION = "([^"]+)"/) || [])[1];
+  const sw = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
+  const pre = (sw.match(/const CACHE_PREFIX = "([^"]+)"/) || [])[1];
+  const cache = (sw.match(/CACHE = CACHE_PREFIX \+ "([^"]+)"/) || [])[1];
+  add('version.sw-sync', pre === 'dfm-release-' && cache === 'v' + av,
+    `SW=${pre}${cache} 期待=dfm-release-v${av}`);
+}
+
 // ---- 0c) スライダー範囲(v1.15 第7次裁定 P0-2): 内蔵プリセットの physics 値がスライダー上限内 ----
 {
   const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
