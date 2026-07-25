@@ -1699,6 +1699,97 @@ if (!FAST) {
   }
 }
 
+// ---- 7n) 第26便: カテゴリ再編 / kFrame 中間値解消 / radiusScale 既定1 / AIベースサンプル /
+// ----     グラフ最小化 / 編集パネル最小化(beta 先行 — ルート対象時はスキップ)----
+{
+  const hasV26 = await page.evaluate(() => !!document.querySelector('#aiBasePreset'));
+  if (hasV26) {
+    const r = await page.evaluate(() => {
+      const res = {};
+      // ① カテゴリ再編: 内蔵 optgroup の並び(ja)
+      HP.setLang('ja');
+      const labels = [...document.querySelectorAll('#presetSelect optgroup')].map(o => o.label);
+      res.groups = labels.slice(0, 5);
+      res.groupsOk = JSON.stringify(res.groups) === JSON.stringify(['空間と時間', '銀河', '光', '熱の実験室', '天体の物語']);
+      // ② kFrame 中間値の解消: 全内蔵の physics.kFrame は 0 か 1
+      res.kfBad = HP.allPresets().filter(p => !String(p.id).startsWith('custom_'))
+        .filter(p => p.physics.kFrame !== 0 && p.physics.kFrame !== 1).map(p => p.id);
+      // ③ radiusScale 既定 1(バリデータの既定値マージ)
+      const v = HP.validatePreset({ name: 'r', description: 'd', camera: { scale: 200 },
+        world: { boundary: 'none', size: 0 }, physics: {},
+        bodies: [{ type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+      res.radiusDef = v.ok ? v.preset.physics.radiusScale : NaN;
+      // ④ AIベースサンプル: 選択時に JSON+要望が文脈へ入り、未選択時は要望のみ
+      const sel = document.querySelector('#aiBasePreset');
+      res.baseOpts = sel.options.length;                      // なし+内蔵27(+AI生成)
+      sel.value = 'darkrotor';
+      const ctx1 = HP.aiUserContent('テスト要望XYZ');
+      res.baseCtx = ctx1.includes('lightSweep') && ctx1.includes('coreMR') && ctx1.includes('テスト要望XYZ')
+        && ctx1.includes('ベースサンプル');
+      sel.value = '';
+      res.basePlain = HP.aiUserContent('テスト要望XYZ') === 'テスト要望XYZ';
+      return res;
+    });
+    add('groups.reorder', r.groupsOk, `optgroups=${JSON.stringify(r.groups)}`);
+    add('preset.kframe-binary01', r.kfBad.length === 0, r.kfBad.join(',') || '全内蔵 kFrame∈{0,1}');
+    add('params.radius-default', r.radiusDef === 1, `radiusScale既定=${r.radiusDef}(=1)`);
+    add('ai.base-context', r.baseOpts >= 28 && r.baseCtx && r.basePlain,
+      `候補=${r.baseOpts} 文脈注入=${r.baseCtx} 未選択は素通し=${r.basePlain}`);
+
+    // ⑤ グラフ最小化: merger の2グラフで高さ 92→16 のスロット再配置
+    const ov = await page.evaluate(() => {
+      HP.loadPreset('merger', false);
+      const uz = 1;
+      const y0a = HP.overlayBaseY(0), y1a = HP.overlayBaseY(1);
+      HP.ovMin.rotationCurve = true;
+      const y0b = HP.overlayBaseY(0), y1b = HP.overlayBaseY(1);
+      HP.ovMin.rotationCurve = false;
+      return { d0: y0b - y0a, d1: y1b - y1a, expected: (92 - 16) * uz, distinct: y0a !== y1a };
+    });
+    add('overlay.minimize', ov.distinct && ov.d0 === ov.expected && ov.d1 === ov.expected,
+      `Δslot0=${ov.d0} Δslot1=${ov.d1}(=${ov.expected}) distinct=${ov.distinct}`);
+
+    // ⑥ 編集パネル最小化: ✕→最小化トグル(−/＋)。行が畳まれ、再タップで復元
+    const be = await page.evaluate(() => {
+      HP.loadPreset('saturn', false);
+      HP.selectBody(0, 'A');
+      const el = document.querySelector('#bodyEdit'), btn = document.querySelector('#beClose');
+      const shown0 = el.style.display === 'block';
+      btn.click();
+      const minOn = el.classList.contains('min')
+        && getComputedStyle(document.querySelector('#bodyEdit .beRow')).display === 'none'
+        && btn.textContent === '＋';
+      const stillSelected = HP.selInfo().selIdx === 0;   // 最小化は選択を解除しない
+      btn.click();
+      const minOff = !el.classList.contains('min')
+        && getComputedStyle(document.querySelector('#bodyEdit .beRow')).display !== 'none';
+      HP.selectBody(-1, 'A');
+      return { shown0, minOn, stillSelected, minOff };
+    });
+    add('bodyedit.minimize', be.shown0 && be.minOn && be.stillSelected && be.minOff,
+      `表示=${be.shown0} 最小化=${be.minOn} 選択維持=${be.stillSelected} 復元=${be.minOff}`);
+
+    // ⑦ ⭐binary kFrame=1 の挙動: 3000步で連星が束縛(sep<350)・円盤残存 ≥95%・NaNなし
+    //   (掃引実測 2026-07-25: 12000步で sep≈240・残存240/240 — 3000步はその途中経過)
+    const bi = await page.evaluate(() => {
+      HP.loadPreset('binary', false);
+      const s = HP.sim;
+      for (let k = 0; k < 3000; k++) s.step(0.016);
+      let stars = [], keep = 0, free = 0;
+      for (let i = 0; i < s.n; i++) {
+        if (s.m[i] > 100) { stars.push(i); continue; }
+        free++; if (Math.hypot(s.x[i], s.y[i]) < 400) keep++;
+      }
+      const sep = Math.hypot(s.x[stars[0]] - s.x[stars[1]], s.y[stars[0]] - s.y[stars[1]]);
+      return { sep, keep, free, nan: s.hasNaN() };
+    });
+    add('behavior.binary', !bi.nan && bi.sep > 60 && bi.sep < 350 && bi.keep >= bi.free * 0.95,
+      `恒星間距離=${bi.sep.toFixed(1)}(60〜350) 円盤残存=${bi.keep}/${bi.free}(≥95%) NaN=${bi.nan}`);
+  } else {
+    console.log('SKIP 第26便系(groups.reorder / ai.base-context / overlay.minimize / bodyedit.minimize / behavior.binary — 対象にベースサンプルUIなし)');
+  }
+}
+
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
 await browser.close();
 

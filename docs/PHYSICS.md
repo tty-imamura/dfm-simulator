@@ -334,7 +334,7 @@ d_j = |**r** − **r**_j|、ε はソフトニング長(発散防止)。
 | geoPN | 測地線モード(0=legacy: E4+E6′、1=E12 測地線1PN)〔v1.20〕 | 0 |
 | lambdaPN | E12 の 1PN 補正の A/B トグル(0=ニュートン、1=1PN)〔v1.20〕 | 1 |
 | pnAlpha | E12 の計量係数(1.5=E7R完全、0.5=時間率のみの統制)〔v1.20〕 | 1.5 |
-| radiusScale | 半径スケール r_R | 1.2 |
+| radiusScale | 半径スケール r_R | 1(v1.31 beta 先行 — v1.30 ルートは 1.2) |
 | softening | ソフトニング ε | 2.0 |
 | dt / substeps / timeScale | 時間刻み / サブステップ / 速度倍率 | 0.016 / 2 / 1 |
 
