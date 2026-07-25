@@ -3,6 +3,7 @@ node_modules/
 # (公開前レビュー P0-5: README の提出手順と .gitignore の矛盾解消)
 tests/out/*
 !tests/out/qa-results.json
+!tests/out/perf-results.json
 # 第19便: ダークローター探索実験の実測生データ(裁定記録 REVIEW_20260723_DARK_ROTOR_* が参照)
 !tests/out/darkrotor-results.json
 # 公開前レビュー P0-5: 依存を固定して QA の再現性を担保(CI は npm ci)

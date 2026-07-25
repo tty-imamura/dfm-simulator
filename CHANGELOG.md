@@ -4,16 +4,23 @@
 2026-07-21 に分離 — ロードマップ P2 群)。新しい版が上。バージョンは `APP_VERSION`
 (index.html)と package.json の major.minor が QA `version.sync` で同期検査される。
 
-## v1.31(未リリース — beta 先行中 `beta/index.html`・第25〜28便)
+## v1.31(未リリース — beta 先行中 `beta/index.html`・第25〜29便)
 
 昇格前の草案(第24次レビュー ChatGPT 提案 — 昇格コミットで確定させる)。ルートは v1.30 のまま。
 
 - **サンプル**: カテゴリ再編(5グループ — 「銀河」新設: 🌌🕶️🌠🌫️)/ 内蔵の kFrame を 0/1 に
   統一(⭐0.5→1・🌠0.55→1・🌫️0.35→1)/ 🌠銀河合体の負荷 −61%(q=2 高速経路+円盤 150/120)/
   💥リング衝突の負荷 −48%(100+100)/ 🕶️ハロー20体をレール駆動化(単体 railOmega 新設 —
-  自由N体の長時間飛散を解消。PHYSICS.md 属性表参照)/ ♨️に代表粒子の軌跡+timeScale 3
-  (循環の可視化 — 物理不変)/ ❄️改名「塵は冷えると固まる — 冷たい星と熱い星」
-  (en: Dust Clumps When Cold)
+  自由N体の長時間飛散を解消。PHYSICS.md 属性表参照)/ ♨️に代表粒子の軌跡(循環の可視化 —
+  物理不変。第27便の timeScale 3 は第29便で 2 へ復帰)/ ❄️改名「塵は冷えると固まる — 冷たい星と
+  熱い星」(en: Dust Clumps When Cold)
+- **高速化(第29便 — 第25次レビュー裁定)**: ♨️timeScale 3→2 復帰(CPU計算量 実測1.522倍の
+  主因を除去)/ 描画半径の品質連動上限(正確=半径準拠のまま・自動 40px・軽量 30px。グローは
+  正確/未縮退の自動のみ — 塗り画素∝rr² の暴走防止)/ レール粒子の索引化 railIdx(レール無し
+  宇宙の毎サブステップ O(N) 走査を除去)/ 軌跡バッファの品質別上限(正確1500/自動800/軽量400点・
+  A/B中は半減)+満杯後の毎push前詰めを一括刈り取りへ・描画は品質連動で間引き(末尾は必ず描く)/
+  動的性能回帰ゲート `tests/perf.mjs` 新設(同一Chromium で root→beta を実測し代表6サンプルの
+  中央値比 ≤1.10 をゲート — CI 独立ジョブ perf・perf-results.json を artifact 化)
 - **AI生成**: ベースサンプル選択(任意 — 参考サンプルのJSONを土台に改変生成。選択ベースは
   AIプロバイダへ送信される旨を明示)/ 実行時 Opus 指定を claude-opus-5 へ
 - **UI**: 選択粒子の編集の行構成を対で整理(m|mc/m・s|sc/s・R|Rc/R・To×|TcO×・掻出)+
@@ -23,8 +30,10 @@
   radiusScale 既定 1.2→1(内蔵は明示値のため挙動不変)
 - **設定の変化**: 新規ユーザーの文字サイズ既定 1→1.15(保存済み hp_uiscale は尊重)。
   旧 hp_sizemode は無視(半径準拠固定)
-- **QA**: beta 153項目(第25〜27便で +12 — ルート対象時は SKIP)。第28便: railOmega 直接回帰・
-  粒子数キャップの静的ゲート・QA結果への targetSha256/appVersion/swCache 記録を追加
+- **QA**: beta 163項目(第25〜29便で +22 — ルート対象時は SKIP)。第28便: railOmega 直接回帰・
+  粒子数キャップの静的ゲート・QA結果への targetSha256/appVersion/swCache 記録を追加。
+  第29便: perf.convection-timescale / perf.rail-indices / perf.trail-cap / perf.draw-radius-cap +
+  動的性能ゲート(tests/perf.mjs — CI 独立ジョブ・perf-results.json を証跡化)
 
 ## v1.30(2026-07-24)— beta からルート昇格
 
