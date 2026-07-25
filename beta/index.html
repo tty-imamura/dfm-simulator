@@ -445,7 +445,7 @@ ja: {
   btnImportFile:"ファイルから読込", fileLoaded:"ファイルを読み込みました",
   unsavedWarn:"※編集中のパラメータは「保存」するまでバックアップに含まれません",
   confirmDiscard:"未保存の編集があります。破棄して読み込みますか?",
-  betaShared:"β版(beta v1.31-b4)はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。",
+  betaShared:"β版(beta v1.31-b5)はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。",
   draftRestore:"未保存の編集の下書きが見つかりました(再読込前の状態)。復元しますか?",
   swFail:"オフライン用キャッシュ(Service Worker)の登録に失敗しました。オンラインでは通常どおり使えます。",
   periHud:(m,a)=>`近点移動(最内粒子): 実測 ${m}°/周 / 解析 ${a}°/周`,
@@ -565,7 +565,7 @@ en: {
   btnImportFile:"Load from file", fileLoaded:"File loaded",
   unsavedWarn:"Note: edited parameters are not included in backups until you press Save",
   confirmDiscard:"You have unsaved edits. Discard them and load?",
-  betaShared:"This beta (v1.31-b4) shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.",
+  betaShared:"This beta (v1.31-b5) shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.",
   draftRestore:"Found a draft of unsaved edits (from before the last reload). Restore it?",
   swFail:"Offline cache (Service Worker) registration failed. The app still works normally online.",
   periHud:(m,a)=>`Apsidal drift (innermost): measured ${m}°/orbit / analytic ${a}°/orbit`,
@@ -1146,7 +1146,7 @@ const BUILTIN_PRESETS = [
   activeParams:["gravityY","kRep","kappaS","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:240}, world:{boundary:"box",size:190},
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:2, muF:0.2, gammaN:0.1, kappaS:1.2, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:2, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:4, softening:4, timeScale:3},
+    cLight:60, bM:1, etaRad:0, pRad:2, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:4, softening:4, timeScale:2},   // 第29便: timeScale 3→2 復帰(第25次レビュー P0-1 — CPU計算量が理論1.5倍・実測1.522倍の主因。循環の見やすさは軌跡(sampled trail)で維持)
   bodies:[ // v1.17: ヒーター(床)+冷却板5点(天井右・疎)+軽量ガス260。
            // v1.24: 旧11点(〜x=+30)では右下に冷えた塊が滞留し循環が死ぬ(48000步で自由粒子の
            // 84%が右下・循環7)ことを実測。6構成の機械掃引で「+70まで延長・右端床は非加熱の
@@ -1559,6 +1559,7 @@ function makeSim(){
     S.pairD=new Float32Array(Math.max(1,n*(n-1)/2)); // 対距離キャッシュ(E6′反作用パスで再利用)
     S.railR=F();S.railAng=F();S.railOmega=F();S.railCx=F();S.railCy=F();
     S.pinned=new Uint8Array(n); S.hasU=new Uint8Array(n);
+    S.railIdx=null;   // 第29便(第25次レビュー P1-1): レール粒子インデックス(step初回に遅延構築)
   };
   // プリセット→粒子生成(乱数はプリセットidで固定シード: ⏮で同じ初期配置を再現)
   S.build = function(preset){
@@ -1693,7 +1694,11 @@ function makeSim(){
     ax.fill(0); ay.fill(0); sumW.fill(0); uAx.fill(0); uAy.fill(0); ds.fill(0);
     dpx.fill(0); dpy.fill(0);
     // レール粒子(pinned+omega)の位置・速度を先に更新
-    for(let i=0;i<n;i++){
+    // 第29便(第25次レビュー P1-1): 構築時のレール候補だけを走査(レール無し宇宙の O(N) 固定費を除去)。
+    // railOmega が非0になるのは build 経由のみ(alloc で railIdx=null に戻る)。編集パネルの固定解除は
+    // railOmega=0 にするだけなのでループ内の再判定で追従する(A/B転写も同一プリセット構築後の遅延再構築)
+    if(S.railIdx===null){ const li=[]; for(let i=0;i<n;i++) if(pinned[i]&&S.railOmega[i]!==0) li.push(i); S.railIdx=li; }
+    for(const i of S.railIdx){
       if(pinned[i] && S.railOmega[i]!==0){
         S.railAng[i]+=S.railOmega[i]*dt;
         const a=S.railAng[i], r=S.railR[i];
@@ -2056,6 +2061,7 @@ let camX=0, camY=0, camScale=300, tempP90EMA=0.5, monitorOn=false;
 let uiFontScale=parseFloat(localStorage.getItem("hp_uiscale")||"1.15")||1.15;   // 第27便: 既定=標準(旧「大」)
 // 第22便(原仮定者指示): 粒子サイズ表示モード — "cap"=現状(30px頭打ち)/"radius"=半径準拠(Rの縮尺そのまま)
 // 第25便(原仮定者指示): 「半径準拠」に固定(切替UIは「表示」から削除。旧 hp_sizemode は無視)
+// 第29便: 描画時の上限は品質連動 drawRadiusCap() に一本化(正確=無制限で半径準拠を維持)
 const sizeMode="radius";
 function applyUiScale(){ document.documentElement.style.setProperty("--uz", String(uiFontScale)); if(typeof requestRender==="function") requestRender(); }
 let paramsDirty=false;  // v1.17: 「保存」していない編集の有無(バックアップ対象外の注意喚起)
@@ -2104,6 +2110,12 @@ let autoQ=0, lowFpsMs=0;
 function qLevel(){ return qualityMode==="exact"?0 : qualityMode==="lite"?2 : autoQ; }
 const Q_DPR=[2,1.5,1], Q_FRES=[48,40,32], Q_FEVERY=[5,8,12], Q_RAY=[1,0.75,0.55],
       Q_TREC=[2,4,6], Q_TSORT=[10,15,20];
+// 第29便(第25次レビュー P0-2): 描画半径の品質連動上限。「正確」は半径準拠のまま(第25便裁定を
+// 維持 — 物理半径どおり描く)。「自動」は40px・「軽量」(自動の縮退含む)は30pxで頭打ちにし、
+// グロー(塗り画素∝rr²)の暴走を防ぐ。物理半径Rと選択粒子HUDの数値表示は変わらない。
+function drawRadiusCap(){ return qualityMode==="exact"? Infinity : (qLevel()>=2? 30 : 40); }
+// 軌跡バッファの品質別上限(点数)と描画間引き(第25次レビュー P1-2)
+const Q_TRAILPTS=[1500,800,400];
 function setQualityMode(m){
   qualityMode=(m==="exact"||m==="lite")?m:"auto";
   localStorage.setItem("hp_quality",qualityMode);
@@ -2474,12 +2486,15 @@ function recTrail(S,buf){
     for(let i=0;i<S.n;i++) if(!S.pinned[i]&&S.m[i]<100) free++;
     stride=Math.max(1,Math.ceil(free/16));
   }
+  // 第29便(第25次レビュー P1-2): 最大点数を品質連動に(正確1500/自動800/軽量400点。A/B中は半減)。
+  // 満杯後に毎push splice(0,2)で前詰めしていたのをやめ、120点分たまってからまとめて刈る(償却O(1))
+  const capF=(ab? Q_TRAILPTS[qLevel()]>>1 : Q_TRAILPTS[qLevel()])*2;
   let k=0;
   for(let i=0;i<S.n;i++){ if(S.pinned[i]) continue;
     if(sampled && S.m[i]<100 && (k++%stride)!==0) continue;
     const b=buf[i]||(buf[i]=[]);
     b.push(S.x[i],S.y[i]);
-    if(b.length>6000) b.splice(0,2);
+    if(b.length>capF+240) b.splice(0,b.length-capF);
   }
 }
 function render(){
@@ -2511,14 +2526,15 @@ function render(){
     const p90=Math.max(1e-4, tSort[Math.floor(0.9*(sim.n-1))]);
     tempP90EMA+= (p90-tempP90EMA)*0.4;
   }
-  // 粒子(表示半径は30pxで頭打ち。物理半径Rはそのまま)
+  // 粒子(第29便: 表示半径は品質連動で頭打ち — 正確=半径準拠のまま。物理半径Rはそのまま)
+  const rCap=drawRadiusCap(), glowOn=qLevel()===0;
   for(let i=0;i<sim.n;i++){
     const sx=w2sX(sim.x[i]), sy=w2sY(sim.y[i]);
     if(sx<-40||sx>cw+40||sy<-40||sy>ch+40) continue;
     const T=0.5*sim.m[i]*sim.R[i]*sim.R[i]*sim.spin[i]*sim.spin[i]*sim.obsT[i]*(1-sim.lSw[i]);
-    const rr=(sizeMode==="radius")? Math.max(1.2,sim.R[i]*z) : Math.max(1.2,Math.min(sim.R[i]*z,30));  // 第25便: 半径準拠固定
+    const rr=Math.max(1.2,Math.min(sim.R[i]*z,rCap));  // 第25便: 半径準拠固定 → 第29便: 品質連動上限
     const col=tempColor(Math.min(1,Math.sqrt(Math.max(0,T)/Math.max(1e-4,tempP90EMA))));   // 第12便: 負質量はT=0色
-    if(rr>=7){ // 大きな天体はグロー付きで描く
+    if(rr>=7 && glowOn){ // 大きな天体はグロー付きで描く(第29便: 自動縮退・軽量ではグロー省略)
       const g=ctx.createRadialGradient(sx,sy,rr*0.4,sx,sy,rr*2.4);
       g.addColorStop(0,col); g.addColorStop(1,"rgba(0,0,0,0)");
       ctx.globalAlpha=0.45; ctx.fillStyle=g;
@@ -2561,9 +2577,11 @@ function render(){
   // 軌道トレイルの描画(記録は上の粒子ループ前。グローに隠れないよう最上層に描く)
   if(sim.overlays.trail){
     ctx.strokeStyle="rgba(150,200,255,0.55)"; ctx.lineWidth=1;
+    const tst=2*(qLevel()+1);   // 第29便: 描画間引き(正確=全点/自動=1点おき/軽量=2点おき。末尾は必ず描く)
     for(let i=0;i<sim.n;i++){ const b=trailBuf[i]; if(!b||b.length<4) continue;
       ctx.beginPath(); ctx.moveTo(w2sX(b[0]),w2sY(b[1]));
-      for(let k=2;k<b.length;k+=2) ctx.lineTo(w2sX(b[k]),w2sY(b[k+1]));
+      for(let k=tst;k<b.length-2;k+=tst) ctx.lineTo(w2sX(b[k]),w2sY(b[k+1]));
+      ctx.lineTo(w2sX(b[b.length-2]),w2sY(b[b.length-1]));
       ctx.stroke();
     }
   }
@@ -2657,7 +2675,7 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
     const px=sx(S.x[i]), py=sy(S.y[i]);
     if(px<-40||px>cw+40||py<y0-40||py>y0+hgt+40) continue;
     const Ti=0.5*S.m[i]*S.R[i]*S.R[i]*S.spin[i]*S.spin[i]*S.obsT[i]*(1-S.lSw[i]);
-    const rr=(sizeMode==="radius")? Math.max(1.2,S.R[i]*z) : Math.max(1.2,Math.min(S.R[i]*z,30));
+    const rr=Math.max(1.2,Math.min(S.R[i]*z,drawRadiusCap()));   // 第29便: 品質連動上限(正確=半径準拠)
     ctx.fillStyle=tempColor(Math.min(1,Math.sqrt(Math.max(0,Ti)/p90)));   // 第12便: 負質量はT=0色
     ctx.beginPath(); ctx.arc(px,py,rr,0,7); ctx.fill();
     if(rr>=7 && Math.abs(S.spin[i])>1e-4){ // v1.17: 回転方向スポーク(A/B側も同様)
@@ -2695,9 +2713,11 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
   // v1.19: 線の軌跡(A/B比較でも表示)
   if(S.overlays.trail && tbuf){
     ctx.strokeStyle="rgba(150,200,255,0.55)"; ctx.lineWidth=1;
+    const tst=2*(qLevel()+1);   // 第29便: 描画間引き(メインビューと同じ)
     for(let i=0;i<S.n;i++){ const b=tbuf[i]; if(!b||b.length<4) continue;
       ctx.beginPath(); ctx.moveTo(sx(b[0]),sy(b[1]));
-      for(let k=2;k<b.length;k+=2) ctx.lineTo(sx(b[k]),sy(b[k+1]));
+      for(let k=tst;k<b.length-2;k+=tst) ctx.lineTo(sx(b[k]),sy(b[k+1]));
+      ctx.lineTo(sx(b[b.length-2]),sy(b[b.length-1]));
       ctx.stroke();
     }
   }
@@ -4408,6 +4428,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
     fieldRes:Q_FRES[qLevel()], rayFactor:Q_RAY[qLevel()], trailEvery:Q_TREC[qLevel()]}),
   setLang:(l)=>{ LANG=(l==="en")?"en":"ja"; localStorage.setItem("hp_lang",LANG); applyLang(); },
   running:()=>running, setRunning:(v)=>{running=v;updatePlayBtn();},
+  recTrail, drawRadiusCap, Q_TRAILPTS,  // 第29便: 軌跡上限・描画半径上限のQA用
   // 第12便: 粒子選択のQA用(A/B比較中の編集検証 — world: "A"|"B")
   selectBody:(i,world)=>{ selWorld=(world==="B")?"B":"A"; selIdx=i; updateBodyEdit(); },
   selInfo:()=>({selIdx, selWorld}), selSimRef,

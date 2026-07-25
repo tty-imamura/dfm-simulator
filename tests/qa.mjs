@@ -1944,6 +1944,58 @@ if (!FAST) {
   }
 }
 
+// ---- 7q) 第29便(第25次レビュー裁定): 処理の高速化 — ♨️timeScale復帰 / レール索引 /
+// ----     軌跡の品質別上限 / 描画半径の品質連動上限(beta 先行 — ルート対象時はスキップ)----
+{
+  const hasV29 = await page.evaluate(() => typeof HP.drawRadiusCap === 'function');
+  if (hasV29) {
+    // ① P0-1: ♨️対流の timeScale が root 相当(2)へ復帰している(CPU計算量1.5倍の主因を除去)
+    const ts = await page.evaluate(() => { HP.loadPreset('convection', false); return HP.sim.params.timeScale; });
+    add('perf.convection-timescale', ts === 2, `timeScale=${ts}(期待2 — 第25次レビュー P0-1)`);
+
+    // ② P1-1: レール索引 — 🕶️は20本だけが索引に載り、レール無し宇宙(🌌)は空。
+    //    索引の中身は全て pinned+railOmega≠0 と整合する
+    const ri = await page.evaluate(() => {
+      HP.loadPreset('darkrotor', false); HP.sim.step(0.016);
+      const S = HP.sim, idx = S.railIdx || [];
+      const consistent = idx.every(i => S.pinned[i] === 1 && S.railOmega[i] !== 0);
+      let nRail = 0; for (let i = 0; i < S.n; i++) if (S.pinned[i] && S.railOmega[i] !== 0) nRail++;
+      HP.loadPreset('galaxy', false); HP.sim.step(0.016);
+      const empty = (HP.sim.railIdx || [-1]).length === 0;
+      return { len: idx.length, nRail, consistent, empty };
+    });
+    add('perf.rail-indices', ri.len === ri.nRail && ri.len === 20 && ri.consistent && ri.empty,
+      `🕶️索引=${ri.len}/実レール${ri.nRail}(期待20) 整合=${ri.consistent} 🌌は空=${ri.empty}`);
+
+    // ③ P1-2: 軌跡バッファの品質別上限 — 2000回記録しても cap+余裕(120点)以内に刈られ、
+    //    先頭(最古)が捨てられて末尾(最新)が残る
+    const tc = await page.evaluate(() => {
+      HP.loadPreset('convection', false);
+      const capF = HP.Q_TRAILPTS[HP.qState().level] * 2;
+      const buf = [];
+      for (let k = 0; k < 2000; k++) HP.recTrail(HP.sim, buf);
+      const filled = buf.filter(b => b && b.length > 0);
+      const lens = filled.map(b => b.length);
+      return { nFilled: filled.length, maxLen: Math.max(...lens), minLen: Math.min(...lens), capF };
+    });
+    add('perf.trail-cap', tc.nFilled > 0 && tc.maxLen <= tc.capF + 240 && tc.minLen >= tc.capF,
+      `記録本数=${tc.nFilled} 長さ=${tc.minLen}〜${tc.maxLen}floats(上限${tc.capF}+240)`);
+
+    // ④ P0-2: 描画半径の品質連動上限 — 正確=無制限(半径準拠の第25便裁定を維持)/
+    //    自動(未縮退)=40px / 軽量=30px。検査後は既定(自動)へ戻す
+    const rc = await page.evaluate(() => {
+      HP.setQuality('exact'); const ex = HP.drawRadiusCap() === Infinity;
+      HP.setQuality('lite'); const lt = HP.drawRadiusCap();
+      HP.setQuality('auto'); const au = HP.drawRadiusCap();
+      return { ex, lt, au };
+    });
+    add('perf.draw-radius-cap', rc.ex && rc.lt === 30 && rc.au === 40,
+      `正確=∞:${rc.ex} 軽量=${rc.lt}(期待30) 自動=${rc.au}(期待40)`);
+  } else {
+    console.log('SKIP 第29便系(perf.convection-timescale / perf.rail-indices / perf.trail-cap / perf.draw-radius-cap — 対象に描画半径上限なし)');
+  }
+}
+
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
 await browser.close();
 
