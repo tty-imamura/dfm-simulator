@@ -12,15 +12,20 @@ validatePreset 合格(警告なし)を機械検証済み(MODEL_ROUTING.md v1.7)�
    baseUrl は UI から変更可 — ローカルLLM等の互換サーバにも接続可)/
    **Gemini**(`v1beta/models/{model}:generateContent`、system は `systemInstruction`、
    ヘッダ `x-goog-api-key`)。モデルIDは UI の自由入力(datalist で候補提示:
-   anthropic=claude-haiku-4-5/claude-sonnet-5/claude-opus-4-8、openai=gpt-5-mini/gpt-5/gpt-4.1-mini、
+   anthropic=claude-haiku-4-5/claude-sonnet-5/claude-opus-5、openai=gpt-5-mini/gpt-5/gpt-4.1-mini、
    gemini=gemini-2.5-flash/gemini-2.5-pro)。
-2. 段構えのフォールバック連鎖(haiku→sonnet-5、sonnet→opus-4-8)は **Anthropic のみ**
+2. 段構えのフォールバック連鎖(haiku→sonnet-5、sonnet→opus-5)は **Anthropic のみ**
    (他プロバイダのモデル階層はアプリが仮定しない)。検証→失敗理由付きリトライ1回は全プロバイダ共通。
 3. SYSTEM_PROMPT 本体は不変。UI言語が英語のときのみ `getSystemPrompt()` が
    「name/description を英語で書く」上書き節を末尾に付加する(few-shot は形式見本として共通)。
 4. APIキーはプロバイダ別に管理。**既定は端末に保存せずメモリのみ**(明示チェックで
    localStorage 保存にオプトイン。第5次レビュー裁定 #13 — DERIVATIONS §14)。
    旧 hp_key/hp_model は hp_key_anthropic/hp_model_anthropic へ自動移行(保存状態は維持)。
+
+**2026-07-24 改訂(第25便)— モデル最新化**: Opus Tier の候補・フォールバック先を
+Opus 4.8 → **Opus 5**(`claude-opus-5`、同一価格 $5/$25 per MTok の後継)へ更新。
+`thinking:{"type":"disabled"}` は Opus 5 でも既定 effort(high)以下で有効(呼び出し形状は不変)。
+Haiku 4.5 既定 → Sonnet 5 フォールバックの段構えは変更なし(MODEL_ROUTING.md 2026-07-24 更新)。
 
 ## 呼び出しコンテキスト
 
@@ -171,7 +176,7 @@ APIへは渡さない(上記改訂参照)。下記はプリセットJSONの正�
 4. 検証エラー時、同モデルへ**1回だけ**再試行:
    `messages = [user:要望, assistant:前回出力(そのまま), user:"あなたの出力に検証エラーがあります: <エラー列挙>。同じ要望に対し、エラーを修正した完全なJSONを出力してください。"]`
 5. なお失敗 → `claude-sonnet-5`(thinking無効)で手順3をもう一度 → なお失敗ならエラー表示。
-   (既にユーザーが Sonnet を選択している場合のフォールバック先は Opus 4.8)
+   (既にユーザーが Sonnet を選択している場合のフォールバック先は Opus 5)
 
 ## 検証結果(開発時)
 
