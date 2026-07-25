@@ -169,7 +169,7 @@
 <body>
 <div id="app">
   <header>
-    <div class="title" id="appTitle">DFM Lab</div>
+    <div class="title" id="appTitle" role="button" tabindex="0" aria-expanded="false" aria-controls="aboutPanel">DFM Lab</div>
     <select id="presetSelect" aria-label="シミュレーション選択"></select>
     <button id="btnLang" class="btn" style="flex:0 0 auto;min-height:44px;padding:8px 10px;" aria-label="Language">EN</button>
   </header>
@@ -178,7 +178,7 @@
     <div id="hud"></div>
     <div id="notice"></div>
     <!-- 第27便(原仮定者指示): タイトルタップでアプリの説明(操作・法則要約は説明タブから移動) -->
-    <div id="aboutPanel">
+    <div id="aboutPanel" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
       <div class="beHead"><span id="aboutTitle">このアプリについて</span><button id="aboutClose" aria-label="close">✕</button></div>
       <div id="aboutBody"></div>
     </div>
@@ -288,7 +288,7 @@
         <!-- 第26便(原仮定者指示): ベースのサンプル選択(任意)— 参考サンプルをAI生成に利用 -->
         <div class="prow"><label id="aiBaseLabel">ベースのサンプル(任意)</label>
           <select id="aiBasePreset" style="flex:1"></select></div>
-        <p class="note" id="aiBaseNote">ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの coreMR/lightSweep や 🛰️の zonal など、参考サンプルの構成をそのまま引き継げます)。</p>
+        <p class="note" id="aiBaseNote">ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの coreMR/lightSweep や 🛰️の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信されます。</p>
         <textarea id="aiPrompt" placeholder="例: 3つの恒星が絡み合う三体問題。まわりに塵の環も欲しい"></textarea>
         <div class="rowBtns"><button class="btn primary" id="btnGenerate">生成する</button></div>
         <div id="aiStatus"></div>
@@ -445,7 +445,7 @@ ja: {
   btnImportFile:"ファイルから読込", fileLoaded:"ファイルを読み込みました",
   unsavedWarn:"※編集中のパラメータは「保存」するまでバックアップに含まれません",
   confirmDiscard:"未保存の編集があります。破棄して読み込みますか?",
-  betaShared:"β版(beta v1.31-b3)はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。",
+  betaShared:"β版(beta v1.31-b4)はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。",
   draftRestore:"未保存の編集の下書きが見つかりました(再読込前の状態)。復元しますか?",
   swFail:"オフライン用キャッシュ(Service Worker)の登録に失敗しました。オンラインでは通常どおり使えます。",
   periHud:(m,a)=>`近点移動(最内粒子): 実測 ${m}°/周 / 解析 ${a}°/周`,
@@ -458,7 +458,7 @@ ja: {
   aiKeyNote:"キーはこの端末内でのみ使われ、送信先は選択・設定したAPIエンドポイントだけです(OpenAI互換では入力したベースURLへ送信されます — URLは必ず確認してください)。保存チェックOFFなら端末にも残りません(タブを閉じると消えます)。ブラウザへのキー入力にはリスクが伴うため、利用上限を設定した専用キーを推奨します。",
   aiGenHead:"新しいシミュレーションを生成", btnGenerate:"生成する", aiListHead:"生成済みプリセット",
   aiBaseLabel:"ベースのサンプル(任意)", aiBaseNone:"なし(要望だけで生成)",   // 第26便
-  aiBaseNote:"ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの coreMR/lightSweep や 🛰️の zonal など、参考サンプルの構成をそのまま引き継げます)。",
+  aiBaseNote:"ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの coreMR/lightSweep や 🛰️の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信されます。",
   aiPromptPh:"例: 3つの恒星が絡み合う三体問題。まわりに塵の環も欲しい",
   apiKeyPh:"APIキー",
   keySet:"キーを設定しました", keySetSaved:"キーを設定しました(この端末に保存)", keyCleared:"キーを消去しました",
@@ -565,7 +565,7 @@ en: {
   btnImportFile:"Load from file", fileLoaded:"File loaded",
   unsavedWarn:"Note: edited parameters are not included in backups until you press Save",
   confirmDiscard:"You have unsaved edits. Discard them and load?",
-  betaShared:"This beta (v1.31-b3) shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.",
+  betaShared:"This beta (v1.31-b4) shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.",
   draftRestore:"Found a draft of unsaved edits (from before the last reload). Restore it?",
   swFail:"Offline cache (Service Worker) registration failed. The app still works normally online.",
   periHud:(m,a)=>`Apsidal drift (innermost): measured ${m}°/orbit / analytic ${a}°/orbit`,
@@ -578,7 +578,7 @@ en: {
   aiKeyNote:"Your key is used only on this device and sent only to the API endpoint you select or configure (with the OpenAI-compatible option it is sent to the base URL you enter — always verify that URL). With the checkbox OFF it is kept in memory only (cleared when the tab closes). Entering API keys in a browser carries risk; use a dedicated key with a spending limit.",
   aiGenHead:"Generate a new simulation", btnGenerate:"Generate", aiListHead:"Generated presets",
   aiBaseLabel:"Base sample (optional)", aiBaseNone:"None (generate from the request only)",
-  aiBaseNote:"Pick a base to have the AI modify that sample's JSON to your request \u2014 reference structures (\ud83d\udd76\ufe0f dark-rotor coreMR/lightSweep, \ud83d\udef0\ufe0f zonal, etc.) carry over.",
+  aiBaseNote:"Pick a base to have the AI modify that sample's JSON to your request \u2014 reference structures (\ud83d\udd76\ufe0f dark-rotor coreMR/lightSweep, \ud83d\udef0\ufe0f zonal, etc.) carry over. The selected base JSON (including custom presets) is sent to the currently selected AI provider on generation.",
   aiPromptPh:"e.g. A chaotic three-star system with a ring of dust around it",
   apiKeyPh:"API key",
   keySet:"Key set", keySetSaved:"Key set (saved on this device)", keyCleared:"Key cleared",
@@ -1352,7 +1352,7 @@ const BUILTIN_PRESETS = [
 
 { id:"snowline", name:"塵は冷えると固まる — 冷たい星と熱い星", emoji:"❄️", group:"天体の物語",
   description:"同じ塵の環を冷たい星(左)と熱い星(右)に与えた対照実験。冷たい環では塵が衝突で固まり小衛星が育つ(T3)が、熱い星の環では星の熱がスピン拡散(E10′)で塵へ流れ込み、生まれかけた塊は摩擦の撹拌(A9)でほどけて塊になれない。環はやがて蒸発し、飛ばされた塵は熱の届かぬ遠方で再び固まる — 恒星系の「雪線(スノーライン)」のアナロジー。右下: 左右の平均温度。",
-  en:{name:"The Snow Line — Heat Melts Clumps", description:"The same dust ring around a cold star (left) and a hot star (right) — a controlled contrast. In the cold ring, dust sticks into growing moonlets (T3); in the hot ring, stellar heat flows into the dust by spin diffusion (E10′) and friction churn (A9) unravels nascent clumps. That ring evaporates, and the ejected dust re-condenses far away, beyond the heat's reach. Bottom right: mean temperatures."},
+  en:{name:"Dust Clumps When Cold — Cold Star vs Hot Star", description:"The same dust ring around a cold star (left) and a hot star (right) — a controlled contrast (the snow-line analogy). In the cold ring, dust sticks into growing moonlets (T3); in the hot ring, stellar heat flows into the dust by spin diffusion (E10′) and friction churn (A9) unravels nascent clumps. That ring evaporates, and the ejected dust re-condenses far away, beyond the heat's reach. Bottom right: mean temperatures."},
   activeParams:["kappaS","muF","etaRad"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:380}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0.6, gammaN:0.5, kappaS:1.2, Kt:60,
@@ -3820,11 +3820,18 @@ function buildAbout(){
   mk("h4",T("helpLaws"));
   mk("p",T("helpLawsBody"));
 }
-$("#appTitle").addEventListener("click",()=>{
+// 第28便(第24次レビュー): キーボード・フォーカス対応(Enter/Space で開閉・Escape で閉じる)
+function aboutToggle(show){
   const el=$("#aboutPanel");
-  el.style.display=(el.style.display==="block")?"none":"block";
-});
-$("#aboutClose").addEventListener("click",()=>{ $("#aboutPanel").style.display="none"; });
+  const to=(show===undefined)? el.style.display!=="block" : !!show;
+  el.style.display=to?"block":"none";
+  $("#appTitle").setAttribute("aria-expanded",String(to));
+  if(to) $("#aboutClose").focus(); else $("#appTitle").focus();
+}
+$("#appTitle").addEventListener("click",()=>aboutToggle());
+$("#appTitle").addEventListener("keydown",(e)=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); aboutToggle(); } });
+$("#aboutClose").addEventListener("click",()=>aboutToggle(false));
+document.addEventListener("keydown",(e)=>{ if(e.key==="Escape" && $("#aboutPanel").style.display==="block") aboutToggle(false); });
 
 // ===== タッチ/マウス操作(パン・ピンチ・タップ選択) =====
 (function(){

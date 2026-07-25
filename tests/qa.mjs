@@ -5,6 +5,7 @@
 // - 結果は tests/out/qa-results.json に機械可読で保存(CI が artifact 化)
 // - 1件でも FAIL なら exit code 1
 import { execSync } from 'node:child_process';
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -1822,7 +1823,8 @@ if (!FAST) {
       res.uiOpts = JSON.stringify(opts) === JSON.stringify(['小', '標準', '大']);
       // ④ ❄️ 改名(雪線の用語は説明文に残す)
       const sl = HP.allPresets().find(p => p.id === 'snowline');
-      res.slName = sl.name.includes('塵は冷えると固まる') && sl.description.includes('雪線');
+      res.slName = sl.name.includes('塵は冷えると固まる') && sl.description.includes('雪線')
+        && sl.en.name.includes('Dust Clumps When Cold') && /snow.line/i.test(sl.en.description);   // 第28便: 日英同期
       return res;
     });
     add('about.panel', r.opened && r.hasOps && r.hasLaws && r.hasAbout && r.closed,
@@ -1836,6 +1838,112 @@ if (!FAST) {
   }
 }
 
+// ---- 7p) 第28便(第24次レビュー裁定): railOmega の直接回帰 / 粒子数キャップ /
+// ----     タイトル説明のキーボード対応(beta 先行 — ルート対象時はスキップ)----
+{
+  const hasRail = await page.evaluate(() => {
+    const v = HP.validatePreset({ name: 'r', description: 'd', camera: { scale: 200 },
+      world: { boundary: 'none', size: 0 }, physics: {},
+      bodies: [{ type: 'single', m: 10, x: 100, y: 0, vx: 0, vy: 0, spin: 0, pinned: true, railOmega: 0.01 }] });
+    return v.ok && v.preset.bodies[0].railOmega === 0.01;
+  });
+  if (hasRail) {
+    // ① 検証器の契約: 受理・クランプ+警告・非数拒否・pinned=false は警告して無効化
+    const rv = await page.evaluate(() => {
+      const mk = (over) => ({ name: 'r', description: 'd', camera: { scale: 200 },
+        world: { boundary: 'none', size: 0 }, physics: {},
+        bodies: [Object.assign({ type: 'single', m: 10, x: 100, y: 0, vx: 0, vy: 0, spin: 0, pinned: true }, over)] });
+      const vClamp = HP.validatePreset(mk({ railOmega: 5 }));
+      const vNaN = HP.validatePreset(mk({ railOmega: 'x' }));
+      const vFree = HP.validatePreset(mk({ railOmega: 0.5, pinned: false }));
+      return { clampOk: vClamp.ok && vClamp.preset.bodies[0].railOmega === 2 && vClamp.warnings.some(w => /railOmega/.test(w)),
+        nanRejected: !vNaN.ok,
+        freeOk: vFree.ok && vFree.preset.bodies[0].railOmega === 0 && vFree.warnings.some(w => /railOmega/.test(w)) };
+    });
+    add('rail.validator', rv.clampOk && rv.nanRejected && rv.freeOk,
+      `clamp5→2+警告=${rv.clampOk} 非数拒否=${rv.nanRejected} pinned=false無効化+警告=${rv.freeOk}`);
+
+    // ② 運動の契約: 半径一定・位相増分=ωΔt・正負で回転方向が反転・railOmega=0 は静止固定
+    const rm = await page.evaluate(() => {
+      const run = (om) => {
+        const v = HP.validatePreset({ name: 'r', description: 'd', camera: { scale: 200 },
+          world: { boundary: 'none', size: 0 }, physics: { G: 0, D0: 2, kFrame: 0, kRep: 0, muF: 0, gammaN: 0, kappaS: 0 },
+          bodies: [{ type: 'single', m: 10, x: 100, y: 0, vx: 0, vy: 0, spin: 0, pinned: true, railOmega: om }] });
+        HP.sim.build(v.preset);
+        let ang0 = Math.atan2(HP.sim.y[0], HP.sim.x[0]), unwrapped = 0, prev = ang0;
+        let rErr = 0;
+        for (let k = 0; k < 200; k++) { HP.sim.step(0.016);
+          const a = Math.atan2(HP.sim.y[0], HP.sim.x[0]);
+          let d = a - prev; if (d > Math.PI) d -= 2 * Math.PI; if (d < -Math.PI) d += 2 * Math.PI;
+          unwrapped += d; prev = a;
+          rErr = Math.max(rErr, Math.abs(Math.hypot(HP.sim.x[0], HP.sim.y[0]) - 100)); }
+        return { phase: unwrapped, rErr, moved: Math.hypot(HP.sim.x[0] - 100, HP.sim.y[0]) };
+      };
+      const fwd = run(0.5), rev = run(-0.5), zero = run(0);
+      const expected = 0.5 * 200 * 0.016;   // ωΣdt = 1.6 rad
+      return { fwd, rev, zero, expected };
+    });
+    add('rail.motion',
+      Math.abs(rm.fwd.phase - rm.expected) < 1e-3 && Math.abs(rm.rev.phase + rm.expected) < 1e-3
+      && rm.fwd.rErr < 1e-3 && rm.rev.rErr < 1e-3 && rm.zero.moved === 0,
+      `位相=${rm.fwd.phase.toFixed(4)}/${rm.rev.phase.toFixed(4)}(±${rm.expected}) 半径誤差=${rm.fwd.rErr.toExponential(1)} ω=0静止=${rm.zero.moved === 0}`);
+
+    // ③ A/Bコピー・⏮リセット・インポート往復・外部要素バッジ
+    const rr = await page.evaluate(() => {
+      HP.loadPreset('darkrotor', false);
+      for (let k = 0; k < 50; k++) HP.sim.step(0.016);
+      HP.abStart();
+      const b = HP.ab().simB;
+      let abOk = true;
+      for (let i = 0; i < HP.sim.n; i++) if (b.railOmega[i] !== HP.sim.railOmega[i]
+        || b.x[i] !== HP.sim.x[i] || b.railR[i] !== HP.sim.railR[i]) abOk = false;
+      HP.abStop();
+      // ⏮ 相当: 再ロードで rail が復元される
+      HP.loadPreset('darkrotor', false);
+      const nRail = Array.from(HP.sim.railOmega).filter(v => v !== 0).length;
+      // インポート往復: 検証済みプリセットを再シリアライズしても railOmega が保存される
+      const p = HP.allPresets().find(q => q.id === 'darkrotor');
+      const v1 = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+      const v2 = HP.validatePreset(JSON.parse(JSON.stringify(v1.preset)));
+      const halo1 = v1.preset.bodies.filter(b2 => b2.railOmega), halo2 = v2.preset.bodies.filter(b2 => b2.railOmega);
+      const rtOk = v1.ok && v2.ok && halo1.length === 20 && halo2.length === 20
+        && halo1.every((b2, i) => b2.railOmega === halo2[i].railOmega);
+      // 外部要素バッジ: レール駆動を検出し「閉鎖系」と誤表示しない
+      const tags = HP.externalTags(p);
+      return { abOk, nRail, rtOk, rail: tags.rail, pin: tags.pin };
+    });
+    add('rail.ab-reset-roundtrip', rr.abOk && rr.nRail === 20 && rr.rtOk,
+      `A/B転写=${rr.abOk} 再ロードのレール数=${rr.nRail}(=20) 検証往復=${rr.rtOk}`);
+    add('rail.badge', rr.rail === true && rr.pin >= 21, `rail=${rr.rail} pin=${rr.pin}(中心+ハロー20)`);
+
+    // ④ 粒子数キャップ(性能回帰の静的ゲート — 第27便軽量化の維持)+ 🌠 q=2 高速経路
+    const pc = await page.evaluate(() => {
+      const tot = (id) => { const p = HP.allPresets().find(q => q.id === id);
+        return p.bodies.reduce((a, b) => a + (b.type === 'single' ? 1 : b.n), 0); };
+      const mq = HP.allPresets().find(q => q.id === 'merger').physics.q;
+      return { merger: tot('merger'), counterring: tot('counterring'), darkrotor: tot('darkrotor'), mq };
+    });
+    add('perf.particle-caps', pc.merger <= 280 && pc.counterring <= 210 && pc.darkrotor <= 410 && pc.mq === 2,
+      `merger=${pc.merger}(≤280) counterring=${pc.counterring}(≤210) darkrotor=${pc.darkrotor}(≤410) q=${pc.mq}(=2)`);
+
+    // ⑤ タイトル説明のキーボード対応(第24次レビュー P1-4)
+    const kb = await page.evaluate(() => {
+      const t = document.querySelector('#appTitle'), panel = document.querySelector('#aboutPanel');
+      const attrs = t.getAttribute('role') === 'button' && t.getAttribute('tabindex') === '0'
+        && panel.getAttribute('role') === 'dialog';
+      t.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+      const opened = panel.style.display === 'block' && t.getAttribute('aria-expanded') === 'true';
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+      const closed = panel.style.display === 'none' && t.getAttribute('aria-expanded') === 'false';
+      return { attrs, opened, closed };
+    });
+    add('about.keyboard', kb.attrs && kb.opened && kb.closed,
+      `role/tabindex/dialog=${kb.attrs} Enterで開く=${kb.opened} Escapeで閉じる=${kb.closed}`);
+  } else {
+    console.log('SKIP 第28便系(rail.* / perf.particle-caps / about.keyboard — 対象に railOmega なし)');
+  }
+}
+
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
 await browser.close();
 
@@ -1846,9 +1954,17 @@ const pass = results.every(r => r.pass);
 // v1.27(公開前レビュー P0-5): 実行環境のメタデータを結果JSONへ必須記録
 let playwrightVersion = 'unknown';
 try { playwrightVersion = JSON.parse(fs.readFileSync(path.join(ROOT, 'node_modules/playwright/package.json'), 'utf8')).version; } catch {}
+// 第28便(第24次レビュー P0-3): 実際に試験した HTML の SHA-256・APP_VERSION・SW キャッシュ名を証跡として記録
+const targetBytes = fs.readFileSync(path.join(ROOT, TARGET));
+const targetSha256 = crypto.createHash('sha256').update(targetBytes).digest('hex');
+const appVersion = (targetBytes.toString('utf8').match(/const APP_VERSION = "([^"]+)"/) || [])[1] || 'unknown';
+let swCache = 'unknown';
+try { swCache = (fs.readFileSync(path.join(ROOT, TARGET.startsWith('beta/') ? 'beta/sw.js' : 'sw.js'), 'utf8')
+  .match(/CACHE = CACHE_PREFIX \+ "([^"]+)"/) || [])[1] || 'unknown'; } catch {}
 fs.writeFileSync(path.join(OUT_DIR, 'qa-results.json'), JSON.stringify({
   commit, date: new Date().toISOString(), fast: FAST,
   target: TARGET,  // P2: 検査対象(beta 検証時に結果JSONを取り違えないため)
+  targetSha256, appVersion, swCache,  // 第28便: 試験対象の実体を SHA で追跡(第24次レビュー P0-3)
   // 第13次裁定 P2-2 後半+第14次 P2-2(2026-07-23): CI run の追跡メタ(ローカル実行時は null)。
   // PR 実行では commit が合成マージ SHA になるため、ref/headRef/baseRef で照合できるようにする
   run: { githubRunId: process.env.GITHUB_RUN_ID || null, runNumber: process.env.GITHUB_RUN_NUMBER || null,
