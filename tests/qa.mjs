@@ -320,8 +320,9 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
     res.buoyNaN = s.hasNaN();
     // 🌠 merger: 円盤が核と同じ並進速度で生成される(bulkVx/Vy。v1.18 修正)
     // v1.24: 円盤を回転支持(kepler ≈3〜5)にしたため、有限個の回転成分のサンプリング残差
-    // ≈ v/√n ≈ 0.25 が平均に残る(固定シードで決定論的に 0.232)。並進の欠落(旧バグは
-    // |v̄−v核| ≈ 1.4)とは1桁離れており、閾値は 0.35(実測×1.5マージン)で判定する
+    // ≈ v/√n が平均に残る。第27便: 負荷改善で円盤 150/120 に削減 → 残差増(固定シードで
+    // 決定論的に 0.447)。並進の欠落(旧バグは |v̄−v核| ≈ 1.4)とはなお十分離れており、
+    // 閾値は 0.7(実測×1.5マージン)で判定する
     HP.loadPreset('merger', false);
     let dvx = 0, dvy = 0, dc = 0;
     for (let i = 0; i < s.n; i++) {   // 左銀河: 核=index0、円盤=核から半径130以内の自由粒子
@@ -343,7 +344,7 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   });
   add('behavior.buoyancy', !r.buoyNaN && r.buoySep > 20,
     `分離(重-軽の平均y差)=${r.buoySep.toFixed(1)} (>20)`);
-  add('merger.bulk-velocity', r.mergerDv < 0.35, `|v̄円盤−v核|=${r.mergerDv.toFixed(3)} (<0.35 — 回転サンプリング残差込み)`);
+  add('merger.bulk-velocity', r.mergerDv < 0.7, `|v̄円盤−v核|=${r.mergerDv.toFixed(3)} (<0.7 — 回転サンプリング残差込み・第27便 n削減で更新)`);
   add('collapse.rotation', !r.colNaN && r.colRMax < 600 && r.colL > 0,
     `rMax=${r.colRMax.toFixed(0)} (<600) L=${r.colL.toFixed(0)} (>0)`);
 }
@@ -1739,15 +1740,15 @@ if (!FAST) {
     // ⑤ グラフ最小化: merger の2グラフで高さ 92→16 のスロット再配置
     const ov = await page.evaluate(() => {
       HP.loadPreset('merger', false);
-      const uz = 1;
+      const uz = HP.uiScale ? HP.uiScale() : 1;   // 第27便: 既定=1.15 でも成立するよう実スケールで判定
       const y0a = HP.overlayBaseY(0), y1a = HP.overlayBaseY(1);
       HP.ovMin.rotationCurve = true;
       const y0b = HP.overlayBaseY(0), y1b = HP.overlayBaseY(1);
       HP.ovMin.rotationCurve = false;
       return { d0: y0b - y0a, d1: y1b - y1a, expected: (92 - 16) * uz, distinct: y0a !== y1a };
     });
-    add('overlay.minimize', ov.distinct && ov.d0 === ov.expected && ov.d1 === ov.expected,
-      `Δslot0=${ov.d0} Δslot1=${ov.d1}(=${ov.expected}) distinct=${ov.distinct}`);
+    add('overlay.minimize', ov.distinct && Math.abs(ov.d0 - ov.expected) < 1e-6 && Math.abs(ov.d1 - ov.expected) < 1e-6,
+      `Δslot0=${ov.d0} Δslot1=${ov.d1}(≈${ov.expected}) distinct=${ov.distinct}`);
 
     // ⑥ 編集パネル最小化: ✕→最小化トグル(−/＋)。行が畳まれ、再タップで復元
     const be = await page.evaluate(() => {
@@ -1787,6 +1788,51 @@ if (!FAST) {
       `恒星間距離=${bi.sep.toFixed(1)}(60〜350) 円盤残存=${bi.keep}/${bi.free}(≥95%) NaN=${bi.nan}`);
   } else {
     console.log('SKIP 第26便系(groups.reorder / ai.base-context / overlay.minimize / bodyedit.minimize / behavior.binary — 対象にベースサンプルUIなし)');
+  }
+}
+
+// ---- 7o) 第27便: タイトルタップの説明パネル / A/B説明の折り畳み / 文字サイズ既定 /
+// ----     ❄️改名(beta 先行 — ルート対象時はスキップ)----
+{
+  const hasV27 = await page.evaluate(() => !!document.querySelector('#aboutPanel'));
+  if (hasV27) {
+    const r = await page.evaluate(() => {
+      const res = {};
+      HP.setLang('ja');
+      // ① タイトルタップ → アプリ説明(操作・法則要約は説明タブから移動)
+      const panel = document.querySelector('#aboutPanel');
+      document.querySelector('#appTitle').click();
+      res.opened = panel.style.display === 'block';
+      const t = panel.textContent;
+      res.hasOps = t.includes('2本指ピンチ');            // helpOpsBody
+      res.hasLaws = t.includes('スピン=熱');             // helpLawsBody
+      res.hasAbout = t.includes('決定力場モデル');       // aboutBody
+      document.querySelector('#aboutClose').click();
+      res.closed = panel.style.display === 'none';
+      // 説明タブ側からは移動済み(サンプル説明・理論解説・外部要素は残る)
+      HP.loadPreset('saturn', false);
+      const hb = document.querySelector('#helpBody').textContent;
+      res.helpMoved = !hb.includes('2本指ピンチ') && !hb.includes('スピン=熱') && hb.includes('外部要素');
+      // ② A/B比較の説明は畳んでおく
+      const wrap = document.querySelector('#abNoteWrap');
+      res.abCollapsed = !!wrap && !wrap.open && wrap.textContent.includes('A/B比較とは');
+      // ③ 文字サイズ: 小/標準/大・既定=1.15(旧「大」)
+      res.uiScale = HP.uiScale();
+      const opts = (HP.T('uiScaleOpts') || []).map(o => o[1]);
+      res.uiOpts = JSON.stringify(opts) === JSON.stringify(['小', '標準', '大']);
+      // ④ ❄️ 改名(雪線の用語は説明文に残す)
+      const sl = HP.allPresets().find(p => p.id === 'snowline');
+      res.slName = sl.name.includes('塵は冷えると固まる') && sl.description.includes('雪線');
+      return res;
+    });
+    add('about.panel', r.opened && r.hasOps && r.hasLaws && r.hasAbout && r.closed,
+      `開閉=${r.opened}/${r.closed} 操作=${r.hasOps} 法則=${r.hasLaws} 説明=${r.hasAbout}`);
+    add('about.help-moved', r.helpMoved, '説明タブから操作・法則要約が移動(外部要素は残置)');
+    add('ab.note-collapsed', r.abCollapsed, '');
+    add('ui.scale-default', r.uiScale === 1.15 && r.uiOpts, `既定=${r.uiScale}(=1.15) 選択肢=小/標準/大: ${r.uiOpts}`);
+    add('preset.snowline-name', r.slName, '');
+  } else {
+    console.log('SKIP 第27便系(about.panel / ab.note-collapsed / ui.scale-default / preset.snowline-name — 対象に説明パネルなし)');
   }
 }
 
