@@ -304,11 +304,12 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   const r = await page.evaluate(() => {
     const s = HP.sim, res = {};
     const meanR = (i0, i1) => { let a = 0; for (let i = i0; i < i1; i++) a += Math.hypot(s.x[i], s.y[i]); return a / (i1 - i0); };
-    // 📦 boxtrans: 箱と共動する時計は遅れず、「絶対静止」の時計だけが遅れる(T10 並進不可知)
+    // 📦 boxtrans: 箱と共動する時計は遅れず、箱に対する固有運動を持つ時計だけが遅れる(T10 並進不可知)
+    // 第32便(原仮定者裁定): 「絶対静止」の概念・粒子を廃止 — 上の時計は共動+固有運動(0.9)
     HP.loadPreset('boxtrans', false);
     for (let k = 0; k < 2000; k++) s.step(0.016);
-    res.tComv = s.tau[s.n - 2] / s.t;   // 共動時計
-    res.tRest = s.tau[s.n - 1] / s.t;   // 「絶対静止」時計 — 箱に対しては運動している
+    res.tComv = s.tau[s.n - 2] / s.t;   // 共動時計(|v−u|=0)
+    res.tProp = s.tau[s.n - 1] / s.t;   // 固有運動時計(箱に対して 0.9 で運動)
     res.transNaN = s.hasNaN();
     // 🌀 boxrot: kFrame=1 で内側リング(Ω/2 共回転)の半径が維持され(空間の支え)、kFrame=0 で飛散
     HP.loadPreset('boxrot', false);
@@ -332,8 +333,8 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
     res.breathRMS = Math.sqrt(rms / s.n);
     return res;
   });
-  add('box.trans-clocks', !r.transNaN && r.tComv > 0.999 && r.tRest < 0.99,
-    `共動τ/t=${r.tComv.toFixed(4)}(≈1 — 箱と動く運動は「静止」) 絶対静止τ/t=${r.tRest.toFixed(4)}(<0.99)`);
+  add('box.trans-clocks', !r.transNaN && r.tComv > 0.999 && r.tProp < 0.995 && r.tProp > 0.97,
+    `共動τ/t=${r.tComv.toFixed(4)}(>0.999 — 箱と動く運動は「静止」) 固有運動τ/t=${r.tProp.toFixed(4)}(0.97<τ/t<0.995)`);
   add('box.rot-support', Math.abs(r.rotKeep - 1) < 0.05 && r.rotFly > 1.5,
     `kF=1 半径比=${r.rotKeep.toFixed(3)}(維持) kF=0 半径比=${r.rotFly.toFixed(2)}(>1.5 飛散)`);
   add('box.expand-sqrt', Math.abs(r.expRatio - 1) < 0.03, `r̄/(r̄₀·√a)=${r.expRatio.toFixed(4)}(√a 追随)`);
@@ -350,8 +351,172 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   });
   add('box.schema-clamp', v.ok && v.H0 === 0.2 && v.D === 10000 && v.railH === 0 && v.warns >= 3,
     `H0→${v.H0} D→${v.D} 非pinned railH→${v.railH} warns=${v.warns}`);
+  // 第32便: 赤方偏移(1+z=a/a_ref。意味論の機械固定)と尺度履歴バッファ(グラフ用データ層)
+  const z = await page.evaluate(() => {
+    const s = HP.sim;
+    HP.loadPreset('boxcomoving', false);          // exp モード H0=0.004 → a=e^{0.004t}・a_ref=1
+    for (let k = 0; k < 1000; k++) s.step(0.016);
+    const simT = s.t, rs = s.boxRedshift(), th = Math.exp(0.004 * simT) - 1, h = s.boxHist;
+    let mono = true;
+    for (let i = 1; i < h.length; i++) if (!(h[i].a > h[i - 1].a)) mono = false;
+    const len = h.length, lastT = h[h.length - 1].t;
+    HP.loadPreset('galaxy', false);               // universeBox 無し → null(追加コストゼロ)
+    return { t: simT, z: rs.z, rel: Math.abs(rs.z / th - 1), len, lastT, mono,
+      nullHist: HP.sim.boxHist === null, nullRs: HP.sim.boxRedshift() === null };
+  });
+  add('box.redshift', z.rel < 1e-6 && z.nullRs,
+    `t=${z.t.toFixed(1)} z=${z.z.toFixed(6)} vs e^{0.004t}−1 の相対誤差=${z.rel.toExponential(1)}(<1e-6) 箱なし→null=${z.nullRs}`);
+  add('box.hist', z.len >= 1 && z.len <= 720 && z.lastT <= z.t && z.mono && z.nullHist,
+    `点数=${z.len}(1〜720) 末尾t=${z.lastT.toFixed(2)}(≤sim.t=${z.t.toFixed(2)}) a単調増加=${z.mono} 箱なし→null=${z.nullHist}`);
+
+  // ---- 第32便 W2) 膨張グラフ overlay(overlays.boxGraph): スロット登録・boxHist蓄積・例外なし ----
+  // ----          (i18n 確認は新IDを立てず、本項目の detail に含める — 指示書QA項目4)         ----
+  {
+    const errBefore = pageErrors.length;
+    let g = null, gErr = null;
+    try {
+      g = await page.evaluate(() => {
+        const s = HP.sim;
+        HP.loadPreset('boxcomoving', false);        // overlays.boxGraph:true が既定(第32便プリセット更新)
+        for (let k = 0; k < 300; k++) s.step(0.016);
+        const ov = !!s.overlays.boxGraph;
+        const slotsBox = HP.overlaySlots();
+        HP.requestRender();                          // 操作相当(トグル等が呼ぶ経路)
+        HP.tick(5);                                  // render() を直接複数回叩き drawBoxGraph を実行させる
+        const bh = s.boxHist.length;
+        HP.loadPreset('gclock', false);               // box 無しプリセット
+        const slotsNoBox = HP.overlaySlots();
+        return { ov, bh, slotsBox, slotsNoBox };
+      });
+    } catch (e) { gErr = String(e); }
+    const errAfter = pageErrors.length;
+    const i18n = await page.evaluate(() => {
+      HP.setLang('en'); const en = HP.T('tgBoxGraph');
+      HP.setLang('ja'); const ja = HP.T('tgBoxGraph');
+      return { en, ja };
+    });
+    add('box.graph-overlay',
+      !gErr && errAfter === errBefore && g && g.ov === true && g.bh >= 1
+        && g.slotsBox.includes('boxGraph') && !g.slotsNoBox.includes('boxGraph')
+        && i18n.en === 'Expansion graph (a, H, redshift)' && i18n.ja === '膨張グラフ(a・H・赤方偏移)',
+      gErr ? `描画中に例外: ${gErr}` :
+        `overlays.boxGraph=${g.ov} boxHist=${g.bh}件(≥1) slots(boxcomoving)=[${g.slotsBox}] slots(gclock)=[${g.slotsNoBox}]` +
+        ` pageErrors増分=${errAfter - errBefore}(0期待) i18n ja="${i18n.ja}" en="${i18n.en}"`);
+  }
+
+  // ---- 第32便 W2) 箱宇宙パラメータ編集UI(パラメータタブの「箱宇宙(UniverseBox)」セクション) ----
+  {
+    let ed = null, eErr = null;
+    try {
+      ed = await page.evaluate(() => {
+        const s = HP.sim;
+        HP.loadPreset('boxcomoving', false);   // mode:exp
+        const findRow = (labelKey) => Array.from(document.querySelectorAll('#paramRows .prow'))
+          .find(rw => { const l = rw.querySelector('label'); return l && l.textContent === HP.T(labelKey); });
+        const hasSection = !!findRow('boxH0Label');
+        const dirtyBefore = document.getElementById('dirtyBadge').style.display;
+        const h0Input = findRow('boxH0Label').querySelector('input');
+        h0Input.value = '0.008'; h0Input.dispatchEvent(new Event('change', { bubbles: true }));
+        const h0Set = s.box.H0;
+        for (let k = 0; k < 30; k++) s.step(0.016);   // 「その後の step」で H が反映されているか
+        const hAt = boxScaleAt(s.box, s.t).H;         // W1 純関数(グローバル)。exp モードは H=H0 一定
+        const dirtyAfter = document.getElementById('dirtyBadge').style.display;
+        // mode を pow に変更し coef/expo を設定
+        const sel = findRow('boxModeLabel').querySelector('select');
+        sel.value = 'pow'; sel.dispatchEvent(new Event('change', { bubbles: true }));
+        const coefInput = findRow('boxCoefLabel').querySelector('input');
+        const expoInput = findRow('boxExpoLabel').querySelector('input');
+        coefInput.value = '0.05'; coefInput.dispatchEvent(new Event('change', { bubbles: true }));
+        expoInput.value = '0.66'; expoInput.dispatchEvent(new Event('change', { bubbles: true }));
+        const modeSet = s.box.mode, coefSet = s.box.coef, expoSet = s.box.expo;
+        coefInput.value = '5'; coefInput.dispatchEvent(new Event('change', { bubbles: true }));  // 範囲外→クランプ
+        const coefClamped = s.box.coef;
+        coefInput.value = ''; coefInput.dispatchEvent(new Event('change', { bubbles: true }));   // 空文字→元の値
+        const coefAfterEmpty = s.box.coef;
+        // A/B比較中の編集は ab.simB.box にも反映される(エッジケース表)
+        HP.abStart();
+        const h0Input2 = findRow('boxH0Label').querySelector('input');
+        h0Input2.value = '0.01'; h0Input2.dispatchEvent(new Event('change', { bubbles: true }));
+        const abReflected = HP.ab().simB.box.H0 === 0.01;
+        HP.abStop();
+        const abGoneButBoxKept = s.box.H0 === 0.01;   // A/B終了後もsim.box編集は残る(paramsDirty継続)
+        // gclock ではセクション非表示
+        HP.loadPreset('gclock', false);
+        const hasSectionGclock = !!Array.from(document.querySelectorAll('#paramRows .prow'))
+          .find(rw => { const l = rw.querySelector('label'); return l && l.textContent === HP.T('boxH0Label'); });
+        return { hasSection, dirtyBefore, dirtyAfter, h0Set, hAt, modeSet, coefSet, expoSet,
+          coefClamped, coefAfterEmpty, abReflected, abGoneButBoxKept, hasSectionGclock };
+      });
+    } catch (e) { eErr = String(e); }
+    add('box.edit-ui',
+      !eErr && ed && ed.hasSection && ed.dirtyBefore !== 'inline-block' && ed.dirtyAfter === 'inline-block'
+        && ed.h0Set === 0.008 && Math.abs(ed.hAt - 0.008) < 1e-9
+        && ed.modeSet === 'pow' && ed.coefSet === 0.05 && Math.abs(ed.expoSet - 0.66) < 1e-9
+        && ed.coefClamped === 1 && ed.coefAfterEmpty === 1 && ed.abReflected && ed.abGoneButBoxKept
+        && !ed.hasSectionGclock,
+      eErr ? `例外: ${eErr}` :
+        `セクション表示=${ed.hasSection} dirty ${ed.dirtyBefore}→${ed.dirtyAfter} H0=${ed.h0Set}(boxScaleAtのH=${ed.hAt}) ` +
+        `mode=${ed.modeSet} coef=${ed.coefSet} expo=${ed.expoSet} coef=5→${ed.coefClamped}(クランプ) coef=''→${ed.coefAfterEmpty}(据置) ` +
+        `A/B中simB反映=${ed.abReflected} A/B終了後もsim.box維持=${ed.abGoneButBoxKept} gclockでは非表示=${!ed.hasSectionGclock}`);
+  }
+
+  // ---- 第32便 W2) 赤方偏移カラーバー・HUD表示: boxRedshift().z と #hud の "z=" 表示 ----
+  {
+    const r3 = await page.evaluate(() => {
+      const s = HP.sim;
+      HP.loadPreset('boxcomoving', false);
+      for (let k = 0; k < 2000; k++) s.step(0.016);
+      const rz = s.boxRedshift();
+      return { z: rz.z, a: rz.a };
+    });
+    let hudText = '(timeout)';
+    try {
+      await page.waitForFunction(() => {
+        const el = document.querySelector('#hud');
+        return el && el.textContent.includes('z=');
+      }, null, { timeout: 5000 });
+      hudText = await page.evaluate(() => document.querySelector('#hud').textContent);
+    } catch (e) { /* hudText stays '(timeout)' → fails the assertion below */ }
+    add('box.redshift-bar', r3.z >= 0.1 && r3.a > 1.1 && hudText.includes('z='),
+      `2000步後 z=${r3.z.toFixed(4)}(≥0.1) a=${r3.a.toFixed(4)}(>1.1) HUD="${hudText.replace(/\n/g, ' / ')}"`);
+  }
   } else {
-    console.log('SKIP 第31便系(box.trans-clocks / box.rot-support / box.expand-sqrt / box.breath-return / box.schema-clamp — 対象に箱宇宙プリセットなし)');
+    console.log('SKIP 第31/32便系(box.trans-clocks / box.rot-support / box.expand-sqrt / box.breath-return / box.schema-clamp / box.redshift / box.hist / box.graph-overlay / box.edit-ui / box.redshift-bar — 対象に箱宇宙プリセットなし)');
+  }
+}
+
+// ---- 7h2) 台帳4-57(第32便): 単体レールの中心 railCx/railCy ----
+// (root=v1.31 は未実装のため、スキーマ非対応時はスキップ)
+{
+  const has = await page.evaluate(() => {
+    const p = HP.validatePreset({ name: 'r', description: 'd', camera: { scale: 300 }, world: { boundary: 'none', size: 0 },
+      physics: {}, bodies: [{ type: 'single', m: 1, x: 150, y: 0, vx: 0, vy: 0, spin: 0, pinned: true, railOmega: 0.1, railCx: 100 }] });
+    return p.ok && p.preset.bodies[0].railCx === 100;
+  });
+  if (has) {
+    const r = await page.evaluate(() => {
+      const mk = (extra) => ({ name: 'rail', description: 'railCx/railCy 検査', camera: { scale: 300 },
+        world: { boundary: 'none', size: 0 }, physics: { G: 0, D0: 2, kFrame: 0 },
+        bodies: [Object.assign({ type: 'single', m: 1, x: 150, y: 0, vx: 0, vy: 0, spin: 0, pinned: true }, extra)] });
+      const p = HP.validatePreset(mk({ railOmega: 0.1, railCx: 100 }));   // 中心(100,0)・半径50の円レール
+      let dmin = Infinity, dmax = -Infinity;
+      if (p.ok) {
+        const s = HP.sim; s.build(p.preset);
+        for (let k = 0; k < 2000; k++) { s.step(0.016);
+          const d = Math.hypot(s.x[0] - 100, s.y[0]); if (d < dmin) dmin = d; if (d > dmax) dmax = d; }
+      }
+      const q = HP.validatePreset(mk({ railCx: 100 }));                   // railOmega 無し → 警告して無視
+      const e = HP.validatePreset(mk({ railOmega: 0.1 }));                // 未指定=原点(従来と厳密等価)
+      let eR = null;
+      if (e.ok) { const s = HP.sim; s.build(e.preset); for (let k = 0; k < 100; k++) s.step(0.016); eR = Math.hypot(s.x[0], s.y[0]); }
+      return { ok: p.ok, warns: p.warnings.length, dmin, dmax,
+        qWarn: q.ok && q.warnings.some(w => w.includes('railCx')) && q.preset.bodies[0].railCx === undefined, eR };
+    });
+    add('rail.custom-center', r.ok && r.warns === 0 && Math.abs(r.dmin - 50) < 0.5 && Math.abs(r.dmax - 50) < 0.5
+      && r.qWarn && Math.abs(r.eR - 150) < 0.5,
+      `中心(100,0)からの距離 ${r.dmin.toFixed(3)}〜${r.dmax.toFixed(3)}(50±0.5・警告${r.warns}件) railOmega無しのrailCx→警告して無視=${r.qWarn} 未指定=原点 r=${r.eR.toFixed(3)}(150)`);
+  } else {
+    console.log('SKIP rail.custom-center(対象に railCx/railCy スキーマなし)');
   }
 }
 
@@ -1651,9 +1816,14 @@ if (!FAST) {
 
 // ---- 第22便: 観測温度・光掻き出し・半径系(スピン役割分離は原仮定者裁定で廃止)----
 // 対象に obsT 配列があるときだけ実行(ルート昇格前は SKIP)。較正実測は 2026-07-24 第22便:
-// darkrotor v3 = 中心(m600・R45・spin0.12・コア mc/m=0.1・sc/s=20・Rc/R=0.3・掻出1・pinned)+
-// コア付きハロー20体(m30・R12・spin0.15・掻出1)。u_φ 比 1.954/1.543/1.562(r=140/200/260)・
+// darkrotor v3(root)= 中心(m600・R45・spin0.12・コア mc/m=0.1・sc/s=20・Rc/R=0.3・掻出1・pinned)+
+// コア付きハロー20体(m30・R12・spin0.15・掻出1・レール駆動)。u_φ 比 1.954/1.543/1.562(r=140/200/260)・
 // 12000步安定(r90 220〜239 有界・外縁 2.0→2.8・中心スピン厳密不変)
+// darkrotor v4(beta・第32便 W3b / 台帳4-47 Phase C)= ピン・レール全廃の閉鎖系。
+// 中心BH(m2000・R45・spin0.12・単層・掻出1・自由)+ ハロー10体(m150・R18・spin0.15・コア付き・自由)+
+// 恒星200体。u_φ 比 1.891/1.268/1.543・3000步(外縁3.574・r90 207.6・偏差1.59%・max|spin|2.197)・
+// 12000步(偏差8.01%・max|spin|1.30・恒星保持100%・重心移動0.264)。以下の darkrotor 系 QA は
+// プリセット定義(ピン・レールの有無)で新旧を機械判別して分岐する
 {
   const hasObs = await page.evaluate(() => !!(window.HP && HP.sim && HP.sim.obsT));
   if (hasObs) {
@@ -1709,8 +1879,10 @@ if (!FAST) {
     });
     add('obs.equivalence', eq.maxd === 0, `maxd=${eq.maxd}(=0: bit等価 — 観測層は既定で力学に影響しない)`);
 
-    // 🕶️ darkrotor v3: t=0 の決定フレーム — 全ローター(中心+ハロー)のスピンを 0 にすると
+    // 🕶️ darkrotor: t=0 の決定フレーム — 全ローター(中心+ハロー)のスピンを 0 にすると
     // u_φ が大きく低下(外殻+コアの引きずり)。u_φ 評価はエンジンの ω と同形(コア差動項込み)
+    // 第32便 W3b: 🕶️ の構成が変わっても同じ測定が成立するよう、ローターは索引固定ではなく
+    // 「中心(i=0)+コアを持つ粒子(coreMR≠0)」の機械判定で選ぶ(恒星は coreMR=0・spin=0)。
     const up = await page.evaluate(() => {
       const uphiAt = (s, r) => {
         const p = s.params, eps2 = p.softening * p.softening, q = p.q;
@@ -1735,38 +1907,165 @@ if (!FAST) {
       };
       const run = (spinOff) => { HP.loadPreset('darkrotor', false);
         const s = HP.sim;
-        if (spinOff) { s.spin[0] = 0; for (let i = 381; i < s.n; i++) s.spin[i] = 0; }
-        return { u200: uphiAt(s, 200), u140: uphiAt(s, 140) }; };
+        let nOff = 0;
+        if (spinOff) for (let i = 0; i < s.n; i++) if (i === 0 || s.coreMR[i] !== 0) { s.spin[i] = 0; nOff++; }
+        return { u140: uphiAt(s, 140), u200: uphiAt(s, 200), u260: uphiAt(s, 260), nOff }; };
       return { on: run(false), off: run(true) };
     });
-    add('darkrotor.uphi', up.on.u140 > up.off.u140 * 1.6 && up.on.u200 > up.off.u200 * 1.25,
-      `u_φ(140)=${up.on.u140.toFixed(4)}/${up.off.u140.toFixed(4)} 比=${(up.on.u140 / up.off.u140).toFixed(3)}(>1.6) ` +
-      `u_φ(200)=${up.on.u200.toFixed(4)}/${up.off.u200.toFixed(4)} 比=${(up.on.u200 / up.off.u200).toFixed(3)}(>1.25)`);
+    add('darkrotor.uphi', up.on.u140 > up.off.u140 * 1.70 && up.on.u200 > up.off.u200 * 1.15
+      && up.on.u260 > up.off.u260 * 1.35,
+      `u_φ(140)=${up.on.u140.toFixed(4)}/${up.off.u140.toFixed(4)} 比=${(up.on.u140 / up.off.u140).toFixed(3)}(>1.70) ` +
+      `u_φ(200)=${up.on.u200.toFixed(4)}/${up.off.u200.toFixed(4)} 比=${(up.on.u200 / up.off.u200).toFixed(3)}(>1.15) ` +
+      `u_φ(260)=${up.on.u260.toFixed(4)}/${up.off.u260.toFixed(4)} 比=${(up.on.u260 / up.off.u260).toFixed(3)}(>1.35) ` +
+      `スピン0にしたローター=${up.off.nOff}体 / 第32便 W3b 新構成の実測=1.891/1.268/1.543 ` +
+      `(旧v3=1.954/1.543/1.562)。r140 は 1.6→1.70 に強化、r260(>1.35)を新設。` +
+      `r200 の 1.25→1.15 緩和はハロー自身が r=200 に居る測定幾何の変化(対照側に公転並進引きずりが残り ` +
+      `OFF の分母が大きくなる)による定義整合であり、引きずりの弱化ではない`);
 
-    // 🕶️ の中期安定 v3(!FAST・第22便): 3000步で円盤非破壊・ハロー残存・中心スピン厳密不変
-    // (pinned)・ハロースピン暴走なし(第21便の反作用ポンピング教訓 — |spin| が増えないこと)。
-    // 較正実測: 外縁2.02・r90=238.6・ハロー|spin|=0.092(初期0.15から減衰・暴走なし)
-    if (!FAST) {
-      const st = await page.evaluate(() => {
+    // 第32便 W3b(台帳4-47 Phase C): 🕶️ が「ピン+レール駆動の展示系(v3)」から
+    // 「全粒子自由の閉鎖系(v4)」へ格上げされた。対象(root=旧v3 / beta=新v4)を
+    // プリセット定義から機械判別し、判定式・測定幾何を切り替える。
+    const drFree = await page.evaluate(() =>
+      HP.allPresets().find(q => q.id === 'darkrotor')
+        .bodies.every(b => !b.pinned && !b.railOmega && !b.railH));
+
+    // 🕶️ の全自由化(v4)を固定する静的ゲート — 展示系(ピン・レール)への逆戻りを機械検出。
+    // 恒星円盤(disk)は pinned キー自体を持たない(既定=自由)ので type 別に判定する。
+    if (drFree) {
+      const af = await page.evaluate(() => {
+        const p = HP.allPresets().find(q => q.id === 'darkrotor');
+        const bad = p.bodies.filter(b => (b.type === 'single' ? b.pinned !== false : !!b.pinned)
+          || b.railOmega !== undefined || b.railH !== undefined);
+        const t = HP.externalTags(p);
         HP.loadPreset('darkrotor', false);
-        const s = HP.sim;
-        const s0 = s.spin[0];
-        for (let k = 0; k < 3000; k++) s.step(0.016);
-        let sum = 0, c = 0; const rs = [];
-        for (let i = 1; i <= 380; i++) { const r = Math.hypot(s.x[i], s.y[i]); rs.push(r);
-          if (r >= 156 && r <= 286) { sum += (s.x[i] * s.vy[i] - s.y[i] * s.vx[i]) / r; c++; } }
-        rs.sort((a, b) => a - b);
-        let inside = 0, hs = 0;
-        for (let i = 381; i < s.n; i++) { const r = Math.hypot(s.x[i], s.y[i]);
-          if (r > 60 && r < 400) inside++; hs += Math.abs(s.spin[i]); }
-        return { outer: c ? sum / c : 0, r90: rs[Math.floor(rs.length * 0.9)], inside, nHalo: s.n - 381,
-          haloSpin: hs / (s.n - 381), cSpinKeep: Math.abs(s.spin[0] - s0) < 1e-9, nan: s.hasNaN() };
+        return { nBad: bad.length, nBody: p.bodies.length, pin: t.pin, rail: t.rail, n: HP.sim.n };
       });
-      add('behavior.darkrotor', !st.nan && st.r90 < 320 && st.outer > 1.6 && st.inside >= 17
-        && st.cSpinKeep && st.haloSpin < 0.5,
-        `外縁v_φ=${st.outer.toFixed(3)}(>1.6) r90=${st.r90.toFixed(1)}(<320: 円盤非破壊) ` +
-        `ハロー残存=${st.inside}/${st.nHalo}(≥17) ハロー|spin|=${st.haloSpin.toFixed(3)}(<0.5: 暴走なし) ` +
-        `中心スピン不変=${st.cSpinKeep}(pinned) NaN=${st.nan}`);
+      add('darkrotor.allfree', af.nBad === 0 && af.pin === 0 && af.rail === false,
+        `pinned/rail 違反=${af.nBad}/${af.nBody}体 外部要素バッジ pin=${af.pin}(=0) rail=${af.rail}(=false: 閉鎖系) ` +
+        `粒子数=${af.n} — 第32便 W3b: 旧v3 は中心pinned+ハロー20体の railOmega(展示系)だった`);
+    } else {
+      console.log('SKIP darkrotor.allfree(対象の🕶️はレール駆動の旧v3構成)');
+    }
+
+    // 🕶️ の中期安定(!FAST・3000步)。v4(自由系)は中心BHも動くので半径・v_φ は
+    // すべて中心BH基準で測る。判定は第32便 W3b の実測較正:
+    // 外縁3.574・r90=207.6・ハロー偏差1.59%・ハロー|spin|=0.133・全粒子max|spin|=2.197・
+    // BHスピン 0.12→0.11774・恒星保持100%・重心移動0.020・t=0 総運動量0.0006(seed2種で再現)。
+    // v3(レール駆動)は旧判定のまま(中心 pinned のスピン厳密不変・末尾ハロー20体)。
+    if (!FAST) {
+      if (drFree) {
+        const st = await page.evaluate(() => {
+          // 0=中心BH / 1〜NH=ダークローター / NH+1〜=恒星(索引はプリセット定義順)
+          const NH = HP.allPresets().find(q => q.id === 'darkrotor')
+            .bodies.filter(b => b.type === 'single').length - 1;
+          HP.loadPreset('darkrotor', false);
+          const s = HP.sim, OFF = NH + 1;
+          const hr0 = [], st0 = [];
+          for (let k = 1; k <= NH; k++) hr0.push(Math.hypot(s.x[k] - s.x[0], s.y[k] - s.y[0]));
+          for (let i = OFF; i < s.n; i++) st0.push(Math.hypot(s.x[i] - s.x[0], s.y[i] - s.y[0]));
+          let M = 0, cx0 = 0, cy0 = 0, p0x = 0, p0y = 0;
+          for (let i = 0; i < s.n; i++) { M += s.m[i]; cx0 += s.m[i] * s.x[i]; cy0 += s.m[i] * s.y[i];
+            p0x += s.m[i] * s.vx[i]; p0y += s.m[i] * s.vy[i]; }
+          cx0 /= M; cy0 /= M;
+          // 総運動量は **t=0 のみ** 判定する: E6′ の背景持ち分(D₀)はリザーバへ帳簿されるため
+          // 系だけを見ると |P| は保存しない(仕様。実測 0.0006→1.68(3000步)→10.28(12000步))。
+          // 走行後の健全性は「重心移動」で見るのが正しい(総質量3670に対し重心速度0.0028)。
+          const pTot0 = Math.hypot(p0x, p0y);
+          for (let k = 0; k < 3000; k++) s.step(0.016);
+          const bx = s.x[0], by = s.y[0];
+          let sum = 0, c = 0, keep = 0, tot = 0, maxSpin = 0, hs = 0, haloIn = 0, haloDev = 0;
+          const rs = [];
+          for (let i = OFF; i < s.n; i++) {
+            const rx = s.x[i] - bx, ry = s.y[i] - by, r = Math.hypot(rx, ry); rs.push(r);
+            if (r >= 156 && r <= 286) { sum += (rx * (s.vy[i] - s.vy[0]) - ry * (s.vx[i] - s.vx[0])) / r; c++; }
+            if (st0[i - OFF] < 350) { tot++; if (r < 500) keep++; }
+          }
+          for (let k = 1; k <= NH; k++) { const r = Math.hypot(s.x[k] - bx, s.y[k] - by);
+            if (r > 60 && r < 400) haloIn++; hs += Math.abs(s.spin[k]);
+            haloDev = Math.max(haloDev, Math.abs(r / hr0[k - 1] - 1)); }
+          for (let i = 0; i < s.n; i++) maxSpin = Math.max(maxSpin, Math.abs(s.spin[i]));
+          rs.sort((a, b) => a - b);
+          let cx = 0, cy = 0, px = 0, py = 0;
+          for (let i = 0; i < s.n; i++) { cx += s.m[i] * s.x[i]; cy += s.m[i] * s.y[i];
+            px += s.m[i] * s.vx[i]; py += s.m[i] * s.vy[i]; }
+          return { NH, outer: c ? sum / c : 0, nOuter: c, r90: rs[Math.floor(rs.length * 0.9)],
+            haloIn, haloDev, haloSpin: hs / NH, maxSpin, bhSpin: s.spin[0],
+            keepPct: 100 * keep / tot, keep, tot, comMove: Math.hypot(cx / M - cx0, cy / M - cy0),
+            pTot0, pTotEnd: Math.hypot(px, py), nan: s.hasNaN() };
+        });
+        add('behavior.darkrotor', !st.nan
+          && st.r90 < 260 && st.outer > 2.8 && st.haloIn === 10 && st.haloDev < 0.06
+          && st.haloSpin < 0.30 && st.maxSpin < 3.5 && Math.abs(st.bhSpin - 0.12) < 0.02
+          && st.keepPct >= 95 && st.comMove < 0.5 && st.pTot0 < 0.01,
+          `外縁v_φ=${st.outer.toFixed(3)}(>2.8・BH基準156〜286のn=${st.nOuter}) r90=${st.r90.toFixed(1)}(<260: 円盤非破壊) ` +
+          `ハロー残存=${st.haloIn}/${st.NH}(=10) ハロー半径偏差=${(st.haloDev * 100).toFixed(2)}%(<6%) ` +
+          `ハロー|spin|=${st.haloSpin.toFixed(3)}(<0.30) 全粒子max|spin|=${st.maxSpin.toFixed(3)}(<3.5: 恒星のE6′汲み上げ検出) ` +
+          `BHスピン=${st.bhSpin.toFixed(5)}(|Δ|<0.02 — 自由なので「不変」ではなく有界) ` +
+          `恒星保持=${st.keep}/${st.tot}(${st.keepPct.toFixed(1)}%≥95) 重心移動=${st.comMove.toFixed(3)}(<0.5) ` +
+          `t=0総運動量=${st.pTot0.toFixed(4)}(<0.01) NaN=${st.nan} ` +
+          `/ 走行後|P|=${st.pTotEnd.toFixed(2)} は判定しない(E6′の背景持ち分がD₀リザーバへ帳簿される仕様 — ` +
+          `健全性は重心移動で判定)`);
+      } else {
+        const st = await page.evaluate(() => {
+          HP.loadPreset('darkrotor', false);
+          const s = HP.sim;
+          const s0 = s.spin[0];
+          for (let k = 0; k < 3000; k++) s.step(0.016);
+          let sum = 0, c = 0; const rs = [];
+          for (let i = 1; i <= 380; i++) { const r = Math.hypot(s.x[i], s.y[i]); rs.push(r);
+            if (r >= 156 && r <= 286) { sum += (s.x[i] * s.vy[i] - s.y[i] * s.vx[i]) / r; c++; } }
+          rs.sort((a, b) => a - b);
+          let inside = 0, hs = 0;
+          for (let i = 381; i < s.n; i++) { const r = Math.hypot(s.x[i], s.y[i]);
+            if (r > 60 && r < 400) inside++; hs += Math.abs(s.spin[i]); }
+          return { outer: c ? sum / c : 0, r90: rs[Math.floor(rs.length * 0.9)], inside, nHalo: s.n - 381,
+            haloSpin: hs / (s.n - 381), cSpinKeep: Math.abs(s.spin[0] - s0) < 1e-9, nan: s.hasNaN() };
+        });
+        add('behavior.darkrotor', !st.nan && st.r90 < 320 && st.outer > 1.6 && st.inside >= 17
+          && st.cSpinKeep && st.haloSpin < 0.5,
+          `[旧v3: レール駆動の展示系] 外縁v_φ=${st.outer.toFixed(3)}(>1.6) r90=${st.r90.toFixed(1)}(<320: 円盤非破壊) ` +
+          `ハロー残存=${st.inside}/${st.nHalo}(≥17) ハロー|spin|=${st.haloSpin.toFixed(3)}(<0.5: 暴走なし) ` +
+          `中心スピン不変=${st.cSpinKeep}(pinned) NaN=${st.nan}`);
+      }
+
+      // 🕶️ v4 の長時間検査(12000步=t≈192。QA_FAST=1 では省略・v3 は対象外)。
+      // 第32便 W3b 実測: ハロー半径偏差 8.01% / 全粒子max|spin| 1.30 / 恒星保持 100% / 重心移動 0.264。
+      if (drFree) {
+        const lg = await page.evaluate(() => {
+          const NH = HP.allPresets().find(q => q.id === 'darkrotor')
+            .bodies.filter(b => b.type === 'single').length - 1;
+          HP.loadPreset('darkrotor', false);
+          const s = HP.sim, OFF = NH + 1;
+          const hr0 = [], st0 = [];
+          for (let k = 1; k <= NH; k++) hr0.push(Math.hypot(s.x[k] - s.x[0], s.y[k] - s.y[0]));
+          for (let i = OFF; i < s.n; i++) st0.push(Math.hypot(s.x[i] - s.x[0], s.y[i] - s.y[0]));
+          let M = 0, cx0 = 0, cy0 = 0;
+          for (let i = 0; i < s.n; i++) { M += s.m[i]; cx0 += s.m[i] * s.x[i]; cy0 += s.m[i] * s.y[i]; }
+          cx0 /= M; cy0 /= M;
+          for (let k = 0; k < 12000; k++) s.step(0.016);
+          const bx = s.x[0], by = s.y[0];
+          let keep = 0, tot = 0, maxSpin = 0, haloDev = 0, haloIn = 0;
+          for (let i = OFF; i < s.n; i++) { const r = Math.hypot(s.x[i] - bx, s.y[i] - by);
+            if (st0[i - OFF] < 350) { tot++; if (r < 500) keep++; } }
+          for (let k = 1; k <= NH; k++) { const r = Math.hypot(s.x[k] - bx, s.y[k] - by);
+            if (r > 60 && r < 400) haloIn++;
+            haloDev = Math.max(haloDev, Math.abs(r / hr0[k - 1] - 1)); }
+          for (let i = 0; i < s.n; i++) maxSpin = Math.max(maxSpin, Math.abs(s.spin[i]));
+          let cx = 0, cy = 0;
+          for (let i = 0; i < s.n; i++) { cx += s.m[i] * s.x[i]; cy += s.m[i] * s.y[i]; }
+          return { NH, haloDev, haloIn, maxSpin, keep, tot, keepPct: 100 * keep / tot,
+            comMove: Math.hypot(cx / M - cx0, cy / M - cy0), nan: s.hasNaN() };
+        });
+        add('behavior.darkrotorLong', !lg.nan && lg.haloDev < 0.20 && lg.maxSpin < 5
+          && lg.keepPct >= 88 && lg.comMove < 20,
+          `12000步(t≈192) ハロー半径偏差=${(lg.haloDev * 100).toFixed(2)}%(<20%) ハロー残存=${lg.haloIn}/${lg.NH} ` +
+          `全粒子max|spin|=${lg.maxSpin.toFixed(3)}(<5) 恒星保持=${lg.keep}/${lg.tot}(${lg.keepPct.toFixed(1)}%≥88) ` +
+          `重心移動=${lg.comMove.toFixed(3)}(<20) NaN=${lg.nan} ` +
+          `— 有限時間の閉鎖系デモ: 18000步以降はハロー軌道がゆっくり分散する(W3レポート§5.7。` +
+          `恒星保持・NaN・スピンは24000步でも健全で、崩れ方は飛散ではなく軌道半径の分散)`);
+      } else {
+        console.log('SKIP behavior.darkrotorLong(対象の🕶️はレール駆動の旧v3構成)');
+      }
     }
   } else {
     console.log('SKIP obs.*/darkrotor.*(対象に観測温度系なし)');
@@ -1965,32 +2264,47 @@ if (!FAST) {
       `位相=${rm.fwd.phase.toFixed(4)}/${rm.rev.phase.toFixed(4)}(±${rm.expected}) 半径誤差=${rm.fwd.rErr.toExponential(1)} ω=0静止=${rm.zero.moved === 0}`);
 
     // ③ A/Bコピー・⏮リセット・インポート往復・外部要素バッジ
+    // 第32便 W3b: 🕶️ が全自由化(ピン・レール無し)されたため、検査対象を「レール駆動を含む
+    // 内蔵プリセット」から動的に選ぶ(旧: darkrotor 固定・20本ハードコード → 新: 定義から算出。
+    // root=🕶️ の単体レール20本 / beta=🌀回る箱の pinned リング96本)。
     const rr = await page.evaluate(() => {
-      HP.loadPreset('darkrotor', false);
+      // プリセット定義から期待レール本数を数える(単体=pinned+railOmega/railH、
+      // リング=pinned+vMode:"omega"(ω≠0) または railH。エンジンの railIdx 条件と同義)
+      const nRailDef = (p) => p.bodies.reduce((a, b) => a + (b.type === 'single'
+        ? ((b.pinned && (b.railOmega || b.railH)) ? 1 : 0)
+        : ((b.pinned && ((b.vMode === 'omega' && b.omega) || b.railH)) ? (b.n || 0) : 0)), 0);
+      const p = HP.allPresets().filter(q => !String(q.id).startsWith('custom_'))
+        .find(q => nRailDef(q) > 0);
+      if (!p) return { id: '(なし)', want: 0 };
+      const want = nRailDef(p);
+      HP.loadPreset(p.id, false);
       for (let k = 0; k < 50; k++) HP.sim.step(0.016);
       HP.abStart();
       const b = HP.ab().simB;
       let abOk = true;
       for (let i = 0; i < HP.sim.n; i++) if (b.railOmega[i] !== HP.sim.railOmega[i]
+        || (HP.sim.railH && b.railH[i] !== HP.sim.railH[i])
         || b.x[i] !== HP.sim.x[i] || b.railR[i] !== HP.sim.railR[i]) abOk = false;
       HP.abStop();
       // ⏮ 相当: 再ロードで rail が復元される
-      HP.loadPreset('darkrotor', false);
-      const nRail = Array.from(HP.sim.railOmega).filter(v => v !== 0).length;
-      // インポート往復: 検証済みプリセットを再シリアライズしても railOmega が保存される
-      const p = HP.allPresets().find(q => q.id === 'darkrotor');
+      HP.loadPreset(p.id, false);
+      let nRail = 0;
+      for (let i = 0; i < HP.sim.n; i++)
+        if (HP.sim.railOmega[i] !== 0 || (HP.sim.railH ? HP.sim.railH[i] : 0) !== 0) nRail++;
+      // インポート往復: 検証済みプリセットを再シリアライズしてもレール指定が保存される
       const v1 = HP.validatePreset(JSON.parse(JSON.stringify(p)));
       const v2 = HP.validatePreset(JSON.parse(JSON.stringify(v1.preset)));
-      const halo1 = v1.preset.bodies.filter(b2 => b2.railOmega), halo2 = v2.preset.bodies.filter(b2 => b2.railOmega);
-      const rtOk = v1.ok && v2.ok && halo1.length === 20 && halo2.length === 20
-        && halo1.every((b2, i) => b2.railOmega === halo2[i].railOmega);
+      const key = (q) => q.bodies.map(b2 => [b2.railOmega || 0, b2.railH || 0, b2.omega || 0,
+        b2.vMode || '', b2.pinned ? 1 : 0].join(':')).join('|');
+      const rtOk = v1.ok && v2.ok && nRailDef(v1.preset) === want && key(v1.preset) === key(v2.preset);
       // 外部要素バッジ: レール駆動を検出し「閉鎖系」と誤表示しない
       const tags = HP.externalTags(p);
-      return { abOk, nRail, rtOk, rail: tags.rail, pin: tags.pin };
+      return { id: p.id, want, abOk, nRail, rtOk, rail: tags.rail, pin: tags.pin };
     });
-    add('rail.ab-reset-roundtrip', rr.abOk && rr.nRail === 20 && rr.rtOk,
-      `A/B転写=${rr.abOk} 再ロードのレール数=${rr.nRail}(=20) 検証往復=${rr.rtOk}`);
-    add('rail.badge', rr.rail === true && rr.pin >= 21, `rail=${rr.rail} pin=${rr.pin}(中心+ハロー20)`);
+    add('rail.ab-reset-roundtrip', rr.want > 0 && rr.abOk && rr.nRail === rr.want && rr.rtOk,
+      `対象=${rr.id} A/B転写=${rr.abOk} 再ロードのレール数=${rr.nRail}(=定義${rr.want}) 検証往復=${rr.rtOk}`);
+    add('rail.badge', rr.want > 0 && rr.rail === true && rr.pin >= rr.want,
+      `対象=${rr.id} rail=${rr.rail} pin=${rr.pin}(≥レール${rr.want})`);
 
     // ④ 粒子数キャップ(性能回帰の静的ゲート — 第27便軽量化の維持)+ 🌠 q=2 高速経路
     const pc = await page.evaluate(() => {
@@ -2029,19 +2343,28 @@ if (!FAST) {
     const ts = await page.evaluate(() => { HP.loadPreset('convection', false); return HP.sim.params.timeScale; });
     add('perf.convection-timescale', ts === 2, `timeScale=${ts}(期待2 — 第25次レビュー P0-1)`);
 
-    // ② P1-1: レール索引 — 🕶️は20本だけが索引に載り、レール無し宇宙(🌌)は空。
-    //    索引の中身は全て pinned+railOmega≠0 と整合する
+    // ② P1-1: レール索引 — レール駆動プリセットの本数分だけが索引に載り、レール無し宇宙(🌌)は空。
+    //    索引の中身は全て pinned+(railOmega≠0 または railH≠0)と整合する。
+    //    第32便 W3b: 🕶️ の全自由化により対象を固定せず「レールを持つ内蔵プリセット」から選ぶ
+    //    (旧: darkrotor 固定・期待20本 → 新: プリセット定義から期待本数を算出)
     const ri = await page.evaluate(() => {
-      HP.loadPreset('darkrotor', false); HP.sim.step(0.016);
-      const S = HP.sim, idx = S.railIdx || [];
-      const consistent = idx.every(i => S.pinned[i] === 1 && S.railOmega[i] !== 0);
-      let nRail = 0; for (let i = 0; i < S.n; i++) if (S.pinned[i] && S.railOmega[i] !== 0) nRail++;
+      const nRailDef = (p) => p.bodies.reduce((a, b) => a + (b.type === 'single'
+        ? ((b.pinned && (b.railOmega || b.railH)) ? 1 : 0)
+        : ((b.pinned && ((b.vMode === 'omega' && b.omega) || b.railH)) ? (b.n || 0) : 0)), 0);
+      const p = HP.allPresets().filter(q => !String(q.id).startsWith('custom_'))
+        .find(q => nRailDef(q) > 0);
+      if (!p) return { id: '(なし)', want: 0, len: -1, nRail: -1, consistent: false, empty: false };
+      HP.loadPreset(p.id, false); HP.sim.step(0.016);
+      const S = HP.sim, idx = S.railIdx || [], rH = (i) => (S.railH ? S.railH[i] : 0);
+      const consistent = idx.every(i => S.pinned[i] === 1 && (S.railOmega[i] !== 0 || rH(i) !== 0));
+      let nRail = 0;
+      for (let i = 0; i < S.n; i++) if (S.pinned[i] && (S.railOmega[i] !== 0 || rH(i) !== 0)) nRail++;
       HP.loadPreset('galaxy', false); HP.sim.step(0.016);
       const empty = (HP.sim.railIdx || [-1]).length === 0;
-      return { len: idx.length, nRail, consistent, empty };
+      return { id: p.id, want: nRailDef(p), len: idx.length, nRail, consistent, empty };
     });
-    add('perf.rail-indices', ri.len === ri.nRail && ri.len === 20 && ri.consistent && ri.empty,
-      `🕶️索引=${ri.len}/実レール${ri.nRail}(期待20) 整合=${ri.consistent} 🌌は空=${ri.empty}`);
+    add('perf.rail-indices', ri.want > 0 && ri.len === ri.nRail && ri.len === ri.want && ri.consistent && ri.empty,
+      `対象=${ri.id} 索引=${ri.len}/実レール${ri.nRail}(定義${ri.want}) 整合=${ri.consistent} 🌌は空=${ri.empty}`);
 
     // ③ P1-2: 軌跡バッファの品質別上限 — 2000回記録しても cap+余裕(120点)以内に刈られ、
     //    先頭(最古)が捨てられて末尾(最新)が残る
