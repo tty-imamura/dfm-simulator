@@ -505,6 +505,9 @@ ja: {
   ovBoxClamp:"H はクランプ中 — 物理解釈対象外",
   // 第33便: 箱なし/boxGraph非表示時のHUD末尾に出す到着ログ1件の書式
   hudPhoton:(le,lo,z)=>`λ${le}→${lo}(z=${z})`,
+  // 第35便(台帳4-62): Loschmidt echo — 初期配置からの RMS と、速度・スピン反転の実行済み表示
+  hudEcho:(r)=>`echo RMS=${(Math.abs(r)<0.01)? r.toExponential(2) : r.toFixed(3)}`,
+  hudEchoFlipped:"反転済み↩︎",
   // 第32便(W2): 箱宇宙(UniverseBox)パラメータ編集UI(パラメータタブ)
   boxSectionHead:"箱宇宙(UniverseBox)",
   // 第33便(台帳4-64): セーブ対応(実装3)に合わせて文言更新
@@ -650,6 +653,9 @@ en: {
   ovBoxNote:"1+z=a/a0 (semantics, not derived)",
   ovBoxClamp:"H clamped — not physically interpretable",
   hudPhoton:(le,lo,z)=>`λ${le}→${lo}(z=${z})`,
+  // 第35便(台帳4-62): Loschmidt echo
+  hudEcho:(r)=>`echo RMS=${(Math.abs(r)<0.01)? r.toExponential(2) : r.toFixed(3)}`,
+  hudEchoFlipped:"reversed ↩︎",
   boxSectionHead:"Box Universe (UniverseBox)",
   boxSectionDesc:"Included in saves (33rd delivery, ledger 4-64). Press ⏮ to restore the preset defaults.",
   boxModeLabel:"Scale mode", boxH0Label:"Expansion rate H₀", boxCoefLabel:"Coefficient c (a=1+c·t^p)",
@@ -743,6 +749,8 @@ ja: {
   T7:"線運動量と全角運動量(軌道+スピン)は厳密に保存する",
   T8:"中心星のスピンは光の湾曲を非対称にする(カー・ブラックホールの光学類似)",
   T9:"座標時間は宇宙で一意 — 「どちらの双子が年を取るか」に曖昧さがない",
+  // 第35便(台帳4-62): 可逆積分器と Loschmidt echo(BOX_UNIVERSE §10.5 の裁定)
+  T11:"散逸チャネルを全て切り、可逆積分器(leapfrog)で解いた宇宙だけが、速度・スピンの反転で過去へ巻き戻る — 時間の矢は法則ではなく散逸から生まれる。ただしカオスが数値誤差を指数増幅するため、巻き戻りには有限の地平がある",
   T10:"箱宇宙(一定範囲の外を単純化する近似)の並進・回転は内部から検知できないとみなす — 検知できるなら、より大きな箱宇宙が要る。拡大縮小だけは検知でき、光の波長を引き伸ばす(赤方偏移)。質点リングの壁は一次変形を利得g(r)(中心1/2)でしか運べず、完全な箱には連続背景UniverseBoxが必要",
 },
 en: {
@@ -780,6 +788,8 @@ en: {
   T7:"Linear momentum and total angular momentum (orbital + spin) are exactly conserved",
   T8:"A central star's spin makes light bending asymmetric (a Kerr optical analogue)",
   T9:"Coordinate time is unique to the universe — no ambiguity about which twin ages",
+  // 35th delivery (ledger 4-62): reversible integrator and the Loschmidt echo
+  T11:"Only a universe with every dissipative channel switched off and solved with a reversible integrator (leapfrog) rewinds into its past when velocity and spin are reversed — the arrow of time comes from dissipation, not from the laws. Chaos amplifies round-off exponentially, so the rewind has a finite horizon",
   T10:"The box universe (an approximation lumping everything beyond a chosen scale) is deemed internally undetectable in translation and rotation — detecting them would require a larger box. Only expansion/contraction is detectable, stretching light wavelengths (redshift). A point-mass ring wall carries first-order deformations only with gain g(r) (1/2 at the center); a full box needs the continuous UniverseBox background",
 },
 };
@@ -965,6 +975,31 @@ const BUILTIN_PRESETS = [
     {type:"single", m:2, x:-170,y:100, vx:3,vy:-3.6, spin:0, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+// 第35便(台帳4-62): 可逆積分器(leapfrog/KDK)+ Loschmidt echo。BOX_UNIVERSE §10.5 の裁定
+// 「速度・スピン反転実験の機械検証には可逆積分器が要る」の実装デモ。
+// 可逆チャネル限定の構成(kFrame=0・muF=0・γn=0・κs=0・η_rad=0・kRep=0・boundary="none")で、
+// t=echoFlipAt に v と s を一斉反転すると初期配置へ戻る。実測 RMS は QA echo.* を参照
+{ id:"echo", name:"時間の矢 — 巻き戻る宇宙と巻き戻らない宇宙", emoji:"⏪", group:"空間と時間",
+  description:"重い3天体と28個のテスト粒子だけの閉じた宇宙。t=20で全粒子の速度とスピンの符号を一斉に反転すると、系は自分の過去を逆再生して初期配置へ戻る(反転時の平均ずれ33.9→復帰後1.3e-3。左上のecho RMSが落ちるのを見る)。これはE4重力とE9法線ばねしか働かない可逆構成(muF=0・γn=0・κs=0・η_rad=0・kFrame=0・境界なし)を、可逆積分器leapfrog(KDK)で解いたときだけ起きる。摩擦muFを0→0.3にすると二度と戻らない(RMS≈10.8)— 時間の矢は法則ではなく散逸から生まれる(おすすめA/B。T11)。衝突減衰γnや空間引きずりkFrameを入れても同じく戻らない。巻き戻りには地平がある: カオスが数値誤差を指数増幅するため、反転を遅らせるほど戻りは粗くなる(t=30ではRMS≈1.9e-2 = 約15倍)。積分器を既定のsemi(セミ・インプリシット)に戻すだけでも戻らない(RMS≈0.92)— 可逆性は物理の性質であると同時に数値スキームの性質でもある。反転は外部からの介入なので運動量・角運動量はその瞬間だけ符号ごと反転する(帳簿外)。反転の前後それぞれの区間では厳密に保存する(A13/T7・モニタ表示)。",
+  en:{name:"Arrow of Time — Loschmidt Echo", description:"A closed universe of three heavy bodies and 28 test particles. At t=20 the sign of every particle's velocity and spin is flipped at once, and the system replays its own past back to the initial configuration (mean displacement 33.9 at the flip → 1.3e-3 on return; watch echo RMS in the HUD collapse). This happens only when a fully reversible configuration — E4 gravity and the E9 normal spring alone, with muF=0, γn=0, κs=0, η_rad=0, kFrame=0 and no boundary — is solved with the reversible leapfrog (KDK) integrator. Raise friction muF from 0 to 0.3 and it never returns (RMS≈10.8): the arrow of time is born of dissipation, not of the laws (suggested A/B; T11). Collision damping γn or frame dragging kFrame break it just as thoroughly. The rewind has a horizon — chaos amplifies round-off exponentially, so the later the flip, the coarser the return (RMS≈1.9e-2, ~15× worse, at t=30). Merely switching the integrator back to the default semi-implicit scheme also destroys the echo (RMS≈0.92): reversibility is a property of the numerical scheme as much as of the physics. The flip is an external intervention, so momentum and angular momentum change sign at that instant (off the ledger); within each stretch before and after they are exactly conserved (A13/T7; conservation monitor)."},
+  activeParams:["muF","gammaN","kFrame"],   // おすすめA/B: muF 0(戻る)⇄ 0.3(戻らない)
+  seed:4062,                                 // v1.12: 台帳番号を固定シードに(id 変更でも初期配置不変)
+  integrator:"leapfrog",                     // 第35便: KDK 可逆積分器(既定 semi では戻らない)
+  echoFlipAt:20,                             // 第35便: この時刻の最初のステップ終端で v・s を1回だけ反転
+  camera:{scale:220}, world:{boundary:"none",size:0},   // 境界反射(×0.95)は不可逆なので none 必須
+  physics:{G:2, D0:50, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:2, timeScale:2},
+  bodies:[ // 少数体カオス(3天体)+ 主星まわりの小円盤。スピンは反転対象だが kRep=0・kFrame=0 の
+           // ため力学には効かない(温度 T=Is² は反転で不変 — スポークの回転方向だけが逆になる)
+    {type:"single", m:60, x:-55, y:0,   vx:0.10,  vy:-0.75, spin:0.6,  pinned:false},
+    {type:"single", m:45, x:50,  y:-25, vx:0.25,  vy:0.80,  spin:-0.5, pinned:false},
+    {type:"single", m:30, x:15,  y:70,  vx:-0.85, vy:0.15,  spin:0.9,  pinned:false},
+    {type:"disk", n:28, cx:-55, cy:0, radius:30, mMin:0.4, mMax:0.4, spinMin:0.3, spinMax:0.3,
+     vMode:"kepler", aroundMass:60, vScale:1, direction:1, bulkVx:0.10, bulkVy:-0.75}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true} },
 
 // ===== グループ: 箱宇宙(第31便 — BOX_UNIVERSE v1.2。「宇宙に大質量の箱だけがある」思考実験)=====
 { id:"boxtrans", name:"箱宇宙 — 並進する箱", emoji:"📦", group:"箱宇宙",
@@ -1718,6 +1753,23 @@ function validatePreset(obj){
     if(!p.rays || !isNum(p.rays.n) || !isNum(p.rays.spread)) bad("rays.n/spread が不正です");
     else p.rays={n:clamp(Math.round(p.rays.n),0,64), spread:clamp(p.rays.spread,0,1)};
   }
+  // 第35便(台帳4-62): integrator — 積分器の選択(最上位キー。universeBox/rays と同じ配置)。
+  // "semi"(既定・省略時)=セミ・インプリシット・オイラー(現行経路と厳密等価)、
+  // "leapfrog"=KDK 可逆積分器。不正値は "semi" へクランプ+警告(AI 生成スキーマ共通)
+  if(p.integrator!==undefined){
+    const INTEG=["semi","leapfrog"];
+    if(INTEG.indexOf(p.integrator)<0){ warnings.push("integrator が不正のため semi に修正"); p.integrator="semi"; }
+  }
+  // 第35便(台帳4-62): echoFlipAt — この時刻に達した最初のステップ終端で全粒子の v と s を
+  // 一度だけ反転する(Loschmidt echo。省略時は反転しない)。数値でなければ警告して無視
+  if(p.echoFlipAt!==undefined){
+    if(!isNum(p.echoFlipAt)){ warnings.push("echoFlipAt が数値でないため無視"); delete p.echoFlipAt; }
+    else{
+      const c=clamp(p.echoFlipAt,0,100000);
+      if(c!==p.echoFlipAt) warnings.push("echoFlipAt を値域に修正");
+      p.echoFlipAt=c;
+    }
+  }
   // 第31便: universeBox(連続背景 — BOX_UNIVERSE v1.2 §9)。W_B=D·a^{−dPower}、
   // u_B=V+Ω·J(r−c)+H·(r−c)。mode: static/exp(a=e^{H0·t})/lin(a=1+H0·t)/sin(a=1+amp·sin(freq·t+phase))
   if(p.universeBox!==undefined){
@@ -1840,6 +1892,12 @@ function makeSim(){
     uPx:null,uPy:null,hasU:null, tau:null, ax:null,ay:null, sumW:null,uAx:null,uAy:null, ds:null,
     dpx:null,dpy:null, pairD:null,
     resPx:0,resPy:0,resL:0,radE:0,radL:0,   // リザーバ帳簿(E6′/E11。PHYSICS.md §5)
+    // 第35便(台帳4-62): 可逆積分器と Loschmidt echo(BOX_UNIVERSE §10.5)。
+    // integrator="semi"(既定=現行のセミ・インプリシット経路。1命令も変えないゼロコスト経路)
+    // / "leapfrog"(KDK。R∘F∘R=F⁻¹ が厳密に成り立つ可逆積分器)。
+    // echoFlipAt!==null のプリセットだけが速度・スピン反転と初期配置からの RMS 計測を行う
+    integrator:"semi", echoFlipAt:null, echoFlipped:false, echoFlipT:0, echoRMS:0,
+    echoX0:null, echoY0:null,
     curveBins:null, curveKep:null, tempLR:[0,0], histT:[],
   };
   S.alloc = function(n){
@@ -1984,6 +2042,17 @@ function makeSim(){
     S._phI=0; S.photonWarn=false;
     S.world = preset.world; S.rays = preset.rays||null; S.overlays = preset.overlays||{};
     S.t=0; S.hasU.fill(0); S.tau.fill(0); S.updateRadii();
+    // 第35便(台帳4-62): 積分器の選択と Loschmidt echo の初期配置スナップショット。
+    // integrator の省略・不正値は "semi"(= 現行経路と厳密等価)。echoFlipAt があるときだけ
+    // t=0 の全粒子位置を Float64 で退避し、毎ステップ RMS(echoRMS)を公開する。
+    // 無指定のプリセットは全て null のままで追加コストゼロ
+    S.integrator = (preset.integrator==="leapfrog")? "leapfrog" : "semi";
+    S.echoFlipAt = isNum(preset.echoFlipAt)? preset.echoFlipAt : null;
+    S.echoFlipped=false; S.echoFlipT=0; S.echoRMS=0;
+    if(S.echoFlipAt!==null){
+      S.echoX0=new Float64Array(S.n); S.echoY0=new Float64Array(S.n);
+      for(let i=0;i<S.n;i++){ S.echoX0[i]=S.x[i]; S.echoY0[i]=S.y[i]; }
+    } else { S.echoX0=null; S.echoY0=null; }
     S.resPx=0; S.resPy=0; S.resL=0; S.radE=0; S.radL=0;
     S.curveBins=null; S.tempLR=[0,0]; S.histT=[];
   };
@@ -2001,10 +2070,44 @@ function makeSim(){
     }
     S.hasCore=hc;   // コアなし(全 coreMR=0)の宇宙は従来ループのまま(高速化)
   };
-  // 1サブステップ(PHYSICS.md v1.1 §5 数値スキーム: ①全対 → ②粒子 → ③反作用対 → ④位置)
+  // 第35便(台帳4-62): 積分器の入口。既定("semi")は _core を1回呼ぶだけで現行と厳密等価
+  // (ゼロコスト経路 — QA integrator.default-unchanged が位置ハッシュの bit 一致で保証)。
+  // "leapfrog" は KDK(kick–drift–kick): パスA=力評価+半キック+ドリフト、
+  // パスB=力再評価+半キック(+②b/③/時計/t進み)。力評価は既存の全対ループをそのまま
+  // 2回使う(O(N²)×2 — echo サンプルは N≤50 なので性能影響なし)。
+  // KDK は t→−t・v→−v で厳密対称なので、散逸チャネルが全て 0 の構成では反転エコーが戻る。
   S.step = function(dt){
+    if(S.integrator==="leapfrog"){ S._core(dt,1); S._core(dt,2); }
+    else S._core(dt,0);
+    if(S.echoFlipAt!==null) S._echo();
+  };
+  // 第35便(台帳4-62): Loschmidt echo — t が echoFlipAt に達した最初のステップ終端で、
+  // 全粒子の v と s の符号を一度だけ反転する(pinned 含む・再反転はしない)。
+  // 光子・レール・universeBox はこの反転の対象外(粒子のみ反転 — 本便の主張域外。
+  // 併用しても実行時エラーにはならないが、エコーの成立は保証しない)。
+  // echoRMS は初期配置(t=0)からの平均二乗根距離で、QA が page.evaluate で読む公開値
+  S._echo = function(){
+    if(!S.echoFlipped && S.t>=S.echoFlipAt){
+      for(let i=0;i<S.n;i++){ S.vx[i]=-S.vx[i]; S.vy[i]=-S.vy[i]; S.spin[i]=-S.spin[i]; }
+      S.echoFlipped=true; S.echoFlipT=S.t;
+    }
+    if(S.echoX0 && S.n){
+      let s2=0;
+      for(let i=0;i<S.n;i++){ const dx=S.x[i]-S.echoX0[i], dy=S.y[i]-S.echoY0[i]; s2+=dx*dx+dy*dy; }
+      S.echoRMS=Math.sqrt(s2/S.n);
+    }
+  };
+  // 1サブステップ(PHYSICS.md v1.1 §5 数値スキーム: ①全対 → ②粒子 → ③反作用対 → ④位置)
+  // mode: 0=semi(現行の全フェーズ・全キック) / 1=leapfrog パスA / 2=leapfrog パスB
+  S._core = function(dt, mode){
     const n=S.n, p=S.params;
-    if(!n){ S.t+=dt; return; }
+    // 第35便: leapfrog(KDK)のフェーズ選択。mode=0(semi)では kickDt=dt かつ全フラグ true
+    // となり、現行コードと1命令も違わない(分岐の値だけが変わる)
+    const kickDt=(mode!==0)? dt*0.5 : dt;   // 半キック
+    const doPre =(mode!==2);   // レール規定運動・光子放出・E9 の非保存インパルス(1サブステップ1回)
+    const doPost=(mode!==1);   // ②b(外場/E6′/拡散/冷却)・③反作用・時計・t進み・履歴・光子伝播
+    const doDrift=(mode!==2);  // ④位置更新+境界(KDK のドリフトはパスAのみ)
+    if(!n){ if(doPost) S.t+=dt; return; }
     // 第12〜14便: m は下限保護(|m|≥0.01)付き別名 mEff を一貫使用(負質量実験の0除算保護。
     // 第14便: 比率仕様 — m は総質量そのもので、コアは m の内訳。運動量・角運動量の恒等式は
     // 全用途一貫なら保存される。coreMR=0(既定)なら従来と厳密等価)
@@ -2031,7 +2134,7 @@ function makeSim(){
     // railOmega/railH が非0になるのは build 経由のみ(alloc で railIdx=null に戻る)。編集パネルの固定解除は
     // railOmega=0 にするだけなのでループ内の再判定で追従する(A/B転写も同一プリセット構築後の遅延再構築)
     if(S.railIdx===null){ const li=[]; for(let i=0;i<n;i++) if(pinned[i]&&(S.railOmega[i]!==0||S.railH[i]!==0)) li.push(i); S.railIdx=li; }
-    for(const i of S.railIdx){
+    if(doPre) for(const i of S.railIdx){   // 第35便: 規定運動の前進は1サブステップ1回(leapfrog はパスAのみ)
       if(pinned[i] && (S.railOmega[i]!==0 || S.railH[i]!==0)){
         S.railAng[i]+=S.railOmega[i]*dt;
         const a=S.railAng[i], hh=S.railH[i];
@@ -2050,7 +2153,7 @@ function makeSim(){
     // 同じ主張水準)。状態は放出波長 lamE と放出時尺度 aE の2値だけで、現在波長は
     // lamE·a(t)/aE として表示側が算出する。箱(universeBox)が無い宇宙では a=1 固定で λ 不変。
     // 方位は決定論(aim 指定=対象粒子方向の1光子 / 省略=固定8方位 i/8·2π。乱数不使用)
-    if(S._phSched){
+    if(doPre && S._phSched){   // 第35便: 放出も1サブステップ1回(leapfrog はパスAのみ)
       while(S._phI<S._phSched.length && S._phSched[S._phI].t<=S.t){
         const e=S._phSched[S._phI++];
         if(!(e.body>=0 && e.body<n) || (e.aim>=0 && e.aim>=n)){ S.photonWarn=true; continue; }
@@ -2149,7 +2252,10 @@ function makeSim(){
           if(maxInv>0 && Fs*maxInv>8) Fs=8/maxInv;
           ax[i]+=Fs*nxv*invMi; ay[i]+=Fs*nyv*invMi;
           ax[j]-=Fs*nxv*invMj; ay[j]-=Fs*nyv*invMj;
-          if(K>0){
+          // 第35便: 法線ばね(上)は保存力なので毎回の力評価に含めるが、γn 減衰と接線摩擦は
+          // 速度・スピンを直接書き換える非保存インパルスなので 1サブステップ1回だけ適用する
+          // (leapfrog で2回適用すると散逸レートが semi の2倍になってしまう)
+          if(K>0 && doPre){
             const rvx=vx[i]-vx[j], rvy=vy[i]-vy[j];
             const vn=rvx*nxv+rvy*nyv;
             if(vn<0){ // 接近時のみ法線減衰(非弾性)。散逸分は衝突閃光として放射(A12)
@@ -2218,7 +2324,11 @@ function makeSim(){
     let anyDp=false;
     for(let i=0;i<n;i++){
       if(pinned[i]) continue;
-      vx[i]+=ax[i]*dt; vy[i]+=ay[i]*dt;
+      vx[i]+=ax[i]*kickDt; vy[i]+=ay[i]*kickDt;   // 第35便: semi は kickDt=dt、leapfrog は dt/2 の半キック
+      // 第35便: 以下の②b(外場・E6′・FLRW・スピン拡散・放射冷却)は現行と同じ箇所・同じ量を
+      // 1サブステップ1回だけ適用する(leapfrog ではパスB = 位置更新後の力評価と同じ相)。
+      // これらが 0 でない構成では leapfrog でも可逆にならない — それが「時間の矢」デモの本体
+      if(doPost){
       // v1.17: 一様重力場(外部場)。W に寄与しない純粋な外力なので時計・光は歪めない。
       // 運動量・角運動量の変化は場との交換として帳簿(リザーバ)に記録する(T7 の恒等式を維持)
       if(gX!==0||gY!==0){
@@ -2274,8 +2384,10 @@ function makeSim(){
         S.radE+=0.5*Ii*(s0*s0-s1*s1); S.radL+=Ii*(s0-s1);
         spin[i]=s1;
       }
+      }   // 第35便: if(doPost) の閉じ
     }
     // ===== ③ E6′ 反作用対ループ: φ_ij 分配・残余トルクのスピン移譲・リザーバ帳簿 =====
+    // 第35便: anyDp は doPost の中でしか立たないので、leapfrog パスAでは自動的に素通りする
     if(kFrame>0 && anyDp){
       let pk2=0;
       for(let i=0;i<n;i++){
@@ -2334,13 +2446,18 @@ function makeSim(){
     // ===== ④ 粒子ループ: 安全上限・位置更新・境界・時計 =====
     const b=S.world;
     for(let i=0;i<n;i++){
-      S.rotA[i]+=spin[i]*dt;   // v1.17: 表示用の累積回転角(大粒子のスポーク描画で回転方向を可視化)
-      if(hasCore && coreMR[i]!==0) S.rotAc[i]+=coreSR[i]*spin[i]*dt;   // コアのスポーク角(sc=coreSR·s)
-      if(pinned[i]){ S.tauUpdate(i,dt); continue; }
+      // 第35便: 表示用回転角と固有時計は1サブステップ1回(doPost)、位置更新+境界は
+      // KDK のドリフト相(doDrift=パスA)。mode=0(semi)では両方 true で現行と同一の並び
+      if(doPost){
+        S.rotA[i]+=spin[i]*dt;   // v1.17: 表示用の累積回転角(大粒子のスポーク描画で回転方向を可視化)
+        if(hasCore && coreMR[i]!==0) S.rotAc[i]+=coreSR[i]*spin[i]*dt;   // コアのスポーク角(sc=coreSR·s)
+      }
+      if(pinned[i]){ if(doPost) S.tauUpdate(i,dt); continue; }
       // 安全上限(発散防止): 速度100・スピン±40
       const vv2=vx[i]*vx[i]+vy[i]*vy[i];
       if(vv2>10000){ const sc=100/Math.sqrt(vv2); vx[i]*=sc; vy[i]*=sc; }
       if(spin[i]>40) spin[i]=40; else if(spin[i]<-40) spin[i]=-40;
+      if(doDrift){
       x[i]+=vx[i]*dt; y[i]+=vy[i]*dt;
       // 境界
       if(b.boundary==="box"){
@@ -2354,8 +2471,12 @@ function makeSim(){
           if(vr>0){ vx[i]-=2*vr*nx2*0.975; vy[i]-=2*vr*ny2*0.975; }
           x[i]=nx2*s; y[i]=ny2*s; }
       }
-      S.tauUpdate(i,dt);
+      }   // 第35便: if(doDrift) の閉じ
+      if(doPost) S.tauUpdate(i,dt);
     }
+    // 第35便: 以降(近点検出器・t進み・尺度履歴・光子伝播)は 1サブステップ1回。
+    // leapfrog パスA(doPost=false)はここで終了し、パスBが引き継ぐ
+    if(!doPost) return;
     // ===== 近点検出器(第11次裁定 保留分の実施): E13 中心天体のあるプリセットで、各周回粒子の
     // 動径極小(近点)通過角を追跡し Δϖ/周 を実測する。UI が解析値と並べて表示(QA も機械検証)。
     // 数値ジッタの擬似極小を拾わないよう 2% ヒステリシス方式: 最小値候補から r が 2% 立ち上がって
@@ -3454,6 +3575,12 @@ function loop(now){
       const zTxt=(pe.z>=0?"+":"")+pe.z.toFixed(3);
       txt+=`  ${T("hudPhoton")(Math.round(pe.lamE),Math.round(pe.lamO),zTxt)}`;
     }
+    // 第35便(台帳4-62): Loschmidt echo — echoFlipAt を持つプリセットだけ、初期配置からの
+    // RMS と反転済みマークを HUD 末尾に追記する(他のプリセットでは1文字も増えない)
+    if(sim.echoFlipAt!==null){
+      txt+=`  ${T("hudEcho")(sim.echoRMS)}`;
+      if(sim.echoFlipped) txt+=`  ${T("hudEchoFlipped")}`;
+    }
     if(monitorOn){ // 保存量モニタ(T7): P+帳簿P・L+帳簿L+放射L が一定なら保存則成立
       const tt=sim.totals();
       txt+=`\nP=(${fmt(tt.px)}, ${fmt(tt.py)})  L=${fmt(tt.L)}`;
@@ -3603,6 +3730,10 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   }
   simB.t=sim.t; simB.resPx=sim.resPx; simB.resPy=sim.resPy; simB.resL=sim.resL;
   simB.radE=sim.radE; simB.radL=sim.radL;
+  // 第35便(台帳4-62): 積分器と echo の状態も転写(build 済みなので echoX0/Y0 は同一配置。
+  // 反転済みフラグ・RMS だけは現在値を引き継ぐ — A/B を反転後に開始しても再反転しない)
+  simB.integrator=sim.integrator; simB.echoFlipAt=sim.echoFlipAt;
+  simB.echoFlipped=sim.echoFlipped; simB.echoFlipT=sim.echoFlipT; simB.echoRMS=sim.echoRMS;
   simB.params=Object.assign({},sim.params);
   simB.world=JSON.parse(JSON.stringify(sim.world));
   simB.rays=sim.rays?JSON.parse(JSON.stringify(sim.rays)):null;

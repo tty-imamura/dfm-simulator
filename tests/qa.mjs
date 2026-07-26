@@ -638,6 +638,162 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   }
 }
 
+// ---- 7h1b) 第35便(台帳4-62): 可逆積分器(leapfrog/KDK)の既定経路不変 ----
+// ----   integrator 省略時("semi")は本便の変更前と1ビットも変わらないことを位置ハッシュで固定する。
+// ----   基準ハッシュは実装前の beta/index.html(第34便 v1.32 相当)で採取した実測値。
+// ----   ルート・beta のどちらでも同一(採取時に両対象で一致を確認済み)なので対象ガードは付けない。
+{
+  const gh = await page.evaluate(() => {
+    HP.loadPreset('gas', false);                       // 代表既定プリセット(N=240・integrator 無指定)
+    const s = HP.sim;
+    for (let k = 0; k < 300; k++) s.step(0.016);       // 300步(dt=0.016 固定 — timeScale に依存しない)
+    const a = [];
+    for (let i = 0; i < s.n; i++) a.push(s.x[i], s.y[i]);
+    return { n: s.n, t: s.t, str: a.map(v => v.toExponential(12)).join(',') };
+  });
+  const hash = crypto.createHash('sha256').update(gh.str).digest('hex');
+  // 実装前(第35便 W2 着手時)の実測: n=240 / t=4.800000000000003 / 下記ハッシュ
+  const BASE = '2bd01bdf714c2599b53477806a4863f04ceadfaf1102d189be27d2a86fbe042b';
+  add('integrator.default-unchanged', gh.n === 240 && hash === BASE,
+    `🔥gas 300步 位置ハッシュ=${hash.slice(0, 16)}…(基準=${BASE.slice(0, 16)}… bit一致=${hash === BASE}) n=${gh.n}`);
+}
+
+// ---- 7h1c) 第35便(台帳4-62): Loschmidt echo — 可逆積分器と時間の矢 ----
+// ----   ⏪echo プリセット(A条件: muF=0・leapfrog)は t=echoFlipAt で v・s を反転すると
+// ----   同じ步数で初期配置へ戻る。semi 経路・摩擦入りでは戻らない。
+// ----   (echo プリセットの無い対象〔ルート=v1.32〕ではスキップ)----
+{
+  const hasEcho = await page.evaluate(() => HP.allPresets().some(p => p.id === 'echo'));
+  if (hasEcho) {
+    const r = await page.evaluate(() => {
+      const s = HP.sim;
+      const base = () => JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'echo')));
+      // V10(第一法則の閉性)と同一の帳簿式。⏪echo は kRep=0・kFrame=0・散逸ゼロなので
+      // 並進 + 回転 + E4ポテンシャル + E9法線ばね で全エネルギーが閉じる
+      const energyOf = () => {
+        const eps2 = s.params.softening * s.params.softening, G = s.params.G;
+        let E = 0;
+        for (let i = 0; i < s.n; i++) {
+          E += 0.5 * s.m[i] * (s.vx[i] * s.vx[i] + s.vy[i] * s.vy[i]);
+          E += 0.25 * s.m[i] * s.R[i] * s.R[i] * s.spin[i] * s.spin[i];   // ½·I·s²、I=½mR²
+        }
+        for (let i = 0; i < s.n; i++) for (let j = i + 1; j < s.n; j++) {
+          const dx = s.x[i] - s.x[j], dy = s.y[i] - s.y[j], d2 = dx * dx + dy * dy, d = Math.sqrt(d2);
+          E -= G * s.m[i] * s.m[j] / Math.sqrt(d2 + eps2);
+          const sumR = s.R[i] + s.R[j];
+          if (d < sumR) {
+            const muM = s.m[i] * s.m[j] / (s.m[i] + s.m[j]);
+            const maxInv = Math.max(1 / s.m[i], 1 / s.m[j]);
+            const xO = sumR - d, xC = 8 / (maxInv * 40 * muM);
+            E += (xO <= xC) ? 20 * muM * xO * xO : 20 * muM * xC * xC + (8 / maxInv) * (xO - xC);
+          }
+        }
+        return E;
+      };
+      const eScale = () => {
+        let E = 1;
+        for (let i = 0; i < s.n; i++) E += 0.5 * s.m[i] * (s.vx[i] * s.vx[i] + s.vy[i] * s.vy[i])
+          + 0.25 * s.m[i] * s.R[i] * s.R[i] * s.spin[i] * s.spin[i];
+        for (let i = 0; i < s.n; i++) for (let j = i + 1; j < s.n; j++) {
+          const dx = s.x[i] - s.x[j], dy = s.y[i] - s.y[j];
+          E += s.params.G * s.m[i] * s.m[j] / Math.sqrt(dx * dx + dy * dy + s.params.softening * s.params.softening);
+        }
+        return E;
+      };
+      // 反転が起きた步数 N をそのまま巻き戻し步数に使う(t の丸めに依存しない対称な往復)
+      const echoRun = (p) => {
+        s.build(p);
+        const Es = eScale(), E0 = energyOf();
+        let k = 0;
+        while (!s.echoFlipped && k < 40000) { s.step(0.016); k++; }
+        const rmsFlip = s.echoRMS, tFlip = s.t;
+        for (let q = 0; q < k; q++) s.step(0.016);
+        return { steps: k, tFlip, rmsFlip, rms: s.echoRMS, nan: s.hasNaN(), integ: s.integrator,
+          eDrift: Math.abs(energyOf() - E0) / Es };
+      };
+      const out = {};
+      out.lf = echoRun(base());                                              // A条件(プリセット既定)
+      { const p = base(); p.integrator = 'semi'; out.semi = echoRun(p); }    // 同一構成・semi 差し替え
+      { const p = base(); p.physics.muF = 0.3; out.fric = echoRun(p); }      // B条件(摩擦あり)
+      out.preset = { integ: base().integrator, flip: base().echoFlipAt, n: out.lf.steps > 0 ? s.n : 0 };
+      return out;
+    });
+    // 実測 2026-07-26(beta/index.html 第35便 W2): leapfrog RMS=1.3036e-3(反転時の平均ずれ 33.88)
+    // → 閾値 0.01 は実測の約7.7倍(1桁の余裕)。t=2·echoFlipAt=40.03 まで 1251步×2。
+    add('echo.leapfrog-return',
+      !r.lf.nan && r.lf.integ === 'leapfrog' && r.lf.rmsFlip > 10 && r.lf.rms < 0.01,
+      `⏪A条件(leapfrog・muF=0): 反転時RMS=${r.lf.rmsFlip.toFixed(2)}(>10 十分動いた) → 復帰後RMS=`
+      + `${r.lf.rms.toExponential(3)}(< 0.01 — 実測1.30e-3) 反転步数=${r.lf.steps} t_flip=${r.lf.tFlip.toFixed(3)}`);
+    // 実測: semi RMS=0.9243 → 比 709(可逆積分器がなければエコーは成立しない)。閾値 100 は約7倍の余裕
+    add('echo.semi-noreturn',
+      !r.semi.nan && r.semi.integ === 'semi' && r.semi.rms >= 100 * r.lf.rms,
+      `同一構成 integrator="semi": RMS=${r.semi.rms.toExponential(3)} / leapfrog=${r.lf.rms.toExponential(3)} `
+      + `= ${(r.semi.rms / r.lf.rms).toFixed(0)}倍(≥100 — 実測709倍)`);
+    // 実測: muF=0.3 で RMS=10.79(閾値 1 の約10.8倍)。散逸を入れた途端に時間の矢が立つ
+    add('echo.friction-noreturn', !r.fric.nan && r.fric.rms > 1,
+      `⏪B条件(leapfrog・muF=0.3): 復帰後RMS=${r.fric.rms.toFixed(3)}(> 1 — 実測10.79。散逸で戻らない)`);
+    // 実測: 相対エネルギードリフト 1.77e-8(閾値 1e-3 に対し5桁の余裕)= leapfrog のシンプレクティック性
+    add('echo.energy', !r.lf.nan && r.lf.eDrift < 1e-3,
+      `A条件 反転前後を通した |ΔE_総|/E_scale=${r.lf.eDrift.toExponential(2)}(< 1e-3 — 実測1.77e-8) `
+      + `semi は ${r.semi.eDrift.toExponential(2)}`);
+
+    // ---- integrator/echoFlipAt のスキーマクランプ(box.schema-clamp と同じ形式)----
+    const sc = await page.evaluate(() => {
+      const mk = (extra) => Object.assign({ name: 'echo', description: 'integrator スキーマ検査',
+        camera: { scale: 200 }, world: { boundary: 'none', size: 0 }, physics: {},
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] }, extra);
+      const bad = HP.validatePreset(mk({ integrator: 'bogus', echoFlipAt: 'x' }));
+      const good = HP.validatePreset(mk({ integrator: 'leapfrog', echoFlipAt: 999999 }));
+      const none = HP.validatePreset(mk({}));
+      return { badOk: bad.ok, badInteg: bad.preset && bad.preset.integrator,
+        badFlip: bad.preset && bad.preset.echoFlipAt, badWarns: bad.warnings.length,
+        goodOk: good.ok, goodInteg: good.preset && good.preset.integrator,
+        goodFlip: good.preset && good.preset.echoFlipAt,
+        noneOk: none.ok, noneInteg: none.preset && none.preset.integrator };
+    });
+    add('echo.schema-clamp',
+      sc.badOk && sc.badInteg === 'semi' && sc.badFlip === undefined && sc.badWarns >= 2
+      && sc.goodOk && sc.goodInteg === 'leapfrog' && sc.goodFlip === 100000
+      && sc.noneOk && sc.noneInteg === undefined,
+      `不正 integrator="bogus"→"${sc.badInteg}" 非数 echoFlipAt→${sc.badFlip}(無視) 警告${sc.badWarns}件 / `
+      + `正常 "leapfrog"→"${sc.goodInteg}" echoFlipAt 999999→${sc.goodFlip}(上限クランプ) / 省略→${sc.noneInteg}(未設定=semi扱い)`);
+
+    // ---- HUD: echoFlipAt を持つプリセットだけ "echo RMS=" と反転済みマークを出す(ja/en)----
+    let hudJa = '(timeout)', hudEn = '(timeout)', hudOther = '(timeout)';
+    try {
+      await page.evaluate(() => {
+        HP.loadPreset('echo', false); const s = HP.sim;
+        while (!s.echoFlipped && s.t < 100) s.step(0.016);   // 反転済みの状態にする
+      });
+      await page.waitForFunction(() => {
+        const el = document.querySelector('#hud');
+        return el && el.textContent.includes('echo RMS=');
+      }, null, { timeout: 5000 });
+      hudJa = await page.evaluate(() => document.querySelector('#hud').textContent);
+      await page.evaluate(() => HP.setLang('en'));
+      await page.waitForFunction(() => {
+        const el = document.querySelector('#hud');
+        return el && el.textContent.includes('reversed');
+      }, null, { timeout: 5000 });
+      hudEn = await page.evaluate(() => document.querySelector('#hud').textContent);
+      await page.evaluate(() => { HP.setLang('ja'); HP.loadPreset('gclock', false); });
+      await page.waitForFunction(() => {
+        const el = document.querySelector('#hud');
+        return el && !el.textContent.includes('echo RMS=');
+      }, null, { timeout: 5000 });
+      hudOther = await page.evaluate(() => document.querySelector('#hud').textContent);
+    } catch (e) { /* '(timeout)' のままで下の判定が FAIL する */ }
+    add('echo.hud',
+      hudJa.includes('echo RMS=') && hudJa.includes('反転済み↩︎')
+      && hudEn.includes('echo RMS=') && hudEn.includes('reversed ↩︎')
+      && !hudOther.includes('echo RMS='),
+      `ja HUD="${hudJa.replace(/\n/g, ' / ')}" en HUD="${hudEn.replace(/\n/g, ' / ')}" `
+      + `⏱️gclock(echoFlipAt なし)に echo 行なし=${!hudOther.includes('echo RMS=')}`);
+  } else {
+    console.log('SKIP 第35便系(echo.leapfrog-return / echo.semi-noreturn / echo.friction-noreturn / echo.energy / echo.schema-clamp / echo.hud — 対象に ⏪echo プリセットなし)');
+  }
+}
+
 // ---- 7h2) 台帳4-57(第32便): 単体レールの中心 railCx/railCy ----
 // (root=v1.31 は未実装のため、スキーマ非対応時はスキップ)
 {
