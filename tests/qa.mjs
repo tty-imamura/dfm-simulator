@@ -1141,6 +1141,153 @@ if (hasDrawScale) {
   console.log('SKIP drawscale.schema(対象に S.drawScale なし — 第35便 W4 未適用の root 等)');
 }
 
+// ---- 7h1g) 第35便 W5a(台帳4-42): 専用挙動QAの無かった6サンプルを補強
+// ----   (gas/pressure/conduction/phase/blens/boxbound。全て root(v1.31)・beta 双方に既存の
+// ----   内蔵プリセットなので、専用ガード無しで両対象に実行する。閾値は全て実測(2026-07-26・beta)
+// ----   から余裕を持って確定し、下の各コメントに実測値を記録した(詳細: scratchpad/w5ab-report.md)。
+// ----   6件合計の実測所要時間は約14s(gas/pressure/phaseがn=195〜240のため、design memoの想定
+// ----   「nが小さいので+10s」より重いが、+20sの上限内なので !FAST 化はしていない)----
+{
+  // 🔥gas: 左右で異なる初期スピン(温度)が接触・拡散(muF/gammaN/kappaS)で熱平衡化し、
+  // 温度T=½IS²の粒子間分散が縮小する。G=0・kFrame=0で純粋に熱過程だけの統制実験
+  const gas = await page.evaluate(() => {
+    const s = HP.sim;
+    const varTemp = () => {
+      let sum = 0, sum2 = 0;
+      for (let i = 0; i < s.n; i++) { const t = 0.5 * s.m[i] * s.R[i] * s.R[i] * s.spin[i] * s.spin[i]; sum += t; sum2 += t * t; }
+      const mean = sum / s.n; return sum2 / s.n - mean * mean;
+    };
+    HP.loadPreset('gas', false);
+    const v0 = varTemp();
+    for (let k = 0; k < 3000; k++) s.step(0.016);
+    return { v0, v1: varTemp(), nan: s.hasNaN() };
+  });
+  // 実測(beta): v0=5.6473 → 3000步後 v1=3.8397(比0.6799)。閾値0.8は無変化(比1.0)から
+  // 十分離れており、実測比に対しても約1.18倍の余裕(温度分散が明確に縮小したことだけを検出する目的)
+  add('behavior.gas', !gas.nan && gas.v1 < gas.v0 && gas.v1 / gas.v0 < 0.8,
+    `温度分散(T=½IS²) 初期=${gas.v0.toFixed(3)} → 3000步後=${gas.v1.toFixed(3)}(比=${(gas.v1 / gas.v0).toFixed(3)} < 0.8 — 実測0.680)`);
+}
+
+{
+  // 🎈pressure: 既定(kRep=2)は中心の熱いガスがスピン斥力=圧力(E5′)で周りの冷たい殻を外へ押し広げる
+  // → 粒子雲全体のRMS半径が増加。同構成をkRep=0に差し替えると(box.rot-support 302-341 と同じ手法で
+  // s.params を直接書き換え)この機構が消え、増加はごく僅かになる(比較判定)
+  const pr = await page.evaluate(() => {
+    const s = HP.sim;
+    const rms = () => { let a = 0; for (let i = 0; i < s.n; i++) a += s.x[i] * s.x[i] + s.y[i] * s.y[i]; return Math.sqrt(a / s.n); };
+    HP.loadPreset('pressure', false);
+    const r0 = rms();
+    for (let k = 0; k < 2000; k++) s.step(0.016);
+    const defRatio = rms() / r0, defNaN = s.hasNaN();
+    HP.loadPreset('pressure', false); s.params.kRep = 0;
+    const r0b = rms();
+    for (let k = 0; k < 2000; k++) s.step(0.016);
+    const zeroRatio = rms() / r0b, zeroNaN = s.hasNaN();
+    return { defRatio, zeroRatio, defNaN, zeroNaN };
+  });
+  // 実測(beta): 既定2000步でRMS比1.1397(+14.0%) / kRep=0では1.0391(+3.9%、境界ノイズ程度の残余)。
+  // 閾値: 既定>1.10(実測に対し余裕1.3倍分)・kRep=0<1.08(実測の約2倍上)・
+  // 既定の成長量が kRep=0 の成長量の2倍以上(実測3.6倍・閾値に対し1.8倍の余裕)
+  add('behavior.pressure',
+    !pr.defNaN && !pr.zeroNaN && pr.defRatio > 1.10 && pr.zeroRatio < 1.08 && (pr.defRatio - 1) > 2 * (pr.zeroRatio - 1),
+    `2000步後RMS半径比: 既定(kRep=2)=${pr.defRatio.toFixed(4)}(>1.10) kRep=0=${pr.zeroRatio.toFixed(4)}(<1.08) `
+    + `成長量比=${((pr.defRatio - 1) / (pr.zeroRatio - 1)).toFixed(2)}倍(実測3.59倍・閾値2倍以上)`);
+}
+
+{
+  // 📏conduction: 固定(pinned)の加熱端(spin=8)からスピン拡散(E10′)だけで熱が伝わる。pinned粒子は
+  // beta/index.html の②粒子ループ(2496-2497行 if(pinned[i]) continue;)を素通りするためds[i]が
+  // 適用されず、加熱端の温度は不変(理想的な熱浴)。
+  // 加熱端と遠端(index17・距離153)の温度差ΔTは時間とともに減衰し、中間時点では近い粒子ほど先に温まる
+  const cd = await page.evaluate(() => {
+    const s = HP.sim;
+    const T = (i) => 0.5 * s.m[i] * s.R[i] * s.R[i] * s.spin[i] * s.spin[i];
+    HP.loadPreset('conduction', false);
+    const dT0 = T(0) - T(17);
+    let mid = null;
+    for (let k = 0; k < 20000; k++) { s.step(0.016); if (k === 3999) mid = { T1: T(1), T9: T(9), T17: T(17) }; }
+    return { Th0: T(0), dT0, mid, Thf: T(0), T17f: T(17), nan: s.hasNaN() };
+  });
+  const dTf = cd.Thf - cd.T17f;
+  // 実測(beta): 加熱端T=737.28(不変)。4000步時点で近接(dist9)T1=329.86 > 中位(dist81)T9=112.21 >
+  // 遠端(dist153)T17=74.73(距離依存)。ΔT(加熱端−遠端)は初期737.28 → 20000步後133.52(比0.181)。
+  // 閾値0.35は実測の約1.9倍上
+  add('behavior.conduction',
+    !cd.nan && cd.Th0 === cd.Thf && cd.mid.T1 > cd.mid.T9 && cd.mid.T9 > cd.mid.T17 && dTf / cd.dT0 < 0.35,
+    `加熱端T=${cd.Th0.toFixed(1)}(不変) 中間(4000步) 近接T1=${cd.mid.T1.toFixed(1)} > 中位T9=${cd.mid.T9.toFixed(1)} `
+    + `> 遠端T17=${cd.mid.T17.toFixed(1)}(距離依存) / ΔT 初期=${cd.dT0.toFixed(1)} → 20000步後=${dTf.toFixed(1)}`
+    + `(比=${(dTf / cd.dT0).toFixed(3)} < 0.35 — 実測0.181)`);
+}
+
+{
+  // 🧊phase: 質量・数・大きさ・初速が同一の3群(0-64低温/65-129中温/130-194高温)を一様重力gravityY
+  // (+y方向、実測ではy増加=下)の下に置く。低スピン層ほど重力に逆らわず沈む(平均y座標が最大=最も底側)、
+  // 高スピン層はスピン斥力(A10)が重力を振り切って箱に充満し沈みにくい
+  const ph = await page.evaluate(() => {
+    const s = HP.sim;
+    const meanY = (i0, i1) => { let a = 0; for (let i = i0; i < i1; i++) a += s.y[i]; return a / (i1 - i0); };
+    HP.loadPreset('phase', false);
+    for (let k = 0; k < 5000; k++) s.step(0.016);
+    return { cold: meanY(0, 65), med: meanY(65, 130), hot: meanY(130, 195), nan: s.hasNaN(), n: s.n };
+  });
+  // 実測(beta): 5000步後の平均y 低温=76.50 中温=74.12(差2.38 — 4000〜7000步の広い範囲で
+  // 符号が一定な構造的な差) 高温=49.89(中温との差24.23)。閾値は各ギャップの実測の半分未満
+  // (低温>中温+0.5・中温>高温+10)に設定し、境界に対して余裕を持たせた
+  add('behavior.phase', !ph.nan && ph.n === 195 && ph.cold > ph.med + 0.5 && ph.med > ph.hot + 10,
+    `5000步後の平均y(+y=下): 低温=${ph.cold.toFixed(2)} 中温=${ph.med.toFixed(2)}(低温−中温=` +
+    `${(ph.cold - ph.med).toFixed(2)}>0.5) 高温=${ph.hot.toFixed(2)}(中温−高温=${(ph.med - ph.hot).toFixed(2)}>10) ` +
+    `— 低スピン層ほど底側`);
+}
+
+{
+  // 🔭blens: y=±65の2つの決定力井戸による複合レンズ(T5)。traceRay(2998行)は既存verify(V8・5228行)
+  // と同じ公開APIで、描画(3639-3654行)と同じ dl=camScale/110・打切り箱|x|,|y|<camScale*2.2 を使う。
+  // 井戸に近い側(y0=±200。y0=±150以下は光線が井戸に強く捕獲され符号が不安定になるため回避 — 実測)
+  // を通る光線は、それぞれ近い方の井戸(y方向)へ向けて偏向する
+  const bl = await page.evaluate(() => {
+    const s = HP.sim;
+    HP.loadPreset('blens', false);
+    const camScale = 300, dl = camScale / 110, bx = camScale * 2.2, maxSteps = 2400;
+    const bend = (y0) => traceRay(s, -bx, y0, 1, 0, dl, maxSteps, (nx, ny) => !(Math.abs(nx) > bx || Math.abs(ny) > bx));
+    const top = bend(200), bot = bend(-200);
+    return { topCy: top.cy, topCx: top.cx, botCy: bot.cy, botCx: bot.cx, nan: s.hasNaN() };
+  });
+  // 実測(beta): y0=+200(上側の井戸に近い)→ cy=-0.6162・cx=0.7876(反転〔捕獲〕なし)。
+  // y0=-200(対称)→ cy=+0.6162。閾値|cy|>0.3は実測の約2.05倍下。cx>0は光線が180°以上
+  // 曲げられて逆走していない(捕獲されていない)ことの確認
+  add('behavior.blens', !bl.nan && bl.topCy < -0.3 && bl.topCx > 0 && bl.botCy > 0.3 && bl.botCx > 0,
+    `上側(y0=200)偏向 cy=${bl.topCy.toFixed(4)}(<-0.3) cx=${bl.topCx.toFixed(4)}(捕獲なし) / `
+    + `下側(y0=-200)偏向 cy=${bl.botCy.toFixed(4)}(>0.3・符号反転=井戸方向) cx=${bl.botCx.toFixed(4)}`);
+}
+
+{
+  // 🪢boxbound: 説明文の主張「箱支配(φ_B≈0.95)の連星はd∝a^{2φ_B}で拡大する」を検証する。
+  // φ_Bはsimから実測できる量(背景W_B=D0+boxWAt(box,a)〔beta/index.html 2002行〕と局所
+  // w_local=s.sumW[i]〔同2054行で公開〕から φ_B=W_B/(W_B+w_local)。E6′反作用パスの
+  // phiBg=bgW/Wi〔同2611行。Wi=bgW+sumW[i]は2567行〕と同じ式)で計算し、
+  // ハードコードしない。連星(index0・1)の間隔dの成長指数 n_eff=dln(d)/dln(a) を測る
+  const bb = await page.evaluate(() => {
+    const s = HP.sim;
+    HP.loadPreset('boxbound', false);
+    const d0 = Math.hypot(s.x[0] - s.x[1], s.y[0] - s.y[1]);
+    s.step(0.016);   // 1步進めて s.sumW を populate してから φ_B を読む
+    const a1 = boxScaleAt(s.box, s.t).a;
+    const bgW = s.params.D0 + boxWAt(s.box, a1);
+    const phiB = bgW / (bgW + s.sumW[0]);
+    for (let k = 1; k < 12000; k++) s.step(0.016);
+    const d1 = Math.hypot(s.x[0] - s.x[1], s.y[0] - s.y[1]);
+    const a = boxScaleAt(s.box, s.t).a;
+    return { d0, d1, a, phiB, nEff: Math.log(d1 / d0) / Math.log(a), nan: s.hasNaN() };
+  });
+  const target = 2 * bb.phiB;
+  // 実測(beta/root 両対象で一致): φ_B=0.9506(2φ_B=1.9012)。12000步後 d=24→106.85・a=2.1555 →
+  // n_eff=1.9446(目標比1.023 — ±40%許容域[0.60,1.40]の中心近くに収まる。10000〜14000步の
+  // 範囲で比1.016〜1.023と安定しており、特定の步数への偶然の一致ではない)
+  add('behavior.boxbound', !bb.nan && bb.nEff > 0.6 * target && bb.nEff < 1.4 * target,
+    `φ_B=${bb.phiB.toFixed(4)}(実測sumW/boxWAtから算出) 2φ_B=${target.toFixed(3)} / 12000步 d:${bb.d0}→` +
+    `${bb.d1.toFixed(2)} a=${bb.a.toFixed(4)} n_eff=${bb.nEff.toFixed(4)}(目標比${(bb.nEff / target).toFixed(3)}・許容±40%)`);
+}
+
 // ---- 7h2) 台帳4-57(第32便): 単体レールの中心 railCx/railCy ----
 // (root=v1.31 は未実装のため、スキーマ非対応時はスキップ)
 {
@@ -3229,6 +3376,96 @@ if (!FAST) {
   let shotSize = 0;
   try { shotSize = fs.statSync(shotPath).size; } catch {}
   add('shot.capture', shotSize > 20000, `path=${shotPath} size=${shotSize}bytes(>20000)`);
+}
+
+// ---- 7t2) 第35便 W5b(台帳4-58後半): スクリーンショット回帰(段階導入の後半)。上の shot.capture
+// ----   (全画面1枚のCIアーティファクト取得)は不変のまま存続する。本節はキャンバス要素(#cv)限定の
+// ----   キャプチャを対象プリセット分だけ取得し、48×48グレースケール輝度グリッドへ縮約した知覚
+// ----   ハッシュを tests/baseline-shots.json(コミット対象)と比較する回帰テストを追加する。
+// ----   PNGデコードはNode側に画像ライブラリを追加せず、page内で Image→canvas→getImageData で行う。
+// ----   !FAST 時のみ実行(表示ゆらぎに弱い差分回帰を通常のFASTスイートから隔離する、直上の
+// ----   7t) shot.capture 自身のコメントにある段階導入方針を踏襲)----
+if (!FAST) {
+  const GRID = 48;
+  const BASE_SHOT_IDS = ['gclock', 'boxcomoving', 'boxredshift', 'galaxy', 'darkrotor', 'lensing',
+    'gas', 'convection', 'saturn', 'earthMoon', 'fig8', 'snowline'];
+  // 第35便 W2/W3 の ⏪echo・🕊️freebox が対象に存在すれば追加して14件にする(対象の有無で自動判定)
+  const presentIds = await page.evaluate((extra) => {
+    const all = HP.allPresets();
+    return extra.filter(id => all.some(p => p.id === id));
+  }, ['echo', 'freebox']);
+  const SHOT_IDS = BASE_SHOT_IDS.concat(presentIds);
+
+  // 意図的な見た目変更をした便でここへ理由つきで追加する運用(perf.mjs 22行の ALLOW と同形式)
+  const SHOT_ALLOW = { /* id: {mAD, frac, reason} */ };
+
+  const shotsDir = path.join(OUT_DIR, 'shots');
+  fs.mkdirSync(shotsDir, { recursive: true });
+  const baselinePath = path.join(ROOT, 'tests', 'baseline-shots.json');
+  let baseline = { schemaVersion: 1, grid: GRID, presets: {} };
+  try {
+    const j = JSON.parse(fs.readFileSync(baselinePath, 'utf8'));
+    if (j && j.schemaVersion === 1 && j.grid === GRID && j.presets) baseline = j;
+  } catch {}
+  let shotCommit = 'unknown';
+  try { shotCommit = execSync('git rev-parse HEAD', { cwd: ROOT, stdio: 'pipe' }).toString().trim(); } catch {}
+  let baselineDirty = false;
+
+  for (const id of SHOT_IDS) {
+    let hex = null, capErr = null;
+    try {
+      await page.evaluate((pid) => { HP.loadPreset(pid, false); HP.tick(120); }, id);
+      const shotPath = path.join(shotsDir, `${id}.png`);
+      const buf = await page.locator('#cv').screenshot({ path: shotPath });   // キャンバス限定(DOM文字・フォント差を排除)
+      // page内でImageへ読み戻し、48×48へ縮約して輝度(4bit量子化・1セル1桁)をhex化する
+      hex = await page.evaluate(({ b64, grid }) => new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+          const cv2 = document.createElement('canvas'); cv2.width = grid; cv2.height = grid;
+          const cx = cv2.getContext('2d');
+          cx.drawImage(img, 0, 0, grid, grid);
+          const data = cx.getImageData(0, 0, grid, grid).data;
+          let h = '';
+          for (let i = 0; i < grid * grid; i++) {
+            const luma = 0.299 * data[i * 4] + 0.587 * data[i * 4 + 1] + 0.114 * data[i * 4 + 2];   // 0..255
+            h += Math.min(15, Math.max(0, Math.round(luma / 17))).toString(16);   // 4bit量子化(0-15)
+          }
+          resolve(h);
+        };
+        img.onerror = () => reject(new Error('image decode failed'));
+        img.src = 'data:image/png;base64,' + b64;
+      }), { b64: buf.toString('base64'), grid: GRID });
+    } catch (e) { capErr = String(e); }
+
+    if (capErr) { add(`shot.regress-${id}`, false, `キャプチャ/縮約に失敗: ${capErr}`); continue; }
+
+    const prev = baseline.presets[id];
+    if (!prev) {
+      // 基準が無いid: 本便の初回実行で基準を書き込みPASS(以降のQA実行〔同一コミット・別コミット問わず〕から回帰対象になる)
+      baseline.presets[id] = { luma: hex, capturedAt: new Date().toISOString(), commit: shotCommit };
+      baselineDirty = true;
+      add(`shot.regress-${id}`, true, `BASELINE recorded(path=${path.join(shotsDir, id + '.png')})`);
+      continue;
+    }
+    let sumAbs = 0, over = 0;
+    for (let i = 0; i < hex.length; i++) {
+      const d = Math.abs(parseInt(hex[i], 16) - parseInt(prev.luma[i], 16)) * 17;   // 4bit値を0-255相当へ復元して比較
+      sumAbs += d; if (d > 24) over++;
+    }
+    const mAD = sumAbs / hex.length, frac = over / hex.length;
+    const allow = SHOT_ALLOW[id];
+    const limMAD = allow ? allow.mAD : 10, limFrac = allow ? allow.frac : 0.15;
+    // 実測(beta 2026-07-26): 同一コミットを独立4回撮影した自然ゆらぎ(表示更新タイミング由来 —
+    // requestAnimationFrame ループが HP.tick() の手動 render() と非同期に競合し得るための残差)は
+    // 最大 mAD=1.56・diff>24セル比率=6.4%(boxcomoving。他は概ね0)。閾値10/15%はそれぞれ
+    // 実測最大値の約6.4倍・2.3倍の余裕
+    add(`shot.regress-${id}`, mAD <= limMAD && frac <= limFrac,
+      `mAD=${mAD.toFixed(2)}(≤${limMAD}) diff>24セル比率=${(frac * 100).toFixed(1)}%(≤${(limFrac * 100).toFixed(0)}%)` +
+      (allow ? ` [SHOT_ALLOW: ${allow.reason}]` : '') + ` baseline capturedAt=${prev.capturedAt} commit=${prev.commit.slice(0, 8)}`);
+  }
+  if (baselineDirty) fs.writeFileSync(baselinePath, JSON.stringify(baseline, null, 1) + '\n');
+} else {
+  console.log('SKIP shot.regress-*(QA_FAST=1 — 段階導入の差分回帰はフルQAのみ)');
 }
 
 // ---- 7u) 第33便(実装4): ui.aitab-no-hscroll(beta 先行ガード — 修正はルート index.html に
