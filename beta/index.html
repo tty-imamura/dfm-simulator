@@ -453,7 +453,7 @@ ja: {
   btnImportFile:"ファイルから読込", fileLoaded:"ファイルを読み込みました",
   unsavedWarn:"※編集中のパラメータは「保存」するまでバックアップに含まれません",
   confirmDiscard:"未保存の編集があります。破棄して読み込みますか?",
-  betaShared:"β版(beta v1.32-b1)はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。",
+  betaShared:"β版(beta v1.32-b2)はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。",
   draftRestore:"未保存の編集の下書きが見つかりました(再読込前の状態)。復元しますか?",
   swFail:"オフライン用キャッシュ(Service Worker)の登録に失敗しました。オンラインでは通常どおり使えます。",
   periHud:(m,a)=>`近点移動(最内粒子): 実測 ${m}°/周 / 解析 ${a}°/周`,
@@ -596,7 +596,7 @@ en: {
   btnImportFile:"Load from file", fileLoaded:"File loaded",
   unsavedWarn:"Note: edited parameters are not included in backups until you press Save",
   confirmDiscard:"You have unsaved edits. Discard them and load?",
-  betaShared:"This beta (v1.32-b1) shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.",
+  betaShared:"This beta (v1.32-b2) shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.",
   draftRestore:"Found a draft of unsaved edits (from before the last reload). Restore it?",
   swFail:"Offline cache (Service Worker) registration failed. The app still works normally online.",
   periHud:(m,a)=>`Apsidal drift (innermost): measured ${m}°/orbit / analytic ${a}°/orbit`,
@@ -1381,8 +1381,8 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"saturn", name:"土星の環(実験)", emoji:"🪐", group:"天体の物語",
-  description:"氷の粒(低質量・低散逸 muF=0.2/γN=0.15)で構成された土星の環。中心星のスピンが空間を引きずり(kFrame=1・A8)、氷粒の衝突円形化(T3)と合わさって長時間安定な環を保つ。初期配置は t=300〜600 の実測安定分布に合わせてあり、t≈1200 まで落下・散逸ゼロ。環は空間引きずりで [ゆっくり内側へ漂いながら] 形を保つ — muF=0 にすると円形化が止まる対照も試せる。Kt=3600 は物理対応ロック Kt=c²/G の成立値。中心天体の表示半径は現実の比率に近い(radiusScale 1.8)。現実較正の近点移動は 🛰️ を参照。",
-  en:{name:"Saturn's Rings (Experimental)", description:"Saturn's ring of icy grains (low mass, low dissipation: muF=0.2/\u03b3N=0.15). The central star's spin drags nearby space (kFrame=1, A8) and, with collisional circularization (T3), keeps the ring stable for a long run. The initial layout matches the measured relaxed distribution at t=300\u2013600 and stays intact (zero falls/escapes) to t\u22481200. Try muF=0 to stop the circularization. Kt=3600 satisfies the GR-calibration lock Kt=c\u00b2/G; the central body is drawn near the real proportion (radiusScale 1.8). See \ud83d\udef0\ufe0f for the real-calibrated apsidal precession."},
+  description:"氷の粒(低質量・低散逸 muF=0.2/γN=0.15)で構成された土星の環。中心星のスピンが空間を引きずり(kFrame=1・A8)、氷粒の衝突円形化(T3)と合わさって長時間安定な環を保つ。初期配置は t=300〜600 の実測安定分布に合わせてあり、t≈1200 まで落下・散逸ゼロ。環は空間引きずりによる近点移動で形を保つ — muF=0 にすると円形化が止まる対照も試せる。Kt=3600 は物理対応ロック Kt=c²/G の成立値。中心天体の表示半径は現実の比率に近い(radiusScale 1.8)。現実較正の近点移動は 🛰️ を参照。",
+  en:{name:"Saturn's Rings (Experimental)", description:"Saturn's ring of icy grains (low mass, low dissipation: muF=0.2/\u03b3N=0.15). The central star's spin drags nearby space (kFrame=1, A8) and, with collisional circularization (T3), the ring keeps its shape through drag-induced apsidal precession. The initial layout matches the measured relaxed distribution at t=300\u2013600 and stays intact (zero falls/escapes) to t\u22481200. Try muF=0 to stop the circularization. Kt=3600 satisfies the GR-calibration lock Kt=c\u00b2/G; the central body is drawn near the real proportion (radiusScale 1.8). See \ud83d\udef0\ufe0f for the real-calibrated apsidal precession."},
   activeParams:["muF","kFrame","kappaS"],   // QA activeParams.ui が先頭=muF の編集反映を検査するため muF を先頭に
   camera:{scale:340}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:1.2, muF:0.2, gammaN:0.15, kappaS:0.08, Kt:3600,

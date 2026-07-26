@@ -191,7 +191,7 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   add('i18n.toggle', r.en && r.ja, '');
 }
 
-// ---- 4) few-shot 全例の validatePreset + BH例の光子捕捉 ----
+// ---- 4) few-shot 全例の validatePreset + BH例の光子の有限時間非脱出(台帳4-48 改名: 旧 bh-capture)----
 {
   const r = await page.evaluate(() => {
     const lines = HP.SYSTEM_PROMPT.split('\n').filter(l => l.trim().startsWith('{'));
@@ -202,7 +202,7 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
     return { fs2, cap, n: ys.length };
   });
   add('fewshot.validate', r.fs2.every(f => f.ok && f.w === 0), JSON.stringify(r.fs2));
-  add('fewshot.bh-capture', r.cap === r.n, `${r.cap}/${r.n}`);
+  add('fewshot.bh-nonescape', r.cap === r.n, `${r.cap}/${r.n}(有限時間非脱出=bounded — 「捕捉」は主張しない)`);
 }
 
 // ---- 5) 旧セーブ互換(kLens 受理)----
@@ -1146,7 +1146,7 @@ if (!FAST) {
     res.convV = freeC ? sumV / freeC : 0; res.convNaN = s.hasNaN();
     return res;
   });
-  add('claim.galaxy-flatten', !r.galNaN && r.galA > r.galB * 1.04,
+  add('claim.galaxy-outerboost', !r.galNaN && r.galA > r.galB * 1.04,   // 台帳4-48 改名: 旧 galaxy-flatten(T4 は「外縁増強」であり平坦化を主張しない)
     `vφ外縁 kF1=${r.galA.toFixed(3)} kF0=${r.galB.toFixed(3)} 比=${(r.galA / r.galB).toFixed(3)} (>1.04)`);
   add('behavior.saturn', !r.satNaN && r.satAnn >= 0.95 && r.satDrift < 5,
     `inAnn=${(r.satAnn * 100).toFixed(1)}% drift=${r.satDrift.toFixed(1)}`);
