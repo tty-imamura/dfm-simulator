@@ -287,7 +287,10 @@
       <div class="group"><h3 id="aiGenHead">新しいシミュレーションを生成</h3>
         <!-- 第26便(原仮定者指示): ベースのサンプル選択(任意)— 参考サンプルをAI生成に利用 -->
         <div class="prow"><label id="aiBaseLabel">ベースのサンプル(任意)</label>
-          <select id="aiBasePreset" style="flex:1"></select></div>
+          <!-- 第33便: min-width:0 が無いと長いプリセット名(🛰️弱場GR較正…等)の内容最小幅で
+               flexアイテムが縮まず、.prow/.group がタブ幅からはみ出して横スクロールしていた
+               (#presetSelect と同じ既知パターン。行28参照) -->
+          <select id="aiBasePreset" style="flex:1;min-width:0"></select></div>
         <p class="note" id="aiBaseNote">ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの coreMR/lightSweep や 🛰️の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信されます。</p>
         <textarea id="aiPrompt" placeholder="例: 3つの恒星が絡み合う三体問題。まわりに塵の環も欲しい"></textarea>
         <div class="rowBtns"><button class="btn primary" id="btnGenerate">生成する</button></div>
@@ -498,9 +501,14 @@ ja: {
   // 第32便(W2): 膨張グラフ overlay(a(t)・H(t)の折れ線+赤方偏移カラーバー)
   ovBoxGraph:"a(青実線) / H(橙点線)", ovEmit:"放出", ovObs:"観測", ovIR:"→赤外", ovUV:"→紫外",
   ovBoxNote:"1+z=a/a₀(意味論 — 導出ではない)",
+  // 第33便(台帳4-63): H クランプ中の短い警告(注記行に出す)
+  ovBoxClamp:"H はクランプ中 — 物理解釈対象外",
+  // 第33便: 箱なし/boxGraph非表示時のHUD末尾に出す到着ログ1件の書式
+  hudPhoton:(le,lo,z)=>`λ${le}→${lo}(z=${z})`,
   // 第32便(W2): 箱宇宙(UniverseBox)パラメータ編集UI(パラメータタブ)
   boxSectionHead:"箱宇宙(UniverseBox)",
-  boxSectionDesc:"実験用の一時編集。セーブ(保存)には含まれない — 恒久化はプリセットJSONの universeBox で行う。⏮で初期値に戻る。",
+  // 第33便(台帳4-64): セーブ対応(実装3)に合わせて文言更新
+  boxSectionDesc:"セーブ(保存)に含まれる(第33便 4-64)。プリセット既定へ戻すには⏮。",
   boxModeLabel:"尺度モード", boxH0Label:"膨張率 H₀", boxCoefLabel:"係数 c(a=1+c·t^p)",
   boxExpoLabel:"指数 p(時間を底とした冪)", boxAmpLabel:"揺らぎ振幅 A", boxFreqLabel:"揺らぎ角速度 ω",
   boxDLabel:"箱の決定力 D(W_B=D/a^dPower)",
@@ -640,8 +648,10 @@ en: {
   hudClock:"clock τ/t",
   ovBoxGraph:"a (blue, solid) / H (orange, dotted)", ovEmit:"Emitted", ovObs:"Observed", ovIR:"→IR", ovUV:"→UV",
   ovBoxNote:"1+z=a/a0 (semantics, not derived)",
+  ovBoxClamp:"H clamped — not physically interpretable",
+  hudPhoton:(le,lo,z)=>`λ${le}→${lo}(z=${z})`,
   boxSectionHead:"Box Universe (UniverseBox)",
-  boxSectionDesc:"Experimental, temporary edits — not included in saves. Persist changes via the universeBox field of the preset JSON. Press ⏮ to restore the initial values.",
+  boxSectionDesc:"Included in saves (33rd delivery, ledger 4-64). Press ⏮ to restore the preset defaults.",
   boxModeLabel:"Scale mode", boxH0Label:"Expansion rate H₀", boxCoefLabel:"Coefficient c (a=1+c·t^p)",
   boxExpoLabel:"Exponent p (power of time)", boxAmpLabel:"Fluctuation amplitude A", boxFreqLabel:"Fluctuation angular rate ω",
   boxDLabel:"Box determinacy D (W_B=D/a^dPower)",
@@ -796,8 +806,9 @@ function externalTags(p){
   if(p.universeBox){ const B=p.universeBox;
     if((B.mode && B.mode!=="static") || B.vx || B.vy || B.omega) rail=true; }
   // v1.17: 一様重力場(gravityX/Y)も外部要素として検出
+  // 第33便: FLRW 摩擦比較モード(universeBox.friction="flrw")も外部場(公理系外の対照チャネル)
   const ph=p.physics||{};
-  const grav=!!(ph.gravityX||ph.gravityY);
+  const grav=!!(ph.gravityX||ph.gravityY||(p.universeBox && p.universeBox.friction==="flrw"));
   return {pin, rail, bath, grav};
 }
 function gName(g){ return (LANG==="en" && I18N.en.groups[g]) || g; }
@@ -968,7 +979,7 @@ const BUILTIN_PRESETS = [
      vMode:"none", aroundMass:0, omega:0, vNoise:0, direction:1, pinned:false, bulkVx:1.2, bulkVy:0},
     {type:"box", n:12, cx:0, cy:0, w:280, h:280, mMin:0.05, mMax:0.05, spinMin:0, spinMax:0, vScale:0, bulkVx:1.2, bulkVy:0},
     {type:"single", m:2, x:0, y:-60, vx:1.2, vy:0, spin:0, pinned:false},
-    {type:"single", m:2, x:0, y:60, vx:1.2, vy:0.9, spin:0, pinned:false}   // 第32便: 箱と共動+固有運動0.9(「絶対静止」概念の廃止)
+    {type:"single", m:2, x:0, y:60, vx:2.1, vy:0, spin:0, pinned:false}   // 第33便: 固有運動は x 方向+0.9 に統一(vy を使わない — 原仮定者指示)。|v−u|=0.9 は不変
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true} },
 
@@ -1056,6 +1067,24 @@ const BUILTIN_PRESETS = [
     {type:"single", m:2, x:0, y:0, vx:0, vy:0, spin:0, pinned:true}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true,boxGraph:true} },
+
+{ id:"boxredshift", name:"箱宇宙 — 光の赤方偏移(A・B・C)", emoji:"🔦", group:"箱宇宙",
+  description:"膨張する箱宇宙(H=0.02)に粒子A・B・Cを共動で並べ、光の状態を「波長」で保持して伝播させる(4-63)。t=0にAが放った波長500の光(λは膨張とともにa(t)/a放出で伸びる)は、宇宙が4倍に膨張した頃にCへ届き、波長は4倍(z=3)。宇宙が2倍に膨張した時点でBが放った光は、同じ頃にCへ届き、波長は2倍(z=1) — 放出時刻の異なる光が、異なる赤方偏移で同時に観測される。これはハッブルの法則と同じ構造 1+z=a(観測)/a(放出)(§12-6)。膨張グラフに到着ログ(λ放出→λ観測・z)が出る。光子は運動量を運ばない表示物理で、屈折・随伴はE8R/T5と同じψ・uを使う(T10)。",
+  en:{name:"Box Universe — Redshift of Light (A, B, C)", description:"Three comoving particles A, B and C sit in an expanding box universe (H=0.02), and light propagates while holding its state as a 'wavelength' (4-63). The 500 nm light A emits at t=0 (λ stretches as a(t)/a_emit) reaches C when the universe has grown fourfold, so its wavelength is four times longer (z=3). Light emitted by B once the universe has doubled arrives at C at about the same moment with twice the wavelength (z=1) — light emitted at different times is observed simultaneously at different redshifts. This is the same structure as Hubble's law, 1+z=a(observed)/a(emitted) (§12-6). The expansion graph shows the arrival log (λ_emit→λ_obs and z). Photons carry no momentum here — a display-level physics — while refraction and medium advection use the same ψ and u as E8R/T5 (T10)."},
+  activeParams:["cLight","kFrame"],
+  camera:{scale:420}, world:{boundary:"none",size:0},
+  universeBox:{mode:"exp", H0:0.02, D:8, dPower:1, L:120, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
+  physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
+    cLight:6, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:4, timeScale:2},
+  bodies:[   // 全て共動(Hubble 流初速 v=H·x)。共動光路 c/H=300 で A→C=225(a=4)・B→C=75(a=2→4)
+    {type:"single", m:2, x:-125, y:0, vx:-2.5, vy:0, spin:0, pinned:false},
+    {type:"single", m:2, x:  25, y:0, vx: 0.5, vy:0, spin:0, pinned:false},
+    {type:"single", m:2, x: 100, y:0, vx: 2.0, vy:0, spin:0, pinned:false}
+  ],
+  // B の放出時刻 t=ln2/0.02=34.657 → a=2 ちょうど(両光子はほぼ同時に C へ届く: t≈69.3)
+  photonEmit:[{body:0, t:0, lambda:500, aim:2}, {body:1, t:34.657, lambda:500, aim:2}],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:false,boxGraph:true} },
 
 // ===== グループ: 銀河 =====
 { id:"galaxy", name:"銀河の回転曲線", emoji:"🌌", group:"銀河",
@@ -1692,7 +1721,35 @@ function validatePreset(obj){
       o.H0=numDef("H0",-0.2,0.2,0); o.amp=numDef("amp",0,0.9,0); o.freq=numDef("freq",0,2,0);
       o.phase=numDef("phase",-6.2832,6.2832,0);
       o.coef=numDef("coef",-1,1,0); o.expo=numDef("expo",0.1,3,1);   // 第32便: pow モードの係数・指数
+      // 第33便: friction — "dfm"(既定・E6′ の帰結)| "flrw"(標準宇宙論の Hubble 摩擦 w∝1/a の対照チャネル)
+      const FRICS=["dfm","flrw"];
+      o.friction=(FRICS.indexOf(B.friction)>=0)? B.friction : "dfm";
+      if(B.friction!==undefined && FRICS.indexOf(B.friction)<0) warnings.push("universeBox.friction が不正のため dfm に修正");
       if(!numBad) p.universeBox=o;
+    }
+  }
+  // 第33便(台帳4-63): photonEmit — 光子の放出スケジュール。光の状態は「放出波長 λ と
+  // 放出時尺度 a_emit」の2値で保持する(観測波長 λ_obs=λ·a_obs/a_emit)。
+  // body/aim は構築後の粒子インデックスで、ここでは粒子数と照合できないため範囲検査は
+  // 実行時ガード(範囲外は放出スキップ+S.photonWarn)に委ねる。数値検査・クランプ・
+  // 警告の様式は universeBox と同一
+  if(p.photonEmit!==undefined){
+    const A=p.photonEmit;
+    if(!Array.isArray(A)) bad("photonEmit は配列が必要です");
+    else{
+      if(A.length>32) warnings.push("photonEmit を32件に切り詰め");
+      const out=[]; let peBad=false;
+      for(const e of A.slice(0,32)){
+        if(!e || typeof e!=="object" || Array.isArray(e)){ bad("photonEmit の要素はオブジェクトが必要です"); peBad=true; break; }
+        const numDef=(k,lo,hi,dv)=>{ if(e[k]===undefined) return dv;
+          if(!isNum(e[k])){ bad("photonEmit."+k+" が数値ではありません"); peBad=true; return dv; }
+          const c=clamp(e[k],lo,hi); if(c!==e[k]) warnings.push("photonEmit."+k+" を値域に修正"); return c; };
+        const o={body:Math.round(numDef("body",0,N_CAP-1,0)), t:numDef("t",0,100000,0),
+                 lambda:numDef("lambda",100,2000,500)};
+        if(e.aim!==undefined) o.aim=Math.round(numDef("aim",0,N_CAP-1,0));
+        out.push(o);
+      }
+      if(!peBad) p.photonEmit=out;
     }
   }
   const ov={rotationCurve:false,tempHistogram:false,field:false,spectrum:false,trail:false,monitor:false,boxGraph:false}; // v1.12: trail/monitor を正式化(第6次裁定 7.5)。boxGraph は第32便(W2)
@@ -1731,7 +1788,9 @@ function boxScaleAt(B, t){ // 尺度因子 a(t) と Hubble 率 H=ȧ/a
     if(ar>0.05){ a=ar; H=ad/ar; } else { a=0.05; H=0; }   // lin と同じ床(a<0.05 で H=0)
   }
   // 第32便: 全モード共通の安全弁 — H を [−0.5,+0.5] にクランプ(既存プリセットの |H|≤0.016 で非発動)
-  return {a, H:(H<-0.5? -0.5 : (H>0.5? 0.5 : H))};
+  // 第33便: クランプ前の Hraw と発動フラグ clamped を追加(a/H は不変 — 呼び出し側は非破壊)
+  const cl=(H<-0.5 || H>0.5);
+  return {a, H:(H<-0.5? -0.5 : (H>0.5? 0.5 : H)), Hraw:H, clamped:cl};
 }
 function boxWAt(B, a){ return B.D*Math.pow(1/a, B.dPower); } // W_B=D·a^{−dPower}(総質量一定の M/L 希釈類似)
 function makeSim(){
@@ -1758,6 +1817,10 @@ function makeSim(){
     pinned:null, railR:null, railAng:null, railOmega:null, railCx:null, railCy:null, railH:null,
     box:null, boxA:null,   // 第31便: UniverseBox 連続背景と現在stepの尺度キャッシュ {a,H,W}
     boxHist:null, _bhAcc:0, boxARef:1,   // 第32便: 尺度・赤方偏移の履歴(グラフ用データ層)と基準 a(0)
+    // 第33便(台帳4-63): 光子エンティティ。光の状態は「放出波長 lamE と放出時尺度 aE」の2値で
+    // 保持し、現在波長は表示側が lamE·a(t)/aE で算出する(状態として持たないのが本裁定の
+    // シンプルさ)。photonEmit の無いプリセットでは全て null のままでゼロコスト
+    photons:null, photonLog:null, _phSched:null, _phI:0, photonWarn:false,
     uPx:null,uPy:null,hasU:null, tau:null, ax:null,ay:null, sumW:null,uAx:null,uAy:null, ds:null,
     dpx:null,dpy:null, pairD:null,
     resPx:0,resPy:0,resL:0,radE:0,radL:0,   // リザーバ帳簿(E6′/E11。PHYSICS.md §5)
@@ -1887,11 +1950,22 @@ function makeSim(){
     S.box = BU? {mode:BU.mode||"static", D:BU.D||0, dPower:(BU.dPower===undefined?1:BU.dPower),
       L:BU.L||260, cx:BU.cx||0, cy:BU.cy||0, vx:BU.vx||0, vy:BU.vy||0, omega:BU.omega||0,
       H0:BU.H0||0, amp:BU.amp||0, freq:BU.freq||0, phase:BU.phase||0,
-      coef:BU.coef||0, expo:(BU.expo===undefined?1:BU.expo)} : null;   // 第32便: pow モード
+      coef:BU.coef||0, expo:(BU.expo===undefined?1:BU.expo),   // 第32便: pow モード
+      friction:(BU.friction==="flrw"? "flrw":"dfm")} : null;    // 第33便: FLRW 摩擦比較モード
     S.boxA=null;
     // 第32便: 赤方偏移の基準 a_ref=a(0)(phase≠0 の sin/pow は a(0)≠1 — z(0)=0 を保証)と履歴バッファ
     S.boxARef = S.box? boxScaleAt(S.box,0).a : 1;
     S.boxHist = S.box? [] : null; S._bhAcc=0;
+    // 第33便: 光子の放出スケジュール(t 昇順)。photonEmit が無ければ全て null(ゼロコスト経路)
+    const PE=preset.photonEmit;
+    if(Array.isArray(PE) && PE.length){
+      S._phSched = PE.map(e=>({body:Math.max(0,Math.round(e.body||0)), t:e.t||0,
+        lambda:(e.lambda===undefined? 500 : e.lambda),
+        aim:(e.aim===undefined? -1 : Math.max(0,Math.round(e.aim)))}))
+        .sort((a,b)=>a.t-b.t);
+      S.photons=[]; S.photonLog=[];
+    } else { S._phSched=null; S.photons=null; S.photonLog=null; }
+    S._phI=0; S.photonWarn=false;
     S.world = preset.world; S.rays = preset.rays||null; S.overlays = preset.overlays||{};
     S.t=0; S.hasU.fill(0); S.tau.fill(0); S.updateRadii();
     S.resPx=0; S.resPy=0; S.resL=0; S.radE=0; S.radL=0;
@@ -1935,6 +2009,7 @@ function makeSim(){
     const B=S.box; let WB=0, bH=0;
     if(B){ const sc=boxScaleAt(B,S.t); bH=sc.H; WB=boxWAt(B,sc.a); S.boxA={a:sc.a,H:bH,W:WB}; }
     const bgW=D0+WB;   // 背景決定力の合計(D₀+箱)— E6′ の背景持ち分・リザーバ帳簿に使用
+    const flrw=!!(B && B.friction==="flrw");   // 第33便: FLRW 摩擦比較モード(既定 dfm では false)
     // レール粒子(pinned+omega/railH)の位置・速度を先に更新
     // 第29便(第25次レビュー P1-1): 構築時のレール候補だけを走査(レール無し宇宙の O(N) 固定費を除去)。
     // railOmega/railH が非0になるのは build 経由のみ(alloc で railIdx=null に戻る)。編集パネルの固定解除は
@@ -1952,6 +2027,30 @@ function makeSim(){
         const ca=Math.cos(a), sa=Math.sin(a);
         x[i]=S.railCx[i]+r*ca; y[i]=S.railCy[i]+r*sa;
         vx[i]=hv*ca - S.railOmega[i]*r*sa; vy[i]=hv*sa + S.railOmega[i]*r*ca;
+      }
+    }
+    // ===== 第33便(台帳4-63): 光子の放出 =====
+    // 光子は質量・運動量を持たない「表示物理」— 粒子側へは一切反作用しない(E8R の光線と
+    // 同じ主張水準)。状態は放出波長 lamE と放出時尺度 aE の2値だけで、現在波長は
+    // lamE·a(t)/aE として表示側が算出する。箱(universeBox)が無い宇宙では a=1 固定で λ 不変。
+    // 方位は決定論(aim 指定=対象粒子方向の1光子 / 省略=固定8方位 i/8·2π。乱数不使用)
+    if(S._phSched){
+      while(S._phI<S._phSched.length && S._phSched[S._phI].t<=S.t){
+        const e=S._phSched[S._phI++];
+        if(!(e.body>=0 && e.body<n) || (e.aim>=0 && e.aim>=n)){ S.photonWarn=true; continue; }
+        const aE=S.box? boxScaleAt(S.box,S.t).a : 1;
+        const ex=x[e.body], ey=y[e.body];
+        if(e.aim>=0){
+          let dxA=x[e.aim]-ex, dyA=y[e.aim]-ey;
+          const dd=Math.sqrt(dxA*dxA+dyA*dyA);
+          if(dd>1e-9){ dxA/=dd; dyA/=dd; } else { dxA=1; dyA=0; }
+          S.photons.push({x:ex, y:ey, dx:dxA, dy:dyA, lamE:e.lambda, aE, tE:S.t,
+            from:e.body, to:e.aim, alive:true});
+        } else {
+          for(let k=0;k<8;k++){ const th=(k/8)*Math.PI*2;
+            S.photons.push({x:ex, y:ey, dx:Math.cos(th), dy:Math.sin(th), lamE:e.lambda, aE, tE:S.t,
+              from:e.body, to:-1, alive:true}); }
+        }
       }
     }
     // ===== ① 全対ループ: E1決定力・E3フレーム・E4重力・E5′斥力・E9接触・E10′拡散 =====
@@ -2131,6 +2230,18 @@ function makeSim(){
         }
         S.uPx[i]=ux; S.uPy[i]=uy; S.hasU[i]=1;
       }
+      // 第33便: FLRW 比較モード — DFM 公理(E6′)の帰結ではなく、標準宇宙論の w∝1/a との
+      // A/B 比較用の対照チャネル(BOX_UNIVERSE §13)。既定 dfm では一切実行されない。
+      // 特異速度 w=v−u_B(u_B は箱の速度場のみ — 粒子由来の u は含めない)に
+      // Hubble 摩擦 Δv=−H·w·dt を課す。運動量・角運動量の変化はリザーバ帳簿へ記録
+      if(flrw){
+        const fbx=x[i]-B.cx, fby=y[i]-B.cy;
+        const ubx=B.vx - B.omega*fby + bH*fbx, uby=B.vy + B.omega*fbx + bH*fby;
+        const dvx=-bH*(vx[i]-ubx)*dt, dvy=-bH*(vy[i]-uby)*dt;
+        vx[i]+=dvx; vy[i]+=dvy;
+        S.resPx-=m[i]*dvx; S.resPy-=m[i]*dvy;
+        S.resL-=m[i]*(x[i]*dvy-y[i]*dvx);
+      }
       // v1.5(A12′): スピン同期(E10′)の散逸帳簿。適用前後の回転エネルギー差を計上
       if(ds[i]!==0){
         const IiD=0.5*m[i]*R[i]*R[i], s0D=spin[i];
@@ -2268,6 +2379,33 @@ function makeSim(){
         S.boxHist.push({t:S.t, a:sc.a, H:sc.H, z:sc.a/S.boxARef-1});
         if(S.boxHist.length>720) S.boxHist.shift();
       }
+    }
+    // 第33便(台帳4-63): 光子の伝播(1ステップ分)。光学は traceRay と同一(E8R: 重い粒子
+    // m≥RAY_MASS_MIN の 2∇ψ 屈折・W 合計に D₀/W_B・媒質随伴 kF·u に UniverseBox の u_B を含む)で、
+    // 弧長は dl=(c₀/n_eff)·dt。到着時は 1+z=a_obs/a_emit の帳簿を photonLog へ積む
+    if(S.photons && S.photons.length){
+      const pp=S.params;
+      const O={heavy:[], kU:2/pp.Kt, eps2:pp.softening*pp.softening, q:pp.q, c0:pp.cLight,
+        D0:pp.D0, kF:pp.kFrame, BX:S.box, WB:0, bH:0};
+      for(let i=0;i<n;i++) if(S.m[i]>=RAY_MASS_MIN) O.heavy.push(i);
+      let aO=1;
+      if(O.BX){ const sc=boxScaleAt(O.BX,S.t); aO=sc.a; O.WB=boxWAt(O.BX,sc.a); O.bH=sc.H; }
+      let died=false;
+      for(const ph of S.photons){
+        photonStep(S, ph, dt, O);
+        if(ph.to>=0 && ph.to<n){   // 到着判定: 対象粒子との距離 < max(R,6)
+          const hx=S.x[ph.to]-ph.x, hy=S.y[ph.to]-ph.y, hit=Math.max(S.R[ph.to],6);
+          if(hx*hx+hy*hy < hit*hit){
+            S.photonLog.push({tE:ph.tE, aE:ph.aE, tO:S.t, aO, lamE:ph.lamE,
+              lamO:ph.lamE*aO/ph.aE, z:aO/ph.aE-1, from:ph.from, to:ph.to});
+            if(S.photonLog.length>64) S.photonLog.shift();
+            ph.alive=false; died=true; continue;
+          }
+        }
+        // 暴走保護: 座標系の外へ出た/飛行時間が長すぎる光子は消滅
+        if(Math.abs(ph.x)>6000 || Math.abs(ph.y)>6000 || (S.t-ph.tE)>4000){ ph.alive=false; died=true; }
+      }
+      if(died) S.photons=S.photons.filter(q2=>q2.alive);
     }
   };
   // 保存量(T7): P = Σmv、L = Σm(r×v) + ΣIs(保存量モニタ・V1 検証で使用)
@@ -2468,6 +2606,48 @@ function drawField(){
   ctx.drawImage(fieldCv,0,0,cw,ch);
 }
 
+// 第33便: E8R 光学場の1点評価 — traceRay の内側ループ前半と photonStep が共有するカーネル。
+// 呼び出しごとの割り当てを避けるためモジュール内スクラッチ _RF へ書き出す(演算の順序・値は
+// 抽出前と厳密に同一 — traceRay の挙動は bit 等価に保たれる)。
+//   gx,gy = 2∇ψ = −(2/Kt)Σ m(r−r_j)/(d²+ε²)^{3/2}(重い天体のみ)
+//   ux,uy = 決定フレーム u の分子 kF·Σ w(v+ω×Δr) + kF·W_B·u_B、 w = Σ m/√(d²+ε²)
+const _RF={gx:0, gy:0, ux:0, uy:0, w:0};
+function rayField(S, heavy, px, py, kU, eps2, q, kF, BX, WB, bH){
+  let gx=0, gy=0, uNx=0, uNy=0, wSum=0;
+  for(const i of heavy){
+    const dx=px-S.x[i], dy=py-S.y[i], d2=dx*dx+dy*dy;
+    const inv=1/Math.sqrt(d2+eps2);
+    const inv3=inv*inv*inv;
+    gx-=kU*S.m[i]*dx*inv3; gy-=kU*S.m[i]*dy*inv3;
+    const dd=Math.sqrt(d2), w=S.m[i]*inv;   // v1.5: E1′(inv=1/√(d²+ε²) を再利用。dd は下の tt で使用)
+    wSum+=w;
+    let om=0; const si=S.spin[i];
+    if(si!==0){ const tt=S.R[i]/(S.R[i]+dd); om=(q===2)? si*tt*tt : si*Math.pow(tt,q); }
+    uNx+=kF*w*(S.vx[i]+om*(-dy)); uNy+=kF*w*(S.vy[i]+om*(dx));
+  }
+  if(WB>0){ uNx+=kF*WB*(BX.vx - BX.omega*(py-BX.cy) + bH*(px-BX.cx));
+            uNy+=kF*WB*(BX.vy + BX.omega*(px-BX.cx) + bH*(py-BX.cy)); }
+  _RF.gx=gx; _RF.gy=gy; _RF.ux=uNx; _RF.uy=uNy; _RF.w=wSum;
+}
+// 第33便(台帳4-63): 光子1個の1ステップ伝播。traceRay の内側ループ1回分と同一の光学を、
+// 弧長 dl=(c₀/n_eff)·dt(=「dt 秒で進む局所的な光路長」)で適用する。媒質随伴の係数
+// (n_eff/c₀)·dl/W は dt/W に等しく、随伴量はちょうど u·dt になる(A11)。
+// 光子は質量・運動量を持たない表示物理で、粒子側へは反作用しない(E8R と同じ主張水準)。
+// O = S.step が1ステップにつき1回だけ作る光学コンテキスト {heavy,kU,eps2,q,c0,D0,kF,BX,WB,bH}
+function photonStep(S, ph, dt, O){
+  rayField(S, O.heavy, ph.x, ph.y, O.kU, O.eps2, O.q, O.kF, O.BX, O.WB, O.bH);
+  const gx=_RF.gx, gy=_RF.gy, uNx=_RF.ux, uNy=_RF.uy;
+  const Wtot=O.D0+O.WB+_RF.w;
+  const neff=Math.exp(O.kU*Wtot);            // n_eff = e^{2ψ}(ψ は背景 D₀+W_B を含む全 W)
+  const dl=(O.c0/neff)*dt;                   // 弧長 = 局所光速 c₀/n_eff × dt
+  let cxv=ph.dx, cyv=ph.dy;
+  const dot=gx*cxv+gy*cyv;
+  cxv+=(gx-dot*cxv)*dl; cyv+=(gy-dot*cyv)*dl;
+  const cl=Math.sqrt(cxv*cxv+cyv*cyv); cxv/=cl; cyv/=cl;
+  const adv=(Wtot>1e-9)? (neff/O.c0)*dl/Wtot : 0;
+  ph.x+=cxv*dl+uNx*adv; ph.y+=cyv*dl+uNy*adv;
+  ph.dx=cxv; ph.dy=cyv;
+}
 // E8R 光線積分(v1.7・ψ統一。描画と V8 検証で共有。質量 m≥RAY_MASS_MIN のみが曲げる近似)
 // 屈折率 n_eff = e^{2ψ} = e^{2W/Kt}(kLens 廃止 — 時計 E7R と同じ ψ が光を曲げる)。
 // 方向更新はフェルマー則 dĉ/dl = (∇n−(∇n·ĉ)ĉ)/n で、∇n/n = 2∇ψ = (2/Kt)∇W と
@@ -2490,20 +2670,9 @@ function traceRay(S, px, py, cxv, cyv, dl, maxSteps, emit){
   for(let s2=0;s2<maxSteps;s2++){
     steps=s2+1;
     // 2∇ψ = −(2/Kt) Σ m (r−r_j)/(d²+ε²)^{3/2}、u は E3 と同形(重い天体のみ)
-    let gx=0, gy=0, uNx=0, uNy=0, wSum=0;
-    for(const i of heavy){
-      const dx=px-S.x[i], dy=py-S.y[i], d2=dx*dx+dy*dy;
-      const inv=1/Math.sqrt(d2+eps2);
-      const inv3=inv*inv*inv;
-      gx-=kU*S.m[i]*dx*inv3; gy-=kU*S.m[i]*dy*inv3;
-      const dd=Math.sqrt(d2), w=S.m[i]*inv;   // v1.5: E1′(inv=1/√(d²+ε²) を再利用。dd は下の tt で使用)
-      wSum+=w;
-      let om=0; const si=S.spin[i];
-      if(si!==0){ const tt=S.R[i]/(S.R[i]+dd); om=(q===2)? si*tt*tt : si*Math.pow(tt,q); }
-      uNx+=kF*w*(S.vx[i]+om*(-dy)); uNy+=kF*w*(S.vy[i]+om*(dx));
-    }
-    if(WB>0){ uNx+=kF*WB*(BX.vx - BX.omega*(py-BX.cy) + bH*(px-BX.cx));
-              uNy+=kF*WB*(BX.vy + BX.omega*(px-BX.cx) + bH*(py-BX.cy)); }
+    // 第33便: 場の評価は photonStep と共有カーネル rayField へ抽出(式・演算順は不変)
+    rayField(S, heavy, px, py, kU, eps2, q, kF, BX, WB, bH);
+    const gx=_RF.gx, gy=_RF.gy, uNx=_RF.ux, uNy=_RF.uy, wSum=_RF.w;
     const dot=gx*cxv+gy*cyv;
     cxv+=(gx-dot*cxv)*dl; cyv+=(gy-dot*cyv)*dl;
     const cl=Math.sqrt(cxv*cxv+cyv*cyv); cxv/=cl; cyv/=cl;
@@ -2771,15 +2940,41 @@ function drawSpectrum(slot=0){
   ovDrawToggle("spectrum",slot);   // 第26便: 最小化トグル(−)
 }
 
+// 第33便(台帳4-63): 波長(nm)→表示色。可視域(380〜780nm)の区分線形近似スペクトルを返す。
+// 光子描画(render())と下の drawBoxGraph 赤方偏移カラーバーが同じ配色関数を共有する
+// (W2 の6段グラデーション実装をここへ集約 — 重複させない)。
+// 380nm未満は紫、780nm超は赤の方向へそれぞれ減光して表す(紫外・赤外側の表現)
+function wavelengthColor(nm){
+  const L=clamp(nm,380,780);
+  let r=0,g=0,b=0;
+  if(L<440){ r=-(L-440)/(440-380); b=1; }
+  else if(L<490){ g=(L-440)/(490-440); b=1; }
+  else if(L<510){ g=1; b=-(L-510)/(510-490); }
+  else if(L<580){ r=(L-510)/(580-510); g=1; }
+  else if(L<645){ r=1; g=-(L-645)/(645-580); }
+  else { r=1; }
+  let f=1;                                             // 視感度が下がる端の減光(380〜420・700〜780)
+  if(L<420) f=0.3+0.7*(L-380)/(420-380);
+  else if(L>700) f=0.3+0.7*(780-L)/(780-700);
+  if(nm<380) f*=clamp(1-(380-nm)/300,0.12,1);           // 380nm未満: さらに減光(紫外側の表現)
+  else if(nm>780) f*=clamp(1-(nm-780)/700,0.12,1);      // 780nm超: さらに減光(赤外側の表現)
+  const q=(v)=>Math.round(clamp(v*f,0,1)*255).toString(16).padStart(2,"0");
+  return "#"+q(r)+q(g)+q(b);
+}
 // 第32便(W2): 膨張グラフ overlay — 箱宇宙(UniverseBox)の尺度因子a(t)・膨張率H(t)の時系列と、
 // 拡大に伴う波長の伸び(赤方偏移 1+z=a/a₀)を可視化する。データ層(S.boxHist/S.boxRedshift/
 // boxScaleAt)はW1実装済みの純関数・状態を読むだけ — 物理へは一切手を入れない。
 // sim.box が無いプリセットでは overlaySlots() 側で除外されるため、ここに到達しない
 // (直接呼ばれた場合の防御としてもガードする)
+// 第33便: 到着ログ(photonLog)を下部に最大3件追加するため、件数に応じて下方向へ拡張する
+// (原点は overlayBaseY(slot) のまま不変 — 最小化トグル ovDrawToggle の位置と整合を保つ。
+//  選択粒子の情報行と同時に3件表示される稀なケースでは視覚的に重なり得るが表示専用の軽微な制約)
 function drawBoxGraph(slot=0){
   if(ovOverlayMin("boxGraph",slot,T("ovBoxGraph"))) return;   // 最小化中はタイトルバーのみ
   if(!sim.box) return;   // 箱無しでは何も描かない(エッジケース表)
-  const uz=uiFontScale, W=150,H=92,X=0,Y=0;
+  const arrivals=(sim.photonLog||[]).slice(-3).reverse();   // 新しい順に最大3件
+  const extraH=arrivals.length? (9+arrivals.length*9) : 0;
+  const uz=uiFontScale, W=150,H=92+extraH,X=0,Y=0;
   ctx.save(); ctx.translate(cw-W*uz-8, overlayBaseY(slot)); ctx.scale(uz,uz);
   ctx.fillStyle="rgba(12,16,34,0.82)"; ctx.fillRect(X,Y,W,H);
   ctx.strokeStyle="#2a3060"; ctx.strokeRect(X,Y,W,H);
@@ -2808,13 +3003,14 @@ function drawBoxGraph(slot=0){
   const rz=sim.boxRedshift();
   const sc=boxScaleAt(sim.box,sim.t);
   const zTxt=(rz.z>=0?"+":"")+rz.z.toFixed(3);
+  // 第33便: H クランプ可視化 — boxScaleAt(...).clamped が真の間は H=+0.500(CLAMP) の様式に切替
+  const hTxt=sc.clamped? `${sc.H>=0?"+":""}${sc.H.toFixed(3)}(CLAMP)` : (sc.H>=0?"+":"")+sc.H.toFixed(4);
   ctx.font="8px sans-serif"; ctx.fillStyle="#dfe4ff";
-  ctx.fillText(`a=${rz.a.toFixed(3)}  H=${(sc.H>=0?"+":"")+sc.H.toFixed(4)}  z=${zTxt}`,X+6,Y+51);
-  // 赤方偏移カラーバー(可視スペクトル380〜780nm風グラデーション近似。紫→青→緑→黄→赤)
+  ctx.fillText(`a=${rz.a.toFixed(3)}  H=${hTxt}  z=${zTxt}`,X+6,Y+51);
+  // 赤方偏移カラーバー(可視スペクトル380〜780nm。wavelengthColor と配色を共有 — 重複実装しない)
   const barY=Y+58, barH=9, barX0=X+8, barX1=X+W-8, lam0=380, lam1=780;
   const grad=ctx.createLinearGradient(barX0,0,barX1,0);
-  grad.addColorStop(0,"#7f00ff"); grad.addColorStop(0.2,"#2b2bff"); grad.addColorStop(0.45,"#22e022");
-  grad.addColorStop(0.65,"#ffe600"); grad.addColorStop(0.82,"#ff8c00"); grad.addColorStop(1,"#ff2020");
+  for(let k=0;k<=8;k++){ const kt=k/8; grad.addColorStop(kt, wavelengthColor(lam0+kt*(lam1-lam0))); }
   ctx.fillStyle=grad; ctx.fillRect(barX0,barY,barX1-barX0,barH);
   ctx.strokeStyle="#2a3060"; ctx.strokeRect(barX0,barY,barX1-barX0,barH);
   // λ₀=500nm(放出)と λ=λ₀·(1+z)(観測)の位置。範囲外はバー端にクランプし、赤外/紫外の矢印表示に切替
@@ -2830,9 +3026,27 @@ function drawBoxGraph(slot=0){
   const obsTxt=(lamObs>lam1)? T("ovIR") : (lamObs<lam0)? T("ovUV") : T("ovObs");
   ctx.textAlign="right"; ctx.fillStyle=(lamObs>lam1||lamObs<lam0)?"#19e0ff":"#cfd4ff";
   ctx.fillText(obsTxt,X+W-6,Y+76); ctx.textAlign="left";
-  // 導出ではなく意味論の注記(1+z=a/a₀)
-  ctx.font="6px sans-serif"; ctx.fillStyle="#5a6090";
-  ctx.fillText(T("ovBoxNote"),X+6,Y+88);
+  // 導出ではなく意味論の注記(1+z=a/a₀)。第33便: Hクランプ中はこの行を短い警告に差し替える
+  ctx.font="6px sans-serif"; ctx.fillStyle= sc.clamped? "#ff9d45" : "#5a6090";
+  ctx.fillText(sc.clamped? T("ovBoxClamp") : T("ovBoxNote"),X+6,Y+88);
+  // 第33便(台帳4-63): 到着ログ(S.photonLog)を新しい順に最大3件。放出色/観測色の小さな
+  // 色見本(4px四方、wavelengthColor と共通)をλの左右に添える(実装2)
+  if(arrivals.length){
+    ctx.font="6px sans-serif";
+    let ly=Y+97;
+    for(const e of arrivals){
+      let lx=X+6;
+      const idTxt=`#${e.from}→#${e.to} λ`;
+      ctx.fillStyle="#cfd4ff"; ctx.fillText(idTxt,lx,ly); lx+=ctx.measureText(idTxt).width+1;
+      ctx.fillStyle=wavelengthColor(e.lamE); ctx.fillRect(lx,ly-4,4,4); lx+=6;
+      const lamTxt=`${Math.round(e.lamE)}→${Math.round(e.lamO)}`;
+      ctx.fillStyle="#cfd4ff"; ctx.fillText(lamTxt,lx,ly); lx+=ctx.measureText(lamTxt).width+2;
+      ctx.fillStyle=wavelengthColor(e.lamO); ctx.fillRect(lx,ly-4,4,4); lx+=6;
+      const zt=` z=${e.z>=0?"+":""}${e.z.toFixed(2)}`;
+      ctx.fillStyle="#cfd4ff"; ctx.fillText(zt,lx,ly);
+      ly+=9;
+    }
+  }
   ctx.restore();
   ovDrawToggle("boxGraph",slot);   // 第26便: 最小化トグル(−)
 }
@@ -2954,6 +3168,31 @@ function render(){
       }
     }
     if(sim.pinned[i]){ ctx.strokeStyle="rgba(255,255,255,0.75)"; ctx.beginPath(); ctx.arc(sx,sy,rr+2,0,7); ctx.stroke(); }
+  }
+  // 第33便(台帳4-63): 光子(S.photons)の描画 — 粒子描画の後、光線 drawRays とは独立(実装1)。
+  // 到着済み(photonLog に積まれた時点で alive=false・S.photons から除去済み)は描かない
+  // — ログ表示は drawBoxGraph/HUD 側が担う。A/B分割ビュー(drawWorldInto)では描かない(boxGraphと同じ方針)
+  if(sim.photons && sim.photons.length){
+    const aNow=sim.box? boxScaleAt(sim.box,sim.t).a : 1;   // 箱なしでは a=1 固定(λ不変)
+    for(const ph of sim.photons){
+      if(!ph.alive) continue;
+      const sx=w2sX(ph.x), sy=w2sY(ph.y);
+      if(sx<-20||sx>cw+20||sy<-20||sy>ch+20) continue;
+      const lam=ph.lamE*aNow/ph.aE;   // 現在波長 = 放出波長 · a(t)/a(放出)
+      const col=wavelengthColor(lam);
+      // 尾(進行方向の逆向き・長さ8px・低透明度)
+      ctx.strokeStyle=col; ctx.globalAlpha=0.35; ctx.lineWidth=1.5;
+      ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(sx-ph.dx*8, sy-ph.dy*8); ctx.stroke();
+      ctx.lineWidth=1; ctx.globalAlpha=1;
+      // 淡いグロー(半径6px)
+      const g=ctx.createRadialGradient(sx,sy,0,sx,sy,6);
+      g.addColorStop(0,col); g.addColorStop(1,"rgba(0,0,0,0)");
+      ctx.globalAlpha=0.45; ctx.fillStyle=g;
+      ctx.beginPath(); ctx.arc(sx,sy,6,0,7); ctx.fill(); ctx.globalAlpha=1;
+      // 本体(半径2.5pxの点)
+      ctx.fillStyle=col;
+      ctx.beginPath(); ctx.arc(sx,sy,2.5,0,7); ctx.fill();
+    }
   }
   // 軌道トレイルの描画(記録は上の粒子ループ前。グローに隠れないよう最上層に描く)
   if(sim.overlays.trail){
@@ -3185,10 +3424,19 @@ function loop(now){
     let txt=`t=${sim.t.toFixed(1)}  N=${sim.n}  ${Math.round(fpsEMA)}fps`;
     if(sim.box){ // 第31便: UniverseBox の尺度因子・Hubble 率・現在の背景決定力
       const sc=boxScaleAt(sim.box,sim.t);
-      txt+=`  a=${sc.a.toFixed(3)}  H=${sc.H.toFixed(4)}  W_B=${boxWAt(sim.box,sc.a).toFixed(1)}`;
+      // 第33便: H クランプ可視化 — 安全弁が発動している間は H=+0.500(CLAMP) の様式で明示
+      const hTxt=sc.clamped? `${sc.H>=0?"+":""}${sc.H.toFixed(3)}(CLAMP)` : sc.H.toFixed(4);
+      txt+=`  a=${sc.a.toFixed(3)}  H=${hTxt}  W_B=${boxWAt(sim.box,sc.a).toFixed(1)}`;
       // 第32便(W2): 赤方偏移 z(符号付き小数3桁)を追記。boxRedshift() は sim.box 有りのとき常に非null
       const rz=sim.boxRedshift();
       txt+=`  z=${(rz.z>=0?"+":"")+rz.z.toFixed(3)}`;
+    }
+    // 第33便(台帳4-63): boxGraph が無い(トグルOFF)か箱なしのプリセットで photonLog がある場合、
+    // HUD末尾に最新1件だけ λ500→502(z=+0.004) の様式で追記(箱なしでは z=0。実装2)
+    if(!(sim.overlays.boxGraph && sim.box) && sim.photonLog && sim.photonLog.length){
+      const pe=sim.photonLog[sim.photonLog.length-1];
+      const zTxt=(pe.z>=0?"+":"")+pe.z.toFixed(3);
+      txt+=`  ${T("hudPhoton")(Math.round(pe.lamE),Math.round(pe.lamO),zTxt)}`;
     }
     if(monitorOn){ // 保存量モニタ(T7): P+帳簿P・L+帳簿L+放射L が一定なら保存則成立
       const tt=sim.totals();
@@ -3280,6 +3528,11 @@ function loadSave(s, selValue){
   loadPreset(exists?s.presetId:BUILTIN_PRESETS[0].id,false);
   sim.params=Object.assign({},DEFAULT_PHYSICS,s.physics); sim.updateRadii();
   if(s.cameraScale) camScale=s.cameraScale;
+  // 第33便(台帳4-64): 箱パラメータの復元。プリセットに箱が無いのに保存側にだけ universeBox が
+  // あるケースは適用しない(挙動の混乱防止 — 箱の無いプリセットへ箱設定だけが亡霊的に残るのを防ぐ)。
+  // 旧形式セーブ(universeBox キー無し)はこの分岐に入らず従来どおり動く(後方互換)
+  if(s.universeBox && sim.box){ sim.box=Object.assign({},sim.box,s.universeBox);
+    sim.boxARef=boxScaleAt(sim.box,0).a; if(sim.boxHist) sim.boxHist.length=0; }
   setParamsDirty(false);
   buildParamRows(); notify(T("loadedAs")(s.name));
   if(selValue) $("#presetSelect").value=selValue;
@@ -3774,6 +4027,9 @@ $("#btnSave").addEventListener("click",()=>{
   const item={ name, comment:$("#saveComment").value, savedAt:new Date().toISOString(),
     presetId:currentPreset.id, presetName:currentPreset.name,
     physics:Object.assign({},sim.params), cameraScale:camScale };
+  // 第33便(台帳4-64): sim.box があれば箱パラメータの実行中編集をセーブへ含める
+  // (photonEmit は含めない — プリセット由来のまま。実装3)
+  if(sim.box) item.universeBox=Object.assign({},sim.box);
   try{ const a=getSaves(); a.unshift(item); setSaves(a); }
   catch(e){ alert(T("saveFailed")); return; }
   $("#saveComment").value="";
@@ -5003,10 +5259,35 @@ const VERIFY = {
     return {id:"V26", pass, value:aErr,
       detail:`pow a(0.5/10/100)=${av.map(x=>x.toFixed(6)).join("/")} 解析式との相対誤差=${aErr.toExponential(1)}(<1e-9) H の数値微分比較=${hErr.toExponential(1)}(<1e-3) Hクランプ(expo=0.1,t=1e-6)=${hc.toFixed(3)}(|H|≤0.5)`};
   },
+  // V27(第33便): FLRW 摩擦比較モード(universeBox.friction)— 対照チャネルの機械検証。
+  // friction:"flrw" では特異速度 w=v−u_B が標準宇宙論と同じ Hubble 摩擦 dw/dt=−H·w に従い
+  // |w|∝1/a で減衰する。既定 "dfm" では E6′ の帰結どおり w が保存される(BOX_UNIVERSE §13.2)。
+  // flrw は DFM 公理の帰結ではなく A/B 比較用の外部チャネルであることに注意(外部場バッジ表示)
+  v27(){
+    const H=0.01;
+    const run=(fr)=>{
+      const s=makeSim();
+      s.build({ id:"verify_v27", name:"V27", camera:{scale:300}, world:{boundary:"none",size:0},
+        universeBox:{mode:"exp", H0:H, D:80, dPower:0, L:260, cx:0, cy:0, vx:0, vy:0, omega:0,
+          amp:0, freq:0, phase:0, friction:fr},
+        physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, etaRad:0,
+          Kt:10000, cLight:100, softening:2, timeScale:1},
+        bodies:[{type:"single", m:0.05, x:100, y:0, vx:H*100, vy:1, spin:0, pinned:false}], overlays:{} });
+      const steps=Math.ceil(Math.log(1.5)/H/DT);
+      for(let k=0;k<steps;k++) s.step(DT);
+      return {w:Math.hypot(s.vx[0]-H*s.x[0], s.vy[0]-H*s.y[0]), a:Math.exp(H*s.t)};
+    };
+    const F=run("flrw"), D=run("dfm");
+    const rel=Math.abs(F.w*F.a-1);        // |w|/|w0| = 1/a なら w·a = 1
+    const dfmErr=Math.abs(D.w-1);
+    const pass=rel<0.02 && dfmErr<1e-3;
+    return {id:"V27", pass, value:rel,
+      detail:`flrw a=${F.a.toFixed(3)} |w|/|w0|=${F.w.toFixed(4)}(理論 1/a=${(1/F.a).toFixed(4)}・相対誤差=${(rel*100).toFixed(2)}%<2%) dfm |w|/|w0|=${D.w.toFixed(6)}(保存・ずれ=${dfmErr.toExponential(1)}<1e-3)`};
+  },
   all(){ return [this.v1(), this.v2(), this.v6(), this.v8(), this.v9(), this.v10(), this.v10b(),
                  this.v11(), this.v12(), this.v13(), this.v16(),
                  this.v18(), this.v19(), this.v20(),
-                 this.v23a(), this.v24a(), this.v24b(), this.v25(), this.v26()]; }
+                 this.v23a(), this.v24a(), this.v24b(), this.v25(), this.v26(), this.v27()]; }
 };
 
 // ===== デバッグ/テスト用フック(品質ゲートが使用) =====
