@@ -1036,8 +1036,8 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true,boxGraph:true} },
 
 { id:"boxbound", name:"箱宇宙 — 束縛系は膨張に逆らえるか", emoji:"🪢", group:"箱宇宙",
-  description:"膨張するUniverseBox(H=0.004)の中に、束縛された連星(m=100×2)と自由なテスト粒子を置く。自由粒子の距離はa(t)に正比例して伸びる。では連星は? 実測の答え(V25): 追随の度合いは決定力の持ち分φ_B=W_B/(W_B+w局所)で決まり、箱支配(φ_B≈0.95 — この画面)では連星軌道もd∝a^{2φ_B}で拡大する。E6′のΔu輸送は膨張背景で「Hubble反摩擦」として働き、特異速度を保存する(実宇宙のGRでは1/aで減衰 — ここが現行公理系と実宇宙の分岐点)。局所の決定力が支配する極限(φ_B→0)でのみ「束縛系は膨張しない」— そして同じ局所決定力Wが時計も遅らせる(E7R)。「膨張に逆らう」と「時間が遅い」は同じ原因(高い決定力)の二つの現れ。kFrameを下げると追随率が下がる・Gを0にすると束縛が解ける(おすすめA/B)。",
-  en:{name:"Box Universe — Can Bound Systems Resist Expansion?", description:"Inside an expanding UniverseBox (H=0.004) sit a bound binary (m=100×2) and free test particles. Free-particle distances grow in proportion to a(t). And the binary? The measured answer (V25): the degree of following is set by the determinacy share φ_B=W_B/(W_B+w_local); under box dominance (φ_B≈0.95 — this screen) even the binary orbit inflates as d∝a^{2φ_B}. E6′'s Δu transport acts as 'Hubble anti-friction' in an expanding background and conserves peculiar velocity (in real GR it decays as 1/a — a genuine fork between these axioms and our universe). Only in the locally dominated limit (φ_B→0) do bound systems stop expanding — and the same local determinacy W also slows clocks (E7R). 'Resisting expansion' and 'time running slow' are two faces of one cause: high determinacy. Lower kFrame to reduce the following rate, or set G to 0 to unbind (suggested A/B)."},
+  description:"膨張するUniverseBox(H=0.004)の中に、束縛された連星(m=100×2)と自由なテスト粒子を置く。自由粒子の距離はa(t)に正比例して伸びる。では連星は? 実測の答え(V25): 追随の度合いは決定力の持ち分φ_B=W_B/(W_B+w局所)で決まり、箱支配(φ_B≈0.95 — この画面)では連星軌道もd∝a^{2φ_B}で拡大する。E6′のΔu輸送は、絶対時間に対する特異速度を保存する — 一方、局所光速は決定力の希釈で上がるため「光速に対する比」w/c_locは膨張とともに低下する(§12-5 v1.5・V28 — 比率基準では実宇宙GRの減衰方向と整合。分岐が残るのはこの絶対速度チャネルの軌道励起)。局所の決定力が支配する極限(φ_B→0)でのみ「束縛系は膨張しない」— そして同じ局所決定力Wが時計も遅らせる(E7R)。「膨張に逆らう」と「時間が遅い」は同じ原因(高い決定力)の二つの現れ。kFrameを下げると追随率が下がる・Gを0にすると束縛が解ける(おすすめA/B)。",
+  en:{name:"Box Universe — Can Bound Systems Resist Expansion?", description:"Inside an expanding UniverseBox (H=0.004) sit a bound binary (m=100×2) and free test particles. Free-particle distances grow in proportion to a(t). And the binary? The measured answer (V25): the degree of following is set by the determinacy share φ_B=W_B/(W_B+w_local); under box dominance (φ_B≈0.95 — this screen) even the binary orbit inflates as d∝a^{2φ_B}. E6′'s Δu transport conserves peculiar velocity in absolute time — while the local light speed rises as determinacy dilutes, so the ratio w/c_loc falls with expansion (§12-5 v1.5, V28 — in ratio terms the decay direction agrees with real GR; what remains non-standard is this absolute-velocity orbital pumping). Only in the locally dominated limit (φ_B→0) do bound systems stop expanding — and the same local determinacy W also slows clocks (E7R). 'Resisting expansion' and 'time running slow' are two faces of one cause: high determinacy. Lower kFrame to reduce the following rate, or set G to 0 to unbind (suggested A/B)."},
   activeParams:["G","kFrame"],
   camera:{scale:420}, world:{boundary:"none",size:0},
   universeBox:{mode:"exp", H0:0.004, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
@@ -1088,53 +1088,69 @@ const BUILTIN_PRESETS = [
 
 // ===== グループ: 銀河 =====
 { id:"galaxy", name:"銀河の回転曲線", emoji:"🌌", group:"銀河",
-  description:"円盤銀河。初めは星々がケプラー回転(グラフの点線と一致)しているが、空間の引きずり(kFrame=1)が内側の回転を外へ伝え、外縁の回転速度がケプラー予想より高く保たれる(T4: 外縁速度の増強。曲線全体の「平坦化」までは主張しない — 論文v0.2整合)。kFrameを0にすると起きない。右下のグラフ(実線=実測、点線=バリオン基準v_bar(質量分布だけから期待される回転))に注目。※この画面のD₀はモデル内の調整値で、現実の予言値ではない(L14)。",
-  en:{name:"Galactic Rotation Curve", description:"A disk galaxy. Stars start on Keplerian orbits (matching the dotted line), but frame dragging (kFrame=1) transports the inner rotation outward, keeping outer velocities above the Keplerian prediction (T4: outer-velocity enhancement; no claim of full flattening — aligned with paper v0.2). Set kFrame=0 and it never happens. Watch the bottom-right graph (solid=measured, dotted=baseline v_bar — the rotation expected from the mass distribution alone). Note: D₀ here is a model-internal tuning value, not a real-world prediction (L14)."},
-  activeParams:["kFrame","D0","G"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
-  camera:{scale:300}, world:{boundary:"none",size:0},
-  physics:{G:1, D0:1, kFrame:1, q:2, kRep:1.0, muF:0.02, gammaN:0.05, kappaS:0.05, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:4, timeScale:4},
+  // 第33便 X4(台帳4-65a): AI生成プリセットを土台に再設計。原案からの変更は円盤の radius(320→260)と
+  // mMin/mMax(.08–.25→.16–.50)の3値のみ — 中心天体・physics・rays は原案のまま。
+  // 円盤半径 260 は curve.vbar-distributed(評価 r=220)を通すための必須修正: この宇宙は2次元配置に
+  // 1/r² を使うので3次元の殻定理が成立せず、評価半径の外側にある円盤質量は正味「外向き」に引く。
+  // 原案(r=320)は r/R_disk=0.69 で外側に53%が残り内側寄与と相殺するため、質量を12倍にしても比は上がらない。
+  // r=260 なら r/R_disk=0.846(旧構成と同比)となり定義帯 [156,286]=[0.6,1.1]×260 とも一致する。
+  // 実測(seed 20260727・24000步): NaNなし・恒星保持380/380(100%)・max|spin| 11.06(旧構成20.71)・
+  // 外縁比 1.322(旧1.082)・v_bar比 1.0204(5seedで1.020〜1.029)・perf beta/root 0.692。
+  description:"中心の大質量星(m=2500・高スピン1.2・掻出0.8 — 自星の光の8割を外に出さない)と、380個の恒星円盤。恒星はケプラー回転で始まるが、空間の引きずり(A8/E6′)が外縁の回転を実測約1.3倍に増強する(T4) — kFrame=0にすると消える(おすすめA/B)。右下のグラフは実線=実測・点線=バリオン基準v_bar(質量分布だけから期待される回転 — 中心質量だけでなく円盤の寄与も入った正直な基準線)。左からの光線24本は中心の強い場に捕捉・巻き付く(E8R/T5 — 光子捕捉の光学類似)。第33便でAI生成プリセットを土台に再設計(円盤半径260・24000步でNaNなし・恒星保持100%・スピン健全を機械検証)。※この画面のD₀はモデル内の調整値で、現実の予言値ではない(L14)。",
+  en:{name:"Galactic Rotation Curve", description:"A massive central star (m=2500, high spin 1.2, light sweep 0.8 — it keeps 80% of its own light from getting out) surrounded by a disk of 380 stars. The stars start on Keplerian orbits, but the dragging of space (A8/E6′) enhances the outer rotation by a measured factor of about 1.3 (T4) — set kFrame to 0 and it disappears (suggested A/B). In the bottom-right graph, solid = measured and dotted = the baryonic baseline v_bar (the rotation expected from the mass distribution alone — an honest baseline that includes the disk's contribution, not just the central mass). The 24 light rays entering from the left are captured by the strong central field and wind around it (E8R/T5 — the optical analogue of photon capture). Redesigned in the 33rd delivery on top of an AI-generated preset (disk radius 260; machine-verified: no NaN over 24000 steps, 100% star retention, healthy spins). Note: D₀ here is a model-internal tuning value, not a real-world prediction (L14)."},
+  activeParams:["kFrame","D0"],
+  camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260727,
+  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0.8, muF:0.5, gammaN:0.4, kappaS:0.05, Kt:50,
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:3, timeScale:3},
   bodies:[
-    {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:false},
-    {type:"disk", n:380, cx:0,cy:0, radius:260, mMin:0.5,mMax:1.2,
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:600, vScale:1.05, direction:1}
+    {type:"single", m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, lightSweep:0.8, radius:15},
+    {type:"disk", n:380, cx:0,cy:0, radius:260, mMin:0.16,mMax:0.5,
+     spinMin:0,spinMax:0.3, vMode:"kepler", aroundMass:2500, vScale:1.05, direction:1, bulkVx:0, bulkVy:0}
   ],
-  overlays:{rotationCurve:true,tempHistogram:false,field:false} },
+  rays:{n:24, spread:0.5},
+  overlays:{rotationCurve:true,tempHistogram:false,field:true,trail:false,monitor:false} },
 
 { id:"darkrotor", name:"ダークローターの銀河", emoji:"🕶️", group:"銀河",
-  // 第32便 W3b(台帳4-47 Phase C)v4: ピン・レール駆動を全廃した閉鎖系へ格上げ。
-  // 中心BH(m2000・R45・spin0.12・単層・掻出1・自由)+ ダークローター10体(m150・R18・spin0.15・
-  // コア mc/m=0.1・sc/s=20・Rc/R=0.3・掻出1・自由・r=200 の1リング)+ 恒星200体(kepler 初速)。
-  // ハロー初速 3.9212 は E6′ 込みの実効求心力を短時間走行から実測較正した値(E4 単純値 +6.0%)。
-  // BH の vx/vy は総運動量≈0(実測 |P|=0.0006)を作るための補正。
-  // 設計則(実測): ハロー総質量/BH質量≳0.9・D0=2 で E6′ リング不安定を抑制、radiusScale=1.5 で
-  // 恒星の慣性 I=½mR² を上げ E6′ 残余トルクのスピン汲み上げを抑制(1.2 では max|spin| 18.5 に暴走)。
-  // 較正(第32便): u_φ 比 1.891/1.268/1.543(r=140/200/260)・12000步(t≈192)で
-  // ハロー半径偏差 8.01%・全粒子 max|spin| 1.30・恒星保持 200/200・重心移動 0.264(seed 2種で再現)。
-  // 限界: 18000步以降はハロー軌道がゆっくり分散する(有限時間の閉鎖系デモ)。
-  description:"銀河中心のブラックホール(m=2000・光を出さない掻出=1・スピン0.12)と、銀河構造を支える10個のダークローター(m=150・R=18 — 高速スピンのコア sc/s=20 を、質量の9割を占める外殻 mc/m=0.1 に包み、光掻き出しで見掛けは冷たい天体)、その中を回る200個の恒星。第32便で全粒子を自由化した(ピン・レール駆動なし)閉鎖系 — 総運動量≈0の初期条件から12000步(t≈192)の安定を機械検証している(有限時間の閉鎖系デモ — それ以降はハロー軌道がゆっくり分散する)。安定の鍵は実測の設計則: ①ハロー総質量/BH質量≳0.9(軽いハローはE6′引きずり自体がリング不安定を起こす — 重力のリング不安定ではない)②D0=2(背景決定力がE6′結合を薄めて安定化)③radiusScale=1.5(恒星の慣性I=½mR²を上げ、E6′反作用の残余トルクによるスピン汲み上げを抑える。円盤中心の空洞はBH影響圏)。kFrame=1は外縁の回転を同半径比較で+8〜10%増強し、さらに円盤を束ねる — kFrame=0にすると円盤は広がって銀河を保てない(おすすめA/B)。粒子をタップすると半径R・Rc/R・観測温度・掻出を確認・編集できる。※モデル内の理論実験であり、実宇宙のダークマターの主張ではない(T4の防御線を維持)。",
-  en:{name:"Dark-Rotor Galaxy", description:"A black hole at the galactic center (m=2000, light sweep=1 so it emits no light, spin 0.12), ten dark rotors that hold the galactic structure together (m=150, R=18 — a fast-spinning core, sc/s=20, wrapped in a shell carrying 90% of the mass, mc/m=0.1; with the light swept away they look cold), and 200 stars orbiting inside them. Every particle here is free — no pins, no rails — so this is a closed system: starting from a total momentum of about 0, its stability over 12000 steps (t≈192) is machine-verified (a finite-time closed-system demo — beyond that the halo orbits slowly disperse). Stability rests on three measured design rules: (1) halo total mass / BH mass ≳ 0.9 (a light halo makes the E6′ drag itself go ring-unstable — this is not the gravitational ring instability); (2) D0=2 (background determinacy dilutes the E6′ coupling and stabilizes the ring); (3) radiusScale=1.5 (raising the stars' inertia I=½mR² suppresses the spin pumping driven by the residual torque of the E6′ reaction; the hole at the disk center is the BH's sphere of influence). kFrame=1 enhances the outer rotation by +8-10% at matched radius (A8/T4) and, beyond that, binds the disk together — set kFrame to 0 and the disk spreads until the galaxy can no longer hold itself (suggested A/B). Tap a body to inspect and edit its radius R, Rc/R, observed temperature and light sweep. A model-internal experiment — not a claim about real dark matter (T4 disclaimer upheld)."},
+  // 第33便 X4(台帳4-65b)v5: 「腕のある銀河」へ更新。v4(全粒子自由の閉鎖系)を土台に、
+  // ①ローター10体のうち対向2体(x=±200)だけスピン 0.15→2.0(質量150・半径18・r=200等間隔配置は
+  //   完全に軸対称のまま — m=2 をつくるのはスピンだけ。対照=全ローター spin0 は厳密な軸対称系)
+  // ②kRep 1→0.15(E5′斥力 a_rep=kRep·ω²·d が強スピン下で円盤を吹き飛ばす律速だった。
+  //   kRep=1 では d≈100 で a_rep 0.11 > BH重力 0.089 → 恒星保持93.7%・rotDev141%)
+  // ③etaRad 0→0.005(E11放射冷却 Λ∝T⁴・T=I·s² — s が大きいときだけ効く上限装置。
+  //   lightSweep=1 のローター/BH は対象外なので恒星のスピン暴走だけを抑える)
+  // ④radiusScale 1.5→2.0(恒星の I=½mR²・R=radiusScale·√m なので I∝radiusScale²·m²。
+  //   E6′反作用の残余トルクによる汲み上げを抑制。2.5 まで上げると E9 接触で内側が塊化し対照が汚れる)
+  // 恒星は disk(200体)→ ring(380体・内穴 r=70)へ置換(総質量は 170→169 とほぼ同じ・n=391)。
+  // ローター初速 3.9169 は E6′ 込みの実効求心力を短時間走行から実測較正した値。
+  // **同半径のローターは1グループとして共通補正**を掛ける(個別補正だと対称性ノイズが増幅されリングが壊れる)。
+  // BH の vx/vy は総運動量ゼロ化の補正(実測 |P₀|=0.0037)。
+  // 実測(seed 20260726・6000步): 環帯[80,120][120,160][160,200][200,240]の m=2 振幅 A2(後半平均)=
+  // 0.509/0.587/0.301/0.442(対照 spin0 = 0.069/0.068/0.042/0.094)・NaNなし・恒星保持380/380・
+  // 全期間 max|spin| 2.92・ローター半径偏差 17.2%。用量反応: spin 0→1→2→3 で A2 が単調増加。
+  // 有効窓は 6000步(t≈96)まで — 12000步では対照側にも円盤自身の重力不安定で m=2 が育ち分離が甘くなる。
+  description:"銀河中心のブラックホール(m=2000・掻出1)と、r=200の軸対称リングに並ぶ10個のダークローター、その間を回る380個の恒星 — 全粒子が自由(ピン・レール無し)の閉鎖系。対向2個のローターだけスピンを2.0に上げると(質量・半径・配置は完全対称のまま)、その空間引きずり(A8/E6′)が恒星円盤にm=2の渦状腕を立てる — 後行螺旋・ピッチ角≈24°。スピンを0にした対照では腕が消え、スピン0→1→2→3で腕振幅が単調に増える(用量反応 — 腕の主因はローターのスピン)。有効窓はt≈96(6000步)まで — その先はハロー軌道が緩やかに分散する有限時間デモ。kRepは0.15に弱めてある(E5′斥力が腕形成の律速 — 本サンプルでE5′の主張はしない)。kFrame=0にすると引きずり経路ごと消える(おすすめA/B)。※実宇宙のダークマターや渦状腕理論の主張ではない(T4の防御線を維持)。",
+  en:{name:"Dark-Rotor Galaxy", description:"A black hole at the galactic center (m=2000, light sweep=1), ten dark rotors set on an axisymmetric ring at r=200, and 380 stars orbiting between them — a closed system in which every particle is free (no pins, no rails). Raise the spin of just two opposing rotors to 2.0 — leaving mass, radius and placement perfectly symmetric — and their dragging of space (A8/E6′) raises m=2 spiral arms in the stellar disk: a trailing spiral with a pitch angle of about 24°. In the control run with those spins set to 0 the arms vanish, and the arm amplitude grows monotonically as the spin goes 0→1→2→3 (a dose response — the arms are driven by the rotors' spin). The valid window runs to t≈96 (6000 steps); beyond that the halo orbits slowly disperse, so this is a finite-time demo. kRep has been lowered to 0.15 (the E5′ repulsion is the rate-limiting step for arm formation — this sample makes no claim about E5′). Set kFrame to 0 and the whole dragging channel disappears with it (suggested A/B). Not a claim about real dark matter or about spiral-arm theory (T4 disclaimer upheld)."},
   activeParams:["kFrame","D0","q"],
   camera:{scale:300}, world:{boundary:"none",size:0}, seed:20260726,
-  physics:{G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.02, gammaN:0.05, kappaS:0.05, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.5, softening:4, timeScale:2},
+  physics:{G:1, D0:2, kFrame:1, q:2, kRep:0.15, muF:0.02, gammaN:0.05, kappaS:0.05, Kt:60,
+    cLight:60, bM:1, etaRad:0.005, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:2.0, softening:4, timeScale:2},
   bodies:[
-    // 中心ブラックホール(自由・単層=coreMR/coreSR なし・光を出さない lightSweep:1)
-    {type:"single", m:2000, x:0,y:0, vx:-0.016786, vy:0.003363, spin:0.12, radius:45, lightSweep:1, pinned:false},
-    // ダークローター×10(自由・二層構造 coreMR/coreSR/coreRR/radius 明示)
-    {type:"single", m:150, x:200,y:0, vx:0,vy:3.9212, spin:0.15, radius:18, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:150, x:161.8034,y:117.5571, vx:-2.3048,vy:3.1723, spin:0.15, radius:18, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:150, x:61.8034,y:190.2113, vx:-3.7293,vy:1.2117, spin:0.15, radius:18, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:150, x:-61.8034,y:190.2113, vx:-3.7293,vy:-1.2117, spin:0.15, radius:18, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:150, x:-161.8034,y:117.5571, vx:-2.3048,vy:-3.1723, spin:0.15, radius:18, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:150, x:-200,y:0, vx:0,vy:-3.9212, spin:0.15, radius:18, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:150, x:-161.8034,y:-117.5571, vx:2.3048,vy:-3.1723, spin:0.15, radius:18, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:150, x:-61.8034,y:-190.2113, vx:3.7293,vy:-1.2117, spin:0.15, radius:18, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:150, x:61.8034,y:-190.2113, vx:3.7293,vy:1.2117, spin:0.15, radius:18, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    {type:"single", m:150, x:161.8034,y:-117.5571, vx:2.3048,vy:3.1723, spin:0.15, radius:18, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:false},
-    // 恒星円盤(自由・kepler 初速)
-    {type:"disk", n:200, cx:0,cy:0, radius:260, mMin:0.5,mMax:1.2,
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2000, vScale:1, direction:1}
+    // 中心ブラックホール(自由・単層・光を出さない lightSweep:1。vx/vy は総運動量ゼロ化の補正)
+    {type:"single", m:2000, x:0,y:0, vx:0.00166, vy:-0.00435, spin:0.12, radius:45, lightSweep:1, pinned:false},
+    // ダークローター×10(自由・単層・r=200 の等間隔リング。対向2体=x±200 のみ spin 2.0)
+    {type:"single", m:150, x:200.0,y:0.0, vx:-0.0,vy:3.9169, spin:2.0, radius:18, lightSweep:1, pinned:false},
+    {type:"single", m:150, x:161.8034,y:117.5571, vx:-2.302292,vy:3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", m:150, x:61.8034,y:190.2113, vx:-3.724583,vy:1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", m:150, x:-61.8034,y:190.2113, vx:-3.724583,vy:-1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", m:150, x:-161.8034,y:117.5571, vx:-2.302292,vy:-3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", m:150, x:-200.0,y:0.0, vx:0.0,vy:-3.9169, spin:2.0, radius:18, lightSweep:1, pinned:false},
+    {type:"single", m:150, x:-161.8034,y:-117.5571, vx:2.302292,vy:-3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", m:150, x:-61.8034,y:-190.2113, vx:3.724583,vy:-1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", m:150, x:61.8034,y:-190.2113, vx:3.724583,vy:1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", m:150, x:161.8034,y:-117.5571, vx:2.302292,vy:3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    // 恒星リング(自由・kepler 初速・内穴 r=70 は BH 影響圏)
+    {type:"ring", n:380, cx:0,cy:0, rIn:70, rOut:260, mMin:0.26,mMax:0.63,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2000, omega:0, vNoise:0, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false} },
 
@@ -5187,7 +5203,8 @@ const VERIFY = {
   // V25: 束縛系と膨張追随(測定型 — 第31便で発見を機械固定)。
   // 事前設計の「束縛系は膨張しない」は箱支配(φ_B≈1)では成立しない: E6′ の Δu 輸送は
   // 規定膨張背景で「Hubble 反摩擦」+φ_B·H·v として働き、(1) 自由粒子の特異速度 w=v−H·r は
-  // 厳密保存(実 GR の 1/a 減衰と逆)、(2) 連星の軌道間隔は d∝a^{n}, n≈2φ_B で流れより速く
+  // 厳密保存(絶対時間基準。§12-5 v1.5: 局所光速の上昇により比 w/c_loc は低下 — V28)、
+  // (2) 連星の軌道間隔は d∝a^{n}, n≈2φ_B で流れより速く
   // 拡大し得る、(3) 局所の決定力が支配する極限(φ_B→0)でのみ追随が消える。
   // φ_B = W_B/(W_B+w_local) — 「膨張に逆らう度合い」と「時計の遅れ」(ψ=W/Kt)が同じ
   // 局所決定力から決まる(共通原因)ことの機械実証でもある。
@@ -5284,10 +5301,37 @@ const VERIFY = {
     return {id:"V27", pass, value:rel,
       detail:`flrw a=${F.a.toFixed(3)} |w|/|w0|=${F.w.toFixed(4)}(理論 1/a=${(1/F.a).toFixed(4)}・相対誤差=${(rel*100).toFixed(2)}%<2%) dfm |w|/|w0|=${D.w.toFixed(6)}(保存・ずれ=${dfmErr.toExponential(1)}<1e-3)`};
   },
+  // V28(第33便追補 — §12-5 v1.5 改訂の機械固定): 膨張箱の自由粒子で
+  // ①絶対時間に対する特異速度 w は保存(V25 と同経路)②局所光速 c_loc=c₀·e^{−2ψ} は
+  // 決定力の希釈(W_B=D/a)で上昇 ③比 R=w/c_loc は R(a)/R(1)=e^{−2(D/Kt)(1−1/a)} で単調低下
+  // — 「光速に対する慣性移動速度の比は膨張で低下」(原仮定者修正 2026-07-26)。
+  // 理想化(光速∝1/W)なら R∝1/a — 指数形との関数形の差は台帳 4-66(E8R 改訂の要否)
+  v28(){
+    const H=0.01, D=80, Kt=300, c0=60;
+    const s=makeSim();
+    s.build({ id:"verify_v28", name:"V28", camera:{scale:300}, world:{boundary:"none",size:0},
+      universeBox:{mode:"exp", H0:H, D:D, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0,
+        amp:0, freq:0, phase:0, friction:"dfm"},
+      physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, etaRad:0,
+        Kt:Kt, cLight:c0, softening:4, timeScale:1},
+      bodies:[{type:"single", m:0.05, x:100, y:0, vx:H*100, vy:1, spin:0, pinned:false}], overlays:{} });
+    const cLoc=(a)=>c0*Math.exp(-2*(D/a)/Kt);   // 単独粒子なので ψ=W_B/Kt(自己場除外で sumW=0)
+    const w0=1, R0=w0/cLoc(1);
+    const steps=Math.ceil(Math.log(2)/H/DT);    // a=2 まで
+    for(let k=0;k<steps;k++) s.step(DT);
+    const a=Math.exp(H*s.t);
+    const w1=Math.hypot(s.vx[0]-H*s.x[0], s.vy[0]-H*s.y[0]);
+    const R1=w1/cLoc(a);
+    const ana=Math.exp(-2*(D/Kt)*(1-1/a));      // 解析: R(a)/R(1)
+    const wErr=Math.abs(w1/w0-1), rErr=Math.abs(R1/R0-ana);
+    const pass=wErr<1e-3 && R1<R0 && rErr<1e-3;
+    return {id:"V28", pass, value:R1/R0,
+      detail:`a=${a.toFixed(3)}: w保存ずれ=${wErr.toExponential(1)}(<1e-3) 比w/c_loc: R(a)/R(1)=${(R1/R0).toFixed(4)}(解析${ana.toFixed(4)}・誤差${rErr.toExponential(1)})— 光速上昇で低下(§12-5 v1.5)。理想化(光速∝1/W)なら1/a=${(1/a).toFixed(3)} — 関数形の差は台帳4-66`};
+  },
   all(){ return [this.v1(), this.v2(), this.v6(), this.v8(), this.v9(), this.v10(), this.v10b(),
                  this.v11(), this.v12(), this.v13(), this.v16(),
                  this.v18(), this.v19(), this.v20(),
-                 this.v23a(), this.v24a(), this.v24b(), this.v25(), this.v26(), this.v27()]; }
+                 this.v23a(), this.v24a(), this.v24b(), this.v25(), this.v26(), this.v27(), this.v28()]; }
 };
 
 // ===== デバッグ/テスト用フック(品質ゲートが使用) =====
