@@ -287,10 +287,18 @@
       <div class="group"><h3 id="aiGenHead">新しいシミュレーションを生成</h3>
         <!-- 第26便(原仮定者指示): ベースのサンプル選択(任意)— 参考サンプルをAI生成に利用 -->
         <div class="prow"><label id="aiBaseLabel">ベースのサンプル(任意)</label>
-          <select id="aiBasePreset" style="flex:1"></select></div>
+          <!-- 第33便: min-width:0 が無いと長いプリセット名(🛰️弱場GR較正…等)の内容最小幅で
+               flexアイテムが縮まず、.prow/.group がタブ幅からはみ出して横スクロールしていた
+               (#presetSelect と同じ既知パターン。行28参照) -->
+          <select id="aiBasePreset" style="flex:1;min-width:0"></select></div>
         <p class="note" id="aiBaseNote">ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの coreMR/lightSweep や 🛰️の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信されます。</p>
         <textarea id="aiPrompt" placeholder="例: 3つの恒星が絡み合う三体問題。まわりに塵の環も欲しい"></textarea>
         <div class="rowBtns"><button class="btn primary" id="btnGenerate">生成する</button></div>
+        <!-- 第32便 W4(台帳4-58): 送信内容の事前確認(開いている間だけ入力に追従) -->
+        <details id="aiPreviewWrap"><summary id="aiPreviewSum" class="note" style="cursor:pointer">送信内容を確認(実際に送るテキスト)</summary>
+        <p class="note" id="aiPreviewNote">APIへ送信されるのはここに表示された内容+システムプロンプト。キーと共に選択AI事業者へ送られる。</p>
+        <textarea id="aiPreviewBody" readonly style="min-height:120px;"></textarea>
+        <p class="note" id="aiPreviewSysNote"></p></details>
         <div id="aiStatus"></div>
       </div>
       <div class="group"><h3 id="aiListHead">生成済みプリセット</h3><div id="customList"></div></div>
@@ -397,15 +405,18 @@ ja: {
   tgTrails:"軌跡を残す", tgTrailLine:"線の軌跡", tgField:"決定力マップ", tgCurve:"回転曲線グラフ",
   tgTemp:"温度グラフ", tgSpectrum:"スペクトル", tgMonitor:"保存量モニタ(P・L・帳簿)",
   tgRays:"光線", uiScaleLabel:"文字サイズ",
+  // 第32便(W2): 膨張グラフ overlay(a・H・赤方偏移)
+  tgBoxGraph:"膨張グラフ(a・H・赤方偏移)",
   // 第23便(原仮定者指示): 「表示」各行のタップ説明
   tgTrailsDesc:"画面を消さずに粒子の残像を重ねる表示効果。物理には影響しない。",
   tgTrailLineDesc:"粒子の軌道を線で記録して描く(☿の楕円歳差など)。記録間隔は描画品質に従う。",
   tgFieldDesc:"決定力 W の強さを背景の色マップで表示(A3/E1′)。明るいほど W が高い。",
   tgRaysDesc:"光線束(E8R)を表示。光は ψ=W/Kt で屈折し、決定フレーム u に運ばれる(A11)。光線のないサンプルでも既定の平行光束を点灯できる。",
-  tgCurveDesc:"右下に回転曲線(半径ごとの接線速度)を表示。点線は最大質量天体だけによるケプラー予測。",
+  tgCurveDesc:"右下に回転曲線(半径ごとの接線速度)を表示。点線はバリオン実加速度基準 v_bar(r)(質量分布だけから期待される回転)。",
   tgTempDesc:"温度ヒストグラム(左右比較)。表示は観測温度 T_obs=To×·(1−掻出)·T。",
   tgSpectrumDesc:"放射スペクトル(A12: ピーク波長 λ=b_m/T のウィーン型)。表示は観測温度基準。",
   tgMonitorDesc:"運動量P・角運動量Lとリザーバ帳簿(E6′/E11)の保存量モニタ(T7)。",
+  tgBoxGraphDesc:"箱宇宙(UniverseBox)の尺度因子a(t)・膨張率H(t)の時系列と、拡大による波長の伸び(赤方偏移 1+z=a/a₀)を表示する。箱宇宙プリセットでのみ有効。",
   uiScaleDesc:"UI文字の拡大率。表示のみで物理・保存データには影響しない。",
   // 第23便: 粒子編集のパラメータ名タップ説明
   beDm:"m: 質量。重力(E4)と決定力場W(E1′)の源。負値は実験用(±5000)。",
@@ -445,7 +456,7 @@ ja: {
   btnImportFile:"ファイルから読込", fileLoaded:"ファイルを読み込みました",
   unsavedWarn:"※編集中のパラメータは「保存」するまでバックアップに含まれません",
   confirmDiscard:"未保存の編集があります。破棄して読み込みますか?",
-  betaShared:"β版(beta v1.31-b6)はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。",
+  betaShared:"β版(beta v1.32-b4)はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。",
   draftRestore:"未保存の編集の下書きが見つかりました(再読込前の状態)。復元しますか?",
   swFail:"オフライン用キャッシュ(Service Worker)の登録に失敗しました。オンラインでは通常どおり使えます。",
   periHud:(m,a)=>`近点移動(最内粒子): 実測 ${m}°/周 / 解析 ${a}°/周`,
@@ -460,6 +471,10 @@ ja: {
   aiBaseLabel:"ベースのサンプル(任意)", aiBaseNone:"なし(要望だけで生成)",   // 第26便
   aiBaseNote:"ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの coreMR/lightSweep や 🛰️の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信されます。",
   aiPromptPh:"例: 3つの恒星が絡み合う三体問題。まわりに塵の環も欲しい",
+  // 第32便 W4(台帳4-58): 送信内容の事前確認
+  aiPreviewSum:"送信内容を確認(実際に送るテキスト)",
+  aiPreviewNote:"APIへ送信されるのはここに表示された内容+システムプロンプト。キーと共に選択AI事業者へ送られる。",
+  aiPreviewSys:(n,head)=>"システムプロンプト: "+n+"文字(先頭200字): "+head+"…",
   apiKeyPh:"APIキー",
   keySet:"キーを設定しました", keySetSaved:"キーを設定しました(この端末に保存)", keyCleared:"キーを消去しました",
   noKey:"APIキーを設定してください", noPrompt:"作りたいシミュレーションの説明を入力してください",
@@ -480,9 +495,31 @@ ja: {
   helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。",
   helpLaws:"この宇宙の法則(要約)",
   helpLawsBody:"① 空間は質点の相対配置だけで決まる(絶対空間なし)。② 決定力=質量÷距離。決定力の勾配が重力になる。③ 質点は「近くの空間」に対して慣性を持ち、空間ごと引きずられる(kFrame)。遠方宇宙の決定力がD₀。④ スピン=熱(温度T=Is²)。衝突で速度がスピンに変わり(muF)、スピンは斥力=圧力を生み(kRep)、拡散して平衡になる(κs)。⑤ 決定力が高い場所の時計は遅く、空間(共動フレーム)に対して速く動く時計も遅れる。光は同じψ=W/Ktで屈折して曲がり(n=e^{2ψ}。v1.7で時間と光を単一のψに統一)、「決定した空間」に運ばれる(c₀)。⑥ すべての相互作用は作用反作用対称で、運動量・角運動量を厳密に保存する(遠方宇宙との交換は帳簿に記録=保存量モニタ)。温度Tの質点はλ=b_m/Tの光を放射する(η_rad)。詳細は docs/PHYSICS.md(v1.6)。",
-  ovCurve:"v(r): 実測(青) / ケプラー(点線)", ovTemp:"平均温度(Is²) 左/右", ovLeft:"左", ovRight:"右",
+  ovCurve:"v(r): 実測(青) / 基準 v_bar(点線)", ovTemp:"平均温度(Is²) 左/右", ovLeft:"左", ovRight:"右",
   ovSpec:"放射ピーク λ=b_m/T", ovSpecNone:"放射なし(T≈0)", ovSpecHot:"短λ=高温", ovSpecCold:"長λ=低温",
   hudClock:"時計τ/t",
+  // 第32便(W2): 膨張グラフ overlay(a(t)・H(t)の折れ線+赤方偏移カラーバー)
+  ovBoxGraph:"a(青実線) / H(橙点線)", ovEmit:"放出", ovObs:"観測", ovIR:"→赤外", ovUV:"→紫外",
+  ovBoxNote:"1+z=a/a₀(意味論 — 導出ではない)",
+  // 第33便(台帳4-63): H クランプ中の短い警告(注記行に出す)
+  ovBoxClamp:"H はクランプ中 — 物理解釈対象外",
+  // 第33便: 箱なし/boxGraph非表示時のHUD末尾に出す到着ログ1件の書式
+  hudPhoton:(le,lo,z)=>`λ${le}→${lo}(z=${z})`,
+  // 第32便(W2): 箱宇宙(UniverseBox)パラメータ編集UI(パラメータタブ)
+  boxSectionHead:"箱宇宙(UniverseBox)",
+  // 第33便(台帳4-64): セーブ対応(実装3)に合わせて文言更新
+  boxSectionDesc:"セーブ(保存)に含まれる(第33便 4-64)。プリセット既定へ戻すには⏮。",
+  boxModeLabel:"尺度モード", boxH0Label:"膨張率 H₀", boxCoefLabel:"係数 c(a=1+c·t^p)",
+  boxExpoLabel:"指数 p(時間を底とした冪)", boxAmpLabel:"揺らぎ振幅 A", boxFreqLabel:"揺らぎ角速度 ω",
+  boxDLabel:"箱の決定力 D(W_B=D/a^dPower)",
+  boxModeDesc:"尺度因子a(t)の式の種類(A2: static=一定/exp=指数 a=e^{H0t}/lin=線形 a=1+H0t/sin=振動 a=1+A·sin(ωt+φ)/pow=時間のべき a=1+c·t^p+A·sin(ωt+φ))。boxScaleAt(B,t)の分岐に対応(W1データ層)。",
+  boxH0Desc:"指数(exp)・線形(lin)モードで使う膨張率H₀(a=e^{H0t} または a=1+H0t)。±0.2にクランプ。",
+  boxCoefDesc:"べき(pow)モードの係数c(a=1+c·t^p+振動)。±1にクランプ。",
+  boxExpoDesc:"べき(pow)モードの指数p(時間tを底とする冪)。0.1〜3にクランプ。",
+  boxAmpDesc:"sin/powモードで使う揺らぎ(振動)の振幅A。0〜0.9にクランプ。",
+  boxFreqDesc:"sin/powモードで使う揺らぎの角速度ω(位相phaseはこのUIの対象外・プリセット既定のまま)。0〜2にクランプ。",
+  boxDDesc:"箱の決定力D(W_B=D·a^{-dPower})。背景決定力の強さ — 大きいほど内部の時計・光への影響が強い。0〜10000にクランプ。",
+  boxModeOpts:[["static","静的 static"],["exp","指数 exp"],["lin","線形 lin"],["sin","振動 sin"],["pow","べき pow"]],
   // v1.15(第7次裁定): 外部要素バッジ(自動判定)と おすすめA/B
   extHead:"外部要素(自動判定)",
   extClosed:"閉鎖系 — 固定・規定運動なし。運動量・角運動量は系内(+遠方宇宙の帳簿)で閉じる。",
@@ -519,14 +556,16 @@ en: {
   tgTrails:"Motion trails", tgTrailLine:"Line trails", tgField:"Determinacy map", tgCurve:"Rotation-curve graph",
   tgTemp:"Temperature graph", tgSpectrum:"Spectrum", tgMonitor:"Conservation monitor (P, L, ledger)",
   tgRays:"Light rays", uiScaleLabel:"Text size",
+  tgBoxGraph:"Expansion graph (a, H, redshift)",
   tgTrailsDesc:"Overlays fading afterimages of the particles. Display only — physics unchanged.",
   tgTrailLineDesc:"Records and draws orbit lines (e.g. Mercury's precessing ellipse). Recording interval follows render quality.",
   tgFieldDesc:"Background color map of the determinacy W (A3/E1'). Brighter = higher W.",
   tgRaysDesc:"Shows the light-ray bundle (E8R). Rays refract via psi=W/Kt and are carried by the frame u (A11). Presets without rays can light a default parallel bundle.",
-  tgCurveDesc:"Rotation curve (tangential speed vs radius) at bottom right. The dotted line is the Kepler prediction from the largest single mass only.",
+  tgCurveDesc:"Rotation curve (tangential speed vs radius) at bottom right. The dotted line is the baseline v_bar(r) from the real baryonic acceleration — the rotation expected from the mass distribution alone.",
   tgTempDesc:"Temperature histogram (left/right). Uses the observed temperature T_obs = To x (1-sweep) x T.",
   tgSpectrumDesc:"Radiation spectrum (A12, Wien-type peak lambda=b_m/T). Uses observed temperature.",
   tgMonitorDesc:"Conservation monitor (T7): momentum P, angular momentum L, and the reservoir ledger (E6'/E11).",
+  tgBoxGraphDesc:"Shows the box universe (UniverseBox) scale factor a(t) and expansion rate H(t) over time, plus the wavelength stretch from expansion (redshift 1+z=a/a0). Only active on box-universe presets.",
   uiScaleDesc:"UI text scale. Display only.",
   beDm:"m: mass. Source of gravity (E4) and the determinacy field W (E1'). Negative values are experimental.",
   beDs:"s: spin (rotation rate). Source of frame dragging (A8), temperature T=Is^2 (A9), and spin repulsion (A10).",
@@ -565,7 +604,7 @@ en: {
   btnImportFile:"Load from file", fileLoaded:"File loaded",
   unsavedWarn:"Note: edited parameters are not included in backups until you press Save",
   confirmDiscard:"You have unsaved edits. Discard them and load?",
-  betaShared:"This beta (v1.31-b6) shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.",
+  betaShared:"This beta (v1.32-b4) shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.",
   draftRestore:"Found a draft of unsaved edits (from before the last reload). Restore it?",
   swFail:"Offline cache (Service Worker) registration failed. The app still works normally online.",
   periHud:(m,a)=>`Apsidal drift (innermost): measured ${m}°/orbit / analytic ${a}°/orbit`,
@@ -580,6 +619,10 @@ en: {
   aiBaseLabel:"Base sample (optional)", aiBaseNone:"None (generate from the request only)",
   aiBaseNote:"Pick a base to have the AI modify that sample's JSON to your request \u2014 reference structures (\ud83d\udd76\ufe0f dark-rotor coreMR/lightSweep, \ud83d\udef0\ufe0f zonal, etc.) carry over. The selected base JSON (including custom presets) is sent to the currently selected AI provider on generation.",
   aiPromptPh:"e.g. A chaotic three-star system with a ring of dust around it",
+  // 第32便 W4(4-58): preview exactly what will be sent
+  aiPreviewSum:"Preview exactly what will be sent",
+  aiPreviewNote:"What is sent to the API is the text shown here plus the system prompt. It is sent, together with your key, to the AI provider you selected.",
+  aiPreviewSys:(n,head)=>"System prompt: "+n+" chars (first 200): "+head+"…",
   apiKeyPh:"API key",
   keySet:"Key set", keySetSaved:"Key set (saved on this device)", keyCleared:"Key cleared",
   noKey:"Please set an API key first", noPrompt:"Describe the simulation you want to create",
@@ -600,16 +643,33 @@ en: {
   helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction.",
   helpLaws:"Laws of this universe (summary)",
   helpLawsBody:"(1) Space is defined only by the relative configuration of masses (no absolute space). (2) Determinacy = mass ÷ distance; its gradient is gravity. (3) Masses have inertia relative to the \"nearby space\" and are dragged along with it (kFrame). D₀ is the determinacy of the distant universe. (4) Spin = heat (T = Is²). Collisions convert velocity to spin (muF), spin creates repulsion = pressure (kRep), and diffuses to equilibrium (κs). (5) Clocks run slow where determinacy is high, and clocks moving fast relative to the comoving frame also run slow. Light refracts under the same ψ = W/Kt (n = e^{2ψ}; time and light unified in v1.7) and is carried by the \"determined space\" (c₀). (6) All interactions are action–reaction symmetric and conserve momentum and angular momentum exactly (exchanges with the distant universe are ledgered — see the conservation monitor). A mass at temperature T radiates at λ = b_m/T (η_rad). Details: docs/PHYSICS.md (v1.6).",
-  ovCurve:"v(r): measured (blue) / Kepler (dotted)", ovTemp:"Mean temperature (Is²) L/R", ovLeft:"L", ovRight:"R",
+  ovCurve:"v(r): measured (blue) / baseline v_bar (dotted)", ovTemp:"Mean temperature (Is²) L/R", ovLeft:"L", ovRight:"R",
   ovSpec:"Radiation peak λ=b_m/T", ovSpecNone:"No radiation (T≈0)", ovSpecHot:"short λ = hot", ovSpecCold:"long λ = cold",
   hudClock:"clock τ/t",
+  ovBoxGraph:"a (blue, solid) / H (orange, dotted)", ovEmit:"Emitted", ovObs:"Observed", ovIR:"→IR", ovUV:"→UV",
+  ovBoxNote:"1+z=a/a0 (semantics, not derived)",
+  ovBoxClamp:"H clamped — not physically interpretable",
+  hudPhoton:(le,lo,z)=>`λ${le}→${lo}(z=${z})`,
+  boxSectionHead:"Box Universe (UniverseBox)",
+  boxSectionDesc:"Included in saves (33rd delivery, ledger 4-64). Press ⏮ to restore the preset defaults.",
+  boxModeLabel:"Scale mode", boxH0Label:"Expansion rate H₀", boxCoefLabel:"Coefficient c (a=1+c·t^p)",
+  boxExpoLabel:"Exponent p (power of time)", boxAmpLabel:"Fluctuation amplitude A", boxFreqLabel:"Fluctuation angular rate ω",
+  boxDLabel:"Box determinacy D (W_B=D/a^dPower)",
+  boxModeDesc:"Which formula defines the scale factor a(t) (A2: static=constant / exp=exponential a=e^{H0t} / lin=linear a=1+H0t / sin=oscillating a=1+A·sin(ωt+φ) / pow=power-law in time a=1+c·t^p+A·sin(ωt+φ)). Matches the boxScaleAt(B,t) branches (W1 data layer).",
+  boxH0Desc:"Expansion rate H0 used by the exp/lin modes (a=e^{H0t} or a=1+H0t). Clamped to ±0.2.",
+  boxCoefDesc:"Coefficient c for the pow mode (a=1+c·t^p+oscillation). Clamped to ±1.",
+  boxExpoDesc:"Exponent p for the pow mode (power applied to time t). Clamped to 0.1-3.",
+  boxAmpDesc:"Oscillation amplitude A used by the sin/pow modes. Clamped to 0-0.9.",
+  boxFreqDesc:"Oscillation angular rate ω used by the sin/pow modes (phase stays at the preset default — not exposed here). Clamped to 0-2.",
+  boxDDesc:"Box determinacy D (W_B=D·a^{-dPower}) — the strength of the background determinacy. Higher values affect interior clocks and light more strongly. Clamped to 0-10000.",
+  boxModeOpts:[["static","static"],["exp","exp"],["lin","lin"],["sin","sin"],["pow","pow"]],
   extHead:"External elements (auto-detected)",
   extClosed:"Closed system — no constraints or prescribed motion. Momentum and angular momentum close within the system (plus the distant-universe ledger).",
   extPinned:(n)=>"Pinned bodies ×"+n+" — position and spin are held externally. The reaction leaves the system, so conservation appears broken if you look at the system alone.",
   extRail:"Prescribed motion (rail-driven) — follows an external schedule and does work on the system.",
   extBath:"Spin bath (heat bath) — fixed-spin bodies heat/cool their surroundings (external energy source/sink).",
   extGrav:"Uniform gravity field (gravityX/Y) — an external force field acting across the scene. Momentum exchange with the field is ledgered.",
-  groups:{"空間と時間":"Space & Time","銀河":"Galaxies","光":"Light","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
+  groups:{"空間と時間":"Space & Time","箱宇宙":"Box Universe","銀河":"Galaxies","光":"Light","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
   params:{G:"Gravity G", D0:"Background determinacy D₀", kFrame:"Frame dragging kFrame",
     q:"Drag falloff q", kRep:"Spin repulsion kRep", muF:"Friction→spin muF",
     gammaN:"Collision damping γn", kappaS:"Spin diffusion κs", Kt:"Spacetime Kt (time & light)",
@@ -683,6 +743,7 @@ ja: {
   T7:"線運動量と全角運動量(軌道+スピン)は厳密に保存する",
   T8:"中心星のスピンは光の湾曲を非対称にする(カー・ブラックホールの光学類似)",
   T9:"座標時間は宇宙で一意 — 「どちらの双子が年を取るか」に曖昧さがない",
+  T10:"箱宇宙(一定範囲の外を単純化する近似)の並進・回転は内部から検知できないとみなす — 検知できるなら、より大きな箱宇宙が要る。拡大縮小だけは検知でき、光の波長を引き伸ばす(赤方偏移)。質点リングの壁は一次変形を利得g(r)(中心1/2)でしか運べず、完全な箱には連続背景UniverseBoxが必要",
 },
 en: {
   A1:"Space has no substance; it is defined only by the relative configuration of masses (no absolute space)",
@@ -719,6 +780,7 @@ en: {
   T7:"Linear momentum and total angular momentum (orbital + spin) are exactly conserved",
   T8:"A central star's spin makes light bending asymmetric (a Kerr optical analogue)",
   T9:"Coordinate time is unique to the universe — no ambiguity about which twin ages",
+  T10:"The box universe (an approximation lumping everything beyond a chosen scale) is deemed internally undetectable in translation and rotation — detecting them would require a larger box. Only expansion/contraction is detectable, stretching light wavelengths (redshift). A point-mass ring wall carries first-order deformations only with gain g(r) (1/2 at the center); a full box needs the continuous UniverseBox background",
 },
 };
 function lawText(key){ return (LANG==="en" && LAWS.en[key]) || LAWS.ja[key]; }
@@ -737,11 +799,16 @@ function externalTags(p){
     if(b.type==="single" && b.pinned){ pin++; if(Math.abs(b.spin||0)>0) bath=true; if(b.railOmega) rail=true; }   // 第27便: 単体レールも検出
     else if(b.type==="ring" && b.pinned){ pin+=(b.n||0);
       if(b.vMode==="omega" && b.omega) rail=true;
+      if(b.railH) rail=true;   // 第31便: 膨張レールも規定運動
       if(Math.abs(b.spinMin||0)>0 || Math.abs(b.spinMax||0)>0) bath=true; }
   }
+  // 第31便: UniverseBox の動的モード・並進・回転は規定運動(外部駆動)として検出
+  if(p.universeBox){ const B=p.universeBox;
+    if((B.mode && B.mode!=="static") || B.vx || B.vy || B.omega) rail=true; }
   // v1.17: 一様重力場(gravityX/Y)も外部要素として検出
+  // 第33便: FLRW 摩擦比較モード(universeBox.friction="flrw")も外部場(公理系外の対照チャネル)
   const ph=p.physics||{};
-  const grav=!!(ph.gravityX||ph.gravityY);
+  const grav=!!(ph.gravityX||ph.gravityY||(p.universeBox && p.universeBox.friction==="flrw"));
   return {pin, rail, bath, grav};
 }
 function gName(g){ return (LANG==="en" && I18N.en.groups[g]) || g; }
@@ -758,7 +825,7 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
   geoPN:0, lambdaPN:1, pnAlpha:1.5,   // v1.20: E12 測地線1PN(geoPN=1で有効。BOX_UNIVERSE §5)
   radiusScale:1, softening:2, timeScale:1 };   // 第26便: radiusScale 既定 1.2→1(内蔵は明示値を維持)
 // v1.7: kLens は廃止(E8R で屈折率は n=e^{2W/Kt} に統一。旧セーブの kLens は受理して無視)
-const APP_VERSION = "1.31";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
+const APP_VERSION = "1.32";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 const RAY_MASS_MIN = 40;                  // 光線を曲げる最小質量(性能のための近似)
@@ -899,59 +966,191 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
+// ===== グループ: 箱宇宙(第31便 — BOX_UNIVERSE v1.2。「宇宙に大質量の箱だけがある」思考実験)=====
+{ id:"boxtrans", name:"箱宇宙 — 並進する箱", emoji:"📦", group:"箱宇宙",
+  description:"質量M=1440の自由な質点リング(壁)と、内部のテスト粒子・時計が全て同じ速度で並進する閉鎖系。壁が唯一の決定力源なので(D0=0)、決定フレームuは壁の速度そのものになり(A2/A5)、箱と共動する下の時計は|v−u|=0 — 速度1.2で運動しているのに全く遅れない(E7R)。上の時計は箱に対して固有運動(0.9)を持つため遅れる(τ/t≈0.989) — 時計をタップして比較。箱宇宙の中に「絶対静止」は無い: 運動はすべて箱に対して相対であり、内部の閉じた実験から箱全体の並進は原理的に検知できない(検知できるなら、より大きな箱宇宙が必要になる — T1・T10)。運動量Pは保存し帳簿はゼロのまま(モニタ表示・A13)。⏮で初期位置に戻る。",
+  en:{name:"Box Universe — Translating Box", description:"A closed system: a free point-mass ring (the wall, M=1440) and interior test particles and clocks all translate at the same velocity. The wall is the only source of determinacy (D0=0), so the frame u equals the wall velocity itself (A2/A5). The comoving lower clock has |v−u|=0 — moving at speed 1.2 yet not slowed at all (E7R). The upper clock carries a proper motion (0.9) relative to the box and therefore runs slow (τ/t≈0.989) — tap the clocks to compare. There is no 'absolute rest' inside a box universe: all motion is relative to the box, and no closed interior experiment can detect the box's own translation (if it could, a larger box universe would be required — T1, T10). Momentum is conserved with a zero ledger (monitor, A13). Press ⏮ to reset."},
+  activeParams:["kFrame","cLight"],
+  camera:{scale:420}, world:{boundary:"none",size:0},
+  physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
+    cLight:6, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:2},
+  bodies:[
+    {type:"ring", n:72, cx:0, cy:0, rIn:260, rOut:260, mMin:20, mMax:20, spinMin:0, spinMax:0,
+     vMode:"none", aroundMass:0, omega:0, vNoise:0, direction:1, pinned:false, bulkVx:1.2, bulkVy:0},
+    {type:"box", n:12, cx:0, cy:0, w:280, h:280, mMin:0.05, mMax:0.05, spinMin:0, spinMax:0, vScale:0, bulkVx:1.2, bulkVy:0},
+    {type:"single", m:2, x:0, y:-60, vx:1.2, vy:0, spin:0, pinned:false},
+    {type:"single", m:2, x:0, y:60, vx:2.1, vy:0, spin:0, pinned:false}   // 第33便: 固有運動は x 方向+0.9 に統一(vy を使わない — 原仮定者指示)。|v−u|=0.9 は不変
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true} },
+
+{ id:"boxrot", name:"箱宇宙 — 回る箱と空間の支え", emoji:"🌀", group:"箱宇宙",
+  description:"壁(質点リング・レール駆動)が角速度Ω=0.15で回る。既存設計は「内部は剛体回転u=Ωrになる」と期待したが、実測すると内部フレームの利得は中心近傍で約1/2 — 速度加重平均(A5)は回転という一次の空間変形を半分しか内部へ運ばない(T10・V23a)。内側の3リングにはΩ/2で共回転する初期速度を与えてあり、重力ゼロ(G=0)なのに引きずりの輸送(E6′)だけで円軌道が保たれる — 空間が軌道を支える(ニュートンのバケツの解)。kFrame=0にすると支えが消えて粒子は直線に飛ぶ(おすすめA/B)。完全な箱宇宙(連続背景🫧)では回転は内部から検知できない — 質点壁は利得1/2しか作れず「完全な箱」になれないことを実測するのが本サンプル(T10)。",
+  en:{name:"Box Universe — Rotating Box, Space as Support", description:"The wall (a rail-driven point-mass ring) rotates at Ω=0.15. The old design expected rigid rotation u=Ωr inside; measurement shows the interior frame gain is about 1/2 near the center — the velocity-weighted mean (A5) carries only half of a first-order deformation like rotation (T10, V23a). The three inner rings start co-rotating at Ω/2, and with zero gravity (G=0) their circular orbits are sustained by drag transport (E6′) alone — space supports the orbit (the answer to Newton's bucket). Set kFrame to 0 and the support vanishes: particles fly off in straight lines (suggested A/B). In a complete box universe (the continuous background 🫧) rotation is undetectable from inside — measuring how a point-mass wall, limited to a gain of 1/2, fails to be such a 'complete box' is the point of this sample (T10)."},
+  activeParams:["kFrame","q"],
+  camera:{scale:300}, world:{boundary:"none",size:0},
+  physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
+    cLight:100, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:2},
+  bodies:[
+    {type:"ring", n:96, cx:0, cy:0, rIn:260, rOut:260, mMin:20, mMax:20, spinMin:0, spinMax:0,
+     vMode:"omega", aroundMass:0, omega:0.15, vNoise:0, direction:1, pinned:true},
+    {type:"ring", n:8, cx:0, cy:0, rIn:70, rOut:70, mMin:0.05, mMax:0.05, spinMin:0, spinMax:0,
+     vMode:"omega", aroundMass:0, omega:0.075, vNoise:0, direction:1, pinned:false},
+    {type:"ring", n:8, cx:0, cy:0, rIn:130, rOut:130, mMin:0.05, mMax:0.05, spinMin:0, spinMax:0,
+     vMode:"omega", aroundMass:0, omega:0.075, vNoise:0, direction:1, pinned:false},
+    {type:"ring", n:8, cx:0, cy:0, rIn:190, rOut:190, mMin:0.05, mMax:0.05, spinMin:0, spinMax:0,
+     vMode:"omega", aroundMass:0, omega:0.075, vNoise:0, direction:1, pinned:false}
+    // 第32便: 「箱の影響を受けない粒子(絶対静止)」を廃止 — 静止粒子(x:230)を削除
+  ],
+  overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:true} },
+
+{ id:"boxexpand", name:"箱宇宙 — 膨張する箱(質点リング)", emoji:"📈", group:"箱宇宙",
+  description:"壁リングをa(t)=e^{Ht}(H=0.005)で相似膨張させる規定駆動(railH — 展示系。外部が軌道を規定する)。内部の自由粒子に壁の半分のHubble流(v=½Hr)を与えると、√aに比例した膨張を続ける — 速度加重平均(A5)が内部へ運ぶ膨張は壁の約半分(利得g(0)=1/2、T10・V24a)。箱宇宙の拡大縮小は内部から検知できる(移動回転と違い、距離・波長・時計率を変える — T10)。壁と同率の完全共動u=Hrは質点リングでは作れず、連続背景UniverseBox(🫧)が必要になる — この「足りなさ」の実測こそが本サンプルの主目的。",
+  en:{name:"Box Universe — Expanding Box (Point-Mass Ring)", description:"The wall ring is driven to expand self-similarly as a(t)=e^{Ht} (H=0.005; railH — an exhibit system with externally prescribed motion). Give the interior free particles half the wall's Hubble flow (v=½Hr) and they keep expanding in proportion to √a — the velocity-weighted mean (A5) carries only about half of the wall's expansion inward (gain g(0)=1/2; T10, V24a). Unlike translation and rotation, expansion and contraction of a box universe *are* detectable from inside — they change distances, wavelengths and clock rates (T10). A point-mass ring cannot produce full comotion u=Hr; that requires the continuous UniverseBox background (🫧). Measuring this very shortfall is the point of this sample."},
+  activeParams:["kFrame"],
+  camera:{scale:420}, world:{boundary:"none",size:0},
+  physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
+    cLight:100, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:4},
+  bodies:[
+    {type:"ring", n:96, cx:0, cy:0, rIn:260, rOut:260, mMin:20, mMax:20, spinMin:0, spinMax:0,
+     vMode:"none", aroundMass:0, omega:0, vNoise:0, direction:1, pinned:true, railH:0.005},
+    {type:"disk", n:24, cx:0, cy:0, radius:180, mMin:0.05, mMax:0.05, spinMin:0, spinMax:0,
+     vMode:"hubble", aroundMass:0, vScale:0.0025, direction:1}
+    // 第32便: 「箱の影響を受けない粒子(絶対静止)」を廃止 — 静止2粒子(x:±100)を削除
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+{ id:"boxcomoving", name:"箱宇宙 — UniverseBoxの完全共動と膨張時計", emoji:"🫧", group:"箱宇宙",
+  description:"連続背景UniverseBox — 静的なD₀を「位置・速度・尺度a(t)を持つ動的背景」へ昇格させ、完全なHubble流u_B=H·rを作る(質点リングの利得1/2を埋めるT10の連続極限。破線円=名目半径L·a)。自由粒子は共動座標χ=r/aを保って運ばれ(V24b)、粒子間距離はaに正比例して伸びる。膨張は決定力を希釈し(W_B=D/a)、時計則(A7′/E7R)により中央の固定時計は膨張とともに速く進む(タップでτ/t確認) — 「膨張が時間を進める」に見える相関がモデル内で創発する。ただし膨張は時間の原因ではなく、既に定義された時計の速度を変えているだけ。kFrame=0で共動が消える(おすすめA/B)。膨張の反作用はリザーバに帳簿(モニタ・A13)。",
+  en:{name:"Box Universe — Full Comotion & the Expansion Clock", description:"The continuous UniverseBox background — static D₀ promoted to a dynamic background with position, velocity and scale a(t) — produces the full Hubble flow u_B=H·r (the continuum limit of T10, closing the point-ring's 1/2 gain; dashed circle = nominal radius L·a). Free particles are carried preserving comoving coordinates χ=r/a (V24b), and mutual distances grow in proportion to a. Expansion dilutes determinacy (W_B=D/a), so by the clock law (A7′/E7R) the central pinned clock ticks faster as the universe expands (tap it to see τ/t) — a correlation that looks like 'expansion drives time' emerges inside the model. Yet expansion is not the cause of time: it merely changes the rate of an already-defined clock. Set kFrame to 0 and comotion vanishes (suggested A/B). Reactions are ledgered to the reservoir (monitor, A13)."},
+  activeParams:["kFrame","Kt"],
+  camera:{scale:420}, world:{boundary:"none",size:0},
+  universeBox:{mode:"exp", H0:0.004, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
+  physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:300,
+    cLight:100, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:4},
+  bodies:[
+    {type:"disk", n:24, cx:0, cy:0, radius:200, mMin:0.05, mMax:0.05, spinMin:0, spinMax:0,
+     vMode:"hubble", aroundMass:0, vScale:0.004, direction:1},
+    {type:"single", m:2, x:0, y:0, vx:0, vy:0, spin:0, pinned:true},
+    {type:"single", m:2, x:150, y:0, vx:0.6, vy:0, spin:0, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true,boxGraph:true} },
+
+{ id:"boxbound", name:"箱宇宙 — 束縛系は膨張に逆らえるか", emoji:"🪢", group:"箱宇宙",
+  description:"膨張するUniverseBox(H=0.004)の中に、束縛された連星(m=100×2)と自由なテスト粒子を置く。自由粒子の距離はa(t)に正比例して伸びる。では連星は? 実測の答え(V25): 追随の度合いは決定力の持ち分φ_B=W_B/(W_B+w局所)で決まり、箱支配(φ_B≈0.95 — この画面)では連星軌道もd∝a^{2φ_B}で拡大する。E6′のΔu輸送は、絶対時間に対する特異速度を保存する — 一方、局所光速は決定力の希釈で上がるため「光速に対する比」w/c_locは膨張とともに低下する(§12-5 v1.5・V28 — 比率基準では実宇宙GRの減衰方向と整合。分岐が残るのはこの絶対速度チャネルの軌道励起)。局所の決定力が支配する極限(φ_B→0)でのみ「束縛系は膨張しない」— そして同じ局所決定力Wが時計も遅らせる(E7R)。「膨張に逆らう」と「時間が遅い」は同じ原因(高い決定力)の二つの現れ。kFrameを下げると追随率が下がる・Gを0にすると束縛が解ける(おすすめA/B)。",
+  en:{name:"Box Universe — Can Bound Systems Resist Expansion?", description:"Inside an expanding UniverseBox (H=0.004) sit a bound binary (m=100×2) and free test particles. Free-particle distances grow in proportion to a(t). And the binary? The measured answer (V25): the degree of following is set by the determinacy share φ_B=W_B/(W_B+w_local); under box dominance (φ_B≈0.95 — this screen) even the binary orbit inflates as d∝a^{2φ_B}. E6′'s Δu transport conserves peculiar velocity in absolute time — while the local light speed rises as determinacy dilutes, so the ratio w/c_loc falls with expansion (§12-5 v1.5, V28 — in ratio terms the decay direction agrees with real GR; what remains non-standard is this absolute-velocity orbital pumping). Only in the locally dominated limit (φ_B→0) do bound systems stop expanding — and the same local determinacy W also slows clocks (E7R). 'Resisting expansion' and 'time running slow' are two faces of one cause: high determinacy. Lower kFrame to reduce the following rate, or set G to 0 to unbind (suggested A/B)."},
+  activeParams:["G","kFrame"],
+  camera:{scale:420}, world:{boundary:"none",size:0},
+  universeBox:{mode:"exp", H0:0.004, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
+  physics:{G:1, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
+    cLight:100, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:4},
+  bodies:[ // 連星: d=24 の円軌道(Plummer 厳密 v=√(G·m·d²/(2(d²+ε²)^{3/2}))=1.436。R=10×2<24 で非接触)
+    {type:"single", m:100, x:108, y:0, vx:0.432, vy:1.436, spin:0, pinned:false},
+    {type:"single", m:100, x:132, y:0, vx:0.528, vy:-1.436, spin:0, pinned:false},
+    {type:"single", m:0.05, x:-80, y:0, vx:-0.32, vy:0, spin:0, pinned:false},
+    {type:"single", m:0.05, x:-160, y:0, vx:-0.64, vy:0, spin:0, pinned:false},
+    {type:"disk", n:16, cx:0, cy:0, radius:200, mMin:0.05, mMax:0.05, spinMin:0, spinMax:0,
+     vMode:"hubble", aroundMass:0, vScale:0.004, direction:1}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,boxGraph:true} },
+
+{ id:"boxbreath", name:"箱宇宙 — 呼吸する宇宙と時計", emoji:"🫁", group:"箱宇宙",
+  description:"尺度因子a(t)=1+0.2sin(0.08t)で膨張と収縮を繰り返すUniverseBox。自由粒子は呼吸するHubble流u_B=H(t)·rに運ばれて往復し、決定力W_B=D/aも振動する — 膨張期(a大)は時計が速く、収縮期(a小)は遅くなる(A7′/E7R。中央の固定時計をタップ)。転回点H=0でも時計は止まらない — 膨張率と時間の速さは別物であり、aだけを「時間の本体」にはできない。散逸ゼロ(摩擦・衝突減衰・放射なし)なら一周期(T≈78.5)でほぼ元の配置に戻る可逆な系。muFやgammaNを入れると一周しても戻らない — 幾何学的な周期と熱力学的な時間の矢(A12′)は別物であることを自分で試せる(T10)。",
+  en:{name:"Box Universe — Breathing Universe & Its Clock", description:"A UniverseBox whose scale factor a(t)=1+0.2sin(0.08t) expands and contracts. Free particles ride the breathing Hubble flow u_B=H(t)·r back and forth, and determinacy W_B=D/a oscillates too — clocks tick faster while expanded (large a) and slower while contracted (A7′/E7R; tap the central pinned clock). At the turning points H=0 the clock does not stop — expansion rate and the rate of time are different things, so a alone cannot be 'time itself'. With zero dissipation (no friction, collision damping or radiation) the system returns almost exactly after one period (T≈78.5) — reversible. Add muF or gammaN and it no longer returns — geometric periodicity and the thermodynamic arrow of time (A12′) are distinct, and you can test it yourself (T10)."},
+  activeParams:["Kt","kFrame"],
+  camera:{scale:380}, world:{boundary:"none",size:0},
+  universeBox:{mode:"sin", H0:0, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0.2, freq:0.08, phase:0},
+  physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:300,
+    cLight:100, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:2},
+  bodies:[
+    {type:"disk", n:24, cx:0, cy:0, radius:180, mMin:0.05, mMax:0.05, spinMin:0, spinMax:0,
+     vMode:"hubble", aroundMass:0, vScale:0.016, direction:1},
+    {type:"single", m:2, x:0, y:0, vx:0, vy:0, spin:0, pinned:true}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true,boxGraph:true} },
+
+{ id:"boxredshift", name:"箱宇宙 — 光の赤方偏移(A・B・C)", emoji:"🔦", group:"箱宇宙",
+  description:"膨張する箱宇宙(H=0.02)に粒子A・B・Cを共動で並べ、光の状態を「波長」で保持して伝播させる(4-63)。t=0にAが放った波長500の光(λは膨張とともにa(t)/a放出で伸びる)は、宇宙が4倍に膨張した頃にCへ届き、波長は4倍(z=3)。宇宙が2倍に膨張した時点でBが放った光は、同じ頃にCへ届き、波長は2倍(z=1) — 放出時刻の異なる光が、異なる赤方偏移で同時に観測される。これはハッブルの法則と同じ構造 1+z=a(観測)/a(放出)(§12-6)。膨張グラフに到着ログ(λ放出→λ観測・z)が出る。光子は運動量を運ばない表示物理で、屈折・随伴はE8R/T5と同じψ・uを使う(T10)。",
+  en:{name:"Box Universe — Redshift of Light (A, B, C)", description:"Three comoving particles A, B and C sit in an expanding box universe (H=0.02), and light propagates while holding its state as a 'wavelength' (4-63). The 500 nm light A emits at t=0 (λ stretches as a(t)/a_emit) reaches C when the universe has grown fourfold, so its wavelength is four times longer (z=3). Light emitted by B once the universe has doubled arrives at C at about the same moment with twice the wavelength (z=1) — light emitted at different times is observed simultaneously at different redshifts. This is the same structure as Hubble's law, 1+z=a(observed)/a(emitted) (§12-6). The expansion graph shows the arrival log (λ_emit→λ_obs and z). Photons carry no momentum here — a display-level physics — while refraction and medium advection use the same ψ and u as E8R/T5 (T10)."},
+  activeParams:["cLight","kFrame"],
+  camera:{scale:420}, world:{boundary:"none",size:0},
+  universeBox:{mode:"exp", H0:0.02, D:8, dPower:1, L:120, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
+  physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
+    cLight:6, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:4, timeScale:2},
+  bodies:[   // 全て共動(Hubble 流初速 v=H·x)。共動光路 c/H=300 で A→C=225(a=4)・B→C=75(a=2→4)
+    {type:"single", m:2, x:-125, y:0, vx:-2.5, vy:0, spin:0, pinned:false},
+    {type:"single", m:2, x:  25, y:0, vx: 0.5, vy:0, spin:0, pinned:false},
+    {type:"single", m:2, x: 100, y:0, vx: 2.0, vy:0, spin:0, pinned:false}
+  ],
+  // B の放出時刻 t=ln2/0.02=34.657 → a=2 ちょうど(両光子はほぼ同時に C へ届く: t≈69.3)
+  photonEmit:[{body:0, t:0, lambda:500, aim:2}, {body:1, t:34.657, lambda:500, aim:2}],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:false,boxGraph:true} },
+
 // ===== グループ: 銀河 =====
 { id:"galaxy", name:"銀河の回転曲線", emoji:"🌌", group:"銀河",
-  description:"円盤銀河。初めは星々がケプラー回転(グラフの点線と一致)しているが、空間の引きずり(kFrame=1)が内側の回転を外へ伝え、外縁の回転速度がケプラー予想より高く保たれる(T4: 外縁速度の増強。曲線全体の「平坦化」までは主張しない — 論文v0.2整合)。kFrameを0にすると起きない。右下のグラフ(実線=実測、点線=ケプラー予想)に注目。※この画面のD₀はモデル内の調整値で、現実の予言値ではない(L14)。",
-  en:{name:"Galactic Rotation Curve", description:"A disk galaxy. Stars start on Keplerian orbits (matching the dotted line), but frame dragging (kFrame=1) transports the inner rotation outward, keeping outer velocities above the Keplerian prediction (T4: outer-velocity enhancement; no claim of full flattening — aligned with paper v0.2). Set kFrame=0 and it never happens. Watch the bottom-right graph (solid=measured, dotted=Keplerian). Note: D₀ here is a model-internal tuning value, not a real-world prediction (L14)."},
-  activeParams:["kFrame","D0","G"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
-  camera:{scale:300}, world:{boundary:"none",size:0},
-  physics:{G:1, D0:1, kFrame:1, q:2, kRep:1.0, muF:0.02, gammaN:0.05, kappaS:0.05, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:4, timeScale:4},
+  // 第33便 X4(台帳4-65a): AI生成プリセットを土台に再設計。原案からの変更は円盤の radius(320→260)と
+  // mMin/mMax(.08–.25→.16–.50)の3値のみ — 中心天体・physics・rays は原案のまま。
+  // 円盤半径 260 は curve.vbar-distributed(評価 r=220)を通すための必須修正: この宇宙は2次元配置に
+  // 1/r² を使うので3次元の殻定理が成立せず、評価半径の外側にある円盤質量は正味「外向き」に引く。
+  // 原案(r=320)は r/R_disk=0.69 で外側に53%が残り内側寄与と相殺するため、質量を12倍にしても比は上がらない。
+  // r=260 なら r/R_disk=0.846(旧構成と同比)となり定義帯 [156,286]=[0.6,1.1]×260 とも一致する。
+  // 実測(seed 20260727・24000步): NaNなし・恒星保持380/380(100%)・max|spin| 11.06(旧構成20.71)・
+  // 外縁比 1.322(旧1.082)・v_bar比 1.0204(5seedで1.020〜1.029)・perf beta/root 0.692。
+  description:"中心の大質量星(m=2500・高スピン1.2・掻出0.8 — 自星の光の8割を外に出さない)と、380個の恒星円盤。恒星はケプラー回転で始まるが、空間の引きずり(A8/E6′)が外縁の回転を実測約1.3倍に増強する(T4) — kFrame=0にすると消える(おすすめA/B)。右下のグラフは実線=実測・点線=バリオン基準v_bar(質量分布だけから期待される回転 — 中心質量だけでなく円盤の寄与も入った正直な基準線)。左からの光線24本は中心の強い場に捕捉・巻き付く(E8R/T5 — 光子捕捉の光学類似)。第33便でAI生成プリセットを土台に再設計(円盤半径260・24000步でNaNなし・恒星保持100%・スピン健全を機械検証)。※この画面のD₀はモデル内の調整値で、現実の予言値ではない(L14)。",
+  en:{name:"Galactic Rotation Curve", description:"A massive central star (m=2500, high spin 1.2, light sweep 0.8 — it keeps 80% of its own light from getting out) surrounded by a disk of 380 stars. The stars start on Keplerian orbits, but the dragging of space (A8/E6′) enhances the outer rotation by a measured factor of about 1.3 (T4) — set kFrame to 0 and it disappears (suggested A/B). In the bottom-right graph, solid = measured and dotted = the baryonic baseline v_bar (the rotation expected from the mass distribution alone — an honest baseline that includes the disk's contribution, not just the central mass). The 24 light rays entering from the left are captured by the strong central field and wind around it (E8R/T5 — the optical analogue of photon capture). Redesigned in the 33rd delivery on top of an AI-generated preset (disk radius 260; machine-verified: no NaN over 24000 steps, 100% star retention, healthy spins). Note: D₀ here is a model-internal tuning value, not a real-world prediction (L14)."},
+  activeParams:["kFrame","D0"],
+  camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260727,
+  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0.8, muF:0.5, gammaN:0.4, kappaS:0.05, Kt:50,
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:3, timeScale:3},
   bodies:[
-    {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:false},
-    {type:"disk", n:380, cx:0,cy:0, radius:260, mMin:0.5,mMax:1.2,
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:600, vScale:1.05, direction:1}
+    {type:"single", m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, lightSweep:0.8, radius:15},
+    {type:"disk", n:380, cx:0,cy:0, radius:260, mMin:0.16,mMax:0.5,
+     spinMin:0,spinMax:0.3, vMode:"kepler", aroundMass:2500, vScale:1.05, direction:1, bulkVx:0, bulkVy:0}
   ],
-  overlays:{rotationCurve:true,tempHistogram:false,field:false} },
+  rays:{n:24, spread:0.5},
+  overlays:{rotationCurve:true,tempHistogram:false,field:true,trail:false,monitor:false} },
 
 { id:"darkrotor", name:"ダークローターの銀河", emoji:"🕶️", group:"銀河",
-  // 第22便(原仮定者裁定)v3: ダークローター=高速スピンのコア+圧倒的重量の外殻。
-  // コアのスピンは自星の光を掻き出す(lightSweep=1 — 自星だけ隠れれば良い)→ 観測温度 0。
-  // 外殻(質量の9割・半径R=45 明示指定)のスピンによる引きずりが銀河スケールに及ぶ。
-  // 較正(第22便): u_φ 比 1.95/1.54/1.56(r=140/200/260)
-  // 第27便: ハロー20体をレール駆動化(pinned+railOmega=v/r) — 自由N体では 12000步以降に相互散乱で
-  // 系が飛散(実測: t24000 で p50 182→309・ハロー 625 へ拡散)。規定軌道なら u場への運動寄与を保ったまま形状が保存される
-  description:"銀河円盤(🌌と同じ)を囲む20個のダークローターと、銀河中心の巨大ダークローター。ダークローターは高速回転ブラックホールをモデルにした天体で、高速スピンのコア(sc/s=20)と圧倒的重量の外殻(mc/m=0.1 — 質量の9割が外殻)で構成される。コアのスピンは自星の光を掻き出して外に出さない(掻出=1 — 自星だけ隠れれば良い)ため、観測温度は計測できず見掛けは冷たい。一方、外殻のスピンによる空間引きずりは銀河スケールに及び(半径R=45の明示指定)、決定フレーム u_φ を実測×1.5〜2.0 押し上げて外縁の回転を増強する。中心は固定、ハローの20体はレール駆動 — 20体の自由N体は長時間で相互散乱するため、軌道を外部が規定した展示系(反作用はリザーバに帳簿)。粒子をタップすると半径R・Rc/R・観測温度To×・掻出・TcO×・扁平率 f を確認・編集できる — 掻出を0にすると隠れていた高温核が見える。qやD0を下げると引きずりの届く範囲が広がる(実験)。kFrameを0にすると引きずり経路ごと消える(おすすめA/B)。※モデル内の理論実験であり、実宇宙のダークマターの主張ではない(T4の防御線を維持)。",
-  en:{name:"Dark-Rotor Galaxy", description:"The 🌌 galactic disk surrounded by 20 dark rotors, plus a giant dark rotor at the galactic center. A dark rotor is modeled on a fast-spinning black hole: a fast-spinning core (sc/s=20) inside an overwhelmingly heavy shell (mc/m=0.1 — 90% of the mass is the shell). The core's spin sweeps the star's own light out of escape (sweep=1 — it only needs to hide the star itself), so the observed temperature cannot be measured and it looks cold. The shell's spin, meanwhile, drags space on galactic scales (explicit radius R=45), lifting the determinacy frame u_phi by a measured x1.5-2.0 and enhancing the outer rotation. The center is pinned and the 20 halo rotors are rail-driven — a free 20-body halo eventually scatters itself, so their orbits are externally prescribed (an exhibit system; reactions ledgered to the reservoir). Tap a body to inspect and edit radius R, Rc/R, observed-temperature To x, sweep, TcO x, and the oblateness f — set sweep to 0 to reveal the hidden hot core. Lowering q or D0 extends the drag's reach (experiment). Set kFrame to 0 and the whole drag channel vanishes (suggested A/B). A model-internal experiment — not a claim about real dark matter (T4 disclaimer upheld)."},
+  // 第33便 X4(台帳4-65b)v5: 「腕のある銀河」へ更新。v4(全粒子自由の閉鎖系)を土台に、
+  // ①ローター10体のうち対向2体(x=±200)だけスピン 0.15→2.0(質量150・半径18・r=200等間隔配置は
+  //   完全に軸対称のまま — m=2 をつくるのはスピンだけ。対照=全ローター spin0 は厳密な軸対称系)
+  // ②kRep 1→0.15(E5′斥力 a_rep=kRep·ω²·d が強スピン下で円盤を吹き飛ばす律速だった。
+  //   kRep=1 では d≈100 で a_rep 0.11 > BH重力 0.089 → 恒星保持93.7%・rotDev141%)
+  // ③etaRad 0→0.005(E11放射冷却 Λ∝T⁴・T=I·s² — s が大きいときだけ効く上限装置。
+  //   lightSweep=1 のローター/BH は対象外なので恒星のスピン暴走だけを抑える)
+  // ④radiusScale 1.5→2.0(恒星の I=½mR²・R=radiusScale·√m なので I∝radiusScale²·m²。
+  //   E6′反作用の残余トルクによる汲み上げを抑制。2.5 まで上げると E9 接触で内側が塊化し対照が汚れる)
+  // 恒星は disk(200体)→ ring(380体・内穴 r=70)へ置換(総質量は 170→169 とほぼ同じ・n=391)。
+  // ローター初速 3.9169 は E6′ 込みの実効求心力を短時間走行から実測較正した値。
+  // **同半径のローターは1グループとして共通補正**を掛ける(個別補正だと対称性ノイズが増幅されリングが壊れる)。
+  // BH の vx/vy は総運動量ゼロ化の補正(実測 |P₀|=0.0037)。
+  // 実測(seed 20260726・6000步): 環帯[80,120][120,160][160,200][200,240]の m=2 振幅 A2(後半平均)=
+  // 0.509/0.587/0.301/0.442(対照 spin0 = 0.069/0.068/0.042/0.094)・NaNなし・恒星保持380/380・
+  // 全期間 max|spin| 2.92・ローター半径偏差 17.2%。用量反応: spin 0→1→2→3 で A2 が単調増加。
+  // 有効窓は 6000步(t≈96)まで — 12000步では対照側にも円盤自身の重力不安定で m=2 が育ち分離が甘くなる。
+  description:"銀河中心のブラックホール(m=2000・掻出1)と、r=200の軸対称リングに並ぶ10個のダークローター、その間を回る380個の恒星 — 全粒子が自由(ピン・レール無し)の閉鎖系。対向2個のローターだけスピンを2.0に上げると(質量・半径・配置は完全対称のまま)、その空間引きずり(A8/E6′)が恒星円盤にm=2の渦状腕を立てる — 後行螺旋・ピッチ角≈24°。スピンを0にした対照では腕が消え、スピン0→1→2→3で腕振幅が単調に増える(用量反応 — 腕の主因はローターのスピン)。有効窓はt≈96(6000步)まで — その先はハロー軌道が緩やかに分散する有限時間デモ。kRepは0.15に弱めてある(E5′斥力が腕形成の律速 — 本サンプルでE5′の主張はしない)。kFrame=0にすると引きずり経路ごと消える(おすすめA/B)。※実宇宙のダークマターや渦状腕理論の主張ではない(T4の防御線を維持)。",
+  en:{name:"Dark-Rotor Galaxy", description:"A black hole at the galactic center (m=2000, light sweep=1), ten dark rotors set on an axisymmetric ring at r=200, and 380 stars orbiting between them — a closed system in which every particle is free (no pins, no rails). Raise the spin of just two opposing rotors to 2.0 — leaving mass, radius and placement perfectly symmetric — and their dragging of space (A8/E6′) raises m=2 spiral arms in the stellar disk: a trailing spiral with a pitch angle of about 24°. In the control run with those spins set to 0 the arms vanish, and the arm amplitude grows monotonically as the spin goes 0→1→2→3 (a dose response — the arms are driven by the rotors' spin). The valid window runs to t≈96 (6000 steps); beyond that the halo orbits slowly disperse, so this is a finite-time demo. kRep has been lowered to 0.15 (the E5′ repulsion is the rate-limiting step for arm formation — this sample makes no claim about E5′). Set kFrame to 0 and the whole dragging channel disappears with it (suggested A/B). Not a claim about real dark matter or about spiral-arm theory (T4 disclaimer upheld)."},
   activeParams:["kFrame","D0","q"],
-  camera:{scale:300}, world:{boundary:"none",size:0}, seed:20260723,
-  physics:{G:1, D0:1, kFrame:1, q:2, kRep:1.0, muF:0.02, gammaN:0.05, kappaS:0.05, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:4, timeScale:2},
+  camera:{scale:300}, world:{boundary:"none",size:0}, seed:20260726,
+  physics:{G:1, D0:2, kFrame:1, q:2, kRep:0.15, muF:0.02, gammaN:0.05, kappaS:0.05, Kt:60,
+    cLight:60, bM:1, etaRad:0.005, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:2.0, softening:4, timeScale:2},
   bodies:[
-    {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.12, radius:45, coreMR:0.1, coreSR:20, coreRR:0.3,
-     lightSweep:1, pinned:true},
-    {type:"disk", n:380, cx:0,cy:0, radius:260, mMin:0.5,mMax:1.2,
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:600, vScale:1.05, direction:1},
-    {type:"single", m:30, x:170.000,y:0.000, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0122665},
-    {type:"single", m:30, x:137.533,y:99.923, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0122667},
-    {type:"single", m:30, x:52.533,y:161.680, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0122668},
-    {type:"single", m:30, x:-52.533,y:161.680, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0122668},
-    {type:"single", m:30, x:-137.533,y:99.923, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0122667},
-    {type:"single", m:30, x:-170.000,y:0.000, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0122665},
-    {type:"single", m:30, x:-137.533,y:-99.923, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0122667},
-    {type:"single", m:30, x:-52.533,y:-161.680, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0122668},
-    {type:"single", m:30, x:52.533,y:-161.680, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0122668},
-    {type:"single", m:30, x:137.533,y:-99.923, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0122667},
-    {type:"single", m:30, x:218.743,y:71.074, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0097613},
-    {type:"single", m:30, x:135.191,y:186.074, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0097611},
-    {type:"single", m:30, x:0.000,y:230.000, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0097613},
-    {type:"single", m:30, x:-135.191,y:186.074, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0097611},
-    {type:"single", m:30, x:-218.743,y:71.074, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0097613},
-    {type:"single", m:30, x:-218.743,y:-71.074, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0097613},
-    {type:"single", m:30, x:-135.191,y:-186.074, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0097611},
-    {type:"single", m:30, x:-0.000,y:-230.000, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0097613},
-    {type:"single", m:30, x:135.191,y:-186.074, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0097611},
-    {type:"single", m:30, x:218.743,y:-71.074, vx:0,vy:0, spin:0.15, radius:12, coreMR:0.1, coreSR:20, coreRR:0.3, lightSweep:1, pinned:true, railOmega:0.0097613}
+    // 中心ブラックホール(自由・単層・光を出さない lightSweep:1。vx/vy は総運動量ゼロ化の補正)
+    {type:"single", m:2000, x:0,y:0, vx:0.00166, vy:-0.00435, spin:0.12, radius:45, lightSweep:1, pinned:false},
+    // ダークローター×10(自由・単層・r=200 の等間隔リング。対向2体=x±200 のみ spin 2.0)
+    {type:"single", m:150, x:200.0,y:0.0, vx:-0.0,vy:3.9169, spin:2.0, radius:18, lightSweep:1, pinned:false},
+    {type:"single", m:150, x:161.8034,y:117.5571, vx:-2.302292,vy:3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", m:150, x:61.8034,y:190.2113, vx:-3.724583,vy:1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", m:150, x:-61.8034,y:190.2113, vx:-3.724583,vy:-1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", m:150, x:-161.8034,y:117.5571, vx:-2.302292,vy:-3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", m:150, x:-200.0,y:0.0, vx:0.0,vy:-3.9169, spin:2.0, radius:18, lightSweep:1, pinned:false},
+    {type:"single", m:150, x:-161.8034,y:-117.5571, vx:2.302292,vy:-3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", m:150, x:-61.8034,y:-190.2113, vx:3.724583,vy:-1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", m:150, x:61.8034,y:-190.2113, vx:3.724583,vy:1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", m:150, x:161.8034,y:-117.5571, vx:2.302292,vy:3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    // 恒星リング(自由・kepler 初速・内穴 r=70 は BH 影響圏)
+    {type:"ring", n:380, cx:0,cy:0, rIn:70, rOut:260, mMin:0.26,mMax:0.63,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2000, omega:0, vNoise:0, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false} },
 
@@ -1227,8 +1426,8 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"saturn", name:"土星の環(実験)", emoji:"🪐", group:"天体の物語",
-  description:"氷の粒(低質量・低散逸 muF=0.2/γN=0.15)で構成された土星の環。中心星のスピンが空間を引きずり(kFrame=1・A8)、氷粒の衝突円形化(T3)と合わさって長時間安定な環を保つ。初期配置は t=300〜600 の実測安定分布に合わせてあり、t≈1200 まで落下・散逸ゼロ。環は空間引きずりで [ゆっくり内側へ漂いながら] 形を保つ — muF=0 にすると円形化が止まる対照も試せる。Kt=3600 は物理対応ロック Kt=c²/G の成立値。中心天体の表示半径は現実の比率に近い(radiusScale 1.8)。現実較正の近点移動は 🛰️ を参照。",
-  en:{name:"Saturn's Rings (Experimental)", description:"Saturn's ring of icy grains (low mass, low dissipation: muF=0.2/\u03b3N=0.15). The central star's spin drags nearby space (kFrame=1, A8) and, with collisional circularization (T3), keeps the ring stable for a long run. The initial layout matches the measured relaxed distribution at t=300\u2013600 and stays intact (zero falls/escapes) to t\u22481200. Try muF=0 to stop the circularization. Kt=3600 satisfies the GR-calibration lock Kt=c\u00b2/G; the central body is drawn near the real proportion (radiusScale 1.8). See \ud83d\udef0\ufe0f for the real-calibrated apsidal precession."},
+  description:"氷の粒(低質量・低散逸 muF=0.2/γN=0.15)で構成された土星の環。中心星のスピンが空間を引きずり(kFrame=1・A8)、氷粒の衝突円形化(T3)と合わさって長時間安定な環を保つ。初期配置は t=300〜600 の実測安定分布に合わせてあり、t≈1200 まで落下・散逸ゼロ。環は空間引きずりによる近点移動で形を保つ — muF=0 にすると円形化が止まる対照も試せる。Kt=3600 は物理対応ロック Kt=c²/G の成立値。中心天体の表示半径は現実の比率に近い(radiusScale 1.8)。現実較正の近点移動は 🛰️ を参照。",
+  en:{name:"Saturn's Rings (Experimental)", description:"Saturn's ring of icy grains (low mass, low dissipation: muF=0.2/\u03b3N=0.15). The central star's spin drags nearby space (kFrame=1, A8) and, with collisional circularization (T3), the ring keeps its shape through drag-induced apsidal precession. The initial layout matches the measured relaxed distribution at t=300\u2013600 and stays intact (zero falls/escapes) to t\u22481200. Try muF=0 to stop the circularization. Kt=3600 satisfies the GR-calibration lock Kt=c\u00b2/G; the central body is drawn near the real proportion (radiusScale 1.8). See \ud83d\udef0\ufe0f for the real-calibrated apsidal precession."},
   activeParams:["muF","kFrame","kappaS"],   // QA activeParams.ui が先頭=muF の編集反映を検査するため muF を先頭に
   camera:{scale:340}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:1.2, muF:0.2, gammaN:0.15, kappaS:0.08, Kt:3600,
@@ -1451,6 +1650,12 @@ function validatePreset(obj){
           o.railOmega=wc(b.railOmega,-2,2,"railOmega");
           if(!b.pinned){ warnings.push(at+".railOmega は pinned 粒子のみ有効 — 無視します"); o.railOmega=0; }
         }
+        // 第32便(台帳4-57): レール中心 railCx/railCy を公開(未指定は原点=従来と厳密等価)
+        if(b.railCx!==undefined || b.railCy!==undefined){
+          if((b.railCx!==undefined && !isNum(b.railCx)) || (b.railCy!==undefined && !isNum(b.railCy))){ bad(at+".railCx/railCy が数値ではありません"); return; }
+          o.railCx=CO(b.railCx||0,"railCx"); o.railCy=CO(b.railCy||0,"railCy");
+          if(!o.railOmega){ warnings.push(at+".railCx/railCy は railOmega+pinned のみ有効 — 無視します"); delete o.railCx; delete o.railCy; }
+        }
         if(b.zonal!==undefined){
           const z=b.zonal;
           if(!z||typeof z!=="object"||Array.isArray(z)||!isNum(z.refR)||!z.J||typeof z.J!=="object"||Array.isArray(z.J)){ bad(at+".zonal が不正(refR:数値・J:オブジェクト が必要)"); return; }
@@ -1468,16 +1673,23 @@ function validatePreset(obj){
         if(["kepler","omega","none"].indexOf(b.vMode)<0){ bad(at+".vMode が不正"); return; }
         if(b.direction!==1 && b.direction!==-1){ bad(at+".direction は 1 か -1"); return; }
         if(typeof b.pinned!=="boolean"){ bad(at+".pinned(boolean)が必要"); return; }
-        out.push({type:"ring", n:clamp(Math.round(b.n),0,N_CAP), cx:CO(b.cx,"cx"), cy:CO(b.cy,"cy"),
+        const oR={type:"ring", n:clamp(Math.round(b.n),0,N_CAP), cx:CO(b.cx,"cx"), cy:CO(b.cy,"cy"),
           rIn:LEN(Math.min(b.rIn,b.rOut),"rIn"), rOut:LEN(Math.max(b.rIn,b.rOut),"rOut"),
           mMin:MASS(Math.min(b.mMin,b.mMax),"mMin"), mMax:MASS(Math.max(b.mMin,b.mMax),"mMax"),
           spinMin:SPN(Math.min(b.spinMin,b.spinMax),"spinMin"), spinMax:SPN(Math.max(b.spinMin,b.spinMax),"spinMax"),
           vMode:b.vMode, aroundMass:wc(b.aroundMass,0,5000,"aroundMass"), omega:wc(b.omega,-2,2,"omega"),
           vNoise:wc(b.vNoise,0,1,"vNoise"), direction:b.direction, pinned:b.pinned,
-          bulkVx:isNum(b.bulkVx)?VEL(b.bulkVx,"bulkVx"):0, bulkVy:isNum(b.bulkVy)?VEL(b.bulkVy,"bulkVy"):0});
+          bulkVx:isNum(b.bulkVx)?VEL(b.bulkVx,"bulkVx"):0, bulkVy:isNum(b.bulkVy)?VEL(b.bulkVy,"bulkVy"):0};
+        // 第31便: railH(膨張レール)— pinned リングを a(t)=e^{H·t} で相似膨張させる規定運動
+        if(b.railH!==undefined){
+          if(!isNum(b.railH)){ bad(at+".railH が数値ではありません"); return; }
+          oR.railH=wc(b.railH,-0.2,0.2,"railH");
+          if(!b.pinned){ warnings.push(at+".railH は pinned リングのみ有効 — 無視します"); oR.railH=0; }
+        }
+        out.push(oR);
       } else if(t==="disk"){
         if(!needNum(["n","cx","cy","radius","mMin","mMax","spinMin","spinMax","aroundMass","vScale"])) return;
-        if(["kepler","rigid","flat","random","none"].indexOf(b.vMode)<0){ bad(at+".vMode が不正"); return; }
+        if(["kepler","rigid","flat","random","hubble","none"].indexOf(b.vMode)<0){ bad(at+".vMode が不正"); return; }   // 第31便: hubble(初期 Hubble 流 v=vScale·(r−c))を追加
         if(b.direction!==1 && b.direction!==-1){ bad(at+".direction は 1 か -1"); return; }
         out.push({type:"disk", n:clamp(Math.round(b.n),0,N_CAP), cx:CO(b.cx,"cx"), cy:CO(b.cy,"cy"), radius:LEN(b.radius,"radius"),
           mMin:MASS(Math.min(b.mMin,b.mMax),"mMin"), mMax:MASS(Math.max(b.mMin,b.mMax),"mMax"),
@@ -1506,7 +1718,57 @@ function validatePreset(obj){
     if(!p.rays || !isNum(p.rays.n) || !isNum(p.rays.spread)) bad("rays.n/spread が不正です");
     else p.rays={n:clamp(Math.round(p.rays.n),0,64), spread:clamp(p.rays.spread,0,1)};
   }
-  const ov={rotationCurve:false,tempHistogram:false,field:false,spectrum:false,trail:false,monitor:false}; // v1.12: trail/monitor を正式化(第6次裁定 7.5)
+  // 第31便: universeBox(連続背景 — BOX_UNIVERSE v1.2 §9)。W_B=D·a^{−dPower}、
+  // u_B=V+Ω·J(r−c)+H·(r−c)。mode: static/exp(a=e^{H0·t})/lin(a=1+H0·t)/sin(a=1+amp·sin(freq·t+phase))
+  if(p.universeBox!==undefined){
+    const B=p.universeBox;
+    if(!B || typeof B!=="object" || Array.isArray(B)) bad("universeBox はオブジェクトが必要です");
+    else{
+      const MODES=["static","exp","lin","sin","pow"];   // 第32便: pow(時間べき+揺らぎ)
+      const o={mode:(MODES.indexOf(B.mode)>=0)? B.mode : "static"};
+      if(B.mode!==undefined && MODES.indexOf(B.mode)<0) warnings.push("universeBox.mode が不正のため static に修正");
+      let numBad=false;
+      const numDef=(k,lo,hi,dv)=>{ if(B[k]===undefined) return dv;
+        if(!isNum(B[k])){ bad("universeBox."+k+" が数値ではありません"); numBad=true; return dv; }
+        const c=clamp(B[k],lo,hi); if(c!==B[k]) warnings.push("universeBox."+k+" を値域に修正"); return c; };
+      o.D=numDef("D",0,10000,80); o.dPower=numDef("dPower",0,3,1); o.L=numDef("L",10,5000,260);
+      o.cx=numDef("cx",-5000,5000,0); o.cy=numDef("cy",-5000,5000,0);
+      o.vx=numDef("vx",-50,50,0); o.vy=numDef("vy",-50,50,0); o.omega=numDef("omega",-2,2,0);
+      o.H0=numDef("H0",-0.2,0.2,0); o.amp=numDef("amp",0,0.9,0); o.freq=numDef("freq",0,2,0);
+      o.phase=numDef("phase",-6.2832,6.2832,0);
+      o.coef=numDef("coef",-1,1,0); o.expo=numDef("expo",0.1,3,1);   // 第32便: pow モードの係数・指数
+      // 第33便: friction — "dfm"(既定・E6′ の帰結)| "flrw"(標準宇宙論の Hubble 摩擦 w∝1/a の対照チャネル)
+      const FRICS=["dfm","flrw"];
+      o.friction=(FRICS.indexOf(B.friction)>=0)? B.friction : "dfm";
+      if(B.friction!==undefined && FRICS.indexOf(B.friction)<0) warnings.push("universeBox.friction が不正のため dfm に修正");
+      if(!numBad) p.universeBox=o;
+    }
+  }
+  // 第33便(台帳4-63): photonEmit — 光子の放出スケジュール。光の状態は「放出波長 λ と
+  // 放出時尺度 a_emit」の2値で保持する(観測波長 λ_obs=λ·a_obs/a_emit)。
+  // body/aim は構築後の粒子インデックスで、ここでは粒子数と照合できないため範囲検査は
+  // 実行時ガード(範囲外は放出スキップ+S.photonWarn)に委ねる。数値検査・クランプ・
+  // 警告の様式は universeBox と同一
+  if(p.photonEmit!==undefined){
+    const A=p.photonEmit;
+    if(!Array.isArray(A)) bad("photonEmit は配列が必要です");
+    else{
+      if(A.length>32) warnings.push("photonEmit を32件に切り詰め");
+      const out=[]; let peBad=false;
+      for(const e of A.slice(0,32)){
+        if(!e || typeof e!=="object" || Array.isArray(e)){ bad("photonEmit の要素はオブジェクトが必要です"); peBad=true; break; }
+        const numDef=(k,lo,hi,dv)=>{ if(e[k]===undefined) return dv;
+          if(!isNum(e[k])){ bad("photonEmit."+k+" が数値ではありません"); peBad=true; return dv; }
+          const c=clamp(e[k],lo,hi); if(c!==e[k]) warnings.push("photonEmit."+k+" を値域に修正"); return c; };
+        const o={body:Math.round(numDef("body",0,N_CAP-1,0)), t:numDef("t",0,100000,0),
+                 lambda:numDef("lambda",100,2000,500)};
+        if(e.aim!==undefined) o.aim=Math.round(numDef("aim",0,N_CAP-1,0));
+        out.push(o);
+      }
+      if(!peBad) p.photonEmit=out;
+    }
+  }
+  const ov={rotationCurve:false,tempHistogram:false,field:false,spectrum:false,trail:false,monitor:false,boxGraph:false}; // v1.12: trail/monitor を正式化(第6次裁定 7.5)。boxGraph は第32便(W2)
   if(p.overlays!==undefined){
     if(typeof p.overlays!=="object"||Array.isArray(p.overlays)) bad("overlaysはオブジェクト");
     else {
@@ -1520,6 +1782,33 @@ function validatePreset(obj){
 }
 
 // ===== シミュレーションエンジン =====
+// 第31便(v1.32-b1): UniverseBox 連続背景(BOX_UNIVERSE v1.2 §9)。
+// 離散質点リング(E3 の速度加重平均)は回転・膨張の一次変形を利得 g(r)(2D一様リングの
+// 中心近傍で 1/2)でしか内部に再構成できない — これは離散化誤差ではなく加重平均の構造由来
+// (BOX_UNIVERSE v1.2 §4.3)。完全なアフィン共動 u_B = V + Ω·J(r−c) + H·(r−c) が必要な
+// 宇宙論アナログには、D₀ を「位置・速度・尺度 a(t) を持つ動的背景」へ昇格させた連続
+// エンティティ UniverseBox を使う。規定運動(prescribed)の外部駆動であり、E6′ の背景
+// 持ち分と同様、反作用はリザーバへ帳簿づけされる(A13 の恒等式を維持)。
+function boxScaleAt(B, t){ // 尺度因子 a(t) と Hubble 率 H=ȧ/a
+  let a=1, H=0;
+  if(B.mode==="exp"){ a=Math.exp(B.H0*t); H=B.H0; }
+  else if(B.mode==="lin"){ const ar=1+B.H0*t; if(ar>0.05){ a=ar; H=B.H0/ar; } else { a=0.05; H=0; } }
+  else if(B.mode==="sin"){ const ph=B.freq*t+B.phase; a=1+B.amp*Math.sin(ph);
+    H=B.amp*B.freq*Math.cos(ph)/a; }
+  // 第32便: pow — 「時間を底とした係数・指数・揺らぎ」で膨張則を編集可能にする
+  // a=1+coef·t^expo+amp·sin(freq·t+phase)。expo<1 では t=0 で ȧ が発散するため t は 1e-9 で下限評価
+  else if(B.mode==="pow"){
+    const co=B.coef||0, ex=(B.expo===undefined?1:B.expo), te=(t<1e-9)?1e-9:t, ph=B.freq*t+B.phase;
+    const ar=1+co*Math.pow(t,ex)+B.amp*Math.sin(ph);
+    const ad=co*ex*Math.pow(te,ex-1)+B.amp*B.freq*Math.cos(ph);
+    if(ar>0.05){ a=ar; H=ad/ar; } else { a=0.05; H=0; }   // lin と同じ床(a<0.05 で H=0)
+  }
+  // 第32便: 全モード共通の安全弁 — H を [−0.5,+0.5] にクランプ(既存プリセットの |H|≤0.016 で非発動)
+  // 第33便: クランプ前の Hraw と発動フラグ clamped を追加(a/H は不変 — 呼び出し側は非破壊)
+  const cl=(H<-0.5 || H>0.5);
+  return {a, H:(H<-0.5? -0.5 : (H>0.5? 0.5 : H)), Hraw:H, clamped:cl};
+}
+function boxWAt(B, a){ return B.D*Math.pow(1/a, B.dPower); } // W_B=D·a^{−dPower}(総質量一定の M/L 希釈類似)
 function makeSim(){
   const S = {
     n:0, t:0, params:Object.assign({},DEFAULT_PHYSICS),
@@ -1541,7 +1830,13 @@ function makeSim(){
     // ・radOv = 半径の明示指定(0=未指定→radiusScale·√|m|)。扁平率 f=5s²R³/(4Gm) にも使用
     // ・coreRRv = コア半径比 Rc/R(0=未指定→√|coreMR| 相当の従来式)
     obsT:null, lSw:null, coreOT:null, radOv:null, coreRRv:null,
-    pinned:null, railR:null, railAng:null, railOmega:null, railCx:null, railCy:null,
+    pinned:null, railR:null, railAng:null, railOmega:null, railCx:null, railCy:null, railH:null,
+    box:null, boxA:null,   // 第31便: UniverseBox 連続背景と現在stepの尺度キャッシュ {a,H,W}
+    boxHist:null, _bhAcc:0, boxARef:1,   // 第32便: 尺度・赤方偏移の履歴(グラフ用データ層)と基準 a(0)
+    // 第33便(台帳4-63): 光子エンティティ。光の状態は「放出波長 lamE と放出時尺度 aE」の2値で
+    // 保持し、現在波長は表示側が lamE·a(t)/aE で算出する(状態として持たないのが本裁定の
+    // シンプルさ)。photonEmit の無いプリセットでは全て null のままでゼロコスト
+    photons:null, photonLog:null, _phSched:null, _phI:0, photonWarn:false,
     uPx:null,uPy:null,hasU:null, tau:null, ax:null,ay:null, sumW:null,uAx:null,uAy:null, ds:null,
     dpx:null,dpy:null, pairD:null,
     resPx:0,resPy:0,resL:0,radE:0,radL:0,   // リザーバ帳簿(E6′/E11。PHYSICS.md §5)
@@ -1557,7 +1852,7 @@ function makeSim(){
     S.uPx=F();S.uPy=F();S.tau=F();S.ax=F();S.ay=F();S.sumW=F();S.uAx=F();S.uAy=F();S.ds=F();
     S.dpx=F();S.dpy=F();
     S.pairD=new Float32Array(Math.max(1,n*(n-1)/2)); // 対距離キャッシュ(E6′反作用パスで再利用)
-    S.railR=F();S.railAng=F();S.railOmega=F();S.railCx=F();S.railCy=F();
+    S.railR=F();S.railAng=F();S.railOmega=F();S.railCx=F();S.railCy=F();S.railH=F();
     S.pinned=new Uint8Array(n); S.hasU=new Uint8Array(n);
     S.railIdx=null;   // 第29便(第25次レビュー P1-1): レール粒子インデックス(step初回に遅延構築)
   };
@@ -1584,11 +1879,13 @@ function makeSim(){
           coreOT:(b.coreOT===undefined?1:b.coreOT),
           radius:(b.radius===undefined?0:b.radius), coreRR:(b.coreRR===undefined?0:b.coreRR)};
         if(b.zonal) o.zonal=b.zonal;   // E13(第11次裁定): 扁平中心天体の帯状重力属性
-        // 第27便: 単体粒子のレール駆動(pinned+railOmega — 原点中心の円軌道。🕶️ハローの
+        // 第27便: 単体粒子のレール駆動(pinned+railOmega — 円軌道。🕶️ハローの
         // 20体相互散乱による形崩れ対策: 軌道を外部が規定し、u場への運動寄与は維持される)
+        // 第32便(台帳4-57): レール中心 railCx/railCy(未指定=原点で従来式と厳密等価)
         if(o.pinned && b.railOmega){
-          o.railOmega=b.railOmega; o.railR=Math.hypot(b.x,b.y); o.railAng=Math.atan2(b.y,b.x);
-          o.railCx=0; o.railCy=0;
+          const rcx=b.railCx||0, rcy=b.railCy||0;
+          o.railOmega=b.railOmega; o.railR=Math.hypot(b.x-rcx,b.y-rcy); o.railAng=Math.atan2(b.y-rcy,b.x-rcx);
+          o.railCx=rcx; o.railCy=rcy;
           o.vx=-b.railOmega*o.railR*Math.sin(o.railAng); o.vy=b.railOmega*o.railR*Math.cos(o.railAng);
         }
         push(o); noteBig(o);
@@ -1610,7 +1907,14 @@ function makeSim(){
             vx:vt*jit*tx + vr*Math.cos(ang) + (b.bulkVx||0),
             vy:vt*jit*ty + vr*Math.sin(ang) + (b.bulkVy||0),
             spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:b.pinned?1:0, railOmega:0};
-          if(b.pinned && b.vMode==="omega"){ o.railOmega=b.omega*b.direction; o.railR=r; o.railAng=ang; o.railCx=b.cx; o.railCy=b.cy; }
+          // 第31便: railH(膨張レール a(t)=e^{H·t})— pinned リングを相似膨張で規定駆動する。
+          // 位置は初期半径から毎step解析再構成(前stepへの加算ではないのでドリフトしない)
+          if(b.pinned && (b.vMode==="omega" || b.railH)){
+            o.railOmega=(b.vMode==="omega")? b.omega*b.direction : 0;
+            o.railH=b.railH||0; o.railR=r; o.railAng=ang; o.railCx=b.cx; o.railCy=b.cy;
+            const ca=Math.cos(ang), sa=Math.sin(ang);   // レール初速 v = H·r·r̂ + ω·r·φ̂(解析値)
+            o.vx=o.railH*r*ca - o.railOmega*r*sa; o.vy=o.railH*r*sa + o.railOmega*r*ca;
+          }
           push(o);
         }
       } else if(b.type==="disk"){
@@ -1625,8 +1929,9 @@ function makeSim(){
           if(b.vMode==="kepler" && b.aroundMass>0 && r>1){ const v=Math.sqrt(G*b.aroundMass/r)*b.vScale*b.direction; vX=v*tx; vY=v*ty; }
           else if(b.vMode==="rigid"){ const v=b.vScale*r*b.direction; vX=v*tx; vY=v*ty; }
           else if(b.vMode==="flat"){ const v=b.vScale*b.direction; vX=v*tx; vY=v*ty; }
+          else if(b.vMode==="hubble"){ vX=b.vScale*(x-b.cx)*b.direction; vY=b.vScale*(y-b.cy)*b.direction; }   // 第31便: 初期 Hubble 流 v=H·(r−c)(vScale=H)
           else if(b.vMode==="random"){ const a2=rng()*Math.PI*2, v=b.vScale*rng(); vX=v*Math.cos(a2); vY=v*Math.sin(a2); }
-          vX += (rng()*2-1)*0.02; vY += (rng()*2-1)*0.02;
+          if(b.vMode!=="hubble"){ vX += (rng()*2-1)*0.02; vY += (rng()*2-1)*0.02; }   // 第31便: hubble は共動初期条件を乱さない
           push({m:b.mMin+(b.mMax-b.mMin)*rng(), x,y,
             vx:vX+(b.bulkVx||0), vy:vY+(b.bulkVy||0),   // v1.18: 母集団の並進速度
             spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:0, railOmega:0});
@@ -1651,10 +1956,32 @@ function makeSim(){
       S.obsT[i]=(o.obsT===undefined?1:o.obsT); S.lSw[i]=(o.lightSweep===undefined?0:o.lightSweep);
       S.coreOT[i]=(o.coreOT===undefined?1:o.coreOT);
       S.radOv[i]=(o.radius===undefined?0:o.radius); S.coreRRv[i]=(o.coreRR===undefined?0:o.coreRR);
-      if(o.railOmega){ S.railR[i]=o.railR; S.railAng[i]=o.railAng; S.railCx[i]=o.railCx; S.railCy[i]=o.railCy; }
+      S.railH[i]=o.railH||0;
+      if(o.railOmega||o.railH){ S.railR[i]=o.railR; S.railAng[i]=o.railAng; S.railCx[i]=o.railCx; S.railCy[i]=o.railCy; }
       if(o.zonal) S.zonal={i, refR:o.zonal.refR, J:o.zonal.J, calib:(o.zonal.calib||1), _A:null};
     });
     S.params = phys;
+    // 第31便: UniverseBox(連続背景)— 未指定キーは既定値で正規化(builtin は明示値を持つ)
+    const BU=preset.universeBox;
+    S.box = BU? {mode:BU.mode||"static", D:BU.D||0, dPower:(BU.dPower===undefined?1:BU.dPower),
+      L:BU.L||260, cx:BU.cx||0, cy:BU.cy||0, vx:BU.vx||0, vy:BU.vy||0, omega:BU.omega||0,
+      H0:BU.H0||0, amp:BU.amp||0, freq:BU.freq||0, phase:BU.phase||0,
+      coef:BU.coef||0, expo:(BU.expo===undefined?1:BU.expo),   // 第32便: pow モード
+      friction:(BU.friction==="flrw"? "flrw":"dfm")} : null;    // 第33便: FLRW 摩擦比較モード
+    S.boxA=null;
+    // 第32便: 赤方偏移の基準 a_ref=a(0)(phase≠0 の sin/pow は a(0)≠1 — z(0)=0 を保証)と履歴バッファ
+    S.boxARef = S.box? boxScaleAt(S.box,0).a : 1;
+    S.boxHist = S.box? [] : null; S._bhAcc=0;
+    // 第33便: 光子の放出スケジュール(t 昇順)。photonEmit が無ければ全て null(ゼロコスト経路)
+    const PE=preset.photonEmit;
+    if(Array.isArray(PE) && PE.length){
+      S._phSched = PE.map(e=>({body:Math.max(0,Math.round(e.body||0)), t:e.t||0,
+        lambda:(e.lambda===undefined? 500 : e.lambda),
+        aim:(e.aim===undefined? -1 : Math.max(0,Math.round(e.aim)))}))
+        .sort((a,b)=>a.t-b.t);
+      S.photons=[]; S.photonLog=[];
+    } else { S._phSched=null; S.photons=null; S.photonLog=null; }
+    S._phI=0; S.photonWarn=false;
     S.world = preset.world; S.rays = preset.rays||null; S.overlays = preset.overlays||{};
     S.t=0; S.hasU.fill(0); S.tau.fill(0); S.updateRadii();
     S.resPx=0; S.resPy=0; S.resL=0; S.radE=0; S.radL=0;
@@ -1693,17 +2020,53 @@ function makeSim(){
     if(Math.abs(R[0]-p.radiusScale*Math.sqrt(Math.abs(m[0])))>1e-6) S.updateRadii(); // radiusScale変更の追従
     ax.fill(0); ay.fill(0); sumW.fill(0); uAx.fill(0); uAy.fill(0); ds.fill(0);
     dpx.fill(0); dpy.fill(0);
-    // レール粒子(pinned+omega)の位置・速度を先に更新
+    // 第31便: UniverseBox — この step の尺度 a(t)・Hubble 率 H・決定力 W_B を確定(規定運動)。
+    // W_B は一様(∇W_B=0 → 重力なし)で、u_B=V+Ω·J(r−c)+H·(r−c) を E3 の分子・分母へ加える
+    const B=S.box; let WB=0, bH=0;
+    if(B){ const sc=boxScaleAt(B,S.t); bH=sc.H; WB=boxWAt(B,sc.a); S.boxA={a:sc.a,H:bH,W:WB}; }
+    const bgW=D0+WB;   // 背景決定力の合計(D₀+箱)— E6′ の背景持ち分・リザーバ帳簿に使用
+    const flrw=!!(B && B.friction==="flrw");   // 第33便: FLRW 摩擦比較モード(既定 dfm では false)
+    // レール粒子(pinned+omega/railH)の位置・速度を先に更新
     // 第29便(第25次レビュー P1-1): 構築時のレール候補だけを走査(レール無し宇宙の O(N) 固定費を除去)。
-    // railOmega が非0になるのは build 経由のみ(alloc で railIdx=null に戻る)。編集パネルの固定解除は
+    // railOmega/railH が非0になるのは build 経由のみ(alloc で railIdx=null に戻る)。編集パネルの固定解除は
     // railOmega=0 にするだけなのでループ内の再判定で追従する(A/B転写も同一プリセット構築後の遅延再構築)
-    if(S.railIdx===null){ const li=[]; for(let i=0;i<n;i++) if(pinned[i]&&S.railOmega[i]!==0) li.push(i); S.railIdx=li; }
+    if(S.railIdx===null){ const li=[]; for(let i=0;i<n;i++) if(pinned[i]&&(S.railOmega[i]!==0||S.railH[i]!==0)) li.push(i); S.railIdx=li; }
     for(const i of S.railIdx){
-      if(pinned[i] && S.railOmega[i]!==0){
+      if(pinned[i] && (S.railOmega[i]!==0 || S.railH[i]!==0)){
         S.railAng[i]+=S.railOmega[i]*dt;
-        const a=S.railAng[i], r=S.railR[i];
-        x[i]=S.railCx[i]+r*Math.cos(a); y[i]=S.railCy[i]+r*Math.sin(a);
-        vx[i]=-S.railOmega[i]*r*Math.sin(a); vy[i]=S.railOmega[i]*r*Math.cos(a);
+        const a=S.railAng[i], hh=S.railH[i];
+        // 第31便: 膨張レールは初期半径×e^{H(t+dt)} を解析再構成(ドリフトなし)。座標系の
+        // 値域(±5000)に収まるよう 4800 で飽和し、飽和後の動径速度は 0(展示系の安全弁)
+        let r=S.railR[i], hv=0;
+        if(hh!==0){ r*=Math.exp(hh*(S.t+dt)); hv=hh*r;
+          if(r>4800){ r=4800; hv=0; } else if(r<1){ r=1; hv=0; } }
+        const ca=Math.cos(a), sa=Math.sin(a);
+        x[i]=S.railCx[i]+r*ca; y[i]=S.railCy[i]+r*sa;
+        vx[i]=hv*ca - S.railOmega[i]*r*sa; vy[i]=hv*sa + S.railOmega[i]*r*ca;
+      }
+    }
+    // ===== 第33便(台帳4-63): 光子の放出 =====
+    // 光子は質量・運動量を持たない「表示物理」— 粒子側へは一切反作用しない(E8R の光線と
+    // 同じ主張水準)。状態は放出波長 lamE と放出時尺度 aE の2値だけで、現在波長は
+    // lamE·a(t)/aE として表示側が算出する。箱(universeBox)が無い宇宙では a=1 固定で λ 不変。
+    // 方位は決定論(aim 指定=対象粒子方向の1光子 / 省略=固定8方位 i/8·2π。乱数不使用)
+    if(S._phSched){
+      while(S._phI<S._phSched.length && S._phSched[S._phI].t<=S.t){
+        const e=S._phSched[S._phI++];
+        if(!(e.body>=0 && e.body<n) || (e.aim>=0 && e.aim>=n)){ S.photonWarn=true; continue; }
+        const aE=S.box? boxScaleAt(S.box,S.t).a : 1;
+        const ex=x[e.body], ey=y[e.body];
+        if(e.aim>=0){
+          let dxA=x[e.aim]-ex, dyA=y[e.aim]-ey;
+          const dd=Math.sqrt(dxA*dxA+dyA*dyA);
+          if(dd>1e-9){ dxA/=dd; dyA/=dd; } else { dxA=1; dyA=0; }
+          S.photons.push({x:ex, y:ey, dx:dxA, dy:dyA, lamE:e.lambda, aE, tE:S.t,
+            from:e.body, to:e.aim, alive:true});
+        } else {
+          for(let k=0;k<8;k++){ const th=(k/8)*Math.PI*2;
+            S.photons.push({x:ex, y:ey, dx:Math.cos(th), dy:Math.sin(th), lamE:e.lambda, aE, tE:S.t,
+              from:e.body, to:-1, alive:true}); }
+        }
       }
     }
     // ===== ① 全対ループ: E1決定力・E3フレーム・E4重力・E5′斥力・E9接触・E10′拡散 =====
@@ -1866,9 +2229,13 @@ function makeSim(){
       // E6′ 輸送項(自分自身は除外して評価。1サブステップの引きずり量は0.8に制限)
       // v1.20: geoPN=1(E12測地線モード)では物質への E6′ を無効化 — 作用由来の式に
       // ニュートン重力+フレーム輸送が含まれるため、別途加えると二重計上になる(BOX_UNIVERSE §5.4)
-      const denom=D0+sumW[i];
+      // 第31便: UniverseBox の寄与 W_B·u_B を分子・分母へ加える(u_B は粒子位置で評価)
+      const denom=bgW+sumW[i];
       if(denom>1e-9 && kFrame>0 && !geo){
-        const ux=uAx[i]/denom, uy=uAy[i]/denom;
+        let unx=uAx[i], uny=uAy[i];
+        if(WB>0){ const bx=x[i]-B.cx, by=y[i]-B.cy;
+          unx+=WB*(B.vx - B.omega*by + bH*bx); uny+=WB*(B.vy + B.omega*bx + bH*by); }
+        const ux=unx/denom, uy=uny/denom;
         if(S.hasU[i]){
           let dux=ux-S.uPx[i], duy=uy-S.uPy[i];
           const dl2=dux*dux+duy*duy;
@@ -1878,6 +2245,18 @@ function makeSim(){
           if(dpx[i]!==0||dpy[i]!==0) anyDp=true;
         }
         S.uPx[i]=ux; S.uPy[i]=uy; S.hasU[i]=1;
+      }
+      // 第33便: FLRW 比較モード — DFM 公理(E6′)の帰結ではなく、標準宇宙論の w∝1/a との
+      // A/B 比較用の対照チャネル(BOX_UNIVERSE §13)。既定 dfm では一切実行されない。
+      // 特異速度 w=v−u_B(u_B は箱の速度場のみ — 粒子由来の u は含めない)に
+      // Hubble 摩擦 Δv=−H·w·dt を課す。運動量・角運動量の変化はリザーバ帳簿へ記録
+      if(flrw){
+        const fbx=x[i]-B.cx, fby=y[i]-B.cy;
+        const ubx=B.vx - B.omega*fby + bH*fbx, uby=B.vy + B.omega*fbx + bH*fby;
+        const dvx=-bH*(vx[i]-ubx)*dt, dvy=-bH*(vy[i]-uby)*dt;
+        vx[i]+=dvx; vy[i]+=dvy;
+        S.resPx-=m[i]*dvx; S.resPy-=m[i]*dvy;
+        S.resL-=m[i]*(x[i]*dvy-y[i]*dvx);
       }
       // v1.5(A12′): スピン同期(E10′)の散逸帳簿。適用前後の回転エネルギー差を計上
       if(ds[i]!==0){
@@ -1902,12 +2281,12 @@ function makeSim(){
       for(let i=0;i<n;i++){
         const mi=m[i], xi=x[i], yi=y[i];
         const Ii=0.5*mi*R[i]*R[i];
-        const Wi=D0+sumW[i];
+        const Wi=bgW+sumW[i];   // 第31便: 背景持ち分は D₀+W_B(share の分母を E6′ と一致させる)
         const dpxi=dpx[i], dpyi=dpy[i];
         const hasI=(dpxi!==0||dpyi!==0)&&Wi>1e-9;
         for(let j=i+1;j<n;j++,pk2++){
           const dpxj=dpx[j], dpyj=dpy[j];
-          const Wj=D0+sumW[j];
+          const Wj=bgW+sumW[j];
           const hasJ=(dpxj!==0||dpyj!==0)&&Wj>1e-9;
           if(!hasI&&!hasJ) continue;
           const d=pairD[pk2], dx=xi-x[j], dy=yi-y[j];
@@ -1940,12 +2319,13 @@ function makeSim(){
           }
         }
       }
-      // 背景 D₀ 分は無限慣性リザーバへ移譲(帳簿記録)
-      if(D0>0){
+      // 背景 D₀+W_B 分は無限慣性リザーバへ移譲(帳簿記録)。UniverseBox は規定運動の
+      // 外部コントローラなので、その持ち分の反作用は D₀ と同じくリザーバが引き受ける
+      if(bgW>0){
         for(let i=0;i<n;i++){
           if(dpx[i]===0&&dpy[i]===0) continue;
-          const Wi=D0+sumW[i]; if(Wi<=1e-9) continue;
-          const phiBg=D0/Wi;
+          const Wi=bgW+sumW[i]; if(Wi<=1e-9) continue;
+          const phiBg=bgW/Wi;
           const rpx=phiBg*dpx[i], rpy=phiBg*dpy[i];
           S.resPx-=rpx; S.resPy-=rpy; S.resL-=x[i]*rpy-y[i]*rpx;
         }
@@ -2008,6 +2388,41 @@ function makeSim(){
       }
     }
     S.t+=dt;
+    // 第32便: 尺度・赤方偏移の履歴(25サブステップ=0.4時間単位ごと・上限720点。描画は W2)
+    if(S.box && S.boxHist){
+      if(++S._bhAcc>=25){ S._bhAcc=0;
+        const sc=boxScaleAt(S.box,S.t);
+        S.boxHist.push({t:S.t, a:sc.a, H:sc.H, z:sc.a/S.boxARef-1});
+        if(S.boxHist.length>720) S.boxHist.shift();
+      }
+    }
+    // 第33便(台帳4-63): 光子の伝播(1ステップ分)。光学は traceRay と同一(E8R: 重い粒子
+    // m≥RAY_MASS_MIN の 2∇ψ 屈折・W 合計に D₀/W_B・媒質随伴 kF·u に UniverseBox の u_B を含む)で、
+    // 弧長は dl=(c₀/n_eff)·dt。到着時は 1+z=a_obs/a_emit の帳簿を photonLog へ積む
+    if(S.photons && S.photons.length){
+      const pp=S.params;
+      const O={heavy:[], kU:2/pp.Kt, eps2:pp.softening*pp.softening, q:pp.q, c0:pp.cLight,
+        D0:pp.D0, kF:pp.kFrame, BX:S.box, WB:0, bH:0};
+      for(let i=0;i<n;i++) if(S.m[i]>=RAY_MASS_MIN) O.heavy.push(i);
+      let aO=1;
+      if(O.BX){ const sc=boxScaleAt(O.BX,S.t); aO=sc.a; O.WB=boxWAt(O.BX,sc.a); O.bH=sc.H; }
+      let died=false;
+      for(const ph of S.photons){
+        photonStep(S, ph, dt, O);
+        if(ph.to>=0 && ph.to<n){   // 到着判定: 対象粒子との距離 < max(R,6)
+          const hx=S.x[ph.to]-ph.x, hy=S.y[ph.to]-ph.y, hit=Math.max(S.R[ph.to],6);
+          if(hx*hx+hy*hy < hit*hit){
+            S.photonLog.push({tE:ph.tE, aE:ph.aE, tO:S.t, aO, lamE:ph.lamE,
+              lamO:ph.lamE*aO/ph.aE, z:aO/ph.aE-1, from:ph.from, to:ph.to});
+            if(S.photonLog.length>64) S.photonLog.shift();
+            ph.alive=false; died=true; continue;
+          }
+        }
+        // 暴走保護: 座標系の外へ出た/飛行時間が長すぎる光子は消滅
+        if(Math.abs(ph.x)>6000 || Math.abs(ph.y)>6000 || (S.t-ph.tE)>4000){ ph.alive=false; died=true; }
+      }
+      if(died) S.photons=S.photons.filter(q2=>q2.alive);
+    }
   };
   // 保存量(T7): P = Σmv、L = Σm(r×v) + ΣIs(保存量モニタ・V1 検証で使用)
   S.totals = function(){
@@ -2023,20 +2438,34 @@ function makeSim(){
   // 弱場・低速で 1−ψ−|v−u|²/(2c₀²) となり旧 E7(1/(1+ψ))の一次形と一致し、
   // 共動フレームに対する運動の時間遅れが加わる(A7′。DERIVATIONS §10.4/§11)
   S.tauUpdate=function(i,dt){
-    const denom=S.params.D0+S.sumW[i];
+    // 第31便: UniverseBox の決定力 W_B は ψ に入り(膨張で希釈 → 時計が速くなる)、
+    // 速度場 u_B は共動フレームに入る(箱と共動する運動は「静止」= 運動時間遅れなし)
+    let WB=0, ubx=0, uby=0;
+    const B=S.box;
+    if(B && S.boxA){ WB=S.boxA.W;
+      const bx=S.x[i]-B.cx, by=S.y[i]-B.cy, bH=S.boxA.H;
+      ubx=WB*(B.vx - B.omega*by + bH*bx); uby=WB*(B.vy + B.omega*bx + bH*by); }
+    const denom=S.params.D0+WB+S.sumW[i];
     const psi=denom/S.params.Kt;
     const N=Math.exp(-psi), A=Math.exp(psi);
     let rvx=0, rvy=0;
     if(denom>1e-9){ // フレーム不在(W_ext=0)なら運動は定義されず、運動時間遅れなし(T1 整合)
-      rvx=S.vx[i]-S.uAx[i]/denom; rvy=S.vy[i]-S.uAy[i]/denom;
+      rvx=S.vx[i]-(S.uAx[i]+ubx)/denom; rvy=S.vy[i]-(S.uAy[i]+uby)/denom;
     }
     const c0=S.params.cLight;
     const rad=N*N - A*A*(rvx*rvx+rvy*rvy)/(c0*c0);
     S.tau[i]+= rad>0 ? dt*Math.sqrt(rad) : 0; // 根号内≤0 = 局所光速超過(非物理域)→ 時計停止
   };
+  // 第32便: 赤方偏移(意味論: 波長は a に比例して伸びる。1+z=a_obs/a_emit で基準は build 時の a(0))
+  S.boxRedshift = function(){
+    if(!S.box) return null;
+    const sc=boxScaleAt(S.box,S.t);
+    return {a:sc.a, z:sc.a/S.boxARef-1};
+  };
   // 任意点の決定力 W(可視化・光線用: 全粒子を含む)
   S.Wat=function(px,py){
     let w=S.params.D0; const eps=S.params.softening;
+    if(S.box){ const sc=boxScaleAt(S.box,S.t); w+=boxWAt(S.box,sc.a); }   // 第31便: UniverseBox は一様寄与
     for(let i=0;i<S.n;i++){ const dx=px-S.x[i], dy=py-S.y[i];
       w+=S.m[i]/Math.sqrt(dx*dx+dy*dy+eps*eps); }
     return w;
@@ -2193,6 +2622,48 @@ function drawField(){
   ctx.drawImage(fieldCv,0,0,cw,ch);
 }
 
+// 第33便: E8R 光学場の1点評価 — traceRay の内側ループ前半と photonStep が共有するカーネル。
+// 呼び出しごとの割り当てを避けるためモジュール内スクラッチ _RF へ書き出す(演算の順序・値は
+// 抽出前と厳密に同一 — traceRay の挙動は bit 等価に保たれる)。
+//   gx,gy = 2∇ψ = −(2/Kt)Σ m(r−r_j)/(d²+ε²)^{3/2}(重い天体のみ)
+//   ux,uy = 決定フレーム u の分子 kF·Σ w(v+ω×Δr) + kF·W_B·u_B、 w = Σ m/√(d²+ε²)
+const _RF={gx:0, gy:0, ux:0, uy:0, w:0};
+function rayField(S, heavy, px, py, kU, eps2, q, kF, BX, WB, bH){
+  let gx=0, gy=0, uNx=0, uNy=0, wSum=0;
+  for(const i of heavy){
+    const dx=px-S.x[i], dy=py-S.y[i], d2=dx*dx+dy*dy;
+    const inv=1/Math.sqrt(d2+eps2);
+    const inv3=inv*inv*inv;
+    gx-=kU*S.m[i]*dx*inv3; gy-=kU*S.m[i]*dy*inv3;
+    const dd=Math.sqrt(d2), w=S.m[i]*inv;   // v1.5: E1′(inv=1/√(d²+ε²) を再利用。dd は下の tt で使用)
+    wSum+=w;
+    let om=0; const si=S.spin[i];
+    if(si!==0){ const tt=S.R[i]/(S.R[i]+dd); om=(q===2)? si*tt*tt : si*Math.pow(tt,q); }
+    uNx+=kF*w*(S.vx[i]+om*(-dy)); uNy+=kF*w*(S.vy[i]+om*(dx));
+  }
+  if(WB>0){ uNx+=kF*WB*(BX.vx - BX.omega*(py-BX.cy) + bH*(px-BX.cx));
+            uNy+=kF*WB*(BX.vy + BX.omega*(px-BX.cx) + bH*(py-BX.cy)); }
+  _RF.gx=gx; _RF.gy=gy; _RF.ux=uNx; _RF.uy=uNy; _RF.w=wSum;
+}
+// 第33便(台帳4-63): 光子1個の1ステップ伝播。traceRay の内側ループ1回分と同一の光学を、
+// 弧長 dl=(c₀/n_eff)·dt(=「dt 秒で進む局所的な光路長」)で適用する。媒質随伴の係数
+// (n_eff/c₀)·dl/W は dt/W に等しく、随伴量はちょうど u·dt になる(A11)。
+// 光子は質量・運動量を持たない表示物理で、粒子側へは反作用しない(E8R と同じ主張水準)。
+// O = S.step が1ステップにつき1回だけ作る光学コンテキスト {heavy,kU,eps2,q,c0,D0,kF,BX,WB,bH}
+function photonStep(S, ph, dt, O){
+  rayField(S, O.heavy, ph.x, ph.y, O.kU, O.eps2, O.q, O.kF, O.BX, O.WB, O.bH);
+  const gx=_RF.gx, gy=_RF.gy, uNx=_RF.ux, uNy=_RF.uy;
+  const Wtot=O.D0+O.WB+_RF.w;
+  const neff=Math.exp(O.kU*Wtot);            // n_eff = e^{2ψ}(ψ は背景 D₀+W_B を含む全 W)
+  const dl=(O.c0/neff)*dt;                   // 弧長 = 局所光速 c₀/n_eff × dt
+  let cxv=ph.dx, cyv=ph.dy;
+  const dot=gx*cxv+gy*cyv;
+  cxv+=(gx-dot*cxv)*dl; cyv+=(gy-dot*cyv)*dl;
+  const cl=Math.sqrt(cxv*cxv+cyv*cyv); cxv/=cl; cyv/=cl;
+  const adv=(Wtot>1e-9)? (neff/O.c0)*dl/Wtot : 0;
+  ph.x+=cxv*dl+uNx*adv; ph.y+=cyv*dl+uNy*adv;
+  ph.dx=cxv; ph.dy=cyv;
+}
 // E8R 光線積分(v1.7・ψ統一。描画と V8 検証で共有。質量 m≥RAY_MASS_MIN のみが曲げる近似)
 // 屈折率 n_eff = e^{2ψ} = e^{2W/Kt}(kLens 廃止 — 時計 E7R と同じ ψ が光を曲げる)。
 // 方向更新はフェルマー則 dĉ/dl = (∇n−(∇n·ĉ)ĉ)/n で、∇n/n = 2∇ψ = (2/Kt)∇W と
@@ -2205,30 +2676,29 @@ function traceRay(S, px, py, cxv, cyv, dl, maxSteps, emit){
   const p=S.params, kU=2/p.Kt, eps=p.softening, eps2=eps*eps, q=p.q, c0=p.cLight, D0=p.D0, kF=p.kFrame;
   const heavy=[];
   for(let i=0;i<S.n;i++) if(S.m[i]>=RAY_MASS_MIN) heavy.push(i);
+  // 第31便: UniverseBox — W_B は一様(∇ψ 寄与なし=光は曲げない)だが、n_eff と
+  // 媒質随伴 u_B には入る(時計と光が同じ ψ・同じ u を共有する E8R の統一を維持)
+  const BX=S.box; let WB=0, bH=0;
+  if(BX){ const sc=boxScaleAt(BX,S.t); WB=boxWAt(BX,sc.a); bH=sc.H; }
+  // 第32便(台帳4-48): 終端状態 — emit の打ち切り="stopped"(境界・捕捉)/ maxSteps 到達="maxSteps"
+  // (有限時間内に停止条件へ達しない=「有限時間非脱出」の機械表現)。既存の呼び出し側は非破壊
+  let steps=0, end="maxSteps";
   for(let s2=0;s2<maxSteps;s2++){
+    steps=s2+1;
     // 2∇ψ = −(2/Kt) Σ m (r−r_j)/(d²+ε²)^{3/2}、u は E3 と同形(重い天体のみ)
-    let gx=0, gy=0, uNx=0, uNy=0, wSum=0;
-    for(const i of heavy){
-      const dx=px-S.x[i], dy=py-S.y[i], d2=dx*dx+dy*dy;
-      const inv=1/Math.sqrt(d2+eps2);
-      const inv3=inv*inv*inv;
-      gx-=kU*S.m[i]*dx*inv3; gy-=kU*S.m[i]*dy*inv3;
-      const dd=Math.sqrt(d2), w=S.m[i]*inv;   // v1.5: E1′(inv=1/√(d²+ε²) を再利用。dd は下の tt で使用)
-      wSum+=w;
-      let om=0; const si=S.spin[i];
-      if(si!==0){ const tt=S.R[i]/(S.R[i]+dd); om=(q===2)? si*tt*tt : si*Math.pow(tt,q); }
-      uNx+=kF*w*(S.vx[i]+om*(-dy)); uNy+=kF*w*(S.vy[i]+om*(dx));
-    }
+    // 第33便: 場の評価は photonStep と共有カーネル rayField へ抽出(式・演算順は不変)
+    rayField(S, heavy, px, py, kU, eps2, q, kF, BX, WB, bH);
+    const gx=_RF.gx, gy=_RF.gy, uNx=_RF.ux, uNy=_RF.uy, wSum=_RF.w;
     const dot=gx*cxv+gy*cyv;
     cxv+=(gx-dot*cxv)*dl; cyv+=(gy-dot*cyv)*dl;
     const cl=Math.sqrt(cxv*cxv+cyv*cyv); cxv/=cl; cyv/=cl;
-    const Wtot=D0+wSum;
+    const Wtot=D0+WB+wSum;
     const neff=Math.exp(kU*Wtot);            // n_eff = e^{2ψ}(ψ は背景 D₀ を含む全 W)
     const adv=(Wtot>1e-9)? (neff/c0)*dl/Wtot : 0;
     px+=cxv*dl+uNx*adv; py+=cyv*dl+uNy*adv;
-    if(emit && emit(px,py)===false) break;
+    if(emit && emit(px,py)===false){ end="stopped"; break; }
   }
-  return {x:px, y:py, cx:cxv, cy:cyv};
+  return {x:px, y:py, cx:cxv, cy:cyv, end, steps};
 }
 // v1.22: 光線のキー比較キャッシュ — 光線は「重い天体(m≥RAY_MASS_MIN)の状態+光学
 // パラメータ+カメラ+光線設定」だけで決まる。源が動かない限り再積分せず、前回の
@@ -2241,6 +2711,8 @@ function rayKeyOf(rays){
   let h=camX+","+camY+","+camScale+","+cw+","+ch+","+dpr+","+rays.n+","+rays.spread+","+
     sim.params.Kt+","+sim.params.cLight+","+sim.params.D0+","+sim.params.q+","+
     sim.params.softening+","+sim.params.kFrame;
+  // 第31便: UniverseBox は a(t)・H で光学が変わる(static は定数なのでキャッシュ有効のまま)
+  if(sim.box){ const sc=boxScaleAt(sim.box,sim.t); h+=";B"+sc.a.toFixed(6)+","+sc.H.toFixed(6)+","+sim.box.D; }
   for(let i=0;i<sim.n;i++) if(sim.m[i]>=RAY_MASS_MIN)
     h+=";"+i+","+sim.x[i]+","+sim.y[i]+","+sim.vx[i]+","+sim.vy[i]+","+sim.spin[i]+","+sim.R[i]+","+sim.m[i];
   return h;
@@ -2287,11 +2759,13 @@ function overlaySlots(){
   if(sim.overlays.rotationCurve) s.push("rotationCurve");
   if(sim.overlays.tempHistogram) s.push("tempHistogram");
   if(sim.overlays.spectrum) s.push("spectrum");
+  // 第32便(W2): 膨張グラフ — sim.box が無いプリセットでは(トグルがONでも)スロットを割り当てない
+  if(sim.overlays.boxGraph && sim.box) s.push("boxGraph");
   return s;
 }
 // 第26便(原仮定者指示): グラフの最小化 — キーごとの状態と可変高さのスロット積み。
 // 最小化中はタイトルバー(高さ16)だけを描き、バー全体のタップで復元。展開中は右上「−」で最小化
-const ovMin={rotationCurve:false,tempHistogram:false,spectrum:false};
+const ovMin={rotationCurve:false,tempHistogram:false,spectrum:false,boxGraph:false};
 const OV_H=92, OV_HMIN=16;
 let ovHit=[];   // グラフのトグル用タップ領域(キャンバス座標。描画のたびに再登録)
 function overlayBaseY(slot){
@@ -2322,7 +2796,27 @@ function ovDrawToggle(key,slot){
   ctx.restore();
   ovHit.push({x:ox+(W-22)*uz,y:oy,w:22*uz,h:14*uz,key});
 }
-// 回転曲線オーバーレイ(実測 vs ケプラー予想)
+// 台帳4-49: 半径r・中心(cx,cy)まわり8方位点の平均動径加速度(内向き正)から
+// v_bar(r)=√(r·|a_r(r)|) を返す。a_r は E4 と同一のPlummer型
+// a=ΣG·m_j(r_j−r)/(|r_j−r|²+ε²)^{3/2} を全粒子について評価した動径成分(内向き正)の平均。
+// 正味が外向き(負)なら 0(縮退: 中心1質点だけの系では √(G·M·r²/(r²+ε²)^{3/2}) と厳密一致 — QA curve.vbar-degenerate)。
+function curveVBarAt(cx,cy,r){
+  const G=sim.params.G, eps2=sim.params.softening*sim.params.softening;
+  let accSum=0;
+  for(let a2=0;a2<8;a2++){
+    const th=(a2/8)*Math.PI*2, px=cx+r*Math.cos(th), py=cy+r*Math.sin(th);
+    let axp=0, ayp=0;
+    for(let j=0;j<sim.n;j++){
+      const dx=sim.x[j]-px, dy=sim.y[j]-py, d2=dx*dx+dy*dy;
+      const fg=G*sim.m[j]/Math.pow(d2+eps2,1.5);
+      axp+=fg*dx; ayp+=fg*dy;
+    }
+    accSum+=-(axp*Math.cos(th)+ayp*Math.sin(th));   // 内向き成分 = -(a・r̂)
+  }
+  const ar=accSum/8;
+  return ar>0? Math.sqrt(r*ar) : 0;
+}
+// 回転曲線オーバーレイ(実測 vs 基準 v_bar)
 let curveTick=0, curveData=null;
 function drawRotationCurve(slot=0){
   if(ovOverlayMin("rotationCurve",slot,T("ovCurve"))) return;   // 第26便: 最小化
@@ -2337,13 +2831,13 @@ function drawRotationCurve(slot=0){
       const vt=Math.abs((-dy*sim.vx[i]+dx*sim.vy[i])/r);
       sums[bi]+=vt; cnts[bi]++;
     }
-    const meas=[], kep=[];
+    const meas=[], vbar=[];
     for(let b2=0;b2<BINS;b2++){
       meas.push(cnts[b2]>2?sums[b2]/cnts[b2]:null);
       const r=(b2+0.5)/BINS*camScale;
-      kep.push(Math.sqrt(sim.params.G*mMax/Math.max(r,1)));
+      vbar.push(curveVBarAt(cxm,cym,r));
     }
-    curveData={meas,kep};
+    curveData={meas,vbar};
   }
   // v1.17: 文字サイズ設定に合わせてグラフごと拡大し、下端余白 18+10·uz で情報行と重ねない
   const uz=uiFontScale, W=150,H=92,X=0,Y=0;
@@ -2354,10 +2848,10 @@ function drawRotationCurve(slot=0){
   ctx.fillText(T("ovCurve"),X+6,Y+11);
   let vmax=0.01;
   curveData.meas.forEach(v=>{if(v&&v>vmax)vmax=v;});
-  curveData.kep.forEach(v=>{if(v>vmax)vmax=v;});
+  curveData.vbar.forEach(v=>{if(v>vmax)vmax=v;});
   const px=(b2)=>X+8+(b2/(curveData.meas.length-1))*(W-16), py=(v)=>Y+H-8-(v/vmax)*(H-26);
   ctx.strokeStyle="#8b93c8"; ctx.setLineDash([3,3]); ctx.beginPath();
-  curveData.kep.forEach((v,b2)=>{ b2?ctx.lineTo(px(b2),py(v)):ctx.moveTo(px(b2),py(v)); }); ctx.stroke();
+  curveData.vbar.forEach((v,b2)=>{ b2?ctx.lineTo(px(b2),py(v)):ctx.moveTo(px(b2),py(v)); }); ctx.stroke();
   ctx.setLineDash([]); ctx.strokeStyle="#5b8cff"; ctx.lineWidth=1.6; ctx.beginPath();
   let started=false;
   curveData.meas.forEach((v,b2)=>{ if(v==null)return; started?ctx.lineTo(px(b2),py(v)):ctx.moveTo(px(b2),py(v)); started=true; });
@@ -2462,6 +2956,117 @@ function drawSpectrum(slot=0){
   ovDrawToggle("spectrum",slot);   // 第26便: 最小化トグル(−)
 }
 
+// 第33便(台帳4-63): 波長(nm)→表示色。可視域(380〜780nm)の区分線形近似スペクトルを返す。
+// 光子描画(render())と下の drawBoxGraph 赤方偏移カラーバーが同じ配色関数を共有する
+// (W2 の6段グラデーション実装をここへ集約 — 重複させない)。
+// 380nm未満は紫、780nm超は赤の方向へそれぞれ減光して表す(紫外・赤外側の表現)
+function wavelengthColor(nm){
+  const L=clamp(nm,380,780);
+  let r=0,g=0,b=0;
+  if(L<440){ r=-(L-440)/(440-380); b=1; }
+  else if(L<490){ g=(L-440)/(490-440); b=1; }
+  else if(L<510){ g=1; b=-(L-510)/(510-490); }
+  else if(L<580){ r=(L-510)/(580-510); g=1; }
+  else if(L<645){ r=1; g=-(L-645)/(645-580); }
+  else { r=1; }
+  let f=1;                                             // 視感度が下がる端の減光(380〜420・700〜780)
+  if(L<420) f=0.3+0.7*(L-380)/(420-380);
+  else if(L>700) f=0.3+0.7*(780-L)/(780-700);
+  if(nm<380) f*=clamp(1-(380-nm)/300,0.12,1);           // 380nm未満: さらに減光(紫外側の表現)
+  else if(nm>780) f*=clamp(1-(nm-780)/700,0.12,1);      // 780nm超: さらに減光(赤外側の表現)
+  const q=(v)=>Math.round(clamp(v*f,0,1)*255).toString(16).padStart(2,"0");
+  return "#"+q(r)+q(g)+q(b);
+}
+// 第32便(W2): 膨張グラフ overlay — 箱宇宙(UniverseBox)の尺度因子a(t)・膨張率H(t)の時系列と、
+// 拡大に伴う波長の伸び(赤方偏移 1+z=a/a₀)を可視化する。データ層(S.boxHist/S.boxRedshift/
+// boxScaleAt)はW1実装済みの純関数・状態を読むだけ — 物理へは一切手を入れない。
+// sim.box が無いプリセットでは overlaySlots() 側で除外されるため、ここに到達しない
+// (直接呼ばれた場合の防御としてもガードする)
+// 第33便: 到着ログ(photonLog)を下部に最大3件追加するため、件数に応じて下方向へ拡張する
+// (原点は overlayBaseY(slot) のまま不変 — 最小化トグル ovDrawToggle の位置と整合を保つ。
+//  選択粒子の情報行と同時に3件表示される稀なケースでは視覚的に重なり得るが表示専用の軽微な制約)
+function drawBoxGraph(slot=0){
+  if(ovOverlayMin("boxGraph",slot,T("ovBoxGraph"))) return;   // 最小化中はタイトルバーのみ
+  if(!sim.box) return;   // 箱無しでは何も描かない(エッジケース表)
+  const arrivals=(sim.photonLog||[]).slice(-3).reverse();   // 新しい順に最大3件
+  const extraH=arrivals.length? (9+arrivals.length*9) : 0;
+  const uz=uiFontScale, W=150,H=92+extraH,X=0,Y=0;
+  ctx.save(); ctx.translate(cw-W*uz-8, overlayBaseY(slot)); ctx.scale(uz,uz);
+  ctx.fillStyle="rgba(12,16,34,0.82)"; ctx.fillRect(X,Y,W,H);
+  ctx.strokeStyle="#2a3060"; ctx.strokeRect(X,Y,W,H);
+  ctx.font="8px sans-serif"; ctx.fillStyle="#8b93c8";
+  ctx.fillText(T("ovBoxGraph"),X+6,Y+9);
+  // a(t)/H(t) の折れ線(boxHist 全点。720点固定・軽量なので qLevel 連動は不要)
+  const hist=sim.boxHist||[];
+  const chartX0=X+8, chartX1=X+W-8, chartY0=Y+12, chartY1=Y+42;
+  if(hist.length>=2){
+    let aMin=Infinity, aMax=-Infinity, hMax=1e-6;
+    for(const p of hist){ if(p.a<aMin) aMin=p.a; if(p.a>aMax) aMax=p.a; if(Math.abs(p.H)>hMax) hMax=Math.abs(p.H); }
+    if(aMax-aMin<1e-9){ aMin-=0.05; aMax+=0.05; }
+    const aPad=(aMax-aMin)*0.05; aMin-=aPad; aMax+=aPad;   // 5%マージン
+    const tMin=hist[0].t, tMax=hist[hist.length-1].t, tSpan=Math.max(1e-6,tMax-tMin);
+    const px=(t)=>chartX0+((t-tMin)/tSpan)*(chartX1-chartX0);
+    const pyA=(a)=>chartY1-((a-aMin)/(aMax-aMin))*(chartY1-chartY0);
+    const pyH=(hv)=>chartY0+((hMax-hv)/(2*hMax))*(chartY1-chartY0);   // ±|H|max 対称
+    ctx.strokeStyle="#5b8cff"; ctx.lineWidth=1.4; ctx.beginPath();
+    hist.forEach((p,k)=>{ k? ctx.lineTo(px(p.t),pyA(p.a)) : ctx.moveTo(px(p.t),pyA(p.a)); });
+    ctx.stroke(); ctx.lineWidth=1;
+    ctx.strokeStyle="#ff9d45"; ctx.setLineDash([3,2]); ctx.beginPath();
+    hist.forEach((p,k)=>{ k? ctx.lineTo(px(p.t),pyH(p.H)) : ctx.moveTo(px(p.t),pyH(p.H)); });
+    ctx.stroke(); ctx.setLineDash([]);
+  }
+  // 現在値テキスト(a・z は boxRedshift()、H は同じ t の boxScaleAt から — 表示専用の純関数呼び出し)
+  const rz=sim.boxRedshift();
+  const sc=boxScaleAt(sim.box,sim.t);
+  const zTxt=(rz.z>=0?"+":"")+rz.z.toFixed(3);
+  // 第33便: H クランプ可視化 — boxScaleAt(...).clamped が真の間は H=+0.500(CLAMP) の様式に切替
+  const hTxt=sc.clamped? `${sc.H>=0?"+":""}${sc.H.toFixed(3)}(CLAMP)` : (sc.H>=0?"+":"")+sc.H.toFixed(4);
+  ctx.font="8px sans-serif"; ctx.fillStyle="#dfe4ff";
+  ctx.fillText(`a=${rz.a.toFixed(3)}  H=${hTxt}  z=${zTxt}`,X+6,Y+51);
+  // 赤方偏移カラーバー(可視スペクトル380〜780nm。wavelengthColor と配色を共有 — 重複実装しない)
+  const barY=Y+58, barH=9, barX0=X+8, barX1=X+W-8, lam0=380, lam1=780;
+  const grad=ctx.createLinearGradient(barX0,0,barX1,0);
+  for(let k=0;k<=8;k++){ const kt=k/8; grad.addColorStop(kt, wavelengthColor(lam0+kt*(lam1-lam0))); }
+  ctx.fillStyle=grad; ctx.fillRect(barX0,barY,barX1-barX0,barH);
+  ctx.strokeStyle="#2a3060"; ctx.strokeRect(barX0,barY,barX1-barX0,barH);
+  // λ₀=500nm(放出)と λ=λ₀·(1+z)(観測)の位置。範囲外はバー端にクランプし、赤外/紫外の矢印表示に切替
+  const lamPx=(l)=>barX0+clamp((l-lam0)/(lam1-lam0),0,1)*(barX1-barX0);
+  const lamEmit=500, lamObs=lamEmit*(1+rz.z);
+  const ex=lamPx(lamEmit), ox=lamPx(lamObs);
+  ctx.fillStyle="#ffffff"; ctx.beginPath();
+  ctx.moveTo(ex,barY-1); ctx.lineTo(ex-3,barY-5); ctx.lineTo(ex+3,barY-5); ctx.closePath(); ctx.fill();
+  ctx.fillStyle="#19e0ff"; ctx.beginPath();
+  ctx.moveTo(ox,barY+barH+1); ctx.lineTo(ox-3,barY+barH+5); ctx.lineTo(ox+3,barY+barH+5); ctx.closePath(); ctx.fill();
+  ctx.font="6px sans-serif"; ctx.textAlign="left"; ctx.fillStyle="#cfd4ff";
+  ctx.fillText(T("ovEmit"),X+6,Y+76);
+  const obsTxt=(lamObs>lam1)? T("ovIR") : (lamObs<lam0)? T("ovUV") : T("ovObs");
+  ctx.textAlign="right"; ctx.fillStyle=(lamObs>lam1||lamObs<lam0)?"#19e0ff":"#cfd4ff";
+  ctx.fillText(obsTxt,X+W-6,Y+76); ctx.textAlign="left";
+  // 導出ではなく意味論の注記(1+z=a/a₀)。第33便: Hクランプ中はこの行を短い警告に差し替える
+  ctx.font="6px sans-serif"; ctx.fillStyle= sc.clamped? "#ff9d45" : "#5a6090";
+  ctx.fillText(sc.clamped? T("ovBoxClamp") : T("ovBoxNote"),X+6,Y+88);
+  // 第33便(台帳4-63): 到着ログ(S.photonLog)を新しい順に最大3件。放出色/観測色の小さな
+  // 色見本(4px四方、wavelengthColor と共通)をλの左右に添える(実装2)
+  if(arrivals.length){
+    ctx.font="6px sans-serif";
+    let ly=Y+97;
+    for(const e of arrivals){
+      let lx=X+6;
+      const idTxt=`#${e.from}→#${e.to} λ`;
+      ctx.fillStyle="#cfd4ff"; ctx.fillText(idTxt,lx,ly); lx+=ctx.measureText(idTxt).width+1;
+      ctx.fillStyle=wavelengthColor(e.lamE); ctx.fillRect(lx,ly-4,4,4); lx+=6;
+      const lamTxt=`${Math.round(e.lamE)}→${Math.round(e.lamO)}`;
+      ctx.fillStyle="#cfd4ff"; ctx.fillText(lamTxt,lx,ly); lx+=ctx.measureText(lamTxt).width+2;
+      ctx.fillStyle=wavelengthColor(e.lamO); ctx.fillRect(lx,ly-4,4,4); lx+=6;
+      const zt=` z=${e.z>=0?"+":""}${e.z.toFixed(2)}`;
+      ctx.fillStyle="#cfd4ff"; ctx.fillText(zt,lx,ly);
+      ly+=9;
+    }
+  }
+  ctx.restore();
+  ovDrawToggle("boxGraph",slot);   // 第26便: 最小化トグル(−)
+}
+
 // 背景の微星(装飾)
 let bgStars=null;
 function drawBG(){
@@ -2510,6 +3115,12 @@ function render(){
       const s=sim.world.size;
       ctx.strokeRect(w2sX(-s),w2sY(-s),2*s*z,2*s*z);
     } else { ctx.beginPath(); ctx.arc(w2sX(0),w2sY(0),sim.world.size*z,0,7); ctx.stroke(); }
+    ctx.setLineDash([]);
+  }
+  if(sim.box){ // 第31便: UniverseBox の名目半径 L·a(t) を破線円で表示(表示のみ — 壁ではない)
+    const sc=boxScaleAt(sim.box,sim.t);
+    ctx.strokeStyle="rgba(150,200,255,0.45)"; ctx.setLineDash([8,6]);
+    ctx.beginPath(); ctx.arc(w2sX(sim.box.cx),w2sY(sim.box.cy),sim.box.L*sc.a*z,0,7); ctx.stroke();
     ctx.setLineDash([]);
   }
   drawRays();
@@ -2574,6 +3185,31 @@ function render(){
     }
     if(sim.pinned[i]){ ctx.strokeStyle="rgba(255,255,255,0.75)"; ctx.beginPath(); ctx.arc(sx,sy,rr+2,0,7); ctx.stroke(); }
   }
+  // 第33便(台帳4-63): 光子(S.photons)の描画 — 粒子描画の後、光線 drawRays とは独立(実装1)。
+  // 到着済み(photonLog に積まれた時点で alive=false・S.photons から除去済み)は描かない
+  // — ログ表示は drawBoxGraph/HUD 側が担う。A/B分割ビュー(drawWorldInto)では描かない(boxGraphと同じ方針)
+  if(sim.photons && sim.photons.length){
+    const aNow=sim.box? boxScaleAt(sim.box,sim.t).a : 1;   // 箱なしでは a=1 固定(λ不変)
+    for(const ph of sim.photons){
+      if(!ph.alive) continue;
+      const sx=w2sX(ph.x), sy=w2sY(ph.y);
+      if(sx<-20||sx>cw+20||sy<-20||sy>ch+20) continue;
+      const lam=ph.lamE*aNow/ph.aE;   // 現在波長 = 放出波長 · a(t)/a(放出)
+      const col=wavelengthColor(lam);
+      // 尾(進行方向の逆向き・長さ8px・低透明度)
+      ctx.strokeStyle=col; ctx.globalAlpha=0.35; ctx.lineWidth=1.5;
+      ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(sx-ph.dx*8, sy-ph.dy*8); ctx.stroke();
+      ctx.lineWidth=1; ctx.globalAlpha=1;
+      // 淡いグロー(半径6px)
+      const g=ctx.createRadialGradient(sx,sy,0,sx,sy,6);
+      g.addColorStop(0,col); g.addColorStop(1,"rgba(0,0,0,0)");
+      ctx.globalAlpha=0.45; ctx.fillStyle=g;
+      ctx.beginPath(); ctx.arc(sx,sy,6,0,7); ctx.fill(); ctx.globalAlpha=1;
+      // 本体(半径2.5pxの点)
+      ctx.fillStyle=col;
+      ctx.beginPath(); ctx.arc(sx,sy,2.5,0,7); ctx.fill();
+    }
+  }
   // 軌道トレイルの描画(記録は上の粒子ループ前。グローに隠れないよう最上層に描く)
   if(sim.overlays.trail){
     ctx.strokeStyle="rgba(150,200,255,0.55)"; ctx.lineWidth=1;
@@ -2616,6 +3252,8 @@ function render(){
   if(sim.overlays.rotationCurve) drawRotationCurve(slots.indexOf("rotationCurve"));
   if(sim.overlays.tempHistogram) drawTempHistogram(slots.indexOf("tempHistogram"));
   if(sim.overlays.spectrum) drawSpectrum(slots.indexOf("spectrum"));
+  // 第32便(W2): 膨張グラフ。A/B比較は renderAB() 側(未変更)を通るためここには来ない(単独表示のみ)
+  if(sim.overlays.boxGraph && sim.box) drawBoxGraph(slots.indexOf("boxGraph"));
   // 近点検出器の UI 表示(第11次裁定 保留分): 最内粒子の実測 Δϖ/周 と E13 解析値を左上に併記
   if(sim.zonal && sim.periDet){
     const P=sim.periDet; let bi=-1, ba=1e18;
@@ -2640,6 +3278,12 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
     ctx.strokeStyle="rgba(139,147,200,0.5)"; ctx.setLineDash([5,5]);
     if(S.world.boundary==="box"){ const s=S.world.size; ctx.strokeRect(sx(-s),sy(-s),2*s*z,2*s*z); }
     else { ctx.beginPath(); ctx.arc(sx(0),sy(0),S.world.size*z,0,7); ctx.stroke(); }
+    ctx.setLineDash([]);
+  }
+  if(S.box){ // 第31便: UniverseBox(A/B 分割ビュー)
+    const sc=boxScaleAt(S.box,S.t);
+    ctx.strokeStyle="rgba(150,200,255,0.45)"; ctx.setLineDash([8,6]);
+    ctx.beginPath(); ctx.arc(sx(S.box.cx),sy(S.box.cy),S.box.L*sc.a*z,0,7); ctx.stroke();
     ctx.setLineDash([]);
   }
   // 光線(Kt等の比較が見どころになるため半分ずつ独立に飛ばす)
@@ -2794,6 +3438,22 @@ function loop(now){
   }
   if((frameCount++%10)===0){
     let txt=`t=${sim.t.toFixed(1)}  N=${sim.n}  ${Math.round(fpsEMA)}fps`;
+    if(sim.box){ // 第31便: UniverseBox の尺度因子・Hubble 率・現在の背景決定力
+      const sc=boxScaleAt(sim.box,sim.t);
+      // 第33便: H クランプ可視化 — 安全弁が発動している間は H=+0.500(CLAMP) の様式で明示
+      const hTxt=sc.clamped? `${sc.H>=0?"+":""}${sc.H.toFixed(3)}(CLAMP)` : sc.H.toFixed(4);
+      txt+=`  a=${sc.a.toFixed(3)}  H=${hTxt}  W_B=${boxWAt(sim.box,sc.a).toFixed(1)}`;
+      // 第32便(W2): 赤方偏移 z(符号付き小数3桁)を追記。boxRedshift() は sim.box 有りのとき常に非null
+      const rz=sim.boxRedshift();
+      txt+=`  z=${(rz.z>=0?"+":"")+rz.z.toFixed(3)}`;
+    }
+    // 第33便(台帳4-63): boxGraph が無い(トグルOFF)か箱なしのプリセットで photonLog がある場合、
+    // HUD末尾に最新1件だけ λ500→502(z=+0.004) の様式で追記(箱なしでは z=0。実装2)
+    if(!(sim.overlays.boxGraph && sim.box) && sim.photonLog && sim.photonLog.length){
+      const pe=sim.photonLog[sim.photonLog.length-1];
+      const zTxt=(pe.z>=0?"+":"")+pe.z.toFixed(3);
+      txt+=`  ${T("hudPhoton")(Math.round(pe.lamE),Math.round(pe.lamO),zTxt)}`;
+    }
     if(monitorOn){ // 保存量モニタ(T7): P+帳簿P・L+帳簿L+放射L が一定なら保存則成立
       const tt=sim.totals();
       txt+=`\nP=(${fmt(tt.px)}, ${fmt(tt.py)})  L=${fmt(tt.L)}`;
@@ -2884,6 +3544,11 @@ function loadSave(s, selValue){
   loadPreset(exists?s.presetId:BUILTIN_PRESETS[0].id,false);
   sim.params=Object.assign({},DEFAULT_PHYSICS,s.physics); sim.updateRadii();
   if(s.cameraScale) camScale=s.cameraScale;
+  // 第33便(台帳4-64): 箱パラメータの復元。プリセットに箱が無いのに保存側にだけ universeBox が
+  // あるケースは適用しない(挙動の混乱防止 — 箱の無いプリセットへ箱設定だけが亡霊的に残るのを防ぐ)。
+  // 旧形式セーブ(universeBox キー無し)はこの分岐に入らず従来どおり動く(後方互換)
+  if(s.universeBox && sim.box){ sim.box=Object.assign({},sim.box,s.universeBox);
+    sim.boxARef=boxScaleAt(sim.box,0).a; if(sim.boxHist) sim.boxHist.length=0; }
   setParamsDirty(false);
   buildParamRows(); notify(T("loadedAs")(s.name));
   if(selValue) $("#presetSelect").value=selValue;
@@ -3069,6 +3734,79 @@ function setPhysLock(v){
   requestRender();
 }
 
+// 第32便(W2): 箱宇宙(UniverseBox)の尺度パラメータ — 時間を底とした係数・指数・揺らぎの実行中編集。
+// PARAM_DEFS/CLAMPS(sim.params 系)とは独立: sim.box は物理パラメータではなく W1 のデータ層
+// {mode,D,dPower,L,cx,cy,vx,vy,omega,H0,amp,freq,phase,coef,expo} の一部を UI から直接編集する。
+// 値域は W1 の validatePreset クランプ値と一致(D 0〜10000/H0 ±0.2/amp 0〜0.9/freq 0〜2/coef ±1/expo 0.1〜3)。
+// スライダーは持たず、数値直接入力(mode のみ select)。既存 mkParamRow の見た目(.prow/.valIn/.pdesc)に合わせる。
+const BOX_PARAM_DEFS = [
+  {key:"mode", kind:"select", labelKey:"boxModeLabel", descKey:"boxModeDesc", optsKey:"boxModeOpts"},
+  {key:"H0",   kind:"num", lo:-0.2, hi:0.2,   labelKey:"boxH0Label",   descKey:"boxH0Desc"},
+  {key:"coef", kind:"num", lo:-1,   hi:1,     labelKey:"boxCoefLabel", descKey:"boxCoefDesc"},
+  {key:"expo", kind:"num", lo:0.1,  hi:3,     labelKey:"boxExpoLabel", descKey:"boxExpoDesc"},
+  {key:"amp",  kind:"num", lo:0,    hi:0.9,   labelKey:"boxAmpLabel",  descKey:"boxAmpDesc"},
+  {key:"freq", kind:"num", lo:0,    hi:2,     labelKey:"boxFreqLabel", descKey:"boxFreqDesc"},
+  {key:"D",    kind:"num", lo:0,    hi:10000, labelKey:"boxDLabel",    descKey:"boxDDesc"},
+];
+function buildBoxParamRows(host){
+  const g=document.createElement("div"); g.className="group";
+  const h=document.createElement("h3"); h.textContent=T("boxSectionHead");
+  h.style.cursor="pointer"; h.style.textDecoration="underline dotted"; h.style.textUnderlineOffset="3px";
+  h.addEventListener("click",()=>{
+    const open=h.nextElementSibling && h.nextElementSibling.classList
+      && h.nextElementSibling.classList.contains("pdesc") ? h.nextElementSibling : null;
+    if(open){ open.remove(); return; }
+    const d=document.createElement("div"); d.className="pdesc open";
+    d.textContent=T("boxSectionDesc");
+    h.after(d);
+  });
+  g.appendChild(h);
+  const tapDescRow=(row,lab,descKey)=>{
+    lab.className="tappable";
+    lab.addEventListener("click",()=>{
+      const open=row.nextElementSibling && row.nextElementSibling.classList
+        && row.nextElementSibling.classList.contains("pdesc") ? row.nextElementSibling : null;
+      if(open){ open.remove(); return; }
+      const d=document.createElement("div"); d.className="pdesc open";
+      d.textContent=T(descKey);
+      row.after(d);
+    });
+  };
+  for(const def of BOX_PARAM_DEFS){
+    const key=def.key;
+    const row=document.createElement("div"); row.className="prow";
+    const lab=document.createElement("label"); lab.textContent=T(def.labelKey); lab.style.flex="1";
+    tapDescRow(row,lab,def.descKey);
+    if(def.kind==="select"){
+      const sel=document.createElement("select"); sel.style.flex="0 0 110px";   // 既定selectと同幅(品質/文字サイズ行に合わせる)
+      for(const [v,name] of T(def.optsKey)){
+        const o=document.createElement("option"); o.value=v; o.textContent=name; sel.appendChild(o);
+      }
+      sel.value=sim.box.mode;
+      sel.addEventListener("change",()=>{
+        sim.box.mode=sel.value; if(ab) ab.simB.box.mode=sel.value;   // A/B中は両宇宙の背景を共通に保つ
+        setParamsDirty(true); requestRender();
+      });
+      row.appendChild(lab); row.appendChild(sel);
+    } else {
+      const num=document.createElement("input"); num.type="text"; num.className="valIn";
+      num.inputMode=(def.lo<0)?"text":"decimal";   // v1.24 と同方針: 負値取り得るキーは text
+      num.autocomplete="off"; num.value=fmt(sim.box[key]);
+      num.addEventListener("change",()=>{
+        const v=parseFloat(num.value.replace(/[,、\s]/g,"").replace(/[−ー–—－]/g,"-"));
+        if(isFinite(v)){
+          const cv=clamp(v,def.lo,def.hi);
+          sim.box[key]=cv; if(ab) ab.simB.box[key]=cv;   // A/B中は両宇宙の背景を共通に保つ
+          setParamsDirty(true); requestRender();
+          num.value=String(cv);
+        } else num.value=fmt(sim.box[key]);   // 空文字/NaN入力は元の値へ戻す(既存の数値入力行の作法)
+      });
+      row.appendChild(lab); row.appendChild(num);
+    }
+    g.appendChild(row);
+  }
+  host.appendChild(g);
+}
 function buildParamRows(){
   const host=$("#paramRows"); host.textContent="";
   paramRowSync={};
@@ -3183,6 +3921,8 @@ function buildParamRows(){
       groupDiv.appendChild(h); restHost.appendChild(groupDiv); }
     mkParamRow(def, groupDiv);
   }
+  // 第32便(W2): 箱宇宙(UniverseBox)の実験用パラメータ編集 — sim.box があるプリセットのみ表示
+  if(sim.box) buildBoxParamRows(host);
   // 表示設定
   const disp=document.createElement("div"); disp.className="group";
   const h=document.createElement("h3"); h.textContent=T("grpDisplay"); disp.appendChild(h);
@@ -3205,6 +3945,8 @@ function buildParamRows(){
     ["rotationCurve",T("tgCurve"),()=>!!sim.overlays.rotationCurve,setOv("rotationCurve"),"tgCurveDesc"],
     ["tempHistogram",T("tgTemp"),()=>!!sim.overlays.tempHistogram,setOv("tempHistogram"),"tgTempDesc"],
     ["spectrum",T("tgSpectrum"),()=>!!sim.overlays.spectrum,setOv("spectrum"),"tgSpectrumDesc"],
+    // 第32便(W2): 膨張グラフ(箱宇宙のみ有効。setOv は A/B 両画面へ常に反映 — 表示トグルの既定挙動)
+    ["boxGraph",T("tgBoxGraph"),()=>!!sim.overlays.boxGraph,setOv("boxGraph"),"tgBoxGraphDesc"],
     ["monitor",T("tgMonitor"),()=>monitorOn,(v)=>monitorOn=v,"tgMonitorDesc"]];
   // 第23便(原仮定者指示): 「表示」の各行もパラメータ名タップで説明を開閉(品質行と同じ pdesc 方式)
   const tapDesc=(row,lab,descKey)=>{
@@ -3301,6 +4043,9 @@ $("#btnSave").addEventListener("click",()=>{
   const item={ name, comment:$("#saveComment").value, savedAt:new Date().toISOString(),
     presetId:currentPreset.id, presetName:currentPreset.name,
     physics:Object.assign({},sim.params), cameraScale:camScale };
+  // 第33便(台帳4-64): sim.box があれば箱パラメータの実行中編集をセーブへ含める
+  // (photonEmit は含めない — プリセット由来のまま。実装3)
+  if(sim.box) item.universeBox=Object.assign({},sim.box);
   try{ const a=getSaves(); a.unshift(item); setSaves(a); }
   catch(e){ alert(T("saveFailed")); return; }
   $("#saveComment").value="";
@@ -3501,6 +4246,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 - single には省略可の zonal(扁平中心天体の帯状重力補正 E13)を指定できる: {"refR":基準半径,"calib":1,"J":{"2":0.0163,"4":-0.0009}}。偶数次 J2〜J12 のみ・|J|≤0.1・refR:1〜5000・calib:0〜2。中心の大質量 pinned 粒子に付けると周回粒子の楕円軌道の近点が前進する(内側ほど速い差動近点移動 — 画面左上に実測/解析の近点移動が表示される)。土星なら J2≈0.0163。要望が扁平天体・歳差・近点移動のときだけ使う高度な属性で、通常のプリセットでは指定しない。
 - single には省略可の coreMR,coreSR,coreRR,coreOT(主星2層 — コアの質量比・スピン比・半径比〔Rc=coreRR·R。既定は√|coreMR|相当〕・観測温度比率〔Tc_obs=coreOT·(1−lightSweep)·Ic·sc²、表示のみ〕)を指定できる。m は総質量のままで、coreMR=mc/m(−1〜1。既定0。負値=空洞〔殻に質量集中〕)・coreSR=sc/s(既定1=剛体回転=単層と等価)。差動分だけが ω += coreMR·s·(coreSR−1)·(Rc/(Rc+d))^q(Rc=radiusScale·√|coreMR·m|)として追加の空間引きずりに効く。要望がコア/深部回転・空洞天体・2層天体のときだけ使う高度な属性。
 - single には省略可の radius(半径の明示指定 0.5〜500。未指定は radiusScale·√|m|)・obsT(観測温度係数 0〜1000。観測温度 T_obs=obsT·(1−lightSweep)·T)・lightSweep(光掻き出し 0〜1 — 高速スピンコアが自星の光を外に出さない: 観測温度が0になり見掛けは冷たい。放射冷却も(1−lS)倍)を指定できる。要望がダークマター/ダークローター・見えない天体・拡がった天体のときだけ使う高度な属性で、通常のプリセットでは指定しない。
+- single には省略可の railOmega(±2・pinned時のみ): 円レール駆動の角速度。railCx/railCy でレール中心を指定(既定は原点)。
 
 # 例
 例1 要望「連星と、その周りを回る惑星たち」
@@ -3714,6 +4460,16 @@ $("#keyPersist").addEventListener("change",e=>{
     setAiStatus(T("keySet"),"ok");
   }
 });
+// 第32便 W4(台帳4-58): 送信内容の事前確認 — 開いている間だけ要望/ベース選択の変更に追従
+function updateAiPreview(){
+  const wrap=$("#aiPreviewWrap");
+  if(!wrap || !wrap.open) return;
+  $("#aiPreviewBody").value=aiUserContent($("#aiPrompt").value);
+  $("#aiPreviewSysNote").textContent=T("aiPreviewSys")(SYSTEM_PROMPT.length, SYSTEM_PROMPT.slice(0,200));
+}
+$("#aiPreviewWrap").addEventListener("toggle",updateAiPreview);
+$("#aiPrompt").addEventListener("input",updateAiPreview);
+$("#aiBasePreset").addEventListener("change",updateAiPreview);
 $("#btnGenerate").addEventListener("click",async ()=>{
   const cfg=aiCfg();
   if(!cfg.key){ setAiStatus(T("noKey"),"err"); return; }
@@ -3797,6 +4553,8 @@ function applyLang(){
   rebuildAiBaseSelect();   // 第26便: 言語切替でベース候補名も更新
   $("#btnGenerate").textContent=T("btnGenerate"); $("#aiListHead").textContent=T("aiListHead");
   $("#aiPrompt").placeholder=T("aiPromptPh");
+  $("#aiPreviewSum").textContent=T("aiPreviewSum"); $("#aiPreviewNote").textContent=T("aiPreviewNote");   // 第32便 W4
+  updateAiPreview();
   rebuildPresetSelect(currentPreset?currentPreset.id:undefined);
   if(currentPreset){ buildParamRows(); renderHelp(); updateSaveNameDefault(); }
   renderSaves(); renderCustomList(); renderAiConfig(); updatePlayBtn();
@@ -4374,9 +5132,206 @@ const VERIFY = {
     return {id:"V20", pass, value:ratio,
       detail:`全量/時間率のみ=${ratio.toFixed(3)}(理論3±0.35) 全量の解析式一致=${(err*100).toFixed(1)}%<12%。実値換算=42.982″/世紀(観測≈42.98″)`};
   },
+  // ==== V23a/V24a/V24b/V25: 箱宇宙(第31便 — BOX_UNIVERSE v1.2 §6。測定型)====
+  // 旧設計の「内部は剛体場 u=Ωr / Hubble場 u=Hr になる」は成立しない — 2D一様リングの
+  // E3 速度加重平均は一次の空間変形を利得 g(r)(中心近傍で 1/2)でしか運ばない(解析導出:
+  // ⟨n(n·r)⟩=r/2)。V23a/V24a はこの測定値を機械固定し、V24b/V25 は連続背景 UniverseBox の
+  // 完全共動と束縛系の非膨張を検証する。
+  _boxGain(bodiesExtra, probeGain){
+    // 各半径に方位4点のプローブを置いて平均する — ring 生成のシード付き角度ジッタによる
+    // 密度ゆらぎ(単一方位では r=20 で ±1% 級)を双極子相殺で除去し、解析値と比べる
+    const RADII=[20,60,120], probes=[];
+    for(const r of RADII) for(const [px,py] of [[r,0],[0,r],[-r,0],[0,-r]])
+      probes.push({type:"single", m:0.01, x:px, y:py, vx:0, vy:0, spin:0, pinned:true});
+    const s=makeSim();
+    s.build({ id:"verify_vbox", name:"Vbox", camera:{scale:300}, world:{boundary:"none",size:0},
+      physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, etaRad:0,
+        Kt:10000, cLight:100, softening:4, timeScale:1},
+      bodies:bodiesExtra.concat(probes), overlays:{} });
+    s.step(DT);
+    const n0=s.n-12, g=[];
+    for(let k=0;k<3;k++){ let acc=0;
+      for(let j=0;j<4;j++) acc+=probeGain(s, n0+k*4+j);
+      g.push(acc/4); }
+    return g;   // 中心側から r=20/60/120 の平均利得
+  },
+  // V23a: 回転リングの利得 — u_φ/(Ω·r) が中心近傍で解析値 1/2 に一致し、外側ほど単調増加
+  v23a(){
+    const Om=0.15;
+    const g=this._boxGain(
+      [{type:"ring", n:96, cx:0, cy:0, rIn:260, rOut:260, mMin:20, mMax:20, spinMin:0, spinMax:0,
+        vMode:"omega", aroundMass:0, omega:Om, vNoise:0, direction:1, pinned:true}],
+      (s,i)=>{ const denom=s.sumW[i], r=Math.hypot(s.x[i],s.y[i]);
+        return ((-s.y[i]*s.uAx[i]+s.x[i]*s.uAy[i])/(r*r*denom))/Om; });
+    const pass=Math.abs(g[0]-0.5)<0.01 && g[2]>g[1] && g[1]>g[0] && g[2]<0.6;
+    return {id:"V23a", pass, value:g[0],
+      detail:`u_φ/(Ωr) r=20/60/120: ${g.map(x=>x.toFixed(4)).join("/")}(中心解析値0.5±0.01・外側へ単調増加<0.6)`};
+  },
+  // V24a: 膨張リング(railH)の利得 — u_r/(H·r) が中心近傍で 1/2 に一致(V23a と同構造)
+  v24a(){
+    const H=0.01;
+    const g=this._boxGain(
+      [{type:"ring", n:96, cx:0, cy:0, rIn:260, rOut:260, mMin:20, mMax:20, spinMin:0, spinMax:0,
+        vMode:"none", aroundMass:0, omega:0, vNoise:0, direction:1, pinned:true, railH:H}],
+      (s,i)=>{ const denom=s.sumW[i], r=Math.hypot(s.x[i],s.y[i]);
+        return ((s.x[i]*s.uAx[i]+s.y[i]*s.uAy[i])/(r*r*denom))/H; });
+    const pass=Math.abs(g[0]-0.5)<0.01 && g[2]>g[1] && g[1]>g[0] && g[2]<0.6;
+    return {id:"V24a", pass, value:g[0],
+      detail:`u_r/(Hr) r=20/60/120: ${g.map(x=>x.toFixed(4)).join("/")}(中心解析値0.5±0.01・外側へ単調増加<0.6)`};
+  },
+  // V24b: UniverseBox の完全共動 — 20%膨張後も自由粒子の共動座標 χ=r/a が保存される
+  v24b(){
+    const H=0.01;
+    const s=makeSim();
+    s.build({ id:"verify_v24b", name:"V24b", camera:{scale:300}, world:{boundary:"none",size:0},
+      universeBox:{mode:"exp", H0:H, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
+      physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, etaRad:0,
+        Kt:10000, cLight:1000, softening:4, timeScale:1},
+      bodies:[
+        {type:"single", m:0.05, x:150, y:0, vx:H*150, vy:0, spin:0, pinned:false},
+        {type:"single", m:0.05, x:0, y:-90, vx:0, vy:-H*90, spin:0, pinned:false}
+      ], overlays:{} });
+    const steps=Math.ceil(Math.log(1.2)/H/DT);
+    for(let k=0;k<steps;k++) s.step(DT);
+    const a=Math.exp(H*s.t);
+    const e1=Math.abs(Math.hypot(s.x[0],s.y[0])/a/150-1);
+    const e2=Math.abs(Math.hypot(s.x[1],s.y[1])/a/90-1);
+    const err=Math.max(e1,e2);
+    return {id:"V24b", pass:err<1e-3 && a>1.19, value:err,
+      detail:`a=${a.toFixed(3)}(20%膨張) χ=r/a の相対ずれ最大=${err.toExponential(2)} (< 1e-3)`};
+  },
+  // V25: 束縛系と膨張追随(測定型 — 第31便で発見を機械固定)。
+  // 事前設計の「束縛系は膨張しない」は箱支配(φ_B≈1)では成立しない: E6′ の Δu 輸送は
+  // 規定膨張背景で「Hubble 反摩擦」+φ_B·H·v として働き、(1) 自由粒子の特異速度 w=v−H·r は
+  // 厳密保存(絶対時間基準。§12-5 v1.5: 局所光速の上昇により比 w/c_loc は低下 — V28)、
+  // (2) 連星の軌道間隔は d∝a^{n}, n≈2φ_B で流れより速く
+  // 拡大し得る、(3) 局所の決定力が支配する極限(φ_B→0)でのみ追随が消える。
+  // φ_B = W_B/(W_B+w_local) — 「膨張に逆らう度合い」と「時計の遅れ」(ψ=W/Kt)が同じ
+  // 局所決定力から決まる(共通原因)ことの機械実証でもある。
+  v25(){
+    const H=0.004;
+    const binLn=(D, m, dSep, rs, vOrb, HH)=>{   // 連星(CM=原点)の間隔変化 ln(d̄後/d̄前) を測る
+      const s=makeSim();
+      s.build({ id:"verify_v25", name:"V25", camera:{scale:300}, world:{boundary:"none",size:0},
+        universeBox:{mode:"exp", H0:HH, D:D, dPower:0, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
+        physics:{G:1, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, etaRad:0,
+          Kt:10000, cLight:100, radiusScale:rs, softening:2, timeScale:1},
+        bodies:[   // 初速は G_eff≈G/(1+φ_p) の Plummer 円軌道(E6′ 相互引きずりの逐次フィード
+                   // バックが実効重力を弱める — 等質量対で Δv≈a·dt/(1+φ_p))
+          {type:"single", m:m, x:-dSep/2, y:0, vx:-HH*dSep/2, vy:-vOrb, spin:0, pinned:false},
+          {type:"single", m:m, x: dSep/2, y:0, vx: HH*dSep/2, vy: vOrb, spin:0, pinned:false}
+        ], overlays:{} });
+      const steps=Math.ceil(Math.log(1.2)/H/DT);
+      const period=Math.min(steps>>1, Math.ceil(2*Math.PI*(dSep/2)/vOrb/DT));
+      let d0=0,c0=0,d1=0,c1=0;
+      for(let k=0;k<steps;k++){ s.step(DT);
+        const d=Math.hypot(s.x[0]-s.x[1],s.y[0]-s.y[1]);
+        if(k<period){d0+=d;c0++;} if(k>=steps-period){d1+=d;c1++;} }
+      return {ln:Math.log((d1/c1)/(d0/c0)), dtC:(steps-period)*DT};
+    };
+    // 膨張感受率 n_net = [ln(d̄後/d̄前)|H − ln(d̄後/d̄前)|H=0]/(H·Δt) — 内部力学(重い等質量対は
+    // E6′ 反作用の残余トルク移譲で軌道エネルギーが散逸し内向き螺旋する)を H=0 統制で相殺し、
+    // 膨張が軌道に与える正味の効果だけを取り出す
+    const nNet=(D, m, dSep, rs, vOrb)=>{
+      const wH=binLn(D,m,dSep,rs,vOrb,H), w0=binLn(D,m,dSep,rs,vOrb,0);
+      return (wH.ln-w0.ln)/(H*wH.dtC);
+    };
+    // 特異速度保存: 膨張箱の自由粒子(接線初速)の w=v−H·r が不変
+    const s=makeSim();
+    s.build({ id:"verify_v25w", name:"V25w", camera:{scale:300}, world:{boundary:"none",size:0},
+      universeBox:{mode:"exp", H0:H, D:80, dPower:0, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
+      physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, etaRad:0,
+        Kt:10000, cLight:100, softening:2, timeScale:1},
+      bodies:[{type:"single", m:0.05, x:100, y:0, vx:H*100, vy:1, spin:0, pinned:false}], overlays:{} });
+    const stepsW=Math.ceil(Math.log(1.2)/H/DT);
+    for(let k=0;k<stepsW;k++) s.step(DT);
+    const wErr=Math.hypot(s.vx[0]-H*s.x[0], s.vy[0]-H*s.y[0]-1);
+    // 軽い連星(m=30,d=10 → φ_B=80/82.94=0.965 — 箱支配)と
+    // 重い連星(m=2000,d=24,D=8 → φ_B=8/91=0.088 — 局所支配)
+    const nLight=nNet(80, 30, 10, 0.4, 1.18927);
+    const nHeavy=nNet(8, 2000, 24, 0.2, 3.359);
+    // 主張(実測を機械固定): 箱支配の連星は膨張に流れ以上の率で追随(Hubble 反摩擦 n≈2φ_B の
+    // 粗見積・エネルギー励起 dE/dt=φ_B·H·v² → d∝a^{2φ_B})。局所支配では追随がほぼ消える
+    const pass=wErr<1e-3 && nLight>1.0 && nLight<2.5 && Math.abs(nHeavy)<0.4 && (nLight-nHeavy)>0.8;
+    return {id:"V25", pass, value:nLight,
+      detail:`特異速度|Δw|=${wErr.toExponential(1)}(<1e-3・保存) 連星の膨張感受率 n_net(H=0統制との差): 箱支配φ_B=0.965→${nLight.toFixed(2)}(1.0<n<2.5・粗見積2φ_B=1.93) 局所支配φ_B=0.088→${nHeavy.toFixed(2)}(|n|<0.4) — 膨張追随は決定力の持ち分φ_Bで決まる`};
+  },
+  // V26(第32便): pow 尺度モード — a(t) が解析式に厳密一致し、H=ȧ/a が数値微分に一致する。
+  // さらに H は全モード共通の安全弁 [−0.5,+0.5] にクランプされる(expo<1 の t→0 発散対策)
+  v26(){
+    const B={mode:"pow", coef:0.02, expo:0.66, amp:0.05, freq:0.3, phase:0,
+      D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, H0:0};
+    const aOf=(t)=>1+B.coef*Math.pow(t,B.expo)+B.amp*Math.sin(B.freq*t+B.phase);
+    let aErr=0, hErr=0; const av=[];
+    for(const t of [0.5,10,100]){
+      const sc=boxScaleAt(B,t);
+      aErr=Math.max(aErr, Math.abs(sc.a/aOf(t)-1));
+      const hNum=(Math.log(aOf(t+1e-3))-Math.log(aOf(t-1e-3)))/2e-3;   // d(ln a)/dt = H
+      hErr=Math.max(hErr, Math.abs(sc.H/hNum-1));
+      av.push(sc.a);
+    }
+    // クランプ: expo=0.1・coef=1 は t→0 で ȧ→∞(H≈2.0e4)— 安全弁で 0.5 に収まる
+    const hc=boxScaleAt(Object.assign({},B,{coef:1, expo:0.1, amp:0}),1e-6).H;
+    const pass=aErr<1e-9 && hErr<1e-3 && Math.abs(hc)<=0.5;
+    return {id:"V26", pass, value:aErr,
+      detail:`pow a(0.5/10/100)=${av.map(x=>x.toFixed(6)).join("/")} 解析式との相対誤差=${aErr.toExponential(1)}(<1e-9) H の数値微分比較=${hErr.toExponential(1)}(<1e-3) Hクランプ(expo=0.1,t=1e-6)=${hc.toFixed(3)}(|H|≤0.5)`};
+  },
+  // V27(第33便): FLRW 摩擦比較モード(universeBox.friction)— 対照チャネルの機械検証。
+  // friction:"flrw" では特異速度 w=v−u_B が標準宇宙論と同じ Hubble 摩擦 dw/dt=−H·w に従い
+  // |w|∝1/a で減衰する。既定 "dfm" では E6′ の帰結どおり w が保存される(BOX_UNIVERSE §13.2)。
+  // flrw は DFM 公理の帰結ではなく A/B 比較用の外部チャネルであることに注意(外部場バッジ表示)
+  v27(){
+    const H=0.01;
+    const run=(fr)=>{
+      const s=makeSim();
+      s.build({ id:"verify_v27", name:"V27", camera:{scale:300}, world:{boundary:"none",size:0},
+        universeBox:{mode:"exp", H0:H, D:80, dPower:0, L:260, cx:0, cy:0, vx:0, vy:0, omega:0,
+          amp:0, freq:0, phase:0, friction:fr},
+        physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, etaRad:0,
+          Kt:10000, cLight:100, softening:2, timeScale:1},
+        bodies:[{type:"single", m:0.05, x:100, y:0, vx:H*100, vy:1, spin:0, pinned:false}], overlays:{} });
+      const steps=Math.ceil(Math.log(1.5)/H/DT);
+      for(let k=0;k<steps;k++) s.step(DT);
+      return {w:Math.hypot(s.vx[0]-H*s.x[0], s.vy[0]-H*s.y[0]), a:Math.exp(H*s.t)};
+    };
+    const F=run("flrw"), D=run("dfm");
+    const rel=Math.abs(F.w*F.a-1);        // |w|/|w0| = 1/a なら w·a = 1
+    const dfmErr=Math.abs(D.w-1);
+    const pass=rel<0.02 && dfmErr<1e-3;
+    return {id:"V27", pass, value:rel,
+      detail:`flrw a=${F.a.toFixed(3)} |w|/|w0|=${F.w.toFixed(4)}(理論 1/a=${(1/F.a).toFixed(4)}・相対誤差=${(rel*100).toFixed(2)}%<2%) dfm |w|/|w0|=${D.w.toFixed(6)}(保存・ずれ=${dfmErr.toExponential(1)}<1e-3)`};
+  },
+  // V28(第33便追補 — §12-5 v1.5 改訂の機械固定): 膨張箱の自由粒子で
+  // ①絶対時間に対する特異速度 w は保存(V25 と同経路)②局所光速 c_loc=c₀·e^{−2ψ} は
+  // 決定力の希釈(W_B=D/a)で上昇 ③比 R=w/c_loc は R(a)/R(1)=e^{−2(D/Kt)(1−1/a)} で単調低下
+  // — 「光速に対する慣性移動速度の比は膨張で低下」(原仮定者修正 2026-07-26)。
+  // 理想化(光速∝1/W)なら R∝1/a — 指数形との関数形の差は台帳 4-66(E8R 改訂の要否)
+  v28(){
+    const H=0.01, D=80, Kt=300, c0=60;
+    const s=makeSim();
+    s.build({ id:"verify_v28", name:"V28", camera:{scale:300}, world:{boundary:"none",size:0},
+      universeBox:{mode:"exp", H0:H, D:D, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0,
+        amp:0, freq:0, phase:0, friction:"dfm"},
+      physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, etaRad:0,
+        Kt:Kt, cLight:c0, softening:4, timeScale:1},
+      bodies:[{type:"single", m:0.05, x:100, y:0, vx:H*100, vy:1, spin:0, pinned:false}], overlays:{} });
+    const cLoc=(a)=>c0*Math.exp(-2*(D/a)/Kt);   // 単独粒子なので ψ=W_B/Kt(自己場除外で sumW=0)
+    const w0=1, R0=w0/cLoc(1);
+    const steps=Math.ceil(Math.log(2)/H/DT);    // a=2 まで
+    for(let k=0;k<steps;k++) s.step(DT);
+    const a=Math.exp(H*s.t);
+    const w1=Math.hypot(s.vx[0]-H*s.x[0], s.vy[0]-H*s.y[0]);
+    const R1=w1/cLoc(a);
+    const ana=Math.exp(-2*(D/Kt)*(1-1/a));      // 解析: R(a)/R(1)
+    const wErr=Math.abs(w1/w0-1), rErr=Math.abs(R1/R0-ana);
+    const pass=wErr<1e-3 && R1<R0 && rErr<1e-3;
+    return {id:"V28", pass, value:R1/R0,
+      detail:`a=${a.toFixed(3)}: w保存ずれ=${wErr.toExponential(1)}(<1e-3) 比w/c_loc: R(a)/R(1)=${(R1/R0).toFixed(4)}(解析${ana.toFixed(4)}・誤差${rErr.toExponential(1)})— 光速上昇で低下(§12-5 v1.5)。理想化(光速∝1/W)なら1/a=${(1/a).toFixed(3)} — 関数形の差は台帳4-66`};
+  },
   all(){ return [this.v1(), this.v2(), this.v6(), this.v8(), this.v9(), this.v10(), this.v10b(),
                  this.v11(), this.v12(), this.v13(), this.v16(),
-                 this.v18(), this.v19(), this.v20()]; }
+                 this.v18(), this.v19(), this.v20(),
+                 this.v23a(), this.v24a(), this.v24b(), this.v25(), this.v26(), this.v27(), this.v28()]; }
 };
 
 // ===== デバッグ/テスト用フック(品質ゲートが使用) =====
@@ -4413,6 +5368,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   speedMul:()=>speedMul, trailBufs:()=>({a:trailBuf,b:trailBufB}),  // v1.19: QA用
   overlaySlots, overlayBaseY, PARAM_DEFS, paramDesc,  // v1.21: スロット配置/パラメータ説明のQA用
   ovMin, aiUserContent,  // 第26便: グラフ最小化/AIベースサンプルのQA用
+  curveVBarAt,  // 第32便 W4(台帳4-49): 回転曲線の基準線 v_bar(r) のQA用
   uiScale:()=>uiFontScale,  // 第27便: 文字サイズ既定変更のQA用
   stats:()=>({renderCount,rayTraceCount,fieldCalcCount}), requestRender,  // v1.22: 描画統計のQA用
   divSnaps:()=>({a:paramSnapA,b:paramSnapB}), restoreLastGood,            // v1.22: 発散UndoのQA用
