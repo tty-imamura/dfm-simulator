@@ -16,7 +16,10 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_DIR = path.join(ROOT, 'tests', 'out');
 const SAMPLES = ['galaxy', 'darkrotor', 'merger', 'convection', 'counterring', 'saturnLayered'];
 const THRESH = +(process.env.PERF_THRESH || 1.10);
-const ALLOW = {};           // 例: { convection: 1.60 } — 意図的な負荷増を許可する場合のみ
+// 例: { convection: 1.60 } — 意図的な負荷増を許可する場合のみ
+// 第33便 v5(腕のある銀河 — 恒星380体・意図的な構成変更。探索実測 beta/root=1.086 だが
+// 同一内容でも ±0.09 のノイズ実績(第30便 convection 1.091)があるため余裕を持たせる
+const ALLOW = { darkrotor: 1.30 };
 const REPS = 5, FRAMES = 60, WARMUP_FRAMES = 20;
 
 async function getBrowser() {
