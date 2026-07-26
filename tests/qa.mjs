@@ -2395,6 +2395,106 @@ if (!FAST) {
   }
 }
 
+// ---- 7r) 第32便 W4(台帳4-49): 回転曲線の基準線 v_bar(r)(beta 先行 — 実装が
+// ----     beta/index.html だけのため、ルート対象では機能ゲートでスキップ)----
+{
+  const hasVBar = await page.evaluate(() => typeof HP.curveVBarAt === 'function');
+  if (hasVBar) {
+    // ① curve.vbar-degenerate: 中心1質点(m=1500・pinned)+質量を0へ落とした軽いリングの検証系で、
+    //    v_bar(r) が縮退の解析解 √(G・M・r²/(r²+ε²)^{3/2}) と相対誤差<1e-6 で一致することを機械固定
+    //    (リングは build 後に質量を厳密0にして寄与を排除 — validatePreset の質量下限0.01を
+    //    回避する QA 専用の直接操作。物理エンジン自体は無改変)
+    const deg = await page.evaluate(() => {
+      const M = 1500, G = 1, eps = 3;
+      const preset = {
+        name: 'vbar-deg', description: 'd', seed: 1, camera: { scale: 300 },
+        world: { boundary: 'none', size: 0 },
+        physics: { G, D0: 1, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, Kt: 60,
+          cLight: 60, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1, pnAlpha: 1.5,
+          radiusScale: 1.2, softening: eps, timeScale: 1 },
+        bodies: [
+          { type: 'single', m: M, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true },
+          { type: 'ring', n: 24, cx: 0, cy: 0, rIn: 260, rOut: 260, mMin: 0.01, mMax: 0.01,
+            spinMin: 0, spinMax: 0, vMode: 'kepler', aroundMass: M, omega: 0, vNoise: 0,
+            direction: 1, pinned: false },
+        ],
+      };
+      HP.sim.build(HP.validatePreset(preset).preset);
+      for (let i = 1; i < HP.sim.n; i++) HP.sim.m[i] = 0;   // 「軽い」リング→縮退検証のため厳密0
+      const eps2 = eps * eps;
+      const rs = [30, 60, 90, 150, 220, 300];
+      const errs = rs.map((r) => {
+        const vb = HP.curveVBarAt(0, 0, r);
+        const expect = Math.sqrt(G * M * r * r / Math.pow(r * r + eps2, 1.5));
+        return Math.abs(vb - expect) / expect;
+      });
+      return { errs, maxErr: Math.max(...errs) };
+    });
+    add('curve.vbar-degenerate', deg.maxErr < 1e-6,
+      `相対誤差(r=30,60,90,150,220,300)=${deg.errs.map((e) => e.toExponential(1)).join(',')} ` +
+      `最大=${deg.maxErr.toExponential(2)}(<1e-6)`);
+
+    // ② curve.vbar-distributed: 🌌galaxy で、外側ビン(r=220)の v_bar(全質量由来)が
+    //    「中心質量のみのケプラー値」より大きい(円盤=分布質量の寄与が入っている)ことを確認
+    const dist = await page.evaluate(() => {
+      HP.loadPreset('galaxy', false);
+      const s = HP.sim;
+      let mMax = 0, cx = 0, cy = 0;
+      for (let i = 0; i < s.n; i++) if (s.m[i] > mMax) { mMax = s.m[i]; cx = s.x[i]; cy = s.y[i]; }
+      const eps2 = s.params.softening * s.params.softening, G = s.params.G, r = 220;
+      const vAll = HP.curveVBarAt(cx, cy, r);
+      const vCentral = Math.sqrt(G * mMax * r * r / Math.pow(r * r + eps2, 1.5));
+      return { vAll, vCentral };
+    });
+    add('curve.vbar-distributed', dist.vAll > dist.vCentral * 1.01,
+      `r=220 v_bar(全質量)=${dist.vAll.toFixed(4)} v_bar(中心質量のみ)=${dist.vCentral.toFixed(4)} ` +
+      `比=${(dist.vAll / dist.vCentral).toFixed(3)}(>1.01)`);
+  } else {
+    console.log('SKIP curve.vbar-degenerate/curve.vbar-distributed(対象に v_bar 実装なし)');
+  }
+}
+
+// ---- 7s) 第32便 W4(台帳4-58前半): AI送信内容の詳細可視化(beta 先行 — ルート対象時はスキップ)----
+{
+  const hasAiPreview = await page.evaluate(() => !!document.querySelector('#aiPreviewWrap'));
+  if (hasAiPreview) {
+    // ai.payload-preview: プレビューを開いた状態で要望テキストを入れると、表示内容が
+    // HP.aiUserContent(そのテキスト) と完全一致する。ベース選択の変更にも追従する
+    const pv = await page.evaluate(() => {
+      HP.loadPreset('galaxy', false);
+      const wrap = document.querySelector('#aiPreviewWrap'), body = document.querySelector('#aiPreviewBody'),
+            prompt = document.querySelector('#aiPrompt'), sel = document.querySelector('#aiBasePreset');
+      wrap.open = true; wrap.dispatchEvent(new Event('toggle'));
+      sel.value = '';
+      prompt.value = 'テスト要望QAプレビュー'; prompt.dispatchEvent(new Event('input'));
+      const plain = body.value === HP.aiUserContent('テスト要望QAプレビュー');
+      sel.value = 'darkrotor'; sel.dispatchEvent(new Event('change'));
+      const withBase = body.value === HP.aiUserContent('テスト要望QAプレビュー') && body.value.includes('lightSweep');
+      const sysNoteOk = document.querySelector('#aiPreviewSysNote').textContent.includes(String(HP.SYSTEM_PROMPT.length));
+      wrap.open = false; wrap.dispatchEvent(new Event('toggle'));
+      sel.value = '';
+      return { plain, withBase, sysNoteOk };
+    });
+    add('ai.payload-preview', pv.plain && pv.withBase && pv.sysNoteOk,
+      `未選択一致=${pv.plain} ベース選択後も一致+文脈注入=${pv.withBase} システムプロンプト文字数表示=${pv.sysNoteOk}`);
+  } else {
+    console.log('SKIP ai.payload-preview(対象にAI送信内容プレビューUIなし)');
+  }
+}
+
+// ---- 7t) 第32便 W4(台帳4-58後半): QAのスクリーンショット取得(CIアーティファクト化)。
+// ----     ピクセル差分回帰ではなく、CI アーティファクトとしての取得+非空検査(差分回帰は
+// ----     表示ゆらぎで壊れやすいため段階導入 — 台帳4-58)。ルート・beta 双方で撮影する ----
+{
+  const shotTarget = TARGET.startsWith('beta/') ? 'beta' : 'root';
+  const shotPath = path.join(OUT_DIR, `screenshot-${shotTarget}.png`);
+  await page.evaluate(() => { HP.loadPreset('galaxy', false); HP.tick(60); });
+  await page.screenshot({ path: shotPath });
+  let shotSize = 0;
+  try { shotSize = fs.statSync(shotPath).size; } catch {}
+  add('shot.capture', shotSize > 20000, `path=${shotPath} size=${shotSize}bytes(>20000)`);
+}
+
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
 await browser.close();
 

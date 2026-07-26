@@ -291,6 +291,11 @@
         <p class="note" id="aiBaseNote">ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの coreMR/lightSweep や 🛰️の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信されます。</p>
         <textarea id="aiPrompt" placeholder="例: 3つの恒星が絡み合う三体問題。まわりに塵の環も欲しい"></textarea>
         <div class="rowBtns"><button class="btn primary" id="btnGenerate">生成する</button></div>
+        <!-- 第32便 W4(台帳4-58): 送信内容の事前確認(開いている間だけ入力に追従) -->
+        <details id="aiPreviewWrap"><summary id="aiPreviewSum" class="note" style="cursor:pointer">送信内容を確認(実際に送るテキスト)</summary>
+        <p class="note" id="aiPreviewNote">APIへ送信されるのはここに表示された内容+システムプロンプト。キーと共に選択AI事業者へ送られる。</p>
+        <textarea id="aiPreviewBody" readonly style="min-height:120px;"></textarea>
+        <p class="note" id="aiPreviewSysNote"></p></details>
         <div id="aiStatus"></div>
       </div>
       <div class="group"><h3 id="aiListHead">生成済みプリセット</h3><div id="customList"></div></div>
@@ -404,7 +409,7 @@ ja: {
   tgTrailLineDesc:"粒子の軌道を線で記録して描く(☿の楕円歳差など)。記録間隔は描画品質に従う。",
   tgFieldDesc:"決定力 W の強さを背景の色マップで表示(A3/E1′)。明るいほど W が高い。",
   tgRaysDesc:"光線束(E8R)を表示。光は ψ=W/Kt で屈折し、決定フレーム u に運ばれる(A11)。光線のないサンプルでも既定の平行光束を点灯できる。",
-  tgCurveDesc:"右下に回転曲線(半径ごとの接線速度)を表示。点線は最大質量天体だけによるケプラー予測。",
+  tgCurveDesc:"右下に回転曲線(半径ごとの接線速度)を表示。点線はバリオン実加速度基準 v_bar(r)(質量分布だけから期待される回転)。",
   tgTempDesc:"温度ヒストグラム(左右比較)。表示は観測温度 T_obs=To×·(1−掻出)·T。",
   tgSpectrumDesc:"放射スペクトル(A12: ピーク波長 λ=b_m/T のウィーン型)。表示は観測温度基準。",
   tgMonitorDesc:"運動量P・角運動量Lとリザーバ帳簿(E6′/E11)の保存量モニタ(T7)。",
@@ -463,6 +468,10 @@ ja: {
   aiBaseLabel:"ベースのサンプル(任意)", aiBaseNone:"なし(要望だけで生成)",   // 第26便
   aiBaseNote:"ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの coreMR/lightSweep や 🛰️の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信されます。",
   aiPromptPh:"例: 3つの恒星が絡み合う三体問題。まわりに塵の環も欲しい",
+  // 第32便 W4(台帳4-58): 送信内容の事前確認
+  aiPreviewSum:"送信内容を確認(実際に送るテキスト)",
+  aiPreviewNote:"APIへ送信されるのはここに表示された内容+システムプロンプト。キーと共に選択AI事業者へ送られる。",
+  aiPreviewSys:(n,head)=>"システムプロンプト: "+n+"文字(先頭200字): "+head+"…",
   apiKeyPh:"APIキー",
   keySet:"キーを設定しました", keySetSaved:"キーを設定しました(この端末に保存)", keyCleared:"キーを消去しました",
   noKey:"APIキーを設定してください", noPrompt:"作りたいシミュレーションの説明を入力してください",
@@ -483,7 +492,7 @@ ja: {
   helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。",
   helpLaws:"この宇宙の法則(要約)",
   helpLawsBody:"① 空間は質点の相対配置だけで決まる(絶対空間なし)。② 決定力=質量÷距離。決定力の勾配が重力になる。③ 質点は「近くの空間」に対して慣性を持ち、空間ごと引きずられる(kFrame)。遠方宇宙の決定力がD₀。④ スピン=熱(温度T=Is²)。衝突で速度がスピンに変わり(muF)、スピンは斥力=圧力を生み(kRep)、拡散して平衡になる(κs)。⑤ 決定力が高い場所の時計は遅く、空間(共動フレーム)に対して速く動く時計も遅れる。光は同じψ=W/Ktで屈折して曲がり(n=e^{2ψ}。v1.7で時間と光を単一のψに統一)、「決定した空間」に運ばれる(c₀)。⑥ すべての相互作用は作用反作用対称で、運動量・角運動量を厳密に保存する(遠方宇宙との交換は帳簿に記録=保存量モニタ)。温度Tの質点はλ=b_m/Tの光を放射する(η_rad)。詳細は docs/PHYSICS.md(v1.6)。",
-  ovCurve:"v(r): 実測(青) / ケプラー(点線)", ovTemp:"平均温度(Is²) 左/右", ovLeft:"左", ovRight:"右",
+  ovCurve:"v(r): 実測(青) / 基準 v_bar(点線)", ovTemp:"平均温度(Is²) 左/右", ovLeft:"左", ovRight:"右",
   ovSpec:"放射ピーク λ=b_m/T", ovSpecNone:"放射なし(T≈0)", ovSpecHot:"短λ=高温", ovSpecCold:"長λ=低温",
   hudClock:"時計τ/t",
   // 第32便(W2): 膨張グラフ overlay(a(t)・H(t)の折れ線+赤方偏移カラーバー)
@@ -544,7 +553,7 @@ en: {
   tgTrailLineDesc:"Records and draws orbit lines (e.g. Mercury's precessing ellipse). Recording interval follows render quality.",
   tgFieldDesc:"Background color map of the determinacy W (A3/E1'). Brighter = higher W.",
   tgRaysDesc:"Shows the light-ray bundle (E8R). Rays refract via psi=W/Kt and are carried by the frame u (A11). Presets without rays can light a default parallel bundle.",
-  tgCurveDesc:"Rotation curve (tangential speed vs radius) at bottom right. The dotted line is the Kepler prediction from the largest single mass only.",
+  tgCurveDesc:"Rotation curve (tangential speed vs radius) at bottom right. The dotted line is the baseline v_bar(r) from the real baryonic acceleration — the rotation expected from the mass distribution alone.",
   tgTempDesc:"Temperature histogram (left/right). Uses the observed temperature T_obs = To x (1-sweep) x T.",
   tgSpectrumDesc:"Radiation spectrum (A12, Wien-type peak lambda=b_m/T). Uses observed temperature.",
   tgMonitorDesc:"Conservation monitor (T7): momentum P, angular momentum L, and the reservoir ledger (E6'/E11).",
@@ -602,6 +611,10 @@ en: {
   aiBaseLabel:"Base sample (optional)", aiBaseNone:"None (generate from the request only)",
   aiBaseNote:"Pick a base to have the AI modify that sample's JSON to your request \u2014 reference structures (\ud83d\udd76\ufe0f dark-rotor coreMR/lightSweep, \ud83d\udef0\ufe0f zonal, etc.) carry over. The selected base JSON (including custom presets) is sent to the currently selected AI provider on generation.",
   aiPromptPh:"e.g. A chaotic three-star system with a ring of dust around it",
+  // 第32便 W4(4-58): preview exactly what will be sent
+  aiPreviewSum:"Preview exactly what will be sent",
+  aiPreviewNote:"What is sent to the API is the text shown here plus the system prompt. It is sent, together with your key, to the AI provider you selected.",
+  aiPreviewSys:(n,head)=>"System prompt: "+n+" chars (first 200): "+head+"…",
   apiKeyPh:"API key",
   keySet:"Key set", keySetSaved:"Key set (saved on this device)", keyCleared:"Key cleared",
   noKey:"Please set an API key first", noPrompt:"Describe the simulation you want to create",
@@ -622,7 +635,7 @@ en: {
   helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction.",
   helpLaws:"Laws of this universe (summary)",
   helpLawsBody:"(1) Space is defined only by the relative configuration of masses (no absolute space). (2) Determinacy = mass ÷ distance; its gradient is gravity. (3) Masses have inertia relative to the \"nearby space\" and are dragged along with it (kFrame). D₀ is the determinacy of the distant universe. (4) Spin = heat (T = Is²). Collisions convert velocity to spin (muF), spin creates repulsion = pressure (kRep), and diffuses to equilibrium (κs). (5) Clocks run slow where determinacy is high, and clocks moving fast relative to the comoving frame also run slow. Light refracts under the same ψ = W/Kt (n = e^{2ψ}; time and light unified in v1.7) and is carried by the \"determined space\" (c₀). (6) All interactions are action–reaction symmetric and conserve momentum and angular momentum exactly (exchanges with the distant universe are ledgered — see the conservation monitor). A mass at temperature T radiates at λ = b_m/T (η_rad). Details: docs/PHYSICS.md (v1.6).",
-  ovCurve:"v(r): measured (blue) / Kepler (dotted)", ovTemp:"Mean temperature (Is²) L/R", ovLeft:"L", ovRight:"R",
+  ovCurve:"v(r): measured (blue) / baseline v_bar (dotted)", ovTemp:"Mean temperature (Is²) L/R", ovLeft:"L", ovRight:"R",
   ovSpec:"Radiation peak λ=b_m/T", ovSpecNone:"No radiation (T≈0)", ovSpecHot:"short λ = hot", ovSpecCold:"long λ = cold",
   hudClock:"clock τ/t",
   ovBoxGraph:"a (blue, solid) / H (orange, dotted)", ovEmit:"Emitted", ovObs:"Observed", ovIR:"→IR", ovUV:"→UV",
@@ -1046,8 +1059,8 @@ const BUILTIN_PRESETS = [
 
 // ===== グループ: 銀河 =====
 { id:"galaxy", name:"銀河の回転曲線", emoji:"🌌", group:"銀河",
-  description:"円盤銀河。初めは星々がケプラー回転(グラフの点線と一致)しているが、空間の引きずり(kFrame=1)が内側の回転を外へ伝え、外縁の回転速度がケプラー予想より高く保たれる(T4: 外縁速度の増強。曲線全体の「平坦化」までは主張しない — 論文v0.2整合)。kFrameを0にすると起きない。右下のグラフ(実線=実測、点線=ケプラー予想)に注目。※この画面のD₀はモデル内の調整値で、現実の予言値ではない(L14)。",
-  en:{name:"Galactic Rotation Curve", description:"A disk galaxy. Stars start on Keplerian orbits (matching the dotted line), but frame dragging (kFrame=1) transports the inner rotation outward, keeping outer velocities above the Keplerian prediction (T4: outer-velocity enhancement; no claim of full flattening — aligned with paper v0.2). Set kFrame=0 and it never happens. Watch the bottom-right graph (solid=measured, dotted=Keplerian). Note: D₀ here is a model-internal tuning value, not a real-world prediction (L14)."},
+  description:"円盤銀河。初めは星々がケプラー回転(グラフの点線と一致)しているが、空間の引きずり(kFrame=1)が内側の回転を外へ伝え、外縁の回転速度がケプラー予想より高く保たれる(T4: 外縁速度の増強。曲線全体の「平坦化」までは主張しない — 論文v0.2整合)。kFrameを0にすると起きない。右下のグラフ(実線=実測、点線=バリオン基準v_bar(質量分布だけから期待される回転))に注目。※この画面のD₀はモデル内の調整値で、現実の予言値ではない(L14)。",
+  en:{name:"Galactic Rotation Curve", description:"A disk galaxy. Stars start on Keplerian orbits (matching the dotted line), but frame dragging (kFrame=1) transports the inner rotation outward, keeping outer velocities above the Keplerian prediction (T4: outer-velocity enhancement; no claim of full flattening — aligned with paper v0.2). Set kFrame=0 and it never happens. Watch the bottom-right graph (solid=measured, dotted=baseline v_bar — the rotation expected from the mass distribution alone). Note: D₀ here is a model-internal tuning value, not a real-world prediction (L14)."},
   activeParams:["kFrame","D0","G"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{G:1, D0:1, kFrame:1, q:2, kRep:1.0, muF:0.02, gammaN:0.05, kappaS:0.05, Kt:60,
@@ -2598,7 +2611,27 @@ function ovDrawToggle(key,slot){
   ctx.restore();
   ovHit.push({x:ox+(W-22)*uz,y:oy,w:22*uz,h:14*uz,key});
 }
-// 回転曲線オーバーレイ(実測 vs ケプラー予想)
+// 台帳4-49: 半径r・中心(cx,cy)まわり8方位点の平均動径加速度(内向き正)から
+// v_bar(r)=√(r·|a_r(r)|) を返す。a_r は E4 と同一のPlummer型
+// a=ΣG·m_j(r_j−r)/(|r_j−r|²+ε²)^{3/2} を全粒子について評価した動径成分(内向き正)の平均。
+// 正味が外向き(負)なら 0(縮退: 中心1質点だけの系では √(G·M·r²/(r²+ε²)^{3/2}) と厳密一致 — QA curve.vbar-degenerate)。
+function curveVBarAt(cx,cy,r){
+  const G=sim.params.G, eps2=sim.params.softening*sim.params.softening;
+  let accSum=0;
+  for(let a2=0;a2<8;a2++){
+    const th=(a2/8)*Math.PI*2, px=cx+r*Math.cos(th), py=cy+r*Math.sin(th);
+    let axp=0, ayp=0;
+    for(let j=0;j<sim.n;j++){
+      const dx=sim.x[j]-px, dy=sim.y[j]-py, d2=dx*dx+dy*dy;
+      const fg=G*sim.m[j]/Math.pow(d2+eps2,1.5);
+      axp+=fg*dx; ayp+=fg*dy;
+    }
+    accSum+=-(axp*Math.cos(th)+ayp*Math.sin(th));   // 内向き成分 = -(a・r̂)
+  }
+  const ar=accSum/8;
+  return ar>0? Math.sqrt(r*ar) : 0;
+}
+// 回転曲線オーバーレイ(実測 vs 基準 v_bar)
 let curveTick=0, curveData=null;
 function drawRotationCurve(slot=0){
   if(ovOverlayMin("rotationCurve",slot,T("ovCurve"))) return;   // 第26便: 最小化
@@ -2613,13 +2646,13 @@ function drawRotationCurve(slot=0){
       const vt=Math.abs((-dy*sim.vx[i]+dx*sim.vy[i])/r);
       sums[bi]+=vt; cnts[bi]++;
     }
-    const meas=[], kep=[];
+    const meas=[], vbar=[];
     for(let b2=0;b2<BINS;b2++){
       meas.push(cnts[b2]>2?sums[b2]/cnts[b2]:null);
       const r=(b2+0.5)/BINS*camScale;
-      kep.push(Math.sqrt(sim.params.G*mMax/Math.max(r,1)));
+      vbar.push(curveVBarAt(cxm,cym,r));
     }
-    curveData={meas,kep};
+    curveData={meas,vbar};
   }
   // v1.17: 文字サイズ設定に合わせてグラフごと拡大し、下端余白 18+10·uz で情報行と重ねない
   const uz=uiFontScale, W=150,H=92,X=0,Y=0;
@@ -2630,10 +2663,10 @@ function drawRotationCurve(slot=0){
   ctx.fillText(T("ovCurve"),X+6,Y+11);
   let vmax=0.01;
   curveData.meas.forEach(v=>{if(v&&v>vmax)vmax=v;});
-  curveData.kep.forEach(v=>{if(v>vmax)vmax=v;});
+  curveData.vbar.forEach(v=>{if(v>vmax)vmax=v;});
   const px=(b2)=>X+8+(b2/(curveData.meas.length-1))*(W-16), py=(v)=>Y+H-8-(v/vmax)*(H-26);
   ctx.strokeStyle="#8b93c8"; ctx.setLineDash([3,3]); ctx.beginPath();
-  curveData.kep.forEach((v,b2)=>{ b2?ctx.lineTo(px(b2),py(v)):ctx.moveTo(px(b2),py(v)); }); ctx.stroke();
+  curveData.vbar.forEach((v,b2)=>{ b2?ctx.lineTo(px(b2),py(v)):ctx.moveTo(px(b2),py(v)); }); ctx.stroke();
   ctx.setLineDash([]); ctx.strokeStyle="#5b8cff"; ctx.lineWidth=1.6; ctx.beginPath();
   let started=false;
   curveData.meas.forEach((v,b2)=>{ if(v==null)return; started?ctx.lineTo(px(b2),py(v)):ctx.moveTo(px(b2),py(v)); started=true; });
@@ -4155,6 +4188,16 @@ $("#keyPersist").addEventListener("change",e=>{
     setAiStatus(T("keySet"),"ok");
   }
 });
+// 第32便 W4(台帳4-58): 送信内容の事前確認 — 開いている間だけ要望/ベース選択の変更に追従
+function updateAiPreview(){
+  const wrap=$("#aiPreviewWrap");
+  if(!wrap || !wrap.open) return;
+  $("#aiPreviewBody").value=aiUserContent($("#aiPrompt").value);
+  $("#aiPreviewSysNote").textContent=T("aiPreviewSys")(SYSTEM_PROMPT.length, SYSTEM_PROMPT.slice(0,200));
+}
+$("#aiPreviewWrap").addEventListener("toggle",updateAiPreview);
+$("#aiPrompt").addEventListener("input",updateAiPreview);
+$("#aiBasePreset").addEventListener("change",updateAiPreview);
 $("#btnGenerate").addEventListener("click",async ()=>{
   const cfg=aiCfg();
   if(!cfg.key){ setAiStatus(T("noKey"),"err"); return; }
@@ -4238,6 +4281,8 @@ function applyLang(){
   rebuildAiBaseSelect();   // 第26便: 言語切替でベース候補名も更新
   $("#btnGenerate").textContent=T("btnGenerate"); $("#aiListHead").textContent=T("aiListHead");
   $("#aiPrompt").placeholder=T("aiPromptPh");
+  $("#aiPreviewSum").textContent=T("aiPreviewSum"); $("#aiPreviewNote").textContent=T("aiPreviewNote");   // 第32便 W4
+  updateAiPreview();
   rebuildPresetSelect(currentPreset?currentPreset.id:undefined);
   if(currentPreset){ buildParamRows(); renderHelp(); updateSaveNameDefault(); }
   renderSaves(); renderCustomList(); renderAiConfig(); updatePlayBtn();
@@ -4998,6 +5043,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   speedMul:()=>speedMul, trailBufs:()=>({a:trailBuf,b:trailBufB}),  // v1.19: QA用
   overlaySlots, overlayBaseY, PARAM_DEFS, paramDesc,  // v1.21: スロット配置/パラメータ説明のQA用
   ovMin, aiUserContent,  // 第26便: グラフ最小化/AIベースサンプルのQA用
+  curveVBarAt,  // 第32便 W4(台帳4-49): 回転曲線の基準線 v_bar(r) のQA用
   uiScale:()=>uiFontScale,  // 第27便: 文字サイズ既定変更のQA用
   stats:()=>({renderCount,rayTraceCount,fieldCalcCount}), requestRender,  // v1.22: 描画統計のQA用
   divSnaps:()=>({a:paramSnapA,b:paramSnapB}), restoreLastGood,            // v1.22: 発散UndoのQA用
