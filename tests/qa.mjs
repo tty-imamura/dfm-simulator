@@ -986,6 +986,161 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   }
 }
 
+// ---- 7h1e) 第35便 W4(台帳4-54/4-55): サンプル分類バッジ + 描画専用半径スケール ----
+// ----   classifyPreset/drawScale は beta 先行機能(root=旧版には存在しない)。hasEcho/
+// ----   hasFreebox と同方式で「機能そのものの有無」をガードにする(対象プリセットの有無ではなく
+// ----   HP.classifyPreset の有無・S.drawScale フィールドの有無で判定)----
+const hasBadgeClassify = await page.evaluate(() => typeof HP.classifyPreset === 'function');
+const hasDrawScale = await page.evaluate(() => 'drawScale' in HP.sim);
+
+// ---- 4-54) classifyPreset(p) = {layers, external, closed} を代表プリセットで検証する。
+// ----   layers はプリセットJSONから自動判定(core/extension/background/semantic/comparison)。
+// ----   mercury/saturnZonalD68/boxcomoving/boxredshift/fig8/gclock は全対象に常在するので
+// ----   プリセットの有無は問わない。echo/freebox(第35便 W2/W3)は存在するときだけ
+// ----   core+閉鎖系を追加検証 ----
+if (hasBadgeClassify) {
+  const r = await page.evaluate(() => {
+    const P = (id) => HP.allPresets().find((p) => p.id === id);
+    const cl = (id) => {
+      const c = HP.classifyPreset(P(id));
+      return { layers: c.layers, closed: c.closed, pin: c.external.pin, rail: c.external.rail };
+    };
+    const out = {
+      mercury: cl('mercury'), saturnZonalD68: cl('saturnZonalD68'),
+      boxcomoving: cl('boxcomoving'), boxredshift: cl('boxredshift'),
+      fig8: cl('fig8'), gclock: cl('gclock'),
+    };
+    const hasEcho = !!P('echo'), hasFreebox = !!P('freebox');
+    if (hasEcho) out.echo = cl('echo');
+    if (hasFreebox) out.freebox = cl('freebox');
+    return { out, hasEcho, hasFreebox };
+  });
+  const eq = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+  const checks = [
+    ['☿mercury=extension', eq(r.out.mercury.layers, ['extension'])],
+    ['🛰️saturnZonalD68=extension', eq(r.out.saturnZonalD68.layers, ['extension'])],
+    ['🫧boxcomoving=background', eq(r.out.boxcomoving.layers, ['background'])],
+    ['🔦boxredshift=background+semantic', eq(r.out.boxredshift.layers, ['background', 'semantic'])],
+    ['♾️fig8=core+closed', eq(r.out.fig8.layers, ['core']) && r.out.fig8.closed === true],
+    ['⏱️gclock=core+外部駆動(pinned)', eq(r.out.gclock.layers, ['core']) && r.out.gclock.pin > 0 && r.out.gclock.closed === false],
+  ];
+  if (r.hasEcho) checks.push(['⏪echo=core+closed', eq(r.out.echo.layers, ['core']) && r.out.echo.closed === true]);
+  if (r.hasFreebox) checks.push(['🕊️freebox=core+closed', eq(r.out.freebox.layers, ['core']) && r.out.freebox.closed === true]);
+  const bad = checks.filter(([, ok]) => !ok).map(([n]) => n);
+  add('badge.classify', bad.length === 0,
+    checks.map(([n, ok]) => `${n}:${ok ? 'OK' : 'NG'}`).join(' ')
+    + ` / 実測: mercury=${JSON.stringify(r.out.mercury.layers)} saturnZonalD68=${JSON.stringify(r.out.saturnZonalD68.layers)}`
+    + ` boxcomoving=${JSON.stringify(r.out.boxcomoving.layers)} boxredshift=${JSON.stringify(r.out.boxredshift.layers)}`
+    + ` fig8=${JSON.stringify(r.out.fig8.layers)}(closed=${r.out.fig8.closed}) gclock=${JSON.stringify(r.out.gclock.layers)}(pin=${r.out.gclock.pin},closed=${r.out.gclock.closed})`
+    + (r.hasEcho ? ` echo=${JSON.stringify(r.out.echo.layers)}(closed=${r.out.echo.closed})` : ' echo=(対象になし)')
+    + (r.hasFreebox ? ` freebox=${JSON.stringify(r.out.freebox.layers)}(closed=${r.out.freebox.closed})` : ' freebox=(対象になし)'));
+} else {
+  console.log('SKIP badge.classify(対象に HP.classifyPreset なし — 第35便 W4 未適用の root 等)');
+}
+
+// ---- 4-54続き) badge.no-hscroll: バッジのチップ列を含む説明タブが viewport 390px で
+// ----   横スクロールを出さない(ui.aitab-no-hscroll と同じ書式)。🔦boxredshift は
+// ----   background+semantic+外部駆動(universeBox.mode="exp")の3チップを持つので折返しの
+// ----   検証に十分な件数がある(プリセット自体は対象を問わず常在)----
+if (hasBadgeClassify) {
+  const r = await page.evaluate(() => {
+    HP.loadPreset('boxredshift', false);
+    document.querySelector('#tabs button[data-tab=help]').click();
+    const tab = document.querySelector('#page-help');
+    const bad = [...tab.querySelectorAll('*')].filter((e) => e.scrollWidth > e.clientWidth + 1)
+      .map((e) => `${e.tagName}#${e.id || '(no-id)'}.${String(e.className).split(' ')[0] || ''} sw=${e.scrollWidth}/cw=${e.clientWidth}`);
+    const chips = [...document.querySelectorAll('#classChips .classChip')].map((e) => e.textContent);
+    document.querySelector('#tabs button[data-tab=help]').click();   // パネルを閉じ直す(以降の項目に影響させない)
+    return { bad, chips };
+  });
+  add('badge.no-hscroll', r.bad.length === 0 && r.chips.length >= 2,
+    r.bad.length ? `はみ出し要素(viewport 390): ${r.bad.join(' / ')}`
+      : `🔦boxredshift チップ=[${r.chips.join(', ')}]・横スクロールなし(viewport 390)`);
+} else {
+  console.log('SKIP badge.no-hscroll(対象に HP.classifyPreset なし — 第35便 W4 未適用の root 等)');
+}
+
+// ---- 7h1f) 第35便 W4(台帳4-55): サンプル別粒子半径調整(描画専用 drawScale)----
+// ----   drawscale.physics-free: drawScale は「描画専用」の契約 — 物理(位置・速度・スピン・
+// ----   半径R)には一切影響しない。🕶️darkrotor(コア層+大質量天体を含む代表サンプル)を
+// ----   drawScale=1/2/0.4 の3通りで300步走らせ、位置・速度・スピン・半径の全要素ハッシュが
+// ----   bit一致することを確認する。加えて drawScale=3(上限)で実際に render() を1回走らせ、
+// ----   ページ例外が増えないこと(コア層描画分岐等の描画専用コード自体のバグの機械検出)も見る ----
+if (hasDrawScale) {
+  const errBefore = pageErrors.length;
+  let evalErr = null;
+  const r = await page.evaluate(() => {
+    const s = HP.sim;
+    const base = () => JSON.parse(JSON.stringify(HP.allPresets().find((p) => p.id === 'darkrotor')));
+    const run = (ds) => {
+      const p = base(); p.drawScale = ds;
+      s.build(p);
+      for (let k = 0; k < 300; k++) s.step(0.016);
+      const a = [];
+      for (let i = 0; i < s.n; i++) a.push(s.x[i], s.y[i], s.vx[i], s.vy[i], s.spin[i], s.R[i], s.Rc[i]);
+      return { n: s.n, ds: s.drawScale, str: a.map((v) => v.toExponential(12)).join(',') };
+    };
+    const r1 = run(1), r2 = run(2), r3 = run(0.4);
+    let renderErr = null;
+    try {
+      const p4 = base(); p4.drawScale = 3; s.build(p4);
+      HP.tick(1);   // 数步進めてから実描画(render())まで走らせる — drawScale=3(上限)の描画分岐を通す
+    } catch (e) { renderErr = String(e); }
+    return { r1, r2, r3, renderErr };
+  }).catch((e) => { evalErr = String(e); return null; });
+  const errAfter = pageErrors.length;
+  if (!r) {
+    add('drawscale.physics-free', false, `page.evaluate 中に例外: ${evalErr}`);
+  } else {
+    const h1 = crypto.createHash('sha256').update(r.r1.str).digest('hex');
+    const h2 = crypto.createHash('sha256').update(r.r2.str).digest('hex');
+    const h3 = crypto.createHash('sha256').update(r.r3.str).digest('hex');
+    add('drawscale.physics-free',
+      r.r1.n === r.r2.n && r.r2.ds === 2 && r.r3.ds === 0.4 && h1 === h2 && h1 === h3
+      && !r.renderErr && errAfter === errBefore,
+      `🕶️darkrotor 300步 位置・速度・スピン・半径(R/Rc)の全要素ハッシュ: drawScale=1→${h1.slice(0, 12)}… `
+      + `drawScale=2→${h2.slice(0, 12)}…(bit一致=${h1 === h2}) drawScale=0.4→${h3.slice(0, 12)}…(bit一致=${h1 === h3}) `
+      + `drawScale=3(上限)で実描画1回: 例外=${r.renderErr || 'なし'} pageErrors増分=${errAfter - errBefore}(0期待)`);
+  }
+} else {
+  console.log('SKIP drawscale.physics-free(対象に S.drawScale なし — 第35便 W4 未適用の root 等)');
+}
+
+// ---- 4-55続き) drawscale.schema: validatePreset の drawScale クランプ(省略時1・[0.4,4] —
+// 上限は当初3、広視野プリセットの主役2px化に不足したためレビューゲートで4へ)----
+if (hasDrawScale) {
+  const sc = await page.evaluate(() => {
+    const mk = (extra) => Object.assign({
+      name: 'ds', description: 'drawScale スキーマ検査', camera: { scale: 200 },
+      world: { boundary: 'none', size: 0 }, physics: {},
+      bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }],
+    }, extra);
+    const hi = HP.validatePreset(mk({ drawScale: 5 }));
+    const lo = HP.validatePreset(mk({ drawScale: 0.1 }));
+    const nan = HP.validatePreset(mk({ drawScale: 'x' }));
+    const ok = HP.validatePreset(mk({ drawScale: 1.5 }));
+    const none = HP.validatePreset(mk({}));
+    return {
+      hiOk: hi.ok, hiVal: hi.preset && hi.preset.drawScale, hiWarns: hi.warnings.length,
+      loOk: lo.ok, loVal: lo.preset && lo.preset.drawScale, loWarns: lo.warnings.length,
+      nanOk: nan.ok, nanVal: nan.preset && nan.preset.drawScale, nanWarns: nan.warnings.length,
+      okOk: ok.ok, okVal: ok.preset && ok.preset.drawScale, okWarns: ok.warnings.length,
+      noneOk: none.ok, noneVal: none.preset && none.preset.drawScale,
+    };
+  });
+  add('drawscale.schema',
+    sc.hiOk && sc.hiVal === 4 && sc.hiWarns >= 1
+    && sc.loOk && sc.loVal === 0.4 && sc.loWarns >= 1
+    && sc.nanOk && sc.nanVal === 1 && sc.nanWarns >= 1
+    && sc.okOk && sc.okVal === 1.5 && sc.okWarns === 0
+    && sc.noneOk && sc.noneVal === undefined,
+    `上限 5→${sc.hiVal}(警告${sc.hiWarns}件) 下限 0.1→${sc.loVal}(警告${sc.loWarns}件) `
+    + `非数"x"→${sc.nanVal}(警告${sc.nanWarns}件) 正常1.5→${sc.okVal}(警告${sc.okWarns}件=0) `
+    + `省略→${sc.noneVal}(未設定=S.buildで1扱い)`);
+} else {
+  console.log('SKIP drawscale.schema(対象に S.drawScale なし — 第35便 W4 未適用の root 等)');
+}
+
 // ---- 7h2) 台帳4-57(第32便): 単体レールの中心 railCx/railCy ----
 // (root=v1.31 は未実装のため、スキーマ非対応時はスキップ)
 {
