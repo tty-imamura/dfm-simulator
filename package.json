@@ -8,7 +8,8 @@
   "type": "module",
   "scripts": {
     "test": "node tests/qa.mjs",
-    "test:fast": "QA_FAST=1 node tests/qa.mjs"
+    "test:fast": "QA_FAST=1 node tests/qa.mjs",
+    "seeds": "node tests/seeds.mjs"
   },
   "devDependencies": {
     "playwright": "^1.50.0"

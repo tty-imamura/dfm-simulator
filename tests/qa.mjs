@@ -638,6 +638,509 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   }
 }
 
+// ---- 7h1b) 第35便(台帳4-62): 可逆積分器(leapfrog/KDK)の既定経路不変 ----
+// ----   integrator 省略時("semi")は本便の変更前と1ビットも変わらないことを位置ハッシュで固定する。
+// ----   基準ハッシュは実装前の beta/index.html(第34便 v1.32 相当)で採取した実測値。
+// ----   ルート・beta のどちらでも同一(採取時に両対象で一致を確認済み)なので対象ガードは付けない。
+{
+  const gh = await page.evaluate(() => {
+    HP.loadPreset('gas', false);                       // 代表既定プリセット(N=240・integrator 無指定)
+    const s = HP.sim;
+    for (let k = 0; k < 300; k++) s.step(0.016);       // 300步(dt=0.016 固定 — timeScale に依存しない)
+    const a = [];
+    for (let i = 0; i < s.n; i++) a.push(s.x[i], s.y[i]);
+    return { n: s.n, t: s.t, str: a.map(v => v.toExponential(12)).join(',') };
+  });
+  const hash = crypto.createHash('sha256').update(gh.str).digest('hex');
+  // 実装前(第35便 W2 着手時)の実測: n=240 / t=4.800000000000003 / 下記ハッシュ
+  const BASE = '2bd01bdf714c2599b53477806a4863f04ceadfaf1102d189be27d2a86fbe042b';
+  add('integrator.default-unchanged', gh.n === 240 && hash === BASE,
+    `🔥gas 300步 位置ハッシュ=${hash.slice(0, 16)}…(基準=${BASE.slice(0, 16)}… bit一致=${hash === BASE}) n=${gh.n}`);
+}
+
+// ---- 7h1c) 第35便(台帳4-62): Loschmidt echo — 可逆積分器と時間の矢 ----
+// ----   ⏪echo プリセット(A条件: muF=0・leapfrog)は t=echoFlipAt で v・s を反転すると
+// ----   同じ步数で初期配置へ戻る。semi 経路・摩擦入りでは戻らない。
+// ----   (echo プリセットの無い対象〔ルート=v1.32〕ではスキップ)----
+{
+  const hasEcho = await page.evaluate(() => HP.allPresets().some(p => p.id === 'echo'));
+  if (hasEcho) {
+    const r = await page.evaluate(() => {
+      const s = HP.sim;
+      const base = () => JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'echo')));
+      // V10(第一法則の閉性)と同一の帳簿式。⏪echo は kRep=0・kFrame=0・散逸ゼロなので
+      // 並進 + 回転 + E4ポテンシャル + E9法線ばね で全エネルギーが閉じる
+      const energyOf = () => {
+        const eps2 = s.params.softening * s.params.softening, G = s.params.G;
+        let E = 0;
+        for (let i = 0; i < s.n; i++) {
+          E += 0.5 * s.m[i] * (s.vx[i] * s.vx[i] + s.vy[i] * s.vy[i]);
+          E += 0.25 * s.m[i] * s.R[i] * s.R[i] * s.spin[i] * s.spin[i];   // ½·I·s²、I=½mR²
+        }
+        for (let i = 0; i < s.n; i++) for (let j = i + 1; j < s.n; j++) {
+          const dx = s.x[i] - s.x[j], dy = s.y[i] - s.y[j], d2 = dx * dx + dy * dy, d = Math.sqrt(d2);
+          E -= G * s.m[i] * s.m[j] / Math.sqrt(d2 + eps2);
+          const sumR = s.R[i] + s.R[j];
+          if (d < sumR) {
+            const muM = s.m[i] * s.m[j] / (s.m[i] + s.m[j]);
+            const maxInv = Math.max(1 / s.m[i], 1 / s.m[j]);
+            const xO = sumR - d, xC = 8 / (maxInv * 40 * muM);
+            E += (xO <= xC) ? 20 * muM * xO * xO : 20 * muM * xC * xC + (8 / maxInv) * (xO - xC);
+          }
+        }
+        return E;
+      };
+      const eScale = () => {
+        let E = 1;
+        for (let i = 0; i < s.n; i++) E += 0.5 * s.m[i] * (s.vx[i] * s.vx[i] + s.vy[i] * s.vy[i])
+          + 0.25 * s.m[i] * s.R[i] * s.R[i] * s.spin[i] * s.spin[i];
+        for (let i = 0; i < s.n; i++) for (let j = i + 1; j < s.n; j++) {
+          const dx = s.x[i] - s.x[j], dy = s.y[i] - s.y[j];
+          E += s.params.G * s.m[i] * s.m[j] / Math.sqrt(dx * dx + dy * dy + s.params.softening * s.params.softening);
+        }
+        return E;
+      };
+      // 反転が起きた步数 N をそのまま巻き戻し步数に使う(t の丸めに依存しない対称な往復)
+      const echoRun = (p) => {
+        s.build(p);
+        const Es = eScale(), E0 = energyOf();
+        let k = 0;
+        while (!s.echoFlipped && k < 40000) { s.step(0.016); k++; }
+        const rmsFlip = s.echoRMS, tFlip = s.t;
+        for (let q = 0; q < k; q++) s.step(0.016);
+        return { steps: k, tFlip, rmsFlip, rms: s.echoRMS, nan: s.hasNaN(), integ: s.integrator,
+          eDrift: Math.abs(energyOf() - E0) / Es };
+      };
+      const out = {};
+      out.lf = echoRun(base());                                              // A条件(プリセット既定)
+      { const p = base(); p.integrator = 'semi'; out.semi = echoRun(p); }    // 同一構成・semi 差し替え
+      { const p = base(); p.physics.muF = 0.3; out.fric = echoRun(p); }      // B条件(摩擦あり)
+      out.preset = { integ: base().integrator, flip: base().echoFlipAt, n: out.lf.steps > 0 ? s.n : 0 };
+      return out;
+    });
+    // 実測 2026-07-26(beta/index.html 第35便 W2): leapfrog RMS=1.3036e-3(反転時の平均ずれ 33.88)
+    // → 閾値 0.01 は実測の約7.7倍(1桁の余裕)。t=2·echoFlipAt=40.03 まで 1251步×2。
+    add('echo.leapfrog-return',
+      !r.lf.nan && r.lf.integ === 'leapfrog' && r.lf.rmsFlip > 10 && r.lf.rms < 0.01,
+      `⏪A条件(leapfrog・muF=0): 反転時RMS=${r.lf.rmsFlip.toFixed(2)}(>10 十分動いた) → 復帰後RMS=`
+      + `${r.lf.rms.toExponential(3)}(< 0.01 — 実測1.30e-3) 反転步数=${r.lf.steps} t_flip=${r.lf.tFlip.toFixed(3)}`);
+    // 実測: semi RMS=0.9243 → 比 709(可逆積分器がなければエコーは成立しない)。閾値 100 は約7倍の余裕
+    add('echo.semi-noreturn',
+      !r.semi.nan && r.semi.integ === 'semi' && r.semi.rms >= 100 * r.lf.rms,
+      `同一構成 integrator="semi": RMS=${r.semi.rms.toExponential(3)} / leapfrog=${r.lf.rms.toExponential(3)} `
+      + `= ${(r.semi.rms / r.lf.rms).toFixed(0)}倍(≥100 — 実測709倍)`);
+    // 実測: muF=0.3 で RMS=10.79(閾値 1 の約10.8倍)。散逸を入れた途端に時間の矢が立つ
+    add('echo.friction-noreturn', !r.fric.nan && r.fric.rms > 1,
+      `⏪B条件(leapfrog・muF=0.3): 復帰後RMS=${r.fric.rms.toFixed(3)}(> 1 — 実測10.79。散逸で戻らない)`);
+    // 実測: 相対エネルギードリフト 1.77e-8(閾値 1e-3 に対し5桁の余裕)= leapfrog のシンプレクティック性
+    add('echo.energy', !r.lf.nan && r.lf.eDrift < 1e-3,
+      `A条件 反転前後を通した |ΔE_総|/E_scale=${r.lf.eDrift.toExponential(2)}(< 1e-3 — 実測1.77e-8) `
+      + `semi は ${r.semi.eDrift.toExponential(2)}`);
+
+    // ---- integrator/echoFlipAt のスキーマクランプ(box.schema-clamp と同じ形式)----
+    const sc = await page.evaluate(() => {
+      const mk = (extra) => Object.assign({ name: 'echo', description: 'integrator スキーマ検査',
+        camera: { scale: 200 }, world: { boundary: 'none', size: 0 }, physics: {},
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] }, extra);
+      const bad = HP.validatePreset(mk({ integrator: 'bogus', echoFlipAt: 'x' }));
+      const good = HP.validatePreset(mk({ integrator: 'leapfrog', echoFlipAt: 999999 }));
+      const none = HP.validatePreset(mk({}));
+      return { badOk: bad.ok, badInteg: bad.preset && bad.preset.integrator,
+        badFlip: bad.preset && bad.preset.echoFlipAt, badWarns: bad.warnings.length,
+        goodOk: good.ok, goodInteg: good.preset && good.preset.integrator,
+        goodFlip: good.preset && good.preset.echoFlipAt,
+        noneOk: none.ok, noneInteg: none.preset && none.preset.integrator };
+    });
+    add('echo.schema-clamp',
+      sc.badOk && sc.badInteg === 'semi' && sc.badFlip === undefined && sc.badWarns >= 2
+      && sc.goodOk && sc.goodInteg === 'leapfrog' && sc.goodFlip === 100000
+      && sc.noneOk && sc.noneInteg === undefined,
+      `不正 integrator="bogus"→"${sc.badInteg}" 非数 echoFlipAt→${sc.badFlip}(無視) 警告${sc.badWarns}件 / `
+      + `正常 "leapfrog"→"${sc.goodInteg}" echoFlipAt 999999→${sc.goodFlip}(上限クランプ) / 省略→${sc.noneInteg}(未設定=semi扱い)`);
+
+    // ---- HUD: echoFlipAt を持つプリセットだけ "echo RMS=" と反転済みマークを出す(ja/en)----
+    let hudJa = '(timeout)', hudEn = '(timeout)', hudOther = '(timeout)';
+    try {
+      await page.evaluate(() => {
+        HP.loadPreset('echo', false); const s = HP.sim;
+        while (!s.echoFlipped && s.t < 100) s.step(0.016);   // 反転済みの状態にする
+      });
+      await page.waitForFunction(() => {
+        const el = document.querySelector('#hud');
+        return el && el.textContent.includes('echo RMS=');
+      }, null, { timeout: 5000 });
+      hudJa = await page.evaluate(() => document.querySelector('#hud').textContent);
+      await page.evaluate(() => HP.setLang('en'));
+      await page.waitForFunction(() => {
+        const el = document.querySelector('#hud');
+        return el && el.textContent.includes('reversed');
+      }, null, { timeout: 5000 });
+      hudEn = await page.evaluate(() => document.querySelector('#hud').textContent);
+      await page.evaluate(() => { HP.setLang('ja'); HP.loadPreset('gclock', false); });
+      await page.waitForFunction(() => {
+        const el = document.querySelector('#hud');
+        return el && !el.textContent.includes('echo RMS=');
+      }, null, { timeout: 5000 });
+      hudOther = await page.evaluate(() => document.querySelector('#hud').textContent);
+    } catch (e) { /* '(timeout)' のままで下の判定が FAIL する */ }
+    add('echo.hud',
+      hudJa.includes('echo RMS=') && hudJa.includes('反転済み↩︎')
+      && hudEn.includes('echo RMS=') && hudEn.includes('reversed ↩︎')
+      && !hudOther.includes('echo RMS='),
+      `ja HUD="${hudJa.replace(/\n/g, ' / ')}" en HUD="${hudEn.replace(/\n/g, ' / ')}" `
+      + `⏱️gclock(echoFlipAt なし)に echo 行なし=${!hudOther.includes('echo RMS=')}`);
+  } else {
+    console.log('SKIP 第35便系(echo.leapfrog-return / echo.semi-noreturn / echo.friction-noreturn / echo.energy / echo.schema-clamp / echo.hud — 対象に ⏪echo プリセットなし)');
+  }
+}
+
+// ---- 7h1d) 第35便(台帳4-61): 自由な箱 — 膨張の動力学化(BOX_UNIVERSE §4.2/§10.1)----
+// ----   🕊️freebox は universeBox(規定 a(t))を持たない。壁リングは pinned:false の自由粒子で、
+// ----   膨張則は E4(自己重力)と E5′(スピン斥力=圧力)から解かれる。実測尺度因子
+// ----   a_eff=⟨r⟩/⟨r⟩₀ は measureBox で boxHist に積まれる(= 膨張グラフがそのまま実測を描く)。
+// ----   (freebox プリセットの無い対象〔ルート=v1.32〕ではスキップ — box.*/echo.* と同方式)----
+{
+  const hasFreebox = await page.evaluate(() => HP.allPresets().some(p => p.id === 'freebox'));
+  if (hasFreebox) {
+    const r = await page.evaluate(() => {
+      const s = HP.sim;
+      const base = () => JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'freebox')));
+      // 保存量の尺度。V1(HP.verify.v1)と同じ「Δ(保存量+帳簿)/スケール」の書式だが、
+      // L のスケールだけ打ち消し前の項の絶対値和を使う(この宇宙の壁は純動径運動なので
+      // V1 式の |m(x·v_y−y·v_x)| は 0 に潰れ、ドリフトの出所である軌道項が尺度から消えるため)
+      const scales = () => {
+        let pS = 0, lS = 0;
+        for (let i = 0; i < s.n; i++) {
+          pS += s.m[i] * Math.hypot(s.vx[i], s.vy[i]);
+          lS += Math.abs(s.m[i] * s.x[i] * s.vy[i]) + Math.abs(s.m[i] * s.y[i] * s.vx[i])
+              + 0.5 * s.m[i] * s.R[i] * s.R[i] * Math.abs(s.spin[i]);
+        }
+        return { pS, lS };
+      };
+      const run = (p, steps) => {
+        s.build(p);
+        const t0 = s.totals(), sc0 = scales();
+        for (let k = 0; k < steps; k++) s.step(0.016);
+        const h = s.boxHist || [], t1 = s.totals(), sc1 = scales();
+        const half = Math.floor(h.length / 2);
+        const Hof = (i0, i1) => Math.log(h[i1].a / h[i0].a) / (h[i1].t - h[i0].t);
+        let mono = true, aMax = 0, aMaxT = 0;
+        for (let i = 0; i < h.length; i++) {
+          if (i && !(h[i].a > h[i - 1].a)) mono = false;
+          if (h[i].a > aMax) { aMax = h[i].a; aMaxT = h[i].t; }
+        }
+        // 壁リングの動径偏差(座屈していないこと — ⟨r⟩ のロバスト性の担保)
+        const i0 = s.wallI0, i1 = s.wallI1, nW = i1 - i0;
+        let cx = 0, cy = 0;
+        for (let i = i0; i < i1; i++) { cx += s.x[i]; cy += s.y[i]; }
+        cx /= nW; cy /= nW;
+        let mean = 0; const rr = [];
+        for (let i = i0; i < i1; i++) { const q = Math.hypot(s.x[i] - cx, s.y[i] - cy); rr.push(q); mean += q; }
+        mean /= nW;
+        let dev = 0; for (const q of rr) dev += Math.abs(q - mean);
+        return {
+          n: s.n, wall: [i0, i1], measureBox: s.measureBox, histLen: h.length,
+          aEff: s.boxAEff(), aLast: h.length ? h[h.length - 1].a : null,
+          H1: Hof(0, half), H2: Hof(half, h.length - 1), mono, aMax, aMaxT,
+          dev: dev / nW / mean, nan: s.hasNaN(), t: s.t,
+          P0: Math.hypot(t0.px, t0.py), P0rel: Math.hypot(t0.px, t0.py) / sc0.pS,
+          relP: Math.hypot(t1.px + s.resPx - t0.px, t1.py + s.resPy - t0.py) / sc1.pS,
+          relL: Math.abs(t1.L + s.resL + s.radL - t0.L) / sc1.lS,
+          dLrel0: Math.abs(t1.L + s.resL + s.radL - t0.L) / Math.max(Math.abs(t0.L), 1e-9),
+          ledger: [s.resPx, s.resPy, s.resL, s.radE, s.radL]
+        };
+      };
+      const out = {};
+      out.B = run(base(), 1200);                                       // 既定 = 圧力駆動(kRep=0.5)
+      { const p = base(); p.physics.kRep = 0; out.A = run(p, 1200); }  // A/B の A 側 physics(圧力オフ)
+      // 箱なしプリセットでは measureBox 経路が一切動かない(ゼロコスト経路の確認)
+      HP.loadPreset('galaxy', false);
+      out.noBox = { measureBox: s.measureBox, hist: s.boxHist, aEff: s.boxAEff(), wall: [s.wallI0, s.wallI1] };
+      return out;
+    });
+    // 実測 2026-07-26(beta/index.html 第35便 W3・1200步=t19.2・dt=0.016 固定・決定論的):
+    //   B(既定 kRep=0.5): a_eff=2.1795(単調増加・H_eff 0.031794→0.051397 の加速)
+    //   閾値 1.15 は実測の伸び (2.1795−1)/(1.15−1) = 7.9 倍の余裕
+    add('freebox.pressure-expand',
+      !r.B.nan && r.B.measureBox === true && r.B.histLen >= 40 && r.B.mono && r.B.aLast > 1.15
+      && r.B.dev < 0.01,
+      `🕊️既定(kRep=0.5・壁スピン1.0): 実測 a_eff=${r.B.aLast.toFixed(4)}(> 1.15 — 実測2.1795・単調増加=${r.B.mono}) `
+      + `H_eff 前半${r.B.H1.toExponential(3)}→後半${r.B.H2.toExponential(3)}(圧力駆動で加速) `
+      + `壁リング動径偏差=${(r.B.dev * 100).toFixed(3)}%(< 1% 座屈なし) 履歴${r.B.histLen}点 t=${r.B.t.toFixed(2)}`);
+    // 実測: A(kRep=0)は t=9.2 の a_eff=1.0047 で頭打ち → H_eff が +4.422e-4 → −5.278e-4 と符号反転。
+    // 判定は「前半 > 後半」(指示書)に加え「前半 > 0 > 後半」(減速膨張 → 再収縮)まで確認する
+    add('freebox.inertial-decel',
+      !r.A.nan && r.A.H1 > r.A.H2 && r.A.H1 > 0 && r.A.H2 < 0 && r.A.aMax > 1,
+      `🕊️A条件(kRep=0 — 圧力オフ・外向き初速 v=0.001·r のみ): H_eff 前半=${r.A.H1.toExponential(3)}(>0) `
+      + `→ 後半=${r.A.H2.toExponential(3)}(<0 — 自己重力による減速膨張から再収縮へ) `
+      + `a_eff 最大=${r.A.aMax.toFixed(4)}(t=${r.A.aMaxT.toFixed(1)})→末尾${r.A.aLast.toFixed(4)}`);
+    // 実測(B・1200步): 帳簿は厳密に全ゼロ(外部チャネルなし)・|ΣP|(t=0)=7.9e-7(相対 3.1e-9)・
+    // |ΔP|/P_scale=3.28e-8・|ΔL|/L_scale=4.36e-8。閾値 1e-6 は実測の 23〜320 倍の余裕。
+    // 参考: |ΔL|/|L(0)| は 2.62e-5(L は大半がスピン項で、ドリフトは軌道項の float32 丸め由来)
+    add('freebox.conservation',
+      !r.B.nan && r.B.ledger.every(v => v === 0) && r.B.P0rel < 1e-6 && r.B.relP < 1e-6 && r.B.relL < 1e-6,
+      `🕊️既定 1200步: 帳簿=[${r.B.ledger.join(',')}](全0 — 全自由・完全閉鎖系) `
+      + `|ΣP|(t=0)=${r.B.P0.toExponential(2)}(相対${r.B.P0rel.toExponential(2)} < 1e-6) `
+      + `|ΔP|/P_scale=${r.B.relP.toExponential(2)} |ΔL|/L_scale=${r.B.relL.toExponential(2)}(< 1e-6) `
+      + `参考 |ΔL|/|L₀|=${r.B.dLrel0.toExponential(2)}`);
+    // 自由な箱が「外部駆動」と誤表示されないこと(pinned/rail/bath/一様重力すべて無し)
+    const tg = await page.evaluate(() => {
+      const p = HP.allPresets().find(q => q.id === 'freebox');
+      const ex = HP.externalTags(p);
+      return { ...ex, hasBox: p.universeBox !== undefined, meas: p.measureBox === true,
+        wallPinned: p.bodies[0].pinned, wallRail: p.bodies[0].railH !== undefined };
+    });
+    add('freebox.no-rail-badge',
+      tg.rail === false && tg.pin === 0 && tg.bath === false && tg.grav === false
+      && tg.hasBox === false && tg.meas === true && tg.wallPinned === false && tg.wallRail === false,
+      `externalTags(freebox)= rail=${tg.rail} pin=${tg.pin} bath=${tg.bath} grav=${tg.grav}(全て外部駆動なし) `
+      + `universeBox なし=${!tg.hasBox} measureBox=${tg.meas} 壁 pinned=${tg.wallPinned}/railH無し=${!tg.wallRail}`);
+    // measureBox のスキーマ検査(echo.schema-clamp / box.schema-clamp と同じ形式)
+    const sc = await page.evaluate(() => {
+      const ring = (extra) => Object.assign({ type: 'ring', n: 8, cx: 0, cy: 0, rIn: 100, rOut: 100,
+        mMin: 1, mMax: 1, spinMin: 0, spinMax: 0, vMode: 'none', aroundMass: 0, omega: 0,
+        vNoise: 0, direction: 1, pinned: false }, extra);
+      const mk = (extra, bodies) => Object.assign({ name: 'fb', description: 'measureBox スキーマ検査',
+        camera: { scale: 300 }, world: { boundary: 'none', size: 0 }, physics: {},
+        bodies: bodies || [ring({})] }, extra);
+      const good = HP.validatePreset(mk({ measureBox: true }));
+      const bad = HP.validatePreset(mk({ measureBox: 'yes' }));
+      const none = HP.validatePreset(mk({}));
+      // universeBox 併用: 規定 a(t) を優先し measureBox は無視+警告(エッジケース表)
+      const both = HP.validatePreset(mk({ measureBox: true, universeBox: { mode: 'exp', H0: 0.004 } }));
+      // integrator(第35便 W2)との併用は可
+      const withInteg = HP.validatePreset(mk({ measureBox: true, integrator: 'leapfrog' }));
+      // ring の vMode="hubble" + vScale(値域クランプ)
+      const hub = HP.validatePreset(mk({}, [ring({ vMode: 'hubble', vScale: 99 })]));
+      return { goodOk: good.ok, goodM: good.preset && good.preset.measureBox,
+        badOk: bad.ok, badM: bad.preset && bad.preset.measureBox, badWarns: bad.warnings.length,
+        noneM: none.preset && none.preset.measureBox,
+        bothOk: both.ok, bothM: both.preset && both.preset.measureBox, bothWarns: both.warnings.length,
+        integOk: withInteg.ok, integM: withInteg.preset && withInteg.preset.measureBox,
+        integI: withInteg.preset && withInteg.preset.integrator,
+        hubOk: hub.ok, hubMode: hub.ok && hub.preset.bodies[0].vMode,
+        hubScale: hub.ok && hub.preset.bodies[0].vScale };
+    });
+    add('freebox.schema',
+      sc.goodOk && sc.goodM === true && sc.badOk && sc.badM === undefined && sc.badWarns >= 1
+      && sc.noneM === undefined && sc.bothOk && sc.bothM === false && sc.bothWarns >= 1
+      && sc.integOk && sc.integM === true && sc.integI === 'leapfrog'
+      && sc.hubOk && sc.hubMode === 'hubble' && sc.hubScale === 50,
+      `measureBox true→${sc.goodM} / 非真偽値"yes"→${sc.badM}(無視・警告${sc.badWarns}件) / 省略→${sc.noneM} / `
+      + `universeBox 併用→${sc.bothM}(規定 a(t) 優先・警告${sc.bothWarns}件) / integrator 併用→${sc.integM}+"${sc.integI}" / `
+      + `ring vMode="${sc.hubMode}" vScale 99→${sc.hubScale}(上限クランプ)`);
+    // 膨張グラフが「実測」表示で a_eff 曲線を描く(受け入れ条件: 規定 a(t) との区別表示)
+    {
+      const errBefore = pageErrors.length;
+      let g = null, gErr = null;
+      try {
+        g = await page.evaluate(() => {
+          const s = HP.sim;
+          HP.loadPreset('freebox', false);
+          for (let k = 0; k < 600; k++) s.step(0.016);
+          const slotsFb = HP.overlaySlots();
+          HP.requestRender(); HP.tick(5);            // render() を叩いて drawBoxGraph を実行
+          return { ov: !!s.overlays.boxGraph, slotsFb, hist: s.boxHist.length,
+            aEff: s.boxAEff(), zAllZero: s.boxHist.every(p => p.z === 0),
+            redshiftNull: s.boxRedshift() === null };
+        });
+      } catch (e) { gErr = String(e); }
+      const errAfter = pageErrors.length;
+      // HUD の実測表示(a_eff=…(実測))。rAF ループが 10 フレームごとに書くので待つ
+      let hud = '(timeout)', hudOther = '(timeout)';
+      try {
+        await page.waitForFunction(() => {
+          const el = document.querySelector('#hud');
+          return el && el.textContent.includes('a_eff=');
+        }, null, { timeout: 5000 });
+        hud = await page.evaluate(() => document.querySelector('#hud').textContent);
+        await page.evaluate(() => HP.loadPreset('boxcomoving', false));   // 規定 a(t) 側には出ない
+        await page.waitForFunction(() => {
+          const el = document.querySelector('#hud');
+          return el && !el.textContent.includes('a_eff=');
+        }, null, { timeout: 5000 });
+        hudOther = await page.evaluate(() => document.querySelector('#hud').textContent);
+      } catch (e) { /* '(timeout)' のままで下の判定が FAIL する */ }
+      const i18n = await page.evaluate(() => {
+        HP.setLang('en'); const en = [HP.T('ovBoxMeas'), HP.T('ovBoxMeasNote')];
+        HP.setLang('ja'); const ja = [HP.T('ovBoxMeas'), HP.T('ovBoxMeasNote')];
+        return { en, ja };
+      });
+      add('freebox.graph-measured',
+        !gErr && errAfter === errBefore && g && g.ov === true && g.slotsFb.includes('boxGraph')
+        && g.hist >= 20 && g.aEff > 1 && g.zAllZero && g.redshiftNull
+        && i18n.ja[0] === '実測' && i18n.en[0] === 'measured'
+        && hud.includes('a_eff=') && hud.includes('(実測)') && !hudOther.includes('a_eff='),
+        gErr ? `描画中に例外: ${gErr}` :
+          `slots=[${g.slotsFb}](boxGraph あり — universeBox 無しでも measureBox で有効) 履歴${g.hist}点 `
+          + `a_eff=${g.aEff.toFixed(4)} 赤方偏移は非適用(z 全0=${g.zAllZero} boxRedshift()=null=${g.redshiftNull}) `
+          + `HUD="${hud.split('\n')[0]}" 🫧boxcomoving(規定a)には a_eff 行なし=${!hudOther.includes('a_eff=')} `
+          + `i18n ja="${i18n.ja[0]}"/en="${i18n.en[0]}" pageErrors増分=${errAfter - errBefore}(0期待)`);
+    }
+    // 箱なしプリセットは measureBox 経路に一切入らない(既存挙動不変の担保)
+    add('freebox.zero-cost-elsewhere',
+      r.noBox.measureBox === false && r.noBox.hist === null && r.noBox.aEff === null && r.noBox.wall[0] === -1,
+      `🌌galaxy: measureBox=${r.noBox.measureBox} boxHist=${r.noBox.hist} boxAEff()=${r.noBox.aEff} 壁タグ=[${r.noBox.wall}]`);
+  } else {
+    console.log('SKIP 第35便系(freebox.pressure-expand / freebox.inertial-decel / freebox.conservation / freebox.no-rail-badge / freebox.schema / freebox.graph-measured / freebox.zero-cost-elsewhere — 対象に 🕊️freebox プリセットなし)');
+  }
+}
+
+// ---- 7h1e) 第35便 W4(台帳4-54/4-55): サンプル分類バッジ + 描画専用半径スケール ----
+// ----   classifyPreset/drawScale は beta 先行機能(root=旧版には存在しない)。hasEcho/
+// ----   hasFreebox と同方式で「機能そのものの有無」をガードにする(対象プリセットの有無ではなく
+// ----   HP.classifyPreset の有無・S.drawScale フィールドの有無で判定)----
+const hasBadgeClassify = await page.evaluate(() => typeof HP.classifyPreset === 'function');
+const hasDrawScale = await page.evaluate(() => 'drawScale' in HP.sim);
+
+// ---- 4-54) classifyPreset(p) = {layers, external, closed} を代表プリセットで検証する。
+// ----   layers はプリセットJSONから自動判定(core/extension/background/semantic/comparison)。
+// ----   mercury/saturnZonalD68/boxcomoving/boxredshift/fig8/gclock は全対象に常在するので
+// ----   プリセットの有無は問わない。echo/freebox(第35便 W2/W3)は存在するときだけ
+// ----   core+閉鎖系を追加検証 ----
+if (hasBadgeClassify) {
+  const r = await page.evaluate(() => {
+    const P = (id) => HP.allPresets().find((p) => p.id === id);
+    const cl = (id) => {
+      const c = HP.classifyPreset(P(id));
+      return { layers: c.layers, closed: c.closed, pin: c.external.pin, rail: c.external.rail };
+    };
+    const out = {
+      mercury: cl('mercury'), saturnZonalD68: cl('saturnZonalD68'),
+      boxcomoving: cl('boxcomoving'), boxredshift: cl('boxredshift'),
+      fig8: cl('fig8'), gclock: cl('gclock'),
+    };
+    const hasEcho = !!P('echo'), hasFreebox = !!P('freebox');
+    if (hasEcho) out.echo = cl('echo');
+    if (hasFreebox) out.freebox = cl('freebox');
+    return { out, hasEcho, hasFreebox };
+  });
+  const eq = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+  const checks = [
+    ['☿mercury=extension', eq(r.out.mercury.layers, ['extension'])],
+    ['🛰️saturnZonalD68=extension', eq(r.out.saturnZonalD68.layers, ['extension'])],
+    ['🫧boxcomoving=background', eq(r.out.boxcomoving.layers, ['background'])],
+    ['🔦boxredshift=background+semantic', eq(r.out.boxredshift.layers, ['background', 'semantic'])],
+    ['♾️fig8=core+closed', eq(r.out.fig8.layers, ['core']) && r.out.fig8.closed === true],
+    ['⏱️gclock=core+外部駆動(pinned)', eq(r.out.gclock.layers, ['core']) && r.out.gclock.pin > 0 && r.out.gclock.closed === false],
+  ];
+  if (r.hasEcho) checks.push(['⏪echo=core+closed', eq(r.out.echo.layers, ['core']) && r.out.echo.closed === true]);
+  if (r.hasFreebox) checks.push(['🕊️freebox=core+closed', eq(r.out.freebox.layers, ['core']) && r.out.freebox.closed === true]);
+  const bad = checks.filter(([, ok]) => !ok).map(([n]) => n);
+  add('badge.classify', bad.length === 0,
+    checks.map(([n, ok]) => `${n}:${ok ? 'OK' : 'NG'}`).join(' ')
+    + ` / 実測: mercury=${JSON.stringify(r.out.mercury.layers)} saturnZonalD68=${JSON.stringify(r.out.saturnZonalD68.layers)}`
+    + ` boxcomoving=${JSON.stringify(r.out.boxcomoving.layers)} boxredshift=${JSON.stringify(r.out.boxredshift.layers)}`
+    + ` fig8=${JSON.stringify(r.out.fig8.layers)}(closed=${r.out.fig8.closed}) gclock=${JSON.stringify(r.out.gclock.layers)}(pin=${r.out.gclock.pin},closed=${r.out.gclock.closed})`
+    + (r.hasEcho ? ` echo=${JSON.stringify(r.out.echo.layers)}(closed=${r.out.echo.closed})` : ' echo=(対象になし)')
+    + (r.hasFreebox ? ` freebox=${JSON.stringify(r.out.freebox.layers)}(closed=${r.out.freebox.closed})` : ' freebox=(対象になし)'));
+} else {
+  console.log('SKIP badge.classify(対象に HP.classifyPreset なし — 第35便 W4 未適用の root 等)');
+}
+
+// ---- 4-54続き) badge.no-hscroll: バッジのチップ列を含む説明タブが viewport 390px で
+// ----   横スクロールを出さない(ui.aitab-no-hscroll と同じ書式)。🔦boxredshift は
+// ----   background+semantic+外部駆動(universeBox.mode="exp")の3チップを持つので折返しの
+// ----   検証に十分な件数がある(プリセット自体は対象を問わず常在)----
+if (hasBadgeClassify) {
+  const r = await page.evaluate(() => {
+    HP.loadPreset('boxredshift', false);
+    document.querySelector('#tabs button[data-tab=help]').click();
+    const tab = document.querySelector('#page-help');
+    const bad = [...tab.querySelectorAll('*')].filter((e) => e.scrollWidth > e.clientWidth + 1)
+      .map((e) => `${e.tagName}#${e.id || '(no-id)'}.${String(e.className).split(' ')[0] || ''} sw=${e.scrollWidth}/cw=${e.clientWidth}`);
+    const chips = [...document.querySelectorAll('#classChips .classChip')].map((e) => e.textContent);
+    document.querySelector('#tabs button[data-tab=help]').click();   // パネルを閉じ直す(以降の項目に影響させない)
+    return { bad, chips };
+  });
+  add('badge.no-hscroll', r.bad.length === 0 && r.chips.length >= 2,
+    r.bad.length ? `はみ出し要素(viewport 390): ${r.bad.join(' / ')}`
+      : `🔦boxredshift チップ=[${r.chips.join(', ')}]・横スクロールなし(viewport 390)`);
+} else {
+  console.log('SKIP badge.no-hscroll(対象に HP.classifyPreset なし — 第35便 W4 未適用の root 等)');
+}
+
+// ---- 7h1f) 第35便 W4(台帳4-55): サンプル別粒子半径調整(描画専用 drawScale)----
+// ----   drawscale.physics-free: drawScale は「描画専用」の契約 — 物理(位置・速度・スピン・
+// ----   半径R)には一切影響しない。🕶️darkrotor(コア層+大質量天体を含む代表サンプル)を
+// ----   drawScale=1/2/0.4 の3通りで300步走らせ、位置・速度・スピン・半径の全要素ハッシュが
+// ----   bit一致することを確認する。加えて drawScale=3(上限)で実際に render() を1回走らせ、
+// ----   ページ例外が増えないこと(コア層描画分岐等の描画専用コード自体のバグの機械検出)も見る ----
+if (hasDrawScale) {
+  const errBefore = pageErrors.length;
+  let evalErr = null;
+  const r = await page.evaluate(() => {
+    const s = HP.sim;
+    const base = () => JSON.parse(JSON.stringify(HP.allPresets().find((p) => p.id === 'darkrotor')));
+    const run = (ds) => {
+      const p = base(); p.drawScale = ds;
+      s.build(p);
+      for (let k = 0; k < 300; k++) s.step(0.016);
+      const a = [];
+      for (let i = 0; i < s.n; i++) a.push(s.x[i], s.y[i], s.vx[i], s.vy[i], s.spin[i], s.R[i], s.Rc[i]);
+      return { n: s.n, ds: s.drawScale, str: a.map((v) => v.toExponential(12)).join(',') };
+    };
+    const r1 = run(1), r2 = run(2), r3 = run(0.4);
+    let renderErr = null;
+    try {
+      const p4 = base(); p4.drawScale = 3; s.build(p4);
+      HP.tick(1);   // 数步進めてから実描画(render())まで走らせる — drawScale=3(上限)の描画分岐を通す
+    } catch (e) { renderErr = String(e); }
+    return { r1, r2, r3, renderErr };
+  }).catch((e) => { evalErr = String(e); return null; });
+  const errAfter = pageErrors.length;
+  if (!r) {
+    add('drawscale.physics-free', false, `page.evaluate 中に例外: ${evalErr}`);
+  } else {
+    const h1 = crypto.createHash('sha256').update(r.r1.str).digest('hex');
+    const h2 = crypto.createHash('sha256').update(r.r2.str).digest('hex');
+    const h3 = crypto.createHash('sha256').update(r.r3.str).digest('hex');
+    add('drawscale.physics-free',
+      r.r1.n === r.r2.n && r.r2.ds === 2 && r.r3.ds === 0.4 && h1 === h2 && h1 === h3
+      && !r.renderErr && errAfter === errBefore,
+      `🕶️darkrotor 300步 位置・速度・スピン・半径(R/Rc)の全要素ハッシュ: drawScale=1→${h1.slice(0, 12)}… `
+      + `drawScale=2→${h2.slice(0, 12)}…(bit一致=${h1 === h2}) drawScale=0.4→${h3.slice(0, 12)}…(bit一致=${h1 === h3}) `
+      + `drawScale=3(上限)で実描画1回: 例外=${r.renderErr || 'なし'} pageErrors増分=${errAfter - errBefore}(0期待)`);
+  }
+} else {
+  console.log('SKIP drawscale.physics-free(対象に S.drawScale なし — 第35便 W4 未適用の root 等)');
+}
+
+// ---- 4-55続き) drawscale.schema: validatePreset の drawScale クランプ(省略時1・[0.4,4] —
+// 上限は当初3、広視野プリセットの主役2px化に不足したためレビューゲートで4へ)----
+if (hasDrawScale) {
+  const sc = await page.evaluate(() => {
+    const mk = (extra) => Object.assign({
+      name: 'ds', description: 'drawScale スキーマ検査', camera: { scale: 200 },
+      world: { boundary: 'none', size: 0 }, physics: {},
+      bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }],
+    }, extra);
+    const hi = HP.validatePreset(mk({ drawScale: 5 }));
+    const lo = HP.validatePreset(mk({ drawScale: 0.1 }));
+    const nan = HP.validatePreset(mk({ drawScale: 'x' }));
+    const ok = HP.validatePreset(mk({ drawScale: 1.5 }));
+    const none = HP.validatePreset(mk({}));
+    return {
+      hiOk: hi.ok, hiVal: hi.preset && hi.preset.drawScale, hiWarns: hi.warnings.length,
+      loOk: lo.ok, loVal: lo.preset && lo.preset.drawScale, loWarns: lo.warnings.length,
+      nanOk: nan.ok, nanVal: nan.preset && nan.preset.drawScale, nanWarns: nan.warnings.length,
+      okOk: ok.ok, okVal: ok.preset && ok.preset.drawScale, okWarns: ok.warnings.length,
+      noneOk: none.ok, noneVal: none.preset && none.preset.drawScale,
+    };
+  });
+  add('drawscale.schema',
+    sc.hiOk && sc.hiVal === 4 && sc.hiWarns >= 1
+    && sc.loOk && sc.loVal === 0.4 && sc.loWarns >= 1
+    && sc.nanOk && sc.nanVal === 1 && sc.nanWarns >= 1
+    && sc.okOk && sc.okVal === 1.5 && sc.okWarns === 0
+    && sc.noneOk && sc.noneVal === undefined,
+    `上限 5→${sc.hiVal}(警告${sc.hiWarns}件) 下限 0.1→${sc.loVal}(警告${sc.loWarns}件) `
+    + `非数"x"→${sc.nanVal}(警告${sc.nanWarns}件) 正常1.5→${sc.okVal}(警告${sc.okWarns}件=0) `
+    + `省略→${sc.noneVal}(未設定=S.buildで1扱い)`);
+} else {
+  console.log('SKIP drawscale.schema(対象に S.drawScale なし — 第35便 W4 未適用の root 等)');
+}
+
 // ---- 7h2) 台帳4-57(第32便): 単体レールの中心 railCx/railCy ----
 // (root=v1.31 は未実装のため、スキーマ非対応時はスキップ)
 {

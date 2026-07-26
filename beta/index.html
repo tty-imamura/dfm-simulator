@@ -149,6 +149,19 @@
   #helpBody{font-size:calc(12.5px*var(--uz,1));line-height:1.75;}
   #helpBody h4{margin:12px 0 4px;font-size:calc(13px*var(--uz,1));color:var(--acc);}
   #helpBody p{margin:4px 0;}
+  /* 第35便 W4(台帳4-54): サンプル分類バッジ — #dirtyBadge/#physLockBadge と同じダークテーマの
+     角丸チップ。折返し可(flex-wrap)で iPhone 幅 390px でも横スクロールを出さない */
+  #classChips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;}
+  #classChips .classChip{display:inline-block;max-width:100%;padding:3px 9px;border-radius:999px;
+    font-size:calc(11px*var(--uz,1));line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    background:var(--panel2);border:1px solid var(--line);color:var(--fg);}
+  #classChips .classChip[data-g=core]{border-color:var(--ok);color:var(--ok);}
+  #classChips .classChip[data-g=extension]{border-color:var(--hot);color:var(--hot);}
+  #classChips .classChip[data-g=background]{border-color:var(--acc);color:var(--acc);}
+  #classChips .classChip[data-g=semantic]{border-color:var(--acc);color:var(--acc);}
+  #classChips .classChip[data-g=comparison]{border-color:var(--err);color:var(--err);}
+  #classChips .classChip[data-g=drive]{border-color:var(--dim);color:var(--dim);}
+  #classChips .classChip[data-g=closed]{border-color:var(--dim);color:var(--dim);}
   /* ===== 横画面レイアウト(4-35 裁定: タブレット・PC 想定)=====
      landscape かつ幅 900px 以上で、キャンバス左・操作列/タブ/パネル右の2カラムに組み替える。
      スマホの横持ち(幅 900px 未満)は従来の縦積みのまま。DOM 順は不変で CSS のみ —
@@ -456,7 +469,7 @@ ja: {
   btnImportFile:"ファイルから読込", fileLoaded:"ファイルを読み込みました",
   unsavedWarn:"※編集中のパラメータは「保存」するまでバックアップに含まれません",
   confirmDiscard:"未保存の編集があります。破棄して読み込みますか?",
-  betaShared:"β版(beta v1.32-b4)はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。",
+  betaShared:"β版(beta v1.33-b1)はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。",
   draftRestore:"未保存の編集の下書きが見つかりました(再読込前の状態)。復元しますか?",
   swFail:"オフライン用キャッシュ(Service Worker)の登録に失敗しました。オンラインでは通常どおり使えます。",
   periHud:(m,a)=>`近点移動(最内粒子): 実測 ${m}°/周 / 解析 ${a}°/周`,
@@ -505,6 +518,12 @@ ja: {
   ovBoxClamp:"H はクランプ中 — 物理解釈対象外",
   // 第33便: 箱なし/boxGraph非表示時のHUD末尾に出す到着ログ1件の書式
   hudPhoton:(le,lo,z)=>`λ${le}→${lo}(z=${z})`,
+  // 第35便(台帳4-62): Loschmidt echo — 初期配置からの RMS と、速度・スピン反転の実行済み表示
+  hudEcho:(r)=>`echo RMS=${(Math.abs(r)<0.01)? r.toExponential(2) : r.toFixed(3)}`,
+  hudEchoFlipped:"反転済み↩︎",
+  // 第35便(台帳4-61): 自由な箱 — 規定 a(t) ではなく壁粒子群から計測した実測尺度因子であることの区別表示
+  ovBoxMeas:"実測", ovBoxMeasNote:"a_eff=⟨r⟩/⟨r⟩₀ 実測(規定a(t)ではない)",
+  ovBoxGraphMeas:"a_eff(青実線)/H_eff(橙点線)[実測]",
   // 第32便(W2): 箱宇宙(UniverseBox)パラメータ編集UI(パラメータタブ)
   boxSectionHead:"箱宇宙(UniverseBox)",
   // 第33便(台帳4-64): セーブ対応(実装3)に合わせて文言更新
@@ -527,6 +546,14 @@ ja: {
   extRail:"規定運動(レール駆動)— 外部が決めた軌道で動き、系に仕事をする。",
   extBath:"スピン浴(熱浴)— スピン固定の粒子が周囲を加熱/冷却する(エネルギーの外部供給・吸収)。",
   extGrav:"一様重力場(gravityX/Y)— 画面全体に働く外部の力場。運動量は場との交換として帳簿に記録される。",
+  // 第35便 W4(台帳4-54): サンプル分類バッジ — classifyPreset() の layers/external/closed を表示
+  bdgCore:"コア公理", bdgCoreTip:"A1〜A13・E1′〜E11 のみで動く",
+  bdgExtension:"拡張則", bdgExtensionTip:"E12/E13 — コア公理の外の追加則",
+  bdgBackground:"規定背景", bdgBackgroundTip:"UniverseBox — a(t) は外部規定",
+  bdgSemantic:"意味論", bdgSemanticTip:"光子波長 1+z=a/a₀ は導出でなく規則",
+  bdgComparison:"比較チャネル", bdgComparisonTip:"FLRW 摩擦 — DFM 公理外の対照",
+  bdgDrive:"外部駆動", bdgDriveTip:"固定・レール・熱浴・一様重力のいずれかが外部から系を駆動する(下の詳細参照)",
+  bdgClosed:"閉鎖系", bdgClosedTip:"閉鎖系 — 固定・規定運動なし。運動量・角運動量は系内(+遠方宇宙の帳簿)で閉じる。",
   groups:{}, params:{},
 },
 en: {
@@ -604,7 +631,7 @@ en: {
   btnImportFile:"Load from file", fileLoaded:"File loaded",
   unsavedWarn:"Note: edited parameters are not included in backups until you press Save",
   confirmDiscard:"You have unsaved edits. Discard them and load?",
-  betaShared:"This beta (v1.32-b4) shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.",
+  betaShared:"This beta (v1.33-b1) shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.",
   draftRestore:"Found a draft of unsaved edits (from before the last reload). Restore it?",
   swFail:"Offline cache (Service Worker) registration failed. The app still works normally online.",
   periHud:(m,a)=>`Apsidal drift (innermost): measured ${m}°/orbit / analytic ${a}°/orbit`,
@@ -650,6 +677,12 @@ en: {
   ovBoxNote:"1+z=a/a0 (semantics, not derived)",
   ovBoxClamp:"H clamped — not physically interpretable",
   hudPhoton:(le,lo,z)=>`λ${le}→${lo}(z=${z})`,
+  // 第35便(台帳4-62): Loschmidt echo
+  hudEcho:(r)=>`echo RMS=${(Math.abs(r)<0.01)? r.toExponential(2) : r.toFixed(3)}`,
+  hudEchoFlipped:"reversed ↩︎",
+  // 第35便(台帳4-61): the free box — measured scale factor, not a prescribed a(t)
+  ovBoxMeas:"measured", ovBoxMeasNote:"a_eff=⟨r⟩/⟨r⟩0 measured (not prescribed)",
+  ovBoxGraphMeas:"a_eff / H_eff [measured]",
   boxSectionHead:"Box Universe (UniverseBox)",
   boxSectionDesc:"Included in saves (33rd delivery, ledger 4-64). Press ⏮ to restore the preset defaults.",
   boxModeLabel:"Scale mode", boxH0Label:"Expansion rate H₀", boxCoefLabel:"Coefficient c (a=1+c·t^p)",
@@ -669,6 +702,14 @@ en: {
   extRail:"Prescribed motion (rail-driven) — follows an external schedule and does work on the system.",
   extBath:"Spin bath (heat bath) — fixed-spin bodies heat/cool their surroundings (external energy source/sink).",
   extGrav:"Uniform gravity field (gravityX/Y) — an external force field acting across the scene. Momentum exchange with the field is ledgered.",
+  // 35th delivery W4 (ledger 4-54): sample classification badges
+  bdgCore:"Core axioms", bdgCoreTip:"Runs on A1–A13 and E1′–E11 alone",
+  bdgExtension:"Extension", bdgExtensionTip:"E12/E13 — additional rules outside the core axioms",
+  bdgBackground:"Prescribed background", bdgBackgroundTip:"UniverseBox — a(t) is prescribed from outside",
+  bdgSemantic:"Semantic rule", bdgSemanticTip:"Photon wavelength 1+z=a/a₀ is a rule, not a derivation",
+  bdgComparison:"Comparison", bdgComparisonTip:"FLRW friction — a contrast channel outside the DFM axioms",
+  bdgDrive:"External drive", bdgDriveTip:"Pinning, a rail, a heat bath or uniform gravity drives the system from outside (see the detail list below)",
+  bdgClosed:"Closed system", bdgClosedTip:"Closed system — no constraints or prescribed motion. Momentum and angular momentum close within the system (plus the distant-universe ledger).",
   groups:{"空間と時間":"Space & Time","箱宇宙":"Box Universe","銀河":"Galaxies","光":"Light","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
   params:{G:"Gravity G", D0:"Background determinacy D₀", kFrame:"Frame dragging kFrame",
     q:"Drag falloff q", kRep:"Spin repulsion kRep", muF:"Friction→spin muF",
@@ -743,6 +784,10 @@ ja: {
   T7:"線運動量と全角運動量(軌道+スピン)は厳密に保存する",
   T8:"中心星のスピンは光の湾曲を非対称にする(カー・ブラックホールの光学類似)",
   T9:"座標時間は宇宙で一意 — 「どちらの双子が年を取るか」に曖昧さがない",
+  // 第35便(台帳4-62): 可逆積分器と Loschmidt echo(BOX_UNIVERSE §10.5 の裁定)
+  T11:"散逸チャネルを全て切り、可逆積分器(leapfrog)で解いた宇宙だけが、速度・スピンの反転で過去へ巻き戻る — 時間の矢は法則ではなく散逸から生まれる。ただしカオスが数値誤差を指数増幅するため、巻き戻りには有限の地平がある",
+  // 第35便(台帳4-61): 自由な箱 — 膨張の動力学化(BOX_UNIVERSE §4.2/§10.1 の裁定)
+  T12:"壁を固定も規定もしない自由な箱では、膨張則は「与えるもの」ではなく「解かれるもの」になる — 自己重力(E4)だけなら減速して収縮に転じ、壁が熱ければスピン斥力=圧力(E5′)が押し広げる。膨張の原因が系の外(レール)から内(慣性と圧力)へ移る。フリードマン方程式のDFM類似の機構デモであり、FLRW宇宙論の再現主張ではない",
   T10:"箱宇宙(一定範囲の外を単純化する近似)の並進・回転は内部から検知できないとみなす — 検知できるなら、より大きな箱宇宙が要る。拡大縮小だけは検知でき、光の波長を引き伸ばす(赤方偏移)。質点リングの壁は一次変形を利得g(r)(中心1/2)でしか運べず、完全な箱には連続背景UniverseBoxが必要",
 },
 en: {
@@ -780,6 +825,10 @@ en: {
   T7:"Linear momentum and total angular momentum (orbital + spin) are exactly conserved",
   T8:"A central star's spin makes light bending asymmetric (a Kerr optical analogue)",
   T9:"Coordinate time is unique to the universe — no ambiguity about which twin ages",
+  // 35th delivery (ledger 4-62): reversible integrator and the Loschmidt echo
+  T11:"Only a universe with every dissipative channel switched off and solved with a reversible integrator (leapfrog) rewinds into its past when velocity and spin are reversed — the arrow of time comes from dissipation, not from the laws. Chaos amplifies round-off exponentially, so the rewind has a finite horizon",
+  // 35th delivery (ledger 4-61): the free box — dynamics of expansion
+  T12:"When the wall is neither pinned nor prescribed, the expansion law stops being something you give and becomes something you solve for — self-gravity alone (E4) decelerates the expansion and turns it into collapse, while hot walls push it open through spin repulsion = pressure (E5′). The cause of expansion moves from outside the system (a rail) to inside it (inertia and pressure). A mechanism demo of the DFM analogue of the Friedmann equation, not a reproduction of FLRW cosmology",
   T10:"The box universe (an approximation lumping everything beyond a chosen scale) is deemed internally undetectable in translation and rotation — detecting them would require a larger box. Only expansion/contraction is detectable, stretching light wavelengths (redshift). A point-mass ring wall carries first-order deformations only with gain g(r) (1/2 at the center); a full box needs the continuous UniverseBox background",
 },
 };
@@ -810,6 +859,24 @@ function externalTags(p){
   const ph=p.physics||{};
   const grav=!!(ph.gravityX||ph.gravityY||(p.universeBox && p.universeBox.friction==="flrw"));
   return {pin, rail, bath, grav};
+}
+// 第35便 W4(台帳4-54): サンプル分類バッジ — 各サンプルが「DFMコア公理から創発した現象」か
+// 「表示・比較・外部駆動のために与えた規則」かを、プリセットJSONから機械判定する
+// (externalTags と同じ「保守コストゼロ」方針: per-preset メタデータを持たず自動判定)。
+// layers は複数付与しうる(例: boxredshift=background+semantic)。該当なしのときだけ core。
+// 注: measureBox(第35便 W3)は universeBox を使わないため自動的に background にならず core 扱い
+// (「自由な箱は規定背景を持たないことが主題」という設計意図と一致)
+function classifyPreset(p){
+  const ext=externalTags(p);
+  const ph=p.physics||{};
+  const layers=[];
+  if(ph.geoPN===1 || (p.bodies||[]).some(b=>!!b.zonal)) layers.push("extension");   // E12/E13
+  if(p.universeBox) layers.push("background");                                     // UniverseBox 規定背景
+  if(p.photonEmit) layers.push("semantic");                                        // 光子波長の意味論
+  if(p.universeBox && p.universeBox.friction==="flrw") layers.push("comparison");   // FLRW対照チャネル
+  if(layers.length===0) layers.push("core");
+  const closed=!ext.rail && !ext.pin && !ext.grav;   // 既存の閉鎖系判定(renderHelp と同一式)
+  return {layers, external:ext, closed};
 }
 function gName(g){ return (LANG==="en" && I18N.en.groups[g]) || g; }
 function pName(p){ return (LANG==="en" && p.en && p.en.name) || p.name; }
@@ -912,6 +979,8 @@ const BUILTIN_PRESETS = [
   en:{name:"Gravitational Time Dilation", description:"Three clocks at rest, at distances 70/140/240 from a central mass — motion is eliminated so only distance (= determinacy strength) varies. Tap each clock: the inner one ticks slowest, τ/t = 0.931/0.965/0.979 (matches the analytic value to 1e-5). Lower Kt from 300 to 150 and all three gaps widen together. The gravitational counterpart of motion time dilation (the E7R motion term) — the pure gravity term of A7′/E7R."},
   activeParams:["Kt"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:280}, world:{boundary:"none",size:0},
+  drawScale:2,   // 第35便 W4(台帳4-55): 描画専用倍率(物理無関係)。タップ対象の3時計(m=2)が
+                 // 実測1.2px(基準1未満)だったため2.36pxへ拡大(監査: scratchpad/w4-report.md)
   physics:{G:0, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:300,
     cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:1},
   bodies:[ // v1.12(付録L): 第6次提案 P0-1 採用。τ/t 解析一致を機械検証済み
@@ -927,6 +996,8 @@ const BUILTIN_PRESETS = [
   en:{name:"Weak-Field GR Calibration — GPS, Light, Shapiro", description:"A calibration demo pitting the single-ψ weak-field law (A7′/E7R/E8R/T5) against real observations. With the one mapping Kt=c²/G: net GPS clock rate +38.5 μs/day (gravity +45.7, motion −7.2; observed ≈+38.6) / solar-limb deflection 1.7512″ (observed ≈1.75″) / Shapiro delay ≈281 μs (Cassini geometry) — all match quantitatively. Mercury's perihelion advance is covered by ☿ (geodesic 1PN, E12). On screen, the analog: the ground clock (r=60) shows τ/t=0.920 while the orbiting satellite (r=180), though moving, ticks faster at τ/t=0.971 — gravity beats motion, the same sign structure as real GPS. The ray fan from the left refracts in the central field (the same n_eff>1 mechanism as the Shapiro delay); lower Kt and clock gaps and bending strengthen together. Note: the SI-calibrated numbers come from formula-level computation under the mapping Kt=c²/G; the on-screen initial values are a visibility-first exaggerated analog and do not satisfy the physical-correspondence condition Kt=cLight²/G (see PHYSICS §5)."},
   activeParams:["Kt","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:280}, world:{boundary:"none",size:0},
+  drawScale:2,   // 第35便 W4(台帳4-55): 描画専用倍率。地上時計・衛星(m=2)が実測1.2px
+                 // (基準1未満)だったため2.36pxへ拡大(監査: scratchpad/w4-report.md)
   physics:{G:1, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:300,
     cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:2},
   bodies:[ // 付録O O1: 衛星は Plummer 厳密円軌道 v=√(G·M·r²/(r²+ε²)^{3/2})(V13 と同式)
@@ -942,6 +1013,8 @@ const BUILTIN_PRESETS = [
   en:{name:"Mercury's Perihelion Advance — Geodesic 1PN", description:"The geodesic mode (E12). When the same ψ=W/Kt that slows clocks also governs matter orbits (the action form of A7′/E7R), the ellipse slowly rotates in the direction of the orbit — perihelion advance — tracing a rosette. Set λ_PN (lambdaPN) to 0 to recover Newton: the ellipse closes. With pnAlpha=0.5 (time rate only) the advance drops to 1/3 — corresponding to 42.98″/century (full) vs 14.33″/century (1/3) for the real Mercury. Note: the on-screen initial values are an exaggerated visualization analog — amplified so the precession shows within a few orbits — and do not satisfy the physical-correspondence condition Kt=cLight²/G (the real-value conversion rests on analytic checks of the same formula; see PHYSICS §5)."},
   activeParams:["lambdaPN","pnAlpha","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:220}, world:{boundary:"none",size:0},
+  drawScale:2.8,   // 第35便 W4(台帳4-55): 描画専用倍率。主役の水星(m=0.5)が実測0.75px
+                   // (基準1未満)だったため2.11pxへ拡大(監査: scratchpad/w4-report.md)
   physics:{G:1, D0:0.05, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
     cLight:25, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
     geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:8},
@@ -956,6 +1029,8 @@ const BUILTIN_PRESETS = [
   en:{name:"Free Fall & Projectile Motion", description:"A mechanics lab driven only by the uniform gravity field gravityY (an external field). The two balls at the top left free-fall with masses 2 and 20 — different masses, same acceleration (a simple equivalence-principle demo). The middle ball is launched horizontally, the bottom one obliquely upward; both trace clean parabolas. Inter-particle gravity (A6/E4), dragging and heat are all off; the box boundary acts as floor and walls. Change gravityY to change the acceleration — at 0 the motion becomes uniform and straight."},
   activeParams:["gravityY","gravityX"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:220}, world:{boundary:"box",size:190},
+  drawScale:1.4,   // 第35便 W4(台帳4-55): 描画専用倍率。主役の4球のうちm=2の3球が実測1.50px
+                   // (基準1未満)だったため2.11pxへ拡大(監査: scratchpad/w4-report.md)
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
     cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0.08, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:3},
   bodies:[ // v1.18: Gemini/Grok 第8次提案の合議採用(自由落下×2質量+水平投射+斜方投射)
@@ -965,6 +1040,31 @@ const BUILTIN_PRESETS = [
     {type:"single", m:2, x:-170,y:100, vx:3,vy:-3.6, spin:0, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+// 第35便(台帳4-62): 可逆積分器(leapfrog/KDK)+ Loschmidt echo。BOX_UNIVERSE §10.5 の裁定
+// 「速度・スピン反転実験の機械検証には可逆積分器が要る」の実装デモ。
+// 可逆チャネル限定の構成(kFrame=0・muF=0・γn=0・κs=0・η_rad=0・kRep=0・boundary="none")で、
+// t=echoFlipAt に v と s を一斉反転すると初期配置へ戻る。実測 RMS は QA echo.* を参照
+{ id:"echo", name:"時間の矢 — 巻き戻る宇宙と巻き戻らない宇宙", emoji:"⏪", group:"空間と時間",
+  description:"重い3天体と28個のテスト粒子だけの閉じた宇宙。t=20で全粒子の速度とスピンの符号を一斉に反転すると、系は自分の過去を逆再生して初期配置へ戻る(反転時の平均ずれ33.9→復帰後1.3e-3。左上のecho RMSが落ちるのを見る)。これはE4重力とE9法線ばねしか働かない可逆構成(muF=0・γn=0・κs=0・η_rad=0・kFrame=0・境界なし)を、可逆積分器leapfrog(KDK)で解いたときだけ起きる。摩擦muFを0→0.3にすると二度と戻らない(RMS≈10.8)— 時間の矢は法則ではなく散逸から生まれる(おすすめA/B。T11)。衝突減衰γnや空間引きずりkFrameを入れても同じく戻らない。巻き戻りには地平がある: カオスが数値誤差を指数増幅するため、反転を遅らせるほど戻りは粗くなる(t=30ではRMS≈1.9e-2 = 約15倍)。積分器を既定のsemi(セミ・インプリシット)に戻すだけでも戻らない(RMS≈0.92)— 可逆性は物理の性質であると同時に数値スキームの性質でもある。反転は外部からの介入なので運動量・角運動量はその瞬間だけ符号ごと反転する(帳簿外)。反転の前後それぞれの区間では厳密に保存する(A13/T7・モニタ表示)。",
+  en:{name:"Arrow of Time — Loschmidt Echo", description:"A closed universe of three heavy bodies and 28 test particles. At t=20 the sign of every particle's velocity and spin is flipped at once, and the system replays its own past back to the initial configuration (mean displacement 33.9 at the flip → 1.3e-3 on return; watch echo RMS in the HUD collapse). This happens only when a fully reversible configuration — E4 gravity and the E9 normal spring alone, with muF=0, γn=0, κs=0, η_rad=0, kFrame=0 and no boundary — is solved with the reversible leapfrog (KDK) integrator. Raise friction muF from 0 to 0.3 and it never returns (RMS≈10.8): the arrow of time is born of dissipation, not of the laws (suggested A/B; T11). Collision damping γn or frame dragging kFrame break it just as thoroughly. The rewind has a horizon — chaos amplifies round-off exponentially, so the later the flip, the coarser the return (RMS≈1.9e-2, ~15× worse, at t=30). Merely switching the integrator back to the default semi-implicit scheme also destroys the echo (RMS≈0.92): reversibility is a property of the numerical scheme as much as of the physics. The flip is an external intervention, so momentum and angular momentum change sign at that instant (off the ledger); within each stretch before and after they are exactly conserved (A13/T7; conservation monitor)."},
+  activeParams:["muF","gammaN","kFrame"],   // おすすめA/B: muF 0(戻る)⇄ 0.3(戻らない)
+  seed:4062,                                 // v1.12: 台帳番号を固定シードに(id 変更でも初期配置不変)
+  integrator:"leapfrog",                     // 第35便: KDK 可逆積分器(既定 semi では戻らない)
+  echoFlipAt:20,                             // 第35便: この時刻の最初のステップ終端で v・s を1回だけ反転
+  camera:{scale:220}, world:{boundary:"none",size:0},   // 境界反射(×0.95)は不可逆なので none 必須
+  physics:{G:2, D0:50, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:2, timeScale:2},
+  bodies:[ // 少数体カオス(3天体)+ 主星まわりの小円盤。スピンは反転対象だが kRep=0・kFrame=0 の
+           // ため力学には効かない(温度 T=Is² は反転で不変 — スポークの回転方向だけが逆になる)
+    {type:"single", m:60, x:-55, y:0,   vx:0.10,  vy:-0.75, spin:0.6,  pinned:false},
+    {type:"single", m:45, x:50,  y:-25, vx:0.25,  vy:0.80,  spin:-0.5, pinned:false},
+    {type:"single", m:30, x:15,  y:70,  vx:-0.85, vy:0.15,  spin:0.9,  pinned:false},
+    {type:"disk", n:28, cx:-55, cy:0, radius:30, mMin:0.4, mMax:0.4, spinMin:0.3, spinMax:0.3,
+     vMode:"kepler", aroundMass:60, vScale:1, direction:1, bulkVx:0.10, bulkVy:-0.75}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true} },
 
 // ===== グループ: 箱宇宙(第31便 — BOX_UNIVERSE v1.2。「宇宙に大質量の箱だけがある」思考実験)=====
 { id:"boxtrans", name:"箱宇宙 — 並進する箱", emoji:"📦", group:"箱宇宙",
@@ -1024,6 +1124,9 @@ const BUILTIN_PRESETS = [
   en:{name:"Box Universe — Full Comotion & the Expansion Clock", description:"The continuous UniverseBox background — static D₀ promoted to a dynamic background with position, velocity and scale a(t) — produces the full Hubble flow u_B=H·r (the continuum limit of T10, closing the point-ring's 1/2 gain; dashed circle = nominal radius L·a). Free particles are carried preserving comoving coordinates χ=r/a (V24b), and mutual distances grow in proportion to a. Expansion dilutes determinacy (W_B=D/a), so by the clock law (A7′/E7R) the central pinned clock ticks faster as the universe expands (tap it to see τ/t) — a correlation that looks like 'expansion drives time' emerges inside the model. Yet expansion is not the cause of time: it merely changes the rate of an already-defined clock. Set kFrame to 0 and comotion vanishes (suggested A/B). Reactions are ledgered to the reservoir (monitor, A13)."},
   activeParams:["kFrame","Kt"],
   camera:{scale:420}, world:{boundary:"none",size:0},
+  drawScale:3.1, // 第35便 W4(台帳4-55): 描画専用倍率。タップ対象の中央固定時計(m=2)が
+                 // 実測0.66px(基準1未満)→ 2.04px へ拡大(監査: scratchpad/w4-report.md。
+                 // 旧clamp上限3では1.97px止まり — レビューゲートで上限4へ引き上げて解消)
   universeBox:{mode:"exp", H0:0.004, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
   physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:300,
     cLight:100, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:4},
@@ -1058,6 +1161,8 @@ const BUILTIN_PRESETS = [
   en:{name:"Box Universe — Breathing Universe & Its Clock", description:"A UniverseBox whose scale factor a(t)=1+0.2sin(0.08t) expands and contracts. Free particles ride the breathing Hubble flow u_B=H(t)·r back and forth, and determinacy W_B=D/a oscillates too — clocks tick faster while expanded (large a) and slower while contracted (A7′/E7R; tap the central pinned clock). At the turning points H=0 the clock does not stop — expansion rate and the rate of time are different things, so a alone cannot be 'time itself'. With zero dissipation (no friction, collision damping or radiation) the system returns almost exactly after one period (T≈78.5) — reversible. Add muF or gammaN and it no longer returns — geometric periodicity and the thermodynamic arrow of time (A12′) are distinct, and you can test it yourself (T10)."},
   activeParams:["Kt","kFrame"],
   camera:{scale:380}, world:{boundary:"none",size:0},
+  drawScale:2.8,   // 第35便 W4(台帳4-55): 描画専用倍率。タップ対象の中央固定時計(m=2)が
+                   // 実測0.73px(基準1未満)だったため2.03pxへ拡大(監査: scratchpad/w4-report.md)
   universeBox:{mode:"sin", H0:0, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0.2, freq:0.08, phase:0},
   physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:300,
     cLight:100, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:2},
@@ -1073,6 +1178,9 @@ const BUILTIN_PRESETS = [
   en:{name:"Box Universe — Redshift of Light (A, B, C)", description:"Three comoving particles A, B and C sit in an expanding box universe (H=0.02), and light propagates while holding its state as a 'wavelength' (4-63). The 500 nm light A emits at t=0 (λ stretches as a(t)/a_emit) reaches C when the universe has grown fourfold, so its wavelength is four times longer (z=3). Light emitted by B once the universe has doubled arrives at C at about the same moment with twice the wavelength (z=1) — light emitted at different times is observed simultaneously at different redshifts. This is the same structure as Hubble's law, 1+z=a(observed)/a(emitted) (§12-6). The expansion graph shows the arrival log (λ_emit→λ_obs and z). Photons carry no momentum here — a display-level physics — while refraction and medium advection use the same ψ and u as E8R/T5 (T10)."},
   activeParams:["cLight","kFrame"],
   camera:{scale:420}, world:{boundary:"none",size:0},
+  drawScale:3.1, // 第35便 W4(台帳4-55): 描画専用倍率。主役の光源A・B・C(m=2)が
+                 // 実測0.66px(基準1未満)→ 2.04px へ拡大(監査: scratchpad/w4-report.md。
+                 // 旧clamp上限3では1.97px止まり — レビューゲートで上限4へ引き上げて解消)
   universeBox:{mode:"exp", H0:0.02, D:8, dPower:1, L:120, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
   physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
     cLight:6, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
@@ -1085,6 +1193,44 @@ const BUILTIN_PRESETS = [
   // B の放出時刻 t=ln2/0.02=34.657 → a=2 ちょうど(両光子はほぼ同時に C へ届く: t≈69.3)
   photonEmit:[{body:0, t:0, lambda:500, aim:2}, {body:1, t:34.657, lambda:500, aim:2}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:false,boxGraph:true} },
+
+// 第35便(台帳4-61): 自由な箱 — 膨張の動力学化(BOX_UNIVERSE §4.2/§10.1 の裁定)。
+// universeBox(規定 a(t))を使わないのが主題。壁リングは pinned:false の自由粒子で、
+// 膨張則は E4(自己重力)と E5′(スピン斥力=圧力)から解かれる。
+// 実測値(2026-07-26・1200步=t19.2・dt0.016 固定): 既定(kRep=0.5)a_eff=2.1795(単調増加・
+// H_eff 0.031794→0.051397 の加速)/ kRep=0 a_eff は t=9.2 の 1.0047 で頭打ち・
+// H_eff +4.422e-4→−5.278e-4(減速膨張→再収縮)。壁リングの動径偏差は 1200步後も 0.04%(座屈なし)。
+// q=1 は必須の設計値: 既定 q=2 では E5′ の剛性 dlnF/dlnd≈−3 が壁の角度ジッタ(±0.02rad)を
+// 増幅してリングが座屈する(実測 動径偏差 34%)。q=1 なら dlnF/dlnd≈−1 で 0.04% に収まる。
+// kFrame=0 も必須: E6′ を入れると背景 D₀ 持ち分がリザーバへ流れ(実測 |帳簿P|=107)、
+// 「全自由・閉鎖系」の保存則デモが成立しない。
+{ id:"freebox", name:"箱宇宙 — 自由な箱(膨張の原因)", emoji:"🕊️", group:"箱宇宙",
+  description:"壁を固定も規定もしない箱宇宙。64個の壁粒子(m=20・スピン1.0)は全部が自由粒子で、レールも固定もない — 膨張則a(t)は外から与えるものではなく、E4自己重力とA10/E5′スピン斥力(=圧力)から解かれる(T12: 膨張の「原因」が系の外から内へ移る)。壁には脱出速度に届かない外向き初速v=0.001·rを与えてある。おすすめA/B: スピン斥力kRepを0にすると圧力が消え、自己重力だけの宇宙は膨張をやめて収縮に転じる(実測: 実測尺度因子a_effはt=9.2の1.005で頭打ちになり、膨張率H_effが前半+4.42e-4から後半−5.28e-4へ符号反転 — 2Dの閉じた宇宙の類似)。kRep=0.5に戻すと圧力が押し広げ、t=19.2でa_eff=2.18まで膨張し、しかも加速する(H_eff 0.0318→0.0514 — E5′は距離の1乗でしか薄まらず、重力の2乗より緩いため)。膨張グラフには規定a(t)ではなく壁の平均中心距離から計測した実測a_eff=⟨r⟩/⟨r⟩₀が出る(見出しの「実測」表示)。赤方偏移は規定a(t)に結び付いた規則なのでこの画面では出さない。全粒子が自由な完全閉鎖系で、リザーバ帳簿は0のまま運動量・角運動量が保存する(A13/T7・モニタ表示)。引きずりkFrame=0でE4とE5′の2機構だけを取り出しているため、内部の8個のテスト粒子は壁の膨張には随伴しない(質点リング壁の限界 — T10)。これはフリードマン方程式のDFM類似の機構デモであり、FLRW宇宙論の再現主張ではない。",
+  en:{name:"Box Universe — The Free Box (what drives expansion?)", description:"A box universe whose wall is neither pinned nor prescribed. All 64 wall particles (m=20, spin 1.0) are free bodies — no rails, no pins — so the expansion law a(t) is not given from outside but solved for, out of E4 self-gravity and A10/E5′ spin repulsion (= pressure): the cause of expansion moves from outside the system to inside it (T12). The walls start with an outward velocity v=0.001·r that falls short of escape. Suggested A/B: set the spin repulsion kRep to 0 and the pressure disappears — gravity alone stops the expansion and turns it into collapse (measured: the scale factor a_eff peaks at 1.005 at t=9.2 and the expansion rate H_eff flips sign, +4.42e-4 in the first half to −5.28e-4 in the second — the analogue of a closed 2D universe). Put kRep back to 0.5 and pressure pushes the box open to a_eff=2.18 by t=19.2, accelerating as it goes (H_eff 0.0318→0.0514), because E5′ thins out only as 1/d while gravity thins as 1/d². The expansion graph plots the measured a_eff=⟨r⟩/⟨r⟩0 taken from the mean wall radius, not a prescribed a(t) (see the 'measured' tag in the header). Redshift is a rule tied to a prescribed a(t), so it is not shown here. Every particle is free — a strictly closed system whose reservoir ledger stays at zero while momentum and angular momentum are conserved (A13/T7; conservation monitor). Dragging is off (kFrame=0) to isolate the two mechanisms E4 and E5′, so the eight interior test particles do not comove with the expanding wall (the limit of a point-mass ring wall — T10). This is a mechanism demo of the DFM analogue of the Friedmann equation, not a claim to reproduce FLRW cosmology."},
+  activeParams:["kRep","G"],   // おすすめA/B: kRep 0.5(圧力駆動の膨張)⇄ 0(慣性のみ → 減速 → 再収縮)
+  camera:{scale:460}, world:{boundary:"none",size:0}, seed:4061,
+  drawScale:1.1,   // 第35便 W4(台帳4-55): 描画専用倍率。主役の壁リング64粒子(m=20)が
+                   // 実測1.90px(基準1未満)だったため2.09pxへ拡大(監査: scratchpad/w4-report.md)
+  measureBox:true,   // 実測尺度因子 a_eff=⟨r⟩/⟨r⟩₀(最初の ring 群=壁)を膨張グラフへ
+  physics:{G:1, D0:4, kFrame:0, q:1, kRep:0.5, muF:0, gammaN:0, kappaS:0, Kt:10000,
+    cLight:100, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:4, timeScale:2},
+  bodies:[
+    // 壁: 自由粒子リング(vMode:"hubble" = 群の重心を中心とした放射方向初速 v=vScale·(r−r̄)。
+    // 重心基準なので群の総運動量は厳密に 0 — 実測 |ΣP|(t=0)=2.7e-7)
+    {type:"ring", n:64, cx:0, cy:0, rIn:200, rOut:200, mMin:20, mMax:20, spinMin:1, spinMax:1,
+     vMode:"hubble", aroundMass:0, omega:0, vScale:0.001, vNoise:0, direction:1, pinned:false},
+    // 内部テスト粒子(共動の観察用)。4個ずつ対向配置で ΣP=0 を保つ(r=60 と r=130.1)
+    {type:"single", m:0.05, x: 60, y:  0, vx: 0.06,  vy: 0,     spin:0, pinned:false},
+    {type:"single", m:0.05, x:-60, y:  0, vx:-0.06,  vy: 0,     spin:0, pinned:false},
+    {type:"single", m:0.05, x:  0, y: 60, vx: 0,     vy: 0.06,  spin:0, pinned:false},
+    {type:"single", m:0.05, x:  0, y:-60, vx: 0,     vy:-0.06,  spin:0, pinned:false},
+    {type:"single", m:0.05, x: 92, y: 92, vx: 0.092, vy: 0.092, spin:0, pinned:false},
+    {type:"single", m:0.05, x:-92, y: 92, vx:-0.092, vy: 0.092, spin:0, pinned:false},
+    {type:"single", m:0.05, x: 92, y:-92, vx: 0.092, vy:-0.092, spin:0, pinned:false},
+    {type:"single", m:0.05, x:-92, y:-92, vx:-0.092, vy:-0.092, spin:0, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true,boxGraph:true} },
 
 // ===== グループ: 銀河 =====
 { id:"galaxy", name:"銀河の回転曲線", emoji:"🌌", group:"銀河",
@@ -1670,7 +1816,10 @@ function validatePreset(obj){
         out.push(o);
       } else if(t==="ring"){
         if(!needNum(["n","cx","cy","rIn","rOut","mMin","mMax","spinMin","spinMax","aroundMass","omega","vNoise"])) return;
-        if(["kepler","omega","none"].indexOf(b.vMode)<0){ bad(at+".vMode が不正"); return; }
+        // 第35便(台帳4-61): hubble — 群の重心を中心とする放射方向初速 v=vScale·(r−r̄)。
+        // 「自由な箱」の壁リングに外向き初速を与えるための最小追加(disk の hubble と同じ意味論だが、
+        //  中心は cx/cy ではなく生成後の群の重心 — 群の総運動量を厳密に 0 にするため)
+        if(["kepler","omega","hubble","none"].indexOf(b.vMode)<0){ bad(at+".vMode が不正"); return; }
         if(b.direction!==1 && b.direction!==-1){ bad(at+".direction は 1 か -1"); return; }
         if(typeof b.pinned!=="boolean"){ bad(at+".pinned(boolean)が必要"); return; }
         const oR={type:"ring", n:clamp(Math.round(b.n),0,N_CAP), cx:CO(b.cx,"cx"), cy:CO(b.cy,"cy"),
@@ -1679,6 +1828,7 @@ function validatePreset(obj){
           spinMin:SPN(Math.min(b.spinMin,b.spinMax),"spinMin"), spinMax:SPN(Math.max(b.spinMin,b.spinMax),"spinMax"),
           vMode:b.vMode, aroundMass:wc(b.aroundMass,0,5000,"aroundMass"), omega:wc(b.omega,-2,2,"omega"),
           vNoise:wc(b.vNoise,0,1,"vNoise"), direction:b.direction, pinned:b.pinned,
+          vScale:isNum(b.vScale)?wc(b.vScale,0,50,"vScale"):0,   // 第35便: vMode="hubble" の膨張率(他モードでは未使用)
           bulkVx:isNum(b.bulkVx)?VEL(b.bulkVx,"bulkVx"):0, bulkVy:isNum(b.bulkVy)?VEL(b.bulkVy,"bulkVy"):0};
         // 第31便: railH(膨張レール)— pinned リングを a(t)=e^{H·t} で相似膨張させる規定運動
         if(b.railH!==undefined){
@@ -1717,6 +1867,47 @@ function validatePreset(obj){
   if(p.rays!==undefined){
     if(!p.rays || !isNum(p.rays.n) || !isNum(p.rays.spread)) bad("rays.n/spread が不正です");
     else p.rays={n:clamp(Math.round(p.rays.n),0,64), spread:clamp(p.rays.spread,0,1)};
+  }
+  // 第35便(台帳4-62): integrator — 積分器の選択(最上位キー。universeBox/rays と同じ配置)。
+  // "semi"(既定・省略時)=セミ・インプリシット・オイラー(現行経路と厳密等価)、
+  // "leapfrog"=KDK 可逆積分器。不正値は "semi" へクランプ+警告(AI 生成スキーマ共通)
+  if(p.integrator!==undefined){
+    const INTEG=["semi","leapfrog"];
+    if(INTEG.indexOf(p.integrator)<0){ warnings.push("integrator が不正のため semi に修正"); p.integrator="semi"; }
+  }
+  // 第35便(台帳4-62): echoFlipAt — この時刻に達した最初のステップ終端で全粒子の v と s を
+  // 一度だけ反転する(Loschmidt echo。省略時は反転しない)。数値でなければ警告して無視
+  if(p.echoFlipAt!==undefined){
+    if(!isNum(p.echoFlipAt)){ warnings.push("echoFlipAt が数値でないため無視"); delete p.echoFlipAt; }
+    else{
+      const c=clamp(p.echoFlipAt,0,100000);
+      if(c!==p.echoFlipAt) warnings.push("echoFlipAt を値域に修正");
+      p.echoFlipAt=c;
+    }
+  }
+  // 第35便(台帳4-61): measureBox — 壁粒子群(bodies 定義順で最初の ring 群)の平均中心距離から
+  // 実測尺度因子 a_eff=⟨r⟩/⟨r⟩₀ を毎履歴周期で計測し、膨張グラフに「実測」として描く。
+  // universeBox(規定 a(t))との併用は未定義なので、規定を優先して measureBox を無視する
+  if(p.measureBox!==undefined){
+    if(typeof p.measureBox!=="boolean"){ warnings.push("measureBox が真偽値でないため無視"); delete p.measureBox; }
+    else if(p.measureBox && p.universeBox!==undefined){
+      warnings.push("measureBox は universeBox と併用できません — 規定 a(t) を優先し無視します");
+      p.measureBox=false;
+    }
+  }
+  // 第35便 W4(台帳4-55): drawScale — 描画専用の半径倍率(物理には一切影響しない。S.R・
+  // updateRadii・接触判定・E2/E3ドラッグ核は不変)。省略時は1(現行描画と厳密等価)。
+  // [0.4,4]にクランプ、非数は1に補正(常に有効な数値を持たせる — echoFlipAt の「無視」とは
+  // 扱いを変え、描画コード側で isNum チェックを増やさずに済ませる)。上限は当初3だったが、
+  // 広視野プリセット(camera.scale 420)の m=2 主役粒子が 3 では 1.97px 止まりだったため
+  // 上位レビューで 4 へ引き上げ(第35便 W4 レビューゲート裁定 — 描画専用のため物理リスクなし)
+  if(p.drawScale!==undefined){
+    if(!isNum(p.drawScale)){ warnings.push("drawScale が数値でないため1に修正"); p.drawScale=1; }
+    else{
+      const c=clamp(p.drawScale,0.4,4);
+      if(c!==p.drawScale) warnings.push("drawScale を値域に修正");
+      p.drawScale=c;
+    }
   }
   // 第31便: universeBox(連続背景 — BOX_UNIVERSE v1.2 §9)。W_B=D·a^{−dPower}、
   // u_B=V+Ω·J(r−c)+H·(r−c)。mode: static/exp(a=e^{H0·t})/lin(a=1+H0·t)/sin(a=1+amp·sin(freq·t+phase))
@@ -1833,6 +2024,9 @@ function makeSim(){
     pinned:null, railR:null, railAng:null, railOmega:null, railCx:null, railCy:null, railH:null,
     box:null, boxA:null,   // 第31便: UniverseBox 連続背景と現在stepの尺度キャッシュ {a,H,W}
     boxHist:null, _bhAcc:0, boxARef:1,   // 第32便: 尺度・赤方偏移の履歴(グラフ用データ層)と基準 a(0)
+    // 第35便(台帳4-61): 自由な箱 — 実測尺度因子 a_eff=⟨r⟩/⟨r⟩₀。measureBox が false の
+    // プリセットでは wallI0<0・boxHist=null のままで、step 側にも追加の分岐は増えない
+    measureBox:false, wallI0:-1, wallI1:-1, aEffRef:1, _bhLastA:1, _bhLastT:0,
     // 第33便(台帳4-63): 光子エンティティ。光の状態は「放出波長 lamE と放出時尺度 aE」の2値で
     // 保持し、現在波長は表示側が lamE·a(t)/aE で算出する(状態として持たないのが本裁定の
     // シンプルさ)。photonEmit の無いプリセットでは全て null のままでゼロコスト
@@ -1840,6 +2034,14 @@ function makeSim(){
     uPx:null,uPy:null,hasU:null, tau:null, ax:null,ay:null, sumW:null,uAx:null,uAy:null, ds:null,
     dpx:null,dpy:null, pairD:null,
     resPx:0,resPy:0,resL:0,radE:0,radL:0,   // リザーバ帳簿(E6′/E11。PHYSICS.md §5)
+    // 第35便(台帳4-62): 可逆積分器と Loschmidt echo(BOX_UNIVERSE §10.5)。
+    // integrator="semi"(既定=現行のセミ・インプリシット経路。1命令も変えないゼロコスト経路)
+    // / "leapfrog"(KDK。R∘F∘R=F⁻¹ が厳密に成り立つ可逆積分器)。
+    // echoFlipAt!==null のプリセットだけが速度・スピン反転と初期配置からの RMS 計測を行う
+    integrator:"semi", echoFlipAt:null, echoFlipped:false, echoFlipT:0, echoRMS:0,
+    echoX0:null, echoY0:null,
+    // 第35便 W4(台帳4-55): drawScale — 描画専用の半径倍率(既定1=現行描画と厳密等価。物理無関係)
+    drawScale:1,
     curveBins:null, curveKep:null, tempLR:[0,0], histT:[],
   };
   S.alloc = function(n){
@@ -1869,6 +2071,8 @@ function makeSim(){
     const noteBig=(o)=>{ if(o.m>=40) bigs.push({x:o.x,y:o.y,R:phys.radiusScale*Math.sqrt(o.m)}); };
     const insideBig=(x,y)=>{ for(const b of bigs){ const dx=x-b.x,dy=y-b.y;
       if(dx*dx+dy*dy<(b.R+1)*(b.R+1)) return true; } return false; };
+    // 第35便(台帳4-61): 壁粒子群 = bodies 定義順で最初の ring 群(measureBox の計測対象)
+    let wallI0=-1, wallI1=-1;
     for(const b of preset.bodies){
       if(b.type==="single"){
         const o={m:b.m,x:b.x,y:b.y,vx:b.vx,vy:b.vy,spin:b.spin,pinned:b.pinned?1:0,railOmega:0,
@@ -1890,6 +2094,7 @@ function makeSim(){
         }
         push(o); noteBig(o);
       } else if(b.type==="ring"){
+        const rI0=P.length;   // 第35便: この ring 群の先頭インデックス(hubble 初速と壁タグに使用)
         for(let i=0;i<b.n;i++){
           let ang,r,x,y,tries=0;
           do{
@@ -1917,6 +2122,19 @@ function makeSim(){
           }
           push(o);
         }
+        // 第35便(台帳4-61): vMode="hubble" — 群の重心 r̄ を中心とした放射方向初速 v=vScale·(r−r̄)。
+        // 重心基準にすることで、リング生成時の角度ジッタがあっても群の総運動量が厳密に 0 になる
+        // (自由な箱の「閉鎖系」を初期条件から保証する)。他の vMode では 1 命令も走らない
+        if(b.vMode==="hubble" && P.length>rI0){
+          const cnt=P.length-rI0; let cx=0, cy=0;
+          for(let k=rI0;k<P.length;k++){ cx+=P[k].x; cy+=P[k].y; }
+          cx/=cnt; cy/=cnt;
+          const vs=(b.vScale||0)*b.direction;
+          for(let k=rI0;k<P.length;k++){
+            P[k].vx=vs*(P[k].x-cx)+(b.bulkVx||0); P[k].vy=vs*(P[k].y-cy)+(b.bulkVy||0);
+          }
+        }
+        if(wallI0<0 && P.length>rI0){ wallI0=rI0; wallI1=P.length; }   // 第35便: 最初の ring 群=壁
       } else if(b.type==="disk"){
         for(let i=0;i<b.n;i++){
           let ang,r,x,y,tries=0;
@@ -1971,7 +2189,14 @@ function makeSim(){
     S.boxA=null;
     // 第32便: 赤方偏移の基準 a_ref=a(0)(phase≠0 の sin/pow は a(0)≠1 — z(0)=0 を保証)と履歴バッファ
     S.boxARef = S.box? boxScaleAt(S.box,0).a : 1;
-    S.boxHist = S.box? [] : null; S._bhAcc=0;
+    // 第35便(台帳4-61): 自由な箱の実測尺度因子。measureBox は universeBox(規定 a(t))と
+    // 排他(併用時は規定を優先 — validatePreset でも警告)。壁 ring 群が無ければ無効
+    S.wallI0=wallI0; S.wallI1=wallI1;
+    S.measureBox = !!(preset.measureBox===true && !S.box && wallI1>wallI0);
+    const aRef0 = S.measureBox? S.wallMeanR() : null;
+    S.aEffRef = (aRef0!==null && aRef0>0)? aRef0 : 1;
+    S._bhLastA=1; S._bhLastT=0;
+    S.boxHist = (S.box || S.measureBox)? [] : null; S._bhAcc=0;
     // 第33便: 光子の放出スケジュール(t 昇順)。photonEmit が無ければ全て null(ゼロコスト経路)
     const PE=preset.photonEmit;
     if(Array.isArray(PE) && PE.length){
@@ -1984,6 +2209,21 @@ function makeSim(){
     S._phI=0; S.photonWarn=false;
     S.world = preset.world; S.rays = preset.rays||null; S.overlays = preset.overlays||{};
     S.t=0; S.hasU.fill(0); S.tau.fill(0); S.updateRadii();
+    // 第35便(台帳4-62): 積分器の選択と Loschmidt echo の初期配置スナップショット。
+    // integrator の省略・不正値は "semi"(= 現行経路と厳密等価)。echoFlipAt があるときだけ
+    // t=0 の全粒子位置を Float64 で退避し、毎ステップ RMS(echoRMS)を公開する。
+    // 無指定のプリセットは全て null のままで追加コストゼロ
+    S.integrator = (preset.integrator==="leapfrog")? "leapfrog" : "semi";
+    S.echoFlipAt = isNum(preset.echoFlipAt)? preset.echoFlipAt : null;
+    S.echoFlipped=false; S.echoFlipT=0; S.echoRMS=0;
+    if(S.echoFlipAt!==null){
+      S.echoX0=new Float64Array(S.n); S.echoY0=new Float64Array(S.n);
+      for(let i=0;i<S.n;i++){ S.echoX0[i]=S.x[i]; S.echoY0[i]=S.y[i]; }
+    } else { S.echoX0=null; S.echoY0=null; }
+    // 第35便 W4(台帳4-55): drawScale — 描画専用の半径倍率。S.R/updateRadii/接触判定/E2・E3の
+    // ドラッグ核には一切使わない(4-55 最重要制約)。validatePreset 未経由の直接 build() 呼び出し
+    // (QAが素の preset オブジェクトを渡す場合など)にも備え、ここでも防御的にクランプする
+    S.drawScale = isNum(preset.drawScale)? clamp(preset.drawScale,0.4,4) : 1;
     S.resPx=0; S.resPy=0; S.resL=0; S.radE=0; S.radL=0;
     S.curveBins=null; S.tempLR=[0,0]; S.histT=[];
   };
@@ -2001,10 +2241,44 @@ function makeSim(){
     }
     S.hasCore=hc;   // コアなし(全 coreMR=0)の宇宙は従来ループのまま(高速化)
   };
-  // 1サブステップ(PHYSICS.md v1.1 §5 数値スキーム: ①全対 → ②粒子 → ③反作用対 → ④位置)
+  // 第35便(台帳4-62): 積分器の入口。既定("semi")は _core を1回呼ぶだけで現行と厳密等価
+  // (ゼロコスト経路 — QA integrator.default-unchanged が位置ハッシュの bit 一致で保証)。
+  // "leapfrog" は KDK(kick–drift–kick): パスA=力評価+半キック+ドリフト、
+  // パスB=力再評価+半キック(+②b/③/時計/t進み)。力評価は既存の全対ループをそのまま
+  // 2回使う(O(N²)×2 — echo サンプルは N≤50 なので性能影響なし)。
+  // KDK は t→−t・v→−v で厳密対称なので、散逸チャネルが全て 0 の構成では反転エコーが戻る。
   S.step = function(dt){
+    if(S.integrator==="leapfrog"){ S._core(dt,1); S._core(dt,2); }
+    else S._core(dt,0);
+    if(S.echoFlipAt!==null) S._echo();
+  };
+  // 第35便(台帳4-62): Loschmidt echo — t が echoFlipAt に達した最初のステップ終端で、
+  // 全粒子の v と s の符号を一度だけ反転する(pinned 含む・再反転はしない)。
+  // 光子・レール・universeBox はこの反転の対象外(粒子のみ反転 — 本便の主張域外。
+  // 併用しても実行時エラーにはならないが、エコーの成立は保証しない)。
+  // echoRMS は初期配置(t=0)からの平均二乗根距離で、QA が page.evaluate で読む公開値
+  S._echo = function(){
+    if(!S.echoFlipped && S.t>=S.echoFlipAt){
+      for(let i=0;i<S.n;i++){ S.vx[i]=-S.vx[i]; S.vy[i]=-S.vy[i]; S.spin[i]=-S.spin[i]; }
+      S.echoFlipped=true; S.echoFlipT=S.t;
+    }
+    if(S.echoX0 && S.n){
+      let s2=0;
+      for(let i=0;i<S.n;i++){ const dx=S.x[i]-S.echoX0[i], dy=S.y[i]-S.echoY0[i]; s2+=dx*dx+dy*dy; }
+      S.echoRMS=Math.sqrt(s2/S.n);
+    }
+  };
+  // 1サブステップ(PHYSICS.md v1.1 §5 数値スキーム: ①全対 → ②粒子 → ③反作用対 → ④位置)
+  // mode: 0=semi(現行の全フェーズ・全キック) / 1=leapfrog パスA / 2=leapfrog パスB
+  S._core = function(dt, mode){
     const n=S.n, p=S.params;
-    if(!n){ S.t+=dt; return; }
+    // 第35便: leapfrog(KDK)のフェーズ選択。mode=0(semi)では kickDt=dt かつ全フラグ true
+    // となり、現行コードと1命令も違わない(分岐の値だけが変わる)
+    const kickDt=(mode!==0)? dt*0.5 : dt;   // 半キック
+    const doPre =(mode!==2);   // レール規定運動・光子放出・E9 の非保存インパルス(1サブステップ1回)
+    const doPost=(mode!==1);   // ②b(外場/E6′/拡散/冷却)・③反作用・時計・t進み・履歴・光子伝播
+    const doDrift=(mode!==2);  // ④位置更新+境界(KDK のドリフトはパスAのみ)
+    if(!n){ if(doPost) S.t+=dt; return; }
     // 第12〜14便: m は下限保護(|m|≥0.01)付き別名 mEff を一貫使用(負質量実験の0除算保護。
     // 第14便: 比率仕様 — m は総質量そのもので、コアは m の内訳。運動量・角運動量の恒等式は
     // 全用途一貫なら保存される。coreMR=0(既定)なら従来と厳密等価)
@@ -2031,7 +2305,7 @@ function makeSim(){
     // railOmega/railH が非0になるのは build 経由のみ(alloc で railIdx=null に戻る)。編集パネルの固定解除は
     // railOmega=0 にするだけなのでループ内の再判定で追従する(A/B転写も同一プリセット構築後の遅延再構築)
     if(S.railIdx===null){ const li=[]; for(let i=0;i<n;i++) if(pinned[i]&&(S.railOmega[i]!==0||S.railH[i]!==0)) li.push(i); S.railIdx=li; }
-    for(const i of S.railIdx){
+    if(doPre) for(const i of S.railIdx){   // 第35便: 規定運動の前進は1サブステップ1回(leapfrog はパスAのみ)
       if(pinned[i] && (S.railOmega[i]!==0 || S.railH[i]!==0)){
         S.railAng[i]+=S.railOmega[i]*dt;
         const a=S.railAng[i], hh=S.railH[i];
@@ -2050,7 +2324,7 @@ function makeSim(){
     // 同じ主張水準)。状態は放出波長 lamE と放出時尺度 aE の2値だけで、現在波長は
     // lamE·a(t)/aE として表示側が算出する。箱(universeBox)が無い宇宙では a=1 固定で λ 不変。
     // 方位は決定論(aim 指定=対象粒子方向の1光子 / 省略=固定8方位 i/8·2π。乱数不使用)
-    if(S._phSched){
+    if(doPre && S._phSched){   // 第35便: 放出も1サブステップ1回(leapfrog はパスAのみ)
       while(S._phI<S._phSched.length && S._phSched[S._phI].t<=S.t){
         const e=S._phSched[S._phI++];
         if(!(e.body>=0 && e.body<n) || (e.aim>=0 && e.aim>=n)){ S.photonWarn=true; continue; }
@@ -2149,7 +2423,10 @@ function makeSim(){
           if(maxInv>0 && Fs*maxInv>8) Fs=8/maxInv;
           ax[i]+=Fs*nxv*invMi; ay[i]+=Fs*nyv*invMi;
           ax[j]-=Fs*nxv*invMj; ay[j]-=Fs*nyv*invMj;
-          if(K>0){
+          // 第35便: 法線ばね(上)は保存力なので毎回の力評価に含めるが、γn 減衰と接線摩擦は
+          // 速度・スピンを直接書き換える非保存インパルスなので 1サブステップ1回だけ適用する
+          // (leapfrog で2回適用すると散逸レートが semi の2倍になってしまう)
+          if(K>0 && doPre){
             const rvx=vx[i]-vx[j], rvy=vy[i]-vy[j];
             const vn=rvx*nxv+rvy*nyv;
             if(vn<0){ // 接近時のみ法線減衰(非弾性)。散逸分は衝突閃光として放射(A12)
@@ -2218,7 +2495,11 @@ function makeSim(){
     let anyDp=false;
     for(let i=0;i<n;i++){
       if(pinned[i]) continue;
-      vx[i]+=ax[i]*dt; vy[i]+=ay[i]*dt;
+      vx[i]+=ax[i]*kickDt; vy[i]+=ay[i]*kickDt;   // 第35便: semi は kickDt=dt、leapfrog は dt/2 の半キック
+      // 第35便: 以下の②b(外場・E6′・FLRW・スピン拡散・放射冷却)は現行と同じ箇所・同じ量を
+      // 1サブステップ1回だけ適用する(leapfrog ではパスB = 位置更新後の力評価と同じ相)。
+      // これらが 0 でない構成では leapfrog でも可逆にならない — それが「時間の矢」デモの本体
+      if(doPost){
       // v1.17: 一様重力場(外部場)。W に寄与しない純粋な外力なので時計・光は歪めない。
       // 運動量・角運動量の変化は場との交換として帳簿(リザーバ)に記録する(T7 の恒等式を維持)
       if(gX!==0||gY!==0){
@@ -2274,8 +2555,10 @@ function makeSim(){
         S.radE+=0.5*Ii*(s0*s0-s1*s1); S.radL+=Ii*(s0-s1);
         spin[i]=s1;
       }
+      }   // 第35便: if(doPost) の閉じ
     }
     // ===== ③ E6′ 反作用対ループ: φ_ij 分配・残余トルクのスピン移譲・リザーバ帳簿 =====
+    // 第35便: anyDp は doPost の中でしか立たないので、leapfrog パスAでは自動的に素通りする
     if(kFrame>0 && anyDp){
       let pk2=0;
       for(let i=0;i<n;i++){
@@ -2334,13 +2617,18 @@ function makeSim(){
     // ===== ④ 粒子ループ: 安全上限・位置更新・境界・時計 =====
     const b=S.world;
     for(let i=0;i<n;i++){
-      S.rotA[i]+=spin[i]*dt;   // v1.17: 表示用の累積回転角(大粒子のスポーク描画で回転方向を可視化)
-      if(hasCore && coreMR[i]!==0) S.rotAc[i]+=coreSR[i]*spin[i]*dt;   // コアのスポーク角(sc=coreSR·s)
-      if(pinned[i]){ S.tauUpdate(i,dt); continue; }
+      // 第35便: 表示用回転角と固有時計は1サブステップ1回(doPost)、位置更新+境界は
+      // KDK のドリフト相(doDrift=パスA)。mode=0(semi)では両方 true で現行と同一の並び
+      if(doPost){
+        S.rotA[i]+=spin[i]*dt;   // v1.17: 表示用の累積回転角(大粒子のスポーク描画で回転方向を可視化)
+        if(hasCore && coreMR[i]!==0) S.rotAc[i]+=coreSR[i]*spin[i]*dt;   // コアのスポーク角(sc=coreSR·s)
+      }
+      if(pinned[i]){ if(doPost) S.tauUpdate(i,dt); continue; }
       // 安全上限(発散防止): 速度100・スピン±40
       const vv2=vx[i]*vx[i]+vy[i]*vy[i];
       if(vv2>10000){ const sc=100/Math.sqrt(vv2); vx[i]*=sc; vy[i]*=sc; }
       if(spin[i]>40) spin[i]=40; else if(spin[i]<-40) spin[i]=-40;
+      if(doDrift){
       x[i]+=vx[i]*dt; y[i]+=vy[i]*dt;
       // 境界
       if(b.boundary==="box"){
@@ -2354,8 +2642,12 @@ function makeSim(){
           if(vr>0){ vx[i]-=2*vr*nx2*0.975; vy[i]-=2*vr*ny2*0.975; }
           x[i]=nx2*s; y[i]=ny2*s; }
       }
-      S.tauUpdate(i,dt);
+      }   // 第35便: if(doDrift) の閉じ
+      if(doPost) S.tauUpdate(i,dt);
     }
+    // 第35便: 以降(近点検出器・t進み・尺度履歴・光子伝播)は 1サブステップ1回。
+    // leapfrog パスA(doPost=false)はここで終了し、パスBが引き継ぐ
+    if(!doPost) return;
     // ===== 近点検出器(第11次裁定 保留分の実施): E13 中心天体のあるプリセットで、各周回粒子の
     // 動径極小(近点)通過角を追跡し Δϖ/周 を実測する。UI が解析値と並べて表示(QA も機械検証)。
     // 数値ジッタの擬似極小を拾わないよう 2% ヒステリシス方式: 最小値候補から r が 2% 立ち上がって
@@ -2389,11 +2681,25 @@ function makeSim(){
     }
     S.t+=dt;
     // 第32便: 尺度・赤方偏移の履歴(25サブステップ=0.4時間単位ごと・上限720点。描画は W2)
-    if(S.box && S.boxHist){
+    if(S.boxHist){   // 第35便: boxHist は universeBox か measureBox のときだけ非 null(既定はゼロコスト)
       if(++S._bhAcc>=25){ S._bhAcc=0;
-        const sc=boxScaleAt(S.box,S.t);
-        S.boxHist.push({t:S.t, a:sc.a, H:sc.H, z:sc.a/S.boxARef-1});
-        if(S.boxHist.length>720) S.boxHist.shift();
+        if(S.box){
+          const sc=boxScaleAt(S.box,S.t);
+          S.boxHist.push({t:S.t, a:sc.a, H:sc.H, z:sc.a/S.boxARef-1});
+          if(S.boxHist.length>720) S.boxHist.shift();
+        } else {
+          // 第35便(台帳4-61): 実測 a_eff=⟨r⟩/⟨r⟩₀ と、前回サンプルとの対数差分から出す H_eff。
+          // 壁が全滅していれば更新をスキップ(ゼロ除算禁止)。z は universeBox の規定 a に
+          // 結び付いた規則なので実測 a_eff には適用しない(0 固定・表示もしない)
+          const ae=S.boxAEff();
+          if(ae!==null){
+            const dtH=S.t-S._bhLastT;
+            const He=(dtH>1e-9 && S._bhLastA>0)? Math.log(ae/S._bhLastA)/dtH : 0;
+            S.boxHist.push({t:S.t, a:ae, H:He, z:0});
+            S._bhLastA=ae; S._bhLastT=S.t;
+            if(S.boxHist.length>720) S.boxHist.shift();
+          }
+        }
       }
     }
     // 第33便(台帳4-63): 光子の伝播(1ステップ分)。光学は traceRay と同一(E8R: 重い粒子
@@ -2455,6 +2761,26 @@ function makeSim(){
     const c0=S.params.cLight;
     const rad=N*N - A*A*(rvx*rvx+rvy*rvy)/(c0*c0);
     S.tau[i]+= rad>0 ? dt*Math.sqrt(rad) : 0; // 根号内≤0 = 局所光速超過(非物理域)→ 時計停止
+  };
+  // 第35便(台帳4-61): 自由な箱の実測尺度因子。壁粒子群(build が記録した最初の ring 群)の
+  // 平均中心距離 ⟨r⟩ を返す。中心は群自身の平均位置 — 自由な箱では原点に固定できないため
+  // (系全体が並進しても a_eff が変わらない)。粒子が1つも残っていなければ null(ゼロ除算禁止)
+  S.wallMeanR = function(){
+    const i0=S.wallI0, i1=Math.min(S.wallI1, S.n), cnt=i1-i0;
+    if(!(i0>=0 && cnt>0)) return null;
+    let cx=0, cy=0;
+    for(let i=i0;i<i1;i++){ cx+=S.x[i]; cy+=S.y[i]; }
+    cx/=cnt; cy/=cnt;
+    let sum=0;
+    for(let i=i0;i<i1;i++){ const dx=S.x[i]-cx, dy=S.y[i]-cy; sum+=Math.sqrt(dx*dx+dy*dy); }
+    const r=sum/cnt;
+    return (r>0 && isFinite(r))? r : null;
+  };
+  // 実測尺度因子 a_eff(t)=⟨r⟩(t)/⟨r⟩(0)。measureBox でないプリセットでは null(規定 a(t) と混同しない)
+  S.boxAEff = function(){
+    if(!S.measureBox) return null;
+    const r=S.wallMeanR();
+    return (r===null || !(S.aEffRef>0))? null : r/S.aEffRef;
   };
   // 第32便: 赤方偏移(意味論: 波長は a に比例して伸びる。1+z=a_obs/a_emit で基準は build 時の a(0))
   S.boxRedshift = function(){
@@ -2760,7 +3086,8 @@ function overlaySlots(){
   if(sim.overlays.tempHistogram) s.push("tempHistogram");
   if(sim.overlays.spectrum) s.push("spectrum");
   // 第32便(W2): 膨張グラフ — sim.box が無いプリセットでは(トグルがONでも)スロットを割り当てない
-  if(sim.overlays.boxGraph && sim.box) s.push("boxGraph");
+  // 第35便(台帳4-61): 自由な箱(measureBox)は規定 a(t) を持たないが実測 a_eff を描くので対象に含める
+  if(sim.overlays.boxGraph && (sim.box || sim.measureBox)) s.push("boxGraph");
   return s;
 }
 // 第26便(原仮定者指示): グラフの最小化 — キーごとの状態と可変高さのスロット積み。
@@ -2985,9 +3312,15 @@ function wavelengthColor(nm){
 // 第33便: 到着ログ(photonLog)を下部に最大3件追加するため、件数に応じて下方向へ拡張する
 // (原点は overlayBaseY(slot) のまま不変 — 最小化トグル ovDrawToggle の位置と整合を保つ。
 //  選択粒子の情報行と同時に3件表示される稀なケースでは視覚的に重なり得るが表示専用の軽微な制約)
+// 第35便(台帳4-61): 自由な箱(measureBox)では規定 a(t) が無いので、壁粒子群から計測した
+// 実測 a_eff=⟨r⟩/⟨r⟩₀ を同じ折れ線に描き、見出しに「実測」を付けて規定 a(t) と区別する。
+// 赤方偏移カラーバー・z は universeBox の規定 a に結び付いた規則なので実測では表示しない
+// (未裁定の意味論を勝手に拡張しない — 空いた領域には計測式の注記を出す)
 function drawBoxGraph(slot=0){
-  if(ovOverlayMin("boxGraph",slot,T("ovBoxGraph"))) return;   // 最小化中はタイトルバーのみ
-  if(!sim.box) return;   // 箱無しでは何も描かない(エッジケース表)
+  const meas=!sim.box && !!sim.measureBox;
+  const title=meas? T("ovBoxGraphMeas") : T("ovBoxGraph");   // 実測は専用見出し(既定見出しは横幅ぎりぎり)
+  if(ovOverlayMin("boxGraph",slot,title)) return;   // 最小化中はタイトルバーのみ
+  if(!sim.box && !meas) return;   // 箱も実測もなければ何も描かない(エッジケース表)
   const arrivals=(sim.photonLog||[]).slice(-3).reverse();   // 新しい順に最大3件
   const extraH=arrivals.length? (9+arrivals.length*9) : 0;
   const uz=uiFontScale, W=150,H=92+extraH,X=0,Y=0;
@@ -2995,10 +3328,11 @@ function drawBoxGraph(slot=0){
   ctx.fillStyle="rgba(12,16,34,0.82)"; ctx.fillRect(X,Y,W,H);
   ctx.strokeStyle="#2a3060"; ctx.strokeRect(X,Y,W,H);
   ctx.font="8px sans-serif"; ctx.fillStyle="#8b93c8";
-  ctx.fillText(T("ovBoxGraph"),X+6,Y+9);
+  ctx.fillText(title,X+6,Y+9);
   // a(t)/H(t) の折れ線(boxHist 全点。720点固定・軽量なので qLevel 連動は不要)
   const hist=sim.boxHist||[];
-  const chartX0=X+8, chartX1=X+W-8, chartY0=Y+12, chartY1=Y+42;
+  // 第35便: 実測モードは赤方偏移カラーバーを描かないので、空いた分だけ折れ線を縦に広げる
+  const chartX0=X+8, chartX1=X+W-8, chartY0=Y+12, chartY1=meas? Y+62 : Y+42;
   if(hist.length>=2){
     let aMin=Infinity, aMax=-Infinity, hMax=1e-6;
     for(const p of hist){ if(p.a<aMin) aMin=p.a; if(p.a>aMax) aMax=p.a; if(Math.abs(p.H)>hMax) hMax=Math.abs(p.H); }
@@ -3014,6 +3348,18 @@ function drawBoxGraph(slot=0){
     ctx.strokeStyle="#ff9d45"; ctx.setLineDash([3,2]); ctx.beginPath();
     hist.forEach((p,k)=>{ k? ctx.lineTo(px(p.t),pyH(p.H)) : ctx.moveTo(px(p.t),pyH(p.H)); });
     ctx.stroke(); ctx.setLineDash([]);
+  }
+  // 第35便(台帳4-61): 実測モード — 現在値は a_eff と直近サンプルの H_eff。赤方偏移系は描かない
+  if(meas){
+    const ae=sim.boxAEff(), last=hist.length? hist[hist.length-1] : null;
+    const He=last? last.H : 0;
+    ctx.font="8px sans-serif"; ctx.fillStyle="#dfe4ff";
+    ctx.fillText(`a_eff=${ae===null?"—":ae.toFixed(3)}  H_eff=${(He>=0?"+":"")+He.toFixed(4)}`,X+6,Y+73);
+    ctx.font="6px sans-serif"; ctx.fillStyle="#5a6090";
+    ctx.fillText(T("ovBoxMeasNote"),X+6,Y+86);
+    ctx.restore();
+    ovDrawToggle("boxGraph",slot);
+    return;
   }
   // 現在値テキスト(a・z は boxRedshift()、H は同じ t の boxScaleAt から — 表示専用の純関数呼び出し)
   const rz=sim.boxRedshift();
@@ -3138,12 +3484,14 @@ function render(){
     tempP90EMA+= (p90-tempP90EMA)*0.4;
   }
   // 粒子(第29便: 表示半径は品質連動で頭打ち — 正確=半径準拠のまま。物理半径Rはそのまま)
-  const rCap=drawRadiusCap(), glowOn=qLevel()===0;
+  // 第35便 W4(台帳4-55): dscale=drawScale(描画専用。既定1で以下は現行と厳密等価)。
+  // cap は drawScale 適用後の px 値に効かせる(min の内側に掛けることで順序を保つ)
+  const rCap=drawRadiusCap(), glowOn=qLevel()===0, dscale=sim.drawScale||1;
   for(let i=0;i<sim.n;i++){
     const sx=w2sX(sim.x[i]), sy=w2sY(sim.y[i]);
     if(sx<-40||sx>cw+40||sy<-40||sy>ch+40) continue;
     const T=0.5*sim.m[i]*sim.R[i]*sim.R[i]*sim.spin[i]*sim.spin[i]*sim.obsT[i]*(1-sim.lSw[i]);
-    const rr=Math.max(1.2,Math.min(sim.R[i]*z,rCap));  // 第25便: 半径準拠固定 → 第29便: 品質連動上限
+    const rr=Math.max(1.2,Math.min(sim.R[i]*z*dscale,rCap));  // 第25便: 半径準拠固定 → 第29便: 品質連動上限 → 第35便: drawScale
     const col=tempColor(Math.min(1,Math.sqrt(Math.max(0,T)/Math.max(1e-4,tempP90EMA))));   // 第12便: 負質量はT=0色
     if(rr>=7 && glowOn){ // 大きな天体はグロー付きで描く(第29便: 自動縮退・軽量ではグロー省略)
       const g=ctx.createRadialGradient(sx,sy,rr*0.4,sx,sy,rr*2.4);
@@ -3165,7 +3513,7 @@ function render(){
     // 第12〜14便: 主星2層 — コア(coreMR≠0)を内側の暗い円+白スポークで可視化(差動回転が見える)。
     // 空洞(coreMR<0)はさらに暗い「穴」として描く
     if(sim.coreMR[i]!==0 && rr>=7){
-      const rc=Math.max(3,Math.min(sim.Rc[i]*z,rr*0.92));
+      const rc=Math.max(3,Math.min(sim.Rc[i]*z*dscale,rr*0.92));
       // 第22便: コア観測温度比率 coreOT — 既定(coreOT=1・掻き出しなし)以外は観測温度色で描く
       if(sim.coreMR[i]>0 && (sim.coreOT[i]!==1||sim.lSw[i]!==0)){
         const sc2=sim.coreSR[i]*sim.spin[i];
@@ -3225,9 +3573,9 @@ function render(){
   if(selIdx>=0&&selIdx<sim.n){
     const i=selIdx, sx=w2sX(sim.x[i]), sy=w2sY(sim.y[i]);
     ctx.strokeStyle="#59d499"; ctx.lineWidth=1.5;
-    ctx.beginPath(); ctx.arc(sx,sy,Math.max(6,sim.R[i]*z+5),0,7); ctx.stroke();
+    ctx.beginPath(); ctx.arc(sx,sy,Math.max(6,sim.R[i]*z*dscale+5),0,7); ctx.stroke();
     const frac=sim.t>0? sim.tau[i]/sim.t : 1;
-    ctx.beginPath(); ctx.arc(sx,sy,Math.max(10,sim.R[i]*z+9),-Math.PI/2,-Math.PI/2+frac*Math.PI*2);
+    ctx.beginPath(); ctx.arc(sx,sy,Math.max(10,sim.R[i]*z*dscale+9),-Math.PI/2,-Math.PI/2+frac*Math.PI*2);
     ctx.strokeStyle="#ffd166"; ctx.stroke(); ctx.lineWidth=1;
     // 温度 T=Is² と放射ピーク波長 λ=b_m/T(A12 分光温度計)を併記
     const Ti=0.5*sim.m[i]*sim.R[i]*sim.R[i]*sim.spin[i]*sim.spin[i]*sim.obsT[i]*(1-sim.lSw[i]);
@@ -3253,7 +3601,7 @@ function render(){
   if(sim.overlays.tempHistogram) drawTempHistogram(slots.indexOf("tempHistogram"));
   if(sim.overlays.spectrum) drawSpectrum(slots.indexOf("spectrum"));
   // 第32便(W2): 膨張グラフ。A/B比較は renderAB() 側(未変更)を通るためここには来ない(単独表示のみ)
-  if(sim.overlays.boxGraph && sim.box) drawBoxGraph(slots.indexOf("boxGraph"));
+  if(sim.overlays.boxGraph && (sim.box || sim.measureBox)) drawBoxGraph(slots.indexOf("boxGraph"));   // 第35便: 実測 a_eff も対象
   // 近点検出器の UI 表示(第11次裁定 保留分): 最内粒子の実測 Δϖ/周 と E13 解析値を左上に併記
   if(sim.zonal && sim.periDet){
     const P=sim.periDet; let bi=-1, ba=1e18;
@@ -3315,11 +3663,12 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
     ts.sort(); p90=Math.max(1e-4, ts[Math.floor(0.9*(S.n-1))]);
     S._p90=p90;
   }
+  const dscale=S.drawScale||1;   // 第35便 W4(台帳4-55): 描画専用倍率(既定1で以下は現行と厳密等価)
   for(let i=0;i<S.n;i++){
     const px=sx(S.x[i]), py=sy(S.y[i]);
     if(px<-40||px>cw+40||py<y0-40||py>y0+hgt+40) continue;
     const Ti=0.5*S.m[i]*S.R[i]*S.R[i]*S.spin[i]*S.spin[i]*S.obsT[i]*(1-S.lSw[i]);
-    const rr=Math.max(1.2,Math.min(S.R[i]*z,drawRadiusCap()));   // 第29便: 品質連動上限(正確=半径準拠)
+    const rr=Math.max(1.2,Math.min(S.R[i]*z*dscale,drawRadiusCap()));   // 第29便: 品質連動上限(正確=半径準拠)→第35便: drawScale
     ctx.fillStyle=tempColor(Math.min(1,Math.sqrt(Math.max(0,Ti)/p90)));   // 第12便: 負質量はT=0色
     ctx.beginPath(); ctx.arc(px,py,rr,0,7); ctx.fill();
     if(rr>=7 && Math.abs(S.spin[i])>1e-4){ // v1.17: 回転方向スポーク(A/B側も同様)
@@ -3331,7 +3680,7 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
       ctx.lineWidth=1;
     }
     if(S.coreMR[i]!==0 && rr>=7){   // 主星2層のコア(A/B側も同様。空洞=より暗い穴)
-      const rc=Math.max(3,Math.min(S.Rc[i]*z,rr*0.92));
+      const rc=Math.max(3,Math.min(S.Rc[i]*z*dscale,rr*0.92));
       if(S.coreMR[i]>0 && (S.coreOT[i]!==1||S.lSw[i]!==0)){   // 第22便: 観測温度色(A側と同様)
         const sc2=S.coreSR[i]*S.spin[i];
         const Tc=S.coreOT[i]*(1-S.lSw[i])*0.5*Math.abs(S.coreMR[i]*S.m[i])*S.Rc[i]*S.Rc[i]*sc2*sc2;
@@ -3351,7 +3700,7 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
     if(S.pinned[i]){ ctx.strokeStyle="rgba(255,255,255,0.75)"; ctx.beginPath(); ctx.arc(px,py,rr+2,0,7); ctx.stroke(); }
     if(selIdx===i && S===selSimRef()){   // 第12便: A/B比較中の選択リング(選択された宇宙側にのみ描く)
       ctx.strokeStyle="#59d499"; ctx.lineWidth=1.5;
-      ctx.beginPath(); ctx.arc(px,py,Math.max(6,S.R[i]*z+5),0,7); ctx.stroke(); ctx.lineWidth=1;
+      ctx.beginPath(); ctx.arc(px,py,Math.max(6,S.R[i]*z*dscale+5),0,7); ctx.stroke(); ctx.lineWidth=1;
     }
   }
   // v1.19: 線の軌跡(A/B比較でも表示)
@@ -3447,12 +3796,23 @@ function loop(now){
       const rz=sim.boxRedshift();
       txt+=`  z=${(rz.z>=0?"+":"")+rz.z.toFixed(3)}`;
     }
+    // 第35便(台帳4-61): 自由な箱 — 規定 a(t) ではなく壁から計測した実測尺度因子であることを明示する
+    else if(sim.measureBox){
+      const ae=sim.boxAEff();
+      if(ae!==null) txt+=`  a_eff=${ae.toFixed(3)}(${T("ovBoxMeas")})`;
+    }
     // 第33便(台帳4-63): boxGraph が無い(トグルOFF)か箱なしのプリセットで photonLog がある場合、
     // HUD末尾に最新1件だけ λ500→502(z=+0.004) の様式で追記(箱なしでは z=0。実装2)
-    if(!(sim.overlays.boxGraph && sim.box) && sim.photonLog && sim.photonLog.length){
+    if(!(sim.overlays.boxGraph && (sim.box || sim.measureBox)) && sim.photonLog && sim.photonLog.length){
       const pe=sim.photonLog[sim.photonLog.length-1];
       const zTxt=(pe.z>=0?"+":"")+pe.z.toFixed(3);
       txt+=`  ${T("hudPhoton")(Math.round(pe.lamE),Math.round(pe.lamO),zTxt)}`;
+    }
+    // 第35便(台帳4-62): Loschmidt echo — echoFlipAt を持つプリセットだけ、初期配置からの
+    // RMS と反転済みマークを HUD 末尾に追記する(他のプリセットでは1文字も増えない)
+    if(sim.echoFlipAt!==null){
+      txt+=`  ${T("hudEcho")(sim.echoRMS)}`;
+      if(sim.echoFlipped) txt+=`  ${T("hudEchoFlipped")}`;
     }
     if(monitorOn){ // 保存量モニタ(T7): P+帳簿P・L+帳簿L+放射L が一定なら保存則成立
       const tt=sim.totals();
@@ -3603,6 +3963,15 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   }
   simB.t=sim.t; simB.resPx=sim.resPx; simB.resPy=sim.resPy; simB.resL=sim.resL;
   simB.radE=sim.radE; simB.radL=sim.radL;
+  // 第35便(台帳4-62): 積分器と echo の状態も転写(build 済みなので echoX0/Y0 は同一配置。
+  // 反転済みフラグ・RMS だけは現在値を引き継ぐ — A/B を反転後に開始しても再反転しない)
+  simB.integrator=sim.integrator; simB.echoFlipAt=sim.echoFlipAt;
+  simB.echoFlipped=sim.echoFlipped; simB.echoFlipT=sim.echoFlipT; simB.echoRMS=sim.echoRMS;
+  // 第35便(台帳4-61): 自由な箱の実測尺度因子。build 済みなので壁タグ・基準⟨r⟩は同値だが、
+  // 併走の起点を揃えるため H_eff の前回サンプル(_bhLastA/_bhLastT)も明示的に引き継ぐ
+  simB.measureBox=sim.measureBox; simB.wallI0=sim.wallI0; simB.wallI1=sim.wallI1;
+  simB.aEffRef=sim.aEffRef; simB._bhLastA=sim._bhLastA; simB._bhLastT=sim._bhLastT;
+  simB.drawScale=sim.drawScale;   // 第35便 W4(台帳4-55): 描画専用倍率もA/B両画面で揃える
   simB.params=Object.assign({},sim.params);
   simB.world=JSON.parse(JSON.stringify(sim.world));
   simB.rays=sim.rays?JSON.parse(JSON.stringify(sim.rays)):null;
@@ -4577,8 +4946,27 @@ function renderHelp(){
     for(const r of refs) mk("p","・"+r+" — "+lawText(r));
     mk("p",T("helpTheoryNote")).style.color="var(--dim)";
   }
-  // v1.15(第7次裁定): 外部要素バッジ — 固定粒子・レール・熱浴と閉鎖系を区別して表示
-  const ext=externalTags(currentPreset);
+  // 第35便 W4(台帳4-54): サンプル分類バッジ — 「外部要素(自動判定)」見出しの直上にチップ列で表示。
+  // 既存の箇条書き(下記)は詳細のまま残し、バッジは要約という位置づけ
+  const cls=classifyPreset(currentPreset);
+  const chipRow=document.createElement("div"); chipRow.id="classChips";
+  const addChip=(g,label,tip)=>{
+    const s=document.createElement("span"); s.className="classChip"; s.dataset.g=g; s.textContent=label;
+    if(tip) s.title=tip;
+    chipRow.appendChild(s);
+  };
+  for(const layer of cls.layers){
+    if(layer==="core") addChip("core",T("bdgCore"),T("bdgCoreTip"));
+    else if(layer==="extension") addChip("extension",T("bdgExtension"),T("bdgExtensionTip"));
+    else if(layer==="background") addChip("background",T("bdgBackground"),T("bdgBackgroundTip"));
+    else if(layer==="semantic") addChip("semantic",T("bdgSemantic"),T("bdgSemanticTip"));
+    else if(layer==="comparison") addChip("comparison",T("bdgComparison"),T("bdgComparisonTip"));
+  }
+  if(cls.external.rail||cls.external.pin||cls.external.bath||cls.external.grav) addChip("drive",T("bdgDrive"),T("bdgDriveTip"));
+  if(cls.closed) addChip("closed",T("bdgClosed"),T("bdgClosedTip"));
+  el.appendChild(chipRow);
+  // v1.15(第7次裁定): 外部要素バッジ — 固定粒子・レール・熱浴と閉鎖系を区別して表示(詳細=箇条書き)
+  const ext=cls.external;
   mk("h4",T("extHead"));
   if(ext.rail) mk("p","・"+T("extRail"));
   if(ext.pin) mk("p","・"+T("extPinned")(ext.pin));
@@ -5364,7 +5752,7 @@ function zonalApsidal(mu, refR, J, a, calib){
 window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extractJSON,
   verify:VERIFY, traceRay, getSystemPrompt, aiCfg, T:(k)=>T(k), lang:()=>LANG,
   extractLawRefs, lawText, ab:()=>ab, abStart, abStop,
-  externalTags, APP_VERSION, currentPreset:()=>currentPreset,  // v1.15: バッジ/バージョン同期のQA用
+  externalTags, classifyPreset, APP_VERSION, currentPreset:()=>currentPreset,  // v1.15/第35便W4: バッジ/バージョン同期のQA用
   speedMul:()=>speedMul, trailBufs:()=>({a:trailBuf,b:trailBufB}),  // v1.19: QA用
   overlaySlots, overlayBaseY, PARAM_DEFS, paramDesc,  // v1.21: スロット配置/パラメータ説明のQA用
   ovMin, aiUserContent,  // 第26便: グラフ最小化/AIベースサンプルのQA用
