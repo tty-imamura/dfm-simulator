@@ -26,6 +26,20 @@ const SEEDS = process.env.SEEDS
 const GALAXY_STEPS = 6000;     // tests/qa.mjs:1433 (for k<6000)と同じ步数
 const DARKROTOR_STEPS = 6000;  // tests/qa.mjs:2410-2414 (blk<12 * 500步 = 6000)と同じ步数
 
+// ---- 第36便 E1(台帳4-49): 半径依存曲線 v(r)/v_bar(r) の8帯プロファイル(galaxy専用・追加節) ----
+// 帯は r=40〜300 を8等分(等間隔)。v_bar(r) の計算式は beta/index.html:3138-3153(curveVBarAt。
+// git show HEAD:beta/index.html で確定版を確認)を転記 — tests/qa.mjs:3377-3433 の
+// curve.vbar-degenerate/curve.vbar-distributed が検証している式と同一(中心(cx,cy)まわり8方位点の
+// 平均動径加速度 a_r=⟨-(a・r̂)⟩ から v_bar=√(r·a_r)〔a_r≤0 なら0〕を求める)。galaxy 中心BHは
+// beta/index.html:1252 で x:0,y:0・pinned:true のため中心は(0,0)固定でよい。
+// v(r) 実測式は下記 outer()(qa.mjs:1429-1432 転記)の vφ=(x·vy−y·vx)/r を8帯へ汎用化したもの。
+const PROFILE_N = 8, PROFILE_RMIN = 40, PROFILE_RMAX = 300;
+const PROFILE_BANDS = Array.from({ length: PROFILE_N }, (_, i) => {
+  const lo = PROFILE_RMIN + i * (PROFILE_RMAX - PROFILE_RMIN) / PROFILE_N;
+  const hi = PROFILE_RMIN + (i + 1) * (PROFILE_RMAX - PROFILE_RMIN) / PROFILE_N;
+  return { lo, hi, mid: (lo + hi) / 2 };
+});
+
 // QA 閾値(tests/qa.mjs の現行判定値をそのまま転記 — 「割る seed の数」の参照用。判定式は変更しない)
 const QA_GALAXY_BOOST_MIN = 1.04;   // tests/qa.mjs:1458  add('claim.galaxy-outerboost', ... r.galA > r.galB * 1.04
 const QA_DARKROTOR_ARM_MIN = 0.22;  // tests/qa.mjs:2430  const armOk = lg.on.A2.every(v => v > 0.22)
@@ -47,7 +61,7 @@ async function newPage(browser) {
 
 // ---- 1seed分の計測(galaxy 外縁増強 + darkrotor 腕振幅)を1回の page.evaluate で実行 ----
 async function runSeed(page, seed) {
-  return page.evaluate(({ seed, GALAXY_STEPS, DARKROTOR_STEPS }) => {
+  return page.evaluate(({ seed, GALAXY_STEPS, DARKROTOR_STEPS, PROFILE_BANDS }) => {
     // ===== galaxy 外縁増強: tests/qa.mjs 1420-1435(claim.galaxy-outerboost)を転記 =====
     // 帯 r∈[156,286](=[0.6,1.1]×260)・vφ=(x·vy − y·vx)/r の平均。qa.mjs:1429-1432 を転記(不変)。
     const outer = (sm) => {
@@ -58,6 +72,40 @@ async function runSeed(page, seed) {
       }
       return c ? sum / c : 0;
     };
+    // ===== 第36便 E1(台帳4-49): v(r)/v_bar(r) の8帯プロファイル =====
+    // v(r) 実測: 上記 outer() の帯を [lo,hi) に汎用化したもの(qa.mjs:1429-1432 のvφ式を再利用)。
+    const vMeasBand = (sm, lo, hi) => {
+      let sum = 0, c = 0;
+      for (let i = 1; i < sm.n; i++) {
+        const r2 = Math.hypot(sm.x[i], sm.y[i]);
+        if (r2 >= lo && r2 < hi) { sum += (sm.x[i] * sm.vy[i] - sm.y[i] * sm.vx[i]) / r2; c++; }
+      }
+      return c ? sum / c : 0;
+    };
+    // v_bar(r): beta/index.html:3138-3153(curveVBarAt)を転記(中心(0,0)まわり8方位点の平均動径
+    // 加速度 a=ΣG·m_j(r_j−r)/(|r_j−r|²+ε²)^{3/2} の内向き成分平均 a_r から v_bar=√(r·a_r) を返す。
+    // a_r≤0(正味外向き)なら0。tests/qa.mjs:3380 curve.vbar-degenerate/distributed が検証する式と同一)。
+    const vBarAt = (sm, r) => {
+      const G = sm.params.G, eps2 = sm.params.softening * sm.params.softening;
+      let accSum = 0;
+      for (let a2 = 0; a2 < 8; a2++) {
+        const th = (a2 / 8) * Math.PI * 2, px = r * Math.cos(th), py = r * Math.sin(th);
+        let axp = 0, ayp = 0;
+        for (let j = 0; j < sm.n; j++) {
+          const dx = sm.x[j] - px, dy = sm.y[j] - py, d2 = dx * dx + dy * dy;
+          const fg = G * sm.m[j] / Math.pow(d2 + eps2, 1.5);
+          axp += fg * dx; ayp += fg * dy;
+        }
+        accSum += -(axp * Math.cos(th) + ayp * Math.sin(th));
+      }
+      const ar = accSum / 8;
+      return ar > 0 ? Math.sqrt(r * ar) : 0;
+    };
+    const profileOf = (sm) => PROFILE_BANDS.map(({ lo, hi, mid }) => {
+      const vMeas = vMeasBand(sm, lo, hi);
+      const vBar = vBarAt(sm, mid);
+      return { rLo: lo, rHi: hi, rMid: mid, vMeas, vBar, ratio: vBar > 0 ? vMeas / vBar : null };
+    });
     const galP = HP.allPresets().find(q => q.id === 'galaxy');
     // qa.mjs は HP.abStart('kFrame',0) で A/B を同時駆動する(1426-1436)が、本スクリプトは
     // seed を差し替えるため「同一 seed で kFrame だけ違う2ビルドを順に走らせる」方式にした
@@ -71,10 +119,15 @@ async function runSeed(page, seed) {
     buildGalaxy(1);
     for (let k = 0; k < GALAXY_STEPS; k++) HP.sim.step(0.016);
     const galA = outer(HP.sim), galANaN = HP.sim.hasNaN();
+    const profileA = profileOf(HP.sim); // 第36便 E1: kFrame=1 の8帯プロファイル
     buildGalaxy(0);
     for (let k = 0; k < GALAXY_STEPS; k++) HP.sim.step(0.016);
     const galB = outer(HP.sim), galBNaN = HP.sim.hasNaN();
-    const galaxy = { galA, galB, boost: galB !== 0 ? galA / galB : 0, nan: galANaN || galBNaN };
+    const profileB = profileOf(HP.sim); // 第36便 E1: kFrame=0 の8帯プロファイル
+    const galaxy = {
+      galA, galB, boost: galB !== 0 ? galA / galB : 0, nan: galANaN || galBNaN,
+      profile: { A: profileA, B: profileB } // 第36便 E1(台帳4-49): 追加節(既存フィールドは不変)
+    };
 
     // ===== darkrotor 腕振幅: tests/qa.mjs 2380-2427(behavior.darkrotorLong)を転記 =====
     const BANDS = [[80, 120], [120, 160], [160, 200], [200, 240]]; // qa.mjs:2381 を転記(不変)
@@ -125,7 +178,7 @@ async function runSeed(page, seed) {
     const on = runDarkrotor(false), ctrl = runDarkrotor(true);
 
     return { seed, galaxy, darkrotor: { on, ctrl } };
-  }, { seed, GALAXY_STEPS, DARKROTOR_STEPS });
+  }, { seed, GALAXY_STEPS, DARKROTOR_STEPS, PROFILE_BANDS });
 }
 
 // ---- 統計ヘルパ ----
@@ -172,6 +225,24 @@ const onMinAcrossBands = orderedSeeds.map(s => Math.min(...perSeed[s].darkrotor.
 const ctrlMaxAcrossBands = orderedSeeds.map(s => Math.max(...perSeed[s].darkrotor.ctrl.A2));
 const anyNaN = orderedSeeds.filter(s => perSeed[s].galaxy.nan || perSeed[s].darkrotor.on.nan || perSeed[s].darkrotor.ctrl.nan);
 
+// 第36便 E1(台帳4-49): v(r)/v_bar(r) 8帯プロファイルの集計(帯別mean/sd。既存集計には手を入れない)
+const profileStatsFor = (cond) => {
+  const vMeas = PROFILE_BANDS.map((_, b) => orderedSeeds.map(s => perSeed[s].galaxy.profile[cond][b].vMeas));
+  const vBar = PROFILE_BANDS.map((_, b) => orderedSeeds.map(s => perSeed[s].galaxy.profile[cond][b].vBar));
+  const ratio = PROFILE_BANDS.map((_, b) => orderedSeeds
+    .map(s => perSeed[s].galaxy.profile[cond][b].ratio)
+    .filter(v => v !== null));
+  return { vMeas: vMeas.map(stats), vBar: vBar.map(stats), ratio: ratio.map(stats) };
+};
+const profileA = profileStatsFor('A');
+const profileB = profileStatsFor('B');
+const boostByBand = PROFILE_BANDS.map((_, b) => orderedSeeds
+  .map(s => {
+    const vA = perSeed[s].galaxy.profile.A[b].vMeas, vB = perSeed[s].galaxy.profile.B[b].vMeas;
+    return vB !== 0 ? vA / vB : null;
+  })
+  .filter(v => v !== null));
+
 const out = {
   schemaVersion: 1,
   generatedAt: new Date().toISOString(),
@@ -184,7 +255,17 @@ const out = {
     bands: {
       galaxyOuter: { rMin: 156, rMax: 286, source: 'tests/qa.mjs:1429-1432 (claim.galaxy-outerboost)' },
       darkrotorArm: { rings: [[80, 120], [120, 160], [160, 200], [200, 240]],
-        source: 'tests/qa.mjs:2381,2390-2400 (behavior.darkrotorLong)' }
+        source: 'tests/qa.mjs:2381,2390-2400 (behavior.darkrotorLong)' },
+      vbarProfile: { // 第36便 E1(台帳4-49)で追加(既存キーは不変)
+        n: PROFILE_N, rMin: PROFILE_RMIN, rMax: PROFILE_RMAX,
+        edges: PROFILE_BANDS.map(b => ({ rLo: +b.lo.toFixed(2), rHi: +b.hi.toFixed(2), rMid: +b.mid.toFixed(2) })),
+        source: {
+          vBar: 'beta/index.html:3138-3153 (curveVBarAt; git show HEAD:beta/index.html で確定版参照) — ' +
+            'tests/qa.mjs:3377-3433 (curve.vbar-degenerate/curve.vbar-distributed) が検証する式と同一',
+          vMeas: 'tests/qa.mjs:1429-1432 (claim.galaxy-outerboost) の vφ=(x·vy−y·vx)/r を8帯へ汎用化' +
+            '(tests/seeds.mjs 内 vMeasBand。中心は galaxy 中心BH〔beta/index.html:1252, x:0,y:0,pinned:true〕に固定)'
+        }
+      }
     },
     qaThresholds: {
       galaxyBoostMin: QA_GALAXY_BOOST_MIN,        // tests/qa.mjs:1458
@@ -208,6 +289,17 @@ const out = {
       seedsFailingCtrlMax: orderedSeeds.filter((s, i) => ctrlMaxAcrossBands[i] >= QA_DARKROTOR_CTRL_MAX).length
     },
     seedsWithNaN: anyNaN
+  },
+  // 第36便 E1(台帳4-49): v(r)/v_bar(r) 半径8帯プロファイル節(既存節への追加のみ・後方互換)。
+  // ratio=v(r)/v_bar(r)(A=kFrame1,B=kFrame0それぞれ)。boostByBand=v_A(r)/v_B(r)(検証仮説:
+  // 増強比が外縁ほど大きい単調プロファイルになるか — perSeed詳細は perSeed[].galaxy.profile 参照)。
+  profile: {
+    note: '第36便 E1(台帳4-49): 半径依存曲線 v(r)/v_bar(r) の8帯プロファイル(r=40〜300等分)。' +
+      'kFrame=1(A)/0(B)双方を per-seed 記録(perSeed[].galaxy.profile)し、本節に帯別mean/sdを集計した。',
+    bands: PROFILE_BANDS.map((b, i) => ({ index: i, rLo: +b.lo.toFixed(2), rHi: +b.hi.toFixed(2), rMid: +b.mid.toFixed(2) })),
+    A: profileA,
+    B: profileB,
+    boostByBand: boostByBand.map(stats)
   }
 };
 fs.writeFileSync(path.join(OUT_DIR, 'seeds-results.json'), JSON.stringify(out, null, 1));
@@ -217,3 +309,7 @@ console.log(`galaxy boost: mean=${out.stats.galaxyBoost.mean?.toFixed(3)} sd=${o
   `(閾値${QA_GALAXY_BOOST_MIN}を割るseed=${out.stats.galaxyBoost.belowQaThreshold}/${orderedSeeds.length})`);
 console.log(`darkrotor arm(on) 帯別mean=${out.stats.darkrotorOnA2.perBand.map(b => b.mean?.toFixed(3)).join('/')} ` +
   `(閾値${QA_DARKROTOR_ARM_MIN}を割るseed=${out.stats.darkrotorOnA2.seedsFailingArmMin}/${orderedSeeds.length})`);
+console.log(`v/v_bar profile(E1・台帳4-49) 帯別rMid=${out.profile.bands.map(b => b.rMid.toFixed(0)).join('/')}`);
+console.log(`  ratio_A(v/v_bar,kFrame1) mean=${out.profile.A.ratio.map(b => b.mean?.toFixed(3)).join('/')}`);
+console.log(`  ratio_B(v/v_bar,kFrame0) mean=${out.profile.B.ratio.map(b => b.mean?.toFixed(3)).join('/')}`);
+console.log(`  boostByBand(v_A/v_B) mean=${out.profile.boostByBand.map(b => b.mean?.toFixed(3)).join('/')}`);
