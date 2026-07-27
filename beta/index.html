@@ -219,7 +219,7 @@
         <label id="beLrr" style="min-width:30px">Rc/R</label><input type="text" id="beRr" inputmode="decimal" autocomplete="off"></div>
       <div class="beRow"><label id="beLot">To×</label><input type="text" id="beOt" inputmode="decimal" autocomplete="off">
         <label id="beLoc" style="min-width:30px">TcO×</label><input type="text" id="beOc" inputmode="decimal" autocomplete="off"></div>
-      <div class="beRow"><label id="beLsw" style="min-width:34px">掻出</label><input type="text" id="beSw" inputmode="decimal" autocomplete="off"><span style="flex:1"></span></div>
+      <div class="beRow"><label id="beLsw" style="min-width:34px">掻出</label><input type="text" id="beSw" inputmode="decimal" autocomplete="off"><span id="beSwEff" style="flex:1;font-size:11px;opacity:.8;padding-left:6px"></span></div>
       <div class="beRow"><label id="beLvx">vx</label><input type="text" id="beVx" inputmode="text" autocomplete="off">
         <label id="beLvy">vy</label><input type="text" id="beVy" inputmode="text" autocomplete="off"></div>
       <div class="beRow"><label id="beLp" style="flex:1">固定(pinned)</label><input type="checkbox" id="bePin"></div>
@@ -453,10 +453,10 @@ ja: {
   beDs:"s: スピン(自転角速度)。空間引きずり(A8)・温度T=Is²(A9)・スピン斥力(A10)の源。",
   beDmc:"mc/m: コア質量比(主星2層)。0=単層。負値=空洞(殻に質量集中・差動引きずりが反転)。",
   beDsc:"sc/s: コアスピン比。コア実スピン sc=比×s が差動引きずり(Rcから減衰)を生む。1=剛体回転=単層等価。",
-  beDr:"R: 半径。慣性I=½mR²・接触・引きずり減衰(R/(R+d))^q・温度・扁平率f=5s²R³/(4Gm)に使用。既定はradiusScale·√|m|。",
+  beDr:"R: 半径。慣性I=½mR²・接触・引きずり減衰(R/(R+d))^q・温度・扁平率f=5s²R³/(4Gm)に使用。既定はradiusScale·rMul·√|m|(rMulは粒子ごとの倍率・既定1)。",
   beDrr:"Rc/R: コア半径比。コアの引きずり到達距離を決める。既定は√|mc/m|相当。",
   beDot:"To×: 観測温度係数。観測温度T_obs=To×·(1−掻出)·T(表示のみ — 力学不変)。",
-  beDsw:"掻出: 光掻き出し(0〜1)。自星の光を外に出さない — 観測温度0で見掛けは冷たく、放射冷却も(1−掻出)倍(ダークローター)。",
+  beDsw:"掻出: 光掻き出し(0〜1)。自星の光を外に出さない — 観測温度0で見掛けは冷たく、放射冷却も(1−掻出)倍(ダークローター)。autoと入力すると粒子のスピン・半径から lS_eff=min(1,|s|R/c_surf) を毎ステップ算出する。",
   beDoc:"TcO×: コア観測温度比率。Tc_obs=TcO×·(1−掻出)·Ic·sc²(表示のみ)。",
   beDv:"vx/vy: 速度成分。慣性は局所フレームuに対して働く(A5)。",
   beDp:"固定: 位置・速度・スピンを外部拘束で固定(力・トルクを受けない)。反作用はリザーバへ帳簿(A13)。",
@@ -618,10 +618,10 @@ en: {
   beDs:"s: spin (rotation rate). Source of frame dragging (A8), temperature T=Is^2 (A9), and spin repulsion (A10).",
   beDmc:"mc/m: core mass ratio (two-layer). 0 = single layer. Negative = hollow shell (differential drag flips).",
   beDsc:"sc/s: core spin ratio. Core spin sc = ratio x s drives the differential drag (decaying from Rc). 1 = rigid rotation = single-layer equivalent.",
-  beDr:"R: radius. Used in inertia I=1/2 mR^2, contact, drag falloff (R/(R+d))^q, temperature, and oblateness f=5s^2R^3/(4Gm). Default radiusScale x sqrt(|m|).",
+  beDr:"R: radius. Used in inertia I=1/2 mR^2, contact, drag falloff (R/(R+d))^q, temperature, and oblateness f=5s^2R^3/(4Gm). Default radiusScale x rMul x sqrt(|m|) (rMul = per-body multiplier, default 1).",
   beDrr:"Rc/R: core radius ratio. Sets the reach of the core's drag. Default ~ sqrt(|mc/m|).",
   beDot:"To x: observed-temperature coefficient. T_obs = To x (1-sweep) x T (display only).",
-  beDsw:"sweep: light sweep-out (0-1). The star's own light never escapes - observed temperature 0 (looks cold) and radiative cooling x (1-sweep). The dark-rotor mechanism.",
+  beDsw:"sweep: light sweep-out (0-1). The star's own light never escapes - observed temperature 0 (looks cold) and radiative cooling x (1-sweep). The dark-rotor mechanism. Enter \"auto\" to derive it every step from the body's own spin and radius: lS_eff = min(1, |s|R / c_surf).",
   beDoc:"TcO x: core observed-temperature ratio. Tc_obs = TcO x (1-sweep) x Ic sc^2 (display only).",
   beDv:"vx/vy: velocity components. Inertia acts relative to the local frame u (A5).",
   beDp:"Pinned: externally constrained (receives no force or torque; spin fixed). Reactions are ledgered to the reservoir (A13).",
@@ -763,7 +763,7 @@ en: {
     geoPN:"The v2.0 geodesic mode (E12). At 1, matter's motion is derived by an action principle from the same ψ=W/Kt that slows clocks, enabling the 1PN correction (☿); E6′ dragging on matter is disabled (no double counting). 0 = legacy.",
     lambdaPN:"On/off switch of the 1PN correction in geodesic mode (geoPN=1). At 0 you recover Newtonian gravity and the ellipse closes — the A/B control for ☿ Mercury.",
     pnAlpha:"Breakdown of the 1PN correction (E12). 1.5 = full (GR's β=γ=1 — the full 42.98″/century of Mercury), 0.5 = time-rate only (advance drops to 1/3). Machine-verified in V18–V20.",
-    radiusScale:"Scale of particle radius R=radiusScale·√m. Affects contact size and the moment of inertia I=½mR² (the I in temperature T=Is²). A discretization setting, not a law of physics.",
+    radiusScale:"Global scale of the particle radius R=radiusScale·rMul·√m (default 1). Affects contact size and the moment of inertia I=½mR² (the I in temperature T=Is²). Per-body variation lives in the body key rMul; this knob scales every particle relatively. A discretization setting, not a law of physics.",
     softening:"Softening length mixed into distances so forces never diverge at close range (E1′ Plummer form: 1/√(d²+ε²)). Smaller = sharper close encounters but numerically rougher.",
     timeScale:"Multiplier on how fast simulated time advances (fast-forward). The physics is unchanged — only the time per frame. If the simulation diverges, lower this first."},
 },
@@ -967,7 +967,7 @@ const PARAM_DEFS = [
   {key:"pnAlpha", label:"1PN係数 α(0.5=時間率のみ, 1.5=完全)", mode:"lin", lo:0.5, hi:1.5, step:0.5, group:"法則",
    desc:"1PN補正の強さの内訳(E12)。1.5=完全(GRのβ=γ=1相当 — 水星の前進42.98″/世紀の全量)、0.5=時間率のみ(前進が1/3になる)。V18〜V20で機械検証。"},
   {key:"radiusScale",label:"粒子半径スケール", mode:"lin", lo:0.2, hi:4, step:0.02, group:"シミュレーション",
-   desc:"粒子の半径 R=radiusScale·√m のスケール。接触判定の大きさと慣性 I=½mR²(=温度T=Is²の I)に効く。物理法則そのものではなく、粒子という「離散化の粒」の設定。"},
+   desc:"粒子の半径 R=radiusScale·rMul·√m の全粒子共通スケール(既定1)。接触判定の大きさと慣性 I=½mR²(=温度T=Is²の I)に効く。粒子ごとの倍率は body の rMul で、このノブは全体を相対的に増減させる。物理法則そのものではなく、粒子という「離散化の粒」の設定。"},
   {key:"softening",  label:"ソフトニング ε",  mode:"lin", lo:0.5, hi:10, step:0.1, group:"シミュレーション",
    desc:"近距離で力が無限大に発散しないよう距離に混ぜる緩和長(E1′ Plummer型: 1/√(d²+ε²))。小さいほど近接遭遇が鋭くなるが数値的に荒れやすい。"},
   {key:"timeScale",  label:"時間倍率",        mode:"log", lo:0.1, hi:16, group:"シミュレーション",
@@ -1008,12 +1008,12 @@ const BUILTIN_PRESETS = [
   drawScale:2,   // 第35便 W4(台帳4-55): 描画専用倍率(物理無関係)。タップ対象の3時計(m=2)が
                  // 実測1.2px(基準1未満)だったため2.36pxへ拡大(監査: scratchpad/w4-report.md)
   physics:{G:0, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:300,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:1},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:1},
   bodies:[ // v1.12(付録L): 第6次提案 P0-1 採用。τ/t 解析一致を機械検証済み
-    {type:"single", m:1500, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
-    {type:"single", m:2, x:70,y:0,  vx:0,vy:0, spin:0, pinned:true},
-    {type:"single", m:2, x:140,y:0, vx:0,vy:0, spin:0, pinned:true},
-    {type:"single", m:2, x:240,y:0, vx:0,vy:0, spin:0, pinned:true}
+    {type:"single", rMul:1.2, m:1500, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", rMul:1.2, m:2, x:70,y:0,  vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", rMul:1.2, m:2, x:140,y:0, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", rMul:1.2, m:2, x:240,y:0, vx:0,vy:0, spin:0, pinned:true}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
@@ -1025,11 +1025,11 @@ const BUILTIN_PRESETS = [
   drawScale:2,   // 第35便 W4(台帳4-55): 描画専用倍率。地上時計・衛星(m=2)が実測1.2px
                  // (基準1未満)だったため2.36pxへ拡大(監査: scratchpad/w4-report.md)
   physics:{G:1, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:300,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:2},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2},
   bodies:[ // 付録O O1: 衛星は Plummer 厳密円軌道 v=√(G·M·r²/(r²+ε²)^{3/2})(V13 と同式)
-    {type:"single", m:1500, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
-    {type:"single", m:2, x:60,y:0, vx:0,vy:0, spin:0, pinned:true},
-    {type:"single", m:2, x:180,y:0, vx:0,vy:2.8865, spin:0, pinned:false}
+    {type:"single", rMul:1.2, m:1500, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", rMul:1.2, m:2, x:60,y:0, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", rMul:1.2, m:2, x:180,y:0, vx:0,vy:2.8865, spin:0, pinned:false}
   ],
   rays:{n:9, spread:0.4},
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
@@ -1043,10 +1043,10 @@ const BUILTIN_PRESETS = [
                    // (基準1未満)だったため2.11pxへ拡大(監査: scratchpad/w4-report.md)
   physics:{G:1, D0:0.05, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
     cLight:25, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
-    geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:8},
+    geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:8},
   bodies:[
-    {type:"single", m:150, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
-    {type:"single", m:0.5, x:47.66,y:0, vx:0,vy:1.948, spin:0, pinned:false}
+    {type:"single", rMul:1.2, m:150, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", rMul:1.2, m:0.5, x:47.66,y:0, vx:0,vy:1.948, spin:0, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -1058,12 +1058,12 @@ const BUILTIN_PRESETS = [
   drawScale:1.4,   // 第35便 W4(台帳4-55): 描画専用倍率。主役の4球のうちm=2の3球が実測1.50px
                    // (基準1未満)だったため2.11pxへ拡大(監査: scratchpad/w4-report.md)
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0.08, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:3},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0.08, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:3},
   bodies:[ // v1.18: Gemini/Grok 第8次提案の合議採用(自由落下×2質量+水平投射+斜方投射)
-    {type:"single", m:2, x:-150,y:-140, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:20, x:-110,y:-140, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:2, x:-170,y:-20, vx:3,vy:0, spin:0, pinned:false},
-    {type:"single", m:2, x:-170,y:100, vx:3,vy:-3.6, spin:0, pinned:false}
+    {type:"single", rMul:1.2, m:2, x:-150,y:-140, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:20, x:-110,y:-140, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:2, x:-170,y:-20, vx:3,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:2, x:-170,y:100, vx:3,vy:-3.6, spin:0, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -1273,10 +1273,10 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame","D0"],
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260727,
   physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0.8, muF:0.5, gammaN:0.4, kappaS:0.05, Kt:50,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:3, timeScale:3},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:3, timeScale:3},
   bodies:[
-    {type:"single", m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, lightSweep:0.8, radius:15},
-    {type:"disk", n:380, cx:0,cy:0, radius:260, mMin:0.16,mMax:0.5,
+    {type:"single", rMul:1.2, m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, lightSweep:0.8, radius:15},
+    {type:"disk", rMul:1.2, n:380, cx:0,cy:0, radius:260, mMin:0.16,mMax:0.5,
      spinMin:0,spinMax:0.3, vMode:"kepler", aroundMass:2500, vScale:1.05, direction:1, bulkVx:0, bulkVy:0}
   ],
   rays:{n:24, spread:0.5},
@@ -1305,23 +1305,23 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame","D0","q"],
   camera:{scale:300}, world:{boundary:"none",size:0}, seed:20260726,
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:0.15, muF:0.02, gammaN:0.05, kappaS:0.05, Kt:60,
-    cLight:60, bM:1, etaRad:0.005, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:2.0, softening:4, timeScale:2},
+    cLight:60, bM:1, etaRad:0.005, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 2.0 は各 body の rMul へ焼込(第36便 C1)*/, softening:4, timeScale:2},
   bodies:[
     // 中心ブラックホール(自由・単層・光を出さない lightSweep:1。vx/vy は総運動量ゼロ化の補正)
-    {type:"single", m:2000, x:0,y:0, vx:0.00166, vy:-0.00435, spin:0.12, radius:45, lightSweep:1, pinned:false},
+    {type:"single", rMul:2.0, m:2000, x:0,y:0, vx:0.00166, vy:-0.00435, spin:0.12, radius:45, lightSweep:1, pinned:false},
     // ダークローター×10(自由・単層・r=200 の等間隔リング。対向2体=x±200 のみ spin 2.0)
-    {type:"single", m:150, x:200.0,y:0.0, vx:-0.0,vy:3.9169, spin:2.0, radius:18, lightSweep:1, pinned:false},
-    {type:"single", m:150, x:161.8034,y:117.5571, vx:-2.302292,vy:3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
-    {type:"single", m:150, x:61.8034,y:190.2113, vx:-3.724583,vy:1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
-    {type:"single", m:150, x:-61.8034,y:190.2113, vx:-3.724583,vy:-1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
-    {type:"single", m:150, x:-161.8034,y:117.5571, vx:-2.302292,vy:-3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
-    {type:"single", m:150, x:-200.0,y:0.0, vx:0.0,vy:-3.9169, spin:2.0, radius:18, lightSweep:1, pinned:false},
-    {type:"single", m:150, x:-161.8034,y:-117.5571, vx:2.302292,vy:-3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
-    {type:"single", m:150, x:-61.8034,y:-190.2113, vx:3.724583,vy:-1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
-    {type:"single", m:150, x:61.8034,y:-190.2113, vx:3.724583,vy:1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
-    {type:"single", m:150, x:161.8034,y:-117.5571, vx:2.302292,vy:3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", rMul:2.0, m:150, x:200.0,y:0.0, vx:-0.0,vy:3.9169, spin:2.0, radius:18, lightSweep:1, pinned:false},
+    {type:"single", rMul:2.0, m:150, x:161.8034,y:117.5571, vx:-2.302292,vy:3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", rMul:2.0, m:150, x:61.8034,y:190.2113, vx:-3.724583,vy:1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", rMul:2.0, m:150, x:-61.8034,y:190.2113, vx:-3.724583,vy:-1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", rMul:2.0, m:150, x:-161.8034,y:117.5571, vx:-2.302292,vy:-3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", rMul:2.0, m:150, x:-200.0,y:0.0, vx:0.0,vy:-3.9169, spin:2.0, radius:18, lightSweep:1, pinned:false},
+    {type:"single", rMul:2.0, m:150, x:-161.8034,y:-117.5571, vx:2.302292,vy:-3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", rMul:2.0, m:150, x:-61.8034,y:-190.2113, vx:3.724583,vy:-1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", rMul:2.0, m:150, x:61.8034,y:-190.2113, vx:3.724583,vy:1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", rMul:2.0, m:150, x:161.8034,y:-117.5571, vx:2.302292,vy:3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
     // 恒星リング(自由・kepler 初速・内穴 r=70 は BH 影響圏)
-    {type:"ring", n:380, cx:0,cy:0, rIn:70, rOut:260, mMin:0.26,mMax:0.63,
+    {type:"ring", rMul:2.0, n:380, cx:0,cy:0, rIn:70, rOut:260, mMin:0.26,mMax:0.63,
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2000, omega:0, vNoise:0, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false} },
@@ -1332,17 +1332,17 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame","G","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:160}, world:{boundary:"none",size:0},
   physics:{G:0.9, D0:4.5, kFrame:1, q:2, kRep:0.8, muF:0.45, gammaN:0.55, kappaS:0.12, Kt:90,   // 第26便: kFrame 0.55→1 / 第27便: q 1.8→2(整数冪の高速経路 −34%)・円盤 150/120(負荷改善 — 合計 4320→1681ms/600步・12000步 r90=159 有界を実測)
-    cLight:70, bM:1, etaRad:0.0008, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:3.5, timeScale:1.8},
+    cLight:70, bM:1, etaRad:0.0008, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:3.5, timeScale:1.8},
   bodies:[ // v1.13(付録M): 第6次提案(Grok #1)を内蔵化。v1.18: 円盤に bulkVx/Vy を付与し
            // 核と円盤が一体で並進するよう修正(旧: 核だけが動き円盤が置き去りになっていた)。
            // v1.24: vMode flat(vScale0.85=必要円軌道速度の1/4以下)で円盤が合体前に核へ
            // 崩落していたため kepler(回転支持)へ修正 — 接近12000步まで保持率95%+を実測
-    {type:"single", m:920, x:-280,y:20, vx:1.35,vy:0.25, spin:0.09, pinned:false},
-    {type:"disk", n:150, cx:-280,cy:20, radius:95, mMin:0.25,mMax:1.6,
+    {type:"single", rMul:1.2, m:920, x:-280,y:20, vx:1.35,vy:0.25, spin:0.09, pinned:false},
+    {type:"disk", rMul:1.2, n:150, cx:-280,cy:20, radius:95, mMin:0.25,mMax:1.6,
      spinMin:-0.6,spinMax:0.6, vMode:"kepler", aroundMass:920, vScale:1.0, direction:1,
      bulkVx:1.35, bulkVy:0.25},
-    {type:"single", m:680, x:240,y:-35, vx:-1.65,vy:-0.35, spin:0.07, pinned:false},
-    {type:"disk", n:120, cx:240,cy:-35, radius:78, mMin:0.25,mMax:1.4,
+    {type:"single", rMul:1.2, m:680, x:240,y:-35, vx:-1.65,vy:-0.35, spin:0.07, pinned:false},
+    {type:"disk", rMul:1.2, n:120, cx:240,cy:-35, radius:78, mMin:0.25,mMax:1.4,
      spinMin:-0.5,spinMax:0.5, vMode:"kepler", aroundMass:680, vScale:1.0, direction:-1,
      bulkVx:-1.65, bulkVy:-0.35}
   ],
@@ -1354,11 +1354,11 @@ const BUILTIN_PRESETS = [
   activeParams:["etaRad","pRad","G"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:280}, world:{boundary:"none",size:0},
   physics:{G:1.4, D0:1.8, kFrame:1, q:2, kRep:1.2, muF:0.65, gammaN:0.45, kappaS:0.09, Kt:70,   // 第26便: kFrame 0.35→1(6000步 rMax 257・12000步 500 <600 を実測)
-    cLight:60, bM:1, etaRad:0.004, pRad:2.8, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:5, timeScale:2.2},
+    cLight:60, bM:1, etaRad:0.004, pRad:2.8, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:5, timeScale:2.2},
   bodies:[ // v1.13(付録M): 第6次提案(Grok #3)を内蔵化。v1.18: Gemini 第8次提案採用 —
            // vMode rigid の微小回転 + random 相当の乱れは vNoise でなく速度合成で付与できないため
            // rigid(ω=0.004)を基本にし、乱れは disk 生成の±0.02 ノイズに任せる(機械検証済み)
-    {type:"disk", n:260, cx:0,cy:0, radius:210, mMin:0.15,mMax:0.9,
+    {type:"disk", rMul:1.2, n:260, cx:0,cy:0, radius:210, mMin:0.15,mMax:0.9,
      spinMin:0,spinMax:0.15, vMode:"rigid", aroundMass:0, vScale:0.004, direction:1}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"} },
@@ -1370,10 +1370,10 @@ const BUILTIN_PRESETS = [
   activeParams:["Kt","cLight","softening"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4, kappaS:0.05, Kt:150,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:1},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:1},
   bodies:[
-    {type:"single", m:1500, x:0,y:0, vx:0,vy:0, spin:0.5, pinned:true},
-    {type:"single", m:500, x:120,y:-90, vx:0,vy:0, spin:0, pinned:true}
+    {type:"single", rMul:1.2, m:1500, x:0,y:0, vx:0,vy:0, spin:0.5, pinned:true},
+    {type:"single", rMul:1.2, m:500, x:120,y:-90, vx:0,vy:0, spin:0, pinned:true}
   ],
   rays:{n:26, spread:0.85},
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
@@ -1384,9 +1384,9 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame","Kt","cLight","q"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4, kappaS:0.05, Kt:200,
-    cLight:40, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:1},
+    cLight:40, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:1},
   bodies:[
-    {type:"single", m:2000, x:0,y:0, vx:0,vy:0, spin:2, pinned:true}
+    {type:"single", rMul:1.2, m:2000, x:0,y:0, vx:0,vy:0, spin:2, pinned:true}
   ],
   rays:{n:24, spread:0.9},
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
@@ -1397,10 +1397,10 @@ const BUILTIN_PRESETS = [
   activeParams:["Kt","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:110,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:1},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:1},
   bodies:[ // v1.13(付録M): 第6次提案 P1-3 を内蔵化(12000步スモーク検証済み)
-    {type:"single", m:1100, x:0,y:-65, vx:0,vy:0, spin:0, pinned:true},
-    {type:"single", m:1100, x:0,y:65,  vx:0,vy:0, spin:0, pinned:true}
+    {type:"single", rMul:1.2, m:1100, x:0,y:-65, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", rMul:1.2, m:1100, x:0,y:65,  vx:0,vy:0, spin:0, pinned:true}
   ],
   rays:{n:36, spread:0.85},
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
@@ -1412,10 +1412,10 @@ const BUILTIN_PRESETS = [
   activeParams:["kRep","muF","gammaN","kappaS"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:240}, world:{boundary:"box",size:200},
   physics:{G:0, D0:50, kFrame:0, q:2, kRep:2, muF:0.8, gammaN:0.3, kappaS:0.15, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:2},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2},
   bodies:[ // v1.18(第8次裁定): 右の vScale 2.5→0.3 — 比較条件をスピンのみに(統制実験化)
-    {type:"box", n:120, cx:-100,cy:0, w:180,h:360, mMin:1,mMax:1, spinMin:0,spinMax:0.2, vScale:0.3},
-    {type:"box", n:120, cx:100,cy:0, w:180,h:360, mMin:1,mMax:1, spinMin:2,spinMax:3, vScale:0.3}
+    {type:"box", rMul:1.2, n:120, cx:-100,cy:0, w:180,h:360, mMin:1,mMax:1, spinMin:0,spinMax:0.2, vScale:0.3},
+    {type:"box", rMul:1.2, n:120, cx:100,cy:0, w:180,h:360, mMin:1,mMax:1, spinMin:2,spinMax:3, vScale:0.3}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false} },
 
@@ -1425,11 +1425,11 @@ const BUILTIN_PRESETS = [
   activeParams:["kRep","kappaS","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:240}, world:{boundary:"circle",size:210},
   physics:{G:0, D0:50, kFrame:0, q:2, kRep:2, muF:0.2, gammaN:0.3, kappaS:0.05, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:2},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2},
   bodies:[
-    {type:"disk", n:90, cx:0,cy:0, radius:50, mMin:1,mMax:1,
+    {type:"disk", rMul:1.2, n:90, cx:0,cy:0, radius:50, mMin:1,mMax:1,
      spinMin:6,spinMax:7, vMode:"none", aroundMass:0, vScale:0, direction:1},
-    {type:"ring", n:150, cx:0,cy:0, rIn:95,rOut:190, mMin:1,mMax:1,
+    {type:"ring", rMul:1.2, n:150, cx:0,cy:0, rIn:95,rOut:190, mMin:1,mMax:1,
      spinMin:0,spinMax:0, vMode:"none", aroundMass:0, omega:0, vNoise:0, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
@@ -1440,36 +1440,36 @@ const BUILTIN_PRESETS = [
   activeParams:["kappaS"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:200}, world:{boundary:"none",size:0},
   physics:{G:0, D0:50, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:1.5, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:4},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:4},
   bodies:[
-    {type:"single", m:4, x:-150,y:45, vx:0,vy:0, spin:8, pinned:true},
-    {type:"single", m:4, x:-141,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-132,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-123,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-114,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-105,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-96,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-87,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-78,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-69,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-60,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-51,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-42,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-33,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-24,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-15,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-6,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:3,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-150,y:-45, vx:0,vy:0, spin:8, pinned:true},
-    {type:"single", m:4, x:-132,y:-45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-114,y:-45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-96,y:-45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-78,y:-45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-60,y:-45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-42,y:-45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-24,y:-45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-6,y:-45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:12,y:-45, vx:0,vy:0, spin:0, pinned:false}
+    {type:"single", rMul:1.2, m:4, x:-150,y:45, vx:0,vy:0, spin:8, pinned:true},
+    {type:"single", rMul:1.2, m:4, x:-141,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-132,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-123,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-114,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-105,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-96,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-87,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-78,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-69,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-60,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-51,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-42,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-33,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-24,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-15,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-6,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:3,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-150,y:-45, vx:0,vy:0, spin:8, pinned:true},
+    {type:"single", rMul:1.2, m:4, x:-132,y:-45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-114,y:-45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-96,y:-45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-78,y:-45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-60,y:-45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-42,y:-45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-24,y:-45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-6,y:-45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:12,y:-45, vx:0,vy:0, spin:0, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
@@ -1479,11 +1479,11 @@ const BUILTIN_PRESETS = [
   activeParams:["etaRad","pRad","bM"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:180}, world:{boundary:"none",size:0},
   physics:{G:0, D0:50, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
-    cLight:60, bM:1, etaRad:1e-5, pRad:2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:4},
+    cLight:60, bM:1, etaRad:1e-5, pRad:2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:4},
   bodies:[ // v1.12(付録L): 第6次提案 P0-2 採用。冷却速度比 8.0/7.8(理論8)を機械検証済み
-    {type:"single", m:4, x:-100,y:0, vx:0,vy:0, spin:2, pinned:false},
-    {type:"single", m:4, x:0,y:0,    vx:0,vy:0, spin:4, pinned:false},
-    {type:"single", m:4, x:100,y:0,  vx:0,vy:0, spin:8, pinned:false}
+    {type:"single", rMul:1.2, m:4, x:-100,y:0, vx:0,vy:0, spin:2, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:0,y:0,    vx:0,vy:0, spin:4, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:100,y:0,  vx:0,vy:0, spin:8, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,spectrum:true} },
 
@@ -1494,13 +1494,13 @@ const BUILTIN_PRESETS = [
   camera:{scale:260}, world:{boundary:"box",size:240},
   // v1.21(第9次裁定): kFrame 0.3→0(三態比較に引きずりは不要 — 要因分離)
   physics:{G:0.7, D0:30, kFrame:0, q:2, kRep:0.8, muF:0.6, gammaN:0.85, kappaS:0.02, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0.04, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.6, softening:2, timeScale:2},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0.04, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.6 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2},
   bodies:[ // v1.5(付録F F4a): 3群は spin 以外すべて同一(統制実験)。v1.18: 少し上から落とす
-    {type:"disk", n:65, cx:-160,cy:-50, radius:38, mMin:0.6,mMax:0.6,
+    {type:"disk", rMul:1.6, n:65, cx:-160,cy:-50, radius:38, mMin:0.6,mMax:0.6,
      spinMin:0,spinMax:0, vMode:"none", aroundMass:0, vScale:0, direction:1},
-    {type:"disk", n:65, cx:0,cy:-50, radius:38, mMin:0.6,mMax:0.6,
+    {type:"disk", rMul:1.6, n:65, cx:0,cy:-50, radius:38, mMin:0.6,mMax:0.6,
      spinMin:1.8,spinMax:2.2, vMode:"none", aroundMass:0, vScale:0, direction:1},
-    {type:"disk", n:65, cx:160,cy:-50, radius:38, mMin:0.6,mMax:0.6,
+    {type:"disk", rMul:1.6, n:65, cx:160,cy:-50, radius:38, mMin:0.6,mMax:0.6,
      // v1.21: spinMax 10→8.5(Gemini 第9次 2.1 — 気体が天井に張り付かず対流するバランス)
      spinMin:8,spinMax:8.5, vMode:"none", aroundMass:0, vScale:0, direction:1}
   ],
@@ -1517,31 +1517,31 @@ const BUILTIN_PRESETS = [
   activeParams:["gravityY","kRep","kappaS","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:240}, world:{boundary:"box",size:190},
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:2, muF:0.2, gammaN:0.1, kappaS:1.2, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:2, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:4, softening:4, timeScale:2},   // 第29便: timeScale 3→2 復帰(第25次レビュー P0-1 — CPU計算量が理論1.5倍・実測1.522倍の主因。循環の見やすさは軌跡(sampled trail)で維持)
+    cLight:60, bM:1, etaRad:0, pRad:2, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 4 は各 body の rMul へ焼込(第36便 C1)*/, softening:4, timeScale:2},   // 第29便: timeScale 3→2 復帰(第25次レビュー P0-1 — CPU計算量が理論1.5倍・実測1.522倍の主因。循環の見やすさは軌跡(sampled trail)で維持)
   bodies:[ // v1.17: ヒーター(床)+冷却板5点(天井右・疎)+軽量ガス260。
            // v1.24: 旧11点(〜x=+30)では右下に冷えた塊が滞留し循環が死ぬ(48000步で自由粒子の
            // 84%が右下・循環7)ことを実測。6構成の機械掃引で「+70まで延長・右端床は非加熱の
            // 下降域として残す」13点構成を採用(48000步で循環24持続・滞留47%へ改善。
            // 床全面加熱は逆に循環が反転して不採用)
-    {type:"single", m:1, x:-170,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:-150,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:-130,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:-110,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:-90,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:-70,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:-50,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:-30,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:-10,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:10,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:30,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:50,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:70,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:10,y:-186, vx:0,vy:0, spin:0, pinned:true},
-    {type:"single", m:1, x:50,y:-186, vx:0,vy:0, spin:0, pinned:true},
-    {type:"single", m:1, x:90,y:-186, vx:0,vy:0, spin:0, pinned:true},
-    {type:"single", m:1, x:130,y:-186, vx:0,vy:0, spin:0, pinned:true},
-    {type:"single", m:1, x:170,y:-186, vx:0,vy:0, spin:0, pinned:true},
-    {type:"box", n:260, cx:0,cy:-10, w:340,h:320, mMin:0.05,mMax:0.05,
+    {type:"single", rMul:4, m:1, x:-170,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", rMul:4, m:1, x:-150,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", rMul:4, m:1, x:-130,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", rMul:4, m:1, x:-110,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", rMul:4, m:1, x:-90,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", rMul:4, m:1, x:-70,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", rMul:4, m:1, x:-50,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", rMul:4, m:1, x:-30,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", rMul:4, m:1, x:-10,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", rMul:4, m:1, x:10,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", rMul:4, m:1, x:30,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", rMul:4, m:1, x:50,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", rMul:4, m:1, x:70,y:186, vx:0,vy:0, spin:12, pinned:true},
+    {type:"single", rMul:4, m:1, x:10,y:-186, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", rMul:4, m:1, x:50,y:-186, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", rMul:4, m:1, x:90,y:-186, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", rMul:4, m:1, x:130,y:-186, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", rMul:4, m:1, x:170,y:-186, vx:0,vy:0, spin:0, pinned:true},
+    {type:"box", rMul:4, n:260, cx:0,cy:-10, w:340,h:320, mMin:0.05,mMax:0.05,
      spinMin:1,spinMax:2, vScale:0.4}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"}  },
@@ -1552,10 +1552,10 @@ const BUILTIN_PRESETS = [
   activeParams:["gravityY","kRep","gammaN"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:200}, world:{boundary:"box",size:160},
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:3, muF:0, gammaN:0.1, kappaS:0, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0.05, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:2.5, softening:2, timeScale:2},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0.05, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 2.5 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2},
   bodies:[ // v1.18: Gemini 第8次提案を機械掃引で調整(スピン固定+radiusScale2.5 — 分離52〜72が持続)
-    {type:"box", n:200, cx:0,cy:0, w:280,h:280, mMin:0.2,mMax:0.2, spinMin:4,spinMax:5, vScale:0.5},
-    {type:"box", n:80, cx:0,cy:0, w:280,h:280, mMin:3,mMax:3, spinMin:0,spinMax:0, vScale:0.1}
+    {type:"box", rMul:2.5, n:200, cx:0,cy:0, w:280,h:280, mMin:0.2,mMax:0.2, spinMin:4,spinMax:5, vScale:0.5},
+    {type:"box", rMul:2.5, n:80, cx:0,cy:0, w:280,h:280, mMin:3,mMax:3, spinMin:0,spinMax:0, vScale:0.1}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
@@ -1566,7 +1566,7 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame","G","D0"],
   camera:{scale:220}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
-    cLight:100, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.5, softening:2, timeScale:5},
+    cLight:100, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.5 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:5},
   bodies:[ // 第15便: 公転版(v=1.063×軟化ケプラー値の実測較正・地球 pinned の展示系 —
            // 自由二体は D0 リザーバ移譲で重心漂流のため。詳細はロードマップ)。
            // 第16便(第17次レビュー 推奨A): コアを観測値へ — 地球 mc/m=0.325(PREM 32.5%)・
@@ -1574,8 +1574,8 @@ const BUILTIN_PRESETS = [
            // ≈1.0000008 に対し 1.05 は過大)。コア差動項ゼロ化に伴い ω を再実測(0.013931→
            // 0.013908)し月 spin を追随。検証: t2000(4.4周)で r=179.996〜180.163・NaN なし。
            // 粒子の並び: 0=地球(2層コア), 1=月(2層コア・同期自転)
-    {type:"single", m:1000, coreMR:0.325, coreSR:1.0, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
-    {type:"single", m:12.3, coreMR:0.0168, coreSR:1.0, x:180,y:0, vx:0,vy:2.5053, spin:0.013908, pinned:false}
+    {type:"single", rMul:1.5, m:1000, coreMR:0.325, coreSR:1.0, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
+    {type:"single", rMul:1.5, m:12.3, coreMR:0.0168, coreSR:1.0, x:180,y:0, vx:0,vy:2.5053, spin:0.013908, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -1585,15 +1585,15 @@ const BUILTIN_PRESETS = [
   activeParams:["G","kFrame","D0"],
   camera:{scale:220}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
-    cLight:100, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.5, softening:2, timeScale:5},
+    cLight:100, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.5 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:5},
   bodies:[ // 第16便(第17次レビュー 推奨B — ChatGPT §7 の導出値を実エンジンで追認):
            // 重心座標 xE=−D·mM/MT・xM=+D·mE/MT(D=180)、全運動量0の速度配分、
            // vRel=√[G·MT·D²/(D²+ε²)^1.5]=2.371254(kFrame=0 なので f 補正不要)。
            // 実測: t5000(10.48周)r=179.974〜180.020・重心移動最大0.0009・同期誤差0.31°/周。
            // 自転は実比: 地球=27.39646523×ω=0.360911・月=ω=0.013174(同期)。
            // 粒子の並び: 0=地球, 1=月
-    {type:"single", m:1000, coreMR:0.325, coreSR:1.0, x:-2.187105191,y:0, vx:0,vy:-0.028812128, spin:0.360911060, pinned:false},
-    {type:"single", m:12.300037, coreMR:0.0168, coreSR:1.0, x:177.812894809,y:0, vx:0,vy:2.342442349, spin:0.013173636, pinned:false}
+    {type:"single", rMul:1.5, m:1000, coreMR:0.325, coreSR:1.0, x:-2.187105191,y:0, vx:0,vy:-0.028812128, spin:0.360911060, pinned:false},
+    {type:"single", rMul:1.5, m:12.300037, coreMR:0.0168, coreSR:1.0, x:177.812894809,y:0, vx:0,vy:2.342442349, spin:0.013173636, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -1603,19 +1603,19 @@ const BUILTIN_PRESETS = [
   activeParams:["muF","kFrame","kappaS"],   // QA activeParams.ui が先頭=muF の編集反映を検査するため muF を先頭に
   camera:{scale:340}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:1.2, muF:0.2, gammaN:0.15, kappaS:0.08, Kt:3600,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.8, softening:2, timeScale:3},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.8 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:3},
   bodies:[ // 原仮定者裁定(2026-07-22): physics は実機確認済みの調整版セーブ — kFrame=1(空間
            // 引きずりが無いと DFM サンプルの意義が薄い)・kRep=1.2・kappaS=0.08・Kt=3600(物理対応
            // ロック成立値)。第4便: 初期配置を t=300〜600 の実測安定分布に再設計(v1.24 の流儀)。
            // 実測 p5/p25/p50/p75/p95 ≈ 112/132/165/186/197・平均|spin|≈0.15 に合わせた3環帯。
            // 旧 C/B/A 配置(124–227)は空間引きずりで内側へ緩和するため、緩和後の姿から開始する。
            // 検証: この初期値で t≈1200 まで落下(<r90)0・散逸(>r320)0(QA behavior.saturnExp)。
-    {type:"single", m:1500, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
-    {type:"ring", n:75, cx:0,cy:0, rIn:104,rOut:132, mMin:0.01,mMax:0.03,
+    {type:"single", rMul:1.8, m:1500, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
+    {type:"ring", rMul:1.8, n:75, cx:0,cy:0, rIn:104,rOut:132, mMin:0.01,mMax:0.03,
      spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false},
-    {type:"ring", n:150, cx:0,cy:0, rIn:132,rOut:190, mMin:0.01,mMax:0.03,
+    {type:"ring", rMul:1.8, n:150, cx:0,cy:0, rIn:132,rOut:190, mMin:0.01,mMax:0.03,
      spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false},
-    {type:"ring", n:75, cx:0,cy:0, rIn:190,rOut:212, mMin:0.01,mMax:0.03,
+    {type:"ring", rMul:1.8, n:75, cx:0,cy:0, rIn:190,rOut:212, mMin:0.01,mMax:0.03,
      spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
@@ -1630,7 +1630,7 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame","muF","kappaS"],
   camera:{scale:340}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:1.2, muF:0.2, gammaN:0.15, kappaS:0.08, Kt:3600,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.8, softening:2, timeScale:3},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.8 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:3},
   bodies:[ // 第12〜14便(2026-07-23 原仮定者指示): 主星2層は比率仕様 — m は総質量のまま
            // (元になる数値をそのまま使える)、coreMR=mc/m(既定0・負値=空洞)・
            // coreSR=sc/s(既定1=剛体回転=単層等価。コアは推測なので比率が調整し易い)。
@@ -1638,12 +1638,12 @@ const BUILTIN_PRESETS = [
            // sc/s=1.05(教材既定。地震学的推定は ≈1.01)。差動形なので環付近への追加引きずりは
            // (mc/m)·s·(sc/s−1)·f(Rc,d) ≈ +0.1% と説明に整合する規模。
            // 環の帯・physics は 🪐(実験)と同一 — sc/s=1 で 🪐 と厳密等価(QA core.twolayer)。
-    {type:"single", m:1500, coreMR:0.18, coreSR:1.05, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
-    {type:"ring", n:75, cx:0,cy:0, rIn:104,rOut:132, mMin:0.01,mMax:0.03,
+    {type:"single", rMul:1.8, m:1500, coreMR:0.18, coreSR:1.05, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
+    {type:"ring", rMul:1.8, n:75, cx:0,cy:0, rIn:104,rOut:132, mMin:0.01,mMax:0.03,
      spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false},
-    {type:"ring", n:150, cx:0,cy:0, rIn:132,rOut:190, mMin:0.01,mMax:0.03,
+    {type:"ring", rMul:1.8, n:150, cx:0,cy:0, rIn:132,rOut:190, mMin:0.01,mMax:0.03,
      spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false},
-    {type:"ring", n:75, cx:0,cy:0, rIn:190,rOut:212, mMin:0.01,mMax:0.03,
+    {type:"ring", rMul:1.8, n:75, cx:0,cy:0, rIn:190,rOut:212, mMin:0.01,mMax:0.03,
      spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
@@ -1654,25 +1654,25 @@ const BUILTIN_PRESETS = [
   activeParams:["G","softening"],
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:1, lambdaPN:0, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:3},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:1, lambdaPN:0, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:3},
   bodies:[ // 第11次裁定 保留分(v1.29): 中心に Cassini 重力解 J2〜J12(基準半径 R_S=100 sim units)+
            // calib=1.000302283(D68 精密較正)。テスト粒子は e=0.05・近点+x方向で整列
            // (r_p=a(1−e), v_p=√[μ(1+e)/r_p], μ=G·M=1500)。DFM 効果(kFrame/kRep/muF/γN)は 0 に
            // して扁平重力の効果だけを分離。geoPN=1・λ_PN=0 = E6′排他+純ニュートン。
            // 旧 🧭(現実較正 C=1)は 2026-07-23 原仮定者裁定で本サンプルへ一本化・廃止
-    {type:"single", m:1500, x:0,y:0, vx:0,vy:0, spin:0, pinned:true,
+    {type:"single", rMul:1.2, m:1500, x:0,y:0, vx:0,vy:0, spin:0, pinned:true,
      zonal:{refR:100, calib:1.000302283, J:{2:0.016290573, 4:-0.000935314, 6:0.000086340,
             8:-0.000014624, 10:0.000004672, 12:-0.000000997}}},
-    {type:"single", m:0.05, x:102.60,y:0, vx:0,vy:3.9180, spin:0, pinned:false},
-    {type:"single", m:0.05, x:110.20,y:0, vx:0,vy:3.7805, spin:0, pinned:false},
-    {type:"single", m:0.05, x:119.70,y:0, vx:0,vy:3.6274, spin:0, pinned:false},
-    {type:"single", m:0.05, x:131.10,y:0, vx:0,vy:3.4661, spin:0, pinned:false},
-    {type:"single", m:0.05, x:144.40,y:0, vx:0,vy:3.3026, spin:0, pinned:false},
-    {type:"single", m:0.05, x:159.60,y:0, vx:0,vy:3.1414, spin:0, pinned:false},
-    {type:"single", m:0.05, x:176.70,y:0, vx:0,vy:2.9855, spin:0, pinned:false},
-    {type:"single", m:0.05, x:195.70,y:0, vx:0,vy:2.8369, spin:0, pinned:false},
-    {type:"single", m:0.05, x:216.60,y:0, vx:0,vy:2.6966, spin:0, pinned:false},
-    {type:"single", m:0.05, x:239.40,y:0, vx:0,vy:2.5649, spin:0, pinned:false}
+    {type:"single", rMul:1.2, m:0.05, x:102.60,y:0, vx:0,vy:3.9180, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:0.05, x:110.20,y:0, vx:0,vy:3.7805, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:0.05, x:119.70,y:0, vx:0,vy:3.6274, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:0.05, x:131.10,y:0, vx:0,vy:3.4661, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:0.05, x:144.40,y:0, vx:0,vy:3.3026, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:0.05, x:159.60,y:0, vx:0,vy:3.1414, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:0.05, x:176.70,y:0, vx:0,vy:2.9855, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:0.05, x:195.70,y:0, vx:0,vy:2.8369, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:0.05, x:216.60,y:0, vx:0,vy:2.6966, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:0.05, x:239.40,y:0, vx:0,vy:2.5649, spin:0, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -1682,11 +1682,11 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame","D0","G"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:320}, world:{boundary:"none",size:0},
   physics:{G:1, D0:10, kFrame:1, q:2, kRep:0, muF:0.05, gammaN:0.1, kappaS:0, Kt:10000,   // 第26便: kFrame 0.5→1(中間値解消。12000步で束縛・円盤240/240残存を実測)
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:4},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:4},
   bodies:[ // v1.13(付録M): 第6次提案 P1-1 を内蔵化(12000步スモーク・重心ドリフト0.1)
-    {type:"single", m:500, x:-60,y:0, vx:0,vy:-1.44, spin:0.03, pinned:false},
-    {type:"single", m:500, x:60,y:0,  vx:0,vy:1.44,  spin:0.03, pinned:false},
-    {type:"ring", n:240, cx:0,cy:0, rIn:180,rOut:290, mMin:0.05,mMax:0.2,
+    {type:"single", rMul:1.2, m:500, x:-60,y:0, vx:0,vy:-1.44, spin:0.03, pinned:false},
+    {type:"single", rMul:1.2, m:500, x:60,y:0,  vx:0,vy:1.44,  spin:0.03, pinned:false},
+    {type:"ring", rMul:1.2, n:240, cx:0,cy:0, rIn:180,rOut:290, mMin:0.05,mMax:0.2,
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:1000, omega:0, vNoise:0.04, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
@@ -1697,11 +1697,11 @@ const BUILTIN_PRESETS = [
   activeParams:["G","softening"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:140}, world:{boundary:"none",size:0},
   physics:{G:1, D0:100, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:0.2, softening:0.5, timeScale:2},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 0.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:0.5, timeScale:2},
   bodies:[ // v1.13(付録M): 第6次提案 P1-2 を内蔵化(有界性を機械検証済み)
-    {type:"single", m:300, x:-77.6003,y:19.447, vx:0.9028,vy:0.8373, spin:0, pinned:false},
-    {type:"single", m:300, x:77.6003,y:-19.447, vx:0.9028,vy:0.8373, spin:0, pinned:false},
-    {type:"single", m:300, x:0,y:0, vx:-1.8056,vy:-1.6745, spin:0, pinned:false}
+    {type:"single", rMul:0.2, m:300, x:-77.6003,y:19.447, vx:0.9028,vy:0.8373, spin:0, pinned:false},
+    {type:"single", rMul:0.2, m:300, x:77.6003,y:-19.447, vx:0.9028,vy:0.8373, spin:0, pinned:false},
+    {type:"single", rMul:0.2, m:300, x:0,y:0, vx:-1.8056,vy:-1.6745, spin:0, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -1711,12 +1711,12 @@ const BUILTIN_PRESETS = [
   activeParams:["muF","gammaN","etaRad"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:190}, world:{boundary:"none",size:0},
   physics:{G:1, D0:5, kFrame:0, q:2, kRep:0, muF:1, gammaN:0.6, kappaS:0.02, Kt:10000,
-    cLight:60, bM:1, etaRad:1e-5, pRad:2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:0.8, softening:2, timeScale:2},
+    cLight:60, bM:1, etaRad:1e-5, pRad:2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 0.8 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2},
   bodies:[ // v1.12(付録L): 第6次提案 P0-3 採用。muF=1/0 の加熱対照を機械検証済み
-    {type:"single", m:800, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
-    {type:"ring", n:100, cx:0,cy:0, rIn:80,rOut:145, mMin:0.12,mMax:0.18,
+    {type:"single", rMul:0.8, m:800, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
+    {type:"ring", rMul:0.8, n:100, cx:0,cy:0, rIn:80,rOut:145, mMin:0.12,mMax:0.18,
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:800, omega:0, vNoise:0.03, direction:1, pinned:false},
-    {type:"ring", n:100, cx:0,cy:0, rIn:80,rOut:145, mMin:0.12,mMax:0.18,
+    {type:"ring", rMul:0.8, n:100, cx:0,cy:0, rIn:80,rOut:145, mMin:0.12,mMax:0.18,
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:800, omega:0, vNoise:0.03, direction:-1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,spectrum:true} },
@@ -1727,13 +1727,13 @@ const BUILTIN_PRESETS = [
   activeParams:["kappaS","muF","etaRad"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:380}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0.6, gammaN:0.5, kappaS:1.2, Kt:60,
-    cLight:60, bM:1, etaRad:0.15, pRad:1, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:4},
+    cLight:60, bM:1, etaRad:0.15, pRad:1, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:4},
   bodies:[
-    {type:"single", m:400, x:-260,y:0, vx:0,vy:0, spin:0, pinned:true},
-    {type:"single", m:400, x:260,y:0, vx:0,vy:0, spin:3.5, pinned:true},
-    {type:"ring", n:110, cx:-260,cy:0, rIn:50,rOut:85, mMin:0.3,mMax:0.6,
+    {type:"single", rMul:1.2, m:400, x:-260,y:0, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", rMul:1.2, m:400, x:260,y:0, vx:0,vy:0, spin:3.5, pinned:true},
+    {type:"ring", rMul:1.2, n:110, cx:-260,cy:0, rIn:50,rOut:85, mMin:0.3,mMax:0.6,
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:400, omega:0, vNoise:0.05, direction:1, pinned:false},
-    {type:"ring", n:110, cx:260,cy:0, rIn:50,rOut:85, mMin:0.3,mMax:0.6,
+    {type:"ring", rMul:1.2, n:110, cx:260,cy:0, rIn:50,rOut:85, mMin:0.3,mMax:0.6,
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:400, omega:0, vNoise:0.05, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false} },
@@ -1807,12 +1807,21 @@ function validatePreset(obj){
         // lightSweep=光掻き出し(0〜1。自星の光を出さない → 観測温度 0・E11 も (1−lS) 倍)
         // coreOT=コア観測温度比率(Tc_obs = coreOT·(1−lS)·Ic·sc²。既定1)
         // radius=半径の明示指定(0.5〜500。未指定は radiusScale·√|m|)・coreRR=コア半径比(0.02〜1)
-        for(const [k,lo,hi] of [["obsT",0,1000],["lightSweep",0,1],["coreOT",0,1000],
-                                 ["radius",0.5,500],["coreRR",0.02,1]]){
+        // 第36便 C1: rMul=粒子半径の倍率(0.2〜5・既定1。R=radiusScale·rMul·√|m|)。
+        //   body.radius の 0.5 下限は経由しない(rMul は内部計算 — 微小粒子の R<0.5 も従来どおり出せる)
+        for(const [k,lo,hi] of [["obsT",0,1000],["coreOT",0,1000],
+                                 ["radius",0.5,500],["coreRR",0.02,1],["rMul",0.2,5]]){
           if(b[k]!==undefined){
             if(!isNum(b[k])){ bad(at+"."+k+" が数値ではありません"); return; }
             o[k]=wc(b[k],lo,hi,k);
           }
+        }
+        // 第36便 C2: lightSweep は数値(0〜1・従来の独立指定)に加えて "auto"(粒子パラメータからの
+        // 算出モード)を受理する。その他の値は削除+警告(生成AI・インポートの誤値で落とさない)
+        if(b.lightSweep!==undefined){
+          if(b.lightSweep==="auto") o.lightSweep="auto";
+          else if(isNum(b.lightSweep)) o.lightSweep=wc(b.lightSweep,0,1,"lightSweep");
+          else warnings.push(at+'.lightSweep は数値(0〜1)か "auto" — 削除します');
         }
         // E13(第11次裁定 保留分の実施): AI生成・インポートへ zonal を開放。
         // 偶数次 J2〜J12 のみ受理し、|J|≤0.1・refR 1〜5000・calib 0〜2 にクランプする
@@ -1856,6 +1865,10 @@ function validatePreset(obj){
           vNoise:wc(b.vNoise,0,1,"vNoise"), direction:b.direction, pinned:b.pinned,
           vScale:isNum(b.vScale)?wc(b.vScale,0,50,"vScale"):0,   // 第35便: vMode="hubble" の膨張率(他モードでは未使用)
           bulkVx:isNum(b.bulkVx)?VEL(b.bulkVx,"bulkVx"):0, bulkVy:isNum(b.bulkVy)?VEL(b.bulkVy,"bulkVy"):0};
+        if(b.rMul!==undefined){   // 第36便 C1: 群共通の半径倍率(0.2〜5・既定1)
+          if(!isNum(b.rMul)){ bad(at+".rMul が数値ではありません"); return; }
+          oR.rMul=wc(b.rMul,0.2,5,"rMul");
+        }
         // 第31便: railH(膨張レール)— pinned リングを a(t)=e^{H·t} で相似膨張させる規定運動
         if(b.railH!==undefined){
           if(!isNum(b.railH)){ bad(at+".railH が数値ではありません"); return; }
@@ -1867,18 +1880,28 @@ function validatePreset(obj){
         if(!needNum(["n","cx","cy","radius","mMin","mMax","spinMin","spinMax","aroundMass","vScale"])) return;
         if(["kepler","rigid","flat","random","hubble","none"].indexOf(b.vMode)<0){ bad(at+".vMode が不正"); return; }   // 第31便: hubble(初期 Hubble 流 v=vScale·(r−c))を追加
         if(b.direction!==1 && b.direction!==-1){ bad(at+".direction は 1 か -1"); return; }
-        out.push({type:"disk", n:clamp(Math.round(b.n),0,N_CAP), cx:CO(b.cx,"cx"), cy:CO(b.cy,"cy"), radius:LEN(b.radius,"radius"),
+        const oD={type:"disk", n:clamp(Math.round(b.n),0,N_CAP), cx:CO(b.cx,"cx"), cy:CO(b.cy,"cy"), radius:LEN(b.radius,"radius"),
           mMin:MASS(Math.min(b.mMin,b.mMax),"mMin"), mMax:MASS(Math.max(b.mMin,b.mMax),"mMax"),
           spinMin:SPN(Math.min(b.spinMin,b.spinMax),"spinMin"), spinMax:SPN(Math.max(b.spinMin,b.spinMax),"spinMax"),
           vMode:b.vMode, aroundMass:wc(b.aroundMass,0,5000,"aroundMass"), vScale:wc(b.vScale,0,50,"vScale"), direction:b.direction,
-          bulkVx:isNum(b.bulkVx)?VEL(b.bulkVx,"bulkVx"):0, bulkVy:isNum(b.bulkVy)?VEL(b.bulkVy,"bulkVy"):0});
+          bulkVx:isNum(b.bulkVx)?VEL(b.bulkVx,"bulkVx"):0, bulkVy:isNum(b.bulkVy)?VEL(b.bulkVy,"bulkVy"):0};
+        if(b.rMul!==undefined){   // 第36便 C1: 群共通の半径倍率(0.2〜5・既定1)
+          if(!isNum(b.rMul)){ bad(at+".rMul が数値ではありません"); return; }
+          oD.rMul=wc(b.rMul,0.2,5,"rMul");
+        }
+        out.push(oD);
       } else if(t==="box"){
         if(!needNum(["n","cx","cy","w","h","mMin","mMax","spinMin","spinMax","vScale"])) return;
-        out.push({type:"box", n:clamp(Math.round(b.n),0,N_CAP), cx:CO(b.cx,"cx"), cy:CO(b.cy,"cy"), w:LEN(b.w,"w"), h:LEN(b.h,"h"),
+        const oB={type:"box", n:clamp(Math.round(b.n),0,N_CAP), cx:CO(b.cx,"cx"), cy:CO(b.cy,"cy"), w:LEN(b.w,"w"), h:LEN(b.h,"h"),
           mMin:MASS(Math.min(b.mMin,b.mMax),"mMin"), mMax:MASS(Math.max(b.mMin,b.mMax),"mMax"),
           spinMin:SPN(Math.min(b.spinMin,b.spinMax),"spinMin"), spinMax:SPN(Math.max(b.spinMin,b.spinMax),"spinMax"),
           vScale:wc(b.vScale,0,50,"vScale"),
-          bulkVx:isNum(b.bulkVx)?VEL(b.bulkVx,"bulkVx"):0, bulkVy:isNum(b.bulkVy)?VEL(b.bulkVy,"bulkVy"):0});
+          bulkVx:isNum(b.bulkVx)?VEL(b.bulkVx,"bulkVx"):0, bulkVy:isNum(b.bulkVy)?VEL(b.bulkVy,"bulkVy"):0};
+        if(b.rMul!==undefined){   // 第36便 C1: 群共通の半径倍率(0.2〜5・既定1)
+          if(!isNum(b.rMul)){ bad(at+".rMul が数値ではありません"); return; }
+          oB.rMul=wc(b.rMul,0.2,5,"rMul");
+        }
+        out.push(oB);
       } else bad(at+".type が不正です("+String(t)+")");
     });
     // 粒子総数のクランプ(比例縮小)
@@ -2047,6 +2070,17 @@ function makeSim(){
     // ・radOv = 半径の明示指定(0=未指定→radiusScale·√|m|)。扁平率 f=5s²R³/(4Gm) にも使用
     // ・coreRRv = コア半径比 Rc/R(0=未指定→√|coreMR| 相当の従来式)
     obsT:null, lSw:null, coreOT:null, radOv:null, coreRRv:null,
+    // 第36便 C1(原仮定者指示「粒子半径スケールの既定は1」): rMulv = 粒子ごとの半径倍率
+    // (body.rMul。既定1)。実効倍率は rs_eff = radiusScale·rMul_i で、R_i = rs_eff·√|m_i|。
+    // radiusScale スライダーは全粒子に掛かる「相対ノブ」として存続し(既定1が基準)、
+    // 個体差は rMul が持つ。内蔵プリセットは旧 radiusScale 値を rMul へ焼き込んである。
+    // ※ Float64Array であることが本質: Float32 に丸めると rs_eff が旧 radiusScale リテラルと
+    //   別の倍精度値になり、R の bit 一致(受け入れ条件)が崩れる
+    rMulv:null, _rsUsed:NaN,
+    // 第36便 C2(原仮定者指示「掻出を粒子パラメータから算出するモード」): lSwAuto=1 の粒子は
+    // lightSweep を毎サブステップ lS_eff = min(1, |s_i|·R_i / c_surf) で更新する(下の _core 参照)。
+    // 実効値は従来どおり lSw[i] に入るので、参照側(E11 冷却・観測温度・色・HUD)は一切変わらない
+    lSwAuto:null, hasLSwAuto:false,
     pinned:null, railR:null, railAng:null, railOmega:null, railCx:null, railCy:null, railH:null,
     box:null, boxA:null,   // 第31便: UniverseBox 連続背景と現在stepの尺度キャッシュ {a,H,W}
     boxHist:null, _bhAcc:0, boxARef:1,   // 第32便: 尺度・赤方偏移の履歴(グラフ用データ層)と基準 a(0)
@@ -2077,6 +2111,8 @@ function makeSim(){
     S.coreMR=F();S.coreSR=F();S.mEff=F();S.Rc=F();S.rotAc=F();   // 主星2層(第12〜14便)
     S.obsT=F();S.lSw=F();S.coreOT=F();S.radOv=F();S.coreRRv=F();// 観測温度・半径系(第22便)
     S.coreSR.fill(1);   // コアスピン比の既定は 1(剛体回転=単層等価)
+    S.rMulv=new Float64Array(n); S.rMulv.fill(1);   // 第36便 C1: 半径倍率(既定1。倍精度で保持)
+    S.lSwAuto=new Uint8Array(n); S.hasLSwAuto=false;// 第36便 C2: 掻出の自動算出フラグ(既定0=独立指定)
     S.uPx=F();S.uPy=F();S.tau=F();S.ax=F();S.ay=F();S.sumW=F();S.uAx=F();S.uAy=F();S.ds=F();
     S.dpx=F();S.dpy=F();
     S.pairD=new Float32Array(Math.max(1,n*(n-1)/2)); // 対距離キャッシュ(E6′反作用パスで再利用)
@@ -2094,7 +2130,9 @@ function makeSim(){
     const push=(o)=>P.push(o);
     // 大質量天体(m≥40)の内部に他の粒子を生成しない(深い初期重なりは不安定の原因)
     const bigs=[];
-    const noteBig=(o)=>{ if(o.m>=40) bigs.push({x:o.x,y:o.y,R:phys.radiusScale*Math.sqrt(o.m)}); };
+    // 第36便 C1: 除外半径も実効倍率 radiusScale·rMul で評価する(旧 radiusScale 値を rMul へ
+    // 焼き込んだプリセットで初期配置が 1 ビットも動かないための必須同期 — 乗算順序も旧式と同一)
+    const noteBig=(o)=>{ if(o.m>=40) bigs.push({x:o.x,y:o.y,R:phys.radiusScale*(o.rMul===undefined?1:o.rMul)*Math.sqrt(o.m)}); };
     const insideBig=(x,y)=>{ for(const b of bigs){ const dx=x-b.x,dy=y-b.y;
       if(dx*dx+dy*dy<(b.R+1)*(b.R+1)) return true; } return false; };
     // 第35便(台帳4-61): 壁粒子群 = bodies 定義順で最初の ring 群(measureBox の計測対象)
@@ -2107,7 +2145,8 @@ function makeSim(){
           // 観測温度・半径系(第22便): 既定は従来と厳密等価
           obsT:(b.obsT===undefined?1:b.obsT), lightSweep:(b.lightSweep===undefined?0:b.lightSweep),
           coreOT:(b.coreOT===undefined?1:b.coreOT),
-          radius:(b.radius===undefined?0:b.radius), coreRR:(b.coreRR===undefined?0:b.coreRR)};
+          radius:(b.radius===undefined?0:b.radius), coreRR:(b.coreRR===undefined?0:b.coreRR),
+          rMul:(b.rMul===undefined?1:b.rMul)};   // 第36便 C1: 粒子ごとの半径倍率(既定1)
         if(b.zonal) o.zonal=b.zonal;   // E13(第11次裁定): 扁平中心天体の帯状重力属性
         // 第27便: 単体粒子のレール駆動(pinned+railOmega — 円軌道。🕶️ハローの
         // 20体相互散乱による形崩れ対策: 軌道を外部が規定し、u場への運動寄与は維持される)
@@ -2121,6 +2160,7 @@ function makeSim(){
         push(o); noteBig(o);
       } else if(b.type==="ring"){
         const rI0=P.length;   // 第35便: この ring 群の先頭インデックス(hubble 初速と壁タグに使用)
+        const rM=(b.rMul===undefined?1:b.rMul);   // 第36便 C1: 群共通の半径倍率(既定1)
         for(let i=0;i<b.n;i++){
           let ang,r,x,y,tries=0;
           do{
@@ -2137,7 +2177,7 @@ function makeSim(){
             // v1.18: bulkVx/Vy = 母集団の並進速度(移動する親天体の円盤・環が核と一体で動く)
             vx:vt*jit*tx + vr*Math.cos(ang) + (b.bulkVx||0),
             vy:vt*jit*ty + vr*Math.sin(ang) + (b.bulkVy||0),
-            spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:b.pinned?1:0, railOmega:0};
+            spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:b.pinned?1:0, railOmega:0, rMul:rM};
           // 第31便: railH(膨張レール a(t)=e^{H·t})— pinned リングを相似膨張で規定駆動する。
           // 位置は初期半径から毎step解析再構成(前stepへの加算ではないのでドリフトしない)
           if(b.pinned && (b.vMode==="omega" || b.railH)){
@@ -2162,6 +2202,7 @@ function makeSim(){
         }
         if(wallI0<0 && P.length>rI0){ wallI0=rI0; wallI1=P.length; }   // 第35便: 最初の ring 群=壁
       } else if(b.type==="disk"){
+        const rM=(b.rMul===undefined?1:b.rMul);   // 第36便 C1: 群共通の半径倍率(既定1)
         for(let i=0;i<b.n;i++){
           let ang,r,x,y,tries=0;
           do{
@@ -2178,16 +2219,17 @@ function makeSim(){
           if(b.vMode!=="hubble"){ vX += (rng()*2-1)*0.02; vY += (rng()*2-1)*0.02; }   // 第31便: hubble は共動初期条件を乱さない
           push({m:b.mMin+(b.mMax-b.mMin)*rng(), x,y,
             vx:vX+(b.bulkVx||0), vy:vY+(b.bulkVy||0),   // v1.18: 母集団の並進速度
-            spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:0, railOmega:0});
+            spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:0, railOmega:0, rMul:rM});
         }
       } else if(b.type==="box"){
+        const rM=(b.rMul===undefined?1:b.rMul);   // 第36便 C1: 群共通の半径倍率(既定1)
         for(let i=0;i<b.n;i++){
           let x,y,tries=0;
           do{ x=b.cx+(rng()-0.5)*b.w; y=b.cy+(rng()-0.5)*b.h; }while(insideBig(x,y) && ++tries<30);
           const a2=rng()*Math.PI*2, v=b.vScale*rng();
           push({m:b.mMin+(b.mMax-b.mMin)*rng(), x,y,
             vx:v*Math.cos(a2)+(b.bulkVx||0), vy:v*Math.sin(a2)+(b.bulkVy||0),   // v1.18: 並進速度
-            spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:0, railOmega:0});
+            spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:0, railOmega:0, rMul:rM});
         }
       }
     }
@@ -2197,7 +2239,13 @@ function makeSim(){
     P.forEach((o,i)=>{ S.m[i]=o.m; S.x[i]=o.x; S.y[i]=o.y; S.vx[i]=o.vx; S.vy[i]=o.vy;
       S.spin[i]=o.spin; S.pinned[i]=o.pinned; S.railOmega[i]=o.railOmega||0;
       S.coreMR[i]=o.coreMR||0; S.coreSR[i]=(o.coreSR===undefined?1:o.coreSR);
-      S.obsT[i]=(o.obsT===undefined?1:o.obsT); S.lSw[i]=(o.lightSweep===undefined?0:o.lightSweep);
+      S.obsT[i]=(o.obsT===undefined?1:o.obsT);
+      // 第36便 C2: lightSweep は数値(独立指定・従来どおり)か "auto"(粒子パラメータからの算出)。
+      // auto の初期値は 0 で、最初の _core で lS_eff に上書きされる
+      const lsw=o.lightSweep;
+      if(lsw==="auto"){ S.lSwAuto[i]=1; S.lSw[i]=0; S.hasLSwAuto=true; }
+      else { S.lSwAuto[i]=0; S.lSw[i]=(lsw===undefined?0:lsw); }
+      S.rMulv[i]=(o.rMul===undefined?1:o.rMul);   // 第36便 C1: 半径倍率(既定1)
       S.coreOT[i]=(o.coreOT===undefined?1:o.coreOT);
       S.radOv[i]=(o.radius===undefined?0:o.radius); S.coreRRv[i]=(o.coreRR===undefined?0:o.coreRR);
       S.railH[i]=o.railH||0;
@@ -2253,20 +2301,29 @@ function makeSim(){
     S.resPx=0; S.resPy=0; S.resL=0; S.radE=0; S.radL=0;
     S.curveBins=null; S.tempLR=[0,0]; S.histT=[];
   };
-  S.updateRadii = function(){ // R_i = radiusScale·√|m| (PHYSICS.md §2)
+  S.updateRadii = function(){ // R_i = radiusScale·rMul_i·√|m| (PHYSICS.md §2 + 第36便 C1)
     const rs=S.params.radiusScale;
     let hc=false;
     for(let i=0;i<S.n;i++){
       const mt=S.m[i];   // 第14便: 比率仕様 — m は総質量そのもの(コアは m の内訳)
       // 質量の下限 ±0.01(慣性の除算保護。負質量は実験用に符号を保持 — 第12便)
       S.mEff[i]=(Math.abs(mt)<0.01)? (mt<0? -0.01 : 0.01) : mt;
+      // 第36便 C1: 実効倍率 = radiusScale(全粒子共通の相対ノブ)× rMul_i(粒子ごとの倍率)。
+      // rMul=1(既定)なら rs*1===rs なので旧式と 1 ビットも変わらない
+      const rsi=rs*S.rMulv[i];
       // 第22便: 半径の明示指定(radius>0)とコア半径比(coreRR>0)。未指定は従来式
-      S.R[i]=(S.radOv[i]>0)? S.radOv[i] : rs*Math.sqrt(Math.abs(S.mEff[i]));
-      S.Rc[i]=(S.coreRRv[i]>0)? S.coreRRv[i]*S.R[i] : rs*Math.sqrt(Math.abs(S.coreMR[i]*S.mEff[i]));
+      S.R[i]=(S.radOv[i]>0)? S.radOv[i] : rsi*Math.sqrt(Math.abs(S.mEff[i]));
+      S.Rc[i]=(S.coreRRv[i]>0)? S.coreRRv[i]*S.R[i] : rsi*Math.sqrt(Math.abs(S.coreMR[i]*S.mEff[i]));
       if(S.coreMR[i]!==0) hc=true;
     }
     S.hasCore=hc;   // コアなし(全 coreMR=0)の宇宙は従来ループのまま(高速化)
+    S._rsUsed=rs;   // 第36便 C1: 直近に反映した radiusScale(_core の追従判定に使用)
   };
+  // 第36便 C2: 掻出の実効値(auto の粒子は lS_eff、それ以外は指定値)。lSw[i] が常に実効値なので
+  // 参照側は分岐不要 — 監査・UI 用の明示アクセサとして公開する(HP.sim.lSwEff(i))
+  S.lSwEff = function(i){ return (i>=0 && i<S.n)? S.lSw[i] : 0; };
+  // 第36便 C2: lSwAuto の有無を再計算(粒子編集パネルで auto を付け外ししたときに呼ぶ)
+  S.syncLSwAuto = function(){ let f=false; for(let i=0;i<S.n;i++) if(S.lSwAuto[i]){ f=true; break; } S.hasLSwAuto=f; return f; };
   // 第35便(台帳4-62): 積分器の入口。既定("semi")は _core を1回呼ぶだけで現行と厳密等価
   // (ゼロコスト経路 — QA integrator.default-unchanged が位置ハッシュの bit 一致で保証)。
   // "leapfrog" は KDK(kick–drift–kick): パスA=力評価+半キック+ドリフト、
@@ -2317,7 +2374,12 @@ function makeSim(){
           // v1.20(E12): 測地線1PNモード(BOX_UNIVERSE §5・DERIVATIONS §15。第1段階: 静的大質量源・u=0)
           geo=(p.geoPN||0)>0, pnA=(p.pnAlpha!==undefined? p.pnAlpha : 1.5),
           invC2=geo? (p.lambdaPN!==undefined? p.lambdaPN : 1)/(p.cLight*p.cLight) : 0;
-    if(Math.abs(R[0]-p.radiusScale*Math.sqrt(Math.abs(m[0])))>1e-6) S.updateRadii(); // radiusScale変更の追従
+    // radiusScale 変更の追従。第36便 C1: 主判定を「updateRadii が最後に使った radiusScale との
+    // 一致」へ変更(rMul 焼き込み後は R[0] と rs·√|m₀| が恒常的にずれるため、旧式のままだと
+    // 全プリセットで毎サブステップ再計算になる)。第2項は S.m を直接書き換える経路への保険で、
+    // 明示半径(radOv>0)の粒子0は対象外にする(従来は空転で毎回呼ばれていた)
+    if(S._rsUsed!==p.radiusScale ||
+       (S.radOv[0]<=0 && Math.abs(R[0]-p.radiusScale*S.rMulv[0]*Math.sqrt(Math.abs(m[0])))>1e-6)) S.updateRadii();
     ax.fill(0); ay.fill(0); sumW.fill(0); uAx.fill(0); uAy.fill(0); ds.fill(0);
     dpx.fill(0); dpy.fill(0);
     // 第31便: UniverseBox — この step の尺度 a(t)・Hubble 率 H・決定力 W_B を確定(規定運動)。
@@ -2515,6 +2577,30 @@ function makeSim(){
           ax[jz]+=axz; ay[jz]+=ayz;
           ax[zi]-=axz*m[jz]/mzi; ay[zi]-=ayz*m[jz]/mzi;   // 作用反作用(帳簿の対称性。中心は pinned 想定)
         }
+      }
+    }
+    // ===== 第36便 C2(原仮定者指示): 掻出 lightSweep="auto" の実効値を毎サブステップ算出 =====
+    // lS_eff = min(1, |s_i|·R_i / c_surf)、c_surf = c₀·e^{−2ψ_surf}、
+    // ψ_surf = (W_ext(r_i) + m_i/√(R_i²+ε²)) / Kt
+    //   = 「コア表面のフレーム速度 |s|·R」と「その場所の局所光速」の比。高速スピンで 1 に飽和し、
+    //     自星の光を外へ出さない(=掻き出す)状態になる。W_ext は E7R の時計と同じ自己場除外の
+    //     決定力(D₀+W_B+Σ_j≠i w_j)で、自分の表面値 m_i/√(R_i²+ε²) だけをここで足す。
+    // ★理論上の位置づけ: これは E8R/E6′ からの導出ではなく、表面フレーム速度と局所光速の比に
+    //   よる「モデル内の算出則」である(4-48 の暗さ機構の分離 — 従来トイ設定として手で置いていた
+    //   lightSweep を式に置き換えたもの)。物理対応ロック(Kt=c²/G)の現実的な自転では
+    //   |s|·R ≪ c_surf となり lS_eff≈0 になる(第19便 反証条件7と整合 — この誠実性は仕様)。
+    // 数値指定(既定)の粒子はこのブロックを 1 命令も通らない(hasLSwAuto=false ならループごと素通り)
+    if(S.hasLSwAuto){
+      const KtA=p.Kt, c0A=p.cLight;
+      for(let i=0;i<n;i++){
+        if(!S.lSwAuto[i]) continue;
+        const Ri=R[i];
+        const psiS=(bgW + sumW[i] + m[i]/Math.sqrt(Ri*Ri+eps2))/KtA;
+        const cS=c0A*Math.exp(-2*psiS);
+        const vS=Math.abs(spin[i])*Ri;
+        let ls=(cS>1e-12)? vS/cS : 1;
+        if(!(ls>0)) ls=0; else if(ls>1) ls=1;
+        lSw[i]=ls;
       }
     }
     // ===== ② 粒子ループ: 速度更新・E6′輸送(Δp確定)・スピン拡散・E11放射冷却 =====
@@ -4022,8 +4108,9 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
     for(const k of ["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy",
       "coreMR","coreSR","mEff","Rc","rotAc",   // 主星2層の状態も転写(第14便: 比率仕様)
       "obsT","lSw","coreOT","radOv","coreRRv", // 観測温度・半径系(第22便)
+      "rMulv","lSwAuto",                       // 第36便 C1/C2: 半径倍率・掻出の自動算出フラグ
       "railR","railAng","railOmega","railCx","railCy"]) simB[k].set(sim[k]);
-    simB.hasCore=sim.hasCore;
+    simB.hasCore=sim.hasCore; simB.hasLSwAuto=sim.hasLSwAuto; simB._rsUsed=sim._rsUsed;
     simB.pinned.set(sim.pinned); simB.hasU.set(sim.hasU);
   }
   simB.t=sim.t; simB.resPx=sim.resPx; simB.resPy=sim.resPy; simB.resL=sim.resL;
@@ -4703,21 +4790,21 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 
 # 例
 例1 要望「連星と、その周りを回る惑星たち」
-{"name":"連星系の惑星たち","emoji":"⭐","description":"2つの恒星が共通重心を回り、その外側を小さな惑星たちが公転する。連星の複雑な重力場で軌道が乱される様子が見どころ。","camera":{"scale":320},"world":{"boundary":"none","size":0},"physics":{"G":1,"D0":2,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":60,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1.2,"softening":2,"timeScale":4},"bodies":[{"type":"single","m":500,"x":-60,"y":0,"vx":0,"vy":-1.44,"spin":0.5,"pinned":false},{"type":"single","m":500,"x":60,"y":0,"vx":0,"vy":1.44,"spin":0.5,"pinned":false},{"type":"ring","n":220,"cx":0,"cy":0,"rIn":180,"rOut":290,"mMin":0.05,"mMax":0.3,"spinMin":0,"spinMax":0,"vMode":"kepler","aroundMass":1000,"omega":0,"vNoise":0.05,"direction":1,"pinned":false}],"overlays":{"rotationCurve":false,"tempHistogram":false,"field":false}}
+{"name":"連星系の惑星たち","emoji":"⭐","description":"2つの恒星が共通重心を回り、その外側を小さな惑星たちが公転する。連星の複雑な重力場で軌道が乱される様子が見どころ。","camera":{"scale":320},"world":{"boundary":"none","size":0},"physics":{"G":1,"D0":2,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":60,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1,"softening":2,"timeScale":4},"bodies":[{"type":"single","rMul":1.2,"m":500,"x":-60,"y":0,"vx":0,"vy":-1.44,"spin":0.5,"pinned":false},{"type":"single","rMul":1.2,"m":500,"x":60,"y":0,"vx":0,"vy":1.44,"spin":0.5,"pinned":false},{"type":"ring","rMul":1.2,"n":220,"cx":0,"cy":0,"rIn":180,"rOut":290,"mMin":0.05,"mMax":0.3,"spinMin":0,"spinMax":0,"vMode":"kepler","aroundMass":1000,"omega":0,"vNoise":0.05,"direction":1,"pinned":false}],"overlays":{"rotationCurve":false,"tempHistogram":false,"field":false}}
 (連星の公転速度: 半径60・相手質量500 → v≈√(1×500÷(60×2))≈1.44 を互いに逆向きに与える)
 
 例2 要望「熱いガスと冷たいガスが混ざるところ」
-{"name":"高温ガスと低温ガスの混合","emoji":"🔥","description":"箱の左に低温(低スピン)、右に高温(高スピン)のガスを配置。衝突とスピン拡散で温度が均一化し、熱平衡に達する過程を観察できる。","camera":{"scale":240},"world":{"boundary":"box","size":200},"physics":{"G":0.05,"D0":50,"kFrame":0.2,"q":2,"kRep":2,"muF":0.8,"gammaN":0.3,"kappaS":0.15,"Kt":60,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1.2,"softening":2,"timeScale":2},"bodies":[{"type":"box","n":120,"cx":-100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":0,"spinMax":0.2,"vScale":0.3},{"type":"box","n":120,"cx":100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":2,"spinMax":3,"vScale":2.5}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
+{"name":"高温ガスと低温ガスの混合","emoji":"🔥","description":"箱の左に低温(低スピン)、右に高温(高スピン)のガスを配置。衝突とスピン拡散で温度が均一化し、熱平衡に達する過程を観察できる。","camera":{"scale":240},"world":{"boundary":"box","size":200},"physics":{"G":0.05,"D0":50,"kFrame":0.2,"q":2,"kRep":2,"muF":0.8,"gammaN":0.3,"kappaS":0.15,"Kt":60,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1,"softening":2,"timeScale":2},"bodies":[{"type":"box","rMul":1.2,"n":120,"cx":-100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":0,"spinMax":0.2,"vScale":0.3},{"type":"box","rMul":1.2,"n":120,"cx":100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":2,"spinMax":3,"vScale":2.5}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
 
 例3 要望「ブラックホールが見たい。光が吸い込まれるところも。星も1000個ちりばめて」
-{"name":"ブラックホール — 光子捕捉","emoji":"🕳️","description":"中央の超大質量天体(ブラックホールの光学類似)。左からの光線が強く曲がり、近くを通る光は捕まって光子球のような円軌道に巻き付く(光子捕捉)。周囲の星は数を400に抑えて軽快に動かす。決定力マップ表示付き。","camera":{"scale":300},"world":{"boundary":"none","size":0},"physics":{"G":1,"D0":2,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":40,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1.2,"softening":2,"timeScale":1},"bodies":[{"type":"single","m":2000,"x":0,"y":0,"vx":0,"vy":0,"spin":0.5,"pinned":true},{"type":"disk","n":400,"cx":0,"cy":0,"radius":280,"mMin":0.05,"mMax":0.2,"spinMin":0,"spinMax":0,"vMode":"kepler","aroundMass":2000,"vScale":1,"direction":1}],"rays":{"n":32,"spread":0.7},"overlays":{"rotationCurve":false,"tempHistogram":false,"field":true}}
+{"name":"ブラックホール — 光子捕捉","emoji":"🕳️","description":"中央の超大質量天体(ブラックホールの光学類似)。左からの光線が強く曲がり、近くを通る光は捕まって光子球のような円軌道に巻き付く(光子捕捉)。周囲の星は数を400に抑えて軽快に動かす。決定力マップ表示付き。","camera":{"scale":300},"world":{"boundary":"none","size":0},"physics":{"G":1,"D0":2,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":40,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1,"softening":2,"timeScale":1},"bodies":[{"type":"single","rMul":1.2,"m":2000,"x":0,"y":0,"vx":0,"vy":0,"spin":0.5,"pinned":true},{"type":"disk","rMul":1.2,"n":400,"cx":0,"cy":0,"radius":280,"mMin":0.05,"mMax":0.2,"spinMin":0,"spinMax":0,"vMode":"kepler","aroundMass":2000,"vScale":1,"direction":1}],"rays":{"n":32,"spread":0.7},"overlays":{"rotationCurve":false,"tempHistogram":false,"field":true}}
 (質量2000+Kt=40+スピン0.5で光子捕捉が起きる=機械検証済み。要望の1000個は上限・性能の推奨に合わせて400に調整し、descriptionでその旨に触れている)
 
 例4 要望「回る空間に引きずられるのを見たい」
-{"name":"回転リングの空間引きずり","emoji":"🌀","description":"重いリングが回転すると内側の空間ごと引きずられ、静止していた粒子が回り始める(マッハの原理)。D0を上げると引きずりが弱まるのも試せる。","camera":{"scale":220},"world":{"boundary":"none","size":0},"physics":{"G":0.02,"D0":0.5,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":60,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1.2,"softening":2,"timeScale":2},"bodies":[{"type":"ring","n":14,"cx":0,"cy":0,"rIn":150,"rOut":150,"mMin":80,"mMax":80,"spinMin":0.5,"spinMax":0.5,"vMode":"omega","aroundMass":0,"omega":0.012,"vNoise":0,"direction":1,"pinned":true},{"type":"disk","n":40,"cx":0,"cy":0,"radius":80,"mMin":0.5,"mMax":0.5,"spinMin":0,"spinMax":0,"vMode":"none","aroundMass":0,"vScale":0,"direction":1}],"overlays":{"rotationCurve":false,"tempHistogram":false,"field":false}}
+{"name":"回転リングの空間引きずり","emoji":"🌀","description":"重いリングが回転すると内側の空間ごと引きずられ、静止していた粒子が回り始める(マッハの原理)。D0を上げると引きずりが弱まるのも試せる。","camera":{"scale":220},"world":{"boundary":"none","size":0},"physics":{"G":0.02,"D0":0.5,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":60,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1,"softening":2,"timeScale":2},"bodies":[{"type":"ring","rMul":1.2,"n":14,"cx":0,"cy":0,"rIn":150,"rOut":150,"mMin":80,"mMax":80,"spinMin":0.5,"spinMax":0.5,"vMode":"omega","aroundMass":0,"omega":0.012,"vNoise":0,"direction":1,"pinned":true},{"type":"disk","rMul":1.2,"n":40,"cx":0,"cy":0,"radius":80,"mMin":0.5,"mMax":0.5,"spinMin":0,"spinMax":0,"vMode":"none","aroundMass":0,"vScale":0,"direction":1}],"overlays":{"rotationCurve":false,"tempHistogram":false,"field":false}}
 
 例5 要望「床で温めて天井で冷やす対流実験」
-{"name":"対流セル — 床加熱・天井冷却","emoji":"♨️","description":"床の左〜中央がヒーター(固定・高スピン)、天井の右側が疎な冷却板(固定・スピン0)。温められたガスはスピン斥力で膨らんで浮かび、天井で熱を渡して右から沈む一方向の対流セル。下向きの場は一様重力場gravityYで作る。ガスは軽い粒子にして自己重力の凍結を防ぐ。左右の平均温度グラフ付き。","camera":{"scale":240},"world":{"boundary":"box","size":190},"physics":{"G":0,"D0":2,"kFrame":0,"q":2,"kRep":2,"muF":0.2,"gammaN":0.1,"kappaS":1.2,"Kt":60,"cLight":60,"bM":1,"etaRad":0,"pRad":2,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"gravityX":0,"gravityY":0.03,"radiusScale":4,"softening":4,"timeScale":2},"bodies":[{"type":"single","m":1,"x":-170,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-150,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-130,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-110,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-90,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-70,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-50,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-30,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-10,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":10,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":30,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":10,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":50,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":90,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":130,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":170,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"box","n":260,"cx":0,"cy":-10,"w":340,"h":320,"mMin":0.05,"mMax":0.05,"spinMin":1,"spinMax":2,"vScale":0.4}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
+{"name":"対流セル — 床加熱・天井冷却","emoji":"♨️","description":"床の左〜中央がヒーター(固定・高スピン)、天井の右側が疎な冷却板(固定・スピン0)。温められたガスはスピン斥力で膨らんで浮かび、天井で熱を渡して右から沈む一方向の対流セル。下向きの場は一様重力場gravityYで作る。ガスは軽い粒子にして自己重力の凍結を防ぐ。左右の平均温度グラフ付き。","camera":{"scale":240},"world":{"boundary":"box","size":190},"physics":{"G":0,"D0":2,"kFrame":0,"q":2,"kRep":2,"muF":0.2,"gammaN":0.1,"kappaS":1.2,"Kt":60,"cLight":60,"bM":1,"etaRad":0,"pRad":2,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"gravityX":0,"gravityY":0.03,"radiusScale":1,"softening":4,"timeScale":2},"bodies":[{"type":"single","rMul":4,"m":1,"x":-170,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-150,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-130,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-110,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-90,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-70,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-50,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-30,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-10,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":10,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":30,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":10,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","rMul":4,"m":1,"x":50,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","rMul":4,"m":1,"x":90,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","rMul":4,"m":1,"x":130,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","rMul":4,"m":1,"x":170,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"box","rMul":4,"n":260,"cx":0,"cy":-10,"w":340,"h":320,"mMin":0.05,"mMax":0.05,"spinMin":1,"spinMax":2,"vScale":0.4}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
 (pinned+spin=熱浴の型: 高スピン列=ヒーター、スピン0列=冷却板。床の一部だけを温め、冷却板を天井に疎に置くと一方向の対流セルになり、粒子が冷所に貼り付かない=機械検証済み。下向きの場は gravityY=0.03 — v1.17で導入した一様重力場。時計・光・引きずりを歪めないため、画面外に遠方大質量を置く旧手法より安定する。自己重力・引きずり・放射は0にして「重力+熱膨張」だけで循環を作ると要因が明確になる)`;
 
 // 注: 以前は output_config.format(構造化出力)に JSON Schema を渡していたが、
@@ -5175,7 +5262,11 @@ function updateBodyEdit(){
   $("#beM").value=fmt(S.m[i]); $("#beS").value=fmt(S.spin[i]);
   $("#beMc").value=fmt(S.coreMR[i]); $("#beSc").value=fmt(S.coreSR[i]);
   $("#beR").value=fmt(S.R[i]); $("#beRr").value=fmt(S.R[i]>0? S.Rc[i]/S.R[i] : 0);   // 第22便: 半径系(実効値を表示)
-  $("#beOt").value=fmt(S.obsT[i]); $("#beSw").value=fmt(S.lSw[i]); $("#beOc").value=fmt(S.coreOT[i]);   // 観測温度系
+  $("#beOt").value=fmt(S.obsT[i]); $("#beOc").value=fmt(S.coreOT[i]);   // 観測温度系
+  // 第36便 C2: 掻出は "auto"(粒子パラメータからの算出モード)を受理。auto の粒子は入力欄に
+  // auto を表示し、隣に現在の実効値 lS_eff を出す(表示のみ・書式は既存の fmt に倣う)
+  $("#beSw").value = S.lSwAuto[i]? "auto" : fmt(S.lSw[i]);
+  $("#beSwEff").textContent = S.lSwAuto[i]? ("lS_eff="+fmt(S.lSwEff(i))) : "";
   $("#beVx").value=fmt(S.vx[i]); $("#beVy").value=fmt(S.vy[i]);
   $("#bePin").checked=!!S.pinned[i];
 }
@@ -5196,7 +5287,19 @@ beBind("#beS",(S,i,v)=>{ S.spin[i]=clamp(v,-40,40); });
 beBind("#beR",(S,i,v)=>{ S.radOv[i]=clamp(v,0.5,500); S.updateRadii(); });
 beBind("#beRr",(S,i,v)=>{ S.coreRRv[i]=clamp(v,0.02,1); S.updateRadii(); });
 beBind("#beOt",(S,i,v)=>{ S.obsT[i]=clamp(v,0,1000); });
-beBind("#beSw",(S,i,v)=>{ S.lSw[i]=clamp(v,0,1); });
+// 第36便 C2(原仮定者指示): 掻出欄は数値(0〜1・従来の独立指定)に加えて "auto" を受理する。
+// beBind は parseFloat 前提なので、この欄だけ専用ハンドラにする(他欄の挙動は不変)
+$("#beSw").addEventListener("change",()=>{
+  const S=selSimRef();
+  if(selIdx<0||selIdx>=S.n){ updateBodyEdit(); return; }
+  const raw=$("#beSw").value.trim().toLowerCase();
+  if(raw==="auto"){ S.lSwAuto[selIdx]=1; S.hasLSwAuto=true; setParamsDirty(true); requestRender(); }
+  else{
+    const v=parseFloat(raw.replace(/[,、\s]/g,"").replace(/[−ー–—－]/g,"-"));   // v1.24: 全角マイナス等も受理
+    if(isFinite(v)){ S.lSwAuto[selIdx]=0; S.syncLSwAuto(); S.lSw[selIdx]=clamp(v,0,1); setParamsDirty(true); requestRender(); }
+  }
+  updateBodyEdit();
+});
 beBind("#beOc",(S,i,v)=>{ S.coreOT[i]=clamp(v,0,1000); });
 beBind("#beVx",(S,i,v)=>{ S.vx[i]=clamp(v,-100,100); });
 beBind("#beVy",(S,i,v)=>{ S.vy[i]=clamp(v,-100,100); });

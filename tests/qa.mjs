@@ -3820,6 +3820,144 @@ if (hasDrawScale) {
   }
 }
 
+// ---- 7z4) 第36便 Wave C(C1/C2・原仮定者指示): 「粒子半径スケール」既定1(旧値は body.rMul へ
+// ----      焼き込み)と「掻出」の自動算出モード lightSweep:"auto"(beta 先行 — ルート対象時はスキップ)----
+{
+  const hasWaveC = await page.evaluate(() => !!(HP.sim && HP.sim.rMulv && HP.sim.lSwAuto));
+  if (hasWaveC) {
+    // ① radius.default-one: 内蔵プリセット全件の physics.radiusScale が 1
+    //    (原仮定者指示「デフォルトを1とする。現状1でないサンプルは全粒子に反映した上で1にする」の機械固定)
+    //    走査はソース上の BUILTIN_PRESETS 定義に対して行う(builtin.explicit-physics と同方式 —
+    //    実行時 allPresets() はインポート済みカスタムを含み得るので混入しない静的走査を使う)。
+    //    併せて DEFAULT_PHYSICS.radiusScale===1 とスライダー定義域も確認する
+    {
+      const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+      const block = html.match(/const BUILTIN_PRESETS = \[([\s\S]*?)\n\];/)[1];
+      const vals = [...block.matchAll(/radiusScale:\s*([\d.]+)/g)].map(x => x[1]);
+      const bad = vals.filter(v => Number(v) !== 1);
+      const dp = (html.match(/const DEFAULT_PHYSICS = \{[\s\S]*?radiusScale:\s*([\d.]+)/) || [])[1];
+      const rt = await page.evaluate(() => {
+        // rMul 焼き込み済みの内蔵は「全 body に rMul あり or radiusScale が元から1」のはず
+        const bs = HP.allPresets().filter(p => !String(p.id).startsWith('custom_'));
+        return bs.filter(p => (p.physics || {}).radiusScale !== 1).map(p => `${p.id}=${(p.physics || {}).radiusScale}`);
+      });
+      add('radius.default-one', bad.length === 0 && vals.length > 0 && Number(dp) === 1 && rt.length === 0,
+        `内蔵${vals.length}件の physics.radiusScale: 非1=${bad.length ? bad.join(',') : 'なし'} / ` +
+        `DEFAULT_PHYSICS.radiusScale=${dp}(=1) 実行時非1=${rt.length ? rt.join(',') : 'なし'}`);
+    }
+
+    // ② rmul.schema: body.rMul(全 body 型で省略可・既定1・clamp[0.2,5])の受理と半径式
+    //    R = radiusScale·rMul·√|m|(明示 radius があれば radius 優先。rMul は body.radius の
+    //    0.5 下限を経由しない内部計算なので、微小粒子の R<0.5 が従来どおり出せる)
+    const rm = await page.evaluate(() => {
+      const mk = (bodies, phys) => ({ id: 'qa_rmul', name: 'r', description: 'd', camera: { scale: 300 },
+        world: { boundary: 'none', size: 0 },
+        physics: Object.assign({ G: 1, D0: 2, kFrame: 1, q: 2, kRep: 1, muF: 0.5, gammaN: 0.4, kappaS: 0.05,
+          Kt: 60, cLight: 60, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1,
+          pnAlpha: 1.5, radiusScale: 1, softening: 2, timeScale: 1 }, phys || {}), bodies, overlays: {} });
+      // clamp: 4 型すべてで [0.2,5] に丸められ、丸めたときは警告が出る
+      const v = HP.validatePreset(mk([
+        { type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false, rMul: 9 },
+        { type: 'ring', n: 4, cx: 0, cy: 0, rIn: 50, rOut: 50, mMin: 1, mMax: 1, spinMin: 0, spinMax: 0, vMode: 'none', aroundMass: 0, omega: 0, vNoise: 0, direction: 1, pinned: false, rMul: 0.01 },
+        { type: 'disk', n: 4, cx: 0, cy: 0, radius: 40, mMin: 1, mMax: 1, spinMin: 0, spinMax: 0, vMode: 'none', aroundMass: 0, vScale: 0, direction: 1, rMul: 3 },
+        { type: 'box', n: 4, cx: 0, cy: 0, w: 40, h: 40, mMin: 1, mMax: 1, spinMin: 0, spinMax: 0, vScale: 0, rMul: 2 },
+      ]));
+      const clamps = v.ok ? v.preset.bodies.map(b => b.rMul) : null;
+      // 省略時は既定1(キーごと出力されない=旧スキーマと同一形)
+      const vDef = HP.validatePreset(mk([{ type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }]));
+      const omitted = vDef.ok && !('rMul' in vDef.preset.bodies[0]);
+      const s = HP.sim;
+      // 半径式 R = radiusScale·rMul·√|m| と、明示 radius 優先
+      s.build(mk([{ type: 'single', m: 100, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true, rMul: 2 },
+        { type: 'single', m: 100, x: 200, y: 0, vx: 0, vy: 0, spin: 0, pinned: true, rMul: 2, radius: 7 }]));
+      const rFormula = s.R[0], rExplicit = s.R[1];
+      // radiusScale スライダーは「相対ノブ」として存続(1 が基準になるだけ)
+      s.params.radiusScale = 2; s.updateRadii();
+      const knob = s.R[0];
+      s.params.radiusScale = 1; s.updateRadii();
+      // 微小粒子: body.radius の 0.5 下限を経由しない
+      s.build(mk([{ type: 'single', m: 0.04, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true, rMul: 0.5 }]));
+      const tiny = s.R[0];
+      return { ok: v.ok, clamps, warns: v.warnings.length, omitted, rFormula, rExplicit, knob, tiny };
+    });
+    const rmOk = rm.ok && JSON.stringify(rm.clamps) === JSON.stringify([5, 0.2, 3, 2]) && rm.warns === 2 &&
+      rm.omitted && Math.abs(rm.rFormula - 20) < 1e-5 && Math.abs(rm.rExplicit - 7) < 1e-5 &&
+      Math.abs(rm.knob - 40) < 1e-5 && Math.abs(rm.tiny - 0.1) < 1e-5;
+    add('rmul.schema', rmOk,
+      `clamp=${JSON.stringify(rm.clamps)}(=[5,0.2,3,2]) 警告${rm.warns}件 省略時キーなし=${rm.omitted} ` +
+      `R(rMul2,m100)=${rm.rFormula}(=20) radius優先=${rm.rExplicit}(=7) rs2倍=${rm.knob}(=40) 微小R=${rm.tiny.toFixed(4)}(=0.1・下限0.5を経由しない)`);
+
+    // ③ sweep.auto-monotonic: 同一質量・半径で s=0/0.5/1/2 → lS_eff が単調増加し s=0 で 0
+    //    実測(2026-07-27・m=100/radius=20/Kt=60/c₀=60/D₀=2):
+    //      s=0 → 0 / s=0.5 → 0.210293 / s=1 → 0.420586 / s=2 → 0.841172
+    const mono = await page.evaluate(() => [0, 0.5, 1, 2].map(sp => {
+      const s = HP.sim;
+      s.build({ id: 'qa_sweep', name: 's', description: 'd', camera: { scale: 300 },
+        world: { boundary: 'none', size: 0 },
+        physics: { G: 1, D0: 2, kFrame: 1, q: 2, kRep: 1, muF: 0.5, gammaN: 0.4, kappaS: 0.05, Kt: 60,
+          cLight: 60, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1,
+          pnAlpha: 1.5, radiusScale: 1, softening: 2, timeScale: 1 },
+        bodies: [{ type: 'single', m: 100, x: 0, y: 0, vx: 0, vy: 0, spin: sp, pinned: true, radius: 20, lightSweep: 'auto' }],
+        overlays: {} });
+      s.step(0.016);
+      return { spin: sp, lS: s.lSwEff(0), auto: s.lSwAuto[0] };
+    }));
+    const monoOk = mono.every(m => m.auto === 1) && mono[0].lS === 0 &&
+      mono[1].lS > 0 && mono[2].lS > mono[1].lS && mono[3].lS > mono[2].lS;
+    add('sweep.auto-monotonic', monoOk,
+      mono.map(m => `s=${m.spin}→lS_eff=${m.lS.toFixed(6)}`).join(' ') + '(s=0で0・単調増加)');
+
+    // ④ sweep.auto-physlock: 物理対応ロック(Kt=cLight²/G=3600・cLight=60)+ 恒星的パラメータ
+    //    = 表面速度/光速が実在天体と同じ比(土星 v_eq=9.87km/s ÷ c=299792km/s = 3.29e-5)なら
+    //    lS_eff < 0.01。auto は「現実の自転では暗くならない」— 第19便 反証条件7と整合する
+    //    誠実性の機械固定(この式でダークマター的な暗さがタダで手に入らないことの保証)。
+    //    実測(2026-07-27・m=1500/radius=70): 土星比 3.333e-5 / 太陽比(6.7e-6)6.788e-6。
+    //    参考: 同天体でも展示用の誇張スピン 0.05 では 0.0591、1.2 では 1(飽和)になる。
+    const lock = await page.evaluate(() => {
+      const run = (spin) => {
+        const s = HP.sim;
+        s.build({ id: 'qa_lock', name: 'l', description: 'd', camera: { scale: 300 },
+          world: { boundary: 'none', size: 0 },
+          physics: { G: 1, D0: 2, kFrame: 1, q: 2, kRep: 1, muF: 0.5, gammaN: 0.4, kappaS: 0.05, Kt: 3600,
+            cLight: 60, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1,
+            pnAlpha: 1.5, radiusScale: 1, softening: 2, timeScale: 1 },
+          bodies: [{ type: 'single', m: 1500, x: 0, y: 0, vx: 0, vy: 0, spin, pinned: true, radius: 70, lightSweep: 'auto' }],
+          overlays: {} });
+        s.step(0.016);
+        return { lS: s.lSwEff(0), lock: HP.physLockSatisfied(s) };
+      };
+      return { saturn: run(60 * 3.29e-5 / 70), sun: run(60 * 6.7e-6 / 70), toy: run(0.05) };
+    });
+    add('sweep.auto-physlock', lock.saturn.lock && lock.saturn.lS < 0.01 && lock.sun.lS < 0.01,
+      `ロック成立=${lock.saturn.lock} 土星の実自転比 lS_eff=${lock.saturn.lS.toExponential(3)}(<0.01) ` +
+      `太陽比=${lock.sun.lS.toExponential(3)} 参考: 展示用スピン0.05では ${lock.toy.lS.toFixed(4)}`);
+
+    // ⑤ sweep.numeric-unchanged: 数値指定(既存プリセット)の掻出は bit 一致で不変。
+    //    🕶️darkrotor(全 single が lightSweep:1)を 300 步走らせた x,y,spin ハッシュを、
+    //    Wave C 実装前の beta/index.html(第36便 36B 時点)で採取した基準と照合する。
+    const dr = await page.evaluate(() => {
+      HP.loadPreset('darkrotor', false);
+      const s = HP.sim;
+      const lS0 = [s.lSw[0], s.lSw[1]], auto = s.hasLSwAuto;
+      for (let k = 0; k < 300; k++) s.step(0.016);
+      const a = [];
+      for (let i = 0; i < s.n; i++) a.push(s.x[i], s.y[i], s.spin[i]);
+      return { n: s.n, lS0, auto, lS1: [s.lSw[0], s.lSw[1]], str: a.map(v => v.toExponential(12)).join(',') };
+    });
+    const drHash = crypto.createHash('sha256').update(dr.str).digest('hex');
+    const DR_BASE = '4dee00d8f2db22aadddcc8dd3186f2fd8b6048100caef1694ee7cd1167609379';
+    add('sweep.numeric-unchanged',
+      dr.n === 391 && drHash === DR_BASE && dr.auto === false &&
+      dr.lS0[0] === 1 && dr.lS0[1] === 1 && dr.lS1[0] === 1 && dr.lS1[1] === 1,
+      `🕶️darkrotor 300步 x,y,spinハッシュ=${drHash.slice(0, 16)}…(基準=${DR_BASE.slice(0, 16)}… bit一致=${drHash === DR_BASE}) ` +
+      `auto経路=${dr.auto}(false=ゼロコスト) lightSweep=${dr.lS1.join(',')}(不変)`);
+
+    await page.evaluate(() => HP.loadPreset('saturn', false));   // 後続項目のため既定プリセットへ戻す
+  } else {
+    console.log('SKIP radius.default-one/rmul.schema/sweep.auto-*/sweep.numeric-unchanged(対象に Wave C 未適用 — root 等)');
+  }
+}
+
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
 // W5c: ワーカープールの後片付け(全ユニットは既に上流の getUnit() で待ち合わせ済みのはずだが、
 // 各ワーカーの wp.close() 完了を確実に待ってから共有 browser を閉じる)
