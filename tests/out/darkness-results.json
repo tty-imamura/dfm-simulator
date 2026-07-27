@@ -1,0 +1,5017 @@
+{
+ "schemaVersion": 1,
+ "generatedAt": "2026-07-27T07:20:33.802Z",
+ "commit": "f1468b1f9ed5262600fe1cf5f5b0b5f1520c9555",
+ "target": "/tmp/claude-0/-home-user-dfm-simulator/b176f66c-2f99-57d5-b22d-33b08afe69cb/scratchpad/beta-HEAD-36e.html",
+ "note": "第36便 E2(台帳4-48): 光学的暗さの3機構の分離実験。QA ではない(合否なし)。機構①=RAY_MASS_MIN 未満の光線計算省略(人工・本実験の主対象外 — massMin 節に参考定量)/機構②=放射なし(lightSweep による E11 抑制・etaRad)/機構③=高スピンでの光線掃き出し(E8R の kF·u 移流)。",
+ "meta": {
+  "dt": 0.016,
+  "checkpoints": [
+   0,
+   300,
+   1200,
+   3000
+  ],
+  "conditions": [
+   {
+    "id": "base",
+    "sweep": 1,
+    "scope": "bh",
+    "Kt": null,
+    "label": "現行(lightSweep=1 数値指定)"
+   },
+   {
+    "id": "auto",
+    "sweep": "auto",
+    "scope": "bh",
+    "Kt": null,
+    "label": "lightSweep=\"auto\"(第36便C2)"
+   },
+   {
+    "id": "zero",
+    "sweep": 0,
+    "scope": "bh",
+    "Kt": null,
+    "label": "lightSweep=0(掻き出しなし対照)"
+   },
+   {
+    "id": "lock-auto",
+    "sweep": "auto",
+    "scope": "bh",
+    "Kt": 3600,
+    "label": "物理対応ロック Kt=3600 + auto"
+   },
+   {
+    "id": "lock-base",
+    "sweep": 1,
+    "scope": "bh",
+    "Kt": 3600,
+    "label": "(補助)ロック + lightSweep=1"
+   },
+   {
+    "id": "auto-all",
+    "sweep": "auto",
+    "scope": "all",
+    "Kt": null,
+    "label": "(補助)全 single を auto"
+   }
+  ],
+  "sources": {
+   "traceRay": "beta/index.html:3082-3168 (rayField/traceRay。RAY_MASS_MIN=40 は :924)",
+   "e11": "beta/index.html:2660-2669 (Λ=η_rad·T^p·(1−lSw)、|Δs|≤0.5|s| クランプ)",
+   "tObs": "beta/index.html:3349 (T_obs=obsT·(1−lSw)·½mR²s²)",
+   "lSwAuto": "beta/index.html:2593-2604 (lS_eff=min(1,|s|R/c_surf), c_surf=c₀e^{−2ψ_surf})",
+   "frameOmega": "beta/index.html:2476-2493 (ω=s·f(R,d)+coreMR·s·(coreSR−1)·f(Rc,d))",
+   "captureCriterion": "tests/exp-darkrotor.mjs:38-91 (実験A: 340步後の終端半径<300 を有限時間非脱出とする)"
+  }
+ },
+ "conditions": {
+  "base": {
+   "id": "base",
+   "scope": "bh",
+   "Kt": 60,
+   "etaRad": 0.005,
+   "hasLSwAuto": false,
+   "n": 391,
+   "checkpoints": [
+    {
+     "step": 0,
+     "t": 0,
+     "bh": {
+      "i": 0,
+      "spin": 0.11999999731779099,
+      "R": 45,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.559812263019109,
+      "cSurf": 9.646090727234153,
+      "vSurf": 5.399999879300594,
+      "psiSurf": 0.9138959174674509,
+      "wExt": 10.563859906149881,
+      "tAbs": 29159.998696446433,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "rotorFast": [
+      {
+       "i": 1,
+       "spin": 2,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.468004287158756,
+       "vSurf": 36,
+       "psiSurf": 0.44848912281343684,
+       "wExt": 18.774455200606603,
+       "tAbs": 97200,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      },
+      {
+       "i": 6,
+       "spin": 2,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.476072823816665,
+       "vSurf": 36,
+       "psiSurf": 0.44832427065547903,
+       "wExt": 18.764564071129136,
+       "tAbs": 97200,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      }
+     ],
+     "rotorSlow": {
+      "i": 2,
+      "spin": 0.15000000596046448,
+      "R": 18,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.11067370210364458,
+      "cSurf": 24.396040395936545,
+      "vSurf": 2.7000001072883606,
+      "psiSurf": 0.449961860973321,
+      "wExt": 18.862819490199655,
+      "tAbs": 546.750043451787,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "star": {
+      "i": 11,
+      "spin": 0,
+      "R": 1.0352907180786133,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0,
+      "cSurf": 23.964193291250744,
+      "vSurf": 0,
+      "psiSurf": 0.45889189606599284,
+      "wExt": 27.468661569488404,
+      "tAbs": 0,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "ledger": {
+      "radE": 0,
+      "radL": 0
+     },
+     "rays": {
+      "capQAretro": 3,
+      "capQApro": 5,
+      "capLong": 3,
+      "minR": [
+       147.6,
+       12.7,
+       12.7,
+       194.9,
+       12.7
+      ],
+      "wind": [
+       -0.46,
+       23.37,
+       22.1,
+       -0.13,
+       20.88
+      ],
+      "fan": {
+       "n": 25,
+       "capPro": 15,
+       "capRetro": 16,
+       "bCritPro": 176,
+       "bCritRetro": 184,
+       "minRmean": 66.72,
+       "rateNonEscape": 0.62
+      }
+     },
+     "uphi": [
+      {
+       "r": 80,
+       "u": 1.0477
+      },
+      {
+       "r": 140,
+       "u": 1.0187
+      },
+      {
+       "r": 200,
+       "u": 1.7088
+      },
+      {
+       "r": 260,
+       "u": 1.3416
+      }
+     ],
+     "nan": false
+    },
+    {
+     "step": 300,
+     "t": 4.8,
+     "bh": {
+      "i": 0,
+      "spin": 0.12053534388542175,
+      "R": 45,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.5623519458807041,
+      "cSurf": 9.645366241863474,
+      "vSurf": 5.424090474843979,
+      "psiSurf": 0.9139334721929534,
+      "wExt": 10.566113189680033,
+      "tAbs": 29420.75747929318,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "rotorFast": [
+      {
+       "i": 1,
+       "spin": 1.9368685483932495,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.478949016475994,
+       "vSurf": 34.86363387107849,
+       "psiSurf": 0.4482655189165457,
+       "wExt": 18.761038966793137,
+       "tAbs": 91160.47250224586,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      },
+      {
+       "i": 6,
+       "spin": 1.9369094371795654,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.488364086687685,
+       "vSurf": 34.86436986923218,
+       "psiSurf": 0.4480732463630593,
+       "wExt": 18.74950261358395,
+       "tAbs": 91164.32147839684,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      }
+     ],
+     "rotorSlow": {
+      "i": 2,
+      "spin": 0.16543596982955933,
+      "R": 18,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.12210392090188193,
+      "cSurf": 24.38781191412316,
+      "vSurf": 2.977847456932068,
+      "psiSurf": 0.4501305332183731,
+      "wExt": 18.87293982490278,
+      "tAbs": 665.0681607567587,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "star": {
+      "i": 11,
+      "spin": -0.03438911214470863,
+      "R": 1.0352907180786133,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0.0014895088933691864,
+      "cSurf": 23.902326978290116,
+      "vSurf": 0.03560272860638136,
+      "psiSurf": 0.4601843724578712,
+      "wExt": 27.546210153001102,
+      "tAbs": 0.00016982485289575888,
+      "tObs": 0.00016982485289575888,
+      "lumNominal": 4.158866623806651e-18,
+      "lumClamped": 3.892329539093282e-18,
+      "clampHit": false
+     },
+     "ledger": {
+      "radE": 5564.234816063001,
+      "radL": 0.0010891895341719469
+     },
+     "rays": {
+      "capQAretro": 5,
+      "capQApro": 3,
+      "capLong": 5,
+      "minR": [
+       12.7,
+       12.7,
+       12.6,
+       12.7,
+       12.8
+      ],
+      "wind": [
+       18.57,
+       23.44,
+       19.95,
+       20.2,
+       19.17
+      ],
+      "fan": {
+       "n": 25,
+       "capPro": 16,
+       "capRetro": 16,
+       "bCritPro": 176,
+       "bCritRetro": 168,
+       "minRmean": 59.87,
+       "rateNonEscape": 0.64
+      }
+     },
+     "uphi": [
+      {
+       "r": 80,
+       "u": 1.0523
+      },
+      {
+       "r": 140,
+       "u": 1.0245
+      },
+      {
+       "r": 200,
+       "u": 1.7038
+      },
+      {
+       "r": 260,
+       "u": 1.333
+      }
+     ],
+     "nan": false
+    },
+    {
+     "step": 1200,
+     "t": 19.2,
+     "bh": {
+      "i": 0,
+      "spin": 0.12170132249593735,
+      "R": 45,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.5684859802295656,
+      "cSurf": 9.633587639409576,
+      "vSurf": 5.476559512317181,
+      "psiSurf": 0.9145444287828162,
+      "wExt": 10.602770585071797,
+      "tAbs": 29992.704091951797,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "rotorFast": [
+      {
+       "i": 1,
+       "spin": 1.7630866765975952,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.652606711697523,
+       "vSurf": 31.735560178756714,
+       "psiSurf": 0.44473095918559086,
+       "wExt": 18.548965382935844,
+       "tAbs": 75535.93348946166,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      },
+      {
+       "i": 6,
+       "spin": 1.7634077072143555,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.653900716730845,
+       "vSurf": 31.7413387298584,
+       "psiSurf": 0.4447047150831161,
+       "wExt": 18.54739073678736,
+       "tAbs": 75563.44382727066,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      }
+     ],
+     "rotorSlow": {
+      "i": 2,
+      "spin": 0.20318368077278137,
+      "R": 18,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.15061475797605078,
+      "cSurf": 24.282522530040595,
+      "vSurf": 3.6573062539100647,
+      "psiSurf": 0.4522938540489138,
+      "wExt": 19.002739074735224,
+      "tAbs": 1003.1916776167253,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "star": {
+      "i": 11,
+      "spin": -0.22833825647830963,
+      "R": 1.0352907180786133,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0.0102435916333483,
+      "cSurf": 23.077499179550692,
+      "vSurf": 0.23639647751424775,
+      "psiSurf": 0.4777432404459232,
+      "wExt": 28.599742232284225,
+      "tAbs": 0.0074871525422801205,
+      "tObs": 0.0074871525422801205,
+      "lumNominal": 1.5712190291514133e-11,
+      "lumClamped": 1.5712151081139692e-11,
+      "clampHit": false
+     },
+     "ledger": {
+      "radE": 19976.386049625344,
+      "radL": 3.2334327942550654
+     },
+     "rays": {
+      "capQAretro": 3,
+      "capQApro": 3,
+      "capLong": 3,
+      "minR": [
+       12.7,
+       146.8,
+       12.8,
+       12.6,
+       191.1
+      ],
+      "wind": [
+       23.47,
+       -0.4,
+       22.75,
+       20.72,
+       -0.23
+      ],
+      "fan": {
+       "n": 25,
+       "capPro": 17,
+       "capRetro": 16,
+       "bCritPro": 200,
+       "bCritRetro": 200,
+       "minRmean": 65.29,
+       "rateNonEscape": 0.66
+      }
+     },
+     "uphi": [
+      {
+       "r": 80,
+       "u": 1.0681
+      },
+      {
+       "r": 140,
+       "u": 1.0344
+      },
+      {
+       "r": 200,
+       "u": 1.4879
+      },
+      {
+       "r": 260,
+       "u": 1.3344
+      }
+     ],
+     "nan": false
+    },
+    {
+     "step": 3000,
+     "t": 48,
+     "bh": {
+      "i": 0,
+      "spin": 0.12389356642961502,
+      "R": 45,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.5829169031099612,
+      "cSurf": 9.564331484621523,
+      "vSurf": 5.575210489332676,
+      "psiSurf": 0.9181519268024984,
+      "wExt": 10.819220466252728,
+      "tAbs": 31082.972000365095,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "rotorFast": [
+      {
+       "i": 1,
+       "spin": 1.4738997220993042,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 25.2086074878303,
+       "vSurf": 26.530194997787476,
+       "psiSurf": 0.4335795295240252,
+       "wExt": 17.879879603241903,
+       "tAbs": 52788.843496547066,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      },
+      {
+       "i": 6,
+       "spin": 1.4770159721374512,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 25.177310859804397,
+       "vSurf": 26.58628749847412,
+       "psiSurf": 0.4342006679904288,
+       "wExt": 17.91714791122612,
+       "tAbs": 53012.3012213641,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      }
+     ],
+     "rotorSlow": {
+      "i": 2,
+      "spin": 0.2471674382686615,
+      "R": 18,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.18420396366973615,
+      "cSurf": 24.15265013956298,
+      "vSurf": 4.449013888835907,
+      "psiSurf": 0.4549752257581378,
+      "wExt": 19.163621377288663,
+      "tAbs": 1484.52934372911,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "star": {
+      "i": 11,
+      "spin": -0.2077661007642746,
+      "R": 1.0352907180786133,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0.010238169104875025,
+      "cSurf": 21.009451343230673,
+      "vSurf": 0.21509831565263937,
+      "psiSurf": 0.5246860808918601,
+      "wExt": 31.41631265904044,
+      "tAbs": 0.006198815336103243,
+      "tObs": 0.006198815336103243,
+      "lumNominal": 7.382522846683925e-12,
+      "lumClamped": 7.382534728843758e-12,
+      "clampHit": false
+     },
+     "ledger": {
+      "radE": 40703.3189328751,
+      "radL": 6.714554293905413
+     },
+     "rays": {
+      "capQAretro": 4,
+      "capQApro": 3,
+      "capLong": 4,
+      "minR": [
+       12.9,
+       12.8,
+       112.7,
+       12.8,
+       12.7
+      ],
+      "wind": [
+       23.55,
+       20.1,
+       0.44,
+       21.15,
+       7.09
+      ],
+      "fan": {
+       "n": 25,
+       "capPro": 18,
+       "capRetro": 16,
+       "bCritPro": 200,
+       "bCritRetro": 200,
+       "minRmean": 58.46,
+       "rateNonEscape": 0.68
+      }
+     },
+     "uphi": [
+      {
+       "r": 80,
+       "u": 1.1127
+      },
+      {
+       "r": 140,
+       "u": 1.0694
+      },
+      {
+       "r": 200,
+       "u": 1.6164
+      },
+      {
+       "r": 260,
+       "u": 1.3166
+      }
+     ],
+     "nan": false
+    }
+   ]
+  },
+  "auto": {
+   "id": "auto",
+   "scope": "bh",
+   "Kt": 60,
+   "etaRad": 0.005,
+   "hasLSwAuto": true,
+   "n": 391,
+   "checkpoints": [
+    {
+     "step": 0,
+     "t": 0,
+     "bh": {
+      "i": 0,
+      "spin": 0.11999999731779099,
+      "R": 45,
+      "lSw": 0.559812263019109,
+      "lSwSource": "auto/predicted",
+      "lSwEngine": 0,
+      "lSwPredicted": 0.559812263019109,
+      "cSurf": 9.646090727234153,
+      "vSurf": 5.399999879300594,
+      "psiSurf": 0.9138959174674509,
+      "wExt": 10.563859906149881,
+      "tAbs": 29159.998696446433,
+      "tObs": 12835.873836554487,
+      "lumNominal": 1591321552507211,
+      "lumClamped": 683437.4694479633,
+      "clampHit": true
+     },
+     "rotorFast": [
+      {
+       "i": 1,
+       "spin": 2,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.468004287158756,
+       "vSurf": 36,
+       "psiSurf": 0.44848912281343684,
+       "wExt": 18.774455200606603,
+       "tAbs": 97200,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      },
+      {
+       "i": 6,
+       "spin": 2,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.476072823816665,
+       "vSurf": 36,
+       "psiSurf": 0.44832427065547903,
+       "wExt": 18.764564071129136,
+       "tAbs": 97200,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      }
+     ],
+     "rotorSlow": {
+      "i": 2,
+      "spin": 0.15000000596046448,
+      "R": 18,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.11067370210364458,
+      "cSurf": 24.396040395936545,
+      "vSurf": 2.7000001072883606,
+      "psiSurf": 0.449961860973321,
+      "wExt": 18.862819490199655,
+      "tAbs": 546.750043451787,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "star": {
+      "i": 11,
+      "spin": 0,
+      "R": 1.0352907180786133,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0,
+      "cSurf": 23.964193291250744,
+      "vSurf": 0,
+      "psiSurf": 0.45889189606599284,
+      "wExt": 27.468661569488404,
+      "tAbs": 0,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "ledger": {
+      "radE": 0,
+      "radL": 0
+     },
+     "rays": {
+      "capQAretro": 3,
+      "capQApro": 5,
+      "capLong": 3,
+      "minR": [
+       147.6,
+       12.7,
+       12.7,
+       194.9,
+       12.7
+      ],
+      "wind": [
+       -0.46,
+       23.37,
+       22.1,
+       -0.13,
+       20.88
+      ],
+      "fan": {
+       "n": 25,
+       "capPro": 15,
+       "capRetro": 16,
+       "bCritPro": 176,
+       "bCritRetro": 184,
+       "minRmean": 66.72,
+       "rateNonEscape": 0.62
+      }
+     },
+     "uphi": [
+      {
+       "r": 80,
+       "u": 1.0477
+      },
+      {
+       "r": 140,
+       "u": 1.0187
+      },
+      {
+       "r": 200,
+       "u": 1.7088
+      },
+      {
+       "r": 260,
+       "u": 1.3416
+      }
+     ],
+     "nan": false
+    },
+    {
+     "step": 300,
+     "t": 4.8,
+     "bh": {
+      "i": 0,
+      "spin": 0.0012977998703718185,
+      "R": 45,
+      "lSw": 0.006055599781665807,
+      "lSwSource": "auto/predicted",
+      "lSwEngine": 0.006049728021025658,
+      "lSwPredicted": 0.006055599781665807,
+      "cSurf": 9.64413043668262,
+      "vSurf": 0.058400994166731834,
+      "psiSurf": 0.9139975384152682,
+      "wExt": 10.569957163018923,
+      "tAbs": 3.4106761196626456,
+      "tObs": 3.390022430097084,
+      "lumNominal": 0.6725026768803741,
+      "lumClamped": 0.6714418670361116,
+      "clampHit": false
+     },
+     "rotorFast": [
+      {
+       "i": 1,
+       "spin": 2.0956897735595703,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.478156261197775,
+       "vSurf": 37.722415924072266,
+       "psiSurf": 0.4482817117709596,
+       "wExt": 18.76201053805797,
+       "tAbs": 106723.54973615256,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      },
+      {
+       "i": 6,
+       "spin": 2.0964274406433105,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.487518093365793,
+       "vSurf": 37.73569393157959,
+       "psiSurf": 0.4480905200350039,
+       "wExt": 18.750539033900626,
+       "tAbs": 106798.69473733896,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      }
+     ],
+     "rotorSlow": {
+      "i": 2,
+      "spin": 0.3231945037841797,
+      "R": 18,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.2385787896855569,
+      "cSurf": 24.38398264901339,
+      "vSurf": 5.817501068115234,
+      "psiSurf": 0.4502090471453658,
+      "wExt": 18.87765066052234,
+      "tAbs": 2538.248900814142,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "star": {
+      "i": 11,
+      "spin": 2.071223020553589,
+      "R": 1.0352907180786133,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0.08980972282785832,
+      "cSurf": 23.876234117323516,
+      "vSurf": 2.1443179682498794,
+      "psiSurf": 0.46073049320664033,
+      "wExt": 27.57897739792725,
+      "tAbs": 0.6160458681915945,
+      "tObs": 0.6160458681915945,
+      "lumNominal": 0.00072014873274469,
+      "lumClamped": 0.0007201419979939421,
+      "clampHit": false
+     },
+     "ledger": {
+      "radE": 23212.844539464324,
+      "radL": 316303.87220608577
+     },
+     "rays": {
+      "capQAretro": 1,
+      "capQApro": 1,
+      "capLong": 0,
+      "minR": [
+       71.8,
+       3.7,
+       2.9,
+       3.7,
+       3.4
+      ],
+      "wind": [
+       1.03,
+       2.39,
+       2.24,
+       3.51,
+       1.53
+      ],
+      "fan": {
+       "n": 25,
+       "capPro": 1,
+       "capRetro": 4,
+       "bCritPro": 120,
+       "bCritRetro": 184,
+       "minRmean": 55.54,
+       "rateNonEscape": 0.1
+      }
+     },
+     "uphi": [
+      {
+       "r": 80,
+       "u": 0.1628
+      },
+      {
+       "r": 140,
+       "u": 0.3998
+      },
+      {
+       "r": 200,
+       "u": 1.3133
+      },
+      {
+       "r": 260,
+       "u": 1.0592
+      }
+     ],
+     "nan": false
+    },
+    {
+     "step": 1200,
+     "t": 19.2,
+     "bh": {
+      "i": 0,
+      "spin": 0.0012532107066363096,
+      "R": 45,
+      "lSw": 0.005866911068706741,
+      "lSwSource": "auto/predicted",
+      "lSwEngine": 0.005866263993084431,
+      "lSwPredicted": 0.005866911068706741,
+      "cSurf": 9.612295318303696,
+      "vSurf": 0.05639448179863393,
+      "psiSurf": 0.9156507604507222,
+      "wExt": 10.66915048514616,
+      "tAbs": 3.180337577336454,
+      "tObs": 3.1616788196017547,
+      "lumNominal": 0.5085192715765746,
+      "lumClamped": 0.5078687950953077,
+      "clampHit": false
+     },
+     "rotorFast": [
+      {
+       "i": 1,
+       "spin": 1.9134440422058105,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.61945102504917,
+       "vSurf": 34.44199275970459,
+       "psiSurf": 0.445403869820456,
+       "wExt": 18.589340021027752,
+       "tAbs": 88968.81489446576,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      },
+      {
+       "i": 6,
+       "spin": 1.9139455556869507,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.621860295518758,
+       "vSurf": 34.45102000236511,
+       "psiSurf": 0.44535494199122283,
+       "wExt": 18.586404351273764,
+       "tAbs": 89015.45844025208,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      }
+     ],
+     "rotorSlow": {
+      "i": 2,
+      "spin": 0.348489373922348,
+      "R": 18,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.2589067204354329,
+      "cSurf": 24.228064532479372,
+      "vSurf": 6.272808730602264,
+      "psiSurf": 0.45341645477868053,
+      "wExt": 19.070095118521227,
+      "tAbs": 2951.1097028039994,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "star": {
+      "i": 11,
+      "spin": 1.6861979961395264,
+      "R": 1.0352907180786133,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0.07728069966247118,
+      "cSurf": 22.58914763803249,
+      "vSurf": 1.745705134246009,
+      "psiSurf": 0.48843748214042826,
+      "wExt": 29.241396733954527,
+      "tAbs": 0.40829725298295666,
+      "tObs": 0.40829725298295666,
+      "lumNominal": 0.00013895553042554465,
+      "lumClamped": 0.0001389551520985287,
+      "clampHit": false
+     },
+     "ledger": {
+      "radE": 40669.92260235678,
+      "radL": 323124.207307461
+     },
+     "rays": {
+      "capQAretro": 2,
+      "capQApro": 3,
+      "capLong": 0,
+      "minR": [
+       3.3,
+       3.4,
+       90.7,
+       3.5,
+       3.3
+      ],
+      "wind": [
+       1.24,
+       0.56,
+       0.81,
+       0.7,
+       4.42
+      ],
+      "fan": {
+       "n": 25,
+       "capPro": 5,
+       "capRetro": 7,
+       "bCritPro": 200,
+       "bCritRetro": 200,
+       "minRmean": 55.91,
+       "rateNonEscape": 0.24
+      }
+     },
+     "uphi": [
+      {
+       "r": 80,
+       "u": 0.177
+      },
+      {
+       "r": 140,
+       "u": 0.4104
+      },
+      {
+       "r": 200,
+       "u": 1.2397
+      },
+      {
+       "r": 260,
+       "u": 1.0421
+      }
+     ],
+     "nan": false
+    },
+    {
+     "step": 3000,
+     "t": 48,
+     "bh": {
+      "i": 0,
+      "spin": 0.0013051815330982208,
+      "R": 45,
+      "lSw": 0.006245362948343919,
+      "lSwSource": "auto/predicted",
+      "lSwEngine": 0.0062211863696575165,
+      "lSwPredicted": 0.006245362948343919,
+      "cSurf": 9.404284342672861,
+      "vSurf": 0.05873316898941994,
+      "psiSurf": 0.9265895978237018,
+      "wExt": 11.325480727524932,
+      "tAbs": 3.4495851395397596,
+      "tObs": 3.42804122832212,
+      "lumNominal": 0.7035851192830204,
+      "lumClamped": 0.7024370808956598,
+      "clampHit": false
+     },
+     "rotorFast": [
+      {
+       "i": 1,
+       "spin": 1.6036431789398193,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.95696359720122,
+       "vSurf": 28.865577220916748,
+       "psiSurf": 0.4385958384370415,
+       "wExt": 18.18085813802288,
+       "tAbs": 62491.616122253086,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      },
+      {
+       "i": 6,
+       "spin": 1.605920433998108,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.917381236209703,
+       "vSurf": 28.906567811965942,
+       "psiSurf": 0.4393894803271611,
+       "wExt": 18.228476651430057,
+       "tAbs": 62669.22470008391,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      }
+     ],
+     "rotorSlow": {
+      "i": 2,
+      "spin": 0.3817116618156433,
+      "R": 18,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.2874247596065211,
+      "cSurf": 23.90472526475306,
+      "vSurf": 6.87080991268158,
+      "psiSurf": 0.4601342065021715,
+      "wExt": 19.473160221930684,
+      "tAbs": 3540.602164215259,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "star": {
+      "i": 11,
+      "spin": 1.3160535097122192,
+      "R": 1.0352907180786133,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0.07698366411928166,
+      "cSurf": 17.69853382126281,
+      "vSurf": 1.3624979830998427,
+      "psiSurf": 0.6104313805151126,
+      "wExt": 36.56103063643558,
+      "tAbs": 0.24871754123683615,
+      "tObs": 0.24871754123683615,
+      "lumNominal": 0.000019133554917132313,
+      "lumClamped": 0.000019133543141989468,
+      "clampHit": false
+     },
+     "ledger": {
+      "radE": 67045.13423019103,
+      "radL": 337851.84781598
+     },
+     "rays": {
+      "capQAretro": 2,
+      "capQApro": 3,
+      "capLong": 2,
+      "minR": [
+       6.4,
+       2.6,
+       4.2,
+       5.8,
+       149.2
+      ],
+      "wind": [
+       0.39,
+       0.36,
+       0.46,
+       0.46,
+       -0.26
+      ],
+      "fan": {
+       "n": 25,
+       "capPro": 17,
+       "capRetro": 11,
+       "bCritPro": 192,
+       "bCritRetro": 152,
+       "minRmean": 58.29,
+       "rateNonEscape": 0.56
+      }
+     },
+     "uphi": [
+      {
+       "r": 80,
+       "u": 0.2176
+      },
+      {
+       "r": 140,
+       "u": 0.4724
+      },
+      {
+       "r": 200,
+       "u": 1.1107
+      },
+      {
+       "r": 260,
+       "u": 1.0042
+      }
+     ],
+     "nan": false
+    }
+   ]
+  },
+  "zero": {
+   "id": "zero",
+   "scope": "bh",
+   "Kt": 60,
+   "etaRad": 0.005,
+   "hasLSwAuto": false,
+   "n": 391,
+   "checkpoints": [
+    {
+     "step": 0,
+     "t": 0,
+     "bh": {
+      "i": 0,
+      "spin": 0.11999999731779099,
+      "R": 45,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0.559812263019109,
+      "cSurf": 9.646090727234153,
+      "vSurf": 5.399999879300594,
+      "psiSurf": 0.9138959174674509,
+      "wExt": 10.563859906149881,
+      "tAbs": 29159.998696446433,
+      "tObs": 29159.998696446433,
+      "lumNominal": 3615097420526942,
+      "lumClamped": 683437.4694479633,
+      "clampHit": true
+     },
+     "rotorFast": [
+      {
+       "i": 1,
+       "spin": 2,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.468004287158756,
+       "vSurf": 36,
+       "psiSurf": 0.44848912281343684,
+       "wExt": 18.774455200606603,
+       "tAbs": 97200,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      },
+      {
+       "i": 6,
+       "spin": 2,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.476072823816665,
+       "vSurf": 36,
+       "psiSurf": 0.44832427065547903,
+       "wExt": 18.764564071129136,
+       "tAbs": 97200,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      }
+     ],
+     "rotorSlow": {
+      "i": 2,
+      "spin": 0.15000000596046448,
+      "R": 18,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.11067370210364458,
+      "cSurf": 24.396040395936545,
+      "vSurf": 2.7000001072883606,
+      "psiSurf": 0.449961860973321,
+      "wExt": 18.862819490199655,
+      "tAbs": 546.750043451787,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "star": {
+      "i": 11,
+      "spin": 0,
+      "R": 1.0352907180786133,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0,
+      "cSurf": 23.964193291250744,
+      "vSurf": 0,
+      "psiSurf": 0.45889189606599284,
+      "wExt": 27.468661569488404,
+      "tAbs": 0,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "ledger": {
+      "radE": 0,
+      "radL": 0
+     },
+     "rays": {
+      "capQAretro": 3,
+      "capQApro": 5,
+      "capLong": 3,
+      "minR": [
+       147.6,
+       12.7,
+       12.7,
+       194.9,
+       12.7
+      ],
+      "wind": [
+       -0.46,
+       23.37,
+       22.1,
+       -0.13,
+       20.88
+      ],
+      "fan": {
+       "n": 25,
+       "capPro": 15,
+       "capRetro": 16,
+       "bCritPro": 176,
+       "bCritRetro": 184,
+       "minRmean": 66.72,
+       "rateNonEscape": 0.62
+      }
+     },
+     "uphi": [
+      {
+       "r": 80,
+       "u": 1.0477
+      },
+      {
+       "r": 140,
+       "u": 1.0187
+      },
+      {
+       "r": 200,
+       "u": 1.7088
+      },
+      {
+       "r": 260,
+       "u": 1.3416
+      }
+     ],
+     "nan": false
+    },
+    {
+     "step": 300,
+     "t": 4.8,
+     "bh": {
+      "i": 0,
+      "spin": 0.0012966606300324202,
+      "R": 45,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0.006050284058970094,
+      "cSurf": 9.644130388382369,
+      "vSurf": 0.05834972835145891,
+      "psiSurf": 0.9139975409193949,
+      "wExt": 10.569957313266519,
+      "tAbs": 3.4046907986890473,
+      "tObs": 3.4046907986890473,
+      "lumNominal": 0.6718629809003117,
+      "lumClamped": 0.6708023268984175,
+      "clampHit": false
+     },
+     "rotorFast": [
+      {
+       "i": 1,
+       "spin": 2.095691680908203,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.47815607440665,
+       "vSurf": 37.722450256347656,
+       "psiSurf": 0.44828171558642516,
+       "wExt": 18.762010766985902,
+       "tAbs": 106723.74400069675,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      },
+      {
+       "i": 6,
+       "spin": 2.0964298248291016,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.487518050398084,
+       "vSurf": 37.73573684692383,
+       "psiSurf": 0.4480905209123429,
+       "wExt": 18.750539086540968,
+       "tAbs": 106798.93765352135,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      }
+     ],
+     "rotorSlow": {
+      "i": 2,
+      "spin": 0.3231958746910095,
+      "R": 18,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.2385797970473798,
+      "cSurf": 24.383983121935774,
+      "vSurf": 5.817525744438171,
+      "psiSurf": 0.45020903744796764,
+      "wExt": 18.877650078678453,
+      "tAbs": 2538.2704340400674,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "star": {
+      "i": 11,
+      "spin": 2.071239948272705,
+      "R": 1.0352907180786133,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0.08981045788873905,
+      "cSurf": 23.876233834781814,
+      "vSurf": 2.1443354933603587,
+      "psiSurf": 0.46073049912343816,
+      "wExt": 27.57897775293512,
+      "tAbs": 0.6160559378885128,
+      "tObs": 0.6160559378885128,
+      "lumNominal": 0.0007201958192208879,
+      "lumClamped": 0.0007201890837014218,
+      "clampHit": false
+     },
+     "ledger": {
+      "radE": 23212.856096687858,
+      "radL": 316306.85504602524
+     },
+     "rays": {
+      "capQAretro": 1,
+      "capQApro": 1,
+      "capLong": 0,
+      "minR": [
+       71.8,
+       3.5,
+       2.4,
+       2.7,
+       2.6
+      ],
+      "wind": [
+       1.03,
+       2.51,
+       2.31,
+       2.34,
+       1.36
+      ],
+      "fan": {
+       "n": 25,
+       "capPro": 1,
+       "capRetro": 4,
+       "bCritPro": 120,
+       "bCritRetro": 184,
+       "minRmean": 55.48,
+       "rateNonEscape": 0.1
+      }
+     },
+     "uphi": [
+      {
+       "r": 80,
+       "u": 0.1628
+      },
+      {
+       "r": 140,
+       "u": 0.3998
+      },
+      {
+       "r": 200,
+       "u": 1.3133
+      },
+      {
+       "r": 260,
+       "u": 1.0592
+      }
+     ],
+     "nan": false
+    },
+    {
+     "step": 1200,
+     "t": 19.2,
+     "bh": {
+      "i": 0,
+      "spin": 0.001252120709978044,
+      "R": 45,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0.005861808470465519,
+      "cSurf": 9.612294948377473,
+      "vSurf": 0.05634543194901198,
+      "psiSurf": 0.9156507796930685,
+      "wExt": 10.669151639686941,
+      "tAbs": 3.17480770152074,
+      "tObs": 3.17480770152074,
+      "lumNominal": 0.5079719190932767,
+      "lumClamped": 0.5073217115976442,
+      "clampHit": false
+     },
+     "rotorFast": [
+      {
+       "i": 1,
+       "spin": 1.9134455919265747,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.619451432651445,
+       "vSurf": 34.442020654678345,
+       "psiSurf": 0.44540386154240236,
+       "wExt": 18.589339524344535,
+       "tAbs": 88968.95900829673,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      },
+      {
+       "i": 6,
+       "spin": 1.9139455556869507,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.621856518522137,
+       "vSurf": 34.45102000236511,
+       "psiSurf": 0.4453550186912947,
+       "wExt": 18.586408953278074,
+       "tAbs": 89015.45844025208,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      }
+     ],
+     "rotorSlow": {
+      "i": 2,
+      "spin": 0.34848901629447937,
+      "R": 18,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.2589064170094703,
+      "cSurf": 24.228068063184317,
+      "vSurf": 6.272802293300629,
+      "psiSurf": 0.45341638191473627,
+      "wExt": 19.07009074668457,
+      "tAbs": 2951.103645812822,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "star": {
+      "i": 11,
+      "spin": 1.68621826171875,
+      "R": 1.0352907180786133,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0.07728160408845741,
+      "cSurf": 22.589154762029754,
+      "vSurf": 1.7457261150120758,
+      "psiSurf": 0.48843732445417426,
+      "wExt": 29.24138727277929,
+      "tAbs": 0.4083070672871711,
+      "tObs": 0.4083070672871711,
+      "lumNominal": 0.00013896889128956974,
+      "lumClamped": 0.0001389685129011822,
+      "clampHit": false
+     },
+     "ledger": {
+      "radE": 40669.94052665418,
+      "radL": 323126.97419755807
+     },
+     "rays": {
+      "capQAretro": 2,
+      "capQApro": 1,
+      "capLong": 0,
+      "minR": [
+       3.3,
+       3.5,
+       90.7,
+       3.5,
+       3.3
+      ],
+      "wind": [
+       1.42,
+       0.62,
+       0.81,
+       0.68,
+       4.42
+      ],
+      "fan": {
+       "n": 25,
+       "capPro": 4,
+       "capRetro": 5,
+       "bCritPro": 200,
+       "bCritRetro": 200,
+       "minRmean": 55.89,
+       "rateNonEscape": 0.18
+      }
+     },
+     "uphi": [
+      {
+       "r": 80,
+       "u": 0.177
+      },
+      {
+       "r": 140,
+       "u": 0.4103
+      },
+      {
+       "r": 200,
+       "u": 1.2397
+      },
+      {
+       "r": 260,
+       "u": 1.0421
+      }
+     ],
+     "nan": false
+    },
+    {
+     "step": 3000,
+     "t": 48,
+     "bh": {
+      "i": 0,
+      "spin": 0.001313718967139721,
+      "R": 45,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0.00628621103735547,
+      "cSurf": 9.40429030619331,
+      "vSurf": 0.05911735352128744,
+      "psiSurf": 0.9265892807597795,
+      "wExt": 11.325461703689598,
+      "tAbs": 3.4948614873608768,
+      "tObs": 3.4948614873608768,
+      "lumNominal": 0.7459159195026277,
+      "lumClamped": 0.7446422997933007,
+      "clampHit": false
+     },
+     "rotorFast": [
+      {
+       "i": 1,
+       "spin": 1.6036378145217896,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.95696613970258,
+       "vSurf": 28.865480661392212,
+       "psiSurf": 0.43859578749932987,
+       "wExt": 18.180855081760185,
+       "tAbs": 62491.19803599058,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      },
+      {
+       "i": 6,
+       "spin": 1.6057332754135132,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.9174273191673,
+       "vSurf": 28.903198957443237,
+       "psiSurf": 0.43938855561291157,
+       "wExt": 18.22842116857509,
+       "tAbs": 62654.618248016086,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      }
+     ],
+     "rotorSlow": {
+      "i": 2,
+      "spin": 0.3810052275657654,
+      "R": 18,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.2868562820242942,
+      "cSurf": 23.90777028757194,
+      "vSurf": 6.858094096183777,
+      "psiSurf": 0.46007051974439367,
+      "wExt": 19.469339016464016,
+      "tAbs": 3527.509097408308,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "star": {
+      "i": 11,
+      "spin": 1.3156028985977173,
+      "R": 1.0352907180786133,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0.07695928373011535,
+      "cSurf": 17.69807882271846,
+      "vSurf": 1.3620314695955358,
+      "psiSurf": 0.61044423481134,
+      "wExt": 36.56180189420923,
+      "tAbs": 0.2485472507423482,
+      "tObs": 0.2485472507423482,
+      "lumNominal": 0.000019081207700020756,
+      "lumClamped": 0.000019081195981480548,
+      "clampHit": false
+     },
+     "ledger": {
+      "radE": 67048.7468326714,
+      "radL": 337755.2079976893
+     },
+     "rays": {
+      "capQAretro": 2,
+      "capQApro": 3,
+      "capLong": 2,
+      "minR": [
+       7.2,
+       4,
+       6,
+       5.1,
+       149.1
+      ],
+      "wind": [
+       0.31,
+       0.48,
+       0.34,
+       0.54,
+       -0.27
+      ],
+      "fan": {
+       "n": 25,
+       "capPro": 15,
+       "capRetro": 12,
+       "bCritPro": 184,
+       "bCritRetro": 200,
+       "minRmean": 58.1,
+       "rateNonEscape": 0.54
+      }
+     },
+     "uphi": [
+      {
+       "r": 80,
+       "u": 0.2177
+      },
+      {
+       "r": 140,
+       "u": 0.4727
+      },
+      {
+       "r": 200,
+       "u": 1.1103
+      },
+      {
+       "r": 260,
+       "u": 1.0042
+      }
+     ],
+     "nan": false
+    }
+   ]
+  },
+  "lock-auto": {
+   "id": "lock-auto",
+   "scope": "bh",
+   "Kt": 3600,
+   "etaRad": 0.005,
+   "hasLSwAuto": true,
+   "n": 391,
+   "checkpoints": [
+    {
+     "step": 0,
+     "t": 0,
+     "bh": {
+      "i": 0,
+      "spin": 0.11999999731779099,
+      "R": 45,
+      "lSw": 0.09278387326580424,
+      "lSwSource": "auto/predicted",
+      "lSwEngine": 0,
+      "lSwPredicted": 0.09278387326580424,
+      "cSurf": 58.1997677961864,
+      "vSurf": 5.399999879300594,
+      "psiSurf": 0.015231598624457514,
+      "wExt": 10.563859906149881,
+      "tAbs": 29159.998696446433,
+      "tObs": 26454.42107296433,
+      "lumNominal": 3279674679617234,
+      "lumClamped": 683437.4694479633,
+      "clampHit": true
+     },
+     "rotorFast": [
+      {
+       "i": 1,
+       "spin": 2,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 0.6090371653184127,
+       "cSurf": 59.10969321745534,
+       "vSurf": 36,
+       "psiSurf": 0.00747481871355728,
+       "wExt": 18.774455200606603,
+       "tAbs": 97200,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      },
+      {
+       "i": 6,
+       "spin": 2,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 0.6090338186245752,
+       "cSurf": 59.110018030363875,
+       "vSurf": 36,
+       "psiSurf": 0.007472071177591317,
+       "wExt": 18.764564071129136,
+       "tAbs": 97200,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      }
+     ],
+     "rotorSlow": {
+      "i": 2,
+      "spin": 0.15000000596046448,
+      "R": 18,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.045680031649769186,
+      "cSurf": 59.10679151865262,
+      "vSurf": 2.7000001072883606,
+      "psiSurf": 0.0074993643495553505,
+      "wExt": 18.862819490199655,
+      "tAbs": 546.750043451787,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "star": {
+      "i": 11,
+      "spin": 0,
+      "R": 1.0352907180786133,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0,
+      "cSurf": 59.08919994625593,
+      "vSurf": 0,
+      "psiSurf": 0.007648198267766548,
+      "wExt": 27.468661569488404,
+      "tAbs": 0,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "ledger": {
+      "radE": 0,
+      "radL": 0
+     },
+     "rays": {
+      "capQAretro": 0,
+      "capQApro": 0,
+      "capLong": 0,
+      "minR": [
+       0.9,
+       32.9,
+       74.9,
+       115.4,
+       155.2
+      ],
+      "wind": [
+       0.52,
+       -0.48,
+       -0.44,
+       -0.41,
+       -0.38
+      ],
+      "fan": {
+       "n": 25,
+       "capPro": 0,
+       "capRetro": 0,
+       "bCritPro": 0,
+       "bCritRetro": 0,
+       "minRmean": 102.81,
+       "rateNonEscape": 0
+      }
+     },
+     "uphi": [
+      {
+       "r": 80,
+       "u": 1.0477
+      },
+      {
+       "r": 140,
+       "u": 1.0187
+      },
+      {
+       "r": 200,
+       "u": 1.7088
+      },
+      {
+       "r": 260,
+       "u": 1.3416
+      }
+     ],
+     "nan": false
+    },
+    {
+     "step": 300,
+     "t": 4.8,
+     "bh": {
+      "i": 0,
+      "spin": 0.0012968502705916762,
+      "R": 45,
+      "lSw": 0.0010027266787156336,
+      "lSwSource": "auto/predicted",
+      "lSwEngine": 0.0010017574531957507,
+      "lSwPredicted": 0.0010027266787156336,
+      "cSurf": 58.19957064608574,
+      "vSurf": 0.05835826217662543,
+      "psiSurf": 0.015233292363471049,
+      "wExt": 10.569957366598599,
+      "tAbs": 3.4056867642757505,
+      "tObs": 3.4022717912978626,
+      "lumNominal": 0.6719749958593098,
+      "lumClamped": 0.6709142984404071,
+      "clampHit": false
+     },
+     "rotorFast": [
+      {
+       "i": 1,
+       "spin": 2.0956904888153076,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 0.6381722852779814,
+       "cSurf": 59.11010187827888,
+       "vSurf": 37.72242879867554,
+       "psiSurf": 0.00747136192509627,
+       "wExt": 18.762010762146964,
+       "tAbs": 106723.62258533592,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      },
+      {
+       "i": 6,
+       "spin": 2.096428394317627,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 0.6383929210192297,
+       "cSurf": 59.110478602222166,
+       "vSurf": 37.735711097717285,
+       "psiSurf": 0.007468175306135795,
+       "wExt": 18.750538933889256,
+       "tAbs": 106798.79190377877,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      }
+     ],
+     "rotorSlow": {
+      "i": 2,
+      "spin": 0.3231954872608185,
+      "R": 18,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.09842467427237407,
+      "cSurf": 59.10630452883906,
+      "vSurf": 5.817518770694733,
+      "psiSurf": 0.0075034839423064655,
+      "wExt": 18.87765002410367,
+      "tAbs": 2538.2643485539165,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "star": {
+      "i": 11,
+      "spin": 2.071239471435547,
+      "R": 1.0352907180786133,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0.03629201994994545,
+      "cSurf": 59.085578665854825,
+      "vSurf": 2.1443349996952747,
+      "psiSurf": 0.007678841696463997,
+      "wExt": 27.57897791279922,
+      "tAbs": 0.6160556542339519,
+      "tObs": 0.6160556542339519,
+      "lumNominal": 0.0007201944928044042,
+      "lumClamped": 0.0007201877573091086,
+      "clampHit": false
+     },
+     "ledger": {
+      "radE": 23212.852129213643,
+      "radL": 316306.3341356042
+     },
+     "rays": {
+      "capQAretro": 0,
+      "capQApro": 0,
+      "capLong": 0,
+      "minR": [
+       5,
+       36.3,
+       77.3,
+       114.3,
+       156.7
+      ],
+      "wind": [
+       -0.54,
+       -0.48,
+       -0.44,
+       -0.41,
+       -0.38
+      ],
+      "fan": {
+       "n": 25,
+       "capPro": 0,
+       "capRetro": 0,
+       "bCritPro": 0,
+       "bCritRetro": 0,
+       "minRmean": 102.94,
+       "rateNonEscape": 0
+      }
+     },
+     "uphi": [
+      {
+       "r": 80,
+       "u": 0.1628
+      },
+      {
+       "r": 140,
+       "u": 0.3998
+      },
+      {
+       "r": 200,
+       "u": 1.3133
+      },
+      {
+       "r": 260,
+       "u": 1.0592
+      }
+     ],
+     "nan": false
+    },
+    {
+     "step": 1200,
+     "t": 19.2,
+     "bh": {
+      "i": 0,
+      "spin": 0.0012522689066827297,
+      "R": 45,
+      "lSw": 0.0009683096576409855,
+      "lSwSource": "auto/predicted",
+      "lSwEngine": 0.0009682136587798595,
+      "lSwPredicted": 0.0009683096576409855,
+      "cSurf": 58.196363483566714,
+      "vSurf": 0.05635210080072284,
+      "psiSurf": 0.01526084626854354,
+      "wExt": 10.669151424859574,
+      "tAbs": 3.1755592646548276,
+      "tObs": 3.172484339950451,
+      "lumNominal": 0.5079607528296435,
+      "lumClamped": 0.5073107277980692,
+      "clampHit": false
+     },
+     "rotorFast": [
+      {
+       "i": 1,
+       "spin": 1.9134416580200195,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 0.5826186217343708,
+       "cSurf": 59.11577241014315,
+       "vSurf": 34.44194984436035,
+       "psiSurf": 0.007423398381559424,
+       "wExt": 18.58934200541432,
+       "tAbs": 88968.59318110756,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      },
+      {
+       "i": 6,
+       "spin": 1.9139429330825806,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 0.582770302175477,
+       "cSurf": 59.115868922766374,
+       "vSurf": 34.45097279548645,
+       "psiSurf": 0.007422582080422653,
+       "wExt": 18.586403321321946,
+       "tAbs": 89015.21449165106,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      }
+     ],
+     "rotorSlow": {
+      "i": 2,
+      "spin": 0.34848830103874207,
+      "R": 18,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.10613859457013529,
+      "cSurf": 59.09998567535547,
+      "vSurf": 6.272789418697357,
+      "psiSurf": 0.007556940094924842,
+      "wExt": 19.070092173529826,
+      "tAbs": 2951.0915318491147,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "star": {
+      "i": 11,
+      "spin": 1.6862053871154785,
+      "R": 1.0352907180786133,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0.029572796897423762,
+      "cSurf": 59.03103423426574,
+      "vSurf": 1.7457127860548098,
+      "psiSurf": 0.00814062631868574,
+      "wExt": 29.2414025527975,
+      "tAbs": 0.4083008323037703,
+      "tObs": 0.4083008323037703,
+      "lumNominal": 0.0001389604030810312,
+      "lumClamped": 0.00013896002473411795,
+      "clampHit": false
+     },
+     "ledger": {
+      "radE": 40669.91676371608,
+      "radL": 323126.64799978223
+     },
+     "rays": {
+      "capQAretro": 0,
+      "capQApro": 0,
+      "capLong": 0,
+      "minR": [
+       6.7,
+       37.5,
+       74.8,
+       116.5,
+       155.6
+      ],
+      "wind": [
+       -0.53,
+       -0.48,
+       -0.44,
+       -0.41,
+       -0.38
+      ],
+      "fan": {
+       "n": 25,
+       "capPro": 0,
+       "capRetro": 0,
+       "bCritPro": 0,
+       "bCritRetro": 0,
+       "minRmean": 102.99,
+       "rateNonEscape": 0
+      }
+     },
+     "uphi": [
+      {
+       "r": 80,
+       "u": 0.177
+      },
+      {
+       "r": 140,
+       "u": 0.4104
+      },
+      {
+       "r": 200,
+       "u": 1.2397
+      },
+      {
+       "r": 260,
+       "u": 1.0421
+      }
+     ],
+     "nan": false
+    },
+    {
+     "step": 3000,
+     "t": 48,
+     "bh": {
+      "i": 0,
+      "spin": 0.0013179213274270296,
+      "R": 45,
+      "lSw": 0.001019446652071324,
+      "lSwSource": "auto/predicted",
+      "lSwEngine": 0.0010144058614969254,
+      "lSwPredicted": 0.001019446652071324,
+      "cSurf": 58.17514787430686,
+      "vSurf": 0.05930645973421633,
+      "psiSurf": 0.015443155574724641,
+      "wExt": 11.325464927111534,
+      "tAbs": 3.517256166206223,
+      "tObs": 3.513670511183107,
+      "lumNominal": 0.7644393546582976,
+      "lumClamped": 0.7631102105770304,
+      "clampHit": false
+     },
+     "rotorFast": [
+      {
+       "i": 1,
+       "spin": 1.6038005352020264,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 0.48822607581353805,
+       "cSurf": 59.129184334393926,
+       "vSurf": 28.868409633636475,
+       "psiSurf": 0.007309973465372384,
+       "wExt": 18.181012307140975,
+       "tAbs": 62503.88060815764,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      },
+      {
+       "i": 6,
+       "spin": 1.6059645414352417,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 0.48889772875429005,
+       "cSurf": 59.12762536142318,
+       "vSurf": 28.90736174583435,
+       "psiSurf": 0.007323156409972807,
+       "wExt": 18.2284709077025,
+       "tAbs": 62672.667232839536,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      }
+     ],
+     "rotorSlow": {
+      "i": 2,
+      "spin": 0.38179630041122437,
+      "R": 18,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.11630937968043548,
+      "cSurf": 59.086665463129805,
+      "vSurf": 6.872333407402039,
+      "psiSurf": 0.007669644974483931,
+      "wExt": 19.475829739942544,
+      "tAbs": 3542.1724846870584,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "star": {
+      "i": 11,
+      "spin": 1.314872145652771,
+      "R": 1.0352907180786133,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0.023154300771022793,
+      "cSurf": 58.791450509187314,
+      "vSurf": 1.3612749278544243,
+      "psiSurf": 0.010174058696334549,
+      "wExt": 36.561759112333206,
+      "tAbs": 0.24827121578790454,
+      "tObs": 0.24827121578790454,
+      "lumNominal": 0.00001899658294718676,
+      "lumClamped": 0.000018996571318679722,
+      "clampHit": false
+     },
+     "ledger": {
+      "radE": 67045.99629700175,
+      "radL": 337896.1966044344
+     },
+     "rays": {
+      "capQAretro": 0,
+      "capQApro": 0,
+      "capLong": 0,
+      "minR": [
+       6.2,
+       36.7,
+       72.9,
+       115.9,
+       156.5
+      ],
+      "wind": [
+       -0.54,
+       -0.48,
+       -0.45,
+       -0.41,
+       -0.38
+      ],
+      "fan": {
+       "n": 25,
+       "capPro": 0,
+       "capRetro": 0,
+       "bCritPro": 0,
+       "bCritRetro": 0,
+       "minRmean": 102.81,
+       "rateNonEscape": 0
+      }
+     },
+     "uphi": [
+      {
+       "r": 80,
+       "u": 0.2177
+      },
+      {
+       "r": 140,
+       "u": 0.4725
+      },
+      {
+       "r": 200,
+       "u": 1.111
+      },
+      {
+       "r": 260,
+       "u": 1.0043
+      }
+     ],
+     "nan": false
+    }
+   ]
+  },
+  "lock-base": {
+   "id": "lock-base",
+   "scope": "bh",
+   "Kt": 3600,
+   "etaRad": 0.005,
+   "hasLSwAuto": false,
+   "n": 391,
+   "checkpoints": [
+    {
+     "step": 0,
+     "t": 0,
+     "bh": {
+      "i": 0,
+      "spin": 0.11999999731779099,
+      "R": 45,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.09278387326580424,
+      "cSurf": 58.1997677961864,
+      "vSurf": 5.399999879300594,
+      "psiSurf": 0.015231598624457514,
+      "wExt": 10.563859906149881,
+      "tAbs": 29159.998696446433,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "rotorFast": [
+      {
+       "i": 1,
+       "spin": 2,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 0.6090371653184127,
+       "cSurf": 59.10969321745534,
+       "vSurf": 36,
+       "psiSurf": 0.00747481871355728,
+       "wExt": 18.774455200606603,
+       "tAbs": 97200,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      },
+      {
+       "i": 6,
+       "spin": 2,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 0.6090338186245752,
+       "cSurf": 59.110018030363875,
+       "vSurf": 36,
+       "psiSurf": 0.007472071177591317,
+       "wExt": 18.764564071129136,
+       "tAbs": 97200,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      }
+     ],
+     "rotorSlow": {
+      "i": 2,
+      "spin": 0.15000000596046448,
+      "R": 18,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.045680031649769186,
+      "cSurf": 59.10679151865262,
+      "vSurf": 2.7000001072883606,
+      "psiSurf": 0.0074993643495553505,
+      "wExt": 18.862819490199655,
+      "tAbs": 546.750043451787,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "star": {
+      "i": 11,
+      "spin": 0,
+      "R": 1.0352907180786133,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0,
+      "cSurf": 59.08919994625593,
+      "vSurf": 0,
+      "psiSurf": 0.007648198267766548,
+      "wExt": 27.468661569488404,
+      "tAbs": 0,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "ledger": {
+      "radE": 0,
+      "radL": 0
+     },
+     "rays": {
+      "capQAretro": 0,
+      "capQApro": 0,
+      "capLong": 0,
+      "minR": [
+       0.9,
+       32.9,
+       74.9,
+       115.4,
+       155.2
+      ],
+      "wind": [
+       0.52,
+       -0.48,
+       -0.44,
+       -0.41,
+       -0.38
+      ],
+      "fan": {
+       "n": 25,
+       "capPro": 0,
+       "capRetro": 0,
+       "bCritPro": 0,
+       "bCritRetro": 0,
+       "minRmean": 102.81,
+       "rateNonEscape": 0
+      }
+     },
+     "uphi": [
+      {
+       "r": 80,
+       "u": 1.0477
+      },
+      {
+       "r": 140,
+       "u": 1.0187
+      },
+      {
+       "r": 200,
+       "u": 1.7088
+      },
+      {
+       "r": 260,
+       "u": 1.3416
+      }
+     ],
+     "nan": false
+    },
+    {
+     "step": 300,
+     "t": 4.8,
+     "bh": {
+      "i": 0,
+      "spin": 0.12053534388542175,
+      "R": 45,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.09319791934309535,
+      "cSurf": 58.19969494035521,
+      "vSurf": 5.424090474843979,
+      "psiSurf": 0.015232224536549224,
+      "wExt": 10.566113189680033,
+      "tAbs": 29420.75747929318,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "rotorFast": [
+      {
+       "i": 1,
+       "spin": 1.9368685483932495,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 0.5898080690247685,
+       "cSurf": 59.11013379102215,
+       "vSurf": 34.86363387107849,
+       "psiSurf": 0.007471091981942428,
+       "wExt": 18.761038966793137,
+       "tAbs": 91160.47250224586,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      },
+      {
+       "i": 6,
+       "spin": 1.9369094371795654,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 0.5898167401294142,
+       "cSurf": 59.11051263411486,
+       "vSurf": 34.86436986923218,
+       "psiSurf": 0.007467887439384321,
+       "wExt": 18.74950261358395,
+       "tAbs": 91164.32147839684,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      }
+     ],
+     "rotorSlow": {
+      "i": 2,
+      "spin": 0.16543596982955933,
+      "R": 18,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.050381083512429564,
+      "cSurf": 59.1064591970794,
+      "vSurf": 2.977847456932068,
+      "psiSurf": 0.0075021755536395516,
+      "wExt": 18.87293982490278,
+      "tAbs": 665.0681607567587,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "star": {
+      "i": 11,
+      "spin": -0.03438911214470863,
+      "R": 1.0352907180786133,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0.0006025511011828491,
+      "cSurf": 59.086654287894866,
+      "vSurf": 0.03560272860638136,
+      "psiSurf": 0.00766973954096452,
+      "wExt": 27.546210153001102,
+      "tAbs": 0.00016982485289575888,
+      "tObs": 0.00016982485289575888,
+      "lumNominal": 4.158866623806651e-18,
+      "lumClamped": 3.892329539093282e-18,
+      "clampHit": false
+     },
+     "ledger": {
+      "radE": 5564.234816063001,
+      "radL": 0.0010891895341719469
+     },
+     "rays": {
+      "capQAretro": 0,
+      "capQApro": 0,
+      "capLong": 0,
+      "minR": [
+       2.1,
+       33.6,
+       75.3,
+       113,
+       155.6
+      ],
+      "wind": [
+       -0.53,
+       -0.48,
+       -0.44,
+       -0.41,
+       -0.38
+      ],
+      "fan": {
+       "n": 25,
+       "capPro": 0,
+       "capRetro": 0,
+       "bCritPro": 0,
+       "bCritRetro": 0,
+       "minRmean": 102.9,
+       "rateNonEscape": 0
+      }
+     },
+     "uphi": [
+      {
+       "r": 80,
+       "u": 1.0523
+      },
+      {
+       "r": 140,
+       "u": 1.0245
+      },
+      {
+       "r": 200,
+       "u": 1.7038
+      },
+      {
+       "r": 260,
+       "u": 1.333
+      }
+     ],
+     "nan": false
+    },
+    {
+     "step": 1200,
+     "t": 19.2,
+     "bh": {
+      "i": 0,
+      "spin": 0.12170132249593735,
+      "R": 45,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.09410137029761044,
+      "cSurf": 58.19850970285233,
+      "vSurf": 5.476559512317181,
+      "psiSurf": 0.015242407146380269,
+      "wExt": 10.602770585071797,
+      "tAbs": 29992.704091951797,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "rotorFast": [
+      {
+       "i": 1,
+       "spin": 1.7630866765975952,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 0.5368254023936997,
+       "cSurf": 59.117098477918766,
+       "vSurf": 31.735560178756714,
+       "psiSurf": 0.007412182653093181,
+       "wExt": 18.548965382935844,
+       "tAbs": 75535.93348946166,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      },
+      {
+       "i": 6,
+       "spin": 1.7634077072143555,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 0.5369226802342967,
+       "cSurf": 59.117150193781065,
+       "vSurf": 31.7413387298584,
+       "psiSurf": 0.0074117452513852685,
+       "wExt": 18.54739073678736,
+       "tAbs": 75563.44382727066,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      }
+     ],
+     "rotorSlow": {
+      "i": 2,
+      "spin": 0.20318368077278137,
+      "R": 18,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.061881054016738615,
+      "cSurf": 59.10219714293773,
+      "vSurf": 3.6573062539100647,
+      "psiSurf": 0.0075382309008152305,
+      "wExt": 19.002739074735224,
+      "tAbs": 1003.1916776167253,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "star": {
+      "i": 11,
+      "spin": -0.22833825647830963,
+      "R": 1.0352907180786133,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0.0040031862132349555,
+      "cSurf": 59.052081247856044,
+      "vSurf": 0.23639647751424775,
+      "psiSurf": 0.007962387340765388,
+      "wExt": 28.599742232284225,
+      "tAbs": 0.0074871525422801205,
+      "tObs": 0.0074871525422801205,
+      "lumNominal": 1.5712190291514133e-11,
+      "lumClamped": 1.5712151081139692e-11,
+      "clampHit": false
+     },
+     "ledger": {
+      "radE": 19976.386049625344,
+      "radL": 3.2334327942550654
+     },
+     "rays": {
+      "capQAretro": 0,
+      "capQApro": 0,
+      "capLong": 0,
+      "minR": [
+       3.8,
+       35.4,
+       73.2,
+       115.2,
+       152.1
+      ],
+      "wind": [
+       -0.54,
+       -0.48,
+       -0.44,
+       -0.41,
+       -0.39
+      ],
+      "fan": {
+       "n": 25,
+       "capPro": 0,
+       "capRetro": 0,
+       "bCritPro": 0,
+       "bCritRetro": 0,
+       "minRmean": 102.93,
+       "rateNonEscape": 0
+      }
+     },
+     "uphi": [
+      {
+       "r": 80,
+       "u": 1.0681
+      },
+      {
+       "r": 140,
+       "u": 1.0344
+      },
+      {
+       "r": 200,
+       "u": 1.4879
+      },
+      {
+       "r": 260,
+       "u": 1.3344
+      }
+     ],
+     "nan": false
+    },
+    {
+     "step": 3000,
+     "t": 48,
+     "bh": {
+      "i": 0,
+      "spin": 0.12389356642961502,
+      "R": 45,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.09580796788106133,
+      "cSurf": 58.191511756662,
+      "vSurf": 5.575210489332676,
+      "psiSurf": 0.015302532113374973,
+      "wExt": 10.819220466252728,
+      "tAbs": 31082.972000365095,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "rotorFast": [
+      {
+       "i": 1,
+       "spin": 1.4738997220993042,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 0.44860684742295986,
+       "cSurf": 59.13907723475745,
+       "vSurf": 26.530194997787476,
+       "psiSurf": 0.007226325492067086,
+       "wExt": 17.879879603241903,
+       "tAbs": 52788.843496547066,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      },
+      {
+       "i": 6,
+       "spin": 1.4770159721374512,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "numeric",
+       "lSwEngine": 1,
+       "lSwPredicted": 0.4495646399333473,
+       "cSurf": 59.137852795575334,
+       "vSurf": 26.58628749847412,
+       "psiSurf": 0.00723667779984048,
+       "wExt": 17.91714791122612,
+       "tAbs": 53012.3012213641,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      }
+     ],
+     "rotorSlow": {
+      "i": 2,
+      "spin": 0.2471674382686615,
+      "R": 18,
+      "lSw": 1,
+      "lSwSource": "numeric",
+      "lSwEngine": 1,
+      "lSwPredicted": 0.07528335274088348,
+      "cSurf": 59.09691488035734,
+      "vSurf": 4.449013888835907,
+      "psiSurf": 0.007582920429302297,
+      "wExt": 19.163621377288663,
+      "tAbs": 1484.52934372911,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "star": {
+      "i": 11,
+      "spin": -0.2077661007642746,
+      "R": 1.0352907180786133,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0.003648222926266735,
+      "cSurf": 58.95975108975912,
+      "vSurf": 0.21509831565263937,
+      "psiSurf": 0.008744768014864335,
+      "wExt": 31.41631265904044,
+      "tAbs": 0.006198815336103243,
+      "tObs": 0.006198815336103243,
+      "lumNominal": 7.382522846683925e-12,
+      "lumClamped": 7.382534728843758e-12,
+      "clampHit": false
+     },
+     "ledger": {
+      "radE": 40703.3189328751,
+      "radL": 6.714554293905413
+     },
+     "rays": {
+      "capQAretro": 0,
+      "capQApro": 0,
+      "capLong": 0,
+      "minR": [
+       3.6,
+       34.5,
+       72.5,
+       114.8,
+       153.3
+      ],
+      "wind": [
+       -0.54,
+       -0.48,
+       -0.44,
+       -0.41,
+       -0.38
+      ],
+      "fan": {
+       "n": 25,
+       "capPro": 0,
+       "capRetro": 0,
+       "bCritPro": 0,
+       "bCritRetro": 0,
+       "minRmean": 102.93,
+       "rateNonEscape": 0
+      }
+     },
+     "uphi": [
+      {
+       "r": 80,
+       "u": 1.1127
+      },
+      {
+       "r": 140,
+       "u": 1.0694
+      },
+      {
+       "r": 200,
+       "u": 1.6164
+      },
+      {
+       "r": 260,
+       "u": 1.3166
+      }
+     ],
+     "nan": false
+    }
+   ]
+  },
+  "auto-all": {
+   "id": "auto-all",
+   "scope": "all",
+   "Kt": 60,
+   "etaRad": 0.005,
+   "hasLSwAuto": true,
+   "n": 391,
+   "checkpoints": [
+    {
+     "step": 0,
+     "t": 0,
+     "bh": {
+      "i": 0,
+      "spin": 0.11999999731779099,
+      "R": 45,
+      "lSw": 0.559812263019109,
+      "lSwSource": "auto/predicted",
+      "lSwEngine": 0,
+      "lSwPredicted": 0.559812263019109,
+      "cSurf": 9.646090727234153,
+      "vSurf": 5.399999879300594,
+      "psiSurf": 0.9138959174674509,
+      "wExt": 10.563859906149881,
+      "tAbs": 29159.998696446433,
+      "tObs": 12835.873836554487,
+      "lumNominal": 1591321552507211,
+      "lumClamped": 683437.4694479633,
+      "clampHit": true
+     },
+     "rotorFast": [
+      {
+       "i": 1,
+       "spin": 2,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "auto/predicted",
+       "lSwEngine": 0,
+       "lSwPredicted": 1,
+       "cSurf": 24.468004287158756,
+       "vSurf": 36,
+       "psiSurf": 0.44848912281343684,
+       "wExt": 18.774455200606603,
+       "tAbs": 97200,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      },
+      {
+       "i": 6,
+       "spin": 2,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "auto/predicted",
+       "lSwEngine": 0,
+       "lSwPredicted": 1,
+       "cSurf": 24.476072823816665,
+       "vSurf": 36,
+       "psiSurf": 0.44832427065547903,
+       "wExt": 18.764564071129136,
+       "tAbs": 97200,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      }
+     ],
+     "rotorSlow": {
+      "i": 2,
+      "spin": 0.15000000596046448,
+      "R": 18,
+      "lSw": 0.11067370210364458,
+      "lSwSource": "auto/predicted",
+      "lSwEngine": 0,
+      "lSwPredicted": 0.11067370210364458,
+      "cSurf": 24.396040395936545,
+      "vSurf": 2.7000001072883606,
+      "psiSurf": 0.449961860973321,
+      "wExt": 18.862819490199655,
+      "tAbs": 546.750043451787,
+      "tObs": 486.23919201764915,
+      "lumNominal": 397362101.7420843,
+      "lumClamped": 12814.454143401255,
+      "clampHit": true
+     },
+     "star": {
+      "i": 11,
+      "spin": 0,
+      "R": 1.0352907180786133,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0,
+      "cSurf": 23.964193291250744,
+      "vSurf": 0,
+      "psiSurf": 0.45889189606599284,
+      "wExt": 27.468661569488404,
+      "tAbs": 0,
+      "tObs": 0,
+      "lumNominal": 0,
+      "lumClamped": 0,
+      "clampHit": false
+     },
+     "ledger": {
+      "radE": 0,
+      "radL": 0
+     },
+     "rays": {
+      "capQAretro": 3,
+      "capQApro": 5,
+      "capLong": 3,
+      "minR": [
+       147.6,
+       12.7,
+       12.7,
+       194.9,
+       12.7
+      ],
+      "wind": [
+       -0.46,
+       23.37,
+       22.1,
+       -0.13,
+       20.88
+      ],
+      "fan": {
+       "n": 25,
+       "capPro": 15,
+       "capRetro": 16,
+       "bCritPro": 176,
+       "bCritRetro": 184,
+       "minRmean": 66.72,
+       "rateNonEscape": 0.62
+      }
+     },
+     "uphi": [
+      {
+       "r": 80,
+       "u": 1.0477
+      },
+      {
+       "r": 140,
+       "u": 1.0187
+      },
+      {
+       "r": 200,
+       "u": 1.7088
+      },
+      {
+       "r": 260,
+       "u": 1.3416
+      }
+     ],
+     "nan": false
+    },
+    {
+     "step": 300,
+     "t": 4.8,
+     "bh": {
+      "i": 0,
+      "spin": 0.0012613000581040978,
+      "R": 45,
+      "lSw": 0.005885351615538307,
+      "lSwSource": "auto/predicted",
+      "lSwEngine": 0.005881565157324076,
+      "lSwPredicted": 0.005885351615538307,
+      "cSurf": 9.644029162987053,
+      "vSurf": 0.0567585026146844,
+      "psiSurf": 0.914002788978187,
+      "wExt": 10.570272196794043,
+      "tAbs": 3.221527619061136,
+      "tObs": 3.2025677962837937,
+      "lumNominal": 0.5353698548598151,
+      "lumClamped": 0.5346580909629642,
+      "clampHit": false
+     },
+     "rotorFast": [
+      {
+       "i": 1,
+       "spin": 2.110367774963379,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "auto/predicted",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.477592001615037,
+       "vSurf": 37.98661994934082,
+       "psiSurf": 0.4482932376816603,
+       "wExt": 18.76270209270001,
+       "tAbs": 108223.74713817435,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      },
+      {
+       "i": 6,
+       "spin": 2.1110665798187256,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "auto/predicted",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.486787767487446,
+       "vSurf": 37.99919843673706,
+       "psiSurf": 0.44810543246440054,
+       "wExt": 18.751433779664428,
+       "tAbs": 108295.43113758902,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      }
+     ],
+     "rotorSlow": {
+      "i": 2,
+      "spin": 0.012833938002586365,
+      "R": 18,
+      "lSw": 0.009478037370725704,
+      "lSwSource": "auto/predicted",
+      "lSwEngine": 0.009476043283939362,
+      "lSwPredicted": 0.009478037370725704,
+      "cSurf": 24.373282675595398,
+      "vSurf": 0.23101088404655457,
+      "psiSurf": 0.4504285010773804,
+      "wExt": 18.89081789644322,
+      "tAbs": 4.002452141097801,
+      "tObs": 3.9645167501299348,
+      "lumNominal": 1.2709799637206698,
+      "lumClamped": 1.267751162953062,
+      "clampHit": false
+     },
+     "star": {
+      "i": 11,
+      "spin": 2.2184553146362305,
+      "R": 1.0352907180786133,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0.09621035193612215,
+      "cSurf": 23.87213173526233,
+      "vSurf": 2.296746195715059,
+      "psiSurf": 0.46081640990762124,
+      "wExt": 27.584132399986107,
+      "tAbs": 0.7067416579403949,
+      "tObs": 0.7067416579403949,
+      "lumNominal": 0.0012474201878032401,
+      "lumClamped": 0.0012474025739285164,
+      "clampHit": false
+     },
+     "ledger": {
+      "radE": 28961.663466957416,
+      "radL": 389593.8765852124
+     },
+     "rays": {
+      "capQAretro": 0,
+      "capQApro": 0,
+      "capLong": 0,
+      "minR": [
+       74.7,
+       2.6,
+       2.4,
+       2.5,
+       2.1
+      ],
+      "wind": [
+       0.93,
+       1.35,
+       0.31,
+       1.26,
+       1.33
+      ],
+      "fan": {
+       "n": 25,
+       "capPro": 1,
+       "capRetro": 1,
+       "bCritPro": 48,
+       "bCritRetro": 168,
+       "minRmean": 58.97,
+       "rateNonEscape": 0.04
+      }
+     },
+     "uphi": [
+      {
+       "r": 80,
+       "u": 0.1737
+      },
+      {
+       "r": 140,
+       "u": 0.4384
+      },
+      {
+       "r": 200,
+       "u": 1.2452
+      },
+      {
+       "r": 260,
+       "u": 0.9098
+      }
+     ],
+     "nan": false
+    },
+    {
+     "step": 1200,
+     "t": 19.2,
+     "bh": {
+      "i": 0,
+      "spin": 0.0011542643187567592,
+      "R": 45,
+      "lSw": 0.005404944399479673,
+      "lSwSource": "auto/predicted",
+      "lSwEngine": 0.005407083313912153,
+      "lSwPredicted": 0.005404944399479673,
+      "cSurf": 9.610070059010143,
+      "vSurf": 0.05194189434405416,
+      "psiSurf": 0.9157665245234476,
+      "wExt": 10.676096329509681,
+      "tAbs": 2.6979603880488856,
+      "tObs": 2.6833780621594827,
+      "lumNominal": 0.2634866259572933,
+      "lumClamped": 0.2632807661459526,
+      "clampHit": false
+     },
+     "rotorFast": [
+      {
+       "i": 1,
+       "spin": 1.9090105295181274,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "auto/predicted",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.608897912822588,
+       "vSurf": 34.362189531326294,
+       "psiSurf": 0.44561824045477394,
+       "wExt": 18.60220225908683,
+       "tAbs": 88557.00520400927,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      },
+      {
+       "i": 6,
+       "spin": 1.9098495244979858,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "auto/predicted",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.61023828747841,
+       "vSurf": 34.377291440963745,
+       "psiSurf": 0.4455910076595721,
+       "wExt": 18.60056829137472,
+       "tAbs": 88634.86251127193,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      }
+     ],
+     "rotorSlow": {
+      "i": 2,
+      "spin": 0.011877871118485928,
+      "R": 18,
+      "lSw": 0.008850178123985903,
+      "lSwSource": "auto/predicted",
+      "lSwEngine": 0.008861604146659374,
+      "lSwPredicted": 0.008850178123985903,
+      "cSurf": 24.157895709838623,
+      "vSurf": 0.2138016801327467,
+      "psiSurf": 0.4548666455257262,
+      "wExt": 19.157106563343966,
+      "tAbs": 3.4283368820689,
+      "tObs": 3.39799548999356,
+      "lumNominal": 0.6846100575336763,
+      "lumClamped": 0.6835163705431682,
+      "clampHit": false
+     },
+     "star": {
+      "i": 11,
+      "spin": 1.7313246726989746,
+      "R": 1.0352907180786133,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0.07951781967309274,
+      "cSurf": 22.54116587947975,
+      "vSurf": 1.7924243636257415,
+      "psiSurf": 0.4895006650188936,
+      "wExt": 29.305187706662448,
+      "tAbs": 0.43044370065259835,
+      "tObs": 0.43044370065259835,
+      "lumNominal": 0.00017164668894652195,
+      "lumClamped": 0.0001716461413706556,
+      "clampHit": false
+     },
+     "ledger": {
+      "radE": 49148.586827734405,
+      "radL": 400019.2957262296
+     },
+     "rays": {
+      "capQAretro": 1,
+      "capQApro": 0,
+      "capLong": 0,
+      "minR": [
+       3.2,
+       3.2,
+       86.8,
+       3.2,
+       177.6
+      ],
+      "wind": [
+       2.15,
+       3.41,
+       0.67,
+       0.52,
+       -0.49
+      ],
+      "fan": {
+       "n": 25,
+       "capPro": 11,
+       "capRetro": 10,
+       "bCritPro": 200,
+       "bCritRetro": 200,
+       "minRmean": 54.17,
+       "rateNonEscape": 0.42
+      }
+     },
+     "uphi": [
+      {
+       "r": 80,
+       "u": 0.1887
+      },
+      {
+       "r": 140,
+       "u": 0.4535
+      },
+      {
+       "r": 200,
+       "u": 1.1537
+      },
+      {
+       "r": 260,
+       "u": 0.8849
+      }
+     ],
+     "nan": false
+    },
+    {
+     "step": 3000,
+     "t": 48,
+     "bh": {
+      "i": 0,
+      "spin": 0.001195071847178042,
+      "R": 45,
+      "lSw": 0.005729204921974232,
+      "lSwSource": "auto/predicted",
+      "lSwEngine": 0.00575723871588707,
+      "lSwPredicted": 0.005729204921974232,
+      "cSurf": 9.38668346749943,
+      "vSurf": 0.05377823312301189,
+      "psiSurf": 0.9275262648702627,
+      "wExt": 11.381680750318584,
+      "tAbs": 2.892098357833013,
+      "tObs": 2.8755289336864824,
+      "lumNominal": 0.3477978738625383,
+      "lumClamped": 0.3474632701358333,
+      "clampHit": false
+     },
+     "rotorFast": [
+      {
+       "i": 1,
+       "spin": 1.565379023551941,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "auto/predicted",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.8792016920269,
+       "vSurf": 28.176822423934937,
+       "psiSurf": 0.44015619059961164,
+       "wExt": 18.274479267777092,
+       "tAbs": 59544.9991432472,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      },
+      {
+       "i": 6,
+       "spin": 1.566405177116394,
+       "R": 18,
+       "lSw": 1,
+       "lSwSource": "auto/predicted",
+       "lSwEngine": 1,
+       "lSwPredicted": 1,
+       "cSurf": 24.830986343132018,
+       "vSurf": 28.195293188095093,
+       "psiSurf": 0.4411261198217766,
+       "wExt": 18.33267502110699,
+       "tAbs": 59623.09184719811,
+       "tObs": 0,
+       "lumNominal": 0,
+       "lumClamped": 0,
+       "clampHit": false
+      }
+     ],
+     "rotorSlow": {
+      "i": 2,
+      "spin": 0.012159842997789383,
+      "R": 18,
+      "lSw": 0.0092906843954387,
+      "lSwSource": "auto/predicted",
+      "lSwEngine": 0.00933697447180748,
+      "lSwPredicted": 0.0092906843954387,
+      "cSurf": 23.558778303530314,
+      "vSurf": 0.2188771739602089,
+      "psiSurf": 0.46742302973604083,
+      "wExt": 19.910489615962845,
+      "tAbs": 3.5930412960605658,
+      "tObs": 3.559659483359089,
+      "lumNominal": 0.8255912584937197,
+      "lumClamped": 0.8240736562844643,
+      "clampHit": false
+     },
+     "star": {
+      "i": 11,
+      "spin": 1.2529617547988892,
+      "R": 1.0352907180786133,
+      "lSw": 0,
+      "lSwSource": "numeric",
+      "lSwEngine": 0,
+      "lSwPredicted": 0.07267350359980704,
+      "cSurf": 17.84941705843704,
+      "vSurf": 1.2971796748507813,
+      "psiSurf": 0.6061868561601859,
+      "wExt": 36.30635917513998,
+      "tAbs": 0.2254420630253702,
+      "tObs": 0.2254420630253702,
+      "lumNominal": 0.000012915457790600657,
+      "lumClamped": 0.00001291545187144294,
+      "clampHit": false
+     },
+     "ledger": {
+      "radE": 79049.82407974786,
+      "radL": 419845.20495528344
+     },
+     "rays": {
+      "capQAretro": 3,
+      "capQApro": 2,
+      "capLong": 2,
+      "minR": [
+       5.1,
+       3.1,
+       4.1,
+       3.5,
+       5.1
+      ],
+      "wind": [
+       0.51,
+       0.49,
+       0.86,
+       0.55,
+       -0.48
+      ],
+      "fan": {
+       "n": 25,
+       "capPro": 14,
+       "capRetro": 11,
+       "bCritPro": 184,
+       "bCritRetro": 200,
+       "minRmean": 58.33,
+       "rateNonEscape": 0.5
+      }
+     },
+     "uphi": [
+      {
+       "r": 80,
+       "u": 0.2351
+      },
+      {
+       "r": 140,
+       "u": 0.5399
+      },
+      {
+       "r": 200,
+       "u": 0.877
+      },
+      {
+       "r": 260,
+       "u": 0.8387
+      }
+     ],
+     "nan": false
+    }
+   ]
+  }
+ },
+ "dose": {
+  "note": "spin 走査。full=🕶️全構成(BHのみ auto)/ isolated=中心BH単独(自己場のみ)。",
+  "spins": [
+   0,
+   0.05,
+   0.12,
+   0.2,
+   0.3,
+   0.5,
+   1,
+   2,
+   3
+  ],
+  "ktToyFull": [
+   {
+    "spin0": 0,
+    "lSwPredicted0": 0,
+    "lSwEngineAfter1": 0,
+    "spinAfter1": 0.000002830503035511356,
+    "cSurf": 9.646090727234153,
+    "vSurf": 0,
+    "wExt": 10.563859906149881,
+    "tAbs": 0,
+    "tObs": 0,
+    "lumNominal": 0,
+    "lumClamped": 0,
+    "clampHit": false,
+    "rays": {
+     "capQAretro": 2,
+     "capQApro": 5,
+     "fan": {
+      "n": 25,
+      "capPro": 17,
+      "capRetro": 16,
+      "bCritPro": 184,
+      "bCritRetro": 200,
+      "minRmean": 52.8,
+      "rateNonEscape": 0.66
+     }
+    }
+   },
+   {
+    "spin0": 0.05,
+    "lSwPredicted0": 0.2332551182807256,
+    "lSwEngineAfter1": 0.23325516283512115,
+    "spinAfter1": 0.02500128000974655,
+    "cSurf": 9.646090727234153,
+    "vSurf": 2.2500000335276127,
+    "wExt": 10.563859906149881,
+    "tAbs": 5062.500150874258,
+    "tObs": 3881.6460793858914,
+    "lumNominal": 2518147044078.9863,
+    "lumClamped": 118652.34728611543,
+    "clampHit": true,
+    "rays": {
+     "capQAretro": 3,
+     "capQApro": 5,
+     "fan": {
+      "n": 25,
+      "capPro": 16,
+      "capRetro": 17,
+      "bCritPro": 168,
+      "bCritRetro": 200,
+      "minRmean": 62.18,
+      "rateNonEscape": 0.66
+     }
+    }
+   },
+   {
+    "spin0": 0.12,
+    "lSwPredicted0": 0.559812263019109,
+    "lSwEngineAfter1": 0.5598123669624329,
+    "spinAfter1": 0.06000108644366264,
+    "cSurf": 9.646090727234153,
+    "vSurf": 5.399999879300594,
+    "wExt": 10.563859906149881,
+    "tAbs": 29159.998696446433,
+    "tObs": 12835.873836554487,
+    "lumNominal": 1591321552507211,
+    "lumClamped": 683437.4694479633,
+    "clampHit": true,
+    "rays": {
+     "capQAretro": 3,
+     "capQApro": 5,
+     "fan": {
+      "n": 25,
+      "capPro": 15,
+      "capRetro": 16,
+      "bCritPro": 176,
+      "bCritRetro": 184,
+      "minRmean": 66.72,
+      "rateNonEscape": 0.62
+     }
+    }
+   },
+   {
+    "spin0": 0.2,
+    "lSwPredicted0": 0.9330204731229024,
+    "lSwEngineAfter1": 0.9330206513404846,
+    "spinAfter1": 0.10000087320804596,
+    "cSurf": 9.646090727234153,
+    "vSurf": 9.00000013411045,
+    "wExt": 10.563859906149881,
+    "tAbs": 81000.00241398813,
+    "tObs": 5425.341838732691,
+    "lumNominal": 14416246749502530,
+    "lumClamped": 1898437.5565778469,
+    "clampHit": true,
+    "rays": {
+     "capQAretro": 3,
+     "capQApro": 5,
+     "fan": {
+      "n": 25,
+      "capPro": 16,
+      "capRetro": 18,
+      "bCritPro": 160,
+      "bCritRetro": 192,
+      "minRmean": 59.69,
+      "rateNonEscape": 0.68
+     }
+    }
+   },
+   {
+    "spin0": 0.3,
+    "lSwPredicted0": 1,
+    "lSwEngineAfter1": 1,
+    "spinAfter1": 0.30000120401382446,
+    "cSurf": 9.646090727234153,
+    "vSurf": 13.500000536441803,
+    "wExt": 10.563859906149881,
+    "tAbs": 182250.01448392897,
+    "tObs": 0,
+    "lumNominal": 0,
+    "lumClamped": 0,
+    "clampHit": false,
+    "rays": {
+     "capQAretro": 3,
+     "capQApro": 5,
+     "fan": {
+      "n": 25,
+      "capPro": 15,
+      "capRetro": 18,
+      "bCritPro": 160,
+      "bCritRetro": 184,
+      "minRmean": 65.88,
+      "rateNonEscape": 0.66
+     }
+    }
+   },
+   {
+    "spin0": 0.5,
+    "lSwPredicted0": 1,
+    "lSwEngineAfter1": 1,
+    "spinAfter1": 0.5000001192092896,
+    "cSurf": 9.646090727234153,
+    "vSurf": 22.5,
+    "wExt": 10.563859906149881,
+    "tAbs": 506250,
+    "tObs": 0,
+    "lumNominal": 0,
+    "lumClamped": 0,
+    "clampHit": false,
+    "rays": {
+     "capQAretro": 3,
+     "capQApro": 3,
+     "fan": {
+      "n": 25,
+      "capPro": 14,
+      "capRetro": 17,
+      "bCritPro": 152,
+      "bCritRetro": 192,
+      "minRmean": 67.66,
+      "rateNonEscape": 0.62
+     }
+    }
+   },
+   {
+    "spin0": 1,
+    "lSwPredicted0": 1,
+    "lSwEngineAfter1": 1,
+    "spinAfter1": 0.9999973773956299,
+    "cSurf": 9.646090727234153,
+    "vSurf": 45,
+    "wExt": 10.563859906149881,
+    "tAbs": 2025000,
+    "tObs": 0,
+    "lumNominal": 0,
+    "lumClamped": 0,
+    "clampHit": false,
+    "rays": {
+     "capQAretro": 1,
+     "capQApro": 0,
+     "fan": {
+      "n": 25,
+      "capPro": 0,
+      "capRetro": 6,
+      "bCritPro": 0,
+      "bCritRetro": 192,
+      "minRmean": 82.13,
+      "rateNonEscape": 0.12
+     }
+    }
+   },
+   {
+    "spin0": 2,
+    "lSwPredicted0": 1,
+    "lSwEngineAfter1": 1,
+    "spinAfter1": 1.9999918937683105,
+    "cSurf": 9.646090727234153,
+    "vSurf": 90,
+    "wExt": 10.563859906149881,
+    "tAbs": 8100000,
+    "tObs": 0,
+    "lumNominal": 0,
+    "lumClamped": 0,
+    "clampHit": false,
+    "rays": {
+     "capQAretro": 1,
+     "capQApro": 0,
+     "fan": {
+      "n": 25,
+      "capPro": 1,
+      "capRetro": 4,
+      "bCritPro": 152,
+      "bCritRetro": 104,
+      "minRmean": 91.11,
+      "rateNonEscape": 0.1
+     }
+    }
+   },
+   {
+    "spin0": 3,
+    "lSwPredicted0": 1,
+    "lSwEngineAfter1": 1,
+    "spinAfter1": 2.999986410140991,
+    "cSurf": 9.646090727234153,
+    "vSurf": 135,
+    "wExt": 10.563859906149881,
+    "tAbs": 18225000,
+    "tObs": 0,
+    "lumNominal": 0,
+    "lumClamped": 0,
+    "clampHit": false,
+    "rays": {
+     "capQAretro": 0,
+     "capQApro": 0,
+     "fan": {
+      "n": 25,
+      "capPro": 1,
+      "capRetro": 2,
+      "bCritPro": 104,
+      "bCritRetro": 144,
+      "minRmean": 95.87,
+      "rateNonEscape": 0.06
+     }
+    }
+   }
+  ],
+  "ktLockFull": [
+   {
+    "spin0": 0,
+    "lSwPredicted0": 0,
+    "lSwEngineAfter1": 0,
+    "spinAfter1": 0.000002830503035511356,
+    "cSurf": 58.1997677961864,
+    "vSurf": 0,
+    "wExt": 10.563859906149881,
+    "tAbs": 0,
+    "tObs": 0,
+    "lumNominal": 0,
+    "lumClamped": 0,
+    "clampHit": false,
+    "rays": {
+     "capQAretro": 0,
+     "capQApro": 0,
+     "fan": {
+      "n": 25,
+      "capPro": 0,
+      "capRetro": 0,
+      "bCritPro": 0,
+      "bCritRetro": 0,
+      "minRmean": 102.77,
+      "rateNonEscape": 0
+     }
+    }
+   },
+   {
+    "spin0": 0.05,
+    "lSwPredicted0": 0.0386599486342804,
+    "lSwEngineAfter1": 0.038659948855638504,
+    "spinAfter1": 0.02500128000974655,
+    "cSurf": 58.1997677961864,
+    "vSurf": 2.2500000335276127,
+    "wExt": 10.563859906149881,
+    "tAbs": 5062.500150874258,
+    "tObs": 4866.784155080422,
+    "lumNominal": 3157237389408.0264,
+    "lumClamped": 118652.34728611543,
+    "clampHit": true,
+    "rays": {
+     "capQAretro": 0,
+     "capQApro": 0,
+     "fan": {
+      "n": 25,
+      "capPro": 0,
+      "capRetro": 0,
+      "bCritPro": 0,
+      "bCritRetro": 0,
+      "minRmean": 102.79,
+      "rateNonEscape": 0
+     }
+    }
+   },
+   {
+    "spin0": 0.12,
+    "lSwPredicted0": 0.09278387326580424,
+    "lSwEngineAfter1": 0.09278387576341629,
+    "spinAfter1": 0.06000108644366264,
+    "cSurf": 58.1997677961864,
+    "vSurf": 5.399999879300594,
+    "wExt": 10.563859906149881,
+    "tAbs": 29159.998696446433,
+    "tObs": 26454.42107296433,
+    "lumNominal": 3279674679617234,
+    "lumClamped": 683437.4694479633,
+    "clampHit": true,
+    "rays": {
+     "capQAretro": 0,
+     "capQApro": 0,
+     "fan": {
+      "n": 25,
+      "capPro": 0,
+      "capRetro": 0,
+      "bCritPro": 0,
+      "bCritRetro": 0,
+      "minRmean": 102.81,
+      "rateNonEscape": 0
+     }
+    }
+   },
+   {
+    "spin0": 0.2,
+    "lSwPredicted0": 0.1546397945371216,
+    "lSwEngineAfter1": 0.15463979542255402,
+    "spinAfter1": 0.10000087320804596,
+    "cSurf": 58.1997677961864,
+    "vSurf": 9.00000013411045,
+    "wExt": 10.563859906149881,
+    "tAbs": 81000.00241398813,
+    "tObs": 68474.17868318265,
+    "lumNominal": 181949946235438340,
+    "lumClamped": 1898437.5565778469,
+    "clampHit": true,
+    "rays": {
+     "capQAretro": 0,
+     "capQApro": 0,
+     "fan": {
+      "n": 25,
+      "capPro": 0,
+      "capRetro": 0,
+      "bCritPro": 0,
+      "bCritRetro": 0,
+      "minRmean": 102.83,
+      "rateNonEscape": 0
+     }
+    }
+   },
+   {
+    "spin0": 0.3,
+    "lSwPredicted0": 0.23195969756646356,
+    "lSwEngineAfter1": 0.23195970058441162,
+    "spinAfter1": 0.15000060200691223,
+    "cSurf": 58.1997677961864,
+    "vSurf": 13.500000536441803,
+    "wExt": 10.563859906149881,
+    "tAbs": 182250.01448392897,
+    "tObs": 139975.35624275322,
+    "lumNominal": 4236666710374655500,
+    "lumClamped": 4271484.714467085,
+    "clampHit": true,
+    "rays": {
+     "capQAretro": 0,
+     "capQApro": 0,
+     "fan": {
+      "n": 25,
+      "capPro": 0,
+      "capRetro": 0,
+      "bCritPro": 0,
+      "bCritRetro": 0,
+      "minRmean": 102.81,
+      "rateNonEscape": 0
+     }
+    }
+   },
+   {
+    "spin0": 0.5,
+    "lSwPredicted0": 0.3865994805820228,
+    "lSwEngineAfter1": 0.38659948110580444,
+    "spinAfter1": 0.2500000596046448,
+    "cSurf": 58.1997677961864,
+    "vSurf": 22.5,
+    "wExt": 10.563859906149881,
+    "tAbs": 506250,
+    "tObs": 310534.012955351,
+    "lumNominal": 201453254857183430000,
+    "lumClamped": 11865234.375,
+    "clampHit": true,
+    "rays": {
+     "capQAretro": 0,
+     "capQApro": 0,
+     "fan": {
+      "n": 25,
+      "capPro": 0,
+      "capRetro": 0,
+      "bCritPro": 0,
+      "bCritRetro": 0,
+      "minRmean": 102.77,
+      "rateNonEscape": 0
+     }
+    }
+   },
+   {
+    "spin0": 1,
+    "lSwPredicted0": 0.7731989611640456,
+    "lSwEngineAfter1": 0.7731989622116089,
+    "spinAfter1": 0.49999868869781494,
+    "cSurf": 58.1997677961864,
+    "vSurf": 45,
+    "wExt": 10.563859906149881,
+    "tAbs": 2025000,
+    "tObs": 459272.1036428076,
+    "lumNominal": 1.9068439533752915e+22,
+    "lumClamped": 47460937.5,
+    "clampHit": true,
+    "rays": {
+     "capQAretro": 0,
+     "capQApro": 0,
+     "fan": {
+      "n": 25,
+      "capPro": 0,
+      "capRetro": 0,
+      "bCritPro": 0,
+      "bCritRetro": 0,
+      "minRmean": 102.55,
+      "rateNonEscape": 0
+     }
+    }
+   },
+   {
+    "spin0": 2,
+    "lSwPredicted0": 1,
+    "lSwEngineAfter1": 1,
+    "spinAfter1": 1.9999918937683105,
+    "cSurf": 58.1997677961864,
+    "vSurf": 90,
+    "wExt": 10.563859906149881,
+    "tAbs": 8100000,
+    "tObs": 0,
+    "lumNominal": 0,
+    "lumClamped": 0,
+    "clampHit": false,
+    "rays": {
+     "capQAretro": 0,
+     "capQApro": 0,
+     "fan": {
+      "n": 25,
+      "capPro": 0,
+      "capRetro": 0,
+      "bCritPro": 0,
+      "bCritRetro": 0,
+      "minRmean": 102.34,
+      "rateNonEscape": 0
+     }
+    }
+   },
+   {
+    "spin0": 3,
+    "lSwPredicted0": 1,
+    "lSwEngineAfter1": 1,
+    "spinAfter1": 2.999986410140991,
+    "cSurf": 58.1997677961864,
+    "vSurf": 135,
+    "wExt": 10.563859906149881,
+    "tAbs": 18225000,
+    "tObs": 0,
+    "lumNominal": 0,
+    "lumClamped": 0,
+    "clampHit": false,
+    "rays": {
+     "capQAretro": 0,
+     "capQApro": 0,
+     "fan": {
+      "n": 25,
+      "capPro": 0,
+      "capRetro": 0,
+      "bCritPro": 0,
+      "bCritRetro": 0,
+      "minRmean": 102.11,
+      "rateNonEscape": 0
+     }
+    }
+   }
+  ],
+  "ktToyIsolated": [
+   {
+    "spin0": 0,
+    "lSwPredicted0": 0,
+    "lSwEngineAfter1": 0,
+    "spinAfter1": 0,
+    "cSurf": 12.832932574267398,
+    "vSurf": 0,
+    "wExt": 2,
+    "tAbs": 0,
+    "tObs": 0,
+    "lumNominal": 0,
+    "lumClamped": 0,
+    "clampHit": false
+   },
+   {
+    "spin0": 0.05,
+    "lSwPredicted0": 0.17533015314358574,
+    "lSwEngineAfter1": 0.17533014714717865,
+    "spinAfter1": 0.02500000037252903,
+    "cSurf": 12.832932574267398,
+    "vSurf": 2.2500000335276127,
+    "wExt": 2,
+    "tAbs": 5062.500150874258,
+    "tObs": 4174.891224132048,
+    "lumNominal": 2708384479262.6377,
+    "lumClamped": 118652.34728611543,
+    "clampHit": true
+   },
+   {
+    "spin0": 0.12,
+    "lSwPredicted0": 0.42079235186886876,
+    "lSwEngineAfter1": 0.4207923412322998,
+    "spinAfter1": 0.05999999865889549,
+    "cSurf": 12.832932574267398,
+    "vSurf": 5.399999879300594,
+    "wExt": 2,
+    "tAbs": 29159.998696446433,
+    "tObs": 16889.69426447559,
+    "lumNominal": 2093892074708329.2,
+    "lumClamped": 683437.4694479633,
+    "clampHit": true
+   },
+   {
+    "spin0": 0.2,
+    "lSwPredicted0": 0.701320612574343,
+    "lSwEngineAfter1": 0.7013205885887146,
+    "spinAfter1": 0.10000000149011612,
+    "cSurf": 12.832932574267398,
+    "vSurf": 9.00000013411045,
+    "wExt": 2,
+    "tAbs": 81000.00241398813,
+    "tObs": 24193.031102486715,
+    "lumNominal": 64285848958285690,
+    "lumClamped": 1898437.5565778469,
+    "clampHit": true
+   },
+   {
+    "spin0": 0.3,
+    "lSwPredicted0": 1,
+    "lSwEngineAfter1": 1,
+    "spinAfter1": 0.30000001192092896,
+    "cSurf": 12.832932574267398,
+    "vSurf": 13.500000536441803,
+    "wExt": 2,
+    "tAbs": 182250.01448392897,
+    "tObs": 0,
+    "lumNominal": 0,
+    "lumClamped": 0,
+    "clampHit": false
+   },
+   {
+    "spin0": 0.5,
+    "lSwPredicted0": 1,
+    "lSwEngineAfter1": 1,
+    "spinAfter1": 0.5,
+    "cSurf": 12.832932574267398,
+    "vSurf": 22.5,
+    "wExt": 2,
+    "tAbs": 506250,
+    "tObs": 0,
+    "lumNominal": 0,
+    "lumClamped": 0,
+    "clampHit": false
+   },
+   {
+    "spin0": 1,
+    "lSwPredicted0": 1,
+    "lSwEngineAfter1": 1,
+    "spinAfter1": 1,
+    "cSurf": 12.832932574267398,
+    "vSurf": 45,
+    "wExt": 2,
+    "tAbs": 2025000,
+    "tObs": 0,
+    "lumNominal": 0,
+    "lumClamped": 0,
+    "clampHit": false
+   },
+   {
+    "spin0": 2,
+    "lSwPredicted0": 1,
+    "lSwEngineAfter1": 1,
+    "spinAfter1": 2,
+    "cSurf": 12.832932574267398,
+    "vSurf": 90,
+    "wExt": 2,
+    "tAbs": 8100000,
+    "tObs": 0,
+    "lumNominal": 0,
+    "lumClamped": 0,
+    "clampHit": false
+   },
+   {
+    "spin0": 3,
+    "lSwPredicted0": 1,
+    "lSwEngineAfter1": 1,
+    "spinAfter1": 3,
+    "cSurf": 12.832932574267398,
+    "vSurf": 135,
+    "wExt": 2,
+    "tAbs": 18225000,
+    "tObs": 0,
+    "lumNominal": 0,
+    "lumClamped": 0,
+    "clampHit": false
+   }
+  ],
+  "ktLockIsolated": [
+   {
+    "spin0": 0,
+    "lSwPredicted0": 0,
+    "lSwEngineAfter1": 0,
+    "spinAfter1": 0,
+    "cSurf": 58.47732457076415,
+    "vSurf": 0,
+    "wExt": 2,
+    "tAbs": 0,
+    "tObs": 0,
+    "lumNominal": 0,
+    "lumClamped": 0,
+    "clampHit": false
+   },
+   {
+    "spin0": 0.05,
+    "lSwPredicted0": 0.03847645305326613,
+    "lSwEngineAfter1": 0.038476452231407166,
+    "spinAfter1": 0.02500000037252903,
+    "cSurf": 58.47732457076415,
+    "vSurf": 2.2500000335276127,
+    "wExt": 2,
+    "tAbs": 5062.500150874258,
+    "tObs": 4867.713101486992,
+    "lumNominal": 3157840026433.652,
+    "lumClamped": 118652.34728611543,
+    "clampHit": true
+   },
+   {
+    "spin0": 0.12,
+    "lSwPredicted0": 0.09234348388777579,
+    "lSwEngineAfter1": 0.09234348684549332,
+    "spinAfter1": 0.05999999865889549,
+    "cSurf": 58.47732457076415,
+    "vSurf": 5.399999879300594,
+    "wExt": 2,
+    "tAbs": 29159.998696446433,
+    "tObs": 26467.26282665357,
+    "lumNominal": 3281266730121772.5,
+    "lumClamped": 683437.4694479633,
+    "clampHit": true
+   },
+   {
+    "spin0": 0.2,
+    "lSwPredicted0": 0.1539058122130645,
+    "lSwEngineAfter1": 0.15390580892562866,
+    "spinAfter1": 0.10000000149011612,
+    "cSurf": 58.47732457076415,
+    "vSurf": 9.00000013411045,
+    "wExt": 2,
+    "tAbs": 81000.00241398813,
+    "tObs": 68533.6312532031,
+    "lumNominal": 182107923915883840,
+    "lumClamped": 1898437.5565778469,
+    "clampHit": true
+   },
+   {
+    "spin0": 0.3,
+    "lSwPredicted0": 0.23085872405303498,
+    "lSwEngineAfter1": 0.2308587282896042,
+    "spinAfter1": 0.15000000596046448,
+    "cSurf": 58.47732457076415,
+    "vSurf": 13.500000536441803,
+    "wExt": 2,
+    "tAbs": 182250.01448392897,
+    "tObs": 140176.00868152198,
+    "lumNominal": 4242739904474714600,
+    "lumClamped": 4271484.714467085,
+    "clampHit": true
+   },
+   {
+    "spin0": 0.5,
+    "lSwPredicted0": 0.38476452479922313,
+    "lSwEngineAfter1": 0.38476452231407166,
+    "spinAfter1": 0.25,
+    "cSurf": 58.47732457076415,
+    "vSurf": 22.5,
+    "wExt": 2,
+    "tAbs": 506250,
+    "tObs": 311462.95932039333,
+    "lumNominal": 202055891801988700000,
+    "lumClamped": 11865234.375,
+    "clampHit": true
+   },
+   {
+    "spin0": 1,
+    "lSwPredicted0": 0.7695290495984463,
+    "lSwEngineAfter1": 0.7695290446281433,
+    "spinAfter1": 0.5,
+    "cSurf": 58.47732457076415,
+    "vSurf": 45,
+    "wExt": 2,
+    "tAbs": 2025000,
+    "tObs": 466703.6745631463,
+    "lumNominal": 1.9376989649493207e+22,
+    "lumClamped": 47460937.5,
+    "clampHit": true
+   },
+   {
+    "spin0": 2,
+    "lSwPredicted0": 1,
+    "lSwEngineAfter1": 1,
+    "spinAfter1": 2,
+    "cSurf": 58.47732457076415,
+    "vSurf": 90,
+    "wExt": 2,
+    "tAbs": 8100000,
+    "tObs": 0,
+    "lumNominal": 0,
+    "lumClamped": 0,
+    "clampHit": false
+   },
+   {
+    "spin0": 3,
+    "lSwPredicted0": 1,
+    "lSwEngineAfter1": 1,
+    "spinAfter1": 3,
+    "cSurf": 58.47732457076415,
+    "vSurf": 135,
+    "wExt": 2,
+    "tAbs": 18225000,
+    "tObs": 0,
+    "lumNominal": 0,
+    "lumClamped": 0,
+    "clampHit": false
+   }
+  ],
+  "realistic": [
+   {
+    "name": "saturn",
+    "vEqOverC": 0.00003292282649303517,
+    "spin": 0.00004389710199071357,
+    "lSwPredicted0": 0.00003394119501844403,
+    "lSwEngineAfter1": 0.00003394119630684145
+   },
+   {
+    "name": "sun",
+    "vEqOverC": 0.000006671292095853125,
+    "spin": 0.000008895056127804167,
+    "lSwPredicted0": 0.000006877648409097582,
+    "lSwEngineAfter1": 0.00000687764850226813
+   }
+  ]
+ },
+ "coreDiff": {
+  "off": {
+   "hasCore": false,
+   "coreMR": 0,
+   "coreSR": 1,
+   "Rc": 0,
+   "rays": [
+    {
+     "y0": 10,
+     "ex": 487.411305442439,
+     "ey": 95.8649211530684,
+     "minR": 147.64858112276605,
+     "endR": 496.7492967088998
+    },
+    {
+     "y0": 40,
+     "ex": 7.451452375456398,
+     "ey": -10.917749064441722,
+     "minR": 12.673955237461854,
+     "endR": 13.21822178425725
+    },
+    {
+     "y0": 80,
+     "ex": -12.163425289313581,
+     "ey": -5.07838026533207,
+     "minR": 12.654870119331326,
+     "endR": 13.181003789090852
+    },
+    {
+     "y0": 120,
+     "ex": -311.32532343072774,
+     "ey": 860.8235425484188,
+     "minR": 194.92347550791865,
+     "endR": 915.3909702497926
+    },
+    {
+     "y0": 160,
+     "ex": -4.056224071385675,
+     "ey": 12.506352167121381,
+     "minR": 12.693218996733284,
+     "endR": 13.14769174590545
+    },
+    {
+     "y0": -10,
+     "ex": -11.154568703917146,
+     "ey": 7.0146885880556855,
+     "minR": 12.762465172338395,
+     "endR": 13.176883507028757
+    },
+    {
+     "y0": -40,
+     "ex": -2.90189590198581,
+     "ey": 12.819008608075306,
+     "minR": 12.737101311865377,
+     "endR": 13.143362641267675
+    },
+    {
+     "y0": -80,
+     "ex": -13.089261590939437,
+     "ey": -1.5671074292637641,
+     "minR": 12.629364796188076,
+     "endR": 13.182738512573783
+    },
+    {
+     "y0": -120,
+     "ex": 3.6230233709723665,
+     "ey": 12.616823421807076,
+     "minR": 12.6172666754757,
+     "endR": 13.126710616284324
+    },
+    {
+     "y0": -160,
+     "ex": -4.187222856867843,
+     "ey": -12.508411286659362,
+     "minR": 12.743599237317746,
+     "endR": 13.190647753969621
+    }
+   ],
+   "uphi": [
+    {
+     "r": 80,
+     "u": 1.0477102917935361
+    },
+    {
+     "r": 140,
+     "u": 1.0186570168410751
+    },
+    {
+     "r": 200,
+     "u": 1.7087896764342982
+    },
+    {
+     "r": 260,
+     "u": 1.3415778589811436
+    }
+   ],
+   "sig": {
+    "px": 184567.96392562054,
+    "py": -4002980.59652026
+   }
+  },
+  "cases": [
+   {
+    "id": "extreme",
+    "spec": {
+     "coreMR": 0.9,
+     "coreSR": 10
+    },
+    "on": {
+     "hasCore": true,
+     "coreMR": 0.8999999761581421,
+     "coreSR": 10,
+     "Rc": 84.85281372070312,
+     "rays": [
+      {
+       "y0": 10,
+       "ex": 487.411305442439,
+       "ey": 95.8649211530684,
+       "minR": 147.64858112276605,
+       "endR": 496.7492967088998
+      },
+      {
+       "y0": 40,
+       "ex": 7.451452375456398,
+       "ey": -10.917749064441722,
+       "minR": 12.673955237461854,
+       "endR": 13.21822178425725
+      },
+      {
+       "y0": 80,
+       "ex": -12.163425289313581,
+       "ey": -5.07838026533207,
+       "minR": 12.654870119331326,
+       "endR": 13.181003789090852
+      },
+      {
+       "y0": 120,
+       "ex": -311.32532343072774,
+       "ey": 860.8235425484188,
+       "minR": 194.92347550791865,
+       "endR": 915.3909702497926
+      },
+      {
+       "y0": 160,
+       "ex": -4.056224071385675,
+       "ey": 12.506352167121381,
+       "minR": 12.693218996733284,
+       "endR": 13.14769174590545
+      },
+      {
+       "y0": -10,
+       "ex": -11.154568703917146,
+       "ey": 7.0146885880556855,
+       "minR": 12.762465172338395,
+       "endR": 13.176883507028757
+      },
+      {
+       "y0": -40,
+       "ex": -2.90189590198581,
+       "ey": 12.819008608075306,
+       "minR": 12.737101311865377,
+       "endR": 13.143362641267675
+      },
+      {
+       "y0": -80,
+       "ex": -13.089261590939437,
+       "ey": -1.5671074292637641,
+       "minR": 12.629364796188076,
+       "endR": 13.182738512573783
+      },
+      {
+       "y0": -120,
+       "ex": 3.6230233709723665,
+       "ey": 12.616823421807076,
+       "minR": 12.6172666754757,
+       "endR": 13.126710616284324
+      },
+      {
+       "y0": -160,
+       "ex": -4.187222856867843,
+       "ey": -12.508411286659362,
+       "minR": 12.743599237317746,
+       "endR": 13.190647753969621
+      }
+     ],
+     "uphi": [
+      {
+       "r": 80,
+       "u": 15.34184379500842
+      },
+      {
+       "r": 140,
+       "u": 11.511966248820512
+      },
+      {
+       "r": 200,
+       "u": 8.323985049824715
+      },
+      {
+       "r": 260,
+       "u": 8.017510111951653
+      }
+     ],
+     "sig": {
+      "px": 186079.59765510214,
+      "py": -4121482.230850365
+     }
+    },
+    "rayIdentical": true,
+    "rayMaxDiff": 0,
+    "particleIdentical": false,
+    "uphiRatio": [
+     {
+      "r": 80,
+      "off": 1.0477102917935361,
+      "on": 15.34184379500842,
+      "ratio": 14.64321188326335
+     },
+     {
+      "r": 140,
+      "off": 1.0186570168410751,
+      "on": 11.511966248820512,
+      "ratio": 11.301121043194602
+     },
+     {
+      "r": 200,
+      "off": 1.7087896764342982,
+      "on": 8.323985049824715,
+      "ratio": 4.8712753620997
+     },
+     {
+      "r": 260,
+      "off": 1.3415778589811436,
+      "on": 8.017510111951653,
+      "ratio": 5.976179510028976
+     }
+    ]
+   },
+   {
+    "id": "moderate",
+    "spec": {
+     "coreMR": 0.3,
+     "coreSR": 3,
+     "coreRR": 0.4
+    },
+    "on": {
+     "hasCore": true,
+     "coreMR": 0.30000001192092896,
+     "coreSR": 3,
+     "Rc": 18,
+     "rays": [
+      {
+       "y0": 10,
+       "ex": 487.411305442439,
+       "ey": 95.8649211530684,
+       "minR": 147.64858112276605,
+       "endR": 496.7492967088998
+      },
+      {
+       "y0": 40,
+       "ex": 7.451452375456398,
+       "ey": -10.917749064441722,
+       "minR": 12.673955237461854,
+       "endR": 13.21822178425725
+      },
+      {
+       "y0": 80,
+       "ex": -12.163425289313581,
+       "ey": -5.07838026533207,
+       "minR": 12.654870119331326,
+       "endR": 13.181003789090852
+      },
+      {
+       "y0": 120,
+       "ex": -311.32532343072774,
+       "ey": 860.8235425484188,
+       "minR": 194.92347550791865,
+       "endR": 915.3909702497926
+      },
+      {
+       "y0": 160,
+       "ex": -4.056224071385675,
+       "ey": 12.506352167121381,
+       "minR": 12.693218996733284,
+       "endR": 13.14769174590545
+      },
+      {
+       "y0": -10,
+       "ex": -11.154568703917146,
+       "ey": 7.0146885880556855,
+       "minR": 12.762465172338395,
+       "endR": 13.176883507028757
+      },
+      {
+       "y0": -40,
+       "ex": -2.90189590198581,
+       "ey": 12.819008608075306,
+       "minR": 12.737101311865377,
+       "endR": 13.143362641267675
+      },
+      {
+       "y0": -80,
+       "ex": -13.089261590939437,
+       "ey": -1.5671074292637641,
+       "minR": 12.629364796188076,
+       "endR": 13.182738512573783
+      },
+      {
+       "y0": -120,
+       "ex": 3.6230233709723665,
+       "ey": 12.616823421807076,
+       "minR": 12.6172666754757,
+       "endR": 13.126710616284324
+      },
+      {
+       "y0": -160,
+       "ex": -4.187222856867843,
+       "ey": -12.508411286659362,
+       "minR": 12.743599237317746,
+       "endR": 13.190647753969621
+      }
+     ],
+     "uphi": [
+      {
+       "r": 80,
+       "u": 1.1825373892210462
+      },
+      {
+       "r": 140,
+       "u": 1.0894962293852835
+      },
+      {
+       "r": 200,
+       "u": 1.7464383335142473
+      },
+      {
+       "r": 260,
+       "u": 1.3758206102249149
+      }
+     ],
+     "sig": {
+      "px": 184530.12009264808,
+      "py": -4002634.7016222253
+     }
+    },
+    "rayIdentical": true,
+    "rayMaxDiff": 0,
+    "particleIdentical": false,
+    "uphiRatio": [
+     {
+      "r": 80,
+      "off": 1.0477102917935361,
+      "on": 1.1825373892210462,
+      "ratio": 1.1286873847508978
+     },
+     {
+      "r": 140,
+      "off": 1.0186570168410751,
+      "on": 1.0894962293852835,
+      "ratio": 1.0695417705597174
+     },
+     {
+      "r": 200,
+      "off": 1.7087896764342982,
+      "on": 1.7464383335142473,
+      "ratio": 1.0220323528396484
+     },
+     {
+      "r": 260,
+      "off": 1.3415778589811436,
+      "on": 1.3758206102249149,
+      "ratio": 1.0255242370128088
+     }
+    ]
+   }
+  ],
+  "rayIdentical": true,
+  "rayMaxDiff": 0,
+  "particleIdentical": false,
+  "on": {
+   "hasCore": true,
+   "coreMR": 0.8999999761581421,
+   "coreSR": 10,
+   "Rc": 84.85281372070312,
+   "rays": [
+    {
+     "y0": 10,
+     "ex": 487.411305442439,
+     "ey": 95.8649211530684,
+     "minR": 147.64858112276605,
+     "endR": 496.7492967088998
+    },
+    {
+     "y0": 40,
+     "ex": 7.451452375456398,
+     "ey": -10.917749064441722,
+     "minR": 12.673955237461854,
+     "endR": 13.21822178425725
+    },
+    {
+     "y0": 80,
+     "ex": -12.163425289313581,
+     "ey": -5.07838026533207,
+     "minR": 12.654870119331326,
+     "endR": 13.181003789090852
+    },
+    {
+     "y0": 120,
+     "ex": -311.32532343072774,
+     "ey": 860.8235425484188,
+     "minR": 194.92347550791865,
+     "endR": 915.3909702497926
+    },
+    {
+     "y0": 160,
+     "ex": -4.056224071385675,
+     "ey": 12.506352167121381,
+     "minR": 12.693218996733284,
+     "endR": 13.14769174590545
+    },
+    {
+     "y0": -10,
+     "ex": -11.154568703917146,
+     "ey": 7.0146885880556855,
+     "minR": 12.762465172338395,
+     "endR": 13.176883507028757
+    },
+    {
+     "y0": -40,
+     "ex": -2.90189590198581,
+     "ey": 12.819008608075306,
+     "minR": 12.737101311865377,
+     "endR": 13.143362641267675
+    },
+    {
+     "y0": -80,
+     "ex": -13.089261590939437,
+     "ey": -1.5671074292637641,
+     "minR": 12.629364796188076,
+     "endR": 13.182738512573783
+    },
+    {
+     "y0": -120,
+     "ex": 3.6230233709723665,
+     "ey": 12.616823421807076,
+     "minR": 12.6172666754757,
+     "endR": 13.126710616284324
+    },
+    {
+     "y0": -160,
+     "ex": -4.187222856867843,
+     "ey": -12.508411286659362,
+     "minR": 12.743599237317746,
+     "endR": 13.190647753969621
+    }
+   ],
+   "uphi": [
+    {
+     "r": 80,
+     "u": 15.34184379500842
+    },
+    {
+     "r": 140,
+     "u": 11.511966248820512
+    },
+    {
+     "r": 200,
+     "u": 8.323985049824715
+    },
+    {
+     "r": 260,
+     "u": 8.017510111951653
+    }
+   ],
+   "sig": {
+    "px": 186079.59765510214,
+    "py": -4121482.230850365
+   }
+  },
+  "uphiRatio": [
+   {
+    "r": 80,
+    "off": 1.0477102917935361,
+    "on": 15.34184379500842,
+    "ratio": 14.64321188326335
+   },
+   {
+    "r": 140,
+    "off": 1.0186570168410751,
+    "on": 11.511966248820512,
+    "ratio": 11.301121043194602
+   },
+   {
+    "r": 200,
+    "off": 1.7087896764342982,
+    "on": 8.323985049824715,
+    "ratio": 4.8712753620997
+   },
+   {
+    "r": 260,
+    "off": 1.3415778589811436,
+    "on": 8.017510111951653,
+    "ratio": 5.976179510028976
+   }
+  ]
+ },
+ "massMin": {
+  "exactMatchWithTraceRay": true,
+  "valid": [
+   {
+    "y": 10,
+    "dx": 0,
+    "dy": 0
+   },
+   {
+    "y": 40,
+    "dx": 0,
+    "dy": 0
+   },
+   {
+    "y": 80,
+    "dx": 0,
+    "dy": 0
+   },
+   {
+    "y": 120,
+    "dx": 0,
+    "dy": 0
+   },
+   {
+    "y": 160,
+    "dx": 0,
+    "dy": 0
+   }
+  ],
+  "mass": {
+   "mAbove": 3500,
+   "mBelow": 169.62665989995003,
+   "nAbove": 11,
+   "nBelow": 380,
+   "fracBelow": 0.04622
+  },
+  "fans": [
+   {
+    "massMin": 0,
+    "n": 50,
+    "cap": 32,
+    "rate": 0.64,
+    "minRmean": 62.13,
+    "deflMeanDeg": 84.473
+   },
+   {
+    "massMin": 1,
+    "n": 50,
+    "cap": 31,
+    "rate": 0.62,
+    "minRmean": 66.72,
+    "deflMeanDeg": 83.574
+   },
+   {
+    "massMin": 40,
+    "n": 50,
+    "cap": 31,
+    "rate": 0.62,
+    "minRmean": 66.72,
+    "deflMeanDeg": 83.574
+   },
+   {
+    "massMin": 200,
+    "n": 50,
+    "cap": 36,
+    "rate": 0.72,
+    "minRmean": 43.14,
+    "deflMeanDeg": 100.077
+   }
+  ],
+  "haloRef": {
+   "nHalo": 20,
+   "mHalo": 30,
+   "mTotalHalo": 600,
+   "note": "第19便 実験B のハロー(exp-darkrotor.mjs:99 の N_HALO=20/M_HALO=30)は m<40 で全質量が光学不可視"
+  }
+ }
+}
