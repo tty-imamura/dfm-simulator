@@ -574,7 +574,9 @@ ja: {
   extClosed:"閉鎖系 — 固定・規定運動なし。運動量・角運動量は系内(+遠方宇宙の帳簿)で閉じる。",
   extPinned:(n)=>"固定粒子 "+n+"個 — 位置とスピンを外部が保持。反作用は系外に逃げるため、系内だけを見ると保存則は成り立たないように見える。",
   extRail:"規定運動(レール駆動)— 外部が決めた軌道で動き、系に仕事をする。",
-  extBath:"スピン浴(熱浴)— スピン固定の粒子が周囲を加熱/冷却する(エネルギーの外部供給・吸収)。",
+  extBath:"熱浴 — 固定された高温(高スピン・高T_int)の粒子が周囲を加熱/冷却する(エネルギーの外部供給・吸収)。",
+  // 第37便 C1(台帳4-70): 伝熱作用する箱 — 箱の面そのものが熱浴になる
+  extWall:"伝熱する壁(world.thermalWalls)— 箱の面が加熱面・放熱面として系と熱をやり取りする(外部の環境。出入りは壁帳簿に記録される)。",
   extGrav:"一様重力場(gravityX/Y)— 画面全体に働く外部の力場。運動量は場との交換として帳簿に記録される。",
   // 第35便 W4(台帳4-54): サンプル分類バッジ — classifyPreset() の layers/external/closed を表示
   bdgCore:"コア公理", bdgCoreTip:"A1〜A13・E1′〜E11 のみで動く",
@@ -737,7 +739,8 @@ en: {
   extClosed:"Closed system — no constraints or prescribed motion. Momentum and angular momentum close within the system (plus the distant-universe ledger).",
   extPinned:(n)=>"Pinned bodies ×"+n+" — position and spin are held externally. The reaction leaves the system, so conservation appears broken if you look at the system alone.",
   extRail:"Prescribed motion (rail-driven) — follows an external schedule and does work on the system.",
-  extBath:"Spin bath (heat bath) — fixed-spin bodies heat/cool their surroundings (external energy source/sink).",
+  extBath:"Heat bath — pinned hot bodies (high spin or high T_int) heat/cool their surroundings (external energy source/sink).",
+  extWall:"Thermally active walls (world.thermalWalls) — box faces act as heating/radiating surfaces exchanging heat with the system (an external environment; the exchange is ledgered).",
   extGrav:"Uniform gravity field (gravityX/Y) — an external force field acting across the scene. Momentum exchange with the field is ledgered.",
   // 35th delivery W4 (ledger 4-54): sample classification badges
   bdgCore:"Core axioms", bdgCoreTip:"Runs on A1–A13 and E1′–E11 alone",
@@ -883,6 +886,10 @@ function extractLawRefs(text){
 // (per-preset メタデータではなく機械判定: 理論解説パネルと同じ「保守コストゼロ」方針)
 function externalTags(p){
   let pin=0, rail=false, bath=false;
+  // 第37便 C1(台帳4-70): 伝熱作用する箱 — 箱の面が加熱/放熱するなら、その面は外部の環境
+  // (無限熱容量のリザーバ)であり、系は開放系になる。判定は normThermalWalls と同条件
+  const wall=!!normThermalWalls(p.world, (p.thermal==="tint")?"tint":"spin");
+  if(wall) bath=true;
   for(const b of (p.bodies||[])){
     // 第36便 D(台帳4-51): thermal:"tint" のサンプルでは熱浴の熱は spin ではなく tInt が持つ
     // (📏の加熱端・♨️のヒーターは spin=0・tInt>0 の固定粒子)。判定の主張「固定された高温の
@@ -900,7 +907,7 @@ function externalTags(p){
   // 第33便: FLRW 摩擦比較モード(universeBox.friction="flrw")も外部場(公理系外の対照チャネル)
   const ph=p.physics||{};
   const grav=!!(ph.gravityX||ph.gravityY||(p.universeBox && p.universeBox.friction==="flrw"));
-  return {pin, rail, bath, grav};
+  return {pin, rail, bath, grav, wall};
 }
 // 第35便 W4(台帳4-54): サンプル分類バッジ — 各サンプルが「DFMコア公理から創発した現象」か
 // 「表示・比較・外部駆動のために与えた規則」かを、プリセットJSONから機械判定する
@@ -917,7 +924,8 @@ function classifyPreset(p){
   if(p.photonEmit) layers.push("semantic");                                        // 光子波長の意味論
   if(p.universeBox && p.universeBox.friction==="flrw") layers.push("comparison");   // FLRW対照チャネル
   if(layers.length===0) layers.push("core");
-  const closed=!ext.rail && !ext.pin && !ext.grav;   // 既存の閉鎖系判定(renderHelp と同一式)
+  // 第37便 C1(台帳4-70): 伝熱する壁も外部駆動 — 熱を出し入れする面がある系は閉じていない
+  const closed=!ext.rail && !ext.pin && !ext.grav && !ext.wall;   // 既存の閉鎖系判定(renderHelp と同一式)
   return {layers, external:ext, closed};
 }
 function gName(g){ return (LANG==="en" && I18N.en.groups[g]) || g; }
@@ -1524,38 +1532,24 @@ const BUILTIN_PRESETS = [
 // (経緯は DERIVATIONS 付録K/付録M・HANDOFF_IMPLEMENTATION)。gravityY は W に寄与しない
 // 純粋な外部力場なので、時計・光・引きずりを歪めずに箱内へ厳密に一様な下向き場を作れる。
 
-{ id:"convection", name:"加熱の対流 — 床加熱と天井冷却", emoji:"♨️", group:"熱の実験室",
-  description:"床の左〜中央+右寄りまで固定ヒーター列(高い内部温度T_int)、天井の右側に疎な冷却板(T_int=0の熱の捨て場)。床の右端だけは非加熱で、冷えたガスの下降域になる。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂)。ガスは床で熱伝導(E10′)により加熱され、熱の斥力=圧力(E5′)で膨らんで浮上し、天井で冷えて右から沈む対流セルを作る(T6の移流拡張)。働く力は一様重力場gravityY(外部場)と熱の斥力・接触だけで、自己重力・引きずり・放射は切ってある。gravityY=0にすると循環が止まる(おすすめA/B)。代表粒子の軌跡(線)で循環セルの周回が見える。色=温度。",
-  en:{name:"Heated Convection — Floor Heat, Ceiling Cool", description:"Pinned heaters (high internal temperature T_int) line the floor from the left to right-of-center, with sparse coolers (T_int=0 heat sinks) on the right ceiling; only the far-right floor stays unheated, serving as the downwelling zone. This sample treats temperature as an internal state variable independent of spin (the A9 revision). Gas heats up at the floor by conduction (E10′), inflates and rises by thermal repulsion = pressure (E5′), cools at the ceiling and sinks on the right — a convection cell (an advective extension of T6). The only forces are the uniform gravity gravityY (external field) plus thermal repulsion and contact — self-gravity, dragging and radiation are all off. Set gravityY to 0 and the circulation stops (suggested A/B). Trails on sampled particles trace the circulation loops. Color = temperature."},
+{ id:"convection", name:"加熱の対流 — 伝熱する箱", emoji:"♨️", group:"熱の実験室",
+  description:"箱そのものに伝熱の境界条件を与えたレイリー・ベナール型の対流セル(台帳4-70)。固定した加熱粒子は一つも無く、外から系を駆動するのは箱の壁だけ — 床が加熱面(壁温T=144へ緩和)、天井と右壁が放熱面(受けた熱を系外へ捨てる)、左壁は断熱。箱は「その先の環境」の近似で、ビーカーの壁だと思ってよい(BOX_UNIVERSE §12-1)。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂)。床で温まったガスは熱の斥力=圧力(E5′)で膨らんで浮上し、天井と右壁で熱を捨てて右から沈む — 一方向の循環セル(T6の移流拡張)。24000步後も循環は持続し、壁が入れた熱と壁が回収した熱が釣り合う定常状態になる(壁の熱は帳簿wallE系に記録される。保存量モニタで確認できる)。働く力は一様重力場gravityY(外部場)と熱の斥力・接触だけで、自己重力・引きずり・自発放射は切ってある。gravityYを0にすると循環が止まる(おすすめA/B)。代表粒子の軌跡(線)で循環セルの周回が見える。色=温度。",
+  en:{name:"Heated Convection — A Box That Conducts Heat", description:"A Rayleigh-Bénard-style convection cell where the thermal boundary condition lives in the box itself (ledger 4-70). There is not a single pinned heater particle: the only external drive is the wall — the floor is a heating face (relaxing toward a wall temperature T=144), the ceiling and the right wall are radiating faces (dumping the heat they receive out of the system), and the left wall is adiabatic. The box is an approximation of whatever lies beyond it; think of it as the wall of a beaker (BOX_UNIVERSE §12-1). This sample treats temperature as an internal state variable independent of spin (the A9 revision). Gas warmed at the floor inflates by thermal repulsion = pressure (E5′), rises, dumps its heat at the ceiling and the right wall, and sinks on the right — a one-way circulation cell (an advective extension of T6). The circulation is still running after 24000 steps, with the heat the walls inject balancing the heat they take back (the wall ledger records both; watch it in the conservation monitor). The only forces are the uniform gravity gravityY (external field) plus thermal repulsion and contact — self-gravity, dragging and spontaneous radiation are all off. Set gravityY to 0 and the circulation stops (suggested A/B). Trails on sampled particles trace the circulation loops. Color = temperature."},
   activeParams:["gravityY","kRep","kappaS","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   thermal:"tint",   // 第36便 D(台帳4-51)
-  camera:{scale:240}, world:{boundary:"box",size:190},
+  camera:{scale:78}, world:{boundary:"box", size:60,
+    // 第37便 C1(台帳4-70): 伝熱作用する箱。床=加熱面・天井=放熱面・右壁=放熱面(下降域)・左壁=断熱。
+    // 右壁を放熱にしているのは、床を一様に加熱すると左右対称になって「向きの定まった循環」が
+    // 生まれないため(実測: 一様加熱では循環指標が 0〜5 で符号も定まらない)。旧版が
+    // 「天井右の冷却板+右端床は非加熱=下降域」で作っていた左右非対称を、壁の言葉で置き換えた形
+    thermalWalls:{ bottom:{mode:"heat", T:144, rate:1}, top:{mode:"rad", rate:3}, right:{mode:"rad", rate:10} }},
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:2, muF:0.2, gammaN:0.1, kappaS:1.2, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:2, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 4 は各 body の rMul へ焼込(第36便 C1)*/, softening:4, timeScale:2},   // 第29便: timeScale 3→2 復帰(第25次レビュー P0-1 — CPU計算量が理論1.5倍・実測1.522倍の主因。循環の見やすさは軌跡(sampled trail)で維持)
-  bodies:[ // v1.17: ヒーター(床)+冷却板5点(天井右・疎)+軽量ガス260。
-           // v1.24: 旧11点(〜x=+30)では右下に冷えた塊が滞留し循環が死ぬ(48000步で自由粒子の
-           // 84%が右下・循環7)ことを実測。6構成の機械掃引で「+70まで延長・右端床は非加熱の
-           // 下降域として残す」13点構成を採用(48000步で循環24持続・滞留47%へ改善。
-           // 床全面加熱は逆に循環が反転して不採用)
-    {type:"single", rMul:4, m:1, x:-170,y:186, vx:0,vy:0, spin:0, tInt:144, pinned:true},
-    {type:"single", rMul:4, m:1, x:-150,y:186, vx:0,vy:0, spin:0, tInt:144, pinned:true},
-    {type:"single", rMul:4, m:1, x:-130,y:186, vx:0,vy:0, spin:0, tInt:144, pinned:true},
-    {type:"single", rMul:4, m:1, x:-110,y:186, vx:0,vy:0, spin:0, tInt:144, pinned:true},
-    {type:"single", rMul:4, m:1, x:-90,y:186, vx:0,vy:0, spin:0, tInt:144, pinned:true},
-    {type:"single", rMul:4, m:1, x:-70,y:186, vx:0,vy:0, spin:0, tInt:144, pinned:true},
-    {type:"single", rMul:4, m:1, x:-50,y:186, vx:0,vy:0, spin:0, tInt:144, pinned:true},
-    {type:"single", rMul:4, m:1, x:-30,y:186, vx:0,vy:0, spin:0, tInt:144, pinned:true},
-    {type:"single", rMul:4, m:1, x:-10,y:186, vx:0,vy:0, spin:0, tInt:144, pinned:true},
-    {type:"single", rMul:4, m:1, x:10,y:186, vx:0,vy:0, spin:0, tInt:144, pinned:true},
-    {type:"single", rMul:4, m:1, x:30,y:186, vx:0,vy:0, spin:0, tInt:144, pinned:true},
-    {type:"single", rMul:4, m:1, x:50,y:186, vx:0,vy:0, spin:0, tInt:144, pinned:true},
-    {type:"single", rMul:4, m:1, x:70,y:186, vx:0,vy:0, spin:0, tInt:144, pinned:true},
-    {type:"single", rMul:4, m:1, x:10,y:-186, vx:0,vy:0, spin:0, tInt:0, pinned:true},
-    {type:"single", rMul:4, m:1, x:50,y:-186, vx:0,vy:0, spin:0, tInt:0, pinned:true},
-    {type:"single", rMul:4, m:1, x:90,y:-186, vx:0,vy:0, spin:0, tInt:0, pinned:true},
-    {type:"single", rMul:4, m:1, x:130,y:-186, vx:0,vy:0, spin:0, tInt:0, pinned:true},
-    {type:"single", rMul:4, m:1, x:170,y:-186, vx:0,vy:0, spin:0, tInt:0, pinned:true},
-    {type:"box", rMul:4, n:260, cx:0,cy:-10, w:340,h:320, mMin:0.05,mMax:0.05,
+    cLight:60, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:2},
+  bodies:[ // 第37便 C1: pinned ヒーター13枚・冷却板5枚を全廃し、自由な気体だけの系にした
+           // (外部駆動は壁の熱交換ひとつだけ = 要因の完全分離)。箱を小さく・密にしたのは、
+           // 壁と気体が実際に熱をやり取りできる密度にするため(実測: 旧サイズ190では天井付近の
+           // 粒子数が平均0.2個で放熱面が働かない)
+    {type:"box", rMul:4, n:300, cx:0,cy:0, w:80,h:80, mMin:0.05,mMax:0.05,
      spinMin:0,spinMax:0, tInt:2.25, vScale:0.4}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"}  },
@@ -1763,8 +1757,11 @@ function validatePreset(obj){
   if(!p.camera || !isNum(p.camera.scale)) bad("camera.scale(数値)が必要です");
   else p.camera={scale:clamp(p.camera.scale,20,3000)};
   const BOUND=["none","box","circle"];
+  // 第37便 C1(台帳4-70): world.thermalWalls は thermal の検証(下)より後で処理するため、
+  // world を正規化する前に生の値を退避しておく
+  let rawTW;
   if(!p.world || BOUND.indexOf(p.world.boundary)<0 || !isNum(p.world.size)) bad("world.boundary/sizeが不正です");
-  else p.world={boundary:p.world.boundary, size:clamp(p.world.size,0,5000)};
+  else { rawTW=p.world.thermalWalls; p.world={boundary:p.world.boundary, size:clamp(p.world.size,0,5000)}; }
   // physics: 部分指定を許容し、既定値へマージ + クランプ
   const ph = Object.assign({}, DEFAULT_PHYSICS);
   if(p.physics!==undefined){
@@ -1952,6 +1949,47 @@ function validatePreset(obj){
     const THERM=["spin","tint"];
     if(THERM.indexOf(p.thermal)<0){ warnings.push("thermal が不正のため spin に修正"); p.thermal="spin"; }
   }
+  // 第37便 C1(台帳4-70): world.thermalWalls — 伝熱作用する箱の境界条件。
+  // {bottom:{mode:"heat",T:..,rate:..}, top:{mode:"rad",rate:..}, left/right: 省略=断熱}
+  // 有効条件は boundary:"box" かつ thermal:"tint" の両方。条件を満たさないときは警告つきで
+  // 丸ごと無視する(挙動を静かに変えない)。mode の enum クランプ・T/rate の値域クランプは
+  // integrator/thermal と同形。※ SYSTEM_PROMPT には載せない(AI生成には開放しない)
+  if(rawTW!==undefined){
+    if(!rawTW || typeof rawTW!=="object" || Array.isArray(rawTW)){
+      warnings.push("world.thermalWalls はオブジェクトが必要 — 無視します");
+    } else if(p.world.boundary!=="box"){
+      warnings.push('world.thermalWalls は boundary:"box" でのみ有効 — 無視します');
+    } else if(p.thermal!=="tint"){
+      warnings.push('world.thermalWalls は thermal:"tint" でのみ有効 — 無視します');
+    } else {
+      const MODES=["heat","rad","adiabatic"], out={};
+      let nBad=0;
+      for(const side of ["bottom","top","left","right"]){
+        const w=rawTW[side];
+        if(w===undefined) continue;                       // 省略 = 断熱(既定)
+        if(!w || typeof w!=="object" || Array.isArray(w)){ warnings.push("world.thermalWalls."+side+" はオブジェクトが必要 — 無視します"); nBad++; continue; }
+        let mode=w.mode;
+        if(MODES.indexOf(mode)<0){ warnings.push("world.thermalWalls."+side+".mode が不正のため adiabatic に修正"); mode="adiabatic"; }
+        if(mode==="adiabatic") continue;                  // 断熱は状態を持たない(既定と同じ)
+        const o={mode};
+        if(w.rate!==undefined){
+          if(!isNum(w.rate)){ bad("world.thermalWalls."+side+".rate が数値ではありません"); continue; }
+          o.rate=clamp(w.rate,0,100);
+          if(o.rate!==w.rate) warnings.push("world.thermalWalls."+side+".rate を値域に修正");
+        } else o.rate=1;
+        if(mode==="heat"){
+          if(w.T!==undefined){
+            if(!isNum(w.T)){ bad("world.thermalWalls."+side+".T が数値ではありません"); continue; }
+            o.T=clamp(w.T,0,10000);
+            if(o.T!==w.T) warnings.push("world.thermalWalls."+side+".T を値域に修正");
+          } else o.T=0;
+        } else if(w.T!==undefined) warnings.push('world.thermalWalls.'+side+'.T は mode:"rad" では使いません(T_wall=0 固定)');
+        out[side]=o;
+      }
+      if(Object.keys(out).length) p.world.thermalWalls=out;
+      else if(!nBad) warnings.push("world.thermalWalls に有効な面がありません(全面 断熱)");
+    }
+  }
   // 第35便(台帳4-62): echoFlipAt — この時刻に達した最初のステップ終端で全粒子の v と s を
   // 一度だけ反転する(Loschmidt echo。省略時は反転しない)。数値でなければ警告して無視
   if(p.echoFlipAt!==undefined){
@@ -2067,6 +2105,81 @@ function boxScaleAt(B, t){ // 尺度因子 a(t) と Hubble 率 H=ȧ/a
   return {a, H:(H<-0.5? -0.5 : (H>0.5? 0.5 : H)), Hraw:H, clamped:cl};
 }
 function boxWAt(B, a){ return B.D*Math.pow(1/a, B.dPower); } // W_B=D·a^{−dPower}(総質量一定の M/L 希釈類似)
+// ===== 第37便 C1(台帳4-70): 伝熱作用する箱 =====
+// 「箱宇宙」は系の外側の環境の近似(BOX_UNIVERSE §12-1: ビーカーでもよい)。その箱の面ごとに
+// 熱的な境界条件を与える。壁は E10′(粒子間の熱伝導)と同じ幾何核で粒子と熱をやり取りする:
+//   ΔT_int = rate·g_w²·(T_wall − T_int)·dt、 g_w = 2R_i/(2R_i + gap)、gap = 壁面から中心までの距離
+// 接触(gap=0)で g_w=1 = 最大、離れると距離の2乗で弱まる(E10′ の g=(R_i+R_j)/((R_i+R_j)+d) を
+// 「相手が同じ大きさの壁」と読み替えた形)。
+//   mode "heat"      : T_wall = T(加熱面。T < T_int なら冷却面にもなる)
+//   mode "rad"       : T_wall = 0 固定(放熱面 — 受け取った熱をすべて系外へ捨てる)
+//   mode "adiabatic" : 断熱(既定・省略時)。現行どおり反射のみで熱は動かない
+// 出入りした熱は外部リザーバの帳簿 wallEin / wallEout に計上する(開放系)。
+// ※ 距離核にした理由(第37便 C1 実測): 「接触中の粒子だけ」を対象にすると、一様重力で成層した
+//    気体では天井に接触する粒子が平均 0.0〜0.2 個しかなく、放熱面が熱力学的に不活性になる
+//    (実測: 熱流出/熱流入 < 1% で箱が単調に加熱されるだけ)。壁を「E10′ と同じ伝導体」として
+//    扱うと、床の加熱と天井の放熱が同じ法則で釣り合い、定常対流が成立する。
+const TWALL_SIDES=["bottom","top","left","right"];
+function normThermalWalls(world, thermal){
+  if(!world || world.boundary!=="box" || thermal!=="tint") return null;
+  const tw=world.thermalWalls;
+  if(!tw || typeof tw!=="object" || Array.isArray(tw)) return null;
+  const out=[null,null,null,null]; let any=false;
+  for(let k=0;k<4;k++){
+    const w=tw[TWALL_SIDES[k]];
+    if(!w || typeof w!=="object" || Array.isArray(w)) continue;
+    const mode=(w.mode==="heat")? "heat" : (w.mode==="rad"? "rad" : null);
+    if(!mode) continue;                                  // adiabatic / 不正値 = 断熱(状態を持たない)
+    const rate=(typeof w.rate==="number" && isFinite(w.rate))? clamp(w.rate,0,100) : 1;
+    if(!(rate>0)) continue;
+    const T=(mode==="heat" && typeof w.T==="number" && isFinite(w.T))? clamp(w.T,0,10000) : 0;
+    out[k]={mode, T, rate}; any=true;
+  }
+  return any? out : null;
+}
+// ===== 第37便 C2(台帳4-71): E5′ の対ポテンシャル U_rep(L17 の解消)=====
+// tint モードの E5′ は F = kRep·μ·√(T_iT_j)·(g_i²+g_j²)·(r_i−r_j)、g_a=(R_a/(R_a+d))^q。
+// これを −∇U から出す形に逆算すると(t_a = R_a/(R_a+d))
+//   U_rep(d,T_i,T_j) = kRep·μ·√(T_iT_j)·(Φ(R_i,d)+Φ(R_j,d))、
+//   Φ(R,d) = R²·[ t^{2q−2}/(2q−2) − t^{2q−1}/(2q−1) ]   (q=2 では R²·t²·(1/2 − t/3))
+// で、−∂U/∂d = kRep·μ·√(T_iT_j)·(g_i²+g_j²)·d が現行の力と厳密に一致する(V10b の
+// スピン版 U と、T_int=s² の対応で同型)。q≤1 では ∫F dd が発散する(斥力の到達距離が無限)ため
+// ポテンシャルが定義できず、帳簿化の対象外とする(その場合 L17 は残存 — 内蔵サンプルは全て q=2)。
+function urepPhi(R, t, e1, e2, i1, i2){ return R*R*(Math.pow(t,e1)*i1 - Math.pow(t,e2)*i2); }
+function urepEnergy(s){
+  if(!s.Tint) return 0;
+  const p=s.params, q=p.q, kRep=p.kRep;
+  if(!(kRep>0) || !(q>1)) return 0;
+  const e1=2*q-2, e2=2*q-1, i1=1/e1, i2=1/e2;
+  let U=0;
+  for(let i=0;i<s.n;i++){
+    const Ti=s.Tint[i]; if(!(Ti>0)) continue;
+    const mi=s.mEff[i], Ri=s.R[i];
+    for(let j=i+1;j<s.n;j++){
+      const Tj=s.Tint[j]; if(!(Tj>0)) continue;
+      const mj=s.mEff[j], ms=mi+mj; if(!(Math.abs(ms)>1e-9)) continue;
+      const Rj=s.R[j], dx=s.x[i]-s.x[j], dy=s.y[i]-s.y[j], d=Math.sqrt(dx*dx+dy*dy);
+      U+=kRep*(mi*mj/ms)*Math.sqrt(Ti*Tj)
+         *(urepPhi(Ri,Ri/(Ri+d),e1,e2,i1,i2)+urepPhi(Rj,Rj/(Rj+d),e1,e2,i1,i2));
+    }
+  }
+  return U;
+}
+// 粒子1個の熱量関数 E_i(T) = C·m_i·T + a_i·√T。ここで a_i = Σ_{j≠i} kRep·μ_ij·(Φ_i+Φ_j)·√T_j
+// (①全対ループで積む)で、a_i·√T_i は「T_i を動かしたときに動く U_rep の全量」= Σ_j U_rep(i,j)。
+// 他の粒子の T を止めたまま T_i だけ動かす分には ΔU が厳密に a_i(√T′−√T) になる(=単独更新は厳密)。
+// 全粒子を同時に更新するときの誤差は交差項 δ√T_i·δ√T_j のみ = O(dt²) で、積分器の局所誤差と同位。熱 Q を与えたときの
+// 新しい T を厳密に解く: C·m·z² + a·z − (E(T)+Q) = 0(z=√T′)。
+//   z = 2E′/(a + √(a² + 4·C·m·E′))  ← 桁落ちしない形。a=0 なら T′=T+Q/(C·m) で従来式と厳密一致。
+// 線形化(C_eff = C·m + a/(2√T))を使わないのは、U_rep ∝ √T のため T→0 で C_eff が発散し、
+// 陽的な割り算だと 1 步で符号反転・振動を起こすため。厳密解なら Q が負でも T′≥0 が保証される
+// (E′≤0 なら T′=0 — その分の不足エネルギーは呼び出し側が帳簿に戻す)。
+function solveTintE(T0, cm, a, Q){
+  const E=cm*T0 + a*Math.sqrt(T0) + Q;
+  if(!(E>0)) return 0;
+  const z=2*E/(a + Math.sqrt(a*a + 4*cm*E));
+  return z*z;
+}
 function makeSim(){
   const S = {
     n:0, t:0, params:Object.assign({},DEFAULT_PHYSICS),
@@ -2104,7 +2217,11 @@ function makeSim(){
     // thermal="tint" では Tint[i]≥0 が粒子の内部温度(ミクロスピンの粗視化量)で、保持する
     // 熱エネルギーは E_int = cHeat·m_i·T_int,i。マクロ spin はコヒーレント回転として残り、
     // 圧力(E5′)・伝導(E10′)・放射(E11)には効かなくなる(REVIEW_20260724_DARK_ROTOR_V2 §2)
-    thermal:"spin", Tint:null, dTi:null,
+    // 第37便 C2(台帳4-71 / L17 解消): dQi = そのサブステップに粒子へ入った熱量(E9散逸・E10′伝導・
+    // 伝熱壁)。arep = 対ポテンシャル U_rep の温度係数 a_i(U_rep,i = a_i·√T_i)で、①全対ループで
+    // 積み上げる。内部熱と U_rep を合わせた粒子ごとの熱量関数 E_i(T)=C·m_i·T + a_i·√T を厳密に
+    // 解いて T_int を更新する(下の _core ②を参照)
+    thermal:"spin", Tint:null, dQi:null, arep:null, arepD:null, duT:null,
     pinned:null, railR:null, railAng:null, railOmega:null, railCx:null, railCy:null, railH:null,
     box:null, boxA:null,   // 第31便: UniverseBox 連続背景と現在stepの尺度キャッシュ {a,H,W}
     boxHist:null, _bhAcc:0, boxARef:1,   // 第32便: 尺度・赤方偏移の履歴(グラフ用データ層)と基準 a(0)
@@ -2118,6 +2235,12 @@ function makeSim(){
     uPx:null,uPy:null,hasU:null, tau:null, ax:null,ay:null, sumW:null,uAx:null,uAy:null, ds:null,
     dpx:null,dpy:null, pairD:null,
     resPx:0,resPy:0,resL:0,radE:0,radL:0,   // リザーバ帳簿(E6′/E11。PHYSICS.md §5)
+    // 第37便 C1(台帳4-70): 伝熱作用する箱の帳簿。wallEin/wallEout = 伝熱壁が系へ注入 / 系から
+    // 回収した熱の累計、wallKE = 境界反射(反発係数<1)で壁に吸われた運動エネルギーの累計
+    // (従来は帳簿外だった散逸 — 力学は 1 ビットも変えず計上だけを追加した)。
+    // 系のエネルギー収支は ΔE_系 = wallEin − wallEout − wallKE − ΔradE で閉じる(QA thermalwalls.ledger)。
+    // twall = 伝熱境界の内部表現 [bottom,top,left,right](各 null|{mode,T,rate}。無ければ null)
+    wallEin:0, wallEout:0, wallKE:0, twall:null,
     // 第35便(台帳4-62): 可逆積分器と Loschmidt echo(BOX_UNIVERSE §10.5)。
     // integrator="semi"(既定=現行のセミ・インプリシット経路。1命令も変えないゼロコスト経路)
     // / "leapfrog"(KDK。R∘F∘R=F⁻¹ が厳密に成り立つ可逆積分器)。
@@ -2263,8 +2386,12 @@ function makeSim(){
     // 第36便 D(台帳4-51): 温度の意味論。"tint" のときだけ内部温度の配列を確保する
     // ("spin" では null のまま = 確保も参照もしないゼロコスト経路)
     S.thermal = (preset.thermal==="tint")? "tint" : "spin";
-    if(S.thermal==="tint"){ S.Tint=new Float32Array(P.length); S.dTi=new Float32Array(P.length); }
-    else { S.Tint=null; S.dTi=null; }
+    // 第37便 C2(台帳4-71): dQi/arep は倍精度(熱量の積み上げと U_rep 係数 — 第一法則の残差を
+    // 温度配列の Float32 丸め以上に劣化させないため)
+    if(S.thermal==="tint"){ S.Tint=new Float32Array(P.length);
+      S.dQi=new Float64Array(P.length); S.arep=new Float64Array(P.length);
+      S.arepD=new Float64Array(P.length); S.duT=new Float64Array(P.length); }
+    else { S.Tint=null; S.dQi=null; S.arep=null; S.arepD=null; S.duT=null; }
     S.zonal=null;   // E13(第11次裁定): 帯状重力属性を持つ中心天体(v1.29: AI生成・インポートにも開放)
     S.periDet=null; // 近点検出器は再構築でリセット(第11次裁定 保留分)
     P.forEach((o,i)=>{ S.m[i]=o.m; S.x[i]=o.x; S.y[i]=o.y; S.vx[i]=o.vx; S.vy[i]=o.vy;
@@ -2314,6 +2441,12 @@ function makeSim(){
     } else { S._phSched=null; S.photons=null; S.photonLog=null; }
     S._phI=0; S.photonWarn=false;
     S.world = preset.world; S.rays = preset.rays||null; S.overlays = preset.overlays||{};
+    // 第37便 C1(台帳4-70): 伝熱作用する箱 — world.thermalWalls を内部表現へ正規化する。
+    // 有効条件は boundary:"box" かつ thermal:"tint" のときだけ(validatePreset も同条件で警告つき
+    // 無視する。内蔵プリセットはバリデータを通らないので、ここが最終的な門番になる)。
+    // 面の向き: bottom = y=+size(画面下・+y が下向き)、top = y=−size、left = x=−size、right = x=+size。
+    // 省略した面・mode:"adiabatic" は断熱(現行どおり反射のみ・熱交換なし)
+    S.twall = normThermalWalls(S.world, S.thermal);
     S.t=0; S.hasU.fill(0); S.tau.fill(0); S.updateRadii();
     // 第35便(台帳4-62): 積分器の選択と Loschmidt echo の初期配置スナップショット。
     // integrator の省略・不正値は "semi"(= 現行経路と厳密等価)。echoFlipAt があるときだけ
@@ -2327,6 +2460,7 @@ function makeSim(){
       for(let i=0;i<S.n;i++){ S.echoX0[i]=S.x[i]; S.echoY0[i]=S.y[i]; }
     } else { S.echoX0=null; S.echoY0=null; }
     S.resPx=0; S.resPy=0; S.resL=0; S.radE=0; S.radL=0;
+    S.wallEin=0; S.wallEout=0; S.wallKE=0;   // 第37便 C1(台帳4-70): 壁帳簿もリセット
     S.curveBins=null; S.tempLR=[0,0]; S.histT=[];
   };
   S.updateRadii = function(){ // R_i = radiusScale·rMul_i·√|m| (PHYSICS.md §2 + 第36便 C1)
@@ -2397,7 +2531,8 @@ function makeSim(){
     const hasCore=S.hasCore;
     // 第36便 D(台帳4-51 / A9 改訂): 温度の内部状態変数モード。tint=false(既定)のときは
     // 以下の分岐がすべて偽側へ落ち、現行と1ビットも違わない値が出る(QA tint.zero-cost)
-    const tint=(S.thermal==="tint"), Tint=S.Tint, dTi=S.dTi, cHeat=p.cHeat;
+    const tint=(S.thermal==="tint"), Tint=S.Tint, dQi=S.dQi, arep=S.arep,
+          arepD=S.arepD, duT=S.duT, cHeat=p.cHeat;
     const eps=p.softening, eps2=eps*eps, G=p.G, q=p.q, kRep=p.kRep,
           muF=p.muF, gammaN=p.gammaN, kappaS=p.kappaS, D0=p.D0, kFrame=p.kFrame,
           etaRad=p.etaRad, pRad=p.pRad,
@@ -2413,7 +2548,14 @@ function makeSim(){
        (S.radOv[0]<=0 && Math.abs(R[0]-p.radiusScale*S.rMulv[0]*Math.sqrt(Math.abs(m[0])))>1e-6)) S.updateRadii();
     ax.fill(0); ay.fill(0); sumW.fill(0); uAx.fill(0); uAy.fill(0); ds.fill(0);
     dpx.fill(0); dpy.fill(0);
-    if(tint) dTi.fill(0);   // 第36便 D: 内部温度の拡散レート(tint モードのみ)
+    // 第36便 D / 第37便 C2: 熱量の積み上げ(dQi)と U_rep の温度係数(arep)をクリア(tint のみ)
+    // 第37便 C2(台帳4-71): U_rep を帳簿に載せられるのは対ポテンシャルが収束する q>1 のときだけ
+    const urep=tint && kRep>0 && q>1;
+    const ue1=urep? 2*q-2 : 0, ue2=urep? 2*q-1 : 0,
+          ui1=urep? 1/(2*q-2) : 0, ui2=urep? 1/(2*q-1) : 0;
+    if(tint){ dQi.fill(0); arep.fill(0); if(urep) arepD.fill(0); }
+    // 第37便 C1(台帳4-70): 伝熱境界(boundary:"box" かつ thermal:"tint" のときだけ非 null)
+    const TW=S.twall;
     // 第31便: UniverseBox — この step の尺度 a(t)・Hubble 率 H・決定力 W_B を確定(規定運動)。
     // W_B は一様(∇W_B=0 → 重力なし)で、u_B=V+Ω·J(r−c)+H·(r−c) を E3 の分子・分母へ加える
     const B=S.box; let WB=0, bH=0;
@@ -2529,12 +2671,25 @@ function makeSim(){
         if(tint){
           if(kRep>0 && Math.abs(mi+mj)>1e-9){
             const Ti=Tint[i], Tj=Tint[j];
-            if(Ti>0 && Tj>0){
+            // 第37便 C2(台帳4-71): 力は「両方とも非零温」のときだけ(従来どおり)だが、U_rep の
+            // 温度係数 a は「相手が非零温」なら片方が絶対零度でも積む — T_i=0 の粒子を温める過程で
+            // 生まれる斥力ポテンシャルの支払いを取りこぼさないため(a_i·√T_i は T_i=0 で 0 になる)
+            if(Ti>0 || Tj>0){
               const ti2=Ri/(Ri+d), tj2=Rj/(Rj+d);
-              const gi=(q===2)? ti2*ti2 : Math.pow(ti2,q), gj=(q===2)? tj2*tj2 : Math.pow(tj2,q);
-              const f=kRep*(mi*mj/(mi+mj))*Math.sqrt(Ti*Tj)*(gi*gi+gj*gj);
-              ax[i]+=f/mi*dx; ay[i]+=f/mi*dy;
-              ax[j]-=f/mj*dx; ay[j]-=f/mj*dy;
+              if(Ti>0 && Tj>0){
+                const gi=(q===2)? ti2*ti2 : Math.pow(ti2,q), gj=(q===2)? tj2*tj2 : Math.pow(tj2,q);
+                const f=kRep*(mi*mj/(mi+mj))*Math.sqrt(Ti*Tj)*(gi*gi+gj*gj);
+                ax[i]+=f/mi*dx; ay[i]+=f/mi*dy;
+                ax[j]-=f/mj*dx; ay[j]-=f/mj*dy;
+              }
+              if(urep){
+                const A=kRep*(mi*mj/(mi+mj))
+                       *(urepPhi(Ri,ti2,ue1,ue2,ui1,ui2)+urepPhi(Rj,tj2,ue1,ue2,ui1,ui2));
+                if(Tj>0) arep[i]+=A*Math.sqrt(Tj);
+                if(Ti>0) arep[j]+=A*Math.sqrt(Ti);
+                // 中点補正の材料(下の②を参照): Σ_j A_ij·δ√T_j(δ は直前サブステップの変化量)
+                arepD[i]+=A*duT[j]; arepD[j]+=A*duT[i];
+              }
             }
           }
         } else if(kRep>0 && (omi!==0||omj!==0) && Math.abs(mi+mj)>1e-9){   // 第12便: 負質量実験時の0除算保護
@@ -2595,10 +2750,12 @@ function makeSim(){
             // 質量比分配 ⇒ 両者の ΔT_int は等しく ΔE/(C·(m_i+m_j))(C·m_iΔT_i+C·m_jΔT_j=ΔE で第一法則が閉じる)。
             // pinned は外部拘束=無限熱容量のリザーバとして扱い、その持ち分は温度を上げずに radE 帳簿へ回す
             // (現行の pinned が E9/E10′/E11 の対象外である扱いと整合 — 📏の熱浴・♨️のヒーターが一定温度に保たれる)
+            // 第37便 C2(台帳4-71): 配分則(質量比)は不変。ΔE→ΔT_int の換算だけが
+            // 「C·m で割る」から「熱量関数 C·m·T+a·√T を解く」へ変わる(②でまとめて適用)
             if(tint && dEd>0 && Math.abs(mi+mj)>1e-9){
-              const dT=dEd/(cHeat*(mi+mj));
-              if(pinned[i]) S.radE+=dEd*mi/(mi+mj); else Tint[i]+=dT;
-              if(pinned[j]) S.radE+=dEd*mj/(mi+mj); else Tint[j]+=dT;
+              const si2=dEd*mi/(mi+mj), sj2=dEd*mj/(mi+mj);
+              if(pinned[i]) S.radE+=si2; else dQi[i]+=si2;
+              if(pinned[j]) S.radE+=sj2; else dQi[j]+=sj2;
             }
           }
         }
@@ -2611,11 +2768,17 @@ function makeSim(){
           const g=(sumR/(sumR+d)); const gg=g*g;
           if(gg>1e-4){
             if(tint){
+              // 第37便 C2(台帳4-71): 伝導は「温度の拡散レート」ではなく「熱流」で積む。
+              //   Q̇ = C·κs·(T_j−T_i)·g²·μ_ij   (μ=m_im_j/(m_i+m_j))
+              // これは第36便の ΔT_i=κs(T_j−T_i)g²·m_j/(m_i+m_j)·dt に C·m_i を掛けた量そのもので、
+              // Q̇_i=−Q̇_j = 熱エネルギーの厳密保存は変わらない。U_rep が無ければ(a=0)②の
+              // 厳密解が T+Q/(C·m) に退化するので、第36便の式と1文字も違わない値になる。
+              // doPost 限定なのは leapfrog で1サブステップに2回積まないため(E9 は doPre 側)
               const mS=mi+mj;
-              if(Math.abs(mS)>1e-9){   // 第12便: 負質量実験時の0除算保護
-                const c=kappaS*(Tint[j]-Tint[i])*gg/mS;
-                dTi[i]+=c*mj;
-                dTi[j]-=c*mi;
+              if(doPost && Math.abs(mS)>1e-9){   // 第12便: 負質量実験時の0除算保護
+                const qf=cHeat*kappaS*(Tint[j]-Tint[i])*gg*(mi*mj/mS)*dt;
+                dQi[i]+=qf;
+                dQi[j]-=qf;
               }
             } else {
             const Ii=0.5*mi*Ri*Ri, Ij=0.5*mj*Rj*Rj, IJ=Ii+Ij;
@@ -2681,6 +2844,29 @@ function makeSim(){
     for(let i=0;i<n;i++){
       if(pinned[i]) continue;
       vx[i]+=ax[i]*kickDt; vy[i]+=ay[i]*kickDt;   // 第35便: semi は kickDt=dt、leapfrog は dt/2 の半キック
+      // 第37便 C2(台帳4-71 / L17 解消): このサブステップに粒子へ入った熱(E9 散逸+E10′ 伝導)を
+      // 内部温度へ反映する。熱量関数 E_i(T)=C·m_i·T + a_i·√T(a_i·√T = その粒子が担う U_rep)を
+      // 厳密に解くので、T_int が変わるときの ΔU_rep は自動的に同じ熱プールから支払われる。
+      // ここが doPost の外にあるのは、leapfrog のパスA(doPre)で起きた E9 散逸を取りこぼさないため
+      // (伝導はパスB=doPost 側だけで積むので二重計上にはならない)。
+      // kRep=0・q≤1 では a=0 で T+Q/(C·m) に退化 = 第36便の式と厳密一致
+      // 中点補正(台帳4-71 の離散化): 全粒子の T を同時に更新すると、対の U_rep=A·√T_i·√T_j に
+      // 交差項 A·δ√T_i·δ√T_j の取りこぼしが残る(帳簿の系統誤差)。恒等式
+      //   √T_i′√T_j′ − √T_i√T_j = ½(√T_j+√T_j′)·δ√T_i + ½(√T_i+√T_i′)·δ√T_j
+      // より、係数を「相手の √T の新旧平均」で採れば厳密に閉じる。新値は未知なので、直前
+      // サブステップの δ√T_j(duT)で外挿した中点係数 ā_i = arep_i + ½·arepD_i を使う
+      // (追加コストは対あたり2積和だけ・O(N²) の追加パスなし)。ā<0 は 0 にクランプする
+      let aU=0;
+      if(tint){
+        aU=arep[i]+0.5*arepD[i];
+        if(!(aU>0)) aU=0;
+      }
+      const uOld=tint? Math.sqrt(Tint[i]) : 0;   // このサブステップの δ√T を測る基準
+      if(tint && dQi[i]!==0){
+        const cm=cHeat*m[i];
+        if(cm>0) Tint[i]=solveTintE(Tint[i], cm, aU, dQi[i]);
+        else { const t2=Tint[i]+dQi[i]/cm; Tint[i]=(t2>0)? t2 : 0; }   // 負質量実験の保険(従来式)
+      }
       // 第35便: 以下の②b(外場・E6′・FLRW・スピン拡散・放射冷却)は現行と同じ箇所・同じ量を
       // 1サブステップ1回だけ適用する(leapfrog ではパスB = 位置更新後の力評価と同じ相)。
       // これらが 0 でない構成では leapfrog でも可逆にならない — それが「時間の矢」デモの本体
@@ -2725,21 +2911,42 @@ function makeSim(){
         S.resL-=m[i]*(x[i]*dvy-y[i]*dvx);
       }
       if(tint){
-        // 第36便 D(台帳4-51): E10′ = T_int の伝導。熱エネルギー C·m·T は対で厳密保存するので
-        // 散逸帳簿(radE)への計上は不要 — スピンは1ビットも動かない(V31 が厳密不変を機械検証)
-        if(dTi[i]!==0){
-          Tint[i]+=dTi[i]*dt;
-          if(!(Tint[i]>0)) Tint[i]=0;   // 数値的な行き過ぎ・NaN の保護(T_int≥0)
+        // ===== 第37便 C1(台帳4-70): 伝熱作用する箱 — 壁と接触中の粒子の熱交換 =====
+        // 壁面から粒子半径以内に中心があるあいだ接触とみなし(E9 の接触判定 d<R_i+R_j の壁版:
+        // 壁は半径無限大の物体)、ΔT_int = rate·(T_wall − T_int)·dt で緩和する。
+        // 出入りした熱量は「熱量関数の差」= C·m·ΔT + a·(√T′−√T) で厳密に評価し、
+        // 外部リザーバの帳簿 wallEin / wallEout に積む(= 開放系。壁は無限熱容量の環境)
+        if(TW){
+          const ws=S.world.size, R2i=2*R[i], xi=x[i], yi=y[i], cm=cHeat*m[i];
+          for(let k=0;k<4;k++){
+            const w=TW[k]; if(!w) continue;
+            // bottom(k=0)=y+側 / top(1)=y−側 / left(2)=x−側 / right(3)=x+側
+            let gap=(k===0)? (ws-yi) : (k===1)? (ws+yi) : (k===2)? (ws+xi) : (ws-xi);
+            if(!(gap>0)) gap=0;                     // 反射で壁面へクランプされた粒子(=完全接触)
+            const gw=R2i/(R2i+gap), gg=gw*gw;       // E10′ と同じ距離核(接触で1・遠方で 1/gap²)
+            if(gg<1e-6) continue;                   // 事実上の無交換(打切り)
+            const T0=Tint[i];
+            const rf=w.rate*gg*dt, f=(rf>1)? 1 : rf;   // rate·g²·dt>1 の行き過ぎを飽和(無条件安定)
+            let T1=T0+(w.T-T0)*f;
+            if(!(T1>0)) T1=0;
+            if(T1===T0) continue;
+            const dQ=cm*(T1-T0)+aU*(Math.sqrt(T1)-Math.sqrt(T0));
+            Tint[i]=T1;
+            if(dQ>0) S.wallEin+=dQ; else S.wallEout-=dQ;
+          }
         }
-        // 第36便 D(台帳4-51 / E11 改訂): Λ = η_rad·T_int^p で T_int を減衰させ radE 帳簿へ。
-        // 現行のスピン放射則と同形(dE/dt=η·T^p)で、ΔT_int = Λ·dt/(C·m)。|ΔT| ≤ 0.5·T にクランプ。
+        // 第36便 D(台帳4-51 / E11 改訂): Λ = η_rad·T_int^p の分だけ熱を radE 帳簿へ出す。
+        // 現行のスピン放射則と同形(dE/dt=η·T^p)。第37便 C2: 支払いは内部熱 C·m·T と U_rep の
+        // 両方から行う(熱量関数の厳密解)。旧 |ΔT|≤0.5·T のクランプは、放出量の上限
+        // E_i(T)−E_i(T/2) = 0.5·C·m·T + a·√T·(1−1/√2) という熱量版に置き換えた(同じ意味)。
         // ミクロスピンは向きが乱雑なので放射は角運動量を運ばない = radL は増えない(スピンも減らない)
         if(etaRad>0 && Tint[i]>0 && m[i]>0 && lSw[i]<1){
-          const T0=Tint[i];
-          let dTc=etaRad*Math.pow(T0,pRad)*(1-lSw[i])*dt/(cHeat*m[i]);
-          const lim=0.5*T0; if(dTc>lim) dTc=lim;
-          Tint[i]=T0-dTc;
-          S.radE+=cHeat*m[i]*dTc;
+          const T0=Tint[i], cm=cHeat*m[i];
+          let dE=etaRad*Math.pow(T0,pRad)*(1-lSw[i])*dt;
+          const lim=0.5*cm*T0 + aU*Math.sqrt(T0)*(1-Math.SQRT1_2);
+          if(dE>lim) dE=lim;
+          Tint[i]=solveTintE(T0, cm, aU, -dE);
+          S.radE+=dE;
         }
       } else {
       // v1.5(A12′): スピン同期(E10′)の散逸帳簿。適用前後の回転エネルギー差を計上
@@ -2760,6 +2967,8 @@ function makeSim(){
       }
       }
       }   // 第35便: if(doPost) の閉じ
+      // 第37便 C2: このサブステップの δ√T を次サブステップの中点補正へ渡す
+      if(tint) duT[i]=Math.sqrt(Tint[i])-uOld;
     }
     // ===== ③ E6′ 反作用対ループ: φ_ij 分配・残余トルクのスピン移譲・リザーバ帳簿 =====
     // 第35便: anyDp は doPost の中でしか立たないので、leapfrog パスAでは自動的に素通りする
@@ -2835,15 +3044,22 @@ function makeSim(){
       if(doDrift){
       x[i]+=vx[i]*dt; y[i]+=vy[i]*dt;
       // 境界
+      // 第37便 C1(台帳4-70): 反発係数<1 の境界反射で壁に吸われる運動エネルギーを帳簿 wallKE へ
+      // 計上する(従来は帳簿外の散逸だった — 速度の書き換え規則そのものは 1 ビットも変えていない
+      // ので、既存の全プリセットの軌道は不変。新たに数えるだけ)
       if(b.boundary==="box"){
         const s=b.size;
-        if(x[i]>s){x[i]=s; vx[i]=-Math.abs(vx[i])*0.95;} else if(x[i]<-s){x[i]=-s; vx[i]=Math.abs(vx[i])*0.95;}
-        if(y[i]>s){y[i]=s; vy[i]=-Math.abs(vy[i])*0.95;} else if(y[i]<-s){y[i]=-s; vy[i]=Math.abs(vy[i])*0.95;}
+        if(x[i]>s){x[i]=s; const v0=vx[i]; vx[i]=-Math.abs(v0)*0.95; S.wallKE+=0.5*m[i]*(v0*v0-vx[i]*vx[i]);}
+        else if(x[i]<-s){x[i]=-s; const v0=vx[i]; vx[i]=Math.abs(v0)*0.95; S.wallKE+=0.5*m[i]*(v0*v0-vx[i]*vx[i]);}
+        if(y[i]>s){y[i]=s; const v0=vy[i]; vy[i]=-Math.abs(v0)*0.95; S.wallKE+=0.5*m[i]*(v0*v0-vy[i]*vy[i]);}
+        else if(y[i]<-s){y[i]=-s; const v0=vy[i]; vy[i]=Math.abs(v0)*0.95; S.wallKE+=0.5*m[i]*(v0*v0-vy[i]*vy[i]);}
       } else if(b.boundary==="circle"){
         const s=b.size, r2=x[i]*x[i]+y[i]*y[i];
         if(r2>s*s){ const r=Math.sqrt(r2), nx2=x[i]/r, ny2=y[i]/r;
           const vr=vx[i]*nx2+vy[i]*ny2;
-          if(vr>0){ vx[i]-=2*vr*nx2*0.975; vy[i]-=2*vr*ny2*0.975; }
+          if(vr>0){ const k0=vx[i]*vx[i]+vy[i]*vy[i];
+            vx[i]-=2*vr*nx2*0.975; vy[i]-=2*vr*ny2*0.975;
+            S.wallKE+=0.5*m[i]*(k0-vx[i]*vx[i]-vy[i]*vy[i]); }
           x[i]=nx2*s; y[i]=ny2*s; }
       }
       }   // 第35便: if(doDrift) の閉じ
@@ -4107,6 +4323,8 @@ function loop(now){
       const tt=sim.totals();
       txt+=`\nP=(${fmt(tt.px)}, ${fmt(tt.py)})  L=${fmt(tt.L)}`;
       txt+=`\n帳簿P=(${fmt(sim.resPx)}, ${fmt(sim.resPy)})  帳簿L=${fmt(sim.resL)}  放射L=${fmt(sim.radL)}  放射E=${fmt(sim.radE)}`;
+      // 第37便 C1(台帳4-70): 伝熱する箱のときだけ壁帳簿を1行追加(他のサンプルでは1文字も増えない)
+      if(sim.twall) txt+=`\n壁注入E=${fmt(sim.wallEin)}  壁回収E=${fmt(sim.wallEout)}  壁吸収KE=${fmt(sim.wallKE)}`;
     }
     $("#hud").textContent=txt;
     // v1.17: 実行中は編集パネルの表示値を追従(入力フォーカス中は上書きしない)
@@ -4256,6 +4474,8 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   }
   simB.t=sim.t; simB.resPx=sim.resPx; simB.resPy=sim.resPy; simB.resL=sim.resL;
   simB.radE=sim.radE; simB.radL=sim.radL;
+  // 第37便 C1(台帳4-70): 壁帳簿と伝熱境界も転写(build 済みなので twall は同値だが明示する)
+  simB.wallEin=sim.wallEin; simB.wallEout=sim.wallEout; simB.wallKE=sim.wallKE;
   // 第35便(台帳4-62): 積分器と echo の状態も転写(build 済みなので echoX0/Y0 は同一配置。
   // 反転済みフラグ・RMS だけは現在値を引き継ぐ — A/B を反転後に開始しても再反転しない)
   simB.integrator=sim.integrator; simB.echoFlipAt=sim.echoFlipAt;
@@ -4266,6 +4486,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   simB.aEffRef=sim.aEffRef; simB._bhLastA=sim._bhLastA; simB._bhLastT=sim._bhLastT;
   simB.params=Object.assign({},sim.params);
   simB.world=JSON.parse(JSON.stringify(sim.world));
+  simB.twall=normThermalWalls(simB.world, simB.thermal);   // 第37便 C1(台帳4-70)
   simB.rays=sim.rays?JSON.parse(JSON.stringify(sim.rays)):null;
   simB.overlays=Object.assign({},sim.overlays);
   return simB;
@@ -5318,6 +5539,7 @@ function renderHelp(){
   if(ext.rail) mk("p","・"+T("extRail"));
   if(ext.pin) mk("p","・"+T("extPinned")(ext.pin));
   if(ext.bath) mk("p","・"+T("extBath"));
+  if(ext.wall) mk("p","・"+T("extWall"));   // 第37便 C1(台帳4-70)
   if(ext.grav) mk("p","・"+T("extGrav"));
   if(!ext.rail && !ext.pin && !ext.grav) mk("p","・"+T("extClosed"));
   // 第27便(原仮定者指示): 「操作」「この宇宙の法則(要約)」はタイトルタップの説明パネルへ移動
@@ -6099,12 +6321,15 @@ const VERIFY = {
   // V30: tint モードの第一法則の完全閉性。V10(spin モード)と同一構成・同一散逸チャネルで、
   // 保持量を「並進 + スピン回転 + 内部熱 C·m·T_int + ポテンシャル(重力+法線ばね)+ radE」に
   // 置き換えても総和が一定であることを機械検証する(E9 散逸→T_int の換算則と E10′ の熱量保存、
-  // E11 の radE 計上に帳簿漏れがあれば FAIL する)。kRep=0 は V10 と同じ理由(E5′ の U_rep は L17)
+  // E11 の radE 計上に帳簿漏れがあれば FAIL する)。
+  // 第37便 C2(台帳4-71)改訂: kRep を 0 → 2 にし、保持量に **E5′ の対ポテンシャル U_rep** を加えた
+  // (第36便版は kRep=0 = U_rep が恒等的に 0 の構成でしか閉性を見ていなかった — L17 の穴そのもの)。
+  // T_int が変わる過程の ΔU_rep が同じ熱プールから支払われていなければ、この構成で FAIL する
   v30(){
     const s=makeSim();
     s.build({ id:"verify_v30", name:"V30", camera:{scale:200}, world:{boundary:"none",size:0},
       thermal:"tint",
-      physics:{G:1, D0:0, kFrame:0, kRep:0, muF:0.5, gammaN:0.4, kappaS:0.3, etaRad:2e-4,
+      physics:{G:1, D0:0, kFrame:0, kRep:2, q:2, muF:0.5, gammaN:0.4, kappaS:0.3, etaRad:2e-4,
         pRad:1, cHeat:1, softening:2, timeScale:1},
       bodies:[
         {type:"single", m:30, x:0, y:0, vx:0, vy:0, spin:0.8, tInt:12, pinned:false},
@@ -6132,7 +6357,7 @@ const VERIFY = {
           E+=(xO<=xC)? 20*muM*xO*xO : 20*muM*xC*xC+(8/maxInv)*(xO-xC);
         }
       }
-      return E;
+      return E + urepEnergy(s);   // 第37便 C2(台帳4-71): E5′ の対ポテンシャル U_rep も保持量に含める
     };
     let Escale=1, Eint0=0;
     for(let i=0;i<s.n;i++){ Escale+=0.5*s.m[i]*(s.vx[i]*s.vx[i]+s.vy[i]*s.vy[i])
@@ -6142,15 +6367,20 @@ const VERIFY = {
       const dx=s.x[i]-s.x[j], dy=s.y[i]-s.y[j];
       Escale+=s.params.G*s.m[i]*s.m[j]/Math.sqrt(dx*dx+dy*dy+s.params.softening*s.params.softening);
     }
+    const U0=urepEnergy(s);
     const E0=energyOf(s)+s.radE;
     for(let k=0;k<1000;k++) s.step(DT);
     let Eint1=0; for(let i=0;i<s.n;i++) Eint1+=C*s.m[i]*s.Tint[i];
+    const U1=urepEnergy(s);
     const E1=energyOf(s)+s.radE;
     const resid=Math.abs(E1-E0)/Escale;
-    // 閾値は V10 と同じ 7.5e-4(同一構成・同一散逸チャネル。tint 側の実測残差は detail に出る)
-    return {id:"V30", pass:(s.thermal==="tint" && resid<7.5e-4), value:resid,
-      detail:`tint 第一法則 |Δ(E_総+radE)|/E_scale=${resid.toExponential(2)} (< 7.5e-4) `
-        +`内部熱 ΣC·m·T_int=${Eint0.toFixed(2)}→${Eint1.toFixed(2)} radE=${s.radE.toFixed(3)}`};
+    // 閾値は V10 と同じ 7.5e-4(同一構成・同一散逸チャネル。tint 側の実測残差は detail に出る)。
+    // U_rep が実際に大きく動いている(=判定が空回りしていない)ことも同時に確認する
+    const moved=(Math.abs(U1-U0)/Escale > 0.05);
+    return {id:"V30", pass:(s.thermal==="tint" && resid<7.5e-4 && moved), value:resid,
+      detail:`tint 第一法則(U_rep 込み・kRep=2) |Δ(E_総+radE)|/E_scale=${resid.toExponential(2)} (< 7.5e-4) `
+        +`内部熱 ΣC·m·T_int=${Eint0.toFixed(2)}→${Eint1.toFixed(2)} U_rep=${U0.toFixed(2)}→${U1.toFixed(2)}`
+        +`(|ΔU_rep|/E_scale=${(Math.abs(U1-U0)/Escale).toFixed(3)}>0.05 — 帳簿化した項が実際に動いている) radE=${s.radE.toFixed(3)}`};
   },
   // V31: 伝導の角運動量「自明」保存(台帳4-50 の解消)。thermal:"tint" では κs が動かすのは
   // T_int だけで、スピンには一切触れない — 角運動量は近似的にではなく厳密(bit 一致)に不変。
@@ -6185,11 +6415,81 @@ const VERIFY = {
       detail:`スピン厳密不変=${spinExact} ΣL=${L0.toFixed(6)}→${L1.toFixed(6)}(|ΔL|=${dL} — 拡散がスピンを動かさないので自明に厳密保存) `
         +`熱量 ΣC·m·T_int 相対ずれ=${qErr.toExponential(1)}(<1e-6) T_int分散 ${var0.toFixed(2)}→${var1.toFixed(2)}(拡散あり=${diffused})`};
   },
+  // ==== V32(第37便 C1+C2・台帳4-70/4-71): 伝熱する箱で融解→凝固を往復させたときの全帳簿の閉性 ====
+  // 系: 箱(boundary:"box")の床=加熱面・天井=放熱面、内部は自己重力で固まる24粒子。pinned は
+  // 一つも無い(pinned は無限熱容量のリザーバなので、あると熱が帳簿外へ消える)。
+  //   ① 2000步 冷却して塊を作る → ② 床を T=80 の加熱面にして 4000步(融解)
+  //   → ③ 床を放熱面へ戻して 4000步(凝固)
+  // 保持量: 並進+マクロ回転+内部熱 C·m·T_int+重力U+ばねU+**U_rep**+radE+壁帳簿
+  //         (ΔE_系 = wallEin − wallEout − wallKE − ΔradE で閉じる)。
+  // ②で塊がほどける仕事は U_rep が担い、その ΔU_rep は熱から支払われる(4-71 の本体)ので、
+  // 支払いが漏れていればこの往復でドリフトとして現れる
+  v32(){
+    const s=makeSim();
+    const rate=2, Tw=80;
+    s.build({ id:"verify_v32", name:"V32", camera:{scale:200},
+      world:{boundary:"box", size:15,
+        thermalWalls:{bottom:{mode:"heat", T:Tw, rate}, top:{mode:"rad", rate}}},
+      thermal:"tint",
+      physics:{G:1.5, D0:0, kFrame:0, kRep:2, q:2, muF:0.4, gammaN:0.5, kappaS:0.8,
+        etaRad:2e-3, pRad:1, cHeat:0.25, softening:2, radiusScale:1, timeScale:1},
+      bodies:[{type:"disk", n:24, cx:0, cy:0, radius:12, mMin:1, mMax:1.6, tInt:0.02,
+        spinMin:0, spinMax:0, vMode:"none", aroundMass:0, vScale:0, direction:1}],
+      overlays:{} });
+    const C=s.params.cHeat, eps2=s.params.softening*s.params.softening, G=s.params.G;
+    const parts=()=>{
+      let K=0, H=0, U=0;
+      for(let i=0;i<s.n;i++){
+        K+=0.5*s.m[i]*(s.vx[i]*s.vx[i]+s.vy[i]*s.vy[i])+0.25*s.m[i]*s.R[i]*s.R[i]*s.spin[i]*s.spin[i];
+        H+=C*s.m[i]*s.Tint[i];
+      }
+      for(let i=0;i<s.n;i++) for(let j=i+1;j<s.n;j++){
+        const dx=s.x[i]-s.x[j], dy=s.y[i]-s.y[j], d2=dx*dx+dy*dy, d=Math.sqrt(d2);
+        U-=G*s.m[i]*s.m[j]/Math.sqrt(d2+eps2);
+        const sumR=s.R[i]+s.R[j];
+        if(d<sumR){
+          const muM=s.m[i]*s.m[j]/(s.m[i]+s.m[j]);
+          const maxInv=Math.max(1/s.m[i],1/s.m[j]);
+          const xO=sumR-d, xC=8/(maxInv*40*muM);
+          U+=(xO<=xC)? 20*muM*xO*xO : 20*muM*xC*xC+(8/maxInv)*(xO-xC);
+        }
+      }
+      return {K, H, Ug:U, Ur:urepEnergy(s)};
+    };
+    // 系のエネルギー + 外部帳簿(壁が入れた熱を引き、壁が回収した熱・壁が吸った運動E・放射を足す)
+    const total=()=>{ const p=parts();
+      return p.K+p.H+p.Ug+p.Ur + s.radE + s.wallKE + s.wallEout - s.wallEin; };
+    let scale=0;
+    const smp=()=>{ const p=parts(); const v=p.K+p.H+p.Ur+Math.abs(p.Ug); if(v>scale) scale=v; };
+    const Tmean=()=>{ let a=0; for(let i=0;i<s.n;i++) a+=s.Tint[i]; return a/s.n; };
+    // ① 冷却(凝固)
+    s.twall[0]={mode:"rad", T:0, rate};
+    for(let k=0;k<2000;k++) s.step(DT);
+    const E0=total(), T0=Tmean(); smp();
+    // ② 融解
+    s.twall[0]={mode:"heat", T:Tw, rate};
+    for(let k=0;k<4000;k++){ s.step(DT); if((k&255)===0) smp(); }
+    const Tmelt=Tmean(), Umelt=urepEnergy(s);
+    // ③ 再凝固
+    s.twall[0]={mode:"rad", T:0, rate};
+    for(let k=0;k<4000;k++){ s.step(DT); if((k&255)===0) smp(); }
+    const E1=total(), T1=Tmean();
+    const drift=Math.abs(E1-E0)/Math.max(scale,1e-9);
+    // 判定が空回りしていないこと(往復が実際に起きた)も同時に確認する
+    const cycled=(Tmelt>3*T0) && (T1<0.5*Tmelt) && (Umelt>0.05*scale);
+    const pass=(!s.hasNaN()) && drift<1e-3 && cycled && s.wallEin>0 && s.wallEout>0;
+    return {id:"V32", pass, value:drift,
+      detail:`伝熱する箱の融解→凝固往復(10000步)の全帳簿ドリフト=${drift.toExponential(2)} (< 1e-3) `
+        +`T_int平均 ${T0.toFixed(2)}→${Tmelt.toFixed(2)}→${T1.toFixed(2)}(往復=${cycled}) `
+        +`融解時 U_rep=${Umelt.toFixed(2)} / 壁注入=${s.wallEin.toFixed(1)} 壁回収=${s.wallEout.toFixed(1)} `
+        +`壁吸収KE=${s.wallKE.toFixed(2)} 放射=${s.radE.toFixed(1)} E_scale=${scale.toFixed(1)}`};
+  },
   all(){ return [this.v1(), this.v2(), this.v6(), this.v8(), this.v9(), this.v10(), this.v10b(),
                  this.v11(), this.v12(), this.v13(), this.v16(),
                  this.v18(), this.v19(), this.v20(),
                  this.v23a(), this.v24a(), this.v24b(), this.v25(), this.v26(), this.v27(), this.v28(),
-                 this.v30(), this.v31()]; }   // 第36便 D(台帳4-51): 温度の内部状態変数化
+                 this.v30(), this.v31(),   // 第36便 D(台帳4-51): 温度の内部状態変数化
+                 this.v32()]; }            // 第37便 C(台帳4-70/4-71): 伝熱する箱と U_rep の帳簿化
 };
 
 // ===== デバッグ/テスト用フック(品質ゲートが使用) =====
@@ -6224,6 +6524,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   obsTemp,   // 第36便 D(台帳4-51): 観測温度 T_obs(QA・監査が表示系と同じ量を読むための公開フック)
   extractLawRefs, lawText, ab:()=>ab, abStart, abStop,
   externalTags, classifyPreset, APP_VERSION, currentPreset:()=>currentPreset,  // v1.15/第35便W4: バッジ/バージョン同期のQA用
+  urepEnergy, normThermalWalls,   // 第37便 C1/C2(台帳4-70/4-71): U_rep の総和・伝熱境界の正規化(QA/監査用)
   speedMul:()=>speedMul, trailBufs:()=>({a:trailBuf,b:trailBufB}),  // v1.19: QA用
   overlaySlots, overlayBaseY, PARAM_DEFS, paramDesc,  // v1.21: スロット配置/パラメータ説明のQA用
   ovMin, aiUserContent,  // 第26便: グラフ最小化/AIベースサンプルのQA用

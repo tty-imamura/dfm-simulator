@@ -237,19 +237,25 @@ const W5C_UNITS = {
     for (let i = 1; i < s.n; i++) { tot++; const r2 = Math.hypot(s.x[i], s.y[i]); if (r2 > 45 && r2 < 280) inAnn++; }
     return { satAnn: inAnn / tot, satDrift: Math.hypot(s.x[0], s.y[0]), satNaN: s.hasNaN() };
   }) },
-  // 第36便 D(台帳4-51)再較正: 評価窓 24000步 → 8000步(下の behavior.convection の注記参照)
-  convection8000: { enabled: !FAST, weight: 22, run: (pg) => pg.evaluate(() => {
-    // ♨️ convection 部分のみ(元8節 1937-1949行から抽出)
+  // 第36便 D(台帳4-51)再較正: 24000步 → 8000步 / 第37便 C1(台帳4-70)再々較正: 8000步 → 24000步
+  // (伝熱する箱への再設計で長時間の定常対流が成立したため、第36便で撤退した 24000步 窓へ復帰)。
+  // 定常性は「壁が入れた熱 ≈ 壁が回収した熱+壁が吸った運動E」で機械判定する(最後の3000步窓)
+  convection24000: { enabled: !FAST, weight: 66, run: (pg) => pg.evaluate(() => {
     const s = HP.sim;
     HP.loadPreset('convection', false);
-    for (let k = 0; k < 8000; k++) s.step(0.016);
+    for (let k = 0; k < 21000; k++) s.step(0.016);
+    const w0 = [s.wallEin, s.wallEout, s.wallKE];
+    for (let k = 0; k < 3000; k++) s.step(0.016);
     let circ = 0, sumV = 0, freeC = 0;
     for (let i = 0; i < s.n; i++) {
       if (s.pinned[i]) continue;
       circ += s.x[i] * s.vy[i] - s.y[i] * s.vx[i];
       sumV += Math.hypot(s.vx[i], s.vy[i]); freeC++;
     }
-    return { convCirc: freeC ? circ / freeC : 0, convV: freeC ? sumV / freeC : 0, convNaN: s.hasNaN() };
+    const qIn = s.wallEin - w0[0], qOut = (s.wallEout - w0[1]) + (s.wallKE - w0[2]);
+    return { convCirc: freeC ? circ / freeC : 0, convV: freeC ? sumV / freeC : 0, convNaN: s.hasNaN(),
+      convQIn: qIn, convQOut: qOut, convImb: qIn > 0 ? Math.abs(qIn - qOut) / qIn : 1,
+      convPin: s.n - freeC, convWall: !!s.twall };
   }) },
   saturnExp: { enabled: !FAST && w5cHasIce, weight: 107, run: (pg) => pg.evaluate(() => {
     // 🪐(実験)の長時間安定(元8d節 2299-2311行から抽出)
@@ -1737,7 +1743,9 @@ if (hasBadgeClassify) {
 {
   const r = await page.evaluate(() => {
     const tag = (id) => HP.externalTags(HP.allPresets().find(q => q.id === id));
-    // v1.24: mach 廃止に伴い、熱浴検出は convection(固定ヒーター spin>0)で検査
+    // v1.24: mach 廃止に伴い、熱浴検出は convection で検査。第36便 D で「固定ヒーター spin>0」→
+    // 「固定ヒーター tInt>0」、第37便 C1(台帳4-70)で「伝熱する箱 world.thermalWalls」へ検出源が
+    // 移った(主張「外部から熱を与えている系は熱浴として検出される」は3世代とも同一)
     const gc = tag('gclock'), f8 = tag('fig8'), cv = tag('convection');
     HP.loadPreset('gclock', false);
     const shown = document.querySelector('#helpBody').textContent.includes('外部要素');
@@ -2243,20 +2251,35 @@ if (hasBadgeClassify) {
 if (!FAST) {
   // 第35便 W5c: 3測定(galaxy A/B・saturn24000・convection24000)を W5C_UNITS の3ユニットへ分割し
   // ワーカーで並列実行する(判定式・閾値・detail 生成コードは変更せずそのままここに残置)。
-  const r = { ...(await w5cGetUnit('galaxyAB')), ...(await w5cGetUnit('saturn24000')), ...(await w5cGetUnit('convection8000')) };
+  const r = { ...(await w5cGetUnit('galaxyAB')), ...(await w5cGetUnit('saturn24000')), ...(await w5cGetUnit('convection24000')) };
   add('claim.galaxy-outerboost', !r.galNaN && r.galA > r.galB * 1.04,   // 台帳4-48 改名: 旧 galaxy-flatten(T4 は「外縁増強」であり平坦化を主張しない)
     `vφ外縁 kF1=${r.galA.toFixed(3)} kF0=${r.galB.toFixed(3)} 比=${(r.galA / r.galB).toFixed(3)} (>1.04)`);
   add('behavior.saturn', !r.satNaN && r.satAnn >= 0.95 && r.satDrift < 5,
     `inAnn=${(r.satAnn * 100).toFixed(1)}% drift=${r.satDrift.toFixed(1)}`);
-  // 第36便 D(台帳4-51)再較正: 主張「床加熱・天井冷却で組織化した循環セルができる」は不変で、
-  // 評価窓を 24000步 → 8000步 に差し替え、閾値を実測に合わせて引き上げた(循環>5→15・|v|>0.3→0.5)。
-  // 理由(実測): 移行後は E10′ が熱量保存になり、13枚のヒーター(T_int=144)に対し冷却板が5枚しか
-  // ないため箱全体が長時間で等温化へ向かう。循環は 3000〜12000步で 59.6/65.1/33.6/13.4 と強く正だが、
-  // 15000步以降は弱まり符号が反転しうる(旧版は伝導そのものが散逸的で「分布した熱の捨て場」として
-  // 働いていた)。8000步窓の実測は 循環=65.1(閾値15の4.3倍)・平均|v|=1.76(閾値0.5の3.5倍)。
-  // root(スピン=熱モード)の同窓実測は 循環=18.95・平均|v|=1.353 で同じ閾値を通る
-  add('behavior.convection', !r.convNaN && r.convCirc > 15 && r.convV > 0.5,
-    `8000步: 循環=${r.convCirc.toFixed(1)} (>15) 平均|v|=${r.convV.toFixed(2)} (>0.5)`);
+  // 第37便 C1(台帳4-70)再較正: 主張「床の加熱と天井の放熱で組織化した循環セルが *長時間持続* する」
+  // は不変で、♨️ が伝熱する箱(world.thermalWalls)へ再設計されたのに合わせて評価を差し替えた。
+  //  ・評価窓: 8000步 → **24000步**(第36便 D で「15000步以降に循環が反転しうる」ため 8000 へ退避
+  //    していたが、pinned ヒーター/冷却板を全廃して壁が熱をやり取りする構成にしたことで、
+  //    循環が持続し温度も定常化した ⇒ 原設計の 24000步 窓へ復帰した)
+  //  ・座標系: 箱が size 190 → 60 に縮んだので循環指標(⟨x·vy−y·vx⟩)の絶対値も小さくなる。
+  //    実測(beta 2026-07-27・3000步ごと): 2.2 / 9.8 / 16.2 / 21.4 / 16.9 / 23.3 / 23.1 / **24.9**、
+  //    平均|v|=0.84。閾値 循環>12(実測の2.0倍下・9000步以降の最小16.2に対しても1.35倍下)・|v|>0.5。
+  //  ・**定常熱流**を新たに機械判定する(本再設計の目的): 最後の3000步窓で
+  //    「壁が入れた熱 ≒ 壁が回収した熱 + 壁が吸った運動E」。実測の相対差は 0.0%(9000步以降は≤1.7%)、
+  //    閾値は 20%。系は開放系なので、これが成り立って初めて「定常対流」と言える。
+  // root(Wave C 未適用 = pinned ヒーターの旧設計・スピン=熱モード)では壁帳簿が存在しないので、
+  // 循環と平均|v|だけの旧判定(24000步・循環>5・|v|>0.3。旧実測 65.5 / 1.05)へ自動的に分岐する
+  if (r.convWall) {
+    add('behavior.convection',
+      !r.convNaN && r.convPin === 0 && r.convCirc > 12 && r.convV > 0.5 && r.convImb < 0.2,
+      `24000步(伝熱する箱・pinned=0): 循環=${r.convCirc.toFixed(1)} (>12) 平均|v|=${r.convV.toFixed(2)} (>0.5) / ` +
+      `定常熱流(最後の3000步) 壁注入=${r.convQIn.toFixed(1)} 壁回収+壁吸収KE=${r.convQOut.toFixed(1)} ` +
+      `相対差=${(r.convImb * 100).toFixed(1)}% (<20%)`);
+  } else {
+    add('behavior.convection', !r.convNaN && r.convCirc > 5 && r.convV > 0.3,
+      `24000步(旧設計 pinned ヒーター・Wave C 未適用): 循環=${r.convCirc.toFixed(1)} (>5) ` +
+      `平均|v|=${r.convV.toFixed(2)} (>0.3)`);
+  }
 
   // ---- 8b) v1.21 第9次裁定 P0-3: 内蔵 ☿mercury の実条件検証 ----
   // 説明が引用する V18〜V20 は検証専用条件のため、内蔵プリセットそのものの初期値でも
@@ -4090,9 +4113,161 @@ if (hasEchoFlipAt) {
       mbad.length ? `未移行/初期条件が spin のまま: ${mbad.join(' ')}`
         : Object.entries(mig).map(([k, v]) => `${k}(T≤${v.maxT}·s≤${v.maxSpin})`).join(' '));
 
+    // ---- 第37便 C2(台帳4-71 / L17 解消): 融解の潜熱 ----
+    // ④ tint.latent-heat: 冷たい塊に一定パワーで熱を入れると、吸熱の大半が E5′ の対ポテンシャル
+    //    U_rep(=塊をほどく仕事)へ入り、観測温度 T_obs の上がり方が「潜熱なし」の基準線
+    //    ΔT=ΔQ/(C·M) より大幅に鈍る(潜熱プラトー)。第36便 D の §D3 では U_rep が帳簿外(L17)
+    //    だったため、この鈍りは一切現れなかった(T は単調に上がるだけ)。
+    //    構成: 箱(size30)の中央に pinned の高温粒子(T_int=120)、その周りに自己重力で固まる24粒子。
+    const lat = await page.evaluate(() => {
+      const s = HP.sim;
+      s.build({
+        id: 'qa_latent', name: 'latent', camera: { scale: 200 }, world: { boundary: 'box', size: 30 },
+        thermal: 'tint',
+        physics: { G: 4, D0: 0, kFrame: 0, kRep: 2, q: 2, muF: 0.3, gammaN: 0.5, kappaS: 0.15,
+          etaRad: 0, pRad: 1, cHeat: 0.2, softening: 2, radiusScale: 1, timeScale: 1 },
+        bodies: [
+          { type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, tInt: 120, pinned: true },
+          { type: 'disk', n: 24, cx: 0, cy: 0, radius: 12, mMin: 1, mMax: 1, tInt: 0.01,
+            spinMin: 0, spinMax: 0, vMode: 'none', aroundMass: 0, vScale: 0, direction: 1 }
+        ], overlays: {}
+      });
+      const C = s.params.cHeat;
+      let M = 0; for (let i = 0; i < s.n; i++) if (!s.pinned[i]) M += s.m[i];
+      const T = () => { let a = 0, c = 0; for (let i = 0; i < s.n; i++) if (!s.pinned[i]) { a += s.Tint[i]; c++; } return a / c; };
+      // 系が吸った熱 = 顕熱 ΣC·m·T_int + 潜熱 U_rep(pinned は無限熱容量なので除外)
+      const Q = () => { let a = 0; for (let i = 0; i < s.n; i++) if (!s.pinned[i]) a += C * s.m[i] * s.Tint[i]; return a + HP.urepEnergy(s); };
+      const snap = [];
+      for (let k = 0; k <= 2400; k++) { if (k % 100 === 0) snap.push([k, T(), Q(), HP.urepEnergy(s)]); s.step(0.016); }
+      const at = (k) => snap.find(r => r[0] === k);
+      const a = at(100), b = at(600), e = at(1200), f = at(2400);
+      let umax = 0, ufrac = 0;
+      for (const r of snap) if (r[3] > umax) { umax = r[3]; ufrac = r[3] / r[2]; }
+      return { slope: (b[1] - a[1]) / (b[2] - a[2]), ideal: 1 / (C * M), umax, ufrac,
+        T: [a[1], b[1], e[1], f[1]], plateau: f[1] / e[1], nan: s.hasNaN(), M };
+    });
+    // 実測(beta 2026-07-27): dT/dQ=0.0536 / 潜熱なし基準 1/(C·M)=0.2083 → 比 0.257(閾値0.6の2.3倍下)。
+    // U_rep が吸熱に占める最大割合 0.665(閾値0.35の1.9倍上)。T_obs 平均は
+    // 3.09(100步)→9.56(600步)→11.50(1200步)→12.44(2400步)で、1200→2400步の伸びは1.08倍(閾値1.3)
+    add('tint.latent-heat',
+      !lat.nan && lat.slope / lat.ideal < 0.6 && lat.ufrac > 0.35 && lat.plateau < 1.3,
+      `融解区間(100→600步)の ΔT/ΔQ=${lat.slope.toFixed(4)} / 潜熱なし基準 1/(C·M)=${lat.ideal.toFixed(4)} → ` +
+      `比=${(lat.slope / lat.ideal).toFixed(3)}(<0.6 — 吸熱の${((1 - lat.slope / lat.ideal) * 100).toFixed(0)}%が U_rep へ) / ` +
+      `U_rep 最大=${lat.umax.toFixed(1)}(吸熱の${(lat.ufrac * 100).toFixed(1)}%>35%) / ` +
+      `T_int平均 ${lat.T.map(v => v.toFixed(2)).join(' → ')}(1200→2400步 ${lat.plateau.toFixed(2)}倍<1.3 = プラトー)`);
+
     await page.evaluate(() => HP.loadPreset('saturn', false));   // 後続項目のため既定プリセットへ戻す
   } else {
-    console.log('SKIP tint.schema/tint.zero-cost/tint.migrated(対象に Wave D 未適用 — root 等)');
+    console.log('SKIP tint.schema/tint.zero-cost/tint.migrated/tint.latent-heat(対象に Wave D 未適用 — root 等)');
+  }
+}
+
+// ---- 7z6) 第37便 Wave C1(台帳4-70): 伝熱作用する箱 world.thermalWalls ----
+// ----      (beta 先行 — ルート対象時はスキップ)----
+{
+  const hasTW = await page.evaluate(() => typeof HP.normThermalWalls === 'function');
+  if (hasTW) {
+    // ① thermalwalls.schema: 有効条件(boundary:"box" かつ thermal:"tint")・mode の enum クランプ・
+    //    T/rate の値域クランプ・省略面=断熱。条件外は警告つきで丸ごと無視(挙動を静かに変えない)
+    const sc = await page.evaluate(() => {
+      const mk = (world, extra) => Object.assign({ name: 'tw', description: '伝熱する箱のスキーマ検査',
+        camera: { scale: 200 }, world, physics: {},
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, tInt: 5, pinned: false }] }, extra || {});
+      const V = (o) => { const v = HP.validatePreset(o); return { ok: v.ok, w: v.warnings.length, tw: v.preset && v.preset.world ? v.preset.world.thermalWalls : undefined }; };
+      const box = (tw) => ({ boundary: 'box', size: 100, thermalWalls: tw });
+      const good = V(mk(box({ bottom: { mode: 'heat', T: 50, rate: 2 }, top: { mode: 'rad', rate: 1 } }), { thermal: 'tint' }));
+      const notBox = V(mk({ boundary: 'none', size: 0, thermalWalls: { bottom: { mode: 'heat', T: 50 } } }, { thermal: 'tint' }));
+      const notTint = V(mk(box({ bottom: { mode: 'heat', T: 50 } })));
+      const badMode = V(mk(box({ bottom: { mode: 'burn', T: 50 }, top: { mode: 'rad' } }), { thermal: 'tint' }));
+      const clamped = V(mk(box({ bottom: { mode: 'heat', T: 99999, rate: 500 } }), { thermal: 'tint' }));
+      const adia = V(mk(box({ left: { mode: 'adiabatic' } }), { thermal: 'tint' }));
+      const badT = V(mk(box({ bottom: { mode: 'heat', T: 'x' } }), { thermal: 'tint' }));
+      // エンジン側: 有効条件を満たすときだけ内部表現 twall が立つ
+      const s = HP.sim;
+      s.build(mk(box({ bottom: { mode: 'heat', T: 50, rate: 2 } }), { thermal: 'tint' }));
+      const engOn = !!s.twall && !!s.twall[0] && s.twall[0].T === 50;
+      s.build(mk(box({ bottom: { mode: 'heat', T: 50, rate: 2 } }), {}));   // thermal 省略 = spin
+      const engOff = !s.twall;
+      return { good: good.tw, goodW: good.w, notBox: notBox.tw, notBoxW: notBox.w,
+        notTint: notTint.tw, notTintW: notTint.w, badMode: badMode.tw, badModeW: badMode.w,
+        clamped: clamped.tw, clampedW: clamped.w, adia: adia.tw, badTok: badT.ok, engOn, engOff };
+    });
+    add('thermalwalls.schema',
+      sc.good && sc.good.bottom.mode === 'heat' && sc.good.bottom.T === 50 && sc.good.top.mode === 'rad' && sc.goodW === 0
+      && sc.notBox === undefined && sc.notBoxW === 1 && sc.notTint === undefined && sc.notTintW === 1
+      && sc.badMode && sc.badMode.bottom === undefined && sc.badMode.top && sc.badModeW === 1
+      && sc.clamped && sc.clamped.bottom.T === 10000 && sc.clamped.bottom.rate === 100 && sc.clampedW === 2
+      && sc.adia === undefined && sc.badTok === false && sc.engOn && sc.engOff,
+      `正常受理(警告${sc.goodW}件=0) / boundary≠box→無視(警告${sc.notBoxW}件) / thermal≠tint→無視(警告${sc.notTintW}件) / ` +
+      `mode:"burn"→adiabatic(警告${sc.badModeW}件・面が落ちる=${sc.badMode.bottom === undefined}) / ` +
+      `T:99999→${sc.clamped.bottom.T} rate:500→${sc.clamped.bottom.rate}(警告${sc.clampedW}件) / ` +
+      `mode:"adiabatic"のみ→状態なし=${sc.adia === undefined} / T:"x"→検証NG=${!sc.badTok} / ` +
+      `エンジン twall: tint+box で有効=${sc.engOn} spin で無効=${sc.engOff}`);
+
+    // ② thermalwalls.ledger: 帳簿の閉性。伝熱する箱に閉じ込めた気体を床で加熱・天井で放熱し、
+    //    ΔE_系 = 壁注入 − 壁回収 − 壁が吸った運動E − 放射 が成り立つこと(相対誤差 < 1e-3)。
+    //    ③ 断熱壁(全面省略)では壁の熱帳簿が厳密に 0 のまま = 熱交換が一切起きないことも同時に確認する
+    const led = await page.evaluate(() => {
+      const build = (tw) => {
+        const s = HP.sim;
+        s.build({
+          id: 'qa_tw', name: 'tw', camera: { scale: 200 },
+          world: Object.assign({ boundary: 'box', size: 26 }, tw ? { thermalWalls: tw } : {}),
+          thermal: 'tint',
+          physics: { G: 0.5, D0: 0, kFrame: 0, kRep: 1.5, q: 2, muF: 0.3, gammaN: 0.4, kappaS: 0.5,
+            etaRad: 1e-3, pRad: 1, cHeat: 0.4, softening: 2, radiusScale: 1, timeScale: 1 },
+          bodies: [{ type: 'disk', n: 26, cx: 0, cy: 0, radius: 20, mMin: 1, mMax: 1.5, tInt: 4,
+            spinMin: 0, spinMax: 0, vMode: 'random', aroundMass: 0, vScale: 0.5, direction: 1 }],
+          overlays: {}
+        });
+        return s;
+      };
+      const energy = (s) => {   // 系のエネルギー(並進+マクロ回転+内部熱+重力U+ばねU+U_rep)
+        const C = s.params.cHeat, eps2 = s.params.softening ** 2, G = s.params.G;
+        let E = 0;
+        for (let i = 0; i < s.n; i++) {
+          E += 0.5 * s.m[i] * (s.vx[i] ** 2 + s.vy[i] ** 2) + 0.25 * s.m[i] * s.R[i] ** 2 * s.spin[i] ** 2;
+          E += C * s.m[i] * s.Tint[i];
+        }
+        for (let i = 0; i < s.n; i++) for (let j = i + 1; j < s.n; j++) {
+          const dx = s.x[i] - s.x[j], dy = s.y[i] - s.y[j], d2 = dx * dx + dy * dy, d = Math.sqrt(d2);
+          E -= G * s.m[i] * s.m[j] / Math.sqrt(d2 + eps2);
+          const sumR = s.R[i] + s.R[j];
+          if (d < sumR) {
+            const muM = s.m[i] * s.m[j] / (s.m[i] + s.m[j]), maxInv = Math.max(1 / s.m[i], 1 / s.m[j]);
+            const xO = sumR - d, xC = 8 / (maxInv * 40 * muM);
+            E += (xO <= xC) ? 20 * muM * xO * xO : 20 * muM * xC * xC + (8 / maxInv) * (xO - xC);
+          }
+        }
+        return E + HP.urepEnergy(s);
+      };
+      // (A) 床=加熱面・天井=放熱面
+      let s = build({ bottom: { mode: 'heat', T: 60, rate: 2 }, top: { mode: 'rad', rate: 2 } });
+      let scale = 0;
+      const smp = () => { const v = Math.abs(energy(s)); if (v > scale) scale = v; };
+      const E0 = energy(s), r0 = s.radE;
+      for (let k = 0; k < 6000; k++) { s.step(0.016); if ((k & 255) === 0) smp(); }
+      const E1 = energy(s);
+      const bal = (E1 - E0) - (s.wallEin - s.wallEout - s.wallKE - (s.radE - r0));
+      const active = { in: s.wallEin, out: s.wallEout, ke: s.wallKE, rad: s.radE,
+        err: Math.abs(bal) / Math.max(scale, s.wallEin, 1e-9), nan: s.hasNaN() };
+      // (B) 断熱(thermalWalls 無し)— 壁の熱帳簿は厳密に 0 のまま
+      s = build(null);
+      for (let k = 0; k < 6000; k++) s.step(0.016);
+      const adia = { tw: !!s.twall, in: s.wallEin, out: s.wallEout, ke: s.wallKE };
+      return { active, adia };
+    });
+    add('thermalwalls.ledger',
+      !led.active.nan && led.active.err < 1e-3 && led.active.in > 0 && led.active.out > 0
+      && !led.adia.tw && led.adia.in === 0 && led.adia.out === 0 && led.adia.ke > 0,
+      `帳簿の閉性 |ΔE_系 −(壁注入−壁回収−壁吸収KE−放射)|/E_scale=${led.active.err.toExponential(2)} (<1e-3) ` +
+      `壁注入=${led.active.in.toFixed(2)} 壁回収=${led.active.out.toFixed(2)} 壁吸収KE=${led.active.ke.toFixed(2)} ` +
+      `放射=${led.active.rad.toFixed(2)} / 断熱壁(thermalWalls 省略): twall=${led.adia.tw} ` +
+      `壁注入=${led.adia.in} 壁回収=${led.adia.out}(熱交換ゼロ)・反射の運動E吸収のみ=${led.adia.ke.toFixed(2)}`);
+
+    await page.evaluate(() => HP.loadPreset('saturn', false));
+  } else {
+    console.log('SKIP thermalwalls.schema/thermalwalls.ledger(対象に Wave C 未適用 — root 等)');
   }
 }
 
