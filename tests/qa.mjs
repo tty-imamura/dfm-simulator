@@ -193,6 +193,10 @@ if (w5cHasObs) {
     HP.allPresets().find(q => q.id === 'darkrotor').bodies.every(b => !b.pinned && !b.railOmega && !b.railH));
 }
 
+// 第37便 Wave D: 新サンプルの有無(beta 先行 — root には無い)。後段の各セクションのガード式と同一
+const w5cHasAgnjet = await page.evaluate(() => HP.allPresets().some(p => p.id === 'agnjet'));
+const w5cHasCosmicweb = await page.evaluate(() => HP.allPresets().some(p => p.id === 'cosmicweb'));
+
 // bands(behavior.darkrotorLong の環帯定義。元コード2875行と同一)
 const w5cBands = [[80, 120], [120, 160], [160, 200], [200, 240]];
 
@@ -449,6 +453,61 @@ const W5C_UNITS = {
     }
     const sep = Math.hypot(s.x[stars[0]] - s.x[stars[1]], s.y[stars[0]] - s.y[stars[1]]);
     return { sep, keep, free, nan: s.hasNaN() };
+  }) },
+  // 第37便 D2(台帳4-68a): 🌋agnjet の双極性。既定(kRep=2)と対照(kRep=0)を 4000步 走らせ、
+  // 「内縁(初期 |x|≤80)起源のガスのうち r>300 へ出たもの」の方位分布を測る。
+  // 極方向 = ±y から30°以内(等方なら 1/3)。重い(341粒子×4000步×2本)ので !FAST のユニット
+  agnjet: { enabled: !FAST && w5cHasAgnjet, weight: 90, run: (pg) => pg.evaluate(() => {
+    const s = HP.sim;
+    const run = (kRep) => {
+      const p = JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'agnjet')));
+      if (kRep !== undefined) p.physics.kRep = kRep;
+      s.build(p);
+      const x0 = Array.from(s.x);
+      const inner = []; for (let i = 1; i < s.n; i++) if (Math.abs(x0[i]) <= 80) inner.push(i);
+      for (let k = 0; k < 4000; k++) s.step(0.016);
+      let pol = 0, eq = 0, tot = 0;
+      for (const i of inner) { const r = Math.hypot(s.x[i], s.y[i]); if (r < 300) continue;
+        tot++; if (Math.abs(s.y[i]) / r > 0.8660254) pol++; if (Math.abs(s.x[i]) / r > 0.8660254) eq++; }
+      return { nInner: inner.length, tot, pol, eq, frac: tot ? pol / tot : 0, nan: s.hasNaN() };
+    };
+    const def = run(undefined), ctrl = run(0);
+    return { jetDef: def, jetCtrl: ctrl };
+  }) },
+  // 第37便 D3(台帳4-68b): 🕸️cosmicweb の構造形成。共動座標 χ=r/a を 10×10 セルへ切り、
+  // δ²=Var(N)/⟨N⟩²(初期は純ポアソン)とボイド率(空セル比)の成長を 6000步 で測る。
+  // 既定(H=0.004)と膨張なし対照(H=0)の2本 — 膨張率で構造の育ち方が変わることまで機械固定する
+  cosmicweb: { enabled: !FAST && w5cHasCosmicweb, weight: 85, run: (pg) => pg.evaluate(() => {
+    const s = HP.sim;
+    const NC = 10, CHI = 240;
+    const cells = () => {
+      const a = Math.exp(s.box.H0 * s.t);
+      const g = new Int32Array(NC * NC);
+      for (let i = 0; i < s.n; i++) {
+        const cx = s.x[i] / a, cy = s.y[i] / a;
+        if (Math.abs(cx) >= CHI || Math.abs(cy) >= CHI) continue;
+        const ix = Math.floor((cx + CHI) / (2 * CHI) * NC), iy = Math.floor((cy + CHI) / (2 * CHI) * NC);
+        g[iy * NC + ix]++;
+      }
+      let sum = 0, sum2 = 0, cnt = 0, empty = 0;
+      for (let iy = 0; iy < NC; iy++) for (let ix = 0; ix < NC; ix++) {
+        const px = (ix + 0.5) / NC * 2 * CHI - CHI, py = (iy + 0.5) / NC * 2 * CHI - CHI;
+        if (Math.hypot(px, py) > CHI * 0.95) continue;              // 角のセルは常に空なので母集団から外す
+        const v = g[iy * NC + ix]; sum += v; sum2 += v * v; cnt++; if (v === 0) empty++;
+      }
+      const mean = sum / cnt, varc = sum2 / cnt - mean * mean;
+      return { d2: varc / (mean * mean), void: empty / cnt, a: Math.exp(s.box.H0 * s.t) };
+    };
+    const run = (H) => {
+      const p = JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'cosmicweb')));
+      if (H !== undefined) { p.universeBox.H0 = H; p.bodies[0].vScale = H; }
+      s.build(p);
+      const c0 = cells();
+      for (let k = 0; k < 6000; k++) s.step(0.016);
+      const c1 = cells();
+      return { d20: c0.d2, void0: c0.void, d21: c1.d2, void1: c1.void, a1: c1.a, nan: s.hasNaN() };
+    };
+    return { webDef: run(undefined), webNoH: run(0) };
   }) },
 };
 
@@ -4463,6 +4522,142 @@ if (hasSwAutoCb) {
       `🪐saturn(重力場なし): fieldWDisp≡Wat=${r.noGravSame}`);
   } else {
     console.log('SKIP field.uniform-gravity(対象に HP.fieldWDisp なし or ⚾projectile なし — 第37便 A4 未適用の root 等)');
+  }
+}
+
+// ==================== 第37便 Wave D: 新サンプル4件 ====================
+// 🕳️rotorSolo(原仮定者指示)/ 🌋agnjet・🕸️cosmicweb・☀️starcore(台帳4-68)。
+// 対象(root)に該当プリセットが無い場合は各ブロック冒頭で SKIP する(beta 先行の段階導入)。
+
+// ---- 7z12) D1: behavior.rotorSolo — ダークローター単体。「暗さ」の②自光の掻出(lightSweep="auto"
+// ----      の実効値)と ③外来光線の掃き出し が別機構であることを、同一プリセット上の
+// ----      スピン用量反応で機械固定する(DERIVATIONS §17 の分解表をサンプル1件に落とし込んだもの)。
+// ----      光線の判定は tests/exp-darkrotor.mjs 実験A / tests/exp-darkness.mjs と同一
+// ----      (x=-300 から +x へ dl=2.7 で 340步・終端半径<300 を「有限時間非脱出」とする)。
+// ----      軽い(25粒子・ファン50本×3構成)ので QA_FAST でも実行する ----
+{
+  const hasRotorSolo = await page.evaluate(() => HP.allPresets().some(p => p.id === 'rotorSolo'));
+  if (hasRotorSolo) {
+    const r = await page.evaluate(() => {
+      const s = HP.sim;
+      const P = (spin) => { const p = JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'rotorSolo')));
+        p.bodies[0].spin = spin; return p; };
+      const trace = (y0) => { let minR = Infinity;
+        const t = HP.traceRay(s, -300, y0, 1, 0, 2.7, 340, (px, py) => {
+          const rr = Math.hypot(px, py); if (rr < minR) minR = rr; });
+        return { endR: Math.hypot(t.x, t.y), minR }; };
+      const fan = () => { let cap = 0, n = 0, mrP = 0, mrR = 0;
+        for (let y = 8; y <= 200; y += 8) { n++;
+          const tp = trace(-y), tr = trace(y);      // y<0=順行側 / y>0=逆行側
+          mrP += tp.minR; mrR += tr.minR;
+          if (tp.endR < 300) cap++; if (tr.endR < 300) cap++; }
+        return { rate: cap / (2 * n), minRpro: mrP / n, minRretro: mrR / n }; };
+      const rays = (spin, Kt) => { const p = P(spin); if (Kt) p.physics.Kt = Kt;
+        s.build(p); s.step(0.016);
+        return Object.assign({ lS: s.lSw[0] }, fan()); };
+      const totals = () => { let px = 0, py = 0, L = 0;
+        for (let i = 0; i < s.n; i++) { px += s.m[i] * s.vx[i]; py += s.m[i] * s.vy[i];
+          L += s.m[i] * (s.x[i] * s.vy[i] - s.y[i] * s.vx[i]) + 0.5 * s.m[i] * s.R[i] * s.R[i] * s.spin[i]; }
+        return { px, py, L }; };
+      const ringLz = () => { let lz = 0; for (let i = 1; i < s.n; i++) lz += s.x[i] * s.vy[i] - s.y[i] * s.vx[i];
+        return lz / (s.n - 1); };
+      const dyn = (spin) => { s.build(P(spin));
+        const t0 = totals(); let acc = 0, cnt = 0, keep = 0;
+        for (let k = 0; k < 6000; k++) { s.step(0.016); if ((k % 25) === 0) { acc += ringLz(); cnt++; } }
+        for (let i = 1; i < s.n; i++) if (Math.hypot(s.x[i], s.y[i]) < 600) keep++;
+        const t1 = totals();
+        return { lzMean: acc / cnt, keep, nFree: s.n - 1, nan: s.hasNaN(),
+          dP: Math.hypot(t1.px + s.resPx - t0.px, t1.py + s.resPy - t0.py) / Math.max(1, Math.hypot(t0.px, t0.py)),
+          dL: Math.abs(t1.L + s.resL - t0.L) / Math.max(1, Math.abs(t0.L)) }; };
+      const out = { ctrl: rays(0), sat: rays(0.3), def: rays(2), lock: rays(2, 3600),
+        dynDef: dyn(2), dynCtrl: dyn(0) };
+      HP.loadPreset('saturn', false);
+      return out;
+    });
+    // 実測(beta 2026-07-27・内蔵プリセットそのもの):
+    //  spin      : 0     0.1   0.16  0.2   0.3   0.5   0.6   0.7   1.0   1.5   2.0   3.0
+    //  ② lS_eff  : 0     0.351 0.561 0.702 1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00 (飽和 spin≈0.285)
+    //  ③ 非脱出率: 0.66  0.72  0.74  0.72  0.72  0.72  0.70  0.08  0.02  0.00  0.00  0.00 (立上り 0.6→0.7)
+    //  最小接近半径(spin2.0) 順行=123.4 逆行=40.4(対照は両側 34.6)/ Kt=3600 ロック: 非脱出 0.00
+    //  リング平均L_z(6000步) 既定=954.10 / 対照=632.45(=初期値のまま厳密一定)→ 比 1.509
+    //  帳簿込みの保存 |ΔP|/P₀=1.27e-4 |ΔL|/L₀=1.26e-4
+    // 閾値: lS_eff>0.3(実測1.00=3.3倍上)/ 対照の非脱出>0.4(実測0.66=1.65倍上)/
+    //       既定の非脱出<0.15(実測0.00)/ 飽和点(spin0.3)の非脱出≥対照×0.8(実測0.72 vs 0.528=1.36倍上)/
+    //       順行/逆行の最小接近半径>2倍(実測3.06倍)/ L_z比>1.2(実測1.51)/ 保存<1e-3(実測1.3e-4=7.9倍下)
+    const lzRatio = r.dynDef.lzMean / r.dynCtrl.lzMean;
+    add('behavior.rotorSolo',
+      !r.dynDef.nan && !r.dynCtrl.nan
+      && r.dynDef.keep === r.dynDef.nFree && r.dynCtrl.keep === r.dynCtrl.nFree
+      && r.def.lS > 0.3 && r.ctrl.lS === 0
+      && r.ctrl.rate > 0.4 && r.def.rate < 0.15                    // ③ 掃き出しで捕捉が消える
+      && r.sat.lS > 0.99 && r.sat.rate >= r.ctrl.rate * 0.8        // ②が飽和しても③はまだ起きない=別機構
+      && r.def.minRpro > 2 * r.def.minRretro                       // 順行/逆行の非対称(T8 と同型)
+      && r.lock.rate < 0.05                                        // 物理対応ロックで③消失(反証条件7)
+      && lzRatio > 1.2 && Math.abs(r.dynCtrl.lzMean - 632.46) < 1  // 引きずりの順行汲み上げ
+      && r.dynDef.dP < 1e-3 && r.dynDef.dL < 1e-3,                 // 閉鎖系の帳簿込み保存
+      `②掻出 lS_eff: spin0=${r.ctrl.lS.toFixed(2)} spin0.3=${r.sat.lS.toFixed(2)} spin2=${r.def.lS.toFixed(2)}(>0.3) / ` +
+      `③非脱出率(340步・終端r<300): 対照spin0=${r.ctrl.rate.toFixed(2)}(>0.4) spin0.3=${r.sat.rate.toFixed(2)}` +
+      `(≥対照×0.8 — ②飽和でも③未発火=別機構) spin2=${r.def.rate.toFixed(2)}(<0.15) Kt3600ロック=${r.lock.rate.toFixed(2)}(<0.05) / ` +
+      `最小接近半径 順行=${r.def.minRpro.toFixed(1)} 逆行=${r.def.minRretro.toFixed(1)}(>2倍) / ` +
+      `リング平均L_z(6000步) 既定=${r.dynDef.lzMean.toFixed(1)} 対照=${r.dynCtrl.lzMean.toFixed(2)}` +
+      `(比=${lzRatio.toFixed(2)}>1.2) 保持=${r.dynDef.keep}/${r.dynDef.nFree} / ` +
+      `帳簿込み保存 |ΔP|/P₀=${r.dynDef.dP.toExponential(2)} |ΔL|/L₀=${r.dynDef.dL.toExponential(2)}(<1e-3)`);
+  } else {
+    console.log('SKIP behavior.rotorSolo(対象に 🕳️rotorSolo なし — 第37便 D1 未適用の root 等)');
+  }
+}
+
+// ---- 7z13) D2: behavior.agnjet — 円盤の内縁で摩擦加熱されたガスが、抵抗の少ない極方向(±y)へ
+// ----      抜けて双極の噴出になる(圧力 E5′ + 幾何 の 2D アナロジー)。
+// ----      判定量: 内縁(初期 |x|≤80)起源のガスのうち 4000步後に r>300 へ出たものの方位が
+// ----      ±y から30°以内に入る割合。等方なら 1/3 なので、その2倍(=2/3)を要求する。
+// ----      A/B 対照は kRep=0(熱の斥力を切る)。重いので W5c ユニット(!FAST)----
+{
+  if (!FAST && w5cHasAgnjet) {
+    const r = await w5cGetUnit('agnjet');
+    const d = r.jetDef, c = r.jetCtrl;
+    const ratio = c.frac > 0 ? d.frac / c.frac : Infinity;
+    // 実測(beta 2026-07-27・内蔵プリセットそのもの。1000步ごと・内縁起源 37 粒子中):
+    //   步数        1000  2000  3000  4000  5000  6000
+    //   既定 kRep=2  —    0.895 0.815 0.839 0.758 0.758(極/赤道 4000步で 26/0)
+    //   対照 kRep=0  —    0.583 0.526 0.542 0.560 0.560
+    //   全ガスで測っても 4000步 0.689(等方の 2.07 倍)/ 対照 0.483
+    // 閾値: 極方向割合 ≥ 2/3(=等方 1/3 の2倍。実測 0.839 = 1.26倍の余裕。窓 2000〜6000步 の
+    //       最小 0.758 でも 1.14倍上)/ 対照比 ≥ 1.25(実測 1.55)/ 脱出数 ≥ 20(実測 31)
+    add('behavior.agnjet',
+      !d.nan && !c.nan && d.tot >= 20 && d.frac >= 2 / 3 && ratio >= 1.25,
+      `4000步・内縁(初期|x|≤80)起源で r>300 へ出たガス: 既定(kRep=2) ${d.tot}個中 極方向(±y±30°)=${d.pol} ` +
+      `赤道方向(±x±30°)=${d.eq} → 割合=${d.frac.toFixed(3)}(等方=1/3 の ${(d.frac * 3).toFixed(2)}倍・閾値 2/3) / ` +
+      `対照(kRep=0) ${c.tot}個中 極=${c.pol} 赤道=${c.eq} → 割合=${c.frac.toFixed(3)}(比=${ratio.toFixed(2)}倍 ≥1.25)`);
+  } else {
+    console.log('SKIP behavior.agnjet(QA_FAST=1 または対象に 🌋agnjet なし — 第37便 D2 未適用の root 等)');
+  }
+}
+
+// ---- 7z14) D3: behavior.cosmicweb — 膨張する箱の中で自己重力が構造(フィラメント/ボイド類似)を
+// ----      作る。判定量: 共動座標の 10×10 セルでの密度コントラスト δ²=Var(N)/⟨N⟩²(初期は
+// ----      配置のポアソンゆらぎ = 1/⟨N⟩)の成長倍率と、ボイド率(空セル比)の増加。
+// ----      A/B 対照は H=0(膨張なし)— 膨張が構造の成長を抑えることまで機械固定する ----
+{
+  if (!FAST && w5cHasCosmicweb) {
+    const r = await w5cGetUnit('cosmicweb');
+    const d = r.webDef, z = r.webNoH;
+    const growth = d.d21 / d.d20;
+    // 実測(beta 2026-07-27・内蔵プリセットそのもの・6000步・1500步ごと):
+    //   H0=0.004(既定): δ² 0.272→0.457→0.828→1.775→3.578(13.1倍)/ ボイド率 0.013→0.579 / a=1.468
+    //   H0=0     (対照): δ² 0.272→0.454→1.155→3.073→8.551(31.4倍)/ ボイド率 0.013→0.750
+    //   H0=0.01        : δ² →1.482(5.4倍)/ ボイド率 0.342(膨張が速いほど構造が育たない)
+    //   etaRad=0 の対照 δ²=3.552(既定との差 0.7%)= E11 は構造形成の主因ではない(説明文に明記)
+    // 閾値: 成長倍率 ≥ 3(実測 13.1 = 4.4倍の余裕)/ ボイド率が増加(実測 0.013→0.579)/
+    //       H=0 対照の δ² が既定より大きい(実測 8.551 > 3.578 = 2.4倍)
+    add('behavior.cosmicweb',
+      !d.nan && !z.nan && growth >= 3 && d.void1 > d.void0 && z.d21 > d.d21,
+      `6000步(共動10×10セル): δ²=Var(N)/⟨N⟩² ${d.d20.toFixed(3)} → ${d.d21.toFixed(3)}` +
+      `(${growth.toFixed(1)}倍 ≥3) ボイド率 ${(d.void0 * 100).toFixed(1)}% → ${(d.void1 * 100).toFixed(1)}%(増加) ` +
+      `a(t)=${d.a1.toFixed(3)} / 膨張なし対照(H=0): δ²=${z.d21.toFixed(3)}(>既定 — 膨張が成長を抑える) ` +
+      `ボイド率=${(z.void1 * 100).toFixed(1)}%`);
+  } else {
+    console.log('SKIP behavior.cosmicweb(QA_FAST=1 または対象に 🕸️cosmicweb なし — 第37便 D3 未適用の root 等)');
   }
 }
 

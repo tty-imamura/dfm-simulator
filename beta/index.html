@@ -1273,6 +1273,37 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true,boxGraph:true} },
 
+// 第37便 D3(台帳4-68b・Gemini 案B): トイ・コスモロジー(コズミックウェブ類似)。
+// 膨張する UniverseBox(規定 a(t))の中に一様ガスを置き、「膨張が引き離す」対「自己重力が集める」の
+// 拮抗だけで構造を作らせる。thermal:"tint" + universeBox の併用は本サンプルが初(帳簿の整合は
+// V30/V32 の対象外 — universeBox は規定背景=外部駆動でリザーバ帳簿へ計上される既存経路)。
+// 構造指標: 共動座標 χ=r/a を 10×10 セル(共動半径240の内側・円内セル78個)に切り、
+//   δ² = Var(N)/⟨N⟩²(初期は純ポアソン = 1/⟨N⟩)と ボイド率(空セル比)を見る。
+// 実測(2026-07-27・beta・6000步・1500步ごと):
+//   H0=0.004(既定): δ² 0.272 → 0.457 → 0.828 → 1.775 → 3.578(13.1倍)/ ボイド率 0.013 → 0.579
+//   H0=0     (A/B) : δ² 0.272 → 0.454 → 1.155 → 3.073 → 8.551(31.4倍)/ ボイド率 0.013 → 0.750
+//   H0=0.01  (A/B) : δ² 0.272 → 0.408 → 0.696 → 1.098 → 1.482( 5.4倍)/ ボイド率 0.013 → 0.342
+//   → 膨張率が上がるほど構造の成長が抑えられる(単調な用量反応)。
+// **E11 放射冷却は構造形成の主因ではない**(原案の「冷却が凝集を促進」は成立しなかった):
+//   etaRad=0 の対照でも δ²=3.552(既定 3.578 との差 0.7%)・ボイド率 0.579(同値)。
+//   kRep=0 の対照も δ²=3.834(+7%)で、圧力の効きも小さい。主因は E4 自己重力と規定膨張だけ。
+{ id:"cosmicweb", name:"箱宇宙 — 膨張と自己重力の綱引き(コズミックウェブ類似)", emoji:"🕸️", group:"箱宇宙",
+  description:"膨張するUniverseBox(H=0.004)の中に、共動初速だけを与えた320個の一様なガスを置く。働くのは2つだけ — 背景の膨張がすべてを引き離し(規定a(t)・E6′で共動輸送)、自己重力(E4)が近くの粒同士を引き寄せる。初期のむらは配置の統計ゆらぎ(ポアソン)だけで、そこから密なフィラメントと空っぽのボイドに分かれていく。右下のグラフは尺度因子a(t)。定量: 共動座標で10×10のセルに切った密度コントラストδ²=Var(N)/⟨N⟩²は6000步で0.272→3.578(13.1倍)、空セルの割合は1.3%→57.9%まで増える。おすすめA/B: 膨張H=0にすると引き離す力が消え、同じ時間で構造がもっと育つ(δ²=8.55・ボイド率75%)。逆にH=0.01まで上げると膨張が勝って構造の成長が抑えられる(δ²=1.48・ボイド率34%)— 膨張率で構造のスケールが決まる。放射冷却(E11)も入れてあるが構造形成の主因ではない(etaRad=0の対照でδ²=3.55 — 差0.7%)。※2次元・粒子320個・膨張は外から与えた規定則という強い簡略化で、ΛCDMの構造形成を再現する主張ではない(Negative Claims 1/2)。膨張の反作用はリザーバに帳簿(A13)。",
+  en:{name:"Box Universe — Expansion vs Self-Gravity (a Cosmic-Web Analogue)", description:"Inside an expanding UniverseBox (H=0.004) sit 320 uniform gas particles given nothing but the comoving initial flow. Only two things act: the background expansion pulls everything apart (prescribed a(t), carried by E6′) and self-gravity (E4) pulls neighbours together. The only initial lumpiness is the Poisson noise of the random placement — from that, dense filaments and empty voids separate out. The bottom-right graph shows the scale factor a(t). Quantitatively: the density contrast δ²=Var(N)/⟨N⟩² on a 10×10 comoving grid grows from 0.272 to 3.578 (13.1×) in 6000 steps, and the fraction of empty cells rises from 1.3% to 57.9%. Suggested A/B: set H to 0 and the pulling-apart disappears — in the same time, structure grows further (δ²=8.55, 75% voids). Raise H to 0.01 and expansion wins, suppressing growth (δ²=1.48, 34% voids) — the expansion rate sets the scale of the structure. Radiative cooling (E11) is switched on but is not the driver of structure formation (with etaRad=0 the measured δ² is 3.55 — a 0.7% difference). Note: two dimensions, 320 particles and an externally prescribed expansion law are severe simplifications — this is not a claim to reproduce ΛCDM structure formation (Negative Claims 1/2). The back-reaction of the expansion is ledgered to the reservoir (A13)."},
+  activeParams:["G","kFrame","kRep"],
+  thermal:"tint",
+  camera:{scale:420}, world:{boundary:"none",size:0}, seed:20260727,
+  universeBox:{mode:"exp", H0:0.004, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
+  physics:{G:10, D0:0, kFrame:1, q:2, kRep:0.5, muF:0.5, gammaN:0.4, kappaS:0.05, Kt:300,
+    cLight:100, bM:1, etaRad:3e-4, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:4, timeScale:2},
+  bodies:[
+    // 一様ガス(共動初速 v=H·r のみ。むらの種は配置のポアソンゆらぎだけ)
+    {type:"disk", rMul:3, n:320, cx:0,cy:0, radius:240, mMin:0.3,mMax:0.3,
+     spinMin:0,spinMax:0, tInt:0.5, vMode:"hubble", aroundMass:0, vScale:0.004, direction:1}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:false,monitor:true,boxGraph:true} },
+
 // ===== グループ: 銀河 =====
 { id:"galaxy", name:"銀河の回転曲線", emoji:"🌌", group:"銀河",
   // 第33便 X4(台帳4-65a): AI生成プリセットを土台に再設計。原案からの変更は円盤の radius(320→260)と
@@ -1340,6 +1371,41 @@ const BUILTIN_PRESETS = [
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2000, omega:0, vNoise:0, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false} },
+
+// 第37便 D1(原仮定者指示・台帳4-48 / DERIVATIONS §17): ダークローター単体。
+// 🕶️(10体+円盤)から「暗さの機構」だけを取り出した最小構成。中心天体は 🕶️ の BH を出発点に
+// m=2000・radius=45(そのまま)、spin だけ 0.12→2.0 へ上げた(0.12 では③掃き出しが起きない —
+// 実測: 非脱出率は spin 0.5 まで 0.72 のまま・0.7 で 0.08・1.0 で 0.02)。coreMR は付けていない
+// (E8R はコア差動項を見ない=第21便制限。光の主題に対して効かないノブを増やさない)。
+// lightSweep は "auto"(第36便 C2)— 主題が「機構値を見せること」なので固定1のトイ設定は使わない。
+// 実測(2026-07-27・beta・本プリセットそのもの。コアスピンだけを振った用量反応):
+//  spin      : 0     0.1   0.16  0.2   0.3   0.5   0.6   0.7   1.0   1.5   2.0   3.0
+//  ② lS_eff  : 0     0.351 0.561 0.702 1.00  1.00  1.00  1.00  1.00  1.00  1.00  1.00   ← 飽和 spin≈0.285
+//  ③ 非脱出率: 0.66  0.72  0.74  0.72  0.72  0.72  0.70  0.08  0.02  0.00  0.00  0.00   ← 立上り 0.6→0.7
+//  (③のファン: x=-300 から +x へ |y0|=8..200 step8 の 50 本・dl=2.7・340步・終端半径<300 を非脱出。
+//   判定は tests/exp-darkrotor.mjs 実験A / tests/exp-darkness.mjs と同一)
+//  ・②の飽和点と③の立ち上がりは 2 倍以上離れている ⇒ 別機構(DERIVATIONS §17.2 の再現)
+//  ・順行/逆行の非対称(spin2.0): 平均最小接近半径 順行 123.4 / 逆行 40.4(対照 spin0 は両側 34.6)
+//  ・物理対応ロック Kt=3600: spin 0 でも 2.0 でも非脱出率 0.00(③は場の強さで消える=反証条件7)
+//  ・テスト粒子リング(6000步): 平均 L_z 954.1(対照 632.45 = 厳密一定)・24/24 保持・NaN なし
+//  ・帳簿込みの保存(6000步): |ΔP|/P₀=1.27e-4・|ΔL|/L₀=1.26e-4(pinned ゼロの閉鎖系)
+{ id:"rotorSolo", name:"ダークローター(単体)", emoji:"🕳️", group:"銀河",
+  description:"🕶️から「暗い天体」1個だけを取り出した最小構成 — 中心の高スピンコア(m=2000・半径45・スピン2.0・掻出=auto)と、r=200を周回する24個のテスト粒子、左から入る20本の光線。全粒子が自由(ピン・レール無し)の閉鎖系。この宇宙の「暗さ」は別々の機構の混合で(DERIVATIONS §17)、この画面はそのうち2つを同時に、しかも分離して見せる。②自光の掻出: 掻出を固定値ではなく auto にしてあるので、実効値 lS_eff=min(1,|s|R/c_surf) が粒子のスピンと半径から毎ステップ算出される(中心天体をタップすると掻出欄に auto と lS_eff が出る)— 実測1.00。③外来光線の掃き出し: 回るコアが決定フレームごと光を運び(A11/E8R)、スピン0の対照では起きる有限時間の光子捕捉(実測 非脱出率0.66)が消える(実測0.00)。順行側の光線ほど外へ払われ、逆行側は深く潜る(平均最小接近半径 順行123 対 逆行40 — T8と同じ非対称)。②と③は別機構である: lS_effはスピン0.29で既に1に飽和しているのに、そのスピンでは掃き出しがまだ全く起きていない(非脱出率0.72 = 対照以上)。掃き出しが立ち上がるのはスピン0.6→0.7の間(0.70→0.08)で、飽和点とは2倍以上離れている。テスト粒子は空間の引きずり(A8/E6′)で順行方向に角運動量を汲み上げられる(6000步平均 L_z=954 対 対照632)。運動量・角運動量は帳簿込みで保存する(モニタ表示・相対ずれ1e-4台)。おすすめA/B: コアのスピンを0にすると、掻出・掃き出し・引きずりが同時に消える。※③は物理対応ロック(Kt=c²/G=3600)では起きない — 実測 非脱出率は高スピンでも0.00(第19便 反証条件7)。実在のブラックホールやダークマターについての主張ではない(Negative Claims 1/2)。",
+  en:{name:"Dark Rotor (Single Body)", description:"The minimal version of 🕶️: one dark body on its own — a high-spin core at the center (m=2000, radius 45, spin 2.0, sweep=auto), 24 test particles orbiting at r=200, and 20 light rays entering from the left. Every particle is free (no pins, no rails): a closed system. Darkness in this universe is a mixture of separate mechanisms (DERIVATIONS §17), and this screen shows two of them at once — and keeps them apart. (2) Sweeping out its own light: the sweep is set to \"auto\" rather than a fixed number, so the effective value lS_eff=min(1,|s|R/c_surf) is computed every step from the body's own spin and radius (tap the core to see \"auto\" and lS_eff in the sweep field) — measured 1.00. (3) Sweeping out incoming rays: the spinning core carries light with the rotating determinacy frame (A11/E8R), and the finite-time photon capture that happens in the spin-0 control (measured non-escape rate 0.66) disappears (measured 0.00). Prograde rays are pushed outward while retrograde rays dive deeper (mean closest approach 123 vs 40 — the same asymmetry as T8). (2) and (3) are different mechanisms: lS_eff is already saturated at 1 by spin 0.29, yet at that spin the ray sweep-out has not started at all (non-escape 0.72, above the control). The sweep-out only switches on between spin 0.6 and 0.7 (0.70→0.08) — more than a factor of two away from the saturation point. The test particles are pumped into prograde rotation by the dragging of space (A8/E6′): mean L_z=954 over 6000 steps versus 632 for the control. Momentum and angular momentum are conserved once the ledger is included (see the monitor; relative drift of order 1e-4). Suggested A/B: set the core spin to 0 and the sweep, the sweep-out and the dragging all vanish together. Note: (3) does not happen under the GR-calibration lock (Kt=c²/G=3600) — the measured non-escape rate is 0.00 even at high spin (19th-delivery falsification condition 7). Not a claim about real black holes or dark matter (Negative Claims 1/2)."},
+  activeParams:["kFrame","Kt","q"],
+  camera:{scale:300}, world:{boundary:"none",size:0}, seed:20260727,
+  physics:{G:1, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:4, timeScale:2},
+  bodies:[
+    // 中心の高スピンコア(自由・単層・掻出は auto。vx/vy は総運動量ゼロ化の補正)
+    {type:"single", rMul:1, m:2000, x:0,y:0, vx:0.0000033, vy:-0.0000014, spin:2, radius:45, lightSweep:"auto", pinned:false},
+    // テスト粒子リング(自由・kepler 初速・引きずりの可視化用。m は光線に効かない 0.05)
+    {type:"ring", rMul:1, n:24, cx:0,cy:0, rIn:200, rOut:200, mMin:0.05,mMax:0.05,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2000, omega:0, vNoise:0, direction:1, pinned:false}
+  ],
+  rays:{n:20, spread:0.6},
+  overlays:{rotationCurve:false,tempHistogram:false,field:true,trail:true,trailTargets:"sampled",monitor:true} },
 
 { id:"merger", name:"銀河合体と潮汐効果", emoji:"🌠", group:"銀河",
   description:"2つの回転円盤銀河が接近・合体する過程。潮汐尾の形成、衝突による加熱(A9のスピン変換)、角運動量の再分配、合体後の回転曲線を観察できる。kFrame=1のフレームドラッギング(A8)が合体ダイナミクスに効く — 0にすると引きずりなしの純重力合体と比較できる(おすすめA/B)。円盤は回転支持(kepler)で初期化してある。",
@@ -1730,6 +1796,41 @@ const BUILTIN_PRESETS = [
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:800, omega:0, vNoise:0.03, direction:-1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,spectrum:true} },
+
+// 第37便 D2(台帳4-68a・Gemini 案A): AGN 類似の双極ジェット。
+// 機構は「摩擦加熱(E9′→T_int)+熱の斥力(E5′)+幾何(薄く長い帯)」の3点だけで、
+// 磁気流体・相対論的ジェットの主張は一切しない(2D の圧力+幾何アナロジー)。
+// 設計上の要点(実測で確定):
+//  ・γn=0.05(ほぼ弾性)が必須。既定 0.4 だと接触で運動エネルギーが熱へ落ちてしまい、
+//    極方向へ跳ね返る前に散逸する(実測: 内縁起源ガスの極方向割合 0.53 → γn=0.05 で 0.84)。
+//  ・帯は長く薄く(w=560・h=14)。赤道方向へ抜けるには帯の全長を押しのける必要があるので、
+//    抵抗の少ない ±y だけが出口になる。
+//  ・kFrame=0(要因分離 — 引きずりは本サンプルの主張ではない)。中心天体のスピンは
+//    掻出 auto(lS_eff=1 → 観測温度0=見掛けは暗い「エンジン」)にだけ効く。
+// 実測(2026-07-27・beta・内蔵プリセットそのもの。内縁=初期 |x|≤80 起源のガスのうち r>300 へ出たもの。
+// 「極方向」= ±y から30°以内 = 等方なら 1/3):
+//  步数     : 1000  2000  3000  4000
+//  極方向割合: —     0.895 0.815 0.839   (既定 kRep=2)
+//  対照     : —     0.583 0.526 0.542   (kRep=0 — E5′ を切ると等方寄りに戻る)
+//  4000步で 極24〜26本 / 赤道0本。全ガスで測っても 0.689(等方の 2.07 倍)
+{ id:"agnjet", name:"AGN類似 — 円盤の内縁と双極ジェット", emoji:"🌋", group:"天体の物語",
+  description:"中心の超大質量天体(m=2000・掻出=auto → 観測温度0で見掛けは真っ暗な「エンジン」)と、x軸方向に長く薄く伸びた冷たいガスの帯。ガスは自己重力で内側へ落ち、内縁で押し合い擦れ合って摩擦加熱される(E9′ → 内部温度T_int)。温まったガスは熱の斥力=圧力(E5′)で押し返すが、赤道方向(±x)へ抜けるには帯の全長を押しのけねばならない — 抵抗の少ない極方向(±y)だけが出口になり、上下2本の噴出流になる。実測: 内縁から出て系外(r>300)へ達したガスの84%が±y方向±30°以内に入る(等方なら1/3 — 2.5倍の集中。4000步で極24本・赤道0本)。おすすめA/B: 熱の斥力kRepを0にすると押し返す圧力が消え、噴出は等方寄りに戻る(実測54%)。色=温度で、内縁が赤熱し噴流が冷えながら伸びるのが見える。要因分離のため空間引きずりkFrameと自発放射は切ってある(中心のスピンは掻出=自光の抑制にだけ効く)。※これは圧力と幾何だけで双極性が出るという2Dのアナロジーであり、実在のAGN・磁気流体ジェット・相対論的ジェットの再現主張ではない(Negative Claims 1/2)。",
+  en:{name:"An AGN Analogue — Inner Disk and Bipolar Jets", description:"A supermassive body at the center (m=2000, sweep=auto → observed temperature 0, so the 'engine' itself looks pitch dark) and a cold gas band stretched long and thin along the x axis. The gas falls inward under self-gravity and is heated by friction where it crowds together at the inner edge (E9′ → internal temperature T_int). The warmed gas pushes back with thermal repulsion = pressure (E5′), but escaping along the equator (±x) means shoving the whole length of the band aside — so the only low-resistance exit is the polar direction (±y), and the outflow collimates into two jets. Measured: 84% of the gas that leaves the inner region and reaches r>300 lies within 30° of the ±y axis (isotropic would be 1/3 — a 2.5× concentration; at 4000 steps, 24 polar vs 0 equatorial). Suggested A/B: set the thermal repulsion kRep to 0 and the pushing pressure disappears, and the outflow returns toward isotropy (measured 54%). Color = temperature: watch the inner edge glow and the jets cool as they stretch. Frame dragging and spontaneous radiation are switched off to isolate the factors (the central spin only feeds the light-sweep channel). Note: this is a 2D analogy showing that pressure plus geometry alone produce bipolarity — not a claim to reproduce real AGN, MHD jets or relativistic jets (Negative Claims 1/2)."},
+  activeParams:["kRep","muF","gammaN","cHeat"],
+  thermal:"tint",
+  camera:{scale:320}, world:{boundary:"none",size:0}, seed:20260727,
+  physics:{G:1, D0:2, kFrame:0, q:2, kRep:2, muF:0.6, gammaN:0.05, kappaS:0.05, Kt:60,
+    cLight:60, bM:1, etaRad:0, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:3, timeScale:2},
+  bodies:[
+    // 中心の「エンジン」(自由・掻出 auto。半径18 は見た目の指定 — 質量由来の 44.7 は
+    // ガス配置の除外半径として効く = 円盤の内縁が自然にできる)
+    {type:"single", rMul:1, m:2000, x:0,y:0, vx:0,vy:0, spin:2, radius:18, lightSweep:"auto", pinned:false, tInt:0},
+    // 冷たいガスの帯(x方向に長く・y方向に薄く)
+    {type:"box", rMul:4, n:340, cx:0,cy:0, w:560,h:14, mMin:0.05,mMax:0.05,
+     spinMin:0,spinMax:0, tInt:0.01, vScale:0.05}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"} },
 ];
 // 第37便 B2(原仮定者裁定「正しい挙動が分からない」): ❄️snowline(塵は冷えると固まる — 冷たい星と
 // 熱い星)を廃止した。v1.24 の廃止手順(🪣mach/🕰twin/💫drag)に倣い、参照(qa.mjs の
