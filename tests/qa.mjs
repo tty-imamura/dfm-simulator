@@ -3723,6 +3723,103 @@ if (hasDrawScale) {
   }
 }
 
+// ---- 7z) 第36便 Wave B(B1・原仮定者指示): version.beta-label — タイトル下のバージョン表示。
+// ----     BETA_BUILD が beta/sw.js の CACHE 接尾辞と一致(version.sw-sync 0b2 と同型の静的検査)+
+// ----     file:// では isBetaServe() が偽になる仕様を利用し、DOM表示が "v"+APP_VERSION へ
+// ----     フォールバックすることも併せて確認する(対象に BETA_BUILD が無い root 等は SKIP)----
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const bb = (html.match(/const BETA_BUILD\s*=\s*"([^"]+)"/) || [])[1];
+  if (bb) {
+    const swPath = TARGET.startsWith('beta/') ? 'beta/sw.js' : 'sw.js';
+    const sw = fs.readFileSync(path.join(ROOT, swPath), 'utf8');
+    const cache = (sw.match(/CACHE = CACHE_PREFIX \+ "([^"]+)"/) || [])[1];
+    const av = (html.match(/const APP_VERSION = "([^"]+)"/) || [])[1];
+    const domVer = await page.evaluate(() => document.querySelector('#appVer')?.textContent || '');
+    add('version.beta-label', bb === cache && domVer === ('v' + av),
+      `BETA_BUILD=${bb} sw.CACHE接尾辞=${cache}(要一致) DOM表示(file://)=${domVer}(期待=v${av}。` +
+      `isBetaServe()がfile://で偽になり"v"+APP_VERSIONへ落ちる仕様を利用した検証)`);
+  } else {
+    console.log('SKIP version.beta-label(対象に BETA_BUILD なし — 第36便 B1 未適用の root 等)');
+  }
+}
+
+// ---- 7z2) 第36便 Wave B(B3・原仮定者指示): ray.wavelength-color — 💡lensingの光線パス上、
+// ----      始点近傍(ψ0)と最深部(経路上最大Wtotの点)の波長が λ0=550nm と λ0·e^{ψ0−ψ} で
+// ----      異なることを、描画バッファでなく HP.traceRay の計算値(emitへ渡るWtot)+
+// ----      HP.wavelengthColor(色関数そのものを公開・重複実装なし)で検証する ----
+{
+  const hasWL = await page.evaluate(() => typeof window.HP.wavelengthColor === 'function');
+  const hasLensing = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'lensing'));
+  if (hasWL && hasLensing) {
+    const r = await page.evaluate(() => {
+      HP.loadPreset('lensing', false);
+      const S = HP.sim, Kt = S.params.Kt;
+      const pts = [];
+      HP.traceRay(S, -600, -20, 1, 0, 3, 800, (nx, ny, Wtot) => { pts.push(Wtot); return true; });
+      const psi = pts.map((w) => w / Kt);
+      const psi0 = psi[0];
+      let maxIdx = 0;
+      for (let i = 1; i < psi.length; i++) if (psi[i] > psi[maxIdx]) maxIdx = i;
+      const psiDeep = psi[maxIdx];
+      const nm0 = 550 * Math.exp(psi0 - psi0);
+      const nmDeep = 550 * Math.exp(psi0 - psiDeep);
+      return { steps: psi.length, psi0, psiDeep, nm0, nmDeep,
+        col0: HP.wavelengthColor(nm0), colDeep: HP.wavelengthColor(nmDeep) };
+    });
+    const ok = r.steps > 10 && r.psiDeep > r.psi0 + 1e-6 && Math.abs(r.nm0 - 550) < 1e-9 &&
+      r.nmDeep < r.nm0 - 1 && r.col0 !== r.colDeep;
+    add('ray.wavelength-color', ok,
+      `steps=${r.steps} ψ0=${r.psi0.toFixed(4)} ψ最深=${r.psiDeep.toFixed(4)} ` +
+      `λ0=${r.nm0.toFixed(1)}nm(${r.col0}) λ最深=${r.nmDeep.toFixed(1)}nm(${r.colDeep})` +
+      `(λ0>λ最深=青方偏移を期待・色も相違)`);
+  } else {
+    console.log('SKIP ray.wavelength-color(対象に wavelengthColor 公開 or 💡lensing なし — 第36便 B3 未適用の root 等)');
+  }
+}
+
+// ---- 7z3) 第36便 Wave B(B4・原仮定者指示): ai.help-collapsed — インポート/キーの保存/
+// ----      ベースのサンプルの説明が <details> として存在し既定closedであること、
+// ----      openにすると本文(note段落)が可視化されることを確認する(対象に無ければ SKIP)----
+{
+  const hasDetails = await page.evaluate(() =>
+    !!document.querySelector('#ioDetails') && !!document.querySelector('#aiKeyDetails') &&
+    !!document.querySelector('#aiBaseDetails'));
+  if (hasDetails) {
+    const r = await page.evaluate(() => {
+      const specs = [
+        ['saves', 'ioDetails', 'ioNote'],
+        ['ai', 'aiKeyDetails', 'aiKeyNote'],
+        ['ai', 'aiBaseDetails', 'aiBaseNote'],
+      ];
+      const out = {};
+      for (const [tab, dId, pId] of specs) {
+        // タブボタンは「同じタブを再クリックするとパネルごと閉じる」トグル仕様(4111行付近)なので、
+        // 既に対象タブが開いていれば再クリックしない(aiKeyDetails→aiBaseDetailsは連続で"ai"タブ)
+        const btn = document.querySelector(`#tabs button[data-tab=${tab}]`);
+        if (!btn.classList.contains('on')) btn.click();
+        const d = document.getElementById(dId), p = document.getElementById(pId);
+        const closedByDefault = d.open === false;
+        // Chromiumの<details>の非表示化は content-visibility 相当の内部機構で、レイアウト上の
+        // offsetParent/getBoundingClientRect は非nullのまま残る(高さも0にならない)ため判定に使えない
+        // (実機確認済み)。実際の可視/不可視は checkVisibility() で判定する(Chrome 105+で利用可)
+        const hiddenWhenClosed = !p.checkVisibility();
+        d.open = true;
+        const visibleWhenOpen = p.checkVisibility();
+        d.open = false;   // 既定closedへ戻す(以降の項目・実際の初期UXへ影響させない)
+        out[dId] = { closedByDefault, hiddenWhenClosed, visibleWhenOpen };
+      }
+      document.querySelector('#btnPanelClose').click();   // パネルを閉じ直す(ui.aitab-no-hscrollと同方式)
+      return out;
+    });
+    const bad = Object.entries(r).filter(([, v]) => !(v.closedByDefault && v.hiddenWhenClosed && v.visibleWhenOpen)).map(([k]) => k);
+    add('ai.help-collapsed', bad.length === 0,
+      Object.entries(r).map(([k, v]) => `${k}:closed=${v.closedByDefault}/hidden=${v.hiddenWhenClosed}/visibleOnOpen=${v.visibleWhenOpen}`).join(' '));
+  } else {
+    console.log('SKIP ai.help-collapsed(対象に ioDetails/aiKeyDetails/aiBaseDetails なし — 第36便 B4 未適用の root 等)');
+  }
+}
+
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
 // W5c: ワーカープールの後片付け(全ユニットは既に上流の getUnit() で待ち合わせ済みのはずだが、
 // 各ワーカーの wp.close() 完了を確実に待ってから共有 browser を閉じる)
