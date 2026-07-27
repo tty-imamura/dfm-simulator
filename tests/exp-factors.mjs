@@ -4,10 +4,16 @@
 //   物理チャネルを1つずつノックアウト(0固定)しながら計測し、どの物理項が現象を支えているかの
 //   一次データ(要因分離)を作る。判定・合否は行わない — 実測値と NaN/発散の記録が成果物。
 // - ノックアウト・チャネル(1変更ずつ・baseline を含め7本): kFrame=0 / kRep=0 / muF=0 / kappaS=0 /
-//   etaRad=0 / D0=0。プリセットは実行時に HP.allPresets() から読み、対象の該当パラメータだけを
-//   preset.physics 側で上書きしてから sim.build() する(= 初期配置は build() が phys.G と
-//   phys.radiusScale しか使わないため、上の6チャネルの上書きでは初期配置は一切変化しない — 純粋な
-//   物理項の有無だけの比較になる。beta/index.html:2176-2188 S.build 冒頭を参照)。
+//   etaRad=0 / D0=0。プリセットは実行時に HP.loadPreset(id,false) で読み(= 未改変の既定物理で
+//   build() する — qa.mjs の各ユニットと同じ手順)、そのあとチャネルの該当パラメータだけを
+//   sim.params へ直接代入して上書きする(beta/index.html:4277 の ab.simB.params[key]=… や UI の
+//   パラメータスライダーと同じ「build 後に params を書き換える」正規の経路)。初期配置(座標・
+//   速度・seed 由来の乱数)はどのチャネルも build() 時点では同一の既定物理から作られるため、
+//   全チャネルで厳密に同一になる — 純粋に物理項の有無だけを分離できる。
+//   ※重要: sim.build(customPreset) を直接呼ぶ経路は使わない — HP.abStart()/cloneSimState() が
+//   ページ内のグローバル currentPreset(loadPreset() でのみ更新される)を参照して B 側を再構築
+//   するため、build() を直接呼ぶと currentPreset が同期されず、galaxy の A/B 比較が壊れる
+//   (初回実装でこの不具合を実測で検出・修正した — 詳細は 37f-report.md)。
 // - 各サンプルの指標式は tests/qa.mjs の該当ユニットから一字も変えず転記している(出典は各 SAMPLES
 //   エントリの sourceRef と、実装コード直上のコメントに行番号で記載)。
 // 実行: node tests/exp-factors.mjs(playwright 必須。全4サンプル×7チャネル。約30〜40分の見積り —
@@ -23,7 +29,9 @@
 //   darkrotor 腕A2 ...... tests/qa.mjs:197(帯定義)+ 388-433(W5C_UNITS.darkrotorLong。behavior.darkrotorLong は :3097-3114)
 //   convection 循環 ..... tests/qa.mjs:241-253(W5C_UNITS.convection8000。behavior.convection は :2303-2304)
 //   freebox a_eff ....... tests/qa.mjs:1143-1191(freebox base()/run()。out.B = run(base(),1200) が既定条件)
-//   sim.build() ......... beta/index.html:2176-2188(初期配置が phys.G/phys.radiusScale しか見ないことの確認)
+//   loadPreset/cloneSimState  beta/index.html:4203-4221(loadPreset。currentPreset 更新はここのみ)+
+//                              4240-4270(cloneSimState。simB.params=Object.assign({},sim.params) は :4265)+
+//                              4272-4281(abStart。ab.simB.params[key]=clamp(valB,…) は :4277)
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -63,16 +71,20 @@ const CHANNELS = [
 ];
 
 // ---- サンプル定義 ----
-// 各 run() は page.evaluate 内で、プリセットを HP.allPresets() から読み・物理を上書きして
-// sim.build() → 既定の步数だけ sim.step(0.016) → qa.mjs から転記した指標式、という共通の形。
+// 各 run() は page.evaluate 内で、HP.loadPreset(id,false) でプリセットを既定物理のまま読み込み、
+// そのあと sim.params にチャネルの上書きを直接代入 → 既定の步数だけ sim.step(0.016) → qa.mjs
+// から転記した指標式、という共通の形(qa.mjs の各ユニットの手順そのまま+上書き代入を1行挿入)。
 const SAMPLES = {
   galaxy: {
     presetId: 'galaxy',
     metricNote: '外縁増強比 galA/galB(claim.galaxy-outerboost と同式。tests/qa.mjs:215-230 galaxyAB ユニット' +
       'を転記 — kFrame を0にする内部A/B比較〔HP.abStart〕自体はそのまま残し、その外側でチャネルの' +
       '物理上書きを両側〔A・簡クローンB〕に効かせる。beta/index.html:4265 simB.params=Object.assign({},' +
-      'sim.params) により、A の上書きは cloneSimState() で B にも複製されたあと abStart が B の kFrame' +
-      'だけを上書きする — よってチャネル=kFrame=0 では A/B の物理が完全一致し、比は1に潰れるのが期待値)',
+      'sim.params) により、A の上書き〔loadPreset 直後の s.params 代入〕は cloneSimState() で B にも' +
+      '複製されたあと abStart が B の kFrame だけを上書きする — よってチャネル=kFrame=0 では A/B の' +
+      '物理が完全一致し、比は1に潰れるのが期待値(cloneSimState() はページ内グローバル currentPreset' +
+      'を参照して B を再構築するため、A 側は必ず HP.loadPreset() 経由で構築する必要がある — ' +
+      'sim.build(customPreset) を直接呼ぶと currentPreset が同期されず A/B比較が壊れる)',
     steps: 6000,
     async checkApplicable(page) {
       const ok = await page.evaluate(() => HP.allPresets().some(p => p.id === 'galaxy'));
@@ -80,9 +92,8 @@ const SAMPLES = {
     },
     run: (page, override) => page.evaluate((ov) => {
       const s = HP.sim;
-      const preset = JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'galaxy')));
-      if (ov) Object.assign(preset.physics, ov);
-      s.build(preset);
+      HP.loadPreset('galaxy', false);
+      if (ov) Object.assign(s.params, ov);
       HP.abStart('kFrame', 0);
       const abG = HP.ab();
       // ---- qa.mjs:221-223(galaxyAB.outer)を一字も変えず転記 ----
@@ -118,10 +129,10 @@ const SAMPLES = {
     },
     run: (page, override) => page.evaluate(({ ov, BANDS }) => {
       const s = HP.sim;
-      const preset = JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'darkrotor')));
-      if (ov) Object.assign(preset.physics, ov);
-      s.build(preset);
-      const NH = preset.bodies.filter(b => b.type === 'single').length - 1;
+      HP.loadPreset('darkrotor', false);
+      if (ov) Object.assign(s.params, ov);
+      const P = HP.allPresets().find(q => q.id === 'darkrotor');
+      const NH = P.bodies.filter(b => b.type === 'single').length - 1;
       const OFF = NH + 1;
       // ---- qa.mjs:395-402(a2)を一字も変えず転記 ----
       const a2 = (sm) => BANDS.map(([lo, hi]) => {
@@ -162,9 +173,8 @@ const SAMPLES = {
     },
     run: (page, override) => page.evaluate((ov) => {
       const s = HP.sim;
-      const preset = JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'convection')));
-      if (ov) Object.assign(preset.physics, ov);
-      s.build(preset);
+      HP.loadPreset('convection', false);
+      if (ov) Object.assign(s.params, ov);
       for (let k = 0; k < 8000; k++) s.step(0.016);
       // ---- qa.mjs:244-251 を一字も変えず転記 ----
       let circ = 0, sumV = 0, freeC = 0;
@@ -193,9 +203,8 @@ const SAMPLES = {
     },
     run: (page, override) => page.evaluate((ov) => {
       const s = HP.sim;
-      const preset = JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'freebox')));
-      if (ov) Object.assign(preset.physics, ov);
-      s.build(preset);
+      HP.loadPreset('freebox', false);
+      if (ov) Object.assign(s.params, ov);
       for (let k = 0; k < 1200; k++) s.step(0.016);
       const aEff = s.boxAEff();
       const nan = s.hasNaN();
