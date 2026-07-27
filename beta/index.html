@@ -2829,9 +2829,12 @@ function saveDraft(dirty){
   try{
     if(!dirty){ sessionStorage.removeItem("hp_draft"); return; }
     if(typeof sim==="undefined"||!sim||!sim.params) return;
-    sessionStorage.setItem("hp_draft", JSON.stringify({
-      presetId: currentPreset?currentPreset.id:null,
-      physics: sim.params, cameraScale: camScale, at: new Date().toISOString()}));
+    const d={ presetId: currentPreset?currentPreset.id:null,
+      physics: sim.params, cameraScale: camScale, at: new Date().toISOString() };
+    // 第36便(P2-1・ChatGPT差分検証レビュー): 箱設定(universeBox)の実行中編集もドラフトへ含める
+    // (無いプリセット/箱の無い編集では省略 — sim.box が無いときは何もしない=旧ドラフトと同一形式)
+    if(sim.box) d.universeBox=Object.assign({},sim.box);
+    sessionStorage.setItem("hp_draft", JSON.stringify(d));
   }catch(_){/* プライベートモード等の保存失敗でも本体動作は不変 */}
 }
 function restoreDraft(){
@@ -2843,6 +2846,11 @@ function restoreDraft(){
   if(d.presetId && allPresets().some(p=>p.id===d.presetId)) loadPreset(d.presetId,false);
   sim.params=Object.assign({},DEFAULT_PHYSICS,d.physics); sim.updateRadii();
   if(d.cameraScale) camScale=d.cameraScale;
+  // 第36便(P2-1): 箱設定の復元。プリセットに箱が無いのに箱設定だけ残る混乱を防ぐため sim.box が
+  // 存在するときだけ適用する(loadSave の universeBox 復元と同じ条件・処理)。universeBox キーの
+  // 無い旧ドラフトはこの分岐に入らず従来どおり動く(後方互換)
+  if(d.universeBox && sim.box){ sim.box=Object.assign({},sim.box,d.universeBox);
+    sim.boxARef=boxScaleAt(sim.box,0).a; if(sim.boxHist) sim.boxHist.length=0; }
   setParamsDirty(true); buildParamRows();
 }
 let tSort=null; // 温度正規化用スクラッチ(90パーセンタイル計算)
@@ -4491,10 +4499,24 @@ function coerceImport(d){
   return null;
 }
 // v1.19: 内容ベースの重複判定用シグネチャ(名前・説明・IDを除いた「パラメータ」全体)
+// 第36便(P1-2・ChatGPT差分検証レビュー): integrator/echoFlipAt/measureBox/drawScale/
+// universeBox/photonEmit/overlays が未署名だったため、粒子配置とphysicsが同じで
+// これらのキーだけが異なる2プリセットをインポートすると2件目が誤って重複スキップされていた。
+// validatePreset 正規化後の全挙動属性を署名へ含める(呼び出し側は従来どおり v.preset を渡すため
+// ここでの再正規化は基本的に冪等 — 異常値からの直接呼び出しに対する防御でもある)。
+// abSuggest はレビュー原文の修正案に含まれるが、現行スキーマに存在しないキーのため対象から除外
+// (第36便で確認済み。将来 abSuggest 相当のキーが追加された際は改めて追加すること)
 function presetSig(p){
-  return JSON.stringify({physics:Object.assign({},DEFAULT_PHYSICS,p.physics||{}),
-    bodies:p.bodies||[], world:p.world||null, camera:p.camera||null,
-    rays:p.rays||null, seed:isNum(p.seed)?p.seed:null});
+  const v=validatePreset(p);
+  const q=v.ok? v.preset : p;
+  return JSON.stringify({
+    physics:Object.assign({},DEFAULT_PHYSICS,q.physics||{}),
+    bodies:q.bodies||[], world:q.world||null, camera:q.camera||null,
+    seed:isNum(q.seed)?q.seed:null, rays:q.rays||null, overlays:q.overlays||null,
+    universeBox:q.universeBox||null, photonEmit:q.photonEmit||null,
+    integrator:q.integrator||"semi", echoFlipAt:isNum(q.echoFlipAt)?q.echoFlipAt:null,
+    measureBox:q.measureBox===true, drawScale:isNum(q.drawScale)?q.drawScale:1
+  });
 }
 function doImportText(text){
   let d;
@@ -4531,9 +4553,14 @@ function doImportText(text){
     addedPresets.push({preset:v.preset, origId:id});
   }
   setCustomPresets(cur);
-  // セーブも内容(presetId+physics)で重複除外し、名前被りはサフィックスを付けて追記
+  // セーブも内容(presetId+physics+universeBox)で重複除外し、名前被りはサフィックスを付けて追記
+  // 第36便(P1-3・ChatGPT差分検証レビュー): 従来は presetId+physics のみで、同じ箱宇宙プリセットの
+  // H0/D 等だけが異なる複数セーブをバックアップ→再インポートすると2件目以降が誤って重複スキップ
+  // されていた(root v1.32から継続する既存問題でもある)。universeBox を鍵へ追加して保護する。
+  // cameraScale は含めない(設計裁定 — 重複判定の意味をカメラ倍率にまで拡げない)
   const ex=getSaves();
-  const sKey=(s)=>String(s.presetId)+"|"+JSON.stringify(Object.assign({},DEFAULT_PHYSICS,s.physics||{}));
+  const sKey=(s)=>JSON.stringify({presetId:String(s.presetId),
+    physics:Object.assign({},DEFAULT_PHYSICS,s.physics||{}), universeBox:s.universeBox||null});
   const haveSig=new Set(ex.map(sKey));
   const haveNames=new Set(ex.map(s=>s.name));
   const ns=[];
@@ -4736,17 +4763,27 @@ async function callLLM(cfg, model, messages){
 // 第26便(原仮定者指示): ベースサンプル選択時は、そのJSONを土台として改変生成させる
 // (ダークローターの coreMR/lightSweep・🛰️の zonal など参考サンプルの構成をAI生成に利用)。
 // 送るのはシミュレーション定義のみ(en/activeParams等のUI付帯情報は省いてトークンを節約)
+// 第36便(P1-1・ChatGPT差分検証レビュー): 旧実装は name/emoji/description/camera/world/
+// physics/bodies/seed/rays/overlays の手書き allowlist で、integrator/echoFlipAt/measureBox/
+// drawScale/universeBox/photonEmit が漏れていた(⏪echoベースでintegrator/echoFlipAtが、
+// 🕊️freeboxベースでmeasureBoxが、🔦boxredshiftベースでuniverseBox/photonEmitが消える)。
+// validatePreset 正規化 → UI専用メタのみ削除の方式へ統一し、将来追加される最上位キーも
+// 手書きリストの更新なしに自動追随させる(手書き allowlist の再発防止)。
+// activeParams は「UI専用メタ」に含めて除外 — validatePreset は関知しない純UIキー(A/B主役
+// パラメータのハイライト)で、上のコメントが定義当初から明言する送信対象外方針を維持する。
+function presetForAIBase(p){
+  const v=validatePreset(p);
+  const q=JSON.parse(JSON.stringify(v.ok? v.preset : p));
+  delete q.id; delete q.group; delete q.en; delete q.activeParams;   // UI専用メタのみ除外
+  return q;
+}
 function aiUserContent(userText){
   const sel=document.querySelector("#aiBasePreset");
   const bid=sel? sel.value : "";
   if(!bid) return userText;
   const p=allPresets().find(q=>String(q.id)===String(bid));
   if(!p) return userText;
-  const base={name:p.name, emoji:p.emoji, description:p.description,
-    camera:p.camera, world:p.world, physics:p.physics, bodies:p.bodies};
-  if(p.seed!==undefined) base.seed=p.seed;
-  if(p.rays) base.rays=p.rays;
-  if(p.overlays) base.overlays=p.overlays;
+  const base=presetForAIBase(p);
   const head=(LANG==="en")
     ? "Use the following base sample JSON as the starting point and output a new preset modified to the request. Keep the structure and values that the request does not ask to change.\nBase sample: "
     : "以下のベースサンプルのJSONを土台に、要望に合わせて改変した新しいプリセットを出力してください。要望と無関係な構成・数値は維持してください。\nベースサンプル: ";

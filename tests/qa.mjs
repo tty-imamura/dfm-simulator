@@ -3584,6 +3584,145 @@ if (TARGET.startsWith('beta/')) {
   console.log('SKIP ui.aitab-no-hscroll(beta先行ガード — 対象はルート index.html で未修正)');
 }
 
+// ---- 7v) 第36便 Wave A(ChatGPT差分検証レビュー P1-1): AIベースJSONに新規最上位属性を含める。
+// ----     presetForAIBase は本便の新規関数(root=旧版には存在しない)。関数の有無そのものを
+// ----     機能検出ガードにする(hasBadgeClassify 等の先行例と同方式) ----
+{
+  const hasPresetForAIBase = await page.evaluate(() => typeof window.presetForAIBase === 'function');
+  if (hasPresetForAIBase) {
+    const r = await page.evaluate(() => {
+      const sel = document.querySelector('#aiBasePreset');
+      const has = (id) => HP.allPresets().some((p) => p.id === id);
+      const out = { hasEcho: has('echo'), hasFreebox: has('freebox'), hasBoxredshift: has('boxredshift') };
+      if (out.hasEcho) {
+        sel.value = 'echo';
+        const ctx = HP.aiUserContent('t');
+        out.echo = { integrator: ctx.includes('"integrator":"leapfrog"'), echoFlipAt: ctx.includes('"echoFlipAt":20') };
+      }
+      if (out.hasFreebox) {
+        sel.value = 'freebox';
+        const ctx = HP.aiUserContent('t');
+        out.freebox = { measureBox: ctx.includes('"measureBox":true') };
+      }
+      if (out.hasBoxredshift) {
+        sel.value = 'boxredshift';
+        const ctx = HP.aiUserContent('t');
+        out.boxredshift = { universeBox: ctx.includes('"universeBox"'), photonEmit: ctx.includes('"photonEmit"') };
+      }
+      sel.value = '';
+      return out;
+    });
+    const checks = [];
+    if (r.hasEcho) checks.push(['echo.integrator', r.echo.integrator], ['echo.echoFlipAt', r.echo.echoFlipAt]);
+    if (r.hasFreebox) checks.push(['freebox.measureBox', r.freebox.measureBox]);
+    if (r.hasBoxredshift) checks.push(['boxredshift.universeBox', r.boxredshift.universeBox], ['boxredshift.photonEmit', r.boxredshift.photonEmit]);
+    const bad = checks.filter(([, ok]) => !ok).map(([n]) => n);
+    add('ai.base-topkeys', checks.length > 0 && bad.length === 0,
+      checks.length ? checks.map(([n, ok]) => `${n}:${ok ? 'OK' : 'NG'}`).join(' ') : '対象ベースサンプル(echo/freebox/boxredshift)なし');
+  } else {
+    console.log('SKIP ai.base-topkeys(対象に presetForAIBase なし — 第36便 P1-1 未適用の root 等)');
+  }
+}
+
+// ---- 7w) 第36便 Wave A(P1-2): presetSig に全挙動属性を含める(インポート重複判定)。
+// ----     hasDrawScale(7h1e で定義済み — 同便で追加された sim.drawScale の有無)を「本便の
+// ----     修正一式を含む beta」の代理指標として再利用する(root=旧版は drawScale 自体が無く
+// ----     universeBox 等の署名漏れも root 側の既存問題のため、単一ガードでまとめて SKIP させる)----
+if (hasDrawScale) {
+  const r = await page.evaluate(() => {
+    const singleBody = { type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false };
+    const mk = (id, extra) => Object.assign({ id, name: id, description: 'd',
+      camera: { scale: 200 }, world: { boundary: 'none', size: 0 }, bodies: [singleBody] }, extra);
+    const doImport = (obj) => { document.querySelector('#ioArea').value = JSON.stringify(obj); document.querySelector('#btnImport').click(); };
+    const count = () => JSON.parse(localStorage.getItem('hp_custom_presets') || '[]').length;
+    // 各条件: 粒子配置・physics(既定のまま)は同一で、対象キーだけが異なる2件
+    const CONDS = {
+      integrator: [mk('qa36_intA', { integrator: 'semi' }), mk('qa36_intB', { integrator: 'leapfrog' })],
+      echoFlipAt: [mk('qa36_efA', {}), mk('qa36_efB', { echoFlipAt: 20 })],
+      measureBox: [mk('qa36_mbA', {}), mk('qa36_mbB', { measureBox: true })],
+      drawScale: [mk('qa36_dsA', {}), mk('qa36_dsB', { drawScale: 2 })],
+      universeBox: [mk('qa36_ubA', {}), mk('qa36_ubB', { universeBox: { mode: 'exp', H0: 0.01 } })],
+      photonEmit: [mk('qa36_peA', {}), mk('qa36_peB', { photonEmit: [{ body: 0, t: 0, lambda: 500 }] })],
+      overlays: [mk('qa36_ovA', { overlays: { trail: false } }), mk('qa36_ovB', { overlays: { trail: true } })],
+    };
+    const out = {};
+    for (const [key, pair] of Object.entries(CONDS)) {
+      localStorage.setItem('hp_custom_presets', '[]');
+      localStorage.setItem('hp_saves', '[]');
+      const c0 = count();
+      doImport(pair);
+      out[key] = count() - c0;
+    }
+    localStorage.setItem('hp_custom_presets', '[]');
+    localStorage.setItem('hp_saves', '[]');
+    return out;
+  });
+  const bad = Object.entries(r).filter(([, n]) => n !== 2).map(([k, n]) => `${k}=${n}`);
+  add('import.distinct-topkeys', bad.length === 0,
+    Object.entries(r).map(([k, n]) => `${k}:${n === 2 ? 'OK' : 'NG(added=' + n + ',期待2)'}`).join(' '));
+} else {
+  console.log('SKIP import.distinct-topkeys(対象に drawScale なし — 第36便 P1-2 未適用の root 等)');
+}
+
+// ---- 7x) 第36便 Wave A(P1-3): セーブ重複判定キー sKey へ universeBox を追加 ----
+if (hasDrawScale) {
+  const r = await page.evaluate(() => {
+    localStorage.setItem('hp_custom_presets', '[]');
+    localStorage.setItem('hp_saves', '[]');
+    const mkSave = (name, H0) => ({ name, presetId: 'qa36_boxsave', presetName: 'x',
+      savedAt: new Date().toISOString(), physics: { G: 1 }, universeBox: { mode: 'exp', H0 } });
+    document.querySelector('#ioArea').value = JSON.stringify(
+      { saves: [mkSave('qa36save1', 0.01), mkSave('qa36save2', 0.02)], customPresets: [] });
+    document.querySelector('#btnImport').click();
+    const saves = JSON.parse(localStorage.getItem('hp_saves') || '[]');
+    const h0s = saves.filter((s) => s.presetId === 'qa36_boxsave')
+      .map((s) => s.universeBox && s.universeBox.H0).sort();
+    localStorage.setItem('hp_custom_presets', '[]');
+    localStorage.setItem('hp_saves', '[]');
+    return { count: h0s.length, h0s };
+  });
+  add('save.dedup-box', r.count === 2 && r.h0s[0] === 0.01 && r.h0s[1] === 0.02,
+    `残存件数=${r.count}(期待2) H0=[${r.h0s.join(',')}](期待 0.01,0.02 の両方)`);
+} else {
+  console.log('SKIP save.dedup-box(対象に drawScale なし — 第36便 P1-3 未適用の root 等)');
+}
+
+// ---- 7y) 第36便 Wave A(P2-1): 未保存ドラフトへ universeBox の実行中編集を含める
+// ----     (saveDraft/restoreDraft)。draft.restore と同じくダイアログ処理は専用ページで行う ----
+{
+  const hasDraftFns = await page.evaluate(() =>
+    typeof window.restoreDraft === 'function' && typeof window.saveDraft === 'function');
+  if (hasDraftFns && hasDrawScale) {
+    const hasBoxComoving = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'boxcomoving'));
+    if (hasBoxComoving) {
+      const dp = await browser.newPage();
+      let dlg = 0;
+      dp.on('dialog', (d) => { dlg++; d.accept(); });
+      await dp.goto(INDEX);
+      await dp.waitForFunction(() => !!window.HP);
+      const r = await dp.evaluate(() => {
+        HP.loadPreset('boxcomoving', false);
+        const before = HP.sim.box ? HP.sim.box.H0 : null;
+        if (HP.sim.box) HP.sim.box.H0 = 0.09;   // 実行中編集(未保存)
+        window.saveDraft(true);
+        const draft = JSON.parse(sessionStorage.getItem('hp_draft') || 'null');
+        window.restoreDraft();
+        return { before, draftHasBox: !!(draft && draft.universeBox),
+          draftH0: draft && draft.universeBox && draft.universeBox.H0,
+          afterH0: HP.sim.box ? HP.sim.box.H0 : null };
+      });
+      const ok = dlg === 1 && r.draftHasBox && Math.abs(r.draftH0 - 0.09) < 1e-12 && Math.abs(r.afterH0 - 0.09) < 1e-12;
+      add('draft.box-restore', ok,
+        `編集前H0=${r.before} confirm=${dlg} ドラフトH0=${r.draftH0} 復元後H0=${r.afterH0}(いずれも0.09を期待)`);
+      await dp.close();
+    } else {
+      console.log('SKIP draft.box-restore(対象に🫧boxcomovingなし)');
+    }
+  } else {
+    console.log('SKIP draft.box-restore(対象に saveDraft/restoreDraft の箱対応なし — 第36便 P2-1 未適用の root 等)');
+  }
+}
+
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
 // W5c: ワーカープールの後片付け(全ユニットは既に上流の getUnit() で待ち合わせ済みのはずだが、
 // 各ワーカーの wp.close() 完了を確実に待ってから共有 browser を閉じる)
