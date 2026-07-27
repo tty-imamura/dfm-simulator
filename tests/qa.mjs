@@ -237,11 +237,12 @@ const W5C_UNITS = {
     for (let i = 1; i < s.n; i++) { tot++; const r2 = Math.hypot(s.x[i], s.y[i]); if (r2 > 45 && r2 < 280) inAnn++; }
     return { satAnn: inAnn / tot, satDrift: Math.hypot(s.x[0], s.y[0]), satNaN: s.hasNaN() };
   }) },
-  convection24000: { enabled: !FAST, weight: 66, run: (pg) => pg.evaluate(() => {
-    // ♨️ convection 24000步 部分のみ(元8節 1937-1949行から抽出)
+  // 第36便 D(台帳4-51)再較正: 評価窓 24000步 → 8000步(下の behavior.convection の注記参照)
+  convection8000: { enabled: !FAST, weight: 22, run: (pg) => pg.evaluate(() => {
+    // ♨️ convection 部分のみ(元8節 1937-1949行から抽出)
     const s = HP.sim;
     HP.loadPreset('convection', false);
-    for (let k = 0; k < 24000; k++) s.step(0.016);
+    for (let k = 0; k < 8000; k++) s.step(0.016);
     let circ = 0, sumV = 0, freeC = 0;
     for (let i = 0; i < s.n; i++) {
       if (s.pinned[i]) continue;
@@ -593,11 +594,17 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
       return w / s.params.Kt; };
     res.gErr = Math.max(...[1, 2, 3].map(i => Math.abs(s.tau[i] / s.t - Math.exp(-psi(i))) / Math.exp(-psi(i))));
     res.gOrder = s.tau[1] < s.tau[2] && s.tau[2] < s.tau[3];
-    // 🌈 coolrace: 冷却速度比 ≈ s³(1:8:64)・位置不変
+    // 🌈 coolrace: 冷却速度比が Λ∝T^p の p 乗則に従う・位置不変
+    // 第36便 D(台帳4-51)再較正: 主張「高温ほど速く冷える(E11 の T^p 則)」は不変で、参照量を
+    // 「スピンの減り Δs(s³則・比8)」→「観測温度の減り ΔT_obs(=ΔT_int)」へ差し替えた。
+    // tint モードでは冷えるのは温度でスピンではない(放射は角運動量を運ばない)。
+    // T_int が 4/16/64(比4)なので dT/dt∝T^p(p=2)の理論比は 4²=16
     HP.loadPreset('coolrace', false);
-    const s0 = [s.spin[0], s.spin[1], s.spin[2]], x0 = [s.x[0], s.x[1], s.x[2]];
+    const cT = (i) => (HP.obsTemp ? HP.obsTemp(s, i)
+      : 0.5 * s.m[i] * s.R[i] * s.R[i] * s.spin[i] * s.spin[i] * s.obsT[i] * (1 - s.lSw[i]));
+    const s0 = [0, 1, 2].map(cT), x0 = [s.x[0], s.x[1], s.x[2]];
     for (let k = 0; k < 200; k++) s.step(0.016);
-    const ds = [0, 1, 2].map(i => s0[i] - s.spin[i]);
+    const ds = [0, 1, 2].map(i => s0[i] - cT(i));
     res.cR21 = ds[1] / ds[0]; res.cR32 = ds[2] / ds[1];
     res.cDrift = Math.max(...[0, 1, 2].map(i => Math.abs(s.x[i] - x0[i])));
     // 💥 counterring: muF=1 は加熱、muF=0 は非加熱
@@ -611,8 +618,12 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
     return res;
   });
   add('new.gclock', r.gErr < 1e-3 && r.gOrder, `err=${r.gErr.toExponential(1)}`);
-  add('new.coolrace', r.cR21 > 5 && r.cR21 < 12 && r.cR32 > 5 && r.cR32 < 12 && r.cDrift < 1e-6,
-    `ratio=${r.cR21.toFixed(1)}/${r.cR32.toFixed(1)} (理論8) drift=${r.cDrift}`);
+  // 実測(beta 2026-07-27・tint): 比=14.7 / 15.6(理論16。ずれは Float32 の T_int に対する
+  // 200步のΔT が小さい〔1.4e-4〕ことによる量子化残差)。閾値は理論16に対し ±40%。
+  // root(spin モード)でも同じ量(観測温度の減り)を測れば 15.9 / 15.5 で同じ閾値を通る
+  // — 旧判定の「比8」はスピンの減り Δs∝s³ を見ていたためで、温度で見た法則は両モード共通
+  add('new.coolrace', r.cR21 > 10 && r.cR21 < 22 && r.cR32 > 10 && r.cR32 < 22 && r.cDrift < 1e-6,
+    `ratio=${r.cR21.toFixed(1)}/${r.cR32.toFixed(1)} (理論16 = T²則・p=2) drift=${r.cDrift}`);
   add('new.counterring', !r.rNaN && r.rHot > 0.3 && r.rCold < 0.05, `muF1=${r.rHot.toFixed(2)} muF0=${r.rCold.toFixed(3)}`);
 }
 
@@ -962,9 +973,14 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
 // ----   integrator 省略時("semi")は本便の変更前と1ビットも変わらないことを位置ハッシュで固定する。
 // ----   基準ハッシュは実装前の beta/index.html(第34便 v1.32 相当)で採取した実測値。
 // ----   ルート・beta のどちらでも同一(採取時に両対象で一致を確認済み)なので対象ガードは付けない。
+// ----   第36便 D(台帳4-51): 参照プリセットを 🔥gas → 🪐saturn へ差し替え。主張(「既定 semi 経路は
+// ----   第35便 W2 着手前と1ビットも変わらない」)は不変で、参照する代表プリセットだけを
+// ----   「本便で thermal:"tint" へ移行しない側」に取り替えたもの。基準ハッシュは gas と同じ手順で
+// ----   第35便 W2 の直前コミット(ea9c8a2)の beta/index.html から新規採取した実測値
+// ----   (同コミットと第36便 C 完了時点=本便着手時点で🪐が bit 一致することも確認済み)。
 {
   const gh = await page.evaluate(() => {
-    HP.loadPreset('gas', false);                       // 代表既定プリセット(N=240・integrator 無指定)
+    HP.loadPreset('saturn', false);                    // 代表既定プリセット(N=301・integrator 無指定・thermal 無指定)
     const s = HP.sim;
     for (let k = 0; k < 300; k++) s.step(0.016);       // 300步(dt=0.016 固定 — timeScale に依存しない)
     const a = [];
@@ -972,10 +988,10 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
     return { n: s.n, t: s.t, str: a.map(v => v.toExponential(12)).join(',') };
   });
   const hash = crypto.createHash('sha256').update(gh.str).digest('hex');
-  // 実装前(第35便 W2 着手時)の実測: n=240 / t=4.800000000000003 / 下記ハッシュ
-  const BASE = '2bd01bdf714c2599b53477806a4863f04ceadfaf1102d189be27d2a86fbe042b';
-  add('integrator.default-unchanged', gh.n === 240 && hash === BASE,
-    `🔥gas 300步 位置ハッシュ=${hash.slice(0, 16)}…(基準=${BASE.slice(0, 16)}… bit一致=${hash === BASE}) n=${gh.n}`);
+  // 実装前(第35便 W2 着手時 = ea9c8a2)の実測: n=301 / t=4.800000000000003 / 下記ハッシュ
+  const BASE = '981bbeae6d274997ae2ae5d07f5b8f5297970c4ccf0dc86ac18de3d4d1a1bd6d';
+  add('integrator.default-unchanged', gh.n === 301 && hash === BASE,
+    `🪐saturn 300步 位置ハッシュ=${hash.slice(0, 16)}…(基準=${BASE.slice(0, 16)}… bit一致=${hash === BASE}) n=${gh.n}`);
 }
 
 // ---- 7h1c) 第35便(台帳4-62): Loschmidt echo — 可逆積分器と時間の矢 ----
@@ -1468,24 +1484,32 @@ if (hasDrawScale) {
 // ----   6件合計の実測所要時間は約14s(gas/pressure/phaseがn=195〜240のため、design memoの想定
 // ----   「nが小さいので+10s」より重いが、+20sの上限内なので !FAST 化はしていない)----
 {
-  // 🔥gas: 左右で異なる初期スピン(温度)が接触・拡散(muF/gammaN/kappaS)で熱平衡化し、
-  // 温度T=½IS²の粒子間分散が縮小する。G=0・kFrame=0で純粋に熱過程だけの統制実験
+  // 🔥gas: 左右で異なる初期温度が接触・伝導(muF/gammaN/kappaS)で熱平衡化し、温度の粒子間分散が
+  // 縮小する。G=0・kFrame=0で純粋に熱過程だけの統制実験。
+  // 第36便 D(台帳4-51)再較正: 主張「温度の粒子間分散が明確に縮小する」は不変で、参照量を
+  // 「T=½IS²」→「観測温度 T_obs(HP.obsTemp = 表示系と同じ量。tint モードでは T_int)」へ差し替え、
+  // 步数を 3000→6000 とした(伝導が熱容量重みになり分散の減り方が緩やかなため。閾値も 0.8→0.75)
   const gas = await page.evaluate(() => {
     const s = HP.sim;
+    // 観測温度 T_obs。Wave D 未適用の対象(root)では従来式 ½IS²·obsT·(1−lSw) にフォールバックする
+    // (どちらも「表示系が示す温度」— 主張は同一で、参照するデータ源だけがモードに追随する)
+    const To = (i) => (HP.obsTemp ? HP.obsTemp(s, i)
+      : 0.5 * s.m[i] * s.R[i] * s.R[i] * s.spin[i] * s.spin[i] * s.obsT[i] * (1 - s.lSw[i]));
     const varTemp = () => {
       let sum = 0, sum2 = 0;
-      for (let i = 0; i < s.n; i++) { const t = 0.5 * s.m[i] * s.R[i] * s.R[i] * s.spin[i] * s.spin[i]; sum += t; sum2 += t * t; }
+      for (let i = 0; i < s.n; i++) { const t = To(i); sum += t; sum2 += t * t; }
       const mean = sum / s.n; return sum2 / s.n - mean * mean;
     };
     HP.loadPreset('gas', false);
     const v0 = varTemp();
-    for (let k = 0; k < 3000; k++) s.step(0.016);
-    return { v0, v1: varTemp(), nan: s.hasNaN() };
+    for (let k = 0; k < 6000; k++) s.step(0.016);
+    return { v0, v1: varTemp(), nan: s.hasNaN(), tint: s.thermal === 'tint' };
   });
-  // 実測(beta): v0=5.6473 → 3000步後 v1=3.8397(比0.6799)。閾値0.8は無変化(比1.0)から
-  // 十分離れており、実測比に対しても約1.18倍の余裕(温度分散が明確に縮小したことだけを検出する目的)
-  add('behavior.gas', !gas.nan && gas.v1 < gas.v0 && gas.v1 / gas.v0 < 0.8,
-    `温度分散(T=½IS²) 初期=${gas.v0.toFixed(3)} → 3000步後=${gas.v1.toFixed(3)}(比=${(gas.v1 / gas.v0).toFixed(3)} < 0.8 — 実測0.680)`);
+  // 実測(beta 2026-07-27・tint): v0=9.7344 → 6000步後 v1=6.2340(比0.6404)。無変化=比1.0 に対し
+  // 閾値0.75は実測に1.17倍・帰無側に1.33倍の余裕(比の判定なので上限1が帰無仮説)。
+  // root(spin モード・Wave D 未適用)の同条件実測は 5.6473→2.7400(比0.4852)で同じ閾値を通る
+  add('behavior.gas', !gas.nan && gas.v1 < gas.v0 && gas.v1 / gas.v0 < 0.75,
+    `温度分散(T_obs) 初期=${gas.v0.toFixed(3)} → 6000步後=${gas.v1.toFixed(3)}(比=${(gas.v1 / gas.v0).toFixed(3)} < 0.75 — 実測 tint 0.640 / spin 0.485)${gas.tint ? ' tint' : ' spin'}`);
 }
 
 {
@@ -1511,17 +1535,20 @@ if (hasDrawScale) {
   add('behavior.pressure',
     !pr.defNaN && !pr.zeroNaN && pr.defRatio > 1.10 && pr.zeroRatio < 1.08 && (pr.defRatio - 1) > 2 * (pr.zeroRatio - 1),
     `2000步後RMS半径比: 既定(kRep=2)=${pr.defRatio.toFixed(4)}(>1.10) kRep=0=${pr.zeroRatio.toFixed(4)}(<1.08) `
-    + `成長量比=${((pr.defRatio - 1) / (pr.zeroRatio - 1)).toFixed(2)}倍(実測3.59倍・閾値2倍以上)`);
+    + `成長量比=${((pr.defRatio - 1) / (pr.zeroRatio - 1)).toFixed(2)}倍(閾値2倍以上 — 実測 tint 11.63倍 / spin 3.59倍)`);
 }
 
 {
-  // 📏conduction: 固定(pinned)の加熱端(spin=8)からスピン拡散(E10′)だけで熱が伝わる。pinned粒子は
-  // beta/index.html の②粒子ループ(2496-2497行 if(pinned[i]) continue;)を素通りするためds[i]が
-  // 適用されず、加熱端の温度は不変(理想的な熱浴)。
-  // 加熱端と遠端(index17・距離153)の温度差ΔTは時間とともに減衰し、中間時点では近い粒子ほど先に温まる
+  // 📏conduction: 固定(pinned)の加熱端から伝導(E10′)だけで熱が伝わる。pinned粒子は
+  // beta/index.html の②粒子ループ(if(pinned[i]) continue;)を素通りするため拡散が適用されず、
+  // 加熱端の温度は不変(理想的な熱浴)。
+  // 加熱端と遠端(index17・距離153)の温度差ΔTは時間とともに減衰し、中間時点では近い粒子ほど先に温まる。
+  // 第36便 D(台帳4-51)再較正: 主張は不変で、参照量を「T=½IS²」→「観測温度 T_obs(HP.obsTemp)」へ
+  // 差し替えた(加熱端は spin=8 → tInt=64 の固定粒子になった)。閾値は据え置きで全て通る
   const cd = await page.evaluate(() => {
     const s = HP.sim;
-    const T = (i) => 0.5 * s.m[i] * s.R[i] * s.R[i] * s.spin[i] * s.spin[i];
+    const T = (i) => (HP.obsTemp ? HP.obsTemp(s, i)
+      : 0.5 * s.m[i] * s.R[i] * s.R[i] * s.spin[i] * s.spin[i] * s.obsT[i] * (1 - s.lSw[i]));
     HP.loadPreset('conduction', false);
     const dT0 = T(0) - T(17);
     let mid = null;
@@ -1529,9 +1556,9 @@ if (hasDrawScale) {
     return { Th0: T(0), dT0, mid, Thf: T(0), T17f: T(17), nan: s.hasNaN() };
   });
   const dTf = cd.Thf - cd.T17f;
-  // 実測(beta): 加熱端T=737.28(不変)。4000步時点で近接(dist9)T1=329.86 > 中位(dist81)T9=112.21 >
-  // 遠端(dist153)T17=74.73(距離依存)。ΔT(加熱端−遠端)は初期737.28 → 20000步後133.52(比0.181)。
-  // 閾値0.35は実測の約1.9倍上
+  // 実測(beta 2026-07-27・tint): 加熱端 T_obs=64(不変)。4000步時点で近接(dist9)T1=42.81 >
+  // 中位(dist81)T9=24.97 > 遠端(dist153)T17=20.38(距離依存)。ΔT(加熱端−遠端)は初期64 →
+  // 20000步後6.08(比0.0951)。閾値0.35は実測の約3.7倍上(旧 spin 実測は 737.28 / 比0.181)
   add('behavior.conduction',
     !cd.nan && cd.Th0 === cd.Thf && cd.mid.T1 > cd.mid.T9 && cd.mid.T9 > cd.mid.T17 && dTf / cd.dT0 < 0.35,
     `加熱端T=${cd.Th0.toFixed(1)}(不変) 中間(4000步) 近接T1=${cd.mid.T1.toFixed(1)} > 中位T9=${cd.mid.T9.toFixed(1)} `
@@ -1541,22 +1568,52 @@ if (hasDrawScale) {
 
 {
   // 🧊phase: 質量・数・大きさ・初速が同一の3群(0-64低温/65-129中温/130-194高温)を一様重力gravityY
-  // (+y方向、実測ではy増加=下)の下に置く。低スピン層ほど重力に逆らわず沈む(平均y座標が最大=最も底側)、
-  // 高スピン層はスピン斥力(A10)が重力を振り切って箱に充満し沈みにくい
+  // (+y方向、実測ではy増加=下)の下に置く。主張は「低温ほど重力に束縛されて底で固まり、高温ほど
+  // 熱の斥力が重力を振り切って箱に充満する」= 三態の順序。
+  // 第36便 D(台帳4-51)再較正: 主張は不変で、参照量を差し替えた。旧判定は3群すべてを「平均y」で
+  // 見ていたが、固体と液体の区別に平均yを使うのは移行後は成立しない — 伝導が熱量保存になった結果
+  // 固体側も衝突散逸(E9)で温まり、コンパクトな塊(重心=床−塊の半径)と薄く広がった液面(重心=床−厚み/2)の
+  // 幾何で平均yの大小が入れ替わるため(実測: 低温76.65 / 中温76.95 と符号が安定しない)。
+  // そこで「固体 vs 液体」は接触数(結晶性 — 説明文の『粒同士が接触したまま底で結晶化する固体』そのもの)、
+  // 「液体 vs 気体」は従来どおり平均y(沈み込み)に鉛直方向の広がり(充満)を足して判定する
   const ph = await page.evaluate(() => {
     const s = HP.sim;
     const meanY = (i0, i1) => { let a = 0; for (let i = i0; i < i1; i++) a += s.y[i]; return a / (i1 - i0); };
+    const sdY = (i0, i1) => { let a = 0, b = 0; for (let i = i0; i < i1; i++) { a += s.y[i]; b += s.y[i] * s.y[i]; }
+      const n = i1 - i0, mu = a / n; return Math.sqrt(Math.max(0, b / n - mu * mu)); };
+    // 1粒子あたりの接触数(結晶性)。接触=中心間距離 < R_i+R_j(エンジンの E9 接触判定と同一式)
+    const contacts = (i0, i1) => { let c = 0;
+      for (let i = i0; i < i1; i++) for (let j = i + 1; j < i1; j++)
+        if (Math.hypot(s.x[i] - s.x[j], s.y[i] - s.y[j]) < s.R[i] + s.R[j]) c++;
+      return 2 * c / (i1 - i0); };
     HP.loadPreset('phase', false);
     for (let k = 0; k < 5000; k++) s.step(0.016);
-    return { cold: meanY(0, 65), med: meanY(65, 130), hot: meanY(130, 195), nan: s.hasNaN(), n: s.n };
-  });
-  // 実測(beta): 5000步後の平均y 低温=76.50 中温=74.12(差2.38 — 4000〜7000步の広い範囲で
-  // 符号が一定な構造的な差) 高温=49.89(中温との差24.23)。閾値は各ギャップの実測の半分未満
-  // (低温>中温+0.5・中温>高温+10)に設定し、境界に対して余裕を持たせた
-  add('behavior.phase', !ph.nan && ph.n === 195 && ph.cold > ph.med + 0.5 && ph.med > ph.hot + 10,
-    `5000步後の平均y(+y=下): 低温=${ph.cold.toFixed(2)} 中温=${ph.med.toFixed(2)}(低温−中温=` +
-    `${(ph.cold - ph.med).toFixed(2)}>0.5) 高温=${ph.hot.toFixed(2)}(中温−高温=${(ph.med - ph.hot).toFixed(2)}>10) ` +
-    `— 低スピン層ほど底側`);
+    return { cold: meanY(0, 65), med: meanY(65, 130), hot: meanY(130, 195),
+      cC: contacts(0, 65), mC: contacts(65, 130), hC: contacts(130, 195),
+      mS: sdY(65, 130), hS: sdY(130, 195),
+      nan: s.hasNaN(), n: s.n, tint: s.thermal === 'tint' };
+  });   // tint=false の対象(root)では下の else 側=旧判定(平均yの三段順序)を使う
+  // 実測(beta 2026-07-27・tint): 5000步後 接触数/粒子 低温=2.09 / 中温=0.00 / 高温=0.00、
+  // 平均y 中温=76.95 高温=59.07(差17.9)、鉛直の広がり(標準偏差)中温=19.7 高温=133.2(6.8倍)。
+  // 閾値は 低温接触>1.0(実測の2.1倍下)・低温接触>中温接触+1.0・中温y>高温y+10(実測の1.8倍下)・
+  // 高温広がり>中温広がりの3倍(実測6.8倍 = 2.25倍の余裕)
+  // 閾値は 低温接触>0.8(5000步実測2.09=2.6倍・4000〜7000步でも最小1.08=1.35倍)・
+  // 低温接触>中温接触+0.8・中温y>高温y+10(実測17.9=1.8倍。4000步はまだ全体が落下中の過渡で
+  // 5000步以降で単調に成立)・高温広がり>中温広がりの3倍(実測6.8倍 = 2.25倍の余裕)。
+  // Wave D 未適用の対象(root=スピン=熱モード)では旧判定(平均yの三段順序)をそのまま使う
+  if (ph.tint) {
+    add('behavior.phase', !ph.nan && ph.n === 195
+      && ph.cC > 0.8 && ph.cC > ph.mC + 0.8 && ph.med > ph.hot + 10 && ph.hS > 3 * ph.mS,
+      `5000步後 接触数/粒子: 低温=${ph.cC.toFixed(2)}(>0.8・結晶化した固体) 中温=${ph.mC.toFixed(2)} ` +
+      `高温=${ph.hC.toFixed(2)} / 平均y(+y=下) 中温=${ph.med.toFixed(2)} 高温=${ph.hot.toFixed(2)}` +
+      `(差=${(ph.med - ph.hot).toFixed(2)}>10 — 液体は底に溜まり気体は沈まない) / 鉛直の広がり ` +
+      `中温=${ph.mS.toFixed(1)} 高温=${ph.hS.toFixed(1)}(${(ph.hS / ph.mS).toFixed(1)}倍>3 — 気体は箱に充満)`);
+  } else {
+    add('behavior.phase', !ph.nan && ph.n === 195 && ph.cold > ph.med + 0.5 && ph.med > ph.hot + 10,
+      `5000步後の平均y(+y=下): 低温=${ph.cold.toFixed(2)} 中温=${ph.med.toFixed(2)}(低温−中温=` +
+      `${(ph.cold - ph.med).toFixed(2)}>0.5) 高温=${ph.hot.toFixed(2)}(中温−高温=${(ph.med - ph.hot).toFixed(2)}>10) ` +
+      `— 低スピン層ほど底側(スピン=熱モード・旧判定)`);
+  }
 }
 
 {
@@ -2231,13 +2288,20 @@ if (hasDrawScale) {
 if (!FAST) {
   // 第35便 W5c: 3測定(galaxy A/B・saturn24000・convection24000)を W5C_UNITS の3ユニットへ分割し
   // ワーカーで並列実行する(判定式・閾値・detail 生成コードは変更せずそのままここに残置)。
-  const r = { ...(await w5cGetUnit('galaxyAB')), ...(await w5cGetUnit('saturn24000')), ...(await w5cGetUnit('convection24000')) };
+  const r = { ...(await w5cGetUnit('galaxyAB')), ...(await w5cGetUnit('saturn24000')), ...(await w5cGetUnit('convection8000')) };
   add('claim.galaxy-outerboost', !r.galNaN && r.galA > r.galB * 1.04,   // 台帳4-48 改名: 旧 galaxy-flatten(T4 は「外縁増強」であり平坦化を主張しない)
     `vφ外縁 kF1=${r.galA.toFixed(3)} kF0=${r.galB.toFixed(3)} 比=${(r.galA / r.galB).toFixed(3)} (>1.04)`);
   add('behavior.saturn', !r.satNaN && r.satAnn >= 0.95 && r.satDrift < 5,
     `inAnn=${(r.satAnn * 100).toFixed(1)}% drift=${r.satDrift.toFixed(1)}`);
-  add('behavior.convection', !r.convNaN && r.convCirc > 5 && r.convV > 0.3,
-    `循環=${r.convCirc.toFixed(1)} (>5) 平均|v|=${r.convV.toFixed(2)} (>0.3)`);
+  // 第36便 D(台帳4-51)再較正: 主張「床加熱・天井冷却で組織化した循環セルができる」は不変で、
+  // 評価窓を 24000步 → 8000步 に差し替え、閾値を実測に合わせて引き上げた(循環>5→15・|v|>0.3→0.5)。
+  // 理由(実測): 移行後は E10′ が熱量保存になり、13枚のヒーター(T_int=144)に対し冷却板が5枚しか
+  // ないため箱全体が長時間で等温化へ向かう。循環は 3000〜12000步で 59.6/65.1/33.6/13.4 と強く正だが、
+  // 15000步以降は弱まり符号が反転しうる(旧版は伝導そのものが散逸的で「分布した熱の捨て場」として
+  // 働いていた)。8000步窓の実測は 循環=65.1(閾値15の4.3倍)・平均|v|=1.76(閾値0.5の3.5倍)。
+  // root(スピン=熱モード)の同窓実測は 循環=18.95・平均|v|=1.353 で同じ閾値を通る
+  add('behavior.convection', !r.convNaN && r.convCirc > 15 && r.convV > 0.5,
+    `8000步: 循環=${r.convCirc.toFixed(1)} (>15) 平均|v|=${r.convV.toFixed(2)} (>0.5)`);
 
   // ---- 8b) v1.21 第9次裁定 P0-3: 内蔵 ☿mercury の実条件検証 ----
   // 説明が引用する V18〜V20 は検証専用条件のため、内蔵プリセットそのものの初期値でも
@@ -3955,6 +4019,104 @@ if (hasDrawScale) {
     await page.evaluate(() => HP.loadPreset('saturn', false));   // 後続項目のため既定プリセットへ戻す
   } else {
     console.log('SKIP radius.default-one/rmul.schema/sweep.auto-*/sweep.numeric-unchanged(対象に Wave C 未適用 — root 等)');
+  }
+}
+
+// ---- 7z5) 第36便 Wave D(台帳4-51 / A9 改訂): 温度の内部状態変数化 thermal:"tint"
+// ----      (beta 先行 — ルート対象時はスキップ)----
+{
+  const hasTint = await page.evaluate(() => typeof HP.obsTemp === 'function' && !!HP.sim.thermal);
+  if (hasTint) {
+    // ① tint.schema: 最上位キー thermal の enum クランプ(integrator と同形)と body.tInt の値域クランプ。
+    //    thermal は SYSTEM_PROMPT に載せない(AI 生成に開放しない)ので、受理してクランプするだけ
+    const sc = await page.evaluate(() => {
+      const mk = (extra, body) => Object.assign({ name: 't', description: 'thermal スキーマ検査',
+        camera: { scale: 200 }, world: { boundary: 'none', size: 0 }, physics: {},
+        bodies: [Object.assign({ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }, body || {})] }, extra);
+      const V = (o) => { const v = HP.validatePreset(o); return { ok: v.ok, p: v.preset, w: v.warnings.length }; };
+      const tint = V(mk({ thermal: 'tint' }));
+      const spin = V(mk({ thermal: 'spin' }));
+      const bad = V(mk({ thermal: 'hot' }));
+      const none = V(mk({}));
+      const tHi = V(mk({ thermal: 'tint' }, { tInt: 99999 }));
+      const tLo = V(mk({ thermal: 'tint' }, { tInt: -5 }));
+      const tOk = V(mk({ thermal: 'tint' }, { tInt: 12.5 }));
+      const tNaN = V(mk({ thermal: 'tint' }, { tInt: 'x' }));
+      // エンジン側: thermal 省略/spin では Tint を確保しない(ゼロコスト)・tint では確保する
+      const s = HP.sim;
+      s.build(mk({ thermal: 'tint' }, { tInt: 7 }));
+      const engTint = { thermal: s.thermal, has: !!s.Tint, T0: s.Tint ? s.Tint[0] : null };
+      s.build(mk({}, { tInt: 7 }));
+      const engSpin = { thermal: s.thermal, has: !!s.Tint };
+      return { tint: tint.p.thermal, spin: spin.p.thermal, bad: bad.p.thermal, badW: bad.w,
+        none: none.p.thermal, tHi: tHi.p.bodies[0].tInt, tHiW: tHi.w, tLo: tLo.p.bodies[0].tInt,
+        tOk: tOk.p.bodies[0].tInt, tOkW: tOk.w, tNaNok: tNaN.ok, engTint, engSpin };
+    });
+    add('tint.schema',
+      sc.tint === 'tint' && sc.spin === 'spin' && sc.bad === 'spin' && sc.badW === 1 && sc.none === undefined
+      && sc.tHi === 10000 && sc.tHiW === 1 && sc.tLo === 0 && sc.tOk === 12.5 && sc.tOkW === 0
+      && sc.tNaNok === false
+      && sc.engTint.thermal === 'tint' && sc.engTint.has && sc.engTint.T0 === 7
+      && sc.engSpin.thermal === 'spin' && !sc.engSpin.has,
+      `thermal: "tint"→${sc.tint} "spin"→${sc.spin} "hot"→${sc.bad}(警告${sc.badW}件) 省略→${sc.none} / ` +
+      `tInt: 99999→${sc.tHi}(警告${sc.tHiW}件) -5→${sc.tLo} 12.5→${sc.tOk}(警告${sc.tOkW}件=0) "x"→検証NG=${!sc.tNaNok} / ` +
+      `エンジン: tint で Tint 確保=${sc.engTint.has}(T=${sc.engTint.T0}) spin で未確保=${!sc.engSpin.has}`);
+
+    // ② tint.zero-cost: thermal 省略(spin モード)のプリセットは Wave D の実装前と 1 ビットも変わらない。
+    //    基準ハッシュは本便 D 着手時点(第36便 36C 完了 = f1468b1)の beta/index.html で採取した実測値で、
+    //    さらに第35便 W2 直前(ea9c8a2)でも同一であることを確認済み(= 移行しない全系統の無変更の証跡)。
+    //    形式は sweep.numeric-unchanged と同じ 300步 x,y,spin ハッシュ
+    const ZC = {
+      galaxy: ['51a8ff116ddd4aee4849a8db61a53d3ab8d9da6df8b3606cc52ed369ca853386', 381],
+      saturn: ['6e6ee844cc3cb82b4052885c8d86ccffad44f74c0b44c3da253007e398e1fb87', 301],
+      darkrotor: ['4dee00d8f2db22aadddcc8dd3186f2fd8b6048100caef1694ee7cd1167609379', 391],
+      counterring: ['29fb3cab287f4fd0301b3843575b3acf24709e687574a4135f6df135dd687f11', 201],
+      freebox: ['a9fbb51894a298af70dc7350e61f9e8fce32e10abddd2ecdafa989312260bc7d', 72],
+      echo: ['9e09d365c44a32ebd423d933eab9ea494bfb9a69a46eebd316aaf1bde1dac4d7', 31],
+    };
+    const zc = [];
+    for (const [id, [base, n]] of Object.entries(ZC)) {
+      const r = await page.evaluate((pid) => {
+        HP.loadPreset(pid, false);
+        const s = HP.sim;
+        for (let k = 0; k < 300; k++) s.step(0.016);
+        const a = [];
+        for (let i = 0; i < s.n; i++) a.push(s.x[i], s.y[i], s.spin[i]);
+        return { n: s.n, thermal: s.thermal, has: !!s.Tint, str: a.map(v => v.toExponential(12)).join(',') };
+      }, id);
+      const h = crypto.createHash('sha256').update(r.str).digest('hex');
+      zc.push({ id, ok: h === base && r.n === n && r.thermal === 'spin' && !r.has, h: h.slice(0, 8) });
+    }
+    const zbad = zc.filter(z => !z.ok).map(z => `${z.id}(${z.h})`);
+    add('tint.zero-cost', zbad.length === 0,
+      zbad.length ? `bit不一致/経路混入: ${zbad.join(' ')}`
+        : `${zc.length}件が bit 一致(300步 x,y,spin ハッシュ): ${zc.map(z => z.id).join(' ')} — 全て thermal=spin・Tint 未確保`);
+
+    // ③ tint.migrated: 移行8サンプルが thermal:"tint" を宣言し、初期の熱が spin ではなく tInt にある
+    //    (spin 初期値は 0 か微小 — 「高スピン=熱い」からの移行が漏れていないことの機械固定)
+    const mig = await page.evaluate(() => {
+      const IDS = ['gas', 'pressure', 'conduction', 'coolrace', 'phase', 'convection', 'buoyancy', 'snowline'];
+      const out = {};
+      for (const id of IDS) {
+        const p = HP.allPresets().find(q => q.id === id);
+        if (!p) { out[id] = { missing: true }; continue; }
+        HP.loadPreset(id, false);
+        const s = HP.sim;
+        let maxSpin = 0, maxT = 0;
+        for (let i = 0; i < s.n; i++) { maxSpin = Math.max(maxSpin, Math.abs(s.spin[i])); maxT = Math.max(maxT, s.Tint ? s.Tint[i] : 0); }
+        out[id] = { thermal: p.thermal, mode: s.thermal, maxSpin, maxT };
+      }
+      return out;
+    });
+    const mbad = Object.entries(mig).filter(([, v]) => v.missing || v.thermal !== 'tint' || v.mode !== 'tint'
+      || v.maxSpin > 0.5 || !(v.maxT > 0)).map(([k]) => k);
+    add('tint.migrated', mbad.length === 0,
+      mbad.length ? `未移行/初期条件が spin のまま: ${mbad.join(' ')}`
+        : Object.entries(mig).map(([k, v]) => `${k}(T≤${v.maxT}·s≤${v.maxSpin})`).join(' '));
+
+    await page.evaluate(() => HP.loadPreset('saturn', false));   // 後続項目のため既定プリセットへ戻す
+  } else {
+    console.log('SKIP tint.schema/tint.zero-cost/tint.migrated(対象に Wave D 未適用 — root 等)');
   }
 }
 
