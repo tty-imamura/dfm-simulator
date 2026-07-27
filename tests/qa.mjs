@@ -17,6 +17,11 @@ const TARGET = process.env.QA_TARGET || 'index.html';
 const INDEX = 'file://' + path.join(ROOT, TARGET);
 const OUT_DIR = path.join(ROOT, 'tests', 'out');
 const FAST = process.env.QA_FAST === '1';
+// 第35便 W5c(台帳4-45): フルQA時間短縮の並列ワーカー化。QA_SERIAL=1 で従来どおりの完全直列実行に
+// 戻せる互換スイッチ(既定=並列)。NW は QA_WORKERS で上書き可(既定4 — exp-darkrotor.mjs 226行の
+// 先行例〔4コア環境〕と同じ)。詳細設計: scratchpad/w5c-report.md。
+const QA_SERIAL = process.env.QA_SERIAL === '1';
+const W5C_NW = Math.max(1, Number(process.env.QA_WORKERS) || 4);
 
 async function getBrowser() {
   // CI: playwright(npm install でブラウザ管理)。ローカル: playwright-core + 既存 Chromium も可。
@@ -162,6 +167,321 @@ page.on('pageerror', e => pageErrors.push(String(e)));
 page.on('console', m => { if (m.type() === 'error') pageErrors.push(m.text()); });
 await page.goto(INDEX);
 await page.waitForFunction(() => window.HP && HP.sim);
+
+// ==== 第35便 W5c(台帳4-45): 重量テストのワーカー並列化 ====================================
+// 対象: claim.galaxy-outerboost(galaxy A/B・saturn24000・convection24000 の3ユニットに分割)+
+// behavior.saturnLayered / behavior.saturnExp / behavior.darkrotorLong / behavior.darkrotor /
+// behavior.buoyancy / core.twolayer / behavior.binary。各ユニットの run() は、該当する既存
+// セクションの page.evaluate(...) の中身(物理コード)を一字も変えずに切り出したもの — 判定式・
+// 閾値・detail 文字列を生成するコードは元のセクション側にそのまま残置し、そこでは
+// `const r = await getUnit('key')` のように結果を受け取るだけに置き換える(詳細は各セクションの
+// 差分参照)。QA_SERIAL=1 は本ブロックを迂回し、getUnit() が同じ run() を主ページ(page)上で
+// その場で直列実行する(=リファクタ前と同一の実行順・同一ページの経路)。
+//
+// 有効/無効の判定は、対応する既存セクションのガード式(!FAST・hasCoreEng 等)と全く同じ式を
+// ここで先読みして決める(値は対象の静的な機能有無〔プリセット定義・エンジンAPIの存在〕であり、
+// これまでの QA 実行順でも既に複数回同じ式が再評価されて一致し続けている・後段の各セクションの
+// ガード式自体は変更していない)。
+const w5cHasCoreEng = await page.evaluate(() => !!(window.HP && HP.sim && HP.sim.coreMR));
+const w5cHasIce = await page.evaluate(() =>
+  !!(window.HP && HP.allPresets().some(p => p.id === 'saturn' && /実験/.test(p.name || ''))));
+const w5cHasObs = await page.evaluate(() => !!(window.HP && HP.sim && HP.sim.obsT));
+const w5cHasV26 = await page.evaluate(() => !!document.querySelector('#aiBasePreset'));
+let w5cDrFree = false;
+if (w5cHasObs) {
+  w5cDrFree = await page.evaluate(() =>
+    HP.allPresets().find(q => q.id === 'darkrotor').bodies.every(b => !b.pinned && !b.railOmega && !b.railH));
+}
+
+// bands(behavior.darkrotorLong の環帯定義。元コード2875行と同一)
+const w5cBands = [[80, 120], [120, 160], [160, 200], [200, 240]];
+
+// weight は並列プールでのキュー順(重い順)を決めるためだけの目安値(実測 scratchpad/full-qa-beta.log
+// 由来。galaxy/saturn/convection の3分割は合算実測206.6sをO(n²·步数)比で概算按分)。判定結果には
+// 一切影響しない(スケジューリングの都合の数値)。
+const W5C_UNITS = {
+  buoyancy: { enabled: true, weight: 38, run: (pg) => pg.evaluate(() => {
+    // 🧪buoyancy 部分のみ(元7i節 1350-1361行から抽出。merger/collapse は主ページに残置)
+    const s = HP.sim;
+    HP.loadPreset('buoyancy', false);
+    for (let k = 0; k < 12000; k++) s.step(0.016);
+    let hy = 0, hc = 0, ly = 0, lc = 0;
+    for (let i = 0; i < s.n; i++) {
+      if (s.pinned[i]) continue;
+      if (s.m[i] > 1) { hy += s.y[i]; hc++; } else { ly += s.y[i]; lc++; }
+    }
+    return { buoySep: (hc ? hy / hc : 0) - (lc ? ly / lc : 0), buoyNaN: s.hasNaN() };
+  }) },
+  galaxyAB: { enabled: !FAST, weight: 62, run: (pg) => pg.evaluate(() => {
+    // 🌌 galaxy A/B 部分のみ(元8節 1916-1930行から抽出)
+    const s = HP.sim;
+    HP.loadPreset('galaxy', false);
+    HP.abStart('kFrame', 0);
+    const abG = HP.ab();
+    const outer = (sm) => { let sum = 0, c = 0;
+      for (let i = 1; i < sm.n; i++) { const r2 = Math.hypot(sm.x[i], sm.y[i]);
+        if (r2 >= 156 && r2 <= 286) { sum += (sm.x[i] * sm.vy[i] - sm.y[i] * sm.vx[i]) / r2; c++; } }
+      return c ? sum / c : 0; };
+    for (let k = 0; k < 6000; k++) { s.step(0.016); abG.simB.step(0.016); }
+    const galA = outer(s), galB = outer(abG.simB);
+    const galNaN = s.hasNaN() || abG.simB.hasNaN();
+    HP.abStop();
+    return { galA, galB, galNaN };
+  }) },
+  saturn24000: { enabled: !FAST, weight: 78, run: (pg) => pg.evaluate(() => {
+    // 🪐 saturn 24000步 部分のみ(元8節 1931-1936行から抽出)
+    const s = HP.sim;
+    HP.loadPreset('saturn', false);
+    for (let k = 0; k < 24000; k++) s.step(0.016);
+    let inAnn = 0, tot = 0;
+    for (let i = 1; i < s.n; i++) { tot++; const r2 = Math.hypot(s.x[i], s.y[i]); if (r2 > 45 && r2 < 280) inAnn++; }
+    return { satAnn: inAnn / tot, satDrift: Math.hypot(s.x[0], s.y[0]), satNaN: s.hasNaN() };
+  }) },
+  convection24000: { enabled: !FAST, weight: 66, run: (pg) => pg.evaluate(() => {
+    // ♨️ convection 24000步 部分のみ(元8節 1937-1949行から抽出)
+    const s = HP.sim;
+    HP.loadPreset('convection', false);
+    for (let k = 0; k < 24000; k++) s.step(0.016);
+    let circ = 0, sumV = 0, freeC = 0;
+    for (let i = 0; i < s.n; i++) {
+      if (s.pinned[i]) continue;
+      circ += s.x[i] * s.vy[i] - s.y[i] * s.vx[i];
+      sumV += Math.hypot(s.vx[i], s.vy[i]); freeC++;
+    }
+    return { convCirc: freeC ? circ / freeC : 0, convV: freeC ? sumV / freeC : 0, convNaN: s.hasNaN() };
+  }) },
+  saturnExp: { enabled: !FAST && w5cHasIce, weight: 107, run: (pg) => pg.evaluate(() => {
+    // 🪐(実験)の長時間安定(元8d節 2299-2311行から抽出)
+    HP.loadPreset('saturn', false);
+    const s = HP.sim;
+    for (let k = 0; k < 22500; k++) s.step(0.016);
+    let inB = 0, fall = 0, esc = 0, sum = 0;
+    for (let i = 1; i < s.n; i++) {
+      const r = Math.hypot(s.x[i], s.y[i]);
+      if (r >= 90 && r <= 290) inB++; if (r < 85) fall++; if (r > 320) esc++;
+      sum += Math.abs(s.spin[i]);
+    }
+    return { inB: inB / (s.n - 1), fall: fall / (s.n - 1), esc: esc / (s.n - 1),
+             mean: sum / (s.n - 1), nan: s.hasNaN() };
+  }) },
+  twolayerCore: { enabled: w5cHasCoreEng, weight: 19, run: (pg) => pg.evaluate(() => {
+    // 🎯 主星2層エンジン検証の走行部分のみ(元「第12〜14便」節 2366-2411行から抽出)
+    const out = {};
+    HP.loadPreset('saturnLayered', false);
+    let s = HP.sim;
+    out.preset = { n: s.n, coreMR: +s.coreMR[0].toFixed(4), coreSR: +s.coreSR[0].toFixed(4),
+      R0: s.R[0], Rc0: s.Rc[0], hasCore: s.hasCore };
+    HP.loadPreset('saturn', false); s = HP.sim;
+    for (let k = 0; k < 600; k++) s.step(0.016);
+    const base = [s.x[10], s.y[10], s.spin[10]];
+    HP.loadPreset('saturn', false); s = HP.sim;
+    s.coreMR[0] = 0.6; s.updateRadii();
+    const m0 = s.m[0], hcRigid = s.hasCore;
+    for (let k = 0; k < 600; k++) s.step(0.016);
+    const eqRigid = Math.abs(s.x[10] - base[0]) + Math.abs(s.y[10] - base[1]) + Math.abs(s.spin[10] - base[2]);
+    HP.loadPreset('saturn', false); s = HP.sim;
+    s.coreMR[0] = 0.6; s.coreSR[0] = 0; s.updateRadii();
+    for (let k = 0; k < 600; k++) s.step(0.016);
+    const restDx = Math.abs(s.x[10] - base[0]) + Math.abs(s.y[10] - base[1]);
+    HP.loadPreset('saturn', false); s = HP.sim;
+    s.coreSR[0] = 5; s.updateRadii();
+    const hcZero = s.hasCore;
+    for (let k = 0; k < 600; k++) s.step(0.016);
+    const eqZero = Math.abs(s.x[10] - base[0]) + Math.abs(s.y[10] - base[1]);
+    HP.loadPreset('saturn', false); s = HP.sim;
+    s.coreMR[0] = 0.6; s.coreSR[0] = 20; s.updateRadii();
+    for (let k = 0; k < 600; k++) s.step(0.016);
+    const effDx = Math.abs(s.x[10] - base[0]), effNan = s.hasNaN();
+    HP.loadPreset('saturn', false); s = HP.sim;
+    s.coreMR[0] = -0.6; s.coreSR[0] = 20; s.updateRadii();
+    for (let k = 0; k < 600; k++) s.step(0.016);
+    const holNan = s.hasNaN();
+    const holDx = Math.abs(s.x[10] - base[0]);
+    HP.loadPreset('saturn', false); s = HP.sim;
+    s.m[5] = -1; s.updateRadii();
+    const negR = s.R[5];
+    for (let k = 0; k < 400; k++) s.step(0.016);
+    const negNan = s.hasNaN();
+    HP.loadPreset('saturn', false);
+    return { ...out, m0, hcRigid, eqRigid, restDx, hcZero, eqZero, effDx, effNan, holDx, holNan, negR, negNan };
+  }) },
+  saturnLayered: { enabled: w5cHasCoreEng && !FAST, weight: 152, run: (pg) => pg.evaluate(() => {
+    // 🎯 既定値の長時間安定+差動効果の有界性(元「第12〜14便」節 2466-2490行から抽出)
+    const run = (rigidSc, steps) => {
+      HP.loadPreset('saturnLayered', false);
+      const s = HP.sim;
+      if (rigidSc) { s.coreSR[0] = 1; }
+      const med = (lo, hi) => { const rs = []; for (let i = lo; i <= hi; i++) rs.push(Math.hypot(s.x[i], s.y[i])); rs.sort((a, b) => a - b); return rs[Math.floor(0.5 * (rs.length - 1))]; };
+      const metric = () => {
+        let inB = 0, fall = 0, esc = 0, sum = 0;
+        for (let i = 1; i < s.n; i++) { const r = Math.hypot(s.x[i], s.y[i]);
+          if (r >= 90 && r <= 290) inB++; if (r < 85) fall++; if (r > 320) esc++;
+          sum += Math.abs(s.spin[i]); }
+        return { inB: inB / (s.n - 1), fall: fall / (s.n - 1), esc: esc / (s.n - 1),
+          mean: sum / (s.n - 1), C: med(1, 75), B: med(76, 225), A: med(226, 300), nan: s.hasNaN() };
+      };
+      const out = [];
+      for (let c = 0; c < steps.length; c++) {
+        for (let k = 0; k < steps[c]; k++) s.step(0.016);
+        out.push(metric());
+      }
+      return out;
+    };
+    const def = run(false, [9375, 13125]);
+    const noc = run(true, [9375]);
+    HP.loadPreset('saturn', false);
+    return { d150: def[0], d360: def[1], z150: noc[0] };
+  }) },
+  darkrotorMidNew: { enabled: w5cHasObs && !FAST && w5cDrFree, weight: 26, run: (pg) => pg.evaluate(() => {
+    // 🕶️ の中期安定・v4/v5(全自由系)経路(元7m節 2785-2822行から抽出)
+    const NH = HP.allPresets().find(q => q.id === 'darkrotor')
+      .bodies.filter(b => b.type === 'single').length - 1;
+    HP.loadPreset('darkrotor', false);
+    const s = HP.sim, OFF = NH + 1;
+    const hr0 = [], st0 = [];
+    for (let k = 1; k <= NH; k++) hr0.push(Math.hypot(s.x[k] - s.x[0], s.y[k] - s.y[0]));
+    for (let i = OFF; i < s.n; i++) st0.push(Math.hypot(s.x[i] - s.x[0], s.y[i] - s.y[0]));
+    let M = 0, cx0 = 0, cy0 = 0, p0x = 0, p0y = 0;
+    for (let i = 0; i < s.n; i++) { M += s.m[i]; cx0 += s.m[i] * s.x[i]; cy0 += s.m[i] * s.y[i];
+      p0x += s.m[i] * s.vx[i]; p0y += s.m[i] * s.vy[i]; }
+    cx0 /= M; cy0 /= M;
+    const pTot0 = Math.hypot(p0x, p0y);
+    for (let k = 0; k < 3000; k++) s.step(0.016);
+    const bx = s.x[0], by = s.y[0];
+    let sum = 0, c = 0, keep = 0, tot = 0, maxSpin = 0, hs = 0, haloIn = 0, haloDev = 0;
+    const rs = [];
+    for (let i = OFF; i < s.n; i++) {
+      const rx = s.x[i] - bx, ry = s.y[i] - by, r = Math.hypot(rx, ry); rs.push(r);
+      if (r >= 156 && r <= 286) { sum += (rx * (s.vy[i] - s.vy[0]) - ry * (s.vx[i] - s.vx[0])) / r; c++; }
+      if (st0[i - OFF] < 350) { tot++; if (r < 500) keep++; }
+    }
+    for (let k = 1; k <= NH; k++) { const r = Math.hypot(s.x[k] - bx, s.y[k] - by);
+      if (r > 60 && r < 400) haloIn++; hs += Math.abs(s.spin[k]);
+      haloDev = Math.max(haloDev, Math.abs(r / hr0[k - 1] - 1)); }
+    for (let i = 0; i < s.n; i++) maxSpin = Math.max(maxSpin, Math.abs(s.spin[i]));
+    rs.sort((a, b) => a - b);
+    let cx = 0, cy = 0, px = 0, py = 0;
+    for (let i = 0; i < s.n; i++) { cx += s.m[i] * s.x[i]; cy += s.m[i] * s.y[i];
+      px += s.m[i] * s.vx[i]; py += s.m[i] * s.vy[i]; }
+    return { NH, outer: c ? sum / c : 0, nOuter: c, r90: rs[Math.floor(rs.length * 0.9)],
+      haloIn, haloDev, haloSpin: hs / NH, maxSpin, bhSpin: s.spin[0],
+      keepPct: 100 * keep / tot, keep, tot, comMove: Math.hypot(cx / M - cx0, cy / M - cy0),
+      pTot0, pTotEnd: Math.hypot(px, py), nan: s.hasNaN() };
+  }) },
+  darkrotorMidOld: { enabled: w5cHasObs && !FAST && !w5cDrFree, weight: 18, run: (pg) => pg.evaluate(() => {
+    // 🕶️ の中期安定・v3(レール駆動)経路(元7m節 2841-2854行から抽出)
+    HP.loadPreset('darkrotor', false);
+    const s = HP.sim;
+    const s0 = s.spin[0];
+    for (let k = 0; k < 3000; k++) s.step(0.016);
+    let sum = 0, c = 0; const rs = [];
+    for (let i = 1; i <= 380; i++) { const r = Math.hypot(s.x[i], s.y[i]); rs.push(r);
+      if (r >= 156 && r <= 286) { sum += (s.x[i] * s.vy[i] - s.y[i] * s.vx[i]) / r; c++; } }
+    rs.sort((a, b) => a - b);
+    let inside = 0, hs = 0;
+    for (let i = 381; i < s.n; i++) { const r = Math.hypot(s.x[i], s.y[i]);
+      if (r > 60 && r < 400) inside++; hs += Math.abs(s.spin[i]); }
+    return { outer: c ? sum / c : 0, r90: rs[Math.floor(rs.length * 0.9)], inside, nHalo: s.n - 381,
+      haloSpin: hs / (s.n - 381), cSpinKeep: Math.abs(s.spin[0] - s0) < 1e-9, nan: s.hasNaN() };
+  }) },
+  darkrotorLong: { enabled: w5cHasObs && !FAST && w5cDrFree, weight: 104, run: (pg) => pg.evaluate((BANDS) => {
+    // 🕶️ v5 の有効窓検査+渦状腕の機械実証(元7m節 2876-2922行から抽出)
+    const P = HP.allPresets().find(q => q.id === 'darkrotor');
+    const NH = P.bodies.filter(b => b.type === 'single').length - 1;
+    const rotorIdx = () => { const idx = []; let k = 0;
+      for (const b of P.bodies) { if (b.type === 'single') idx.push(k);
+        k += (b.type === 'single' ? 1 : (b.n || 0)); }
+      return idx; };
+    const a2 = (s, OFF) => BANDS.map(([lo, hi]) => {
+      const bx = s.x[0], by = s.y[0];
+      let cr = 0, ci = 0, N = 0;
+      for (let i = OFF; i < s.n; i++) {
+        const dx = s.x[i] - bx, dy = s.y[i] - by, r = Math.hypot(dx, dy);
+        if (r >= lo && r < hi) { const th = Math.atan2(dy, dx);
+          cr += Math.cos(2 * th); ci += Math.sin(2 * th); N++; }
+      }
+      return { A2: N ? Math.hypot(cr, ci) / N : 0, N, noise: N ? Math.sqrt(Math.PI / (4 * N)) : 0 };
+    });
+    const run = (ctrl) => {
+      HP.loadPreset('darkrotor', false);
+      const s = HP.sim, OFF = NH + 1;
+      if (ctrl) for (const i of rotorIdx()) s.spin[i] = 0;
+      const hr0 = [], st0 = [];
+      for (let k = 1; k <= NH; k++) hr0.push(Math.hypot(s.x[k] - s.x[0], s.y[k] - s.y[0]));
+      for (let i = OFF; i < s.n; i++) st0.push(Math.hypot(s.x[i] - s.x[0], s.y[i] - s.y[0]));
+      const late = [];
+      let maxSpin = 0, lastNoise = null;
+      for (let blk = 0; blk < 12; blk++) {
+        for (let k = 0; k < 500; k++) s.step(0.016);
+        for (let i = 0; i < s.n; i++) maxSpin = Math.max(maxSpin, Math.abs(s.spin[i]));
+        const t = (blk + 1) * 500;
+        if (t >= 3000) { const z = a2(s, OFF); late.push(z.map(v => v.A2)); lastNoise = z; }
+      }
+      const bx = s.x[0], by = s.y[0];
+      let keep = 0, tot = 0, rotDev = 0, rotIn = 0;
+      for (let i = OFF; i < s.n; i++) { const r = Math.hypot(s.x[i] - bx, s.y[i] - by);
+        if (st0[i - OFF] < 350) { tot++; if (r < 500) keep++; } }
+      for (let k = 1; k <= NH; k++) { const r = Math.hypot(s.x[k] - bx, s.y[k] - by);
+        if (r > 60 && r < 400) rotIn++;
+        rotDev = Math.max(rotDev, Math.abs(r / hr0[k - 1] - 1)); }
+      const A2 = BANDS.map((_, b) => late.reduce((a, v) => a + v[b], 0) / late.length);
+      return { A2, nLate: late.length, noise: lastNoise.map(z => z.noise), nBand: lastNoise.map(z => z.N),
+        maxSpin, rotDev, rotIn, keep, tot, keepPct: 100 * keep / tot, nan: s.hasNaN(), NH, n: s.n };
+    };
+    return { on: run(false), ctrl: run(true) };
+  }, w5cBands) },
+  binary: { enabled: w5cHasV26, weight: 6, run: (pg) => pg.evaluate(() => {
+    // ⭐binary kFrame=1 の挙動(元7n節 3035-3044行から抽出)
+    HP.loadPreset('binary', false);
+    const s = HP.sim;
+    for (let k = 0; k < 3000; k++) s.step(0.016);
+    let stars = [], keep = 0, free = 0;
+    for (let i = 0; i < s.n; i++) {
+      if (s.m[i] > 100) { stars.push(i); continue; }
+      free++; if (Math.hypot(s.x[i], s.y[i]) < 400) keep++;
+    }
+    const sep = Math.hypot(s.x[stars[0]] - s.x[stars[1]], s.y[stars[0]] - s.y[stars[1]]);
+    return { sep, keep, free, nan: s.hasNaN() };
+  }) },
+};
+
+const w5cUnitKeys = Object.keys(W5C_UNITS).filter(k => W5C_UNITS[k].enabled);
+let w5cPoolPromise = null;
+const w5cUnitResults = {};
+if (!QA_SERIAL && w5cUnitKeys.length) {
+  const deferred = {};
+  for (const k of w5cUnitKeys) {
+    let resolve; w5cUnitResults[k] = new Promise(r => { resolve = r; }); deferred[k] = resolve;
+  }
+  const queue = w5cUnitKeys.slice().sort((a, b) => W5C_UNITS[b].weight - W5C_UNITS[a].weight);
+  const nw = Math.min(W5C_NW, queue.length);
+  console.log(`[W5c] 並列ワーカー起動: NW=${nw} units=[${queue.join(', ')}]`);
+  w5cPoolPromise = Promise.all(Array.from({ length: nw }, async () => {
+    const wp = await browser.newPage({ viewport: { width: 390, height: 844 } });
+    // page.no-errors との等価性確保のため、主ページと同じ収集先へ流し込む
+    wp.on('pageerror', e => pageErrors.push(String(e)));
+    wp.on('console', m => { if (m.type() === 'error') pageErrors.push(m.text()); });
+    await wp.goto(INDEX);
+    await wp.waitForFunction(() => window.HP && HP.sim);
+    while (queue.length) {
+      const k = queue.shift();
+      const t0 = Date.now();
+      const res = await W5C_UNITS[k].run(wp);
+      console.log(`  [W5c] ${k} 完了 [${((Date.now() - t0) / 1000).toFixed(1)}s]`);
+      deferred[k](res);
+    }
+    await wp.close();
+  }));
+  w5cPoolPromise.catch(e => console.error('[W5c] worker pool error:', e));
+}
+// getUnit(key): QA_SERIAL=1 なら主ページ(page)でその場で直列実行(元コードと同一経路)。
+// 並列時は事前に起動済みのワーカープールの結果を待つ(既に完了していれば即座に返る)。
+async function w5cGetUnit(key) {
+  if (QA_SERIAL) return W5C_UNITS[key].run(page);
+  return w5cUnitResults[key];
+}
+// ==== W5c ここまで(以下、既存セクション本体。各対象セクション内の該当箇所だけ getUnit() 経由に
+// ====   置き換えてあり、判定式・閾値・detail 文字列の生成コードそのものは変更していない) ========
 
 // ---- 1) HP.verify.all() ----
 for (const v of await page.evaluate(() => HP.verify.all().map(v => ({ id: v.id, pass: v.pass, detail: v.detail })))) {
@@ -1345,20 +1665,16 @@ if (hasDrawScale) {
 }
 
 // ---- 7i) v1.18 新サンプル/修正の挙動: 浮力分離・merger円盤並進・collapse初期回転 ----
+// (第35便 W5c: 🧪buoyancy の計算部分〔12000步〕は W5C_UNITS.buoyancy へ移し、ワーカーで実行する。
+// merger/collapse は元のまま主ページで直列実行 — 判定式・閾値・detail は一切変更していない)
+{
+  const rb = await w5cGetUnit('buoyancy');
+  add('behavior.buoyancy', !rb.buoyNaN && rb.buoySep > 20,
+    `分離(重-軽の平均y差)=${rb.buoySep.toFixed(1)} (>20)`);
+}
 {
   const r = await page.evaluate(() => {
     const s = HP.sim, res = {};
-    // 🧪 buoyancy: 12000步で重い粒子群が軽い粒子群より下(平均yが大きい)に分離する
-    // (掃引実測: 6000步≈20 → 12000步≈50-70 に成長し持続。12000步時点を判定)
-    HP.loadPreset('buoyancy', false);
-    for (let k = 0; k < 12000; k++) s.step(0.016);
-    let hy = 0, hc = 0, ly = 0, lc = 0;
-    for (let i = 0; i < s.n; i++) {
-      if (s.pinned[i]) continue;
-      if (s.m[i] > 1) { hy += s.y[i]; hc++; } else { ly += s.y[i]; lc++; }
-    }
-    res.buoySep = (hc ? hy / hc : 0) - (lc ? ly / lc : 0);   // >0 = 重い側が下
-    res.buoyNaN = s.hasNaN();
     // 🌠 merger: 円盤が核と同じ並進速度で生成される(bulkVx/Vy。v1.18 修正)
     // v1.24: 円盤を回転支持(kepler ≈3〜5)にしたため、有限個の回転成分のサンプリング残差
     // ≈ v/√n が平均に残る。第27便: 負荷改善で円盤 150/120 に削減 → 残差増(固定シードで
@@ -1383,8 +1699,6 @@ if (hasDrawScale) {
     res.colRMax = rMax; res.colL = L; res.colNaN = s.hasNaN();
     return res;
   });
-  add('behavior.buoyancy', !r.buoyNaN && r.buoySep > 20,
-    `分離(重-軽の平均y差)=${r.buoySep.toFixed(1)} (>20)`);
   add('merger.bulk-velocity', r.mergerDv < 0.7, `|v̄円盤−v核|=${r.mergerDv.toFixed(3)} (<0.7 — 回転サンプリング残差込み・第27便 n削減で更新)`);
   add('collapse.rotation', !r.colNaN && r.colRMax < 600 && r.colL > 0,
     `rMax=${r.colRMax.toFixed(0)} (<600) L=${r.colL.toFixed(0)} (>0)`);
@@ -1873,6 +2187,10 @@ if (hasDrawScale) {
     const paramsDiffer = HP.sim.params.kFrame === 1 && ab.simB.params.kFrame === 0;
     HP.setRunning(true);
     await new Promise(res => setTimeout(res, 800));
+    // 第35便 W5c 追補: 並列ワーカー(4-45)とのCPU競合下では 800ms で t>0.5 に届かないことが
+    // ある(実測 flake)。本テストの本旨は「両宇宙が同期して進む」ことであり 800ms は本旨では
+    // ないため、t>0.5 まで最大5秒の追い待ちを許す(負荷ゼロなら従来どおり 800ms で満了)
+    { const w0 = Date.now(); while (HP.sim.t <= 0.5 && Date.now() - w0 < 5000) await new Promise(res => setTimeout(res, 100)); }
     HP.setRunning(false);
     const bothAdvanced = HP.sim.t > 0.5 && Math.abs(HP.sim.t - ab.simB.t) < 1e-6;
     const evolvedDiff = Math.abs(HP.sim.x[5] - ab.simB.x[5]) > 1e-6; // kFrame差が軌道に効く
@@ -1911,44 +2229,9 @@ if (hasDrawScale) {
 // ---- 8) 長時間挙動: 🌌銀河平坦化(定量)と🪐土星(環残存)。QA_FAST=1 で省略 ----
 // (♨️対流の検査は v1.14 のプリセット撤去に伴い削除。検査ロジックは git 履歴 v1.13 に残る)
 if (!FAST) {
-  const r = await page.evaluate(() => {
-    const s = HP.sim, res = {};
-    // 🌌 galaxy: 主張の定量判定(v1.15 第7次裁定 P0-6)— 実プリセット・同一初期条件で
-    // kFrame=1(A)/0(B) を同時駆動し、外縁帯 r∈[156,286](=[0.6,1.1]×260)の平均接線速度を比較。
-    // 校正実験(付録N N3): 比は 3000步1.02→6000步1.08→9000步1.12 と成長し 12000步で円盤進化により
-    // 反転する。固定シードで決定論的な 6000步時点(実測1.082)を採用し、閾値は2倍マージンの >1.04
-    HP.loadPreset('galaxy', false);
-    HP.abStart('kFrame', 0);
-    const abG = HP.ab();
-    const outer = (sm) => { let sum = 0, c = 0;
-      for (let i = 1; i < sm.n; i++) { const r2 = Math.hypot(sm.x[i], sm.y[i]);
-        if (r2 >= 156 && r2 <= 286) { sum += (sm.x[i] * sm.vy[i] - sm.y[i] * sm.vx[i]) / r2; c++; } }
-      return c ? sum / c : 0; };
-    for (let k = 0; k < 6000; k++) { s.step(0.016); abG.simB.step(0.016); }
-    res.galA = outer(s); res.galB = outer(abG.simB);
-    res.galNaN = s.hasNaN() || abG.simB.hasNaN();
-    HP.abStop();
-    // 🪐 saturn(v1.17: 3環帯構成。環帯 135〜248 が全て計測環 45〜280 に収まる)
-    HP.loadPreset('saturn', false);
-    for (let k = 0; k < 24000; k++) s.step(0.016);
-    let inAnn = 0, tot = 0;
-    for (let i = 1; i < s.n; i++) { tot++; const r2 = Math.hypot(s.x[i], s.y[i]); if (r2 > 45 && r2 < 280) inAnn++; }
-    res.satAnn = inAnn / tot; res.satDrift = Math.hypot(s.x[0], s.y[0]); res.satNaN = s.hasNaN();
-    // ♨️ convection(v1.17 復活): 24000步で NaN なし・循環が正(左で上昇・右で下降=circ>0)・
-    // ガスが凍結しない。温度の床天井差は対流セルでは定常指標にならない(熱柱の頭は天井にある)
-    // ため、循環量そのものを判定する。掃引実測: circ≈50・|v|≈0.6(48000步でも circ>10 持続)
-    HP.loadPreset('convection', false);
-    for (let k = 0; k < 24000; k++) s.step(0.016);
-    let circ = 0, sumV = 0, freeC = 0;
-    for (let i = 0; i < s.n; i++) {
-      if (s.pinned[i]) continue;
-      circ += s.x[i] * s.vy[i] - s.y[i] * s.vx[i];
-      sumV += Math.hypot(s.vx[i], s.vy[i]); freeC++;
-    }
-    res.convCirc = freeC ? circ / freeC : 0;
-    res.convV = freeC ? sumV / freeC : 0; res.convNaN = s.hasNaN();
-    return res;
-  });
+  // 第35便 W5c: 3測定(galaxy A/B・saturn24000・convection24000)を W5C_UNITS の3ユニットへ分割し
+  // ワーカーで並列実行する(判定式・閾値・detail 生成コードは変更せずそのままここに残置)。
+  const r = { ...(await w5cGetUnit('galaxyAB')), ...(await w5cGetUnit('saturn24000')), ...(await w5cGetUnit('convection24000')) };
   add('claim.galaxy-outerboost', !r.galNaN && r.galA > r.galB * 1.04,   // 台帳4-48 改名: 旧 galaxy-flatten(T4 は「外縁増強」であり平坦化を主張しない)
     `vφ外縁 kF1=${r.galA.toFixed(3)} kF0=${r.galB.toFixed(3)} 比=${(r.galA / r.galB).toFixed(3)} (>1.04)`);
   add('behavior.saturn', !r.satNaN && r.satAnn >= 0.95 && r.satDrift < 5,
@@ -2296,19 +2579,8 @@ if (!FAST) {
       // 初期配置は t=300〜600 の実測分布に再設計済み(第4便)。t≈360(22500步)まで回し、
       // 帯保持・落下/散逸ゼロ・NaNなしを検査。t≈1200 の較正実測(第4便: 帯内99.3%・落下1粒・
       // 散逸0)は裁定記録第12次 §6.1 に記録済み — 閾値は t1200 時と同一のまま流用。
-      const iso = await page.evaluate(() => {
-        HP.loadPreset('saturn', false);
-        const s = HP.sim;
-        for (let k = 0; k < 22500; k++) s.step(0.016);
-        let inB = 0, fall = 0, esc = 0, sum = 0;
-        for (let i = 1; i < s.n; i++) {
-          const r = Math.hypot(s.x[i], s.y[i]);
-          if (r >= 90 && r <= 290) inB++; if (r < 85) fall++; if (r > 320) esc++;
-          sum += Math.abs(s.spin[i]);
-        }
-        return { inB: inB / (s.n - 1), fall: fall / (s.n - 1), esc: esc / (s.n - 1),
-                 mean: sum / (s.n - 1), nan: s.hasNaN() };
-      });
+      // 第35便 W5c: 計算部分は W5C_UNITS.saturnExp へ移し、ワーカーで実行する
+      const iso = await w5cGetUnit('saturnExp');
       add('behavior.saturnExp',
         !iso.nan && iso.inB >= 0.95 && iso.fall <= 0.02 && iso.esc <= 0.05 && iso.mean < 0.5,
         `t≈360: 帯内=${(iso.inB * 100).toFixed(1)}%(≥95%) 落下=${(iso.fall * 100).toFixed(1)}%(≤2%) 散逸=${(iso.esc * 100).toFixed(1)}%(≤5%) 平均|spin|=${iso.mean.toFixed(3)}(<0.5)`);
@@ -2363,53 +2635,8 @@ if (!FAST) {
 {
   const hasCoreEng = await page.evaluate(() => !!(window.HP && HP.sim && HP.sim.coreMR));
   if (hasCoreEng) {
-    const r = await page.evaluate(() => {
-      const out = {};
-      HP.loadPreset('saturnLayered', false);
-      let s = HP.sim;
-      out.preset = { n: s.n, coreMR: +s.coreMR[0].toFixed(4), coreSR: +s.coreSR[0].toFixed(4),
-        R0: s.R[0], Rc0: s.Rc[0], hasCore: s.hasCore };
-      // 🪐 基準走行(600步)
-      HP.loadPreset('saturn', false); s = HP.sim;
-      for (let k = 0; k < 600; k++) s.step(0.016);
-      const base = [s.x[10], s.y[10], s.spin[10]];
-      // (a) 剛体回転(coreSR=1)はコア比を与えても厳密等価(比率仕様の錨)
-      HP.loadPreset('saturn', false); s = HP.sim;
-      s.coreMR[0] = 0.6; s.updateRadii();   // coreSR は既定 1 のまま
-      const m0 = s.m[0], hcRigid = s.hasCore;
-      for (let k = 0; k < 600; k++) s.step(0.016);
-      const eqRigid = Math.abs(s.x[10] - base[0]) + Math.abs(s.y[10] - base[1]) + Math.abs(s.spin[10] - base[2]);
-      // (a2) コア静止(coreSR=0)は引きずりが弱まり単層と差が出る(差動形の方向性確認)
-      HP.loadPreset('saturn', false); s = HP.sim;
-      s.coreMR[0] = 0.6; s.coreSR[0] = 0; s.updateRadii();
-      for (let k = 0; k < 600; k++) s.step(0.016);
-      const restDx = Math.abs(s.x[10] - base[0]) + Math.abs(s.y[10] - base[1]);
-      // (b) coreMR=0 なら coreSR を変えても寄与なし(hasCore=false の高速パス)
-      HP.loadPreset('saturn', false); s = HP.sim;
-      s.coreSR[0] = 5; s.updateRadii();
-      const hcZero = s.hasCore;
-      for (let k = 0; k < 600; k++) s.step(0.016);
-      const eqZero = Math.abs(s.x[10] - base[0]) + Math.abs(s.y[10] - base[1]);
-      // (c) 高速コア(coreSR=20)は効く(軌道が変わる・NaNなし)
-      HP.loadPreset('saturn', false); s = HP.sim;
-      s.coreMR[0] = 0.6; s.coreSR[0] = 20; s.updateRadii();
-      for (let k = 0; k < 600; k++) s.step(0.016);
-      const effDx = Math.abs(s.x[10] - base[0]), effNan = s.hasNaN();
-      // (c2) 空洞(coreMR<0)は符号が反転した別の軌道になる(中実と異なる・NaNなし)
-      HP.loadPreset('saturn', false); s = HP.sim;
-      s.coreMR[0] = -0.6; s.coreSR[0] = 20; s.updateRadii();
-      for (let k = 0; k < 600; k++) s.step(0.016);
-      const holNan = s.hasNaN();
-      const holDx = Math.abs(s.x[10] - base[0]);
-      // (d) 負質量が NaN を出さない
-      HP.loadPreset('saturn', false); s = HP.sim;
-      s.m[5] = -1; s.updateRadii();
-      const negR = s.R[5];
-      for (let k = 0; k < 400; k++) s.step(0.016);
-      const negNan = s.hasNaN();
-      HP.loadPreset('saturn', false);
-      return { ...out, m0, hcRigid, eqRigid, restDx, hcZero, eqZero, effDx, effNan, holDx, holNan, negR, negNan };
-    });
+    // 第35便 W5c: 計算部分は W5C_UNITS.twolayerCore へ移し、ワーカーで実行する
+    const r = await w5cGetUnit('twolayerCore');
     add('core.twolayer',
       r.preset.n === 301 && r.preset.coreMR === 0.18 && Math.abs(r.preset.coreSR - 1.05) < 1e-6 &&
       r.preset.hasCore &&
@@ -2463,32 +2690,8 @@ if (!FAST) {
     // 併せて剛体回転(sc/s=1)との帯中央値差が t150 で有界(≤8)であることを確認 —
     // 差動形の効果が「説明どおり小さい摂動」の規模に収まっている事の数値化。
     if (!FAST) {
-      const bl = await page.evaluate(() => {
-        const run = (rigidSc, steps) => {
-          HP.loadPreset('saturnLayered', false);
-          const s = HP.sim;
-          if (rigidSc) { s.coreSR[0] = 1; }
-          const med = (lo, hi) => { const rs = []; for (let i = lo; i <= hi; i++) rs.push(Math.hypot(s.x[i], s.y[i])); rs.sort((a, b) => a - b); return rs[Math.floor(0.5 * (rs.length - 1))]; };
-          const metric = () => {
-            let inB = 0, fall = 0, esc = 0, sum = 0;
-            for (let i = 1; i < s.n; i++) { const r = Math.hypot(s.x[i], s.y[i]);
-              if (r >= 90 && r <= 290) inB++; if (r < 85) fall++; if (r > 320) esc++;
-              sum += Math.abs(s.spin[i]); }
-            return { inB: inB / (s.n - 1), fall: fall / (s.n - 1), esc: esc / (s.n - 1),
-              mean: sum / (s.n - 1), C: med(1, 75), B: med(76, 225), A: med(226, 300), nan: s.hasNaN() };
-          };
-          const out = [];
-          for (let c = 0; c < steps.length; c++) {
-            for (let k = 0; k < steps[c]; k++) s.step(0.016);
-            out.push(metric());
-          }
-          return out;
-        };
-        const def = run(false, [9375, 13125]);   // t150, t360
-        const noc = run(true, [9375]);           // t150(剛体回転 sc/s=1)
-        HP.loadPreset('saturn', false);
-        return { d150: def[0], d360: def[1], z150: noc[0] };
-      });
+      // 第35便 W5c: 計算部分は W5C_UNITS.saturnLayered へ移し、ワーカーで実行する
+      const bl = await w5cGetUnit('saturnLayered');
       const dMax = Math.max(Math.abs(bl.d150.C - bl.z150.C), Math.abs(bl.d150.B - bl.z150.B), Math.abs(bl.d150.A - bl.z150.A));
       add('behavior.saturnLayered',
         !bl.d360.nan && bl.d360.inB >= 0.95 && bl.d360.fall <= 0.02 && bl.d360.esc <= 0.05 && bl.d360.mean < 0.5 &&
@@ -2782,45 +2985,8 @@ if (!FAST) {
     // v3(レール駆動)は旧判定のまま(中心 pinned のスピン厳密不変・末尾ハロー20体)。
     if (!FAST) {
       if (drFree) {
-        const st = await page.evaluate(() => {
-          // 0=中心BH / 1〜NH=ダークローター / NH+1〜=恒星(索引はプリセット定義順)
-          const NH = HP.allPresets().find(q => q.id === 'darkrotor')
-            .bodies.filter(b => b.type === 'single').length - 1;
-          HP.loadPreset('darkrotor', false);
-          const s = HP.sim, OFF = NH + 1;
-          const hr0 = [], st0 = [];
-          for (let k = 1; k <= NH; k++) hr0.push(Math.hypot(s.x[k] - s.x[0], s.y[k] - s.y[0]));
-          for (let i = OFF; i < s.n; i++) st0.push(Math.hypot(s.x[i] - s.x[0], s.y[i] - s.y[0]));
-          let M = 0, cx0 = 0, cy0 = 0, p0x = 0, p0y = 0;
-          for (let i = 0; i < s.n; i++) { M += s.m[i]; cx0 += s.m[i] * s.x[i]; cy0 += s.m[i] * s.y[i];
-            p0x += s.m[i] * s.vx[i]; p0y += s.m[i] * s.vy[i]; }
-          cx0 /= M; cy0 /= M;
-          // 総運動量は **t=0 のみ** 判定する: E6′ の背景持ち分(D₀)はリザーバへ帳簿されるため
-          // 系だけを見ると |P| は保存しない(仕様。実測 0.0006→1.68(3000步)→10.28(12000步))。
-          // 走行後の健全性は「重心移動」で見るのが正しい(総質量3670に対し重心速度0.0028)。
-          const pTot0 = Math.hypot(p0x, p0y);
-          for (let k = 0; k < 3000; k++) s.step(0.016);
-          const bx = s.x[0], by = s.y[0];
-          let sum = 0, c = 0, keep = 0, tot = 0, maxSpin = 0, hs = 0, haloIn = 0, haloDev = 0;
-          const rs = [];
-          for (let i = OFF; i < s.n; i++) {
-            const rx = s.x[i] - bx, ry = s.y[i] - by, r = Math.hypot(rx, ry); rs.push(r);
-            if (r >= 156 && r <= 286) { sum += (rx * (s.vy[i] - s.vy[0]) - ry * (s.vx[i] - s.vx[0])) / r; c++; }
-            if (st0[i - OFF] < 350) { tot++; if (r < 500) keep++; }
-          }
-          for (let k = 1; k <= NH; k++) { const r = Math.hypot(s.x[k] - bx, s.y[k] - by);
-            if (r > 60 && r < 400) haloIn++; hs += Math.abs(s.spin[k]);
-            haloDev = Math.max(haloDev, Math.abs(r / hr0[k - 1] - 1)); }
-          for (let i = 0; i < s.n; i++) maxSpin = Math.max(maxSpin, Math.abs(s.spin[i]));
-          rs.sort((a, b) => a - b);
-          let cx = 0, cy = 0, px = 0, py = 0;
-          for (let i = 0; i < s.n; i++) { cx += s.m[i] * s.x[i]; cy += s.m[i] * s.y[i];
-            px += s.m[i] * s.vx[i]; py += s.m[i] * s.vy[i]; }
-          return { NH, outer: c ? sum / c : 0, nOuter: c, r90: rs[Math.floor(rs.length * 0.9)],
-            haloIn, haloDev, haloSpin: hs / NH, maxSpin, bhSpin: s.spin[0],
-            keepPct: 100 * keep / tot, keep, tot, comMove: Math.hypot(cx / M - cx0, cy / M - cy0),
-            pTot0, pTotEnd: Math.hypot(px, py), nan: s.hasNaN() };
-        });
+        // 第35便 W5c: 計算部分は W5C_UNITS.darkrotorMidNew へ移し、ワーカーで実行する
+        const st = await w5cGetUnit('darkrotorMidNew');
         add('behavior.darkrotor', !st.nan
           && st.r90 < 260 && st.outer > 2.9 && st.haloIn === 10 && st.haloDev < 0.10
           && st.haloSpin < 0.80 && st.maxSpin < 4.0 && Math.abs(st.bhSpin - 0.12) < 0.02
@@ -2838,21 +3004,8 @@ if (!FAST) {
           `/ 走行後|P|=${st.pTotEnd.toFixed(2)} は判定しない(E6′の背景持ち分がD₀リザーバへ帳簿される仕様 — ` +
           `健全性は重心移動で判定)`);
       } else {
-        const st = await page.evaluate(() => {
-          HP.loadPreset('darkrotor', false);
-          const s = HP.sim;
-          const s0 = s.spin[0];
-          for (let k = 0; k < 3000; k++) s.step(0.016);
-          let sum = 0, c = 0; const rs = [];
-          for (let i = 1; i <= 380; i++) { const r = Math.hypot(s.x[i], s.y[i]); rs.push(r);
-            if (r >= 156 && r <= 286) { sum += (s.x[i] * s.vy[i] - s.y[i] * s.vx[i]) / r; c++; } }
-          rs.sort((a, b) => a - b);
-          let inside = 0, hs = 0;
-          for (let i = 381; i < s.n; i++) { const r = Math.hypot(s.x[i], s.y[i]);
-            if (r > 60 && r < 400) inside++; hs += Math.abs(s.spin[i]); }
-          return { outer: c ? sum / c : 0, r90: rs[Math.floor(rs.length * 0.9)], inside, nHalo: s.n - 381,
-            haloSpin: hs / (s.n - 381), cSpinKeep: Math.abs(s.spin[0] - s0) < 1e-9, nan: s.hasNaN() };
-        });
+        // 第35便 W5c: 計算部分は W5C_UNITS.darkrotorMidOld へ移し、ワーカーで実行する
+        const st = await w5cGetUnit('darkrotorMidOld');
         add('behavior.darkrotor', !st.nan && st.r90 < 320 && st.outer > 1.6 && st.inside >= 17
           && st.cSpinKeep && st.haloSpin < 0.5,
           `[旧v3: レール駆動の展示系] 外縁v_φ=${st.outer.toFixed(3)}(>1.6) r90=${st.r90.toFixed(1)}(<320: 円盤非破壊) ` +
@@ -2872,55 +3025,8 @@ if (!FAST) {
       // 実測(beta v5): 本体 A2 後半平均 0.542/0.589/0.323/0.456 / 対照 0.067/0.065/0.046/0.108 /
       //   NaN なし・恒星保持 380/380(100%)・全期間 max|spin| 2.928・ローター半径偏差 17.23%。
       if (drFree) {
-        const BANDS = [[80, 120], [120, 160], [160, 200], [200, 240]];
-        const lg = await page.evaluate((BANDS) => {
-          const P = HP.allPresets().find(q => q.id === 'darkrotor');
-          const NH = P.bodies.filter(b => b.type === 'single').length - 1;
-          // ローター = type:"single" 由来の粒子(中心BH+全ローター。恒星は disk/ring 由来)
-          const rotorIdx = () => { const idx = []; let k = 0;
-            for (const b of P.bodies) { if (b.type === 'single') idx.push(k);
-              k += (b.type === 'single' ? 1 : (b.n || 0)); }
-            return idx; };
-          const a2 = (s, OFF) => BANDS.map(([lo, hi]) => {
-            const bx = s.x[0], by = s.y[0];
-            let cr = 0, ci = 0, N = 0;
-            for (let i = OFF; i < s.n; i++) {
-              const dx = s.x[i] - bx, dy = s.y[i] - by, r = Math.hypot(dx, dy);
-              if (r >= lo && r < hi) { const th = Math.atan2(dy, dx);
-                cr += Math.cos(2 * th); ci += Math.sin(2 * th); N++; }
-            }
-            // noise = 方位ランダムな N 個の A2 期待値 √(π/4N)(統計下限)
-            return { A2: N ? Math.hypot(cr, ci) / N : 0, N, noise: N ? Math.sqrt(Math.PI / (4 * N)) : 0 };
-          });
-          const run = (ctrl) => {
-            HP.loadPreset('darkrotor', false);
-            const s = HP.sim, OFF = NH + 1;
-            if (ctrl) for (const i of rotorIdx()) s.spin[i] = 0;
-            const hr0 = [], st0 = [];
-            for (let k = 1; k <= NH; k++) hr0.push(Math.hypot(s.x[k] - s.x[0], s.y[k] - s.y[0]));
-            for (let i = OFF; i < s.n; i++) st0.push(Math.hypot(s.x[i] - s.x[0], s.y[i] - s.y[0]));
-            const late = [];
-            let maxSpin = 0, lastNoise = null;
-            for (let blk = 0; blk < 12; blk++) {
-              for (let k = 0; k < 500; k++) s.step(0.016);
-              for (let i = 0; i < s.n; i++) maxSpin = Math.max(maxSpin, Math.abs(s.spin[i]));
-              const t = (blk + 1) * 500;
-              if (t >= 3000) { const z = a2(s, OFF); late.push(z.map(v => v.A2)); lastNoise = z; }
-            }
-            // late = t=3000/3500/…/6000 の 7 スナップショット(blk=5〜11)
-            const bx = s.x[0], by = s.y[0];
-            let keep = 0, tot = 0, rotDev = 0, rotIn = 0;
-            for (let i = OFF; i < s.n; i++) { const r = Math.hypot(s.x[i] - bx, s.y[i] - by);
-              if (st0[i - OFF] < 350) { tot++; if (r < 500) keep++; } }
-            for (let k = 1; k <= NH; k++) { const r = Math.hypot(s.x[k] - bx, s.y[k] - by);
-              if (r > 60 && r < 400) rotIn++;
-              rotDev = Math.max(rotDev, Math.abs(r / hr0[k - 1] - 1)); }
-            const A2 = BANDS.map((_, b) => late.reduce((a, v) => a + v[b], 0) / late.length);
-            return { A2, nLate: late.length, noise: lastNoise.map(z => z.noise), nBand: lastNoise.map(z => z.N),
-              maxSpin, rotDev, rotIn, keep, tot, keepPct: 100 * keep / tot, nan: s.hasNaN(), NH, n: s.n };
-          };
-          return { on: run(false), ctrl: run(true) };
-        }, BANDS);
+        // 第35便 W5c: 計算部分は W5C_UNITS.darkrotorLong へ移し、ワーカーで実行する
+        const lg = await w5cGetUnit('darkrotorLong');
         const armOk = lg.on.A2.every(v => v > 0.22);
         const ctrlOk = lg.ctrl.A2.every(v => v < 0.19);
         const f3 = (a) => a.map(v => v.toFixed(3)).join('/');
@@ -3031,18 +3137,8 @@ if (!FAST) {
 
     // ⑦ ⭐binary kFrame=1 の挙動: 3000步で連星が束縛(sep<350)・円盤残存 ≥95%・NaNなし
     //   (掃引実測 2026-07-25: 12000步で sep≈240・残存240/240 — 3000步はその途中経過)
-    const bi = await page.evaluate(() => {
-      HP.loadPreset('binary', false);
-      const s = HP.sim;
-      for (let k = 0; k < 3000; k++) s.step(0.016);
-      let stars = [], keep = 0, free = 0;
-      for (let i = 0; i < s.n; i++) {
-        if (s.m[i] > 100) { stars.push(i); continue; }
-        free++; if (Math.hypot(s.x[i], s.y[i]) < 400) keep++;
-      }
-      const sep = Math.hypot(s.x[stars[0]] - s.x[stars[1]], s.y[stars[0]] - s.y[stars[1]]);
-      return { sep, keep, free, nan: s.hasNaN() };
-    });
+    // 第35便 W5c: 計算部分は W5C_UNITS.binary へ移し、ワーカーで実行する
+    const bi = await w5cGetUnit('binary');
     add('behavior.binary', !bi.nan && bi.sep > 60 && bi.sep < 350 && bi.keep >= bi.free * 0.95,
       `恒星間距離=${bi.sep.toFixed(1)}(60〜350) 円盤残存=${bi.keep}/${bi.free}(≥95%) NaN=${bi.nan}`);
   } else {
@@ -3489,6 +3585,9 @@ if (TARGET.startsWith('beta/')) {
 }
 
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
+// W5c: ワーカープールの後片付け(全ユニットは既に上流の getUnit() で待ち合わせ済みのはずだが、
+// 各ワーカーの wp.close() 完了を確実に待ってから共有 browser を閉じる)
+if (w5cPoolPromise) await w5cPoolPromise;
 await browser.close();
 
 // ---- 結果JSON(コミット固定の再現記録)----

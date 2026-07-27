@@ -4,6 +4,38 @@
 2026-07-21 に分離 — ロードマップ P2 群)。新しい版が上。バージョンは `APP_VERSION`
 (index.html)と package.json の major.minor が QA `version.sync` で同期検査される。
 
+## v1.33(beta 先行 — 未リリース草案)
+
+第35便(2026-07-26): 決断事項8件の消化(4-20/4-42/4-45/4-54/4-55/4-58後半/4-61/4-62)。
+外部AI 3系統レビュー(ChatGPT/Grok/Gemini 2026-07-26)を参考資料として設計。beta SW は
+`dfm-beta-v1.33-b1`。モデルルーティング(設計=Fable/物理=Opus/UI=Sonnet/機械=Haiku)で実施。
+
+- **可逆積分器+時間の矢(4-62)**: プリセット最上位キー integrator("semi"=既定・現行と
+  厳密等価/"leapfrog"=KDK)と echoFlipAt(全粒子の v・s を一度だけ符号反転+echoRMS 公開・
+  HUD 表示)。新サンプル ⏪「時間の矢 — 巻き戻る宇宙と巻き戻らない宇宙」(空間と時間) —
+  可逆構成+leapfrog で反転後 RMS 1.3e-3 まで巻き戻り、muF=0.3 で 10.8(戻らない)・
+  semi 積分器で 0.92(709倍)。時間の矢は散逸から生まれる(T11 新設)。QA echo.* 系
+- **自由な箱(4-61)**: 新サンプル 🕊️「箱宇宙 — 自由な箱(膨張の原因)」(箱宇宙) —
+  壁64個を全て自由粒子とし膨張則 a(t) を E4 自己重力+E5′ スピン斥力から「解く」
+  (BOX_UNIVERSE §14.2)。圧力駆動で加速膨張(実測 a_eff 2.18)・kRep=0(おすすめA/B)で
+  減速膨張→再収縮。最上位キー measureBox(実測尺度因子 — universeBox と排他)+
+  ring vMode:"hubble"(群重心基準)。完全閉鎖系(帳簿厳密0)。T12 新設。QA freebox.* 系
+- **サンプル分類バッジ(4-54)**: 説明タブに classifyPreset の自動チップ(コア公理/拡張則/
+  規定背景/意味論/比較チャネル/外部駆動/閉鎖系 — ja/en)。既存の外部要素箇条書きは不変
+- **描画専用半径 drawScale(4-55)**: 最上位キー drawScale([0.4,4])— 描画のみに効き
+  物理不変(位置ハッシュ bit 一致で機械証明)。全サンプル監査の結果、主役粒子が 2px 未満の
+  8件のみ調整(gclock/grcal/mercury/projectile/boxcomoving/boxbreath/boxredshift/freebox)
+- **QA補強(4-42)**: 専用挙動QAの無かった6サンプル(boxbound/blens/gas/pressure/
+  conduction/phase)に説明文の主張を数値判定する behavior テストを追加(閾値は実測から
+  1桁の余裕・コメントに実測値を記録)
+- **スクリーンショット回帰(4-58後半)**: キャンバス限定キャプチャ→48×48 輝度グリッドを
+  tests/baseline-shots.json(コミット基準)と比較(mAD≤10/255・差分セル≤15%・SHOT_ALLOW
+  運用)。第32便の取得(前半)を比較(後半)へ完成
+- **フルQA並列化(4-45)**: 重量テストを4ワーカー並列化 — beta フル実測 923s→163s
+  (5.7倍)。QA_SERIAL=1 で従来直列へ戻せる。判定の同一性は id/pass 全件一致で機械確認
+- **多seed統計(4-20)**: tests/seeds.mjs 新設(npm run seeds — 8seed×galaxy 外縁増強/
+  darkrotor 腕振幅の統計。QA とは独立の探索スクリプト)
+
 ## v1.32(2026-07-26)— beta からルート昇格
 
 第31〜33便(箱宇宙・意味論・光子の波長状態化・🌌再設計・🕶️腕のある銀河)を
