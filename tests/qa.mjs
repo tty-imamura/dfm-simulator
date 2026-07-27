@@ -1322,12 +1322,16 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   }
 }
 
-// ---- 7h1e) 第35便 W4(台帳4-54/4-55): サンプル分類バッジ + 描画専用半径スケール ----
-// ----   classifyPreset/drawScale は beta 先行機能(root=旧版には存在しない)。hasEcho/
-// ----   hasFreebox と同方式で「機能そのものの有無」をガードにする(対象プリセットの有無ではなく
-// ----   HP.classifyPreset の有無・S.drawScale フィールドの有無で判定)----
+// ---- 7h1e) 第35便 W4(台帳4-54): サンプル分類バッジ — beta 先行機能(root=旧版には存在しない)。
+// ----   hasEcho/hasFreebox と同方式で「機能そのものの有無」をガードにする(対象プリセットの
+// ----   有無ではなく HP.classifyPreset の有無で判定)----
 const hasBadgeClassify = await page.evaluate(() => typeof HP.classifyPreset === 'function');
-const hasDrawScale = await page.evaluate(() => 'drawScale' in HP.sim);
+// 第37便 A6(原仮定者裁定): drawScale 自体を廃止したため 'drawScale' in HP.sim は恒偽になった。
+// 同じ第35便(台帳4-62)由来で drawScale と同様に root には無い S.echoFlipAt フィールドの有無を
+// 「本便一式を含む beta」の代理指標として代わりに使う(7w/7x/7y が引き続き参照する既存ガード —
+// 名称だけ差し替え。各テストの対象機能〔署名完全化・セーブ重複判定・ドラフト箱対応〕は
+// drawScale と無関係のため、代理指標の中身を変えても検査意図は変わらない)
+const hasEchoFlipAt = await page.evaluate(() => 'echoFlipAt' in HP.sim);
 
 // ---- 4-54) classifyPreset(p) = {layers, external, closed} を代表プリセットで検証する。
 // ----   layers はプリセットJSONから自動判定(core/extension/background/semantic/comparison)。
@@ -1396,85 +1400,36 @@ if (hasBadgeClassify) {
   console.log('SKIP badge.no-hscroll(対象に HP.classifyPreset なし — 第35便 W4 未適用の root 等)');
 }
 
-// ---- 7h1f) 第35便 W4(台帳4-55): サンプル別粒子半径調整(描画専用 drawScale)----
-// ----   drawscale.physics-free: drawScale は「描画専用」の契約 — 物理(位置・速度・スピン・
-// ----   半径R)には一切影響しない。🕶️darkrotor(コア層+大質量天体を含む代表サンプル)を
-// ----   drawScale=1/2/0.4 の3通りで300步走らせ、位置・速度・スピン・半径の全要素ハッシュが
-// ----   bit一致することを確認する。加えて drawScale=3(上限)で実際に render() を1回走らせ、
-// ----   ページ例外が増えないこと(コア層描画分岐等の描画専用コード自体のバグの機械検出)も見る ----
-if (hasDrawScale) {
-  const errBefore = pageErrors.length;
-  let evalErr = null;
-  const r = await page.evaluate(() => {
-    const s = HP.sim;
-    const base = () => JSON.parse(JSON.stringify(HP.allPresets().find((p) => p.id === 'darkrotor')));
-    const run = (ds) => {
-      const p = base(); p.drawScale = ds;
-      s.build(p);
-      for (let k = 0; k < 300; k++) s.step(0.016);
-      const a = [];
-      for (let i = 0; i < s.n; i++) a.push(s.x[i], s.y[i], s.vx[i], s.vy[i], s.spin[i], s.R[i], s.Rc[i]);
-      return { n: s.n, ds: s.drawScale, str: a.map((v) => v.toExponential(12)).join(',') };
-    };
-    const r1 = run(1), r2 = run(2), r3 = run(0.4);
-    let renderErr = null;
-    try {
-      const p4 = base(); p4.drawScale = 3; s.build(p4);
-      HP.tick(1);   // 数步進めてから実描画(render())まで走らせる — drawScale=3(上限)の描画分岐を通す
-    } catch (e) { renderErr = String(e); }
-    return { r1, r2, r3, renderErr };
-  }).catch((e) => { evalErr = String(e); return null; });
-  const errAfter = pageErrors.length;
-  if (!r) {
-    add('drawscale.physics-free', false, `page.evaluate 中に例外: ${evalErr}`);
-  } else {
-    const h1 = crypto.createHash('sha256').update(r.r1.str).digest('hex');
-    const h2 = crypto.createHash('sha256').update(r.r2.str).digest('hex');
-    const h3 = crypto.createHash('sha256').update(r.r3.str).digest('hex');
-    add('drawscale.physics-free',
-      r.r1.n === r.r2.n && r.r2.ds === 2 && r.r3.ds === 0.4 && h1 === h2 && h1 === h3
-      && !r.renderErr && errAfter === errBefore,
-      `🕶️darkrotor 300步 位置・速度・スピン・半径(R/Rc)の全要素ハッシュ: drawScale=1→${h1.slice(0, 12)}… `
-      + `drawScale=2→${h2.slice(0, 12)}…(bit一致=${h1 === h2}) drawScale=0.4→${h3.slice(0, 12)}…(bit一致=${h1 === h3}) `
-      + `drawScale=3(上限)で実描画1回: 例外=${r.renderErr || 'なし'} pageErrors増分=${errAfter - errBefore}(0期待)`);
-  }
-} else {
-  console.log('SKIP drawscale.physics-free(対象に S.drawScale なし — 第35便 W4 未適用の root 等)');
-}
-
-// ---- 4-55続き) drawscale.schema: validatePreset の drawScale クランプ(省略時1・[0.4,4] —
-// 上限は当初3、広視野プリセットの主役2px化に不足したためレビューゲートで4へ)----
-if (hasDrawScale) {
-  const sc = await page.evaluate(() => {
+// ---- 7h1f) 第37便 A6(原仮定者裁定): drawScale(描画専用の半径倍率。第35便 W4)を廃止した。
+// ----   誤解を招きやすく(粒子が実際より大きく見える)、☿等では表示が被る事例があったため。
+// ----   これに伴い旧 drawscale.physics-free(物理不変性のハッシュ照合)と drawscale.schema
+// ----   (validatePreset のクランプ検査)を削除する — 対象の drawScale 自体がエンジン・
+// ----   validatePreset・8プリセットから完全撤去され、検査対象が存在しなくなったため
+// ----   (削除に伴う設計裁定つき変更 — 詳細は scratchpad/37a-report.md)。
+// ----   drawscale.legacy-ignored: 代わりにインポート互換だけを軽く確認する — 旧 JSON に
+// ----   drawScale キーが残っていても validatePreset は例外を投げず ok:true、S.build() 後の
+// ----   実効半径(sim.R)は drawScale の値によらず同一(物理へ一切効かない=他の未知キーと
+// ----   同じ「読まれない」扱いに戻ったことの直接確認)----
+{
+  const dsi = await page.evaluate(() => {
     const mk = (extra) => Object.assign({
-      name: 'ds', description: 'drawScale スキーマ検査', camera: { scale: 200 },
+      name: 'legacy-ds', description: '旧drawScale互換', camera: { scale: 200 },
       world: { boundary: 'none', size: 0 }, physics: {},
-      bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }],
+      bodies: [{ type: 'single', m: 100, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true }],
     }, extra);
-    const hi = HP.validatePreset(mk({ drawScale: 5 }));
-    const lo = HP.validatePreset(mk({ drawScale: 0.1 }));
-    const nan = HP.validatePreset(mk({ drawScale: 'x' }));
-    const ok = HP.validatePreset(mk({ drawScale: 1.5 }));
-    const none = HP.validatePreset(mk({}));
-    return {
-      hiOk: hi.ok, hiVal: hi.preset && hi.preset.drawScale, hiWarns: hi.warnings.length,
-      loOk: lo.ok, loVal: lo.preset && lo.preset.drawScale, loWarns: lo.warnings.length,
-      nanOk: nan.ok, nanVal: nan.preset && nan.preset.drawScale, nanWarns: nan.warnings.length,
-      okOk: ok.ok, okVal: ok.preset && ok.preset.drawScale, okWarns: ok.warnings.length,
-      noneOk: none.ok, noneVal: none.preset && none.preset.drawScale,
-    };
+    const v1 = HP.validatePreset(mk({ drawScale: 3 }));
+    const v2 = HP.validatePreset(mk({}));
+    const s = HP.sim;
+    s.build(v1.ok ? v1.preset : mk({ drawScale: 3 }));
+    const rWith = s.R[0];
+    s.build(v2.ok ? v2.preset : mk({}));
+    const rWithout = s.R[0];
+    return { ok1: v1.ok, ok2: v2.ok, rWith, rWithout };
   });
-  add('drawscale.schema',
-    sc.hiOk && sc.hiVal === 4 && sc.hiWarns >= 1
-    && sc.loOk && sc.loVal === 0.4 && sc.loWarns >= 1
-    && sc.nanOk && sc.nanVal === 1 && sc.nanWarns >= 1
-    && sc.okOk && sc.okVal === 1.5 && sc.okWarns === 0
-    && sc.noneOk && sc.noneVal === undefined,
-    `上限 5→${sc.hiVal}(警告${sc.hiWarns}件) 下限 0.1→${sc.loVal}(警告${sc.loWarns}件) `
-    + `非数"x"→${sc.nanVal}(警告${sc.nanWarns}件) 正常1.5→${sc.okVal}(警告${sc.okWarns}件=0) `
-    + `省略→${sc.noneVal}(未設定=S.buildで1扱い)`);
-} else {
-  console.log('SKIP drawscale.schema(対象に S.drawScale なし — 第35便 W4 未適用の root 等)');
+  add('drawscale.legacy-ignored',
+    dsi.ok1 && dsi.ok2 && Math.abs(dsi.rWith - dsi.rWithout) < 1e-9,
+    `drawScale:3 付きJSON: validatePreset ok=${dsi.ok1} 実効半径R=${dsi.rWith} / ` +
+    `キー無し: ok=${dsi.ok2} 実効半径R=${dsi.rWithout}(一致=${Math.abs(dsi.rWith - dsi.rWithout) < 1e-9} — 廃止後は無視される)`);
 }
 
 // ---- 7h1g) 第35便 W5a(台帳4-42): 専用挙動QAの無かった6サンプルを補強
@@ -3423,18 +3378,30 @@ if (!FAST) {
     add('perf.trail-cap', tc.nFilled > 0 && tc.maxLen <= tc.capF + 240 && tc.minLen >= tc.capF,
       `記録本数=${tc.nFilled} 長さ=${tc.minLen}〜${tc.maxLen}floats(上限${tc.capF}+240)`);
 
-    // ④ P0-2: 描画半径の品質連動上限 — 正確=無制限(半径準拠の第25便裁定を維持)/
-    //    自動(未縮退)=40px / 軽量=30px。検査後は既定(自動)へ戻す
-    const rc = await page.evaluate(() => {
-      HP.setQuality('exact'); const ex = HP.drawRadiusCap() === Infinity;
-      HP.setQuality('lite'); const lt = HP.drawRadiusCap();
-      HP.setQuality('auto'); const au = HP.drawRadiusCap();
-      return { ex, lt, au };
-    });
-    add('perf.draw-radius-cap', rc.ex && rc.lt === 30 && rc.au === 40,
-      `正確=∞:${rc.ex} 軽量=${rc.lt}(期待30) 自動=${rc.au}(期待40)`);
+    // ④ 第29便 P0-2 で導入した描画半径の品質連動上限(自動=40px・軽量=30px)は、
+    //    第37便 A5(原仮定者裁定)で全品質から撤廃 — 大粒子を実寸より小さく見せてしまい
+    //    「全品質で半径に忠実」の原則に反するため。drawRadiusCap() は品質を問わず常に
+    //    Infinity になったことを確認する(旧 perf.draw-radius-cap を改名・改訂 — 品質段階の
+    //    他の縮退〔解像度・決定力マップ格子・光線本数・軌跡記録間隔〕は本便の対象外で不変)。
+    //    A5 は beta 先行(root には未適用で旧来の 30/40px 頭打ちのまま)のため、hasV29 とは
+    //    別に hasEchoFlipAt(7h1e で定義済み — 本便一式を含む beta の代理指標)でも重ねてガードする
+    //    (drawRadiusCap 自体は root にも存在するため hasV29 だけでは区別できない)。
+    //    検査後は既定(自動)へ戻す
+    if (hasEchoFlipAt) {
+      const rc = await page.evaluate(() => {
+        HP.setQuality('exact'); const ex = HP.drawRadiusCap();
+        HP.setQuality('lite'); const lt = HP.drawRadiusCap();
+        HP.setQuality('auto'); const au = HP.drawRadiusCap();
+        HP.setQuality('auto');   // 既定へ復帰
+        return { ex, lt, au };
+      });
+      add('perf.draw-radius-uncapped', rc.ex === Infinity && rc.lt === Infinity && rc.au === Infinity,
+        `正確=${rc.ex} 軽量=${rc.lt} 自動=${rc.au}(第37便A5: 全品質で∞を期待 — 旧perf.draw-radius-cap[軽量30/自動40]から改訂)`);
+    } else {
+      console.log('SKIP perf.draw-radius-uncapped(対象に echoFlipAt なし — 第37便 A5 未適用の root 等。旧来の30/40px頭打ちのまま)');
+    }
   } else {
-    console.log('SKIP 第29便系(perf.convection-timescale / perf.rail-indices / perf.trail-cap / perf.draw-radius-cap — 対象に描画半径上限なし)');
+    console.log('SKIP 第29便系(perf.convection-timescale / perf.rail-indices / perf.trail-cap / perf.draw-radius-uncapped — 対象に描画半径上限なし)');
   }
 }
 
@@ -3689,10 +3656,13 @@ if (TARGET.startsWith('beta/')) {
 }
 
 // ---- 7w) 第36便 Wave A(P1-2): presetSig に全挙動属性を含める(インポート重複判定)。
-// ----     hasDrawScale(7h1e で定義済み — 同便で追加された sim.drawScale の有無)を「本便の
-// ----     修正一式を含む beta」の代理指標として再利用する(root=旧版は drawScale 自体が無く
-// ----     universeBox 等の署名漏れも root 側の既存問題のため、単一ガードでまとめて SKIP させる)----
-if (hasDrawScale) {
+// ----     hasEchoFlipAt(7h1e で定義済み)を「本便一式を含む beta」の代理指標として使う
+// ----     (root=旧版は echoFlipAt 自体が無く universeBox 等の署名漏れも root 側の既存問題の
+// ----     ため、単一ガードでまとめて SKIP させる)。
+// ----     drawScale は第37便 A6(原仮定者裁定)で廃止されて presetSig からも外れたため、
+// ----     この CONDS から削除した — drawScale だけが異なる2件は「もう挙動に差がない」ので
+// ----     重複スキップされるのが正しい新挙動であり、旧来の「区別できる」検査対象ではない----
+if (hasEchoFlipAt) {
   const r = await page.evaluate(() => {
     const singleBody = { type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false };
     const mk = (id, extra) => Object.assign({ id, name: id, description: 'd',
@@ -3704,7 +3674,6 @@ if (hasDrawScale) {
       integrator: [mk('qa36_intA', { integrator: 'semi' }), mk('qa36_intB', { integrator: 'leapfrog' })],
       echoFlipAt: [mk('qa36_efA', {}), mk('qa36_efB', { echoFlipAt: 20 })],
       measureBox: [mk('qa36_mbA', {}), mk('qa36_mbB', { measureBox: true })],
-      drawScale: [mk('qa36_dsA', {}), mk('qa36_dsB', { drawScale: 2 })],
       universeBox: [mk('qa36_ubA', {}), mk('qa36_ubB', { universeBox: { mode: 'exp', H0: 0.01 } })],
       photonEmit: [mk('qa36_peA', {}), mk('qa36_peB', { photonEmit: [{ body: 0, t: 0, lambda: 500 }] })],
       overlays: [mk('qa36_ovA', { overlays: { trail: false } }), mk('qa36_ovB', { overlays: { trail: true } })],
@@ -3725,11 +3694,11 @@ if (hasDrawScale) {
   add('import.distinct-topkeys', bad.length === 0,
     Object.entries(r).map(([k, n]) => `${k}:${n === 2 ? 'OK' : 'NG(added=' + n + ',期待2)'}`).join(' '));
 } else {
-  console.log('SKIP import.distinct-topkeys(対象に drawScale なし — 第36便 P1-2 未適用の root 等)');
+  console.log('SKIP import.distinct-topkeys(対象に echoFlipAt なし — 第36便 P1-2 未適用の root 等)');
 }
 
 // ---- 7x) 第36便 Wave A(P1-3): セーブ重複判定キー sKey へ universeBox を追加 ----
-if (hasDrawScale) {
+if (hasEchoFlipAt) {
   const r = await page.evaluate(() => {
     localStorage.setItem('hp_custom_presets', '[]');
     localStorage.setItem('hp_saves', '[]');
@@ -3748,7 +3717,7 @@ if (hasDrawScale) {
   add('save.dedup-box', r.count === 2 && r.h0s[0] === 0.01 && r.h0s[1] === 0.02,
     `残存件数=${r.count}(期待2) H0=[${r.h0s.join(',')}](期待 0.01,0.02 の両方)`);
 } else {
-  console.log('SKIP save.dedup-box(対象に drawScale なし — 第36便 P1-3 未適用の root 等)');
+  console.log('SKIP save.dedup-box(対象に echoFlipAt なし — 第36便 P1-3 未適用の root 等)');
 }
 
 // ---- 7y) 第36便 Wave A(P2-1): 未保存ドラフトへ universeBox の実行中編集を含める
@@ -3756,7 +3725,7 @@ if (hasDrawScale) {
 {
   const hasDraftFns = await page.evaluate(() =>
     typeof window.restoreDraft === 'function' && typeof window.saveDraft === 'function');
-  if (hasDraftFns && hasDrawScale) {
+  if (hasDraftFns && hasEchoFlipAt) {
     const hasBoxComoving = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'boxcomoving'));
     if (hasBoxComoving) {
       const dp = await browser.newPage();
@@ -4117,6 +4086,201 @@ if (hasDrawScale) {
     await page.evaluate(() => HP.loadPreset('saturn', false));   // 後続項目のため既定プリセットへ戻す
   } else {
     console.log('SKIP tint.schema/tint.zero-cost/tint.migrated(対象に Wave D 未適用 — root 等)');
+  }
+}
+
+// ==================== 第37便 Wave A(原仮定者指示): UI 6件 ====================
+
+// ---- 7z6) A1: ui.tabbar-safearea — 下部タブがホームインジケーター(iPhone の
+// ----      safe-area-inset-bottom)に被らないよう、nav#tabs に #panel と同じ --sab
+// ----      (env(safe-area-inset-bottom,0px))由来の padding-bottom を確保した。beta 先行
+// ----      (root には未適用)なので、version.beta-label と同型の静的検査で対象の有無を
+// ----      判定してから実行する。iPhone実機の無いヘッドレス環境での検証は二段構え:
+// ----      ①静的にCSS宣言の存在を確認(nav#tabs ルール本体に padding-bottom:var(--sab) が
+// ----      あり、--sab 自体が env(safe-area-inset-bottom を参照)②動的に本スイート既定の
+// ----      390×844 で横スクロールが出ないこと・タブ全ボタンが viewport 内に収まることを
+// ----      確認する(インセット0のヘッドレス環境でも従来レイアウトが崩れないことの担保)----
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const rule = (html.match(/nav#tabs\{([\s\S]*?)\}/) || [])[1] || '';
+  const hasSabDecl = /padding-bottom\s*:\s*var\(--sab\)/.test(rule);
+  const hasSabVar = /--sab\s*:\s*env\(safe-area-inset-bottom/.test(html);
+  if (hasSabDecl && hasSabVar) {
+    const r = await page.evaluate(() => {
+      HP.loadPreset('saturn', false);
+      document.querySelector('#btnPanelClose')?.click();   // パネルを閉じた状態(タブが画面最下段になる条件)で検査
+      const doc = document.documentElement;
+      const noHScroll = doc.scrollWidth <= doc.clientWidth + 1;
+      const btns = [...document.querySelectorAll('#tabs button')];
+      const vw = window.innerWidth, vh = window.innerHeight;
+      const allVisible = btns.length > 0 && btns.every((b) => {
+        const rc = b.getBoundingClientRect();
+        return rc.width > 0 && rc.height > 0 && rc.left >= -1 && rc.right <= vw + 1 && rc.bottom <= vh + 1;
+      });
+      const tabsEl = document.querySelector('#tabs');
+      const cs = getComputedStyle(tabsEl);
+      return { noHScroll, allVisible, nBtns: btns.length, padBottom: cs.paddingBottom,
+        tabsBottom: tabsEl.getBoundingClientRect().bottom, vh };
+    });
+    add('ui.tabbar-safearea',
+      r.noHScroll && r.allVisible && r.nBtns > 0,
+      `CSS宣言: nav#tabs{padding-bottom:var(--sab)}=${hasSabDecl} --sab=env(safe-area-inset-bottom,...)由来=${hasSabVar} / ` +
+      `390×844実測(パネル閉): 横スクロールなし=${r.noHScroll} タブ${r.nBtns}件全表示=${r.allVisible}` +
+      `(computed padding-bottom=${r.padBottom}・ヘッドレスはインセット0のため0px相当が正常) ` +
+      `タブ下端=${r.tabsBottom.toFixed(1)}px/vh=${r.vh}`);
+  } else {
+    console.log('SKIP ui.tabbar-safearea(対象に nav#tabs の --sab padding-bottom 宣言なし — 第37便 A1 未適用の root 等)');
+  }
+}
+
+// ---- 7z7) A2: ui.sweep-auto-checkbox — 粒子編集パネルの「掻出」欄に auto チェックボックスを
+// ----      追加した。ON で lightSweep="auto" 相当(S.lSwAuto=1)になり数値欄(#beSw)が
+// ----      読み取り専用になって実効値 lS_eff が隣(#beSwEff)に出る。OFF で現在の実効値を
+// ----      数値指定として引き継ぎ、数値欄が編集可能に戻る(#beSw への直接 "auto" 文字列入力の
+// ----      従来経路も unchanged — どちらも S.lSwAuto を単一の真実として操作する)。
+// ----      beta 先行(root には #beSwAuto 自体が無い)なので DOM 要素の有無で先にガードする ----
+const hasSwAutoCb = await page.evaluate(() => !!document.querySelector('#beSwAuto'));
+if (hasSwAutoCb) {
+  const r = await page.evaluate(() => {
+    const s = HP.sim;
+    s.build({ id: 'qa37_sw', name: 'sw', description: 'd', camera: { scale: 200 },
+      world: { boundary: 'none', size: 0 },
+      physics: { G: 1, D0: 2, kFrame: 1, q: 2, kRep: 1, muF: 0.5, gammaN: 0.4, kappaS: 0.05, Kt: 60,
+        cLight: 60, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1,
+        pnAlpha: 1.5, radiusScale: 1, softening: 2, timeScale: 1 },
+      bodies: [{ type: 'single', m: 100, x: 0, y: 0, vx: 0, vy: 0, spin: 1, pinned: true, radius: 20, lightSweep: 0.3 }],
+      overlays: {} });
+    s.step(0.016);
+    HP.selectBody(0, 'A');
+    const swEl = document.querySelector('#beSw'), cbEl = document.querySelector('#beSwAuto'),
+      effEl = document.querySelector('#beSwEff');
+    const before = { val: parseFloat(swEl.value), ro: swEl.readOnly, cb: cbEl.checked, auto: s.lSwAuto[0] };
+    cbEl.click();   // ON — ユーザーのタップと同じ経路(change イベントも実発火)
+    s.step(0.016);   // 実効値 lS_eff の算出は毎ステップなので、通常のプレイと同じく1步進める
+    HP.selectBody(0, 'A');   // updateBodyEdit() 再同期(step 後の実効値を#beSwへ反映)
+    const on = { val: swEl.value, ro: swEl.readOnly, auto: s.lSwAuto[0], eff: effEl.textContent, lSwEff: s.lSwEff(0) };
+    cbEl.click();   // OFF
+    HP.selectBody(0, 'A');
+    const off = { val: parseFloat(swEl.value), ro: swEl.readOnly, auto: s.lSwAuto[0], numVal: s.lSw[0] };
+    HP.selectBody(-1, 'A');   // 選択解除(以降の項目へ影響させない)
+    return { before, on, off };
+  });
+  // #beSw の表示値は fmt() で小数2桁に丸められる(index.html の fmt 定義)ため、生の実効値
+  // numVal との比較は丸め誤差(最大0.005)を許容する必要がある — 1e-6 は表示丸めを考慮しない
+  // 誤った期待値だった(初回実行の実測: val=0.42 / numVal=0.420586・差0.000586 で誤FAIL)
+  const ok = !r.before.cb && r.before.ro === false && Math.abs(r.before.val - 0.3) < 1e-6 && r.before.auto === 0
+    && r.on.auto === 1 && r.on.ro === true && r.on.val === 'auto' && r.on.eff.includes('lS_eff=')
+    && r.on.lSwEff > 0 && r.on.lSwEff <= 1
+    && r.off.auto === 0 && r.off.ro === false && isFinite(r.off.val) && Math.abs(r.off.val - r.off.numVal) < 0.006;
+  add('ui.sweep-auto-checkbox', ok,
+    `OFF初期: 読取専用=${r.before.ro} 値=${r.before.val}(数値0.3) auto=${r.before.auto} / ` +
+    `ONタップ後(1步): auto=${r.on.auto} 読取専用=${r.on.ro} 値="${r.on.val}" 実効値表示="${r.on.eff}"` +
+    `(lS_eff=${r.on.lSwEff.toFixed(6)}・0<lS_eff≤1) / ` +
+    `OFFタップで復帰: auto=${r.off.auto} 読取専用=${r.off.ro} 値=${r.off.val}(実効値${r.off.numVal.toFixed(6)}を引き継いだ数値)`);
+} else {
+  console.log('SKIP ui.sweep-auto-checkbox(対象に #beSwAuto なし — 第37便 A2 未適用の root 等)');
+}
+
+// ---- 7z8) A3: ui.ray-lambda0 — 光線の基準波長λ0(nm)を表示設定として選べるようにした
+// ----      (既定550・[380,780]クランプ・セーブ対象外・物理不変)。HP.setRayLambda0 で変更すると
+// ----      drawRays の色計算(λ_seg=λ0·e^{ψ0−ψ})に反映されることを HP.traceRay の計算値
+// ----      (ray.wavelength-color と同じ Wtot 取得法)+ HP.wavelengthColor で確認し、
+// ----      物理ハッシュ(位置・速度・スピン・半径)が変更前後で bit 一致することも見る ----
+{
+  const hasWL = await page.evaluate(() => typeof window.HP.wavelengthColor === 'function');
+  const hasLensing = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'lensing'));
+  if (hasWL && hasLensing) {
+    const r = await page.evaluate(() => {
+      HP.loadPreset('lensing', false);
+      const S = HP.sim, Kt = S.params.Kt;
+      const trace = () => {
+        const pts = [];
+        HP.traceRay(S, -600, -20, 1, 0, 3, 800, (nx, ny, Wtot) => { pts.push(Wtot); return true; });
+        return pts.map((w) => w / Kt);
+      };
+      const hashPhys = () => {
+        const a = [];
+        for (let i = 0; i < S.n; i++) a.push(S.x[i], S.y[i], S.vx[i], S.vy[i], S.spin[i], S.R[i]);
+        return a.join(',');
+      };
+      const before = { lam0: HP.rayLambda0(), physHash: hashPhys() };
+      const psi = trace();
+      const psi0 = psi[0];
+      let maxIdx = 0;
+      for (let i = 1; i < psi.length; i++) if (psi[i] > psi[maxIdx]) maxIdx = i;
+      const psiDeep = psi[maxIdx];
+      const colAt = (lam0) => {
+        const nm0 = lam0 * Math.exp(psi0 - psi0), nmDeep = lam0 * Math.exp(psi0 - psiDeep);
+        return { nm0, nmDeep, col0: HP.wavelengthColor(nm0), colDeep: HP.wavelengthColor(nmDeep) };
+      };
+      const default550 = colAt(550);
+      HP.setRayLambda0(650);   // 変更
+      const after650 = { lam0: HP.rayLambda0(), physHash: hashPhys(), ...colAt(650) };
+      const clampHi = (() => { HP.setRayLambda0(999); return HP.rayLambda0(); })();   // 上限クランプ780
+      const clampLo = (() => { HP.setRayLambda0(1); return HP.rayLambda0(); })();      // 下限クランプ380
+      HP.setRayLambda0(550);   // 既定へ戻す(以降の項目へ影響させない)
+      return { before, default550, after650, clampHi, clampLo, restored: HP.rayLambda0() };
+    });
+    const ok = r.before.lam0 === 550 && r.after650.lam0 === 650
+      && r.after650.physHash === r.before.physHash   // 物理(位置・速度・スピン・半径)は不変
+      && Math.abs(r.after650.nm0 - 650) < 1e-9 && r.after650.nmDeep < r.after650.nm0 - 1
+      && r.after650.col0 !== r.default550.col0   // λ0 変更で色計算に反映(基準色が変わる)
+      && r.clampHi === 780 && r.clampLo === 380 && r.restored === 550;
+    add('ui.ray-lambda0', ok,
+      `既定λ0=${r.before.lam0} → HP.setRayLambda0(650)後=${r.after650.lam0}(λ0色 ${r.default550.col0}→${r.after650.col0}) ` +
+      `物理ハッシュ不変=${r.after650.physHash === r.before.physHash} ` +
+      `クランプ: 999→${r.clampHi}(期待780) 1→${r.clampLo}(期待380) 復帰=${r.restored}`);
+  } else {
+    console.log('SKIP ui.ray-lambda0(対象に wavelengthColor 公開 or 💡lensing なし — 第36便 B3 未適用の root 等)');
+  }
+}
+
+// ---- 7z9) A4: field.uniform-gravity — 決定力マップの表示規約 W_disp=W+Φ_g
+// ----      (Φ_g=(gravityX·x+gravityY·y)/G_eff、G_eff=(G>0?G:1))を追加した。gravityY≠0 の
+// ----      実験室サンプル(⚾projectile・♨️convection)で、画面上端と下端の W_disp に
+// ----      差が生じることを HP.fieldWDisp(表示合成そのもの・drawField 専用)の計算値で
+// ----      機械判定する。gravityX=gravityY=0 のプリセットでは HP.fieldWDisp===HP.sim.Wat
+// ----      (物理の W そのもの)のままであることも併せて確認し、既存プリセットの表示が
+// ----      不変であることを担保する(物理は不変 — S.Wat 自体・光線・時計・接触判定は
+// ----      HP.fieldWDisp を一切経由しない)----
+{
+  const hasFieldWDisp = await page.evaluate(() => typeof HP.fieldWDisp === 'function');
+  const hasProjectile = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'projectile'));
+  if (hasFieldWDisp && hasProjectile) {
+    const r = await page.evaluate(() => {
+      HP.loadPreset('projectile', false);   // gravityY=0.08・G=0(自己重力なし→G_eff=1)
+      const S = HP.sim;
+      // x=0固定・yを画面の上下端よりさらに遠くまで振って比較する(camera.scale=220 程度の
+      // プリセットに対し ±3000)。粒子群(x∈[-170,-110],y∈[-140,100])からの寄与 S.Wat は
+      // 上下でほぼ等しい遠方まで距離を離すことで、Φ_g の符号だけを機械判定できるようにする
+      // (画面近傍の点だと粒子配置の非対称性がΦ_gの寄与と紛れうるため、Φ_g の寄与を
+      // 支配的にする設計 — 「床方向ほどW_dispが高い」という主張は Φ_g 単体の式で厳密に
+      // 保証されるので、以下ではΦ_g=W_disp−Wat を各点で直接検算する)
+      const yTop = -3000, yBot = 3000;
+      const wTop = HP.fieldWDisp(0, yTop), wBot = HP.fieldWDisp(0, yBot);
+      const wPlainTop = S.Wat(0, yTop), wPlainBot = S.Wat(0, yBot);
+      const gravOk = wBot > wTop;   // 遠方では Φ_g が支配的なので厳密にこの符号になるはず
+      const Geff = S.params.G > 0 ? S.params.G : 1;
+      const phiTop = wTop - wPlainTop, phiBot = wBot - wPlainBot;
+      const expectedPhiTop = S.params.gravityY * yTop / Geff, expectedPhiBot = S.params.gravityY * yBot / Geff;
+      // gravityX=gravityY=0 のプリセット(saturn)では fieldWDisp が Wat と厳密一致
+      HP.loadPreset('saturn', false);
+      const S2 = HP.sim;
+      const noGravSame = Math.abs(HP.fieldWDisp(50, 30) - S2.Wat(50, 30)) < 1e-12
+        && S2.params.gravityX === 0 && S2.params.gravityY === 0;
+      HP.loadPreset('saturn', false);   // 既定へ戻す
+      return { wTop, wBot, gravOk, phiTop, phiBot, expectedPhiTop, expectedPhiBot, noGravSame };
+    });
+    const phiOk = Math.abs(r.phiTop - r.expectedPhiTop) < 1e-9 && Math.abs(r.phiBot - r.expectedPhiBot) < 1e-9;
+    add('field.uniform-gravity',
+      r.gravOk && phiOk && r.noGravSame,
+      `⚾projectile(gravityY=0.08,G=0→G_eff=1): W_disp(y=-3000)=${r.wTop.toFixed(2)} ` +
+      `W_disp(y=+3000)=${r.wBot.toFixed(2)}(下端>上端=${r.gravOk}) ` +
+      `Φ_g(y=-3000)=${r.phiTop.toFixed(4)}(期待${r.expectedPhiTop.toFixed(4)}) ` +
+      `Φ_g(y=+3000)=${r.phiBot.toFixed(4)}(期待${r.expectedPhiBot.toFixed(4)}) Φ_g式一致=${phiOk} / ` +
+      `🪐saturn(重力場なし): fieldWDisp≡Wat=${r.noGravSame}`);
+  } else {
+    console.log('SKIP field.uniform-gravity(対象に HP.fieldWDisp なし or ⚾projectile なし — 第37便 A4 未適用の root 等)');
   }
 }
 

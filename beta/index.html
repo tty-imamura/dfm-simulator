@@ -83,7 +83,11 @@
   #transport button:active{background:#26305e;}
   #btnPlay.playing{background:#20315f;border-color:var(--acc);}
   #speedSel{flex:0 0 84px;}
-  nav#tabs{display:flex;background:var(--panel);border-top:1px solid var(--line);flex:0 0 auto;}
+  /* 第37便 A1(原仮定者指示): パネル未展開時は下部タブが画面最下段になり、ホームインジケーター
+     (iPhone の safe-area-inset-bottom)に被る。#panel と同じ --sab(env(safe-area-inset-bottom))を
+     paddingで確保する — 非対応環境/インセット0の端末では現行と厳密に同じ見た目のまま */
+  nav#tabs{display:flex;background:var(--panel);border-top:1px solid var(--line);flex:0 0 auto;
+    padding-bottom:var(--sab);}
   nav#tabs button{flex:1;min-height:44px;background:none;border:none;border-top:2px solid transparent;
     color:var(--dim);font-size:calc(12.5px*var(--uz,1));font-weight:600;touch-action:manipulation;}
   nav#tabs button.on{color:var(--fg);border-top-color:var(--acc);background:var(--panel2);}
@@ -219,7 +223,9 @@
         <label id="beLrr" style="min-width:30px">Rc/R</label><input type="text" id="beRr" inputmode="decimal" autocomplete="off"></div>
       <div class="beRow"><label id="beLot">To×</label><input type="text" id="beOt" inputmode="decimal" autocomplete="off">
         <label id="beLoc" style="min-width:30px">TcO×</label><input type="text" id="beOc" inputmode="decimal" autocomplete="off"></div>
-      <div class="beRow"><label id="beLsw" style="min-width:34px">掻出</label><input type="text" id="beSw" inputmode="decimal" autocomplete="off"><span id="beSwEff" style="flex:1;font-size:11px;opacity:.8;padding-left:6px"></span></div>
+      <!-- 第37便 A2(原仮定者指示): 「auto」チェックボックス — ON で lightSweep="auto" を設定し
+           数値欄を読み取り専用にして隣に実効値 lS_eff を表示する。OFF は従来の数値入力に戻る -->
+      <div class="beRow"><label id="beLsw" style="min-width:34px">掻出</label><input type="text" id="beSw" inputmode="decimal" autocomplete="off"><label id="beLswAuto" style="min-width:0;flex:0 0 auto;margin-left:2px">auto</label><input type="checkbox" id="beSwAuto"><span id="beSwEff" style="flex:1;font-size:11px;opacity:.8;padding-left:6px"></span></div>
       <div class="beRow"><label id="beLvx">vx</label><input type="text" id="beVx" inputmode="text" autocomplete="off">
         <label id="beLvy">vy</label><input type="text" id="beVy" inputmode="text" autocomplete="off"></div>
       <div class="beRow"><label id="beLp" style="flex:1">固定(pinned)</label><input type="checkbox" id="bePin"></div>
@@ -441,6 +447,9 @@ ja: {
   tgTrailsDesc:"画面を消さずに粒子の残像を重ねる表示効果。物理には影響しない。",
   tgTrailLineDesc:"粒子の軌道を線で記録して描く(☿の楕円歳差など)。記録間隔は描画品質に従う。",
   tgFieldDesc:"決定力 W の強さを背景の色マップで表示(A3/E1′)。明るいほど W が高い。",
+  // 第37便 A3(原仮定者指示): 光線の基準波長λ0(表示専用・セーブ対象外・物理不変)
+  rayLambda0Label:"光線の基準波長 λ0(nm)",
+  rayLambda0Desc:"光線のセグメント色は λ_seg=λ0·e^{ψ0−ψ}(第36便 B3)で決まる。λ0はその基準値(既定550nm・可視域380〜780に制限)。表示設定のみで、保存・物理計算には一切影響しない。",
   tgRaysDesc:"光線束(E8R)を表示。光は ψ=W/Kt で屈折し、決定フレーム u に運ばれる(A11)。光線のないサンプルでも既定の平行光束を点灯できる。",
   tgCurveDesc:"右下に回転曲線(半径ごとの接線速度)を表示。点線はバリオン実加速度基準 v_bar(r)(質量分布だけから期待される回転)。",
   tgTempDesc:"温度ヒストグラム(左右比較)。表示は観測温度 T_obs=To×·(1−掻出)·T。",
@@ -456,7 +465,7 @@ ja: {
   beDr:"R: 半径。慣性I=½mR²・接触・引きずり減衰(R/(R+d))^q・温度・扁平率f=5s²R³/(4Gm)に使用。既定はradiusScale·rMul·√|m|(rMulは粒子ごとの倍率・既定1)。",
   beDrr:"Rc/R: コア半径比。コアの引きずり到達距離を決める。既定は√|mc/m|相当。",
   beDot:"To×: 観測温度係数。観測温度T_obs=To×·(1−掻出)·T(表示のみ — 力学不変)。",
-  beDsw:"掻出: 光掻き出し(0〜1)。自星の光を外に出さない — 観測温度0で見掛けは冷たく、放射冷却も(1−掻出)倍(ダークローター)。autoと入力すると粒子のスピン・半径から lS_eff=min(1,|s|R/c_surf) を毎ステップ算出する。",
+  beDsw:"掻出: 光掻き出し(0〜1)。自星の光を外に出さない — 観測温度0で見掛けは冷たく、放射冷却も(1−掻出)倍(ダークローター)。autoと入力すると粒子のスピン・半径から lS_eff=min(1,|s|R/c_surf) を毎ステップ算出する。第37便: 隣の「auto」チェックボックスをONにしても同じ効果で、数値欄が読み取り専用になり実効値lS_effを表示する。",
   beDoc:"TcO×: コア観測温度比率。Tc_obs=TcO×·(1−掻出)·Ic·sc²(表示のみ)。",
   beDv:"vx/vy: 速度成分。慣性は局所フレームuに対して働く(A5)。",
   beDp:"固定: 位置・速度・スピンを外部拘束で固定(力・トルクを受けない)。反作用はリザーバへ帳簿(A13)。",
@@ -468,6 +477,7 @@ ja: {
   panelClose:"✕ 閉じる",
   beTitle:"選択粒子の編集", bePinned:"固定(pinned)",
   beLsw:"掻出",   // 第22便: 光掻き出し(lightSweep)ラベル
+  beLswAuto:"自動",   // 第37便 A2(原仮定者指示): 掻出autoの可視化チェックボックス
   beNote:"※編集は即時反映。⏮初めからで初期値に戻ります。",
   savesHeadSave:"現在のパラメータを保存", savesHeadList:"保存一覧", savesHeadBackup:"バックアップ",
   saveNamePh:"名前(例: 環が安定する設定)", saveCommentPh:"コメント(例: muFを0.8にすると円形化が速い)",
@@ -607,6 +617,9 @@ en: {
   tgTrailsDesc:"Overlays fading afterimages of the particles. Display only — physics unchanged.",
   tgTrailLineDesc:"Records and draws orbit lines (e.g. Mercury's precessing ellipse). Recording interval follows render quality.",
   tgFieldDesc:"Background color map of the determinacy W (A3/E1'). Brighter = higher W.",
+  // 第37便 A3: ray base wavelength lambda0 (display only, not saved, physics-free)
+  rayLambda0Label:"Ray base wavelength λ0 (nm)",
+  rayLambda0Desc:"Ray segment color follows λ_seg=λ0·e^{ψ0−ψ} (36th flight B3). λ0 is that reference value (default 550nm, clamped to the visible range 380-780). Display setting only — not saved and never affects physics.",
   tgRaysDesc:"Shows the light-ray bundle (E8R). Rays refract via psi=W/Kt and are carried by the frame u (A11). Presets without rays can light a default parallel bundle.",
   tgCurveDesc:"Rotation curve (tangential speed vs radius) at bottom right. The dotted line is the baseline v_bar(r) from the real baryonic acceleration — the rotation expected from the mass distribution alone.",
   tgTempDesc:"Temperature histogram (left/right). Uses the observed temperature T_obs = To x (1-sweep) x T.",
@@ -621,7 +634,7 @@ en: {
   beDr:"R: radius. Used in inertia I=1/2 mR^2, contact, drag falloff (R/(R+d))^q, temperature, and oblateness f=5s^2R^3/(4Gm). Default radiusScale x rMul x sqrt(|m|) (rMul = per-body multiplier, default 1).",
   beDrr:"Rc/R: core radius ratio. Sets the reach of the core's drag. Default ~ sqrt(|mc/m|).",
   beDot:"To x: observed-temperature coefficient. T_obs = To x (1-sweep) x T (display only).",
-  beDsw:"sweep: light sweep-out (0-1). The star's own light never escapes - observed temperature 0 (looks cold) and radiative cooling x (1-sweep). The dark-rotor mechanism. Enter \"auto\" to derive it every step from the body's own spin and radius: lS_eff = min(1, |s|R / c_surf).",
+  beDsw:"sweep: light sweep-out (0-1). The star's own light never escapes - observed temperature 0 (looks cold) and radiative cooling x (1-sweep). The dark-rotor mechanism. Enter \"auto\" to derive it every step from the body's own spin and radius: lS_eff = min(1, |s|R / c_surf). The \"auto\" checkbox next to it does the same thing and makes the number field read-only, showing the effective lS_eff beside it.",
   beDoc:"TcO x: core observed-temperature ratio. Tc_obs = TcO x (1-sweep) x Ic sc^2 (display only).",
   beDv:"vx/vy: velocity components. Inertia acts relative to the local frame u (A5).",
   beDp:"Pinned: externally constrained (receives no force or torque; spin fixed). Reactions are ledgered to the reservoir (A13).",
@@ -633,6 +646,7 @@ en: {
   panelClose:"✕ Close",
   beTitle:"Edit selected body", bePinned:"Pinned",
   beLsw:"sweep",   // 第22便: lightSweep label
+  beLswAuto:"auto",   // 第37便 A2(原仮定者指示): sweep auto checkbox
   beNote:"Edits apply instantly. ⏮ Restart restores initial values.",
   savesHeadSave:"Save current parameters", savesHeadList:"Saved items", savesHeadBackup:"Backup",
   saveNamePh:"Name (e.g. stable-ring settings)", saveCommentPh:"Comment (e.g. muF=0.8 circularizes faster)",
@@ -1014,8 +1028,6 @@ const BUILTIN_PRESETS = [
   en:{name:"Gravitational Time Dilation", description:"Three clocks at rest, at distances 70/140/240 from a central mass — motion is eliminated so only distance (= determinacy strength) varies. Tap each clock: the inner one ticks slowest, τ/t = 0.931/0.965/0.979 (matches the analytic value to 1e-5). Lower Kt from 300 to 150 and all three gaps widen together. The gravitational counterpart of motion time dilation (the E7R motion term) — the pure gravity term of A7′/E7R."},
   activeParams:["Kt"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:280}, world:{boundary:"none",size:0},
-  drawScale:2,   // 第35便 W4(台帳4-55): 描画専用倍率(物理無関係)。タップ対象の3時計(m=2)が
-                 // 実測1.2px(基準1未満)だったため2.36pxへ拡大(監査: scratchpad/w4-report.md)
   physics:{G:0, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:300,
     cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:1},
   bodies:[ // v1.12(付録L): 第6次提案 P0-1 採用。τ/t 解析一致を機械検証済み
@@ -1031,8 +1043,6 @@ const BUILTIN_PRESETS = [
   en:{name:"Weak-Field GR Calibration — GPS, Light, Shapiro", description:"A calibration demo pitting the single-ψ weak-field law (A7′/E7R/E8R/T5) against real observations. With the one mapping Kt=c²/G: net GPS clock rate +38.5 μs/day (gravity +45.7, motion −7.2; observed ≈+38.6) / solar-limb deflection 1.7512″ (observed ≈1.75″) / Shapiro delay ≈281 μs (Cassini geometry) — all match quantitatively. Mercury's perihelion advance is covered by ☿ (geodesic 1PN, E12). On screen, the analog: the ground clock (r=60) shows τ/t=0.920 while the orbiting satellite (r=180), though moving, ticks faster at τ/t=0.971 — gravity beats motion, the same sign structure as real GPS. The ray fan from the left refracts in the central field (the same n_eff>1 mechanism as the Shapiro delay); lower Kt and clock gaps and bending strengthen together. Note: the SI-calibrated numbers come from formula-level computation under the mapping Kt=c²/G; the on-screen initial values are a visibility-first exaggerated analog and do not satisfy the physical-correspondence condition Kt=cLight²/G (see PHYSICS §5)."},
   activeParams:["Kt","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:280}, world:{boundary:"none",size:0},
-  drawScale:2,   // 第35便 W4(台帳4-55): 描画専用倍率。地上時計・衛星(m=2)が実測1.2px
-                 // (基準1未満)だったため2.36pxへ拡大(監査: scratchpad/w4-report.md)
   physics:{G:1, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:300,
     cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2},
   bodies:[ // 付録O O1: 衛星は Plummer 厳密円軌道 v=√(G·M·r²/(r²+ε²)^{3/2})(V13 と同式)
@@ -1048,8 +1058,6 @@ const BUILTIN_PRESETS = [
   en:{name:"Mercury's Perihelion Advance — Geodesic 1PN", description:"The geodesic mode (E12). When the same ψ=W/Kt that slows clocks also governs matter orbits (the action form of A7′/E7R), the ellipse slowly rotates in the direction of the orbit — perihelion advance — tracing a rosette. Set λ_PN (lambdaPN) to 0 to recover Newton: the ellipse closes. With pnAlpha=0.5 (time rate only) the advance drops to 1/3 — corresponding to 42.98″/century (full) vs 14.33″/century (1/3) for the real Mercury. Note: the on-screen initial values are an exaggerated visualization analog — amplified so the precession shows within a few orbits — and do not satisfy the physical-correspondence condition Kt=cLight²/G (the real-value conversion rests on analytic checks of the same formula; see PHYSICS §5)."},
   activeParams:["lambdaPN","pnAlpha","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:220}, world:{boundary:"none",size:0},
-  drawScale:2.8,   // 第35便 W4(台帳4-55): 描画専用倍率。主役の水星(m=0.5)が実測0.75px
-                   // (基準1未満)だったため2.11pxへ拡大(監査: scratchpad/w4-report.md)
   physics:{G:1, D0:0.05, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
     cLight:25, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
     geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:8},
@@ -1064,8 +1072,6 @@ const BUILTIN_PRESETS = [
   en:{name:"Free Fall & Projectile Motion", description:"A mechanics lab driven only by the uniform gravity field gravityY (an external field). The two balls at the top left free-fall with masses 2 and 20 — different masses, same acceleration (a simple equivalence-principle demo). The middle ball is launched horizontally, the bottom one obliquely upward; both trace clean parabolas. Inter-particle gravity (A6/E4), dragging and heat are all off; the box boundary acts as floor and walls. Change gravityY to change the acceleration — at 0 the motion becomes uniform and straight."},
   activeParams:["gravityY","gravityX"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:220}, world:{boundary:"box",size:190},
-  drawScale:1.4,   // 第35便 W4(台帳4-55): 描画専用倍率。主役の4球のうちm=2の3球が実測1.50px
-                   // (基準1未満)だったため2.11pxへ拡大(監査: scratchpad/w4-report.md)
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
     cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0.08, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:3},
   bodies:[ // v1.18: Gemini/Grok 第8次提案の合議採用(自由落下×2質量+水平投射+斜方投射)
@@ -1159,9 +1165,6 @@ const BUILTIN_PRESETS = [
   en:{name:"Box Universe — Full Comotion & the Expansion Clock", description:"The continuous UniverseBox background — static D₀ promoted to a dynamic background with position, velocity and scale a(t) — produces the full Hubble flow u_B=H·r (the continuum limit of T10, closing the point-ring's 1/2 gain; dashed circle = nominal radius L·a). Free particles are carried preserving comoving coordinates χ=r/a (V24b), and mutual distances grow in proportion to a. Expansion dilutes determinacy (W_B=D/a), so by the clock law (A7′/E7R) the central pinned clock ticks faster as the universe expands (tap it to see τ/t) — a correlation that looks like 'expansion drives time' emerges inside the model. Yet expansion is not the cause of time: it merely changes the rate of an already-defined clock. Set kFrame to 0 and comotion vanishes (suggested A/B). Reactions are ledgered to the reservoir (monitor, A13)."},
   activeParams:["kFrame","Kt"],
   camera:{scale:420}, world:{boundary:"none",size:0},
-  drawScale:3.1, // 第35便 W4(台帳4-55): 描画専用倍率。タップ対象の中央固定時計(m=2)が
-                 // 実測0.66px(基準1未満)→ 2.04px へ拡大(監査: scratchpad/w4-report.md。
-                 // 旧clamp上限3では1.97px止まり — レビューゲートで上限4へ引き上げて解消)
   universeBox:{mode:"exp", H0:0.004, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
   physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:300,
     cLight:100, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:4},
@@ -1196,8 +1199,6 @@ const BUILTIN_PRESETS = [
   en:{name:"Box Universe — Breathing Universe & Its Clock", description:"A UniverseBox whose scale factor a(t)=1+0.2sin(0.08t) expands and contracts. Free particles ride the breathing Hubble flow u_B=H(t)·r back and forth, and determinacy W_B=D/a oscillates too — clocks tick faster while expanded (large a) and slower while contracted (A7′/E7R; tap the central pinned clock). At the turning points H=0 the clock does not stop — expansion rate and the rate of time are different things, so a alone cannot be 'time itself'. With zero dissipation (no friction, collision damping or radiation) the system returns almost exactly after one period (T≈78.5) — reversible. Add muF or gammaN and it no longer returns — geometric periodicity and the thermodynamic arrow of time (A12′) are distinct, and you can test it yourself (T10)."},
   activeParams:["Kt","kFrame"],
   camera:{scale:380}, world:{boundary:"none",size:0},
-  drawScale:2.8,   // 第35便 W4(台帳4-55): 描画専用倍率。タップ対象の中央固定時計(m=2)が
-                   // 実測0.73px(基準1未満)だったため2.03pxへ拡大(監査: scratchpad/w4-report.md)
   universeBox:{mode:"sin", H0:0, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0.2, freq:0.08, phase:0},
   physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:300,
     cLight:100, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:2},
@@ -1213,9 +1214,6 @@ const BUILTIN_PRESETS = [
   en:{name:"Box Universe — Redshift of Light (A, B, C)", description:"Three comoving particles A, B and C sit in an expanding box universe (H=0.02), and light propagates while holding its state as a 'wavelength' (4-63). The 500 nm light A emits at t=0 (λ stretches as a(t)/a_emit) reaches C when the universe has grown fourfold, so its wavelength is four times longer (z=3). Light emitted by B once the universe has doubled arrives at C at about the same moment with twice the wavelength (z=1) — light emitted at different times is observed simultaneously at different redshifts. This is the same structure as Hubble's law, 1+z=a(observed)/a(emitted) (§12-6). The expansion graph shows the arrival log (λ_emit→λ_obs and z). Photons carry no momentum here — a display-level physics — while refraction and medium advection use the same ψ and u as E8R/T5 (T10)."},
   activeParams:["cLight","kFrame"],
   camera:{scale:420}, world:{boundary:"none",size:0},
-  drawScale:3.1, // 第35便 W4(台帳4-55): 描画専用倍率。主役の光源A・B・C(m=2)が
-                 // 実測0.66px(基準1未満)→ 2.04px へ拡大(監査: scratchpad/w4-report.md。
-                 // 旧clamp上限3では1.97px止まり — レビューゲートで上限4へ引き上げて解消)
   universeBox:{mode:"exp", H0:0.02, D:8, dPower:1, L:120, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
   physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
     cLight:6, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
@@ -1244,8 +1242,6 @@ const BUILTIN_PRESETS = [
   en:{name:"Box Universe — The Free Box (what drives expansion?)", description:"A box universe whose wall is neither pinned nor prescribed. All 64 wall particles (m=20, spin 1.0) are free bodies — no rails, no pins — so the expansion law a(t) is not given from outside but solved for, out of E4 self-gravity and A10/E5′ spin repulsion (= pressure): the cause of expansion moves from outside the system to inside it (T12). The walls start with an outward velocity v=0.001·r that falls short of escape. Suggested A/B: set the spin repulsion kRep to 0 and the pressure disappears — gravity alone stops the expansion and turns it into collapse (measured: the scale factor a_eff peaks at 1.005 at t=9.2 and the expansion rate H_eff flips sign, +4.42e-4 in the first half to −5.28e-4 in the second — the analogue of a closed 2D universe). Put kRep back to 0.5 and pressure pushes the box open to a_eff=2.18 by t=19.2, accelerating as it goes (H_eff 0.0318→0.0514), because E5′ thins out only as 1/d while gravity thins as 1/d². The expansion graph plots the measured a_eff=⟨r⟩/⟨r⟩0 taken from the mean wall radius, not a prescribed a(t) (see the 'measured' tag in the header). Redshift is a rule tied to a prescribed a(t), so it is not shown here. Every particle is free — a strictly closed system whose reservoir ledger stays at zero while momentum and angular momentum are conserved (A13/T7; conservation monitor). Dragging is off (kFrame=0) to isolate the two mechanisms E4 and E5′, so the eight interior test particles do not comove with the expanding wall (the limit of a point-mass ring wall — T10). This is a mechanism demo of the DFM analogue of the Friedmann equation, not a claim to reproduce FLRW cosmology."},
   activeParams:["kRep","G"],   // おすすめA/B: kRep 0.5(圧力駆動の膨張)⇄ 0(慣性のみ → 減速 → 再収縮)
   camera:{scale:460}, world:{boundary:"none",size:0}, seed:4061,
-  drawScale:1.1,   // 第35便 W4(台帳4-55): 描画専用倍率。主役の壁リング64粒子(m=20)が
-                   // 実測1.90px(基準1未満)だったため2.09pxへ拡大(監査: scratchpad/w4-report.md)
   measureBox:true,   // 実測尺度因子 a_eff=⟨r⟩/⟨r⟩₀(最初の ring 群=壁)を膨張グラフへ
   physics:{G:1, D0:4, kFrame:0, q:1, kRep:0.5, muF:0, gammaN:0, kappaS:0, Kt:10000,
     cLight:100, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
@@ -1990,20 +1986,10 @@ function validatePreset(obj){
       p.measureBox=false;
     }
   }
-  // 第35便 W4(台帳4-55): drawScale — 描画専用の半径倍率(物理には一切影響しない。S.R・
-  // updateRadii・接触判定・E2/E3ドラッグ核は不変)。省略時は1(現行描画と厳密等価)。
-  // [0.4,4]にクランプ、非数は1に補正(常に有効な数値を持たせる — echoFlipAt の「無視」とは
-  // 扱いを変え、描画コード側で isNum チェックを増やさずに済ませる)。上限は当初3だったが、
-  // 広視野プリセット(camera.scale 420)の m=2 主役粒子が 3 では 1.97px 止まりだったため
-  // 上位レビューで 4 へ引き上げ(第35便 W4 レビューゲート裁定 — 描画専用のため物理リスクなし)
-  if(p.drawScale!==undefined){
-    if(!isNum(p.drawScale)){ warnings.push("drawScale が数値でないため1に修正"); p.drawScale=1; }
-    else{
-      const c=clamp(p.drawScale,0.4,4);
-      if(c!==p.drawScale) warnings.push("drawScale を値域に修正");
-      p.drawScale=c;
-    }
-  }
+  // 第37便 A6(原仮定者裁定): drawScale は廃止(誤解を招く描画専用倍率 — 粒子が実際より
+  // 大きく見え、☿等では表示が被る事例があった)。旧 JSON に drawScale キーがあっても、他の
+  // 未知の最上位キーと同じく検証を経ずそのまま無視される(このバリデータでは何も参照しない
+  // ため drawScale は preset 上に残っても S.build() から一切読まれず、挙動へ影響しない)。
   // 第31便: universeBox(連続背景 — BOX_UNIVERSE v1.2 §9)。W_B=D·a^{−dPower}、
   // u_B=V+Ω·J(r−c)+H·(r−c)。mode: static/exp(a=e^{H0·t})/lin(a=1+H0·t)/sin(a=1+amp·sin(freq·t+phase))
   if(p.universeBox!==undefined){
@@ -2152,8 +2138,6 @@ function makeSim(){
     // echoFlipAt!==null のプリセットだけが速度・スピン反転と初期配置からの RMS 計測を行う
     integrator:"semi", echoFlipAt:null, echoFlipped:false, echoFlipT:0, echoRMS:0,
     echoX0:null, echoY0:null,
-    // 第35便 W4(台帳4-55): drawScale — 描画専用の半径倍率(既定1=現行描画と厳密等価。物理無関係)
-    drawScale:1,
     curveBins:null, curveKep:null, tempLR:[0,0], histT:[],
   };
   S.alloc = function(n){
@@ -2356,10 +2340,6 @@ function makeSim(){
       S.echoX0=new Float64Array(S.n); S.echoY0=new Float64Array(S.n);
       for(let i=0;i<S.n;i++){ S.echoX0[i]=S.x[i]; S.echoY0[i]=S.y[i]; }
     } else { S.echoX0=null; S.echoY0=null; }
-    // 第35便 W4(台帳4-55): drawScale — 描画専用の半径倍率。S.R/updateRadii/接触判定/E2・E3の
-    // ドラッグ核には一切使わない(4-55 最重要制約)。validatePreset 未経由の直接 build() 呼び出し
-    // (QAが素の preset オブジェクトを渡す場合など)にも備え、ここでも防御的にクランプする
-    S.drawScale = isNum(preset.drawScale)? clamp(preset.drawScale,0.4,4) : 1;
     S.resPx=0; S.resPy=0; S.resL=0; S.radE=0; S.radL=0;
     S.curveBins=null; S.tempLR=[0,0]; S.histT=[];
   };
@@ -3050,6 +3030,15 @@ let running=false, currentPreset=null, basePhysics=null, selIdx=-1;
 let selWorld="A";
 function selSimRef(){ return (ab && selWorld==="B")? ab.simB : sim; }
 let camX=0, camY=0, camScale=300, tempP90EMA=0.5, monitorOn=false;
+// 第37便 A3(原仮定者指示): 光線の基準波長λ0(nm)。表示設定のみ(セーブ対象外・物理不変) —
+// drawRays の色計算(λ_seg=λ0·e^{ψ0−ψ}。第36便 B3)だけが参照する。既定550・[380,780]にクランプ
+let rayLambda0=clamp(parseFloat(localStorage.getItem("hp_ray_lambda0"))||550,380,780);
+function setRayLambda0(v){
+  if(!isFinite(v)) return;
+  rayLambda0=clamp(v,380,780);
+  localStorage.setItem("hp_ray_lambda0",String(rayLambda0));
+  requestRender();
+}
 // v1.17: UI文字サイズ(1=標準/1.15=大/1.3=特大)。HTML側はCSS変数--uz、キャンバス側の
 // 文字・グラフは uiFontScale で追従し、拡大時はグラフ自体を拡大+下端余白を広げて
 // 選択粒子の情報行と重ならないようにする
@@ -3057,6 +3046,9 @@ let uiFontScale=parseFloat(localStorage.getItem("hp_uiscale")||"1.15")||1.15;   
 // 第22便(原仮定者指示): 粒子サイズ表示モード — "cap"=現状(30px頭打ち)/"radius"=半径準拠(Rの縮尺そのまま)
 // 第25便(原仮定者指示): 「半径準拠」に固定(切替UIは「表示」から削除。旧 hp_sizemode は無視)
 // 第29便: 描画時の上限は品質連動 drawRadiusCap() に一本化(正確=無制限で半径準拠を維持)
+// → 第37便 A5(原仮定者裁定): 軽量/自動の 30px/40px 頭打ちは大粒子を実寸より小さく見せ
+// 「全品質で半径に忠実」の原則に反するため撤廃。品質段階の他の縮退(解像度・決定力マップ
+// 格子・光線本数・軌跡記録間隔)は不変 — drawRadiusCap() は品質を問わず常に Infinity
 const sizeMode="radius";
 function applyUiScale(){ document.documentElement.style.setProperty("--uz", String(uiFontScale)); if(typeof requestRender==="function") requestRender(); }
 let paramsDirty=false;  // v1.17: 「保存」していない編集の有無(バックアップ対象外の注意喚起)
@@ -3113,10 +3105,13 @@ let autoQ=0, lowFpsMs=0;
 function qLevel(){ return qualityMode==="exact"?0 : qualityMode==="lite"?2 : autoQ; }
 const Q_DPR=[2,1.5,1], Q_FRES=[48,40,32], Q_FEVERY=[5,8,12], Q_RAY=[1,0.75,0.55],
       Q_TREC=[2,4,6], Q_TSORT=[10,15,20];
-// 第29便(第25次レビュー P0-2): 描画半径の品質連動上限。「正確」は半径準拠のまま(第25便裁定を
-// 維持 — 物理半径どおり描く)。「自動」は40px・「軽量」(自動の縮退含む)は30pxで頭打ちにし、
-// グロー(塗り画素∝rr²)の暴走を防ぐ。物理半径Rと選択粒子HUDの数値表示は変わらない。
-function drawRadiusCap(){ return qualityMode==="exact"? Infinity : (qLevel()>=2? 30 : 40); }
+// 第29便(第25次レビュー P0-2)で導入した描画半径の品質連動上限(自動=40px・軽量=30px。
+// 「正確」のみ半径準拠∞)は、第37便 A5(原仮定者裁定)で全品質から撤廃した — 大粒子を
+// 実寸より小さく見せてしまい「全品質で半径に忠実」の原則に反するため。物理半径Rと
+// 選択粒子HUDの数値表示はもともと不変。品質段階の他の縮退(解像度・決定力マップ格子・
+// 光線本数・軌跡記録間隔)はそのまま。旧 perf.draw-radius-cap は perf.draw-radius-uncapped
+// へ改名し、全品質で∞を期待する検査に改訂(tests/qa.mjs)
+function drawRadiusCap(){ return Infinity; }
 // 軌跡バッファの品質別上限(点数)と描画間引き(第25次レビュー P1-2)
 const Q_TRAILPTS=[1500,800,400];
 function setQualityMode(m){
@@ -3176,7 +3171,23 @@ function fieldKeyOf(){
   let s1=0,s2=0,s3=0;
   for(let i=0;i<sim.n;i++){ s1+=sim.x[i]*(i+1); s2+=sim.y[i]*(i+1); s3+=sim.m[i]; }
   return camX+","+camY+","+camScale+","+cw+","+ch+","+sim.params.D0+","+sim.params.softening+
-         ","+sim.n+","+s1+","+s2+","+s3;
+         ","+sim.n+","+s1+","+s2+","+s3+
+         ","+sim.params.G+","+sim.params.gravityX+","+sim.params.gravityY;   // 第37便 A4: 表示合成もキーに含める
+}
+// 第37便 A4(原仮定者裁定): 決定力マップの表示規約 — 一様重力場を等価決定力勾配として重ねる。
+// a=G∇W より、一様加速度 g に対応する等価的な W 勾配は g/G。よって表示合成
+// Φ_g=(gravityX·x+gravityY·y)/G_eff、G_eff=(G>0?G:1) を W に加えたものをマップの色付けに使う。
+// G=0(自己重力オフ)では等価場が本来定義できないため、表示規約として係数1を採用する
+// (コードコメントに明記 — G=0でも gravityY≠0 の実験室サンプル〔⚾♨️🧪〕でマップに床方向への
+// 勾配を出すための裁定。物理には一切影響しない: S.Wat 自体・光線〔traceRay/rayField/
+// photonStep〕・時計・接触判定など全ての物理経路はこの合成を経由しない)。
+// gravityX=gravityY=0 のときは常に w のまま(既存の全プリセットと描画結果が厳密に不変)
+function fieldWDisp(wx,wy){
+  const w=sim.Wat(wx,wy);
+  const gx=sim.params.gravityX, gy=sim.params.gravityY;
+  if(gx===0 && gy===0) return w;
+  const G=sim.params.G, Geff=(G>0)? G : 1;
+  return w + (gx*wx+gy*wy)/Geff;
 }
 function drawField(){
   const res=Q_FRES[qLevel()];                 // v1.23: 品質レベルで格子解像度(48/40/32)
@@ -3191,7 +3202,7 @@ function drawField(){
     const vals=new Float32Array(res*res);
     for(let gy=0;gy<res;gy++) for(let gx=0;gx<res;gx++){
       const wx=camX+((gx+0.5)/res*cw-cw/2)/z, wy=camY+((gy+0.5)/res*ch-ch/2)/z;
-      const w=sim.Wat(wx,wy); vals[gy*res+gx]=w; if(w>wmax)wmax=w;
+      const w=fieldWDisp(wx,wy); vals[gy*res+gx]=w; if(w>wmax)wmax=w;   // 第37便 A4: 表示合成 W_disp
     }
     // 第36便 B2(原仮定者指示): 対数正規化+10バンド量子化 — 決定力マップを等決定力線状の
     // 見た目にして視認性を上げる(品質段階の縮退・上の場キャッシュ機構は不変。色付けのみの変更)。
@@ -3203,7 +3214,11 @@ function drawField(){
     const lnMax=Math.max(Math.log(1+wmax/wref), 1e-6);
     const BANDS=10;
     for(let k=0;k<res*res;k++){
-      const wn=clamp(Math.log(1+vals[k]/wref)/lnMax, 0, 1);
+      // 第37便 A4: 一様重力の Φ_g は負にも振れうるため、log の引数が0以下にならないよう
+      // 比率へ下限を設ける(gravityX=gravityY=0 では vals[k]≥0 相当が通例でこの下限に触れない —
+      // 既存の見た目は不変)
+      const ratio=Math.max(vals[k]/wref, -0.999999);
+      const wn=clamp(Math.log(1+ratio)/lnMax, 0, 1);
       const band=Math.min(BANDS-1, Math.floor(wn*BANDS));
       const v=band/(BANDS-1);
       img.data[k*4]=15+v*140; img.data[k*4+1]=10+v*80; img.data[k*4+2]=80+v*175; img.data[k*4+3]=v*170;
@@ -3304,7 +3319,7 @@ let rayKey="";
 function rayKeyOf(rays){
   let h=camX+","+camY+","+camScale+","+cw+","+ch+","+dpr+","+rays.n+","+rays.spread+","+
     sim.params.Kt+","+sim.params.cLight+","+sim.params.D0+","+sim.params.q+","+
-    sim.params.softening+","+sim.params.kFrame;
+    sim.params.softening+","+sim.params.kFrame+","+rayLambda0;   // 第37便 A3: λ0(表示専用)もキーに含める
   // 第31便: UniverseBox は a(t)・H で光学が変わる(static は定数なのでキャッシュ有効のまま)
   if(sim.box){ const sc=boxScaleAt(sim.box,sim.t); h+=";B"+sc.a.toFixed(6)+","+sc.H.toFixed(6)+","+sim.box.D; }
   for(let i=0;i<sim.n;i++) if(sim.m[i]>=RAY_MASS_MIN)
@@ -3330,12 +3345,14 @@ function drawRays(){
     const dl=camScale/110;
     const maxSteps=Math.min(2400, Math.max(340, Math.ceil((halfW+10+bx)*1.3/dl)));
     rayCtx.lineWidth=1;
-    // 第36便 B3(原仮定者指示): セグメント色 = 時計率比 e^{ψ0−ψ(r)} による波長(λ0=550nm。
+    // 第36便 B3(原仮定者指示): セグメント色 = 時計率比 e^{ψ0−ψ(r)} による波長(λ0=550nm既定。
     // 重力赤方偏移のアナログ・意味論表示 — 光路計算自体は traceRay 内で不変)。
+    // 第37便 A3(原仮定者指示): λ0 を表示設定(rayLambda0・[380,780]nm)として選べるようにした
+    // — 色計算にのみ使う表示専用の値で、セーブ対象外・光路(traceRay)には一切渡さない。
     // wavelengthColor(3298付近)を再利用(重複実装しない)。nmを5nm刻みに量子化した
     // 「バケット」が変わった時だけ stroke() し直す(可視の滑らかさを保ちつつ、パン/ズーム中の
     // 毎フレーム再計算〔rayKeyOf にカメラ位置が入るため〕でも1ステップごとの描画コストにしない)
-    const Kt=sim.params.Kt;
+    const Kt=sim.params.Kt, lam0=rayLambda0;
     for(let r=0;r<nEff;r++){
       const px=x0, py=camY+((r+0.5)/nEff-0.5)*2*rays.spread*camScale;
       let prevSX=w2sX(px), prevSY=w2sY(py), psi0=null, bucket=null;
@@ -3343,7 +3360,7 @@ function drawRays(){
       traceRay(sim, px, py, 1, 0, dl, maxSteps, (nx,ny,Wtot)=>{
         const psi=Wtot/Kt;
         if(psi0===null) psi0=psi;
-        const nm=550*Math.exp(psi0-psi), b=Math.round(nm/5);
+        const nm=lam0*Math.exp(psi0-psi), b=Math.round(nm/5);
         const nsx=w2sX(nx), nsy=w2sY(ny);
         if(bucket===null){ rayCtx.strokeStyle=wavelengthColor(b*5)+"8c"; bucket=b; }   // 8c≈0.55(旧固定色と同じ不透明度)
         else if(b!==bucket){
@@ -3769,15 +3786,16 @@ function render(){
     const p90=Math.max(1e-4, tSort[Math.floor(0.9*(sim.n-1))]);
     tempP90EMA+= (p90-tempP90EMA)*0.4;
   }
-  // 粒子(第29便: 表示半径は品質連動で頭打ち — 正確=半径準拠のまま。物理半径Rはそのまま)
-  // 第35便 W4(台帳4-55): dscale=drawScale(描画専用。既定1で以下は現行と厳密等価)。
-  // cap は drawScale 適用後の px 値に効かせる(min の内側に掛けることで順序を保つ)
-  const rCap=drawRadiusCap(), glowOn=qLevel()===0, dscale=sim.drawScale||1;
+  // 粒子(第25便裁定: 半径準拠。第29便で導入した品質連動の描画半径上限は第37便 A5
+  // 〔原仮定者裁定〕で全品質から撤廃 — drawRadiusCap() は常に Infinity。小さな粒子も
+  // 実際の半径どおりに表示する。第37便 A6: drawScale(描画専用倍率)は廃止済み — 以下の
+  // 半径式はもう dscale を掛けない(1固定と厳密等価)
+  const rCap=drawRadiusCap(), glowOn=qLevel()===0;
   for(let i=0;i<sim.n;i++){
     const sx=w2sX(sim.x[i]), sy=w2sY(sim.y[i]);
     if(sx<-40||sx>cw+40||sy<-40||sy>ch+40) continue;
     const T=obsTemp(sim,i);   // 第36便 D: 観測温度
-    const rr=Math.max(1.2,Math.min(sim.R[i]*z*dscale,rCap));  // 第25便: 半径準拠固定 → 第29便: 品質連動上限 → 第35便: drawScale
+    const rr=Math.max(1.2,Math.min(sim.R[i]*z,rCap));  // 第25便: 半径準拠固定 → 第37便 A5: 上限を撤廃(rCap=∞)
     const col=tempColor(Math.min(1,Math.sqrt(Math.max(0,T)/Math.max(1e-4,tempP90EMA))));   // 第12便: 負質量はT=0色
     if(rr>=7 && glowOn){ // 大きな天体はグロー付きで描く(第29便: 自動縮退・軽量ではグロー省略)
       const g=ctx.createRadialGradient(sx,sy,rr*0.4,sx,sy,rr*2.4);
@@ -3799,7 +3817,7 @@ function render(){
     // 第12〜14便: 主星2層 — コア(coreMR≠0)を内側の暗い円+白スポークで可視化(差動回転が見える)。
     // 空洞(coreMR<0)はさらに暗い「穴」として描く
     if(sim.coreMR[i]!==0 && rr>=7){
-      const rc=Math.max(3,Math.min(sim.Rc[i]*z*dscale,rr*0.92));
+      const rc=Math.max(3,Math.min(sim.Rc[i]*z,rr*0.92));
       // 第22便: コア観測温度比率 coreOT — 既定(coreOT=1・掻き出しなし)以外は観測温度色で描く
       if(sim.coreMR[i]>0 && (sim.coreOT[i]!==1||sim.lSw[i]!==0)){
         const sc2=sim.coreSR[i]*sim.spin[i];
@@ -3859,9 +3877,9 @@ function render(){
   if(selIdx>=0&&selIdx<sim.n){
     const i=selIdx, sx=w2sX(sim.x[i]), sy=w2sY(sim.y[i]);
     ctx.strokeStyle="#59d499"; ctx.lineWidth=1.5;
-    ctx.beginPath(); ctx.arc(sx,sy,Math.max(6,sim.R[i]*z*dscale+5),0,7); ctx.stroke();
+    ctx.beginPath(); ctx.arc(sx,sy,Math.max(6,sim.R[i]*z+5),0,7); ctx.stroke();
     const frac=sim.t>0? sim.tau[i]/sim.t : 1;
-    ctx.beginPath(); ctx.arc(sx,sy,Math.max(10,sim.R[i]*z*dscale+9),-Math.PI/2,-Math.PI/2+frac*Math.PI*2);
+    ctx.beginPath(); ctx.arc(sx,sy,Math.max(10,sim.R[i]*z+9),-Math.PI/2,-Math.PI/2+frac*Math.PI*2);
     ctx.strokeStyle="#ffd166"; ctx.stroke(); ctx.lineWidth=1;
     // 温度 T=Is² と放射ピーク波長 λ=b_m/T(A12 分光温度計)を併記
     const Ti=obsTemp(sim,i);   // 第36便 D: 観測温度
@@ -3949,12 +3967,11 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
     ts.sort(); p90=Math.max(1e-4, ts[Math.floor(0.9*(S.n-1))]);
     S._p90=p90;
   }
-  const dscale=S.drawScale||1;   // 第35便 W4(台帳4-55): 描画専用倍率(既定1で以下は現行と厳密等価)
   for(let i=0;i<S.n;i++){
     const px=sx(S.x[i]), py=sy(S.y[i]);
     if(px<-40||px>cw+40||py<y0-40||py>y0+hgt+40) continue;
     const Ti=obsTemp(S,i);   // 第36便 D: 観測温度
-    const rr=Math.max(1.2,Math.min(S.R[i]*z*dscale,drawRadiusCap()));   // 第29便: 品質連動上限(正確=半径準拠)→第35便: drawScale
+    const rr=Math.max(1.2,Math.min(S.R[i]*z,drawRadiusCap()));   // 第25便: 半径準拠 → 第37便 A5: 上限撤廃(rCap=∞)
     ctx.fillStyle=tempColor(Math.min(1,Math.sqrt(Math.max(0,Ti)/p90)));   // 第12便: 負質量はT=0色
     ctx.beginPath(); ctx.arc(px,py,rr,0,7); ctx.fill();
     if(rr>=7 && Math.abs(S.spin[i])>1e-4){ // v1.17: 回転方向スポーク(A/B側も同様)
@@ -3966,7 +3983,7 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
       ctx.lineWidth=1;
     }
     if(S.coreMR[i]!==0 && rr>=7){   // 主星2層のコア(A/B側も同様。空洞=より暗い穴)
-      const rc=Math.max(3,Math.min(S.Rc[i]*z*dscale,rr*0.92));
+      const rc=Math.max(3,Math.min(S.Rc[i]*z,rr*0.92));
       if(S.coreMR[i]>0 && (S.coreOT[i]!==1||S.lSw[i]!==0)){   // 第22便: 観測温度色(A側と同様)
         const sc2=S.coreSR[i]*S.spin[i];
         const Tc=S.coreOT[i]*(1-S.lSw[i])*0.5*Math.abs(S.coreMR[i]*S.m[i])*S.Rc[i]*S.Rc[i]*sc2*sc2;
@@ -3986,7 +4003,7 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
     if(S.pinned[i]){ ctx.strokeStyle="rgba(255,255,255,0.75)"; ctx.beginPath(); ctx.arc(px,py,rr+2,0,7); ctx.stroke(); }
     if(selIdx===i && S===selSimRef()){   // 第12便: A/B比較中の選択リング(選択された宇宙側にのみ描く)
       ctx.strokeStyle="#59d499"; ctx.lineWidth=1.5;
-      ctx.beginPath(); ctx.arc(px,py,Math.max(6,S.R[i]*z*dscale+5),0,7); ctx.stroke(); ctx.lineWidth=1;
+      ctx.beginPath(); ctx.arc(px,py,Math.max(6,S.R[i]*z+5),0,7); ctx.stroke(); ctx.lineWidth=1;
     }
   }
   // v1.19: 線の軌跡(A/B比較でも表示)
@@ -4261,7 +4278,6 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   // 併走の起点を揃えるため H_eff の前回サンプル(_bhLastA/_bhLastT)も明示的に引き継ぐ
   simB.measureBox=sim.measureBox; simB.wallI0=sim.wallI0; simB.wallI1=sim.wallI1;
   simB.aEffRef=sim.aEffRef; simB._bhLastA=sim._bhLastA; simB._bhLastT=sim._bhLastT;
-  simB.drawScale=sim.drawScale;   // 第35便 W4(台帳4-55): 描画専用倍率もA/B両画面で揃える
   simB.params=Object.assign({},sim.params);
   simB.world=JSON.parse(JSON.stringify(sim.world));
   simB.rays=sim.rays?JSON.parse(JSON.stringify(sim.rays)):null;
@@ -4628,6 +4644,22 @@ function buildParamRows(){
     cb.addEventListener("change",()=>{ set(cb.checked); requestRender(); });
     row.appendChild(lab); row.appendChild(cb); disp.appendChild(row);
   });
+  // 第37便 A3(原仮定者指示): 光線の基準波長λ0(nm)。表示専用(セーブ対象外・物理不変) —
+  // 決定力マップ等の表示トグル群のすぐ後ろに置く。localStorage hp_ray_lambda0 に永続化
+  {
+    const row=document.createElement("div"); row.className="prow";
+    const lab=document.createElement("label"); lab.textContent=T("rayLambda0Label"); lab.style.flex="1";
+    tapDesc(row,lab,"rayLambda0Desc");
+    const inp=document.createElement("input"); inp.type="text"; inp.inputMode="decimal";
+    inp.className="valIn"; inp.autocomplete="off";
+    inp.value=fmt(rayLambda0);
+    inp.addEventListener("change",()=>{
+      const v=parseFloat(inp.value.replace(/[,、\s]/g,""));
+      setRayLambda0(isFinite(v)? v : rayLambda0);
+      inp.value=fmt(rayLambda0);
+    });
+    row.appendChild(lab); row.appendChild(inp); disp.appendChild(row);
+  }
   // v1.23: 描画品質(自動/正確/軽量)。localStorage hp_quality に永続化。ラベルタップで説明
   {
     const row=document.createElement("div"); row.className="prow";
@@ -4788,6 +4820,8 @@ function coerceImport(d){
 // ここでの再正規化は基本的に冪等 — 異常値からの直接呼び出しに対する防御でもある)。
 // abSuggest はレビュー原文の修正案に含まれるが、現行スキーマに存在しないキーのため対象から除外
 // (第36便で確認済み。将来 abSuggest 相当のキーが追加された際は改めて追加すること)
+// 第37便 A6(原仮定者裁定): drawScale はスキーマから廃止されたため署名対象からも削除(旧署名に
+// drawScale が含まれていたのは第36便当時の記録 — 上のコメントは経緯としてそのまま残す)
 function presetSig(p){
   const v=validatePreset(p);
   const q=v.ok? v.preset : p;
@@ -4797,7 +4831,7 @@ function presetSig(p){
     seed:isNum(q.seed)?q.seed:null, rays:q.rays||null, overlays:q.overlays||null,
     universeBox:q.universeBox||null, photonEmit:q.photonEmit||null,
     integrator:q.integrator||"semi", echoFlipAt:isNum(q.echoFlipAt)?q.echoFlipAt:null,
-    measureBox:q.measureBox===true, drawScale:isNum(q.drawScale)?q.drawScale:1,
+    measureBox:q.measureBox===true,
     thermal:(q.thermal==="tint")?"tint":"spin"   // 第36便 D(台帳4-51): 温度の意味論も署名に含める
   });
 }
@@ -5237,6 +5271,7 @@ function applyLang(){
   $("#btnPanelClose").textContent=T("panelClose");               // v1.17
   $("#beTitle").textContent=T("beTitle"); $("#beLp").textContent=T("bePinned");
   $("#beLsw").textContent=T("beLsw");   // 第22便
+  $("#beLswAuto").textContent=T("beLswAuto");   // 第37便 A2
   $("#beNote").textContent=T("beNote");                          // v1.17: 粒子編集パネル
   $("#aiProvHead").textContent=T("aiProvHead"); $("#aiProvLabel").textContent=T("aiProvLabel");
   $("#aiModelLabel").textContent=T("aiModelLabel"); $("#aiUrlLabel").textContent=T("aiUrlLabel");
@@ -5404,7 +5439,11 @@ function updateBodyEdit(){
   $("#beOt").value=fmt(S.obsT[i]); $("#beOc").value=fmt(S.coreOT[i]);   // 観測温度系
   // 第36便 C2: 掻出は "auto"(粒子パラメータからの算出モード)を受理。auto の粒子は入力欄に
   // auto を表示し、隣に現在の実効値 lS_eff を出す(表示のみ・書式は既存の fmt に倣う)
+  // 第37便 A2(原仮定者指示): auto チェックボックスも S.lSwAuto と同期させ、ON中は数値欄を
+  // 読み取り専用にする(入力欄への直接 "auto" 入力は従来どおり併存 — 単一の真実 S.lSwAuto 経由)
   $("#beSw").value = S.lSwAuto[i]? "auto" : fmt(S.lSw[i]);
+  $("#beSw").readOnly = !!S.lSwAuto[i];
+  $("#beSwAuto").checked = !!S.lSwAuto[i];
   $("#beSwEff").textContent = S.lSwAuto[i]? ("lS_eff="+fmt(S.lSwEff(i))) : "";
   $("#beVx").value=fmt(S.vx[i]); $("#beVy").value=fmt(S.vy[i]);
   $("#bePin").checked=!!S.pinned[i];
@@ -5439,6 +5478,18 @@ $("#beSw").addEventListener("change",()=>{
   }
   updateBodyEdit();
 });
+// 第37便 A2(原仮定者指示): 掻出の auto チェックボックス — 上の #beSw テキスト入力(数値/"auto")と
+// 同じ状態 S.lSwAuto/S.lSw を操作する単一の真実源。ON→auto化(実効値は毎ステップ算出済みの
+// S.lSw をそのまま流用)、OFF→現在の実効値を数値指定として引き継ぐ(S.lSw は auto 中も
+// 常に実効値を保持しているため — 4-51 の設計どおり)
+$("#beSwAuto").addEventListener("change",()=>{
+  const S=selSimRef();
+  if(selIdx<0||selIdx>=S.n){ updateBodyEdit(); return; }
+  if($("#beSwAuto").checked){ S.lSwAuto[selIdx]=1; S.hasLSwAuto=true; }
+  else{ S.lSwAuto[selIdx]=0; S.syncLSwAuto(); }
+  setParamsDirty(true); requestRender();
+  updateBodyEdit();
+});
 beBind("#beOc",(S,i,v)=>{ S.coreOT[i]=clamp(v,0,1000); });
 beBind("#beVx",(S,i,v)=>{ S.vx[i]=clamp(v,-100,100); });
 beBind("#beVy",(S,i,v)=>{ S.vy[i]=clamp(v,-100,100); });
@@ -5458,7 +5509,7 @@ $("#beClose").addEventListener("click",()=>{ beMin=!beMin; applyBeMin(); });
 let beDescShown=null;
 {
   const BE_DESC={beLm:"beDm",beLs:"beDs",beLmc:"beDmc",beLsc:"beDsc",beLr:"beDr",beLrr:"beDrr",
-    beLot:"beDot",beLsw:"beDsw",beLoc:"beDoc",beLvx:"beDv",beLvy:"beDv",beLp:"beDp"};
+    beLot:"beDot",beLsw:"beDsw",beLswAuto:"beDsw",beLoc:"beDoc",beLvx:"beDv",beLvy:"beDv",beLp:"beDp"};
   for(const id of Object.keys(BE_DESC)){
     const el=document.getElementById(id); if(!el) continue;
     el.classList.add("tappable");
@@ -6211,6 +6262,8 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   selectBody:(i,world)=>{ selWorld=(world==="B")?"B":"A"; selIdx=i; updateBodyEdit(); },
   selInfo:()=>({selIdx, selWorld}), selSimRef,
   wavelengthColor,  // 第36便 B3(原仮定者指示): 光線の波長色計算のQA用(色関数そのものを公開・重複実装しない)
+  rayLambda0:()=>rayLambda0, setRayLambda0,  // 第37便 A3(原仮定者指示): 光線の基準波長λ0のQA用
+  fieldWDisp,  // 第37便 A4(原仮定者裁定): 決定力マップの表示合成 W_disp=W+Φ_g のQA用
   tick:(frames)=>{ for(let f=0;f<frames;f++){ const k=Math.max(1,Math.round(SUBSTEPS*sim.params.timeScale)); for(let s2=0;s2<Math.min(k,24);s2++) sim.step(DT); } render(); } };
 
 // ===== 起動 =====
