@@ -24,7 +24,11 @@ const THRESH = +(process.env.PERF_THRESH || 1.10);
 // 例: { convection: 1.60 } — 意図的な負荷増を許可する場合のみ
 // 第33便 v5(腕のある銀河 — 恒星380体・意図的な構成変更。探索実測 beta/root=1.086 だが
 // 同一内容でも ±0.09 のノイズ実績(第30便 convection 1.091)があるため余裕を持たせる
-const ALLOW = { darkrotor: 1.30 };
+const ALLOW = { darkrotor: 1.30,
+  // 第37便(台帳4-70): ♨️を壁駆動対流へ意図的に再設計(粒子278→300・thermalWalls 結合・
+  // tint の U_rep 厳密解)— root の旧設計との比較は設計差そのもの。実測 2.83(2026-07-27)。
+  // 次期昇格で root にも新設計が入り比≈1へ戻るため、それまでの暫定 ALLOW
+  convection: 3.0 };
 const REPS = 5, FRAMES = 60, WARMUP_FRAMES = 20;
 
 async function getBrowser() {

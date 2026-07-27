@@ -1,0 +1,457 @@
+{
+ "schemaVersion": 1,
+ "generatedAt": "2026-07-27T21:01:50.801Z",
+ "commit": "df0185ca9e5668dbe8d74913f9368b97e2b0466d",
+ "target": "beta/index.html",
+ "note": "第37便 探索実験(台帳4-53「要因分離スプリント」)。QA ではない(合否判定なし)。4サンプル(galaxy/darkrotor/convection/freebox)の主指標を、物理チャネルを1つずつ0にノックアウトしながら計測する。系が発散・NaN の場合も value=null で記録し、それ自体を要因情報として扱う。",
+ "meta": {
+  "dt": 0.016,
+  "channels": [
+   {
+    "id": "baseline",
+    "override": null
+   },
+   {
+    "id": "kFrame=0",
+    "override": {
+     "kFrame": 0
+    }
+   },
+   {
+    "id": "kRep=0",
+    "override": {
+     "kRep": 0
+    }
+   },
+   {
+    "id": "muF=0",
+    "override": {
+     "muF": 0
+    }
+   },
+   {
+    "id": "kappaS=0",
+    "override": {
+     "kappaS": 0
+    }
+   },
+   {
+    "id": "etaRad=0",
+    "override": {
+     "etaRad": 0
+    }
+   },
+   {
+    "id": "D0=0",
+    "override": {
+     "D0": 0
+    }
+   }
+  ],
+  "presetsRequested": [
+   "galaxy",
+   "darkrotor",
+   "convection",
+   "freebox"
+  ],
+  "elapsedSec": 1162.4,
+  "sources": {
+   "galaxyOuterboost": "tests/qa.mjs:215-230(galaxyAB ユニット)/ claim.galaxy-outerboost は :2292-2293",
+   "darkrotorLong": "tests/qa.mjs:197(帯定義)+ 388-433(darkrotorLong ユニット)/ behavior.darkrotorLong は :3097-3114",
+   "convection": "tests/qa.mjs:241-253(convection8000 ユニット)/ behavior.convection は :2303-2304",
+   "freeboxAEff": "tests/qa.mjs:1143-1191(freebox base()/run()。out.B=run(base(),1200) が既定条件)",
+   "simBuild": "beta/index.html:2176-2188(S.build。初期配置は phys.G/phys.radiusScale のみ参照)"
+  }
+ },
+ "samples": {
+  "galaxy": {
+   "applicable": true,
+   "reason": "",
+   "metricNote": "外縁増強比 galA/galB(claim.galaxy-outerboost と同式。tests/qa.mjs:215-230 galaxyAB ユニットを転記 — kFrame を0にする内部A/B比較〔HP.abStart〕自体はそのまま残し、その外側でチャネルの物理上書きを両側〔A・簡クローンB〕に効かせる。beta/index.html:4265 simB.params=Object.assign({},sim.params) により、A の上書き〔loadPreset 直後の s.params 代入〕は cloneSimState() で B にも複製されたあと abStart が B の kFrame だけを上書きする — よってチャネル=kFrame=0 では A/B の物理が完全一致し、比は1に潰れるのが期待値(cloneSimState() はページ内グローバル currentPresetを参照して B を再構築するため、A 側は必ず HP.loadPreset() 経由で構築する必要がある — sim.build(customPreset) を直接呼ぶと currentPreset が同期されず A/B比較が壊れる)",
+   "steps": 6000,
+   "results": {
+    "baseline": {
+     "value": 1.3217636074604369,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "galA": 3.7038698816777718,
+      "galB": 2.8022180825466827
+     },
+     "ratioToBaseline": 1,
+     "elapsedMs": 75146
+    },
+    "kFrame=0": {
+     "value": 1,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "galA": 2.8022180825466827,
+      "galB": 2.8022180825466827
+     },
+     "ratioToBaseline": 0.7565649366919281,
+     "elapsedMs": 52693
+    },
+    "kRep=0": {
+     "value": 1.2718705044645497,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "galA": 3.9563036468881396,
+      "galB": 3.11061828464504
+     },
+     "ratioToBaseline": 0.9622526276905529,
+     "elapsedMs": 66361
+    },
+    "muF=0": {
+     "value": 1.3180139410150533,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "galA": 3.693396411214087,
+      "galB": 2.802243812663818
+     },
+     "ratioToBaseline": 0.9971631338431326,
+     "elapsedMs": 72373
+    },
+    "kappaS=0": {
+     "value": 1.3210626974561903,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "galA": 3.7014202997513426,
+      "galB": 2.801850591102691
+     },
+     "ratioToBaseline": 0.9994697160670105,
+     "elapsedMs": 66471
+    },
+    "etaRad=0": {
+     "value": 1.3217636074604369,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "galA": 3.7038698816777718,
+      "galB": 2.8022180825466827
+     },
+     "ratioToBaseline": 1,
+     "elapsedMs": 74325
+    },
+    "D0=0": {
+     "value": 1.3538295926573676,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "galA": 3.793725765231285,
+      "galB": 2.8022180825466827
+     },
+     "ratioToBaseline": 1.0242600000604802,
+     "elapsedMs": 73322
+    }
+   }
+  },
+  "darkrotor": {
+   "applicable": true,
+   "reason": "",
+   "metricNote": "腕A2の4帯平均(behavior.darkrotorLong と同式の on.A2 を平均。tests/qa.mjs:388-433 の W5C_UNITS.darkrotorLong から run(false)〔スピンあり本体側〕だけを転記 — 対照 run(true) は本計測では省略〔要因分離の対象は物理チャネルであり、スピン有無の対照はここでの主指標ではない〕)",
+   "steps": 6000,
+   "results": {
+    "baseline": {
+     "value": 0.47755474252540087,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "A2": [
+       0.5418599365336514,
+       0.588990509749853,
+       0.3231826870271997,
+       0.4561858367908992
+      ],
+      "maxSpin": 2.9275476932525635,
+      "nLate": 7
+     },
+     "ratioToBaseline": 1,
+     "elapsedMs": 51987
+    },
+    "kFrame=0": {
+     "value": 0.4255466331459218,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "A2": [
+       0.3047952448288821,
+       0.5192704308945683,
+       0.5542761367236394,
+       0.32384472013659726
+      ],
+      "maxSpin": 3.3746888637542725,
+      "nLate": 7
+     },
+     "ratioToBaseline": 0.891094978756885,
+     "elapsedMs": 29096
+    },
+    "kRep=0": {
+     "value": 0.25832646346465066,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "A2": [
+       0.10588785058057266,
+       0.30472964488163795,
+       0.1562895153799939,
+       0.46639884301639817
+      ],
+      "maxSpin": 4.653106212615967,
+      "nLate": 7
+     },
+     "ratioToBaseline": 0.5409358141824137,
+     "elapsedMs": 48274
+    },
+    "muF=0": {
+     "value": 0.465775299686521,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "A2": [
+       0.4818591490024107,
+       0.5751181014632732,
+       0.3069467309558677,
+       0.499177217324532
+      ],
+      "maxSpin": 2.915558338165283,
+      "nLate": 7
+     },
+     "ratioToBaseline": 0.9753338375898271,
+     "elapsedMs": 52124
+    },
+    "kappaS=0": {
+     "value": 0.5198492805967018,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "A2": [
+       0.5608349332898571,
+       0.6325683167277586,
+       0.3890502152313206,
+       0.49694365713787064
+      ],
+      "maxSpin": 3.184699296951294,
+      "nLate": 7
+     },
+     "ratioToBaseline": 1.0885647954151587,
+     "elapsedMs": 49525
+    },
+    "etaRad=0": {
+     "value": 0.4678367254202054,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "A2": [
+       0.5374872207754281,
+       0.5848500480818862,
+       0.2939572436333805,
+       0.4550523891901266
+      ],
+      "maxSpin": 7.131608009338379,
+      "nLate": 7
+     },
+     "ratioToBaseline": 0.9796504646696529,
+     "elapsedMs": 51388
+    },
+    "D0=0": {
+     "value": 0.46549893694816324,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "A2": [
+       0.5104151393324451,
+       0.5692694788155197,
+       0.3041502024948568,
+       0.4781609271498314
+      ],
+      "maxSpin": 3.267585277557373,
+      "nLate": 7
+     },
+     "ratioToBaseline": 0.9747551338020763,
+     "elapsedMs": 52571
+    }
+   }
+  },
+  "convection": {
+   "applicable": true,
+   "reason": "",
+   "metricNote": "循環指標 convCirc(behavior.convection の現行指標。tests/qa.mjs:241-253 convection8000 ユニットから転記 — 第36便Dで24000步→8000步へ再較正された現行版〔qa.mjs:238-240 参照〕)",
+   "steps": 8000,
+   "results": {
+    "baseline": {
+     "value": 14.42649580822693,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "convCirc": 14.42649580822693,
+      "convV": 0.7063211514342098
+     },
+     "ratioToBaseline": 1,
+     "elapsedMs": 55534
+    },
+    "kFrame=0": {
+     "value": 14.42649580822693,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "convCirc": 14.42649580822693,
+      "convV": 0.7063211514342098
+     },
+     "ratioToBaseline": 1,
+     "elapsedMs": 53396
+    },
+    "kRep=0": {
+     "value": -1.7927546785862292,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "convCirc": -1.7927546785862292,
+      "convV": 0.06949771637277714
+     },
+     "ratioToBaseline": -0.12426820084499546,
+     "elapsedMs": 20841
+    },
+    "muF=0": {
+     "value": 18.21189830403082,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "convCirc": 18.21189830403082,
+      "convV": 0.8167272473827375
+     },
+     "ratioToBaseline": 1.2623923748444308,
+     "elapsedMs": 53114
+    },
+    "kappaS=0": {
+     "value": 13.654734920535986,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "convCirc": 13.654734920535986,
+      "convV": 0.7998587721330592
+     },
+     "ratioToBaseline": 0.9465039259741208,
+     "elapsedMs": 51532
+    },
+    "etaRad=0": {
+     "value": 14.42649580822693,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "convCirc": 14.42649580822693,
+      "convV": 0.7063211514342098
+     },
+     "ratioToBaseline": 1,
+     "elapsedMs": 54073
+    },
+    "D0=0": {
+     "value": 14.42649580822693,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "convCirc": 14.42649580822693,
+      "convV": 0.7063211514342098
+     },
+     "ratioToBaseline": 1,
+     "elapsedMs": 54337
+    }
+   }
+  },
+  "freebox": {
+   "applicable": true,
+   "reason": "",
+   "metricNote": "a_eff(1200步。tests/qa.mjs:1143-1191 の freebox base()/run() を転記 — out.B = run(base(),1200) 〔既定 kRep=0.5〕に相当する条件をチャネルごとに物理上書きして測る。freebox プリセットの無い対象〔ルート v1.32 は元来なし — qa.mjs:1139 hasFreebox と同条件〕ではスキップ)",
+   "steps": 1200,
+   "results": {
+    "baseline": {
+     "value": 2.1794719162986844,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "aEff": 2.1794719162986844,
+      "measureBox": true,
+      "t": 19.19999999999966
+     },
+     "ratioToBaseline": 1,
+     "elapsedMs": 416
+    },
+    "kFrame=0": {
+     "value": 2.1794719162986844,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "aEff": 2.1794719162986844,
+      "measureBox": true,
+      "t": 19.19999999999966
+     },
+     "ratioToBaseline": 1,
+     "elapsedMs": 386
+    },
+    "kRep=0": {
+     "value": 0.999780093377613,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "aEff": 0.999780093377613,
+      "measureBox": true,
+      "t": 19.19999999999966
+     },
+     "ratioToBaseline": 0.4587258435866896,
+     "elapsedMs": 302
+    },
+    "muF=0": {
+     "value": 2.1794719162986844,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "aEff": 2.1794719162986844,
+      "measureBox": true,
+      "t": 19.19999999999966
+     },
+     "ratioToBaseline": 1,
+     "elapsedMs": 345
+    },
+    "kappaS=0": {
+     "value": 2.1794719162986844,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "aEff": 2.1794719162986844,
+      "measureBox": true,
+      "t": 19.19999999999966
+     },
+     "ratioToBaseline": 1,
+     "elapsedMs": 340
+    },
+    "etaRad=0": {
+     "value": 2.1794719162986844,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "aEff": 2.1794719162986844,
+      "measureBox": true,
+      "t": 19.19999999999966
+     },
+     "ratioToBaseline": 1,
+     "elapsedMs": 336
+    },
+    "D0=0": {
+     "value": 2.1794719162986844,
+     "nan": false,
+     "divergent": false,
+     "raw": {
+      "aEff": 2.1794719162986844,
+      "measureBox": true,
+      "t": 19.19999999999966
+     },
+     "ratioToBaseline": 1,
+     "elapsedMs": 339
+    }
+   }
+  }
+ }
+}
