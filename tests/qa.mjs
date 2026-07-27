@@ -2187,6 +2187,10 @@ if (hasDrawScale) {
     const paramsDiffer = HP.sim.params.kFrame === 1 && ab.simB.params.kFrame === 0;
     HP.setRunning(true);
     await new Promise(res => setTimeout(res, 800));
+    // 第35便 W5c 追補: 並列ワーカー(4-45)とのCPU競合下では 800ms で t>0.5 に届かないことが
+    // ある(実測 flake)。本テストの本旨は「両宇宙が同期して進む」ことであり 800ms は本旨では
+    // ないため、t>0.5 まで最大5秒の追い待ちを許す(負荷ゼロなら従来どおり 800ms で満了)
+    { const w0 = Date.now(); while (HP.sim.t <= 0.5 && Date.now() - w0 < 5000) await new Promise(res => setTimeout(res, 100)); }
     HP.setRunning(false);
     const bothAdvanced = HP.sim.t > 0.5 && Math.abs(HP.sim.t - ab.simB.t) < 1e-6;
     const evolvedDiff = Math.abs(HP.sim.x[5] - ab.simB.x[5]) > 1e-6; // kFrame差が軌道に効く
