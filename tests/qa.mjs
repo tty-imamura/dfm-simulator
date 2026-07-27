@@ -237,11 +237,12 @@ const W5C_UNITS = {
     for (let i = 1; i < s.n; i++) { tot++; const r2 = Math.hypot(s.x[i], s.y[i]); if (r2 > 45 && r2 < 280) inAnn++; }
     return { satAnn: inAnn / tot, satDrift: Math.hypot(s.x[0], s.y[0]), satNaN: s.hasNaN() };
   }) },
-  convection24000: { enabled: !FAST, weight: 66, run: (pg) => pg.evaluate(() => {
-    // ♨️ convection 24000步 部分のみ(元8節 1937-1949行から抽出)
+  // 第36便 D(台帳4-51)再較正: 評価窓 24000步 → 8000步(下の behavior.convection の注記参照)
+  convection8000: { enabled: !FAST, weight: 22, run: (pg) => pg.evaluate(() => {
+    // ♨️ convection 部分のみ(元8節 1937-1949行から抽出)
     const s = HP.sim;
     HP.loadPreset('convection', false);
-    for (let k = 0; k < 24000; k++) s.step(0.016);
+    for (let k = 0; k < 8000; k++) s.step(0.016);
     let circ = 0, sumV = 0, freeC = 0;
     for (let i = 0; i < s.n; i++) {
       if (s.pinned[i]) continue;
@@ -593,11 +594,17 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
       return w / s.params.Kt; };
     res.gErr = Math.max(...[1, 2, 3].map(i => Math.abs(s.tau[i] / s.t - Math.exp(-psi(i))) / Math.exp(-psi(i))));
     res.gOrder = s.tau[1] < s.tau[2] && s.tau[2] < s.tau[3];
-    // 🌈 coolrace: 冷却速度比 ≈ s³(1:8:64)・位置不変
+    // 🌈 coolrace: 冷却速度比が Λ∝T^p の p 乗則に従う・位置不変
+    // 第36便 D(台帳4-51)再較正: 主張「高温ほど速く冷える(E11 の T^p 則)」は不変で、参照量を
+    // 「スピンの減り Δs(s³則・比8)」→「観測温度の減り ΔT_obs(=ΔT_int)」へ差し替えた。
+    // tint モードでは冷えるのは温度でスピンではない(放射は角運動量を運ばない)。
+    // T_int が 4/16/64(比4)なので dT/dt∝T^p(p=2)の理論比は 4²=16
     HP.loadPreset('coolrace', false);
-    const s0 = [s.spin[0], s.spin[1], s.spin[2]], x0 = [s.x[0], s.x[1], s.x[2]];
+    const cT = (i) => (HP.obsTemp ? HP.obsTemp(s, i)
+      : 0.5 * s.m[i] * s.R[i] * s.R[i] * s.spin[i] * s.spin[i] * s.obsT[i] * (1 - s.lSw[i]));
+    const s0 = [0, 1, 2].map(cT), x0 = [s.x[0], s.x[1], s.x[2]];
     for (let k = 0; k < 200; k++) s.step(0.016);
-    const ds = [0, 1, 2].map(i => s0[i] - s.spin[i]);
+    const ds = [0, 1, 2].map(i => s0[i] - cT(i));
     res.cR21 = ds[1] / ds[0]; res.cR32 = ds[2] / ds[1];
     res.cDrift = Math.max(...[0, 1, 2].map(i => Math.abs(s.x[i] - x0[i])));
     // 💥 counterring: muF=1 は加熱、muF=0 は非加熱
@@ -611,8 +618,12 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
     return res;
   });
   add('new.gclock', r.gErr < 1e-3 && r.gOrder, `err=${r.gErr.toExponential(1)}`);
-  add('new.coolrace', r.cR21 > 5 && r.cR21 < 12 && r.cR32 > 5 && r.cR32 < 12 && r.cDrift < 1e-6,
-    `ratio=${r.cR21.toFixed(1)}/${r.cR32.toFixed(1)} (理論8) drift=${r.cDrift}`);
+  // 実測(beta 2026-07-27・tint): 比=14.7 / 15.6(理論16。ずれは Float32 の T_int に対する
+  // 200步のΔT が小さい〔1.4e-4〕ことによる量子化残差)。閾値は理論16に対し ±40%。
+  // root(spin モード)でも同じ量(観測温度の減り)を測れば 15.9 / 15.5 で同じ閾値を通る
+  // — 旧判定の「比8」はスピンの減り Δs∝s³ を見ていたためで、温度で見た法則は両モード共通
+  add('new.coolrace', r.cR21 > 10 && r.cR21 < 22 && r.cR32 > 10 && r.cR32 < 22 && r.cDrift < 1e-6,
+    `ratio=${r.cR21.toFixed(1)}/${r.cR32.toFixed(1)} (理論16 = T²則・p=2) drift=${r.cDrift}`);
   add('new.counterring', !r.rNaN && r.rHot > 0.3 && r.rCold < 0.05, `muF1=${r.rHot.toFixed(2)} muF0=${r.rCold.toFixed(3)}`);
 }
 
@@ -962,9 +973,14 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
 // ----   integrator 省略時("semi")は本便の変更前と1ビットも変わらないことを位置ハッシュで固定する。
 // ----   基準ハッシュは実装前の beta/index.html(第34便 v1.32 相当)で採取した実測値。
 // ----   ルート・beta のどちらでも同一(採取時に両対象で一致を確認済み)なので対象ガードは付けない。
+// ----   第36便 D(台帳4-51): 参照プリセットを 🔥gas → 🪐saturn へ差し替え。主張(「既定 semi 経路は
+// ----   第35便 W2 着手前と1ビットも変わらない」)は不変で、参照する代表プリセットだけを
+// ----   「本便で thermal:"tint" へ移行しない側」に取り替えたもの。基準ハッシュは gas と同じ手順で
+// ----   第35便 W2 の直前コミット(ea9c8a2)の beta/index.html から新規採取した実測値
+// ----   (同コミットと第36便 C 完了時点=本便着手時点で🪐が bit 一致することも確認済み)。
 {
   const gh = await page.evaluate(() => {
-    HP.loadPreset('gas', false);                       // 代表既定プリセット(N=240・integrator 無指定)
+    HP.loadPreset('saturn', false);                    // 代表既定プリセット(N=301・integrator 無指定・thermal 無指定)
     const s = HP.sim;
     for (let k = 0; k < 300; k++) s.step(0.016);       // 300步(dt=0.016 固定 — timeScale に依存しない)
     const a = [];
@@ -972,10 +988,10 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
     return { n: s.n, t: s.t, str: a.map(v => v.toExponential(12)).join(',') };
   });
   const hash = crypto.createHash('sha256').update(gh.str).digest('hex');
-  // 実装前(第35便 W2 着手時)の実測: n=240 / t=4.800000000000003 / 下記ハッシュ
-  const BASE = '2bd01bdf714c2599b53477806a4863f04ceadfaf1102d189be27d2a86fbe042b';
-  add('integrator.default-unchanged', gh.n === 240 && hash === BASE,
-    `🔥gas 300步 位置ハッシュ=${hash.slice(0, 16)}…(基準=${BASE.slice(0, 16)}… bit一致=${hash === BASE}) n=${gh.n}`);
+  // 実装前(第35便 W2 着手時 = ea9c8a2)の実測: n=301 / t=4.800000000000003 / 下記ハッシュ
+  const BASE = '981bbeae6d274997ae2ae5d07f5b8f5297970c4ccf0dc86ac18de3d4d1a1bd6d';
+  add('integrator.default-unchanged', gh.n === 301 && hash === BASE,
+    `🪐saturn 300步 位置ハッシュ=${hash.slice(0, 16)}…(基準=${BASE.slice(0, 16)}… bit一致=${hash === BASE}) n=${gh.n}`);
 }
 
 // ---- 7h1c) 第35便(台帳4-62): Loschmidt echo — 可逆積分器と時間の矢 ----
@@ -1468,24 +1484,32 @@ if (hasDrawScale) {
 // ----   6件合計の実測所要時間は約14s(gas/pressure/phaseがn=195〜240のため、design memoの想定
 // ----   「nが小さいので+10s」より重いが、+20sの上限内なので !FAST 化はしていない)----
 {
-  // 🔥gas: 左右で異なる初期スピン(温度)が接触・拡散(muF/gammaN/kappaS)で熱平衡化し、
-  // 温度T=½IS²の粒子間分散が縮小する。G=0・kFrame=0で純粋に熱過程だけの統制実験
+  // 🔥gas: 左右で異なる初期温度が接触・伝導(muF/gammaN/kappaS)で熱平衡化し、温度の粒子間分散が
+  // 縮小する。G=0・kFrame=0で純粋に熱過程だけの統制実験。
+  // 第36便 D(台帳4-51)再較正: 主張「温度の粒子間分散が明確に縮小する」は不変で、参照量を
+  // 「T=½IS²」→「観測温度 T_obs(HP.obsTemp = 表示系と同じ量。tint モードでは T_int)」へ差し替え、
+  // 步数を 3000→6000 とした(伝導が熱容量重みになり分散の減り方が緩やかなため。閾値も 0.8→0.75)
   const gas = await page.evaluate(() => {
     const s = HP.sim;
+    // 観測温度 T_obs。Wave D 未適用の対象(root)では従来式 ½IS²·obsT·(1−lSw) にフォールバックする
+    // (どちらも「表示系が示す温度」— 主張は同一で、参照するデータ源だけがモードに追随する)
+    const To = (i) => (HP.obsTemp ? HP.obsTemp(s, i)
+      : 0.5 * s.m[i] * s.R[i] * s.R[i] * s.spin[i] * s.spin[i] * s.obsT[i] * (1 - s.lSw[i]));
     const varTemp = () => {
       let sum = 0, sum2 = 0;
-      for (let i = 0; i < s.n; i++) { const t = 0.5 * s.m[i] * s.R[i] * s.R[i] * s.spin[i] * s.spin[i]; sum += t; sum2 += t * t; }
+      for (let i = 0; i < s.n; i++) { const t = To(i); sum += t; sum2 += t * t; }
       const mean = sum / s.n; return sum2 / s.n - mean * mean;
     };
     HP.loadPreset('gas', false);
     const v0 = varTemp();
-    for (let k = 0; k < 3000; k++) s.step(0.016);
-    return { v0, v1: varTemp(), nan: s.hasNaN() };
+    for (let k = 0; k < 6000; k++) s.step(0.016);
+    return { v0, v1: varTemp(), nan: s.hasNaN(), tint: s.thermal === 'tint' };
   });
-  // 実測(beta): v0=5.6473 → 3000步後 v1=3.8397(比0.6799)。閾値0.8は無変化(比1.0)から
-  // 十分離れており、実測比に対しても約1.18倍の余裕(温度分散が明確に縮小したことだけを検出する目的)
-  add('behavior.gas', !gas.nan && gas.v1 < gas.v0 && gas.v1 / gas.v0 < 0.8,
-    `温度分散(T=½IS²) 初期=${gas.v0.toFixed(3)} → 3000步後=${gas.v1.toFixed(3)}(比=${(gas.v1 / gas.v0).toFixed(3)} < 0.8 — 実測0.680)`);
+  // 実測(beta 2026-07-27・tint): v0=9.7344 → 6000步後 v1=6.2340(比0.6404)。無変化=比1.0 に対し
+  // 閾値0.75は実測に1.17倍・帰無側に1.33倍の余裕(比の判定なので上限1が帰無仮説)。
+  // root(spin モード・Wave D 未適用)の同条件実測は 5.6473→2.7400(比0.4852)で同じ閾値を通る
+  add('behavior.gas', !gas.nan && gas.v1 < gas.v0 && gas.v1 / gas.v0 < 0.75,
+    `温度分散(T_obs) 初期=${gas.v0.toFixed(3)} → 6000步後=${gas.v1.toFixed(3)}(比=${(gas.v1 / gas.v0).toFixed(3)} < 0.75 — 実測 tint 0.640 / spin 0.485)${gas.tint ? ' tint' : ' spin'}`);
 }
 
 {
@@ -1511,17 +1535,20 @@ if (hasDrawScale) {
   add('behavior.pressure',
     !pr.defNaN && !pr.zeroNaN && pr.defRatio > 1.10 && pr.zeroRatio < 1.08 && (pr.defRatio - 1) > 2 * (pr.zeroRatio - 1),
     `2000步後RMS半径比: 既定(kRep=2)=${pr.defRatio.toFixed(4)}(>1.10) kRep=0=${pr.zeroRatio.toFixed(4)}(<1.08) `
-    + `成長量比=${((pr.defRatio - 1) / (pr.zeroRatio - 1)).toFixed(2)}倍(実測3.59倍・閾値2倍以上)`);
+    + `成長量比=${((pr.defRatio - 1) / (pr.zeroRatio - 1)).toFixed(2)}倍(閾値2倍以上 — 実測 tint 11.63倍 / spin 3.59倍)`);
 }
 
 {
-  // 📏conduction: 固定(pinned)の加熱端(spin=8)からスピン拡散(E10′)だけで熱が伝わる。pinned粒子は
-  // beta/index.html の②粒子ループ(2496-2497行 if(pinned[i]) continue;)を素通りするためds[i]が
-  // 適用されず、加熱端の温度は不変(理想的な熱浴)。
-  // 加熱端と遠端(index17・距離153)の温度差ΔTは時間とともに減衰し、中間時点では近い粒子ほど先に温まる
+  // 📏conduction: 固定(pinned)の加熱端から伝導(E10′)だけで熱が伝わる。pinned粒子は
+  // beta/index.html の②粒子ループ(if(pinned[i]) continue;)を素通りするため拡散が適用されず、
+  // 加熱端の温度は不変(理想的な熱浴)。
+  // 加熱端と遠端(index17・距離153)の温度差ΔTは時間とともに減衰し、中間時点では近い粒子ほど先に温まる。
+  // 第36便 D(台帳4-51)再較正: 主張は不変で、参照量を「T=½IS²」→「観測温度 T_obs(HP.obsTemp)」へ
+  // 差し替えた(加熱端は spin=8 → tInt=64 の固定粒子になった)。閾値は据え置きで全て通る
   const cd = await page.evaluate(() => {
     const s = HP.sim;
-    const T = (i) => 0.5 * s.m[i] * s.R[i] * s.R[i] * s.spin[i] * s.spin[i];
+    const T = (i) => (HP.obsTemp ? HP.obsTemp(s, i)
+      : 0.5 * s.m[i] * s.R[i] * s.R[i] * s.spin[i] * s.spin[i] * s.obsT[i] * (1 - s.lSw[i]));
     HP.loadPreset('conduction', false);
     const dT0 = T(0) - T(17);
     let mid = null;
@@ -1529,9 +1556,9 @@ if (hasDrawScale) {
     return { Th0: T(0), dT0, mid, Thf: T(0), T17f: T(17), nan: s.hasNaN() };
   });
   const dTf = cd.Thf - cd.T17f;
-  // 実測(beta): 加熱端T=737.28(不変)。4000步時点で近接(dist9)T1=329.86 > 中位(dist81)T9=112.21 >
-  // 遠端(dist153)T17=74.73(距離依存)。ΔT(加熱端−遠端)は初期737.28 → 20000步後133.52(比0.181)。
-  // 閾値0.35は実測の約1.9倍上
+  // 実測(beta 2026-07-27・tint): 加熱端 T_obs=64(不変)。4000步時点で近接(dist9)T1=42.81 >
+  // 中位(dist81)T9=24.97 > 遠端(dist153)T17=20.38(距離依存)。ΔT(加熱端−遠端)は初期64 →
+  // 20000步後6.08(比0.0951)。閾値0.35は実測の約3.7倍上(旧 spin 実測は 737.28 / 比0.181)
   add('behavior.conduction',
     !cd.nan && cd.Th0 === cd.Thf && cd.mid.T1 > cd.mid.T9 && cd.mid.T9 > cd.mid.T17 && dTf / cd.dT0 < 0.35,
     `加熱端T=${cd.Th0.toFixed(1)}(不変) 中間(4000步) 近接T1=${cd.mid.T1.toFixed(1)} > 中位T9=${cd.mid.T9.toFixed(1)} `
@@ -1541,22 +1568,52 @@ if (hasDrawScale) {
 
 {
   // 🧊phase: 質量・数・大きさ・初速が同一の3群(0-64低温/65-129中温/130-194高温)を一様重力gravityY
-  // (+y方向、実測ではy増加=下)の下に置く。低スピン層ほど重力に逆らわず沈む(平均y座標が最大=最も底側)、
-  // 高スピン層はスピン斥力(A10)が重力を振り切って箱に充満し沈みにくい
+  // (+y方向、実測ではy増加=下)の下に置く。主張は「低温ほど重力に束縛されて底で固まり、高温ほど
+  // 熱の斥力が重力を振り切って箱に充満する」= 三態の順序。
+  // 第36便 D(台帳4-51)再較正: 主張は不変で、参照量を差し替えた。旧判定は3群すべてを「平均y」で
+  // 見ていたが、固体と液体の区別に平均yを使うのは移行後は成立しない — 伝導が熱量保存になった結果
+  // 固体側も衝突散逸(E9)で温まり、コンパクトな塊(重心=床−塊の半径)と薄く広がった液面(重心=床−厚み/2)の
+  // 幾何で平均yの大小が入れ替わるため(実測: 低温76.65 / 中温76.95 と符号が安定しない)。
+  // そこで「固体 vs 液体」は接触数(結晶性 — 説明文の『粒同士が接触したまま底で結晶化する固体』そのもの)、
+  // 「液体 vs 気体」は従来どおり平均y(沈み込み)に鉛直方向の広がり(充満)を足して判定する
   const ph = await page.evaluate(() => {
     const s = HP.sim;
     const meanY = (i0, i1) => { let a = 0; for (let i = i0; i < i1; i++) a += s.y[i]; return a / (i1 - i0); };
+    const sdY = (i0, i1) => { let a = 0, b = 0; for (let i = i0; i < i1; i++) { a += s.y[i]; b += s.y[i] * s.y[i]; }
+      const n = i1 - i0, mu = a / n; return Math.sqrt(Math.max(0, b / n - mu * mu)); };
+    // 1粒子あたりの接触数(結晶性)。接触=中心間距離 < R_i+R_j(エンジンの E9 接触判定と同一式)
+    const contacts = (i0, i1) => { let c = 0;
+      for (let i = i0; i < i1; i++) for (let j = i + 1; j < i1; j++)
+        if (Math.hypot(s.x[i] - s.x[j], s.y[i] - s.y[j]) < s.R[i] + s.R[j]) c++;
+      return 2 * c / (i1 - i0); };
     HP.loadPreset('phase', false);
     for (let k = 0; k < 5000; k++) s.step(0.016);
-    return { cold: meanY(0, 65), med: meanY(65, 130), hot: meanY(130, 195), nan: s.hasNaN(), n: s.n };
-  });
-  // 実測(beta): 5000步後の平均y 低温=76.50 中温=74.12(差2.38 — 4000〜7000步の広い範囲で
-  // 符号が一定な構造的な差) 高温=49.89(中温との差24.23)。閾値は各ギャップの実測の半分未満
-  // (低温>中温+0.5・中温>高温+10)に設定し、境界に対して余裕を持たせた
-  add('behavior.phase', !ph.nan && ph.n === 195 && ph.cold > ph.med + 0.5 && ph.med > ph.hot + 10,
-    `5000步後の平均y(+y=下): 低温=${ph.cold.toFixed(2)} 中温=${ph.med.toFixed(2)}(低温−中温=` +
-    `${(ph.cold - ph.med).toFixed(2)}>0.5) 高温=${ph.hot.toFixed(2)}(中温−高温=${(ph.med - ph.hot).toFixed(2)}>10) ` +
-    `— 低スピン層ほど底側`);
+    return { cold: meanY(0, 65), med: meanY(65, 130), hot: meanY(130, 195),
+      cC: contacts(0, 65), mC: contacts(65, 130), hC: contacts(130, 195),
+      mS: sdY(65, 130), hS: sdY(130, 195),
+      nan: s.hasNaN(), n: s.n, tint: s.thermal === 'tint' };
+  });   // tint=false の対象(root)では下の else 側=旧判定(平均yの三段順序)を使う
+  // 実測(beta 2026-07-27・tint): 5000步後 接触数/粒子 低温=2.09 / 中温=0.00 / 高温=0.00、
+  // 平均y 中温=76.95 高温=59.07(差17.9)、鉛直の広がり(標準偏差)中温=19.7 高温=133.2(6.8倍)。
+  // 閾値は 低温接触>1.0(実測の2.1倍下)・低温接触>中温接触+1.0・中温y>高温y+10(実測の1.8倍下)・
+  // 高温広がり>中温広がりの3倍(実測6.8倍 = 2.25倍の余裕)
+  // 閾値は 低温接触>0.8(5000步実測2.09=2.6倍・4000〜7000步でも最小1.08=1.35倍)・
+  // 低温接触>中温接触+0.8・中温y>高温y+10(実測17.9=1.8倍。4000步はまだ全体が落下中の過渡で
+  // 5000步以降で単調に成立)・高温広がり>中温広がりの3倍(実測6.8倍 = 2.25倍の余裕)。
+  // Wave D 未適用の対象(root=スピン=熱モード)では旧判定(平均yの三段順序)をそのまま使う
+  if (ph.tint) {
+    add('behavior.phase', !ph.nan && ph.n === 195
+      && ph.cC > 0.8 && ph.cC > ph.mC + 0.8 && ph.med > ph.hot + 10 && ph.hS > 3 * ph.mS,
+      `5000步後 接触数/粒子: 低温=${ph.cC.toFixed(2)}(>0.8・結晶化した固体) 中温=${ph.mC.toFixed(2)} ` +
+      `高温=${ph.hC.toFixed(2)} / 平均y(+y=下) 中温=${ph.med.toFixed(2)} 高温=${ph.hot.toFixed(2)}` +
+      `(差=${(ph.med - ph.hot).toFixed(2)}>10 — 液体は底に溜まり気体は沈まない) / 鉛直の広がり ` +
+      `中温=${ph.mS.toFixed(1)} 高温=${ph.hS.toFixed(1)}(${(ph.hS / ph.mS).toFixed(1)}倍>3 — 気体は箱に充満)`);
+  } else {
+    add('behavior.phase', !ph.nan && ph.n === 195 && ph.cold > ph.med + 0.5 && ph.med > ph.hot + 10,
+      `5000步後の平均y(+y=下): 低温=${ph.cold.toFixed(2)} 中温=${ph.med.toFixed(2)}(低温−中温=` +
+      `${(ph.cold - ph.med).toFixed(2)}>0.5) 高温=${ph.hot.toFixed(2)}(中温−高温=${(ph.med - ph.hot).toFixed(2)}>10) ` +
+      `— 低スピン層ほど底側(スピン=熱モード・旧判定)`);
+  }
 }
 
 {
@@ -2231,13 +2288,20 @@ if (hasDrawScale) {
 if (!FAST) {
   // 第35便 W5c: 3測定(galaxy A/B・saturn24000・convection24000)を W5C_UNITS の3ユニットへ分割し
   // ワーカーで並列実行する(判定式・閾値・detail 生成コードは変更せずそのままここに残置)。
-  const r = { ...(await w5cGetUnit('galaxyAB')), ...(await w5cGetUnit('saturn24000')), ...(await w5cGetUnit('convection24000')) };
+  const r = { ...(await w5cGetUnit('galaxyAB')), ...(await w5cGetUnit('saturn24000')), ...(await w5cGetUnit('convection8000')) };
   add('claim.galaxy-outerboost', !r.galNaN && r.galA > r.galB * 1.04,   // 台帳4-48 改名: 旧 galaxy-flatten(T4 は「外縁増強」であり平坦化を主張しない)
     `vφ外縁 kF1=${r.galA.toFixed(3)} kF0=${r.galB.toFixed(3)} 比=${(r.galA / r.galB).toFixed(3)} (>1.04)`);
   add('behavior.saturn', !r.satNaN && r.satAnn >= 0.95 && r.satDrift < 5,
     `inAnn=${(r.satAnn * 100).toFixed(1)}% drift=${r.satDrift.toFixed(1)}`);
-  add('behavior.convection', !r.convNaN && r.convCirc > 5 && r.convV > 0.3,
-    `循環=${r.convCirc.toFixed(1)} (>5) 平均|v|=${r.convV.toFixed(2)} (>0.3)`);
+  // 第36便 D(台帳4-51)再較正: 主張「床加熱・天井冷却で組織化した循環セルができる」は不変で、
+  // 評価窓を 24000步 → 8000步 に差し替え、閾値を実測に合わせて引き上げた(循環>5→15・|v|>0.3→0.5)。
+  // 理由(実測): 移行後は E10′ が熱量保存になり、13枚のヒーター(T_int=144)に対し冷却板が5枚しか
+  // ないため箱全体が長時間で等温化へ向かう。循環は 3000〜12000步で 59.6/65.1/33.6/13.4 と強く正だが、
+  // 15000步以降は弱まり符号が反転しうる(旧版は伝導そのものが散逸的で「分布した熱の捨て場」として
+  // 働いていた)。8000步窓の実測は 循環=65.1(閾値15の4.3倍)・平均|v|=1.76(閾値0.5の3.5倍)。
+  // root(スピン=熱モード)の同窓実測は 循環=18.95・平均|v|=1.353 で同じ閾値を通る
+  add('behavior.convection', !r.convNaN && r.convCirc > 15 && r.convV > 0.5,
+    `8000步: 循環=${r.convCirc.toFixed(1)} (>15) 平均|v|=${r.convV.toFixed(2)} (>0.5)`);
 
   // ---- 8b) v1.21 第9次裁定 P0-3: 内蔵 ☿mercury の実条件検証 ----
   // 説明が引用する V18〜V20 は検証専用条件のため、内蔵プリセットそのものの初期値でも
@@ -3582,6 +3646,478 @@ if (TARGET.startsWith('beta/')) {
       : 'AIタブに横スクロール要素なし(viewport 390。原因は #aiBasePreset のmin-width:0欠落 — 修正済み)');
 } else {
   console.log('SKIP ui.aitab-no-hscroll(beta先行ガード — 対象はルート index.html で未修正)');
+}
+
+// ---- 7v) 第36便 Wave A(ChatGPT差分検証レビュー P1-1): AIベースJSONに新規最上位属性を含める。
+// ----     presetForAIBase は本便の新規関数(root=旧版には存在しない)。関数の有無そのものを
+// ----     機能検出ガードにする(hasBadgeClassify 等の先行例と同方式) ----
+{
+  const hasPresetForAIBase = await page.evaluate(() => typeof window.presetForAIBase === 'function');
+  if (hasPresetForAIBase) {
+    const r = await page.evaluate(() => {
+      const sel = document.querySelector('#aiBasePreset');
+      const has = (id) => HP.allPresets().some((p) => p.id === id);
+      const out = { hasEcho: has('echo'), hasFreebox: has('freebox'), hasBoxredshift: has('boxredshift') };
+      if (out.hasEcho) {
+        sel.value = 'echo';
+        const ctx = HP.aiUserContent('t');
+        out.echo = { integrator: ctx.includes('"integrator":"leapfrog"'), echoFlipAt: ctx.includes('"echoFlipAt":20') };
+      }
+      if (out.hasFreebox) {
+        sel.value = 'freebox';
+        const ctx = HP.aiUserContent('t');
+        out.freebox = { measureBox: ctx.includes('"measureBox":true') };
+      }
+      if (out.hasBoxredshift) {
+        sel.value = 'boxredshift';
+        const ctx = HP.aiUserContent('t');
+        out.boxredshift = { universeBox: ctx.includes('"universeBox"'), photonEmit: ctx.includes('"photonEmit"') };
+      }
+      sel.value = '';
+      return out;
+    });
+    const checks = [];
+    if (r.hasEcho) checks.push(['echo.integrator', r.echo.integrator], ['echo.echoFlipAt', r.echo.echoFlipAt]);
+    if (r.hasFreebox) checks.push(['freebox.measureBox', r.freebox.measureBox]);
+    if (r.hasBoxredshift) checks.push(['boxredshift.universeBox', r.boxredshift.universeBox], ['boxredshift.photonEmit', r.boxredshift.photonEmit]);
+    const bad = checks.filter(([, ok]) => !ok).map(([n]) => n);
+    add('ai.base-topkeys', checks.length > 0 && bad.length === 0,
+      checks.length ? checks.map(([n, ok]) => `${n}:${ok ? 'OK' : 'NG'}`).join(' ') : '対象ベースサンプル(echo/freebox/boxredshift)なし');
+  } else {
+    console.log('SKIP ai.base-topkeys(対象に presetForAIBase なし — 第36便 P1-1 未適用の root 等)');
+  }
+}
+
+// ---- 7w) 第36便 Wave A(P1-2): presetSig に全挙動属性を含める(インポート重複判定)。
+// ----     hasDrawScale(7h1e で定義済み — 同便で追加された sim.drawScale の有無)を「本便の
+// ----     修正一式を含む beta」の代理指標として再利用する(root=旧版は drawScale 自体が無く
+// ----     universeBox 等の署名漏れも root 側の既存問題のため、単一ガードでまとめて SKIP させる)----
+if (hasDrawScale) {
+  const r = await page.evaluate(() => {
+    const singleBody = { type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false };
+    const mk = (id, extra) => Object.assign({ id, name: id, description: 'd',
+      camera: { scale: 200 }, world: { boundary: 'none', size: 0 }, bodies: [singleBody] }, extra);
+    const doImport = (obj) => { document.querySelector('#ioArea').value = JSON.stringify(obj); document.querySelector('#btnImport').click(); };
+    const count = () => JSON.parse(localStorage.getItem('hp_custom_presets') || '[]').length;
+    // 各条件: 粒子配置・physics(既定のまま)は同一で、対象キーだけが異なる2件
+    const CONDS = {
+      integrator: [mk('qa36_intA', { integrator: 'semi' }), mk('qa36_intB', { integrator: 'leapfrog' })],
+      echoFlipAt: [mk('qa36_efA', {}), mk('qa36_efB', { echoFlipAt: 20 })],
+      measureBox: [mk('qa36_mbA', {}), mk('qa36_mbB', { measureBox: true })],
+      drawScale: [mk('qa36_dsA', {}), mk('qa36_dsB', { drawScale: 2 })],
+      universeBox: [mk('qa36_ubA', {}), mk('qa36_ubB', { universeBox: { mode: 'exp', H0: 0.01 } })],
+      photonEmit: [mk('qa36_peA', {}), mk('qa36_peB', { photonEmit: [{ body: 0, t: 0, lambda: 500 }] })],
+      overlays: [mk('qa36_ovA', { overlays: { trail: false } }), mk('qa36_ovB', { overlays: { trail: true } })],
+    };
+    const out = {};
+    for (const [key, pair] of Object.entries(CONDS)) {
+      localStorage.setItem('hp_custom_presets', '[]');
+      localStorage.setItem('hp_saves', '[]');
+      const c0 = count();
+      doImport(pair);
+      out[key] = count() - c0;
+    }
+    localStorage.setItem('hp_custom_presets', '[]');
+    localStorage.setItem('hp_saves', '[]');
+    return out;
+  });
+  const bad = Object.entries(r).filter(([, n]) => n !== 2).map(([k, n]) => `${k}=${n}`);
+  add('import.distinct-topkeys', bad.length === 0,
+    Object.entries(r).map(([k, n]) => `${k}:${n === 2 ? 'OK' : 'NG(added=' + n + ',期待2)'}`).join(' '));
+} else {
+  console.log('SKIP import.distinct-topkeys(対象に drawScale なし — 第36便 P1-2 未適用の root 等)');
+}
+
+// ---- 7x) 第36便 Wave A(P1-3): セーブ重複判定キー sKey へ universeBox を追加 ----
+if (hasDrawScale) {
+  const r = await page.evaluate(() => {
+    localStorage.setItem('hp_custom_presets', '[]');
+    localStorage.setItem('hp_saves', '[]');
+    const mkSave = (name, H0) => ({ name, presetId: 'qa36_boxsave', presetName: 'x',
+      savedAt: new Date().toISOString(), physics: { G: 1 }, universeBox: { mode: 'exp', H0 } });
+    document.querySelector('#ioArea').value = JSON.stringify(
+      { saves: [mkSave('qa36save1', 0.01), mkSave('qa36save2', 0.02)], customPresets: [] });
+    document.querySelector('#btnImport').click();
+    const saves = JSON.parse(localStorage.getItem('hp_saves') || '[]');
+    const h0s = saves.filter((s) => s.presetId === 'qa36_boxsave')
+      .map((s) => s.universeBox && s.universeBox.H0).sort();
+    localStorage.setItem('hp_custom_presets', '[]');
+    localStorage.setItem('hp_saves', '[]');
+    return { count: h0s.length, h0s };
+  });
+  add('save.dedup-box', r.count === 2 && r.h0s[0] === 0.01 && r.h0s[1] === 0.02,
+    `残存件数=${r.count}(期待2) H0=[${r.h0s.join(',')}](期待 0.01,0.02 の両方)`);
+} else {
+  console.log('SKIP save.dedup-box(対象に drawScale なし — 第36便 P1-3 未適用の root 等)');
+}
+
+// ---- 7y) 第36便 Wave A(P2-1): 未保存ドラフトへ universeBox の実行中編集を含める
+// ----     (saveDraft/restoreDraft)。draft.restore と同じくダイアログ処理は専用ページで行う ----
+{
+  const hasDraftFns = await page.evaluate(() =>
+    typeof window.restoreDraft === 'function' && typeof window.saveDraft === 'function');
+  if (hasDraftFns && hasDrawScale) {
+    const hasBoxComoving = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'boxcomoving'));
+    if (hasBoxComoving) {
+      const dp = await browser.newPage();
+      let dlg = 0;
+      dp.on('dialog', (d) => { dlg++; d.accept(); });
+      await dp.goto(INDEX);
+      await dp.waitForFunction(() => !!window.HP);
+      const r = await dp.evaluate(() => {
+        HP.loadPreset('boxcomoving', false);
+        const before = HP.sim.box ? HP.sim.box.H0 : null;
+        if (HP.sim.box) HP.sim.box.H0 = 0.09;   // 実行中編集(未保存)
+        window.saveDraft(true);
+        const draft = JSON.parse(sessionStorage.getItem('hp_draft') || 'null');
+        window.restoreDraft();
+        return { before, draftHasBox: !!(draft && draft.universeBox),
+          draftH0: draft && draft.universeBox && draft.universeBox.H0,
+          afterH0: HP.sim.box ? HP.sim.box.H0 : null };
+      });
+      const ok = dlg === 1 && r.draftHasBox && Math.abs(r.draftH0 - 0.09) < 1e-12 && Math.abs(r.afterH0 - 0.09) < 1e-12;
+      add('draft.box-restore', ok,
+        `編集前H0=${r.before} confirm=${dlg} ドラフトH0=${r.draftH0} 復元後H0=${r.afterH0}(いずれも0.09を期待)`);
+      await dp.close();
+    } else {
+      console.log('SKIP draft.box-restore(対象に🫧boxcomovingなし)');
+    }
+  } else {
+    console.log('SKIP draft.box-restore(対象に saveDraft/restoreDraft の箱対応なし — 第36便 P2-1 未適用の root 等)');
+  }
+}
+
+// ---- 7z) 第36便 Wave B(B1・原仮定者指示): version.beta-label — タイトル下のバージョン表示。
+// ----     BETA_BUILD が beta/sw.js の CACHE 接尾辞と一致(version.sw-sync 0b2 と同型の静的検査)+
+// ----     file:// では isBetaServe() が偽になる仕様を利用し、DOM表示が "v"+APP_VERSION へ
+// ----     フォールバックすることも併せて確認する(対象に BETA_BUILD が無い root 等は SKIP)----
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const bb = (html.match(/const BETA_BUILD\s*=\s*"([^"]+)"/) || [])[1];
+  if (bb) {
+    const swPath = TARGET.startsWith('beta/') ? 'beta/sw.js' : 'sw.js';
+    const sw = fs.readFileSync(path.join(ROOT, swPath), 'utf8');
+    const cache = (sw.match(/CACHE = CACHE_PREFIX \+ "([^"]+)"/) || [])[1];
+    const av = (html.match(/const APP_VERSION = "([^"]+)"/) || [])[1];
+    const domVer = await page.evaluate(() => document.querySelector('#appVer')?.textContent || '');
+    add('version.beta-label', bb === cache && domVer === ('v' + av),
+      `BETA_BUILD=${bb} sw.CACHE接尾辞=${cache}(要一致) DOM表示(file://)=${domVer}(期待=v${av}。` +
+      `isBetaServe()がfile://で偽になり"v"+APP_VERSIONへ落ちる仕様を利用した検証)`);
+  } else {
+    console.log('SKIP version.beta-label(対象に BETA_BUILD なし — 第36便 B1 未適用の root 等)');
+  }
+}
+
+// ---- 7z2) 第36便 Wave B(B3・原仮定者指示): ray.wavelength-color — 💡lensingの光線パス上、
+// ----      始点近傍(ψ0)と最深部(経路上最大Wtotの点)の波長が λ0=550nm と λ0·e^{ψ0−ψ} で
+// ----      異なることを、描画バッファでなく HP.traceRay の計算値(emitへ渡るWtot)+
+// ----      HP.wavelengthColor(色関数そのものを公開・重複実装なし)で検証する ----
+{
+  const hasWL = await page.evaluate(() => typeof window.HP.wavelengthColor === 'function');
+  const hasLensing = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'lensing'));
+  if (hasWL && hasLensing) {
+    const r = await page.evaluate(() => {
+      HP.loadPreset('lensing', false);
+      const S = HP.sim, Kt = S.params.Kt;
+      const pts = [];
+      HP.traceRay(S, -600, -20, 1, 0, 3, 800, (nx, ny, Wtot) => { pts.push(Wtot); return true; });
+      const psi = pts.map((w) => w / Kt);
+      const psi0 = psi[0];
+      let maxIdx = 0;
+      for (let i = 1; i < psi.length; i++) if (psi[i] > psi[maxIdx]) maxIdx = i;
+      const psiDeep = psi[maxIdx];
+      const nm0 = 550 * Math.exp(psi0 - psi0);
+      const nmDeep = 550 * Math.exp(psi0 - psiDeep);
+      return { steps: psi.length, psi0, psiDeep, nm0, nmDeep,
+        col0: HP.wavelengthColor(nm0), colDeep: HP.wavelengthColor(nmDeep) };
+    });
+    const ok = r.steps > 10 && r.psiDeep > r.psi0 + 1e-6 && Math.abs(r.nm0 - 550) < 1e-9 &&
+      r.nmDeep < r.nm0 - 1 && r.col0 !== r.colDeep;
+    add('ray.wavelength-color', ok,
+      `steps=${r.steps} ψ0=${r.psi0.toFixed(4)} ψ最深=${r.psiDeep.toFixed(4)} ` +
+      `λ0=${r.nm0.toFixed(1)}nm(${r.col0}) λ最深=${r.nmDeep.toFixed(1)}nm(${r.colDeep})` +
+      `(λ0>λ最深=青方偏移を期待・色も相違)`);
+  } else {
+    console.log('SKIP ray.wavelength-color(対象に wavelengthColor 公開 or 💡lensing なし — 第36便 B3 未適用の root 等)');
+  }
+}
+
+// ---- 7z3) 第36便 Wave B(B4・原仮定者指示): ai.help-collapsed — インポート/キーの保存/
+// ----      ベースのサンプルの説明が <details> として存在し既定closedであること、
+// ----      openにすると本文(note段落)が可視化されることを確認する(対象に無ければ SKIP)----
+{
+  const hasDetails = await page.evaluate(() =>
+    !!document.querySelector('#ioDetails') && !!document.querySelector('#aiKeyDetails') &&
+    !!document.querySelector('#aiBaseDetails'));
+  if (hasDetails) {
+    const r = await page.evaluate(() => {
+      const specs = [
+        ['saves', 'ioDetails', 'ioNote'],
+        ['ai', 'aiKeyDetails', 'aiKeyNote'],
+        ['ai', 'aiBaseDetails', 'aiBaseNote'],
+      ];
+      const out = {};
+      for (const [tab, dId, pId] of specs) {
+        // タブボタンは「同じタブを再クリックするとパネルごと閉じる」トグル仕様(4111行付近)なので、
+        // 既に対象タブが開いていれば再クリックしない(aiKeyDetails→aiBaseDetailsは連続で"ai"タブ)
+        const btn = document.querySelector(`#tabs button[data-tab=${tab}]`);
+        if (!btn.classList.contains('on')) btn.click();
+        const d = document.getElementById(dId), p = document.getElementById(pId);
+        const closedByDefault = d.open === false;
+        // Chromiumの<details>の非表示化は content-visibility 相当の内部機構で、レイアウト上の
+        // offsetParent/getBoundingClientRect は非nullのまま残る(高さも0にならない)ため判定に使えない
+        // (実機確認済み)。実際の可視/不可視は checkVisibility() で判定する(Chrome 105+で利用可)
+        const hiddenWhenClosed = !p.checkVisibility();
+        d.open = true;
+        const visibleWhenOpen = p.checkVisibility();
+        d.open = false;   // 既定closedへ戻す(以降の項目・実際の初期UXへ影響させない)
+        out[dId] = { closedByDefault, hiddenWhenClosed, visibleWhenOpen };
+      }
+      document.querySelector('#btnPanelClose').click();   // パネルを閉じ直す(ui.aitab-no-hscrollと同方式)
+      return out;
+    });
+    const bad = Object.entries(r).filter(([, v]) => !(v.closedByDefault && v.hiddenWhenClosed && v.visibleWhenOpen)).map(([k]) => k);
+    add('ai.help-collapsed', bad.length === 0,
+      Object.entries(r).map(([k, v]) => `${k}:closed=${v.closedByDefault}/hidden=${v.hiddenWhenClosed}/visibleOnOpen=${v.visibleWhenOpen}`).join(' '));
+  } else {
+    console.log('SKIP ai.help-collapsed(対象に ioDetails/aiKeyDetails/aiBaseDetails なし — 第36便 B4 未適用の root 等)');
+  }
+}
+
+// ---- 7z4) 第36便 Wave C(C1/C2・原仮定者指示): 「粒子半径スケール」既定1(旧値は body.rMul へ
+// ----      焼き込み)と「掻出」の自動算出モード lightSweep:"auto"(beta 先行 — ルート対象時はスキップ)----
+{
+  const hasWaveC = await page.evaluate(() => !!(HP.sim && HP.sim.rMulv && HP.sim.lSwAuto));
+  if (hasWaveC) {
+    // ① radius.default-one: 内蔵プリセット全件の physics.radiusScale が 1
+    //    (原仮定者指示「デフォルトを1とする。現状1でないサンプルは全粒子に反映した上で1にする」の機械固定)
+    //    走査はソース上の BUILTIN_PRESETS 定義に対して行う(builtin.explicit-physics と同方式 —
+    //    実行時 allPresets() はインポート済みカスタムを含み得るので混入しない静的走査を使う)。
+    //    併せて DEFAULT_PHYSICS.radiusScale===1 とスライダー定義域も確認する
+    {
+      const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+      const block = html.match(/const BUILTIN_PRESETS = \[([\s\S]*?)\n\];/)[1];
+      const vals = [...block.matchAll(/radiusScale:\s*([\d.]+)/g)].map(x => x[1]);
+      const bad = vals.filter(v => Number(v) !== 1);
+      const dp = (html.match(/const DEFAULT_PHYSICS = \{[\s\S]*?radiusScale:\s*([\d.]+)/) || [])[1];
+      const rt = await page.evaluate(() => {
+        // rMul 焼き込み済みの内蔵は「全 body に rMul あり or radiusScale が元から1」のはず
+        const bs = HP.allPresets().filter(p => !String(p.id).startsWith('custom_'));
+        return bs.filter(p => (p.physics || {}).radiusScale !== 1).map(p => `${p.id}=${(p.physics || {}).radiusScale}`);
+      });
+      add('radius.default-one', bad.length === 0 && vals.length > 0 && Number(dp) === 1 && rt.length === 0,
+        `内蔵${vals.length}件の physics.radiusScale: 非1=${bad.length ? bad.join(',') : 'なし'} / ` +
+        `DEFAULT_PHYSICS.radiusScale=${dp}(=1) 実行時非1=${rt.length ? rt.join(',') : 'なし'}`);
+    }
+
+    // ② rmul.schema: body.rMul(全 body 型で省略可・既定1・clamp[0.2,5])の受理と半径式
+    //    R = radiusScale·rMul·√|m|(明示 radius があれば radius 優先。rMul は body.radius の
+    //    0.5 下限を経由しない内部計算なので、微小粒子の R<0.5 が従来どおり出せる)
+    const rm = await page.evaluate(() => {
+      const mk = (bodies, phys) => ({ id: 'qa_rmul', name: 'r', description: 'd', camera: { scale: 300 },
+        world: { boundary: 'none', size: 0 },
+        physics: Object.assign({ G: 1, D0: 2, kFrame: 1, q: 2, kRep: 1, muF: 0.5, gammaN: 0.4, kappaS: 0.05,
+          Kt: 60, cLight: 60, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1,
+          pnAlpha: 1.5, radiusScale: 1, softening: 2, timeScale: 1 }, phys || {}), bodies, overlays: {} });
+      // clamp: 4 型すべてで [0.2,5] に丸められ、丸めたときは警告が出る
+      const v = HP.validatePreset(mk([
+        { type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false, rMul: 9 },
+        { type: 'ring', n: 4, cx: 0, cy: 0, rIn: 50, rOut: 50, mMin: 1, mMax: 1, spinMin: 0, spinMax: 0, vMode: 'none', aroundMass: 0, omega: 0, vNoise: 0, direction: 1, pinned: false, rMul: 0.01 },
+        { type: 'disk', n: 4, cx: 0, cy: 0, radius: 40, mMin: 1, mMax: 1, spinMin: 0, spinMax: 0, vMode: 'none', aroundMass: 0, vScale: 0, direction: 1, rMul: 3 },
+        { type: 'box', n: 4, cx: 0, cy: 0, w: 40, h: 40, mMin: 1, mMax: 1, spinMin: 0, spinMax: 0, vScale: 0, rMul: 2 },
+      ]));
+      const clamps = v.ok ? v.preset.bodies.map(b => b.rMul) : null;
+      // 省略時は既定1(キーごと出力されない=旧スキーマと同一形)
+      const vDef = HP.validatePreset(mk([{ type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }]));
+      const omitted = vDef.ok && !('rMul' in vDef.preset.bodies[0]);
+      const s = HP.sim;
+      // 半径式 R = radiusScale·rMul·√|m| と、明示 radius 優先
+      s.build(mk([{ type: 'single', m: 100, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true, rMul: 2 },
+        { type: 'single', m: 100, x: 200, y: 0, vx: 0, vy: 0, spin: 0, pinned: true, rMul: 2, radius: 7 }]));
+      const rFormula = s.R[0], rExplicit = s.R[1];
+      // radiusScale スライダーは「相対ノブ」として存続(1 が基準になるだけ)
+      s.params.radiusScale = 2; s.updateRadii();
+      const knob = s.R[0];
+      s.params.radiusScale = 1; s.updateRadii();
+      // 微小粒子: body.radius の 0.5 下限を経由しない
+      s.build(mk([{ type: 'single', m: 0.04, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true, rMul: 0.5 }]));
+      const tiny = s.R[0];
+      return { ok: v.ok, clamps, warns: v.warnings.length, omitted, rFormula, rExplicit, knob, tiny };
+    });
+    const rmOk = rm.ok && JSON.stringify(rm.clamps) === JSON.stringify([5, 0.2, 3, 2]) && rm.warns === 2 &&
+      rm.omitted && Math.abs(rm.rFormula - 20) < 1e-5 && Math.abs(rm.rExplicit - 7) < 1e-5 &&
+      Math.abs(rm.knob - 40) < 1e-5 && Math.abs(rm.tiny - 0.1) < 1e-5;
+    add('rmul.schema', rmOk,
+      `clamp=${JSON.stringify(rm.clamps)}(=[5,0.2,3,2]) 警告${rm.warns}件 省略時キーなし=${rm.omitted} ` +
+      `R(rMul2,m100)=${rm.rFormula}(=20) radius優先=${rm.rExplicit}(=7) rs2倍=${rm.knob}(=40) 微小R=${rm.tiny.toFixed(4)}(=0.1・下限0.5を経由しない)`);
+
+    // ③ sweep.auto-monotonic: 同一質量・半径で s=0/0.5/1/2 → lS_eff が単調増加し s=0 で 0
+    //    実測(2026-07-27・m=100/radius=20/Kt=60/c₀=60/D₀=2):
+    //      s=0 → 0 / s=0.5 → 0.210293 / s=1 → 0.420586 / s=2 → 0.841172
+    const mono = await page.evaluate(() => [0, 0.5, 1, 2].map(sp => {
+      const s = HP.sim;
+      s.build({ id: 'qa_sweep', name: 's', description: 'd', camera: { scale: 300 },
+        world: { boundary: 'none', size: 0 },
+        physics: { G: 1, D0: 2, kFrame: 1, q: 2, kRep: 1, muF: 0.5, gammaN: 0.4, kappaS: 0.05, Kt: 60,
+          cLight: 60, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1,
+          pnAlpha: 1.5, radiusScale: 1, softening: 2, timeScale: 1 },
+        bodies: [{ type: 'single', m: 100, x: 0, y: 0, vx: 0, vy: 0, spin: sp, pinned: true, radius: 20, lightSweep: 'auto' }],
+        overlays: {} });
+      s.step(0.016);
+      return { spin: sp, lS: s.lSwEff(0), auto: s.lSwAuto[0] };
+    }));
+    const monoOk = mono.every(m => m.auto === 1) && mono[0].lS === 0 &&
+      mono[1].lS > 0 && mono[2].lS > mono[1].lS && mono[3].lS > mono[2].lS;
+    add('sweep.auto-monotonic', monoOk,
+      mono.map(m => `s=${m.spin}→lS_eff=${m.lS.toFixed(6)}`).join(' ') + '(s=0で0・単調増加)');
+
+    // ④ sweep.auto-physlock: 物理対応ロック(Kt=cLight²/G=3600・cLight=60)+ 恒星的パラメータ
+    //    = 表面速度/光速が実在天体と同じ比(土星 v_eq=9.87km/s ÷ c=299792km/s = 3.29e-5)なら
+    //    lS_eff < 0.01。auto は「現実の自転では暗くならない」— 第19便 反証条件7と整合する
+    //    誠実性の機械固定(この式でダークマター的な暗さがタダで手に入らないことの保証)。
+    //    実測(2026-07-27・m=1500/radius=70): 土星比 3.333e-5 / 太陽比(6.7e-6)6.788e-6。
+    //    参考: 同天体でも展示用の誇張スピン 0.05 では 0.0591、1.2 では 1(飽和)になる。
+    const lock = await page.evaluate(() => {
+      const run = (spin) => {
+        const s = HP.sim;
+        s.build({ id: 'qa_lock', name: 'l', description: 'd', camera: { scale: 300 },
+          world: { boundary: 'none', size: 0 },
+          physics: { G: 1, D0: 2, kFrame: 1, q: 2, kRep: 1, muF: 0.5, gammaN: 0.4, kappaS: 0.05, Kt: 3600,
+            cLight: 60, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1,
+            pnAlpha: 1.5, radiusScale: 1, softening: 2, timeScale: 1 },
+          bodies: [{ type: 'single', m: 1500, x: 0, y: 0, vx: 0, vy: 0, spin, pinned: true, radius: 70, lightSweep: 'auto' }],
+          overlays: {} });
+        s.step(0.016);
+        return { lS: s.lSwEff(0), lock: HP.physLockSatisfied(s) };
+      };
+      return { saturn: run(60 * 3.29e-5 / 70), sun: run(60 * 6.7e-6 / 70), toy: run(0.05) };
+    });
+    add('sweep.auto-physlock', lock.saturn.lock && lock.saturn.lS < 0.01 && lock.sun.lS < 0.01,
+      `ロック成立=${lock.saturn.lock} 土星の実自転比 lS_eff=${lock.saturn.lS.toExponential(3)}(<0.01) ` +
+      `太陽比=${lock.sun.lS.toExponential(3)} 参考: 展示用スピン0.05では ${lock.toy.lS.toFixed(4)}`);
+
+    // ⑤ sweep.numeric-unchanged: 数値指定(既存プリセット)の掻出は bit 一致で不変。
+    //    🕶️darkrotor(全 single が lightSweep:1)を 300 步走らせた x,y,spin ハッシュを、
+    //    Wave C 実装前の beta/index.html(第36便 36B 時点)で採取した基準と照合する。
+    const dr = await page.evaluate(() => {
+      HP.loadPreset('darkrotor', false);
+      const s = HP.sim;
+      const lS0 = [s.lSw[0], s.lSw[1]], auto = s.hasLSwAuto;
+      for (let k = 0; k < 300; k++) s.step(0.016);
+      const a = [];
+      for (let i = 0; i < s.n; i++) a.push(s.x[i], s.y[i], s.spin[i]);
+      return { n: s.n, lS0, auto, lS1: [s.lSw[0], s.lSw[1]], str: a.map(v => v.toExponential(12)).join(',') };
+    });
+    const drHash = crypto.createHash('sha256').update(dr.str).digest('hex');
+    const DR_BASE = '4dee00d8f2db22aadddcc8dd3186f2fd8b6048100caef1694ee7cd1167609379';
+    add('sweep.numeric-unchanged',
+      dr.n === 391 && drHash === DR_BASE && dr.auto === false &&
+      dr.lS0[0] === 1 && dr.lS0[1] === 1 && dr.lS1[0] === 1 && dr.lS1[1] === 1,
+      `🕶️darkrotor 300步 x,y,spinハッシュ=${drHash.slice(0, 16)}…(基準=${DR_BASE.slice(0, 16)}… bit一致=${drHash === DR_BASE}) ` +
+      `auto経路=${dr.auto}(false=ゼロコスト) lightSweep=${dr.lS1.join(',')}(不変)`);
+
+    await page.evaluate(() => HP.loadPreset('saturn', false));   // 後続項目のため既定プリセットへ戻す
+  } else {
+    console.log('SKIP radius.default-one/rmul.schema/sweep.auto-*/sweep.numeric-unchanged(対象に Wave C 未適用 — root 等)');
+  }
+}
+
+// ---- 7z5) 第36便 Wave D(台帳4-51 / A9 改訂): 温度の内部状態変数化 thermal:"tint"
+// ----      (beta 先行 — ルート対象時はスキップ)----
+{
+  const hasTint = await page.evaluate(() => typeof HP.obsTemp === 'function' && !!HP.sim.thermal);
+  if (hasTint) {
+    // ① tint.schema: 最上位キー thermal の enum クランプ(integrator と同形)と body.tInt の値域クランプ。
+    //    thermal は SYSTEM_PROMPT に載せない(AI 生成に開放しない)ので、受理してクランプするだけ
+    const sc = await page.evaluate(() => {
+      const mk = (extra, body) => Object.assign({ name: 't', description: 'thermal スキーマ検査',
+        camera: { scale: 200 }, world: { boundary: 'none', size: 0 }, physics: {},
+        bodies: [Object.assign({ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }, body || {})] }, extra);
+      const V = (o) => { const v = HP.validatePreset(o); return { ok: v.ok, p: v.preset, w: v.warnings.length }; };
+      const tint = V(mk({ thermal: 'tint' }));
+      const spin = V(mk({ thermal: 'spin' }));
+      const bad = V(mk({ thermal: 'hot' }));
+      const none = V(mk({}));
+      const tHi = V(mk({ thermal: 'tint' }, { tInt: 99999 }));
+      const tLo = V(mk({ thermal: 'tint' }, { tInt: -5 }));
+      const tOk = V(mk({ thermal: 'tint' }, { tInt: 12.5 }));
+      const tNaN = V(mk({ thermal: 'tint' }, { tInt: 'x' }));
+      // エンジン側: thermal 省略/spin では Tint を確保しない(ゼロコスト)・tint では確保する
+      const s = HP.sim;
+      s.build(mk({ thermal: 'tint' }, { tInt: 7 }));
+      const engTint = { thermal: s.thermal, has: !!s.Tint, T0: s.Tint ? s.Tint[0] : null };
+      s.build(mk({}, { tInt: 7 }));
+      const engSpin = { thermal: s.thermal, has: !!s.Tint };
+      return { tint: tint.p.thermal, spin: spin.p.thermal, bad: bad.p.thermal, badW: bad.w,
+        none: none.p.thermal, tHi: tHi.p.bodies[0].tInt, tHiW: tHi.w, tLo: tLo.p.bodies[0].tInt,
+        tOk: tOk.p.bodies[0].tInt, tOkW: tOk.w, tNaNok: tNaN.ok, engTint, engSpin };
+    });
+    add('tint.schema',
+      sc.tint === 'tint' && sc.spin === 'spin' && sc.bad === 'spin' && sc.badW === 1 && sc.none === undefined
+      && sc.tHi === 10000 && sc.tHiW === 1 && sc.tLo === 0 && sc.tOk === 12.5 && sc.tOkW === 0
+      && sc.tNaNok === false
+      && sc.engTint.thermal === 'tint' && sc.engTint.has && sc.engTint.T0 === 7
+      && sc.engSpin.thermal === 'spin' && !sc.engSpin.has,
+      `thermal: "tint"→${sc.tint} "spin"→${sc.spin} "hot"→${sc.bad}(警告${sc.badW}件) 省略→${sc.none} / ` +
+      `tInt: 99999→${sc.tHi}(警告${sc.tHiW}件) -5→${sc.tLo} 12.5→${sc.tOk}(警告${sc.tOkW}件=0) "x"→検証NG=${!sc.tNaNok} / ` +
+      `エンジン: tint で Tint 確保=${sc.engTint.has}(T=${sc.engTint.T0}) spin で未確保=${!sc.engSpin.has}`);
+
+    // ② tint.zero-cost: thermal 省略(spin モード)のプリセットは Wave D の実装前と 1 ビットも変わらない。
+    //    基準ハッシュは本便 D 着手時点(第36便 36C 完了 = f1468b1)の beta/index.html で採取した実測値で、
+    //    さらに第35便 W2 直前(ea9c8a2)でも同一であることを確認済み(= 移行しない全系統の無変更の証跡)。
+    //    形式は sweep.numeric-unchanged と同じ 300步 x,y,spin ハッシュ
+    const ZC = {
+      galaxy: ['51a8ff116ddd4aee4849a8db61a53d3ab8d9da6df8b3606cc52ed369ca853386', 381],
+      saturn: ['6e6ee844cc3cb82b4052885c8d86ccffad44f74c0b44c3da253007e398e1fb87', 301],
+      darkrotor: ['4dee00d8f2db22aadddcc8dd3186f2fd8b6048100caef1694ee7cd1167609379', 391],
+      counterring: ['29fb3cab287f4fd0301b3843575b3acf24709e687574a4135f6df135dd687f11', 201],
+      freebox: ['a9fbb51894a298af70dc7350e61f9e8fce32e10abddd2ecdafa989312260bc7d', 72],
+      echo: ['9e09d365c44a32ebd423d933eab9ea494bfb9a69a46eebd316aaf1bde1dac4d7', 31],
+    };
+    const zc = [];
+    for (const [id, [base, n]] of Object.entries(ZC)) {
+      const r = await page.evaluate((pid) => {
+        HP.loadPreset(pid, false);
+        const s = HP.sim;
+        for (let k = 0; k < 300; k++) s.step(0.016);
+        const a = [];
+        for (let i = 0; i < s.n; i++) a.push(s.x[i], s.y[i], s.spin[i]);
+        return { n: s.n, thermal: s.thermal, has: !!s.Tint, str: a.map(v => v.toExponential(12)).join(',') };
+      }, id);
+      const h = crypto.createHash('sha256').update(r.str).digest('hex');
+      zc.push({ id, ok: h === base && r.n === n && r.thermal === 'spin' && !r.has, h: h.slice(0, 8) });
+    }
+    const zbad = zc.filter(z => !z.ok).map(z => `${z.id}(${z.h})`);
+    add('tint.zero-cost', zbad.length === 0,
+      zbad.length ? `bit不一致/経路混入: ${zbad.join(' ')}`
+        : `${zc.length}件が bit 一致(300步 x,y,spin ハッシュ): ${zc.map(z => z.id).join(' ')} — 全て thermal=spin・Tint 未確保`);
+
+    // ③ tint.migrated: 移行8サンプルが thermal:"tint" を宣言し、初期の熱が spin ではなく tInt にある
+    //    (spin 初期値は 0 か微小 — 「高スピン=熱い」からの移行が漏れていないことの機械固定)
+    const mig = await page.evaluate(() => {
+      const IDS = ['gas', 'pressure', 'conduction', 'coolrace', 'phase', 'convection', 'buoyancy', 'snowline'];
+      const out = {};
+      for (const id of IDS) {
+        const p = HP.allPresets().find(q => q.id === id);
+        if (!p) { out[id] = { missing: true }; continue; }
+        HP.loadPreset(id, false);
+        const s = HP.sim;
+        let maxSpin = 0, maxT = 0;
+        for (let i = 0; i < s.n; i++) { maxSpin = Math.max(maxSpin, Math.abs(s.spin[i])); maxT = Math.max(maxT, s.Tint ? s.Tint[i] : 0); }
+        out[id] = { thermal: p.thermal, mode: s.thermal, maxSpin, maxT };
+      }
+      return out;
+    });
+    const mbad = Object.entries(mig).filter(([, v]) => v.missing || v.thermal !== 'tint' || v.mode !== 'tint'
+      || v.maxSpin > 0.5 || !(v.maxT > 0)).map(([k]) => k);
+    add('tint.migrated', mbad.length === 0,
+      mbad.length ? `未移行/初期条件が spin のまま: ${mbad.join(' ')}`
+        : Object.entries(mig).map(([k, v]) => `${k}(T≤${v.maxT}·s≤${v.maxSpin})`).join(' '));
+
+    await page.evaluate(() => HP.loadPreset('saturn', false));   // 後続項目のため既定プリセットへ戻す
+  } else {
+    console.log('SKIP tint.schema/tint.zero-cost/tint.migrated(対象に Wave D 未適用 — root 等)');
+  }
 }
 
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));

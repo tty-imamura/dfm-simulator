@@ -34,6 +34,9 @@
   header{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--panel);
     border-bottom:1px solid var(--line);flex:0 0 auto;padding-top:calc(8px + env(safe-area-inset-top,0px));}
   header .title{font-weight:700;font-size:calc(15px*var(--uz,1));white-space:nowrap;}
+  /* 第36便 B1(原仮定者指示): タイトル直下の小さなビルド表示(#hud と同じ控えめな色) */
+  header .titleWrap{display:flex;flex-direction:column;justify-content:center;min-width:0;}
+  header .titleVer{font-size:calc(9px*var(--uz,1));color:var(--dim);white-space:nowrap;line-height:1.3;}
   select,button,input,textarea{font:inherit;color:var(--fg);}
   select{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-height:44px;}
   #presetSelect{flex:1;min-width:0;}
@@ -182,7 +185,12 @@
 <body>
 <div id="app">
   <header>
-    <div class="title" id="appTitle" role="button" tabindex="0" aria-expanded="false" aria-controls="aboutPanel">DFM Lab</div>
+    <!-- 第36便 B1(原仮定者指示): タイトル下に小さなバージョン表示(#appTitle は言語切替で
+         textContent を丸ごと書き換えるため、別要素の titleWrap に分けて子に持たせる) -->
+    <div class="titleWrap">
+      <div class="title" id="appTitle" role="button" tabindex="0" aria-expanded="false" aria-controls="aboutPanel">DFM Lab</div>
+      <div class="titleVer" id="appVer"></div>
+    </div>
     <select id="presetSelect" aria-label="シミュレーション選択"></select>
     <button id="btnLang" class="btn" style="flex:0 0 auto;min-height:44px;padding:8px 10px;" aria-label="Language">EN</button>
   </header>
@@ -211,7 +219,7 @@
         <label id="beLrr" style="min-width:30px">Rc/R</label><input type="text" id="beRr" inputmode="decimal" autocomplete="off"></div>
       <div class="beRow"><label id="beLot">To×</label><input type="text" id="beOt" inputmode="decimal" autocomplete="off">
         <label id="beLoc" style="min-width:30px">TcO×</label><input type="text" id="beOc" inputmode="decimal" autocomplete="off"></div>
-      <div class="beRow"><label id="beLsw" style="min-width:34px">掻出</label><input type="text" id="beSw" inputmode="decimal" autocomplete="off"><span style="flex:1"></span></div>
+      <div class="beRow"><label id="beLsw" style="min-width:34px">掻出</label><input type="text" id="beSw" inputmode="decimal" autocomplete="off"><span id="beSwEff" style="flex:1;font-size:11px;opacity:.8;padding-left:6px"></span></div>
       <div class="beRow"><label id="beLvx">vx</label><input type="text" id="beVx" inputmode="text" autocomplete="off">
         <label id="beLvy">vy</label><input type="text" id="beVy" inputmode="text" autocomplete="off"></div>
       <div class="beRow"><label id="beLp" style="flex:1">固定(pinned)</label><input type="checkbox" id="bePin"></div>
@@ -274,7 +282,9 @@
         </div>
         <input type="file" id="importFile" accept=".json,application/json" style="display:none">
         <textarea id="ioArea" placeholder="エクスポートJSONの表示 / 貼り付けてインポート"></textarea>
-        <p class="note" id="ioNote">インポートは「単独プリセット / プリセット配列 / {customPresets:[…]} / バックアップ全体」のどの形式でも自動判別します。既存と同じIDはIDと名前にサフィックスを付けて追加され、インポートしたプリセットは保存一覧にも登録されます。</p>
+        <!-- 第36便 B4(原仮定者指示): 説明文を既定closedのdetailsへ折畳み(要点は見出しのみ表示) -->
+        <details id="ioDetails"><summary id="ioNoteSum" class="note" style="cursor:pointer">インポート</summary>
+        <p class="note" id="ioNote">インポートは「単独プリセット / プリセット配列 / {customPresets:[…]} / バックアップ全体」のどの形式でも自動判別します。既存と同じIDはIDと名前にサフィックスを付けて追加され、インポートしたプリセットは保存一覧にも登録されます。</p></details>
       </div>
       <div class="group"><h3>保存一覧</h3><div id="saveList"></div></div>
     </div>
@@ -295,7 +305,9 @@
         <div class="prow" style="margin-top:6px"><label id="keyPersistLabel" style="flex:1">キーをこの端末に保存する</label>
           <input type="checkbox" id="keyPersist"></div>
         <div class="rowBtns"><button class="btn" id="btnKeySave">キーを設定</button></div>
-        <p class="note" id="aiKeyNote">キーはこの端末内でのみ使われ、送信先は選択・設定したAPIエンドポイントだけです(OpenAI互換では入力したベースURLへ送信されます — URLは必ず確認してください)。保存チェックOFFなら端末にも残りません(タブを閉じると消えます)。ブラウザへのキー入力にはリスクが伴うため、利用上限を設定した専用キーを推奨します。</p>
+        <!-- 第36便 B4(原仮定者指示): 説明文を既定closedのdetailsへ折畳み(要点は見出しのみ表示) -->
+        <details id="aiKeyDetails"><summary id="aiKeyNoteSum" class="note" style="cursor:pointer">キーの保存</summary>
+        <p class="note" id="aiKeyNote">キーはこの端末内でのみ使われ、送信先は選択・設定したAPIエンドポイントだけです(OpenAI互換では入力したベースURLへ送信されます — URLは必ず確認してください)。保存チェックOFFなら端末にも残りません(タブを閉じると消えます)。ブラウザへのキー入力にはリスクが伴うため、利用上限を設定した専用キーを推奨します。</p></details>
       </div>
       <div class="group"><h3 id="aiGenHead">新しいシミュレーションを生成</h3>
         <!-- 第26便(原仮定者指示): ベースのサンプル選択(任意)— 参考サンプルをAI生成に利用 -->
@@ -304,7 +316,9 @@
                flexアイテムが縮まず、.prow/.group がタブ幅からはみ出して横スクロールしていた
                (#presetSelect と同じ既知パターン。行28参照) -->
           <select id="aiBasePreset" style="flex:1;min-width:0"></select></div>
-        <p class="note" id="aiBaseNote">ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの coreMR/lightSweep や 🛰️の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信されます。</p>
+        <!-- 第36便 B4(原仮定者指示): 説明文を既定closedのdetailsへ折畳み(要点は見出しのみ表示) -->
+        <details id="aiBaseDetails"><summary id="aiBaseNoteSum" class="note" style="cursor:pointer">ベースのサンプル</summary>
+        <p class="note" id="aiBaseNote">ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの coreMR/lightSweep や 🛰️の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信されます。</p></details>
         <textarea id="aiPrompt" placeholder="例: 3つの恒星が絡み合う三体問題。まわりに塵の環も欲しい"></textarea>
         <div class="rowBtns"><button class="btn primary" id="btnGenerate">生成する</button></div>
         <!-- 第32便 W4(台帳4-58): 送信内容の事前確認(開いている間だけ入力に追従) -->
@@ -380,6 +394,9 @@
 
 // ===== ユーティリティ =====
 const $ = (s)=>document.querySelector(s);
+// 第36便 B1(原仮定者指示): http(s) 配信の /beta/ 配下かどうか(第13次裁定 P1-3 の初回通知条件を
+// 関数化 — file:// のQA・ルート昇格後は常に偽になる仕様を version.beta-label QA が利用する)
+function isBetaServe(){ return /^https?:$/.test(location.protocol) && /\/beta\//.test(location.pathname); }
 const clamp = (v,a,b)=>v<a?a:(v>b?b:v);
 function mulberry32(seed){ let a=seed>>>0; return function(){ a|=0; a=(a+0x6D2B79F5)|0;
   let t=Math.imul(a^(a>>>15),1|a); t=(t+Math.imul(t^(t>>>7),61|t))^t;
@@ -436,10 +453,10 @@ ja: {
   beDs:"s: スピン(自転角速度)。空間引きずり(A8)・温度T=Is²(A9)・スピン斥力(A10)の源。",
   beDmc:"mc/m: コア質量比(主星2層)。0=単層。負値=空洞(殻に質量集中・差動引きずりが反転)。",
   beDsc:"sc/s: コアスピン比。コア実スピン sc=比×s が差動引きずり(Rcから減衰)を生む。1=剛体回転=単層等価。",
-  beDr:"R: 半径。慣性I=½mR²・接触・引きずり減衰(R/(R+d))^q・温度・扁平率f=5s²R³/(4Gm)に使用。既定はradiusScale·√|m|。",
+  beDr:"R: 半径。慣性I=½mR²・接触・引きずり減衰(R/(R+d))^q・温度・扁平率f=5s²R³/(4Gm)に使用。既定はradiusScale·rMul·√|m|(rMulは粒子ごとの倍率・既定1)。",
   beDrr:"Rc/R: コア半径比。コアの引きずり到達距離を決める。既定は√|mc/m|相当。",
   beDot:"To×: 観測温度係数。観測温度T_obs=To×·(1−掻出)·T(表示のみ — 力学不変)。",
-  beDsw:"掻出: 光掻き出し(0〜1)。自星の光を外に出さない — 観測温度0で見掛けは冷たく、放射冷却も(1−掻出)倍(ダークローター)。",
+  beDsw:"掻出: 光掻き出し(0〜1)。自星の光を外に出さない — 観測温度0で見掛けは冷たく、放射冷却も(1−掻出)倍(ダークローター)。autoと入力すると粒子のスピン・半径から lS_eff=min(1,|s|R/c_surf) を毎ステップ算出する。",
   beDoc:"TcO×: コア観測温度比率。Tc_obs=TcO×·(1−掻出)·Ic·sc²(表示のみ)。",
   beDv:"vx/vy: 速度成分。慣性は局所フレームuに対して働く(A5)。",
   beDp:"固定: 位置・速度・スピンを外部拘束で固定(力・トルクを受けない)。反作用はリザーバへ帳簿(A13)。",
@@ -469,20 +486,23 @@ ja: {
   btnImportFile:"ファイルから読込", fileLoaded:"ファイルを読み込みました",
   unsavedWarn:"※編集中のパラメータは「保存」するまでバックアップに含まれません",
   confirmDiscard:"未保存の編集があります。破棄して読み込みますか?",
-  betaShared:"β版(beta v1.33-b1)はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。",
+  betaShared:"β版(beta v1.33-b2)はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。",
   draftRestore:"未保存の編集の下書きが見つかりました(再読込前の状態)。復元しますか?",
   swFail:"オフライン用キャッシュ(Service Worker)の登録に失敗しました。オンラインでは通常どおり使えます。",
   periHud:(m,a)=>`近点移動(最内粒子): 実測 ${m}°/周 / 解析 ${a}°/周`,
   ioNote:"インポートは「単独プリセット / プリセット配列 / {customPresets:[…]} / バックアップ全体」のどの形式でも自動判別します。パラメータが全く同じデータは取り込まず、名前が同じでパラメータが異なるデータは名前にサフィックスを付けて追加します。インポートしたプリセットは保存一覧にも登録されます。",
+  ioNoteSum:"インポート",   // 第36便 B4(原仮定者指示): 折畳み見出し
   presetMissing:"元プリセットが見つからないため既定プリセットに適用しました",
   resetDone:"初期配置に戻しました(パラメータは保持)", defaultsDone:"プリセットの既定値に戻しました",
   diverged:"数値が発散しました。パラメータを見直すか「⏮ 初めから」を押してください。",
   aiProvHead:"AIプロバイダ", aiProvLabel:"プロバイダ", aiModelLabel:"モデル", aiUrlLabel:"API URL",
   keyPersistLabel:"キーをこの端末に保存する", btnKeySave:"キーを設定",
   aiKeyNote:"キーはこの端末内でのみ使われ、送信先は選択・設定したAPIエンドポイントだけです(OpenAI互換では入力したベースURLへ送信されます — URLは必ず確認してください)。保存チェックOFFなら端末にも残りません(タブを閉じると消えます)。ブラウザへのキー入力にはリスクが伴うため、利用上限を設定した専用キーを推奨します。",
+  aiKeyNoteSum:"キーの保存",   // 第36便 B4(原仮定者指示): 折畳み見出し
   aiGenHead:"新しいシミュレーションを生成", btnGenerate:"生成する", aiListHead:"生成済みプリセット",
   aiBaseLabel:"ベースのサンプル(任意)", aiBaseNone:"なし(要望だけで生成)",   // 第26便
   aiBaseNote:"ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの coreMR/lightSweep や 🛰️の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信されます。",
+  aiBaseNoteSum:"ベースのサンプル",   // 第36便 B4(原仮定者指示): 折畳み見出し
   aiPromptPh:"例: 3つの恒星が絡み合う三体問題。まわりに塵の環も欲しい",
   // 第32便 W4(台帳4-58): 送信内容の事前確認
   aiPreviewSum:"送信内容を確認(実際に送るテキスト)",
@@ -598,10 +618,10 @@ en: {
   beDs:"s: spin (rotation rate). Source of frame dragging (A8), temperature T=Is^2 (A9), and spin repulsion (A10).",
   beDmc:"mc/m: core mass ratio (two-layer). 0 = single layer. Negative = hollow shell (differential drag flips).",
   beDsc:"sc/s: core spin ratio. Core spin sc = ratio x s drives the differential drag (decaying from Rc). 1 = rigid rotation = single-layer equivalent.",
-  beDr:"R: radius. Used in inertia I=1/2 mR^2, contact, drag falloff (R/(R+d))^q, temperature, and oblateness f=5s^2R^3/(4Gm). Default radiusScale x sqrt(|m|).",
+  beDr:"R: radius. Used in inertia I=1/2 mR^2, contact, drag falloff (R/(R+d))^q, temperature, and oblateness f=5s^2R^3/(4Gm). Default radiusScale x rMul x sqrt(|m|) (rMul = per-body multiplier, default 1).",
   beDrr:"Rc/R: core radius ratio. Sets the reach of the core's drag. Default ~ sqrt(|mc/m|).",
   beDot:"To x: observed-temperature coefficient. T_obs = To x (1-sweep) x T (display only).",
-  beDsw:"sweep: light sweep-out (0-1). The star's own light never escapes - observed temperature 0 (looks cold) and radiative cooling x (1-sweep). The dark-rotor mechanism.",
+  beDsw:"sweep: light sweep-out (0-1). The star's own light never escapes - observed temperature 0 (looks cold) and radiative cooling x (1-sweep). The dark-rotor mechanism. Enter \"auto\" to derive it every step from the body's own spin and radius: lS_eff = min(1, |s|R / c_surf).",
   beDoc:"TcO x: core observed-temperature ratio. Tc_obs = TcO x (1-sweep) x Ic sc^2 (display only).",
   beDv:"vx/vy: velocity components. Inertia acts relative to the local frame u (A5).",
   beDp:"Pinned: externally constrained (receives no force or torque; spin fixed). Reactions are ledgered to the reservoir (A13).",
@@ -631,20 +651,23 @@ en: {
   btnImportFile:"Load from file", fileLoaded:"File loaded",
   unsavedWarn:"Note: edited parameters are not included in backups until you press Save",
   confirmDiscard:"You have unsaved edits. Discard them and load?",
-  betaShared:"This beta (v1.33-b1) shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.",
+  betaShared:"This beta (v1.33-b2) shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.",
   draftRestore:"Found a draft of unsaved edits (from before the last reload). Restore it?",
   swFail:"Offline cache (Service Worker) registration failed. The app still works normally online.",
   periHud:(m,a)=>`Apsidal drift (innermost): measured ${m}°/orbit / analytic ${a}°/orbit`,
   ioNote:"Import auto-detects any of: a single preset / an array of presets / {customPresets:[…]} / a full backup. Data with identical parameters is skipped; data whose name collides but whose parameters differ is added with a name suffix. Imported presets are also registered in the saved list.",
+  ioNoteSum:"Import",   // 第36便 B4
   presetMissing:"Original preset not found — applied to the default preset",
   resetDone:"Reset to initial layout (parameters kept)", defaultsDone:"Restored preset defaults",
   diverged:"Simulation diverged. Adjust parameters or press ⏮ Restart.",
   aiProvHead:"AI provider", aiProvLabel:"Provider", aiModelLabel:"Model", aiUrlLabel:"API URL",
   keyPersistLabel:"Remember key on this device", btnKeySave:"Set key",
   aiKeyNote:"Your key is used only on this device and sent only to the API endpoint you select or configure (with the OpenAI-compatible option it is sent to the base URL you enter — always verify that URL). With the checkbox OFF it is kept in memory only (cleared when the tab closes). Entering API keys in a browser carries risk; use a dedicated key with a spending limit.",
+  aiKeyNoteSum:"Key storage",   // 第36便 B4
   aiGenHead:"Generate a new simulation", btnGenerate:"Generate", aiListHead:"Generated presets",
   aiBaseLabel:"Base sample (optional)", aiBaseNone:"None (generate from the request only)",
   aiBaseNote:"Pick a base to have the AI modify that sample's JSON to your request \u2014 reference structures (\ud83d\udd76\ufe0f dark-rotor coreMR/lightSweep, \ud83d\udef0\ufe0f zonal, etc.) carry over. The selected base JSON (including custom presets) is sent to the currently selected AI provider on generation.",
+  aiBaseNoteSum:"Base sample",   // Wave 36 B4
   aiPromptPh:"e.g. A chaotic three-star system with a ring of dust around it",
   // 第32便 W4(4-58): preview exactly what will be sent
   aiPreviewSum:"Preview exactly what will be sent",
@@ -715,7 +738,8 @@ en: {
     q:"Drag falloff q", kRep:"Spin repulsion kRep", muF:"Friction→spin muF",
     gammaN:"Collision damping γn", kappaS:"Spin diffusion κs", Kt:"Spacetime Kt (time & light)",
     cLight:"Light speed c₀", bM:"Wien constant b_m", etaRad:"Radiative cooling η_rad",
-    pRad:"Radiation exponent p", gravityX:"Uniform gravity g_x", gravityY:"Uniform gravity g_y",
+    pRad:"Radiation exponent p", cHeat:"Heat capacity C (internal-temperature mode)",
+    gravityX:"Uniform gravity g_x", gravityY:"Uniform gravity g_y",
     geoPN:"Geodesic mode geoPN", lambdaPN:"1PN correction λ_PN",
     pnAlpha:"1PN coefficient α (0.5=time-rate only, 1.5=full)",
     radiusScale:"Particle radius scale", softening:"Softening ε",
@@ -735,12 +759,13 @@ en: {
     bM:"Wien constant: a particle at temperature T radiates at peak wavelength λ=b_m/T (A12). Calibrates the spectrum overlay (🌈).",
     etaRad:"Strength of radiative cooling (E11: cooling rate Λ∝T^p). 0 = no radiation. Hotter particles cool faster (🌈). Radiated energy and angular momentum are ledgered.",
     pRad:"Temperature steepness of radiative cooling (E11: Λ∝T^p). Larger p means only the hottest bodies cool rapidly.",
+    cHeat:"Heat-capacity coefficient, active only in the internal-temperature mode (samples with thermal:\"tint\"). A particle's heat energy is E=C·m·T_int, so a dissipated ΔE raises it by ΔT_int=ΔE/(C·m) (A9′/E9). Larger C means the same dissipation heats less. It does nothing in the default spin-as-heat mode (thermal omitted).",
     gravityX:"Uniform external gravity acting horizontally across the whole scene (v1.17). It does not contribute to determinacy W, so it builds a 'ground lab' without distorting clocks, light or dragging. Momentum exchange is ledgered.",
     gravityY:"Uniform external gravity acting vertically (+y is down on screen). The 'downward gravity' of ⚾ free fall, ♨️ convection and 🧪 buoyancy. Set 0 for weightlessness.",
     geoPN:"The v2.0 geodesic mode (E12). At 1, matter's motion is derived by an action principle from the same ψ=W/Kt that slows clocks, enabling the 1PN correction (☿); E6′ dragging on matter is disabled (no double counting). 0 = legacy.",
     lambdaPN:"On/off switch of the 1PN correction in geodesic mode (geoPN=1). At 0 you recover Newtonian gravity and the ellipse closes — the A/B control for ☿ Mercury.",
     pnAlpha:"Breakdown of the 1PN correction (E12). 1.5 = full (GR's β=γ=1 — the full 42.98″/century of Mercury), 0.5 = time-rate only (advance drops to 1/3). Machine-verified in V18–V20.",
-    radiusScale:"Scale of particle radius R=radiusScale·√m. Affects contact size and the moment of inertia I=½mR² (the I in temperature T=Is²). A discretization setting, not a law of physics.",
+    radiusScale:"Global scale of the particle radius R=radiusScale·rMul·√m (default 1). Affects contact size and the moment of inertia I=½mR² (the I in temperature T=Is²). Per-body variation lives in the body key rMul; this knob scales every particle relatively. A discretization setting, not a law of physics.",
     softening:"Softening length mixed into distances so forces never diverge at close range (E1′ Plummer form: 1/√(d²+ε²)). Smaller = sharper close encounters but numerically rougher.",
     timeScale:"Multiplier on how fast simulated time advances (fast-forward). The physics is unchanged — only the time per frame. If the simulation diverges, lower this first."},
 },
@@ -845,11 +870,14 @@ function extractLawRefs(text){
 function externalTags(p){
   let pin=0, rail=false, bath=false;
   for(const b of (p.bodies||[])){
-    if(b.type==="single" && b.pinned){ pin++; if(Math.abs(b.spin||0)>0) bath=true; if(b.railOmega) rail=true; }   // 第27便: 単体レールも検出
+    // 第36便 D(台帳4-51): thermal:"tint" のサンプルでは熱浴の熱は spin ではなく tInt が持つ
+    // (📏の加熱端・♨️のヒーターは spin=0・tInt>0 の固定粒子)。判定の主張「固定された高温の
+    // 粒子=外部から与えた熱浴」は同じで、参照する属性がモードに追随するだけ
+    if(b.type==="single" && b.pinned){ pin++; if(Math.abs(b.spin||0)>0 || (b.tInt||0)>0) bath=true; if(b.railOmega) rail=true; }   // 第27便: 単体レールも検出
     else if(b.type==="ring" && b.pinned){ pin+=(b.n||0);
       if(b.vMode==="omega" && b.omega) rail=true;
       if(b.railH) rail=true;   // 第31便: 膨張レールも規定運動
-      if(Math.abs(b.spinMin||0)>0 || Math.abs(b.spinMax||0)>0) bath=true; }
+      if(Math.abs(b.spinMin||0)>0 || Math.abs(b.spinMax||0)>0 || (b.tInt||0)>0) bath=true; }
   }
   // 第31便: UniverseBox の動的モード・並進・回転は規定運動(外部駆動)として検出
   if(p.universeBox){ const B=p.universeBox;
@@ -888,11 +916,15 @@ function paramDesc(def){ return (LANG==="en" && I18N.en.paramDescs[def.key]) || 
 // ===== 物理パラメータ定義(PHYSICS.md §5 既定パラメータ表) =====
 const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
   kappaS:0.05, Kt:60, cLight:60, bM:1, etaRad:0, pRad:4,
+  cHeat:1,   // 第36便 D(台帳4-51): 熱容量係数 C(E_int = C·m·T_int)。thermal:"tint" のときだけ効く
   gravityX:0, gravityY:0,   // v1.17: 一様重力場(外部場。+yは画面下向き)
   geoPN:0, lambdaPN:1, pnAlpha:1.5,   // v1.20: E12 測地線1PN(geoPN=1で有効。BOX_UNIVERSE §5)
   radiusScale:1, softening:2, timeScale:1 };   // 第26便: radiusScale 既定 1.2→1(内蔵は明示値を維持)
 // v1.7: kLens は廃止(E8R で屈折率は n=e^{2W/Kt} に統一。旧セーブの kLens は受理して無視)
 const APP_VERSION = "1.32";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
+// 第36便 B1(原仮定者指示): タイトル下に表示するbeta配信時のビルド番号。beta/sw.js の
+// CACHE 接尾辞と同期させる(QA: version.beta-label)。ルート昇格後は使わない("v"+APP_VERSION 表示に戻る)
+const BETA_BUILD = "v1.33-b2";
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 const RAY_MASS_MIN = 40;                  // 光線を曲げる最小質量(性能のための近似)
@@ -930,6 +962,8 @@ const PARAM_DEFS = [
    desc:"粒子が光を放って冷える強さ(E11: 冷却率Λ∝T^p)。0で放射なし。高温ほど速く冷える(🌈)。失った角運動量・エネルギーは帳簿に記録される。"},
   {key:"pRad",  label:"放射指数 p",          mode:"lin", lo:1, hi:6, step:0.5, group:"法則",
    desc:"放射冷却の温度依存の急峻さ(E11: Λ∝T^p)。大きいほど「熱いものだけが急速に冷える」ようになる。"},
+  {key:"cHeat", label:"熱容量 C(内部温度モード)", mode:"log", lo:0.01, hi:100, group:"法則",
+   desc:"内部温度モード(thermal:\"tint\" のサンプル)でだけ働く熱容量係数。粒子が持つ熱エネルギーは E=C·m·T_int で、散逸ΔEは ΔT_int=ΔE/(C·m) として内部温度に貯まる(A9′/E9)。大きくすると同じ散逸でも温まりにくくなる。既定のスピン=熱モード(thermal 省略)のサンプルでは一切効かない。"},
   {key:"gravityX",label:"一様重力 g_x",      mode:"lin", lo:-5, hi:5, step:0.005, group:"法則",
    desc:"画面全体に働く横方向の一様な外部重力場(v1.17)。決定力Wには寄与しないので、時計・光・引きずりを歪めずに「地上の実験室」を作れる。運動量は場との交換として帳簿に記録。"},
   {key:"gravityY",label:"一様重力 g_y",      mode:"lin", lo:-5, hi:5, step:0.005, group:"法則",
@@ -941,7 +975,7 @@ const PARAM_DEFS = [
   {key:"pnAlpha", label:"1PN係数 α(0.5=時間率のみ, 1.5=完全)", mode:"lin", lo:0.5, hi:1.5, step:0.5, group:"法則",
    desc:"1PN補正の強さの内訳(E12)。1.5=完全(GRのβ=γ=1相当 — 水星の前進42.98″/世紀の全量)、0.5=時間率のみ(前進が1/3になる)。V18〜V20で機械検証。"},
   {key:"radiusScale",label:"粒子半径スケール", mode:"lin", lo:0.2, hi:4, step:0.02, group:"シミュレーション",
-   desc:"粒子の半径 R=radiusScale·√m のスケール。接触判定の大きさと慣性 I=½mR²(=温度T=Is²の I)に効く。物理法則そのものではなく、粒子という「離散化の粒」の設定。"},
+   desc:"粒子の半径 R=radiusScale·rMul·√m の全粒子共通スケール(既定1)。接触判定の大きさと慣性 I=½mR²(=温度T=Is²の I)に効く。粒子ごとの倍率は body の rMul で、このノブは全体を相対的に増減させる。物理法則そのものではなく、粒子という「離散化の粒」の設定。"},
   {key:"softening",  label:"ソフトニング ε",  mode:"lin", lo:0.5, hi:10, step:0.1, group:"シミュレーション",
    desc:"近距離で力が無限大に発散しないよう距離に混ぜる緩和長(E1′ Plummer型: 1/√(d²+ε²))。小さいほど近接遭遇が鋭くなるが数値的に荒れやすい。"},
   {key:"timeScale",  label:"時間倍率",        mode:"log", lo:0.1, hi:16, group:"シミュレーション",
@@ -965,6 +999,7 @@ function valToSliderPos(def,v){
 const CLAMPS = { G:[0,100], D0:[0,1000], kFrame:[0,1], q:[0.5,4], kRep:[0,20], muF:[0,1],
   gammaN:[0,1], kappaS:[0,2], Kt:[1,10000], kLens:[0,1],
   cLight:[1,10000], bM:[0.001,1000], etaRad:[0,1], pRad:[1,6], radiusScale:[0.2,5],
+  cHeat:[0.01,1000],   // 第36便 D(台帳4-51): 熱容量係数 C(thermal:"tint" 専用)
   gravityX:[-10,10], gravityY:[-10,10],
   geoPN:[0,1], lambdaPN:[0,1], pnAlpha:[0,2],   // v1.20: E12 測地線1PN
   softening:[0.5,20], timeScale:[0.1,16] };
@@ -982,12 +1017,12 @@ const BUILTIN_PRESETS = [
   drawScale:2,   // 第35便 W4(台帳4-55): 描画専用倍率(物理無関係)。タップ対象の3時計(m=2)が
                  // 実測1.2px(基準1未満)だったため2.36pxへ拡大(監査: scratchpad/w4-report.md)
   physics:{G:0, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:300,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:1},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:1},
   bodies:[ // v1.12(付録L): 第6次提案 P0-1 採用。τ/t 解析一致を機械検証済み
-    {type:"single", m:1500, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
-    {type:"single", m:2, x:70,y:0,  vx:0,vy:0, spin:0, pinned:true},
-    {type:"single", m:2, x:140,y:0, vx:0,vy:0, spin:0, pinned:true},
-    {type:"single", m:2, x:240,y:0, vx:0,vy:0, spin:0, pinned:true}
+    {type:"single", rMul:1.2, m:1500, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", rMul:1.2, m:2, x:70,y:0,  vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", rMul:1.2, m:2, x:140,y:0, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", rMul:1.2, m:2, x:240,y:0, vx:0,vy:0, spin:0, pinned:true}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
@@ -999,11 +1034,11 @@ const BUILTIN_PRESETS = [
   drawScale:2,   // 第35便 W4(台帳4-55): 描画専用倍率。地上時計・衛星(m=2)が実測1.2px
                  // (基準1未満)だったため2.36pxへ拡大(監査: scratchpad/w4-report.md)
   physics:{G:1, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:300,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:2},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2},
   bodies:[ // 付録O O1: 衛星は Plummer 厳密円軌道 v=√(G·M·r²/(r²+ε²)^{3/2})(V13 と同式)
-    {type:"single", m:1500, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
-    {type:"single", m:2, x:60,y:0, vx:0,vy:0, spin:0, pinned:true},
-    {type:"single", m:2, x:180,y:0, vx:0,vy:2.8865, spin:0, pinned:false}
+    {type:"single", rMul:1.2, m:1500, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", rMul:1.2, m:2, x:60,y:0, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", rMul:1.2, m:2, x:180,y:0, vx:0,vy:2.8865, spin:0, pinned:false}
   ],
   rays:{n:9, spread:0.4},
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
@@ -1017,10 +1052,10 @@ const BUILTIN_PRESETS = [
                    // (基準1未満)だったため2.11pxへ拡大(監査: scratchpad/w4-report.md)
   physics:{G:1, D0:0.05, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
     cLight:25, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
-    geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:8},
+    geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:8},
   bodies:[
-    {type:"single", m:150, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
-    {type:"single", m:0.5, x:47.66,y:0, vx:0,vy:1.948, spin:0, pinned:false}
+    {type:"single", rMul:1.2, m:150, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", rMul:1.2, m:0.5, x:47.66,y:0, vx:0,vy:1.948, spin:0, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -1032,12 +1067,12 @@ const BUILTIN_PRESETS = [
   drawScale:1.4,   // 第35便 W4(台帳4-55): 描画専用倍率。主役の4球のうちm=2の3球が実測1.50px
                    // (基準1未満)だったため2.11pxへ拡大(監査: scratchpad/w4-report.md)
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0.08, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:3},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0.08, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:3},
   bodies:[ // v1.18: Gemini/Grok 第8次提案の合議採用(自由落下×2質量+水平投射+斜方投射)
-    {type:"single", m:2, x:-150,y:-140, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:20, x:-110,y:-140, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:2, x:-170,y:-20, vx:3,vy:0, spin:0, pinned:false},
-    {type:"single", m:2, x:-170,y:100, vx:3,vy:-3.6, spin:0, pinned:false}
+    {type:"single", rMul:1.2, m:2, x:-150,y:-140, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:20, x:-110,y:-140, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:2, x:-170,y:-20, vx:3,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:2, x:-170,y:100, vx:3,vy:-3.6, spin:0, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -1247,10 +1282,10 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame","D0"],
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260727,
   physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0.8, muF:0.5, gammaN:0.4, kappaS:0.05, Kt:50,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:3, timeScale:3},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:3, timeScale:3},
   bodies:[
-    {type:"single", m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, lightSweep:0.8, radius:15},
-    {type:"disk", n:380, cx:0,cy:0, radius:260, mMin:0.16,mMax:0.5,
+    {type:"single", rMul:1.2, m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, lightSweep:0.8, radius:15},
+    {type:"disk", rMul:1.2, n:380, cx:0,cy:0, radius:260, mMin:0.16,mMax:0.5,
      spinMin:0,spinMax:0.3, vMode:"kepler", aroundMass:2500, vScale:1.05, direction:1, bulkVx:0, bulkVy:0}
   ],
   rays:{n:24, spread:0.5},
@@ -1279,23 +1314,23 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame","D0","q"],
   camera:{scale:300}, world:{boundary:"none",size:0}, seed:20260726,
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:0.15, muF:0.02, gammaN:0.05, kappaS:0.05, Kt:60,
-    cLight:60, bM:1, etaRad:0.005, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:2.0, softening:4, timeScale:2},
+    cLight:60, bM:1, etaRad:0.005, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 2.0 は各 body の rMul へ焼込(第36便 C1)*/, softening:4, timeScale:2},
   bodies:[
     // 中心ブラックホール(自由・単層・光を出さない lightSweep:1。vx/vy は総運動量ゼロ化の補正)
-    {type:"single", m:2000, x:0,y:0, vx:0.00166, vy:-0.00435, spin:0.12, radius:45, lightSweep:1, pinned:false},
+    {type:"single", rMul:2.0, m:2000, x:0,y:0, vx:0.00166, vy:-0.00435, spin:0.12, radius:45, lightSweep:1, pinned:false},
     // ダークローター×10(自由・単層・r=200 の等間隔リング。対向2体=x±200 のみ spin 2.0)
-    {type:"single", m:150, x:200.0,y:0.0, vx:-0.0,vy:3.9169, spin:2.0, radius:18, lightSweep:1, pinned:false},
-    {type:"single", m:150, x:161.8034,y:117.5571, vx:-2.302292,vy:3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
-    {type:"single", m:150, x:61.8034,y:190.2113, vx:-3.724583,vy:1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
-    {type:"single", m:150, x:-61.8034,y:190.2113, vx:-3.724583,vy:-1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
-    {type:"single", m:150, x:-161.8034,y:117.5571, vx:-2.302292,vy:-3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
-    {type:"single", m:150, x:-200.0,y:0.0, vx:0.0,vy:-3.9169, spin:2.0, radius:18, lightSweep:1, pinned:false},
-    {type:"single", m:150, x:-161.8034,y:-117.5571, vx:2.302292,vy:-3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
-    {type:"single", m:150, x:-61.8034,y:-190.2113, vx:3.724583,vy:-1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
-    {type:"single", m:150, x:61.8034,y:-190.2113, vx:3.724583,vy:1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
-    {type:"single", m:150, x:161.8034,y:-117.5571, vx:2.302292,vy:3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", rMul:2.0, m:150, x:200.0,y:0.0, vx:-0.0,vy:3.9169, spin:2.0, radius:18, lightSweep:1, pinned:false},
+    {type:"single", rMul:2.0, m:150, x:161.8034,y:117.5571, vx:-2.302292,vy:3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", rMul:2.0, m:150, x:61.8034,y:190.2113, vx:-3.724583,vy:1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", rMul:2.0, m:150, x:-61.8034,y:190.2113, vx:-3.724583,vy:-1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", rMul:2.0, m:150, x:-161.8034,y:117.5571, vx:-2.302292,vy:-3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", rMul:2.0, m:150, x:-200.0,y:0.0, vx:0.0,vy:-3.9169, spin:2.0, radius:18, lightSweep:1, pinned:false},
+    {type:"single", rMul:2.0, m:150, x:-161.8034,y:-117.5571, vx:2.302292,vy:-3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", rMul:2.0, m:150, x:-61.8034,y:-190.2113, vx:3.724583,vy:-1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", rMul:2.0, m:150, x:61.8034,y:-190.2113, vx:3.724583,vy:1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    {type:"single", rMul:2.0, m:150, x:161.8034,y:-117.5571, vx:2.302292,vy:3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
     // 恒星リング(自由・kepler 初速・内穴 r=70 は BH 影響圏)
-    {type:"ring", n:380, cx:0,cy:0, rIn:70, rOut:260, mMin:0.26,mMax:0.63,
+    {type:"ring", rMul:2.0, n:380, cx:0,cy:0, rIn:70, rOut:260, mMin:0.26,mMax:0.63,
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2000, omega:0, vNoise:0, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false} },
@@ -1306,17 +1341,17 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame","G","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:160}, world:{boundary:"none",size:0},
   physics:{G:0.9, D0:4.5, kFrame:1, q:2, kRep:0.8, muF:0.45, gammaN:0.55, kappaS:0.12, Kt:90,   // 第26便: kFrame 0.55→1 / 第27便: q 1.8→2(整数冪の高速経路 −34%)・円盤 150/120(負荷改善 — 合計 4320→1681ms/600步・12000步 r90=159 有界を実測)
-    cLight:70, bM:1, etaRad:0.0008, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:3.5, timeScale:1.8},
+    cLight:70, bM:1, etaRad:0.0008, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:3.5, timeScale:1.8},
   bodies:[ // v1.13(付録M): 第6次提案(Grok #1)を内蔵化。v1.18: 円盤に bulkVx/Vy を付与し
            // 核と円盤が一体で並進するよう修正(旧: 核だけが動き円盤が置き去りになっていた)。
            // v1.24: vMode flat(vScale0.85=必要円軌道速度の1/4以下)で円盤が合体前に核へ
            // 崩落していたため kepler(回転支持)へ修正 — 接近12000步まで保持率95%+を実測
-    {type:"single", m:920, x:-280,y:20, vx:1.35,vy:0.25, spin:0.09, pinned:false},
-    {type:"disk", n:150, cx:-280,cy:20, radius:95, mMin:0.25,mMax:1.6,
+    {type:"single", rMul:1.2, m:920, x:-280,y:20, vx:1.35,vy:0.25, spin:0.09, pinned:false},
+    {type:"disk", rMul:1.2, n:150, cx:-280,cy:20, radius:95, mMin:0.25,mMax:1.6,
      spinMin:-0.6,spinMax:0.6, vMode:"kepler", aroundMass:920, vScale:1.0, direction:1,
      bulkVx:1.35, bulkVy:0.25},
-    {type:"single", m:680, x:240,y:-35, vx:-1.65,vy:-0.35, spin:0.07, pinned:false},
-    {type:"disk", n:120, cx:240,cy:-35, radius:78, mMin:0.25,mMax:1.4,
+    {type:"single", rMul:1.2, m:680, x:240,y:-35, vx:-1.65,vy:-0.35, spin:0.07, pinned:false},
+    {type:"disk", rMul:1.2, n:120, cx:240,cy:-35, radius:78, mMin:0.25,mMax:1.4,
      spinMin:-0.5,spinMax:0.5, vMode:"kepler", aroundMass:680, vScale:1.0, direction:-1,
      bulkVx:-1.65, bulkVy:-0.35}
   ],
@@ -1328,26 +1363,26 @@ const BUILTIN_PRESETS = [
   activeParams:["etaRad","pRad","G"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:280}, world:{boundary:"none",size:0},
   physics:{G:1.4, D0:1.8, kFrame:1, q:2, kRep:1.2, muF:0.65, gammaN:0.45, kappaS:0.09, Kt:70,   // 第26便: kFrame 0.35→1(6000步 rMax 257・12000步 500 <600 を実測)
-    cLight:60, bM:1, etaRad:0.004, pRad:2.8, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:5, timeScale:2.2},
+    cLight:60, bM:1, etaRad:0.004, pRad:2.8, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:5, timeScale:2.2},
   bodies:[ // v1.13(付録M): 第6次提案(Grok #3)を内蔵化。v1.18: Gemini 第8次提案採用 —
            // vMode rigid の微小回転 + random 相当の乱れは vNoise でなく速度合成で付与できないため
            // rigid(ω=0.004)を基本にし、乱れは disk 生成の±0.02 ノイズに任せる(機械検証済み)
-    {type:"disk", n:260, cx:0,cy:0, radius:210, mMin:0.15,mMax:0.9,
+    {type:"disk", rMul:1.2, n:260, cx:0,cy:0, radius:210, mMin:0.15,mMax:0.9,
      spinMin:0,spinMax:0.15, vMode:"rigid", aroundMass:0, vScale:0.004, direction:1}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"} },
 
 // ===== グループ: 光 =====
 { id:"lensing", name:"重力レンズと光子捕捉", emoji:"💡", group:"光",
-  description:"左から飛ぶ光線が、決定力の高い(=時間の遅い)領域で屈折して曲がる(A7′/T5)。時間の遅れと光の屈折は単一のψ=W/Ktで統一(E7R/E8R)— Ktを下げると両方が同時に強まる。強い場では光が捕まって周回する(光子球の類似)。背景の色は決定力Wの強さ。粒子をタップすると固有時計(τ/t)が見える。",
-  en:{name:"Gravitational Lensing & Photon Capture", description:"Light rays from the left refract and bend where determinacy is high (= time runs slow) (A7′/T5). Time dilation and refraction are unified by one ψ=W/Kt (E7R/E8R) — lower Kt and both strengthen together. In strong fields light is captured into orbit (photon-sphere analogue). Background color = determinacy W. Tap a particle to see its proper clock (τ/t)."},
+  description:"左から飛ぶ光線が、決定力の高い(=時間の遅い)領域で屈折して曲がる(A7′/T5)。時間の遅れと光の屈折は単一のψ=W/Ktで統一(E7R/E8R)— Ktを下げると両方が同時に強まる。強い場では光が捕まって周回する(光子球の類似)。背景の色は決定力Wの強さ。粒子をタップすると固有時計(τ/t)が見える。光線の色は時計率比 e^{ψ0−ψ} による波長表示(重力赤方偏移のアナログ — 意味論表示)。",
+  en:{name:"Gravitational Lensing & Photon Capture", description:"Light rays from the left refract and bend where determinacy is high (= time runs slow) (A7′/T5). Time dilation and refraction are unified by one ψ=W/Kt (E7R/E8R) — lower Kt and both strengthen together. In strong fields light is captured into orbit (photon-sphere analogue). Background color = determinacy W. Tap a particle to see its proper clock (τ/t). Ray color encodes wavelength via the clock-rate ratio e^{ψ0−ψ} (a gravitational-redshift analogue — semantic display)."},
   activeParams:["Kt","cLight","softening"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4, kappaS:0.05, Kt:150,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:1},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:1},
   bodies:[
-    {type:"single", m:1500, x:0,y:0, vx:0,vy:0, spin:0.5, pinned:true},
-    {type:"single", m:500, x:120,y:-90, vx:0,vy:0, spin:0, pinned:true}
+    {type:"single", rMul:1.2, m:1500, x:0,y:0, vx:0,vy:0, spin:0.5, pinned:true},
+    {type:"single", rMul:1.2, m:500, x:120,y:-90, vx:0,vy:0, spin:0, pinned:true}
   ],
   rays:{n:26, spread:0.85},
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
@@ -1358,9 +1393,9 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame","Kt","cLight","q"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4, kappaS:0.05, Kt:200,
-    cLight:40, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:1},
+    cLight:40, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:1},
   bodies:[
-    {type:"single", m:2000, x:0,y:0, vx:0,vy:0, spin:2, pinned:true}
+    {type:"single", rMul:1.2, m:2000, x:0,y:0, vx:0,vy:0, spin:2, pinned:true}
   ],
   rays:{n:24, spread:0.9},
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
@@ -1371,112 +1406,118 @@ const BUILTIN_PRESETS = [
   activeParams:["Kt","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:110,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:1},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:1},
   bodies:[ // v1.13(付録M): 第6次提案 P1-3 を内蔵化(12000步スモーク検証済み)
-    {type:"single", m:1100, x:0,y:-65, vx:0,vy:0, spin:0, pinned:true},
-    {type:"single", m:1100, x:0,y:65,  vx:0,vy:0, spin:0, pinned:true}
+    {type:"single", rMul:1.2, m:1100, x:0,y:-65, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", rMul:1.2, m:1100, x:0,y:65,  vx:0,vy:0, spin:0, pinned:true}
   ],
   rays:{n:36, spread:0.85},
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
 // ===== グループ: 熱の実験室 =====
 { id:"gas", name:"気体の熱平衡", emoji:"🔥", group:"熱の実験室",
-  description:"左=低温(青)・右=高温(赤)のガス。左右は質量・数・初速分布が同一で、初期スピン(温度)だけが異なる統制実験。衝突で速度がスピン(熱)に変換され(A9)、高スピンは斥力=圧力を生み(A10)、スピン拡散で温度が均一化する(T6)。自己重力と空間引きずりは切ってあり(G=0, kFrame=0)、働くのは接触・斥力・拡散の熱過程だけ。右下に左右の平均温度バー。全粒子が同質量なのは、異粒径系ではsの均一化とT=Is²の均一化が一致しないため(L9)。",
-  en:{name:"Thermal Equilibrium of a Gas", description:"Cold gas (blue) on the left, hot (red) on the right — the two sides share identical mass, count and initial speed distribution, differing only in initial spin (temperature) — a controlled experiment. Collisions convert velocity into spin = heat (A9), high spin creates repulsion = pressure (A10), and spin diffusion equalizes temperature (T6). Self-gravity and frame dragging are off (G=0, kFrame=0) — only the thermal processes of contact, repulsion and diffusion act. Bottom right: mean-temperature bars. All particles share one mass because with mixed sizes, equalizing s does not equalize T=Is² (L9)."},
+  description:"左=低温(青)・右=高温(赤)のガス。左右は質量・数・初速分布が同一で、初期の内部温度T_intだけが異なる統制実験。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂: 温度=構成粒子のミクロなスピン。マクロなspinはコヒーレント回転)。衝突の散逸が速度を熱に変え(E9)、熱い粒子ほど強く押し合って圧力を生み(E5′)、熱伝導で温度が均一化する(T6/E10′)。自己重力と空間引きずりは切ってあり(G=0, kFrame=0)、働くのは接触・斥力・伝導の熱過程だけ。右下に左右の平均温度バー。熱は熱容量C·mの重みで伝わるので、粒径が違っても温度そのものが均一化する(旧A9のL9が解消)。",
+  en:{name:"Thermal Equilibrium of a Gas", description:"Cold gas (blue) on the left, hot (red) on the right — the two sides share identical mass, count and initial speed distribution, differing only in the initial internal temperature T_int: a controlled experiment. This sample treats temperature as an internal state variable independent of spin (the A9 revision: temperature = the micro-spin of the constituent grains, while macroscopic spin is coherent rotation). Collisional dissipation turns velocity into heat (E9), hotter particles push each other apart as pressure (E5′), and conduction equalizes the temperature (T6/E10′). Self-gravity and frame dragging are off (G=0, kFrame=0) — only contact, repulsion and conduction act. Bottom right: mean-temperature bars. Heat now flows with the heat-capacity weight C·m, so the temperature itself equalizes even for mixed grain sizes (the old L9 caveat is resolved)."},
   activeParams:["kRep","muF","gammaN","kappaS"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+  thermal:"tint",   // 第36便 D(台帳4-51): 温度=内部状態変数 T_int(A9 改訂)
   camera:{scale:240}, world:{boundary:"box",size:200},
   physics:{G:0, D0:50, kFrame:0, q:2, kRep:2, muF:0.8, gammaN:0.3, kappaS:0.15, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:2},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2},
   bodies:[ // v1.18(第8次裁定): 右の vScale 2.5→0.3 — 比較条件をスピンのみに(統制実験化)
-    {type:"box", n:120, cx:-100,cy:0, w:180,h:360, mMin:1,mMax:1, spinMin:0,spinMax:0.2, vScale:0.3},
-    {type:"box", n:120, cx:100,cy:0, w:180,h:360, mMin:1,mMax:1, spinMin:2,spinMax:3, vScale:0.3}
+    {type:"box", rMul:1.2, n:120, cx:-100,cy:0, w:180,h:360, mMin:1,mMax:1, spinMin:0,spinMax:0, tInt:0.01, vScale:0.3},
+    {type:"box", rMul:1.2, n:120, cx:100,cy:0, w:180,h:360, mMin:1,mMax:1, spinMin:0,spinMax:0, tInt:6.25, vScale:0.3}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false} },
 
-{ id:"pressure", name:"スピン圧 — 熱は押し広げる", emoji:"🎈", group:"熱の実験室",
-  description:"重力ゼロの円形容器。中央の熱い(高スピン)ガスがスピン斥力(A10)で押しのけ合い、周りの冷たいガスの殻を外へ押し広げていく — 圧力の正体は温度。やがて接触摩擦とスピン拡散で熱が外側へ渡り、全体が同じ温度に落ち着く(T6)。色=温度。※スピン圧の状態方程式は理想気体則とは異なる(P∝ρ²T — L15)。",
-  en:{name:"Spin Pressure — Heat Pushes Outward", description:"A circular container, zero gravity. The hot (high-spin) core pushes outward via spin repulsion (A10), inflating the shell of cold gas — pressure IS temperature. Friction and spin diffusion then pass the heat outward until one temperature remains (T6). Color = temperature. Note: the spin-pressure equation of state is not the ideal-gas law (P∝ρ²T; L15)."},
+{ id:"pressure", name:"熱の圧力 — 熱は押し広げる", emoji:"🎈", group:"熱の実験室",
+  description:"重力ゼロの円形容器。中央の熱いガスが熱の斥力(E5′)で押しのけ合い、周りの冷たいガスの殻を外へ押し広げていく — 圧力の正体は温度。このサンプルは温度を内部状態変数T_intとして扱う(A9の改訂)ので、押し合う強さの源は対の√(T_i·T_j)で、冷たい粒子同士は押し合わない。やがて接触摩擦(E9)と熱伝導(E10′)で熱が外側へ渡り、全体が同じ温度に落ち着く(T6)。色=温度。※この圧力の状態方程式は理想気体則とは異なる(P∝ρ²T — L15)。",
+  en:{name:"Thermal Pressure — Heat Pushes Outward", description:"A circular container, zero gravity. The hot core pushes outward via thermal repulsion (E5′), inflating the shell of cold gas — pressure IS temperature. This sample treats temperature as the internal state variable T_int (the A9 revision), so the strength of the push comes from the pair term √(T_i·T_j): two cold grains do not push at all. Friction (E9) and conduction (E10′) then pass the heat outward until one temperature remains (T6). Color = temperature. Note: this pressure law is not the ideal-gas law (P∝ρ²T; L15)."},
   activeParams:["kRep","kappaS","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+  thermal:"tint",   // 第36便 D(台帳4-51)
   camera:{scale:240}, world:{boundary:"circle",size:210},
   physics:{G:0, D0:50, kFrame:0, q:2, kRep:2, muF:0.2, gammaN:0.3, kappaS:0.05, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:2},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2},
   bodies:[
-    {type:"disk", n:90, cx:0,cy:0, radius:50, mMin:1,mMax:1,
-     spinMin:6,spinMax:7, vMode:"none", aroundMass:0, vScale:0, direction:1},
-    {type:"ring", n:150, cx:0,cy:0, rIn:95,rOut:190, mMin:1,mMax:1,
-     spinMin:0,spinMax:0, vMode:"none", aroundMass:0, omega:0, vNoise:0, direction:1, pinned:false}
+    {type:"disk", rMul:1.2, n:90, cx:0,cy:0, radius:50, mMin:1,mMax:1,
+     spinMin:0,spinMax:0, tInt:42, vMode:"none", aroundMass:0, vScale:0, direction:1},
+    {type:"ring", rMul:1.2, n:150, cx:0,cy:0, rIn:95,rOut:190, mMin:1,mMax:1,
+     spinMin:0,spinMax:0, tInt:0.5, vMode:"none", aroundMass:0, omega:0, vNoise:0, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"conduction", name:"熱伝導 — 近いほど速く伝わる", emoji:"📏", group:"熱の実験室",
-  description:"力を全て切った、静止した粒の列。左端の白熱粒(固定=熱浴)から、接触していない粒の列をスピン拡散(E10′)だけで熱が飛び移っていく。上の列は間隔9、下の列は間隔18 — 飛び移りは近いほど強い(カーネルg(d))ので、密な上の列は同じ距離でも高温になり、列全体が運ぶ熱は約2倍。よく見ると熱は隙間を飛び越えて遠くへも薄く届く(接触不要の長距離伝達 — L16の可視化)。色=温度。",
-  en:{name:"Heat Conduction — Closer Spreads Faster", description:"Rows of resting particles, all forces off. From the white-hot pinned particle (heat bath) at the left end, heat hops along the non-touching row by spin diffusion (E10′) alone. Top row spacing 9, bottom 18 — hops are stronger when closer (kernel g(d)), so the dense row runs hotter and carries about twice the heat. Look closely: heat also leaks faintly across gaps (contact-free long-range transfer — L16 visualized). Color = temperature."},
+  description:"力を全て切った、静止した粒の列。左端の白熱粒(固定=熱浴)から、接触していない粒の列を熱伝導(E10′)だけで熱が飛び移っていく。このサンプルは温度を内部状態変数T_intとして扱う(A9の改訂)ので、伝わるのは熱だけでスピンは1ビットも動かない — 角運動量は近似的にではなく自明に厳密保存する(旧「冷たいのに熱伝導」問題の解消)。上の列は間隔9、下の列は間隔18 — 飛び移りは近いほど強い(カーネルg(d))ので、密な上の列は同じ距離でも高温になり、列全体が運ぶ熱は約1.9倍(実測)。よく見ると熱は隙間を飛び越えて遠くへも薄く届く(接触不要の長距離伝達 — L16の可視化)。色=温度。",
+  en:{name:"Heat Conduction — Closer Spreads Faster", description:"Rows of resting particles, all forces off. From the white-hot pinned particle (heat bath) at the left end, heat hops along the non-touching row by conduction (E10′) alone. This sample treats temperature as the internal state variable T_int (the A9 revision), so only heat moves — not a single bit of spin — and angular momentum is conserved exactly rather than approximately (resolving the old \"cold yet conducting\" problem). Top row spacing 9, bottom 18 — hops are stronger when closer (kernel g(d)), so the dense row runs hotter and carries about 1.9× the heat (measured). Look closely: heat also leaks faintly across gaps (contact-free long-range transfer — L16 visualized). Color = temperature."},
   activeParams:["kappaS"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+  thermal:"tint",   // 第36便 D(台帳4-51)
   camera:{scale:200}, world:{boundary:"none",size:0},
   physics:{G:0, D0:50, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:1.5, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:4},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:4},
   bodies:[
-    {type:"single", m:4, x:-150,y:45, vx:0,vy:0, spin:8, pinned:true},
-    {type:"single", m:4, x:-141,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-132,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-123,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-114,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-105,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-96,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-87,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-78,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-69,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-60,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-51,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-42,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-33,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-24,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-15,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-6,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:3,y:45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-150,y:-45, vx:0,vy:0, spin:8, pinned:true},
-    {type:"single", m:4, x:-132,y:-45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-114,y:-45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-96,y:-45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-78,y:-45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-60,y:-45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-42,y:-45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-24,y:-45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:-6,y:-45, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", m:4, x:12,y:-45, vx:0,vy:0, spin:0, pinned:false}
+    {type:"single", rMul:1.2, m:4, x:-150,y:45, vx:0,vy:0, spin:0, tInt:64, pinned:true},
+    {type:"single", rMul:1.2, m:4, x:-141,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-132,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-123,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-114,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-105,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-96,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-87,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-78,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-69,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-60,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-51,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-42,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-33,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-24,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-15,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-6,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:3,y:45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-150,y:-45, vx:0,vy:0, spin:0, tInt:64, pinned:true},
+    {type:"single", rMul:1.2, m:4, x:-132,y:-45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-114,y:-45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-96,y:-45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-78,y:-45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-60,y:-45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-42,y:-45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-24,y:-45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:-6,y:-45, vx:0,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:12,y:-45, vx:0,vy:0, spin:0, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"coolrace", name:"放射冷却 — 高温ほど速い", emoji:"🌈", group:"熱の実験室",
-  description:"同じ質量で温度(スピン)だけが2・4・8と異なる3粒子を静止配置。力は全て切ってあり、変わるのは放射冷却(E11、Λ∝T^p)だけの統制実験。最も熱い粒子が最も速く冷え(初期の冷却速度比はほぼ1:8:64=s³則)、色が赤→青へ、右下のスペクトルのピークが長波長側へ移る。etaRadを0にすると全てが止まる。",
-  en:{name:"Radiative Cooling — Hotter Cools Faster", description:"Three resting particles of equal mass, differing only in temperature (spin 2/4/8). All forces are off — the only physics is radiative cooling (E11, Λ∝T^p): a controlled experiment. The hottest cools fastest (initial cooling-rate ratio ≈ 1:8:64, the s³ law), colors shift red→blue, and the spectrum peak (bottom right) moves to longer wavelengths. Set etaRad to 0 and everything freezes."},
+  description:"同じ質量で内部温度T_intだけが4・16・64と異なる3粒子を静止配置。力は全て切ってあり、変わるのは放射冷却(E11、Λ∝T^p)だけの統制実験。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂)ので、冷えるのは温度であってスピンではない(放射は角運動量を運ばない)。最も熱い粒子が最も速く冷え(初期の冷却速度比はほぼ1:16:256=T²則。p=2)、色が赤→青へ、右下のスペクトルのピークが長波長側へ移る。etaRadを0にすると全てが止まる。",
+  en:{name:"Radiative Cooling — Hotter Cools Faster", description:"Three resting particles of equal mass, differing only in internal temperature (T_int 4/16/64). All forces are off — the only physics is radiative cooling (E11, Λ∝T^p): a controlled experiment. This sample treats temperature as an internal state variable independent of spin (the A9 revision), so what cools is the temperature, not the spin (radiation carries no angular momentum). The hottest cools fastest (initial cooling-rate ratio ≈ 1:16:256, the T² law at p=2), colors shift red→blue, and the spectrum peak (bottom right) moves to longer wavelengths. Set etaRad to 0 and everything freezes."},
   activeParams:["etaRad","pRad","bM"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+  thermal:"tint",   // 第36便 D(台帳4-51)
   camera:{scale:180}, world:{boundary:"none",size:0},
   physics:{G:0, D0:50, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
-    cLight:60, bM:1, etaRad:1e-5, pRad:2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:4},
+    cLight:60, bM:1, etaRad:1e-5, pRad:2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:4},
   bodies:[ // v1.12(付録L): 第6次提案 P0-2 採用。冷却速度比 8.0/7.8(理論8)を機械検証済み
-    {type:"single", m:4, x:-100,y:0, vx:0,vy:0, spin:2, pinned:false},
-    {type:"single", m:4, x:0,y:0,    vx:0,vy:0, spin:4, pinned:false},
-    {type:"single", m:4, x:100,y:0,  vx:0,vy:0, spin:8, pinned:false}
+    {type:"single", rMul:1.2, m:4, x:-100,y:0, vx:0,vy:0, spin:0, tInt:4,  pinned:false},
+    {type:"single", rMul:1.2, m:4, x:0,y:0,    vx:0,vy:0, spin:0, tInt:16, pinned:false},
+    {type:"single", rMul:1.2, m:4, x:100,y:0,  vx:0,vy:0, spin:0, tInt:64, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,spectrum:true} },
 
 { id:"phase", name:"固体・液体・気体", emoji:"🧊", group:"熱の実験室",
-  description:"質量・数・大きさ・初速が完全に同一の3つの雲 — 違いは初期スピン(温度)だけの統制実験。一様重力gravityYの下に置き、現実の容器内の三態に近づけている。左=低温: 重力(A6)で収縮し底で結晶化する固体。中=中温: スピン斥力でほぐれ、重力で底に溜まって液面を作る液体。右=高温: スピン斥力(A10)が重力を振り切り箱に充満する気体。※束縛と斥力の競合による形態のアナロジーで、実在物質の潜熱・相平衡の再現ではない。色=温度(A9)。",
-  en:{name:"Solid, Liquid, Gas", description:"Three clouds identical in mass, count, size and initial speed — only the initial spin (temperature) differs: a controlled experiment. Uniform gravity gravityY mimics matter in a real container. Left = cold: gravity wins, it crystallizes at the bottom (solid). Middle = warm: spin repulsion loosens it and gravity pools it with a surface (liquid). Right = hot: spin repulsion (A10) beats gravity and fills the box (gas). A morphological analogy of binding vs repulsion — not real latent-heat phase transitions. Color = temperature (A9)."},
+  description:"質量・数・大きさ・初速が完全に同一の3つの雲 — 違いは初期の内部温度T_intだけの統制実験。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂)。一様重力gravityYの下に置き、現実の容器内の三態に近づけている。左=低温: 重力(A6)で収縮し、粒同士が接触したまま底で結晶化する固体。中=中温: 熱の斥力(E5′)でほぐれ、重力で底に溜まって液面を作る液体。右=高温: 熱の斥力が重力を振り切り箱に充満する気体。衝突の散逸は熱として粒に残る(E9)ので、低温の雲もゆっくり温まる。※束縛と斥力の競合による形態のアナロジーで、実在物質の潜熱・相平衡の再現ではない。色=温度。",
+  en:{name:"Solid, Liquid, Gas", description:"Three clouds identical in mass, count, size and initial speed — only the initial internal temperature T_int differs: a controlled experiment. This sample treats temperature as an internal state variable independent of spin (the A9 revision). Uniform gravity gravityY mimics matter in a real container. Left = cold: gravity (A6) wins and the grains crystallize in contact at the bottom (solid). Middle = warm: thermal repulsion (E5′) loosens it and gravity pools it with a surface (liquid). Right = hot: thermal repulsion beats gravity and fills the box (gas). Collisional dissipation now stays in the grains as heat (E9), so even the cold cloud warms slowly. A morphological analogy of binding vs repulsion — not real latent-heat phase transitions. Color = temperature."},
   activeParams:["kRep","G","gravityY","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+  thermal:"tint",   // 第36便 D(台帳4-51)
   camera:{scale:260}, world:{boundary:"box",size:240},
   // v1.21(第9次裁定): kFrame 0.3→0(三態比較に引きずりは不要 — 要因分離)
   physics:{G:0.7, D0:30, kFrame:0, q:2, kRep:0.8, muF:0.6, gammaN:0.85, kappaS:0.02, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0.04, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.6, softening:2, timeScale:2},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0.04, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.6 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2},
   bodies:[ // v1.5(付録F F4a): 3群は spin 以外すべて同一(統制実験)。v1.18: 少し上から落とす
-    {type:"disk", n:65, cx:-160,cy:-50, radius:38, mMin:0.6,mMax:0.6,
-     spinMin:0,spinMax:0, vMode:"none", aroundMass:0, vScale:0, direction:1},
-    {type:"disk", n:65, cx:0,cy:-50, radius:38, mMin:0.6,mMax:0.6,
-     spinMin:1.8,spinMax:2.2, vMode:"none", aroundMass:0, vScale:0, direction:1},
-    {type:"disk", n:65, cx:160,cy:-50, radius:38, mMin:0.6,mMax:0.6,
+    {type:"disk", rMul:1.6, n:65, cx:-160,cy:-50, radius:38, mMin:0.6,mMax:0.6,
+     spinMin:0,spinMax:0, tInt:0.01, vMode:"none", aroundMass:0, vScale:0, direction:1},
+    {type:"disk", rMul:1.6, n:65, cx:0,cy:-50, radius:38, mMin:0.6,mMax:0.6,
+     spinMin:0,spinMax:0, tInt:2, vMode:"none", aroundMass:0, vScale:0, direction:1},
+    {type:"disk", rMul:1.6, n:65, cx:160,cy:-50, radius:38, mMin:0.6,mMax:0.6,
      // v1.21: spinMax 10→8.5(Gemini 第9次 2.1 — 気体が天井に張り付かず対流するバランス)
-     spinMin:8,spinMax:8.5, vMode:"none", aroundMass:0, vScale:0, direction:1}
+     // 第36便 D: 旧 spin 8〜8.5 の熱を T_int=68(≈8.25²)へ移した
+     spinMin:0,spinMax:0, tInt:68, vMode:"none", aroundMass:0, vScale:0, direction:1}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
@@ -1486,50 +1527,53 @@ const BUILTIN_PRESETS = [
 // 純粋な外部力場なので、時計・光・引きずりを歪めずに箱内へ厳密に一様な下向き場を作れる。
 
 { id:"convection", name:"加熱の対流 — 床加熱と天井冷却", emoji:"♨️", group:"熱の実験室",
-  description:"床の左〜中央+右寄りまで固定ヒーター列(高スピン)、天井の右側に疎な冷却板(スピン0)。床の右端だけは非加熱で、冷えたガスの下降域になる。ガスは床でスピン拡散(E10′)により加熱され、スピン斥力=圧力(A9/A10)で膨らんで浮上し、天井で冷えて右から沈む対流セルを作る(T6の移流拡張)。働く力は一様重力場gravityY(外部場)とスピン斥力・接触だけで、自己重力・引きずり・放射は切ってある。gravityY=0にすると循環が止まる(おすすめA/B)。代表粒子の軌跡(線)で循環セルの周回が見える。色=温度。",
-  en:{name:"Heated Convection — Floor Heat, Ceiling Cool", description:"Pinned heaters (high spin) line the floor from the left to right-of-center, with sparse coolers (zero spin) on the right ceiling; only the far-right floor stays unheated, serving as the downwelling zone. Gas heats up at the floor via spin diffusion (E10′), inflates and rises by spin repulsion = pressure (A9/A10), cools at the ceiling and sinks on the right — a convection cell (an advective extension of T6). The only forces are the uniform gravity gravityY (external field) plus spin repulsion and contact — self-gravity, dragging and radiation are all off. Set gravityY to 0 and the circulation stops (suggested A/B). Trails on sampled particles trace the circulation loops. Color = temperature."},
+  description:"床の左〜中央+右寄りまで固定ヒーター列(高い内部温度T_int)、天井の右側に疎な冷却板(T_int=0の熱の捨て場)。床の右端だけは非加熱で、冷えたガスの下降域になる。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂)。ガスは床で熱伝導(E10′)により加熱され、熱の斥力=圧力(E5′)で膨らんで浮上し、天井で冷えて右から沈む対流セルを作る(T6の移流拡張)。働く力は一様重力場gravityY(外部場)と熱の斥力・接触だけで、自己重力・引きずり・放射は切ってある。gravityY=0にすると循環が止まる(おすすめA/B)。代表粒子の軌跡(線)で循環セルの周回が見える。色=温度。",
+  en:{name:"Heated Convection — Floor Heat, Ceiling Cool", description:"Pinned heaters (high internal temperature T_int) line the floor from the left to right-of-center, with sparse coolers (T_int=0 heat sinks) on the right ceiling; only the far-right floor stays unheated, serving as the downwelling zone. This sample treats temperature as an internal state variable independent of spin (the A9 revision). Gas heats up at the floor by conduction (E10′), inflates and rises by thermal repulsion = pressure (E5′), cools at the ceiling and sinks on the right — a convection cell (an advective extension of T6). The only forces are the uniform gravity gravityY (external field) plus thermal repulsion and contact — self-gravity, dragging and radiation are all off. Set gravityY to 0 and the circulation stops (suggested A/B). Trails on sampled particles trace the circulation loops. Color = temperature."},
   activeParams:["gravityY","kRep","kappaS","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+  thermal:"tint",   // 第36便 D(台帳4-51)
   camera:{scale:240}, world:{boundary:"box",size:190},
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:2, muF:0.2, gammaN:0.1, kappaS:1.2, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:2, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:4, softening:4, timeScale:2},   // 第29便: timeScale 3→2 復帰(第25次レビュー P0-1 — CPU計算量が理論1.5倍・実測1.522倍の主因。循環の見やすさは軌跡(sampled trail)で維持)
+    cLight:60, bM:1, etaRad:0, pRad:2, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 4 は各 body の rMul へ焼込(第36便 C1)*/, softening:4, timeScale:2},   // 第29便: timeScale 3→2 復帰(第25次レビュー P0-1 — CPU計算量が理論1.5倍・実測1.522倍の主因。循環の見やすさは軌跡(sampled trail)で維持)
   bodies:[ // v1.17: ヒーター(床)+冷却板5点(天井右・疎)+軽量ガス260。
            // v1.24: 旧11点(〜x=+30)では右下に冷えた塊が滞留し循環が死ぬ(48000步で自由粒子の
            // 84%が右下・循環7)ことを実測。6構成の機械掃引で「+70まで延長・右端床は非加熱の
            // 下降域として残す」13点構成を採用(48000步で循環24持続・滞留47%へ改善。
            // 床全面加熱は逆に循環が反転して不採用)
-    {type:"single", m:1, x:-170,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:-150,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:-130,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:-110,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:-90,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:-70,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:-50,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:-30,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:-10,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:10,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:30,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:50,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:70,y:186, vx:0,vy:0, spin:12, pinned:true},
-    {type:"single", m:1, x:10,y:-186, vx:0,vy:0, spin:0, pinned:true},
-    {type:"single", m:1, x:50,y:-186, vx:0,vy:0, spin:0, pinned:true},
-    {type:"single", m:1, x:90,y:-186, vx:0,vy:0, spin:0, pinned:true},
-    {type:"single", m:1, x:130,y:-186, vx:0,vy:0, spin:0, pinned:true},
-    {type:"single", m:1, x:170,y:-186, vx:0,vy:0, spin:0, pinned:true},
-    {type:"box", n:260, cx:0,cy:-10, w:340,h:320, mMin:0.05,mMax:0.05,
-     spinMin:1,spinMax:2, vScale:0.4}
+    {type:"single", rMul:4, m:1, x:-170,y:186, vx:0,vy:0, spin:0, tInt:144, pinned:true},
+    {type:"single", rMul:4, m:1, x:-150,y:186, vx:0,vy:0, spin:0, tInt:144, pinned:true},
+    {type:"single", rMul:4, m:1, x:-130,y:186, vx:0,vy:0, spin:0, tInt:144, pinned:true},
+    {type:"single", rMul:4, m:1, x:-110,y:186, vx:0,vy:0, spin:0, tInt:144, pinned:true},
+    {type:"single", rMul:4, m:1, x:-90,y:186, vx:0,vy:0, spin:0, tInt:144, pinned:true},
+    {type:"single", rMul:4, m:1, x:-70,y:186, vx:0,vy:0, spin:0, tInt:144, pinned:true},
+    {type:"single", rMul:4, m:1, x:-50,y:186, vx:0,vy:0, spin:0, tInt:144, pinned:true},
+    {type:"single", rMul:4, m:1, x:-30,y:186, vx:0,vy:0, spin:0, tInt:144, pinned:true},
+    {type:"single", rMul:4, m:1, x:-10,y:186, vx:0,vy:0, spin:0, tInt:144, pinned:true},
+    {type:"single", rMul:4, m:1, x:10,y:186, vx:0,vy:0, spin:0, tInt:144, pinned:true},
+    {type:"single", rMul:4, m:1, x:30,y:186, vx:0,vy:0, spin:0, tInt:144, pinned:true},
+    {type:"single", rMul:4, m:1, x:50,y:186, vx:0,vy:0, spin:0, tInt:144, pinned:true},
+    {type:"single", rMul:4, m:1, x:70,y:186, vx:0,vy:0, spin:0, tInt:144, pinned:true},
+    {type:"single", rMul:4, m:1, x:10,y:-186, vx:0,vy:0, spin:0, tInt:0, pinned:true},
+    {type:"single", rMul:4, m:1, x:50,y:-186, vx:0,vy:0, spin:0, tInt:0, pinned:true},
+    {type:"single", rMul:4, m:1, x:90,y:-186, vx:0,vy:0, spin:0, tInt:0, pinned:true},
+    {type:"single", rMul:4, m:1, x:130,y:-186, vx:0,vy:0, spin:0, tInt:0, pinned:true},
+    {type:"single", rMul:4, m:1, x:170,y:-186, vx:0,vy:0, spin:0, tInt:0, pinned:true},
+    {type:"box", rMul:4, n:260, cx:0,cy:-10, w:340,h:320, mMin:0.05,mMax:0.05,
+     spinMin:0,spinMax:0, tInt:2.25, vScale:0.4}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"}  },
 
 { id:"buoyancy", name:"重力分離と浮力", emoji:"🧪", group:"熱の実験室",
-  description:"一様重力場gravityYに置かれた、質量の異なる粒子の混合物。重い冷たい粒子は底へ沈んで層を作り、軽い熱い粒子はスピン=熱(A9)のスピン圧(A10)によって重力に逆らって上へ押し上げられ、上層の「大気」を作る — 密度差による沈降と浮力のアナロジー。要因分離のためスピンは固定(μF=κs=0で温度一定)、自己重力・引きずり・放射も切ってある。gravityYを0にすると分離が止まり混ざったままになる(おすすめA/B)。色=温度。",
-  en:{name:"Gravity Separation & Buoyancy", description:"A mixture of particles with different masses in the uniform gravity field gravityY. Heavy cold particles sink and form a bottom layer, while light hot ones are pushed upward against gravity by spin = heat (A9) and spin pressure (A10), forming an 'atmosphere' on top — an analogy of density-driven sedimentation and buoyancy. Factors are isolated: spins stay fixed (muF=kappaS=0, constant temperature) and self-gravity, dragging and radiation are off. Set gravityY to 0 and the separation stops (suggested A/B). Color = temperature."},
+  description:"一様重力場gravityYに置かれた、質量の異なる粒子の混合物。重い冷たい粒子は底へ沈んで層を作り、軽い熱い粒子は熱の圧力(E5′)によって重力に逆らって上へ押し上げられ、上層の「大気」を作る — 密度差による沈降と浮力のアナロジー。このサンプルは温度をスピンと独立な内部状態変数T_intとして扱う(A9の改訂)。要因分離のため熱の出入りはほぼ止めてあり(μF=κs=0・熱容量cHeatを大きく取って衝突散逸(E9)による昇温を抑えた温度ほぼ一定の系)、自己重力・引きずり・放射も切ってある。gravityYを0にすると分離が止まり混ざったままになる(おすすめA/B)。色=温度。",
+  en:{name:"Gravity Separation & Buoyancy", description:"A mixture of particles with different masses in the uniform gravity field gravityY. Heavy cold particles sink and form a bottom layer, while light hot ones are pushed upward against gravity by thermal pressure (E5′), forming an 'atmosphere' on top — an analogy of density-driven sedimentation and buoyancy. This sample treats temperature as the internal state variable T_int (the A9 revision). Factors are isolated: heat flow is essentially switched off (muF=kappaS=0, and a large heat capacity cHeat keeps collisional dissipation (E9) from warming the grains), and self-gravity, dragging and radiation are off. Set gravityY to 0 and the separation stops (suggested A/B). Color = temperature."},
   activeParams:["gravityY","kRep","gammaN"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+  thermal:"tint",   // 第36便 D(台帳4-51)
   camera:{scale:200}, world:{boundary:"box",size:160},
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:3, muF:0, gammaN:0.1, kappaS:0, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0.05, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:2.5, softening:2, timeScale:2},
+    cLight:60, bM:1, etaRad:0, pRad:4, cHeat:30/* 第36便 D: 大きな熱容量で衝突散逸(E9)による昇温を抑え、旧版の「温度一定」統制条件を維持(実測: 12000步で T 20.25→20.71 = +2%)*/,
+    gravityX:0, gravityY:0.05, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 2.5 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2},
   bodies:[ // v1.18: Gemini 第8次提案を機械掃引で調整(スピン固定+radiusScale2.5 — 分離52〜72が持続)
-    {type:"box", n:200, cx:0,cy:0, w:280,h:280, mMin:0.2,mMax:0.2, spinMin:4,spinMax:5, vScale:0.5},
-    {type:"box", n:80, cx:0,cy:0, w:280,h:280, mMin:3,mMax:3, spinMin:0,spinMax:0, vScale:0.1}
+    {type:"box", rMul:2.5, n:200, cx:0,cy:0, w:280,h:280, mMin:0.2,mMax:0.2, spinMin:0,spinMax:0, tInt:20.25, vScale:0.5},
+    {type:"box", rMul:2.5, n:80, cx:0,cy:0, w:280,h:280, mMin:3,mMax:3, spinMin:0,spinMax:0, tInt:0, vScale:0.1}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
@@ -1540,7 +1584,7 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame","G","D0"],
   camera:{scale:220}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
-    cLight:100, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.5, softening:2, timeScale:5},
+    cLight:100, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.5 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:5},
   bodies:[ // 第15便: 公転版(v=1.063×軟化ケプラー値の実測較正・地球 pinned の展示系 —
            // 自由二体は D0 リザーバ移譲で重心漂流のため。詳細はロードマップ)。
            // 第16便(第17次レビュー 推奨A): コアを観測値へ — 地球 mc/m=0.325(PREM 32.5%)・
@@ -1548,8 +1592,8 @@ const BUILTIN_PRESETS = [
            // ≈1.0000008 に対し 1.05 は過大)。コア差動項ゼロ化に伴い ω を再実測(0.013931→
            // 0.013908)し月 spin を追随。検証: t2000(4.4周)で r=179.996〜180.163・NaN なし。
            // 粒子の並び: 0=地球(2層コア), 1=月(2層コア・同期自転)
-    {type:"single", m:1000, coreMR:0.325, coreSR:1.0, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
-    {type:"single", m:12.3, coreMR:0.0168, coreSR:1.0, x:180,y:0, vx:0,vy:2.5053, spin:0.013908, pinned:false}
+    {type:"single", rMul:1.5, m:1000, coreMR:0.325, coreSR:1.0, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
+    {type:"single", rMul:1.5, m:12.3, coreMR:0.0168, coreSR:1.0, x:180,y:0, vx:0,vy:2.5053, spin:0.013908, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -1559,15 +1603,15 @@ const BUILTIN_PRESETS = [
   activeParams:["G","kFrame","D0"],
   camera:{scale:220}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
-    cLight:100, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.5, softening:2, timeScale:5},
+    cLight:100, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.5 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:5},
   bodies:[ // 第16便(第17次レビュー 推奨B — ChatGPT §7 の導出値を実エンジンで追認):
            // 重心座標 xE=−D·mM/MT・xM=+D·mE/MT(D=180)、全運動量0の速度配分、
            // vRel=√[G·MT·D²/(D²+ε²)^1.5]=2.371254(kFrame=0 なので f 補正不要)。
            // 実測: t5000(10.48周)r=179.974〜180.020・重心移動最大0.0009・同期誤差0.31°/周。
            // 自転は実比: 地球=27.39646523×ω=0.360911・月=ω=0.013174(同期)。
            // 粒子の並び: 0=地球, 1=月
-    {type:"single", m:1000, coreMR:0.325, coreSR:1.0, x:-2.187105191,y:0, vx:0,vy:-0.028812128, spin:0.360911060, pinned:false},
-    {type:"single", m:12.300037, coreMR:0.0168, coreSR:1.0, x:177.812894809,y:0, vx:0,vy:2.342442349, spin:0.013173636, pinned:false}
+    {type:"single", rMul:1.5, m:1000, coreMR:0.325, coreSR:1.0, x:-2.187105191,y:0, vx:0,vy:-0.028812128, spin:0.360911060, pinned:false},
+    {type:"single", rMul:1.5, m:12.300037, coreMR:0.0168, coreSR:1.0, x:177.812894809,y:0, vx:0,vy:2.342442349, spin:0.013173636, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -1577,19 +1621,19 @@ const BUILTIN_PRESETS = [
   activeParams:["muF","kFrame","kappaS"],   // QA activeParams.ui が先頭=muF の編集反映を検査するため muF を先頭に
   camera:{scale:340}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:1.2, muF:0.2, gammaN:0.15, kappaS:0.08, Kt:3600,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.8, softening:2, timeScale:3},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.8 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:3},
   bodies:[ // 原仮定者裁定(2026-07-22): physics は実機確認済みの調整版セーブ — kFrame=1(空間
            // 引きずりが無いと DFM サンプルの意義が薄い)・kRep=1.2・kappaS=0.08・Kt=3600(物理対応
            // ロック成立値)。第4便: 初期配置を t=300〜600 の実測安定分布に再設計(v1.24 の流儀)。
            // 実測 p5/p25/p50/p75/p95 ≈ 112/132/165/186/197・平均|spin|≈0.15 に合わせた3環帯。
            // 旧 C/B/A 配置(124–227)は空間引きずりで内側へ緩和するため、緩和後の姿から開始する。
            // 検証: この初期値で t≈1200 まで落下(<r90)0・散逸(>r320)0(QA behavior.saturnExp)。
-    {type:"single", m:1500, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
-    {type:"ring", n:75, cx:0,cy:0, rIn:104,rOut:132, mMin:0.01,mMax:0.03,
+    {type:"single", rMul:1.8, m:1500, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
+    {type:"ring", rMul:1.8, n:75, cx:0,cy:0, rIn:104,rOut:132, mMin:0.01,mMax:0.03,
      spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false},
-    {type:"ring", n:150, cx:0,cy:0, rIn:132,rOut:190, mMin:0.01,mMax:0.03,
+    {type:"ring", rMul:1.8, n:150, cx:0,cy:0, rIn:132,rOut:190, mMin:0.01,mMax:0.03,
      spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false},
-    {type:"ring", n:75, cx:0,cy:0, rIn:190,rOut:212, mMin:0.01,mMax:0.03,
+    {type:"ring", rMul:1.8, n:75, cx:0,cy:0, rIn:190,rOut:212, mMin:0.01,mMax:0.03,
      spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
@@ -1604,7 +1648,7 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame","muF","kappaS"],
   camera:{scale:340}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:1.2, muF:0.2, gammaN:0.15, kappaS:0.08, Kt:3600,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.8, softening:2, timeScale:3},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.8 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:3},
   bodies:[ // 第12〜14便(2026-07-23 原仮定者指示): 主星2層は比率仕様 — m は総質量のまま
            // (元になる数値をそのまま使える)、coreMR=mc/m(既定0・負値=空洞)・
            // coreSR=sc/s(既定1=剛体回転=単層等価。コアは推測なので比率が調整し易い)。
@@ -1612,12 +1656,12 @@ const BUILTIN_PRESETS = [
            // sc/s=1.05(教材既定。地震学的推定は ≈1.01)。差動形なので環付近への追加引きずりは
            // (mc/m)·s·(sc/s−1)·f(Rc,d) ≈ +0.1% と説明に整合する規模。
            // 環の帯・physics は 🪐(実験)と同一 — sc/s=1 で 🪐 と厳密等価(QA core.twolayer)。
-    {type:"single", m:1500, coreMR:0.18, coreSR:1.05, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
-    {type:"ring", n:75, cx:0,cy:0, rIn:104,rOut:132, mMin:0.01,mMax:0.03,
+    {type:"single", rMul:1.8, m:1500, coreMR:0.18, coreSR:1.05, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
+    {type:"ring", rMul:1.8, n:75, cx:0,cy:0, rIn:104,rOut:132, mMin:0.01,mMax:0.03,
      spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false},
-    {type:"ring", n:150, cx:0,cy:0, rIn:132,rOut:190, mMin:0.01,mMax:0.03,
+    {type:"ring", rMul:1.8, n:150, cx:0,cy:0, rIn:132,rOut:190, mMin:0.01,mMax:0.03,
      spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false},
-    {type:"ring", n:75, cx:0,cy:0, rIn:190,rOut:212, mMin:0.01,mMax:0.03,
+    {type:"ring", rMul:1.8, n:75, cx:0,cy:0, rIn:190,rOut:212, mMin:0.01,mMax:0.03,
      spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
@@ -1628,25 +1672,25 @@ const BUILTIN_PRESETS = [
   activeParams:["G","softening"],
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:1, lambdaPN:0, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:3},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:1, lambdaPN:0, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:3},
   bodies:[ // 第11次裁定 保留分(v1.29): 中心に Cassini 重力解 J2〜J12(基準半径 R_S=100 sim units)+
            // calib=1.000302283(D68 精密較正)。テスト粒子は e=0.05・近点+x方向で整列
            // (r_p=a(1−e), v_p=√[μ(1+e)/r_p], μ=G·M=1500)。DFM 効果(kFrame/kRep/muF/γN)は 0 に
            // して扁平重力の効果だけを分離。geoPN=1・λ_PN=0 = E6′排他+純ニュートン。
            // 旧 🧭(現実較正 C=1)は 2026-07-23 原仮定者裁定で本サンプルへ一本化・廃止
-    {type:"single", m:1500, x:0,y:0, vx:0,vy:0, spin:0, pinned:true,
+    {type:"single", rMul:1.2, m:1500, x:0,y:0, vx:0,vy:0, spin:0, pinned:true,
      zonal:{refR:100, calib:1.000302283, J:{2:0.016290573, 4:-0.000935314, 6:0.000086340,
             8:-0.000014624, 10:0.000004672, 12:-0.000000997}}},
-    {type:"single", m:0.05, x:102.60,y:0, vx:0,vy:3.9180, spin:0, pinned:false},
-    {type:"single", m:0.05, x:110.20,y:0, vx:0,vy:3.7805, spin:0, pinned:false},
-    {type:"single", m:0.05, x:119.70,y:0, vx:0,vy:3.6274, spin:0, pinned:false},
-    {type:"single", m:0.05, x:131.10,y:0, vx:0,vy:3.4661, spin:0, pinned:false},
-    {type:"single", m:0.05, x:144.40,y:0, vx:0,vy:3.3026, spin:0, pinned:false},
-    {type:"single", m:0.05, x:159.60,y:0, vx:0,vy:3.1414, spin:0, pinned:false},
-    {type:"single", m:0.05, x:176.70,y:0, vx:0,vy:2.9855, spin:0, pinned:false},
-    {type:"single", m:0.05, x:195.70,y:0, vx:0,vy:2.8369, spin:0, pinned:false},
-    {type:"single", m:0.05, x:216.60,y:0, vx:0,vy:2.6966, spin:0, pinned:false},
-    {type:"single", m:0.05, x:239.40,y:0, vx:0,vy:2.5649, spin:0, pinned:false}
+    {type:"single", rMul:1.2, m:0.05, x:102.60,y:0, vx:0,vy:3.9180, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:0.05, x:110.20,y:0, vx:0,vy:3.7805, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:0.05, x:119.70,y:0, vx:0,vy:3.6274, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:0.05, x:131.10,y:0, vx:0,vy:3.4661, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:0.05, x:144.40,y:0, vx:0,vy:3.3026, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:0.05, x:159.60,y:0, vx:0,vy:3.1414, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:0.05, x:176.70,y:0, vx:0,vy:2.9855, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:0.05, x:195.70,y:0, vx:0,vy:2.8369, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:0.05, x:216.60,y:0, vx:0,vy:2.6966, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:0.05, x:239.40,y:0, vx:0,vy:2.5649, spin:0, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -1656,11 +1700,11 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame","D0","G"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:320}, world:{boundary:"none",size:0},
   physics:{G:1, D0:10, kFrame:1, q:2, kRep:0, muF:0.05, gammaN:0.1, kappaS:0, Kt:10000,   // 第26便: kFrame 0.5→1(中間値解消。12000步で束縛・円盤240/240残存を実測)
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:4},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:4},
   bodies:[ // v1.13(付録M): 第6次提案 P1-1 を内蔵化(12000步スモーク・重心ドリフト0.1)
-    {type:"single", m:500, x:-60,y:0, vx:0,vy:-1.44, spin:0.03, pinned:false},
-    {type:"single", m:500, x:60,y:0,  vx:0,vy:1.44,  spin:0.03, pinned:false},
-    {type:"ring", n:240, cx:0,cy:0, rIn:180,rOut:290, mMin:0.05,mMax:0.2,
+    {type:"single", rMul:1.2, m:500, x:-60,y:0, vx:0,vy:-1.44, spin:0.03, pinned:false},
+    {type:"single", rMul:1.2, m:500, x:60,y:0,  vx:0,vy:1.44,  spin:0.03, pinned:false},
+    {type:"ring", rMul:1.2, n:240, cx:0,cy:0, rIn:180,rOut:290, mMin:0.05,mMax:0.2,
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:1000, omega:0, vNoise:0.04, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
@@ -1671,11 +1715,11 @@ const BUILTIN_PRESETS = [
   activeParams:["G","softening"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:140}, world:{boundary:"none",size:0},
   physics:{G:1, D0:100, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:0.2, softening:0.5, timeScale:2},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 0.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:0.5, timeScale:2},
   bodies:[ // v1.13(付録M): 第6次提案 P1-2 を内蔵化(有界性を機械検証済み)
-    {type:"single", m:300, x:-77.6003,y:19.447, vx:0.9028,vy:0.8373, spin:0, pinned:false},
-    {type:"single", m:300, x:77.6003,y:-19.447, vx:0.9028,vy:0.8373, spin:0, pinned:false},
-    {type:"single", m:300, x:0,y:0, vx:-1.8056,vy:-1.6745, spin:0, pinned:false}
+    {type:"single", rMul:0.2, m:300, x:-77.6003,y:19.447, vx:0.9028,vy:0.8373, spin:0, pinned:false},
+    {type:"single", rMul:0.2, m:300, x:77.6003,y:-19.447, vx:0.9028,vy:0.8373, spin:0, pinned:false},
+    {type:"single", rMul:0.2, m:300, x:0,y:0, vx:-1.8056,vy:-1.6745, spin:0, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -1685,29 +1729,33 @@ const BUILTIN_PRESETS = [
   activeParams:["muF","gammaN","etaRad"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:190}, world:{boundary:"none",size:0},
   physics:{G:1, D0:5, kFrame:0, q:2, kRep:0, muF:1, gammaN:0.6, kappaS:0.02, Kt:10000,
-    cLight:60, bM:1, etaRad:1e-5, pRad:2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:0.8, softening:2, timeScale:2},
+    cLight:60, bM:1, etaRad:1e-5, pRad:2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 0.8 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2},
   bodies:[ // v1.12(付録L): 第6次提案 P0-3 採用。muF=1/0 の加熱対照を機械検証済み
-    {type:"single", m:800, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
-    {type:"ring", n:100, cx:0,cy:0, rIn:80,rOut:145, mMin:0.12,mMax:0.18,
+    {type:"single", rMul:0.8, m:800, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
+    {type:"ring", rMul:0.8, n:100, cx:0,cy:0, rIn:80,rOut:145, mMin:0.12,mMax:0.18,
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:800, omega:0, vNoise:0.03, direction:1, pinned:false},
-    {type:"ring", n:100, cx:0,cy:0, rIn:80,rOut:145, mMin:0.12,mMax:0.18,
+    {type:"ring", rMul:0.8, n:100, cx:0,cy:0, rIn:80,rOut:145, mMin:0.12,mMax:0.18,
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:800, omega:0, vNoise:0.03, direction:-1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,spectrum:true} },
 
 { id:"snowline", name:"塵は冷えると固まる — 冷たい星と熱い星", emoji:"❄️", group:"天体の物語",
-  description:"同じ塵の環を冷たい星(左)と熱い星(右)に与えた対照実験。冷たい環では塵が衝突で固まり小衛星が育つ(T3)が、熱い星の環では星の熱がスピン拡散(E10′)で塵へ流れ込み、生まれかけた塊は摩擦の撹拌(A9)でほどけて塊になれない。環はやがて蒸発し、飛ばされた塵は熱の届かぬ遠方で再び固まる — 恒星系の「雪線(スノーライン)」のアナロジー。右下: 左右の平均温度。",
-  en:{name:"Dust Clumps When Cold — Cold Star vs Hot Star", description:"The same dust ring around a cold star (left) and a hot star (right) — a controlled contrast (the snow-line analogy). In the cold ring, dust sticks into growing moonlets (T3); in the hot ring, stellar heat flows into the dust by spin diffusion (E10′) and friction churn (A9) unravels nascent clumps. That ring evaporates, and the ejected dust re-condenses far away, beyond the heat's reach. Bottom right: mean temperatures."},
+  description:"同じ塵の環を冷たい星(左)と熱い星(右)に与えた対照実験。このサンプルは温度をスピンと独立な内部状態変数T_intとして扱う(A9の改訂)。冷たい環では塵が衝突で固まり小衛星が育つ(T3)が、熱い星の環では星の熱が熱伝導(E10′)で塵へ流れ込み、温まった塵は熱の斥力(E5′)で互いを押しのけて塊になれない。環はやがて蒸発し、飛ばされた塵は熱の届かぬ遠方で放射(E11)により冷えて再び固まる — 恒星系の「雪線(スノーライン)」のアナロジー。右下: 左右の平均温度 — 熱い環は最初に温まり、遠ざかると冷える。冷たい環は塊が育つときの衝突散逸(E9)でわずかに温まる(凝固の潜熱にあたる)。",
+  en:{name:"Dust Clumps When Cold — Cold Star vs Hot Star", description:"The same dust ring around a cold star (left) and a hot star (right) — a controlled contrast (the snow-line analogy). This sample treats temperature as the internal state variable T_int independent of spin (the A9 revision). In the cold ring, dust sticks into growing moonlets (T3); in the hot ring, stellar heat flows into the dust by conduction (E10′) and the warmed grains push each other apart by thermal repulsion (E5′), so nothing can grow. That ring evaporates, and the ejected dust cools by radiation (E11) far away, beyond the heat's reach, and re-condenses. Bottom right: mean temperatures — the hot ring warms first and cools as it drifts away, while the cold ring warms slightly from the collisional dissipation (E9) of clump growth (the analogue of latent heat of freezing)."},
   activeParams:["kappaS","muF","etaRad"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+  thermal:"tint",   // 第36便 D(台帳4-51)
   camera:{scale:380}, world:{boundary:"none",size:0},
-  physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0.6, gammaN:0.5, kappaS:1.2, Kt:60,
-    cLight:60, bM:1, etaRad:0.15, pRad:1, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1.2, softening:2, timeScale:4},
+  // 第36便 D(台帳4-51): kRep 0→0.3。A9 改訂で「熱が塊をほどく」機構が摩擦の撹拌(スピン)から
+  // 熱の斥力 E5′ へ移るため、kRep=0 のままだと温度が力学に一切効かず対照実験が成立しない(実測)。
+  // 0.3 は掃引で確定: 熱い環の束縛粒子 12/110 に対し冷たい環 86/110(7倍)・環の拡散速度は旧版と同程度
+  physics:{G:1, D0:2, kFrame:0, q:2, kRep:0.3, muF:0.6, gammaN:0.5, kappaS:1.2, Kt:60,
+    cLight:60, bM:1, etaRad:0.15, pRad:1, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:4},
   bodies:[
-    {type:"single", m:400, x:-260,y:0, vx:0,vy:0, spin:0, pinned:true},
-    {type:"single", m:400, x:260,y:0, vx:0,vy:0, spin:3.5, pinned:true},
-    {type:"ring", n:110, cx:-260,cy:0, rIn:50,rOut:85, mMin:0.3,mMax:0.6,
+    {type:"single", rMul:1.2, m:400, x:-260,y:0, vx:0,vy:0, spin:0, tInt:0, pinned:true},
+    {type:"single", rMul:1.2, m:400, x:260,y:0, vx:0,vy:0, spin:0, tInt:12.25, pinned:true},
+    {type:"ring", rMul:1.2, n:110, cx:-260,cy:0, rIn:50,rOut:85, mMin:0.3,mMax:0.6,
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:400, omega:0, vNoise:0.05, direction:1, pinned:false},
-    {type:"ring", n:110, cx:260,cy:0, rIn:50,rOut:85, mMin:0.3,mMax:0.6,
+    {type:"ring", rMul:1.2, n:110, cx:260,cy:0, rIn:50,rOut:85, mMin:0.3,mMax:0.6,
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:400, omega:0, vNoise:0.05, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false} },
@@ -1781,12 +1829,24 @@ function validatePreset(obj){
         // lightSweep=光掻き出し(0〜1。自星の光を出さない → 観測温度 0・E11 も (1−lS) 倍)
         // coreOT=コア観測温度比率(Tc_obs = coreOT·(1−lS)·Ic·sc²。既定1)
         // radius=半径の明示指定(0.5〜500。未指定は radiusScale·√|m|)・coreRR=コア半径比(0.02〜1)
-        for(const [k,lo,hi] of [["obsT",0,1000],["lightSweep",0,1],["coreOT",0,1000],
-                                 ["radius",0.5,500],["coreRR",0.02,1]]){
+        // 第36便 C1: rMul=粒子半径の倍率(0.2〜5・既定1。R=radiusScale·rMul·√|m|)。
+        //   body.radius の 0.5 下限は経由しない(rMul は内部計算 — 微小粒子の R<0.5 も従来どおり出せる)
+        // 第36便 D(台帳4-51): tInt=内部温度 T_int の初期値(thermal:"tint" のときだけ使われる。
+        // 既定0。spin モードのプリセットに書かれていても build が参照しないので無害)
+        for(const [k,lo,hi] of [["obsT",0,1000],["coreOT",0,1000],
+                                 ["radius",0.5,500],["coreRR",0.02,1],["rMul",0.2,5],
+                                 ["tInt",0,10000]]){
           if(b[k]!==undefined){
             if(!isNum(b[k])){ bad(at+"."+k+" が数値ではありません"); return; }
             o[k]=wc(b[k],lo,hi,k);
           }
+        }
+        // 第36便 C2: lightSweep は数値(0〜1・従来の独立指定)に加えて "auto"(粒子パラメータからの
+        // 算出モード)を受理する。その他の値は削除+警告(生成AI・インポートの誤値で落とさない)
+        if(b.lightSweep!==undefined){
+          if(b.lightSweep==="auto") o.lightSweep="auto";
+          else if(isNum(b.lightSweep)) o.lightSweep=wc(b.lightSweep,0,1,"lightSweep");
+          else warnings.push(at+'.lightSweep は数値(0〜1)か "auto" — 削除します');
         }
         // E13(第11次裁定 保留分の実施): AI生成・インポートへ zonal を開放。
         // 偶数次 J2〜J12 のみ受理し、|J|≤0.1・refR 1〜5000・calib 0〜2 にクランプする
@@ -1830,6 +1890,14 @@ function validatePreset(obj){
           vNoise:wc(b.vNoise,0,1,"vNoise"), direction:b.direction, pinned:b.pinned,
           vScale:isNum(b.vScale)?wc(b.vScale,0,50,"vScale"):0,   // 第35便: vMode="hubble" の膨張率(他モードでは未使用)
           bulkVx:isNum(b.bulkVx)?VEL(b.bulkVx,"bulkVx"):0, bulkVy:isNum(b.bulkVy)?VEL(b.bulkVy,"bulkVy"):0};
+        if(b.rMul!==undefined){   // 第36便 C1: 群共通の半径倍率(0.2〜5・既定1)
+          if(!isNum(b.rMul)){ bad(at+".rMul が数値ではありません"); return; }
+          oR.rMul=wc(b.rMul,0.2,5,"rMul");
+        }
+        if(b.tInt!==undefined){   // 第36便 D(台帳4-51): 群共通の内部温度初期値(既定0)
+          if(!isNum(b.tInt)){ bad(at+".tInt が数値ではありません"); return; }
+          oR.tInt=wc(b.tInt,0,10000,"tInt");
+        }
         // 第31便: railH(膨張レール)— pinned リングを a(t)=e^{H·t} で相似膨張させる規定運動
         if(b.railH!==undefined){
           if(!isNum(b.railH)){ bad(at+".railH が数値ではありません"); return; }
@@ -1841,18 +1909,36 @@ function validatePreset(obj){
         if(!needNum(["n","cx","cy","radius","mMin","mMax","spinMin","spinMax","aroundMass","vScale"])) return;
         if(["kepler","rigid","flat","random","hubble","none"].indexOf(b.vMode)<0){ bad(at+".vMode が不正"); return; }   // 第31便: hubble(初期 Hubble 流 v=vScale·(r−c))を追加
         if(b.direction!==1 && b.direction!==-1){ bad(at+".direction は 1 か -1"); return; }
-        out.push({type:"disk", n:clamp(Math.round(b.n),0,N_CAP), cx:CO(b.cx,"cx"), cy:CO(b.cy,"cy"), radius:LEN(b.radius,"radius"),
+        const oD={type:"disk", n:clamp(Math.round(b.n),0,N_CAP), cx:CO(b.cx,"cx"), cy:CO(b.cy,"cy"), radius:LEN(b.radius,"radius"),
           mMin:MASS(Math.min(b.mMin,b.mMax),"mMin"), mMax:MASS(Math.max(b.mMin,b.mMax),"mMax"),
           spinMin:SPN(Math.min(b.spinMin,b.spinMax),"spinMin"), spinMax:SPN(Math.max(b.spinMin,b.spinMax),"spinMax"),
           vMode:b.vMode, aroundMass:wc(b.aroundMass,0,5000,"aroundMass"), vScale:wc(b.vScale,0,50,"vScale"), direction:b.direction,
-          bulkVx:isNum(b.bulkVx)?VEL(b.bulkVx,"bulkVx"):0, bulkVy:isNum(b.bulkVy)?VEL(b.bulkVy,"bulkVy"):0});
+          bulkVx:isNum(b.bulkVx)?VEL(b.bulkVx,"bulkVx"):0, bulkVy:isNum(b.bulkVy)?VEL(b.bulkVy,"bulkVy"):0};
+        if(b.rMul!==undefined){   // 第36便 C1: 群共通の半径倍率(0.2〜5・既定1)
+          if(!isNum(b.rMul)){ bad(at+".rMul が数値ではありません"); return; }
+          oD.rMul=wc(b.rMul,0.2,5,"rMul");
+        }
+        if(b.tInt!==undefined){   // 第36便 D(台帳4-51): 群共通の内部温度初期値(既定0)
+          if(!isNum(b.tInt)){ bad(at+".tInt が数値ではありません"); return; }
+          oD.tInt=wc(b.tInt,0,10000,"tInt");
+        }
+        out.push(oD);
       } else if(t==="box"){
         if(!needNum(["n","cx","cy","w","h","mMin","mMax","spinMin","spinMax","vScale"])) return;
-        out.push({type:"box", n:clamp(Math.round(b.n),0,N_CAP), cx:CO(b.cx,"cx"), cy:CO(b.cy,"cy"), w:LEN(b.w,"w"), h:LEN(b.h,"h"),
+        const oB={type:"box", n:clamp(Math.round(b.n),0,N_CAP), cx:CO(b.cx,"cx"), cy:CO(b.cy,"cy"), w:LEN(b.w,"w"), h:LEN(b.h,"h"),
           mMin:MASS(Math.min(b.mMin,b.mMax),"mMin"), mMax:MASS(Math.max(b.mMin,b.mMax),"mMax"),
           spinMin:SPN(Math.min(b.spinMin,b.spinMax),"spinMin"), spinMax:SPN(Math.max(b.spinMin,b.spinMax),"spinMax"),
           vScale:wc(b.vScale,0,50,"vScale"),
-          bulkVx:isNum(b.bulkVx)?VEL(b.bulkVx,"bulkVx"):0, bulkVy:isNum(b.bulkVy)?VEL(b.bulkVy,"bulkVy"):0});
+          bulkVx:isNum(b.bulkVx)?VEL(b.bulkVx,"bulkVx"):0, bulkVy:isNum(b.bulkVy)?VEL(b.bulkVy,"bulkVy"):0};
+        if(b.rMul!==undefined){   // 第36便 C1: 群共通の半径倍率(0.2〜5・既定1)
+          if(!isNum(b.rMul)){ bad(at+".rMul が数値ではありません"); return; }
+          oB.rMul=wc(b.rMul,0.2,5,"rMul");
+        }
+        if(b.tInt!==undefined){   // 第36便 D(台帳4-51): 群共通の内部温度初期値(既定0)
+          if(!isNum(b.tInt)){ bad(at+".tInt が数値ではありません"); return; }
+          oB.tInt=wc(b.tInt,0,10000,"tInt");
+        }
+        out.push(oB);
       } else bad(at+".type が不正です("+String(t)+")");
     });
     // 粒子総数のクランプ(比例縮小)
@@ -1874,6 +1960,15 @@ function validatePreset(obj){
   if(p.integrator!==undefined){
     const INTEG=["semi","leapfrog"];
     if(INTEG.indexOf(p.integrator)<0){ warnings.push("integrator が不正のため semi に修正"); p.integrator="semi"; }
+  }
+  // 第36便 D(台帳4-51 / A9 改訂): thermal — 温度の意味論の選択(最上位キー。integrator と同じ配置)。
+  // "spin"(既定・省略時)= 現行 A9(T=Is²。スピンそのものが熱)で、経路も値も現行と厳密等価。
+  // "tint" = 温度を独立な内部状態変数 T_int にする改訂(E9散逸→T_int / E10′=T_int伝導 /
+  // E5′=T_int圧力 / E11=T_int放射)。不正値は "spin" へクランプ+警告(integrator と同形)。
+  // ※ SYSTEM_PROMPT には載せない(AI生成には開放しない — 受理してクランプするだけ)
+  if(p.thermal!==undefined){
+    const THERM=["spin","tint"];
+    if(THERM.indexOf(p.thermal)<0){ warnings.push("thermal が不正のため spin に修正"); p.thermal="spin"; }
   }
   // 第35便(台帳4-62): echoFlipAt — この時刻に達した最初のステップ終端で全粒子の v と s を
   // 一度だけ反転する(Loschmidt echo。省略時は反転しない)。数値でなければ警告して無視
@@ -2021,6 +2116,23 @@ function makeSim(){
     // ・radOv = 半径の明示指定(0=未指定→radiusScale·√|m|)。扁平率 f=5s²R³/(4Gm) にも使用
     // ・coreRRv = コア半径比 Rc/R(0=未指定→√|coreMR| 相当の従来式)
     obsT:null, lSw:null, coreOT:null, radOv:null, coreRRv:null,
+    // 第36便 C1(原仮定者指示「粒子半径スケールの既定は1」): rMulv = 粒子ごとの半径倍率
+    // (body.rMul。既定1)。実効倍率は rs_eff = radiusScale·rMul_i で、R_i = rs_eff·√|m_i|。
+    // radiusScale スライダーは全粒子に掛かる「相対ノブ」として存続し(既定1が基準)、
+    // 個体差は rMul が持つ。内蔵プリセットは旧 radiusScale 値を rMul へ焼き込んである。
+    // ※ Float64Array であることが本質: Float32 に丸めると rs_eff が旧 radiusScale リテラルと
+    //   別の倍精度値になり、R の bit 一致(受け入れ条件)が崩れる
+    rMulv:null, _rsUsed:NaN,
+    // 第36便 C2(原仮定者指示「掻出を粒子パラメータから算出するモード」): lSwAuto=1 の粒子は
+    // lightSweep を毎サブステップ lS_eff = min(1, |s_i|·R_i / c_surf) で更新する(下の _core 参照)。
+    // 実効値は従来どおり lSw[i] に入るので、参照側(E11 冷却・観測温度・色・HUD)は一切変わらない
+    lSwAuto:null, hasLSwAuto:false,
+    // 第36便 D(台帳4-51 / A9 改訂): 温度の内部状態変数化。thermal="spin"(既定)では Tint/dTi は
+    // null のまま確保も参照もしない(ゼロコスト経路 — QA tint.zero-cost が bit 一致で保証)。
+    // thermal="tint" では Tint[i]≥0 が粒子の内部温度(ミクロスピンの粗視化量)で、保持する
+    // 熱エネルギーは E_int = cHeat·m_i·T_int,i。マクロ spin はコヒーレント回転として残り、
+    // 圧力(E5′)・伝導(E10′)・放射(E11)には効かなくなる(REVIEW_20260724_DARK_ROTOR_V2 §2)
+    thermal:"spin", Tint:null, dTi:null,
     pinned:null, railR:null, railAng:null, railOmega:null, railCx:null, railCy:null, railH:null,
     box:null, boxA:null,   // 第31便: UniverseBox 連続背景と現在stepの尺度キャッシュ {a,H,W}
     boxHist:null, _bhAcc:0, boxARef:1,   // 第32便: 尺度・赤方偏移の履歴(グラフ用データ層)と基準 a(0)
@@ -2051,6 +2163,8 @@ function makeSim(){
     S.coreMR=F();S.coreSR=F();S.mEff=F();S.Rc=F();S.rotAc=F();   // 主星2層(第12〜14便)
     S.obsT=F();S.lSw=F();S.coreOT=F();S.radOv=F();S.coreRRv=F();// 観測温度・半径系(第22便)
     S.coreSR.fill(1);   // コアスピン比の既定は 1(剛体回転=単層等価)
+    S.rMulv=new Float64Array(n); S.rMulv.fill(1);   // 第36便 C1: 半径倍率(既定1。倍精度で保持)
+    S.lSwAuto=new Uint8Array(n); S.hasLSwAuto=false;// 第36便 C2: 掻出の自動算出フラグ(既定0=独立指定)
     S.uPx=F();S.uPy=F();S.tau=F();S.ax=F();S.ay=F();S.sumW=F();S.uAx=F();S.uAy=F();S.ds=F();
     S.dpx=F();S.dpy=F();
     S.pairD=new Float32Array(Math.max(1,n*(n-1)/2)); // 対距離キャッシュ(E6′反作用パスで再利用)
@@ -2068,7 +2182,9 @@ function makeSim(){
     const push=(o)=>P.push(o);
     // 大質量天体(m≥40)の内部に他の粒子を生成しない(深い初期重なりは不安定の原因)
     const bigs=[];
-    const noteBig=(o)=>{ if(o.m>=40) bigs.push({x:o.x,y:o.y,R:phys.radiusScale*Math.sqrt(o.m)}); };
+    // 第36便 C1: 除外半径も実効倍率 radiusScale·rMul で評価する(旧 radiusScale 値を rMul へ
+    // 焼き込んだプリセットで初期配置が 1 ビットも動かないための必須同期 — 乗算順序も旧式と同一)
+    const noteBig=(o)=>{ if(o.m>=40) bigs.push({x:o.x,y:o.y,R:phys.radiusScale*(o.rMul===undefined?1:o.rMul)*Math.sqrt(o.m)}); };
     const insideBig=(x,y)=>{ for(const b of bigs){ const dx=x-b.x,dy=y-b.y;
       if(dx*dx+dy*dy<(b.R+1)*(b.R+1)) return true; } return false; };
     // 第35便(台帳4-61): 壁粒子群 = bodies 定義順で最初の ring 群(measureBox の計測対象)
@@ -2081,7 +2197,9 @@ function makeSim(){
           // 観測温度・半径系(第22便): 既定は従来と厳密等価
           obsT:(b.obsT===undefined?1:b.obsT), lightSweep:(b.lightSweep===undefined?0:b.lightSweep),
           coreOT:(b.coreOT===undefined?1:b.coreOT),
-          radius:(b.radius===undefined?0:b.radius), coreRR:(b.coreRR===undefined?0:b.coreRR)};
+          radius:(b.radius===undefined?0:b.radius), coreRR:(b.coreRR===undefined?0:b.coreRR),
+          rMul:(b.rMul===undefined?1:b.rMul),   // 第36便 C1: 粒子ごとの半径倍率(既定1)
+          tInt:(b.tInt===undefined?0:b.tInt)};  // 第36便 D: 内部温度の初期値(thermal:"tint" 専用・既定0)
         if(b.zonal) o.zonal=b.zonal;   // E13(第11次裁定): 扁平中心天体の帯状重力属性
         // 第27便: 単体粒子のレール駆動(pinned+railOmega — 円軌道。🕶️ハローの
         // 20体相互散乱による形崩れ対策: 軌道を外部が規定し、u場への運動寄与は維持される)
@@ -2095,6 +2213,8 @@ function makeSim(){
         push(o); noteBig(o);
       } else if(b.type==="ring"){
         const rI0=P.length;   // 第35便: この ring 群の先頭インデックス(hubble 初速と壁タグに使用)
+        const rM=(b.rMul===undefined?1:b.rMul);   // 第36便 C1: 群共通の半径倍率(既定1)
+        const tI=(b.tInt===undefined?0:b.tInt);   // 第36便 D: 群共通の内部温度初期値(既定0)
         for(let i=0;i<b.n;i++){
           let ang,r,x,y,tries=0;
           do{
@@ -2111,7 +2231,7 @@ function makeSim(){
             // v1.18: bulkVx/Vy = 母集団の並進速度(移動する親天体の円盤・環が核と一体で動く)
             vx:vt*jit*tx + vr*Math.cos(ang) + (b.bulkVx||0),
             vy:vt*jit*ty + vr*Math.sin(ang) + (b.bulkVy||0),
-            spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:b.pinned?1:0, railOmega:0};
+            spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:b.pinned?1:0, railOmega:0, rMul:rM, tInt:tI};
           // 第31便: railH(膨張レール a(t)=e^{H·t})— pinned リングを相似膨張で規定駆動する。
           // 位置は初期半径から毎step解析再構成(前stepへの加算ではないのでドリフトしない)
           if(b.pinned && (b.vMode==="omega" || b.railH)){
@@ -2136,6 +2256,8 @@ function makeSim(){
         }
         if(wallI0<0 && P.length>rI0){ wallI0=rI0; wallI1=P.length; }   // 第35便: 最初の ring 群=壁
       } else if(b.type==="disk"){
+        const rM=(b.rMul===undefined?1:b.rMul);   // 第36便 C1: 群共通の半径倍率(既定1)
+        const tI=(b.tInt===undefined?0:b.tInt);   // 第36便 D: 群共通の内部温度初期値(既定0)
         for(let i=0;i<b.n;i++){
           let ang,r,x,y,tries=0;
           do{
@@ -2152,26 +2274,40 @@ function makeSim(){
           if(b.vMode!=="hubble"){ vX += (rng()*2-1)*0.02; vY += (rng()*2-1)*0.02; }   // 第31便: hubble は共動初期条件を乱さない
           push({m:b.mMin+(b.mMax-b.mMin)*rng(), x,y,
             vx:vX+(b.bulkVx||0), vy:vY+(b.bulkVy||0),   // v1.18: 母集団の並進速度
-            spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:0, railOmega:0});
+            spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:0, railOmega:0, rMul:rM, tInt:tI});
         }
       } else if(b.type==="box"){
+        const rM=(b.rMul===undefined?1:b.rMul);   // 第36便 C1: 群共通の半径倍率(既定1)
+        const tI=(b.tInt===undefined?0:b.tInt);   // 第36便 D: 群共通の内部温度初期値(既定0)
         for(let i=0;i<b.n;i++){
           let x,y,tries=0;
           do{ x=b.cx+(rng()-0.5)*b.w; y=b.cy+(rng()-0.5)*b.h; }while(insideBig(x,y) && ++tries<30);
           const a2=rng()*Math.PI*2, v=b.vScale*rng();
           push({m:b.mMin+(b.mMax-b.mMin)*rng(), x,y,
             vx:v*Math.cos(a2)+(b.bulkVx||0), vy:v*Math.sin(a2)+(b.bulkVy||0),   // v1.18: 並進速度
-            spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:0, railOmega:0});
+            spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:0, railOmega:0, rMul:rM, tInt:tI});
         }
       }
     }
     S.alloc(P.length);
+    // 第36便 D(台帳4-51): 温度の意味論。"tint" のときだけ内部温度の配列を確保する
+    // ("spin" では null のまま = 確保も参照もしないゼロコスト経路)
+    S.thermal = (preset.thermal==="tint")? "tint" : "spin";
+    if(S.thermal==="tint"){ S.Tint=new Float32Array(P.length); S.dTi=new Float32Array(P.length); }
+    else { S.Tint=null; S.dTi=null; }
     S.zonal=null;   // E13(第11次裁定): 帯状重力属性を持つ中心天体(v1.29: AI生成・インポートにも開放)
     S.periDet=null; // 近点検出器は再構築でリセット(第11次裁定 保留分)
     P.forEach((o,i)=>{ S.m[i]=o.m; S.x[i]=o.x; S.y[i]=o.y; S.vx[i]=o.vx; S.vy[i]=o.vy;
       S.spin[i]=o.spin; S.pinned[i]=o.pinned; S.railOmega[i]=o.railOmega||0;
       S.coreMR[i]=o.coreMR||0; S.coreSR[i]=(o.coreSR===undefined?1:o.coreSR);
-      S.obsT[i]=(o.obsT===undefined?1:o.obsT); S.lSw[i]=(o.lightSweep===undefined?0:o.lightSweep);
+      S.obsT[i]=(o.obsT===undefined?1:o.obsT);
+      // 第36便 C2: lightSweep は数値(独立指定・従来どおり)か "auto"(粒子パラメータからの算出)。
+      // auto の初期値は 0 で、最初の _core で lS_eff に上書きされる
+      const lsw=o.lightSweep;
+      if(lsw==="auto"){ S.lSwAuto[i]=1; S.lSw[i]=0; S.hasLSwAuto=true; }
+      else { S.lSwAuto[i]=0; S.lSw[i]=(lsw===undefined?0:lsw); }
+      S.rMulv[i]=(o.rMul===undefined?1:o.rMul);   // 第36便 C1: 半径倍率(既定1)
+      if(S.Tint) S.Tint[i]=(o.tInt===undefined?0:o.tInt);   // 第36便 D: 内部温度の初期値(tint モードのみ)
       S.coreOT[i]=(o.coreOT===undefined?1:o.coreOT);
       S.radOv[i]=(o.radius===undefined?0:o.radius); S.coreRRv[i]=(o.coreRR===undefined?0:o.coreRR);
       S.railH[i]=o.railH||0;
@@ -2227,20 +2363,29 @@ function makeSim(){
     S.resPx=0; S.resPy=0; S.resL=0; S.radE=0; S.radL=0;
     S.curveBins=null; S.tempLR=[0,0]; S.histT=[];
   };
-  S.updateRadii = function(){ // R_i = radiusScale·√|m| (PHYSICS.md §2)
+  S.updateRadii = function(){ // R_i = radiusScale·rMul_i·√|m| (PHYSICS.md §2 + 第36便 C1)
     const rs=S.params.radiusScale;
     let hc=false;
     for(let i=0;i<S.n;i++){
       const mt=S.m[i];   // 第14便: 比率仕様 — m は総質量そのもの(コアは m の内訳)
       // 質量の下限 ±0.01(慣性の除算保護。負質量は実験用に符号を保持 — 第12便)
       S.mEff[i]=(Math.abs(mt)<0.01)? (mt<0? -0.01 : 0.01) : mt;
+      // 第36便 C1: 実効倍率 = radiusScale(全粒子共通の相対ノブ)× rMul_i(粒子ごとの倍率)。
+      // rMul=1(既定)なら rs*1===rs なので旧式と 1 ビットも変わらない
+      const rsi=rs*S.rMulv[i];
       // 第22便: 半径の明示指定(radius>0)とコア半径比(coreRR>0)。未指定は従来式
-      S.R[i]=(S.radOv[i]>0)? S.radOv[i] : rs*Math.sqrt(Math.abs(S.mEff[i]));
-      S.Rc[i]=(S.coreRRv[i]>0)? S.coreRRv[i]*S.R[i] : rs*Math.sqrt(Math.abs(S.coreMR[i]*S.mEff[i]));
+      S.R[i]=(S.radOv[i]>0)? S.radOv[i] : rsi*Math.sqrt(Math.abs(S.mEff[i]));
+      S.Rc[i]=(S.coreRRv[i]>0)? S.coreRRv[i]*S.R[i] : rsi*Math.sqrt(Math.abs(S.coreMR[i]*S.mEff[i]));
       if(S.coreMR[i]!==0) hc=true;
     }
     S.hasCore=hc;   // コアなし(全 coreMR=0)の宇宙は従来ループのまま(高速化)
+    S._rsUsed=rs;   // 第36便 C1: 直近に反映した radiusScale(_core の追従判定に使用)
   };
+  // 第36便 C2: 掻出の実効値(auto の粒子は lS_eff、それ以外は指定値)。lSw[i] が常に実効値なので
+  // 参照側は分岐不要 — 監査・UI 用の明示アクセサとして公開する(HP.sim.lSwEff(i))
+  S.lSwEff = function(i){ return (i>=0 && i<S.n)? S.lSw[i] : 0; };
+  // 第36便 C2: lSwAuto の有無を再計算(粒子編集パネルで auto を付け外ししたときに呼ぶ)
+  S.syncLSwAuto = function(){ let f=false; for(let i=0;i<S.n;i++) if(S.lSwAuto[i]){ f=true; break; } S.hasLSwAuto=f; return f; };
   // 第35便(台帳4-62): 積分器の入口。既定("semi")は _core を1回呼ぶだけで現行と厳密等価
   // (ゼロコスト経路 — QA integrator.default-unchanged が位置ハッシュの bit 一致で保証)。
   // "leapfrog" は KDK(kick–drift–kick): パスA=力評価+半キック+ドリフト、
@@ -2284,6 +2429,9 @@ function makeSim(){
     // 全用途一貫なら保存される。coreMR=0(既定)なら従来と厳密等価)
     const {mEff:m,x,y,vx,vy,spin,R,pinned,ax,ay,sumW,uAx,uAy,ds,dpx,dpy,pairD,coreMR,coreSR,Rc,lSw}=S;
     const hasCore=S.hasCore;
+    // 第36便 D(台帳4-51 / A9 改訂): 温度の内部状態変数モード。tint=false(既定)のときは
+    // 以下の分岐がすべて偽側へ落ち、現行と1ビットも違わない値が出る(QA tint.zero-cost)
+    const tint=(S.thermal==="tint"), Tint=S.Tint, dTi=S.dTi, cHeat=p.cHeat;
     const eps=p.softening, eps2=eps*eps, G=p.G, q=p.q, kRep=p.kRep,
           muF=p.muF, gammaN=p.gammaN, kappaS=p.kappaS, D0=p.D0, kFrame=p.kFrame,
           etaRad=p.etaRad, pRad=p.pRad,
@@ -2291,9 +2439,15 @@ function makeSim(){
           // v1.20(E12): 測地線1PNモード(BOX_UNIVERSE §5・DERIVATIONS §15。第1段階: 静的大質量源・u=0)
           geo=(p.geoPN||0)>0, pnA=(p.pnAlpha!==undefined? p.pnAlpha : 1.5),
           invC2=geo? (p.lambdaPN!==undefined? p.lambdaPN : 1)/(p.cLight*p.cLight) : 0;
-    if(Math.abs(R[0]-p.radiusScale*Math.sqrt(Math.abs(m[0])))>1e-6) S.updateRadii(); // radiusScale変更の追従
+    // radiusScale 変更の追従。第36便 C1: 主判定を「updateRadii が最後に使った radiusScale との
+    // 一致」へ変更(rMul 焼き込み後は R[0] と rs·√|m₀| が恒常的にずれるため、旧式のままだと
+    // 全プリセットで毎サブステップ再計算になる)。第2項は S.m を直接書き換える経路への保険で、
+    // 明示半径(radOv>0)の粒子0は対象外にする(従来は空転で毎回呼ばれていた)
+    if(S._rsUsed!==p.radiusScale ||
+       (S.radOv[0]<=0 && Math.abs(R[0]-p.radiusScale*S.rMulv[0]*Math.sqrt(Math.abs(m[0])))>1e-6)) S.updateRadii();
     ax.fill(0); ay.fill(0); sumW.fill(0); uAx.fill(0); uAy.fill(0); ds.fill(0);
     dpx.fill(0); dpy.fill(0);
+    if(tint) dTi.fill(0);   // 第36便 D: 内部温度の拡散レート(tint モードのみ)
     // 第31便: UniverseBox — この step の尺度 a(t)・Hubble 率 H・決定力 W_B を確定(規定運動)。
     // W_B は一様(∇W_B=0 → 重力なし)で、u_B=V+Ω·J(r−c)+H·(r−c) を E3 の分子・分母へ加える
     const B=S.box; let WB=0, bH=0;
@@ -2402,7 +2556,22 @@ function makeSim(){
         uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));
         uAx[j]+=wi*(vx[i]+omi*(dy));  uAy[j]+=wi*(vy[i]+omi*(-dx));
         // E5′ スピン斥力(対称化・中心力): F = kRep·μ·(ω_i²+ω_j²)·(r_i−r_j)
-        if(kRep>0 && (omi!==0||omj!==0) && Math.abs(mi+mj)>1e-9){   // 第12便: 負質量実験時の0除算保護
+        // 第36便 D(台帳4-51 / E5′ 改訂): thermal:"tint" では圧力の源をスピンから内部温度へ移す。
+        //   F = kRep·μ·√(T_int,i·T_int,j)·(g_i²+g_j²)·(r_i−r_j)、g_a=(R_a/(R_a+d))^q
+        // 距離依存 g² は現行と同一(現行の ω_a² = s_a²·g_a² の s_a² を対の √(T_i·T_j) で置き換えた形)。
+        // √ の積形なので符号は現れず常に斥力(裁定どおり)— 片方が絶対零度なら対の斥力は消える
+        if(tint){
+          if(kRep>0 && Math.abs(mi+mj)>1e-9){
+            const Ti=Tint[i], Tj=Tint[j];
+            if(Ti>0 && Tj>0){
+              const ti2=Ri/(Ri+d), tj2=Rj/(Rj+d);
+              const gi=(q===2)? ti2*ti2 : Math.pow(ti2,q), gj=(q===2)? tj2*tj2 : Math.pow(tj2,q);
+              const f=kRep*(mi*mj/(mi+mj))*Math.sqrt(Ti*Tj)*(gi*gi+gj*gj);
+              ax[i]+=f/mi*dx; ay[i]+=f/mi*dy;
+              ax[j]-=f/mj*dx; ay[j]-=f/mj*dy;
+            }
+          }
+        } else if(kRep>0 && (omi!==0||omj!==0) && Math.abs(mi+mj)>1e-9){   // 第12便: 負質量実験時の0除算保護
           const f=kRep*(mi*mj/(mi+mj))*(omi*omi+omj*omj);
           ax[i]+=f/mi*dx; ay[i]+=f/mi*dy;
           ax[j]-=f/mj*dx; ay[j]-=f/mj*dy;
@@ -2427,13 +2596,17 @@ function makeSim(){
           // 速度・スピンを直接書き換える非保存インパルスなので 1サブステップ1回だけ適用する
           // (leapfrog で2回適用すると散逸レートが semi の2倍になってしまう)
           if(K>0 && doPre){
+            // 第36便 D(台帳4-51 / A9′): tint モードでは γn 減衰と接線摩擦で失われた運動エネルギーを
+            // radE(=外へ逃げた分)ではなく接触対の内部温度 T_int へ積む。dEd はその合計(spin モードでは未使用)
+            let dEd=0;
             const rvx=vx[i]-vx[j], rvy=vy[i]-vy[j];
             const vn=rvx*nxv+rvy*nyv;
             if(vn<0){ // 接近時のみ法線減衰(非弾性)。散逸分は衝突閃光として放射(A12)
               const jn=-gammaN*vn/K;
               vx[i]+=jn*nxv*invMi; vy[i]+=jn*nyv*invMi;
               vx[j]-=jn*nxv*invMj; vy[j]-=jn*nyv*invMj;
-              S.radE+=0.5*(1/K)*vn*vn*(1-(1-gammaN)*(1-gammaN));
+              const eN=0.5*(1/K)*vn*vn*(1-(1-gammaN)*(1-gammaN));
+              if(tint) dEd+=eN; else S.radE+=eN;
             }
             // 接線摩擦: 速度→スピン変換(A9 の本体。v1.1: 作用線を一致させ L 厳密保存)
             const txv=-nyv, tyv=nxv;          // t̂ = ẑ×n̂
@@ -2451,18 +2624,40 @@ function makeSim(){
             const vti1=vx[i]*txv+vy[i]*tyv, vtj1=vx[j]*txv+vy[j]*tyv;
             const dE9=0.5*mi*(vti0*vti0-vti1*vti1)+0.5*mj*(vtj0*vtj0-vtj1*vtj1)
                      +0.5*Ii9*(si0*si0-spin[i]*spin[i])+0.5*Ij9*(sj0*sj0-spin[j]*spin[j]);
-            if(dE9>0) S.radE+=dE9;            // 解析的に dE9≥0(μ_f≤1)。丸め起因の負値は捨てる
+            if(dE9>0){ if(tint) dEd+=dE9; else S.radE+=dE9; }   // 解析的に dE9≥0(μ_f≤1)。丸め起因の負値は捨てる
+            // 第36便 D(A9′ の換算則): ΔE_diss を質量比で2粒子へ分配し ΔT_int=ΔE_i/(C·m_i) を加える。
+            // 質量比分配 ⇒ 両者の ΔT_int は等しく ΔE/(C·(m_i+m_j))(C·m_iΔT_i+C·m_jΔT_j=ΔE で第一法則が閉じる)。
+            // pinned は外部拘束=無限熱容量のリザーバとして扱い、その持ち分は温度を上げずに radE 帳簿へ回す
+            // (現行の pinned が E9/E10′/E11 の対象外である扱いと整合 — 📏の熱浴・♨️のヒーターが一定温度に保たれる)
+            if(tint && dEd>0 && Math.abs(mi+mj)>1e-9){
+              const dT=dEd/(cHeat*(mi+mj));
+              if(pinned[i]) S.radE+=dEd*mi/(mi+mj); else Tint[i]+=dT;
+              if(pinned[j]) S.radE+=dEd*mj/(mi+mj); else Tint[j]+=dT;
+            }
           }
         }
         // E10′ スピン拡散(I 重み: 対ごとに I_i·ds_i = −I_j·ds_j で L 厳密保存)
+        // 第36便 D(台帳4-51 / E10′ 改訂): thermal:"tint" では κs が拡散するのは T_int で、スピンには
+        // 一切触れない。熱容量重み(C·m)で対称化するので C_i·dT_i = −C_j·dT_j = 熱エネルギー厳密保存、
+        // かつ角運動量は「そもそも動かさない」ので自明に厳密保存する(台帳4-50「冷たいのに熱伝導」の解消)。
+        // C は両辺の共通因子として相殺するため、伝導レートは cHeat に依存しない
         if(kappaS>0){
           const g=(sumR/(sumR+d)); const gg=g*g;
           if(gg>1e-4){
+            if(tint){
+              const mS=mi+mj;
+              if(Math.abs(mS)>1e-9){   // 第12便: 負質量実験時の0除算保護
+                const c=kappaS*(Tint[j]-Tint[i])*gg/mS;
+                dTi[i]+=c*mj;
+                dTi[j]-=c*mi;
+              }
+            } else {
             const Ii=0.5*mi*Ri*Ri, Ij=0.5*mj*Rj*Rj, IJ=Ii+Ij;
             if(Math.abs(IJ)>1e-9){   // 第12便: 負質量実験時の0除算保護
               const c=kappaS*(sj-si)*gg/IJ;
               ds[i]+=c*Ij;
               ds[j]-=c*Ii;
+            }
             }
           }
         }
@@ -2489,6 +2684,30 @@ function makeSim(){
           ax[jz]+=axz; ay[jz]+=ayz;
           ax[zi]-=axz*m[jz]/mzi; ay[zi]-=ayz*m[jz]/mzi;   // 作用反作用(帳簿の対称性。中心は pinned 想定)
         }
+      }
+    }
+    // ===== 第36便 C2(原仮定者指示): 掻出 lightSweep="auto" の実効値を毎サブステップ算出 =====
+    // lS_eff = min(1, |s_i|·R_i / c_surf)、c_surf = c₀·e^{−2ψ_surf}、
+    // ψ_surf = (W_ext(r_i) + m_i/√(R_i²+ε²)) / Kt
+    //   = 「コア表面のフレーム速度 |s|·R」と「その場所の局所光速」の比。高速スピンで 1 に飽和し、
+    //     自星の光を外へ出さない(=掻き出す)状態になる。W_ext は E7R の時計と同じ自己場除外の
+    //     決定力(D₀+W_B+Σ_j≠i w_j)で、自分の表面値 m_i/√(R_i²+ε²) だけをここで足す。
+    // ★理論上の位置づけ: これは E8R/E6′ からの導出ではなく、表面フレーム速度と局所光速の比に
+    //   よる「モデル内の算出則」である(4-48 の暗さ機構の分離 — 従来トイ設定として手で置いていた
+    //   lightSweep を式に置き換えたもの)。物理対応ロック(Kt=c²/G)の現実的な自転では
+    //   |s|·R ≪ c_surf となり lS_eff≈0 になる(第19便 反証条件7と整合 — この誠実性は仕様)。
+    // 数値指定(既定)の粒子はこのブロックを 1 命令も通らない(hasLSwAuto=false ならループごと素通り)
+    if(S.hasLSwAuto){
+      const KtA=p.Kt, c0A=p.cLight;
+      for(let i=0;i<n;i++){
+        if(!S.lSwAuto[i]) continue;
+        const Ri=R[i];
+        const psiS=(bgW + sumW[i] + m[i]/Math.sqrt(Ri*Ri+eps2))/KtA;
+        const cS=c0A*Math.exp(-2*psiS);
+        const vS=Math.abs(spin[i])*Ri;
+        let ls=(cS>1e-12)? vS/cS : 1;
+        if(!(ls>0)) ls=0; else if(ls>1) ls=1;
+        lSw[i]=ls;
       }
     }
     // ===== ② 粒子ループ: 速度更新・E6′輸送(Δp確定)・スピン拡散・E11放射冷却 =====
@@ -2539,6 +2758,24 @@ function makeSim(){
         S.resPx-=m[i]*dvx; S.resPy-=m[i]*dvy;
         S.resL-=m[i]*(x[i]*dvy-y[i]*dvx);
       }
+      if(tint){
+        // 第36便 D(台帳4-51): E10′ = T_int の伝導。熱エネルギー C·m·T は対で厳密保存するので
+        // 散逸帳簿(radE)への計上は不要 — スピンは1ビットも動かない(V31 が厳密不変を機械検証)
+        if(dTi[i]!==0){
+          Tint[i]+=dTi[i]*dt;
+          if(!(Tint[i]>0)) Tint[i]=0;   // 数値的な行き過ぎ・NaN の保護(T_int≥0)
+        }
+        // 第36便 D(台帳4-51 / E11 改訂): Λ = η_rad·T_int^p で T_int を減衰させ radE 帳簿へ。
+        // 現行のスピン放射則と同形(dE/dt=η·T^p)で、ΔT_int = Λ·dt/(C·m)。|ΔT| ≤ 0.5·T にクランプ。
+        // ミクロスピンは向きが乱雑なので放射は角運動量を運ばない = radL は増えない(スピンも減らない)
+        if(etaRad>0 && Tint[i]>0 && m[i]>0 && lSw[i]<1){
+          const T0=Tint[i];
+          let dTc=etaRad*Math.pow(T0,pRad)*(1-lSw[i])*dt/(cHeat*m[i]);
+          const lim=0.5*T0; if(dTc>lim) dTc=lim;
+          Tint[i]=T0-dTc;
+          S.radE+=cHeat*m[i]*dTc;
+        }
+      } else {
       // v1.5(A12′): スピン同期(E10′)の散逸帳簿。適用前後の回転エネルギー差を計上
       if(ds[i]!==0){
         const IiD=0.5*m[i]*R[i]*R[i], s0D=spin[i];
@@ -2554,6 +2791,7 @@ function makeSim(){
         const s1=(s0>0)? s0-dsC : s0+dsC;
         S.radE+=0.5*Ii*(s0*s0-s1*s1); S.radL+=Ii*(s0-s1);
         spin[i]=s1;
+      }
       }
       }   // 第35便: if(doPost) の閉じ
     }
@@ -2798,6 +3036,8 @@ function makeSim(){
   };
   S.hasNaN=function(){
     for(let i=0;i<S.n;i++) if(!isFinite(S.x[i])||!isFinite(S.y[i])||!isFinite(S.vx[i])) return true;
+    // 第36便 D(台帳4-51): 内部温度も発散検出の対象(tint モードのみ。spin モードは配列ごと存在しない)
+    if(S.Tint) for(let i=0;i<S.n;i++) if(!isFinite(S.Tint[i])) return true;
     return false;
   };
   return S;
@@ -2829,9 +3069,12 @@ function saveDraft(dirty){
   try{
     if(!dirty){ sessionStorage.removeItem("hp_draft"); return; }
     if(typeof sim==="undefined"||!sim||!sim.params) return;
-    sessionStorage.setItem("hp_draft", JSON.stringify({
-      presetId: currentPreset?currentPreset.id:null,
-      physics: sim.params, cameraScale: camScale, at: new Date().toISOString()}));
+    const d={ presetId: currentPreset?currentPreset.id:null,
+      physics: sim.params, cameraScale: camScale, at: new Date().toISOString() };
+    // 第36便(P2-1・ChatGPT差分検証レビュー): 箱設定(universeBox)の実行中編集もドラフトへ含める
+    // (無いプリセット/箱の無い編集では省略 — sim.box が無いときは何もしない=旧ドラフトと同一形式)
+    if(sim.box) d.universeBox=Object.assign({},sim.box);
+    sessionStorage.setItem("hp_draft", JSON.stringify(d));
   }catch(_){/* プライベートモード等の保存失敗でも本体動作は不変 */}
 }
 function restoreDraft(){
@@ -2843,6 +3086,11 @@ function restoreDraft(){
   if(d.presetId && allPresets().some(p=>p.id===d.presetId)) loadPreset(d.presetId,false);
   sim.params=Object.assign({},DEFAULT_PHYSICS,d.physics); sim.updateRadii();
   if(d.cameraScale) camScale=d.cameraScale;
+  // 第36便(P2-1): 箱設定の復元。プリセットに箱が無いのに箱設定だけ残る混乱を防ぐため sim.box が
+  // 存在するときだけ適用する(loadSave の universeBox 復元と同じ条件・処理)。universeBox キーの
+  // 無い旧ドラフトはこの分岐に入らず従来どおり動く(後方互換)
+  if(d.universeBox && sim.box){ sim.box=Object.assign({},sim.box,d.universeBox);
+    sim.boxARef=boxScaleAt(sim.box,0).a; if(sim.boxHist) sim.boxHist.length=0; }
   setParamsDirty(true); buildParamRows();
 }
 let tSort=null; // 温度正規化用スクラッチ(90パーセンタイル計算)
@@ -2904,6 +3152,13 @@ function w2sY(wy){ return ch/2+(wy-camY)*zoom(); }
 function zoom(){ return Math.min(cw,ch)/2/camScale; }
 
 // 温度→色(青→白→橙→赤)
+// 第36便 D(台帳4-51): 観測温度 T_obs の唯一の入口。表示系(色・温度ヒストグラム・スペクトル・
+// HUD)はすべてここを通す — モード差は「データ源」だけで、観測層の式 T_obs=obsT·(1−lSw)·T は同一。
+//   thermal="spin"(既定): T = I·s² = ½·m·R²·s²(現行 A9。式の並びも現行と1文字も変えていない)
+//   thermal="tint": T = T_int(内部状態変数。マクロ spin は観測温度に現れない)
+function obsTemp(s,i){
+  return (s.Tint? s.Tint[i] : 0.5*s.m[i]*s.R[i]*s.R[i]*s.spin[i]*s.spin[i])*s.obsT[i]*(1-s.lSw[i]);
+}
 function tempColor(t){ // t: 0..1
   if(t<0.34){ const k=t/0.34; return `rgb(${106+k*149},${165+k*90},255)`; }
   if(t<0.67){ const k=(t-0.34)/0.33; return `rgb(255,${255-k*98},${255-k*186})`; }
@@ -2938,9 +3193,20 @@ function drawField(){
       const wx=camX+((gx+0.5)/res*cw-cw/2)/z, wy=camY+((gy+0.5)/res*ch-ch/2)/z;
       const w=sim.Wat(wx,wy); vals[gy*res+gx]=w; if(w>wmax)wmax=w;
     }
+    // 第36便 B2(原仮定者指示): 対数正規化+10バンド量子化 — 決定力マップを等決定力線状の
+    // 見た目にして視認性を上げる(品質段階の縮退・上の場キャッシュ機構は不変。色付けのみの変更)。
+    // W_ref はフレーム内の中央値(ソートで概算) — 至近距離の大質量1点に引っ張られやすい
+    // 旧来の線形正規化(pow(v/wmax,0.4))より、背景〜中間帯の階調を保ったまま最大値まで
+    // 対数圧縮する。明度レンジは現行より広げる(最暗部を暗く・最明部を明るく)
+    const sorted=Float32Array.from(vals).sort();
+    const wref=Math.max(sorted[sorted.length>>1], 1e-6);
+    const lnMax=Math.max(Math.log(1+wmax/wref), 1e-6);
+    const BANDS=10;
     for(let k=0;k<res*res;k++){
-      const v=Math.pow(Math.min(1,vals[k]/wmax),0.4);
-      img.data[k*4]=40+v*90; img.data[k*4+1]=30+v*40; img.data[k*4+2]=120+v*135; img.data[k*4+3]=v*130;
+      const wn=clamp(Math.log(1+vals[k]/wref)/lnMax, 0, 1);
+      const band=Math.min(BANDS-1, Math.floor(wn*BANDS));
+      const v=band/(BANDS-1);
+      img.data[k*4]=15+v*140; img.data[k*4+1]=10+v*80; img.data[k*4+2]=80+v*175; img.data[k*4+3]=v*170;
     }
     fieldCtx.putImageData(img,0,0);
   }
@@ -3022,7 +3288,9 @@ function traceRay(S, px, py, cxv, cyv, dl, maxSteps, emit){
     const neff=Math.exp(kU*Wtot);            // n_eff = e^{2ψ}(ψ は背景 D₀ を含む全 W)
     const adv=(Wtot>1e-9)? (neff/c0)*dl/Wtot : 0;
     px+=cxv*dl+uNx*adv; py+=cyv*dl+uNy*adv;
-    if(emit && emit(px,py)===false){ end="stopped"; break; }
+    // 第36便 B3(原仮定者指示): emit へ Wtot も渡す(ψ=Wtot/Kt から波長色を計算する呼び出し側用。
+    // 第3引数を使わない既存呼び出し元は変更不要 — 物理・光路の演算はここまで一切不変)
+    if(emit && emit(px,py,Wtot)===false){ end="stopped"; break; }
   }
   return {x:px, y:py, cx:cxv, cy:cyv, end, steps};
 }
@@ -3061,12 +3329,30 @@ function drawRays(){
     const bx=Math.max(camScale*2.2, halfW+20), by=Math.max(camScale*2.2, halfH+20);
     const dl=camScale/110;
     const maxSteps=Math.min(2400, Math.max(340, Math.ceil((halfW+10+bx)*1.3/dl)));
-    rayCtx.lineWidth=1; rayCtx.strokeStyle="rgba(255,240,170,0.55)";
+    rayCtx.lineWidth=1;
+    // 第36便 B3(原仮定者指示): セグメント色 = 時計率比 e^{ψ0−ψ(r)} による波長(λ0=550nm。
+    // 重力赤方偏移のアナログ・意味論表示 — 光路計算自体は traceRay 内で不変)。
+    // wavelengthColor(3298付近)を再利用(重複実装しない)。nmを5nm刻みに量子化した
+    // 「バケット」が変わった時だけ stroke() し直す(可視の滑らかさを保ちつつ、パン/ズーム中の
+    // 毎フレーム再計算〔rayKeyOf にカメラ位置が入るため〕でも1ステップごとの描画コストにしない)
+    const Kt=sim.params.Kt;
     for(let r=0;r<nEff;r++){
       const px=x0, py=camY+((r+0.5)/nEff-0.5)*2*rays.spread*camScale;
-      rayCtx.beginPath(); rayCtx.moveTo(w2sX(px),w2sY(py));
-      traceRay(sim, px, py, 1, 0, dl, maxSteps, (nx,ny)=>{
-        rayCtx.lineTo(w2sX(nx),w2sY(ny));
+      let prevSX=w2sX(px), prevSY=w2sY(py), psi0=null, bucket=null;
+      rayCtx.beginPath(); rayCtx.moveTo(prevSX,prevSY);
+      traceRay(sim, px, py, 1, 0, dl, maxSteps, (nx,ny,Wtot)=>{
+        const psi=Wtot/Kt;
+        if(psi0===null) psi0=psi;
+        const nm=550*Math.exp(psi0-psi), b=Math.round(nm/5);
+        const nsx=w2sX(nx), nsy=w2sY(ny);
+        if(bucket===null){ rayCtx.strokeStyle=wavelengthColor(b*5)+"8c"; bucket=b; }   // 8c≈0.55(旧固定色と同じ不透明度)
+        else if(b!==bucket){
+          rayCtx.stroke();
+          rayCtx.beginPath(); rayCtx.moveTo(prevSX,prevSY);
+          rayCtx.strokeStyle=wavelengthColor(b*5)+"8c"; bucket=b;
+        }
+        rayCtx.lineTo(nsx,nsy);
+        prevSX=nsx; prevSY=nsy;
         return !(Math.abs(nx-camX)>bx||Math.abs(ny-camY)>by);
       });
       rayCtx.stroke();
@@ -3195,7 +3481,7 @@ function drawTempHistogram(slot=0){
     let sl=0,cl=0,sr=0,cr=0;
     for(let i=0;i<sim.n;i++){
       if(sim.pinned[i]) continue; // v1.10: pinned=熱浴・恒星は除外(物質側の温度を測る。付録J)
-      const T=0.5*sim.m[i]*sim.R[i]*sim.R[i]*sim.spin[i]*sim.spin[i]*sim.obsT[i]*(1-sim.lSw[i]); // T=Is²(A9 v1.1)
+      const T=obsTemp(sim,i);   // 第36便 D: 観測温度(spin モード=I·s² / tint モード=T_int)
       if(sim.x[i]<0){sl+=T;cl++;}else{sr+=T;cr++;}
     }
     sim.tempLR=[cl?sl/cl:0, cr?sr/cr:0];
@@ -3235,7 +3521,7 @@ function drawSpectrum(slot=0){
     const ls=[], Ts=[], p=sim.params.pRad;
     let lMin=Infinity, lMax=-Infinity;
     for(let i=0;i<sim.n;i++){
-      const T=0.5*sim.m[i]*sim.R[i]*sim.R[i]*sim.spin[i]*sim.spin[i]*sim.obsT[i]*(1-sim.lSw[i]);
+      const T=obsTemp(sim,i);   // 第36便 D: 観測温度(モード差はデータ源のみ)
       if(T<=1e-9) continue;
       const l=Math.log10(sim.params.bM/T);
       ls.push(l); Ts.push(T);
@@ -3478,7 +3764,7 @@ function render(){
   // v1.23: 品質レベルで 10/15/20 フレームに1回へ
   if(sim.n>0 && ((frameCount%Q_TSORT[qLevel()])===0 || tempP90EMA===0)){
     if(!tSort||tSort.length!==sim.n) tSort=new Float32Array(sim.n);
-    for(let i=0;i<sim.n;i++) tSort[i]=0.5*sim.m[i]*sim.R[i]*sim.R[i]*sim.spin[i]*sim.spin[i]*sim.obsT[i]*(1-sim.lSw[i]);
+    for(let i=0;i<sim.n;i++) tSort[i]=obsTemp(sim,i);   // 第36便 D: 観測温度で正規化
     tSort.sort();
     const p90=Math.max(1e-4, tSort[Math.floor(0.9*(sim.n-1))]);
     tempP90EMA+= (p90-tempP90EMA)*0.4;
@@ -3490,7 +3776,7 @@ function render(){
   for(let i=0;i<sim.n;i++){
     const sx=w2sX(sim.x[i]), sy=w2sY(sim.y[i]);
     if(sx<-40||sx>cw+40||sy<-40||sy>ch+40) continue;
-    const T=0.5*sim.m[i]*sim.R[i]*sim.R[i]*sim.spin[i]*sim.spin[i]*sim.obsT[i]*(1-sim.lSw[i]);
+    const T=obsTemp(sim,i);   // 第36便 D: 観測温度
     const rr=Math.max(1.2,Math.min(sim.R[i]*z*dscale,rCap));  // 第25便: 半径準拠固定 → 第29便: 品質連動上限 → 第35便: drawScale
     const col=tempColor(Math.min(1,Math.sqrt(Math.max(0,T)/Math.max(1e-4,tempP90EMA))));   // 第12便: 負質量はT=0色
     if(rr>=7 && glowOn){ // 大きな天体はグロー付きで描く(第29便: 自動縮退・軽量ではグロー省略)
@@ -3578,7 +3864,7 @@ function render(){
     ctx.beginPath(); ctx.arc(sx,sy,Math.max(10,sim.R[i]*z*dscale+9),-Math.PI/2,-Math.PI/2+frac*Math.PI*2);
     ctx.strokeStyle="#ffd166"; ctx.stroke(); ctx.lineWidth=1;
     // 温度 T=Is² と放射ピーク波長 λ=b_m/T(A12 分光温度計)を併記
-    const Ti=0.5*sim.m[i]*sim.R[i]*sim.R[i]*sim.spin[i]*sim.spin[i]*sim.obsT[i]*(1-sim.lSw[i]);
+    const Ti=obsTemp(sim,i);   // 第36便 D: 観測温度
     const lam=(Ti>1e-12)? fmt(sim.params.bM/Ti) : "—";
     ctx.font=(10*uiFontScale)+"px sans-serif"; ctx.fillStyle="#dfe4ff"; // v1.17: 文字サイズ追従
     // 第14便: 比率表示+第22便: コア観測温度 Tc_obs・扁平率 f = 5s²R³/(4Gm)(粒子選択時に表示)
@@ -3659,7 +3945,7 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
   if(S.n>0 && (!S._p90 || (frameCount%Q_TSORT[qLevel()])===0)){
     if(!S._ts||S._ts.length!==S.n) S._ts=new Float32Array(S.n);
     const ts=S._ts;
-    for(let i=0;i<S.n;i++) ts[i]=0.5*S.m[i]*S.R[i]*S.R[i]*S.spin[i]*S.spin[i]*S.obsT[i]*(1-S.lSw[i]);
+    for(let i=0;i<S.n;i++) ts[i]=obsTemp(S,i);   // 第36便 D: 観測温度で正規化
     ts.sort(); p90=Math.max(1e-4, ts[Math.floor(0.9*(S.n-1))]);
     S._p90=p90;
   }
@@ -3667,7 +3953,7 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
   for(let i=0;i<S.n;i++){
     const px=sx(S.x[i]), py=sy(S.y[i]);
     if(px<-40||px>cw+40||py<y0-40||py>y0+hgt+40) continue;
-    const Ti=0.5*S.m[i]*S.R[i]*S.R[i]*S.spin[i]*S.spin[i]*S.obsT[i]*(1-S.lSw[i]);
+    const Ti=obsTemp(S,i);   // 第36便 D: 観測温度
     const rr=Math.max(1.2,Math.min(S.R[i]*z*dscale,drawRadiusCap()));   // 第29便: 品質連動上限(正確=半径準拠)→第35便: drawScale
     ctx.fillStyle=tempColor(Math.min(1,Math.sqrt(Math.max(0,Ti)/p90)));   // 第12便: 負質量はT=0色
     ctx.beginPath(); ctx.arc(px,py,rr,0,7); ctx.fill();
@@ -3957,8 +4243,12 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
     for(const k of ["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy",
       "coreMR","coreSR","mEff","Rc","rotAc",   // 主星2層の状態も転写(第14便: 比率仕様)
       "obsT","lSw","coreOT","radOv","coreRRv", // 観測温度・半径系(第22便)
+      "rMulv","lSwAuto",                       // 第36便 C1/C2: 半径倍率・掻出の自動算出フラグ
       "railR","railAng","railOmega","railCx","railCy"]) simB[k].set(sim[k]);
-    simB.hasCore=sim.hasCore;
+    simB.hasCore=sim.hasCore; simB.hasLSwAuto=sim.hasLSwAuto; simB._rsUsed=sim._rsUsed;
+    // 第36便 D(台帳4-51): 内部温度モードの状態も転写(同一プリセットで build 済みなので
+    // simB.Tint は同じ長さで確保されている。spin モードでは両方 null で何もしない)
+    if(sim.Tint && simB.Tint) simB.Tint.set(sim.Tint);
     simB.pinned.set(sim.pinned); simB.hasU.set(sim.hasU);
   }
   simB.t=sim.t; simB.resPx=sim.resPx; simB.resPy=sim.resPy; simB.resL=sim.resL;
@@ -4491,10 +4781,25 @@ function coerceImport(d){
   return null;
 }
 // v1.19: 内容ベースの重複判定用シグネチャ(名前・説明・IDを除いた「パラメータ」全体)
+// 第36便(P1-2・ChatGPT差分検証レビュー): integrator/echoFlipAt/measureBox/drawScale/
+// universeBox/photonEmit/overlays が未署名だったため、粒子配置とphysicsが同じで
+// これらのキーだけが異なる2プリセットをインポートすると2件目が誤って重複スキップされていた。
+// validatePreset 正規化後の全挙動属性を署名へ含める(呼び出し側は従来どおり v.preset を渡すため
+// ここでの再正規化は基本的に冪等 — 異常値からの直接呼び出しに対する防御でもある)。
+// abSuggest はレビュー原文の修正案に含まれるが、現行スキーマに存在しないキーのため対象から除外
+// (第36便で確認済み。将来 abSuggest 相当のキーが追加された際は改めて追加すること)
 function presetSig(p){
-  return JSON.stringify({physics:Object.assign({},DEFAULT_PHYSICS,p.physics||{}),
-    bodies:p.bodies||[], world:p.world||null, camera:p.camera||null,
-    rays:p.rays||null, seed:isNum(p.seed)?p.seed:null});
+  const v=validatePreset(p);
+  const q=v.ok? v.preset : p;
+  return JSON.stringify({
+    physics:Object.assign({},DEFAULT_PHYSICS,q.physics||{}),
+    bodies:q.bodies||[], world:q.world||null, camera:q.camera||null,
+    seed:isNum(q.seed)?q.seed:null, rays:q.rays||null, overlays:q.overlays||null,
+    universeBox:q.universeBox||null, photonEmit:q.photonEmit||null,
+    integrator:q.integrator||"semi", echoFlipAt:isNum(q.echoFlipAt)?q.echoFlipAt:null,
+    measureBox:q.measureBox===true, drawScale:isNum(q.drawScale)?q.drawScale:1,
+    thermal:(q.thermal==="tint")?"tint":"spin"   // 第36便 D(台帳4-51): 温度の意味論も署名に含める
+  });
 }
 function doImportText(text){
   let d;
@@ -4531,9 +4836,14 @@ function doImportText(text){
     addedPresets.push({preset:v.preset, origId:id});
   }
   setCustomPresets(cur);
-  // セーブも内容(presetId+physics)で重複除外し、名前被りはサフィックスを付けて追記
+  // セーブも内容(presetId+physics+universeBox)で重複除外し、名前被りはサフィックスを付けて追記
+  // 第36便(P1-3・ChatGPT差分検証レビュー): 従来は presetId+physics のみで、同じ箱宇宙プリセットの
+  // H0/D 等だけが異なる複数セーブをバックアップ→再インポートすると2件目以降が誤って重複スキップ
+  // されていた(root v1.32から継続する既存問題でもある)。universeBox を鍵へ追加して保護する。
+  // cameraScale は含めない(設計裁定 — 重複判定の意味をカメラ倍率にまで拡げない)
   const ex=getSaves();
-  const sKey=(s)=>String(s.presetId)+"|"+JSON.stringify(Object.assign({},DEFAULT_PHYSICS,s.physics||{}));
+  const sKey=(s)=>JSON.stringify({presetId:String(s.presetId),
+    physics:Object.assign({},DEFAULT_PHYSICS,s.physics||{}), universeBox:s.universeBox||null});
   const haveSig=new Set(ex.map(sKey));
   const haveNames=new Set(ex.map(s=>s.name));
   const ns=[];
@@ -4619,21 +4929,21 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 
 # 例
 例1 要望「連星と、その周りを回る惑星たち」
-{"name":"連星系の惑星たち","emoji":"⭐","description":"2つの恒星が共通重心を回り、その外側を小さな惑星たちが公転する。連星の複雑な重力場で軌道が乱される様子が見どころ。","camera":{"scale":320},"world":{"boundary":"none","size":0},"physics":{"G":1,"D0":2,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":60,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1.2,"softening":2,"timeScale":4},"bodies":[{"type":"single","m":500,"x":-60,"y":0,"vx":0,"vy":-1.44,"spin":0.5,"pinned":false},{"type":"single","m":500,"x":60,"y":0,"vx":0,"vy":1.44,"spin":0.5,"pinned":false},{"type":"ring","n":220,"cx":0,"cy":0,"rIn":180,"rOut":290,"mMin":0.05,"mMax":0.3,"spinMin":0,"spinMax":0,"vMode":"kepler","aroundMass":1000,"omega":0,"vNoise":0.05,"direction":1,"pinned":false}],"overlays":{"rotationCurve":false,"tempHistogram":false,"field":false}}
+{"name":"連星系の惑星たち","emoji":"⭐","description":"2つの恒星が共通重心を回り、その外側を小さな惑星たちが公転する。連星の複雑な重力場で軌道が乱される様子が見どころ。","camera":{"scale":320},"world":{"boundary":"none","size":0},"physics":{"G":1,"D0":2,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":60,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1,"softening":2,"timeScale":4},"bodies":[{"type":"single","rMul":1.2,"m":500,"x":-60,"y":0,"vx":0,"vy":-1.44,"spin":0.5,"pinned":false},{"type":"single","rMul":1.2,"m":500,"x":60,"y":0,"vx":0,"vy":1.44,"spin":0.5,"pinned":false},{"type":"ring","rMul":1.2,"n":220,"cx":0,"cy":0,"rIn":180,"rOut":290,"mMin":0.05,"mMax":0.3,"spinMin":0,"spinMax":0,"vMode":"kepler","aroundMass":1000,"omega":0,"vNoise":0.05,"direction":1,"pinned":false}],"overlays":{"rotationCurve":false,"tempHistogram":false,"field":false}}
 (連星の公転速度: 半径60・相手質量500 → v≈√(1×500÷(60×2))≈1.44 を互いに逆向きに与える)
 
 例2 要望「熱いガスと冷たいガスが混ざるところ」
-{"name":"高温ガスと低温ガスの混合","emoji":"🔥","description":"箱の左に低温(低スピン)、右に高温(高スピン)のガスを配置。衝突とスピン拡散で温度が均一化し、熱平衡に達する過程を観察できる。","camera":{"scale":240},"world":{"boundary":"box","size":200},"physics":{"G":0.05,"D0":50,"kFrame":0.2,"q":2,"kRep":2,"muF":0.8,"gammaN":0.3,"kappaS":0.15,"Kt":60,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1.2,"softening":2,"timeScale":2},"bodies":[{"type":"box","n":120,"cx":-100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":0,"spinMax":0.2,"vScale":0.3},{"type":"box","n":120,"cx":100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":2,"spinMax":3,"vScale":2.5}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
+{"name":"高温ガスと低温ガスの混合","emoji":"🔥","description":"箱の左に低温(低スピン)、右に高温(高スピン)のガスを配置。衝突とスピン拡散で温度が均一化し、熱平衡に達する過程を観察できる。","camera":{"scale":240},"world":{"boundary":"box","size":200},"physics":{"G":0.05,"D0":50,"kFrame":0.2,"q":2,"kRep":2,"muF":0.8,"gammaN":0.3,"kappaS":0.15,"Kt":60,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1,"softening":2,"timeScale":2},"bodies":[{"type":"box","rMul":1.2,"n":120,"cx":-100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":0,"spinMax":0.2,"vScale":0.3},{"type":"box","rMul":1.2,"n":120,"cx":100,"cy":0,"w":180,"h":360,"mMin":1,"mMax":1,"spinMin":2,"spinMax":3,"vScale":2.5}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
 
 例3 要望「ブラックホールが見たい。光が吸い込まれるところも。星も1000個ちりばめて」
-{"name":"ブラックホール — 光子捕捉","emoji":"🕳️","description":"中央の超大質量天体(ブラックホールの光学類似)。左からの光線が強く曲がり、近くを通る光は捕まって光子球のような円軌道に巻き付く(光子捕捉)。周囲の星は数を400に抑えて軽快に動かす。決定力マップ表示付き。","camera":{"scale":300},"world":{"boundary":"none","size":0},"physics":{"G":1,"D0":2,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":40,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1.2,"softening":2,"timeScale":1},"bodies":[{"type":"single","m":2000,"x":0,"y":0,"vx":0,"vy":0,"spin":0.5,"pinned":true},{"type":"disk","n":400,"cx":0,"cy":0,"radius":280,"mMin":0.05,"mMax":0.2,"spinMin":0,"spinMax":0,"vMode":"kepler","aroundMass":2000,"vScale":1,"direction":1}],"rays":{"n":32,"spread":0.7},"overlays":{"rotationCurve":false,"tempHistogram":false,"field":true}}
+{"name":"ブラックホール — 光子捕捉","emoji":"🕳️","description":"中央の超大質量天体(ブラックホールの光学類似)。左からの光線が強く曲がり、近くを通る光は捕まって光子球のような円軌道に巻き付く(光子捕捉)。周囲の星は数を400に抑えて軽快に動かす。決定力マップ表示付き。","camera":{"scale":300},"world":{"boundary":"none","size":0},"physics":{"G":1,"D0":2,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":40,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1,"softening":2,"timeScale":1},"bodies":[{"type":"single","rMul":1.2,"m":2000,"x":0,"y":0,"vx":0,"vy":0,"spin":0.5,"pinned":true},{"type":"disk","rMul":1.2,"n":400,"cx":0,"cy":0,"radius":280,"mMin":0.05,"mMax":0.2,"spinMin":0,"spinMax":0,"vMode":"kepler","aroundMass":2000,"vScale":1,"direction":1}],"rays":{"n":32,"spread":0.7},"overlays":{"rotationCurve":false,"tempHistogram":false,"field":true}}
 (質量2000+Kt=40+スピン0.5で光子捕捉が起きる=機械検証済み。要望の1000個は上限・性能の推奨に合わせて400に調整し、descriptionでその旨に触れている)
 
 例4 要望「回る空間に引きずられるのを見たい」
-{"name":"回転リングの空間引きずり","emoji":"🌀","description":"重いリングが回転すると内側の空間ごと引きずられ、静止していた粒子が回り始める(マッハの原理)。D0を上げると引きずりが弱まるのも試せる。","camera":{"scale":220},"world":{"boundary":"none","size":0},"physics":{"G":0.02,"D0":0.5,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":60,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1.2,"softening":2,"timeScale":2},"bodies":[{"type":"ring","n":14,"cx":0,"cy":0,"rIn":150,"rOut":150,"mMin":80,"mMax":80,"spinMin":0.5,"spinMax":0.5,"vMode":"omega","aroundMass":0,"omega":0.012,"vNoise":0,"direction":1,"pinned":true},{"type":"disk","n":40,"cx":0,"cy":0,"radius":80,"mMin":0.5,"mMax":0.5,"spinMin":0,"spinMax":0,"vMode":"none","aroundMass":0,"vScale":0,"direction":1}],"overlays":{"rotationCurve":false,"tempHistogram":false,"field":false}}
+{"name":"回転リングの空間引きずり","emoji":"🌀","description":"重いリングが回転すると内側の空間ごと引きずられ、静止していた粒子が回り始める(マッハの原理)。D0を上げると引きずりが弱まるのも試せる。","camera":{"scale":220},"world":{"boundary":"none","size":0},"physics":{"G":0.02,"D0":0.5,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"Kt":60,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1,"softening":2,"timeScale":2},"bodies":[{"type":"ring","rMul":1.2,"n":14,"cx":0,"cy":0,"rIn":150,"rOut":150,"mMin":80,"mMax":80,"spinMin":0.5,"spinMax":0.5,"vMode":"omega","aroundMass":0,"omega":0.012,"vNoise":0,"direction":1,"pinned":true},{"type":"disk","rMul":1.2,"n":40,"cx":0,"cy":0,"radius":80,"mMin":0.5,"mMax":0.5,"spinMin":0,"spinMax":0,"vMode":"none","aroundMass":0,"vScale":0,"direction":1}],"overlays":{"rotationCurve":false,"tempHistogram":false,"field":false}}
 
 例5 要望「床で温めて天井で冷やす対流実験」
-{"name":"対流セル — 床加熱・天井冷却","emoji":"♨️","description":"床の左〜中央がヒーター(固定・高スピン)、天井の右側が疎な冷却板(固定・スピン0)。温められたガスはスピン斥力で膨らんで浮かび、天井で熱を渡して右から沈む一方向の対流セル。下向きの場は一様重力場gravityYで作る。ガスは軽い粒子にして自己重力の凍結を防ぐ。左右の平均温度グラフ付き。","camera":{"scale":240},"world":{"boundary":"box","size":190},"physics":{"G":0,"D0":2,"kFrame":0,"q":2,"kRep":2,"muF":0.2,"gammaN":0.1,"kappaS":1.2,"Kt":60,"cLight":60,"bM":1,"etaRad":0,"pRad":2,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"gravityX":0,"gravityY":0.03,"radiusScale":4,"softening":4,"timeScale":2},"bodies":[{"type":"single","m":1,"x":-170,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-150,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-130,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-110,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-90,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-70,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-50,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-30,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":-10,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":10,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":30,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","m":1,"x":10,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":50,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":90,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":130,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","m":1,"x":170,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"box","n":260,"cx":0,"cy":-10,"w":340,"h":320,"mMin":0.05,"mMax":0.05,"spinMin":1,"spinMax":2,"vScale":0.4}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
+{"name":"対流セル — 床加熱・天井冷却","emoji":"♨️","description":"床の左〜中央がヒーター(固定・高スピン)、天井の右側が疎な冷却板(固定・スピン0)。温められたガスはスピン斥力で膨らんで浮かび、天井で熱を渡して右から沈む一方向の対流セル。下向きの場は一様重力場gravityYで作る。ガスは軽い粒子にして自己重力の凍結を防ぐ。左右の平均温度グラフ付き。","camera":{"scale":240},"world":{"boundary":"box","size":190},"physics":{"G":0,"D0":2,"kFrame":0,"q":2,"kRep":2,"muF":0.2,"gammaN":0.1,"kappaS":1.2,"Kt":60,"cLight":60,"bM":1,"etaRad":0,"pRad":2,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"gravityX":0,"gravityY":0.03,"radiusScale":1,"softening":4,"timeScale":2},"bodies":[{"type":"single","rMul":4,"m":1,"x":-170,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-150,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-130,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-110,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-90,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-70,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-50,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-30,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":-10,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":10,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":30,"y":186,"vx":0,"vy":0,"spin":12,"pinned":true},{"type":"single","rMul":4,"m":1,"x":10,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","rMul":4,"m":1,"x":50,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","rMul":4,"m":1,"x":90,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","rMul":4,"m":1,"x":130,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"single","rMul":4,"m":1,"x":170,"y":-186,"vx":0,"vy":0,"spin":0,"pinned":true},{"type":"box","rMul":4,"n":260,"cx":0,"cy":-10,"w":340,"h":320,"mMin":0.05,"mMax":0.05,"spinMin":1,"spinMax":2,"vScale":0.4}],"overlays":{"rotationCurve":false,"tempHistogram":true,"field":false}}
 (pinned+spin=熱浴の型: 高スピン列=ヒーター、スピン0列=冷却板。床の一部だけを温め、冷却板を天井に疎に置くと一方向の対流セルになり、粒子が冷所に貼り付かない=機械検証済み。下向きの場は gravityY=0.03 — v1.17で導入した一様重力場。時計・光・引きずりを歪めないため、画面外に遠方大質量を置く旧手法より安定する。自己重力・引きずり・放射は0にして「重力+熱膨張」だけで循環を作ると要因が明確になる)`;
 
 // 注: 以前は output_config.format(構造化出力)に JSON Schema を渡していたが、
@@ -4736,17 +5046,27 @@ async function callLLM(cfg, model, messages){
 // 第26便(原仮定者指示): ベースサンプル選択時は、そのJSONを土台として改変生成させる
 // (ダークローターの coreMR/lightSweep・🛰️の zonal など参考サンプルの構成をAI生成に利用)。
 // 送るのはシミュレーション定義のみ(en/activeParams等のUI付帯情報は省いてトークンを節約)
+// 第36便(P1-1・ChatGPT差分検証レビュー): 旧実装は name/emoji/description/camera/world/
+// physics/bodies/seed/rays/overlays の手書き allowlist で、integrator/echoFlipAt/measureBox/
+// drawScale/universeBox/photonEmit が漏れていた(⏪echoベースでintegrator/echoFlipAtが、
+// 🕊️freeboxベースでmeasureBoxが、🔦boxredshiftベースでuniverseBox/photonEmitが消える)。
+// validatePreset 正規化 → UI専用メタのみ削除の方式へ統一し、将来追加される最上位キーも
+// 手書きリストの更新なしに自動追随させる(手書き allowlist の再発防止)。
+// activeParams は「UI専用メタ」に含めて除外 — validatePreset は関知しない純UIキー(A/B主役
+// パラメータのハイライト)で、上のコメントが定義当初から明言する送信対象外方針を維持する。
+function presetForAIBase(p){
+  const v=validatePreset(p);
+  const q=JSON.parse(JSON.stringify(v.ok? v.preset : p));
+  delete q.id; delete q.group; delete q.en; delete q.activeParams;   // UI専用メタのみ除外
+  return q;
+}
 function aiUserContent(userText){
   const sel=document.querySelector("#aiBasePreset");
   const bid=sel? sel.value : "";
   if(!bid) return userText;
   const p=allPresets().find(q=>String(q.id)===String(bid));
   if(!p) return userText;
-  const base={name:p.name, emoji:p.emoji, description:p.description,
-    camera:p.camera, world:p.world, physics:p.physics, bodies:p.bodies};
-  if(p.seed!==undefined) base.seed=p.seed;
-  if(p.rays) base.rays=p.rays;
-  if(p.overlays) base.overlays=p.overlays;
+  const base=presetForAIBase(p);
   const head=(LANG==="en")
     ? "Use the following base sample JSON as the starting point and output a new preset modified to the request. Keep the structure and values that the request does not ask to change.\nBase sample: "
     : "以下のベースサンプルのJSONを土台に、要望に合わせて改変した新しいプリセットを出力してください。要望と無関係な構成・数値は維持してください。\nベースサンプル: ";
@@ -4890,6 +5210,9 @@ function applyLang(){
   document.documentElement.lang=LANG;
   document.title=T("docTitle");
   $("#appTitle").textContent=T("appTitle");
+  // 第36便 B1(原仮定者指示): http(s) の /beta/ 配下では BETA_BUILD、それ以外(ルート・file://)
+  // では "v"+APP_VERSION(QA: version.beta-label)
+  $("#appVer").textContent = isBetaServe() ? BETA_BUILD : ("v"+APP_VERSION);
   $("#btnLang").textContent=(LANG==="ja")?"EN":"日本語";
   $("#btnReset").textContent=T("reset");
   const tabKeys={help:"tabHelp",params:"tabParams",saves:"tabSaves",ai:"tabAI"};
@@ -4909,6 +5232,7 @@ function applyLang(){
   $("#dirtyBadge").textContent=T("dirtyBadge");
   $("#btnImport").textContent=T("btnImport"); $("#ioArea").placeholder=T("ioPh");
   $("#btnExportFile").textContent=T("btnExportFile"); $("#ioNote").textContent=T("ioNote");
+  $("#ioNoteSum").textContent=T("ioNoteSum");   // 第36便 B4
   $("#btnImportFile").textContent=T("btnImportFile");            // v1.17
   $("#btnPanelClose").textContent=T("panelClose");               // v1.17
   $("#beTitle").textContent=T("beTitle"); $("#beLp").textContent=T("bePinned");
@@ -4918,7 +5242,9 @@ function applyLang(){
   $("#aiModelLabel").textContent=T("aiModelLabel"); $("#aiUrlLabel").textContent=T("aiUrlLabel");
   $("#keyPersistLabel").textContent=T("keyPersistLabel"); $("#btnKeySave").textContent=T("btnKeySave");
   $("#aiKeyNote").textContent=T("aiKeyNote"); $("#aiGenHead").textContent=T("aiGenHead");
+  $("#aiKeyNoteSum").textContent=T("aiKeyNoteSum");   // 第36便 B4
   $("#aiBaseLabel").textContent=T("aiBaseLabel"); $("#aiBaseNote").textContent=T("aiBaseNote");   // 第26便
+  $("#aiBaseNoteSum").textContent=T("aiBaseNoteSum");   // 第36便 B4
   rebuildAiBaseSelect();   // 第26便: 言語切替でベース候補名も更新
   $("#btnGenerate").textContent=T("btnGenerate"); $("#aiListHead").textContent=T("aiListHead");
   $("#aiPrompt").placeholder=T("aiPromptPh");
@@ -5075,7 +5401,11 @@ function updateBodyEdit(){
   $("#beM").value=fmt(S.m[i]); $("#beS").value=fmt(S.spin[i]);
   $("#beMc").value=fmt(S.coreMR[i]); $("#beSc").value=fmt(S.coreSR[i]);
   $("#beR").value=fmt(S.R[i]); $("#beRr").value=fmt(S.R[i]>0? S.Rc[i]/S.R[i] : 0);   // 第22便: 半径系(実効値を表示)
-  $("#beOt").value=fmt(S.obsT[i]); $("#beSw").value=fmt(S.lSw[i]); $("#beOc").value=fmt(S.coreOT[i]);   // 観測温度系
+  $("#beOt").value=fmt(S.obsT[i]); $("#beOc").value=fmt(S.coreOT[i]);   // 観測温度系
+  // 第36便 C2: 掻出は "auto"(粒子パラメータからの算出モード)を受理。auto の粒子は入力欄に
+  // auto を表示し、隣に現在の実効値 lS_eff を出す(表示のみ・書式は既存の fmt に倣う)
+  $("#beSw").value = S.lSwAuto[i]? "auto" : fmt(S.lSw[i]);
+  $("#beSwEff").textContent = S.lSwAuto[i]? ("lS_eff="+fmt(S.lSwEff(i))) : "";
   $("#beVx").value=fmt(S.vx[i]); $("#beVy").value=fmt(S.vy[i]);
   $("#bePin").checked=!!S.pinned[i];
 }
@@ -5096,7 +5426,19 @@ beBind("#beS",(S,i,v)=>{ S.spin[i]=clamp(v,-40,40); });
 beBind("#beR",(S,i,v)=>{ S.radOv[i]=clamp(v,0.5,500); S.updateRadii(); });
 beBind("#beRr",(S,i,v)=>{ S.coreRRv[i]=clamp(v,0.02,1); S.updateRadii(); });
 beBind("#beOt",(S,i,v)=>{ S.obsT[i]=clamp(v,0,1000); });
-beBind("#beSw",(S,i,v)=>{ S.lSw[i]=clamp(v,0,1); });
+// 第36便 C2(原仮定者指示): 掻出欄は数値(0〜1・従来の独立指定)に加えて "auto" を受理する。
+// beBind は parseFloat 前提なので、この欄だけ専用ハンドラにする(他欄の挙動は不変)
+$("#beSw").addEventListener("change",()=>{
+  const S=selSimRef();
+  if(selIdx<0||selIdx>=S.n){ updateBodyEdit(); return; }
+  const raw=$("#beSw").value.trim().toLowerCase();
+  if(raw==="auto"){ S.lSwAuto[selIdx]=1; S.hasLSwAuto=true; setParamsDirty(true); requestRender(); }
+  else{
+    const v=parseFloat(raw.replace(/[,、\s]/g,"").replace(/[−ー–—－]/g,"-"));   // v1.24: 全角マイナス等も受理
+    if(isFinite(v)){ S.lSwAuto[selIdx]=0; S.syncLSwAuto(); S.lSw[selIdx]=clamp(v,0,1); setParamsDirty(true); requestRender(); }
+  }
+  updateBodyEdit();
+});
 beBind("#beOc",(S,i,v)=>{ S.coreOT[i]=clamp(v,0,1000); });
 beBind("#beVx",(S,i,v)=>{ S.vx[i]=clamp(v,-100,100); });
 beBind("#beVy",(S,i,v)=>{ S.vy[i]=clamp(v,-100,100); });
@@ -5716,10 +6058,101 @@ const VERIFY = {
     return {id:"V28", pass, value:R1/R0,
       detail:`a=${a.toFixed(3)}: w保存ずれ=${wErr.toExponential(1)}(<1e-3) 比w/c_loc: R(a)/R(1)=${(R1/R0).toFixed(4)}(解析${ana.toFixed(4)}・誤差${rErr.toExponential(1)})— 光速上昇で低下(§12-5 v1.5)。理想化(光速∝1/W)なら1/a=${(1/a).toFixed(3)} — 関数形の差は台帳4-66`};
   },
+  // ==== V30/V31: 温度の内部状態変数化(第36便 D・台帳4-51 / A9 改訂)====
+  // V30: tint モードの第一法則の完全閉性。V10(spin モード)と同一構成・同一散逸チャネルで、
+  // 保持量を「並進 + スピン回転 + 内部熱 C·m·T_int + ポテンシャル(重力+法線ばね)+ radE」に
+  // 置き換えても総和が一定であることを機械検証する(E9 散逸→T_int の換算則と E10′ の熱量保存、
+  // E11 の radE 計上に帳簿漏れがあれば FAIL する)。kRep=0 は V10 と同じ理由(E5′ の U_rep は L17)
+  v30(){
+    const s=makeSim();
+    s.build({ id:"verify_v30", name:"V30", camera:{scale:200}, world:{boundary:"none",size:0},
+      thermal:"tint",
+      physics:{G:1, D0:0, kFrame:0, kRep:0, muF:0.5, gammaN:0.4, kappaS:0.3, etaRad:2e-4,
+        pRad:1, cHeat:1, softening:2, timeScale:1},
+      bodies:[
+        {type:"single", m:30, x:0, y:0, vx:0, vy:0, spin:0.8, tInt:12, pinned:false},
+        {type:"disk", n:36, cx:0, cy:0, radius:55, mMin:1, mMax:2, tInt:3,
+         spinMin:-1.5, spinMax:1.5, vMode:"random", aroundMass:0, vScale:0.6, direction:1}
+      ],
+      overlays:{} });
+    const C=s.params.cHeat;
+    const energyOf=(s)=>{
+      const eps2=s.params.softening*s.params.softening, G=s.params.G;
+      let E=0;
+      for(let i=0;i<s.n;i++){
+        E+=0.5*s.m[i]*(s.vx[i]*s.vx[i]+s.vy[i]*s.vy[i]);
+        E+=0.25*s.m[i]*s.R[i]*s.R[i]*s.spin[i]*s.spin[i];      // ½·I·s²、I=½mR²(マクロ回転)
+        E+=C*s.m[i]*s.Tint[i];                                  // 第36便 D: 内部熱 E_int=C·m·T_int
+      }
+      for(let i=0;i<s.n;i++) for(let j=i+1;j<s.n;j++){
+        const dx=s.x[i]-s.x[j], dy=s.y[i]-s.y[j], d2=dx*dx+dy*dy, d=Math.sqrt(d2);
+        E-=G*s.m[i]*s.m[j]/Math.sqrt(d2+eps2);
+        const sumR=s.R[i]+s.R[j];
+        if(d<sumR){
+          const muM=s.m[i]*s.m[j]/(s.m[i]+s.m[j]);
+          const maxInv=Math.max(1/s.m[i],1/s.m[j]);
+          const xO=sumR-d, xC=8/(maxInv*40*muM);
+          E+=(xO<=xC)? 20*muM*xO*xO : 20*muM*xC*xC+(8/maxInv)*(xO-xC);
+        }
+      }
+      return E;
+    };
+    let Escale=1, Eint0=0;
+    for(let i=0;i<s.n;i++){ Escale+=0.5*s.m[i]*(s.vx[i]*s.vx[i]+s.vy[i]*s.vy[i])
+      +0.25*s.m[i]*s.R[i]*s.R[i]*s.spin[i]*s.spin[i]+C*s.m[i]*s.Tint[i];
+      Eint0+=C*s.m[i]*s.Tint[i]; }
+    for(let i=0;i<s.n;i++) for(let j=i+1;j<s.n;j++){
+      const dx=s.x[i]-s.x[j], dy=s.y[i]-s.y[j];
+      Escale+=s.params.G*s.m[i]*s.m[j]/Math.sqrt(dx*dx+dy*dy+s.params.softening*s.params.softening);
+    }
+    const E0=energyOf(s)+s.radE;
+    for(let k=0;k<1000;k++) s.step(DT);
+    let Eint1=0; for(let i=0;i<s.n;i++) Eint1+=C*s.m[i]*s.Tint[i];
+    const E1=energyOf(s)+s.radE;
+    const resid=Math.abs(E1-E0)/Escale;
+    // 閾値は V10 と同じ 7.5e-4(同一構成・同一散逸チャネル。tint 側の実測残差は detail に出る)
+    return {id:"V30", pass:(s.thermal==="tint" && resid<7.5e-4), value:resid,
+      detail:`tint 第一法則 |Δ(E_総+radE)|/E_scale=${resid.toExponential(2)} (< 7.5e-4) `
+        +`内部熱 ΣC·m·T_int=${Eint0.toFixed(2)}→${Eint1.toFixed(2)} radE=${s.radE.toFixed(3)}`};
+  },
+  // V31: 伝導の角運動量「自明」保存(台帳4-50 の解消)。thermal:"tint" では κs が動かすのは
+  // T_int だけで、スピンには一切触れない — 角運動量は近似的にではなく厳密(bit 一致)に不変。
+  // 同時に (a) T_int が実際に拡散して分散が縮小し (b) 熱量 ΣC·m·T_int が保存することも確認する
+  // (「何も起きていないから不変」ではないことの証明)
+  v31(){
+    const s=makeSim();
+    const row=[];
+    for(let i=0;i<7;i++) row.push({type:"single", m:4, x:-45+i*15, y:0, vx:0, vy:0,
+      spin:(i%2? 1:-1)*(1+0.3*i), tInt:(i===0? 100:0), pinned:false});
+    s.build({ id:"verify_v31", name:"V31", camera:{scale:200}, world:{boundary:"none",size:0},
+      thermal:"tint",
+      physics:{G:0, D0:0, kFrame:0, kRep:0, muF:0, gammaN:0, kappaS:1.5, etaRad:0,
+        cHeat:1, softening:2, timeScale:1},
+      bodies:row, overlays:{} });
+    const C=s.params.cHeat;
+    const spin0=Array.from(s.spin), T0=Array.from(s.Tint);
+    const Lof=()=>{ let L=0; for(let i=0;i<s.n;i++)
+      L+=s.m[i]*(s.x[i]*s.vy[i]-s.y[i]*s.vx[i]) + 0.5*s.m[i]*s.R[i]*s.R[i]*s.spin[i]; return L; };
+    const Qof=()=>{ let Q=0; for(let i=0;i<s.n;i++) Q+=C*s.m[i]*s.Tint[i]; return Q; };
+    const varT=()=>{ let a=0,b=0; for(let i=0;i<s.n;i++){ a+=s.Tint[i]; b+=s.Tint[i]*s.Tint[i]; }
+      const mu=a/s.n; return b/s.n-mu*mu; };
+    const L0=Lof(), Q0=Qof(), var0=varT();
+    for(let k=0;k<500;k++) s.step(DT);
+    const L1=Lof(), Q1=Qof(), var1=varT();
+    let spinExact=true;
+    for(let i=0;i<s.n;i++) if(s.spin[i]!==spin0[i]) spinExact=false;
+    const dL=Math.abs(L1-L0), qErr=Math.abs(Q1-Q0)/Math.max(Math.abs(Q0),1e-9);
+    const diffused=(var1<var0*0.9) && (s.Tint[1]>T0[1]);
+    const pass=spinExact && dL===0 && qErr<1e-6 && diffused;
+    return {id:"V31", pass, value:dL,
+      detail:`スピン厳密不変=${spinExact} ΣL=${L0.toFixed(6)}→${L1.toFixed(6)}(|ΔL|=${dL} — 拡散がスピンを動かさないので自明に厳密保存) `
+        +`熱量 ΣC·m·T_int 相対ずれ=${qErr.toExponential(1)}(<1e-6) T_int分散 ${var0.toFixed(2)}→${var1.toFixed(2)}(拡散あり=${diffused})`};
+  },
   all(){ return [this.v1(), this.v2(), this.v6(), this.v8(), this.v9(), this.v10(), this.v10b(),
                  this.v11(), this.v12(), this.v13(), this.v16(),
                  this.v18(), this.v19(), this.v20(),
-                 this.v23a(), this.v24a(), this.v24b(), this.v25(), this.v26(), this.v27(), this.v28()]; }
+                 this.v23a(), this.v24a(), this.v24b(), this.v25(), this.v26(), this.v27(), this.v28(),
+                 this.v30(), this.v31()]; }   // 第36便 D(台帳4-51): 温度の内部状態変数化
 };
 
 // ===== デバッグ/テスト用フック(品質ゲートが使用) =====
@@ -5751,6 +6184,7 @@ function zonalApsidal(mu, refR, J, a, calib){
 }
 window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extractJSON,
   verify:VERIFY, traceRay, getSystemPrompt, aiCfg, T:(k)=>T(k), lang:()=>LANG,
+  obsTemp,   // 第36便 D(台帳4-51): 観測温度 T_obs(QA・監査が表示系と同じ量を読むための公開フック)
   extractLawRefs, lawText, ab:()=>ab, abStart, abStop,
   externalTags, classifyPreset, APP_VERSION, currentPreset:()=>currentPreset,  // v1.15/第35便W4: バッジ/バージョン同期のQA用
   speedMul:()=>speedMul, trailBufs:()=>({a:trailBuf,b:trailBufB}),  // v1.19: QA用
@@ -5776,6 +6210,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 第12便: 粒子選択のQA用(A/B比較中の編集検証 — world: "A"|"B")
   selectBody:(i,world)=>{ selWorld=(world==="B")?"B":"A"; selIdx=i; updateBodyEdit(); },
   selInfo:()=>({selIdx, selWorld}), selSimRef,
+  wavelengthColor,  // 第36便 B3(原仮定者指示): 光線の波長色計算のQA用(色関数そのものを公開・重複実装しない)
   tick:(frames)=>{ for(let f=0;f<frames;f++){ const k=Math.max(1,Math.round(SUBSTEPS*sim.params.timeScale)); for(let s2=0;s2<Math.min(k,24);s2++) sim.step(DT); } render(); } };
 
 // ===== 起動 =====
@@ -5786,8 +6221,7 @@ loadPreset("saturn",false);
 restoreDraft();   // 第13次裁定 P1-2 後半: 直前の未保存編集ドラフトがあれば復元を提案
 // 第13次裁定 P1-3: β版はルートと localStorage を共有 — 初回起動時に1度だけ明示する
 // (http(s) 配信の /beta/ 配下でのみ発火。file:// の QA・ルート昇格後は発火しない)
-if(/^https?:$/.test(location.protocol) && /\/beta\//.test(location.pathname)
-   && !localStorage.getItem("hp_beta_notice")){
+if(isBetaServe() && !localStorage.getItem("hp_beta_notice")){
   try{ localStorage.setItem("hp_beta_notice","1"); }catch(_){}
   notify(T("betaShared"), 9000);
 }
