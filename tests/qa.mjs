@@ -3047,13 +3047,20 @@ if (!FAST) {
         // 第35便 W5c: 計算部分は W5C_UNITS.darkrotorLong へ移し、ワーカーで実行する
         const lg = await w5cGetUnit('darkrotorLong');
         const armOk = lg.on.A2.every(v => v > 0.22);
-        const ctrlOk = lg.ctrl.A2.every(v => v < 0.19);
+        // 第37便 B3(設計裁定・台帳4-69): 対照側の判定を単帯 every(v<0.19) → 帯平均<0.15 へ変更。
+        // 単帯は方位ランダムの統計下限 √(π/4N) 由来でノイズ床が高く(8seed実測でmax 0.200)、
+        // 特定の帯だけが閾値付近まで揺れて偽陽性(誤FAIL)を起こし得た。8seed×4帯実測
+        // (tests/out/seeds-results.json・seed=20260723,1〜7): 帯平均は 0.068〜0.113
+        // (最小seed3・最大seed2)、単帯最大 0.200(seed2 帯4 [200,240])。0.15 は帯平均実測最大
+        // 0.113 に対し余裕約1.3倍(単帯ノイズ床〜0.2 に対しては帯平均を取ることで統計的に安定化)
+        const ctrlAvg = lg.ctrl.A2.reduce((a, v) => a + v, 0) / lg.ctrl.A2.length;
+        const ctrlOk = ctrlAvg < 0.15;
         const f3 = (a) => a.map(v => v.toFixed(3)).join('/');
         add('behavior.darkrotorLong', !lg.on.nan && !lg.ctrl.nan && lg.on.keepPct >= 95
           && lg.on.maxSpin < 4 && lg.on.rotDev < 0.25 && armOk && ctrlOk,
           `6000步(t≈96・seed固定で決定論) 腕A2(後半平均 t=3000〜6000 の${lg.on.nLate}点・環帯 ` +
           `[80,120][120,160][160,200][200,240])=${f3(lg.on.A2)}(4帯すべて>0.22) ` +
-          `対照(中心BH+全ローターのスピン0)=${f3(lg.ctrl.A2)}(4帯すべて<0.19) ` +
+          `対照(中心BH+全ローターのスピン0)=${f3(lg.ctrl.A2)}・帯平均=${ctrlAvg.toFixed(3)}(<0.15) ` +
           `恒星保持=${lg.on.keep}/${lg.on.tot}(${lg.on.keepPct.toFixed(1)}%≥95) ` +
           `全期間max|spin|=${lg.on.maxSpin.toFixed(3)}(<4) ローター半径偏差=${(lg.on.rotDev * 100).toFixed(2)}%(<25%) ` +
           `ローター残存=${lg.on.rotIn}/${lg.on.NH} NaN=${lg.on.nan}/${lg.ctrl.nan} ` +
@@ -3061,7 +3068,8 @@ if (!FAST) {
           `m=150・R=18・r=200 の等間隔リング)で、m=2 をつくっているのは対向2体のスピンだけ。` +
           `よって対照は厳密な軸対称系であり、そこに残る A2 は方位ランダムの統計下限 √(π/4N)` +
           `(終端の帯人数 N=${lg.ctrl.nBand.join('/')} → ${f3(lg.ctrl.noise)})と同オーダー ` +
-          `— 対照側の「<0.19」は真の m=2 の不在ではなく下限値であることに注意。` +
+          `— 対照側の帯平均判定は真の m=2 の不在ではなく統計下限との比較であることに注意` +
+          `(単帯は方位ノイズで閾値付近まで揺れ得るため、第37便 B3 で帯平均判定へ変更 — 台帳4-69)。` +
           `有効窓は6000步まで(12000步では対照側にも円盤自身の重力不安定で A2 0.19〜0.30 が育ち、` +
           `ローター半径偏差も34.7%になるため分離が成立しない — 有限時間の閉鎖系デモ)。` +
           `第33便 X4 の較正実測(ドリフト比較用の基準値)= 腕 0.542/0.589/0.323/0.456・` +
@@ -3165,8 +3173,10 @@ if (!FAST) {
   }
 }
 
-// ---- 7o) 第27便: タイトルタップの説明パネル / A/B説明の折り畳み / 文字サイズ既定 /
-// ----     ❄️改名(beta 先行 — ルート対象時はスキップ)----
+// ---- 7o) 第27便: タイトルタップの説明パネル / A/B説明の折り畳み / 文字サイズ既定
+// ----     (beta 先行 — ルート対象時はスキップ)----
+// ----     旧④❄️改名検査(preset.snowline-name)は第37便 B2(原仮定者裁定)で snowline 自体を
+// ----     廃止したため削除(v1.24 の🪣mach/🕰twin/💫drag 廃止に倣う運用)----
 {
   const hasV27 = await page.evaluate(() => !!document.querySelector('#aboutPanel'));
   if (hasV27) {
@@ -3194,10 +3204,6 @@ if (!FAST) {
       res.uiScale = HP.uiScale();
       const opts = (HP.T('uiScaleOpts') || []).map(o => o[1]);
       res.uiOpts = JSON.stringify(opts) === JSON.stringify(['小', '標準', '大']);
-      // ④ ❄️ 改名(雪線の用語は説明文に残す)
-      const sl = HP.allPresets().find(p => p.id === 'snowline');
-      res.slName = sl.name.includes('塵は冷えると固まる') && sl.description.includes('雪線')
-        && sl.en.name.includes('Dust Clumps When Cold') && /snow.line/i.test(sl.en.description);   // 第28便: 日英同期
       return res;
     });
     add('about.panel', r.opened && r.hasOps && r.hasLaws && r.hasAbout && r.closed,
@@ -3205,9 +3211,8 @@ if (!FAST) {
     add('about.help-moved', r.helpMoved, '説明タブから操作・法則要約が移動(外部要素は残置)');
     add('ab.note-collapsed', r.abCollapsed, '');
     add('ui.scale-default', r.uiScale === 1.15 && r.uiOpts, `既定=${r.uiScale}(=1.15) 選択肢=小/標準/大: ${r.uiOpts}`);
-    add('preset.snowline-name', r.slName, '');
   } else {
-    console.log('SKIP 第27便系(about.panel / ab.note-collapsed / ui.scale-default / preset.snowline-name — 対象に説明パネルなし)');
+    console.log('SKIP 第27便系(about.panel / ab.note-collapsed / ui.scale-default — 対象に説明パネルなし)');
   }
 }
 
@@ -3514,8 +3519,9 @@ if (!FAST) {
 // ----   7t) shot.capture 自身のコメントにある段階導入方針を踏襲)----
 if (!FAST) {
   const GRID = 48;
+  // 第37便 B2: ❄️snowline 廃止(原仮定者裁定)に伴い対象から除外
   const BASE_SHOT_IDS = ['gclock', 'boxcomoving', 'boxredshift', 'galaxy', 'darkrotor', 'lensing',
-    'gas', 'convection', 'saturn', 'earthMoon', 'fig8', 'snowline'];
+    'gas', 'convection', 'saturn', 'earthMoon', 'fig8'];
   // 第35便 W2/W3 の ⏪echo・🕊️freebox が対象に存在すれば追加して14件にする(対象の有無で自動判定)
   const presentIds = await page.evaluate((extra) => {
     const all = HP.allPresets();
@@ -4061,10 +4067,11 @@ if (hasEchoFlipAt) {
       zbad.length ? `bit不一致/経路混入: ${zbad.join(' ')}`
         : `${zc.length}件が bit 一致(300步 x,y,spin ハッシュ): ${zc.map(z => z.id).join(' ')} — 全て thermal=spin・Tint 未確保`);
 
-    // ③ tint.migrated: 移行8サンプルが thermal:"tint" を宣言し、初期の熱が spin ではなく tInt にある
+    // ③ tint.migrated: 移行7サンプルが thermal:"tint" を宣言し、初期の熱が spin ではなく tInt にある
     //    (spin 初期値は 0 か微小 — 「高スピン=熱い」からの移行が漏れていないことの機械固定)
+    //    第37便 B2: ❄️snowline 廃止(原仮定者裁定)に伴い対象から除外(8→7件)
     const mig = await page.evaluate(() => {
-      const IDS = ['gas', 'pressure', 'conduction', 'coolrace', 'phase', 'convection', 'buoyancy', 'snowline'];
+      const IDS = ['gas', 'pressure', 'conduction', 'coolrace', 'phase', 'convection', 'buoyancy'];
       const out = {};
       for (const id of IDS) {
         const p = HP.allPresets().find(q => q.id === id);

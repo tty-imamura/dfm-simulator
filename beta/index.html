@@ -1109,8 +1109,8 @@ const BUILTIN_PRESETS = [
 
 // ===== グループ: 箱宇宙(第31便 — BOX_UNIVERSE v1.2。「宇宙に大質量の箱だけがある」思考実験)=====
 { id:"boxtrans", name:"箱宇宙 — 並進する箱", emoji:"📦", group:"箱宇宙",
-  description:"質量M=1440の自由な質点リング(壁)と、内部のテスト粒子・時計が全て同じ速度で並進する閉鎖系。壁が唯一の決定力源なので(D0=0)、決定フレームuは壁の速度そのものになり(A2/A5)、箱と共動する下の時計は|v−u|=0 — 速度1.2で運動しているのに全く遅れない(E7R)。上の時計は箱に対して固有運動(0.9)を持つため遅れる(τ/t≈0.989) — 時計をタップして比較。箱宇宙の中に「絶対静止」は無い: 運動はすべて箱に対して相対であり、内部の閉じた実験から箱全体の並進は原理的に検知できない(検知できるなら、より大きな箱宇宙が必要になる — T1・T10)。運動量Pは保存し帳簿はゼロのまま(モニタ表示・A13)。⏮で初期位置に戻る。",
-  en:{name:"Box Universe — Translating Box", description:"A closed system: a free point-mass ring (the wall, M=1440) and interior test particles and clocks all translate at the same velocity. The wall is the only source of determinacy (D0=0), so the frame u equals the wall velocity itself (A2/A5). The comoving lower clock has |v−u|=0 — moving at speed 1.2 yet not slowed at all (E7R). The upper clock carries a proper motion (0.9) relative to the box and therefore runs slow (τ/t≈0.989) — tap the clocks to compare. There is no 'absolute rest' inside a box universe: all motion is relative to the box, and no closed interior experiment can detect the box's own translation (if it could, a larger box universe would be required — T1, T10). Momentum is conserved with a zero ledger (monitor, A13). Press ⏮ to reset."},
+  description:"質量M=1440の自由な質点リング(壁)と、内部のテスト粒子・時計が全て同じ速度で並進する閉鎖系。壁が唯一の決定力源なので(D0=0)、決定フレームuは壁の速度そのものになり(A2/A5)、箱と共動する下の時計は|v−u|=0 — 速度1.2で運動しているのに全く遅れない(E7R)。上の時計は箱に対して固有運動(0.9)を持つため遅れる(τ/t≈0.989) — 時計をタップして比較。上の時計の実速度はvx=2.1(箱の並進1.2+箱に対する固有運動0.9の合計)であり、壁と同じ1.2だけで動く下の時計は遅れない — 見かけの数値(1.2と2.1)ではなく箱に対する相対速度|v−u|が遅れを決める。箱宇宙の中に「絶対静止」は無い: 運動はすべて箱に対して相対であり、内部の閉じた実験から箱全体の並進は原理的に検知できない(検知できるなら、より大きな箱宇宙が必要になる — T1・T10)。運動量Pは保存し帳簿はゼロのまま(モニタ表示・A13)。⏮で初期位置に戻る。",
+  en:{name:"Box Universe — Translating Box", description:"A closed system: a free point-mass ring (the wall, M=1440) and interior test particles and clocks all translate at the same velocity. The wall is the only source of determinacy (D0=0), so the frame u equals the wall velocity itself (A2/A5). The comoving lower clock has |v−u|=0 — moving at speed 1.2 yet not slowed at all (E7R). The upper clock carries a proper motion (0.9) relative to the box and therefore runs slow (τ/t≈0.989) — tap the clocks to compare. The upper clock's actual velocity is vx=2.1 (the box's translation 1.2 plus its own proper motion 0.9 relative to the box); the lower clock, moving at the box's own 1.2, does not run slow at all — it is the relative speed |v−u| to the box, not the raw numbers (1.2 vs 2.1), that determines the lag. There is no 'absolute rest' inside a box universe: all motion is relative to the box, and no closed interior experiment can detect the box's own translation (if it could, a larger box universe would be required — T1, T10). Momentum is conserved with a zero ledger (monitor, A13). Press ⏮ to reset."},
   activeParams:["kFrame","cLight"],
   camera:{scale:420}, world:{boundary:"none",size:0},
   physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
@@ -1120,7 +1120,9 @@ const BUILTIN_PRESETS = [
      vMode:"none", aroundMass:0, omega:0, vNoise:0, direction:1, pinned:false, bulkVx:1.2, bulkVy:0},
     {type:"box", n:12, cx:0, cy:0, w:280, h:280, mMin:0.05, mMax:0.05, spinMin:0, spinMax:0, vScale:0, bulkVx:1.2, bulkVy:0},
     {type:"single", m:2, x:0, y:-60, vx:1.2, vy:0, spin:0, pinned:false},
-    {type:"single", m:2, x:0, y:60, vx:2.1, vy:0, spin:0, pinned:false}   // 第33便: 固有運動は x 方向+0.9 に統一(vy を使わない — 原仮定者指示)。|v−u|=0.9 は不変
+    {type:"single", m:2, x:0, y:60, vx:2.1, vy:0, spin:0, pinned:false}   // 第33便: 固有運動は x 方向+0.9 に統一(vy を使わない — 原仮定者指示)。|v−u|=0.9 は不変。
+    // ⚠️第37便 B1(設計裁定): vx=2.1 は 1.2(壁と同じ箱の並進)+0.9(箱に対する固有運動)の設計値(誤記ではない) —
+    // 1.2 へ揃えると対照時計が共動になり box.trans-clocks が壊れる(「固有運動を持つ時計だけが遅れる」という主題の消失)。数値は不変
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true} },
 
@@ -1734,28 +1736,12 @@ const BUILTIN_PRESETS = [
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:800, omega:0, vNoise:0.03, direction:-1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,spectrum:true} },
-
-{ id:"snowline", name:"塵は冷えると固まる — 冷たい星と熱い星", emoji:"❄️", group:"天体の物語",
-  description:"同じ塵の環を冷たい星(左)と熱い星(右)に与えた対照実験。このサンプルは温度をスピンと独立な内部状態変数T_intとして扱う(A9の改訂)。冷たい環では塵が衝突で固まり小衛星が育つ(T3)が、熱い星の環では星の熱が熱伝導(E10′)で塵へ流れ込み、温まった塵は熱の斥力(E5′)で互いを押しのけて塊になれない。環はやがて蒸発し、飛ばされた塵は熱の届かぬ遠方で放射(E11)により冷えて再び固まる — 恒星系の「雪線(スノーライン)」のアナロジー。右下: 左右の平均温度 — 熱い環は最初に温まり、遠ざかると冷える。冷たい環は塊が育つときの衝突散逸(E9)でわずかに温まる(凝固の潜熱にあたる)。",
-  en:{name:"Dust Clumps When Cold — Cold Star vs Hot Star", description:"The same dust ring around a cold star (left) and a hot star (right) — a controlled contrast (the snow-line analogy). This sample treats temperature as the internal state variable T_int independent of spin (the A9 revision). In the cold ring, dust sticks into growing moonlets (T3); in the hot ring, stellar heat flows into the dust by conduction (E10′) and the warmed grains push each other apart by thermal repulsion (E5′), so nothing can grow. That ring evaporates, and the ejected dust cools by radiation (E11) far away, beyond the heat's reach, and re-condenses. Bottom right: mean temperatures — the hot ring warms first and cools as it drifts away, while the cold ring warms slightly from the collisional dissipation (E9) of clump growth (the analogue of latent heat of freezing)."},
-  activeParams:["kappaS","muF","etaRad"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
-  thermal:"tint",   // 第36便 D(台帳4-51)
-  camera:{scale:380}, world:{boundary:"none",size:0},
-  // 第36便 D(台帳4-51): kRep 0→0.3。A9 改訂で「熱が塊をほどく」機構が摩擦の撹拌(スピン)から
-  // 熱の斥力 E5′ へ移るため、kRep=0 のままだと温度が力学に一切効かず対照実験が成立しない(実測)。
-  // 0.3 は掃引で確定: 熱い環の束縛粒子 12/110 に対し冷たい環 86/110(7倍)・環の拡散速度は旧版と同程度
-  physics:{G:1, D0:2, kFrame:0, q:2, kRep:0.3, muF:0.6, gammaN:0.5, kappaS:1.2, Kt:60,
-    cLight:60, bM:1, etaRad:0.15, pRad:1, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:4},
-  bodies:[
-    {type:"single", rMul:1.2, m:400, x:-260,y:0, vx:0,vy:0, spin:0, tInt:0, pinned:true},
-    {type:"single", rMul:1.2, m:400, x:260,y:0, vx:0,vy:0, spin:0, tInt:12.25, pinned:true},
-    {type:"ring", rMul:1.2, n:110, cx:-260,cy:0, rIn:50,rOut:85, mMin:0.3,mMax:0.6,
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:400, omega:0, vNoise:0.05, direction:1, pinned:false},
-    {type:"ring", rMul:1.2, n:110, cx:260,cy:0, rIn:50,rOut:85, mMin:0.3,mMax:0.6,
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:400, omega:0, vNoise:0.05, direction:1, pinned:false}
-  ],
-  overlays:{rotationCurve:false,tempHistogram:true,field:false} },
 ];
+// 第37便 B2(原仮定者裁定「正しい挙動が分からない」): ❄️snowline(塵は冷えると固まる — 冷たい星と
+// 熱い星)を廃止した。v1.24 の廃止手順(🪣mach/🕰twin/💫drag)に倣い、参照(qa.mjs の
+// preset.snowline-name / tint.migrated / shot.regress 対象・tests/baseline-shots.json)を同時整理
+// 済み。旧定義は git 履歴(本コミット以前)を参照。PHYSICS.md §6 の行削除・tint 節の「7種+❄️」
+// 表記修正は後工程(37b-report.md 参照)。
 
 // ===== プリセット・バリデータ(LLM出力/インポートの検証。構造NG=エラー、値域外=クランプ) =====
 function isNum(v){ return typeof v==="number" && isFinite(v); }
