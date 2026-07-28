@@ -69,6 +69,8 @@
   #bodyEdit .beRow input[type=text]{flex:1;min-width:0;min-height:30px;padding:2px 5px;font-size:calc(12px*var(--uz,1));
     text-align:right;background:var(--panel);border:1px solid var(--line);border-radius:6px;color:var(--acc);}
   #bodyEdit .beRow input[type=checkbox]{width:18px;height:18px;accent-color:var(--acc);}
+  /* 第38便(原仮定者指示): auto中で読み取り専用になった数値欄を視覚的に示す */
+  #bodyEdit .beRow input[readonly]{opacity:.55;}
   #bodyEdit .beNote{color:var(--dim);font-size:calc(10px*var(--uz,1));margin-top:4px;line-height:1.4;}
   /* 第26便(原仮定者指示): 編集パネルの最小化 — ヘッダだけ残して行を畳む(✕廃止→最小化トグル) */
   #bodyEdit.min .beRow,#bodyEdit.min .beNote{display:none;}
@@ -224,8 +226,11 @@
       <div class="beRow"><label id="beLot">To×</label><input type="text" id="beOt" inputmode="decimal" autocomplete="off">
         <label id="beLoc" style="min-width:30px">TcO×</label><input type="text" id="beOc" inputmode="decimal" autocomplete="off"></div>
       <!-- 第37便 A2(原仮定者指示): 「auto」チェックボックス — ON で lightSweep="auto" を設定し
-           数値欄を読み取り専用にして隣に実効値 lS_eff を表示する。OFF は従来の数値入力に戻る -->
-      <div class="beRow"><label id="beLsw" style="min-width:34px">掻出</label><input type="text" id="beSw" inputmode="decimal" autocomplete="off"><label id="beLswAuto" style="min-width:0;flex:0 0 auto;margin-left:2px">auto</label><input type="checkbox" id="beSwAuto"><span id="beSwEff" style="flex:1;font-size:11px;opacity:.8;padding-left:6px"></span></div>
+           数値欄を読み取り専用にする。OFF は従来の数値入力に戻る。
+           第38便(原仮定者指示・構造のみ。ラベル文字列の改称は次波38B): #beLsw の固定幅指定を
+           削除して既定14pxに戻し、#beSwEff(実効値の別表示スパン)を廃止 — #beSw(flex:1)自体が
+           auto中も実効値を表示するようにしたため(下の updateBodyEdit を参照)、数値欄が広がる -->
+      <div class="beRow"><label id="beLsw">掻出</label><input type="text" id="beSw" inputmode="decimal" autocomplete="off"><label id="beLswAuto" style="min-width:0;flex:0 0 auto;margin-left:2px">auto</label><input type="checkbox" id="beSwAuto"></div>
       <div class="beRow"><label id="beLvx">vx</label><input type="text" id="beVx" inputmode="text" autocomplete="off">
         <label id="beLvy">vy</label><input type="text" id="beVy" inputmode="text" autocomplete="off"></div>
       <div class="beRow"><label id="beLp" style="flex:1">固定(pinned)</label><input type="checkbox" id="bePin"></div>
@@ -448,11 +453,13 @@ ja: {
   tgTrailLineDesc:"粒子の軌道を線で記録して描く(☿の楕円歳差など)。記録間隔は描画品質に従う。",
   tgFieldDesc:"決定力 W の強さを背景の色マップで表示(A3/E1′)。明るいほど W が高い。",
   // 第37便 A3(原仮定者指示): 光線の基準波長λ0(表示専用・セーブ対象外・物理不変)
-  rayLambda0Label:"光線の基準波長 λ0(nm)",
-  rayLambda0Desc:"光線のセグメント色は λ_seg=λ0·e^{ψ0−ψ}(第36便 B3)で決まる。λ0はその基準値(既定550nm・可視域380〜780に制限)。表示設定のみで、保存・物理計算には一切影響しない。",
+  // 第38便(原仮定者指示): 既定を580nmへ・スライダーは「光線」トグルの直後に移動・直値は可視外も受理
+  rayLambda0Label:"光線の基準波長(nm)",
+  rayLambda0Desc:"光線のセグメント色は λ_seg=λ0·e^{ψ0−ψ}(第36便 B3)で決まる。λ0はその基準値(既定580nm=旧固定表示色の黄に相当・第38便)。スライダーは可視光380〜780nmの範囲。直値入力では可視外(赤外>780・紫外10〜380・X線0.01〜10・γ線<0.01nm)も指定でき、可視外は記号色(γ線=白/X線=淡シアン/紫外=明紫/赤外=暗赤)で表示する。表示設定のみで、保存・物理計算には一切影響しない。",
   tgRaysDesc:"光線束(E8R)を表示。光は ψ=W/Kt で屈折し、決定フレーム u に運ばれる(A11)。光線のないサンプルでも既定の平行光束を点灯できる。",
   tgCurveDesc:"右下に回転曲線(半径ごとの接線速度)を表示。点線はバリオン実加速度基準 v_bar(r)(質量分布だけから期待される回転)。",
-  tgTempDesc:"温度ヒストグラム(左右比較)。表示は観測温度 T_obs=To×·(1−掻出)·T。",
+  // 第38便 A5(原仮定者指示): バー・折れ線の色を温度に対応させた(粒子の温度色と同じ写像)
+  tgTempDesc:"温度ヒストグラム(左右比較)。表示は観測温度 T_obs=To×·(1−掻出)·T。バー・折れ線の色は温度に対応(粒子の温度色と同じ写像)。右系列は破線で区別。",
   tgSpectrumDesc:"放射スペクトル(A12: ピーク波長 λ=b_m/T のウィーン型)。表示は観測温度基準。",
   tgMonitorDesc:"運動量P・角運動量Lとリザーバ帳簿(E6′/E11)の保存量モニタ(T7)。",
   tgBoxGraphDesc:"箱宇宙(UniverseBox)の尺度因子a(t)・膨張率H(t)の時系列と、拡大による波長の伸び(赤方偏移 1+z=a/a₀)を表示する。箱宇宙プリセットでのみ有効。",
@@ -620,11 +627,13 @@ en: {
   tgTrailLineDesc:"Records and draws orbit lines (e.g. Mercury's precessing ellipse). Recording interval follows render quality.",
   tgFieldDesc:"Background color map of the determinacy W (A3/E1'). Brighter = higher W.",
   // 第37便 A3: ray base wavelength lambda0 (display only, not saved, physics-free)
-  rayLambda0Label:"Ray base wavelength λ0 (nm)",
-  rayLambda0Desc:"Ray segment color follows λ_seg=λ0·e^{ψ0−ψ} (36th flight B3). λ0 is that reference value (default 550nm, clamped to the visible range 380-780). Display setting only — not saved and never affects physics.",
+  // 38th flight (design lead's instruction): default now 580nm; slider moved right after the "rays" toggle; direct entry accepts non-visible values
+  rayLambda0Label:"Ray base wavelength (nm)",
+  rayLambda0Desc:"Ray segment color follows λ_seg=λ0·e^{ψ0−ψ} (36th flight B3). λ0 is that reference value (default 580nm, matching the old fixed display color's yellow; 38th flight). The slider covers the visible range 380-780nm; direct numeric entry also accepts non-visible values (infrared >780, ultraviolet 10-380, X-ray 0.01-10, gamma <0.01nm), shown with symbolic band colors (gamma=white / X-ray=pale cyan / ultraviolet=bright purple / infrared=dark red). Display setting only — not saved and never affects physics.",
   tgRaysDesc:"Shows the light-ray bundle (E8R). Rays refract via psi=W/Kt and are carried by the frame u (A11). Presets without rays can light a default parallel bundle.",
   tgCurveDesc:"Rotation curve (tangential speed vs radius) at bottom right. The dotted line is the baseline v_bar(r) from the real baryonic acceleration — the rotation expected from the mass distribution alone.",
-  tgTempDesc:"Temperature histogram (left/right). Uses the observed temperature T_obs = To x (1-sweep) x T.",
+  // 38th flight A5 (design lead's instruction): bar/line color now follows temperature (same mapping as particle color)
+  tgTempDesc:"Temperature histogram (left/right). Uses the observed temperature T_obs = To x (1-sweep) x T. Bar/line color follows temperature (same mapping as particle color). The right series is dashed to tell it apart.",
   tgSpectrumDesc:"Radiation spectrum (A12, Wien-type peak lambda=b_m/T). Uses observed temperature.",
   tgMonitorDesc:"Conservation monitor (T7): momentum P, angular momentum L, and the reservoir ledger (E6'/E11).",
   tgBoxGraphDesc:"Shows the box universe (UniverseBox) scale factor a(t) and expansion rate H(t) over time, plus the wavelength stretch from expansion (redshift 1+z=a/a0). Only active on box-universe presets.",
@@ -2575,7 +2584,10 @@ function makeSim(){
       // rMul=1(既定)なら rs*1===rs なので旧式と 1 ビットも変わらない
       const rsi=rs*S.rMulv[i];
       // 第22便: 半径の明示指定(radius>0)とコア半径比(coreRR>0)。未指定は従来式
-      S.R[i]=(S.radOv[i]>0)? S.radOv[i] : rsi*Math.sqrt(Math.abs(S.mEff[i]));
+      // 第38便(原仮定者指示): radiusScale は明示半径(radOv)の粒子にも効くようにする(全粒子共通の
+      // 相対ノブという趣旨に合わせる)。rMul は掛けない(明示半径は rMul 無視という既存仕様を維持)。
+      // rs=1(既定)では rs*radOv===radOv なので旧式と1ビットも変わらない
+      S.R[i]=(S.radOv[i]>0)? rs*S.radOv[i] : rsi*Math.sqrt(Math.abs(S.mEff[i]));
       S.Rc[i]=(S.coreRRv[i]>0)? S.coreRRv[i]*S.R[i] : rsi*Math.sqrt(Math.abs(S.coreMR[i]*S.mEff[i]));
       if(S.coreMR[i]!==0) hc=true;
     }
@@ -2643,10 +2655,13 @@ function makeSim(){
           invC2=geo? (p.lambdaPN!==undefined? p.lambdaPN : 1)/(p.cLight*p.cLight) : 0;
     // radiusScale 変更の追従。第36便 C1: 主判定を「updateRadii が最後に使った radiusScale との
     // 一致」へ変更(rMul 焼き込み後は R[0] と rs·√|m₀| が恒常的にずれるため、旧式のままだと
-    // 全プリセットで毎サブステップ再計算になる)。第2項は S.m を直接書き換える経路への保険で、
-    // 明示半径(radOv>0)の粒子0は対象外にする(従来は空転で毎回呼ばれていた)
+    // 全プリセットで毎サブステップ再計算になる)。第2項は S.m を直接書き換える経路への保険。
+    // 第38便(原仮定者指示): radiusScale が明示半径(radOv)にも効くようになったため、粒子0が
+    // 明示半径のときは rs·radOv との差分で判定する(従来は明示半径の粒子0を対象外にしていたが、
+    // A4でR[0]がrsに追従するようになったのでこちらも追従判定が必要)
     if(S._rsUsed!==p.radiusScale ||
-       (S.radOv[0]<=0 && Math.abs(R[0]-p.radiusScale*S.rMulv[0]*Math.sqrt(Math.abs(m[0])))>1e-6)) S.updateRadii();
+       (S.radOv[0]>0 ? Math.abs(R[0]-p.radiusScale*S.radOv[0])>1e-6
+                     : Math.abs(R[0]-p.radiusScale*S.rMulv[0]*Math.sqrt(Math.abs(m[0])))>1e-6)) S.updateRadii();
     ax.fill(0); ay.fill(0); sumW.fill(0); uAx.fill(0); uAy.fill(0); ds.fill(0);
     dpx.fill(0); dpy.fill(0);
     // 第36便 D / 第37便 C2: 熱量の積み上げ(dQi)と U_rep の温度係数(arep)をクリア(tint のみ)
@@ -3334,11 +3349,22 @@ let selWorld="A";
 function selSimRef(){ return (ab && selWorld==="B")? ab.simB : sim; }
 let camX=0, camY=0, camScale=300, tempP90EMA=0.5, monitorOn=false;
 // 第37便 A3(原仮定者指示): 光線の基準波長λ0(nm)。表示設定のみ(セーブ対象外・物理不変) —
-// drawRays の色計算(λ_seg=λ0·e^{ψ0−ψ}。第36便 B3)だけが参照する。既定550・[380,780]にクランプ
-let rayLambda0=clamp(parseFloat(localStorage.getItem("hp_ray_lambda0"))||550,380,780);
+// drawRays の色計算(λ_seg=λ0·e^{ψ0−ψ}。第36便 B3)だけが参照する。
+// 第38便(原仮定者指示): 既定を550→580へ変更(旧固定光線色 rgba(255,240,170,0.55)〔root v1.32〕の
+// 色相≒580nmに合わせた・統括裁定)。クランプは[0.001,1e6]nmへ拡大 — 直値入力でγ線(0.001nm)〜
+// 遠赤外(1e6nm)まで指定可能にし、スライダー自体は可視光[380,780]のまま(下の表示行を参照)。
+// 純関数化してQAが移行ロジック単体を叩けるようにする(page.evaluate 越しの再読込を避ける)
+function rayLambda0FromRaw(raw){
+  if(raw===null || raw===undefined || raw==="") return 580;   // 保存値なし→新既定580
+  const v=parseFloat(raw);
+  if(!isFinite(v)) return 580;
+  if(v===550) return 580;   // 第38便: 旧既定550ちょうどの保存値だけを新既定580へ移行(他の値は保持)
+  return clamp(v,0.001,1e6);
+}
+let rayLambda0=rayLambda0FromRaw(localStorage.getItem("hp_ray_lambda0"));
 function setRayLambda0(v){
   if(!isFinite(v)) return;
-  rayLambda0=clamp(v,380,780);
+  rayLambda0=clamp(v,0.001,1e6);   // 第38便: 直値入力は可視外(γ線〜遠赤外)も受理
   localStorage.setItem("hp_ray_lambda0",String(rayLambda0));
   requestRender();
 }
@@ -3655,7 +3681,12 @@ function drawRays(){
     // wavelengthColor(3298付近)を再利用(重複実装しない)。nmを5nm刻みに量子化した
     // 「バケット」が変わった時だけ stroke() し直す(可視の滑らかさを保ちつつ、パン/ズーム中の
     // 毎フレーム再計算〔rayKeyOf にカメラ位置が入るため〕でも1ステップごとの描画コストにしない)
+    // 第38便(原仮定者指示): λ0の可視外直値入力に対応 — 帯域判定 band(nm) を加え、可視は従来どおり
+    // 5nm量子化バケット、可視外は帯域値そのもの(負数なので可視バケットと衝突しない)をバケットに
+    // 使う。これにより帯域境界をまたぐセグメントで確実に re-stroke される(5nm量子化のままだと
+    // 10nm未満の帯域幅がバケット0〜2に潰れ、帯域遷移が描き分けられないため)
     const Kt=sim.params.Kt, lam0=rayLambda0;
+    const band=(nm)=> nm<0.01?-4 : nm<10?-3 : nm<380?-2 : nm<=780?0 : -1;   // 可視=0/赤外=-1/紫外=-2/X線=-3/γ線=-4
     for(let r=0;r<nEff;r++){
       const px=x0, py=camY+((r+0.5)/nEff-0.5)*2*rays.spread*camScale;
       let prevSX=w2sX(px), prevSY=w2sY(py), psi0=null, bucket=null;
@@ -3663,13 +3694,14 @@ function drawRays(){
       traceRay(sim, px, py, 1, 0, dl, maxSteps, (nx,ny,Wtot)=>{
         const psi=Wtot/Kt;
         if(psi0===null) psi0=psi;
-        const nm=lam0*Math.exp(psi0-psi), b=Math.round(nm/5);
+        const nm=lam0*Math.exp(psi0-psi), bd=band(nm), b=(bd===0)? Math.round(nm/5) : bd;
+        const col=(bd===0)? wavelengthColor(b*5) : rayBandColor(nm);
         const nsx=w2sX(nx), nsy=w2sY(ny);
-        if(bucket===null){ rayCtx.strokeStyle=wavelengthColor(b*5)+"8c"; bucket=b; }   // 8c≈0.55(旧固定色と同じ不透明度)
+        if(bucket===null){ rayCtx.strokeStyle=col+"8c"; bucket=b; }   // 8c≈0.55(旧固定色と同じ不透明度)
         else if(b!==bucket){
           rayCtx.stroke();
           rayCtx.beginPath(); rayCtx.moveTo(prevSX,prevSY);
-          rayCtx.strokeStyle=wavelengthColor(b*5)+"8c"; bucket=b;
+          rayCtx.strokeStyle=col+"8c"; bucket=b;
         }
         rayCtx.lineTo(nsx,nsy);
         prevSX=nsx; prevSY=nsy;
@@ -3815,17 +3847,25 @@ function drawTempHistogram(slot=0){
   ctx.font="9px sans-serif"; ctx.fillStyle="#8b93c8";
   ctx.fillText(T("ovTemp"),X+6,Y+11);
   const mx=Math.max(0.01,sim.tempLR[0],sim.tempLR[1]);
-  ctx.fillStyle="#6aa5ff"; ctx.fillRect(X+18,Y+H-12-(sim.tempLR[0]/mx)*(H-34),26,(sim.tempLR[0]/mx)*(H-34));
-  ctx.fillStyle="#ff9d45"; ctx.fillRect(X+58,Y+H-12-(sim.tempLR[1]/mx)*(H-34),26,(sim.tempLR[1]/mx)*(H-34));
+  // 第38便 A5(原仮定者指示・4-70続き): バー・折れ線の色を温度に対応させる — 粒子色と同じ写像
+  // (tempColor∘正規化。line 4102付近と同形。負質量で T<0 になり得るので Math.max(0,T) で保護)
+  const tCol=(t)=>tempColor(Math.min(1,Math.sqrt(Math.max(0,t)/Math.max(1e-4,tempP90EMA))));
+  ctx.fillStyle=tCol(sim.tempLR[0]); ctx.fillRect(X+18,Y+H-12-(sim.tempLR[0]/mx)*(H-34),26,(sim.tempLR[0]/mx)*(H-34));
+  ctx.fillStyle=tCol(sim.tempLR[1]); ctx.fillRect(X+58,Y+H-12-(sim.tempLR[1]/mx)*(H-34),26,(sim.tempLR[1]/mx)*(H-34));
   ctx.fillStyle="#8b93c8"; ctx.fillText(T("ovLeft"),X+26,Y+H-3); ctx.fillText(T("ovRight"),X+66,Y+H-3);
-  // 時系列
+  // 時系列 — 左右とも温度色になり両系列の色が一致し得るため、右系列は破線で区別する(統括裁定)
   let hm=0.01; sim.histT.forEach(a=>{hm=Math.max(hm,a[0],a[1]);});
   const hx=(k)=>X+96+(k/59)*(W-104);
-  ["#6aa5ff","#ff9d45"].forEach((col,ch2)=>{
-    ctx.strokeStyle=col; ctx.beginPath();
-    sim.histT.forEach((a,k)=>{ const yy=Y+H-12-(a[ch2]/hm)*(H-34); k?ctx.lineTo(hx(k),yy):ctx.moveTo(hx(k),yy); });
-    ctx.stroke();
-  });
+  for(let ch2=0; ch2<2; ch2++){
+    if(ch2===1) ctx.setLineDash([3,2]);
+    let px2=null, py2=null;
+    sim.histT.forEach((a,k)=>{
+      const yy=Y+H-12-(a[ch2]/hm)*(H-34), xx=hx(k);
+      if(k>0){ ctx.strokeStyle=tCol(a[ch2]); ctx.beginPath(); ctx.moveTo(px2,py2); ctx.lineTo(xx,yy); ctx.stroke(); }
+      px2=xx; py2=yy;
+    });
+  }
+  ctx.setLineDash([]);
   ctx.restore();
   ovDrawToggle("tempHistogram",slot);   // 第26便: 最小化トグル(−)
 }
@@ -3909,6 +3949,17 @@ function wavelengthColor(nm){
   else if(nm>780) f*=clamp(1-(nm-780)/700,0.12,1);      // 780nm超: さらに減光(赤外側の表現)
   const q=(v)=>Math.round(clamp(v*f,0,1)*255).toString(16).padStart(2,"0");
   return "#"+q(r)+q(g)+q(b);
+}
+// 第38便(原仮定者指示): 可視光外(λ0の直値入力で到達し得る帯域)の記号色。実スペクトルではなく
+// 帯域そのものを示す記号的割当(wavelengthColor 本体は4-63裁定の減光表現を維持するため変更しない)。
+// γ線 <0.01nm=白 / X線 0.01〜10nm=淡シアン / 紫外 10〜380nm=明紫 / 可視 380〜780nm=wavelengthColor
+// そのもの / 赤外 >780nm=暗赤
+function rayBandColor(nm){
+  if(nm<0.01) return "#ffffff";        // γ線
+  if(nm<10) return "#7fdfff";          // X線
+  if(nm<380) return "#c44dff";         // 紫外
+  if(nm<=780) return wavelengthColor(nm);   // 可視(委譲・重複実装しない)
+  return "#b22222";                    // 赤外
 }
 // 第32便(W2): 膨張グラフ overlay — 箱宇宙(UniverseBox)の尺度因子a(t)・膨張率H(t)の時系列と、
 // 拡大に伴う波長の伸び(赤方偏移 1+z=a/a₀)を可視化する。データ層(S.boxHist/S.boxRedshift/
@@ -4944,6 +4995,7 @@ function buildParamRows(){
       row.after(d);
     });
   };
+  let raysRow=null;   // 第38便: λ0行を「光線」トグル行の直後へ差し込むために参照を保持する
   toggles.forEach(([id,label,get,set,descKey])=>{
     const row=document.createElement("div"); row.className="prow";
     const lab=document.createElement("label"); lab.textContent=label; lab.style.flex="1";
@@ -4951,22 +5003,38 @@ function buildParamRows(){
     const cb=document.createElement("input"); cb.type="checkbox"; cb.checked=get();
     cb.addEventListener("change",()=>{ set(cb.checked); requestRender(); });
     row.appendChild(lab); row.appendChild(cb); disp.appendChild(row);
+    if(id==="rays") raysRow=row;
   });
   // 第37便 A3(原仮定者指示): 光線の基準波長λ0(nm)。表示専用(セーブ対象外・物理不変) —
-  // 決定力マップ等の表示トグル群のすぐ後ろに置く。localStorage hp_ray_lambda0 に永続化
+  // localStorage hp_ray_lambda0 に永続化。
+  // 第38便(原仮定者指示): 「光線」トグル行の直後へ移動し、直値入力欄だけでなくスライダー
+  // (可視光380〜780nm・5nm刻み)も並べる。スライダーは可視域のみ操作でき、直値入力欄は
+  // 可視外(γ線〜遠赤外)も受理する広いclampのまま — 両者は setRayLambda0 を共通の入口にする
   {
     const row=document.createElement("div"); row.className="prow";
-    const lab=document.createElement("label"); lab.textContent=T("rayLambda0Label"); lab.style.flex="1";
+    const lab=document.createElement("label"); lab.textContent=T("rayLambda0Label"); lab.style.flex="0 0 auto";
     tapDesc(row,lab,"rayLambda0Desc");
+    const rng=document.createElement("input"); rng.type="range";
+    rng.min=380; rng.max=780; rng.step=5; rng.style.flex="1"; rng.style.minWidth="60px";
+    rng.value=clamp(rayLambda0,380,780);
     const inp=document.createElement("input"); inp.type="text"; inp.inputMode="decimal";
     inp.className="valIn"; inp.autocomplete="off";
-    inp.value=fmt(rayLambda0);
+    inp.style.width="56px"; inp.style.flex="0 0 56px";
+    // γ線の 0.001 のような1未満の値が fmt() の丸めで 0.00 に潰れないよう、その場合だけ生値を出す
+    const fmtLam=(v)=> (v<1)? String(v) : fmt(v);
+    inp.value=fmtLam(rayLambda0);
+    rng.addEventListener("input",()=>{
+      setRayLambda0(parseFloat(rng.value));
+      inp.value=fmtLam(rayLambda0);
+    });
     inp.addEventListener("change",()=>{
       const v=parseFloat(inp.value.replace(/[,、\s]/g,""));
       setRayLambda0(isFinite(v)? v : rayLambda0);
-      inp.value=fmt(rayLambda0);
+      inp.value=fmtLam(rayLambda0);
+      rng.value=clamp(rayLambda0,380,780);   // 可視外の直値でもスライダーは可視域端に表示
     });
-    row.appendChild(lab); row.appendChild(inp); disp.appendChild(row);
+    row.appendChild(lab); row.appendChild(rng); row.appendChild(inp);
+    disp.insertBefore(row, raysRow? raysRow.nextSibling : null);
   }
   // v1.23: 描画品質(自動/正確/軽量)。localStorage hp_quality に永続化。ラベルタップで説明
   {
@@ -5744,16 +5812,19 @@ function updateBodyEdit(){
   $("#beTitle").textContent=T("beTitle")+(ab? `(${selWorld})` : "");   // どちらの宇宙かを明示
   $("#beM").value=fmt(S.m[i]); $("#beS").value=fmt(S.spin[i]);
   $("#beMc").value=fmt(S.coreMR[i]); $("#beSc").value=fmt(S.coreSR[i]);
+  // 第38便(原仮定者指示): #beR は実効半径 S.R(radiusScale適用後)を表示するが、書き込み(下の
+  // beBind)は radOv(未スケール)へ入るため、radiusScale≠1 では表示値と入力すべき値が非対称になる
+  // (再度 radiusScale が乗るため)。式粒子(rMul経路)の表示と整合させることを優先し許容する(統括裁定)
   $("#beR").value=fmt(S.R[i]); $("#beRr").value=fmt(S.R[i]>0? S.Rc[i]/S.R[i] : 0);   // 第22便: 半径系(実効値を表示)
   $("#beOt").value=fmt(S.obsT[i]); $("#beOc").value=fmt(S.coreOT[i]);   // 観測温度系
-  // 第36便 C2: 掻出は "auto"(粒子パラメータからの算出モード)を受理。auto の粒子は入力欄に
-  // auto を表示し、隣に現在の実効値 lS_eff を出す(表示のみ・書式は既存の fmt に倣う)
+  // 第36便 C2: 掻出は "auto"(粒子パラメータからの算出モード)を受理。
   // 第37便 A2(原仮定者指示): auto チェックボックスも S.lSwAuto と同期させ、ON中は数値欄を
-  // 読み取り専用にする(入力欄への直接 "auto" 入力は従来どおり併存 — 単一の真実 S.lSwAuto 経由)
-  $("#beSw").value = S.lSwAuto[i]? "auto" : fmt(S.lSw[i]);
+  // 読み取り専用にする(入力欄への直接 "auto" 入力は従来どおり併存 — 単一の真実 S.lSwAuto 経由)。
+  // 第38便(原仮定者指示): auto中も #beSw に文字列"auto"ではなく実効値を表示する(S.lSw は auto
+  // 中も毎ステップ実効値を保持 — 36C設計。実行中は毎フレームの updateBodyEdit 呼び出しで追随する)
+  $("#beSw").value = fmt(S.lSw[i]);
   $("#beSw").readOnly = !!S.lSwAuto[i];
   $("#beSwAuto").checked = !!S.lSwAuto[i];
-  $("#beSwEff").textContent = S.lSwAuto[i]? ("lS_eff="+fmt(S.lSwEff(i))) : "";
   $("#beVx").value=fmt(S.vx[i]); $("#beVy").value=fmt(S.vy[i]);
   $("#bePin").checked=!!S.pinned[i];
 }
@@ -6651,6 +6722,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   selInfo:()=>({selIdx, selWorld}), selSimRef,
   wavelengthColor,  // 第36便 B3(原仮定者指示): 光線の波長色計算のQA用(色関数そのものを公開・重複実装しない)
   rayLambda0:()=>rayLambda0, setRayLambda0,  // 第37便 A3(原仮定者指示): 光線の基準波長λ0のQA用
+  rayBandColor, rayLambda0FromRaw,  // 第38便(原仮定者指示): 可視光外の記号色/既定移行ロジックのQA用
   fieldWDisp,  // 第37便 A4(原仮定者裁定): 決定力マップの表示合成 W_disp=W+Φ_g のQA用
   tick:(frames)=>{ for(let f=0;f<frames;f++){ const k=Math.max(1,Math.round(SUBSTEPS*sim.params.timeScale)); for(let s2=0;s2<Math.min(k,24);s2++) sim.step(DT); } render(); } };
 
