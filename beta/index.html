@@ -2432,6 +2432,13 @@ function makeSim(){
     photons:null, photonLog:null, _phSched:null, _phI:0, photonWarn:false,
     uPx:null,uPy:null,hasU:null, tau:null, ax:null,ay:null, sumW:null,uAx:null,uAy:null, ds:null,
     dpx:null,dpy:null, pairD:null,
+    // 第40便 40A(台帳4-81): E6′ 反作用パス③の倍精度アキュムレータ。③は1サブステップに
+    // O(N²) 回の微小増分を状態配列(Float32Array)へ直接書き込んでいたため、増分が
+    // |値|·2⁻²⁴ を下回ると丸めでそのまま消え、高スピン合成域で保存恒等式が破れていた
+    // (第39便 39B の確定診断・DERIVATIONS §17.9)。対の分配式は一切変えず、加算だけを
+    // Float64 の accVx/accVy/accS に集積してサブステップ末に一括適用する(= 加算順序の
+    // 変更のみ)。存在そのものが「倍精度化済みビルド」の判定子になる('accVx' in HP.sim)
+    accVx:null,accVy:null,accS:null,
     resPx:0,resPy:0,resL:0,radE:0,radL:0,   // リザーバ帳簿(E6′/E11。PHYSICS.md §5)
     // 第37便 C1(台帳4-70): 伝熱作用する箱の帳簿。wallEin/wallEout = 伝熱壁が系へ注入 / 系から
     // 回収した熱の累計、wallKE = 境界反射(反発係数<1)で壁に吸われた運動エネルギーの累計
@@ -2468,6 +2475,8 @@ function makeSim(){
     S.lSwAuto=new Uint8Array(n); S.hasLSwAuto=false;// 第36便 C2: 掻出の自動算出フラグ(既定0=独立指定)
     S.uPx=F();S.uPy=F();S.tau=F();S.ax=F();S.ay=F();S.sumW=F();S.uAx=F();S.uAy=F();S.ds=F();
     S.dpx=F();S.dpy=F();
+    // 第40便 40A(台帳4-81): ③反作用の倍精度アキュムレータ(O(N) の配列3本)
+    S.accVx=new Float64Array(n); S.accVy=new Float64Array(n); S.accS=new Float64Array(n);
     S.pairD=new Float32Array(Math.max(1,n*(n-1)/2)); // 対距離キャッシュ(E6′反作用パスで再利用)
     S.railR=F();S.railAng=F();S.railOmega=F();S.railCx=F();S.railCy=F();S.railH=F();
     S.pinned=new Uint8Array(n); S.hasU=new Uint8Array(n);
@@ -2741,7 +2750,8 @@ function makeSim(){
     // 第12〜14便: m は下限保護(|m|≥0.01)付き別名 mEff を一貫使用(負質量実験の0除算保護。
     // 第14便: 比率仕様 — m は総質量そのもので、コアは m の内訳。運動量・角運動量の恒等式は
     // 全用途一貫なら保存される。coreMR=0(既定)なら従来と厳密等価)
-    const {mEff:m,x,y,vx,vy,spin,R,pinned,ax,ay,sumW,uAx,uAy,ds,dpx,dpy,pairD,coreMR,coreSR,Rc,lSw}=S;
+    const {mEff:m,x,y,vx,vy,spin,R,pinned,ax,ay,sumW,uAx,uAy,ds,dpx,dpy,pairD,coreMR,coreSR,Rc,lSw,
+           accVx,accVy,accS}=S;   // 第40便 40A(台帳4-81): ③反作用の倍精度アキュムレータ
     const hasCore=S.hasCore;
     // 第36便 D(台帳4-51 / A9 改訂): 温度の内部状態変数モード。tint=false(既定)のときは
     // 以下の分岐がすべて偽側へ落ち、現行と1ビットも違わない値が出る(QA tint.zero-cost)
@@ -3202,7 +3212,14 @@ function makeSim(){
     }
     // ===== ③ E6′ 反作用対ループ: φ_ij 分配・残余トルクのスピン移譲・リザーバ帳簿 =====
     // 第35便: anyDp は doPost の中でしか立たないので、leapfrog パスAでは自動的に素通りする
+    // 第40便 40A(台帳4-81): 対ごとの反作用(vx/vy/spin への減算)は Float32 の状態配列へ
+    // 直接書かず、Float64 の accVx/accVy/accS に集積してこのブロックの末尾で一括適用する。
+    // ③のループ内は vx/vy/spin を **一度も読まない**(読むのは m・x・y・dpx/dpy・Imom・pairD・
+    // Warr = このブロック中は不変な量だけ)ので、これは純粋な加算順序の変更であり、
+    // 対分配の式 φ_ij = w_j(r_i)/W(r_i) も残余トルク n_ij/(I_i+I_j) も 1 文字も変えていない。
+    // 目的は 39B が確定させた丸め吸収(増分 < |値|·2⁻²⁴ が消える)の回避 — DERIVATIONS §17.9
     if(kFrame>0 && anyDp){
+      accVx.fill(0,0,n); accVy.fill(0,0,n); accS.fill(0,0,n);   // O(N)(③本体は O(N²))
       // 第39便 39B(台帳4-76): W_j=D₀+W_B+sumW_j と「Δp_j が非零か」の判定は j にしか依らないので
       // O(N²) の内側で作り直さず O(N) で1度だけ作る(値は同じ式・同じ順序なので 1 bit も変わらない)
       let Warr=S._Warr, hasD=S._hasD;
@@ -3229,11 +3246,11 @@ function makeSim(){
             const rpx=phi*dpxi, rpy=phi*dpyi;
             if(pinned[j]){ S.resPx-=rpx; S.resPy-=rpy; S.resL-=xi*rpy-yi*rpx; }
             else{
-              vx[j]-=rpx/m[j]; vy[j]-=rpy/m[j];
+              accVx[j]-=rpx/m[j]; accVy[j]-=rpy/m[j];   // 第40便 40A: 倍精度へ集積(末尾で一括適用)
               const IJ=Ii+Ij;
               if(Math.abs(IJ)>1e-9){                // 第12便: 負質量実験時の0除算保護
                 const dsn=(dx*rpy-dy*rpx)/IJ;       // 残余トルク n_ij を等角加速度で移譲
-                spin[i]-=dsn; spin[j]-=dsn;
+                accS[i]-=dsn; accS[j]-=dsn;
               }
             }
           }
@@ -3242,16 +3259,21 @@ function makeSim(){
             const rpx=phi*dpxj, rpy=phi*dpyj;
             if(pinned[i]){ S.resPx-=rpx; S.resPy-=rpy; S.resL-=x[j]*rpy-y[j]*rpx; }
             else{
-              vx[i]-=rpx/mi; vy[i]-=rpy/mi;
+              accVx[i]-=rpx/mi; accVy[i]-=rpy/mi;   // 第40便 40A: 倍精度へ集積(末尾で一括適用)
               const IJ=Ii+Ij;
               if(Math.abs(IJ)>1e-9){                // 第12便: 負質量実験時の0除算保護
                 const dsn=((x[j]-xi)*rpy-(y[j]-yi)*rpx)/IJ;
-                spin[j]-=dsn; spin[i]-=dsn;
+                accS[j]-=dsn; accS[i]-=dsn;
               }
             }
           }
         }
       }
+      // 第40便 40A(台帳4-81): 集積した反作用を状態配列へ一括適用する。
+      // 対ごとに Float32 へ書くと増分 < |値|·2⁻²⁴ が丸めで消えるが、倍精度で足し切ってから
+      // 1回だけ書けば「消える」のは合計に対してだけになる(高スピン合成域の破れの実体)。
+      // pinned 粒子・E6′ の相手がいない粒子は acc が厳密に 0 のままなので、加算は無作用
+      for(let i=0;i<n;i++){ vx[i]+=accVx[i]; vy[i]+=accVy[i]; spin[i]+=accS[i]; }
       // 背景 D₀+W_B 分は無限慣性リザーバへ移譲(帳簿記録)。UniverseBox は規定運動の
       // 外部コントローラなので、その持ち分の反作用は D₀ と同じくリザーバが引き受ける
       if(bgW>0){

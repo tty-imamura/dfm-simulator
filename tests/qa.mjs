@@ -182,6 +182,13 @@ await page.waitForFunction(() => window.HP && HP.sim);
 // ここで先読みして決める(値は対象の静的な機能有無〔プリセット定義・エンジンAPIの存在〕であり、
 // これまでの QA 実行順でも既に複数回同じ式が再評価されて一致し続けている・後段の各セクションの
 // ガード式自体は変更していない)。
+// 第40便 40A(台帳4-81): E6′ 反作用③を倍精度アキュムレータ化したビルドかどうかの機能判定子。
+// beta 先行(v1.34-b1)で、root=v1.33 リリース版はまだ Float32 直接書き込みのまま。
+// 数値経路が意図的に変わったので、bit 基準を持つテスト(integrator.default-unchanged /
+// sweep.numeric-unchanged / tint.zero-cost)は対象ごとに基準を選ぶ必要がある。
+// 判定は「③の集積先 accVx が sim 状態に存在するか」— hasTint / echoFlipAt と同じ方式
+const hasE6Acc = await page.evaluate(() => 'accVx' in HP.sim);
+
 const w5cHasCoreEng = await page.evaluate(() => !!(window.HP && HP.sim && HP.sim.coreMR));
 const w5cHasIce = await page.evaluate(() =>
   !!(window.HP && HP.allPresets().some(p => p.id === 'saturn' && /実験/.test(p.name || ''))));
@@ -1110,9 +1117,17 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   });
   const hash = crypto.createHash('sha256').update(gh.str).digest('hex');
   // 実装前(第35便 W2 着手時 = ea9c8a2)の実測: n=301 / t=4.800000000000003 / 下記ハッシュ
-  const BASE = '981bbeae6d274997ae2ae5d07f5b8f5297970c4ccf0dc86ac18de3d4d1a1bd6d';
+  // 第40便 40A(台帳4-81): E6′ 反作用③を倍精度アキュムレータ化したビルド(beta v1.34-b1〜)では
+  // **意図的に数値経路を変更した**ため、🪐(kFrame=1 = E6′ 有効)の軌道は bit 一致しえない。
+  // 対象ごとに基準を選ぶ: 旧基準は倍精度化前(= root v1.33 まで)、新基準は 40A 実装後の beta 実測。
+  // 検査している不変条件(既定 integrator="semi" 経路が第35便 W2 以降の変更で動いていないこと)は
+  // 変わらない — 4-81 以外の理由でこのハッシュが動いたら、それは退行として落ちる
+  const BASE = hasE6Acc
+    ? '2a04a2d69e4d7acc14a92b9ef3d5b6f9d8e366b7b292242ccae49faaa005f60f'   // 40A(倍精度化後)実測
+    : '981bbeae6d274997ae2ae5d07f5b8f5297970c4ccf0dc86ac18de3d4d1a1bd6d';  // 倍精度化前(第35便 W2 着手時)
   add('integrator.default-unchanged', gh.n === 301 && hash === BASE,
-    `🪐saturn 300步 位置ハッシュ=${hash.slice(0, 16)}…(基準=${BASE.slice(0, 16)}… bit一致=${hash === BASE}) n=${gh.n}`);
+    `🪐saturn 300步 位置ハッシュ=${hash.slice(0, 16)}…(基準=${BASE.slice(0, 16)}… bit一致=${hash === BASE}) n=${gh.n} ` +
+    `[E6′倍精度化(4-81)=${hasE6Acc}]`);
 }
 
 // ---- 7h1c) 第35便(台帳4-62): Loschmidt echo — 可逆積分器と時間の矢 ----
@@ -1443,7 +1458,7 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   }
 }
 
-// ---- 7h1f) 第39便 39B(台帳4-73): 単精度(Float32)由来の保存恒等式破れ — カナリアペア ----
+// ---- 7h1f) 第39便 39B(台帳4-73)→ 第40便 40A(台帳4-81): 高スピン合成域の保存恒等式 ----
 // 背景(39B の診断・DERIVATIONS §17.9):
 //   状態配列は全て Float32Array なので、E6′ 反作用パス③の
 //     spin[i] -= dsn        (残余トルクの等角加速度移譲)
@@ -1451,12 +1466,21 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
 //   が Δ < |値|·2⁻²⁴ になると丸めで消える。高スピン合成系ではこの吸収だけで |ΔL|/L_scale が
 //   QA 閾値 1e-3 を超える。E6′ の 0.8 飽和クランプは無罪(φ 分配は飽和時も厳密に閉じる。
 //   閉じ残りの実測は相対 1.8e-6 = float32 eps 水準)。第38便 38C §3.5 の原因推定はこれで訂正済み。
-// 検査は「回帰 + カナリア」の対で置く:
-//   (a) 回帰側 … 既定域(S_bh=0.12)では恒等式が閉じ続けること(将来の退行を検出)
-//   (b) カナリア側 … 既知の破れ域(S_bh=4)では**閉じないままであること**を記録として固定する。
-//       精度改善(例: 反作用を倍精度アキュムレータで溜める = 台帳4-81)が入るとこのテストが
-//       反転して落ちる。そのときは「主張禁止レンジが消えた」ので DERIVATIONS §17.9 と
-//       PHYSICS の該当節を更新し、このカナリアを回帰側へ作り替えること。
+//
+// 【第40便 40A でのカナリア反転処理(意味変更の明記)】
+//   39B は「回帰 + カナリア」の対で置いていた:
+//     (a) conservation.float32-range  … 既定域(S_bh=0.12)で恒等式が閉じ続けること(回帰)
+//     (b) conservation.float32-canary … 既知の破れ域(S_bh=4)で **閉じないままであること**
+//         (= 主張禁止レンジが残っていることの記録)を assert するカナリア
+//   台帳4-81 で③の反作用を Float64 アキュムレータへ集積するようにしたため、(b) は設計どおり
+//   反転した(実測 relL: 2.130e-3 → 3.510e-6)。39B のコメントが指示していた手順に従い、
+//   **(b) を回帰側へ作り替える** — 判定の向きを relL>1e-3 から relL<1e-3 へ変える。
+//   これは「同じ量に対する判定の意味を逆にする」変更であり、その根拠は
+//   「主張禁止レンジそのものが 4-81 で撤回された」ことにある(DERIVATIONS §17.9.4/§17.9.6・
+//   PHYSICS.md の保存量モニタ節を同時更新済み)。旧カナリアが守っていた「高スピン域の破れを
+//   見落とさない」という意図は、閾値を既定域と同じ 1e-3 にした回帰検査として引き継がれる。
+//   倍精度化前の対象(root=v1.33 以前)では S_bh=4 は依然 relL>1e-3 なので、判定は
+//   hasE6Acc(4-81 の有無)で切り替える — 旧実装に対しては旧カナリアと同一の assert が残る。
 // 構成は 🕶️darkrotor v6(BH+対向2ローター)の物理・幾何をそのまま写した自己完結プリセットで、
 // 恒星リングだけ 380→60 に縮約してある(内蔵プリセットの将来変更から独立させるため+実行1.3秒/本)。
 // Γ(E6′ が搬送した L の累計/L_scale)は既定域で 5e-3 程度・S_bh=4 域で 0.1 以上 —
@@ -1497,20 +1521,30 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
     };
     return { keep: run(0.12, 8000), canary: run(4, 8000) };
   });
-  // 実測 2026-07-28(8000步・決定論的): beta relL = 5.14e-6(S_bh=0.12)/ 2.13e-3(S_bh=4)、
-  // root relL = 2.49e-5 / 2.05e-3。どちらの対象でも判定は同じ向きに出る(閾値まで 40〜190 倍/2倍)
+  // 実測(8000步・決定論的)。S_bh=0.12 / S_bh=4 の順:
+  //   倍精度化前(39B 実測・v1.33 昇格後の現 root もこの値)= 5.14e-6 / 2.13e-3
+  //   39B 当時の root(v1.32)                              = 2.49e-5 / 2.05e-3
+  //   第40便 40A(台帳4-81)適用後の beta                    = 3.50e-6 / 3.51e-6
   add('conservation.float32-range',
     !f32.keep.err && !f32.keep.nan && f32.keep.relL < 1e-3,
     f32.keep.err ? `プリセット構築NG: ${f32.keep.err}` :
       `回帰側(既定域 S_bh=0.12・n=${f32.keep.n}・8000步): |ΔL|/L_scale=${f32.keep.relL.toExponential(2)} `
-      + `(< 1e-3 — 実測 beta 5.14e-6 / root 2.49e-5。E6′飽和は 0.26% の頻度で発動するが恒等式は閉じる)`);
+      + `(< 1e-3 — 実測 beta(4-81後) 3.50e-6 / 倍精度化前(現 root) 5.14e-6。`
+      + `E6′飽和は 0.26% の頻度で発動するが恒等式は閉じる)`);
+  // 第40便 40A: 旧 conservation.float32-canary を **回帰側へ作り替えた**(上のブロックコメント参照)。
+  // 4-81 適用済みの対象では relL<1e-3 を、未適用の対象(root=v1.33 以前)では旧カナリアと同じ
+  // relL>1e-3 を assert する。ID は履歴の追跡性のため据え置き、detail に現在の意味を書く
   add('conservation.float32-canary',
-    !f32.canary.err && !f32.canary.nan && f32.canary.relL > 1e-3,
+    !f32.canary.err && !f32.canary.nan && (hasE6Acc ? f32.canary.relL < 1e-3 : f32.canary.relL > 1e-3),
     f32.canary.err ? `プリセット構築NG: ${f32.canary.err}` :
-      `カナリア側(高スピン合成域 S_bh=4・n=${f32.canary.n}・8000步): |ΔL|/L_scale=${f32.canary.relL.toExponential(2)} `
-      + `(> 1e-3 = **主張禁止レンジの記録**。float32 丸め吸収による既知の破れで、直っていないことを固定する。 `
-      + `倍精度化(台帳4-81)が入るとここが反転して落ちる → DERIVATIONS §17.9 と PHYSICS を更新し `
-      + `このカナリアを回帰側へ作り替えること)`);
+      hasE6Acc
+        ? `回帰側へ作り替え済み(第40便 40A・台帳4-81 — 旧カナリアの意味を反転): `
+          + `高スピン合成域 S_bh=4・n=${f32.canary.n}・8000步 |ΔL|/L_scale=${f32.canary.relL.toExponential(2)} `
+          + `(< 1e-3 を assert。③反作用の倍精度アキュムレータ化で 2.13e-3 → 3.51e-6 に改善し、`
+          + `§17.9.4 の主張禁止レンジは撤回された。旧カナリアは「破れが直っていないこと」を固定していた)`
+        : `カナリア側(倍精度化 4-81 未適用の対象 = root v1.33 以前): S_bh=4・n=${f32.canary.n}・8000步 `
+          + `|ΔL|/L_scale=${f32.canary.relL.toExponential(2)} (> 1e-3 = float32 丸め吸収による既知の破れ。`
+          + `beta 側は 4-81 適用済みで回帰側へ作り替え済み)`);
 }
 
 // ---- 7h1e) 第35便 W4(台帳4-54): サンプル分類バッジ — beta 先行機能(root=旧版には存在しない)。
@@ -4428,12 +4462,19 @@ if (hasEchoFlipAt) {
     });
     const drHash = crypto.createHash('sha256').update(dr.str).digest('hex');
     // 第39便 39A で v6 へ貼り直し(旧 v5 基準 = 4dee00d8f2db22aa…・n=391)
-    const DR_BASE = 'b9fc553c3fe6569ef48a34a9719abdadc4e046a76f2016471d706d34ee3e836c';
+    // 第40便 40A(台帳4-81): E6′ 反作用③を倍精度アキュムレータ化 = **意図的な数値経路の変更**。
+    // 🕶️は kFrame=1 なので③を通り、軌道は bit 一致しえない。基準を 4-81 実装後の実測へ貼り直した
+    // (同一ページで2回走らせてハッシュ一致=決定論であることを確認済み)。倍精度化前の対象
+    // (root=v1.33 以前)には旧基準を当てる。検査している不変条件(数値指定の掻出は auto 経路に
+    // 入らず lightSweep が動かない・走行が bit 決定論)は変わっていない
+    const DR_BASE = hasE6Acc
+      ? '187585513e1d5c0a041b0aa000751099175cbf45c7828bcc550dec530cdf9af2'   // 40A(倍精度化後)実測
+      : 'b9fc553c3fe6569ef48a34a9719abdadc4e046a76f2016471d706d34ee3e836c';  // 39A v6・倍精度化前
     add('sweep.numeric-unchanged',
       dr.n === 383 && drHash === DR_BASE && dr.auto === false &&
       dr.lS0[0] === 1 && dr.lS0[1] === 1 && dr.lS1[0] === 1 && dr.lS1[1] === 1,
       `🕶️darkrotor 300步 x,y,spinハッシュ=${drHash.slice(0, 16)}…(基準=${DR_BASE.slice(0, 16)}… bit一致=${drHash === DR_BASE}) ` +
-      `auto経路=${dr.auto}(false=ゼロコスト) lightSweep=${dr.lS1.join(',')}(不変)`);
+      `auto経路=${dr.auto}(false=ゼロコスト) lightSweep=${dr.lS1.join(',')}(不変) [E6′倍精度化(4-81)=${hasE6Acc}]`);
 
     await page.evaluate(() => HP.loadPreset('saturn', false));   // 後続項目のため既定プリセットへ戻す
   } else {
@@ -4490,7 +4531,20 @@ if (hasEchoFlipAt) {
     //    「thermal 省略のプリセットは Wave D 実装前と1ビットも変わらない」という当初の証跡は
     //    その5件で維持される(darkrotor の行は以後「v6 の軌道が spin モードのまま決定論で
     //    再現すること」の回帰検査として働く)。
-    const ZC = {
+    //    第40便 40A(台帳4-81): E6′ 反作用③を倍精度アキュムレータ化 = **意図的な数値経路の変更**。
+    //    kFrame>0 の3件(galaxy/saturn/darkrotor)だけ③を通るため bit が変わり、基準を 4-81 実装後の
+    //    実測へ貼り直した。kFrame=0 の3件(counterring/freebox/echo)は③に入らないので基準は
+    //    実装前のまま **1 ビットも変わっていない** — この3件が「4-81 の変更が E6′ 経路の外へ
+    //    漏れていない」ことの機械的な証跡になる(Wave D 実装前からの無変更の証跡もこの3件で継続)。
+    //    倍精度化前の対象(root=v1.33 以前)には旧基準を当てる
+    const ZC = hasE6Acc ? {
+      galaxy: ['2f9f3b381a962df5826c340cfbbec9449707f8c758b94523c23237b3ec909f80', 381],   // 40A で貼り直し
+      saturn: ['d77783f2c321a6c84a457492d869a5d68a35061c82d957d0597a5864e3938fbb', 301],   // 40A で貼り直し
+      darkrotor: ['187585513e1d5c0a041b0aa000751099175cbf45c7828bcc550dec530cdf9af2', 383], // 40A で貼り直し
+      counterring: ['29fb3cab287f4fd0301b3843575b3acf24709e687574a4135f6df135dd687f11', 201], // kFrame=0 = 不変
+      freebox: ['a9fbb51894a298af70dc7350e61f9e8fce32e10abddd2ecdafa989312260bc7d', 72],      // kFrame=0 = 不変
+      echo: ['9e09d365c44a32ebd423d933eab9ea494bfb9a69a46eebd316aaf1bde1dac4d7', 31],        // kFrame=0 = 不変
+    } : {
       galaxy: ['51a8ff116ddd4aee4849a8db61a53d3ab8d9da6df8b3606cc52ed369ca853386', 381],
       saturn: ['6e6ee844cc3cb82b4052885c8d86ccffad44f74c0b44c3da253007e398e1fb87', 301],
       // 第39便 39A で v6 へ貼り直し(旧 v5 基準 = 4dee00d8f2db22aa…・n=391)
