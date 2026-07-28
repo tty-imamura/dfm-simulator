@@ -2420,6 +2420,14 @@ function makeSim(){
     echoX0:null, echoY0:null,
     curveBins:null, curveKep:null, tempLR:[0,0], histT:[],
   };
+  // 第39便 39B(台帳4-76): thermal="spin" のときに _core が掴む tint 系配列のダミー。
+  // S.Tint/dQi/arep/arepD/duT は tint モードでのみ確保され、spin モードでは null になる。
+  // _core の局所変数がサブステップごとに null↔TypedArray と型を変えると、♨️(tint)を一度でも
+  // 通したページでは以後の spin モード全プリセットが 12〜16% 遅くなる(V8 の型フィードバック退化。
+  // 実測: ♨️の直後に 🎯 が 1217→1359ms/60frames。root は ♨️ が spin なのでこの退化が無い —
+  // これが perf ゲートの saturnLayered beta/root 1.10〜1.22 の正体だった)。
+  // 参照はすべて if(tint) の内側なので spin モードでは 1 度も読まれない = 値は 1 bit も変わらない。
+  const __DF32=new Float32Array(1), __DF64=new Float64Array(1);
   S.alloc = function(n){
     S.n=n;
     const F=()=>new Float32Array(n);
@@ -2705,8 +2713,10 @@ function makeSim(){
     const hasCore=S.hasCore;
     // 第36便 D(台帳4-51 / A9 改訂): 温度の内部状態変数モード。tint=false(既定)のときは
     // 以下の分岐がすべて偽側へ落ち、現行と1ビットも違わない値が出る(QA tint.zero-cost)
-    const tint=(S.thermal==="tint"), Tint=S.Tint, dQi=S.dQi, arep=S.arep,
-          arepD=S.arepD, duT=S.duT, cHeat=p.cHeat;
+    // 第39便 39B(台帳4-76): spin モードでは null ではなくダミー TypedArray を掴む(__DF32/__DF64 の
+    // 定義側コメント参照 — 型を一定に保つためだけの措置で、参照はすべて if(tint) の内側)
+    const tint=(S.thermal==="tint"), Tint=tint?S.Tint:__DF32, dQi=tint?S.dQi:__DF64, arep=tint?S.arep:__DF64,
+          arepD=tint?S.arepD:__DF64, duT=tint?S.duT:__DF64, cHeat=p.cHeat;
     const eps=p.softening, eps2=eps*eps, G=p.G, q=p.q, kRep=p.kRep,
           muF=p.muF, gammaN=p.gammaN, kappaS=p.kappaS, D0=p.D0, kFrame=p.kFrame,
           etaRad=p.etaRad, pRad=p.pRad,
@@ -2723,6 +2733,13 @@ function makeSim(){
     if(S._rsUsed!==p.radiusScale ||
        (S.radOv[0]>0 ? Math.abs(R[0]-p.radiusScale*S.radOv[0])>1e-6
                      : Math.abs(R[0]-p.radiusScale*S.rMulv[0]*Math.sqrt(Math.abs(m[0])))>1e-6)) S.updateRadii();
+    // 第39便 39B(台帳4-76): 慣性モーメント I_i=½m_iR_i² を粒子ごとに1回だけ作る(O(N))。
+    // m と R はこのサブステップ中は不変(直上の updateRadii で確定済み)なので、①E9/E10′・
+    // ②A12′/E11・③反作用の「対ごとに 0.5*m*R*R を作り直す」を配列参照に置き換えられる。
+    // 式の並び((0.5*m)*R)*R も同じなので値は 1 bit も変わらない(39B が全プリセットで機械証明)。
+    // O(N²) の内側から乗算を抜くのが目的で、saturn/counterring 系で最も効く
+    let Imom=S._Imom; if(!Imom||Imom.length<n) Imom=S._Imom=new Float64Array(n);
+    for(let i0=0;i0<n;i0++) Imom[i0]=0.5*m[i0]*R[i0]*R[i0];
     ax.fill(0); ay.fill(0); sumW.fill(0); uAx.fill(0); uAy.fill(0); ds.fill(0);
     dpx.fill(0); dpy.fill(0);
     // 第36便 D / 第37便 C2: 熱量の積み上げ(dQi)と U_rep の温度係数(arep)をクリア(tint のみ)
@@ -2913,7 +2930,7 @@ function makeSim(){
             const jt=muF*vs/(3*K);            // Δv_s = −muF·v_s(muF≤1 で無条件安定)
             // v1.5(A12′): すべり散逸の帳簿。変更されるDOF(接線速度成分+スピン)のみの運動エネルギー差を厳密計上
             const vti0=vx[i]*txv+vy[i]*tyv, vtj0=vx[j]*txv+vy[j]*tyv;
-            const Ii9=0.5*mi*Ri*Ri, Ij9=0.5*mj*Rj*Rj;
+            const Ii9=Imom[i], Ij9=Imom[j];   // 第39便 39B: =0.5*mi*Ri*Ri / 0.5*mj*Rj*Rj の事前計算
             const si0=spin[i], sj0=spin[j];
             vx[i]-=jt*invMi*txv; vy[i]-=jt*invMi*tyv;
             vx[j]+=jt*invMj*txv; vy[j]+=jt*invMj*tyv;
@@ -2941,7 +2958,11 @@ function makeSim(){
         // 一切触れない。熱容量重み(C·m)で対称化するので C_i·dT_i = −C_j·dT_j = 熱エネルギー厳密保存、
         // かつ角運動量は「そもそも動かさない」ので自明に厳密保存する(台帳4-50「冷たいのに熱伝導」の解消)。
         // C は両辺の共通因子として相殺するため、伝導レートは cHeat に依存しない
-        if(kappaS>0){
+        // 第39便 39B(台帳4-76): 遠方対を「除算の前」に落とす。g=sumR/(sumR+d)>0 なので
+        // gg>1e-4 ⟺ g>0.01 ⟺ d<99·sumR。d<100·sumR はその上位集合なので、下の gg>1e-4 を
+        // 通る対の集合は一切変わらない(落ちるのは元々 gg≤1e-4 で何もしない対だけ)= 値は不変。
+        // 環系(sumR≈0.5・対距離≈100)で除算1回/対を大半の対から抜ける
+        if(kappaS>0 && d<100*sumR){
           const g=(sumR/(sumR+d)); const gg=g*g;
           if(gg>1e-4){
             if(tint){
@@ -2958,7 +2979,7 @@ function makeSim(){
                 dQi[j]-=qf;
               }
             } else {
-            const Ii=0.5*mi*Ri*Ri, Ij=0.5*mj*Rj*Rj, IJ=Ii+Ij;
+            const Ii=Imom[i], Ij=Imom[j], IJ=Ii+Ij;   // 第39便 39B: I の事前計算を参照
             if(Math.abs(IJ)>1e-9){   // 第12便: 負質量実験時の0除算保護
               const c=kappaS*(sj-si)*gg/IJ;
               ds[i]+=c*Ij;
@@ -3128,14 +3149,14 @@ function makeSim(){
       } else {
       // v1.5(A12′): スピン同期(E10′)の散逸帳簿。適用前後の回転エネルギー差を計上
       if(ds[i]!==0){
-        const IiD=0.5*m[i]*R[i]*R[i], s0D=spin[i];
+        const IiD=Imom[i], s0D=spin[i];   // 第39便 39B: I の事前計算を参照
         spin[i]+=ds[i]*dt;
         S.radE+=0.5*IiD*(s0D*s0D-spin[i]*spin[i]);
       }
       // E11 放射冷却(A12): Λ = η_rad·T^p、T = I·s²。|Δs| ≤ 0.5|s| にクランプ
       if(etaRad>0 && spin[i]!==0 && m[i]>0 && lSw[i]<1){   // 第12便: 負質量(負の慣性)は放射冷却の対象外
         // 第22便: 光掻き出し lightSweep — 光が外に出ないなら放射冷却も (1−lSw) 倍(lSw=1 で無放射)
-        const Ii=0.5*m[i]*R[i]*R[i], s0=spin[i], T=Ii*s0*s0;
+        const Ii=Imom[i], s0=spin[i], T=Ii*s0*s0;   // 第39便 39B: I の事前計算を参照
         let dsC=etaRad*Math.pow(T,pRad)*(1-lSw[i])*dt/(Ii*Math.abs(s0));
         const lim=0.5*Math.abs(s0); if(dsC>lim) dsC=lim;
         const s1=(s0>0)? s0-dsC : s0+dsC;
@@ -3150,20 +3171,27 @@ function makeSim(){
     // ===== ③ E6′ 反作用対ループ: φ_ij 分配・残余トルクのスピン移譲・リザーバ帳簿 =====
     // 第35便: anyDp は doPost の中でしか立たないので、leapfrog パスAでは自動的に素通りする
     if(kFrame>0 && anyDp){
+      // 第39便 39B(台帳4-76): W_j=D₀+W_B+sumW_j と「Δp_j が非零か」の判定は j にしか依らないので
+      // O(N²) の内側で作り直さず O(N) で1度だけ作る(値は同じ式・同じ順序なので 1 bit も変わらない)
+      let Warr=S._Warr, hasD=S._hasD;
+      if(!Warr||Warr.length<n) Warr=S._Warr=new Float64Array(n);
+      if(!hasD||hasD.length<n) hasD=S._hasD=new Uint8Array(n);
+      for(let i0=0;i0<n;i0++){ const W0=bgW+sumW[i0]; Warr[i0]=W0;
+        hasD[i0]=((dpx[i0]!==0||dpy[i0]!==0)&&W0>1e-9)?1:0; }
       let pk2=0;
       for(let i=0;i<n;i++){
         const mi=m[i], xi=x[i], yi=y[i];
-        const Ii=0.5*mi*R[i]*R[i];
-        const Wi=bgW+sumW[i];   // 第31便: 背景持ち分は D₀+W_B(share の分母を E6′ と一致させる)
+        const Ii=Imom[i];
+        const Wi=Warr[i];   // 第31便: 背景持ち分は D₀+W_B(share の分母を E6′ と一致させる)
         const dpxi=dpx[i], dpyi=dpy[i];
-        const hasI=(dpxi!==0||dpyi!==0)&&Wi>1e-9;
+        const hasI=hasD[i]===1;
         for(let j=i+1;j<n;j++,pk2++){
-          const dpxj=dpx[j], dpyj=dpy[j];
-          const Wj=bgW+sumW[j];
-          const hasJ=(dpxj!==0||dpyj!==0)&&Wj>1e-9;
+          const hasJ=hasD[j]===1;
           if(!hasI&&!hasJ) continue;
+          const dpxj=dpx[j], dpyj=dpy[j];
+          const Wj=Warr[j];
           const d=pairD[pk2], dx=xi-x[j], dy=yi-y[j];
-          const Ij=0.5*m[j]*R[j]*R[j];
+          const Ij=Imom[j];
           if(hasI){ // i が受けた Δp_i の反作用をソース j へ(φ_ij = w_j(r_i)/W(r_i))
             const phi=(m[j]/Math.sqrt(d*d+eps2))/Wi;
             const rpx=phi*dpxi, rpy=phi*dpyi;

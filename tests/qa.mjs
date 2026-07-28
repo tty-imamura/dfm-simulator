@@ -1443,6 +1443,76 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   }
 }
 
+// ---- 7h1f) 第39便 39B(台帳4-73): 単精度(Float32)由来の保存恒等式破れ — カナリアペア ----
+// 背景(39B の診断・DERIVATIONS §17.9):
+//   状態配列は全て Float32Array なので、E6′ 反作用パス③の
+//     spin[i] -= dsn        (残余トルクの等角加速度移譲)
+//     vx[j]   -= rpx/m[j]   (ソースへの反作用インパルス)
+//   が Δ < |値|·2⁻²⁴ になると丸めで消える。高スピン合成系ではこの吸収だけで |ΔL|/L_scale が
+//   QA 閾値 1e-3 を超える。E6′ の 0.8 飽和クランプは無罪(φ 分配は飽和時も厳密に閉じる。
+//   閉じ残りの実測は相対 1.8e-6 = float32 eps 水準)。第38便 38C §3.5 の原因推定はこれで訂正済み。
+// 検査は「回帰 + カナリア」の対で置く:
+//   (a) 回帰側 … 既定域(S_bh=0.12)では恒等式が閉じ続けること(将来の退行を検出)
+//   (b) カナリア側 … 既知の破れ域(S_bh=4)では**閉じないままであること**を記録として固定する。
+//       精度改善(例: 反作用を倍精度アキュムレータで溜める = 台帳4-81)が入るとこのテストが
+//       反転して落ちる。そのときは「主張禁止レンジが消えた」ので DERIVATIONS §17.9 と
+//       PHYSICS の該当節を更新し、このカナリアを回帰側へ作り替えること。
+// 構成は 🕶️darkrotor v6(BH+対向2ローター)の物理・幾何をそのまま写した自己完結プリセットで、
+// 恒星リングだけ 380→60 に縮約してある(内蔵プリセットの将来変更から独立させるため+実行1.3秒/本)。
+// Γ(E6′ が搬送した L の累計/L_scale)は既定域で 5e-3 程度・S_bh=4 域で 0.1 以上 —
+// 実測の上界は relL ≲ 0.1·Γ で、これが「主張禁止レンジ」の不変量表現になっている。
+{
+  const f32 = await page.evaluate(() => {
+    const PRE = (spin) => ({
+      id: 'qa_f32', name: 'qa_f32', description: 'QA 用(float32 カナリア)', emoji: '🧪', group: '銀河',
+      camera: { scale: 300 }, world: { boundary: 'none', size: 0 }, seed: 20260726,
+      physics: { G: 1, D0: 2, kFrame: 1, q: 2, kRep: 0.15, muF: 0.02, gammaN: 0.05, kappaS: 0.05, Kt: 60,
+        cLight: 60, bM: 1, etaRad: 0.005, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1,
+        pnAlpha: 1.5, radiusScale: 1, softening: 4, timeScale: 2 },
+      bodies: [
+        { type: 'single', rMul: 2.0, m: 2000, x: 0, y: 0, vx: 0.00114134, vy: -0.00218185, spin,
+          radius: 45, lightSweep: 1, pinned: false },
+        { type: 'single', rMul: 2.0, m: 150, x: 200.0, y: 0.0, vx: -0.0, vy: 3.371251, spin: 2.0,
+          radius: 18, lightSweep: 1, pinned: false },
+        { type: 'single', rMul: 2.0, m: 150, x: -200.0, y: 0.0, vx: 0.0, vy: -3.371251, spin: 2.0,
+          radius: 18, lightSweep: 1, pinned: false },
+        { type: 'ring', rMul: 2.0, n: 60, cx: 0, cy: 0, rIn: 70, rOut: 260, mMin: 0.26, mMax: 0.63,
+          spinMin: 0, spinMax: 0, vMode: 'kepler', aroundMass: 2000, omega: 0, vNoise: 0,
+          direction: 1, pinned: false }
+      ], overlays: {}
+    });
+    // 尺度は tests/qa.mjs:1211-1220(freebox scales)と同一式
+    const lScale = (s) => { let lS = 0;
+      for (let i = 0; i < s.n; i++) lS += Math.abs(s.m[i] * s.x[i] * s.vy[i]) + Math.abs(s.m[i] * s.y[i] * s.vx[i])
+        + 0.5 * s.m[i] * s.R[i] * s.R[i] * Math.abs(s.spin[i]);
+      return lS; };
+    const run = (spin, steps) => {
+      const v = HP.validatePreset(PRE(spin));
+      if (!v.ok) return { err: v.errors.join(' / ') };
+      HP.sim.build(v.preset);
+      const s = HP.sim, t0 = s.totals();
+      for (let k = 0; k < steps; k++) s.step(0.016);
+      const t1 = s.totals();
+      return { n: s.n, relL: Math.abs(t1.L + s.resL + s.radL - t0.L) / lScale(s), nan: s.hasNaN() };
+    };
+    return { keep: run(0.12, 8000), canary: run(4, 8000) };
+  });
+  // 実測 2026-07-28(8000步・決定論的): beta relL = 5.14e-6(S_bh=0.12)/ 2.13e-3(S_bh=4)、
+  // root relL = 2.49e-5 / 2.05e-3。どちらの対象でも判定は同じ向きに出る(閾値まで 40〜190 倍/2倍)
+  add('conservation.float32-range',
+    !f32.keep.err && !f32.keep.nan && f32.keep.relL < 1e-3,
+    f32.keep.err ? `プリセット構築NG: ${f32.keep.err}` :
+      `回帰側(既定域 S_bh=0.12・n=${f32.keep.n}・8000步): |ΔL|/L_scale=${f32.keep.relL.toExponential(2)} `
+      + `(< 1e-3 — 実測 beta 5.14e-6 / root 2.49e-5。E6′飽和は 0.26% の頻度で発動するが恒等式は閉じる)`);
+  add('conservation.float32-canary',
+    !f32.canary.err && !f32.canary.nan && f32.canary.relL > 1e-3,
+    f32.canary.err ? `プリセット構築NG: ${f32.canary.err}` :
+      `カナリア側(高スピン合成域 S_bh=4・n=${f32.canary.n}・8000步): |ΔL|/L_scale=${f32.canary.relL.toExponential(2)} `
+      + `(> 1e-3 = **主張禁止レンジの記録**。float32 丸め吸収による既知の破れで、直っていないことを固定する。 `
+      + `倍精度化(台帳4-81)が入るとここが反転して落ちる → DERIVATIONS §17.9 と PHYSICS を更新し `
+      + `このカナリアを回帰側へ作り替えること)`);
+}
+
 // ---- 7h1e) 第35便 W4(台帳4-54): サンプル分類バッジ — beta 先行機能(root=旧版には存在しない)。
 // ----   hasEcho/hasFreebox と同方式で「機能そのものの有無」をガードにする(対象プリセットの
 // ----   有無ではなく HP.classifyPreset の有無で判定)----
