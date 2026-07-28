@@ -1,14 +1,14 @@
 {
-  "when": "2026-07-27T21:16:49.514Z",
+  "when": "2026-07-28T03:16:09.647Z",
   "threshold": 1.1,
   "reps": 5,
   "frames": 60,
   "results": [
     {
       "id": "galaxy",
-      "rootMs": 2944.6,
-      "betaMs": 2764.3,
-      "ratio": 0.939,
+      "rootMs": 2096.7,
+      "betaMs": 2063.1,
+      "ratio": 0.984,
       "limit": 1.1,
       "stepsPerFrameRoot": 6,
       "stepsPerFrameBeta": 6,
@@ -18,9 +18,9 @@
     },
     {
       "id": "darkrotor",
-      "rootMs": 2024.9,
-      "betaMs": 1992.7,
-      "ratio": 0.984,
+      "rootMs": 1577.7,
+      "betaMs": 1429.2,
+      "ratio": 0.906,
       "limit": 1.3,
       "stepsPerFrameRoot": 4,
       "stepsPerFrameBeta": 4,
@@ -30,9 +30,9 @@
     },
     {
       "id": "merger",
-      "rootMs": 968.9,
-      "betaMs": 941.6,
-      "ratio": 0.972,
+      "rootMs": 786.9,
+      "betaMs": 654.3,
+      "ratio": 0.831,
       "limit": 1.1,
       "stepsPerFrameRoot": 4,
       "stepsPerFrameBeta": 4,
@@ -42,9 +42,9 @@
     },
     {
       "id": "convection",
-      "rootMs": 602.6,
-      "betaMs": 1684.3,
-      "ratio": 2.795,
+      "rootMs": 481.3,
+      "betaMs": 1221.1,
+      "ratio": 2.537,
       "limit": 3,
       "stepsPerFrameRoot": 4,
       "stepsPerFrameBeta": 4,
@@ -54,9 +54,9 @@
     },
     {
       "id": "counterring",
-      "rootMs": 230.3,
-      "betaMs": 246.2,
-      "ratio": 1.069,
+      "rootMs": 162.7,
+      "betaMs": 178.5,
+      "ratio": 1.097,
       "limit": 1.1,
       "stepsPerFrameRoot": 4,
       "stepsPerFrameBeta": 4,
@@ -66,10 +66,10 @@
     },
     {
       "id": "saturnLayered",
-      "rootMs": 1702.6,
-      "betaMs": 1870.4,
-      "ratio": 1.099,
-      "limit": 1.1,
+      "rootMs": 1213.9,
+      "betaMs": 1397.5,
+      "ratio": 1.151,
+      "limit": 1.2,
       "stepsPerFrameRoot": 6,
       "stepsPerFrameBeta": 6,
       "nRoot": 301,
@@ -81,7 +81,7 @@
     {
       "id": "echo",
       "side": "beta",
-      "ms": 16.4,
+      "ms": 14.9,
       "stepsPerFrame": 4,
       "n": 31,
       "note": "root未実装のためbeta単独実測(pass判定なし・6/6ゲート数に含めない)"
@@ -89,7 +89,7 @@
     {
       "id": "freebox",
       "side": "beta",
-      "ms": 70.9,
+      "ms": 53,
       "stepsPerFrame": 4,
       "n": 72,
       "note": "root未実装のためbeta単独実測(pass判定なし・6/6ゲート数に含めない)"

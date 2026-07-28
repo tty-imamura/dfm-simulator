@@ -77,6 +77,12 @@ L17 は tint かつ q>1 で解消(THEORY_SYNTHESIS L17 改稿)②**thermalWalls(
 📦の設計値明記④新サンプル 🕳️rotorSolo(暗さ②③の分離実証)・🌋agnjet・🕸️cosmicweb
 (台帳4-68 — ☀️starcore は定常放射が原理的に不成立のため見送り)⑤4-69(darkrotor ctrl
 判定の帯平均化)。公理は A12″ の新設のみ・既存計算式の力は不変。
+**v1.16: 2026-07-28(第38便 — v1.33 beta 先行)**: ①**用語改称(台帳4-48)**: lightSweep の
+UI表示名「掻出」→「減光」(en: dimming。キー・lS_eff 表記は不変・§5 に旧称注記)②radiusScale が
+明示半径(radius)の粒子にも効く(R_i=radiusScale·radius — §2。既定1で bit 不変)③表示のみ:
+光線の基準波長 λ0 スライダー化(既定580nm)・可視外の記号色(γ/X/紫外/赤外)・平均温度グラフの
+温度色化④検証実験2件(4-67 BH+2ローター安定化・4-68c 収縮スピン加速 — コード変更なし・
+証跡 tests/out/)。公理・計算式の変更なし。
 
 ---
 
