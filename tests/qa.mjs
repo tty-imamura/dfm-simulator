@@ -4197,13 +4197,17 @@ if (hasEchoFlipAt) {
 // ---- 7z) 第36便 Wave B(B1・原仮定者指示): version.beta-label — タイトル下のバージョン表示。
 // ----     BETA_BUILD が beta/sw.js の CACHE 接尾辞と一致(version.sw-sync 0b2 と同型の静的検査)+
 // ----     file:// では isBetaServe() が偽になる仕様を利用し、DOM表示が "v"+APP_VERSION へ
-// ----     フォールバックすることも併せて確認する(対象に BETA_BUILD が無い root 等は SKIP)----
+// ----     フォールバックすることも併せて確認する。
+// ----     第40便 40P(v1.33昇格・統括裁定=案a): ガードを「BETA_BUILD 定数の有無」から
+// ----     「対象が beta 配信版(TARGET が beta/)か」へ変更。昇格で root←beta 全文置換となり
+// ----     root にも死んだ BETA_BUILD 文字列が残る(isBetaServe() が root では常に偽 — 実行時
+// ----     無害)ため、旧ガードでは root が誤って検査対象になる。テストの意図(beta 配信の
+// ----     ラベルと SW 接尾辞の同期)は beta 固有なので、beta 対象時のみ実行する ----
 {
   const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   const bb = (html.match(/const BETA_BUILD\s*=\s*"([^"]+)"/) || [])[1];
-  if (bb) {
-    const swPath = TARGET.startsWith('beta/') ? 'beta/sw.js' : 'sw.js';
-    const sw = fs.readFileSync(path.join(ROOT, swPath), 'utf8');
+  if (bb && TARGET.startsWith('beta/')) {
+    const sw = fs.readFileSync(path.join(ROOT, 'beta/sw.js'), 'utf8');
     const cache = (sw.match(/CACHE = CACHE_PREFIX \+ "([^"]+)"/) || [])[1];
     const av = (html.match(/const APP_VERSION = "([^"]+)"/) || [])[1];
     const domVer = await page.evaluate(() => document.querySelector('#appVer')?.textContent || '');
@@ -4211,7 +4215,7 @@ if (hasEchoFlipAt) {
       `BETA_BUILD=${bb} sw.CACHE接尾辞=${cache}(要一致) DOM表示(file://)=${domVer}(期待=v${av}。` +
       `isBetaServe()がfile://で偽になり"v"+APP_VERSIONへ落ちる仕様を利用した検証)`);
   } else {
-    console.log('SKIP version.beta-label(対象に BETA_BUILD なし — 第36便 B1 未適用の root 等)');
+    console.log('SKIP version.beta-label(beta 配信版のみの検査 — root は isBetaServe() 常偽で対象外・第40便 40P)');
   }
 }
 

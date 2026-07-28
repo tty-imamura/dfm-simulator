@@ -29,13 +29,9 @@ const SAMPLES = ['galaxy', 'darkrotor', 'merger', 'convection', 'counterring', '
 const EXTRA_SAMPLES = ['echo', 'freebox'];
 const THRESH = +(process.env.PERF_THRESH || 1.10);
 // 例: { convection: 1.60 } — 意図的な負荷増を許可する場合のみ
-// 第33便 v5(腕のある銀河 — 恒星380体・意図的な構成変更。探索実測 beta/root=1.086 だが
-// 同一内容でも ±0.09 のノイズ実績(第30便 convection 1.091)があるため余裕を持たせる
-const ALLOW = { darkrotor: 1.30,
-  // 第37便(台帳4-70): ♨️を壁駆動対流へ意図的に再設計(粒子278→300・thermalWalls 結合・
-  // tint の U_rep 厳密解)— root の旧設計との比較は設計差そのもの。実測 2.83(2026-07-27)。
-  // 次期昇格で root にも新設計が入り比≈1へ戻るため、それまでの暫定 ALLOW
-  convection: 3.0 };
+const ALLOW = {};
+// 第40便 40P(v1.33昇格): darkrotor(第33便 v5 由来の暫定 1.30)・convection(第37便4-70
+// 再設計由来の暫定 3.0)の ALLOW は、昇格で root==beta の内容になり比≈1へ戻ったため撤去した。
 // 第38便の暫定 ALLOW `saturnLayered: 1.20` は第39便 39B(台帳4-76)で**撤去**した。
 // 第38便は「beta 先行機能の per-substep 累積オーバーヘッド」と推定していたが、39B の
 // アブレーション実測でそれは誤りと判明した:

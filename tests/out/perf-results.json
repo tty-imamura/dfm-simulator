@@ -1,14 +1,14 @@
 {
-  "when": "2026-07-28T08:55:02.897Z",
+  "when": "2026-07-28T21:25:51.640Z",
   "threshold": 1.1,
   "reps": 5,
   "frames": 60,
   "results": [
     {
       "id": "galaxy",
-      "rootMs": 1985.6,
-      "betaMs": 1990.4,
-      "ratio": 1.002,
+      "rootMs": 2732.3,
+      "betaMs": 2705.6,
+      "ratio": 0.99,
       "limit": 1.1,
       "stepsPerFrameRoot": 6,
       "stepsPerFrameBeta": 6,
@@ -18,21 +18,21 @@
     },
     {
       "id": "darkrotor",
-      "rootMs": 1363.6,
-      "betaMs": 1323.5,
-      "ratio": 0.971,
-      "limit": 1.3,
+      "rootMs": 1881.7,
+      "betaMs": 1922.4,
+      "ratio": 1.022,
+      "limit": 1.1,
       "stepsPerFrameRoot": 4,
       "stepsPerFrameBeta": 4,
-      "nRoot": 391,
+      "nRoot": 383,
       "nBeta": 383,
       "pass": true
     },
     {
       "id": "merger",
-      "rootMs": 658.7,
-      "betaMs": 658.9,
-      "ratio": 1,
+      "rootMs": 935.6,
+      "betaMs": 944.1,
+      "ratio": 1.009,
       "limit": 1.1,
       "stepsPerFrameRoot": 4,
       "stepsPerFrameBeta": 4,
@@ -42,21 +42,21 @@
     },
     {
       "id": "convection",
-      "rootMs": 464.2,
-      "betaMs": 1213.3,
-      "ratio": 2.614,
-      "limit": 3,
+      "rootMs": 1623.9,
+      "betaMs": 1673.2,
+      "ratio": 1.03,
+      "limit": 1.1,
       "stepsPerFrameRoot": 4,
       "stepsPerFrameBeta": 4,
-      "nRoot": 278,
+      "nRoot": 300,
       "nBeta": 300,
       "pass": true
     },
     {
       "id": "counterring",
-      "rootMs": 168.7,
-      "betaMs": 161.1,
-      "ratio": 0.955,
+      "rootMs": 225.6,
+      "betaMs": 234.7,
+      "ratio": 1.04,
       "limit": 1.1,
       "stepsPerFrameRoot": 4,
       "stepsPerFrameBeta": 4,
@@ -66,33 +66,40 @@
     },
     {
       "id": "saturnLayered",
-      "rootMs": 1183.2,
-      "betaMs": 1170.9,
-      "ratio": 0.99,
+      "rootMs": 1744.9,
+      "betaMs": 1683.3,
+      "ratio": 0.965,
       "limit": 1.1,
       "stepsPerFrameRoot": 6,
       "stepsPerFrameBeta": 6,
       "nRoot": 301,
       "nBeta": 301,
       "pass": true
-    }
-  ],
-  "informational": [
+    },
     {
       "id": "echo",
-      "side": "beta",
-      "ms": 12.3,
-      "stepsPerFrame": 4,
-      "n": 31,
-      "note": "root未実装のためbeta単独実測(pass判定なし・6/6ゲート数に含めない)"
+      "rootMs": 16.2,
+      "betaMs": 16,
+      "ratio": 0.988,
+      "limit": 1.1,
+      "stepsPerFrameRoot": 4,
+      "stepsPerFrameBeta": 4,
+      "nRoot": 31,
+      "nBeta": 31,
+      "pass": true
     },
     {
       "id": "freebox",
-      "side": "beta",
-      "ms": 46.8,
-      "stepsPerFrame": 4,
-      "n": 72,
-      "note": "root未実装のためbeta単独実測(pass判定なし・6/6ゲート数に含めない)"
+      "rootMs": 66,
+      "betaMs": 63,
+      "ratio": 0.955,
+      "limit": 1.1,
+      "stepsPerFrameRoot": 4,
+      "stepsPerFrameBeta": 4,
+      "nRoot": 72,
+      "nBeta": 72,
+      "pass": true
     }
-  ]
+  ],
+  "informational": []
 }
