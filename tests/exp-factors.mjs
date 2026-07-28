@@ -111,11 +111,21 @@ const SAMPLES = {
     }, override),
   },
 
+  // 第39便 39A(台帳4-72): 🕶️ が v6(中心BH+対向2ローター)へ改訂された。本計測の前提
+  // (loadPreset で既定物理のまま読み → sim.params にチャネル上書き → 6000步 → 後半平均の4帯平均)は
+  // ローター体数に依存しない(NH はプリセット定義から動的に数えている)ので、そのまま成立する。
+  // baseline 実測値の更新(beta・seed 20260726・6000步):
+  //   v6: baseline 0.5602(帯 0.583/0.680/0.546/0.431)/ kFrame=0 0.3849(比 0.687)/
+  //       kRep=0 0.1837(0.328)/ muF=0 0.5674(1.013)/ kappaS=0 0.6015(1.074)/
+  //       etaRad=0 0.5654(1.009)/ D0=0 0.4748(0.848)。NaN・発散はいずれも無し
+  //   v5(旧10体・第37便): baseline 比で kFrame=0 が 0.89・kRep=0 が 0.54 だった
+  //   (🕶️ の説明文の「複合経路」の数値はこの baseline 比を出典にしている)
   darkrotor: {
     presetId: 'darkrotor',
     metricNote: '腕A2の4帯平均(behavior.darkrotorLong と同式の on.A2 を平均。tests/qa.mjs:388-433 の ' +
       'W5C_UNITS.darkrotorLong から run(false)〔スピンあり本体側〕だけを転記 — 対照 run(true) は本計測' +
-      'では省略〔要因分離の対象は物理チャネルであり、スピン有無の対照はここでの主指標ではない〕)',
+      'では省略〔要因分離の対象は物理チャネルであり、スピン有無の対照はここでの主指標ではない〕)。' +
+      '第39便 39A: 🕶️ v6(対向2ローター)で再測定 — baseline 0.5602 / kFrame=0 比 0.687 / kRep=0 比 0.328',
     steps: 6000,
     async checkApplicable(page) {
       const hasPreset = await page.evaluate(() => HP.allPresets().some(p => p.id === 'darkrotor'));

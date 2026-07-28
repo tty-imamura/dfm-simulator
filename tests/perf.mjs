@@ -14,6 +14,13 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_DIR = path.join(ROOT, 'tests', 'out');
+// 第39便 39B(台帳4-76): SAMPLES の並びは**変えない**。この順序自体が計測条件の一部である。
+// 同一プロセス・同一ページで順に測るため、♨️convection(beta では thermal="tint")を通した後は
+// 以後の spin モードのサンプルが JIT の型フィードバック退化を引きずる。root の ♨️ は spin
+// モードなのでこの退化が起きず、退化分がまるごと beta/root 比に乗る計測アーティファクトだった
+// (39B 実測: ♨️の直後に 🎯 が 1217→1359ms/60frames = +11.7%、♨️を順から抜くと beta/root=1.000)。
+// 実機のユーザーも「♨️を見た後で🪐/🎯が重い」という同じ経路を踏むので、順序は実使用の模擬として
+// 維持し、退化しないコードにする方で解いた(39B が beta 側で解消 — I の事前計算+tint 配列の単型化)。
 const SAMPLES = ['galaxy', 'darkrotor', 'merger', 'convection', 'counterring', 'saturnLayered'];
 // 第36便 Wave A(P2-2・ChatGPT差分検証レビュー): echo/freebox(第35便で追加)をベンチ対象へ。
 // root(旧版)にはまだ存在しないため feature-detect し、片側にしかプリセットが無い場合は
@@ -28,12 +35,17 @@ const ALLOW = { darkrotor: 1.30,
   // 第37便(台帳4-70): ♨️を壁駆動対流へ意図的に再設計(粒子278→300・thermalWalls 結合・
   // tint の U_rep 厳密解)— root の旧設計との比較は設計差そのもの。実測 2.83(2026-07-27)。
   // 次期昇格で root にも新設計が入り比≈1へ戻るため、それまでの暫定 ALLOW
-  convection: 3.0,
-  // 第38便: saturnLayered は beta 先行機能の累積オーバーヘッドで環境により 1.10 を跨ぐ
-  // (第37便最終 1.099 → 本便 1.105/1.148。38A適用前の 80f6919 でも 1.161 と worktree で
-  // 機械証明 — 本便の退行ではない)。n=301×steps/frame=6 で per-substep 追加コストが最も
-  // 効くサンプル。昇格で root に同機能が入り比≈1へ戻るまでの暫定 ALLOW(台帳4-76 で精査)
-  saturnLayered: 1.20 };
+  convection: 3.0 };
+// 第38便の暫定 ALLOW `saturnLayered: 1.20` は第39便 39B(台帳4-76)で**撤去**した。
+// 第38便は「beta 先行機能の per-substep 累積オーバーヘッド」と推定していたが、39B の
+// アブレーション実測でそれは誤りと判明した:
+//   ・清浄なページで測ると beta/root は 1.00 前後(実作業量の差は 3〜5%)
+//   ・1.10〜1.22 の大半は上の SAMPLES 順に起因する JIT 退化(♨️→🎯 の順序依存)
+//   ・真の重さは構成そのもの(n=301 × steps/frame=6 = 27.1万対評価/フレーム)で、
+//     内訳は ① 全対ループ 56% + ③ E6′反作用の全対ループ 43%、描画は物理の 6% にすぎない
+// 39B の bit 同一最適化(I=½mR² の事前計算・E10′ の遠方対足切り・③の W_j/hasJ 巻き上げ・
+// tint 系配列の単型化)を適用した結果、3回連続で saturnLayered 0.997/1.013/1.013、
+// counterring も 1.126(FAIL)→ 0.999/1.002/0.974 へ回復したため、既定 THRESH 1.10 へ戻す。
 const REPS = 5, FRAMES = 60, WARMUP_FRAMES = 20;
 
 async function getBrowser() {
