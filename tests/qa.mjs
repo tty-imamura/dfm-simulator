@@ -683,10 +683,12 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
     return res;
   });
   add('new.gclock', r.gErr < 1e-3 && r.gOrder, `err=${r.gErr.toExponential(1)}`);
-  // 実測(beta 2026-07-27・tint): 比=14.7 / 15.6(理論16。ずれは Float32 の T_int に対する
+  // 実測(beta 2026-07-27・tint・旧etaRad=1e-5): 比=14.7 / 15.6(理論16。ずれは Float32 の T_int に対する
   // 200步のΔT が小さい〔1.4e-4〕ことによる量子化残差)。閾値は理論16に対し ±40%。
   // root(spin モード)でも同じ量(観測温度の減り)を測れば 15.9 / 15.5 で同じ閾値を通る
   // — 旧判定の「比8」はスピンの減り Δs∝s³ を見ていたためで、温度で見た法則は両モード共通
+  // 第39便(原仮定者指示 C1)再較正: etaRad 1e-5→1.6e-3(冷却が遅すぎて「動かない」表示だった
+  // 問題の是正)後も実測(beta 2026-07-28)は比=15.8 / 15.1 で同じ帯〔10,22〕を通過。閾値は不変
   add('new.coolrace', r.cR21 > 10 && r.cR21 < 22 && r.cR32 > 10 && r.cR32 < 22 && r.cDrift < 1e-6,
     `ratio=${r.cR21.toFixed(1)}/${r.cR32.toFixed(1)} (理論16 = T²則・p=2) drift=${r.cDrift}`);
   add('new.counterring', !r.rNaN && r.rHot > 0.3 && r.rCold < 0.05, `muF1=${r.rHot.toFixed(2)} muF0=${r.rCold.toFixed(3)}`);
@@ -1576,14 +1578,17 @@ if (hasBadgeClassify) {
     return { Th0: T(0), dT0, mid, Thf: T(0), T17f: T(17), nan: s.hasNaN() };
   });
   const dTf = cd.Thf - cd.T17f;
-  // 実測(beta 2026-07-27・tint): 加熱端 T_obs=64(不変)。4000步時点で近接(dist9)T1=42.81 >
-  // 中位(dist81)T9=24.97 > 遠端(dist153)T17=20.38(距離依存)。ΔT(加熱端−遠端)は初期64 →
-  // 20000步後6.08(比0.0951)。閾値0.35は実測の約3.7倍上(旧 spin 実測は 737.28 / 比0.181)
+  // 第39便(原仮定者指示 C2)再較正: kappaS 1.5→0.3(伝導が速すぎて実時間10秒で列全体が
+  // ほぼ均一化していた問題の是正)に伴い、同一の生ステップ数(20000步)で見た拡散の進み方が
+  // 約1/5遅くなったため、閾値のみ実測に合わせて更新(判定の向き・ステップ数・主張は不変)。
+  // 実測(beta 2026-07-28・tint・kappaS=0.3): 加熱端 T_obs=64(不変)。4000步時点で近接(dist9)
+  // T1=27.82 > 中位(dist81)T9=4.88 > 遠端(dist153)T17=2.28(距離依存は維持)。
+  // ΔT(加熱端−遠端)は初期64 → 20000步後43.62(比0.682)。閾値0.75は実測の約1.10倍上
   add('behavior.conduction',
-    !cd.nan && cd.Th0 === cd.Thf && cd.mid.T1 > cd.mid.T9 && cd.mid.T9 > cd.mid.T17 && dTf / cd.dT0 < 0.35,
+    !cd.nan && cd.Th0 === cd.Thf && cd.mid.T1 > cd.mid.T9 && cd.mid.T9 > cd.mid.T17 && dTf / cd.dT0 < 0.75,
     `加熱端T=${cd.Th0.toFixed(1)}(不変) 中間(4000步) 近接T1=${cd.mid.T1.toFixed(1)} > 中位T9=${cd.mid.T9.toFixed(1)} `
     + `> 遠端T17=${cd.mid.T17.toFixed(1)}(距離依存) / ΔT 初期=${cd.dT0.toFixed(1)} → 20000步後=${dTf.toFixed(1)}`
-    + `(比=${(dTf / cd.dT0).toFixed(3)} < 0.35 — 実測0.181)`);
+    + `(比=${(dTf / cd.dT0).toFixed(3)} < 0.75 — 実測0.682。第39便 kappaS 1.5→0.3 再較正)`);
 }
 
 {
