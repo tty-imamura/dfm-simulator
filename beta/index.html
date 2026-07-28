@@ -1338,43 +1338,50 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:true,tempHistogram:false,field:true,trail:false,monitor:false} },
 
 { id:"darkrotor", name:"ダークローターの銀河", emoji:"🕶️", group:"銀河",
-  // 第33便 X4(台帳4-65b)v5: 「腕のある銀河」へ更新。v4(全粒子自由の閉鎖系)を土台に、
-  // ①ローター10体のうち対向2体(x=±200)だけスピン 0.15→2.0(質量150・半径18・r=200等間隔配置は
-  //   完全に軸対称のまま — m=2 をつくるのはスピンだけ。対照=全ローター spin0 は厳密な軸対称系)
-  // ②kRep 1→0.15(E5′斥力 a_rep=kRep·ω²·d が強スピン下で円盤を吹き飛ばす律速だった。
-  //   kRep=1 では d≈100 で a_rep 0.11 > BH重力 0.089 → 恒星保持93.7%・rotDev141%)
-  // ③etaRad 0→0.005(E11放射冷却 Λ∝T⁴・T=I·s² — s が大きいときだけ効く上限装置。
-  //   lightSweep=1 のローター/BH は対象外なので恒星のスピン暴走だけを抑える)
-  // ④radiusScale 1.5→2.0(恒星の I=½mR²・R=radiusScale·√m なので I∝radiusScale²·m²。
-  //   E6′反作用の残余トルクによる汲み上げを抑制。2.5 まで上げると E9 接触で内側が塊化し対照が汚れる)
-  // 恒星は disk(200体)→ ring(380体・内穴 r=70)へ置換(総質量は 170→169 とほぼ同じ・n=391)。
-  // ローター初速 3.9169 は E6′ 込みの実効求心力を短時間走行から実測較正した値。
-  // **同半径のローターは1グループとして共通補正**を掛ける(個別補正だと対称性ノイズが増幅されリングが壊れる)。
-  // BH の vx/vy は総運動量ゼロ化の補正(実測 |P₀|=0.0037)。
-  // 実測(seed 20260726・6000步): 環帯[80,120][120,160][160,200][200,240]の m=2 振幅 A2(後半平均)=
-  // 0.509/0.587/0.301/0.442(対照 spin0 = 0.069/0.068/0.042/0.094)・NaNなし・恒星保持380/380・
-  // 全期間 max|spin| 2.92・ローター半径偏差 17.2%。用量反応: spin 0→1→2→3 で A2 が単調増加。
-  // 有効窓は 6000步(t≈96)まで — 12000步では対照側にも円盤自身の重力不安定で m=2 が育ち分離が甘くなる。
-  description:"銀河中心のブラックホール(m=2000・減光1)と、r=200の軸対称リングに並ぶ10個のダークローター、その間を回る380個の恒星 — 全粒子が自由(ピン・レール無し)の閉鎖系。対向2個のローターだけスピンを2.0に上げると(質量・半径・配置は完全対称のまま)、その空間引きずり(A8/E6′)が恒星円盤にm=2の渦状腕を立てる — 後行螺旋・ピッチ角≈24°。スピンを0にした対照では腕が消え、スピン0→1→2→3で腕振幅が単調に増える(用量反応 — 腕の主因はローターのスピン)。有効窓はt≈96(6000步)まで — その先はハロー軌道が緩やかに分散する有限時間デモ。kRepは0.15に弱めてある(E5′斥力が腕形成の律速 — 本サンプルでE5′の主張はしない)。腕の増強は複合経路 — 引きずり(E6′)を切っても(kFrame=0)腕振幅の約89%が残り、スピン斥力を切る(kRep=0)と約54%へ低下する(要因分離実測・4-53)。おすすめA/B: ローターのスピンを0にすると腕が消える。※実宇宙のダークマターや渦状腕理論の主張ではない(T4の防御線を維持)。",
-  en:{name:"Dark-Rotor Galaxy", description:"A black hole at the galactic center (m=2000, dimming=1), ten dark rotors set on an axisymmetric ring at r=200, and 380 stars orbiting between them — a closed system in which every particle is free (no pins, no rails). Raise the spin of just two opposing rotors to 2.0 — leaving mass, radius and placement perfectly symmetric — and their dragging of space (A8/E6′) raises m=2 spiral arms in the stellar disk: a trailing spiral with a pitch angle of about 24°. In the control run with those spins set to 0 the arms vanish, and the arm amplitude grows monotonically as the spin goes 0→1→2→3 (a dose response — the arms are driven by the rotors' spin). The valid window runs to t≈96 (6000 steps); beyond that the halo orbits slowly disperse, so this is a finite-time demo. kRep has been lowered to 0.15 (the E5′ repulsion is the rate-limiting step for arm formation — this sample makes no claim about E5′). The arm enhancement runs through a composite pathway: turning off dragging (kFrame=0) still leaves about 89% of the arm amplitude, while turning off spin repulsion (kRep=0) drops it to about 54% (factor-separation measurement, 4-53). Suggested A/B: set the rotors' spin to 0 and the arms disappear. Not a claim about real dark matter or about spiral-arm theory (T4 disclaimer upheld)."},
+  // 第39便 39A(台帳4-72)v6: ローター10体 → **対向2体のみ**へ。第38便 38C(台帳4-67)の実験で
+  // 「中心BH+ダークローター2つ」が恒星をはるかに安定に保つことが出たための再設計(統括採択=提案A・V1a)。
+  // v5 からの変更は3点だけ:
+  // ①ローター10体 → 対向2体(x=±200・m150・R18・spin2.0)。ハロー総質量 1500→300。
+  // ②ローター周速 3.9169 → 3.371251(8体を抜くと実効求心力が変わるため再較正。判定量は v5 と同じ
+  //   「6000步後のローター半径が初期値200に戻る」条件・セカント法。実測 r(6000步)=199.93)
+  // ③BH の vx/vy を総運動量ゼロ化で解き直した(2パス法: BH の v を 0 にして build → ΣP を測り
+  //   Δv=−ΣP/m_BH で再 build。厳密解 1.141335345e-3 / −2.181849550e-3 を8桁に丸めて内蔵 —
+  //   残差 |P₀|=9.35e-6。v5 は 0.0037)
+  // 中心BH(m2000・spin0.12・radius45・lightSweep1・自由)・恒星リング380体(aroundMass2000)・
+  // 物理パラメータ・seed は v5 のまま不変。粒子数 391→383。
+  // v5 由来で不変の設計理由: kRep 1→0.15(E5′斥力 a_rep=kRep·ω²·d が強スピン下で円盤を吹き飛ばす
+  //   律速だった)/ etaRad 0→0.005(E11放射冷却 — 恒星のスピン暴走の上限装置。lightSweep=1 の
+  //   ローター/BH は対象外)/ rMul 2.0(恒星の I∝rMul²·m² を上げて E6′残余トルクの汲み上げを抑制)。
+  // **v5 から失われた性質(重要)**: v5 の10体等間隔リングは m<10 に対して軸対称だったので
+  // 「m=2 をつくるのはスピンだけ・対照(全スピン0)は厳密な軸対称系」と言えた。v6 の対向2体は
+  // 180°回転対称 = **m=2 の質量四重極そのもの**なので、対照にも配置由来の m=2 が残る
+  // (実測 帯平均 0.156。v5 の対照は 0.0715)。スピン起因分の分離は用量反応で示す。
+  // **有効窓は2本立て**: 恒星の安定は 24000步(t≈384)まで/腕(m=2)の分離は 6000步(t≈96)まで。
+  // 実測(seed 20260726・内蔵値そのもの・tests/exp-4-72.mjs):
+  //  ・6000步: 環帯[80,120][120,160][160,200][200,240]の A2(後半平均)=0.583/0.680/0.546/0.431
+  //    (帯平均 0.560)/ 対照(BH+全ローター spin0)=0.158/0.204/0.121/0.141(帯平均 0.156)= 3.6倍。
+  //    恒星保持 380/380・ローター半径偏差 4.46%・全期間 max|spin| 4.640(index185 の恒星。
+  //    ローター自身は 2.0→1.58・BH は 0.120→0.131)・後行螺旋のピッチ角 26°(7/7点が後行)
+  //  ・12000步: 対照の帯平均が 0.382(N=23/80/87/73・ノイズ床0.099)まで育ち比が 1.47 に落ちる
+  //  ・24000步: 恒星保持 87.9%(r<400)/90.0%(r<500)・σ_r ドリフト(12000→24000)+9.33
+  //    (v5 は +41.64)・|ΔL|/L_scale ≤ 6.91e-5・NaNなし。ただし帯の人数が 3/6/6/12 まで落ちるので
+  //    この時点の A2 は統計的に無意味(ノイズ床と同オーダー)
+  //  ・用量反応(6000步窓・A2帯平均): spin 0→0.186 / 1→0.209 / 2→0.560 / 3→0.707 = 単調増加
+  //  ・要因分離(台帳4-53 再測定・6000步): kFrame=0 で 0.385(baseline比 0.687)/ kRep=0 で 0.184(0.328)
+  // 注: 24000步の状態は 1e-9 レベルの初期摂動に敏感(BH速度を丸めない厳密解にすると保持率
+  //   88.95%・rotDev 6.61%)。QA は 6000步の量だけで組んでいる。
+  description:"銀河中心のブラックホール(m=2000・減光1)と、x=±200に向かい合う2個のダークローター(m=150・半径18・スピン2.0)、その間を回る380個の恒星 — 全粒子が自由(ピン・レール無し)の閉鎖系。ローターの空間引きずり(A8/E6′)が恒星円盤にm=2の渦状腕を立てる — 後行螺旋・ピッチ角≈26°(実測、6000步窓の中央値・7/7点が後行)。有効窓は2本立て: 恒星の安定はt≈384(24000步)まで(保持87.9%・半径分散のドリフトは10体構成の約1/4.5)、腕の分離が言えるのはt≈96(6000步)まで。腕振幅A2(環帯[80,120][120,160][160,200][200,240]の後半平均)=0.583/0.680/0.546/0.431、帯平均0.560。※重要な限定: 対向2個という配置そのものがm=2の質量四重極なので、スピンを0にした対照にも配置由来の腕が残る(帯平均0.156)— この構成の対照は「厳密な軸対称系」ではない。スピンを入れると0.560=3.6倍に増強され、スピン0→1→2→3で帯平均が0.186→0.209→0.560→0.707と単調に増える(用量反応)— この単調増加がスピン起因の分を分離する根拠。12000步では対照側にも円盤自身の重力不安定で本物のm=2が育って比が1.47に落ち、24000步では環帯の人数が3〜12まで減って腕の統計そのものが成立しなくなる(だから腕の窓は6000步)。kRepは0.15に弱めてある(E5′斥力が腕形成の律速 — 本サンプルでE5′の主張はしない)。腕の増強は複合経路 — 引きずり(E6′)を切っても(kFrame=0)腕振幅の約69%が残り、スピン斥力を切る(kRep=0)と約33%へ低下する(要因分離実測・4-53を新構成で再測定)。おすすめA/B: ローターのスピンを0にすると、増強分が消えて配置由来の弱い腕だけが残る。※実宇宙のダークマターや渦状腕理論の主張ではない(T4の防御線を維持)。",
+  en:{name:"Dark-Rotor Galaxy", description:"A black hole at the galactic center (m=2000, dimming=1), two dark rotors facing each other at x=±200 (m=150, radius 18, spin 2.0), and 380 stars orbiting between them — a closed system in which every particle is free (no pins, no rails). The rotors' dragging of space (A8/E6′) raises m=2 spiral arms in the stellar disk: a trailing spiral with a measured pitch angle of about 26° (median over the 6000-step window; 7 of 7 samples trailing). There are two valid windows: the stars stay stable out to t≈384 (24000 steps, 87.9% retained, with about 1/4.5 the radial-dispersion drift of the old ten-rotor build), but the arm separation only holds to t≈96 (6000 steps). Arm amplitude A2 (late-half mean over the annuli [80,120][120,160][160,200][200,240]) = 0.583/0.680/0.546/0.431, band mean 0.560. Important limitation: two opposing bodies ARE an m=2 mass quadrupole, so the spin-0 control keeps an arm that comes from the placement itself (band mean 0.156) — this control is not a strictly axisymmetric system. Switching the spin on raises it to 0.560, a factor of 3.6, and the band mean grows monotonically with spin 0→1→2→3 as 0.186→0.209→0.560→0.707 (dose response) — that monotonic rise is what isolates the spin-driven part. By 12000 steps the control grows a genuine m=2 of its own from the disk's self-gravity and the ratio falls to 1.47; by 24000 steps only 3–12 stars remain in each annulus, so the arm statistic no longer means anything (hence the 6000-step arm window). kRep has been lowered to 0.15 (the E5′ repulsion is the rate-limiting step for arm formation — this sample makes no claim about E5′). The arm enhancement runs through a composite pathway: turning off dragging (kFrame=0) still leaves about 69% of the arm amplitude, while turning off spin repulsion (kRep=0) drops it to about 33% (factor-separation measurement 4-53, re-measured for this build). Suggested A/B: set the rotors' spin to 0 — the enhancement disappears and only the weak placement-driven arm is left. Not a claim about real dark matter or about spiral-arm theory (T4 disclaimer upheld)."},
   activeParams:["kFrame","D0","q"],
   camera:{scale:300}, world:{boundary:"none",size:0}, seed:20260726,
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:0.15, muF:0.02, gammaN:0.05, kappaS:0.05, Kt:60,
     cLight:60, bM:1, etaRad:0.005, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 2.0 は各 body の rMul へ焼込(第36便 C1)*/, softening:4, timeScale:2},
   bodies:[
-    // 中心ブラックホール(自由・単層・光を出さない lightSweep:1。vx/vy は総運動量ゼロ化の補正)
-    {type:"single", rMul:2.0, m:2000, x:0,y:0, vx:0.00166, vy:-0.00435, spin:0.12, radius:45, lightSweep:1, pinned:false},
-    // ダークローター×10(自由・単層・r=200 の等間隔リング。対向2体=x±200 のみ spin 2.0)
-    {type:"single", rMul:2.0, m:150, x:200.0,y:0.0, vx:-0.0,vy:3.9169, spin:2.0, radius:18, lightSweep:1, pinned:false},
-    {type:"single", rMul:2.0, m:150, x:161.8034,y:117.5571, vx:-2.302292,vy:3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
-    {type:"single", rMul:2.0, m:150, x:61.8034,y:190.2113, vx:-3.724583,vy:1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
-    {type:"single", rMul:2.0, m:150, x:-61.8034,y:190.2113, vx:-3.724583,vy:-1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
-    {type:"single", rMul:2.0, m:150, x:-161.8034,y:117.5571, vx:-2.302292,vy:-3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
-    {type:"single", rMul:2.0, m:150, x:-200.0,y:0.0, vx:0.0,vy:-3.9169, spin:2.0, radius:18, lightSweep:1, pinned:false},
-    {type:"single", rMul:2.0, m:150, x:-161.8034,y:-117.5571, vx:2.302292,vy:-3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
-    {type:"single", rMul:2.0, m:150, x:-61.8034,y:-190.2113, vx:3.724583,vy:-1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
-    {type:"single", rMul:2.0, m:150, x:61.8034,y:-190.2113, vx:3.724583,vy:1.210252, spin:0.15, radius:18, lightSweep:1, pinned:false},
-    {type:"single", rMul:2.0, m:150, x:161.8034,y:-117.5571, vx:2.302292,vy:3.168759, spin:0.15, radius:18, lightSweep:1, pinned:false},
+    // 中心ブラックホール(自由・単層・光を出さない lightSweep:1。vx/vy は総運動量ゼロ化の2パス解)
+    {type:"single", rMul:2.0, m:2000, x:0,y:0, vx:0.00114134, vy:-0.00218185, spin:0.12, radius:45, lightSweep:1, pinned:false},
+    // ダークローター×2(自由・単層・x=±200 で向かい合う。両方 spin 2.0。周速は再較正値 3.371251)
+    {type:"single", rMul:2.0, m:150, x:200.0,y:0.0, vx:-0.0,vy:3.371251, spin:2.0, radius:18, lightSweep:1, pinned:false},
+    {type:"single", rMul:2.0, m:150, x:-200.0,y:0.0, vx:0.0,vy:-3.371251, spin:2.0, radius:18, lightSweep:1, pinned:false},
     // 恒星リング(自由・kepler 初速・内穴 r=70 は BH 影響圏)
     {type:"ring", rMul:2.0, n:380, cx:0,cy:0, rIn:70, rOut:260, mMin:0.26,mMax:0.63,
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2000, omega:0, vNoise:0, direction:1, pinned:false}
@@ -1852,6 +1859,48 @@ const BUILTIN_PRESETS = [
      spinMin:0,spinMax:0, tInt:0.01, vScale:0.05}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"} },
+
+// 第39便 39A(台帳4-74・第38便 38C の実験2 = 台帳4-68c を土台に): 収縮とスピン加速。
+// 外部駆動が一切ない完全閉鎖系(kFrame=0・箱なし・ピンなし・一様重力なし)で、自己重力だけで
+// 縮む雲の内側半質量(コア)が ω ∝ 1/R² に沿って速く回るところを見せる。
+// 構成は 38C の E2 系列そのもの: disk n=240・半径150・m=1(均一)・rMul3(R_i=3)・tInt=2・
+//   vMode:"rigid"(v=vScale·r = 剛体回転 ω0=0.00675)・G4・**kRep=0**(圧力を切る)・etaRad=3e-3。
+// **設計上の最重要事項(説明文の防御線と対応)**: kRep=0 では T_int が力に入る経路(E5′)が無いので、
+//   温度は受動的なトレーサになる。実測(tests/exp-4-74.mjs)で etaRad を 3e-3→0 にしても
+//   49チェックポイント×17の力学量が**すべて完全一致(最大相対差 0)**し、変わるのは T_mean
+//   0.341→49.04 と radE 2337.8→0 だけだった。よって「冷却が収縮を駆動する」とは書かない —
+//   既定の収縮は自己重力の自由落下で、冷却(E11)は解放された重力エネルギーの行き先の記録。
+//   おすすめ A/B は kRep 0⇄1(圧力を入れると収縮が遅くなる)にしてある。
+// 実測(seed 20260728・内蔵値そのもの・24000步。指標はすべて重心系):
+//  ・R_core(内側半質量の √(I/M))76.25 → 24.92 = **3.059倍の収縮**。R_half 107.45→35.20
+//  ・ω_core 6.745e-3 → 5.735e-2 = **×8.502** 対 予測 (R₀/R)²=×9.360 → **一致 90.8%**(ずれ −9.2%)
+//    ずれは恒等的に「コアが失った軌道角運動量の割合」に一致する(L_c/L_c0=0.9083)
+//  ・底は 5000步で最小値の1.05倍以内に入り、6000步以降 R_core 24.89〜25.26 で平坦
+//  ・**系全体では逆に ω_eff が下がる(×0.275)**: 質量の約4%(240中9個)が遠方へ逃げて Σmr² を
+//    支配するため(R_rms 107→203)。主張は必ずコア限定にすること
+//  ・帳簿 [resPx,resPy,resL]=[0,0,0]・radL=0(完全閉鎖系の機械証明)・|ΔP|/pScale 4.76e-7・
+//    |ΔL|/L_scale **1.72e-6**・|ω·I−L_orb|/|L_orb| max 0・NaN なし
+//  ・温度履歴(ケルビン・ヘルムホルツ類似の記録): T_mean 2.00→3.68→4.35→**5.23(4000步)**→
+//    3.03(6000)→0.89(12000)→0.341(24000)。radE 2337.8
+//  ・A/B(kRep 0→1): R_core 収縮 ×3.059→×2.594・ω ×8.502→×4.259・一致 90.8%→63.3%・
+//    L_c/L_c0 0.908→0.633・底に達する步数 5000→18000
+//  ・seed 頑健性(3seed): 収縮 3.059/3.083/2.984・ω倍率 8.502/8.055/7.018・一致 90.8/84.8/78.8%
+// camera.scale 200 は展示調整(t=0 の円盤が画面幅の約75%・収縮後のコアが明瞭に見える)。
+// timeScale 2 も展示速度のみ(sim.step() は timeScale を読まない)。QA は behavior.spinup(6000步)。
+{ id:"spinup", name:"収縮とスピン加速", emoji:"🌪️", group:"天体の物語",
+  description:"外から何も加えない、ゆっくり回るガス雲(240粒・剛体回転ω₀=0.00675)。圧力(E5′)を切ってあるので雲は自己重力だけで自由落下的に縮み、内側半質量=コアの半径が3.06倍縮む間にコアの回転が8.50倍速くなる — 角運動量保存が予言する(R₀/R)²=9.36倍に対して実測は一致90.8%(足りない9.2%は、コアが外側へ渡した軌道角運動量の割合と恒等的に一致する)。6000步で底に達し、以後は平坦。※主張はコア限定: 系全体で見ると回転はむしろ遅くなる(ω_eff×0.275)— 質量の約4%(240個中9個)が遠くへ逃げてΣmr²を支配してしまうため。色=温度。縮むと接触摩擦(E9)で内部温度が上がり(2.0→5.2)、放射(E11)で冷えていく(→0.34)— ケルビン・ヘルムホルツ収縮に似た温度の履歴だが、これは解放された重力エネルギーの行き先の記録であって、冷却が収縮を駆動しているのではない。既定はkRep=0なので温度は力に一切入らない受動的な目印で、冷却を切っても(etaRad=0)軌道は1ビットも変わらない(実測: 力学量が完全一致・変わるのは色と放射エネルギーだけ)。おすすめA/B: kRepを1にすると圧力が収縮を支え、縮みは3.06倍→2.59倍、回転は8.50倍→4.26倍に鈍る。運動量・角運動量はリザーバ帳簿ゼロのまま厳密に閉じる(モニタ表示・|ΔL|/L_scale=1.7e-6)。※有限時間の収縮過程であって定常状態の主張ではない(☀️定常放射が内部熱源なしには成立しないという第37便の否定的結論と矛盾しない)。実在の星形成や原始星の再現を主張するものではない(Negative Claims 1/2)。",
+  en:{name:"Contraction and Spin-Up", description:"A slowly rotating gas cloud with nothing applied from outside (240 grains, rigid rotation ω₀=0.00675). Pressure (E5′) is switched off, so the cloud falls in under its own gravity alone: while the radius of the inner half-mass — the core — shrinks by a factor of 3.06, the core's rotation speeds up by a factor of 8.50. Angular-momentum conservation predicts (R₀/R)²=9.36, and the measurement matches it to 90.8% (the missing 9.2% is identically the fraction of orbital angular momentum the core handed outward). The collapse bottoms out by 6000 steps and stays flat after that. Note the claim is about the core only: taken as a whole the system actually rotates more slowly (ω_eff ×0.275), because about 4% of the mass (9 grains out of 240) escapes far enough to dominate Σmr². Colour = temperature. As it contracts, contact friction (E9) raises the internal temperature (2.0→5.2) and radiation (E11) cools it again (→0.34) — a temperature history resembling Kelvin–Helmholtz contraction, but this is a record of where the released gravitational energy went, not the driver of the collapse. With kRep=0 the temperature never enters the forces: it is a passive marker, and turning the cooling off (etaRad=0) does not change the trajectories by a single bit (measured: every dynamical quantity identical; only the colour and the radiated energy differ). Suggested A/B: set kRep to 1 and pressure holds the collapse back — the contraction drops from 3.06× to 2.59× and the spin-up from 8.50× to 4.26×. Momentum and angular momentum close exactly with all reservoir ledgers at zero (see the monitor; |ΔL|/L_scale = 1.7e-6). This is a finite-time contraction, not a claim about a steady state (consistent with the 37th delivery's negative result that steady radiation cannot hold without an internal heat source). Not a claim to reproduce real star formation or protostars (Negative Claims 1/2)."},
+  activeParams:["kRep","etaRad","G"],
+  thermal:"tint",   // 第36便 D(台帳4-51): 温度は内部状態変数 T_int
+  camera:{scale:200}, world:{boundary:"none",size:0}, seed:20260728,
+  physics:{G:4, D0:2, kFrame:0, q:2, kRep:0, muF:0.5, gammaN:0.4, kappaS:0.05, Kt:60,
+    cLight:60, bM:1, etaRad:0.003, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2},
+  bodies:[
+    // 一様円盤(自由・剛体回転の初速 v=vScale·r。tInt=2 は E5′ を切ってあるので力には効かない)
+    {type:"disk", rMul:3, n:240, cx:0,cy:0, radius:150, mMin:1,mMax:1,
+     spinMin:0,spinMax:0, tInt:2, vMode:"rigid", aroundMass:0, vScale:0.00675, direction:1}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
 ];
 // 第37便 B2(原仮定者裁定「正しい挙動が分からない」): ❄️snowline(塵は冷えると固まる — 冷たい星と
 // 熱い星)を廃止した。v1.24 の廃止手順(🪣mach/🕰twin/💫drag)に倣い、参照(qa.mjs の

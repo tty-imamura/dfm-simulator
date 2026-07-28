@@ -196,6 +196,8 @@ if (w5cHasObs) {
 // 第37便 Wave D: 新サンプルの有無(beta 先行 — root には無い)。後段の各セクションのガード式と同一
 const w5cHasAgnjet = await page.evaluate(() => HP.allPresets().some(p => p.id === 'agnjet'));
 const w5cHasCosmicweb = await page.evaluate(() => HP.allPresets().some(p => p.id === 'cosmicweb'));
+// 第39便 39A(台帳4-74): 🌪️spinup(収縮とスピン加速)の有無(beta 先行 — root には無い)
+const w5cHasSpinup = await page.evaluate(() => HP.allPresets().some(p => p.id === 'spinup'));
 
 // bands(behavior.darkrotorLong の環帯定義。元コード2875行と同一)
 const w5cBands = [[80, 120], [120, 160], [160, 200], [200, 240]];
@@ -473,6 +475,58 @@ const W5C_UNITS = {
     };
     const def = run(undefined), ctrl = run(0);
     return { jetDef: def, jetCtrl: ctrl };
+  }) },
+  // 第39便 39A(台帳4-74): 🌪️spinup の収縮とスピン加速。6000步(= 収縮が底に達した直後。
+  // 底は5000步で最小値の1.05倍以内に入り、以後24000步まで平坦)。240粒子×6000步と軽い。
+  // 指標はすべて重心系(COM)。R_core=√(I_core/M_core)(内側半質量 r≤R_half)・ω_core=L_c/I_c。
+  // ω_core·I_c ≡ L_c は定義上の恒等式なので、非自明なのは「ω が (R₀/R)² 倍まで上がるか」
+  // = コアの軌道角運動量が保たれるか(実測 一致率 ≡ L_c/L_c0)。
+  // 測定式は tests/exp-4-74.mjs(38C の tests/exp-4-68c.mjs:114-149 からの転記)と同一、
+  // 保存則の尺度は下の freebox scales と同式(= beta/index.html の HP.verify.v1 と同形)。
+  spinup: { enabled: !FAST && w5cHasSpinup, weight: 16, run: (pg) => pg.evaluate(() => {
+    HP.loadPreset('spinup', false);
+    const s = HP.sim;
+    const scales = () => { let pS = 0, lS = 0;
+      for (let i = 0; i < s.n; i++) { pS += s.m[i] * Math.hypot(s.vx[i], s.vy[i]);
+        lS += Math.abs(s.m[i] * s.x[i] * s.vy[i]) + Math.abs(s.m[i] * s.y[i] * s.vx[i])
+            + 0.5 * s.m[i] * s.R[i] * s.R[i] * Math.abs(s.spin[i]); }
+      return { pS, lS }; };
+    const measure = () => {
+      let M = 0, cx = 0, cy = 0, pvx = 0, pvy = 0;
+      for (let i = 0; i < s.n; i++) { M += s.m[i]; cx += s.m[i] * s.x[i]; cy += s.m[i] * s.y[i];
+        pvx += s.m[i] * s.vx[i]; pvy += s.m[i] * s.vy[i]; }
+      cx /= M; cy /= M; pvx /= M; pvy /= M;
+      let I = 0, Lorb = 0, Tsum = 0;
+      const rs = [];
+      for (let i = 0; i < s.n; i++) {
+        const dx = s.x[i] - cx, dy = s.y[i] - cy, ux = s.vx[i] - pvx, uy = s.vy[i] - pvy;
+        I += s.m[i] * (dx * dx + dy * dy);
+        Lorb += s.m[i] * (dx * uy - dy * ux);
+        Tsum += s.Tint ? s.Tint[i] : 0;
+        rs.push({ r: Math.hypot(dx, dy), m: s.m[i], i });
+      }
+      rs.sort((a, b) => a.r - b.r);
+      let acc = 0, Rhalf = rs[rs.length - 1].r;
+      for (const q of rs) { acc += q.m; if (acc >= M / 2) { Rhalf = q.r; break; } }
+      let Ic = 0, Lc = 0, Mc = 0, nc = 0, keepR0 = 0;
+      for (const q of rs) {
+        if (q.r < 150) keepR0++;
+        if (q.r > Rhalf) continue;
+        const i = q.i, dx = s.x[i] - cx, dy = s.y[i] - cy, ux = s.vx[i] - pvx, uy = s.vy[i] - pvy;
+        Ic += s.m[i] * (dx * dx + dy * dy); Lc += s.m[i] * (dx * uy - dy * ux); Mc += s.m[i]; nc++;
+      }
+      return { Rrms: Math.sqrt(I / M), Rhalf, I, Lorb, omEff: Lorb / I,
+        Rc: Math.sqrt(Ic / Mc), omC: Lc / Ic, Lc, nc, Tmean: Tsum / s.n, keepR0, n: s.n,
+        idOm: Math.abs((Lorb / I) * I - Lorb) / Math.max(Math.abs(Lorb), 1e-9) };
+    };
+    const m0 = measure(), t0 = s.totals();
+    for (let k = 0; k < 6000; k++) s.step(0.016);
+    const m1 = measure(), t1 = s.totals(), sc1 = scales();
+    return { m0, m1, thermal: s.thermal,
+      ledger: [s.resPx, s.resPy, s.resL, s.radE, s.radL],
+      relP: Math.hypot(t1.px + s.resPx - t0.px, t1.py + s.resPy - t0.py) / sc1.pS,
+      relL: Math.abs(t1.L + s.resL + s.radL - t0.L) / sc1.lS,
+      Lz0: t0.L, Lz1: t1.L, nan: s.hasNaN() };
   }) },
   // 第37便 D3(台帳4-68b): 🕸️cosmicweb の構造形成。共動座標 χ=r/a を 10×10 セルへ切り、
   // δ²=Var(N)/⟨N⟩²(初期は純ポアソン)とボイド率(空セル比)の成長を 6000步 で測る。
@@ -3040,23 +3094,28 @@ if (!FAST) {
         let nOff = 0;
         if (spinOff) for (const i of rotorIdx()) { s.spin[i] = 0; nOff++; }
         return { u140: uphiAt(s, 140), u200: uphiAt(s, 200), u260: uphiAt(s, 260), nOff }; };
-      // v5 判別: ローターが単層(coreMR なし)。閾値はこの構成差で切り替える
-      return { on: run(false), off: run(true),
-        v5: P.bodies.filter(b => b.type === 'single').every(b => !b.coreMR) };
+      // v5 判別: ローターが単層(coreMR なし)/ v6 判別: type:"single" が3体(中心BH+対向2ローター)。
+      // 閾値はこの構成差で切り替える(第39便 39A・台帳4-72)
+      const nSingle = P.bodies.filter(b => b.type === 'single').length;
+      return { on: run(false), off: run(true), nSingle,
+        v6: nSingle === 3, v5: P.bodies.filter(b => b.type === 'single').every(b => !b.coreMR) };
     });
-    // 第33便 X4: 閾値は対象構成ごとの t=0 実測 ÷ 1.10(v4 と同等マージン)。
-    // v5 実測 1.760/1.314/1.823 → 1.60/1.19/1.65 / 旧v3(root)は 1.954/1.543/1.562 のまま 1.70/1.15/1.35。
-    const uTh = up.v5 ? [1.60, 1.19, 1.65] : [1.70, 1.15, 1.35];
+    // 第33便 X4 / 第39便 39A: 閾値は対象構成ごとの t=0 実測 ÷ 1.10(v4 と同等マージン)。
+    // v6 実測 3.850/2.198/4.030 → 3.50/2.00/3.66 / v5 実測 1.760/1.314/1.823 → 1.60/1.19/1.65 /
+    // 旧v3(root)は 1.954/1.543/1.562 のまま 1.70/1.15/1.35。
+    const uTh = up.v6 ? [3.50, 2.00, 3.66] : (up.v5 ? [1.60, 1.19, 1.65] : [1.70, 1.15, 1.35]);
     add('darkrotor.uphi', up.on.u140 > up.off.u140 * uTh[0] && up.on.u200 > up.off.u200 * uTh[1]
       && up.on.u260 > up.off.u260 * uTh[2],
       `u_φ(140)=${up.on.u140.toFixed(4)}/${up.off.u140.toFixed(4)} 比=${(up.on.u140 / up.off.u140).toFixed(3)}(>${uTh[0]}) ` +
       `u_φ(200)=${up.on.u200.toFixed(4)}/${up.off.u200.toFixed(4)} 比=${(up.on.u200 / up.off.u200).toFixed(3)}(>${uTh[1]}) ` +
       `u_φ(260)=${up.on.u260.toFixed(4)}/${up.off.u260.toFixed(4)} 比=${(up.on.u260 / up.off.u260).toFixed(3)}(>${uTh[2]}) ` +
-      `スピン0にしたローター=${up.off.nOff}体 単層v5=${up.v5} / 第33便 X4 v5 の実測=1.760/1.314/1.823 ` +
-      `(v4=1.891/1.268/1.543・旧v3=1.954/1.543/1.562)。v5 は閾値を実測÷1.10 で再設定: ` +
-      `r140 1.70→1.60(緩和 — ローターが単層化し sc/s=20 のコア差動項が消えた構造変更による近傍引きずりの ` +
-      `低下であって、引きずり経路の弱化ではない)/ r200 1.15→1.19・r260 1.35→1.65(いずれも強化 — ` +
-      `対向2体の spin 2.0 が r=200〜260 の引きずりを押し上げる)。root(旧v3)は旧閾値のまま`);
+      `スピン0にしたローター=${up.off.nOff}体(single=${up.nSingle}) v6=${up.v6} 単層v5=${up.v5} / ` +
+      `第39便 39A v6 の実測=3.850/2.198/4.030(第33便 X4 v5=1.760/1.314/1.823・v4=1.891/1.268/1.543・` +
+      `旧v3=1.954/1.543/1.562)。v6 は閾値を実測÷1.10 で再設定: 1.60→3.50 / 1.19→2.00 / 1.65→3.66 ` +
+      `(全域で強化 — ローターを対向2体だけにしてハロー質量 1500→300 に落としたことで、対照側の ` +
+      `u_φ(スピンを全て 0 にした残り = 公転速度だけの引きずり)が下がり、比が2倍以上に開いた。` +
+      `引きずり経路そのものが強くなったのではなく、対照の分母が小さくなったことによる)。` +
+      `root(旧v3)は旧閾値のまま`);
 
     // 第32便 W3b(台帳4-47 Phase C): 🕶️ が「ピン+レール駆動の展示系(v3)」から
     // 「全粒子自由の閉鎖系(v4)」へ格上げされた。対象(root=旧v3 / beta=新v4)を
@@ -3096,24 +3155,46 @@ if (!FAST) {
     //   全粒子max|spin| <3.5→<4.0(実測2.770。ローター自身が spin 2.0 を持つので下限が 2.0 に上がった)
     //   BHスピン・恒星保持・重心移動・t=0 総運動量(<0.01・実測0.0037)は据置。
     // v3(レール駆動)は旧判定のまま(中心 pinned のスピン厳密不変・末尾ハロー20体)。
+    // ---- 第39便 39A(台帳4-72)v6 の再較正 ----
+    // v6 実測(3000步・tests/exp-4-72.mjs): 外縁3.230・r90=238.5・ローター残存2/2・偏差1.74%・
+    // ローター平均|spin|=1.769・全粒子max|spin|=3.258(本ユニットは 3000步**終了時点の瞬時値**を
+    // 測る。走行中の最大は t≈1000步 の 4.640 で、そちらは下の behavior.darkrotorLong が
+    // 500步ごとの走査で捉えている — 閾値 6.0 は厳しい側の 4.640 に合わせた共通値)・
+    // BHスピン0.12593・恒星保持380/380(100%)・重心移動0.341・t=0 総運動量 9.35e-6。
+    // ローター体数に依存する3項だけを構成から機械判別して切替える:
+    //   ローター残存 ===10 → ===NH(定義上の全数。v6 は2・v5 は10 — 体数のハードコードを外した)
+    //   ローター平均|spin| <0.80 → <2.10(v6 の初期値は (2.0+2.0)/2=2.0 = 設計値そのもの。
+    //     実測は 3000步で 1.769 まで減衰。閾値の役割「暴走検出」は不変で、初期設計値のすぐ上に置く)
+    //   全粒子max|spin| <4.0 → <6.0(v6 の走行中最大は 4.640。正体は恒星 index185〔m=0.272・R=1.042・r_BH≈245〕で
+    //     t≈1000步 がピーク。ローター自身は 2.0→1.58・BH は 0.120→0.131 なので、
+    //     「恒星の E6′ 汲み上げ検出」という閾値の意味は v5 から変わっていない。v5 実測2.770 の 1.59倍に
+    //     上がったのは、低スピン8体を抜いてハロー質量を 1500→300 にしたぶん恒星が強スピン体へ
+    //     近づけるようになったため。マージンは実測×1.29)
+    // 外縁>2.9・r90<260・偏差<10%・BHスピン・恒星保持・重心移動<0.5(実測0.341 — v5 の0.041より
+    // 1桁大きいが、ハロー質量が 1/5 になり BH の反跳が効くようになったため。閾値は据置)・
+    // t=0 総運動量<0.01 は据置(v6 は 9.35e-6 で v5 の 0.0037 より3桁良い)。
     if (!FAST) {
       if (drFree) {
         // 第35便 W5c: 計算部分は W5C_UNITS.darkrotorMidNew へ移し、ワーカーで実行する
         const st = await w5cGetUnit('darkrotorMidNew');
+        const drV6 = st.NH === 2;                       // v6(対向2ローター)判別
+        const spinLim = drV6 ? 2.10 : 0.80, maxSpinLim = drV6 ? 6.0 : 4.0;
         add('behavior.darkrotor', !st.nan
-          && st.r90 < 260 && st.outer > 2.9 && st.haloIn === 10 && st.haloDev < 0.10
-          && st.haloSpin < 0.80 && st.maxSpin < 4.0 && Math.abs(st.bhSpin - 0.12) < 0.02
+          && st.r90 < 260 && st.outer > 2.9 && st.haloIn === st.NH && st.haloDev < 0.10
+          && st.haloSpin < spinLim && st.maxSpin < maxSpinLim && Math.abs(st.bhSpin - 0.12) < 0.02
           && st.keepPct >= 95 && st.comMove < 0.5 && st.pTot0 < 0.01,
           `外縁v_φ=${st.outer.toFixed(3)}(>2.9・BH基準156〜286のn=${st.nOuter}) r90=${st.r90.toFixed(1)}(<260: 円盤非破壊) ` +
-          `ローター残存=${st.haloIn}/${st.NH}(=10) ローター半径偏差=${(st.haloDev * 100).toFixed(2)}%(<10%) ` +
-          `ローター平均|spin|=${st.haloSpin.toFixed(3)}(<0.80: 初期0.52=設計値) ` +
-          `全粒子max|spin|=${st.maxSpin.toFixed(3)}(<4.0: 恒星のE6′汲み上げ検出。下限はローター自身の2.0) ` +
+          `ローター残存=${st.haloIn}/${st.NH}(=NH) ローター半径偏差=${(st.haloDev * 100).toFixed(2)}%(<10%) ` +
+          `ローター平均|spin|=${st.haloSpin.toFixed(3)}(<${spinLim}: 初期${drV6 ? '2.0' : '0.52'}=設計値) ` +
+          `全粒子max|spin|=${st.maxSpin.toFixed(3)}(<${maxSpinLim}: 恒星のE6′汲み上げ検出。下限はローター自身の2.0) ` +
           `BHスピン=${st.bhSpin.toFixed(5)}(|Δ|<0.02 — 自由なので「不変」ではなく有界) ` +
           `恒星保持=${st.keep}/${st.tot}(${st.keepPct.toFixed(1)}%≥95) 重心移動=${st.comMove.toFixed(3)}(<0.5) ` +
-          `t=0総運動量=${st.pTot0.toFixed(4)}(<0.01) NaN=${st.nan} ` +
-          `/ 第33便 X4 v5 実測=3.747/214.1/5.97%/0.458/2.770/0.12389/100%/0.041/0.0037 ` +
-          `(旧v4実測=3.574/207.6/1.59%/0.133/2.197/0.11774/100%/0.020/0.0006 — 閾値は v5 実測に ` +
-          `v4 と同等のマージンで再設定。詳細は上のコメント) ` +
+          `t=0総運動量=${st.pTot0.toExponential(2)}(<0.01) NaN=${st.nan} ` +
+          `/ 第39便 39A v6 実測=3.230/238.5/1.74%/1.769/3.258(3000步時点の瞬時値。走行中最大は4.640)` +
+          `/0.12593/100%/0.341/9.35e-6 ` +
+          `(第33便 X4 v5 実測=3.747/214.1/5.97%/0.458/2.770/0.12389/100%/0.041/0.0037・` +
+          `旧v4実測=3.574/207.6/1.59%/0.133/2.197/0.11774/100%/0.020/0.0006 — ローター体数に依存する ` +
+          `3項〔残存数・平均|spin|・max|spin|〕だけを構成から機械判別して切替。詳細は上のコメント) ` +
           `/ 走行後|P|=${st.pTotEnd.toFixed(2)} は判定しない(E6′の背景持ち分がD₀リザーバへ帳簿される仕様 — ` +
           `健全性は重心移動で判定)`);
       } else {
@@ -3133,13 +3214,26 @@ if (!FAST) {
       // の m=2 が育ち、ローター半径偏差も 34.7% に達して「腕の主因はスピン」の分離が成立しなくなる。
       // 測定: 環帯 [80,120][120,160][160,200][200,240] で A2=|Σ_j e^{2iθ_j}|/N_band(θ は中心BH基準)、
       // 後半平均 = t=3000〜6000 の 7 スナップショット平均。seed 20260726 固定で決定論。
-      // 対照 = 同一 build のまま「中心BH+全ローターのスピンを 0」にしたもの(質量・半径・配置は
-      // 完全に軸対称のままなので、対照は厳密な軸対称系 = m=2 の源はスピンだけ)。
+      // 対照 = 同一 build のまま「中心BH+全ローターのスピンを 0」にしたもの。
       // 実測(beta v5): 本体 A2 後半平均 0.542/0.589/0.323/0.456 / 対照 0.067/0.065/0.046/0.108 /
       //   NaN なし・恒星保持 380/380(100%)・全期間 max|spin| 2.928・ローター半径偏差 17.23%。
+      // ---- 第39便 39A(台帳4-72)v6 の再較正 ----
+      // v6(中心BH+対向2ローター)実測: 腕 0.583/0.680/0.546/0.431(帯平均0.560)/
+      //   対照 0.158/0.204/0.121/0.141(帯平均0.156)/ 恒星保持380/380(100%)/
+      //   全期間 max|spin| 4.640 / ローター半径偏差 4.46%。
+      // **対照側の意味が v5 から変わった(重要)**: v5 の10体等間隔リングは m<10 に対して軸対称
+      // だったので、対照に残る A2 は方位ランダムの統計下限 √(π/4N) と同オーダーだった。
+      // v6 の対向2体は 180°回転対称 = m=2 の質量四重極そのものなので、対照には**配置由来の
+      // 実在する m=2** が残る(帯平均 0.156 = 終端ノイズ床 0.099 の約1.6倍。v5 の対照は 0.0715)。
+      // したがって対照の閾値は「m=2 が無いこと」ではなく「配置由来分に留まること」の検査になる。
+      // 閾値 0.15→0.25 は v6 実測 0.156 に約1.6倍の余裕(v5 の 0.15/0.113=1.3倍より広い —
+      // 対照側が統計下限ではなく実在の物理量になったぶん、seed 揺らぎの幅も広く取る)。
+      // max|spin| <4→<6.0 は behavior.darkrotor と同じ理由(v6 実測4.640・正体は恒星)。
+      // 腕側 >0.22 据置(v6 実測の最小帯 0.431 = 約2.0倍の余裕)・恒星保持≥95・偏差<25% 据置。
       if (drFree) {
         // 第35便 W5c: 計算部分は W5C_UNITS.darkrotorLong へ移し、ワーカーで実行する
         const lg = await w5cGetUnit('darkrotorLong');
+        const drV6 = lg.on.NH === 2;                    // v6(対向2ローター)判別
         const armOk = lg.on.A2.every(v => v > 0.22);
         // 第37便 B3(設計裁定・台帳4-69): 対照側の判定を単帯 every(v<0.19) → 帯平均<0.15 へ変更。
         // 単帯は方位ランダムの統計下限 √(π/4N) 由来でノイズ床が高く(8seed実測でmax 0.200)、
@@ -3148,27 +3242,40 @@ if (!FAST) {
         // (最小seed3・最大seed2)、単帯最大 0.200(seed2 帯4 [200,240])。0.15 は帯平均実測最大
         // 0.113 に対し余裕約1.3倍(単帯ノイズ床〜0.2 に対しては帯平均を取ることで統計的に安定化)
         const ctrlAvg = lg.ctrl.A2.reduce((a, v) => a + v, 0) / lg.ctrl.A2.length;
-        const ctrlOk = ctrlAvg < 0.15;
+        const ctrlLim = drV6 ? 0.25 : 0.15, maxSpinLim = drV6 ? 6.0 : 4.0;
+        const ctrlOk = ctrlAvg < ctrlLim;
         const f3 = (a) => a.map(v => v.toFixed(3)).join('/');
         add('behavior.darkrotorLong', !lg.on.nan && !lg.ctrl.nan && lg.on.keepPct >= 95
-          && lg.on.maxSpin < 4 && lg.on.rotDev < 0.25 && armOk && ctrlOk,
+          && lg.on.maxSpin < maxSpinLim && lg.on.rotDev < 0.25 && armOk && ctrlOk,
           `6000步(t≈96・seed固定で決定論) 腕A2(後半平均 t=3000〜6000 の${lg.on.nLate}点・環帯 ` +
           `[80,120][120,160][160,200][200,240])=${f3(lg.on.A2)}(4帯すべて>0.22) ` +
-          `対照(中心BH+全ローターのスピン0)=${f3(lg.ctrl.A2)}・帯平均=${ctrlAvg.toFixed(3)}(<0.15) ` +
+          `対照(中心BH+全ローターのスピン0)=${f3(lg.ctrl.A2)}・帯平均=${ctrlAvg.toFixed(3)}(<${ctrlLim}) ` +
+          `増強比=${(lg.on.A2.reduce((a, v) => a + v, 0) / 4 / (ctrlAvg || 1e-9)).toFixed(2)}倍 ` +
           `恒星保持=${lg.on.keep}/${lg.on.tot}(${lg.on.keepPct.toFixed(1)}%≥95) ` +
-          `全期間max|spin|=${lg.on.maxSpin.toFixed(3)}(<4) ローター半径偏差=${(lg.on.rotDev * 100).toFixed(2)}%(<25%) ` +
+          `全期間max|spin|=${lg.on.maxSpin.toFixed(3)}(<${maxSpinLim}) ローター半径偏差=${(lg.on.rotDev * 100).toFixed(2)}%(<25%) ` +
           `ローター残存=${lg.on.rotIn}/${lg.on.NH} NaN=${lg.on.nan}/${lg.ctrl.nan} ` +
-          `— 腕の主因=ローターのスピン: ローターの質量・半径・軌道配置は完全に軸対称(10体すべて ` +
-          `m=150・R=18・r=200 の等間隔リング)で、m=2 をつくっているのは対向2体のスピンだけ。` +
-          `よって対照は厳密な軸対称系であり、そこに残る A2 は方位ランダムの統計下限 √(π/4N)` +
-          `(終端の帯人数 N=${lg.ctrl.nBand.join('/')} → ${f3(lg.ctrl.noise)})と同オーダー ` +
-          `— 対照側の帯平均判定は真の m=2 の不在ではなく統計下限との比較であることに注意` +
-          `(単帯は方位ノイズで閾値付近まで揺れ得るため、第37便 B3 で帯平均判定へ変更 — 台帳4-69)。` +
-          `有効窓は6000步まで(12000步では対照側にも円盤自身の重力不安定で A2 0.19〜0.30 が育ち、` +
-          `ローター半径偏差も34.7%になるため分離が成立しない — 有限時間の閉鎖系デモ)。` +
-          `第33便 X4 の較正実測(ドリフト比較用の基準値)= 腕 0.542/0.589/0.323/0.456・` +
-          `対照 0.067/0.065/0.046/0.108・max|spin| 2.928・ローター半径偏差 17.23% ` +
-          `(旧v4の「12000步の安定検査」から再定義した項目)`);
+          (drV6
+            ? `— v6(第39便 39A・台帳4-72): ローターは対向2体(x=±200・m150・R18・両方 spin2.0)。` +
+              `**この配置自体が m=2 の質量四重極**なので、対照(全スピン0)に残る A2 は統計下限ではなく ` +
+              `配置由来の実在する m=2 である(終端の帯人数 N=${lg.ctrl.nBand.join('/')} → ` +
+              `ノイズ床 ${f3(lg.ctrl.noise)} の約1.6倍)。よって本検査は「対照に m=2 が無いこと」ではなく ` +
+              `「対照が配置由来分に留まり、スピンを入れると有意に増強されること」を見ている。` +
+              `スピン起因分の分離は用量反応(6000步窓の帯平均: spin 0→0.186 / 1→0.209 / 2→0.560 / ` +
+              `3→0.707 = 単調増加)で担保する。`
+            : `— 腕の主因=ローターのスピン: ローターの質量・半径・軌道配置は完全に軸対称(10体すべて ` +
+              `m=150・R=18・r=200 の等間隔リング)で、m=2 をつくっているのは対向2体のスピンだけ。` +
+              `よって対照は厳密な軸対称系であり、そこに残る A2 は方位ランダムの統計下限 √(π/4N)` +
+              `(終端の帯人数 N=${lg.ctrl.nBand.join('/')} → ${f3(lg.ctrl.noise)})と同オーダー ` +
+              `— 対照側の帯平均判定は真の m=2 の不在ではなく統計下限との比較であることに注意` +
+              `(単帯は方位ノイズで閾値付近まで揺れ得るため、第37便 B3 で帯平均判定へ変更 — 台帳4-69)。`) +
+          `有効窓は2本立て: 恒星の安定は24000步(t≈384・保持87.9%)まで/腕の分離は6000步まで` +
+          `(12000步では対照の帯平均が0.382まで育って比が1.47に落ち、24000步では環帯の人数が` +
+          `3〜12まで減って腕の統計そのものが成立しない。24000步の状態は1e-9レベルの初期摂動にも` +
+          `敏感なので QA には使わない — 第39便 39A)。` +
+          `較正実測(ドリフト比較用の基準値)= 第39便 39A v6: 腕 0.583/0.680/0.546/0.431・` +
+          `対照 0.158/0.204/0.121/0.141・max|spin| 4.640・ローター半径偏差 4.46% ` +
+          `(第33便 X4 v5: 腕 0.542/0.589/0.323/0.456・対照 0.067/0.065/0.046/0.108・` +
+          `max|spin| 2.928・ローター半径偏差 17.23%)`);
       } else {
         console.log('SKIP behavior.darkrotorLong(対象の🕶️はレール駆動の旧v3構成)');
       }
@@ -3616,12 +3723,27 @@ if (!FAST) {
   // 第37便 B2: ❄️snowline 廃止(原仮定者裁定)に伴い対象から除外
   const BASE_SHOT_IDS = ['gclock', 'boxcomoving', 'boxredshift', 'galaxy', 'darkrotor', 'lensing',
     'gas', 'convection', 'saturn', 'earthMoon', 'fig8'];
-  // 第35便 W2/W3 の ⏪echo・🕊️freebox が対象に存在すれば追加して14件にする(対象の有無で自動判定)
+  // 第35便 W2/W3 の ⏪echo・🕊️freebox、第39便 39A の 🌪️spinup が対象に存在すれば追加する
+  // (対象の有無で自動判定 — root には無い beta 先行サンプル)
   const presentIds = await page.evaluate((extra) => {
     const all = HP.allPresets();
     return extra.filter(id => all.some(p => p.id === id));
-  }, ['echo', 'freebox']);
+  }, ['echo', 'freebox', 'spinup']);
   const SHOT_IDS = BASE_SHOT_IDS.concat(presentIds);
+  // 第39便 39A(台帳4-72): 🕶️darkrotor は beta で v6(中心BH+対向2ローター)へ改訂したが、
+  // ルート index.html は v5(ローター10体)のまま。同じ id で見た目が構造的に違うので、基準の
+  // 保存キーをプリセット定義から機械判別して分ける(echo/freebox の「対象に在れば追加」と同じ
+  // 「対象の中身から自動判定する」方針)。ルート側の既存基準 'darkrotor' はそのまま生き続け、
+  // beta 側は 'darkrotor-v6' として新規に記録される。テスト名(shot.regress-darkrotor)は不変。
+  const shotKeyOf = await page.evaluate((ids) => {
+    const o = {};
+    for (const id of ids) {
+      const p = HP.allPresets().find(q => q.id === id);
+      o[id] = (id === 'darkrotor' && p && p.bodies.filter(b => b.type === 'single').length === 3)
+        ? 'darkrotor-v6' : id;
+    }
+    return o;
+  }, SHOT_IDS);
 
   // 意図的な見た目変更をした便でここへ理由つきで追加する運用(perf.mjs 22行の ALLOW と同形式)
   const SHOT_ALLOW = { /* id: {mAD, frac, reason} */ };
@@ -3666,12 +3788,13 @@ if (!FAST) {
 
     if (capErr) { add(`shot.regress-${id}`, false, `キャプチャ/縮約に失敗: ${capErr}`); continue; }
 
-    const prev = baseline.presets[id];
+    const key = shotKeyOf[id] || id;
+    const prev = baseline.presets[key];
     if (!prev) {
       // 基準が無いid: 本便の初回実行で基準を書き込みPASS(以降のQA実行〔同一コミット・別コミット問わず〕から回帰対象になる)
-      baseline.presets[id] = { luma: hex, capturedAt: new Date().toISOString(), commit: shotCommit };
+      baseline.presets[key] = { luma: hex, capturedAt: new Date().toISOString(), commit: shotCommit };
       baselineDirty = true;
-      add(`shot.regress-${id}`, true, `BASELINE recorded(path=${path.join(shotsDir, id + '.png')})`);
+      add(`shot.regress-${id}`, true, `BASELINE recorded(key=${key} path=${path.join(shotsDir, id + '.png')})`);
       continue;
     }
     let sumAbs = 0, over = 0;
@@ -3680,7 +3803,7 @@ if (!FAST) {
       sumAbs += d; if (d > 24) over++;
     }
     const mAD = sumAbs / hex.length, frac = over / hex.length;
-    const allow = SHOT_ALLOW[id];
+    const allow = SHOT_ALLOW[key] || SHOT_ALLOW[id];
     const limMAD = allow ? allow.mAD : 10, limFrac = allow ? allow.frac : 0.15;
     // 実測(beta 2026-07-26): 同一コミットを独立4回撮影した自然ゆらぎ(表示更新タイミング由来 —
     // requestAnimationFrame ループが HP.tick() の手動 render() と非同期に競合し得るための残差)は
@@ -3688,7 +3811,8 @@ if (!FAST) {
     // 実測最大値の約6.4倍・2.3倍の余裕
     add(`shot.regress-${id}`, mAD <= limMAD && frac <= limFrac,
       `mAD=${mAD.toFixed(2)}(≤${limMAD}) diff>24セル比率=${(frac * 100).toFixed(1)}%(≤${(limFrac * 100).toFixed(0)}%)` +
-      (allow ? ` [SHOT_ALLOW: ${allow.reason}]` : '') + ` baseline capturedAt=${prev.capturedAt} commit=${prev.commit.slice(0, 8)}`);
+      (allow ? ` [SHOT_ALLOW: ${allow.reason}]` : '') + (key !== id ? ` key=${key}` : '') +
+      ` baseline capturedAt=${prev.capturedAt} commit=${prev.commit.slice(0, 8)}`);
   }
   if (baselineDirty) fs.writeFileSync(baselinePath, JSON.stringify(baseline, null, 1) + '\n');
 } else {
@@ -4068,6 +4192,13 @@ if (hasEchoFlipAt) {
     // ⑤ sweep.numeric-unchanged: 数値指定(既存プリセット)の掻出は bit 一致で不変。
     //    🕶️darkrotor(全 single が lightSweep:1)を 300 步走らせた x,y,spin ハッシュを、
     //    Wave C 実装前の beta/index.html(第36便 36B 時点)で採取した基準と照合する。
+    //    第39便 39A(台帳4-72): 🕶️ を v6(中心BH+対向2ローター・n=391→383)へ**意図的に再設計した**
+    //    ため、旧基準 4dee00d8f2db22aa…(v5 の軌道)は原理的に一致しえない。基準を v6 の実測へ
+    //    貼り直した(同一ページで2回走らせてハッシュ一致=決定論であることを確認済み)。
+    //    検査している不変条件(数値指定の掻出は auto 経路に入らず lightSweep が動かない・
+    //    走行が bit 決定論)は変わっていない。なお「Wave C の実装が既存の数値経路を1ビットも
+    //    変えていない」という当初の証跡自体は、下の tint.zero-cost が持つ galaxy/saturn/
+    //    counterring/freebox/echo の5件(いずれも実装前に採取した基準のまま)で維持される。
     const dr = await page.evaluate(() => {
       HP.loadPreset('darkrotor', false);
       const s = HP.sim;
@@ -4078,9 +4209,10 @@ if (hasEchoFlipAt) {
       return { n: s.n, lS0, auto, lS1: [s.lSw[0], s.lSw[1]], str: a.map(v => v.toExponential(12)).join(',') };
     });
     const drHash = crypto.createHash('sha256').update(dr.str).digest('hex');
-    const DR_BASE = '4dee00d8f2db22aadddcc8dd3186f2fd8b6048100caef1694ee7cd1167609379';
+    // 第39便 39A で v6 へ貼り直し(旧 v5 基準 = 4dee00d8f2db22aa…・n=391)
+    const DR_BASE = 'b9fc553c3fe6569ef48a34a9719abdadc4e046a76f2016471d706d34ee3e836c';
     add('sweep.numeric-unchanged',
-      dr.n === 391 && drHash === DR_BASE && dr.auto === false &&
+      dr.n === 383 && drHash === DR_BASE && dr.auto === false &&
       dr.lS0[0] === 1 && dr.lS0[1] === 1 && dr.lS1[0] === 1 && dr.lS1[1] === 1,
       `🕶️darkrotor 300步 x,y,spinハッシュ=${drHash.slice(0, 16)}…(基準=${DR_BASE.slice(0, 16)}… bit一致=${drHash === DR_BASE}) ` +
       `auto経路=${dr.auto}(false=ゼロコスト) lightSweep=${dr.lS1.join(',')}(不変)`);
@@ -4135,10 +4267,16 @@ if (hasEchoFlipAt) {
     //    基準ハッシュは本便 D 着手時点(第36便 36C 完了 = f1468b1)の beta/index.html で採取した実測値で、
     //    さらに第35便 W2 直前(ea9c8a2)でも同一であることを確認済み(= 移行しない全系統の無変更の証跡)。
     //    形式は sweep.numeric-unchanged と同じ 300步 x,y,spin ハッシュ
+    //    第39便 39A(台帳4-72): darkrotor だけ v6 への意図的な再設計で軌道が変わったため基準を
+    //    貼り直した(n=391→383)。**他の5件は実装前に採取した基準のまま**なので、
+    //    「thermal 省略のプリセットは Wave D 実装前と1ビットも変わらない」という当初の証跡は
+    //    その5件で維持される(darkrotor の行は以後「v6 の軌道が spin モードのまま決定論で
+    //    再現すること」の回帰検査として働く)。
     const ZC = {
       galaxy: ['51a8ff116ddd4aee4849a8db61a53d3ab8d9da6df8b3606cc52ed369ca853386', 381],
       saturn: ['6e6ee844cc3cb82b4052885c8d86ccffad44f74c0b44c3da253007e398e1fb87', 301],
-      darkrotor: ['4dee00d8f2db22aadddcc8dd3186f2fd8b6048100caef1694ee7cd1167609379', 391],
+      // 第39便 39A で v6 へ貼り直し(旧 v5 基準 = 4dee00d8f2db22aa…・n=391)
+      darkrotor: ['b9fc553c3fe6569ef48a34a9719abdadc4e046a76f2016471d706d34ee3e836c', 383],
       counterring: ['29fb3cab287f4fd0301b3843575b3acf24709e687574a4135f6df135dd687f11', 201],
       freebox: ['a9fbb51894a298af70dc7350e61f9e8fce32e10abddd2ecdafa989312260bc7d', 72],
       echo: ['9e09d365c44a32ebd423d933eab9ea494bfb9a69a46eebd316aaf1bde1dac4d7', 31],
@@ -4701,6 +4839,54 @@ if (hasSwAutoCb) {
       `対照(kRep=0) ${c.tot}個中 極=${c.pol} 赤道=${c.eq} → 割合=${c.frac.toFixed(3)}(比=${ratio.toFixed(2)}倍 ≥1.25)`);
   } else {
     console.log('SKIP behavior.agnjet(QA_FAST=1 または対象に 🌋agnjet なし — 第37便 D2 未適用の root 等)');
+  }
+}
+
+// ---- 7z13b) 第39便 39A(台帳4-74): behavior.spinup — 圧力を切った自己重力雲が縮み、内側半質量
+// ----      (コア)の回転が ω ∝ 1/R² に沿って速くなる。外部駆動ゼロの完全閉鎖系なので、
+// ----      リザーバ帳簿が全ゼロのまま L_z が閉じることも同時に機械証明する ----
+{
+  if (!FAST && w5cHasSpinup) {
+    const r = await w5cGetUnit('spinup');
+    const shrink = r.m0.Rc / r.m1.Rc;              // コア半径の収縮率 R₀/R
+    const omX = r.m1.omC / r.m0.omC;               // ω_core の倍率(実測)
+    const pred = shrink * shrink;                  // 角運動量保存の予測 (R₀/R)²
+    const agree = omX / pred;                      // 一致率(≡ L_c/L_c0 — 恒等)
+    const ledgerZero = r.ledger[0] === 0 && r.ledger[1] === 0 && r.ledger[2] === 0 && r.ledger[4] === 0;
+    // 実測(beta・内蔵プリセットそのもの・seed 20260728 固定で決定論・6000步。tests/exp-4-74.mjs):
+    //   R_core 76.25→25.26(収縮 3.019倍)・ω_core 6.745e-3→5.708e-2(×8.462)・
+    //   予測(R₀/R)²=9.112 → 一致 92.86%(= L_c/L_c0。ずれは恒等的にコアが失った L の割合)・
+    //   帳簿[resPx,resPy,resL]=[0,0,0]・radL=0・|ΔP|/pScale=2.34e-7・|ΔL|/L_scale=1.70e-7・
+    //   |ω·I−L_orb|/|L_orb|=0・T_mean 2.00→3.03・r<150 の粒子 228/240・NaN なし。
+    // 閾値(統括承認): 収縮≥2.9(実測3.019・余裕1.04倍)/ ω倍率≥6.5(実測8.462・1.30倍)/
+    //   一致≥75%(実測92.9%・1.24倍)/ |ΔL|/L_scale<1e-3(実測1.7e-7 = 5900倍の余裕)/
+    //   帳簿ゼロ / NaN なし。
+    // **閾値の根拠と限界(そのまま記録)**: これらは「内蔵の固定 seed に対する回帰検出」の閾値であって
+    //   seed 頑健ではない。同構成を3 seed(20260728/29/30)で走らせた 6000步の実測は
+    //   収縮 3.019/2.988/2.924・ω倍率 8.462/6.414/6.672・一致 92.9/71.8/78.0% で、
+    //   seed 20260729 は ω倍率・一致率の閾値を下回る。N=240 の自己重力系の緩和ゆらぎが大きいことは
+    //   第38便 38C が既に記録している(台帳4-68c §4.3)。本サンプルは seed を固定した有限時間デモで
+    //   あり、QA は「この固定 seed の軌道が変わっていないこと」を見る回帰テストとして機能する。
+    add('behavior.spinup',
+      !r.nan && r.thermal === 'tint' && ledgerZero && r.relL < 1e-3
+      && shrink >= 2.9 && omX >= 6.5 && agree >= 0.75,
+      `6000步(t≈96・seed固定で決定論) コア半径 R_core ${r.m0.Rc.toFixed(2)}→${r.m1.Rc.toFixed(2)}` +
+      `(収縮 ${shrink.toFixed(3)}倍 ≥2.9) ω_core ${r.m0.omC.toExponential(3)}→${r.m1.omC.toExponential(3)}` +
+      `(×${omX.toFixed(3)} ≥6.5) 予測(R₀/R)²=×${pred.toFixed(3)} → 一致=${(agree * 100).toFixed(2)}%(≥75%` +
+      ` — ずれは恒等的にコアが外へ渡した軌道角運動量の割合 L_c/L_c0=${(r.m1.Lc / r.m0.Lc).toFixed(4)}) ` +
+      `R_half ${r.m0.Rhalf.toFixed(1)}→${r.m1.Rhalf.toFixed(1)} コア粒子=${r.m1.nc}/${r.m1.n} ` +
+      `T_mean ${r.m0.Tmean.toFixed(2)}→${r.m1.Tmean.toFixed(2)} 放射E=${r.ledger[3].toFixed(1)} ` +
+      `r<150 の粒子=${r.m1.keepR0}/${r.m1.n} 温度モード=${r.thermal} ` +
+      `/ 保存則: 帳簿[resPx,resPy,resL]=[${r.ledger.slice(0, 3).join(',')}]・放射L=${r.ledger[4]}` +
+      `(全ゼロ=${ledgerZero}: 外部駆動ゼロの完全閉鎖系の機械証明) L_z ${r.Lz0.toFixed(4)}→${r.Lz1.toFixed(4)} ` +
+      `|ΔP|/pScale=${r.relP.toExponential(2)} |ΔL|/L_scale=${r.relL.toExponential(2)}(<1e-3) ` +
+      `|ω·I−L_orb|/|L_orb|=${r.m1.idOm.toExponential(1)} NaN=${r.nan} ` +
+      `/ 全体の ω_eff は ×${(r.m1.omEff / r.m0.omEff).toFixed(3)}(6000步時点。24000步では逃走粒子が ` +
+      `Σmr² を支配して ×0.275 まで下がる — 主張は必ずコア限定で読むこと) ` +
+      `/ 第39便 39A の較正実測 = 25.26/8.462/92.86%/1.70e-7(3seed の幅は 2.924〜3.019・` +
+      `6.414〜8.462・71.8〜92.9% — 上のコメントの「閾値の根拠と限界」を参照)`);
+  } else {
+    console.log('SKIP behavior.spinup(QA_FAST=1 または対象に 🌪️spinup なし — 第39便 39A 未適用の root 等)');
   }
 }
 
