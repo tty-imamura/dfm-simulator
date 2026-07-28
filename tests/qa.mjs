@@ -1591,6 +1591,150 @@ if (hasBadgeClassify) {
   console.log('SKIP badge.no-hscroll(対象に HP.classifyPreset なし — 第35便 W4 未適用の root 等)');
 }
 
+// ---- 4-75 E1) badge.tint: 第39便 39E — thermal:"tint" のプリセットにだけ「温度=T_int」チップが
+// ----   1個追加される(classifyPreset の tint フラグ→#classChips 表示)。非 tint には出さない
+// ----   (ノイズ回避 — 統括裁定)。badge.no-hscroll と同じ書式で横スクロール不在も確認する ----
+if (hasBadgeClassify) {
+  const hasGas = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'gas'));
+  const hasGalaxy = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'galaxy'));
+  if (hasGas && hasGalaxy) {
+    const r = await page.evaluate(() => {
+      HP.setLang('ja');   // 言語順不同への防御(直前のテストがenのまま終わっていても ja で判定する)
+      const tintLabel = HP.T('bdgTint');
+      const inspect = (id) => {
+        HP.loadPreset(id, false);
+        document.querySelector('#tabs button[data-tab=help]').click();
+        const tab = document.querySelector('#page-help');
+        const bad = [...tab.querySelectorAll('*')].filter((e) => e.scrollWidth > e.clientWidth + 1)
+          .map((e) => `${e.tagName}#${e.id || '(no-id)'}`);
+        const chips = [...document.querySelectorAll('#classChips .classChip')].map((e) => e.textContent);
+        document.querySelector('#tabs button[data-tab=help]').click();
+        const cls = HP.classifyPreset(HP.allPresets().find((p) => p.id === id));
+        return { chips, bad, tint: cls.tint };
+      };
+      return { tintLabel, gas: inspect('gas'), galaxy: inspect('galaxy') };
+    });
+    const gasHas = r.gas.chips.includes(r.tintLabel);
+    const galaxyHas = r.galaxy.chips.includes(r.tintLabel);
+    add('badge.tint',
+      r.gas.tint === true && gasHas && r.galaxy.tint === false && !galaxyHas
+        && r.gas.bad.length === 0 && r.galaxy.bad.length === 0,
+      `ラベル="${r.tintLabel}" / 🔥gas(thermal:"tint"): cls.tint=${r.gas.tint} チップ含む=${gasHas} `
+      + `チップ一覧=[${r.gas.chips.join(', ')}] / 🌌galaxy(非tint): cls.tint=${r.galaxy.tint} チップ含む=${galaxyHas} `
+      + `チップ一覧=[${r.galaxy.chips.join(', ')}] / 横スクロールなし(viewport 390): gas=${r.gas.bad.length === 0} galaxy=${r.galaxy.bad.length === 0}`);
+  } else {
+    console.log('SKIP badge.tint(対象に 🔥gas/🌌galaxy なし)');
+  }
+} else {
+  console.log('SKIP badge.tint(対象に HP.classifyPreset なし — 第35便 W4 未適用の root 等)');
+}
+
+// ---- 4-75 E2) ui.valid-window: 第39便 39E — プリセットの任意キー validT(HUD表示専用の
+// ----   「評価済み最大時間」・sim時間)。(a) validatePreset が正の有限数だけ受理し、それ以外
+// ----   (0・負値・NaN・Infinity・文字列)は警告なしで静かに無視することを検査する。
+// ----   (b) 🕶️darkrotor(validT=384)で sim.t が validT を超えると HUD 文字列に
+// ----   " ⚠評価窓外(t>384)" が現れ、物理ハッシュ(位置・速度・スピン・半径)は窓内外で
+// ----   bit一致する(=表示専用で物理へフィードバックしないことの証明)。
+// ----   窓を跨ぐのに実際に24000步(383体・O(N²))を回すとQA全体が過大に遅くなるため、
+// ----   少量だけ実stepさせて非自明な状態を作ったあと sim.t だけを直接書き換える
+// ----   (物理配列には一切触れない — HUDの表示条件 sim.t>validT 自体のテストとして十分。
+// ----   実際の24000步耐久検証は behavior.darkrotorLong 等の既存経路が別途担う)。
+// ----   (c) validT の無い⏱️gclockでは t がどれだけ大きくてもマーカーが出ない ----
+{
+  const hasValidT = await page.evaluate(() => 'validT' in HP.sim);
+  if (hasValidT) {
+    const hasDarkrotor = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'darkrotor'));
+    const hasGclock = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'gclock'));
+    if (hasDarkrotor && hasGclock) {
+      // (a) validatePreset のスキーマ検査
+      const schema = await page.evaluate(() => {
+        const base = () => ({ name: 'vt', description: 'd', camera: { scale: 100 },
+          world: { boundary: 'none', size: 0 }, physics: {}, bodies: [] });
+        const check = (label, apply) => {
+          const p = base(); apply(p);
+          const v = HP.validatePreset(p);
+          const hasKey = v.ok && ('validT' in v.preset);
+          return { label, ok: v.ok, hasKey, val: hasKey ? v.preset.validT : null,
+            warnCount: v.ok ? v.warnings.length : -1 };
+        };
+        return [
+          check('accept', (p) => { p.validT = 384; }),
+          check('zero', (p) => { p.validT = 0; }),
+          check('negative', (p) => { p.validT = -5; }),
+          check('nan', (p) => { p.validT = NaN; }),
+          check('inf', (p) => { p.validT = Infinity; }),
+          check('string', (p) => { p.validT = '384'; }),
+          check('omitted', () => {}),
+        ];
+      });
+      const sByLabel = Object.fromEntries(schema.map((s) => [s.label, s]));
+      const invalidLabels = ['zero', 'negative', 'nan', 'inf', 'string', 'omitted'];
+      const aOk = sByLabel.accept.ok && sByLabel.accept.hasKey && sByLabel.accept.val === 384
+        && sByLabel.accept.warnCount === 0
+        && invalidLabels.every((l) => sByLabel[l].ok && !sByLabel[l].hasKey && sByLabel[l].warnCount === 0);
+
+      // (b) darkrotor: 少量だけ実stepさせてから sim.t を直接動かし、窓内外のHUD・物理ハッシュを見る
+      const setup = await page.evaluate(() => {
+        HP.setLang('ja');   // 言語順不同への防御(マーカー文字列は ja で判定する)
+        HP.loadPreset('darkrotor', false);
+        const S = HP.sim;
+        for (let k = 0; k < 300; k++) S.step(0.016);   // 実際に少し進めて非自明な状態にする
+        const hashPhys = () => {
+          const a = [];
+          for (let i = 0; i < S.n; i++) a.push(S.x[i], S.y[i], S.vx[i], S.vy[i], S.spin[i], S.R[i]);
+          return a.join(',');
+        };
+        const hashBefore = hashPhys();
+        return { hashBefore, tBefore: S.t, validT: S.validT };
+      });
+      await page.waitForFunction((t) => {
+        const el = document.querySelector('#hud');
+        return el && el.textContent.includes(`t=${t.toFixed(1)}`);
+      }, setup.tBefore, { timeout: 5000 }).catch(() => {});
+      const hudInside = await page.evaluate(() => document.querySelector('#hud').textContent);
+      const after = await page.evaluate((validT) => {
+        const S = HP.sim;
+        S.t = validT + 1;   // 表示条件 sim.t>validT だけを跨がせる(物理配列は不変)
+        return S.t;
+      }, setup.validT);
+      const markerJa = ` ⚠評価窓外(t>${setup.validT})`;
+      await page.waitForFunction((mk) => {
+        const el = document.querySelector('#hud');
+        return el && el.textContent.includes(mk);
+      }, markerJa, { timeout: 5000 }).catch(() => {});
+      const hudOutside = await page.evaluate(() => document.querySelector('#hud').textContent);
+      const hashAfter = await page.evaluate(() => {
+        const S = HP.sim;
+        const a = [];
+        for (let i = 0; i < S.n; i++) a.push(S.x[i], S.y[i], S.vx[i], S.vy[i], S.spin[i], S.R[i]);
+        return a.join(',');
+      });
+      const bOk = !hudInside.includes('評価窓外') && hudOutside.includes(markerJa) && hashAfter === setup.hashBefore;
+
+      // (c) validT の無い⏱️gclockでは t が大きくてもマーカーが出ない
+      await page.evaluate(() => { HP.loadPreset('gclock', false); HP.sim.t = 100000; });
+      await page.waitForFunction(() => {
+        const el = document.querySelector('#hud');
+        return el && el.textContent.includes('t=100000.0');
+      }, null, { timeout: 5000 }).catch(() => {});
+      const hudGclock = await page.evaluate(() => document.querySelector('#hud').textContent);
+      const gclockValidT = await page.evaluate(() => HP.sim.validT);
+      const cOk = gclockValidT === null && !hudGclock.includes('評価窓外');
+
+      add('ui.valid-window', aOk && bOk && cOk,
+        `(a)validatePreset: ${schema.map((s) => `${s.label}=${s.hasKey ? 'kept(' + s.val + ')' : 'dropped'}/warn${s.warnCount}`).join(' ')}(${aOk ? 'OK' : 'NG'}) `
+        + `/ (b)🕶️darkrotor validT=${setup.validT} 窓内t=${setup.tBefore.toFixed(2)} HUD="${hudInside.replace(/\n/g, ' / ')}" `
+        + `→ t=${after.toFixed(1)}へ直接進行後 HUD="${hudOutside.replace(/\n/g, ' / ')}" `
+        + `マーカー有無(窓内${!hudInside.includes('評価窓外')}/窓外${hudOutside.includes(markerJa)}) 物理ハッシュ不変=${hashAfter === setup.hashBefore}(${bOk ? 'OK' : 'NG'}) `
+        + `/ (c)⏱️gclock validT=${gclockValidT}(無し) t=100000でもマーカー無し=${!hudGclock.includes('評価窓外')}(${cOk ? 'OK' : 'NG'})`);
+    } else {
+      console.log('SKIP ui.valid-window(対象に 🕶️darkrotor/⏱️gclock なし)');
+    }
+  } else {
+    console.log('SKIP ui.valid-window(対象に sim.validT なし — 第39便 39E 未適用の root 等)');
+  }
+}
+
 // ---- 7h1f) 第37便 A6(原仮定者裁定): drawScale(描画専用の半径倍率。第35便 W4)を廃止した。
 // ----   誤解を招きやすく(粒子が実際より大きく見える)、☿等では表示が被る事例があったため。
 // ----   これに伴い旧 drawscale.physics-free(物理不変性のハッシュ照合)と drawscale.schema

@@ -171,6 +171,8 @@
   #classChips .classChip[data-g=comparison]{border-color:var(--err);color:var(--err);}
   #classChips .classChip[data-g=drive]{border-color:var(--dim);color:var(--dim);}
   #classChips .classChip[data-g=closed]{border-color:var(--dim);color:var(--dim);}
+  /* 第39便 39E(台帳4-75 E1): 温度モデルバッジ(thermal:"tint" のみ) */
+  #classChips .classChip[data-g=tint]{border-color:var(--hot);color:var(--hot);}
   /* ===== 横画面レイアウト(4-35 裁定: タブレット・PC 想定)=====
      landscape かつ幅 900px 以上で、キャンバス左・操作列/タブ/パネル右の2カラムに組み替える。
      スマホの横持ち(幅 900px 未満)は従来の縦積みのまま。DOM 順は不変で CSS のみ —
@@ -593,6 +595,10 @@ ja: {
   bdgComparison:"比較チャネル", bdgComparisonTip:"FLRW 摩擦 — DFM 公理外の対照",
   bdgDrive:"外部駆動", bdgDriveTip:"固定・レール・熱浴・一様重力のいずれかが外部から系を駆動する(下の詳細参照)",
   bdgClosed:"閉鎖系", bdgClosedTip:"閉鎖系 — 固定・規定運動なし。運動量・角運動量は系内(+遠方宇宙の帳簿)で閉じる。",
+  // 第39便 39E(台帳4-75 E1): 温度モデルバッジ — thermal:"tint" のサンプルにだけ表示(表示のみ・物理不変)
+  bdgTint:"温度=T_int", bdgTintTip:"温度を内部状態変数 T_int として扱う(A9′)— スピンと独立で、エネルギー帳簿が閉じる。無印のサンプルは旧来の「スピン=熱」方式",
+  // 第39便 39E(台帳4-75 E2): 有効時間窓マーカー(HUD)— sim.t が validT を超えたときだけ HUD に追記
+  hudBeyondWindow:(v)=>" ⚠評価窓外(t>"+v+")",
   groups:{}, params:{},
 },
 en: {
@@ -759,6 +765,10 @@ en: {
   bdgComparison:"Comparison", bdgComparisonTip:"FLRW friction — a contrast channel outside the DFM axioms",
   bdgDrive:"External drive", bdgDriveTip:"Pinning, a rail, a heat bath or uniform gravity drives the system from outside (see the detail list below)",
   bdgClosed:"Closed system", bdgClosedTip:"Closed system — no constraints or prescribed motion. Momentum and angular momentum close within the system (plus the distant-universe ledger).",
+  // 39th flight 39E (ledger 4-75 E1): temperature-model badge — shown only for thermal:"tint" samples (display only, physics unchanged)
+  bdgTint:"T=T_int", bdgTintTip:"Temperature is treated as an internal state variable T_int (A9′) — independent of spin, so the energy ledger stays closed. Unmarked samples use the older \"spin = heat\" scheme.",
+  // 39th flight 39E (ledger 4-75 E2): valid-window HUD marker — appended only once sim.t exceeds validT
+  hudBeyondWindow:(v)=>" ⚠beyond evaluated window (t>"+v+")",
   groups:{"空間と時間":"Space & Time","箱宇宙":"Box Universe","銀河":"Galaxies","光":"Light","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
   params:{G:"Gravity G", D0:"Background determinacy D₀", kFrame:"Frame dragging kFrame",
     q:"Drag falloff q", kRep:"Spin repulsion kRep", muF:"Friction→spin muF",
@@ -935,7 +945,10 @@ function classifyPreset(p){
   if(layers.length===0) layers.push("core");
   // 第37便 C1(台帳4-70): 伝熱する壁も外部駆動 — 熱を出し入れする面がある系は閉じていない
   const closed=!ext.rail && !ext.pin && !ext.grav && !ext.wall;   // 既存の閉鎖系判定(renderHelp と同一式)
-  return {layers, external:ext, closed};
+  // 第39便 39E(台帳4-75 E1): 温度モデルバッジ — thermal:"tint" かどうかを表示だけの追加軸として返す
+  // (layers の「創発 vs 規則」分類とは別軸なので layers 配列には入れない。物理判定には一切使わない)
+  const tint = p.thermal==="tint";
+  return {layers, external:ext, closed, tint};
 }
 function gName(g){ return (LANG==="en" && I18N.en.groups[g]) || g; }
 function pName(p){ return (LANG==="en" && p.en && p.en.name) || p.name; }
@@ -1301,6 +1314,7 @@ const BUILTIN_PRESETS = [
   en:{name:"Box Universe — Expansion vs Self-Gravity (a Cosmic-Web Analogue)", description:"Inside an expanding UniverseBox (H=0.004) sit 320 uniform gas particles given nothing but the comoving initial flow. Two factors dominate the competition: the background expansion pulls everything apart (prescribed a(t), carried by E6′) and self-gravity (E4) pulls neighbours together. The only initial lumpiness is the Poisson noise of the random placement — from that, dense filaments and empty voids separate out. The bottom-right graph shows the scale factor a(t). Quantitatively: the density contrast δ²=Var(N)/⟨N⟩² on a 10×10 comoving grid grows from 0.272 to 3.578 (13.1×) in 6000 steps, and the fraction of empty cells rises from 1.3% to 57.9%. Suggested A/B: set H to 0 and the pulling-apart disappears — in the same time, structure grows further (δ²=8.55, 75% voids). Raise H to 0.01 and expansion wins, suppressing growth (δ²=1.48, 34% voids) — the expansion rate sets the scale of the structure. Thermal pressure, contact dissipation, conduction and radiative cooling (E5′/E9′/κs/E11) are all switched on for a faithful gas model and numerical stability, but none of them drives structure formation — turning off radiative cooling still gives δ²=3.55 (a 0.7% difference). Note: two dimensions, 320 particles and an externally prescribed expansion law are severe simplifications — this is not a claim to reproduce ΛCDM structure formation (Negative Claims 1/2). The back-reaction of the expansion is ledgered to the reservoir (A13)."},
   activeParams:["G","kFrame","kRep"],
   thermal:"tint",
+  validT:96,   // 第39便 39E(台帳4-75 E2): 説明文の実測窓(6000步=t≈96)と一致(HUD表示専用)
   camera:{scale:420}, world:{boundary:"none",size:0}, seed:20260727,
   universeBox:{mode:"exp", H0:0.004, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
   physics:{G:10, D0:0, kFrame:1, q:2, kRep:0.5, muF:0.5, gammaN:0.4, kappaS:0.05, Kt:300,
@@ -1373,6 +1387,9 @@ const BUILTIN_PRESETS = [
   description:"銀河中心のブラックホール(m=2000・減光1)と、x=±200に向かい合う2個のダークローター(m=150・半径18・スピン2.0)、その間を回る380個の恒星 — 全粒子が自由(ピン・レール無し)の閉鎖系。ローターの空間引きずり(A8/E6′)が恒星円盤にm=2の渦状腕を立てる — 後行螺旋・ピッチ角≈26°(実測、6000步窓の中央値・7/7点が後行)。有効窓は2本立て: 恒星の安定はt≈384(24000步)まで(保持87.9%・半径分散のドリフトは10体構成の約1/4.5)、腕の分離が言えるのはt≈96(6000步)まで。腕振幅A2(環帯[80,120][120,160][160,200][200,240]の後半平均)=0.583/0.680/0.546/0.431、帯平均0.560。※重要な限定: 対向2個という配置そのものがm=2の質量四重極なので、スピンを0にした対照にも配置由来の腕が残る(帯平均0.156)— この構成の対照は「厳密な軸対称系」ではない。スピンを入れると0.560=3.6倍に増強され、スピン0→1→2→3で帯平均が0.186→0.209→0.560→0.707と単調に増える(用量反応)— この単調増加がスピン起因の分を分離する根拠。12000步では対照側にも円盤自身の重力不安定で本物のm=2が育って比が1.47に落ち、24000步では環帯の人数が3〜12まで減って腕の統計そのものが成立しなくなる(だから腕の窓は6000步)。kRepは0.15に弱めてある(E5′斥力が腕形成の律速 — 本サンプルでE5′の主張はしない)。腕の増強は複合経路 — 引きずり(E6′)を切っても(kFrame=0)腕振幅の約69%が残り、スピン斥力を切る(kRep=0)と約33%へ低下する(要因分離実測・4-53を新構成で再測定)。おすすめA/B: ローターのスピンを0にすると、増強分が消えて配置由来の弱い腕だけが残る。※実宇宙のダークマターや渦状腕理論の主張ではない(T4の防御線を維持)。",
   en:{name:"Dark-Rotor Galaxy", description:"A black hole at the galactic center (m=2000, dimming=1), two dark rotors facing each other at x=±200 (m=150, radius 18, spin 2.0), and 380 stars orbiting between them — a closed system in which every particle is free (no pins, no rails). The rotors' dragging of space (A8/E6′) raises m=2 spiral arms in the stellar disk: a trailing spiral with a measured pitch angle of about 26° (median over the 6000-step window; 7 of 7 samples trailing). There are two valid windows: the stars stay stable out to t≈384 (24000 steps, 87.9% retained, with about 1/4.5 the radial-dispersion drift of the old ten-rotor build), but the arm separation only holds to t≈96 (6000 steps). Arm amplitude A2 (late-half mean over the annuli [80,120][120,160][160,200][200,240]) = 0.583/0.680/0.546/0.431, band mean 0.560. Important limitation: two opposing bodies ARE an m=2 mass quadrupole, so the spin-0 control keeps an arm that comes from the placement itself (band mean 0.156) — this control is not a strictly axisymmetric system. Switching the spin on raises it to 0.560, a factor of 3.6, and the band mean grows monotonically with spin 0→1→2→3 as 0.186→0.209→0.560→0.707 (dose response) — that monotonic rise is what isolates the spin-driven part. By 12000 steps the control grows a genuine m=2 of its own from the disk's self-gravity and the ratio falls to 1.47; by 24000 steps only 3–12 stars remain in each annulus, so the arm statistic no longer means anything (hence the 6000-step arm window). kRep has been lowered to 0.15 (the E5′ repulsion is the rate-limiting step for arm formation — this sample makes no claim about E5′). The arm enhancement runs through a composite pathway: turning off dragging (kFrame=0) still leaves about 69% of the arm amplitude, while turning off spin repulsion (kRep=0) drops it to about 33% (factor-separation measurement 4-53, re-measured for this build). Suggested A/B: set the rotors' spin to 0 — the enhancement disappears and only the weak placement-driven arm is left. Not a claim about real dark matter or about spiral-arm theory (T4 disclaimer upheld)."},
   activeParams:["kFrame","D0","q"],
+  // 第39便 39E(台帳4-75 E2): 有効窓は2本立て(恒星の安定t≈384/腕の分離t≈96)だが、腕の
+  // サブ窓は説明文が既に明記している。HUD は「評価済み最大時間」= 恒星安定の外側窓384を表示
+  validT:384,
   camera:{scale:300}, world:{boundary:"none",size:0}, seed:20260726,
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:0.15, muF:0.02, gammaN:0.05, kappaS:0.05, Kt:60,
     cLight:60, bM:1, etaRad:0.005, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 2.0 は各 body の rMul へ焼込(第36便 C1)*/, softening:4, timeScale:2},
@@ -1409,6 +1426,7 @@ const BUILTIN_PRESETS = [
   description:"🕶️から「暗い天体」1個だけを取り出した最小構成 — 中心の高スピンコア(m=2000・半径45・スピン2.0・減光=auto)と、r=200を周回する24個のテスト粒子、左から入る20本の光線。全粒子が自由(ピン・レール無し)の閉鎖系。この宇宙の「暗さ」は別々の機構の混合で(DERIVATIONS §17)、この画面はそのうち2つを同時に、しかも分離して見せる。②自光の減光(掻き出し): 減光を固定値ではなく auto にしてあるので、実効値 lS_eff=min(1,|s|R/c_surf) が粒子のスピンと半径から毎ステップ算出される(中心天体をタップすると減光欄は「自動」チェック済みで、実効値 lS_eff が数値欄に表示される)— 実測1.00。③外来光線の掃き出し: 回るコアが決定フレームごと光を運び(A11/E8R)、スピン0の対照では起きる有限時間の光子捕捉(実測 非脱出率0.66)が消える(実測0.00)。順行側の光線ほど外へ払われ、逆行側は深く潜る(平均最小接近半径 順行123 対 逆行40 — T8と同じ非対称)。②と③は別機構である: lS_effはスピン0.29で既に1に飽和しているのに、そのスピンでは掃き出しがまだ全く起きていない(非脱出率0.72 = 対照以上)。掃き出しが立ち上がるのはスピン0.6→0.7の間(0.70→0.08)で、飽和点とは2倍以上離れている。テスト粒子は空間の引きずり(A8/E6′)で順行方向に角運動量を汲み上げられる(6000步平均 L_z=954 対 対照632)。運動量・角運動量は帳簿込みで保存する(モニタ表示・相対ずれ1e-4台)。おすすめA/B: コアのスピンを0にすると、減光・掃き出し・引きずりが同時に消える。※③は物理対応ロック(Kt=c²/G=3600)では起きない — 実測 非脱出率は高スピンでも0.00(第19便 反証条件7)。実在のブラックホールやダークマターについての主張ではない(Negative Claims 1/2)。",
   en:{name:"Dark Rotor (Single Body)", description:"The minimal version of 🕶️: one dark body on its own — a high-spin core at the center (m=2000, radius 45, spin 2.0, dimming=auto), 24 test particles orbiting at r=200, and 20 light rays entering from the left. Every particle is free (no pins, no rails): a closed system. Darkness in this universe is a mixture of separate mechanisms (DERIVATIONS §17), and this screen shows two of them at once — and keeps them apart. (2) Dimming its own light (spin sweeping it out): dimming is set to \"auto\" rather than a fixed number, so the effective value lS_eff=min(1,|s|R/c_surf) is computed every step from the body's own spin and radius (tap the core: the dimming field shows the \"auto\" checkbox ticked, with the effective value lS_eff displayed in the number field) — measured 1.00. (3) Sweeping out incoming rays: the spinning core carries light with the rotating determinacy frame (A11/E8R), and the finite-time photon capture that happens in the spin-0 control (measured non-escape rate 0.66) disappears (measured 0.00). Prograde rays are pushed outward while retrograde rays dive deeper (mean closest approach 123 vs 40 — the same asymmetry as T8). (2) and (3) are different mechanisms: lS_eff is already saturated at 1 by spin 0.29, yet at that spin the ray sweep-out has not started at all (non-escape 0.72, above the control). The sweep-out only switches on between spin 0.6 and 0.7 (0.70→0.08) — more than a factor of two away from the saturation point. The test particles are pumped into prograde rotation by the dragging of space (A8/E6′): mean L_z=954 over 6000 steps versus 632 for the control. Momentum and angular momentum are conserved once the ledger is included (see the monitor; relative drift of order 1e-4). Suggested A/B: set the core spin to 0 and the dimming, the sweep-out and the dragging all vanish together. Note: (3) does not happen under the GR-calibration lock (Kt=c²/G=3600) — the measured non-escape rate is 0.00 even at high spin (19th-delivery falsification condition 7). Not a claim about real black holes or dark matter (Negative Claims 1/2)."},
   activeParams:["kFrame","Kt","q"],
+  validT:96,   // 第39便 39E(台帳4-75 E2): 説明文の実測窓(6000步=t≈96。L_z平均・帳簿保存の測定窓)と一致
   camera:{scale:300}, world:{boundary:"none",size:0}, seed:20260727,
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
     cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
@@ -1846,6 +1864,7 @@ const BUILTIN_PRESETS = [
   en:{name:"An AGN Analogue — Inner Disk and Bipolar Jets", description:"A supermassive body at the center (m=2000, dimming=auto → observed temperature 0, so the 'engine' itself looks pitch dark) and a cold gas band stretched long and thin along the x axis. The gas falls inward under self-gravity and is heated by friction where it crowds together at the inner edge (E9′ → internal temperature T_int). The warmed gas pushes back with thermal repulsion = pressure (E5′), but escaping along the equator (±x) means shoving the whole length of the band aside — so the only low-resistance exit is the polar direction (±y), and the outflow collimates into two jets. Measured: 84% of the gas that leaves the inner region and reaches r>300 lies within 30° of the ±y axis (isotropic would be 1/3 — a 2.5× concentration; at 4000 steps, 24 polar vs 0 equatorial). Suggested A/B: set the thermal repulsion kRep to 0 and the pushing pressure disappears, and the outflow returns toward isotropy (measured 54% — still well above the isotropic 1/3, so geometry and gravity keep contributing). Color = temperature: watch the inner edge glow and the jets cool as they stretch. Frame dragging and spontaneous radiation are switched off to isolate the factors (the central spin only feeds the dimming channel). Note: this is a 2D analogy showing that pressure plus geometry alone produce bipolarity — not a claim to reproduce real AGN, MHD jets or relativistic jets (Negative Claims 1/2)."},
   activeParams:["kRep","muF","gammaN","cHeat"],
   thermal:"tint",
+  validT:64,   // 第39便 39E(台帳4-75 E2): 説明文の実測窓(4000步=t≈64)と一致
   camera:{scale:320}, world:{boundary:"none",size:0}, seed:20260727,
   physics:{G:1, D0:2, kFrame:0, q:2, kRep:2, muF:0.6, gammaN:0.05, kappaS:0.05, Kt:60,
     cLight:60, bM:1, etaRad:0, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
@@ -1892,6 +1911,7 @@ const BUILTIN_PRESETS = [
   en:{name:"Contraction and Spin-Up", description:"A slowly rotating gas cloud with nothing applied from outside (240 grains, rigid rotation ω₀=0.00675). Pressure (E5′) is switched off, so the cloud falls in under its own gravity alone: while the radius of the inner half-mass — the core — shrinks by a factor of 3.06, the core's rotation speeds up by a factor of 8.50. Angular-momentum conservation predicts (R₀/R)²=9.36, and the measurement matches it to 90.8% (the missing 9.2% is identically the fraction of orbital angular momentum the core handed outward). The collapse bottoms out by 6000 steps and stays flat after that. Note the claim is about the core only: taken as a whole the system actually rotates more slowly (ω_eff ×0.275), because about 4% of the mass (9 grains out of 240) escapes far enough to dominate Σmr². Colour = temperature. As it contracts, contact friction (E9) raises the internal temperature (2.0→5.2) and radiation (E11) cools it again (→0.34) — a temperature history resembling Kelvin–Helmholtz contraction, but this is a record of where the released gravitational energy went, not the driver of the collapse. With kRep=0 the temperature never enters the forces: it is a passive marker, and turning the cooling off (etaRad=0) does not change the trajectories by a single bit (measured: every dynamical quantity identical; only the colour and the radiated energy differ). Suggested A/B: set kRep to 1 and pressure holds the collapse back — the contraction drops from 3.06× to 2.59× and the spin-up from 8.50× to 4.26×. Momentum and angular momentum close exactly with all reservoir ledgers at zero (see the monitor; |ΔL|/L_scale = 1.7e-6). This is a finite-time contraction, not a claim about a steady state (consistent with the 37th delivery's negative result that steady radiation cannot hold without an internal heat source). Not a claim to reproduce real star formation or protostars (Negative Claims 1/2)."},
   activeParams:["kRep","etaRad","G"],
   thermal:"tint",   // 第36便 D(台帳4-51): 温度は内部状態変数 T_int
+  validT:384,   // 第39便 39E(台帳4-75 E2): 実測(24000步=t≈384・3seed頑健性確認済み)の評価済み最大時間
   camera:{scale:200}, world:{boundary:"none",size:0}, seed:20260728,
   physics:{G:4, D0:2, kFrame:0, q:2, kRep:0, muF:0.5, gammaN:0.4, kappaS:0.05, Kt:60,
     cLight:60, bM:1, etaRad:0.003, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2},
@@ -2171,6 +2191,13 @@ function validatePreset(obj){
       p.echoFlipAt=c;
     }
   }
+  // 第39便 39E(台帳4-75 E2): validT — 「評価済み最大時間」(sim時間)。HUD の任意表示にだけ使う
+  // 純粋な注記メタデータで、物理には一切使わない。正の有限数のみ受理し、それ以外(非数値・0・
+  // 負値・Infinity 等)は警告なしで静かに削除する(表示専用メタなのでノイズになる警告は出さない
+  // — echoFlipAt 等の物理的意味を持つキーとは方針を分ける)
+  if(p.validT!==undefined){
+    if(!isNum(p.validT) || p.validT<=0) delete p.validT;
+  }
   // 第35便(台帳4-61): measureBox — 壁粒子群(bodies 定義順で最初の ring 群)の平均中心距離から
   // 実測尺度因子 a_eff=⟨r⟩/⟨r⟩₀ を毎履歴周期で計測し、膨張グラフに「実測」として描く。
   // universeBox(規定 a(t))との併用は未定義なので、規定を優先して measureBox を無視する
@@ -2418,6 +2445,8 @@ function makeSim(){
     // echoFlipAt!==null のプリセットだけが速度・スピン反転と初期配置からの RMS 計測を行う
     integrator:"semi", echoFlipAt:null, echoFlipped:false, echoFlipT:0, echoRMS:0,
     echoX0:null, echoY0:null,
+    // 第39便 39E(台帳4-75 E2): validT — 評価済み最大時間(HUD 任意表示専用。物理には未参照)
+    validT:null,
     curveBins:null, curveKep:null, tempLR:[0,0], histT:[],
   };
   // 第39便 39B(台帳4-76): thermal="spin" のときに _core が掴む tint 系配列のダミー。
@@ -2633,6 +2662,9 @@ function makeSim(){
     // 無指定のプリセットは全て null のままで追加コストゼロ
     S.integrator = (preset.integrator==="leapfrog")? "leapfrog" : "semi";
     S.echoFlipAt = isNum(preset.echoFlipAt)? preset.echoFlipAt : null;
+    // 第39便 39E(台帳4-75 E2): validT — 正の有限数のみ受理(validatePreset と同条件の防御的
+    // 再検査。内蔵プリセットはバリデータを通らないのでここが最終的な門番 — echoFlipAt と同形)
+    S.validT = (isNum(preset.validT) && preset.validT>0)? preset.validT : null;
     S.echoFlipped=false; S.echoFlipT=0; S.echoRMS=0;
     if(S.echoFlipAt!==null){
       S.echoX0=new Float64Array(S.n); S.echoY0=new Float64Array(S.n);
@@ -4533,6 +4565,11 @@ function loop(now){
   }
   if((frameCount++%10)===0){
     let txt=`t=${sim.t.toFixed(1)}  N=${sim.n}  ${Math.round(fpsEMA)}fps`;
+    // 第39便 39E(台帳4-75 E2): sim.t が validT(評価済み最大時間)を超えたときだけ警告を追記。
+    // 窓内では1文字も増えない(クラッタ回避)。表示専用 — 物理には一切フィードバックしない。
+    // A/B比較中は simB も同じ座標時間だけ進む(loop() 内 for 文が両方を同じ k だけ step する)ため
+    // sim.t===ab.simB.t が常に成り立ち、sim 側だけを見れば両画面の判定を兼ねる
+    if(sim.validT!==null && sim.t>sim.validT) txt+=T("hudBeyondWindow")(sim.validT);
     if(sim.box){ // 第31便: UniverseBox の尺度因子・Hubble 率・現在の背景決定力
       const sc=boxScaleAt(sim.box,sim.t);
       // 第33便: H クランプ可視化 — 安全弁が発動している間は H=+0.500(CLAMP) の様式で明示
@@ -4720,6 +4757,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   // 第35便(台帳4-62): 積分器と echo の状態も転写(build 済みなので echoX0/Y0 は同一配置。
   // 反転済みフラグ・RMS だけは現在値を引き継ぐ — A/B を反転後に開始しても再反転しない)
   simB.integrator=sim.integrator; simB.echoFlipAt=sim.echoFlipAt;
+  simB.validT=sim.validT;   // 第39便 39E(台帳4-75 E2): A/B とも同じ座標時間で進むため同値を複製
   simB.echoFlipped=sim.echoFlipped; simB.echoFlipT=sim.echoFlipT; simB.echoRMS=sim.echoRMS;
   // 第35便(台帳4-61): 自由な箱の実測尺度因子。build 済みなので壁タグ・基準⟨r⟩は同値だが、
   // 併走の起点を揃えるため H_eff の前回サンプル(_bhLastA/_bhLastT)も明示的に引き継ぐ
@@ -5790,6 +5828,8 @@ function renderHelp(){
   }
   if(cls.external.rail||cls.external.pin||cls.external.bath||cls.external.grav) addChip("drive",T("bdgDrive"),T("bdgDriveTip"));
   if(cls.closed) addChip("closed",T("bdgClosed"),T("bdgClosedTip"));
+  // 第39便 39E(台帳4-75 E1): 温度モデルバッジ — thermal:"tint" のプリセットにだけ1個追加(ノイズ回避)
+  if(cls.tint) addChip("tint",T("bdgTint"),T("bdgTintTip"));
   el.appendChild(chipRow);
   // v1.15(第7次裁定): 外部要素バッジ — 固定粒子・レール・熱浴と閉鎖系を区別して表示(詳細=箇条書き)
   const ext=cls.external;
