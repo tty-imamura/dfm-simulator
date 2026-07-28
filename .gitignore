@@ -6,6 +6,8 @@ tests/out/*
 !tests/out/perf-results.json
 # 第19便: ダークローター探索実験の実測生データ(裁定記録 REVIEW_20260723_DARK_ROTOR_* が参照)
 !tests/out/darkrotor-results.json
+!tests/out/exp-4-67.json
+!tests/out/exp-4-68c.json
 # 第32便 W4(台帳4-58): QAスクリーンショットはCIアーティファクトのみ・コミット対象外
 tests/out/*.png
 # 公開前レビュー P0-5: 依存を固定して QA の再現性を担保(CI は npm ci)

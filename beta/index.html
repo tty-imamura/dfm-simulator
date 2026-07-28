@@ -69,6 +69,8 @@
   #bodyEdit .beRow input[type=text]{flex:1;min-width:0;min-height:30px;padding:2px 5px;font-size:calc(12px*var(--uz,1));
     text-align:right;background:var(--panel);border:1px solid var(--line);border-radius:6px;color:var(--acc);}
   #bodyEdit .beRow input[type=checkbox]{width:18px;height:18px;accent-color:var(--acc);}
+  /* 第38便(原仮定者指示): auto中で読み取り専用になった数値欄を視覚的に示す */
+  #bodyEdit .beRow input[readonly]{opacity:.55;}
   #bodyEdit .beNote{color:var(--dim);font-size:calc(10px*var(--uz,1));margin-top:4px;line-height:1.4;}
   /* 第26便(原仮定者指示): 編集パネルの最小化 — ヘッダだけ残して行を畳む(✕廃止→最小化トグル) */
   #bodyEdit.min .beRow,#bodyEdit.min .beNote{display:none;}
@@ -224,8 +226,11 @@
       <div class="beRow"><label id="beLot">To×</label><input type="text" id="beOt" inputmode="decimal" autocomplete="off">
         <label id="beLoc" style="min-width:30px">TcO×</label><input type="text" id="beOc" inputmode="decimal" autocomplete="off"></div>
       <!-- 第37便 A2(原仮定者指示): 「auto」チェックボックス — ON で lightSweep="auto" を設定し
-           数値欄を読み取り専用にして隣に実効値 lS_eff を表示する。OFF は従来の数値入力に戻る -->
-      <div class="beRow"><label id="beLsw" style="min-width:34px">掻出</label><input type="text" id="beSw" inputmode="decimal" autocomplete="off"><label id="beLswAuto" style="min-width:0;flex:0 0 auto;margin-left:2px">auto</label><input type="checkbox" id="beSwAuto"><span id="beSwEff" style="flex:1;font-size:11px;opacity:.8;padding-left:6px"></span></div>
+           数値欄を読み取り専用にする。OFF は従来の数値入力に戻る。
+           第38便(原仮定者指示・構造のみ。ラベル文字列の改称は次波38B): #beLsw の固定幅指定を
+           削除して既定14pxに戻し、#beSwEff(実効値の別表示スパン)を廃止 — #beSw(flex:1)自体が
+           auto中も実効値を表示するようにしたため(下の updateBodyEdit を参照)、数値欄が広がる -->
+      <div class="beRow"><label id="beLsw">減光</label><input type="text" id="beSw" inputmode="decimal" autocomplete="off"><label id="beLswAuto" style="min-width:0;flex:0 0 auto;margin-left:2px">auto</label><input type="checkbox" id="beSwAuto"></div>
       <div class="beRow"><label id="beLvx">vx</label><input type="text" id="beVx" inputmode="text" autocomplete="off">
         <label id="beLvy">vy</label><input type="text" id="beVy" inputmode="text" autocomplete="off"></div>
       <div class="beRow"><label id="beLp" style="flex:1">固定(pinned)</label><input type="checkbox" id="bePin"></div>
@@ -448,11 +453,13 @@ ja: {
   tgTrailLineDesc:"粒子の軌道を線で記録して描く(☿の楕円歳差など)。記録間隔は描画品質に従う。",
   tgFieldDesc:"決定力 W の強さを背景の色マップで表示(A3/E1′)。明るいほど W が高い。",
   // 第37便 A3(原仮定者指示): 光線の基準波長λ0(表示専用・セーブ対象外・物理不変)
-  rayLambda0Label:"光線の基準波長 λ0(nm)",
-  rayLambda0Desc:"光線のセグメント色は λ_seg=λ0·e^{ψ0−ψ}(第36便 B3)で決まる。λ0はその基準値(既定550nm・可視域380〜780に制限)。表示設定のみで、保存・物理計算には一切影響しない。",
+  // 第38便(原仮定者指示): 既定を580nmへ・スライダーは「光線」トグルの直後に移動・直値は可視外も受理
+  rayLambda0Label:"光線の基準波長(nm)",
+  rayLambda0Desc:"光線のセグメント色は λ_seg=λ0·e^{ψ0−ψ}(第36便 B3)で決まる。λ0はその基準値(既定580nm=旧固定表示色の黄に相当・第38便)。スライダーは可視光380〜780nmの範囲。直値入力では可視外(赤外>780・紫外10〜380・X線0.01〜10・γ線<0.01nm)も指定でき、可視外は記号色(γ線=白/X線=淡シアン/紫外=明紫/赤外=暗赤)で表示する。表示設定のみで、保存・物理計算には一切影響しない。",
   tgRaysDesc:"光線束(E8R)を表示。光は ψ=W/Kt で屈折し、決定フレーム u に運ばれる(A11)。光線のないサンプルでも既定の平行光束を点灯できる。",
   tgCurveDesc:"右下に回転曲線(半径ごとの接線速度)を表示。点線はバリオン実加速度基準 v_bar(r)(質量分布だけから期待される回転)。",
-  tgTempDesc:"温度ヒストグラム(左右比較)。表示は観測温度 T_obs=To×·(1−掻出)·T。",
+  // 第38便 A5(原仮定者指示): バー・折れ線の色を温度に対応させた(粒子の温度色と同じ写像)
+  tgTempDesc:"温度ヒストグラム(左右比較)。表示は観測温度 T_obs=To×·(1−減光)·T。バー・折れ線の色は温度に対応(粒子の温度色と同じ写像)。右系列は破線で区別。",
   tgSpectrumDesc:"放射スペクトル(A12: ピーク波長 λ=b_m/T のウィーン型)。表示は観測温度基準。",
   tgMonitorDesc:"運動量P・角運動量Lとリザーバ帳簿(E6′/E11)の保存量モニタ(T7)。",
   tgBoxGraphDesc:"箱宇宙(UniverseBox)の尺度因子a(t)・膨張率H(t)の時系列と、拡大による波長の伸び(赤方偏移 1+z=a/a₀)を表示する。箱宇宙プリセットでのみ有効。",
@@ -464,9 +471,9 @@ ja: {
   beDsc:"sc/s: コアスピン比。コア実スピン sc=比×s が差動引きずり(Rcから減衰)を生む。1=剛体回転=単層等価。",
   beDr:"R: 半径。慣性I=½mR²・接触・引きずり減衰(R/(R+d))^q・温度・扁平率f=5s²R³/(4Gm)に使用。既定はradiusScale·rMul·√|m|(rMulは粒子ごとの倍率・既定1)。",
   beDrr:"Rc/R: コア半径比。コアの引きずり到達距離を決める。既定は√|mc/m|相当。",
-  beDot:"To×: 観測温度係数。観測温度T_obs=To×·(1−掻出)·T(表示のみ — 力学不変)。",
-  beDsw:"掻出: 光掻き出し(0〜1)。自星の光を外に出さない — 観測温度0で見掛けは冷たく、放射冷却も(1−掻出)倍(ダークローター)。autoと入力すると粒子のスピン・半径から lS_eff=min(1,|s|R/c_surf) を毎ステップ算出する。第37便: 隣の「auto」チェックボックスをONにしても同じ効果で、数値欄が読み取り専用になり実効値lS_effを表示する。",
-  beDoc:"TcO×: コア観測温度比率。Tc_obs=TcO×·(1−掻出)·Ic·sc²(表示のみ)。",
+  beDot:"To×: 観測温度係数。観測温度T_obs=To×·(1−減光)·T(表示のみ — 力学不変)。",
+  beDsw:"減光: 自星の光をどれだけ外に出さないか(0〜1・1=完全減光)。機構はスピンによる自光の掻き出し(lightSweep)。観測温度は T_obs=To×·(1−減光)·T、放射冷却も(1−減光)倍(ダークローター)。auto と入力するか隣の「自動」チェックボックスをONにすると、粒子のスピン・半径から lS_eff=min(1,|s|R/c_surf) を毎ステップ算出する — 数値欄は編集不可になり実効値lS_effで上書き表示される(第38便)。",
+  beDoc:"TcO×: コア観測温度比率。Tc_obs=TcO×·(1−減光)·Ic·sc²(表示のみ)。",
   beDv:"vx/vy: 速度成分。慣性は局所フレームuに対して働く(A5)。",
   beDp:"固定: 位置・速度・スピンを外部拘束で固定(力・トルクを受けない)。反作用はリザーバへ帳簿(A13)。",
   uiScaleOpts:[["1","小"],["1.15","標準"],["1.3","大"]],   // 第27便: 3段階を繰り下げ(既定=1.15)
@@ -476,7 +483,7 @@ ja: {
   tsBothNote:"時間倍率はA/B比較中も両方の画面に反映されます。",
   panelClose:"✕ 閉じる",
   beTitle:"選択粒子の編集", bePinned:"固定(pinned)",
-  beLsw:"掻出",   // 第22便: 光掻き出し(lightSweep)ラベル
+  beLsw:"減光",   // 第22便: 光掻き出し(lightSweep)ラベル
   beLswAuto:"自動",   // 第37便 A2(原仮定者指示): 掻出autoの可視化チェックボックス
   beNote:"※編集は即時反映。⏮初めからで初期値に戻ります。",
   savesHeadSave:"現在のパラメータを保存", savesHeadList:"保存一覧", savesHeadBackup:"バックアップ",
@@ -496,7 +503,7 @@ ja: {
   btnImportFile:"ファイルから読込", fileLoaded:"ファイルを読み込みました",
   unsavedWarn:"※編集中のパラメータは「保存」するまでバックアップに含まれません",
   confirmDiscard:"未保存の編集があります。破棄して読み込みますか?",
-  betaShared:"β版(beta v1.33-b3)はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。",
+  betaShared:"β版(beta v1.33-b4)はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。",
   draftRestore:"未保存の編集の下書きが見つかりました(再読込前の状態)。復元しますか?",
   swFail:"オフライン用キャッシュ(Service Worker)の登録に失敗しました。オンラインでは通常どおり使えます。",
   periHud:(m,a)=>`近点移動(最内粒子): 実測 ${m}°/周 / 解析 ${a}°/周`,
@@ -620,11 +627,13 @@ en: {
   tgTrailLineDesc:"Records and draws orbit lines (e.g. Mercury's precessing ellipse). Recording interval follows render quality.",
   tgFieldDesc:"Background color map of the determinacy W (A3/E1'). Brighter = higher W.",
   // 第37便 A3: ray base wavelength lambda0 (display only, not saved, physics-free)
-  rayLambda0Label:"Ray base wavelength λ0 (nm)",
-  rayLambda0Desc:"Ray segment color follows λ_seg=λ0·e^{ψ0−ψ} (36th flight B3). λ0 is that reference value (default 550nm, clamped to the visible range 380-780). Display setting only — not saved and never affects physics.",
+  // 38th flight (design lead's instruction): default now 580nm; slider moved right after the "rays" toggle; direct entry accepts non-visible values
+  rayLambda0Label:"Ray base wavelength (nm)",
+  rayLambda0Desc:"Ray segment color follows λ_seg=λ0·e^{ψ0−ψ} (36th flight B3). λ0 is that reference value (default 580nm, matching the old fixed display color's yellow; 38th flight). The slider covers the visible range 380-780nm; direct numeric entry also accepts non-visible values (infrared >780, ultraviolet 10-380, X-ray 0.01-10, gamma <0.01nm), shown with symbolic band colors (gamma=white / X-ray=pale cyan / ultraviolet=bright purple / infrared=dark red). Display setting only — not saved and never affects physics.",
   tgRaysDesc:"Shows the light-ray bundle (E8R). Rays refract via psi=W/Kt and are carried by the frame u (A11). Presets without rays can light a default parallel bundle.",
   tgCurveDesc:"Rotation curve (tangential speed vs radius) at bottom right. The dotted line is the baseline v_bar(r) from the real baryonic acceleration — the rotation expected from the mass distribution alone.",
-  tgTempDesc:"Temperature histogram (left/right). Uses the observed temperature T_obs = To x (1-sweep) x T.",
+  // 38th flight A5 (design lead's instruction): bar/line color now follows temperature (same mapping as particle color)
+  tgTempDesc:"Temperature histogram (left/right). Uses the observed temperature T_obs = To x (1-dimming) x T. Bar/line color follows temperature (same mapping as particle color). The right series is dashed to tell it apart.",
   tgSpectrumDesc:"Radiation spectrum (A12, Wien-type peak lambda=b_m/T). Uses observed temperature.",
   tgMonitorDesc:"Conservation monitor (T7): momentum P, angular momentum L, and the reservoir ledger (E6'/E11).",
   tgBoxGraphDesc:"Shows the box universe (UniverseBox) scale factor a(t) and expansion rate H(t) over time, plus the wavelength stretch from expansion (redshift 1+z=a/a0). Only active on box-universe presets.",
@@ -635,9 +644,9 @@ en: {
   beDsc:"sc/s: core spin ratio. Core spin sc = ratio x s drives the differential drag (decaying from Rc). 1 = rigid rotation = single-layer equivalent.",
   beDr:"R: radius. Used in inertia I=1/2 mR^2, contact, drag falloff (R/(R+d))^q, temperature, and oblateness f=5s^2R^3/(4Gm). Default radiusScale x rMul x sqrt(|m|) (rMul = per-body multiplier, default 1).",
   beDrr:"Rc/R: core radius ratio. Sets the reach of the core's drag. Default ~ sqrt(|mc/m|).",
-  beDot:"To x: observed-temperature coefficient. T_obs = To x (1-sweep) x T (display only).",
-  beDsw:"sweep: light sweep-out (0-1). The star's own light never escapes - observed temperature 0 (looks cold) and radiative cooling x (1-sweep). The dark-rotor mechanism. Enter \"auto\" to derive it every step from the body's own spin and radius: lS_eff = min(1, |s|R / c_surf). The \"auto\" checkbox next to it does the same thing and makes the number field read-only, showing the effective lS_eff beside it.",
-  beDoc:"TcO x: core observed-temperature ratio. Tc_obs = TcO x (1-sweep) x Ic sc^2 (display only).",
+  beDot:"To x: observed-temperature coefficient. T_obs = To x (1-dimming) x T (display only).",
+  beDsw:"dimming: how much of the star's own light is kept from escaping (0-1, 1 = fully dimmed). The mechanism is its spin sweeping its own light out (lightSweep). Observed temperature is T_obs = To x (1-dimming) x T, and radiative cooling scales by (1-dimming) too (the dark-rotor mechanism). Enter \"auto\", or check the \"auto\" box next to it, to derive it every step from the body's own spin and radius: lS_eff = min(1, |s|R / c_surf) — the number field becomes read-only and is overwritten to show the effective lS_eff (38th delivery).",
+  beDoc:"TcO x: core observed-temperature ratio. Tc_obs = TcO x (1-dimming) x Ic sc^2 (display only).",
   beDv:"vx/vy: velocity components. Inertia acts relative to the local frame u (A5).",
   beDp:"Pinned: externally constrained (receives no force or torque; spin fixed). Reactions are ledgered to the reservoir (A13).",
   uiScaleOpts:[["1","Small"],["1.15","Standard"],["1.3","Large"]],
@@ -647,7 +656,7 @@ en: {
   tsBothNote:"The time multiplier applies to both views during A/B compare.",
   panelClose:"✕ Close",
   beTitle:"Edit selected body", bePinned:"Pinned",
-  beLsw:"sweep",   // 第22便: lightSweep label
+  beLsw:"dimming",   // 第22便: lightSweep label
   beLswAuto:"auto",   // 第37便 A2(原仮定者指示): sweep auto checkbox
   beNote:"Edits apply instantly. ⏮ Restart restores initial values.",
   savesHeadSave:"Save current parameters", savesHeadList:"Saved items", savesHeadBackup:"Backup",
@@ -667,7 +676,7 @@ en: {
   btnImportFile:"Load from file", fileLoaded:"File loaded",
   unsavedWarn:"Note: edited parameters are not included in backups until you press Save",
   confirmDiscard:"You have unsaved edits. Discard them and load?",
-  betaShared:"This beta (v1.33-b3) shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.",
+  betaShared:"This beta (v1.33-b4) shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.",
   draftRestore:"Found a draft of unsaved edits (from before the last reload). Restore it?",
   swFail:"Offline cache (Service Worker) registration failed. The app still works normally online.",
   periHud:(m,a)=>`Apsidal drift (innermost): measured ${m}°/orbit / analytic ${a}°/orbit`,
@@ -946,7 +955,7 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
 const APP_VERSION = "1.32";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 // 第36便 B1(原仮定者指示): タイトル下に表示するbeta配信時のビルド番号。beta/sw.js の
 // CACHE 接尾辞と同期させる(QA: version.beta-label)。ルート昇格後は使わない("v"+APP_VERSION 表示に戻る)
-const BETA_BUILD = "v1.33-b3";
+const BETA_BUILD = "v1.33-b4";
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 const RAY_MASS_MIN = 40;                  // 光線を曲げる最小質量(性能のための近似)
@@ -1117,8 +1126,8 @@ const BUILTIN_PRESETS = [
 
 // ===== グループ: 箱宇宙(第31便 — BOX_UNIVERSE v1.2。「宇宙に大質量の箱だけがある」思考実験)=====
 { id:"boxtrans", name:"箱宇宙 — 並進する箱", emoji:"📦", group:"箱宇宙",
-  description:"質量M=1440の自由な質点リング(壁)と、内部のテスト粒子・時計が全て同じ速度で並進する閉鎖系。壁が唯一の決定力源なので(D0=0)、決定フレームuは壁の速度そのものになり(A2/A5)、箱と共動する下の時計は|v−u|=0 — 速度1.2で運動しているのに全く遅れない(E7R)。上の時計は箱に対して固有運動(0.9)を持つため遅れる(τ/t≈0.989) — 時計をタップして比較。上の時計の実速度はvx=2.1(箱の並進1.2+箱に対する固有運動0.9の合計)であり、壁と同じ1.2だけで動く下の時計は遅れない — 見かけの数値(1.2と2.1)ではなく箱に対する相対速度|v−u|が遅れを決める。箱宇宙の中に「絶対静止」は無い: 運動はすべて箱に対して相対であり、内部の閉じた実験から箱全体の並進は原理的に検知できない(検知できるなら、より大きな箱宇宙が必要になる — T1・T10)。運動量Pは保存し帳簿はゼロのまま(モニタ表示・A13)。⏮で初期位置に戻る。",
-  en:{name:"Box Universe — Translating Box", description:"A closed system: a free point-mass ring (the wall, M=1440) and interior test particles and clocks all translate at the same velocity. The wall is the only source of determinacy (D0=0), so the frame u equals the wall velocity itself (A2/A5). The comoving lower clock has |v−u|=0 — moving at speed 1.2 yet not slowed at all (E7R). The upper clock carries a proper motion (0.9) relative to the box and therefore runs slow (τ/t≈0.989) — tap the clocks to compare. The upper clock's actual velocity is vx=2.1 (the box's translation 1.2 plus its own proper motion 0.9 relative to the box); the lower clock, moving at the box's own 1.2, does not run slow at all — it is the relative speed |v−u| to the box, not the raw numbers (1.2 vs 2.1), that determines the lag. There is no 'absolute rest' inside a box universe: all motion is relative to the box, and no closed interior experiment can detect the box's own translation (if it could, a larger box universe would be required — T1, T10). Momentum is conserved with a zero ledger (monitor, A13). Press ⏮ to reset."},
+  description:"質量M=1440の自由な質点リング(壁)と、内部のテスト粒子・時計が全て同じ速度で並進する閉鎖系。壁が唯一の決定力源なので(D0=0)、決定フレームuは壁の速度そのものになり(A2/A5)、箱と共動する下の時計は|v−u|=0 — 速度1.2で運動しているのに全く遅れない(E7R)。上の時計は箱に対して固有運動(0.9)を持つため遅れる(τ/t≈0.989) — 時計をタップして比較。1つだけ速さが違う粒子(上の時計)の実速度はvx=2.1(箱の並進1.2+箱に対する固有運動0.9の合計)であり、壁と同じ1.2だけで動く下の時計は遅れない — 見かけの数値(1.2と2.1)ではなく箱に対する相対速度|v−u|が遅れを決める。箱宇宙の中に「絶対静止」は無い: 運動はすべて箱に対して相対であり、内部の閉じた実験から箱全体の並進は原理的に検知できない(検知できるなら、より大きな箱宇宙が必要になる — T1・T10)。運動量Pは保存し帳簿はゼロのまま(モニタ表示・A13)。⏮で初期位置に戻る。",
+  en:{name:"Box Universe — Translating Box", description:"A closed system: a free point-mass ring (the wall, M=1440) and interior test particles and clocks all translate at the same velocity. The wall is the only source of determinacy (D0=0), so the frame u equals the wall velocity itself (A2/A5). The comoving lower clock has |v−u|=0 — moving at speed 1.2 yet not slowed at all (E7R). The upper clock carries a proper motion (0.9) relative to the box and therefore runs slow (τ/t≈0.989) — tap the clocks to compare. The one particle moving at a different speed — the upper clock — has actual velocity vx=2.1 (the box's translation 1.2 plus its own proper motion 0.9 relative to the box); the lower clock, moving at the box's own 1.2, does not run slow at all — it is the relative speed |v−u| to the box, not the raw numbers (1.2 vs 2.1), that determines the lag. There is no 'absolute rest' inside a box universe: all motion is relative to the box, and no closed interior experiment can detect the box's own translation (if it could, a larger box universe would be required — T1, T10). Momentum is conserved with a zero ledger (monitor, A13). Press ⏮ to reset."},
   activeParams:["kFrame","cLight"],
   camera:{scale:420}, world:{boundary:"none",size:0},
   physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
@@ -1288,8 +1297,8 @@ const BUILTIN_PRESETS = [
 //   etaRad=0 の対照でも δ²=3.552(既定 3.578 との差 0.7%)・ボイド率 0.579(同値)。
 //   kRep=0 の対照も δ²=3.834(+7%)で、圧力の効きも小さい。主因は E4 自己重力と規定膨張だけ。
 { id:"cosmicweb", name:"箱宇宙 — 膨張と自己重力の綱引き(コズミックウェブ類似)", emoji:"🕸️", group:"箱宇宙",
-  description:"膨張するUniverseBox(H=0.004)の中に、共動初速だけを与えた320個の一様なガスを置く。働くのは2つだけ — 背景の膨張がすべてを引き離し(規定a(t)・E6′で共動輸送)、自己重力(E4)が近くの粒同士を引き寄せる。初期のむらは配置の統計ゆらぎ(ポアソン)だけで、そこから密なフィラメントと空っぽのボイドに分かれていく。右下のグラフは尺度因子a(t)。定量: 共動座標で10×10のセルに切った密度コントラストδ²=Var(N)/⟨N⟩²は6000步で0.272→3.578(13.1倍)、空セルの割合は1.3%→57.9%まで増える。おすすめA/B: 膨張H=0にすると引き離す力が消え、同じ時間で構造がもっと育つ(δ²=8.55・ボイド率75%)。逆にH=0.01まで上げると膨張が勝って構造の成長が抑えられる(δ²=1.48・ボイド率34%)— 膨張率で構造のスケールが決まる。放射冷却(E11)も入れてあるが構造形成の主因ではない(etaRad=0の対照でδ²=3.55 — 差0.7%)。※2次元・粒子320個・膨張は外から与えた規定則という強い簡略化で、ΛCDMの構造形成を再現する主張ではない(Negative Claims 1/2)。膨張の反作用はリザーバに帳簿(A13)。",
-  en:{name:"Box Universe — Expansion vs Self-Gravity (a Cosmic-Web Analogue)", description:"Inside an expanding UniverseBox (H=0.004) sit 320 uniform gas particles given nothing but the comoving initial flow. Only two things act: the background expansion pulls everything apart (prescribed a(t), carried by E6′) and self-gravity (E4) pulls neighbours together. The only initial lumpiness is the Poisson noise of the random placement — from that, dense filaments and empty voids separate out. The bottom-right graph shows the scale factor a(t). Quantitatively: the density contrast δ²=Var(N)/⟨N⟩² on a 10×10 comoving grid grows from 0.272 to 3.578 (13.1×) in 6000 steps, and the fraction of empty cells rises from 1.3% to 57.9%. Suggested A/B: set H to 0 and the pulling-apart disappears — in the same time, structure grows further (δ²=8.55, 75% voids). Raise H to 0.01 and expansion wins, suppressing growth (δ²=1.48, 34% voids) — the expansion rate sets the scale of the structure. Radiative cooling (E11) is switched on but is not the driver of structure formation (with etaRad=0 the measured δ² is 3.55 — a 0.7% difference). Note: two dimensions, 320 particles and an externally prescribed expansion law are severe simplifications — this is not a claim to reproduce ΛCDM structure formation (Negative Claims 1/2). The back-reaction of the expansion is ledgered to the reservoir (A13)."},
+  description:"膨張するUniverseBox(H=0.004)の中に、共動初速だけを与えた320個の一様なガスを置く。主要な競合因子は2つ — 背景の膨張がすべてを引き離し(規定a(t)・E6′で共動輸送)、自己重力(E4)が近くの粒同士を引き寄せる。初期のむらは配置の統計ゆらぎ(ポアソン)だけで、そこから密なフィラメントと空っぽのボイドに分かれていく。右下のグラフは尺度因子a(t)。定量: 共動座標で10×10のセルに切った密度コントラストδ²=Var(N)/⟨N⟩²は6000步で0.272→3.578(13.1倍)、空セルの割合は1.3%→57.9%まで増える。おすすめA/B: 膨張H=0にすると引き離す力が消え、同じ時間で構造がもっと育つ(δ²=8.55・ボイド率75%)。逆にH=0.01まで上げると膨張が勝って構造の成長が抑えられる(δ²=1.48・ボイド率34%)— 膨張率で構造のスケールが決まる。熱圧・接触散逸・伝導・放射冷却(E5′/E9′/κs/E11)もガス表現と数値安定のため有効だが構造形成の主因ではなく、放射冷却を切った対照でもδ²=3.55(差0.7%)にとどまる。※2次元・粒子320個・膨張は外から与えた規定則という強い簡略化で、ΛCDMの構造形成を再現する主張ではない(Negative Claims 1/2)。膨張の反作用はリザーバに帳簿(A13)。",
+  en:{name:"Box Universe — Expansion vs Self-Gravity (a Cosmic-Web Analogue)", description:"Inside an expanding UniverseBox (H=0.004) sit 320 uniform gas particles given nothing but the comoving initial flow. Two factors dominate the competition: the background expansion pulls everything apart (prescribed a(t), carried by E6′) and self-gravity (E4) pulls neighbours together. The only initial lumpiness is the Poisson noise of the random placement — from that, dense filaments and empty voids separate out. The bottom-right graph shows the scale factor a(t). Quantitatively: the density contrast δ²=Var(N)/⟨N⟩² on a 10×10 comoving grid grows from 0.272 to 3.578 (13.1×) in 6000 steps, and the fraction of empty cells rises from 1.3% to 57.9%. Suggested A/B: set H to 0 and the pulling-apart disappears — in the same time, structure grows further (δ²=8.55, 75% voids). Raise H to 0.01 and expansion wins, suppressing growth (δ²=1.48, 34% voids) — the expansion rate sets the scale of the structure. Thermal pressure, contact dissipation, conduction and radiative cooling (E5′/E9′/κs/E11) are all switched on for a faithful gas model and numerical stability, but none of them drives structure formation — turning off radiative cooling still gives δ²=3.55 (a 0.7% difference). Note: two dimensions, 320 particles and an externally prescribed expansion law are severe simplifications — this is not a claim to reproduce ΛCDM structure formation (Negative Claims 1/2). The back-reaction of the expansion is ledgered to the reservoir (A13)."},
   activeParams:["G","kFrame","kRep"],
   thermal:"tint",
   camera:{scale:420}, world:{boundary:"none",size:0}, seed:20260727,
@@ -1314,8 +1323,8 @@ const BUILTIN_PRESETS = [
   // r=260 なら r/R_disk=0.846(旧構成と同比)となり定義帯 [156,286]=[0.6,1.1]×260 とも一致する。
   // 実測(seed 20260727・24000步): NaNなし・恒星保持380/380(100%)・max|spin| 11.06(旧構成20.71)・
   // 外縁比 1.322(旧1.082)・v_bar比 1.0204(5seedで1.020〜1.029)・perf beta/root 0.692。
-  description:"中心の大質量星(m=2500・高スピン1.2・掻出0.8 — 自星の光の8割を外に出さない)と、380個の恒星円盤。恒星はケプラー回転で始まるが、空間の引きずり(A8/E6′)が外縁の回転を実測約1.3倍に増強する(T4) — kFrame=0にすると消える(おすすめA/B)。右下のグラフは実線=実測・点線=バリオン基準v_bar(質量分布だけから期待される回転 — 中心質量だけでなく円盤の寄与も入った正直な基準線)。左からの光線24本は中心の強い場に捕捉・巻き付く(E8R/T5 — 光子捕捉の光学類似)。第33便でAI生成プリセットを土台に再設計(円盤半径260・24000步でNaNなし・恒星保持100%・スピン健全を機械検証)。※この画面のD₀はモデル内の調整値で、現実の予言値ではない(L14)。",
-  en:{name:"Galactic Rotation Curve", description:"A massive central star (m=2500, high spin 1.2, light sweep 0.8 — it keeps 80% of its own light from getting out) surrounded by a disk of 380 stars. The stars start on Keplerian orbits, but the dragging of space (A8/E6′) enhances the outer rotation by a measured factor of about 1.3 (T4) — set kFrame to 0 and it disappears (suggested A/B). In the bottom-right graph, solid = measured and dotted = the baryonic baseline v_bar (the rotation expected from the mass distribution alone — an honest baseline that includes the disk's contribution, not just the central mass). The 24 light rays entering from the left are captured by the strong central field and wind around it (E8R/T5 — the optical analogue of photon capture). Redesigned in the 33rd delivery on top of an AI-generated preset (disk radius 260; machine-verified: no NaN over 24000 steps, 100% star retention, healthy spins). Note: D₀ here is a model-internal tuning value, not a real-world prediction (L14)."},
+  description:"中心の大質量星(m=2500・高スピン1.2・減光0.8 — 自星の光の8割を外に出さない)と、380個の恒星円盤。恒星はケプラー回転で始まるが、空間の引きずり(A8/E6′)が外縁の回転を実測約1.3倍に増強する(T4) — kFrame=0にすると消える(おすすめA/B)。右下のグラフは実線=実測・点線=バリオン基準v_bar(質量分布だけから期待される回転 — 中心質量だけでなく円盤の寄与も入った正直な基準線)。左からの光線24本は中心の強い場に捕捉・巻き付く(E8R/T5 — 光子捕捉の光学類似)。第33便でAI生成プリセットを土台に再設計(円盤半径260・24000步でNaNなし・恒星保持100%・スピン健全を機械検証)。※この画面のD₀はモデル内の調整値で、現実の予言値ではない(L14)。",
+  en:{name:"Galactic Rotation Curve", description:"A massive central star (m=2500, high spin 1.2, dimming 0.8 — it keeps 80% of its own light from getting out) surrounded by a disk of 380 stars. The stars start on Keplerian orbits, but the dragging of space (A8/E6′) enhances the outer rotation by a measured factor of about 1.3 (T4) — set kFrame to 0 and it disappears (suggested A/B). In the bottom-right graph, solid = measured and dotted = the baryonic baseline v_bar (the rotation expected from the mass distribution alone — an honest baseline that includes the disk's contribution, not just the central mass). The 24 light rays entering from the left are captured by the strong central field and wind around it (E8R/T5 — the optical analogue of photon capture). Redesigned in the 33rd delivery on top of an AI-generated preset (disk radius 260; machine-verified: no NaN over 24000 steps, 100% star retention, healthy spins). Note: D₀ here is a model-internal tuning value, not a real-world prediction (L14)."},
   activeParams:["kFrame","D0"],
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260727,
   physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0.8, muF:0.5, gammaN:0.4, kappaS:0.05, Kt:50,
@@ -1346,8 +1355,8 @@ const BUILTIN_PRESETS = [
   // 0.509/0.587/0.301/0.442(対照 spin0 = 0.069/0.068/0.042/0.094)・NaNなし・恒星保持380/380・
   // 全期間 max|spin| 2.92・ローター半径偏差 17.2%。用量反応: spin 0→1→2→3 で A2 が単調増加。
   // 有効窓は 6000步(t≈96)まで — 12000步では対照側にも円盤自身の重力不安定で m=2 が育ち分離が甘くなる。
-  description:"銀河中心のブラックホール(m=2000・掻出1)と、r=200の軸対称リングに並ぶ10個のダークローター、その間を回る380個の恒星 — 全粒子が自由(ピン・レール無し)の閉鎖系。対向2個のローターだけスピンを2.0に上げると(質量・半径・配置は完全対称のまま)、その空間引きずり(A8/E6′)が恒星円盤にm=2の渦状腕を立てる — 後行螺旋・ピッチ角≈24°。スピンを0にした対照では腕が消え、スピン0→1→2→3で腕振幅が単調に増える(用量反応 — 腕の主因はローターのスピン)。有効窓はt≈96(6000步)まで — その先はハロー軌道が緩やかに分散する有限時間デモ。kRepは0.15に弱めてある(E5′斥力が腕形成の律速 — 本サンプルでE5′の主張はしない)。kFrame=0にすると引きずり経路ごと消える(おすすめA/B)。※実宇宙のダークマターや渦状腕理論の主張ではない(T4の防御線を維持)。",
-  en:{name:"Dark-Rotor Galaxy", description:"A black hole at the galactic center (m=2000, light sweep=1), ten dark rotors set on an axisymmetric ring at r=200, and 380 stars orbiting between them — a closed system in which every particle is free (no pins, no rails). Raise the spin of just two opposing rotors to 2.0 — leaving mass, radius and placement perfectly symmetric — and their dragging of space (A8/E6′) raises m=2 spiral arms in the stellar disk: a trailing spiral with a pitch angle of about 24°. In the control run with those spins set to 0 the arms vanish, and the arm amplitude grows monotonically as the spin goes 0→1→2→3 (a dose response — the arms are driven by the rotors' spin). The valid window runs to t≈96 (6000 steps); beyond that the halo orbits slowly disperse, so this is a finite-time demo. kRep has been lowered to 0.15 (the E5′ repulsion is the rate-limiting step for arm formation — this sample makes no claim about E5′). Set kFrame to 0 and the whole dragging channel disappears with it (suggested A/B). Not a claim about real dark matter or about spiral-arm theory (T4 disclaimer upheld)."},
+  description:"銀河中心のブラックホール(m=2000・減光1)と、r=200の軸対称リングに並ぶ10個のダークローター、その間を回る380個の恒星 — 全粒子が自由(ピン・レール無し)の閉鎖系。対向2個のローターだけスピンを2.0に上げると(質量・半径・配置は完全対称のまま)、その空間引きずり(A8/E6′)が恒星円盤にm=2の渦状腕を立てる — 後行螺旋・ピッチ角≈24°。スピンを0にした対照では腕が消え、スピン0→1→2→3で腕振幅が単調に増える(用量反応 — 腕の主因はローターのスピン)。有効窓はt≈96(6000步)まで — その先はハロー軌道が緩やかに分散する有限時間デモ。kRepは0.15に弱めてある(E5′斥力が腕形成の律速 — 本サンプルでE5′の主張はしない)。腕の増強は複合経路 — 引きずり(E6′)を切っても(kFrame=0)腕振幅の約89%が残り、スピン斥力を切る(kRep=0)と約54%へ低下する(要因分離実測・4-53)。おすすめA/B: ローターのスピンを0にすると腕が消える。※実宇宙のダークマターや渦状腕理論の主張ではない(T4の防御線を維持)。",
+  en:{name:"Dark-Rotor Galaxy", description:"A black hole at the galactic center (m=2000, dimming=1), ten dark rotors set on an axisymmetric ring at r=200, and 380 stars orbiting between them — a closed system in which every particle is free (no pins, no rails). Raise the spin of just two opposing rotors to 2.0 — leaving mass, radius and placement perfectly symmetric — and their dragging of space (A8/E6′) raises m=2 spiral arms in the stellar disk: a trailing spiral with a pitch angle of about 24°. In the control run with those spins set to 0 the arms vanish, and the arm amplitude grows monotonically as the spin goes 0→1→2→3 (a dose response — the arms are driven by the rotors' spin). The valid window runs to t≈96 (6000 steps); beyond that the halo orbits slowly disperse, so this is a finite-time demo. kRep has been lowered to 0.15 (the E5′ repulsion is the rate-limiting step for arm formation — this sample makes no claim about E5′). The arm enhancement runs through a composite pathway: turning off dragging (kFrame=0) still leaves about 89% of the arm amplitude, while turning off spin repulsion (kRep=0) drops it to about 54% (factor-separation measurement, 4-53). Suggested A/B: set the rotors' spin to 0 and the arms disappear. Not a claim about real dark matter or about spiral-arm theory (T4 disclaimer upheld)."},
   activeParams:["kFrame","D0","q"],
   camera:{scale:300}, world:{boundary:"none",size:0}, seed:20260726,
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:0.15, muF:0.02, gammaN:0.05, kappaS:0.05, Kt:60,
@@ -1390,15 +1399,15 @@ const BUILTIN_PRESETS = [
 //  ・テスト粒子リング(6000步): 平均 L_z 954.1(対照 632.45 = 厳密一定)・24/24 保持・NaN なし
 //  ・帳簿込みの保存(6000步): |ΔP|/P₀=1.27e-4・|ΔL|/L₀=1.26e-4(pinned ゼロの閉鎖系)
 { id:"rotorSolo", name:"ダークローター(単体)", emoji:"🕳️", group:"銀河",
-  description:"🕶️から「暗い天体」1個だけを取り出した最小構成 — 中心の高スピンコア(m=2000・半径45・スピン2.0・掻出=auto)と、r=200を周回する24個のテスト粒子、左から入る20本の光線。全粒子が自由(ピン・レール無し)の閉鎖系。この宇宙の「暗さ」は別々の機構の混合で(DERIVATIONS §17)、この画面はそのうち2つを同時に、しかも分離して見せる。②自光の掻出: 掻出を固定値ではなく auto にしてあるので、実効値 lS_eff=min(1,|s|R/c_surf) が粒子のスピンと半径から毎ステップ算出される(中心天体をタップすると掻出欄に auto と lS_eff が出る)— 実測1.00。③外来光線の掃き出し: 回るコアが決定フレームごと光を運び(A11/E8R)、スピン0の対照では起きる有限時間の光子捕捉(実測 非脱出率0.66)が消える(実測0.00)。順行側の光線ほど外へ払われ、逆行側は深く潜る(平均最小接近半径 順行123 対 逆行40 — T8と同じ非対称)。②と③は別機構である: lS_effはスピン0.29で既に1に飽和しているのに、そのスピンでは掃き出しがまだ全く起きていない(非脱出率0.72 = 対照以上)。掃き出しが立ち上がるのはスピン0.6→0.7の間(0.70→0.08)で、飽和点とは2倍以上離れている。テスト粒子は空間の引きずり(A8/E6′)で順行方向に角運動量を汲み上げられる(6000步平均 L_z=954 対 対照632)。運動量・角運動量は帳簿込みで保存する(モニタ表示・相対ずれ1e-4台)。おすすめA/B: コアのスピンを0にすると、掻出・掃き出し・引きずりが同時に消える。※③は物理対応ロック(Kt=c²/G=3600)では起きない — 実測 非脱出率は高スピンでも0.00(第19便 反証条件7)。実在のブラックホールやダークマターについての主張ではない(Negative Claims 1/2)。",
-  en:{name:"Dark Rotor (Single Body)", description:"The minimal version of 🕶️: one dark body on its own — a high-spin core at the center (m=2000, radius 45, spin 2.0, sweep=auto), 24 test particles orbiting at r=200, and 20 light rays entering from the left. Every particle is free (no pins, no rails): a closed system. Darkness in this universe is a mixture of separate mechanisms (DERIVATIONS §17), and this screen shows two of them at once — and keeps them apart. (2) Sweeping out its own light: the sweep is set to \"auto\" rather than a fixed number, so the effective value lS_eff=min(1,|s|R/c_surf) is computed every step from the body's own spin and radius (tap the core to see \"auto\" and lS_eff in the sweep field) — measured 1.00. (3) Sweeping out incoming rays: the spinning core carries light with the rotating determinacy frame (A11/E8R), and the finite-time photon capture that happens in the spin-0 control (measured non-escape rate 0.66) disappears (measured 0.00). Prograde rays are pushed outward while retrograde rays dive deeper (mean closest approach 123 vs 40 — the same asymmetry as T8). (2) and (3) are different mechanisms: lS_eff is already saturated at 1 by spin 0.29, yet at that spin the ray sweep-out has not started at all (non-escape 0.72, above the control). The sweep-out only switches on between spin 0.6 and 0.7 (0.70→0.08) — more than a factor of two away from the saturation point. The test particles are pumped into prograde rotation by the dragging of space (A8/E6′): mean L_z=954 over 6000 steps versus 632 for the control. Momentum and angular momentum are conserved once the ledger is included (see the monitor; relative drift of order 1e-4). Suggested A/B: set the core spin to 0 and the sweep, the sweep-out and the dragging all vanish together. Note: (3) does not happen under the GR-calibration lock (Kt=c²/G=3600) — the measured non-escape rate is 0.00 even at high spin (19th-delivery falsification condition 7). Not a claim about real black holes or dark matter (Negative Claims 1/2)."},
+  description:"🕶️から「暗い天体」1個だけを取り出した最小構成 — 中心の高スピンコア(m=2000・半径45・スピン2.0・減光=auto)と、r=200を周回する24個のテスト粒子、左から入る20本の光線。全粒子が自由(ピン・レール無し)の閉鎖系。この宇宙の「暗さ」は別々の機構の混合で(DERIVATIONS §17)、この画面はそのうち2つを同時に、しかも分離して見せる。②自光の減光(掻き出し): 減光を固定値ではなく auto にしてあるので、実効値 lS_eff=min(1,|s|R/c_surf) が粒子のスピンと半径から毎ステップ算出される(中心天体をタップすると減光欄に auto と lS_eff が出る)— 実測1.00。③外来光線の掃き出し: 回るコアが決定フレームごと光を運び(A11/E8R)、スピン0の対照では起きる有限時間の光子捕捉(実測 非脱出率0.66)が消える(実測0.00)。順行側の光線ほど外へ払われ、逆行側は深く潜る(平均最小接近半径 順行123 対 逆行40 — T8と同じ非対称)。②と③は別機構である: lS_effはスピン0.29で既に1に飽和しているのに、そのスピンでは掃き出しがまだ全く起きていない(非脱出率0.72 = 対照以上)。掃き出しが立ち上がるのはスピン0.6→0.7の間(0.70→0.08)で、飽和点とは2倍以上離れている。テスト粒子は空間の引きずり(A8/E6′)で順行方向に角運動量を汲み上げられる(6000步平均 L_z=954 対 対照632)。運動量・角運動量は帳簿込みで保存する(モニタ表示・相対ずれ1e-4台)。おすすめA/B: コアのスピンを0にすると、減光・掃き出し・引きずりが同時に消える。※③は物理対応ロック(Kt=c²/G=3600)では起きない — 実測 非脱出率は高スピンでも0.00(第19便 反証条件7)。実在のブラックホールやダークマターについての主張ではない(Negative Claims 1/2)。",
+  en:{name:"Dark Rotor (Single Body)", description:"The minimal version of 🕶️: one dark body on its own — a high-spin core at the center (m=2000, radius 45, spin 2.0, dimming=auto), 24 test particles orbiting at r=200, and 20 light rays entering from the left. Every particle is free (no pins, no rails): a closed system. Darkness in this universe is a mixture of separate mechanisms (DERIVATIONS §17), and this screen shows two of them at once — and keeps them apart. (2) Dimming its own light (spin sweeping it out): dimming is set to \"auto\" rather than a fixed number, so the effective value lS_eff=min(1,|s|R/c_surf) is computed every step from the body's own spin and radius (tap the core to see \"auto\" and lS_eff in the dimming field) — measured 1.00. (3) Sweeping out incoming rays: the spinning core carries light with the rotating determinacy frame (A11/E8R), and the finite-time photon capture that happens in the spin-0 control (measured non-escape rate 0.66) disappears (measured 0.00). Prograde rays are pushed outward while retrograde rays dive deeper (mean closest approach 123 vs 40 — the same asymmetry as T8). (2) and (3) are different mechanisms: lS_eff is already saturated at 1 by spin 0.29, yet at that spin the ray sweep-out has not started at all (non-escape 0.72, above the control). The sweep-out only switches on between spin 0.6 and 0.7 (0.70→0.08) — more than a factor of two away from the saturation point. The test particles are pumped into prograde rotation by the dragging of space (A8/E6′): mean L_z=954 over 6000 steps versus 632 for the control. Momentum and angular momentum are conserved once the ledger is included (see the monitor; relative drift of order 1e-4). Suggested A/B: set the core spin to 0 and the dimming, the sweep-out and the dragging all vanish together. Note: (3) does not happen under the GR-calibration lock (Kt=c²/G=3600) — the measured non-escape rate is 0.00 even at high spin (19th-delivery falsification condition 7). Not a claim about real black holes or dark matter (Negative Claims 1/2)."},
   activeParams:["kFrame","Kt","q"],
   camera:{scale:300}, world:{boundary:"none",size:0}, seed:20260727,
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
     cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:4, timeScale:2},
   bodies:[
-    // 中心の高スピンコア(自由・単層・掻出は auto。vx/vy は総運動量ゼロ化の補正)
+    // 中心の高スピンコア(自由・単層・減光は auto。vx/vy は総運動量ゼロ化の補正)
     {type:"single", rMul:1, m:2000, x:0,y:0, vx:0.0000033, vy:-0.0000014, spin:2, radius:45, lightSweep:"auto", pinned:false},
     // テスト粒子リング(自由・kepler 初速・引きずりの可視化用。m は光線に効かない 0.05)
     {type:"ring", rMul:1, n:24, cx:0,cy:0, rIn:200, rOut:200, mMin:0.05,mMax:0.05,
@@ -1599,8 +1608,8 @@ const BUILTIN_PRESETS = [
 // 純粋な外部力場なので、時計・光・引きずりを歪めずに箱内へ厳密に一様な下向き場を作れる。
 
 { id:"convection", name:"加熱の対流 — 伝熱する箱", emoji:"♨️", group:"熱の実験室",
-  description:"箱そのものに伝熱の境界条件を与えたレイリー・ベナール型の対流セル(台帳4-70)。固定した加熱粒子は一つも無く、外から系を駆動するのは箱の壁だけ — 床が加熱面(壁温T=144へ緩和)、天井と右壁が放熱面(受けた熱を系外へ捨てる)、左壁は断熱。箱は「その先の環境」の近似で、ビーカーの壁だと思ってよい(BOX_UNIVERSE §12-1)。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂)。床で温まったガスは熱の斥力=圧力(E5′)で膨らんで浮上し、天井と右壁で熱を捨てて右から沈む — 一方向の循環セル(T6の移流拡張)。24000步後も循環は持続し、壁が入れた熱と壁が回収した熱が釣り合う定常状態になる(壁の熱は帳簿wallE系に記録される。保存量モニタで確認できる)。働く力は一様重力場gravityY(外部場)と熱の斥力・接触だけで、自己重力・引きずり・自発放射は切ってある。gravityYを0にすると循環が止まる(おすすめA/B)。代表粒子の軌跡(線)で循環セルの周回が見える。色=温度。",
-  en:{name:"Heated Convection — A Box That Conducts Heat", description:"A Rayleigh-Bénard-style convection cell where the thermal boundary condition lives in the box itself (ledger 4-70). There is not a single pinned heater particle: the only external drive is the wall — the floor is a heating face (relaxing toward a wall temperature T=144), the ceiling and the right wall are radiating faces (dumping the heat they receive out of the system), and the left wall is adiabatic. The box is an approximation of whatever lies beyond it; think of it as the wall of a beaker (BOX_UNIVERSE §12-1). This sample treats temperature as an internal state variable independent of spin (the A9 revision). Gas warmed at the floor inflates by thermal repulsion = pressure (E5′), rises, dumps its heat at the ceiling and the right wall, and sinks on the right — a one-way circulation cell (an advective extension of T6). The circulation is still running after 24000 steps, with the heat the walls inject balancing the heat they take back (the wall ledger records both; watch it in the conservation monitor). The only forces are the uniform gravity gravityY (external field) plus thermal repulsion and contact — self-gravity, dragging and spontaneous radiation are all off. Set gravityY to 0 and the circulation stops (suggested A/B). Trails on sampled particles trace the circulation loops. Color = temperature."},
+  description:"箱そのものに伝熱の境界条件を与えたレイリー・ベナール型の対流セル(台帳4-70)。固定した加熱粒子は一つも無く、外から系を駆動するのは箱の壁だけ — 床が加熱面(壁温T=144へ緩和)、天井と右壁が放熱面(受けた熱を系外へ捨てる)、左壁は断熱。左右対称の理想レイリー・ベナール系ではなく、壁の非対称境界条件(天井+右壁放熱)で循環の向きを選んだ構成である。箱は「その先の環境」の近似で、ビーカーの壁だと思ってよい(BOX_UNIVERSE §12-1)。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂)。床で温まったガスは熱の斥力=圧力(E5′)で膨らんで浮上し、天井と右壁で熱を捨てて右から沈む — 一方向の循環セル(T6の移流拡張)。24000步後も循環は持続し、壁が入れた熱と壁が回収した熱が釣り合う定常状態になる(壁の熱は帳簿wallE系に記録される。保存量モニタで確認できる)。働く力は一様重力場gravityY(外部場)と熱の斥力・接触だけで、自己重力・引きずり・自発放射は切ってある。gravityYを0にすると循環が止まる(おすすめA/B)。代表粒子の軌跡(線)で循環セルの周回が見える。色=温度。",
+  en:{name:"Heated Convection — A Box That Conducts Heat", description:"A Rayleigh-Bénard-style convection cell where the thermal boundary condition lives in the box itself (ledger 4-70). There is not a single pinned heater particle: the only external drive is the wall — the floor is a heating face (relaxing toward a wall temperature T=144), the ceiling and the right wall are radiating faces (dumping the heat they receive out of the system), and the left wall is adiabatic. This is not a left-right symmetric, idealized Rayleigh-Bénard system — the asymmetric wall boundary conditions (ceiling plus right-wall radiation) are what select the circulation's direction. The box is an approximation of whatever lies beyond it; think of it as the wall of a beaker (BOX_UNIVERSE §12-1). This sample treats temperature as an internal state variable independent of spin (the A9 revision). Gas warmed at the floor inflates by thermal repulsion = pressure (E5′), rises, dumps its heat at the ceiling and the right wall, and sinks on the right — a one-way circulation cell (an advective extension of T6). The circulation is still running after 24000 steps, with the heat the walls inject balancing the heat they take back (the wall ledger records both; watch it in the conservation monitor). The only forces are the uniform gravity gravityY (external field) plus thermal repulsion and contact — self-gravity, dragging and spontaneous radiation are all off. Set gravityY to 0 and the circulation stops (suggested A/B). Trails on sampled particles trace the circulation loops. Color = temperature."},
   activeParams:["gravityY","kRep","kappaS","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   thermal:"tint",   // 第36便 D(台帳4-51)
   camera:{scale:78}, world:{boundary:"box", size:60,
@@ -1806,7 +1815,7 @@ const BUILTIN_PRESETS = [
 //  ・帯は長く薄く(w=560・h=14)。赤道方向へ抜けるには帯の全長を押しのける必要があるので、
 //    抵抗の少ない ±y だけが出口になる。
 //  ・kFrame=0(要因分離 — 引きずりは本サンプルの主張ではない)。中心天体のスピンは
-//    掻出 auto(lS_eff=1 → 観測温度0=見掛けは暗い「エンジン」)にだけ効く。
+//    減光 auto(lS_eff=1 → 観測温度0=見掛けは暗い「エンジン」)にだけ効く。
 // 実測(2026-07-27・beta・内蔵プリセットそのもの。内縁=初期 |x|≤80 起源のガスのうち r>300 へ出たもの。
 // 「極方向」= ±y から30°以内 = 等方なら 1/3):
 //  步数     : 1000  2000  3000  4000
@@ -1814,8 +1823,8 @@ const BUILTIN_PRESETS = [
 //  対照     : —     0.583 0.526 0.542   (kRep=0 — E5′ を切ると等方寄りに戻る)
 //  4000步で 極24〜26本 / 赤道0本。全ガスで測っても 0.689(等方の 2.07 倍)
 { id:"agnjet", name:"AGN類似 — 円盤の内縁と双極ジェット", emoji:"🌋", group:"天体の物語",
-  description:"中心の超大質量天体(m=2000・掻出=auto → 観測温度0で見掛けは真っ暗な「エンジン」)と、x軸方向に長く薄く伸びた冷たいガスの帯。ガスは自己重力で内側へ落ち、内縁で押し合い擦れ合って摩擦加熱される(E9′ → 内部温度T_int)。温まったガスは熱の斥力=圧力(E5′)で押し返すが、赤道方向(±x)へ抜けるには帯の全長を押しのけねばならない — 抵抗の少ない極方向(±y)だけが出口になり、上下2本の噴出流になる。実測: 内縁から出て系外(r>300)へ達したガスの84%が±y方向±30°以内に入る(等方なら1/3 — 2.5倍の集中。4000步で極24本・赤道0本)。おすすめA/B: 熱の斥力kRepを0にすると押し返す圧力が消え、噴出は等方寄りに戻る(実測54%)。色=温度で、内縁が赤熱し噴流が冷えながら伸びるのが見える。要因分離のため空間引きずりkFrameと自発放射は切ってある(中心のスピンは掻出=自光の抑制にだけ効く)。※これは圧力と幾何だけで双極性が出るという2Dのアナロジーであり、実在のAGN・磁気流体ジェット・相対論的ジェットの再現主張ではない(Negative Claims 1/2)。",
-  en:{name:"An AGN Analogue — Inner Disk and Bipolar Jets", description:"A supermassive body at the center (m=2000, sweep=auto → observed temperature 0, so the 'engine' itself looks pitch dark) and a cold gas band stretched long and thin along the x axis. The gas falls inward under self-gravity and is heated by friction where it crowds together at the inner edge (E9′ → internal temperature T_int). The warmed gas pushes back with thermal repulsion = pressure (E5′), but escaping along the equator (±x) means shoving the whole length of the band aside — so the only low-resistance exit is the polar direction (±y), and the outflow collimates into two jets. Measured: 84% of the gas that leaves the inner region and reaches r>300 lies within 30° of the ±y axis (isotropic would be 1/3 — a 2.5× concentration; at 4000 steps, 24 polar vs 0 equatorial). Suggested A/B: set the thermal repulsion kRep to 0 and the pushing pressure disappears, and the outflow returns toward isotropy (measured 54%). Color = temperature: watch the inner edge glow and the jets cool as they stretch. Frame dragging and spontaneous radiation are switched off to isolate the factors (the central spin only feeds the light-sweep channel). Note: this is a 2D analogy showing that pressure plus geometry alone produce bipolarity — not a claim to reproduce real AGN, MHD jets or relativistic jets (Negative Claims 1/2)."},
+  description:"中心の超大質量天体(m=2000・減光=auto → 観測温度0で見掛けは真っ暗な「エンジン」)と、x軸方向に長く薄く伸びた冷たいガスの帯。ガスは自己重力で内側へ落ち、内縁で押し合い擦れ合って摩擦加熱される(E9′ → 内部温度T_int)。温まったガスは熱の斥力=圧力(E5′)で押し返すが、赤道方向(±x)へ抜けるには帯の全長を押しのけねばならない — 抵抗の少ない極方向(±y)だけが出口になり、上下2本の噴出流になる。実測: 内縁から出て系外(r>300)へ達したガスの84%が±y方向±30°以内に入る(等方なら1/3 — 2.5倍の集中。4000步で極24本・赤道0本)。おすすめA/B: 熱の斥力kRepを0にすると押し返す圧力が消え、噴出は等方寄りに戻る(実測54% — それでも等方の1/3よりなお高く、幾何と重力の寄与が残る)。色=温度で、内縁が赤熱し噴流が冷えながら伸びるのが見える。要因分離のため空間引きずりkFrameと自発放射は切ってある(中心のスピンは減光=自光の抑制にだけ効く)。※これは圧力と幾何だけで双極性が出るという2Dのアナロジーであり、実在のAGN・磁気流体ジェット・相対論的ジェットの再現主張ではない(Negative Claims 1/2)。",
+  en:{name:"An AGN Analogue — Inner Disk and Bipolar Jets", description:"A supermassive body at the center (m=2000, dimming=auto → observed temperature 0, so the 'engine' itself looks pitch dark) and a cold gas band stretched long and thin along the x axis. The gas falls inward under self-gravity and is heated by friction where it crowds together at the inner edge (E9′ → internal temperature T_int). The warmed gas pushes back with thermal repulsion = pressure (E5′), but escaping along the equator (±x) means shoving the whole length of the band aside — so the only low-resistance exit is the polar direction (±y), and the outflow collimates into two jets. Measured: 84% of the gas that leaves the inner region and reaches r>300 lies within 30° of the ±y axis (isotropic would be 1/3 — a 2.5× concentration; at 4000 steps, 24 polar vs 0 equatorial). Suggested A/B: set the thermal repulsion kRep to 0 and the pushing pressure disappears, and the outflow returns toward isotropy (measured 54% — still well above the isotropic 1/3, so geometry and gravity keep contributing). Color = temperature: watch the inner edge glow and the jets cool as they stretch. Frame dragging and spontaneous radiation are switched off to isolate the factors (the central spin only feeds the dimming channel). Note: this is a 2D analogy showing that pressure plus geometry alone produce bipolarity — not a claim to reproduce real AGN, MHD jets or relativistic jets (Negative Claims 1/2)."},
   activeParams:["kRep","muF","gammaN","cHeat"],
   thermal:"tint",
   camera:{scale:320}, world:{boundary:"none",size:0}, seed:20260727,
@@ -1823,7 +1832,7 @@ const BUILTIN_PRESETS = [
     cLight:60, bM:1, etaRad:0, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:3, timeScale:2},
   bodies:[
-    // 中心の「エンジン」(自由・掻出 auto。半径18 は見た目の指定 — 質量由来の 44.7 は
+    // 中心の「エンジン」(自由・減光 auto。半径18 は見た目の指定 — 質量由来の 44.7 は
     // ガス配置の除外半径として効く = 円盤の内縁が自然にできる)
     {type:"single", rMul:1, m:2000, x:0,y:0, vx:0,vy:0, spin:2, radius:18, lightSweep:"auto", pinned:false, tInt:0},
     // 冷たいガスの帯(x方向に長く・y方向に薄く)
@@ -2575,7 +2584,10 @@ function makeSim(){
       // rMul=1(既定)なら rs*1===rs なので旧式と 1 ビットも変わらない
       const rsi=rs*S.rMulv[i];
       // 第22便: 半径の明示指定(radius>0)とコア半径比(coreRR>0)。未指定は従来式
-      S.R[i]=(S.radOv[i]>0)? S.radOv[i] : rsi*Math.sqrt(Math.abs(S.mEff[i]));
+      // 第38便(原仮定者指示): radiusScale は明示半径(radOv)の粒子にも効くようにする(全粒子共通の
+      // 相対ノブという趣旨に合わせる)。rMul は掛けない(明示半径は rMul 無視という既存仕様を維持)。
+      // rs=1(既定)では rs*radOv===radOv なので旧式と1ビットも変わらない
+      S.R[i]=(S.radOv[i]>0)? rs*S.radOv[i] : rsi*Math.sqrt(Math.abs(S.mEff[i]));
       S.Rc[i]=(S.coreRRv[i]>0)? S.coreRRv[i]*S.R[i] : rsi*Math.sqrt(Math.abs(S.coreMR[i]*S.mEff[i]));
       if(S.coreMR[i]!==0) hc=true;
     }
@@ -2643,10 +2655,13 @@ function makeSim(){
           invC2=geo? (p.lambdaPN!==undefined? p.lambdaPN : 1)/(p.cLight*p.cLight) : 0;
     // radiusScale 変更の追従。第36便 C1: 主判定を「updateRadii が最後に使った radiusScale との
     // 一致」へ変更(rMul 焼き込み後は R[0] と rs·√|m₀| が恒常的にずれるため、旧式のままだと
-    // 全プリセットで毎サブステップ再計算になる)。第2項は S.m を直接書き換える経路への保険で、
-    // 明示半径(radOv>0)の粒子0は対象外にする(従来は空転で毎回呼ばれていた)
+    // 全プリセットで毎サブステップ再計算になる)。第2項は S.m を直接書き換える経路への保険。
+    // 第38便(原仮定者指示): radiusScale が明示半径(radOv)にも効くようになったため、粒子0が
+    // 明示半径のときは rs·radOv との差分で判定する(従来は明示半径の粒子0を対象外にしていたが、
+    // A4でR[0]がrsに追従するようになったのでこちらも追従判定が必要)
     if(S._rsUsed!==p.radiusScale ||
-       (S.radOv[0]<=0 && Math.abs(R[0]-p.radiusScale*S.rMulv[0]*Math.sqrt(Math.abs(m[0])))>1e-6)) S.updateRadii();
+       (S.radOv[0]>0 ? Math.abs(R[0]-p.radiusScale*S.radOv[0])>1e-6
+                     : Math.abs(R[0]-p.radiusScale*S.rMulv[0]*Math.sqrt(Math.abs(m[0])))>1e-6)) S.updateRadii();
     ax.fill(0); ay.fill(0); sumW.fill(0); uAx.fill(0); uAy.fill(0); ds.fill(0);
     dpx.fill(0); dpy.fill(0);
     // 第36便 D / 第37便 C2: 熱量の積み上げ(dQi)と U_rep の温度係数(arep)をクリア(tint のみ)
@@ -3334,11 +3349,22 @@ let selWorld="A";
 function selSimRef(){ return (ab && selWorld==="B")? ab.simB : sim; }
 let camX=0, camY=0, camScale=300, tempP90EMA=0.5, monitorOn=false;
 // 第37便 A3(原仮定者指示): 光線の基準波長λ0(nm)。表示設定のみ(セーブ対象外・物理不変) —
-// drawRays の色計算(λ_seg=λ0·e^{ψ0−ψ}。第36便 B3)だけが参照する。既定550・[380,780]にクランプ
-let rayLambda0=clamp(parseFloat(localStorage.getItem("hp_ray_lambda0"))||550,380,780);
+// drawRays の色計算(λ_seg=λ0·e^{ψ0−ψ}。第36便 B3)だけが参照する。
+// 第38便(原仮定者指示): 既定を550→580へ変更(旧固定光線色 rgba(255,240,170,0.55)〔root v1.32〕の
+// 色相≒580nmに合わせた・統括裁定)。クランプは[0.001,1e6]nmへ拡大 — 直値入力でγ線(0.001nm)〜
+// 遠赤外(1e6nm)まで指定可能にし、スライダー自体は可視光[380,780]のまま(下の表示行を参照)。
+// 純関数化してQAが移行ロジック単体を叩けるようにする(page.evaluate 越しの再読込を避ける)
+function rayLambda0FromRaw(raw){
+  if(raw===null || raw===undefined || raw==="") return 580;   // 保存値なし→新既定580
+  const v=parseFloat(raw);
+  if(!isFinite(v)) return 580;
+  if(v===550) return 580;   // 第38便: 旧既定550ちょうどの保存値だけを新既定580へ移行(他の値は保持)
+  return clamp(v,0.001,1e6);
+}
+let rayLambda0=rayLambda0FromRaw(localStorage.getItem("hp_ray_lambda0"));
 function setRayLambda0(v){
   if(!isFinite(v)) return;
-  rayLambda0=clamp(v,380,780);
+  rayLambda0=clamp(v,0.001,1e6);   // 第38便: 直値入力は可視外(γ線〜遠赤外)も受理
   localStorage.setItem("hp_ray_lambda0",String(rayLambda0));
   requestRender();
 }
@@ -3655,7 +3681,12 @@ function drawRays(){
     // wavelengthColor(3298付近)を再利用(重複実装しない)。nmを5nm刻みに量子化した
     // 「バケット」が変わった時だけ stroke() し直す(可視の滑らかさを保ちつつ、パン/ズーム中の
     // 毎フレーム再計算〔rayKeyOf にカメラ位置が入るため〕でも1ステップごとの描画コストにしない)
+    // 第38便(原仮定者指示): λ0の可視外直値入力に対応 — 帯域判定 band(nm) を加え、可視は従来どおり
+    // 5nm量子化バケット、可視外は帯域値そのもの(負数なので可視バケットと衝突しない)をバケットに
+    // 使う。これにより帯域境界をまたぐセグメントで確実に re-stroke される(5nm量子化のままだと
+    // 10nm未満の帯域幅がバケット0〜2に潰れ、帯域遷移が描き分けられないため)
     const Kt=sim.params.Kt, lam0=rayLambda0;
+    const band=(nm)=> nm<0.01?-4 : nm<10?-3 : nm<380?-2 : nm<=780?0 : -1;   // 可視=0/赤外=-1/紫外=-2/X線=-3/γ線=-4
     for(let r=0;r<nEff;r++){
       const px=x0, py=camY+((r+0.5)/nEff-0.5)*2*rays.spread*camScale;
       let prevSX=w2sX(px), prevSY=w2sY(py), psi0=null, bucket=null;
@@ -3663,13 +3694,14 @@ function drawRays(){
       traceRay(sim, px, py, 1, 0, dl, maxSteps, (nx,ny,Wtot)=>{
         const psi=Wtot/Kt;
         if(psi0===null) psi0=psi;
-        const nm=lam0*Math.exp(psi0-psi), b=Math.round(nm/5);
+        const nm=lam0*Math.exp(psi0-psi), bd=band(nm), b=(bd===0)? Math.round(nm/5) : bd;
+        const col=(bd===0)? wavelengthColor(b*5) : rayBandColor(nm);
         const nsx=w2sX(nx), nsy=w2sY(ny);
-        if(bucket===null){ rayCtx.strokeStyle=wavelengthColor(b*5)+"8c"; bucket=b; }   // 8c≈0.55(旧固定色と同じ不透明度)
+        if(bucket===null){ rayCtx.strokeStyle=col+"8c"; bucket=b; }   // 8c≈0.55(旧固定色と同じ不透明度)
         else if(b!==bucket){
           rayCtx.stroke();
           rayCtx.beginPath(); rayCtx.moveTo(prevSX,prevSY);
-          rayCtx.strokeStyle=wavelengthColor(b*5)+"8c"; bucket=b;
+          rayCtx.strokeStyle=col+"8c"; bucket=b;
         }
         rayCtx.lineTo(nsx,nsy);
         prevSX=nsx; prevSY=nsy;
@@ -3815,17 +3847,25 @@ function drawTempHistogram(slot=0){
   ctx.font="9px sans-serif"; ctx.fillStyle="#8b93c8";
   ctx.fillText(T("ovTemp"),X+6,Y+11);
   const mx=Math.max(0.01,sim.tempLR[0],sim.tempLR[1]);
-  ctx.fillStyle="#6aa5ff"; ctx.fillRect(X+18,Y+H-12-(sim.tempLR[0]/mx)*(H-34),26,(sim.tempLR[0]/mx)*(H-34));
-  ctx.fillStyle="#ff9d45"; ctx.fillRect(X+58,Y+H-12-(sim.tempLR[1]/mx)*(H-34),26,(sim.tempLR[1]/mx)*(H-34));
+  // 第38便 A5(原仮定者指示・4-70続き): バー・折れ線の色を温度に対応させる — 粒子色と同じ写像
+  // (tempColor∘正規化。line 4102付近と同形。負質量で T<0 になり得るので Math.max(0,T) で保護)
+  const tCol=(t)=>tempColor(Math.min(1,Math.sqrt(Math.max(0,t)/Math.max(1e-4,tempP90EMA))));
+  ctx.fillStyle=tCol(sim.tempLR[0]); ctx.fillRect(X+18,Y+H-12-(sim.tempLR[0]/mx)*(H-34),26,(sim.tempLR[0]/mx)*(H-34));
+  ctx.fillStyle=tCol(sim.tempLR[1]); ctx.fillRect(X+58,Y+H-12-(sim.tempLR[1]/mx)*(H-34),26,(sim.tempLR[1]/mx)*(H-34));
   ctx.fillStyle="#8b93c8"; ctx.fillText(T("ovLeft"),X+26,Y+H-3); ctx.fillText(T("ovRight"),X+66,Y+H-3);
-  // 時系列
+  // 時系列 — 左右とも温度色になり両系列の色が一致し得るため、右系列は破線で区別する(統括裁定)
   let hm=0.01; sim.histT.forEach(a=>{hm=Math.max(hm,a[0],a[1]);});
   const hx=(k)=>X+96+(k/59)*(W-104);
-  ["#6aa5ff","#ff9d45"].forEach((col,ch2)=>{
-    ctx.strokeStyle=col; ctx.beginPath();
-    sim.histT.forEach((a,k)=>{ const yy=Y+H-12-(a[ch2]/hm)*(H-34); k?ctx.lineTo(hx(k),yy):ctx.moveTo(hx(k),yy); });
-    ctx.stroke();
-  });
+  for(let ch2=0; ch2<2; ch2++){
+    if(ch2===1) ctx.setLineDash([3,2]);
+    let px2=null, py2=null;
+    sim.histT.forEach((a,k)=>{
+      const yy=Y+H-12-(a[ch2]/hm)*(H-34), xx=hx(k);
+      if(k>0){ ctx.strokeStyle=tCol(a[ch2]); ctx.beginPath(); ctx.moveTo(px2,py2); ctx.lineTo(xx,yy); ctx.stroke(); }
+      px2=xx; py2=yy;
+    });
+  }
+  ctx.setLineDash([]);
   ctx.restore();
   ovDrawToggle("tempHistogram",slot);   // 第26便: 最小化トグル(−)
 }
@@ -3909,6 +3949,17 @@ function wavelengthColor(nm){
   else if(nm>780) f*=clamp(1-(nm-780)/700,0.12,1);      // 780nm超: さらに減光(赤外側の表現)
   const q=(v)=>Math.round(clamp(v*f,0,1)*255).toString(16).padStart(2,"0");
   return "#"+q(r)+q(g)+q(b);
+}
+// 第38便(原仮定者指示): 可視光外(λ0の直値入力で到達し得る帯域)の記号色。実スペクトルではなく
+// 帯域そのものを示す記号的割当(wavelengthColor 本体は4-63裁定の減光表現を維持するため変更しない)。
+// γ線 <0.01nm=白 / X線 0.01〜10nm=淡シアン / 紫外 10〜380nm=明紫 / 可視 380〜780nm=wavelengthColor
+// そのもの / 赤外 >780nm=暗赤
+function rayBandColor(nm){
+  if(nm<0.01) return "#ffffff";        // γ線
+  if(nm<10) return "#7fdfff";          // X線
+  if(nm<380) return "#c44dff";         // 紫外
+  if(nm<=780) return wavelengthColor(nm);   // 可視(委譲・重複実装しない)
+  return "#b22222";                    // 赤外
 }
 // 第32便(W2): 膨張グラフ overlay — 箱宇宙(UniverseBox)の尺度因子a(t)・膨張率H(t)の時系列と、
 // 拡大に伴う波長の伸び(赤方偏移 1+z=a/a₀)を可視化する。データ層(S.boxHist/S.boxRedshift/
@@ -4944,6 +4995,7 @@ function buildParamRows(){
       row.after(d);
     });
   };
+  let raysRow=null;   // 第38便: λ0行を「光線」トグル行の直後へ差し込むために参照を保持する
   toggles.forEach(([id,label,get,set,descKey])=>{
     const row=document.createElement("div"); row.className="prow";
     const lab=document.createElement("label"); lab.textContent=label; lab.style.flex="1";
@@ -4951,22 +5003,38 @@ function buildParamRows(){
     const cb=document.createElement("input"); cb.type="checkbox"; cb.checked=get();
     cb.addEventListener("change",()=>{ set(cb.checked); requestRender(); });
     row.appendChild(lab); row.appendChild(cb); disp.appendChild(row);
+    if(id==="rays") raysRow=row;
   });
   // 第37便 A3(原仮定者指示): 光線の基準波長λ0(nm)。表示専用(セーブ対象外・物理不変) —
-  // 決定力マップ等の表示トグル群のすぐ後ろに置く。localStorage hp_ray_lambda0 に永続化
+  // localStorage hp_ray_lambda0 に永続化。
+  // 第38便(原仮定者指示): 「光線」トグル行の直後へ移動し、直値入力欄だけでなくスライダー
+  // (可視光380〜780nm・5nm刻み)も並べる。スライダーは可視域のみ操作でき、直値入力欄は
+  // 可視外(γ線〜遠赤外)も受理する広いclampのまま — 両者は setRayLambda0 を共通の入口にする
   {
     const row=document.createElement("div"); row.className="prow";
-    const lab=document.createElement("label"); lab.textContent=T("rayLambda0Label"); lab.style.flex="1";
+    const lab=document.createElement("label"); lab.textContent=T("rayLambda0Label"); lab.style.flex="0 0 auto";
     tapDesc(row,lab,"rayLambda0Desc");
+    const rng=document.createElement("input"); rng.type="range";
+    rng.min=380; rng.max=780; rng.step=5; rng.style.flex="1"; rng.style.minWidth="60px";
+    rng.value=clamp(rayLambda0,380,780);
     const inp=document.createElement("input"); inp.type="text"; inp.inputMode="decimal";
     inp.className="valIn"; inp.autocomplete="off";
-    inp.value=fmt(rayLambda0);
+    inp.style.width="56px"; inp.style.flex="0 0 56px";
+    // γ線の 0.001 のような1未満の値が fmt() の丸めで 0.00 に潰れないよう、その場合だけ生値を出す
+    const fmtLam=(v)=> (v<1)? String(v) : fmt(v);
+    inp.value=fmtLam(rayLambda0);
+    rng.addEventListener("input",()=>{
+      setRayLambda0(parseFloat(rng.value));
+      inp.value=fmtLam(rayLambda0);
+    });
     inp.addEventListener("change",()=>{
       const v=parseFloat(inp.value.replace(/[,、\s]/g,""));
       setRayLambda0(isFinite(v)? v : rayLambda0);
-      inp.value=fmt(rayLambda0);
+      inp.value=fmtLam(rayLambda0);
+      rng.value=clamp(rayLambda0,380,780);   // 可視外の直値でもスライダーは可視域端に表示
     });
-    row.appendChild(lab); row.appendChild(inp); disp.appendChild(row);
+    row.appendChild(lab); row.appendChild(rng); row.appendChild(inp);
+    disp.insertBefore(row, raysRow? raysRow.nextSibling : null);
   }
   // v1.23: 描画品質(自動/正確/軽量)。localStorage hp_quality に永続化。ラベルタップで説明
   {
@@ -5266,7 +5334,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 - ring/disk/box には省略可の bulkVx,bulkVy(母集団の並進速度)を指定できる。移動する天体(vx,vyを持つ single)の周りに円盤・環を置くときは、必ず同じ値を bulkVx,bulkVy に与えて核と一体で動かすこと。
 - single には省略可の zonal(扁平中心天体の帯状重力補正 E13)を指定できる: {"refR":基準半径,"calib":1,"J":{"2":0.0163,"4":-0.0009}}。偶数次 J2〜J12 のみ・|J|≤0.1・refR:1〜5000・calib:0〜2。中心の大質量 pinned 粒子に付けると周回粒子の楕円軌道の近点が前進する(内側ほど速い差動近点移動 — 画面左上に実測/解析の近点移動が表示される)。土星なら J2≈0.0163。要望が扁平天体・歳差・近点移動のときだけ使う高度な属性で、通常のプリセットでは指定しない。
 - single には省略可の coreMR,coreSR,coreRR,coreOT(主星2層 — コアの質量比・スピン比・半径比〔Rc=coreRR·R。既定は√|coreMR|相当〕・観測温度比率〔Tc_obs=coreOT·(1−lightSweep)·Ic·sc²、表示のみ〕)を指定できる。m は総質量のままで、coreMR=mc/m(−1〜1。既定0。負値=空洞〔殻に質量集中〕)・coreSR=sc/s(既定1=剛体回転=単層と等価)。差動分だけが ω += coreMR·s·(coreSR−1)·(Rc/(Rc+d))^q(Rc=radiusScale·√|coreMR·m|)として追加の空間引きずりに効く。要望がコア/深部回転・空洞天体・2層天体のときだけ使う高度な属性。
-- single には省略可の radius(半径の明示指定 0.5〜500。未指定は radiusScale·√|m|)・obsT(観測温度係数 0〜1000。観測温度 T_obs=obsT·(1−lightSweep)·T)・lightSweep(光掻き出し 0〜1 — 高速スピンコアが自星の光を外に出さない: 観測温度が0になり見掛けは冷たい。放射冷却も(1−lS)倍)を指定できる。要望がダークマター/ダークローター・見えない天体・拡がった天体のときだけ使う高度な属性で、通常のプリセットでは指定しない。
+- single には省略可の radius(半径の明示指定 0.5〜500。未指定は radiusScale·√|m|)・obsT(観測温度係数 0〜1000。観測温度 T_obs=obsT·(1−lightSweep)·T)・lightSweep(減光 0〜1 — 高速スピンコアが自星の光を外に出さない: 観測温度が0になり見掛けは冷たい。放射冷却も(1−lS)倍)を指定できる。要望がダークマター/ダークローター・見えない天体・拡がった天体のときだけ使う高度な属性で、通常のプリセットでは指定しない。
 - single には省略可の railOmega(±2・pinned時のみ): 円レール駆動の角速度。railCx/railCy でレール中心を指定(既定は原点)。
 
 # 例
@@ -5744,16 +5812,19 @@ function updateBodyEdit(){
   $("#beTitle").textContent=T("beTitle")+(ab? `(${selWorld})` : "");   // どちらの宇宙かを明示
   $("#beM").value=fmt(S.m[i]); $("#beS").value=fmt(S.spin[i]);
   $("#beMc").value=fmt(S.coreMR[i]); $("#beSc").value=fmt(S.coreSR[i]);
+  // 第38便(原仮定者指示): #beR は実効半径 S.R(radiusScale適用後)を表示するが、書き込み(下の
+  // beBind)は radOv(未スケール)へ入るため、radiusScale≠1 では表示値と入力すべき値が非対称になる
+  // (再度 radiusScale が乗るため)。式粒子(rMul経路)の表示と整合させることを優先し許容する(統括裁定)
   $("#beR").value=fmt(S.R[i]); $("#beRr").value=fmt(S.R[i]>0? S.Rc[i]/S.R[i] : 0);   // 第22便: 半径系(実効値を表示)
   $("#beOt").value=fmt(S.obsT[i]); $("#beOc").value=fmt(S.coreOT[i]);   // 観測温度系
-  // 第36便 C2: 掻出は "auto"(粒子パラメータからの算出モード)を受理。auto の粒子は入力欄に
-  // auto を表示し、隣に現在の実効値 lS_eff を出す(表示のみ・書式は既存の fmt に倣う)
+  // 第36便 C2: 掻出は "auto"(粒子パラメータからの算出モード)を受理。
   // 第37便 A2(原仮定者指示): auto チェックボックスも S.lSwAuto と同期させ、ON中は数値欄を
-  // 読み取り専用にする(入力欄への直接 "auto" 入力は従来どおり併存 — 単一の真実 S.lSwAuto 経由)
-  $("#beSw").value = S.lSwAuto[i]? "auto" : fmt(S.lSw[i]);
+  // 読み取り専用にする(入力欄への直接 "auto" 入力は従来どおり併存 — 単一の真実 S.lSwAuto 経由)。
+  // 第38便(原仮定者指示): auto中も #beSw に文字列"auto"ではなく実効値を表示する(S.lSw は auto
+  // 中も毎ステップ実効値を保持 — 36C設計。実行中は毎フレームの updateBodyEdit 呼び出しで追随する)
+  $("#beSw").value = fmt(S.lSw[i]);
   $("#beSw").readOnly = !!S.lSwAuto[i];
   $("#beSwAuto").checked = !!S.lSwAuto[i];
-  $("#beSwEff").textContent = S.lSwAuto[i]? ("lS_eff="+fmt(S.lSwEff(i))) : "";
   $("#beVx").value=fmt(S.vx[i]); $("#beVy").value=fmt(S.vy[i]);
   $("#bePin").checked=!!S.pinned[i];
 }
@@ -6651,6 +6722,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   selInfo:()=>({selIdx, selWorld}), selSimRef,
   wavelengthColor,  // 第36便 B3(原仮定者指示): 光線の波長色計算のQA用(色関数そのものを公開・重複実装しない)
   rayLambda0:()=>rayLambda0, setRayLambda0,  // 第37便 A3(原仮定者指示): 光線の基準波長λ0のQA用
+  rayBandColor, rayLambda0FromRaw,  // 第38便(原仮定者指示): 可視光外の記号色/既定移行ロジックのQA用
   fieldWDisp,  // 第37便 A4(原仮定者裁定): 決定力マップの表示合成 W_disp=W+Φ_g のQA用
   tick:(frames)=>{ for(let f=0;f<frames;f++){ const k=Math.max(1,Math.round(SUBSTEPS*sim.params.timeScale)); for(let s2=0;s2<Math.min(k,24);s2++) sim.step(DT); } render(); } };
 

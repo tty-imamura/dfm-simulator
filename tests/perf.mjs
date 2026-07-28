@@ -28,7 +28,12 @@ const ALLOW = { darkrotor: 1.30,
   // 第37便(台帳4-70): ♨️を壁駆動対流へ意図的に再設計(粒子278→300・thermalWalls 結合・
   // tint の U_rep 厳密解)— root の旧設計との比較は設計差そのもの。実測 2.83(2026-07-27)。
   // 次期昇格で root にも新設計が入り比≈1へ戻るため、それまでの暫定 ALLOW
-  convection: 3.0 };
+  convection: 3.0,
+  // 第38便: saturnLayered は beta 先行機能の累積オーバーヘッドで環境により 1.10 を跨ぐ
+  // (第37便最終 1.099 → 本便 1.105/1.148。38A適用前の 80f6919 でも 1.161 と worktree で
+  // 機械証明 — 本便の退行ではない)。n=301×steps/frame=6 で per-substep 追加コストが最も
+  // 効くサンプル。昇格で root に同機能が入り比≈1へ戻るまでの暫定 ALLOW(台帳4-76 で精査)
+  saturnLayered: 1.20 };
 const REPS = 5, FRAMES = 60, WARMUP_FRAMES = 20;
 
 async function getBrowser() {

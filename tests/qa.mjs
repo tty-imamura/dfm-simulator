@@ -2943,7 +2943,14 @@ if (!FAST) {
           radiusScale: 1.2, softening: 2, timeScale: 1 }, phys || {}),
         bodies: [Object.assign({ type: 'single', m: 100, x: 0, y: 0, vx: 0, vy: 0, spin: 2, pinned: false }, over)] });
       HP.sim.build(HP.validatePreset(mk({ radius: 20, coreMR: 0.5, coreSR: 4, coreRR: 0.5 })).preset);
-      const okR = HP.sim.R[0] === 20 && HP.sim.Rc[0] === 10;
+      // 第38便 A4(原仮定者指示): radiusScale(この mk() の既定1.2)は明示半径(radius/radOv)にも
+      // 乗るようになった — R=radiusScale·radius(=1.2*20=24)。Rc はコア半径比×Rの経路のまま
+      // 不変(R に比例して自動追従。=0.5*24=12)。root 等の未適用ビルドでは従来どおり
+      // R=radius(=20)・Rc=0.5*20=10 のままなので、HP.rayBandColor(第38便で新規公開)の
+      // 有無で期待値を分岐する
+      const has38A = typeof HP.rayBandColor === 'function';
+      const okR = has38A ? (HP.sim.R[0] === 1.2 * 20 && HP.sim.Rc[0] === 0.5 * 1.2 * 20)
+                          : (HP.sim.R[0] === 20 && HP.sim.Rc[0] === 10);
       HP.sim.build(HP.validatePreset(mk({})).preset);
       const okRdef = Math.abs(HP.sim.R[0] - 1.2 * Math.sqrt(100)) < 1e-6;
       const cool = (ls) => { HP.sim.build(HP.validatePreset(mk({ lightSweep: ls }, { etaRad: 0.5, G: 0 })).preset);
@@ -4376,9 +4383,13 @@ if (hasEchoFlipAt) {
 
 // ---- 7z7) A2: ui.sweep-auto-checkbox — 粒子編集パネルの「掻出」欄に auto チェックボックスを
 // ----      追加した。ON で lightSweep="auto" 相当(S.lSwAuto=1)になり数値欄(#beSw)が
-// ----      読み取り専用になって実効値 lS_eff が隣(#beSwEff)に出る。OFF で現在の実効値を
-// ----      数値指定として引き継ぎ、数値欄が編集可能に戻る(#beSw への直接 "auto" 文字列入力の
-// ----      従来経路も unchanged — どちらも S.lSwAuto を単一の真実として操作する)。
+// ----      読み取り専用になる。OFF で現在の実効値を数値指定として引き継ぎ、数値欄が編集可能に
+// ----      戻る(#beSw への直接 "auto" 文字列入力の従来経路も unchanged — どちらも S.lSwAuto を
+// ----      単一の真実として操作する)。
+// ----      第38便(原仮定者指示): #beSwEff(実効値の別表示スパン)を廃止し、#beSw 自体が auto中も
+// ----      実効値を表示するように変更 — 新仕様は「auto ON→ #beSw.readOnly===true かつ
+// ----      #beSw.value が fmt(lS_eff) と一致」であることを見る(step後に HP.selectBody で
+// ----      再同期して比較)。
 // ----      beta 先行(root には #beSwAuto 自体が無い)なので DOM 要素の有無で先にガードする ----
 const hasSwAutoCb = await page.evaluate(() => !!document.querySelector('#beSwAuto'));
 if (hasSwAutoCb) {
@@ -4393,13 +4404,12 @@ if (hasSwAutoCb) {
       overlays: {} });
     s.step(0.016);
     HP.selectBody(0, 'A');
-    const swEl = document.querySelector('#beSw'), cbEl = document.querySelector('#beSwAuto'),
-      effEl = document.querySelector('#beSwEff');
+    const swEl = document.querySelector('#beSw'), cbEl = document.querySelector('#beSwAuto');
     const before = { val: parseFloat(swEl.value), ro: swEl.readOnly, cb: cbEl.checked, auto: s.lSwAuto[0] };
     cbEl.click();   // ON — ユーザーのタップと同じ経路(change イベントも実発火)
     s.step(0.016);   // 実効値 lS_eff の算出は毎ステップなので、通常のプレイと同じく1步進める
     HP.selectBody(0, 'A');   // updateBodyEdit() 再同期(step 後の実効値を#beSwへ反映)
-    const on = { val: swEl.value, ro: swEl.readOnly, auto: s.lSwAuto[0], eff: effEl.textContent, lSwEff: s.lSwEff(0) };
+    const on = { val: parseFloat(swEl.value), ro: swEl.readOnly, auto: s.lSwAuto[0], lSwEff: s.lSwEff(0) };
     cbEl.click();   // OFF
     HP.selectBody(0, 'A');
     const off = { val: parseFloat(swEl.value), ro: swEl.readOnly, auto: s.lSwAuto[0], numVal: s.lSw[0] };
@@ -4407,26 +4417,30 @@ if (hasSwAutoCb) {
     return { before, on, off };
   });
   // #beSw の表示値は fmt() で小数2桁に丸められる(index.html の fmt 定義)ため、生の実効値
-  // numVal との比較は丸め誤差(最大0.005)を許容する必要がある — 1e-6 は表示丸めを考慮しない
+  // (lSwEff/numVal)との比較は丸め誤差(最大0.005)を許容する必要がある — 1e-6 は表示丸めを考慮しない
   // 誤った期待値だった(初回実行の実測: val=0.42 / numVal=0.420586・差0.000586 で誤FAIL)
   const ok = !r.before.cb && r.before.ro === false && Math.abs(r.before.val - 0.3) < 1e-6 && r.before.auto === 0
-    && r.on.auto === 1 && r.on.ro === true && r.on.val === 'auto' && r.on.eff.includes('lS_eff=')
-    && r.on.lSwEff > 0 && r.on.lSwEff <= 1
+    && r.on.auto === 1 && r.on.ro === true && isFinite(r.on.val)
+    && Math.abs(r.on.val - r.on.lSwEff) < 0.006 && r.on.lSwEff > 0 && r.on.lSwEff <= 1
     && r.off.auto === 0 && r.off.ro === false && isFinite(r.off.val) && Math.abs(r.off.val - r.off.numVal) < 0.006;
   add('ui.sweep-auto-checkbox', ok,
     `OFF初期: 読取専用=${r.before.ro} 値=${r.before.val}(数値0.3) auto=${r.before.auto} / ` +
-    `ONタップ後(1步): auto=${r.on.auto} 読取専用=${r.on.ro} 値="${r.on.val}" 実効値表示="${r.on.eff}"` +
-    `(lS_eff=${r.on.lSwEff.toFixed(6)}・0<lS_eff≤1) / ` +
+    `ONタップ後(1步): auto=${r.on.auto} 読取専用=${r.on.ro} 値=${r.on.val}` +
+    `(実効値lS_eff=${r.on.lSwEff.toFixed(6)}と一致・第38便で#beSwEff廃止→#beSw自体が表示) / ` +
     `OFFタップで復帰: auto=${r.off.auto} 読取専用=${r.off.ro} 値=${r.off.val}(実効値${r.off.numVal.toFixed(6)}を引き継いだ数値)`);
 } else {
   console.log('SKIP ui.sweep-auto-checkbox(対象に #beSwAuto なし — 第37便 A2 未適用の root 等)');
 }
 
-// ---- 7z8) A3: ui.ray-lambda0 — 光線の基準波長λ0(nm)を表示設定として選べるようにした
-// ----      (既定550・[380,780]クランプ・セーブ対象外・物理不変)。HP.setRayLambda0 で変更すると
-// ----      drawRays の色計算(λ_seg=λ0·e^{ψ0−ψ})に反映されることを HP.traceRay の計算値
-// ----      (ray.wavelength-color と同じ Wtot 取得法)+ HP.wavelengthColor で確認し、
-// ----      物理ハッシュ(位置・速度・スピン・半径)が変更前後で bit 一致することも見る ----
+// ---- 7z8) A3+第38便 A1/A2: ui.ray-lambda0 — 光線の基準波長λ0(nm)を表示設定として選べるように
+// ----      した(セーブ対象外・物理不変)。HP.setRayLambda0 で変更すると drawRays の色計算
+// ----      (λ_seg=λ0·e^{ψ0−ψ})に反映されることを HP.traceRay の計算値(ray.wavelength-color と
+// ----      同じ Wtot 取得法)+ HP.wavelengthColor で確認し、物理ハッシュ(位置・速度・スピン・
+// ----      半径)が変更前後で bit 一致することも見る。
+// ----      第38便(原仮定者指示): 既定を550→580へ変更。setRayLambda0/読み込みのクランプは
+// ----      [0.001,1e6]へ拡大(可視clampはスライダー表示のみの制約になった)。可視光外の記号色
+// ----      (rayBandColor)と、旧既定550の保存値だけを580へ移行する既定移行ロジック
+// ----      (rayLambda0FromRaw)も併せて検証する ----
 {
   const hasWL = await page.evaluate(() => typeof window.HP.wavelengthColor === 'function');
   const hasLensing = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'lensing'));
@@ -4454,25 +4468,76 @@ if (hasSwAutoCb) {
         const nm0 = lam0 * Math.exp(psi0 - psi0), nmDeep = lam0 * Math.exp(psi0 - psiDeep);
         return { nm0, nmDeep, col0: HP.wavelengthColor(nm0), colDeep: HP.wavelengthColor(nmDeep) };
       };
-      const default550 = colAt(550);
+      const default580 = colAt(580);
       HP.setRayLambda0(650);   // 変更
       const after650 = { lam0: HP.rayLambda0(), physHash: hashPhys(), ...colAt(650) };
-      const clampHi = (() => { HP.setRayLambda0(999); return HP.rayLambda0(); })();   // 上限クランプ780
-      const clampLo = (() => { HP.setRayLambda0(1); return HP.rayLambda0(); })();      // 下限クランプ380
-      HP.setRayLambda0(550);   // 既定へ戻す(以降の項目へ影響させない)
-      return { before, default550, after650, clampHi, clampLo, restored: HP.rayLambda0() };
+      // 第38便(a): クランプは[0.001,1e6]へ拡大 — 直値は可視外(赤外1200nm・γ線0.001nm)もそのまま
+      // 受理される(旧来の[380,780]クランプはスライダー表示だけの制約になった)
+      const noClampHi = (() => { HP.setRayLambda0(1200); return HP.rayLambda0(); })();
+      const noClampLo = (() => { HP.setRayLambda0(0.001); return HP.rayLambda0(); })();
+      HP.setRayLambda0(580);   // 既定へ戻す(以降の項目へ影響させない)
+      // 第38便(b): 可視光外の記号色(rayBandColor)
+      const bandColors = {
+        gamma: HP.rayBandColor(0.005), xray: HP.rayBandColor(5),
+        uv: HP.rayBandColor(200), ir: HP.rayBandColor(1200),
+      };
+      // 第38便(c): 旧既定550の保存値だけが580へ移行し、他の値・未保存/不正値はそれぞれ保持/新既定になる
+      const migrate = {
+        none: HP.rayLambda0FromRaw(null), old550: HP.rayLambda0FromRaw('550'),
+        kept650: HP.rayLambda0FromRaw('650'), invalid: HP.rayLambda0FromRaw('abc'),
+      };
+      return { before, default580, after650, noClampHi, noClampLo, restored: HP.rayLambda0(), bandColors, migrate };
     });
-    const ok = r.before.lam0 === 550 && r.after650.lam0 === 650
+    const ok = r.before.lam0 === 580 && r.after650.lam0 === 650
       && r.after650.physHash === r.before.physHash   // 物理(位置・速度・スピン・半径)は不変
       && Math.abs(r.after650.nm0 - 650) < 1e-9 && r.after650.nmDeep < r.after650.nm0 - 1
-      && r.after650.col0 !== r.default550.col0   // λ0 変更で色計算に反映(基準色が変わる)
-      && r.clampHi === 780 && r.clampLo === 380 && r.restored === 550;
+      && r.after650.col0 !== r.default580.col0   // λ0 変更で色計算に反映(基準色が変わる)
+      && r.noClampHi === 1200 && r.noClampLo === 0.001 && r.restored === 580
+      && r.bandColors.gamma === '#ffffff' && r.bandColors.xray === '#7fdfff'
+      && r.bandColors.uv === '#c44dff' && r.bandColors.ir === '#b22222'
+      && r.migrate.none === 580 && r.migrate.old550 === 580
+      && r.migrate.kept650 === 650 && r.migrate.invalid === 580;
     add('ui.ray-lambda0', ok,
-      `既定λ0=${r.before.lam0} → HP.setRayLambda0(650)後=${r.after650.lam0}(λ0色 ${r.default550.col0}→${r.after650.col0}) ` +
-      `物理ハッシュ不変=${r.after650.physHash === r.before.physHash} ` +
-      `クランプ: 999→${r.clampHi}(期待780) 1→${r.clampLo}(期待380) 復帰=${r.restored}`);
+      `既定λ0=${r.before.lam0}(=580・第38便で550から移行) → HP.setRayLambda0(650)後=${r.after650.lam0}` +
+      `(λ0色 ${r.default580.col0}→${r.after650.col0}) 物理ハッシュ不変=${r.after650.physHash === r.before.physHash} ` +
+      `可視外直値は非clamp: 1200→${r.noClampHi} 0.001→${r.noClampLo} 復帰=${r.restored} ` +
+      `帯域色: γ=${r.bandColors.gamma}(白) X=${r.bandColors.xray}(淡シアン) UV=${r.bandColors.uv}(明紫) IR=${r.bandColors.ir}(暗赤) ` +
+      `既定移行: 未保存=${r.migrate.none}(=580) 旧550=${r.migrate.old550}(=580) 650保持=${r.migrate.kept650}(=650) 不正値=${r.migrate.invalid}(=580)`);
   } else {
     console.log('SKIP ui.ray-lambda0(対象に wavelengthColor 公開 or 💡lensing なし — 第36便 B3 未適用の root 等)');
+  }
+}
+
+// ---- 7z8b) 第38便 A4: radius.explicit-scale — radiusScale(全粒子共通の相対ノブ)が明示半径
+// ----      (body.radius/radOv)の粒子にも効くようにした(従来は radiusScale を無視していた)。
+// ----      rotorSolo の中心天体相当(radius:45)で radiusScale=2 のとき R=90 になること、
+// ----      radiusScale=1(既定)では従来値(=45)と bit 一致することを見る。
+// ----      HP.rayBandColor(第38便で新規公開)の有無で対象を先にガードする(この便で同時に
+// ----      入るため、他の第38便項目と同一ビルドかどうかの判定を兼ねる)----
+{
+  const has38A = await page.evaluate(() => typeof HP.rayBandColor === 'function');
+  if (has38A) {
+    const r = await page.evaluate(() => {
+      const mk = (rs) => ({ id: 'qa38_rs', name: 'r', description: 'd', camera: { scale: 300 },
+        world: { boundary: 'none', size: 0 },
+        physics: { G: 1, D0: 2, kFrame: 1, q: 2, kRep: 1, muF: 0.5, gammaN: 0.4, kappaS: 0.05, Kt: 60,
+          cLight: 60, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1,
+          pnAlpha: 1.5, radiusScale: rs, softening: 2, timeScale: 1 },
+        // rotorSolo の中心天体相当(m=2000, radius=45, spin=2)
+        bodies: [{ type: 'single', m: 2000, x: 0, y: 0, vx: 0, vy: 0, spin: 2, pinned: false, radius: 45 }],
+        overlays: {} });
+      const s = HP.sim;
+      s.build(mk(1));
+      const rAt1 = s.R[0];
+      s.params.radiusScale = 2; s.updateRadii();
+      const rAt2 = s.R[0];
+      return { rAt1, rAt2 };
+    });
+    const ok = Math.abs(r.rAt1 - 45) < 1e-9 && Math.abs(r.rAt2 - 90) < 1e-9;
+    add('radius.explicit-scale', ok,
+      `radiusScale=1: R=${r.rAt1}(=45・従来値とbit一致) radiusScale=2: R=${r.rAt2}(=90・明示半径にもradiusScaleが乗る)`);
+  } else {
+    console.log('SKIP radius.explicit-scale(対象に HP.rayBandColor なし — 第38便 A4 未適用の root 等)');
   }
 }
 
