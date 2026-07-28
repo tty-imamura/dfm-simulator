@@ -188,6 +188,16 @@ await page.waitForFunction(() => window.HP && HP.sim);
 // sweep.numeric-unchanged / tint.zero-cost)は対象ごとに基準を選ぶ必要がある。
 // 判定は「③の集積先 accVx が sim 状態に存在するか」— hasTint / echoFlipAt と同じ方式
 const hasE6Acc = await page.evaluate(() => 'accVx' in HP.sim);
+// 第40便 40C(台帳4-82): 🪐/🎯 の環粒子を 300→240(総粒子 301→241)へ削減したビルドかの判定子。
+// beta 先行(v1.34-b1)で、root=v1.33 は 301 のまま。初期配置そのものが変わる = kFrame や
+// 積分器と無関係に軌道が bit 一致しえないので、bit 基準を持つテスト(integrator.default-unchanged /
+// tint.zero-cost の 🪐 行)と粒子数を数える検査(core.twolayer)は対象ごとに値を選ぶ。
+// 判定はプリセット定義の実体(ring.n の総和)から直接数える — 実行時状態に依存しない
+const satTotN = await page.evaluate(() => {
+  const p = HP.allPresets().find(q => q.id === 'saturn');
+  return p ? p.bodies.reduce((a, b) => a + (b.type === 'ring' ? (b.n || 0) : 1), 0) : 0;
+});
+const hasSat240 = satTotN === 241;
 
 const w5cHasCoreEng = await page.evaluate(() => !!(window.HP && HP.sim && HP.sim.coreMR));
 const w5cHasIce = await page.evaluate(() =>
@@ -327,6 +337,12 @@ const W5C_UNITS = {
   }) },
   saturnLayered: { enabled: w5cHasCoreEng && !FAST, weight: 152, run: (pg) => pg.evaluate(() => {
     // 🎯 既定値の長時間安定+差動効果の有界性(元「第12〜14便」節 2466-2490行から抽出)
+    // 第40便 40C(台帳4-82): 環帯の粒子数が 75/150/75 → 60/120/60 へ変わったため、C/B/A の
+    // index 境界を**プリセット定義の ring.n から機械的に**算出する(以後の粒子数変更でも自動追従。
+    // 帯の意味〔内=C・中=B・外=A〕と med の取り方は不変)。旧: med(1,75)/med(76,225)/med(226,300)
+    const RN = HP.allPresets().find(q => q.id === 'saturnLayered')
+      .bodies.filter(b => b.type === 'ring').map(b => b.n);
+    const i1 = RN[0], i2 = RN[0] + RN[1], i3 = RN[0] + RN[1] + RN[2];
     const run = (rigidSc, steps) => {
       HP.loadPreset('saturnLayered', false);
       const s = HP.sim;
@@ -338,7 +354,7 @@ const W5C_UNITS = {
           if (r >= 90 && r <= 290) inB++; if (r < 85) fall++; if (r > 320) esc++;
           sum += Math.abs(s.spin[i]); }
         return { inB: inB / (s.n - 1), fall: fall / (s.n - 1), esc: esc / (s.n - 1),
-          mean: sum / (s.n - 1), C: med(1, 75), B: med(76, 225), A: med(226, 300), nan: s.hasNaN() };
+          mean: sum / (s.n - 1), C: med(1, i1), B: med(i1 + 1, i2), A: med(i2 + 1, i3), nan: s.hasNaN() };
       };
       const out = [];
       for (let c = 0; c < steps.length; c++) {
@@ -350,7 +366,141 @@ const W5C_UNITS = {
     const def = run(false, [9375, 13125]);
     const noc = run(true, [9375]);
     HP.loadPreset('saturn', false);
-    return { d150: def[0], d360: def[1], z150: noc[0] };
+    return { d150: def[0], d360: def[1], z150: noc[0], ringN: RN, nTot: i3 + 1 };
+  }) },
+  // ==== 第40便 40C(台帳4-79 — 因果QAバッテリー第2弾。ChatGPT精査 P2-4/5/7/8)====================
+  // 共通方針: 同一 seed(=同一初期配置)で **ノブを1個だけ** 変えた2〜3本を走らせ、
+  // 「説明文が主張している因果」がその差として実際に現れるかを機械判定する。判定閾値は
+  // すべて 4-82 適用後(環240粒)の実測値を分母にした余裕係数つきで、各 add() のコメントに根拠を書く。
+  // 実測が主張を支持しない場合は **主張の側を弱め、測れた事実の方を固定する**(誠実性優先の裁定)。
+  //
+  // P2-4: 🪐 の kFrame 対照。説明文は当初「環は空間引きずりによる近点移動で形を保つ」だったが、
+  // 実測はその逆で、引きずりは環を内側へ寄せ離心率をむしろ上げる(kFrame=0 でも環は保たれる)。
+  // よって本テストは「引きずりが環を安定させる」ではなく「kFrame が環の形を有意に変える(因果がある)」
+  // ことと、その **向き**(内向き移動+離心率増大)を固定する。説明文は 40C で実測に合わせて弱めた。
+  saturnKFrame: { enabled: !FAST && w5cHasIce && hasSat240, weight: 16, run: (pg) => pg.evaluate(() => {
+    const STEPS = 3000;   // t=48。2本で実測 15s(1本あたり 3000×2.6ms)
+    const stat = (s) => {
+      const mu = s.params.G * s.m[0];      // 中心星は pinned・原点なので μ=G·M で LRL ベクトルが取れる
+      let se = 0, sv = 0, inB = 0, n = 0;
+      const rs = [];
+      for (let i = 1; i < s.n; i++) {
+        const x = s.x[i], y = s.y[i], vx = s.vx[i], vy = s.vy[i], r = Math.hypot(x, y);
+        rs.push(r); if (r >= 90 && r <= 290) inB++;
+        const Lz = x * vy - y * vx;                       // 離心率ベクトル e = (v×L)/μ − r̂
+        const ex = (vy * Lz) / mu - x / r, ey = (-vx * Lz) / mu - y / r;
+        se += ex * ex + ey * ey;
+        const vr = (x * vx + y * vy) / r; sv += vr * vr;
+        n++;
+      }
+      rs.sort((a, b) => a - b);
+      return { eRMS: Math.sqrt(se / n), vrRMS: Math.sqrt(sv / n), inB: inB / n,
+        p50: rs[Math.floor(0.5 * (rs.length - 1))], nan: s.hasNaN() };
+    };
+    const run = (kf) => {
+      HP.loadPreset('saturn', false);
+      const s = HP.sim; s.params.kFrame = kf;
+      for (let k = 0; k < STEPS; k++) s.step(0.016);
+      return stat(s);
+    };
+    const on = run(1), off = run(0);
+    HP.loadPreset('saturn', false);
+    return { steps: STEPS, on, off };
+  }) },
+  // P2-5: 🪐 の muF 対照。説明文は当初「muF=0 にすると円形化が止まる」だったが、実測では
+  // 氷粒の半径が R=rMul·√m≈0.25 と小さく **接触自体がほとんど起きない** ため、muF は
+  // この時間窓でほぼ効かない(4500步までは倍精度で完全一致 = 接触ゼロ)。本テストは
+  // 「muF は環に届いてはいる(=差はゼロではない)が、その効きは小さい」を両側から固定する。
+  saturnMuF: { enabled: !FAST && w5cHasIce && hasSat240, weight: 32, run: (pg) => pg.evaluate(() => {
+    const STEPS = 6000;   // 最初の接触が起きるのが 4500〜6000步(4500步では2本が完全一致)
+    const stat = (s) => {
+      const mu = s.params.G * s.m[0];
+      let se = 0, sv = 0, sp = 0, n = 0, contacts = 0;
+      for (let i = 1; i < s.n; i++) {
+        const x = s.x[i], y = s.y[i], vx = s.vx[i], vy = s.vy[i], r = Math.hypot(x, y);
+        const Lz = x * vy - y * vx;
+        const ex = (vy * Lz) / mu - x / r, ey = (-vx * Lz) / mu - y / r;
+        se += ex * ex + ey * ey;
+        const vr = (x * vx + y * vy) / r; sv += vr * vr;
+        sp += Math.abs(s.spin[i]); n++;
+      }
+      for (let i = 1; i < s.n; i++) for (let j = i + 1; j < s.n; j++)
+        if (Math.hypot(s.x[i] - s.x[j], s.y[i] - s.y[j]) < s.R[i] + s.R[j]) contacts++;
+      return { eRMS: Math.sqrt(se / n), vrRMS: Math.sqrt(sv / n), meanSpin: sp / n,
+        contacts, nan: s.hasNaN() };
+    };
+    const run = (mf) => {
+      HP.loadPreset('saturn', false);
+      const s = HP.sim; s.params.muF = mf;
+      for (let k = 0; k < STEPS; k++) s.step(0.016);
+      return stat(s);
+    };
+    const on = run(0.2), off = run(0);
+    const Rr = [];
+    for (let i = 1; i < HP.sim.n; i++) Rr.push(HP.sim.R[i]);
+    HP.loadPreset('saturn', false);
+    return { steps: STEPS, on, off, Rmin: Math.min(...Rr), Rmax: Math.max(...Rr) };
+  }) },
+  // P2-7: 🌠merger の3点セット(潮汐尾の成長 / kFrame の効き所 / muF の効き)。
+  // 実測で分かったこと: 引きずり(kFrame)の効きは **スピン加熱に集中** していて、
+  // 核どうしの接近そのものはほとんど変わらない。説明文にその内訳を明記した(40C)。
+  mergerCausal: { enabled: !FAST, weight: 34, run: (pg) => pg.evaluate(() => {
+    const STEPS = 3000;   // t=48。3本で実測 30s
+    // bodies: 0=核A / 1..150=円盤A(初期半径95) / 151=核B / 152..271=円盤B(初期半径78)
+    const A0 = 1, A1 = 150, NA = 0, B0 = 152, B1 = 271, NB = 151;
+    const stat = (s) => {
+      // 潮汐尾率 = 自分の核から「初期円盤半径の mult 倍」より外に出た円盤粒子の割合
+      const tail = (mult) => { let c = 0, tot = 0;
+        for (let i = A0; i <= A1; i++) { tot++; if (Math.hypot(s.x[i] - s.x[NA], s.y[i] - s.y[NA]) > 95 * mult) c++; }
+        for (let i = B0; i <= B1; i++) { tot++; if (Math.hypot(s.x[i] - s.x[NB], s.y[i] - s.y[NB]) > 78 * mult) c++; }
+        return c / tot; };
+      let sp = 0, nd = 0;
+      for (let i = 0; i < s.n; i++) { if (i === NA || i === NB) continue; sp += Math.abs(s.spin[i]); nd++; }
+      return { sep: Math.hypot(s.x[NA] - s.x[NB], s.y[NA] - s.y[NB]),
+        tail15: tail(1.5), tail20: tail(2), meanSpin: sp / nd, nan: s.hasNaN() };
+    };
+    const run = (mod) => {
+      HP.loadPreset('merger', false);
+      const s = HP.sim; if (mod) mod(s);
+      const t0 = stat(s);
+      for (let k = 0; k < STEPS; k++) s.step(0.016);
+      return { t0, end: stat(s), n: s.n };
+    };
+    const base = run(null), kf0 = run((s) => { s.params.kFrame = 0; }), muf0 = run((s) => { s.params.muF = 0; });
+    HP.loadPreset('saturn', false);
+    return { steps: STEPS, base, kf0, muf0 };
+  }) },
+  // P2-8: 🌫️collapse の etaRad 対照。説明文は当初「放射冷却(E11)による収縮」と書いていたが、
+  // 実測では etaRad は **温度だけ** を単調に動かし、半質量半径 r50(=収縮の速さ)は変えない
+  // (6000步で r50 差 0.4%・12000步でも 2.1% で符号すら一定しない)。40C で説明文を修正し、
+  // 本テストはその **否定的結果そのもの**(冷却は温度に効き、収縮には効かない)を固定する。
+  collapseCooling: { enabled: !FAST, weight: 45, run: (pg) => pg.evaluate(() => {
+    const STEPS = 6000;   // t≈96。温度差が 15% に開くのがこの辺り(4500步では 4% しかない)
+    const stat = (s) => {
+      let M = 0, cx = 0, cy = 0;
+      for (let i = 0; i < s.n; i++) { M += s.m[i]; cx += s.m[i] * s.x[i]; cy += s.m[i] * s.y[i]; }
+      cx /= M; cy /= M;
+      const a = [];
+      for (let i = 0; i < s.n; i++) a.push({ r: Math.hypot(s.x[i] - cx, s.y[i] - cy), m: s.m[i] });
+      a.sort((p, q) => p.r - q.r);
+      let acc = 0, r50 = 0, r90 = 0;
+      for (const p of a) { acc += p.m;
+        if (!r50 && acc >= 0.5 * M) r50 = p.r;
+        if (!r90 && acc >= 0.9 * M) r90 = p.r; }
+      let T = 0;
+      for (let i = 0; i < s.n; i++) T += s.Tint ? s.Tint[i] : Math.abs(s.spin[i]);
+      return { r50, r90, T: T / s.n, nan: s.hasNaN() };
+    };
+    const run = (eta) => {
+      HP.loadPreset('collapse', false);
+      const s = HP.sim; s.params.etaRad = eta;
+      const t0 = stat(s);
+      for (let k = 0; k < STEPS; k++) s.step(0.016);
+      return { t0, end: stat(s) };
+    };
+    const on = run(0.004), off = run(0);
+    HP.loadPreset('saturn', false);
+    return { steps: STEPS, on, off };
   }) },
   darkrotorMidNew: { enabled: w5cHasObs && !FAST && w5cDrFree, weight: 26, run: (pg) => pg.evaluate(() => {
     // 🕶️ の中期安定・v4/v5(全自由系)経路(元7m節 2785-2822行から抽出)
@@ -422,10 +572,59 @@ const W5C_UNITS = {
       }
       return { A2: N ? Math.hypot(cr, ci) / N : 0, N, noise: N ? Math.sqrt(Math.PI / (4 * N)) : 0 };
     });
+    // 第40便 40C(台帳4-79 P2-9): 渦状腕のピッチ角。tests/exp-4-72.mjs 158-199行の pitchFit を
+    // **一字も変えずに移植**した(探索指標として実装済みのものを QA 化)。細環帯 15 刻みで m=2 の
+    // 位相 ψ(r)=½·arg(Σe^{2iθ}) を測り、対数螺旋 r ∝ e^{θ·tan i} を仮定して ψ=a+b·ln r の
+    // 重み付き最小二乗 → tan i = 1/|b| ⇒ ピッチ角 i = atan(1/|b|)。有意帯(A2 > 2×ノイズ床
+    // √(π/4N))だけを使い、4帯未満なら測定不能(ok:false)。dirSign=円盤の回転向き(恒星の ΣL_z の符号)、
+    // dirSign·b<0 が後行(trailing)螺旋。**この呼び出しは状態を一切書き換えない**ので、
+    // darkrotorLong の走行(500步×12ブロック)にピッチの計測を相乗りさせても軌道は 1 ビットも変わらない
+    // (= 追加の走行コストゼロ。この点が QA 化できた理由)
+    const PB = []; for (let r = 80; r < 260; r += 15) PB.push([r, r + 15]);
+    const pitchFit = (s, OFF, dirSign) => {
+      const bx = s.x[0], by = s.y[0];
+      const pts = [];
+      for (const [lo, hi] of PB) {
+        let cr = 0, ci = 0, N = 0;
+        for (let i = OFF; i < s.n; i++) {
+          const dx = s.x[i] - bx, dy = s.y[i] - by, r = Math.hypot(dx, dy);
+          if (r >= lo && r < hi) { const th = Math.atan2(dy, dx);
+            cr += Math.cos(2 * th); ci += Math.sin(2 * th); N++; }
+        }
+        if (N < 8) continue;
+        const A = Math.hypot(cr, ci) / N, noise = Math.sqrt(Math.PI / (4 * N));
+        pts.push({ r: Math.sqrt(lo * hi), psi: Math.atan2(ci, cr) / 2, A, N, noise });
+      }
+      const use = pts.filter(p => p.A > 2 * p.noise);
+      if (use.length < 4) return { ok: false, nBand: use.length };
+      let prev = use[0].psi;
+      const xs = [], ys = [], ws = [];
+      for (let k = 0; k < use.length; k++) {
+        let v = use[k].psi;
+        if (k > 0) v += Math.round((prev - v) / Math.PI) * Math.PI;   // ψ は π 周期 → 最も近い分枝へ連続化
+        prev = v;
+        xs.push(Math.log(use[k].r)); ys.push(v); ws.push(use[k].N * use[k].A);
+      }
+      let Sw = 0, Sx = 0, Sy = 0, Sxx = 0, Sxy = 0;
+      for (let k = 0; k < xs.length; k++) { const w = ws[k];
+        Sw += w; Sx += w * xs[k]; Sy += w * ys[k]; Sxx += w * xs[k] * xs[k]; Sxy += w * xs[k] * ys[k]; }
+      const den = Sw * Sxx - Sx * Sx;
+      if (!(Math.abs(den) > 1e-12)) return { ok: false, nBand: use.length };
+      const b = (Sw * Sxy - Sx * Sy) / den, a = (Sy - b * Sx) / Sw;
+      let ssTot = 0, ssRes = 0; const ym = Sy / Sw;
+      for (let k = 0; k < xs.length; k++) { const w = ws[k], pr = a + b * xs[k];
+        ssRes += w * (ys[k] - pr) * (ys[k] - pr); ssTot += w * (ys[k] - ym) * (ys[k] - ym); }
+      return { ok: true, slope: b, pitchDeg: Math.atan(1 / Math.abs(b)) * 180 / Math.PI,
+        R2: ssTot > 0 ? 1 - ssRes / ssTot : null, nBand: use.length, trailing: dirSign * b < 0 };
+    };
     const run = (ctrl) => {
       HP.loadPreset('darkrotor', false);
       const s = HP.sim, OFF = NH + 1;
       if (ctrl) for (const i of rotorIdx()) s.spin[i] = 0;
+      let lz0 = 0;                                    // 円盤の回転向き(恒星の ΣL_z の符号)
+      for (let i = OFF; i < s.n; i++) lz0 += s.x[i] * s.vy[i] - s.y[i] * s.vx[i];
+      const dirSign = Math.sign(lz0) || 1;
+      const pitch = [];
       const hr0 = [], st0 = [];
       for (let k = 1; k <= NH; k++) hr0.push(Math.hypot(s.x[k] - s.x[0], s.y[k] - s.y[0]));
       for (let i = OFF; i < s.n; i++) st0.push(Math.hypot(s.x[i] - s.x[0], s.y[i] - s.y[0]));
@@ -435,7 +634,8 @@ const W5C_UNITS = {
         for (let k = 0; k < 500; k++) s.step(0.016);
         for (let i = 0; i < s.n; i++) maxSpin = Math.max(maxSpin, Math.abs(s.spin[i]));
         const t = (blk + 1) * 500;
-        if (t >= 3000) { const z = a2(s, OFF); late.push(z.map(v => v.A2)); lastNoise = z; }
+        if (t >= 3000) { const z = a2(s, OFF); late.push(z.map(v => v.A2)); lastNoise = z;
+          pitch.push({ t, ...pitchFit(s, OFF, dirSign) }); }
       }
       const bx = s.x[0], by = s.y[0];
       let keep = 0, tot = 0, rotDev = 0, rotIn = 0;
@@ -446,7 +646,8 @@ const W5C_UNITS = {
         rotDev = Math.max(rotDev, Math.abs(r / hr0[k - 1] - 1)); }
       const A2 = BANDS.map((_, b) => late.reduce((a, v) => a + v[b], 0) / late.length);
       return { A2, nLate: late.length, noise: lastNoise.map(z => z.noise), nBand: lastNoise.map(z => z.N),
-        maxSpin, rotDev, rotIn, keep, tot, keepPct: 100 * keep / tot, nan: s.hasNaN(), NH, n: s.n };
+        maxSpin, rotDev, rotIn, keep, tot, keepPct: 100 * keep / tot, nan: s.hasNaN(), NH, n: s.n,
+        pitch, dirSign };
     };
     return { on: run(false), ctrl: run(true) };
   }, w5cBands) },
@@ -1108,7 +1309,7 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
 // ----   (同コミットと第36便 C 完了時点=本便着手時点で🪐が bit 一致することも確認済み)。
 {
   const gh = await page.evaluate(() => {
-    HP.loadPreset('saturn', false);                    // 代表既定プリセット(N=301・integrator 無指定・thermal 無指定)
+    HP.loadPreset('saturn', false);                    // 代表既定プリセット(integrator 無指定・thermal 無指定。N は 301〔〜v1.33〕/241〔4-82〜〕)
     const s = HP.sim;
     for (let k = 0; k < 300; k++) s.step(0.016);       // 300步(dt=0.016 固定 — timeScale に依存しない)
     const a = [];
@@ -1122,12 +1323,19 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   // 対象ごとに基準を選ぶ: 旧基準は倍精度化前(= root v1.33 まで)、新基準は 40A 実装後の beta 実測。
   // 検査している不変条件(既定 integrator="semi" 経路が第35便 W2 以降の変更で動いていないこと)は
   // 変わらない — 4-81 以外の理由でこのハッシュが動いたら、それは退行として落ちる
-  const BASE = hasE6Acc
-    ? '2a04a2d69e4d7acc14a92b9ef3d5b6f9d8e366b7b292242ccae49faaa005f60f'   // 40A(倍精度化後)実測
-    : '981bbeae6d274997ae2ae5d07f5b8f5297970c4ccf0dc86ac18de3d4d1a1bd6d';  // 倍精度化前(第35便 W2 着手時)
-  add('integrator.default-unchanged', gh.n === 301 && hash === BASE,
-    `🪐saturn 300步 位置ハッシュ=${hash.slice(0, 16)}…(基準=${BASE.slice(0, 16)}… bit一致=${hash === BASE}) n=${gh.n} ` +
-    `[E6′倍精度化(4-81)=${hasE6Acc}]`);
+  // 第40便 40C(台帳4-82): 🪐 の環粒子を 300→240 に減らした = **初期配置そのものを変えた**ので、
+  // 4-81 とは独立にもう一段の貼り直しが要る。基準は3世代を対象ごとに選ぶ:
+  //   ① 4-82 後(n=241・beta v1.34-b1〜) ② 4-81 後・4-82 前(n=301) ③ 倍精度化前(n=301・root v1.33 まで)
+  // ②は本リポジトリの HEAD には現存しない中間世代だが、履歴の対応関係を残すため定数を保持する
+  // (この行が動くのは 4-81/4-82 以外の退行が入ったときだけ、という関係は3世代とも同じ)
+  const BASE = hasSat240
+    ? '146bf72a65b92c3cb76d31e69b20cfb27083d296422749f49202c3683f5243bb'                                            // 40C(4-82・n=241)実測
+    : hasE6Acc
+      ? '2a04a2d69e4d7acc14a92b9ef3d5b6f9d8e366b7b292242ccae49faaa005f60f'   // 40A(倍精度化後・n=301)実測
+      : '981bbeae6d274997ae2ae5d07f5b8f5297970c4ccf0dc86ac18de3d4d1a1bd6d';  // 倍精度化前(第35便 W2 着手時)
+  add('integrator.default-unchanged', gh.n === satTotN && hash === BASE,
+    `🪐saturn 300步 位置ハッシュ=${hash.slice(0, 16)}…(基準=${BASE.slice(0, 16)}… bit一致=${hash === BASE}) n=${gh.n}(定義=${satTotN}) ` +
+    `[E6′倍精度化(4-81)=${hasE6Acc} 環240化(4-82)=${hasSat240}]`);
 }
 
 // ---- 7h1c) 第35便(台帳4-62): Loschmidt echo — 可逆積分器と時間の矢 ----
@@ -2988,14 +3196,156 @@ if (!FAST) {
       // 帯保持・落下/散逸ゼロ・NaNなしを検査。t≈1200 の較正実測(第4便: 帯内99.3%・落下1粒・
       // 散逸0)は裁定記録第12次 §6.1 に記録済み — 閾値は t1200 時と同一のまま流用。
       // 第35便 W5c: 計算部分は W5C_UNITS.saturnExp へ移し、ワーカーで実行する
+      // ---- 第40便 40C(台帳4-82)再較正: 環粒子 300→240(総 301→241)へ削減した新構成で全チェック
+      // ---- ポイントを実測し直した(tests/out/40c-report.md §1)。**判定の向きも閾値も据え置き**で、
+      // ---- 新構成でも同じ余裕があることを確認した(粒子数が減ると1粒の重みが 0.33%→0.42% になるので
+      // ---- 「落下0粒」の意味が変わらないよう閾値は率のまま):
+      // ---- 新(n=241)  t150 帯内100.0%/落下0 ・ t210 96.7%/1.67% ・ **t360 97.1%/0.42%/散逸0/平均|spin|0.115**
+      // ----             t600 99.6%/0.42% ・ t1200 98.8%/0.42%/散逸0
+      // ---- 旧(n=301)  t150 100.0%/0 ・ t210 97.0%/1.33% ・ t360 97.3%/0.33% ・ t600 99.7%/0 ・ t1200 98.3%/0
+      // ---- 余裕: 帯内 0.971 対 閾値 0.95(絶対 2.1 ポイント)/ 落下 0.0042 対 0.02(4.8倍)/
+      // ----       散逸 0 対 0.05 / 平均|spin| 0.115 対 0.5(4.4倍)。平均|spin| が 0.164→0.115(−30%)に
+      // ----       下がったのは粒子が減って接触がさらに減ったため(4-82 の副作用として想定内・向きも安全側)
       const iso = await w5cGetUnit('saturnExp');
       add('behavior.saturnExp',
         !iso.nan && iso.inB >= 0.95 && iso.fall <= 0.02 && iso.esc <= 0.05 && iso.mean < 0.5,
         `t≈360: 帯内=${(iso.inB * 100).toFixed(1)}%(≥95%) 落下=${(iso.fall * 100).toFixed(1)}%(≤2%) 散逸=${(iso.esc * 100).toFixed(1)}%(≤5%) 平均|spin|=${iso.mean.toFixed(3)}(<0.5)`);
+
+      // ---- 第40便 40C(台帳4-79 P2-4/P2-5): 🪐 の因果対照2本 ----
+      // 閾値は **4-82 適用後(環240粒)の実測** から起こしているので、301粒のままの対象
+      // (root=v1.33 以前)では走らせない(agnjet/cosmicweb/spinup と同じ「beta 先行サンプルは
+      //  対象の中身から自動判定してスキップ」の運用。root へ昇格した時点で自動的に有効になる)
+      if (hasSat240) {
+      // ---- 第40便 40C(台帳4-79 P2-4): 🪐 の kFrame 因果対照 ----
+      // 説明文の主張「環は空間引きずりによる近点移動で形を保つ」を同一 seed の A/B で検証したところ、
+      // **実測は主張と逆向き**だった(3000步・n=241):
+      //     kFrame=1: 離心率RMS 0.1422 / 帯中央値 159.2 / 動径速度RMS 0.341 / 帯内 100%
+      //     kFrame=0: 離心率RMS 0.0634 / 帯中央値 170.8 / 動径速度RMS 0.172 / 帯内 100%
+      //   → 引きずりは環を内側へ寄せ(−7%)、離心率をむしろ **2.24倍** に上げる。引きずりを切っても
+      //     環は 100% 保たれる(9000步でも帯内100%・離心率RMS 0.123 と kFrame=1 の 0.239 の半分)。
+      //   よって「引きずりが環を円くして保つ」とは言えない。説明文は 40C で実測に合わせて弱め、
+      //   本 QA は **測れた因果**(kFrame が環の形を有意に変える・その向き)を固定する。
+      // 閾値の根拠(実測÷余裕):
+      //   ・離心率比 e(kF1)/e(kF0) > 1.5 … 実測 2.243 → 1.5倍の余裕
+      //   ・帯中央値 p50(kF1) < p50(kF0) − 5 … 実測差 11.60 → 2.3倍の余裕
+      //   ・両条件とも帯内 ≥95% … 実測 100%/100%(片方だけ壊れて差が出た、を排除する健全性条件)
+      const skf = await w5cGetUnit('saturnKFrame');
+      const eRatio = skf.on.eRMS / (skf.off.eRMS || 1e-12);
+      add('behavior.saturn-kframe-control',
+        !skf.on.nan && !skf.off.nan && skf.on.inB >= 0.95 && skf.off.inB >= 0.95 &&
+        eRatio > 1.5 && skf.on.p50 < skf.off.p50 - 5,
+        `${skf.steps}步・同一seed で kFrame だけを 1/0: 離心率RMS=${skf.on.eRMS.toFixed(4)}/${skf.off.eRMS.toFixed(4)}` +
+        `(比=${eRatio.toFixed(2)}倍 >1.5) 帯中央値=${skf.on.p50.toFixed(1)}/${skf.off.p50.toFixed(1)}` +
+        `(引きずり側が ${(skf.off.p50 - skf.on.p50).toFixed(1)} 内側 >5) ` +
+        `動径速度RMS=${skf.on.vrRMS.toFixed(3)}/${skf.off.vrRMS.toFixed(3)} 帯内=${(skf.on.inB * 100).toFixed(1)}%/${(skf.off.inB * 100).toFixed(1)}%(両方≥95%) ` +
+        `— 引きずりは環を内側へ寄せ離心率を上げる。kFrame=0 でも環は保たれるので「引きずりが環を円くして保つ」` +
+        `とは主張しない(第40便 40C で説明文を実測に合わせて弱めた)`);
+
+      // ---- 第40便 40C(台帳4-79 P2-5): 🪐 の muF 因果対照(**否定的結果の固定**)----
+      // 説明文の主張「muF=0 にすると円形化が止まる」を検証したところ、氷粒の半径が
+      // R=rMul·√m ≈ 0.18〜0.31 と小さく **接触自体がほとんど起きない**ため、muF はこの窓で
+      // ほぼ効かないことが分かった(実測・n=241):
+      //   ・3000步では muF=0.2 / 0 / 1.0 の3本が **倍精度で完全一致**(= 接触ゼロ)
+      //   ・6000步 平均|spin| = 0.15824(muF0.2)/ 0.16087(muF0)/ 0.15823(muF1.0)
+      //     → 0.2 と 0 の差は 1.66% だが、**5倍の muF=1.0 にしても値が動かない**(差 8e-5)
+      //     = 用量反応が無く、この 1.66% は稀な1接触に起因する差であって「摩擦が効いている」規模ではない
+      //   ・6000步 離心率RMS = 0.241009 / 0.240965 → 相対差 0.018%
+      // よって本 QA は「muF は環に届いてはいる(差はゼロでない)が効きは小さい」を **両側から** 固定する。
+      // 閾値の根拠: 下限 1e-4(実測の相対差 0.0166 = 166倍上)・上限 0.10(実測 0.0166 の 6.0倍)。
+      // 離心率RMS の相対差 <0.01(実測 1.8e-4 = 55倍の余裕)。説明文は 40C で該当主張を撤回した。
+      const smf = await w5cGetUnit('saturnMuF');
+      const dSpin = Math.abs(smf.on.meanSpin - smf.off.meanSpin) / (smf.off.meanSpin || 1e-12);
+      const dEcc = Math.abs(smf.on.eRMS - smf.off.eRMS) / (smf.off.eRMS || 1e-12);
+      add('behavior.saturn-muf-control',
+        !smf.on.nan && !smf.off.nan && dSpin > 1e-4 && dSpin < 0.10 && dEcc < 0.01,
+        `${smf.steps}步・同一seed で muF だけを 0.2/0: 平均|spin|=${smf.on.meanSpin.toFixed(5)}/${smf.off.meanSpin.toFixed(5)}` +
+        `(相対差 ${(dSpin * 100).toFixed(2)}% — 下限0.01%<差<上限10%) ` +
+        `離心率RMS=${smf.on.eRMS.toFixed(6)}/${smf.off.eRMS.toFixed(6)}(相対差 ${(dEcc * 100).toFixed(3)}% <1%) ` +
+        `動径速度RMS=${smf.on.vrRMS.toFixed(4)}/${smf.off.vrRMS.toFixed(4)} ` +
+        `氷粒の半径 R=${smf.Rmin.toFixed(3)}〜${smf.Rmax.toFixed(3)}(環の半径域 104〜212 に対し極小 → 接触がまれ。` +
+        `計測時点の重なり対数=${smf.on.contacts}/${smf.off.contacts}) ` +
+        `— **否定的結果の固定**: muF は「円形化の主因」ではない(3000步では muF 0.2/0/1.0 が倍精度で完全一致・` +
+        `6000步で muF を5倍にしても値が動かない=用量反応なし)。第40便 40C で説明文の該当主張を撤回した`);
+      } else {
+        console.log('SKIP behavior.saturn-kframe-control / -muf-control(対象の🪐は環300粒の旧構成 — 閾値は4-82の240粒で較正)');
+      }
     }
   } else {
     console.log('SKIP ice./saturnExp(対象に 🪐実験版なし)');
   }
+}
+
+// ---- 8d2) 第40便 40C(台帳4-79 P2-7/P2-8): 🌠merger・🌫️collapse の因果対照 ----
+// どちらも「説明文が主張している因果」を同一 seed の A/B で機械検証する。実測が主張を支持しない
+// 部分は、主張の側を弱めて **測れた事実の方**(効き所・否定的結果)を固定する方針(誠実性優先)。
+if (!FAST) {
+  // ---- P2-7: 🌠merger の3点セット(潮汐尾の成長 / kFrame の効き所 / muF の効き)----
+  // 実測(3000步・同一seed。**beta〔4-81適用〕と root〔v1.33〕の両方**で採った — 閾値は両者が
+  // 通る位置に置き、ばらつきの大きい量はその旨を明記する):
+  //                         beta(4-81)     root(v1.33)
+  //   潮汐尾率(1.5倍外)   0.0%→3.70%      0.0%→3.70%     (2倍外 1.11% / 1.11%)
+  //   平均|spin| kF1/kF0    0.5723/0.2639   0.5142/0.2639  → 比 **2.17倍 / 1.95倍**
+  //   平均|spin| muF差      10.1%           **0.87%**      ← 桁が違う(カオス由来・大きさは再現しない)
+  //   核間距離 kFrame差     0.55%           0.52%          ← 大きさまで再現する
+  // → 引きずりの効きは **スピン加熱に集中** していて、核どうしの接近そのものはほとんど変わらない。
+  //   説明文「kFrame=1 のフレームドラッギングが合体ダイナミクスに効く」はこの内訳を明記する形へ改めた。
+  // 閾値の根拠(実測÷余裕。カッコ内は beta/root の順):
+  //   ・潮汐尾率 >0.02(実測 0.0370/0.0370 = 1.85倍)かつ t0 では 0(尾が「育った」ことの確認)
+  //   ・平均|spin| 比 kF1/kF0 >1.4(実測 2.17/1.95 = 1.55/1.39倍の余裕)
+  //   ・muF の効き: 平均|spin| の相対差 >0.002(実測 0.101/0.0087 = 50/4.4倍)。
+  //     **向きも大きさも主張しない** — 2ビルドで 0.87% と 10.1% と一桁違い、素朴な「摩擦が加熱する」
+  //     向きにもならない(実測では muF=0 の方が高温になる時刻がある)。ここで固定しているのは
+  //     「muF は円盤に届いていて結果を変える」という **存在** だけである
+  //   ・核間距離の kFrame 差: 相対差 >1e-3(実測 5.5e-3/5.2e-3 = 5.5/5.2倍)かつ <0.05
+  //     (実測の 9.1/9.7倍下 — **「引きずりは軌道にはほとんど効かない」ことの上限側の固定**)
+  const mg = await w5cGetUnit('mergerCausal');
+  const spinRatio = mg.base.end.meanSpin / (mg.kf0.end.meanSpin || 1e-12);
+  const mufRel = Math.abs(mg.base.end.meanSpin - mg.muf0.end.meanSpin) / (mg.muf0.end.meanSpin || 1e-12);
+  const sepRel = Math.abs(mg.base.end.sep - mg.kf0.end.sep) / (mg.kf0.end.sep || 1e-12);
+  add('behavior.merger-causal',
+    !mg.base.end.nan && !mg.kf0.end.nan && !mg.muf0.end.nan &&
+    mg.base.t0.tail15 === 0 && mg.base.end.tail15 > 0.02 &&
+    spinRatio > 1.4 && mufRel > 0.002 && sepRel > 1e-3 && sepRel < 0.05,
+    `${mg.steps}步・同一seed: ①潮汐尾率(自核から初期円盤半径の1.5倍外)=${(mg.base.t0.tail15 * 100).toFixed(1)}%→` +
+    `${(mg.base.end.tail15 * 100).toFixed(2)}%(>2%。2倍外は ${(mg.base.end.tail20 * 100).toFixed(2)}%) ` +
+    `②kFrame の効き所=**スピン加熱**: 平均|spin|=${mg.base.end.meanSpin.toFixed(4)}(kF1)/${mg.kf0.end.meanSpin.toFixed(4)}(kF0)` +
+    `=${spinRatio.toFixed(2)}倍(>1.4) ③muF の効き: 平均|spin|=${mg.base.end.meanSpin.toFixed(4)}/${mg.muf0.end.meanSpin.toFixed(4)}` +
+    `(相対差 ${(mufRel * 100).toFixed(2)}% >0.2% — 存在のみを固定。大きさは beta 10.1% / root 0.87% と一桁違い、向きも一定しない) ` +
+    `④核間距離 ${mg.base.t0.sep.toFixed(1)}→${mg.base.end.sep.toFixed(2)}(kF1)/${mg.kf0.end.sep.toFixed(2)}(kF0)` +
+    `= 相対差 ${(sepRel * 100).toFixed(2)}%(1e-3 < 差 < 5% — **引きずりは軌道にはほとんど効かないことの上限固定**) ` +
+    `— 引きずりの効きはスピン加熱に集中し、接近そのものは変えない(第40便 40C で説明文にこの内訳を明記)`);
+
+  // ---- P2-8: 🌫️collapse の etaRad 対照(**否定的結果の固定**)----
+  // 説明文の主張「放射冷却(E11)による収縮」「etaRad/pRad を変えると冷却効率が崩壊速度に効く」を
+  // 同一 seed の A/B で検証したところ、**冷却は温度だけを動かし、収縮の速さは変えなかった**:
+  //   6000步: 半質量半径 r50 = 133.13(etaRad=0.004)/ 132.65(0)→ 相対差 **0.36%**
+  //           温度(spin モードなので平均|spin|)= 0.944 / 1.090 → **13.4% 低い**
+  //   12000步でも r50 = 98.61 / 96.56(2.1%)で **符号すら一定しない**(冷却ONの方が大きい=収縮が遅い)
+  //   用量反応: etaRad=0.02(5倍)で 12000步 温度 1.037(単調に低下)なのに r50 は 98.17 で
+  //             0.004 の 98.61 とほぼ同じ → **温度には用量反応があり、収縮には無い**
+  //   root(v1.33・4-81 未適用)でも同じ: 6000步で T=0.9373/1.0324(比 0.908)・r50=133.41/133.55(0.11%)
+  // → 「冷却が収縮を駆動する」は成立しない(収縮を駆動しているのは自己重力)。40C で説明文を修正し、
+  //   本 QA はこの否定的結果そのものを固定する。閾値の根拠(実測÷余裕。beta/root の順):
+  //   ・温度比 T(on)/T(off) < 0.97 … 実測 0.866/0.908 → 「冷却で下がった分」1−比 = 13.4%/9.2% に対し
+  //     閾値 3% は 4.5倍/3.1倍の余裕(2ビルドの差 4.2 ポイントより十分広く取る)
+  //   ・r50 の相対差 < 0.05 … 実測 0.0036/0.0011 → **13.9倍/45倍**の余裕(これが「収縮に効かない」の機械的表現)
+  //   ・両方とも t0 から実際に縮んでいること(r50(end) < r50(t0)·0.98。実測 143.74→133.4)= 健全性条件
+  const cc = await w5cGetUnit('collapseCooling');
+  const tRatio = cc.on.end.T / (cc.off.end.T || 1e-12);
+  const r50Rel = Math.abs(cc.on.end.r50 - cc.off.end.r50) / (cc.off.end.r50 || 1e-12);
+  add('behavior.collapse-cooling',
+    !cc.on.end.nan && !cc.off.end.nan &&
+    cc.on.end.r50 < cc.on.t0.r50 * 0.98 && cc.off.end.r50 < cc.off.t0.r50 * 0.98 &&
+    tRatio < 0.97 && r50Rel < 0.05,
+    `${cc.steps}步・同一seed で etaRad だけを 0.004/0: 温度(平均|spin|)=${cc.on.end.T.toFixed(4)}/${cc.off.end.T.toFixed(4)}` +
+    `(比=${tRatio.toFixed(3)} <0.97 = 冷却は効いている) ` +
+    `半質量半径 r50=${cc.on.end.r50.toFixed(2)}/${cc.off.end.r50.toFixed(2)}(相対差 ${(r50Rel * 100).toFixed(2)}% <5%) ` +
+    `r90=${cc.on.end.r90.toFixed(1)}/${cc.off.end.r90.toFixed(1)} 収縮 r50 ${cc.on.t0.r50.toFixed(1)}→${cc.on.end.r50.toFixed(1)}(両条件とも収縮する) ` +
+    `— **否定的結果の固定**: 放射冷却は温度を下げるが崩壊速度は変えない(12000步でも r50 差 2.1% で符号不定・` +
+    `etaRad を5倍にしても温度だけが単調に下がり r50 は動かない)。収縮を駆動しているのは自己重力であって` +
+    `冷却ではない。第40便 40C で説明文を実測に合わせて修正した`);
+} else {
+  console.log('SKIP behavior.merger-causal / behavior.collapse-cooling(QA_FAST=1)');
 }
 
 // ---- 8e) 第14次裁定 P2-1(2026-07-23): 自動ドラフトの復元/破棄 E2E(専用ページで再読込を伴う)----
@@ -3046,7 +3396,9 @@ if (!FAST) {
     // 第35便 W5c: 計算部分は W5C_UNITS.twolayerCore へ移し、ワーカーで実行する
     const r = await w5cGetUnit('twolayerCore');
     add('core.twolayer',
-      r.preset.n === 301 && r.preset.coreMR === 0.18 && Math.abs(r.preset.coreSR - 1.05) < 1e-6 &&
+      // 第40便 40C(台帳4-82): n の期待値は 🪐 のプリセット定義から数える(🎯 は「環の帯が 🪐 と
+      // 同一」が不変条件なので、両者の総粒子数が一致していること自体が検査になる)。旧: 固定値 301
+      r.preset.n === satTotN && r.preset.coreMR === 0.18 && Math.abs(r.preset.coreSR - 1.05) < 1e-6 &&
       r.preset.hasCore &&
       Math.abs(r.preset.R0 - 1.8 * Math.sqrt(1500)) < 0.01 && Math.abs(r.preset.Rc0 - 1.8 * Math.sqrt(270)) < 0.01 &&
       r.m0 === 1500 && r.hcRigid && r.eqRigid < 1e-9 &&
@@ -3524,6 +3876,40 @@ if (!FAST) {
           `対照 0.158/0.204/0.121/0.141・max|spin| 4.640・ローター半径偏差 4.46% ` +
           `(第33便 X4 v5: 腕 0.542/0.589/0.323/0.456・対照 0.067/0.065/0.046/0.108・` +
           `max|spin| 2.928・ローター半径偏差 17.23%)`);
+
+        // ---- 第40便 40C(台帳4-79 P2-9): 渦状腕のピッチ角を探索指標から QA へ昇格 ----
+        // 計測は上の darkrotorLong の走行に相乗り(状態を書き換えない読み取りのみ = 追加走行コストゼロ)。
+        // 判定を **7点の中央値** で行う理由(実測 2026-07-28・beta v1.34-b1):
+        //   点別ピッチ(t=3000/3500/…/6000)= 35.15/31.13/28.20/27.02/28.43/26.20/24.20°
+        //   → 中央値 28.20°・最小 24.20°・最大 35.15°。**点別の最大は 35.15° で 35° をわずかに超える**ため、
+        //     点別の [20,35] 判定にすると 1 点だけで落ちる。中央値なら 20 まで 8.2°・35 まで 6.8° の余裕がある。
+        //   root(v1.33 = 4-81 未適用)を同じ計測にかけると 34.91/31.15/28.71/25.02/26.02/24.28/24.50°
+        //   (中央値 26.02°・7/7 後行)で、これは第39便 39A が tests/exp-4-72.mjs で採った値と
+        //   **完全一致** した = 移植が原実装と同一であることの機械的証跡。40A の倍精度化(4-81)で
+        //   中央値が 26.02→28.20(+2.2°)動く = 数値経路の変更に対する感度がこの規模。
+        //   閾値 [20,35](統括指定の帯域)は、この ±2〜3° の世代間ドリフトに対して約3倍の余裕がある。
+        // 後行(trailing)判定: 円盤の回転向き dirSign と傾き b の積が負。実測は 7/7 点で後行
+        //   (b = −1.42〜−2.23 と 0 から十分離れている)。対照(ローターのスピン0)では有意帯が
+        //   4帯以上そろう点が 3/7 しかなく、しかもその3点は **先行(leading)** で符号が逆 —
+        //   「後行螺旋はローターのスピンが作る」という主張の対照として機能する(判定には使わず detail に記録)。
+        const pOn = lg.on.pitch.filter(p => p.ok);
+        const pd = pOn.map(p => p.pitchDeg).sort((a, b) => a - b);
+        const pMed = pd.length ? pd[Math.floor(pd.length / 2)] : null;
+        const pTrail = pOn.filter(p => p.trailing === true).length;
+        const pCtrl = lg.ctrl.pitch.filter(p => p.ok);
+        add('behavior.darkrotor-pitch',
+          pd.length >= 6 && pMed !== null && pMed >= 20 && pMed <= 35 && pTrail === pOn.length,
+          `6000步窓(t=3000〜6000 の${lg.on.pitch.length}点)で有意帯4本以上=${pd.length}点(≥6) ` +
+          `ピッチ角 中央値=${pMed === null ? '—' : pMed.toFixed(2)}°(20〜35°) ` +
+          `点別=${lg.on.pitch.map(p => p.ok ? p.pitchDeg.toFixed(1) : '—').join('/')}° ` +
+          `(最小${pd.length ? pd[0].toFixed(2) : '—'}°/最大${pd.length ? pd[pd.length - 1].toFixed(2) : '—'}° ` +
+          `— 点別の最大は 35° 際どいので判定は中央値で行う) ` +
+          `後行=${pTrail}/${pOn.length}点(全点が後行・傾き b=${lg.on.pitch.filter(p => p.ok).map(p => p.slope.toFixed(2)).join('/')}・` +
+          `円盤の回転向き dirSign=${lg.on.dirSign}) R²=${pOn.map(p => p.R2 === null ? '—' : p.R2.toFixed(2)).join('/')} ` +
+          `対照(ローターのスピン0)= 有意帯がそろう点 ${pCtrl.length}/${lg.ctrl.pitch.length}・` +
+          `ピッチ ${pCtrl.map(p => p.pitchDeg.toFixed(1)).join('/') || '測定不能'}°・` +
+          `後行 ${lg.ctrl.pitch.filter(p => p.trailing === true).length}/${pCtrl.length}点(= 対照側は先行で符号が逆・判定には未使用) ` +
+          `— 計測は darkrotorLong の走行に相乗り(追加の走行コストなし)`);
       } else {
         console.log('SKIP behavior.darkrotorLong(対象の🕶️はレール駆動の旧v3構成)');
       }
@@ -3969,8 +4355,10 @@ if (!FAST) {
 if (!FAST) {
   const GRID = 48;
   // 第37便 B2: ❄️snowline 廃止(原仮定者裁定)に伴い対象から除外
+  // 第40便 40C(台帳4-82): 🎯saturnLayered を対象へ追加(🪐 と同時に環粒子を減らしたので、
+  // 見た目の回帰も 2 ID 揃えて追えるようにする)。root/beta とも初回実行で基準を新規記録する
   const BASE_SHOT_IDS = ['gclock', 'boxcomoving', 'boxredshift', 'galaxy', 'darkrotor', 'lensing',
-    'gas', 'convection', 'saturn', 'earthMoon', 'fig8'];
+    'gas', 'convection', 'saturn', 'saturnLayered', 'earthMoon', 'fig8'];
   // 第35便 W2/W3 の ⏪echo・🕊️freebox、第39便 39A の 🌪️spinup が対象に存在すれば追加する
   // (対象の有無で自動判定 — root には無い beta 先行サンプル)
   const presentIds = await page.evaluate((extra) => {
@@ -3983,12 +4371,19 @@ if (!FAST) {
   // 保存キーをプリセット定義から機械判別して分ける(echo/freebox の「対象に在れば追加」と同じ
   // 「対象の中身から自動判定する」方針)。ルート側の既存基準 'darkrotor' はそのまま生き続け、
   // beta 側は 'darkrotor-v6' として新規に記録される。テスト名(shot.regress-darkrotor)は不変。
+  // 第40便 40C(台帳4-82): 🪐/🎯 も同じ方式で世代を分ける。beta は環粒子 240(総241)に
+  // 減らしたので見た目が構造的に違う(粒の数そのものが変わる)。root 側の既存基準 'saturn' は
+  // そのまま生き続け、beta 側は 'saturn-r240' / 'saturnLayered-r240' として新規に記録される。
+  // テスト名(shot.regress-saturn / -saturnLayered)は不変
   const shotKeyOf = await page.evaluate((ids) => {
     const o = {};
     for (const id of ids) {
       const p = HP.allPresets().find(q => q.id === id);
-      o[id] = (id === 'darkrotor' && p && p.bodies.filter(b => b.type === 'single').length === 3)
-        ? 'darkrotor-v6' : id;
+      let key = id;
+      if (id === 'darkrotor' && p && p.bodies.filter(b => b.type === 'single').length === 3) key = 'darkrotor-v6';
+      if ((id === 'saturn' || id === 'saturnLayered') && p &&
+          p.bodies.reduce((a, b) => a + (b.type === 'ring' ? (b.n || 0) : 1), 0) === 241) key = id + '-r240';
+      o[id] = key;
     }
     return o;
   }, SHOT_IDS);
@@ -4537,9 +4932,14 @@ if (hasEchoFlipAt) {
     //    実装前のまま **1 ビットも変わっていない** — この3件が「4-81 の変更が E6′ 経路の外へ
     //    漏れていない」ことの機械的な証跡になる(Wave D 実装前からの無変更の証跡もこの3件で継続)。
     //    倍精度化前の対象(root=v1.33 以前)には旧基準を当てる
+    //    第40便 40C(台帳4-82): さらに 🪐saturn だけ環粒子 300→240(n=301→241)= **初期配置の
+    //    意図的な変更**なので、🪐 の行だけ 4-82 実装後の実測へ貼り直した(判定子は環粒子数から
+    //    直接数える hasSat240)。galaxy/darkrotor は 4-82 で 1 ビットも触っていないので 40A の基準のまま。
     const ZC = hasE6Acc ? {
       galaxy: ['2f9f3b381a962df5826c340cfbbec9449707f8c758b94523c23237b3ec909f80', 381],   // 40A で貼り直し
-      saturn: ['d77783f2c321a6c84a457492d869a5d68a35061c82d957d0597a5864e3938fbb', 301],   // 40A で貼り直し
+      saturn: hasSat240
+        ? ['5a4e97ec425c03b30803e3f8bc4dc419b66f57d1c1a62cd0d5a6df8e7e480085', 241]                                                   // 40C(4-82・n=241)で貼り直し
+        : ['d77783f2c321a6c84a457492d869a5d68a35061c82d957d0597a5864e3938fbb', 301],        // 40A(n=301)
       darkrotor: ['187585513e1d5c0a041b0aa000751099175cbf45c7828bcc550dec530cdf9af2', 383], // 40A で貼り直し
       counterring: ['29fb3cab287f4fd0301b3843575b3acf24709e687574a4135f6df135dd687f11', 201], // kFrame=0 = 不変
       freebox: ['a9fbb51894a298af70dc7350e61f9e8fce32e10abddd2ecdafa989312260bc7d', 72],      // kFrame=0 = 不変
