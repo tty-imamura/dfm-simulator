@@ -5799,6 +5799,53 @@ if (hasSwAutoCb) {
   }
 }
 
+// ---- 42A) 第42便 42A(台帳4-78 A案): claims.sync — claims.sync-pilot の汎用版。
+// ----      プリセット別にハードコードした正規表現を並べる代わりに、全プリセットの全 claims を
+// ----      走査し、claim.descPattern(ja description に対する正規表現・キャプチャ群1つ)を持つ
+// ----      ものについて「抽出値×descScale が expected の {min,max} 窓内か」を機械照合する。
+// ----      control.descPattern があれば同様に control.expected 窓内かも見る。判定は全 claim の
+// ----      AND。descPattern を持つ claim が1件も無い対象(claims 自体が無い root 等)は SKIP する。
+// ----      軽量(page.evaluate 1回・正規表現マッチのみ)なので QA_FAST=1 でも実行する。
+// ----      claims.sync-pilot(agnjet/cosmicweb の3claim・ハードコード版)はそのまま残置する ----
+{
+  const hasDescClaims = await page.evaluate(() =>
+    HP.allPresets().some((p) => Array.isArray(p.claims)
+      && p.claims.some((c) => typeof c.descPattern === 'string')));
+  if (hasDescClaims) {
+    const rows = await page.evaluate(() => {
+      const inRange = (x, e) => !!e && Number.isFinite(x) && x >= e.min && x <= e.max;
+      const extract = (desc, pattern, scale) => {
+        try {
+          const m = (desc || '').match(new RegExp(pattern));
+          if (!m || m[1] === undefined) return NaN;
+          return parseFloat(m[1]) * (scale === undefined ? 1 : scale);
+        } catch (e) { return NaN; }
+      };
+      const out = [];
+      for (const p of HP.allPresets()) {
+        if (!Array.isArray(p.claims)) continue;
+        for (const c of p.claims) {
+          if (typeof c.descPattern === 'string') {
+            const val = extract(p.description, c.descPattern, c.descScale);
+            out.push({ label: c.id, val, min: c.expected.min, max: c.expected.max, ok: inRange(val, c.expected) });
+          }
+          if (c.control && typeof c.control.descPattern === 'string') {
+            const cval = extract(p.description, c.control.descPattern, c.control.descScale);
+            out.push({ label: c.id + '.control', val: cval,
+              min: c.control.expected.min, max: c.control.expected.max, ok: inRange(cval, c.control.expected) });
+          }
+        }
+      }
+      return out;
+    });
+    const allOk = rows.length > 0 && rows.every((v) => v.ok);
+    add('claims.sync', allOk,
+      rows.map((v) => `${v.label}: ${Number.isFinite(v.val) ? v.val : 'NaN'}(窓${v.min}〜${v.max})${v.ok ? '' : ' ✗'}`).join(' / '));
+  } else {
+    console.log('SKIP claims.sync(対象に descPattern 付き claims 宣言なし — 第42便 42A 未適用の root 等)');
+  }
+}
+
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
 // W5c: ワーカープールの後片付け(全ユニットは既に上流の getUnit() で待ち合わせ済みのはずだが、
 // 各ワーカーの wp.close() 完了を確実に待ってから共有 browser を閉じる)
