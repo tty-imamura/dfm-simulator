@@ -839,6 +839,51 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   add('i18n.toggle', r.en && r.ja, '');
 }
 
+// ---- 3b) 第40便 40B(台帳4-80): i18n.claim-sync — ja/en の説明文が同じ主張を運んでいることを、
+// ----      対象プリセットごとの必須キーワード対(ja語⇔en語)で機械照合する。表は拡張可能
+// ----      (今回は binary の A5 空間の引きずり / fig8 の kFrame=0 ニュートン退化+T7保存 の2件・3対)。
+// ----      ja は部分一致(includes)・en は大小無視の正規表現一致。
+// ----      binary/fig8 自体は root にも既に存在するプリセットだが、en 側の補完は本便(40B)の
+// ----      beta 先行変更なので、同便の abBody(darkrotor)の有無を機械可読な便フラグとして
+// ----      流用しガードする(root では自動 SKIP・root へ 40B が昇格すれば自動的に有効化される)----
+const has40BSemanticSync = await page.evaluate(() => {
+  const dr = HP.allPresets().find((p) => p.id === 'darkrotor');
+  return !!(dr && dr.abBody);
+});
+if (has40BSemanticSync) {
+  const CLAIM_SYNC_TABLE = [
+    { id: 'binary', pairs: [
+      { label: 'A5 空間の引きずり(dragging)', ja: '引きず', en: 'drag' },
+    ] },
+    { id: 'fig8', pairs: [
+      { label: 'kFrame=0 ニュートン退化(Newtonian degeneracy)', ja: 'ニュートン', en: 'newton' },
+      { label: '運動量・角運動量保存(T7 / conservation)', ja: '保存', en: 'conserv' },
+    ] },
+  ];
+  const r = await page.evaluate((table) => {
+    const out = [];
+    for (const ent of table) {
+      const p = HP.allPresets().find((q) => q.id === ent.id);
+      if (!p) { out.push({ id: ent.id, missing: true, pairs: [] }); continue; }
+      const ja = p.description || '';
+      const en = (p.en && p.en.description) || '';
+      const pairs = ent.pairs.map((pr) => ({
+        label: pr.label,
+        jaHit: ja.includes(pr.ja),
+        enHit: new RegExp(pr.en, 'i').test(en),
+      }));
+      out.push({ id: ent.id, missing: false, pairs });
+    }
+    return out;
+  }, CLAIM_SYNC_TABLE);
+  const allOk = r.every((e) => !e.missing && e.pairs.every((p) => p.jaHit && p.enHit));
+  add('i18n.claim-sync', allOk,
+    r.map((e) => e.missing ? `${e.id}=対象プリセットなし`
+      : `${e.id}: ` + e.pairs.map((p) => `${p.label}(ja=${p.jaHit}/en=${p.enHit})`).join(' ')).join(' / '));
+} else {
+  console.log('SKIP i18n.claim-sync(対象に 40B の en 補完なし — 第40便 40B 未適用の root 等)');
+}
+
 // ---- 4) few-shot 全例の validatePreset + BH例の光子の有限時間非脱出(台帳4-48 改名: 旧 bh-capture)----
 {
   const r = await page.evaluate(() => {
@@ -1974,6 +2019,47 @@ if (hasBadgeClassify) {
     }
   } else {
     console.log('SKIP ui.valid-window(対象に sim.validT なし — 第39便 39E 未適用の root 等)');
+  }
+}
+
+// ---- 4-75/4-77 中間) 第40便 40B(台帳4-77): ui.ab-body-onetap — abBody(粒子への patch を
+// ----      含むA/Bレシピ)のワンタップ化。🕶️darkrotor でボタンを実クリック → B側の対象粒子
+// ----      (対向2ローター・bodies順index1/2)の spin が 0・A側の粒子配列は不変・A側の物理
+// ----      ハッシュ(位置・速度・スピン・半径)も不変であることを機械検証する ----
+{
+  const hasDarkrotorAB = await page.evaluate(() => {
+    const p = HP.allPresets().find((q) => q.id === 'darkrotor');
+    return !!(p && p.abBody && Array.isArray(p.abBody.targets) && p.abBody.targets.length);
+  });
+  if (hasDarkrotorAB) {
+    const r = await page.evaluate(() => {
+      HP.loadPreset('darkrotor', false);
+      const S = HP.sim;
+      const hashPhys = (Sx) => { const a = []; for (let i = 0; i < Sx.n; i++) a.push(Sx.x[i], Sx.y[i], Sx.vx[i], Sx.vy[i], Sx.spin[i], Sx.R[i]); return a.join(','); };
+      const preset = HP.currentPreset();
+      const abBody = preset && preset.abBody;
+      const targets = (abBody && abBody.targets) || [];
+      const spinBeforeTargets = targets.map((i) => S.spin[i]);
+      const hashBefore = hashPhys(S);
+      const btn = document.querySelector('#abBodyRow button');
+      const hasBtn = !!btn;
+      if (hasBtn) btn.click();
+      const ab = HP.ab();
+      const started = !!ab;
+      const simB = started ? ab.simB : null;
+      const bSpinZero = started && targets.length > 0 && targets.every((i) => simB.spin[i] === 0);
+      const hashAfter = hashPhys(S);
+      HP.abStop();
+      return { hasAbBody: targets.length > 0, hasBtn, started, bSpinZero,
+        aUnchanged: hashAfter === hashBefore, targets: targets.slice(), spinBeforeTargets };
+    });
+    add('ui.ab-body-onetap',
+      r.hasAbBody && r.hasBtn && r.started && r.bSpinZero && r.aUnchanged,
+      `abBody宣言=${r.hasAbBody}(targets=[${r.targets.join(',')}] 元spin=[${r.spinBeforeTargets.join(',')}]) ` +
+      `ワンタップボタン検出=${r.hasBtn} クリックでA/B開始=${r.started} B側該当粒子spin=0=${r.bSpinZero} ` +
+      `A側物理ハッシュ(位置・速度・スピン・半径)不変=${r.aUnchanged}`);
+  } else {
+    console.log('SKIP ui.ab-body-onetap(対象に 🕶️darkrotor.abBody なし — 第40便 40B 未適用の root 等)');
   }
 }
 
@@ -5586,6 +5672,89 @@ if (hasSwAutoCb) {
       `ボイド率=${(z.void1 * 100).toFixed(1)}%`);
   } else {
     console.log('SKIP behavior.cosmicweb(QA_FAST=1 または対象に 🕸️cosmicweb なし — 第37便 D3 未適用の root 等)');
+  }
+}
+
+// ---- 40B パイロット) 第40便 40B(台帳4-78): claims.sync-pilot — プリセットの新設 claims
+// ----      (数値主張の機械可読データ・表示はしない)の expected が、①説明文中の実測数値
+// ----      (正規表現で当該数値を検索する程度の抽出で足りる)、②既存 behavior.* テストの
+// ----      閾値、のいずれとも矛盾しないことを機械照合する。対象は agnjet/cosmicweb の
+// ----      2プリセット・3claim(パイロット — 4-78 は本便では claims の仕組みを検証するに
+// ----      とどめ、UI表示・全プリセット展開は次便裁定)----
+{
+  const hasClaims = await page.evaluate(() =>
+    HP.allPresets().some((p) => Array.isArray(p.claims) && p.claims.length));
+  if (hasClaims) {
+    const r = await page.evaluate(() => {
+      const get = (id) => HP.allPresets().find((p) => p.id === id);
+      const findClaim = (p, id) => (p && Array.isArray(p.claims)) ? p.claims.find((c) => c.id === id) : null;
+      const inRange = (x, e) => !!e && Number.isFinite(x) && x >= e.min && x <= e.max;
+      const out = {};
+
+      // agnjet.polar-fraction: ja "…84%が±y…"(既定 kRep=2)/ "…実測54% —…"(対照 kRep=0)。
+      // behavior.agnjet の実閾値: 既定 frac≥2/3・対照比(既定/対照)≥1.25 と矛盾しないか
+      {
+        const agn = get('agnjet');
+        const c = findClaim(agn, 'agnjet.polar-fraction');
+        const ja = (agn && agn.description) || '';
+        const mDef = ja.match(/(\d+(?:\.\d+)?)%が±y/);
+        const mCtl = ja.match(/実測(\d+(?:\.\d+)?)%/);
+        const defVal = mDef ? (+mDef[1] / 100) : NaN;
+        const ctlVal = mCtl ? (+mCtl[1] / 100) : NaN;
+        out.agnjetPolarFraction = {
+          found: !!c, descMatch: !!mDef && !!mCtl, defVal, ctlVal,
+          defInRange: !!c && inRange(defVal, c.expected),
+          ctlInRange: !!c && !!c.control && inRange(ctlVal, c.control.expected),
+          thresholdOk: !!c && c.expected.min >= 2 / 3
+            && !!c.control && (c.expected.min / c.control.expected.max) >= 1.25,
+        };
+      }
+      // cosmicweb.delta2-growth: ja "…(13.1倍)…"(既定 H=0.004)/ "…δ²=8.55・ボイド率75%…"
+      // (対照 H=0。テキストは絶対値のみなので実測初期値0.272で割って倍率へ換算)。
+      // behavior.cosmicweb の実閾値: growth≥3 と矛盾しないか
+      {
+        const cw = get('cosmicweb');
+        const c = findClaim(cw, 'cosmicweb.delta2-growth');
+        const ja = (cw && cw.description) || '';
+        const mDef = ja.match(/\((\d+(?:\.\d+)?)倍\)/);
+        const mCtl = ja.match(/δ²=(\d+(?:\.\d+)?)・ボイド率75%/);
+        const defVal = mDef ? +mDef[1] : NaN;
+        const ctlVal = mCtl ? (+mCtl[1] / 0.272) : NaN;
+        out.cosmicwebDelta2Growth = {
+          found: !!c, descMatch: !!mDef && !!mCtl, defVal, ctlVal,
+          defInRange: !!c && inRange(defVal, c.expected),
+          ctlInRange: !!c && !!c.control && inRange(ctlVal, c.control.expected),
+          thresholdOk: !!c && c.expected.min >= 3,
+        };
+      }
+      // cosmicweb.void-rate-final: ja "…→57.9%まで増える…"(既定)/ "…ボイド率75%)…"(対照 H=0)。
+      // behavior.cosmicweb は既定内の増加(void1>void0)だけを閾値化しているので、claim側は
+      // 「既定の最終域が対照の最終域を上回らない(=対照の方がボイドが育つという説明文の主張と
+      // 同じ向き)」ことを非矛盾の条件とする
+      {
+        const cw = get('cosmicweb');
+        const c = findClaim(cw, 'cosmicweb.void-rate-final');
+        const ja = (cw && cw.description) || '';
+        const mDef = ja.match(/→(\d+(?:\.\d+)?)%まで増える/);
+        const mCtl = ja.match(/ボイド率(\d+(?:\.\d+)?)%\)/);
+        const defVal = mDef ? (+mDef[1] / 100) : NaN;
+        const ctlVal = mCtl ? (+mCtl[1] / 100) : NaN;
+        out.cosmicwebVoidRateFinal = {
+          found: !!c, descMatch: !!mDef && !!mCtl, defVal, ctlVal,
+          defInRange: !!c && inRange(defVal, c.expected),
+          ctlInRange: !!c && !!c.control && inRange(ctlVal, c.control.expected),
+          thresholdOk: !!c && !!c.control && c.expected.max <= c.control.expected.min,
+        };
+      }
+      return out;
+    });
+    const allOk = Object.values(r).every((v) => v.found && v.descMatch && v.defInRange && v.ctlInRange && v.thresholdOk);
+    add('claims.sync-pilot', allOk,
+      Object.entries(r).map(([k, v]) =>
+        `${k}: claim有=${v.found} 数値抽出=${v.descMatch}(既定=${v.defVal}/対照=${v.ctlVal}) ` +
+        `既定域内=${v.defInRange} 対照域内=${v.ctlInRange} 閾値整合=${v.thresholdOk}`).join(' / '));
+  } else {
+    console.log('SKIP claims.sync-pilot(対象に claims 宣言プリセットなし — 第40便 40B 未適用の root 等)');
   }
 }
 
