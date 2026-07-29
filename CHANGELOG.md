@@ -10,6 +10,23 @@
 入っており、ルート `index.html` は v1.33.0 のままである。昇格時に版数・日付を確定して
 通常の版節へ書き換える。
 
+第42便(2026-07-29): 決断事項「4-78 A案を進める+論文2 Sprint 0 を進める」の消化。
+アプリの物理は無変更(claims はデータ層・V29 は検証コード — BETA_BUILD は b1 のまま):
+
+- **V29 プローブ依存H(42B・論文2 Sprint 0 — HANDOFF_PAPER2_WRITE §2)**: D/Kt=0.92 較正の
+  規定膨張箱(mode:"exp"・dPower=1)で、幾何プローブ H_geo=Δln a/Δt と速度減衰プローブを
+  FLRW 型(w/c∝1/a)と読んだ H_w=−Δln R/Δt を3窓(a: 1→1.5→2→3)同時測定し、比 H_w/H_geo が
+  解析式 2(D/Kt)·(1/a1−1/a2)/ln(a2/a1) と一致することを機械検証(実測: 比誤差最大 5.3e-4
+  <1e-2・w保存 4.8e-4・a=2 点値 0.92=D/Kt)。verify.all に組み込み。執筆指示書 v1.1 で
+  前提消化を記録 — 論文2は執筆開始可能に
+- **claims 全展開(42A・台帳4-78 A案)**: 数値主張を持つ16プリセットへ claims 計30件を新設
+  (+パイロット2プリセットに descPattern 追記)。スキーマに descPattern(ja 説明文から数値を
+  抜く正規表現・キャプチャ群1つ)/descScale(%→0.01 等の換算)を追加(validatePreset で
+  構造検証 — 不正はフィールドのみ warning 削除)。汎用同期QA `claims.sync` 新設 — 全プリセットの
+  descPattern 付き claim を走査し「説明文の数値が expected 窓内か」を機械照合
+  (claims.sync-pilot は残置・root は SKIP)。説明文と実測の乖離(🌈coolrace 型の較正移行漏れ)を
+  恒久的に機械監視できるようになった。UI 表示(B案)は次便以降の裁定
+
 第41便(2026-07-29): 外部AI 3系統の beta 動作確認レポート(ChatGPT/Grok/Gemini 2026-07-29)の
 消化+論文2着手。3レポートとも Critical/High/Medium 検出なし(リリース判定 GO)。
 実装対象は ChatGPT の Low 2件のみ(アプリ本体は無変更 — BETA_BUILD は b1 のまま):
