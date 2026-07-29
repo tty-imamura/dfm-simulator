@@ -1,0 +1,458 @@
+% =====================================================================
+% The Box Universe -- draft v0.1 (2026-07-29, dispatch 43)
+% Written per docs/dev/HANDOFF_PAPER2_WRITE.md v1.1 (sole authoritative
+% writing brief; approved skeleton HANDOFF_PAPER_BOX v0.3).
+% Status: full prose draft; figures 1-8 are planned placeholders
+%         (machine generation wave pending -- Sec. VIII table maps every
+%         numeric claim to its verification gate).
+% Input canon: docs/BOX_UNIVERSE.md v1.6, docs/PHYSICS.md v1.14,
+%              docs/DERIVATIONS.md Sec. 17, beta v1.34 (V29 PASS).
+% Title: option (a) of the brief; final title is an author decision
+%        (Sec. 7 of the brief).
+% Build:  pdflatex dfm-paper2.tex  (RevTeX 4.2, as paper 1)
+% =====================================================================
+\documentclass[aps,reprint,amsmath,amssymb,nofootinbib,superscriptaddress,floatfix]{revtex4-2}
+
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage{bm}
+\usepackage{hyperref}
+\hypersetup{
+  pdftitle={The Box Universe: Probe-Dependent Expansion in a Relational
+    Toy Model},
+  pdfsubject={Educational toy model; expansion; Hubble tension analogy}}
+
+\begin{document}
+
+\title{The Box Universe: Probe-Dependent Expansion in a Relational Toy Model}
+
+\author{Tetsuya Imamura}
+\affiliation{Independent researcher, Japan}
+
+\date{2026-07-29 (draft v0.1)}
+
+\begin{abstract}
+We extend Determinacy-Field Mechanics (DFM), a two-dimensional
+relational toy model introduced in a companion paper, with a
+\emph{box universe}: the approximation that everything outside a
+finite region is replaced by a single simplified background.
+Within this one construction we demonstrate three things.
+(i)~The box makes the classic relational questions computable:
+uniform translation of the box is undetectable from inside
+(exactly), while rotation and expansion couple to the interior
+through a measured gain factor $g(r)$ with $g(0)=1/2$ for a uniform
+ring, matching the analytic average $\langle\hat n(\hat n\cdot
+\bm r)\rangle=\bm r/2$.
+(ii)~Expansion appears in three separable layers---prescribed
+kinematics, wavelength semantics, and solved dynamics---each
+machine-verified; a pressure-driven free box accelerates
+($a_{\mathrm{eff}}=2.18$) while its gravity-only control
+recollapses.
+(iii)~Most importantly, the model exhibits \emph{probe-dependent
+expansion measurement}: a geometric probe and a velocity-decay probe
+applied to the same box disagree by the analytic factor
+$H_w/H_{\mathrm{geo}}=2(D/K_t)\,a^{-d_P}$, verified numerically to
+$5.3\times10^{-4}$.
+With the single calibration $D/K_t=0.92$ the disagreement at $a=2$
+equals $0.92$, the same magnitude as the ratio of the two measured
+values of the Hubble constant ($67.4/73.0\approx0.923$).
+We present this as a \emph{structural analogy}---a minimal mechanism
+by which the measured expansion rate depends on the probe---not as an
+explanation of the Hubble tension.
+A final section assembles the model's optically dark gravitating
+bodies and lists which phenomenological requirements of dark matter
+they meet inside the model, together with the measured limits of that
+construction.
+All numeric claims are tied to automated verification gates that run
+in continuous integration.
+\end{abstract}
+
+\maketitle
+
+% ---------------------------------------------------------------------
+\section{Introduction}
+\label{sec:intro}
+
+The companion paper introduced Determinacy-Field Mechanics (DFM), an
+educational toy model in which space is purely relational: every
+mechanical property of a point is set by the surrounding masses
+through a scalar \emph{determinacy field} $W$, and inertia, gravity,
+clock rate, and light propagation are all read from it.
+That paper studied local consequences---frame dragging, rotation
+curves, clocks, and lensing---on an effectively infinite background.
+
+This paper studies the opposite end of the approximation: what happens
+when ``the rest of the universe'' is deliberately replaced by a single
+simplified object, which we call the \emph{box}.
+The box universe is not a new axiom; it is the statement that beyond a
+chosen radius the determinacy sources are summarized by a uniform
+background term $D_0$, a box determinacy $D$ with scale factor $a(t)$,
+and optionally a uniform gravity vector.
+Every cosmological question the toy model can ask---What expands?
+What is comoving? What does a redshift mean? Can expansion be
+\emph{solved} rather than prescribed?---becomes a question about the
+box, and, because the model is small and deterministic, each answer
+can be machine-verified.
+
+Our position is unchanged from the companion paper: DFM is an
+educational \emph{computational thought experiment}, not a proposal
+about nature (Sec.~\ref{sec:negative}).
+The interest of the box universe is that it makes textbook
+distinctions---kinematic expansion versus dynamic expansion,
+coordinate recession versus measured redshift, probe versus
+quantity---concrete enough for a student to toggle in a browser, with
+a continuous-integration suite asserting every number in this paper.
+
+The paper is organized as follows.
+Section~\ref{sec:box} defines the box and establishes what the inside
+can and cannot detect.
+Section~\ref{sec:layers} separates expansion into three verified
+layers.
+Section~\ref{sec:probe} contains the main result: probe-dependent
+expansion measurement and its structural analogy with the Hubble
+tension.
+Section~\ref{sec:dark} assembles the model's optically dark bodies.
+Section~\ref{sec:negative} states six negative claims that are part of
+the thesis.
+Section~\ref{sec:repro} maps every claim to its verification gate.
+
+% ---------------------------------------------------------------------
+\section{The box as an approximation}
+\label{sec:box}
+
+\subsection{Semantics}
+\label{sec:semantics}
+
+The box universe is defined by six semantic commitments (canonical
+statement in the project's box-universe document, Sec.~12):
+(1)~outside a finite region, determinacy sources are summarized, not
+simulated;
+(2)~the summary consists of a uniform background $D_0$, a box term
+$W_B=D\,a^{-d_P}$ carried by a scale factor $a(t)$, and optionally a
+uniform gravity vector---conceptually these are all \emph{box
+parameters};
+(3)~interior physics is unchanged: the same axioms read the total
+field $W$ wherever it comes from;
+(4)~the box may be \emph{prescribed} (a regulated $a(t)$) or
+\emph{free} (walls made of ordinary masses whose motion solves
+$a(t)$);
+(5)~comoving coordinates and wavelength semantics are definitions
+layered on top, each with its own verification; and
+(6)~no statement about the real universe is implied by any of it.
+
+\subsection{What the inside cannot detect}
+\label{sec:t10}
+
+Uniform translation of the entire box is exactly undetectable from
+inside: the relational axioms depend only on relative configuration,
+and the verification suite asserts bit-identical interior evolution
+under a boosted box.
+Rotation and expansion are different: they enter through the
+determinacy frame with a measured \emph{gain} $g(r)$.
+For a uniform ring of wall masses the analytic average of the
+direction-projected position over sources gives
+\begin{equation}
+  \bigl\langle \hat n\,(\hat n\cdot\bm r)\bigr\rangle=\tfrac{1}{2}\bm r ,
+  \label{eq:gain}
+\end{equation}
+so the interior center couples to wall rotation and expansion with
+gain $g(0)=1/2$; the measured value agrees (gates V23a/V24a).
+This is the toy-model version of the classic relational statement:
+absolute uniform motion is meaningless, but absolute rotation and
+expansion of ``everything else'' are interior-observable through the
+frame they drag.
+[Fig.~1: box hierarchy schematic; Fig.~2: $g(r)$ measured vs.\
+analytic --- planned.]
+
+% ---------------------------------------------------------------------
+\section{Three layers of expansion}
+\label{sec:layers}
+
+\subsection{Layer 1: prescribed kinematics}
+
+With a regulated $a(t)$ the box provides FLRW-style bookkeeping
+without dynamics.
+The comoving coordinate $\chi=r/a$ of a fully comoving particle is
+conserved to $1.5\times10^{-5}$ over the verification run (V24b).
+Bound systems follow the box only fractionally: the measured orbit
+scaling $d\propto a^{2\varphi_B}$ interpolates with the determinacy
+share $\varphi_B$ of the box at the orbit (V25: net exponent $1.61$
+at $\varphi_B{\to}1$ and $0.00$ at $\varphi_B{\to}0$), giving the
+textbook ``bound systems do not expand'' as the $\varphi_B\to 0$ end
+of a measured dial.
+
+\subsection{Layer 2: wavelength semantics}
+
+Redshift in the box is a \emph{semantic} rule: emitted light retains
+the wavelength ratio $1+z=a_{\mathrm{obs}}/a_{\mathrm{emit}}$.
+The suite emits three photons (A/B/C) at different epochs of the same
+run and checks all three simultaneously (gate \texttt{box.photon-abc},
+bookkeeping closed below $10^{-9}$).
+This is a definition layered on the kinematics, not a derivation from
+photon dynamics (negative claim 2 of this paper); its value is that
+it reproduces, at the level of the \emph{equations}, the observed
+consistency relations---supernova time dilation $\propto(1+z)$ and
+$T_{\mathrm{CMB}}(z)=T_0(1+z)$---so a student can see exactly which
+part of those relations is semantics and which is physics.
+
+\subsection{Layer 3: solved dynamics --- the free box}
+
+Replacing the regulated box by 64 free wall masses turns $a(t)$ into
+an output.
+With spin pressure on, the measured effective scale factor
+accelerates to $a_{\mathrm{eff}}=2.18$ (the pair repulsion decays as
+$1/d$, slower than gravity, so it wins at large separation); with
+pressure removed ($k_{\mathrm{Rep}}=0$) the same box coasts to
+$a_{\mathrm{eff}}\approx1.005$ and recollapses.
+The run is a fully closed system: reservoir bookkeeping is
+identically zero and momentum/angular-momentum drift is below
+$4\times10^{-8}$ (gates \texttt{freebox.*}).
+This is a mechanism demonstration in the spirit of Friedmann
+cosmology---attraction decelerates, pressure-like repulsion can
+accelerate---with no claim of reproducing the Friedmann equations
+(negative claim 5).
+[Fig.~5: $a_{\mathrm{eff}}(t)$ with and without pressure --- planned.]
+
+\subsection{Aside: an arrow of time in a reversible box}
+
+With the leapfrog integrator the model is exactly reversible: flipping
+all velocities and spins returns the initial state to RMS
+$1.3\times10^{-3}$.
+Turning on one dissipative channel ($\mu_F=0.3$) breaks the return
+(RMS $10.8$); the default semi-implicit integrator, though
+deterministic, fails to rewind by itself (RMS $0.92$, a $709\times$
+degradation).
+The arrow of time in the box is thus exhibited as a property of
+dissipation, not of the dynamics' determinism (gates
+\texttt{echo.*}).
+This section is deliberately brief; a fuller treatment is future
+work.
+
+% ---------------------------------------------------------------------
+\section{Probe-dependent expansion measurement}
+\label{sec:probe}
+
+\subsection{Hubble anti-friction and the ratio standard}
+
+In DFM the peculiar velocity $w$ of a free particle is conserved in
+the absolute bookkeeping of the model even while the box expands
+(measured drift $<10^{-3}$; gates V27/V28).
+What decays is the \emph{ratio} $R=w/c_{\mathrm{loc}}$: the local
+light speed rises as the box determinacy dilutes,
+$c_{\mathrm{loc}}=c_0\,e^{-2\psi}$ with $\psi=W_B/K_t$, giving
+\begin{equation}
+  R(a)=\exp\!\Bigl[-\tfrac{2D}{K_t}\bigl(1-a^{-d_P}\bigr)\Bigr],
+  \label{eq:R}
+\end{equation}
+verified to $2.5\times10^{-4}$ at $a=2$ (V28).
+Measured against light---the only standard an interior observer
+has---free motion \emph{does} decay, in the same direction as the
+FLRW $w\propto1/a$ friction, although with a different functional
+form.
+
+\subsection{Two probes, one box}
+\label{sec:v29}
+
+Now let two observers measure the expansion rate of the same box.
+The \emph{geometric} observer tracks comoving structure and reports
+$H_{\mathrm{geo}}=\Delta\ln a/\Delta t$.
+The \emph{velocity} observer assumes FLRW kinematics
+($w/c\propto1/a$) and infers an expansion rate from the measured
+decay of $R$:
+$H_w=-\Delta\ln R/\Delta t$.
+From Eq.~(\ref{eq:R}),
+\begin{equation}
+  \frac{H_w}{H_{\mathrm{geo}}}=\frac{2D}{K_t}\,d_P\,a^{-d_P},
+  \label{eq:ratio}
+\end{equation}
+which depends on the epoch $a$ and on the box calibration $D/K_t$.
+The two probes disagree, not because either is wrong, but because the
+model's decay law is not the FLRW one the second observer assumed.
+
+Verification gate V29 measures both probes in one run over three
+windows ($a\colon1\to1.5\to2\to3$, $d_P=1$) and compares the measured
+ratio with the log-window average of Eq.~(\ref{eq:ratio}); the
+largest relative error is $5.3\times10^{-4}$ against a tolerance of
+$10^{-2}$, with $w$ conserved to $4.8\times10^{-4}$.
+[Fig.~6: $H_w/H_{\mathrm{geo}}$ vs.\ $a$ for several $D/K_t$ ---
+planned; the underlying scan is specified in the project's experiment
+design 4-66.]
+
+\subsection{A structural analogy with the Hubble tension}
+\label{sec:tension}
+
+The two accepted measurements of the real Hubble constant disagree:
+$H_0=67.4$ (CMB fit) versus $73.0$ (local distance ladder),
+a ratio of $0.923$.
+In the box universe, choosing the single calibration $D/K_t=0.92$
+makes the probe ratio at $a=2$
+\begin{equation}
+  \frac{H_w}{H_{\mathrm{geo}}}\Big|_{a=2}=\frac{2D}{K_t}\cdot\frac12
+  =\frac{D}{K_t}=0.92 ,
+\end{equation}
+the same magnitude as the observed tension ratio.
+We state precisely what this is and is not.
+It \emph{is} a minimal, fully inspectable mechanism in which the
+measured expansion rate depends on the probe---early-universe-style
+global fits and late-universe-style local kinematics need not agree
+if the underlying decay law differs from the assumed one.
+It is \emph{not} an explanation of the Hubble tension: the model is
+two-dimensional, non-Lorentzian, and the coincidence of $0.92$ with
+$0.923$ is a calibration, not a prediction (negative claims 3 and 6).
+
+The functional form is the entire content of the effect.
+If the model's light-speed law were replaced by the exact inverse
+proportionality $c_{\mathrm{loc}}\propto1/W$ (ledger item 4-66), then
+$R\propto a^{-d_P}$ exactly, both probes would coincide identically
+($H_w/H_{\mathrm{geo}}\equiv d_P$), and the probe dependence would
+vanish.
+The comparison experiment that separates the two forms---an
+$a\times D/K_t$ scan of Eq.~(\ref{eq:ratio}) against the constant
+line---is specified as a design document in the repository and doubles
+as the data source for Fig.~6.
+The choice between the two laws is thus \emph{observable from inside
+the model}, which is the pedagogical point: what looks like a
+measurement discrepancy can be a statement about which decay law
+nature (here: the axiom set) actually uses.
+
+Because $\rho(a)\equiv2(D/K_t)a^{-d_P}$ falls with $a$, the
+disagreement is largest early and vanishes late, giving the toy model
+an early/late structure qualitatively reminiscent of the real
+tension's framing---again as structure, not as fit.
+
+% ---------------------------------------------------------------------
+\section{Optically dark gravitating bodies}
+\label{sec:dark}
+
+The companion paper showed that DFM's rotating cores enhance outer
+rotation curves through frame dragging (measured outer boost
+$1.332\pm0.009$ over eight seeds).
+Here we assemble the model's \emph{darkness} mechanisms and ask,
+inside the model, which phenomenological requirements of dark matter
+a single object can meet.
+
+\subsection{Two independent darkness mechanisms}
+
+\emph{Self-light dimming} (parameter \texttt{lightSweep}) attenuates
+the light a body emits; since v1.33 it can be computed from the spin
+state as $l_{S,\mathrm{eff}}=\min(1,|s|R/c_{\mathrm{surf}})$ rather
+than set by hand, and for the model's black-hole-like preset the
+mechanistic value is $0.56$ against the toy value $1$---a gap the
+interface exposes rather than hides.
+\emph{External-ray sweep-out} is a strong-field effect of a rapidly
+spinning core on \emph{incoming} rays: non-escape rises over
+$s=0.5$--$1.0$, and the effect vanishes entirely under the physical
+lock $K_t=c^2/G$ (measured; the mechanism lives in the toy's strong
+regime only).
+The two mechanisms are machine-verified to be orthogonal: ray
+endpoints agree to all digits as \texttt{lightSweep} is scanned from
+0 to 1 (project derivations, Sec.~17).
+[Fig.~7: ray sweep at zero and high spin --- planned.]
+
+\subsection{Requirements met, and limits}
+
+Inside the model, a heavy, fast-spinning, optically dark core
+(i)~sources $W$ and hence gravity; (ii)~is dark by two independent
+mechanisms; and (iii)~contributes to outer rotation-curve enhancement
+through dragging, with the radius-resolved profile showing the boost
+concentrated inward ($v/v_{\mathrm{bar}}$ enhancement from $1.58$ at
+inner radii to $1.15$ outside, eight-seed statistics).
+It therefore meets, \emph{inside the model}, the phenomenological
+requirements ``dark but gravitating, and relevant to rotation
+curves''.
+The limits are measured with the same care: the inverse-design
+problem (choose parameters to hit a prescribed outer velocity) is
+accurate as a forward predictor (median residual ${\approx}2\%$) but
+saturates in azimuthal velocity before reaching the outermost bands,
+and earlier claims that dragging alone sustains a specific galaxy
+preset's arms were withdrawn when knockout tests showed a composite
+pathway.
+None of this licenses any claim about real dark matter (negative
+claim 4); the value is that requirement-level talk about darkness
+becomes an explicit, falsifiable checklist in a system small enough
+to audit.
+[Fig.~8: $v/v_{\mathrm{bar}}(r)$ --- planned.]
+
+% ---------------------------------------------------------------------
+\section{Limitations and negative claims}
+\label{sec:negative}
+
+As in the companion paper, these are part of the thesis.
+
+\subsection{Negative claim 1}
+The box universe is not a description of the real universe: the model
+is two-dimensional, has no Lorentz invariance, and no causal
+propagation of the fields.
+
+\subsection{Negative claim 2}
+The wavelength-retention rule is semantics, not a derivation from
+photon dynamics.
+
+\subsection{Negative claim 3}
+Probe-dependent $H$ is presented as a structural analogy; no claim is
+made that it explains the Hubble tension.
+
+\subsection{Negative claim 4}
+The optically dark bodies of Sec.~\ref{sec:dark} are not proposed as
+candidates for real dark matter; they meet requirements \emph{inside
+the model} only.
+
+\subsection{Negative claim 5}
+The free box demonstrates a mechanism (attraction decelerates,
+pressure accelerates); it does not reproduce the Friedmann equations.
+
+\subsection{Negative claim 6}
+$D/K_t=0.92$ is a calibration chosen to match the tension ratio's
+magnitude; the numeric agreement is not evidence for anything.
+
+% ---------------------------------------------------------------------
+\section{Conclusion}
+\label{sec:conclusion}
+
+A single deliberately crude approximation---replace everything far
+away by a box---is enough to make the standard cosmological
+distinctions computable and auditable: what is undetectable
+(translation) versus gain-coupled (rotation, expansion); what is
+prescribed versus semantic versus solved about expansion; and, at the
+center of this paper, the fact that \emph{the measured expansion rate
+is a property of the probe as much as of the box}, with the entire
+effect carried by the functional form of one decay law.
+Every number in this paper is asserted by an automated gate
+(Sec.~\ref{sec:repro}), and the model runs in a browser, so each
+claim can be re-derived, re-measured, or broken by a student in an
+afternoon.
+Future work: machine-generated figures for this draft; the
+$a\times D/K_t$ comparison scan (design complete); an optional light
+probe $H_{\mathrm{light}}$ alongside the two probes of
+Sec.~\ref{sec:v29}; and a fuller treatment of the reversibility
+demonstration.
+
+% ---------------------------------------------------------------------
+\section{Verification map}
+\label{sec:repro}
+
+Every numeric claim above maps to an automated verification gate in
+the public repository (gates run on every commit for both the release
+and beta targets):
+
+\begin{center}
+\begin{tabular}{ll}
+Claim & Gate \\
+\hline
+$g(0)=1/2$ (Eq.~\ref{eq:gain}) & V23a / V24a \\
+$\chi=r/a$ conserved ($1.5\times10^{-5}$) & V24b \\
+$d\propto a^{2\varphi_B}$ ($1.61/0.00$) & V25 \\
+prescribed power expansion & V26 \\
+FLRW friction contrast ($0.03\%$) & V27 \\
+$R(a)$ decay (Eq.~\ref{eq:R}, $2.5\times10^{-4}$) & V28 \\
+probe ratio (Eq.~\ref{eq:ratio}, $5.3\times10^{-4}$) & V29 \\
+A/B/C wavelengths ($<10^{-9}$) & \texttt{box.photon-abc} \\
+free box ($a_{\mathrm{eff}}=2.18$; closed books) & \texttt{freebox.*} \\
+arrow of time ($1.3\times10^{-3}$ vs.\ $10.8$) & \texttt{echo.*} \\
+darkness orthogonality; sweep-out & derivations Sec.~17 \\
+outer boost $1.332\pm0.009$; profile & seeds statistics \\
+claim--text consistency (33 claims) & \texttt{claims.sync} \\
+\end{tabular}
+\end{center}
+
+\end{document}

@@ -173,6 +173,15 @@
   #classChips .classChip[data-g=closed]{border-color:var(--dim);color:var(--dim);}
   /* 第39便 39E(台帳4-75 E1): 温度モデルバッジ(thermal:"tint" のみ) */
   #classChips .classChip[data-g=tint]{border-color:var(--hot);color:var(--hot);}
+  /* 第43便 43A(台帳4-78 B案): 数値主張(claims)の折畳み表示 — 分類バッジの直下、claims を
+     持つプリセットにのみ表示。表示専用(物理・保存 JSON には無関係)。details.advParams と
+     同系統の見た目を流用しつつ独立クラス化。長い数値行でも横スクロールが出ないよう break を許可 */
+  details.claimsDetails{margin:8px 0 14px;border:1px solid var(--line);border-radius:10px;padding:2px 10px;}
+  details.claimsDetails>summary{cursor:pointer;min-height:38px;display:flex;align-items:center;
+    font-size:calc(12.5px*var(--uz,1));font-weight:700;touch-action:manipulation;list-style-position:inside;}
+  .claimRow{font-size:calc(12px*var(--uz,1));margin:5px 0;line-height:1.55;
+    overflow-wrap:anywhere;word-break:break-word;}
+  .claimQa{font-size:calc(10.5px*var(--uz,1));color:var(--dim);margin-left:4px;white-space:nowrap;}
   /* ===== 横画面レイアウト(4-35 裁定: タブレット・PC 想定)=====
      landscape かつ幅 900px 以上で、キャンバス左・操作列/タブ/パネル右の2カラムに組み替える。
      スマホの横持ち(幅 900px 未満)は従来の縦積みのまま。DOM 順は不変で CSS のみ —
@@ -602,6 +611,10 @@ ja: {
   bdgTint:"温度=T_int", bdgTintTip:"温度を内部状態変数 T_int として扱う(A9′)— スピンと独立で、エネルギー帳簿が閉じる。無印のサンプルは旧来の「スピン=熱」方式",
   // 第39便 39E(台帳4-75 E2): 有効時間窓マーカー(HUD)— sim.t が validT を超えたときだけ HUD に追記
   hudBeyondWindow:(v)=>" ⚠評価窓外(t>"+v+")",
+  // 第43便 43A(台帳4-78 B案): 数値主張(claims)の折畳み表示 — claims を持つプリセットにのみ表示
+  claimsHead:"🔎 数値主張(機械検証済み)",
+  claimsRangeLabel:"期待域", claimsControlLabel:"対照",
+  claimsNote:"説明文の数値と上の期待域は QA(claims.sync)が毎回照合している",
   groups:{}, params:{},
 },
 en: {
@@ -772,6 +785,11 @@ en: {
   bdgTint:"T=T_int", bdgTintTip:"Temperature is treated as an internal state variable T_int (A9′) — independent of spin, so the energy ledger stays closed. Unmarked samples use the older \"spin = heat\" scheme.",
   // 39th flight 39E (ledger 4-75 E2): valid-window HUD marker — appended only once sim.t exceeds validT
   hudBeyondWindow:(v)=>" ⚠beyond evaluated window (t>"+v+")",
+  // 43rd flight 43A (ledger 4-78 plan B): collapsible display of machine-checked numeric claims —
+  // shown only for presets that declare claims
+  claimsHead:"🔎 Numeric claims (machine-checked)",
+  claimsRangeLabel:"expected range", claimsControlLabel:"control",
+  claimsNote:"The numbers in the description and the expected ranges above are cross-checked every run by QA (claims.sync)",
   groups:{"空間と時間":"Space & Time","箱宇宙":"Box Universe","銀河":"Galaxies","光":"Light","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
   params:{G:"Gravity G", D0:"Background determinacy D₀", kFrame:"Frame dragging kFrame",
     q:"Drag falloff q", kRep:"Spin repulsion kRep", muF:"Friction→spin muF",
@@ -971,7 +989,7 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
 const APP_VERSION = "1.33";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 // 第36便 B1(原仮定者指示): タイトル下に表示するbeta配信時のビルド番号。beta/sw.js の
 // CACHE 接尾辞と同期させる(QA: version.beta-label)。ルート昇格後は使わない("v"+APP_VERSION 表示に戻る)
-const BETA_BUILD = "v1.34-b1";
+const BETA_BUILD = "v1.34-b2";
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 const RAY_MASS_MIN = 40;                  // 光線を曲げる最小質量(性能のための近似)
@@ -6225,6 +6243,29 @@ function renderHelp(){
   // 第39便 39E(台帳4-75 E1): 温度モデルバッジ — thermal:"tint" のプリセットにだけ1個追加(ノイズ回避)
   if(cls.tint) addChip("tint",T("bdgTint"),T("bdgTintTip"));
   el.appendChild(chipRow);
+  // 第43便 43A(台帳4-78 B案): 数値主張(claims)の表示 — claims を持つプリセットにのみ、分類
+  // バッジの直下へ折畳みで追加。表示専用(claims を読むだけ・物理/保存 JSON には無関係)。
+  // 各行は「metric: 期待域 min〜max(対照: min〜max)」+ testId があれば小さく「QA: <testId>」
+  if(Array.isArray(currentPreset.claims) && currentPreset.claims.length){
+    const det=document.createElement("details"); det.id="claimsDetails"; det.className="claimsDetails";
+    const sum=document.createElement("summary"); sum.textContent=T("claimsHead");
+    det.appendChild(sum);
+    for(const c of currentPreset.claims){
+      const row=document.createElement("div"); row.className="claimRow";
+      let line=c.metric+": "+T("claimsRangeLabel")+" "+c.expected.min+"〜"+c.expected.max;
+      if(c.control) line+="("+T("claimsControlLabel")+": "+c.control.expected.min+"〜"+c.control.expected.max+")";
+      const main=document.createElement("span"); main.textContent=line;
+      row.appendChild(main);
+      if(c.testId){
+        const qa=document.createElement("span"); qa.className="claimQa"; qa.textContent=" QA: "+c.testId;
+        row.appendChild(qa);
+      }
+      det.appendChild(row);
+    }
+    const note=document.createElement("p"); note.className="note"; note.textContent=T("claimsNote");
+    det.appendChild(note);
+    el.appendChild(det);
+  }
   // v1.15(第7次裁定): 外部要素バッジ — 固定粒子・レール・熱浴と閉鎖系を区別して表示(詳細=箇条書き)
   const ext=cls.external;
   mk("h4",T("extHead"));

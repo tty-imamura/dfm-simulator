@@ -5846,6 +5846,63 @@ if (hasSwAutoCb) {
   }
 }
 
+// ---- 43A) 第43便 43A(台帳4-78 B案): ui.claims-display — 説明タブに追加した「数値主張
+// ----      (機械検証済み)」折畳み(#claimsDetails)の表示条件を検査する。
+// ----      claims を持つ代表2プリセット(galaxy/spinup)ではセクションが存在し、
+// ----      claim 行(.claimRow)の数が preset.claims の数と一致すること。claims の無い
+// ----      プリセット(boxrot)では非表示であること。en切替で見出しラベルが変わり、
+// ----      DOM 表示にも反映されること。claims 宣言のない対象(root 等)は SKIP する。
+// ----      軽量(DOM検査のみ)なので QA_FAST=1 でも実行する ----
+{
+  const setup = await page.evaluate(() => {
+    const galaxy = HP.allPresets().find((p) => p.id === 'galaxy');
+    const spinup = HP.allPresets().find((p) => p.id === 'spinup');
+    const boxrot = HP.allPresets().find((p) => p.id === 'boxrot');
+    return {
+      galaxyN: (galaxy && Array.isArray(galaxy.claims)) ? galaxy.claims.length : 0,
+      spinupN: (spinup && Array.isArray(spinup.claims)) ? spinup.claims.length : 0,
+      hasBoxrot: !!boxrot,
+      boxrotHasClaims: !!(boxrot && Array.isArray(boxrot.claims) && boxrot.claims.length),
+    };
+  });
+  if (setup.galaxyN > 0 && setup.spinupN > 0 && setup.hasBoxrot && !setup.boxrotHasClaims) {
+    const r = await page.evaluate(() => {
+      const inspect = (id) => {
+        HP.loadPreset(id, false);
+        const det = document.querySelector('#claimsDetails');
+        return {
+          present: !!det,
+          rows: det ? det.querySelectorAll('.claimRow').length : 0,
+          summary: det ? det.querySelector('summary').textContent : null,
+        };
+      };
+      HP.setLang('ja');
+      const headJa = HP.T('claimsHead');
+      const galaxyJa = inspect('galaxy');
+      const spinupJa = inspect('spinup');
+      const boxrotJa = inspect('boxrot');
+      HP.setLang('en');
+      const headEn = HP.T('claimsHead');
+      const galaxyEn = inspect('galaxy');
+      HP.setLang('ja');
+      HP.loadPreset('saturn', false);   // 後続項目のため既定プリセットへ戻す
+      return { headJa, headEn, galaxyJa, spinupJa, boxrotJa, galaxyEn };
+    });
+    const ok = r.galaxyJa.present && r.galaxyJa.rows === setup.galaxyN
+      && r.spinupJa.present && r.spinupJa.rows === setup.spinupN
+      && !r.boxrotJa.present
+      && r.headJa !== r.headEn
+      && r.galaxyEn.present && r.galaxyEn.summary === r.headEn && r.galaxyEn.summary !== r.headJa;
+    add('ui.claims-display', ok,
+      `galaxy: present=${r.galaxyJa.present} rows=${r.galaxyJa.rows}/${setup.galaxyN} / `
+      + `spinup: present=${r.spinupJa.present} rows=${r.spinupJa.rows}/${setup.spinupN} / `
+      + `boxrot: present=${r.boxrotJa.present}(期待false) / `
+      + `ja見出し="${r.headJa}" en見出し="${r.headEn}" / en切替後DOM見出し(galaxy)="${r.galaxyEn.summary}"`);
+  } else {
+    console.log('SKIP ui.claims-display(対象に galaxy/spinup の claims 宣言または boxrot が揃っていない — 第43便 43A 未適用の root 等)');
+  }
+}
+
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
 // W5c: ワーカープールの後片付け(全ユニットは既に上流の getUnit() で待ち合わせ済みのはずだが、
 // 各ワーカーの wp.close() 完了を確実に待ってから共有 browser を閉じる)
