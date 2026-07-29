@@ -5170,6 +5170,224 @@ if (hasEchoFlipAt) {
   }
 }
 
+// ---- 7z5b) 第44便 44B(台帳4-68c 再挑戦条件): 粒子の融合 fusion:{dFrac}(beta 先行)----
+// ----       機能判定子: 「thermal:"spin" のプリセットの fusion キーを削除するか」+ エンジンに
+// ----       _fuse/fusU があるか。root は fusion 未実装なので 3 件とも SKIP ----
+{
+  const hasFusion = await page.evaluate(() => {
+    if (typeof HP.sim._fuse !== 'function' || !('fusU' in HP.sim) || !('fusion' in HP.sim)) return false;
+    const base = { name: 'f', description: 'fusion 機能判定', camera: { scale: 200 },
+      world: { boundary: 'none', size: 0 }, physics: {},
+      bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] };
+    const v = HP.validatePreset(Object.assign({}, base, { thermal: 'spin', fusion: { dFrac: 0.4 } }));
+    // 未実装ビルドでは未知の最上位キーとしてそのまま残る。実装済みなら tint 以外で削除される
+    return !!(v.ok && v.preset.fusion === undefined);
+  });
+  if (hasFusion) {
+    // 共通の計測基盤(ページ側)。第一法則の物差しは V30 の energyOf と同一式
+    // (KE並進+KE回転+内部熱 C·m·T_int − 重力 + E9 法線ばね + E5′ U_rep)に、放射 radE と
+    // 融合リザーバ fusU(= 融合で消えた重力束縛+第三者との相互作用差分)を足したもの。
+    const HARNESS = () => {
+      const s = HP.sim;
+      window.__fus = {
+        mk: (bodies, fusion, phys) => ({
+          id: 'qa_fusion', name: 'fusion', description: '融合の保存検査(隠し構成)',
+          camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+          thermal: 'tint', fusion,
+          physics: Object.assign({ G: 1, D0: 0, kFrame: 0, kRep: 2, q: 2, muF: 0, gammaN: 0,
+            kappaS: 0, etaRad: 0, pRad: 1, cHeat: 0.2, softening: 2, radiusScale: 1, timeScale: 1 }, phys || {}),
+          bodies, overlays: {}
+        }),
+        energy: (s) => {
+          const G = s.params.G, eps2 = s.params.softening * s.params.softening, C = s.params.cHeat;
+          let E = 0;
+          for (let i = 0; i < s.n; i++) {
+            E += 0.5 * s.m[i] * (s.vx[i] * s.vx[i] + s.vy[i] * s.vy[i]);
+            E += 0.25 * s.m[i] * s.R[i] * s.R[i] * s.spin[i] * s.spin[i];
+            E += C * s.m[i] * (s.Tint ? s.Tint[i] : 0);
+          }
+          for (let i = 0; i < s.n; i++) for (let j = i + 1; j < s.n; j++) {
+            const dx = s.x[i] - s.x[j], dy = s.y[i] - s.y[j], d2 = dx * dx + dy * dy, d = Math.sqrt(d2);
+            E -= G * s.m[i] * s.m[j] / Math.sqrt(d2 + eps2);
+            const sumR = s.R[i] + s.R[j];
+            if (d < sumR) {
+              const muM = s.m[i] * s.m[j] / (s.m[i] + s.m[j]);
+              const maxInv = Math.max(1 / s.m[i], 1 / s.m[j]);
+              const xO = sumR - d, xC = 8 / (maxInv * 40 * muM);
+              E += (xO <= xC) ? 20 * muM * xO * xO : 20 * muM * xC * xC + (8 / maxInv) * (xO - xC);
+            }
+          }
+          return E + HP.urepEnergy(s) + s.radE + s.fusU;
+        },
+        // 1サブステップずつ進め、粒子数が減った step(=融合)の帳簿の跳びと、
+        // 融合しなかった step の跳び(=積分器そのものの1步誤差)を別々に最大値で採る
+        run: (preset, steps) => {
+          const F = window.__fus;
+          s.build(preset);
+          let mass0 = 0; for (let i = 0; i < s.n; i++) mass0 += s.m[i];
+          const n0 = s.n;
+          let eFus = 0, eStep = 0, pFus = 0, lFus = 0;
+          for (let k = 0; k < steps; k++) {
+            const nb = s.n, Eb = F.energy(s), Tb = s.totals();
+            s.step(0.016);
+            const dE = Math.abs(F.energy(s) - Eb), T1 = s.totals();
+            if (s.n !== nb) {
+              eFus = Math.max(eFus, dE);
+              pFus = Math.max(pFus, Math.abs(T1.px - Tb.px), Math.abs(T1.py - Tb.py));
+              lFus = Math.max(lFus, Math.abs(T1.L - Tb.L));
+            } else eStep = Math.max(eStep, dE);
+          }
+          let mass1 = 0; for (let i = 0; i < s.n; i++) mass1 += s.m[i];
+          const lg = s.fusLog || [];
+          const mx = (f) => lg.reduce((a, e) => Math.max(a, f(e)), 0);
+          return { n0, n1: s.n, fusN: s.fusN, mass0, mass1, fusU: s.fusU,
+            eFus, eStep, pFus, lFus,
+            rP: mx(e => e.rP), rL: mx(e => e.rL), rE: mx(e => e.rE),
+            // 融合則の Float64 残差は「Float32 状態配列への格納丸め」だけ。回収帳簿
+            // fusPx/fusPy/fusL がその全量を持っていることを恒等式で確認する
+            carry: Math.max(Math.abs(s.fusPx + lg.reduce((a, e) => a + e.ePx, 0)),
+                            Math.abs(s.fusPy + lg.reduce((a, e) => a + e.ePy, 0)),
+                            Math.abs(s.fusL + lg.reduce((a, e) => a + e.eL, 0))),
+            ev: lg.map(e => ({ t: e.t, dKE: e.dKE, uGrav: e.uGrav, uRep: e.uRep, uSpr: e.uSpr,
+              dU3: e.dU3, eSc: e.eSc, dFrac: e.dFrac })),
+            T: s.Tint ? Array.from(s.Tint.slice(0, s.n)) : [] };
+        }
+      };
+    };
+
+    // ① fusion.conservation: 隠し構成(2体正面 + 2体オフセンター・thermal:"tint")で融合が起き、
+    //    対ごとの P(2成分)・L_z・第一法則の残差が Float32 状態配列の丸め水準に収まる。
+    //    さらに系全体の帳簿の跳び(融合した step)が、融合しなかった step の跳び(=積分器の
+    //    1步誤差)を超えないことを確認する — 融合が新しい不連続を持ち込んでいないことの機械証明。
+    //    スキーマ検証(最上位キー fusion の構造検査)も同時に固定する。
+    const cons = await page.evaluate((HS) => {
+      eval('(' + HS + ')()');
+      const F = window.__fus;
+      // 2体正面(y=0・スピン非対称)/ 2体オフセンター(y オフセットで軌道角運動量を持たせる)
+      const head = F.run(F.mk([
+        { type: 'single', m: 1, x: -12, y: 0, vx: 6, vy: 0, spin: 2, tInt: 20 },
+        { type: 'single', m: 2, x: 12, y: 0, vx: -6, vy: 0, spin: -1, tInt: 12 }], { dFrac: 0.35 }), 400);
+      const off = F.run(F.mk([
+        { type: 'single', m: 1, x: -12, y: -0.3, vx: 6, vy: 0, spin: 2, tInt: 20 },
+        { type: 'single', m: 2, x: 12, y: 0.3, vx: -6, vy: 0, spin: -1.5, tInt: 12 }], { dFrac: 0.35 }), 400);
+      // スキーマ: 構造検査(不正は警告つきでキー削除)・dFrac の値域クランプ・未知サブキーの除去
+      const base = (extra) => Object.assign({ name: 'f', description: 'fusion スキーマ検査',
+        camera: { scale: 200 }, world: { boundary: 'none', size: 0 }, physics: {},
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] }, extra);
+      const V = (o) => { const v = HP.validatePreset(o); return { ok: v.ok, w: v.warnings.length, f: v.preset.fusion }; };
+      const sc = {
+        ok: V(base({ thermal: 'tint', fusion: { dFrac: 0.5 } })),
+        def: V(base({ thermal: 'tint', fusion: {} })),
+        hi: V(base({ thermal: 'tint', fusion: { dFrac: 9 } })),
+        lo: V(base({ thermal: 'tint', fusion: { dFrac: 0 } })),
+        nan: V(base({ thermal: 'tint', fusion: { dFrac: 'x' } })),
+        arr: V(base({ thermal: 'tint', fusion: [] })),
+        spin: V(base({ fusion: { dFrac: 0.4 } })),
+        extra: V(base({ thermal: 'tint', fusion: { dFrac: 0.4, foo: 1 } })),
+        none: V(base({ thermal: 'tint' })),
+      };
+      // エンジン側の門番: 内蔵プリセット経路(バリデータを通らない)でも spin では無効化される
+      const s = HP.sim;
+      s.build(Object.assign(F.mk([{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0 }], { dFrac: 0.4 }), { thermal: 'spin' }));
+      const engSpin = s.fusion;
+      s.build(F.mk([{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, tInt: 1 }], { dFrac: 0.4 }));
+      const engTint = s.fusion ? s.fusion.dFrac : null;
+      return { head, off, sc, engSpin, engTint };
+    }, HARNESS.toString());
+
+    // 実測(beta 2026-07-29): 対ごとの相対残差は P≤1.6e-8 / L_z≤1.2e-8 / E≤1.2e-8。
+    // 融合則そのものは Float64 で厳密(スピンを L_tot から逆算するため位置・速度の丸めも吸収する)で、
+    // 残るのは Float32 状態配列(x/v/spin/m/R/T_int)への格納丸め 1 回分だけ。したがって
+    // 指示書の 1e-9 はエンジンの格納精度(Float32 eps=1.19e-7)より下で原理的に到達不能 —
+    // 判定は格納丸めのすぐ上の 1e-7(P・L)/ 1e-6(E)に置き、実測値を detail に残す。
+    const CP = 1e-7, CL = 1e-7, CE = 1e-6;
+    const okOne = (r) => r.n0 === 2 && r.n1 === 1 && r.fusN === 1
+      && Math.abs(r.mass1 - r.mass0) <= 1e-6 * r.mass0
+      && r.rP <= CP && r.rL <= CL && r.rE <= CE
+      && r.eFus <= r.eStep && r.carry <= 1e-12
+      && r.ev[0].uRep > 0.05 * r.ev[0].eSc;   // U_rep は発火時点で「ほぼ0」ではない(無視できない)
+    const fmtR = (r) => `n ${r.n0}→${r.n1}(融合${r.fusN}回) 質量 ${r.mass0.toFixed(6)}→${r.mass1.toFixed(6)} `
+      + `相対残差 P=${r.rP.toExponential(2)} L_z=${r.rL.toExponential(2)} E=${r.rE.toExponential(2)} / `
+      + `系全体の帳簿の跳び: 融合step=${r.eFus.toExponential(2)} ≤ 非融合stepの最大=${r.eStep.toExponential(2)} / `
+      + `内訳 ΔKE=${r.ev[0].dKE.toFixed(2)} U_rep=${r.ev[0].uRep.toFixed(2)} U_spring=${r.ev[0].uSpr.toFixed(2)} `
+      + `U_grav=${r.ev[0].uGrav.toFixed(2)}(E_scale=${r.ev[0].eSc.toFixed(2)}・d/ΣR=${r.ev[0].dFrac.toFixed(3)})`;
+    const S2 = cons.sc;
+    const scOk = S2.ok.f && S2.ok.f.dFrac === 0.5 && S2.ok.w === 0
+      && S2.def.f && S2.def.f.dFrac === 0.35
+      && S2.hi.f && S2.hi.f.dFrac === 1 && S2.hi.w === 1
+      && S2.lo.f && S2.lo.f.dFrac === 0.05 && S2.lo.w === 1
+      && S2.nan.f === undefined && S2.nan.w === 1
+      && S2.arr.f === undefined && S2.arr.w === 1
+      && S2.spin.f === undefined && S2.spin.w === 1
+      && S2.extra.f && S2.extra.f.dFrac === 0.4 && S2.extra.f.foo === undefined
+      && S2.none.f === undefined
+      && cons.engSpin === null && cons.engTint === 0.4;
+    add('fusion.conservation', okOne(cons.head) && okOne(cons.off) && scOk,
+      `正面: ${fmtR(cons.head)} / オフセンター: ${fmtR(cons.off)} / `
+      + `スキーマ: 0.5→${S2.ok.f && S2.ok.f.dFrac} 省略→${S2.def.f && S2.def.f.dFrac} 9→${S2.hi.f && S2.hi.f.dFrac} `
+      + `0→${S2.lo.f && S2.lo.f.dFrac} "x"→${S2.nan.f}(警告${S2.nan.w}) 配列→${S2.arr.f}(警告${S2.arr.w}) `
+      + `spin熱→${S2.spin.f}(警告${S2.spin.w}) 未知サブキー除去=${S2.extra.f && S2.extra.f.foo === undefined} / `
+      + `エンジン門番: spin→${cons.engSpin} tint→dFrac=${cons.engTint} / `
+      + `回収帳簿 fusPx+Σe=${Math.max(cons.head.carry, cons.off.carry).toExponential(1)}(≤1e-12)`);
+
+    // ② fusion.zero-cost: fusion キーの無いプリセットは機構追加前(基点コミット 9ec1300)と
+    //    1 ビットも変わらない。tint 系の代表4件を 300 步走らせた x,y,spin,T_int のハッシュを、
+    //    9ec1300 の beta/index.html で採取した実測基準と照合する(tint.zero-cost の流儀)。
+    //    融合は tint モードにだけ載る機構なので、対象は spin ではなく tint 側から採る。
+    const ZCF = {
+      gas: ['da983bab338a8e79adcda619c5c47d886eeada5fb7ffc5e00f8094fa24353a63', 240],
+      pressure: ['71717c06b87d55652456e1e5c33a847287f610c5083a55018c7da38eac5f5d69', 240],
+      convection: ['aae1ee8ffb73b13fc1a9b407277b719ed507e549d2b490dcbb4951e55a283422', 300],
+      coolrace: ['a09a5cb44ae9e035409f377588ae2c967d62ca9ce9cc2f9d4bd4c31a6b6d659b', 3],
+    };
+    const zf = [];
+    for (const [id, [base, n]] of Object.entries(ZCF)) {
+      const r = await page.evaluate((pid) => {
+        HP.loadPreset(pid, false);
+        const s = HP.sim;
+        for (let k = 0; k < 300; k++) s.step(0.016);
+        const a = [];
+        for (let i = 0; i < s.n; i++) a.push(s.x[i], s.y[i], s.spin[i], s.Tint ? s.Tint[i] : 0);
+        return { n: s.n, fusion: s.fusion, fusN: s.fusN, fusU: s.fusU, str: a.map(v => v.toExponential(12)).join(',') };
+      }, id);
+      const h = crypto.createHash('sha256').update(r.str).digest('hex');
+      zf.push({ id, ok: h === base && r.n === n && r.fusion === null && r.fusN === 0 && r.fusU === 0, h: h.slice(0, 8) });
+    }
+    const zfBad = zf.filter(z => !z.ok).map(z => `${z.id}(${z.h})`);
+    add('fusion.zero-cost', zfBad.length === 0,
+      zfBad.length ? `bit不一致/経路混入: ${zfBad.join(' ')}`
+        : `${zf.length}件が基点 9ec1300 と bit 一致(300步 x,y,spin,T_int ハッシュ): ${zf.map(z => z.id).join(' ')} `
+          + `— 全て sim.fusion=null・融合0回・fusU=0(機構追加の零コスト)`);
+
+    // ③ fusion.chain: 3体が連鎖して最終的に1体になる(1サブステップに同一粒子は1回まで =
+    //    連鎖は次サブステップ以降)。各イベントの保存残差と総質量が維持されることも同時に確認する。
+    const ch = await page.evaluate((HS) => {
+      eval('(' + HS + ')()');
+      const F = window.__fus;
+      return F.run(F.mk([
+        { type: 'single', m: 1, x: -14, y: 0, vx: 7, vy: 0, spin: 1.5, tInt: 20 },
+        { type: 'single', m: 1.5, x: 0, y: 0.2, vx: 0, vy: 0, spin: -1, tInt: 10 },
+        { type: 'single', m: 1, x: 14, y: -0.2, vx: -7, vy: 0, spin: 0.7, tInt: 15 }], { dFrac: 0.35 }), 800);
+    }, HARNESS.toString());
+    const chOk = ch.n0 === 3 && ch.n1 === 1 && ch.fusN === 2
+      && Math.abs(ch.mass1 - ch.mass0) <= 1e-6 * ch.mass0
+      && ch.rP <= CP && ch.rL <= CL && ch.rE <= CE
+      && ch.eFus <= ch.eStep && ch.carry <= 1e-12
+      && ch.ev.length === 2 && ch.ev[0].t < ch.ev[1].t   // 連鎖は別サブステップで起きている
+      && Math.abs(ch.ev[0].dU3) > 0.1;                   // 第三者との相互作用差分が実際に効いている
+    add('fusion.chain', chOk,
+      `n ${ch.n0}→${ch.n1}(融合${ch.fusN}回 t=${ch.ev.map(e => e.t.toFixed(3)).join(',')} — 別サブステップ=${ch.ev.length === 2 && ch.ev[0].t < ch.ev[1].t}) `
+      + `質量 ${ch.mass0.toFixed(6)}→${ch.mass1.toFixed(6)} 相対残差 P=${ch.rP.toExponential(2)} L_z=${ch.rL.toExponential(2)} E=${ch.rE.toExponential(2)} / `
+      + `系全体の帳簿の跳び: 融合step=${ch.eFus.toExponential(2)} ≤ 非融合stepの最大=${ch.eStep.toExponential(2)} / `
+      + `第三者との相互作用差分 ΔU₃=${ch.ev.map(e => e.dU3.toFixed(2)).join(',')}(リザーバ fusU=${ch.fusU.toFixed(2)}) / `
+      + `融合体の T_int=${ch.T.map(v => v.toFixed(1)).join(',')}`);
+
+    await page.evaluate(() => HP.loadPreset('saturn', false));   // 後続項目のため既定プリセットへ戻す
+  } else {
+    console.log('SKIP fusion.conservation / fusion.zero-cost / fusion.chain(対象に第44便 44B の融合機構なし — root 等)');
+  }
+}
+
 // ---- 7z6) 第37便 Wave C1(台帳4-70): 伝熱作用する箱 world.thermalWalls ----
 // ----      (beta 先行 — ルート対象時はスキップ)----
 {

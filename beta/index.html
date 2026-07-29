@@ -2394,6 +2394,26 @@ function validatePreset(obj){
     const THERM=["spin","tint"];
     if(THERM.indexOf(p.thermal)<0){ warnings.push("thermal が不正のため spin に修正"); p.thermal="spin"; }
   }
+  // 第44便 44B(台帳4-68c 再挑戦条件): fusion — 粒子の融合(最上位キー。integrator/thermal と同じ配置)。
+  // {dFrac:0.35} = 中心距離 d < dFrac·(R_i+R_j) で融合する。オブジェクトが在れば有効・省略で完全無効。
+  // dFrac は [0.05,1] へクランプ(省略時 0.35)。**thermal:"tint" のときだけ有効** — spin 熱モードでは
+  // 融合で消える運動エネルギーの行き先(内部温度)が無く第一法則の帳簿が閉じないため、警告つきで
+  // キーごと削除する(挙動を静かに変えない — world.thermalWalls と同じ方針)。
+  // 構造が壊れている場合も警告つきで削除する。※ SYSTEM_PROMPT には載せない(AI生成には開放しない)
+  if(p.fusion!==undefined){
+    const FU=p.fusion;
+    if(!FU || typeof FU!=="object" || Array.isArray(FU)){
+      warnings.push("fusion はオブジェクトが必要 — 無視します"); delete p.fusion;
+    } else if(p.thermal!=="tint"){
+      warnings.push('fusion は thermal:"tint" でのみ有効 — 無視します'); delete p.fusion;
+    } else if(FU.dFrac!==undefined && !isNum(FU.dFrac)){
+      warnings.push("fusion.dFrac が数値でないため fusion を無視します"); delete p.fusion;
+    } else {
+      const dv=(FU.dFrac===undefined)? 0.35 : clamp(FU.dFrac,0.05,1);
+      if(FU.dFrac!==undefined && dv!==FU.dFrac) warnings.push("fusion.dFrac を値域に修正");
+      p.fusion={dFrac:dv};   // 未知のサブキーは落とす(受理する形を1つに固定する)
+    }
+  }
   // 第37便 C1(台帳4-70): world.thermalWalls — 伝熱作用する箱の境界条件。
   // {bottom:{mode:"heat",T:..,rate:..}, top:{mode:"rad",rate:..}, left/right: 省略=断熱}
   // 有効条件は boundary:"box" かつ thermal:"tint" の両方。条件を満たさないときは警告つきで
@@ -2803,6 +2823,18 @@ function makeSim(){
     echoX0:null, echoY0:null,
     // 第39便 39E(台帳4-75 E2): validT — 評価済み最大時間(HUD 任意表示専用。物理には未参照)
     validT:null,
+    // 第44便 44B(台帳4-68c 再挑戦条件): 粒子の融合(fusion)。プリセット最上位キー
+    // fusion:{dFrac} を持つ **かつ** thermal:"tint" のプリセットだけが非 null になり、
+    // 省略時は fusion===null のまま _fuse が1度も呼ばれない(完全ゼロコスト経路 —
+    // QA fusion.zero-cost が基点コミットとの bit 一致で保証)。
+    //   fusN   = 融合イベント数の累計
+    //   fusU   = 融合で消えた「重力束縛」の帳簿(点粒子は自己束縛エネルギーを内部状態として
+    //            持てないため、E4 の対ポテンシャルだけは熱にせずここへ退避する。radE と同格の
+    //            リザーバで、第一法則は KE+熱+U_pair+radE+fusU で閉じる)
+    //   fusPx/fusPy/fusL = Float32 状態配列への格納丸めで系から出入りした運動量・角運動量
+    //            (融合則そのものは Float64 で厳密。resPx/resL と同格の回収帳簿)
+    //   fusLog = 直近64件のイベント監査(QA が読む: 対の前後の P・L・E の実測残差)
+    fusion:null, fusN:0, fusU:0, fusPx:0, fusPy:0, fusL:0, fusLog:null,
     curveBins:null, curveKep:null, tempLR:[0,0], histT:[],
   };
   // 第39便 39B(台帳4-76): thermal="spin" のときに _core が掴む tint 系配列のダミー。
@@ -3028,6 +3060,14 @@ function makeSim(){
       S.echoX0=new Float64Array(S.n); S.echoY0=new Float64Array(S.n);
       for(let i=0;i<S.n;i++){ S.echoX0[i]=S.x[i]; S.echoY0[i]=S.y[i]; }
     } else { S.echoX0=null; S.echoY0=null; }
+    // 第44便 44B(台帳4-68c 再挑戦条件): 融合。最上位キー fusion:{dFrac}(オブジェクト存在で有効・
+    // 省略で完全無効)。**thermal:"tint" のときだけ有効**(spin 熱モードでは融合で消える運動
+    // エネルギーの行き先が無く、帳簿が閉じない — validatePreset も同条件で警告つき削除する。
+    // 内蔵プリセットはバリデータを通らないので、ここが最終的な門番になる: thermal/twall と同形)
+    const FU=preset.fusion;
+    S.fusion = (FU && typeof FU==="object" && !Array.isArray(FU) && S.thermal==="tint")
+      ? {dFrac: (isNum(FU.dFrac)? clamp(FU.dFrac,0.05,1) : 0.35)} : null;
+    S.fusN=0; S.fusU=0; S.fusPx=0; S.fusPy=0; S.fusL=0; S.fusLog=S.fusion? [] : null;
     S.resPx=0; S.resPy=0; S.resL=0; S.radE=0; S.radL=0;
     S.wallEin=0; S.wallEout=0; S.wallKE=0;   // 第37便 C1(台帳4-70): 壁帳簿もリセット
     S.curveBins=null; S.tempLR=[0,0]; S.histT=[];
@@ -3068,6 +3108,8 @@ function makeSim(){
     if(S.integrator==="leapfrog"){ S._core(dt,1); S._core(dt,2); }
     else S._core(dt,0);
     if(S.echoFlipAt!==null) S._echo();
+    // 第44便 44B(台帳4-68c): 融合はサブステップ末(E系適用後)。fusion 未指定では null 判定 1 回
+    if(S.fusion) S._fuse();
   };
   // 第35便(台帳4-62): Loschmidt echo — t が echoFlipAt に達した最初のステップ終端で、
   // 全粒子の v と s の符号を一度だけ反転する(pinned 含む・再反転はしない)。
@@ -3083,6 +3125,202 @@ function makeSim(){
       let s2=0;
       for(let i=0;i<S.n;i++){ const dx=S.x[i]-S.echoX0[i], dy=S.y[i]-S.echoY0[i]; s2+=dx*dx+dy*dy; }
       S.echoRMS=Math.sqrt(s2/S.n);
+    }
+  };
+  // ===== 第44便 44B(台帳4-68c 再挑戦条件): 粒子の融合(fusion)=====
+  // 発火: サブステップ末に中心距離 d_ij < dFrac·(R_i+R_j) の対を融合する。1サブステップに
+  // 同一粒子は 1 回まで(連鎖は次サブステップ)。pinned(規定運動 = 外部が質量を決める粒子)は
+  // 対象外。光線(rays)は粒子実体を持たないので元から対象外、光子(photons)は融合しない。
+  // 融合則(すべて Float64 で組み、格納は Float32 状態配列 — A13 準拠):
+  //   m′ = m_i+m_j                                      (質量保存)
+  //   x′ = (m_i x_i+m_j x_j)/m′、v′ = (m_i v_i+m_j v_j)/m′  (運動量厳密)
+  //   R′ = √(R_i²+R_j²)                                  (断面積加法 = R∝√m 写像と整合)
+  //   I′s′ = L_tot − m′(x′v′_y − y′v′_x)、I=½mR²          (角運動量厳密)
+  //     ※ s′ は「格納後の x′,v′,R′,m′ を読み戻して」逆算する。位置・速度の Float32 丸めを
+  //        スピンが吸収するので、対の L_z は格納値どうしでも丸め 1 回分しかずれない
+  //   T′ = (C m_i T_i + C m_j T_j + ΔKE + U_rep + U_spring)/(C m′)
+  //     ΔKE = KE_before − KE_after(並進+回転)。dFrac ≤ 1/√2 では I′ ≥ I_i+I_j+μd² が
+  //     恒等的に成り立つので Cauchy–Schwarz から ΔKE ≥ 0(既定 0.35 は安全側)。
+  //     U_rep(E5′ 対ポテンシャル・A12″)と U_spring(E9 法線ばね)は発火時点で有限かつ正で、
+  //     消滅分を熱へ繰り入れる(第44便実測: 既定 dFrac=0.35 では U_rep は最大値の 6 割強が
+  //     残っている = 「ほぼ0だから無視できる」は成立しない。detail は fusLog に出る)。
+  //     E4 重力の対ポテンシャルだけは負値なので熱にできず、リザーバ fusU へ退避する
+  //     (点粒子は自己束縛エネルギーを内部状態として持てない — 帳簿は閉じたまま)
+  S._fuse = function(){
+    const F=S.fusion; if(!F) return;
+    const n=S.n; if(n<2) return;
+    const {x,y,vx,vy,spin,R,pinned,mEff,Tint}=S, m=S.m;
+    const p=S.params, dF=F.dFrac, C=p.cHeat, rs=p.radiusScale;
+    const G=p.G, eps2=p.softening*p.softening, kRep=p.kRep, q=p.q;
+    const urep=!!(Tint && kRep>0 && q>1);
+    const ue1=urep? 2*q-2 : 0, ue2=urep? 2*q-1 : 0, ui1=urep? 1/ue1 : 0, ui2=urep? 1/ue2 : 0;
+    let dead=S._fusDead, into=S._fusInto;
+    if(!dead||dead.length<n){ dead=S._fusDead=new Uint8Array(n); into=S._fusInto=new Int32Array(n); }
+    let nDead=0;
+    // 対 (a,b) の相互作用エネルギー(E4 重力 + E9 法線ばね + E5′ U_rep)。QA の energyOf /
+    // urepEnergy と同一式 — 融合で消える分・第三者との差分を同じ物差しで測るための単一実装
+    const pairU=(a,b)=>{
+      const dx=x[a]-x[b], dy=y[a]-y[b], d2=dx*dx+dy*dy, dd=Math.sqrt(d2);
+      const ma=m[a], mb=m[b], ms=ma+mb;
+      let U=-G*ma*mb/Math.sqrt(d2+eps2);
+      const sR=R[a]+R[b];
+      if(dd<sR && Math.abs(ms)>1e-9){
+        const muM=ma*mb/ms, maxInv=Math.max(1/ma,1/mb);
+        const xO=sR-dd, xC=8/(maxInv*40*muM);
+        U+=(xO<=xC)? 20*muM*xO*xO : 20*muM*xC*xC+(8/maxInv)*(xO-xC);
+      }
+      if(urep){
+        const Ta=Tint[a], Tb=Tint[b];
+        if(Ta>0 && Tb>0){
+          const ea=mEff[a], eb=mEff[b], es=ea+eb;
+          if(Math.abs(es)>1e-9)
+            U+=kRep*(ea*eb/es)*Math.sqrt(Ta*Tb)
+              *(urepPhi(R[a],R[a]/(R[a]+dd),ue1,ue2,ui1,ui2)+urepPhi(R[b],R[b]/(R[b]+dd),ue1,ue2,ui1,ui2));
+        }
+      }
+      return U;
+    };
+    for(let i=0;i<n;i++){
+      if(dead[i]||pinned[i]) continue;
+      const Ri=R[i];
+      for(let j=i+1;j<n;j++){
+        if(dead[j]||pinned[j]) continue;
+        const Rj=R[j], dx=x[i]-x[j], dy=y[i]-y[j], d2=dx*dx+dy*dy;
+        const thr=dF*(Ri+Rj);
+        if(!(d2<thr*thr)) continue;
+        // ---- 融合前の量(Float64 スナップショット)----
+        const mi=m[i], mj=m[j], mn=mi+mj;
+        if(!(Math.abs(mn)>1e-9)) continue;              // 負質量実験の 0 除算保護(融合しない)
+        const xi=x[i], yi=y[i], xj=x[j], yj=y[j];
+        const vxi=vx[i], vyi=vy[i], vxj=vx[j], vyj=vy[j];
+        const si=spin[i], sj=spin[j];
+        const Ii=0.5*mi*Ri*Ri, Ij=0.5*mj*Rj*Rj;
+        const Px=mi*vxi+mj*vxj, Py=mi*vyi+mj*vyj;
+        const Ltot=mi*(xi*vyi-yi*vxi)+Ii*si + mj*(xj*vyj-yj*vxj)+Ij*sj;
+        const KE0=0.5*mi*(vxi*vxi+vyi*vyi)+0.5*mj*(vxj*vxj+vyj*vyj)+0.5*Ii*si*si+0.5*Ij*sj*sj;
+        const Ti=Tint? Tint[i] : 0, Tj=Tint? Tint[j] : 0;
+        const H0=C*mi*Ti+C*mj*Tj;
+        const d=Math.sqrt(d2);
+        // ---- 消滅する対ポテンシャル(QA の energyOf と同一式)----
+        const uGrav=-G*mi*mj/Math.sqrt(d2+eps2);
+        let uSpr=0;
+        const sumR=Ri+Rj;
+        if(d<sumR){
+          const muM=mi*mj/mn, maxInv=Math.max(1/mi,1/mj);
+          const xO=sumR-d, xC=8/(maxInv*40*muM);
+          uSpr=(xO<=xC)? 20*muM*xO*xO : 20*muM*xC*xC+(8/maxInv)*(xO-xC);
+        }
+        let uRep=0;
+        if(urep && Ti>0 && Tj>0){
+          const mEi=mEff[i], mEj=mEff[j], ms=mEi+mEj;
+          if(Math.abs(ms)>1e-9)
+            uRep=kRep*(mEi*mEj/ms)*Math.sqrt(Ti*Tj)
+                *(urepPhi(Ri,Ri/(Ri+d),ue1,ue2,ui1,ui2)+urepPhi(Rj,Rj/(Rj+d),ue1,ue2,ui1,ui2));
+        }
+        // 第三者との相互作用エネルギー(融合前)。融合は対の外にも不連続を作る — 2粒子ぶんの
+        // 相互作用が1粒子ぶんに置き換わるため、Σ_k[U(i,k)+U(j,k)] − Σ_k U(i′,k) が系から消える。
+        // これを取りこぼすと N≥3 で第一法則が破れる(実測: 3体連鎖で ΔE≈6.5 = E の 10%)
+        let u3a=0;
+        for(let k2=0;k2<n;k2++){ if(k2===i||k2===j||dead[k2]) continue; u3a+=pairU(i,k2)+pairU(j,k2); }
+        // ---- 融合後の状態を書き込む(格納値を読み戻しながら逐次確定)----
+        m[i]=mn; const mS=m[i];                          // Float32 格納後の質量
+        x[i]=(mi*xi+mj*xj)/mS; y[i]=(mi*yi+mj*yj)/mS;
+        vx[i]=Px/mS; vy[i]=Py/mS;
+        const X=x[i], Y=y[i], VX=vx[i], VY=vy[i];
+        // 半径: R′=√(R_i²+R_j²)。updateRadii(R=rs·rMul·√|m|)がいつ走っても同じ値を返すよう、
+        // rMul を質量重み RMS で作り直す(rMul_i=rMul_j なら rMul′=rMul で写像そのまま)。
+        // 明示半径(radOv>0)が絡む対は radOv′=R′/rs 側で表現する(明示半径は rMul を無視する既存仕様)
+        const Rn=Math.sqrt(Ri*Ri+Rj*Rj);
+        mEff[i]=(Math.abs(mn)<0.01)? (mn<0? -0.01 : 0.01) : mn;
+        if(S.radOv[i]>0 || S.radOv[j]>0){ S.radOv[i]=(rs>0)? Rn/rs : 0; }
+        else if(rs>0){
+          const ai=Math.abs(mEff[i]), rmi=S.rMulv[i], rmj=S.rMulv[j];
+          S.rMulv[i]=(ai>0)? Math.sqrt((rmi*rmi*Math.abs(mi)+rmj*rmj*Math.abs(mj))/ai) : rmi;
+        }
+        R[i]=Rn; const RS=R[i];
+        // 材質係数: 連続量は質量重み平均・離散フラグは重い側を継ぐ(融合体は単一の粒子)
+        const wi=mi/mn, wj=mj/mn, heavy=(Math.abs(mi)>=Math.abs(mj))? i : j;
+        S.coreMR[i]=S.coreMR[i]*wi+S.coreMR[j]*wj; S.coreSR[i]=S.coreSR[heavy];
+        S.obsT[i]=S.obsT[i]*wi+S.obsT[j]*wj; S.coreOT[i]=S.coreOT[i]*wi+S.coreOT[j]*wj;
+        S.lSw[i]=S.lSw[i]*wi+S.lSw[j]*wj; S.lSwAuto[i]=S.lSwAuto[heavy];
+        S.coreRRv[i]=S.coreRRv[heavy]; S.tau[i]=S.tau[i]*wi+S.tau[j]*wj;
+        S.Rc[i]=(S.coreRRv[i]>0)? S.coreRRv[i]*RS
+              : ((S.radOv[i]>0? rs : rs*S.rMulv[i])*Math.sqrt(Math.abs(S.coreMR[i]*mEff[i])));
+        S.hasU[i]=S.hasU[i]|S.hasU[j];
+        S.railR[i]=0; S.railAng[i]=0; S.railOmega[i]=0; S.railCx[i]=0; S.railCy[i]=0; S.railH[i]=0;
+        S.accVx[i]=0; S.accVy[i]=0; S.accS[i]=0;
+        if(S.duT) S.duT[i]=0;
+        // スピン: 格納後の並進部を差し引いた残りを I′ が受け持つ(角運動量厳密)
+        const In=0.5*mS*RS*RS;
+        spin[i]=(Math.abs(In)>1e-12)? (Ltot-mS*(X*VY-Y*VX))/In : 0;
+        const SP=spin[i];
+        const KE1=0.5*mS*(VX*VX+VY*VY)+0.5*In*SP*SP;
+        const dKE=KE0-KE1;
+        // 内部温度: 顕熱+ΔKE+消滅した正値対ポテンシャル。C·m′≤0 や T′<0 の分はリザーバへ
+        let heat=H0+dKE+uRep+uSpr, park=uGrav;
+        const cm=C*mS;
+        if(Tint && cm>0){
+          const Tn=heat/cm;
+          if(Tn>0){ Tint[i]=Tn; } else { Tint[i]=0; park+=heat; }
+        } else { if(Tint) Tint[i]=0; park+=heat; }
+        const H1=(Tint && cm>0)? cm*Tint[i] : 0;
+        // 第三者との相互作用エネルギーの消滅分(融合体の T′ 確定後に評価する)もリザーバへ
+        let u3b=0;
+        for(let k2=0;k2<n;k2++){ if(k2===i||k2===j||dead[k2]) continue; u3b+=pairU(i,k2); }
+        const dU3=u3a-u3b;
+        S.fusU+=park+dU3;
+        // ---- 監査(格納値どうしの実測残差。融合則は Float64 で厳密なので、残る差は
+        //      Float32 状態配列への格納丸め 1 回分だけ。その分は fusPx/fusPy/fusL へ回収する)----
+        const ePx=mS*VX-Px, ePy=mS*VY-Py;
+        const eL=(mS*(X*VY-Y*VX)+In*SP)-Ltot;
+        const eE=(KE1+H1+park)-(KE0+H0+uGrav+uRep+uSpr);
+        S.fusPx-=ePx; S.fusPy-=ePy; S.fusL-=eL;
+        const pSc=Math.abs(mi*vxi)+Math.abs(mj*vxj)+Math.abs(mi*vyi)+Math.abs(mj*vyj);
+        const lSc=Math.abs(mi*(xi*vyi-yi*vxi))+Math.abs(Ii*si)+Math.abs(mj*(xj*vyj-yj*vxj))+Math.abs(Ij*sj);
+        const eSc=Math.abs(KE0)+Math.abs(H0)+Math.abs(uGrav)+uRep+uSpr;
+        S.fusLog.push({t:S.t, i, j, m:mS, R:RS, d, dFrac:d/sumR, dKE, uGrav, uRep, uSpr, park, dU3,
+          ePx, ePy, eL, eE, pSc, lSc, eSc,
+          rP:(pSc>0? Math.max(Math.abs(ePx),Math.abs(ePy))/pSc : 0),
+          rL:(lSc>0? Math.abs(eL)/lSc : 0), rE:(eSc>0? Math.abs(eE)/eSc : 0)});
+        if(S.fusLog.length>64) S.fusLog.shift();
+        S.fusN++;
+        dead[j]=1; into[j]=i; nDead++;
+        break;                                   // 1サブステップに同一粒子は1回まで(連鎖は次回)
+      }
+    }
+    if(nDead) S._compact(dead, into, n);
+    if(nDead) dead.fill(0,0,n);
+  };
+  // 融合で消えた粒子を配列から詰める(順序保存の安定圧縮 — swap-remove ではなく前詰めにするのは、
+  // zonal 中心天体・measureBox の壁 ring 群・選択粒子のインデックス写像を単調に保つため)。
+  // 確保長は変えない(S.n だけを縮める)ので、以降のループは自動的に生存粒子だけを回る
+  S._compact = function(dead, into, n){
+    const keep=[];
+    for(let i=0;i<n;i++) if(!dead[i]) keep.push(i);
+    const k=keep.length;
+    const mv=(a)=>{ if(!a) return; for(let t=0;t<k;t++){ const s0=keep[t]; if(s0!==t) a[t]=a[s0]; } };
+    for(const key of ["m","x","y","vx","vy","spin","R","rotA","coreMR","coreSR","mEff","Rc","rotAc",
+      "obsT","lSw","coreOT","radOv","coreRRv","rMulv","lSwAuto","uPx","uPy","tau",
+      "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
+      "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
+      "Tint","dQi","arep","arepD","duT","echoX0","echoY0"]) mv(S[key]);
+    // 旧 index → 新 index の写像(消えた粒子は融合先へ写す)
+    const nm=new Int32Array(n).fill(-1);
+    for(let t=0;t<k;t++) nm[keep[t]]=t;
+    for(let i=0;i<n;i++) if(dead[i]) nm[i]=nm[into[i]];
+    S.n=k;
+    S.railIdx=null;   // レール候補・近点検出器は index 依存なので作り直させる
+    S.periDet=null;
+    if(S.zonal) S.zonal.i=nm[S.zonal.i];
+    if(S.wallI0>=0){ const a=nm[S.wallI0], b=(S.wallI1>0? nm[S.wallI1-1]+1 : 0);
+      S.wallI0=a; S.wallI1=Math.max(a,b); }
+    if(S.photons) for(const ph of S.photons){
+      if(ph.from>=0&&ph.from<n) ph.from=nm[ph.from];
+      if(ph.to>=0&&ph.to<n) ph.to=nm[ph.to];
+    }
+    if(S._phSched) for(const e of S._phSched){
+      if(e.body>=0&&e.body<n) e.body=nm[e.body];
+      if(e.aim>=0&&e.aim<n) e.aim=nm[e.aim];
     }
   };
   // 1サブステップ(PHYSICS.md v1.1 §5 数値スキーム: ①全対 → ②粒子 → ③反作用対 → ④位置)
@@ -4574,6 +4812,7 @@ function drawBG(){
 let trailsOn=false;
 let trailBuf=[];   // overlays.trail 用の蓄積ポリライン(v1.9。残像トグルとは別方式 — 長周期の軌道形状を保持する)
 let trailBufB=[];  // v1.19: A/B比較のB側の線の軌跡
+let fusLastN=-1;   // 第44便 44B: 融合による粒子数変化の検出(線の軌跡の引き直し用)
 // 線の軌跡の記録(自由粒子の経路を最大3000点=約100秒・数周分保持)
 // v1.21(第9次裁定 4.4): overlays.trailTargets="sampled" は「核(m≥100)+等間隔サンプル
 // 約16個」だけを記録 — 🌠merger/🌫️collapse の全粒子軌跡(数百本×3000点)による
@@ -4915,6 +5154,9 @@ function loop(now){
     const k=b.k;
     for(let s2=0;s2<k;s2++) sim.step(DT);
     if(ab) for(let s2=0;s2<k;s2++) ab.simB.step(DT);  // Bも同じ座標時間だけ進める
+    // 第44便 44B(台帳4-68c): 融合で粒子が消えると index と粒子の対応が変わるので、線の軌跡
+    // (index で引く配列)を捨てて引き直す。fusion 無しのプリセットでは判定 1 回だけで素通りする
+    if(sim.fusion && sim.n!==fusLastN){ fusLastN=sim.n; trailBuf=[]; trailBufB=[]; }
     if((frameCount%30)===0){
       const bad=sim.hasNaN() || (ab && ab.simB.hasNaN());
       if(bad){
@@ -5109,7 +5351,9 @@ $("#btnAbTargetB").addEventListener("click",()=>{ abTarget="B"; updateAbTargetUI
 function updateAbBtn(){ $("#btnAB").textContent=ab?T("btnAbStop"):T("btnAbStart"); }
 function cloneSimState(){ // 現在の sim の完全コピー(同一プリセットで確保→状態を転写)
   const simB=makeSim(); simB.build(JSON.parse(JSON.stringify(currentPreset)));
-  if(simB.n===sim.n){
+  // 第44便 44B: 融合で A 側の n が減っている場合も転写する(確保長は同一プリセットなので等しく、
+  // 先頭 sim.n 個が生存粒子。simB.n は下で sim.n へ揃える)。fusion 無しでは従来と同じ条件
+  if(simB.n>=sim.n){
     for(const k of ["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy",
       "coreMR","coreSR","mEff","Rc","rotAc",   // 主星2層の状態も転写(第14便: 比率仕様)
       "obsT","lSw","coreOT","radOv","coreRRv", // 観測温度・半径系(第22便)
@@ -5121,6 +5365,15 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
     if(sim.Tint && simB.Tint) simB.Tint.set(sim.Tint);
     simB.pinned.set(sim.pinned); simB.hasU.set(sim.hasU);
   }
+  // 第44便 44B(台帳4-68c): 融合済みの宇宙は n が減っているので、B 側の粒子数と index 依存の
+  // 内部状態(レール候補・近点検出器・zonal 中心・壁 ring 群)を A 側の現況へ揃える。
+  // fusion が無いプリセットでは simB.n===sim.n・fusion===null で、これらは全て自明な代入になる
+  simB.n=Math.min(simB.n, sim.n); simB.railIdx=null; simB.periDet=null;
+  simB.zonal=sim.zonal? Object.assign({},sim.zonal) : null;
+  simB.fusion=sim.fusion? {dFrac:sim.fusion.dFrac} : null;
+  simB.fusN=sim.fusN; simB.fusU=sim.fusU;
+  simB.fusPx=sim.fusPx; simB.fusPy=sim.fusPy; simB.fusL=sim.fusL;
+  simB.fusLog=sim.fusLog? sim.fusLog.slice() : null;
   simB.t=sim.t; simB.resPx=sim.resPx; simB.resPy=sim.resPy; simB.resL=sim.resL;
   simB.radE=sim.radE; simB.radL=sim.radL;
   // 第37便 C1(台帳4-70): 壁帳簿と伝熱境界も転写(build 済みなので twall は同値だが明示する)
