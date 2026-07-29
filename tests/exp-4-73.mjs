@@ -20,6 +20,15 @@
 // (飽和は φ 分配の恒等式に効かない — 閉じ残りは相対 1.8e-6 = float32 eps 水準)。
 // 詳細は docs/DERIVATIONS.md §17.9。
 //
+// 第40便 40A(台帳4-81)の追記: 上の診断に基づき、beta v1.34-b1 で③の反作用を Float64
+// アキュムレータ(accVx/accVy/accS)へ集積してサブステップ末に一括適用する形へ変更した。
+// 丸めが起きる箇所が「対ごと O(N²) 回」から「粒子ごと 1 回」へ移ったので、計装もそれに追随する:
+//   - 倍精度化済みの対象(accVx を持つ)… 一括適用ループで absLv/absLs を測る。
+//     nAbsV/nAbsS は「1サブステップぶんの合計増分が丸めで完全に消えた粒子の数」になる
+//     (旧: 対ごとの反作用インパルスが消えた回数)。分母 nRp/nDsn も粒子×サブステップ数に変わる。
+//   - 倍精度化前の対象(root=v1.33 以前)… 従来どおり対ループ内で測る。
+// dL3−l3an = absLs+absLv という説明恒等式そのものは、どちらの計装でも同じ意味で成立する。
+//
 // 実行: node tests/exp-4-73.mjs        (playwright 必須・既定で約12分)
 //   QA_TARGET=index.html node tests/exp-4-73.mjs   … 対象ファイルの差し替え
 //   EXP473_STEPS=6000 / EXP473_SPINS=0.12,4 / EXP473_NW=5 … 走行長・掃引・並列数
@@ -118,6 +127,26 @@ const EDITS = [
   ['          const rpx=phiBg*dpx[i], rpy=phiBg*dpy[i];',
     `          const rpx=phiBg*dpx[i], rpy=phiBg*dpy[i];
           if(window.__AUDIT) __CT.l3an-=x[i]*rpy-y[i]*rpx;`],
+];
+
+// 第40便 40A(台帳4-81): 丸めが起きる場所は対象のビルドで違うので、吸収量の計装だけ差し替える。
+const HAS_ACC = SRC.includes('accVx[j]-=rpx/m[j]');
+// (a) 倍精度化済み(beta v1.34-b1〜): 一括適用ループ 1 箇所で測る
+const EDITS_ACC = [
+  ['      for(let i=0;i<n;i++){ vx[i]+=accVx[i]; vy[i]+=accVy[i]; spin[i]+=accS[i]; }',
+    `      for(let i=0;i<n;i++){
+        const _o1=vx[i], _o2=vy[i], _o3=spin[i];
+        vx[i]+=accVx[i]; vy[i]+=accVy[i]; spin[i]+=accS[i];
+        if(window.__AUDIT){
+          const ex=(vx[i]-_o1)-accVx[i], ey=(vy[i]-_o2)-accVy[i], es=(spin[i]-_o3)-accS[i];
+          __CT.absLv+=m[i]*(x[i]*ey-y[i]*ex); __CT.absLs+=Imom[i]*es;
+          __CT.nRp++; __CT.nDsn++;
+          if(vx[i]===_o1&&accVx[i]!==0) __CT.nAbsV++;
+          if(spin[i]===_o3&&accS[i]!==0) __CT.nAbsS++; }
+      }`],
+];
+// (b) 倍精度化前(root=v1.33 以前): 従来どおり対ループ内の各書き込みで測る
+const EDITS_F32 = [
   // ③の反作用インパルスが Float32 の丸めで消えたぶん
   ['              vx[j]-=rpx/m[j]; vy[j]-=rpy/m[j];',
     `              const _o1=vx[j], _o2=vy[j];
@@ -147,6 +176,7 @@ const EDITS = [
                 if(window.__AUDIT){ __CT.absLs+=Ii*((spin[i]-_t1)+dsn)+Ij*((spin[j]-_t2)+dsn);
                   __CT.nDsn+=2; if(spin[i]===_t1&&dsn!==0) __CT.nAbsS++; if(spin[j]===_t2&&dsn!==0) __CT.nAbsS++; }`],
 ];
+EDITS.push(...(HAS_ACC ? EDITS_ACC : EDITS_F32));
 
 let inst = SRC;
 for (const [a, b] of EDITS) {
@@ -279,16 +309,38 @@ await browser.close();
 sweep.sort((a, b) => a.spin - b.spin);
 
 const OUT = path.join(OUT_DIR, 'exp-4-73.json');
+// 第40便 40A(台帳4-81): 旧実測(39B・倍精度化前 = beta sha 3c2981ea…)を履歴として同じ JSON に併記する。
+// この JSON は .gitignore のホワイトリスト対象(コミットされる)ため、貼り替えではなく併記で残す。
+const PREV_39B = {
+  note: '第39便 39B(2026-07-28)実測 — ③の反作用を Float32 状態配列へ直接書いていた実装での掃引。'
+      + '第40便 40A(台帳4-81)で倍精度アキュムレータ化したため、この値は履歴として保存する',
+  when: '2026-07-28T08:03:21.575Z', target: 'beta/index.html',
+  targetSha256: '3c2981ea98ac(先頭12桁のみ記録)', steps: 24000, cks: [6000, 12000, 24000],
+  // relL / r90 は各 cks(6000/12000/24000步)の順
+  sweep: [
+    { spin: 0.12, relL: [6.910e-5, 6.126e-5, 1.262e-5], r90: [233.2, 343.5, 492.4] },
+    { spin: 1, relL: [7.286e-5, 5.564e-6, 4.166e-4], r90: [261.9, 571.7, 1496.6] },
+    { spin: 2, relL: [1.218e-5, 2.052e-5, 5.968e-3], r90: [754.8, 2107.2, 4998.8] },
+    { spin: 4, relL: [1.198e-2, 1.194e-2, 7.396e-3], r90: [2274.2, 4976.3, 10400.2] },
+    { spin: 8, relL: [4.316e-3, 3.198e-3, 1.812e-3], r90: [5613.8, 11560.9, 23392.5] },
+  ],
+};
 fs.writeFileSync(OUT, JSON.stringify({
   when: new Date().toISOString(), target: TARGET, targetSha256: SHA,
   censusSteps: CENSUS_STEPS, steps: STEPS, cks: CKS, spins: SPINS,
+  e6ReactionDoublePrecision: HAS_ACC,   // 第40便 40A: 対象が③倍精度アキュムレータ化済みか
   method: {
     instrumentation: '計測用の一時複製にカウンタのみ挿入(物理の式・順序・値には触れていない)',
     scales: 'tests/qa.mjs:1211-1220(freebox scales)を転記',
     identity: 'relL = |L + resL + radL − L(0)| / L_scale(beta/index.html の HP.verify.v1 と同形)',
-    gamma: 'Γ = |Σ_substeps Σ_i (r_i×Δp_i^{E6′})| / L_scale(主張禁止レンジの不変量)',
-    conclusion: 'dL3−l3an = absLs+absLv(説明率100%)= Float32Array の丸め吸収。E6′ の 0.8 飽和は無関係',
+    gamma: 'Γ = |Σ_substeps Σ_i (r_i×Δp_i^{E6′})| / L_scale(39B 時点の「主張禁止レンジ」の一次指標)',
+    conclusion: HAS_ACC
+      ? '第40便 40A(台帳4-81)適用後: ③の反作用を Float64 アキュムレータへ集積しサブステップ末に一括適用。'
+        + '丸めは粒子ごと1回に減り、掃引全域で relL<1e-3。absLs/absLv・nAbsS/nAbsV は一括適用ループでの実測'
+        + '(分母 nRp/nDsn は粒子×サブステップ数 — 旧計装の「対ごと」とは分母が違う)'
+      : 'dL3−l3an = absLs+absLv(説明率100%)= Float32Array の丸め吸収。E6′ の 0.8 飽和は無関係',
   },
+  previous: PREV_39B,
   census, sweep,
 }, null, 2));
 console.log(`→ ${path.relative(ROOT, OUT)}`);

@@ -10,6 +10,7 @@
 | [HANDOFF_RUNTIME_LLM.md](HANDOFF_RUNTIME_LLM.md) | アプリ内蔵の実行時LLMプロンプト仕様と検証結果 |
 | [HANDOFF_PAPER_V2.md](HANDOFF_PAPER_V2.md) | 論文ドラフト執筆の実行指示書(自己完結版・正本) |
 | [HANDOFF_PAPER.md](HANDOFF_PAPER.md) | 【廃止】旧・論文執筆指示書(HANDOFF_PAPER_V2.md を使用すること) |
+| [RELEASE_NOTES_v1.33.md](RELEASE_NOTES_v1.33.md) | v1.33.0 GitHub Release 本文の草案+リリース前残チェックリスト(第40便) |
 
 理論・物理の正本(PHYSICS.md / DERIVATIONS.md / THEORY_SYNTHESIS.md /
 EXPLAINER_HIGHSCHOOL.md / BOX_UNIVERSE.md)は従来どおり docs/ 直下。

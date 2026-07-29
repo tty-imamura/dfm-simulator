@@ -267,6 +267,9 @@
           <button class="btn" id="btnAbTargetA">A</button>
           <button class="btn" id="btnAbTargetB">B</button>
         </div>
+        <!-- 第40便 40B(台帳4-77): abBody 宣言プリセットのみ表示するワンタップA/Bボタン列
+             (粒子への patch を含むA/Bレシピ。ボタンはJSが動的に生成する) -->
+        <div class="rowBtns" id="abBodyRow" style="display:none"></div>
         <!-- 第27便(原仮定者指示): A/B比較の説明は畳んでおく -->
         <details id="abNoteWrap"><summary id="abNoteSum" class="note" style="cursor:pointer">A/B比較とは</summary>
         <p class="note" id="abNote">今の状態をAとして、そのコピーのBを作り、上下に並べて同時に走らせます(A=上、B=下)。実行中のパラメータ編集はA側にのみ効き、最後に調整したパラメータの値が両画面に表示されます。「終了」でAの状態を継続しBを破棄します。プリセットを切り替えると解除されます。</p></details>
@@ -505,7 +508,7 @@ ja: {
   btnImportFile:"ファイルから読込", fileLoaded:"ファイルを読み込みました",
   unsavedWarn:"※編集中のパラメータは「保存」するまでバックアップに含まれません",
   confirmDiscard:"未保存の編集があります。破棄して読み込みますか?",
-  betaShared:"β版(beta v1.33-b5)はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。",
+  betaShared:"β版(beta v1.34-b1)はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。",
   draftRestore:"未保存の編集の下書きが見つかりました(再読込前の状態)。復元しますか?",
   swFail:"オフライン用キャッシュ(Service Worker)の登録に失敗しました。オンラインでは通常どおり使えます。",
   periHud:(m,a)=>`近点移動(最内粒子): 実測 ${m}°/周 / 解析 ${a}°/周`,
@@ -682,7 +685,7 @@ en: {
   btnImportFile:"Load from file", fileLoaded:"File loaded",
   unsavedWarn:"Note: edited parameters are not included in backups until you press Save",
   confirmDiscard:"You have unsaved edits. Discard them and load?",
-  betaShared:"This beta (v1.33-b5) shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.",
+  betaShared:"This beta (v1.34-b1) shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.",
   draftRestore:"Found a draft of unsaved edits (from before the last reload). Restore it?",
   swFail:"Offline cache (Service Worker) registration failed. The app still works normally online.",
   periHud:(m,a)=>`Apsidal drift (innermost): measured ${m}°/orbit / analytic ${a}°/orbit`,
@@ -965,10 +968,10 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
   geoPN:0, lambdaPN:1, pnAlpha:1.5,   // v1.20: E12 測地線1PN(geoPN=1で有効。BOX_UNIVERSE §5)
   radiusScale:1, softening:2, timeScale:1 };   // 第26便: radiusScale 既定 1.2→1(内蔵は明示値を維持)
 // v1.7: kLens は廃止(E8R で屈折率は n=e^{2W/Kt} に統一。旧セーブの kLens は受理して無視)
-const APP_VERSION = "1.32";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
+const APP_VERSION = "1.33";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 // 第36便 B1(原仮定者指示): タイトル下に表示するbeta配信時のビルド番号。beta/sw.js の
 // CACHE 接尾辞と同期させる(QA: version.beta-label)。ルート昇格後は使わない("v"+APP_VERSION 表示に戻る)
-const BETA_BUILD = "v1.33-b5";
+const BETA_BUILD = "v1.34-b1";
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 const RAY_MASS_MIN = 40;                  // 光線を曲げる最小質量(性能のための近似)
@@ -1315,6 +1318,20 @@ const BUILTIN_PRESETS = [
   activeParams:["G","kFrame","kRep"],
   thermal:"tint",
   validT:96,   // 第39便 39E(台帳4-75 E2): 説明文の実測窓(6000步=t≈96)と一致(HUD表示専用)
+  // 第40便 40B パイロット(台帳4-78・claims 新設キー — 表示なし・データ層のみ): 説明文中の
+  // 既存実測値(δ²成長倍率・ボイド率)をそのまま転記。control.patch は engine 未接続の記述用
+  // メタデータ(UI表示・engine適用は次便裁定)。expected は実測値を含む窓で、QA claims.sync-pilot
+  // が説明文中の数値・behavior.cosmicweb の閾値と機械照合する
+  claims:[
+    { id:"cosmicweb.delta2-growth", metric:"delta2GrowthRatio",
+      expected:{min:10, max:16},   // 実測13.1倍(0.272→3.578・6000步)
+      control:{patch:{universeBox:{H0:0}}, expected:{min:26, max:36}},   // 実測≈31.4倍(0.272→8.55)
+      testId:"behavior.cosmicweb" },
+    { id:"cosmicweb.void-rate-final", metric:"voidRateFinal",
+      expected:{min:0.50, max:0.65},   // 実測57.9%(6000步)
+      control:{patch:{universeBox:{H0:0}}, expected:{min:0.68, max:0.82}},   // 実測75%
+      testId:"behavior.cosmicweb" }
+  ],
   camera:{scale:420}, world:{boundary:"none",size:0}, seed:20260727,
   universeBox:{mode:"exp", H0:0.004, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
   physics:{G:10, D0:0, kFrame:1, q:2, kRep:0.5, muF:0.5, gammaN:0.4, kappaS:0.05, Kt:300,
@@ -1384,12 +1401,16 @@ const BUILTIN_PRESETS = [
   //  ・要因分離(台帳4-53 再測定・6000步): kFrame=0 で 0.385(baseline比 0.687)/ kRep=0 で 0.184(0.328)
   // 注: 24000步の状態は 1e-9 レベルの初期摂動に敏感(BH速度を丸めない厳密解にすると保持率
   //   88.95%・rotDev 6.61%)。QA は 6000步の量だけで組んでいる。
-  description:"銀河中心のブラックホール(m=2000・減光1)と、x=±200に向かい合う2個のダークローター(m=150・半径18・スピン2.0)、その間を回る380個の恒星 — 全粒子が自由(ピン・レール無し)の閉鎖系。ローターの空間引きずり(A8/E6′)が恒星円盤にm=2の渦状腕を立てる — 後行螺旋・ピッチ角≈26°(実測、6000步窓の中央値・7/7点が後行)。有効窓は2本立て: 恒星の安定はt≈384(24000步)まで(保持87.9%・半径分散のドリフトは10体構成の約1/4.5)、腕の分離が言えるのはt≈96(6000步)まで。腕振幅A2(環帯[80,120][120,160][160,200][200,240]の後半平均)=0.583/0.680/0.546/0.431、帯平均0.560。※重要な限定: 対向2個という配置そのものがm=2の質量四重極なので、スピンを0にした対照にも配置由来の腕が残る(帯平均0.156)— この構成の対照は「厳密な軸対称系」ではない。スピンを入れると0.560=3.6倍に増強され、スピン0→1→2→3で帯平均が0.186→0.209→0.560→0.707と単調に増える(用量反応)— この単調増加がスピン起因の分を分離する根拠。12000步では対照側にも円盤自身の重力不安定で本物のm=2が育って比が1.47に落ち、24000步では環帯の人数が3〜12まで減って腕の統計そのものが成立しなくなる(だから腕の窓は6000步)。kRepは0.15に弱めてある(E5′斥力が腕形成の律速 — 本サンプルでE5′の主張はしない)。腕の増強は複合経路 — 引きずり(E6′)を切っても(kFrame=0)腕振幅の約69%が残り、スピン斥力を切る(kRep=0)と約33%へ低下する(要因分離実測・4-53を新構成で再測定)。おすすめA/B: ローターのスピンを0にすると、増強分が消えて配置由来の弱い腕だけが残る。※実宇宙のダークマターや渦状腕理論の主張ではない(T4の防御線を維持)。",
-  en:{name:"Dark-Rotor Galaxy", description:"A black hole at the galactic center (m=2000, dimming=1), two dark rotors facing each other at x=±200 (m=150, radius 18, spin 2.0), and 380 stars orbiting between them — a closed system in which every particle is free (no pins, no rails). The rotors' dragging of space (A8/E6′) raises m=2 spiral arms in the stellar disk: a trailing spiral with a measured pitch angle of about 26° (median over the 6000-step window; 7 of 7 samples trailing). There are two valid windows: the stars stay stable out to t≈384 (24000 steps, 87.9% retained, with about 1/4.5 the radial-dispersion drift of the old ten-rotor build), but the arm separation only holds to t≈96 (6000 steps). Arm amplitude A2 (late-half mean over the annuli [80,120][120,160][160,200][200,240]) = 0.583/0.680/0.546/0.431, band mean 0.560. Important limitation: two opposing bodies ARE an m=2 mass quadrupole, so the spin-0 control keeps an arm that comes from the placement itself (band mean 0.156) — this control is not a strictly axisymmetric system. Switching the spin on raises it to 0.560, a factor of 3.6, and the band mean grows monotonically with spin 0→1→2→3 as 0.186→0.209→0.560→0.707 (dose response) — that monotonic rise is what isolates the spin-driven part. By 12000 steps the control grows a genuine m=2 of its own from the disk's self-gravity and the ratio falls to 1.47; by 24000 steps only 3–12 stars remain in each annulus, so the arm statistic no longer means anything (hence the 6000-step arm window). kRep has been lowered to 0.15 (the E5′ repulsion is the rate-limiting step for arm formation — this sample makes no claim about E5′). The arm enhancement runs through a composite pathway: turning off dragging (kFrame=0) still leaves about 69% of the arm amplitude, while turning off spin repulsion (kRep=0) drops it to about 33% (factor-separation measurement 4-53, re-measured for this build). Suggested A/B: set the rotors' spin to 0 — the enhancement disappears and only the weak placement-driven arm is left. Not a claim about real dark matter or about spiral-arm theory (T4 disclaimer upheld)."},
+  description:"銀河中心のブラックホール(m=2000・減光1)と、x=±200に向かい合う2個のダークローター(m=150・半径18・スピン2.0)、その間を回る380個の恒星 — 全粒子が自由(ピン・レール無し)の閉鎖系。ローターの空間引きずり(A8/E6′)が恒星円盤にm=2の渦状腕を立てる — 後行螺旋・ピッチ角≈28°(実測: 6000步窓7点〔t=3000〜6000〕の中央値28.20°・点別 24.2〜35.2°・7/7点が後行。第40便 40C で探索計測から正式QA へ昇格 — behavior.darkrotor-pitch。判定は点別の最大が35°際どいため中央値で行う。4-81〔E6′倍精度化〕適用前は26.0°で、数値経路の変更に対する感度が ±2〜3°)。有効窓は2本立て: 恒星の安定はt≈384(24000步)まで(保持87.9%・半径分散のドリフトは10体構成の約1/4.5)、腕の分離が言えるのはt≈96(6000步)まで。腕振幅A2(環帯[80,120][120,160][160,200][200,240]の後半平均)=0.583/0.680/0.546/0.431、帯平均0.560。※重要な限定: 対向2個という配置そのものがm=2の質量四重極なので、スピンを0にした対照にも配置由来の腕が残る(帯平均0.156)— この構成の対照は「厳密な軸対称系」ではない。スピンを入れると0.560=3.6倍に増強され、スピン0→1→2→3で帯平均が0.186→0.209→0.560→0.707と単調に増える(用量反応)— この単調増加がスピン起因の分を分離する根拠。12000步では対照側にも円盤自身の重力不安定で本物のm=2が育って比が1.47に落ち、24000步では環帯の人数が3〜12まで減って腕の統計そのものが成立しなくなる(だから腕の窓は6000步)。kRepは0.15に弱めてある(E5′斥力が腕形成の律速 — 本サンプルでE5′の主張はしない)。腕の増強は複合経路 — 引きずり(E6′)を切っても(kFrame=0)腕振幅の約69%が残り、スピン斥力を切る(kRep=0)と約33%へ低下する(要因分離実測・4-53を新構成で再測定)。おすすめA/B(ワンタップ): 下のボタンで対向2個のローターのスピンを0にした対照と即座に比較できる — 増強分が消えて配置由来の弱い腕だけが残る。※実宇宙のダークマターや渦状腕理論の主張ではない(T4の防御線を維持)。",
+  en:{name:"Dark-Rotor Galaxy", description:"A black hole at the galactic center (m=2000, dimming=1), two dark rotors facing each other at x=±200 (m=150, radius 18, spin 2.0), and 380 stars orbiting between them — a closed system in which every particle is free (no pins, no rails). The rotors' dragging of space (A8/E6′) raises m=2 spiral arms in the stellar disk: a trailing spiral with a measured pitch angle of about 28° (median 28.20° over the seven samples of the 6000-step window t=3000–6000; 24.2–35.2° sample by sample; 7 of 7 trailing). Promoted from an exploratory measure to a formal QA check in 40C of the 40th delivery — behavior.darkrotor-pitch; the judgement uses the median because the per-sample maximum sits right at 35°. Before 4-81 (the E6′ double-precision change) the median was 26.0°, so the sensitivity to a numerical-path change is about ±2–3°. There are two valid windows: the stars stay stable out to t≈384 (24000 steps, 87.9% retained, with about 1/4.5 the radial-dispersion drift of the old ten-rotor build), but the arm separation only holds to t≈96 (6000 steps). Arm amplitude A2 (late-half mean over the annuli [80,120][120,160][160,200][200,240]) = 0.583/0.680/0.546/0.431, band mean 0.560. Important limitation: two opposing bodies ARE an m=2 mass quadrupole, so the spin-0 control keeps an arm that comes from the placement itself (band mean 0.156) — this control is not a strictly axisymmetric system. Switching the spin on raises it to 0.560, a factor of 3.6, and the band mean grows monotonically with spin 0→1→2→3 as 0.186→0.209→0.560→0.707 (dose response) — that monotonic rise is what isolates the spin-driven part. By 12000 steps the control grows a genuine m=2 of its own from the disk's self-gravity and the ratio falls to 1.47; by 24000 steps only 3–12 stars remain in each annulus, so the arm statistic no longer means anything (hence the 6000-step arm window). kRep has been lowered to 0.15 (the E5′ repulsion is the rate-limiting step for arm formation — this sample makes no claim about E5′). The arm enhancement runs through a composite pathway: turning off dragging (kFrame=0) still leaves about 69% of the arm amplitude, while turning off spin repulsion (kRep=0) drops it to about 33% (factor-separation measurement 4-53, re-measured for this build). Suggested A/B (one-tap): use the button below to compare instantly against the two rotors' spin set to 0 — the enhancement disappears and only the weak placement-driven arm is left. Not a claim about real dark matter or about spiral-arm theory (T4 disclaimer upheld)."},
   activeParams:["kFrame","D0","q"],
   // 第39便 39E(台帳4-75 E2): 有効窓は2本立て(恒星の安定t≈384/腕の分離t≈96)だが、腕の
   // サブ窓は説明文が既に明記している。HUD は「評価済み最大時間」= 恒星安定の外側窓384を表示
   validT:384,
+  // 第40便 40B(台帳4-77): abBody — B側の対向2ローター(bodies順で index1/2)の spin を
+  // 0にする対照へワンタップでA/B開始する(粒子レベルpatch。既存のパラメータ単位おすすめA/Bの拡張)
+  abBody:{ label:{ja:"ローターのスピン0(対照)", en:"Rotor spin = 0 (control)"},
+    targets:[1,2], patch:{spin:0} },
   camera:{scale:300}, world:{boundary:"none",size:0}, seed:20260726,
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:0.15, muF:0.02, gammaN:0.05, kappaS:0.05, Kt:60,
     cLight:60, bM:1, etaRad:0.005, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 2.0 は各 body の rMul へ焼込(第36便 C1)*/, softening:4, timeScale:2},
@@ -1423,10 +1444,14 @@ const BUILTIN_PRESETS = [
 //  ・テスト粒子リング(6000步): 平均 L_z 954.1(対照 632.45 = 厳密一定)・24/24 保持・NaN なし
 //  ・帳簿込みの保存(6000步): |ΔP|/P₀=1.27e-4・|ΔL|/L₀=1.26e-4(pinned ゼロの閉鎖系)
 { id:"rotorSolo", name:"ダークローター(単体)", emoji:"🕳️", group:"銀河",
-  description:"🕶️から「暗い天体」1個だけを取り出した最小構成 — 中心の高スピンコア(m=2000・半径45・スピン2.0・減光=auto)と、r=200を周回する24個のテスト粒子、左から入る20本の光線。全粒子が自由(ピン・レール無し)の閉鎖系。この宇宙の「暗さ」は別々の機構の混合で(DERIVATIONS §17)、この画面はそのうち2つを同時に、しかも分離して見せる。②自光の減光(掻き出し): 減光を固定値ではなく auto にしてあるので、実効値 lS_eff=min(1,|s|R/c_surf) が粒子のスピンと半径から毎ステップ算出される(中心天体をタップすると減光欄は「自動」チェック済みで、実効値 lS_eff が数値欄に表示される)— 実測1.00。③外来光線の掃き出し: 回るコアが決定フレームごと光を運び(A11/E8R)、スピン0の対照では起きる有限時間の光子捕捉(実測 非脱出率0.66)が消える(実測0.00)。順行側の光線ほど外へ払われ、逆行側は深く潜る(平均最小接近半径 順行123 対 逆行40 — T8と同じ非対称)。②と③は別機構である: lS_effはスピン0.29で既に1に飽和しているのに、そのスピンでは掃き出しがまだ全く起きていない(非脱出率0.72 = 対照以上)。掃き出しが立ち上がるのはスピン0.6→0.7の間(0.70→0.08)で、飽和点とは2倍以上離れている。テスト粒子は空間の引きずり(A8/E6′)で順行方向に角運動量を汲み上げられる(6000步平均 L_z=954 対 対照632)。運動量・角運動量は帳簿込みで保存する(モニタ表示・相対ずれ1e-4台)。おすすめA/B: コアのスピンを0にすると、減光・掃き出し・引きずりが同時に消える。※③は物理対応ロック(Kt=c²/G=3600)では起きない — 実測 非脱出率は高スピンでも0.00(第19便 反証条件7)。実在のブラックホールやダークマターについての主張ではない(Negative Claims 1/2)。",
-  en:{name:"Dark Rotor (Single Body)", description:"The minimal version of 🕶️: one dark body on its own — a high-spin core at the center (m=2000, radius 45, spin 2.0, dimming=auto), 24 test particles orbiting at r=200, and 20 light rays entering from the left. Every particle is free (no pins, no rails): a closed system. Darkness in this universe is a mixture of separate mechanisms (DERIVATIONS §17), and this screen shows two of them at once — and keeps them apart. (2) Dimming its own light (spin sweeping it out): dimming is set to \"auto\" rather than a fixed number, so the effective value lS_eff=min(1,|s|R/c_surf) is computed every step from the body's own spin and radius (tap the core: the dimming field shows the \"auto\" checkbox ticked, with the effective value lS_eff displayed in the number field) — measured 1.00. (3) Sweeping out incoming rays: the spinning core carries light with the rotating determinacy frame (A11/E8R), and the finite-time photon capture that happens in the spin-0 control (measured non-escape rate 0.66) disappears (measured 0.00). Prograde rays are pushed outward while retrograde rays dive deeper (mean closest approach 123 vs 40 — the same asymmetry as T8). (2) and (3) are different mechanisms: lS_eff is already saturated at 1 by spin 0.29, yet at that spin the ray sweep-out has not started at all (non-escape 0.72, above the control). The sweep-out only switches on between spin 0.6 and 0.7 (0.70→0.08) — more than a factor of two away from the saturation point. The test particles are pumped into prograde rotation by the dragging of space (A8/E6′): mean L_z=954 over 6000 steps versus 632 for the control. Momentum and angular momentum are conserved once the ledger is included (see the monitor; relative drift of order 1e-4). Suggested A/B: set the core spin to 0 and the dimming, the sweep-out and the dragging all vanish together. Note: (3) does not happen under the GR-calibration lock (Kt=c²/G=3600) — the measured non-escape rate is 0.00 even at high spin (19th-delivery falsification condition 7). Not a claim about real black holes or dark matter (Negative Claims 1/2)."},
+  description:"🕶️から「暗い天体」1個だけを取り出した最小構成 — 中心の高スピンコア(m=2000・半径45・スピン2.0・減光=auto)と、r=200を周回する24個のテスト粒子、左から入る20本の光線。全粒子が自由(ピン・レール無し)の閉鎖系。この宇宙の「暗さ」は別々の機構の混合で(DERIVATIONS §17)、この画面はそのうち2つを同時に、しかも分離して見せる。②自光の減光(掻き出し): 減光を固定値ではなく auto にしてあるので、実効値 lS_eff=min(1,|s|R/c_surf) が粒子のスピンと半径から毎ステップ算出される(中心天体をタップすると減光欄は「自動」チェック済みで、実効値 lS_eff が数値欄に表示される)— 実測1.00。③外来光線の掃き出し: 回るコアが決定フレームごと光を運び(A11/E8R)、スピン0の対照では起きる有限時間の光子捕捉(実測 非脱出率0.66)が消える(実測0.00)。順行側の光線ほど外へ払われ、逆行側は深く潜る(平均最小接近半径 順行123 対 逆行40 — T8と同じ非対称)。②と③は別機構である: lS_effはスピン0.29で既に1に飽和しているのに、そのスピンでは掃き出しがまだ全く起きていない(非脱出率0.72 = 対照以上)。掃き出しが立ち上がるのはスピン0.6→0.7の間(0.70→0.08)で、飽和点とは2倍以上離れている。テスト粒子は空間の引きずり(A8/E6′)で順行方向に角運動量を汲み上げられる(6000步平均 L_z=954 対 対照632)。運動量・角運動量は帳簿込みで保存する(モニタ表示・相対ずれ1e-4台)。おすすめA/B(ワンタップ): 下のボタンで中心コアのスピンを0にした対照と即座に比較できる — 減光・掃き出し・引きずりが同時に消える。※③は物理対応ロック(Kt=c²/G=3600)では起きない — 実測 非脱出率は高スピンでも0.00(第19便 反証条件7)。実在のブラックホールやダークマターについての主張ではない(Negative Claims 1/2)。",
+  en:{name:"Dark Rotor (Single Body)", description:"The minimal version of 🕶️: one dark body on its own — a high-spin core at the center (m=2000, radius 45, spin 2.0, dimming=auto), 24 test particles orbiting at r=200, and 20 light rays entering from the left. Every particle is free (no pins, no rails): a closed system. Darkness in this universe is a mixture of separate mechanisms (DERIVATIONS §17), and this screen shows two of them at once — and keeps them apart. (2) Dimming its own light (spin sweeping it out): dimming is set to \"auto\" rather than a fixed number, so the effective value lS_eff=min(1,|s|R/c_surf) is computed every step from the body's own spin and radius (tap the core: the dimming field shows the \"auto\" checkbox ticked, with the effective value lS_eff displayed in the number field) — measured 1.00. (3) Sweeping out incoming rays: the spinning core carries light with the rotating determinacy frame (A11/E8R), and the finite-time photon capture that happens in the spin-0 control (measured non-escape rate 0.66) disappears (measured 0.00). Prograde rays are pushed outward while retrograde rays dive deeper (mean closest approach 123 vs 40 — the same asymmetry as T8). (2) and (3) are different mechanisms: lS_eff is already saturated at 1 by spin 0.29, yet at that spin the ray sweep-out has not started at all (non-escape 0.72, above the control). The sweep-out only switches on between spin 0.6 and 0.7 (0.70→0.08) — more than a factor of two away from the saturation point. The test particles are pumped into prograde rotation by the dragging of space (A8/E6′): mean L_z=954 over 6000 steps versus 632 for the control. Momentum and angular momentum are conserved once the ledger is included (see the monitor; relative drift of order 1e-4). Suggested A/B (one-tap): use the button below to compare instantly against the core spin set to 0 — the dimming, the sweep-out and the dragging all vanish together. Note: (3) does not happen under the GR-calibration lock (Kt=c²/G=3600) — the measured non-escape rate is 0.00 even at high spin (19th-delivery falsification condition 7). Not a claim about real black holes or dark matter (Negative Claims 1/2)."},
   activeParams:["kFrame","Kt","q"],
   validT:96,   // 第39便 39E(台帳4-75 E2): 説明文の実測窓(6000步=t≈96。L_z平均・帳簿保存の測定窓)と一致
+  // 第40便 40B(台帳4-77): abBody — B側の中心コア(bodies順で index0)の spin を0にする対照へ
+  // ワンタップでA/B開始する(粒子レベルpatch)
+  abBody:{ label:{ja:"コアのスピン0(対照)", en:"Core spin = 0 (control)"},
+    targets:[0], patch:{spin:0} },
   camera:{scale:300}, world:{boundary:"none",size:0}, seed:20260727,
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
     cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
@@ -1442,8 +1467,8 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:true,trail:true,trailTargets:"sampled",monitor:true} },
 
 { id:"merger", name:"銀河合体と潮汐効果", emoji:"🌠", group:"銀河",
-  description:"2つの回転円盤銀河が接近・合体する過程。潮汐尾の形成、衝突による加熱(A9のスピン変換)、角運動量の再分配、合体後の回転曲線を観察できる。kFrame=1のフレームドラッギング(A8)が合体ダイナミクスに効く — 0にすると引きずりなしの純重力合体と比較できる(おすすめA/B)。円盤は回転支持(kepler)で初期化してある。",
-  en:{name:"Galaxy Merger & Tidal Effects", description:"Two rotating disk galaxies approach and merge. Watch tidal tails form, collisions heat the disks (spin conversion, A9), angular momentum redistribute, and the remnant's rotation curve settle. Frame dragging at kFrame=1 (A8) shapes the merger — set kFrame to 0 to compare a drag-free, gravity-only merger (suggested A/B). The disks are initialized rotation-supported (kepler)."},
+  description:"2つの回転円盤銀河が接近・合体する過程。潮汐尾の形成、衝突による加熱(A9のスピン変換)、角運動量の再分配、合体後の回転曲線を観察できる。kFrame=1のフレームドラッギング(A8)が合体ダイナミクスに効く — 0にすると引きずりなしの純重力合体と比較できる(おすすめA/B)。※第40便 40C の因果対照(3000步・同一初期配置)で効き所の内訳を測った: 引きずりの効きは**スピン加熱に集中**しており(平均|spin| は kFrame=1 で 0 の 1.9〜2.2倍)、**核どうしの接近そのものはほとんど変わらない**(核間距離の差 0.5%)。潮汐尾は同じ窓で「自分の核から初期円盤半径の1.5倍より外」の円盤粒子が 0%→3.7% まで育つ(QA behavior.merger-causal)。円盤は回転支持(kepler)で初期化してある。",
+  en:{name:"Galaxy Merger & Tidal Effects", description:"Two rotating disk galaxies approach and merge. Watch tidal tails form, collisions heat the disks (spin conversion, A9), angular momentum redistribute, and the remnant's rotation curve settle. Frame dragging at kFrame=1 (A8) shapes the merger — set kFrame to 0 to compare a drag-free, gravity-only merger (suggested A/B). The causal control added in 40C of the 40th delivery (3000 steps, identical initial layout) pins down where the dragging actually acts: it concentrates in spin heating (mean |spin| is 1.9–2.2× larger at kFrame=1 than at 0), while the approach of the two nuclei themselves barely changes (0.5% difference in their separation). Over the same window the tidal tail grows from 0% to 3.7% of disk particles beyond 1.5× their initial disk radius (QA behavior.merger-causal). The disks are initialized rotation-supported (kepler)."},
   activeParams:["kFrame","G","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:160}, world:{boundary:"none",size:0},
   physics:{G:0.9, D0:4.5, kFrame:1, q:2, kRep:0.8, muF:0.45, gammaN:0.55, kappaS:0.12, Kt:90,   // 第26便: kFrame 0.55→1 / 第27便: q 1.8→2(整数冪の高速経路 −34%)・円盤 150/120(負荷改善 — 合計 4320→1681ms/600步・12000步 r90=159 有界を実測)
@@ -1464,8 +1489,8 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:true,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"} },
 
 { id:"collapse", name:"自己重力雲の崩壊と原始星形成", emoji:"🌫️", group:"銀河",
-  description:"広がった粒子群が自己重力で崩壊し、中心集中・衝突加熱(A9)・放射冷却(E11)による収縮を観察。雲全体はごくわずかな初期回転(角運動量)を持つ — 現実の分子雲コアと同様、角運動量保存によって収縮とともに回転が増幅され、中心星の周りに円盤構造が形成されやすくなる(ジーンズ不安定性のアナロジー)。etaRadやpRadを変えると冷却効率が崩壊速度に効く。",
-  en:{name:"Self-Gravitating Cloud Collapse & Protostar", description:"A dispersed particle cloud collapses under self-gravity: central concentration, collision heating (A9), and radiative-cooling-driven contraction (E11). The cloud carries a slight initial rotation — as in real molecular-cloud cores, angular-momentum conservation amplifies it during contraction, favoring a disk around the forming star (a Jeans-instability analogy). Vary etaRad/pRad to see how cooling efficiency drives the collapse rate."},
+  description:"広がった粒子群が自己重力で崩壊し、中心集中・衝突加熱(A9)・放射冷却(E11)を観察。雲全体はごくわずかな初期回転(角運動量)を持つ — 現実の分子雲コアと同様、角運動量保存によって収縮とともに回転が増幅され、中心星の周りに円盤構造が形成されやすくなる(ジーンズ不安定性のアナロジー)。※第40便 40C の因果対照(同一初期配置で etaRad だけを 0.004/0)で、旧説明の「放射冷却が崩壊速度に効く」は**成立しないことが分かったので撤回した**: 6000步で温度(平均|spin|)は 0.944 対 0.990〜1.090 と冷却側が明確に低いのに、半質量半径 r50 は 133.13 対 132.65(差 0.36%)でほとんど変わらない。12000步でも差は 2.1% で符号すら一定せず、etaRad を5倍(0.02)にしても温度だけが単調に下がって r50 は動かない — **収縮を駆動しているのは自己重力であって冷却ではない**(QA behavior.collapse-cooling)。etaRad/pRad は温度と色の見え方を変えるノブとして残っている。",
+  en:{name:"Self-Gravitating Cloud Collapse & Protostar", description:"A dispersed particle cloud collapses under self-gravity: central concentration, collision heating (A9) and radiative cooling (E11). The cloud carries a slight initial rotation — as in real molecular-cloud cores, angular-momentum conservation amplifies it during contraction, favoring a disk around the forming star (a Jeans-instability analogy). Note: the causal control run added in 40C of the 40th delivery (same initial layout, only etaRad switched between 0.004 and 0) showed that the old claim “cooling efficiency drives the collapse rate” does NOT hold, so it has been withdrawn. After 6000 steps the temperature (mean |spin|) is clearly lower with cooling (0.944 vs 0.99–1.09), yet the half-mass radius r50 is 133.13 vs 132.65 — a 0.36% difference. At 12000 steps the gap is still only 2.1% and does not even keep a consistent sign, and multiplying etaRad by five (0.02) lowers the temperature monotonically while leaving r50 unchanged: the contraction is driven by self-gravity, not by cooling (QA behavior.collapse-cooling). etaRad/pRad remain as knobs over the temperature and the colour."},
   activeParams:["etaRad","pRad","G"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:280}, world:{boundary:"none",size:0},
   physics:{G:1.4, D0:1.8, kFrame:1, q:2, kRep:1.2, muF:0.65, gammaN:0.45, kappaS:0.09, Kt:70,   // 第26便: kFrame 0.35→1(6000步 rMax 257・12000步 500 <600 を実測)
@@ -1718,8 +1743,8 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"saturn", name:"土星の環(実験)", emoji:"🪐", group:"天体の物語",
-  description:"氷の粒(低質量・低散逸 muF=0.2/γN=0.15)で構成された土星の環。中心星のスピンが空間を引きずり(kFrame=1・A8)、氷粒の衝突円形化(T3)と合わさって長時間安定な環を保つ。初期配置は t=300〜600 の実測安定分布に合わせてあり、t≈1200 まで落下・散逸ゼロ。環は空間引きずりによる近点移動で形を保つ — muF=0 にすると円形化が止まる対照も試せる。Kt=3600 は物理対応ロック Kt=c²/G の成立値。中心天体の表示半径は個体半径倍率 rMul=1.8 で環との見かけの比率が近くなるよう調整している。現実較正の近点移動は 🛰️ を参照。",
-  en:{name:"Saturn's Rings (Experimental)", description:"Saturn's ring of icy grains (low mass, low dissipation: muF=0.2/\u03b3N=0.15). The central star's spin drags nearby space (kFrame=1, A8) and, with collisional circularization (T3), the ring keeps its shape through drag-induced apsidal precession. The initial layout matches the measured relaxed distribution at t=300\u2013600 and stays intact (zero falls/escapes) to t\u22481200. Try muF=0 to stop the circularization. Kt=3600 satisfies the GR-calibration lock Kt=c\u00b2/G; the central body's displayed radius is tuned with the per-body radius multiplier rMul=1.8 so its apparent proportion to the ring stays close. See \ud83d\udef0\ufe0f for the real-calibrated apsidal precession."},
+  description:"氷の粒240個(3環帯 60/120/60・低質量・低散逸 muF=0.2/γN=0.15)で構成された土星の環。中心星のスピンが空間を引きずる(kFrame=1・A8)この条件で、長時間安定な環が得られる。初期配置は t=300〜600 の実測安定分布に合わせてある。実測(第40便 40C・環240粒の新構成): t≈360 で帯内(90≤r≤290)97.1%・落下(r<85)1粒/240・散逸(r>320)0、t≈1200 でも帯内98.8%・落下1粒・散逸0(QA behavior.saturnExp)。※安定の理由づけは実測に合わせて弱めてある: 同一初期配置で kFrame だけを 0 にした対照(3000步)でも環は100%保たれ、離心率RMSはむしろ小さい(0.063 対 kFrame=1 の 0.142)。引きずりは環を内側へ寄せ(帯中央値 159 対 171)離心率を上げる向きに効いており、「引きずりが環を円くして保つ」とは言えない(QA behavior.saturn-kframe-control)。摩擦 muF も、氷粒の半径 R=rMul·√m≈0.18〜0.31 が環の半径域 104〜212 に対して極小で接触がまれなため、この時間窓ではほとんど効かない — 3000步では muF=0.2/0/1.0 の3本が倍精度で完全一致し、6000步でも muF=0 との差は平均|spin| 1.7%・離心率RMS 0.02% にとどまる(QA behavior.saturn-muf-control)。おすすめA/Bは kFrame=1⇄0(環の内向き移動と離心率の差)。Kt=3600 は物理対応ロック Kt=c²/G の成立値。中心天体の表示半径は個体半径倍率 rMul=1.8 で環との見かけの比率が近くなるよう調整している。現実較正の近点移動は 🛰️ を参照。",
+  en:{name:"Saturn's Rings (Experimental)", description:"Saturn's ring of 240 icy grains (three bands of 60/120/60; low mass, low dissipation: muF=0.2/\u03b3N=0.15). Under these conditions \u2014 the central star's spin dragging nearby space (kFrame=1, A8) together with low-dissipation contact \u2014 a long-lived ring is obtained. The initial layout matches the measured relaxed distribution at t=300\u2013600. Measured (40th delivery 40C, the new 240-grain build): at t\u2248360, 97.1% stay in the band (90\u2264r\u2264290), 1 grain of 240 falls (r<85) and none escape (r>320); even at t\u22481200 it is 98.8% in band, 1 fallen, 0 escaped (QA behavior.saturnExp). Note that the account of WHY it is stable has been weakened to match the measurements: with the same initial layout and only kFrame switched to 0, the ring is still 100% retained after 3000 steps and its RMS eccentricity is in fact LOWER (0.063 vs 0.142 at kFrame=1). Dragging pulls the ring inward (band median 159 vs 171) and raises eccentricity, so it cannot be said that dragging keeps the ring round (QA behavior.saturn-kframe-control). Friction muF barely acts either: the grain radii R=rMul\u00b7\u221am\u22480.18\u20130.31 are tiny against the 104\u2013212 ring span, so contacts are rare \u2014 at 3000 steps muF=0.2, 0 and 1.0 agree to full double precision, and even at 6000 steps switching muF off changes mean |spin| by only 1.7% and RMS eccentricity by 0.02% (QA behavior.saturn-muf-control). Suggested A/B: kFrame 1 vs 0 (inward migration and the eccentricity difference). Kt=3600 satisfies the GR-calibration lock Kt=c\u00b2/G; the central body's displayed radius is tuned with the per-body radius multiplier rMul=1.8 so its apparent proportion to the ring stays close. See \ud83d\udef0\ufe0f for the real-calibrated apsidal precession."},
   activeParams:["muF","kFrame","kappaS"],   // QA activeParams.ui が先頭=muF の編集反映を検査するため muF を先頭に
   camera:{scale:340}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:1.2, muF:0.2, gammaN:0.15, kappaS:0.08, Kt:3600,
@@ -1730,12 +1755,18 @@ const BUILTIN_PRESETS = [
            // 実測 p5/p25/p50/p75/p95 ≈ 112/132/165/186/197・平均|spin|≈0.15 に合わせた3環帯。
            // 旧 C/B/A 配置(124–227)は空間引きずりで内側へ緩和するため、緩和後の姿から開始する。
            // 検証: この初期値で t≈1200 まで落下(<r90)0・散逸(>r320)0(QA behavior.saturnExp)。
+           // 第40便 40C(台帳4-82・統括裁定「粒子数削減・timeScale は変えない」): 環粒子を
+           // 300→240(60/120/60)へ削減。真の負荷は n×steps/frame の対評価数なので
+           // 対コストは (241/301)²=0.641(−35.9%)。**3環帯の構造・帯の半径域(104/132/190/212)・
+           // 帯ごとの粒子比(1:2:1)・physics は一切変えていない** — 変えたのは各帯の n だけで、
+           // 方位角は ang=(i/n)·2π ジッタ付きなので帯は等方のまま(面密度だけが 20% 下がる)。
+           // timeScale=3 は据え置き(裁定)。閾値の再較正実測は QA behavior.saturnExp を参照。
     {type:"single", rMul:1.8, m:1500, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
-    {type:"ring", rMul:1.8, n:75, cx:0,cy:0, rIn:104,rOut:132, mMin:0.01,mMax:0.03,
+    {type:"ring", rMul:1.8, n:60, cx:0,cy:0, rIn:104,rOut:132, mMin:0.01,mMax:0.03,
      spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false},
-    {type:"ring", rMul:1.8, n:150, cx:0,cy:0, rIn:132,rOut:190, mMin:0.01,mMax:0.03,
+    {type:"ring", rMul:1.8, n:120, cx:0,cy:0, rIn:132,rOut:190, mMin:0.01,mMax:0.03,
      spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false},
-    {type:"ring", rMul:1.8, n:75, cx:0,cy:0, rIn:190,rOut:212, mMin:0.01,mMax:0.03,
+    {type:"ring", rMul:1.8, n:60, cx:0,cy:0, rIn:190,rOut:212, mMin:0.01,mMax:0.03,
      spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
@@ -1746,7 +1777,7 @@ const BUILTIN_PRESETS = [
   // t≈360 に当たる実現があり、安定 QA の t360 短縮と干渉した — 実測 2026-07-23)
   seed:1501780989,
   description:"主星にコア(質量比 mc/m=0.18)を持たせた 🪐 の姉妹版(比率仕様 — m は総質量 1500 のまま)。コア質量比 18% は Cassini 後の重元素集中の推定(≈17地球質量/95地球質量)を参考にした値。コア半径比 Rc/R=42% は本シミュレータの既定写像 Rc/R=√|mc/m| により質量比から自動算出されるモデル内値で、観測されたコア境界半径ではない(環震学では重元素勾配領域が半径約60%まで広がるモデルが示されている)。sc/s はコアスピン比で、剛体回転(sc/s=1)なら単層と厳密等価 — 差動分だけが ω += (mc/m)·s·(sc/s−1)·f(Rc,d) としてコア核 Rc から追加の空間引きずり(A8)に効く(既定 sc/s=1.05 は差を見やすくする教材用の仮定値。土星深部の回転は観測・モデル依存で、この単純なコア対表層スピン比としては確定していない。sc/s=1 は剛体回転の中立対照)。コアスピンは熱・散逸(T3/E10′)と切り離された固定内部回転源(反作用で変化しない外部拘束)であり、閉じた2層天体ではなく統制実験である点に注意。中心天体をタップして mc/m・sc/s を編集: sc/s=10(高速コア)・sc/s<0(逆回転コア)・mc/m<0(空洞 — 殻に質量集中し差動引きずりの符号が反転する思考実験)・A/B比較で kFrame=1 vs 0 などが見どころ。氷粒の衝突円形化(T3)は 🪐 と同一。",
-  en:{name:"Saturn's Rings (Two-Layer Primary)", description:"Sister sample of 🪐 whose primary has a core specified by ratios: m stays the total mass 1500. The core mass ratio mc/m=0.18 is chosen to reference post-Cassini estimates of heavy-element concentration (≈17 of 95 Earth masses). Rc/R=42% is a model-internal value automatically derived from that mass ratio by the simulator's default mapping Rc/R=√|mc/m| — not an observed core-boundary radius (ring seismology instead points to a heavy-element gradient region extending to roughly 60% of the radius). sc/s is the core spin ratio: rigid rotation (sc/s=1) is exactly equivalent to the single-layer body, and only the differential part adds frame dragging (A8) through the smaller core kernel: ω += (mc/m)·s·(sc/s−1)·f(Rc,d). The default sc/s=1.05 is a teaching assumption chosen to make the contrast visible; Saturn's deep-interior rotation is observation- and model-dependent, and this simple core-vs-envelope spin ratio is not established (sc/s=1 is the rigid-rotation neutral control). The core spin is a fixed internal rotation source decoupled from heat and dissipation (T3/E10′) — a controlled experiment, not a closed two-layer body. Tap the central body to edit mc/m and sc/s: try sc/s=10 (fast core), sc/s<0 (counter-rotating core), mc/m<0 (a hollow shell — the differential drag flips sign), or A/B-compare kFrame 1 vs 0. Icy-grain circularization (T3) is identical to 🪐."},
+  en:{name:"Saturn's Rings (Two-Layer Primary)", description:"Sister sample of 🪐 whose primary has a core specified by ratios: m stays the total mass 1500. The ring is identical to 🪐's (240 icy grains in three bands of 60/120/60 — reduced from 300 in 40C of the 40th delivery). Measured (40C, new build): at t≈360, 96.7% in band, 1 grain of 240 fallen, none escaped, band medians 114/144/198; the band-median difference against rigid rotation (sc/s=1) is 0.036 at t≈150 (QA behavior.saturnLayered). The core mass ratio mc/m=0.18 is chosen to reference post-Cassini estimates of heavy-element concentration (≈17 of 95 Earth masses). Rc/R=42% is a model-internal value automatically derived from that mass ratio by the simulator's default mapping Rc/R=√|mc/m| — not an observed core-boundary radius (ring seismology instead points to a heavy-element gradient region extending to roughly 60% of the radius). sc/s is the core spin ratio: rigid rotation (sc/s=1) is exactly equivalent to the single-layer body, and only the differential part adds frame dragging (A8) through the smaller core kernel: ω += (mc/m)·s·(sc/s−1)·f(Rc,d). The default sc/s=1.05 is a teaching assumption chosen to make the contrast visible; Saturn's deep-interior rotation is observation- and model-dependent, and this simple core-vs-envelope spin ratio is not established (sc/s=1 is the rigid-rotation neutral control). The core spin is a fixed internal rotation source decoupled from heat and dissipation (T3/E10′) — a controlled experiment, not a closed two-layer body. Tap the central body to edit mc/m and sc/s: try sc/s=10 (fast core), sc/s<0 (counter-rotating core), mc/m<0 (a hollow shell — the differential drag flips sign), or A/B-compare kFrame 1 vs 0. Icy-grain circularization (T3) is identical to 🪐."},
   activeParams:["kFrame","muF","kappaS"],
   camera:{scale:340}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:1.2, muF:0.2, gammaN:0.15, kappaS:0.08, Kt:3600,
@@ -1760,12 +1791,15 @@ const BUILTIN_PRESETS = [
            // 差動形なので環付近への追加引きずりは
            // (mc/m)·s·(sc/s−1)·f(Rc,d) ≈ +0.1% と説明に整合する規模。
            // 環の帯・physics は 🪐(実験)と同一 — sc/s=1 で 🪐 と厳密等価(QA core.twolayer)。
+           // 第40便 40C(台帳4-82): 🪐 と同時に環粒子 300→240(60/120/60)へ削減。
+           // 「環の帯は 🪐 と同一」の不変条件を保つため、必ず 🪐 と同じ n で維持すること
+           // (QA core.twolayer が sc/s=1 での厳密等価を機械検証している)。
     {type:"single", rMul:1.8, m:1500, coreMR:0.18, coreSR:1.05, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
-    {type:"ring", rMul:1.8, n:75, cx:0,cy:0, rIn:104,rOut:132, mMin:0.01,mMax:0.03,
+    {type:"ring", rMul:1.8, n:60, cx:0,cy:0, rIn:104,rOut:132, mMin:0.01,mMax:0.03,
      spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false},
-    {type:"ring", rMul:1.8, n:150, cx:0,cy:0, rIn:132,rOut:190, mMin:0.01,mMax:0.03,
+    {type:"ring", rMul:1.8, n:120, cx:0,cy:0, rIn:132,rOut:190, mMin:0.01,mMax:0.03,
      spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false},
-    {type:"ring", rMul:1.8, n:75, cx:0,cy:0, rIn:190,rOut:212, mMin:0.01,mMax:0.03,
+    {type:"ring", rMul:1.8, n:60, cx:0,cy:0, rIn:190,rOut:212, mMin:0.01,mMax:0.03,
      spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
@@ -1800,7 +1834,7 @@ const BUILTIN_PRESETS = [
 
 { id:"binary", name:"連星系と周連星円盤", emoji:"⭐", group:"天体の物語",
   description:"等質量の2恒星が共通重心を回り、その外側を軽い天体群が公転する。単独星とは異なる時間変動する重力場(E4)が外側の軌道を乱し、恒星の運動は空間を引きずって円盤へ伝わる(A5)。kFrame=1→0、D0=10→100の比較(A/B比較モード)がおすすめ。",
-  en:{name:"Binary Stars & Circumbinary Disk", description:"Two equal-mass stars orbit their common barycenter while a ring of light bodies circles outside. The time-varying gravitational field — unlike a single star — perturbs the outer orbits. Try A/B-comparing kFrame 1 vs 0 or D0 10 vs 100."},
+  en:{name:"Binary Stars & Circumbinary Disk", description:"Two equal-mass stars orbit their common barycenter while a ring of light bodies circles outside. The time-varying gravitational field — unlike a single star — perturbs the outer orbits, and the stars' own motion drags space, carrying that disturbance out to the disk (A5). Try A/B-comparing kFrame 1 vs 0 or D0 10 vs 100."},
   activeParams:["kFrame","D0","G"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:320}, world:{boundary:"none",size:0},
   physics:{G:1, D0:10, kFrame:1, q:2, kRep:0, muF:0.05, gammaN:0.1, kappaS:0, Kt:10000,   // 第26便: kFrame 0.5→1(中間値解消。12000步で束縛・円盤240/240残存を実測)
@@ -1815,7 +1849,7 @@ const BUILTIN_PRESETS = [
 
 { id:"fig8", name:"三体問題 — 8の字軌道", emoji:"♾️", group:"天体の物語",
   description:"等質量3天体が重心の周りを交代で通過する8の字周期軌道(12000步でも最大半径87に有界)。引きずりを切った純粋な重力(E4)のニュートン退化で、運動量と角運動量は厳密に保存する(T7)。1天体のvxを0.9028→0.92に変えると周期性が崩れ、三体問題の初期値感度を観察できる。軌跡は自動表示。",
-  en:{name:"Three-Body Problem — Figure-8 Orbit", description:"Three equal masses chase each other along the famous figure-8 periodic orbit (bounded to radius 87 over 12,000 steps). Nudge one body's vx from 0.9028 to 0.92 and the periodicity shatters — the three-body problem's sensitivity to initial conditions. Trails shown automatically."},
+  en:{name:"Three-Body Problem — Figure-8 Orbit", description:"Three equal masses chase each other along the famous figure-8 periodic orbit (bounded to radius 87 over 12,000 steps). With dragging switched off, this is the pure-gravity (E4) Newtonian-degeneracy case, and momentum and angular momentum are exactly conserved (T7). Nudge one body's vx from 0.9028 to 0.92 and the periodicity shatters — the three-body problem's sensitivity to initial conditions. Trails shown automatically."},
   activeParams:["G","softening"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:140}, world:{boundary:"none",size:0},
   physics:{G:1, D0:100, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
@@ -1865,6 +1899,16 @@ const BUILTIN_PRESETS = [
   activeParams:["kRep","muF","gammaN","cHeat"],
   thermal:"tint",
   validT:64,   // 第39便 39E(台帳4-75 E2): 説明文の実測窓(4000步=t≈64)と一致
+  // 第40便 40B パイロット(台帳4-78・claims 新設キー — 表示なし・データ層のみ): 説明文中の
+  // 既存実測値(極方向割合の既定/対照)をそのまま転記。control.patch は engine 未接続の記述用
+  // メタデータ(UI表示・engine適用は次便裁定)。expected は実測値を含む窓で、QA claims.sync-pilot
+  // が説明文中の数値・behavior.agnjet の閾値(既定 frac≥2/3・対照比 ratio≥1.25)と機械照合する
+  claims:[
+    { id:"agnjet.polar-fraction", metric:"polarFraction",
+      expected:{min:0.75, max:0.92},   // 実測0.839(4000步)
+      control:{patch:{kRep:0}, expected:{min:0.45, max:0.58}},   // 実測0.542(kRep=0)
+      testId:"behavior.agnjet" }
+  ],
   camera:{scale:320}, world:{boundary:"none",size:0}, seed:20260727,
   physics:{G:1, D0:2, kFrame:0, q:2, kRep:2, muF:0.6, gammaN:0.05, kappaS:0.05, Kt:60,
     cLight:60, bM:1, etaRad:0, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
@@ -2262,6 +2306,71 @@ function validatePreset(obj){
       if(!peBad) p.photonEmit=out;
     }
   }
+  // 第40便 40B(台帳4-77): abBody — 「おすすめA/B」のワンタップ化を粒子への patch まで拡張する
+  // 任意キー。B側の指定粒子(targets=build後の粒子index配列)へ patch(spin等の数値)を適用して
+  // A/B比較を開始するデータ。UIボタンの表示は abBody の有無で判定する(不正なら丸ごと無視)。
+  // patch のキーは spin/m/vx/vy のみ受理(いずれも既存の粒子値クランプ SPN/MASS/VEL と同一域)
+  if(p.abBody!==undefined){
+    const AB_BODY_CLAMPS={spin:[-20,20], m:[0.01,5000], vx:[-50,50], vy:[-50,50]};
+    const A=p.abBody;
+    if(!A || typeof A!=="object" || Array.isArray(A)){ warnings.push("abBody はオブジェクトが必要 — 無視します"); delete p.abBody; }
+    else{
+      let ok=true;
+      const label={};
+      if(A.label && typeof A.label==="object" && !Array.isArray(A.label)){
+        if(typeof A.label.ja==="string") label.ja=A.label.ja.slice(0,60);
+        if(typeof A.label.en==="string") label.en=A.label.en.slice(0,60);
+      }
+      if(!label.ja && !label.en){ warnings.push("abBody.label は ja/en いずれかの文字列が必要 — 無視します"); ok=false; }
+      let targets=[];
+      if(!Array.isArray(A.targets) || !A.targets.length || !A.targets.every(isNum)){
+        warnings.push("abBody.targets は数値配列(1件以上)が必要 — 無視します"); ok=false;
+      } else targets=A.targets.map(v=>clamp(Math.round(v),0,N_CAP-1));   // photonEmit.body と同じ域
+      let patch={};
+      if(!A.patch || typeof A.patch!=="object" || Array.isArray(A.patch)){
+        warnings.push("abBody.patch はオブジェクトが必要 — 無視します"); ok=false;
+      } else {
+        for(const k of Object.keys(A.patch)){
+          if(!(k in AB_BODY_CLAMPS)){ warnings.push("abBody.patch の未知キー "+k+" を無視(spin/m/vx/vyのみ)"); continue; }
+          if(!isNum(A.patch[k])){ warnings.push("abBody.patch."+k+" が数値でないため無視"); continue; }
+          const c=AB_BODY_CLAMPS[k];
+          patch[k]=clamp(A.patch[k],c[0],c[1]);
+        }
+        if(!Object.keys(patch).length){ warnings.push("abBody.patch に有効なキーがありません — 無視します"); ok=false; }
+      }
+      if(ok) p.abBody={label, targets, patch}; else delete p.abBody;
+    }
+  }
+  // 第40便 40B パイロット(台帳4-78): claims — 数値主張の機械可読データ(表示はしない・
+  // データ層のみ。UI表示・engine適用は次便裁定)。expected/control.expected は {min,max}(min≤max)。
+  // control.patch は再現手順の記述用メタデータで、engine には接続しない(自由形式オブジェクト)。
+  // 構造検証のみ行い、内容の当否(説明文・既存behaviorテストとの整合)は QA claims.sync-pilot が別途照合する
+  if(p.claims!==undefined){
+    if(!Array.isArray(p.claims)){ warnings.push("claims は配列が必要 — 無視します"); delete p.claims; }
+    else{
+      const chkExp=(e)=> e && typeof e==="object" && !Array.isArray(e) && isNum(e.min) && isNum(e.max) && e.min<=e.max;
+      const out=[];
+      for(const c of p.claims){
+        if(!c || typeof c!=="object" || Array.isArray(c)){ warnings.push("claims の要素はオブジェクトが必要 — その要素を無視"); continue; }
+        if(typeof c.id!=="string" || !c.id.trim()){ warnings.push("claims.id(文字列)が必要 — その要素を無視"); continue; }
+        if(typeof c.metric!=="string" || !c.metric.trim()){ warnings.push("claims["+c.id+"].metric(文字列)が必要 — その要素を無視"); continue; }
+        if(!chkExp(c.expected)){ warnings.push("claims["+c.id+"].expected は{min,max}(min≤max)が必要 — その要素を無視"); continue; }
+        const o={id:c.id.trim().slice(0,80), metric:c.metric.trim().slice(0,60), expected:{min:c.expected.min,max:c.expected.max}};
+        if(c.control!==undefined){
+          if(c.control && typeof c.control==="object" && !Array.isArray(c.control) && chkExp(c.control.expected)){
+            o.control={patch:(c.control.patch && typeof c.control.patch==="object" && !Array.isArray(c.control.patch))? c.control.patch : {},
+                       expected:{min:c.control.expected.min,max:c.control.expected.max}};
+          } else warnings.push("claims["+c.id+"].control が不正なため無視(expectedはそのまま採用)");
+        }
+        if(c.testId!==undefined){
+          if(typeof c.testId==="string" && c.testId.trim()) o.testId=c.testId.trim().slice(0,60);
+          else warnings.push("claims["+c.id+"].testId は文字列が必要 — 無視");
+        }
+        out.push(o);
+      }
+      p.claims=out;
+    }
+  }
   const ov={rotationCurve:false,tempHistogram:false,field:false,spectrum:false,trail:false,monitor:false,boxGraph:false}; // v1.12: trail/monitor を正式化(第6次裁定 7.5)。boxGraph は第32便(W2)
   if(p.overlays!==undefined){
     if(typeof p.overlays!=="object"||Array.isArray(p.overlays)) bad("overlaysはオブジェクト");
@@ -2432,6 +2541,13 @@ function makeSim(){
     photons:null, photonLog:null, _phSched:null, _phI:0, photonWarn:false,
     uPx:null,uPy:null,hasU:null, tau:null, ax:null,ay:null, sumW:null,uAx:null,uAy:null, ds:null,
     dpx:null,dpy:null, pairD:null,
+    // 第40便 40A(台帳4-81): E6′ 反作用パス③の倍精度アキュムレータ。③は1サブステップに
+    // O(N²) 回の微小増分を状態配列(Float32Array)へ直接書き込んでいたため、増分が
+    // |値|·2⁻²⁴ を下回ると丸めでそのまま消え、高スピン合成域で保存恒等式が破れていた
+    // (第39便 39B の確定診断・DERIVATIONS §17.9)。対の分配式は一切変えず、加算だけを
+    // Float64 の accVx/accVy/accS に集積してサブステップ末に一括適用する(= 加算順序の
+    // 変更のみ)。存在そのものが「倍精度化済みビルド」の判定子になる('accVx' in HP.sim)
+    accVx:null,accVy:null,accS:null,
     resPx:0,resPy:0,resL:0,radE:0,radL:0,   // リザーバ帳簿(E6′/E11。PHYSICS.md §5)
     // 第37便 C1(台帳4-70): 伝熱作用する箱の帳簿。wallEin/wallEout = 伝熱壁が系へ注入 / 系から
     // 回収した熱の累計、wallKE = 境界反射(反発係数<1)で壁に吸われた運動エネルギーの累計
@@ -2468,6 +2584,8 @@ function makeSim(){
     S.lSwAuto=new Uint8Array(n); S.hasLSwAuto=false;// 第36便 C2: 掻出の自動算出フラグ(既定0=独立指定)
     S.uPx=F();S.uPy=F();S.tau=F();S.ax=F();S.ay=F();S.sumW=F();S.uAx=F();S.uAy=F();S.ds=F();
     S.dpx=F();S.dpy=F();
+    // 第40便 40A(台帳4-81): ③反作用の倍精度アキュムレータ(O(N) の配列3本)
+    S.accVx=new Float64Array(n); S.accVy=new Float64Array(n); S.accS=new Float64Array(n);
     S.pairD=new Float32Array(Math.max(1,n*(n-1)/2)); // 対距離キャッシュ(E6′反作用パスで再利用)
     S.railR=F();S.railAng=F();S.railOmega=F();S.railCx=F();S.railCy=F();S.railH=F();
     S.pinned=new Uint8Array(n); S.hasU=new Uint8Array(n);
@@ -2741,7 +2859,8 @@ function makeSim(){
     // 第12〜14便: m は下限保護(|m|≥0.01)付き別名 mEff を一貫使用(負質量実験の0除算保護。
     // 第14便: 比率仕様 — m は総質量そのもので、コアは m の内訳。運動量・角運動量の恒等式は
     // 全用途一貫なら保存される。coreMR=0(既定)なら従来と厳密等価)
-    const {mEff:m,x,y,vx,vy,spin,R,pinned,ax,ay,sumW,uAx,uAy,ds,dpx,dpy,pairD,coreMR,coreSR,Rc,lSw}=S;
+    const {mEff:m,x,y,vx,vy,spin,R,pinned,ax,ay,sumW,uAx,uAy,ds,dpx,dpy,pairD,coreMR,coreSR,Rc,lSw,
+           accVx,accVy,accS}=S;   // 第40便 40A(台帳4-81): ③反作用の倍精度アキュムレータ
     const hasCore=S.hasCore;
     // 第36便 D(台帳4-51 / A9 改訂): 温度の内部状態変数モード。tint=false(既定)のときは
     // 以下の分岐がすべて偽側へ落ち、現行と1ビットも違わない値が出る(QA tint.zero-cost)
@@ -3202,7 +3321,14 @@ function makeSim(){
     }
     // ===== ③ E6′ 反作用対ループ: φ_ij 分配・残余トルクのスピン移譲・リザーバ帳簿 =====
     // 第35便: anyDp は doPost の中でしか立たないので、leapfrog パスAでは自動的に素通りする
+    // 第40便 40A(台帳4-81): 対ごとの反作用(vx/vy/spin への減算)は Float32 の状態配列へ
+    // 直接書かず、Float64 の accVx/accVy/accS に集積してこのブロックの末尾で一括適用する。
+    // ③のループ内は vx/vy/spin を **一度も読まない**(読むのは m・x・y・dpx/dpy・Imom・pairD・
+    // Warr = このブロック中は不変な量だけ)ので、これは純粋な加算順序の変更であり、
+    // 対分配の式 φ_ij = w_j(r_i)/W(r_i) も残余トルク n_ij/(I_i+I_j) も 1 文字も変えていない。
+    // 目的は 39B が確定させた丸め吸収(増分 < |値|·2⁻²⁴ が消える)の回避 — DERIVATIONS §17.9
     if(kFrame>0 && anyDp){
+      accVx.fill(0,0,n); accVy.fill(0,0,n); accS.fill(0,0,n);   // O(N)(③本体は O(N²))
       // 第39便 39B(台帳4-76): W_j=D₀+W_B+sumW_j と「Δp_j が非零か」の判定は j にしか依らないので
       // O(N²) の内側で作り直さず O(N) で1度だけ作る(値は同じ式・同じ順序なので 1 bit も変わらない)
       let Warr=S._Warr, hasD=S._hasD;
@@ -3229,11 +3355,11 @@ function makeSim(){
             const rpx=phi*dpxi, rpy=phi*dpyi;
             if(pinned[j]){ S.resPx-=rpx; S.resPy-=rpy; S.resL-=xi*rpy-yi*rpx; }
             else{
-              vx[j]-=rpx/m[j]; vy[j]-=rpy/m[j];
+              accVx[j]-=rpx/m[j]; accVy[j]-=rpy/m[j];   // 第40便 40A: 倍精度へ集積(末尾で一括適用)
               const IJ=Ii+Ij;
               if(Math.abs(IJ)>1e-9){                // 第12便: 負質量実験時の0除算保護
                 const dsn=(dx*rpy-dy*rpx)/IJ;       // 残余トルク n_ij を等角加速度で移譲
-                spin[i]-=dsn; spin[j]-=dsn;
+                accS[i]-=dsn; accS[j]-=dsn;
               }
             }
           }
@@ -3242,16 +3368,21 @@ function makeSim(){
             const rpx=phi*dpxj, rpy=phi*dpyj;
             if(pinned[i]){ S.resPx-=rpx; S.resPy-=rpy; S.resL-=x[j]*rpy-y[j]*rpx; }
             else{
-              vx[i]-=rpx/mi; vy[i]-=rpy/mi;
+              accVx[i]-=rpx/mi; accVy[i]-=rpy/mi;   // 第40便 40A: 倍精度へ集積(末尾で一括適用)
               const IJ=Ii+Ij;
               if(Math.abs(IJ)>1e-9){                // 第12便: 負質量実験時の0除算保護
                 const dsn=((x[j]-xi)*rpy-(y[j]-yi)*rpx)/IJ;
-                spin[j]-=dsn; spin[i]-=dsn;
+                accS[j]-=dsn; accS[i]-=dsn;
               }
             }
           }
         }
       }
+      // 第40便 40A(台帳4-81): 集積した反作用を状態配列へ一括適用する。
+      // 対ごとに Float32 へ書くと増分 < |値|·2⁻²⁴ が丸めで消えるが、倍精度で足し切ってから
+      // 1回だけ書けば「消える」のは合計に対してだけになる(高スピン合成域の破れの実体)。
+      // pinned 粒子・E6′ の相手がいない粒子は acc が厳密に 0 のままなので、加算は無作用
+      for(let i=0;i<n;i++){ vx[i]+=accVx[i]; vy[i]+=accVy[i]; spin[i]+=accS[i]; }
       // 背景 D₀+W_B 分は無限慣性リザーバへ移譲(帳簿記録)。UniverseBox は規定運動の
       // 外部コントローラなので、その持ち分の反作用は D₀ と同じくリザーバが引き受ける
       if(bgW>0){
@@ -4770,14 +4901,38 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   simB.overlays=Object.assign({},sim.overlays);
   return simB;
 }
-// key/valB は省略可(QA・プログラム用: 開始と同時に B 側の1パラメータを変更する)
-function abStart(key, valB){
+// 第40便 40B(台帳4-77): abBody 用 — B側の指定粒子indexへ数値patchを直接適用する。
+// 対応キーは validatePreset の abBody.patch と同一(spin/m/vx/vy)。範囲外indexは無視(防御)。
+// m を含む場合のみ updateRadii を再実行(半径は質量に依存するため)
+function applyBodyPatch(S, targets, patch){
+  let touchedMass=false;
+  for(const idx of targets){
+    const i=Math.round(idx);
+    if(!(i>=0 && i<S.n)) continue;
+    for(const k of Object.keys(patch)){
+      const v=patch[k];
+      if(typeof v!=="number" || !isFinite(v)) continue;
+      if(k==="spin") S.spin[i]=v;
+      else if(k==="m"){ S.m[i]=v; touchedMass=true; }
+      else if(k==="vx") S.vx[i]=v;
+      else if(k==="vy") S.vy[i]=v;
+    }
+  }
+  if(touchedMass) S.updateRadii();
+}
+// key/valB は省略可(QA・プログラム用: 開始と同時に B 側の1パラメータを変更する)。
+// 第40便 40B(台帳4-77): 第3引数 bodyPatch={targets,patch} は abBody 用 — B側の指定粒子へ
+// patch を適用してから開始する(既存のパラメータ単位A/Bと同じ「開始と同時にB側へ適用」の形)
+function abStart(key, valB, bodyPatch){
   ab={simB:cloneSimState(), lastKey:null};
   trailBufB=trailBuf.map(b=>b.slice());   // 線の軌跡も現在までの履歴ごと複製
   if(key!==undefined){
     const c=CLAMPS[key];
     ab.simB.params[key]=clamp(valB,c[0],c[1]); ab.simB.updateRadii();
     ab.lastKey=key;
+  }
+  if(bodyPatch && Array.isArray(bodyPatch.targets) && bodyPatch.patch){
+    applyBodyPatch(ab.simB, bodyPatch.targets, bodyPatch.patch);
   }
   selIdx=-1; selWorld="A"; abTarget="A"; updateAbBtn(); updateAbTargetUI(); buildParamRows(); updateBodyEdit(); requestRender();
 }
@@ -4968,7 +5123,24 @@ function buildBoxParamRows(host){
   }
   host.appendChild(g);
 }
+// 第40便 40B(台帳4-77): abBody を宣言したプリセットだけに出るワンタップA/Bボタン。
+// buildParamRows() から呼ぶ(プリセット読込・A/B開始/終了・編集対象切替・言語切替のたびに再同期)
+function updateAbBodyRow(){
+  const row=$("#abBodyRow"); if(!row) return;
+  row.textContent="";
+  const ent=currentPreset && currentPreset.abBody;
+  if(!ent || !Array.isArray(ent.targets) || !ent.targets.length || !ent.patch){ row.style.display="none"; return; }
+  row.style.display="flex";
+  const btn=document.createElement("button"); btn.className="btn primary";
+  btn.textContent=(ent.label && ((LANG==="en"&&ent.label.en)||ent.label.ja||ent.label.en)) || T("btnAbStart");
+  btn.addEventListener("click",()=>{
+    abStart(undefined, undefined, {targets:ent.targets, patch:ent.patch});
+    notify(T("abStarted"));
+  });
+  row.appendChild(btn);
+}
 function buildParamRows(){
+  updateAbBodyRow();
   const host=$("#paramRows"); host.textContent="";
   paramRowSync={};
   // v1.23: timeScale は表示グループの常設行になったため、主役/詳細からは常に除外

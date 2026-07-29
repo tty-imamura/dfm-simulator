@@ -29,13 +29,9 @@ const SAMPLES = ['galaxy', 'darkrotor', 'merger', 'convection', 'counterring', '
 const EXTRA_SAMPLES = ['echo', 'freebox'];
 const THRESH = +(process.env.PERF_THRESH || 1.10);
 // 例: { convection: 1.60 } — 意図的な負荷増を許可する場合のみ
-// 第33便 v5(腕のある銀河 — 恒星380体・意図的な構成変更。探索実測 beta/root=1.086 だが
-// 同一内容でも ±0.09 のノイズ実績(第30便 convection 1.091)があるため余裕を持たせる
-const ALLOW = { darkrotor: 1.30,
-  // 第37便(台帳4-70): ♨️を壁駆動対流へ意図的に再設計(粒子278→300・thermalWalls 結合・
-  // tint の U_rep 厳密解)— root の旧設計との比較は設計差そのもの。実測 2.83(2026-07-27)。
-  // 次期昇格で root にも新設計が入り比≈1へ戻るため、それまでの暫定 ALLOW
-  convection: 3.0 };
+const ALLOW = {};
+// 第40便 40P(v1.33昇格): darkrotor(第33便 v5 由来の暫定 1.30)・convection(第37便4-70
+// 再設計由来の暫定 3.0)の ALLOW は、昇格で root==beta の内容になり比≈1へ戻ったため撤去した。
 // 第38便の暫定 ALLOW `saturnLayered: 1.20` は第39便 39B(台帳4-76)で**撤去**した。
 // 第38便は「beta 先行機能の per-substep 累積オーバーヘッド」と推定していたが、39B の
 // アブレーション実測でそれは誤りと判明した:
@@ -46,6 +42,15 @@ const ALLOW = { darkrotor: 1.30,
 // 39B の bit 同一最適化(I=½mR² の事前計算・E10′ の遠方対足切り・③の W_j/hasJ 巻き上げ・
 // tint 系配列の単型化)を適用した結果、3回連続で saturnLayered 0.997/1.013/1.013、
 // counterring も 1.126(FAIL)→ 0.999/1.002/0.974 へ回復したため、既定 THRESH 1.10 へ戻す。
+// 第40便 40C(台帳4-82・統括裁定「粒子数削減・timeScale は変えない」): 🪐/🎯 の環粒子を
+// 300→240(総粒子 301→241)へ削減した。本ゲートは **beta/root 比** の上限しか見ないので、
+// beta 側だけ軽くなった結果 saturnLayered の比は 0.858 → **0.622** へ下がる(=想定内。
+// 比が下がることは FAIL にならない)。絶対値でこそ効果が見えるので実測を残す:
+//   ・本ゲート(SAMPLES 順・♨️の後): root 1729.9ms → beta 1076.7ms / 60frames = **−37.8%**
+//   ・独立ページ計測(順序効果なし・3回の中央値): 🪐 1586.5→1000.8ms(−36.9%・26.44→16.68 ms/frame)
+//                                                🎯 1581.4→1050.3ms(−33.6%・26.36→17.50 ms/frame)
+//   ・理論値(対評価数 ∝ n²): (241/301)² = 0.641 = −35.9% ⇒ 実測はこれと整合
+// root へ 4-82 が昇格すれば比は 1 付近へ戻る(そのとき ALLOW の追加は不要)。
 const REPS = 5, FRAMES = 60, WARMUP_FRAMES = 20;
 
 async function getBrowser() {
