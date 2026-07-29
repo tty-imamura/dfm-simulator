@@ -6790,6 +6790,57 @@ const VERIFY = {
     return {id:"V28", pass, value:R1/R0,
       detail:`a=${a.toFixed(3)}: w保存ずれ=${wErr.toExponential(1)}(<1e-3) 比w/c_loc: R(a)/R(1)=${(R1/R0).toFixed(4)}(解析${ana.toFixed(4)}・誤差${rErr.toExponential(1)})— 光速上昇で低下(§12-5 v1.5)。理想化(光速∝1/W)なら1/a=${(1/a).toFixed(3)} — 関数形の差は台帳4-66`};
   },
+  // ==== V29: プローブ依存の膨張測定(第42便 42B・論文2 Sprint 0 — HANDOFF_PAPER2_WRITE §2)====
+  // 同一の規定膨張箱(mode:"exp"・dPower=1)で、幾何プローブ H_geo=Δln a/Δt と、速度減衰
+  // プローブを FLRW 型(w/c∝1/a)と読んだ H_w=−Δln R/Δt(R=w/c_loc — V28 と同じ比)を
+  // 3窓(a: 1→1.5→2→3)で同時測定し、比 H_w/H_geo が E8R 指数形の解析値
+  // 2(D/Kt)·(1/a1−1/a2)/ln(a2/a1)(点値 2(D/Kt)/a の対数窓平均)と一致することを機械検証する。
+  // 較正 D/Kt=0.92 では a=2 の点値が 0.92(=D/Kt)— 実宇宙テンション比 67.4/73.0≈0.923 と
+  // 同水準になる較正点(骨子§2第3部3)。数値一致は較正であり証拠として扱わない(論文2 Negative claim 6)。
+  // 機械内容: ①sim の w が絶対基準で保存すること ②規定 a(t) と E8R 光速式から成る比 R の
+  // 減衰率が解析式と一致すること(V28 の1点検証を、H の比という論文2の主張の形で窓スキャン化)。
+  // 光プローブ H_light(指示書「可能なら」項)は未実装 — 実装時は本検証に系列を追加する
+  v29(){
+    const H=0.01, Kt=300, D=0.92*Kt, c0=60;   // D/Kt=0.92(論文2 fig6 の較正点)
+    const s=makeSim();
+    s.build({ id:"verify_v29", name:"V29", camera:{scale:300}, world:{boundary:"none",size:0},
+      universeBox:{mode:"exp", H0:H, D:D, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0,
+        amp:0, freq:0, phase:0, friction:"dfm"},
+      physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, etaRad:0,
+        Kt:Kt, cLight:c0, softening:4, timeScale:1},
+      bodies:[{type:"single", m:0.05, x:100, y:0, vx:H*100, vy:1, spin:0, pinned:false}], overlays:{} });
+    const cLoc=(a)=>c0*Math.exp(-2*(D/a)/Kt);   // V28 と同じ(単独粒子・自己場除外で ψ=W_B/Kt)
+    const w0=1;
+    const samp=[{t:0, a:1, w:w0}];
+    const targets=[1.5, 2, 3];
+    let ti=0;
+    const steps=Math.ceil(Math.log(3)/H/DT)+1;
+    for(let k=0;k<steps && ti<targets.length;k++){
+      s.step(DT);
+      const a=Math.exp(H*s.t);
+      if(a>=targets[ti]){
+        samp.push({t:s.t, a, w:Math.hypot(s.vx[0]-H*s.x[0], s.vy[0]-H*s.y[0])});
+        ti++;
+      }
+    }
+    let wErrMax=0, ratioErrMax=0; const rows=[];
+    for(let i=1;i<samp.length;i++){
+      const p=samp[i-1], n=samp[i];
+      wErrMax=Math.max(wErrMax, Math.abs(n.w/w0-1));
+      const R1=p.w/cLoc(p.a), R2=n.w/cLoc(n.a);
+      const Hgeo=Math.log(n.a/p.a)/(n.t-p.t);
+      const Hw=-Math.log(R2/R1)/(n.t-p.t);
+      const meas=Hw/Hgeo;
+      const ana=2*(D/Kt)*(1/p.a-1/n.a)/Math.log(n.a/p.a);
+      const err=Math.abs(meas/ana-1);
+      ratioErrMax=Math.max(ratioErrMax, err);
+      rows.push(`a ${p.a.toFixed(2)}→${n.a.toFixed(2)}: H_w/H_geo=${meas.toFixed(4)}(解析${ana.toFixed(4)}・誤差${err.toExponential(1)})`);
+    }
+    const point2=2*(D/Kt)/2;   // a=2 の点値 = D/Kt
+    const pass=samp.length===4 && wErrMax<1e-3 && ratioErrMax<1e-2;
+    return {id:"V29", pass, value:point2,
+      detail:`プローブ依存H(D/Kt=${(D/Kt).toFixed(2)}): ${rows.join(" / ")} — w保存ずれ最大=${wErrMax.toExponential(1)}(<1e-3)・比誤差最大=${ratioErrMax.toExponential(1)}(<1e-2)。a=2 の点値 H_w/H_geo=${point2.toFixed(2)}(=D/Kt — テンション比67.4/73.0≈0.923 と同水準の較正点。数値一致は較正であり証拠ではない)`};
+  },
   // ==== V30/V31: 温度の内部状態変数化(第36便 D・台帳4-51 / A9 改訂)====
   // V30: tint モードの第一法則の完全閉性。V10(spin モード)と同一構成・同一散逸チャネルで、
   // 保持量を「並進 + スピン回転 + 内部熱 C·m·T_int + ポテンシャル(重力+法線ばね)+ radE」に
@@ -6961,6 +7012,7 @@ const VERIFY = {
                  this.v11(), this.v12(), this.v13(), this.v16(),
                  this.v18(), this.v19(), this.v20(),
                  this.v23a(), this.v24a(), this.v24b(), this.v25(), this.v26(), this.v27(), this.v28(),
+                 this.v29(),               // 第42便 42B(論文2 Sprint 0): プローブ依存H
                  this.v30(), this.v31(),   // 第36便 D(台帳4-51): 温度の内部状態変数化
                  this.v32()]; }            // 第37便 C(台帳4-70/4-71): 伝熱する箱と U_rep の帳簿化
 };

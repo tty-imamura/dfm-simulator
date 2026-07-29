@@ -28,7 +28,7 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
-          node-version: 20
+          node-version: 24  # 第41便 41A(台帳4-84): actions の Node 20 非推奨警告に対応(QA は Node 24 で CI 実測確認)
       - name: Install Playwright
         run: |
           npm ci
@@ -52,7 +52,7 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
-          node-version: 20
+          node-version: 24  # 第41便 41A(台帳4-84): actions の Node 20 非推奨警告に対応(QA は Node 24 で CI 実測確認)
       - name: Install Playwright
         run: |
           npm ci

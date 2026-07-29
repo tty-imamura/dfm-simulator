@@ -4734,6 +4734,47 @@ if (hasEchoFlipAt) {
   }
 }
 
+// ---- 7z1) 第41便 41A(台帳4-83・ChatGPT beta動作確認レポート L3): version.beta-label-http —
+// ----      7z は file:// フォールバック(v+APP_VERSION)の検証で、実際の beta 配信条件
+// ----      (http(s) かつパスに /beta/)で DOM が BETA_BUILD を表示することは直接 assert して
+// ----      いなかった。ローカル HTTP サーバで ROOT を配信し、/beta/index.html を実 URL 条件で
+// ----      開いて #appVer === BETA_BUILD を1件だけ統合検査する(beta 対象時のみ)----
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const bb = (html.match(/const BETA_BUILD\s*=\s*"([^"]+)"/) || [])[1];
+  if (bb && TARGET.startsWith('beta/')) {
+    const http = await import('node:http');
+    const srv = http.createServer((req, res) => {
+      const rel = decodeURIComponent(new URL(req.url, 'http://x').pathname).replace(/\/$/, '/index.html');
+      const fp = path.join(ROOT, rel);
+      if (!fp.startsWith(ROOT + path.sep) || !fs.existsSync(fp) || fs.statSync(fp).isDirectory()) {
+        res.writeHead(404); res.end(); return;
+      }
+      const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript',
+        '.webmanifest': 'application/manifest+json', '.png': 'image/png' }[path.extname(fp)] || 'application/octet-stream';
+      res.writeHead(200, { 'content-type': mime });
+      fs.createReadStream(fp).pipe(res);
+    });
+    await new Promise((ok) => srv.listen(0, '127.0.0.1', ok));
+    const port = srv.address().port;
+    const p2 = await browser.newPage({ viewport: { width: 390, height: 844 } });
+    let domVer = '';
+    try {
+      await p2.goto(`http://127.0.0.1:${port}/beta/index.html`);
+      await p2.waitForFunction(() => window.HP && HP.sim);
+      domVer = await p2.evaluate(() => document.querySelector('#appVer')?.textContent || '');
+    } finally {
+      await p2.close().catch(() => {});
+      await new Promise((ok) => srv.close(ok));
+    }
+    add('version.beta-label-http', domVer === bb,
+      `http://127.0.0.1:${port}/beta/index.html の DOM表示=${domVer}(期待=BETA_BUILD=${bb} — ` +
+      `isBetaServe() が http(s)+/beta/ で真になる実配信経路の直接検証。7z の file:// 検証を補完)`);
+  } else {
+    console.log('SKIP version.beta-label-http(beta 配信版のみの検査 — 第41便 41A)');
+  }
+}
+
 // ---- 7z2) 第36便 Wave B(B3・原仮定者指示): ray.wavelength-color — 💡lensingの光線パス上、
 // ----      始点近傍(ψ0)と最深部(経路上最大Wtotの点)の波長が λ0=550nm と λ0·e^{ψ0−ψ} で
 // ----      異なることを、描画バッファでなく HP.traceRay の計算値(emitへ渡るWtot)+
