@@ -7,8 +7,11 @@
 %         numeric claim to its verification gate).
 % Input canon: docs/BOX_UNIVERSE.md v1.6, docs/PHYSICS.md v1.14,
 %              docs/DERIVATIONS.md Sec. 17, beta v1.34 (V29 PASS).
-% Title: option (a) of the brief; final title is an author decision
-%        (Sec. 7 of the brief).
+% Title: option (c), adopted by author decision (dispatch 44,
+%        2026-07-29).
+% v0.2: title (c) adopted; D/K_t calibration given its exact closed
+%        form (2/3)ln4 with the strong-field caveat, incorporating the
+%        external reviewer's independent computation (2026-07-26).
 % Build:  pdflatex dfm-paper2.tex  (RevTeX 4.2, as paper 1)
 % =====================================================================
 \documentclass[aps,reprint,amsmath,amssymb,nofootinbib,superscriptaddress,floatfix]{revtex4-2}
@@ -18,18 +21,18 @@
 \usepackage{bm}
 \usepackage{hyperref}
 \hypersetup{
-  pdftitle={The Box Universe: Probe-Dependent Expansion in a Relational
+  pdftitle={The Box Universe: Expansion, Time, and Light in a Relational
     Toy Model},
   pdfsubject={Educational toy model; expansion; Hubble tension analogy}}
 
 \begin{document}
 
-\title{The Box Universe: Probe-Dependent Expansion in a Relational Toy Model}
+\title{The Box Universe: Expansion, Time, and Light in a Relational Toy Model}
 
 \author{Tetsuya Imamura}
 \affiliation{Independent researcher, Japan}
 
-\date{2026-07-29 (draft v0.1)}
+\date{2026-07-29 (draft v0.2)}
 
 \begin{abstract}
 We extend Determinacy-Field Mechanics (DFM), a two-dimensional
@@ -284,13 +287,26 @@ design 4-66.]
 The two accepted measurements of the real Hubble constant disagree:
 $H_0=67.4$ (CMB fit) versus $73.0$ (local distance ladder),
 a ratio of $0.923$.
-In the box universe, choosing the single calibration $D/K_t=0.92$
-makes the probe ratio at $a=2$
+In the box universe the calibration has an exact closed form: the
+choice that makes the ratio standard $R$ of Eq.~(\ref{eq:R}) fall to
+exactly $1/4$ at $a=4$ is
+\begin{equation}
+  \frac{D}{K_t}=\frac{\ln 4}{2\,(1-1/4)}=\tfrac{2}{3}\ln 4
+  \approx 0.9242 ,
+\end{equation}
+first computed independently by an external review of the project
+(2026-07-26), and with it the probe ratio at $a=2$ is
 \begin{equation}
   \frac{H_w}{H_{\mathrm{geo}}}\Big|_{a=2}=\frac{2D}{K_t}\cdot\frac12
-  =\frac{D}{K_t}=0.92 ,
+  =\frac{D}{K_t}\approx 0.92 ,
 \end{equation}
 the same magnitude as the observed tension ratio.
+One honesty note accompanies the calibration: $\psi=D/K_t\approx0.92$
+is a \emph{strong-field} setting of the toy
+($c_{\mathrm{loc}}/c_0=e^{-2\psi}\approx0.16$), far outside the
+weak-field regime $|\psi|\ll1$ in which the companion paper's GR
+calibrations live; nothing in this section inherits those
+calibrations.
 We state precisely what this is and is not.
 It \emph{is} a minimal, fully inspectable mechanism in which the
 measured expansion rate depends on the probe---early-universe-style
