@@ -1583,10 +1583,16 @@ if (has40BSemanticSync) {
       };
       const out = {};
       out.B = run(base(), 1200);                                       // 既定 = 圧力駆動(kRep=0.5)
+      // 第50便 50G(台帳4-91): 既定走行末尾の形状診断(boxShape が無い旧対象では null)
+      out.shapeB = s.boxShape ? s.boxShape() : null;
       { const p = base(); p.physics.kRep = 0; out.A = run(p, 1200); }  // A/B の A 側 physics(圧力オフ)
+      // 第50便 50G(台帳4-91): G×kRep 4象限の残り2象限(C=重力オフ / D=両オフ=慣性のみ)
+      { const p = base(); p.physics.G = 0; out.C = run(p, 1200); }
+      { const p = base(); p.physics.G = 0; p.physics.kRep = 0; out.D = run(p, 1200); }
       // 箱なしプリセットでは measureBox 経路が一切動かない(ゼロコスト経路の確認)
       HP.loadPreset('galaxy', false);
-      out.noBox = { measureBox: s.measureBox, hist: s.boxHist, aEff: s.boxAEff(), wall: [s.wallI0, s.wallI1] };
+      out.noBox = { measureBox: s.measureBox, hist: s.boxHist, aEff: s.boxAEff(), wall: [s.wallI0, s.wallI1],
+        shapeNull: (s.boxShape === undefined) || s.boxShape() === null };
       return out;
     });
     // 実測 2026-07-26(beta/index.html 第35便 W3・1200步=t19.2・dt=0.016 固定・決定論的):
@@ -1614,6 +1620,34 @@ if (has40BSemanticSync) {
       + `|ΣP|(t=0)=${r.B.P0.toExponential(2)}(相対${r.B.P0rel.toExponential(2)} < 1e-6) `
       + `|ΔP|/P_scale=${r.B.relP.toExponential(2)} |ΔL|/L_scale=${r.B.relL.toExponential(2)}(< 1e-6) `
       + `参考 |ΔL|/|L₀|=${r.B.dLrel0.toExponential(2)}`);
+    // ---- 第50便 50G(台帳4-91): freebox.quadrants — G×kRep 4象限の要因分離。
+    // ----      実測(1200步=t19.2): 既定(1,0.5)=2.1795 加速 / (1,0)=1.005 頭打ち→再収縮
+    // ----      (freebox.inertial-decel が既ゲート)/ (0,0.5)=2.1924 加速(重力の減速寄与
+    // ----      Δa_eff=−0.013 と小)/ (0,0)=1.0192 慣性(加速も収縮もしない)。
+    // ----      加速の源が圧力そのものであることを機械固定する ----
+    add('freebox.quadrants',
+      !r.C.nan && !r.D.nan
+      && r.C.aLast > 2.1 && r.C.aLast < 2.3 && r.C.H2 > r.C.H1                 // 圧力のみ: 加速膨張
+      && Math.abs(r.C.aLast - r.B.aLast) < 0.1                                  // 重力の減速寄与は小
+      && r.D.aLast > 1.0 && r.D.aLast < 1.05                                    // 慣性のみ: 微膨張のまま
+      && r.D.H1 > 0 && r.D.H2 > 0 && r.D.H2 <= r.D.H1,                          // 加速しない(H_eff 単調非増加)
+      `G×kRep 4象限(1200步 a_eff): 既定(1,0.5)=${r.B.aLast.toFixed(4)}(加速) (1,0)=${r.A.aMax.toFixed(4)}頭打ち→再収縮 ` +
+      `(0,0.5)=${r.C.aLast.toFixed(4)}(加速・重力寄与Δ=${(r.C.aLast - r.B.aLast).toFixed(4)}<0.1) ` +
+      `(0,0)=${r.D.aLast.toFixed(4)}(慣性のみ: H_eff ${r.D.H1.toExponential(2)}→${r.D.H2.toExponential(2)} 加速せず) ` +
+      `— 加速の源=圧力を4象限で機械固定`);
+    // ---- 第50便 50G(台帳4-91): freebox.shape — 壁リング形状診断 sim.boxShape() の配線。
+    // ----      既定1200步走行の末尾で RMS<1%・残存率100%・四重極 A2<0.05(座屈なし)。
+    // ----      箱なしプリセットでは null(ゼロコスト経路)。boxShape の無い旧対象は SKIP ----
+    if (r.shapeB) {
+      add('freebox.shape',
+        r.shapeB.rms < 0.01 && r.shapeB.keep === 1 && r.shapeB.a2 < 0.05 && r.shapeB.n === 64
+        && r.noBox.shapeNull,
+        `既定1200步末尾: RMS=${(r.shapeB.rms * 100).toFixed(3)}%(<1%) 残存=${(r.shapeB.keep * 100).toFixed(0)}%(=100) ` +
+        `四重極A2=${r.shapeB.a2.toFixed(4)}(<0.05 座屈なし) 中央r=${r.shapeB.med.toFixed(1)} 壁n=${r.shapeB.n} / ` +
+        `箱なし(galaxy)では null=${r.noBox.shapeNull}`);
+    } else {
+      console.log('SKIP freebox.shape(対象に sim.boxShape なし — 第50便 50G 未適用の root 等)');
+    }
     // 自由な箱が「外部駆動」と誤表示されないこと(pinned/rail/bath/一様重力すべて無し)
     const tg = await page.evaluate(() => {
       const p = HP.allPresets().find(q => q.id === 'freebox');

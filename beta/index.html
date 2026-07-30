@@ -578,6 +578,8 @@ ja: {
   hudProbeH:(rE,ana,rI)=>`H_w/H_geo 指数読み=${rE.toFixed(3)}(解析${ana.toFixed(3)}) 反比例読み=${rI.toFixed(3)}`,
   // 第50便 50E(台帳4-89): 安全クランプの帳簿(発動時のみ表示 — 保存則の主張域外の明示)
   hudClamp:(v,s,h)=>`⚠ クランプ発動: 速度=${v} スピン=${s} H=${h}(保存則の主張域外)`,
+  // 第50便 50G(台帳4-91): 自由な箱の加速・形状診断(H_eff=直近サンプル・壁リングの形状4指標)
+  hudBoxShape:(H,sh)=>`H_eff=${(H>=0?"+":"")+H.toFixed(4)} 壁形状: RMS=${(sh.rms*100).toFixed(2)}% 中央r=${sh.med.toFixed(1)} 四重極A2=${sh.a2.toFixed(3)} 残存=${Math.round(sh.keep*100)}%`,
   // 第35便(台帳4-61): 自由な箱 — 規定 a(t) ではなく壁粒子群から計測した実測尺度因子であることの区別表示
   ovBoxMeas:"実測", ovBoxMeasNote:"a_eff=⟨r⟩/⟨r⟩₀ 実測(規定a(t)ではない)",
   ovBoxGraphMeas:"a_eff(青実線)/H_eff(橙点線)[実測]",
@@ -762,6 +764,8 @@ en: {
   hudProbeH:(rE,ana,rI)=>`H_w/H_geo exp=${rE.toFixed(3)} (analytic ${ana.toFixed(3)}) inverse=${rI.toFixed(3)}`,
   // 第50便 50E(台帳4-89): safety-clamp ledger (shown only when fired — outside the conservation claim domain)
   hudClamp:(v,s,h)=>`⚠ clamps fired: velocity=${v} spin=${s} H=${h} (outside the conservation claims)`,
+  // 第50便 50G(台帳4-91): free-box acceleration & shape diagnostics
+  hudBoxShape:(H,sh)=>`H_eff=${(H>=0?"+":"")+H.toFixed(4)} wall shape: RMS=${(sh.rms*100).toFixed(2)}% median r=${sh.med.toFixed(1)} quadrupole A2=${sh.a2.toFixed(3)} retained=${Math.round(sh.keep*100)}%`,
   // 第35便(台帳4-61): the free box — measured scale factor, not a prescribed a(t)
   ovBoxMeas:"measured", ovBoxMeasNote:"a_eff=⟨r⟩/⟨r⟩0 measured (not prescribed)",
   ovBoxGraphMeas:"a_eff / H_eff [measured]",
@@ -1428,9 +1432,9 @@ const BUILTIN_PRESETS = [
 // kFrame=0 も必須: E6′ を入れると背景 D₀ 持ち分がリザーバへ流れ(実測 |帳簿P|=107)、
 // 「全自由・閉鎖系」の保存則デモが成立しない。
 { id:"freebox", name:"箱宇宙 — 自由な箱(膨張の原因)", emoji:"🕊️", group:"箱宇宙",
-  description:"壁を固定も規定もしない箱宇宙。64個の壁粒子(m=20・スピン1.0)は全部が自由粒子で、レールも固定もない — 膨張則a(t)は外から与えるものではなく、E4自己重力とA10/E5′スピン斥力(=圧力)から解かれる(T12: 膨張の「原因」が系の外から内へ移る)。壁には脱出速度に届かない外向き初速v=0.001·rを与えてある。おすすめA/B: スピン斥力kRepを0にすると圧力が消え、自己重力だけの宇宙は膨張をやめて収縮に転じる(実測: 実測尺度因子a_effはt=9.2の1.005で頭打ちになり、膨張率H_effが前半+4.42e-4から後半−5.28e-4へ符号反転 — 2Dの閉じた宇宙の類似)。kRep=0.5に戻すと圧力が押し広げ、t=19.2でa_eff=2.18まで膨張し、しかも加速する(H_eff 0.0318→0.0514 — E5′は距離の1乗でしか薄まらず、重力の2乗より緩いため)。膨張グラフには規定a(t)ではなく壁の平均中心距離から計測した実測a_eff=⟨r⟩/⟨r⟩₀が出る(見出しの「実測」表示)。赤方偏移は規定a(t)に結び付いた規則なのでこの画面では出さない。全粒子が自由な完全閉鎖系で、リザーバ帳簿は0のまま運動量・角運動量が保存する(A13/T7・モニタ表示)。引きずりkFrame=0でE4とE5′の2機構だけを取り出しているため、内部の8個のテスト粒子は壁の膨張には随伴しない(質点リング壁の限界 — T10)。これはフリードマン方程式のDFM類似の機構デモであり、FLRW宇宙論の再現主張ではない。",
-  en:{name:"Box Universe — The Free Box (what drives expansion?)", description:"A box universe whose wall is neither pinned nor prescribed. All 64 wall particles (m=20, spin 1.0) are free bodies — no rails, no pins — so the expansion law a(t) is not given from outside but solved for, out of E4 self-gravity and A10/E5′ spin repulsion (= pressure): the cause of expansion moves from outside the system to inside it (T12). The walls start with an outward velocity v=0.001·r that falls short of escape. Suggested A/B: set the spin repulsion kRep to 0 and the pressure disappears — gravity alone stops the expansion and turns it into collapse (measured: the scale factor a_eff peaks at 1.005 at t=9.2 and the expansion rate H_eff flips sign, +4.42e-4 in the first half to −5.28e-4 in the second — the analogue of a closed 2D universe). Put kRep back to 0.5 and pressure pushes the box open to a_eff=2.18 by t=19.2, accelerating as it goes (H_eff 0.0318→0.0514), because E5′ thins out only as 1/d while gravity thins as 1/d². The expansion graph plots the measured a_eff=⟨r⟩/⟨r⟩0 taken from the mean wall radius, not a prescribed a(t) (see the 'measured' tag in the header). Redshift is a rule tied to a prescribed a(t), so it is not shown here. Every particle is free — a strictly closed system whose reservoir ledger stays at zero while momentum and angular momentum are conserved (A13/T7; conservation monitor). Dragging is off (kFrame=0) to isolate the two mechanisms E4 and E5′, so the eight interior test particles do not comove with the expanding wall (the limit of a point-mass ring wall — T10). This is a mechanism demo of the DFM analogue of the Friedmann equation, not a claim to reproduce FLRW cosmology."},
-  activeParams:["kRep","G"],   // おすすめA/B: kRep 0.5(圧力駆動の膨張)⇄ 0(慣性のみ → 減速 → 再収縮)
+  description:"壁を固定も規定もしない箱宇宙。64個の壁粒子(m=20・スピン1.0)は全部が自由粒子で、レールも固定もない — 膨張則a(t)は外から与えるものではなく、E4自己重力とA10/E5′スピン斥力(=圧力)から解かれる(T12: 膨張の「原因」が系の外から内へ移る)。壁には脱出速度に届かない外向き初速v=0.001·rを与えてある。おすすめA/B: スピン斥力kRepを0にすると圧力が消え、自己重力だけの宇宙は膨張をやめて収縮に転じる(実測: 実測尺度因子a_effはt=9.2の1.005で頭打ちになり、膨張率H_effが前半+4.42e-4から後半−5.28e-4へ符号反転 — 2Dの閉じた宇宙の類似)。kRep=0.5に戻すと圧力が押し広げ、t=19.2でa_eff=2.18まで膨張し、しかも加速する(H_eff 0.0318→0.0514 — E5′は距離の1乗でしか薄まらず、重力の2乗より緩いため)。膨張グラフには規定a(t)ではなく壁の平均中心距離から計測した実測a_eff=⟨r⟩/⟨r⟩₀が出る(見出しの「実測」表示)。赤方偏移は規定a(t)に結び付いた規則なのでこの画面では出さない。全粒子が自由な完全閉鎖系で、リザーバ帳簿は0のまま運動量・角運動量が保存する(A13/T7・モニタ表示)。※要因はG×kRepの4象限で完全に分離できる(1200步=t19.2の実測a_eff — 台帳4-91): 既定G=1×kRep=0.5は2.18へ加速/G=1×kRep=0は1.005で頭打ち→再収縮/G=0×kRep=0.5は2.19へ加速(重力の減速寄与はa_effでわずか−0.013)/G=0×kRep=0は外向き初速だけの慣性で1.019のまま(加速も収縮もしない)— 加速の源が圧力そのものであることが4象限で確定する(QA freebox.quadrants)。qは圧力の距離依存を決める設計値(詳細設定に表示: q=1でF∝1/d。q=2に上げると剛性dlnF/dlnd≈−3が壁の角度ジッタを増幅してリングが座屈する)。HUDには実測H_effと壁リングの形状診断(RMS偏差・中央値半径・四重極A2・残存率)が常時出る。引きずりkFrame=0でE4とE5′の2機構だけを取り出しているため、内部の8個のテスト粒子は壁の膨張には随伴しない(質点リング壁の限界 — T10)。これはフリードマン方程式のDFM類似の機構デモであり、FLRW宇宙論の再現主張ではない。",
+  en:{name:"Box Universe — The Free Box (what drives expansion?)", description:"A box universe whose wall is neither pinned nor prescribed. All 64 wall particles (m=20, spin 1.0) are free bodies — no rails, no pins — so the expansion law a(t) is not given from outside but solved for, out of E4 self-gravity and A10/E5′ spin repulsion (= pressure): the cause of expansion moves from outside the system to inside it (T12). The walls start with an outward velocity v=0.001·r that falls short of escape. Suggested A/B: set the spin repulsion kRep to 0 and the pressure disappears — gravity alone stops the expansion and turns it into collapse (measured: the scale factor a_eff peaks at 1.005 at t=9.2 and the expansion rate H_eff flips sign, +4.42e-4 in the first half to −5.28e-4 in the second — the analogue of a closed 2D universe). Put kRep back to 0.5 and pressure pushes the box open to a_eff=2.18 by t=19.2, accelerating as it goes (H_eff 0.0318→0.0514), because E5′ thins out only as 1/d while gravity thins as 1/d². The expansion graph plots the measured a_eff=⟨r⟩/⟨r⟩0 taken from the mean wall radius, not a prescribed a(t) (see the 'measured' tag in the header). Redshift is a rule tied to a prescribed a(t), so it is not shown here. Every particle is free — a strictly closed system whose reservoir ledger stays at zero while momentum and angular momentum are conserved (A13/T7; conservation monitor). The factors separate completely in the G×kRep four-quadrant scan (measured a_eff at 1200 steps = t19.2 — ledger 4-91): default G=1×kRep=0.5 accelerates to 2.18 / G=1×kRep=0 peaks at 1.005 then recollapses / G=0×kRep=0.5 accelerates to 2.19 (gravity's braking contribution is a mere −0.013 in a_eff) / G=0×kRep=0 coasts inertially at 1.019 (neither accelerating nor collapsing) — the four quadrants pin the source of acceleration on the pressure itself (QA freebox.quadrants). q is a design value setting the distance dependence of the pressure (shown in advanced settings: q=1 gives F∝1/d; raising it to q=2 stiffens dlnF/dlnd≈−3, amplifies the wall's angular jitter and buckles the ring). The HUD always shows the measured H_eff plus wall-ring shape diagnostics (RMS deviation, median radius, quadrupole A2, retention). Dragging is off (kFrame=0) to isolate the two mechanisms E4 and E5′, so the eight interior test particles do not comove with the expanding wall (the limit of a point-mass ring wall — T10). This is a mechanism demo of the DFM analogue of the Friedmann equation, not a claim to reproduce FLRW cosmology."},
+  activeParams:["kRep","G","q"],   // おすすめA/B: kRep 0.5(圧力駆動)⇄ 0(慣性のみ)。q は第50便 50G(台帳4-91)で主役へ昇格(圧力の距離依存=座屈の設計値の可視化)
   // 第42便 42A(台帳4-78 A案): claims — 説明文の実測 a_eff(既定=圧力駆動/対照=慣性のみ)を
   // 機械可読化。窓は QA freebox.pressure-expand(aLast>1.15)・freebox.inertial-decel(aMax>1)の
   // 閾値と矛盾しない範囲で説明文数値(2.18/1.005)を含むよう設定
@@ -1439,7 +1443,14 @@ const BUILTIN_PRESETS = [
       expected:{min:1.85, max:2.5},   // 実測2.1795(t=19.2・freebox.pressure-expand: aLast>1.15)
       descPattern:"t=19\\.2でa_eff=(\\d+\\.\\d+)まで膨張",
       control:{patch:{kRep:0}, expected:{min:0.85, max:1.15},   // 実測1.0047(t=9.2・freebox.inertial-decel: aMax>1)
-        descPattern:"a_effはt=9\\.2の(\\d+\\.\\d+)で頭打ち"} }
+        descPattern:"a_effはt=9\\.2の(\\d+\\.\\d+)で頭打ち"} },
+    // 第50便 50G(台帳4-91): G×kRep 4象限の残り2象限(QA freebox.quadrants の閾値に直結)
+    { id:"freebox.pressure-only-aeff", metric:"aEffPressureOnly",
+      expected:{min:2.1, max:2.3},   // 実測2.1924(G=0×kRep=0.5・1200步)
+      descPattern:"G=0×kRep=0\\.5は(\\d+\\.\\d+)へ加速", testId:"freebox.quadrants" },
+    { id:"freebox.inertial-only-aeff", metric:"aEffInertialOnly",
+      expected:{min:1.0, max:1.05},   // 実測1.0192(G=0×kRep=0・1200步)
+      descPattern:"慣性で(\\d+\\.\\d+)のまま", testId:"freebox.quadrants" }
   ],
   camera:{scale:460}, world:{boundary:"none",size:0}, seed:4061,
   measureBox:true,   // 実測尺度因子 a_eff=⟨r⟩/⟨r⟩₀(最初の ring 群=壁)を膨張グラフへ
@@ -4503,6 +4514,26 @@ function makeSim(){
     const r=sum/cnt;
     return (r>0 && isFinite(r))? r : null;
   };
+  // 第50便 50G(台帳4-91): 壁リングの形状診断 — 動径RMS偏差(⟨r⟩比)・中央値半径・
+  // 四重極振幅 A2(m=2 モード=座屈・楕円化の検出。darkrotor 腕振幅と同式)・
+  // 残存率(⟨r⟩の [0.5, 2] 倍帯に残る壁粒子率)。表示・QA 用の読み出しのみ — 物理には一切使わない
+  S.boxShape = function(){
+    const i0=S.wallI0, i1=Math.min(S.wallI1, S.n), cnt=i1-i0;
+    if(!S.measureBox || !(i0>=0 && cnt>0)) return null;
+    let cx=0, cy=0;
+    for(let i=i0;i<i1;i++){ cx+=S.x[i]; cy+=S.y[i]; }
+    cx/=cnt; cy/=cnt;
+    const rs=[]; let cr=0, ci=0;
+    for(let i=i0;i<i1;i++){ const dx=S.x[i]-cx, dy=S.y[i]-cy, r=Math.sqrt(dx*dx+dy*dy);
+      rs.push(r); const th=Math.atan2(dy,dx); cr+=Math.cos(2*th); ci+=Math.sin(2*th); }
+    const mean=rs.reduce((a,v)=>a+v,0)/cnt;
+    if(!(mean>0) || !isFinite(mean)) return null;
+    let v2=0, inBand=0;
+    for(const r of rs){ const d=r-mean; v2+=d*d; if(r>0.5*mean && r<2*mean) inBand++; }
+    const srt=rs.slice().sort((a,b)=>a-b);
+    return { rms:Math.sqrt(v2/cnt)/mean, med:srt[Math.floor(cnt/2)], a2:Math.hypot(cr,ci)/cnt,
+      keep:inBand/cnt, mean, n:cnt };
+  };
   // 実測尺度因子 a_eff(t)=⟨r⟩(t)/⟨r⟩(0)。measureBox でないプリセットでは null(規定 a(t) と混同しない)
   S.boxAEff = function(){
     if(!S.measureBox) return null;
@@ -5674,7 +5705,14 @@ function loop(now){
     // 第35便(台帳4-61): 自由な箱 — 規定 a(t) ではなく壁から計測した実測尺度因子であることを明示する
     else if(sim.measureBox){
       const ae=sim.boxAEff();
-      if(ae!==null) txt+=`  a_eff=${ae.toFixed(3)}(${T("ovBoxMeas")})`;
+      if(ae!==null){
+        txt+=`  a_eff=${ae.toFixed(3)}(${T("ovBoxMeas")})`;
+        // 第50便 50G(台帳4-91): 加速・形状診断 — H_eff(直近サンプル)と壁リングの
+        // RMS/中央値/四重極/残存率を1行追記(measureBox プリセット以外では1文字も増えない)
+        const last=(sim.boxHist && sim.boxHist.length)? sim.boxHist[sim.boxHist.length-1] : null;
+        const sh=sim.boxShape();
+        if(sh) txt+=`\n${T("hudBoxShape")(last? last.H : 0, sh)}`;
+      }
     }
     // 第33便(台帳4-63): boxGraph が無い(トグルOFF)か箱なしのプリセットで photonLog がある場合、
     // HUD末尾に最新1件だけ λ500→502(z=+0.004) の様式で追記(箱なしでは z=0。実装2)
