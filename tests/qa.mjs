@@ -4809,6 +4809,138 @@ if (hasEchoFlipAt) {
   }
 }
 
+// ---- 7z2b) 第45便 45A(台帳4-48): ray.alpha-threshold — 光線源/1PN源のしきい値が
+// ----      固定質量(旧 RAY_MASS_MIN=40)ではなく偏向角基準
+// ----        m_i ≥ (α_min/4)·Kt·max(R_i, ε)      (α = 4ψ = 4m/(Kt·b) の逆読み)
+// ----      で決まっていることを機械固定する。時空係数は部門ごと: 光線は Kt(この宇宙の
+// ----      光学そのもの)、E12 1PN は c²/G(E12 に Kt は現れず、補正の小ささは U/c² が決める
+// ----      = 同じ α_min を GR の偏向 α=4Gm/(bc²) に当てた形)。物理対応ロック Kt=c²/G では
+// ----      両者は厳密に一致する(設計: docs/dev/DESIGN_4-48_RAY_MASS_MIN.md)。
+// ----      検査は5節: ①全内蔵プリセットで実使用の光線源集合(光線キャッシュキーの構成要素)が
+// ----      式どおり ②しきい直上/直下のカナリア対で曲げる/曲げないが切り替わる
+// ----      ③しきい値が Kt・R・ε に式どおり比例(=光速とGからの導出が効いている)
+// ----      ④1PN 源のカナリア対 — しきい直上/直下で E12 の効き(λ_PN=1 と 0 の差)が
+// ----      現れる/厳密に消える ⑤源集合が変わればキャッシュキーも必ず変わる(v1.22 追随性)。
+// ----      機能判定子 = HP.RAY_ALPHA_MIN(旧定数のままの root では SKIP)----
+{
+  const hasAlpha = await page.evaluate(() => typeof window.HP.RAY_ALPHA_MIN === 'number');
+  if (hasAlpha) {
+    const r = await page.evaluate(() => {
+      const A = HP.RAY_ALPHA_MIN;
+      // 光線キャッシュキーから実使用の源集合を取り出す(";<i>,<x>,..." が源1件ぶん。";B..." は箱)
+      const keySet = () => [...HP.rayKeyOf({ n: 26, spread: 0.85 }).split(';').slice(1)]
+        .filter((s) => s[0] !== 'B').map((s) => +s.split(',')[0]);
+      // ① 全内蔵プリセット: 式で独立に組み直した集合と、実使用の集合が一致するか
+      const bad = [];
+      for (const P of HP.allPresets()) {
+        HP.loadPreset(P.id, false);
+        const S = HP.sim, Kt = S.params.Kt, eps = S.params.softening;
+        const want = [];
+        for (let i = 0; i < S.n; i++)
+          if (S.m[i] >= (A / 4) * Kt * Math.max(S.R[i], eps)) want.push(i);
+        const got = keySet();
+        if (want.length !== got.length || want.some((v, k) => v !== got[k]))
+          bad.push(`${P.id}(式=${want.length}件/実使用=${got.length}件)`);
+      }
+      // ②③ カナリア: 1天体だけの合成 sim。R・Kt・ε を直接置いてしきい質量を確定させ、
+      //    m をその直上/直下に置いて「曲げる/曲げない」が切り替わることを見る。
+      //    G=0・D0=0・kFrame=0 なので、曲がりの源は当該天体の 2∇ψ だけ。
+      const canary = (Kt, Rv, eps, mul) => {
+        HP.sim.build({ id: 'qa_alpha', name: 'a', description: 'd',
+          camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+          physics: { G: 0, D0: 0, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0,
+            Kt, cLight: 60, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0,
+            geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: eps, timeScale: 1 },
+          bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true }] });
+        const S = HP.sim;
+        S.R[0] = Rv;
+        const mThr = (A / 4) * Kt * Math.max(Rv, eps);
+        S.m[0] = mThr * mul; S.mEff[0] = S.m[0];
+        const t = HP.traceRay(S, -400, Rv, 1, 0, 2, 400, null);
+        return { mThr, m: S.m[0], heavy: HP.rayHeavy(S, 0),
+          bend: Math.atan2(t.cy, t.cx), nSrc: keySet().length };
+      };
+      const up = canary(100, 20, 2, 1.0001), dn = canary(100, 20, 2, 0.9999);
+      // ③ しきい質量は Kt・max(R,ε) に比例(ε 支配域では R に依らず ε で決まる)
+      const kt2 = canary(200, 20, 2, 1.0001).mThr, r2 = canary(100, 40, 2, 1.0001).mThr;
+      const epsDom = canary(100, 1, 8, 1.0001).mThr;   // R=1 < ε=8 → max(R,ε)=8 側で決まる
+      // ④ 1PN 源のカナリア: V18 と同形の軌道(GM~98・a=60・e=0.2056)で λ_PN=1 と 0 の差を見る。
+      //    しきい質量は c²/G=1600・R=12.247(明示半径)で m_min=(α/4)·1600·12.247。
+      const PN_R = 12.247, PN_KGR = 1600, pnThr = (A / 4) * PN_KGR * Math.max(PN_R, 0.5);
+      const pnRun = (mul, lam) => {
+        HP.sim.build({ id: 'qa_alpha_pn', name: 'a', description: 'd',
+          camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+          physics: { G: 1, D0: 0.05, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0,
+            Kt: 10000, cLight: 40, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0,
+            geoPN: 1, lambdaPN: lam, pnAlpha: 1.5, radiusScale: 1, softening: 0.5, timeScale: 1 },
+          bodies: [
+            { type: 'single', m: pnThr * mul, radius: PN_R, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true },
+            { type: 'single', m: 0.01, x: 47.664, y: 0, vx: 0, vy: 1.94787, spin: 0, pinned: false }] });
+        const S = HP.sim;
+        for (let k = 0; k < 2000; k++) S.step(0.016);
+        return { x: S.x[1], y: S.y[1], src: HP.pnSource(S, 0), R: S.R[0],
+          mThr: HP.pnMassMin(S.params, S.R[0]) };
+      };
+      const pnUp = pnRun(1.0001, 1), pnUp0 = pnRun(1.0001, 0);
+      const pnDn = pnRun(0.9999, 1), pnDn0 = pnRun(0.9999, 0);
+      const pn = { thr: pnThr, thrGot: pnUp.mThr, R: pnUp.R, srcUp: pnUp.src, srcDn: pnDn.src,
+        dUp: Math.hypot(pnUp.x - pnUp0.x, pnUp.y - pnUp0.y),
+        dDn: Math.hypot(pnDn.x - pnDn0.x, pnDn.y - pnDn0.y) };
+      // 物理対応ロック Kt=c²/G のときのしきい質量 = (α/4)(c²/G)max(R,ε)(光速とGからの導出)。
+      // このとき光線側 rayMassMin と 1PN 側 pnMassMin は厳密一致する
+      HP.setPhysLock(false); HP.loadPreset('grcal', false); HP.setPhysLock(true);
+      const S2 = HP.sim, p2 = S2.params;
+      const lock = { Kt: p2.Kt, want: (A / 4) * (p2.cLight * p2.cLight / p2.G) * Math.max(S2.R[0], p2.softening),
+        got: HP.rayMassMin(p2, S2.R[0]), pnGot: HP.pnMassMin(p2, S2.R[0]), bendsStill: HP.rayHeavy(S2, 0) };
+      HP.setPhysLock(false);
+      // ⑤ キャッシュキーの追随: 源集合が変わればキーも変わる/変わらなければキーも同一
+      HP.loadPreset('lensing', false);
+      const S3 = HP.sim, k0 = HP.rayKeyOf({ n: 26, spread: 0.85 }), n0 = keySet().length;
+      const m0 = S3.m[0];
+      S3.m[0] = HP.rayMassMin(S3.params, S3.R[0]) * 0.999;   // 源から外れる
+      const kOut = HP.rayKeyOf({ n: 26, spread: 0.85 }), nOut = keySet().length;
+      S3.m[0] = m0;
+      const kBack = HP.rayKeyOf({ n: 26, spread: 0.85 });
+      HP.loadPreset('lensing', false);
+      return { A, bad, up, dn, kt2, r2, epsDom, pn,
+        lock, cache: { changed: kOut !== k0, restored: kBack === k0, n0, nOut } };
+    });
+    const eq = (a, b) => Math.abs(a - b) <= 1e-9 * Math.max(1, Math.abs(b));
+    const chk = {
+      set: r.bad.length === 0,
+      upHeavy: r.up.heavy, upBend: Math.abs(r.up.bend) > 1e-4, upKey: r.up.nSrc === 1,
+      dnLight: !r.dn.heavy, dnBend: r.dn.bend === 0, dnKey: r.dn.nSrc === 0,
+      mThr: eq(r.up.mThr, (r.A / 4) * 100 * 20), propKt: eq(r.kt2, 2 * r.up.mThr),
+      propR: eq(r.r2, 2 * r.up.mThr), propEps: eq(r.epsDom, (r.A / 4) * 100 * 8),
+      // R は Float32 格納なので、実装値は「同じ R で組み直した式」と一致するかで見る
+      pnThr: eq(r.pn.thrGot, (r.A / 4) * 1600 * Math.max(r.pn.R, 0.5)),
+      pnSrcUp: r.pn.srcUp, pnSrcDn: !r.pn.srcDn,
+      pnUp: r.pn.dUp > 1e-3, pnDn: r.pn.dDn === 0,
+      lockRay: eq(r.lock.got, r.lock.want), lockPn: eq(r.lock.pnGot, r.lock.want),
+      lockKt: r.lock.Kt === 3600, lockBend: r.lock.bendsStill,
+      keyChanged: r.cache.changed, keyRestored: r.cache.restored,
+      keyN0: r.cache.n0 === 2, keyNOut: r.cache.nOut === 1 };
+    const ng = Object.keys(chk).filter((k) => !chk[k]);
+    const ok = ng.length === 0;
+    add('ray.alpha-threshold', ok,
+      `α_min=${r.A}rad / ①全内蔵プリセットで光線源集合=式 m≥(α/4)Kt·max(R,ε)(不一致=${r.bad.length}件` +
+      `${r.bad.length ? ':' + r.bad.slice(0, 3).join(' ') : ''}) / ②カナリア(Kt=100,R=20,ε=2 → ` +
+      `m_min=${r.up.mThr.toFixed(3)}): 直上 m=${r.up.m.toFixed(4)} 源=${r.up.heavy} ` +
+      `偏向=${r.up.bend.toExponential(2)}rad(≠0) ⇔ 直下 m=${r.dn.m.toFixed(4)} 源=${r.dn.heavy} ` +
+      `偏向=${r.dn.bend}(厳密0) / ③比例: Kt×2→m_min=${r.kt2.toFixed(3)} R×2→${r.r2.toFixed(3)} ` +
+      `R<εではε支配→${r.epsDom.toFixed(3)} / ④1PN源(c²/G=1600,R=12.247 → ` +
+      `m_min=${r.pn.thr.toFixed(3)}=実装${r.pn.thrGot.toFixed(3)}): 直上 源=${r.pn.srcUp} ` +
+      `|Δr(λ_PN 1−0)|=${r.pn.dUp.toExponential(2)}(>1e-3) ⇔ 直下 源=${r.pn.srcDn} ` +
+      `|Δr|=${r.pn.dDn}(厳密0) / 物理対応ロック(Kt=c²/G=${r.lock.Kt}): ` +
+      `m_min=${r.lock.got.toFixed(2)}=(α/4)(c²/G)max(R,ε)=${r.lock.want.toFixed(2)}` +
+      `(1PN側も同値=${r.lock.pnGot.toFixed(2)}・🛰️の主星は源のまま=${r.lock.bendsStill}) / ` +
+      `⑤キャッシュキー追随: 源${r.cache.n0}→${r.cache.nOut}件でキー変化=${r.cache.changed} ` +
+      `復帰で同一=${r.cache.restored}${ok ? '' : ' / NG項目=' + ng.join(',')}`);
+  } else {
+    console.log('SKIP ray.alpha-threshold(対象に HP.RAY_ALPHA_MIN なし — 旧 RAY_MASS_MIN=40 のままの root 等。第45便 45A/台帳4-48)');
+  }
+}
+
 // ---- 7z3) 第36便 Wave B(B4・原仮定者指示): ai.help-collapsed — インポート/キーの保存/
 // ----      ベースのサンプルの説明が <details> として存在し既定closedであること、
 // ----      openにすると本文(note段落)が可視化されることを確認する(対象に無ければ SKIP)----

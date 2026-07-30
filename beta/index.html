@@ -1027,8 +1027,31 @@ const APP_VERSION = "1.33";            // エクスポートの appVersion に�
 const BETA_BUILD = "v1.34-b2";
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
-const RAY_MASS_MIN = 40;                  // 光線を曲げる最小質量(性能のための近似)
-const PN_MASS_MIN = 40;                   // E12 1PN補正の源となる最小質量(v1.20。RAY_MASS_MIN と同方針の近似)
+// 第45便 45A(台帳4-48): 光線源・1PN源のしきい値を「質量」から「偏向角」へ物理化した。
+// 弱場の偏向は α ≈ 4ψ(b) = 4·m/(Kt·b)(E8R/T5)。天体 i が与えうる最大偏向は最接近距離が
+// b ≳ max(R_i, ε) までなので α_max(i) = 4·m_i/(Kt·max(R_i, ε))。これが分解能 α_min 未満の
+// 天体を源から外す ⇔ **m_i ≥ (α_min/4)·Kt·max(R_i, ε)**。物理対応ロック Kt=c²/G のときは
+// m_min = (α_min/4)·(c²/G)·max(R,ε) となり、GR の偏向式 α=4Gm/(bc²) の逆読みとして
+// しきい値が光速と G から導出される(旧 RAY_MASS_MIN=40 / PN_MASS_MIN=40 の固定質量を置換)。
+// 既定 0.02 rad の較正(tests/exp-4-48.mjs・全39プリセット×α掃引の実測):
+//   ・光線/1PN を使うプリセットの源集合が現行(m≥40)と厳密一致する窓は 0.0167 < α_min ≤ 0.430
+//   ・物理対応ロック(Kt=c²/G)を掛けた状態でも同じ集合を保つには α_min ≤ 0.0207(🔭lensing)
+//   → 交わり (0.0167, 0.0207] の最大値として 0.02 を採る
+const RAY_ALPHA_MIN = 0.02;               // 光線を曲げる最小偏向角[rad](分解能しきい値)
+// しきい質量 m_min = (α_min/4)·K·max(R, ε)。K はその部門の時空係数:
+//   光線(E8R): K=Kt        — この宇宙の光学そのもの(n=e^{2W/Kt} → α=4m/(Kt·b))
+//   1PN(E12): K=c²/G      — E12 に Kt は現れず、補正の小ささは U/c²=Gm/(c²b) で決まる。
+//                            同じ α_min を GR の偏向 α=4Gm/(c²b) に当てた形(=光速とGから導出)
+// 物理対応ロック Kt=c²/G のときは両者が厳密に一致する(QA ray.alpha-threshold で機械固定)
+function rayMassMin(p, Ri){ return (RAY_ALPHA_MIN/4)*p.Kt*Math.max(Ri, p.softening); }
+function pnKtGR(p){ return (p.G>0)? (p.cLight*p.cLight)/p.G : Infinity; }   // G=0 は 1PN 自体が消える
+function pnMassMin(p, Ri){ return (RAY_ALPHA_MIN/4)*pnKtGR(p)*Math.max(Ri, p.softening); }
+// 天体 i は光線を曲げるか(E8R 光線積分・光子伝播・光線キャッシュキーの「重い天体」判定)
+function rayHeavy(S, i){ return S.m[i] >= rayMassMin(S.params, S.R[i]); }
+// 天体 i は E12 1PN 補正の源か(v1.20)。step() の全対ループでは同式を
+// pnK=(α_min/4)·c²/G を使って展開してある(O(N²) の関数呼出削減)。
+// 質量は下限保護付きの mEff — 対ループ側と同じ配列を見る(判定の正本はこの関数側)
+function pnSource(S, i){ return S.mEff[i] >= pnMassMin(S.params, S.R[i]); }
 
 // パラメータUI定義。mode:"log"=対数スライダー(桁をまたぐ量の微調整用。
 // スライダー範囲外の値(0を含む)は隣の数値入力欄から直接設定できる)
@@ -3387,7 +3410,11 @@ function makeSim(){
           gX=p.gravityX||0, gY=p.gravityY||0,   // v1.17: 一様重力場(外部場)
           // v1.20(E12): 測地線1PNモード(BOX_UNIVERSE §5・DERIVATIONS §15。第1段階: 静的大質量源・u=0)
           geo=(p.geoPN||0)>0, pnA=(p.pnAlpha!==undefined? p.pnAlpha : 1.5),
-          invC2=geo? (p.lambdaPN!==undefined? p.lambdaPN : 1)/(p.cLight*p.cLight) : 0;
+          invC2=geo? (p.lambdaPN!==undefined? p.lambdaPN : 1)/(p.cLight*p.cLight) : 0,
+          // 第45便 45A(台帳4-48): 1PN 源の偏向角しきい値の係数。源判定は m ≥ pnK·max(R,ε)
+          // (= pnMassMin(p,R) と同一式。K=c²/G は E12 の小ささを決める U/c² 側の時空係数)。
+          // geo=0 の宇宙では参照されない。G≤0 なら Infinity=源なし(1PN 自体が消える)
+          pnK=(p.G>0)? (RAY_ALPHA_MIN/4)*(p.cLight*p.cLight)/p.G : Infinity;
     // radiusScale 変更の追従。第36便 C1: 主判定を「updateRadii が最後に使った radiusScale との
     // 一致」へ変更(rMul 焼き込み後は R[0] と rs·√|m₀| が恒常的にずれるため、旧式のままだと
     // 全プリセットで毎サブステップ再計算になる)。第2項は S.m を直接書き換える経路への保険。
@@ -3485,16 +3512,18 @@ function makeSim(){
         // E12 測地線1PN補正(v1.20・v2.0第1段階): a₁ₚₙ = (λ/c²)[((α−½)v² − (1+2α)U)∇U − (1+2α)(∇U·v)v]
         // U=Gm/√(d²+ε²)、∇U は E4 のニュートン加速度と同一ベクトル。α=1.5 で E7R 完全計量
         // (等方1PN: a = −μn/r² + μ/(c²r²)[(4μ/r−v²)n + 4ṙv])、α=0.5 で時間率のみの統制。
-        // 源は m≥PN_MASS_MIN の大質量のみ・速度は u=0 の絶対値(第1段階の主張域)。E6′ は②で排他。
+        // 源は偏向角基準 m ≥ (α_min/4)·(c²/G)·max(R,ε) を満たす大質量のみ(第45便 45A・台帳4-48。
+        // pnMassMin と同式 — 定数 pnK=(α_min/4)·c²/G は対ループ外で1回だけ作ってある)・
+        // 速度は u=0 の絶対値(第1段階の主張域)。E6′ は②で排他。
         if(geo && invC2>0){
           const cA=1+2*pnA, cB=pnA-0.5;
-          if(mj>=PN_MASS_MIN && !pinned[i]){
+          if(mj>=pnK*Math.max(Rj,eps) && !pinned[i]){
             const Uj=G*mj*invW, gux=-fg*mj*dx, guy=-fg*mj*dy;
             const v2i=vx[i]*vx[i]+vy[i]*vy[i], dU=gux*vx[i]+guy*vy[i];
             ax[i]+=invC2*((cB*v2i-cA*Uj)*gux - cA*dU*vx[i]);
             ay[i]+=invC2*((cB*v2i-cA*Uj)*guy - cA*dU*vy[i]);
           }
-          if(mi>=PN_MASS_MIN && !pinned[j]){
+          if(mi>=pnK*Math.max(Ri,eps) && !pinned[j]){
             const Ui=G*mi*invW, gux=fg*mi*dx, guy=fg*mi*dy;   // j から見た ∇U(符号反転)
             const v2j=vx[j]*vx[j]+vy[j]*vy[j], dU=gux*vx[j]+guy*vy[j];
             ax[j]+=invC2*((cB*v2j-cA*Ui)*gux - cA*dU*vx[j]);
@@ -4004,13 +4033,13 @@ function makeSim(){
       }
     }
     // 第33便(台帳4-63): 光子の伝播(1ステップ分)。光学は traceRay と同一(E8R: 重い粒子
-    // m≥RAY_MASS_MIN の 2∇ψ 屈折・W 合計に D₀/W_B・媒質随伴 kF·u に UniverseBox の u_B を含む)で、
+    // rayHeavy(偏向角 α_min 基準)の 2∇ψ 屈折・W 合計に D₀/W_B・媒質随伴 kF·u に UniverseBox の u_B を含む)で、
     // 弧長は dl=(c₀/n_eff)·dt。到着時は 1+z=a_obs/a_emit の帳簿を photonLog へ積む
     if(S.photons && S.photons.length){
       const pp=S.params;
       const O={heavy:[], kU:2/pp.Kt, eps2:pp.softening*pp.softening, q:pp.q, c0:pp.cLight,
         D0:pp.D0, kF:pp.kFrame, BX:S.box, WB:0, bH:0};
-      for(let i=0;i<n;i++) if(S.m[i]>=RAY_MASS_MIN) O.heavy.push(i);
+      for(let i=0;i<n;i++) if(rayHeavy(S,i)) O.heavy.push(i);
       let aO=1;
       if(O.BX){ const sc=boxScaleAt(O.BX,S.t); aO=sc.a; O.WB=boxWAt(O.BX,sc.a); O.bH=sc.H; }
       let died=false;
@@ -4365,7 +4394,8 @@ function photonStep(S, ph, dt, O){
   ph.x+=cxv*dl+uNx*adv; ph.y+=cyv*dl+uNy*adv;
   ph.dx=cxv; ph.dy=cyv;
 }
-// E8R 光線積分(v1.7・ψ統一。描画と V8 検証で共有。質量 m≥RAY_MASS_MIN のみが曲げる近似)
+// E8R 光線積分(v1.7・ψ統一。描画と V8 検証で共有。偏向 α_max≥RAY_ALPHA_MIN の天体だけが
+// 曲げる近似 — 第45便 45A(台帳4-48)で固定質量 40 から偏向角基準 rayHeavy へ物理化)
 // 屈折率 n_eff = e^{2ψ} = e^{2W/Kt}(kLens 廃止 — 時計 E7R と同じ ψ が光を曲げる)。
 // 方向更新はフェルマー則 dĉ/dl = (∇n−(∇n·ĉ)ĉ)/n で、∇n/n = 2∇ψ = (2/Kt)∇W と
 // 指数部が消えるため 2∇ψ を直接使う。位置更新に媒質随伴 u·(n_eff/c₀)·dl を加える(A11)。
@@ -4376,7 +4406,7 @@ function traceRay(S, px, py, cxv, cyv, dl, maxSteps, emit){
   // 内蔵プリセットは kFrame=1(💡🌗)または源が静止・無スピン(🔭🛰)のため描画は不変。
   const p=S.params, kU=2/p.Kt, eps=p.softening, eps2=eps*eps, q=p.q, c0=p.cLight, D0=p.D0, kF=p.kFrame;
   const heavy=[];
-  for(let i=0;i<S.n;i++) if(S.m[i]>=RAY_MASS_MIN) heavy.push(i);
+  for(let i=0;i<S.n;i++) if(rayHeavy(S,i)) heavy.push(i);
   // 第31便: UniverseBox — W_B は一様(∇ψ 寄与なし=光は曲げない)だが、n_eff と
   // 媒質随伴 u_B には入る(時計と光が同じ ψ・同じ u を共有する E8R の統一を維持)
   const BX=S.box; let WB=0, bH=0;
@@ -4403,7 +4433,7 @@ function traceRay(S, px, py, cxv, cyv, dl, maxSteps, emit){
   }
   return {x:px, y:py, cx:cxv, cy:cyv, end, steps};
 }
-// v1.22: 光線のキー比較キャッシュ — 光線は「重い天体(m≥RAY_MASS_MIN)の状態+光学
+// v1.22: 光線のキー比較キャッシュ — 光線は「重い天体(rayHeavy=偏向角 α_min 基準)の状態+光学
 // パラメータ+カメラ+光線設定」だけで決まる。源が動かない限り再積分せず、前回の
 // オフスクリーン画像を重ねるだけにする(💡🔭🛰🌗は実行中も再積分ゼロ)。
 // 近似ではなくキー厳密一致の再利用 — 描画結果は不変。
@@ -4416,7 +4446,10 @@ function rayKeyOf(rays){
     sim.params.softening+","+sim.params.kFrame+","+rayLambda0;   // 第37便 A3: λ0(表示専用)もキーに含める
   // 第31便: UniverseBox は a(t)・H で光学が変わる(static は定数なのでキャッシュ有効のまま)
   if(sim.box){ const sc=boxScaleAt(sim.box,sim.t); h+=";B"+sc.a.toFixed(6)+","+sc.H.toFixed(6)+","+sim.box.D; }
-  for(let i=0;i<sim.n;i++) if(sim.m[i]>=RAY_MASS_MIN)
+  // 第45便 45A(台帳4-48): 源集合は rayHeavy(m, R, Kt, ε)で決まる。Kt・softening は上のキーに
+  // 含まれ、各源の m・R も1件ずつ並ぶので、集合が変われば必ずキーも変わる(追随性は
+  // QA ray.alpha-threshold のキャッシュ節で機械検査する)
+  for(let i=0;i<sim.n;i++) if(rayHeavy(sim,i))
     h+=";"+i+","+sim.x[i]+","+sim.y[i]+","+sim.vx[i]+","+sim.vy[i]+","+sim.spin[i]+","+sim.R[i]+","+sim.m[i];
   return h;
 }
@@ -7601,6 +7634,8 @@ function zonalApsidal(mu, refR, J, a, calib){
 }
 window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extractJSON,
   verify:VERIFY, traceRay, getSystemPrompt, aiCfg, T:(k)=>T(k), lang:()=>LANG,
+  // 第45便 45A(台帳4-48): 光線源/1PN源の偏向角しきい値(QA ray.alpha-threshold の機能判定子も兼ねる)
+  RAY_ALPHA_MIN, rayMassMin, rayHeavy, pnMassMin, pnSource, rayKeyOf,
   obsTemp,   // 第36便 D(台帳4-51): 観測温度 T_obs(QA・監査が表示系と同じ量を読むための公開フック)
   extractLawRefs, lawText, ab:()=>ab, abStart, abStop,
   externalTags, classifyPreset, APP_VERSION, currentPreset:()=>currentPreset,  // v1.15/第35便W4: バッジ/バージョン同期のQA用
