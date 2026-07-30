@@ -2,13 +2,20 @@
 % The Box Universe -- draft v0.1 (2026-07-29, dispatch 43)
 % Written per docs/dev/HANDOFF_PAPER2_WRITE.md v1.1 (sole authoritative
 % writing brief; approved skeleton HANDOFF_PAPER_BOX v0.3).
-% Status: full prose draft; figures 1-8 are planned placeholders
-%         (machine generation wave pending -- Sec. VIII table maps every
-%         numeric claim to its verification gate).
+% Status: full prose draft with figures 1-8 machine-generated
+%         (tools/gen-figures2.mjs -> paper/figures/p2fig1..8.{svg,pdf,json}
+%         + p2figs-gates.json; Sec. VIII table maps every numeric claim
+%         to its verification gate).
 % Input canon: docs/BOX_UNIVERSE.md v1.6, docs/PHYSICS.md v1.14,
 %              docs/DERIVATIONS.md Sec. 17, beta v1.34 (V29 PASS).
 % Title: option (c), adopted by author decision (dispatch 44,
 %        2026-07-29).
+% v0.4: figures 1-8 machine-generated and embedded (dispatch 46, 46F).
+%        Two numbers corrected against the generator's gates:
+%        (i) the ray sweep-out switches OFF capture between s=0.6 and 0.7
+%            (the v0.3 wording had the direction inverted);
+%        (ii) the radius-resolved enhancement outer value 1.15 -> 1.16
+%            (beta v1.34, 8 seeds, bands with <3 particles dropped).
 % v0.3: the 0.92-vs-a relation stated exactly (probe-agreement epoch
 %        a=2D/Kt~1.85; a=2 point value = anchor value identically;
 %        numeric coincidence 2^{4/3}~e^{0.9233} to 0.10%).
@@ -35,7 +42,7 @@
 \author{Tetsuya Imamura}
 \affiliation{Independent researcher, Japan}
 
-\date{2026-07-29 (draft v0.3)}
+\date{2026-07-30 (draft v0.4)}
 
 \begin{abstract}
 We extend Determinacy-Field Mechanics (DFM), a two-dimensional
@@ -167,8 +174,40 @@ This is the toy-model version of the classic relational statement:
 absolute uniform motion is meaningless, but absolute rotation and
 expansion of ``everything else'' are interior-observable through the
 frame they drag.
-[Fig.~1: box hierarchy schematic; Fig.~2: $g(r)$ measured vs.\
-analytic --- planned.]
+Figure~\ref{fig:hierarchy} sketches the construction and
+Fig.~\ref{fig:gain} shows the measured gain against the analytic
+uniform-ring curve.
+
+\begin{figure*}[t]
+  \includegraphics[width=\textwidth]{p2fig1.pdf}
+  \caption{The box as a hierarchy. (a)~A \emph{prescribed} box: the
+  wall is a nominal radius $L\,a(t)$ regulated from outside, and the
+  summarized background enters the interior only through the field.
+  (b)~A \emph{free} box: the wall is made of ordinary masses, so
+  $a(t)$ is solved rather than given (Sec.~\ref{sec:layers}).
+  (c)~What every interior body reads, and the six semantic
+  commitments of Sec.~\ref{sec:semantics}. Schematic; no simulation
+  data. Source: \texttt{tools/gen-figures2.mjs}.}
+  \label{fig:hierarchy}
+\end{figure*}
+
+\begin{figure}[t]
+  \includegraphics[width=\linewidth]{p2fig2.pdf}
+  \caption{Frame gain $g(r)$ of a point-mass wall ring
+  ($N=96$, $m=20$, $R=260$, $\epsilon=4$, $k_{\mathrm{Frame}}=1$,
+  $G=0$), measured with the verification-gate construction of V23a
+  (rotation, $\Omega=0.15$) and V24a (expansion, $H=0.01$) extended to
+  a radius scan; four azimuthal probes per radius. The two
+  measurements coincide, as they must: both couple through the same
+  weighted mean. The gray curve is the analytic uniform-ring limit
+  $g(r)=(R/r)\,I_c/I_0$ with
+  $I_c=\oint\cos\theta\,\mathrm d\theta/\sqrt{d^2+\epsilon^2}$,
+  $I_0=\oint \mathrm d\theta/\sqrt{d^2+\epsilon^2}$, whose $r\to0$
+  limit is Eq.~(\ref{eq:gain}). Measured $g(20)=0.5002$ for both
+  probes; largest deviation from the analytic curve over the whole
+  scan, $0.07\%$.}
+  \label{fig:gain}
+\end{figure}
 
 % ---------------------------------------------------------------------
 \section{Three layers of expansion}
@@ -185,15 +224,51 @@ scaling $d\propto a^{2\varphi_B}$ interpolates with the determinacy
 share $\varphi_B$ of the box at the orbit (V25: net exponent $1.61$
 at $\varphi_B{\to}1$ and $0.00$ at $\varphi_B{\to}0$), giving the
 textbook ``bound systems do not expand'' as the $\varphi_B\to 0$ end
-of a measured dial.
+of a measured dial (Fig.~\ref{fig:phib}).
+
+\begin{figure}[t]
+  \includegraphics[width=\linewidth]{p2fig3.pdf}
+  \caption{The following of expansion is a dial, not a switch. Net
+  expansion susceptibility $n_{\mathrm{eff}}$ of a bound binary
+  ($d\propto a^{n}$) against the box's determinacy share
+  $\varphi_B=W_B/(W_B+w_{\mathrm{local}})$, measured with the V25
+  construction (prescribed $H=0.004$ box, run to $a=1.2$, differenced
+  against an $H=0$ control so that internal dissipation cancels). The
+  scan holds the binary fixed ($m=2000$, $d=24$) and varies only the
+  box determinacy $D$. Circled: the two V25 gate points, the
+  box-dominated binary ($\varphi_B=0.965$, $n=1.61$) and the locally
+  dominated one ($\varphi_B=0.088$, $n=0.00$). The dashed line is the
+  rough energy-pumping estimate $n=2\varphi_B$, which the measurement
+  approaches only at the box-dominated end.}
+  \label{fig:phib}
+\end{figure}
 
 \subsection{Layer 2: wavelength semantics}
 
 Redshift in the box is a \emph{semantic} rule: emitted light retains
 the wavelength ratio $1+z=a_{\mathrm{obs}}/a_{\mathrm{emit}}$.
-The suite emits three photons (A/B/C) at different epochs of the same
-run and checks all three simultaneously (gate \texttt{box.photon-abc},
-bookkeeping closed below $10^{-9}$).
+The suite emits light from two comoving sources A and B at different
+epochs of the same run and checks both arrivals at a third comoving
+observer C simultaneously (gate \texttt{box.photon-abc}, bookkeeping
+closed below $10^{-9}$; Fig.~\ref{fig:abc}).
+
+\begin{figure}[t]
+  \includegraphics[width=\linewidth]{p2fig4.pdf}
+  \caption{The A/B/C thought experiment, run
+  (preset \texttt{boxredshift}, $H=0.02$, $d_P=1$).
+  (a)~Wavelengths in flight, $\lambda(t)=\lambda_E\,a(t)/a_E$. A emits
+  $500$\,nm at $t=0$ ($a=1$) and B emits $500$\,nm at $t=34.657$
+  ($a=2$); both are observed at C at $t\approx68.2$ with
+  $1959$\,nm ($z=2.919$) and $978$\,nm ($z=0.956$).
+  (b)~World lines. After B's emission the two photons follow the same
+  path, so light emitted at different epochs arrives together carrying
+  different redshifts. The measured ledger
+  $|\lambda_{\mathrm{obs}}/\lambda_{\mathrm{emit}}-
+  a_{\mathrm{obs}}/a_{\mathrm{emit}}|$ closes to machine zero, which
+  is the content of negative claim~2: this is a rule, not a
+  derivation.}
+  \label{fig:abc}
+\end{figure}
 This is a definition layered on the kinematics, not a derivation from
 photon dynamics (negative claim 2 of this paper); its value is that
 it reproduces, at the level of the \emph{equations}, the observed
@@ -216,8 +291,24 @@ $4\times10^{-8}$ (gates \texttt{freebox.*}).
 This is a mechanism demonstration in the spirit of Friedmann
 cosmology---attraction decelerates, pressure-like repulsion can
 accelerate---with no claim of reproducing the Friedmann equations
-(negative claim 5).
-[Fig.~5: $a_{\mathrm{eff}}(t)$ with and without pressure --- planned.]
+(negative claim 5); Fig.~\ref{fig:freebox}.
+
+\begin{figure}[t]
+  \includegraphics[width=\linewidth]{p2fig5.pdf}
+  \caption{The free box solves its own expansion law (preset
+  \texttt{freebox}, 64 free wall masses, $1200$ steps to $t=19.2$).
+  The plotted $a_{\mathrm{eff}}=\langle r_{\mathrm{wall}}\rangle/
+  \langle r_{\mathrm{wall}}\rangle_0$ is measured from the walls, not
+  prescribed. (a)~With spin pressure ($k_{\mathrm{Rep}}=0.5$) the box
+  reaches $a_{\mathrm{eff}}=2.1795$ and \emph{accelerates}
+  ($H_{\mathrm{eff}}$ from $3.18\times10^{-2}$ to
+  $5.14\times10^{-2}$). (b)~The same box with the pressure removed,
+  magnified: gravity alone peaks at $a_{\mathrm{eff}}=1.0047$ at
+  $t=9.2$ and then recollapses ($H_{\mathrm{eff}}$ changes sign,
+  $+4.42\times10^{-4}\to-5.28\times10^{-4}$). The reservoir ledger is
+  identically zero in both runs (gates \texttt{freebox.*}).}
+  \label{fig:freebox}
+\end{figure}
 
 \subsection{Aside: an arrow of time in a reversible box}
 
@@ -280,9 +371,32 @@ windows ($a\colon1\to1.5\to2\to3$, $d_P=1$) and compares the measured
 ratio with the log-window average of Eq.~(\ref{eq:ratio}); the
 largest relative error is $5.3\times10^{-4}$ against a tolerance of
 $10^{-2}$, with $w$ conserved to $4.8\times10^{-4}$.
-[Fig.~6: $H_w/H_{\mathrm{geo}}$ vs.\ $a$ for several $D/K_t$ ---
-planned; the underlying scan is specified in the project's experiment
-design 4-66.]
+Figure~\ref{fig:probeH} extends that gate into an
+$a\times(D/K_t)$ scan, following the comparison design 4-66 of the
+project's experiment ledger.
+
+\begin{figure}[t]
+  \includegraphics[width=\linewidth]{p2fig6.pdf}
+  \caption{Probe-dependent expansion measurement. Measured
+  $H_w/H_{\mathrm{geo}}$ (black) against the analytic
+  Eq.~(\ref{eq:ratio}) (gray), for three box calibrations, from one
+  free particle in a prescribed exponential box ($K_t=300$,
+  $c_0=60$, $H_0=0.01$, $d_P=1$, $24$ windows over $a\colon 1\to3$;
+  the abscissa of each measured window is the $a$ at which the point
+  value equals the window average). Largest relative deviation from
+  the analytic curve, $6.2\times10^{-3}$; peculiar velocity conserved
+  to $4.8\times10^{-4}$. The dashed line is the model-internal
+  control of ledger item 4-66: recomputing the same measured $w$
+  against an exactly inverse-proportional light speed
+  ($c_{\mathrm{loc}}\propto1/W$) gives $H_w/H_{\mathrm{geo}}\equiv
+  d_P=1$, i.e.\ no probe dependence at all. Circled: the calibration
+  point $a=2$, $D/K_t=0.9242$, where the disagreement equals $D/K_t$
+  identically. The separation between the two light-speed laws at
+  that point, $0.076$, is $21\times$ the achieved measurement
+  precision, so the choice between them is observable from inside the
+  model.}
+  \label{fig:probeH}
+\end{figure}
 
 \subsection{A structural analogy with the Hubble tension}
 \label{sec:tension}
@@ -371,14 +485,34 @@ than set by hand, and for the model's black-hole-like preset the
 mechanistic value is $0.56$ against the toy value $1$---a gap the
 interface exposes rather than hides.
 \emph{External-ray sweep-out} is a strong-field effect of a rapidly
-spinning core on \emph{incoming} rays: non-escape rises over
-$s=0.5$--$1.0$, and the effect vanishes entirely under the physical
-lock $K_t=c^2/G$ (measured; the mechanism lives in the toy's strong
-regime only).
+spinning core on \emph{incoming} rays: the finite-time capture that a
+non-spinning core produces (measured non-escape rate $0.66$)
+disappears as the core spins up, switching off between $s=0.6$ and
+$s=0.7$ ($0.70\to0.08$) and reaching $0.00$ by $s=1.5$; and the
+effect vanishes entirely under the physical lock $K_t=c^2/G$
+(measured; the mechanism lives in the toy's strong regime only).
 The two mechanisms are machine-verified to be orthogonal: ray
 endpoints agree to all digits as \texttt{lightSweep} is scanned from
-0 to 1 (project derivations, Sec.~17).
-[Fig.~7: ray sweep at zero and high spin --- planned.]
+0 to 1 (project derivations, Sec.~17), and the self-light channel is
+already saturated at $s=0.3$, where no sweep-out has begun
+(Fig.~\ref{fig:sweep}).
+
+\begin{figure}[t]
+  \includegraphics[width=\linewidth]{p2fig7.pdf}
+  \caption{External-ray sweep-out (preset \texttt{rotorSolo};
+  rays enter from $x=-300$ travelling in $+x$, step $2.7$, $340$
+  steps; a ray is counted as non-escaping if it ends inside
+  $r=300$, exactly as gate \texttt{behavior.rotorSolo} counts it).
+  (a)~Non-spinning control: $66\%$ of a 50-ray fan is captured.
+  (b)~Core spin $s=2$ (arrow: sense of rotation): capture is
+  eliminated ($0.00$) and the fan is asymmetric, the mean closest
+  approach being $123.4$ on the prograde side against $40.4$ on the
+  retrograde side. The self-light channel is already saturated at
+  $s=0.3$, where the non-escape rate is still $0.72$ --- the two
+  darkness mechanisms are independent. Under the physical lock
+  $K_t=c^2/G=3600$ the sweep-out is absent even at $s=2$.}
+  \label{fig:sweep}
+\end{figure}
 
 \subsection{Requirements met, and limits}
 
@@ -387,7 +521,8 @@ Inside the model, a heavy, fast-spinning, optically dark core
 mechanisms; and (iii)~contributes to outer rotation-curve enhancement
 through dragging, with the radius-resolved profile showing the boost
 concentrated inward ($v/v_{\mathrm{bar}}$ enhancement from $1.58$ at
-inner radii to $1.15$ outside, eight-seed statistics).
+$r\approx121$ to $1.16$ at $r\approx251$, eight-seed statistics;
+Fig.~\ref{fig:curve}).
 It therefore meets, \emph{inside the model}, the phenomenological
 requirements ``dark but gravitating, and relevant to rotation
 curves''.
@@ -402,7 +537,23 @@ None of this licenses any claim about real dark matter (negative
 claim 4); the value is that requirement-level talk about darkness
 becomes an explicit, falsifiable checklist in a system small enough
 to audit.
-[Fig.~8: $v/v_{\mathrm{bar}}(r)$ --- planned.]
+
+\begin{figure}[t]
+  \includegraphics[width=\linewidth]{p2fig8.pdf}
+  \caption{Where the dragging boost lives (preset \texttt{galaxy},
+  eight seeds, $6000$ steps, eight equal radial bands over
+  $r\in[40,300]$; error bars are $\pm1$ standard deviation over
+  seeds, and a band is dropped for a seed that retains fewer than
+  three particles in it). (a)~Measured $v(r)$ against the baryonic
+  baseline $v_{\mathrm{bar}}(r)$ computed from the actual mass
+  distribution, with dragging on ($k_F=1$) and off ($k_F=0$).
+  (b)~The ratio of the two, i.e.\ the enhancement attributable to
+  dragging: $1.58$ at $r\approx121$ falling to $1.16$ at
+  $r\approx251$. The band-averaged outer boost over the gate's window
+  $r\in[156,286]$ is $1.331\pm0.009$ on the beta target used here,
+  against the $1.332\pm0.009$ quoted above from the release target.}
+  \label{fig:curve}
+\end{figure}
 
 % ---------------------------------------------------------------------
 \section{Limitations and negative claims}
@@ -452,11 +603,9 @@ Every number in this paper is asserted by an automated gate
 (Sec.~\ref{sec:repro}), and the model runs in a browser, so each
 claim can be re-derived, re-measured, or broken by a student in an
 afternoon.
-Future work: machine-generated figures for this draft; the
-$a\times D/K_t$ comparison scan (design complete); an optional light
-probe $H_{\mathrm{light}}$ alongside the two probes of
-Sec.~\ref{sec:v29}; and a fuller treatment of the reversibility
-demonstration.
+Future work: an optional light probe $H_{\mathrm{light}}$ alongside
+the two probes of Sec.~\ref{sec:v29}; and a fuller treatment of the
+reversibility demonstration.
 
 % ---------------------------------------------------------------------
 \section{Verification map}
@@ -483,6 +632,7 @@ arrow of time ($1.3\times10^{-3}$ vs.\ $10.8$) & \texttt{echo.*} \\
 darkness orthogonality; sweep-out & derivations Sec.~17 \\
 outer boost $1.332\pm0.009$; profile & seeds statistics \\
 claim--text consistency (33 claims) & \texttt{claims.sync} \\
+figures (21 gates) & {\small\texttt{p2figs-gates.json}} \\
 \end{tabular}
 \end{center}
 

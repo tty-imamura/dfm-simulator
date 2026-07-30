@@ -1,0 +1,48 @@
+{
+ "figure": "p2fig4",
+ "paper": "dfm-paper2",
+ "generated": "2026-07-30T05:52:01.034Z",
+ "commit": "ea5ba4a",
+ "target": "beta/index.html",
+ "preset": "boxredshift(QA box.photon-abc と同一構成・t<75 まで dt=0.016)",
+ "H0": 0.02,
+ "arrivals": [
+  {
+   "tE": 34.67199999999796,
+   "aE": 2.000585724631622,
+   "tO": 68.20799999999613,
+   "aO": 3.912435225709109,
+   "lamE": 500,
+   "lamO": 977.8224390833154,
+   "z": 0.9556448781666309,
+   "from": 1,
+   "to": 2
+  },
+  {
+   "tE": 0,
+   "aE": 1,
+   "tO": 68.28799999999616,
+   "aO": 3.9187001326592923,
+   "lamE": 500,
+   "lamO": 1959.350066329646,
+   "z": 2.9187001326592923,
+   "from": 0,
+   "to": 2
+  }
+ ],
+ "ledgerMaxAbsErr": 0,
+ "photonWarn": false,
+ "nan": false,
+ "lambdaTracks": {
+  "A": {
+   "emitT": 0,
+   "lamE": 500,
+   "n": 4267
+  },
+  "B": {
+   "emitT": 34.67199999999796,
+   "lamE": 500,
+   "n": 2095
+  }
+ }
+}
