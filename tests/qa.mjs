@@ -5309,6 +5309,119 @@ if (hasEchoFlipAt) {
   }
 }
 
+// ---- 7z5a2) 第47便 47A(台帳4-86 / 原仮定者裁定「対応する」・統括裁定=案B「pinned を外部熱浴
+// ----        として扱う」): E10′(κs 熱伝導)は計算段階では pinned 天体との対も熱を交換するのに、
+// ----        適用段階の②粒子ループが pinned を continue するため、pinned が受け取るはずの dQi が
+// ----        どのリザーバにも載らずに消えていた(= 見かけのエネルギー消失。第46便 46S が
+// ----        ☀️starcore で特定し、外部レビューが P0 判定)。新設リザーバ pinHeat に計上して
+// ----        「粒子系+外部拘束」で第一法則が閉じることを機械証明する。
+// ----        機能判定子: エンジンに 'pinHeat' があるか(root は未実装なので 2 件とも SKIP)----
+{
+  const hasPinHeat = await page.evaluate(() => 'pinHeat' in HP.sim);
+  if (hasPinHeat) {
+    // ① conduction.pinned-bath(外部レビューの必須QA仕様):
+    //    pinned 1体(T高)+ free 1体(T低)・κs>0・etaRad=0・G=0・kRep=0・muF=0・γn=0・非接触。
+    //    力が一つも働かないので粒子は 1 ビットも動かず、変わるのは T_int だけの純粋な伝熱系。
+    //    (a) 1步の熱量が E10′ の解析値 Q̇=C·κs·(T_j−T_i)·g²·μ·dt と一致し、向きが高温→低温
+    //    (b) ΔH_free + pinHeat = 0(free の内部熱の増分は、そっくり pinned 熱浴から出た分)
+    //    (c) 逆向き(free が高温)も同じ恒等式で閉じる
+    const bath = await page.evaluate(() => {
+      const s = HP.sim, DT = 0.016;
+      // m=100(R=10)の pinned と m=1(R=1)の free を d=11.5 に置く。sumR=11 < d なので
+      // 法線ばね(E9)は働かず、G=kRep=0 で力はゼロ。R も d も Float32 で厳密表現できる値
+      const build = (Tp, Tf) => s.build({
+        id: 'qa_pinbath', name: 'pinbath', camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+        thermal: 'tint',
+        physics: { G: 0, D0: 0, kFrame: 0, kRep: 0, q: 2, muF: 0, gammaN: 0, kappaS: 2,
+          etaRad: 0, pRad: 1, cHeat: 1, softening: 2, radiusScale: 1, timeScale: 1 },
+        bodies: [
+          { type: 'single', m: 100, x: 0, y: 0, vx: 0, vy: 0, spin: 0, tInt: Tp, pinned: true },
+          { type: 'single', m: 1, x: 11.5, y: 0, vx: 0, vy: 0, spin: 0, tInt: Tf, pinned: false }
+        ], overlays: {}
+      });
+      // (a) 1步の解析値照合
+      build(200, 0);
+      const C = s.params.cHeat, K = s.params.kappaS;
+      const sumR = s.R[0] + s.R[1], d = 11.5, g = sumR / (sumR + d), gg = g * g;
+      const mu = s.m[0] * s.m[1] / (s.m[0] + s.m[1]);
+      const T0p = s.Tint[0], T0f = s.Tint[1];
+      const qAna = C * K * (T0f - T0p) * gg * mu * DT;   // E10′(第37便 C2 の熱流形)
+      s.step(DT);
+      const one = { qAna, pin: s.pinHeat, dH: C * s.m[1] * (s.Tint[1] - T0f), gg, mu,
+        pinFixed: s.Tint[0] === T0p, still: s.vx[1] === 0 && s.vy[1] === 0 && s.x[1] === 11.5 };
+      // (b)(c) N步の閉性
+      const run = (N, Tp, Tf) => {
+        build(Tp, Tf);
+        const H0 = C * s.m[1] * s.Tint[1];
+        for (let k = 0; k < N; k++) s.step(DT);
+        const H1 = C * s.m[1] * s.Tint[1];
+        return { dH: H1 - H0, pin: s.pinHeat, Tf0: Tf, Tf1: s.Tint[1], Tp1: s.Tint[0],
+          radE: s.radE, nan: s.hasNaN(), still: s.vx[1] === 0 && s.vy[1] === 0 && s.x[1] === 11.5 };
+      };
+      return { one, fwd: run(120, 200, 0), rev: run(120, 0, 200) };
+    });
+    const relQ = Math.abs(bath.one.pin - bath.one.qAna) / Math.abs(bath.one.qAna);
+    const relC = (r) => Math.abs(r.dH + r.pin) / Math.max(Math.abs(r.pin), 1e-30);
+    const rF = relC(bath.fwd), rR = relC(bath.rev);
+    // 実測(beta 2026-07-30 第47便 47A): 1步 pinHeat=−1.5145336755897811 が解析値と bit 一致(相対 0)。
+    // 120步: 順方向 ΔH_free=+119.6703 / pinHeat=−119.6703(相対 3.9e-8)、逆方向は符号が反転して
+    // 相対 1.2e-8。残差は T_int が Float32 で格納されることによる丸めのみ(閾値 1e-6 の 25 倍以上の余裕)
+    add('conduction.pinned-bath',
+      !bath.fwd.nan && !bath.rev.nan && bath.one.pinFixed && bath.one.still
+      && bath.fwd.still && bath.rev.still && bath.fwd.radE === 0 && bath.rev.radE === 0
+      && relQ < 1e-9 && bath.one.pin < 0
+      && bath.fwd.dH > 0 && bath.fwd.pin < 0 && rF <= 1e-6
+      && bath.rev.dH < 0 && bath.rev.pin > 0 && rR <= 1e-6
+      && bath.fwd.Tf1 > 100 && bath.rev.Tf1 < 100,
+      `E10′ 解析値 Q=C·κs·(T_f−T_p)·g²·μ·dt=${bath.one.qAna.toExponential(12)}(g²=${bath.one.gg.toFixed(6)} μ=${bath.one.mu.toFixed(6)}) ` +
+      `→ 1步の pinHeat=${bath.one.pin.toExponential(12)}(相対差=${relQ.toExponential(2)}<1e-9 = 解析値と bit 一致・` +
+      `符号<0 = 高温 pinned → 低温 free の向き) 熱浴の T は不変=${bath.one.pinFixed} 粒子は静止=${bath.one.still} / ` +
+      `**閉性 ΔH_free + pinHeat = 0**: 順(pinned 200 → free 0)120步 ΔH_free=${bath.fwd.dH.toFixed(6)} ` +
+      `pinHeat=${bath.fwd.pin.toFixed(6)} 相対=${rF.toExponential(2)}(≤1e-6) T_free 0→${bath.fwd.Tf1.toFixed(3)} / ` +
+      `逆(free 200 → pinned 0)120步 ΔH_free=${bath.rev.dH.toFixed(6)} pinHeat=${bath.rev.pin.toFixed(6)} ` +
+      `相対=${rR.toExponential(2)}(≤1e-6) T_free 200→${bath.rev.Tf1.toFixed(3)} / radE=0(放射経路なし)`);
+
+    // ② conduction.pinned-zero-cost: κs>0 と pinned を併用する唯一の内蔵プリセット 📏conduction
+    //    (thermal:"tint"・κs=0.3・pinned 2体の熱浴)を 300 步走らせ、全粒子の
+    //    x,y,vx,vy,spin,R,m,T_int を **基点 3cc348b(修正前)で採取した実測ハッシュ**と照合する。
+    //    一致すれば「本修正は帳簿(pinHeat)の追加だけで、自由粒子側の数値経路を 1 ビットも
+    //    変えていない」ことの機械証明になる(統括裁定の受け入れ条件)。
+    //    同時に、この既存プリセットでも ΔH_free + pinHeat = 0 が成り立つことを確認する
+    //    (修正前はこの 64.63 がどの帳簿にも載らずに消えていた = 台帳4-86 の本体)。
+    //    ※ spin モードの κs>0+pinned(🌌galaxy/🪐saturn/🔭lensing 等)は dQi 経路を通らない
+    //       (E10′ はスピンを直接動かし、その回転エネルギー差は既に radE へ計上済み)ので無影響。
+    const CPZ_BASE = 'beb44e8d05eb1fed8fb0becc9ac672ce7d6644cda37afeca24541d2695a9fadc';
+    const cpz = await page.evaluate(() => {
+      HP.loadPreset('conduction', false);
+      const s = HP.sim;
+      const C = s.params.cHeat;
+      let np = 0, H0 = 0;
+      for (let i = 0; i < s.n; i++) { if (s.pinned[i]) np++; else H0 += C * s.m[i] * s.Tint[i]; }
+      for (let k = 0; k < 300; k++) s.step(0.016);
+      let H1 = 0;
+      for (let i = 0; i < s.n; i++) if (!s.pinned[i]) H1 += C * s.m[i] * s.Tint[i];
+      const a = [];
+      for (let i = 0; i < s.n; i++) a.push(s.x[i], s.y[i], s.vx[i], s.vy[i], s.spin[i], s.R[i], s.m[i], s.Tint[i]);
+      return { n: s.n, np, thermal: s.thermal, kappaS: s.params.kappaS, dH: H1 - H0,
+        pin: s.pinHeat, radE: s.radE, nan: s.hasNaN(), str: a.map(v => v.toExponential(12)).join(',') };
+    });
+    const cpzHash = crypto.createHash('sha256').update(cpz.str).digest('hex');
+    const cpzRel = Math.abs(cpz.dH + cpz.pin) / Math.max(Math.abs(cpz.pin), 1e-30);
+    add('conduction.pinned-zero-cost',
+      !cpz.nan && cpz.n === 28 && cpz.np === 2 && cpz.thermal === 'tint' && cpz.kappaS === 0.3
+      && cpzHash === CPZ_BASE && cpz.pin < 0 && cpz.dH > 0 && cpzRel <= 1e-6 && cpz.radE === 0,
+      `📏conduction(tint・κs=${cpz.kappaS}・pinned ${cpz.np}/${cpz.n}体)300步 x,y,vx,vy,spin,R,m,T_int ハッシュ=` +
+      `${cpzHash.slice(0, 16)}…(基点 3cc348b〔修正前〕の実測=${CPZ_BASE.slice(0, 16)}… bit一致=${cpzHash === CPZ_BASE}) ` +
+      `= 自由粒子側の数値経路は 1 ビットも変わっていない(修正は帳簿追加のみ) / ` +
+      `帳簿: ΔH_free=${cpz.dH.toFixed(6)} pinHeat=${cpz.pin.toFixed(6)} 相対=${cpzRel.toExponential(2)}(≤1e-6) ` +
+      `— 修正前はこの ${Math.abs(cpz.pin).toFixed(2)} がどのリザーバにも載らず消えていた(台帳4-86)`);
+
+    await page.evaluate(() => HP.loadPreset('saturn', false));   // 後続項目のため既定プリセットへ戻す
+  } else {
+    console.log('SKIP conduction.pinned-bath/conduction.pinned-zero-cost(対象に 47A 未適用 — root 等)');
+  }
+}
+
 // ---- 7z5b) 第44便 44B(台帳4-68c 再挑戦条件): 粒子の融合 fusion:{dFrac}(beta 先行)----
 // ----       機能判定子: 「thermal:"spin" のプリセットの fusion キーを削除するか」+ エンジンに
 // ----       _fuse/fusU があるか。root は fusion 未実装なので 3 件とも SKIP ----
@@ -5356,7 +5469,10 @@ if (hasEchoFlipAt) {
               E += (xO <= xC) ? 20 * muM * xO * xO : 20 * muM * xC * xC + (8 / maxInv) * (xO - xC);
             }
           }
-          return E + HP.urepEnergy(s) + s.radE + s.fusU;
+          // 第47便 47A(台帳4-86): pinned 熱浴のリザーバ pinHeat も保持量に加える(案B)。
+          // ☀️starcore 系は κs=0 なので pinHeat は厳密に 0 のまま — 式の完全性のための項で、
+          // 判定値は変わらない(pinHeat を持たない対象=root では ||0 で従来式に退化する)
+          return E + HP.urepEnergy(s) + s.radE + s.fusU + (s.pinHeat || 0);
         },
         // 1サブステップずつ進め、粒子数が減った step(=融合)の帳簿の跳びと、
         // 融合しなかった step の跳び(=積分器そのものの1步誤差)を別々に最大値で採る
@@ -5577,7 +5693,8 @@ if (hasEchoFlipAt) {
               E += (xO <= xC) ? 20 * muM * xO * xO : 20 * muM * xC * xC + (8 / maxInv) * (xO - xC);
             }
           }
-          return E + HP.urepEnergy(s) + s.radE + s.fusU + s.wallKE;
+          // 第47便 47A(台帳4-86): pinned 熱浴のリザーバ pinHeat も保持量に加える(案B)
+          return E + HP.urepEnergy(s) + s.radE + s.fusU + s.wallKE + (s.pinHeat || 0);
         },
         run: (preset, steps) => {
           const F = window.__fis;
@@ -5887,7 +6004,9 @@ if (hasEchoFlipAt) {
       const E0 = energy(s), r0 = s.radE;
       for (let k = 0; k < 6000; k++) { s.step(0.016); if ((k & 255) === 0) smp(); }
       const E1 = energy(s);
-      const bal = (E1 - E0) - (s.wallEin - s.wallEout - s.wallKE - (s.radE - r0));
+      // 第47便 47A(台帳4-86): pinned 熱浴へ出た熱 pinHeat も収支に入れる(案B)。この構成に
+      // pinned は無いので厳密に 0 のままで、判定値は不変(式の完全性のための項)
+      const bal = (E1 - E0) - (s.wallEin - s.wallEout - s.wallKE - (s.radE - r0) - (s.pinHeat || 0));
       const active = { in: s.wallEin, out: s.wallEout, ke: s.wallKE, rad: s.radE,
         err: Math.abs(bal) / Math.max(scale, s.wallEin, 1e-9), nan: s.hasNaN() };
       // (B) 断熱(thermalWalls 無し)— 壁の熱帳簿は厳密に 0 のまま
@@ -6357,7 +6476,9 @@ if (hasSwAutoCb) {
             E += (xO <= xC) ? 20 * muM * xO * xO : 20 * muM * xC * xC + (8 / maxInv) * (xO - xC);
           }
         }
-        return E + HP.urepEnergy(S) + S.radE + S.fusU + S.wallKE;
+        // 第47便 47A(台帳4-86): pinned 熱浴のリザーバ pinHeat も保持量に加える(案B)。
+        // ☀️starcore は κs=0(46S がこの帳簿漏れを避けるために選んだ構成)なので pinHeat≡0
+        return E + HP.urepEnergy(S) + S.radE + S.fusU + S.wallKE + (S.pinHeat || 0);
       };
       const escale = () => {
         const G = S.params.G, eps2 = S.params.softening * S.params.softening, C = S.params.cHeat;
