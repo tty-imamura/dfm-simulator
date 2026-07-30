@@ -3522,10 +3522,14 @@ if (!FAST) {
   const sepRel = Math.abs(apB.sep - apK.sep) / (apK.sep || 1e-12);
   // 深接触期の分母は kF1(base)側 — 説明文・claims(11.5%)と同じ規約に揃える
   const sepRelEnd = Math.abs(mg.base.end.sep - mg.kf0.end.sep) / (mg.base.end.sep || 1e-12);
+  // 第51便 51E: beta は両円盤を軌道順行へ(潮汐尾の育ちを最優先 — 6000步で10%)。この配置では
+  // 3000步時点のスピン加熱比が 1.42(6000步では 3.35 — 深接触とともに開く)なので、閾値を
+  // 1.4→1.25 へ調整(root 旧配置は 1.9〜2.2 のまま余裕で通る。6000步側の 3.35 は claims が
+  // ±15% 窓で別途固定)
   add('behavior.merger-causal',
     !mg.base.end.nan && !mg.kf0.end.nan && !mg.muf0.end.nan &&
     mg.base.t0.tail15 === 0 && mg.base.end.tail15 > 0.02 &&
-    spinRatio > 1.4 && mufRel > 0.002 && sepRel > 5e-4 && sepRel < 0.05,
+    spinRatio > 1.25 && mufRel > 0.002 && sepRel > 5e-4 && sepRel < 0.05,
     `${mg.steps}步・同一seed: ①潮汐尾率(自核から初期円盤半径の1.5倍外)=${(mg.base.t0.tail15 * 100).toFixed(1)}%→` +
     `${(mg.base.end.tail15 * 100).toFixed(2)}%(>2%。2倍外は ${(mg.base.end.tail20 * 100).toFixed(2)}%) ` +
     `②kFrame の効き所=**スピン加熱**: 平均|spin|=${mg.base.end.meanSpin.toFixed(4)}(kF1)/${mg.kf0.end.meanSpin.toFixed(4)}(kF0)` +

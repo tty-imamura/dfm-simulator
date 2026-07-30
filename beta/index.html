@@ -1738,11 +1738,11 @@ const BUILTIN_PRESETS = [
   // 第50便 50K(台帳4-78 C案パイロット): descStruct(要約/観察/操作)— 純分割+A/B文の末尾移設のみ
   descStruct:{
     summary:"2つの回転円盤銀河が接近・合体する過程。潮汐尾の形成、衝突による加熱(A9のスピン変換)、角運動量の再分配、合体後の回転曲線を観察できる。",
-    observe:"※第40便 40C の因果対照を、第50便 50I の新配置(初期から両銀河が画面内・核間302・円盤100/80粒で負荷1/2)で再実測した(3000步・同一初期配置): 引きずりの効きはまず**スピン加熱に集中**し(平均|spin| は kFrame=1 で 0 の 3.1倍)、**接近期(核間283→199)の核どうしの接近はほとんど変わらない** — 接近期の核間距離の差 3.0%。深い接触期にはじめて軌道にも効き、核間距離の差は3000步で 11.5% へ拡大する(効きの現れる時期の内訳ごと機械固定)。潮汐尾は「自分の核から初期円盤半径の1.5倍より外」の円盤粒子が 0%→4.4%まで育つ(QA behavior.merger-causal)。円盤は回転支持(kepler)で初期化してある。",
+    observe:"因果対照(同一初期配置で kFrame=1 対 0)の実測: 引きずりは**接近期(核間283→201)の軌道にはほとんど効かない** — 接近期の核間距離の差 4.0%。深い接触期にはじめて軌道へも効き、核間距離の差は3000步で 13.3% へ拡大する。スピン加熱も深接触とともに育ち、平均|spin|は kFrame=1 で 0 の 1.4倍(3000步)から 3.3倍(6000步)へ開く。潮汐尾(自分の核から初期円盤半径の1.5倍より外の円盤粒子)は 0%→5.0%(3000步)まで育ち、6000步には 10.0% に達する(QA behavior.merger-causal)。円盤はどちらも軌道に対して順行の回転支持(kepler)で初期化してある — 順行遭遇は潮汐尾が最もよく育つ配置である。",
     control:"kFrame=1のフレームドラッギング(A8)が合体ダイナミクスに効く — 0にすると引きずりなしの純重力合体と比較できる(おすすめA/B)。"},
   en:{name:"Galaxy Merger & Tidal Effects", descStruct:{
     summary:"Two rotating disk galaxies approach and merge. Watch tidal tails form, collisions heat the disks (spin conversion, A9), angular momentum redistribute, and the remnant's rotation curve settle. ",
-    observe:"The 40C causal control was re-measured on the 50I layout (both galaxies on-screen from the start, nuclei 302 apart, disks of 100/80 grains at half the load; 3000 steps, identical initial layout): the dragging acts first and foremost through spin heating (mean |spin| is 3.1× larger at kFrame=1 than at 0), while during the approach phase (separation 283→199) the closing of the two nuclei barely changes — a 3.0% separation difference. Only in deep contact does the orbit respond, the separation difference growing to 11.5% by step 3000 (the timing of the effect is machine-pinned along with its size). The tidal tail grows from 0% to 4.4% of disk particles beyond 1.5× their initial disk radius (QA behavior.merger-causal). The disks are initialized rotation-supported (kepler). ",
+    observe:"The causal control (identical initial layout, kFrame=1 vs 0) shows: dragging barely touches the orbit during the approach phase (separation 283→201) — a 4.0% separation difference — and only bites in deep contact, where the difference grows to 13.3% by step 3000. Spin heating also grows with the depth of contact: mean |spin| at kFrame=1 opens from 1.4× (step 3000) to 3.3× (step 6000) the kFrame=0 value. The tidal tail (disk particles beyond 1.5× their initial disk radius from their own nucleus) grows from 0% to 5.0% by step 3000 and reaches 10.0% by step 6000 (QA behavior.merger-causal). Both disks are initialized rotation-supported (kepler) and prograde with respect to the orbit — the prograde encounter is the configuration in which tidal tails grow best. ",
     control:"Frame dragging at kFrame=1 (A8) shapes the merger — set kFrame to 0 to compare a drag-free, gravity-only merger (suggested A/B)."}},
   activeParams:["kFrame","G","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   // 第42便 42A(台帳4-78 A案)+第50便 50I 再実測: claims — 因果対照で確定した数値
@@ -1750,18 +1750,27 @@ const BUILTIN_PRESETS = [
   // 閾値(接近期 sepRel∈(5e-4,0.05)・tail15>0.02)に直結させる
   claims:[
     { id:"merger.core-separation-diff", kind:"fixed-seed", metric:"coreSeparationRelDiffApproach",
-      expected:{min:0.015, max:0.045}, descScale:0.01,   // 実測2.95%(接近期2000步・behavior.merger-causal: 5e-4<差<5%)
+      expected:{min:0.02, max:0.048}, descScale:0.01,   // 実測3.99%(接近期2000步・behavior.merger-causal: 5e-4<差<5%)
       descPattern:"接近期の核間距離の差 (\\d+(?:\\.\\d+)?)%", testId:"behavior.merger-causal" },
     { id:"merger.deep-contact-sep-diff", kind:"fixed-seed", metric:"coreSeparationRelDiffDeep",
-      expected:{min:0.09, max:0.14}, descScale:0.01,   // 実測11.5%(深接触期3000步)
+      expected:{min:0.11, max:0.155}, descScale:0.01,   // 実測13.3%(深接触期3000步)
       descPattern:"(\\d+(?:\\.\\d+)?)% へ拡大", testId:"behavior.merger-causal" },
+    { id:"merger.spin-heating-growth", kind:"fixed-seed", metric:"spinHeatingRatio3k",
+      expected:{min:1.2, max:1.7},   // 実測1.42(3000步。6000步の3.3倍側は下の claim)
+      descPattern:"0 の (\\d+(?:\\.\\d+)?)倍\\(3000步\\)", testId:"behavior.merger-causal" },
+    { id:"merger.spin-heating-6000", kind:"fixed-seed", metric:"spinHeatingRatio6k",
+      expected:{min:2.8, max:3.9},   // 実測3.35(6000步 — behavior テストは3000步窓のため±15%)
+      descPattern:"(\\d+(?:\\.\\d+)?)倍\\(6000步\\)へ開く" },
     { id:"merger.tidal-tail-growth", kind:"fixed-seed", metric:"tidalTailFraction",
-      expected:{min:0.0377, max:0.051}, descScale:0.01,   // 実測4.44%(behavior.merger-causal: >2%)
-      descPattern:"(\\d+(?:\\.\\d+)?)%\\s*まで育つ", testId:"behavior.merger-causal" }
+      expected:{min:0.0425, max:0.0575}, descScale:0.01,   // 実測5.0%(3000步・behavior.merger-causal: >2%)
+      descPattern:"→(\\d+(?:\\.\\d+)?)%\\(3000步\\)まで育ち", testId:"behavior.merger-causal" },
+    { id:"merger.tidal-tail-6000", kind:"fixed-seed", metric:"tidalTailFraction6k",
+      expected:{min:0.085, max:0.115}, descScale:0.01,   // 実測10.0%(6000步 — ±15%)
+      descPattern:"6000步には (\\d+(?:\\.\\d+)?)% に達する" }
   ],
   camera:{scale:240}, world:{boundary:"none",size:0},   // 第50便 50I: 160→240(両銀河+円盤全体が初期状態から画面内に収まる)
   physics:{G:0.9, D0:4.5, kFrame:1, q:2, kRep:0.8, muF:0.45, gammaN:0.55, kappaS:0.12, Kt:90,   // 第26便: kFrame 0.55→1 / 第27便: q 1.8→2(整数冪の高速経路 −34%)・円盤 150/120(負荷改善 — 合計 4320→1681ms/600步・12000步 r90=159 有界を実測)
-    cLight:70, bM:1, etaRad:0.0008, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:3.5, timeScale:1.8},
+    cLight:70, bM:1, etaRad:0.0008, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:3.5, timeScale:2.2/* 第51便 51E: 1.8→2.2(画面上の展開を速く — 物理は1步も不変) */},
   bodies:[ // v1.13(付録M): 第6次提案(Grok #1)を内蔵化。v1.18: 円盤に bulkVx/Vy を付与し
            // 核と円盤が一体で並進するよう修正(旧: 核だけが動き円盤が置き去りになっていた)。
            // v1.24: vMode flat(vScale0.85=必要円軌道速度の1/4以下)で円盤が合体前に核へ
@@ -1773,7 +1782,7 @@ const BUILTIN_PRESETS = [
            // 数値主張は同構成で再実測済み(QA behavior.merger-causal・claims)
     {type:"single", rMul:1.2, m:920, x:-150,y:20, vx:1.1,vy:0.22, spin:0.09, pinned:false},
     {type:"disk", rMul:1.2, n:100, cx:-150,cy:20, radius:95, mMin:0.25,mMax:1.6,
-     spinMin:-0.6,spinMax:0.6, vMode:"kepler", aroundMass:920, vScale:1.0, direction:1,
+     spinMin:-0.6,spinMax:0.6, vMode:"kepler", aroundMass:920, vScale:1.0, direction:-1,   // 第51便 51E: 両円盤を軌道に対して順行へ(潮汐尾が最も育つ配置 — 6000步で10%)
      bulkVx:1.1, bulkVy:0.22},
     {type:"single", rMul:1.2, m:680, x:130,y:-25, vx:-1.49,vy:-0.3, spin:0.07, pinned:false},
     {type:"disk", rMul:1.2, n:80, cx:130,cy:-25, radius:78, mMin:0.25,mMax:1.4,
