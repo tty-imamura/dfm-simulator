@@ -173,6 +173,8 @@
   #classChips .classChip[data-g=closed]{border-color:var(--dim);color:var(--dim);}
   /* 第39便 39E(台帳4-75 E1): 温度モデルバッジ(thermal:"tint" のみ) */
   #classChips .classChip[data-g=tint]{border-color:var(--hot);color:var(--hot);}
+  /* 第45便 45C(台帳4-85): 強場トイ領域バッジ(ψ_static>0.5 のみ)— 注意喚起として err 系統 */
+  #classChips .classChip[data-g=strongfield]{border-color:var(--err);color:var(--err);}
   /* 第43便 43A(台帳4-78 B案): 数値主張(claims)の折畳み表示 — 分類バッジの直下、claims を
      持つプリセットにのみ表示。表示専用(物理・保存 JSON には無関係)。details.advParams と
      同系統の見た目を流用しつつ独立クラス化。長い数値行でも横スクロールが出ないよう break を許可 */
@@ -609,6 +611,8 @@ ja: {
   bdgClosed:"閉鎖系", bdgClosedTip:"閉鎖系 — 固定・規定運動なし。運動量・角運動量は系内(+遠方宇宙の帳簿)で閉じる。",
   // 第39便 39E(台帳4-75 E1): 温度モデルバッジ — thermal:"tint" のサンプルにだけ表示(表示のみ・物理不変)
   bdgTint:"温度=T_int", bdgTintTip:"温度を内部状態変数 T_int として扱う(A9′)— スピンと独立で、エネルギー帳簿が閉じる。無印のサンプルは旧来の「スピン=熱」方式",
+  // 第45便 45C(台帳4-85): 強場トイ領域バッジ — ψ_static=max(D/Kt, 各天体のm/(max(R,ε)Kt))>0.5 のときだけ表示
+  bdgStrongField:"⚠強場トイ領域", bdgStrongFieldTip:"|ψ|≳0.5 — 弱場GR較正(n≈1+2ψ)の適用外の強場トイ設定",
   // 第39便 39E(台帳4-75 E2): 有効時間窓マーカー(HUD)— sim.t が validT を超えたときだけ HUD に追記
   hudBeyondWindow:(v)=>" ⚠評価窓外(t>"+v+")",
   // 第43便 43A(台帳4-78 B案): 数値主張(claims)の折畳み表示 — claims を持つプリセットにのみ表示
@@ -783,6 +787,9 @@ en: {
   bdgClosed:"Closed system", bdgClosedTip:"Closed system — no constraints or prescribed motion. Momentum and angular momentum close within the system (plus the distant-universe ledger).",
   // 39th flight 39E (ledger 4-75 E1): temperature-model badge — shown only for thermal:"tint" samples (display only, physics unchanged)
   bdgTint:"T=T_int", bdgTintTip:"Temperature is treated as an internal state variable T_int (A9′) — independent of spin, so the energy ledger stays closed. Unmarked samples use the older \"spin = heat\" scheme.",
+  // 45th flight 45C (ledger 4-85): strong-field toy-regime badge — shown only when
+  // psi_static = max(D/Kt, each body's m/(max(R,eps)*Kt)) > 0.5
+  bdgStrongField:"⚠Strong-field toy regime", bdgStrongFieldTip:"|ψ|≳0.5 — a strong-field toy setting outside the weak-field GR calibration (n≈1+2ψ)",
   // 39th flight 39E (ledger 4-75 E2): valid-window HUD marker — appended only once sim.t exceeds validT
   hudBeyondWindow:(v)=>" ⚠beyond evaluated window (t>"+v+")",
   // 43rd flight 43A (ledger 4-78 plan B): collapsible display of machine-checked numeric claims —
@@ -949,6 +956,31 @@ function externalTags(p){
   const grav=!!(ph.gravityX||ph.gravityY||(p.universeBox && p.universeBox.friction==="flrw"));
   return {pin, rail, bath, grav, wall};
 }
+// 第45便 45C(台帳4-85): 強場トイ領域の静的検出 — ψ_static = max(
+//   (a) universeBox の a=1 箱項 D/Kt、
+//   (b) 各 single 天体の自己場 m/(max(R,ε)·Kt)(R=radius明示指定なら radiusScale·radius、
+//       無指定なら radiusScale·rMul·√|m| — S.updateRadii と同じ既定写像。ε=softening)
+// )。動的な合成 W(他天体寄与・箱の時間発展)は評価しない — プリセットJSONだけで決まる
+// 決定論的・軽量な静的近似(claims と同じデータ層)。ψ_static>0.5 で弱場展開 n≈1+2ψ が
+// 大きく外れる「強場トイ領域」とみなす(外部レビュー P1-4・dfm-paper2 §4 D/Kt≈0.92 の例)。
+function strongFieldPsi(p){
+  const ph=p.physics||{};
+  const Kt=(typeof ph.Kt==="number" && ph.Kt>0)? ph.Kt : DEFAULT_PHYSICS.Kt;
+  const rs=(typeof ph.radiusScale==="number")? ph.radiusScale : DEFAULT_PHYSICS.radiusScale;
+  const eps=(typeof ph.softening==="number")? ph.softening : DEFAULT_PHYSICS.softening;
+  let psi=0;
+  if(p.universeBox && typeof p.universeBox.D==="number"){
+    psi=Math.max(psi, p.universeBox.D/Kt);   // a=1 なので a^{-dPower}=1(W_B=D)
+  }
+  for(const b of (p.bodies||[])){
+    if(b.type!=="single" || typeof b.m!=="number") continue;
+    const rMul=(b.rMul===undefined)? 1 : b.rMul;
+    const R=(b.radius>0)? rs*b.radius : rs*rMul*Math.sqrt(Math.abs(b.m));
+    const Reff=Math.max(R, eps);
+    if(Reff>0) psi=Math.max(psi, Math.abs(b.m)/(Reff*Kt));
+  }
+  return psi;
+}
 // 第35便 W4(台帳4-54): サンプル分類バッジ — 各サンプルが「DFMコア公理から創発した現象」か
 // 「表示・比較・外部駆動のために与えた規則」かを、プリセットJSONから機械判定する
 // (externalTags と同じ「保守コストゼロ」方針: per-preset メタデータを持たず自動判定)。
@@ -969,7 +1001,10 @@ function classifyPreset(p){
   // 第39便 39E(台帳4-75 E1): 温度モデルバッジ — thermal:"tint" かどうかを表示だけの追加軸として返す
   // (layers の「創発 vs 規則」分類とは別軸なので layers 配列には入れない。物理判定には一切使わない)
   const tint = p.thermal==="tint";
-  return {layers, external:ext, closed, tint};
+  // 第45便 45C(台帳4-85): 強場トイ領域バッジ — ψ_static>0.5 のときだけ立つ(表示専用の追加軸)
+  const psiStatic = strongFieldPsi(p);
+  const strongField = psiStatic > 0.5;
+  return {layers, external:ext, closed, tint, strongField, psiStatic};
 }
 function gName(g){ return (LANG==="en" && I18N.en.groups[g]) || g; }
 function pName(p){ return (LANG==="en" && p.en && p.en.name) || p.name; }
@@ -6495,6 +6530,10 @@ function renderHelp(){
   if(cls.closed) addChip("closed",T("bdgClosed"),T("bdgClosedTip"));
   // 第39便 39E(台帳4-75 E1): 温度モデルバッジ — thermal:"tint" のプリセットにだけ1個追加(ノイズ回避)
   if(cls.tint) addChip("tint",T("bdgTint"),T("bdgTintTip"));
+  // 第45便 45C(台帳4-85): 強場トイ領域バッジ — ψ_static>0.5(静的近似)のときだけ追加。
+  // 「物理対応ロック(Kt=c²/G)」とは別概念(#physLockBadge・パラメータタブ)— 混同しないよう
+  // 弱場展開の適用外であることだけを言う独立チップにする(併存しうる: ロックあり+強場も可)
+  if(cls.strongField) addChip("strongfield",T("bdgStrongField"),T("bdgStrongFieldTip"));
   el.appendChild(chipRow);
   // 第43便 43A(台帳4-78 B案): 数値主張(claims)の表示 — claims を持つプリセットにのみ、分類
   // バッジの直下へ折畳みで追加。表示専用(claims を読むだけ・物理/保存 JSON には無関係)。
@@ -7565,6 +7604,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   obsTemp,   // 第36便 D(台帳4-51): 観測温度 T_obs(QA・監査が表示系と同じ量を読むための公開フック)
   extractLawRefs, lawText, ab:()=>ab, abStart, abStop,
   externalTags, classifyPreset, APP_VERSION, currentPreset:()=>currentPreset,  // v1.15/第35便W4: バッジ/バージョン同期のQA用
+  strongFieldPsi,   // 第45便 45C(台帳4-85): 強場トイ領域バッジのψ_static計算式単体のQA用
   urepEnergy, normThermalWalls,   // 第37便 C1/C2(台帳4-70/4-71): U_rep の総和・伝熱境界の正規化(QA/監査用)
   speedMul:()=>speedMul, trailBufs:()=>({a:trailBuf,b:trailBufB}),  // v1.19: QA用
   overlaySlots, overlayBaseY, PARAM_DEFS, paramDesc,  // v1.21: スロット配置/パラメータ説明のQA用

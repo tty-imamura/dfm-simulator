@@ -6121,6 +6121,58 @@ if (hasSwAutoCb) {
   }
 }
 
+// ---- 45C) 第45便 45C(台帳4-85): ui.strongfield-badge — 説明タブの分類バッジ列(#classChips)に
+// ----      追加した「⚠強場トイ領域」チップ(data-g=strongfield)の表示条件を検査する。
+// ----      ψ_static = max(universeBox の D/Kt, 各 single 天体の m/(max(R,ε)·Kt)) が 0.5 を
+// ----      超えるプリセットでのみ出現すること。強場代表は galaxy(中心星 m=2500・radius=15・
+// ----      Kt=50 → ψ_static≈3.33 — universeBox の D=80/Kt=300(ψ=0.267)は対象外なので使わない)。
+// ----      弱場代表は gclock(m=1500・rMul=1.2・Kt=300 → ψ_static≈0.108)。en切替でラベル
+// ----      (HP.T('bdgStrongField'))が変わり、DOM表示にも反映されること。HP.strongFieldPsi/
+// ----      classifyPreset または対象プリセットが揃わない対象(root等)は SKIP する。
+// ----      軽量(page.evaluate 2回・DOM検査のみ)なので QA_FAST=1 でも実行する ----
+{
+  const setup = await page.evaluate(() => {
+    const hasFn = typeof HP.strongFieldPsi === 'function' && typeof HP.classifyPreset === 'function';
+    const galaxy = HP.allPresets().find((p) => p.id === 'galaxy');
+    const gclock = HP.allPresets().find((p) => p.id === 'gclock');
+    return {
+      hasFn, hasGalaxy: !!galaxy, hasGclock: !!gclock,
+      galaxyPsi: (hasFn && galaxy) ? HP.strongFieldPsi(galaxy) : null,
+      gclockPsi: (hasFn && gclock) ? HP.strongFieldPsi(gclock) : null,
+    };
+  });
+  if (setup.hasFn && setup.hasGalaxy && setup.hasGclock
+      && setup.galaxyPsi > 0.5 && setup.gclockPsi !== null && setup.gclockPsi <= 0.5) {
+    const r = await page.evaluate(() => {
+      const inspect = (id) => {
+        HP.loadPreset(id, false);
+        const chip = document.querySelector('#classChips .classChip[data-g="strongfield"]');
+        return { present: !!chip, text: chip ? chip.textContent : null };
+      };
+      HP.setLang('ja');
+      const galaxyJa = inspect('galaxy');
+      const gclockJa = inspect('gclock');
+      const labelJa = HP.T('bdgStrongField');
+      HP.setLang('en');
+      const labelEn = HP.T('bdgStrongField');
+      const galaxyEn = inspect('galaxy');
+      HP.setLang('ja');
+      HP.loadPreset('saturn', false);   // 後続項目のため既定プリセットへ戻す
+      return { galaxyJa, gclockJa, labelJa, labelEn, galaxyEn };
+    });
+    const ok = r.galaxyJa.present && r.galaxyJa.text === r.labelJa
+      && !r.gclockJa.present
+      && r.labelJa !== r.labelEn
+      && r.galaxyEn.present && r.galaxyEn.text === r.labelEn && r.galaxyEn.text !== r.labelJa;
+    add('ui.strongfield-badge', ok,
+      `galaxy: ψ_static=${setup.galaxyPsi.toFixed(3)} present=${r.galaxyJa.present}(期待true) / `
+      + `gclock: ψ_static=${setup.gclockPsi.toFixed(3)} present=${r.gclockJa.present}(期待false) / `
+      + `jaラベル="${r.labelJa}" enラベル="${r.labelEn}" / en切替後DOM(galaxy)="${r.galaxyEn.text}"`);
+  } else {
+    console.log('SKIP ui.strongfield-badge(対象に galaxy/gclockのψ_static条件またはHP.strongFieldPsi/classifyPresetが揃っていない — 第45便 45C 未適用の root 等)');
+  }
+}
+
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
 // W5c: ワーカープールの後片付け(全ユニットは既に上流の getUnit() で待ち合わせ済みのはずだが、
 // 各ワーカーの wp.close() 完了を確実に待ってから共有 browser を閉じる)
