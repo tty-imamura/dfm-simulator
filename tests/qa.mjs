@@ -491,8 +491,11 @@ const W5C_UNITS = {
   // 実測では etaRad は **温度だけ** を単調に動かし、半質量半径 r50(=収縮の速さ)は変えない
   // (6000步で r50 差 0.4%・12000步でも 2.1% で符号すら一定しない)。40C で説明文を修正し、
   // 本テストはその **否定的結果そのもの**(冷却は温度に効き、収縮には効かない)を固定する。
-  collapseCooling: { enabled: !FAST, weight: 45, run: (pg) => pg.evaluate(() => {
-    const STEPS = 6000;   // t≈96。温度差が 15% に開くのがこの辺り(4500步では 4% しかない)
+  collapseCooling: { enabled: !FAST, weight: 90, run: (pg) => pg.evaluate(() => {
+    // 第51便 51F: 6000步→12000步へ延長(beta は G↑/kRep↓ で塊が育つ構成になり、温度対照が
+    // 明確に開くのは加熱ピークを過ぎた 12000步 — 実測 T比 on/off = beta 0.545 / root 0.761)。
+    // r50 の冷却非依存(負の主張)は従来どおり崩壊中盤 6000步で判定する
+    const STEPS = 6000;   // ×2 区間(6000 で中間計測 → 12000 で最終計測)
     const stat = (s) => {
       let M = 0, cx = 0, cy = 0;
       for (let i = 0; i < s.n; i++) { M += s.m[i]; cx += s.m[i] * s.x[i]; cy += s.m[i] * s.y[i]; }
@@ -513,11 +516,13 @@ const W5C_UNITS = {
       const s = HP.sim; s.params.etaRad = eta;
       const t0 = stat(s);
       for (let k = 0; k < STEPS; k++) s.step(0.016);
-      return { t0, end: stat(s) };
+      const mid = stat(s);   // 6000步(崩壊中盤 — r50 の冷却非依存を見る点)
+      for (let k = 0; k < STEPS; k++) s.step(0.016);
+      return { t0, mid, end: stat(s) };   // 12000步(加熱ピーク後 — 温度対照が開く点)
     };
     const on = run(0.004), off = run(0);
     HP.loadPreset('saturn', false);
-    return { steps: STEPS, on, off };
+    return { steps: STEPS * 2, on, off };
   }) },
   darkrotorMidNew: { enabled: w5cHasObs && !FAST && w5cDrFree, weight: 26, run: (pg) => pg.evaluate(() => {
     // 🕶️ の中期安定・v4/v5(全自由系)経路(元7m節 2785-2822行から抽出)
@@ -3555,20 +3560,22 @@ if (!FAST) {
   //     閾値 3% は 4.5倍/3.1倍の余裕(2ビルドの差 4.2 ポイントより十分広く取る)
   //   ・r50 の相対差 < 0.05 … 実測 0.0036/0.0011 → **13.9倍/45倍**の余裕(これが「収縮に効かない」の機械的表現)
   //   ・両方とも t0 から実際に縮んでいること(r50(end) < r50(t0)·0.98。実測 143.74→133.4)= 健全性条件
+  // 第51便 51F 改訂: 判定点を分離 — r50 の冷却非依存は崩壊中盤 6000步(mid)、温度対照は
+  // 加熱ピーク後の 12000步(end)で見る。実測: 温度比 on/off = beta 0.545 / root 0.761(<0.85)・
+  // r50 相対差@6000 = beta 1.29% / root 0.15%(<5%)。beta は G 2.2/kRep 0.6 の塊形成構成
+  // (r50 144→48 = 3.0倍集中)・root は旧構成のまま両方この閾値で通る
   const cc = await w5cGetUnit('collapseCooling');
   const tRatio = cc.on.end.T / (cc.off.end.T || 1e-12);
-  const r50Rel = Math.abs(cc.on.end.r50 - cc.off.end.r50) / (cc.off.end.r50 || 1e-12);
+  const r50Rel = Math.abs(cc.on.mid.r50 - cc.off.mid.r50) / (cc.off.mid.r50 || 1e-12);
   add('behavior.collapse-cooling',
     !cc.on.end.nan && !cc.off.end.nan &&
     cc.on.end.r50 < cc.on.t0.r50 * 0.98 && cc.off.end.r50 < cc.off.t0.r50 * 0.98 &&
-    tRatio < 0.97 && r50Rel < 0.05,
-    `${cc.steps}步・同一seed で etaRad だけを 0.004/0: 温度(平均|spin|)=${cc.on.end.T.toFixed(4)}/${cc.off.end.T.toFixed(4)}` +
-    `(比=${tRatio.toFixed(3)} <0.97 = 冷却は効いている) ` +
-    `半質量半径 r50=${cc.on.end.r50.toFixed(2)}/${cc.off.end.r50.toFixed(2)}(相対差 ${(r50Rel * 100).toFixed(2)}% <5%) ` +
-    `r90=${cc.on.end.r90.toFixed(1)}/${cc.off.end.r90.toFixed(1)} 収縮 r50 ${cc.on.t0.r50.toFixed(1)}→${cc.on.end.r50.toFixed(1)}(両条件とも収縮する) ` +
-    `— **否定的結果の固定**: 放射冷却は温度を下げるが崩壊速度は変えない(12000步でも r50 差 2.1% で符号不定・` +
-    `etaRad を5倍にしても温度だけが単調に下がり r50 は動かない)。収縮を駆動しているのは自己重力であって` +
-    `冷却ではない。第40便 40C で説明文を実測に合わせて修正した`);
+    tRatio < 0.85 && r50Rel < 0.05,
+    `${cc.steps}步・同一seed で etaRad だけを 0.004/0: 温度(平均|spin|・12000步)=${cc.on.end.T.toFixed(4)}/${cc.off.end.T.toFixed(4)}` +
+    `(比=${tRatio.toFixed(3)} <0.85 = 冷却は効いている) ` +
+    `半質量半径 r50(6000步)=${cc.on.mid.r50.toFixed(2)}/${cc.off.mid.r50.toFixed(2)}(相対差 ${(r50Rel * 100).toFixed(2)}% <5%) ` +
+    `r50 終端=${cc.on.end.r50.toFixed(1)}/${cc.off.end.r50.toFixed(1)} 収縮 ${cc.on.t0.r50.toFixed(1)}→${cc.on.end.r50.toFixed(1)}(両条件とも収縮する) ` +
+    `— **否定的結果の固定**: 放射冷却は温度を下げるが崩壊速度は変えない。収縮を駆動しているのは自己重力`);
 } else {
   console.log('SKIP behavior.merger-causal / behavior.collapse-cooling(QA_FAST=1)');
 }

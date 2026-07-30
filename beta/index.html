@@ -1792,25 +1792,33 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:true,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"} },
 
 { id:"collapse", name:"自己重力雲の崩壊と原始星形成", emoji:"🌫️", group:"銀河",
-  description:"広がった粒子群が自己重力で崩壊し、中心集中・衝突加熱(A9)・放射冷却(E11)を観察。雲全体はごくわずかな初期回転(角運動量)を持つ — 現実の分子雲コアと同様、角運動量保存によって収縮とともに回転が増幅され、中心星の周りに円盤構造が形成されやすくなる(ジーンズ不安定性のアナロジー)。※第40便 40C の因果対照(同一初期配置で etaRad だけを 0.004/0)で、旧説明の「放射冷却が崩壊速度に効く」は**成立しないことが分かったので撤回した**: 6000步で温度(平均|spin|)は 0.944 対 0.990〜1.090 と冷却側が明確に低いのに、半質量半径 r50 は 133.13 対 132.65(差 0.36%)でほとんど変わらない。12000步でも差は 2.1% で符号すら一定せず、etaRad を5倍(0.02)にしても温度だけが単調に下がって r50 は動かない — **収縮を駆動しているのは自己重力であって冷却ではない**(QA behavior.collapse-cooling)。etaRad/pRad は温度と色の見え方を変えるノブとして残っている。",
-  en:{name:"Self-Gravitating Cloud Collapse & Protostar", description:"A dispersed particle cloud collapses under self-gravity: central concentration, collision heating (A9) and radiative cooling (E11). The cloud carries a slight initial rotation — as in real molecular-cloud cores, angular-momentum conservation amplifies it during contraction, favoring a disk around the forming star (a Jeans-instability analogy). Note: the causal control run added in 40C of the 40th delivery (same initial layout, only etaRad switched between 0.004 and 0) showed that the old claim “cooling efficiency drives the collapse rate” does NOT hold, so it has been withdrawn. After 6000 steps the temperature (mean |spin|) is clearly lower with cooling (0.944 vs 0.99–1.09), yet the half-mass radius r50 is 133.13 vs 132.65 — a 0.36% difference. At 12000 steps the gap is still only 2.1% and does not even keep a consistent sign, and multiplying etaRad by five (0.02) lowers the temperature monotonically while leaving r50 unchanged: the contraction is driven by self-gravity, not by cooling (QA behavior.collapse-cooling). etaRad/pRad remain as knobs over the temperature and the colour."},
+  // 第51便 51F: descStruct 化+塊形成の強化(G↑/kRep↓)に伴う数値の全面再実測。メタ表現不使用
+  descStruct:{
+    summary:"広がった粒子群が自己重力で崩壊し、中心集中・衝突加熱(A9)・放射冷却(E11)を観察する。雲全体はごくわずかな初期回転(角運動量)を持つ — 現実の分子雲コアと同様、角運動量保存によって収縮とともに回転が増幅され、中心星の周りに円盤構造が形成されやすくなる(ジーンズ不安定性のアナロジー)。",
+    observe:"半質量半径r50は 144→48(12000步)— 3.0倍 の中心集中で、稠密な核が育つ。※因果対照(同一初期配置で etaRad だけ 0.004/0)によれば「放射冷却が崩壊速度に効く」という素朴な期待は成立しない: 崩壊が進む6000步時点で r50 の差は 1.3% にとどまる一方、温度(平均|spin|)は12000步で 0.68 対 1.25 と冷却側が明確に低い — **収縮を駆動しているのは自己重力であって冷却ではない**(QA behavior.collapse-cooling)。etaRad/pRad は温度と色の見え方を変えるノブとして残っている。",
+    control:"おすすめA/B: etaRad 0.004⇄0(温度と色だけが変わり、収縮はほとんど変わらない)。G を下げる/kRep を上げると崩壊が緩み、塊が育たなくなる。"},
+
+  en:{name:"Self-Gravitating Cloud Collapse & Protostar", descStruct:{
+    summary:"A dispersed particle cloud collapses under self-gravity: central concentration, collision heating (A9) and radiative cooling (E11). The cloud carries a slight initial rotation — as in real molecular-cloud cores, angular-momentum conservation amplifies it during contraction, favoring a disk around the forming star (a Jeans-instability analogy). ",
+    observe:"The half-mass radius r50 falls 144→48 by step 12000 — a 3.0× central concentration that leaves a dense core. The causal control (same initial layout, only etaRad switched between 0.004 and 0) shows the naive expectation that radiative cooling drives the collapse rate does NOT hold: at step 6000, mid-collapse, the r50 difference is a mere 1.3%, while the temperature (mean |spin|) at step 12000 is 0.68 vs 1.25 — clearly lower on the cooling side. The contraction is driven by self-gravity, not by cooling (QA behavior.collapse-cooling). etaRad/pRad remain as knobs over the temperature and the colour. ",
+    control:"Suggested A/B: etaRad 0.004 vs 0 (only temperature and colour change; the contraction barely does). Lower G or raise kRep and the collapse relaxes — no clump forms."}},
   activeParams:["etaRad","pRad","G"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   // 第42便 42A(台帳4-78 A案): claims — 第40便 40C の否定的結果(冷却は収縮速度に効かない)を
   // 機械可読化。r50差は QA behavior.collapse-cooling の閾値(r50Rel<5%)に窓を合わせ、
   // 温度(平均|spin|)は対応する単独閾値が無いため説明文数値±15%
   claims:[
     { id:"collapse.r50-diff", kind:"fixed-seed", metric:"r50RelDiff",
-      expected:{min:0.00288, max:0.00432}, descScale:0.01,   // 実測0.36%(behavior.collapse-cooling: r50Rel<5%)
-      descPattern:"差 (\\d+\\.\\d+)%\\)でほとんど変わらない", testId:"behavior.collapse-cooling" },
-    { id:"collapse.temperature-cooling", kind:"fixed-seed", metric:"meanSpinTemperature",
-      expected:{min:0.802, max:1.086},   // 実測0.944(冷却あり・6000步)
-      descPattern:"温度\\(平均\\|spin\\|\\)は (\\d+\\.\\d+) 対",
-      control:{patch:{etaRad:0}, expected:{min:0.8415, max:1.1385},   // 実測0.990〜1.090(冷却なし)
-        descPattern:"対 (\\d+\\.\\d+)〜\\d+\\.\\d+ と冷却側"},
+      expected:{min:0.0104, max:0.0156}, descScale:0.01,   // 実測1.29%(6000步・behavior.collapse-cooling: r50Rel<5%)
+      descPattern:"r50 の差は (\\d+(?:\\.\\d+)?)% にとどまる", testId:"behavior.collapse-cooling" },
+    { id:"collapse.temperature-cooling", kind:"fixed-seed", metric:"meanSpinTemperature12k",
+      expected:{min:0.578, max:0.782},   // 実測0.679(冷却あり・12000步)
+      descPattern:"は12000步で (\\d+(?:\\.\\d+)?) 対",
+      control:{patch:{etaRad:0}, expected:{min:1.06, max:1.44},   // 実測1.245(冷却なし・12000步)
+        descPattern:"対 (\\d+(?:\\.\\d+)?) と冷却側"},
       testId:"behavior.collapse-cooling" }
   ],
   camera:{scale:280}, world:{boundary:"none",size:0},
-  physics:{G:1.4, D0:1.8, kFrame:1, q:2, kRep:1.2, muF:0.65, gammaN:0.45, kappaS:0.09, Kt:70,   // 第26便: kFrame 0.35→1(6000步 rMax 257・12000步 500 <600 を実測)
+  physics:{G:2.2, D0:1.8, kFrame:1, q:2, kRep:0.6, muF:0.65, gammaN:0.45, kappaS:0.09, Kt:70,   // 第51便 51F(原仮定者指摘「塊にならない」): G 1.4→2.2・kRep 1.2→0.6 — 12000步で r50 144→48(3.0倍の中心集中・rMax 438<600 有界を実測)
     cLight:60, bM:1, etaRad:0.004, pRad:2.8, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:5, timeScale:2.2},
   bodies:[ // v1.13(付録M): 第6次提案(Grok #3)を内蔵化。v1.18: Gemini 第8次提案採用 —
            // vMode rigid の微小回転 + random 相当の乱れは vNoise でなく速度合成で付与できないため
