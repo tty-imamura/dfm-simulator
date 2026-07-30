@@ -3495,7 +3495,8 @@ if (!FAST) {
   for (let i = 0; i < mg.base.cks.length; i++) if (mg.base.cks[i].sep <= 0.72 * sep0) { apIdx = i; break; }
   const apB = mg.base.cks[apIdx], apK = mg.kf0.cks[apIdx];
   const sepRel = Math.abs(apB.sep - apK.sep) / (apK.sep || 1e-12);
-  const sepRelEnd = Math.abs(mg.base.end.sep - mg.kf0.end.sep) / (mg.kf0.end.sep || 1e-12);
+  // 深接触期の分母は kF1(base)側 — 説明文・claims(11.5%)と同じ規約に揃える
+  const sepRelEnd = Math.abs(mg.base.end.sep - mg.kf0.end.sep) / (mg.base.end.sep || 1e-12);
   add('behavior.merger-causal',
     !mg.base.end.nan && !mg.kf0.end.nan && !mg.muf0.end.nan &&
     mg.base.t0.tail15 === 0 && mg.base.end.tail15 > 0.02 &&
