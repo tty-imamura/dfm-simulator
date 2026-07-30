@@ -2288,6 +2288,50 @@ if (hasBadgeClassify) {
     `${bb.d1.toFixed(2)} a=${bb.a.toFixed(4)} n_eff=${bb.nEff.toFixed(4)}(目標比${(bb.nEff / target).toFixed(3)}・許容±40%)`);
 }
 
+// ---- 50C) 第50便 50C(台帳4-87): 🧭probeH — 二つのH推定器。HUD が表示する累積測定
+// ----      (t=0基準・指数読み/反比例読み)と同じ式を sim 状態から計算し、a=2 で
+// ----      ①指数読みが解析 2(D/Kt)(1−1/a)/ln a と 1e-2 以内で一致(V29 と同じ許容)
+// ----      ②反比例読み(4-66 対照)が恒等 1 に 1e-2 以内 ③sim.probeHud の配線
+// ----      (w0 退避)が生きていること、を機械検証する。probeH プリセットの claims 窓
+// ----      (1.32〜1.347 / 0.99〜1.01)はこの実測に直結する。プリセットが無い対象
+// ----      (root 等)は SKIP ----
+{
+  const hasProbeH = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'probeH'));
+  if (hasProbeH) {
+    const r = await page.evaluate(() => {
+      const s = HP.sim;
+      HP.loadPreset('probeH', false);
+      if (!s.probeHud || !s.box) return { wired: false };
+      const B = s.box, Kt = s.params.Kt, dkt = B.D / Kt;
+      // a=2 まで規定 exp 膨張を進める(t=ln2/H0)
+      const steps = Math.ceil(Math.log(2) / B.H0 / 0.016);
+      for (let k = 0; k < steps; k++) s.step(0.016);
+      const sc = boxScaleAt(s.box, s.t);
+      const w = Math.hypot(s.vx[0] - sc.H * (s.x[0] - B.cx), s.vy[0] - sc.H * (s.y[0] - B.cy));
+      const lnA = Math.log(sc.a), adp = Math.pow(sc.a, -B.dPower);
+      const lnW = Math.log(w / s.probeHud.w0);
+      return { wired: true, dkt, a: sc.a, w0: s.probeHud.w0, w,
+        rExp: (2 * dkt * (1 - adp) - lnW) / lnA,
+        rInv: B.dPower - lnW / lnA,
+        ana: 2 * dkt * (1 - adp) / lnA,
+        nan: s.hasNaN() };
+    });
+    // 実測(2026-07-30): a=2.0000 で 指数読み=1.3338(解析1.3335・相対誤差2.4e-4)・
+    // 反比例読み=1.0003・w保存ずれ3.2e-4 — 説明文の 1.333 / 1.000 と claims 窓に一致
+    add('behavior.probeH', r.wired && !r.nan
+      && Math.abs(r.rExp / r.ana - 1) < 1e-2
+      && Math.abs(r.rInv - 1) < 1e-2
+      && Math.abs(r.w / r.w0 - 1) < 1e-3,
+      r.wired
+        ? `D/Kt=${r.dkt.toFixed(4)} a=${r.a.toFixed(4)}: 指数読み=${r.rExp.toFixed(4)}(解析${r.ana.toFixed(4)}・`
+          + `相対誤差${Math.abs(r.rExp / r.ana - 1).toExponential(1)}<1e-2) 反比例読み=${r.rInv.toFixed(4)}(|−1|<1e-2) `
+          + `w保存ずれ=${Math.abs(r.w / r.w0 - 1).toExponential(1)}(<1e-3)`
+        : 'probeHud の配線(sim.probeHud/sim.box)が生きていない');
+  } else {
+    console.log('SKIP behavior.probeH(対象に probeH プリセットなし — 第50便 50C 未適用の root 等)');
+  }
+}
+
 // ---- 7h2) 台帳4-57(第32便): 単体レールの中心 railCx/railCy ----
 // (root=v1.31 は未実装のため、スキーマ非対応時はスキップ)
 {

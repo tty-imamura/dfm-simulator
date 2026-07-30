@@ -574,6 +574,8 @@ ja: {
   // 第35便(台帳4-62): Loschmidt echo — 初期配置からの RMS と、速度・スピン反転の実行済み表示
   hudEcho:(r)=>`echo RMS=${(Math.abs(r)<0.01)? r.toExponential(2) : r.toFixed(3)}`,
   hudEchoFlipped:"反転済み↩︎",
+  // 第50便 50C(台帳4-87): 二つのH推定器 — 累積(t=0基準)の H_w/H_geo(指数読み・反比例読み)
+  hudProbeH:(rE,ana,rI)=>`H_w/H_geo 指数読み=${rE.toFixed(3)}(解析${ana.toFixed(3)}) 反比例読み=${rI.toFixed(3)}`,
   // 第35便(台帳4-61): 自由な箱 — 規定 a(t) ではなく壁粒子群から計測した実測尺度因子であることの区別表示
   ovBoxMeas:"実測", ovBoxMeasNote:"a_eff=⟨r⟩/⟨r⟩₀ 実測(規定a(t)ではない)",
   ovBoxGraphMeas:"a_eff(青実線)/H_eff(橙点線)[実測]",
@@ -754,6 +756,8 @@ en: {
   // 第35便(台帳4-62): Loschmidt echo
   hudEcho:(r)=>`echo RMS=${(Math.abs(r)<0.01)? r.toExponential(2) : r.toFixed(3)}`,
   hudEchoFlipped:"reversed ↩︎",
+  // 第50便 50C(台帳4-87): two H estimators — cumulative (from t=0) H_w/H_geo, exp vs inverse reading
+  hudProbeH:(rE,ana,rI)=>`H_w/H_geo exp=${rE.toFixed(3)} (analytic ${ana.toFixed(3)}) inverse=${rI.toFixed(3)}`,
   // 第35便(台帳4-61): the free box — measured scale factor, not a prescribed a(t)
   ovBoxMeas:"measured", ovBoxMeasNote:"a_eff=⟨r⟩/⟨r⟩0 measured (not prescribed)",
   ovBoxGraphMeas:"a_eff / H_eff [measured]",
@@ -1372,6 +1376,42 @@ const BUILTIN_PRESETS = [
   // B の放出時刻 t=ln2/0.02=34.657 → a=2 ちょうど(両光子はほぼ同時に C へ届く: t≈69.3)
   photonEmit:[{body:0, t:0, lambda:500, aim:2}, {body:1, t:34.657, lambda:500, aim:2}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:false,boxGraph:true} },
+
+// 第50便 50C(台帳4-87): 🧭 二つのH推定器 — V29(プローブ依存の膨張測定・論文2の中心結果)を
+// 操作可能なサンプルへ。測定系は HP.verify.v29 / 論文2 fig6 / tests/exp-4-66.mjs と同一
+// (規定 exp 膨張・自由な測定粒子・friction:"dfm")。probeHud:true が HUD に2つの推定器
+// (指数読み・反比例読み)の累積測定(t=0基準)を1行追記する(表示のみ — 物理は一切不変)。
+// D/Kt の操作: Kt は主役スライダー・D は「箱宇宙」セクションの数値入力(第32便 W2)。
+// D の既定 277.26 = (2/3)ln4·300 ≈ 0.9242·Kt(論文2の較正点 — a=2 の点値がテンション比
+// 67.4/73.0≈0.923 と同水準になる。数値一致は較正であり証拠ではない — Negative claim 6)。
+{ id:"probeH", name:"箱宇宙 — 二つのH推定器(プローブ依存の膨張測定)", emoji:"🧭", group:"箱宇宙",
+  description:"同じ箱の膨張率Hを、2人の観測者が別々の物差しで測る(論文2の中心結果V29を操作可能にしたサンプル — 台帳4-87)。幾何プローブは共動構造を追ってH_geo=Δln a/Δtを報告する。速度プローブはFLRW流の減衰則w/c∝1/aを仮定し、比R=w/c_locの実測減衰からH_w=−Δln R/Δtを推定する。粒子の特異速度wはモデルの絶対帳簿では保存するのに(V27)、局所光速c_loc=c₀e^{−2ψ}が膨張の希釈で上がるため、光を物差しにした比Rは減衰する(E8R・V28)— しかもその減衰則は仮定したFLRW形と違うので、2つの推定値の比はH_w/H_geo=2(D/Kt)/aとなり、時刻aと較正D/Ktに依存する。HUDの累積測定(t=0基準)がこれを常時表示する: a=2で指数読みの累積比は 1.333(解析1.3335と1e-2以内で一致)。並記される反比例読みは、同じ実測wを対案の光速則c_loc∝1/W(台帳4-66)で読み直したもので、恒等的に 1.000 に張り付く — 関数形を変えるとプローブ依存が消える(exp-4-66.mjsの判別実験と同じモデル内対照)。Ktスライダーや「箱宇宙」セクションのDでD/Ktを動かすと比が比例してスケールする(変更後は🔁で再構築してから読む — 累積測定はt=0基準)。既定D/Kt=(2/3)ln4≈0.9242はa=2の点値0.92が実宇宙のハッブルテンション比67.4/73.0≈0.923と同水準になる論文2の較正点だが、この数値一致は較正であって証拠ではない(Negative claim 6)。これはテンションの説明ではなく「測定の食い違いは推定器が仮定する減衰則の帰結でありうる」という構造の提示である(Negative claim 3)。",
+  en:{name:"Box Universe — Two H Estimators (Probe-Dependent Expansion)", description:"Two observers measure the expansion rate H of the same box with different rulers (the central result V29 of paper 2, made operable — ledger 4-87). The geometric probe tracks comoving structure and reports H_geo=Δln a/Δt. The velocity probe assumes the FLRW decay law w/c∝1/a and infers H_w=−Δln R/Δt from the measured decay of the ratio R=w/c_loc. The particle's peculiar velocity w is conserved in the model's absolute bookkeeping (V27), yet the local light speed c_loc=c0·e^{−2ψ} rises as expansion dilutes determinacy, so the light-referenced ratio R decays (E8R, V28) — and its decay law differs from the assumed FLRW form, so the two estimates disagree by H_w/H_geo=2(D/Kt)/a, depending on the epoch a and the calibration D/Kt. The HUD's cumulative measurement (from t=0) shows this live: at a=2 the exponential reading's cumulative ratio is 1.333 (matching the analytic 1.3335 within 1e-2). The inverse reading shown beside it re-reads the same measured w under the alternative light-speed law c_loc∝1/W (ledger 4-66) and stays identically at 1.000 — change the functional form and the probe dependence vanishes (the same model-internal control as the exp-4-66.mjs discrimination experiment). Move D/Kt with the Kt slider or the D input in the Box Universe section and the ratio scales in proportion (rebuild with 🔁 after changing — the cumulative measurement is referenced to t=0). The default D/Kt=(2/3)ln4≈0.9242 is paper 2's calibration point, where the a=2 point value 0.92 matches the magnitude of the real Hubble-tension ratio 67.4/73.0≈0.923 — a calibration, not evidence (Negative claim 6). This is not an explanation of the tension but a structure: a measurement discrepancy can be the consequence of the decay law the estimator assumes (Negative claim 3)."},
+  activeParams:["Kt","cLight","kFrame"],
+  probeHud:true,
+  // 第50便 50C: claims — HUD 累積測定の a=2 実測値を機械可読化(QA behavior.probeH の閾値に直結)
+  claims:[
+    { id:"probeH.cumulative-ratio-a2", metric:"cumulativeRatioA2",
+      expected:{min:1.32, max:1.347},   // 解析 1.3335(=2·0.9242·(1−1/2)/ln2)±1%
+      descPattern:"指数読みの累積比は (\\d+\\.\\d+)", testId:"behavior.probeH" },
+    { id:"probeH.inverse-identity", metric:"inverseRatioA2",
+      expected:{min:0.99, max:1.01},   // 恒等 1(反比例対照 — 4-66)
+      descPattern:"恒等的に (\\d+\\.\\d+) に張り付く", testId:"behavior.probeH" }
+  ],
+  camera:{scale:300}, world:{boundary:"none",size:0}, seed:20260730,
+  universeBox:{mode:"exp", H0:0.01, D:277.2589/* =(2/3)ln4·300 — 論文2較正点 */, dPower:1, L:260,
+    cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0, friction:"dfm"},
+  physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:300,
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:4},
+  bodies:[
+    // 測定粒子(index 0 固定 — V29 と同一の初期条件: Hubble流 vx=H·x + 特異速度 vy=1。
+    // rMul=5 はバリデータ上限値 — 目立たせる表示用で物理には R 経由の接触のみだが接触相手なし)
+    {type:"single", rMul:5, m:0.05, x:100, y:0, vx:1, vy:1, spin:0, pinned:false},
+    // 共動マーカー(視覚用の希薄なテスト質量。G=0 なので力学に不干渉・W への寄与も W_B の1e-4未満)
+    {type:"disk", n:16, cx:0, cy:0, radius:200, mMin:0.02, mMax:0.02, spinMin:0, spinMax:0,
+     vMode:"hubble", aroundMass:0, vScale:0.01, direction:1}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,trailTargets:"sampled",boxGraph:true} },
 
 // 第35便(台帳4-61): 自由な箱 — 膨張の動力学化(BOX_UNIVERSE §4.2/§10.1 の裁定)。
 // universeBox(規定 a(t))を使わないのが主題。壁リングは pinned:false の自由粒子で、
@@ -2630,6 +2670,10 @@ function validatePreset(obj){
   if(p.validT!==undefined){
     if(!isNum(p.validT) || p.validT<=0) delete p.validT;
   }
+  // 第50便 50C(台帳4-87): probeHud — 二つのH推定器の累積測定表示(表示専用キー)。
+  // true のみ受理し、それ以外は静かに削除する(validT と同方針)。universeBox が無いと
+  // 測定が定義できないため、その場合も削除する(S.build 側にも同条件の最終門番あり)
+  if(p.probeHud!==undefined && (p.probeHud!==true || p.universeBox===undefined)) delete p.probeHud;
   // 第35便(台帳4-61): measureBox — 壁粒子群(bodies 定義順で最初の ring 群)の平均中心距離から
   // 実測尺度因子 a_eff=⟨r⟩/⟨r⟩₀ を毎履歴周期で計測し、膨張グラフに「実測」として描く。
   // universeBox(規定 a(t))との併用は未定義なので、規定を優先して measureBox を無視する
@@ -3235,6 +3279,14 @@ function makeSim(){
       S.echoX0=new Float64Array(S.n); S.echoY0=new Float64Array(S.n);
       for(let i=0;i<S.n;i++){ S.echoX0[i]=S.x[i]; S.echoY0[i]=S.y[i]; }
     } else { S.echoX0=null; S.echoY0=null; }
+    // 第50便 50C(台帳4-87): probeHud — 二つのH推定器の累積測定表示。universeBox 必須
+    // (validatePreset も同条件で削除するが、内蔵プリセットはバリデータを通らないのでここが
+    // 最終の門番)。t=0 の測定粒子(index 0)の特異速度 w0 を退避する。表示のみ — 物理不変
+    S.probeHud=null;
+    if(preset.probeHud===true && S.box && S.n>0){
+      const sc0=boxScaleAt(S.box,0);
+      S.probeHud={ w0: Math.hypot(S.vx[0]-sc0.H*(S.x[0]-S.box.cx), S.vy[0]-sc0.H*(S.y[0]-S.box.cy)) };
+    }
     // 第44便 44B(台帳4-68c 再挑戦条件): 融合。最上位キー fusion:{dFrac}(オブジェクト存在で有効・
     // 省略で完全無効)。**thermal:"tint" のときだけ有効**(spin 熱モードでは融合で消える運動
     // エネルギーの行き先が無く、帳簿が閉じない — validatePreset も同条件で警告つき削除する。
@@ -5594,6 +5646,20 @@ function loop(now){
       // 第32便(W2): 赤方偏移 z(符号付き小数3桁)を追記。boxRedshift() は sim.box 有りのとき常に非null
       const rz=sim.boxRedshift();
       txt+=`  z=${(rz.z>=0?"+":"")+rz.z.toFixed(3)}`;
+      // 第50便 50C(台帳4-87): 二つのH推定器 — probeHud プリセットだけ、累積(t=0基準)の
+      // H_w/H_geo を指数読み・反比例読みの2通りで1行追記する(他のプリセットでは1文字も
+      // 増えない)。式は V29/exp-4-66 と同一: 指数読み=(2(D/Kt)(1−a^{−dP})−ln(w/w0))/ln a、
+      // 反比例読み=dP−ln(w/w0)/ln a。表示のみ — 物理には一切フィードバックしない
+      if(sim.probeHud && sc.a>1.02 && sim.n>0){
+        const B=sim.box, KtV=sim.params.Kt;
+        const w=Math.hypot(sim.vx[0]-sc.H*(sim.x[0]-B.cx), sim.vy[0]-sc.H*(sim.y[0]-B.cy));
+        const lnA=Math.log(sc.a), adp=Math.pow(sc.a,-B.dPower);
+        const lnW=Math.log(w/sim.probeHud.w0);
+        const rExp=(2*(B.D/KtV)*(1-adp)-lnW)/lnA;
+        const rInv=B.dPower-lnW/lnA;
+        const ana=2*(B.D/KtV)*(1-adp)/lnA;
+        txt+=`\n${T("hudProbeH")(rExp,ana,rInv)}`;
+      }
     }
     // 第35便(台帳4-61): 自由な箱 — 規定 a(t) ではなく壁から計測した実測尺度因子であることを明示する
     else if(sim.measureBox){
