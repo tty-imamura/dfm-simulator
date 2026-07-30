@@ -6927,6 +6927,53 @@ if (hasSwAutoCb) {
   }
 }
 
+// ---- 50H) 第50便 50H(台帳4-92): claims.kind — 主張の検証形態分類メタデータ。
+// ----      kind ∈ {analytic, conservation, semantic, fixed-seed, multi-seed}(ChatGPT 7.5末+Minor9)。
+// ----      ①全内蔵 claims が有効な kind を宣言 ②validatePreset が kind を保持し不正値は
+// ----      警告つきで無視 ③説明タブの claims 折畳みに分類チップ(.claimKind)が claim 数だけ
+// ----      描画され、en 切替でラベルが変わる。kind 未導入の対象(root 等)は SKIP。
+// ----      軽量(走査+DOM検査のみ)なので QA_FAST=1 でも実行する ----
+{
+  const hasKinds = await page.evaluate(() =>
+    HP.allPresets().some((p) => Array.isArray(p.claims) && p.claims.some((c) => c.kind !== undefined)));
+  if (hasKinds) {
+    const r = await page.evaluate(() => {
+      const VALID = ['analytic', 'conservation', 'semantic', 'fixed-seed', 'multi-seed'];
+      let total = 0, withKind = 0; const bad = [], dist = {};
+      for (const p of HP.allPresets()) {
+        if (!Array.isArray(p.claims)) continue;
+        for (const c of p.claims) { total++;
+          if (VALID.indexOf(c.kind) >= 0) { withKind++; dist[c.kind] = (dist[c.kind] || 0) + 1; }
+          else bad.push(p.id + '/' + c.id + '=' + String(c.kind)); }
+      }
+      // validatePreset の往復: kind 保持+不正値は警告つき無視
+      const gx = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'galaxy')));
+      const v1 = HP.validatePreset(JSON.parse(JSON.stringify(gx)));
+      const kept = v1.ok && v1.preset.claims.every((c, i) => c.kind === gx.claims[i].kind);
+      gx.claims[0].kind = 'bogus';
+      const v2 = HP.validatePreset(gx);
+      const dropped = v2.ok && v2.preset.claims[0].kind === undefined
+        && v2.warnings.some((w) => w.includes('kind'));
+      // UI: 分類チップの描画(ja)と en 切替
+      HP.loadPreset('galaxy', false);
+      const det = document.querySelector('#claimsDetails');
+      const chipJa = det ? det.querySelectorAll('.claimKind').length : -1;
+      const txtJa = det && det.querySelector('.claimKind') ? det.querySelector('.claimKind').textContent : '';
+      const nClaims = HP.allPresets().find((q) => q.id === 'galaxy').claims.length;
+      return { total, withKind, bad: bad.slice(0, 5), dist, kept, dropped, chipJa, txtJa, nClaims };
+    });
+    add('claims.kind',
+      r.total > 0 && r.withKind === r.total && r.kept && r.dropped
+      && r.chipJa === r.nClaims && r.txtJa.length > 0,
+      `全${r.total}claims が kind 宣言(分布: ${Object.entries(r.dist).map(([k, v]) => `${k}=${v}`).join(' ')}) / ` +
+      `validatePreset 保持=${r.kept} 不正値は警告つき無視=${r.dropped} / ` +
+      `UI チップ ${r.chipJa}/${r.nClaims}件(galaxy・例「${r.txtJa}」)` +
+      (r.bad.length ? ` / 不正: ${r.bad.join(',')}` : ''));
+  } else {
+    console.log('SKIP claims.kind(対象に kind 付き claims なし — 第50便 50H 未適用の root 等)');
+  }
+}
+
 // ---- 43A) 第43便 43A(台帳4-78 B案): ui.claims-display — 説明タブに追加した「数値主張
 // ----      (機械検証済み)」折畳み(#claimsDetails)の表示条件を検査する。
 // ----      claims を持つ代表2プリセット(galaxy/spinup)ではセクションが存在し、
