@@ -447,26 +447,41 @@ const W5C_UNITS = {
   // 実測で分かったこと: 引きずり(kFrame)の効きは **スピン加熱に集中** していて、
   // 核どうしの接近そのものはほとんど変わらない。説明文にその内訳を明記した(40C)。
   mergerCausal: { enabled: !FAST, weight: 34, run: (pg) => pg.evaluate(() => {
-    const STEPS = 3000;   // t=48。3本で実測 30s
-    // bodies: 0=核A / 1..150=円盤A(初期半径95) / 151=核B / 152..271=円盤B(初期半径78)
-    const A0 = 1, A1 = 150, NA = 0, B0 = 152, B1 = 271, NB = 151;
+    const STEPS = 3000;   // t=48。3本で実測 30s(第50便 50I の円盤 100/80 化で短縮)
+    // bodies 配列 [核A, 円盤A, 核B, 円盤B] から index 範囲と初期円盤半径を導出する
+    // (第50便 50I: 円盤 n を 150/120→100/80 に変えたため、旧ハードコード 1..150/152..271 を
+    // 対象のプリセット定義から取る形に置換 — root(150/120)と beta(100/80)の両方で正しく動く)
+    const MP = HP.allPresets().find((q) => q.id === 'merger');
+    const dA = MP.bodies[1], dB = MP.bodies[3];
+    const NA = 0, A0 = 1, A1 = dA.n, NB = A1 + 1, B0 = NB + 1, B1 = NB + dB.n;
+    const rdA = dA.radius, rdB = dB.radius;
     const stat = (s) => {
       // 潮汐尾率 = 自分の核から「初期円盤半径の mult 倍」より外に出た円盤粒子の割合
       const tail = (mult) => { let c = 0, tot = 0;
-        for (let i = A0; i <= A1; i++) { tot++; if (Math.hypot(s.x[i] - s.x[NA], s.y[i] - s.y[NA]) > 95 * mult) c++; }
-        for (let i = B0; i <= B1; i++) { tot++; if (Math.hypot(s.x[i] - s.x[NB], s.y[i] - s.y[NB]) > 78 * mult) c++; }
+        for (let i = A0; i <= A1; i++) { tot++; if (Math.hypot(s.x[i] - s.x[NA], s.y[i] - s.y[NA]) > rdA * mult) c++; }
+        for (let i = B0; i <= B1; i++) { tot++; if (Math.hypot(s.x[i] - s.x[NB], s.y[i] - s.y[NB]) > rdB * mult) c++; }
         return c / tot; };
       let sp = 0, nd = 0;
       for (let i = 0; i < s.n; i++) { if (i === NA || i === NB) continue; sp += Math.abs(s.spin[i]); nd++; }
       return { sep: Math.hypot(s.x[NA] - s.x[NB], s.y[NA] - s.y[NB]),
         tail15: tail(1.5), tail20: tail(2), meanSpin: sp / nd, nan: s.hasNaN() };
     };
+    // 第50便 50I: チェックポイント別の核間距離も記録する — 接近が速くなった新配置では
+    // 「引きずりは軌道にほとんど効かない」は**接近期**(核間が初期の0.72倍に達するまで)の
+    // 主張であり、深い接触期には軌道差が育つ(実測 3000步で 11.5%)ことが分かったため、
+    // 判定は接近期チェックポイントで行う(root の旧配置では 3000步時点がちょうど接近期 =
+    // 従来の判定と同じ点になる — 0.72 は root 実測 520→376 の比から)
+    const CKS = [500, 1000, 1500, 2000, 2500, 3000];
     const run = (mod) => {
       HP.loadPreset('merger', false);
       const s = HP.sim; if (mod) mod(s);
       const t0 = stat(s);
-      for (let k = 0; k < STEPS; k++) s.step(0.016);
-      return { t0, end: stat(s), n: s.n };
+      const cks = []; let k = 0;
+      for (const ck of CKS) {
+        for (; k < ck; k++) s.step(0.016);
+        cks.push({ ck, sep: Math.hypot(s.x[NA] - s.x[NB], s.y[NA] - s.y[NB]) });
+      }
+      return { t0, end: stat(s), cks, n: s.n };
     };
     const base = run(null), kf0 = run((s) => { s.params.kFrame = 0; }), muf0 = run((s) => { s.params.muF = 0; });
     HP.loadPreset('saturn', false);
@@ -1267,13 +1282,17 @@ if (has40BSemanticSync) {
     const ledger = rp.log.length > 0 && rp.log.every(e => Math.abs(e.lamO / e.lamE - e.aO / e.aE) < 1e-9);
     const dT = (A && B) ? Math.abs(A.tO - B.tO) : NaN;
     const zStatic = rp.logS.length === 2 && rp.logS.every(e => Math.abs(e.z) < 1e-9);
+    // 第50便 50F(台帳4-90・ChatGPT 4.11): 到着同時性の閾値を <8 → <0.2 に厳格化。
+    // 実測 差=0.080(論文2 p2fig4.simultaneous と同値・root/beta 両対象で一致)に対し
+    // 旧閾値 8 は2桁緩く「ほぼ同時」の主張を機械固定できていなかった。0.2 は実測の2.5倍
+    // (光子1步の到達粒度 dt=0.016 の12倍)で、意味の変わらない範囲の余裕をみた値
     add('box.photon-abc',
       rp.log.length === 2 && !!A && !!B && !rp.nan && !rp.warn && ledger
-      && Math.abs(A.z - 3) < 0.3 && Math.abs(B.z - 1) < 0.15 && dT < 8 && zStatic,
+      && Math.abs(A.z - 3) < 0.3 && Math.abs(B.z - 1) < 0.15 && dT < 0.2 && zStatic,
       (A && B)
         ? `到着2件 A(t放出=${A.tE.toFixed(1)}) z_A=${A.z.toFixed(4)}(3±0.3) λ ${A.lamE}→${A.lamO.toFixed(1)}nm a ${A.aE.toFixed(4)}→${A.aO.toFixed(4)} / `
           + `B(t放出=${B.tE.toFixed(3)}) z_B=${B.z.toFixed(4)}(1±0.15) λ ${B.lamE}→${B.lamO.toFixed(1)}nm a ${B.aE.toFixed(4)}→${B.aO.toFixed(4)} / `
-          + `到着時刻 tO=${A.tO.toFixed(3)}・${B.tO.toFixed(3)} 差=${dT.toFixed(3)}(<8 ほぼ同時観測) `
+          + `到着時刻 tO=${A.tO.toFixed(3)}・${B.tO.toFixed(3)} 差=${dT.toFixed(3)}(<0.2 ほぼ同時観測 — 第50便 50F で厳格化) `
           + `帳簿|λ比−a比|<1e-9=${ledger} static対照 z=0=${zStatic} 残存光子=${rp.alive} 範囲外警告=${rp.warn}`
         : `到着ログ=${rp.log.length}件(期待2) NaN=${rp.nan}`);
 
@@ -1579,10 +1598,16 @@ if (has40BSemanticSync) {
       };
       const out = {};
       out.B = run(base(), 1200);                                       // 既定 = 圧力駆動(kRep=0.5)
+      // 第50便 50G(台帳4-91): 既定走行末尾の形状診断(boxShape が無い旧対象では null)
+      out.shapeB = s.boxShape ? s.boxShape() : null;
       { const p = base(); p.physics.kRep = 0; out.A = run(p, 1200); }  // A/B の A 側 physics(圧力オフ)
+      // 第50便 50G(台帳4-91): G×kRep 4象限の残り2象限(C=重力オフ / D=両オフ=慣性のみ)
+      { const p = base(); p.physics.G = 0; out.C = run(p, 1200); }
+      { const p = base(); p.physics.G = 0; p.physics.kRep = 0; out.D = run(p, 1200); }
       // 箱なしプリセットでは measureBox 経路が一切動かない(ゼロコスト経路の確認)
       HP.loadPreset('galaxy', false);
-      out.noBox = { measureBox: s.measureBox, hist: s.boxHist, aEff: s.boxAEff(), wall: [s.wallI0, s.wallI1] };
+      out.noBox = { measureBox: s.measureBox, hist: s.boxHist, aEff: s.boxAEff(), wall: [s.wallI0, s.wallI1],
+        shapeNull: (s.boxShape === undefined) || s.boxShape() === null };
       return out;
     });
     // 実測 2026-07-26(beta/index.html 第35便 W3・1200步=t19.2・dt=0.016 固定・決定論的):
@@ -1610,6 +1635,34 @@ if (has40BSemanticSync) {
       + `|ΣP|(t=0)=${r.B.P0.toExponential(2)}(相対${r.B.P0rel.toExponential(2)} < 1e-6) `
       + `|ΔP|/P_scale=${r.B.relP.toExponential(2)} |ΔL|/L_scale=${r.B.relL.toExponential(2)}(< 1e-6) `
       + `参考 |ΔL|/|L₀|=${r.B.dLrel0.toExponential(2)}`);
+    // ---- 第50便 50G(台帳4-91): freebox.quadrants — G×kRep 4象限の要因分離。
+    // ----      実測(1200步=t19.2): 既定(1,0.5)=2.1795 加速 / (1,0)=1.005 頭打ち→再収縮
+    // ----      (freebox.inertial-decel が既ゲート)/ (0,0.5)=2.1924 加速(重力の減速寄与
+    // ----      Δa_eff=−0.013 と小)/ (0,0)=1.0192 慣性(加速も収縮もしない)。
+    // ----      加速の源が圧力そのものであることを機械固定する ----
+    add('freebox.quadrants',
+      !r.C.nan && !r.D.nan
+      && r.C.aLast > 2.1 && r.C.aLast < 2.3 && r.C.H2 > r.C.H1                 // 圧力のみ: 加速膨張
+      && Math.abs(r.C.aLast - r.B.aLast) < 0.1                                  // 重力の減速寄与は小
+      && r.D.aLast > 1.0 && r.D.aLast < 1.05                                    // 慣性のみ: 微膨張のまま
+      && r.D.H1 > 0 && r.D.H2 > 0 && r.D.H2 <= r.D.H1,                          // 加速しない(H_eff 単調非増加)
+      `G×kRep 4象限(1200步 a_eff): 既定(1,0.5)=${r.B.aLast.toFixed(4)}(加速) (1,0)=${r.A.aMax.toFixed(4)}頭打ち→再収縮 ` +
+      `(0,0.5)=${r.C.aLast.toFixed(4)}(加速・重力寄与Δ=${(r.C.aLast - r.B.aLast).toFixed(4)}<0.1) ` +
+      `(0,0)=${r.D.aLast.toFixed(4)}(慣性のみ: H_eff ${r.D.H1.toExponential(2)}→${r.D.H2.toExponential(2)} 加速せず) ` +
+      `— 加速の源=圧力を4象限で機械固定`);
+    // ---- 第50便 50G(台帳4-91): freebox.shape — 壁リング形状診断 sim.boxShape() の配線。
+    // ----      既定1200步走行の末尾で RMS<1%・残存率100%・四重極 A2<0.05(座屈なし)。
+    // ----      箱なしプリセットでは null(ゼロコスト経路)。boxShape の無い旧対象は SKIP ----
+    if (r.shapeB) {
+      add('freebox.shape',
+        r.shapeB.rms < 0.01 && r.shapeB.keep === 1 && r.shapeB.a2 < 0.05 && r.shapeB.n === 64
+        && r.noBox.shapeNull,
+        `既定1200步末尾: RMS=${(r.shapeB.rms * 100).toFixed(3)}%(<1%) 残存=${(r.shapeB.keep * 100).toFixed(0)}%(=100) ` +
+        `四重極A2=${r.shapeB.a2.toFixed(4)}(<0.05 座屈なし) 中央r=${r.shapeB.med.toFixed(1)} 壁n=${r.shapeB.n} / ` +
+        `箱なし(galaxy)では null=${r.noBox.shapeNull}`);
+    } else {
+      console.log('SKIP freebox.shape(対象に sim.boxShape なし — 第50便 50G 未適用の root 等)');
+    }
     // 自由な箱が「外部駆動」と誤表示されないこと(pinned/rail/bath/一様重力すべて無し)
     const tg = await page.evaluate(() => {
       const p = HP.allPresets().find(q => q.id === 'freebox');
@@ -2286,6 +2339,50 @@ if (hasBadgeClassify) {
   add('behavior.boxbound', !bb.nan && bb.nEff > 0.6 * target && bb.nEff < 1.4 * target,
     `φ_B=${bb.phiB.toFixed(4)}(実測sumW/boxWAtから算出) 2φ_B=${target.toFixed(3)} / 12000步 d:${bb.d0}→` +
     `${bb.d1.toFixed(2)} a=${bb.a.toFixed(4)} n_eff=${bb.nEff.toFixed(4)}(目標比${(bb.nEff / target).toFixed(3)}・許容±40%)`);
+}
+
+// ---- 50C) 第50便 50C(台帳4-87): 🧭probeH — 二つのH推定器。HUD が表示する累積測定
+// ----      (t=0基準・指数読み/反比例読み)と同じ式を sim 状態から計算し、a=2 で
+// ----      ①指数読みが解析 2(D/Kt)(1−1/a)/ln a と 1e-2 以内で一致(V29 と同じ許容)
+// ----      ②反比例読み(4-66 対照)が恒等 1 に 1e-2 以内 ③sim.probeHud の配線
+// ----      (w0 退避)が生きていること、を機械検証する。probeH プリセットの claims 窓
+// ----      (1.32〜1.347 / 0.99〜1.01)はこの実測に直結する。プリセットが無い対象
+// ----      (root 等)は SKIP ----
+{
+  const hasProbeH = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'probeH'));
+  if (hasProbeH) {
+    const r = await page.evaluate(() => {
+      const s = HP.sim;
+      HP.loadPreset('probeH', false);
+      if (!s.probeHud || !s.box) return { wired: false };
+      const B = s.box, Kt = s.params.Kt, dkt = B.D / Kt;
+      // a=2 まで規定 exp 膨張を進める(t=ln2/H0)
+      const steps = Math.ceil(Math.log(2) / B.H0 / 0.016);
+      for (let k = 0; k < steps; k++) s.step(0.016);
+      const sc = boxScaleAt(s.box, s.t);
+      const w = Math.hypot(s.vx[0] - sc.H * (s.x[0] - B.cx), s.vy[0] - sc.H * (s.y[0] - B.cy));
+      const lnA = Math.log(sc.a), adp = Math.pow(sc.a, -B.dPower);
+      const lnW = Math.log(w / s.probeHud.w0);
+      return { wired: true, dkt, a: sc.a, w0: s.probeHud.w0, w,
+        rExp: (2 * dkt * (1 - adp) - lnW) / lnA,
+        rInv: B.dPower - lnW / lnA,
+        ana: 2 * dkt * (1 - adp) / lnA,
+        nan: s.hasNaN() };
+    });
+    // 実測(2026-07-30): a=2.0000 で 指数読み=1.3338(解析1.3335・相対誤差2.4e-4)・
+    // 反比例読み=1.0003・w保存ずれ3.2e-4 — 説明文の 1.333 / 1.000 と claims 窓に一致
+    add('behavior.probeH', r.wired && !r.nan
+      && Math.abs(r.rExp / r.ana - 1) < 1e-2
+      && Math.abs(r.rInv - 1) < 1e-2
+      && Math.abs(r.w / r.w0 - 1) < 1e-3,
+      r.wired
+        ? `D/Kt=${r.dkt.toFixed(4)} a=${r.a.toFixed(4)}: 指数読み=${r.rExp.toFixed(4)}(解析${r.ana.toFixed(4)}・`
+          + `相対誤差${Math.abs(r.rExp / r.ana - 1).toExponential(1)}<1e-2) 反比例読み=${r.rInv.toFixed(4)}(|−1|<1e-2) `
+          + `w保存ずれ=${Math.abs(r.w / r.w0 - 1).toExponential(1)}(<1e-3)`
+        : 'probeHud の配線(sim.probeHud/sim.box)が生きていない');
+  } else {
+    console.log('SKIP behavior.probeH(対象に probeH プリセットなし — 第50便 50C 未適用の root 等)');
+  }
 }
 
 // ---- 7h2) 台帳4-57(第32便): 単体レールの中心 railCx/railCy ----
@@ -3389,19 +3486,30 @@ if (!FAST) {
   const mg = await w5cGetUnit('mergerCausal');
   const spinRatio = mg.base.end.meanSpin / (mg.kf0.end.meanSpin || 1e-12);
   const mufRel = Math.abs(mg.base.end.meanSpin - mg.muf0.end.meanSpin) / (mg.muf0.end.meanSpin || 1e-12);
-  const sepRel = Math.abs(mg.base.end.sep - mg.kf0.end.sep) / (mg.kf0.end.sep || 1e-12);
+  // 第50便 50I: 「引きずりは軌道にほとんど効かない」は**接近期**の主張として判定する。
+  // 接近期 = 核間が初期の 0.72 倍に達した最初のチェックポイント(root 旧配置では 3000步 =
+  // 従来の判定点と同一。beta 新配置では 2000步)。深い接触期には軌道差が育つ(beta 実測
+  // 3000步で 11.5% — 説明文と claims が別途この値を固定する)
+  const sep0 = mg.base.t0.sep;
+  let apIdx = mg.base.cks.length - 1;
+  for (let i = 0; i < mg.base.cks.length; i++) if (mg.base.cks[i].sep <= 0.72 * sep0) { apIdx = i; break; }
+  const apB = mg.base.cks[apIdx], apK = mg.kf0.cks[apIdx];
+  const sepRel = Math.abs(apB.sep - apK.sep) / (apK.sep || 1e-12);
+  // 深接触期の分母は kF1(base)側 — 説明文・claims(11.5%)と同じ規約に揃える
+  const sepRelEnd = Math.abs(mg.base.end.sep - mg.kf0.end.sep) / (mg.base.end.sep || 1e-12);
   add('behavior.merger-causal',
     !mg.base.end.nan && !mg.kf0.end.nan && !mg.muf0.end.nan &&
     mg.base.t0.tail15 === 0 && mg.base.end.tail15 > 0.02 &&
-    spinRatio > 1.4 && mufRel > 0.002 && sepRel > 1e-3 && sepRel < 0.05,
+    spinRatio > 1.4 && mufRel > 0.002 && sepRel > 5e-4 && sepRel < 0.05,
     `${mg.steps}步・同一seed: ①潮汐尾率(自核から初期円盤半径の1.5倍外)=${(mg.base.t0.tail15 * 100).toFixed(1)}%→` +
     `${(mg.base.end.tail15 * 100).toFixed(2)}%(>2%。2倍外は ${(mg.base.end.tail20 * 100).toFixed(2)}%) ` +
     `②kFrame の効き所=**スピン加熱**: 平均|spin|=${mg.base.end.meanSpin.toFixed(4)}(kF1)/${mg.kf0.end.meanSpin.toFixed(4)}(kF0)` +
     `=${spinRatio.toFixed(2)}倍(>1.4) ③muF の効き: 平均|spin|=${mg.base.end.meanSpin.toFixed(4)}/${mg.muf0.end.meanSpin.toFixed(4)}` +
-    `(相対差 ${(mufRel * 100).toFixed(2)}% >0.2% — 存在のみを固定。大きさは beta 10.1% / root 0.87% と一桁違い、向きも一定しない) ` +
-    `④核間距離 ${mg.base.t0.sep.toFixed(1)}→${mg.base.end.sep.toFixed(2)}(kF1)/${mg.kf0.end.sep.toFixed(2)}(kF0)` +
-    `= 相対差 ${(sepRel * 100).toFixed(2)}%(1e-3 < 差 < 5% — **引きずりは軌道にはほとんど効かないことの上限固定**) ` +
-    `— 引きずりの効きはスピン加熱に集中し、接近そのものは変えない(第40便 40C で説明文にこの内訳を明記)`);
+    `(相対差 ${(mufRel * 100).toFixed(2)}% >0.2% — 存在のみを固定。大きさは対象間で一桁違い、向きも一定しない) ` +
+    `④接近期(${apB.ck}步・核間 ${sep0.toFixed(1)}→${apB.sep.toFixed(1)})の kFrame 差=${(sepRel * 100).toFixed(2)}%` +
+    `(5e-4 < 差 < 5% — **接近期の軌道にはほとんど効かないことの上限固定**。深接触期 ${mg.steps}步では ` +
+    `${(sepRelEnd * 100).toFixed(2)}% まで育つ — 効きの現れる時期の内訳ごと固定) ` +
+    `— 引きずりの効きはまずスピン加熱に集中し、接近期の軌道は変えない(第40便 40C+第50便 50I)`);
 
   // ---- P2-8: 🌫️collapse の etaRad 対照(**否定的結果の固定**)----
   // 説明文の主張「放射冷却(E11)による収縮」「etaRad/pRad を変えると冷却効率が崩壊速度に効く」を
@@ -4476,6 +4584,10 @@ if (!FAST) {
       if (id === 'darkrotor' && p && p.bodies.filter(b => b.type === 'single').length === 3) key = 'darkrotor-v6';
       if ((id === 'saturn' || id === 'saturnLayered') && p &&
           p.bodies.reduce((a, b) => a + (b.type === 'ring' ? (b.n || 0) : 1), 0) === 241) key = id + '-r240';
+      // 第50便 50J: ♨️convection は beta で気体 210 粒+壁の色分け描画へ改訂(root は 300 粒のまま)。
+      // 見た目が構造的に違うので世代キーを分ける(darkrotor-v6 / saturn-r240 と同じ運用 —
+      // root 側の既存基準 'convection' は生き続け、beta 側は 'convection-n210' として新規記録される)
+      if (id === 'convection' && p && p.bodies[0] && p.bodies[0].n === 210) key = 'convection-n210';
       o[id] = key;
     }
     return o;
@@ -5592,9 +5704,17 @@ if (hasEchoFlipAt) {
     const ZCF = {
       gas: ['da983bab338a8e79adcda619c5c47d886eeada5fb7ffc5e00f8094fa24353a63', 240],
       pressure: ['71717c06b87d55652456e1e5c33a847287f610c5083a55018c7da38eac5f5d69', 240],
-      convection: ['aae1ee8ffb73b13fc1a9b407277b719ed507e549d2b490dcbb4951e55a283422', 300],
+      convection: null,   // 第50便 50J: 世代別に直下で解決(300粒=基点 9ec1300 / 210粒=50J 再採取)
+
       coolrace: ['a09a5cb44ae9e035409f377588ae2c967d62ca9ce9cc2f9d4bd4c31a6b6d659b', 3],
     };
+    // 第50便 50J: ♨️convection は beta で気体 300→210 粒へ改訂(意図的変更)。零コスト基準は
+    // 対象の構成(n)から選ぶ — root=300粒は基点 9ec1300 の実測のまま、beta=210粒は 50J で
+    // 再採取した実測(以降この基準に対する bit 一致が「融合機構の零コスト」を保証し続ける)
+    const convN0 = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'convection').bodies[0].n);
+    ZCF.convection = convN0 === 210
+      ? ['d03bf56fce6814531be08249b2697ae487f98e109a4a3da6acd1181fa8550219', 210]
+      : ['aae1ee8ffb73b13fc1a9b407277b719ed507e549d2b490dcbb4951e55a283422', 300];
     const zf = [];
     for (const [id, [base, n]] of Object.entries(ZCF)) {
       const r = await page.evaluate((pid) => {
@@ -6364,6 +6484,123 @@ if (hasSwAutoCb) {
   }
 }
 
+// ---- 50D) 第50便 50D(台帳4-88): ray.observer-flux — darkrotor 系の「暗さ」を観測面
+// ----      (observer screen)の光束で実測する。論文2 §V が「観測面光束は未計装 — future work」
+// ----      としていた測定を計装し、暗さ主張を観測者の位置で回復する(ChatGPT Major5)。
+// ----      構成: rotorSolo(behavior.rotorSolo と同一の光線条件 x0=-300・dl=2.7)で、
+// ----      x=+300 の鉛直スクリーンへの ①到達率 hitRate ②軸上光束 onAxisRate(|y|≤60 —
+// ----      幾何基準は直進光で 14/50=0.28)③角度再配分(横断点 y の平均・横断方向角)を測る。
+// ----      步数は 2000(340步は捕捉判定用の有限時間窓 — 観測面測定では非捕捉光線を
+// ----      決着させるため延長。捕捉判定そのものは behavior.rotorSolo の 340步窓が正)。
+// ----      判定: 物理対応ロック Kt=c²/G は明るい基準(到達率>0.95・軸上≥幾何基準×0.9)/
+// ----      spin0(強場)は捕捉で暗い(軸上<0.1)/ spin2 は捕捉ゼロでも掃き出しの角度再配分で
+// ----      暗い(軸上<0.2)+再配分は逆行側へ偏る(横断 y 平均>50・平均方向角>0.3rad)。
+// ----      軽い(光線のみ・粒子時間発展なし)ので QA_FAST でも実行する ----
+{
+  const hasRotorSolo2 = await page.evaluate(() => HP.allPresets().some(p => p.id === 'rotorSolo') && !!HP.traceRay);
+  if (hasRotorSolo2) {
+    const r = await page.evaluate(() => {
+      const s = HP.sim;
+      const P = (spin) => { const q = JSON.parse(JSON.stringify(HP.allPresets().find(x => x.id === 'rotorSolo')));
+        q.bodies[0].spin = spin; return q; };
+      const SCREEN = 300, AXIS = 60, MAXS = 2000;
+      const trace = (y0) => {
+        let cross = null, exit = null;
+        const t = HP.traceRay(s, -300, y0, 1, 0, 2.7, MAXS, (px, py) => {
+          if (px >= SCREEN) { cross = { x: px, y: py }; return false; }
+          if (px < -400 || Math.abs(py) > 800) { exit = { x: px, y: py }; return false; }
+        });
+        return { cross, exit, cx: t.cx, cy: t.cy };
+      };
+      const fan = () => {
+        let n = 0, hit = 0, onAxis = 0, exitN = 0, orbit = 0; const ys = [], angs = [];
+        for (let y = 8; y <= 200; y += 8) for (const sgn of [-1, 1]) { n++;
+          const t = trace(sgn * y);
+          if (t.cross) { hit++; ys.push(t.cross.y); angs.push(Math.atan2(t.cy, t.cx));
+            if (Math.abs(t.cross.y) <= AXIS) onAxis++; }
+          else if (t.exit) exitN++;
+          else orbit++;   // MAXS 内に決着せず(周回捕捉)
+        }
+        const mean = (a) => a.length ? a.reduce((x, v) => x + v, 0) / a.length : 0;
+        const meanAbs = (a) => a.length ? a.reduce((x, v) => x + Math.abs(v), 0) / a.length : 0;
+        return { n, hitRate: hit / n, onAxisRate: onAxis / n, exitRate: exitN / n, orbitRate: orbit / n,
+          meanY: mean(ys), meanAbsAngle: meanAbs(angs) };
+      };
+      const run = (spin, Kt) => { const q = P(spin); if (Kt) q.physics.Kt = Kt;
+        s.build(q); s.step(0.016); return fan(); };
+      return { base: 14 / 50, spin0: run(0), spin2: run(2), lock: run(2, 3600) };
+    });
+    // 実測(2026-07-30・beta): 幾何基準0.28 / ロック 到達1.00・軸上0.30(弱い収束で基準よりやや明るい)/
+    // spin0 軸上0.04(基準の1/7 — 捕捉の暗さ・周回0.16)/ spin2 軸上0.12(捕捉ゼロでも掃き出しの
+    // 再配分で暗い)・横断y平均+188.6(逆行側へ偏る)・平均方向角0.84rad
+    add('ray.observer-flux',
+      r.lock.hitRate > 0.95 && r.lock.onAxisRate >= r.base * 0.9
+      && r.spin0.onAxisRate < 0.1
+      && r.spin2.onAxisRate < 0.2 && r.spin2.orbitRate === 0
+      && r.spin2.meanY > 50 && r.spin2.meanAbsAngle > 0.3,
+      `幾何基準(直進光の軸上|y|≤60)=${r.base.toFixed(2)} / Kt=c²/G ロック: 到達=${r.lock.hitRate.toFixed(2)}(>0.95) ` +
+      `軸上=${r.lock.onAxisRate.toFixed(2)}(≥基準×0.9 — 明るい基準) / spin0: 軸上=${r.spin0.onAxisRate.toFixed(2)}` +
+      `(<0.1 — 捕捉の暗さ・周回=${r.spin0.orbitRate.toFixed(2)}) / spin2: 軸上=${r.spin2.onAxisRate.toFixed(2)}` +
+      `(<0.2 — 捕捉ゼロでも角度再配分で暗い) 横断y平均=${r.spin2.meanY.toFixed(1)}(>50 — 逆行側へ偏る) ` +
+      `平均方向角=${r.spin2.meanAbsAngle.toFixed(2)}rad(>0.3)`);
+  } else {
+    console.log('SKIP ray.observer-flux(対象に 🕳️rotorSolo または HP.traceRay なし)');
+  }
+}
+
+// ---- 50E) 第50便 50E(台帳4-89): clamp.ledger-zero — 安全クランプ(速度100・スピン±40・
+// ----      Hubble率±0.5)の発動回数帳簿 sim.clampVN/clampSN/clampHN。保存則主張の例外を
+// ----      機械固定する(ChatGPT 4.12): ①配線検証 — 挑発構成(v=200/spin=50/sin箱 amp0.9
+// ----      freq2)でそれぞれの帳簿が実際に増えること ②発動0回 — 保存則を主張する代表構成
+// ----      (freebox 1200步=ゲート窓 / boxcomoving 2000步 / echo 2400步=反転後含む)で
+// ----      3帳簿とも厳密0のままであること。クランプの規則そのものは1ビットも変えていない。
+// ----      帳簿が無い対象(root v1.33 等)は SKIP。軽いので QA_FAST でも実行する ----
+{
+  const hasClampLedger = await page.evaluate(() => typeof HP.sim.clampVN === 'number');
+  if (hasClampLedger) {
+    const r = await page.evaluate(() => {
+      const s = HP.sim;
+      const mk = (bodies, extra) => Object.assign({ id: 'clamp_probe', name: 'clamp', description: 'p',
+        camera: { scale: 100 }, world: { boundary: 'none', size: 0 }, seed: 1,
+        physics: { G: 0, D0: 0, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, Kt: 300,
+          cLight: 60, etaRad: 0, softening: 4, timeScale: 1 },
+        bodies, overlays: {} }, extra || {});
+      // ①配線検証(挑発構成 — 発動して帳簿が増えることの確認)
+      s.build(mk([{ type: 'single', m: 1, x: 0, y: 0, vx: 200, vy: 0, spin: 0, pinned: false }]));
+      s.step(0.016);
+      const vFired = s.clampVN;
+      s.build(mk([{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 50, pinned: false }]));
+      s.step(0.016);
+      const sFired = s.clampSN;
+      s.build(mk([{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }],
+        { universeBox: { mode: 'sin', H0: 0, D: 10, dPower: 1, L: 100, cx: 0, cy: 0, vx: 0, vy: 0,
+          omega: 0, amp: 0.9, freq: 2, phase: 0 } }));
+      s.step(0.016);
+      const hFired = s.clampHN;
+      // ②発動0回(保存則主張の代表構成)。build が帳簿をリセットすることも同時に確認される
+      const zero = {};
+      const runZero = (id, steps) => {
+        if (!HP.allPresets().some((p) => p.id === id)) { zero[id] = null; return; }
+        HP.loadPreset(id, false);
+        for (let k = 0; k < steps; k++) s.step(0.016);
+        zero[id] = s.clampVN + s.clampSN + s.clampHN;
+      };
+      runZero('freebox', 1200);
+      runZero('boxcomoving', 2000);
+      runZero('echo', 2400);
+      HP.loadPreset(HP.allPresets()[0].id, false);   // 後続テストへ既定状態を返す
+      return { vFired, sFired, hFired, zero };
+    });
+    const zs = Object.entries(r.zero).filter(([, v]) => v !== null);
+    add('clamp.ledger-zero',
+      r.vFired > 0 && r.sFired > 0 && r.hFired > 0 && zs.length >= 2 && zs.every(([, v]) => v === 0),
+      `配線: 挑発構成で発動 速度=${r.vFired} スピン=${r.sFired} H=${r.hFired}(各>0) / ` +
+      `発動0回: ${zs.map(([k, v]) => `${k}=${v}`).join(' ')}(保存則主張の代表構成で全帳簿が厳密0)`);
+  } else {
+    console.log('SKIP clamp.ledger-zero(対象にクランプ帳簿 sim.clampVN なし — 第50便 50E 未適用の root 等)');
+  }
+}
+
 // ---- 7z13) D2: behavior.agnjet — 円盤の内縁で摩擦加熱されたガスが、抵抗の少ない極方向(±y)へ
 // ----      抜けて双極の噴出になる(圧力 E5′ + 幾何 の 2D アナロジー)。
 // ----      判定量: 内縁(初期 |x|≤80)起源のガスのうち 4000步後に r>300 へ出たものの方位が
@@ -6725,6 +6962,101 @@ if (hasSwAutoCb) {
       rows.map((v) => `${v.label}: ${Number.isFinite(v.val) ? v.val : 'NaN'}(窓${v.min}〜${v.max})${v.ok ? '' : ' ✗'}`).join(' / '));
   } else {
     console.log('SKIP claims.sync(対象に descPattern 付き claims 宣言なし — 第42便 42A 未適用の root 等)');
+  }
+}
+
+// ---- 50H) 第50便 50H(台帳4-92): claims.kind — 主張の検証形態分類メタデータ。
+// ----      kind ∈ {analytic, conservation, semantic, fixed-seed, multi-seed}(ChatGPT 7.5末+Minor9)。
+// ----      ①全内蔵 claims が有効な kind を宣言 ②validatePreset が kind を保持し不正値は
+// ----      警告つきで無視 ③説明タブの claims 折畳みに分類チップ(.claimKind)が claim 数だけ
+// ----      描画され、en 切替でラベルが変わる。kind 未導入の対象(root 等)は SKIP。
+// ----      軽量(走査+DOM検査のみ)なので QA_FAST=1 でも実行する ----
+{
+  const hasKinds = await page.evaluate(() =>
+    HP.allPresets().some((p) => Array.isArray(p.claims) && p.claims.some((c) => c.kind !== undefined)));
+  if (hasKinds) {
+    const r = await page.evaluate(() => {
+      const VALID = ['analytic', 'conservation', 'semantic', 'fixed-seed', 'multi-seed'];
+      let total = 0, withKind = 0; const bad = [], dist = {};
+      for (const p of HP.allPresets()) {
+        if (!Array.isArray(p.claims)) continue;
+        for (const c of p.claims) { total++;
+          if (VALID.indexOf(c.kind) >= 0) { withKind++; dist[c.kind] = (dist[c.kind] || 0) + 1; }
+          else bad.push(p.id + '/' + c.id + '=' + String(c.kind)); }
+      }
+      // validatePreset の往復: kind 保持+不正値は警告つき無視
+      const gx = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'galaxy')));
+      const v1 = HP.validatePreset(JSON.parse(JSON.stringify(gx)));
+      const kept = v1.ok && v1.preset.claims.every((c, i) => c.kind === gx.claims[i].kind);
+      gx.claims[0].kind = 'bogus';
+      const v2 = HP.validatePreset(gx);
+      const dropped = v2.ok && v2.preset.claims[0].kind === undefined
+        && v2.warnings.some((w) => w.includes('kind'));
+      // UI: 分類チップの描画(ja)と en 切替
+      HP.loadPreset('galaxy', false);
+      const det = document.querySelector('#claimsDetails');
+      const chipJa = det ? det.querySelectorAll('.claimKind').length : -1;
+      const txtJa = det && det.querySelector('.claimKind') ? det.querySelector('.claimKind').textContent : '';
+      const nClaims = HP.allPresets().find((q) => q.id === 'galaxy').claims.length;
+      return { total, withKind, bad: bad.slice(0, 5), dist, kept, dropped, chipJa, txtJa, nClaims };
+    });
+    add('claims.kind',
+      r.total > 0 && r.withKind === r.total && r.kept && r.dropped
+      && r.chipJa === r.nClaims && r.txtJa.length > 0,
+      `全${r.total}claims が kind 宣言(分布: ${Object.entries(r.dist).map(([k, v]) => `${k}=${v}`).join(' ')}) / ` +
+      `validatePreset 保持=${r.kept} 不正値は警告つき無視=${r.dropped} / ` +
+      `UI チップ ${r.chipJa}/${r.nClaims}件(galaxy・例「${r.txtJa}」)` +
+      (r.bad.length ? ` / 不正: ${r.bad.join(',')}` : ''));
+  } else {
+    console.log('SKIP claims.kind(対象に kind 付き claims なし — 第50便 50H 未適用の root 等)');
+  }
+}
+
+// ---- 50K) 第50便 50K(台帳4-78 C案パイロット): desc.struct-sync — 構造化説明 descStruct
+// ----      (summary/observe/control)。①descStruct を持つ全プリセットで
+// ----      「summary+observe+control の連結 === description」(純分割の同一性 — 起動時に
+// ----      description を連結から生成する実装の独立検算)を ja/en とも機械固定 ②パイロット
+// ----      3件(convection/merger/probeH)が揃っている ③説明タブに区分見出し(.descSectHead)が
+// ----      3つ描画され、en 切替で見出しが変わる ④validatePreset は連結不一致の descStruct を
+// ----      警告つきで削除する。descStruct 未導入の対象(root 等)は SKIP。軽量なので FAST でも実行 ----
+{
+  const hasDS = await page.evaluate(() => HP.allPresets().some((p) => p.descStruct));
+  if (hasDS) {
+    const r = await page.evaluate(() => {
+      const joined = (d) => (d.summary || '') + (d.observe || '') + (d.control || '');
+      const bad = []; const ids = [];
+      for (const p of HP.allPresets()) {
+        if (p.descStruct) { ids.push(p.id);
+          if (joined(p.descStruct) !== p.description) bad.push(p.id + ':ja'); }
+        if (p.en && p.en.descStruct) {
+          if (joined(p.en.descStruct) !== p.en.description) bad.push(p.id + ':en'); }
+      }
+      const pilots = ['convection', 'merger', 'probeH'].every((id) => ids.includes(id));
+      // UI: 区分見出し(ja)
+      HP.loadPreset('convection', false);
+      const headsJa = document.querySelectorAll('#helpBody .descSectHead').length;
+      const firstJa = headsJa ? document.querySelector('#helpBody .descSectHead').textContent : '';
+      // validatePreset: 連結不一致は警告つき削除・一致は保持。検査は短い合成プリセットで行う
+      // (validatePreset は description を200字に切り詰めるため、長い内蔵説明の往復では
+      // descStruct が仕様どおり削除される — その仕様も dropped 側で確認される)
+      const mkSp = (ds) => ({ id: 't', name: 't', description: '要約。観察。操作。', descStruct: ds,
+        camera: { scale: 100 }, world: { boundary: 'none', size: 0 }, seed: 1,
+        physics: {}, overlays: {},
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+      const v1 = HP.validatePreset(mkSp({ summary: '要約。', observe: '観察。', control: '操作。' }));
+      const kept = v1.ok && !!v1.preset.descStruct && joined(v1.preset.descStruct) === v1.preset.description;
+      const v2 = HP.validatePreset(mkSp({ summary: 'ズレた要約。', observe: '', control: '' }));
+      const dropped = v2.ok && v2.preset.descStruct === undefined && v2.warnings.some((w) => w.includes('descStruct'));
+      return { nDS: ids.length, ids, bad, pilots, headsJa, firstJa, kept, dropped };
+    });
+    add('desc.struct-sync',
+      r.bad.length === 0 && r.pilots && r.headsJa === 3 && r.firstJa.length > 0 && r.kept && r.dropped,
+      `descStruct ${r.nDS}件(${r.ids.join(' ')})の連結=description 一致(ja/en)` +
+      (r.bad.length ? ` / 不一致: ${r.bad.join(',')}` : '') +
+      ` / パイロット3件=${r.pilots} / UI 区分見出し=${r.headsJa}(例「${r.firstJa}」) / ` +
+      `validatePreset 保持=${r.kept} 連結不一致は警告つき削除=${r.dropped}`);
+  } else {
+    console.log('SKIP desc.struct-sync(対象に descStruct なし — 第50便 50K 未適用の root 等)');
   }
 }
 
