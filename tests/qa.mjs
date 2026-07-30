@@ -4583,6 +4583,10 @@ if (!FAST) {
       if (id === 'darkrotor' && p && p.bodies.filter(b => b.type === 'single').length === 3) key = 'darkrotor-v6';
       if ((id === 'saturn' || id === 'saturnLayered') && p &&
           p.bodies.reduce((a, b) => a + (b.type === 'ring' ? (b.n || 0) : 1), 0) === 241) key = id + '-r240';
+      // 第50便 50J: ♨️convection は beta で気体 210 粒+壁の色分け描画へ改訂(root は 300 粒のまま)。
+      // 見た目が構造的に違うので世代キーを分ける(darkrotor-v6 / saturn-r240 と同じ運用 —
+      // root 側の既存基準 'convection' は生き続け、beta 側は 'convection-n210' として新規記録される)
+      if (id === 'convection' && p && p.bodies[0] && p.bodies[0].n === 210) key = 'convection-n210';
       o[id] = key;
     }
     return o;
@@ -5699,9 +5703,17 @@ if (hasEchoFlipAt) {
     const ZCF = {
       gas: ['da983bab338a8e79adcda619c5c47d886eeada5fb7ffc5e00f8094fa24353a63', 240],
       pressure: ['71717c06b87d55652456e1e5c33a847287f610c5083a55018c7da38eac5f5d69', 240],
-      convection: ['aae1ee8ffb73b13fc1a9b407277b719ed507e549d2b490dcbb4951e55a283422', 300],
+      convection: null,   // 第50便 50J: 世代別に直下で解決(300粒=基点 9ec1300 / 210粒=50J 再採取)
+
       coolrace: ['a09a5cb44ae9e035409f377588ae2c967d62ca9ce9cc2f9d4bd4c31a6b6d659b', 3],
     };
+    // 第50便 50J: ♨️convection は beta で気体 300→210 粒へ改訂(意図的変更)。零コスト基準は
+    // 対象の構成(n)から選ぶ — root=300粒は基点 9ec1300 の実測のまま、beta=210粒は 50J で
+    // 再採取した実測(以降この基準に対する bit 一致が「融合機構の零コスト」を保証し続ける)
+    const convN0 = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'convection').bodies[0].n);
+    ZCF.convection = convN0 === 210
+      ? ['d03bf56fce6814531be08249b2697ae487f98e109a4a3da6acd1181fa8550219', 210]
+      : ['aae1ee8ffb73b13fc1a9b407277b719ed507e549d2b490dcbb4951e55a283422', 300];
     const zf = [];
     for (const [id, [base, n]] of Object.entries(ZCF)) {
       const r = await page.evaluate((pid) => {

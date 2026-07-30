@@ -1941,8 +1941,8 @@ const BUILTIN_PRESETS = [
 // 純粋な外部力場なので、時計・光・引きずりを歪めずに箱内へ厳密に一様な下向き場を作れる。
 
 { id:"convection", name:"加熱の対流 — 伝熱する箱", emoji:"♨️", group:"熱の実験室",
-  description:"箱そのものに伝熱の境界条件を与えたレイリー・ベナール型の対流セル(台帳4-70)。固定した加熱粒子は一つも無く、外から系を駆動するのは箱の壁だけ — 床が加熱面(壁温T=144へ緩和)、天井と右壁が放熱面(受けた熱を系外へ捨てる)、左壁は断熱。左右対称の理想レイリー・ベナール系ではなく、壁の非対称境界条件(天井+右壁放熱)で循環の向きを選んだ構成である。箱は「その先の環境」の近似で、ビーカーの壁だと思ってよい(BOX_UNIVERSE §12-1)。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂)。床で温まったガスは熱の斥力=圧力(E5′)で膨らんで浮上し、天井と右壁で熱を捨てて右から沈む — 一方向の循環セル(T6の移流拡張)。24000步後も循環は持続し、壁が入れた熱と壁が回収した熱が釣り合う定常状態になる(壁の熱は帳簿wallE系に記録される。保存量モニタで確認できる)。働く力は一様重力場gravityY(外部場)と熱の斥力・接触だけで、自己重力・引きずり・自発放射は切ってある。gravityYを0にすると循環が止まる(おすすめA/B)。代表粒子の軌跡(線)で循環セルの周回が見える。色=温度。",
-  en:{name:"Heated Convection — A Box That Conducts Heat", description:"A Rayleigh-Bénard-style convection cell where the thermal boundary condition lives in the box itself (ledger 4-70). There is not a single pinned heater particle: the only external drive is the wall — the floor is a heating face (relaxing toward a wall temperature T=144), the ceiling and the right wall are radiating faces (dumping the heat they receive out of the system), and the left wall is adiabatic. This is not a left-right symmetric, idealized Rayleigh-Bénard system — the asymmetric wall boundary conditions (ceiling plus right-wall radiation) are what select the circulation's direction. The box is an approximation of whatever lies beyond it; think of it as the wall of a beaker (BOX_UNIVERSE §12-1). This sample treats temperature as an internal state variable independent of spin (the A9 revision). Gas warmed at the floor inflates by thermal repulsion = pressure (E5′), rises, dumps its heat at the ceiling and the right wall, and sinks on the right — a one-way circulation cell (an advective extension of T6). The circulation is still running after 24000 steps, with the heat the walls inject balancing the heat they take back (the wall ledger records both; watch it in the conservation monitor). The only forces are the uniform gravity gravityY (external field) plus thermal repulsion and contact — self-gravity, dragging and spontaneous radiation are all off. Set gravityY to 0 and the circulation stops (suggested A/B). Trails on sampled particles trace the circulation loops. Color = temperature."},
+  description:"箱そのものに伝熱の境界条件を与えたレイリー・ベナール型の対流セル(台帳4-70)。固定した加熱粒子は一つも無く、外から系を駆動するのは箱の壁だけ — 床が加熱面(壁温T=144へ緩和)、天井と右壁が放熱面(受けた熱を系外へ捨てる)、左壁は断熱。左右対称の理想レイリー・ベナール系ではなく、壁の非対称境界条件(天井+右壁放熱)で循環の向きを選んだ構成である。箱は「その先の環境」の近似で、ビーカーの壁だと思ってよい(BOX_UNIVERSE §12-1)。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂)。床で温まったガスは熱の斥力=圧力(E5′)で膨らんで浮上し、天井と右壁で熱を捨てて右から沈む — 一方向の循環セル(T6の移流拡張)。24000步後も循環は持続し、壁が入れた熱と壁が回収した熱が釣り合う定常状態になる(壁の熱は帳簿wallE系に記録される。保存量モニタで確認できる)。働く力は一様重力場gravityY(外部場)と熱の斥力・接触だけで、自己重力・引きずり・自発放射は切ってある。gravityYを0にすると循環が止まる(おすすめA/B)。代表粒子の軌跡(線)で循環セルの周回が見える。色=温度。壁は熱境界条件の色で描き分けてある: 床の加熱面=橙の実線・天井と右壁の放熱面=青の実線・左壁の断熱面=灰の破線(第50便 50J)。",
+  en:{name:"Heated Convection — A Box That Conducts Heat", description:"A Rayleigh-Bénard-style convection cell where the thermal boundary condition lives in the box itself (ledger 4-70). There is not a single pinned heater particle: the only external drive is the wall — the floor is a heating face (relaxing toward a wall temperature T=144), the ceiling and the right wall are radiating faces (dumping the heat they receive out of the system), and the left wall is adiabatic. This is not a left-right symmetric, idealized Rayleigh-Bénard system — the asymmetric wall boundary conditions (ceiling plus right-wall radiation) are what select the circulation's direction. The box is an approximation of whatever lies beyond it; think of it as the wall of a beaker (BOX_UNIVERSE §12-1). This sample treats temperature as an internal state variable independent of spin (the A9 revision). Gas warmed at the floor inflates by thermal repulsion = pressure (E5′), rises, dumps its heat at the ceiling and the right wall, and sinks on the right — a one-way circulation cell (an advective extension of T6). The circulation is still running after 24000 steps, with the heat the walls inject balancing the heat they take back (the wall ledger records both; watch it in the conservation monitor). The only forces are the uniform gravity gravityY (external field) plus thermal repulsion and contact — self-gravity, dragging and spontaneous radiation are all off. Set gravityY to 0 and the circulation stops (suggested A/B). Trails on sampled particles trace the circulation loops. Color = temperature. The walls are drawn in the color of their thermal boundary condition: the heating floor in solid orange, the radiating ceiling and right wall in solid blue, the adiabatic left wall as a gray dashed line (dispatch 50, 50J)."},
   activeParams:["gravityY","kRep","kappaS","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   thermal:"tint",   // 第36便 D(台帳4-51)
   camera:{scale:78}, world:{boundary:"box", size:60,
@@ -1956,8 +1956,11 @@ const BUILTIN_PRESETS = [
   bodies:[ // 第37便 C1: pinned ヒーター13枚・冷却板5枚を全廃し、自由な気体だけの系にした
            // (外部駆動は壁の熱交換ひとつだけ = 要因の完全分離)。箱を小さく・密にしたのは、
            // 壁と気体が実際に熱をやり取りできる密度にするため(実測: 旧サイズ190では天井付近の
-           // 粒子数が平均0.2個で放熱面が働かない)
-    {type:"box", rMul:4, n:300, cx:0,cy:0, w:80,h:80, mMin:0.05,mMax:0.05,
+           // 粒子数が平均0.2個で放熱面が働かない)。
+           // 第50便 50J(原仮定者指摘「初回起動が重い」): n 300→210(力対 44.9k→21.9k =
+           // 負荷 2.0 分の 1)。24000步の再実測で循環セルは持続: 循環=21.4(>12)・平均|v|=0.90
+           // (>0.5)・定常熱流の不均衡 0.02%(<20%)— QA behavior.convection の閾値は不変のまま充足
+    {type:"box", rMul:4, n:210, cx:0,cy:0, w:80,h:80, mMin:0.05,mMax:0.05,
      spinMin:0,spinMax:0, tInt:2.25, vScale:0.4}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"}  },
@@ -5372,7 +5375,9 @@ function render(){
     ctx.strokeStyle="rgba(139,147,200,0.5)"; ctx.setLineDash([5,5]);
     if(sim.world.boundary==="box"){
       const s=sim.world.size;
-      ctx.strokeRect(w2sX(-s),w2sY(-s),2*s*z,2*s*z);
+      // 第50便 50J: 伝熱する箱は壁を熱境界条件の色で描き分ける(加熱=橙・放熱=青・断熱=灰破線)
+      if(sim.twall) drawThermalWallBox(sim,w2sX,w2sY);
+      else ctx.strokeRect(w2sX(-s),w2sY(-s),2*s*z,2*s*z);
     } else { ctx.beginPath(); ctx.arc(w2sX(0),w2sY(0),sim.world.size*z,0,7); ctx.stroke(); }
     ctx.setLineDash([]);
   }
@@ -5530,6 +5535,28 @@ function render(){
   }
 }
 
+// 第50便 50J(原仮定者指摘): 伝熱する箱の壁を熱境界条件の種類で色分けして描く。
+// 加熱面=橙の実線・放熱面=青の実線・断熱面(未指定含む)=従来どおり灰の破線。
+// 表示のみ — 物理・twall の中身には一切触れない。メイン描画と A/B 分割描画が共用する
+function drawThermalWallBox(S, mx, my){
+  const s=S.world.size, tw=S.twall;
+  const colOf=(w)=>(!w || w.mode==="adiabatic")? null
+    : (w.mode==="heat"? "rgba(255,150,60,0.9)" : "rgba(110,190,255,0.9)");
+  const seg=(x1,y1,x2,y2,w)=>{
+    const c=colOf(w);
+    if(c){ ctx.strokeStyle=c; ctx.setLineDash([]); ctx.lineWidth=2.5; }
+    else { ctx.strokeStyle="rgba(139,147,200,0.5)"; ctx.setLineDash([5,5]); ctx.lineWidth=1; }
+    ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+  };
+  // 面の向き・並びは normThermalWalls と同一(S.twall は TWALL_SIDES=[bottom,top,left,right]
+  // 順の配列。bottom=y=+size が画面下)
+  seg(mx(-s),my(+s),mx(+s),my(+s),tw[0]);   // bottom
+  seg(mx(-s),my(-s),mx(+s),my(-s),tw[1]);   // top
+  seg(mx(-s),my(-s),mx(-s),my(+s),tw[2]);   // left
+  seg(mx(+s),my(-s),mx(+s),my(+s),tw[3]);   // right
+  ctx.setLineDash([]); ctx.lineWidth=1;
+}
+
 // ===== A/B分割描画(v1.13): 粒子・境界・光線・線の軌跡・ラベルの比較ビュー(オーバーレイ類は非表示)=====
 function drawWorldInto(S, y0, hgt, label, tbuf){
   ctx.save(); ctx.beginPath(); ctx.rect(0,y0,cw,hgt); ctx.clip();
@@ -5538,7 +5565,10 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
   // 境界
   if(S.world.boundary!=="none"){
     ctx.strokeStyle="rgba(139,147,200,0.5)"; ctx.setLineDash([5,5]);
-    if(S.world.boundary==="box"){ const s=S.world.size; ctx.strokeRect(sx(-s),sy(-s),2*s*z,2*s*z); }
+    if(S.world.boundary==="box"){ const s=S.world.size;
+      // 第50便 50J: 伝熱する箱は A/B 分割ビューでも壁を熱境界条件の色で描き分ける
+      if(S.twall) drawThermalWallBox(S,sx,sy);
+      else ctx.strokeRect(sx(-s),sy(-s),2*s*z,2*s*z); }
     else { ctx.beginPath(); ctx.arc(sx(0),sy(0),S.world.size*z,0,7); ctx.stroke(); }
     ctx.setLineDash([]);
   }
