@@ -1,0 +1,24 @@
+{
+ "figure": "p2fig7",
+ "paper": "dfm-paper2",
+ "generated": "2026-07-30T05:52:02.422Z",
+ "commit": "ea5ba4a",
+ "target": "beta/index.html",
+ "preset": "rotorSolo(QA behavior.rotorSolo と同一光線条件: x0=-300・dl=2.7・340步・終端 r<300 を非脱出とする)",
+ "nonEscapeRate": {
+  "spin0": 0.66,
+  "spin0_3": 0.72,
+  "spin2": 0,
+  "spin2_physLock_Kt3600": 0
+ },
+ "selfLightSweep_lSeff": {
+  "spin0": 0,
+  "spin0_3": 1,
+  "spin2": 1
+ },
+ "minApproachRadius_spin2": {
+  "prograde": 123.44877847473983,
+  "retrograde": 40.37035349686811
+ },
+ "note": "②自光の掻出(lightSweep)が飽和する spin=0.3 でも ③掃き出しは未発火 = 別機構(DERIVATIONS §17)"
+}

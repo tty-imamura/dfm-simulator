@@ -96,3 +96,48 @@ grep で機械確認する:
 4. 全図キャプションに生成手段(プリセットID / Vフック / 明示構成+パラメータ)
 5. 著者・AI開示・ライセンスが HANDOFF_PAPER_V2 §2 のとおり
 6. アメリカ式綴り、SI 復元表が付録(Appendix A)
+
+---
+
+# 第2論文「箱宇宙」(dfm-paper2.tex / dfm-paper2-ja.tex)
+
+- 現行稿 **v0.4**(2026-07-30 第46便 46F — 図8点の機械生成と組み込み)。
+  改稿履歴は `dfm-paper2.tex` 冒頭コメント。
+- 執筆指示書は `docs/dev/HANDOFF_PAPER2_WRITE.md` v1.1(唯一の正本)。
+- 図の設計正本: 骨子 `docs/dev/HANDOFF_PAPER_BOX.md` v0.3 §4 と
+  `docs/dev/EXP_4-66_PROBE_H_DESIGN.md`(図6の仕様)。
+
+## ビルド
+
+```sh
+pdflatex dfm-paper2.tex    && pdflatex dfm-paper2.tex      # 英語版(RevTeX 4.2・7ページ)
+lualatex dfm-paper2-ja.tex && lualatex dfm-paper2-ja.tex   # 日本語版(ltjsarticle・8ページ)
+```
+
+## 図の再生成(機械生成)
+
+```sh
+node tools/gen-figures2.mjs          # 全8図を figures/ に p2fig1..8.{svg,pdf,json} で生成
+FIG=2,6 node tools/gen-figures2.mjs  # 個別再生成(gates json は該当分だけ差し替え)
+P2_SEEDS=20260723,1,2 node tools/gen-figures2.mjs   # 図8の seed 上書き
+```
+
+第1論文の `tools/gen-figures.mjs` と同じ流儀(headless Chromium + HP フック駆動・
+外部チャートライブラリなし)。**対象は `beta/index.html`**(V29・freebox・
+boxredshift・rotorSolo は beta 先行)。各図の `.json` に生成パラメータ・実測値・
+コミットハッシュを記録し、数値ゲート `figures/p2figs-gates.json`(21件)が
+本文・キャプションの値との一致を機械強制する。
+
+| 図 | 生成手段 | 実測ゲート(2026-07-30) |
+|---|---|---|
+| p2fig1 | 模式図(シミュレーション不要・SVG 手組み) | 数値なし |
+| p2fig2 | V23a/V24a 構成(96質点リング R=260)を r=20..240 へ半径スキャン+連続リング極限の求積 | g(20)=0.5002(解析 1/2)・解析との最大差 0.07% |
+| p2fig3 | V25 の binLn/nNet を転記し universeBox.D をスキャン(連星 m=2000, d=24 固定) | アンカー n=1.61 / 0.00・φ_B 0.088→0.990 で単調 0.00→1.59 |
+| p2fig4 | preset `boxredshift`(QA `box.photon-abc` と同一構成・t<75) | z_A=2.9187 / z_B=0.9556・帳簿ずれ 0(<1e-9)・到着差 0.080 |
+| p2fig5 | preset `freebox`(QA `freebox.*` と同一・1200步) | a_eff=2.1795 / 圧力オフ 最大 1.0047(t=9.2)→再収縮・帳簿全0 |
+| p2fig6 | V29 の測定系を D/Kt∈{0.3, 0.9242, 1.5}×24窓へ拡張+反比例対照(後処理) | 解析との最大相対誤差 6.2e-3・較正点 0.9242・対照 |比−1|<3.7e-3 |
+| p2fig7 | preset `rotorSolo`(QA `behavior.rotorSolo` と同一光線条件) | 非脱出率 0.66→0.00・spin0.3 で 0.72(別機構)・ロックで 0.00・順行/逆行 123.4/40.4 |
+| p2fig8 | tests/seeds.mjs の8帯測定系を転記・preset `galaxy`・8seed×6000步 | 外縁ブースト 1.331±0.009・帯別増強 1.58(r=121)→1.16(r=251) |
+
+**投稿直前に必ず提出コミットで全図を再生成し、図 JSON と論文のコミット参照を
+一致させること**(第1論文と同じ規律)。
