@@ -576,6 +576,8 @@ ja: {
   hudEchoFlipped:"反転済み↩︎",
   // 第50便 50C(台帳4-87): 二つのH推定器 — 累積(t=0基準)の H_w/H_geo(指数読み・反比例読み)
   hudProbeH:(rE,ana,rI)=>`H_w/H_geo 指数読み=${rE.toFixed(3)}(解析${ana.toFixed(3)}) 反比例読み=${rI.toFixed(3)}`,
+  // 第50便 50E(台帳4-89): 安全クランプの帳簿(発動時のみ表示 — 保存則の主張域外の明示)
+  hudClamp:(v,s,h)=>`⚠ クランプ発動: 速度=${v} スピン=${s} H=${h}(保存則の主張域外)`,
   // 第35便(台帳4-61): 自由な箱 — 規定 a(t) ではなく壁粒子群から計測した実測尺度因子であることの区別表示
   ovBoxMeas:"実測", ovBoxMeasNote:"a_eff=⟨r⟩/⟨r⟩₀ 実測(規定a(t)ではない)",
   ovBoxGraphMeas:"a_eff(青実線)/H_eff(橙点線)[実測]",
@@ -758,6 +760,8 @@ en: {
   hudEchoFlipped:"reversed ↩︎",
   // 第50便 50C(台帳4-87): two H estimators — cumulative (from t=0) H_w/H_geo, exp vs inverse reading
   hudProbeH:(rE,ana,rI)=>`H_w/H_geo exp=${rE.toFixed(3)} (analytic ${ana.toFixed(3)}) inverse=${rI.toFixed(3)}`,
+  // 第50便 50E(台帳4-89): safety-clamp ledger (shown only when fired — outside the conservation claim domain)
+  hudClamp:(v,s,h)=>`⚠ clamps fired: velocity=${v} spin=${s} H=${h} (outside the conservation claims)`,
   // 第35便(台帳4-61): the free box — measured scale factor, not a prescribed a(t)
   ovBoxMeas:"measured", ovBoxMeasNote:"a_eff=⟨r⟩/⟨r⟩0 measured (not prescribed)",
   ovBoxGraphMeas:"a_eff / H_eff [measured]",
@@ -3306,6 +3310,10 @@ function makeSim(){
     S.resPx=0; S.resPy=0; S.resL=0; S.radE=0; S.radL=0;
     S.wallEin=0; S.wallEout=0; S.wallKE=0;   // 第37便 C1(台帳4-70): 壁帳簿もリセット
     S.pinHeat=0;   // 第47便 47A(台帳4-86): pinned 熱浴の帳簿もリセット
+    // 第50便 50E(台帳4-89): 安全クランプの帳簿 — 発動回数を数えるだけ(クランプの規則
+    // そのものは1ビットも変えない)。保存則を主張する全構成で「発動0回」を QA が機械固定する
+    // (clamp.ledger-zero)。V=速度100 / S=スピン±40(step 内)/ H=Hubble率±0.5(boxScaleAt)
+    S.clampVN=0; S.clampSN=0; S.clampHN=0;
     S.curveBins=null; S.tempLR=[0,0]; S.histT=[];
   };
   S.updateRadii = function(){ // R_i = radiusScale·rMul_i·√|m| (PHYSICS.md §2 + 第36便 C1)
@@ -3819,7 +3827,8 @@ function makeSim(){
     // 第31便: UniverseBox — この step の尺度 a(t)・Hubble 率 H・決定力 W_B を確定(規定運動)。
     // W_B は一様(∇W_B=0 → 重力なし)で、u_B=V+Ω·J(r−c)+H·(r−c) を E3 の分子・分母へ加える
     const B=S.box; let WB=0, bH=0;
-    if(B){ const sc=boxScaleAt(B,S.t); bH=sc.H; WB=boxWAt(B,sc.a); S.boxA={a:sc.a,H:bH,W:WB}; }
+    if(B){ const sc=boxScaleAt(B,S.t); bH=sc.H; WB=boxWAt(B,sc.a); S.boxA={a:sc.a,H:bH,W:WB};
+      if(sc.clamped) S.clampHN++; }   // 第50便 50E(台帳4-89): H クランプ発動の帳簿
     const bgW=D0+WB;   // 背景決定力の合計(D₀+箱)— E6′ の背景持ち分・リザーバ帳簿に使用
     const flrw=!!(B && B.friction==="flrw");   // 第33便: FLRW 摩擦比較モード(既定 dfm では false)
     // レール粒子(pinned+omega/railH)の位置・速度を先に更新
@@ -4334,10 +4343,11 @@ function makeSim(){
         if(hasCore && coreMR[i]!==0) S.rotAc[i]+=coreSR[i]*spin[i]*dt;   // コアのスポーク角(sc=coreSR·s)
       }
       if(pinned[i]){ if(doPost) S.tauUpdate(i,dt); continue; }
-      // 安全上限(発散防止): 速度100・スピン±40
+      // 安全上限(発散防止): 速度100・スピン±40。第50便 50E(台帳4-89): 発動回数を帳簿
+      // S.clampVN/clampSN に数える(規則は不変 — 保存則主張の例外を QA clamp.ledger-zero が機械固定)
       const vv2=vx[i]*vx[i]+vy[i]*vy[i];
-      if(vv2>10000){ const sc=100/Math.sqrt(vv2); vx[i]*=sc; vy[i]*=sc; }
-      if(spin[i]>40) spin[i]=40; else if(spin[i]<-40) spin[i]=-40;
+      if(vv2>10000){ const sc=100/Math.sqrt(vv2); vx[i]*=sc; vy[i]*=sc; S.clampVN++; }
+      if(spin[i]>40){ spin[i]=40; S.clampSN++; } else if(spin[i]<-40){ spin[i]=-40; S.clampSN++; }
       if(doDrift){
       x[i]+=vx[i]*dt; y[i]+=vy[i]*dt;
       // 境界
@@ -5689,6 +5699,9 @@ function loop(now){
       // 実際に熱が出入りしたサンプル(κs>0 + pinned + thermal:"tint")でだけ1行増える
       // (他のサンプルでは pinHeat が厳密に 0 のままなので 1 文字も増えない)。表示のみ・物理不変
       if(sim.pinHeat!==0) txt+=`\n固定天体へ流出E=${fmt(sim.pinHeat)}`;
+      // 第50便 50E(台帳4-89): 安全クランプの帳簿 — 発動があったときだけ1行追記
+      // (保存則主張の構成では厳密0で不可視のまま。発動していたら保存則の主張域外であることの明示)
+      if(sim.clampVN||sim.clampSN||sim.clampHN) txt+=`\n${T("hudClamp")(sim.clampVN,sim.clampSN,sim.clampHN)}`;
     }
     $("#hud").textContent=txt;
     // v1.17: 実行中は編集パネルの表示値を追従(入力フォーカス中は上書きしない)

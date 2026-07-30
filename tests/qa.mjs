@@ -6472,6 +6472,59 @@ if (hasSwAutoCb) {
   }
 }
 
+// ---- 50E) 第50便 50E(台帳4-89): clamp.ledger-zero — 安全クランプ(速度100・スピン±40・
+// ----      Hubble率±0.5)の発動回数帳簿 sim.clampVN/clampSN/clampHN。保存則主張の例外を
+// ----      機械固定する(ChatGPT 4.12): ①配線検証 — 挑発構成(v=200/spin=50/sin箱 amp0.9
+// ----      freq2)でそれぞれの帳簿が実際に増えること ②発動0回 — 保存則を主張する代表構成
+// ----      (freebox 1200步=ゲート窓 / boxcomoving 2000步 / echo 2400步=反転後含む)で
+// ----      3帳簿とも厳密0のままであること。クランプの規則そのものは1ビットも変えていない。
+// ----      帳簿が無い対象(root v1.33 等)は SKIP。軽いので QA_FAST でも実行する ----
+{
+  const hasClampLedger = await page.evaluate(() => typeof HP.sim.clampVN === 'number');
+  if (hasClampLedger) {
+    const r = await page.evaluate(() => {
+      const s = HP.sim;
+      const mk = (bodies, extra) => Object.assign({ id: 'clamp_probe', name: 'clamp', description: 'p',
+        camera: { scale: 100 }, world: { boundary: 'none', size: 0 }, seed: 1,
+        physics: { G: 0, D0: 0, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, Kt: 300,
+          cLight: 60, etaRad: 0, softening: 4, timeScale: 1 },
+        bodies, overlays: {} }, extra || {});
+      // ①配線検証(挑発構成 — 発動して帳簿が増えることの確認)
+      s.build(mk([{ type: 'single', m: 1, x: 0, y: 0, vx: 200, vy: 0, spin: 0, pinned: false }]));
+      s.step(0.016);
+      const vFired = s.clampVN;
+      s.build(mk([{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 50, pinned: false }]));
+      s.step(0.016);
+      const sFired = s.clampSN;
+      s.build(mk([{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }],
+        { universeBox: { mode: 'sin', H0: 0, D: 10, dPower: 1, L: 100, cx: 0, cy: 0, vx: 0, vy: 0,
+          omega: 0, amp: 0.9, freq: 2, phase: 0 } }));
+      s.step(0.016);
+      const hFired = s.clampHN;
+      // ②発動0回(保存則主張の代表構成)。build が帳簿をリセットすることも同時に確認される
+      const zero = {};
+      const runZero = (id, steps) => {
+        if (!HP.allPresets().some((p) => p.id === id)) { zero[id] = null; return; }
+        HP.loadPreset(id, false);
+        for (let k = 0; k < steps; k++) s.step(0.016);
+        zero[id] = s.clampVN + s.clampSN + s.clampHN;
+      };
+      runZero('freebox', 1200);
+      runZero('boxcomoving', 2000);
+      runZero('echo', 2400);
+      HP.loadPreset(HP.allPresets()[0].id, false);   // 後続テストへ既定状態を返す
+      return { vFired, sFired, hFired, zero };
+    });
+    const zs = Object.entries(r.zero).filter(([, v]) => v !== null);
+    add('clamp.ledger-zero',
+      r.vFired > 0 && r.sFired > 0 && r.hFired > 0 && zs.length >= 2 && zs.every(([, v]) => v === 0),
+      `配線: 挑発構成で発動 速度=${r.vFired} スピン=${r.sFired} H=${r.hFired}(各>0) / ` +
+      `発動0回: ${zs.map(([k, v]) => `${k}=${v}`).join(' ')}(保存則主張の代表構成で全帳簿が厳密0)`);
+  } else {
+    console.log('SKIP clamp.ledger-zero(対象にクランプ帳簿 sim.clampVN なし — 第50便 50E 未適用の root 等)');
+  }
+}
+
 // ---- 7z13) D2: behavior.agnjet — 円盤の内縁で摩擦加熱されたガスが、抵抗の少ない極方向(±y)へ
 // ----      抜けて双極の噴出になる(圧力 E5′ + 幾何 の 2D アナロジー)。
 // ----      判定量: 内縁(初期 |x|≤80)起源のガスのうち 4000步後に r>300 へ出たものの方位が
