@@ -584,6 +584,8 @@ ja: {
   hudEchoFlipped:"反転済み↩︎",
   // 第50便 50C(台帳4-87): 二つのH推定器 — 累積(t=0基準)の H_w/H_geo(指数読み・反比例読み)
   hudProbeH:(rE,ana,rI)=>`H_w/H_geo 指数読み=${rE.toFixed(3)}(解析${ana.toFixed(3)}) 反比例読み=${rI.toFixed(3)}`,
+  // 第51便 51C: テンション類似行(点値 2(D/Kt)a^{−dP}。数値一致は較正であり証拠ではない)
+  hudProbeHTension:(pt,dkt)=>`テンション類似: 点値(現a)=${pt.toFixed(3)} → a=2で${dkt.toFixed(3)}(実宇宙67.4/73.0≈0.923と同水準 — 較正)`,
   // 第50便 50E(台帳4-89): 安全クランプの帳簿(発動時のみ表示 — 保存則の主張域外の明示)
   hudClamp:(v,s,h)=>`⚠ クランプ発動: 速度=${v} スピン=${s} H=${h}(保存則の主張域外)`,
   // 第50便 50G(台帳4-91): 自由な箱の加速・形状診断(H_eff=直近サンプル・壁リングの形状4指標)
@@ -778,6 +780,8 @@ en: {
   hudEchoFlipped:"reversed ↩︎",
   // 第50便 50C(台帳4-87): two H estimators — cumulative (from t=0) H_w/H_geo, exp vs inverse reading
   hudProbeH:(rE,ana,rI)=>`H_w/H_geo exp=${rE.toFixed(3)} (analytic ${ana.toFixed(3)}) inverse=${rI.toFixed(3)}`,
+  // 第51便 51C: tension-analogue line (point value 2(D/Kt)a^{-dP}; the match is a calibration, not evidence)
+  hudProbeHTension:(pt,dkt)=>`tension analogue: point(now)=${pt.toFixed(3)} → ${dkt.toFixed(3)} at a=2 (cf. real 67.4/73.0≈0.923 — calibration)`,
   // 第50便 50E(台帳4-89): safety-clamp ledger (shown only when fired — outside the conservation claim domain)
   hudClamp:(v,s,h)=>`⚠ clamps fired: velocity=${v} spin=${s} H=${h} (outside the conservation claims)`,
   // 第50便 50G(台帳4-91): free-box acceleration & shape diagnostics
@@ -1424,14 +1428,14 @@ const BUILTIN_PRESETS = [
 // D/Kt の操作: Kt は主役スライダー・D は「箱宇宙」セクションの数値入力(第32便 W2)。
 // D の既定 277.26 = (2/3)ln4·300 ≈ 0.9242·Kt(論文2の較正点 — a=2 の点値がテンション比
 // 67.4/73.0≈0.923 と同水準になる。数値一致は較正であり証拠ではない — Negative claim 6)。
-{ id:"probeH", name:"箱宇宙 — 二つのH推定器(プローブ依存の膨張測定)", emoji:"🧭", group:"箱宇宙",
+{ id:"probeH", name:"箱宇宙 — ２つのH推定器(ハッブルテンション類似)", emoji:"🧭", group:"箱宇宙",
   // 第50便 50K(台帳4-78 C案パイロット): descStruct(要約/観察/操作)— 純分割+操作文の末尾移設のみ
   descStruct:{
-    summary:"同じ箱の膨張率Hを、2人の観測者が別々の物差しで測る(論文2の中心結果V29を操作可能にしたサンプル — 台帳4-87)。幾何プローブは共動構造を追ってH_geo=Δln a/Δtを報告する。速度プローブはFLRW流の減衰則w/c∝1/aを仮定し、比R=w/c_locの実測減衰からH_w=−Δln R/Δtを推定する。",
+    summary:"同じ箱の膨張率Hを、2人の観測者が別々の物差しで測る(論文2の中心結果V29を操作可能にしたサンプル — 台帳4-87)。幾何プローブは共動構造を追ってH_geo=Δln a/Δtを報告する。速度プローブはFLRW流の減衰則w/c∝1/aを仮定し、比R=w/c_locの実測減衰からH_w=−Δln R/Δtを推定する。2つの推定値の食い違いがハッブルテンションと同水準(a=2の点値0.92 対 実宇宙比0.923)になる較正で、HUDの「テンション類似」行から常時確認できる。",
     observe:"粒子の特異速度wはモデルの絶対帳簿では保存するのに(V27)、局所光速c_loc=c₀e^{−2ψ}が膨張の希釈で上がるため、光を物差しにした比Rは減衰する(E8R・V28)— しかもその減衰則は仮定したFLRW形と違うので、2つの推定値の比はH_w/H_geo=2(D/Kt)/aとなり、時刻aと較正D/Ktに依存する。HUDの累積測定(t=0基準)がこれを常時表示する: a=2で指数読みの累積比は 1.333(解析1.3335と1e-2以内で一致)。並記される反比例読みは、同じ実測wを対案の光速則c_loc∝1/W(台帳4-66)で読み直したもので、恒等的に 1.000 に張り付く — 関数形を変えるとプローブ依存が消える(exp-4-66.mjsの判別実験と同じモデル内対照)。既定D/Kt=(2/3)ln4≈0.9242はa=2の点値0.92が実宇宙のハッブルテンション比67.4/73.0≈0.923と同水準になる論文2の較正点だが、この数値一致は較正であって証拠ではない(Negative claim 6)。これはテンションの説明ではなく「測定の食い違いは推定器が仮定する減衰則の帰結でありうる」という構造の提示である(Negative claim 3)。",
     control:"Ktスライダーや「箱宇宙」セクションのDでD/Ktを動かすと比が比例してスケールする(変更後は🔁で再構築してから読む — 累積測定はt=0基準)。"},
-  en:{name:"Box Universe — Two H Estimators (Probe-Dependent Expansion)", descStruct:{
-    summary:"Two observers measure the expansion rate H of the same box with different rulers (the central result V29 of paper 2, made operable — ledger 4-87). The geometric probe tracks comoving structure and reports H_geo=Δln a/Δt. The velocity probe assumes the FLRW decay law w/c∝1/a and infers H_w=−Δln R/Δt from the measured decay of the ratio R=w/c_loc. ",
+  en:{name:"Box Universe — Two H Estimators (a Hubble-Tension Analogue)", descStruct:{
+    summary:"Two observers measure the expansion rate H of the same box with different rulers (the central result V29 of paper 2, made operable — ledger 4-87). The geometric probe tracks comoving structure and reports H_geo=Δln a/Δt. The velocity probe assumes the FLRW decay law w/c∝1/a and infers H_w=−Δln R/Δt from the measured decay of the ratio R=w/c_loc. The calibration makes the two estimates disagree at the same magnitude as the Hubble tension (point value 0.92 at a=2 vs the real-universe ratio 0.923), visible at all times in the HUD's tension-analogue line. ",
     observe:"The particle's peculiar velocity w is conserved in the model's absolute bookkeeping (V27), yet the local light speed c_loc=c0·e^{−2ψ} rises as expansion dilutes determinacy, so the light-referenced ratio R decays (E8R, V28) — and its decay law differs from the assumed FLRW form, so the two estimates disagree by H_w/H_geo=2(D/Kt)/a, depending on the epoch a and the calibration D/Kt. The HUD's cumulative measurement (from t=0) shows this live: at a=2 the exponential reading's cumulative ratio is 1.333 (matching the analytic 1.3335 within 1e-2). The inverse reading shown beside it re-reads the same measured w under the alternative light-speed law c_loc∝1/W (ledger 4-66) and stays identically at 1.000 — change the functional form and the probe dependence vanishes (the same model-internal control as the exp-4-66.mjs discrimination experiment). The default D/Kt=(2/3)ln4≈0.9242 is paper 2's calibration point, where the a=2 point value 0.92 matches the magnitude of the real Hubble-tension ratio 67.4/73.0≈0.923 — a calibration, not evidence (Negative claim 6). This is not an explanation of the tension but a structure: a measurement discrepancy can be the consequence of the decay law the estimator assumes (Negative claim 3). ",
     control:"Move D/Kt with the Kt slider or the D input in the Box Universe section and the ratio scales in proportion (rebuild with 🔁 after changing — the cumulative measurement is referenced to t=0)."}},
   activeParams:["Kt","cLight","kFrame"],
@@ -5831,7 +5835,10 @@ function loop(now){
         const rExp=(2*(B.D/KtV)*(1-adp)-lnW)/lnA;
         const rInv=B.dPower-lnW/lnA;
         const ana=2*(B.D/KtV)*(1-adp)/lnA;
-        txt+=`\n${T("hudProbeH")(rExp,ana,rInv)}`;
+        // 第51便 51C(原仮定者指示): テンション類似行 — 点値 2(D/Kt)a^{−dP}(現在a)と
+        // a=2 の点値(=D/Kt — 実宇宙比 67.4/73.0≈0.923 と同水準の較正点)を常時表示
+        const pt=2*(B.D/KtV)*adp*B.dPower;
+        txt+=`\n${T("hudProbeH")(rExp,ana,rInv)}\n${T("hudProbeHTension")(pt,B.D/KtV)}`;
       }
     }
     // 第35便(台帳4-61): 自由な箱 — 規定 a(t) ではなく壁から計測した実測尺度因子であることを明示する
