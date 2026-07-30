@@ -2224,11 +2224,33 @@ if (hasBadgeClassify) {
       : 0.5 * s.m[i] * s.R[i] * s.R[i] * s.spin[i] * s.spin[i] * s.obsT[i] * (1 - s.lSw[i]));
     HP.loadPreset('conduction', false);
     const dT0 = T(0) - T(17);
-    let mid = null;
-    for (let k = 0; k < 20000; k++) { s.step(0.016); if (k === 3999) mid = { T1: T(1), T9: T(9), T17: T(17) }; }
-    return { Th0: T(0), dT0, mid, Thf: T(0), T17f: T(17), nan: s.hasNaN() };
+    // 第51便 51D: 行別の列熱・前線(HUD hudConduction と同一式)。行 = pinned 熱浴と同じ y
+    const rowStat = () => {
+      const rows = [];
+      for (let i = 0; i < s.n; i++) if (s.pinned[i]) rows.push({ y: s.y[i], bx: s.x[i], front: 0, heat: 0, gap: 1e9 });
+      for (const r of rows) for (let i = 0; i < s.n; i++) {
+        if (s.pinned[i] || Math.abs(s.y[i] - r.y) > 10) continue;
+        const Ti = T(i), d = Math.abs(s.x[i] - r.bx);
+        r.heat += Ti; if (Ti > 4 && d > r.front) r.front = d;
+        if (d > 1e-9 && d < r.gap) r.gap = d;
+      }
+      rows.sort((a, b) => a.gap - b.gap);
+      return rows;
+    };
+    let mid = null, rows4k = null;
+    for (let k = 0; k < 20000; k++) { s.step(0.016);
+      if (k === 3999) { mid = { T1: T(1), T9: T(9), T17: T(17) }; rows4k = rowStat(); } }
+    return { Th0: T(0), dT0, mid, rows4k, condHud: s.condHud === undefined ? null : !!s.condHud,
+      Thf: T(0), T17f: T(17), nan: s.hasNaN() };
   });
   const dTf = cd.Thf - cd.T17f;
+  // 第51便 51D(原仮定者指示「速さの違いが分からない」): 行別の実測を判定へ追加 —
+  // 密な列(間隔9)の前線が疎な列(間隔18)より先へ届き、列の熱も claims 窓(2.125〜2.875)
+  // 内の比で多いこと。condHud(HUD表示の配線)は beta のみ(root は null で判定対象外)
+  const rr = cd.rows4k;
+  const rowsOk = rr && rr.length === 2 && rr[0].front > rr[1].front
+    && rr[1].heat > 0 && (rr[0].heat / rr[1].heat) > 2.125 && (rr[0].heat / rr[1].heat) < 2.875
+    && (cd.condHud === null || cd.condHud === true);
   // 第39便(原仮定者指示 C2)再較正: kappaS 1.5→0.3(伝導が速すぎて実時間10秒で列全体が
   // ほぼ均一化していた問題の是正)に伴い、同一の生ステップ数(20000步)で見た拡散の進み方が
   // 約1/5遅くなったため、閾値のみ実測に合わせて更新(判定の向き・ステップ数・主張は不変)。
@@ -2236,10 +2258,13 @@ if (hasBadgeClassify) {
   // T1=27.82 > 中位(dist81)T9=4.88 > 遠端(dist153)T17=2.28(距離依存は維持)。
   // ΔT(加熱端−遠端)は初期64 → 20000步後43.62(比0.682)。閾値0.75は実測の約1.10倍上
   add('behavior.conduction',
-    !cd.nan && cd.Th0 === cd.Thf && cd.mid.T1 > cd.mid.T9 && cd.mid.T9 > cd.mid.T17 && dTf / cd.dT0 < 0.75,
+    !cd.nan && cd.Th0 === cd.Thf && cd.mid.T1 > cd.mid.T9 && cd.mid.T9 > cd.mid.T17 && dTf / cd.dT0 < 0.75
+    && rowsOk,
     `加熱端T=${cd.Th0.toFixed(1)}(不変) 中間(4000步) 近接T1=${cd.mid.T1.toFixed(1)} > 中位T9=${cd.mid.T9.toFixed(1)} `
     + `> 遠端T17=${cd.mid.T17.toFixed(1)}(距離依存) / ΔT 初期=${cd.dT0.toFixed(1)} → 20000步後=${dTf.toFixed(1)}`
-    + `(比=${(dTf / cd.dT0).toFixed(3)} < 0.75 — 実測0.682。第39便 kappaS 1.5→0.3 再較正)`);
+    + `(比=${(dTf / cd.dT0).toFixed(3)} < 0.75 — 実測0.682。第39便 kappaS 1.5→0.3 再較正)`
+    + (rr ? ` / 行別(4000步): 前線 間隔${Math.round(rr[0].gap)}=${Math.round(rr[0].front)} > 間隔${Math.round(rr[1].gap)}=${Math.round(rr[1].front)} `
+      + `列熱比=${(rr[0].heat / rr[1].heat).toFixed(2)}(窓2.125〜2.875・claims 連動) condHud=${cd.condHud}` : ''));
 }
 
 {

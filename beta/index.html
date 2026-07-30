@@ -588,6 +588,8 @@ ja: {
   hudProbeHTension:(pt,dkt)=>`テンション類似: 点値(現a)=${pt.toFixed(3)} → a=2で${dkt.toFixed(3)}(実宇宙67.4/73.0≈0.923と同水準 — 較正)`,
   // 第50便 50E(台帳4-89): 安全クランプの帳簿(発動時のみ表示 — 保存則の主張域外の明示)
   hudClamp:(v,s,h)=>`⚠ クランプ発動: 速度=${v} スピン=${s} H=${h}(保存則の主張域外)`,
+  // 第51便 51D: 熱伝導の前線・列熱(密/疎の2行を常時比較)
+  hudConduction:(a,b)=>`前線(T>4): 間隔${a.gap}=距離${Math.round(a.front)} / 間隔${b.gap}=距離${Math.round(b.front)}  列の熱: ${a.heat.toFixed(1)} 対 ${b.heat.toFixed(1)}(${b.heat>0?(a.heat/b.heat).toFixed(2):"—"}倍)`,
   // 第50便 50G(台帳4-91): 自由な箱の加速・形状診断(H_eff=直近サンプル・壁リングの形状4指標)
   hudBoxShape:(H,sh)=>`H_eff=${(H>=0?"+":"")+H.toFixed(4)} 壁形状: RMS=${(sh.rms*100).toFixed(2)}% 中央r=${sh.med.toFixed(1)} 四重極A2=${sh.a2.toFixed(3)} 残存=${Math.round(sh.keep*100)}%`,
   // 第35便(台帳4-61): 自由な箱 — 規定 a(t) ではなく壁粒子群から計測した実測尺度因子であることの区別表示
@@ -784,6 +786,8 @@ en: {
   hudProbeHTension:(pt,dkt)=>`tension analogue: point(now)=${pt.toFixed(3)} → ${dkt.toFixed(3)} at a=2 (cf. real 67.4/73.0≈0.923 — calibration)`,
   // 第50便 50E(台帳4-89): safety-clamp ledger (shown only when fired — outside the conservation claim domain)
   hudClamp:(v,s,h)=>`⚠ clamps fired: velocity=${v} spin=${s} H=${h} (outside the conservation claims)`,
+  // 第51便 51D: conduction front & row heat (dense vs sparse, live)
+  hudConduction:(a,b)=>`front (T>4): gap ${a.gap}=dist ${Math.round(a.front)} / gap ${b.gap}=dist ${Math.round(b.front)}  row heat: ${a.heat.toFixed(1)} vs ${b.heat.toFixed(1)} (${b.heat>0?(a.heat/b.heat).toFixed(2):"—"}x)`,
   // 第50便 50G(台帳4-91): free-box acceleration & shape diagnostics
   hudBoxShape:(H,sh)=>`H_eff=${(H>=0?"+":"")+H.toFixed(4)} wall shape: RMS=${(sh.rms*100).toFixed(2)}% median r=${sh.med.toFixed(1)} quadrupole A2=${sh.a2.toFixed(3)} retained=${Math.round(sh.keep*100)}%`,
   // 第35便(台帳4-61): the free box — measured scale factor, not a prescribed a(t)
@@ -1881,17 +1885,17 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"conduction", name:"熱伝導 — 近いほど速く伝わる", emoji:"📏", group:"熱の実験室",
-  description:"力を全て切った、静止した粒の列。左端の白熱粒(固定=熱浴)から、接触していない粒の列を熱伝導(E10′)だけで熱が飛び移っていく。このサンプルは温度を内部状態変数T_intとして扱う(A9の改訂)ので、伝わるのは熱だけでスピンは1ビットも動かない — 角運動量は近似的にではなく自明に厳密保存する(旧「冷たいのに熱伝導」問題の解消)。上の列は間隔9、下の列は間隔18 — 飛び移りは近いほど強い(カーネルg(d))ので、密な上の列は同じ距離でも高温になり、列全体が運ぶ熱は約2.5倍(実測)。よく見ると熱は隙間を飛び越えて遠くへも薄く届く(接触不要の長距離伝達 — L16の可視化)。色=温度。",
-  en:{name:"Heat Conduction — Closer Spreads Faster", description:"Rows of resting particles, all forces off. From the white-hot pinned particle (heat bath) at the left end, heat hops along the non-touching row by conduction (E10′) alone. This sample treats temperature as the internal state variable T_int (the A9 revision), so only heat moves — not a single bit of spin — and angular momentum is conserved exactly rather than approximately (resolving the old \"cold yet conducting\" problem). Top row spacing 9, bottom 18 — hops are stronger when closer (kernel g(d)), so the dense row runs hotter and carries about 2.5× the heat (measured). Look closely: heat also leaks faintly across gaps (contact-free long-range transfer — L16 visualized). Color = temperature."},
+  description:"力を全て切った、静止した粒の列。左端の白熱粒(固定=熱浴)から、接触していない粒の列を熱伝導(E10′)だけで熱が飛び移っていく。このサンプルは温度を内部状態変数T_intとして扱う(A9の改訂)ので、伝わるのは熱だけでスピンは1ビットも動かない — 角運動量は近似的にではなく自明に厳密保存する(旧「冷たいのに熱伝導」問題の解消)。上の列は間隔9、下の列は間隔18 — 飛び移りは近いほど強い(カーネルg(d))ので、密な上の列は同じ距離でも高温になり、列全体が運ぶ熱は約2.5倍(実測)。HUDの「前線・列の熱」行が、熱の前線(T>4の最遠到達距離)と列の熱の比を常時表示する — 密な列が先に届き、多くの熱を運ぶことをその場で数値比較できる。よく見ると熱は隙間を飛び越えて遠くへも薄く届く(接触不要の長距離伝達 — L16の可視化)。色=温度。",
+  en:{name:"Heat Conduction — Closer Spreads Faster", description:"Rows of resting particles, all forces off. From the white-hot pinned particle (heat bath) at the left end, heat hops along the non-touching row by conduction (E10′) alone. This sample treats temperature as the internal state variable T_int (the A9 revision), so only heat moves — not a single bit of spin — and angular momentum is conserved exactly rather than approximately (resolving the old \"cold yet conducting\" problem). Top row spacing 9, bottom 18 — hops are stronger when closer (kernel g(d)), so the dense row runs hotter and carries about 2.5× the heat (measured). The HUD's front-and-row-heat line shows the heat front (farthest particle above T=4) and each row's total heat live, so you can compare the speeds numerically as they race. Look closely: heat also leaks faintly across gaps (contact-free long-range transfer — L16 visualized). Color = temperature."},
   activeParams:["kappaS"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   thermal:"tint",   // 第36便 D(台帳4-51)
-  // 第42便 42A(台帳4-78 A案): claims — 説明文の上列/下列熱量比(約2.5倍)を機械可読化。
-  // 対応する behavior テストは無い(behavior.conduction は加熱端−遠端のΔT減衰比を検査する
-  // 別指標)ため、フォールバック規則(説明文数値±15%)で窓を設定・testId は付けない
+  conductionHud:true,   // 第51便 51D(原仮定者指示「速さの違いが分からない」): 前線・列熱のHUD常時表示
+  // 第42便 42A(台帳4-78 A案)+第51便 51D: claims — 上列/下列熱量比(約2.5倍)を機械可読化。
+  // 51D で behavior.conduction が列熱比の実測を持つようになったので testId を接続
   claims:[
     { id:"conduction.dense-row-heat-ratio", kind:"fixed-seed", metric:"denseRowHeatRatio",
-      expected:{min:2.125, max:2.875},   // 実測「約2.5倍」(behavior テスト非対応・±15%)
-      descPattern:"運ぶ熱は約(\\d+\\.\\d+)倍" }
+      expected:{min:2.125, max:2.875},   // 実測2.55倍(4000步・behavior.conduction)
+      descPattern:"運ぶ熱は約(\\d+\\.\\d+)倍", testId:"behavior.conduction" }
   ],
   camera:{scale:200}, world:{boundary:"none",size:0},
   // 第39便(原仮定者指示): kappaS 1.5→0.3 に低減(伝導が速すぎて実時間10秒で列全体が
@@ -2771,6 +2775,8 @@ function validatePreset(obj){
   // true のみ受理し、それ以外は静かに削除する(validT と同方針)。universeBox が無いと
   // 測定が定義できないため、その場合も削除する(S.build 側にも同条件の最終門番あり)
   if(p.probeHud!==undefined && (p.probeHud!==true || p.universeBox===undefined)) delete p.probeHud;
+  // 第51便 51D: conductionHud — 表示専用キー(true のみ受理・thermal:"tint" 必須)
+  if(p.conductionHud!==undefined && (p.conductionHud!==true || p.thermal!=="tint")) delete p.conductionHud;
   // 第50便 50K(台帳4-78 C案): descStruct — 構造化説明(表示専用)。{summary,observe,control}の
   // 文字列で、連結が description と厳密一致(純分割)しなければ警告して削除する。
   // en.descStruct も同条件(比較先は en.description)
@@ -3411,6 +3417,9 @@ function makeSim(){
       const sc0=boxScaleAt(S.box,0);
       S.probeHud={ w0: Math.hypot(S.vx[0]-sc0.H*(S.x[0]-S.box.cx), S.vy[0]-sc0.H*(S.y[0]-S.box.cy)) };
     }
+    // 第51便 51D(原仮定者指示): conductionHud — 熱伝導の前線・列熱のHUD表示。
+    // 行は「pinned の熱浴粒子と同じ y」でグループ化する(表示のみ — 物理不変)
+    S.condHud=(preset.conductionHud===true && S.thermal==="tint")? true : null;
     // 第44便 44B(台帳4-68c 再挑戦条件): 融合。最上位キー fusion:{dFrac}(オブジェクト存在で有効・
     // 省略で完全無効)。**thermal:"tint" のときだけ有効**(spin 熱モードでは融合で消える運動
     // エネルギーの行き先が無く、帳簿が閉じない — validatePreset も同条件で警告つき削除する。
@@ -5839,6 +5848,27 @@ function loop(now){
         // a=2 の点値(=D/Kt — 実宇宙比 67.4/73.0≈0.923 と同水準の較正点)を常時表示
         const pt=2*(B.D/KtV)*adp*B.dPower;
         txt+=`\n${T("hudProbeH")(rExp,ana,rInv)}\n${T("hudProbeHTension")(pt,B.D/KtV)}`;
+      }
+    }
+    // 第51便 51D(原仮定者指示): 熱伝導の前線・列熱 — condHud プリセットだけ、pinned 熱浴の
+    // 行(同じ y)ごとに「前線距離(T_obs>4 の最遠自由粒)」と「列の熱 ΣT_obs」を1行追記。
+    // 速さの違い(密な列ほど前線が速い・運ぶ熱が多い)を数値で常時比較できる(表示のみ・物理不変)
+    if(sim.condHud){
+      const rows=[];
+      for(let i=0;i<sim.n;i++) if(sim.pinned[i]) rows.push({y:sim.y[i], bx:sim.x[i], front:0, heat:0, gap:0});
+      for(const r of rows){
+        let x2=1e9;
+        for(let i=0;i<sim.n;i++){
+          if(sim.pinned[i] || Math.abs(sim.y[i]-r.y)>10) continue;
+          const T=obsTemp(sim,i), d=Math.abs(sim.x[i]-r.bx);
+          r.heat+=T; if(T>4 && d>r.front) r.front=d;
+          if(d>1e-9 && d<x2) x2=d;   // 熱浴の隣の粒子までの距離 = 行の間隔
+        }
+        r.gap=Math.round(x2);
+      }
+      if(rows.length===2){
+        rows.sort((a,b)=>a.gap-b.gap);
+        txt+=`\n${T("hudConduction")(rows[0],rows[1])}`;
       }
     }
     // 第35便(台帳4-61): 自由な箱 — 規定 a(t) ではなく壁から計測した実測尺度因子であることを明示する
