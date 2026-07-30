@@ -187,6 +187,9 @@
   /* 第50便 50H(台帳4-92): 検証形態の分類チップ(claim.kind) */
   .claimKind{font-size:calc(10px*var(--uz,1));color:var(--dim);border:1px solid var(--line);
     border-radius:8px;padding:0 6px;margin-right:6px;white-space:nowrap;vertical-align:1px;}
+  /* 第50便 50K(台帳4-78 C案): 構造化説明の区分見出し */
+  .descSectHead{color:var(--dim);font-weight:600;margin:10px 0 2px;
+    font-size:calc(12px*var(--uz,1));letter-spacing:0.02em;}
   /* ===== 横画面レイアウト(4-35 裁定: タブレット・PC 想定)=====
      landscape かつ幅 900px 以上で、キャンバス左・操作列/タブ/パネル右の2カラムに組み替える。
      スマホの横持ち(幅 900px 未満)は従来の縦積みのまま。DOM 順は不変で CSS のみ —
@@ -632,6 +635,8 @@ ja: {
   claimKinds:{analytic:"解析一致", conservation:"保存恒等式", semantic:"意味論回帰",
     "fixed-seed":"固定seed実測", "multi-seed":"多seed統計"},
   claimKindTip:"主張の検証形態(台帳4-92): 解析一致=閉形式解との一致/保存恒等式=帳簿込みの恒等式/意味論回帰=定義・規則の回帰/固定seed実測=決定論的単一走行の実測/多seed統計=シード群にわたる統計",
+  // 第50便 50K(台帳4-78 C案): 構造化説明の区分見出し
+  descSummaryHead:"📌 要約", descObserveHead:"👀 観察のポイント", descControlHead:"🎛 操作と対照",
   groups:{}, params:{},
 },
 en: {
@@ -820,6 +825,8 @@ en: {
   claimKinds:{analytic:"analytic match", conservation:"conservation identity", semantic:"semantic regression",
     "fixed-seed":"fixed-seed run", "multi-seed":"multi-seed statistics"},
   claimKindTip:"How the claim is verified (ledger 4-92): analytic match = agreement with a closed-form solution / conservation identity = ledger-closed identity / semantic regression = regression of a definition or rule / fixed-seed run = deterministic single-run measurement / multi-seed statistics = statistics across seeds",
+  // 第50便 50K(台帳4-78 C案): structured-description section heads
+  descSummaryHead:"📌 Summary", descObserveHead:"👀 What to observe", descControlHead:"🎛 Controls & contrasts",
   groups:{"空間と時間":"Space & Time","箱宇宙":"Box Universe","銀河":"Galaxies","光":"Light","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
   params:{G:"Gravity G", D0:"Background determinacy D₀", kFrame:"Frame dragging kFrame",
     q:"Drag falloff q", kRep:"Spin repulsion kRep", muF:"Friction→spin muF",
@@ -1032,6 +1039,14 @@ function classifyPreset(p){
 function gName(g){ return (LANG==="en" && I18N.en.groups[g]) || g; }
 function pName(p){ return (LANG==="en" && p.en && p.en.name) || p.name; }
 function pDesc(p){ return (LANG==="en" && p.en && p.en.description) || p.description || ""; }
+// 第50便 50K(台帳4-78 C案): 構造化説明 descStruct={summary,observe,control} — description の
+// **純分割**(summary+observe+control の連結が description と文字単位で一致することを
+// QA desc.struct-sync が機械固定する)。正本はあくまで description(claims.sync の正規表現・
+// AI プロンプト・保存 JSON はすべて description を読む)。descStruct は表示区分のみ
+function pDescStruct(p){
+  if(LANG==="en") return (p.en && p.en.descStruct) || null;
+  return p.descStruct || null;
+}
 function paramLabel(def){ return (LANG==="en" && I18N.en.params[def.key]) || def.label; }
 // v1.21: パラメータ名タップの説明文(ja=PARAM_DEFS.desc / en=I18N.en.paramDescs)
 function paramDesc(def){ return (LANG==="en" && I18N.en.paramDescs[def.key]) || def.desc || ""; }
@@ -1404,8 +1419,15 @@ const BUILTIN_PRESETS = [
 // D の既定 277.26 = (2/3)ln4·300 ≈ 0.9242·Kt(論文2の較正点 — a=2 の点値がテンション比
 // 67.4/73.0≈0.923 と同水準になる。数値一致は較正であり証拠ではない — Negative claim 6)。
 { id:"probeH", name:"箱宇宙 — 二つのH推定器(プローブ依存の膨張測定)", emoji:"🧭", group:"箱宇宙",
-  description:"同じ箱の膨張率Hを、2人の観測者が別々の物差しで測る(論文2の中心結果V29を操作可能にしたサンプル — 台帳4-87)。幾何プローブは共動構造を追ってH_geo=Δln a/Δtを報告する。速度プローブはFLRW流の減衰則w/c∝1/aを仮定し、比R=w/c_locの実測減衰からH_w=−Δln R/Δtを推定する。粒子の特異速度wはモデルの絶対帳簿では保存するのに(V27)、局所光速c_loc=c₀e^{−2ψ}が膨張の希釈で上がるため、光を物差しにした比Rは減衰する(E8R・V28)— しかもその減衰則は仮定したFLRW形と違うので、2つの推定値の比はH_w/H_geo=2(D/Kt)/aとなり、時刻aと較正D/Ktに依存する。HUDの累積測定(t=0基準)がこれを常時表示する: a=2で指数読みの累積比は 1.333(解析1.3335と1e-2以内で一致)。並記される反比例読みは、同じ実測wを対案の光速則c_loc∝1/W(台帳4-66)で読み直したもので、恒等的に 1.000 に張り付く — 関数形を変えるとプローブ依存が消える(exp-4-66.mjsの判別実験と同じモデル内対照)。Ktスライダーや「箱宇宙」セクションのDでD/Ktを動かすと比が比例してスケールする(変更後は🔁で再構築してから読む — 累積測定はt=0基準)。既定D/Kt=(2/3)ln4≈0.9242はa=2の点値0.92が実宇宙のハッブルテンション比67.4/73.0≈0.923と同水準になる論文2の較正点だが、この数値一致は較正であって証拠ではない(Negative claim 6)。これはテンションの説明ではなく「測定の食い違いは推定器が仮定する減衰則の帰結でありうる」という構造の提示である(Negative claim 3)。",
-  en:{name:"Box Universe — Two H Estimators (Probe-Dependent Expansion)", description:"Two observers measure the expansion rate H of the same box with different rulers (the central result V29 of paper 2, made operable — ledger 4-87). The geometric probe tracks comoving structure and reports H_geo=Δln a/Δt. The velocity probe assumes the FLRW decay law w/c∝1/a and infers H_w=−Δln R/Δt from the measured decay of the ratio R=w/c_loc. The particle's peculiar velocity w is conserved in the model's absolute bookkeeping (V27), yet the local light speed c_loc=c0·e^{−2ψ} rises as expansion dilutes determinacy, so the light-referenced ratio R decays (E8R, V28) — and its decay law differs from the assumed FLRW form, so the two estimates disagree by H_w/H_geo=2(D/Kt)/a, depending on the epoch a and the calibration D/Kt. The HUD's cumulative measurement (from t=0) shows this live: at a=2 the exponential reading's cumulative ratio is 1.333 (matching the analytic 1.3335 within 1e-2). The inverse reading shown beside it re-reads the same measured w under the alternative light-speed law c_loc∝1/W (ledger 4-66) and stays identically at 1.000 — change the functional form and the probe dependence vanishes (the same model-internal control as the exp-4-66.mjs discrimination experiment). Move D/Kt with the Kt slider or the D input in the Box Universe section and the ratio scales in proportion (rebuild with 🔁 after changing — the cumulative measurement is referenced to t=0). The default D/Kt=(2/3)ln4≈0.9242 is paper 2's calibration point, where the a=2 point value 0.92 matches the magnitude of the real Hubble-tension ratio 67.4/73.0≈0.923 — a calibration, not evidence (Negative claim 6). This is not an explanation of the tension but a structure: a measurement discrepancy can be the consequence of the decay law the estimator assumes (Negative claim 3)."},
+  // 第50便 50K(台帳4-78 C案パイロット): descStruct(要約/観察/操作)— 純分割+操作文の末尾移設のみ
+  descStruct:{
+    summary:"同じ箱の膨張率Hを、2人の観測者が別々の物差しで測る(論文2の中心結果V29を操作可能にしたサンプル — 台帳4-87)。幾何プローブは共動構造を追ってH_geo=Δln a/Δtを報告する。速度プローブはFLRW流の減衰則w/c∝1/aを仮定し、比R=w/c_locの実測減衰からH_w=−Δln R/Δtを推定する。",
+    observe:"粒子の特異速度wはモデルの絶対帳簿では保存するのに(V27)、局所光速c_loc=c₀e^{−2ψ}が膨張の希釈で上がるため、光を物差しにした比Rは減衰する(E8R・V28)— しかもその減衰則は仮定したFLRW形と違うので、2つの推定値の比はH_w/H_geo=2(D/Kt)/aとなり、時刻aと較正D/Ktに依存する。HUDの累積測定(t=0基準)がこれを常時表示する: a=2で指数読みの累積比は 1.333(解析1.3335と1e-2以内で一致)。並記される反比例読みは、同じ実測wを対案の光速則c_loc∝1/W(台帳4-66)で読み直したもので、恒等的に 1.000 に張り付く — 関数形を変えるとプローブ依存が消える(exp-4-66.mjsの判別実験と同じモデル内対照)。既定D/Kt=(2/3)ln4≈0.9242はa=2の点値0.92が実宇宙のハッブルテンション比67.4/73.0≈0.923と同水準になる論文2の較正点だが、この数値一致は較正であって証拠ではない(Negative claim 6)。これはテンションの説明ではなく「測定の食い違いは推定器が仮定する減衰則の帰結でありうる」という構造の提示である(Negative claim 3)。",
+    control:"Ktスライダーや「箱宇宙」セクションのDでD/Ktを動かすと比が比例してスケールする(変更後は🔁で再構築してから読む — 累積測定はt=0基準)。"},
+  en:{name:"Box Universe — Two H Estimators (Probe-Dependent Expansion)", descStruct:{
+    summary:"Two observers measure the expansion rate H of the same box with different rulers (the central result V29 of paper 2, made operable — ledger 4-87). The geometric probe tracks comoving structure and reports H_geo=Δln a/Δt. The velocity probe assumes the FLRW decay law w/c∝1/a and infers H_w=−Δln R/Δt from the measured decay of the ratio R=w/c_loc. ",
+    observe:"The particle's peculiar velocity w is conserved in the model's absolute bookkeeping (V27), yet the local light speed c_loc=c0·e^{−2ψ} rises as expansion dilutes determinacy, so the light-referenced ratio R decays (E8R, V28) — and its decay law differs from the assumed FLRW form, so the two estimates disagree by H_w/H_geo=2(D/Kt)/a, depending on the epoch a and the calibration D/Kt. The HUD's cumulative measurement (from t=0) shows this live: at a=2 the exponential reading's cumulative ratio is 1.333 (matching the analytic 1.3335 within 1e-2). The inverse reading shown beside it re-reads the same measured w under the alternative light-speed law c_loc∝1/W (ledger 4-66) and stays identically at 1.000 — change the functional form and the probe dependence vanishes (the same model-internal control as the exp-4-66.mjs discrimination experiment). The default D/Kt=(2/3)ln4≈0.9242 is paper 2's calibration point, where the a=2 point value 0.92 matches the magnitude of the real Hubble-tension ratio 67.4/73.0≈0.923 — a calibration, not evidence (Negative claim 6). This is not an explanation of the tension but a structure: a measurement discrepancy can be the consequence of the decay law the estimator assumes (Negative claim 3). ",
+    control:"Move D/Kt with the Kt slider or the D input in the Box Universe section and the ratio scales in proportion (rebuild with 🔁 after changing — the cumulative measurement is referenced to t=0)."}},
   activeParams:["Kt","cLight","kFrame"],
   probeHud:true,
   // 第50便 50C: claims — HUD 累積測定の a=2 実測値を機械可読化(QA behavior.probeH の閾値に直結)
@@ -1699,8 +1721,15 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:true,trail:true,trailTargets:"sampled",monitor:true} },
 
 { id:"merger", name:"銀河合体と潮汐効果", emoji:"🌠", group:"銀河",
-  description:"2つの回転円盤銀河が接近・合体する過程。潮汐尾の形成、衝突による加熱(A9のスピン変換)、角運動量の再分配、合体後の回転曲線を観察できる。kFrame=1のフレームドラッギング(A8)が合体ダイナミクスに効く — 0にすると引きずりなしの純重力合体と比較できる(おすすめA/B)。※第40便 40C の因果対照を、第50便 50I の新配置(初期から両銀河が画面内・核間302・円盤100/80粒で負荷1/2)で再実測した(3000步・同一初期配置): 引きずりの効きはまず**スピン加熱に集中**し(平均|spin| は kFrame=1 で 0 の 3.1倍)、**接近期(核間283→199)の核どうしの接近はほとんど変わらない** — 接近期の核間距離の差 3.0%。深い接触期にはじめて軌道にも効き、核間距離の差は3000步で 11.5% へ拡大する(効きの現れる時期の内訳ごと機械固定)。潮汐尾は「自分の核から初期円盤半径の1.5倍より外」の円盤粒子が 0%→4.4%まで育つ(QA behavior.merger-causal)。円盤は回転支持(kepler)で初期化してある。",
-  en:{name:"Galaxy Merger & Tidal Effects", description:"Two rotating disk galaxies approach and merge. Watch tidal tails form, collisions heat the disks (spin conversion, A9), angular momentum redistribute, and the remnant's rotation curve settle. Frame dragging at kFrame=1 (A8) shapes the merger — set kFrame to 0 to compare a drag-free, gravity-only merger (suggested A/B). The 40C causal control was re-measured on the 50I layout (both galaxies on-screen from the start, nuclei 302 apart, disks of 100/80 grains at half the load; 3000 steps, identical initial layout): the dragging acts first and foremost through spin heating (mean |spin| is 3.1× larger at kFrame=1 than at 0), while during the approach phase (separation 283→199) the closing of the two nuclei barely changes — a 3.0% separation difference. Only in deep contact does the orbit respond, the separation difference growing to 11.5% by step 3000 (the timing of the effect is machine-pinned along with its size). The tidal tail grows from 0% to 4.4% of disk particles beyond 1.5× their initial disk radius (QA behavior.merger-causal). The disks are initialized rotation-supported (kepler)."},
+  // 第50便 50K(台帳4-78 C案パイロット): descStruct(要約/観察/操作)— 純分割+A/B文の末尾移設のみ
+  descStruct:{
+    summary:"2つの回転円盤銀河が接近・合体する過程。潮汐尾の形成、衝突による加熱(A9のスピン変換)、角運動量の再分配、合体後の回転曲線を観察できる。",
+    observe:"※第40便 40C の因果対照を、第50便 50I の新配置(初期から両銀河が画面内・核間302・円盤100/80粒で負荷1/2)で再実測した(3000步・同一初期配置): 引きずりの効きはまず**スピン加熱に集中**し(平均|spin| は kFrame=1 で 0 の 3.1倍)、**接近期(核間283→199)の核どうしの接近はほとんど変わらない** — 接近期の核間距離の差 3.0%。深い接触期にはじめて軌道にも効き、核間距離の差は3000步で 11.5% へ拡大する(効きの現れる時期の内訳ごと機械固定)。潮汐尾は「自分の核から初期円盤半径の1.5倍より外」の円盤粒子が 0%→4.4%まで育つ(QA behavior.merger-causal)。円盤は回転支持(kepler)で初期化してある。",
+    control:"kFrame=1のフレームドラッギング(A8)が合体ダイナミクスに効く — 0にすると引きずりなしの純重力合体と比較できる(おすすめA/B)。"},
+  en:{name:"Galaxy Merger & Tidal Effects", descStruct:{
+    summary:"Two rotating disk galaxies approach and merge. Watch tidal tails form, collisions heat the disks (spin conversion, A9), angular momentum redistribute, and the remnant's rotation curve settle. ",
+    observe:"The 40C causal control was re-measured on the 50I layout (both galaxies on-screen from the start, nuclei 302 apart, disks of 100/80 grains at half the load; 3000 steps, identical initial layout): the dragging acts first and foremost through spin heating (mean |spin| is 3.1× larger at kFrame=1 than at 0), while during the approach phase (separation 283→199) the closing of the two nuclei barely changes — a 3.0% separation difference. Only in deep contact does the orbit respond, the separation difference growing to 11.5% by step 3000 (the timing of the effect is machine-pinned along with its size). The tidal tail grows from 0% to 4.4% of disk particles beyond 1.5× their initial disk radius (QA behavior.merger-causal). The disks are initialized rotation-supported (kepler). ",
+    control:"Frame dragging at kFrame=1 (A8) shapes the merger — set kFrame to 0 to compare a drag-free, gravity-only merger (suggested A/B)."}},
   activeParams:["kFrame","G","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   // 第42便 42A(台帳4-78 A案)+第50便 50I 再実測: claims — 因果対照で確定した数値
   // (接近期/深接触期の核間距離差・潮汐尾成長)を機械可読化。窓は QA behavior.merger-causal の
@@ -1941,8 +1970,16 @@ const BUILTIN_PRESETS = [
 // 純粋な外部力場なので、時計・光・引きずりを歪めずに箱内へ厳密に一様な下向き場を作れる。
 
 { id:"convection", name:"加熱の対流 — 伝熱する箱", emoji:"♨️", group:"熱の実験室",
-  description:"箱そのものに伝熱の境界条件を与えたレイリー・ベナール型の対流セル(台帳4-70)。固定した加熱粒子は一つも無く、外から系を駆動するのは箱の壁だけ — 床が加熱面(壁温T=144へ緩和)、天井と右壁が放熱面(受けた熱を系外へ捨てる)、左壁は断熱。左右対称の理想レイリー・ベナール系ではなく、壁の非対称境界条件(天井+右壁放熱)で循環の向きを選んだ構成である。箱は「その先の環境」の近似で、ビーカーの壁だと思ってよい(BOX_UNIVERSE §12-1)。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂)。床で温まったガスは熱の斥力=圧力(E5′)で膨らんで浮上し、天井と右壁で熱を捨てて右から沈む — 一方向の循環セル(T6の移流拡張)。24000步後も循環は持続し、壁が入れた熱と壁が回収した熱が釣り合う定常状態になる(壁の熱は帳簿wallE系に記録される。保存量モニタで確認できる)。働く力は一様重力場gravityY(外部場)と熱の斥力・接触だけで、自己重力・引きずり・自発放射は切ってある。gravityYを0にすると循環が止まる(おすすめA/B)。代表粒子の軌跡(線)で循環セルの周回が見える。色=温度。壁は熱境界条件の色で描き分けてある: 床の加熱面=橙の実線・天井と右壁の放熱面=青の実線・左壁の断熱面=灰の破線(第50便 50J)。",
-  en:{name:"Heated Convection — A Box That Conducts Heat", description:"A Rayleigh-Bénard-style convection cell where the thermal boundary condition lives in the box itself (ledger 4-70). There is not a single pinned heater particle: the only external drive is the wall — the floor is a heating face (relaxing toward a wall temperature T=144), the ceiling and the right wall are radiating faces (dumping the heat they receive out of the system), and the left wall is adiabatic. This is not a left-right symmetric, idealized Rayleigh-Bénard system — the asymmetric wall boundary conditions (ceiling plus right-wall radiation) are what select the circulation's direction. The box is an approximation of whatever lies beyond it; think of it as the wall of a beaker (BOX_UNIVERSE §12-1). This sample treats temperature as an internal state variable independent of spin (the A9 revision). Gas warmed at the floor inflates by thermal repulsion = pressure (E5′), rises, dumps its heat at the ceiling and the right wall, and sinks on the right — a one-way circulation cell (an advective extension of T6). The circulation is still running after 24000 steps, with the heat the walls inject balancing the heat they take back (the wall ledger records both; watch it in the conservation monitor). The only forces are the uniform gravity gravityY (external field) plus thermal repulsion and contact — self-gravity, dragging and spontaneous radiation are all off. Set gravityY to 0 and the circulation stops (suggested A/B). Trails on sampled particles trace the circulation loops. Color = temperature. The walls are drawn in the color of their thermal boundary condition: the heating floor in solid orange, the radiating ceiling and right wall in solid blue, the adiabatic left wall as a gray dashed line (dispatch 50, 50J)."},
+  // 第50便 50K(台帳4-78 C案パイロット): descStruct(要約/観察/操作)— description は起動時に
+  // 3区分の連結として生成される(内容は従来文の純分割+A/B文を末尾へ移設したのみ・情報の増減なし)
+  descStruct:{
+    summary:"箱そのものに伝熱の境界条件を与えたレイリー・ベナール型の対流セル(台帳4-70)。固定した加熱粒子は一つも無く、外から系を駆動するのは箱の壁だけ — 床が加熱面(壁温T=144へ緩和)、天井と右壁が放熱面(受けた熱を系外へ捨てる)、左壁は断熱。左右対称の理想レイリー・ベナール系ではなく、壁の非対称境界条件(天井+右壁放熱)で循環の向きを選んだ構成である。箱は「その先の環境」の近似で、ビーカーの壁だと思ってよい(BOX_UNIVERSE §12-1)。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂)。",
+    observe:"床で温まったガスは熱の斥力=圧力(E5′)で膨らんで浮上し、天井と右壁で熱を捨てて右から沈む — 一方向の循環セル(T6の移流拡張)。24000步後も循環は持続し、壁が入れた熱と壁が回収した熱が釣り合う定常状態になる(壁の熱は帳簿wallE系に記録される。保存量モニタで確認できる)。働く力は一様重力場gravityY(外部場)と熱の斥力・接触だけで、自己重力・引きずり・自発放射は切ってある。代表粒子の軌跡(線)で循環セルの周回が見える。色=温度。壁は熱境界条件の色で描き分けてある: 床の加熱面=橙の実線・天井と右壁の放熱面=青の実線・左壁の断熱面=灰の破線(第50便 50J)。",
+    control:"gravityYを0にすると循環が止まる(おすすめA/B)。"},
+  en:{name:"Heated Convection — A Box That Conducts Heat", descStruct:{
+    summary:"A Rayleigh-Bénard-style convection cell where the thermal boundary condition lives in the box itself (ledger 4-70). There is not a single pinned heater particle: the only external drive is the wall — the floor is a heating face (relaxing toward a wall temperature T=144), the ceiling and the right wall are radiating faces (dumping the heat they receive out of the system), and the left wall is adiabatic. This is not a left-right symmetric, idealized Rayleigh-Bénard system — the asymmetric wall boundary conditions (ceiling plus right-wall radiation) are what select the circulation's direction. The box is an approximation of whatever lies beyond it; think of it as the wall of a beaker (BOX_UNIVERSE §12-1). This sample treats temperature as an internal state variable independent of spin (the A9 revision). ",
+    observe:"Gas warmed at the floor inflates by thermal repulsion = pressure (E5′), rises, dumps its heat at the ceiling and the right wall, and sinks on the right — a one-way circulation cell (an advective extension of T6). The circulation is still running after 24000 steps, with the heat the walls inject balancing the heat they take back (the wall ledger records both; watch it in the conservation monitor). The only forces are the uniform gravity gravityY (external field) plus thermal repulsion and contact — self-gravity, dragging and spontaneous radiation are all off. Trails on sampled particles trace the circulation loops. Color = temperature. The walls are drawn in the color of their thermal boundary condition: the heating floor in solid orange, the radiating ceiling and right wall in solid blue, the adiabatic left wall as a gray dashed line (dispatch 50, 50J). ",
+    control:"Set gravityY to 0 and the circulation stops (suggested A/B)."}},
   activeParams:["gravityY","kRep","kappaS","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   thermal:"tint",   // 第36便 D(台帳4-51)
   camera:{scale:78}, world:{boundary:"box", size:60,
@@ -2383,6 +2420,16 @@ const BUILTIN_PRESETS = [
   // 温度ヒストグラム(左右の平均温度)は球対称の星では意味を持たないので出さない(🌪️spinup と同じ)
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
 ];
+// 第50便 50K(台帳4-78 C案): descStruct を持つ内蔵プリセットは description をその連結から
+// 生成する(要約/観察/操作の**純分割**の同一性を構造的に保証 — 内容の重複記述もしない。
+// claims.sync の正規表現・AI プロンプト・保存 JSON は従来どおり description を読む。
+// QA desc.struct-sync が連結一致とパイロット件数を独立に機械固定する)
+for(const __p of BUILTIN_PRESETS){
+  if(__p.descStruct && __p.description===undefined)
+    __p.description=(__p.descStruct.summary||"")+(__p.descStruct.observe||"")+(__p.descStruct.control||"");
+  if(__p.en && __p.en.descStruct && __p.en.description===undefined)
+    __p.en.description=(__p.en.descStruct.summary||"")+(__p.en.descStruct.observe||"")+(__p.en.descStruct.control||"");
+}
 // 第37便 B2(原仮定者裁定「正しい挙動が分からない」): ❄️snowline(塵は冷えると固まる — 冷たい星と
 // 熱い星)を廃止した。v1.24 の廃止手順(🪣mach/🕰twin/💫drag)に倣い、参照(qa.mjs の
 // preset.snowline-name / tint.migrated / shot.regress 対象・tests/baseline-shots.json)を同時整理
@@ -2714,6 +2761,26 @@ function validatePreset(obj){
   // true のみ受理し、それ以外は静かに削除する(validT と同方針)。universeBox が無いと
   // 測定が定義できないため、その場合も削除する(S.build 側にも同条件の最終門番あり)
   if(p.probeHud!==undefined && (p.probeHud!==true || p.universeBox===undefined)) delete p.probeHud;
+  // 第50便 50K(台帳4-78 C案): descStruct — 構造化説明(表示専用)。{summary,observe,control}の
+  // 文字列で、連結が description と厳密一致(純分割)しなければ警告して削除する。
+  // en.descStruct も同条件(比較先は en.description)
+  const chkDS=(o,desc,tag)=>{
+    if(!o || typeof o!=="object" || Array.isArray(o)){ warnings.push(tag+" が不正のため無視"); return undefined; }
+    const g=(k)=>(typeof o[k]==="string")? o[k] : "";
+    const out={summary:g("summary"), observe:g("observe"), control:g("control")};
+    if(out.summary+out.observe+out.control !== (desc||"")){
+      warnings.push(tag+" の連結が description と一致しないため無視(純分割が必要)"); return undefined;
+    }
+    return out;
+  };
+  if(p.descStruct!==undefined){
+    const v=chkDS(p.descStruct, p.description, "descStruct");
+    if(v===undefined) delete p.descStruct; else p.descStruct=v;
+  }
+  if(p.en && p.en.descStruct!==undefined){
+    const v=chkDS(p.en.descStruct, p.en.description, "en.descStruct");
+    if(v===undefined) delete p.en.descStruct; else p.en.descStruct=v;
+  }
   // 第35便(台帳4-61): measureBox — 壁粒子群(bodies 定義順で最初の ring 群)の平均中心距離から
   // 実測尺度因子 a_eff=⟨r⟩/⟨r⟩₀ を毎履歴周期で計測し、膨張グラフに「実測」として描く。
   // universeBox(規定 a(t))との併用は未定義なので、規定を優先して measureBox を無視する
@@ -7059,7 +7126,17 @@ function renderHelp(){
   const el=$("#helpBody"); el.textContent="";
   const mk=(tag,txt)=>{const e=document.createElement(tag); e.textContent=txt; el.appendChild(e); return e;};
   mk("h4",(currentPreset.emoji||"")+" "+pName(currentPreset));
-  mk("p",pDesc(currentPreset));
+  // 第50便 50K(台帳4-78 C案): descStruct があれば 要約/観察/操作 の3区分で表示
+  // (内容は description の純分割 — 無いプリセットは従来どおり平文1段落)
+  const ds=pDescStruct(currentPreset);
+  if(ds){
+    const sect=(headKey,txt)=>{ if(!txt || !txt.trim()) return;
+      mk("p",T(headKey)).className="descSectHead";
+      mk("p",txt.trim()); };
+    sect("descSummaryHead",ds.summary);
+    sect("descObserveHead",ds.observe);
+    sect("descControlHead",ds.control);
+  } else mk("p",pDesc(currentPreset));
   // v1.13 理論解説パネル: 説明文中の法則参照(A8 等)を自動抽出して1行解説を表示(付録M)
   const refs=extractLawRefs(currentPreset.description||"");
   if(refs.length){

@@ -7011,6 +7011,54 @@ if (hasSwAutoCb) {
   }
 }
 
+// ---- 50K) 第50便 50K(台帳4-78 C案パイロット): desc.struct-sync — 構造化説明 descStruct
+// ----      (summary/observe/control)。①descStruct を持つ全プリセットで
+// ----      「summary+observe+control の連結 === description」(純分割の同一性 — 起動時に
+// ----      description を連結から生成する実装の独立検算)を ja/en とも機械固定 ②パイロット
+// ----      3件(convection/merger/probeH)が揃っている ③説明タブに区分見出し(.descSectHead)が
+// ----      3つ描画され、en 切替で見出しが変わる ④validatePreset は連結不一致の descStruct を
+// ----      警告つきで削除する。descStruct 未導入の対象(root 等)は SKIP。軽量なので FAST でも実行 ----
+{
+  const hasDS = await page.evaluate(() => HP.allPresets().some((p) => p.descStruct));
+  if (hasDS) {
+    const r = await page.evaluate(() => {
+      const joined = (d) => (d.summary || '') + (d.observe || '') + (d.control || '');
+      const bad = []; const ids = [];
+      for (const p of HP.allPresets()) {
+        if (p.descStruct) { ids.push(p.id);
+          if (joined(p.descStruct) !== p.description) bad.push(p.id + ':ja'); }
+        if (p.en && p.en.descStruct) {
+          if (joined(p.en.descStruct) !== p.en.description) bad.push(p.id + ':en'); }
+      }
+      const pilots = ['convection', 'merger', 'probeH'].every((id) => ids.includes(id));
+      // UI: 区分見出し(ja)
+      HP.loadPreset('convection', false);
+      const headsJa = document.querySelectorAll('#helpBody .descSectHead').length;
+      const firstJa = headsJa ? document.querySelector('#helpBody .descSectHead').textContent : '';
+      // validatePreset: 連結不一致は警告つき削除・一致は保持。検査は短い合成プリセットで行う
+      // (validatePreset は description を200字に切り詰めるため、長い内蔵説明の往復では
+      // descStruct が仕様どおり削除される — その仕様も dropped 側で確認される)
+      const mkSp = (ds) => ({ id: 't', name: 't', description: '要約。観察。操作。', descStruct: ds,
+        camera: { scale: 100 }, world: { boundary: 'none', size: 0 }, seed: 1,
+        physics: {}, overlays: {},
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+      const v1 = HP.validatePreset(mkSp({ summary: '要約。', observe: '観察。', control: '操作。' }));
+      const kept = v1.ok && !!v1.preset.descStruct && joined(v1.preset.descStruct) === v1.preset.description;
+      const v2 = HP.validatePreset(mkSp({ summary: 'ズレた要約。', observe: '', control: '' }));
+      const dropped = v2.ok && v2.preset.descStruct === undefined && v2.warnings.some((w) => w.includes('descStruct'));
+      return { nDS: ids.length, ids, bad, pilots, headsJa, firstJa, kept, dropped };
+    });
+    add('desc.struct-sync',
+      r.bad.length === 0 && r.pilots && r.headsJa === 3 && r.firstJa.length > 0 && r.kept && r.dropped,
+      `descStruct ${r.nDS}件(${r.ids.join(' ')})の連結=description 一致(ja/en)` +
+      (r.bad.length ? ` / 不一致: ${r.bad.join(',')}` : '') +
+      ` / パイロット3件=${r.pilots} / UI 区分見出し=${r.headsJa}(例「${r.firstJa}」) / ` +
+      `validatePreset 保持=${r.kept} 連結不一致は警告つき削除=${r.dropped}`);
+  } else {
+    console.log('SKIP desc.struct-sync(対象に descStruct なし — 第50便 50K 未適用の root 等)');
+  }
+}
+
 // ---- 43A) 第43便 43A(台帳4-78 B案): ui.claims-display — 説明タブに追加した「数値主張
 // ----      (機械検証済み)」折畳み(#claimsDetails)の表示条件を検査する。
 // ----      claims を持つ代表2プリセット(galaxy/spinup)ではセクションが存在し、
