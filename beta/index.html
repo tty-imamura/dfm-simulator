@@ -173,6 +173,8 @@
   #classChips .classChip[data-g=closed]{border-color:var(--dim);color:var(--dim);}
   /* 第39便 39E(台帳4-75 E1): 温度モデルバッジ(thermal:"tint" のみ) */
   #classChips .classChip[data-g=tint]{border-color:var(--hot);color:var(--hot);}
+  /* 第45便 45C(台帳4-85): 強場トイ領域バッジ(ψ_static>0.5 のみ)— 注意喚起として err 系統 */
+  #classChips .classChip[data-g=strongfield]{border-color:var(--err);color:var(--err);}
   /* 第43便 43A(台帳4-78 B案): 数値主張(claims)の折畳み表示 — 分類バッジの直下、claims を
      持つプリセットにのみ表示。表示専用(物理・保存 JSON には無関係)。details.advParams と
      同系統の見た目を流用しつつ独立クラス化。長い数値行でも横スクロールが出ないよう break を許可 */
@@ -609,6 +611,8 @@ ja: {
   bdgClosed:"閉鎖系", bdgClosedTip:"閉鎖系 — 固定・規定運動なし。運動量・角運動量は系内(+遠方宇宙の帳簿)で閉じる。",
   // 第39便 39E(台帳4-75 E1): 温度モデルバッジ — thermal:"tint" のサンプルにだけ表示(表示のみ・物理不変)
   bdgTint:"温度=T_int", bdgTintTip:"温度を内部状態変数 T_int として扱う(A9′)— スピンと独立で、エネルギー帳簿が閉じる。無印のサンプルは旧来の「スピン=熱」方式",
+  // 第45便 45C(台帳4-85): 強場トイ領域バッジ — ψ_static=max(D/Kt, 各天体のm/(max(R,ε)Kt))>0.5 のときだけ表示
+  bdgStrongField:"⚠強場トイ領域", bdgStrongFieldTip:"|ψ|≳0.5 — 弱場GR較正(n≈1+2ψ)の適用外の強場トイ設定",
   // 第39便 39E(台帳4-75 E2): 有効時間窓マーカー(HUD)— sim.t が validT を超えたときだけ HUD に追記
   hudBeyondWindow:(v)=>" ⚠評価窓外(t>"+v+")",
   // 第43便 43A(台帳4-78 B案): 数値主張(claims)の折畳み表示 — claims を持つプリセットにのみ表示
@@ -783,6 +787,9 @@ en: {
   bdgClosed:"Closed system", bdgClosedTip:"Closed system — no constraints or prescribed motion. Momentum and angular momentum close within the system (plus the distant-universe ledger).",
   // 39th flight 39E (ledger 4-75 E1): temperature-model badge — shown only for thermal:"tint" samples (display only, physics unchanged)
   bdgTint:"T=T_int", bdgTintTip:"Temperature is treated as an internal state variable T_int (A9′) — independent of spin, so the energy ledger stays closed. Unmarked samples use the older \"spin = heat\" scheme.",
+  // 45th flight 45C (ledger 4-85): strong-field toy-regime badge — shown only when
+  // psi_static = max(D/Kt, each body's m/(max(R,eps)*Kt)) > 0.5
+  bdgStrongField:"⚠Strong-field toy regime", bdgStrongFieldTip:"|ψ|≳0.5 — a strong-field toy setting outside the weak-field GR calibration (n≈1+2ψ)",
   // 39th flight 39E (ledger 4-75 E2): valid-window HUD marker — appended only once sim.t exceeds validT
   hudBeyondWindow:(v)=>" ⚠beyond evaluated window (t>"+v+")",
   // 43rd flight 43A (ledger 4-78 plan B): collapsible display of machine-checked numeric claims —
@@ -949,6 +956,31 @@ function externalTags(p){
   const grav=!!(ph.gravityX||ph.gravityY||(p.universeBox && p.universeBox.friction==="flrw"));
   return {pin, rail, bath, grav, wall};
 }
+// 第45便 45C(台帳4-85): 強場トイ領域の静的検出 — ψ_static = max(
+//   (a) universeBox の a=1 箱項 D/Kt、
+//   (b) 各 single 天体の自己場 m/(max(R,ε)·Kt)(R=radius明示指定なら radiusScale·radius、
+//       無指定なら radiusScale·rMul·√|m| — S.updateRadii と同じ既定写像。ε=softening)
+// )。動的な合成 W(他天体寄与・箱の時間発展)は評価しない — プリセットJSONだけで決まる
+// 決定論的・軽量な静的近似(claims と同じデータ層)。ψ_static>0.5 で弱場展開 n≈1+2ψ が
+// 大きく外れる「強場トイ領域」とみなす(外部レビュー P1-4・dfm-paper2 §4 D/Kt≈0.92 の例)。
+function strongFieldPsi(p){
+  const ph=p.physics||{};
+  const Kt=(typeof ph.Kt==="number" && ph.Kt>0)? ph.Kt : DEFAULT_PHYSICS.Kt;
+  const rs=(typeof ph.radiusScale==="number")? ph.radiusScale : DEFAULT_PHYSICS.radiusScale;
+  const eps=(typeof ph.softening==="number")? ph.softening : DEFAULT_PHYSICS.softening;
+  let psi=0;
+  if(p.universeBox && typeof p.universeBox.D==="number"){
+    psi=Math.max(psi, p.universeBox.D/Kt);   // a=1 なので a^{-dPower}=1(W_B=D)
+  }
+  for(const b of (p.bodies||[])){
+    if(b.type!=="single" || typeof b.m!=="number") continue;
+    const rMul=(b.rMul===undefined)? 1 : b.rMul;
+    const R=(b.radius>0)? rs*b.radius : rs*rMul*Math.sqrt(Math.abs(b.m));
+    const Reff=Math.max(R, eps);
+    if(Reff>0) psi=Math.max(psi, Math.abs(b.m)/(Reff*Kt));
+  }
+  return psi;
+}
 // 第35便 W4(台帳4-54): サンプル分類バッジ — 各サンプルが「DFMコア公理から創発した現象」か
 // 「表示・比較・外部駆動のために与えた規則」かを、プリセットJSONから機械判定する
 // (externalTags と同じ「保守コストゼロ」方針: per-preset メタデータを持たず自動判定)。
@@ -969,7 +1001,10 @@ function classifyPreset(p){
   // 第39便 39E(台帳4-75 E1): 温度モデルバッジ — thermal:"tint" かどうかを表示だけの追加軸として返す
   // (layers の「創発 vs 規則」分類とは別軸なので layers 配列には入れない。物理判定には一切使わない)
   const tint = p.thermal==="tint";
-  return {layers, external:ext, closed, tint};
+  // 第45便 45C(台帳4-85): 強場トイ領域バッジ — ψ_static>0.5 のときだけ立つ(表示専用の追加軸)
+  const psiStatic = strongFieldPsi(p);
+  const strongField = psiStatic > 0.5;
+  return {layers, external:ext, closed, tint, strongField, psiStatic};
 }
 function gName(g){ return (LANG==="en" && I18N.en.groups[g]) || g; }
 function pName(p){ return (LANG==="en" && p.en && p.en.name) || p.name; }
@@ -978,6 +1013,13 @@ function paramLabel(def){ return (LANG==="en" && I18N.en.params[def.key]) || def
 // v1.21: パラメータ名タップの説明文(ja=PARAM_DEFS.desc / en=I18N.en.paramDescs)
 function paramDesc(def){ return (LANG==="en" && I18N.en.paramDescs[def.key]) || def.desc || ""; }
 
+// 第45便 45B(台帳4-68d): 融合の発火半径比 fusion.dFrac の受理上限。
+// ΔKE = KE_before − KE_after ≥ 0(発熱融合)は Cauchy–Schwarz から
+//   I′ ≥ I_i + I_j + μd²  ⟺  d/(R_i+R_j) ≤ √((m_i+m_j)/(√m_i+√m_j)²)
+// で保証され、右辺の全質量比にわたる最小値が等質量の 1/√2 = 0.7071067811865476。
+// これを超えると吸熱融合(ΔKE<0)が実在し、T′ が 0 へクランプされて不足分がリザーバ fusU
+// (下限の無い記帳枠であって熱浴ではない)から供給されてしまう。掃引実測: tests/exp-45-endo.mjs
+const FUSION_DFRAC_MAX = Math.SQRT1_2;
 // ===== 物理パラメータ定義(PHYSICS.md §5 既定パラメータ表) =====
 const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
   kappaS:0.05, Kt:60, cLight:60, bM:1, etaRad:0, pRad:4,
@@ -989,11 +1031,34 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
 const APP_VERSION = "1.33";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 // 第36便 B1(原仮定者指示): タイトル下に表示するbeta配信時のビルド番号。beta/sw.js の
 // CACHE 接尾辞と同期させる(QA: version.beta-label)。ルート昇格後は使わない("v"+APP_VERSION 表示に戻る)
-const BETA_BUILD = "v1.34-b2";
+const BETA_BUILD = "v1.34-b3";
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
-const RAY_MASS_MIN = 40;                  // 光線を曲げる最小質量(性能のための近似)
-const PN_MASS_MIN = 40;                   // E12 1PN補正の源となる最小質量(v1.20。RAY_MASS_MIN と同方針の近似)
+// 第45便 45A(台帳4-48): 光線源・1PN源のしきい値を「質量」から「偏向角」へ物理化した。
+// 弱場の偏向は α ≈ 4ψ(b) = 4·m/(Kt·b)(E8R/T5)。天体 i が与えうる最大偏向は最接近距離が
+// b ≳ max(R_i, ε) までなので α_max(i) = 4·m_i/(Kt·max(R_i, ε))。これが分解能 α_min 未満の
+// 天体を源から外す ⇔ **m_i ≥ (α_min/4)·Kt·max(R_i, ε)**。物理対応ロック Kt=c²/G のときは
+// m_min = (α_min/4)·(c²/G)·max(R,ε) となり、GR の偏向式 α=4Gm/(bc²) の逆読みとして
+// しきい値が光速と G から導出される(旧 RAY_MASS_MIN=40 / PN_MASS_MIN=40 の固定質量を置換)。
+// 既定 0.02 rad の較正(tests/exp-4-48.mjs・全39プリセット×α掃引の実測):
+//   ・光線/1PN を使うプリセットの源集合が現行(m≥40)と厳密一致する窓は 0.0167 < α_min ≤ 0.430
+//   ・物理対応ロック(Kt=c²/G)を掛けた状態でも同じ集合を保つには α_min ≤ 0.0207(🔭lensing)
+//   → 交わり (0.0167, 0.0207] の最大値として 0.02 を採る
+const RAY_ALPHA_MIN = 0.02;               // 光線を曲げる最小偏向角[rad](分解能しきい値)
+// しきい質量 m_min = (α_min/4)·K·max(R, ε)。K はその部門の時空係数:
+//   光線(E8R): K=Kt        — この宇宙の光学そのもの(n=e^{2W/Kt} → α=4m/(Kt·b))
+//   1PN(E12): K=c²/G      — E12 に Kt は現れず、補正の小ささは U/c²=Gm/(c²b) で決まる。
+//                            同じ α_min を GR の偏向 α=4Gm/(c²b) に当てた形(=光速とGから導出)
+// 物理対応ロック Kt=c²/G のときは両者が厳密に一致する(QA ray.alpha-threshold で機械固定)
+function rayMassMin(p, Ri){ return (RAY_ALPHA_MIN/4)*p.Kt*Math.max(Ri, p.softening); }
+function pnKtGR(p){ return (p.G>0)? (p.cLight*p.cLight)/p.G : Infinity; }   // G=0 は 1PN 自体が消える
+function pnMassMin(p, Ri){ return (RAY_ALPHA_MIN/4)*pnKtGR(p)*Math.max(Ri, p.softening); }
+// 天体 i は光線を曲げるか(E8R 光線積分・光子伝播・光線キャッシュキーの「重い天体」判定)
+function rayHeavy(S, i){ return S.m[i] >= rayMassMin(S.params, S.R[i]); }
+// 天体 i は E12 1PN 補正の源か(v1.20)。step() の全対ループでは同式を
+// pnK=(α_min/4)·c²/G を使って展開してある(O(N²) の関数呼出削減)。
+// 質量は下限保護付きの mEff — 対ループ側と同じ配列を見る(判定の正本はこの関数側)
+function pnSource(S, i){ return S.mEff[i] >= pnMassMin(S.params, S.R[i]); }
 
 // パラメータUI定義。mode:"log"=対数スライダー(桁をまたぐ量の微調整用。
 // スライダー範囲外の値(0を含む)は隣の数値入力欄から直接設定できる)
@@ -2396,7 +2461,8 @@ function validatePreset(obj){
   }
   // 第44便 44B(台帳4-68c 再挑戦条件): fusion — 粒子の融合(最上位キー。integrator/thermal と同じ配置)。
   // {dFrac:0.35} = 中心距離 d < dFrac·(R_i+R_j) で融合する。オブジェクトが在れば有効・省略で完全無効。
-  // dFrac は [0.05,1] へクランプ(省略時 0.35)。**thermal:"tint" のときだけ有効** — spin 熱モードでは
+  // dFrac は [0.05, 1/√2] へクランプ(省略時 0.35。上限は第45便 45B(2) の実測で 1 → 1/√2 へ引き下げた)。
+  // **thermal:"tint" のときだけ有効** — spin 熱モードでは
   // 融合で消える運動エネルギーの行き先(内部温度)が無く第一法則の帳簿が閉じないため、警告つきで
   // キーごと削除する(挙動を静かに変えない — world.thermalWalls と同じ方針)。
   // 構造が壊れている場合も警告つきで削除する。※ SYSTEM_PROMPT には載せない(AI生成には開放しない)
@@ -2409,9 +2475,36 @@ function validatePreset(obj){
     } else if(FU.dFrac!==undefined && !isNum(FU.dFrac)){
       warnings.push("fusion.dFrac が数値でないため fusion を無視します"); delete p.fusion;
     } else {
-      const dv=(FU.dFrac===undefined)? 0.35 : clamp(FU.dFrac,0.05,1);
-      if(FU.dFrac!==undefined && dv!==FU.dFrac) warnings.push("fusion.dFrac を値域に修正");
-      p.fusion={dFrac:dv};   // 未知のサブキーは落とす(受理する形を1つに固定する)
+      // 第45便 45B(2)実測: dFrac > 1/√2 では ΔKE<0(吸熱融合)が実在し、そのとき T′ は 0 へ
+      // クランプされて不足分が丸ごとリザーバ fusU へ流れる(帳簿は閉じるが、fusU は下限の無い
+      // 記帳枠であって熱浴ではない = 融合体の回転運動エネルギーを無制限に汲み出せてしまう)。
+      // Cauchy–Schwarz から ΔKE≥0 が保証されるのは dd ≤ √((m_i+m_j)/(√m_i+√m_j)²) で、
+      // その全質量比にわたる最小値が等質量の 1/√2。よって受理上限を 1/√2 に置く
+      // (掃引実測 tests/exp-45-endo.mjs: 0.71 は既に境界外で 1:1 が吸熱になる)
+      const dv=(FU.dFrac===undefined)? 0.35 : clamp(FU.dFrac,0.05,FUSION_DFRAC_MAX);
+      if(FU.dFrac!==undefined && dv!==FU.dFrac) warnings.push("fusion.dFrac を値域に修正(上限は ΔKE≥0 が保証される 1/√2)");
+      const out={dFrac:dv};   // 未知のサブキーは落とす(受理する形を1つに固定する)
+      // 第45便 45B(台帳4-68d): fission サブキー {Tcrit, frac}。省略で分裂なし(第44便と完全互換)。
+      // Tcrit は正の数値必須(既定なし — 「いつ割れるか」は物理の指定であって既定値を持たせない)。
+      // frac は分裂質量比 m₁=frac·m で [0.1,0.5] へクランプ(既定 0.5 = 等分)。
+      // 構造・型が壊れている場合は fission だけを警告つきで落とす(融合は生かす)
+      if(FU.fission!==undefined){
+        const FI=FU.fission;
+        if(!FI || typeof FI!=="object" || Array.isArray(FI)){
+          warnings.push("fusion.fission はオブジェクトが必要 — 無視します");
+        } else if(!isNum(FI.Tcrit) || !(FI.Tcrit>0)){
+          warnings.push("fusion.fission.Tcrit は正の数値が必要 — fission を無視します");
+        } else if(FI.frac!==undefined && !isNum(FI.frac)){
+          warnings.push("fusion.fission.frac が数値でないため fission を無視します");
+        } else {
+          const tc=clamp(FI.Tcrit,1e-6,10000);
+          if(tc!==FI.Tcrit) warnings.push("fusion.fission.Tcrit を値域に修正");
+          const fv=(FI.frac===undefined)? 0.5 : clamp(FI.frac,0.1,0.5);
+          if(FI.frac!==undefined && fv!==FI.frac) warnings.push("fusion.fission.frac を値域に修正");
+          out.fission={Tcrit:tc, frac:fv};
+        }
+      }
+      p.fusion=out;
     }
   }
   // 第37便 C1(台帳4-70): world.thermalWalls — 伝熱作用する箱の境界条件。
@@ -2834,7 +2927,12 @@ function makeSim(){
     //   fusPx/fusPy/fusL = Float32 状態配列への格納丸めで系から出入りした運動量・角運動量
     //            (融合則そのものは Float64 で厳密。resPx/resL と同格の回収帳簿)
     //   fusLog = 直近64件のイベント監査(QA が読む: 対の前後の P・L・E の実測残差)
+    // 第45便 45B(台帳4-68d): 分裂(fission)。fusion:{dFrac, fission:{Tcrit,frac}} のサブキーが
+    //   在るときだけ _fission が走る(省略で第44便と完全互換)。リザーバ fusU と回収帳簿
+    //   fusPx/fusPy/fusL は融合と**共有**する(同じ物理量の同じ帳簿)。fisLog は分裂側の監査。
+    //   _fisN0 = build 直後の粒子数(連鎖分裂の暴走保護 nMax の基準)
     fusion:null, fusN:0, fusU:0, fusPx:0, fusPy:0, fusL:0, fusLog:null,
+    fisN:0, fisLog:null, _fisN0:0,
     curveBins:null, curveKep:null, tempLR:[0,0], histT:[],
   };
   // 第39便 39B(台帳4-76): thermal="spin" のときに _core が掴む tint 系配列のダミー。
@@ -3066,8 +3164,16 @@ function makeSim(){
     // 内蔵プリセットはバリデータを通らないので、ここが最終的な門番になる: thermal/twall と同形)
     const FU=preset.fusion;
     S.fusion = (FU && typeof FU==="object" && !Array.isArray(FU) && S.thermal==="tint")
-      ? {dFrac: (isNum(FU.dFrac)? clamp(FU.dFrac,0.05,1) : 0.35)} : null;
+      ? {dFrac: (isNum(FU.dFrac)? clamp(FU.dFrac,0.05,FUSION_DFRAC_MAX) : 0.35)} : null;   // 上限=1/√2(第45便 45B(2))
+    // 第45便 45B(台帳4-68d): 分裂サブキー fusion.fission:{Tcrit,frac}(省略で分裂なし=第44便と完全互換)。
+    // validatePreset も同条件で検証するが、内蔵プリセットはバリデータを通らないのでここが最終の門番
+    if(S.fusion){
+      const FI=FU.fission;
+      S.fusion.fission = (FI && typeof FI==="object" && !Array.isArray(FI) && isNum(FI.Tcrit) && FI.Tcrit>0)
+        ? {Tcrit: clamp(FI.Tcrit,1e-6,10000), frac: (isNum(FI.frac)? clamp(FI.frac,0.1,0.5) : 0.5)} : null;
+    }
     S.fusN=0; S.fusU=0; S.fusPx=0; S.fusPy=0; S.fusL=0; S.fusLog=S.fusion? [] : null;
+    S.fisN=0; S.fisLog=(S.fusion&&S.fusion.fission)? [] : null; S._fisN0=S.n;
     S.resPx=0; S.resPy=0; S.resL=0; S.radE=0; S.radL=0;
     S.wallEin=0; S.wallEout=0; S.wallKE=0;   // 第37便 C1(台帳4-70): 壁帳簿もリセット
     S.curveBins=null; S.tempLR=[0,0]; S.histT=[];
@@ -3109,7 +3215,8 @@ function makeSim(){
     else S._core(dt,0);
     if(S.echoFlipAt!==null) S._echo();
     // 第44便 44B(台帳4-68c): 融合はサブステップ末(E系適用後)。fusion 未指定では null 判定 1 回
-    if(S.fusion) S._fuse();
+    // 第45便 45B(台帳4-68d): 分裂は融合の**後**(同一サブステップで新生対が再融合しないための第1の柵)
+    if(S.fusion){ S._fuse(); if(S.fusion.fission) S._fission(); }
   };
   // 第35便(台帳4-62): Loschmidt echo — t が echoFlipAt に達した最初のステップ終端で、
   // 全粒子の v と s の符号を一度だけ反転する(pinned 含む・再反転はしない)。
@@ -3146,20 +3253,15 @@ function makeSim(){
   //     残っている = 「ほぼ0だから無視できる」は成立しない。detail は fusLog に出る)。
   //     E4 重力の対ポテンシャルだけは負値なので熱にできず、リザーバ fusU へ退避する
   //     (点粒子は自己束縛エネルギーを内部状態として持てない — 帳簿は閉じたまま)
-  S._fuse = function(){
-    const F=S.fusion; if(!F) return;
-    const n=S.n; if(n<2) return;
-    const {x,y,vx,vy,spin,R,pinned,mEff,Tint}=S, m=S.m;
-    const p=S.params, dF=F.dFrac, C=p.cHeat, rs=p.radiusScale;
+  // 第45便 45B: 対 (a,b) の相互作用エネルギー関数の生成器(融合・分裂で共有する単一実装)。
+  // 中身は第44便 44B が _fuse 内に持っていたクロージャそのもの — 式・定数・評価順序は不変。
+  // 返り値は現在の状態配列を掴んだクロージャなので、_grow(配列の作り直し)の**後**に生成すること。
+  S._mkPairU = function(){
+    const {x,y,R,mEff,Tint}=S, m=S.m, p=S.params;
     const G=p.G, eps2=p.softening*p.softening, kRep=p.kRep, q=p.q;
     const urep=!!(Tint && kRep>0 && q>1);
     const ue1=urep? 2*q-2 : 0, ue2=urep? 2*q-1 : 0, ui1=urep? 1/ue1 : 0, ui2=urep? 1/ue2 : 0;
-    let dead=S._fusDead, into=S._fusInto;
-    if(!dead||dead.length<n){ dead=S._fusDead=new Uint8Array(n); into=S._fusInto=new Int32Array(n); }
-    let nDead=0;
-    // 対 (a,b) の相互作用エネルギー(E4 重力 + E9 法線ばね + E5′ U_rep)。QA の energyOf /
-    // urepEnergy と同一式 — 融合で消える分・第三者との差分を同じ物差しで測るための単一実装
-    const pairU=(a,b)=>{
+    return (a,b)=>{
       const dx=x[a]-x[b], dy=y[a]-y[b], d2=dx*dx+dy*dy, dd=Math.sqrt(d2);
       const ma=m[a], mb=m[b], ms=ma+mb;
       let U=-G*ma*mb/Math.sqrt(d2+eps2);
@@ -3180,6 +3282,22 @@ function makeSim(){
       }
       return U;
     };
+  };
+  S._fuse = function(){
+    const F=S.fusion; if(!F) return;
+    const n=S.n; if(n<2) return;
+    const {x,y,vx,vy,spin,R,pinned,mEff,Tint}=S, m=S.m;
+    const p=S.params, dF=F.dFrac, C=p.cHeat, rs=p.radiusScale;
+    const G=p.G, eps2=p.softening*p.softening, kRep=p.kRep, q=p.q;
+    const urep=!!(Tint && kRep>0 && q>1);
+    const ue1=urep? 2*q-2 : 0, ue2=urep? 2*q-1 : 0, ui1=urep? 1/ue1 : 0, ui2=urep? 1/ue2 : 0;
+    let dead=S._fusDead, into=S._fusInto;
+    if(!dead||dead.length<n){ dead=S._fusDead=new Uint8Array(n); into=S._fusInto=new Int32Array(n); }
+    let nDead=0;
+    // 対 (a,b) の相互作用エネルギー(E4 重力 + E9 法線ばね + E5′ U_rep)。QA の energyOf /
+    // urepEnergy と同一式 — 融合で消える分・第三者との差分を同じ物差しで測るための単一実装
+    // (第45便 45B: 分裂側と共有するため S._mkPairU へ括り出した。式・定数は 1 命令も変えていない)
+    const pairU=S._mkPairU();
     for(let i=0;i<n;i++){
       if(dead[i]||pinned[i]) continue;
       const Ri=R[i];
@@ -3278,7 +3396,10 @@ function makeSim(){
         const pSc=Math.abs(mi*vxi)+Math.abs(mj*vxj)+Math.abs(mi*vyi)+Math.abs(mj*vyj);
         const lSc=Math.abs(mi*(xi*vyi-yi*vxi))+Math.abs(Ii*si)+Math.abs(mj*(xj*vyj-yj*vxj))+Math.abs(Ij*sj);
         const eSc=Math.abs(KE0)+Math.abs(H0)+Math.abs(uGrav)+uRep+uSpr;
+        // 第45便 45B: 吸熱融合(ΔKE<0)の調査用に heat(=H0+ΔKE+U_rep+U_spring)と確定した T′、
+        // T<0 クランプ(リザーバ退避)が発火したかを監査へ出す。判定には使わない追加情報のみ
         S.fusLog.push({t:S.t, i, j, m:mS, R:RS, d, dFrac:d/sumR, dKE, uGrav, uRep, uSpr, park, dU3,
+          heat, Tn:(Tint? Tint[i] : 0), clamped:(heat<=0 || !(Tint&&cm>0))?1:0, H0,
           ePx, ePy, eL, eE, pSc, lSc, eSc,
           rP:(pSc>0? Math.max(Math.abs(ePx),Math.abs(ePy))/pSc : 0),
           rL:(lSc>0? Math.abs(eL)/lSc : 0), rE:(eSc>0? Math.abs(eE)/eSc : 0)});
@@ -3323,6 +3444,188 @@ function makeSim(){
       if(e.aim>=0&&e.aim<n) e.aim=nm[e.aim];
     }
   };
+  // ===== 第45便 45B(台帳4-68d): 粒子の分裂(fission)=====
+  // S.alloc は「プリセットの粒子数ちょうど」で確保する(=確保長 == 初期 N)。分裂は粒子を増やす
+  // ので確保長そのものを広げる必要がある。全状態配列を新長で作り直して前詰めコピーする
+  // (S.n は変えない — 呼び出し側が増やす)。fusion.fission の無い宇宙では 1 度も呼ばれない。
+  S._grow = function(need){
+    const cap=S.m.length;
+    if(need<=cap) return cap;
+    const nc=Math.max(need, cap+Math.max(8, cap>>1));
+    for(const key of ["m","x","y","vx","vy","spin","R","rotA","coreMR","coreSR","mEff","Rc","rotAc",
+      "obsT","lSw","coreOT","radOv","coreRRv","rMulv","lSwAuto","uPx","uPy","tau",
+      "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
+      "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
+      "Tint","dQi","arep","arepD","duT","echoX0","echoY0"]){
+      const a=S[key]; if(!a) continue;
+      const b=new a.constructor(nc); b.set(a); S[key]=b;
+    }
+    for(let i=cap;i<nc;i++){ S.coreSR[i]=1; S.rMulv[i]=1; }   // alloc と同じ既定値
+    S.pairD=new Float32Array(Math.max(1,nc*(nc-1)/2));
+    S.railIdx=null; S.periDet=null;     // index 依存のキャッシュは作り直させる
+    S._fusDead=null; S._fusInto=null; S._ts=null;
+    return nc;
+  };
+  // 分裂則(融合の逆写像。すべて Float64 で組み、格納は Float32 状態配列 — A13 準拠):
+  //   m₁=frac·m、m₂=(1−frac)·m                            (質量保存・frac∈[0.1,0.5])
+  //   R_k=√(m_k/m)·R  ⇒ R₁²+R₂²=R²                        (融合 R′=√(R_i²+R_j²) の厳密な逆。
+  //                                                        R=rs·rMul·√|m| 写像も rMul 継承で保存)
+  //   配置: 体固定軸 û=(cos rotA, sin rotA)(スポーク位相 = 回る粒子は自分の赤道方向へ割れる)上に
+  //     d = dFrac·(R₁+R₂)·(1+SEPM) だけ離して重心位置に対して対称に置く。SEPM=0.05 は
+  //     **融合の発火面 d<dFrac·(R₁+R₂) のすぐ外側**という意味で、
+  //       (a) 同一サブステップでの再融合を構造的に禁じ(_fission は _fuse の後に走る)、
+  //       (b) 融合が起きた面とほぼ同じ面へ戻すので、リザーバ fusU が融合↔分裂の1サイクルで
+  //           ほぼ元へ戻る(発火面をずらすほど fusU から機械エネルギーを汲み出せてしまう)。
+  //   運動量: v_k = v ± (m_other/m)·w·û ⇒ Σm_k v_k = m v (厳密)。離反は û に平行なので
+  //     軌道角運動量 Σ m_k (r_k×v_k) は分裂前の m(r×v) と恒等的に等しい(δ_k∥ω_k ⇒ δ_k×ω_k=0)。
+  //   スピン: I₁s₁+I₂s₂ = L_tot − L_orb′。s₂ を角速度等分(剛体的な割れ方)で先に置き、
+  //     s₁ を**格納後の値から**逆算する(位置・速度の Float32 丸めをスピンが吸収する — 融合と同形)。
+  //   離反の相対運動エネルギー: E_rel = KESC·max(0, −(U_grav′+U_spring′)) + KTH·C·m·T
+  //     KESC=1 = 新生対の**正味束縛**(重力の井戸 U_grav′<0 と、発火面のすぐ外に置いたことで
+  //     圧縮されている E9 法線ばね U_spring′>0 の和。どちらも T に依らない)をちょうど振り切る
+  //     放物線脱出。U_rep′(T に比例する斥力)は離反を**助ける**側なので安全側に無視する。
+  //     (KTH=0.02 = 内部熱の2%を離反へ配る。
+  //      KTH>0 が w>0 を保証するので、分裂直後の対は必ず離反向きに動き出す = 再融合抑止の第2の柵)
+  //   第一法則(V30): ΔE_split = (KE′−KE) + U_spring′ + U_rep′ を **T_int から支払う**。
+  //     T₁=T₂=T′ とすると U_rep′ = A·T′(√(T′T′)=T′)なので 1 次方程式で厳密に解ける:
+  //       T′ = (C·m·T + ΔKE − U_spring′)/(C·m + A)、A = kRep·μ_E·(Φ₁+Φ₂)
+  //     分子(=支払い後に残る熱)が正でなければ**分裂を発火しない**(吸熱の暴走防止)。
+  //     ΔKE = KE−KE′ = −[½μw² + ½I s²(m²/(m₁²+m₂²) − 1)] ≤ 0 は恒等的に非正(分裂は必ず吸熱)。
+  //   新生対の重力対ポテンシャル U_grav′(負)は熱から作れないのでリザーバ fusU が払い戻す
+  //   (融合が uGrav を fusU へ退避したことの厳密な逆)。N≥3 第三者差分も融合と同じ方式で fusU へ。
+  S._fission = function(){
+    const F=S.fusion; if(!F||!F.fission) return;
+    if(!S.Tint) return;
+    const n0=S.n; if(!n0) return;
+    const FS=F.fission, Tc=FS.Tcrit, fr=FS.frac;
+    const p=S.params, C=p.cHeat, rs=p.radiusScale, G=p.G, eps2=p.softening*p.softening;
+    const kRep=p.kRep, q=p.q;
+    if(!(C>0)) return;                       // 熱容量 0 では T_int が支払えない
+    const urep=!!(kRep>0 && q>1);
+    const ue1=urep? 2*q-2 : 0, ue2=urep? 2*q-1 : 0, ui1=urep? 1/ue1 : 0, ui2=urep? 1/ue2 : 0;
+    const KESC=1, KTH=0.02, SEPM=0.05;
+    const f32=Math.fround;                   // Float32 状態配列へ格納したときの値を先に確定させる
+    // 暴走保護: 連鎖分裂で粒子数が無制限に増えないようにする(O(N²) の物理なので必須)。
+    // 併せて質量下限 |m_k|≥0.01(mEff の除算保護と同じ床)でも止まる
+    const nMax=Math.max(64, 2*S._fisN0);
+    let nc=0;
+    for(let i=0;i<n0;i++) if(!S.pinned[i] && S.Tint[i]>Tc && S.m[i]*fr>=0.01) nc++;
+    if(!nc) return;
+    S._grow(Math.min(nMax, S.n+nc));         // 確保長の拡張は 1 回だけ(以降 pairU の閉包が有効)
+    // ※ 参照はすべて _grow の**後**に取る(_grow は全状態配列を作り直すので、
+    //    先に掴んだ参照へ書くと新しい配列に反映されない)
+    const pairU=S._mkPairU();
+    const {x,y,vx,vy,spin,R,mEff,Tint}=S, m=S.m;
+    for(let i=0;i<n0;i++){
+      if(S.pinned[i]) continue;
+      if(!(Tint[i]>Tc)) continue;
+      const mT=m[i]; if(!(mT>0)) continue;                  // 負質量・0 質量は対象外
+      const m1t=f32(fr*mT), m2t=f32(mT-fr*mT);
+      if(!(m1t>=0.01)) continue;
+      const j=S.n;
+      if(j>=nMax || j>=m.length) continue;                  // 暴走・確保長の保護
+      // ---- 分裂前(格納値からの Float64 スナップショット)----
+      const X0=x[i], Y0=y[i], VX0=vx[i], VY0=vy[i], SP0=spin[i], R0=R[i], T0=Tint[i];
+      const I0=0.5*mT*R0*R0;
+      const Px=mT*VX0, Py=mT*VY0;
+      const Ltot=mT*(X0*VY0-Y0*VX0)+I0*SP0;
+      const KE0=0.5*mT*(VX0*VX0+VY0*VY0)+0.5*I0*SP0*SP0;
+      const H0=C*mT*T0;
+      // ---- 分裂後の**格納値**を Math.fround で先に確定させる(書き込み前に採否を決めるため)----
+      const mSum=m1t+m2t;
+      const R1=f32(Math.sqrt(m1t/mT)*R0), R2=f32(Math.sqrt(m2t/mT)*R0), sumR=R1+R2;
+      const dSep=F.dFrac*(1+SEPM)*sumR;
+      const ang=S.rotA[i], ux=Math.cos(ang), uy=Math.sin(ang);
+      const a1=(m2t/mSum)*dSep, a2=(m1t/mSum)*dSep;         // 重心保存の対称配置
+      const X1=f32(X0+a1*ux), Y1=f32(Y0+a1*uy), X2=f32(X0-a2*ux), Y2=f32(Y0-a2*uy);
+      const E1=(Math.abs(m1t)<0.01)? (m1t<0?-0.01:0.01) : m1t;
+      const E2=(Math.abs(m2t)<0.01)? (m2t<0?-0.01:0.01) : m2t;
+      // 新生対の対ポテンシャル(_fuse / QA energyOf と同一式)
+      const ddx=X1-X2, ddy=Y1-Y2, dd2=ddx*ddx+ddy*ddy, dSt=Math.sqrt(dd2);
+      const uGrav=-G*m1t*m2t/Math.sqrt(dd2+eps2);
+      let uSpr=0;
+      if(dSt<sumR && Math.abs(mSum)>1e-9){
+        const muM=m1t*m2t/mSum, maxInv=Math.max(1/m1t,1/m2t);
+        const xO=sumR-dSt, xC=8/(maxInv*40*muM);
+        uSpr=(xO<=xC)? 20*muM*xO*xO : 20*muM*xC*xC+(8/maxInv)*(xO-xC);
+      }
+      // U_rep′ = A·T′(T₁=T₂=T′ なので √(T′T′)=T′ — 熱収支が T′ の 1 次式になる)
+      let Arep=0;
+      if(urep){ const es=E1+E2;
+        if(Math.abs(es)>1e-9)
+          Arep=kRep*(E1*E2/es)*(urepPhi(R1,R1/(R1+dSt),ue1,ue2,ui1,ui2)+urepPhi(R2,R2/(R2+dSt),ue1,ue2,ui1,ui2));
+      }
+      // 離反初速(相対運動エネルギー E_rel)
+      const mu=m1t*m2t/mSum;
+      const Erel=KESC*Math.max(0,-(uGrav+uSpr))+KTH*H0;
+      const w=(mu>0)? Math.sqrt(2*Erel/mu) : 0;
+      const VX2=f32(VX0-(m1t/mSum)*w*ux), VY2=f32(VY0-(m1t/mSum)*w*uy);
+      const VX1=f32((Px-m2t*VX2)/m1t), VY1=f32((Py-m2t*VY2)/m1t);
+      const I1=0.5*m1t*R1*R1, I2=0.5*m2t*R2*R2, Isum=I1+I2;
+      const Lorb=m1t*(X1*VY1-Y1*VX1)+m2t*(X2*VY2-Y2*VX2);
+      const Lsp=Ltot-Lorb;
+      const SP2=f32((Isum>1e-12)? Lsp/Isum : 0);             // 角速度等分(剛体的な割れ方)
+      const SP1=f32((I1>1e-12)? (Lsp-I2*SP2)/I1 : 0);        // 残りをスピンで厳密に閉じる
+      const KE1=0.5*m1t*(VX1*VX1+VY1*VY1)+0.5*m2t*(VX2*VX2+VY2*VY2)+0.5*I1*SP1*SP1+0.5*I2*SP2*SP2;
+      const dKE=KE0-KE1;                                     // ≤0(分裂は必ず運動エネルギーを要する)
+      // ---- 採否: 支払い後に残る熱が正でなければ発火しない(吸熱の暴走防止)----
+      const heat=H0+dKE-uSpr;
+      const denom=C*mSum+Arep;
+      if(!(heat>0) || !(denom>0)) continue;
+      const Tn=f32(heat/denom);
+      if(!(Tn>0)) continue;
+      // ---- ここから書き込み(上で fround 済みなので格納値は予測値と bit 一致する)----
+      const u3a=(()=>{ let s=0; for(let k=0;k<S.n;k++) if(k!==i) s+=pairU(i,k); return s; })();
+      m[i]=m1t; m[j]=m2t; mEff[i]=E1; mEff[j]=E2;
+      x[i]=X1; y[i]=Y1; x[j]=X2; y[j]=Y2;
+      vx[i]=VX1; vy[i]=VY1; vx[j]=VX2; vy[j]=VY2;
+      spin[i]=SP1; spin[j]=SP2; R[i]=R1; R[j]=R2;
+      Tint[i]=Tn; Tint[j]=Tn;
+      // 半径写像 R=rs·rMul·√|m| を保つ(rMul 継承)。明示半径(radOv>0)の粒子は radOv 側で表現する
+      S.rMulv[j]=S.rMulv[i];
+      if(S.radOv[i]>0){ S.radOv[i]=(rs>0)? R1/rs : 0; S.radOv[j]=(rs>0)? R2/rs : 0; }
+      else S.radOv[j]=0;
+      // 材質係数は両片が親を引き継ぐ(分裂は同じ材質の2片に割れる)
+      S.coreMR[j]=S.coreMR[i]; S.coreSR[j]=S.coreSR[i]; S.obsT[j]=S.obsT[i]; S.coreOT[j]=S.coreOT[i];
+      S.lSw[j]=S.lSw[i]; S.lSwAuto[j]=S.lSwAuto[i]; S.coreRRv[j]=S.coreRRv[i]; S.tau[j]=S.tau[i];
+      S.rotA[j]=S.rotA[i]; S.rotAc[j]=S.rotAc[i]; S.hasU[j]=S.hasU[i]; S.pinned[j]=0;
+      S.Rc[i]=(S.coreRRv[i]>0)? S.coreRRv[i]*R1 : ((S.radOv[i]>0? rs : rs*S.rMulv[i])*Math.sqrt(Math.abs(S.coreMR[i]*E1)));
+      S.Rc[j]=(S.coreRRv[j]>0)? S.coreRRv[j]*R2 : ((S.radOv[j]>0? rs : rs*S.rMulv[j])*Math.sqrt(Math.abs(S.coreMR[j]*E2)));
+      for(const k2 of [i,j]){
+        S.railR[k2]=0; S.railAng[k2]=0; S.railOmega[k2]=0; S.railCx[k2]=0; S.railCy[k2]=0; S.railH[k2]=0;
+        S.accVx[k2]=0; S.accVy[k2]=0; S.accS[k2]=0;
+        S.ax[k2]=0; S.ay[k2]=0; S.sumW[k2]=0; S.uAx[k2]=0; S.uAy[k2]=0;
+        S.ds[k2]=0; S.dpx[k2]=0; S.dpy[k2]=0; S.uPx[k2]=0; S.uPy[k2]=0;
+        if(S.duT) S.duT[k2]=0;
+        if(S.dQi) S.dQi[k2]=0;
+        if(S.arep){ S.arep[k2]=0; S.arepD[k2]=0; }
+      }
+      if(S.echoX0){ S.echoX0[j]=X2; S.echoY0[j]=Y2; }
+      S.n=j+1;
+      // 第三者との相互作用エネルギーの差分(融合と同じ方式・T′ 確定後に評価する)
+      let u3b=0;
+      for(let k=0;k<S.n;k++){ if(k===i||k===j) continue; u3b+=pairU(i,k)+pairU(j,k); }
+      const uRep=Arep*Tn, H1=C*mSum*Tn;
+      const park=-uGrav, dU3=u3a-u3b;
+      S.fusU+=park+dU3;
+      // ---- 監査(格納値どうしの実測残差。分裂則は Float64 で厳密なので、残るのは
+      //      Float32 状態配列への格納丸め 1 回分だけ。その分は fusPx/fusPy/fusL へ回収する)----
+      const ePx=(m1t*VX1+m2t*VX2)-Px, ePy=(m1t*VY1+m2t*VY2)-Py;
+      const eL=(Lorb+I1*SP1+I2*SP2)-Ltot;
+      const eE=(KE1+H1+uGrav+uSpr+uRep+park)-(KE0+H0);
+      S.fusPx-=ePx; S.fusPy-=ePy; S.fusL-=eL;
+      const pSc=Math.abs(m1t*VX1)+Math.abs(m2t*VX2)+Math.abs(m1t*VY1)+Math.abs(m2t*VY2);
+      const lSc=Math.abs(m1t*(X1*VY1-Y1*VX1))+Math.abs(m2t*(X2*VY2-Y2*VX2))+Math.abs(I1*SP1)+Math.abs(I2*SP2);
+      const eSc=Math.abs(KE0)+Math.abs(H0)+Math.abs(uGrav)+uRep+uSpr;
+      S.fisLog.push({t:S.t, i, j, m:mT, m1:m1t, m2:m2t, R:R0, R1, R2, d:dSt, dFrac:dSt/sumR, w,
+        T0, T1:Tn, dKE, dEsplit:(KE1-KE0)+uSpr+uRep, uGrav, uRep, uSpr, park, dU3, heat,
+        ePx, ePy, eL, eE, pSc, lSc, eSc,
+        rP:(pSc>0? Math.max(Math.abs(ePx),Math.abs(ePy))/pSc : 0),
+        rL:(lSc>0? Math.abs(eL)/lSc : 0), rE:(eSc>0? Math.abs(eE)/eSc : 0)});
+      if(S.fisLog.length>64) S.fisLog.shift();
+      S.fisN++;
+    }
+  };
   // 1サブステップ(PHYSICS.md v1.1 §5 数値スキーム: ①全対 → ②粒子 → ③反作用対 → ④位置)
   // mode: 0=semi(現行の全フェーズ・全キック) / 1=leapfrog パスA / 2=leapfrog パスB
   S._core = function(dt, mode){
@@ -3352,7 +3655,11 @@ function makeSim(){
           gX=p.gravityX||0, gY=p.gravityY||0,   // v1.17: 一様重力場(外部場)
           // v1.20(E12): 測地線1PNモード(BOX_UNIVERSE §5・DERIVATIONS §15。第1段階: 静的大質量源・u=0)
           geo=(p.geoPN||0)>0, pnA=(p.pnAlpha!==undefined? p.pnAlpha : 1.5),
-          invC2=geo? (p.lambdaPN!==undefined? p.lambdaPN : 1)/(p.cLight*p.cLight) : 0;
+          invC2=geo? (p.lambdaPN!==undefined? p.lambdaPN : 1)/(p.cLight*p.cLight) : 0,
+          // 第45便 45A(台帳4-48): 1PN 源の偏向角しきい値の係数。源判定は m ≥ pnK·max(R,ε)
+          // (= pnMassMin(p,R) と同一式。K=c²/G は E12 の小ささを決める U/c² 側の時空係数)。
+          // geo=0 の宇宙では参照されない。G≤0 なら Infinity=源なし(1PN 自体が消える)
+          pnK=(p.G>0)? (RAY_ALPHA_MIN/4)*(p.cLight*p.cLight)/p.G : Infinity;
     // radiusScale 変更の追従。第36便 C1: 主判定を「updateRadii が最後に使った radiusScale との
     // 一致」へ変更(rMul 焼き込み後は R[0] と rs·√|m₀| が恒常的にずれるため、旧式のままだと
     // 全プリセットで毎サブステップ再計算になる)。第2項は S.m を直接書き換える経路への保険。
@@ -3450,16 +3757,18 @@ function makeSim(){
         // E12 測地線1PN補正(v1.20・v2.0第1段階): a₁ₚₙ = (λ/c²)[((α−½)v² − (1+2α)U)∇U − (1+2α)(∇U·v)v]
         // U=Gm/√(d²+ε²)、∇U は E4 のニュートン加速度と同一ベクトル。α=1.5 で E7R 完全計量
         // (等方1PN: a = −μn/r² + μ/(c²r²)[(4μ/r−v²)n + 4ṙv])、α=0.5 で時間率のみの統制。
-        // 源は m≥PN_MASS_MIN の大質量のみ・速度は u=0 の絶対値(第1段階の主張域)。E6′ は②で排他。
+        // 源は偏向角基準 m ≥ (α_min/4)·(c²/G)·max(R,ε) を満たす大質量のみ(第45便 45A・台帳4-48。
+        // pnMassMin と同式 — 定数 pnK=(α_min/4)·c²/G は対ループ外で1回だけ作ってある)・
+        // 速度は u=0 の絶対値(第1段階の主張域)。E6′ は②で排他。
         if(geo && invC2>0){
           const cA=1+2*pnA, cB=pnA-0.5;
-          if(mj>=PN_MASS_MIN && !pinned[i]){
+          if(mj>=pnK*Math.max(Rj,eps) && !pinned[i]){
             const Uj=G*mj*invW, gux=-fg*mj*dx, guy=-fg*mj*dy;
             const v2i=vx[i]*vx[i]+vy[i]*vy[i], dU=gux*vx[i]+guy*vy[i];
             ax[i]+=invC2*((cB*v2i-cA*Uj)*gux - cA*dU*vx[i]);
             ay[i]+=invC2*((cB*v2i-cA*Uj)*guy - cA*dU*vy[i]);
           }
-          if(mi>=PN_MASS_MIN && !pinned[j]){
+          if(mi>=pnK*Math.max(Ri,eps) && !pinned[j]){
             const Ui=G*mi*invW, gux=fg*mi*dx, guy=fg*mi*dy;   // j から見た ∇U(符号反転)
             const v2j=vx[j]*vx[j]+vy[j]*vy[j], dU=gux*vx[j]+guy*vy[j];
             ax[j]+=invC2*((cB*v2j-cA*Ui)*gux - cA*dU*vx[j]);
@@ -3969,13 +4278,13 @@ function makeSim(){
       }
     }
     // 第33便(台帳4-63): 光子の伝播(1ステップ分)。光学は traceRay と同一(E8R: 重い粒子
-    // m≥RAY_MASS_MIN の 2∇ψ 屈折・W 合計に D₀/W_B・媒質随伴 kF·u に UniverseBox の u_B を含む)で、
+    // rayHeavy(偏向角 α_min 基準)の 2∇ψ 屈折・W 合計に D₀/W_B・媒質随伴 kF·u に UniverseBox の u_B を含む)で、
     // 弧長は dl=(c₀/n_eff)·dt。到着時は 1+z=a_obs/a_emit の帳簿を photonLog へ積む
     if(S.photons && S.photons.length){
       const pp=S.params;
       const O={heavy:[], kU:2/pp.Kt, eps2:pp.softening*pp.softening, q:pp.q, c0:pp.cLight,
         D0:pp.D0, kF:pp.kFrame, BX:S.box, WB:0, bH:0};
-      for(let i=0;i<n;i++) if(S.m[i]>=RAY_MASS_MIN) O.heavy.push(i);
+      for(let i=0;i<n;i++) if(rayHeavy(S,i)) O.heavy.push(i);
       let aO=1;
       if(O.BX){ const sc=boxScaleAt(O.BX,S.t); aO=sc.a; O.WB=boxWAt(O.BX,sc.a); O.bH=sc.H; }
       let died=false;
@@ -4330,7 +4639,8 @@ function photonStep(S, ph, dt, O){
   ph.x+=cxv*dl+uNx*adv; ph.y+=cyv*dl+uNy*adv;
   ph.dx=cxv; ph.dy=cyv;
 }
-// E8R 光線積分(v1.7・ψ統一。描画と V8 検証で共有。質量 m≥RAY_MASS_MIN のみが曲げる近似)
+// E8R 光線積分(v1.7・ψ統一。描画と V8 検証で共有。偏向 α_max≥RAY_ALPHA_MIN の天体だけが
+// 曲げる近似 — 第45便 45A(台帳4-48)で固定質量 40 から偏向角基準 rayHeavy へ物理化)
 // 屈折率 n_eff = e^{2ψ} = e^{2W/Kt}(kLens 廃止 — 時計 E7R と同じ ψ が光を曲げる)。
 // 方向更新はフェルマー則 dĉ/dl = (∇n−(∇n·ĉ)ĉ)/n で、∇n/n = 2∇ψ = (2/Kt)∇W と
 // 指数部が消えるため 2∇ψ を直接使う。位置更新に媒質随伴 u·(n_eff/c₀)·dl を加える(A11)。
@@ -4341,7 +4651,7 @@ function traceRay(S, px, py, cxv, cyv, dl, maxSteps, emit){
   // 内蔵プリセットは kFrame=1(💡🌗)または源が静止・無スピン(🔭🛰)のため描画は不変。
   const p=S.params, kU=2/p.Kt, eps=p.softening, eps2=eps*eps, q=p.q, c0=p.cLight, D0=p.D0, kF=p.kFrame;
   const heavy=[];
-  for(let i=0;i<S.n;i++) if(S.m[i]>=RAY_MASS_MIN) heavy.push(i);
+  for(let i=0;i<S.n;i++) if(rayHeavy(S,i)) heavy.push(i);
   // 第31便: UniverseBox — W_B は一様(∇ψ 寄与なし=光は曲げない)だが、n_eff と
   // 媒質随伴 u_B には入る(時計と光が同じ ψ・同じ u を共有する E8R の統一を維持)
   const BX=S.box; let WB=0, bH=0;
@@ -4368,7 +4678,7 @@ function traceRay(S, px, py, cxv, cyv, dl, maxSteps, emit){
   }
   return {x:px, y:py, cx:cxv, cy:cyv, end, steps};
 }
-// v1.22: 光線のキー比較キャッシュ — 光線は「重い天体(m≥RAY_MASS_MIN)の状態+光学
+// v1.22: 光線のキー比較キャッシュ — 光線は「重い天体(rayHeavy=偏向角 α_min 基準)の状態+光学
 // パラメータ+カメラ+光線設定」だけで決まる。源が動かない限り再積分せず、前回の
 // オフスクリーン画像を重ねるだけにする(💡🔭🛰🌗は実行中も再積分ゼロ)。
 // 近似ではなくキー厳密一致の再利用 — 描画結果は不変。
@@ -4381,7 +4691,10 @@ function rayKeyOf(rays){
     sim.params.softening+","+sim.params.kFrame+","+rayLambda0;   // 第37便 A3: λ0(表示専用)もキーに含める
   // 第31便: UniverseBox は a(t)・H で光学が変わる(static は定数なのでキャッシュ有効のまま)
   if(sim.box){ const sc=boxScaleAt(sim.box,sim.t); h+=";B"+sc.a.toFixed(6)+","+sc.H.toFixed(6)+","+sim.box.D; }
-  for(let i=0;i<sim.n;i++) if(sim.m[i]>=RAY_MASS_MIN)
+  // 第45便 45A(台帳4-48): 源集合は rayHeavy(m, R, Kt, ε)で決まる。Kt・softening は上のキーに
+  // 含まれ、各源の m・R も1件ずつ並ぶので、集合が変われば必ずキーも変わる(追随性は
+  // QA ray.alpha-threshold のキャッシュ節で機械検査する)
+  for(let i=0;i<sim.n;i++) if(rayHeavy(sim,i))
     h+=";"+i+","+sim.x[i]+","+sim.y[i]+","+sim.vx[i]+","+sim.vy[i]+","+sim.spin[i]+","+sim.R[i]+","+sim.m[i];
   return h;
 }
@@ -5353,27 +5666,35 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   const simB=makeSim(); simB.build(JSON.parse(JSON.stringify(currentPreset)));
   // 第44便 44B: 融合で A 側の n が減っている場合も転写する(確保長は同一プリセットなので等しく、
   // 先頭 sim.n 個が生存粒子。simB.n は下で sim.n へ揃える)。fusion 無しでは従来と同じ条件
-  if(simB.n>=sim.n){
+  // 第45便 45B(台帳4-68d): 分裂で A 側の n が確保長を超えて増えている場合は B 側も広げる
+  // (fission の無い宇宙では simB.m.length===sim.n なので _grow は即 return = ゼロコスト)
+  if(sim.fusion && sim.fusion.fission) simB._grow(sim.n);
+  if(simB.m.length>=sim.n){
     for(const k of ["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy",
       "coreMR","coreSR","mEff","Rc","rotAc",   // 主星2層の状態も転写(第14便: 比率仕様)
       "obsT","lSw","coreOT","radOv","coreRRv", // 観測温度・半径系(第22便)
       "rMulv","lSwAuto",                       // 第36便 C1/C2: 半径倍率・掻出の自動算出フラグ
-      "railR","railAng","railOmega","railCx","railCy"]) simB[k].set(sim[k]);
+      // 第45便 45B: 転写長は「A 側の生存粒子数 sim.n」に固定する(分裂で確保長が A 側だけ
+      // 伸びていても RangeError にならない。fission の無い宇宙では sim[k].length===sim.n なので
+      // subarray は配列そのものと等しく、従来と 1 ビットも変わらない)
+      "railR","railAng","railOmega","railCx","railCy"]) simB[k].set(sim[k].subarray(0,sim.n));
     simB.hasCore=sim.hasCore; simB.hasLSwAuto=sim.hasLSwAuto; simB._rsUsed=sim._rsUsed;
     // 第36便 D(台帳4-51): 内部温度モードの状態も転写(同一プリセットで build 済みなので
     // simB.Tint は同じ長さで確保されている。spin モードでは両方 null で何もしない)
-    if(sim.Tint && simB.Tint) simB.Tint.set(sim.Tint);
-    simB.pinned.set(sim.pinned); simB.hasU.set(sim.hasU);
+    if(sim.Tint && simB.Tint) simB.Tint.set(sim.Tint.subarray(0,sim.n));
+    simB.pinned.set(sim.pinned.subarray(0,sim.n)); simB.hasU.set(sim.hasU.subarray(0,sim.n));
   }
   // 第44便 44B(台帳4-68c): 融合済みの宇宙は n が減っているので、B 側の粒子数と index 依存の
   // 内部状態(レール候補・近点検出器・zonal 中心・壁 ring 群)を A 側の現況へ揃える。
   // fusion が無いプリセットでは simB.n===sim.n・fusion===null で、これらは全て自明な代入になる
-  simB.n=Math.min(simB.n, sim.n); simB.railIdx=null; simB.periDet=null;
+  simB.n=(simB.m.length>=sim.n)? sim.n : Math.min(simB.n, sim.n); simB.railIdx=null; simB.periDet=null;
   simB.zonal=sim.zonal? Object.assign({},sim.zonal) : null;
-  simB.fusion=sim.fusion? {dFrac:sim.fusion.dFrac} : null;
+  simB.fusion=sim.fusion? {dFrac:sim.fusion.dFrac,
+    fission: sim.fusion.fission? Object.assign({},sim.fusion.fission) : null} : null;   // 第45便 45B
   simB.fusN=sim.fusN; simB.fusU=sim.fusU;
   simB.fusPx=sim.fusPx; simB.fusPy=sim.fusPy; simB.fusL=sim.fusL;
   simB.fusLog=sim.fusLog? sim.fusLog.slice() : null;
+  simB.fisN=sim.fisN; simB.fisLog=sim.fisLog? sim.fisLog.slice() : null; simB._fisN0=sim._fisN0;
   simB.t=sim.t; simB.resPx=sim.resPx; simB.resPy=sim.resPy; simB.resL=sim.resL;
   simB.radE=sim.radE; simB.radL=sim.radL;
   // 第37便 C1(台帳4-70): 壁帳簿と伝熱境界も転写(build 済みなので twall は同値だが明示する)
@@ -6495,6 +6816,10 @@ function renderHelp(){
   if(cls.closed) addChip("closed",T("bdgClosed"),T("bdgClosedTip"));
   // 第39便 39E(台帳4-75 E1): 温度モデルバッジ — thermal:"tint" のプリセットにだけ1個追加(ノイズ回避)
   if(cls.tint) addChip("tint",T("bdgTint"),T("bdgTintTip"));
+  // 第45便 45C(台帳4-85): 強場トイ領域バッジ — ψ_static>0.5(静的近似)のときだけ追加。
+  // 「物理対応ロック(Kt=c²/G)」とは別概念(#physLockBadge・パラメータタブ)— 混同しないよう
+  // 弱場展開の適用外であることだけを言う独立チップにする(併存しうる: ロックあり+強場も可)
+  if(cls.strongField) addChip("strongfield",T("bdgStrongField"),T("bdgStrongFieldTip"));
   el.appendChild(chipRow);
   // 第43便 43A(台帳4-78 B案): 数値主張(claims)の表示 — claims を持つプリセットにのみ、分類
   // バッジの直下へ折畳みで追加。表示専用(claims を読むだけ・物理/保存 JSON には無関係)。
@@ -7562,9 +7887,12 @@ function zonalApsidal(mu, refR, J, a, calib){
 }
 window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extractJSON,
   verify:VERIFY, traceRay, getSystemPrompt, aiCfg, T:(k)=>T(k), lang:()=>LANG,
+  // 第45便 45A(台帳4-48): 光線源/1PN源の偏向角しきい値(QA ray.alpha-threshold の機能判定子も兼ねる)
+  RAY_ALPHA_MIN, rayMassMin, rayHeavy, pnMassMin, pnSource, rayKeyOf,
   obsTemp,   // 第36便 D(台帳4-51): 観測温度 T_obs(QA・監査が表示系と同じ量を読むための公開フック)
   extractLawRefs, lawText, ab:()=>ab, abStart, abStop,
   externalTags, classifyPreset, APP_VERSION, currentPreset:()=>currentPreset,  // v1.15/第35便W4: バッジ/バージョン同期のQA用
+  strongFieldPsi,   // 第45便 45C(台帳4-85): 強場トイ領域バッジのψ_static計算式単体のQA用
   urepEnergy, normThermalWalls,   // 第37便 C1/C2(台帳4-70/4-71): U_rep の総和・伝熱境界の正規化(QA/監査用)
   speedMul:()=>speedMul, trailBufs:()=>({a:trailBuf,b:trailBufB}),  // v1.19: QA用
   overlaySlots, overlayBaseY, PARAM_DEFS, paramDesc,  // v1.21: スロット配置/パラメータ説明のQA用

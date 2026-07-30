@@ -4809,6 +4809,138 @@ if (hasEchoFlipAt) {
   }
 }
 
+// ---- 7z2b) 第45便 45A(台帳4-48): ray.alpha-threshold — 光線源/1PN源のしきい値が
+// ----      固定質量(旧 RAY_MASS_MIN=40)ではなく偏向角基準
+// ----        m_i ≥ (α_min/4)·Kt·max(R_i, ε)      (α = 4ψ = 4m/(Kt·b) の逆読み)
+// ----      で決まっていることを機械固定する。時空係数は部門ごと: 光線は Kt(この宇宙の
+// ----      光学そのもの)、E12 1PN は c²/G(E12 に Kt は現れず、補正の小ささは U/c² が決める
+// ----      = 同じ α_min を GR の偏向 α=4Gm/(bc²) に当てた形)。物理対応ロック Kt=c²/G では
+// ----      両者は厳密に一致する(設計: docs/dev/DESIGN_4-48_RAY_MASS_MIN.md)。
+// ----      検査は5節: ①全内蔵プリセットで実使用の光線源集合(光線キャッシュキーの構成要素)が
+// ----      式どおり ②しきい直上/直下のカナリア対で曲げる/曲げないが切り替わる
+// ----      ③しきい値が Kt・R・ε に式どおり比例(=光速とGからの導出が効いている)
+// ----      ④1PN 源のカナリア対 — しきい直上/直下で E12 の効き(λ_PN=1 と 0 の差)が
+// ----      現れる/厳密に消える ⑤源集合が変わればキャッシュキーも必ず変わる(v1.22 追随性)。
+// ----      機能判定子 = HP.RAY_ALPHA_MIN(旧定数のままの root では SKIP)----
+{
+  const hasAlpha = await page.evaluate(() => typeof window.HP.RAY_ALPHA_MIN === 'number');
+  if (hasAlpha) {
+    const r = await page.evaluate(() => {
+      const A = HP.RAY_ALPHA_MIN;
+      // 光線キャッシュキーから実使用の源集合を取り出す(";<i>,<x>,..." が源1件ぶん。";B..." は箱)
+      const keySet = () => [...HP.rayKeyOf({ n: 26, spread: 0.85 }).split(';').slice(1)]
+        .filter((s) => s[0] !== 'B').map((s) => +s.split(',')[0]);
+      // ① 全内蔵プリセット: 式で独立に組み直した集合と、実使用の集合が一致するか
+      const bad = [];
+      for (const P of HP.allPresets()) {
+        HP.loadPreset(P.id, false);
+        const S = HP.sim, Kt = S.params.Kt, eps = S.params.softening;
+        const want = [];
+        for (let i = 0; i < S.n; i++)
+          if (S.m[i] >= (A / 4) * Kt * Math.max(S.R[i], eps)) want.push(i);
+        const got = keySet();
+        if (want.length !== got.length || want.some((v, k) => v !== got[k]))
+          bad.push(`${P.id}(式=${want.length}件/実使用=${got.length}件)`);
+      }
+      // ②③ カナリア: 1天体だけの合成 sim。R・Kt・ε を直接置いてしきい質量を確定させ、
+      //    m をその直上/直下に置いて「曲げる/曲げない」が切り替わることを見る。
+      //    G=0・D0=0・kFrame=0 なので、曲がりの源は当該天体の 2∇ψ だけ。
+      const canary = (Kt, Rv, eps, mul) => {
+        HP.sim.build({ id: 'qa_alpha', name: 'a', description: 'd',
+          camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+          physics: { G: 0, D0: 0, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0,
+            Kt, cLight: 60, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0,
+            geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: eps, timeScale: 1 },
+          bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true }] });
+        const S = HP.sim;
+        S.R[0] = Rv;
+        const mThr = (A / 4) * Kt * Math.max(Rv, eps);
+        S.m[0] = mThr * mul; S.mEff[0] = S.m[0];
+        const t = HP.traceRay(S, -400, Rv, 1, 0, 2, 400, null);
+        return { mThr, m: S.m[0], heavy: HP.rayHeavy(S, 0),
+          bend: Math.atan2(t.cy, t.cx), nSrc: keySet().length };
+      };
+      const up = canary(100, 20, 2, 1.0001), dn = canary(100, 20, 2, 0.9999);
+      // ③ しきい質量は Kt・max(R,ε) に比例(ε 支配域では R に依らず ε で決まる)
+      const kt2 = canary(200, 20, 2, 1.0001).mThr, r2 = canary(100, 40, 2, 1.0001).mThr;
+      const epsDom = canary(100, 1, 8, 1.0001).mThr;   // R=1 < ε=8 → max(R,ε)=8 側で決まる
+      // ④ 1PN 源のカナリア: V18 と同形の軌道(GM~98・a=60・e=0.2056)で λ_PN=1 と 0 の差を見る。
+      //    しきい質量は c²/G=1600・R=12.247(明示半径)で m_min=(α/4)·1600·12.247。
+      const PN_R = 12.247, PN_KGR = 1600, pnThr = (A / 4) * PN_KGR * Math.max(PN_R, 0.5);
+      const pnRun = (mul, lam) => {
+        HP.sim.build({ id: 'qa_alpha_pn', name: 'a', description: 'd',
+          camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+          physics: { G: 1, D0: 0.05, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0,
+            Kt: 10000, cLight: 40, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0,
+            geoPN: 1, lambdaPN: lam, pnAlpha: 1.5, radiusScale: 1, softening: 0.5, timeScale: 1 },
+          bodies: [
+            { type: 'single', m: pnThr * mul, radius: PN_R, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true },
+            { type: 'single', m: 0.01, x: 47.664, y: 0, vx: 0, vy: 1.94787, spin: 0, pinned: false }] });
+        const S = HP.sim;
+        for (let k = 0; k < 2000; k++) S.step(0.016);
+        return { x: S.x[1], y: S.y[1], src: HP.pnSource(S, 0), R: S.R[0],
+          mThr: HP.pnMassMin(S.params, S.R[0]) };
+      };
+      const pnUp = pnRun(1.0001, 1), pnUp0 = pnRun(1.0001, 0);
+      const pnDn = pnRun(0.9999, 1), pnDn0 = pnRun(0.9999, 0);
+      const pn = { thr: pnThr, thrGot: pnUp.mThr, R: pnUp.R, srcUp: pnUp.src, srcDn: pnDn.src,
+        dUp: Math.hypot(pnUp.x - pnUp0.x, pnUp.y - pnUp0.y),
+        dDn: Math.hypot(pnDn.x - pnDn0.x, pnDn.y - pnDn0.y) };
+      // 物理対応ロック Kt=c²/G のときのしきい質量 = (α/4)(c²/G)max(R,ε)(光速とGからの導出)。
+      // このとき光線側 rayMassMin と 1PN 側 pnMassMin は厳密一致する
+      HP.setPhysLock(false); HP.loadPreset('grcal', false); HP.setPhysLock(true);
+      const S2 = HP.sim, p2 = S2.params;
+      const lock = { Kt: p2.Kt, want: (A / 4) * (p2.cLight * p2.cLight / p2.G) * Math.max(S2.R[0], p2.softening),
+        got: HP.rayMassMin(p2, S2.R[0]), pnGot: HP.pnMassMin(p2, S2.R[0]), bendsStill: HP.rayHeavy(S2, 0) };
+      HP.setPhysLock(false);
+      // ⑤ キャッシュキーの追随: 源集合が変わればキーも変わる/変わらなければキーも同一
+      HP.loadPreset('lensing', false);
+      const S3 = HP.sim, k0 = HP.rayKeyOf({ n: 26, spread: 0.85 }), n0 = keySet().length;
+      const m0 = S3.m[0];
+      S3.m[0] = HP.rayMassMin(S3.params, S3.R[0]) * 0.999;   // 源から外れる
+      const kOut = HP.rayKeyOf({ n: 26, spread: 0.85 }), nOut = keySet().length;
+      S3.m[0] = m0;
+      const kBack = HP.rayKeyOf({ n: 26, spread: 0.85 });
+      HP.loadPreset('lensing', false);
+      return { A, bad, up, dn, kt2, r2, epsDom, pn,
+        lock, cache: { changed: kOut !== k0, restored: kBack === k0, n0, nOut } };
+    });
+    const eq = (a, b) => Math.abs(a - b) <= 1e-9 * Math.max(1, Math.abs(b));
+    const chk = {
+      set: r.bad.length === 0,
+      upHeavy: r.up.heavy, upBend: Math.abs(r.up.bend) > 1e-4, upKey: r.up.nSrc === 1,
+      dnLight: !r.dn.heavy, dnBend: r.dn.bend === 0, dnKey: r.dn.nSrc === 0,
+      mThr: eq(r.up.mThr, (r.A / 4) * 100 * 20), propKt: eq(r.kt2, 2 * r.up.mThr),
+      propR: eq(r.r2, 2 * r.up.mThr), propEps: eq(r.epsDom, (r.A / 4) * 100 * 8),
+      // R は Float32 格納なので、実装値は「同じ R で組み直した式」と一致するかで見る
+      pnThr: eq(r.pn.thrGot, (r.A / 4) * 1600 * Math.max(r.pn.R, 0.5)),
+      pnSrcUp: r.pn.srcUp, pnSrcDn: !r.pn.srcDn,
+      pnUp: r.pn.dUp > 1e-3, pnDn: r.pn.dDn === 0,
+      lockRay: eq(r.lock.got, r.lock.want), lockPn: eq(r.lock.pnGot, r.lock.want),
+      lockKt: r.lock.Kt === 3600, lockBend: r.lock.bendsStill,
+      keyChanged: r.cache.changed, keyRestored: r.cache.restored,
+      keyN0: r.cache.n0 === 2, keyNOut: r.cache.nOut === 1 };
+    const ng = Object.keys(chk).filter((k) => !chk[k]);
+    const ok = ng.length === 0;
+    add('ray.alpha-threshold', ok,
+      `α_min=${r.A}rad / ①全内蔵プリセットで光線源集合=式 m≥(α/4)Kt·max(R,ε)(不一致=${r.bad.length}件` +
+      `${r.bad.length ? ':' + r.bad.slice(0, 3).join(' ') : ''}) / ②カナリア(Kt=100,R=20,ε=2 → ` +
+      `m_min=${r.up.mThr.toFixed(3)}): 直上 m=${r.up.m.toFixed(4)} 源=${r.up.heavy} ` +
+      `偏向=${r.up.bend.toExponential(2)}rad(≠0) ⇔ 直下 m=${r.dn.m.toFixed(4)} 源=${r.dn.heavy} ` +
+      `偏向=${r.dn.bend}(厳密0) / ③比例: Kt×2→m_min=${r.kt2.toFixed(3)} R×2→${r.r2.toFixed(3)} ` +
+      `R<εではε支配→${r.epsDom.toFixed(3)} / ④1PN源(c²/G=1600,R=12.247 → ` +
+      `m_min=${r.pn.thr.toFixed(3)}=実装${r.pn.thrGot.toFixed(3)}): 直上 源=${r.pn.srcUp} ` +
+      `|Δr(λ_PN 1−0)|=${r.pn.dUp.toExponential(2)}(>1e-3) ⇔ 直下 源=${r.pn.srcDn} ` +
+      `|Δr|=${r.pn.dDn}(厳密0) / 物理対応ロック(Kt=c²/G=${r.lock.Kt}): ` +
+      `m_min=${r.lock.got.toFixed(2)}=(α/4)(c²/G)max(R,ε)=${r.lock.want.toFixed(2)}` +
+      `(1PN側も同値=${r.lock.pnGot.toFixed(2)}・🛰️の主星は源のまま=${r.lock.bendsStill}) / ` +
+      `⑤キャッシュキー追随: 源${r.cache.n0}→${r.cache.nOut}件でキー変化=${r.cache.changed} ` +
+      `復帰で同一=${r.cache.restored}${ok ? '' : ' / NG項目=' + ng.join(',')}`);
+  } else {
+    console.log('SKIP ray.alpha-threshold(対象に HP.RAY_ALPHA_MIN なし — 旧 RAY_MASS_MIN=40 のままの root 等。第45便 45A/台帳4-48)');
+  }
+}
+
 // ---- 7z3) 第36便 Wave B(B4・原仮定者指示): ai.help-collapsed — インポート/キーの保存/
 // ----      ベースのサンプルの説明が <details> として存在し既定closedであること、
 // ----      openにすると本文(note段落)が可視化されることを確認する(対象に無ければ SKIP)----
@@ -5278,7 +5410,7 @@ if (hasEchoFlipAt) {
       const sc = {
         ok: V(base({ thermal: 'tint', fusion: { dFrac: 0.5 } })),
         def: V(base({ thermal: 'tint', fusion: {} })),
-        hi: V(base({ thermal: 'tint', fusion: { dFrac: 9 } })),
+        hi: V(base({ thermal: 'tint', fusion: { dFrac: 9 } })),   // 上限は 1/√2(第45便 45B(2))
         lo: V(base({ thermal: 'tint', fusion: { dFrac: 0 } })),
         nan: V(base({ thermal: 'tint', fusion: { dFrac: 'x' } })),
         arr: V(base({ thermal: 'tint', fusion: [] })),
@@ -5314,7 +5446,7 @@ if (hasEchoFlipAt) {
     const S2 = cons.sc;
     const scOk = S2.ok.f && S2.ok.f.dFrac === 0.5 && S2.ok.w === 0
       && S2.def.f && S2.def.f.dFrac === 0.35
-      && S2.hi.f && S2.hi.f.dFrac === 1 && S2.hi.w === 1
+      && S2.hi.f && S2.hi.f.dFrac === Math.SQRT1_2 && S2.hi.w === 1
       && S2.lo.f && S2.lo.f.dFrac === 0.05 && S2.lo.w === 1
       && S2.nan.f === undefined && S2.nan.w === 1
       && S2.arr.f === undefined && S2.arr.w === 1
@@ -5324,7 +5456,7 @@ if (hasEchoFlipAt) {
       && cons.engSpin === null && cons.engTint === 0.4;
     add('fusion.conservation', okOne(cons.head) && okOne(cons.off) && scOk,
       `正面: ${fmtR(cons.head)} / オフセンター: ${fmtR(cons.off)} / `
-      + `スキーマ: 0.5→${S2.ok.f && S2.ok.f.dFrac} 省略→${S2.def.f && S2.def.f.dFrac} 9→${S2.hi.f && S2.hi.f.dFrac} `
+      + `スキーマ: 0.5→${S2.ok.f && S2.ok.f.dFrac} 省略→${S2.def.f && S2.def.f.dFrac} 9→${S2.hi.f && S2.hi.f.dFrac}(=1/√2・第45便 45B(2)で 1 から引下げ) `
       + `0→${S2.lo.f && S2.lo.f.dFrac} "x"→${S2.nan.f}(警告${S2.nan.w}) 配列→${S2.arr.f}(警告${S2.arr.w}) `
       + `spin熱→${S2.spin.f}(警告${S2.spin.w}) 未知サブキー除去=${S2.extra.f && S2.extra.f.foo === undefined} / `
       + `エンジン門番: spin→${cons.engSpin} tint→dFrac=${cons.engTint} / `
@@ -5385,6 +5517,280 @@ if (hasEchoFlipAt) {
     await page.evaluate(() => HP.loadPreset('saturn', false));   // 後続項目のため既定プリセットへ戻す
   } else {
     console.log('SKIP fusion.conservation / fusion.zero-cost / fusion.chain(対象に第44便 44B の融合機構なし — root 等)');
+  }
+}
+
+// ---- 7z5c) 第45便 45B(台帳4-68d): 粒子の分裂 fusion:{dFrac, fission:{Tcrit,frac}}(beta 先行)----
+// ----       機能判定子: エンジンに _fission/_grow/fisLog があるか + validatePreset が
+// ----       Tcrit 無しの fission を落とすか。第44便までのビルドでは 3 件とも SKIP ----
+{
+  const hasFission = await page.evaluate(() => {
+    const s = HP.sim;
+    if (typeof s._fission !== 'function' || typeof s._grow !== 'function' || !('fisN' in s)) return false;
+    const base = { name: 'f', description: 'fission 機能判定', camera: { scale: 200 },
+      world: { boundary: 'none', size: 0 }, physics: {}, thermal: 'tint',
+      bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] };
+    const v = HP.validatePreset(Object.assign({}, base, { fusion: { dFrac: 0.4, fission: { frac: 0.5 } } }));
+    // Tcrit(正の数値)が無ければ fission だけを落として fusion は生かす
+    return !!(v.ok && v.preset.fusion && v.preset.fusion.dFrac === 0.4 && v.preset.fusion.fission === undefined);
+  });
+  if (hasFission) {
+    // 共通の計測基盤(ページ側)。第一法則の物差しは fusion.* と同一式に、外部一様重力場の
+    // ポテンシャル U=-m(gX·x+gY·y) と箱の反発係数<1 で壁に吸われた wallKE を足したもの。
+    // 融合と分裂の回収帳簿 fusPx/fusPy/fusL は**共有**なので、carry の恒等式は両ログの和で採る。
+    const FIS = () => {
+      const s = HP.sim;
+      window.__fis = {
+        mk: (bodies, fusion, phys, world) => ({
+          id: 'qa_fission', name: 'fission', description: '分裂の保存検査(隠し構成)',
+          camera: { scale: 200 }, world: world || { boundary: 'none', size: 0 },
+          thermal: 'tint', fusion,
+          physics: Object.assign({ G: 1, D0: 0, kFrame: 0, kRep: 2, q: 2, muF: 0, gammaN: 0,
+            kappaS: 0, etaRad: 0, pRad: 1, cHeat: 0.2, softening: 2, radiusScale: 1, timeScale: 1 }, phys || {}),
+          bodies, overlays: {}
+        }),
+        energy: (s) => {
+          const G = s.params.G, eps2 = s.params.softening * s.params.softening, C = s.params.cHeat;
+          const gX = s.params.gravityX || 0, gY = s.params.gravityY || 0;
+          let E = 0;
+          for (let i = 0; i < s.n; i++) {
+            E += 0.5 * s.m[i] * (s.vx[i] * s.vx[i] + s.vy[i] * s.vy[i]);
+            E += 0.25 * s.m[i] * s.R[i] * s.R[i] * s.spin[i] * s.spin[i];
+            E += C * s.m[i] * (s.Tint ? s.Tint[i] : 0);
+            E -= s.m[i] * (gX * s.x[i] + gY * s.y[i]);
+          }
+          for (let i = 0; i < s.n; i++) for (let j = i + 1; j < s.n; j++) {
+            const dx = s.x[i] - s.x[j], dy = s.y[i] - s.y[j], d2 = dx * dx + dy * dy, d = Math.sqrt(d2);
+            E -= G * s.m[i] * s.m[j] / Math.sqrt(d2 + eps2);
+            const sumR = s.R[i] + s.R[j];
+            if (d < sumR) {
+              const muM = s.m[i] * s.m[j] / (s.m[i] + s.m[j]);
+              const maxInv = Math.max(1 / s.m[i], 1 / s.m[j]);
+              const xO = sumR - d, xC = 8 / (maxInv * 40 * muM);
+              E += (xO <= xC) ? 20 * muM * xO * xO : 20 * muM * xC * xC + (8 / maxInv) * (xO - xC);
+            }
+          }
+          return E + HP.urepEnergy(s) + s.radE + s.fusU + s.wallKE;
+        },
+        run: (preset, steps) => {
+          const F = window.__fis;
+          s.build(preset);
+          let mass0 = 0; for (let i = 0; i < s.n; i++) mass0 += s.m[i];
+          const n0 = s.n;
+          let eEv = 0, eStep = 0, pEv = 0, lEv = 0, nMax = s.n;
+          const nSeq = [s.n];
+          for (let k = 0; k < steps; k++) {
+            const nb = s.n, Eb = F.energy(s), Tb = s.totals();
+            s.step(0.016);
+            const dE = Math.abs(F.energy(s) - Eb), T1 = s.totals();
+            if (s.n !== nb) {
+              eEv = Math.max(eEv, dE);
+              pEv = Math.max(pEv, Math.abs(T1.px - Tb.px), Math.abs(T1.py - Tb.py));
+              lEv = Math.max(lEv, Math.abs(T1.L - Tb.L));
+              nSeq.push(s.n);
+            } else eStep = Math.max(eStep, dE);
+            if (s.n > nMax) nMax = s.n;
+          }
+          let mass1 = 0; for (let i = 0; i < s.n; i++) mass1 += s.m[i];
+          const fu = s.fusLog || [], fi = s.fisLog || [];
+          const mx = (a, f) => a.reduce((r, e) => Math.max(r, f(e)), 0);
+          // 融合と分裂は**同じサブステップ**で連続して起きうる(_fuse の直後に _fission が走り、
+          // 融合体の T_int がその場で Tcrit を超えるため)。サブステップ境界の粒子数 n は変わらない
+          // ので、サイクルはイベントログを時刻順に並べた記号列(F=融合 S=分裂)で数える
+          const evSeq = fu.map(e => ({ t: e.t, k: 'F' })).concat(fi.map(e => ({ t: e.t, k: 'S' })))
+            .sort((a, b) => a.t - b.t || (a.k === 'F' ? -1 : 1)).map(e => e.k).join('');
+          return { n0, n1: s.n, nMax, nSeq, evSeq, mass0, mass1, fusN: s.fusN, fisN: s.fisN, fusU: s.fusU,
+            eEv, eStep, pEv, lEv,
+            rP: Math.max(mx(fu, e => e.rP), mx(fi, e => e.rP)),
+            rL: Math.max(mx(fu, e => e.rL), mx(fi, e => e.rL)),
+            rE: Math.max(mx(fu, e => e.rE), mx(fi, e => e.rE)),
+            carry: Math.max(
+              Math.abs(s.fusPx + fu.reduce((a, e) => a + e.ePx, 0) + fi.reduce((a, e) => a + e.ePx, 0)),
+              Math.abs(s.fusPy + fu.reduce((a, e) => a + e.ePy, 0) + fi.reduce((a, e) => a + e.ePy, 0)),
+              Math.abs(s.fusL + fu.reduce((a, e) => a + e.eL, 0) + fi.reduce((a, e) => a + e.eL, 0))),
+            fis: fi.map(e => ({ t: e.t, m: e.m, m1: e.m1, m2: e.m2, R: e.R, R1: e.R1, R2: e.R2,
+              d: e.d, dFrac: e.dFrac, w: e.w, T0: e.T0, T1: e.T1, dKE: e.dKE, dEsplit: e.dEsplit,
+              uGrav: e.uGrav, uRep: e.uRep, uSpr: e.uSpr, heat: e.heat, eSc: e.eSc })),
+            fus: fu.map(e => ({ t: e.t, dKE: e.dKE, Tn: e.Tn })),
+            T: s.Tint ? Array.from(s.Tint.slice(0, s.n)) : [] };
+        }
+      };
+    };
+
+    // 判定閾値は融合と同水準(Float32 状態配列の格納精度 eps=1.19e-7 が床)
+    const CP = 1e-7, CL = 1e-7, CE = 1e-6;
+
+    // ① fission.conservation: 高温1粒子が Tcrit を超えて2片に割れる(等分 frac=0.5 と
+    //    非等分 frac=0.3)。P(2成分)・L_z・第一法則の残差が格納丸め水準に収まり、
+    //    断面積分割 R₁²+R₂²=R² と質量保存が成り立つ。スキーマ検証も同時に固定する。
+    const fc = await page.evaluate((HS) => {
+      eval('(' + HS + ')()');
+      const F = window.__fis;
+      const half = F.run(F.mk([
+        { type: 'single', m: 2, x: 0, y: 0, vx: 0.5, vy: -0.3, spin: 1.2, tInt: 100 }],
+        { dFrac: 0.35, fission: { Tcrit: 50, frac: 0.5 } }), 1);
+      const uneq = F.run(F.mk([
+        { type: 'single', m: 2, x: 0, y: 0, vx: 0.5, vy: -0.3, spin: 1.2, tInt: 100 }],
+        { dFrac: 0.35, fission: { Tcrit: 50, frac: 0.3 } }), 1);
+      // T が足りなければ発火しない(吸熱の暴走防止)— 同じ構成で T を下げるだけ
+      const poor = F.run(F.mk([
+        { type: 'single', m: 2, x: 0, y: 0, vx: 0.5, vy: -0.3, spin: 1.2, tInt: 12 }],
+        { dFrac: 0.35, fission: { Tcrit: 10, frac: 0.5 } }), 1);
+      // スキーマ: fission の構造検査・Tcrit 必須・frac の値域クランプ・未知サブキーの除去
+      const base = (extra) => Object.assign({ name: 'f', description: 'fission スキーマ検査',
+        camera: { scale: 200 }, world: { boundary: 'none', size: 0 }, physics: {}, thermal: 'tint',
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] }, extra);
+      const V = (o) => { const v = HP.validatePreset(o); return { ok: v.ok, w: v.warnings.length,
+        f: v.preset.fusion && v.preset.fusion.fission, d: v.preset.fusion && v.preset.fusion.dFrac }; };
+      const sc = {
+        ok: V(base({ fusion: { dFrac: 0.4, fission: { Tcrit: 30, frac: 0.4 } } })),
+        def: V(base({ fusion: { dFrac: 0.4, fission: { Tcrit: 30 } } })),
+        hiF: V(base({ fusion: { dFrac: 0.4, fission: { Tcrit: 30, frac: 0.9 } } })),
+        loF: V(base({ fusion: { dFrac: 0.4, fission: { Tcrit: 30, frac: 0.01 } } })),
+        noT: V(base({ fusion: { dFrac: 0.4, fission: { frac: 0.5 } } })),
+        negT: V(base({ fusion: { dFrac: 0.4, fission: { Tcrit: -1 } } })),
+        arr: V(base({ fusion: { dFrac: 0.4, fission: [] } })),
+        nanF: V(base({ fusion: { dFrac: 0.4, fission: { Tcrit: 30, frac: 'x' } } })),
+        extra: V(base({ fusion: { dFrac: 0.4, fission: { Tcrit: 30, foo: 1 } } })),
+        none: V(base({ fusion: { dFrac: 0.4 } })),
+        // 第45便 45B(2): dFrac の受理上限は ΔKE≥0 が保証される 1/√2
+        cap: V(base({ fusion: { dFrac: 0.95, fission: { Tcrit: 30 } } }))
+      };
+      // エンジン門番(内蔵プリセット経路 — バリデータを通らない)
+      const s = HP.sim;
+      s.build(F.mk([{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, tInt: 1 }],
+        { dFrac: 0.4, fission: { Tcrit: 0 } }));
+      const engBad = s.fusion.fission;
+      s.build(F.mk([{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, tInt: 1 }],
+        { dFrac: 0.4, fission: { Tcrit: 7, frac: 9 } }));
+      const engOk = s.fusion.fission ? [s.fusion.fission.Tcrit, s.fusion.fission.frac] : null;
+      s.build(F.mk([{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, tInt: 1 }],
+        { dFrac: 0.95, fission: { Tcrit: 7 } }));
+      const engCap = s.fusion.dFrac;   // 第45便 45B(2): エンジン門番も上限 1/√2 でクランプする
+      return { half, uneq, poor, sc, engBad, engOk, engCap };
+    }, FIS.toString());
+
+    const okSplit = (r, fr) => {
+      const e = r.fis[0];
+      return r.n0 === 1 && r.n1 === 2 && r.fisN === 1 && r.fusN === 0 && e
+        && Math.abs(r.mass1 - r.mass0) <= 1e-6 * r.mass0
+        && r.rP <= CP && r.rL <= CL && r.rE <= CE && r.carry <= 1e-12
+        && Math.abs(e.m1 / e.m - fr) <= 1e-6                       // 質量比 m₁=frac·m
+        && Math.abs(e.R1 * e.R1 + e.R2 * e.R2 - e.R * e.R) <= 1e-5 * e.R * e.R   // 断面積分割
+        && e.dFrac > 0.35 && e.w > 0                               // 発火域の外 + 離反初速>0
+        && e.dEsplit > 0 && e.T1 < e.T0 && e.heat > 0;             // ΔE_split>0 を T_int が払った
+    };
+    const fmtF = (r) => { const e = r.fis[0]; return `n ${r.n0}→${r.n1} 質量 ${r.mass0.toFixed(6)}→${r.mass1.toFixed(6)} `
+      + `m=${e.m.toFixed(3)}→${e.m1.toFixed(3)}+${e.m2.toFixed(3)} R=${e.R.toFixed(4)}→√(${e.R1.toFixed(4)}²+${e.R2.toFixed(4)}²)=${Math.sqrt(e.R1 * e.R1 + e.R2 * e.R2).toFixed(4)} `
+      + `d/ΣR=${e.dFrac.toFixed(4)}(>dFrac=0.35) w=${e.w.toFixed(3)} / `
+      + `ΔE_split=${e.dEsplit.toFixed(3)}(=−ΔKE ${(-e.dKE).toFixed(3)} + U_spring ${e.uSpr.toFixed(3)} + U_rep ${e.uRep.toFixed(3)}) `
+      + `を T_int が支払い ${e.T0.toFixed(2)}→${e.T1.toFixed(2)} / `
+      + `相対残差 P=${r.rP.toExponential(2)} L_z=${r.rL.toExponential(2)} E=${r.rE.toExponential(2)}`; };
+    const S3 = fc.sc;
+    const scOk3 = S3.ok.f && S3.ok.f.Tcrit === 30 && S3.ok.f.frac === 0.4 && S3.ok.w === 0
+      && S3.def.f && S3.def.f.frac === 0.5
+      && S3.hiF.f && S3.hiF.f.frac === 0.5 && S3.hiF.w === 1
+      && S3.loF.f && S3.loF.f.frac === 0.1 && S3.loF.w === 1
+      && S3.noT.f === undefined && S3.noT.w === 1 && S3.noT.d === 0.4     // fission だけ落ちて fusion は生きる
+      && S3.negT.f === undefined && S3.negT.w === 1
+      && S3.arr.f === undefined && S3.arr.w === 1
+      && S3.nanF.f === undefined && S3.nanF.w === 1
+      && S3.extra.f && S3.extra.f.foo === undefined
+      && S3.none.f === undefined
+      && Math.abs(S3.cap.d - Math.SQRT1_2) < 1e-12 && S3.cap.w === 1
+      && fc.engBad === null && fc.engOk && fc.engOk[0] === 7 && fc.engOk[1] === 0.5
+      && Math.abs(fc.engCap - Math.SQRT1_2) < 1e-12;
+    add('fission.conservation', okSplit(fc.half, 0.5) && okSplit(fc.uneq, 0.3)
+      && fc.poor.fisN === 0 && fc.poor.n1 === 1 && scOk3,
+      `等分(frac=0.5): ${fmtF(fc.half)} / 非等分(frac=0.3): ${fmtF(fc.uneq)} / `
+      + `熱不足(T=12 で Tcrit=10 超だが ΔE_split を払えない)→ 発火せず n=${fc.poor.n1}・分裂${fc.poor.fisN}回 / `
+      + `回収帳簿 carry=${Math.max(fc.half.carry, fc.uneq.carry).toExponential(1)}(≤1e-12) / `
+      + `スキーマ: frac 0.9→${S3.hiF.f && S3.hiF.f.frac} 0.01→${S3.loF.f && S3.loF.f.frac} 省略→${S3.def.f && S3.def.f.frac} `
+      + `Tcrit無し→${S3.noT.f}(fusion は残る dFrac=${S3.noT.d}) Tcrit≤0→${S3.negT.f} 配列→${S3.arr.f} frac="x"→${S3.nanF.f} `
+      + `未知サブキー除去=${!!(S3.extra.f && S3.extra.f.foo === undefined)} dFrac 0.95→${S3.cap.d}(=1/√2) / `
+      + `エンジン門番: Tcrit=0→${fc.engBad} Tcrit=7,frac=9→[${fc.engOk}] dFrac 0.95→${fc.engCap.toFixed(7)}`);
+
+    // ② fission.zero-cost: fission サブキーの無い fusion 構成は、機構追加前(基点コミット
+    //    5b00341 = 第44便 44B)と 1 ビットも変わらない。x,y,vx,vy,spin,R,m,T_int と
+    //    リザーバ/回収帳簿(fusU,fusPx,fusPy,fusL)の全量をハッシュして実測基準と照合する。
+    const ZCF2 = {
+      // id: [基準ハッシュ, 步数, 終端n, 融合回数, 初期n(=確保長。分裂が無ければ拡張されない)]
+      head:  ['46688b075a9cf4f618f27b3f7c993772054c7671195d50897fafea9d60186bfc', 400, 1, 1, 2],
+      off:   ['0e58f5e6212dd2c8c68e24506b2f8b70c779d5b13b383bf6c643f09f95d9d58b', 400, 1, 1, 2],
+      chain: ['c1c8a8ab9110697c1820331ff5bcdab36ff476ca6615303bb021ba261f762bd0', 800, 1, 2, 3],
+      boxg:  ['725938a35286a6ad526e5d65e52ab9d05ad3d47727b8c0fdd270bc3f33aeac1b', 20000, 1, 1, 2],
+    };
+    const zc2 = [];
+    for (const [id, [base, steps, n, fusN, cap0]] of Object.entries(ZCF2)) {
+      const r = await page.evaluate(([HS, cid, st]) => {
+        eval('(' + HS + ')()');
+        const F = window.__fis, s = HP.sim;
+        const CFG = {
+          head: F.mk([{ type: 'single', m: 1, x: -12, y: 0, vx: 6, vy: 0, spin: 2, tInt: 20 },
+                      { type: 'single', m: 2, x: 12, y: 0, vx: -6, vy: 0, spin: -1, tInt: 12 }], { dFrac: 0.35 }),
+          off: F.mk([{ type: 'single', m: 1, x: -12, y: -0.3, vx: 6, vy: 0, spin: 2, tInt: 20 },
+                     { type: 'single', m: 2, x: 12, y: 0.3, vx: -6, vy: 0, spin: -1.5, tInt: 12 }], { dFrac: 0.35 }),
+          chain: F.mk([{ type: 'single', m: 1, x: -14, y: 0, vx: 7, vy: 0, spin: 1.5, tInt: 20 },
+                       { type: 'single', m: 1.5, x: 0, y: 0.2, vx: 0, vy: 0, spin: -1, tInt: 10 },
+                       { type: 'single', m: 1, x: 14, y: -0.2, vx: -7, vy: 0, spin: 0.7, tInt: 15 }], { dFrac: 0.35 }),
+          boxg: F.mk([{ type: 'single', m: 1.5, x: -5, y: -10, vx: 0, vy: 0, spin: 0.3, tInt: 1 },
+                      { type: 'single', m: 1.5, x: 5, y: -11, vx: 0, vy: 0, spin: -0.3, tInt: 1 }],
+                     { dFrac: 0.35 }, { G: 8, kRep: 1, cHeat: 0.2, gammaN: 0, softening: 1, gravityY: 1 },
+                     { boundary: 'box', size: 14 })
+        };
+        s.build(CFG[cid]);
+        for (let k = 0; k < st; k++) s.step(0.016);
+        const a = [];
+        for (let i = 0; i < s.n; i++) a.push(s.x[i], s.y[i], s.vx[i], s.vy[i], s.spin[i], s.R[i], s.m[i], s.Tint[i]);
+        a.push(s.fusU, s.fusPx, s.fusPy, s.fusL);
+        return { n: s.n, fusN: s.fusN, fisN: s.fisN, fis: s.fusion.fission, cap: s.m.length,
+          str: a.map(v => v.toExponential(12)).join(',') };
+      }, [FIS.toString(), id, steps]);
+      const h = crypto.createHash('sha256').update(r.str).digest('hex');
+      zc2.push({ id, steps, ok: h === base && r.n === n && r.fusN === fusN && r.fisN === 0
+        && r.fis === null && r.cap === cap0, h: h.slice(0, 8), n: r.n, fusN: r.fusN, cap: r.cap });
+    }
+    const zcBad = zc2.filter(z => !z.ok).map(z => `${z.id}(${z.h} n=${z.n} fusN=${z.fusN})`);
+    add('fission.zero-cost', zcBad.length === 0,
+      zcBad.length ? `bit不一致/経路混入: ${zcBad.join(' ')}`
+        : `${zc2.length}件が基点 5b00341(第44便 44B)と bit 一致(x,y,v,spin,R,m,T_int + fusU/fusPx/fusPy/fusL のハッシュ): `
+          + `${zc2.map(z => `${z.id}:${z.steps}步 ${z.h}`).join(' / ')} — 全て fusion.fission=null・分裂0回・確保長の拡張なし`);
+
+    // ③ fission.cycle: 融合→(重力落下による)加熱→分裂→冷却→再融合が保存を保って 1 サイクル回る。
+    //    一様重力場の箱に2粒子を落とし、床で衝突して融合 → T_int が Tcrit を超えて分裂 →
+    //    破片は冷えて(T が ΔE_split を払った分だけ下がる)再び落ちて融合する。
+    //    粒子数の履歴 nSeq が 2→1→2→1 と往復することが「サイクルが回った」の機械判定。
+    const cy = await page.evaluate((HS) => {
+      eval('(' + HS + ')()');
+      const F = window.__fis;
+      return F.run(F.mk([
+        { type: 'single', m: 1.5, x: -5, y: -10, vx: 0, vy: 0, spin: 0.3, tInt: 1 },
+        { type: 'single', m: 1.5, x: 5, y: -11, vx: 0, vy: 0, spin: -0.3, tInt: 1 }],
+        { dFrac: 0.35, fission: { Tcrit: 25, frac: 0.5 } },
+        { G: 8, kRep: 1, cHeat: 0.2, gammaN: 0, softening: 1, gravityY: 1 },
+        { boundary: 'box', size: 14 }), 20000);
+    }, FIS.toString());
+    const cyc = (cy.evSeq.match(/FS/g) || []).length;   // 「融合してから分裂した」回数 = サイクル数
+    const cyOk = cy.fusN >= 2 && cy.fisN >= 2 && cy.nMax === 2 && cyc >= 2 && /^(FS)+$/.test(cy.evSeq)
+      && Math.abs(cy.mass1 - cy.mass0) <= 1e-6 * cy.mass0
+      && cy.rP <= CP && cy.rL <= CL && cy.rE <= CE && cy.carry <= 1e-12
+      && cy.eEv <= cy.eStep                       // 融合/分裂 step の帳簿の跳び ≤ 積分器の1步誤差
+      && cy.fis.every(e => e.T1 < e.T0 && e.dEsplit > 0)
+      && cy.fus.every(e => e.dKE > 0);            // 融合は発熱(dFrac=0.35 ≤ 1/√2)
+    add('fission.cycle', cyOk,
+      `一様重力場の箱(gravityY=1・size=14・G=8)で 20000 步: 融合${cy.fusN}回 / 分裂${cy.fisN}回 / `
+      + `イベント記号列(F=融合 S=分裂・時刻順)=${cy.evSeq}(厳密交互・"FS" が ${cyc} 回 = ${cyc} サイクル) 最大n=${cy.nMax} / `
+      + `※ 融合体はその場で Tcrit を超えるので融合と分裂は同一サブステップで連続する(サブステップ境界の n は 2 のまま) / `
+      + `融合の ΔKE=${cy.fus.map(e => e.dKE.toFixed(2)).join(',')}(>0=発熱) → T′=${cy.fus.map(e => e.Tn.toFixed(1)).join(',')} / `
+      + `分裂の ΔE_split=${cy.fis.map(e => e.dEsplit.toFixed(2)).join(',')} を T_int が支払い `
+      + `${cy.fis.map(e => `${e.T0.toFixed(1)}→${e.T1.toFixed(1)}`).join(' , ')}(冷却) / `
+      + `質量 ${cy.mass0.toFixed(6)}→${cy.mass1.toFixed(6)} 相対残差 P=${cy.rP.toExponential(2)} L_z=${cy.rL.toExponential(2)} E=${cy.rE.toExponential(2)} / `
+      + `系全体の帳簿の跳び: イベントstep=${cy.eEv.toExponential(2)} ≤ 非イベントstepの最大=${cy.eStep.toExponential(2)} / `
+      + `リザーバ fusU=${cy.fusU.toFixed(3)}`);
+
+    await page.evaluate(() => HP.loadPreset('saturn', false));   // 後続項目のため既定プリセットへ戻す
+  } else {
+    console.log('SKIP fission.conservation / fission.zero-cost / fission.cycle(対象に第45便 45B の分裂機構なし — root 等)');
   }
 }
 
@@ -6118,6 +6524,58 @@ if (hasSwAutoCb) {
       + `ja見出し="${r.headJa}" en見出し="${r.headEn}" / en切替後DOM見出し(galaxy)="${r.galaxyEn.summary}"`);
   } else {
     console.log('SKIP ui.claims-display(対象に galaxy/spinup の claims 宣言または boxrot が揃っていない — 第43便 43A 未適用の root 等)');
+  }
+}
+
+// ---- 45C) 第45便 45C(台帳4-85): ui.strongfield-badge — 説明タブの分類バッジ列(#classChips)に
+// ----      追加した「⚠強場トイ領域」チップ(data-g=strongfield)の表示条件を検査する。
+// ----      ψ_static = max(universeBox の D/Kt, 各 single 天体の m/(max(R,ε)·Kt)) が 0.5 を
+// ----      超えるプリセットでのみ出現すること。強場代表は galaxy(中心星 m=2500・radius=15・
+// ----      Kt=50 → ψ_static≈3.33 — universeBox の D=80/Kt=300(ψ=0.267)は対象外なので使わない)。
+// ----      弱場代表は gclock(m=1500・rMul=1.2・Kt=300 → ψ_static≈0.108)。en切替でラベル
+// ----      (HP.T('bdgStrongField'))が変わり、DOM表示にも反映されること。HP.strongFieldPsi/
+// ----      classifyPreset または対象プリセットが揃わない対象(root等)は SKIP する。
+// ----      軽量(page.evaluate 2回・DOM検査のみ)なので QA_FAST=1 でも実行する ----
+{
+  const setup = await page.evaluate(() => {
+    const hasFn = typeof HP.strongFieldPsi === 'function' && typeof HP.classifyPreset === 'function';
+    const galaxy = HP.allPresets().find((p) => p.id === 'galaxy');
+    const gclock = HP.allPresets().find((p) => p.id === 'gclock');
+    return {
+      hasFn, hasGalaxy: !!galaxy, hasGclock: !!gclock,
+      galaxyPsi: (hasFn && galaxy) ? HP.strongFieldPsi(galaxy) : null,
+      gclockPsi: (hasFn && gclock) ? HP.strongFieldPsi(gclock) : null,
+    };
+  });
+  if (setup.hasFn && setup.hasGalaxy && setup.hasGclock
+      && setup.galaxyPsi > 0.5 && setup.gclockPsi !== null && setup.gclockPsi <= 0.5) {
+    const r = await page.evaluate(() => {
+      const inspect = (id) => {
+        HP.loadPreset(id, false);
+        const chip = document.querySelector('#classChips .classChip[data-g="strongfield"]');
+        return { present: !!chip, text: chip ? chip.textContent : null };
+      };
+      HP.setLang('ja');
+      const galaxyJa = inspect('galaxy');
+      const gclockJa = inspect('gclock');
+      const labelJa = HP.T('bdgStrongField');
+      HP.setLang('en');
+      const labelEn = HP.T('bdgStrongField');
+      const galaxyEn = inspect('galaxy');
+      HP.setLang('ja');
+      HP.loadPreset('saturn', false);   // 後続項目のため既定プリセットへ戻す
+      return { galaxyJa, gclockJa, labelJa, labelEn, galaxyEn };
+    });
+    const ok = r.galaxyJa.present && r.galaxyJa.text === r.labelJa
+      && !r.gclockJa.present
+      && r.labelJa !== r.labelEn
+      && r.galaxyEn.present && r.galaxyEn.text === r.labelEn && r.galaxyEn.text !== r.labelJa;
+    add('ui.strongfield-badge', ok,
+      `galaxy: ψ_static=${setup.galaxyPsi.toFixed(3)} present=${r.galaxyJa.present}(期待true) / `
+      + `gclock: ψ_static=${setup.gclockPsi.toFixed(3)} present=${r.gclockJa.present}(期待false) / `
+      + `jaラベル="${r.labelJa}" enラベル="${r.labelEn}" / en切替後DOM(galaxy)="${r.galaxyEn.text}"`);
+  } else {
+    console.log('SKIP ui.strongfield-badge(対象に galaxy/gclockのψ_static条件またはHP.strongFieldPsi/classifyPresetが揃っていない — 第45便 45C 未適用の root 等)');
   }
 }
 
