@@ -2240,6 +2240,71 @@ const BUILTIN_PRESETS = [
      spinMin:0,spinMax:0, tInt:2, vMode:"rigid", aroundMass:0, vScale:0.00675, direction:1}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
+// 第46便 46S(台帳4-68c 再挑戦・原仮定者裁定「進める」): ☀️starcore — 恒星内部(融合を熱源とする)。
+// 設計の要点(第44便 44B の提言 + 第45便 45B の申し送りを反映):
+//   (1) 熱を作る経路を**融合だけ**に絞る: γn=0・μF=0(接触は完全弾性 = E9 散逸ゼロ)・
+//       kRep=0(E5′ 圧力ゼロ)。第44便の kRep>0 構成では、融合体の高温が第三者との U_rep を
+//       跳ね上げ、その差額 dU3 がリザーバ fusU から支払われて系が自壊した(46S 実測:
+//       kRep=2 では fusU=−1.0e5 に対し radE=8.2e4 = 「放射」の大半がリザーバ由来だった)。
+//       kRep=0 では fusU は融合対の重力束縛 uGrav の退避分だけになり、熱の出所は
+//       ΔKE + U_spring だけになる(第一法則の物差しで確認済み)。
+//   (2) fission は**使わない**(第45便 45B(2b) の判断委任に対する 46S の結論)。fusU の
+//       サイクルドリフトを持ち込む必要がなく、「融合が燃料を食い尽くすまでの有限過程」として
+//       誠実に設計できるため。燃料が続く区間を validT=192 で明示する。
+//   (3) **kappaS=0(E10′ 伝導も切る)**: 伝導は pinned へ流れ込んだ分が dQi のまま適用されず
+//       (② の先頭で pinned は continue する)帳簿に載らないので、kappaS>0 では「融合が入れた熱」
+//       Q=ΔH+radE が etaRad の値で変わってしまう(46S 実測: kappaS=0.05 では etaRad=1.6e-3 で
+//       Q=4594 なのに etaRad=0 では Q=2645 = 1949 の未帳簿漏れ)。kappaS=0 では両者が
+//       Q=5312.5 で完全一致し、対照(融合なし)の Q は厳密に 0.0 になる = 熱の出入りは
+//       「融合で入る」「E11 で出る」の 2 本だけ。
+//   (4) dt 収束を実測してから説明文に書いた(第45便 45B(1))。dt 0.016/0.008/0.004(いずれも
+//       t≈192 まで)で 融合124/122/113回・radE 4555/5059/4053・T_mean 4.91/4.26/3.73・
+//       残粒子 77/79/88 = 主張値は刻み幅を 1/4 にしても保つ。3seed(20260730/31/32)でも
+//       融合124/116/114回・radE 4555/4084/4112・T_mean 4.91/3.89/4.27 と頑健。
+//       対照(融合なし)の radE=60.4 は初期熱の解析的な放出そのもので dt にも seed にも依らない。
+{ id:"starcore", name:"恒星の内部 — 融合を熱源とする", emoji:"☀️", group:"天体の物語",
+  description:"中心に固定した重い核(m=600)と、その周りを回る200粒のガス(サブケプラー初速 0.6倍)。ガスは核の重力で落ち込み、深く潜り込んだ対どうしが融合する(中心距離が d<0.35·(R_i+R_j) まで近づくと1つの粒子になる)。融合で消えた対の相対運動エネルギーΔKEと接触ばね(E9)の弾性エネルギーはそのまま内部温度T_intへ入り、そこから放射(E11: Λ=η_rad·T²)で外へ出ていく — これが「重力収縮→融合加熱→放射」の一本道。12000步(t≈192)の実測: 融合124回・ガスは200粒→76粒(燃料の62%を消費)・平均温度T_int 2.00→4.91(最高66.9)・放射エネルギー radE=4555。同じ初期配置で融合だけを切った対照では熱源が無くなり、温度は2.00→0.49へ単調に下がって放射も60.4で止まる — 放射エネルギーは75.4倍。第37便の否定的結論「内部熱源なしに定常放射は成立しない」の裏返しで、融合という熱源があれば星は放射し続けられる、という主張。熱収支: この宇宙で熱が出入りする経路は「融合で入る」「E11で出る」の2本だけ(γn=0・μF=0で接触は完全弾性・kRep=0で圧力なし・κs=0で伝導なし)なので帳簿が閉じる — 融合が入れた熱 Q=ΔH+radE=5313 は etaRad を変えても同値で、対照ではQ=0.0(厳密)。そのQの85.7%が同じ窓のうちに放射で出ていく(残りは温度上昇として溜まる)= 供給と損失がほぼ釣り合った準定常。※点火の原因が重力であることは用量反応で分離した: Gだけを4→2→1に下げ、力学時間の伸び(∝1/√G)に合わせて走行時間も揃えても、融合の熱注入は5313→1719→697と落ちる。※温度は力に一切入らない受動的な目印なので、放射を切っても(etaRad=0)軌道は1ビットも変わらない(実測: 粒子数・融合回数・平均半径が全チェックポイントで完全一致し、温度だけが2.00→48.23まで溜まる)。おすすめA/B: etaRad=0で「冷えない星」、G=2で「点火しにくい星」。※有効窓 validT=192 の根拠は燃料: さらに倍のt=384まで走らせても融合は18回しか増えず、放射レートは23.7/時間→8.0/時間(3.0倍暗い)まで落ちる — 燃料切れの余生に入るので主張はここまで。※質量は融合で保存する(現実の核融合の質量欠損はモデル化していない)。中心核は位置を固定した外部拘束(融合の対象外・温度一定のリザーバ)で、系は閉じていない。実在の恒星の核融合・進化を再現する主張ではない(Negative Claims 1/2)。",
+  en:{name:"Stellar Interior — Fusion as the Heat Source", description:"A heavy pinned core (m=600) with 200 gas grains orbiting it on sub-Keplerian orbits (0.6×). The gas falls in under the core\u2019s gravity, and pairs that penetrate deeply enough fuse — once their centres come within d<0.35·(R_i+R_j) they become one particle. The relative kinetic energy ΔKE of the pair and the elastic energy of the contact spring (E9) that vanish in the merger go straight into the internal temperature T_int, and leave again as radiation (E11: Λ=η_rad·T²). That is the whole chain: gravitational compression → fusion heating → radiation. Measured over 12000 steps (t≈192): 124 fusions, the gas goes from 200 to 76 grains (62% of the fuel burned), mean T_int 2.00→4.91 (peak 66.9), radiated energy radE=4555. A control with the same initial layout and fusion switched off has no heat source at all: the temperature falls monotonically 2.00→0.49 and the radiation stalls at 60.4 — a factor of 75.4 in radiated energy. This is the converse of the negative result of the 37th delivery (steady radiation cannot hold without an internal heat source): given fusion as a heat source, the star can keep radiating. Heat budget: heat can only enter through fusion and leave through E11 in this universe (γn=0 and μF=0 make contacts perfectly elastic, kRep=0 removes pressure, κs=0 removes conduction), so the ledger closes — the heat fusion injects, Q=ΔH+radE=5313, is the same whatever etaRad is set to, and the control gives Q=0.0 exactly. 85.7% of that Q leaves as radiation within the same window (the rest accumulates as temperature): supply and loss nearly balance, a quasi-steady state. The causal role of gravity was isolated by a dose–response: lowering only G from 4 to 2 to 1, and stretching the run to match the dynamical time (∝1/√G), the fusion heat input falls 5313→1719→697. Temperature never enters the forces, so turning the radiation off (etaRad=0) does not change the trajectories by a single bit (measured: particle count, fusion count and mean radius identical at every checkpoint; only the temperature differs, accumulating to 48.23). Suggested A/B: etaRad=0 for a star that cannot cool, G=2 for a star that barely ignites. The valid window validT=192 is set by the fuel: running twice as far, to t=384, adds only 18 more fusions and the radiated rate drops from 23.7 to 8.0 per unit time (3.0× dimmer) — beyond that the star is living off the ashes. Mass is conserved in fusion (the mass defect of real nuclear fusion is not modelled). The central core is an externally pinned constraint, excluded from fusion and held at constant temperature, so the system is not closed. Not a claim to reproduce real stellar fusion or stellar evolution (Negative Claims 1/2)."},
+  activeParams:["G","etaRad","cHeat"],
+  thermal:"tint",           // 第36便 D(台帳4-51): 温度は内部状態変数 T_int(fusion の前提)
+  fusion:{dFrac:0.35},      // 第44便 44B(台帳4-68c): 融合。fission は使わない(上のコメント(2))
+  validT:192,               // 第39便 39E(台帳4-75 E2): 燃料が有意に続く実測区間(12000步=t≈192)
+  // 第42便 42A(台帳4-78 A案): claims — 説明文の主要数値を機械可読化。窓は QA behavior.starcore の
+  // 閾値(fusN≥90・T_mean 3.0〜9.0・radE比≥40)に直結させ、dt 収束(dt 1/2・1/4 で 113〜124回・
+  // T_mean 3.73〜4.91・radE比 67.1〜83.8)と 3seed(114〜124回・3.89〜4.91・67.6〜75.4)の
+  // 実測幅を必ず内側に含むように取った
+  claims:[
+    { id:"starcore.fusion-count", metric:"fusionEvents",
+      expected:{min:90, max:170},   // 実測124(dt収束113〜124・3seed 114〜124。behavior.starcore: fusN≥90)
+      descPattern:"融合(\\d+)回・ガスは", testId:"behavior.starcore" },
+    { id:"starcore.mean-tint", metric:"meanTintGas",
+      expected:{min:3.0, max:9.0},   // 実測4.91(dt収束3.73〜4.91・3seed 3.89〜4.91)
+      descPattern:"平均温度T_int 2\\.00→(\\d+\\.\\d+)", testId:"behavior.starcore" },
+    { id:"starcore.radiation-ratio", metric:"radERatioVsNoFusion",
+      expected:{min:40, max:130},   // 実測75.4倍(融合あり radE=4555 対 融合なし radE=60.4)
+      descPattern:"放射エネルギーは(\\d+\\.\\d+)倍", testId:"behavior.starcore" }
+  ],
+  camera:{scale:320}, world:{boundary:"circle",size:300}, seed:20260730,
+  // ψ_static = m/(R·Kt) = 600/(24.49·60) = 0.408 < 0.5 なので強場トイ領域バッジは付かない(46S 実測)
+  physics:{G:4, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0,
+    kappaS:0/* 伝導も切る — pinned へ流れた熱は帳簿に載らないため(設計コメント(3))*/, Kt:60,
+    cLight:60, bM:1, etaRad:0.0016/* 第39便の tint 較正系(🌈coolrace と同値)。46S の実測較正:
+    12000步(t≈192)で etaRad を振ると 4e-4/8e-4/1.6e-3/3.2e-3/6.4e-3 → T_mean 11.20/7.51/4.91/3.16/2.02・
+    radE 3769/4218/4555/4800/4976(投入熱 Q=5312.5 は5点とも同値 = 帳簿が閉じている)・
+    放射率 radE/Q 70.9/79.4/85.7/90.4/93.7%。1.6e-3 は「T_mean が初期値2.0の約2.5倍に保たれる(=星が熱い)」
+    かつ「投入熱の85.7%が窓内に出ていく(=供給と損失がほぼ釣り合う)」両立点。6.4e-3 では T_mean が初期値と
+    見分けられなくなり、4e-4 では熱が溜まって釣り合わない */,
+    pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:3, timeScale:2},
+  bodies:[
+    // 中心核(固定・R=√600≈24.5)。pinned は融合の対象外なので「燃料」はガス200粒だけ
+    {type:"single", rMul:1, m:600, x:0,y:0, vx:0,vy:0, spin:0, pinned:true, tInt:2},
+    // ガス球(自由・サブケプラー初速 0.6倍 → 落ち込みながら回る。tInt=2 は kRep=0 なので力に効かない)
+    {type:"disk", rMul:1, n:200, cx:0,cy:0, radius:200, mMin:1,mMax:1,
+     spinMin:0,spinMax:0, tInt:2, vMode:"kepler", aroundMass:600, vScale:0.6, direction:1}
+  ],
+  // 温度ヒストグラム(左右の平均温度)は球対称の星では意味を持たないので出さない(🌪️spinup と同じ)
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
 ];
 // 第37便 B2(原仮定者裁定「正しい挙動が分からない」): ❄️snowline(塵は冷えると固まる — 冷たい星と
 // 熱い星)を廃止した。v1.24 の廃止手順(🪣mach/🕰twin/💫drag)に倣い、参照(qa.mjs の
