@@ -2973,6 +2973,18 @@ function makeSim(){
     // 系のエネルギー収支は ΔE_系 = wallEin − wallEout − wallKE − ΔradE で閉じる(QA thermalwalls.ledger)。
     // twall = 伝熱境界の内部表現 [bottom,top,left,right](各 null|{mode,T,rate}。無ければ null)
     wallEin:0, wallEout:0, wallKE:0, twall:null,
+    // 第47便 47A(台帳4-86 / 統括裁定=案B「pinned を外部熱浴として扱う」): E10′(κs 熱伝導)は
+    // 計算段階では pinned 天体との対も熱を交換するのに、適用段階の②粒子ループが pinned を
+    // continue するため、pinned が受け取るはずの dQi はどのリザーバにも載らずに消えていた
+    // (第46便 46S が ☀️starcore で実測: kappaS=0.05 では Q=ΔH+radE が etaRad の値で変わり
+    //  1949 の未帳簿漏れ。κs=0 の構成は無影響)。pinHeat = radE/fusU/wallEin と同格のリザーバで、
+    // **pinned 宛の dQi の累計**(Float64)を持つ。符号は「粒子系から見た出入り」:
+    //   pinHeat>0 = 粒子系 → 外部拘束(pinned)へ出た熱 / pinHeat<0 = 外部拘束から入った熱。
+    // 第一法則は E_粒子系 + radE + fusU + wallKE + pinHeat = 一定 で閉じる
+    // (QA conduction.pinned-bath が ΔH_free + pinHeat = 0 を機械証明する)。
+    // 自由粒子側の dQi・T_int は 1 ビットも触らない = 伝導の数値挙動は完全に不変
+    // (QA conduction.pinned-zero-cost が基点 3cc348b との bit 一致で機械証明)
+    pinHeat:0,
     // 第35便(台帳4-62): 可逆積分器と Loschmidt echo(BOX_UNIVERSE §10.5)。
     // integrator="semi"(既定=現行のセミ・インプリシット経路。1命令も変えないゼロコスト経路)
     // / "leapfrog"(KDK。R∘F∘R=F⁻¹ が厳密に成り立つ可逆積分器)。
@@ -3241,6 +3253,7 @@ function makeSim(){
     S.fisN=0; S.fisLog=(S.fusion&&S.fusion.fission)? [] : null; S._fisN0=S.n;
     S.resPx=0; S.resPy=0; S.resL=0; S.radE=0; S.radL=0;
     S.wallEin=0; S.wallEout=0; S.wallKE=0;   // 第37便 C1(台帳4-70): 壁帳簿もリセット
+    S.pinHeat=0;   // 第47便 47A(台帳4-86): pinned 熱浴の帳簿もリセット
     S.curveBins=null; S.tempLR=[0,0]; S.histT=[];
   };
   S.updateRadii = function(){ // R_i = radiusScale·rMul_i·√|m| (PHYSICS.md §2 + 第36便 C1)
@@ -4042,8 +4055,15 @@ function makeSim(){
     }
     // ===== ② 粒子ループ: 速度更新・E6′輸送(Δp確定)・スピン拡散・E11放射冷却 =====
     let anyDp=false;
+    // 第47便 47A(台帳4-86 / 案B): pinned 宛に積まれた E10′ 伝導熱を Float64 のまま合計する。
+    // pinned は「無限熱容量の外部熱浴」なので温度は動かさず(=従来どおり continue)、
+    // 受け取った熱量だけをリザーバ pinHeat へ計上する。①の対ループ側(dQi[i]+=qf / dQi[j]-=qf)
+    // には一切手を入れていないので、**自由粒子の dQi は 1 ビットも変わらない**。
+    // E9 の散逸は既に pinned 分を radE へ回している(①の該当行)ので、pinned の dQi に
+    // 積まれ得るのは E10′ 伝導だけ = ここが唯一の漏れ口だった
+    let pinQ=0;
     for(let i=0;i<n;i++){
-      if(pinned[i]) continue;
+      if(pinned[i]){ if(tint) pinQ+=dQi[i]; continue; }
       vx[i]+=ax[i]*kickDt; vy[i]+=ay[i]*kickDt;   // 第35便: semi は kickDt=dt、leapfrog は dt/2 の半キック
       // 第37便 C2(台帳4-71 / L17 解消): このサブステップに粒子へ入った熱(E9 散逸+E10′ 伝導)を
       // 内部温度へ反映する。熱量関数 E_i(T)=C·m_i·T + a_i·√T(a_i·√T = その粒子が担う U_rep)を
@@ -4171,6 +4191,11 @@ function makeSim(){
       // 第37便 C2: このサブステップの δ√T を次サブステップの中点補正へ渡す
       if(tint) duT[i]=Math.sqrt(Tint[i])-uOld;
     }
+    // 第47便 47A(台帳4-86): pinned 熱浴が受け取った E10′ 伝導熱をリザーバへ確定する。
+    // 伝導は doPost 側だけで積むので leapfrog でも1サブステップ1回きり(二重計上なし)。
+    // pinQ は「pinned に入った熱」= 粒子系から出た熱なので、そのまま加算すれば
+    // ΔH_free + pinHeat = 0(κs 以外の熱源が無い構成)になる
+    if(pinQ!==0) S.pinHeat+=pinQ;
     // ===== ③ E6′ 反作用対ループ: φ_ij 分配・残余トルクのスピン移譲・リザーバ帳簿 =====
     // 第35便: anyDp は doPost の中でしか立たないので、leapfrog パスAでは自動的に素通りする
     // 第40便 40A(台帳4-81): 対ごとの反作用(vx/vy/spin への減算)は Float32 の状態配列へ
@@ -5594,6 +5619,10 @@ function loop(now){
       txt+=`\n帳簿P=(${fmt(sim.resPx)}, ${fmt(sim.resPy)})  帳簿L=${fmt(sim.resL)}  放射L=${fmt(sim.radL)}  放射E=${fmt(sim.radE)}`;
       // 第37便 C1(台帳4-70): 伝熱する箱のときだけ壁帳簿を1行追加(他のサンプルでは1文字も増えない)
       if(sim.twall) txt+=`\n壁注入E=${fmt(sim.wallEin)}  壁回収E=${fmt(sim.wallEout)}  壁吸収KE=${fmt(sim.wallKE)}`;
+      // 第47便 47A(台帳4-86): pinned を外部熱浴として扱ったときの伝導熱の帳簿。
+      // 実際に熱が出入りしたサンプル(κs>0 + pinned + thermal:"tint")でだけ1行増える
+      // (他のサンプルでは pinHeat が厳密に 0 のままなので 1 文字も増えない)。表示のみ・物理不変
+      if(sim.pinHeat!==0) txt+=`\n固定天体へ流出E=${fmt(sim.pinHeat)}`;
     }
     $("#hud").textContent=txt;
     // v1.17: 実行中は編集パネルの表示値を追従(入力フォーカス中は上書きしない)
@@ -5764,6 +5793,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   simB.radE=sim.radE; simB.radL=sim.radL;
   // 第37便 C1(台帳4-70): 壁帳簿と伝熱境界も転写(build 済みなので twall は同値だが明示する)
   simB.wallEin=sim.wallEin; simB.wallEout=sim.wallEout; simB.wallKE=sim.wallKE;
+  simB.pinHeat=sim.pinHeat;   // 第47便 47A(台帳4-86): pinned 熱浴の帳簿も A/B 複製で引き継ぐ
   // 第35便(台帳4-62): 積分器と echo の状態も転写(build 済みなので echoX0/Y0 は同一配置。
   // 反転済みフラグ・RMS だけは現在値を引き継ぐ — A/B を反転後に開始しても再反転しない)
   simB.integrator=sim.integrator; simB.echoFlipAt=sim.echoFlipAt;
@@ -7798,11 +7828,13 @@ const VERIFY = {
       Escale+=s.params.G*s.m[i]*s.m[j]/Math.sqrt(dx*dx+dy*dy+s.params.softening*s.params.softening);
     }
     const U0=urepEnergy(s);
-    const E0=energyOf(s)+s.radE;
+    // 第47便 47A(台帳4-86): pinned 熱浴のリザーバ pinHeat を保持量に加える。V30 の構成に
+    // pinned は無いので pinHeat は厳密に 0 のまま(この行は式の完全性のためで、判定値は不変)
+    const E0=energyOf(s)+s.radE+s.pinHeat;
     for(let k=0;k<1000;k++) s.step(DT);
     let Eint1=0; for(let i=0;i<s.n;i++) Eint1+=C*s.m[i]*s.Tint[i];
     const U1=urepEnergy(s);
-    const E1=energyOf(s)+s.radE;
+    const E1=energyOf(s)+s.radE+s.pinHeat;
     const resid=Math.abs(E1-E0)/Escale;
     // 閾値は V10 と同じ 7.5e-4(同一構成・同一散逸チャネル。tint 側の実測残差は detail に出る)。
     // U_rep が実際に大きく動いている(=判定が空回りしていない)ことも同時に確認する
@@ -7887,8 +7919,11 @@ const VERIFY = {
       return {K, H, Ug:U, Ur:urepEnergy(s)};
     };
     // 系のエネルギー + 外部帳簿(壁が入れた熱を引き、壁が回収した熱・壁が吸った運動E・放射を足す)
+    // 第47便 47A(台帳4-86): pinned 熱浴のリザーバ pinHeat も外部帳簿に加える。V32 の構成に
+    // pinned は無い(冒頭コメント参照)ので pinHeat は厳密に 0 のままだが、「pinned があっても
+    // 閉じる」という案B の主張に合わせて式を完全形にしておく
     const total=()=>{ const p=parts();
-      return p.K+p.H+p.Ug+p.Ur + s.radE + s.wallKE + s.wallEout - s.wallEin; };
+      return p.K+p.H+p.Ug+p.Ur + s.radE + s.wallKE + s.wallEout - s.wallEin + s.pinHeat; };
     let scale=0;
     const smp=()=>{ const p=parts(); const v=p.K+p.H+p.Ur+Math.abs(p.Ug); if(v>scale) scale=v; };
     const Tmean=()=>{ let a=0; for(let i=0;i<s.n;i++) a+=s.Tint[i]; return a/s.n; };
