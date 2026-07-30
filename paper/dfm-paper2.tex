@@ -10,6 +10,15 @@
 %              docs/DERIVATIONS.md Sec. 17, beta v1.34 (V29 PASS).
 % Title: option (c), adopted by author decision (dispatch 44,
 %        2026-07-29).
+% v0.7: verification read (dispatch 50): Fig.8 caption's dangling
+%        "quoted above" reference to 1.332 fixed (the text now quotes
+%        the beta 1.331; the release value stays as a cross-check);
+%        verification-map outer boost aligned to the submission target
+%        (1.331); claims.sync count refreshed (33 -> 36; 45 checked
+%        rows); the 4-66 comparison experiment is now implemented
+%        (tests/exp-4-66.mjs, all four predeclared criteria met) and
+%        the text updated from "specified as a design document" to
+%        implemented-with-recorded-run.
 % v0.6: second review round applied (dispatch 48): estimator-bias
 %        framing (abstract/conclusion, +7.6% fractional difference);
 %        n_eff(phi_B) instead of d~a^{2phi_B}; freebox q=1 scope and
@@ -61,7 +70,7 @@
 \author{Tetsuya Imamura}
 \affiliation{Independent researcher, Japan}
 
-\date{2026-07-30 (draft v0.6)}
+\date{2026-07-30 (draft v0.7)}
 
 \begin{abstract}
 We extend Determinacy-Field Mechanics (DFM), a two-dimensional
@@ -501,8 +510,11 @@ $R\propto a^{-d_P}$ exactly, both probes would coincide identically
 vanish.
 The comparison experiment that separates the two forms---an
 $a\times D/K_t$ scan of Eq.~(\ref{eq:ratio}) against the constant
-line---is specified as a design document in the repository and doubles
-as the data source for Fig.~6.
+line---is specified as a design document in the repository and
+implemented as a standalone experiment script; its recorded run meets
+all four predeclared criteria (exponential-series accuracy, control
+identity, curve separation above $10\sigma$, and the V29 regression
+gate), and its output doubles as the data source for Fig.~6.
 The choice between the two laws is thus \emph{observable from inside
 the model}, which is the pedagogical point: what looks like a
 measurement discrepancy can be a statement about which decay law
@@ -619,8 +631,8 @@ to audit.
   (b)~The ratio of the two, i.e.\ the enhancement attributable to
   dragging: $1.58$ at $r\approx121$ falling to $1.16$ at
   $r\approx251$. The band-averaged outer boost over the gate's window
-  $r\in[156,286]$ is $1.331\pm0.009$ on the beta target used here,
-  against the $1.332\pm0.009$ quoted above from the release target.}
+  $r\in[156,286]$ is $1.331\pm0.009$ on the beta target used here
+  (the release target v1.33 gives $1.332\pm0.009$).}
   \label{fig:curve}
 \end{figure}
 
@@ -703,8 +715,8 @@ A/B/C wavelengths ($<10^{-9}$) & \texttt{box.photon-abc} \\
 free box ($a_{\mathrm{eff}}=2.18$; closed books) & \texttt{freebox.*} \\
 arrow of time ($1.3\times10^{-3}$ vs.\ $10.8$) & \texttt{echo.*} \\
 darkness orthogonality; sweep-out & derivations Sec.~17 \\
-outer boost $1.332\pm0.009$; profile & seeds statistics \\
-claim--text consistency (33 claims) & \texttt{claims.sync} \\
+outer boost $1.331\pm0.009$; profile & seeds statistics \\
+claim--text consistency (36 claims) & \texttt{claims.sync} \\
 figures (21 gates) & {\small\texttt{p2figs-gates.json}} \\
 \end{tabular}
 \end{center}
