@@ -1699,35 +1699,43 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:true,trail:true,trailTargets:"sampled",monitor:true} },
 
 { id:"merger", name:"銀河合体と潮汐効果", emoji:"🌠", group:"銀河",
-  description:"2つの回転円盤銀河が接近・合体する過程。潮汐尾の形成、衝突による加熱(A9のスピン変換)、角運動量の再分配、合体後の回転曲線を観察できる。kFrame=1のフレームドラッギング(A8)が合体ダイナミクスに効く — 0にすると引きずりなしの純重力合体と比較できる(おすすめA/B)。※第40便 40C の因果対照(3000步・同一初期配置)で効き所の内訳を測った: 引きずりの効きは**スピン加熱に集中**しており(平均|spin| は kFrame=1 で 0 の 1.9〜2.2倍)、**核どうしの接近そのものはほとんど変わらない**(核間距離の差 0.5%)。潮汐尾は同じ窓で「自分の核から初期円盤半径の1.5倍より外」の円盤粒子が 0%→3.7% まで育つ(QA behavior.merger-causal)。円盤は回転支持(kepler)で初期化してある。",
-  en:{name:"Galaxy Merger & Tidal Effects", description:"Two rotating disk galaxies approach and merge. Watch tidal tails form, collisions heat the disks (spin conversion, A9), angular momentum redistribute, and the remnant's rotation curve settle. Frame dragging at kFrame=1 (A8) shapes the merger — set kFrame to 0 to compare a drag-free, gravity-only merger (suggested A/B). The causal control added in 40C of the 40th delivery (3000 steps, identical initial layout) pins down where the dragging actually acts: it concentrates in spin heating (mean |spin| is 1.9–2.2× larger at kFrame=1 than at 0), while the approach of the two nuclei themselves barely changes (0.5% difference in their separation). Over the same window the tidal tail grows from 0% to 3.7% of disk particles beyond 1.5× their initial disk radius (QA behavior.merger-causal). The disks are initialized rotation-supported (kepler)."},
+  description:"2つの回転円盤銀河が接近・合体する過程。潮汐尾の形成、衝突による加熱(A9のスピン変換)、角運動量の再分配、合体後の回転曲線を観察できる。kFrame=1のフレームドラッギング(A8)が合体ダイナミクスに効く — 0にすると引きずりなしの純重力合体と比較できる(おすすめA/B)。※第40便 40C の因果対照を、第50便 50I の新配置(初期から両銀河が画面内・核間302・円盤100/80粒で負荷1/2)で再実測した(3000步・同一初期配置): 引きずりの効きはまず**スピン加熱に集中**し(平均|spin| は kFrame=1 で 0 の 3.1倍)、**接近期(核間283→199)の核どうしの接近はほとんど変わらない** — 接近期の核間距離の差 3.0%。深い接触期にはじめて軌道にも効き、核間距離の差は3000步で 11.5% へ拡大する(効きの現れる時期の内訳ごと機械固定)。潮汐尾は「自分の核から初期円盤半径の1.5倍より外」の円盤粒子が 0%→4.4%まで育つ(QA behavior.merger-causal)。円盤は回転支持(kepler)で初期化してある。",
+  en:{name:"Galaxy Merger & Tidal Effects", description:"Two rotating disk galaxies approach and merge. Watch tidal tails form, collisions heat the disks (spin conversion, A9), angular momentum redistribute, and the remnant's rotation curve settle. Frame dragging at kFrame=1 (A8) shapes the merger — set kFrame to 0 to compare a drag-free, gravity-only merger (suggested A/B). The 40C causal control was re-measured on the 50I layout (both galaxies on-screen from the start, nuclei 302 apart, disks of 100/80 grains at half the load; 3000 steps, identical initial layout): the dragging acts first and foremost through spin heating (mean |spin| is 3.1× larger at kFrame=1 than at 0), while during the approach phase (separation 283→199) the closing of the two nuclei barely changes — a 3.0% separation difference. Only in deep contact does the orbit respond, the separation difference growing to 11.5% by step 3000 (the timing of the effect is machine-pinned along with its size). The tidal tail grows from 0% to 4.4% of disk particles beyond 1.5× their initial disk radius (QA behavior.merger-causal). The disks are initialized rotation-supported (kepler)."},
   activeParams:["kFrame","G","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
-  // 第42便 42A(台帳4-78 A案): claims — 第40便 40C の因果対照で確定した数値(核間距離差・
-  // 潮汐尾成長)を機械可読化。窓は QA behavior.merger-causal の閾値(sepRel∈(1e-3,0.05)・
-  // tail15>0.02)に直結させる
+  // 第42便 42A(台帳4-78 A案)+第50便 50I 再実測: claims — 因果対照で確定した数値
+  // (接近期/深接触期の核間距離差・潮汐尾成長)を機械可読化。窓は QA behavior.merger-causal の
+  // 閾値(接近期 sepRel∈(5e-4,0.05)・tail15>0.02)に直結させる
   claims:[
-    { id:"merger.core-separation-diff", kind:"fixed-seed", metric:"coreSeparationRelDiff",
-      expected:{min:0.001, max:0.05}, descScale:0.01,   // 実測0.5%(behavior.merger-causal: 1e-3<差<5%)
-      descPattern:"核間距離の差 (\\d+(?:\\.\\d+)?)%", testId:"behavior.merger-causal" },
+    { id:"merger.core-separation-diff", kind:"fixed-seed", metric:"coreSeparationRelDiffApproach",
+      expected:{min:0.015, max:0.045}, descScale:0.01,   // 実測2.95%(接近期2000步・behavior.merger-causal: 5e-4<差<5%)
+      descPattern:"接近期の核間距離の差 (\\d+(?:\\.\\d+)?)%", testId:"behavior.merger-causal" },
+    { id:"merger.deep-contact-sep-diff", kind:"fixed-seed", metric:"coreSeparationRelDiffDeep",
+      expected:{min:0.09, max:0.14}, descScale:0.01,   // 実測11.5%(深接触期3000步)
+      descPattern:"(\\d+(?:\\.\\d+)?)% へ拡大", testId:"behavior.merger-causal" },
     { id:"merger.tidal-tail-growth", kind:"fixed-seed", metric:"tidalTailFraction",
-      expected:{min:0.0314, max:0.0426}, descScale:0.01,   // 実測3.7%(behavior.merger-causal: >2%)
+      expected:{min:0.0377, max:0.051}, descScale:0.01,   // 実測4.44%(behavior.merger-causal: >2%)
       descPattern:"(\\d+(?:\\.\\d+)?)%\\s*まで育つ", testId:"behavior.merger-causal" }
   ],
-  camera:{scale:160}, world:{boundary:"none",size:0},
+  camera:{scale:240}, world:{boundary:"none",size:0},   // 第50便 50I: 160→240(両銀河+円盤全体が初期状態から画面内に収まる)
   physics:{G:0.9, D0:4.5, kFrame:1, q:2, kRep:0.8, muF:0.45, gammaN:0.55, kappaS:0.12, Kt:90,   // 第26便: kFrame 0.55→1 / 第27便: q 1.8→2(整数冪の高速経路 −34%)・円盤 150/120(負荷改善 — 合計 4320→1681ms/600步・12000步 r90=159 有界を実測)
     cLight:70, bM:1, etaRad:0.0008, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:3.5, timeScale:1.8},
   bodies:[ // v1.13(付録M): 第6次提案(Grok #1)を内蔵化。v1.18: 円盤に bulkVx/Vy を付与し
            // 核と円盤が一体で並進するよう修正(旧: 核だけが動き円盤が置き去りになっていた)。
            // v1.24: vMode flat(vScale0.85=必要円軌道速度の1/4以下)で円盤が合体前に核へ
-           // 崩落していたため kepler(回転支持)へ修正 — 接近12000步まで保持率95%+を実測
-    {type:"single", rMul:1.2, m:920, x:-280,y:20, vx:1.35,vy:0.25, spin:0.09, pinned:false},
-    {type:"disk", rMul:1.2, n:150, cx:-280,cy:20, radius:95, mMin:0.25,mMax:1.6,
+           // 崩落していたため kepler(回転支持)へ修正 — 接近12000步まで保持率95%+を実測。
+           // 第50便 50I(原仮定者指摘): ①初期配置 x=∓280/240(双方画面外・核間520)を
+           // x=∓150/130(核間302 — camera 240 で初期から全体可視・合体到達も早い)へ
+           // ②円盤 150/120→100/80(力対 73.9k→33.1k = 負荷 2.2 分の 1)。接近速度は
+           // 総運動量ゼロ近傍を保って再配分(旧: 実効 px≈+140 の系全体ドリフトがあった)。
+           // 数値主張は同構成で再実測済み(QA behavior.merger-causal・claims)
+    {type:"single", rMul:1.2, m:920, x:-150,y:20, vx:1.1,vy:0.22, spin:0.09, pinned:false},
+    {type:"disk", rMul:1.2, n:100, cx:-150,cy:20, radius:95, mMin:0.25,mMax:1.6,
      spinMin:-0.6,spinMax:0.6, vMode:"kepler", aroundMass:920, vScale:1.0, direction:1,
-     bulkVx:1.35, bulkVy:0.25},
-    {type:"single", rMul:1.2, m:680, x:240,y:-35, vx:-1.65,vy:-0.35, spin:0.07, pinned:false},
-    {type:"disk", rMul:1.2, n:120, cx:240,cy:-35, radius:78, mMin:0.25,mMax:1.4,
+     bulkVx:1.1, bulkVy:0.22},
+    {type:"single", rMul:1.2, m:680, x:130,y:-25, vx:-1.49,vy:-0.3, spin:0.07, pinned:false},
+    {type:"disk", rMul:1.2, n:80, cx:130,cy:-25, radius:78, mMin:0.25,mMax:1.4,
      spinMin:-0.5,spinMax:0.5, vMode:"kepler", aroundMass:680, vScale:1.0, direction:-1,
-     bulkVx:-1.65, bulkVy:-0.35}
+     bulkVx:-1.49, bulkVy:-0.3}
   ],
   overlays:{rotationCurve:true,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"} },
 

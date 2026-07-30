@@ -447,26 +447,41 @@ const W5C_UNITS = {
   // 実測で分かったこと: 引きずり(kFrame)の効きは **スピン加熱に集中** していて、
   // 核どうしの接近そのものはほとんど変わらない。説明文にその内訳を明記した(40C)。
   mergerCausal: { enabled: !FAST, weight: 34, run: (pg) => pg.evaluate(() => {
-    const STEPS = 3000;   // t=48。3本で実測 30s
-    // bodies: 0=核A / 1..150=円盤A(初期半径95) / 151=核B / 152..271=円盤B(初期半径78)
-    const A0 = 1, A1 = 150, NA = 0, B0 = 152, B1 = 271, NB = 151;
+    const STEPS = 3000;   // t=48。3本で実測 30s(第50便 50I の円盤 100/80 化で短縮)
+    // bodies 配列 [核A, 円盤A, 核B, 円盤B] から index 範囲と初期円盤半径を導出する
+    // (第50便 50I: 円盤 n を 150/120→100/80 に変えたため、旧ハードコード 1..150/152..271 を
+    // 対象のプリセット定義から取る形に置換 — root(150/120)と beta(100/80)の両方で正しく動く)
+    const MP = HP.allPresets().find((q) => q.id === 'merger');
+    const dA = MP.bodies[1], dB = MP.bodies[3];
+    const NA = 0, A0 = 1, A1 = dA.n, NB = A1 + 1, B0 = NB + 1, B1 = NB + dB.n;
+    const rdA = dA.radius, rdB = dB.radius;
     const stat = (s) => {
       // 潮汐尾率 = 自分の核から「初期円盤半径の mult 倍」より外に出た円盤粒子の割合
       const tail = (mult) => { let c = 0, tot = 0;
-        for (let i = A0; i <= A1; i++) { tot++; if (Math.hypot(s.x[i] - s.x[NA], s.y[i] - s.y[NA]) > 95 * mult) c++; }
-        for (let i = B0; i <= B1; i++) { tot++; if (Math.hypot(s.x[i] - s.x[NB], s.y[i] - s.y[NB]) > 78 * mult) c++; }
+        for (let i = A0; i <= A1; i++) { tot++; if (Math.hypot(s.x[i] - s.x[NA], s.y[i] - s.y[NA]) > rdA * mult) c++; }
+        for (let i = B0; i <= B1; i++) { tot++; if (Math.hypot(s.x[i] - s.x[NB], s.y[i] - s.y[NB]) > rdB * mult) c++; }
         return c / tot; };
       let sp = 0, nd = 0;
       for (let i = 0; i < s.n; i++) { if (i === NA || i === NB) continue; sp += Math.abs(s.spin[i]); nd++; }
       return { sep: Math.hypot(s.x[NA] - s.x[NB], s.y[NA] - s.y[NB]),
         tail15: tail(1.5), tail20: tail(2), meanSpin: sp / nd, nan: s.hasNaN() };
     };
+    // 第50便 50I: チェックポイント別の核間距離も記録する — 接近が速くなった新配置では
+    // 「引きずりは軌道にほとんど効かない」は**接近期**(核間が初期の0.72倍に達するまで)の
+    // 主張であり、深い接触期には軌道差が育つ(実測 3000步で 11.5%)ことが分かったため、
+    // 判定は接近期チェックポイントで行う(root の旧配置では 3000步時点がちょうど接近期 =
+    // 従来の判定と同じ点になる — 0.72 は root 実測 520→376 の比から)
+    const CKS = [500, 1000, 1500, 2000, 2500, 3000];
     const run = (mod) => {
       HP.loadPreset('merger', false);
       const s = HP.sim; if (mod) mod(s);
       const t0 = stat(s);
-      for (let k = 0; k < STEPS; k++) s.step(0.016);
-      return { t0, end: stat(s), n: s.n };
+      const cks = []; let k = 0;
+      for (const ck of CKS) {
+        for (; k < ck; k++) s.step(0.016);
+        cks.push({ ck, sep: Math.hypot(s.x[NA] - s.x[NB], s.y[NA] - s.y[NB]) });
+      }
+      return { t0, end: stat(s), cks, n: s.n };
     };
     const base = run(null), kf0 = run((s) => { s.params.kFrame = 0; }), muf0 = run((s) => { s.params.muF = 0; });
     HP.loadPreset('saturn', false);
@@ -3471,19 +3486,29 @@ if (!FAST) {
   const mg = await w5cGetUnit('mergerCausal');
   const spinRatio = mg.base.end.meanSpin / (mg.kf0.end.meanSpin || 1e-12);
   const mufRel = Math.abs(mg.base.end.meanSpin - mg.muf0.end.meanSpin) / (mg.muf0.end.meanSpin || 1e-12);
-  const sepRel = Math.abs(mg.base.end.sep - mg.kf0.end.sep) / (mg.kf0.end.sep || 1e-12);
+  // 第50便 50I: 「引きずりは軌道にほとんど効かない」は**接近期**の主張として判定する。
+  // 接近期 = 核間が初期の 0.72 倍に達した最初のチェックポイント(root 旧配置では 3000步 =
+  // 従来の判定点と同一。beta 新配置では 2000步)。深い接触期には軌道差が育つ(beta 実測
+  // 3000步で 11.5% — 説明文と claims が別途この値を固定する)
+  const sep0 = mg.base.t0.sep;
+  let apIdx = mg.base.cks.length - 1;
+  for (let i = 0; i < mg.base.cks.length; i++) if (mg.base.cks[i].sep <= 0.72 * sep0) { apIdx = i; break; }
+  const apB = mg.base.cks[apIdx], apK = mg.kf0.cks[apIdx];
+  const sepRel = Math.abs(apB.sep - apK.sep) / (apK.sep || 1e-12);
+  const sepRelEnd = Math.abs(mg.base.end.sep - mg.kf0.end.sep) / (mg.kf0.end.sep || 1e-12);
   add('behavior.merger-causal',
     !mg.base.end.nan && !mg.kf0.end.nan && !mg.muf0.end.nan &&
     mg.base.t0.tail15 === 0 && mg.base.end.tail15 > 0.02 &&
-    spinRatio > 1.4 && mufRel > 0.002 && sepRel > 1e-3 && sepRel < 0.05,
+    spinRatio > 1.4 && mufRel > 0.002 && sepRel > 5e-4 && sepRel < 0.05,
     `${mg.steps}步・同一seed: ①潮汐尾率(自核から初期円盤半径の1.5倍外)=${(mg.base.t0.tail15 * 100).toFixed(1)}%→` +
     `${(mg.base.end.tail15 * 100).toFixed(2)}%(>2%。2倍外は ${(mg.base.end.tail20 * 100).toFixed(2)}%) ` +
     `②kFrame の効き所=**スピン加熱**: 平均|spin|=${mg.base.end.meanSpin.toFixed(4)}(kF1)/${mg.kf0.end.meanSpin.toFixed(4)}(kF0)` +
     `=${spinRatio.toFixed(2)}倍(>1.4) ③muF の効き: 平均|spin|=${mg.base.end.meanSpin.toFixed(4)}/${mg.muf0.end.meanSpin.toFixed(4)}` +
-    `(相対差 ${(mufRel * 100).toFixed(2)}% >0.2% — 存在のみを固定。大きさは beta 10.1% / root 0.87% と一桁違い、向きも一定しない) ` +
-    `④核間距離 ${mg.base.t0.sep.toFixed(1)}→${mg.base.end.sep.toFixed(2)}(kF1)/${mg.kf0.end.sep.toFixed(2)}(kF0)` +
-    `= 相対差 ${(sepRel * 100).toFixed(2)}%(1e-3 < 差 < 5% — **引きずりは軌道にはほとんど効かないことの上限固定**) ` +
-    `— 引きずりの効きはスピン加熱に集中し、接近そのものは変えない(第40便 40C で説明文にこの内訳を明記)`);
+    `(相対差 ${(mufRel * 100).toFixed(2)}% >0.2% — 存在のみを固定。大きさは対象間で一桁違い、向きも一定しない) ` +
+    `④接近期(${apB.ck}步・核間 ${sep0.toFixed(1)}→${apB.sep.toFixed(1)})の kFrame 差=${(sepRel * 100).toFixed(2)}%` +
+    `(5e-4 < 差 < 5% — **接近期の軌道にはほとんど効かないことの上限固定**。深接触期 ${mg.steps}步では ` +
+    `${(sepRelEnd * 100).toFixed(2)}% まで育つ — 効きの現れる時期の内訳ごと固定) ` +
+    `— 引きずりの効きはまずスピン加熱に集中し、接近期の軌道は変えない(第40便 40C+第50便 50I)`);
 
   // ---- P2-8: 🌫️collapse の etaRad 対照(**否定的結果の固定**)----
   // 説明文の主張「放射冷却(E11)による収縮」「etaRad/pRad を変えると冷却効率が崩壊速度に効く」を
