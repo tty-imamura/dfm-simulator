@@ -1,26 +1,26 @@
 {
-  "when": "2026-07-30T06:18:55.414Z",
+  "when": "2026-07-30T11:51:16.675Z",
   "threshold": 1.1,
   "reps": 5,
   "frames": 60,
   "results": [
     {
       "id": "galaxy",
-      "rootMs": 2122.7,
-      "betaMs": 2380,
-      "ratio": 1.121,
+      "rootMs": 2039.9,
+      "betaMs": 1945.1,
+      "ratio": 0.954,
       "limit": 1.1,
       "stepsPerFrameRoot": 6,
       "stepsPerFrameBeta": 6,
       "nRoot": 381,
       "nBeta": 381,
-      "pass": false
+      "pass": true
     },
     {
       "id": "darkrotor",
-      "rootMs": 1570.1,
-      "betaMs": 1409.2,
-      "ratio": 0.898,
+      "rootMs": 1341.5,
+      "betaMs": 1340.4,
+      "ratio": 0.999,
       "limit": 1.1,
       "stepsPerFrameRoot": 4,
       "stepsPerFrameBeta": 4,
@@ -30,9 +30,9 @@
     },
     {
       "id": "merger",
-      "rootMs": 748.6,
-      "betaMs": 716.1,
-      "ratio": 0.957,
+      "rootMs": 654,
+      "betaMs": 645.6,
+      "ratio": 0.987,
       "limit": 1.1,
       "stepsPerFrameRoot": 4,
       "stepsPerFrameBeta": 4,
@@ -42,9 +42,9 @@
     },
     {
       "id": "convection",
-      "rootMs": 1439.5,
-      "betaMs": 1461.6,
-      "ratio": 1.015,
+      "rootMs": 1197.5,
+      "betaMs": 1159,
+      "ratio": 0.968,
       "limit": 1.1,
       "stepsPerFrameRoot": 4,
       "stepsPerFrameBeta": 4,
@@ -54,21 +54,21 @@
     },
     {
       "id": "counterring",
-      "rootMs": 209.1,
-      "betaMs": 231.3,
-      "ratio": 1.106,
+      "rootMs": 162.5,
+      "betaMs": 162.4,
+      "ratio": 0.999,
       "limit": 1.1,
       "stepsPerFrameRoot": 4,
       "stepsPerFrameBeta": 4,
       "nRoot": 201,
       "nBeta": 201,
-      "pass": false
+      "pass": true
     },
     {
       "id": "saturnLayered",
-      "rootMs": 1363.9,
-      "betaMs": 1231.8,
-      "ratio": 0.903,
+      "rootMs": 1239.8,
+      "betaMs": 748.7,
+      "ratio": 0.604,
       "limit": 1.1,
       "stepsPerFrameRoot": 6,
       "stepsPerFrameBeta": 6,
@@ -78,9 +78,9 @@
     },
     {
       "id": "echo",
-      "rootMs": 15,
-      "betaMs": 15.5,
-      "ratio": 1.033,
+      "rootMs": 13.1,
+      "betaMs": 13.6,
+      "ratio": 1.038,
       "limit": 1.1,
       "stepsPerFrameRoot": 4,
       "stepsPerFrameBeta": 4,
@@ -90,15 +90,15 @@
     },
     {
       "id": "freebox",
-      "rootMs": 60.9,
-      "betaMs": 53.9,
-      "ratio": 0.885,
+      "rootMs": 48.3,
+      "betaMs": 55.9,
+      "ratio": 1.157,
       "limit": 1.1,
       "stepsPerFrameRoot": 4,
       "stepsPerFrameBeta": 4,
       "nRoot": 72,
       "nBeta": 72,
-      "pass": true
+      "pass": false
     }
   ],
   "informational": []
