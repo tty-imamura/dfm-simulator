@@ -175,6 +175,7 @@
   #classChips .classChip[data-g=tint]{border-color:var(--hot);color:var(--hot);}
   /* 第45便 45C(台帳4-85): 強場トイ領域バッジ(ψ_static>0.5 のみ)— 注意喚起として err 系統 */
   #classChips .classChip[data-g=strongfield]{border-color:var(--err);color:var(--err);}
+  #classChips .classChip[data-g=drag]{border-color:var(--acc);color:var(--acc);}   /* 第51便 51B: 引きずりタグ */
   /* 第43便 43A(台帳4-78 B案): 数値主張(claims)の折畳み表示 — 分類バッジの直下、claims を
      持つプリセットにのみ表示。表示専用(物理・保存 JSON には無関係)。details.advParams と
      同系統の見た目を流用しつつ独立クラス化。長い数値行でも横スクロールが出ないよう break を許可 */
@@ -624,6 +625,8 @@ ja: {
   bdgClosed:"閉鎖系", bdgClosedTip:"閉鎖系 — 固定・規定運動なし。運動量・角運動量は系内(+遠方宇宙の帳簿)で閉じる。",
   // 第39便 39E(台帳4-75 E1): 温度モデルバッジ — thermal:"tint" のサンプルにだけ表示(表示のみ・物理不変)
   bdgTint:"温度=T_int", bdgTintTip:"温度を内部状態変数 T_int として扱う(A9′)— スピンと独立で、エネルギー帳簿が閉じる。無印のサンプルは旧来の「スピン=熱」方式",
+  // 第51便 51B(原仮定者指示): 引きずりタグ — kFrame>0 の系
+  bdgDrag:"引きずり", bdgDragTip:"kFrame>0 — 回る質量が周囲の空間(決定フレーム)を引きずる効果(A8/E6′)が働く系。kFrame を 0 にすると引きずりなしの対照実験になる",
   // 第45便 45C(台帳4-85): 強場トイ領域バッジ — ψ_static=max(D/Kt, 各天体のm/(max(R,ε)Kt))>0.5 のときだけ表示
   bdgStrongField:"⚠強場トイ領域", bdgStrongFieldTip:"|ψ|≳0.5 — 弱場GR較正(n≈1+2ψ)の適用外の強場トイ設定。閾値0.5は理論境界ではなく注意喚起の運用基準",
   // 第39便 39E(台帳4-75 E2): 有効時間窓マーカー(HUD)— sim.t が validT を超えたときだけ HUD に追記
@@ -812,6 +815,8 @@ en: {
   bdgClosed:"Closed system", bdgClosedTip:"Closed system — no constraints or prescribed motion. Momentum and angular momentum close within the system (plus the distant-universe ledger).",
   // 39th flight 39E (ledger 4-75 E1): temperature-model badge — shown only for thermal:"tint" samples (display only, physics unchanged)
   bdgTint:"T=T_int", bdgTintTip:"Temperature is treated as an internal state variable T_int (A9′) — independent of spin, so the energy ledger stays closed. Unmarked samples use the older \"spin = heat\" scheme.",
+  // 第51便 51B: dragging tag — systems with kFrame>0
+  bdgDrag:"dragging", bdgDragTip:"kFrame>0 — spinning masses drag the surrounding space (the determinacy frame, A8/E6′). Set kFrame to 0 for a drag-free control.",
   // 45th flight 45C (ledger 4-85): strong-field toy-regime badge — shown only when
   // psi_static = max(D/Kt, each body's m/(max(R,eps)*Kt)) > 0.5
   bdgStrongField:"⚠Strong-field toy regime", bdgStrongFieldTip:"|ψ|≳0.5 — a strong-field toy setting outside the weak-field GR calibration (n≈1+2ψ). The 0.5 threshold is an advisory convention, not a theoretical boundary",
@@ -5896,7 +5901,8 @@ function getCustomPresets(){
 function setCustomPresets(a){ localStorage.setItem("hp_custom_presets",JSON.stringify(a)); }
 function allPresets(){ return BUILTIN_PRESETS.concat(getCustomPresets()); }
 // 第21便: プルダウン表示用の kFrame タグ(physics 未保持の項目は付けない)
-function kfTag(ph){ return (ph && typeof ph.kFrame==="number")? " (kF="+(+ph.kFrame)+")" : ""; }
+// 第51便 51B(原仮定者指示): プルダウンの「(kF=1)」表示(kfTag)は廃止 — kFrame の有無は
+// 説明タブの分類チップ「引きずり」(bdgDrag)が引き継ぐ
 function rebuildPresetSelect(selId){
   const sel=$("#presetSelect"); sel.textContent="";
   // 内蔵プリセットは group ごとの optgroup(付録E E4。配列順=表示順)
@@ -5906,13 +5912,13 @@ function rebuildPresetSelect(selId){
     if(g!==curGroup){ curGroup=g; og=document.createElement("optgroup"); og.label=gName(g); sel.appendChild(og); }
     const o=document.createElement("option");
     // 第21便(原仮定者指示): サンプルの kFrame を選択時に判別できるよう名前へ (kF=N) を付記
-    o.value=p.id; o.textContent=(p.emoji||"")+" "+pName(p)+kfTag(p.physics); og.appendChild(o);
+    o.value=p.id; o.textContent=(p.emoji||"")+" "+pName(p); og.appendChild(o);
   });
   const customs=getCustomPresets();
   if(customs.length){
     const og2=document.createElement("optgroup"); og2.label=gName("AI生成");
     customs.forEach(p=>{ const o=document.createElement("option");
-      o.value=p.id; o.textContent="🤖 "+(p.emoji||"")+" "+pName(p)+kfTag(p.physics); og2.appendChild(o); });
+      o.value=p.id; o.textContent="🤖 "+(p.emoji||"")+" "+pName(p); og2.appendChild(o); });
     sel.appendChild(og2);
   }
   // v1.17: 保存一覧もプルダウンから直接開けるように(AI生成とカテゴリを分離)
@@ -5920,7 +5926,7 @@ function rebuildPresetSelect(selId){
   if(saves.length){
     const og3=document.createElement("optgroup"); og3.label=gName("保存一覧");
     saves.forEach((s,idx)=>{ const o=document.createElement("option");
-      o.value="save#"+idx; o.textContent="💾 "+(s.name||T("untitled"))+kfTag(s.physics); og3.appendChild(o); });
+      o.value="save#"+idx; o.textContent="💾 "+(s.name||T("untitled")); og3.appendChild(o); });
     sel.appendChild(og3);
   }
   if(selId) sel.value=selId;
@@ -7126,27 +7132,8 @@ $("#btnLang").addEventListener("click",()=>{
 function renderHelp(){
   const el=$("#helpBody"); el.textContent="";
   const mk=(tag,txt)=>{const e=document.createElement(tag); e.textContent=txt; el.appendChild(e); return e;};
-  mk("h4",(currentPreset.emoji||"")+" "+pName(currentPreset));
-  // 第50便 50K(台帳4-78 C案): descStruct があれば 要約/観察/操作 の3区分で表示
-  // (内容は description の純分割 — 無いプリセットは従来どおり平文1段落)
-  const ds=pDescStruct(currentPreset);
-  if(ds){
-    const sect=(headKey,txt)=>{ if(!txt || !txt.trim()) return;
-      mk("p",T(headKey)).className="descSectHead";
-      mk("p",txt.trim()); };
-    sect("descSummaryHead",ds.summary);
-    sect("descObserveHead",ds.observe);
-    sect("descControlHead",ds.control);
-  } else mk("p",pDesc(currentPreset));
-  // v1.13 理論解説パネル: 説明文中の法則参照(A8 等)を自動抽出して1行解説を表示(付録M)
-  const refs=extractLawRefs(currentPreset.description||"");
-  if(refs.length){
-    mk("h4",T("helpTheory"));
-    for(const r of refs) mk("p","・"+r+" — "+lawText(r));
-    mk("p",T("helpTheoryNote")).style.color="var(--dim)";
-  }
-  // 第35便 W4(台帳4-54): サンプル分類バッジ — 「外部要素(自動判定)」見出しの直上にチップ列で表示。
-  // 既存の箇条書き(下記)は詳細のまま残し、バッジは要約という位置づけ
+  // 第51便 51B(原仮定者指示): 表示順を「タグ(分類チップ)→タイトル→数値主張(claims)→本文」へ
+  // 組み替え。各ブロックの中身は不変 — 並びだけの変更(タグと数値主張を本文より先に見せる)
   const cls=classifyPreset(currentPreset);
   const chipRow=document.createElement("div"); chipRow.id="classChips";
   const addChip=(g,label,tip)=>{
@@ -7169,9 +7156,14 @@ function renderHelp(){
   // 「物理対応ロック(Kt=c²/G)」とは別概念(#physLockBadge・パラメータタブ)— 混同しないよう
   // 弱場展開の適用外であることだけを言う独立チップにする(併存しうる: ロックあり+強場も可)
   if(cls.strongField) addChip("strongfield",T("bdgStrongField"),T("bdgStrongFieldTip"));
+  // 第51便 51B(原仮定者指示): 引きずりタグ — kFrame>0 の系に表示(A8/E6′ が働く系の目印。
+  // 0にすると引きずりなしの対照になることをツールチップで案内)
+  if(currentPreset.physics && currentPreset.physics.kFrame>0) addChip("drag",T("bdgDrag"),T("bdgDragTip"));
   el.appendChild(chipRow);
-  // 第43便 43A(台帳4-78 B案): 数値主張(claims)の表示 — claims を持つプリセットにのみ、分類
-  // バッジの直下へ折畳みで追加。表示専用(claims を読むだけ・物理/保存 JSON には無関係)。
+  // タイトル(第51便 51B: チップの直後へ移動)
+  mk("h4",(currentPreset.emoji||"")+" "+pName(currentPreset));
+  // 第43便 43A(台帳4-78 B案): 数値主張(claims)の表示 — claims を持つプリセットにのみ追加。
+  // 表示専用(claims を読むだけ・物理/保存 JSON には無関係)。
   // 各行は「metric: 期待域 min〜max(対照: min〜max)」+ testId があれば小さく「QA: <testId>」
   if(Array.isArray(currentPreset.claims) && currentPreset.claims.length){
     const det=document.createElement("details"); det.id="claimsDetails"; det.className="claimsDetails";
@@ -7198,6 +7190,24 @@ function renderHelp(){
     const note=document.createElement("p"); note.className="note"; note.textContent=T("claimsNote");
     det.appendChild(note);
     el.appendChild(det);
+  }
+  // 本文(第51便 51B: 数値主張の後へ移動)。第50便 50K: descStruct があれば 要約/観察/操作 の
+  // 3区分で表示(内容は description の純分割 — 無いプリセットは従来どおり平文1段落)
+  const ds=pDescStruct(currentPreset);
+  if(ds){
+    const sect=(headKey,txt)=>{ if(!txt || !txt.trim()) return;
+      mk("p",T(headKey)).className="descSectHead";
+      mk("p",txt.trim()); };
+    sect("descSummaryHead",ds.summary);
+    sect("descObserveHead",ds.observe);
+    sect("descControlHead",ds.control);
+  } else mk("p",pDesc(currentPreset));
+  // v1.13 理論解説パネル: 説明文中の法則参照(A8 等)を自動抽出して1行解説を表示(付録M)
+  const refs=extractLawRefs(currentPreset.description||"");
+  if(refs.length){
+    mk("h4",T("helpTheory"));
+    for(const r of refs) mk("p","・"+r+" — "+lawText(r));
+    mk("p",T("helpTheoryNote")).style.color="var(--dim)";
   }
   // v1.15(第7次裁定): 外部要素バッジ — 固定粒子・レール・熱浴と閉鎖系を区別して表示(詳細=箇条書き)
   const ext=cls.external;
