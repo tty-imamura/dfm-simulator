@@ -1,0 +1,71 @@
+# 第47便 47P(外部レビュー Major 4): 論文2のビルド・図再生成を CI ゲート化。
+# paper/ または図生成スクリプトの変更時のみ実行(重い TeX インストールを常時走らせない)。
+# 内容: ①図8点を再生成し数値ゲート21件を assert ②再生成 JSON がコミット済み JSON と
+# データ一致(揮発キー generated/commit を除く)③英(pdflatex)・日(lualatex)を各2回
+# ビルドしエラー・未定義参照ゼロを assert。
+name: paper2
+on:
+  push:
+    paths:
+      - "paper/**"
+      - "tools/gen-figures2.mjs"
+      - ".github/workflows/paper2.yml"
+  pull_request:
+    paths:
+      - "paper/**"
+      - "tools/gen-figures2.mjs"
+      - ".github/workflows/paper2.yml"
+
+jobs:
+  paper2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+      - name: Install Playwright
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: Regenerate figures (asserts 21 numeric gates)
+        run: node tools/gen-figures2.mjs
+      - name: Assert figure data matches committed JSONs (volatile keys excluded)
+        run: |
+          set -e
+          for f in paper/figures/p2fig*.json paper/figures/p2figs-gates.json; do
+            git show HEAD:"$f" | node -e '
+              const read=s=>{const o=JSON.parse(s);const strip=x=>{if(x&&typeof x==="object"){delete x.generated;delete x.commit;for(const k in x)strip(x[k]);}return x};return JSON.stringify(strip(o));};
+              const fs=require("fs");
+              let head="";process.stdin.on("data",d=>head+=d).on("end",()=>{
+                const now=fs.readFileSync(process.argv[1],"utf8");
+                if(read(head)!==read(now)){console.error("MISMATCH: "+process.argv[1]);process.exit(1);}
+              });' "$f"
+          done
+          echo "figure data: committed == regenerated"
+      - name: Install TeX Live
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            texlive-latex-base texlive-latex-recommended texlive-publishers \
+            texlive-fonts-recommended texlive-lang-japanese texlive-luatex
+      - name: Build English (pdflatex x2, halt on error)
+        working-directory: paper
+        run: |
+          pdflatex -interaction=nonstopmode -halt-on-error dfm-paper2.tex
+          pdflatex -interaction=nonstopmode -halt-on-error dfm-paper2.tex
+          ! grep -i "undefined references\|undefined citations" dfm-paper2.log
+      - name: Build Japanese (lualatex x2, halt on error)
+        working-directory: paper
+        run: |
+          lualatex -interaction=nonstopmode -halt-on-error dfm-paper2-ja.tex
+          lualatex -interaction=nonstopmode -halt-on-error dfm-paper2-ja.tex
+          ! grep -i "undefined references\|undefined citations" dfm-paper2-ja.log
+      - name: Upload PDFs
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: paper2-pdfs
+          path: |
+            paper/dfm-paper2.pdf
+            paper/dfm-paper2-ja.pdf

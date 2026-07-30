@@ -10,6 +10,17 @@
 %              docs/DERIVATIONS.md Sec. 17, beta v1.34 (V29 PASS).
 % Title: option (c), adopted by author decision (dispatch 44,
 %        2026-07-29).
+% v0.5: external-review majors applied (dispatch 47): d_P restored in
+%        the abstract formula; the late-time mismatch statement
+%        corrected (|rho-1| is non-monotonic; agreement epoch
+%        a=2D/Kt~1.85); references added (Planck 2018, SH0ES 2022,
+%        tension review, SN time dilation, T_CMB(z), Mach/relational,
+%        FLRW friction, DM phenomenology, companion paper); arrow-of-
+%        time conclusion separated (dissipation vs numerical arrow);
+%        darkness -> operational optical mechanisms; V29 vs Fig.6
+%        accuracies distinguished; g(0) analytic-limit note; Hubble
+%        values with units/uncertainties; calibration provenance moved
+%        to acknowledgments.
 % v0.4: figures 1-8 machine-generated and embedded (dispatch 46, 46F).
 %        Two numbers corrected against the generator's gates:
 %        (i) the ray sweep-out switches OFF capture between s=0.6 and 0.7
@@ -42,7 +53,7 @@
 \author{Tetsuya Imamura}
 \affiliation{Independent researcher, Japan}
 
-\date{2026-07-30 (draft v0.4)}
+\date{2026-07-30 (draft v0.5)}
 
 \begin{abstract}
 We extend Determinacy-Field Mechanics (DFM), a two-dimensional
@@ -64,7 +75,7 @@ recollapses.
 (iii)~Most importantly, the model exhibits \emph{probe-dependent
 expansion measurement}: a geometric probe and a velocity-decay probe
 applied to the same box disagree by the analytic factor
-$H_w/H_{\mathrm{geo}}=2(D/K_t)\,a^{-d_P}$, verified numerically to
+$H_w/H_{\mathrm{geo}}=2(D/K_t)\,d_P\,a^{-d_P}$, verified numerically to
 $5.3\times10^{-4}$.
 With the single calibration $D/K_t=0.92$ the disagreement at $a=2$
 equals $0.92$, the same magnitude as the ratio of the two measured
@@ -86,8 +97,8 @@ in continuous integration.
 \section{Introduction}
 \label{sec:intro}
 
-The companion paper introduced Determinacy-Field Mechanics (DFM), an
-educational toy model in which space is purely relational: every
+The companion paper~\cite{DFM1} introduced Determinacy-Field
+Mechanics (DFM), an educational toy model in which space is purely relational: every
 mechanical property of a point is set by the surrounding masses
 through a scalar \emph{determinacy field} $W$, and inertia, gravity,
 clock rate, and light propagation are all read from it.
@@ -169,11 +180,16 @@ direction-projected position over sources gives
   \label{eq:gain}
 \end{equation}
 so the interior center couples to wall rotation and expansion with
-gain $g(0)=1/2$; the measured value agrees (gates V23a/V24a).
-This is the toy-model version of the classic relational statement:
-absolute uniform motion is meaningless, but absolute rotation and
-expansion of ``everything else'' are interior-observable through the
-frame they drag.
+gain $g(0)=1/2$.
+The value at the center is an analytic limit (the measured estimator
+is $0/0$ there); the innermost measured point of the radial scan,
+$r=20$, gives $g=0.5002$, and the agreement of the full scan with the
+analytic curve supports the limit (gates V23a/V24a).
+This is the toy-model version of the classic relational
+statement~\cite{Mach1893,BarbourBertotti1982}: absolute uniform
+motion is meaningless, but absolute rotation and expansion of
+``everything else'' are interior-observable through the frame they
+drag.
 Figure~\ref{fig:hierarchy} sketches the construction and
 Fig.~\ref{fig:gain} shows the measured gain against the analytic
 uniform-ring curve.
@@ -312,15 +328,16 @@ accelerate---with no claim of reproducing the Friedmann equations
 
 \subsection{Aside: an arrow of time in a reversible box}
 
-With the leapfrog integrator the model is exactly reversible: flipping
-all velocities and spins returns the initial state to RMS
-$1.3\times10^{-3}$.
-Turning on one dissipative channel ($\mu_F=0.3$) breaks the return
+With the leapfrog integrator the dynamics are operationally
+reversible to RMS $1.3\times10^{-3}$ over this finite test: flipping
+all velocities and spins returns the initial state to that accuracy.
+Turning on one dissipative channel ($\mu_F=0.3$) destroys the return
 (RMS $10.8$); the default semi-implicit integrator, though
-deterministic, fails to rewind by itself (RMS $0.92$, a $709\times$
+deterministic, also fails to rewind (RMS $0.92$, a $709\times$
 degradation).
-The arrow of time in the box is thus exhibited as a property of
-dissipation, not of the dynamics' determinism (gates
+The experiment thus separates determinism from reversibility:
+dissipation is one source of an arrow, and a non-time-symmetric
+discretization creates an additional, purely numerical arrow (gates
 \texttt{echo.*}).
 This section is deliberately brief; a fuller treatment is future
 work.
@@ -342,10 +359,10 @@ $c_{\mathrm{loc}}=c_0\,e^{-2\psi}$ with $\psi=W_B/K_t$, giving
   \label{eq:R}
 \end{equation}
 verified to $2.5\times10^{-4}$ at $a=2$ (V28).
-Measured against light---the only standard an interior observer
-has---free motion \emph{does} decay, in the same direction as the
-FLRW $w\propto1/a$ friction, although with a different functional
-form.
+Measured against light---one operational standard available to an
+interior observer---free motion \emph{does} decay, in the same direction as the
+FLRW $w\propto1/a$ friction~\cite{Peacock1999}, although with a
+different functional form.
 
 \subsection{Two probes, one box}
 \label{sec:v29}
@@ -371,6 +388,9 @@ windows ($a\colon1\to1.5\to2\to3$, $d_P=1$) and compares the measured
 ratio with the log-window average of Eq.~(\ref{eq:ratio}); the
 largest relative error is $5.3\times10^{-4}$ against a tolerance of
 $10^{-2}$, with $w$ conserved to $4.8\times10^{-4}$.
+The broader 24-window scan behind Fig.~\ref{fig:probeH} reaches a
+maximum relative deviation of $6.2\times10^{-3}$; the two accuracies
+are distinct, and both satisfy the predeclared $10^{-2}$ tolerance.
 Figure~\ref{fig:probeH} extends that gate into an
 $a\times(D/K_t)$ scan, following the comparison design 4-66 of the
 project's experiment ledger.
@@ -401,9 +421,13 @@ project's experiment ledger.
 \subsection{A structural analogy with the Hubble tension}
 \label{sec:tension}
 
-The two accepted measurements of the real Hubble constant disagree:
-$H_0=67.4$ (CMB fit) versus $73.0$ (local distance ladder),
-a ratio of $0.923$.
+Two representative determinations of the real Hubble constant
+disagree: $H_0=67.4\pm0.5\,\mathrm{km\,s^{-1}\,Mpc^{-1}}$ from the
+CMB fit under base $\Lambda$CDM~\cite{Planck2018} versus
+$H_0=73.04\pm1.04\,\mathrm{km\,s^{-1}\,Mpc^{-1}}$ from the local
+distance ladder~\cite{Riess2022}, a ratio of $0.923$; for the wider
+landscape of methods and systematics see
+Ref.~\cite{DiValentino2021}.
 In the box universe the calibration has an exact closed form: the
 choice that makes the ratio standard $R$ of Eq.~(\ref{eq:R}) fall to
 exactly $1/4$ at $a=4$ is
@@ -411,8 +435,8 @@ exactly $1/4$ at $a=4$ is
   \frac{D}{K_t}=\frac{\ln 4}{2\,(1-1/4)}=\tfrac{2}{3}\ln 4
   \approx 0.9242 ,
 \end{equation}
-first computed independently by an external review of the project
-(2026-07-26), and with it the probe ratio at $a=2$ is
+which follows directly from Eq.~(\ref{eq:R}), and with it the probe
+ratio at $a=2$ is
 \begin{equation}
   \frac{H_w}{H_{\mathrm{geo}}}\Big|_{a=2}=\frac{2D}{K_t}\cdot\frac12
   =\frac{D}{K_t}\approx 0.92 ,
@@ -460,10 +484,15 @@ the model}, which is the pedagogical point: what looks like a
 measurement discrepancy can be a statement about which decay law
 nature (here: the axiom set) actually uses.
 
-Because $\rho(a)\equiv2(D/K_t)a^{-d_P}$ falls with $a$, the
-disagreement is largest early and vanishes late, giving the toy model
-an early/late structure qualitatively reminiscent of the real
-tension's framing---again as structure, not as fit.
+One point must be stated carefully (it was mis-stated in an earlier
+draft and caught in external review): for $d_P=1$ the ratio
+$\rho(a)=2(D/K_t)/a$ decreases monotonically, but the probe
+\emph{mismatch} $|\rho-1|$ does not.
+The probes agree exactly once, at $a=2D/K_t\approx1.85$; the mismatch
+shrinks up to that epoch and grows again thereafter, with
+$H_w/H_{\mathrm{geo}}\to0$ as $a\to\infty$.
+The model therefore provides probe dependence, not a monotonic
+early-to-late relaxation of the discrepancy.
 
 % ---------------------------------------------------------------------
 \section{Optically dark gravitating bodies}
@@ -476,7 +505,15 @@ Here we assemble the model's \emph{darkness} mechanisms and ask,
 inside the model, which phenomenological requirements of dark matter
 a single object can meet.
 
-\subsection{Two independent darkness mechanisms}
+\subsection{Two independent optical mechanisms}
+
+``Dark'' is used operationally throughout this section: a body is dark
+to the extent that (i)~its \emph{self-emission} is suppressed and
+(ii)~its interaction with \emph{external} rays removes them from the
+observer rather than delivering an image.
+Absorption, scattering, transmission, and lensing are distinct
+observables; the model implements the two channels below and makes no
+claim about the others.
 
 \emph{Self-light dimming} (parameter \texttt{lightSweep}) attenuates
 the light a body emits; since v1.33 it can be computed from the spin
@@ -509,7 +546,7 @@ already saturated at $s=0.3$, where no sweep-out has begun
   approach being $123.4$ on the prograde side against $40.4$ on the
   retrograde side. The self-light channel is already saturated at
   $s=0.3$, where the non-escape rate is still $0.72$ --- the two
-  darkness mechanisms are independent. Under the physical lock
+  optical mechanisms are independent. Under the physical lock
   $K_t=c^2/G=3600$ the sweep-out is absent even at $s=2$.}
   \label{fig:sweep}
 \end{figure}
@@ -523,9 +560,12 @@ through dragging, with the radius-resolved profile showing the boost
 concentrated inward ($v/v_{\mathrm{bar}}$ enhancement from $1.58$ at
 $r\approx121$ to $1.16$ at $r\approx251$, eight-seed statistics;
 Fig.~\ref{fig:curve}).
-It therefore meets, \emph{inside the model}, the phenomenological
-requirements ``dark but gravitating, and relevant to rotation
-curves''.
+It therefore meets, \emph{inside the model}, a deliberately limited
+checklist---suppressed self-emission, removal of external rays, a
+gravitating mass, and a rotation-curve contribution---which is far
+short of the full phenomenology required of real dark matter
+(mass-to-light ratios, collisionlessness, lensing, structure
+formation~\cite{BertoneHooper2018}).
 The limits are measured with the same care: the inverse-design
 problem (choose parameters to hit a prescribed outer velocity) is
 accurate as a forward predictor (median residual ${\approx}2\%$) but
@@ -635,5 +675,48 @@ claim--text consistency (33 claims) & \texttt{claims.sync} \\
 figures (21 gates) & {\small\texttt{p2figs-gates.json}} \\
 \end{tabular}
 \end{center}
+
+\begin{acknowledgments}
+Independent automated external reviews of the repository (2026-07)
+cross-checked several results of this paper, including the closed form
+of the $D/K_t$ calibration and the corrections recorded in the v0.4
+and v0.5 change logs.
+\end{acknowledgments}
+
+\begin{thebibliography}{99}
+\bibitem{DFM1} T. Imamura, \emph{Determinacy-Field Mechanics: A
+Machian Toy Universe with Tunable Frame Dragging, Inverse-Square
+Gravity, and Clock-and-Light Sectors}, Zenodo (2026),
+doi:10.5281/zenodo.21454189.
+\bibitem{Mach1893} E. Mach, \emph{The Science of Mechanics} (Open
+Court, Chicago, 1893).
+\bibitem{BarbourBertotti1982} J. B. Barbour and B. Bertotti,
+``Mach's principle and the structure of dynamical theories,''
+Proc. R. Soc. Lond. A \textbf{382}, 295 (1982).
+\bibitem{Peacock1999} J. A. Peacock, \emph{Cosmological Physics}
+(Cambridge University Press, Cambridge, 1999).
+\bibitem{Leibundgut1996} B. Leibundgut \emph{et al.}, ``Time
+dilation in the light curve of the distant type Ia supernova
+SN 1995K,'' Astrophys. J. Lett. \textbf{466}, L21 (1996).
+\bibitem{Goldhaber2001} G. Goldhaber \emph{et al.}, ``Timescale
+stretch parameterization of type Ia supernova B-band light curves,''
+Astrophys. J. \textbf{558}, 359 (2001).
+\bibitem{Fixsen2009} D. J. Fixsen, ``The temperature of the cosmic
+microwave background,'' Astrophys. J. \textbf{707}, 916 (2009).
+\bibitem{Noterdaeme2011} P. Noterdaeme \emph{et al.}, ``The
+evolution of the cosmic microwave background temperature,''
+Astron. Astrophys. \textbf{526}, L7 (2011).
+\bibitem{Planck2018} Planck Collaboration, ``Planck 2018 results.
+VI. Cosmological parameters,'' Astron. Astrophys. \textbf{641}, A6
+(2020).
+\bibitem{Riess2022} A. G. Riess \emph{et al.}, ``A comprehensive
+measurement of the local value of the Hubble constant,''
+Astrophys. J. Lett. \textbf{934}, L7 (2022).
+\bibitem{DiValentino2021} E. Di Valentino \emph{et al.}, ``In the
+realm of the Hubble tension---a review of solutions,''
+Class. Quantum Grav. \textbf{38}, 153001 (2021).
+\bibitem{BertoneHooper2018} G. Bertone and D. Hooper, ``History of
+dark matter,'' Rev. Mod. Phys. \textbf{90}, 045002 (2018).
+\end{thebibliography}
 
 \end{document}
