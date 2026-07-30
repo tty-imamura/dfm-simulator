@@ -1267,13 +1267,17 @@ if (has40BSemanticSync) {
     const ledger = rp.log.length > 0 && rp.log.every(e => Math.abs(e.lamO / e.lamE - e.aO / e.aE) < 1e-9);
     const dT = (A && B) ? Math.abs(A.tO - B.tO) : NaN;
     const zStatic = rp.logS.length === 2 && rp.logS.every(e => Math.abs(e.z) < 1e-9);
+    // 第50便 50F(台帳4-90・ChatGPT 4.11): 到着同時性の閾値を <8 → <0.2 に厳格化。
+    // 実測 差=0.080(論文2 p2fig4.simultaneous と同値・root/beta 両対象で一致)に対し
+    // 旧閾値 8 は2桁緩く「ほぼ同時」の主張を機械固定できていなかった。0.2 は実測の2.5倍
+    // (光子1步の到達粒度 dt=0.016 の12倍)で、意味の変わらない範囲の余裕をみた値
     add('box.photon-abc',
       rp.log.length === 2 && !!A && !!B && !rp.nan && !rp.warn && ledger
-      && Math.abs(A.z - 3) < 0.3 && Math.abs(B.z - 1) < 0.15 && dT < 8 && zStatic,
+      && Math.abs(A.z - 3) < 0.3 && Math.abs(B.z - 1) < 0.15 && dT < 0.2 && zStatic,
       (A && B)
         ? `到着2件 A(t放出=${A.tE.toFixed(1)}) z_A=${A.z.toFixed(4)}(3±0.3) λ ${A.lamE}→${A.lamO.toFixed(1)}nm a ${A.aE.toFixed(4)}→${A.aO.toFixed(4)} / `
           + `B(t放出=${B.tE.toFixed(3)}) z_B=${B.z.toFixed(4)}(1±0.15) λ ${B.lamE}→${B.lamO.toFixed(1)}nm a ${B.aE.toFixed(4)}→${B.aO.toFixed(4)} / `
-          + `到着時刻 tO=${A.tO.toFixed(3)}・${B.tO.toFixed(3)} 差=${dT.toFixed(3)}(<8 ほぼ同時観測) `
+          + `到着時刻 tO=${A.tO.toFixed(3)}・${B.tO.toFixed(3)} 差=${dT.toFixed(3)}(<0.2 ほぼ同時観測 — 第50便 50F で厳格化) `
           + `帳簿|λ比−a比|<1e-9=${ledger} static対照 z=0=${zStatic} 残存光子=${rp.alive} 範囲外警告=${rp.warn}`
         : `到着ログ=${rp.log.length}件(期待2) NaN=${rp.nan}`);
 
