@@ -18,7 +18,11 @@
 %        rows); the 4-66 comparison experiment is now implemented
 %        (tests/exp-4-66.mjs, all four predeclared criteria met) and
 %        the text updated from "specified as a design document" to
-%        implemented-with-recorded-run.
+%        implemented-with-recorded-run. Observer-plane flux (ledger
+%        4-88) instrumented: Sec. V future-work statement replaced by
+%        the measured screen fluxes (baseline 0.28 / lock 0.30 /
+%        spin0 0.04 / spin2 0.12, retrograde redistribution +189,
+%        0.84 rad; gate ray.observer-flux).
 % v0.6: second review round applied (dispatch 48): estimator-bias
 %        framing (abstract/conclusion, +7.6% fractional difference);
 %        n_eff(phi_B) instead of d~a^{2phi_B}; freebox q=1 scope and
@@ -549,9 +553,21 @@ a single object can meet.
 to the extent that (i)~its \emph{self-emission} is suppressed and
 (ii)~its interaction with \emph{external} rays suppresses capture
 and sweeps the ray fan aside.
-What is measured below is capture suppression and angular sweep;
-observer-plane flux (which rays reach a detector, and how bright) is
-not yet instrumented and is left to future work.
+What is measured below is capture suppression and angular sweep,
+and---since this draft---the resulting \emph{observer-plane flux}: a
+vertical screen at $x=+300$ opposite the ray source counts which rays
+of the standard 50-ray fan arrive on-axis ($|y|\le60$; straight-line
+geometric baseline $0.28$).
+Under the physical lock $K_t=c^2/G$ the screen is bright (arrival
+rate $1.00$, on-axis fraction $0.30$, slightly focused above the
+baseline); the non-spinning strong-field core darkens it by capture
+(on-axis $0.04$, one seventh of the baseline); and the fast-spinning
+core stays dark at the observer even with capture eliminated
+(on-axis $0.12$), because the sweep redistributes the fan in angle
+toward the retrograde side (mean crossing ordinate $+189$, mean
+direction deviation $0.84$\,rad; gate \texttt{ray.observer-flux}).
+Which rays reach a detector, and how bright the body looks from
+behind, is thus now a measured quantity rather than future work.
 Absorption, scattering, transmission, and lensing are distinct
 observables; the model implements the two channels below and makes no
 claim about the others.
@@ -715,6 +731,7 @@ A/B/C wavelengths ($<10^{-9}$) & \texttt{box.photon-abc} \\
 free box ($a_{\mathrm{eff}}=2.18$; closed books) & \texttt{freebox.*} \\
 arrow of time ($1.3\times10^{-3}$ vs.\ $10.8$) & \texttt{echo.*} \\
 darkness orthogonality; sweep-out & derivations Sec.~17 \\
+observer-plane flux ($0.04/0.12$ vs $0.28$) & \texttt{ray.observer-flux} \\
 outer boost $1.331\pm0.009$; profile & seeds statistics \\
 claim--text consistency (36 claims) & \texttt{claims.sync} \\
 figures (21 gates) & {\small\texttt{p2figs-gates.json}} \\

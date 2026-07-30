@@ -6408,6 +6408,70 @@ if (hasSwAutoCb) {
   }
 }
 
+// ---- 50D) 第50便 50D(台帳4-88): ray.observer-flux — darkrotor 系の「暗さ」を観測面
+// ----      (observer screen)の光束で実測する。論文2 §V が「観測面光束は未計装 — future work」
+// ----      としていた測定を計装し、暗さ主張を観測者の位置で回復する(ChatGPT Major5)。
+// ----      構成: rotorSolo(behavior.rotorSolo と同一の光線条件 x0=-300・dl=2.7)で、
+// ----      x=+300 の鉛直スクリーンへの ①到達率 hitRate ②軸上光束 onAxisRate(|y|≤60 —
+// ----      幾何基準は直進光で 14/50=0.28)③角度再配分(横断点 y の平均・横断方向角)を測る。
+// ----      步数は 2000(340步は捕捉判定用の有限時間窓 — 観測面測定では非捕捉光線を
+// ----      決着させるため延長。捕捉判定そのものは behavior.rotorSolo の 340步窓が正)。
+// ----      判定: 物理対応ロック Kt=c²/G は明るい基準(到達率>0.95・軸上≥幾何基準×0.9)/
+// ----      spin0(強場)は捕捉で暗い(軸上<0.1)/ spin2 は捕捉ゼロでも掃き出しの角度再配分で
+// ----      暗い(軸上<0.2)+再配分は逆行側へ偏る(横断 y 平均>50・平均方向角>0.3rad)。
+// ----      軽い(光線のみ・粒子時間発展なし)ので QA_FAST でも実行する ----
+{
+  const hasRotorSolo2 = await page.evaluate(() => HP.allPresets().some(p => p.id === 'rotorSolo') && !!HP.traceRay);
+  if (hasRotorSolo2) {
+    const r = await page.evaluate(() => {
+      const s = HP.sim;
+      const P = (spin) => { const q = JSON.parse(JSON.stringify(HP.allPresets().find(x => x.id === 'rotorSolo')));
+        q.bodies[0].spin = spin; return q; };
+      const SCREEN = 300, AXIS = 60, MAXS = 2000;
+      const trace = (y0) => {
+        let cross = null, exit = null;
+        const t = HP.traceRay(s, -300, y0, 1, 0, 2.7, MAXS, (px, py) => {
+          if (px >= SCREEN) { cross = { x: px, y: py }; return false; }
+          if (px < -400 || Math.abs(py) > 800) { exit = { x: px, y: py }; return false; }
+        });
+        return { cross, exit, cx: t.cx, cy: t.cy };
+      };
+      const fan = () => {
+        let n = 0, hit = 0, onAxis = 0, exitN = 0, orbit = 0; const ys = [], angs = [];
+        for (let y = 8; y <= 200; y += 8) for (const sgn of [-1, 1]) { n++;
+          const t = trace(sgn * y);
+          if (t.cross) { hit++; ys.push(t.cross.y); angs.push(Math.atan2(t.cy, t.cx));
+            if (Math.abs(t.cross.y) <= AXIS) onAxis++; }
+          else if (t.exit) exitN++;
+          else orbit++;   // MAXS 内に決着せず(周回捕捉)
+        }
+        const mean = (a) => a.length ? a.reduce((x, v) => x + v, 0) / a.length : 0;
+        const meanAbs = (a) => a.length ? a.reduce((x, v) => x + Math.abs(v), 0) / a.length : 0;
+        return { n, hitRate: hit / n, onAxisRate: onAxis / n, exitRate: exitN / n, orbitRate: orbit / n,
+          meanY: mean(ys), meanAbsAngle: meanAbs(angs) };
+      };
+      const run = (spin, Kt) => { const q = P(spin); if (Kt) q.physics.Kt = Kt;
+        s.build(q); s.step(0.016); return fan(); };
+      return { base: 14 / 50, spin0: run(0), spin2: run(2), lock: run(2, 3600) };
+    });
+    // 実測(2026-07-30・beta): 幾何基準0.28 / ロック 到達1.00・軸上0.30(弱い収束で基準よりやや明るい)/
+    // spin0 軸上0.04(基準の1/7 — 捕捉の暗さ・周回0.16)/ spin2 軸上0.12(捕捉ゼロでも掃き出しの
+    // 再配分で暗い)・横断y平均+188.6(逆行側へ偏る)・平均方向角0.84rad
+    add('ray.observer-flux',
+      r.lock.hitRate > 0.95 && r.lock.onAxisRate >= r.base * 0.9
+      && r.spin0.onAxisRate < 0.1
+      && r.spin2.onAxisRate < 0.2 && r.spin2.orbitRate === 0
+      && r.spin2.meanY > 50 && r.spin2.meanAbsAngle > 0.3,
+      `幾何基準(直進光の軸上|y|≤60)=${r.base.toFixed(2)} / Kt=c²/G ロック: 到達=${r.lock.hitRate.toFixed(2)}(>0.95) ` +
+      `軸上=${r.lock.onAxisRate.toFixed(2)}(≥基準×0.9 — 明るい基準) / spin0: 軸上=${r.spin0.onAxisRate.toFixed(2)}` +
+      `(<0.1 — 捕捉の暗さ・周回=${r.spin0.orbitRate.toFixed(2)}) / spin2: 軸上=${r.spin2.onAxisRate.toFixed(2)}` +
+      `(<0.2 — 捕捉ゼロでも角度再配分で暗い) 横断y平均=${r.spin2.meanY.toFixed(1)}(>50 — 逆行側へ偏る) ` +
+      `平均方向角=${r.spin2.meanAbsAngle.toFixed(2)}rad(>0.3)`);
+  } else {
+    console.log('SKIP ray.observer-flux(対象に 🕳️rotorSolo または HP.traceRay なし)');
+  }
+}
+
 // ---- 7z13) D2: behavior.agnjet — 円盤の内縁で摩擦加熱されたガスが、抵抗の少ない極方向(±y)へ
 // ----      抜けて双極の噴出になる(圧力 E5′ + 幾何 の 2D アナロジー)。
 // ----      判定量: 内縁(初期 |x|≤80)起源のガスのうち 4000步後に r>300 へ出たものの方位が
