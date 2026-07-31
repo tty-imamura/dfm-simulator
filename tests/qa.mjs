@@ -166,6 +166,34 @@ const pageErrors = [];
 page.on('pageerror', e => pageErrors.push(String(e)));
 page.on('console', m => { if (m.type() === 'error') pageErrors.push(m.text()); });
 await page.goto(INDEX);
+
+// ---- 0b3) 第52便(ChatGPT R-02 提案): release.no-beta-identifiers — ルート対象時、
+// ----      リリース識別子の残存・取り違えを一括機械検査する。
+// ----      ①package.json = APP_VERSION+".0" の厳密一致(0b の前方一致より強い)
+// ----      ②CHANGELOG に「## v{APP_VERSION}.0(」のリリース見出しがあり、同版に
+// ----        「未リリース草案」の見出しが残っていない
+// ----      ③タイトル下のバージョン表示(#appVer)が "v"+APP_VERSION で、"-b" を含まない
+// ----        (file:// では isBetaServe() が偽 = ルート配信と同じ表示経路)
+// ----      beta 対象は対象外(開発線は草案・-b 表示が正)----
+if (!TARGET.startsWith('beta/')) {
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const av = (html.match(/const APP_VERSION = "([^"]+)"/) || [])[1];
+  const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
+  const chg = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8');
+  const hasRelHead = chg.includes(`## v${av}.0(`);
+  const hasDraftHead = new RegExp(`## v${av}(?!\\.0)[^\\n]*未リリース草案`).test(chg);
+  await page.waitForFunction(() => window.HP && document.querySelector('#appVer'));
+  const domVer = await page.evaluate(() => {
+    const el = document.querySelector('#appVer');
+    return el ? el.textContent.trim() : null;
+  });
+  add('release.no-beta-identifiers',
+    pkg.version === av + '.0' && hasRelHead && !hasDraftHead
+    && domVer === 'v' + av && !String(domVer).includes('-b'),
+    `package.json=${pkg.version}(=${av}.0) CHANGELOG リリース見出し=${hasRelHead} 草案見出し残存=${hasDraftHead} ` +
+    `表示=${domVer}(="v${av}"・-b なし)`);
+}
+
 await page.waitForFunction(() => window.HP && HP.sim);
 
 // ==== 第35便 W5c(台帳4-45): 重量テストのワーカー並列化 ====================================

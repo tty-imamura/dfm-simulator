@@ -165,7 +165,7 @@ iPhoneのブラウザで観察できるシミュレータです。
 | [docs/THEORY_SYNTHESIS.md](docs/THEORY_SYNTHESIS.md) | 論文として主張・防御できる理論構造(3層構造・中核主張 C1〜C8・Negative claims・限界 L1〜L17) |
 | [docs/DERIVATIONS.md](docs/DERIVATIONS.md) | 解析的導出と外部AIレビュー全5次の裁定記録(数学的正本) |
 | [docs/dev/HANDOFF_PAPER_V2.md](docs/dev/HANDOFF_PAPER_V2.md) | 論文ドラフト執筆の実行指示書(自己完結版。著者・投稿先・実験選定・禁止事項を確定) |
-| [docs/EXPLAINER_HIGHSCHOOL.md](docs/EXPLAINER_HIGHSCHOOL.md) | 高校生向け解説 |
+| [docs/EXPLAINER_HIGHSCHOOL.md](docs/EXPLAINER_HIGHSCHOOL.md) | 高校生向け解説(英語版: [EXPLAINER_HIGHSCHOOL_EN.md](docs/EXPLAINER_HIGHSCHOOL_EN.md)) |
 
 ## 開発・QA(Phase 1 再現性基盤)
 
