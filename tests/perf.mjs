@@ -26,7 +26,10 @@ const SAMPLES = ['galaxy', 'darkrotor', 'merger', 'convection', 'counterring', '
 // root(旧版)にはまだ存在しないため feature-detect し、片側にしかプリセットが無い場合は
 // 「beta 単独の実測 ms を informational として記録する(pass判定なし・SAMPLES の 6/6 ゲート数
 // には含めない)」。root へ第35便が昇格し両側に揃った時点で自動的に比較ゲートへ昇格する。
-const EXTRA_SAMPLES = ['echo', 'freebox'];
+const EXTRA_SAMPLES = ['echo', 'freebox',
+  // 第53便 53B(外部レビュー P1「melt/freeze 自身の性能証跡がない」): E14 相変化サンプル2件。
+  // root には未昇格のため informational 計測(昇格時に自動で比較ゲートへ)
+  'melt', 'freeze'];
 const THRESH = +(process.env.PERF_THRESH || 1.10);
 // 例: { convection: 1.60 } — 意図的な負荷増を許可する場合のみ
 const ALLOW = {};

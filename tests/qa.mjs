@@ -6402,24 +6402,62 @@ if (hasEchoFlipAt) {
         bodies: [{ type: 'grid', n: 10, cols: 4, cx: 5, cy: -3, pitch: 2, mMin: 1, mMax: 1 }], overlays: {} });
       const d01 = Math.hypot(s.x[1] - s.x[0], s.y[1] - s.y[0]);
       const d04 = Math.hypot(s.x[4] - s.x[0], s.y[4] - s.y[0]);   // 隣行(六方: √((p/2)²+(p·√3/2)²)=p)
+      let v0max = 0;
+      for (let i = 0; i < s.n; i++) v0max = Math.max(v0max, Math.hypot(s.vx[i], s.vy[i]));
+      // 第53便 53B: vScale(攪拌) — 速度が付与されること
+      s.build({ id: 'qa_grid2', name: 'x', camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+        physics: { G: 0, D0: 0, kFrame: 0, kRep: 0, q: 2, muF: 0, gammaN: 0, kappaS: 0, softening: 2, radiusScale: 1, timeScale: 1 },
+        bodies: [{ type: 'grid', n: 10, cols: 4, cx: 0, cy: 0, pitch: 2, mMin: 1, mMax: 1, vScale: 0.5 }], overlays: {} });
+      let vsMax = 0;
+      for (let i = 0; i < s.n; i++) vsMax = Math.max(vsMax, Math.hypot(s.vx[i], s.vy[i]));
       const v = HP.validatePreset({ name: 'g', description: 'x', camera: { scale: 200 },
         world: { boundary: 'none', size: 0 }, physics: {},
-        bodies: [{ type: 'grid', n: 9, cols: 3, cx: 0, cy: 0, pitch: 3, mMin: 1, mMax: 1, jitter: 99 }] });
+        bodies: [{ type: 'grid', n: 9, cols: 3, cx: 0, cy: 0, pitch: 3, mMin: 1, mMax: 1, jitter: 99, vScale: 99 }] });
       const vb = HP.validatePreset({ name: 'g', description: 'x', camera: { scale: 200 },
         world: { boundary: 'none', size: 0 }, physics: {},
         bodies: [{ type: 'grid', n: 9, cols: 3, cx: 0, cy: 0, mMin: 1, mMax: 1 }] });   // pitch 欠落 → NG
-      return { n: s.n, d01, d04, vOk: v.ok, vJit: v.ok ? v.preset.bodies[0].jitter : null,
-        vW: v.warnings.length, vbOk: vb.ok };
+      return { n: s.n, d01, d04, v0max, vsMax, vOk: v.ok, vJit: v.ok ? v.preset.bodies[0].jitter : null,
+        vVs: v.ok ? v.preset.bodies[0].vScale : null, vW: v.warnings.length, vbOk: vb.ok };
     });
     add('phasechange.grid',
       gr.n === 10 && Math.abs(gr.d01 - 2) < 1e-6 && Math.abs(gr.d04 - 2) < 1e-6
-      && gr.vOk && gr.vJit === 20 && gr.vW === 1 && !gr.vbOk,
+      && gr.v0max === 0 && gr.vsMax > 0.01
+      && gr.vOk && gr.vJit === 20 && gr.vVs === 50 && gr.vW === 2 && !gr.vbOk,
       `n=10 同行隣接=${gr.d01}(=pitch) 隣行隣接=${gr.d04.toFixed(6)}(六方=pitch) / ` +
-      `バリデータ: jitter99→${gr.vJit}(警告${gr.vW}) pitch欠落→NG=${!gr.vbOk}`);
+      `vScale省略→静止=${gr.v0max === 0} vScale0.5→|v|max=${gr.vsMax.toFixed(3)}(>0.01) / ` +
+      `バリデータ: jitter99→${gr.vJit} vScale99→${gr.vVs}(警告${gr.vW}) pitch欠落→NG=${!gr.vbOk}`);
+
+    // ⑥b phasechange.compat(第53便 53B — 外部レビュー P1): セーブ互換。
+    //    ①元プリセットの無いセーブは読込を**中止**する(従来の先頭サンプルへのフォールバック廃止)
+    //    ②エクスポート JSON に書き出し元ビルド識別 appBuild が入る(file:// では "v"+APP_VERSION —
+    //      β配信 /beta/ では BETA_BUILD になる。判定式は表示 #appVer と同一の isBetaServe)
+    const cp = await page.evaluate(() => {
+      HP.loadPreset('phase', false);
+      const before = HP.currentPreset().id;
+      HP.loadSaveItem({ presetId: 'zzz_nope_53b', name: 'x', physics: { G: 9 } });
+      const afterUnknown = HP.currentPreset().id;
+      const gUnchanged = HP.sim.params.G;   // 中止なら phase の G のまま(9 が適用されていない)
+      HP.loadSaveItem({ presetId: 'gas', name: 'x', physics: Object.assign({}, HP.sim.params, { G: 0.123 }) });
+      const afterKnown = HP.currentPreset().id, gKnown = HP.sim.params.G;
+      const ex = JSON.parse(HP.exportData());
+      const expectBuild = HP.isBetaServe() ? undefined : 'v' + HP.APP_VERSION;   // file:// 実行では後者
+      return { before, afterUnknown, gUnchanged, afterKnown, gKnown,
+        schema: ex.schemaVersion, appBuild: ex.appBuild, expectBuild, isBeta: HP.isBetaServe() };
+    });
+    add('phasechange.compat',
+      cp.before === 'phase' && cp.afterUnknown === 'phase' && cp.gUnchanged !== 9
+      && cp.afterKnown === 'gas' && Math.abs(cp.gKnown - 0.123) < 1e-12
+      && cp.schema === 2 && (cp.isBeta ? typeof cp.appBuild === 'string' : cp.appBuild === cp.expectBuild),
+      `未知ID読込 → 中止(現行=${cp.afterUnknown}・保存physicsも未適用=${cp.gUnchanged !== 9}) / ` +
+      `既知ID読込 → ${cp.afterKnown}(G=${cp.gKnown}) / export: schemaVersion=${cp.schema} appBuild=${cp.appBuild}(期待=${cp.expectBuild ?? 'BETA_BUILD'})`);
 
     // ⑦ phasechange.ledger + ⑧ phasechange.behavior: 内蔵 🫠melt / ❄️freeze の長時間挙動と帳簿閉性。
     //    E_全 = KE + Σm·h + U_att + U_rep + U_接触 + U_重力(外場) が壁帳簿と閉じる(残差<1%)こと、
-    //    融解/凝固の進行(プラトー→完了)を機械固定する。QA_FAST=1 では省略(長時間系)
+    //    融解/凝固の進行(プラトー→完了)に加え、第53便 53B(外部レビュー P2)で
+    //    ①融解前線の方向(高さ3帯の液相率 — 床側が先に融ける)②凝固の最大固相結合クラスタ率
+    //    ③凝固初期の無秩序(ψ6)と自己再秩序化(動力学の創発)④クランプ帳簿(引力上限 clampAN=0。
+    //    b 負側 clampBN は液相プールで発動するのが仕様 — 検査は「帳簿残差が閾値内」の側で行う)
+    //    ⑤相変化履歴 phHist の蓄積 を機械固定する。QA_FAST=1 では省略(長時間系)
     if (!FAST) {
       const runPC = (pid, steps, marks) => page.evaluate(({ pid, steps, marks }) => {
         HP.loadPreset(pid, false);
@@ -6428,7 +6466,7 @@ if (hasEchoFlipAt) {
         const E = () => {
           let a = 0;
           for (let i = 0; i < s.n; i++) a += s.m[i] * s.hInt[i]
-            + 0.5 * s.m[i] * (s.vx[i] ** 2 + s.vy[i] ** 2) - s.m[i] * gY * s.y[i];
+            + 0.5 * s.m[i] * (s.vx[i] * s.vx[i] + s.vy[i] * s.vy[i]) - s.m[i] * gY * s.y[i];
           for (let i = 0; i < s.n; i++) for (let j = i + 1; j < s.n; j++) {
             const d = Math.hypot(s.x[i] - s.x[j], s.y[i] - s.y[j]), sumR = s.R[i] + s.R[j];
             if (d >= sumR) continue;
@@ -6443,32 +6481,84 @@ if (hasEchoFlipAt) {
           for (let i = 0; i < s.n; i++) { T += s.Tint[i]; F += s.fLiq[i]; }
           return { T: T / s.n, F: F / s.n };
         };
+        const bands = (nb) => {   // 高さ帯ごとの平均液相率(帯0=最下段=+y側=床側)
+          let ymin = 1e9, ymax = -1e9;
+          for (let i = 0; i < s.n; i++) { ymin = Math.min(ymin, s.y[i]); ymax = Math.max(ymax, s.y[i]); }
+          const out = new Array(nb).fill(0), cnt = new Array(nb).fill(0);
+          for (let i = 0; i < s.n; i++) {
+            let b = Math.floor((ymax - s.y[i]) / Math.max(1e-9, ymax - ymin) * nb);
+            if (b >= nb) b = nb - 1; if (b < 0) b = 0;
+            out[b] += s.fLiq[i]; cnt[b]++;
+          }
+          return out.map((v, k) => cnt[k] ? v / cnt[k] : 0);
+        };
+        const psi6 = () => {   // 結合配向秩序 |ψ6|(隣接 = d<1.3·(R_i+R_j)・3隣接以上の粒子平均)
+          let acc = 0, cnt = 0;
+          for (let i = 0; i < s.n; i++) {
+            let re = 0, im = 0, nb = 0;
+            for (let j = 0; j < s.n; j++) {
+              if (j === i) continue;
+              const dx = s.x[j] - s.x[i], dy = s.y[j] - s.y[i];
+              const d = Math.hypot(dx, dy);
+              if (d > 1.3 * (s.R[i] + s.R[j])) continue;
+              const th = Math.atan2(dy, dx);
+              re += Math.cos(6 * th); im += Math.sin(6 * th); nb++;
+            }
+            if (nb >= 3) { acc += Math.hypot(re, im) / nb; cnt++; }
+          }
+          return cnt ? acc / cnt : 0;
+        };
+        const cluster = () => {   // 固相結合(両者 fl<0.5・d<bondRange·(R_i+R_j))の最大連結成分率
+          const pc2 = s.phase;
+          const par = Array.from({ length: s.n }, (_, i2) => i2);
+          const find = (a) => { while (par[a] !== a) { par[a] = par[par[a]]; a = par[a]; } return a; };
+          for (let i = 0; i < s.n; i++) for (let j = i + 1; j < s.n; j++) {
+            if (s.fLiq[i] >= 0.5 || s.fLiq[j] >= 0.5) continue;
+            const d = Math.hypot(s.x[i] - s.x[j], s.y[i] - s.y[j]);
+            if (d < pc2.bondRange * (s.R[i] + s.R[j])) { const a = find(i), b = find(j); if (a !== b) par[a] = b; }
+          }
+          const cn = {}; let mx = 0;
+          for (let i = 0; i < s.n; i++) { const r = find(i); cn[r] = (cn[r] || 0) + 1; if (cn[r] > mx) mx = cn[r]; }
+          return mx / s.n;
+        };
+        const out = { psi0: psi6() };
         const E0 = E();
-        const out = {};
         for (let k = 1; k <= steps; k++) {
           s.step(0.016);
           if (marks.includes(k)) out[k] = stat();
+          if (k === 4000) out.bands4000 = bands(3);
         }
         const flow = s.wallEin - s.wallEout - s.radE - s.wallKE;
         out.res = Math.abs(E() - E0 - flow) / Math.max(1, Math.abs(flow));
+        out.psiEnd = psi6(); out.cluEnd = cluster();
+        out.clampA = s.clampAN; out.clampB = s.clampBN;
+        out.hist = s.phHist ? s.phHist.length : 0;
         out.nan = s.hasNaN();
         return out;
       }, { pid, steps, marks });
-      // 実測(beta 2026-07-31): melt 4000步 T=1.09/f=0.39 → 12000步 f=1.0/T≈2.3、帳簿残差 3e-4。
-      // freeze 4000步 T=0.95/f=0.44 → 12000步 f=0/T≈0.2、残差 1.5e-3(初期沈定の減衰分)
+      // 実測(beta 2026-07-31 53B): melt 4000步 T=1.08/f=0.32・帯 [0.64,0.11,0.07](床側が先に融ける)
+      // → 12000步 f=1.0/T≈2.26、残差 3e-4、clampAN=0。freeze(ψ6(0)=0.79 の無秩序初期)
+      // 4000步 T=0.944/f=0.55・帯 [0.31,0.66,0.76](床側が先に凍る)→ 14000步 f=0/T=0.16、
+      // ψ6→1.00(自己再秩序化)・最大固相クラスタ率=1.00、残差 ~2e-3
       const ml = await runPC('melt', 12000, [4000, 12000]);
       add('phasechange.ledger', !ml.nan && ml.res < 0.01,
         `🫠melt 12000步の第一法則: |ΔE_全 − 壁帳簿|/|流入| = ${ml.res.toExponential(2)} (<1e-2)`);
-      const fz = await runPC('freeze', 12000, [4000, 12000]);
+      const fz = await runPC('freeze', 14000, [4000, 14000]);
       add('phasechange.behavior',
         !ml.nan && !fz.nan
         && ml[4000].T > 0.9 && ml[4000].T < 1.3 && ml[4000].F > 0.15 && ml[4000].F < 0.65
         && ml[12000].F > 0.95 && ml[12000].T > 1.5
-        && fz[4000].T > 0.8 && fz[4000].T < 1.05 && fz[4000].F > 0.25 && fz[4000].F < 0.75
-        && fz[12000].F < 0.05 && fz[12000].T < 0.7
-        && fz.res < 0.01,
-        `🫠melt: 4000步 T=${ml[4000].T.toFixed(2)}(プラトー0.9〜1.3)・fl=${ml[4000].F.toFixed(2)} → 12000步 fl=${ml[12000].F.toFixed(2)}(>0.95 全融解)・T=${ml[12000].T.toFixed(2)}(>1.5 再上昇) / ` +
-        `❄️freeze: 4000步 T=${fz[4000].T.toFixed(2)}(プラトー0.8〜1.05)・fl=${fz[4000].F.toFixed(2)} → 12000步 fl=${fz[12000].F.toFixed(2)}(<0.05 全凝固)・T=${fz[12000].T.toFixed(2)}(<0.7 再降下) 帳簿残差=${fz.res.toExponential(2)}(<1e-2)`);
+        && (ml.bands4000[0] - ml.bands4000[2]) > 0.3
+        && ml.clampA === 0 && ml.hist > 300
+        && fz[4000].T > 0.8 && fz[4000].T < 1.05 && fz[4000].F > 0.3 && fz[4000].F < 0.75
+        && fz[14000].F < 0.02 && fz[14000].T < 0.5
+        && (fz.bands4000[2] - fz.bands4000[0]) > 0.2
+        && fz.psi0 < 0.85 && fz.psiEnd > 0.95 && fz.cluEnd > 0.9
+        && fz.clampA === 0 && fz.res < 0.01,
+        `🫠melt: 4000步 T=${ml[4000].T.toFixed(2)}(プラトー0.9〜1.3)・fl=${ml[4000].F.toFixed(2)}・帯[床,中,上]=[${ml.bands4000.map(v => v.toFixed(2)).join(',')}](床−上=${(ml.bands4000[0] - ml.bands4000[2]).toFixed(2)}>0.3 = 前線は床から) → ` +
+        `12000步 fl=${ml[12000].F.toFixed(2)}(>0.95 全融解)・T=${ml[12000].T.toFixed(2)}(>1.5 再上昇)・引力上限クランプ=${ml.clampA}回・履歴=${ml.hist}点 / ` +
+        `❄️freeze: ψ6(0)=${fz.psi0.toFixed(2)}(<0.85 無秩序初期) 4000步 T=${fz[4000].T.toFixed(2)}(プラトー)・fl=${fz[4000].F.toFixed(2)}・帯=[${fz.bands4000.map(v => v.toFixed(2)).join(',')}](上−床=${(fz.bands4000[2] - fz.bands4000[0]).toFixed(2)}>0.2 = 前線は床から) → ` +
+        `14000步 fl=${fz[14000].F.toFixed(2)}(<0.02 全凝固)・T=${fz[14000].T.toFixed(2)}(<0.5)・ψ6=${fz.psiEnd.toFixed(2)}(>0.95 動力学による再秩序化)・最大固相クラスタ率=${fz.cluEnd.toFixed(2)}(>0.9)・帳簿残差=${fz.res.toExponential(2)}(<1e-2)・b発動=${fz.clampB}回(仕様どおり — 残差側で担保)`);
     } else {
       console.log('SKIP phasechange.ledger/phasechange.behavior(QA_FAST=1 — 長時間系)');
     }
@@ -7520,7 +7610,10 @@ const appVersion = (targetBytes.toString('utf8').match(/const APP_VERSION = "([^
 let swCache = 'unknown';
 try { swCache = (fs.readFileSync(path.join(ROOT, TARGET.startsWith('beta/') ? 'beta/sw.js' : 'sw.js'), 'utf8')
   .match(/CACHE = CACHE_PREFIX \+ "([^"]+)"/) || [])[1] || 'unknown'; } catch {}
-fs.writeFileSync(path.join(OUT_DIR, 'qa-results.json'), JSON.stringify({
+// 第53便 53B(外部レビュー P2「beta の完全な結果JSONが最終状態に残らない」): 検査対象ごとに
+// ファイルを分ける — beta 対象時は qa-results-beta.json へも同内容を保存する(qa-results.json は
+// 従来どおり常に書く = CI・既存ツールの参照は不変。root 実行が beta の証跡を上書きしない)
+const QA_OUT = JSON.stringify({
   commit, date: new Date().toISOString(), fast: FAST,
   target: TARGET,  // P2: 検査対象(beta 検証時に結果JSONを取り違えないため)
   targetSha256, appVersion, swCache,  // 第28便: 試験対象の実体を SHA で追跡(第24次レビュー P0-3)
@@ -7534,6 +7627,8 @@ fs.writeFileSync(path.join(OUT_DIR, 'qa-results.json'), JSON.stringify({
   total: results.length, failed: results.filter(r => !r.pass).length, pass,
   durationMs: results.reduce((a, r) => a + (r.ms || 0), 0),  // 第17便: 項目別 ms の合計
   results,
-}, null, 1));
-console.log(`\n${pass ? 'ALL PASS' : 'FAILED'} (${results.filter(r => r.pass).length}/${results.length}) → tests/out/qa-results.json`);
+}, null, 1);
+fs.writeFileSync(path.join(OUT_DIR, 'qa-results.json'), QA_OUT);
+if (TARGET.startsWith('beta/')) fs.writeFileSync(path.join(OUT_DIR, 'qa-results-beta.json'), QA_OUT);
+console.log(`\n${pass ? 'ALL PASS' : 'FAILED'} (${results.filter(r => r.pass).length}/${results.length}) → tests/out/qa-results.json${TARGET.startsWith('beta/') ? ' (+qa-results-beta.json)' : ''}`);
 process.exit(pass ? 0 : 1);
