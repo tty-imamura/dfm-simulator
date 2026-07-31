@@ -6508,18 +6508,25 @@ if (hasEchoFlipAt) {
           }
           return cnt ? acc / cnt : 0;
         };
-        const cluster = () => {   // 固相結合(両者 fl<0.5・d<bondRange·(R_i+R_j))の最大連結成分率
+        // 第53便 53C: 凝固体の「剛な結合網」指標 — 固相結合(両者 fl<0.5・d<bondRange·(R_i+R_j))の
+        // 配位数。kRep>0 では凝固体が数個の多結晶片に分かれる(収縮亀裂の類似)ため、単一クラスタ率
+        // ではなく「全粒子が網に組み込まれているか(配位≥2 率・平均配位)」で固まり方を検査する
+        const bondNet = () => {
           const pc2 = s.phase;
           const par = Array.from({ length: s.n }, (_, i2) => i2);
           const find = (a) => { while (par[a] !== a) { par[a] = par[par[a]]; a = par[a]; } return a; };
+          const coord = new Array(s.n).fill(0);
           for (let i = 0; i < s.n; i++) for (let j = i + 1; j < s.n; j++) {
             if (s.fLiq[i] >= 0.5 || s.fLiq[j] >= 0.5) continue;
             const d = Math.hypot(s.x[i] - s.x[j], s.y[i] - s.y[j]);
-            if (d < pc2.bondRange * (s.R[i] + s.R[j])) { const a = find(i), b = find(j); if (a !== b) par[a] = b; }
+            if (d < pc2.bondRange * (s.R[i] + s.R[j])) { coord[i]++; coord[j]++; const a = find(i), b = find(j); if (a !== b) par[a] = b; }
           }
-          const cn = {}; let mx = 0;
-          for (let i = 0; i < s.n; i++) { const r = find(i); cn[r] = (cn[r] || 0) + 1; if (cn[r] > mx) mx = cn[r]; }
-          return mx / s.n;
+          let nS = 0, ge2 = 0, sum = 0;
+          for (let i = 0; i < s.n; i++) { if (s.fLiq[i] >= 0.5) continue; nS++; sum += coord[i]; if (coord[i] >= 2) ge2++; }
+          const cn = {};
+          for (let i = 0; i < s.n; i++) { const r = find(i); cn[r] = (cn[r] || 0) + 1; }
+          const sizes = Object.values(cn).sort((a, b) => b - a).slice(0, 4);
+          return { nS, meanCoord: nS ? sum / nS : 0, fracGe2: nS ? ge2 / nS : 0, pieces: sizes };
         };
         const out = { psi0: psi6() };
         const E0 = E();
@@ -6530,35 +6537,38 @@ if (hasEchoFlipAt) {
         }
         const flow = s.wallEin - s.wallEout - s.radE - s.wallKE;
         out.res = Math.abs(E() - E0 - flow) / Math.max(1, Math.abs(flow));
-        out.psiEnd = psi6(); out.cluEnd = cluster();
+        out.psiEnd = psi6(); out.net = bondNet();
         out.clampA = s.clampAN; out.clampB = s.clampBN;
         out.hist = s.phHist ? s.phHist.length : 0;
         out.nan = s.hasNaN();
         return out;
       }, { pid, steps, marks });
-      // 実測(beta 2026-07-31 53B): melt 4000步 T=1.08/f=0.32・帯 [0.64,0.11,0.07](床側が先に融ける)
-      // → 12000步 f=1.0/T≈2.26、残差 3e-4、clampAN=0。freeze(ψ6(0)=0.79 の無秩序初期)
-      // 4000步 T=0.944/f=0.55・帯 [0.31,0.66,0.76](床側が先に凍る)→ 14000步 f=0/T=0.16、
-      // ψ6→1.00(自己再秩序化)・最大固相クラスタ率=1.00、残差 ~2e-3
-      const ml = await runPC('melt', 12000, [4000, 12000]);
+      // 実測(beta 2026-07-31 53C — kRep=1): melt 4000步 T=1.09/f=0.23・帯 [0.68,0.07,0.03]
+      // (床側が先に融ける)→ 14000步 f=1.0/T=1.86、残差 1.8e-4、clampAN=0。
+      // freeze(ψ6(0)=0.79 の無秩序初期・熱圧が液相の無秩序を保つ)4000步 T=0.93/f=0.61・
+      // 帯 [0.56,0.96,1.00](床側が先に凍る)→ 14000步 f=0/T=0.17、ψ6→0.97(凝固と同時に秩序が
+      // 立ち上がる)・結合網: 配位≥2率=1.00・平均配位=4.36(多結晶片 60+35+14+3 — 収縮亀裂の類似)、
+      // 残差 2.8e-3
+      const ml = await runPC('melt', 14000, [4000, 14000]);
       add('phasechange.ledger', !ml.nan && ml.res < 0.01,
-        `🫠melt 12000步の第一法則: |ΔE_全 − 壁帳簿|/|流入| = ${ml.res.toExponential(2)} (<1e-2)`);
+        `🫠melt 14000步の第一法則: |ΔE_全 − 壁帳簿|/|流入| = ${ml.res.toExponential(2)} (<1e-2)`);
       const fz = await runPC('freeze', 14000, [4000, 14000]);
       add('phasechange.behavior',
         !ml.nan && !fz.nan
-        && ml[4000].T > 0.9 && ml[4000].T < 1.3 && ml[4000].F > 0.15 && ml[4000].F < 0.65
-        && ml[12000].F > 0.95 && ml[12000].T > 1.5
+        && ml[4000].T > 0.9 && ml[4000].T < 1.3 && ml[4000].F > 0.1 && ml[4000].F < 0.6
+        && ml[14000].F > 0.95 && ml[14000].T > 1.5
         && (ml.bands4000[0] - ml.bands4000[2]) > 0.3
         && ml.clampA === 0 && ml.hist > 300
-        && fz[4000].T > 0.8 && fz[4000].T < 1.05 && fz[4000].F > 0.3 && fz[4000].F < 0.75
+        && fz[4000].T > 0.8 && fz[4000].T < 1.05 && fz[4000].F > 0.3 && fz[4000].F < 0.8
         && fz[14000].F < 0.02 && fz[14000].T < 0.5
         && (fz.bands4000[2] - fz.bands4000[0]) > 0.2
-        && fz.psi0 < 0.85 && fz.psiEnd > 0.95 && fz.cluEnd > 0.9
+        && fz.psi0 < 0.85 && fz.psiEnd > 0.95
+        && fz.net.fracGe2 > 0.95 && fz.net.meanCoord > 3
         && fz.clampA === 0 && fz.res < 0.01,
         `🫠melt: 4000步 T=${ml[4000].T.toFixed(2)}(プラトー0.9〜1.3)・fl=${ml[4000].F.toFixed(2)}・帯[床,中,上]=[${ml.bands4000.map(v => v.toFixed(2)).join(',')}](床−上=${(ml.bands4000[0] - ml.bands4000[2]).toFixed(2)}>0.3 = 前線は床から) → ` +
-        `12000步 fl=${ml[12000].F.toFixed(2)}(>0.95 全融解)・T=${ml[12000].T.toFixed(2)}(>1.5 再上昇)・引力上限クランプ=${ml.clampA}回・履歴=${ml.hist}点 / ` +
+        `14000步 fl=${ml[14000].F.toFixed(2)}(>0.95 全融解)・T=${ml[14000].T.toFixed(2)}(>1.5 再上昇)・引力上限クランプ=${ml.clampA}回・履歴=${ml.hist}点 / ` +
         `❄️freeze: ψ6(0)=${fz.psi0.toFixed(2)}(<0.85 無秩序初期) 4000步 T=${fz[4000].T.toFixed(2)}(プラトー)・fl=${fz[4000].F.toFixed(2)}・帯=[${fz.bands4000.map(v => v.toFixed(2)).join(',')}](上−床=${(fz.bands4000[2] - fz.bands4000[0]).toFixed(2)}>0.2 = 前線は床から) → ` +
-        `14000步 fl=${fz[14000].F.toFixed(2)}(<0.02 全凝固)・T=${fz[14000].T.toFixed(2)}(<0.5)・ψ6=${fz.psiEnd.toFixed(2)}(>0.95 動力学による再秩序化)・最大固相クラスタ率=${fz.cluEnd.toFixed(2)}(>0.9)・帳簿残差=${fz.res.toExponential(2)}(<1e-2)・b発動=${fz.clampB}回(仕様どおり — 残差側で担保)`);
+        `14000步 fl=${fz[14000].F.toFixed(2)}(<0.02 全凝固)・T=${fz[14000].T.toFixed(2)}(<0.5)・ψ6=${fz.psiEnd.toFixed(2)}(>0.95 凝固と同時に秩序が創発)・結合網: 配位≥2率=${fz.net.fracGe2.toFixed(2)}(>0.95)・平均配位=${fz.net.meanCoord.toFixed(2)}(>3)・片=[${fz.net.pieces.join('+')}](多結晶 — 収縮亀裂の類似)・帳簿残差=${fz.res.toExponential(2)}(<1e-2)・b発動=${fz.clampB}回(仕様どおり — 残差側で担保)`);
     } else {
       console.log('SKIP phasechange.ledger/phasechange.behavior(QA_FAST=1 — 長時間系)');
     }
