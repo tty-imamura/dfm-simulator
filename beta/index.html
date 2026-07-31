@@ -1536,41 +1536,45 @@ const BUILTIN_PRESETS = [
 //   etaRad=0 の対照でも δ²=3.552(既定 3.578 との差 0.7%)・ボイド率 0.579(同値)。
 //   kRep=0 の対照も δ²=3.834(+7%)で、圧力の効きも小さい。主因は E4 自己重力と規定膨張だけ。
 { id:"cosmicweb", name:"箱宇宙 — 膨張と自己重力の綱引き(コズミックウェブ類似)", emoji:"🕸️", group:"箱宇宙",
-  description:"膨張するUniverseBox(H=0.004)の中に、共動初速だけを与えた320個の一様なガスを置く。主要な競合因子は2つ — 背景の膨張がすべてを引き離し(規定a(t)・E6′で共動輸送)、自己重力(E4)が近くの粒同士を引き寄せる。初期のむらは配置の統計ゆらぎ(ポアソン)だけで、そこから密なフィラメントと空っぽのボイドに分かれていく。右下のグラフは尺度因子a(t)。定量: 共動座標で10×10のセルに切った密度コントラストδ²=Var(N)/⟨N⟩²は6000步で0.272→3.578(13.1倍)、空セルの割合は1.3%→57.9%まで増える。おすすめA/B: 膨張H=0にすると引き離す力が消え、同じ時間で構造がもっと育つ(δ²=8.55・ボイド率75%)。逆にH=0.01まで上げると膨張が勝って構造の成長が抑えられる(δ²=1.48・ボイド率34%)— 膨張率で構造のスケールが決まる。熱圧・接触散逸・伝導・放射冷却(E5′/E9′/κs/E11)もガス表現と数値安定のため有効だが構造形成の主因ではなく、放射冷却を切った対照でもδ²=3.55(差0.7%)にとどまる。※2次元・粒子320個・膨張は外から与えた規定則という強い簡略化で、ΛCDMの構造形成を再現する主張ではない(Negative Claims 1/2)。膨張の反作用はリザーバに帳簿(A13)。",
-  en:{name:"Box Universe — Expansion vs Self-Gravity (a Cosmic-Web Analogue)", description:"Inside an expanding UniverseBox (H=0.004) sit 320 uniform gas particles given nothing but the comoving initial flow. Two factors dominate the competition: the background expansion pulls everything apart (prescribed a(t), carried by E6′) and self-gravity (E4) pulls neighbours together. The only initial lumpiness is the Poisson noise of the random placement — from that, dense filaments and empty voids separate out. The bottom-right graph shows the scale factor a(t). Quantitatively: the density contrast δ²=Var(N)/⟨N⟩² on a 10×10 comoving grid grows from 0.272 to 3.578 (13.1×) in 6000 steps, and the fraction of empty cells rises from 1.3% to 57.9%. Suggested A/B: set H to 0 and the pulling-apart disappears — in the same time, structure grows further (δ²=8.55, 75% voids). Raise H to 0.01 and expansion wins, suppressing growth (δ²=1.48, 34% voids) — the expansion rate sets the scale of the structure. Thermal pressure, contact dissipation, conduction and radiative cooling (E5′/E9′/κs/E11) are all switched on for a faithful gas model and numerical stability, but none of them drives structure formation — turning off radiative cooling still gives δ²=3.55 (a 0.7% difference). Note: two dimensions, 320 particles and an externally prescribed expansion law are severe simplifications — this is not a claim to reproduce ΛCDM structure formation (Negative Claims 1/2). The back-reaction of the expansion is ledgered to the reservoir (A13)."},
+  // 第51便 51G(原仮定者指摘「塊になってしまう」): H0 0.004→0.01(共動初速 vScale も同値)。
+  // 旧既定は全体が重力束縛のままで、評価窓の先(12000步〜)で1つの塊へ潰れていた。
+  // 新既定は膨張が全体の束縛を解き、12000步でも複数ノット+フィラメントを保つ(実測 δ²=2.91・
+  // ボイド55%・見た目でも1塊にならないことをスクリーンショットで確認)。数値は全て QA 計量で再実測。
+  // descStruct 化+メタ表現除去も同時に実施
+  descStruct:{
+    summary:"膨張するUniverseBox(H=0.01)の中に、共動初速だけを与えた320個の一様なガスを置く。主要な競合因子は2つ — 背景の膨張がすべてを引き離し(規定a(t)・E6′で共動輸送)、自己重力(E4)が近くの粒同士を引き寄せる。初期のむらは配置の統計ゆらぎ(ポアソン)だけで、そこから密なフィラメントと空っぽのボイドに分かれていく。右下のグラフは尺度因子a(t)。",
+    observe:"共動座標で10×10のセルに切った密度コントラストδ²=Var(N)/⟨N⟩²は6000步で0.272→1.48(5.4倍)、空セルの割合は1.3%→34.2%まで増える。12000步でもδ²=2.91・ボイド率55%と、複数のノットとフィラメントを保ったまま構造が育ち続ける — 膨張が全体の重力束縛を解いているため、1つの塊には潰れない。熱圧・接触散逸・伝導・放射冷却(E5′/E9′/κs/E11)もガス表現と数値安定のため有効だが構造形成の主因ではなく、放射冷却を切った対照でもδ²=1.46(差1.6%)にとどまる。※2次元・粒子320個・膨張は外から与えた規定則という強い簡略化で、ΛCDMの構造形成を再現する主張ではない(Negative Claims 1/2)。膨張の反作用はリザーバに帳簿(A13)。",
+    control:"おすすめA/B: 膨張H=0にすると引き離す力が消え、同じ時間で構造がずっと育つ(δ²=8.43・ボイド率75%)— そのかわり最後は1つの塊へ潰れていく。逆にH=0.02まで上げると膨張が勝って構造の成長が抑えられる(δ²=0.75・ボイド率11%)— 膨張率が構造のスケールを決める。"},
+  en:{name:"Box Universe — Expansion vs Self-Gravity (a Cosmic-Web Analogue)", descStruct:{
+    summary:"Inside an expanding UniverseBox (H=0.01) sit 320 uniform gas particles given nothing but the comoving initial flow. Two factors dominate the competition: the background expansion pulls everything apart (prescribed a(t), carried by E6′) and self-gravity (E4) pulls neighbours together. The only initial lumpiness is the Poisson noise of the random placement — from that, dense filaments and empty voids separate out. The bottom-right graph shows the scale factor a(t). ",
+    observe:"The density contrast δ²=Var(N)/⟨N⟩² on a 10×10 comoving grid grows from 0.272 to 1.48 (5.4×) in 6000 steps, and the fraction of empty cells rises from 1.3% to 34.2%. Even at 12000 steps the structure keeps growing — δ²=2.91, 55% voids — while retaining several knots and filaments: the expansion unbinds the cloud as a whole, so it never crushes into a single blob. Thermal pressure, contact dissipation, conduction and radiative cooling (E5′/E9′/κs/E11) are all switched on for a faithful gas model and numerical stability, but none of them drives structure formation — turning off radiative cooling still gives δ²=1.46 (a 1.6% difference). Note: two dimensions, 320 particles and an externally prescribed expansion law are severe simplifications — this is not a claim to reproduce ΛCDM structure formation (Negative Claims 1/2). The back-reaction of the expansion is ledgered to the reservoir (A13). ",
+    control:"Suggested A/B: set H to 0 and the pulling-apart disappears — in the same time, structure grows much further (δ²=8.43, 75% voids) — but it eventually crushes into a single blob. Raise H to 0.02 and expansion wins, suppressing growth (δ²=0.75, 11% voids) — the expansion rate sets the scale of the structure."}},
   activeParams:["G","kFrame","kRep"],
   thermal:"tint",
-  validT:96,   // 第39便 39E(台帳4-75 E2): 説明文の実測窓(6000步=t≈96)と一致(HUD表示専用)
-  // 第40便 40B パイロット(台帳4-78・claims 新設キー — 表示なし・データ層のみ): 説明文中の
-  // 既存実測値(δ²成長倍率・ボイド率)をそのまま転記。control.patch は engine 未接続の記述用
-  // メタデータ(UI表示・engine適用は次便裁定)。expected は実測値を含む窓で、QA claims.sync-pilot
-  // が説明文中の数値・behavior.cosmicweb の閾値と機械照合する
-  // 第42便 42A(台帳4-78 A案): descPattern を追記(claims.sync による汎用照合へ移行。
-  // control.descScale=1/0.272 は説明文の対照値が「絶対値δ²」表記のため、初期値0.272で
-  // 割って倍率へ換算する既存 claims.sync-pilot の式と同じ変換)
+  validT:192,   // 実測の評価窓(12000步=t≈192 — 51G で延長。構造が1塊に潰れないことを確認済みの範囲)
   claims:[
     { id:"cosmicweb.delta2-growth", kind:"fixed-seed", metric:"delta2GrowthRatio",
-      expected:{min:10, max:16},   // 実測13.1倍(0.272→3.578・6000步)
+      expected:{min:4.5, max:6.5},   // 実測5.4倍(0.272→1.482・6000步・H0=0.01)
       descPattern:"\\((\\d+(?:\\.\\d+)?)倍\\)",
-      control:{patch:{universeBox:{H0:0}}, expected:{min:26, max:36},   // 実測≈31.4倍(0.272→8.55)
+      control:{patch:{universeBox:{H0:0}}, expected:{min:26, max:36},   // 実測≈31.0倍(0.272→8.426)
         descPattern:"δ²=(\\d+(?:\\.\\d+)?)・ボイド率75%", descScale:3.6764706},
       testId:"behavior.cosmicweb" },
     { id:"cosmicweb.void-rate-final", kind:"fixed-seed", metric:"voidRateFinal",
-      expected:{min:0.50, max:0.65},   // 実測57.9%(6000步)
+      expected:{min:0.29, max:0.40},   // 実測34.2%(6000步)
       descPattern:"→(\\d+(?:\\.\\d+)?)%まで増える", descScale:0.01,
       control:{patch:{universeBox:{H0:0}}, expected:{min:0.68, max:0.82},   // 実測75%
         descPattern:"ボイド率(\\d+(?:\\.\\d+)?)%\\)", descScale:0.01},
       testId:"behavior.cosmicweb" }
   ],
   camera:{scale:420}, world:{boundary:"none",size:0}, seed:20260727,
-  universeBox:{mode:"exp", H0:0.004, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
+  universeBox:{mode:"exp", H0:0.01, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
   physics:{G:10, D0:0, kFrame:1, q:2, kRep:0.5, muF:0.5, gammaN:0.4, kappaS:0.05, Kt:300,
     cLight:100, bM:1, etaRad:3e-4, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:4, timeScale:2},
   bodies:[
     // 一様ガス(共動初速 v=H·r のみ。むらの種は配置のポアソンゆらぎだけ)
     {type:"disk", rMul:3, n:320, cx:0,cy:0, radius:240, mMin:0.3,mMax:0.3,
-     spinMin:0,spinMax:0, tInt:0.5, vMode:"hubble", aroundMass:0, vScale:0.004, direction:1}
+     spinMin:0,spinMax:0, tInt:0.5, vMode:"hubble", aroundMass:0, vScale:0.01, direction:1}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:false,monitor:true,boxGraph:true} },
 
