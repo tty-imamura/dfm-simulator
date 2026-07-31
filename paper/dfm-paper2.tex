@@ -1,59 +1,31 @@
 % =====================================================================
-% The Box Universe -- draft v0.1 (2026-07-29, dispatch 43)
-% Written per docs/dev/HANDOFF_PAPER2_WRITE.md v1.1 (sole authoritative
+% The Box Universe -- draft v0.8 (2026-07-31, dispatch 51)
+% Written per docs/dev/HANDOFF_PAPER2_WRITE.md (sole authoritative
 % writing brief; approved skeleton HANDOFF_PAPER_BOX v0.3).
-% Status: full prose draft with figures 1-8 machine-generated
-%         (tools/gen-figures2.mjs -> paper/figures/p2fig1..8.{svg,pdf,json}
-%         + p2figs-gates.json; Sec. VIII table maps every numeric claim
-%         to its verification gate).
-% Input canon: docs/BOX_UNIVERSE.md v1.6, docs/PHYSICS.md v1.14,
-%              docs/DERIVATIONS.md Sec. 17, beta v1.34 (V29 PASS).
-% Title: option (c), adopted by author decision (dispatch 44,
-%        2026-07-29).
-% v0.7: verification read (dispatch 50): Fig.8 caption's dangling
-%        "quoted above" reference to 1.332 fixed (the text now quotes
-%        the beta 1.331; the release value stays as a cross-check);
-%        verification-map outer boost aligned to the submission target
-%        (1.331); claims.sync count refreshed (33 -> 41 after the
-%        dispatch-50 additions); the 4-66 comparison experiment is now implemented
-%        (tests/exp-4-66.mjs, all four predeclared criteria met) and
-%        the text updated from "specified as a design document" to
-%        implemented-with-recorded-run. Observer-plane flux (ledger
-%        4-88) instrumented: Sec. V future-work statement replaced by
-%        the measured screen fluxes (baseline 0.28 / lock 0.30 /
-%        spin0 0.04 / spin2 0.12, retrograde redistribution +189,
-%        0.84 rad; gate ray.observer-flux).
-% v0.6: second review round applied (dispatch 48): estimator-bias
-%        framing (abstract/conclusion, +7.6% fractional difference);
-%        n_eff(phi_B) instead of d~a^{2phi_B}; freebox q=1 scope and
-%        configuration-specific 2.18; darkness narrowed to capture
-%        suppression/angular sweep (observer flux = future work);
-%        semantics "encodes, not reproduces"; near-simultaneous
-%        arrival (dt=0.080); beta 1.331 fixed as submission target
-%        (SD = numerical variance); two-tier CI wording.
-% v0.5: external-review majors applied (dispatch 47): d_P restored in
-%        the abstract formula; the late-time mismatch statement
-%        corrected (|rho-1| is non-monotonic; agreement epoch
-%        a=2D/Kt~1.85); references added (Planck 2018, SH0ES 2022,
-%        tension review, SN time dilation, T_CMB(z), Mach/relational,
-%        FLRW friction, DM phenomenology, companion paper); arrow-of-
-%        time conclusion separated (dissipation vs numerical arrow);
-%        darkness -> operational optical mechanisms; V29 vs Fig.6
-%        accuracies distinguished; g(0) analytic-limit note; Hubble
-%        values with units/uncertainties; calibration provenance moved
-%        to acknowledgments.
-% v0.4: figures 1-8 machine-generated and embedded (dispatch 46, 46F).
-%        Two numbers corrected against the generator's gates:
-%        (i) the ray sweep-out switches OFF capture between s=0.6 and 0.7
-%            (the v0.3 wording had the direction inverted);
-%        (ii) the radius-resolved enhancement outer value 1.15 -> 1.16
-%            (beta v1.34, 8 seeds, bands with <3 particles dropped).
-% v0.3: the 0.92-vs-a relation stated exactly (probe-agreement epoch
-%        a=2D/Kt~1.85; a=2 point value = anchor value identically;
-%        numeric coincidence 2^{4/3}~e^{0.9233} to 0.10%).
-% v0.2: title (c) adopted; D/K_t calibration given its exact closed
-%        form (2/3)ln4 with the strong-field caveat, incorporating the
-%        external reviewer's independent computation (2026-07-26).
+% Input canon: docs/BOX_UNIVERSE.md, docs/PHYSICS.md, docs/DERIVATIONS.md,
+%              beta v1.34 (V29 PASS).
+% v0.8: major revision per external pre-submission review (dispatch 51):
+%        - new Sec. II "Model and numerical methods" (M-01): axioms,
+%          parameter/observable definitions, integrator, error taxonomy;
+%        - "all numeric claims" scoped to simulation-derived central
+%          claims; claims.sync labeled app-wide (M-02);
+%        - verification-independence/circularity note (M-03);
+%        - Hubble-tension comparison moved out of the Abstract into the
+%          Discussion, 2024 reference added, pair-choice caveat (M-04);
+%        - dt and ray-count convergence measured and quoted (M-05):
+%          ratio error 5.3e-4 / 2.7e-4 / 1.1e-4 at dt=0.016/0.008/0.004;
+%          on-axis flux stable for spin2 (0.115-0.12) and bounded
+%          (0.04-0.09) for spin0 across 50-400 rays;
+%        - abstract shortened; g(0) stated as analytic limit (M-06);
+%        - translation-invariance claim scoped (M-07);
+%        - "pressure-like pair repulsion" wording (M-08);
+%        - dark-body section moved to Appendix A (M-09);
+%        - Code and data availability section (M-10);
+%        - acknowledgments reworded (m-04); "in an afternoon" removed
+%          (m-03); draft numbering unified (m-01); verification table
+%          reset in smaller type (m-05); Riess 2024 added (m-10).
+% v0.7: verification read (dispatch 50) - see git history for details.
+% v0.6 and earlier: see git history.
 % Build:  pdflatex dfm-paper2.tex  (RevTeX 4.2, as paper 1)
 % =====================================================================
 \documentclass[aps,reprint,amsmath,amssymb,nofootinbib,superscriptaddress,floatfix]{revtex4-2}
@@ -77,48 +49,31 @@
 \author{Tetsuya Imamura}
 \affiliation{Independent researcher, Japan}
 
-\date{2026-07-30 (draft v0.7)}
+\date{2026-07-31 (draft v0.8)}
 
 \begin{abstract}
 We extend Determinacy-Field Mechanics (DFM), a two-dimensional
-relational toy model introduced in a companion paper, with a
-\emph{box universe}: the approximation that everything outside a
-finite region is replaced by a single simplified background.
-Within this one construction we demonstrate three things.
-(i)~The box makes the classic relational questions computable:
-uniform translation of the box is undetectable from inside
-(exactly), while rotation and expansion couple to the interior
-through a measured gain factor $g(r)$ with $g(0)=1/2$ for a uniform
-ring, matching the analytic average $\langle\hat n(\hat n\cdot
-\bm r)\rangle=\bm r/2$.
-(ii)~Expansion appears in three separable layers---prescribed
-kinematics, wavelength semantics, and solved dynamics---each
-machine-verified; a pressure-driven free box accelerates
-($a_{\mathrm{eff}}=2.18$) while its gravity-only control
-recollapses.
-(iii)~As the central result, the model exhibits \emph{probe-dependent
-expansion estimates}: a geometric probe and a velocity-decay probe
-applied to the same box return rates whose ratio is the analytic
-factor $H_w/H_{\mathrm{geo}}=2(D/K_t)\,d_P\,a^{-d_P}$, verified
-numerically to $5.3\times10^{-4}$ in the dedicated three-window gate
-(and to $6.2\times10^{-3}$ in the broader figure scan).
-Precisely stated, the effect is an \emph{estimator bias under a
-mismatched decay law}: the velocity observer fits the FLRW rule
-$w/c\propto1/a$ to data generated by an exponential law.
-With the single calibration $D/K_t\approx0.92$ the ratio at $a=2$
-equals $0.92$ (a fractional difference of $7.6\%$ between the two
-estimates), the same magnitude as the ratio of two representative
-determinations of the Hubble constant
-($67.4/73.04\approx0.923$).
-We present this as a \emph{structural analogy}---a minimal mechanism
-by which the measured expansion rate depends on the probe---not as an
-explanation of the Hubble tension.
-A final section assembles the model's optically dark gravitating
-bodies and lists which phenomenological requirements of dark matter
-they meet inside the model, together with the measured limits of that
-construction.
-All numeric claims are tied to automated verification gates that run
-in continuous integration.
+relational toy model introduced in a companion paper, by introducing a
+\emph{box universe} approximation: everything outside a finite region
+is replaced by a single simplified background.
+The box makes classic relational questions computable---uniform
+translation of the box leaves the specified interior observables
+bit-identical, while rotation and expansion couple through a measured
+radial gain that approaches the analytic center limit $g(0)=1/2$---and
+separates expansion into three machine-verified layers: prescribed
+kinematics, wavelength semantics, and solved dynamics.
+The central result is an \emph{estimator bias under a mismatched decay
+law}: a geometric probe and a velocity-decay probe applied to the same
+box return expansion rates whose ratio is the analytic factor
+$H_w/H_{\mathrm{geo}}=2(D/K_t)\,d_P\,a^{-d_P}$, because the velocity
+observer fits the FLRW rule $w/c\propto1/a$ to data generated by an
+exponential law.
+The measured ratio matches the analytic factor to $5.3\times10^{-4}$,
+and the discrepancy pattern furnishes a structural analogy to
+probe-dependent determinations of the Hubble constant, discussed---and
+deliberately bounded---in the Discussion.
+All central simulation-derived quantitative claims are tied to
+automated verification gates that run in continuous integration.
 \end{abstract}
 
 \maketitle
@@ -155,20 +110,128 @@ The interest of the box universe is that it makes textbook
 distinctions---kinematic expansion versus dynamic expansion,
 coordinate recession versus measured redshift, probe versus
 quantity---concrete enough for a student to toggle in a browser, with
-a continuous-integration suite asserting every number in this paper.
+a continuous-integration suite asserting the central numbers in this
+paper.
 
 The paper is organized as follows.
+Section~\ref{sec:methods} defines the model, the numerical methods,
+and the error taxonomy used throughout.
 Section~\ref{sec:box} defines the box and establishes what the inside
 can and cannot detect.
 Section~\ref{sec:layers} separates expansion into three verified
 layers.
 Section~\ref{sec:probe} contains the main result: probe-dependent
-expansion measurement and its structural analogy with the Hubble
-tension.
-Section~\ref{sec:dark} assembles the model's optically dark bodies.
+expansion estimates.
+Section~\ref{sec:discussion} discusses the estimator-bias reading and
+its deliberately bounded analogy with the Hubble tension.
 Section~\ref{sec:negative} states six negative claims that are part of
-the thesis.
-Section~\ref{sec:repro} maps every claim to its verification gate.
+the thesis, and Sec.~\ref{sec:repro} maps every central claim to its
+verification gate and states code and data availability.
+Appendix~\ref{app:dark} applies the same machinery to the model's
+optically dark gravitating bodies.
+
+% ---------------------------------------------------------------------
+\section{Model and numerical methods}
+\label{sec:methods}
+
+\subsection{Fields, forces, clocks, and light}
+
+DFM is a two-dimensional particle model.
+Point masses $m_j$ at positions $\bm r_j$ source a scalar
+\emph{determinacy field}
+\begin{equation}
+  W(\bm r)=D_0+W_B+\sum_j \frac{m_j}{\sqrt{|\bm r-\bm r_j|^2+
+  \epsilon^2}} ,
+  \label{eq:W}
+\end{equation}
+where $\epsilon$ is a Plummer softening length, $D_0$ a uniform
+background, and $W_B$ the box term defined in
+Sec.~\ref{sec:box}.
+Gravity is Newtonian pairwise attraction with the same softening;
+a spinning mass drags the local \emph{determinacy frame} with a
+velocity field whose strength is set by a global coupling
+$k_{\mathrm{Frame}}\in[0,1]$, and a moving background transports free
+particles through the same channel (the model's Machian sector).
+Clock rate and light propagation are both read from the single
+dimensionless potential $\psi=W/K_t$: proper time advances as
+$d\tau/dt=e^{-\psi}$ and the local light speed is
+$c_{\mathrm{loc}}=c_0\,e^{-2\psi}$, so the effective refractive index
+is $n_{\mathrm{eff}}=e^{2\psi}$.
+$W$, $D$, $D_0$ carry the (arbitrary) simulation mass unit divided by
+length; $K_t$ carries the same unit, making $\psi$ dimensionless; all
+lengths, times, and speeds are in internal simulation units throughout
+(none of the claims below depend on a physical calibration of those
+units).
+Optional sectors used in this paper: a pressure-like pair repulsion
+between spinning or heated particles with far-field force
+$F\propto d^{\,1-2q}$ (Sec.~\ref{sec:layers}), dissipative contact
+(normal damping and translation-to-spin friction), conduction, and
+radiative cooling; each is switched off wherever it is not explicitly
+listed as active.
+
+\subsection{Integration and state}
+
+The equations of motion are integrated with a first-order
+semi-implicit (symplectic) Euler scheme at a fixed step
+$\Delta t=0.016$; a time-symmetric leapfrog (KDK) variant is available
+and is used only where reversibility itself is under test.
+All state is double precision.
+Safety clamps (speed, spin, and expansion-rate bounds) exist as
+divergence guards; a ledger counts their activations, and a
+verification gate asserts \emph{zero activations} in every
+configuration for which conservation is claimed.
+Momentum, angular momentum, and energy books are closed against
+explicit reservoir ledgers; conservation-type gates assert the closed
+sums, not merely small drifts.
+
+\subsection{Measured quantities}
+
+The observables used in this paper are defined once and reused
+everywhere.
+The \emph{geometric expansion rate} over a window
+$[t_1,t_2]$ is $H_{\mathrm{geo}}=\Delta\ln a/\Delta t$.
+The \emph{velocity-decay estimate} is
+$H_w=-\Delta\ln R/\Delta t$ with $R=w/c_{\mathrm{loc}}$, where $w$ is
+the particle's peculiar speed relative to the prescribed Hubble flow.
+Window averages are always quoted with their windows; a
+\emph{cumulative} estimator (referenced to $t=0$) and a
+\emph{local-window} estimator are distinguished wherever both appear.
+The free box's \emph{effective scale factor} is
+$a_{\mathrm{eff}}=\langle r_{\mathrm{wall}}\rangle/\langle
+r_{\mathrm{wall}}\rangle_0$, measured from the wall masses.
+Observer-plane flux and capture rates for ray experiments are defined
+in Appendix~\ref{app:dark}.
+
+\subsection{Error taxonomy and verification independence}
+\label{sec:taxonomy}
+
+Each machine-checked claim carries one of five verification types,
+declared in the code next to the claim itself:
+\emph{analytic match} (agreement with a closed-form expression),
+\emph{conservation identity} (ledger-closed sums),
+\emph{semantic regression} (a definition or display rule),
+\emph{fixed-seed run} (a deterministic single-run measurement), and
+\emph{multi-seed statistics} (spread across seeds; quoted $\pm$ values
+are between-realization standard deviations).
+Two honesty notes accompany this machinery.
+First, most figure data are generated by driving the simulator itself,
+which guarantees figure--implementation synchrony but is not an
+independent proof of the implementation; the analytic-match gates
+compare against short closed-form expressions (evaluated in the test
+harness, outside the engine), and the conservation identities are
+independent of the analytic predictions.
+Second, several gate tolerances were set \emph{after} the first
+measurement; those gates are regression baselines that pin the
+recorded value, not blind predictions, and are labeled fixed-seed
+accordingly.
+
+Discretization was probed directly for the central result: halving and
+re-halving the time step changes the probe-ratio error of
+Sec.~\ref{sec:probe} monotonically from $5.3\times10^{-4}$
+($\Delta t=0.016$) to $2.7\times10^{-4}$ ($0.008$) and
+$1.1\times10^{-4}$ ($0.004$), consistent with the first-order
+integrator; the quoted tolerance of $10^{-2}$ sits two orders above
+the measured error at the production step.
 
 % ---------------------------------------------------------------------
 \section{The box as an approximation}
@@ -197,10 +260,16 @@ layered on top, each with its own verification; and
 \subsection{What the inside cannot detect}
 \label{sec:t10}
 
-Uniform translation of the entire box is exactly undetectable from
-inside: the relational axioms depend only on relative configuration,
-and the verification suite asserts bit-identical interior evolution
-under a boosted box.
+Because every axiom of the model depends only on relative
+configuration (Eq.~\ref{eq:W} and the pairwise force laws are
+functions of coordinate differences), uniform translation of the
+entire box is a symmetry of the dynamics; the verification suite
+additionally asserts, at machine precision, that the implemented
+interior evolution is bit-identical under a boosted box for the
+tracked observables (positions, velocities, spins, clocks).
+We therefore claim exact undetectability for the specified observables
+of the implementation, with the analytic symmetry argument carrying
+the generalization.
 Rotation and expansion are different: they enter through the
 determinacy frame with a measured \emph{gain} $g(r)$.
 For a uniform ring of wall masses the analytic average of the
@@ -216,7 +285,8 @@ is $0/0$ there); the innermost measured point of the radial scan,
 $r=20$, gives $g=0.5002$, and the agreement of the full scan with the
 analytic curve supports the limit (gates V23a/V24a).
 This is the toy-model version of the classic relational
-statement~\cite{Mach1893,BarbourBertotti1982}: absolute uniform
+statement~\cite{Mach1893,BarbourBertotti1982}---an analogy, not the
+same theoretical conclusion: absolute uniform
 motion is meaningless, but absolute rotation and expansion of
 ``everything else'' are interior-observable through the frame they
 drag.
@@ -247,8 +317,10 @@ uniform-ring curve.
   measurements coincide, as they must: both couple through the same
   weighted mean. The gray curve is the analytic uniform-ring limit
   $g(r)=(R/r)\,I_c/I_0$ with
-  $I_c=\oint\cos\theta\,\mathrm d\theta/\sqrt{d^2+\epsilon^2}$,
-  $I_0=\oint \mathrm d\theta/\sqrt{d^2+\epsilon^2}$, whose $r\to0$
+  $I_c=\oint\cos\theta\,\mathrm d\theta/\sqrt{d(\theta)^2+\epsilon^2}$,
+  $I_0=\oint \mathrm d\theta/\sqrt{d(\theta)^2+\epsilon^2}$, where
+  $d(\theta)$ is the distance from the probe point to the ring element
+  at azimuth $\theta$; the $r\to0$
   limit is Eq.~(\ref{eq:gain}). Measured $g(20)=0.5002$ for both
   probes; largest deviation from the analytic curve over the whole
   scan, $0.07\%$.}
@@ -330,17 +402,25 @@ physics.
 
 Replacing the regulated box by 64 free wall masses turns $a(t)$ into
 an output.
-With spin pressure on, the measured effective scale factor
-accelerates to $a_{\mathrm{eff}}=2.18$; with
-pressure removed ($k_{\mathrm{Rep}}=0$) the same box coasts to
+The driver is a \emph{pressure-like pair repulsion} between spinning
+wall masses---not a thermodynamic equation of state or a
+stress-energy pressure; the term ``pressure'' is used in this
+loose, mechanism-level sense throughout.
+With the repulsion on, the measured effective scale factor
+accelerates to $a_{\mathrm{eff}}=2.18$; with it
+removed ($k_{\mathrm{Rep}}=0$) the same box coasts to
 $a_{\mathrm{eff}}\approx1.005$ and recollapses.
 The far-field pair repulsion scales as $F\propto d^{\,1-2q}$; this
 preset uses $q=1$, for which it decays as $1/d$---slower than
 gravity, so it wins at large separation (the DFM default $q=2$ gives
 $1/d^{3}$ and would not).
-The specific value $2.18$ is a property of this configuration
+The specific value $2.18$ is a property of this discrete ring
+configuration
 ($q=1$, $k_{\mathrm{Rep}}=0.5$, 64 equal wall masses), not a
-universal number; the in-app A/B controls expose its dose response.
+universal number; the in-app A/B controls expose its dose response,
+and a four-quadrant $G\times k_{\mathrm{Rep}}$ scan pins the source
+of the acceleration on the repulsion itself (gravity's braking
+contribution to $a_{\mathrm{eff}}$ is $-0.013$).
 The run is a fully closed system: reservoir bookkeeping is
 identically zero and momentum/angular-momentum drift is below
 $4\times10^{-8}$ (gates \texttt{freebox.*}).
@@ -355,10 +435,11 @@ accelerate---with no claim of reproducing the Friedmann equations
   \texttt{freebox}, 64 free wall masses, $1200$ steps to $t=19.2$).
   The plotted $a_{\mathrm{eff}}=\langle r_{\mathrm{wall}}\rangle/
   \langle r_{\mathrm{wall}}\rangle_0$ is measured from the walls, not
-  prescribed. (a)~With spin pressure ($k_{\mathrm{Rep}}=0.5$) the box
+  prescribed. (a)~With the pair repulsion on
+  ($k_{\mathrm{Rep}}=0.5$) the box
   reaches $a_{\mathrm{eff}}=2.1795$ and \emph{accelerates}
   ($H_{\mathrm{eff}}$ from $3.18\times10^{-2}$ to
-  $5.14\times10^{-2}$). (b)~The same box with the pressure removed,
+  $5.14\times10^{-2}$). (b)~The same box with the repulsion removed,
   magnified: gravity alone peaks at $a_{\mathrm{eff}}=1.0047$ at
   $t=9.2$ and then recollapses ($H_{\mathrm{eff}}$ changes sign,
   $+4.42\times10^{-4}\to-5.28\times10^{-4}$). The reservoir ledger is
@@ -383,7 +464,7 @@ This section is deliberately brief; a fuller treatment is future
 work.
 
 % ---------------------------------------------------------------------
-\section{Probe-dependent expansion measurement}
+\section{Probe-dependent expansion estimates}
 \label{sec:probe}
 
 \subsection{Hubble anti-friction and the ratio standard}
@@ -431,9 +512,15 @@ $10^{-2}$, with $w$ conserved to $4.8\times10^{-4}$.
 The broader 24-window scan behind Fig.~\ref{fig:probeH} reaches a
 maximum relative deviation of $6.2\times10^{-3}$; the two accuracies
 are distinct, and both satisfy the predeclared $10^{-2}$ tolerance.
-Figure~\ref{fig:probeH} extends that gate into an
+The error is discretization-dominated and converges with the step
+(Sec.~\ref{sec:taxonomy}).
+Figure~\ref{fig:probeH} extends the gate into an
 $a\times(D/K_t)$ scan, following the comparison design 4-66 of the
-project's experiment ledger.
+project's experiment ledger; that comparison experiment is
+implemented as a standalone script whose recorded run meets all four
+predeclared criteria (exponential-series accuracy, control identity,
+curve separation above $10\sigma$, and the V29 regression gate), and
+its output doubles as the data source for Fig.~6.
 
 \begin{figure}[t]
   \includegraphics[width=\linewidth]{p2fig6.pdf}
@@ -458,70 +545,12 @@ project's experiment ledger.
   \label{fig:probeH}
 \end{figure}
 
-\subsection{A structural analogy with the Hubble tension}
-\label{sec:tension}
-
-Two representative determinations of the real Hubble constant
-disagree: $H_0=67.4\pm0.5\,\mathrm{km\,s^{-1}\,Mpc^{-1}}$ from the
-CMB fit under base $\Lambda$CDM~\cite{Planck2018} versus
-$H_0=73.04\pm1.04\,\mathrm{km\,s^{-1}\,Mpc^{-1}}$ from the local
-distance ladder~\cite{Riess2022}, a ratio of $0.923$; for the wider
-landscape of methods and systematics see
-Ref.~\cite{DiValentino2021}.
-In the box universe the calibration has an exact closed form: the
-choice that makes the ratio standard $R$ of Eq.~(\ref{eq:R}) fall to
-exactly $1/4$ at $a=4$ is
-\begin{equation}
-  \frac{D}{K_t}=\frac{\ln 4}{2\,(1-1/4)}=\tfrac{2}{3}\ln 4
-  \approx 0.9242 ,
-\end{equation}
-which follows directly from Eq.~(\ref{eq:R}), and with it the probe
-ratio at $a=2$ is
-\begin{equation}
-  \frac{H_w}{H_{\mathrm{geo}}}\Big|_{a=2}=\frac{2D}{K_t}\cdot\frac12
-  =\frac{D}{K_t}\approx 0.92 ,
-\end{equation}
-the same magnitude as the observed tension ratio.
-The relation between the two appearances of $0.92$ is worth stating
-exactly (dispatch-44/45 audit): the probe ratio of
-Eq.~(\ref{eq:ratio}) equals $D/K_t$ at $a=2$ \emph{identically}, for
-any calibration, so ``$0.92$ at $a=2$'' is simply the $a{=}4$ anchor
-value read at $a=2$; the probes agree ($H_w=H_{\mathrm{geo}}$) at
-$a=2D/K_t\approx1.85$; and $R$ crosses the FLRW curve $1/a$ exactly
-twice, at $a=1$ and (by construction) $a=4$, decaying faster in
-between.
-The numeric agreement with the tension ratio reduces to the identity
-$2^{4/3}\approx e^{0.9233}$, true to $0.10\%$---a coincidence of
-constants, which is why negative claim~6 treats it as calibration,
-not evidence.
-One honesty note accompanies the calibration: $\psi=D/K_t\approx0.92$
-is a \emph{strong-field} setting of the toy
-($c_{\mathrm{loc}}/c_0=e^{-2\psi}\approx0.16$), far outside the
-weak-field regime $|\psi|\ll1$ in which the companion paper's GR
-calibrations live; nothing in this section inherits those
-calibrations.
-We state precisely what this is and is not.
-It \emph{is} a minimal, fully inspectable mechanism in which the
-measured expansion rate depends on the probe---early-universe-style
-global fits and late-universe-style local kinematics need not agree
-if the underlying decay law differs from the assumed one.
-It is \emph{not} an explanation of the Hubble tension: the model is
-two-dimensional, non-Lorentzian, and the coincidence of $0.92$ with
-$0.923$ is a calibration, not a prediction (negative claims 3 and 6).
-
 The functional form is the entire content of the effect.
 If the model's light-speed law were replaced by the exact inverse
-proportionality $c_{\mathrm{loc}}\propto1/W$ (ledger item 4-66), then
+proportionality $c_{\mathrm{loc}}\propto1/W$, then
 $R\propto a^{-d_P}$ exactly, both probes would coincide identically
 ($H_w/H_{\mathrm{geo}}\equiv d_P$), and the probe dependence would
 vanish.
-The comparison experiment that separates the two forms---an
-$a\times D/K_t$ scan of Eq.~(\ref{eq:ratio}) against the constant
-line---is specified as a design document in the repository and
-implemented as a standalone experiment script; its recorded run meets
-all four predeclared criteria (exponential-series accuracy, control
-identity, curve separation above $10\sigma$, and the V29 regression
-gate), and its output doubles as the data source for Fig.~6.
 The choice between the two laws is thus \emph{observable from inside
 the model}, which is the pedagogical point: what looks like a
 measurement discrepancy can be a statement about which decay law
@@ -538,26 +567,195 @@ The model therefore provides probe dependence, not a monotonic
 early-to-late relaxation of the discrepancy.
 
 % ---------------------------------------------------------------------
+\section{Discussion: estimator bias, and a bounded analogy}
+\label{sec:discussion}
+
+The result of Sec.~\ref{sec:probe} is best read as a worked example
+of \emph{estimator misspecification}: two internally consistent
+estimators of the same expansion applied to the same data disagree
+because one of them fits the wrong decay law.
+Nothing in the construction depends on the toy model's specifics---the
+lesson transfers to any setting where an inferred rate inherits the
+functional form its estimator assumes.
+
+The analogy with the real Hubble tension is structural and
+deliberately bounded.
+Two representative determinations of the Hubble constant
+disagree: $H_0=67.4\pm0.5\,\mathrm{km\,s^{-1}\,Mpc^{-1}}$ from the
+CMB fit under base $\Lambda$CDM~\cite{Planck2018} versus
+$H_0=73.04\pm1.04\,\mathrm{km\,s^{-1}\,Mpc^{-1}}$ from the 2022 local
+distance ladder~\cite{Riess2022}, a ratio of $0.923$; the 2024
+JWST-crossvalidated ladder value $73.2\pm0.9$~\cite{Riess2024} gives
+$0.921$, and the wider landscape of methods spans a range of such
+ratios~\cite{DiValentino2021}---the comparison ratio depends on which
+pair of determinations one adopts.
+In the box universe, choosing $D/K_t=\tfrac{2}{3}\ln 4\approx 0.9242$
+(the value that makes $R$ of Eq.~(\ref{eq:R}) fall to exactly $1/4$
+at $a=4$) makes the probe ratio at $a=2$ equal $D/K_t\approx0.92$
+identically---a fractional difference of $7.6\%$ between the two
+estimates, the same magnitude as the observed ratios above.
+This is a calibration, chosen when the 2022 pair was adopted as the
+reference, and we do not retune it as observational values evolve;
+the numeric agreement reduces to the identity
+$2^{4/3}\approx e^{0.9233}$, true to $0.10\%$---a coincidence of
+constants, which is why negative claim~6 treats it as calibration,
+not evidence.
+One further honesty note: $\psi=D/K_t\approx0.92$
+is a \emph{strong-field} setting of the toy
+($c_{\mathrm{loc}}/c_0=e^{-2\psi}\approx0.16$), far outside the
+weak-field regime $|\psi|\ll1$ in which the companion paper's GR
+calibrations live; nothing in this section inherits those
+calibrations.
+What the model \emph{is}: a minimal, fully inspectable mechanism in
+which the measured expansion rate depends on the probe---global fits
+and local kinematics need not agree if the underlying decay law
+differs from the assumed one.
+What it \emph{is not}: an explanation of the Hubble tension---the
+model is two-dimensional, non-Lorentzian, and the coincidence of
+$0.92$ with $0.92$--$0.923$ is a calibration, not a prediction
+(negative claims 3 and 6).
+
+% ---------------------------------------------------------------------
+\section{Limitations and negative claims}
+\label{sec:negative}
+
+As in the companion paper, these are part of the thesis.
+
+\subsection{Negative claim 1}
+The box universe is not a description of the real universe: the model
+is two-dimensional, has no Lorentz invariance, and no causal
+propagation of the fields.
+
+\subsection{Negative claim 2}
+The wavelength-retention rule is semantics, not a derivation from
+photon dynamics.
+
+\subsection{Negative claim 3}
+Probe-dependent $H$ is presented as a structural analogy; no claim is
+made that it explains the Hubble tension.
+
+\subsection{Negative claim 4}
+The optically dark bodies of Appendix~\ref{app:dark} are not proposed
+as candidates for real dark matter; they meet requirements
+\emph{inside the model} only.
+
+\subsection{Negative claim 5}
+The free box demonstrates a mechanism (attraction decelerates,
+pressure-like repulsion accelerates); it does not reproduce the
+Friedmann equations.
+
+\subsection{Negative claim 6}
+$D/K_t=0.92$ is a calibration chosen to match the tension ratio's
+magnitude; the numeric agreement is not evidence for anything.
+
+% ---------------------------------------------------------------------
+\section{Conclusion}
+\label{sec:conclusion}
+
+A single deliberately crude approximation---replace everything far
+away by a box---is enough to make the standard cosmological
+distinctions computable and auditable: what is undetectable
+(translation) versus gain-coupled (rotation, expansion); what is
+prescribed versus semantic versus solved about expansion; and, at the
+center of this paper, the fact that \emph{expansion-rate estimates
+inherit the decay law the estimator assumes}: a probe that fits the
+wrong functional form reports a different $H$, with the entire effect
+carried by one decay law.
+Every central claim is asserted by an automated gate
+(Sec.~\ref{sec:repro}), and the model runs in a browser, so each
+claim can be re-derived, re-measured, or broken by any reader with
+the repository and a laptop.
+
+Future work is confined to two items: an optional light probe
+$H_{\mathrm{light}}$ alongside the two probes of Sec.~\ref{sec:v29},
+and a fuller treatment of the reversibility demonstration.
+
+% ---------------------------------------------------------------------
+\section{Verification map; code and data availability}
+\label{sec:repro}
+
+Every central simulation-derived claim above maps to an automated
+verification gate in the public repository.
+Core behavioral QA runs on every commit for both the release and
+beta targets; the paper-specific figure regeneration and its 21
+numeric gates run on the beta target whenever the paper, the figure
+generator, or the paper workflow changes.
+The app-wide gate \texttt{claims.sync} cross-checks the 44 numeric
+claims embedded in the simulator's own sample descriptions (of which
+the paper uses a subset); it is an application-wide consistency
+gate, not a one-to-one manifest of this paper's claims---the table
+below is that manifest.
+
+\begin{center}
+{\small
+\begin{tabular}{lll}
+Claim & Type & Gate \\
+\hline
+$g(0)=1/2$ (Eq.~\ref{eq:gain}) & analytic & V23a/V24a \\
+$\chi=r/a$ const.\ ($1.5{\times}10^{-5}$) & fixed-seed & V24b \\
+$n_{\mathrm{eff}}(\varphi_B)$ ($1.61/0.00$) & fixed-seed & V25 \\
+prescribed power expansion & analytic & V26 \\
+FLRW friction contrast ($0.03\%$) & analytic & V27 \\
+$R(a)$ decay (Eq.~\ref{eq:R}, $2.5{\times}10^{-4}$) & analytic & V28 \\
+probe ratio (Eq.~\ref{eq:ratio}, $5.3{\times}10^{-4}$) & analytic & V29 \\
+$dt$ convergence of the ratio & analytic & Sec.~\ref{sec:taxonomy} \\
+A/B/C wavelengths ($<10^{-9}$) & semantic & \texttt{box.photon-abc} \\
+free box ($a_{\mathrm{eff}}{=}2.18$; books) & fixed-seed & \texttt{freebox.*} \\
+clamp ledger (0 activations) & conservation & \texttt{clamp.ledger-zero} \\
+arrow of time ($1.3{\times}10^{-3}$ vs $10.8$) & fixed-seed & \texttt{echo.*} \\
+darkness orthogonality; sweep & fixed-seed & App.~\ref{app:dark} \\
+observer flux ($0.04/0.12$ vs $0.28$) & fixed-seed & \texttt{ray.observer-flux} \\
+outer boost $1.331\pm0.009$ & multi-seed & seeds statistics \\
+figures (21 gates) & mixed & {\footnotesize\texttt{p2figs-gates.json}} \\
+\end{tabular}}
+\end{center}
+
+\emph{Code and data availability.}
+The simulator, the verification suite, the figure generator, the
+figure data (JSON), and this manuscript are in the public repository
+\url{https://github.com/tty-imamura/dfm-simulator} (MIT license).
+The submitted version will be pinned by an annotated release tag and
+archived (with the exact commit SHA, the QA and figure JSONs, and the
+built PDFs) on Zenodo, alongside the companion paper's archive
+(doi:10.5281/zenodo.21454189); the environment is Node.js~$\geq$22,
+Playwright-driven Chromium for the harness, and TeX~Live for the
+manuscript, with \texttt{npm ci \&\& npm test} reproducing the QA and
+\texttt{node tools/gen-figures2.mjs} regenerating every figure.
+
+\begin{acknowledgments}
+Automated review passes generated with large-language-model
+assistants, run by the author, were used to cross-check several
+results (including the closed form of the $D/K_t$ calibration and the
+corrections recorded in the v0.4--v0.8 change logs) and to suggest
+editorial revisions; all decisions and the final text are the
+author's responsibility.
+\end{acknowledgments}
+
+% ---------------------------------------------------------------------
+\appendix
+
 \section{Optically dark gravitating bodies}
-\label{sec:dark}
+\label{app:dark}
 
 The companion paper showed that DFM's rotating cores enhance outer
 rotation curves through frame dragging (measured outer boost
 $1.331\pm0.009$ over eight seeds on the submission target, beta
-v1.34; the $\pm$ is run-to-run numerical variance across seeds, not
-a model uncertainty).
-Here we assemble the model's \emph{darkness} mechanisms and ask,
-inside the model, which phenomenological requirements of dark matter
-a single object can meet.
+v1.34; the $\pm$ is the between-realization standard deviation across
+seeds, not a model uncertainty).
+This appendix assembles the model's \emph{darkness} mechanisms and
+asks, inside the model, which phenomenological requirements of dark
+matter a single object can meet.
+It is deliberately separated from the main text: the box-universe
+results stand without it.
 
 \subsection{Two independent optical mechanisms}
 
-``Dark'' is used operationally throughout this section: a body is dark
+``Dark'' is used operationally throughout: a body is dark
 to the extent that (i)~its \emph{self-emission} is suppressed and
 (ii)~its interaction with \emph{external} rays suppresses capture
 and sweeps the ray fan aside.
-What is measured below is capture suppression and angular sweep,
-and---since this draft---the resulting \emph{observer-plane flux}: a
+What is measured is capture suppression, angular sweep, and the
+resulting \emph{observer-plane flux}: a
 vertical screen at $x=+300$ opposite the ray source counts which rays
 of the standard 50-ray fan arrive on-axis ($|y|\le60$; straight-line
 geometric baseline $0.28$).
@@ -569,8 +767,11 @@ core stays dark at the observer even with capture eliminated
 (on-axis $0.12$), because the sweep redistributes the fan in angle
 toward the retrograde side (mean crossing ordinate $+189$, mean
 direction deviation $0.84$\,rad; gate \texttt{ray.observer-flux}).
-Which rays reach a detector, and how bright the body looks from
-behind, is thus now a measured quantity rather than future work.
+These on-axis fractions are ray-grid resolutions, not continuous
+probabilities: rescanning with 50--400 rays leaves the spinning-core
+value at $0.115$--$0.12$ and keeps the non-spinning value within
+$0.04$--$0.09$, both far below the $0.28$ baseline, so the darkness
+conclusion is resolution-robust.
 Absorption, scattering, transmission, and lensing are distinct
 observables; the model implements the two channels below and makes no
 claim about the others.
@@ -655,99 +856,6 @@ to audit.
   \label{fig:curve}
 \end{figure}
 
-% ---------------------------------------------------------------------
-\section{Limitations and negative claims}
-\label{sec:negative}
-
-As in the companion paper, these are part of the thesis.
-
-\subsection{Negative claim 1}
-The box universe is not a description of the real universe: the model
-is two-dimensional, has no Lorentz invariance, and no causal
-propagation of the fields.
-
-\subsection{Negative claim 2}
-The wavelength-retention rule is semantics, not a derivation from
-photon dynamics.
-
-\subsection{Negative claim 3}
-Probe-dependent $H$ is presented as a structural analogy; no claim is
-made that it explains the Hubble tension.
-
-\subsection{Negative claim 4}
-The optically dark bodies of Sec.~\ref{sec:dark} are not proposed as
-candidates for real dark matter; they meet requirements \emph{inside
-the model} only.
-
-\subsection{Negative claim 5}
-The free box demonstrates a mechanism (attraction decelerates,
-pressure accelerates); it does not reproduce the Friedmann equations.
-
-\subsection{Negative claim 6}
-$D/K_t=0.92$ is a calibration chosen to match the tension ratio's
-magnitude; the numeric agreement is not evidence for anything.
-
-% ---------------------------------------------------------------------
-\section{Conclusion}
-\label{sec:conclusion}
-
-A single deliberately crude approximation---replace everything far
-away by a box---is enough to make the standard cosmological
-distinctions computable and auditable: what is undetectable
-(translation) versus gain-coupled (rotation, expansion); what is
-prescribed versus semantic versus solved about expansion; and, at the
-center of this paper, the fact that \emph{expansion-rate estimates
-inherit the decay law the estimator assumes}: a probe that fits the
-wrong functional form reports a different $H$, with the entire effect
-carried by one decay law.
-Every number in this paper is asserted by an automated gate
-(Sec.~\ref{sec:repro}), and the model runs in a browser, so each
-claim can be re-derived, re-measured, or broken by a student in an
-afternoon.
-Future work: an optional light probe $H_{\mathrm{light}}$ alongside
-the two probes of Sec.~\ref{sec:v29}; and a fuller treatment of the
-reversibility demonstration.
-
-% ---------------------------------------------------------------------
-\section{Verification map}
-\label{sec:repro}
-
-Every numeric claim above maps to an automated verification gate in
-the public repository.
-Core behavioral QA runs on every commit for both the release and
-beta targets; the paper-specific figure regeneration and its 21
-numeric gates run on the beta target whenever the paper, the figure
-generator, or the paper workflow changes:
-
-\begin{center}
-\begin{tabular}{ll}
-Claim & Gate \\
-\hline
-$g(0)=1/2$ (Eq.~\ref{eq:gain}) & V23a / V24a \\
-$\chi=r/a$ conserved ($1.5\times10^{-5}$) & V24b \\
-$n_{\mathrm{eff}}(\varphi_B)$ ($1.61/0.00$) & V25 \\
-prescribed power expansion & V26 \\
-FLRW friction contrast ($0.03\%$) & V27 \\
-$R(a)$ decay (Eq.~\ref{eq:R}, $2.5\times10^{-4}$) & V28 \\
-probe ratio (Eq.~\ref{eq:ratio}, $5.3\times10^{-4}$) & V29 \\
-A/B/C wavelengths ($<10^{-9}$) & \texttt{box.photon-abc} \\
-free box ($a_{\mathrm{eff}}=2.18$; closed books) & \texttt{freebox.*} \\
-arrow of time ($1.3\times10^{-3}$ vs.\ $10.8$) & \texttt{echo.*} \\
-darkness orthogonality; sweep-out & derivations Sec.~17 \\
-observer-plane flux ($0.04/0.12$ vs $0.28$) & \texttt{ray.observer-flux} \\
-outer boost $1.331\pm0.009$; profile & seeds statistics \\
-claim--text consistency (41 claims) & \texttt{claims.sync} \\
-figures (21 gates) & {\small\texttt{p2figs-gates.json}} \\
-\end{tabular}
-\end{center}
-
-\begin{acknowledgments}
-Independent automated external reviews of the repository (2026-07)
-cross-checked several results of this paper, including the closed form
-of the $D/K_t$ calibration and the corrections recorded in the v0.4
-and v0.5 change logs.
-\end{acknowledgments}
-
 \begin{thebibliography}{99}
 \bibitem{DFM1} T. Imamura, \emph{Determinacy-Field Mechanics: A
 Machian Toy Universe with Tunable Frame Dragging, Inverse-Square
@@ -757,31 +865,43 @@ doi:10.5281/zenodo.21454189.
 Court, Chicago, 1893).
 \bibitem{BarbourBertotti1982} J. B. Barbour and B. Bertotti,
 ``Mach's principle and the structure of dynamical theories,''
-Proc. R. Soc. Lond. A \textbf{382}, 295 (1982).
+Proc. R. Soc. Lond. A \textbf{382}, 295 (1982),
+doi:10.1098/rspa.1982.0102.
 \bibitem{Peacock1999} J. A. Peacock, \emph{Cosmological Physics}
 (Cambridge University Press, Cambridge, 1999).
 \bibitem{Leibundgut1996} B. Leibundgut \emph{et al.}, ``Time
 dilation in the light curve of the distant type Ia supernova
-SN 1995K,'' Astrophys. J. Lett. \textbf{466}, L21 (1996).
+SN 1995K,'' Astrophys. J. Lett. \textbf{466}, L21 (1996),
+doi:10.1086/310164.
 \bibitem{Goldhaber2001} G. Goldhaber \emph{et al.}, ``Timescale
 stretch parameterization of type Ia supernova B-band light curves,''
-Astrophys. J. \textbf{558}, 359 (2001).
+Astrophys. J. \textbf{558}, 359 (2001), doi:10.1086/322460.
 \bibitem{Fixsen2009} D. J. Fixsen, ``The temperature of the cosmic
-microwave background,'' Astrophys. J. \textbf{707}, 916 (2009).
+microwave background,'' Astrophys. J. \textbf{707}, 916 (2009),
+doi:10.1088/0004-637X/707/2/916.
 \bibitem{Noterdaeme2011} P. Noterdaeme \emph{et al.}, ``The
 evolution of the cosmic microwave background temperature,''
-Astron. Astrophys. \textbf{526}, L7 (2011).
+Astron. Astrophys. \textbf{526}, L7 (2011),
+doi:10.1051/0004-6361/201016140.
 \bibitem{Planck2018} Planck Collaboration, ``Planck 2018 results.
 VI. Cosmological parameters,'' Astron. Astrophys. \textbf{641}, A6
-(2020).
+(2020), doi:10.1051/0004-6361/201833910.
 \bibitem{Riess2022} A. G. Riess \emph{et al.}, ``A comprehensive
 measurement of the local value of the Hubble constant,''
-Astrophys. J. Lett. \textbf{934}, L7 (2022).
+Astrophys. J. Lett. \textbf{934}, L7 (2022),
+doi:10.3847/2041-8213/ac5c5b.
+\bibitem{Riess2024} A. G. Riess \emph{et al.}, ``JWST validates HST
+distance measurements: selection of supernova subsample explains
+differences in JWST estimates of local $H_0$,''
+Astrophys. J. \textbf{977}, 120 (2024),
+doi:10.3847/1538-4357/ad8c21.
 \bibitem{DiValentino2021} E. Di Valentino \emph{et al.}, ``In the
 realm of the Hubble tension---a review of solutions,''
-Class. Quantum Grav. \textbf{38}, 153001 (2021).
+Class. Quantum Grav. \textbf{38}, 153001 (2021),
+doi:10.1088/1361-6382/ac086d.
 \bibitem{BertoneHooper2018} G. Bertone and D. Hooper, ``History of
-dark matter,'' Rev. Mod. Phys. \textbf{90}, 045002 (2018).
+dark matter,'' Rev. Mod. Phys. \textbf{90}, 045002 (2018),
+doi:10.1103/RevModPhys.90.045002.
 \end{thebibliography}
 
 \end{document}
