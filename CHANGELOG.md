@@ -4,6 +4,24 @@
 2026-07-21 に分離 — ロードマップ P2 群)。新しい版が上。バージョンは `APP_VERSION`
 (index.html)と package.json の major.minor が QA `version.sync` で同期検査される。
 
+## v1.35(開発中 — β線 v1.35-b2)
+
+第53便(2026-07-31): **相変化拡張 E14 phaseChange(beta 先行)**。外部レビュー3件
+(Grok/Gemini/ChatGPT 2026-07-31)の提案を統合し、エンタルピー法の熱力学的相変化を導入。
+
+- **E14 相変化**: プリセット最上位キー `phaseChange:{meltT, latentF, …}`(thermal:"tint" 必須・
+  fusion 排他)。熱状態の正本を比エンタルピー hInt に置き、温度・液相率は導出量。融点で
+  潜熱を持ち、温度プラトー・凝固の発熱・可逆性を再現(詳細: docs/PHYSICS.md §E14)
+- **凝縮相の力学**: 固相結合 bondK・液相凝集 cohesion(平衡距離=接触距離の短距離引力・
+  端点連続)+相率合成の減衰 bondDamp/visc(散逸は dQi へ — A9′ 換算則)
+- **A12‴(結合エネルギーの帳簿)**: 熱量関数を E(h)=m·h+a·√T(h)+b·fl(h) に拡張し、融解は
+  「指定潜熱+実際の結合エネルギー」を支払う(実効潜熱)。🫠melt 12000步の第一法則残差 3e-4
+- **相依存熱伝導**: E10′ に condS/condL の調和平均倍率(固相は速く・液相は遅く)
+- **body type "grid"**: 六方格子の決定論初期配置(相変化デモの統制条件。AI 生成にも開放)
+- **新サンプル2件**: 🫠融解 — 潜熱のプラトー / ❄️凝固 — 冷却曲線(熱の実験室)
+- **QA 8件新設**(phasechange.schema / zero-cost / enthalpy-exact / latent-plateau /
+  conductivity / grid / ledger / behavior)。既存 tint プリセット4件の 300步 bit 一致を含む
+
 ## v1.34.0(2026-07-31)
 
 **更新前の注意**: β版とルート版は同一オリジンで localStorage(セーブ・APIキー)を共有する。

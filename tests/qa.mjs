@@ -6213,6 +6213,272 @@ if (hasEchoFlipAt) {
   }
 }
 
+// ---- 7z5b) 第53便 53A(E14): 相変化 phaseChange(beta 先行 — ルート対象時はスキップ)----
+// 熱状態の正本を比エンタルピー hInt に置き、融点 meltT で潜熱 latentF を持つ。固相結合 bondK・
+// 液相凝集 cohesion は相率係数 bAtt を通じて熱量関数 E(h)=m·h+a·√T(h)+b·fl(h) に入り、
+// 融解は「指定潜熱+実際の結合エネルギー」を支払う(実効潜熱)。機能判定子: HP.phaseHsolve
+{
+  const hasPC = await page.evaluate(() => typeof HP.phaseHsolve === 'function' && 'phase' in HP.sim);
+  if (hasPC) {
+    // ① phasechange.schema: バリデータ(tint 必須・fusion 排他・meltT/latentF 必須・値域クランプ)と
+    //    エンジン門番(build 側の最終防衛 — 内蔵プリセットはバリデータを通らない)
+    const sc = await page.evaluate(() => {
+      const mk = (pc, extra) => Object.assign({ name: 'pc', description: 'x',
+        camera: { scale: 200 }, world: { boundary: 'none', size: 0 }, physics: {}, thermal: 'tint',
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, tInt: 0.5, pinned: false }] },
+        extra || {}, pc !== undefined ? { phaseChange: pc } : {});
+      const V = (o) => { const v = HP.validatePreset(o); return { ok: v.ok, p: v.preset, w: v.warnings.length }; };
+      const good = V(mk({ meltT: 1, latentF: 2, bondK: 3, cohesion: 0.5 }));
+      const notTint = V(mk({ meltT: 1, latentF: 2 }, { thermal: 'spin' }));
+      const withFus = V(mk({ meltT: 1, latentF: 2 }, { fusion: { dFrac: 0.35 } }));
+      const noMelt = V(mk({ latentF: 2 }));
+      const clamp1 = V(mk({ meltT: 99999, latentF: 2, bondK: 9999, bondRange: 99, visc: 7 }));
+      const badSub = V(mk({ meltT: 1, latentF: 2, bondK: 'x' }));
+      const notObj = V(mk('hot'));
+      const s = HP.sim;
+      const base = { id: 'qa_pc_eng', name: 'x', camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+        thermal: 'tint', phaseChange: { meltT: 1, latentF: 2 },
+        physics: { G: 0, D0: 0, kFrame: 0, kRep: 0, q: 2, muF: 0, gammaN: 0, kappaS: 0, cHeat: 2, softening: 2, radiusScale: 1, timeScale: 1 },
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, tInt: 3, pinned: false }], overlays: {} };
+      s.build(base);
+      const engOn = { phase: !!s.phase, h: s.hInt ? s.hInt[0] : null, f: s.fLiq ? s.fLiq[0] : null };  // T=3>Tm → h=C·T+Lf=8・fl=1
+      s.build(Object.assign({}, base, { thermal: 'spin' }));
+      const engSpin = { phase: !!s.phase, h: !!s.hInt };
+      s.build(Object.assign({}, base, { fusion: { dFrac: 0.35 } }));
+      const engFus = { phase: !!s.phase, fus: !!s.fusion };
+      return { goodPC: good.p.phaseChange, goodW: good.w, notTintPC: notTint.p.phaseChange, notTintW: notTint.w,
+        withFusPC: withFus.p.phaseChange, noMeltPC: noMelt.p.phaseChange,
+        clamp1PC: clamp1.p.phaseChange, clamp1W: clamp1.w, badSubPC: badSub.p.phaseChange, badSubW: badSub.w,
+        notObjPC: notObj.p.phaseChange, engOn, engSpin, engFus };
+    });
+    add('phasechange.schema',
+      sc.goodPC && sc.goodPC.meltT === 1 && sc.goodPC.latentF === 2 && sc.goodPC.bondK === 3
+      && sc.goodPC.bondRange === 1.6 && sc.goodPC.condS === 1 && sc.goodW === 0
+      && sc.notTintPC === undefined && sc.notTintW === 1
+      && sc.withFusPC === undefined && sc.noMeltPC === undefined && sc.notObjPC === undefined
+      && sc.clamp1PC && sc.clamp1PC.meltT === 10000 && sc.clamp1PC.bondK === 100 && sc.clamp1PC.bondRange === 3
+      && sc.clamp1PC.visc === 1 && sc.clamp1W === 4
+      && sc.badSubPC && sc.badSubPC.bondK === 0 && sc.badSubW === 1
+      && sc.engOn.phase && sc.engOn.h === 8 && sc.engOn.f === 1
+      && !sc.engSpin.phase && !sc.engSpin.h && !sc.engFus.phase && sc.engFus.fus,
+      `正常受理(既定込み・警告0)=${!!sc.goodPC} / thermal≠tint→削除(警告${sc.notTintW}) / fusion併用→削除=${sc.withFusPC === undefined} / ` +
+      `meltT欠落→削除=${sc.noMeltPC === undefined} / 値域クランプ meltT→${sc.clamp1PC && sc.clamp1PC.meltT} bondK→${sc.clamp1PC && sc.clamp1PC.bondK}(警告${sc.clamp1W}) / ` +
+      `bondK:"x"→既定0(警告${sc.badSubW}) / エンジン: tint+phaseChange で h=C·T+Lf=${sc.engOn.h}・fl=${sc.engOn.f}、spin/fusion 併用では phase=null`);
+
+    // ② phasechange.zero-cost: phaseChange キーの無い tint プリセット4件は機構追加前
+    //    (基点コミット 0cd7eb7 = v1.34.0)と 1 ビットも変わらない(300步 x,y,spin,Tint ハッシュ。
+    //    tint.zero-cost〔spin 系統〕と合わせて、E14 追加が既存経路の外へ漏れていないことの機械証跡)
+    const ZPC = {
+      phase: ['cefc13f8693d07c9167ae4c7d5464653c465bea15712ff50dfa942b7bdcfb356', 195],
+      convection: ['d03bf56fce6814531be08249b2697ae487f98e109a4a3da6acd1181fa8550219', 210],
+      buoyancy: ['8846253d75f40189e0708238588e2a500df10f2d18e1ed892b8a9c4aa679feed', 280],
+      gas: ['da983bab338a8e79adcda619c5c47d886eeada5fb7ffc5e00f8094fa24353a63', 240],
+    };
+    const zpc = [];
+    for (const [id, [base, n]] of Object.entries(ZPC)) {
+      const r = await page.evaluate((pid) => {
+        HP.loadPreset(pid, false);
+        const s = HP.sim;
+        for (let k = 0; k < 300; k++) s.step(0.016);
+        const a = [];
+        for (let i = 0; i < s.n; i++) a.push(s.x[i], s.y[i], s.spin[i], s.Tint ? s.Tint[i] : 0);
+        return { n: s.n, phase: !!s.phase, str: a.map(v => v.toExponential(12)).join(',') };
+      }, id);
+      const h = crypto.createHash('sha256').update(r.str).digest('hex');
+      zpc.push({ id, ok: h === base && r.n === n && !r.phase, h: h.slice(0, 8) });
+    }
+    const zpcBad = zpc.filter(z => !z.ok).map(z => `${z.id}(${z.h})`);
+    add('phasechange.zero-cost', zpcBad.length === 0,
+      zpcBad.length ? `bit不一致/経路混入: ${zpcBad.join(' ')}`
+        : `${zpc.length}件が bit 一致(300步 x,y,spin,Tint ハッシュ): ${zpc.map(z => z.id).join(' ')} — 全て phase=null`);
+
+    // ③ phasechange.enthalpy-exact: 熱量関数 E(h)=m·h+a·√T(h)+b·fl(h) の厳密解。
+    //    3区分×(m,a,b) の格子で ①エネルギー恒等式 E(h′)=E(h)+Q ②往復 +Q→−Q の復元
+    //    ③h の単調性 を機械検証(b は負側クランプ域 −0.5mLf も含む)
+    const ex = await page.evaluate(() => {
+      const C = 0.7, Tm = 1.3, Lf = 2.1;
+      let worst = 0, worstR = 0, mono = true;
+      const E = (h, mI, a, b) => mI * h + a * Math.sqrt(HP.phaseT(h, C, Tm, Lf)) + b * HP.phaseF(h, C, Tm, Lf);
+      for (const mI of [0.3, 1, 5]) for (const a of [0, 0.5, 3]) for (const b of [0, 1.5, -0.5 * mI * Lf]) {
+        let hPrev = -1;
+        for (let hi = 0; hi <= 60; hi++) {
+          const h0 = hi * 0.12;
+          for (const Q of [-2, -0.31, 0.017, 0.9, 4]) {
+            const h1 = HP.phaseHsolve(h0, mI, C, a, b, Q, Tm, Lf);
+            if (h1 === 0 && E(h0, mI, a, b) + Q <= 0) continue;   // T→0 クランプ規約
+            const tgt = E(h0, mI, a, b) + Q;
+            const r = Math.abs(E(h1, mI, a, b) - tgt) / Math.max(1e-12, Math.abs(tgt));
+            if (r > worst) worst = r;
+            const h2 = HP.phaseHsolve(h1, mI, C, a, b, -Q, Tm, Lf);
+            if (E(h1, mI, a, b) - Q > 0) { const rr = Math.abs(h2 - h0) / Math.max(1e-9, h0); if (rr > worstR) worstR = rr; }
+          }
+          const hq = HP.phaseHsolve(h0, mI, C, a, b, 0.01, Tm, Lf);
+          if (hq <= hPrev) mono = false; hPrev = hq;
+        }
+      }
+      return { worst, worstR, mono };
+    });
+    add('phasechange.enthalpy-exact', ex.worst < 1e-12 && ex.worstR < 1e-5 && ex.mono,
+      `エネルギー恒等式の最大相対誤差=${ex.worst.toExponential(2)}(<1e-12) 往復復元=${ex.worstR.toExponential(2)}(<1e-5) 単調性=${ex.mono}`);
+
+    // ④ phasechange.latent-plateau: 力学なしの1粒子を伝熱壁で加熱。融解中(0<fl<1)の温度が
+    //    T_m に厳密に釘付けになり、融解に要した壁熱量が m·latentF と一致し(結合なし=b=0)、
+    //    壁帳簿と ΔE=m·Δh が機械精度で閉じることを確認する(ChatGPT レビュー §9.1 の必須QA)
+    const lp = await page.evaluate(() => {
+      const s = HP.sim;
+      s.build({ id: 'qa_pc_lp', name: 'x', camera: { scale: 200 },
+        world: { boundary: 'box', size: 12, thermalWalls: { bottom: { mode: 'heat', T: 3, rate: 1.5 } } },
+        thermal: 'tint', phaseChange: { meltT: 1, latentF: 5 },
+        physics: { G: 0, D0: 0, kFrame: 0, kRep: 0, q: 2, muF: 0, gammaN: 0, kappaS: 0,
+          etaRad: 0, pRad: 2, cHeat: 1, gravityY: 0, softening: 2, radiusScale: 1, timeScale: 1 },
+        bodies: [{ type: 'single', m: 2, x: 0, y: 11, vx: 0, vy: 0, spin: 0, tInt: 0.2, pinned: false }],
+        overlays: {} });
+      let melt0 = -1, melt1 = -1, q0 = 0, q1 = 0, TmDev = 0;
+      for (let k = 0; k <= 4000; k++) {
+        const f = s.fLiq[0];
+        if (melt0 < 0 && f > 0) { melt0 = k; q0 = s.wallEin - s.wallEout; }
+        if (melt1 < 0 && f >= 1) { melt1 = k; q1 = s.wallEin - s.wallEout; }
+        if (f > 0 && f < 1) TmDev = Math.max(TmDev, Math.abs(s.Tint[0] - 1));
+        s.step(0.016);
+      }
+      const dE = s.m[0] * s.hInt[0] - s.m[0] * 0.2;   // h(0)=C·0.2
+      const res = Math.abs(dE - (s.wallEin - s.wallEout)) / Math.max(1, s.wallEin);
+      return { melt0, melt1, meltHeat: q1 - q0, expect: s.m[0] * 5, TmDev, res, Tend: s.Tint[0], nan: s.hasNaN() };
+    });
+    // 実測(beta 2026-07-31): 融解熱 10.008 / 理論 m·Lf=10(比 1.0008)・プラトー中 |T−Tm| = 0(厳密)・
+    // 帳簿残差 3.8e-10。閾値は比 ±5%・|T−Tm|<1e-6・残差 <1e-6 に設定
+    add('phasechange.latent-plateau',
+      !lp.nan && lp.melt0 > 0 && lp.melt1 > lp.melt0 && Math.abs(lp.meltHeat / lp.expect - 1) < 0.05
+      && lp.TmDev < 1e-6 && lp.res < 1e-6 && lp.Tend > 2.5,
+      `融解区間 ${lp.melt0}〜${lp.melt1}步: 壁熱量=${lp.meltHeat.toFixed(3)} / 理論 m·Lf=${lp.expect}(比${(lp.meltHeat / lp.expect).toFixed(4)}±5%) ` +
+      `プラトー中 max|T−Tm|=${lp.TmDev}(<1e-6 = 温度停滞が厳密) 帳簿残差=${lp.res.toExponential(1)}(<1e-6) 終端T=${lp.Tend.toFixed(2)}`);
+
+    // ⑤ phasechange.conductivity: 相依存熱伝導 — 対の実効伝導率は粒子倍率 c_a=condS+(condL−condS)·fl_a
+    //    の調和平均。1步の伝熱ΔT の比が解析値(両0.25→0.25・固液混合1/0.25→0.4)と一致
+    const cd = await page.evaluate(() => {
+      const mk = (pcOver, tI) => {
+        const s = HP.sim;
+        s.build({ id: 'qa_pc_cond', name: 'x', camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+          thermal: 'tint',
+          phaseChange: Object.assign({ meltT: 100, latentF: 1, bondK: 0, cohesion: 0 }, pcOver),
+          physics: { G: 0, D0: 0, kFrame: 0, kRep: 0, q: 2, muF: 0, gammaN: 0, kappaS: 0.2,
+            etaRad: 0, pRad: 2, cHeat: 1, gravityY: 0, softening: 2, radiusScale: 1, timeScale: 1 },
+          bodies: [
+            { type: 'single', m: 1, x: -1.5, y: 0, vx: 0, vy: 0, spin: 0, tInt: tI[0], pinned: false },
+            { type: 'single', m: 1, x: 1.5, y: 0, vx: 0, vy: 0, spin: 0, tInt: tI[1], pinned: false }
+          ], overlays: {} });
+        s.step(0.016);
+        return s.Tint[0] - tI[0];
+      };
+      const base = mk({ condS: 1, condL: 1 }, [2, 8]);          // 両固相・倍率1 = 従来経路と同値
+      const both025 = mk({ condS: 0.25, condL: 0.25 }, [2, 8]) / base;
+      const mixed = (() => {
+        const s = HP.sim;
+        s.build({ id: 'qa_pc_cond2', name: 'x', camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+          thermal: 'tint',
+          phaseChange: { meltT: 4, latentF: 0.5, bondK: 0, cohesion: 0, condS: 1, condL: 0.25 },
+          physics: { G: 0, D0: 0, kFrame: 0, kRep: 0, q: 2, muF: 0, gammaN: 0, kappaS: 0.2,
+            etaRad: 0, pRad: 2, cHeat: 1, gravityY: 0, softening: 2, radiusScale: 1, timeScale: 1 },
+          bodies: [
+            { type: 'single', m: 1, x: -1.5, y: 0, vx: 0, vy: 0, spin: 0, tInt: 2, pinned: false },   // 固相 c=1
+            { type: 'single', m: 1, x: 1.5, y: 0, vx: 0, vy: 0, spin: 0, tInt: 8, pinned: false }     // 液相 c=0.25
+          ], overlays: {} });
+        s.step(0.016);
+        return (s.Tint[0] - 2) / base;
+      })();
+      return { base, both025, mixed };
+    });
+    // 実測: 0.2501 / 0.4000(Float32 温度格納由来の ~3e-4 のみ)。閾値 ±1e-2
+    add('phasechange.conductivity',
+      cd.base > 0 && Math.abs(cd.both025 - 0.25) < 1e-2 && Math.abs(cd.mixed - 0.4) < 1e-2,
+      `1步伝熱ΔT比: 両0.25→${cd.both025.toFixed(4)}(理論0.25) 固液1/0.25→${cd.mixed.toFixed(4)}(理論 調和平均0.4) 基準ΔT=${cd.base.toExponential(2)}`);
+
+    // ⑥ phasechange.grid: 格子配置 type:"grid" — 六方格子(隣接距離=pitch が同行・隣行とも成立)・
+    //    決定論配置・バリデータ(pitch 必須・jitter クランプ)
+    const gr = await page.evaluate(() => {
+      const s = HP.sim;
+      s.build({ id: 'qa_grid', name: 'x', camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+        physics: { G: 0, D0: 0, kFrame: 0, kRep: 0, q: 2, muF: 0, gammaN: 0, kappaS: 0, softening: 2, radiusScale: 1, timeScale: 1 },
+        bodies: [{ type: 'grid', n: 10, cols: 4, cx: 5, cy: -3, pitch: 2, mMin: 1, mMax: 1 }], overlays: {} });
+      const d01 = Math.hypot(s.x[1] - s.x[0], s.y[1] - s.y[0]);
+      const d04 = Math.hypot(s.x[4] - s.x[0], s.y[4] - s.y[0]);   // 隣行(六方: √((p/2)²+(p·√3/2)²)=p)
+      const v = HP.validatePreset({ name: 'g', description: 'x', camera: { scale: 200 },
+        world: { boundary: 'none', size: 0 }, physics: {},
+        bodies: [{ type: 'grid', n: 9, cols: 3, cx: 0, cy: 0, pitch: 3, mMin: 1, mMax: 1, jitter: 99 }] });
+      const vb = HP.validatePreset({ name: 'g', description: 'x', camera: { scale: 200 },
+        world: { boundary: 'none', size: 0 }, physics: {},
+        bodies: [{ type: 'grid', n: 9, cols: 3, cx: 0, cy: 0, mMin: 1, mMax: 1 }] });   // pitch 欠落 → NG
+      return { n: s.n, d01, d04, vOk: v.ok, vJit: v.ok ? v.preset.bodies[0].jitter : null,
+        vW: v.warnings.length, vbOk: vb.ok };
+    });
+    add('phasechange.grid',
+      gr.n === 10 && Math.abs(gr.d01 - 2) < 1e-6 && Math.abs(gr.d04 - 2) < 1e-6
+      && gr.vOk && gr.vJit === 20 && gr.vW === 1 && !gr.vbOk,
+      `n=10 同行隣接=${gr.d01}(=pitch) 隣行隣接=${gr.d04.toFixed(6)}(六方=pitch) / ` +
+      `バリデータ: jitter99→${gr.vJit}(警告${gr.vW}) pitch欠落→NG=${!gr.vbOk}`);
+
+    // ⑦ phasechange.ledger + ⑧ phasechange.behavior: 内蔵 🫠melt / ❄️freeze の長時間挙動と帳簿閉性。
+    //    E_全 = KE + Σm·h + U_att + U_rep + U_接触 + U_重力(外場) が壁帳簿と閉じる(残差<1%)こと、
+    //    融解/凝固の進行(プラトー→完了)を機械固定する。QA_FAST=1 では省略(長時間系)
+    if (!FAST) {
+      const runPC = (pid, steps, marks) => page.evaluate(({ pid, steps, marks }) => {
+        HP.loadPreset(pid, false);
+        const s = HP.sim;
+        const gY = s.params.gravityY;
+        const E = () => {
+          let a = 0;
+          for (let i = 0; i < s.n; i++) a += s.m[i] * s.hInt[i]
+            + 0.5 * s.m[i] * (s.vx[i] ** 2 + s.vy[i] ** 2) - s.m[i] * gY * s.y[i];
+          for (let i = 0; i < s.n; i++) for (let j = i + 1; j < s.n; j++) {
+            const d = Math.hypot(s.x[i] - s.x[j], s.y[i] - s.y[j]), sumR = s.R[i] + s.R[j];
+            if (d >= sumR) continue;
+            const muM = s.m[i] * s.m[j] / (s.m[i] + s.m[j]), maxInv = Math.max(1 / s.m[i], 1 / s.m[j]);
+            const xO = sumR - d, xC = 8 / (maxInv * 40 * muM);
+            a += (xO <= xC) ? 20 * muM * xO * xO : 20 * muM * xC * xC + (8 / maxInv) * (xO - xC);
+          }
+          return a + HP.phaseEnergy(s) + HP.urepEnergy(s);
+        };
+        const stat = () => {
+          let T = 0, F = 0;
+          for (let i = 0; i < s.n; i++) { T += s.Tint[i]; F += s.fLiq[i]; }
+          return { T: T / s.n, F: F / s.n };
+        };
+        const E0 = E();
+        const out = {};
+        for (let k = 1; k <= steps; k++) {
+          s.step(0.016);
+          if (marks.includes(k)) out[k] = stat();
+        }
+        const flow = s.wallEin - s.wallEout - s.radE - s.wallKE;
+        out.res = Math.abs(E() - E0 - flow) / Math.max(1, Math.abs(flow));
+        out.nan = s.hasNaN();
+        return out;
+      }, { pid, steps, marks });
+      // 実測(beta 2026-07-31): melt 4000步 T=1.09/f=0.39 → 12000步 f=1.0/T≈2.3、帳簿残差 3e-4。
+      // freeze 4000步 T=0.95/f=0.44 → 12000步 f=0/T≈0.2、残差 1.5e-3(初期沈定の減衰分)
+      const ml = await runPC('melt', 12000, [4000, 12000]);
+      add('phasechange.ledger', !ml.nan && ml.res < 0.01,
+        `🫠melt 12000步の第一法則: |ΔE_全 − 壁帳簿|/|流入| = ${ml.res.toExponential(2)} (<1e-2)`);
+      const fz = await runPC('freeze', 12000, [4000, 12000]);
+      add('phasechange.behavior',
+        !ml.nan && !fz.nan
+        && ml[4000].T > 0.9 && ml[4000].T < 1.3 && ml[4000].F > 0.15 && ml[4000].F < 0.65
+        && ml[12000].F > 0.95 && ml[12000].T > 1.5
+        && fz[4000].T > 0.8 && fz[4000].T < 1.05 && fz[4000].F > 0.25 && fz[4000].F < 0.75
+        && fz[12000].F < 0.05 && fz[12000].T < 0.7
+        && fz.res < 0.01,
+        `🫠melt: 4000步 T=${ml[4000].T.toFixed(2)}(プラトー0.9〜1.3)・fl=${ml[4000].F.toFixed(2)} → 12000步 fl=${ml[12000].F.toFixed(2)}(>0.95 全融解)・T=${ml[12000].T.toFixed(2)}(>1.5 再上昇) / ` +
+        `❄️freeze: 4000步 T=${fz[4000].T.toFixed(2)}(プラトー0.8〜1.05)・fl=${fz[4000].F.toFixed(2)} → 12000步 fl=${fz[12000].F.toFixed(2)}(<0.05 全凝固)・T=${fz[12000].T.toFixed(2)}(<0.7 再降下) 帳簿残差=${fz.res.toExponential(2)}(<1e-2)`);
+    } else {
+      console.log('SKIP phasechange.ledger/phasechange.behavior(QA_FAST=1 — 長時間系)');
+    }
+
+    await page.evaluate(() => HP.loadPreset('saturn', false));   // 後続項目のため既定プリセットへ戻す
+  } else {
+    console.log('SKIP phasechange.*(対象に第53便 53A の相変化機構なし — root 等)');
+  }
+}
+
 // ==================== 第37便 Wave A(原仮定者指示): UI 6件 ====================
 
 // ---- 7z6) A1: ui.tabbar-safearea — 下部タブがホームインジケーター(iPhone の
