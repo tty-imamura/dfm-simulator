@@ -175,6 +175,7 @@
   #classChips .classChip[data-g=tint]{border-color:var(--hot);color:var(--hot);}
   /* 第45便 45C(台帳4-85): 強場トイ領域バッジ(ψ_static>0.5 のみ)— 注意喚起として err 系統 */
   #classChips .classChip[data-g=strongfield]{border-color:var(--err);color:var(--err);}
+  #classChips .classChip[data-g=drag]{border-color:var(--acc);color:var(--acc);}   /* 第51便 51B: 引きずりタグ */
   /* 第43便 43A(台帳4-78 B案): 数値主張(claims)の折畳み表示 — 分類バッジの直下、claims を
      持つプリセットにのみ表示。表示専用(物理・保存 JSON には無関係)。details.advParams と
      同系統の見た目を流用しつつ独立クラス化。長い数値行でも横スクロールが出ないよう break を許可 */
@@ -525,7 +526,8 @@ ja: {
   btnImportFile:"ファイルから読込", fileLoaded:"ファイルを読み込みました",
   unsavedWarn:"※編集中のパラメータは「保存」するまでバックアップに含まれません",
   confirmDiscard:"未保存の編集があります。破棄して読み込みますか?",
-  betaShared:"β版(beta v1.34-b1)はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。",
+  // 第51便(Gemini指摘): ビルド番号のハードコード(v1.34-b1 のまま取り残し)を変数展開に変更
+  betaShared:(b)=>`β版(beta ${b})はルート版とセーブ・APIキー(localStorage)を共有します。実験の前にセーブタブからエクスポートしておくことを推奨します。`,
   draftRestore:"未保存の編集の下書きが見つかりました(再読込前の状態)。復元しますか?",
   swFail:"オフライン用キャッシュ(Service Worker)の登録に失敗しました。オンラインでは通常どおり使えます。",
   periHud:(m,a)=>`近点移動(最内粒子): 実測 ${m}°/周 / 解析 ${a}°/周`,
@@ -582,8 +584,12 @@ ja: {
   hudEchoFlipped:"反転済み↩︎",
   // 第50便 50C(台帳4-87): 二つのH推定器 — 累積(t=0基準)の H_w/H_geo(指数読み・反比例読み)
   hudProbeH:(rE,ana,rI)=>`H_w/H_geo 指数読み=${rE.toFixed(3)}(解析${ana.toFixed(3)}) 反比例読み=${rI.toFixed(3)}`,
+  // 第51便 51C: テンション類似行(点値 2(D/Kt)a^{−dP}。数値一致は較正であり証拠ではない)
+  hudProbeHTension:(pt,dkt)=>`テンション類似: 点値(現a)=${pt.toFixed(3)} → a=2で${dkt.toFixed(3)}(実宇宙67.4/73.0≈0.923と同水準 — 較正)`,
   // 第50便 50E(台帳4-89): 安全クランプの帳簿(発動時のみ表示 — 保存則の主張域外の明示)
   hudClamp:(v,s,h)=>`⚠ クランプ発動: 速度=${v} スピン=${s} H=${h}(保存則の主張域外)`,
+  // 第51便 51D: 熱伝導の前線・列熱(密/疎の2行を常時比較)
+  hudConduction:(a,b)=>`前線(T>4): 間隔${a.gap}=距離${Math.round(a.front)} / 間隔${b.gap}=距離${Math.round(b.front)}  列の熱: ${a.heat.toFixed(1)} 対 ${b.heat.toFixed(1)}(${b.heat>0?(a.heat/b.heat).toFixed(2):"—"}倍)`,
   // 第50便 50G(台帳4-91): 自由な箱の加速・形状診断(H_eff=直近サンプル・壁リングの形状4指標)
   hudBoxShape:(H,sh)=>`H_eff=${(H>=0?"+":"")+H.toFixed(4)} 壁形状: RMS=${(sh.rms*100).toFixed(2)}% 中央r=${sh.med.toFixed(1)} 四重極A2=${sh.a2.toFixed(3)} 残存=${Math.round(sh.keep*100)}%`,
   // 第35便(台帳4-61): 自由な箱 — 規定 a(t) ではなく壁粒子群から計測した実測尺度因子であることの区別表示
@@ -623,6 +629,8 @@ ja: {
   bdgClosed:"閉鎖系", bdgClosedTip:"閉鎖系 — 固定・規定運動なし。運動量・角運動量は系内(+遠方宇宙の帳簿)で閉じる。",
   // 第39便 39E(台帳4-75 E1): 温度モデルバッジ — thermal:"tint" のサンプルにだけ表示(表示のみ・物理不変)
   bdgTint:"温度=T_int", bdgTintTip:"温度を内部状態変数 T_int として扱う(A9′)— スピンと独立で、エネルギー帳簿が閉じる。無印のサンプルは旧来の「スピン=熱」方式",
+  // 第51便 51B(原仮定者指示): 引きずりタグ — kFrame>0 の系
+  bdgDrag:"引きずり", bdgDragTip:"kFrame>0 — 回る質量が周囲の空間(決定フレーム)を引きずる効果(A8/E6′)が働く系。kFrame を 0 にすると引きずりなしの対照実験になる",
   // 第45便 45C(台帳4-85): 強場トイ領域バッジ — ψ_static=max(D/Kt, 各天体のm/(max(R,ε)Kt))>0.5 のときだけ表示
   bdgStrongField:"⚠強場トイ領域", bdgStrongFieldTip:"|ψ|≳0.5 — 弱場GR較正(n≈1+2ψ)の適用外の強場トイ設定。閾値0.5は理論境界ではなく注意喚起の運用基準",
   // 第39便 39E(台帳4-75 E2): 有効時間窓マーカー(HUD)— sim.t が validT を超えたときだけ HUD に追記
@@ -720,7 +728,7 @@ en: {
   btnImportFile:"Load from file", fileLoaded:"File loaded",
   unsavedWarn:"Note: edited parameters are not included in backups until you press Save",
   confirmDiscard:"You have unsaved edits. Discard them and load?",
-  betaShared:"This beta (v1.34-b1) shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.",
+  betaShared:(b)=>`This beta (${b}) shares saves and API keys (localStorage) with the release version. Export your saves from the Save tab before experimenting.`,
   draftRestore:"Found a draft of unsaved edits (from before the last reload). Restore it?",
   swFail:"Offline cache (Service Worker) registration failed. The app still works normally online.",
   periHud:(m,a)=>`Apsidal drift (innermost): measured ${m}°/orbit / analytic ${a}°/orbit`,
@@ -774,8 +782,12 @@ en: {
   hudEchoFlipped:"reversed ↩︎",
   // 第50便 50C(台帳4-87): two H estimators — cumulative (from t=0) H_w/H_geo, exp vs inverse reading
   hudProbeH:(rE,ana,rI)=>`H_w/H_geo exp=${rE.toFixed(3)} (analytic ${ana.toFixed(3)}) inverse=${rI.toFixed(3)}`,
+  // 第51便 51C: tension-analogue line (point value 2(D/Kt)a^{-dP}; the match is a calibration, not evidence)
+  hudProbeHTension:(pt,dkt)=>`tension analogue: point(now)=${pt.toFixed(3)} → ${dkt.toFixed(3)} at a=2 (cf. real 67.4/73.0≈0.923 — calibration)`,
   // 第50便 50E(台帳4-89): safety-clamp ledger (shown only when fired — outside the conservation claim domain)
   hudClamp:(v,s,h)=>`⚠ clamps fired: velocity=${v} spin=${s} H=${h} (outside the conservation claims)`,
+  // 第51便 51D: conduction front & row heat (dense vs sparse, live)
+  hudConduction:(a,b)=>`front (T>4): gap ${a.gap}=dist ${Math.round(a.front)} / gap ${b.gap}=dist ${Math.round(b.front)}  row heat: ${a.heat.toFixed(1)} vs ${b.heat.toFixed(1)} (${b.heat>0?(a.heat/b.heat).toFixed(2):"—"}x)`,
   // 第50便 50G(台帳4-91): free-box acceleration & shape diagnostics
   hudBoxShape:(H,sh)=>`H_eff=${(H>=0?"+":"")+H.toFixed(4)} wall shape: RMS=${(sh.rms*100).toFixed(2)}% median r=${sh.med.toFixed(1)} quadrupole A2=${sh.a2.toFixed(3)} retained=${Math.round(sh.keep*100)}%`,
   // 第35便(台帳4-61): the free box — measured scale factor, not a prescribed a(t)
@@ -811,6 +823,8 @@ en: {
   bdgClosed:"Closed system", bdgClosedTip:"Closed system — no constraints or prescribed motion. Momentum and angular momentum close within the system (plus the distant-universe ledger).",
   // 39th flight 39E (ledger 4-75 E1): temperature-model badge — shown only for thermal:"tint" samples (display only, physics unchanged)
   bdgTint:"T=T_int", bdgTintTip:"Temperature is treated as an internal state variable T_int (A9′) — independent of spin, so the energy ledger stays closed. Unmarked samples use the older \"spin = heat\" scheme.",
+  // 第51便 51B: dragging tag — systems with kFrame>0
+  bdgDrag:"dragging", bdgDragTip:"kFrame>0 — spinning masses drag the surrounding space (the determinacy frame, A8/E6′). Set kFrame to 0 for a drag-free control.",
   // 45th flight 45C (ledger 4-85): strong-field toy-regime badge — shown only when
   // psi_static = max(D/Kt, each body's m/(max(R,eps)*Kt)) > 0.5
   bdgStrongField:"⚠Strong-field toy regime", bdgStrongFieldTip:"|ψ|≳0.5 — a strong-field toy setting outside the weak-field GR calibration (n≈1+2ψ). The 0.5 threshold is an advisory convention, not a theoretical boundary",
@@ -1178,8 +1192,14 @@ const BUILTIN_PRESETS = [
 // 第26便(原仮定者指示): カテゴリ分け・表示順を再編 — 銀河系サンプルを「銀河」グループへ集約。配列順=表示順
 // ===== グループ: 空間と時間 =====
 { id:"gclock", name:"重力による時計の遅れ", emoji:"⏱️", group:"空間と時間",
-  description:"中央の大質量天体から距離70・140・240に置いた3つの静止時計。運動を完全に止め、距離=決定力の強さだけを変えた統制実験。時計をタップすると、内側ほど固有時計(τ/t)が小さい: 0.931/0.965/0.979(解析値と1e-5で一致)。Ktを300→150に下げると3つの差が同時に拡大する。運動による時計の遅れ(E7R の運動項)と対をなす、重力の遅れ(A7′/E7R の重力項)の単独デモ。",
-  en:{name:"Gravitational Time Dilation", description:"Three clocks at rest, at distances 70/140/240 from a central mass — motion is eliminated so only distance (= determinacy strength) varies. Tap each clock: the inner one ticks slowest, τ/t = 0.931/0.965/0.979 (matches the analytic value to 1e-5). Lower Kt from 300 to 150 and all three gaps widen together. The gravitational counterpart of motion time dilation (the E7R motion term) — the pure gravity term of A7′/E7R."},
+  descStruct:{
+    summary:"中央の大質量天体から距離70・140・240に置いた3つの静止時計。運動を完全に止め、距離=決定力の強さだけを変えた統制実験。",
+    observe:"時計をタップすると、内側ほど固有時計(τ/t)が小さい: 0.931/0.965/0.979(解析値と1e-5で一致)。運動による時計の遅れ(E7R の運動項)と対をなす、重力の遅れ(A7′/E7R の重力項)の単独デモ。",
+    control:"Ktを300→150に下げると3つの差が同時に拡大する。"},
+  en:{name:"Gravitational Time Dilation", descStruct:{
+    summary:"Three clocks at rest, at distances 70/140/240 from a central mass — motion is eliminated so only distance (= determinacy strength) varies. ",
+    observe:"Tap each clock: the inner one ticks slowest, τ/t = 0.931/0.965/0.979 (matches the analytic value to 1e-5). The gravitational counterpart of motion time dilation (the E7R motion term) — the pure gravity term of A7′/E7R. ",
+    control:"Lower Kt from 300 to 150 and all three gaps widen together."}},
   activeParams:["Kt"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   // 第42便 42A(台帳4-78 A案): claims — 説明文の解析一致値(内側時計のτ/t)を機械可読化。
   // QA new.gclock は解析値との誤差<1e-3(実質1e-5一致)を検査する回帰テストで、この値自体の
@@ -1201,8 +1221,14 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
 { id:"grcal", name:"弱場GR較正 — GPS・光・シャピロ", emoji:"🛰️", group:"空間と時間",
-  description:"時計と光を1本のψ=W/Ktで決める弱場則(A7′/E7R/E8R/T5)を、現実の観測と突き合わせる較正デモ。Kt=c²/Gの1本で: GPS時計の正味進み +38.5μs/日(重力+45.7・運動−7.2。観測≈+38.6)/太陽縁の光偏向 1.7512″(観測≈1.75″)/シャピロ遅延 ≈281μs(カッシーニ幾何)が定量一致する。水星の近日点前進は☿(測地線1PN・E12)が扱う。画面はそのアナログ: 地上時計(r=60)はτ/t=0.920、周回衛星(r=180)は運動しているのにτ/t=0.971で速く進む — 重力項が運動項に勝つ、実GPSと同じ符号構造。左からの光線ファンは中心星の場で屈折し(シャピロ遅延と同じn_eff>1の機構)、Ktを下げると時計差と湾曲が同時に強まる。※SI較正の数値はKt=c²/G写像の式計算によるもの。画面初期値は見やすさ優先の誇張アナログで、物理対応条件 Kt=cLight²/G は満たしていない(PHYSICS §5 物理対応条件)。",
-  en:{name:"Weak-Field GR Calibration — GPS, Light, Shapiro", description:"A calibration demo pitting the single-ψ weak-field law (A7′/E7R/E8R/T5) against real observations. With the one mapping Kt=c²/G: net GPS clock rate +38.5 μs/day (gravity +45.7, motion −7.2; observed ≈+38.6) / solar-limb deflection 1.7512″ (observed ≈1.75″) / Shapiro delay ≈281 μs (Cassini geometry) — all match quantitatively. Mercury's perihelion advance is covered by ☿ (geodesic 1PN, E12). On screen, the analog: the ground clock (r=60) shows τ/t=0.920 while the orbiting satellite (r=180), though moving, ticks faster at τ/t=0.971 — gravity beats motion, the same sign structure as real GPS. The ray fan from the left refracts in the central field (the same n_eff>1 mechanism as the Shapiro delay); lower Kt and clock gaps and bending strengthen together. Note: the SI-calibrated numbers come from formula-level computation under the mapping Kt=c²/G; the on-screen initial values are a visibility-first exaggerated analog and do not satisfy the physical-correspondence condition Kt=cLight²/G (see PHYSICS §5)."},
+  descStruct:{
+    summary:"時計と光を1本のψ=W/Ktで決める弱場則(A7′/E7R/E8R/T5)を、現実の観測と突き合わせる較正デモ。",
+    observe:"Kt=c²/Gの1本で: GPS時計の正味進み +38.5μs/日(重力+45.7・運動−7.2。観測≈+38.6)/太陽縁の光偏向 1.7512″(観測≈1.75″)/シャピロ遅延 ≈281μs(カッシーニ幾何)が定量一致する。画面はそのアナログ: 地上時計(r=60)はτ/t=0.920、周回衛星(r=180)は運動しているのにτ/t=0.971で速く進む — 重力項が運動項に勝つ、実GPSと同じ符号構造。左からの光線ファンは中心星の場で屈折し(シャピロ遅延と同じn_eff>1の機構)、Ktを下げると時計差と湾曲が同時に強まる。※SI較正の数値はKt=c²/G写像の式計算によるもの。画面初期値は見やすさ優先の誇張アナログで、物理対応条件 Kt=cLight²/G は満たしていない(PHYSICS §5 物理対応条件)。",
+    control:"水星の近日点前進は☿(測地線1PN・E12)が扱う。"},
+  en:{name:"Weak-Field GR Calibration — GPS, Light, Shapiro", descStruct:{
+    summary:"A calibration demo pitting the single-ψ weak-field law (A7′/E7R/E8R/T5) against real observations. ",
+    observe:"With the one mapping Kt=c²/G: net GPS clock rate +38.5 μs/day (gravity +45.7, motion −7.2; observed ≈+38.6) / solar-limb deflection 1.7512″ (observed ≈1.75″) / Shapiro delay ≈281 μs (Cassini geometry) — all match quantitatively. On screen, the analog: the ground clock (r=60) shows τ/t=0.920 while the orbiting satellite (r=180), though moving, ticks faster at τ/t=0.971 — gravity beats motion, the same sign structure as real GPS. The ray fan from the left refracts in the central field (the same n_eff>1 mechanism as the Shapiro delay); lower Kt and clock gaps and bending strengthen together. Note: the SI-calibrated numbers come from formula-level computation under the mapping Kt=c²/G; the on-screen initial values are a visibility-first exaggerated analog and do not satisfy the physical-correspondence condition Kt=cLight²/G (see PHYSICS §5). ",
+    control:"Mercury's perihelion advance is covered by ☿ (geodesic 1PN, E12)."}},
   activeParams:["Kt","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:280}, world:{boundary:"none",size:0},
   physics:{G:1, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:300,
@@ -1216,8 +1242,14 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
 { id:"mercury", name:"水星の近日点前進 — 測地線1PN", emoji:"☿", group:"空間と時間",
-  description:"測地線モード(E12)。時計を遅らせるのと同じψ=W/Ktが物質の軌道も決めると(A7′/E7R の作用化)、楕円軌道は公転と同じ向きにゆっくり回り=近日点の前進、花びら模様を描く。λ_PN(lambdaPN)を0にするとニュートンに戻り楕円は閉じる。pnAlpha=0.5(時間率のみ)では前進が1/3に減る — 実際の水星で42.98″/世紀(全量)と14.33″/世紀(1/3)に対応する。※画面の初期値は、歳差が数周で見える様に増幅した可視化用の誇張アナログで、物理対応条件 Kt=cLight²/G は満たさない(実値換算は同じ式の解析検証による。PHYSICS §5 物理対応条件)。",
-  en:{name:"Mercury's Perihelion Advance — Geodesic 1PN", description:"The geodesic mode (E12). When the same ψ=W/Kt that slows clocks also governs matter orbits (the action form of A7′/E7R), the ellipse slowly rotates in the direction of the orbit — perihelion advance — tracing a rosette. Set λ_PN (lambdaPN) to 0 to recover Newton: the ellipse closes. With pnAlpha=0.5 (time rate only) the advance drops to 1/3 — corresponding to 42.98″/century (full) vs 14.33″/century (1/3) for the real Mercury. Note: the on-screen initial values are an exaggerated visualization analog — amplified so the precession shows within a few orbits — and do not satisfy the physical-correspondence condition Kt=cLight²/G (the real-value conversion rests on analytic checks of the same formula; see PHYSICS §5)."},
+  descStruct:{
+    summary:"測地線モード(E12)。時計を遅らせるのと同じψ=W/Ktが物質の軌道も決めると(A7′/E7R の作用化)、楕円軌道は公転と同じ向きにゆっくり回り=近日点の前進、花びら模様を描く。",
+    observe:"pnAlpha=0.5(時間率のみ)では前進が1/3に減る — 実際の水星で42.98″/世紀(全量)と14.33″/世紀(1/3)に対応する。※画面の初期値は、歳差が数周で見える様に増幅した可視化用の誇張アナログで、物理対応条件 Kt=cLight²/G は満たさない(実値換算は同じ式の解析検証による。PHYSICS §5 物理対応条件)。",
+    control:"λ_PN(lambdaPN)を0にするとニュートンに戻り楕円は閉じる。"},
+  en:{name:"Mercury's Perihelion Advance — Geodesic 1PN", descStruct:{
+    summary:"The geodesic mode (E12). When the same ψ=W/Kt that slows clocks also governs matter orbits (the action form of A7′/E7R), the ellipse slowly rotates in the direction of the orbit — perihelion advance — tracing a rosette. ",
+    observe:"With pnAlpha=0.5 (time rate only) the advance drops to 1/3 — corresponding to 42.98″/century (full) vs 14.33″/century (1/3) for the real Mercury. Note: the on-screen initial values are an exaggerated visualization analog — amplified so the precession shows within a few orbits — and do not satisfy the physical-correspondence condition Kt=cLight²/G (the real-value conversion rests on analytic checks of the same formula; see PHYSICS §5). ",
+    control:"Set λ_PN (lambdaPN) to 0 to recover Newton: the ellipse closes."}},
   activeParams:["lambdaPN","pnAlpha","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:220}, world:{boundary:"none",size:0},
   physics:{G:1, D0:0.05, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
@@ -1230,8 +1262,14 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"projectile", name:"自由落下と放物運動", emoji:"⚾", group:"空間と時間",
-  description:"一様重力場gravityY(外部場)だけを働かせた力学実験室。左上の2球は質量が2と20の自由落下 — 質量が違っても加速度は同じ(等価原理の簡易デモ)。中段は水平投射、下段は斜方投射(上向きに発射)で、軌跡はきれいな放物線を描く。粒子間の重力(A6/E4)・引きずり・熱は全て切ってあり、床と壁は箱境界で跳ね返る。gravityYを変えると加速度が変わり、0にすると等速直線運動になる。",
-  en:{name:"Free Fall & Projectile Motion", description:"A mechanics lab driven only by the uniform gravity field gravityY (an external field). The two balls at the top left free-fall with masses 2 and 20 — different masses, same acceleration (a simple equivalence-principle demo). The middle ball is launched horizontally, the bottom one obliquely upward; both trace clean parabolas. Inter-particle gravity (A6/E4), dragging and heat are all off; the box boundary acts as floor and walls. Change gravityY to change the acceleration — at 0 the motion becomes uniform and straight."},
+  descStruct:{
+    summary:"一様重力場gravityY(外部場)だけを働かせた力学実験室。",
+    observe:"左上の2球は質量が2と20の自由落下 — 質量が違っても加速度は同じ(等価原理の簡易デモ)。中段は水平投射、下段は斜方投射(上向きに発射)で、軌跡はきれいな放物線を描く。粒子間の重力(A6/E4)・引きずり・熱は全て切ってあり、床と壁は箱境界で跳ね返る。",
+    control:"gravityYを変えると加速度が変わり、0にすると等速直線運動になる。"},
+  en:{name:"Free Fall & Projectile Motion", descStruct:{
+    summary:"A mechanics lab driven only by the uniform gravity field gravityY (an external field). ",
+    observe:"The two balls at the top left free-fall with masses 2 and 20 — different masses, same acceleration (a simple equivalence-principle demo). The middle ball is launched horizontally, the bottom one obliquely upward; both trace clean parabolas. Inter-particle gravity (A6/E4), dragging and heat are all off; the box boundary acts as floor and walls. ",
+    control:"Change gravityY to change the acceleration — at 0 the motion becomes uniform and straight."}},
   activeParams:["gravityY","gravityX"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:220}, world:{boundary:"box",size:190},
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
@@ -1249,8 +1287,14 @@ const BUILTIN_PRESETS = [
 // 可逆チャネル限定の構成(kFrame=0・muF=0・γn=0・κs=0・η_rad=0・kRep=0・boundary="none")で、
 // t=echoFlipAt に v と s を一斉反転すると初期配置へ戻る。実測 RMS は QA echo.* を参照
 { id:"echo", name:"時間の矢 — 巻き戻る宇宙と巻き戻らない宇宙", emoji:"⏪", group:"空間と時間",
-  description:"重い3天体と28個のテスト粒子だけの閉じた宇宙。t=20で全粒子の速度とスピンの符号を一斉に反転すると、系は自分の過去を逆再生して初期配置へ戻る(反転時の平均ずれ33.9→復帰後1.3e-3。左上のecho RMSが落ちるのを見る)。これはE4重力とE9法線ばねしか働かない可逆構成(muF=0・γn=0・κs=0・η_rad=0・kFrame=0・境界なし)を、可逆積分器leapfrog(KDK)で解いたときだけ起きる。摩擦muFを0→0.3にすると二度と戻らない(RMS≈10.8)— 時間の矢は法則ではなく散逸から生まれる(おすすめA/B。T11)。衝突減衰γnや空間引きずりkFrameを入れても同じく戻らない。巻き戻りには地平がある: カオスが数値誤差を指数増幅するため、反転を遅らせるほど戻りは粗くなる(t=30ではRMS≈1.9e-2 = 約15倍)。積分器を既定のsemi(セミ・インプリシット)に戻すだけでも戻らない(RMS≈0.92)— 可逆性は物理の性質であると同時に数値スキームの性質でもある。反転は外部からの介入なので運動量・角運動量はその瞬間だけ符号ごと反転する(帳簿外)。反転の前後それぞれの区間では厳密に保存する(A13/T7・モニタ表示)。",
-  en:{name:"Arrow of Time — Loschmidt Echo", description:"A closed universe of three heavy bodies and 28 test particles. At t=20 the sign of every particle's velocity and spin is flipped at once, and the system replays its own past back to the initial configuration (mean displacement 33.9 at the flip → 1.3e-3 on return; watch echo RMS in the HUD collapse). This happens only when a fully reversible configuration — E4 gravity and the E9 normal spring alone, with muF=0, γn=0, κs=0, η_rad=0, kFrame=0 and no boundary — is solved with the reversible leapfrog (KDK) integrator. Raise friction muF from 0 to 0.3 and it never returns (RMS≈10.8): the arrow of time is born of dissipation, not of the laws (suggested A/B; T11). Collision damping γn or frame dragging kFrame break it just as thoroughly. The rewind has a horizon — chaos amplifies round-off exponentially, so the later the flip, the coarser the return (RMS≈1.9e-2, ~15× worse, at t=30). Merely switching the integrator back to the default semi-implicit scheme also destroys the echo (RMS≈0.92): reversibility is a property of the numerical scheme as much as of the physics. The flip is an external intervention, so momentum and angular momentum change sign at that instant (off the ledger); within each stretch before and after they are exactly conserved (A13/T7; conservation monitor)."},
+  descStruct:{
+    summary:"重い3天体と28個のテスト粒子だけの閉じた宇宙。",
+    observe:"t=20で全粒子の速度とスピンの符号を一斉に反転すると、系は自分の過去を逆再生して初期配置へ戻る(反転時の平均ずれ33.9→復帰後1.3e-3。左上のecho RMSが落ちるのを見る)。これはE4重力とE9法線ばねしか働かない可逆構成(muF=0・γn=0・κs=0・η_rad=0・kFrame=0・境界なし)を、可逆積分器leapfrog(KDK)で解いたときだけ起きる。巻き戻りには地平がある: カオスが数値誤差を指数増幅するため、反転を遅らせるほど戻りは粗くなる(t=30ではRMS≈1.9e-2 = 約15倍)。積分器を既定のsemi(セミ・インプリシット)に戻すだけでも戻らない(RMS≈0.92)— 可逆性は物理の性質であると同時に数値スキームの性質でもある。反転は外部からの介入なので運動量・角運動量はその瞬間だけ符号ごと反転する(帳簿外)。反転の前後それぞれの区間では厳密に保存する(A13/T7・モニタ表示)。",
+    control:"摩擦muFを0→0.3にすると二度と戻らない(RMS≈10.8)— 時間の矢は法則ではなく散逸から生まれる(おすすめA/B。T11)。衝突減衰γnや空間引きずりkFrameを入れても同じく戻らない。"},
+  en:{name:"Arrow of Time — Loschmidt Echo", descStruct:{
+    summary:"A closed universe of three heavy bodies and 28 test particles. ",
+    observe:"At t=20 the sign of every particle's velocity and spin is flipped at once, and the system replays its own past back to the initial configuration (mean displacement 33.9 at the flip → 1.3e-3 on return; watch echo RMS in the HUD collapse). This happens only when a fully reversible configuration — E4 gravity and the E9 normal spring alone, with muF=0, γn=0, κs=0, η_rad=0, kFrame=0 and no boundary — is solved with the reversible leapfrog (KDK) integrator. The rewind has a horizon — chaos amplifies round-off exponentially, so the later the flip, the coarser the return (RMS≈1.9e-2, ~15× worse, at t=30). Merely switching the integrator back to the default semi-implicit scheme also destroys the echo (RMS≈0.92): reversibility is a property of the numerical scheme as much as of the physics. The flip is an external intervention, so momentum and angular momentum change sign at that instant (off the ledger); within each stretch before and after they are exactly conserved (A13/T7; conservation monitor). ",
+    control:"Raise friction muF from 0 to 0.3 and it never returns (RMS≈10.8): the arrow of time is born of dissipation, not of the laws (suggested A/B; T11). Collision damping γn or frame dragging kFrame break it just as thoroughly."}},
   activeParams:["muF","gammaN","kFrame"],   // おすすめA/B: muF 0(戻る)⇄ 0.3(戻らない)
   seed:4062,                                 // v1.12: 台帳番号を固定シードに(id 変更でも初期配置不変)
   integrator:"leapfrog",                     // 第35便: KDK 可逆積分器(既定 semi では戻らない)
@@ -1281,8 +1325,14 @@ const BUILTIN_PRESETS = [
 
 // ===== グループ: 箱宇宙(第31便 — BOX_UNIVERSE v1.2。「宇宙に大質量の箱だけがある」思考実験)=====
 { id:"boxtrans", name:"箱宇宙 — 並進する箱", emoji:"📦", group:"箱宇宙",
-  description:"質量M=1440の自由な質点リング(壁)と、内部のテスト粒子・時計が全て同じ速度で並進する閉鎖系。壁が唯一の決定力源なので(D0=0)、決定フレームuは壁の速度そのものになり(A2/A5)、箱と共動する下の時計は|v−u|=0 — 速度1.2で運動しているのに全く遅れない(E7R)。上の時計は箱に対して固有運動(0.9)を持つため遅れる(τ/t≈0.989) — 時計をタップして比較。1つだけ速さが違う粒子(上の時計)の実速度はvx=2.1(箱の並進1.2+箱に対する固有運動0.9の合計)であり、壁と同じ1.2だけで動く下の時計は遅れない — 見かけの数値(1.2と2.1)ではなく箱に対する相対速度|v−u|が遅れを決める。箱宇宙の中に「絶対静止」は無い: 運動はすべて箱に対して相対であり、内部の閉じた実験から箱全体の並進は原理的に検知できない(検知できるなら、より大きな箱宇宙が必要になる — T1・T10)。運動量Pは保存し帳簿はゼロのまま(モニタ表示・A13)。⏮で初期位置に戻る。",
-  en:{name:"Box Universe — Translating Box", description:"A closed system: a free point-mass ring (the wall, M=1440) and interior test particles and clocks all translate at the same velocity. The wall is the only source of determinacy (D0=0), so the frame u equals the wall velocity itself (A2/A5). The comoving lower clock has |v−u|=0 — moving at speed 1.2 yet not slowed at all (E7R). The upper clock carries a proper motion (0.9) relative to the box and therefore runs slow (τ/t≈0.989) — tap the clocks to compare. The one particle moving at a different speed — the upper clock — has actual velocity vx=2.1 (the box's translation 1.2 plus its own proper motion 0.9 relative to the box); the lower clock, moving at the box's own 1.2, does not run slow at all — it is the relative speed |v−u| to the box, not the raw numbers (1.2 vs 2.1), that determines the lag. There is no 'absolute rest' inside a box universe: all motion is relative to the box, and no closed interior experiment can detect the box's own translation (if it could, a larger box universe would be required — T1, T10). Momentum is conserved with a zero ledger (monitor, A13). Press ⏮ to reset."},
+  descStruct:{
+    summary:"質量M=1440の自由な質点リング(壁)と、内部のテスト粒子・時計が全て同じ速度で並進する閉鎖系。",
+    observe:"壁が唯一の決定力源なので(D0=0)、決定フレームuは壁の速度そのものになり(A2/A5)、箱と共動する下の時計は|v−u|=0 — 速度1.2で運動しているのに全く遅れない(E7R)。上の時計は箱に対して固有運動(0.9)を持つため遅れる(τ/t≈0.989) — 時計をタップして比較。1つだけ速さが違う粒子(上の時計)の実速度はvx=2.1(箱の並進1.2+箱に対する固有運動0.9の合計)であり、壁と同じ1.2だけで動く下の時計は遅れない — 見かけの数値(1.2と2.1)ではなく箱に対する相対速度|v−u|が遅れを決める。箱宇宙の中に「絶対静止」は無い: 運動はすべて箱に対して相対であり、内部の閉じた実験から箱全体の並進は原理的に検知できない(検知できるなら、より大きな箱宇宙が必要になる — T1・T10)。運動量Pは保存し帳簿はゼロのまま(モニタ表示・A13)。",
+    control:"⏮で初期位置に戻る。"},
+  en:{name:"Box Universe — Translating Box", descStruct:{
+    summary:"A closed system: a free point-mass ring (the wall, M=1440) and interior test particles and clocks all translate at the same velocity. ",
+    observe:"The wall is the only source of determinacy (D0=0), so the frame u equals the wall velocity itself (A2/A5). The comoving lower clock has |v−u|=0 — moving at speed 1.2 yet not slowed at all (E7R). The upper clock carries a proper motion (0.9) relative to the box and therefore runs slow (τ/t≈0.989) — tap the clocks to compare. The one particle moving at a different speed — the upper clock — has actual velocity vx=2.1 (the box's translation 1.2 plus its own proper motion 0.9 relative to the box); the lower clock, moving at the box's own 1.2, does not run slow at all — it is the relative speed |v−u| to the box, not the raw numbers (1.2 vs 2.1), that determines the lag. There is no 'absolute rest' inside a box universe: all motion is relative to the box, and no closed interior experiment can detect the box's own translation (if it could, a larger box universe would be required — T1, T10). Momentum is conserved with a zero ledger (monitor, A13). ",
+    control:"Press ⏮ to reset."}},
   activeParams:["kFrame","cLight"],
   camera:{scale:420}, world:{boundary:"none",size:0},
   physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
@@ -1299,8 +1349,14 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true} },
 
 { id:"boxrot", name:"箱宇宙 — 回る箱と空間の支え", emoji:"🌀", group:"箱宇宙",
-  description:"壁(質点リング・レール駆動)が角速度Ω=0.15で回る。既存設計は「内部は剛体回転u=Ωrになる」と期待したが、実測すると内部フレームの利得は中心近傍で約1/2 — 速度加重平均(A5)は回転という一次の空間変形を半分しか内部へ運ばない(T10・V23a)。内側の3リングにはΩ/2で共回転する初期速度を与えてあり、重力ゼロ(G=0)なのに引きずりの輸送(E6′)だけで円軌道が保たれる — 空間が軌道を支える(ニュートンのバケツの解)。kFrame=0にすると支えが消えて粒子は直線に飛ぶ(おすすめA/B)。完全な箱宇宙(連続背景🫧)では回転は内部から検知できない — 質点壁は利得1/2しか作れず「完全な箱」になれないことを実測するのが本サンプル(T10)。",
-  en:{name:"Box Universe — Rotating Box, Space as Support", description:"The wall (a rail-driven point-mass ring) rotates at Ω=0.15. The old design expected rigid rotation u=Ωr inside; measurement shows the interior frame gain is about 1/2 near the center — the velocity-weighted mean (A5) carries only half of a first-order deformation like rotation (T10, V23a). The three inner rings start co-rotating at Ω/2, and with zero gravity (G=0) their circular orbits are sustained by drag transport (E6′) alone — space supports the orbit (the answer to Newton's bucket). Set kFrame to 0 and the support vanishes: particles fly off in straight lines (suggested A/B). In a complete box universe (the continuous background 🫧) rotation is undetectable from inside — measuring how a point-mass wall, limited to a gain of 1/2, fails to be such a 'complete box' is the point of this sample (T10)."},
+  descStruct:{
+    summary:"壁(質点リング・レール駆動)が角速度Ω=0.15で回る。",
+    observe:"既存設計は「内部は剛体回転u=Ωrになる」と期待したが、実測すると内部フレームの利得は中心近傍で約1/2 — 速度加重平均(A5)は回転という一次の空間変形を半分しか内部へ運ばない(T10・V23a)。内側の3リングにはΩ/2で共回転する初期速度を与えてあり、重力ゼロ(G=0)なのに引きずりの輸送(E6′)だけで円軌道が保たれる — 空間が軌道を支える(ニュートンのバケツの解)。完全な箱宇宙(連続背景🫧)では回転は内部から検知できない — 質点壁は利得1/2しか作れず「完全な箱」になれないことを実測するのが本サンプル(T10)。",
+    control:"kFrame=0にすると支えが消えて粒子は直線に飛ぶ(おすすめA/B)。"},
+  en:{name:"Box Universe — Rotating Box, Space as Support", descStruct:{
+    summary:"The wall (a rail-driven point-mass ring) rotates at Ω=0.15. ",
+    observe:"The old design expected rigid rotation u=Ωr inside; measurement shows the interior frame gain is about 1/2 near the center — the velocity-weighted mean (A5) carries only half of a first-order deformation like rotation (T10, V23a). The three inner rings start co-rotating at Ω/2, and with zero gravity (G=0) their circular orbits are sustained by drag transport (E6′) alone — space supports the orbit (the answer to Newton's bucket). In a complete box universe (the continuous background 🫧) rotation is undetectable from inside — measuring how a point-mass wall, limited to a gain of 1/2, fails to be such a 'complete box' is the point of this sample (T10). ",
+    control:"Set kFrame to 0 and the support vanishes: particles fly off in straight lines (suggested A/B)."}},
   activeParams:["kFrame","q"],
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
@@ -1319,8 +1375,12 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:true} },
 
 { id:"boxexpand", name:"箱宇宙 — 膨張する箱(質点リング)", emoji:"📈", group:"箱宇宙",
-  description:"壁リングをa(t)=e^{Ht}(H=0.005)で相似膨張させる規定駆動(railH — 展示系。外部が軌道を規定する)。内部の自由粒子に壁の半分のHubble流(v=½Hr)を与えると、√aに比例した膨張を続ける — 速度加重平均(A5)が内部へ運ぶ膨張は壁の約半分(利得g(0)=1/2、T10・V24a)。箱宇宙の拡大縮小は内部から検知できる(移動回転と違い、距離・波長・時計率を変える — T10)。壁と同率の完全共動u=Hrは質点リングでは作れず、連続背景UniverseBox(🫧)が必要になる — この「足りなさ」の実測こそが本サンプルの主目的。",
-  en:{name:"Box Universe — Expanding Box (Point-Mass Ring)", description:"The wall ring is driven to expand self-similarly as a(t)=e^{Ht} (H=0.005; railH — an exhibit system with externally prescribed motion). Give the interior free particles half the wall's Hubble flow (v=½Hr) and they keep expanding in proportion to √a — the velocity-weighted mean (A5) carries only about half of the wall's expansion inward (gain g(0)=1/2; T10, V24a). Unlike translation and rotation, expansion and contraction of a box universe *are* detectable from inside — they change distances, wavelengths and clock rates (T10). A point-mass ring cannot produce full comotion u=Hr; that requires the continuous UniverseBox background (🫧). Measuring this very shortfall is the point of this sample."},
+  descStruct:{
+    summary:"壁リングをa(t)=e^{Ht}(H=0.005)で相似膨張させる規定駆動(railH — 展示系。外部が軌道を規定する)。",
+    observe:"内部の自由粒子に壁の半分のHubble流(v=½Hr)を与えると、√aに比例した膨張を続ける — 速度加重平均(A5)が内部へ運ぶ膨張は壁の約半分(利得g(0)=1/2、T10・V24a)。箱宇宙の拡大縮小は内部から検知できる(移動回転と違い、距離・波長・時計率を変える — T10)。壁と同率の完全共動u=Hrは質点リングでは作れず、連続背景UniverseBox(🫧)が必要になる — この「足りなさ」の実測こそが本サンプルの主目的。"},
+  en:{name:"Box Universe — Expanding Box (Point-Mass Ring)", descStruct:{
+    summary:"The wall ring is driven to expand self-similarly as a(t)=e^{Ht} (H=0.005; railH — an exhibit system with externally prescribed motion). ",
+    observe:"Give the interior free particles half the wall's Hubble flow (v=½Hr) and they keep expanding in proportion to √a — the velocity-weighted mean (A5) carries only about half of the wall's expansion inward (gain g(0)=1/2; T10, V24a). Unlike translation and rotation, expansion and contraction of a box universe *are* detectable from inside — they change distances, wavelengths and clock rates (T10). A point-mass ring cannot produce full comotion u=Hr; that requires the continuous UniverseBox background (🫧). Measuring this very shortfall is the point of this sample."}},
   activeParams:["kFrame"],
   camera:{scale:420}, world:{boundary:"none",size:0},
   physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
@@ -1335,8 +1395,14 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"boxcomoving", name:"箱宇宙 — UniverseBoxの完全共動と膨張時計", emoji:"🫧", group:"箱宇宙",
-  description:"連続背景UniverseBox — 静的なD₀を「位置・速度・尺度a(t)を持つ動的背景」へ昇格させ、完全なHubble流u_B=H·rを作る(質点リングの利得1/2を埋めるT10の連続極限。破線円=名目半径L·a)。自由粒子は共動座標χ=r/aを保って運ばれ(V24b)、粒子間距離はaに正比例して伸びる。膨張は決定力を希釈し(W_B=D/a)、時計則(A7′/E7R)により中央の固定時計は膨張とともに速く進む(タップでτ/t確認) — 「膨張が時間を進める」に見える相関がモデル内で創発する。ただし膨張は時間の原因ではなく、既に定義された時計の速度を変えているだけ。kFrame=0で共動が消える(おすすめA/B)。膨張の反作用はリザーバに帳簿(モニタ・A13)。",
-  en:{name:"Box Universe — Full Comotion & the Expansion Clock", description:"The continuous UniverseBox background — static D₀ promoted to a dynamic background with position, velocity and scale a(t) — produces the full Hubble flow u_B=H·r (the continuum limit of T10, closing the point-ring's 1/2 gain; dashed circle = nominal radius L·a). Free particles are carried preserving comoving coordinates χ=r/a (V24b), and mutual distances grow in proportion to a. Expansion dilutes determinacy (W_B=D/a), so by the clock law (A7′/E7R) the central pinned clock ticks faster as the universe expands (tap it to see τ/t) — a correlation that looks like 'expansion drives time' emerges inside the model. Yet expansion is not the cause of time: it merely changes the rate of an already-defined clock. Set kFrame to 0 and comotion vanishes (suggested A/B). Reactions are ledgered to the reservoir (monitor, A13)."},
+  descStruct:{
+    summary:"連続背景UniverseBox — 静的なD₀を「位置・速度・尺度a(t)を持つ動的背景」へ昇格させ、完全なHubble流u_B=H·rを作る(質点リングの利得1/2を埋めるT10の連続極限。破線円=名目半径L·a)。",
+    observe:"自由粒子は共動座標χ=r/aを保って運ばれ(V24b)、粒子間距離はaに正比例して伸びる。膨張は決定力を希釈し(W_B=D/a)、時計則(A7′/E7R)により中央の固定時計は膨張とともに速く進む(タップでτ/t確認) — 「膨張が時間を進める」に見える相関がモデル内で創発する。ただし膨張は時間の原因ではなく、既に定義された時計の速度を変えているだけ。膨張の反作用はリザーバに帳簿(モニタ・A13)。",
+    control:"kFrame=0で共動が消える(おすすめA/B)。"},
+  en:{name:"Box Universe — Full Comotion & the Expansion Clock", descStruct:{
+    summary:"The continuous UniverseBox background — static D₀ promoted to a dynamic background with position, velocity and scale a(t) — produces the full Hubble flow u_B=H·r (the continuum limit of T10, closing the point-ring's 1/2 gain; dashed circle = nominal radius L·a). ",
+    observe:"Free particles are carried preserving comoving coordinates χ=r/a (V24b), and mutual distances grow in proportion to a. Expansion dilutes determinacy (W_B=D/a), so by the clock law (A7′/E7R) the central pinned clock ticks faster as the universe expands (tap it to see τ/t) — a correlation that looks like 'expansion drives time' emerges inside the model. Yet expansion is not the cause of time: it merely changes the rate of an already-defined clock. Reactions are ledgered to the reservoir (monitor, A13). ",
+    control:"Set kFrame to 0 and comotion vanishes (suggested A/B)."}},
   activeParams:["kFrame","Kt"],
   camera:{scale:420}, world:{boundary:"none",size:0},
   universeBox:{mode:"exp", H0:0.004, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
@@ -1351,8 +1417,14 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true,boxGraph:true} },
 
 { id:"boxbound", name:"箱宇宙 — 束縛系は膨張に逆らえるか", emoji:"🪢", group:"箱宇宙",
-  description:"膨張するUniverseBox(H=0.004)の中に、束縛された連星(m=100×2)と自由なテスト粒子を置く。自由粒子の距離はa(t)に正比例して伸びる。では連星は? 実測の答え(V25): 追随の度合いは決定力の持ち分φ_B=W_B/(W_B+w局所)で決まり、箱支配(φ_B≈0.95 — この画面)では連星軌道もd∝a^{2φ_B}で拡大する。E6′のΔu輸送は、絶対時間に対する特異速度を保存する — 一方、局所光速は決定力の希釈で上がるため「光速に対する比」w/c_locは膨張とともに低下する(§12-5 v1.5・V28 — 比率基準では実宇宙GRの減衰方向と整合。分岐が残るのはこの絶対速度チャネルの軌道励起)。局所の決定力が支配する極限(φ_B→0)でのみ「束縛系は膨張しない」— そして同じ局所決定力Wが時計も遅らせる(E7R)。「膨張に逆らう」と「時間が遅い」は同じ原因(高い決定力)の二つの現れ。kFrameを下げると追随率が下がる・Gを0にすると束縛が解ける(おすすめA/B)。",
-  en:{name:"Box Universe — Can Bound Systems Resist Expansion?", description:"Inside an expanding UniverseBox (H=0.004) sit a bound binary (m=100×2) and free test particles. Free-particle distances grow in proportion to a(t). And the binary? The measured answer (V25): the degree of following is set by the determinacy share φ_B=W_B/(W_B+w_local); under box dominance (φ_B≈0.95 — this screen) even the binary orbit inflates as d∝a^{2φ_B}. E6′'s Δu transport conserves peculiar velocity in absolute time — while the local light speed rises as determinacy dilutes, so the ratio w/c_loc falls with expansion (§12-5 v1.5, V28 — in ratio terms the decay direction agrees with real GR; what remains non-standard is this absolute-velocity orbital pumping). Only in the locally dominated limit (φ_B→0) do bound systems stop expanding — and the same local determinacy W also slows clocks (E7R). 'Resisting expansion' and 'time running slow' are two faces of one cause: high determinacy. Lower kFrame to reduce the following rate, or set G to 0 to unbind (suggested A/B)."},
+  descStruct:{
+    summary:"膨張するUniverseBox(H=0.004)の中に、束縛された連星(m=100×2)と自由なテスト粒子を置く。",
+    observe:"自由粒子の距離はa(t)に正比例して伸びる。では連星は? 実測の答え(V25): 追随の度合いは決定力の持ち分φ_B=W_B/(W_B+w局所)で決まり、箱支配(φ_B≈0.95 — この画面)では連星軌道もd∝a^{2φ_B}で拡大する。E6′のΔu輸送は、絶対時間に対する特異速度を保存する — 一方、局所光速は決定力の希釈で上がるため「光速に対する比」w/c_locは膨張とともに低下する(§12-5・V28 — 比率基準では実宇宙GRの減衰方向と整合。分岐が残るのはこの絶対速度チャネルの軌道励起)。局所の決定力が支配する極限(φ_B→0)でのみ「束縛系は膨張しない」— そして同じ局所決定力Wが時計も遅らせる(E7R)。「膨張に逆らう」と「時間が遅い」は同じ原因(高い決定力)の二つの現れ。",
+    control:"kFrameを下げると追随率が下がる・Gを0にすると束縛が解ける(おすすめA/B)。"},
+  en:{name:"Box Universe — Can Bound Systems Resist Expansion?", descStruct:{
+    summary:"Inside an expanding UniverseBox (H=0.004) sit a bound binary (m=100×2) and free test particles. ",
+    observe:"Free-particle distances grow in proportion to a(t). And the binary? The measured answer (V25): the degree of following is set by the determinacy share φ_B=W_B/(W_B+w_local); under box dominance (φ_B≈0.95 — this screen) even the binary orbit inflates as d∝a^{2φ_B}. E6′'s Δu transport conserves peculiar velocity in absolute time — while the local light speed rises as determinacy dilutes, so the ratio w/c_loc falls with expansion (§12-5, V28 — in ratio terms the decay direction agrees with real GR; what remains non-standard is this absolute-velocity orbital pumping). Only in the locally dominated limit (φ_B→0) do bound systems stop expanding — and the same local determinacy W also slows clocks (E7R). 'Resisting expansion' and 'time running slow' are two faces of one cause: high determinacy. ",
+    control:"Lower kFrame to reduce the following rate, or set G to 0 to unbind (suggested A/B)."}},
   activeParams:["G","kFrame"],
   camera:{scale:420}, world:{boundary:"none",size:0},
   universeBox:{mode:"exp", H0:0.004, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
@@ -1369,8 +1441,14 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,boxGraph:true} },
 
 { id:"boxbreath", name:"箱宇宙 — 呼吸する宇宙と時計", emoji:"🫁", group:"箱宇宙",
-  description:"尺度因子a(t)=1+0.2sin(0.08t)で膨張と収縮を繰り返すUniverseBox。自由粒子は呼吸するHubble流u_B=H(t)·rに運ばれて往復し、決定力W_B=D/aも振動する — 膨張期(a大)は時計が速く、収縮期(a小)は遅くなる(A7′/E7R。中央の固定時計をタップ)。転回点H=0でも時計は止まらない — 膨張率と時間の速さは別物であり、aだけを「時間の本体」にはできない。散逸ゼロ(摩擦・衝突減衰・放射なし)なら一周期(T≈78.5)でほぼ元の配置に戻る可逆な系。muFやgammaNを入れると一周しても戻らない — 幾何学的な周期と熱力学的な時間の矢(A12′)は別物であることを自分で試せる(T10)。",
-  en:{name:"Box Universe — Breathing Universe & Its Clock", description:"A UniverseBox whose scale factor a(t)=1+0.2sin(0.08t) expands and contracts. Free particles ride the breathing Hubble flow u_B=H(t)·r back and forth, and determinacy W_B=D/a oscillates too — clocks tick faster while expanded (large a) and slower while contracted (A7′/E7R; tap the central pinned clock). At the turning points H=0 the clock does not stop — expansion rate and the rate of time are different things, so a alone cannot be 'time itself'. With zero dissipation (no friction, collision damping or radiation) the system returns almost exactly after one period (T≈78.5) — reversible. Add muF or gammaN and it no longer returns — geometric periodicity and the thermodynamic arrow of time (A12′) are distinct, and you can test it yourself (T10)."},
+  descStruct:{
+    summary:"尺度因子a(t)=1+0.2sin(0.08t)で膨張と収縮を繰り返すUniverseBox。",
+    observe:"自由粒子は呼吸するHubble流u_B=H(t)·rに運ばれて往復し、決定力W_B=D/aも振動する — 膨張期(a大)は時計が速く、収縮期(a小)は遅くなる(A7′/E7R。中央の固定時計をタップ)。転回点H=0でも時計は止まらない — 膨張率と時間の速さは別物であり、aだけを「時間の本体」にはできない。散逸ゼロ(摩擦・衝突減衰・放射なし)なら一周期(T≈78.5)でほぼ元の配置に戻る可逆な系。",
+    control:"muFやgammaNを入れると一周しても戻らない — 幾何学的な周期と熱力学的な時間の矢(A12′)は別物であることを自分で試せる(T10)。"},
+  en:{name:"Box Universe — Breathing Universe & Its Clock", descStruct:{
+    summary:"A UniverseBox whose scale factor a(t)=1+0.2sin(0.08t) expands and contracts. ",
+    observe:"Free particles ride the breathing Hubble flow u_B=H(t)·r back and forth, and determinacy W_B=D/a oscillates too — clocks tick faster while expanded (large a) and slower while contracted (A7′/E7R; tap the central pinned clock). At the turning points H=0 the clock does not stop — expansion rate and the rate of time are different things, so a alone cannot be 'time itself'. With zero dissipation (no friction, collision damping or radiation) the system returns almost exactly after one period (T≈78.5) — reversible. ",
+    control:"Add muF or gammaN and it no longer returns — geometric periodicity and the thermodynamic arrow of time (A12′) are distinct, and you can test it yourself (T10)."}},
   activeParams:["Kt","kFrame"],
   camera:{scale:380}, world:{boundary:"none",size:0},
   universeBox:{mode:"sin", H0:0, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0.2, freq:0.08, phase:0},
@@ -1384,8 +1462,12 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true,boxGraph:true} },
 
 { id:"boxredshift", name:"箱宇宙 — 光の赤方偏移(A・B・C)", emoji:"🔦", group:"箱宇宙",
-  description:"膨張する箱宇宙(H=0.02)に粒子A・B・Cを共動で並べ、光の状態を「波長」で保持して伝播させる(4-63)。t=0にAが放った波長500の光(λは膨張とともにa(t)/a放出で伸びる)は、宇宙が4倍に膨張した頃にCへ届き、波長は4倍(z=3)。宇宙が2倍に膨張した時点でBが放った光は、同じ頃にCへ届き、波長は2倍(z=1) — 放出時刻の異なる光が、異なる赤方偏移で同時に観測される。これは宇宙膨張による赤方偏移の標準的な尺度因子関係 1+z=a(観測)/a(放出) と同じ形(§12-6。低赤方偏移で距離と後退速度を結ぶハッブル–ルメートル則 v≈H0d とは区別)。膨張グラフに到着ログ(λ放出→λ観測・z)が出る。光子は運動量を運ばない表示物理で、屈折・随伴はE8R/T5と同じψ・uを使う(T10)。",
-  en:{name:"Box Universe — Redshift of Light (A, B, C)", description:"Three comoving particles A, B and C sit in an expanding box universe (H=0.02), and light propagates while holding its state as a 'wavelength' (4-63). The 500 nm light A emits at t=0 (λ stretches as a(t)/a_emit) reaches C when the universe has grown fourfold, so its wavelength is four times longer (z=3). Light emitted by B once the universe has doubled arrives at C at about the same moment with twice the wavelength (z=1) — light emitted at different times is observed simultaneously at different redshifts. This is the same shape as the standard scale-factor relation for cosmological redshift from the expansion of the universe, 1+z=a(observed)/a(emitted) (§12-6; distinct from the Hubble–Lemaître law v≈H0d, which relates distance and recession velocity at low redshift). The expansion graph shows the arrival log (λ_emit→λ_obs and z). Photons carry no momentum here — a display-level physics — while refraction and medium advection use the same ψ and u as E8R/T5 (T10)."},
+  descStruct:{
+    summary:"膨張する箱宇宙(H=0.02)に粒子A・B・Cを共動で並べ、光の状態を「波長」で保持して伝播させる。",
+    observe:"t=0にAが放った波長500の光(λは膨張とともにa(t)/a放出で伸びる)は、宇宙が4倍に膨張した頃にCへ届き、波長は4倍(z=3)。宇宙が2倍に膨張した時点でBが放った光は、同じ頃にCへ届き、波長は2倍(z=1) — 放出時刻の異なる光が、異なる赤方偏移で同時に観測される。これは宇宙膨張による赤方偏移の標準的な尺度因子関係 1+z=a(観測)/a(放出) と同じ形(§12-6。低赤方偏移で距離と後退速度を結ぶハッブル–ルメートル則 v≈H0d とは区別)。膨張グラフに到着ログ(λ放出→λ観測・z)が出る。光子は運動量を運ばない表示物理で、屈折・随伴はE8R/T5と同じψ・uを使う(T10)。"},
+  en:{name:"Box Universe — Redshift of Light (A, B, C)", descStruct:{
+    summary:"Three comoving particles A, B and C sit in an expanding box universe (H=0.02), and light propagates while holding its state as a 'wavelength'. ",
+    observe:"The 500 nm light A emits at t=0 (λ stretches as a(t)/a_emit) reaches C when the universe has grown fourfold, so its wavelength is four times longer (z=3). Light emitted by B once the universe has doubled arrives at C at about the same moment with twice the wavelength (z=1) — light emitted at different times is observed simultaneously at different redshifts. This is the same shape as the standard scale-factor relation for cosmological redshift from the expansion of the universe, 1+z=a(observed)/a(emitted) (§12-6; distinct from the Hubble–Lemaître law v≈H0d, which relates distance and recession velocity at low redshift). The expansion graph shows the arrival log (λ_emit→λ_obs and z). Photons carry no momentum here — a display-level physics — while refraction and medium advection use the same ψ and u as E8R/T5 (T10)."}},
   activeParams:["cLight","kFrame"],
   // 第42便 42A(台帳4-78 A案): claims — 説明文のA・B到着時赤方偏移(z=3/z=1)を機械可読化。
   // 窓は QA box.photon-abc の許容(z_A=3±0.3・z_B=1±0.15)に合わせる
@@ -1418,14 +1500,14 @@ const BUILTIN_PRESETS = [
 // D/Kt の操作: Kt は主役スライダー・D は「箱宇宙」セクションの数値入力(第32便 W2)。
 // D の既定 277.26 = (2/3)ln4·300 ≈ 0.9242·Kt(論文2の較正点 — a=2 の点値がテンション比
 // 67.4/73.0≈0.923 と同水準になる。数値一致は較正であり証拠ではない — Negative claim 6)。
-{ id:"probeH", name:"箱宇宙 — 二つのH推定器(プローブ依存の膨張測定)", emoji:"🧭", group:"箱宇宙",
+{ id:"probeH", name:"箱宇宙 — ２つのH推定器(ハッブルテンション類似)", emoji:"🧭", group:"箱宇宙",
   // 第50便 50K(台帳4-78 C案パイロット): descStruct(要約/観察/操作)— 純分割+操作文の末尾移設のみ
   descStruct:{
-    summary:"同じ箱の膨張率Hを、2人の観測者が別々の物差しで測る(論文2の中心結果V29を操作可能にしたサンプル — 台帳4-87)。幾何プローブは共動構造を追ってH_geo=Δln a/Δtを報告する。速度プローブはFLRW流の減衰則w/c∝1/aを仮定し、比R=w/c_locの実測減衰からH_w=−Δln R/Δtを推定する。",
+    summary:"同じ箱の膨張率Hを、2人の観測者が別々の物差しで測る(論文2の中心結果V29を操作可能にしたサンプル — 台帳4-87)。幾何プローブは共動構造を追ってH_geo=Δln a/Δtを報告する。速度プローブはFLRW流の減衰則w/c∝1/aを仮定し、比R=w/c_locの実測減衰からH_w=−Δln R/Δtを推定する。2つの推定値の食い違いがハッブルテンションと同水準(a=2の点値0.92 対 実宇宙比0.923)になる較正で、HUDの「テンション類似」行から常時確認できる。",
     observe:"粒子の特異速度wはモデルの絶対帳簿では保存するのに(V27)、局所光速c_loc=c₀e^{−2ψ}が膨張の希釈で上がるため、光を物差しにした比Rは減衰する(E8R・V28)— しかもその減衰則は仮定したFLRW形と違うので、2つの推定値の比はH_w/H_geo=2(D/Kt)/aとなり、時刻aと較正D/Ktに依存する。HUDの累積測定(t=0基準)がこれを常時表示する: a=2で指数読みの累積比は 1.333(解析1.3335と1e-2以内で一致)。並記される反比例読みは、同じ実測wを対案の光速則c_loc∝1/W(台帳4-66)で読み直したもので、恒等的に 1.000 に張り付く — 関数形を変えるとプローブ依存が消える(exp-4-66.mjsの判別実験と同じモデル内対照)。既定D/Kt=(2/3)ln4≈0.9242はa=2の点値0.92が実宇宙のハッブルテンション比67.4/73.0≈0.923と同水準になる論文2の較正点だが、この数値一致は較正であって証拠ではない(Negative claim 6)。これはテンションの説明ではなく「測定の食い違いは推定器が仮定する減衰則の帰結でありうる」という構造の提示である(Negative claim 3)。",
     control:"Ktスライダーや「箱宇宙」セクションのDでD/Ktを動かすと比が比例してスケールする(変更後は🔁で再構築してから読む — 累積測定はt=0基準)。"},
-  en:{name:"Box Universe — Two H Estimators (Probe-Dependent Expansion)", descStruct:{
-    summary:"Two observers measure the expansion rate H of the same box with different rulers (the central result V29 of paper 2, made operable — ledger 4-87). The geometric probe tracks comoving structure and reports H_geo=Δln a/Δt. The velocity probe assumes the FLRW decay law w/c∝1/a and infers H_w=−Δln R/Δt from the measured decay of the ratio R=w/c_loc. ",
+  en:{name:"Box Universe — Two H Estimators (a Hubble-Tension Analogue)", descStruct:{
+    summary:"Two observers measure the expansion rate H of the same box with different rulers (the central result V29 of paper 2, made operable — ledger 4-87). The geometric probe tracks comoving structure and reports H_geo=Δln a/Δt. The velocity probe assumes the FLRW decay law w/c∝1/a and infers H_w=−Δln R/Δt from the measured decay of the ratio R=w/c_loc. The calibration makes the two estimates disagree at the same magnitude as the Hubble tension (point value 0.92 at a=2 vs the real-universe ratio 0.923), visible at all times in the HUD's tension-analogue line. ",
     observe:"The particle's peculiar velocity w is conserved in the model's absolute bookkeeping (V27), yet the local light speed c_loc=c0·e^{−2ψ} rises as expansion dilutes determinacy, so the light-referenced ratio R decays (E8R, V28) — and its decay law differs from the assumed FLRW form, so the two estimates disagree by H_w/H_geo=2(D/Kt)/a, depending on the epoch a and the calibration D/Kt. The HUD's cumulative measurement (from t=0) shows this live: at a=2 the exponential reading's cumulative ratio is 1.333 (matching the analytic 1.3335 within 1e-2). The inverse reading shown beside it re-reads the same measured w under the alternative light-speed law c_loc∝1/W (ledger 4-66) and stays identically at 1.000 — change the functional form and the probe dependence vanishes (the same model-internal control as the exp-4-66.mjs discrimination experiment). The default D/Kt=(2/3)ln4≈0.9242 is paper 2's calibration point, where the a=2 point value 0.92 matches the magnitude of the real Hubble-tension ratio 67.4/73.0≈0.923 — a calibration, not evidence (Negative claim 6). This is not an explanation of the tension but a structure: a measurement discrepancy can be the consequence of the decay law the estimator assumes (Negative claim 3). ",
     control:"Move D/Kt with the Kt slider or the D input in the Box Universe section and the ratio scales in proportion (rebuild with 🔁 after changing — the cumulative measurement is referenced to t=0)."}},
   activeParams:["Kt","cLight","kFrame"],
@@ -1465,8 +1547,14 @@ const BUILTIN_PRESETS = [
 // kFrame=0 も必須: E6′ を入れると背景 D₀ 持ち分がリザーバへ流れ(実測 |帳簿P|=107)、
 // 「全自由・閉鎖系」の保存則デモが成立しない。
 { id:"freebox", name:"箱宇宙 — 自由な箱(膨張の原因)", emoji:"🕊️", group:"箱宇宙",
-  description:"壁を固定も規定もしない箱宇宙。64個の壁粒子(m=20・スピン1.0)は全部が自由粒子で、レールも固定もない — 膨張則a(t)は外から与えるものではなく、E4自己重力とA10/E5′スピン斥力(=圧力)から解かれる(T12: 膨張の「原因」が系の外から内へ移る)。壁には脱出速度に届かない外向き初速v=0.001·rを与えてある。おすすめA/B: スピン斥力kRepを0にすると圧力が消え、自己重力だけの宇宙は膨張をやめて収縮に転じる(実測: 実測尺度因子a_effはt=9.2の1.005で頭打ちになり、膨張率H_effが前半+4.42e-4から後半−5.28e-4へ符号反転 — 2Dの閉じた宇宙の類似)。kRep=0.5に戻すと圧力が押し広げ、t=19.2でa_eff=2.18まで膨張し、しかも加速する(H_eff 0.0318→0.0514 — E5′は距離の1乗でしか薄まらず、重力の2乗より緩いため)。膨張グラフには規定a(t)ではなく壁の平均中心距離から計測した実測a_eff=⟨r⟩/⟨r⟩₀が出る(見出しの「実測」表示)。赤方偏移は規定a(t)に結び付いた規則なのでこの画面では出さない。全粒子が自由な完全閉鎖系で、リザーバ帳簿は0のまま運動量・角運動量が保存する(A13/T7・モニタ表示)。※要因はG×kRepの4象限で完全に分離できる(1200步=t19.2の実測a_eff — 台帳4-91): 既定G=1×kRep=0.5は2.18へ加速/G=1×kRep=0は1.005で頭打ち→再収縮/G=0×kRep=0.5は2.19へ加速(重力の減速寄与はa_effでわずか−0.013)/G=0×kRep=0は外向き初速だけの慣性で1.019のまま(加速も収縮もしない)— 加速の源が圧力そのものであることが4象限で確定する(QA freebox.quadrants)。qは圧力の距離依存を決める設計値(詳細設定に表示: q=1でF∝1/d。q=2に上げると剛性dlnF/dlnd≈−3が壁の角度ジッタを増幅してリングが座屈する)。HUDには実測H_effと壁リングの形状診断(RMS偏差・中央値半径・四重極A2・残存率)が常時出る。引きずりkFrame=0でE4とE5′の2機構だけを取り出しているため、内部の8個のテスト粒子は壁の膨張には随伴しない(質点リング壁の限界 — T10)。これはフリードマン方程式のDFM類似の機構デモであり、FLRW宇宙論の再現主張ではない。",
-  en:{name:"Box Universe — The Free Box (what drives expansion?)", description:"A box universe whose wall is neither pinned nor prescribed. All 64 wall particles (m=20, spin 1.0) are free bodies — no rails, no pins — so the expansion law a(t) is not given from outside but solved for, out of E4 self-gravity and A10/E5′ spin repulsion (= pressure): the cause of expansion moves from outside the system to inside it (T12). The walls start with an outward velocity v=0.001·r that falls short of escape. Suggested A/B: set the spin repulsion kRep to 0 and the pressure disappears — gravity alone stops the expansion and turns it into collapse (measured: the scale factor a_eff peaks at 1.005 at t=9.2 and the expansion rate H_eff flips sign, +4.42e-4 in the first half to −5.28e-4 in the second — the analogue of a closed 2D universe). Put kRep back to 0.5 and pressure pushes the box open to a_eff=2.18 by t=19.2, accelerating as it goes (H_eff 0.0318→0.0514), because E5′ thins out only as 1/d while gravity thins as 1/d². The expansion graph plots the measured a_eff=⟨r⟩/⟨r⟩0 taken from the mean wall radius, not a prescribed a(t) (see the 'measured' tag in the header). Redshift is a rule tied to a prescribed a(t), so it is not shown here. Every particle is free — a strictly closed system whose reservoir ledger stays at zero while momentum and angular momentum are conserved (A13/T7; conservation monitor). The factors separate completely in the G×kRep four-quadrant scan (measured a_eff at 1200 steps = t19.2 — ledger 4-91): default G=1×kRep=0.5 accelerates to 2.18 / G=1×kRep=0 peaks at 1.005 then recollapses / G=0×kRep=0.5 accelerates to 2.19 (gravity's braking contribution is a mere −0.013 in a_eff) / G=0×kRep=0 coasts inertially at 1.019 (neither accelerating nor collapsing) — the four quadrants pin the source of acceleration on the pressure itself (QA freebox.quadrants). q is a design value setting the distance dependence of the pressure (shown in advanced settings: q=1 gives F∝1/d; raising it to q=2 stiffens dlnF/dlnd≈−3, amplifies the wall's angular jitter and buckles the ring). The HUD always shows the measured H_eff plus wall-ring shape diagnostics (RMS deviation, median radius, quadrupole A2, retention). Dragging is off (kFrame=0) to isolate the two mechanisms E4 and E5′, so the eight interior test particles do not comove with the expanding wall (the limit of a point-mass ring wall — T10). This is a mechanism demo of the DFM analogue of the Friedmann equation, not a claim to reproduce FLRW cosmology."},
+  descStruct:{
+    summary:"壁を固定も規定もしない箱宇宙。64個の壁粒子(m=20・スピン1.0)は全部が自由粒子で、レールも固定もない — 膨張則a(t)は外から与えるものではなく、E4自己重力とA10/E5′スピン斥力(=圧力)から解かれる(T12: 膨張の「原因」が系の外から内へ移る)。壁には脱出速度に届かない外向き初速v=0.001·rを与えてある。",
+    observe:"膨張グラフには規定a(t)ではなく壁の平均中心距離から計測した実測a_eff=⟨r⟩/⟨r⟩₀が出る(見出しの「実測」表示)。赤方偏移は規定a(t)に結び付いた規則なのでこの画面では出さない。全粒子が自由な完全閉鎖系で、リザーバ帳簿は0のまま運動量・角運動量が保存する(A13/T7・モニタ表示)。※要因はG×kRepの4象限で完全に分離できる(1200步=t19.2の実測a_eff): 既定G=1×kRep=0.5は2.18へ加速/G=1×kRep=0は1.005で頭打ち→再収縮/G=0×kRep=0.5は2.19へ加速(重力の減速寄与はa_effでわずか−0.013)/G=0×kRep=0は外向き初速だけの慣性で1.019のまま(加速も収縮もしない)— 加速の源が圧力そのものであることが4象限で確定する(QA freebox.quadrants)。qは圧力の距離依存を決める設計値(詳細設定に表示: q=1でF∝1/d。q=2に上げると剛性dlnF/dlnd≈−3が壁の角度ジッタを増幅してリングが座屈する)。HUDには実測H_effと壁リングの形状診断(RMS偏差・中央値半径・四重極A2・残存率)が常時出る。引きずりkFrame=0でE4とE5′の2機構だけを取り出しているため、内部の8個のテスト粒子は壁の膨張には随伴しない(質点リング壁の限界 — T10)。これはフリードマン方程式のDFM類似の機構デモであり、FLRW宇宙論の再現主張ではない。",
+    control:"おすすめA/B: スピン斥力kRepを0にすると圧力が消え、自己重力だけの宇宙は膨張をやめて収縮に転じる(実測: 実測尺度因子a_effはt=9.2の1.005で頭打ちになり、膨張率H_effが前半+4.42e-4から後半−5.28e-4へ符号反転 — 2Dの閉じた宇宙の類似)。kRep=0.5に戻すと圧力が押し広げ、t=19.2でa_eff=2.18まで膨張し、しかも加速する(H_eff 0.0318→0.0514 — E5′は距離の1乗でしか薄まらず、重力の2乗より緩いため)。"},
+  en:{name:"Box Universe — The Free Box (what drives expansion?)", descStruct:{
+    summary:"A box universe whose wall is neither pinned nor prescribed. All 64 wall particles (m=20, spin 1.0) are free bodies — no rails, no pins — so the expansion law a(t) is not given from outside but solved for, out of E4 self-gravity and A10/E5′ spin repulsion (= pressure): the cause of expansion moves from outside the system to inside it (T12). The walls start with an outward velocity v=0.001·r that falls short of escape. ",
+    observe:"The expansion graph plots the measured a_eff=⟨r⟩/⟨r⟩0 taken from the mean wall radius, not a prescribed a(t) (see the 'measured' tag in the header). Redshift is a rule tied to a prescribed a(t), so it is not shown here. Every particle is free — a strictly closed system whose reservoir ledger stays at zero while momentum and angular momentum are conserved (A13/T7; conservation monitor). The factors separate completely in the G×kRep four-quadrant scan (measured a_eff at 1200 steps = t19.2): default G=1×kRep=0.5 accelerates to 2.18 / G=1×kRep=0 peaks at 1.005 then recollapses / G=0×kRep=0.5 accelerates to 2.19 (gravity's braking contribution is a mere −0.013 in a_eff) / G=0×kRep=0 coasts inertially at 1.019 (neither accelerating nor collapsing) — the four quadrants pin the source of acceleration on the pressure itself (QA freebox.quadrants). q is a design value setting the distance dependence of the pressure (shown in advanced settings: q=1 gives F∝1/d; raising it to q=2 stiffens dlnF/dlnd≈−3, amplifies the wall's angular jitter and buckles the ring). The HUD always shows the measured H_eff plus wall-ring shape diagnostics (RMS deviation, median radius, quadrupole A2, retention). Dragging is off (kFrame=0) to isolate the two mechanisms E4 and E5′, so the eight interior test particles do not comove with the expanding wall (the limit of a point-mass ring wall — T10). This is a mechanism demo of the DFM analogue of the Friedmann equation, not a claim to reproduce FLRW cosmology. ",
+    control:"Suggested A/B: set the spin repulsion kRep to 0 and the pressure disappears — gravity alone stops the expansion and turns it into collapse (measured: the scale factor a_eff peaks at 1.005 at t=9.2 and the expansion rate H_eff flips sign, +4.42e-4 in the first half to −5.28e-4 in the second — the analogue of a closed 2D universe). Put kRep back to 0.5 and pressure pushes the box open to a_eff=2.18 by t=19.2, accelerating as it goes (H_eff 0.0318→0.0514), because E5′ thins out only as 1/d while gravity thins as 1/d²."}},
   activeParams:["kRep","G","q"],   // おすすめA/B: kRep 0.5(圧力駆動)⇄ 0(慣性のみ)。q は第50便 50G(台帳4-91)で主役へ昇格(圧力の距離依存=座屈の設計値の可視化)
   // 第42便 42A(台帳4-78 A案): claims — 説明文の実測 a_eff(既定=圧力駆動/対照=慣性のみ)を
   // 機械可読化。窓は QA freebox.pressure-expand(aLast>1.15)・freebox.inertial-decel(aMax>1)の
@@ -1522,41 +1610,45 @@ const BUILTIN_PRESETS = [
 //   etaRad=0 の対照でも δ²=3.552(既定 3.578 との差 0.7%)・ボイド率 0.579(同値)。
 //   kRep=0 の対照も δ²=3.834(+7%)で、圧力の効きも小さい。主因は E4 自己重力と規定膨張だけ。
 { id:"cosmicweb", name:"箱宇宙 — 膨張と自己重力の綱引き(コズミックウェブ類似)", emoji:"🕸️", group:"箱宇宙",
-  description:"膨張するUniverseBox(H=0.004)の中に、共動初速だけを与えた320個の一様なガスを置く。主要な競合因子は2つ — 背景の膨張がすべてを引き離し(規定a(t)・E6′で共動輸送)、自己重力(E4)が近くの粒同士を引き寄せる。初期のむらは配置の統計ゆらぎ(ポアソン)だけで、そこから密なフィラメントと空っぽのボイドに分かれていく。右下のグラフは尺度因子a(t)。定量: 共動座標で10×10のセルに切った密度コントラストδ²=Var(N)/⟨N⟩²は6000步で0.272→3.578(13.1倍)、空セルの割合は1.3%→57.9%まで増える。おすすめA/B: 膨張H=0にすると引き離す力が消え、同じ時間で構造がもっと育つ(δ²=8.55・ボイド率75%)。逆にH=0.01まで上げると膨張が勝って構造の成長が抑えられる(δ²=1.48・ボイド率34%)— 膨張率で構造のスケールが決まる。熱圧・接触散逸・伝導・放射冷却(E5′/E9′/κs/E11)もガス表現と数値安定のため有効だが構造形成の主因ではなく、放射冷却を切った対照でもδ²=3.55(差0.7%)にとどまる。※2次元・粒子320個・膨張は外から与えた規定則という強い簡略化で、ΛCDMの構造形成を再現する主張ではない(Negative Claims 1/2)。膨張の反作用はリザーバに帳簿(A13)。",
-  en:{name:"Box Universe — Expansion vs Self-Gravity (a Cosmic-Web Analogue)", description:"Inside an expanding UniverseBox (H=0.004) sit 320 uniform gas particles given nothing but the comoving initial flow. Two factors dominate the competition: the background expansion pulls everything apart (prescribed a(t), carried by E6′) and self-gravity (E4) pulls neighbours together. The only initial lumpiness is the Poisson noise of the random placement — from that, dense filaments and empty voids separate out. The bottom-right graph shows the scale factor a(t). Quantitatively: the density contrast δ²=Var(N)/⟨N⟩² on a 10×10 comoving grid grows from 0.272 to 3.578 (13.1×) in 6000 steps, and the fraction of empty cells rises from 1.3% to 57.9%. Suggested A/B: set H to 0 and the pulling-apart disappears — in the same time, structure grows further (δ²=8.55, 75% voids). Raise H to 0.01 and expansion wins, suppressing growth (δ²=1.48, 34% voids) — the expansion rate sets the scale of the structure. Thermal pressure, contact dissipation, conduction and radiative cooling (E5′/E9′/κs/E11) are all switched on for a faithful gas model and numerical stability, but none of them drives structure formation — turning off radiative cooling still gives δ²=3.55 (a 0.7% difference). Note: two dimensions, 320 particles and an externally prescribed expansion law are severe simplifications — this is not a claim to reproduce ΛCDM structure formation (Negative Claims 1/2). The back-reaction of the expansion is ledgered to the reservoir (A13)."},
+  // 第51便 51G(原仮定者指摘「塊になってしまう」): H0 0.004→0.01(共動初速 vScale も同値)。
+  // 旧既定は全体が重力束縛のままで、評価窓の先(12000步〜)で1つの塊へ潰れていた。
+  // 新既定は膨張が全体の束縛を解き、12000步でも複数ノット+フィラメントを保つ(実測 δ²=2.91・
+  // ボイド55%・見た目でも1塊にならないことをスクリーンショットで確認)。数値は全て QA 計量で再実測。
+  // descStruct 化+メタ表現除去も同時に実施
+  descStruct:{
+    summary:"膨張するUniverseBox(H=0.01)の中に、共動初速だけを与えた320個の一様なガスを置く。主要な競合因子は2つ — 背景の膨張がすべてを引き離し(規定a(t)・E6′で共動輸送)、自己重力(E4)が近くの粒同士を引き寄せる。初期のむらは配置の統計ゆらぎ(ポアソン)だけで、そこから密なフィラメントと空っぽのボイドに分かれていく。右下のグラフは尺度因子a(t)。",
+    observe:"共動座標で10×10のセルに切った密度コントラストδ²=Var(N)/⟨N⟩²は6000步で0.272→1.48(5.4倍)、空セルの割合は1.3%→34.2%まで増える。12000步でもδ²=2.91・ボイド率55%と、複数のノットとフィラメントを保ったまま構造が育ち続ける — 膨張が全体の重力束縛を解いているため、1つの塊には潰れない。熱圧・接触散逸・伝導・放射冷却(E5′/E9′/κs/E11)もガス表現と数値安定のため有効だが構造形成の主因ではなく、放射冷却を切った対照でもδ²=1.46(差1.6%)にとどまる。※2次元・粒子320個・膨張は外から与えた規定則という強い簡略化で、ΛCDMの構造形成を再現する主張ではない(Negative Claims 1/2)。膨張の反作用はリザーバに帳簿(A13)。",
+    control:"おすすめA/B: 膨張H=0にすると引き離す力が消え、同じ時間で構造がずっと育つ(δ²=8.43・ボイド率75%)— そのかわり最後は1つの塊へ潰れていく。逆にH=0.02まで上げると膨張が勝って構造の成長が抑えられる(δ²=0.75・ボイド率11%)— 膨張率が構造のスケールを決める。"},
+  en:{name:"Box Universe — Expansion vs Self-Gravity (a Cosmic-Web Analogue)", descStruct:{
+    summary:"Inside an expanding UniverseBox (H=0.01) sit 320 uniform gas particles given nothing but the comoving initial flow. Two factors dominate the competition: the background expansion pulls everything apart (prescribed a(t), carried by E6′) and self-gravity (E4) pulls neighbours together. The only initial lumpiness is the Poisson noise of the random placement — from that, dense filaments and empty voids separate out. The bottom-right graph shows the scale factor a(t). ",
+    observe:"The density contrast δ²=Var(N)/⟨N⟩² on a 10×10 comoving grid grows from 0.272 to 1.48 (5.4×) in 6000 steps, and the fraction of empty cells rises from 1.3% to 34.2%. Even at 12000 steps the structure keeps growing — δ²=2.91, 55% voids — while retaining several knots and filaments: the expansion unbinds the cloud as a whole, so it never crushes into a single blob. Thermal pressure, contact dissipation, conduction and radiative cooling (E5′/E9′/κs/E11) are all switched on for a faithful gas model and numerical stability, but none of them drives structure formation — turning off radiative cooling still gives δ²=1.46 (a 1.6% difference). Note: two dimensions, 320 particles and an externally prescribed expansion law are severe simplifications — this is not a claim to reproduce ΛCDM structure formation (Negative Claims 1/2). The back-reaction of the expansion is ledgered to the reservoir (A13). ",
+    control:"Suggested A/B: set H to 0 and the pulling-apart disappears — in the same time, structure grows much further (δ²=8.43, 75% voids) — but it eventually crushes into a single blob. Raise H to 0.02 and expansion wins, suppressing growth (δ²=0.75, 11% voids) — the expansion rate sets the scale of the structure."}},
   activeParams:["G","kFrame","kRep"],
   thermal:"tint",
-  validT:96,   // 第39便 39E(台帳4-75 E2): 説明文の実測窓(6000步=t≈96)と一致(HUD表示専用)
-  // 第40便 40B パイロット(台帳4-78・claims 新設キー — 表示なし・データ層のみ): 説明文中の
-  // 既存実測値(δ²成長倍率・ボイド率)をそのまま転記。control.patch は engine 未接続の記述用
-  // メタデータ(UI表示・engine適用は次便裁定)。expected は実測値を含む窓で、QA claims.sync-pilot
-  // が説明文中の数値・behavior.cosmicweb の閾値と機械照合する
-  // 第42便 42A(台帳4-78 A案): descPattern を追記(claims.sync による汎用照合へ移行。
-  // control.descScale=1/0.272 は説明文の対照値が「絶対値δ²」表記のため、初期値0.272で
-  // 割って倍率へ換算する既存 claims.sync-pilot の式と同じ変換)
+  validT:192,   // 実測の評価窓(12000步=t≈192 — 51G で延長。構造が1塊に潰れないことを確認済みの範囲)
   claims:[
     { id:"cosmicweb.delta2-growth", kind:"fixed-seed", metric:"delta2GrowthRatio",
-      expected:{min:10, max:16},   // 実測13.1倍(0.272→3.578・6000步)
+      expected:{min:4.5, max:6.5},   // 実測5.4倍(0.272→1.482・6000步・H0=0.01)
       descPattern:"\\((\\d+(?:\\.\\d+)?)倍\\)",
-      control:{patch:{universeBox:{H0:0}}, expected:{min:26, max:36},   // 実測≈31.4倍(0.272→8.55)
+      control:{patch:{universeBox:{H0:0}}, expected:{min:26, max:36},   // 実測≈31.0倍(0.272→8.426)
         descPattern:"δ²=(\\d+(?:\\.\\d+)?)・ボイド率75%", descScale:3.6764706},
       testId:"behavior.cosmicweb" },
     { id:"cosmicweb.void-rate-final", kind:"fixed-seed", metric:"voidRateFinal",
-      expected:{min:0.50, max:0.65},   // 実測57.9%(6000步)
+      expected:{min:0.29, max:0.40},   // 実測34.2%(6000步)
       descPattern:"→(\\d+(?:\\.\\d+)?)%まで増える", descScale:0.01,
       control:{patch:{universeBox:{H0:0}}, expected:{min:0.68, max:0.82},   // 実測75%
         descPattern:"ボイド率(\\d+(?:\\.\\d+)?)%\\)", descScale:0.01},
       testId:"behavior.cosmicweb" }
   ],
   camera:{scale:420}, world:{boundary:"none",size:0}, seed:20260727,
-  universeBox:{mode:"exp", H0:0.004, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
+  universeBox:{mode:"exp", H0:0.01, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
   physics:{G:10, D0:0, kFrame:1, q:2, kRep:0.5, muF:0.5, gammaN:0.4, kappaS:0.05, Kt:300,
     cLight:100, bM:1, etaRad:3e-4, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:4, timeScale:2},
   bodies:[
     // 一様ガス(共動初速 v=H·r のみ。むらの種は配置のポアソンゆらぎだけ)
     {type:"disk", rMul:3, n:320, cx:0,cy:0, radius:240, mMin:0.3,mMax:0.3,
-     spinMin:0,spinMax:0, tInt:0.5, vMode:"hubble", aroundMass:0, vScale:0.004, direction:1}
+     spinMin:0,spinMax:0, tInt:0.5, vMode:"hubble", aroundMass:0, vScale:0.01, direction:1}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:false,monitor:true,boxGraph:true} },
 
@@ -1570,8 +1662,14 @@ const BUILTIN_PRESETS = [
   // r=260 なら r/R_disk=0.846(旧構成と同比)となり定義帯 [156,286]=[0.6,1.1]×260 とも一致する。
   // 実測(seed 20260727・24000步): NaNなし・恒星保持380/380(100%)・max|spin| 11.06(旧構成20.71)・
   // 外縁比 1.322(旧1.082)・v_bar比 1.0204(5seedで1.020〜1.029)・perf beta/root 0.692。
-  description:"中心の大質量星(m=2500・高スピン1.2・減光0.8 — 自星の光の8割を外に出さない)と、380個の恒星円盤。恒星はケプラー回転で始まるが、空間の引きずり(A8/E6′)が外縁の回転を実測約1.3倍に増強する(T4) — kFrame=0にすると消える(おすすめA/B)。右下のグラフは実線=実測・点線=バリオン基準v_bar(質量分布だけから期待される回転 — 中心質量だけでなく円盤の寄与も入った正直な基準線)。左からの光線24本は中心の強い場に捕捉・巻き付く(E8R/T5 — 光子捕捉の光学類似)。第33便でAI生成プリセットを土台に再設計(円盤半径260・24000步でNaNなし・恒星保持100%・スピン健全を機械検証)。※この画面のD₀はモデル内の調整値で、現実の予言値ではない(L14)。",
-  en:{name:"Galactic Rotation Curve", description:"A massive central star (m=2500, high spin 1.2, dimming 0.8 — it keeps 80% of its own light from getting out) surrounded by a disk of 380 stars. The stars start on Keplerian orbits, but the dragging of space (A8/E6′) enhances the outer rotation by a measured factor of about 1.3 (T4) — set kFrame to 0 and it disappears (suggested A/B). In the bottom-right graph, solid = measured and dotted = the baryonic baseline v_bar (the rotation expected from the mass distribution alone — an honest baseline that includes the disk's contribution, not just the central mass). The 24 light rays entering from the left are captured by the strong central field and wind around it (E8R/T5 — the optical analogue of photon capture). Redesigned in the 33rd delivery on top of an AI-generated preset (disk radius 260; machine-verified: no NaN over 24000 steps, 100% star retention, healthy spins). Note: D₀ here is a model-internal tuning value, not a real-world prediction (L14)."},
+  descStruct:{
+    summary:"中心の大質量星(m=2500・高スピン1.2・減光0.8 — 自星の光の8割を外に出さない)と、380個の恒星円盤。",
+    observe:"右下のグラフは実線=実測・点線=バリオン基準v_bar(質量分布だけから期待される回転 — 中心質量だけでなく円盤の寄与も入った正直な基準線)。左からの光線24本は中心の強い場に捕捉・巻き付く(E8R/T5 — 光子捕捉の光学類似)。AI生成プリセットを土台に再設計(円盤半径260・24000步でNaNなし・恒星保持100%・スピン健全を機械検証)。※この画面のD₀はモデル内の調整値で、現実の予言値ではない(L14)。",
+    control:"恒星はケプラー回転で始まるが、空間の引きずり(A8/E6′)が外縁の回転を実測約1.3倍に増強する(T4) — kFrame=0にすると消える(おすすめA/B)。"},
+  en:{name:"Galactic Rotation Curve", descStruct:{
+    summary:"A massive central star (m=2500, high spin 1.2, dimming 0.8 — it keeps 80% of its own light from getting out) surrounded by a disk of 380 stars. ",
+    observe:"In the bottom-right graph, solid = measured and dotted = the baryonic baseline v_bar (the rotation expected from the mass distribution alone — an honest baseline that includes the disk's contribution, not just the central mass). The 24 light rays entering from the left are captured by the strong central field and wind around it (E8R/T5 — the optical analogue of photon capture). Redesigned on top of an AI-generated preset (disk radius 260; machine-verified: no NaN over 24000 steps, 100% star retention, healthy spins). Note: D₀ here is a model-internal tuning value, not a real-world prediction (L14). ",
+    control:"The stars start on Keplerian orbits, but the dragging of space (A8/E6′) enhances the outer rotation by a measured factor of about 1.3 (T4) — set kFrame to 0 and it disappears (suggested A/B)."}},
   activeParams:["kFrame","D0"],
   // 第42便 42A(台帳4-78 A案): claims — 説明文の外縁増強比(約1.3倍)を機械可読化。
   // QA claim.galaxy-outerboost の閾値は galA>galB*1.04(比≥1.04)。実測(第33便再設計後)は
@@ -1625,8 +1723,14 @@ const BUILTIN_PRESETS = [
   //  ・要因分離(台帳4-53 再測定・6000步): kFrame=0 で 0.385(baseline比 0.687)/ kRep=0 で 0.184(0.328)
   // 注: 24000步の状態は 1e-9 レベルの初期摂動に敏感(BH速度を丸めない厳密解にすると保持率
   //   88.95%・rotDev 6.61%)。QA は 6000步の量だけで組んでいる。
-  description:"銀河中心のブラックホール(m=2000・減光1)と、x=±200に向かい合う2個のダークローター(m=150・半径18・スピン2.0)、その間を回る380個の恒星 — 全粒子が自由(ピン・レール無し)の閉鎖系。ローターの空間引きずり(A8/E6′)が恒星円盤にm=2の渦状腕を立てる — 後行螺旋・ピッチ角≈28°(実測: 6000步窓7点〔t=3000〜6000〕の中央値28.20°・点別 24.2〜35.2°・7/7点が後行。第40便 40C で探索計測から正式QA へ昇格 — behavior.darkrotor-pitch。判定は点別の最大が35°際どいため中央値で行う。4-81〔E6′倍精度化〕適用前は26.0°で、数値経路の変更に対する感度が ±2〜3°)。有効窓は2本立て: 恒星の安定はt≈384(24000步)まで(保持87.9%・半径分散のドリフトは10体構成の約1/4.5)、腕の分離が言えるのはt≈96(6000步)まで。腕振幅A2(環帯[80,120][120,160][160,200][200,240]の後半平均)=0.583/0.680/0.546/0.431、帯平均0.560。※重要な限定: 対向2個という配置そのものがm=2の質量四重極なので、スピンを0にした対照にも配置由来の腕が残る(帯平均0.156)— この構成の対照は「厳密な軸対称系」ではない。スピンを入れると0.560=3.6倍に増強され、スピン0→1→2→3で帯平均が0.186→0.209→0.560→0.707と単調に増える(用量反応)— この単調増加がスピン起因の分を分離する根拠。12000步では対照側にも円盤自身の重力不安定で本物のm=2が育って比が1.47に落ち、24000步では環帯の人数が3〜12まで減って腕の統計そのものが成立しなくなる(だから腕の窓は6000步)。kRepは0.15に弱めてある(E5′斥力が腕形成の律速 — 本サンプルでE5′の主張はしない)。腕の増強は複合経路 — 引きずり(E6′)を切っても(kFrame=0)腕振幅の約69%が残り、スピン斥力を切る(kRep=0)と約33%へ低下する(要因分離実測・4-53を新構成で再測定)。おすすめA/B(ワンタップ): 下のボタンで対向2個のローターのスピンを0にした対照と即座に比較できる — 増強分が消えて配置由来の弱い腕だけが残る。※実宇宙のダークマターや渦状腕理論の主張ではない(T4の防御線を維持)。",
-  en:{name:"Dark-Rotor Galaxy", description:"A black hole at the galactic center (m=2000, dimming=1), two dark rotors facing each other at x=±200 (m=150, radius 18, spin 2.0), and 380 stars orbiting between them — a closed system in which every particle is free (no pins, no rails). The rotors' dragging of space (A8/E6′) raises m=2 spiral arms in the stellar disk: a trailing spiral with a measured pitch angle of about 28° (median 28.20° over the seven samples of the 6000-step window t=3000–6000; 24.2–35.2° sample by sample; 7 of 7 trailing). Promoted from an exploratory measure to a formal QA check in 40C of the 40th delivery — behavior.darkrotor-pitch; the judgement uses the median because the per-sample maximum sits right at 35°. Before 4-81 (the E6′ double-precision change) the median was 26.0°, so the sensitivity to a numerical-path change is about ±2–3°. There are two valid windows: the stars stay stable out to t≈384 (24000 steps, 87.9% retained, with about 1/4.5 the radial-dispersion drift of the old ten-rotor build), but the arm separation only holds to t≈96 (6000 steps). Arm amplitude A2 (late-half mean over the annuli [80,120][120,160][160,200][200,240]) = 0.583/0.680/0.546/0.431, band mean 0.560. Important limitation: two opposing bodies ARE an m=2 mass quadrupole, so the spin-0 control keeps an arm that comes from the placement itself (band mean 0.156) — this control is not a strictly axisymmetric system. Switching the spin on raises it to 0.560, a factor of 3.6, and the band mean grows monotonically with spin 0→1→2→3 as 0.186→0.209→0.560→0.707 (dose response) — that monotonic rise is what isolates the spin-driven part. By 12000 steps the control grows a genuine m=2 of its own from the disk's self-gravity and the ratio falls to 1.47; by 24000 steps only 3–12 stars remain in each annulus, so the arm statistic no longer means anything (hence the 6000-step arm window). kRep has been lowered to 0.15 (the E5′ repulsion is the rate-limiting step for arm formation — this sample makes no claim about E5′). The arm enhancement runs through a composite pathway: turning off dragging (kFrame=0) still leaves about 69% of the arm amplitude, while turning off spin repulsion (kRep=0) drops it to about 33% (factor-separation measurement 4-53, re-measured for this build). Suggested A/B (one-tap): use the button below to compare instantly against the two rotors' spin set to 0 — the enhancement disappears and only the weak placement-driven arm is left. Not a claim about real dark matter or about spiral-arm theory (T4 disclaimer upheld)."},
+  descStruct:{
+    summary:"ダークローターとは、高速スピンによって光学的に暗くなった回転天体を指すこのモデル内の造語である(自光の減光と外来光線の掃き出しの2機構で暗い)。銀河中心のブラックホール(m=2000・減光1)と、x=±200に向かい合う2個のダークローター(m=150・半径18・スピン2.0)、その間を回る380個の恒星 — 全粒子が自由(ピン・レール無し)の閉鎖系。",
+    observe:"ローターの空間引きずり(A8/E6′)が恒星円盤にm=2の渦状腕を立てる — 後行螺旋・ピッチ角≈28°(実測: 6000步窓7点〔t=3000〜6000〕の中央値28.20°・点別 24.2〜35.2°・7/7点が後行。探索計測から正式QA へ昇格 — behavior.darkrotor-pitch。判定は点別の最大が35°際どいため中央値で行う)。有効窓は2本立て: 恒星の安定はt≈384(24000步)まで(保持87.9%・半径分散のドリフトは10体構成の約1/4.5)、腕の分離が言えるのはt≈96(6000步)まで。腕振幅A2(環帯[80,120][120,160][160,200][200,240]の後半平均)=0.583/0.680/0.546/0.431、帯平均0.560。※重要な限定: 対向2個という配置そのものがm=2の質量四重極なので、スピンを0にした対照にも配置由来の腕が残る(帯平均0.156)— この構成の対照は「厳密な軸対称系」ではない。スピンを入れると0.560=3.6倍に増強され、スピン0→1→2→3で帯平均が0.186→0.209→0.560→0.707と単調に増える(用量反応)— この単調増加がスピン起因の分を分離する根拠。12000步では対照側にも円盤自身の重力不安定で本物のm=2が育って比が1.47に落ち、24000步では環帯の人数が3〜12まで減って腕の統計そのものが成立しなくなる(だから腕の窓は6000步)。kRepは0.15に弱めてある(E5′斥力が腕形成の律速 — 本サンプルでE5′の主張はしない)。腕の増強は複合経路 — 引きずり(E6′)を切っても(kFrame=0)腕振幅の約69%が残り、スピン斥力を切る(kRep=0)と約33%へ低下する(要因分離実測・新構成で再測定)。※実宇宙のダークマターや渦状腕理論の主張ではない(T4の防御線を維持)。",
+    control:"おすすめA/B(ワンタップ): 下のボタンで対向2個のローターのスピンを0にした対照と即座に比較できる — 増強分が消えて配置由来の弱い腕だけが残る。"},
+  en:{name:"Dark-Rotor Galaxy", descStruct:{
+    summary:"A dark rotor is this model's term for a rapidly spinning body that has become optically dark (via two mechanisms: self-light dimming and the sweep-out of incoming rays). A black hole at the galactic center (m=2000, dimming=1), two dark rotors facing each other at x=±200 (m=150, radius 18, spin 2.0), and 380 stars orbiting between them — a closed system in which every particle is free (no pins, no rails). ",
+    observe:"The rotors' dragging of space (A8/E6′) raises m=2 spiral arms in the stellar disk: a trailing spiral with a measured pitch angle of about 28° (median 28.20° over the seven samples of the 6000-step window t=3000–6000; 24.2–35.2° sample by sample; 7 of 7 trailing). Promoted from an exploratory measure to a formal QA check — behavior.darkrotor-pitch; the judgement uses the median because the per-sample maximum sits right at 35°. There are two valid windows: the stars stay stable out to t≈384 (24000 steps, 87.9% retained, with about 1/4.5 the radial-dispersion drift of the old ten-rotor build), but the arm separation only holds to t≈96 (6000 steps). Arm amplitude A2 (late-half mean over the annuli [80,120][120,160][160,200][200,240]) = 0.583/0.680/0.546/0.431, band mean 0.560. Important limitation: two opposing bodies ARE an m=2 mass quadrupole, so the spin-0 control keeps an arm that comes from the placement itself (band mean 0.156) — this control is not a strictly axisymmetric system. Switching the spin on raises it to 0.560, a factor of 3.6, and the band mean grows monotonically with spin 0→1→2→3 as 0.186→0.209→0.560→0.707 (dose response) — that monotonic rise is what isolates the spin-driven part. By 12000 steps the control grows a genuine m=2 of its own from the disk's self-gravity and the ratio falls to 1.47; by 24000 steps only 3–12 stars remain in each annulus, so the arm statistic no longer means anything (hence the 6000-step arm window). kRep has been lowered to 0.15 (the E5′ repulsion is the rate-limiting step for arm formation — this sample makes no claim about E5′). The arm enhancement runs through a composite pathway: turning off dragging (kFrame=0) still leaves about 69% of the arm amplitude, while turning off spin repulsion (kRep=0) drops it to about 33% (factor-separation measurement, re-measured for this build). Not a claim about real dark matter or about spiral-arm theory (T4 disclaimer upheld). ",
+    control:"Suggested A/B (one-tap): use the button below to compare instantly against the two rotors' spin set to 0 — the enhancement disappears and only the weak placement-driven arm is left."}},
   activeParams:["kFrame","D0","q"],
   // 第39便 39E(台帳4-75 E2): 有効窓は2本立て(恒星の安定t≈384/腕の分離t≈96)だが、腕の
   // サブ窓は説明文が既に明記している。HUD は「評価済み最大時間」= 恒星安定の外側窓384を表示
@@ -1682,8 +1786,14 @@ const BUILTIN_PRESETS = [
 //  ・テスト粒子リング(6000步): 平均 L_z 954.1(対照 632.45 = 厳密一定)・24/24 保持・NaN なし
 //  ・帳簿込みの保存(6000步): |ΔP|/P₀=1.27e-4・|ΔL|/L₀=1.26e-4(pinned ゼロの閉鎖系)
 { id:"rotorSolo", name:"ダークローター(単体)", emoji:"🕳️", group:"銀河",
-  description:"🕶️から「暗い天体」1個だけを取り出した最小構成 — 中心の高スピンコア(m=2000・半径45・スピン2.0・減光=auto)と、r=200を周回する24個のテスト粒子、左から入る20本の光線。全粒子が自由(ピン・レール無し)の閉鎖系。この宇宙の「暗さ」は別々の機構の混合で(DERIVATIONS §17)、この画面はそのうち2つを同時に、しかも分離して見せる。②自光の減光(掻き出し): 減光を固定値ではなく auto にしてあるので、実効値 lS_eff=min(1,|s|R/c_surf) が粒子のスピンと半径から毎ステップ算出される(中心天体をタップすると減光欄は「自動」チェック済みで、実効値 lS_eff が数値欄に表示される)— 実測1.00。③外来光線の掃き出し: 回るコアが決定フレームごと光を運び(A11/E8R)、スピン0の対照では起きる有限時間の光子捕捉(実測 非脱出率0.66)が消える(実測0.00)。順行側の光線ほど外へ払われ、逆行側は深く潜る(平均最小接近半径 順行123 対 逆行40 — T8と同じ非対称)。②と③は別機構である: lS_effはスピン0.29で既に1に飽和しているのに、そのスピンでは掃き出しがまだ全く起きていない(非脱出率0.72 = 対照以上)。掃き出しが立ち上がるのはスピン0.6→0.7の間(0.70→0.08)で、飽和点とは2倍以上離れている。テスト粒子は空間の引きずり(A8/E6′)で順行方向に角運動量を汲み上げられる(6000步平均 L_z=954 対 対照632)。運動量・角運動量は帳簿込みで保存する(モニタ表示・相対ずれ1e-4台)。おすすめA/B(ワンタップ): 下のボタンで中心コアのスピンを0にした対照と即座に比較できる — 減光・掃き出し・引きずりが同時に消える。※③は物理対応ロック(Kt=c²/G=3600)では起きない — 実測 非脱出率は高スピンでも0.00(第19便 反証条件7)。実在のブラックホールやダークマターについての主張ではない(Negative Claims 1/2)。",
-  en:{name:"Dark Rotor (Single Body)", description:"The minimal version of 🕶️: one dark body on its own — a high-spin core at the center (m=2000, radius 45, spin 2.0, dimming=auto), 24 test particles orbiting at r=200, and 20 light rays entering from the left. Every particle is free (no pins, no rails): a closed system. Darkness in this universe is a mixture of separate mechanisms (DERIVATIONS §17), and this screen shows two of them at once — and keeps them apart. (2) Dimming its own light (spin sweeping it out): dimming is set to \"auto\" rather than a fixed number, so the effective value lS_eff=min(1,|s|R/c_surf) is computed every step from the body's own spin and radius (tap the core: the dimming field shows the \"auto\" checkbox ticked, with the effective value lS_eff displayed in the number field) — measured 1.00. (3) Sweeping out incoming rays: the spinning core carries light with the rotating determinacy frame (A11/E8R), and the finite-time photon capture that happens in the spin-0 control (measured non-escape rate 0.66) disappears (measured 0.00). Prograde rays are pushed outward while retrograde rays dive deeper (mean closest approach 123 vs 40 — the same asymmetry as T8). (2) and (3) are different mechanisms: lS_eff is already saturated at 1 by spin 0.29, yet at that spin the ray sweep-out has not started at all (non-escape 0.72, above the control). The sweep-out only switches on between spin 0.6 and 0.7 (0.70→0.08) — more than a factor of two away from the saturation point. The test particles are pumped into prograde rotation by the dragging of space (A8/E6′): mean L_z=954 over 6000 steps versus 632 for the control. Momentum and angular momentum are conserved once the ledger is included (see the monitor; relative drift of order 1e-4). Suggested A/B (one-tap): use the button below to compare instantly against the core spin set to 0 — the dimming, the sweep-out and the dragging all vanish together. Note: (3) does not happen under the GR-calibration lock (Kt=c²/G=3600) — the measured non-escape rate is 0.00 even at high spin (19th-delivery falsification condition 7). Not a claim about real black holes or dark matter (Negative Claims 1/2)."},
+  descStruct:{
+    summary:"ダークローターとは、高速スピンによって光学的に暗くなった回転天体を指すこのモデル内の造語である(自光の減光と外来光線の掃き出しの2機構で暗い)。🕶️から「暗い天体」1個だけを取り出した最小構成 — 中心の高スピンコア(m=2000・半径45・スピン2.0・減光=auto)と、r=200を周回する24個のテスト粒子、左から入る20本の光線。全粒子が自由(ピン・レール無し)の閉鎖系。この宇宙の「暗さ」は別々の機構の混合で(DERIVATIONS §17)、この画面はそのうち2つを同時に、しかも分離して見せる。",
+    observe:"②自光の減光(掻き出し): 減光を固定値ではなく auto にしてあるので、実効値 lS_eff=min(1,|s|R/c_surf) が粒子のスピンと半径から毎ステップ算出される(中心天体をタップすると減光欄は「自動」チェック済みで、実効値 lS_eff が数値欄に表示される)— 実測1.00。③外来光線の掃き出し: 回るコアが決定フレームごと光を運び(A11/E8R)、スピン0の対照では起きる有限時間の光子捕捉(実測 非脱出率0.66)が消える(実測0.00)。順行側の光線ほど外へ払われ、逆行側は深く潜る(平均最小接近半径 順行123 対 逆行40 — T8と同じ非対称)。②と③は別機構である: lS_effはスピン0.29で既に1に飽和しているのに、そのスピンでは掃き出しがまだ全く起きていない(非脱出率0.72 = 対照以上)。掃き出しが立ち上がるのはスピン0.6→0.7の間(0.70→0.08)で、飽和点とは2倍以上離れている。テスト粒子は空間の引きずり(A8/E6′)で順行方向に角運動量を汲み上げられる(6000步平均 L_z=954 対 対照632)。運動量・角運動量は帳簿込みで保存する(モニタ表示・相対ずれ1e-4台)。※③は物理対応ロック(Kt=c²/G=3600)では起きない — 実測 非脱出率は高スピンでも0.00(反証条件7)。実在のブラックホールやダークマターについての主張ではない(Negative Claims 1/2)。",
+    control:"おすすめA/B(ワンタップ): 下のボタンで中心コアのスピンを0にした対照と即座に比較できる — 減光・掃き出し・引きずりが同時に消える。"},
+  en:{name:"Dark Rotor (Single Body)", descStruct:{
+    summary:"A dark rotor is this model's term for a rapidly spinning body that has become optically dark (via two mechanisms: self-light dimming and the sweep-out of incoming rays). The minimal version of 🕶️: one dark body on its own — a high-spin core at the center (m=2000, radius 45, spin 2.0, dimming=auto), 24 test particles orbiting at r=200, and 20 light rays entering from the left. Every particle is free (no pins, no rails): a closed system. Darkness in this universe is a mixture of separate mechanisms (DERIVATIONS §17), and this screen shows two of them at once — and keeps them apart. ",
+    observe:"(2) Dimming its own light (spin sweeping it out): dimming is set to \"auto\" rather than a fixed number, so the effective value lS_eff=min(1,|s|R/c_surf) is computed every step from the body's own spin and radius (tap the core: the dimming field shows the \"auto\" checkbox ticked, with the effective value lS_eff displayed in the number field) — measured 1.00. (3) Sweeping out incoming rays: the spinning core carries light with the rotating determinacy frame (A11/E8R), and the finite-time photon capture that happens in the spin-0 control (measured non-escape rate 0.66) disappears (measured 0.00). Prograde rays are pushed outward while retrograde rays dive deeper (mean closest approach 123 vs 40 — the same asymmetry as T8). (2) and (3) are different mechanisms: lS_eff is already saturated at 1 by spin 0.29, yet at that spin the ray sweep-out has not started at all (non-escape 0.72, above the control). The sweep-out only switches on between spin 0.6 and 0.7 (0.70→0.08) — more than a factor of two away from the saturation point. The test particles are pumped into prograde rotation by the dragging of space (A8/E6′): mean L_z=954 over 6000 steps versus 632 for the control. Momentum and angular momentum are conserved once the ledger is included (see the monitor; relative drift of order 1e-4). Note: (3) does not happen under the GR-calibration lock (Kt=c²/G=3600) — the measured non-escape rate is 0.00 even at high spin (falsification condition 7). Not a claim about real black holes or dark matter (Negative Claims 1/2). ",
+    control:"Suggested A/B (one-tap): use the button below to compare instantly against the core spin set to 0 — the dimming, the sweep-out and the dragging all vanish together."}},
   activeParams:["kFrame","Kt","q"],
   validT:96,   // 第39便 39E(台帳4-75 E2): 説明文の実測窓(6000步=t≈96。L_z平均・帳簿保存の測定窓)と一致
   // 第40便 40B(台帳4-77): abBody — B側の中心コア(bodies順で index0)の spin を0にする対照へ
@@ -1724,11 +1834,11 @@ const BUILTIN_PRESETS = [
   // 第50便 50K(台帳4-78 C案パイロット): descStruct(要約/観察/操作)— 純分割+A/B文の末尾移設のみ
   descStruct:{
     summary:"2つの回転円盤銀河が接近・合体する過程。潮汐尾の形成、衝突による加熱(A9のスピン変換)、角運動量の再分配、合体後の回転曲線を観察できる。",
-    observe:"※第40便 40C の因果対照を、第50便 50I の新配置(初期から両銀河が画面内・核間302・円盤100/80粒で負荷1/2)で再実測した(3000步・同一初期配置): 引きずりの効きはまず**スピン加熱に集中**し(平均|spin| は kFrame=1 で 0 の 3.1倍)、**接近期(核間283→199)の核どうしの接近はほとんど変わらない** — 接近期の核間距離の差 3.0%。深い接触期にはじめて軌道にも効き、核間距離の差は3000步で 11.5% へ拡大する(効きの現れる時期の内訳ごと機械固定)。潮汐尾は「自分の核から初期円盤半径の1.5倍より外」の円盤粒子が 0%→4.4%まで育つ(QA behavior.merger-causal)。円盤は回転支持(kepler)で初期化してある。",
+    observe:"因果対照(同一初期配置で kFrame=1 対 0)の実測: 引きずりは**接近期(核間283→201)の軌道にはほとんど効かない** — 接近期の核間距離の差 4.0%。深い接触期にはじめて軌道へも効き、核間距離の差は3000步で 13.3% へ拡大する。スピン加熱も深接触とともに育ち、平均|spin|は kFrame=1 で 0 の 1.4倍(3000步)から 3.3倍(6000步)へ開く。潮汐尾(自分の核から初期円盤半径の1.5倍より外の円盤粒子)は 0%→5.0%(3000步)まで育ち、6000步には 10.0% に達する(QA behavior.merger-causal)。円盤はどちらも軌道に対して順行の回転支持(kepler)で初期化してある — 順行遭遇は潮汐尾が最もよく育つ配置である。",
     control:"kFrame=1のフレームドラッギング(A8)が合体ダイナミクスに効く — 0にすると引きずりなしの純重力合体と比較できる(おすすめA/B)。"},
   en:{name:"Galaxy Merger & Tidal Effects", descStruct:{
     summary:"Two rotating disk galaxies approach and merge. Watch tidal tails form, collisions heat the disks (spin conversion, A9), angular momentum redistribute, and the remnant's rotation curve settle. ",
-    observe:"The 40C causal control was re-measured on the 50I layout (both galaxies on-screen from the start, nuclei 302 apart, disks of 100/80 grains at half the load; 3000 steps, identical initial layout): the dragging acts first and foremost through spin heating (mean |spin| is 3.1× larger at kFrame=1 than at 0), while during the approach phase (separation 283→199) the closing of the two nuclei barely changes — a 3.0% separation difference. Only in deep contact does the orbit respond, the separation difference growing to 11.5% by step 3000 (the timing of the effect is machine-pinned along with its size). The tidal tail grows from 0% to 4.4% of disk particles beyond 1.5× their initial disk radius (QA behavior.merger-causal). The disks are initialized rotation-supported (kepler). ",
+    observe:"The causal control (identical initial layout, kFrame=1 vs 0) shows: dragging barely touches the orbit during the approach phase (separation 283→201) — a 4.0% separation difference — and only bites in deep contact, where the difference grows to 13.3% by step 3000. Spin heating also grows with the depth of contact: mean |spin| at kFrame=1 opens from 1.4× (step 3000) to 3.3× (step 6000) the kFrame=0 value. The tidal tail (disk particles beyond 1.5× their initial disk radius from their own nucleus) grows from 0% to 5.0% by step 3000 and reaches 10.0% by step 6000 (QA behavior.merger-causal). Both disks are initialized rotation-supported (kepler) and prograde with respect to the orbit — the prograde encounter is the configuration in which tidal tails grow best. ",
     control:"Frame dragging at kFrame=1 (A8) shapes the merger — set kFrame to 0 to compare a drag-free, gravity-only merger (suggested A/B)."}},
   activeParams:["kFrame","G","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   // 第42便 42A(台帳4-78 A案)+第50便 50I 再実測: claims — 因果対照で確定した数値
@@ -1736,18 +1846,27 @@ const BUILTIN_PRESETS = [
   // 閾値(接近期 sepRel∈(5e-4,0.05)・tail15>0.02)に直結させる
   claims:[
     { id:"merger.core-separation-diff", kind:"fixed-seed", metric:"coreSeparationRelDiffApproach",
-      expected:{min:0.015, max:0.045}, descScale:0.01,   // 実測2.95%(接近期2000步・behavior.merger-causal: 5e-4<差<5%)
+      expected:{min:0.02, max:0.048}, descScale:0.01,   // 実測3.99%(接近期2000步・behavior.merger-causal: 5e-4<差<5%)
       descPattern:"接近期の核間距離の差 (\\d+(?:\\.\\d+)?)%", testId:"behavior.merger-causal" },
     { id:"merger.deep-contact-sep-diff", kind:"fixed-seed", metric:"coreSeparationRelDiffDeep",
-      expected:{min:0.09, max:0.14}, descScale:0.01,   // 実測11.5%(深接触期3000步)
+      expected:{min:0.11, max:0.155}, descScale:0.01,   // 実測13.3%(深接触期3000步)
       descPattern:"(\\d+(?:\\.\\d+)?)% へ拡大", testId:"behavior.merger-causal" },
+    { id:"merger.spin-heating-growth", kind:"fixed-seed", metric:"spinHeatingRatio3k",
+      expected:{min:1.2, max:1.7},   // 実測1.42(3000步。6000步の3.3倍側は下の claim)
+      descPattern:"0 の (\\d+(?:\\.\\d+)?)倍\\(3000步\\)", testId:"behavior.merger-causal" },
+    { id:"merger.spin-heating-6000", kind:"fixed-seed", metric:"spinHeatingRatio6k",
+      expected:{min:2.8, max:3.9},   // 実測3.35(6000步 — behavior テストは3000步窓のため±15%)
+      descPattern:"(\\d+(?:\\.\\d+)?)倍\\(6000步\\)へ開く" },
     { id:"merger.tidal-tail-growth", kind:"fixed-seed", metric:"tidalTailFraction",
-      expected:{min:0.0377, max:0.051}, descScale:0.01,   // 実測4.44%(behavior.merger-causal: >2%)
-      descPattern:"(\\d+(?:\\.\\d+)?)%\\s*まで育つ", testId:"behavior.merger-causal" }
+      expected:{min:0.0425, max:0.0575}, descScale:0.01,   // 実測5.0%(3000步・behavior.merger-causal: >2%)
+      descPattern:"→(\\d+(?:\\.\\d+)?)%\\(3000步\\)まで育ち", testId:"behavior.merger-causal" },
+    { id:"merger.tidal-tail-6000", kind:"fixed-seed", metric:"tidalTailFraction6k",
+      expected:{min:0.085, max:0.115}, descScale:0.01,   // 実測10.0%(6000步 — ±15%)
+      descPattern:"6000步には (\\d+(?:\\.\\d+)?)% に達する" }
   ],
   camera:{scale:240}, world:{boundary:"none",size:0},   // 第50便 50I: 160→240(両銀河+円盤全体が初期状態から画面内に収まる)
   physics:{G:0.9, D0:4.5, kFrame:1, q:2, kRep:0.8, muF:0.45, gammaN:0.55, kappaS:0.12, Kt:90,   // 第26便: kFrame 0.55→1 / 第27便: q 1.8→2(整数冪の高速経路 −34%)・円盤 150/120(負荷改善 — 合計 4320→1681ms/600步・12000步 r90=159 有界を実測)
-    cLight:70, bM:1, etaRad:0.0008, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:3.5, timeScale:1.8},
+    cLight:70, bM:1, etaRad:0.0008, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:3.5, timeScale:2.2/* 第51便 51E: 1.8→2.2(画面上の展開を速く — 物理は1步も不変) */},
   bodies:[ // v1.13(付録M): 第6次提案(Grok #1)を内蔵化。v1.18: 円盤に bulkVx/Vy を付与し
            // 核と円盤が一体で並進するよう修正(旧: 核だけが動き円盤が置き去りになっていた)。
            // v1.24: vMode flat(vScale0.85=必要円軌道速度の1/4以下)で円盤が合体前に核へ
@@ -1759,7 +1878,7 @@ const BUILTIN_PRESETS = [
            // 数値主張は同構成で再実測済み(QA behavior.merger-causal・claims)
     {type:"single", rMul:1.2, m:920, x:-150,y:20, vx:1.1,vy:0.22, spin:0.09, pinned:false},
     {type:"disk", rMul:1.2, n:100, cx:-150,cy:20, radius:95, mMin:0.25,mMax:1.6,
-     spinMin:-0.6,spinMax:0.6, vMode:"kepler", aroundMass:920, vScale:1.0, direction:1,
+     spinMin:-0.6,spinMax:0.6, vMode:"kepler", aroundMass:920, vScale:1.0, direction:-1,   // 第51便 51E: 両円盤を軌道に対して順行へ(潮汐尾が最も育つ配置 — 6000步で10%)
      bulkVx:1.1, bulkVy:0.22},
     {type:"single", rMul:1.2, m:680, x:130,y:-25, vx:-1.49,vy:-0.3, spin:0.07, pinned:false},
     {type:"disk", rMul:1.2, n:80, cx:130,cy:-25, radius:78, mMin:0.25,mMax:1.4,
@@ -1769,25 +1888,33 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:true,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"} },
 
 { id:"collapse", name:"自己重力雲の崩壊と原始星形成", emoji:"🌫️", group:"銀河",
-  description:"広がった粒子群が自己重力で崩壊し、中心集中・衝突加熱(A9)・放射冷却(E11)を観察。雲全体はごくわずかな初期回転(角運動量)を持つ — 現実の分子雲コアと同様、角運動量保存によって収縮とともに回転が増幅され、中心星の周りに円盤構造が形成されやすくなる(ジーンズ不安定性のアナロジー)。※第40便 40C の因果対照(同一初期配置で etaRad だけを 0.004/0)で、旧説明の「放射冷却が崩壊速度に効く」は**成立しないことが分かったので撤回した**: 6000步で温度(平均|spin|)は 0.944 対 0.990〜1.090 と冷却側が明確に低いのに、半質量半径 r50 は 133.13 対 132.65(差 0.36%)でほとんど変わらない。12000步でも差は 2.1% で符号すら一定せず、etaRad を5倍(0.02)にしても温度だけが単調に下がって r50 は動かない — **収縮を駆動しているのは自己重力であって冷却ではない**(QA behavior.collapse-cooling)。etaRad/pRad は温度と色の見え方を変えるノブとして残っている。",
-  en:{name:"Self-Gravitating Cloud Collapse & Protostar", description:"A dispersed particle cloud collapses under self-gravity: central concentration, collision heating (A9) and radiative cooling (E11). The cloud carries a slight initial rotation — as in real molecular-cloud cores, angular-momentum conservation amplifies it during contraction, favoring a disk around the forming star (a Jeans-instability analogy). Note: the causal control run added in 40C of the 40th delivery (same initial layout, only etaRad switched between 0.004 and 0) showed that the old claim “cooling efficiency drives the collapse rate” does NOT hold, so it has been withdrawn. After 6000 steps the temperature (mean |spin|) is clearly lower with cooling (0.944 vs 0.99–1.09), yet the half-mass radius r50 is 133.13 vs 132.65 — a 0.36% difference. At 12000 steps the gap is still only 2.1% and does not even keep a consistent sign, and multiplying etaRad by five (0.02) lowers the temperature monotonically while leaving r50 unchanged: the contraction is driven by self-gravity, not by cooling (QA behavior.collapse-cooling). etaRad/pRad remain as knobs over the temperature and the colour."},
+  // 第51便 51F: descStruct 化+塊形成の強化(G↑/kRep↓)に伴う数値の全面再実測。メタ表現不使用
+  descStruct:{
+    summary:"広がった粒子群が自己重力で崩壊し、中心集中・衝突加熱(A9)・放射冷却(E11)を観察する。雲全体はごくわずかな初期回転(角運動量)を持つ — 現実の分子雲コアと同様、角運動量保存によって収縮とともに回転が増幅され、中心星の周りに円盤構造が形成されやすくなる(ジーンズ不安定性のアナロジー)。",
+    observe:"半質量半径r50は 144→48(12000步)— 3.0倍 の中心集中で、稠密な核が育つ。※因果対照(同一初期配置で etaRad だけ 0.004/0)によれば「放射冷却が崩壊速度に効く」という素朴な期待は成立しない: 崩壊が進む6000步時点で r50 の差は 1.3% にとどまる一方、温度(平均|spin|)は12000步で 0.68 対 1.25 と冷却側が明確に低い — **収縮を駆動しているのは自己重力であって冷却ではない**(QA behavior.collapse-cooling)。etaRad/pRad は温度と色の見え方を変えるノブとして残っている。",
+    control:"おすすめA/B: etaRad 0.004⇄0(温度と色だけが変わり、収縮はほとんど変わらない)。G を下げる/kRep を上げると崩壊が緩み、塊が育たなくなる。"},
+
+  en:{name:"Self-Gravitating Cloud Collapse & Protostar", descStruct:{
+    summary:"A dispersed particle cloud collapses under self-gravity: central concentration, collision heating (A9) and radiative cooling (E11). The cloud carries a slight initial rotation — as in real molecular-cloud cores, angular-momentum conservation amplifies it during contraction, favoring a disk around the forming star (a Jeans-instability analogy). ",
+    observe:"The half-mass radius r50 falls 144→48 by step 12000 — a 3.0× central concentration that leaves a dense core. The causal control (same initial layout, only etaRad switched between 0.004 and 0) shows the naive expectation that radiative cooling drives the collapse rate does NOT hold: at step 6000, mid-collapse, the r50 difference is a mere 1.3%, while the temperature (mean |spin|) at step 12000 is 0.68 vs 1.25 — clearly lower on the cooling side. The contraction is driven by self-gravity, not by cooling (QA behavior.collapse-cooling). etaRad/pRad remain as knobs over the temperature and the colour. ",
+    control:"Suggested A/B: etaRad 0.004 vs 0 (only temperature and colour change; the contraction barely does). Lower G or raise kRep and the collapse relaxes — no clump forms."}},
   activeParams:["etaRad","pRad","G"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   // 第42便 42A(台帳4-78 A案): claims — 第40便 40C の否定的結果(冷却は収縮速度に効かない)を
   // 機械可読化。r50差は QA behavior.collapse-cooling の閾値(r50Rel<5%)に窓を合わせ、
   // 温度(平均|spin|)は対応する単独閾値が無いため説明文数値±15%
   claims:[
     { id:"collapse.r50-diff", kind:"fixed-seed", metric:"r50RelDiff",
-      expected:{min:0.00288, max:0.00432}, descScale:0.01,   // 実測0.36%(behavior.collapse-cooling: r50Rel<5%)
-      descPattern:"差 (\\d+\\.\\d+)%\\)でほとんど変わらない", testId:"behavior.collapse-cooling" },
-    { id:"collapse.temperature-cooling", kind:"fixed-seed", metric:"meanSpinTemperature",
-      expected:{min:0.802, max:1.086},   // 実測0.944(冷却あり・6000步)
-      descPattern:"温度\\(平均\\|spin\\|\\)は (\\d+\\.\\d+) 対",
-      control:{patch:{etaRad:0}, expected:{min:0.8415, max:1.1385},   // 実測0.990〜1.090(冷却なし)
-        descPattern:"対 (\\d+\\.\\d+)〜\\d+\\.\\d+ と冷却側"},
+      expected:{min:0.0104, max:0.0156}, descScale:0.01,   // 実測1.29%(6000步・behavior.collapse-cooling: r50Rel<5%)
+      descPattern:"r50 の差は (\\d+(?:\\.\\d+)?)% にとどまる", testId:"behavior.collapse-cooling" },
+    { id:"collapse.temperature-cooling", kind:"fixed-seed", metric:"meanSpinTemperature12k",
+      expected:{min:0.578, max:0.782},   // 実測0.679(冷却あり・12000步)
+      descPattern:"は12000步で (\\d+(?:\\.\\d+)?) 対",
+      control:{patch:{etaRad:0}, expected:{min:1.06, max:1.44},   // 実測1.245(冷却なし・12000步)
+        descPattern:"対 (\\d+(?:\\.\\d+)?) と冷却側"},
       testId:"behavior.collapse-cooling" }
   ],
   camera:{scale:280}, world:{boundary:"none",size:0},
-  physics:{G:1.4, D0:1.8, kFrame:1, q:2, kRep:1.2, muF:0.65, gammaN:0.45, kappaS:0.09, Kt:70,   // 第26便: kFrame 0.35→1(6000步 rMax 257・12000步 500 <600 を実測)
+  physics:{G:2.2, D0:1.8, kFrame:1, q:2, kRep:0.6, muF:0.65, gammaN:0.45, kappaS:0.09, Kt:70,   // 第51便 51F(原仮定者指摘「塊にならない」): G 1.4→2.2・kRep 1.2→0.6 — 12000步で r50 144→48(3.0倍の中心集中・rMax 438<600 有界を実測)
     cLight:60, bM:1, etaRad:0.004, pRad:2.8, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:5, timeScale:2.2},
   bodies:[ // v1.13(付録M): 第6次提案(Grok #3)を内蔵化。v1.18: Gemini 第8次提案採用 —
            // vMode rigid の微小回転 + random 相当の乱れは vNoise でなく速度合成で付与できないため
@@ -1799,8 +1926,12 @@ const BUILTIN_PRESETS = [
 
 // ===== グループ: 光 =====
 { id:"lensing", name:"重力レンズと光子捕捉", emoji:"💡", group:"光",
-  description:"左から飛ぶ光線が、決定力の高い(=時間の遅い)領域で屈折して曲がる(A7′/T5)。時間の遅れと光の屈折は単一のψ=W/Ktで統一(E7R/E8R)— Ktを下げると両方が同時に強まる。強い場では光が捕まって周回する(光子球の類似)。背景の色は決定力Wの強さ。粒子をタップすると固有時計(τ/t)が見える。光線の色は時計率比 e^{ψ0−ψ} による波長表示(重力赤方偏移のアナログ — 意味論表示)。",
-  en:{name:"Gravitational Lensing & Photon Capture", description:"Light rays from the left refract and bend where determinacy is high (= time runs slow) (A7′/T5). Time dilation and refraction are unified by one ψ=W/Kt (E7R/E8R) — lower Kt and both strengthen together. In strong fields light is captured into orbit (photon-sphere analogue). Background color = determinacy W. Tap a particle to see its proper clock (τ/t). Ray color encodes wavelength via the clock-rate ratio e^{ψ0−ψ} (a gravitational-redshift analogue — semantic display)."},
+  descStruct:{
+    summary:"左から飛ぶ光線が、決定力の高い(=時間の遅い)領域で屈折して曲がる(A7′/T5)。",
+    observe:"時間の遅れと光の屈折は単一のψ=W/Ktで統一(E7R/E8R)— Ktを下げると両方が同時に強まる。強い場では光が捕まって周回する(光子球の類似)。背景の色は決定力Wの強さ。粒子をタップすると固有時計(τ/t)が見える。光線の色は時計率比 e^{ψ0−ψ} による波長表示(重力赤方偏移のアナログ — 意味論表示)。"},
+  en:{name:"Gravitational Lensing & Photon Capture", descStruct:{
+    summary:"Light rays from the left refract and bend where determinacy is high (= time runs slow) (A7′/T5). ",
+    observe:"Time dilation and refraction are unified by one ψ=W/Kt (E7R/E8R) — lower Kt and both strengthen together. In strong fields light is captured into orbit (photon-sphere analogue). Background color = determinacy W. Tap a particle to see its proper clock (τ/t). Ray color encodes wavelength via the clock-rate ratio e^{ψ0−ψ} (a gravitational-redshift analogue — semantic display)."}},
   activeParams:["Kt","cLight","softening"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4, kappaS:0.05, Kt:150,
@@ -1813,8 +1944,14 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
 { id:"spinlens", name:"回る星のレンズ — 非対称湾曲", emoji:"🌗", group:"光",
-  description:"中心星が回転すると、光を運ぶ空間(決定フレーム)も回る(A11)。星の回転と同じ向きに進む光は空間に運ばれて遠くへ流され、逆らって進む光は強く曲がる — 上下対称に入射した光線束が非対称に湾曲する(T8。カー・ブラックホールのフレームドラッグの光学類似)。kFrameを0にすると引きずりが消え、湾曲は上下対称に戻る(おすすめA/B)。背景の色は決定力W。",
-  en:{name:"Spinning Star's Lens — Asymmetric Bending", description:"When the central star spins, the space carrying light (the determinacy frame) rotates too (A11). Rays moving with the rotation are swept outward; rays moving against it bend sharply — a vertically symmetric fan bends asymmetrically (T8, an optical analogue of Kerr frame dragging). Set kFrame to 0 and the drag vanishes — the bending returns to vertical symmetry (suggested A/B). Background color = W."},
+  descStruct:{
+    summary:"中心星が回転すると、光を運ぶ空間(決定フレーム)も回る(A11)。",
+    observe:"星の回転と同じ向きに進む光は空間に運ばれて遠くへ流され、逆らって進む光は強く曲がる — 上下対称に入射した光線束が非対称に湾曲する(T8。カー・ブラックホールのフレームドラッグの光学類似)。背景の色は決定力W。",
+    control:"kFrameを0にすると引きずりが消え、湾曲は上下対称に戻る(おすすめA/B)。"},
+  en:{name:"Spinning Star's Lens — Asymmetric Bending", descStruct:{
+    summary:"When the central star spins, the space carrying light (the determinacy frame) rotates too (A11). ",
+    observe:"Rays moving with the rotation are swept outward; rays moving against it bend sharply — a vertically symmetric fan bends asymmetrically (T8, an optical analogue of Kerr frame dragging). Background color = W. ",
+    control:"Set kFrame to 0 and the drag vanishes — the bending returns to vertical symmetry (suggested A/B)."}},
   activeParams:["kFrame","Kt","cLight","q"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4, kappaS:0.05, Kt:200,
@@ -1826,8 +1963,14 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
 { id:"blens", name:"連星重力レンズ", emoji:"🔭", group:"光",
-  description:"上下に並ぶ2つの大質量天体へ平行光線束を入射。単一レンズとは異なり、光線が2つの決定力井戸へ分かれて曲がる複合レンズを観察する(T5)。Ktを110→220にすると湾曲が弱まる。スピンは0なので非対称引きずり(T8)とは切り離されている。",
-  en:{name:"Binary Gravitational Lens", description:"A parallel beam enters two large masses stacked vertically. Unlike a single lens, rays split and bend into two determinacy wells — a compound lens (T5). Raise Kt from 110 to 220 and the bending weakens. Spins are zero, isolating this from asymmetric dragging (T8)."},
+  descStruct:{
+    summary:"上下に並ぶ2つの大質量天体へ平行光線束を入射。",
+    observe:"単一レンズとは異なり、光線が2つの決定力井戸へ分かれて曲がる複合レンズを観察する(T5)。スピンは0なので非対称引きずり(T8)とは切り離されている。",
+    control:"Ktを110→220にすると湾曲が弱まる。"},
+  en:{name:"Binary Gravitational Lens", descStruct:{
+    summary:"A parallel beam enters two large masses stacked vertically. ",
+    observe:"Unlike a single lens, rays split and bend into two determinacy wells — a compound lens (T5). Spins are zero, isolating this from asymmetric dragging (T8). ",
+    control:"Raise Kt from 110 to 220 and the bending weakens."}},
   activeParams:["Kt","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:110,
@@ -1841,8 +1984,12 @@ const BUILTIN_PRESETS = [
 
 // ===== グループ: 熱の実験室 =====
 { id:"gas", name:"気体の熱平衡", emoji:"🔥", group:"熱の実験室",
-  description:"左=低温(青)・右=高温(赤)のガス。左右は質量・数・初速分布が同一で、初期の内部温度T_intだけが異なる統制実験。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂: 温度=構成粒子のミクロなスピン。マクロなspinはコヒーレント回転)。衝突の散逸が速度を熱に変え(E9)、熱い粒子ほど強く押し合って圧力を生み(E5′)、熱伝導で温度が均一化する(T6/E10′)。自己重力と空間引きずりは切ってあり(G=0, kFrame=0)、働くのは接触・斥力・伝導の熱過程だけ。右下に左右の平均温度バー。熱は熱容量C·mの重みで伝わるので、粒径が違っても温度そのものが均一化する(旧A9のL9が解消)。",
-  en:{name:"Thermal Equilibrium of a Gas", description:"Cold gas (blue) on the left, hot (red) on the right — the two sides share identical mass, count and initial speed distribution, differing only in the initial internal temperature T_int: a controlled experiment. This sample treats temperature as an internal state variable independent of spin (the A9 revision: temperature = the micro-spin of the constituent grains, while macroscopic spin is coherent rotation). Collisional dissipation turns velocity into heat (E9), hotter particles push each other apart as pressure (E5′), and conduction equalizes the temperature (T6/E10′). Self-gravity and frame dragging are off (G=0, kFrame=0) — only contact, repulsion and conduction act. Bottom right: mean-temperature bars. Heat now flows with the heat-capacity weight C·m, so the temperature itself equalizes even for mixed grain sizes (the old L9 caveat is resolved)."},
+  descStruct:{
+    summary:"左=低温(青)・右=高温(赤)のガス。左右は質量・数・初速分布が同一で、初期の内部温度T_intだけが異なる統制実験。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂: 温度=構成粒子のミクロなスピン。マクロなspinはコヒーレント回転)。",
+    observe:"衝突の散逸が速度を熱に変え(E9)、熱い粒子ほど強く押し合って圧力を生み(E5′)、熱伝導で温度が均一化する(T6/E10′)。自己重力と空間引きずりは切ってあり(G=0, kFrame=0)、働くのは接触・斥力・伝導の熱過程だけ。右下に左右の平均温度バー。熱は熱容量C·mの重みで伝わるので、粒径が違っても温度そのものが均一化する(旧A9のL9が解消)。"},
+  en:{name:"Thermal Equilibrium of a Gas", descStruct:{
+    summary:"Cold gas (blue) on the left, hot (red) on the right — the two sides share identical mass, count and initial speed distribution, differing only in the initial internal temperature T_int: a controlled experiment. This sample treats temperature as an internal state variable independent of spin (the A9 revision: temperature = the micro-spin of the constituent grains, while macroscopic spin is coherent rotation). ",
+    observe:"Collisional dissipation turns velocity into heat (E9), hotter particles push each other apart as pressure (E5′), and conduction equalizes the temperature (T6/E10′). Self-gravity and frame dragging are off (G=0, kFrame=0) — only contact, repulsion and conduction act. Bottom right: mean-temperature bars. Heat now flows with the heat-capacity weight C·m, so the temperature itself equalizes even for mixed grain sizes (the old L9 caveat is resolved)."}},
   activeParams:["kRep","muF","gammaN","kappaS"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   thermal:"tint",   // 第36便 D(台帳4-51): 温度=内部状態変数 T_int(A9 改訂)
   camera:{scale:240}, world:{boundary:"box",size:200},
@@ -1855,8 +2002,12 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:true,field:false} },
 
 { id:"pressure", name:"熱の圧力 — 熱は押し広げる", emoji:"🎈", group:"熱の実験室",
-  description:"重力ゼロの円形容器。中央の熱いガスが熱の斥力(E5′)で押しのけ合い、周りの冷たいガスの殻を外へ押し広げていく — 圧力の正体は温度。このサンプルは温度を内部状態変数T_intとして扱う(A9の改訂)ので、押し合う強さの源は対の√(T_i·T_j)で、冷たい粒子同士は押し合わない。やがて接触摩擦(E9)と熱伝導(E10′)で熱が外側へ渡り、全体が同じ温度に落ち着く(T6)。色=温度。※この圧力の状態方程式は理想気体則とは異なる(P∝ρ²T — L15)。",
-  en:{name:"Thermal Pressure — Heat Pushes Outward", description:"A circular container, zero gravity. The hot core pushes outward via thermal repulsion (E5′), inflating the shell of cold gas — pressure IS temperature. This sample treats temperature as the internal state variable T_int (the A9 revision), so the strength of the push comes from the pair term √(T_i·T_j): two cold grains do not push at all. Friction (E9) and conduction (E10′) then pass the heat outward until one temperature remains (T6). Color = temperature. Note: this pressure law is not the ideal-gas law (P∝ρ²T; L15)."},
+  descStruct:{
+    summary:"重力ゼロの円形容器。中央の熱いガスが熱の斥力(E5′)で押しのけ合い、周りの冷たいガスの殻を外へ押し広げていく — 圧力の正体は温度。このサンプルは温度を内部状態変数T_intとして扱う(A9の改訂)ので、押し合う強さの源は対の√(T_i·T_j)で、冷たい粒子同士は押し合わない。",
+    observe:"やがて接触摩擦(E9)と熱伝導(E10′)で熱が外側へ渡り、全体が同じ温度に落ち着く(T6)。色=温度。※この圧力の状態方程式は理想気体則とは異なる(P∝ρ²T — L15)。"},
+  en:{name:"Thermal Pressure — Heat Pushes Outward", descStruct:{
+    summary:"A circular container, zero gravity. The hot core pushes outward via thermal repulsion (E5′), inflating the shell of cold gas — pressure IS temperature. This sample treats temperature as the internal state variable T_int (the A9 revision), so the strength of the push comes from the pair term √(T_i·T_j): two cold grains do not push at all. ",
+    observe:"Friction (E9) and conduction (E10′) then pass the heat outward until one temperature remains (T6). Color = temperature. Note: this pressure law is not the ideal-gas law (P∝ρ²T; L15)."}},
   activeParams:["kRep","kappaS","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   thermal:"tint",   // 第36便 D(台帳4-51)
   camera:{scale:240}, world:{boundary:"circle",size:210},
@@ -1871,17 +2022,21 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"conduction", name:"熱伝導 — 近いほど速く伝わる", emoji:"📏", group:"熱の実験室",
-  description:"力を全て切った、静止した粒の列。左端の白熱粒(固定=熱浴)から、接触していない粒の列を熱伝導(E10′)だけで熱が飛び移っていく。このサンプルは温度を内部状態変数T_intとして扱う(A9の改訂)ので、伝わるのは熱だけでスピンは1ビットも動かない — 角運動量は近似的にではなく自明に厳密保存する(旧「冷たいのに熱伝導」問題の解消)。上の列は間隔9、下の列は間隔18 — 飛び移りは近いほど強い(カーネルg(d))ので、密な上の列は同じ距離でも高温になり、列全体が運ぶ熱は約2.5倍(実測)。よく見ると熱は隙間を飛び越えて遠くへも薄く届く(接触不要の長距離伝達 — L16の可視化)。色=温度。",
-  en:{name:"Heat Conduction — Closer Spreads Faster", description:"Rows of resting particles, all forces off. From the white-hot pinned particle (heat bath) at the left end, heat hops along the non-touching row by conduction (E10′) alone. This sample treats temperature as the internal state variable T_int (the A9 revision), so only heat moves — not a single bit of spin — and angular momentum is conserved exactly rather than approximately (resolving the old \"cold yet conducting\" problem). Top row spacing 9, bottom 18 — hops are stronger when closer (kernel g(d)), so the dense row runs hotter and carries about 2.5× the heat (measured). Look closely: heat also leaks faintly across gaps (contact-free long-range transfer — L16 visualized). Color = temperature."},
+  descStruct:{
+    summary:"力を全て切った、静止した粒の列。左端の白熱粒(固定=熱浴)から、接触していない粒の列を熱伝導(E10′)だけで熱が飛び移っていく。このサンプルは温度を内部状態変数T_intとして扱う(A9の改訂)ので、伝わるのは熱だけでスピンは1ビットも動かない — 角運動量は近似的にではなく自明に厳密保存する(旧「冷たいのに熱伝導」問題の解消)。",
+    observe:"上の列は間隔9、下の列は間隔18 — 飛び移りは近いほど強い(カーネルg(d))ので、密な上の列は同じ距離でも高温になり、列全体が運ぶ熱は約2.5倍(実測)。HUDの「前線・列の熱」行が、熱の前線(T>4の最遠到達距離)と列の熱の比を常時表示する — 密な列が先に届き、多くの熱を運ぶことをその場で数値比較できる。よく見ると熱は隙間を飛び越えて遠くへも薄く届く(接触不要の長距離伝達 — L16の可視化)。色=温度。"},
+  en:{name:"Heat Conduction — Closer Spreads Faster", descStruct:{
+    summary:"Rows of resting particles, all forces off. From the white-hot pinned particle (heat bath) at the left end, heat hops along the non-touching row by conduction (E10′) alone. This sample treats temperature as the internal state variable T_int (the A9 revision), so only heat moves — not a single bit of spin — and angular momentum is conserved exactly rather than approximately (resolving the old \"cold yet conducting\" problem). ",
+    observe:"Top row spacing 9, bottom 18 — hops are stronger when closer (kernel g(d)), so the dense row runs hotter and carries about 2.5× the heat (measured). The HUD's front-and-row-heat line shows the heat front (farthest particle above T=4) and each row's total heat live, so you can compare the speeds numerically as they race. Look closely: heat also leaks faintly across gaps (contact-free long-range transfer — L16 visualized). Color = temperature."}},
   activeParams:["kappaS"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   thermal:"tint",   // 第36便 D(台帳4-51)
-  // 第42便 42A(台帳4-78 A案): claims — 説明文の上列/下列熱量比(約2.5倍)を機械可読化。
-  // 対応する behavior テストは無い(behavior.conduction は加熱端−遠端のΔT減衰比を検査する
-  // 別指標)ため、フォールバック規則(説明文数値±15%)で窓を設定・testId は付けない
+  conductionHud:true,   // 第51便 51D(原仮定者指示「速さの違いが分からない」): 前線・列熱のHUD常時表示
+  // 第42便 42A(台帳4-78 A案)+第51便 51D: claims — 上列/下列熱量比(約2.5倍)を機械可読化。
+  // 51D で behavior.conduction が列熱比の実測を持つようになったので testId を接続
   claims:[
     { id:"conduction.dense-row-heat-ratio", kind:"fixed-seed", metric:"denseRowHeatRatio",
-      expected:{min:2.125, max:2.875},   // 実測「約2.5倍」(behavior テスト非対応・±15%)
-      descPattern:"運ぶ熱は約(\\d+\\.\\d+)倍" }
+      expected:{min:2.125, max:2.875},   // 実測2.55倍(4000步・behavior.conduction)
+      descPattern:"運ぶ熱は約(\\d+\\.\\d+)倍", testId:"behavior.conduction" }
   ],
   camera:{scale:200}, world:{boundary:"none",size:0},
   // 第39便(原仮定者指示): kappaS 1.5→0.3 に低減(伝導が速すぎて実時間10秒で列全体が
@@ -1924,8 +2079,14 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"coolrace", name:"放射冷却 — 高温ほど速い", emoji:"🌈", group:"熱の実験室",
-  description:"同じ質量で内部温度T_intだけが4・16・64と異なる3粒子を静止配置。力は全て切ってあり、変わるのは放射冷却(E11、Λ∝T^p)だけの統制実験。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂)ので、冷えるのは温度であってスピンではない(放射は角運動量を運ばない)。最も熱い粒子が最も速く冷え(初期の冷却速度比はほぼ1:16:256=T²則。p=2)、色が赤→青へ、右下のスペクトルのピークが長波長側へ移る。etaRadを0にすると全てが止まる。",
-  en:{name:"Radiative Cooling — Hotter Cools Faster", description:"Three resting particles of equal mass, differing only in internal temperature (T_int 4/16/64). All forces are off — the only physics is radiative cooling (E11, Λ∝T^p): a controlled experiment. This sample treats temperature as an internal state variable independent of spin (the A9 revision), so what cools is the temperature, not the spin (radiation carries no angular momentum). The hottest cools fastest (initial cooling-rate ratio ≈ 1:16:256, the T² law at p=2), colors shift red→blue, and the spectrum peak (bottom right) moves to longer wavelengths. Set etaRad to 0 and everything freezes."},
+  descStruct:{
+    summary:"同じ質量で内部温度T_intだけが4・16・64と異なる3粒子を静止配置。力は全て切ってあり、変わるのは放射冷却(E11、Λ∝T^p)だけの統制実験。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂)ので、冷えるのは温度であってスピンではない(放射は角運動量を運ばない)。",
+    observe:"最も熱い粒子が最も速く冷え(初期の冷却速度比はほぼ1:16:256=T²則。p=2)、色が赤→青へ、右下のスペクトルのピークが長波長側へ移る。",
+    control:"etaRadを0にすると全てが止まる。"},
+  en:{name:"Radiative Cooling — Hotter Cools Faster", descStruct:{
+    summary:"Three resting particles of equal mass, differing only in internal temperature (T_int 4/16/64). All forces are off — the only physics is radiative cooling (E11, Λ∝T^p): a controlled experiment. This sample treats temperature as an internal state variable independent of spin (the A9 revision), so what cools is the temperature, not the spin (radiation carries no angular momentum). ",
+    observe:"The hottest cools fastest (initial cooling-rate ratio ≈ 1:16:256, the T² law at p=2), colors shift red→blue, and the spectrum peak (bottom right) moves to longer wavelengths. ",
+    control:"Set etaRad to 0 and everything freezes."}},
   activeParams:["etaRad","pRad","bM"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   thermal:"tint",   // 第36便 D(台帳4-51)
   camera:{scale:180}, world:{boundary:"none",size:0},
@@ -1944,8 +2105,12 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,spectrum:true} },
 
 { id:"phase", name:"固体・液体・気体", emoji:"🧊", group:"熱の実験室",
-  description:"質量・数・大きさ・初速が完全に同一の3つの雲 — 違いは初期の内部温度T_intだけの統制実験。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂)。一様重力gravityYの下に置き、現実の容器内の三態に近づけている。左=低温: 重力(A6)で収縮し、粒同士が接触したまま底で結晶化する固体。中=中温: 熱の斥力(E5′)でほぐれ、重力で底に溜まって液面を作る液体。右=高温: 熱の斥力が重力を振り切り箱に充満する気体。衝突の散逸は熱として粒に残る(E9)ので、低温の雲もゆっくり温まる。※束縛と斥力の競合による形態のアナロジーで、実在物質の潜熱・相平衡の再現ではない。色=温度。",
-  en:{name:"Solid, Liquid, Gas", description:"Three clouds identical in mass, count, size and initial speed — only the initial internal temperature T_int differs: a controlled experiment. This sample treats temperature as an internal state variable independent of spin (the A9 revision). Uniform gravity gravityY mimics matter in a real container. Left = cold: gravity (A6) wins and the grains crystallize in contact at the bottom (solid). Middle = warm: thermal repulsion (E5′) loosens it and gravity pools it with a surface (liquid). Right = hot: thermal repulsion beats gravity and fills the box (gas). Collisional dissipation now stays in the grains as heat (E9), so even the cold cloud warms slowly. A morphological analogy of binding vs repulsion — not real latent-heat phase transitions. Color = temperature."},
+  descStruct:{
+    summary:"質量・数・大きさ・初速が完全に同一の3つの雲 — 違いは初期の内部温度T_intだけの統制実験。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂)。一様重力gravityYの下に置き、現実の容器内の三態に近づけている。",
+    observe:"左=低温: 重力(A6)で収縮し、粒同士が接触したまま底で結晶化する固体。中=中温: 熱の斥力(E5′)でほぐれ、重力で底に溜まって液面を作る液体。右=高温: 熱の斥力が重力を振り切り箱に充満する気体。衝突の散逸は熱として粒に残る(E9)ので、低温の雲もゆっくり温まる。※束縛と斥力の競合による形態のアナロジーで、実在物質の潜熱・相平衡の再現ではない。色=温度。"},
+  en:{name:"Solid, Liquid, Gas", descStruct:{
+    summary:"Three clouds identical in mass, count, size and initial speed — only the initial internal temperature T_int differs: a controlled experiment. This sample treats temperature as an internal state variable independent of spin (the A9 revision). Uniform gravity gravityY mimics matter in a real container. ",
+    observe:"Left = cold: gravity (A6) wins and the grains crystallize in contact at the bottom (solid). Middle = warm: thermal repulsion (E5′) loosens it and gravity pools it with a surface (liquid). Right = hot: thermal repulsion beats gravity and fills the box (gas). Collisional dissipation now stays in the grains as heat (E9), so even the cold cloud warms slowly. A morphological analogy of binding vs repulsion — not real latent-heat phase transitions. Color = temperature."}},
   activeParams:["kRep","G","gravityY","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   thermal:"tint",   // 第36便 D(台帳4-51)
   camera:{scale:260}, world:{boundary:"box",size:240},
@@ -2003,8 +2168,14 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"}  },
 
 { id:"buoyancy", name:"重力分離と浮力", emoji:"🧪", group:"熱の実験室",
-  description:"一様重力場gravityYに置かれた、質量の異なる粒子の混合物。重い冷たい粒子は底へ沈んで層を作り、軽い熱い粒子は熱の圧力(E5′)によって重力に逆らって上へ押し上げられ、上層の「大気」を作る — 密度差による沈降と浮力のアナロジー。このサンプルは温度をスピンと独立な内部状態変数T_intとして扱う(A9の改訂)。要因分離のため熱の出入りはほぼ止めてあり(μF=κs=0・熱容量cHeatを大きく取って衝突散逸(E9)による昇温を抑えた温度ほぼ一定の系)、自己重力・引きずり・放射も切ってある。gravityYを0にすると分離が止まり混ざったままになる(おすすめA/B)。色=温度。",
-  en:{name:"Gravity Separation & Buoyancy", description:"A mixture of particles with different masses in the uniform gravity field gravityY. Heavy cold particles sink and form a bottom layer, while light hot ones are pushed upward against gravity by thermal pressure (E5′), forming an 'atmosphere' on top — an analogy of density-driven sedimentation and buoyancy. This sample treats temperature as the internal state variable T_int (the A9 revision). Factors are isolated: heat flow is essentially switched off (muF=kappaS=0, and a large heat capacity cHeat keeps collisional dissipation (E9) from warming the grains), and self-gravity, dragging and radiation are off. Set gravityY to 0 and the separation stops (suggested A/B). Color = temperature."},
+  descStruct:{
+    summary:"一様重力場gravityYに置かれた、質量の異なる粒子の混合物。重い冷たい粒子は底へ沈んで層を作り、軽い熱い粒子は熱の圧力(E5′)によって重力に逆らって上へ押し上げられ、上層の「大気」を作る — 密度差による沈降と浮力のアナロジー。このサンプルは温度をスピンと独立な内部状態変数T_intとして扱う(A9の改訂)。",
+    observe:"要因分離のため熱の出入りはほぼ止めてあり(μF=κs=0・熱容量cHeatを大きく取って衝突散逸(E9)による昇温を抑えた温度ほぼ一定の系)、自己重力・引きずり・放射も切ってある。色=温度。",
+    control:"gravityYを0にすると分離が止まり混ざったままになる(おすすめA/B)。"},
+  en:{name:"Gravity Separation & Buoyancy", descStruct:{
+    summary:"A mixture of particles with different masses in the uniform gravity field gravityY. Heavy cold particles sink and form a bottom layer, while light hot ones are pushed upward against gravity by thermal pressure (E5′), forming an 'atmosphere' on top — an analogy of density-driven sedimentation and buoyancy. This sample treats temperature as the internal state variable T_int (the A9 revision). ",
+    observe:"Factors are isolated: heat flow is essentially switched off (muF=kappaS=0, and a large heat capacity cHeat keeps collisional dissipation (E9) from warming the grains), and self-gravity, dragging and radiation are off. Color = temperature. ",
+    control:"Set gravityY to 0 and the separation stops (suggested A/B)."}},
   activeParams:["gravityY","kRep","gammaN"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   thermal:"tint",   // 第36便 D(台帳4-51)
   camera:{scale:200}, world:{boundary:"box",size:160},
@@ -2019,8 +2190,14 @@ const BUILTIN_PRESETS = [
 
 // ===== グループ: 天体の物語 =====
 { id:"earthMoon", name:"地球と月", emoji:"🌍", group:"天体の物語",
-  description:"月が地球のまわりを公転する二体デモ(コアは現実の観測値で較正)。質量比は現実どおり m月/m地球=0.0123。月は同期自転 — spin を実測公転角速度 ω=0.013908 に一致させてあり、スポーク(車輪の輻)の同じ面が常に地球を向き続ける(潮汐固定)。コアは観測値: 地球 mc/m=0.325(PREM系の全コア質量比 32.5%)・月 mc/m=0.0168(月レーザー測距の 1.59〜1.77% の中央値)。sc/s=1.0(剛体回転)は中立既定 — 地球内核のマントルに対する差動回転は時期と解析法によって推定が変わり、固定した比率として確定していないため、本サンプルは sc/s=1.0 を中立既定とする。地球をタップして sc/s を上げると空間引きずり(A8)経由で月軌道への効きが試せる。円軌道速度は E6′ 込みの実測較正 v=1.063×ケプラー値(Plummer軟化込み)— 4周で半径ドリフト0.09%・同期維持。地球の自転(0.05)は E6′ 安定域に収めた較正値 — 現実の比(月の27.4倍)では引きずり風が重力(E4)を超えて軌道が崩れる(実測)。現実の自転比で見たい場合は 🌕(自由二体・kFrame=0)を参照。地球は pinned の展示系。Kt=10000 は物理対応ロック Kt=c²/G の成立値。",
-  en:{name:"Earth & Moon", description:"A two-body demo with the Moon orbiting Earth (cores calibrated to observed values). The mass ratio is the real one: mMoon/mEarth=0.0123. The Moon rotates synchronously \u2014 its spin equals the measured orbital angular velocity \u03c9=0.013908, so the same face of its spoke wheel always points at Earth (tidal locking). Cores use observed values: Earth mc/m=0.325 (PREM whole-core mass fraction) and Moon mc/m=0.0168 (lunar-laser-ranging median of 1.59\u20131.77%). sc/s=1.0 (rigid rotation) is the neutral default \u2014 Earth's inner-core differential rotation relative to the mantle varies with the period and method of estimation and is not established as a fixed ratio, so this sample adopts sc/s=1.0 as a neutral default. Tap Earth and raise sc/s to probe the frame-dragging (A8) effect on the Moon's orbit. The circular-orbit speed is calibrated with E6\u2032 included: v=1.063\u00d7 Keplerian (Plummer-softened) \u2014 radius drift 0.09% over 4 orbits with sync maintained. Earth's spin (0.05) is calibrated into the E6\u2032-stable regime \u2014 at the real ratio (27.4\u00d7 the Moon's) the drag wind exceeds gravity (E4) and the orbit collapses (measured). For the real spin ratio, see \ud83c\udf15 (free two-body, kFrame=0). Earth is pinned (exhibit system). Kt=10000 satisfies the GR-calibration lock Kt=c\u00b2/G."},
+  descStruct:{
+    summary:"月が地球のまわりを公転する二体デモ(コアは現実の観測値で較正)。質量比は現実どおり m月/m地球=0.0123。月は同期自転 — spin を実測公転角速度 ω=0.013908 に一致させてあり、スポーク(車輪の輻)の同じ面が常に地球を向き続ける(潮汐固定)。",
+    observe:"コアは観測値: 地球 mc/m=0.325(PREM系の全コア質量比 32.5%)・月 mc/m=0.0168(月レーザー測距の 1.59〜1.77% の中央値)。sc/s=1.0(剛体回転)は中立既定 — 地球内核のマントルに対する差動回転は時期と解析法によって推定が変わり、固定した比率として確定していないため、本サンプルは sc/s=1.0 を中立既定とする。円軌道速度は E6′ 込みの実測較正 v=1.063×ケプラー値(Plummer軟化込み)— 4周で半径ドリフト0.09%・同期維持。地球の自転(0.05)は E6′ 安定域に収めた較正値 — 現実の比(月の27.4倍)では引きずり風が重力(E4)を超えて軌道が崩れる(実測)。地球は pinned の展示系。Kt=10000 は物理対応ロック Kt=c²/G の成立値。",
+    control:"地球をタップして sc/s を上げると空間引きずり(A8)経由で月軌道への効きが試せる。現実の自転比で見たい場合は 🌕(自由二体・kFrame=0)を参照。"},
+  en:{name:"Earth & Moon", descStruct:{
+    summary:"A two-body demo with the Moon orbiting Earth (cores calibrated to observed values). The mass ratio is the real one: mMoon/mEarth=0.0123. The Moon rotates synchronously \u2014 its spin equals the measured orbital angular velocity \u03c9=0.013908, so the same face of its spoke wheel always points at Earth (tidal locking). ",
+    observe:"Cores use observed values: Earth mc/m=0.325 (PREM whole-core mass fraction) and Moon mc/m=0.0168 (lunar-laser-ranging median of 1.59\u20131.77%). sc/s=1.0 (rigid rotation) is the neutral default \u2014 Earth's inner-core differential rotation relative to the mantle varies with the period and method of estimation and is not established as a fixed ratio, so this sample adopts sc/s=1.0 as a neutral default. The circular-orbit speed is calibrated with E6\u2032 included: v=1.063\u00d7 Keplerian (Plummer-softened) \u2014 radius drift 0.09% over 4 orbits with sync maintained. Earth's spin (0.05) is calibrated into the E6\u2032-stable regime \u2014 at the real ratio (27.4\u00d7 the Moon's) the drag wind exceeds gravity (E4) and the orbit collapses (measured). Earth is pinned (exhibit system). Kt=10000 satisfies the GR-calibration lock Kt=c\u00b2/G.",
+    control:"Tap Earth and raise sc/s to probe the frame-dragging (A8) effect on the Moon's orbit. For the real spin ratio, see \ud83c\udf15 (free two-body, kFrame=0)."}},
   activeParams:["kFrame","G","D0"],
   // 第42便 42A(台帳4-78 A案): claims — 説明文の観測コア質量比(地球)と半径ドリフトを機械可読化。
   // コア比は QA behavior.earthMoon が Math.abs(em.mcr-0.325)<1e-6 で厳密照合するので窓は狭め。
@@ -2049,8 +2226,14 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"earthMoonFree", name:"地球と月(自由二体・物理比)", emoji:"🌕", group:"天体の物語",
-  description:"地球を固定しない重心系の二体問題。kFrame=0 の純ニュートン対照 — E6′ 引きずりを切ると spin は軌道に影響しないため、現実の自転比をそのまま入れられる: 地球 spin=0.3609(月の公転の27.4倍=実比)・月は同期自転 spin=ω=0.013174。質量比 0.0123・コアも観測値(地球 mc/m=0.325・月 mc/m=0.0168)。重心を原点に置き全運動量 0 の閉鎖系(外部拘束なし — 保存則が系内で閉じる)。実測: t=5000(10.5周)で半径 179.97〜180.02(0.03%)・重心移動 0.001 未満・同期誤差 0.31°/周。A/B比較で kFrame=1 にすると引きずり(A8)の風が強すぎて軌道が崩れる — 🌍(展示版)が自転を安定域へ圧縮している理由が、その対比で見える。重力(E4)は Plummer 軟化込みの円軌道速度で初期化。",
-  en:{name:"Earth & Moon (Free Two-Body)", description:"A barycentric two-body problem with nothing pinned. With kFrame=0 (pure Newtonian control) spin does not affect orbits, so the REAL spin ratio can be used directly: Earth spin=0.3609 (27.4\u00d7 the Moon's orbital rate \u2014 the actual ratio) and the Moon rotates synchronously at spin=\u03c9=0.013174. Mass ratio 0.0123; cores at observed values (Earth mc/m=0.325, Moon mc/m=0.0168). Initialized at the barycenter with zero total momentum \u2014 a closed system with no external constraint. Measured: over t=5000 (10.5 orbits) the separation stays 179.97\u2013180.02 (0.03%), the center of mass moves less than 0.001, and the sync error is 0.31\u00b0/orbit. A/B-compare with kFrame=1: the drag wind (A8) destabilizes the orbit \u2014 which is exactly why \ud83c\udf0d (the exhibit version) compresses Earth's spin into the stable regime. Gravity (E4) uses the Plummer-softened circular speed."},
+  descStruct:{
+    summary:"地球を固定しない重心系の二体問題。",
+    observe:"kFrame=0 の純ニュートン対照 — E6′ 引きずりを切ると spin は軌道に影響しないため、現実の自転比をそのまま入れられる: 地球 spin=0.3609(月の公転の27.4倍=実比)・月は同期自転 spin=ω=0.013174。質量比 0.0123・コアも観測値(地球 mc/m=0.325・月 mc/m=0.0168)。重心を原点に置き全運動量 0 の閉鎖系(外部拘束なし — 保存則が系内で閉じる)。実測: t=5000(10.5周)で半径 179.97〜180.02(0.03%)・重心移動 0.001 未満・同期誤差 0.31°/周。重力(E4)は Plummer 軟化込みの円軌道速度で初期化。",
+    control:"A/B比較で kFrame=1 にすると引きずり(A8)の風が強すぎて軌道が崩れる — 🌍(展示版)が自転を安定域へ圧縮している理由が、その対比で見える。"},
+  en:{name:"Earth & Moon (Free Two-Body)", descStruct:{
+    summary:"A barycentric two-body problem with nothing pinned. ",
+    observe:"With kFrame=0 (pure Newtonian control) spin does not affect orbits, so the REAL spin ratio can be used directly: Earth spin=0.3609 (27.4\u00d7 the Moon's orbital rate \u2014 the actual ratio) and the Moon rotates synchronously at spin=\u03c9=0.013174. Mass ratio 0.0123; cores at observed values (Earth mc/m=0.325, Moon mc/m=0.0168). Initialized at the barycenter with zero total momentum \u2014 a closed system with no external constraint. Measured: over t=5000 (10.5 orbits) the separation stays 179.97\u2013180.02 (0.03%), the center of mass moves less than 0.001, and the sync error is 0.31\u00b0/orbit. Gravity (E4) uses the Plummer-softened circular speed.",
+    control:"A/B-compare with kFrame=1: the drag wind (A8) destabilizes the orbit \u2014 which is exactly why \ud83c\udf0d (the exhibit version) compresses Earth's spin into the stable regime."}},
   activeParams:["G","kFrame","D0"],
   // 第42便 42A(台帳4-78 A案): claims — 説明文の半径維持率・実自転比・同期誤差を機械可読化。
   // 実自転比は QA behavior.earthMoonFree が Math.abs(spinRatio-27.39646523)<0.01 で厳密照合、
@@ -2081,8 +2264,14 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"saturn", name:"土星の環(実験)", emoji:"🪐", group:"天体の物語",
-  description:"氷の粒240個(3環帯 60/120/60・低質量・低散逸 muF=0.2/γN=0.15)で構成された土星の環。中心星のスピンが空間を引きずる(kFrame=1・A8)この条件で、長時間安定な環が得られる。初期配置は t=300〜600 の実測安定分布に合わせてある。実測(第40便 40C・環240粒の新構成): t≈360 で帯内(90≤r≤290)97.1%・落下(r<85)1粒/240・散逸(r>320)0、t≈1200 でも帯内98.8%・落下1粒・散逸0(QA behavior.saturnExp)。※安定の理由づけは実測に合わせて弱めてある: 同一初期配置で kFrame だけを 0 にした対照(3000步)でも環は100%保たれ、離心率RMSはむしろ小さい(0.063 対 kFrame=1 の 0.142)。引きずりは環を内側へ寄せ(帯中央値 159 対 171)離心率を上げる向きに効いており、「引きずりが環を円くして保つ」とは言えない(QA behavior.saturn-kframe-control)。摩擦 muF も、氷粒の半径 R=rMul·√m≈0.18〜0.31 が環の半径域 104〜212 に対して極小で接触がまれなため、この時間窓ではほとんど効かない — 3000步では muF=0.2/0/1.0 の3本が倍精度で完全一致し、6000步でも muF=0 との差は平均|spin| 1.7%・離心率RMS 0.02% にとどまる(QA behavior.saturn-muf-control)。おすすめA/Bは kFrame=1⇄0(環の内向き移動と離心率の差)。Kt=3600 は物理対応ロック Kt=c²/G の成立値。中心天体の表示半径は個体半径倍率 rMul=1.8 で環との見かけの比率が近くなるよう調整している。現実較正の近点移動は 🛰️ を参照。",
-  en:{name:"Saturn's Rings (Experimental)", description:"Saturn's ring of 240 icy grains (three bands of 60/120/60; low mass, low dissipation: muF=0.2/\u03b3N=0.15). Under these conditions \u2014 the central star's spin dragging nearby space (kFrame=1, A8) together with low-dissipation contact \u2014 a long-lived ring is obtained. The initial layout matches the measured relaxed distribution at t=300\u2013600. Measured (40th delivery 40C, the new 240-grain build): at t\u2248360, 97.1% stay in the band (90\u2264r\u2264290), 1 grain of 240 falls (r<85) and none escape (r>320); even at t\u22481200 it is 98.8% in band, 1 fallen, 0 escaped (QA behavior.saturnExp). Note that the account of WHY it is stable has been weakened to match the measurements: with the same initial layout and only kFrame switched to 0, the ring is still 100% retained after 3000 steps and its RMS eccentricity is in fact LOWER (0.063 vs 0.142 at kFrame=1). Dragging pulls the ring inward (band median 159 vs 171) and raises eccentricity, so it cannot be said that dragging keeps the ring round (QA behavior.saturn-kframe-control). Friction muF barely acts either: the grain radii R=rMul\u00b7\u221am\u22480.18\u20130.31 are tiny against the 104\u2013212 ring span, so contacts are rare \u2014 at 3000 steps muF=0.2, 0 and 1.0 agree to full double precision, and even at 6000 steps switching muF off changes mean |spin| by only 1.7% and RMS eccentricity by 0.02% (QA behavior.saturn-muf-control). Suggested A/B: kFrame 1 vs 0 (inward migration and the eccentricity difference). Kt=3600 satisfies the GR-calibration lock Kt=c\u00b2/G; the central body's displayed radius is tuned with the per-body radius multiplier rMul=1.8 so its apparent proportion to the ring stays close. See \ud83d\udef0\ufe0f for the real-calibrated apsidal precession."},
+  descStruct:{
+    summary:"氷の粒240個(3環帯 60/120/60・低質量・低散逸 muF=0.2/γN=0.15)で構成された土星の環。中心星のスピンが空間を引きずる(kFrame=1・A8)この条件で、長時間安定な環が得られる。初期配置は t=300〜600 の実測安定分布に合わせてある。",
+    observe:"実測(環240粒の新構成): t≈360 で帯内(90≤r≤290)97.1%・落下(r<85)1粒/240・散逸(r>320)0、t≈1200 でも帯内98.8%・落下1粒・散逸0(QA behavior.saturnExp)。※安定の理由づけは実測に合わせて弱めてある: 同一初期配置で kFrame だけを 0 にした対照(3000步)でも環は100%保たれ、離心率RMSはむしろ小さい(0.063 対 kFrame=1 の 0.142)。引きずりは環を内側へ寄せ(帯中央値 159 対 171)離心率を上げる向きに効いており、「引きずりが環を円くして保つ」とは言えない(QA behavior.saturn-kframe-control)。摩擦 muF も、氷粒の半径 R=rMul·√m≈0.18〜0.31 が環の半径域 104〜212 に対して極小で接触がまれなため、この時間窓ではほとんど効かない — 3000步では muF=0.2/0/1.0 の3本が倍精度で完全一致し、6000步でも muF=0 との差は平均|spin| 1.7%・離心率RMS 0.02% にとどまる(QA behavior.saturn-muf-control)。Kt=3600 は物理対応ロック Kt=c²/G の成立値。中心天体の表示半径は個体半径倍率 rMul=1.8 で環との見かけの比率が近くなるよう調整している。",
+    control:"おすすめA/Bは kFrame=1⇄0(環の内向き移動と離心率の差)。現実較正の近点移動は 🛰️ を参照。"},
+  en:{name:"Saturn's Rings (Experimental)", descStruct:{
+    summary:"Saturn's ring of 240 icy grains (three bands of 60/120/60; low mass, low dissipation: muF=0.2/\u03b3N=0.15). Under these conditions \u2014 the central star's spin dragging nearby space (kFrame=1, A8) together with low-dissipation contact \u2014 a long-lived ring is obtained. The initial layout matches the measured relaxed distribution at t=300\u2013600. ",
+    observe:"Measured (the new 240-grain build): at t\u2248360, 97.1% stay in the band (90\u2264r\u2264290), 1 grain of 240 falls (r<85) and none escape (r>320); even at t\u22481200 it is 98.8% in band, 1 fallen, 0 escaped (QA behavior.saturnExp). Note that the account of WHY it is stable has been weakened to match the measurements: with the same initial layout and only kFrame switched to 0, the ring is still 100% retained after 3000 steps and its RMS eccentricity is in fact LOWER (0.063 vs 0.142 at kFrame=1). Dragging pulls the ring inward (band median 159 vs 171) and raises eccentricity, so it cannot be said that dragging keeps the ring round (QA behavior.saturn-kframe-control). Friction muF barely acts either: the grain radii R=rMul\u00b7\u221am\u22480.18\u20130.31 are tiny against the 104\u2013212 ring span, so contacts are rare \u2014 at 3000 steps muF=0.2, 0 and 1.0 agree to full double precision, and even at 6000 steps switching muF off changes mean |spin| by only 1.7% and RMS eccentricity by 0.02% (QA behavior.saturn-muf-control). Kt=3600 satisfies the GR-calibration lock Kt=c\u00b2/G; the central body's displayed radius is tuned with the per-body radius multiplier rMul=1.8 so its apparent proportion to the ring stays close. ",
+    control:"Suggested A/B: kFrame 1 vs 0 (inward migration and the eccentricity difference). See \ud83d\udef0\ufe0f for the real-calibrated apsidal precession."}},
   activeParams:["muF","kFrame","kappaS"],   // QA activeParams.ui が先頭=muF の編集反映を検査するため muF を先頭に
   // 第42便 42A(台帳4-78 A案): claims — 帯内保持率(t≈360)と kFrame 対照の離心率RMSを機械可読化。
   // 保持率窓は QA behavior.saturnExp の閾値(inB>=0.95)に直結。離心率RMSは behavior.saturn-kframe-control
@@ -2128,8 +2317,14 @@ const BUILTIN_PRESETS = [
   // 「同一初期配置での姉妹比較」になる(id 由来の別シードでは冷スタート過渡の谷が
   // t≈360 に当たる実現があり、安定 QA の t360 短縮と干渉した — 実測 2026-07-23)
   seed:1501780989,
-  description:"主星にコア(質量比 mc/m=0.18)を持たせた 🪐 の姉妹版(比率仕様 — m は総質量 1500 のまま)。コア質量比 18% は Cassini 後の重元素集中の推定(≈17地球質量/95地球質量)を参考にした値。コア半径比 Rc/R=42% は本シミュレータの既定写像 Rc/R=√|mc/m| により質量比から自動算出されるモデル内値で、観測されたコア境界半径ではない(環震学では重元素勾配領域が半径約60%まで広がるモデルが示されている)。sc/s はコアスピン比で、剛体回転(sc/s=1)なら単層と厳密等価 — 差動分だけが ω += (mc/m)·s·(sc/s−1)·f(Rc,d) としてコア核 Rc から追加の空間引きずり(A8)に効く(既定 sc/s=1.05 は差を見やすくする教材用の仮定値。土星深部の回転は観測・モデル依存で、この単純なコア対表層スピン比としては確定していない。sc/s=1 は剛体回転の中立対照)。コアスピンは熱・散逸(T3/E10′)と切り離された固定内部回転源(反作用で変化しない外部拘束)であり、閉じた2層天体ではなく統制実験である点に注意。中心天体をタップして mc/m・sc/s を編集: sc/s=10(高速コア)・sc/s<0(逆回転コア)・mc/m<0(空洞 — 殻に質量集中し差動引きずりの符号が反転する思考実験)・A/B比較で kFrame=1 vs 0 などが見どころ。氷粒の衝突円形化(T3)は 🪐 と同一。",
-  en:{name:"Saturn's Rings (Two-Layer Primary)", description:"Sister sample of 🪐 whose primary has a core specified by ratios: m stays the total mass 1500. The ring is identical to 🪐's (240 icy grains in three bands of 60/120/60 — reduced from 300 in 40C of the 40th delivery). Measured (40C, new build): at t≈360, 96.7% in band, 1 grain of 240 fallen, none escaped, band medians 114/144/198; the band-median difference against rigid rotation (sc/s=1) is 0.036 at t≈150 (QA behavior.saturnLayered). The core mass ratio mc/m=0.18 is chosen to reference post-Cassini estimates of heavy-element concentration (≈17 of 95 Earth masses). Rc/R=42% is a model-internal value automatically derived from that mass ratio by the simulator's default mapping Rc/R=√|mc/m| — not an observed core-boundary radius (ring seismology instead points to a heavy-element gradient region extending to roughly 60% of the radius). sc/s is the core spin ratio: rigid rotation (sc/s=1) is exactly equivalent to the single-layer body, and only the differential part adds frame dragging (A8) through the smaller core kernel: ω += (mc/m)·s·(sc/s−1)·f(Rc,d). The default sc/s=1.05 is a teaching assumption chosen to make the contrast visible; Saturn's deep-interior rotation is observation- and model-dependent, and this simple core-vs-envelope spin ratio is not established (sc/s=1 is the rigid-rotation neutral control). The core spin is a fixed internal rotation source decoupled from heat and dissipation (T3/E10′) — a controlled experiment, not a closed two-layer body. Tap the central body to edit mc/m and sc/s: try sc/s=10 (fast core), sc/s<0 (counter-rotating core), mc/m<0 (a hollow shell — the differential drag flips sign), or A/B-compare kFrame 1 vs 0. Icy-grain circularization (T3) is identical to 🪐."},
+  descStruct:{
+    summary:"主星にコア(質量比 mc/m=0.18)を持たせた 🪐 の姉妹版(比率仕様 — m は総質量 1500 のまま)。",
+    observe:"コア質量比 18% は Cassini 後の重元素集中の推定(≈17地球質量/95地球質量)を参考にした値。コア半径比 Rc/R=42% は本シミュレータの既定写像 Rc/R=√|mc/m| により質量比から自動算出されるモデル内値で、観測されたコア境界半径ではない(環震学では重元素勾配領域が半径約60%まで広がるモデルが示されている)。sc/s はコアスピン比で、剛体回転(sc/s=1)なら単層と厳密等価 — 差動分だけが ω += (mc/m)·s·(sc/s−1)·f(Rc,d) としてコア核 Rc から追加の空間引きずり(A8)に効く(既定 sc/s=1.05 は差を見やすくする教材用の仮定値。土星深部の回転は観測・モデル依存で、この単純なコア対表層スピン比としては確定していない。sc/s=1 は剛体回転の中立対照)。コアスピンは熱・散逸(T3/E10′)と切り離された固定内部回転源(反作用で変化しない外部拘束)であり、閉じた2層天体ではなく統制実験である点に注意。氷粒の衝突円形化(T3)は 🪐 と同一。",
+    control:"中心天体をタップして mc/m・sc/s を編集: sc/s=10(高速コア)・sc/s<0(逆回転コア)・mc/m<0(空洞 — 殻に質量集中し差動引きずりの符号が反転する思考実験)・A/B比較で kFrame=1 vs 0 などが見どころ。"},
+  en:{name:"Saturn's Rings (Two-Layer Primary)", descStruct:{
+    summary:"Sister sample of 🪐 whose primary has a core specified by ratios: m stays the total mass 1500. The ring is identical to 🪐's (240 icy grains in three bands of 60/120/60 — reduced from 300). ",
+    observe:"Measured: at t≈360, 96.7% in band, 1 grain of 240 fallen, none escaped, band medians 114/144/198; the band-median difference against rigid rotation (sc/s=1) is 0.036 at t≈150 (QA behavior.saturnLayered). The core mass ratio mc/m=0.18 is chosen to reference post-Cassini estimates of heavy-element concentration (≈17 of 95 Earth masses). Rc/R=42% is a model-internal value automatically derived from that mass ratio by the simulator's default mapping Rc/R=√|mc/m| — not an observed core-boundary radius (ring seismology instead points to a heavy-element gradient region extending to roughly 60% of the radius). sc/s is the core spin ratio: rigid rotation (sc/s=1) is exactly equivalent to the single-layer body, and only the differential part adds frame dragging (A8) through the smaller core kernel: ω += (mc/m)·s·(sc/s−1)·f(Rc,d). The default sc/s=1.05 is a teaching assumption chosen to make the contrast visible; Saturn's deep-interior rotation is observation- and model-dependent, and this simple core-vs-envelope spin ratio is not established (sc/s=1 is the rigid-rotation neutral control). The core spin is a fixed internal rotation source decoupled from heat and dissipation (T3/E10′) — a controlled experiment, not a closed two-layer body. Icy-grain circularization (T3) is identical to 🪐. ",
+    control:"Tap the central body to edit mc/m and sc/s: try sc/s=10 (fast core), sc/s<0 (counter-rotating core), mc/m<0 (a hollow shell — the differential drag flips sign), or A/B-compare kFrame 1 vs 0."}},
   activeParams:["kFrame","muF","kappaS"],
   // 第42便 42A(台帳4-78 A案): claims — 説明文のコア質量比・コア半径比を機械可読化。
   // どちらも QA core.twolayer が preset.bodies[0].coreMR===0.18 / Rc0≈1.8·√270(=Rc/R比42.4%)を
@@ -2168,8 +2363,14 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"saturnZonalD68", name:"土星の近点移動(D68精密較正)", emoji:"🛰️", group:"天体の物語",
-  description:"現実の土星の扁平さ(帯状重力調和係数 J2〜J12、Cassini 実測値)を中心星の属性として与えた較正デモ(E13)。近点方向を揃えた楕円軌道のテスト粒子は、近点が公転と同じ向きに回り続け、内側ほど速い(差動近点移動)。線の軌跡は既定ONで、楕円の向きがゆっくり回るのがそのまま見える。解析式は J2〜J12 で打ち切るため D68 実測 38.243°/日 に対し −0.03% の残差が残るので、較正係数 C=1.0003023(高次項・離心率補正の代替)を中心星の zonal.calib に与えて観測値へ精密一致させている(実測 38.243±0.002)。旧「現実較正」版(C=1)は本サンプルへ一本化(差は 0.03% で画面では区別できない)。DFM 本来の環の物語は 🪐 を参照。",
-  en:{name:"Saturn Apsidal Precession (D68 Calibrated)", description:"A calibration demo (E13) that gives the central star the real oblateness of Saturn (zonal gravity harmonics J2–J12, Cassini values). Test particles on apse-aligned elliptical orbits precess prograde, faster on inner orbits (differential apsidal precession); trails are on by default so the slow rotation of the ellipse orientation is directly visible. Truncating at J2–J12 leaves a −0.03% residual vs the observed 38.243°/day at D68, so the calibration factor C=1.0003023 (standing in for higher-order terms) is applied via the central star's zonal.calib, matching the observation (measured 38.243±0.002). The former “real-calibrated” variant (C=1) was merged into this sample (the 0.03% difference is invisible on screen). See 🪐 for the DFM-native ring story."},
+  descStruct:{
+    summary:"現実の土星の扁平さ(帯状重力調和係数 J2〜J12、Cassini 実測値)を中心星の属性として与えた較正デモ(E13)。",
+    observe:"近点方向を揃えた楕円軌道のテスト粒子は、近点が公転と同じ向きに回り続け、内側ほど速い(差動近点移動)。線の軌跡は既定ONで、楕円の向きがゆっくり回るのがそのまま見える。解析式は J2〜J12 で打ち切るため D68 実測 38.243°/日 に対し −0.03% の残差が残るので、較正係数 C=1.0003023(高次項・離心率補正の代替)を中心星の zonal.calib に与えて観測値へ精密一致させている(実測 38.243±0.002)。旧「現実較正」版(C=1)は本サンプルへ一本化(差は 0.03% で画面では区別できない)。",
+    control:"DFM 本来の環の物語は 🪐 を参照。"},
+  en:{name:"Saturn Apsidal Precession (D68 Calibrated)", descStruct:{
+    summary:"A calibration demo (E13) that gives the central star the real oblateness of Saturn (zonal gravity harmonics J2–J12, Cassini values). ",
+    observe:"Test particles on apse-aligned elliptical orbits precess prograde, faster on inner orbits (differential apsidal precession); trails are on by default so the slow rotation of the ellipse orientation is directly visible. Truncating at J2–J12 leaves a −0.03% residual vs the observed 38.243°/day at D68, so the calibration factor C=1.0003023 (standing in for higher-order terms) is applied via the central star's zonal.calib, matching the observation (measured 38.243±0.002). The former “real-calibrated” variant (C=1) was merged into this sample (the 0.03% difference is invisible on screen). ",
+    control:"See 🪐 for the DFM-native ring story."}},
   activeParams:["G","softening"],
   // 第42便 42A(台帳4-78 A案): claims — D68実測近点移動率と較正係数を機械可読化。両方とも
   // QA zonal.analytic-d68 / zonal.d68-preset が厳密照合する量なので窓は狭め
@@ -2206,8 +2407,14 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"binary", name:"連星系と周連星円盤", emoji:"⭐", group:"天体の物語",
-  description:"等質量の2恒星が共通重心を回り、その外側を軽い天体群が公転する。単独星とは異なる時間変動する重力場(E4)が外側の軌道を乱し、恒星の運動は空間を引きずって円盤へ伝わる(A5)。kFrame=1→0、D0=10→100の比較(A/B比較モード)がおすすめ。",
-  en:{name:"Binary Stars & Circumbinary Disk", description:"Two equal-mass stars orbit their common barycenter while a ring of light bodies circles outside. The time-varying gravitational field — unlike a single star — perturbs the outer orbits, and the stars' own motion drags space, carrying that disturbance out to the disk (A5). Try A/B-comparing kFrame 1 vs 0 or D0 10 vs 100."},
+  descStruct:{
+    summary:"等質量の2恒星が共通重心を回り、その外側を軽い天体群が公転する。",
+    observe:"単独星とは異なる時間変動する重力場(E4)が外側の軌道を乱し、恒星の運動は空間を引きずって円盤へ伝わる(A5)。",
+    control:"kFrame=1→0、D0=10→100の比較(A/B比較モード)がおすすめ。"},
+  en:{name:"Binary Stars & Circumbinary Disk", descStruct:{
+    summary:"Two equal-mass stars orbit their common barycenter while a ring of light bodies circles outside. ",
+    observe:"The time-varying gravitational field — unlike a single star — perturbs the outer orbits, and the stars' own motion drags space, carrying that disturbance out to the disk (A5). ",
+    control:"Try A/B-comparing kFrame 1 vs 0 or D0 10 vs 100."}},
   activeParams:["kFrame","D0","G"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:320}, world:{boundary:"none",size:0},
   physics:{G:1, D0:10, kFrame:1, q:2, kRep:0, muF:0.05, gammaN:0.1, kappaS:0, Kt:10000,   // 第26便: kFrame 0.5→1(中間値解消。12000步で束縛・円盤240/240残存を実測)
@@ -2221,8 +2428,14 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"fig8", name:"三体問題 — 8の字軌道", emoji:"♾️", group:"天体の物語",
-  description:"等質量3天体が重心の周りを交代で通過する8の字周期軌道(12000步でも最大半径87に有界)。引きずりを切った純粋な重力(E4)のニュートン退化で、運動量と角運動量は厳密に保存する(T7)。1天体のvxを0.9028→0.92に変えると周期性が崩れ、三体問題の初期値感度を観察できる。軌跡は自動表示。",
-  en:{name:"Three-Body Problem — Figure-8 Orbit", description:"Three equal masses chase each other along the famous figure-8 periodic orbit (bounded to radius 87 over 12,000 steps). With dragging switched off, this is the pure-gravity (E4) Newtonian-degeneracy case, and momentum and angular momentum are exactly conserved (T7). Nudge one body's vx from 0.9028 to 0.92 and the periodicity shatters — the three-body problem's sensitivity to initial conditions. Trails shown automatically."},
+  descStruct:{
+    summary:"等質量3天体が重心の周りを交代で通過する8の字周期軌道(12000步でも最大半径87に有界)。",
+    observe:"引きずりを切った純粋な重力(E4)のニュートン退化で、運動量と角運動量は厳密に保存する(T7)。軌跡は自動表示。",
+    control:"1天体のvxを0.9028→0.92に変えると周期性が崩れ、三体問題の初期値感度を観察できる。"},
+  en:{name:"Three-Body Problem — Figure-8 Orbit", descStruct:{
+    summary:"Three equal masses chase each other along the famous figure-8 periodic orbit (bounded to radius 87 over 12,000 steps). ",
+    observe:"With dragging switched off, this is the pure-gravity (E4) Newtonian-degeneracy case, and momentum and angular momentum are exactly conserved (T7). Trails shown automatically. ",
+    control:"Nudge one body's vx from 0.9028 to 0.92 and the periodicity shatters — the three-body problem's sensitivity to initial conditions."}},
   activeParams:["G","softening"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:140}, world:{boundary:"none",size:0},
   physics:{G:1, D0:100, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
@@ -2235,8 +2448,14 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"counterring", name:"順行・逆行リングの衝突", emoji:"💥", group:"天体の物語",
-  description:"同じ軌道帯を逆向きに回る2つのリング。正面衝突の接触摩擦(A9)が公転運動をスピン=熱へ変換し、リングが光りながら加熱・降着していく。muFを0にすると加熱が完全に止まる(平均スピン 0.76→0.00の対照)。公転エネルギーが熱に変わる「逆回転降着円盤」の思考実験。右下は放射スペクトル。",
-  en:{name:"Prograde vs Retrograde Ring Collision", description:"Two rings share the same orbital band but revolve in opposite directions. Head-on contact friction (A9) converts orbital motion into spin = heat — the rings glow, heat up, and accrete. Set muF to 0 and the heating stops completely (mean spin 0.76 → 0.00 contrast). A thought experiment on counter-rotating accretion disks. Bottom right: radiation spectrum."},
+  descStruct:{
+    summary:"同じ軌道帯を逆向きに回る2つのリング。",
+    observe:"正面衝突の接触摩擦(A9)が公転運動をスピン=熱へ変換し、リングが光りながら加熱・降着していく。公転エネルギーが熱に変わる「逆回転降着円盤」の思考実験。右下は放射スペクトル。",
+    control:"muFを0にすると加熱が完全に止まる(平均スピン 0.76→0.00の対照)。"},
+  en:{name:"Prograde vs Retrograde Ring Collision", descStruct:{
+    summary:"Two rings share the same orbital band but revolve in opposite directions. ",
+    observe:"Head-on contact friction (A9) converts orbital motion into spin = heat — the rings glow, heat up, and accrete. A thought experiment on counter-rotating accretion disks. Bottom right: radiation spectrum. ",
+    control:"Set muF to 0 and the heating stops completely (mean spin 0.76 → 0.00 contrast)."}},
   activeParams:["muF","gammaN","etaRad"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:190}, world:{boundary:"none",size:0},
   physics:{G:1, D0:5, kFrame:0, q:2, kRep:0, muF:1, gammaN:0.6, kappaS:0.02, Kt:10000,
@@ -2267,8 +2486,14 @@ const BUILTIN_PRESETS = [
 //  対照     : —     0.583 0.526 0.542   (kRep=0 — E5′ を切ると等方寄りに戻る)
 //  4000步で 極24〜26本 / 赤道0本。全ガスで測っても 0.689(等方の 2.07 倍)
 { id:"agnjet", name:"AGN類似 — 円盤の内縁と双極ジェット", emoji:"🌋", group:"天体の物語",
-  description:"中心の超大質量天体(m=2000・減光=auto → 観測温度0で見掛けは真っ暗な「エンジン」)と、x軸方向に長く薄く伸びた冷たいガスの帯。ガスは自己重力で内側へ落ち、内縁で押し合い擦れ合って摩擦加熱される(E9′ → 内部温度T_int)。温まったガスは熱の斥力=圧力(E5′)で押し返すが、赤道方向(±x)へ抜けるには帯の全長を押しのけねばならない — 抵抗の少ない極方向(±y)だけが出口になり、上下2本の噴出流になる。実測: 内縁から出て系外(r>300)へ達したガスの84%が±y方向±30°以内に入る(等方なら1/3 — 2.5倍の集中。4000步で極24本・赤道0本)。おすすめA/B: 熱の斥力kRepを0にすると押し返す圧力が消え、噴出は等方寄りに戻る(実測54% — それでも等方の1/3よりなお高く、幾何と重力の寄与が残る)。色=温度で、内縁が赤熱し噴流が冷えながら伸びるのが見える。要因分離のため空間引きずりkFrameと自発放射は切ってある(中心のスピンは減光=自光の抑制にだけ効く)。※これは圧力と幾何だけで双極性が出るという2Dのアナロジーであり、実在のAGN・磁気流体ジェット・相対論的ジェットの再現主張ではない(Negative Claims 1/2)。",
-  en:{name:"An AGN Analogue — Inner Disk and Bipolar Jets", description:"A supermassive body at the center (m=2000, dimming=auto → observed temperature 0, so the 'engine' itself looks pitch dark) and a cold gas band stretched long and thin along the x axis. The gas falls inward under self-gravity and is heated by friction where it crowds together at the inner edge (E9′ → internal temperature T_int). The warmed gas pushes back with thermal repulsion = pressure (E5′), but escaping along the equator (±x) means shoving the whole length of the band aside — so the only low-resistance exit is the polar direction (±y), and the outflow collimates into two jets. Measured: 84% of the gas that leaves the inner region and reaches r>300 lies within 30° of the ±y axis (isotropic would be 1/3 — a 2.5× concentration; at 4000 steps, 24 polar vs 0 equatorial). Suggested A/B: set the thermal repulsion kRep to 0 and the pushing pressure disappears, and the outflow returns toward isotropy (measured 54% — still well above the isotropic 1/3, so geometry and gravity keep contributing). Color = temperature: watch the inner edge glow and the jets cool as they stretch. Frame dragging and spontaneous radiation are switched off to isolate the factors (the central spin only feeds the dimming channel). Note: this is a 2D analogy showing that pressure plus geometry alone produce bipolarity — not a claim to reproduce real AGN, MHD jets or relativistic jets (Negative Claims 1/2)."},
+  descStruct:{
+    summary:"中心の超大質量天体(m=2000・減光=auto → 観測温度0で見掛けは真っ暗な「エンジン」)と、x軸方向に長く薄く伸びた冷たいガスの帯。ガスは自己重力で内側へ落ち、内縁で押し合い擦れ合って摩擦加熱される(E9′ → 内部温度T_int)。温まったガスは熱の斥力=圧力(E5′)で押し返すが、赤道方向(±x)へ抜けるには帯の全長を押しのけねばならない — 抵抗の少ない極方向(±y)だけが出口になり、上下2本の噴出流になる。",
+    observe:"実測: 内縁から出て系外(r>300)へ達したガスの84%が±y方向±30°以内に入る(等方なら1/3 — 2.5倍の集中。4000步で極24本・赤道0本)。色=温度で、内縁が赤熱し噴流が冷えながら伸びるのが見える。要因分離のため空間引きずりkFrameと自発放射は切ってある(中心のスピンは減光=自光の抑制にだけ効く)。※これは圧力と幾何だけで双極性が出るという2Dのアナロジーであり、実在のAGN・磁気流体ジェット・相対論的ジェットの再現主張ではない(Negative Claims 1/2)。",
+    control:"おすすめA/B: 熱の斥力kRepを0にすると押し返す圧力が消え、噴出は等方寄りに戻る(実測54% — それでも等方の1/3よりなお高く、幾何と重力の寄与が残る)。"},
+  en:{name:"An AGN Analogue — Inner Disk and Bipolar Jets", descStruct:{
+    summary:"A supermassive body at the center (m=2000, dimming=auto → observed temperature 0, so the 'engine' itself looks pitch dark) and a cold gas band stretched long and thin along the x axis. The gas falls inward under self-gravity and is heated by friction where it crowds together at the inner edge (E9′ → internal temperature T_int). The warmed gas pushes back with thermal repulsion = pressure (E5′), but escaping along the equator (±x) means shoving the whole length of the band aside — so the only low-resistance exit is the polar direction (±y), and the outflow collimates into two jets. ",
+    observe:"Measured: 84% of the gas that leaves the inner region and reaches r>300 lies within 30° of the ±y axis (isotropic would be 1/3 — a 2.5× concentration; at 4000 steps, 24 polar vs 0 equatorial). Color = temperature: watch the inner edge glow and the jets cool as they stretch. Frame dragging and spontaneous radiation are switched off to isolate the factors (the central spin only feeds the dimming channel). Note: this is a 2D analogy showing that pressure plus geometry alone produce bipolarity — not a claim to reproduce real AGN, MHD jets or relativistic jets (Negative Claims 1/2). ",
+    control:"Suggested A/B: set the thermal repulsion kRep to 0 and the pushing pressure disappears, and the outflow returns toward isotropy (measured 54% — still well above the isotropic 1/3, so geometry and gravity keep contributing)."}},
   activeParams:["kRep","muF","gammaN","cHeat"],
   thermal:"tint",
   validT:64,   // 第39便 39E(台帳4-75 E2): 説明文の実測窓(4000步=t≈64)と一致
@@ -2327,8 +2552,14 @@ const BUILTIN_PRESETS = [
 // camera.scale 200 は展示調整(t=0 の円盤が画面幅の約75%・収縮後のコアが明瞭に見える)。
 // timeScale 2 も展示速度のみ(sim.step() は timeScale を読まない)。QA は behavior.spinup(6000步)。
 { id:"spinup", name:"収縮とスピン加速", emoji:"🌪️", group:"天体の物語",
-  description:"外から何も加えない、ゆっくり回るガス雲(240粒・剛体回転ω₀=0.00675)。圧力(E5′)を切ってあるので雲は自己重力だけで自由落下的に縮み、内側半質量=コアの半径が3.06倍縮む間にコアの回転が8.50倍速くなる — 角運動量保存が予言する(R₀/R)²=9.36倍に対して実測は一致90.8%(足りない9.2%は、コアが外側へ渡した軌道角運動量の割合と恒等的に一致する)。6000步で底に達し、以後は平坦。※主張はコア限定: 系全体で見ると回転はむしろ遅くなる(ω_eff×0.275)— 質量の約4%(240個中9個)が遠くへ逃げてΣmr²を支配してしまうため。色=温度。縮むと接触摩擦(E9)で内部温度が上がり(2.0→5.2)、放射(E11)で冷えていく(→0.34)— ケルビン・ヘルムホルツ収縮に似た温度の履歴だが、これは解放された重力エネルギーの行き先の記録であって、冷却が収縮を駆動しているのではない。既定はkRep=0なので温度は力に一切入らない受動的な目印で、冷却を切っても(etaRad=0)軌道は1ビットも変わらない(実測: 力学量が完全一致・変わるのは色と放射エネルギーだけ)。おすすめA/B: kRepを1にすると圧力が収縮を支え、縮みは3.06倍→2.59倍、回転は8.50倍→4.26倍に鈍る。運動量・角運動量はリザーバ帳簿ゼロのまま厳密に閉じる(モニタ表示・|ΔL|/L_scale=1.7e-6)。※有限時間の収縮過程であって定常状態の主張ではない(☀️定常放射が内部熱源なしには成立しないという第37便の否定的結論と矛盾しない)。実在の星形成や原始星の再現を主張するものではない(Negative Claims 1/2)。",
-  en:{name:"Contraction and Spin-Up", description:"A slowly rotating gas cloud with nothing applied from outside (240 grains, rigid rotation ω₀=0.00675). Pressure (E5′) is switched off, so the cloud falls in under its own gravity alone: while the radius of the inner half-mass — the core — shrinks by a factor of 3.06, the core's rotation speeds up by a factor of 8.50. Angular-momentum conservation predicts (R₀/R)²=9.36, and the measurement matches it to 90.8% (the missing 9.2% is identically the fraction of orbital angular momentum the core handed outward). The collapse bottoms out by 6000 steps and stays flat after that. Note the claim is about the core only: taken as a whole the system actually rotates more slowly (ω_eff ×0.275), because about 4% of the mass (9 grains out of 240) escapes far enough to dominate Σmr². Colour = temperature. As it contracts, contact friction (E9) raises the internal temperature (2.0→5.2) and radiation (E11) cools it again (→0.34) — a temperature history resembling Kelvin–Helmholtz contraction, but this is a record of where the released gravitational energy went, not the driver of the collapse. With kRep=0 the temperature never enters the forces: it is a passive marker, and turning the cooling off (etaRad=0) does not change the trajectories by a single bit (measured: every dynamical quantity identical; only the colour and the radiated energy differ). Suggested A/B: set kRep to 1 and pressure holds the collapse back — the contraction drops from 3.06× to 2.59× and the spin-up from 8.50× to 4.26×. Momentum and angular momentum close exactly with all reservoir ledgers at zero (see the monitor; |ΔL|/L_scale = 1.7e-6). This is a finite-time contraction, not a claim about a steady state (consistent with the 37th delivery's negative result that steady radiation cannot hold without an internal heat source). Not a claim to reproduce real star formation or protostars (Negative Claims 1/2)."},
+  descStruct:{
+    summary:"外から何も加えない、ゆっくり回るガス雲(240粒・剛体回転ω₀=0.00675)。",
+    observe:"圧力(E5′)を切ってあるので雲は自己重力だけで自由落下的に縮み、内側半質量=コアの半径が3.06倍縮む間にコアの回転が8.50倍速くなる — 角運動量保存が予言する(R₀/R)²=9.36倍に対して実測は一致90.8%(足りない9.2%は、コアが外側へ渡した軌道角運動量の割合と恒等的に一致する)。6000步で底に達し、以後は平坦。※主張はコア限定: 系全体で見ると回転はむしろ遅くなる(ω_eff×0.275)— 質量の約4%(240個中9個)が遠くへ逃げてΣmr²を支配してしまうため。色=温度。縮むと接触摩擦(E9)で内部温度が上がり(2.0→5.2)、放射(E11)で冷えていく(→0.34)— ケルビン・ヘルムホルツ収縮に似た温度の履歴だが、これは解放された重力エネルギーの行き先の記録であって、冷却が収縮を駆動しているのではない。既定はkRep=0なので温度は力に一切入らない受動的な目印で、冷却を切っても(etaRad=0)軌道は1ビットも変わらない(実測: 力学量が完全一致・変わるのは色と放射エネルギーだけ)。運動量・角運動量はリザーバ帳簿ゼロのまま厳密に閉じる(モニタ表示・|ΔL|/L_scale=1.7e-6)。※有限時間の収縮過程であって定常状態の主張ではない(☀️定常放射が内部熱源なしには成立しないという否定的結論と矛盾しない)。実在の星形成や原始星の再現を主張するものではない(Negative Claims 1/2)。",
+    control:"おすすめA/B: kRepを1にすると圧力が収縮を支え、縮みは3.06倍→2.59倍、回転は8.50倍→4.26倍に鈍る。"},
+  en:{name:"Contraction and Spin-Up", descStruct:{
+    summary:"A slowly rotating gas cloud with nothing applied from outside (240 grains, rigid rotation ω₀=0.00675). ",
+    observe:"Pressure (E5′) is switched off, so the cloud falls in under its own gravity alone: while the radius of the inner half-mass — the core — shrinks by a factor of 3.06, the core's rotation speeds up by a factor of 8.50. Angular-momentum conservation predicts (R₀/R)²=9.36, and the measurement matches it to 90.8% (the missing 9.2% is identically the fraction of orbital angular momentum the core handed outward). The collapse bottoms out by 6000 steps and stays flat after that. Note the claim is about the core only: taken as a whole the system actually rotates more slowly (ω_eff ×0.275), because about 4% of the mass (9 grains out of 240) escapes far enough to dominate Σmr². Colour = temperature. As it contracts, contact friction (E9) raises the internal temperature (2.0→5.2) and radiation (E11) cools it again (→0.34) — a temperature history resembling Kelvin–Helmholtz contraction, but this is a record of where the released gravitational energy went, not the driver of the collapse. With kRep=0 the temperature never enters the forces: it is a passive marker, and turning the cooling off (etaRad=0) does not change the trajectories by a single bit (measured: every dynamical quantity identical; only the colour and the radiated energy differ). Momentum and angular momentum close exactly with all reservoir ledgers at zero (see the monitor; |ΔL|/L_scale = 1.7e-6). This is a finite-time contraction, not a claim about a steady state (consistent with the negative result that steady radiation cannot hold without an internal heat source). Not a claim to reproduce real star formation or protostars (Negative Claims 1/2). ",
+    control:"Suggested A/B: set kRep to 1 and pressure holds the collapse back — the contraction drops from 3.06× to 2.59× and the spin-up from 8.50× to 4.26×."}},
   activeParams:["kRep","etaRad","G"],
   thermal:"tint",   // 第36便 D(台帳4-51): 温度は内部状態変数 T_int
   validT:384,   // 第39便 39E(台帳4-75 E2): 実測(24000步=t≈384・3seed頑健性確認済み)の評価済み最大時間
@@ -2377,8 +2608,14 @@ const BUILTIN_PRESETS = [
 //       融合124/116/114回・radE 4555/4084/4112・T_mean 4.91/3.89/4.27 と頑健。
 //       対照(融合なし)の radE=60.4 は初期熱の解析的な放出そのもので dt にも seed にも依らない。
 { id:"starcore", name:"恒星の内部 — 融合を熱源とする", emoji:"☀️", group:"天体の物語",
-  description:"※実在の恒星のモデルではない — 「内部熱源が無ければ放射は続かない」(第37便)の裏返しとして、融合という熱源があれば放射が続くことを示すトイ構成(質量欠損・放射圧・核種・静水圧平衡は扱わない)。中心に固定した重い核(m=600)と、その周りを回る200粒のガス(サブケプラー初速 0.6倍)。ガスは核の重力で落ち込み、深く潜り込んだ対どうしが融合する(中心距離が d<0.35·(R_i+R_j) まで近づくと1つの粒子になる)。融合で消えた対の相対運動エネルギーΔKEと接触ばね(E9)の弾性エネルギーはそのまま内部温度T_intへ入り、そこから放射(E11: Λ=η_rad·T²)で外へ出ていく — これが「重力収縮→融合加熱→放射」の一本道。12000步(t≈192)の実測: 融合124回・ガスは200粒→76粒(燃料の62%を消費)・平均温度T_int 2.00→4.91(最高66.9)・放射エネルギー radE=4555。同じ初期配置で融合だけを切った対照では熱源が無くなり、温度は2.00→0.49へ単調に下がって放射も60.4で止まる — 放射エネルギーは75.4倍。第37便の否定的結論「内部熱源なしに定常放射は成立しない」の裏返しで、融合という熱源があれば星は放射し続けられる、という主張。熱収支: この宇宙で熱が出入りする経路は「融合で入る」「E11で出る」の2本だけ(γn=0・μF=0で接触は完全弾性・kRep=0で圧力なし・κs=0で伝導なし)なので帳簿が閉じる — 融合が入れた熱 Q=ΔH+radE=5313 は etaRad を変えても同値で、対照ではQ=0.0(厳密)。そのQの85.7%が同じ窓のうちに放射で出ていく(残りは温度上昇として溜まる)= 供給と損失がほぼ釣り合った準定常。※点火の原因が重力であることは用量反応で分離した: Gだけを4→2→1に下げ、力学時間の伸び(∝1/√G)に合わせて走行時間も揃えても、融合の熱注入は5313→1719→697と落ちる。※温度は力に一切入らない受動的な目印なので、放射を切っても(etaRad=0)軌道は1ビットも変わらない(実測: 粒子数・融合回数・平均半径が全チェックポイントで完全一致し、温度だけが2.00→48.23まで溜まる)。おすすめA/B: etaRad=0で「冷えない星」、G=2で「点火しにくい星」。※有効窓 validT=192 の根拠は燃料: さらに倍のt=384まで走らせても融合は18回しか増えず、放射レートは23.7/時間→8.0/時間(3.0倍暗い)まで落ちる — 燃料切れの余生に入るので主張はここまで。※質量は融合で保存する(現実の核融合の質量欠損はモデル化していない)。中心核は位置を固定した外部拘束(融合の対象外・温度一定のリザーバ)で、系は閉じていない。実在の恒星の核融合・進化を再現する主張ではない(Negative Claims 1/2)。",
-  en:{name:"Stellar Interior — Fusion as the Heat Source", description:"A heavy pinned core (m=600) with 200 gas grains orbiting it on sub-Keplerian orbits (0.6×). The gas falls in under the core\u2019s gravity, and pairs that penetrate deeply enough fuse — once their centres come within d<0.35·(R_i+R_j) they become one particle. The relative kinetic energy ΔKE of the pair and the elastic energy of the contact spring (E9) that vanish in the merger go straight into the internal temperature T_int, and leave again as radiation (E11: Λ=η_rad·T²). That is the whole chain: gravitational compression → fusion heating → radiation. Measured over 12000 steps (t≈192): 124 fusions, the gas goes from 200 to 76 grains (62% of the fuel burned), mean T_int 2.00→4.91 (peak 66.9), radiated energy radE=4555. A control with the same initial layout and fusion switched off has no heat source at all: the temperature falls monotonically 2.00→0.49 and the radiation stalls at 60.4 — a factor of 75.4 in radiated energy. This is the converse of the negative result of the 37th delivery (steady radiation cannot hold without an internal heat source): given fusion as a heat source, the star can keep radiating. Heat budget: heat can only enter through fusion and leave through E11 in this universe (γn=0 and μF=0 make contacts perfectly elastic, kRep=0 removes pressure, κs=0 removes conduction), so the ledger closes — the heat fusion injects, Q=ΔH+radE=5313, is the same whatever etaRad is set to, and the control gives Q=0.0 exactly. 85.7% of that Q leaves as radiation within the same window (the rest accumulates as temperature): supply and loss nearly balance, a quasi-steady state. The causal role of gravity was isolated by a dose–response: lowering only G from 4 to 2 to 1, and stretching the run to match the dynamical time (∝1/√G), the fusion heat input falls 5313→1719→697. Temperature never enters the forces, so turning the radiation off (etaRad=0) does not change the trajectories by a single bit (measured: particle count, fusion count and mean radius identical at every checkpoint; only the temperature differs, accumulating to 48.23). Suggested A/B: etaRad=0 for a star that cannot cool, G=2 for a star that barely ignites. The valid window validT=192 is set by the fuel: running twice as far, to t=384, adds only 18 more fusions and the radiated rate drops from 23.7 to 8.0 per unit time (3.0× dimmer) — beyond that the star is living off the ashes. Mass is conserved in fusion (the mass defect of real nuclear fusion is not modelled). The central core is an externally pinned constraint, excluded from fusion and held at constant temperature, so the system is not closed. Not a claim to reproduce real stellar fusion or stellar evolution (Negative Claims 1/2)."},
+  descStruct:{
+    summary:"※実在の恒星のモデルではない — 「内部熱源が無ければ放射は続かない」の裏返しとして、融合という熱源があれば放射が続くことを示すトイ構成(質量欠損・放射圧・核種・静水圧平衡は扱わない)。中心に固定した重い核(m=600)と、その周りを回る200粒のガス(サブケプラー初速 0.6倍)。ガスは核の重力で落ち込み、深く潜り込んだ対どうしが融合する(中心距離が d<0.35·(R_i+R_j) まで近づくと1つの粒子になる)。融合で消えた対の相対運動エネルギーΔKEと接触ばね(E9)の弾性エネルギーはそのまま内部温度T_intへ入り、そこから放射(E11: Λ=η_rad·T²)で外へ出ていく — これが「重力収縮→融合加熱→放射」の一本道。",
+    observe:"12000步(t≈192)の実測: 融合124回・ガスは200粒→76粒(燃料の62%を消費)・平均温度T_int 2.00→4.91(最高66.9)・放射エネルギー radE=4555。同じ初期配置で融合だけを切った対照では熱源が無くなり、温度は2.00→0.49へ単調に下がって放射も60.4で止まる — 放射エネルギーは75.4倍。否定的結論「内部熱源なしに定常放射は成立しない」の裏返しで、融合という熱源があれば星は放射し続けられる、という主張。熱収支: この宇宙で熱が出入りする経路は「融合で入る」「E11で出る」の2本だけ(γn=0・μF=0で接触は完全弾性・kRep=0で圧力なし・κs=0で伝導なし)なので帳簿が閉じる — 融合が入れた熱 Q=ΔH+radE=5313 は etaRad を変えても同値で、対照ではQ=0.0(厳密)。そのQの85.7%が同じ窓のうちに放射で出ていく(残りは温度上昇として溜まる)= 供給と損失がほぼ釣り合った準定常。※点火の原因が重力であることは用量反応で分離した: Gだけを4→2→1に下げ、力学時間の伸び(∝1/√G)に合わせて走行時間も揃えても、融合の熱注入は5313→1719→697と落ちる。※温度は力に一切入らない受動的な目印なので、放射を切っても(etaRad=0)軌道は1ビットも変わらない(実測: 粒子数・融合回数・平均半径が全チェックポイントで完全一致し、温度だけが2.00→48.23まで溜まる)。※有効窓 validT=192 の根拠は燃料: さらに倍のt=384まで走らせても融合は18回しか増えず、放射レートは23.7/時間→8.0/時間(3.0倍暗い)まで落ちる — 燃料切れの余生に入るので主張はここまで。※質量は融合で保存する(現実の核融合の質量欠損はモデル化していない)。中心核は位置を固定した外部拘束(融合の対象外・温度一定のリザーバ)で、系は閉じていない。実在の恒星の核融合・進化を再現する主張ではない(Negative Claims 1/2)。",
+    control:"おすすめA/B: etaRad=0で「冷えない星」、G=2で「点火しにくい星」。"},
+  en:{name:"Stellar Interior — Fusion as the Heat Source", descStruct:{
+    summary:"A heavy pinned core (m=600) with 200 gas grains orbiting it on sub-Keplerian orbits (0.6×). The gas falls in under the core\u2019s gravity, and pairs that penetrate deeply enough fuse — once their centres come within d<0.35·(R_i+R_j) they become one particle. The relative kinetic energy ΔKE of the pair and the elastic energy of the contact spring (E9) that vanish in the merger go straight into the internal temperature T_int, and leave again as radiation (E11: Λ=η_rad·T²). That is the whole chain: gravitational compression → fusion heating → radiation. ",
+    observe:"Measured over 12000 steps (t≈192): 124 fusions, the gas goes from 200 to 76 grains (62% of the fuel burned), mean T_int 2.00→4.91 (peak 66.9), radiated energy radE=4555. A control with the same initial layout and fusion switched off has no heat source at all: the temperature falls monotonically 2.00→0.49 and the radiation stalls at 60.4 — a factor of 75.4 in radiated energy. This is the converse of the negative result that steady radiation cannot hold without an internal heat source: given fusion as a heat source, the star can keep radiating. Heat budget: heat can only enter through fusion and leave through E11 in this universe (γn=0 and μF=0 make contacts perfectly elastic, kRep=0 removes pressure, κs=0 removes conduction), so the ledger closes — the heat fusion injects, Q=ΔH+radE=5313, is the same whatever etaRad is set to, and the control gives Q=0.0 exactly. 85.7% of that Q leaves as radiation within the same window (the rest accumulates as temperature): supply and loss nearly balance, a quasi-steady state. The causal role of gravity was isolated by a dose–response: lowering only G from 4 to 2 to 1, and stretching the run to match the dynamical time (∝1/√G), the fusion heat input falls 5313→1719→697. Temperature never enters the forces, so turning the radiation off (etaRad=0) does not change the trajectories by a single bit (measured: particle count, fusion count and mean radius identical at every checkpoint; only the temperature differs, accumulating to 48.23). The valid window validT=192 is set by the fuel: running twice as far, to t=384, adds only 18 more fusions and the radiated rate drops from 23.7 to 8.0 per unit time (3.0× dimmer) — beyond that the star is living off the ashes. Mass is conserved in fusion (the mass defect of real nuclear fusion is not modelled). The central core is an externally pinned constraint, excluded from fusion and held at constant temperature, so the system is not closed. Not a claim to reproduce real stellar fusion or stellar evolution (Negative Claims 1/2).",
+    control:"Suggested A/B: etaRad=0 for a star that cannot cool, G=2 for a star that barely ignites."}},
   activeParams:["G","etaRad","cHeat"],
   thermal:"tint",           // 第36便 D(台帳4-51): 温度は内部状態変数 T_int(fusion の前提)
   fusion:{dFrac:0.35},      // 第44便 44B(台帳4-68c): 融合。fission は使わない(上のコメント(2))
@@ -2761,6 +2998,8 @@ function validatePreset(obj){
   // true のみ受理し、それ以外は静かに削除する(validT と同方針)。universeBox が無いと
   // 測定が定義できないため、その場合も削除する(S.build 側にも同条件の最終門番あり)
   if(p.probeHud!==undefined && (p.probeHud!==true || p.universeBox===undefined)) delete p.probeHud;
+  // 第51便 51D: conductionHud — 表示専用キー(true のみ受理・thermal:"tint" 必須)
+  if(p.conductionHud!==undefined && (p.conductionHud!==true || p.thermal!=="tint")) delete p.conductionHud;
   // 第50便 50K(台帳4-78 C案): descStruct — 構造化説明(表示専用)。{summary,observe,control}の
   // 文字列で、連結が description と厳密一致(純分割)しなければ警告して削除する。
   // en.descStruct も同条件(比較先は en.description)
@@ -3401,6 +3640,9 @@ function makeSim(){
       const sc0=boxScaleAt(S.box,0);
       S.probeHud={ w0: Math.hypot(S.vx[0]-sc0.H*(S.x[0]-S.box.cx), S.vy[0]-sc0.H*(S.y[0]-S.box.cy)) };
     }
+    // 第51便 51D(原仮定者指示): conductionHud — 熱伝導の前線・列熱のHUD表示。
+    // 行は「pinned の熱浴粒子と同じ y」でグループ化する(表示のみ — 物理不変)
+    S.condHud=(preset.conductionHud===true && S.thermal==="tint")? true : null;
     // 第44便 44B(台帳4-68c 再挑戦条件): 融合。最上位キー fusion:{dFrac}(オブジェクト存在で有効・
     // 省略で完全無効)。**thermal:"tint" のときだけ有効**(spin 熱モードでは融合で消える運動
     // エネルギーの行き先が無く、帳簿が閉じない — validatePreset も同条件で警告つき削除する。
@@ -5825,7 +6067,31 @@ function loop(now){
         const rExp=(2*(B.D/KtV)*(1-adp)-lnW)/lnA;
         const rInv=B.dPower-lnW/lnA;
         const ana=2*(B.D/KtV)*(1-adp)/lnA;
-        txt+=`\n${T("hudProbeH")(rExp,ana,rInv)}`;
+        // 第51便 51C(原仮定者指示): テンション類似行 — 点値 2(D/Kt)a^{−dP}(現在a)と
+        // a=2 の点値(=D/Kt — 実宇宙比 67.4/73.0≈0.923 と同水準の較正点)を常時表示
+        const pt=2*(B.D/KtV)*adp*B.dPower;
+        txt+=`\n${T("hudProbeH")(rExp,ana,rInv)}\n${T("hudProbeHTension")(pt,B.D/KtV)}`;
+      }
+    }
+    // 第51便 51D(原仮定者指示): 熱伝導の前線・列熱 — condHud プリセットだけ、pinned 熱浴の
+    // 行(同じ y)ごとに「前線距離(T_obs>4 の最遠自由粒)」と「列の熱 ΣT_obs」を1行追記。
+    // 速さの違い(密な列ほど前線が速い・運ぶ熱が多い)を数値で常時比較できる(表示のみ・物理不変)
+    if(sim.condHud){
+      const rows=[];
+      for(let i=0;i<sim.n;i++) if(sim.pinned[i]) rows.push({y:sim.y[i], bx:sim.x[i], front:0, heat:0, gap:0});
+      for(const r of rows){
+        let x2=1e9;
+        for(let i=0;i<sim.n;i++){
+          if(sim.pinned[i] || Math.abs(sim.y[i]-r.y)>10) continue;
+          const T=obsTemp(sim,i), d=Math.abs(sim.x[i]-r.bx);
+          r.heat+=T; if(T>4 && d>r.front) r.front=d;
+          if(d>1e-9 && d<x2) x2=d;   // 熱浴の隣の粒子までの距離 = 行の間隔
+        }
+        r.gap=Math.round(x2);
+      }
+      if(rows.length===2){
+        rows.sort((a,b)=>a.gap-b.gap);
+        txt+=`\n${T("hudConduction")(rows[0],rows[1])}`;
       }
     }
     // 第35便(台帳4-61): 自由な箱 — 規定 a(t) ではなく壁から計測した実測尺度因子であることを明示する
@@ -5895,7 +6161,8 @@ function getCustomPresets(){
 function setCustomPresets(a){ localStorage.setItem("hp_custom_presets",JSON.stringify(a)); }
 function allPresets(){ return BUILTIN_PRESETS.concat(getCustomPresets()); }
 // 第21便: プルダウン表示用の kFrame タグ(physics 未保持の項目は付けない)
-function kfTag(ph){ return (ph && typeof ph.kFrame==="number")? " (kF="+(+ph.kFrame)+")" : ""; }
+// 第51便 51B(原仮定者指示): プルダウンの「(kF=1)」表示(kfTag)は廃止 — kFrame の有無は
+// 説明タブの分類チップ「引きずり」(bdgDrag)が引き継ぐ
 function rebuildPresetSelect(selId){
   const sel=$("#presetSelect"); sel.textContent="";
   // 内蔵プリセットは group ごとの optgroup(付録E E4。配列順=表示順)
@@ -5905,13 +6172,13 @@ function rebuildPresetSelect(selId){
     if(g!==curGroup){ curGroup=g; og=document.createElement("optgroup"); og.label=gName(g); sel.appendChild(og); }
     const o=document.createElement("option");
     // 第21便(原仮定者指示): サンプルの kFrame を選択時に判別できるよう名前へ (kF=N) を付記
-    o.value=p.id; o.textContent=(p.emoji||"")+" "+pName(p)+kfTag(p.physics); og.appendChild(o);
+    o.value=p.id; o.textContent=(p.emoji||"")+" "+pName(p); og.appendChild(o);
   });
   const customs=getCustomPresets();
   if(customs.length){
     const og2=document.createElement("optgroup"); og2.label=gName("AI生成");
     customs.forEach(p=>{ const o=document.createElement("option");
-      o.value=p.id; o.textContent="🤖 "+(p.emoji||"")+" "+pName(p)+kfTag(p.physics); og2.appendChild(o); });
+      o.value=p.id; o.textContent="🤖 "+(p.emoji||"")+" "+pName(p); og2.appendChild(o); });
     sel.appendChild(og2);
   }
   // v1.17: 保存一覧もプルダウンから直接開けるように(AI生成とカテゴリを分離)
@@ -5919,7 +6186,7 @@ function rebuildPresetSelect(selId){
   if(saves.length){
     const og3=document.createElement("optgroup"); og3.label=gName("保存一覧");
     saves.forEach((s,idx)=>{ const o=document.createElement("option");
-      o.value="save#"+idx; o.textContent="💾 "+(s.name||T("untitled"))+kfTag(s.physics); og3.appendChild(o); });
+      o.value="save#"+idx; o.textContent="💾 "+(s.name||T("untitled")); og3.appendChild(o); });
     sel.appendChild(og3);
   }
   if(selId) sel.value=selId;
@@ -7125,27 +7392,8 @@ $("#btnLang").addEventListener("click",()=>{
 function renderHelp(){
   const el=$("#helpBody"); el.textContent="";
   const mk=(tag,txt)=>{const e=document.createElement(tag); e.textContent=txt; el.appendChild(e); return e;};
-  mk("h4",(currentPreset.emoji||"")+" "+pName(currentPreset));
-  // 第50便 50K(台帳4-78 C案): descStruct があれば 要約/観察/操作 の3区分で表示
-  // (内容は description の純分割 — 無いプリセットは従来どおり平文1段落)
-  const ds=pDescStruct(currentPreset);
-  if(ds){
-    const sect=(headKey,txt)=>{ if(!txt || !txt.trim()) return;
-      mk("p",T(headKey)).className="descSectHead";
-      mk("p",txt.trim()); };
-    sect("descSummaryHead",ds.summary);
-    sect("descObserveHead",ds.observe);
-    sect("descControlHead",ds.control);
-  } else mk("p",pDesc(currentPreset));
-  // v1.13 理論解説パネル: 説明文中の法則参照(A8 等)を自動抽出して1行解説を表示(付録M)
-  const refs=extractLawRefs(currentPreset.description||"");
-  if(refs.length){
-    mk("h4",T("helpTheory"));
-    for(const r of refs) mk("p","・"+r+" — "+lawText(r));
-    mk("p",T("helpTheoryNote")).style.color="var(--dim)";
-  }
-  // 第35便 W4(台帳4-54): サンプル分類バッジ — 「外部要素(自動判定)」見出しの直上にチップ列で表示。
-  // 既存の箇条書き(下記)は詳細のまま残し、バッジは要約という位置づけ
+  // 第51便 51B(原仮定者指示): 表示順を「タグ(分類チップ)→タイトル→数値主張(claims)→本文」へ
+  // 組み替え。各ブロックの中身は不変 — 並びだけの変更(タグと数値主張を本文より先に見せる)
   const cls=classifyPreset(currentPreset);
   const chipRow=document.createElement("div"); chipRow.id="classChips";
   const addChip=(g,label,tip)=>{
@@ -7168,9 +7416,14 @@ function renderHelp(){
   // 「物理対応ロック(Kt=c²/G)」とは別概念(#physLockBadge・パラメータタブ)— 混同しないよう
   // 弱場展開の適用外であることだけを言う独立チップにする(併存しうる: ロックあり+強場も可)
   if(cls.strongField) addChip("strongfield",T("bdgStrongField"),T("bdgStrongFieldTip"));
+  // 第51便 51B(原仮定者指示): 引きずりタグ — kFrame>0 の系に表示(A8/E6′ が働く系の目印。
+  // 0にすると引きずりなしの対照になることをツールチップで案内)
+  if(currentPreset.physics && currentPreset.physics.kFrame>0) addChip("drag",T("bdgDrag"),T("bdgDragTip"));
   el.appendChild(chipRow);
-  // 第43便 43A(台帳4-78 B案): 数値主張(claims)の表示 — claims を持つプリセットにのみ、分類
-  // バッジの直下へ折畳みで追加。表示専用(claims を読むだけ・物理/保存 JSON には無関係)。
+  // タイトル(第51便 51B: チップの直後へ移動)
+  mk("h4",(currentPreset.emoji||"")+" "+pName(currentPreset));
+  // 第43便 43A(台帳4-78 B案): 数値主張(claims)の表示 — claims を持つプリセットにのみ追加。
+  // 表示専用(claims を読むだけ・物理/保存 JSON には無関係)。
   // 各行は「metric: 期待域 min〜max(対照: min〜max)」+ testId があれば小さく「QA: <testId>」
   if(Array.isArray(currentPreset.claims) && currentPreset.claims.length){
     const det=document.createElement("details"); det.id="claimsDetails"; det.className="claimsDetails";
@@ -7197,6 +7450,24 @@ function renderHelp(){
     const note=document.createElement("p"); note.className="note"; note.textContent=T("claimsNote");
     det.appendChild(note);
     el.appendChild(det);
+  }
+  // 本文(第51便 51B: 数値主張の後へ移動)。第50便 50K: descStruct があれば 要約/観察/操作 の
+  // 3区分で表示(内容は description の純分割 — 無いプリセットは従来どおり平文1段落)
+  const ds=pDescStruct(currentPreset);
+  if(ds){
+    const sect=(headKey,txt)=>{ if(!txt || !txt.trim()) return;
+      mk("p",T(headKey)).className="descSectHead";
+      mk("p",txt.trim()); };
+    sect("descSummaryHead",ds.summary);
+    sect("descObserveHead",ds.observe);
+    sect("descControlHead",ds.control);
+  } else mk("p",pDesc(currentPreset));
+  // v1.13 理論解説パネル: 説明文中の法則参照(A8 等)を自動抽出して1行解説を表示(付録M)
+  const refs=extractLawRefs(currentPreset.description||"");
+  if(refs.length){
+    mk("h4",T("helpTheory"));
+    for(const r of refs) mk("p","・"+r+" — "+lawText(r));
+    mk("p",T("helpTheoryNote")).style.color="var(--dim)";
   }
   // v1.15(第7次裁定): 外部要素バッジ — 固定粒子・レール・熱浴と閉鎖系を区別して表示(詳細=箇条書き)
   const ext=cls.external;
@@ -8292,7 +8563,7 @@ restoreDraft();   // 第13次裁定 P1-2 後半: 直前の未保存編集ドラ�
 // (http(s) 配信の /beta/ 配下でのみ発火。file:// の QA・ルート昇格後は発火しない)
 if(isBetaServe() && !localStorage.getItem("hp_beta_notice")){
   try{ localStorage.setItem("hp_beta_notice","1"); }catch(_){}
-  notify(T("betaShared"), 9000);
+  notify(T("betaShared")(BETA_BUILD), 9000);
 }
 applyLang();   // 静的ラベル+AIプロバイダ設定UIの反映(hp_lang 永続)
 requestAnimationFrame((t)=>{lastFrame=t;requestAnimationFrame(loop);});

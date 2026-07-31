@@ -491,8 +491,11 @@ const W5C_UNITS = {
   // 実測では etaRad は **温度だけ** を単調に動かし、半質量半径 r50(=収縮の速さ)は変えない
   // (6000步で r50 差 0.4%・12000步でも 2.1% で符号すら一定しない)。40C で説明文を修正し、
   // 本テストはその **否定的結果そのもの**(冷却は温度に効き、収縮には効かない)を固定する。
-  collapseCooling: { enabled: !FAST, weight: 45, run: (pg) => pg.evaluate(() => {
-    const STEPS = 6000;   // t≈96。温度差が 15% に開くのがこの辺り(4500步では 4% しかない)
+  collapseCooling: { enabled: !FAST, weight: 90, run: (pg) => pg.evaluate(() => {
+    // 第51便 51F: 6000步→12000步へ延長(beta は G↑/kRep↓ で塊が育つ構成になり、温度対照が
+    // 明確に開くのは加熱ピークを過ぎた 12000步 — 実測 T比 on/off = beta 0.545 / root 0.761)。
+    // r50 の冷却非依存(負の主張)は従来どおり崩壊中盤 6000步で判定する
+    const STEPS = 6000;   // ×2 区間(6000 で中間計測 → 12000 で最終計測)
     const stat = (s) => {
       let M = 0, cx = 0, cy = 0;
       for (let i = 0; i < s.n; i++) { M += s.m[i]; cx += s.m[i] * s.x[i]; cy += s.m[i] * s.y[i]; }
@@ -513,11 +516,13 @@ const W5C_UNITS = {
       const s = HP.sim; s.params.etaRad = eta;
       const t0 = stat(s);
       for (let k = 0; k < STEPS; k++) s.step(0.016);
-      return { t0, end: stat(s) };
+      const mid = stat(s);   // 6000步(崩壊中盤 — r50 の冷却非依存を見る点)
+      for (let k = 0; k < STEPS; k++) s.step(0.016);
+      return { t0, mid, end: stat(s) };   // 12000步(加熱ピーク後 — 温度対照が開く点)
     };
     const on = run(0.004), off = run(0);
     HP.loadPreset('saturn', false);
-    return { steps: STEPS, on, off };
+    return { steps: STEPS * 2, on, off };
   }) },
   darkrotorMidNew: { enabled: w5cHasObs && !FAST && w5cDrFree, weight: 26, run: (pg) => pg.evaluate(() => {
     // 🕶️ の中期安定・v4/v5(全自由系)経路(元7m節 2785-2822行から抽出)
@@ -2224,11 +2229,33 @@ if (hasBadgeClassify) {
       : 0.5 * s.m[i] * s.R[i] * s.R[i] * s.spin[i] * s.spin[i] * s.obsT[i] * (1 - s.lSw[i]));
     HP.loadPreset('conduction', false);
     const dT0 = T(0) - T(17);
-    let mid = null;
-    for (let k = 0; k < 20000; k++) { s.step(0.016); if (k === 3999) mid = { T1: T(1), T9: T(9), T17: T(17) }; }
-    return { Th0: T(0), dT0, mid, Thf: T(0), T17f: T(17), nan: s.hasNaN() };
+    // 第51便 51D: 行別の列熱・前線(HUD hudConduction と同一式)。行 = pinned 熱浴と同じ y
+    const rowStat = () => {
+      const rows = [];
+      for (let i = 0; i < s.n; i++) if (s.pinned[i]) rows.push({ y: s.y[i], bx: s.x[i], front: 0, heat: 0, gap: 1e9 });
+      for (const r of rows) for (let i = 0; i < s.n; i++) {
+        if (s.pinned[i] || Math.abs(s.y[i] - r.y) > 10) continue;
+        const Ti = T(i), d = Math.abs(s.x[i] - r.bx);
+        r.heat += Ti; if (Ti > 4 && d > r.front) r.front = d;
+        if (d > 1e-9 && d < r.gap) r.gap = d;
+      }
+      rows.sort((a, b) => a.gap - b.gap);
+      return rows;
+    };
+    let mid = null, rows4k = null;
+    for (let k = 0; k < 20000; k++) { s.step(0.016);
+      if (k === 3999) { mid = { T1: T(1), T9: T(9), T17: T(17) }; rows4k = rowStat(); } }
+    return { Th0: T(0), dT0, mid, rows4k, condHud: s.condHud === undefined ? null : !!s.condHud,
+      Thf: T(0), T17f: T(17), nan: s.hasNaN() };
   });
   const dTf = cd.Thf - cd.T17f;
+  // 第51便 51D(原仮定者指示「速さの違いが分からない」): 行別の実測を判定へ追加 —
+  // 密な列(間隔9)の前線が疎な列(間隔18)より先へ届き、列の熱も claims 窓(2.125〜2.875)
+  // 内の比で多いこと。condHud(HUD表示の配線)は beta のみ(root は null で判定対象外)
+  const rr = cd.rows4k;
+  const rowsOk = rr && rr.length === 2 && rr[0].front > rr[1].front
+    && rr[1].heat > 0 && (rr[0].heat / rr[1].heat) > 2.125 && (rr[0].heat / rr[1].heat) < 2.875
+    && (cd.condHud === null || cd.condHud === true);
   // 第39便(原仮定者指示 C2)再較正: kappaS 1.5→0.3(伝導が速すぎて実時間10秒で列全体が
   // ほぼ均一化していた問題の是正)に伴い、同一の生ステップ数(20000步)で見た拡散の進み方が
   // 約1/5遅くなったため、閾値のみ実測に合わせて更新(判定の向き・ステップ数・主張は不変)。
@@ -2236,10 +2263,13 @@ if (hasBadgeClassify) {
   // T1=27.82 > 中位(dist81)T9=4.88 > 遠端(dist153)T17=2.28(距離依存は維持)。
   // ΔT(加熱端−遠端)は初期64 → 20000步後43.62(比0.682)。閾値0.75は実測の約1.10倍上
   add('behavior.conduction',
-    !cd.nan && cd.Th0 === cd.Thf && cd.mid.T1 > cd.mid.T9 && cd.mid.T9 > cd.mid.T17 && dTf / cd.dT0 < 0.75,
+    !cd.nan && cd.Th0 === cd.Thf && cd.mid.T1 > cd.mid.T9 && cd.mid.T9 > cd.mid.T17 && dTf / cd.dT0 < 0.75
+    && rowsOk,
     `加熱端T=${cd.Th0.toFixed(1)}(不変) 中間(4000步) 近接T1=${cd.mid.T1.toFixed(1)} > 中位T9=${cd.mid.T9.toFixed(1)} `
     + `> 遠端T17=${cd.mid.T17.toFixed(1)}(距離依存) / ΔT 初期=${cd.dT0.toFixed(1)} → 20000步後=${dTf.toFixed(1)}`
-    + `(比=${(dTf / cd.dT0).toFixed(3)} < 0.75 — 実測0.682。第39便 kappaS 1.5→0.3 再較正)`);
+    + `(比=${(dTf / cd.dT0).toFixed(3)} < 0.75 — 実測0.682。第39便 kappaS 1.5→0.3 再較正)`
+    + (rr ? ` / 行別(4000步): 前線 間隔${Math.round(rr[0].gap)}=${Math.round(rr[0].front)} > 間隔${Math.round(rr[1].gap)}=${Math.round(rr[1].front)} `
+      + `列熱比=${(rr[0].heat / rr[1].heat).toFixed(2)}(窓2.125〜2.875・claims 連動) condHud=${cd.condHud}` : ''));
 }
 
 {
@@ -3497,14 +3527,18 @@ if (!FAST) {
   const sepRel = Math.abs(apB.sep - apK.sep) / (apK.sep || 1e-12);
   // 深接触期の分母は kF1(base)側 — 説明文・claims(11.5%)と同じ規約に揃える
   const sepRelEnd = Math.abs(mg.base.end.sep - mg.kf0.end.sep) / (mg.base.end.sep || 1e-12);
+  // 第51便 51E: beta は両円盤を軌道順行へ(潮汐尾の育ちを最優先 — 6000步で10%)。この配置では
+  // 3000步時点のスピン加熱比が 1.42(6000步では 3.35 — 深接触とともに開く)なので、閾値を
+  // 1.4→1.25 へ調整(root 旧配置は 1.9〜2.2 のまま余裕で通る。6000步側の 3.35 は claims が
+  // ±15% 窓で別途固定)
   add('behavior.merger-causal',
     !mg.base.end.nan && !mg.kf0.end.nan && !mg.muf0.end.nan &&
     mg.base.t0.tail15 === 0 && mg.base.end.tail15 > 0.02 &&
-    spinRatio > 1.4 && mufRel > 0.002 && sepRel > 5e-4 && sepRel < 0.05,
+    spinRatio > 1.25 && mufRel > 0.002 && sepRel > 5e-4 && sepRel < 0.05,
     `${mg.steps}步・同一seed: ①潮汐尾率(自核から初期円盤半径の1.5倍外)=${(mg.base.t0.tail15 * 100).toFixed(1)}%→` +
     `${(mg.base.end.tail15 * 100).toFixed(2)}%(>2%。2倍外は ${(mg.base.end.tail20 * 100).toFixed(2)}%) ` +
     `②kFrame の効き所=**スピン加熱**: 平均|spin|=${mg.base.end.meanSpin.toFixed(4)}(kF1)/${mg.kf0.end.meanSpin.toFixed(4)}(kF0)` +
-    `=${spinRatio.toFixed(2)}倍(>1.4) ③muF の効き: 平均|spin|=${mg.base.end.meanSpin.toFixed(4)}/${mg.muf0.end.meanSpin.toFixed(4)}` +
+    `=${spinRatio.toFixed(2)}倍(>1.25) ③muF の効き: 平均|spin|=${mg.base.end.meanSpin.toFixed(4)}/${mg.muf0.end.meanSpin.toFixed(4)}` +
     `(相対差 ${(mufRel * 100).toFixed(2)}% >0.2% — 存在のみを固定。大きさは対象間で一桁違い、向きも一定しない) ` +
     `④接近期(${apB.ck}步・核間 ${sep0.toFixed(1)}→${apB.sep.toFixed(1)})の kFrame 差=${(sepRel * 100).toFixed(2)}%` +
     `(5e-4 < 差 < 5% — **接近期の軌道にはほとんど効かないことの上限固定**。深接触期 ${mg.steps}步では ` +
@@ -3526,20 +3560,22 @@ if (!FAST) {
   //     閾値 3% は 4.5倍/3.1倍の余裕(2ビルドの差 4.2 ポイントより十分広く取る)
   //   ・r50 の相対差 < 0.05 … 実測 0.0036/0.0011 → **13.9倍/45倍**の余裕(これが「収縮に効かない」の機械的表現)
   //   ・両方とも t0 から実際に縮んでいること(r50(end) < r50(t0)·0.98。実測 143.74→133.4)= 健全性条件
+  // 第51便 51F 改訂: 判定点を分離 — r50 の冷却非依存は崩壊中盤 6000步(mid)、温度対照は
+  // 加熱ピーク後の 12000步(end)で見る。実測: 温度比 on/off = beta 0.545 / root 0.761(<0.85)・
+  // r50 相対差@6000 = beta 1.29% / root 0.15%(<5%)。beta は G 2.2/kRep 0.6 の塊形成構成
+  // (r50 144→48 = 3.0倍集中)・root は旧構成のまま両方この閾値で通る
   const cc = await w5cGetUnit('collapseCooling');
   const tRatio = cc.on.end.T / (cc.off.end.T || 1e-12);
-  const r50Rel = Math.abs(cc.on.end.r50 - cc.off.end.r50) / (cc.off.end.r50 || 1e-12);
+  const r50Rel = Math.abs(cc.on.mid.r50 - cc.off.mid.r50) / (cc.off.mid.r50 || 1e-12);
   add('behavior.collapse-cooling',
     !cc.on.end.nan && !cc.off.end.nan &&
     cc.on.end.r50 < cc.on.t0.r50 * 0.98 && cc.off.end.r50 < cc.off.t0.r50 * 0.98 &&
-    tRatio < 0.97 && r50Rel < 0.05,
-    `${cc.steps}步・同一seed で etaRad だけを 0.004/0: 温度(平均|spin|)=${cc.on.end.T.toFixed(4)}/${cc.off.end.T.toFixed(4)}` +
-    `(比=${tRatio.toFixed(3)} <0.97 = 冷却は効いている) ` +
-    `半質量半径 r50=${cc.on.end.r50.toFixed(2)}/${cc.off.end.r50.toFixed(2)}(相対差 ${(r50Rel * 100).toFixed(2)}% <5%) ` +
-    `r90=${cc.on.end.r90.toFixed(1)}/${cc.off.end.r90.toFixed(1)} 収縮 r50 ${cc.on.t0.r50.toFixed(1)}→${cc.on.end.r50.toFixed(1)}(両条件とも収縮する) ` +
-    `— **否定的結果の固定**: 放射冷却は温度を下げるが崩壊速度は変えない(12000步でも r50 差 2.1% で符号不定・` +
-    `etaRad を5倍にしても温度だけが単調に下がり r50 は動かない)。収縮を駆動しているのは自己重力であって` +
-    `冷却ではない。第40便 40C で説明文を実測に合わせて修正した`);
+    tRatio < 0.85 && r50Rel < 0.05,
+    `${cc.steps}步・同一seed で etaRad だけを 0.004/0: 温度(平均|spin|・12000步)=${cc.on.end.T.toFixed(4)}/${cc.off.end.T.toFixed(4)}` +
+    `(比=${tRatio.toFixed(3)} <0.85 = 冷却は効いている) ` +
+    `半質量半径 r50(6000步)=${cc.on.mid.r50.toFixed(2)}/${cc.off.mid.r50.toFixed(2)}(相対差 ${(r50Rel * 100).toFixed(2)}% <5%) ` +
+    `r50 終端=${cc.on.end.r50.toFixed(1)}/${cc.off.end.r50.toFixed(1)} 収縮 ${cc.on.t0.r50.toFixed(1)}→${cc.on.end.r50.toFixed(1)}(両条件とも収縮する) ` +
+    `— **否定的結果の固定**: 放射冷却は温度を下げるが崩壊速度は変えない。収縮を駆動しているのは自己重力`);
 } else {
   console.log('SKIP behavior.merger-causal / behavior.collapse-cooling(QA_FAST=1)');
 }
@@ -6817,13 +6853,14 @@ if (hasSwAutoCb) {
     const r = await w5cGetUnit('cosmicweb');
     const d = r.webDef, z = r.webNoH;
     const growth = d.d21 / d.d20;
-    // 実測(beta 2026-07-27・内蔵プリセットそのもの・6000步・1500步ごと):
-    //   H0=0.004(既定): δ² 0.272→0.457→0.828→1.775→3.578(13.1倍)/ ボイド率 0.013→0.579 / a=1.468
-    //   H0=0     (対照): δ² 0.272→0.454→1.155→3.073→8.551(31.4倍)/ ボイド率 0.013→0.750
-    //   H0=0.01        : δ² →1.482(5.4倍)/ ボイド率 0.342(膨張が速いほど構造が育たない)
-    //   etaRad=0 の対照 δ²=3.552(既定との差 0.7%)= E11 は構造形成の主因ではない(説明文に明記)
-    // 閾値: 成長倍率 ≥ 3(実測 13.1 = 4.4倍の余裕)/ ボイド率が増加(実測 0.013→0.579)/
-    //       H=0 対照の δ² が既定より大きい(実測 8.551 > 3.578 = 2.4倍)
+    // 第51便 51G 再実測(既定 H0=0.01 へ変更 — 旧既定 0.004 は評価窓の先で1塊に潰れていた):
+    //   H0=0.01(既定): δ² 0.272→1.482(5.4倍)/ ボイド率 0.013→0.342(12000步でも 2.91/0.55 と
+    //                   複数ノット+フィラメント維持 — 1塊にならない)
+    //   H0=0  (対照): δ² →8.426(31.0倍)/ ボイド率 0.750
+    //   H0=0.02      : δ² →0.748(2.8倍)/ ボイド率 0.105(膨張が速いほど構造が育たない)
+    //   etaRad=0 対照: δ²=1.458(既定との差 1.6%)= E11 は構造形成の主因ではない(説明文に明記)
+    // 閾値: 成長倍率 ≥ 3(実測 5.4 = 1.8倍の余裕)/ ボイド率が増加(実測 0.013→0.342)/
+    //       H=0 対照の δ² が既定より大きい(実測 8.426 > 1.482 = 5.7倍)
     add('behavior.cosmicweb',
       !d.nan && !z.nan && growth >= 3 && d.void1 > d.void0 && z.d21 > d.d21,
       `6000步(共動10×10セル): δ²=Var(N)/⟨N⟩² ${d.d20.toFixed(3)} → ${d.d21.toFixed(3)}` +

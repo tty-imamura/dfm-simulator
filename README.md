@@ -173,7 +173,7 @@ iPhoneのブラウザで観察できるシミュレータです。
 現在数と結果は `tests/out/qa-results.json` が正。v1.25 で QA が機械強制):
 
 ```bash
-npm install && npx playwright install chromium   # 初回のみ
+npm ci && npx playwright install --with-deps chromium   # 初回のみ(lockfile 固定 — CI と同一手順。依存更新は明示的な PR で)
 npm test          # 全QA(約5分)。結果は tests/out/qa-results.json
 npm run test:fast # 長時間挙動テストを省略した高速版
 node tests/perf.mjs # 動的性能ゲート(v1.31 — 同一Chromiumで root と beta を実測し中央値比 ≤1.10 を検査)
