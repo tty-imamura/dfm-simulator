@@ -2144,20 +2144,24 @@ const BUILTIN_PRESETS = [
 
 { id:"melt", name:"融解 — 潜熱のプラトー", emoji:"🫠", group:"熱の実験室",
   descStruct:{
-    summary:"床の伝熱壁で下から温められる結晶(六方格子)の融解実験。このサンプルは相変化拡張E14を使う: 熱状態の正本は温度ではなく比エンタルピーhで、融点T_m=1を超える熱は潜熱として吸収され、固相率・液相率がhから決まる。固相どうしは短距離結合(bondK)で格子を保ち、液相どうしは弱い凝集(cohesion)で液滴にまとまる。融解は指定潜熱L_fに加えて結合エネルギーそのもの(実効潜熱)も支払う — 「熱を入れているのに温度が上がらない」プラトーが機械的な結合の解体と同時に起きる。",
-    observe:"床壁(橙)が結晶を温め、熱は伝導(E10′)で上へ運ばれる。相変化グラフ(右下)で平均温度T̄(橙)と液相率(青)を同時に読める: T̄はまずT_m=1まで上がり、融解が進む間(液相率0→1)はT_m近傍に停滞し(潜熱プラトー)、全融解後に再び上がる。融け始めた層から格子が崩れ、液体は重力で底に広がる — 融解前線が床から上へ進む。結合が切れる瞬間に粒がわずかに揺れて離れるのは、結合ポテンシャルの解体が熱で支払われている場面そのもの。凝固点でもある融点を跨ぐ挙動は可逆で、壁温を下げれば凝固に転じる。エネルギーは壁帳簿(wallE系)+潜熱+結合の総和で閉じる(保存量モニタ)。色=温度。実在物質の融点・潜熱の定量再現ではない(単位は無次元のトイ値)。",
-    control:"kappaSを上げると融解前線が速く進む。gravityYを0にすると融けた液が漂い出す。"},
+    summary:"床の伝熱壁で下から温められる結晶(六方格子)の融解実験。このサンプルは相変化拡張E14を使う: 熱状態の正本は温度ではなく比エンタルピーhで、融点T_m=1を超える熱は潜熱として吸収され、固相率・液相率がhから決まる。固相どうしは短距離結合(bondK)で格子を保ち、液相どうしは弱い凝集(cohesion)で液滴にまとまる。融解は指定潜熱L_fに加えて結合エネルギーそのもの(実効潜熱)も支払う — 「熱を入れているのに温度が上がらない」プラトーが機械的な結合の解体と同時に起きる。熱の斥力=圧力(E5′)は温度が力学に現れる唯一のチャネルで、結合の引力と押し合って熱膨張(温度依存の平衡間隔)を作る。",
+    observe:"床壁(橙)が結晶を温め、熱は伝導(E10′)で上へ運ばれる。相変化グラフ(右下)で平均温度T̄(橙)と液相率(青)を同時に読める: T̄はまずT_m=1まで上がり、融解が進む間(液相率0→1)はT_m近傍に停滞し(潜熱プラトー)、全融解後に再び上がる。融け始めた層から格子が崩れ、温まった領域は熱圧(E5′)で膨らみ(平均間隔+6%の熱膨張)、微動を続けながら重力で底に広がる — 融解前線が床から上へ進む。結合が切れる瞬間に粒がわずかに揺れて離れるのは、結合ポテンシャルの解体が熱で支払われている場面そのもの。凝固点でもある融点を跨ぐ挙動は可逆で、壁温を下げれば凝固に転じる。エネルギーは壁帳簿(wallE系)+潜熱+結合+熱圧ポテンシャルU_repの総和で閉じる(保存量モニタ)。色=温度。実在物質の融点・潜熱の定量再現ではない(単位は無次元のトイ値)。",
+    control:"kRepを0にすると熱が力学から切り離され、融けても間隔・動きが変わらない「湿った砂」になる(おすすめの対照実験)。kappaSを上げると融解前線が速く進む。"},
   en:{name:"Melting — the Latent-Heat Plateau", descStruct:{
-    summary:"A crystal (hexagonal lattice) heated from below by a thermally active floor. This sample uses the phase-change extension E14: the particle's thermal state of record is the specific enthalpy h rather than the temperature — heat crossing the melting point T_m=1 is absorbed as latent heat, and the solid/liquid fractions follow from h. Solid pairs hold the lattice with short-range bonds (bondK); liquid pairs cohere weakly (cohesion). Melting pays not only the specified latent heat L_f but also the actual bond energy (an effective latent heat) — the plateau where 'heat goes in but temperature does not rise' coincides with the mechanical disassembly of the bonds. ",
-    observe:"The floor wall (orange) warms the crystal and conduction (E10′) carries the heat upward. The phase-change graph (bottom right) shows the mean temperature T̄ (orange) and the liquid fraction (blue) together: T̄ first climbs to T_m=1, stalls near T_m while melting proceeds (liquid fraction 0→1 — the latent-heat plateau), and rises again once everything is molten. The lattice crumbles layer by layer from the heated side and the liquid spreads under gravity — a melting front advances from the floor. The slight shudder as grains detach is the bond potential being dismantled, paid for out of the heat budget. The behavior is reversible across the melting point: lower the wall temperature and it refreezes. Energy closes as wall ledger + latent heat + bond energy (conservation monitor). Color = temperature. No claim to reproduce real melting points or latent heats (dimensionless toy units). ",
-    control:"Raise kappaS and the melting front advances faster. Set gravityY to 0 and the melt drifts free."}},
-  activeParams:["kappaS","gravityY","muF","gammaN"],
+    summary:"A crystal (hexagonal lattice) heated from below by a thermally active floor. This sample uses the phase-change extension E14: the particle's thermal state of record is the specific enthalpy h rather than the temperature — heat crossing the melting point T_m=1 is absorbed as latent heat, and the solid/liquid fractions follow from h. Solid pairs hold the lattice with short-range bonds (bondK); liquid pairs cohere weakly (cohesion). Melting pays not only the specified latent heat L_f but also the actual bond energy (an effective latent heat) — the plateau where 'heat goes in but temperature does not rise' coincides with the mechanical disassembly of the bonds. Thermal repulsion = pressure (E5′) is the only channel through which temperature enters the mechanics; balanced against the bonds it produces thermal expansion (a temperature-dependent equilibrium spacing). ",
+    observe:"The floor wall (orange) warms the crystal and conduction (E10′) carries the heat upward. The phase-change graph (bottom right) shows the mean temperature T̄ (orange) and the liquid fraction (blue) together: T̄ first climbs to T_m=1, stalls near T_m while melting proceeds (liquid fraction 0→1 — the latent-heat plateau), and rises again once everything is molten. The lattice crumbles layer by layer from the heated side; the warmed region inflates under thermal pressure (E5′ — thermal expansion, mean spacing +6%) and spreads under gravity in sustained micro-motion — a melting front advances from the floor. The slight shudder as grains detach is the bond potential being dismantled, paid for out of the heat budget. The behavior is reversible across the melting point: lower the wall temperature and it refreezes. Energy closes as wall ledger + latent heat + bond energy + thermal-pressure potential U_rep (conservation monitor). Color = temperature. No claim to reproduce real melting points or latent heats (dimensionless toy units). ",
+    control:"Set kRep to 0 and heat decouples from the mechanics — the melt keeps its spacing and stillness, like wet sand (a recommended control). Raise kappaS and the melting front advances faster."}},
+  activeParams:["kRep","kappaS","gravityY","gammaN"],
   thermal:"tint",
   phaseChange:{ meltT:1, latentF:4, bondK:5, bondRange:1.6, cohesion:1.2,
     bondDamp:0.1, visc:0.08, condS:1, condL:0.5 },
   camera:{scale:140}, world:{boundary:"box", size:110,
     thermalWalls:{ bottom:{mode:"heat", T:2.4, rate:0.35} }},
-  physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0.1, gammaN:0.3, kappaS:0.5, Kt:60,
+  // 第53便 53C(原仮定者裁定「E14×kRep: 進める」): kRep 0→1。E5′(熱圧)は温度が力学に入る
+  // 唯一のチャネルで、これが無いと液相は「温度の色以外は固体と区別できない」(53C 考察の実測:
+  // kRep=0 で液相 ψ6=1.000・平均間隔不変・速さ~0.001)。kRep=1 で熱膨張 +6%・持続微動・
+  // 液相の無秩序が現れ、相変化が力学として見える。U_rep は A12″ の a 項が支払う(残差 1.8e-4)
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:1, muF:0.1, gammaN:0.3, kappaS:0.5, Kt:60,
     cLight:60, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:2},
   seed:7,
   bodies:[ // 六方格子 112粒(16列×7行)・pitch=2R=5(接触平衡 = E9ばね+E14結合の井戸底から静かに始まる)
@@ -2167,28 +2171,33 @@ const BUILTIN_PRESETS = [
 
 { id:"freeze", name:"凝固 — 冷却曲線", emoji:"❄️", group:"熱の実験室",
   descStruct:{
-    summary:"高温の液体(T=1.6)を床の低温壁(T=0.1)で冷やす凝固実験 — 🫠融解の逆過程。相変化拡張E14(エンタルピー法)を使う。初期の液体は格子を崩した攪拌状態から始める(結晶の並びを初期配置に残さない統制条件)。冷却曲線は凝固点T_m=1で止まり、液相率が1→0へ進む間、潜熱と結合エネルギーの放出が冷却を支える(凝固プラトー)。凝固した粒子どうしには固相結合(bondK)が働き、液体だった塊が剛な格子網へ固まっていく。",
-    observe:"相変化グラフ(右下)で冷却曲線を読める: 平均温度T̄はまずT_m=1へ下がり、凝固が進む間はT_m近傍に停滞し(冷却曲線のプラトー — 実際の凝固でも見られる現象)、全凝固後に壁温0.1へ向けて再び下がる。凝固は冷たい床側から進む(凝固前線)。この宇宙の液体は熱運動を持たないため、攪拌で崩した初期配置も冷却前に凝集で密充填へ自己整列する — 凝固時の結晶秩序は初期条件の記憶ではなく動力学の創発である。液相に囲まれた粒子が凝固するには凝集の井戸を失う分だけ余計に熱を捨てる必要があり、核生成障壁に似た遅れを生む — ただしこれはエネルギー関数から出る類似挙動であり、確率的核生成・臨界核半径・界面自由エネルギーの再現ではない。また相は粒子ごとのエンタルピーだけで決まるため、巨視的な過冷却(融点以下でも凍らない状態)は原則現れない。エネルギーは壁帳簿+潜熱+結合の総和で閉じる(保存量モニタ)。色=温度。実在物質の定量再現ではない。",
-    control:"壁のrate(冷却の強さ)はプリセット編集で変えられる。kappaSを上げると凝固前線が速く進む。"},
+    summary:"高温の液体(T=1.6)を床の低温壁(T=0.1)で冷やす凝固実験 — 🫠融解の逆過程。相変化拡張E14(エンタルピー法)を使う。初期の液体は格子を崩した攪拌状態から始め(結晶の並びを初期配置に残さない統制条件)、高温のあいだは熱の斥力=圧力(E5′)が凝集と押し合って無秩序と膨張を保つ。冷却曲線は凝固点T_m=1で止まり、液相率が1→0へ進む間、潜熱と結合エネルギーの放出が冷却を支える(凝固プラトー)。凝固した粒子どうしには固相結合(bondK)が働き、収縮しながら剛な結合網へ固まっていく。",
+    observe:"相変化グラフ(右下)で冷却曲線を読める: 平均温度T̄はまずT_m=1へ下がり、凝固が進む間はT_m近傍に停滞し(冷却曲線のプラトー — 実際の凝固でも見られる現象)、全凝固後に壁温0.1へ向けて再び下がる。高温のあいだは熱圧(E5′)が液体を膨らませ・揺らし・無秩序(六方秩序ψ6≈0.8)に保つ。冷えて熱圧が弱まると凝集と結合が勝ち、**凝固の進行と同時に**結晶秩序が立ち上がる(ψ6→0.97)— 秩序は初期条件でも自動整列でもなく、温度と競合する力の帰結である。凝固は冷たい床側から進み(凝固前線)、収縮しながら数個の多結晶片に分かれて固まることがある(収縮亀裂の類似)。液相に囲まれた粒子が凝固するには凝集の井戸を失う分だけ余計に熱を捨てる必要があり、核生成障壁に似た遅れを生む — ただしこれはエネルギー関数から出る類似挙動であり、確率的核生成・臨界核半径・界面自由エネルギーの再現ではない。また相は粒子ごとのエンタルピーだけで決まるため、巨視的な過冷却(融点以下でも凍らない状態)は原則現れない。エネルギーは壁帳簿+潜熱+結合+熱圧ポテンシャルU_repの総和で閉じる(保存量モニタ)。色=温度。実在物質の定量再現ではない。",
+    control:"kRepを0にすると液体が冷却前に自己整列してしまい、凝固が「見えない」対照になる。kappaSを上げると凝固前線が速く進む。"},
   en:{name:"Freezing — the Cooling Curve", descStruct:{
-    summary:"A hot liquid (T=1.6) cooled by a cold floor wall (T=0.1) — the reverse of 🫠 melting, using the phase-change extension E14 (enthalpy method). The initial liquid starts stirred, with the lattice order destroyed (a controlled condition that leaves no crystalline arrangement in the initial positions). The cooling curve halts at the freezing point T_m=1: while the liquid fraction runs 1→0, the release of latent heat and bond energy sustains the cooling (the freezing plateau). Newly frozen pairs acquire solid bonds (bondK), and the former liquid consolidates into a rigid lattice network. ",
-    observe:"Read the cooling curve on the phase-change graph (bottom right): the mean temperature T̄ first falls to T_m=1, stalls near T_m while solidification proceeds (the plateau seen in real cooling curves), then falls again toward the wall temperature 0.1 once everything is frozen. Freezing advances from the cold floor (a freezing front). Because the liquid in this universe carries no kinetic thermal agitation, even the stirred, disordered initial arrangement self-orders into close packing under cohesion before freezing — the crystalline order at solidification is an emergent product of the dynamics, not a memory of the initial condition. A particle freezing while surrounded by liquid must dump extra heat to give up its cohesion well, producing a nucleation-barrier-like delay — but this is an analogue emerging from the energy function, not a reproduction of stochastic nucleation, critical nuclei or interfacial free energy. Also, since the phase is set by each particle's own enthalpy, macroscopic supercooling (staying liquid below the melting point) essentially cannot occur here. Energy closes as wall ledger + latent heat + bond energy (conservation monitor). Color = temperature. No claim of quantitative correspondence to real substances. ",
-    control:"Edit the preset to change the wall rate (cooling strength). Raise kappaS and the freezing front advances faster."}},
-  activeParams:["kappaS","gravityY","muF","gammaN"],
+    summary:"A hot liquid (T=1.6) cooled by a cold floor wall (T=0.1) — the reverse of 🫠 melting, using the phase-change extension E14 (enthalpy method). The initial liquid starts stirred, with the lattice order destroyed (a controlled condition that leaves no crystalline arrangement in the initial positions); while hot, thermal repulsion = pressure (E5′) balances the cohesion and keeps the liquid expanded and disordered. The cooling curve halts at the freezing point T_m=1: while the liquid fraction runs 1→0, the release of latent heat and bond energy sustains the cooling (the freezing plateau). Newly frozen pairs acquire solid bonds (bondK) and the material contracts into rigid bonded networks. ",
+    observe:"Read the cooling curve on the phase-change graph (bottom right): the mean temperature T̄ first falls to T_m=1, stalls near T_m while solidification proceeds (the plateau seen in real cooling curves), then falls again toward the wall temperature 0.1 once everything is frozen. While hot, thermal pressure (E5′) keeps the liquid inflated, stirring and disordered (hexatic order ψ6 ≈ 0.8); as it cools the pressure fades, cohesion and bonds win, and crystalline order rises **together with** solidification (ψ6→0.97) — the order is neither an initial condition nor an automatic alignment, but the outcome of forces competing with temperature. Freezing advances from the cold floor (a freezing front), and the contracting material may solidify into a few polycrystalline pieces (a shrinkage-crack analogue). A particle freezing while surrounded by liquid must dump extra heat to give up its cohesion well, producing a nucleation-barrier-like delay — but this is an analogue emerging from the energy function, not a reproduction of stochastic nucleation, critical nuclei or interfacial free energy. Also, since the phase is set by each particle's own enthalpy, macroscopic supercooling (staying liquid below the melting point) essentially cannot occur here. Energy closes as wall ledger + latent heat + bond energy + thermal-pressure potential U_rep (conservation monitor). Color = temperature. No claim of quantitative correspondence to real substances. ",
+    control:"Set kRep to 0 and the liquid self-orders before it even cools — a control where the freezing becomes invisible. Raise kappaS and the freezing front advances faster."}},
+  activeParams:["kRep","kappaS","gravityY","gammaN"],
   thermal:"tint",
   phaseChange:{ meltT:1, latentF:4, bondK:5, bondRange:1.6, cohesion:1.2,
     bondDamp:0.1, visc:0.08, condS:1, condL:0.5 },
   camera:{scale:140}, world:{boundary:"box", size:110,
     thermalWalls:{ bottom:{mode:"heat", T:0.1, rate:0.5} }},
-  physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0.1, gammaN:0.3, kappaS:0.5, Kt:60,
+  // 第53便 53C(原仮定者裁定「E14×kRep: 進める」): kRep 0→1。熱圧が高温の液相の無秩序を保ち
+  // (実測 ψ6 0.79〜0.90)、冷えて熱圧が弱まると凝集が勝って**凝固と同時に**秩序が立ち上がる
+  // (ψ6→0.97)。53B の「静止液体の自己結晶化」は kRep=0 の athermal 構成の性質で、kRep>0 では
+  // そもそも起きない。凝固体は数個の多結晶片に分かれて固まる(実測 60+35+14+3 粒 — 収縮亀裂の
+  // 類似。全粒子が固相結合≥2・平均配位4.4 の剛な網 — QA phasechange.behavior が機械固定)
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:1, muF:0.1, gammaN:0.3, kappaS:0.5, Kt:60,
     cLight:60, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:2},
   seed:7,
   bodies:[ // 液体初期条件(第53便 53B — 外部レビュー P1「格子記憶の除去」): pitch7 + ジッター1.0
            // (重なり無し)+ vScale0.3 の攪拌で、初期配置に結晶の並びを埋め込まない(実測 ψ6=0.79)。
-           // ※この宇宙の液体は熱運動(kinetic agitation)を持たないため、静止した凝集液体は
-           // 冷却前に自発的に密充填へ再秩序化する(実測 ψ6 0.79→0.71(1000步)→0.96(2000步))。
-           // 凝固時の結晶秩序は「初期条件の記憶」ではなく凝集動力学の創発 — QA phasechange.behavior
-           // が ψ6(0)<0.85 と再秩序化を機械固定する。攪拌の運動E(≈2.5)は減衰して熱へ入る(微小)
+           // 第53便 53C: kRep=1 では熱圧が高温液相の無秩序を保つ(ψ6 0.79〜0.90)ため、53B で
+           // 観察された「冷却前の自己再秩序化」(kRep=0 の athermal 構成の性質)は起きない。
+           // 秩序は凝固の進行と同時に立ち上がる(ψ6→0.97)— QA phasechange.behavior が機械固定。
+           // 攪拌の運動E(≈2.5)は減衰して熱へ入る(微小)
     {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:86, pitch:7, jitter:1.0, vScale:0.3, mMin:1, mMax:1, tInt:1.6}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,phaseGraph:true} },
