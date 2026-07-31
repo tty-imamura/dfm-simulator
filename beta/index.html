@@ -472,6 +472,7 @@ ja: {
   tgRays:"光線", uiScaleLabel:"文字サイズ",
   // 第32便(W2): 膨張グラフ overlay(a・H・赤方偏移)
   tgBoxGraph:"膨張グラフ(a・H・赤方偏移)",
+  tgPhaseGraph:"相変化グラフ(T̄・液相率)",
   // 第23便(原仮定者指示): 「表示」各行のタップ説明
   tgTrailsDesc:"画面を消さずに粒子の残像を重ねる表示効果。物理には影響しない。",
   tgTrailLineDesc:"粒子の軌道を線で記録して描く(☿の楕円歳差など)。記録間隔は描画品質に従う。",
@@ -487,6 +488,8 @@ ja: {
   tgSpectrumDesc:"放射スペクトル(A12: ピーク波長 λ=b_m/T のウィーン型)。表示は観測温度基準。",
   tgMonitorDesc:"運動量P・角運動量Lとリザーバ帳簿(E6′/E11)の保存量モニタ(T7)。",
   tgBoxGraphDesc:"箱宇宙(UniverseBox)の尺度因子a(t)・膨張率H(t)の時系列と、拡大による波長の伸び(赤方偏移 1+z=a/a₀)を表示する。箱宇宙プリセットでのみ有効。",
+  tgPhaseGraphDesc:"系の平均温度T̄(橙)と平均液相率(青・0〜1)の時系列を融点T_mの破線と重ねて表示する。温度がT_mで停滞する間に液相率だけが進む=潜熱プラトーの因果が読める。相変化(E14 phaseChange)プリセットでのみ有効。",
+  ovPhaseGraph:"相変化 T̄・液相率", ovPhaseNote:"橙=T̄ 青=液相率 破線=融点 Q=壁正味入熱",
   uiScaleDesc:"UI文字の拡大率。表示のみで物理・保存データには影響しない。",
   // 第23便: 粒子編集のパラメータ名タップ説明
   beDm:"m: 質量。重力(E4)と決定力場W(E1′)の源。負値は実験用(±5000)。",
@@ -534,7 +537,7 @@ ja: {
   periHud:(m,a)=>`近点移動(最内粒子): 実測 ${m}°/周 / 解析 ${a}°/周`,
   ioNote:"インポートは「単独プリセット / プリセット配列 / {customPresets:[…]} / バックアップ全体」のどの形式でも自動判別します。パラメータが全く同じデータは取り込まず、名前が同じでパラメータが異なるデータは名前にサフィックスを付けて追加します。インポートしたプリセットは保存一覧にも登録されます。",
   ioNoteSum:"インポート",   // 第36便 B4(原仮定者指示): 折畳み見出し
-  presetMissing:"元プリセットが見つからないため既定プリセットに適用しました",
+  presetMissing:"元プリセットが見つからないため読込を中止しました(β専用サンプルのセーブを旧版で開いた可能性 — 対応する版で読み込んでください)",
   resetDone:"初期配置に戻しました(パラメータは保持)", defaultsDone:"プリセットの既定値に戻しました",
   diverged:"数値が発散しました。パラメータを見直すか「⏮ 初めから」を押してください。",
   aiProvHead:"AIプロバイダ", aiProvLabel:"プロバイダ", aiModelLabel:"モデル", aiUrlLabel:"API URL",
@@ -676,6 +679,7 @@ en: {
   tgTemp:"Temperature graph", tgSpectrum:"Spectrum", tgMonitor:"Conservation monitor (P, L, ledger)",
   tgRays:"Light rays", uiScaleLabel:"Text size",
   tgBoxGraph:"Expansion graph (a, H, redshift)",
+  tgPhaseGraph:"Phase-change graph (T̄, liquid fraction)",
   tgTrailsDesc:"Overlays fading afterimages of the particles. Display only — physics unchanged.",
   tgTrailLineDesc:"Records and draws orbit lines (e.g. Mercury's precessing ellipse). Recording interval follows render quality.",
   tgFieldDesc:"Background color map of the determinacy W (A3/E1'). Brighter = higher W.",
@@ -690,6 +694,8 @@ en: {
   tgSpectrumDesc:"Radiation spectrum (A12, Wien-type peak lambda=b_m/T). Uses observed temperature.",
   tgMonitorDesc:"Conservation monitor (T7): momentum P, angular momentum L, and the reservoir ledger (E6'/E11).",
   tgBoxGraphDesc:"Shows the box universe (UniverseBox) scale factor a(t) and expansion rate H(t) over time, plus the wavelength stretch from expansion (redshift 1+z=a/a0). Only active on box-universe presets.",
+  tgPhaseGraphDesc:"Plots the system mean temperature T̄ (orange) and mean liquid fraction (blue, 0-1) over time, with a dashed line at the melting point T_m. You can read the latent-heat causality directly: while T̄ stalls at T_m, only the liquid fraction advances. Only active on phase-change (E14) presets.",
+  ovPhaseGraph:"Phase T̄ / liq.frac", ovPhaseNote:"orange=T̄ blue=liq.frac dash=T_m Q=net wall heat",
   uiScaleDesc:"UI text scale. Display only.",
   beDm:"m: mass. Source of gravity (E4) and the determinacy field W (E1'). Negative values are experimental.",
   beDs:"s: spin (rotation rate). Source of frame dragging (A8), temperature T=Is^2 (A9), and spin repulsion (A10).",
@@ -735,7 +741,7 @@ en: {
   periHud:(m,a)=>`Apsidal drift (innermost): measured ${m}°/orbit / analytic ${a}°/orbit`,
   ioNote:"Import auto-detects any of: a single preset / an array of presets / {customPresets:[…]} / a full backup. Data with identical parameters is skipped; data whose name collides but whose parameters differ is added with a name suffix. Imported presets are also registered in the saved list.",
   ioNoteSum:"Import",   // 第36便 B4
-  presetMissing:"Original preset not found — applied to the default preset",
+  presetMissing:"Original preset not found — load aborted (this save may come from a newer/beta build; open it there instead)",
   resetDone:"Reset to initial layout (parameters kept)", defaultsDone:"Restored preset defaults",
   diverged:"Simulation diverged. Adjust parameters or press ⏮ Restart.",
   aiProvHead:"AI provider", aiProvLabel:"Provider", aiModelLabel:"Model", aiUrlLabel:"API URL",
@@ -2139,11 +2145,11 @@ const BUILTIN_PRESETS = [
 { id:"melt", name:"融解 — 潜熱のプラトー", emoji:"🫠", group:"熱の実験室",
   descStruct:{
     summary:"床の伝熱壁で下から温められる結晶(六方格子)の融解実験。このサンプルは相変化拡張E14を使う: 熱状態の正本は温度ではなく比エンタルピーhで、融点T_m=1を超える熱は潜熱として吸収され、固相率・液相率がhから決まる。固相どうしは短距離結合(bondK)で格子を保ち、液相どうしは弱い凝集(cohesion)で液滴にまとまる。融解は指定潜熱L_fに加えて結合エネルギーそのもの(実効潜熱)も支払う — 「熱を入れているのに温度が上がらない」プラトーが機械的な結合の解体と同時に起きる。",
-    observe:"床壁(橙)が結晶を温め、熱は伝導(E10′)で上へ運ばれる。平均温度はまずT_m=1まで上がり、融解が進む間(液相率0→1)はT_m近傍に停滞し(潜熱プラトー)、全融解後に再び上がる。融け始めた層から格子が崩れ、液体は重力で底に広がる — 融解前線が床から上へ進む。凝固点でもある融点を跨ぐ挙動は可逆で、壁温を下げれば凝固に転じる。エネルギーは壁帳簿(wallE系)+潜熱+結合の総和で閉じる(保存量モニタ)。色=温度。実在物質の融点・潜熱の定量再現ではない(単位は無次元のトイ値)。",
+    observe:"床壁(橙)が結晶を温め、熱は伝導(E10′)で上へ運ばれる。相変化グラフ(右下)で平均温度T̄(橙)と液相率(青)を同時に読める: T̄はまずT_m=1まで上がり、融解が進む間(液相率0→1)はT_m近傍に停滞し(潜熱プラトー)、全融解後に再び上がる。融け始めた層から格子が崩れ、液体は重力で底に広がる — 融解前線が床から上へ進む。結合が切れる瞬間に粒がわずかに揺れて離れるのは、結合ポテンシャルの解体が熱で支払われている場面そのもの。凝固点でもある融点を跨ぐ挙動は可逆で、壁温を下げれば凝固に転じる。エネルギーは壁帳簿(wallE系)+潜熱+結合の総和で閉じる(保存量モニタ)。色=温度。実在物質の融点・潜熱の定量再現ではない(単位は無次元のトイ値)。",
     control:"kappaSを上げると融解前線が速く進む。gravityYを0にすると融けた液が漂い出す。"},
   en:{name:"Melting — the Latent-Heat Plateau", descStruct:{
     summary:"A crystal (hexagonal lattice) heated from below by a thermally active floor. This sample uses the phase-change extension E14: the particle's thermal state of record is the specific enthalpy h rather than the temperature — heat crossing the melting point T_m=1 is absorbed as latent heat, and the solid/liquid fractions follow from h. Solid pairs hold the lattice with short-range bonds (bondK); liquid pairs cohere weakly (cohesion). Melting pays not only the specified latent heat L_f but also the actual bond energy (an effective latent heat) — the plateau where 'heat goes in but temperature does not rise' coincides with the mechanical disassembly of the bonds. ",
-    observe:"The floor wall (orange) warms the crystal and conduction (E10′) carries the heat upward. The mean temperature first climbs to T_m=1, stalls near T_m while melting proceeds (liquid fraction 0→1 — the latent-heat plateau), and rises again once everything is molten. The lattice crumbles layer by layer from the heated side and the liquid spreads under gravity — a melting front advances from the floor. The behavior is reversible across the melting point: lower the wall temperature and it refreezes. Energy closes as wall ledger + latent heat + bond energy (conservation monitor). Color = temperature. No claim to reproduce real melting points or latent heats (dimensionless toy units). ",
+    observe:"The floor wall (orange) warms the crystal and conduction (E10′) carries the heat upward. The phase-change graph (bottom right) shows the mean temperature T̄ (orange) and the liquid fraction (blue) together: T̄ first climbs to T_m=1, stalls near T_m while melting proceeds (liquid fraction 0→1 — the latent-heat plateau), and rises again once everything is molten. The lattice crumbles layer by layer from the heated side and the liquid spreads under gravity — a melting front advances from the floor. The slight shudder as grains detach is the bond potential being dismantled, paid for out of the heat budget. The behavior is reversible across the melting point: lower the wall temperature and it refreezes. Energy closes as wall ledger + latent heat + bond energy (conservation monitor). Color = temperature. No claim to reproduce real melting points or latent heats (dimensionless toy units). ",
     control:"Raise kappaS and the melting front advances faster. Set gravityY to 0 and the melt drifts free."}},
   activeParams:["kappaS","gravityY","muF","gammaN"],
   thermal:"tint",
@@ -2157,16 +2163,16 @@ const BUILTIN_PRESETS = [
   bodies:[ // 六方格子 112粒(16列×7行)・pitch=2R=5(接触平衡 = E9ばね+E14結合の井戸底から静かに始まる)
     {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:93, pitch:5, mMin:1, mMax:1, tInt:0.2}
   ],
-  overlays:{rotationCurve:false,tempHistogram:true,field:false} },
+  overlays:{rotationCurve:false,tempHistogram:true,field:false,phaseGraph:true} },
 
 { id:"freeze", name:"凝固 — 冷却曲線", emoji:"❄️", group:"熱の実験室",
   descStruct:{
-    summary:"高温の液体(T=1.6)を床の低温壁(T=0.1)で冷やす凝固実験 — 🫠融解の逆過程。相変化拡張E14(エンタルピー法)を使う。冷却曲線は凝固点T_m=1で止まり、液相率が1→0へ進む間、潜熱と結合エネルギーの放出が冷却を支える(凝固プラトー)。凝固した粒子どうしには固相結合(bondK)が働き、液体だった塊が剛な格子網へ固まっていく。",
-    observe:"平均温度はまずT_m=1へ下がり、凝固が進む間はT_m近傍に停滞し(冷却曲線のプラトー — 実際の凝固でも見られる現象)、全凝固後に壁温0.1へ向けて再び下がる。凝固は冷たい床側から進む(凝固前線)。液相に囲まれた粒子の凝固は凝集の井戸を失う分だけ余計に熱を捨てる必要があり、核生成のコストに相当する挙動が式から創発する。エネルギーは壁帳簿+潜熱+結合の総和で閉じる(保存量モニタ)。色=温度。実在物質の定量再現ではない。",
+    summary:"高温の液体(T=1.6)を床の低温壁(T=0.1)で冷やす凝固実験 — 🫠融解の逆過程。相変化拡張E14(エンタルピー法)を使う。初期の液体は格子を崩した攪拌状態から始める(結晶の並びを初期配置に残さない統制条件)。冷却曲線は凝固点T_m=1で止まり、液相率が1→0へ進む間、潜熱と結合エネルギーの放出が冷却を支える(凝固プラトー)。凝固した粒子どうしには固相結合(bondK)が働き、液体だった塊が剛な格子網へ固まっていく。",
+    observe:"相変化グラフ(右下)で冷却曲線を読める: 平均温度T̄はまずT_m=1へ下がり、凝固が進む間はT_m近傍に停滞し(冷却曲線のプラトー — 実際の凝固でも見られる現象)、全凝固後に壁温0.1へ向けて再び下がる。凝固は冷たい床側から進む(凝固前線)。この宇宙の液体は熱運動を持たないため、攪拌で崩した初期配置も冷却前に凝集で密充填へ自己整列する — 凝固時の結晶秩序は初期条件の記憶ではなく動力学の創発である。液相に囲まれた粒子が凝固するには凝集の井戸を失う分だけ余計に熱を捨てる必要があり、核生成障壁に似た遅れを生む — ただしこれはエネルギー関数から出る類似挙動であり、確率的核生成・臨界核半径・界面自由エネルギーの再現ではない。また相は粒子ごとのエンタルピーだけで決まるため、巨視的な過冷却(融点以下でも凍らない状態)は原則現れない。エネルギーは壁帳簿+潜熱+結合の総和で閉じる(保存量モニタ)。色=温度。実在物質の定量再現ではない。",
     control:"壁のrate(冷却の強さ)はプリセット編集で変えられる。kappaSを上げると凝固前線が速く進む。"},
   en:{name:"Freezing — the Cooling Curve", descStruct:{
-    summary:"A hot liquid (T=1.6) cooled by a cold floor wall (T=0.1) — the reverse of 🫠 melting, using the phase-change extension E14 (enthalpy method). The cooling curve halts at the freezing point T_m=1: while the liquid fraction runs 1→0, the release of latent heat and bond energy sustains the cooling (the freezing plateau). Newly frozen pairs acquire solid bonds (bondK), and the former liquid consolidates into a rigid lattice network. ",
-    observe:"The mean temperature first falls to T_m=1, stalls near T_m while solidification proceeds (the plateau seen in real cooling curves), then falls again toward the wall temperature 0.1 once everything is frozen. Freezing advances from the cold floor (a freezing front). A particle freezing while surrounded by liquid must dump extra heat to give up its cohesion well — a nucleation-cost-like behavior that emerges from the energy function. Energy closes as wall ledger + latent heat + bond energy (conservation monitor). Color = temperature. No claim of quantitative correspondence to real substances. ",
+    summary:"A hot liquid (T=1.6) cooled by a cold floor wall (T=0.1) — the reverse of 🫠 melting, using the phase-change extension E14 (enthalpy method). The initial liquid starts stirred, with the lattice order destroyed (a controlled condition that leaves no crystalline arrangement in the initial positions). The cooling curve halts at the freezing point T_m=1: while the liquid fraction runs 1→0, the release of latent heat and bond energy sustains the cooling (the freezing plateau). Newly frozen pairs acquire solid bonds (bondK), and the former liquid consolidates into a rigid lattice network. ",
+    observe:"Read the cooling curve on the phase-change graph (bottom right): the mean temperature T̄ first falls to T_m=1, stalls near T_m while solidification proceeds (the plateau seen in real cooling curves), then falls again toward the wall temperature 0.1 once everything is frozen. Freezing advances from the cold floor (a freezing front). Because the liquid in this universe carries no kinetic thermal agitation, even the stirred, disordered initial arrangement self-orders into close packing under cohesion before freezing — the crystalline order at solidification is an emergent product of the dynamics, not a memory of the initial condition. A particle freezing while surrounded by liquid must dump extra heat to give up its cohesion well, producing a nucleation-barrier-like delay — but this is an analogue emerging from the energy function, not a reproduction of stochastic nucleation, critical nuclei or interfacial free energy. Also, since the phase is set by each particle's own enthalpy, macroscopic supercooling (staying liquid below the melting point) essentially cannot occur here. Energy closes as wall ledger + latent heat + bond energy (conservation monitor). Color = temperature. No claim of quantitative correspondence to real substances. ",
     control:"Edit the preset to change the wall rate (cooling strength). Raise kappaS and the freezing front advances faster."}},
   activeParams:["kappaS","gravityY","muF","gammaN"],
   thermal:"tint",
@@ -2177,10 +2183,15 @@ const BUILTIN_PRESETS = [
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0.1, gammaN:0.3, kappaS:0.5, Kt:60,
     cLight:60, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:2},
   seed:7,
-  bodies:[ // 液体初期条件: 少し緩い格子(pitch5.6)+ジッター0.3(重なり無し)・T=1.6 で全液相
-    {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:92, pitch:5.6, jitter:0.3, mMin:1, mMax:1, tInt:1.6}
+  bodies:[ // 液体初期条件(第53便 53B — 外部レビュー P1「格子記憶の除去」): pitch7 + ジッター1.0
+           // (重なり無し)+ vScale0.3 の攪拌で、初期配置に結晶の並びを埋め込まない(実測 ψ6=0.79)。
+           // ※この宇宙の液体は熱運動(kinetic agitation)を持たないため、静止した凝集液体は
+           // 冷却前に自発的に密充填へ再秩序化する(実測 ψ6 0.79→0.71(1000步)→0.96(2000步))。
+           // 凝固時の結晶秩序は「初期条件の記憶」ではなく凝集動力学の創発 — QA phasechange.behavior
+           // が ψ6(0)<0.85 と再秩序化を機械固定する。攪拌の運動E(≈2.5)は減衰して熱へ入る(微小)
+    {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:86, pitch:7, jitter:1.0, vScale:0.3, mMin:1, mMax:1, tInt:1.6}
   ],
-  overlays:{rotationCurve:false,tempHistogram:true,field:false} },
+  overlays:{rotationCurve:false,tempHistogram:true,field:false,phaseGraph:true} },
 
 // ♨️加熱の対流: v1.14 で撤去 → v1.17 で一様重力場(gravityY)ベースに再設計して復活。
 // 旧構成(画面外の遠方大質量で下向き場を代行)は決定力Wの歪み・凍結が撤去理由だった
@@ -2922,6 +2933,10 @@ function validatePreset(obj){
           if(!isNum(b.jitter)){ bad(at+".jitter が数値ではありません"); return; }
           oG.jitter=wc(b.jitter,0,20,"jitter");
         }
+        if(b.vScale!==undefined){   // 第53便 53B: 乱数向き初期速度(box と同じ値域)
+          if(!isNum(b.vScale)){ bad(at+".vScale が数値ではありません"); return; }
+          oG.vScale=wc(b.vScale,0,50,"vScale");
+        }
         if(b.rMul!==undefined){
           if(!isNum(b.rMul)){ bad(at+".rMul が数値ではありません"); return; }
           oG.rMul=wc(b.rMul,0.2,5,"rMul");
@@ -3303,7 +3318,7 @@ function validatePreset(obj){
       p.claims=out;
     }
   }
-  const ov={rotationCurve:false,tempHistogram:false,field:false,spectrum:false,trail:false,monitor:false,boxGraph:false}; // v1.12: trail/monitor を正式化(第6次裁定 7.5)。boxGraph は第32便(W2)
+  const ov={rotationCurve:false,tempHistogram:false,field:false,spectrum:false,trail:false,monitor:false,boxGraph:false,phaseGraph:false}; // v1.12: trail/monitor を正式化(第6次裁定 7.5)。boxGraph は第32便(W2)。phaseGraph は第53便 53B(E14)
   if(p.overlays!==undefined){
     if(typeof p.overlays!=="object"||Array.isArray(p.overlays)) bad("overlaysはオブジェクト");
     else {
@@ -3467,8 +3482,10 @@ function phaseHsolve(h0, mI, C, a, b, Q, Tm, Lf){
 // 力は r0=R_i+R_j < d < cut=bondRange·r0 の帯で F(d) = K_att·μ·(d−r0)·(cut−d)/(cut−r0)
 // (d=r0, cut で 0 — 連続)。U(d) = −∫_d^cut F ds、重なり d≤r0 では力 0・U は一定(井戸底):
 //   U(d) = −K_att·μ/A·[A·(A²−u0²)/2 − (A³−u0³)/3]、A=cut−r0、u0=max(0, d−r0)
-// K_att = bondK·fs_i·fs_j + cohesion·fl_i·fl_j は液相率に依存するため、相変化中の U の変化は
-// 熱帳簿から支払われない(既知の残差 — PHYSICS.md §E14 の限界を参照。力上限クランプ発動時も同様)
+// K_att = bondK·fs_i·fs_j + cohesion·fl_i·fl_j は液相率に依存する。**相率変化に伴う U の変化は
+// A12‴ の相率係数 bAtt を通じて熱量関数から支払われる**(第53便 53A — phaseHsolve 参照)。
+// 帳簿外に残るのは交差項 O(dt²)・b 負側クランプ発動時・力上限クランプ発動時のみ
+// (発動は S.clampBN / S.clampAN に計数 — PHYSICS.md §E14 の限界を参照)
 function phaseEnergy(s){
   const pc=s.phase; if(!pc) return 0;
   const K1=pc.bondK, K2=pc.cohesion;
@@ -3603,7 +3620,10 @@ function makeSim(){
     //   fLiq = 液相率(hInt からの導出キャッシュ。0=固相〜1=液相。力学・伝導・表示が読む)
     // T_int は従来どおり存在するが、phase 有効時は「hInt から毎回導出される従属量」になる
     // (温度とエンタルピーの二重管理はしない — 帳簿不整合の温床)
-    phase:null, hInt:null, fLiq:null, bAtt:null,
+    phase:null, hInt:null, fLiq:null, bAtt:null, clampBN:0, clampAN:0,
+    // 第53便 53B(外部レビュー P1「相変化専用グラフ」): 相変化履歴 — phaseChange プリセットのみ
+    // 25サブステップごとに {t, T:平均T_int, f:平均液相率, Q:壁正味入熱} を積む(boxHist と同方式)
+    phHist:null, _phAcc:0,
     curveBins:null, curveKep:null, tempLR:[0,0], histT:[],
   };
   // 第39便 39B(台帳4-76): thermal="spin" のときに _core が掴む tint 系配列のダミー。
@@ -3758,13 +3778,17 @@ function makeSim(){
         const cols=Math.max(1,Math.round(b.cols)), pit=b.pitch, HEX=0.8660254037844386;
         const rows=Math.ceil(b.n/cols);
         const W2=(cols-1)*pit/2, H2=(rows-1)*pit*HEX/2;
+        // 第53便 53B(外部レビュー P1「凝固初期の格子記憶」): vScale — 乱数向きの初期速度(box と
+        // 同形)。液体初期条件では格子を配置だけで表すと結晶の並びが位置に残るため、攪拌して
+        // 秩序を崩してから冷却へ入る(粘性・凝集が数百步で減衰させ、運動Eは dQi=熱へ入る)
         for(let i=0;i<b.n;i++){
           const r=(i/cols)|0, c=i%cols;
           let x=b.cx - W2 + c*pit + ((r%2)? pit*0.5 : 0), y=b.cy - H2 + r*pit*HEX;
           const jt=(b.jitter||0);
           if(jt>0){ x+=(rng()*2-1)*jt; y+=(rng()*2-1)*jt; }
+          const a2=rng()*Math.PI*2, v=(b.vScale||0)*rng();
           push({m:b.mMin+(b.mMax-b.mMin)*rng(), x,y,
-            vx:(b.bulkVx||0), vy:(b.bulkVy||0),
+            vx:v*Math.cos(a2)+(b.bulkVx||0), vy:v*Math.sin(a2)+(b.bulkVy||0),
             spin:0, pinned:0, railOmega:0, rMul:rM, tInt:tI});
         }
       }
@@ -3898,7 +3922,9 @@ function makeSim(){
       const C=S.params.cHeat, Tm=S.phase.meltT, Lf=S.phase.latentF;
       for(let i=0;i<S.n;i++){ const T=S.Tint[i];
         S.hInt[i]=C*T + (T>Tm? Lf : 0); S.fLiq[i]=(T>Tm)? 1 : 0; }
-    } else { S.hInt=null; S.fLiq=null; S.bAtt=null; }
+      S.phHist=[];   // 第53便 53B: 相変化履歴(グラフ用データ層。既定プリセットはゼロコストのまま)
+    } else { S.hInt=null; S.fLiq=null; S.bAtt=null; S.phHist=null; }
+    S._phAcc=0;
     S.resPx=0; S.resPy=0; S.resL=0; S.radE=0; S.radL=0;
     S.wallEin=0; S.wallEout=0; S.wallKE=0;   // 第37便 C1(台帳4-70): 壁帳簿もリセット
     S.pinHeat=0;   // 第47便 47A(台帳4-86): pinned 熱浴の帳簿もリセット
@@ -3906,6 +3932,10 @@ function makeSim(){
     // そのものは1ビットも変えない)。保存則を主張する全構成で「発動0回」を QA が機械固定する
     // (clamp.ledger-zero)。V=速度100 / S=スピン±40(step 内)/ H=Hubble率±0.5(boxScaleAt)
     S.clampVN=0; S.clampSN=0; S.clampHN=0;
+    // 第53便 53B(外部レビュー P2): E14 のクランプ帳簿 — clampBN = b 負側クランプ(−0.9·m·Lf)、
+    // clampAN = 引力の対称力上限(8/maxInv)の発動回数。規則は 53A のまま 1 ビットも変えず、
+    // 発動を数えるだけ(clampVN/SN/HN と同方針)。内蔵 melt/freeze は発動0回を QA が機械固定
+    S.clampBN=0; S.clampAN=0;
     S.curveBins=null; S.tempLR=[0,0]; S.histT=[];
   };
   S.updateRadii = function(){ // R_i = radiusScale·rMul_i·√|m| (PHYSICS.md §2 + 第36便 C1)
@@ -4666,7 +4696,7 @@ function makeSim(){
               const cut=pcRange*sumR;
               let Fa=Katt*muM*(d-sumR)*(cut-d)/(cut-sumR);
               const maxInv=Math.max(invMi,invMj);
-              if(maxInv>0 && Fa*maxInv>8) Fa=8/maxInv;
+              if(maxInv>0 && Fa*maxInv>8){ Fa=8/maxInv; S.clampAN++; }   // 第53便 53B: 発動帳簿
               ax[i]-=Fa*nxv*invMi; ay[i]-=Fa*nyv*invMi;
               ax[j]+=Fa*nxv*invMj; ay[j]+=Fa*nyv*invMj;
             }
@@ -4813,7 +4843,7 @@ function makeSim(){
       if(pc){
         bU=bAtt[i];
         const bLo=-0.9*m[i]*pcLf;
-        if(bU<bLo) bU=bLo;
+        if(bU<bLo){ bU=bLo; S.clampBN++; }   // 第53便 53B: 発動帳簿
       }
       const uOld=tint? Math.sqrt(Tint[i]) : 0;   // このサブステップの δ√T を測る基準
       if(tint && dQi[i]!==0){
@@ -5111,6 +5141,17 @@ function makeSim(){
       }
     }
     S.t+=dt;
+    // 第53便 53B: 相変化履歴のサンプリング(25サブステップごと・上限720点 — boxHist と同方式)。
+    // phHist は phaseChange プリセットだけ非 null(既定はゼロコスト)
+    if(S.phHist){
+      if(++S._phAcc>=25){ S._phAcc=0;
+        let sT=0, sF=0;
+        for(let i=0;i<S.n;i++){ sT+=S.Tint[i]; sF+=S.fLiq[i]; }
+        const inv=S.n>0? 1/S.n : 0;
+        S.phHist.push({t:S.t, T:sT*inv, f:sF*inv, Q:S.wallEin-S.wallEout});
+        if(S.phHist.length>720) S.phHist.shift();
+      }
+    }
     // 第32便: 尺度・赤方偏移の履歴(25サブステップ=0.4時間単位ごと・上限720点。描画は W2)
     if(S.boxHist){   // 第35便: boxHist は universeBox か measureBox のときだけ非 null(既定はゼロコスト)
       if(++S._bhAcc>=25){ S._bhAcc=0;
@@ -5645,11 +5686,13 @@ function overlaySlots(){
   // 第32便(W2): 膨張グラフ — sim.box が無いプリセットでは(トグルがONでも)スロットを割り当てない
   // 第35便(台帳4-61): 自由な箱(measureBox)は規定 a(t) を持たないが実測 a_eff を描くので対象に含める
   if(sim.overlays.boxGraph && (sim.box || sim.measureBox)) s.push("boxGraph");
+  // 第53便 53B(E14): 相変化グラフ — phaseChange の無いプリセットではスロットを割り当てない
+  if(sim.overlays.phaseGraph && sim.phase) s.push("phaseGraph");
   return s;
 }
 // 第26便(原仮定者指示): グラフの最小化 — キーごとの状態と可変高さのスロット積み。
 // 最小化中はタイトルバー(高さ16)だけを描き、バー全体のタップで復元。展開中は右上「−」で最小化
-const ovMin={rotationCurve:false,tempHistogram:false,spectrum:false,boxGraph:false};
+const ovMin={rotationCurve:false,tempHistogram:false,spectrum:false,boxGraph:false,phaseGraph:false};
 const OV_H=92, OV_HMIN=16;
 let ovHit=[];   // グラフのトグル用タップ領域(キャンバス座標。描画のたびに再登録)
 function overlayBaseY(slot){
@@ -5892,6 +5935,52 @@ function rayBandColor(nm){
 // 実測 a_eff=⟨r⟩/⟨r⟩₀ を同じ折れ線に描き、見出しに「実測」を付けて規定 a(t) と区別する。
 // 赤方偏移カラーバー・z は universeBox の規定 a に結び付いた規則なので実測では表示しない
 // (未裁定の意味論を勝手に拡張しない — 空いた領域には計測式の注記を出す)
+// 第53便 53B(E14・外部レビュー P1「相変化を直接読める専用グラフ」): 平均温度 T̄(t) と平均液相率
+// fl(t) を同じ枠に重ね描きする。融点 T_m の水平破線を添えることで、「温度が T_m で止まっている間、
+// 液相率だけが進む」= 潜熱プラトーの因果が一目で読める。下段の現在値に壁の正味入熱 Q_wall も出す。
+// データ層(S.phHist)は _core が 25 サブステップごとに積む純粋な記録 — 物理へは一切手を入れない。
+// phaseChange の無いプリセットでは overlaySlots() 側で除外されるため、ここに到達しない
+function drawPhaseGraph(slot=0){
+  if(ovOverlayMin("phaseGraph",slot,T("ovPhaseGraph"))) return;   // 最小化中はタイトルバーのみ
+  if(!sim.phase) return;   // 防御(直接呼び出しのエッジケース)
+  const uz=uiFontScale, W=150,H=92,X=0,Y=0;
+  ctx.save(); ctx.translate(cw-W*uz-8, overlayBaseY(slot)); ctx.scale(uz,uz);
+  ctx.fillStyle="rgba(12,16,34,0.82)"; ctx.fillRect(X,Y,W,H);
+  ctx.strokeStyle="#2a3060"; ctx.strokeRect(X,Y,W,H);
+  ctx.font="8px sans-serif"; ctx.fillStyle="#8b93c8";
+  ctx.fillText(T("ovPhaseGraph"),X+6,Y+9);
+  const hist=sim.phHist||[];
+  const chartX0=X+8, chartX1=X+W-8, chartY0=Y+12, chartY1=Y+62;
+  if(hist.length>=2){
+    const Tm=sim.phase.meltT;
+    let tMax2=1e-6;
+    for(const p2 of hist) if(p2.T>tMax2) tMax2=p2.T;
+    if(Tm>tMax2) tMax2=Tm;                        // 融点線は常に枠内に収める
+    tMax2*=1.05;
+    const t0=hist[0].t, t1=hist[hist.length-1].t, tSpan=Math.max(1e-6,t1-t0);
+    const px=(t)=>chartX0+((t-t0)/tSpan)*(chartX1-chartX0);
+    const pyT=(v)=>chartY1-(v/tMax2)*(chartY1-chartY0);
+    const pyF=(f)=>chartY1-f*(chartY1-chartY0);
+    // 融点 T_m の水平破線(プラトーの参照線)
+    ctx.strokeStyle="#5a6090"; ctx.setLineDash([2,3]); ctx.beginPath();
+    ctx.moveTo(chartX0,pyT(Tm)); ctx.lineTo(chartX1,pyT(Tm)); ctx.stroke(); ctx.setLineDash([]);
+    // 平均温度(橙・実線)
+    ctx.strokeStyle="#ff9d45"; ctx.lineWidth=1.4; ctx.beginPath();
+    hist.forEach((p2,k)=>{ k? ctx.lineTo(px(p2.t),pyT(p2.T)) : ctx.moveTo(px(p2.t),pyT(p2.T)); });
+    ctx.stroke();
+    // 平均液相率(青・実線。0〜1 の固定スケール)
+    ctx.strokeStyle="#5b8cff"; ctx.beginPath();
+    hist.forEach((p2,k)=>{ k? ctx.lineTo(px(p2.t),pyF(p2.f)) : ctx.moveTo(px(p2.t),pyF(p2.f)); });
+    ctx.stroke(); ctx.lineWidth=1;
+  }
+  const last=hist.length? hist[hist.length-1] : null;
+  ctx.font="8px sans-serif"; ctx.fillStyle="#dfe4ff";
+  if(last) ctx.fillText(`T̄=${last.T.toFixed(2)}  fl=${(last.f*100).toFixed(0)}%  Q=${(last.Q>=0?"+":"")+last.Q.toFixed(0)}`,X+6,Y+73);
+  ctx.font="6px sans-serif"; ctx.fillStyle="#5a6090";
+  ctx.fillText(T("ovPhaseNote"),X+6,Y+86);
+  ctx.restore();
+  ovDrawToggle("phaseGraph",slot);
+}
 function drawBoxGraph(slot=0){
   const meas=!sim.box && !!sim.measureBox;
   const title=meas? T("ovBoxGraphMeas") : T("ovBoxGraph");   // 実測は専用見出し(既定見出しは横幅ぎりぎり)
@@ -6182,6 +6271,7 @@ function render(){
   if(sim.overlays.spectrum) drawSpectrum(slots.indexOf("spectrum"));
   // 第32便(W2): 膨張グラフ。A/B比較は renderAB() 側(未変更)を通るためここには来ない(単独表示のみ)
   if(sim.overlays.boxGraph && (sim.box || sim.measureBox)) drawBoxGraph(slots.indexOf("boxGraph"));   // 第35便: 実測 a_eff も対象
+  if(sim.overlays.phaseGraph && sim.phase) drawPhaseGraph(slots.indexOf("phaseGraph"));   // 第53便 53B(E14)
   // 近点検出器の UI 表示(第11次裁定 保留分): 最内粒子の実測 Δϖ/周 と E13 解析値を左上に併記
   if(sim.zonal && sim.periDet){
     const P=sim.periDet; let bi=-1, ba=1e18;
@@ -6568,7 +6658,11 @@ function rebuildAiBaseSelect(){
 // v1.17: セーブ項目の読込(保存一覧・プルダウン共用)
 function loadSave(s, selValue){
   const exists=allPresets().some(p=>p.id===s.presetId);
-  loadPreset(exists?s.presetId:BUILTIN_PRESETS[0].id,false);
+  // 第53便 53B(外部レビュー P1): 元プリセットが無いセーブは**読込を中止**する(従来は先頭サンプルへ
+  // フォールバックして保存済み physics を適用していた — 別サンプルに別調整が載る誤読の温床。
+  // beta 専用サンプル〔melt/freeze 等〕のセーブを root で開くケースが典型)
+  if(!exists){ notify(T("presetMissing"),4500); return; }
+  loadPreset(s.presetId,false);
   sim.params=Object.assign({},DEFAULT_PHYSICS,s.physics); sim.updateRadii();
   if(s.cameraScale) camScale=s.cameraScale;
   // 第33便(台帳4-64): 箱パラメータの復元。プリセットに箱が無いのに保存側にだけ universeBox が
@@ -6579,7 +6673,6 @@ function loadSave(s, selValue){
   setParamsDirty(false);
   buildParamRows(); notify(T("loadedAs")(s.name));
   if(selValue) $("#presetSelect").value=selValue;
-  if(!exists) notify(T("presetMissing"),3500);
 }
 function loadPreset(id, keepPhysics){
   if(ab) abStop();          // プリセット切替・通常ロードで A/B は解除(v1.13)
@@ -7051,6 +7144,8 @@ function buildParamRows(){
     ["spectrum",T("tgSpectrum"),()=>!!sim.overlays.spectrum,setOv("spectrum"),"tgSpectrumDesc"],
     // 第32便(W2): 膨張グラフ(箱宇宙のみ有効。setOv は A/B 両画面へ常に反映 — 表示トグルの既定挙動)
     ["boxGraph",T("tgBoxGraph"),()=>!!sim.overlays.boxGraph,setOv("boxGraph"),"tgBoxGraphDesc"],
+    // 第53便 53B(E14): 相変化グラフ(phaseChange プリセットのみ有効)
+    ["phaseGraph",T("tgPhaseGraph"),()=>!!sim.overlays.phaseGraph,setOv("phaseGraph"),"tgPhaseGraphDesc"],
     ["monitor",T("tgMonitor"),()=>monitorOn,(v)=>monitorOn=v,"tgMonitorDesc"]];
   // 第23便(原仮定者指示): 「表示」の各行もパラメータ名タップで説明を開閉(品質行と同じ pdesc 方式)
   const tapDesc=(row,lab,descKey)=>{
@@ -7219,7 +7314,10 @@ function renderSaves(){
   });
 }
 function exportData(){
-  return JSON.stringify({schemaVersion:2, appVersion:APP_VERSION, exportedAt:new Date().toISOString(),
+  // 第53便 53B(外部レビュー P1): appBuild — どのビルド(root/β)で書き出したかの識別子。
+  // β配信(/beta/)では BETA_BUILD、それ以外は "v"+APP_VERSION(後方互換: 旧データはキー無し)
+  return JSON.stringify({schemaVersion:2, appVersion:APP_VERSION,
+    appBuild:(isBetaServe()? BETA_BUILD : "v"+APP_VERSION), exportedAt:new Date().toISOString(),
     saves:getSaves(), customPresets:getCustomPresets()},null,1);
 }
 $("#btnExport").addEventListener("click",()=>{
@@ -8877,6 +8975,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   strongFieldPsi,   // 第45便 45C(台帳4-85): 強場トイ領域バッジのψ_static計算式単体のQA用
   urepEnergy, normThermalWalls,   // 第37便 C1/C2(台帳4-70/4-71): U_rep の総和・伝熱境界の正規化(QA/監査用)
   phaseEnergy, phaseHsolve, phaseT, phaseF,   // 第53便 53A(E14): 相変化 — 対ポテンシャル総和・エンタルピー厳密解・h→T/fLiq 変換(QA/監査用)
+  loadSaveItem:(...a)=>loadSave(...a), exportData, isBetaServe,   // 第53便 53B: セーブ互換の機械検査用(未知ID中止・appBuild)
   speedMul:()=>speedMul, trailBufs:()=>({a:trailBuf,b:trailBufB}),  // v1.19: QA用
   overlaySlots, overlayBaseY, PARAM_DEFS, paramDesc,  // v1.21: スロット配置/パラメータ説明のQA用
   ovMin, aiUserContent,  // 第26便: グラフ最小化/AIベースサンプルのQA用
