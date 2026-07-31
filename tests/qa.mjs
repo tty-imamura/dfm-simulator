@@ -3538,7 +3538,7 @@ if (!FAST) {
     `${mg.steps}步・同一seed: ①潮汐尾率(自核から初期円盤半径の1.5倍外)=${(mg.base.t0.tail15 * 100).toFixed(1)}%→` +
     `${(mg.base.end.tail15 * 100).toFixed(2)}%(>2%。2倍外は ${(mg.base.end.tail20 * 100).toFixed(2)}%) ` +
     `②kFrame の効き所=**スピン加熱**: 平均|spin|=${mg.base.end.meanSpin.toFixed(4)}(kF1)/${mg.kf0.end.meanSpin.toFixed(4)}(kF0)` +
-    `=${spinRatio.toFixed(2)}倍(>1.4) ③muF の効き: 平均|spin|=${mg.base.end.meanSpin.toFixed(4)}/${mg.muf0.end.meanSpin.toFixed(4)}` +
+    `=${spinRatio.toFixed(2)}倍(>1.25) ③muF の効き: 平均|spin|=${mg.base.end.meanSpin.toFixed(4)}/${mg.muf0.end.meanSpin.toFixed(4)}` +
     `(相対差 ${(mufRel * 100).toFixed(2)}% >0.2% — 存在のみを固定。大きさは対象間で一桁違い、向きも一定しない) ` +
     `④接近期(${apB.ck}步・核間 ${sep0.toFixed(1)}→${apB.sep.toFixed(1)})の kFrame 差=${(sepRel * 100).toFixed(2)}%` +
     `(5e-4 < 差 < 5% — **接近期の軌道にはほとんど効かないことの上限固定**。深接触期 ${mg.steps}步では ` +
