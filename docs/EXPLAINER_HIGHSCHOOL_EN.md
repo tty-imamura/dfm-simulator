@@ -1,231 +1,194 @@
-# What If "Space" Didn't Exist? — An Introduction to the Determinacy-Field Model (for STEM-minded high schoolers)
+# Physics That Emerges from Simple Assumptions — An Introduction to the Determinant-Field Model (for science-minded high-schoolers)
 
-Audience: anyone who has studied high-school physics (mechanics, circular motion, gravity).
-This is **not real physics — it is a thought experiment with made-up laws of physics**.
-It is a game of "if the universe ran on these rules, what would happen?", checked on a
-computer — and at the same time a doorway into one of real physics' deepest questions:
-what is inertia?
+Audience: anyone who has studied high-school mechanics (circular motion, universal gravitation).
+This is **not real physics — it is a thought experiment with hypothetical laws**.
+This is the English edition of `docs/EXPLAINER_HIGHSCHOOL.md`; the Japanese text is the original.
 
-This is the English edition of `docs/EXPLAINER_HIGHSCHOOL.md`; the Japanese text is the
-original.
+The whole document fits in one line:
+
+> **Assume a simple Determinant-Field Model (DFM), and look-alikes of many real physical phenomena *emerge* on their own. Try them yourself in the app.**
+
+We never wrote down the law of gravity, the laws of thermodynamics, phase transitions or
+cosmic expansion as formulas. All we put in is a handful of rules that grow out of a single
+idea — *coordinates are decided by majority vote*. And yet the screen fills with phenomena
+that look strikingly like universal gravitation, time dilation, thermal equilibrium, latent
+heat, boiling, molecules, galactic rotation and redshift. Where the resemblance holds and
+where it breaks — you can probe that boundary yourself, in a simulator that runs in your
+browser.
+
+Simulator: `https://tty-imamura.github.io/dfm-simulator/` (works on iPhone; dev version at `/beta/`)
+The axioms, equations and machine-verified results live in two English papers (core laws
+and box universe) in the repository's `paper/` folder.
 
 ---
 
-## 1. The opening riddle: a universe with a single star
+## 1. Starting riddle: a universe with a single star
 
-Suppose the universe contained exactly one star, surrounded by nothing — total darkness.
-Could you say the star is "moving"? Could you say it is "rotating"?
+Suppose the universe contains exactly one star. Can you say it is *moving*? To move is to
+change position *relative to something*; with nothing to compare against, the question seems
+undecidable. Newton's famous **bucket argument** led him to posit an invisible standard —
+*absolute space*. The 19th-century physicist **Ernst Mach** pushed back: the water's surface
+curves because it rotates *relative to the stars*; in an empty universe, rotation itself
+would be meaningless (**Mach's principle**). Our model universe goes all-in on Mach's side.
 
-"Moving" means "changing position relative to something." With nothing to compare
-against, it seems impossible to decide. Yet Newton, with his famous **bucket
-experiment**, argued otherwise: spin a bucket of water and the surface hollows into a
-bowl. Even in an empty universe, rotation should produce centrifugal force — so an
-invisible standard called **absolute space** must exist.
+## 2. The assumptions — all of them
 
-The physicist who bit back, in the 19th century, was **Ernst Mach**: "The water hollows
-because it rotates relative to all the stars of the universe. In an empty universe,
-the very concept of rotation loses its meaning." This idea, **Mach's principle**,
-became one of Einstein's inspirations for general relativity.
+1. **Determinant W**: space does not pre-exist. Each location's "ease of fixing
+   coordinates" is the sum of w = mass / distance (m/d). **The determinant is a voting
+   right on "which one is at rest" at that location** — more mass and less distance mean
+   more votes. The contribution of the entire distant universe is folded into one number,
+   the background determinant **D0**.
+2. **Climb the slope**: particles accelerate up the determinant's gradient.
+3. **Rest by majority (dragging)**: "at rest" at each point is the determinant-weighted
+   average motion of nearby masses. Near a massive or spinning body, space itself is dragged.
+4. **Clocks and light from one psi**: where W is high, clocks tick slower and light bends
+   toward the "harder-to-travel" region — both from a single scalar psi.
+5. **Heat is internal**: particles carry an internal temperature exchanged by contact.
+   Temperature enters mechanics only as a repulsion — **thermal pressure (E5')**.
+6. **Contact and bonds**: overlapping particles push back; under set conditions they carry
+   short-range bonding/cohesive intermolecular forces.
+7. **The box (optional)**: the distant universe's determinant, bundled into a "box",
+   thins over time — cosmic expansion.
 
-Our model universe is built with the rules turned all the way to Mach's side.
+That's everything. Every phenomenon in the catalog below is a *consequence* of these rules.
 
-## 2. Rule 1: "position" is decided by majority vote
+## 3. The emergence catalog — what to verify, in which sample
 
-In this universe, space does not exist in advance. There are only point masses.
-Each location has a quantity called **determinacy** — how firmly its coordinates are
-decided.
+Each entry states what you CAN confirm (✅) and what you CANNOT (⚠️) — hiding that boundary
+is against this model's house rules.
 
-> The determinacy one point mass contributes at a location = its mass ÷ distance (w = m/d)
+### 3-1. Inverse-square gravity (🪐 Saturn's rings and the astronomy samples)
 
-Heavier and closer masses get a bigger say in "fixing" a place. In one sentence:
-**determinacy is the voting power that decides what counts as standing still at a
-location, and mass buys votes while distance discounts them** (see `docs/BOX_UNIVERSE.md`
-§2). The votes that fix coordinates are the same votes that later decide "what is not
-moving" — the standard of inertia. That is the heart of the model.
-The contribution of everything far away — distant galaxies, the large-scale
-structure of the cosmos — is bundled into one constant, the **background determinacy
-D₀**. The total determinacy W at a point is D₀ plus the w of every nearby mass.
+The slope of w = m/d is proportional to m/d². Having assumed only "gradient = force,"
+**the inverse-square law of gravitation appears by itself** — no law of gravity was written.
+- ✅ Orbits, ring stability, two/three-body motion (🌍 Earth & Moon uses the real mass
+  ratio and synchronous rotation)
+- ⚠️ The model is 2-D borrowing the 3-D formula; strong-field GR (black holes) is out of scope
 
-D₀ is the model's most entertaining knob:
-- **Crank D₀ up** → the faraway universe's vote is overwhelming; space is almost
-  rigid — you get something very like Newton's absolute space.
-- **Set D₀ to zero** → only nearby masses decide; you get a purely Machian world.
+### 3-2. The standard of inertia — Newton vs Mach (🪣 Mach's bucket)
 
-Two hundred years of Newton-versus-Mach, collapsed onto a single slider.
+One D0 slider is a miniature of the 300-year dispute.
+- ✅ D0=0: space inside a spinning ring co-rotates (pure Mach). Large D0: the distant
+  universe's votes win and you get near-absolute space (Newton) — continuously connected
+- ⚠️ The real universe's D0 cannot be measured; it is a thought-experiment dial
 
-## 3. Rule 2: the "slope" of determinacy is gravity
+### 3-3. Frame dragging and galactic rotation curves (🌌 Galaxy / 🌀 rotor solo)
 
-Since W differs from place to place, it forms a landscape of heights. The model
-decrees that **masses roll up the determinacy slope** (they accelerate in proportion
-to the slope's steepness).
+Because the inner stars drag space around, outer stars ride the rotating space and keep
+their speed with little gravity — **the rotation curve flattens with no dark matter**.
+The suggested A/B runs drag-on vs drag-off side by side.
+- ✅ A mechanism demo: *if* dragging were strong, this too would flatten curves. Momentum
+  and angular momentum are conserved exactly, reaction included (see the conservation monitor)
+- ⚠️ **Not a claim about the real universe.** Real dragging (Lense-Thirring) is tiny, and
+  dark matter has many independent lines of evidence
 
-Now for some high-school math. The slope of the graph of w = m/d (an inverse
-proportion) works out to be proportional to m/d². So merely by declaring
-"slope of determinacy = force,"
+### 3-4. Time dilation, light bending, Shapiro delay (🛰️ weak-field GR calibration, 🔭 lensing, ☿ Mercury)
 
-> force ∝ m/d² … **the inverse-square law of gravity falls out by itself.**
+Set the knob Kt to its real value (c²/G) and:
+- ✅ GPS clock gain **+38.5 μs/day**, starlight deflection at the Sun's limb **1.75″**, and
+  Shapiro delay **≈281 μs** all match simultaneously, from the single scalar psi
+- ⚠️ The base rules do **not** produce Mercury's perihelion precession (43″/century). Only
+  the explicit E12 geodesic extension — promoting the clock's psi into the law of motion —
+  reproduces it. A model that states plainly where it works and where it fails
 
-Gravity was never assumed — it emerged from "how firmly places are decided."
-This is the most beautiful spot in the model.
+### 3-5. The basics of thermodynamics (🔥 equilibrium, 📏 conduction, 🌈 radiative cooling, ♨️ convection, 🧪 buoyancy)
 
-## 4. Rule 3: space gets dragged — and on to the galaxy mystery
+- ✅ Bodies at different temperatures equalize on contact (zeroth-law-like equilibrium);
+  heat travels faster between closer particles; hotter bodies cool faster; heating the floor
+  makes **convection cells start turning on their own**; hot light particles get pushed up
+- ⚠️ "Pressure" here is the assumed thermal-pressure rule, not kinetic theory; real gas
+  constants and material properties are out of scope
 
-The standard of "rest" is also decided by vote. The space at each point moves with
-the (determinacy-weighted) average velocity of the surrounding masses. Near a giant
-star, the star's vote dominates, so **space itself is dragged along with the star**.
-Near a rotating disk, space rotates with it — like an ant on a spinning record,
-carried around however still it tries to stand.
+### 3-6. Latent heat and phase change (🫠 melting, ❄️ freezing, 🔁 the round trip)
 
-This actually exists in real general relativity as the **Lense–Thirring effect**
-(frame dragging), confirmed by satellite experiments — but in reality it is
-extraordinarily feeble. The model asks: what if we crank it up?
+Making enthalpy (total heat) the source of truth produces the **temperature plateau at the
+melting point** naturally: while temperature stalls, every joule you pour in goes into the
+phase change (latent heat).
+- ✅ The melt front advances from the heated wall; crystalline order *emerges* on freezing
+  (disorder ψ6≈0.8 → 0.97); the round trip shows no hysteresis; the energy ledger closes
+  (conservation monitor). The white arc on each particle = molten fraction, a phase channel
+  independent of the temperature color
+- ⚠️ No supercooling or stochastic nucleation; no numerical reproduction of real melting
+  points or latent heats
 
-Something interesting happens. In real galaxies, the outer stars orbit faster than
-"gravity + circular motion (a = v²/r)" predicts, and **dark matter** (unseen mass)
-is invoked to cover the difference. In this model universe, the inner stars spin
-space itself, so the outer stars ride the rotating space and keep orbiting fast on
-little gravity: **the rotation curve comes out flat, with no dark matter, just like
-the observations**.
+### 3-7. Boiling — in a universe with no buoyancy (💨 boiling & condensation)
 
-An important caution: this does **not** mean dark matter is unnecessary. In the real
-universe the dragging is far too weak, and dark matter rests on many lines of
-evidence beyond rotation curves. What the model shows is only that *in a
-strong-dragging universe, this mechanism could also flatten the curve* — a purely
-hypothetical result.
+- ✅ A second plateau at the boiling point; evaporation also pays the cohesion energy
+  (effective latent heat); two-phase quasi-steady coexistence. **Gas here has the same
+  particle mass as liquid — no density buoyancy — so vapor accumulates between the hot
+  floor and the pool and lifts the liquid: a film-boiling (Leidenfrost) analogue emerges**
+- ⚠️ You will not see ordinary "light bubbles rising" boiling (that needs a density
+  difference); the description says so explicitly to prevent misreading
 
-## 5. Rule 4: time slows down and light bends
+### 3-8. Molecules and material structure (⛓️ chain liquid, 🧬 three states emerging)
 
-Where determinacy W is high (near heavy stars), **clocks tick more slowly** — an
-imitation of general relativity's gravitational time dilation (the effect GPS
-satellites correct for every day).
+The newest highlights.
+- **⛓️ Chain liquid**: cap the liquid's bonds at *valence 2* (at most two partners) and a
+  structural transition appears — solid = an unlimited-bond lump vs liquid = **chains**
+  (molecular spaghetti). Melting pays the cost of rewiring a coordination-6 network into
+  coordination-2 chains as latent heat, so it melts visibly slower than the isotropic liquid
+- **🧬 Three states emerging**: go further and throw away every phase switch, keeping only a
+  **bond budget**: each molecule splits a fixed budget among its current partners; fewer
+  bonds mean stronger remaining ones; partners are set by geometry alone, never fixed. Then
+  competition with thermal pressure alone makes solid (a coordination-6 lattice) → droplets
+  and clusters → a **gas of molecules** (small 2-9 particle clusters flying free) emerge.
+  The last bonds are the strongest — that is why the gas is made of molecules, not atoms —
+  and the bond lines visibly thicken and darken as the budget concentrates
+- ✅ Gradual change of bond count, emergent structures (lump/chain/molecule), closed ledger
+- ⚠️ Not a quantitative model of real polymers or chemical bonds. No charges or dipoles —
+  a finding of this model is that *limiting the number of bonds* was enough for chains
 
-If the rate of time differs from place to place, then for light it is exactly as if
-the "ease of travel" differed — the same logic as refraction at a pool's surface —
-so **light bends toward heavy stars**. That is gravitational lensing. (Treating a
-weak gravitational field as a transparent medium with a refractive index is a
-legitimate approximation used in real physics.)
+### 3-9. Cosmic expansion and redshift (📦 box-universe series, 🧭 two H estimators)
 
-Better yet, the model derives time dilation and light bending from **a single
-quantity ψ (psi)**. Set the knob Kt to its real-world value (c²/G) and you match,
-simultaneously and numerically:
-- GPS clocks running **+38.5 microseconds per day** ahead of the ground
-- starlight grazing the Sun bending by **1.75 arcseconds** (the famous 1919 eclipse)
-- radio waves passing the Sun delayed by **about 281 microseconds** (Shapiro delay)
+- ✅ Galaxies separate; light waves stretch (redshift); bound systems do not expand. In 🧭,
+  **measuring the same universe two different ways splits the expansion-rate answer by ~8%**
+  — because one estimator assumes a formula that differs from this universe's actual law.
+  Calibrated to the same level as the real **Hubble tension** (~9%)
+- ⚠️ That match is by calibration, not an explanation of the real tension (the on-screen
+  note says so itself)
 
-But honesty comes bundled: with these base rules alone, **Mercury's perihelion
-precession (43 arcseconds per century) cannot be reproduced**. Showing exactly where
-the model matches and where it fails — with numbers — is the house style.
+### 3-10. Igniting a star (⭐ star core)
 
-(A sequel: a later, advanced option "E12 geodesic mode" promotes the clock formula ψ
-into the law of motion itself. Flip the switch (geoPN) and **the same Kt reproduces
-the 43 arcseconds with no extra knobs**. It is off by default; the base-rule
-"mismatch" stays on the record, with the discovery layered on top. Try the ☿ preset.)
+- ✅ The skeleton of the stellar energy story: gravitational contraction → hot dense core →
+  fusion releases heat → the star shines. Against a fusion-off control, radiated energy is
+  about 75× larger
+- ⚠️ Real nuclear reaction rates and stellar-structure quantities are out of scope
 
-## 6. Rule 5: spin *is* heat — the boldest assumption
-
-Here is the most outrageous rule. In this universe, **a particle's rotation (spin)
-is its heat**. Take the schoolbook "temperature = vigor of molecular motion" and
-swap translation for rotation.
-
-- When particles collide, friction converts speed into spin (kinetic energy → heat).
-- Neighboring particles gradually share spin until it evens out (**thermal
-  equilibrium** — the textbook law that touching bodies reach a common temperature
-  emerges from the rules on its own).
-- A fast-spinning particle rotates the space around it (Rule 3), so nearby bodies
-  are pushed outward by the centrifugal effect (a = ω²r — the circular-motion
-  formula itself). **Hot things push each other apart: that is pressure.**
-
-We learned that gas pressure is molecular collisions; in this model universe,
-pressure is spin turning space.
-
-## 7. Extra: putting the whole universe in a "box" — expansion and a Hubble-tension look-alike
-
-Everything so far assumed "nothing around us." But the real universe has a giant
-background: all the faraway galaxies. The model bundles them into one device — the
-**box**: the determinacy of the distant universe becomes a single value, and that
-value thins out over time (= cosmic expansion).
-
-Suddenly the textbook distinctions of cosmology become knobs you can turn: galaxies
-separating with the expansion; light stretching to longer wavelengths (redshift);
-"gravitationally bound systems do not expand" — each one is a button press.
-
-The most fun experiment is **"Two H Estimators."** Two observers measure the
-universe's expansion rate (the Hubble constant H) by different methods: one from the
-geometry of how things are arranged, the other from how particle velocities decay.
-They measure the *same universe* — and **their answers disagree by about 8%**. Why?
-The velocity observer assumes a formula for how velocities should decay, and the
-model universe's true decay law is a different formula. **A measurement discrepancy
-can arise not from an anomaly in the universe, but from the assumptions baked into
-the estimator.** That is the lesson.
-
-Real cosmology has an unsolved puzzle of exactly this shape: measurements of the
-expansion rate disagree by about 9% depending on the method — the **Hubble
-tension**. The model's 8% is merely *calibrated to match that size* (the model does
-not explain the tension). Still, you get to work through, with your own hands, one
-concrete mechanism by which "measuring the same thing" can split the answers.
-
-## 8. Where does it match real physics, and where does it break?
+## 4. Summary table — where it's real, where it's assumption
 
 | Topic | Real physics | This model |
 |------|-----------|----------|
-| Inverse-square gravity | Given as Newton's law / derived from GR | Falls out of the determinacy slope ◎ |
-| Standard of inertia | Absolute space (Newton) … partly Machian (GR) | Pure majority vote; D₀ interpolates between the two |
-| Frame dragging | Real (Lense–Thirring) but extremely weak | A knob you can crank (this is the "what if") |
-| Flat rotation curves | Explained by dark matter (many independent lines of evidence) | Reproduced by strong dragging (model-internal only) |
-| Time dilation / light bending | Established GR (GPS, lensing) | Same-shaped formulas from one scalar field (approximate match) |
-| Heat and pressure | Molecular translation and collisions | Spin = heat, space-rotation = pressure (pure invention) |
-| Momentum conservation | Exact | Exact (dragging has a back-reaction too — as the apple falls, the Earth rises to meet it, and the same holds for dragged space) |
+| Inverse-square gravity | Given as law / derived from GR | Emerges from the determinant's slope ◎ |
+| Standard of inertia | Absolute space … partially Machian | Pure majority vote; D0 interpolates the two |
+| Frame dragging | Real (Lense-Thirring) but tiny | A free knob (this is the "assumption") |
+| Flat rotation curves | Dark matter (much independent evidence) | Strong dragging (model-internal only) |
+| Time dilation / light bending | Established GR | Same-shaped formulas from one scalar (weak-field match) |
+| Heat and pressure | Translational molecular motion | Internal temperature + thermal pressure (assumed rule) |
+| Latent heat / phase change | Intermolecular forces + statistical mechanics | Emerges from enthalpy bookkeeping + intermolecular forces |
+| Molecules | Quantum chemical bonds | Look-alike structures from classical bond-budget/valence rules |
+| Cosmic expansion | GR + observation (FLRW) | One knob: the box determinant thinning |
+| Conservation laws | Exact | Momentum, angular momentum and energy machine-verified with ledgers (QA) |
 
-Mapping out exactly where the model can be pushed toward reality and where it
-snaps is, itself, excellent practice in theoretical physics.
+## 5. Getting around the app
 
-## 9. Try the experiments yourself
+1. Use the category selector to narrow the list (e.g. the Thermal Lab). Open a sample and
+   read its description tab — a three-part 📌summary / 🔎observe / 🎛control structure tells
+   you what to look for.
+2. Samples with a **suggested A/B** run a one-tap control experiment (drag on/off etc.) in
+   split screen.
+3. The **conservation monitor** (in the Display category) shows the momentum, angular
+   momentum and energy ledgers live — the audit that keeps "emergence" honest.
+4. Every parameter is editable; reset with ⏮ if things blow up. Phase-change samples have
+   their own knobs (melting point, latent heats, bonds, …).
+5. Every claim is checked by a machine QA suite (300+ items) on every build (`tests/`).
 
-The simulator runs in a browser (a phone is fine):
-`https://tty-imamura.github.io/dfm-simulator/`
+## 6. To go further
 
-**Experiment 1 — spin a galaxy without dark matter**: open "🌌 Galaxy Rotation
-Curve" and tap **Suggested A/B** in the description tab. Two copies of the same
-initial universe run stacked: the top with kFrame=1 (dragging on), the bottom with
-kFrame=0 (dragging off = Newtonian). The top rotation-curve graph stays flat; the
-bottom falls off outward (Keplerian decline) — one screen, side by side.
+Keywords: Mach's principle / Newton's bucket / Lense-Thirring effect / gravitational time
+dilation (GPS) / gravitational lensing / galactic rotation curves and dark matter / latent
+heat and phase transitions / Hubble tension. After playing with the model, each of these
+should feel like "ah, that knob".
 
-**Experiment 2 — judge the Newton–Mach debate**: open "🪣 Mach's Bucket," run with
-D₀=0, and watch the particles inside the rotating ring get carried along (space is
-dragged). Raise D₀ to about 8 and rerun: now the faraway universe's vote wins and
-the interior stays still. One slider is the 300-year-old controversy in miniature.
-
-**Experiment 3 — watch heat being born and spreading**: in "🔥 Thermal Equilibrium
-of a Gas," watch the temperature histogram go from two peaks (hot and cold
-populations) to one. Set muF (friction — the velocity→spin conversion) to 0 and
-confirm that heat stops being produced.
-
-**Experiment 4 — check the answers against real GPS**: open "🛰️ Weak-Field GR
-Calibration" to see the three real measurements of §5 (GPS clock +38.5 μs/day,
-light deflection 1.7512″, Shapiro delay ≈281 μs) side by side with the simulated
-values. See how far one knob (Kt) carries the match — and why Mercury alone reads
-"mismatch" under the base rules. Then open the "☿ Mercury Perihelion" preset to
-watch the precession appear only when the advanced option E12 (§5's sequel) is
-switched on.
-
-**Experiment 5 — the mystery of the expansion rate**: open "🧭 Two H Estimators
-(a Hubble-Tension Analogue)". The HUD shows two readings live: the exponential
-reading (using this universe's true law) and the inverse reading (assuming the
-different FLRW formula), drifting apart as time runs. The "tension analogue" line
-displays a discrepancy of the same size as the real Hubble-tension ratio
-(67.4/73.0 ≈ 0.923) — while the screen itself warns you that this match is a
-calibration, not evidence. A one-screen exercise in scientific honesty.
-
-## 10. Keywords for the curious
-
-Mach's principle / Newton's bucket / Lense–Thirring effect (frame dragging) /
-gravitational time dilation (the GPS correction) / gravitational lensing / galaxy
-rotation curves and dark matter / MOND (modified Newtonian dynamics) / the Hubble
-tension — each is an easy search away.
-After playing with this model, each of those topics should feel three-dimensional:
-"ah, that's the knob."
-
-The model's axioms, formulas, and verification results are also written up as two
-English papers (the base laws, and the box universe) in the repository's `paper/`
-folder — worth a look as a working example of what it means to turn a thought
-experiment into something checkable.
+The axioms, formulas and verification records are written up as two English papers (core
+laws & box universe) in `paper/`. Reading them is also a worked example of what it means to
+*turn a thought experiment into something checkable*.
