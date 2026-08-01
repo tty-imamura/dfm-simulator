@@ -1178,7 +1178,7 @@ const PARAM_DEFS = [
    desc:"質量が動く・回ると「近くの空間」(決定フレーム)ごと引きずり、そこにある物質と光を運ぶ効果の強さ(A4/A5/E6′)。1=完全な相対空間、0=引きずりなしのニュートン的空間。銀河外縁の回転速度増強(T4)の主役。"},
   {key:"q",     label:"引きずり減衰 q",      mode:"lin", lo:0.5, hi:4, step:0.05, group:"法則",
    desc:"スピン(自転)による回転引きずりが距離とともに弱まる速さの指数(E3: (R/(R+d))^q)。大きいほど引きずりが天体の近くに限定される。"},
-  {key:"kRep",  label:"スピン斥力 kRep",     mode:"lin", lo:0, hi:5, step:0.05, group:"法則",
+  {key:"kRep",  label:"スピン斥力 kRep",     mode:"lin", lo:0, hi:20, step:0.1, group:"法則",   /* 第56便 56A: 🧬emergent(kRep=20)を範囲内に — CLAMPS 上限と一致 */
    desc:"スピン=熱を持つ粒子同士が押し合う力(A10/E5′)。この宇宙の「圧力」の正体で、熱いガスが膨らむ(🎈)のも対流(♨️)もこの力から生まれる。"},
   {key:"muF",   label:"摩擦→スピン変換 muF", mode:"lin", lo:0, hi:1, step:0.01, group:"法則",
    desc:"接触した粒子のすべり(相対速度)をスピン=熱へ変換する摩擦の効率(A9/E9)。0にすると衝突しても加熱されない(💥で対照実験ができる)。"},
@@ -2156,13 +2156,76 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,spectrum:true} },
 
-{ id:"phase", name:"固体・液体・気体", emoji:"🧊", group:"熱の実験室",
+// ♨️加熱の対流: v1.14 で撤去 → v1.17 で一様重力場(gravityY)ベースに再設計して復活。
+// 旧構成(画面外の遠方大質量で下向き場を代行)は決定力Wの歪み・凍結が撤去理由だった
+// (経緯は DERIVATIONS 付録K/付録M・HANDOFF_IMPLEMENTATION)。gravityY は W に寄与しない
+// 純粋な外部力場なので、時計・光・引きずりを歪めずに箱内へ厳密に一様な下向き場を作れる。
+
+{ id:"convection", name:"加熱の対流 — 伝熱する箱", emoji:"♨️", group:"熱の実験室",
+  // 第50便 50K(台帳4-78 C案パイロット): descStruct(要約/観察/操作)— description は起動時に
+  // 3区分の連結として生成される(内容は従来文の純分割+A/B文を末尾へ移設したのみ・情報の増減なし)
   descStruct:{
-    summary:"質量・数・大きさ・初速が完全に同一の3つの雲 — 違いは初期の内部温度T_intだけの統制実験。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂)。一様重力gravityYの下に置き、現実の容器内の三態に近づけている。",
-    observe:"左=低温: 重力(A6)で収縮し、粒同士が接触したまま底で結晶化する固体。中=中温: 熱の斥力(E5′)でほぐれ、重力で底に溜まって液面を作る液体。右=高温: 熱の斥力が重力を振り切り箱に充満する気体。衝突の散逸は熱として粒に残る(E9)ので、低温の雲もゆっくり温まる。※束縛と斥力の競合による形態のアナロジーで、実在物質の潜熱・相平衡の再現ではない。色=温度。"},
-  en:{name:"Solid, Liquid, Gas", descStruct:{
-    summary:"Three clouds identical in mass, count, size and initial speed — only the initial internal temperature T_int differs: a controlled experiment. This sample treats temperature as an internal state variable independent of spin (the A9 revision). Uniform gravity gravityY mimics matter in a real container. ",
-    observe:"Left = cold: gravity (A6) wins and the grains crystallize in contact at the bottom (solid). Middle = warm: thermal repulsion (E5′) loosens it and gravity pools it with a surface (liquid). Right = hot: thermal repulsion beats gravity and fills the box (gas). Collisional dissipation now stays in the grains as heat (E9), so even the cold cloud warms slowly. A morphological analogy of binding vs repulsion — not real latent-heat phase transitions. Color = temperature."}},
+    summary:"箱そのものに伝熱の境界条件を与えたレイリー・ベナール型の対流セル。固定した加熱粒子は一つも無く、外から系を駆動するのは箱の壁だけ — 床が加熱面(壁温T=144へ緩和)、天井と右壁が放熱面(受けた熱を系外へ捨てる)、左壁は断熱。左右対称の理想レイリー・ベナール系ではなく、壁の非対称境界条件(天井+右壁放熱)で循環の向きを選んだ構成である。箱は「その先の環境」の近似で、ビーカーの壁だと思ってよい(BOX_UNIVERSE §12-1)。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂)。",
+    observe:"床で温まったガスは熱の斥力=圧力(E5′)で膨らんで浮上し、天井と右壁で熱を捨てて右から沈む — 一方向の循環セル(T6の移流拡張)。24000步後も循環は持続し、壁が入れた熱と壁が回収した熱が釣り合う定常状態になる(壁の熱は帳簿wallE系に記録される。保存量モニタで確認できる)。働く力は一様重力場gravityY(外部場)と熱の斥力・接触だけで、自己重力・引きずり・自発放射は切ってある。代表粒子の軌跡(線)で循環セルの周回が見える。色=温度。壁は熱境界条件の色で描き分けてある: 床の加熱面=橙の実線・天井と右壁の放熱面=青の実線・左壁の断熱面=灰の破線(第50便 50J)。",
+    control:"gravityYを0にすると循環が止まる(おすすめA/B)。"},
+  en:{name:"Heated Convection — A Box That Conducts Heat", descStruct:{
+    summary:"A Rayleigh-Bénard-style convection cell where the thermal boundary condition lives in the box itself. There is not a single pinned heater particle: the only external drive is the wall — the floor is a heating face (relaxing toward a wall temperature T=144), the ceiling and the right wall are radiating faces (dumping the heat they receive out of the system), and the left wall is adiabatic. This is not a left-right symmetric, idealized Rayleigh-Bénard system — the asymmetric wall boundary conditions (ceiling plus right-wall radiation) are what select the circulation's direction. The box is an approximation of whatever lies beyond it; think of it as the wall of a beaker (BOX_UNIVERSE §12-1). This sample treats temperature as an internal state variable independent of spin (the A9 revision). ",
+    observe:"Gas warmed at the floor inflates by thermal repulsion = pressure (E5′), rises, dumps its heat at the ceiling and the right wall, and sinks on the right — a one-way circulation cell (an advective extension of T6). The circulation is still running after 24000 steps, with the heat the walls inject balancing the heat they take back (the wall ledger records both; watch it in the conservation monitor). The only forces are the uniform gravity gravityY (external field) plus thermal repulsion and contact — self-gravity, dragging and spontaneous radiation are all off. Trails on sampled particles trace the circulation loops. Color = temperature. The walls are drawn in the color of their thermal boundary condition: the heating floor in solid orange, the radiating ceiling and right wall in solid blue, the adiabatic left wall as a gray dashed line (dispatch 50, 50J). ",
+    control:"Set gravityY to 0 and the circulation stops (suggested A/B)."}},
+  activeParams:["gravityY","kRep","kappaS","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+  thermal:"tint",   // 第36便 D(台帳4-51)
+  camera:{scale:78}, world:{boundary:"box", size:60,
+    // 第37便 C1(台帳4-70): 伝熱作用する箱。床=加熱面・天井=放熱面・右壁=放熱面(下降域)・左壁=断熱。
+    // 右壁を放熱にしているのは、床を一様に加熱すると左右対称になって「向きの定まった循環」が
+    // 生まれないため(実測: 一様加熱では循環指標が 0〜5 で符号も定まらない)。旧版が
+    // 「天井右の冷却板+右端床は非加熱=下降域」で作っていた左右非対称を、壁の言葉で置き換えた形
+    thermalWalls:{ bottom:{mode:"heat", T:144, rate:1}, top:{mode:"rad", rate:3}, right:{mode:"rad", rate:10} }},
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:2, muF:0.2, gammaN:0.1, kappaS:1.2, Kt:60,
+    cLight:60, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:2},
+  bodies:[ // 第37便 C1: pinned ヒーター13枚・冷却板5枚を全廃し、自由な気体だけの系にした
+           // (外部駆動は壁の熱交換ひとつだけ = 要因の完全分離)。箱を小さく・密にしたのは、
+           // 壁と気体が実際に熱をやり取りできる密度にするため(実測: 旧サイズ190では天井付近の
+           // 粒子数が平均0.2個で放熱面が働かない)。
+           // 第50便 50J(原仮定者指摘「初回起動が重い」): n 300→210(力対 44.9k→21.9k =
+           // 負荷 2.0 分の 1)。24000步の再実測で循環セルは持続: 循環=21.4(>12)・平均|v|=0.90
+           // (>0.5)・定常熱流の不均衡 0.02%(<20%)— QA behavior.convection の閾値は不変のまま充足
+    {type:"box", rMul:4, n:210, cx:0,cy:0, w:80,h:80, mMin:0.05,mMax:0.05,
+     spinMin:0,spinMax:0, tInt:2.25, vScale:0.4}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"}  },
+
+{ id:"buoyancy", name:"重力分離と浮力", emoji:"🧪", group:"熱の実験室",
+  descStruct:{
+    summary:"一様重力場gravityYに置かれた、質量の異なる粒子の混合物。重い冷たい粒子は底へ沈んで層を作り、軽い熱い粒子は熱の圧力(E5′)によって重力に逆らって上へ押し上げられ、上層の「大気」を作る — 密度差による沈降と浮力のアナロジー。このサンプルは温度をスピンと独立な内部状態変数T_intとして扱う(A9の改訂)。",
+    observe:"要因分離のため熱の出入りはほぼ止めてあり(μF=κs=0・熱容量cHeatを大きく取って衝突散逸(E9)による昇温を抑えた温度ほぼ一定の系)、自己重力・引きずり・放射も切ってある。色=温度。",
+    control:"gravityYを0にすると分離が止まり混ざったままになる(おすすめA/B)。"},
+  en:{name:"Gravity Separation & Buoyancy", descStruct:{
+    summary:"A mixture of particles with different masses in the uniform gravity field gravityY. Heavy cold particles sink and form a bottom layer, while light hot ones are pushed upward against gravity by thermal pressure (E5′), forming an 'atmosphere' on top — an analogy of density-driven sedimentation and buoyancy. This sample treats temperature as the internal state variable T_int (the A9 revision). ",
+    observe:"Factors are isolated: heat flow is essentially switched off (muF=kappaS=0, and a large heat capacity cHeat keeps collisional dissipation (E9) from warming the grains), and self-gravity, dragging and radiation are off. Color = temperature. ",
+    control:"Set gravityY to 0 and the separation stops (suggested A/B)."}},
+  activeParams:["gravityY","kRep","gammaN"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+  thermal:"tint",   // 第36便 D(台帳4-51)
+  camera:{scale:200}, world:{boundary:"box",size:160},
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:3, muF:0, gammaN:0.1, kappaS:0, Kt:60,
+    cLight:60, bM:1, etaRad:0, pRad:4, cHeat:30/* 第36便 D: 大きな熱容量で衝突散逸(E9)による昇温を抑え、旧版の「温度一定」統制条件を維持(実測: 12000步で T 20.25→20.71 = +2%)*/,
+    gravityX:0, gravityY:0.05, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 2.5 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2},
+  bodies:[ // v1.18: Gemini 第8次提案を機械掃引で調整(スピン固定+radiusScale2.5 — 分離52〜72が持続)
+    {type:"box", rMul:2.5, n:200, cx:0,cy:0, w:280,h:280, mMin:0.2,mMax:0.2, spinMin:0,spinMax:0, tInt:20.25, vScale:0.5},
+    {type:"box", rMul:2.5, n:80, cx:0,cy:0, w:280,h:280, mMin:3,mMax:3, spinMin:0,spinMax:0, tInt:0, vScale:0.1}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false} },
+
+{ id:"phase", name:"固体・液体・気体 — 形態アナロジー(潜熱なし)", emoji:"🧊", group:"熱の実験室",
+  // 第56便 56C(外部レビューP0): 名称に「形態アナロジー・潜熱なし」を明示 — E14 相変化群
+  // (🫠❄️🔁⛓️💨🧬)との概念の違いを一覧の時点で伝える。E14 への導線も control に追加
+  descStruct:{
+    summary:"質量・数・大きさ・初速が完全に同一の3つの雲 — 違いは初期の内部温度T_intだけの統制実験。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂)。一様重力gravityYの下に置き、現実の容器内の三態に近づけている。※これは束縛と斥力の競合による形態のアナロジーで、潜熱・エンタルピーは持たない — 真の相変化(E14)は🫠融解 以降のサンプルで扱う。",
+    observe:"左=低温: 重力(A6)で収縮し、粒同士が接触したまま底で結晶化する固体。中=中温: 熱の斥力(E5′)でほぐれ、重力で底に溜まって液面を作る液体。右=高温: 熱の斥力が重力を振り切り箱に充満する気体。衝突の散逸は熱として粒に残る(E9)ので、低温の雲もゆっくり温まる。実在物質の潜熱・相平衡の再現ではない。色=温度。",
+    control:"つづきは🫠融解へ — 同じ三態を潜熱とエンタルピー(E14)で観察でき、温度が融点で止まる「プラトー」が現れる。分子構造まで創発させる🧬三態の創発もある。"},
+  en:{name:"Solid, Liquid, Gas — a Morphological Analogy (no latent heat)", descStruct:{
+    summary:"Three clouds identical in mass, count, size and initial speed — only the initial internal temperature T_int differs: a controlled experiment. This sample treats temperature as an internal state variable independent of spin (the A9 revision). Uniform gravity gravityY mimics matter in a real container. Note: this is a morphological analogy of binding vs repulsion, carrying no latent heat or enthalpy — true phase change (E14) lives in the samples from 🫠 Melting onward. ",
+    observe:"Left = cold: gravity (A6) wins and the grains crystallize in contact at the bottom (solid). Middle = warm: thermal repulsion (E5′) loosens it and gravity pools it with a surface (liquid). Right = hot: thermal repulsion beats gravity and fills the box (gas). Collisional dissipation now stays in the grains as heat (E9), so even the cold cloud warms slowly. Not a reproduction of real latent heat or phase equilibria. Color = temperature. ",
+    control:"Continue to 🫠 Melting — the same three states with latent heat and enthalpy (E14), where temperature pauses at the melting point (the plateau). 🧬 Three States Emerging goes further and lets molecular structure emerge."}},
   activeParams:["kRep","G","gravityY","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   thermal:"tint",   // 第36便 D(台帳4-51)
   camera:{scale:260}, world:{boundary:"box",size:240},
@@ -2269,33 +2332,6 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,phaseGraph:true} },
 
-// 💨boil: 第54便 54A — 気液相変化(E14拡張: boilT/latentV による5区分エンタルピー)。
-// 液体プールを床壁で沸かし、蒸気が浮上して放熱天井で凝縮する二相共存の定常系。
-// 壁パラメータは実測調整(24000步で fl≈0.34/fg≈0.66 に漸近 — 蒸発と凝縮が釣り合う)
-{ id:"boil", name:"沸騰と凝縮 — 気液相変化", emoji:"💨", group:"熱の実験室",
-  descStruct:{
-    summary:"融解(🫠)の先にある2つ目の相転移 — 沸騰。相変化拡張E14に沸点T_b=2.2と蒸発潜熱L_v=6を加えた5区分エンタルピー法で、固体⇄液体⇄気体の三態を1本のエネルギー軸上に扱う。床壁(加熱面T=2.8)が液体プールの底で蒸気を作る — 沸点に達した粒子は凝集エネルギーを潜熱として支払いながら気化し、凝集力を失った気体は熱圧(E5′)だけで押し合う。",
-    observe:"沸騰は融解より劇的に見える: 蒸気は加熱床とプールの間に溜まり、高温の蒸気クッションが液のふたを持ち上げて激しく攪拌する(膜沸騰=ライデンフロスト現象の類似)。液滴が飛び散り、飛んだ蒸気は冷えた液に触れて熱を渡し凝縮して戻る — 蒸発と凝縮が釣り合う二相共存の準定常(fl≈1/3, fg≈2/3)へ漸近する。※この宇宙の気体は液体と同じ粒子質量を持つため密度浮力が無く、蒸気が「軽いから浮かぶ」ことはない — 気体を押し上げるのは熱圧の勾配だけ(E5′)。「気泡が浮力で抜ける」代わりに「圧力が液を持ち上げる」のはこの設計帰結がそのまま見えている。相変化グラフ(右下)には融点T_m=1に加えて沸点T_b=2.2の第2のプラトーと気相率f_g(紫)が現れる。熱伝導も三態で変わる(condS>condL>condG — 気体は伝導が遅い)。エネルギーは壁帳簿+潜熱2種+結合/凝集+U_repで閉じる(保存量モニタ)。色=温度。実在物質の定量再現ではない。",
-    control:"「相変化(E14)の実験」ノブに沸点T_b・蒸発潜熱L_v・気体伝導condGが加わる。T_wall(底)を下げると凝縮が優勢になり静かなプールへ戻る。L_vを大きくすると気化に要する熱が増え、沸騰は重くなる。kRepを上げると蒸気の押し上げが強まり、系全体が膨らんで冷える(A/Bで比較)。"},
-  en:{name:"Boiling and Condensation — Gas-Liquid Phase Change", descStruct:{
-    summary:"The second phase transition beyond melting (🫠) — boiling. The phase-change extension E14 gains a boiling point T_b=2.2 and a latent heat of vaporization L_v=6, handling solid ⇄ liquid ⇄ gas on a single enthalpy axis with a five-segment solve. The floor wall (heating face, T=2.8) makes vapor at the bottom of a liquid pool — particles reaching the boiling point vaporize, paying their cohesion energy as latent heat, and the gas, stripped of cohesion, pushes on itself with thermal pressure (E5′) alone. ",
-    observe:"Boiling looks far more dramatic than melting: vapor accumulates between the heated floor and the pool, and the hot vapor cushion lifts and violently churns the liquid lid (an analogue of film boiling — the Leidenfrost effect). Droplets splash; vapor that flies up meets cooler liquid, hands over its heat and condenses back — the system approaches a two-phase quasi-steady coexistence where evaporation balances condensation (fl≈1/3, fg≈2/3). Note: gas in this universe has the same particle mass as liquid, so there is no density buoyancy — nothing floats \"because it is light\"; the only thing pushing the vapor up is the thermal-pressure gradient (E5′). \"Pressure lifting the liquid\" instead of \"bubbles rising by buoyancy\" is that design consequence made visible. The phase-change graph (bottom right) shows a second plateau at T_b=2.2 above the melting one at T_m=1, plus the gas fraction f_g (purple). Heat conduction is phase-dependent too (condS>condL>condG — gas conducts slowly). Energy closes as wall ledger + two latent heats + bond/cohesion energy + U_rep (conservation monitor). Color = temperature. No claim of quantitative correspondence to real substances. ",
-    control:"The Phase-change (E14) experiment knobs gain the boiling point T_b, latent heat L_v and gas conductivity condG. Lower the floor T_wall and condensation wins — the pool goes quiet again. Raise L_v and boiling gets sluggish (vaporizing costs more heat). Raise kRep and the vapor pushes harder — the whole system inflates and cools (compare in A/B)."}},
-  activeParams:["kRep","kappaS","gravityY","gammaN"],
-  thermal:"tint",
-  phaseChange:{ meltT:1, latentF:4, boilT:2.2, latentV:6, bondK:5, bondRange:1.6, cohesion:1.2,
-    bondDamp:0.1, visc:0.08, condS:1, condL:0.5, condG:0.15 },
-  camera:{scale:140}, world:{boundary:"box", size:110,
-    thermalWalls:{ bottom:{mode:"heat", T:2.8, rate:0.4}, top:{mode:"rad", rate:4} }},
-  physics:{G:0, D0:2, kFrame:0, q:2, kRep:1, muF:0.1, gammaN:0.3, kappaS:0.5, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:2},
-  seed:7,
-  bodies:[ // 初期状態は温かい液体プール(tInt=1.5 は Tm<T<Tb の液相域)。jitter で格子秩序を崩す
-    {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:86, pitch:7, jitter:1.0, vScale:0.3,
-     mMin:1, mMax:1, tInt:1.5}
-  ],
-  overlays:{rotationCurve:false,tempHistogram:true,field:false,phaseGraph:true} },
-
 // ⛓️chain: 第55便 55A — 分子間力の結合価(valence)。固相=等方結合の塊 ⇄ 液相=結合価2の鎖。
 // 壁スケジュール(t=280 で加熱→冷却)で 塊→鎖→塊 の往復を1本で見せる。
 // 実測(2026-08-01): 17000步 全融解・全112粒が鎖(平均次数1.98・近傍2.0 vs 等方5.2・占有面積4倍)
@@ -2323,64 +2359,61 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,phaseGraph:true} },
 
-// ♨️加熱の対流: v1.14 で撤去 → v1.17 で一様重力場(gravityY)ベースに再設計して復活。
-// 旧構成(画面外の遠方大質量で下向き場を代行)は決定力Wの歪み・凍結が撤去理由だった
-// (経緯は DERIVATIONS 付録K/付録M・HANDOFF_IMPLEMENTATION)。gravityY は W に寄与しない
-// 純粋な外部力場なので、時計・光・引きずりを歪めずに箱内へ厳密に一様な下向き場を作れる。
-
-{ id:"convection", name:"加熱の対流 — 伝熱する箱", emoji:"♨️", group:"熱の実験室",
-  // 第50便 50K(台帳4-78 C案パイロット): descStruct(要約/観察/操作)— description は起動時に
-  // 3区分の連結として生成される(内容は従来文の純分割+A/B文を末尾へ移設したのみ・情報の増減なし)
+// 💨boil: 第54便 54A — 気液相変化(E14拡張: boilT/latentV による5区分エンタルピー)。
+// 液体プールを床壁で沸かし、蒸気が浮上して放熱天井で凝縮する二相共存の定常系。
+// 壁パラメータは実測調整(24000步で fl≈0.34/fg≈0.66 に漸近 — 蒸発と凝縮が釣り合う)
+{ id:"boil", name:"沸騰と凝縮 — 気液相変化", emoji:"💨", group:"熱の実験室",
   descStruct:{
-    summary:"箱そのものに伝熱の境界条件を与えたレイリー・ベナール型の対流セル。固定した加熱粒子は一つも無く、外から系を駆動するのは箱の壁だけ — 床が加熱面(壁温T=144へ緩和)、天井と右壁が放熱面(受けた熱を系外へ捨てる)、左壁は断熱。左右対称の理想レイリー・ベナール系ではなく、壁の非対称境界条件(天井+右壁放熱)で循環の向きを選んだ構成である。箱は「その先の環境」の近似で、ビーカーの壁だと思ってよい(BOX_UNIVERSE §12-1)。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂)。",
-    observe:"床で温まったガスは熱の斥力=圧力(E5′)で膨らんで浮上し、天井と右壁で熱を捨てて右から沈む — 一方向の循環セル(T6の移流拡張)。24000步後も循環は持続し、壁が入れた熱と壁が回収した熱が釣り合う定常状態になる(壁の熱は帳簿wallE系に記録される。保存量モニタで確認できる)。働く力は一様重力場gravityY(外部場)と熱の斥力・接触だけで、自己重力・引きずり・自発放射は切ってある。代表粒子の軌跡(線)で循環セルの周回が見える。色=温度。壁は熱境界条件の色で描き分けてある: 床の加熱面=橙の実線・天井と右壁の放熱面=青の実線・左壁の断熱面=灰の破線(第50便 50J)。",
-    control:"gravityYを0にすると循環が止まる(おすすめA/B)。"},
-  en:{name:"Heated Convection — A Box That Conducts Heat", descStruct:{
-    summary:"A Rayleigh-Bénard-style convection cell where the thermal boundary condition lives in the box itself. There is not a single pinned heater particle: the only external drive is the wall — the floor is a heating face (relaxing toward a wall temperature T=144), the ceiling and the right wall are radiating faces (dumping the heat they receive out of the system), and the left wall is adiabatic. This is not a left-right symmetric, idealized Rayleigh-Bénard system — the asymmetric wall boundary conditions (ceiling plus right-wall radiation) are what select the circulation's direction. The box is an approximation of whatever lies beyond it; think of it as the wall of a beaker (BOX_UNIVERSE §12-1). This sample treats temperature as an internal state variable independent of spin (the A9 revision). ",
-    observe:"Gas warmed at the floor inflates by thermal repulsion = pressure (E5′), rises, dumps its heat at the ceiling and the right wall, and sinks on the right — a one-way circulation cell (an advective extension of T6). The circulation is still running after 24000 steps, with the heat the walls inject balancing the heat they take back (the wall ledger records both; watch it in the conservation monitor). The only forces are the uniform gravity gravityY (external field) plus thermal repulsion and contact — self-gravity, dragging and spontaneous radiation are all off. Trails on sampled particles trace the circulation loops. Color = temperature. The walls are drawn in the color of their thermal boundary condition: the heating floor in solid orange, the radiating ceiling and right wall in solid blue, the adiabatic left wall as a gray dashed line (dispatch 50, 50J). ",
-    control:"Set gravityY to 0 and the circulation stops (suggested A/B)."}},
-  activeParams:["gravityY","kRep","kappaS","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
-  thermal:"tint",   // 第36便 D(台帳4-51)
-  camera:{scale:78}, world:{boundary:"box", size:60,
-    // 第37便 C1(台帳4-70): 伝熱作用する箱。床=加熱面・天井=放熱面・右壁=放熱面(下降域)・左壁=断熱。
-    // 右壁を放熱にしているのは、床を一様に加熱すると左右対称になって「向きの定まった循環」が
-    // 生まれないため(実測: 一様加熱では循環指標が 0〜5 で符号も定まらない)。旧版が
-    // 「天井右の冷却板+右端床は非加熱=下降域」で作っていた左右非対称を、壁の言葉で置き換えた形
-    thermalWalls:{ bottom:{mode:"heat", T:144, rate:1}, top:{mode:"rad", rate:3}, right:{mode:"rad", rate:10} }},
-  physics:{G:0, D0:2, kFrame:0, q:2, kRep:2, muF:0.2, gammaN:0.1, kappaS:1.2, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:2},
-  bodies:[ // 第37便 C1: pinned ヒーター13枚・冷却板5枚を全廃し、自由な気体だけの系にした
-           // (外部駆動は壁の熱交換ひとつだけ = 要因の完全分離)。箱を小さく・密にしたのは、
-           // 壁と気体が実際に熱をやり取りできる密度にするため(実測: 旧サイズ190では天井付近の
-           // 粒子数が平均0.2個で放熱面が働かない)。
-           // 第50便 50J(原仮定者指摘「初回起動が重い」): n 300→210(力対 44.9k→21.9k =
-           // 負荷 2.0 分の 1)。24000步の再実測で循環セルは持続: 循環=21.4(>12)・平均|v|=0.90
-           // (>0.5)・定常熱流の不均衡 0.02%(<20%)— QA behavior.convection の閾値は不変のまま充足
-    {type:"box", rMul:4, n:210, cx:0,cy:0, w:80,h:80, mMin:0.05,mMax:0.05,
-     spinMin:0,spinMax:0, tInt:2.25, vScale:0.4}
+    summary:"融解(🫠)の先にある2つ目の相転移 — 沸騰。相変化拡張E14に沸点T_b=2.2と蒸発潜熱L_v=6を加えた5区分エンタルピー法で、固体⇄液体⇄気体の三態を1本のエネルギー軸上に扱う。床壁(加熱面T=2.8)が液体プールの底で蒸気を作る — 沸点に達した粒子は凝集エネルギーを潜熱として支払いながら気化し、凝集力を失った気体は熱圧(E5′)だけで押し合う。",
+    observe:"沸騰は融解より劇的に見える: 蒸気は加熱床とプールの間に溜まり、高温の蒸気クッションが液のふたを持ち上げて激しく攪拌する(膜沸騰=ライデンフロスト現象の類似)。液滴が飛び散り、飛んだ蒸気は冷えた液に触れて熱を渡し凝縮して戻る — 蒸発と凝縮が釣り合う二相共存の準定常(fl≈1/3, fg≈2/3)へ漸近する。※この宇宙の気体は液体と同じ粒子質量を持つため密度浮力が無く、蒸気が「軽いから浮かぶ」ことはない — 気体を押し上げるのは熱圧の勾配だけ(E5′)。「気泡が浮力で抜ける」代わりに「圧力が液を持ち上げる」のはこの設計帰結がそのまま見えている。相変化グラフ(右下)には融点T_m=1に加えて沸点T_b=2.2の第2のプラトーと気相率f_g(紫)が現れる。熱伝導も三態で変わる(condS>condL>condG — 気体は伝導が遅い)。エネルギーは壁帳簿+潜熱2種+結合/凝集+U_repで閉じる(保存量モニタ)。色=温度。実在物質の定量再現ではない。",
+    control:"「相変化(E14)の実験」ノブに沸点T_b・蒸発潜熱L_v・気体伝導condGが加わる。T_wall(底)を下げると凝縮が優勢になり静かなプールへ戻る。L_vを大きくすると気化に要する熱が増え、沸騰は重くなる。kRepを上げると蒸気の押し上げが強まり、系全体が膨らんで冷える(A/Bで比較)。"},
+  en:{name:"Boiling and Condensation — Gas-Liquid Phase Change", descStruct:{
+    summary:"The second phase transition beyond melting (🫠) — boiling. The phase-change extension E14 gains a boiling point T_b=2.2 and a latent heat of vaporization L_v=6, handling solid ⇄ liquid ⇄ gas on a single enthalpy axis with a five-segment solve. The floor wall (heating face, T=2.8) makes vapor at the bottom of a liquid pool — particles reaching the boiling point vaporize, paying their cohesion energy as latent heat, and the gas, stripped of cohesion, pushes on itself with thermal pressure (E5′) alone. ",
+    observe:"Boiling looks far more dramatic than melting: vapor accumulates between the heated floor and the pool, and the hot vapor cushion lifts and violently churns the liquid lid (an analogue of film boiling — the Leidenfrost effect). Droplets splash; vapor that flies up meets cooler liquid, hands over its heat and condenses back — the system approaches a two-phase quasi-steady coexistence where evaporation balances condensation (fl≈1/3, fg≈2/3). Note: gas in this universe has the same particle mass as liquid, so there is no density buoyancy — nothing floats \"because it is light\"; the only thing pushing the vapor up is the thermal-pressure gradient (E5′). \"Pressure lifting the liquid\" instead of \"bubbles rising by buoyancy\" is that design consequence made visible. The phase-change graph (bottom right) shows a second plateau at T_b=2.2 above the melting one at T_m=1, plus the gas fraction f_g (purple). Heat conduction is phase-dependent too (condS>condL>condG — gas conducts slowly). Energy closes as wall ledger + two latent heats + bond/cohesion energy + U_rep (conservation monitor). Color = temperature. No claim of quantitative correspondence to real substances. ",
+    control:"The Phase-change (E14) experiment knobs gain the boiling point T_b, latent heat L_v and gas conductivity condG. Lower the floor T_wall and condensation wins — the pool goes quiet again. Raise L_v and boiling gets sluggish (vaporizing costs more heat). Raise kRep and the vapor pushes harder — the whole system inflates and cools (compare in A/B)."}},
+  activeParams:["kRep","kappaS","gravityY","gammaN"],
+  thermal:"tint",
+  phaseChange:{ meltT:1, latentF:4, boilT:2.2, latentV:6, bondK:5, bondRange:1.6, cohesion:1.2,
+    bondDamp:0.1, visc:0.08, condS:1, condL:0.5, condG:0.15 },
+  camera:{scale:140}, world:{boundary:"box", size:110,
+    thermalWalls:{ bottom:{mode:"heat", T:2.8, rate:0.4}, top:{mode:"rad", rate:4} }},
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:1, muF:0.1, gammaN:0.3, kappaS:0.5, Kt:60,
+    cLight:60, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:2},
+  seed:7,
+  bodies:[ // 初期状態は温かい液体プール(tInt=1.5 は Tm<T<Tb の液相域)。jitter で格子秩序を崩す
+    {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:86, pitch:7, jitter:1.0, vScale:0.3,
+     mMin:1, mMax:1, tInt:1.5}
   ],
-  overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"}  },
+  overlays:{rotationCurve:false,tempHistogram:true,field:false,phaseGraph:true} },
 
-{ id:"buoyancy", name:"重力分離と浮力", emoji:"🧪", group:"熱の実験室",
+
+// 🧬emergent: 第56便 56A — 結合予算(E14″)。原仮定者指示「斥力の変化で結合数が徐々に変化・
+// 結合数が減ると残りの結合力が増す・液相の結合先は固定でなく容易に切り替わる → 三態を創発」。
+// 実測(2026-08-01): 3000步 固体(c̄3.82・2塊 最大73)→ 12000步 液滴群(33成分)→
+// 45000步 分子ガス(39成分・最大9・c̄1.68)。res 4.85e-3・clampAN=0
+{ id:"emergent", name:"三態の創発 — 結合の予算", emoji:"🧬", group:"熱の実験室",
   descStruct:{
-    summary:"一様重力場gravityYに置かれた、質量の異なる粒子の混合物。重い冷たい粒子は底へ沈んで層を作り、軽い熱い粒子は熱の圧力(E5′)によって重力に逆らって上へ押し上げられ、上層の「大気」を作る — 密度差による沈降と浮力のアナロジー。このサンプルは温度をスピンと独立な内部状態変数T_intとして扱う(A9の改訂)。",
-    observe:"要因分離のため熱の出入りはほぼ止めてあり(μF=κs=0・熱容量cHeatを大きく取って衝突散逸(E9)による昇温を抑えた温度ほぼ一定の系)、自己重力・引きずり・放射も切ってある。色=温度。",
-    control:"gravityYを0にすると分離が止まり混ざったままになる(おすすめA/B)。"},
-  en:{name:"Gravity Separation & Buoyancy", descStruct:{
-    summary:"A mixture of particles with different masses in the uniform gravity field gravityY. Heavy cold particles sink and form a bottom layer, while light hot ones are pushed upward against gravity by thermal pressure (E5′), forming an 'atmosphere' on top — an analogy of density-driven sedimentation and buoyancy. This sample treats temperature as the internal state variable T_int (the A9 revision). ",
-    observe:"Factors are isolated: heat flow is essentially switched off (muF=kappaS=0, and a large heat capacity cHeat keeps collisional dissipation (E9) from warming the grains), and self-gravity, dragging and radiation are off. Color = temperature. ",
-    control:"Set gravityY to 0 and the separation stops (suggested A/B)."}},
-  activeParams:["gravityY","kRep","gammaN"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
-  thermal:"tint",   // 第36便 D(台帳4-51)
-  camera:{scale:200}, world:{boundary:"box",size:160},
-  physics:{G:0, D0:2, kFrame:0, q:2, kRep:3, muF:0, gammaN:0.1, kappaS:0, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, cHeat:30/* 第36便 D: 大きな熱容量で衝突散逸(E9)による昇温を抑え、旧版の「温度一定」統制条件を維持(実測: 12000步で T 20.25→20.71 = +2%)*/,
-    gravityX:0, gravityY:0.05, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 2.5 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2},
-  bodies:[ // v1.18: Gemini 第8次提案を機械掃引で調整(スピン固定+radiusScale2.5 — 分離52〜72が持続)
-    {type:"box", rMul:2.5, n:200, cx:0,cy:0, w:280,h:280, mMin:0.2,mMax:0.2, spinMin:0,spinMax:0, tInt:20.25, vScale:0.5},
-    {type:"box", rMul:2.5, n:80, cx:0,cy:0, w:280,h:280, mMin:3,mMax:3, spinMin:0,spinMax:0, tInt:0, vScale:0.1}
+    summary:"固体・液体・気体を「相のスイッチ」なしで創発させる実験(E14″結合予算)。分子間力のルールはひとつだけ — 各分子は結合の予算(公称6本分)を持ち、いま結合している相手の数で予算を分け合う。結合数が減ると残りの結合力が増す(予算の集中)。結合相手は幾何だけで決まり、固定されない(毎瞬間、帯内の相手と自動でつなぎ直す)。温度は熱圧(E5′)の斥力としてだけ力学に入り、この引力との競合が三態を作る。",
+    observe:"低温では弱い結合を6本ずつ張り合った格子(塊)が安定。加熱すると熱圧が結合を1本また1本と引き剥がし、結合数が徐々に減る — 減るほど残りの結合が濃く太くなる(結合線の表示がそのまま予算の集中を見せる)。中温では数本の強い結合で繋がった液滴・クラスタが漂い、結合相手は衝突のたびに入れ替わる。高温では2〜9粒の小さな「分子」だけが残り、飛び回る気体になる — 原子の気体ではなく分子の気体が創発するのは、予算の集中で最後の結合が最も強いから。結合の組み替えでポテンシャルが変わる分は熱と等価交換され、エネルギーは壁帳簿+潜熱+結合+U_repで閉じる(実測残差 4.9e-3 — 保存量モニタ)。色=温度・白円弧=溶融度・結合線の濃さ=結合の強さ。実在物質の定量再現ではない。",
+    control:"kRep(熱圧)を上げると三態の境目が低温側へ動く。bondK・潜熱は「相変化(E14)の実験」ノブで変更できる。T_wall(底)を下げると分子が再結合して塊へ戻っていく。"},
+  en:{name:"Three States Emerging — a Bond Budget", descStruct:{
+    summary:"An experiment where solid, liquid and gas *emerge* without any phase switch (E14″ bond budget). There is a single intermolecular rule: each molecule carries a bonding budget (nominally six bonds' worth) and splits it among however many partners it currently touches. The fewer the bonds, the stronger each remaining one (budget concentration). Partners are set by geometry alone and are never fixed — connections rewire on the fly with whoever is in range. Temperature enters mechanics only as thermal-pressure repulsion (E5′), and its competition with this attraction is what creates the three states. ",
+    observe:"At low temperature a lattice of many weak bonds (a lump) is stable. Heating lets thermal pressure peel bonds away one by one — and as the count drops, the remaining bond lines grow visibly darker and thicker (the display shows the budget concentrating). At mid temperatures droplets and clusters drift about, held by a few strong bonds, their partners swapping at every collision. At high temperature only small 2-9 particle \"molecules\" remain, flying freely — a gas of molecules rather than atoms emerges, because budget concentration makes the last bonds the strongest. Potential changes from bond rewiring are exchanged with heat, so energy closes as wall ledger + latent heat + bonds + U_rep (measured residual 4.9e-3 — conservation monitor). Color = temperature; white arc = molten fraction; bond-line darkness = bond strength. No claim of quantitative correspondence to real substances. ",
+    control:"Raise kRep (thermal pressure) and the state boundaries shift to lower temperatures. bondK and the latent heats are adjustable in the Phase-change (E14) experiment knobs. Lower the floor T_wall and the molecules re-bond into a lump."}},
+  activeParams:["kRep","kappaS","gravityY","gammaN"],
+  thermal:"tint",
+  phaseChange:{ meltT:1, latentF:3, boilT:2.2, latentV:5, bondN:6, bondK:5, bondRange:1.6,
+    bondDamp:0.02, condS:1, condL:0.5, condG:0.15 },
+  camera:{scale:140}, world:{boundary:"box", size:110,
+    thermalWalls:{ bottom:{mode:"heat", T:5, rate:0.5} }},
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:20, muF:0.1, gammaN:0.3, kappaS:0.5, Kt:60,
+    cLight:60, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:2},
+  seed:7,
+  bodies:[ // 🫠melt と同一の初期結晶 — 差は bondN(結合予算)と kRep=20 だけ
+    {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:93, pitch:5, mMin:1, mMax:1, tInt:0.2}
   ],
-  overlays:{rotationCurve:false,tempHistogram:false,field:false} },
+  overlays:{rotationCurve:false,tempHistogram:true,field:false,phaseGraph:true} },
+
 
 // ===== グループ: 天体の物語 =====
 { id:"earthMoon", name:"地球と月", emoji:"🌍", group:"天体の物語",
@@ -3209,6 +3242,16 @@ function validatePreset(obj){
           out.condG=optNum("condG",0,100,1);
         }
       } else if(PC.condG!==undefined) warnings.push("phaseChange.condG は boilT/latentV とセットで使います — 無視します");
+      // 第56便 56A(結合予算): bondN=公称配位数(>0 で有効 — 引力の相率ゲートを置き換える)。
+      // cohesion/valence とは排他(bondN モードでは使われない — 指定されていれば警告)
+      if(PC.bondN!==undefined){
+        if(isNum(PC.bondN) && PC.bondN>0){
+          out.bondN=clamp(PC.bondN,0.5,12);
+          if(out.bondN!==PC.bondN) warnings.push("phaseChange.bondN を値域 [0.5,12] に修正");
+          if((isNum(PC.cohesion)&&PC.cohesion>0) || PC.valence!==undefined)
+            warnings.push("phaseChange.bondN(結合予算)モードでは cohesion/valence は使われません");
+        } else warnings.push("phaseChange.bondN は正の数値 — 無視します(相率ゲートの従来モード)");
+      }
       // 第55便 55A(結合価): valence=液相凝集の結合価(1〜3 の整数)。省略=等方凝集(従来)
       if(PC.valence!==undefined){
         if(isNum(PC.valence) && PC.valence>=1){
@@ -3610,6 +3653,10 @@ function solveTintE(T0, cm, a, Q){
 // (C=cHeat は全相共通 — 相別比熱は導入しない。潜熱 Lf は単位質量あたり)。
 // 温度とエンタルピーを二重管理しない(温度は常に導出量)ことで、融解・凝固中に加えた熱が
 // 温度上昇ではなく潜熱に使われる挙動と、エネルギー帳簿の閉性が同時に成り立つ。
+// 第56便 56A(結合予算): share の上限。結合が1本まで減っても「元の PC_SHARE_MAX 倍」までしか
+// 強くならない(固相を保てる弱い斥力でも、高温で最後の結合を振り切れる動的レンジの確保 —
+// 上限3では 固相維持と気相脱出の要求が2倍矛盾することを実測で確認し 2 に決定)
+const PC_SHARE_MAX=2;
 // 第54便 54A(気液相変化): 区分を5つへ一般化 — boilT(沸点 Tb)・latentV(蒸発潜熱 Lv)の
 // あるプリセットでは、液相の上に「沸騰プラトー(T=Tb・fg 0→1)」と気相が加わる:
 //   h1=C·Tm / h2=h1+Lf / h3=h2+C·(Tb−Tm) / h4=h3+Lv
@@ -3712,6 +3759,7 @@ function phaseEnergy(s){
   const K1=pc.bondK, K2=pc.cohesion;
   if(!(K1>0) && !(K2>0)) return 0;
   const chP=s.chainP, val=chP? pc.valence : 0;   // 55A: 結合価モードでは凝集はリンク上のみ
+  const bN=pc.bondN||0, cN=s.coordN;             // 56A: 結合予算モード(相率ゲートなし)
   let U=0;
   for(let i=0;i<s.n;i++){
     const mi=s.m[i], Ri=s.R[i], fli=s.fLiq[i], fsi=1-fli-s.fGas[i];   // 54A: fs=1−fl−fg
@@ -3721,11 +3769,17 @@ function phaseEnergy(s){
       if(!(d<cut)) continue;
       const ms=mi+s.m[j]; if(!(Math.abs(ms)>1e-9)) continue;
       const flj=s.fLiq[j];
-      let K2e=K2*fli*flj;
-      if(chP && K2e>0){ let li=false;
-        for(let k=0;k<val;k++) if(chP[i*val+k]===j){ li=true; break; }
-        if(!li) K2e=0; }
-      const Katt=K1*fsi*(1-flj-s.fGas[j]) + K2e;
+      let Katt;
+      if(bN>0){   // 56A: 予算分配 K=bondK·√(share_i·share_j) — _core と同式(coordN は前サブステップ値)
+        const shI=Math.min(PC_SHARE_MAX,bN/Math.max(cN[i],0.5)), shJ=Math.min(PC_SHARE_MAX,bN/Math.max(cN[j],0.5));
+        Katt=K1*Math.sqrt(shI*shJ);
+      } else {
+        let K2e=K2*fli*flj;
+        if(chP && K2e>0){ let li=false;
+          for(let k=0;k<val;k++) if(chP[i*val+k]===j){ li=true; break; }
+          if(!li) K2e=0; }
+        Katt=K1*fsi*(1-flj-s.fGas[j]) + K2e;
+      }
       if(!(Katt>0)) continue;
       const muM=mi*s.m[j]/ms, A=cut-sumR;
       const u0=(d>sumR)? d-sumR : 0;
@@ -3848,7 +3902,8 @@ function makeSim(){
     // (温度とエンタルピーの二重管理はしない — 帳簿不整合の温床)
     // 第54便 54A: fGas = 気相率(boilT の無いプリセットでは常に0)。bAtt は bS(結合)・bC(凝集)の
     // 2係数へ分離 — 熱量関数の融解傾き bMelt=bS−bC と沸騰傾き bCe を別々に組むため
-    phase:null, hInt:null, fLiq:null, fGas:null, bAttS:null, bAttC:null, chainP:null, clampBN:0, clampAN:0,
+    phase:null, hInt:null, fLiq:null, fGas:null, bAttS:null, bAttC:null, chainP:null,
+    coordN:null, coordAcc:null, shPrev:null, clampBN:0, clampAN:0,
     // 第53便 53B(外部レビュー P1「相変化専用グラフ」): 相変化履歴 — phaseChange プリセットのみ
     // 25サブステップごとに {t, T:平均T_int, f:平均液相率, Q:壁正味入熱} を積む(boxHist と同方式)
     phHist:null, _phAcc:0,
@@ -4147,7 +4202,13 @@ function makeSim(){
           // 第55便 55A(分子間力・結合価): valence=液相凝集の結合価(1〜3 の整数)。指定時、凝集は
           // 各粒子が最大 valence 本持つ「鎖リンク」上でのみ働く(固相 bondK は従来どおり等方)。
           // 省略(0)では 53A の等方凝集と 1 ビットも変わらない
-          valence:(isNum(PC.valence) && PC.valence>=1)? Math.min(3,Math.round(PC.valence)) : 0 }
+          valence:(isNum(PC.valence) && PC.valence>=1)? Math.min(3,Math.round(PC.valence)) : 0,
+          // 第56便 56A(結合予算 — 原仮定者指示「斥力の変化で結合数が徐々に変化・結合数が減ると
+          // 残りの結合力が増す・液相の結合先は容易に切り替わる → 三態を創発」):
+          // bondN=公称配位数 N0(>0 で有効)。引力を相率でゲートせず、全帯内対に
+          // K_pair = bondK·√(share_i·share_j)、share=min(3, N0/max(c,0.5))(c=滑らかな配位数)
+          // を適用する。三態は kRep(T) 熱斥力との競合から創発する(fl/fg は表示・伝導のみ)
+          bondN:(isNum(PC.bondN) && PC.bondN>0)? clamp(PC.bondN,0.5,12) : 0 }
       : null;
     // 第54便 54A(気液相変化): boilT/latentV は両方の有効指定(かつ boilT>meltT)で気相が有効。
     // 片方だけ・境界不整合は無効(validatePreset も同条件で警告 — ここが最終の門番)。
@@ -4163,6 +4224,23 @@ function makeSim(){
       // 55A: 鎖リンクの持続状態(粒子ごとの相手 index×valence。-1=空き。fusion/fission は
       // phaseChange と排他なので index 再配置(_compact/_grow)は起きない)
       S.chainP=(S.phase.valence>0)? new Int32Array(S.n*S.phase.valence).fill(-1) : null;
+      // 56A: 結合予算モードの滑らかな配位数(前サブステップ値を読む2バッファ — 決定論)。
+      // 初期値は初期配置から計算する(0 のままだと share が上限に張り付き、最初の監査 E0 が
+      // 実際のポテンシャルとズレる — 実測で res≈1 になった初期化バグの恒久対策)
+      S.coordN=(S.phase.bondN>0)? new Float32Array(S.n) : null;
+      S.coordAcc=(S.phase.bondN>0)? new Float32Array(S.n) : null;
+      S.shPrev=(S.phase.bondN>0)? new Float32Array(S.n) : null;
+      if(S.coordN){
+        for(let i=0;i<S.n;i++) for(let j=i+1;j<S.n;j++){
+          const sumR=S.R[i]+S.R[j], cut=S.phase.bondRange*sumR;
+          const dx=S.x[i]-S.x[j], dy=S.y[i]-S.y[j], d=Math.sqrt(dx*dx+dy*dy);
+          if(!(d<cut)) continue;
+          const A=cut-sumR, u0=(d>sumR)? d-sumR : 0;
+          const wD=(A*(A*A-u0*u0)/2 - (A*A*A-u0*u0*u0)/3)/A;
+          S.coordN[i]+=wD/(A*A/6); S.coordN[j]+=wD/(A*A/6);
+        }
+        for(let i=0;i<S.n;i++) S.shPrev[i]=Math.min(PC_SHARE_MAX, S.phase.bondN/Math.max(S.coordN[i],0.5));
+      }
       const C=S.params.cHeat, Tm=S.phase.meltT, Lf=S.phase.latentF;
       const Tb=(S.phase.boilT>0)? S.phase.boilT : Infinity, Lv=S.phase.latentV||0;
       for(let i=0;i<S.n;i++){ const T=S.Tint[i];
@@ -4170,7 +4248,8 @@ function makeSim(){
         S.hInt[i]=C*T + (T>Tm? Lf : 0) + (T>Tb? Lv : 0);
         S.fLiq[i]=(T>Tm && T<=Tb)? 1 : 0; S.fGas[i]=(T>Tb)? 1 : 0; }
       S.phHist=[];   // 第53便 53B: 相変化履歴(グラフ用データ層。既定プリセットはゼロコストのまま)
-    } else { S.hInt=null; S.fLiq=null; S.fGas=null; S.bAttS=null; S.bAttC=null; S.chainP=null; S.phHist=null; }
+    } else { S.hInt=null; S.fLiq=null; S.fGas=null; S.bAttS=null; S.bAttC=null; S.chainP=null;
+      S.coordN=null; S.coordAcc=null; S.shPrev=null; S.phHist=null; }
     S._phAcc=0;
     S.resPx=0; S.resPy=0; S.resL=0; S.radE=0; S.radL=0;
     S.wallEin=0; S.wallEout=0; S.wallKE=0;   // 第37便 C1(台帳4-70): 壁帳簿もリセット
@@ -4665,7 +4744,12 @@ function makeSim(){
           pcTb=(pc&&pc.boilT>0)?pc.boilT:Infinity, pcLv=(pc&&pc.latentV>0)?pc.latentV:0,
           pcBondK=pc?pc.bondK:0, pcRange=pc?pc.bondRange:0, pcCoh=pc?pc.cohesion:0,
           pcBDamp=pc?pc.bondDamp:0, pcVisc=pc?pc.visc:0,
-          pcCs=pc?pc.condS:1, pcCl=pc?pc.condL:1, pcCg=(pc&&pc.condG!==undefined)?pc.condG:1;
+          pcCs=pc?pc.condS:1, pcCl=pc?pc.condL:1, pcCg=(pc&&pc.condG!==undefined)?pc.condG:1,
+          // 第56便 56A(結合予算): 滑らかな配位数の2バッファ(coordN=前サブステップ値を読む/
+          // coordAcc=今サブステップの積算 — _core 末尾で交換)。bondN=0 ではダミー束縛
+          pcBondN=pc?(pc.bondN||0):0,
+          coordN=(pcBondN>0)?S.coordN:__DF32, coordAcc=(pcBondN>0)?S.coordAcc:__DF32,
+          shPrev=(pcBondN>0)?S.shPrev:__DF32;
     const eps=p.softening, eps2=eps*eps, G=p.G, q=p.q, kRep=p.kRep,
           muF=p.muF, gammaN=p.gammaN, kappaS=p.kappaS, D0=p.D0, kFrame=p.kFrame,
           etaRad=p.etaRad, pRad=p.pRad,
@@ -4708,12 +4792,16 @@ function makeSim(){
     if(chP && doPre){
       for(let i2=0;i2<n;i2++){
         const b0=i2*pcVal;
+        // 第56便 56B(レビューP0裁定・A案): 凝固完了(fl=0 かつ fg=0)でその粒子の鎖リンクを消去 —
+        // 凝集リンクは固相結合へ置き換わったとみなす(リンク力∝fl·fl=0 なのでエネルギー連続)。
+        // 2往復目の再融解はまっさらな鎖を再形成する(トポロジー記憶を残さない仕様と明記)
+        const frozen=(fLiq[i2]===0 && fGas[i2]===0);
         for(let k2=0;k2<pcVal;k2++){
           const j2=chP[b0+k2];
           if(j2<0) continue;
           const dxc=x[i2]-x[j2], dyc=y[i2]-y[j2];
           const cutC=pcRange*(R[i2]+R[j2]);
-          if(!(dxc*dxc+dyc*dyc<cutC*cutC)){
+          if(frozen || !(dxc*dxc+dyc*dyc<cutC*cutC)){
             chP[b0+k2]=-1;
             const bj=j2*pcVal;
             for(let k3=0;k3<pcVal;k3++) if(chP[bj+k3]===i2){ chP[bj+k3]=-1; break; }
@@ -4940,6 +5028,43 @@ function makeSim(){
         // E9 と同じ換算則(質量比分配)で dQi へ積む(A9′ — pinned の持ち分は radE へ)。
         // 力上限も E9 と同じ「軽い側の加速度≤8」の対称キャップ(非対称な「ロケット」の防止)
         if(pc && d<pcRange*sumR && Math.abs(mi+mj)>1e-9){
+          const muM=mi*mj/(mi+mj);
+          // 対の井戸形状 w(d): 帯内で U(d)/(−K_att·μ)、重なり d≤r0 では井戸底 A²/6 の定数
+          // (力 0・束縛は満深)。各モード(結合予算/結合価/等方)と Û 係数が共用する
+          const cutW=pcRange*sumR, AW=cutW-sumR;
+          const u0=(d>sumR)? d-sumR : 0;
+          const wD=(AW*(AW*AW-u0*u0)/2 - (AW*AW*AW-u0*u0*u0)/3)/AW;
+          let Katt, cD;
+          if(pcBondN>0){
+            // ===== 第56便 56A(結合予算 — E14″): 三態の創発 =====
+            // 引力を相率でゲートしない。各粒子の結合予算 N0(bondN)を現在の滑らかな配位数
+            // c=Σ w/wMax(wMax=A²/6: 接触で1・帯端で0 — 連続)で分配し、
+            //   K_pair = bondK·√(share_i·share_j)、share=min(3, N0/max(c,0.5))
+            // とする。結合数が減ると残りの結合力が増し(予算の集中)、結合相手は幾何のみで
+            // 決まる(毎サブステップ再計算 = 液相では容易に入れ替わる)。温度は kRep(E5′)を
+            // 通じてのみ斥力として働き、固相(c≈6)/液相(少数の強い結合)/気相(c→0)が
+            // この競合から創発する。b は積まない(引力が相率に依存しないため Û=0 —
+            // E(h)=m·h+a·√T に退化)。U_att の配位数依存(多体)は帳簿外 O(dt·ċ) —
+            // 監査残差として実測・PHYSICS に文書化
+            if(doPre){ coordAcc[i]+=wD/(AW*AW/6); coordAcc[j]+=wD/(AW*AW/6); }   // 積算は1サブステップ1回
+            const shI=Math.min(PC_SHARE_MAX, pcBondN/Math.max(coordN[i],0.5)),
+                  shJ=Math.min(PC_SHARE_MAX, pcBondN/Math.max(coordN[j],0.5));
+            Katt=pcBondK*Math.sqrt(shI*shJ);
+            cD=pcBDamp;
+            // 再配分の熱交換(帳簿の恒久対策): share が変わると井戸深さ K·μ·w が力の仕事なしに
+            // 変わる(結合数減 → 残り強化 = U が深くなる)。その ΔU を熱と等価交換する —
+            // ΔQ = (K_now − K_prev)·μ·w を dQi へ(強化=発熱・弱化=吸熱。結合の組み替えは
+            // 熱浴とエネルギーをやり取りする)。d の変化分は力の仕事が受け持つ(交差項 O(dt²))
+            if(doPre){
+              const dK=Katt - pcBondK*Math.sqrt(shPrev[i]*shPrev[j]);
+              if(dK!==0){
+                const qR=dK*muM*wD;
+                const qi3=qR*mi/(mi+mj), qj3=qR*mj/(mi+mj);
+                if(pinned[i]) S.radE+=qi3; else dQi[i]+=qi3;
+                if(pinned[j]) S.radE+=qj3; else dQi[j]+=qj3;
+              }
+            }
+          } else {
           // 第54便 54A: 固相率 fs=1−fl−fg(気相は結合にも凝集にも入らない — 蒸発で凝縮相の
           // 引力が連続的に消える)。boilT の無いプリセットでは fg≡0 で 53A と同値
           const fli=fLiq[i], flj=fLiq[j];
@@ -4956,25 +5081,32 @@ function makeSim(){
             if(!li && fi>=0 && lpF>0){
               let fj=-1;
               for(let k2=0;k2<pcVal;k2++){ const v2=chP[bj+k2]; if(v2===i){ fj=-2; break; } if(v2<0 && fj<0) fj=k2; }
-              if(fj>=0){ chP[bi+fi]=j; chP[bj+fj]=i; li=true; }
+              if(fj>=0){ chP[bi+fi]=j; chP[bj+fj]=i; li=true;
+                // 第56便 56B(レビューP0): 帯の深部での再結合はポテンシャルの飛び(0→−K·μ·w)を
+                // 作っていた(55A の既知残差 1.9e-2 の主因)。生成した井戸の深さ分を熱として
+                // 支払う(dQi へ質量比分配 — E9 減衰と同じ作法)。帯端(w≈0)の通常形成では
+                // 0 に退化し従来と同値。切断は w=0 の帯端のみなので対の項は不要
+                const qF=pcCoh*lpF*muM*wD;
+                if(qF>0){
+                  const qi2=qF*mi/(mi+mj), qj2=qF*mj/(mi+mj);
+                  if(pinned[i]) S.radE+=qi2; else dQi[i]+=qi2;
+                  if(pinned[j]) S.radE+=qj2; else dQi[j]+=qj2;
+                }
+              }
               else if(fj===-2) li=true;
             }
             if(!li){ lpF=0; chOK=false; }
           }
-          const Katt=pcBondK*spF + pcCoh*lpF;
-          const cD=pcBDamp*spF + pcVisc*lpF;
-          const muM=mi*mj/(mi+mj);
-          // 相率係数(熱量関数の Û — 上の phaseHsolve 参照): 対の井戸形状 w(d) は帯内で
-          // U(d)/(−K_att·μ)、重なり d≤r0 では井戸底 A²/6 の定数(力 0・束縛は満深)。
+          Katt=pcBondK*spF + pcCoh*lpF;
+          cD=pcBDamp*spF + pcVisc*lpF;
+          // 相率係数(熱量関数の Û — 上の phaseHsolve 参照):
           //   bS_i = Σ_j bondK·fs_j·μ·w(結合の係数)/ bC_i = Σ_j cohesion·fl_j·μ·w(凝集の係数)
           // 融解の傾き=bS−bC・沸騰の傾き=bC — 蒸発は凝集エネルギーを実効潜熱として支払う
           {
-            const cut=pcRange*sumR, A=cut-sumR;
-            const u0=(d>sumR)? d-sumR : 0;
-            const wD=(A*(A*A-u0*u0)/2 - (A*A*A-u0*u0*u0)/3)/A;
             const wMu=muM*wD;
             bAttS[i]+=pcBondK*fsj*wMu; bAttS[j]+=pcBondK*fsi*wMu;
             if(chOK){ bAttC[i]+=pcCoh*flj*wMu; bAttC[j]+=pcCoh*fli*wMu; }   // 55A: 凝集はリンク上のみ
+          }
           }
           if((Katt>0 || cD>0) && d>sumR){
             const nxv=dx/d, nyv=dy/d;
@@ -5408,6 +5540,14 @@ function makeSim(){
       if(doPost) S.tauUpdate(i,dt);
     }
     // 第35便: 以降(近点検出器・t進み・尺度履歴・光子伝播)は 1サブステップ1回。
+    // 第56便 56A(結合予算): 滑らかな配位数バッファの交換 — 今サブステップの積算(doPre 側の
+    // 対ループで積んだ coordAcc)を確定し、次に読む側(coordN)へ。KDK では パスA 末尾で交換し
+    // パスB が同サブステップの値を読む。semi では次サブステップが読む(1サブステップ遅れ・決定論)
+    if(pcBondN>0 && doPre){
+      // 今サブステップで使った share を保存(次サブステップの再配分熱交換 ΔK の基準)
+      for(let i2=0;i2<n;i2++) shPrev[i2]=Math.min(PC_SHARE_MAX, pcBondN/Math.max(coordN[i2],0.5));
+      const tc=S.coordN; S.coordN=S.coordAcc; S.coordAcc=tc; S.coordAcc.fill(0);
+    }
     // leapfrog パスA(doPost=false)はここで終了し、パスBが引き継ぐ
     if(!doPost) return;
     // ===== 近点検出器(第11次裁定 保留分の実施): E13 中心天体のあるプリセットで、各周回粒子の
@@ -6470,25 +6610,71 @@ function render(){
   // 〔原仮定者裁定〕で全品質から撤廃 — drawRadiusCap() は常に Infinity。小さな粒子も
   // 実際の半径どおりに表示する。第37便 A6: drawScale(描画専用倍率)は廃止済み — 以下の
   // 半径式はもう dscale を掛けない(1固定と厳密等価)
-  // 第55便 55A(結合価): 鎖リンクの可視化(表示のみ — 物理・帳簿には一切触れない)。
-  // 液相の凝集リンクを細線で結び「鎖状の液相」を直接読めるようにする。線の濃さは両者の
-  // 液相率の積(凍結・気化でリンクの表示が自然に消える — リンク自体は距離切断まで残る)
-  if(sim.chainP && sim.phase && sim.phase.valence>0){
-    const val=sim.phase.valence;
-    ctx.lineWidth=1.5;
-    for(let i=0;i<sim.n;i++){
-      const b0=i*val;
-      for(let k3=0;k3<val;k3++){
-        const j=sim.chainP[b0+k3];
-        if(j<=i) continue;   // リンクは両側の配列に入っているので i<j 側だけ描く
-        const al=sim.fLiq[i]*sim.fLiq[j];
-        if(!(al>0.02)) continue;
-        ctx.strokeStyle="rgba(190,210,255,"+(0.25+0.45*al).toFixed(3)+")";
-        ctx.beginPath(); ctx.moveTo(w2sX(sim.x[i]),w2sY(sim.y[i]));
-        ctx.lineTo(w2sX(sim.x[j]),w2sY(sim.y[j])); ctx.stroke();
+  // 第55便 55A/第56便 56B(レビューP0「相状態を温度色と別チャンネルで」): 結合構造の可視化
+  // (表示のみ — 物理・帳簿には一切触れない)。
+  // ①結合予算モード(bondN): 全帯内対を強度×井戸深さの濃さで結ぶ — 「結合数が徐々に変わり、
+  //   減ると残りが濃くなる」を直接見せる ②固相結合(bondK): fs·fs の濃さで格子を結ぶ —
+  //   融解前線で格子が消えるのが見える ③鎖リンク(valence): 白線(従来)
+  if(sim.phase && qLevel()!==2){
+    const pcD=sim.phase, cutM=pcD.bondRange;
+    if(pcD.bondN>0 && sim.coordN){
+      const bN=pcD.bondN, cN=sim.coordN;
+      for(let i=0;i<sim.n;i++){
+        for(let j=i+1;j<sim.n;j++){
+          const dx=sim.x[i]-sim.x[j], dy=sim.y[i]-sim.y[j];
+          const sumR=sim.R[i]+sim.R[j], cut=cutM*sumR;
+          const d2=dx*dx+dy*dy;
+          if(!(d2<cut*cut)) continue;
+          const d=Math.sqrt(d2);
+          const shI=Math.min(PC_SHARE_MAX,bN/Math.max(cN[i],0.5)), shJ=Math.min(PC_SHARE_MAX,bN/Math.max(cN[j],0.5));
+          const str=Math.sqrt(shI*shJ)/PC_SHARE_MAX;             // 強度(share 正規化 0〜1)
+          const wN=(d>sumR)? 1-((d-sumR)/(cut-sumR)):1;          // 井戸の深さ近似(帯端で0)
+          const al=Math.min(0.85, (0.15+0.7*str)*wN);
+          if(al<0.04) continue;
+          ctx.strokeStyle="rgba(190,215,255,"+al.toFixed(3)+")";
+          ctx.lineWidth=0.8+1.8*str*wN;
+          ctx.beginPath(); ctx.moveTo(w2sX(sim.x[i]),w2sY(sim.y[i]));
+          ctx.lineTo(w2sX(sim.x[j]),w2sY(sim.y[j])); ctx.stroke();
+        }
+      }
+      ctx.lineWidth=1;
+    } else if(pcD.bondK>0){
+      // 固相結合線: 両者の固相率が高い帯内対のみ(液・気では自然に消える)
+      for(let i=0;i<sim.n;i++){
+        const fsi=1-sim.fLiq[i]-sim.fGas[i];
+        if(fsi<0.3) continue;
+        for(let j=i+1;j<sim.n;j++){
+          const fsj=1-sim.fLiq[j]-sim.fGas[j];
+          if(fsj<0.3) continue;
+          const dx=sim.x[i]-sim.x[j], dy=sim.y[i]-sim.y[j];
+          const sumR=sim.R[i]+sim.R[j], cut=cutM*sumR;
+          const d2=dx*dx+dy*dy;
+          if(!(d2<cut*cut)) continue;
+          const al=0.30*fsi*fsj;
+          ctx.strokeStyle="rgba(150,175,235,"+al.toFixed(3)+")";
+          ctx.lineWidth=1;
+          ctx.beginPath(); ctx.moveTo(w2sX(sim.x[i]),w2sY(sim.y[i]));
+          ctx.lineTo(w2sX(sim.x[j]),w2sY(sim.y[j])); ctx.stroke();
+        }
       }
     }
-    ctx.lineWidth=1;
+    if(sim.chainP && pcD.valence>0){
+      const val=pcD.valence;
+      ctx.lineWidth=1.5;
+      for(let i=0;i<sim.n;i++){
+        const b0=i*val;
+        for(let k3=0;k3<val;k3++){
+          const j=sim.chainP[b0+k3];
+          if(j<=i) continue;   // リンクは両側の配列に入っているので i<j 側だけ描く
+          const al=sim.fLiq[i]*sim.fLiq[j];
+          if(!(al>0.02)) continue;
+          ctx.strokeStyle="rgba(190,210,255,"+(0.25+0.45*al).toFixed(3)+")";
+          ctx.beginPath(); ctx.moveTo(w2sX(sim.x[i]),w2sY(sim.y[i]));
+          ctx.lineTo(w2sX(sim.x[j]),w2sY(sim.y[j])); ctx.stroke();
+        }
+      }
+      ctx.lineWidth=1;
+    }
   }
   const rCap=drawRadiusCap(), glowOn=qLevel()===0;
   for(let i=0;i<sim.n;i++){
@@ -6505,6 +6691,22 @@ function render(){
     }
     ctx.fillStyle=col;
     ctx.beginPath(); ctx.arc(sx,sy,rr,0,7); ctx.fill();
+    // 第56便 56B(レビューP0): 相状態の輪郭チャンネル — 温度色(塗り)と独立に相を読む。
+    // 白い円弧の長さ=溶融進行度(fl+fg。全周=完全に液体)・点線リング=気相。
+    // 固相=輪郭なし(格子の結合線が別途出る)。白黒表示でも三相を判別できる
+    if(sim.phase){
+      const flD=sim.fLiq[i], fgD=sim.fGas[i];
+      if(fgD>0.5){
+        ctx.setLineDash([2,2]); ctx.strokeStyle="rgba(235,242,255,0.75)"; ctx.lineWidth=1;
+        ctx.beginPath(); ctx.arc(sx,sy,rr+1.4,0,7); ctx.stroke(); ctx.setLineDash([]);
+      } else {
+        const fr=flD+fgD;
+        if(fr>0.01){
+          ctx.strokeStyle="rgba(255,255,255,0.85)"; ctx.lineWidth=1.4;
+          ctx.beginPath(); ctx.arc(sx,sy,rr+1.4,-1.5708,-1.5708+6.2832*Math.min(1,fr)); ctx.stroke();
+        }
+      }
+    }
     // v1.17: 大きく表示される粒子はスポーク(車輪の輻)で回転方向・速さを可視化
     if(rr>=7 && Math.abs(sim.spin[i])>1e-4){
       const a0=sim.rotA[i];
@@ -7138,6 +7340,8 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
     if(sim.hInt && simB.hInt){ simB.hInt.set(sim.hInt.subarray(0,sim.n));
       simB.fLiq.set(sim.fLiq.subarray(0,sim.n)); simB.fGas.set(sim.fGas.subarray(0,sim.n)); }
     if(sim.chainP && simB.chainP) simB.chainP.set(sim.chainP);   // 55A: 鎖リンクの持続状態も転写
+    if(sim.coordN && simB.coordN){ simB.coordN.set(sim.coordN); simB.coordAcc.set(sim.coordAcc);
+      simB.shPrev.set(sim.shPrev); }   // 56A
     simB.pinned.set(sim.pinned.subarray(0,sim.n)); simB.hasU.set(sim.hasU.subarray(0,sim.n));
   }
   if(sim.phase && simB.phase) Object.assign(simB.phase, sim.phase);
