@@ -4,7 +4,7 @@
   冒頭コメントに記録(v0.1 初稿 → v0.2 第5次模擬査読 → v0.3 英文校閲 →
   v0.4 E12 節 → v0.5 第6次査読=論文・コード一致回復 → v0.6 タイトル変更(4-19)→
   v0.7 公開前整合)。
-- 執筆指示書は `docs/dev/HANDOFF_PAPER_V2.md`(唯一の正本。2026-07-20 改訂 —
+- 執筆指示書は内部開発文書 HANDOFF_PAPER_V2.md(唯一の正本・非公開管理。2026-07-20 改訂 —
   禁止事項 6/7 の E12 整合と新タイトル。旧 HANDOFF_PAPER.md は参照禁止)。
 - 入力正本: `docs/DERIVATIONS.md` / `docs/PHYSICS.md` v1.9 /
   `docs/THEORY_SYNTHESIS.md` v1.7+ / `index.html` **v1.27**(実験の物理エンジンは
@@ -103,9 +103,9 @@ grep で機械確認する:
 
 - 現行稿 **v0.4**(2026-07-30 第46便 46F — 図8点の機械生成と組み込み)。
   改稿履歴は `dfm-paper2.tex` 冒頭コメント。
-- 執筆指示書は `docs/dev/HANDOFF_PAPER2_WRITE.md` v1.1(唯一の正本)。
-- 図の設計正本: 骨子 `docs/dev/HANDOFF_PAPER_BOX.md` v0.3 §4 と
-  `docs/dev/EXP_4-66_PROBE_H_DESIGN.md`(図6の仕様)。
+- 執筆指示書は内部開発文書 HANDOFF_PAPER2_WRITE.md v1.1(唯一の正本・非公開管理)。
+- 図の設計正本: 骨子 HANDOFF_PAPER_BOX.md v0.3 §4 と EXP_4-66_PROBE_H_DESIGN.md
+  (図6の仕様 — いずれも内部開発文書・非公開管理)。
 
 ## ビルド
 

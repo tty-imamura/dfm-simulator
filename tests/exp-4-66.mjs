@@ -1,5 +1,5 @@
 // 第50便(台帳4-66): E8R 指数形 vs 厳密反比例(光速∝1/W)のプローブ依存H判別実験。
-// 設計正本: docs/dev/EXP_4-66_PROBE_H_DESIGN.md(第43便 43D — 設計確定済み)。
+// 設計正本: 内部開発文書 EXP_4-66_PROBE_H_DESIGN.md(第43便 43D — 設計確定済み・非公開管理)。
 // - 本スクリプトは QA ではない(合否 exit code なし — exp-4-67/4-68c と同じ独立スクリプト方式)。
 //   設計書 §2-4 の判定4基準は JSON に ok フラグとして記録し、コンソールにも表示する。
 //   V29(HP.verify.v29)は現行のまま回帰ゲートとして残す — 本実験は V29 の測定系を
@@ -207,7 +207,7 @@ const out = {
   schemaVersion: 1,
   generatedAt: new Date().toISOString(), commit, target: TARGET, targetSha256: TARGET_SHA,
   note: '第50便(台帳4-66)E8R 指数形 vs 厳密反比例のプローブ依存H判別実験。QA ではない(合否 exit code なし)。'
-    + '設計正本 docs/dev/EXP_4-66_PROBE_H_DESIGN.md §2。対象実装ファイルは一切変更していない — '
+    + '設計正本 内部開発文書 EXP_4-66_PROBE_H_DESIGN.md §2(非公開管理)。対象実装ファイルは一切変更していない — '
     + '測定構成は V29 と同一で validatePreset→HP.sim.build の正規経路で注入。反比例対照は同じ w 実測からの後処理'
     + '(コード変更なし — E8R 本体の改変はしない)。本 JSON は論文2 fig6 の元データを兼ねる(fig6 生成は tools/gen-figures2.mjs)。',
   meta: {
@@ -217,7 +217,7 @@ const out = {
     node: process.version, platform: `${os.platform()} ${os.release()}`, cpus: os.cpus().length,
     sources: {
       measurement: 'beta/index.html HP.verify.v29(第42便 42B)/ tools/gen-figures2.mjs p2fig6 と同一の系・式',
-      design: 'docs/dev/EXP_4-66_PROBE_H_DESIGN.md §2(第43便 43D)',
+      design: '内部開発文書 EXP_4-66_PROBE_H_DESIGN.md §2(第43便 43D・非公開管理)',
       presetInjection: 'tests/qa.mjs / tests/seeds.mjs / tests/exp-4-67.mjs(validatePreset→HP.sim.build)',
     },
     designNotes: [
