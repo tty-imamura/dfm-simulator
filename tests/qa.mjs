@@ -6451,6 +6451,96 @@ if (hasEchoFlipAt) {
       `未知ID読込 → 中止(現行=${cp.afterUnknown}・保存physicsも未適用=${cp.gUnchanged !== 9}) / ` +
       `既知ID読込 → ${cp.afterKnown}(G=${cp.gKnown}) / export: schemaVersion=${cp.schema} appBuild=${cp.appBuild}(期待=${cp.expectBuild ?? 'BETA_BUILD'})`);
 
+    // ⑥c phasechange.wallschedule(第53便 53D): 壁温スケジュール T2/tSwitch —
+    //    ①バリデータ: 両方指定で受理・片方だけは警告して無視・heat 以外は不可
+    //    ②エンジン: t<tSwitch は T・t≥tSwitch は T2 へ緩和(1粒子の到達温度で機械確認)
+    const ws = await page.evaluate(() => {
+      const mk = (tw) => ({ name: 'ws', description: 'x', camera: { scale: 200 },
+        world: { boundary: 'box', size: 20, thermalWalls: tw }, thermal: 'tint', physics: {},
+        bodies: [{ type: 'single', m: 1, x: 0, y: 19, vx: 0, vy: 0, spin: 0, tInt: 0.5, pinned: false }] });
+      const V = (o) => { const v = HP.validatePreset(o); return { ok: v.ok, tw: v.preset.world.thermalWalls, w: v.warnings.length }; };
+      const good = V(mk({ bottom: { mode: 'heat', T: 3, rate: 1, T2: 0.2, tSwitch: 40 } }));
+      const half = V(mk({ bottom: { mode: 'heat', T: 3, rate: 1, T2: 0.2 } }));   // tSwitch 欠落 → 無視+警告
+      // エンジン: tSwitch=16(=1000步)で 3→0.2 へ。前半で温まり、後半で冷えることを確認
+      const s = HP.sim;
+      s.build({ id: 'qa_ws', name: 'x', camera: { scale: 200 },
+        world: { boundary: 'box', size: 20,
+          thermalWalls: { bottom: { mode: 'heat', T: 3, rate: 1.5, T2: 0.2, tSwitch: 16 } } },
+        thermal: 'tint', phaseChange: { meltT: 100, latentF: 1 },
+        physics: { G: 0, D0: 0, kFrame: 0, kRep: 0, q: 2, muF: 0, gammaN: 0, kappaS: 0,
+          etaRad: 0, pRad: 2, cHeat: 1, gravityY: 0, softening: 2, radiusScale: 1, timeScale: 1 },
+        bodies: [{ type: 'single', m: 1, x: 0, y: 19, vx: 0, vy: 0, spin: 0, tInt: 0.5, pinned: false }],
+        overlays: {} });
+      for (let k = 0; k < 1000; k++) s.step(0.016);
+      const Tpre = s.Tint[0];
+      for (let k = 0; k < 3000; k++) s.step(0.016);
+      const Tpost = s.Tint[0];
+      return { goodT2: good.tw && good.tw.bottom.T2, goodSw: good.tw && good.tw.bottom.tSwitch, goodW: good.w,
+        halfHasT2: !!(half.tw && half.tw.bottom.T2 !== undefined), halfW: half.w, Tpre, Tpost };
+    });
+    add('phasechange.wallschedule',
+      ws.goodT2 === 0.2 && ws.goodSw === 40 && ws.goodW === 0
+      && !ws.halfHasT2 && ws.halfW === 1
+      && ws.Tpre > 2 && ws.Tpost < 0.5,
+      `バリデータ: T2/tSwitch 受理=${ws.goodT2}/${ws.goodSw}(警告0) 片方欠落→無視(警告${ws.halfW}) / ` +
+      `エンジン: 切替前 T=${ws.Tpre.toFixed(2)}(>2 — 壁温3へ加熱) 切替後 T=${ws.Tpost.toFixed(2)}(<0.5 — 壁温0.2へ冷却)`);
+
+    // ⑥d phasechange.damp-residual(第53便 53D — 外部レビュー「bondDamp 構造誤差の定量化」):
+    //    2粒子の結合捕獲で、帳簿外に落ちる散逸の割合が既知の構造誤差 cD/2 に一致することを機械固定
+    //    (PHYSICS §E14 限界②の定量版。53C 実測: cD=0.3→0.1499 / cD=0.05→0.0249)
+    const dr2 = await page.evaluate(() => {
+      const run = (damp, steps) => {
+        const s = HP.sim;
+        s.build({ id: 'qa_damp', name: 'x', camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+          thermal: 'tint',
+          phaseChange: { meltT: 10, latentF: 3, bondK: 8, bondRange: 1.6, bondDamp: damp, cohesion: 0, visc: 0 },
+          physics: { G: 0, D0: 0, kFrame: 0, kRep: 0, q: 2, muF: 0, gammaN: 0, kappaS: 0,
+            etaRad: 0, pRad: 2, cHeat: 1, gravityY: 0, softening: 2, radiusScale: 1, timeScale: 1 },
+          bodies: [
+            { type: 'single', m: 1, x: -1.4, y: 0, vx: 0, vy: 0, spin: 0, tInt: 0.1, pinned: false },
+            { type: 'single', m: 1, x: 1.4, y: 0, vx: 0, vy: 0, spin: 0, tInt: 0.1, pinned: false }
+          ], overlays: {} });
+        const h0 = s.hInt[0] + s.hInt[1];
+        const U0 = HP.phaseEnergy(s);
+        for (let k = 0; k < steps; k++) s.step(0.016);
+        const KE = 0.5 * (s.vx[0] ** 2 + s.vx[1] ** 2 + s.vy[0] ** 2 + s.vy[1] ** 2);
+        const hGain = (s.hInt[0] + s.hInt[1]) - h0;
+        const released = U0 - HP.phaseEnergy(s) - KE;
+        return { ratio: deficitR(released, hGain), d: Math.abs(s.x[0] - s.x[1]) };
+        function deficitR(rel, hg) { return (rel - hg) / rel; }
+      };
+      return { d03: run(0.3, 3000), d005: run(0.05, 8000) };
+    });
+    add('phasechange.damp-residual',
+      Math.abs(dr2.d03.ratio - 0.15) < 0.03 && Math.abs(dr2.d005.ratio - 0.025) < 0.005
+      && Math.abs(dr2.d03.d - 2) < 0.01 && Math.abs(dr2.d005.d - 2) < 0.01,
+      `帳簿外に落ちる散逸の割合: bondDamp=0.3 → ${dr2.d03.ratio.toFixed(4)}(理論 cD/2=0.15±0.03) / ` +
+      `bondDamp=0.05 → ${dr2.d005.ratio.toFixed(4)}(理論 0.025±0.005) — PHYSICS §E14 限界②の cD/2 則を定量固定(終端 d=r0=2)`);
+
+    // ⑥e phasechange.abclone(第53便 53D — 外部レビュー QA 9.2): A/B 複製で E14 状態
+    //    (hInt・fLiq・phase 係数・相変化履歴)が bit 一致で転写されること
+    const abc = await page.evaluate(() => {
+      HP.loadPreset('melt', false);
+      const s = HP.sim;
+      for (let k = 0; k < 3000; k++) s.step(0.016);
+      HP.abStart('kRep', 0);
+      const B = HP.ab().simB;
+      let dh = 0, df = 0;
+      for (let i = 0; i < s.n; i++) { dh = Math.max(dh, Math.abs(B.hInt[i] - s.hInt[i])); df = Math.max(df, Math.abs(B.fLiq[i] - s.fLiq[i])); }
+      const r = { dh, df, phaseB: !!B.phase, TmB: B.phase ? B.phase.meltT : null,
+        histB: B.phHist.length, histA: s.phHist.length, kRepB: B.params.kRep, kRepA: s.params.kRep };
+      for (let k = 0; k < 200; k++) { s.step(0.016); B.step(0.016); }   // 両宇宙とも走る
+      r.nanA = s.hasNaN(); r.nanB = B.hasNaN();
+      HP.abStop();
+      return r;
+    });
+    add('phasechange.abclone',
+      abc.dh === 0 && abc.df === 0 && abc.phaseB && abc.TmB === 1
+      && abc.histB === abc.histA && abc.kRepB === 0 && abc.kRepA === 1
+      && !abc.nanA && !abc.nanB,
+      `A/B複製: hInt/fLiq の最大差=${abc.dh}/${abc.df}(bit一致) phase係数複製=${abc.phaseB}(Tm=${abc.TmB}) ` +
+      `相変化履歴=${abc.histA}/${abc.histB}点 一致 / B側 kRep=${abc.kRepB}(対照)・200步併走 NaNなし`);
+
     // ⑦ phasechange.ledger + ⑧ phasechange.behavior: 内蔵 🫠melt / ❄️freeze の長時間挙動と帳簿閉性。
     //    E_全 = KE + Σm·h + U_att + U_rep + U_接触 + U_重力(外場) が壁帳簿と閉じる(残差<1%)こと、
     //    融解/凝固の進行(プラトー→完了)に加え、第53便 53B(外部レビュー P2)で
@@ -6569,8 +6659,101 @@ if (hasEchoFlipAt) {
         `14000步 fl=${ml[14000].F.toFixed(2)}(>0.95 全融解)・T=${ml[14000].T.toFixed(2)}(>1.5 再上昇)・引力上限クランプ=${ml.clampA}回・履歴=${ml.hist}点 / ` +
         `❄️freeze: ψ6(0)=${fz.psi0.toFixed(2)}(<0.85 無秩序初期) 4000步 T=${fz[4000].T.toFixed(2)}(プラトー)・fl=${fz[4000].F.toFixed(2)}・帯=[${fz.bands4000.map(v => v.toFixed(2)).join(',')}](上−床=${(fz.bands4000[2] - fz.bands4000[0]).toFixed(2)}>0.2 = 前線は床から) → ` +
         `14000步 fl=${fz[14000].F.toFixed(2)}(<0.02 全凝固)・T=${fz[14000].T.toFixed(2)}(<0.5)・ψ6=${fz.psiEnd.toFixed(2)}(>0.95 凝固と同時に秩序が創発)・結合網: 配位≥2率=${fz.net.fracGe2.toFixed(2)}(>0.95)・平均配位=${fz.net.meanCoord.toFixed(2)}(>3)・片=[${fz.net.pieces.join('+')}](多結晶 — 収縮亀裂の類似)・帳簿残差=${fz.res.toExponential(2)}(<1e-2)・b発動=${fz.clampB}回(仕様どおり — 残差側で担保)`);
+      // ⑨ phasechange.cycle(第53便 53D — 外部レビュー「融解→凝固の往復サンプル」):
+      //    🔁meltcycle — 壁温スケジュール(t=230 で 2.4→0.1)による同一系の往復。
+      //    融解完了(14000步)→凝固プラトー(20000/24000步 T≈0.93〜0.96)→全凝固(32000步)を機械固定。
+      //    帳簿閾値は 2.5e-2(2転移+膨張ピークで bondDamp 構造誤差〔cD/2 則〕が累積 — 実測 1.03e-2)
+      const cy = await page.evaluate(() => {
+        HP.loadPreset('meltcycle', false);
+        const s = HP.sim;
+        const gY = s.params.gravityY;
+        const E = () => {
+          let a = 0;
+          for (let i = 0; i < s.n; i++) a += s.m[i] * s.hInt[i]
+            + 0.5 * s.m[i] * (s.vx[i] * s.vx[i] + s.vy[i] * s.vy[i]) - s.m[i] * gY * s.y[i];
+          for (let i = 0; i < s.n; i++) for (let j = i + 1; j < s.n; j++) {
+            const d = Math.hypot(s.x[i] - s.x[j], s.y[i] - s.y[j]), sumR = s.R[i] + s.R[j];
+            if (d >= sumR) continue;
+            const muM = s.m[i] * s.m[j] / (s.m[i] + s.m[j]), maxInv = Math.max(1 / s.m[i], 1 / s.m[j]);
+            const xO = sumR - d, xC = 8 / (maxInv * 40 * muM);
+            a += (xO <= xC) ? 20 * muM * xO * xO : 20 * muM * xC * xC + (8 / maxInv) * (xO - xC);
+          }
+          return a + HP.phaseEnergy(s) + HP.urepEnergy(s);
+        };
+        const stat = () => { let T = 0, F = 0; for (let i = 0; i < s.n; i++) { T += s.Tint[i]; F += s.fLiq[i]; }
+          return { T: T / s.n, F: F / s.n }; };
+        const E0 = E();
+        const out = {};
+        for (let k = 1; k <= 34000; k++) {
+          s.step(0.016);
+          if (k === 14000 || k === 20000 || k === 24000 || k === 32000 || k === 34000) out[k] = stat();
+        }
+        const flow = s.wallEin - s.wallEout - s.radE - s.wallKE;
+        out.res = Math.abs(E() - E0 - flow) / Math.max(1, Math.abs(flow));
+        out.nan = s.hasNaN(); out.clampA = s.clampAN;
+        return out;
+      });
+      // 実測(53D): 14000步 fl=1.00/T=1.86 → 20000步 T=0.956 → 24000步 T=0.930(凝固プラトー)→
+      // 32000步 fl=0.001 → 34000步 fl=0/T=0.431・残差 1.03e-2
+      add('phasechange.cycle',
+        !cy.nan && cy[14000].F > 0.95 && cy[14000].T > 1.5
+        && cy[20000].T > 0.85 && cy[20000].T < 1.05 && cy[24000].T > 0.85 && cy[24000].T < 1.05
+        && cy[32000].F < 0.05 && cy[34000].F < 0.02 && cy[34000].T < 0.6
+        && cy.clampA === 0 && cy.res < 0.025,
+        `🔁往復: 14000步 fl=${cy[14000].F.toFixed(2)}(>0.95 融解完了)・T=${cy[14000].T.toFixed(2)} → 壁切替(t=230) → ` +
+        `凝固プラトー T=${cy[20000].T.toFixed(2)}/${cy[24000].T.toFixed(2)}(20000/24000步・0.85〜1.05 — 昇温側と同じ T_m)→ ` +
+        `32000步 fl=${cy[32000].F.toFixed(3)}(<0.05)→ 34000步 fl=${cy[34000].F.toFixed(2)}(<0.02 全凝固)・T=${cy[34000].T.toFixed(2)}(<0.6) ` +
+        `帳簿残差=${cy.res.toExponential(2)}(<2.5e-2 — 2転移の累積・cD/2 則の範囲) 引力上限クランプ=${cy.clampA}`);
+
+      // ⑩ phasechange.dt-convergence(第53便 53D — 外部レビュー「dt 収束スキャン」):
+      //    🫠melt の熱力学量(T̄・液相率)が dt 半減で収束すること(同一シミュ時刻で比較)。
+      //    ※減衰(bondDamp/visc)はサブステップごとの割合なので軌道は dt に依存してよい —
+      //    検査対象は熱力学(エンタルピー・相率)の収束。実測: t=64/128 で |ΔT̄|≤0.0016・|Δfl|≤0.0016
+      const dtc = await page.evaluate(() => {
+        const run = (dtv, steps) => {
+          HP.loadPreset('melt', false);
+          const s = HP.sim;
+          const out = {};
+          for (let k = 1; k <= steps; k++) {
+            s.step(dtv);
+            if (Math.abs(k * dtv - 64) < dtv / 2) { let T = 0, F = 0; for (let i = 0; i < s.n; i++) { T += s.Tint[i]; F += s.fLiq[i]; } out.mid = [T / s.n, F / s.n]; }
+          }
+          let T = 0, F = 0; for (let i = 0; i < s.n; i++) { T += s.Tint[i]; F += s.fLiq[i]; }
+          out.end = [T / s.n, F / s.n]; out.nan = s.hasNaN();
+          return out;
+        };
+        const a = run(0.016, 8000), b = run(0.008, 16000);
+        return { dTmid: Math.abs(a.mid[0] - b.mid[0]), dFmid: Math.abs(a.mid[1] - b.mid[1]),
+          dTend: Math.abs(a.end[0] - b.end[0]), dFend: Math.abs(a.end[1] - b.end[1]), nan: a.nan || b.nan };
+      });
+      add('phasechange.dt-convergence',
+        !dtc.nan && dtc.dTmid < 0.05 && dtc.dFmid < 0.05 && dtc.dTend < 0.05 && dtc.dFend < 0.05,
+        `dt=0.016 vs 0.008(同一シミュ時刻): t=64 |ΔT̄|=${dtc.dTmid.toFixed(4)} |Δfl|=${dtc.dFmid.toFixed(4)} / ` +
+        `t=128 |ΔT̄|=${dtc.dTend.toFixed(4)} |Δfl|=${dtc.dFend.toFixed(4)}(全て<0.05 — 熱力学は dt 収束。実測は ~0.002)`);
+
+      // ⑪ phasechange.multiseed(第53便 53D — 外部レビュー「複数 seed の凝固統計」):
+      //    ❄️freeze を seed 8/9 でも走らせ、全凝固・温度降下・NaN なしが seed に依らないことを固定
+      //    (seed 7 は behavior が全指標で検査済み)
+      const msd = await page.evaluate(() => {
+        const run = (seed) => {
+          const s = HP.sim;
+          const base = JSON.parse(JSON.stringify(HP.allPresets().find(p => p.id === 'freeze')));
+          base.seed = seed;
+          s.build(base);
+          for (let k = 0; k < 14000; k++) s.step(0.016);
+          let T = 0, F = 0; for (let i = 0; i < s.n; i++) { T += s.Tint[i]; F += s.fLiq[i]; }
+          return { T: T / s.n, F: F / s.n, nan: s.hasNaN() };
+        };
+        return { s8: run(8), s9: run(9) };
+      });
+      // 実測: seed8 fl=0.000/T=0.18・seed9 fl=0.009/T=0.66(凝固完了・降温途上 — 初期配置の乱数で
+      // 凝固完了時刻が±1000步程度ばらつくため、温度窓はプラトー(≈0.93)を離れた 0.9 未満で判定)
+      add('phasechange.multiseed',
+        !msd.s8.nan && !msd.s9.nan && msd.s8.F < 0.05 && msd.s9.F < 0.05 && msd.s8.T < 0.9 && msd.s9.T < 0.9,
+        `❄️freeze 14000步: seed8 fl=${msd.s8.F.toFixed(3)}/T=${msd.s8.T.toFixed(2)} seed9 fl=${msd.s9.F.toFixed(3)}/T=${msd.s9.T.toFixed(2)}` +
+        `(いずれも fl<0.05=全凝固・T<0.9=プラトー離脱 — seed に依らない)`);
     } else {
-      console.log('SKIP phasechange.ledger/phasechange.behavior(QA_FAST=1 — 長時間系)');
+      console.log('SKIP phasechange.ledger/phasechange.behavior/phasechange.cycle/phasechange.dt-convergence/phasechange.multiseed(QA_FAST=1 — 長時間系)');
     }
 
     await page.evaluate(() => HP.loadPreset('saturn', false));   // 後続項目のため既定プリセットへ戻す
