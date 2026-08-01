@@ -6391,6 +6391,60 @@ if (hasEchoFlipAt) {
       `片方だけ→降格(警告${sg.half.w}) / boilT≤meltT→降格(警告${sg.inv.w}) / condG単独→無視(警告${sg.cga.w}) / ` +
       `エンジン: T=3>Tb=2 初期化で h=C·T+Lf+Lv=${sg.eng.h}・fg=${sg.eng.g}・fl=${sg.eng.f}`);
 
+    // ①c phasechange.schema-valence(第55便 55A — 分子間力の結合価): バリデータ
+    //    (1〜3 整数へ丸め/クランプ・不正値は無視+警告)とエンジン(chainP 確保・
+    //    結合価上限の厳守=全粒子の次数≤valence・リンクの両側対称)
+    const sv = await page.evaluate(() => {
+      const mk = (pc) => ({ name: 'pc', description: 'x',
+        camera: { scale: 200 }, world: { boundary: 'none', size: 0 }, physics: {}, thermal: 'tint',
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, tInt: 0.5, pinned: false }],
+        phaseChange: pc });
+      const V = (o) => { const v = HP.validatePreset(o); return { p: v.preset.phaseChange, w: v.warnings.length }; };
+      const good = V(mk({ meltT: 1, latentF: 2, valence: 2 }));
+      const frac = V(mk({ meltT: 1, latentF: 2, valence: 2.6 }));    // → 3(丸め+警告)
+      const big = V(mk({ meltT: 1, latentF: 2, valence: 9 }));       // → 3(クランプ+警告)
+      const bad = V(mk({ meltT: 1, latentF: 2, valence: 'x' }));     // → 無視+警告
+      // エンジン: 全液相の5粒子クラスタ(接触帯内)を 200步 — 次数≤2・リンク両側一致
+      const s = HP.sim;
+      s.build({ id: 'qa_pc_val', name: 'x', camera: { scale: 200 },
+        world: { boundary: 'box', size: 30 }, thermal: 'tint',
+        phaseChange: { meltT: 1, latentF: 2, valence: 2, bondK: 0, cohesion: 3, bondRange: 1.6 },
+        physics: { G: 0, D0: 0, kFrame: 0, kRep: 0, q: 2, muF: 0, gammaN: 0.1, kappaS: 0,
+          etaRad: 0, pRad: 2, cHeat: 1, gravityY: 0, softening: 2, radiusScale: 1, timeScale: 1 },
+        bodies: [0, 1, 2, 3, 4].map(k => ({ type: 'single', m: 1, x: k * 2.4 - 4.8, y: (k % 2) * 1.2,
+          vx: 0, vy: 0, spin: 0, tInt: 2, pinned: false })),
+        overlays: {} });
+      const alloc2 = s.chainP instanceof Int32Array && s.chainP.length === 10;
+      for (let k = 0; k < 200; k++) s.step(0.016);
+      const val = s.phase.valence, deg = new Array(s.n).fill(0);
+      let sym = true;
+      for (let i = 0; i < s.n; i++) for (let k = 0; k < val; k++) {
+        const j = s.chainP[i * val + k];
+        if (j < 0) continue;
+        deg[i]++;
+        let back = false;
+        for (let k2 = 0; k2 < val; k2++) if (s.chainP[j * val + k2] === i) back = true;
+        if (!back) sym = false;
+      }
+      const maxDeg = Math.max(...deg), links = deg.reduce((a, b) => a + b, 0) / 2;
+      // valence 無し → chainP は null(等方凝集の従来経路)
+      s.build({ id: 'qa_pc_noval', name: 'x', camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+        thermal: 'tint', phaseChange: { meltT: 1, latentF: 2, cohesion: 3 },
+        physics: { G: 0, D0: 0, kFrame: 0, kRep: 0, q: 2, muF: 0, gammaN: 0, kappaS: 0,
+          etaRad: 0, pRad: 2, cHeat: 1, gravityY: 0, softening: 2, radiusScale: 1, timeScale: 1 },
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, tInt: 2, pinned: false }], overlays: {} });
+      const nullOff = s.chainP === null;
+      return { good, frac, big, bad, alloc2, maxDeg, links, sym, nullOff, nan: s.hasNaN() };
+    });
+    add('phasechange.schema-valence',
+      sv.good.p.valence === 2 && sv.good.w === 0
+      && sv.frac.p.valence === 3 && sv.frac.w === 1
+      && sv.big.p.valence === 3 && sv.big.w === 1
+      && sv.bad.p.valence === undefined && sv.bad.w === 1
+      && sv.alloc2 && sv.maxDeg <= 2 && sv.links >= 3 && sv.sym && sv.nullOff && !sv.nan,
+      `valence 受理=2(警告0) / 2.6→${sv.frac.p.valence}(丸め) / 9→${sv.big.p.valence}(クランプ) / "x"→無視(警告${sv.bad.w}) / ` +
+      `エンジン: chainP確保=${sv.alloc2} 200步で最大次数=${sv.maxDeg}(≤2=結合価厳守)・リンク${sv.links}本・両側対称=${sv.sym} / valence無し→chainP=null=${sv.nullOff}`);
+
     // ② phasechange.zero-cost: phaseChange キーの無い tint プリセット4件は機構追加前
     //    (基点コミット 0cd7eb7 = v1.34.0)と 1 ビットも変わらない(300步 x,y,spin,Tint ハッシュ。
     //    tint.zero-cost〔spin 系統〕と合わせて、E14 追加が既存経路の外へ漏れていないことの機械証跡)
@@ -7037,8 +7091,79 @@ if (hasEchoFlipAt) {
         `24000步 fg=${bo[24000].G.toFixed(2)}(0.4〜0.9)・fl=${bo[24000].F.toFixed(2)}(0.1〜0.55 = 二相共存の準定常)・T=${bo[24000].T.toFixed(2)} ` +
         `気体平均高さ=${bo[24000].yG.toFixed(0)} > 液体平均高さ=${bo[24000].yL.toFixed(0)}(+y が床側 — 蒸気クッションが液を持ち上げる膜沸騰の類似・密度浮力なしの設計帰結)・` +
         `気${bo[24000].nG}粒/液${bo[24000].nL}粒 帳簿残差=${bo.res.toExponential(2)}(<2.5e-2) 引力上限クランプ=${bo.clampA}回・履歴=${bo.hist}点`);
+
+      // ⑬ phasechange.chain(第55便 55A): ⛓️chain — 結合価つき分子間力の往復(塊→鎖→塊)。
+      //    実測(2026-08-01 調整時): 12000步 F=0.73 → 17000步 全融解 F=1.00・全112粒が鎖
+      //    (平均次数1.98・deg2率1.00・近傍2.0 — 等方凝集の5.2 と対照的に疎)→ 壁切替(t=280)→
+      //    40000步 全凝固 F=0・固相配位4.39・配位≥2率1.00(塊へ復帰)。res 1.86e-2・clampAN=0
+      const ch = await page.evaluate(() => {
+        HP.loadPreset('chain', false);
+        const s = HP.sim;
+        const gY = s.params.gravityY;
+        const E = () => {
+          let a = 0;
+          for (let i = 0; i < s.n; i++) a += s.m[i] * s.hInt[i]
+            + 0.5 * s.m[i] * (s.vx[i] * s.vx[i] + s.vy[i] * s.vy[i]) - s.m[i] * gY * s.y[i];
+          for (let i = 0; i < s.n; i++) for (let j = i + 1; j < s.n; j++) {
+            const d = Math.hypot(s.x[i] - s.x[j], s.y[i] - s.y[j]), sumR = s.R[i] + s.R[j];
+            if (d >= sumR) continue;
+            const muM = s.m[i] * s.m[j] / (s.m[i] + s.m[j]), maxInv = Math.max(1 / s.m[i], 1 / s.m[j]);
+            const xO = sumR - d, xC = 8 / (maxInv * 40 * muM);
+            a += (xO <= xC) ? 20 * muM * xO * xO : 20 * muM * xC * xC + (8 / maxInv) * (xO - xC);
+          }
+          return a + HP.phaseEnergy(s) + HP.urepEnergy(s);
+        };
+        const chainStat = () => {
+          const val = s.phase.valence, deg = new Array(s.n).fill(0);
+          for (let i = 0; i < s.n; i++) for (let k = 0; k < val; k++) { const j = s.chainP[i * val + k]; if (j > i) { deg[i]++; deg[j]++; } }
+          const liq = [];
+          for (let i = 0; i < s.n; i++) if (s.fLiq[i] > 0.5) liq.push(i);
+          let degSum = 0, deg2 = 0, nb = 0;
+          for (const i of liq) { degSum += deg[i]; if (deg[i] <= 2) deg2++;
+            for (const j of liq) { if (j !== i && Math.hypot(s.x[i] - s.x[j], s.y[i] - s.y[j]) < 1.6 * (s.R[i] + s.R[j])) nb++; } }
+          const nL = liq.length;
+          return { nL, meanDeg: nL ? degSum / nL : 0, deg2frac: nL ? deg2 / nL : 0, meanNb: nL ? nb / nL : 0 };
+        };
+        const bondNet = () => {
+          const coord = new Array(s.n).fill(0);
+          let nS = 0, sum = 0, ge2 = 0;
+          for (let i = 0; i < s.n; i++) for (let j = i + 1; j < s.n; j++) {
+            if (s.fLiq[i] >= 0.5 || s.fLiq[j] >= 0.5) continue;
+            if (Math.hypot(s.x[i] - s.x[j], s.y[i] - s.y[j]) < s.phase.bondRange * (s.R[i] + s.R[j])) { coord[i]++; coord[j]++; }
+          }
+          for (let i = 0; i < s.n; i++) { if (s.fLiq[i] >= 0.5) continue; nS++; sum += coord[i]; if (coord[i] >= 2) ge2++; }
+          return { nS, meanCoord: nS ? sum / nS : 0, fracGe2: nS ? ge2 / nS : 0 };
+        };
+        const E0 = E();
+        const out = {};
+        for (let k = 1; k <= 40000; k++) {
+          s.step(0.016);
+          if (k === 12000 || k === 17000 || k === 40000) {
+            let T = 0, F = 0; for (let i = 0; i < s.n; i++) { T += s.Tint[i]; F += s.fLiq[i]; }
+            out[k] = { T: T / s.n, F: F / s.n, chain: chainStat(), net: bondNet() };
+          }
+        }
+        const flow = s.wallEin - s.wallEout - s.radE - s.wallKE;
+        out.res = Math.abs(E() - E0 - flow) / Math.max(1, Math.abs(flow));
+        out.nan = s.hasNaN(); out.clampA = s.clampAN;
+        return out;
+      });
+      add('phasechange.chain',
+        !ch.nan
+        && ch[12000].F > 0.4 && ch[12000].F < 0.9
+        && ch[17000].F > 0.9
+        && ch[17000].chain.meanDeg > 1.6 && ch[17000].chain.meanDeg <= 2.0001
+        && ch[17000].chain.deg2frac > 0.98 && ch[17000].chain.meanNb < 3.5
+        && ch[40000].F < 0.02 && ch[40000].T < 0.5
+        && ch[40000].net.meanCoord > 3 && ch[40000].net.fracGe2 > 0.9
+        && ch.clampA === 0 && ch.res < 0.025,
+        `⛓️chain: 12000步 fl=${ch[12000].F.toFixed(2)}(融解中) → 17000步 fl=${ch[17000].F.toFixed(2)}(>0.9 全融解) ` +
+        `鎖: 平均次数=${ch[17000].chain.meanDeg.toFixed(2)}(1.6〜2.0 = 結合価厳守)・次数≤2率=${ch[17000].chain.deg2frac.toFixed(2)}(>0.98)・` +
+        `液体近傍数=${ch[17000].chain.meanNb.toFixed(2)}(<3.5 — 等方凝集の実測5.2 と対照的に疎=鎖状) → 壁切替(t=280) → ` +
+        `40000步 fl=${ch[40000].F.toFixed(2)}(<0.02 全凝固)・T=${ch[40000].T.toFixed(2)}・固相配位=${ch[40000].net.meanCoord.toFixed(2)}(>3)・` +
+        `配位≥2率=${ch[40000].net.fracGe2.toFixed(2)}(>0.9 = 塊へ復帰) 帳簿残差=${ch.res.toExponential(2)}(<2.5e-2 — リンク組み替え分込み) 引力上限クランプ=${ch.clampA}回`);
     } else {
-      console.log('SKIP phasechange.ledger/phasechange.behavior/phasechange.cycle/phasechange.dt-convergence/phasechange.multiseed/phasechange.boil(QA_FAST=1 — 長時間系)');
+      console.log('SKIP phasechange.ledger/phasechange.behavior/phasechange.cycle/phasechange.dt-convergence/phasechange.multiseed/phasechange.boil/phasechange.chain(QA_FAST=1 — 長時間系)');
     }
 
     await page.evaluate(() => HP.loadPreset('saturn', false));   // 後続項目のため既定プリセットへ戻す
