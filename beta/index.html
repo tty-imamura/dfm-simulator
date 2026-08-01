@@ -490,6 +490,20 @@ ja: {
   tgBoxGraphDesc:"箱宇宙(UniverseBox)の尺度因子a(t)・膨張率H(t)の時系列と、拡大による波長の伸び(赤方偏移 1+z=a/a₀)を表示する。箱宇宙プリセットでのみ有効。",
   tgPhaseGraphDesc:"系の平均温度T̄(橙)と平均液相率(青・0〜1)の時系列を融点T_mの破線と重ねて表示する。温度がT_mで停滞する間に液相率だけが進む=潜熱プラトーの因果が読める。相変化(E14 phaseChange)プリセットでのみ有効。",
   ovPhaseGraph:"相変化 T̄・液相率", ovPhaseNote:"橙=T̄ 青=液相率 破線=融点 Q=壁正味入熱",
+  // 第53便 53D: 相変化(E14)の実験用パラメータ編集
+  pcSectionHead:"相変化(E14)の実験",
+  pcSectionDesc:"相変化サンプル専用の実験ノブ。融点・潜熱・結合・凝集・減衰・相別伝導と、加熱/冷却壁の壁温・レートを実行中に変更できる(A/B比較中は編集対象側だけに効く — 「潜熱あり/なし」等の対照実験が組める)。融点・潜熱の変更はエンタルピーhを保ったまま温度・液相率を再導出する。この編集はセーブに保存されない(実行中のみ)。",
+  pcMeltT:"融点 T_m", pcMeltTDesc:"固相と液相の境の温度。h(エンタルピー)は保たれたまま区分が引き直されるため、下げれば融け・上げれば凍る方向に相率が動く。",
+  pcLatentF:"潜熱 L_f", pcLatentFDesc:"融解1単位質量あたりの潜熱。大きいほど温度プラトーが長くなる(0.1にすると即融解の対照実験になる)。",
+  pcBondK:"固相結合 bondK", pcBondKDesc:"固相どうしの格子ばね。0にすると熱力学(プラトー)は残るのに形が崩れる — 「熱の相変化」と「力学の相変化」の分離実験。",
+  pcCohesion:"液相凝集 cohesion", pcCohesionDesc:"液相どうしの弱い引力。0にすると液体がまとまらず散る。",
+  pcBondDamp:"結合減衰 bondDamp", pcBondDampDesc:"固相結合の振動減衰(散逸は熱へ)。定常減衰では散逸の半分×この係数が帳簿外に落ちる既知の離散化誤差があるため小さめ推奨。",
+  pcVisc:"液相粘性 visc", pcViscDesc:"液相の速度差減衰(散逸は熱へ)。大きいほど液体がねっとり動く。",
+  pcCondS:"固相伝導 condS", pcCondSDesc:"固相の熱伝導倍率(κsに乗算・対の調和平均)。",
+  pcCondL:"液相伝導 condL", pcCondLDesc:"液相の熱伝導倍率。condSより小さくすると融けた層が断熱層になり前線が非線形に進む。",
+  pcWallSides:["底","天井","左","右"],
+  pcWallT:(s2)=>`壁温 T_wall(${s2})`, pcWallTDesc:"加熱/冷却壁の目標温度。融点より上なら融解・下なら凝固へ駆動する(🔁往復の手動版)。",
+  pcWallRate:(s2)=>`壁レート(${s2})`, pcWallRateDesc:"壁と粒子の熱交換の速さ。プラトーの持続時間実験に。",
   uiScaleDesc:"UI文字の拡大率。表示のみで物理・保存データには影響しない。",
   // 第23便: 粒子編集のパラメータ名タップ説明
   beDm:"m: 質量。重力(E4)と決定力場W(E1′)の源。負値は実験用(±5000)。",
@@ -696,6 +710,19 @@ en: {
   tgBoxGraphDesc:"Shows the box universe (UniverseBox) scale factor a(t) and expansion rate H(t) over time, plus the wavelength stretch from expansion (redshift 1+z=a/a0). Only active on box-universe presets.",
   tgPhaseGraphDesc:"Plots the system mean temperature T̄ (orange) and mean liquid fraction (blue, 0-1) over time, with a dashed line at the melting point T_m. You can read the latent-heat causality directly: while T̄ stalls at T_m, only the liquid fraction advances. Only active on phase-change (E14) presets.",
   ovPhaseGraph:"Phase T̄ / liq.frac", ovPhaseNote:"orange=T̄ blue=liq.frac dash=T_m Q=net wall heat",
+  pcSectionHead:"Phase-change (E14) experiments",
+  pcSectionDesc:"Experiment knobs for phase-change samples: melting point, latent heat, bonds, cohesion, damping, phase-dependent conduction, and the temperature/rate of heating/cooling walls — all editable while running (during A/B comparison they act only on the edited side, so 'with/without latent heat' controls are easy to set up). Changing T_m or L_f keeps the enthalpy h and re-derives temperature and liquid fraction. These edits are not stored in saves (runtime only).",
+  pcMeltT:"Melting point T_m", pcMeltTDesc:"Boundary temperature between solid and liquid. The enthalpy h is kept and the segments are redrawn, so lowering it melts and raising it freezes.",
+  pcLatentF:"Latent heat L_f", pcLatentFDesc:"Latent heat per unit mass. Larger values lengthen the temperature plateau (set 0.1 for an instant-melt control).",
+  pcBondK:"Solid bond bondK", pcBondKDesc:"Lattice spring between solid pairs. At 0 the thermodynamic plateau remains but the shape collapses — separates the thermal from the mechanical phase change.",
+  pcCohesion:"Liquid cohesion", pcCohesionDesc:"Weak attraction between liquid pairs. At 0 the liquid disperses.",
+  pcBondDamp:"Bond damping", pcBondDampDesc:"Vibration damping of solid bonds (dissipation goes to heat). A known discretization error leaks half of this coefficient's share of the dissipation, so keep it small.",
+  pcVisc:"Liquid viscosity", pcViscDesc:"Velocity-difference damping in the liquid (dissipation goes to heat).",
+  pcCondS:"Solid conduction condS", pcCondSDesc:"Solid-phase conduction multiplier (on kappaS, harmonic pair mean).",
+  pcCondL:"Liquid conduction condL", pcCondLDesc:"Liquid-phase conduction multiplier. Below condS, molten layers insulate and the front advances nonlinearly.",
+  pcWallSides:["floor","ceiling","left","right"],
+  pcWallT:(s2)=>`Wall T (${s2})`, pcWallTDesc:"Target temperature of the heating/cooling wall. Above the melting point it drives melting; below, freezing (a manual version of the 🔁 cycle).",
+  pcWallRate:(s2)=>`Wall rate (${s2})`, pcWallRateDesc:"Heat-exchange rate between wall and grains. For plateau-duration experiments.",
   uiScaleDesc:"UI text scale. Display only.",
   beDm:"m: mass. Source of gravity (E4) and the determinacy field W (E1'). Negative values are experimental.",
   beDs:"s: spin (rotation rate). Source of frame dragging (A8), temperature T=Is^2 (A9), and spin repulsion (A10).",
@@ -2202,6 +2229,30 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,phaseGraph:true} },
 
+{ id:"meltcycle", name:"融解⇄凝固 — 往復", emoji:"🔁", group:"熱の実験室",
+  descStruct:{
+    summary:"🫠融解と❄️凝固を同一の系でつなぐ往復実験(相変化拡張E14)。床壁は前半は加熱面(T=2.4)として結晶を融かし、時刻t=230で冷却面(T=0.1)へ切り替わる(壁温スケジュール)。融解で吸収された潜熱+結合エネルギーが、凝固でそっくり放出される — 加熱曲線と冷却曲線が同じ系のグラフ上にV字の対で現れる。",
+    observe:"相変化グラフ(右下)が全行程を1枚で見せる: 昇温→融解プラトー(液相率0→1)→過熱→壁切替で降温→凝固プラトー(液相率1→0)→冷え切り。熱圧(E5′)により、融けると膨らみ・凍ると縮む往復も見える。エンタルピー経路にヒステリシスは無く(履歴依存パラメータを持たない設計)、プラトーは昇温側と降温側で同じ融点T_m=1に現れる。凝固後は多結晶片の結合網に固まる(❄️と同様)。エネルギーは壁帳簿+潜熱+結合+U_repで閉じる(保存量モニタ)。色=温度。実在物質の定量再現ではない。",
+    control:"壁の切替時刻・壁温は「相変化(E14)の実験」ノブでは変えられないが(スケジュールはプリセット定義)、切替後にT_wallを手で上げ直せば再融解する — 何往復でも可逆。"},
+  en:{name:"Melt ⇄ Freeze — a Round Trip", descStruct:{
+    summary:"A round-trip experiment joining 🫠 melting and ❄️ freezing in one system (phase-change extension E14). The floor wall first acts as a heater (T=2.4) and melts the crystal, then switches to a cooler (T=0.1) at t=230 (a scheduled wall temperature). The latent heat plus bond energy absorbed during melting is released back on freezing — the heating and cooling curves appear as a V-shaped pair on the same graph. ",
+    observe:"The phase-change graph (bottom right) shows the whole journey in one frame: warm-up → melting plateau (liquid fraction 0→1) → superheat → wall switch → cool-down → freezing plateau (1→0) → cold solid. Thermal pressure (E5′) makes the material inflate on melting and contract on freezing. The enthalpy path has no hysteresis (the design carries no history-dependent parameters), so both plateaus sit at the same melting point T_m=1. The final solid is a bonded network of polycrystalline pieces, as in ❄️. Energy closes as wall ledger + latent heat + bonds + U_rep (conservation monitor). Color = temperature. No claim of quantitative correspondence to real substances. ",
+    control:"The switch time is part of the preset (wall schedule), but after the switch you can raise T_wall by hand in the Phase-change (E14) experiment knobs to re-melt — the trip is repeatable either way."}},
+  activeParams:["kRep","kappaS","gravityY","gammaN"],
+  thermal:"tint",
+  phaseChange:{ meltT:1, latentF:4, bondK:5, bondRange:1.6, cohesion:1.2,
+    bondDamp:0.1, visc:0.08, condS:1, condL:0.5 },
+  camera:{scale:140}, world:{boundary:"box", size:110,
+    // 第53便 53D: 壁温スケジュール — t=230(融解完了後)に加熱面→冷却面へ切替(T2/tSwitch)
+    thermalWalls:{ bottom:{mode:"heat", T:2.4, rate:0.35, T2:0.1, tSwitch:230} }},
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:1, muF:0.1, gammaN:0.3, kappaS:0.5, Kt:60,
+    cLight:60, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:2},
+  seed:7,
+  bodies:[ // 🫠melt と同一の初期結晶(六方格子・接触平衡)
+    {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:93, pitch:5, mMin:1, mMax:1, tInt:0.2}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:true,field:false,phaseGraph:true} },
+
 // ♨️加熱の対流: v1.14 で撤去 → v1.17 で一様重力場(gravityY)ベースに再設計して復活。
 // 旧構成(画面外の遠方大質量で下向き場を代行)は決定力Wの歪み・凍結が撤去理由だった
 // (経緯は DERIVATIONS 付録K/付録M・HANDOFF_IMPLEMENTATION)。gravityY は W に寄与しない
@@ -3111,6 +3162,15 @@ function validatePreset(obj){
             o.T=clamp(w.T,0,10000);
             if(o.T!==w.T) warnings.push("world.thermalWalls."+side+".T を値域に修正");
           } else o.T=0;
+          // 第53便 53D: 壁温スケジュール T2/tSwitch(両方揃って有効 — 片方だけは警告して無視)
+          if(w.T2!==undefined || w.tSwitch!==undefined){
+            if(!isNum(w.T2) || !isNum(w.tSwitch) || !(w.tSwitch>0)){
+              warnings.push("world.thermalWalls."+side+" の T2/tSwitch は両方の数値指定(tSwitch>0)が必要 — 無視します");
+            } else {
+              o.T2=clamp(w.T2,0,10000); o.tSwitch=clamp(w.tSwitch,0,100000);
+              if(o.T2!==w.T2 || o.tSwitch!==w.tSwitch) warnings.push("world.thermalWalls."+side+".T2/tSwitch を値域に修正");
+            }
+          }
         } else if(w.T!==undefined) warnings.push('world.thermalWalls.'+side+'.T は mode:"rad" では使いません(T_wall=0 固定)');
         out[side]=o;
       }
@@ -3396,7 +3456,15 @@ function normThermalWalls(world, thermal){
     const rate=(typeof w.rate==="number" && isFinite(w.rate))? clamp(w.rate,0,100) : 1;
     if(!(rate>0)) continue;
     const T=(mode==="heat" && typeof w.T==="number" && isFinite(w.T))? clamp(w.T,0,10000) : 0;
-    out[k]={mode, T, rate}; any=true;
+    const o={mode, T, rate};
+    // 第53便 53D(外部レビュー「融解→凝固の往復サンプル」): 壁温スケジュール — mode:"heat" で
+    // T2・tSwitch の両方が有効なら、t ≥ tSwitch 以降の壁温を T2 に切り替える(1回だけの階段。
+    // 省略時は従来と 1 ビットも変わらない)。🔁meltcycle が「同一系での融解→凝固」に使う
+    if(mode==="heat" && typeof w.T2==="number" && isFinite(w.T2)
+       && typeof w.tSwitch==="number" && isFinite(w.tSwitch) && w.tSwitch>0){
+      o.T2=clamp(w.T2,0,10000); o.tSwitch=clamp(w.tSwitch,0,100000);
+    }
+    out[k]=o; any=true;
   }
   return any? out : null;
 }
@@ -4927,13 +4995,16 @@ function makeSim(){
             if(gg<1e-6) continue;                   // 事実上の無交換(打切り)
             const T0=Tint[i];
             const rf=w.rate*gg*dt, f=(rf>1)? 1 : rf;   // rate·g²·dt>1 の行き過ぎを飽和(無条件安定)
+            // 第53便 53D: 壁温スケジュール — T2/tSwitch のある面は t≥tSwitch 以降 T2 で緩和する
+            // (無い面は Tw===w.T で従来と 1 ビットも変わらない)
+            const Tw=(w.tSwitch!==undefined && S.t>=w.tSwitch)? w.T2 : w.T;
             // 第53便 53A(E14): phaseChange では壁の熱交換もエンタルピー経由。緩和の一次式が運ぶ
             // 熱量 q_w = C·m·(T_wall−T)·f(現行式と同じ大きさ)を h に与えて厳密に解く。T が
             // 融点プラトーに居るあいだ (T_wall−T) が縮まらないので、壁は融解中ほぼ一定パワーで
             // 熱を注ぐ(= 融解時間 ≈ M·Lf/P の実験が組める)。帳簿は実際に動いたエネルギー
             // m·Δh + a·Δ√T で厳密に積む(壁は無限熱容量の環境 — 従来と同じ開放系の扱い)
             if(pc && m[i]>0){
-              const qw=cm*(w.T-T0)*f;
+              const qw=cm*(Tw-T0)*f;
               if(qw===0) continue;
               const h0=hInt[i], f0=fLiq[i];
               const h1=phaseHsolve(h0, m[i], cHeat, aU, bU, qw, pcTm, pcLf);
@@ -4945,7 +5016,7 @@ function makeSim(){
               if(dQ>0) S.wallEin+=dQ; else S.wallEout-=dQ;
               continue;
             }
-            let T1=T0+(w.T-T0)*f;
+            let T1=T0+(Tw-T0)*f;
             if(!(T1>0)) T1=0;
             if(T1===T0) continue;
             const dQ=cm*(T1-T0)+aU*(Math.sqrt(T1)-Math.sqrt(T0));
@@ -6740,8 +6811,16 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
     // 第36便 D(台帳4-51): 内部温度モードの状態も転写(同一プリセットで build 済みなので
     // simB.Tint は同じ長さで確保されている。spin モードでは両方 null で何もしない)
     if(sim.Tint && simB.Tint) simB.Tint.set(sim.Tint.subarray(0,sim.n));
+    // 第53便 53D(外部レビュー QA 9.2): E14 相変化の状態も転写する。従来は Tint だけ複製され、
+    // hInt が build 直後の初期値のままになる(=B 側の熱状態が壊れる)取りこぼしがあった。
+    // bAtt はサブステップごとに積み直すので転写不要。phase 係数の実行中編集も引き継ぐ
+    if(sim.hInt && simB.hInt){ simB.hInt.set(sim.hInt.subarray(0,sim.n));
+      simB.fLiq.set(sim.fLiq.subarray(0,sim.n)); }
     simB.pinned.set(sim.pinned.subarray(0,sim.n)); simB.hasU.set(sim.hasU.subarray(0,sim.n));
   }
+  if(sim.phase && simB.phase) Object.assign(simB.phase, sim.phase);
+  if(sim.phHist && simB.phHist) simB.phHist=sim.phHist.map(o=>Object.assign({},o));
+  simB._phAcc=sim._phAcc; simB.clampBN=sim.clampBN; simB.clampAN=sim.clampAN;
   // 第44便 44B(台帳4-68c): 融合済みの宇宙は n が減っているので、B 側の粒子数と index 依存の
   // 内部状態(レール候補・近点検出器・zonal 中心・壁 ring 群)を A 側の現況へ揃える。
   // fusion が無いプリセットでは simB.n===sim.n・fusion===null で、これらは全て自明な代入になる
@@ -6996,6 +7075,87 @@ function buildBoxParamRows(host){
   }
   host.appendChild(g);
 }
+// 第53便 53D(外部レビュー3件共通の P1「相変化パラメータを通常UIから操作できない」):
+// 相変化(E14)の実験用パラメータ編集 — sim.phase のあるプリセットのみ表示(箱宇宙の
+// BOX_PARAM_DEFS と同方式の数値入力行)。書き込み先は editSim()(A/B 比較中は編集対象側だけ —
+// 「潜熱あり/なし」「結合あり/なし」の対照実験が A/B でそのまま組める)。
+// meltT/latentF の変更は h を不変に保ったまま T_int・液相率を再導出する(温度とエンタルピーの
+// 二重管理をしない原則のまま — 変更は介入であり、保存則主張の対象外なのは物理編集と同じ)。
+// 実行中編集はセーブに載らない(v1 の制約 — physics と異なり保存対象外。説明で明示)
+const PC_PARAM_DEFS = [
+  {key:"meltT",    lo:0.05, hi:100, labelKey:"pcMeltT",    descKey:"pcMeltTDesc"},
+  {key:"latentF",  lo:0.05, hi:100, labelKey:"pcLatentF",  descKey:"pcLatentFDesc"},
+  {key:"bondK",    lo:0,    hi:100, labelKey:"pcBondK",    descKey:"pcBondKDesc"},
+  {key:"cohesion", lo:0,    hi:100, labelKey:"pcCohesion", descKey:"pcCohesionDesc"},
+  {key:"bondDamp", lo:0,    hi:1,   labelKey:"pcBondDamp", descKey:"pcBondDampDesc"},
+  {key:"visc",     lo:0,    hi:1,   labelKey:"pcVisc",     descKey:"pcViscDesc"},
+  {key:"condS",    lo:0,    hi:100, labelKey:"pcCondS",    descKey:"pcCondSDesc"},
+  {key:"condL",    lo:0,    hi:100, labelKey:"pcCondL",    descKey:"pcCondLDesc"},
+];
+function buildPhaseParamRows(host){
+  const g=document.createElement("div"); g.className="group";
+  const h=document.createElement("h3"); h.textContent=T("pcSectionHead");
+  h.style.cursor="pointer"; h.style.textDecoration="underline dotted"; h.style.textUnderlineOffset="3px";
+  h.addEventListener("click",()=>{
+    const open=h.nextElementSibling && h.nextElementSibling.classList
+      && h.nextElementSibling.classList.contains("pdesc") ? h.nextElementSibling : null;
+    if(open){ open.remove(); return; }
+    const d=document.createElement("div"); d.className="pdesc open";
+    d.textContent=T("pcSectionDesc");
+    h.after(d);
+  });
+  g.appendChild(h);
+  const tapDescRow=(row,lab,descKey)=>{
+    lab.className="tappable";
+    lab.addEventListener("click",()=>{
+      const open=row.nextElementSibling && row.nextElementSibling.classList
+        && row.nextElementSibling.classList.contains("pdesc") ? row.nextElementSibling : null;
+      if(open){ open.remove(); return; }
+      const d=document.createElement("div"); d.className="pdesc open";
+      d.textContent=T(descKey);
+      row.after(d);
+    });
+  };
+  const mkRow=(labelText, descKey, getV, setV, lo, hi)=>{
+    const row=document.createElement("div"); row.className="prow";
+    const lab=document.createElement("label"); lab.textContent=labelText; lab.style.flex="1";
+    if(descKey) tapDescRow(row,lab,descKey);
+    const num=document.createElement("input"); num.type="text"; num.className="valIn";
+    num.inputMode="decimal"; num.autocomplete="off"; num.value=fmt(getV());
+    num.addEventListener("change",()=>{
+      const v=parseFloat(num.value.replace(/[,、\s]/g,""));
+      if(isFinite(v)){ const cv=clamp(v,lo,hi); setV(cv); setParamsDirty(true); requestRender(); num.value=String(cv); }
+      else num.value=fmt(getV());
+    });
+    row.appendChild(lab); row.appendChild(num); g.appendChild(row);
+  };
+  for(const def of PC_PARAM_DEFS){
+    mkRow(T(def.labelKey), def.descKey,
+      ()=>editSim().phase[def.key],
+      (cv)=>{
+        const S=editSim(); S.phase[def.key]=cv;
+        if(def.key==="meltT"||def.key==="latentF"){
+          // h を正本のまま T_int・液相率を再導出(区分境界の再定義 — 温度は常に導出量)
+          const C=S.params.cHeat, Tm=S.phase.meltT, Lf=S.phase.latentF;
+          for(let i=0;i<S.n;i++){ S.Tint[i]=phaseT(S.hInt[i],C,Tm,Lf); S.fLiq[i]=phaseF(S.hInt[i],C,Tm,Lf); }
+        }
+      }, def.lo, def.hi);
+  }
+  // 伝熱壁(mode:"heat" の面)の壁温・レートも編集可能にする(3レビュー共通の要望)。
+  // 書き込み先は内部表現 twall(実行中のみ有効 — セーブ・プリセット定義は不変)
+  const tw=editSim().twall;
+  if(tw){
+    const sides=T("pcWallSides");
+    for(let k=0;k<4;k++){
+      const w=tw[k]; if(!w || w.mode!=="heat") continue;
+      mkRow(T("pcWallT")(sides[k]), "pcWallTDesc", ()=>editSim().twall[k].T,
+        (cv)=>{ editSim().twall[k].T=cv; }, 0, 10000);
+      mkRow(T("pcWallRate")(sides[k]), "pcWallRateDesc", ()=>editSim().twall[k].rate,
+        (cv)=>{ editSim().twall[k].rate=cv; }, 0, 100);
+    }
+  }
+  host.appendChild(g);
+}
 // 第40便 40B(台帳4-77): abBody を宣言したプリセットだけに出るワンタップA/Bボタン。
 // buildParamRows() から呼ぶ(プリセット読込・A/B開始/終了・編集対象切替・言語切替のたびに再同期)
 function updateAbBodyRow(){
@@ -7129,6 +7289,7 @@ function buildParamRows(){
   }
   // 第32便(W2): 箱宇宙(UniverseBox)の実験用パラメータ編集 — sim.box があるプリセットのみ表示
   if(sim.box) buildBoxParamRows(host);
+  if(sim.phase) buildPhaseParamRows(host);   // 第53便 53D: 相変化(E14)の実験用パラメータ
   // 表示設定
   const disp=document.createElement("div"); disp.className="group";
   const h=document.createElement("h3"); h.textContent=T("grpDisplay"); disp.appendChild(h);
