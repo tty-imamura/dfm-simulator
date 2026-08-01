@@ -1187,7 +1187,7 @@ const CLAMPS = { G:[0,100], D0:[0,1000], kFrame:[0,1], q:[0.5,4], kRep:[0,20], m
   geoPN:[0,1], lambdaPN:[0,1], pnAlpha:[0,2],   // v1.20: E12 測地線1PN
   softening:[0.5,20], timeScale:[0.1,16] };
 
-// ===== 内蔵プリセット(スキーマは docs/dev/HANDOFF_IMPLEMENTATION.md §契約1) =====
+// ===== 内蔵プリセット(スキーマは内部開発文書 HANDOFF_IMPLEMENTATION.md §契約1 — 非公開管理) =====
 const BUILTIN_PRESETS = [
 // ===== v1.9 サンプル全面刷新(付録I)。旧16種は廃止し「1サンプル=1効果」で再構成 =====
 // 第26便(原仮定者指示): カテゴリ分け・表示順を再編 — 銀河系サンプルを「銀河」グループへ集約。配列順=表示順
@@ -7021,7 +7021,7 @@ $("#importFile").addEventListener("change",async (e)=>{
   }catch(err){ notify(T("importFailed"),3000); }
 });
 
-// ===== AIタブ(実行時LLM: docs/dev/HANDOFF_RUNTIME_LLM.md の焼き込み) =====
+// ===== AIタブ(実行時LLM: 内部開発文書 HANDOFF_RUNTIME_LLM.md の焼き込み — 非公開管理) =====
 const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリセット生成器です。ユーザーの要望を読み、下記仕様のシミュレーション設定をJSONで1つだけ出力します。
 
 # シミュレータの物理(要約)
@@ -7078,7 +7078,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 // 注: 以前は output_config.format(構造化出力)に JSON Schema を渡していたが、
 // スキーマが大きく「The compiled grammar is too large」(400) となるため撤去した。
 // 出力形式は few-shot + 下記の JSON 抽出 + validatePreset(検証→リトライ→フォールバック)で担保する。
-// (docs/dev/HANDOFF_RUNTIME_LLM.md 改訂 2026-07-13)
+// (内部開発文書 HANDOFF_RUNTIME_LLM.md 改訂 2026-07-13)
 function extractJSON(text){
   let t=String(text).trim();
   const f=t.indexOf("{"), l=t.lastIndexOf("}");

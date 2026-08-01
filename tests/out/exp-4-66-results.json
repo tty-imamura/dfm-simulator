@@ -4,7 +4,7 @@
  "commit": "860f8ce7801387ec5513df4b4ab100b8129be3b5",
  "target": "beta/index.html",
  "targetSha256": "cc617b5800000e828d56eb78f0ff033a98ed0249810609a9c66fe33fb576f7ac",
- "note": "第50便(台帳4-66)E8R 指数形 vs 厳密反比例のプローブ依存H判別実験。QA ではない(合否 exit code なし)。設計正本 docs/dev/EXP_4-66_PROBE_H_DESIGN.md §2。対象実装ファイルは一切変更していない — 測定構成は V29 と同一で validatePreset→HP.sim.build の正規経路で注入。反比例対照は同じ w 実測からの後処理(コード変更なし — E8R 本体の改変はしない)。本 JSON は論文2 fig6 の元データを兼ねる(fig6 生成は tools/gen-figures2.mjs)。",
+ "note": "第50便(台帳4-66)E8R 指数形 vs 厳密反比例のプローブ依存H判別実験。QA ではない(合否 exit code なし)。設計正本 内部開発文書 EXP_4-66_PROBE_H_DESIGN.md §2(非公開管理)。対象実装ファイルは一切変更していない — 測定構成は V29 と同一で validatePreset→HP.sim.build の正規経路で注入。反比例対照は同じ w 実測からの後処理(コード変更なし — E8R 本体の改変はしない)。本 JSON は論文2 fig6 の元データを兼ねる(fig6 生成は tools/gen-figures2.mjs)。",
  "meta": {
   "dt": 0.016,
   "H0": 0.01,
@@ -37,7 +37,7 @@
   "cpus": 4,
   "sources": {
    "measurement": "beta/index.html HP.verify.v29(第42便 42B)/ tools/gen-figures2.mjs p2fig6 と同一の系・式",
-   "design": "docs/dev/EXP_4-66_PROBE_H_DESIGN.md §2(第43便 43D)",
+   "design": "内部開発文書 EXP_4-66_PROBE_H_DESIGN.md §2(第43便 43D・非公開管理)",
    "presetInjection": "tests/qa.mjs / tests/seeds.mjs / tests/exp-4-67.mjs(validatePreset→HP.sim.build)"
   },
   "designNotes": [

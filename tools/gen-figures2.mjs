@@ -484,7 +484,7 @@ if (want(5)) {
 }
 
 // ---- p2fig6: プローブ依存の膨張測定 H_w/H_geo(V29 の測定系を D/Kt × a のスキャンへ拡張)----
-// 設計は docs/dev/EXP_4-66_PROBE_H_DESIGN.md §2。同じ w 実測から、E8R 指数形の光速則と
+// 設計は内部開発文書 EXP_4-66_PROBE_H_DESIGN.md §2(非公開管理)。同じ w 実測から、E8R 指数形の光速則と
 // 4-66 の対案(c_loc ∝ 1/W_B)の2通りで H を読み、後者では比が恒等 1(=プローブ依存なし)になる。
 if (want(6)) {
   const d = await page.evaluate(() => {
@@ -554,7 +554,7 @@ if (want(6)) {
     marks: [{ x: nearest.aEff, y: nearest.meas, label: 'calibration a=2, D/Kt=0.9242' }]
   });
   await writeFig(pdfPage, 6, fig, {
-    design: 'docs/dev/EXP_4-66_PROBE_H_DESIGN.md §2(V29 の測定系を D/Kt スキャンへ拡張)',
+    design: '内部開発文書 EXP_4-66_PROBE_H_DESIGN.md §2(V29 の測定系を D/Kt スキャンへ拡張・非公開管理)',
     physics: d.physics,
     analytic: 'H_w/H_geo = 2(D/Kt)·dP·a^{-dP}(窓平均 2(D/Kt)(1/a1−1/a2)/ln(a2/a1))',
     control: '4-66 対案 c_loc ∝ 1/W_B(同じ w 実測からの後処理)→ H_w/H_geo ≡ dP = 1',
