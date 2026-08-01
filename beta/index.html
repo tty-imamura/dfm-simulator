@@ -2296,6 +2296,33 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,phaseGraph:true} },
 
+// ⛓️chain: 第55便 55A — 分子間力の結合価(valence)。固相=等方結合の塊 ⇄ 液相=結合価2の鎖。
+// 壁スケジュール(t=280 で加熱→冷却)で 塊→鎖→塊 の往復を1本で見せる。
+// 実測(2026-08-01): 17000步 全融解・全112粒が鎖(平均次数1.98・近傍2.0 vs 等方5.2・占有面積4倍)
+// → 40000步 全凝固・配位4.39 の塊。res 1.86e-2・clampAN=0
+{ id:"chain", name:"鎖の液体 — 結合価の相変化", emoji:"⛓️", group:"熱の実験室",
+  descStruct:{
+    summary:"分子間力に「結合価」を導入した相変化実験(E14拡張)。固体は結合の数に制限が無く六方格子の塊になる(bondK 等方結合)が、液体は各分子が最大2本しか凝集結合を持てない(valence=2 の鎖リンク)— 相が変わると物質の構造そのものが塊⇄鎖に劇的に変わる。融解は「配位6の結合網」を「配位2の鎖」へ組み替えるコストを潜熱+結合エネルギー差として支払う — 相変化に逆らうエネルギーが潜熱そのものになる。",
+    observe:"融解前線が通ると、六方格子が白い細線で結ばれた鎖(分子のスパゲッティ)にほどけていく。実測では同条件の等方凝集液体(🫠)に比べ、液体分子の近傍数 2.0 vs 5.2・占有面積は約4倍 — 鎖は嵩張り、垂れ、端が自由に泳ぐ(熱圧 E5′ が身をよじらせる)。壁が t=280 で冷却面へ切り替わると、鎖は距離が離れたリンクから切れながら崩れ、配位4以上の緻密な塊(多結晶)へ戻る — 同じ分子・同じ融点で、結合の「数」だけが構造を切り替える。実効潜熱は等方液体より大きく(壊す結合網が大きい)、融解は目に見えて遅い=潜熱が相変化への抵抗として働く。エネルギーは壁帳簿+潜熱+結合/凝集+U_repで閉じる(リンク組み替え分の帳簿外は実測1.9e-2 — 保存量モニタ)。色=温度・白線=鎖リンク。実在の高分子・会合性流体の定量再現ではない。",
+    control:"「相変化(E14)の実験」ノブで cohesion(鎖の強さ)・潜熱・壁温を変えられる(valence 自体はプリセット定義)。kRepを上げると鎖の身悶えが激しくなる。冷却後にT_wall(底)を上げ直せば何往復でも可逆。"},
+  en:{name:"Chain Liquid — Valence Phase Change", descStruct:{
+    summary:"A phase-change experiment that gives the intermolecular force a valence (E14 extension). The solid has no limit on bond count and packs into a hexagonal lump (isotropic bondK bonds); the liquid lets each molecule hold at most two cohesive bonds (valence-2 chain links) — so the phase change dramatically rewires the material's very structure, lump ⇄ chains. Melting pays the cost of rewiring a coordination-6 bond network into coordination-2 chains as latent heat plus the bond-energy difference — the energy that resists the phase change is the latent heat itself. ",
+    observe:"As the melt front passes, the lattice unravels into chains drawn with thin white links (molecular spaghetti). Measured against the isotropic cohesive liquid (🫠) under identical conditions: 2.0 neighbors per liquid molecule vs 5.2, and about 4x the occupied area — chains are bulky, they dangle, and their free ends wander (thermal pressure E5′ makes them writhe). When the wall switches to cooling at t=280, links break as distances open and the chains collapse back into a dense lump with coordination ≥4 (polycrystalline) — same molecules, same melting point; only the *number* of bonds rewires the structure. The effective latent heat is larger than the isotropic liquid's (a bigger bond network must be broken), so melting is visibly slower — latent heat acting as resistance to the transition. Energy closes as wall ledger + latent heat + bond/cohesion + U_rep (link-rewiring leakage measured at 1.9e-2 — see the conservation monitor). Color = temperature; white lines = chain links. No claim of quantitative correspondence to real polymers or associating fluids. ",
+    control:"The Phase-change (E14) experiment knobs adjust cohesion (chain strength), latent heats and wall temperature (valence itself is preset-defined). Raise kRep and the chains writhe harder. Raise the floor T_wall again after freezing and the trip repeats — fully reversible."}},
+  activeParams:["kRep","kappaS","gravityY","gammaN"],
+  thermal:"tint",
+  phaseChange:{ meltT:1, latentF:4, valence:2, bondK:5, bondRange:1.6, cohesion:3,
+    bondDamp:0.1, visc:0.05, condS:1, condL:0.5 },
+  camera:{scale:140}, world:{boundary:"box", size:110,
+    thermalWalls:{ bottom:{mode:"heat", T:2.6, rate:0.35, T2:0.1, tSwitch:280} }},
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:1, muF:0.1, gammaN:0.3, kappaS:0.5, Kt:60,
+    cLight:60, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:2},
+  seed:7,
+  bodies:[ // 🫠melt と同一の初期結晶(六方格子・接触平衡)— 差は phaseChange.valence だけ
+    {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:93, pitch:5, mMin:1, mMax:1, tInt:0.2}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:true,field:false,phaseGraph:true} },
+
 // ♨️加熱の対流: v1.14 で撤去 → v1.17 で一様重力場(gravityY)ベースに再設計して復活。
 // 旧構成(画面外の遠方大質量で下向き場を代行)は決定力Wの歪み・凍結が撤去理由だった
 // (経緯は DERIVATIONS 付録K/付録M・HANDOFF_IMPLEMENTATION)。gravityY は W に寄与しない
@@ -3182,6 +3209,13 @@ function validatePreset(obj){
           out.condG=optNum("condG",0,100,1);
         }
       } else if(PC.condG!==undefined) warnings.push("phaseChange.condG は boilT/latentV とセットで使います — 無視します");
+      // 第55便 55A(結合価): valence=液相凝集の結合価(1〜3 の整数)。省略=等方凝集(従来)
+      if(PC.valence!==undefined){
+        if(isNum(PC.valence) && PC.valence>=1){
+          out.valence=Math.min(3,Math.round(PC.valence));
+          if(out.valence!==PC.valence) warnings.push("phaseChange.valence を 1〜3 の整数に修正");
+        } else warnings.push("phaseChange.valence は 1〜3 の整数 — 無視します(等方凝集)");
+      }
       p.phaseChange=out;   // 未知のサブキーは落とす(受理する形を1つに固定する — fusion と同方針)
     }
   }
@@ -3677,6 +3711,7 @@ function phaseEnergy(s){
   const pc=s.phase; if(!pc) return 0;
   const K1=pc.bondK, K2=pc.cohesion;
   if(!(K1>0) && !(K2>0)) return 0;
+  const chP=s.chainP, val=chP? pc.valence : 0;   // 55A: 結合価モードでは凝集はリンク上のみ
   let U=0;
   for(let i=0;i<s.n;i++){
     const mi=s.m[i], Ri=s.R[i], fli=s.fLiq[i], fsi=1-fli-s.fGas[i];   // 54A: fs=1−fl−fg
@@ -3686,7 +3721,11 @@ function phaseEnergy(s){
       if(!(d<cut)) continue;
       const ms=mi+s.m[j]; if(!(Math.abs(ms)>1e-9)) continue;
       const flj=s.fLiq[j];
-      const Katt=K1*fsi*(1-flj-s.fGas[j]) + K2*fli*flj;
+      let K2e=K2*fli*flj;
+      if(chP && K2e>0){ let li=false;
+        for(let k=0;k<val;k++) if(chP[i*val+k]===j){ li=true; break; }
+        if(!li) K2e=0; }
+      const Katt=K1*fsi*(1-flj-s.fGas[j]) + K2e;
       if(!(Katt>0)) continue;
       const muM=mi*s.m[j]/ms, A=cut-sumR;
       const u0=(d>sumR)? d-sumR : 0;
@@ -3809,7 +3848,7 @@ function makeSim(){
     // (温度とエンタルピーの二重管理はしない — 帳簿不整合の温床)
     // 第54便 54A: fGas = 気相率(boilT の無いプリセットでは常に0)。bAtt は bS(結合)・bC(凝集)の
     // 2係数へ分離 — 熱量関数の融解傾き bMelt=bS−bC と沸騰傾き bCe を別々に組むため
-    phase:null, hInt:null, fLiq:null, fGas:null, bAttS:null, bAttC:null, clampBN:0, clampAN:0,
+    phase:null, hInt:null, fLiq:null, fGas:null, bAttS:null, bAttC:null, chainP:null, clampBN:0, clampAN:0,
     // 第53便 53B(外部レビュー P1「相変化専用グラフ」): 相変化履歴 — phaseChange プリセットのみ
     // 25サブステップごとに {t, T:平均T_int, f:平均液相率, Q:壁正味入熱} を積む(boxHist と同方式)
     phHist:null, _phAcc:0,
@@ -4104,7 +4143,11 @@ function makeSim(){
           bondDamp:(isNum(PC.bondDamp)? clamp(PC.bondDamp,0,1) : 0),
           visc:(isNum(PC.visc)? clamp(PC.visc,0,1) : 0),
           condS:(isNum(PC.condS)? clamp(PC.condS,0,100) : 1),
-          condL:(isNum(PC.condL)? clamp(PC.condL,0,100) : 1) }
+          condL:(isNum(PC.condL)? clamp(PC.condL,0,100) : 1),
+          // 第55便 55A(分子間力・結合価): valence=液相凝集の結合価(1〜3 の整数)。指定時、凝集は
+          // 各粒子が最大 valence 本持つ「鎖リンク」上でのみ働く(固相 bondK は従来どおり等方)。
+          // 省略(0)では 53A の等方凝集と 1 ビットも変わらない
+          valence:(isNum(PC.valence) && PC.valence>=1)? Math.min(3,Math.round(PC.valence)) : 0 }
       : null;
     // 第54便 54A(気液相変化): boilT/latentV は両方の有効指定(かつ boilT>meltT)で気相が有効。
     // 片方だけ・境界不整合は無効(validatePreset も同条件で警告 — ここが最終の門番)。
@@ -4117,6 +4160,9 @@ function makeSim(){
     if(S.phase){
       S.hInt=new Float64Array(S.n); S.fLiq=new Float32Array(S.n); S.fGas=new Float32Array(S.n);
       S.bAttS=new Float64Array(S.n); S.bAttC=new Float64Array(S.n);
+      // 55A: 鎖リンクの持続状態(粒子ごとの相手 index×valence。-1=空き。fusion/fission は
+      // phaseChange と排他なので index 再配置(_compact/_grow)は起きない)
+      S.chainP=(S.phase.valence>0)? new Int32Array(S.n*S.phase.valence).fill(-1) : null;
       const C=S.params.cHeat, Tm=S.phase.meltT, Lf=S.phase.latentF;
       const Tb=(S.phase.boilT>0)? S.phase.boilT : Infinity, Lv=S.phase.latentV||0;
       for(let i=0;i<S.n;i++){ const T=S.Tint[i];
@@ -4124,7 +4170,7 @@ function makeSim(){
         S.hInt[i]=C*T + (T>Tm? Lf : 0) + (T>Tb? Lv : 0);
         S.fLiq[i]=(T>Tm && T<=Tb)? 1 : 0; S.fGas[i]=(T>Tb)? 1 : 0; }
       S.phHist=[];   // 第53便 53B: 相変化履歴(グラフ用データ層。既定プリセットはゼロコストのまま)
-    } else { S.hInt=null; S.fLiq=null; S.fGas=null; S.bAttS=null; S.bAttC=null; S.phHist=null; }
+    } else { S.hInt=null; S.fLiq=null; S.fGas=null; S.bAttS=null; S.bAttC=null; S.chainP=null; S.phHist=null; }
     S._phAcc=0;
     S.resPx=0; S.resPy=0; S.resL=0; S.radE=0; S.radL=0;
     S.wallEin=0; S.wallEout=0; S.wallKE=0;   // 第37便 C1(台帳4-70): 壁帳簿もリセット
@@ -4656,6 +4702,25 @@ function makeSim(){
           ui1=urep? 1/(2*q-2) : 0, ui2=urep? 1/(2*q-1) : 0;
     if(tint){ dQi.fill(0); arep.fill(0); if(urep) arepD.fill(0); }
     if(pc){ bAttS.fill(0); bAttC.fill(0); }   // 第53便 53A/54A(E14): 結合・凝集の相率係数もサブステップごとに積み直す
+    // 第55便 55A(結合価): 鎖リンクの距離切断。切断は cut(=ポテンシャル w が 0 になる帯端)
+    // でだけ起きるのでエネルギーは連続(形成も帯進入時=w≈0 — 対の井戸に不連続を作らない)
+    const pcVal=(pc&&pc.valence>0)? pc.valence : 0, chP=pcVal? S.chainP : null;
+    if(chP && doPre){
+      for(let i2=0;i2<n;i2++){
+        const b0=i2*pcVal;
+        for(let k2=0;k2<pcVal;k2++){
+          const j2=chP[b0+k2];
+          if(j2<0) continue;
+          const dxc=x[i2]-x[j2], dyc=y[i2]-y[j2];
+          const cutC=pcRange*(R[i2]+R[j2]);
+          if(!(dxc*dxc+dyc*dyc<cutC*cutC)){
+            chP[b0+k2]=-1;
+            const bj=j2*pcVal;
+            for(let k3=0;k3<pcVal;k3++) if(chP[bj+k3]===i2){ chP[bj+k3]=-1; break; }
+          }
+        }
+      }
+    }
     // 第37便 C1(台帳4-70): 伝熱境界(boundary:"box" かつ thermal:"tint" のときだけ非 null)
     const TW=S.twall;
     // 第31便: UniverseBox — この step の尺度 a(t)・Hubble 率 H・決定力 W_B を確定(規定運動)。
@@ -4879,7 +4944,23 @@ function makeSim(){
           // 引力が連続的に消える)。boilT の無いプリセットでは fg≡0 で 53A と同値
           const fli=fLiq[i], flj=fLiq[j];
           const fsi=1-fli-fGas[i], fsj=1-flj-fGas[j];
-          const spF=fsi*fsj, lpF=fli*flj;
+          const spF=fsi*fsj;
+          // 第55便 55A(結合価): valence 指定時、凝集(液相)は鎖リンク上でのみ働く。
+          // リンク形成は「帯の中に居て・両者に空き結合価・両者が液相率>0」のとき(進入時は
+          // w≈0 なので連続)。走査順(i<j 昇順)による形成順は決定論
+          let lpF=fli*flj, chOK=true;
+          if(chP){
+            const bi=i*pcVal, bj=j*pcVal;
+            let li=false, fi=-1;
+            for(let k2=0;k2<pcVal;k2++){ const v2=chP[bi+k2]; if(v2===j){ li=true; break; } if(v2<0 && fi<0) fi=k2; }
+            if(!li && fi>=0 && lpF>0){
+              let fj=-1;
+              for(let k2=0;k2<pcVal;k2++){ const v2=chP[bj+k2]; if(v2===i){ fj=-2; break; } if(v2<0 && fj<0) fj=k2; }
+              if(fj>=0){ chP[bi+fi]=j; chP[bj+fj]=i; li=true; }
+              else if(fj===-2) li=true;
+            }
+            if(!li){ lpF=0; chOK=false; }
+          }
           const Katt=pcBondK*spF + pcCoh*lpF;
           const cD=pcBDamp*spF + pcVisc*lpF;
           const muM=mi*mj/(mi+mj);
@@ -4892,8 +4973,8 @@ function makeSim(){
             const u0=(d>sumR)? d-sumR : 0;
             const wD=(A*(A*A-u0*u0)/2 - (A*A*A-u0*u0*u0)/3)/A;
             const wMu=muM*wD;
-            bAttS[i]+=pcBondK*fsj*wMu; bAttC[i]+=pcCoh*flj*wMu;
-            bAttS[j]+=pcBondK*fsi*wMu; bAttC[j]+=pcCoh*fli*wMu;
+            bAttS[i]+=pcBondK*fsj*wMu; bAttS[j]+=pcBondK*fsi*wMu;
+            if(chOK){ bAttC[i]+=pcCoh*flj*wMu; bAttC[j]+=pcCoh*fli*wMu; }   // 55A: 凝集はリンク上のみ
           }
           if((Katt>0 || cD>0) && d>sumR){
             const nxv=dx/d, nyv=dy/d;
@@ -6389,6 +6470,26 @@ function render(){
   // 〔原仮定者裁定〕で全品質から撤廃 — drawRadiusCap() は常に Infinity。小さな粒子も
   // 実際の半径どおりに表示する。第37便 A6: drawScale(描画専用倍率)は廃止済み — 以下の
   // 半径式はもう dscale を掛けない(1固定と厳密等価)
+  // 第55便 55A(結合価): 鎖リンクの可視化(表示のみ — 物理・帳簿には一切触れない)。
+  // 液相の凝集リンクを細線で結び「鎖状の液相」を直接読めるようにする。線の濃さは両者の
+  // 液相率の積(凍結・気化でリンクの表示が自然に消える — リンク自体は距離切断まで残る)
+  if(sim.chainP && sim.phase && sim.phase.valence>0){
+    const val=sim.phase.valence;
+    ctx.lineWidth=1.5;
+    for(let i=0;i<sim.n;i++){
+      const b0=i*val;
+      for(let k3=0;k3<val;k3++){
+        const j=sim.chainP[b0+k3];
+        if(j<=i) continue;   // リンクは両側の配列に入っているので i<j 側だけ描く
+        const al=sim.fLiq[i]*sim.fLiq[j];
+        if(!(al>0.02)) continue;
+        ctx.strokeStyle="rgba(190,210,255,"+(0.25+0.45*al).toFixed(3)+")";
+        ctx.beginPath(); ctx.moveTo(w2sX(sim.x[i]),w2sY(sim.y[i]));
+        ctx.lineTo(w2sX(sim.x[j]),w2sY(sim.y[j])); ctx.stroke();
+      }
+    }
+    ctx.lineWidth=1;
+  }
   const rCap=drawRadiusCap(), glowOn=qLevel()===0;
   for(let i=0;i<sim.n;i++){
     const sx=w2sX(sim.x[i]), sy=w2sY(sim.y[i]);
@@ -7036,6 +7137,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
     // bAtt はサブステップごとに積み直すので転写不要。phase 係数の実行中編集も引き継ぐ
     if(sim.hInt && simB.hInt){ simB.hInt.set(sim.hInt.subarray(0,sim.n));
       simB.fLiq.set(sim.fLiq.subarray(0,sim.n)); simB.fGas.set(sim.fGas.subarray(0,sim.n)); }
+    if(sim.chainP && simB.chainP) simB.chainP.set(sim.chainP);   // 55A: 鎖リンクの持続状態も転写
     simB.pinned.set(sim.pinned.subarray(0,sim.n)); simB.hasU.set(sim.hasU.subarray(0,sim.n));
   }
   if(sim.phase && simB.phase) Object.assign(simB.phase, sim.phase);

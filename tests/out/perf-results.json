@@ -1,14 +1,14 @@
 {
-  "when": "2026-08-01T08:38:01.899Z",
+  "when": "2026-08-01T10:42:18.981Z",
   "threshold": 1.1,
   "reps": 5,
   "frames": 60,
   "results": [
     {
       "id": "galaxy",
-      "rootMs": 1576.4,
-      "betaMs": 1586.4,
-      "ratio": 1.006,
+      "rootMs": 1630.6,
+      "betaMs": 1501.7,
+      "ratio": 0.921,
       "limit": 1.1,
       "stepsPerFrameRoot": 6,
       "stepsPerFrameBeta": 6,
@@ -18,9 +18,9 @@
     },
     {
       "id": "darkrotor",
-      "rootMs": 1080.3,
-      "betaMs": 995.6,
-      "ratio": 0.922,
+      "rootMs": 1135.3,
+      "betaMs": 1101.7,
+      "ratio": 0.97,
       "limit": 1.1,
       "stepsPerFrameRoot": 4,
       "stepsPerFrameBeta": 4,
@@ -30,9 +30,9 @@
     },
     {
       "id": "merger",
-      "rootMs": 247.9,
-      "betaMs": 199.1,
-      "ratio": 0.803,
+      "rootMs": 251.4,
+      "betaMs": 252.7,
+      "ratio": 1.005,
       "limit": 1.1,
       "stepsPerFrameRoot": 4,
       "stepsPerFrameBeta": 4,
@@ -42,33 +42,33 @@
     },
     {
       "id": "convection",
-      "rootMs": 391.9,
-      "betaMs": 518.6,
-      "ratio": 1.323,
+      "rootMs": 487.9,
+      "betaMs": 511.7,
+      "ratio": 1.049,
       "limit": 1.1,
       "stepsPerFrameRoot": 4,
       "stepsPerFrameBeta": 4,
       "nRoot": 210,
       "nBeta": 210,
-      "pass": false
+      "pass": true
     },
     {
       "id": "counterring",
-      "rootMs": 108.9,
-      "betaMs": 141,
-      "ratio": 1.295,
+      "rootMs": 144.8,
+      "betaMs": 141.7,
+      "ratio": 0.979,
       "limit": 1.1,
       "stepsPerFrameRoot": 4,
       "stepsPerFrameBeta": 4,
       "nRoot": 201,
       "nBeta": 201,
-      "pass": false
+      "pass": true
     },
     {
       "id": "saturnLayered",
-      "rootMs": 634.4,
-      "betaMs": 617.1,
-      "ratio": 0.973,
+      "rootMs": 659.9,
+      "betaMs": 572.1,
+      "ratio": 0.867,
       "limit": 1.1,
       "stepsPerFrameRoot": 6,
       "stepsPerFrameBeta": 6,
@@ -78,9 +78,9 @@
     },
     {
       "id": "echo",
-      "rootMs": 9.6,
-      "betaMs": 8.3,
-      "ratio": 0.865,
+      "rootMs": 8.9,
+      "betaMs": 10.6,
+      "ratio": 1.191,
       "limit": 1.45,
       "stepsPerFrameRoot": 4,
       "stepsPerFrameBeta": 4,
@@ -90,9 +90,9 @@
     },
     {
       "id": "freebox",
-      "rootMs": 41.5,
-      "betaMs": 41.2,
-      "ratio": 0.993,
+      "rootMs": 41.3,
+      "betaMs": 41.7,
+      "ratio": 1.01,
       "limit": 1.1,
       "stepsPerFrameRoot": 4,
       "stepsPerFrameBeta": 4,
@@ -105,7 +105,7 @@
     {
       "id": "melt",
       "side": "beta",
-      "ms": 151.4,
+      "ms": 174.5,
       "stepsPerFrame": 4,
       "n": 112,
       "note": "root未実装のためbeta単独実測(pass判定なし・6/6ゲート数に含めない)"
@@ -113,7 +113,7 @@
     {
       "id": "freeze",
       "side": "beta",
-      "ms": 170,
+      "ms": 160.9,
       "stepsPerFrame": 4,
       "n": 112,
       "note": "root未実装のためbeta単独実測(pass判定なし・6/6ゲート数に含めない)"
@@ -121,7 +121,7 @@
     {
       "id": "meltcycle",
       "side": "beta",
-      "ms": 154.4,
+      "ms": 159.6,
       "stepsPerFrame": 4,
       "n": 112,
       "note": "root未実装のためbeta単独実測(pass判定なし・6/6ゲート数に含めない)"
@@ -129,7 +129,15 @@
     {
       "id": "boil",
       "side": "beta",
-      "ms": 163.3,
+      "ms": 171.2,
+      "stepsPerFrame": 4,
+      "n": 112,
+      "note": "root未実装のためbeta単独実測(pass判定なし・6/6ゲート数に含めない)"
+    },
+    {
+      "id": "chain",
+      "side": "beta",
+      "ms": 175.6,
       "stepsPerFrame": 4,
       "n": 112,
       "note": "root未実装のためbeta単独実測(pass判定なし・6/6ゲート数に含めない)"
