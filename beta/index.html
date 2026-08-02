@@ -40,8 +40,9 @@
   select,button,input,textarea{font:inherit;color:var(--fg);}
   select{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-height:44px;}
   #presetSelect{flex:1;min-width:0;}
-  /* 第54便 54D②: プリセット選択の階層化 — カテゴリ選択(左)+絞り込まれた一覧(右) */
-  #presetGroupSelect{flex:0 0 96px;min-width:0;}
+  /* 第54便 54D②: プリセット選択の階層化 — カテゴリ選択(左)+絞り込まれた一覧(右)
+     第62便(原仮定者指示): カテゴリ側を狭めてタイトル(一覧)側を広げる */
+  #presetGroupSelect{flex:0 0 72px;min-width:0;padding:8px 6px;}
   #canvasWrap{position:relative;flex:1 1 auto;min-height:120px;background:#05070f;}
   canvas#cv{position:absolute;inset:0;width:100%;height:100%;touch-action:none;display:block;}
   #hud{position:absolute;left:8px;top:6px;font-size:calc(11px*var(--uz,1));color:var(--dim);pointer-events:none;
@@ -81,13 +82,17 @@
   #notice{position:absolute;left:50%;top:12px;transform:translateX(-50%);max-width:92%;
     background:rgba(20,24,48,.92);border:1px solid var(--line);border-radius:10px;
     padding:8px 12px;font-size:12px;display:none;pointer-events:none;text-align:center;}
-  #transport{display:flex;gap:8px;padding:8px 12px;background:var(--panel);
+  #transport{display:flex;gap:6px;padding:8px 8px;background:var(--panel);
     border-top:1px solid var(--line);flex:0 0 auto;align-items:center;}
   #transport button{flex:1;min-height:46px;border-radius:12px;border:1px solid var(--line);
     background:var(--panel2);font-size:calc(14px*var(--uz,1));font-weight:600;touch-action:manipulation;}
   #transport button:active{background:#26305e;}
   #btnPlay.playing{background:#20315f;border-color:var(--acc);}
-  #speedSel{flex:0 0 84px;}
+  /* 第62便(原仮定者指示): 時間倍率・チェックポイントを狭め「初めから」「実行」を広げる
+     (#transport button は ID+型 の特異度なので、上書きは #transport #id で行う) */
+  #speedSel{flex:0 0 68px;min-width:0;padding:8px 4px;}
+  #transport #btnCkSave,#transport #btnCkLoad{flex:0 0 auto;min-width:44px;padding:0 4px;}
+  #transport #btnReset,#transport #btnPlay{white-space:nowrap;padding:0 2px;}
   /* 第37便 A1(原仮定者指示): パネル未展開時は下部タブが画面最下段になり、ホームインジケーター
      (iPhone の safe-area-inset-bottom)に被る。#panel と同じ --sab(env(safe-area-inset-bottom))を
      paddingで確保する — 非対応環境/インセット0の端末では現行と厳密に同じ見た目のまま */
@@ -271,7 +276,7 @@
   </div>
   <div id="transport">
     <button id="btnReset">⏮ 初めから</button>
-    <button id="btnPlay">▶ 実行</button>
+    <button id="btnPlay">▶️ 実行</button>
     <!-- 第61便 61B(レビューP1「チェックポイント」): 今の状態を保存し、いつでも巻き戻す -->
     <button id="btnCkSave" title="checkpoint">📍</button>
     <button id="btnCkLoad" title="restore checkpoint" disabled>⤺📍</button>
@@ -291,6 +296,9 @@
     <button id="btnPanelClose" aria-label="close panel">✕ 閉じる</button>
     <div class="tabPage" id="page-help"><div id="helpBody"></div></div>
     <div class="tabPage" id="page-params">
+      <!-- 第62便(原仮定者指示): ワンタップA/B(相変化 abQuick / 粒子patch abBody)は
+           「A/B比較」グループより上の共通行へ統一(形状は相変化系=btn。JSが動的に生成) -->
+      <div class="rowBtns" id="abQuickRow" style="display:none"></div>
       <div class="group" id="abGroup">
         <h3 id="abHead">A/B比較</h3>
         <div class="rowBtns"><button class="btn primary" id="btnAB">A/B比較を開始</button></div>
@@ -300,9 +308,7 @@
           <button class="btn" id="btnAbTargetA">A</button>
           <button class="btn" id="btnAbTargetB">B</button>
         </div>
-        <!-- 第40便 40B(台帳4-77): abBody 宣言プリセットのみ表示するワンタップA/Bボタン列
-             (粒子への patch を含むA/Bレシピ。ボタンはJSが動的に生成する) -->
-        <div class="rowBtns" id="abBodyRow" style="display:none"></div>
+        <!-- 第40便 40B の abBodyRow は第62便で #abQuickRow(グループ上部)へ統合 -->
         <!-- 第27便(原仮定者指示): A/B比較の説明は畳んでおく -->
         <details id="abNoteWrap"><summary id="abNoteSum" class="note" style="cursor:pointer">A/B比較とは</summary>
         <p class="note" id="abNote">今の状態をAとして、そのコピーのBを作り、上下に並べて同時に走らせます(A=上、B=下)。実行中のパラメータ編集はA側にのみ効き、最後に調整したパラメータの値が両画面に表示されます。「終了」でAの状態を継続しBを破棄します。プリセットを切り替えると解除されます。</p></details>
@@ -459,7 +465,7 @@ let LANG = (localStorage.getItem("hp_lang")==="en") ? "en" : "ja";
 const I18N = {
 ja: {
   appTitle:"DFM Lab", docTitle:"仮想物理ラボ — 仮定物理法則シミュレータ",   // 第23便: 左上タイトルを短縮(document.title は不変)
-  reset:"⏮ 初めから", run:"▶ 実行", resume:"▶ 再開", pause:"⏸ 停止",
+  reset:"⏮ 初めから", run:"▶️ 実行", resume:"▶️ 再開", pause:"⏸ 停止",
   tabHelp:"説明", tabParams:"パラメータ", tabSaves:"セーブ", tabAI:"AI追加",
   paramDefault:"プリセット既定値に戻す",
   abHead:"A/B比較",
@@ -688,7 +694,7 @@ ja: {
 },
 en: {
   appTitle:"DFM Lab", docTitle:"Virtual Physics Lab — Hypothetical-Physics Simulator",
-  reset:"⏮ Restart", run:"▶ Run", resume:"▶ Resume", pause:"⏸ Pause",
+  reset:"⏮ Restart", run:"▶️ Run", resume:"▶️ Resume", pause:"⏸ Pause",
   tabHelp:"Guide", tabParams:"Parameters", tabSaves:"Saves", tabAI:"AI Create",
   paramDefault:"Restore preset defaults",
   abHead:"A/B Compare",
@@ -1147,7 +1153,7 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
 const APP_VERSION = "1.34";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 // 第36便 B1(原仮定者指示): タイトル下に表示するbeta配信時のビルド番号。beta/sw.js の
 // CACHE 接尾辞と同期させる(QA: version.beta-label)。ルート昇格後は使わない("v"+APP_VERSION 表示に戻る)
-const BETA_BUILD = "v1.35-b6";   // 第61便 61A-61C: 観測量ψ6/組替率/前線・二段グラフ・checkpoint/A/B・obsT/coreOT廃止
+const BETA_BUILD = "v1.35-b7";   // 第62便: Release前修正(perfゲート交互ペア化)・UI整理(A/B統一行・ボタン幅・▶️)
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 // 第45便 45A(台帳4-48): 光線源・1PN源のしきい値を「質量」から「偏向角」へ物理化した。
@@ -7533,20 +7539,7 @@ function buildPhaseParamRows(host){
       (cv)=>{ editSim().phase[def.key]=cv; },   // 第60便: 全ノブが単純な連続量(副作用なし)
       def.lo, def.hi, def.sLo, def.sHi, def.sStep);
   }
-  // 第61便 61B(レビューP1「ワンタップA/B」): プリセット宣言 abQuick:{key,v} — 1タップで
-  // A/B 比較を開始し、B 側の相変化ノブだけを対照値へ(例: angK=0 = 角度なしの対照)
-  const q=currentPreset && currentPreset.abQuick;
-  if(q && editSim().phase){
-    const b=document.createElement("button"); b.className="btn"; b.style.margin="4px 0"; b.id="btnAbQuick";
-    b.textContent=T("pcAbQuick")(q.key,q.v);
-    b.addEventListener("click",()=>{
-      if(ab) abStop();
-      abStart();
-      ab.simB.phase[q.key]=q.v;
-      notify(T("abQuickStarted")(q.key,q.v));
-    });
-    g.appendChild(b);
-  }
+  // 第61便 61B の abQuick ボタンは第62便で #abQuickRow(A/B比較グループの上)へ移設
   // 第57便 57C: 伝熱壁の壁温・レート行は「実験箱」カテゴリへ移設(buildLabBoxRows)
   det.appendChild(g);
 }
@@ -7605,24 +7598,42 @@ function buildLabBoxRows(g){
       (cv)=>{ ensure(k).rate=cv; }, 0, 100, 0, 3, 0.05);
   }
 }
-// 第40便 40B(台帳4-77): abBody を宣言したプリセットだけに出るワンタップA/Bボタン。
+// 第40便 40B(台帳4-77)→ 第62便(原仮定者指示)で統一: ワンタップA/B行 #abQuickRow
+// (「A/B比較」グループの上)。①相変化 abQuick:{key,v}(第61便 61B — B側の相変化ノブだけ
+// 対照値へ)②粒子patch abBody(40B — 例: 対向ローターのスピンを0に)を、同じ形状
+// (相変化系 = class "btn")で並べる。プリセットはどちらか一方のみ宣言する運用。
 // buildParamRows() から呼ぶ(プリセット読込・A/B開始/終了・編集対象切替・言語切替のたびに再同期)
-function updateAbBodyRow(){
-  const row=$("#abBodyRow"); if(!row) return;
+function updateAbQuickRow(){
+  const row=$("#abQuickRow"); if(!row) return;
   row.textContent="";
+  let any=false;
+  const q=currentPreset && currentPreset.abQuick;
+  if(q && editSim().phase){
+    const b=document.createElement("button"); b.className="btn"; b.id="btnAbQuick";
+    b.textContent=T("pcAbQuick")(q.key,q.v);
+    b.addEventListener("click",()=>{
+      if(ab) abStop();
+      abStart();
+      ab.simB.phase[q.key]=q.v;
+      notify(T("abQuickStarted")(q.key,q.v));
+    });
+    row.appendChild(b); any=true;
+  }
   const ent=currentPreset && currentPreset.abBody;
-  if(!ent || !Array.isArray(ent.targets) || !ent.targets.length || !ent.patch){ row.style.display="none"; return; }
-  row.style.display="flex";
-  const btn=document.createElement("button"); btn.className="btn primary";
-  btn.textContent=(ent.label && ((LANG==="en"&&ent.label.en)||ent.label.ja||ent.label.en)) || T("btnAbStart");
-  btn.addEventListener("click",()=>{
-    abStart(undefined, undefined, {targets:ent.targets, patch:ent.patch});
-    notify(T("abStarted"));
-  });
-  row.appendChild(btn);
+  if(ent && Array.isArray(ent.targets) && ent.targets.length && ent.patch){
+    const btn=document.createElement("button"); btn.className="btn";
+    const lb=(ent.label && ((LANG==="en"&&ent.label.en)||ent.label.ja||ent.label.en)) || T("btnAbStart");
+    btn.textContent=(lb.indexOf("⚖️")===0? lb : "⚖️ "+lb);
+    btn.addEventListener("click",()=>{
+      abStart(undefined, undefined, {targets:ent.targets, patch:ent.patch});
+      notify(T("abStarted"));
+    });
+    row.appendChild(btn); any=true;
+  }
+  row.style.display=any? "flex" : "none";
 }
 function buildParamRows(){
-  updateAbBodyRow();
+  updateAbQuickRow();
   const host=$("#paramRows");
   // 57B: 再構築前に開いているカテゴリのラベルを記録(mkCatDetails が復元する)
   _openCats=new Set();

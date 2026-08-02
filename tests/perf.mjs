@@ -1,26 +1,35 @@
-// 動的性能回帰ゲート(第29便 — 第25次レビュー P0-3)。実行: node tests/perf.mjs
-// - 同一Chromiumプロセス内で root(index.html)→ beta(beta/index.html)を順に読み込み、
-//   代表サンプルごとに「1フレーム相当の物理ステップ × FRAMES」の所要時間を REPS 回計測して
-//   中央値で比較する(ウォームアップ後)。stepsPerFrame = round(SUBSTEPS × timeScale) を
-//   使うため、timeScale 由来の計算量増(第25次レビュー原因1)もこのゲートで検出できる。
+// 動的性能回帰ゲート(第29便 — 第25次レビュー P0-3 / 第62便 — Release前レビュー P0-1 で
+// 交互ペア測定方式へ改修)。実行: node tests/perf.mjs
+// - 同一Chromiumプロセス内に root(index.html)と beta(beta/index.html)の**2ページを常駐**させ、
+//   代表サンプルごとに「1フレーム相当の物理ステップ × FRAMES」の所要時間を root/beta
+//   **交互のペア**で SETS 回計測し、**ペアごとの比の中央値**で判定する。
+//   stepsPerFrame = round(SUBSTEPS × timeScale) を使うため、timeScale 由来の計算量増
+//   (第25次レビュー原因1)もこのゲートで検出できる。
+// - 第62便の改修理由(Release前レビュー P0-1): 旧方式は「全rootサンプル→全betaサンプル」の
+//   固定順で、計測が数分離れるため共有ランナーの負荷変動・JIT状態の偏りが片側だけに乗り、
+//   公式CIで galaxy 1.153 FAIL(手元 0.961)という偽陽性が出た。ペアは数秒以内に隣接して
+//   走るので同一負荷条件になり、開始側もペアごとに交互(root先/beta先)にして順序効果を相殺する。
+//   単純な「root中央値とbeta中央値の比」ではなく**ペア比の中央値**を採用(同レビュー推奨5)。
+//   全反復値・環境メタデータ(CPU/Chromium/測定順)を JSON へ記録する(P1-3)。
+// - 第39便 39B(台帳4-76): SAMPLES の並びは**変えない**。この順序自体が計測条件の一部である
+//   (♨️convection を通した後の JIT 型フィードバック退化を実使用の模擬として維持)。
+//   第62便でも各ページ内のサンプル走査順は不変 — 変えたのは root/beta の時間軸上の並びだけ。
 // - 変更を意図しないサンプルは beta/root ≤ THRESH(既定1.10)。意図的に増やす場合は
 //   ALLOW に {id: 上限} を追記して理由をコメントで残す(明示的な許可リスト)。
 // - 結果は tests/out/perf-results.json に保存。1件でも超過なら exit code 1。
 // - 描画側(FPS/renderMs)のゲートはヘッドレスCIでは実機代表性が低いため対象外
 //   (第25次裁定: CPUゲートのみ採用。描画は実機確認手順に委ねる)。
+// - beta 専用サンプル(root 未実装)は従来どおり informational(絶対 ms と ms/frame を記録)。
+//   絶対時間の合否ゲートは共有ランナーの絶対値変動(実測 ±25%)で偽陽性になるため設けない
+//   (Release前レビュー P1-1 は「記録の充実」で対応 — 実機 FPS は実機確認手順に委ねる)。
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
+import { execSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_DIR = path.join(ROOT, 'tests', 'out');
-// 第39便 39B(台帳4-76): SAMPLES の並びは**変えない**。この順序自体が計測条件の一部である。
-// 同一プロセス・同一ページで順に測るため、♨️convection(beta では thermal="tint")を通した後は
-// 以後の spin モードのサンプルが JIT の型フィードバック退化を引きずる。root の ♨️ は spin
-// モードなのでこの退化が起きず、退化分がまるごと beta/root 比に乗る計測アーティファクトだった
-// (39B 実測: ♨️の直後に 🎯 が 1217→1359ms/60frames = +11.7%、♨️を順から抜くと beta/root=1.000)。
-// 実機のユーザーも「♨️を見た後で🪐/🎯が重い」という同じ経路を踏むので、順序は実使用の模擬として
-// 維持し、退化しないコードにする方で解いた(39B が beta 側で解消 — I の事前計算+tint 配列の単型化)。
 const SAMPLES = ['galaxy', 'darkrotor', 'merger', 'convection', 'counterring', 'saturnLayered'];
 // 第36便 Wave A(P2-2・ChatGPT差分検証レビュー): echo/freebox(第35便で追加)をベンチ対象へ。
 // root(旧版)にはまだ存在しないため feature-detect し、片側にしかプリセットが無い場合は
@@ -37,32 +46,13 @@ const THRESH = +(process.env.PERF_THRESH || 1.10);
 // 共有ページ順次計測の JIT 状態に支配される。53D 実測: スイート内比 1.27〜1.33 が3回持続する
 // 一方、**独立ページ計測(交互5回・120frames・中央値)では beta 37.1ms vs root 45.1ms =
 // beta/root 0.82(beta の方が速い)**。53D の _core 変更(壁温スケジュールの Tw 1行)を戻した
-// 対照ビルドとも差なし(36.4ms)= 実回帰は存在しない。ratio ドリフトの内訳は root 側が
-// 13〜15→11.6〜12.7ms へ速化・beta 側が 15.0→15.7ms へ微増(いずれもスイート内のみの現象)。
-// root 昇格で echo は byte 同一比較に戻るため、その時点で本 ALLOW を撤去すること
+// 対照ビルドとも差なし(36.4ms)= 実回帰は存在しない。root 昇格で echo は byte 同一比較に
+// 戻るため、その時点で本 ALLOW を撤去すること
+// (第62便: ペア測定化で緩和される見込みだが、撤去は実測が安定してから)
 const ALLOW = { echo: 1.45 };
-// 第40便 40P(v1.33昇格): darkrotor(第33便 v5 由来の暫定 1.30)・convection(第37便4-70
-// 再設計由来の暫定 3.0)の ALLOW は、昇格で root==beta の内容になり比≈1へ戻ったため撤去した。
-// 第38便の暫定 ALLOW `saturnLayered: 1.20` は第39便 39B(台帳4-76)で**撤去**した。
-// 第38便は「beta 先行機能の per-substep 累積オーバーヘッド」と推定していたが、39B の
-// アブレーション実測でそれは誤りと判明した:
-//   ・清浄なページで測ると beta/root は 1.00 前後(実作業量の差は 3〜5%)
-//   ・1.10〜1.22 の大半は上の SAMPLES 順に起因する JIT 退化(♨️→🎯 の順序依存)
-//   ・真の重さは構成そのもの(n=301 × steps/frame=6 = 27.1万対評価/フレーム)で、
-//     内訳は ① 全対ループ 56% + ③ E6′反作用の全対ループ 43%、描画は物理の 6% にすぎない
-// 39B の bit 同一最適化(I=½mR² の事前計算・E10′ の遠方対足切り・③の W_j/hasJ 巻き上げ・
-// tint 系配列の単型化)を適用した結果、3回連続で saturnLayered 0.997/1.013/1.013、
-// counterring も 1.126(FAIL)→ 0.999/1.002/0.974 へ回復したため、既定 THRESH 1.10 へ戻す。
-// 第40便 40C(台帳4-82・統括裁定「粒子数削減・timeScale は変えない」): 🪐/🎯 の環粒子を
-// 300→240(総粒子 301→241)へ削減した。本ゲートは **beta/root 比** の上限しか見ないので、
-// beta 側だけ軽くなった結果 saturnLayered の比は 0.858 → **0.622** へ下がる(=想定内。
-// 比が下がることは FAIL にならない)。絶対値でこそ効果が見えるので実測を残す:
-//   ・本ゲート(SAMPLES 順・♨️の後): root 1729.9ms → beta 1076.7ms / 60frames = **−37.8%**
-//   ・独立ページ計測(順序効果なし・3回の中央値): 🪐 1586.5→1000.8ms(−36.9%・26.44→16.68 ms/frame)
-//                                                🎯 1581.4→1050.3ms(−33.6%・26.36→17.50 ms/frame)
-//   ・理論値(対評価数 ∝ n²): (241/301)² = 0.641 = −35.9% ⇒ 実測はこれと整合
-// root へ 4-82 が昇格すれば比は 1 付近へ戻る(そのとき ALLOW の追加は不要)。
-const REPS = 5, FRAMES = 60, WARMUP_FRAMES = 20;
+// 過去の ALLOW 撤去履歴(darkrotor/convection/saturnLayered)と 40C の粒子数削減の実測記録は
+// git 履歴(第61便以前の本ファイル冒頭コメント)を参照。
+const REPS = 2, FRAMES = 60, WARMUP_FRAMES = 20, SETS = 3;
 
 async function getBrowser() {
   const exe = process.env.CHROMIUM_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
@@ -77,7 +67,10 @@ async function getBrowser() {
   throw new Error('playwright が見つかりません。`npm install` を実行するか PLAYWRIGHT_CORE_DIR を指定してください');
 }
 
-async function measureOne(page, id, reps, frames, warm) {
+const median = (a) => { const s = [...a].sort((x, y) => x - y); return s[Math.floor(s.length / 2)]; };
+
+// 1側1セットの計測: プリセット読込→ウォームアップ→REPS 回の反復時間(生値)を返す
+async function measureSet(page, id, reps, frames, warm) {
   return page.evaluate(([pid, reps, frames, warm]) => {
     HP.loadPreset(pid, false);
     const S = HP.sim;
@@ -90,87 +83,119 @@ async function measureOne(page, id, reps, frames, warm) {
       for (let f = 0; f < frames; f++) for (let s = 0; s < spf; s++) S.step(0.016);
       times.push(performance.now() - t0);
     }
-    times.sort((a, b) => a - b);
-    return { medianMs: times[Math.floor(times.length / 2)], stepsPerFrame: spf, n: S.n, nan: S.hasNaN() };
+    return { times, stepsPerFrame: spf, n: S.n, nan: S.hasNaN() };
   }, [id, reps, frames, warm]);
 }
 
-async function measureTarget(browser, target) {
-  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
-  await page.goto('file://' + path.join(ROOT, target));
-  await page.waitForFunction(() => window.HP && HP.sim);
-  const ids = await page.evaluate(() => HP.allPresets().map((p) => String(p.id)));
-  const out = {};
-  for (const id of SAMPLES) {
-    out[id] = await measureOne(page, id, REPS, FRAMES, WARMUP_FRAMES);
-    console.log(`  ${target} ${id}: ${out[id].medianMs.toFixed(1)}ms/${FRAMES}frames (steps/frame=${out[id].stepsPerFrame}, n=${out[id].n})`);
-  }
-  // 第36便 P2-2: echo/freebox は片側にプリセットが無いことがある(root=旧版は未実装)。
-  // 存在するときだけ計測し、無ければ null のまま(呼び出し側で informational 扱いにする)
-  const extra = {};
-  for (const id of EXTRA_SAMPLES) {
-    if (ids.includes(id)) {
-      extra[id] = await measureOne(page, id, REPS, FRAMES, WARMUP_FRAMES);
-      console.log(`  ${target} ${id}(extra): ${extra[id].medianMs.toFixed(1)}ms/${FRAMES}frames (steps/frame=${extra[id].stepsPerFrame}, n=${extra[id].n})`);
+// 交互ペア測定: SETS ペアを実行し、ペアごとに (root中央値, beta中央値, 比) を取る。
+// 開始側はペアごとに交互(root先→beta先→root先…)にして順序効果を相殺する。
+async function measurePaired(rootPage, betaPage, id) {
+  const pairs = [];
+  const rawRoot = [], rawBeta = [];
+  let meta = null;
+  for (let k = 0; k < SETS; k++) {
+    const rootFirst = k % 2 === 0;
+    let r, b;
+    if (rootFirst) {
+      r = await measureSet(rootPage, id, REPS, FRAMES, WARMUP_FRAMES);
+      b = await measureSet(betaPage, id, REPS, FRAMES, WARMUP_FRAMES);
     } else {
-      extra[id] = null;
-      console.log(`  ${target} ${id}(extra): プリセットなし`);
+      b = await measureSet(betaPage, id, REPS, FRAMES, WARMUP_FRAMES);
+      r = await measureSet(rootPage, id, REPS, FRAMES, WARMUP_FRAMES);
     }
+    const rMed = median(r.times), bMed = median(b.times);
+    pairs.push({ order: rootFirst ? 'root→beta' : 'beta→root',
+      rootMs: +rMed.toFixed(1), betaMs: +bMed.toFixed(1), ratio: +(bMed / rMed).toFixed(3) });
+    rawRoot.push(...r.times.map((t) => +t.toFixed(1)));
+    rawBeta.push(...b.times.map((t) => +t.toFixed(1)));
+    meta = { stepsPerFrameRoot: r.stepsPerFrame, stepsPerFrameBeta: b.stepsPerFrame,
+      nRoot: r.n, nBeta: b.n, nan: r.nan || b.nan };
   }
-  await page.close();
-  return { out, extra };
+  return {
+    ratio: median(pairs.map((p) => p.ratio)),
+    rootMs: median(rawRoot), betaMs: median(rawBeta),
+    pairs, rawRoot, rawBeta, ...meta,
+  };
+}
+
+// 片側のみ(informational): SETS セットの中央値
+async function measureSingle(page, id) {
+  const raw = [];
+  let meta = null;
+  for (let k = 0; k < SETS; k++) {
+    const r = await measureSet(page, id, REPS, FRAMES, WARMUP_FRAMES);
+    raw.push(...r.times.map((t) => +t.toFixed(1)));
+    meta = { stepsPerFrame: r.stepsPerFrame, n: r.n, nan: r.nan };
+  }
+  return { ms: median(raw), raw, ...meta };
 }
 
 const browser = await getBrowser();
-console.log('perf gate: root を計測中…');
-const rootR = await measureTarget(browser, 'index.html');
-console.log('perf gate: beta を計測中…');
-const betaR = await measureTarget(browser, path.join('beta', 'index.html'));
-await browser.close();
-const root = rootR.out, beta = betaR.out;
+const openPage = async (target) => {
+  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  await page.goto('file://' + path.join(ROOT, target));
+  await page.waitForFunction(() => window.HP && HP.sim);
+  return page;
+};
+console.log('perf gate: root/beta の2ページを常駐させ交互ペア測定(第62便方式)…');
+const rootPage = await openPage('index.html');
+const betaPage = await openPage(path.join('beta', 'index.html'));
+const rootIds = await rootPage.evaluate(() => HP.allPresets().map((p) => String(p.id)));
+const betaIds = await betaPage.evaluate(() => HP.allPresets().map((p) => String(p.id)));
+const env = {
+  node: process.version,
+  chromium: browser.version(),
+  platform: `${os.platform()}/${os.arch()}`,
+  cpu: os.cpus()[0]?.model || 'unknown', cores: os.cpus().length,
+  method: `paired-alternating(SETS=${SETS} REPS=${REPS} FRAMES=${FRAMES} WARMUP=${WARMUP_FRAMES})`,
+  startedAt: new Date().toISOString(),
+};
+// Release 監査用の証跡結び付け(Release前レビュー P0-4): ローカル HEAD と CI の Run 情報を記録
+try { env.commit = execSync('git rev-parse HEAD', { cwd: ROOT, stdio: 'pipe' }).toString().trim(); } catch { env.commit = 'unknown'; }
+env.run = { githubRunId: process.env.GITHUB_RUN_ID || null, sha: process.env.GITHUB_SHA || null,
+  attempt: process.env.GITHUB_RUN_ATTEMPT || null };
 
 let fail = 0;
 const rows = [];
-for (const id of SAMPLES) {
-  const ratio = beta[id].medianMs / root[id].medianMs;
-  const limit = ALLOW[id] || THRESH;
-  const nanOk = !root[id].nan && !beta[id].nan;
-  const pass = ratio <= limit && nanOk;
-  if (!pass) fail++;
-  rows.push({ id, rootMs: +root[id].medianMs.toFixed(1), betaMs: +beta[id].medianMs.toFixed(1),
-    ratio: +ratio.toFixed(3), limit, stepsPerFrameRoot: root[id].stepsPerFrame,
-    stepsPerFrameBeta: beta[id].stepsPerFrame, nRoot: root[id].n, nBeta: beta[id].n, pass });
-  console.log(`${pass ? 'PASS' : 'FAIL'} perf.${id}  beta/root=${ratio.toFixed(3)} (≤${limit})  root=${root[id].medianMs.toFixed(1)}ms beta=${beta[id].medianMs.toFixed(1)}ms`);
-}
-// 第36便 P2-2: echo/freebox — 両側に揃えばゲート(rows へ合流・6/6 の分母に加算)、
-// 片側(現状は beta のみ)しか無ければ informational(pass判定なし・分母に含めない)
 const informational = [];
-for (const id of EXTRA_SAMPLES) {
-  const rEx = rootR.extra[id], bEx = betaR.extra[id];
-  if (rEx && bEx) {
-    const ratio = bEx.medianMs / rEx.medianMs;
+// 比較ゲート対象: SAMPLES + 両側に揃った EXTRA(EXTRA は昇格時に自動で比較ゲートへ)
+for (const id of [...SAMPLES, ...EXTRA_SAMPLES]) {
+  const inRoot = rootIds.includes(id), inBeta = betaIds.includes(id);
+  const isExtra = EXTRA_SAMPLES.includes(id);
+  if (inRoot && inBeta) {
+    const m = await measurePaired(rootPage, betaPage, id);
     const limit = ALLOW[id] || THRESH;
-    const nanOk = !rEx.nan && !bEx.nan;
-    const pass = ratio <= limit && nanOk;
+    const pass = m.ratio <= limit && !m.nan;
     if (!pass) fail++;
-    rows.push({ id, rootMs: +rEx.medianMs.toFixed(1), betaMs: +bEx.medianMs.toFixed(1),
-      ratio: +ratio.toFixed(3), limit, stepsPerFrameRoot: rEx.stepsPerFrame,
-      stepsPerFrameBeta: bEx.stepsPerFrame, nRoot: rEx.n, nBeta: bEx.n, pass });
-    console.log(`${pass ? 'PASS' : 'FAIL'} perf.${id}  beta/root=${ratio.toFixed(3)} (≤${limit})  root=${rEx.medianMs.toFixed(1)}ms beta=${bEx.medianMs.toFixed(1)}ms`);
-  } else if (rEx || bEx) {
-    const side = bEx ? 'beta' : 'root';
-    const one = bEx || rEx;
-    informational.push({ id, side, ms: +one.medianMs.toFixed(1), stepsPerFrame: one.stepsPerFrame, n: one.n,
-      note: `${side === 'beta' ? 'root' : 'beta'}未実装のため${side}単独実測(pass判定なし・6/6ゲート数に含めない)` });
-    console.log(`INFO perf.${id}  ${side}=${one.medianMs.toFixed(1)}ms(${side === 'beta' ? 'root' : 'beta'}未実装 — 昇格後に比較ゲート化)`);
-  } else {
+    rows.push({ id, rootMs: +m.rootMs.toFixed(1), betaMs: +m.betaMs.toFixed(1),
+      ratio: +m.ratio.toFixed(3), limit,
+      stepsPerFrameRoot: m.stepsPerFrameRoot, stepsPerFrameBeta: m.stepsPerFrameBeta,
+      nRoot: m.nRoot, nBeta: m.nBeta, pass,
+      pairs: m.pairs, rawRootMs: m.rawRoot, rawBetaMs: m.rawBeta });
+    console.log(`${pass ? 'PASS' : 'FAIL'} perf.${id}  beta/root=${m.ratio.toFixed(3)} (≤${limit}・ペア比[${m.pairs.map((p) => p.ratio.toFixed(3)).join(' ')}]の中央値)  root=${m.rootMs.toFixed(1)}ms beta=${m.betaMs.toFixed(1)}ms`);
+  } else if (isExtra && (inRoot || inBeta)) {
+    const side = inBeta ? 'beta' : 'root';
+    const one = await measureSingle(inBeta ? betaPage : rootPage, id);
+    informational.push({ id, side, ms: +one.ms.toFixed(1),
+      msPerFrame: +(one.ms / FRAMES).toFixed(2), stepsPerFrame: one.stepsPerFrame, n: one.n,
+      raw: one.raw,
+      note: `${side === 'beta' ? 'root' : 'beta'}未実装のため${side}単独実測(pass判定なし・ゲート数に含めない)` });
+    console.log(`INFO perf.${id}  ${side}=${one.ms.toFixed(1)}ms(${(one.ms / FRAMES).toFixed(2)}ms/frame・${side === 'beta' ? 'root' : 'beta'}未実装 — 昇格後に比較ゲート化)`);
+  } else if (isExtra) {
     console.log(`SKIP perf.${id}(root/betaとも未実装)`);
+  } else {
+    console.log(`FAIL perf.${id}(比較ゲート対象サンプルが片側にありません — root=${inRoot} beta=${inBeta})`);
+    fail++;
   }
 }
+await browser.close();
+
 fs.mkdirSync(OUT_DIR, { recursive: true });
 fs.writeFileSync(path.join(OUT_DIR, 'perf-results.json'), JSON.stringify({
-  when: new Date().toISOString(), threshold: THRESH, reps: REPS, frames: FRAMES,
-  // results: 比較ゲート対象(pass/fail 判定あり。fail 件数がそのまま exit code に反映される)
+  when: new Date().toISOString(), threshold: THRESH,
+  reps: REPS, frames: FRAMES, sets: SETS, env,
+  // results: 比較ゲート対象(pass/fail 判定あり。ratio はペア比の中央値。
+  //          pairs に各ペアの順序・両側 ms・比、rawRoot/BetaMs に全反復生値を記録)
   // informational: 片側にしかプリセットが無いための参考計測(pass判定なし。ゲート対象外)
   results: rows, informational,
 }, null, 2));
