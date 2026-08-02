@@ -247,17 +247,16 @@
       <div class="beHead"><span id="beTitle">選択粒子の編集</span><button id="beClose" aria-label="minimize">−</button></div>
       <!-- v1.24: 負値を取り得る s/vx/vy は inputmode=text(iOS の数字キーパッドに「−」が無いため) -->
       <!-- 第12便: m は負値も受理するため inputmode=text(iOS の数字キーパッドに「−」が無い) -->
-      <!-- 第25便(原仮定者指示): 行構成を対で整理 — m|mc/m・s|sc/s・R|Rc/R・To×|TcO×・掻出 -->
+      <!-- 第25便(原仮定者指示): 行構成を対で整理 — m|mc/m・s|sc/s・R|Rc/R・掻出
+           (第61便: To×/TcO×〔obsT/coreOT〕は未使用のため廃止 — 原仮定者指示) -->
       <!-- 第14便: 主星2層(比率)— コア質量比 mc/m(既定0・負値=空洞)とコアスピン比 sc/s(既定1) -->
       <div class="beRow"><label id="beLm">m</label><input type="text" id="beM" inputmode="text" autocomplete="off">
         <label id="beLmc" style="min-width:30px">mc/m</label><input type="text" id="beMc" inputmode="text" autocomplete="off"></div>
       <div class="beRow"><label id="beLs">s</label><input type="text" id="beS" inputmode="text" autocomplete="off">
         <label id="beLsc" style="min-width:30px">sc/s</label><input type="text" id="beSc" inputmode="text" autocomplete="off"></div>
-      <!-- 第22便: 半径R(明示指定)・コア半径比 Rc/R・観測温度係数 To×・光掻き出し・コア観測温度比率 TcO× -->
+      <!-- 第22便: 半径R(明示指定)・コア半径比 Rc/R・光掻き出し(To×/TcO× は第61便で廃止) -->
       <div class="beRow"><label id="beLr">R</label><input type="text" id="beR" inputmode="decimal" autocomplete="off">
         <label id="beLrr" style="min-width:30px">Rc/R</label><input type="text" id="beRr" inputmode="decimal" autocomplete="off"></div>
-      <div class="beRow"><label id="beLot">To×</label><input type="text" id="beOt" inputmode="decimal" autocomplete="off">
-        <label id="beLoc" style="min-width:30px">TcO×</label><input type="text" id="beOc" inputmode="decimal" autocomplete="off"></div>
       <!-- 第37便 A2(原仮定者指示): 「auto」チェックボックス — ON で lightSweep="auto" を設定し
            数値欄を読み取り専用にする。OFF は従来の数値入力に戻る。
            第38便(原仮定者指示・構造のみ。ラベル文字列の改称は次波38B): #beLsw の固定幅指定を
@@ -273,6 +272,9 @@
   <div id="transport">
     <button id="btnReset">⏮ 初めから</button>
     <button id="btnPlay">▶ 実行</button>
+    <!-- 第61便 61B(レビューP1「チェックポイント」): 今の状態を保存し、いつでも巻き戻す -->
+    <button id="btnCkSave" title="checkpoint">📍</button>
+    <button id="btnCkLoad" title="restore checkpoint" disabled>⤺📍</button>
     <select id="speedSel" aria-label="速度">
       <option value="0.25">×0.25</option><option value="0.5">×0.5</option>
       <option value="1" selected>×1</option><option value="2">×2</option>
@@ -465,6 +467,11 @@ ja: {
   abNote:"今の状態をAとして、そのコピーのBを作り、上下に並べて同時に走らせます(A=上、B=下)。「編集対象」でパラメータ編集をA/Bどちらに効かせるか切り替えられ、最後に調整したパラメータの値が両画面に表示されます。表示設定と時間倍率は常にA/B両方に反映されます。「終了」でAの状態を継続しBを破棄します。プリセットを切り替えると解除されます。",
   abTargetLabel:"編集対象", abNoteSum:"A/B比較とは(タップで説明)",   // 第27便
   abStarted:"A/B比較を開始: 今の状態をBに複製しました(▶実行で両方が同時に走ります)",
+  abQuickStarted:(k,v)=>`対照A/Bを開始: B側だけ ${k}=${v} にしました(▶実行で比較)`,
+  pcAbQuick:(k,v)=>`⚖️ ワンタップ対照A/B(B側: ${k}=${v})`,
+  ckSaved:"チェックポイントを保存しました(⤺📍 でいつでもこの瞬間に戻れます)",
+  ckLoaded:"チェックポイントに戻しました",
+  ckMismatch:"チェックポイントと粒子数が一致しません(プリセット変更で無効化されました)",
   abStopped:"A/B比較を終了しました",
   abResetDone:"A/B両方を初期配置に戻しました",
   paramNote:"※ 物理パラメータは実行中いつでも反映されます。粒子の初期配置・個数はプリセット選択または「⏮ 初めから」で反映されます。",
@@ -497,12 +504,12 @@ ja: {
   tgRaysDesc:"光線束(E8R)を表示。光は ψ=W/Kt で屈折し、決定フレーム u に運ばれる(A11)。光線のないサンプルでも既定の平行光束を点灯できる。",
   tgCurveDesc:"右下に回転曲線(半径ごとの接線速度)を表示。点線はバリオン実加速度基準 v_bar(r)(質量分布だけから期待される回転)。",
   // 第38便 A5(原仮定者指示): バー・折れ線の色を温度に対応させた(粒子の温度色と同じ写像)
-  tgTempDesc:"温度ヒストグラム(左右比較)。表示は観測温度 T_obs=To×·(1−減光)·T。バー・折れ線の色は温度に対応(粒子の温度色と同じ写像)。右系列は破線で区別。",
+  tgTempDesc:"温度ヒストグラム(左右比較)。表示は観測温度 T_obs=(1−減光)·T。バー・折れ線の色は温度に対応(粒子の温度色と同じ写像)。右系列は破線で区別。",
   tgSpectrumDesc:"放射スペクトル(A12: ピーク波長 λ=b_m/T のウィーン型)。表示は観測温度基準。",
   tgMonitorDesc:"運動量P・角運動量Lとリザーバ帳簿(E6′/E11)の保存量モニタ(T7)。",
   tgBoxGraphDesc:"箱宇宙(UniverseBox)の尺度因子a(t)・膨張率H(t)の時系列と、拡大による波長の伸び(赤方偏移 1+z=a/a₀)を表示する。箱宇宙プリセットでのみ有効。",
-  tgPhaseGraphDesc:"系の平均温度T̄(橙)と平均配位数c̄(緑)の時系列を表示する。結合が切れて c̄ が下がる間は T̄ の上がりが鈍る=創発した実効潜熱の因果が読める。相変化(E14″)プリセットでのみ有効。",
-  ovPhaseGraph:"相変化 T̄・配位数", ovPhaseNote:"橙=T̄ 緑=平均配位数c̄ Q=壁正味入熱",
+  tgPhaseGraphDesc:"二段の相変化グラフ。上段=平均温度T̄(橙)と平均配位数c̄(緑) — 結合が切れて c̄ が下がる間は T̄ の上がりが鈍る=創発した実効潜熱の因果が読める。下段=六方配向秩序ψ6(水色)と結合の組替率(赤紫・0〜1) — 液体=組替が速い/結晶=組替≈0で秩序高い/ガラス=組替≈0なのに秩序低い、という動的な相の分類が読める。左端の縦帯=高さ別の平均配位数(相前線プロファイル — 床から進む融解・凝固前線)。相変化(E14″)プリセットでのみ有効。",
+  ovPhaseGraph:"相変化 T̄・配位数", ovPhaseNote:"上:橙=T̄ 緑=c̄ 下:水=ψ6 紫=組替率×10 左帯=高さ別c(前線) 色=温度 線=結合",
   // 第53便 53D → 第60便: 相変化(E14″)の実験用パラメータ編集(創発一本化)
   pcSectionHead:"相変化(E14″)の実験",
   pcSectionDesc:"相変化サンプル専用の実験ノブ。8つのノブはどれも「いまの結合状態から」物性を決める連続量で、融点・潜熱・相率のような相の構成則は存在しない(第60便で創発一本化)。加熱/冷却壁の壁温・レートは「実験箱」カテゴリ。A/B比較中は編集対象側だけに効く — 「角度あり/なし」「創発伝導あり/なし」等の対照実験が組める。この編集はセーブに保存される(第54便 54B)。",
@@ -528,9 +535,7 @@ ja: {
   beDsc:"sc/s: コアスピン比。コア実スピン sc=比×s が差動引きずり(Rcから減衰)を生む。1=剛体回転=単層等価。",
   beDr:"R: 半径。慣性I=½mR²・接触・引きずり減衰(R/(R+d))^q・温度・扁平率f=5s²R³/(4Gm)に使用。既定はradiusScale·rMul·√|m|(rMulは粒子ごとの倍率・既定1)。",
   beDrr:"Rc/R: コア半径比。コアの引きずり到達距離を決める。既定は√|mc/m|相当。",
-  beDot:"To×: 観測温度係数。観測温度T_obs=To×·(1−減光)·T(表示のみ — 力学不変)。",
-  beDsw:"減光: 自星の光をどれだけ外に出さないか(0〜1・1=完全減光)。機構はスピンによる自光の掻き出し(lightSweep)。観測温度は T_obs=To×·(1−減光)·T、放射冷却も(1−減光)倍(ダークローター)。auto と入力するか隣の「自動」チェックボックスをONにすると、粒子のスピン・半径から lS_eff=min(1,|s|R/c_surf) を毎ステップ算出する — 数値欄は編集不可になり実効値lS_effで上書き表示される(第38便)。",
-  beDoc:"TcO×: コア観測温度比率。Tc_obs=TcO×·(1−減光)·Ic·sc²(表示のみ)。",
+  beDsw:"減光: 自星の光をどれだけ外に出さないか(0〜1・1=完全減光)。機構はスピンによる自光の掻き出し(lightSweep)。観測温度は T_obs=(1−減光)·T、放射冷却も(1−減光)倍(ダークローター)。auto と入力するか隣の「自動」チェックボックスをONにすると、粒子のスピン・半径から lS_eff=min(1,|s|R/c_surf) を毎ステップ算出する — 数値欄は編集不可になり実効値lS_effで上書き表示される(第38便)。",
   beDv:"vx/vy: 速度成分。慣性は局所フレームuに対して働く(A5)。",
   beDp:"固定: 位置・速度・スピンを外部拘束で固定(力・トルクを受けない)。反作用はリザーバへ帳簿(A13)。",
   uiScaleOpts:[["1","小"],["1.15","標準"],["1.3","大"]],   // 第27便: 3段階を繰り下げ(既定=1.15)
@@ -691,6 +696,11 @@ en: {
   abNote:"Takes the current state as A, creates a copy as B, and runs both stacked vertically (A = top, B = bottom). Use \"Edit target\" to choose whether parameter edits apply to A or B; the value of the last-adjusted parameter is shown on both views. Display settings and the time multiplier always apply to both A and B. Stopping keeps A and discards B. Switching presets exits the mode.",
   abTargetLabel:"Edit target", abNoteSum:"About A/B compare (tap)",
   abStarted:"A/B compare started: current state copied to B (press ▶ Run to advance both)",
+  abQuickStarted:(k,v)=>`Control A/B started: only side B set to ${k}=${v} (press ▶ Run to compare)`,
+  pcAbQuick:(k,v)=>`⚖️ One-tap control A/B (side B: ${k}=${v})`,
+  ckSaved:"Checkpoint saved (⤺📍 returns to this moment anytime)",
+  ckLoaded:"Returned to the checkpoint",
+  ckMismatch:"Checkpoint particle count mismatch (invalidated by preset change)",
   abStopped:"A/B compare stopped",
   abResetDone:"Both A and B reset to initial layout",
   paramNote:"※ Physics parameters apply instantly, even while running. Initial particle layout/count applies on preset selection or ⏮ Restart.",
@@ -721,12 +731,12 @@ en: {
   tgRaysDesc:"Shows the light-ray bundle (E8R). Rays refract via psi=W/Kt and are carried by the frame u (A11). Presets without rays can light a default parallel bundle.",
   tgCurveDesc:"Rotation curve (tangential speed vs radius) at bottom right. The dotted line is the baseline v_bar(r) from the real baryonic acceleration — the rotation expected from the mass distribution alone.",
   // 38th flight A5 (design lead's instruction): bar/line color now follows temperature (same mapping as particle color)
-  tgTempDesc:"Temperature histogram (left/right). Uses the observed temperature T_obs = To x (1-dimming) x T. Bar/line color follows temperature (same mapping as particle color). The right series is dashed to tell it apart.",
+  tgTempDesc:"Temperature histogram (left/right). Uses the observed temperature T_obs = (1-dimming) x T. Bar/line color follows temperature (same mapping as particle color). The right series is dashed to tell it apart.",
   tgSpectrumDesc:"Radiation spectrum (A12, Wien-type peak lambda=b_m/T). Uses observed temperature.",
   tgMonitorDesc:"Conservation monitor (T7): momentum P, angular momentum L, and the reservoir ledger (E6'/E11).",
   tgBoxGraphDesc:"Shows the box universe (UniverseBox) scale factor a(t) and expansion rate H(t) over time, plus the wavelength stretch from expansion (redshift 1+z=a/a0). Only active on box-universe presets.",
-  tgPhaseGraphDesc:"Plots the system mean temperature T̄ (orange) and the mean smooth coordination number c̄ (green) over time. You can read the emergent latent heat directly: while bonds break (c̄ falls), T̄ climbs more slowly. Only active on phase-change (E14″) presets.",
-  ovPhaseGraph:"Phase T̄ / coordination", ovPhaseNote:"orange=T̄ green=mean coordination c̄ Q=net wall heat",
+  tgPhaseGraphDesc:"Two-panel phase graph. Top: mean temperature T̄ (orange) and mean coordination c̄ (green) — while bonds break (c̄ falls), T̄ climbs more slowly, the emergent latent heat read directly. Bottom: hexatic order ψ6 (cyan) and bond rewiring rate (magenta, 0-1) — liquid = fast rewiring, crystal = frozen and ordered, glass = frozen yet disordered: a dynamic classification of states. The left strip shows mean coordination by height (the phase-front profile advancing from the floor). Only active on phase-change (E14″) presets.",
+  ovPhaseGraph:"Phase T̄ / coordination", ovPhaseNote:"top:orange=T̄ green=c̄ btm:cyan=ψ6 mag=rewiring×10 left=c by height (front) color=T lines=bonds",
   pcSectionHead:"Phase-change (E14″) experiments",
   pcSectionDesc:"Experiment knobs for phase-change samples. All eight knobs are continuous quantities that derive material behavior from the current bonding state — there is no phase rule such as a melting point, latent heat or phase fraction (unified as fully emergent in dispatch 60). Wall temperature/rate live in the Lab-box category. During A/B comparison the knobs act only on the edited side, so 'with/without angle' or 'with/without emergent conduction' controls are easy to set up. These edits are stored in saves (dispatch 54, 54B).",
   pcBondN:"Bond budget bondN",
@@ -750,9 +760,7 @@ en: {
   beDsc:"sc/s: core spin ratio. Core spin sc = ratio x s drives the differential drag (decaying from Rc). 1 = rigid rotation = single-layer equivalent.",
   beDr:"R: radius. Used in inertia I=1/2 mR^2, contact, drag falloff (R/(R+d))^q, temperature, and oblateness f=5s^2R^3/(4Gm). Default radiusScale x rMul x sqrt(|m|) (rMul = per-body multiplier, default 1).",
   beDrr:"Rc/R: core radius ratio. Sets the reach of the core's drag. Default ~ sqrt(|mc/m|).",
-  beDot:"To x: observed-temperature coefficient. T_obs = To x (1-dimming) x T (display only).",
   beDsw:"dimming: how much of the star's own light is kept from escaping (0-1, 1 = fully dimmed). The mechanism is its spin sweeping its own light out (lightSweep). Observed temperature is T_obs = To x (1-dimming) x T, and radiative cooling scales by (1-dimming) too (the dark-rotor mechanism). Enter \"auto\", or check the \"auto\" box next to it, to derive it every step from the body's own spin and radius: lS_eff = min(1, |s|R / c_surf) — the number field becomes read-only and is overwritten to show the effective lS_eff (38th delivery).",
-  beDoc:"TcO x: core observed-temperature ratio. Tc_obs = TcO x (1-dimming) x Ic sc^2 (display only).",
   beDv:"vx/vy: velocity components. Inertia acts relative to the local frame u (A5).",
   beDp:"Pinned: externally constrained (receives no force or torque; spin fixed). Reactions are ledgered to the reservoir (A13).",
   uiScaleOpts:[["1","Small"],["1.15","Standard"],["1.3","Large"]],
@@ -1139,7 +1147,7 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
 const APP_VERSION = "1.34";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 // 第36便 B1(原仮定者指示): タイトル下に表示するbeta配信時のビルド番号。beta/sw.js の
 // CACHE 接尾辞と同期させる(QA: version.beta-label)。ルート昇格後は使わない("v"+APP_VERSION 表示に戻る)
-const BETA_BUILD = "v1.35-b5";   // 第60便 60A-60C: E14″創発一本化(潜熱・相率・valence 廃止)・⛓️chain2
+const BETA_BUILD = "v1.35-b6";   // 第61便 61A-61C: 観測量ψ6/組替率/前線・二段グラフ・checkpoint/A/B・obsT/coreOT廃止
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 // 第45便 45A(台帳4-48): 光線源・1PN源のしきい値を「質量」から「偏向角」へ物理化した。
@@ -2239,6 +2247,7 @@ const BUILTIN_PRESETS = [
     observe:"At low temperature a lattice of many weak bonds (a lump) is stable. Heating lets thermal pressure peel bonds away one by one — and as the count drops, the remaining bond lines grow visibly darker and thicker (the display shows the budget concentrating). At mid temperatures droplets and clusters drift about, held by a few strong bonds, their partners swapping at every collision. At high temperature only small \"molecules\" remain, flying freely — a gas of molecules rather than atoms emerges, because budget concentration makes the last bonds the strongest. On the phase graph (bottom right), the temperature climbs more slowly while bonds break (mean coordination c̄ falls) — you can watch the unspecified latent heat emerge as bond energy. Potential changes from bond rewiring are exchanged with heat, so energy closes as wall ledger + bonds + U_rep (conservation monitor). Conduction is emergent too (condN): dense lumps conduct fast, isolated molecules slowly. Color = temperature; bond-line darkness = bond strength. No claim of quantitative correspondence to real substances. ",
     control:"Raise kRep (thermal pressure) and the state boundaries shift to lower temperatures. bondK and bondN are adjustable in the Phase-change (E14″) experiment knobs. Lower the floor T_wall and the molecules re-bond into a lump. Set condN to 0 to switch off the conduction modulation (an A/B against emergent conduction)."}},
   activeParams:["kRep","kappaS","gravityY","gammaN"],
+  abQuick:{key:"bondK", v:0},   // 61B: 結合を切った対照(熱圧だけのガス)
   thermal:"tint",
   phaseChange:{ bondN:6, bondK:5, bondRange:1.6, bondDamp:0.02, condN:2, condS:1, condG:0.15 },
   camera:{scale:140}, world:{boundary:"box", size:110,
@@ -2264,6 +2273,7 @@ const BUILTIN_PRESETS = [
     observe:"Cool a warm liquid slowly against the floor wall and every rewiring settles 120° pairs into deeper wells — an open honeycomb lattice anneals in (the angK=0 control packs into a contact-filled pile; the measured angle-deviation gap is machine-verified by QA). \"How many bonds\" and \"at what angle\" both come out of the competition between two local rules, budget and angle. Reheat the wall and budget concentration takes over: the lattice dissociates into small molecules flying free — the same two rules give a lattice at low temperature and a molecular gas at high. Conduction is the emergent version too: well-bonded lattice conducts fast (toward condS), isolated molecules slowly (toward condG). Energy closes as wall ledger + bonds + U_ang + U_rep (the angle potential is a conservative, position-only force; the residual is the share-drift cross term, same class with angK=0). Color = temperature; bond-line darkness = budget concentration. No claim of quantitative correspondence to real substances. ",
     control:"Set angK to 0, restart and A/B-compare: same cooling, packed pile vs open lattice. Set condN to 0 and the conduction modulation disappears — an A/B against emergent conduction. After freezing, raise the floor T_wall to 5 and the lattice dissociates into a molecular gas; raise kRep to 12 for finer molecules (a budget-concentration experiment). Raise the wall rate to quench and you get a glassy, disordered net — the rate dependence of annealing."}},
   activeParams:["kRep","kappaS","gravityY","gammaN"],
+  abQuick:{key:"angK", v:0},   // 61B: 角度なしの対照(密集塊 vs 開いた格子)
   thermal:"tint",
   phaseChange:{ bondN:3, bondK:5, bondRange:1.6, bondDamp:0.1, angK:2, condN:2, condS:1, condG:0.15 },
   camera:{scale:140}, world:{boundary:"box", size:110,
@@ -2291,6 +2301,7 @@ const BUILTIN_PRESETS = [
     observe:"Cool a warm liquid gently against a mid-temperature floor and, instead of an isotropic cohesive lump, ever-rewiring chains and rings well up. Chain ends (coordination 1) concentrate the budget and carry the strongest bonds; chain middles (coordination 2) feel a torque toward 180° — ends catch partners, bodies straighten, and the chains grow. Cool further and they freeze as tangled chains; raise the wall temperature and they unravel from the ends into short fragments and rings. Energy closes as wall ledger + bonds + U_ang + U_rep (conservation monitor). Color = temperature; bond-line darkness = budget concentration. No claim of quantitative correspondence to real polymers or associating fluids. ",
     control:"Raise bondN to 3 and the chains become a network (the 🧊 honeycomb side); at 6 they become an isotropic lump (the 🧬 side) — one budget knob walks through a family of molecular structures. Set angK to 0 and the chains cannot hold and collapse into droplets (the angle control). The floor T_wall cycles freezing ⇄ dissociation."}},
   activeParams:["kRep","kappaS","gravityY","gammaN"],
+  abQuick:{key:"angK", v:0},   // 61B: 角度なしの対照(液滴 vs 鎖)
   thermal:"tint",
   phaseChange:{ bondN:2, bondK:5, bondRange:1.6, bondDamp:0.1, angK:1.2, condN:2, condS:1, condG:0.15 },
   camera:{scale:140}, world:{boundary:"box", size:110,
@@ -2860,16 +2871,17 @@ function validatePreset(obj){
         }
         // 第22便(原仮定者裁定): 観測温度・半径系。スピン役割分離(sFrame/sTherm/sRep)は
         // トイモデル段階では廃止 — 旧キーは無視される(エンジンは v1.29 力学)
-        // obsT=観測温度係数(T_obs = obsT·(1−lightSweep)·T。既定1・0〜1000)
         // lightSweep=光掻き出し(0〜1。自星の光を出さない → 観測温度 0・E11 も (1−lS) 倍)
-        // coreOT=コア観測温度比率(Tc_obs = coreOT·(1−lS)·Ic·sc²。既定1)
+        // 第61便: obsT(観測温度係数)・coreOT(コア観測温度比率)は未使用のため廃止
+        // (原仮定者指示「使われていないなら廃止」— 指定されていれば警告して無視)
         // radius=半径の明示指定(0.5〜500。未指定は radiusScale·√|m|)・coreRR=コア半径比(0.02〜1)
         // 第36便 C1: rMul=粒子半径の倍率(0.2〜5・既定1。R=radiusScale·rMul·√|m|)。
         //   body.radius の 0.5 下限は経由しない(rMul は内部計算 — 微小粒子の R<0.5 も従来どおり出せる)
         // 第36便 D(台帳4-51): tInt=内部温度 T_int の初期値(thermal:"tint" のときだけ使われる。
         // 既定0。spin モードのプリセットに書かれていても build が参照しないので無害)
-        for(const [k,lo,hi] of [["obsT",0,1000],["coreOT",0,1000],
-                                 ["radius",0.5,500],["coreRR",0.02,1],["rMul",0.2,5],
+        for(const oldKey of ["obsT","coreOT"])
+          if(b[oldKey]!==undefined){ warnings.push(at+"."+oldKey+" は第61便で廃止されました — 無視します"); delete b[oldKey]; }
+        for(const [k,lo,hi] of [["radius",0.5,500],["coreRR",0.02,1],["rMul",0.2,5],
                                  ["tInt",0,10000]]){
           if(b[k]!==undefined){
             if(!isNum(b[k])){ bad(at+"."+k+" が数値ではありません"); return; }
@@ -3615,14 +3627,14 @@ function makeSim(){
     coreMR:null, coreSR:null, mEff:null, Rc:null, rotAc:null, hasCore:false,
     // 第22便(原仮定者裁定): スピン役割分離(sFrame/sTherm/sRep)はトイモデル段階では廃止 —
     // エンジンは従来(v1.29)力学へ復帰。代わりに観測層を分離する:
-    // ・obsT = 観測温度係数(観測温度 T_obs = obsT·(1−lightSweep)·T。絶対温度 T=Is² に比例)
+    // ・(obsT = 観測温度係数は第61便で廃止 — 全プリセット未使用〔恒等1〕だった)
     // ・lSw = 光掻き出し lightSweep(0〜1。ダークローター: コアスピンが自星の光を掻き出して
     //   外に出さない → 観測温度を計測できず見掛けは冷たい。E11 放射も (1−lSw) 倍 — 光が出ない
     //   なら放射冷却もしない)。表示系(色・ヒストグラム・スペクトル・HUD)はすべて T_obs
-    // ・coreOT = コア観測温度比率(Tc_obs = coreOT·(1−lSw)·Ic·sc²。旧 coreTR は廃止)
+    // ・(coreOT = コア観測温度比率も第61便で廃止 — 同上。Tc_obs=(1−lSw)·Ic·sc²)
     // ・radOv = 半径の明示指定(0=未指定→radiusScale·√|m|)。扁平率 f=5s²R³/(4Gm) にも使用
     // ・coreRRv = コア半径比 Rc/R(0=未指定→√|coreMR| 相当の従来式)
-    obsT:null, lSw:null, coreOT:null, radOv:null, coreRRv:null,
+    lSw:null, radOv:null, coreRRv:null,   // 第61便: obsT/coreOT は廃止(未使用)
     // 第36便 C1(原仮定者指示「粒子半径スケールの既定は1」): rMulv = 粒子ごとの半径倍率
     // (body.rMul。既定1)。実効倍率は rs_eff = radiusScale·rMul_i で、R_i = rs_eff·√|m_i|。
     // radiusScale スライダーは全粒子に掛かる「相対ノブ」として存続し(既定1が基準)、
@@ -3717,9 +3729,14 @@ function makeSim(){
     // 第59便 59A(angK×bondN 併用): 幾何近傍の記録(中心ごとに最大 PC_ANG_MAX 体・毎パス再収集
     // = サブステップを跨ぐ状態ではない)。angOvfN = 近傍あふれの計数(発動 0 を QA が機械固定)
     angNbr:null, angNbrN:null, angOvfN:0,
-    // 第53便 53B → 第60便: 相変化履歴 — phaseChange プリセットのみ 25サブステップごとに
-    // {t, T:平均T_int, c:平均配位数, Q:壁正味入熱} を積む(boxHist と同方式・グラフ用データ層)
-    phHist:null, _phAcc:0,
+    // 第53便 53B → 第60〜61便: 相変化履歴 — phaseChange プリセットのみ 25サブステップごとに
+    // {t, T:平均T_int, c:平均配位数, psi6:平均六方配向秩序, churn:結合の組替率, Q:壁正味入熱}
+    // を積む(boxHist と同方式・グラフ用データ層 — 物理不変)。
+    // 第61便 61A(観測層): ψ6_i=|Σ_j e^{i6θ}|/n(帯内近傍 n≥2)・churn=前サンプルとの近傍集合の
+    // 対称差率(液体=速い組替・固体=ほぼ0 — 「粘性の寿命依存」が観測量として読める)。
+    // _phNbrPrev/_phNbrPrevN=前サンプルの近傍集合(最大12/粒)・_phProf=高さ8帯の平均配位数
+    // (相前線プロファイル — 床側から融解・凝固前線が進むのを見る)
+    phHist:null, _phAcc:0, _phNbrPrev:null, _phNbrPrevN:null, _phNbrInit:false, _phProf:null,
     curveBins:null, curveKep:null, tempLR:[0,0], histT:[],
   };
   // 第39便 39B(台帳4-76): thermal="spin" のときに _core が掴む tint 系配列のダミー。
@@ -3736,7 +3753,7 @@ function makeSim(){
     const F=()=>new Float32Array(n);
     S.m=F();S.x=F();S.y=F();S.vx=F();S.vy=F();S.spin=F();S.R=F();S.rotA=F();
     S.coreMR=F();S.coreSR=F();S.mEff=F();S.Rc=F();S.rotAc=F();   // 主星2層(第12〜14便)
-    S.obsT=F();S.lSw=F();S.coreOT=F();S.radOv=F();S.coreRRv=F();// 観測温度・半径系(第22便)
+    S.lSw=F();S.radOv=F();S.coreRRv=F();// 観測系(第22便 — obsT/coreOT は第61便で廃止)
     S.coreSR.fill(1);   // コアスピン比の既定は 1(剛体回転=単層等価)
     S.rMulv=new Float64Array(n); S.rMulv.fill(1);   // 第36便 C1: 半径倍率(既定1。倍精度で保持)
     S.lSwAuto=new Uint8Array(n); S.hasLSwAuto=false;// 第36便 C2: 掻出の自動算出フラグ(既定0=独立指定)
@@ -3772,8 +3789,7 @@ function makeSim(){
           // 主星2層(第14便: 比率仕様)。coreMR=mc/m(既定0)・coreSR=sc/s(既定1)
           coreMR:b.coreMR||0, coreSR:(b.coreSR===undefined?1:b.coreSR),
           // 観測温度・半径系(第22便): 既定は従来と厳密等価
-          obsT:(b.obsT===undefined?1:b.obsT), lightSweep:(b.lightSweep===undefined?0:b.lightSweep),
-          coreOT:(b.coreOT===undefined?1:b.coreOT),
+          lightSweep:(b.lightSweep===undefined?0:b.lightSweep),
           radius:(b.radius===undefined?0:b.radius), coreRR:(b.coreRR===undefined?0:b.coreRR),
           rMul:(b.rMul===undefined?1:b.rMul),   // 第36便 C1: 粒子ごとの半径倍率(既定1)
           tInt:(b.tInt===undefined?0:b.tInt)};  // 第36便 D: 内部温度の初期値(thermal:"tint" 専用・既定0)
@@ -3905,7 +3921,6 @@ function makeSim(){
     P.forEach((o,i)=>{ S.m[i]=o.m; S.x[i]=o.x; S.y[i]=o.y; S.vx[i]=o.vx; S.vy[i]=o.vy;
       S.spin[i]=o.spin; S.pinned[i]=o.pinned; S.railOmega[i]=o.railOmega||0;
       S.coreMR[i]=o.coreMR||0; S.coreSR[i]=(o.coreSR===undefined?1:o.coreSR);
-      S.obsT[i]=(o.obsT===undefined?1:o.obsT);
       // 第36便 C2: lightSweep は数値(独立指定・従来どおり)か "auto"(粒子パラメータからの算出)。
       // auto の初期値は 0 で、最初の _core で lS_eff に上書きされる
       const lsw=o.lightSweep;
@@ -3913,7 +3928,6 @@ function makeSim(){
       else { S.lSwAuto[i]=0; S.lSw[i]=(lsw===undefined?0:lsw); }
       S.rMulv[i]=(o.rMul===undefined?1:o.rMul);   // 第36便 C1: 半径倍率(既定1)
       if(S.Tint) S.Tint[i]=(o.tInt===undefined?0:o.tInt);   // 第36便 D: 内部温度の初期値(tint モードのみ)
-      S.coreOT[i]=(o.coreOT===undefined?1:o.coreOT);
       S.radOv[i]=(o.radius===undefined?0:o.radius); S.coreRRv[i]=(o.coreRR===undefined?0:o.coreRR);
       S.railH[i]=o.railH||0;
       if(o.railOmega||o.railH){ S.railR[i]=o.railR; S.railAng[i]=o.railAng; S.railCx[i]=o.railCx; S.railCy[i]=o.railCy; }
@@ -4042,8 +4056,14 @@ function makeSim(){
       }
       for(let i=0;i<S.n;i++) S.shPrev[i]=Math.min(PC_SHARE_MAX, S.phase.bondN/Math.max(S.coordN[i],0.5));
       S.phHist=[];   // 53B: 相変化履歴(グラフ用データ層。既定プリセットはゼロコストのまま)
+      // 61A: 観測層の状態(表示専用 — 物理には一切読まれない)
+      S._phNbrPrev=new Int32Array(S.n*PC_ANG_MAX).fill(-1);
+      S._phNbrPrevN=new Int32Array(S.n);
+      S._phNbrInit=false;
+      S._phProf=new Float32Array(8);
     } else {
       S.coordN=null; S.coordAcc=null; S.shPrev=null; S.phHist=null;
+      S._phNbrPrev=null; S._phNbrPrevN=null; S._phNbrInit=false; S._phProf=null;
       S.angNbr=null; S.angNbrN=null; S.angOvfN=0; }
     S._phAcc=0;
     S.resPx=0; S.resPy=0; S.resL=0; S.radE=0; S.radL=0;
@@ -4239,7 +4259,7 @@ function makeSim(){
         // 材質係数: 連続量は質量重み平均・離散フラグは重い側を継ぐ(融合体は単一の粒子)
         const wi=mi/mn, wj=mj/mn, heavy=(Math.abs(mi)>=Math.abs(mj))? i : j;
         S.coreMR[i]=S.coreMR[i]*wi+S.coreMR[j]*wj; S.coreSR[i]=S.coreSR[heavy];
-        S.obsT[i]=S.obsT[i]*wi+S.obsT[j]*wj; S.coreOT[i]=S.coreOT[i]*wi+S.coreOT[j]*wj;
+        // (obsT/coreOT は第61便で廃止 — 質量重み合成も不要に)
         S.lSw[i]=S.lSw[i]*wi+S.lSw[j]*wj; S.lSwAuto[i]=S.lSwAuto[heavy];
         S.coreRRv[i]=S.coreRRv[heavy]; S.tau[i]=S.tau[i]*wi+S.tau[j]*wj;
         S.Rc[i]=(S.coreRRv[i]>0)? S.coreRRv[i]*RS
@@ -4301,7 +4321,7 @@ function makeSim(){
     const k=keep.length;
     const mv=(a)=>{ if(!a) return; for(let t=0;t<k;t++){ const s0=keep[t]; if(s0!==t) a[t]=a[s0]; } };
     for(const key of ["m","x","y","vx","vy","spin","R","rotA","coreMR","coreSR","mEff","Rc","rotAc",
-      "obsT","lSw","coreOT","radOv","coreRRv","rMulv","lSwAuto","uPx","uPy","tau",
+      "lSw","radOv","coreRRv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
       "Tint","dQi","arep","arepD","duT","echoX0","echoY0"]) mv(S[key]);
@@ -4333,7 +4353,7 @@ function makeSim(){
     if(need<=cap) return cap;
     const nc=Math.max(need, cap+Math.max(8, cap>>1));
     for(const key of ["m","x","y","vx","vy","spin","R","rotA","coreMR","coreSR","mEff","Rc","rotAc",
-      "obsT","lSw","coreOT","radOv","coreRRv","rMulv","lSwAuto","uPx","uPy","tau",
+      "lSw","radOv","coreRRv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
       "Tint","dQi","arep","arepD","duT","echoX0","echoY0"]){
@@ -4466,7 +4486,7 @@ function makeSim(){
       if(S.radOv[i]>0){ S.radOv[i]=(rs>0)? R1/rs : 0; S.radOv[j]=(rs>0)? R2/rs : 0; }
       else S.radOv[j]=0;
       // 材質係数は両片が親を引き継ぐ(分裂は同じ材質の2片に割れる)
-      S.coreMR[j]=S.coreMR[i]; S.coreSR[j]=S.coreSR[i]; S.obsT[j]=S.obsT[i]; S.coreOT[j]=S.coreOT[i];
+      S.coreMR[j]=S.coreMR[i]; S.coreSR[j]=S.coreSR[i];
       S.lSw[j]=S.lSw[i]; S.lSwAuto[j]=S.lSwAuto[i]; S.coreRRv[j]=S.coreRRv[i]; S.tau[j]=S.tau[i];
       S.rotA[j]=S.rotA[i]; S.rotAc[j]=S.rotAc[i]; S.hasU[j]=S.hasU[i]; S.pinned[j]=0;
       S.Rc[i]=(S.coreRRv[i]>0)? S.coreRRv[i]*R1 : ((S.radOv[i]>0? rs : rs*S.rMulv[i])*Math.sqrt(Math.abs(S.coreMR[i]*E1)));
@@ -5343,8 +5363,55 @@ function makeSim(){
         let sT=0, sC=0;
         for(let i=0;i<S.n;i++){ sT+=S.Tint[i]; sC+=S.coordN[i]; }
         const inv=S.n>0? 1/S.n : 0;
-        // 第60便: 相率(fl/fg)は廃止 — 平均配位数 c̄(結合状態の観測量)を記録する
-        S.phHist.push({t:S.t, T:sT*inv, c:sC*inv, Q:S.wallEin-S.wallEout});
+        // 第61便 61A(観測層 — 25サブステップごとの O(N²) 走査。表示専用・物理不変):
+        // 帯内近傍リスト(最大 PC_ANG_MAX)→ ψ6・組替率 churn・高さプロファイルを計測
+        const pcO=S.phase, nbO=new Int32Array(S.n*PC_ANG_MAX), ncO=new Int32Array(S.n);
+        for(let i=0;i<S.n;i++) for(let j=i+1;j<S.n;j++){
+          const sumR=S.R[i]+S.R[j], cut=pcO.bondRange*sumR;
+          const dx=S.x[i]-S.x[j], dy=S.y[i]-S.y[j];
+          if(!(dx*dx+dy*dy<cut*cut)) continue;
+          if(ncO[i]<PC_ANG_MAX){ nbO[i*PC_ANG_MAX+ncO[i]]=j; ncO[i]++; }
+          if(ncO[j]<PC_ANG_MAX){ nbO[j*PC_ANG_MAX+ncO[j]]=i; ncO[j]++; }
+        }
+        // ψ6(六方配向秩序): 近傍2体以上の粒子の平均
+        let sPsi=0, nPsi=0;
+        for(let i=0;i<S.n;i++){
+          const nc=ncO[i]; if(nc<2) continue;
+          let re=0, im=0;
+          for(let k=0;k<nc;k++){
+            const j=nbO[i*PC_ANG_MAX+k];
+            const th=6*Math.atan2(S.y[j]-S.y[i], S.x[j]-S.x[i]);
+            re+=Math.cos(th); im+=Math.sin(th);
+          }
+          sPsi+=Math.sqrt(re*re+im*im)/nc; nPsi++;
+        }
+        // 組替率 churn: 前サンプル近傍集合との対称差 / 総数(0=不変・1=総入替)。
+        // 液体では高く・固体では ≈0 — 減衰の寿命依存(粘性)が観測量として読める
+        let sCh=0, nCh=0;
+        if(S._phNbrInit){
+          for(let i=0;i<S.n;i++){
+            const pn=S._phNbrPrevN[i], cn2=ncO[i];
+            if(pn===0 && cn2===0) continue;
+            let common=0;
+            for(let a=0;a<pn;a++){
+              const v=S._phNbrPrev[i*PC_ANG_MAX+a];
+              for(let b=0;b<cn2;b++) if(nbO[i*PC_ANG_MAX+b]===v){ common++; break; }
+            }
+            sCh+=(pn+cn2-2*common)/(pn+cn2); nCh++;
+          }
+        }
+        S._phNbrPrev.set(nbO); S._phNbrPrevN.set(ncO); S._phNbrInit=true;
+        // 相前線プロファイル: 箱の高さを8帯に割り、帯ごとの平均配位数(床=末尾)
+        if(S.world.boundary==="box" && S._phProf){
+          const ws=S.world.size, cnt=new Float32Array(8), acc=new Float32Array(8);
+          for(let i=0;i<S.n;i++){
+            let b=Math.floor((S.y[i]+ws)/(2*ws)*8); if(b<0)b=0; if(b>7)b=7;
+            cnt[b]++; acc[b]+=ncO[i];
+          }
+          for(let b=0;b<8;b++) S._phProf[b]=cnt[b]>0? acc[b]/cnt[b] : 0;
+        }
+        S.phHist.push({t:S.t, T:sT*inv, c:sC*inv,
+          psi6:nPsi>0? sPsi/nPsi : 0, churn:nCh>0? sCh/nCh : 0, Q:S.wallEin-S.wallEout});
         if(S.phHist.length>720) S.phHist.shift();
       }
     }
@@ -5629,11 +5696,11 @@ function zoom(){ return Math.min(cw,ch)/2/camScale; }
 
 // 温度→色(青→白→橙→赤)
 // 第36便 D(台帳4-51): 観測温度 T_obs の唯一の入口。表示系(色・温度ヒストグラム・スペクトル・
-// HUD)はすべてここを通す — モード差は「データ源」だけで、観測層の式 T_obs=obsT·(1−lSw)·T は同一。
+// HUD)はすべてここを通す — モード差は「データ源」だけで、観測層の式 T_obs=(1−lSw)·T は同一。
 //   thermal="spin"(既定): T = I·s² = ½·m·R²·s²(現行 A9。式の並びも現行と1文字も変えていない)
 //   thermal="tint": T = T_int(内部状態変数。マクロ spin は観測温度に現れない)
 function obsTemp(s,i){
-  return (s.Tint? s.Tint[i] : 0.5*s.m[i]*s.R[i]*s.R[i]*s.spin[i]*s.spin[i])*s.obsT[i]*(1-s.lSw[i]);
+  return (s.Tint? s.Tint[i] : 0.5*s.m[i]*s.R[i]*s.R[i]*s.spin[i]*s.spin[i])*(1-s.lSw[i]);   // 第61便: obsT 係数は廃止(恒等1だった)
 }
 function tempColor(t){ // t: 0..1
   if(t<0.34){ const k=t/0.34; return `rgb(${106+k*149},${165+k*90},255)`; }
@@ -5890,12 +5957,15 @@ function overlaySlots(){
 // 最小化中はタイトルバー(高さ16)だけを描き、バー全体のタップで復元。展開中は右上「−」で最小化
 const ovMin={rotationCurve:false,tempHistogram:false,spectrum:false,boxGraph:false,phaseGraph:false};
 const OV_H=92, OV_HMIN=16;
+// 第61便 61B(レビューP1「phaseGraph 二段化」): グラフごとの展開高さ(未登録は OV_H)
+const OV_HK={phaseGraph:152};
+const ovH=(key)=>OV_HK[key]||OV_H;
 let ovHit=[];   // グラフのトグル用タップ領域(キャンバス座標。描画のたびに再登録)
 function overlayBaseY(slot){
   const uz=uiFontScale, s=overlaySlots();
   // 第25便: 選択粒子の情報行(2行)と重ならない下端余白 18+22·uz
   let y=ch-(18+22*uz);
-  for(let i=0;i<=slot;i++) y-=(ovMin[s[i]]?OV_HMIN:OV_H)*uz+(i>0?6:0);
+  for(let i=0;i<=slot;i++) y-=(ovMin[s[i]]?OV_HMIN:ovH(s[i]))*uz+(i>0?6:0);
   return y;
 }
 // 最小化中の共通バー描画(true=最小化中 — 本体は描かない)
@@ -6131,47 +6201,73 @@ function rayBandColor(nm){
 // 実測 a_eff=⟨r⟩/⟨r⟩₀ を同じ折れ線に描き、見出しに「実測」を付けて規定 a(t) と区別する。
 // 赤方偏移カラーバー・z は universeBox の規定 a に結び付いた規則なので実測では表示しない
 // (未裁定の意味論を勝手に拡張しない — 空いた領域には計測式の注記を出す)
-// 第53便 53B → 第60便(創発一本化): 平均温度 T̄(t) と平均配位数 c̄(t) を同じ枠に重ね描きする。
-// 結合が切れて c̄ が下がる間は T̄ の上がりが鈍る = 「実効潜熱」が結合エネルギーとして創発する
-// 因果が一目で読める。下段の現在値に壁の正味入熱 Q_wall も出す。
+// 第53便 53B → 第60〜61便(創発一本化+二段化): 相変化グラフ。
+// 上段: 平均温度 T̄(t)(橙)+平均配位数 c̄(t)(緑)— 結合が切れて c̄ が下がる間 T̄ の上がりが
+// 鈍る = 「実効潜熱」が結合エネルギーとして創発する因果を直接読む。
+// 下段(61A 観測層): ψ6(六方配向秩序・水色)+組替率 churn(赤紫)— 0〜1 固定スケール。
+// 「液体=組替が速く秩序が低い/結晶=組替≈0で秩序が高い/ガラス=組替≈0なのに秩序が低い」
+// という動的な相の分類が読める(= 粘性の寿命依存の観測量)。
+// 左端の縦帯: 高さ8帯の平均配位数(相前線プロファイル — 明るいほど結合が濃い。床=下端)。
 // データ層(S.phHist)は _core が 25 サブステップごとに積む純粋な記録 — 物理へは一切手を入れない。
 // phaseChange の無いプリセットでは overlaySlots() 側で除外されるため、ここに到達しない
 function drawPhaseGraph(slot=0){
   if(ovOverlayMin("phaseGraph",slot,T("ovPhaseGraph"))) return;   // 最小化中はタイトルバーのみ
   if(!sim.phase) return;   // 防御(直接呼び出しのエッジケース)
-  const uz=uiFontScale, W=150,H=92,X=0,Y=0;
+  const uz=uiFontScale, W=150,H=OV_HK.phaseGraph,X=0,Y=0;
   ctx.save(); ctx.translate(cw-W*uz-8, overlayBaseY(slot)); ctx.scale(uz,uz);
   ctx.fillStyle="rgba(12,16,34,0.82)"; ctx.fillRect(X,Y,W,H);
   ctx.strokeStyle="#2a3060"; ctx.strokeRect(X,Y,W,H);
   ctx.font="8px sans-serif"; ctx.fillStyle="#8b93c8";
   ctx.fillText(T("ovPhaseGraph"),X+6,Y+9);
   const hist=sim.phHist||[];
-  const chartX0=X+8, chartX1=X+W-8, chartY0=Y+12, chartY1=Y+62;
+  const chartX0=X+18, chartX1=X+W-8;
+  const topY0=Y+12, topY1=Y+62, botY0=Y+70, botY1=Y+112;
+  // 相前線プロファイル(左端の縦帯 10px — 現在値。上=天井・下=床)
+  if(sim._phProf){
+    for(let b=0;b<8;b++){
+      const v=Math.min(1,sim._phProf[b]/6);   // 配位6で飽和
+      ctx.fillStyle=`rgba(120,170,255,${(0.10+0.85*v).toFixed(3)})`;
+      const y0p=topY0+(b/8)*(botY1-topY0);
+      ctx.fillRect(X+6, y0p, 8, (botY1-topY0)/8-1);
+    }
+  }
   if(hist.length>=2){
     let tMax2=1e-6, cMax2=1e-6;
     for(const p2 of hist){ if(p2.T>tMax2) tMax2=p2.T; if((p2.c||0)>cMax2) cMax2=p2.c||0; }
     tMax2*=1.05; cMax2*=1.05;
     const t0=hist[0].t, t1=hist[hist.length-1].t, tSpan=Math.max(1e-6,t1-t0);
     const px=(t)=>chartX0+((t-t0)/tSpan)*(chartX1-chartX0);
-    const pyT=(v)=>chartY1-(v/tMax2)*(chartY1-chartY0);
-    const pyC=(v)=>chartY1-(v/cMax2)*(chartY1-chartY0);
-    // 平均温度(橙・実線)
+    const pyT=(v)=>topY1-(v/tMax2)*(topY1-topY0);
+    const pyC=(v)=>topY1-(v/cMax2)*(topY1-topY0);
+    const pyU=(v)=>botY1-Math.min(1,Math.max(0,v))*(botY1-botY0);   // 下段: 0〜1 固定
+    // 上段: 平均温度(橙)・平均配位数(緑 — 自分の最大値で正規化)
     ctx.strokeStyle="#ff9d45"; ctx.lineWidth=1.4; ctx.beginPath();
     hist.forEach((p2,k)=>{ k? ctx.lineTo(px(p2.t),pyT(p2.T)) : ctx.moveTo(px(p2.t),pyT(p2.T)); });
     ctx.stroke();
-    // 平均配位数(緑 — 結合状態の観測量。自分の最大値で正規化)
-    ctx.strokeStyle="#57d38c"; ctx.beginPath();
+    ctx.strokeStyle="#57d38c"; ctx.lineWidth=1; ctx.beginPath();
     hist.forEach((p2,k)=>{ k? ctx.lineTo(px(p2.t),pyC(p2.c||0)) : ctx.moveTo(px(p2.t),pyC(p2.c||0)); });
+    ctx.stroke();
+    // 下段の区切り線
+    ctx.strokeStyle="#2a3060"; ctx.beginPath();
+    ctx.moveTo(X+4,botY0-4); ctx.lineTo(X+W-4,botY0-4); ctx.stroke();
+    // 下段: ψ6(水色)・組替率(赤紫)
+    ctx.strokeStyle="#4fd8e8"; ctx.beginPath();
+    hist.forEach((p2,k)=>{ k? ctx.lineTo(px(p2.t),pyU(p2.psi6||0)) : ctx.moveTo(px(p2.t),pyU(p2.psi6||0)); });
+    ctx.stroke();
+    // 組替率は 0〜0.05 域が主戦場なので表示のみ ×10(凡例に明記 — データ層は生値)
+    ctx.strokeStyle="#e05ce0"; ctx.beginPath();
+    hist.forEach((p2,k)=>{ k? ctx.lineTo(px(p2.t),pyU((p2.churn||0)*10)) : ctx.moveTo(px(p2.t),pyU((p2.churn||0)*10)); });
     ctx.stroke();
     ctx.lineWidth=1;
   }
   const last=hist.length? hist[hist.length-1] : null;
   ctx.font="8px sans-serif"; ctx.fillStyle="#dfe4ff";
   if(last){
-    ctx.fillText(`T̄=${last.T.toFixed(2)}  c̄=${(last.c||0).toFixed(2)}  Q=${(last.Q>=0?"+":"")+last.Q.toFixed(0)}`,X+6,Y+73);
+    ctx.fillText(`T̄=${last.T.toFixed(2)} c̄=${(last.c||0).toFixed(2)} ψ6=${(last.psi6||0).toFixed(2)} 組替=${(last.churn||0).toFixed(2)}`,X+6,Y+123);
+    ctx.fillText(`Q=${(last.Q>=0?"+":"")+last.Q.toFixed(0)}`,X+6,Y+133);
   }
   ctx.font="6px sans-serif"; ctx.fillStyle="#5a6090";
-  ctx.fillText(T("ovPhaseNote"),X+6,Y+86);
+  ctx.fillText(T("ovPhaseNote"),X+6,Y+146);
   ctx.restore();
   ovDrawToggle("phaseGraph",slot);
 }
@@ -6407,9 +6503,9 @@ function render(){
     if(sim.coreMR[i]!==0 && rr>=7){
       const rc=Math.max(3,Math.min(sim.Rc[i]*z,rr*0.92));
       // 第22便: コア観測温度比率 coreOT — 既定(coreOT=1・掻き出しなし)以外は観測温度色で描く
-      if(sim.coreMR[i]>0 && (sim.coreOT[i]!==1||sim.lSw[i]!==0)){
+      if(sim.coreMR[i]>0 && sim.lSw[i]!==0){   // 第61便: coreOT 廃止 — 減光時のみ観測温度色
         const sc2=sim.coreSR[i]*sim.spin[i];
-        const Tc=sim.coreOT[i]*(1-sim.lSw[i])*0.5*Math.abs(sim.coreMR[i]*sim.m[i])*sim.Rc[i]*sim.Rc[i]*sc2*sc2;
+        const Tc=(1-sim.lSw[i])*0.5*Math.abs(sim.coreMR[i]*sim.m[i])*sim.Rc[i]*sim.Rc[i]*sc2*sc2;
         ctx.globalAlpha=0.8;
         ctx.fillStyle=tempColor(Math.min(1,Math.sqrt(Math.max(0,Tc)/Math.max(1e-4,tempP90EMA))));
       } else ctx.fillStyle=(sim.coreMR[i]<0)? "rgba(3,4,10,0.85)" : "rgba(10,12,24,0.55)";
@@ -6480,7 +6576,7 @@ function render(){
     const hasCore=(sim.coreMR[i]!==0);
     const mcTxt=hasCore? ` mc/m=${fmt(sim.coreMR[i])}` : "";
     const scTxt=hasCore? ` sc/s=${fmt(sim.coreSR[i])}` : "";
-    const coreTTxt=hasCore? ` Tc=${fmt(sim.coreOT[i]*(1-sim.lSw[i])*0.5*Math.abs(sim.coreMR[i]*sim.m[i])*sim.Rc[i]*sim.Rc[i]*scH*scH)}` : "";
+    const coreTTxt=hasCore? ` Tc=${fmt((1-sim.lSw[i])*0.5*Math.abs(sim.coreMR[i]*sim.m[i])*sim.Rc[i]*sim.Rc[i]*scH*scH)}` : "";
     const fObl=(sim.params.G>0&&sim.m[i]>0)? 1.25*sim.spin[i]*sim.spin[i]*sim.R[i]*sim.R[i]*sim.R[i]/(sim.params.G*sim.m[i]) : NaN;
     const fTxt=isFinite(fObl)? ` f=${fmt(Math.min(fObl,9999))}` : "";
     ctx.fillText(`m=${fmt(sim.m[i])}${mcTxt} s=${fmt(sim.spin[i])}${scTxt} R=${fmt(sim.R[i])}${fTxt}`,8,ch-10-12*uiFontScale);
@@ -6607,9 +6703,9 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
     }
     if(S.coreMR[i]!==0 && rr>=7){   // 主星2層のコア(A/B側も同様。空洞=より暗い穴)
       const rc=Math.max(3,Math.min(S.Rc[i]*z,rr*0.92));
-      if(S.coreMR[i]>0 && (S.coreOT[i]!==1||S.lSw[i]!==0)){   // 第22便: 観測温度色(A側と同様)
+      if(S.coreMR[i]>0 && S.lSw[i]!==0){   // 第22便→第61便: coreOT 廃止 — 減光時のみ観測温度色
         const sc2=S.coreSR[i]*S.spin[i];
-        const Tc=S.coreOT[i]*(1-S.lSw[i])*0.5*Math.abs(S.coreMR[i]*S.m[i])*S.Rc[i]*S.Rc[i]*sc2*sc2;
+        const Tc=(1-S.lSw[i])*0.5*Math.abs(S.coreMR[i]*S.m[i])*S.Rc[i]*S.Rc[i]*sc2*sc2;
         ctx.globalAlpha=0.8;
         ctx.fillStyle=tempColor(Math.min(1,Math.sqrt(Math.max(0,Tc)/Math.max(1e-4,tempP90EMA))));
       } else ctx.fillStyle=(S.coreMR[i]<0)? "rgba(3,4,10,0.85)" : "rgba(10,12,24,0.55)";
@@ -6715,7 +6811,8 @@ function loop(now){
     needsRender=false;
   }
   if((frameCount++%10)===0){
-    let txt=`t=${sim.t.toFixed(1)}  N=${sim.n}  ${Math.round(fpsEMA)}fps`;
+    // 第61便 61B(レビューP1「step/モデル時刻併記」): 步数 = t/dt(dt=0.016 固定)
+    let txt=`t=${sim.t.toFixed(1)} (${Math.round(sim.t/0.016)}步)  N=${sim.n}  ${Math.round(fpsEMA)}fps`;
     // 第39便 39E(台帳4-75 E2): sim.t が validT(評価済み最大時間)を超えたときだけ警告を追記。
     // 窓内では1文字も増えない(クラッタ回避)。表示専用 — 物理には一切フィードバックしない。
     // A/B比較中は simB も同じ座標時間だけ進む(loop() 内 for 文が両方を同じ k だけ step する)ため
@@ -6972,6 +7069,7 @@ function loadPreset(id, keepPhysics){
   running=false; updatePlayBtn(); updateBodyEdit();
   buildParamRows(); renderHelp();
   setPresetSelectValue(p.id);
+  ckInvalidate();   // 第61便 61B: チェックポイントはプリセット単位(読込で無効化)
   // 第54便 54D①: 次回起動時の復元用に「最後にロードしたプリセット」を記録
   try{ localStorage.setItem("hp_last_preset",p.id); }catch(_){}
   updateSaveNameDefault();   // v1.19: セーブ名の初期値=プリセット名+サフィックス
@@ -7005,7 +7103,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   if(simB.m.length>=sim.n){
     for(const k of ["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy",
       "coreMR","coreSR","mEff","Rc","rotAc",   // 主星2層の状態も転写(第14便: 比率仕様)
-      "obsT","lSw","coreOT","radOv","coreRRv", // 観測温度・半径系(第22便)
+      "lSw","radOv","coreRRv",                 // 観測系(第22便 — obsT/coreOT は第61便で廃止)
       "rMulv","lSwAuto",                       // 第36便 C1/C2: 半径倍率・掻出の自動算出フラグ
       // 第45便 45B: 転写長は「A 側の生存粒子数 sim.n」に固定する(分裂で確保長が A 側だけ
       // 伸びていても RangeError にならない。fission の無い宇宙では sim[k].length===sim.n なので
@@ -7079,6 +7177,7 @@ function applyBodyPatch(S, targets, patch){
 // 第40便 40B(台帳4-77): 第3引数 bodyPatch={targets,patch} は abBody 用 — B側の指定粒子へ
 // patch を適用してから開始する(既存のパラメータ単位A/Bと同じ「開始と同時にB側へ適用」の形)
 function abStart(key, valB, bodyPatch){
+  ckInvalidate();   // 第61便 61B: A/B 中の巻き戻しは B と desync するため無効化
   ab={simB:cloneSimState(), lastKey:null};
   trailBufB=trailBuf.map(b=>b.slice());   // 線の軌跡も現在までの履歴ごと複製
   if(key!==undefined){
@@ -7122,6 +7221,43 @@ function applyPhaseEdits(S,o){
   }
   if(o.tw && S.twall){ for(let k=0;k<4;k++){ if(o.tw[k]) S.twall[k]=Object.assign({},o.tw[k]); } }
 }
+// 第61便 61B(レビューP1「チェックポイント」): 実行中の任意の瞬間を保存し、いつでも巻き戻す。
+// 保存対象は cloneSimState と同じ状態集合(粒子配列+熱+E14″状態+帳簿+履歴+係数+壁)。
+// プリセット読込・A/B開始で無効化(粒子数・配置の前提が変わるため)。復帰は介入であり
+// 保存則主張の対象外(⏮や実験ノブと同じ位置づけ)。光子の放出スケジュール進行は対象外
+let ckSnap=null;
+const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU","pinned",
+  "coreMR","coreSR","mEff","Rc","rotAc","lSw","radOv","coreRRv","rMulv","lSwAuto",
+  "railR","railAng","railOmega","railCx","railCy","railH",
+  "Tint","coordN","coordAcc","shPrev","_phNbrPrev","_phNbrPrevN","_phProf"];
+const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wallKE","pinHeat",
+  "clampVN","clampSN","clampHN","clampAN","angOvfN","_phAcc","_phNbrInit",
+  "fusN","fusU","fusPx","fusPy","fusL","fisN","aEffRef","_bhLastA","_bhLastT","_bhAcc"];
+function ckInvalidate(){ ckSnap=null; $("#btnCkLoad").disabled=true; }
+$("#btnCkSave").addEventListener("click",()=>{
+  const o={n:sim.n, arrs:{}, sc:{}, params:Object.assign({},sim.params),
+    phase:sim.phase? Object.assign({},sim.phase) : null,
+    tw:sim.twall? sim.twall.map(w=>w? Object.assign({},w) : null) : null,
+    phHist:sim.phHist? sim.phHist.map(p=>Object.assign({},p)) : null};
+  for(const k of CK_ARRS) if(sim[k]) o.arrs[k]=sim[k].slice();
+  for(const k of CK_SC) o.sc[k]=sim[k];
+  ckSnap=o; $("#btnCkLoad").disabled=false;
+  notify(T("ckSaved"));
+});
+$("#btnCkLoad").addEventListener("click",()=>{
+  if(!ckSnap) return;
+  if(ckSnap.n!==sim.n){ notify(T("ckMismatch")); return; }
+  for(const k of CK_ARRS) if(sim[k] && ckSnap.arrs[k]) sim[k].set(ckSnap.arrs[k]);
+  for(const k of CK_SC) if(ckSnap.sc[k]!==undefined) sim[k]=ckSnap.sc[k];
+  sim.params=Object.assign({},ckSnap.params);
+  if(sim.phase && ckSnap.phase) Object.assign(sim.phase, ckSnap.phase);
+  if(sim.twall && ckSnap.tw) for(let k=0;k<4;k++) sim.twall[k]=ckSnap.tw[k]? Object.assign({},ckSnap.tw[k]) : null;
+  if(sim.phHist && ckSnap.phHist){ sim.phHist.length=0; for(const p of ckSnap.phHist) sim.phHist.push(Object.assign({},p)); }
+  sim.railIdx=null; sim.periDet=null; sim.updateRadii();
+  trailBuf=[]; nanNotified=false; selIdx=-1;
+  buildParamRows(); updateBodyEdit(); requestRender();
+  notify(T("ckLoaded"));
+});
 $("#btnReset").addEventListener("click",()=>{
   if(ab){ // A/B中: 両方を初期配置へ(A・Bそれぞれの編集済みパラメータは保持)
     const keepA=Object.assign({},sim.params), keepB=Object.assign({},ab.simB.params);
@@ -7396,6 +7532,20 @@ function buildPhaseParamRows(host){
       ()=>editSim().phase[def.key],
       (cv)=>{ editSim().phase[def.key]=cv; },   // 第60便: 全ノブが単純な連続量(副作用なし)
       def.lo, def.hi, def.sLo, def.sHi, def.sStep);
+  }
+  // 第61便 61B(レビューP1「ワンタップA/B」): プリセット宣言 abQuick:{key,v} — 1タップで
+  // A/B 比較を開始し、B 側の相変化ノブだけを対照値へ(例: angK=0 = 角度なしの対照)
+  const q=currentPreset && currentPreset.abQuick;
+  if(q && editSim().phase){
+    const b=document.createElement("button"); b.className="btn"; b.style.margin="4px 0"; b.id="btnAbQuick";
+    b.textContent=T("pcAbQuick")(q.key,q.v);
+    b.addEventListener("click",()=>{
+      if(ab) abStop();
+      abStart();
+      ab.simB.phase[q.key]=q.v;
+      notify(T("abQuickStarted")(q.key,q.v));
+    });
+    g.appendChild(b);
   }
   // 第57便 57C: 伝熱壁の壁温・レート行は「実験箱」カテゴリへ移設(buildLabBoxRows)
   det.appendChild(g);
@@ -7993,8 +8143,8 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 - box: {type,n,cx,cy,w,h,mMin,mMax,spinMin,spinMax,vScale} — 幅w高さhの矩形にn個、ランダム方向に速さ〜vScale。
 - ring/disk/box には省略可の bulkVx,bulkVy(母集団の並進速度)を指定できる。移動する天体(vx,vyを持つ single)の周りに円盤・環を置くときは、必ず同じ値を bulkVx,bulkVy に与えて核と一体で動かすこと。
 - single には省略可の zonal(扁平中心天体の帯状重力補正 E13)を指定できる: {"refR":基準半径,"calib":1,"J":{"2":0.0163,"4":-0.0009}}。偶数次 J2〜J12 のみ・|J|≤0.1・refR:1〜5000・calib:0〜2。中心の大質量 pinned 粒子に付けると周回粒子の楕円軌道の近点が前進する(内側ほど速い差動近点移動 — 画面左上に実測/解析の近点移動が表示される)。土星なら J2≈0.0163。要望が扁平天体・歳差・近点移動のときだけ使う高度な属性で、通常のプリセットでは指定しない。
-- single には省略可の coreMR,coreSR,coreRR,coreOT(主星2層 — コアの質量比・スピン比・半径比〔Rc=coreRR·R。既定は√|coreMR|相当〕・観測温度比率〔Tc_obs=coreOT·(1−lightSweep)·Ic·sc²、表示のみ〕)を指定できる。m は総質量のままで、coreMR=mc/m(−1〜1。既定0。負値=空洞〔殻に質量集中〕)・coreSR=sc/s(既定1=剛体回転=単層と等価)。差動分だけが ω += coreMR·s·(coreSR−1)·(Rc/(Rc+d))^q(Rc=radiusScale·√|coreMR·m|)として追加の空間引きずりに効く。要望がコア/深部回転・空洞天体・2層天体のときだけ使う高度な属性。
-- single には省略可の radius(半径の明示指定 0.5〜500。未指定は radiusScale·√|m|)・obsT(観測温度係数 0〜1000。観測温度 T_obs=obsT·(1−lightSweep)·T)・lightSweep(減光 0〜1 — 高速スピンコアが自星の光を外に出さない: 観測温度が0になり見掛けは冷たい。放射冷却も(1−lS)倍)を指定できる。要望がダークマター/ダークローター・見えない天体・拡がった天体のときだけ使う高度な属性で、通常のプリセットでは指定しない。
+- single には省略可の coreMR,coreSR,coreRR(主星2層 — コアの質量比・スピン比・半径比〔Rc=coreRR·R。既定は√|coreMR|相当〕)を指定できる。m は総質量のままで、coreMR=mc/m(−1〜1。既定0。負値=空洞〔殻に質量集中〕)・coreSR=sc/s(既定1=剛体回転=単層と等価)。差動分だけが ω += coreMR·s·(coreSR−1)·(Rc/(Rc+d))^q(Rc=radiusScale·√|coreMR·m|)として追加の空間引きずりに効く。要望がコア/深部回転・空洞天体・2層天体のときだけ使う高度な属性。
+- single には省略可の radius(半径の明示指定 0.5〜500。未指定は radiusScale·√|m|)・lightSweep(減光 0〜1 — 高速スピンコアが自星の光を外に出さない: 観測温度が0になり見掛けは冷たい。放射冷却も(1−lS)倍)を指定できる。要望がダークマター/ダークローター・見えない天体・拡がった天体のときだけ使う高度な属性で、通常のプリセットでは指定しない。
 - single には省略可の railOmega(±2・pinned時のみ): 円レール駆動の角速度。railCx/railCy でレール中心を指定(既定は原点)。
 
 # 例
@@ -8525,7 +8675,6 @@ function updateBodyEdit(){
   // beBind)は radOv(未スケール)へ入るため、radiusScale≠1 では表示値と入力すべき値が非対称になる
   // (再度 radiusScale が乗るため)。式粒子(rMul経路)の表示と整合させることを優先し許容する(統括裁定)
   $("#beR").value=fmt(S.R[i]); $("#beRr").value=fmt(S.R[i]>0? S.Rc[i]/S.R[i] : 0);   // 第22便: 半径系(実効値を表示)
-  $("#beOt").value=fmt(S.obsT[i]); $("#beOc").value=fmt(S.coreOT[i]);   // 観測温度系
   // 第36便 C2: 掻出は "auto"(粒子パラメータからの算出モード)を受理。
   // 第37便 A2(原仮定者指示): auto チェックボックスも S.lSwAuto と同期させ、ON中は数値欄を
   // 読み取り専用にする(入力欄への直接 "auto" 入力は従来どおり併存 — 単一の真実 S.lSwAuto 経由)。
@@ -8553,7 +8702,6 @@ beBind("#beS",(S,i,v)=>{ S.spin[i]=clamp(v,-40,40); });
 // 第22便: 半径・コア半径比・観測温度係数・光掻き出し・コア観測温度比率
 beBind("#beR",(S,i,v)=>{ S.radOv[i]=clamp(v,0.5,500); S.updateRadii(); });
 beBind("#beRr",(S,i,v)=>{ S.coreRRv[i]=clamp(v,0.02,1); S.updateRadii(); });
-beBind("#beOt",(S,i,v)=>{ S.obsT[i]=clamp(v,0,1000); });
 // 第36便 C2(原仮定者指示): 掻出欄は数値(0〜1・従来の独立指定)に加えて "auto" を受理する。
 // beBind は parseFloat 前提なので、この欄だけ専用ハンドラにする(他欄の挙動は不変)
 $("#beSw").addEventListener("change",()=>{
@@ -8579,7 +8727,6 @@ $("#beSwAuto").addEventListener("change",()=>{
   setParamsDirty(true); requestRender();
   updateBodyEdit();
 });
-beBind("#beOc",(S,i,v)=>{ S.coreOT[i]=clamp(v,0,1000); });
 beBind("#beVx",(S,i,v)=>{ S.vx[i]=clamp(v,-100,100); });
 beBind("#beVy",(S,i,v)=>{ S.vy[i]=clamp(v,-100,100); });
 $("#bePin").addEventListener("change",()=>{
@@ -8598,7 +8745,7 @@ $("#beClose").addEventListener("click",()=>{ beMin=!beMin; applyBeMin(); });
 let beDescShown=null;
 {
   const BE_DESC={beLm:"beDm",beLs:"beDs",beLmc:"beDmc",beLsc:"beDsc",beLr:"beDr",beLrr:"beDrr",
-    beLot:"beDot",beLsw:"beDsw",beLswAuto:"beDsw",beLoc:"beDoc",beLvx:"beDv",beLvy:"beDv",beLp:"beDp"};
+    beLsw:"beDsw",beLswAuto:"beDsw",beLvx:"beDv",beLvy:"beDv",beLp:"beDp"};
   for(const id of Object.keys(BE_DESC)){
     const el=document.getElementById(id); if(!el) continue;
     el.classList.add("tappable");
