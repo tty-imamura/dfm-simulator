@@ -2129,7 +2129,8 @@ if (hasBadgeClassify) {
       const targets = (abBody && abBody.targets) || [];
       const spinBeforeTargets = targets.map((i) => S.spin[i]);
       const hashBefore = hashPhys(S);
-      const btn = document.querySelector('#abBodyRow button');
+      // 第62便: beta はワンタップA/Bを #abQuickRow(A/B比較グループの上)へ統一。root は旧 #abBodyRow
+      const btn = document.querySelector('#abQuickRow button, #abBodyRow button');
       const hasBtn = !!btn;
       if (hasBtn) btn.click();
       const ab = HP.ab();
