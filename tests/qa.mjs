@@ -2736,24 +2736,34 @@ if (hasBadgeClassify) {
     const actGroup = groups[0];
     const actRows = actGroup ? actGroup.querySelectorAll('.prow').length : 0;
     const det = document.querySelector('#paramRows details.advParams');
-    const detRows = det ? det.querySelectorAll('.prow').length : 0;
     const headOk = actGroup && actGroup.querySelector('h3').textContent === 'このサンプルの主役';
     // 主役行の編集が反映される(先頭= muF)
     const inp = actGroup.querySelector('.prow input.valIn');
     inp.value = '0.33'; inp.dispatchEvent(new Event('change'));
     const editOk = Math.abs(HP.sim.params.muF - 0.33) < 1e-12;
-    // 第54便 54D④: 主役キーも詳細設定へ重複表示(catParams のある版のみ) — 期待行数を切替
-    const cat54 = !!(det && det.querySelector('details.catParams'));
     const total = HP.PARAM_DEFS.filter(d => d.key !== 'timeScale').length;
-    // v1.23: timeScale は表示グループへ移設されたため、詳細設定の行数からも除外
-    return { bad, actRows, nAct: act.length, detRows, cat54,
-      nRest: cat54 ? total : total - act.length,
-      detOpen: det ? det.open : null, headOk, editOk };
+    // 第57便 57C: 「詳細設定(全パラメータ)」は廃止 — 7カテゴリ直列。全キーがカテゴリ内に
+    // 1行ずつある(ラベル一致)ことを検査する。旧レイアウト(root=advParams)とも両立
+    const cat57 = !det && !!document.querySelector('#paramRows details.catParams');
+    let detRows, nRest, detOpen;
+    if (cat57) {
+      const catLabels = [...document.querySelectorAll('#paramRows details.catParams .prow label')].map(l => l.textContent);
+      const missing = HP.PARAM_DEFS.filter(d => d.key !== 'timeScale' && d.key !== 'timeScale')
+        .filter(d => !catLabels.includes(d.label)).map(d => d.key);
+      detRows = total - missing.length; nRest = total;
+      detOpen = [...document.querySelectorAll('#paramRows details.catParams')].some(d2 => d2.open);
+    } else {
+      detRows = det ? det.querySelectorAll('.prow').length : 0;
+      const cat54 = !!(det && det.querySelector('details.catParams'));
+      nRest = cat54 ? total : total - act.length;
+      detOpen = det ? det.open : true;
+    }
+    return { bad, actRows, nAct: act.length, detRows, nRest, cat57, detOpen, headOk, editOk };
   });
   add('activeParams.all', r1.bad.length === 0, r1.bad.join(',') || '全内蔵で宣言済み');
   add('activeParams.ui', r1.headOk && r1.actRows === r1.nAct && r1.detRows === r1.nRest
     && r1.detOpen === false && r1.editOk,
-    `主役${r1.actRows}/${r1.nAct}行 詳細${r1.detRows}/${r1.nRest}行(54Dカテゴリ版=${r1.cat54} — 主役重複込み) 折りたたみ=${r1.detOpen === false} 編集反映=${r1.editOk}`);
+    `主役${r1.actRows}/${r1.nAct}行 カテゴリ内${r1.detRows}/${r1.nRest}キー(57C 7カテゴリ版=${r1.cat57} — 主役重複込み) 全カテゴリ閉=${r1.detOpen === false} 編集反映=${r1.editOk}`);
 
   // ---- 第54便 54D(原仮定者指示 アプリ7件): 前回プリセット復元 / プルダウン階層化 / pdesc色 /
   // ----   主役の詳細重複+同期 / カテゴリ折りたたみ / 相変化スライダー / 壁温色 ----
@@ -2835,12 +2845,56 @@ if (hasBadgeClassify) {
     add('ui.54d-params',
       d1.pdescColor === d1.labColor
       && d1.dupCount === 2 && d1.dupSync === true
-      && d1.catSums.some(t => t.includes('仮定物理法則')) && d1.catSums.some(t => t.includes('シミュレーション'))
-      && d1.catSums.some(t => t.includes('表示')) && d1.catsClosed
-      && d1.pcRows >= 10 && d1.pcSliders === d1.pcRows && d1.pcSliderEdit && d1.pcDirectBeyond
+      && d1.catSums.some(t => t.includes('時空')) && d1.catSums.some(t => t.includes('スピン・熱'))
+      && d1.catSums.some(t => t.includes('引きずり')) && d1.catSums.some(t => t.includes('実験箱'))
+      && d1.catSums.some(t => t.includes('シミュレーション')) && d1.catSums.some(t => t.includes('表示'))
+      && d1.catsClosed
+      && d1.pcRows >= 9 && d1.pcSliders === d1.pcRows && d1.pcSliderEdit && d1.pcDirectBeyond
       && wallColorOk,
       `pdesc色=本文色(${d1.pdescColor}) / 主役重複=2行・同期=${d1.dupSync} / カテゴリ=[${d1.catSums.join(',')}]・全閉=${d1.catsClosed} / ` +
       `相変化: ${d1.pcSliders}/${d1.pcRows}行にスライダー・編集反映=${d1.pcSliderEdit}・域外直値=${d1.pcDirectBeyond} / 壁温色(tempColor+tSwitch)=${wallColorOk}`);
+
+    // ---- 第57便 57C: 実験箱カテゴリ(壁4面+一様重力)・タブ別スクロール・開閉保持 ----
+    const d57 = await page.evaluate(() => {
+      const out = {};
+      HP.loadPreset('melt', false);
+      const cats = [...document.querySelectorAll('#paramRows details.catParams')];
+      const labBox = cats.find(d => (d.querySelector('summary').textContent || '').includes('実験箱'));
+      out.hasLab = !!labBox;
+      if (labBox) {
+        const rows = [...labBox.querySelectorAll('.prow')];
+        out.labRows = rows.length;   // melt: 壁8行(4面×T/レート — rad なし)+ g_x/g_y = 10
+        // 未設定の面(天井=idx1)のレートを編集 → {mode:"heat",rate} が生成される。T=0/rate=0 は物理不変
+        const rateRow = rows.find(r => (r.querySelector('label') || {}).textContent === (HP.T ? HP.T('pcWallRate')('天井') : '壁レート(天井)'));
+        out.hasTopRate = !!rateRow;
+        if (rateRow) {
+          const inp = rateRow.querySelector('input.valIn');
+          inp.value = '0.5'; inp.dispatchEvent(new Event('change'));
+          const w = HP.sim.twall[1];
+          out.created = !!(w && w.mode === 'heat' && Math.abs(w.rate - 0.5) < 1e-12);
+          inp.value = '0'; inp.dispatchEvent(new Event('change'));   // 後続ゲートのため戻す
+          out.reset0 = HP.sim.twall[1].rate === 0;
+        }
+      }
+      // 57B: カテゴリ開閉の保持 — 実験箱を開いて再構築(プリセット再読込)しても開いたまま
+      if (labBox) { labBox.open = true; }
+      HP.loadPreset('melt', false);
+      const labBox2 = [...document.querySelectorAll('#paramRows details.catParams')]
+        .find(d => (d.querySelector('summary').textContent || '').includes('実験箱'));
+      out.keptOpen = !!(labBox2 && labBox2.open);
+      if (labBox2) labBox2.open = false;
+      HP.loadPreset('saturn', false);
+      // 57B: タブ別スクロール管理のコードが配線されている(静的確認は下の wallColorOk と同様の方針)
+      return out;
+    });
+    const htmlSrc57 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+    const tabScrollOk = /tabScroll\[curTab\]=\$\("#panel"\)\.scrollTop/.test(htmlSrc57)
+      && /\$\("#panel"\)\.scrollTop=tabScroll\[t\]\|\|0/.test(htmlSrc57);
+    add('ui.57c-labbox',
+      d57.hasLab && d57.labRows === 10 && d57.hasTopRate && d57.created === true && d57.reset0 === true
+      && d57.keptOpen === true && tabScrollOk,
+      `実験箱カテゴリ=${d57.hasLab}・行数=${d57.labRows}(壁4面×2+g_x/g_y=10) / 未設定面の編集で生成=${d57.created}(レート0へ復帰=${d57.reset0} — 物理不変) / ` +
+      `再構築後もカテゴリ開いたまま=${d57.keptOpen}(57B) / タブ別スクロール配線=${tabScrollOk}`);
   } else {
     console.log('SKIP ui.54d-*(対象に第54便 54D の UI なし — root 等)');
   }
@@ -6414,16 +6468,17 @@ if (hasEchoFlipAt) {
         bodies: [0, 1, 2, 3, 4].map(k => ({ type: 'single', m: 1, x: k * 2.4 - 4.8, y: (k % 2) * 1.2,
           vx: 0, vy: 0, spin: 0, tInt: 2, pinned: false })),
         overlays: {} });
-      const alloc2 = s.chainP instanceof Int32Array && s.chainP.length === 10;
+      // 57A: chainP は全相プリセットで常時確保(スロット幅 PC_VAL_MAX=3 — ノブ変更に再確保不要)
+      const alloc2 = s.chainP instanceof Int32Array && s.chainP.length === 15;
       for (let k = 0; k < 200; k++) s.step(0.016);
       const val = s.phase.valence, deg = new Array(s.n).fill(0);
       let sym = true;
-      for (let i = 0; i < s.n; i++) for (let k = 0; k < val; k++) {
-        const j = s.chainP[i * val + k];
+      for (let i = 0; i < s.n; i++) for (let k = 0; k < 3; k++) {
+        const j = s.chainP[i * 3 + k];
         if (j < 0) continue;
         deg[i]++;
         let back = false;
-        for (let k2 = 0; k2 < val; k2++) if (s.chainP[j * val + k2] === i) back = true;
+        for (let k2 = 0; k2 < 3; k2++) if (s.chainP[j * 3 + k2] === i) back = true;
         if (!back) sym = false;
       }
       const maxDeg = Math.max(...deg), links = deg.reduce((a, b) => a + b, 0) / 2;
@@ -6433,8 +6488,10 @@ if (hasEchoFlipAt) {
         physics: { G: 0, D0: 0, kFrame: 0, kRep: 0, q: 2, muF: 0, gammaN: 0, kappaS: 0,
           etaRad: 0, pRad: 2, cHeat: 1, gravityY: 0, softening: 2, radiusScale: 1, timeScale: 1 },
         bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, tInt: 2, pinned: false }], overlays: {} });
-      const nullOff = s.chainP === null;
-      return { good, frac, big, bad, alloc2, maxDeg, links, sym, nullOff, nan: s.hasNaN() };
+      // 57A: valence 無しでも chainP は確保される(実験ノブで 0→1〜3 に実行中変更できるため)。
+      // valence=0 ではリンク経路は不使用 — 等方(53A)と 1 ビット一致のまま
+      return { good, frac, big, bad, alloc2, maxDeg, links, sym,
+        nullOff: s.chainP instanceof Int32Array && s.phase.valence === 0, nan: s.hasNaN() };
     });
     add('phasechange.schema-valence',
       sv.good.p.valence === 2 && sv.good.w === 0
@@ -6443,7 +6500,7 @@ if (hasEchoFlipAt) {
       && sv.bad.p.valence === undefined && sv.bad.w === 1
       && sv.alloc2 && sv.maxDeg <= 2 && sv.links >= 3 && sv.sym && sv.nullOff && !sv.nan,
       `valence 受理=2(警告0) / 2.6→${sv.frac.p.valence}(丸め) / 9→${sv.big.p.valence}(クランプ) / "x"→無視(警告${sv.bad.w}) / ` +
-      `エンジン: chainP確保=${sv.alloc2} 200步で最大次数=${sv.maxDeg}(≤2=結合価厳守)・リンク${sv.links}本・両側対称=${sv.sym} / valence無し→chainP=null=${sv.nullOff}`);
+      `エンジン: chainP確保=${sv.alloc2}(幅3固定) 200步で最大次数=${sv.maxDeg}(≤2=結合価厳守)・リンク${sv.links}本・両側対称=${sv.sym} / valence無し→確保済みだが不使用(0)=${sv.nullOff}`);
 
     // ①d phasechange.schema-bondN(第56便 56A — 結合予算): バリデータ(値域 [0.5,12]・
     //    cohesion/valence 併用警告・不正値無視)とエンジン(coordN/shPrev の確保と初期化 —
@@ -7137,10 +7194,12 @@ if (hasEchoFlipAt) {
         `気体平均高さ=${bo[24000].yG.toFixed(0)} > 液体平均高さ=${bo[24000].yL.toFixed(0)}(+y が床側 — 蒸気クッションが液を持ち上げる膜沸騰の類似・密度浮力なしの設計帰結)・` +
         `気${bo[24000].nG}粒/液${bo[24000].nL}粒 帳簿残差=${bo.res.toExponential(2)}(<2.5e-2) 引力上限クランプ=${bo.clampA}回・履歴=${bo.hist}点`);
 
-      // ⑬ phasechange.chain(第55便 55A): ⛓️chain — 結合価つき分子間力の往復(塊→鎖→塊)。
-      //    実測(2026-08-01 調整時): 12000步 F=0.73 → 17000步 全融解 F=1.00・全112粒が鎖
-      //    (平均次数1.98・deg2率1.00・近傍2.0 — 等方凝集の5.2 と対照的に疎)→ 壁切替(t=280)→
-      //    40000步 全凝固 F=0・固相配位4.39・配位≥2率1.00(塊へ復帰)。res 1.86e-2・clampAN=0
+      // ⑬ phasechange.chain(第55便 55A→第57便 57A 全相適用): ⛓️chain — 結合価つき分子間力の
+      //    往復(塊→鎖→塊)。57A 実測: 12000步 F=0.87(固体も結合2本なので 55A より融解が速い)→
+      //    17000步 全融解・平均次数1.98・deg2率1.00・近傍1.98 → 40000步 全凝固・リンク110本が
+      //    固相結合として残存(56B の凝固消去は撤回)・幾何配位4.34。res 7.11e-2 — 凝固期の
+      //    リンク組み替え(全相化で bondK も運ぶ)による増加。往復の正味流入がほぼ相殺する
+      //    正規化のため比が膨らむ(絶対値≈6.6 = 総流入~2200 の 0.3%)。閾値 1e-1
       const ch = await page.evaluate(() => {
         HP.loadPreset('chain', false);
         const s = HP.sim;
@@ -7159,8 +7218,8 @@ if (hasEchoFlipAt) {
           return a + HP.phaseEnergy(s) + HP.urepEnergy(s);
         };
         const chainStat = () => {
-          const val = s.phase.valence, deg = new Array(s.n).fill(0);
-          for (let i = 0; i < s.n; i++) for (let k = 0; k < val; k++) { const j = s.chainP[i * val + k]; if (j > i) { deg[i]++; deg[j]++; } }
+          const deg = new Array(s.n).fill(0);
+          for (let i = 0; i < s.n; i++) for (let k = 0; k < 3; k++) { const j = s.chainP[i * 3 + k]; if (j > i) { deg[i]++; deg[j]++; } }
           const liq = [];
           for (let i = 0; i < s.n; i++) if (s.fLiq[i] > 0.5) liq.push(i);
           let degSum = 0, deg2 = 0, nb = 0;
@@ -7195,23 +7254,24 @@ if (hasEchoFlipAt) {
       });
       add('phasechange.chain',
         !ch.nan
-        && ch[12000].F > 0.4 && ch[12000].F < 0.9
+        && ch[12000].F > 0.5 && ch[12000].F < 0.95
         && ch[17000].F > 0.9
         && ch[17000].chain.meanDeg > 1.6 && ch[17000].chain.meanDeg <= 2.0001
         && ch[17000].chain.deg2frac > 0.98 && ch[17000].chain.meanNb < 3.5
         && ch[40000].F < 0.02 && ch[40000].T < 0.5
         && ch[40000].net.meanCoord > 3 && ch[40000].net.fracGe2 > 0.9
-        && ch.clampA === 0 && ch.res < 0.025,
+        && ch.clampA === 0 && ch.res < 0.1,
         `⛓️chain: 12000步 fl=${ch[12000].F.toFixed(2)}(融解中) → 17000步 fl=${ch[17000].F.toFixed(2)}(>0.9 全融解) ` +
         `鎖: 平均次数=${ch[17000].chain.meanDeg.toFixed(2)}(1.6〜2.0 = 結合価厳守)・次数≤2率=${ch[17000].chain.deg2frac.toFixed(2)}(>0.98)・` +
         `液体近傍数=${ch[17000].chain.meanNb.toFixed(2)}(<3.5 — 等方凝集の実測5.2 と対照的に疎=鎖状) → 壁切替(t=280) → ` +
         `40000步 fl=${ch[40000].F.toFixed(2)}(<0.02 全凝固)・T=${ch[40000].T.toFixed(2)}・固相配位=${ch[40000].net.meanCoord.toFixed(2)}(>3)・` +
-        `配位≥2率=${ch[40000].net.fracGe2.toFixed(2)}(>0.9 = 塊へ復帰) 帳簿残差=${ch.res.toExponential(2)}(<2.5e-2 — リンク組み替え分込み) 引力上限クランプ=${ch.clampA}回`);
+        `配位≥2率=${ch[40000].net.fracGe2.toFixed(2)}(>0.9 = 塊へ復帰) 帳簿残差=${ch.res.toExponential(2)}(<1e-1 — 全相リンク組み替え分込み・総流入基準≈0.3%) 引力上限クランプ=${ch.clampA}回`);
 
-      // ⑭ phasechange.chain-second-cycle(第56便 56B — 外部レビューP0「chainの2往復QA」):
-      //    凝固完了でリンクは消去され(56B 仕様・A案 — リンク力∝fl·fl=0 なのでエネルギー連続)、
-      //    2往復目はまっさらな鎖を再形成する。実測: 1往復後 links=0・再融解 107本/次数1.91 →
-      //    再凝固 links=0・配位4.18。res 4.97e-2(4転移の累積 — cD/2 則。閾値 7e-2)
+      // ⑭ phasechange.chain-second-cycle(第56便 56B → 第57便 57A 改定): 2往復の安定性。
+      //    57A の全相適用でリンクは結合そのものになったため、凝固後もリンクは残存し(56B の
+      //    消去仕様は撤回)、再融解はリンクを引き継ぎながら組み替える。実測: 1往復後 links=110・
+      //    配位4.34 → 再融解 F=1.00・次数1.96・≤2率1.00(結合価厳守のまま)→ 再凝固 links=110・
+      //    配位4.34。res 9.96e-2(4転移・正味流入相殺の正規化 — 閾値 1.5e-1)
       const c2 = await page.evaluate(() => {
         HP.loadPreset('chain', false);
         const s = HP.sim;
@@ -7230,9 +7290,9 @@ if (hasEchoFlipAt) {
           return a + HP.phaseEnergy(s) + HP.urepEnergy(s);
         };
         const chainStat = () => {
-          const val = s.phase.valence, deg = new Array(s.n).fill(0);
+          const deg = new Array(s.n).fill(0);
           let links = 0;
-          for (let i = 0; i < s.n; i++) for (let k = 0; k < val; k++) { const j = s.chainP[i * val + k]; if (j > i) { deg[i]++; deg[j]++; links++; } }
+          for (let i = 0; i < s.n; i++) for (let k = 0; k < 3; k++) { const j = s.chainP[i * 3 + k]; if (j > i) { deg[i]++; deg[j]++; links++; } }
           const liq = [];
           for (let i = 0; i < s.n; i++) if (s.fLiq[i] > 0.5) liq.push(i);
           let dsum = 0, d2 = 0;
@@ -7267,15 +7327,15 @@ if (hasEchoFlipAt) {
       });
       add('phasechange.chain-second-cycle',
         !c2.nan
-        && c2.c1.F < 0.02 && c2.c1.links === 0 && c2.c1.coord > 3
+        && c2.c1.F < 0.02 && c2.c1.links > 80 && c2.c1.coord > 3
         && c2.c2m.F > 0.9 && c2.c2m.ch.links > 80
         && c2.c2m.ch.meanDeg > 1.6 && c2.c2m.ch.meanDeg <= 2.0001 && c2.c2m.ch.deg2frac > 0.98
-        && c2.c2.F < 0.02 && c2.c2.links === 0 && c2.c2.coord > 3
-        && c2.clampA === 0 && c2.res < 0.07,
-        `1往復後: fl=${c2.c1.F.toFixed(2)}・リンク=${c2.c1.links}本(凝固で消去=仕様)・配位=${c2.c1.coord.toFixed(2)} → 再加熱 → ` +
-        `再融解 fl=${c2.c2m.F.toFixed(2)}・新しい鎖${c2.c2m.ch.links}本(次数${c2.c2m.ch.meanDeg.toFixed(2)}・≤2率${c2.c2m.ch.deg2frac.toFixed(2)} — 結合価厳守のまま) → ` +
+        && c2.c2.F < 0.02 && c2.c2.links > 80 && c2.c2.coord > 3
+        && c2.clampA === 0 && c2.res < 0.15,
+        `1往復後: fl=${c2.c1.F.toFixed(2)}・リンク=${c2.c1.links}本(57A: 凝固後も結合として残存)・配位=${c2.c1.coord.toFixed(2)} → 再加熱 → ` +
+        `再融解 fl=${c2.c2m.F.toFixed(2)}・鎖${c2.c2m.ch.links}本(次数${c2.c2m.ch.meanDeg.toFixed(2)}・≤2率${c2.c2m.ch.deg2frac.toFixed(2)} — 結合価厳守のまま組み替え) → ` +
         `再凝固 fl=${c2.c2.F.toFixed(2)}・リンク=${c2.c2.links}本・配位=${c2.c2.coord.toFixed(2)}(>3 塊へ) ` +
-        `帳簿残差=${c2.res.toExponential(2)}(<7e-2 — 4転移の累積・cD/2 則) 引力上限クランプ=${c2.clampA}回`);
+        `帳簿残差=${c2.res.toExponential(2)}(<1.5e-1 — 4転移・正味流入相殺の正規化。総流入基準≈0.5%) 引力上限クランプ=${c2.clampA}回`);
 
       // ⑮ phasechange.emergent(第56便 56A — 結合予算): 🧬emergent — 三態の創発。
       //    実測(2026-08-01): 3000步 固体(T̄0.73・c̄3.82・2塊 最大73)→ 12000步 液滴群(33成分)→
