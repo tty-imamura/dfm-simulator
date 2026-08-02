@@ -518,9 +518,11 @@ ja: {
   pcValence:"結合価 valence(0=無制限)",
   pcValenceDesc:"1〜3にすると、結合(bondK)も凝集(cohesion)も各分子が最大この本数のリンク上でしか働かない(相に関わらず適用 — 第57便)。2=鎖、3=3配位の網。0は無制限(等方)。変更は実行中に反映され、減らすと余ったリンクは吸熱つきで解消される。",
   pcAngK:"角度剛性 angK",
-  pcAngKDesc:"結合角が理想角(結合価3=120°・2=180°)に近いほど結合の井戸が深くなる結合角ポテンシャル(U=−angK·bondK·μ·W·W·g² — 第58便)。角度を理想へ戻す向きの力(トルク)も生じ、ゆっくり冷やすと格子状の結晶へ焼き鈍される。格子は圧力で潰れ得る。0=無効。valence≥2 で有効(bondN 併用時は無効)。",
+  pcAngKDesc:"結合角が理想角に近いほど結合の井戸が深くなる結合角ポテンシャル(U=−angK·bondK·μ·W·W·g² — 第58便)。角度を理想へ戻す向きの力(トルク)も生じ、ゆっくり冷やすと格子状の結晶へ焼き鈍される。格子は圧力で潰れ得る。0=無効。valence≥2(理想角=2π/valence: 3→120°・2→180°)のリンク経路に加え、第59便から bondN(結合予算)とも併用できる — 予算モードでは幾何近傍の対に働き、理想角は 2π/bondN(予算3→120°)。",
   pcLatentV:"蒸発潜熱 L_v", pcLatentVDesc:"蒸発1単位質量あたりの潜熱。蒸発は指定潜熱に加えて凝集エネルギーそのもの(実効潜熱)も支払う。",
-  pcCondG:"気相伝導 condG", pcCondGDesc:"気相の熱伝導倍率(κsに乗算・対の調和平均)。小さくすると蒸気層が断熱層になる。",
+  pcCondG:"気相伝導 condG", pcCondGDesc:"気相の熱伝導倍率(κsに乗算・対の調和平均)。小さくすると蒸気層が断熱層になる。創発伝導(condN>0)では「孤立粒子(結合0)の伝導下限」の意味になる。",
+  pcCondN:"創発伝導 condN(0=相率合成)",
+  pcCondNDesc:"0より大きくすると、熱伝導率を相率(condS/condL/condG の合成)ではなく、いまの結合状態(滑らかな配位数B)から導出する — c=condG+(condS−condG)·B/(B+condN)(第59便)。孤立した粒子は condG、密な結合網は condS へ飽和し、液体は「接触は多いが網は粗い」中間の伝導になる。相率は表示だけの観測量に降格する(condL は不使用)。condN はBがこの値のとき中間になる半飽和点。",
   pcWallSides:["底","天井","左","右"],
   pcWallT:(s2)=>`壁温 T_wall(${s2})`, pcWallTDesc:"加熱/冷却壁の目標温度。融点より上なら融解・下なら凝固へ駆動する(🔁往復の手動版)。放熱(rad)面では0表示 — 0より大きく設定するとその面は加熱面に変わる(レートは維持)。壁レート0は壁温の影響なし。",
   pcWallRate:(s2)=>`壁レート(${s2})`, pcWallRateDesc:"壁と粒子の熱交換の速さ。プラトーの持続時間実験に。",
@@ -745,9 +747,11 @@ en: {
   pcValence:"Valence (0 = unlimited)",
   pcValenceDesc:"At 1-3, both bonds (bondK) and cohesion act only along at most this many links per molecule, in every phase (dispatch 57). 2 = chains, 3 = a 3-coordinated network. 0 = unlimited (isotropic). Takes effect live; lowering it dissolves surplus links with the well depth absorbed from heat.",
   pcAngK:"Angular stiffness angK",
-  pcAngKDesc:"A bond-angle potential: bonds whose angles are close to the ideal (120° at valence 3, 180° at 2) sit in a deeper well (U = −angK·bondK·μ·W·W·g² — dispatch 58). It also exerts a restoring torque toward the ideal angle, so slow cooling anneals a lattice in; pressure can still crush it. 0 = off; needs valence ≥ 2 (disabled when bondN is active).",
+  pcAngKDesc:"A bond-angle potential: bonds whose angles are close to the ideal sit in a deeper well (U = −angK·bondK·μ·W·W·g² — dispatch 58). It also exerts a restoring torque toward the ideal angle, so slow cooling anneals a lattice in; pressure can still crush it. 0 = off. Works on the link path at valence ≥ 2 (ideal 2π/valence: 120° at 3, 180° at 2) and, since dispatch 59, also together with bondN (bond budget) — in budget mode it acts on geometric-neighbor pairs with ideal angle 2π/bondN (budget 3 → 120°).",
   pcLatentV:"Latent heat L_v", pcLatentVDesc:"Latent heat of vaporization per unit mass. Evaporation also pays the actual cohesion energy (an effective latent heat).",
-  pcCondG:"Gas conduction condG", pcCondGDesc:"Gas-phase conduction multiplier (on kappaS, harmonic pair mean). Lower it and the vapor layer insulates.",
+  pcCondG:"Gas conduction condG", pcCondGDesc:"Gas-phase conduction multiplier (on kappaS, harmonic pair mean). Lower it and the vapor layer insulates. With emergent conduction (condN>0) it becomes the conduction floor of an isolated (bond-free) grain.",
+  pcCondN:"Emergent conduction condN (0 = phase mix)",
+  pcCondNDesc:"Above 0, the conduction multiplier is derived from the current bonding state (smooth coordination number B) instead of the phase fractions: c = condG + (condS−condG)·B/(B+condN) (dispatch 59). Isolated grains sit at condG, dense bond networks saturate to condS, and liquids land in between — many contacts, loose network. Phase fractions are demoted to display-only observables (condL unused). condN is the half-saturation coordination.",
   pcWallSides:["floor","ceiling","left","right"],
   pcWallT:(s2)=>`Wall T (${s2})`, pcWallTDesc:"Target temperature of the heating/cooling wall. Above the melting point it drives melting; below, freezing (a manual version of the 🔁 cycle). On a radiating (rad) face it reads 0 — setting it above 0 converts that face to a heating one (rate kept). Rate 0 = no wall influence.",
   pcWallRate:(s2)=>`Wall rate (${s2})`, pcWallRateDesc:"Heat-exchange rate between wall and grains. For plateau-duration experiments.",
@@ -1147,7 +1151,7 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
 const APP_VERSION = "1.34";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 // 第36便 B1(原仮定者指示): タイトル下に表示するbeta配信時のビルド番号。beta/sw.js の
 // CACHE 接尾辞と同期させる(QA: version.beta-label)。ルート昇格後は使わない("v"+APP_VERSION 表示に戻る)
-const BETA_BUILD = "v1.35-b3";   // 第54便 54A-54D: 気液相変化(boilT/latentV)・セーブ保存・UI7件
+const BETA_BUILD = "v1.35-b4";   // 第59便 59A-59B: angK×bondN 併用・創発熱伝導 condN・🧊emergent2
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 // 第45便 45A(台帳4-48): 光線源・1PN源のしきい値を「質量」から「偏向角」へ物理化した。
@@ -2456,6 +2460,36 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:true,field:false,phaseGraph:true} },
 
 
+// 🧊emergent2: 第59便 59A/59B — angK×bondN 併用(58A では排他だった)+創発熱伝導 condN。
+// 実測(2026-08-02): 60000步冷却で凝固率100%・リンク間角の平均偏差 24.9°(angK=0 対照は
+// 65.6° の接触充填)・3配位率 0.43・少数の大きな開いた網(4成分・最大40粒)。壁を T=5 に
+// 上げ直すと 45000步で 7〜21成分の小分子群へ解離(kRep=12 で 21成分・最大13粒)。
+// res 3.5e-2(bondN=3 域は share 変動の交差項が bondN=6 より大きい — angK=0 対照でも 4.0e-2)
+{ id:"emergent2", name:"格子も分子も — 予算×角度", emoji:"🧊", group:"熱の実験室",
+  descStruct:{
+    summary:"🧬(結合予算)と🕸️(結合角)の合流点 — 第59便で両者が併用できるようになった(E14″拡張)。ルールは2つだけ: ①各分子は結合の予算(公称3本分)を持ち、結合数が減ると残りが強くなる(bondN)。②結合角が理想角120°(=2π/予算3)に近い近傍対は井戸・詰め込み過ぎの角(60°等)は障壁になる符号付き角ポテンシャル(angK — sp²混成軌道の反発の最小類似)。リンクの台帳は無く、どちらも幾何近傍だけから毎瞬間計算される。さらに熱伝導率も相率ではなく、いまの結合状態(滑らかな配位数B)から創発する(condN — 相率は表示だけの観測量に降格)。",
+    observe:"温かい液体を床壁でゆっくり冷やすと、組み替えのたびに120°の対が深い井戸へ落ち着き、蜂の巣状の開いた格子が焼き鈍しで創発する — 実測でリンク間角の平均偏差24.9°(angK=0の対照は65.6°の密集塊)・凝固率100%・少数の大きな網目。🕸️との違いは、結合価のスロット(リンク台帳)すら無いこと — 「何本まで」も「どの角度で」も、予算と角度という2つの局所ルールの競合だけで決まる。凝固後に壁温を上げ直すと、今度は予算の集中が効いて2〜20粒の小さな分子群へ解離して飛び回る — 同じ2ルールから格子(低温)と分子ガス(高温)の両方が出る。熱伝導も創発版: 結合の多い格子は速く(condS側)、孤立した分子は遅く(condG側)伝わり、相率(fl/fg)は物理に一切使われない。エネルギーは壁帳簿+潜熱+結合+U_ang+U_repで閉じる(角ポテンシャルは位置だけの保存力 — 残差3.5e-2はshare変動の交差項で、angK=0でも4.0e-2)。色=温度・結合線の濃さ=予算の集中。実在物質の定量再現ではない。",
+    control:"angKを0にして「初めから」→A/B比較すると、同じ冷却で密集塊 vs 開いた格子が並ぶ(🕸️と同じ焼き鈍しの対照実験がリンク台帳なしで組める)。condNを0にすると熱伝導が相率合成(condS/condL/condG)へ戻る — 創発伝導とのA/B。冷却後にT_wall(底)を5へ上げると分子ガスへ解離、kRepを12へ上げると分子がより細かくなる(予算集中の実験)。壁レートを上げて急冷するとガラス的な乱れた網になる — 焼き鈍しの速度依存。"},
+  en:{name:"Lattice and Molecules — Budget × Angle", descStruct:{
+    summary:"Where 🧬 (bond budget) meets 🕸️ (bond angle) — dispatch 59 lets them run together (E14″ extension). Two rules only: ① each molecule carries a bonding budget (nominally three bonds' worth), and the fewer the bonds, the stronger each remaining one (bondN); ② neighbor pairs whose bond angle is near the ideal 120° (=2π/budget 3) sit in a well, while over-packed angles (60° etc.) hit a barrier — a signed angle potential (angK, a minimal analogue of sp² orbital repulsion). There is no link ledger: both rules are evaluated every instant from geometric neighbors alone. Heat conduction is emergent too — derived from the current bonding state (smooth coordination number B) rather than phase fractions (condN; the fractions are demoted to display-only observables). ",
+    observe:"Cool a warm liquid slowly against the floor wall and every rewiring settles 120° pairs into deeper wells — an open honeycomb lattice anneals in: measured mean bond-angle deviation 24.9° (the angK=0 control packs into a 65.6° pile), 100% frozen, a few large connected networks. Unlike 🕸️ there are no valence slots at all — \"how many bonds\" and \"at what angle\" both come out of the competition between two local rules, budget and angle. Reheat the wall and budget concentration takes over: the lattice dissociates into small 2-20 particle molecules flying free — the same two rules give a lattice at low temperature and a molecular gas at high. Conduction is the emergent version too: well-bonded lattice conducts fast (toward condS), isolated molecules slowly (toward condG), and the phase fractions fl/fg are never used in the physics. Energy closes as wall ledger + latent heat + bonds + U_ang + U_rep (the angle potential is a conservative, position-only force; the 3.5e-2 residual is the share-drift cross term — the angK=0 control shows 4.0e-2 too). Color = temperature; bond-line darkness = budget concentration. No claim of quantitative correspondence to real substances. ",
+    control:"Set angK to 0, restart and A/B-compare: same cooling, packed pile vs open lattice — the 🕸️ annealing control experiment without any link ledger. Set condN to 0 and conduction falls back to the phase-fraction mix (condS/condL/condG) — an A/B against emergent conduction. After freezing, raise the floor T_wall to 5 and the lattice dissociates into a molecular gas; raise kRep to 12 for finer molecules (a budget-concentration experiment). Raise the wall rate to quench and you get a glassy, disordered net — the rate dependence of annealing."}},
+  activeParams:["kRep","kappaS","gravityY","gammaN"],
+  thermal:"tint",
+  phaseChange:{ meltT:1, latentF:4, bondN:3, angK:2, bondK:5, bondRange:1.6,
+    bondDamp:0.1, condS:1, condG:0.15, condN:2 },
+  camera:{scale:140}, world:{boundary:"box", size:110,
+    thermalWalls:{ bottom:{mode:"heat", T:0.15, rate:0.25} }},
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:8, muF:0.1, gammaN:0.3, kappaS:1, Kt:60,
+    cLight:60, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:4},
+  seed:7,
+  bodies:[ // 🕸️lattice と同じ温かい液体スタート(jitter で秩序を崩す)— 差は bondN+angK 併用と condN
+    {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:93, pitch:7, jitter:1.0, vScale:0.3,
+     mMin:1, mMax:1, tInt:1.5}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:true,field:false,phaseGraph:true} },
+
+
 // ===== グループ: 天体の物語 =====
 { id:"earthMoon", name:"地球と月", emoji:"🌍", group:"天体の物語",
   descStruct:{
@@ -3282,9 +3316,22 @@ function validatePreset(obj){
           if(out.boilT!==PC.boilT || out.latentV!==PC.latentV) warnings.push("phaseChange.boilT/latentV を値域に修正");
           out.condG=optNum("condG",0,100,1);
         }
-      } else if(PC.condG!==undefined) warnings.push("phaseChange.condG は boilT/latentV とセットで使います — 無視します");
+      } else if(PC.condG!==undefined && !(isNum(PC.condN)&&PC.condN>0))
+        warnings.push("phaseChange.condG は boilT/latentV または condN とセットで使います — 無視します");
+      // 第59便 59B(創発熱伝導): condN=伝導の半飽和配位数(>0 で有効)。相率合成
+      // condS·fs+condL·fl+condG·fg を廃し、滑らかな配位数 B から
+      // c = condG + (condS−condG)·B/(B+condN) を導出する(condL はこのモードでは不使用)。
+      // condG は気相なしでも「孤立粒子の伝導下限」として意味を持つ(既定1)
+      if(PC.condN!==undefined){
+        if(isNum(PC.condN) && PC.condN>0){
+          out.condN=clamp(PC.condN,0.1,12);
+          if(out.condN!==PC.condN) warnings.push("phaseChange.condN を値域 [0.1,12] に修正");
+          if(out.condG===undefined) out.condG=optNum("condG",0,100,1);
+        } else warnings.push("phaseChange.condN は正の数値 — 無視します(相率合成の従来モード)");
+      }
       // 第56便 56A(結合予算): bondN=公称配位数(>0 で有効 — 引力の相率ゲートを置き換える)。
-      // cohesion/valence とは排他(bondN モードでは使われない — 指定されていれば警告)
+      // cohesion/valence とは排他(bondN モードでは使われない — 指定されていれば警告)。
+      // 第59便 59A: angK は併用可(幾何近傍の角ポテンシャル — 理想角 2π/max(2,bondN))
       if(PC.bondN!==undefined){
         if(isNum(PC.bondN) && PC.bondN>0){
           out.bondN=clamp(PC.bondN,0.5,12);
@@ -3293,7 +3340,7 @@ function validatePreset(obj){
             warnings.push("phaseChange.bondN(結合予算)モードでは cohesion/valence は使われません");
         } else warnings.push("phaseChange.bondN は正の数値 — 無視します(相率ゲートの従来モード)");
       }
-      // 第58便 58A: angK=結合の角度剛性(0〜10。valence≥2 で有効)
+      // 第58便 58A: angK=結合の角度剛性(0〜10。valence≥2 または bondN>0 で有効 — 59A)
       if(PC.angK!==undefined){
         if(isNum(PC.angK) && PC.angK>=0){ out.angK=clamp(PC.angK,0,10);
           if(out.angK!==PC.angK) warnings.push("phaseChange.angK を値域 [0,10] に修正");
@@ -3709,6 +3756,13 @@ const PC_SHARE_MAX=2;
 // 決める — 実行中の変更に再確保が不要になる。valence>0 では結合(bondK)も凝集(cohesion)も
 // リンク上でのみ働く(全相適用 — 56B の「凝固でリンク消去」は撤回: リンクが結合そのもの)
 const PC_VAL_MAX=3;
+// 第59便 59A(angK×bondN 併用 — 原仮定者指示「併用設計: 進める」): 結合予算モードには明示
+// リンクが無いため、結合角ポテンシャルは「幾何近傍」の対に適用する。角の中心 i の帯内近傍を
+// サブステップごとに最大 PC_ANG_MAX 体まで記録し(走査順 j 昇順 — 決定論。あふれは angOvfN に
+// 計数)、その対 (j,k) へ 58A と同式の保存的角ポテンシャルを掛ける。理想角は結合価ではなく
+// 公称配位数から θ*=2π/max(2,bondN)(bondN=3→120°・6→60°)。W は帯端で 0 なので近傍の
+// 出入りとエネルギー連続 — リンク生成/切断のような離散イベントは存在しない
+const PC_ANG_MAX=12;
 // 第54便 54A(気液相変化): 区分を5つへ一般化 — boilT(沸点 Tb)・latentV(蒸発潜熱 Lv)の
 // あるプリセットでは、液相の上に「沸騰プラトー(T=Tb・fg 0→1)」と気相が加わる:
 //   h1=C·Tm / h2=h1+Lf / h3=h2+C·(Tb−Tm) / h4=h3+Lv
@@ -3871,6 +3925,44 @@ function phaseEnergy(s){
       }
     }
   }
+  // 第59便 59A(angK×bondN 併用): 結合予算モードの角ポテンシャル — 明示リンクの代わりに
+  // 幾何近傍(j 昇順・最大 PC_ANG_MAX 体 — _core の収集則と同一)の対 (j,k) へ
+  //   U_ang=−angK·bondK·μ_jk·W_ij·W_ik·g(cosθ)、g=1−(cosθ−cosθ*)²/0.5(符号付き・クランプなし)
+  // を適用する(θ*=2π/max(2,bondN))。理想角=井戸・悪い角度=障壁の符号付き線形 g で、
+  // 位置だけの純関数=厳密勾配の保存力 — この項だけで帳簿が閉じる(share 非依存。設計の経緯は
+  // _core の 59A ブロック注釈を参照)
+  if(pc.angK>0 && bN>0){
+    const c0=Math.cos(2*Math.PI/Math.max(2,bN)), KA=pc.angK*K1;
+    const nb=new Int32Array(PC_ANG_MAX);
+    for(let i=0;i<s.n;i++){
+      let nc=0;
+      const mi=s.m[i];
+      for(let j=0;j<s.n && nc<PC_ANG_MAX;j++){
+        if(j===i) continue;
+        const sumR=s.R[i]+s.R[j], cut=pc.bondRange*sumR;
+        const dx=s.x[i]-s.x[j], dy=s.y[i]-s.y[j];
+        if(!(dx*dx+dy*dy<cut*cut)) continue;
+        if(!(Math.abs(mi+s.m[j])>1e-9)) continue;
+        nb[nc++]=j;
+      }
+      for(let a1=0;a1<nc-1;a1++){
+        const j=nb[a1];
+        for(let a2=a1+1;a2<nc;a2++){
+          const k2=nb[a2];
+          const axv=s.x[j]-s.x[i], ayv=s.y[j]-s.y[i], bxv=s.x[k2]-s.x[i], byv=s.y[k2]-s.y[i];
+          const la=Math.sqrt(axv*axv+ayv*ayv), lb=Math.sqrt(bxv*bxv+byv*byv);
+          if(!(la>1e-9 && lb>1e-9)) continue;
+          const sRa=s.R[i]+s.R[j], sRb=s.R[i]+s.R[k2];
+          const Wa=phaseAngWv(la,sRa,pc.bondRange*sRa), Wb=phaseAngWv(lb,sRb,pc.bondRange*sRb);
+          if(!(Wa>0 && Wb>0)) continue;
+          const ms2=s.m[j]+s.m[k2]; if(!(Math.abs(ms2)>1e-9)) continue;
+          const cth=(axv*bxv+ayv*byv)/(la*lb), dcv=cth-c0;
+          const g=1-dcv*dcv/0.5;   // 符号付き(負側=角の障壁)
+          U-=KA*(s.m[j]*s.m[k2]/ms2)*Wa*Wb*g;
+        }
+      }
+    }
+  }
   return U;
 }
 function makeSim(){
@@ -3989,6 +4081,9 @@ function makeSim(){
     // 2係数へ分離 — 熱量関数の融解傾き bMelt=bS−bC と沸騰傾き bCe を別々に組むため
     phase:null, hInt:null, fLiq:null, fGas:null, bAttS:null, bAttC:null, chainP:null,
     coordN:null, coordAcc:null, shPrev:null, clampBN:0, clampAN:0,
+    // 第59便 59A(angK×bondN 併用): 幾何近傍の記録(中心ごとに最大 PC_ANG_MAX 体・毎パス再収集
+    // = サブステップを跨ぐ状態ではない)。angOvfN = 近傍あふれの計数(発動 0 を QA が機械固定)
+    angNbr:null, angNbrN:null, angOvfN:0,
     // 第53便 53B(外部レビュー P1「相変化専用グラフ」): 相変化履歴 — phaseChange プリセットのみ
     // 25サブステップごとに {t, T:平均T_int, f:平均液相率, Q:壁正味入熱} を積む(boxHist と同方式)
     phHist:null, _phAcc:0,
@@ -4001,7 +4096,8 @@ function makeSim(){
   // 実測: ♨️の直後に 🎯 が 1217→1359ms/60frames。root は ♨️ が spin なのでこの退化が無い —
   // これが perf ゲートの saturnLayered beta/root 1.10〜1.22 の正体だった)。
   // 参照はすべて if(tint) の内側なので spin モードでは 1 度も読まれない = 値は 1 bit も変わらない。
-  const __DF32=new Float32Array(1), __DF64=new Float64Array(1);
+  const __DF32=new Float32Array(1), __DF64=new Float64Array(1),
+        __DI32A=new Int32Array(1);   // 第59便 59A: angNbr 系のダミー束縛(型を一定に保つ)
   S.alloc = function(n){
     S.n=n;
     const F=()=>new Float32Array(n);
@@ -4298,8 +4394,13 @@ function makeSim(){
           // valence≥2 のとき、リンク間角が理想角(2π/valence: 3→120°・2→180°)に近いほど
           // 結合の井戸が深くなる結合角ポテンシャル U=−angK·bondK·μ_jk·W_ij·W_ik·g(cosθ)²。
           // 厳密勾配の保存力(角度を理想へ戻すトルク成分を含む — 強度変調だけでは焼き鈍しが
-          // 働かないことを 58A 実測で確認)。格子は圧力で潰れ得る。bondN 併用時は無効
-          angK:(isNum(PC.angK) && PC.angK>0)? clamp(PC.angK,0,10) : 0 }
+          // 働かないことを 58A 実測で確認)。格子は圧力で潰れ得る。第59便 59A: bondN と併用可
+          // (幾何近傍の角ポテンシャル — 理想角 2π/max(2,bondN)。PC_ANG_MAX の注釈参照)
+          angK:(isNum(PC.angK) && PC.angK>0)? clamp(PC.angK,0,10) : 0,
+          // 第59便 59B(創発熱伝導): condN=伝導の半飽和配位数(>0 で有効。0=相率合成の従来)。
+          // 有効時は相率合成の代わりに滑らかな配位数 B から c=condG+(condS−condG)·B/(B+condN)
+          // を導出する(condL 不使用・condG は「孤立粒子の伝導下限」— 直下で既定1を補完)
+          condN:(isNum(PC.condN) && PC.condN>0)? clamp(PC.condN,0.1,12) : 0 }
       : null;
     // 第54便 54A(気液相変化): boilT/latentV は両方の有効指定(かつ boilT>meltT)で気相が有効。
     // 片方だけ・境界不整合は無効(validatePreset も同条件で警告 — ここが最終の門番)。
@@ -4307,6 +4408,11 @@ function makeSim(){
     if(S.phase && isNum(PC.boilT) && isNum(PC.latentV) && PC.latentV>0 && PC.boilT>S.phase.meltT){
       S.phase.boilT=clamp(PC.boilT,S.phase.meltT+1e-6,10000);
       S.phase.latentV=clamp(PC.latentV,1e-6,10000);
+      S.phase.condG=(isNum(PC.condG)? clamp(PC.condG,0,100) : 1);
+    }
+    // 第59便 59B: condN 有効時、condG は気相の有無に関わらず「孤立粒子(B→0)の伝導下限」
+    // として意味を持つ(boilT が無く condG 未設定なら既定1を補完)
+    if(S.phase && S.phase.condN>0 && S.phase.condG===undefined){
       S.phase.condG=(isNum(PC.condG)? clamp(PC.condG,0,100) : 1);
     }
     if(S.phase){
@@ -4333,9 +4439,16 @@ function makeSim(){
       // 56A: 結合予算モードの滑らかな配位数(前サブステップ値を読む2バッファ — 決定論)。
       // 初期値は初期配置から計算する(0 のままだと share が上限に張り付き、最初の監査 E0 が
       // 実際のポテンシャルとズレる — 実測で res≈1 になった初期化バグの恒久対策)
-      S.coordN=(S.phase.bondN>0)? new Float32Array(S.n) : null;
-      S.coordAcc=(S.phase.bondN>0)? new Float32Array(S.n) : null;
+      // 第59便 59B: condN(創発熱伝導)も同じ配位数を読む — bondN が無くても確保する
+      const useCoord=(S.phase.bondN>0 || S.phase.condN>0);
+      S.coordN=useCoord? new Float32Array(S.n) : null;
+      S.coordAcc=useCoord? new Float32Array(S.n) : null;
       S.shPrev=(S.phase.bondN>0)? new Float32Array(S.n) : null;
+      // 第59便 59A: 予算モードの角ポテンシャル用・幾何近傍バッファ(実行中ノブで angK が
+      // 後から入る場合は _core が遅延確保する)
+      S.angNbr=(S.phase.bondN>0 && S.phase.angK>0)? new Int32Array(S.n*PC_ANG_MAX) : null;
+      S.angNbrN=(S.phase.bondN>0 && S.phase.angK>0)? new Int32Array(S.n) : null;
+      S.angOvfN=0;
       if(S.coordN){
         for(let i=0;i<S.n;i++) for(let j=i+1;j<S.n;j++){
           const sumR=S.R[i]+S.R[j], cut=S.phase.bondRange*sumR;
@@ -4345,7 +4458,7 @@ function makeSim(){
           const wD=(A*(A*A-u0*u0)/2 - (A*A*A-u0*u0*u0)/3)/A;
           S.coordN[i]+=wD/(A*A/6); S.coordN[j]+=wD/(A*A/6);
         }
-        for(let i=0;i<S.n;i++) S.shPrev[i]=Math.min(PC_SHARE_MAX, S.phase.bondN/Math.max(S.coordN[i],0.5));
+        if(S.shPrev) for(let i=0;i<S.n;i++) S.shPrev[i]=Math.min(PC_SHARE_MAX, S.phase.bondN/Math.max(S.coordN[i],0.5));
       }
       const C=S.params.cHeat, Tm=S.phase.meltT, Lf=S.phase.latentF;
       const Tb=(S.phase.boilT>0)? S.phase.boilT : Infinity, Lv=S.phase.latentV||0;
@@ -4355,7 +4468,8 @@ function makeSim(){
         S.fLiq[i]=(T>Tm && T<=Tb)? 1 : 0; S.fGas[i]=(T>Tb)? 1 : 0; }
       S.phHist=[];   // 第53便 53B: 相変化履歴(グラフ用データ層。既定プリセットはゼロコストのまま)
     } else { S.hInt=null; S.fLiq=null; S.fGas=null; S.bAttS=null; S.bAttC=null; S.chainP=null;
-      S.coordN=null; S.coordAcc=null; S.shPrev=null; S.phHist=null; }
+      S.coordN=null; S.coordAcc=null; S.shPrev=null; S.phHist=null;
+      S.angNbr=null; S.angNbrN=null; S.angOvfN=0; }
     S._phAcc=0;
     S.resPx=0; S.resPy=0; S.resL=0; S.radE=0; S.radL=0;
     S.wallEin=0; S.wallEout=0; S.wallKE=0;   // 第37便 C1(台帳4-70): 壁帳簿もリセット
@@ -4852,13 +4966,32 @@ function makeSim(){
           pcBDamp=pc?pc.bondDamp:0, pcVisc=pc?pc.visc:0,
           pcCs=pc?pc.condS:1, pcCl=pc?pc.condL:1, pcCg=(pc&&pc.condG!==undefined)?pc.condG:1,
           // 第56便 56A(結合予算): 滑らかな配位数の2バッファ(coordN=前サブステップ値を読む/
-          // coordAcc=今サブステップの積算 — _core 末尾で交換)。bondN=0 ではダミー束縛
-          pcBondN=pc?(pc.bondN||0):0,
-          coordN=(pcBondN>0)?S.coordN:__DF32, coordAcc=(pcBondN>0)?S.coordAcc:__DF32,
+          // coordAcc=今サブステップの積算 — _core 末尾で交換)。bondN=0 ではダミー束縛。
+          // 第59便 59B: condN(創発熱伝導)も同じ配位数を読む(useCoord)
+          pcBondN=pc?(pc.bondN||0):0, pcCondN=pc?(pc.condN||0):0,
+          useCoord=(pcBondN>0||pcCondN>0),
+          // 第58便 58A: 結合角ポテンシャル(リンク経路 — valence≥2 かつ angK>0 かつ bondN 無し)。
+          // 第59便 59A: bondN>0 では幾何近傍経路 pcAngKN が受け持つ(併用の設計)
+          pcAngK=(pc&&pc.valence>=2&&pc.angK>0&&!(pc.bondN>0))? pc.angK : 0,
+          pcAngKN=(pc&&pc.bondN>0&&pc.angK>0)? pc.angK : 0;
+    // 第59便 59A/59B: 実行中ノブ(condN・angK)で後から有効化された場合の遅延確保。
+    // coordN はその場の配置から初期化する(0 のままだと最初の read が気相下限に張り付く)
+    if(pc && useCoord && !S.coordN){
+      S.coordN=new Float32Array(n); S.coordAcc=new Float32Array(n);
+      for(let i2=0;i2<n;i2++) for(let j2=i2+1;j2<n;j2++){
+        const sumR2=R[i2]+R[j2], cut2=pc.bondRange*sumR2;
+        const dx2=x[i2]-x[j2], dy2=y[i2]-y[j2], d2v=Math.sqrt(dx2*dx2+dy2*dy2);
+        if(!(d2v<cut2)) continue;
+        const A2=cut2-sumR2, u02=(d2v>sumR2)? d2v-sumR2 : 0;
+        const wD2=(A2*(A2*A2-u02*u02)/2 - (A2*A2*A2-u02*u02*u02)/3)/A2;
+        S.coordN[i2]+=wD2/(A2*A2/6); S.coordN[j2]+=wD2/(A2*A2/6);
+      }
+    }
+    if(pc && pcAngKN>0 && !S.angNbr){ S.angNbr=new Int32Array(n*PC_ANG_MAX); S.angNbrN=new Int32Array(n); }
+    const coordN=useCoord?S.coordN:__DF32, coordAcc=useCoord?S.coordAcc:__DF32,
           shPrev=(pcBondN>0)?S.shPrev:__DF32,
-          // 第58便 58A: 結合角ポテンシャル(valence≥2 かつ angK>0。bondN 併用時は無効 —
-          // 予算モードはリンクを使わないため)
-          pcAngK=(pc&&pc.valence>=2&&pc.angK>0&&!(pc.bondN>0))? pc.angK : 0;
+          angNbr=(pcAngKN>0)?S.angNbr:__DI32A, angNbrN=(pcAngKN>0)?S.angNbrN:__DI32A;
+    if(pcAngKN>0) angNbrN.fill(0);   // 59A: 近傍は毎パス再収集(サブステップを跨ぐ状態ではない)
     const eps=p.softening, eps2=eps*eps, G=p.G, q=p.q, kRep=p.kRep,
           muF=p.muF, gammaN=p.gammaN, kappaS=p.kappaS, D0=p.D0, kFrame=p.kFrame,
           etaRad=p.etaRad, pRad=p.pRad,
@@ -5244,6 +5377,16 @@ function makeSim(){
           const cutW=pcRange*sumR, AW=cutW-sumR;
           const u0=(d>sumR)? d-sumR : 0;
           const wD=(AW*(AW*AW-u0*u0)/2 - (AW*AW*AW-u0*u0*u0)/3)/AW;
+          // 第59便 59B: 滑らかな配位数の積算(56A の bondN 分岐から移設 — condN〔創発熱伝導〕も
+          // 同じ量を読むため。式・順序は同一 = bondN プリセットの値は 1 bit も変わらない)
+          if(useCoord && doPre){ coordAcc[i]+=wD/(AW*AW/6); coordAcc[j]+=wD/(AW*AW/6); }
+          // 第59便 59A: 幾何近傍の記録(両パス — 角ポテンシャルは毎回の力評価に使う通常の力。
+          // 走査順 i<j 昇順により、中心 c の近傍リストは常に「相手 index 昇順」で決定論。
+          // あふれ(>PC_ANG_MAX)は捨てて angOvfN に計数する — 監査 phaseEnergy も同じ収集則)
+          if(pcAngKN>0){
+            const nI=angNbrN[i]; if(nI<PC_ANG_MAX){ angNbr[i*PC_ANG_MAX+nI]=j; angNbrN[i]=nI+1; } else S.angOvfN++;
+            const nJ=angNbrN[j]; if(nJ<PC_ANG_MAX){ angNbr[j*PC_ANG_MAX+nJ]=i; angNbrN[j]=nJ+1; } else S.angOvfN++;
+          }
           let Katt, cD;
           if(pcBondN>0){
             // ===== 第56便 56A(結合予算 — E14″): 三態の創発 =====
@@ -5256,7 +5399,7 @@ function makeSim(){
             // この競合から創発する。b は積まない(引力が相率に依存しないため Û=0 —
             // E(h)=m·h+a·√T に退化)。U_att の配位数依存(多体)は帳簿外 O(dt·ċ) —
             // 監査残差として実測・PHYSICS に文書化
-            if(doPre){ coordAcc[i]+=wD/(AW*AW/6); coordAcc[j]+=wD/(AW*AW/6); }   // 積算は1サブステップ1回
+            // (配位数の積算は 59B で band 共通部へ移設 — 上の useCoord 行)
             const shI=Math.min(PC_SHARE_MAX, pcBondN/Math.max(coordN[i],0.5)),
                   shJ=Math.min(PC_SHARE_MAX, pcBondN/Math.max(coordN[j],0.5));
             Katt=pcBondK*Math.sqrt(shI*shJ);
@@ -5375,8 +5518,23 @@ function makeSim(){
                 // を対の調和平均 2c_ic_j/(c_i+c_j) で合成して κs に乗せる(直列合成 — 気相・液相を
                 // 通る伝熱が遅くなる方向に効く)。Q̇_i=−Q̇_j の対称形は変えないので熱は厳密保存のまま。
                 // pc===null では qf は 1 bit も変わらない(let 化のみ — 値の経路は同一)
-                if(pc){ const ci=pcCs*(1-fLiq[i]-fGas[i])+pcCl*fLiq[i]+pcCg*fGas[i],
-                        cj=pcCs*(1-fLiq[j]-fGas[j])+pcCl*fLiq[j]+pcCg*fGas[j], sc=ci+cj;
+                if(pc){
+                  let ci,cj;
+                  if(pcCondN>0){
+                    // 第59便 59B(創発熱伝導): 相率ではなく滑らかな配位数 B(coordN — 前サブ
+                    // ステップ値)から粒子ごとの伝導率を導出する:
+                    //   c_a = condG + (condS−condG)·B_a/(B_a+condN)
+                    // 孤立(B→0)= condG・密な結合網(B≫condN)→ condS へ飽和。相率 fl/fg は
+                    // このモードでは伝導に使わない(表示・Û 帳簿のみ = 観測量へ降格)。
+                    // 対の合成は従来どおり調和平均 — Q̇_i=−Q̇_j の対称形は不変で熱は厳密保存
+                    const Bi=coordN[i], Bj=coordN[j];
+                    ci=pcCg+(pcCs-pcCg)*Bi/(Bi+pcCondN);
+                    cj=pcCg+(pcCs-pcCg)*Bj/(Bj+pcCondN);
+                  } else {
+                    ci=pcCs*(1-fLiq[i]-fGas[i])+pcCl*fLiq[i]+pcCg*fGas[i];
+                    cj=pcCs*(1-fLiq[j]-fGas[j])+pcCl*fLiq[j]+pcCg*fGas[j];
+                  }
+                  const sc=ci+cj;
                   qf = (sc>1e-12)? qf*(2*ci*cj/sc) : 0; }
                 dQi[i]+=qf;
                 dQi[j]-=qf;
@@ -5389,6 +5547,69 @@ function makeSim(){
               ds[j]-=c*Ii;
             }
             }
+          }
+        }
+      }
+    }
+    // ===== 第59便 59A(angK×bondN 併用 — 原仮定者指示「併用設計: 進める」)=====
+    // 明示リンクの無い結合予算モードでは、対ループで記録した幾何近傍(angNbr — 井戸帯内・
+    // 相手 index 昇順・最大 PC_ANG_MAX)の対 (j,k) へ **符号付き線形 g** の角ポテンシャル
+    //   U = −angK·bondK·μ_jk·W_ij·W_ik·g(cosθ)、g=1−(cosθ−cosθ*)²/0.5(クランプなし)
+    // を適用する(θ*=2π/max(2,bondN) — 予算3=120°・6=60°)。g は理想角で +1(井戸)、
+    // 悪い角度で負(障壁: θ*=120° に対する 60° で −1)— 「理想角の対は引き込み・詰め込み
+    // 過ぎの角は押し返す」(実在の sp² 混成軌道/VSEPR 的反発の最小類似)。障壁側が本質:
+    //   棄却① 58A 同形の g²≥0 型(位置のみ・重みなし)— 密充填(6配位)は 120° 対も 6 対
+    //     あり角エネルギーで蜂の巣(3対)に勝つため格子が開かない(60000步実測: 角偏差
+    //     79.9°・組替停止のガラス固着)
+    //   棄却② レビュー提案の予算重み b_ij·b_ik 型 — 密充填は抑制できるが U が share(状態)に
+    //     依存し、share ドリフトの熱交換(56A 作法)の交差項が積もって res 0.21〜0.47 に劣化
+    // 符号付き g は**位置だけの純関数 = 厳密勾配の保存力**なので、運動量・角運動量厳密保存・
+    // 熱交換不要で帳簿は監査 phaseEnergy の同項だけで閉じる。W は帯端で 0 なので近傍の
+    // 出入りとエネルギー連続 — リンクの生成/切断のような離散イベントは存在しない。
+    // 対ループの後に置くのは angNbr の収集完了を待つためで、力の加算順は積分前なら等価
+    if(pcAngKN>0){
+      const c0=Math.cos(2*Math.PI/Math.max(2,pcBondN)), KA=pcAngKN*pcBondK;
+      for(let i2=0;i2<n;i2++){
+        const b0=i2*PC_ANG_MAX, nc=angNbrN[i2];
+        for(let s1=0;s1<nc-1;s1++){
+          const j2=angNbr[b0+s1];
+          for(let s2=s1+1;s2<nc;s2++){
+            const k2=angNbr[b0+s2];
+            const axv=x[j2]-x[i2], ayv=y[j2]-y[i2], bxv=x[k2]-x[i2], byv=y[k2]-y[i2];
+            const la=Math.sqrt(axv*axv+ayv*ayv), lb=Math.sqrt(bxv*bxv+byv*byv);
+            if(!(la>1e-9 && lb>1e-9)) continue;
+            const sRa=R[i2]+R[j2], Aa=pcRange*sRa-sRa;
+            const sRb=R[i2]+R[k2], Ab=pcRange*sRb-sRb;
+            if(!(Aa>1e-9 && Ab>1e-9)) continue;
+            const ua=(la>sRa)? Math.min(la-sRa,Aa) : 0, ub=(lb>sRb)? Math.min(lb-sRb,Ab) : 0;
+            const wmA=Aa*Aa/6, wmB=Ab*Ab/6;
+            const Wa=((Aa*(Aa*Aa-ua*ua)/2-(Aa*Aa*Aa-ua*ua*ua)/3)/Aa)/wmA;
+            const Wb=((Ab*(Ab*Ab-ub*ub)/2-(Ab*Ab*Ab-ub*ub*ub)/3)/Ab)/wmB;
+            if(!(Wa>0 && Wb>0)) continue;   // 帯端(離脱間際)は寄与 0
+            const mj2=m[j2], mk2=m[k2], ms2=mj2+mk2; if(!(Math.abs(ms2)>1e-9)) continue;
+            const nax=axv/la, nay=ayv/la, nbx=bxv/lb, nby=byv/lb;
+            const cth=nax*nbx+nay*nby, dcv=cth-c0;
+            const g=1-dcv*dcv/0.5;   // 符号付き(クランプなし — 負側=角の障壁)
+            const A0=KA*(mj2*mk2/ms2);
+            // F_j = A0·[dW_a·W_b·g·â + W_a·W_b·g′·(b̂−cosθ·â)/l_a](g′=−4·dc)。F_k は対称形。
+            // F_i = −(F_j+F_k) — 3体で運動量厳密。dW=u(u−A)/A/w_max(帯内で負=近いほど深い)
+            const dWa=(ua*(ua-Aa)/Aa)/wmA, dWb=(ub*(ub-Ab)/Ab)/wmB;
+            const cAng=A0*Wa*Wb*(-4*dcv);
+            const cRa=A0*dWa*Wb*g, cRb=A0*Wa*dWb*g;
+            let fjx=cRa*nax + cAng*(nbx-cth*nax)/la,
+                fjy=cRa*nay + cAng*(nby-cth*nay)/la,
+                fkx=cRb*nbx + cAng*(nax-cth*nbx)/lb,
+                fky=cRb*nby + cAng*(nay-cth*nby)/lb;
+            const invI=pinned[i2]?0:1/m[i2], invJ=pinned[j2]?0:1/mj2, invK2=pinned[k2]?0:1/mk2;
+            // 力上限(対引力と同じ a≤8 規約)。3体を同率で縮めて保存則を守る(発動は帳簿へ)
+            const fix2=fjx+fkx, fiy2=fjy+fky;
+            const aM=Math.max(Math.sqrt(fjx*fjx+fjy*fjy)*Math.abs(invJ),
+                              Math.sqrt(fkx*fkx+fky*fky)*Math.abs(invK2),
+                              Math.sqrt(fix2*fix2+fiy2*fiy2)*Math.abs(invI));
+            if(aM>8){ const scl=8/aM; fjx*=scl; fjy*=scl; fkx*=scl; fky*=scl; S.clampAN++; }
+            ax[j2]+=fjx*invJ; ay[j2]+=fjy*invJ;
+            ax[k2]+=fkx*invK2; ay[k2]+=fky*invK2;
+            ax[i2]-=(fjx+fkx)*invI; ay[i2]-=(fjy+fky)*invI;
           }
         }
       }
@@ -5754,9 +5975,9 @@ function makeSim(){
     // 第56便 56A(結合予算): 滑らかな配位数バッファの交換 — 今サブステップの積算(doPre 側の
     // 対ループで積んだ coordAcc)を確定し、次に読む側(coordN)へ。KDK では パスA 末尾で交換し
     // パスB が同サブステップの値を読む。semi では次サブステップが読む(1サブステップ遅れ・決定論)
-    if(pcBondN>0 && doPre){
-      // 今サブステップで使った share を保存(次サブステップの再配分熱交換 ΔK の基準)
-      for(let i2=0;i2<n;i2++) shPrev[i2]=Math.min(PC_SHARE_MAX, pcBondN/Math.max(coordN[i2],0.5));
+    if(useCoord && doPre){   // 第59便 59B: condN(創発熱伝導)でも配位数バッファを回す
+      // 今サブステップで使った share を保存(次サブステップの再配分熱交換 ΔK の基準 — bondN のみ)
+      if(pcBondN>0) for(let i2=0;i2<n;i2++) shPrev[i2]=Math.min(PC_SHARE_MAX, pcBondN/Math.max(coordN[i2],0.5));
       const tc=S.coordN; S.coordN=S.coordAcc; S.coordAcc=tc; S.coordAcc.fill(0);
     }
     // leapfrog パスA(doPost=false)はここで終了し、パスBが引き継ぐ
@@ -7553,7 +7774,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
       simB.fLiq.set(sim.fLiq.subarray(0,sim.n)); simB.fGas.set(sim.fGas.subarray(0,sim.n)); }
     if(sim.chainP && simB.chainP) simB.chainP.set(sim.chainP);   // 55A: 鎖リンクの持続状態も転写
     if(sim.coordN && simB.coordN){ simB.coordN.set(sim.coordN); simB.coordAcc.set(sim.coordAcc);
-      simB.shPrev.set(sim.shPrev); }   // 56A
+      if(sim.shPrev && simB.shPrev) simB.shPrev.set(sim.shPrev); }   // 56A(59B: shPrev は bondN のみ)
     simB.pinned.set(sim.pinned.subarray(0,sim.n)); simB.hasU.set(sim.hasU.subarray(0,sim.n));
   }
   if(sim.phase && simB.phase) Object.assign(simB.phase, sim.phase);
@@ -7905,17 +8126,21 @@ const PC_PARAM_DEFS = [
   // 第54便 54A: 気相(boilT のあるプリセットのみ行を表示 — buildPhaseParamRows 側で判定)
   {key:"boilT",    lo:0.1,  hi:100, sLo:0.1,  sHi:5,  sStep:0.05, labelKey:"pcBoilT",    descKey:"pcBoilTDesc",   gasOnly:true},
   {key:"latentV",  lo:0.05, hi:100, sLo:0.05, sHi:12, sStep:0.05, labelKey:"pcLatentV",  descKey:"pcLatentVDesc", gasOnly:true},
-  {key:"condG",    lo:0,    hi:100, sLo:0,    sHi:2,  sStep:0.02, labelKey:"pcCondG",    descKey:"pcCondGDesc",   gasOnly:true},
+  // 59B: condG は「気相の伝導」または「創発伝導 condN の下限」— boilT か condN のどちらかで表示
+  {key:"condG",    lo:0,    hi:100, sLo:0,    sHi:2,  sStep:0.02, labelKey:"pcCondG",    descKey:"pcCondGDesc",   condFlex:true},
   // 第57便 57A: 結合価ノブ(0=無制限〔等方〕・1〜3=リンク制限を全相へ適用)。bondN モードでは非表示
   {key:"valence",  lo:0,    hi:3,   sLo:0,    sHi:3,  sStep:1,    labelKey:"pcValence",  descKey:"pcValenceDesc", noBudget:true, integer:true},
-  // 第58便 58A: 結合の角度剛性(良い結合角ほど強い結合 — 格子の焼き鈍し)
-  {key:"angK",     lo:0,    hi:10,  sLo:0,    sHi:5,  sStep:0.1,  labelKey:"pcAngK",     descKey:"pcAngKDesc",    noBudget:true},
+  // 第58便 58A: 結合の角度剛性(良い結合角ほど強い結合 — 格子の焼き鈍し)。
+  // 第59便 59A: bondN(結合予算)モードでも有効になったため常時表示(併用設計)
+  {key:"angK",     lo:0,    hi:10,  sLo:0,    sHi:5,  sStep:0.1,  labelKey:"pcAngK",     descKey:"pcAngKDesc"},
   {key:"bondK",    lo:0,    hi:100, sLo:0,    sHi:20, sStep:0.1,  labelKey:"pcBondK",    descKey:"pcBondKDesc"},
   {key:"cohesion", lo:0,    hi:100, sLo:0,    sHi:5,  sStep:0.05, labelKey:"pcCohesion", descKey:"pcCohesionDesc"},
   {key:"bondDamp", lo:0,    hi:1,   sLo:0,    sHi:1,  sStep:0.01, labelKey:"pcBondDamp", descKey:"pcBondDampDesc"},
   {key:"visc",     lo:0,    hi:1,   sLo:0,    sHi:1,  sStep:0.01, labelKey:"pcVisc",     descKey:"pcViscDesc"},
   {key:"condS",    lo:0,    hi:100, sLo:0,    sHi:3,  sStep:0.05, labelKey:"pcCondS",    descKey:"pcCondSDesc"},
   {key:"condL",    lo:0,    hi:100, sLo:0,    sHi:3,  sStep:0.05, labelKey:"pcCondL",    descKey:"pcCondLDesc"},
+  // 第59便 59B: 創発熱伝導の半飽和配位数(>0 で相率合成を配位数導出に置き換える)
+  {key:"condN",    lo:0,    hi:12,  sLo:0,    sHi:8,  sStep:0.1,  labelKey:"pcCondN",    descKey:"pcCondNDesc"},
 ];
 function buildPhaseParamRows(host){
   // 54D⑤: 相変化(E14)もカテゴリ扱い(節見出し h3 → catParams の summary へ。説明は ⓘ)
@@ -7957,6 +8182,7 @@ function buildPhaseParamRows(host){
   };
   for(const def of PC_PARAM_DEFS){
     if(def.gasOnly && !(editSim().phase.boilT>0)) continue;   // 54A: 気相の無いプリセットでは非表示
+    if(def.condFlex && !(editSim().phase.boilT>0 || editSim().phase.condN>0)) continue;   // 59B
     if(def.noBudget && editSim().phase.bondN>0) continue;      // 57A: 結合予算モードでは valence 非表示
     mkRow(T(def.labelKey), def.descKey,
       ()=>editSim().phase[def.key],
