@@ -517,10 +517,12 @@ ja: {
   pcBoilT:"沸点 T_b", pcBoilTDesc:"液相と気相の境の温度(融点より上に維持される)。hは保たれたまま区分が引き直される。",
   pcValence:"結合価 valence(0=無制限)",
   pcValenceDesc:"1〜3にすると、結合(bondK)も凝集(cohesion)も各分子が最大この本数のリンク上でしか働かない(相に関わらず適用 — 第57便)。2=鎖、3=3配位の網。0は無制限(等方)。変更は実行中に反映され、減らすと余ったリンクは吸熱つきで解消される。",
+  pcAngK:"角度剛性 angK",
+  pcAngKDesc:"結合角が理想角(結合価3=120°・2=180°)に近いほど結合の井戸が深くなる結合角ポテンシャル(U=−angK·bondK·μ·W·W·g² — 第58便)。角度を理想へ戻す向きの力(トルク)も生じ、ゆっくり冷やすと格子状の結晶へ焼き鈍される。格子は圧力で潰れ得る。0=無効。valence≥2 で有効(bondN 併用時は無効)。",
   pcLatentV:"蒸発潜熱 L_v", pcLatentVDesc:"蒸発1単位質量あたりの潜熱。蒸発は指定潜熱に加えて凝集エネルギーそのもの(実効潜熱)も支払う。",
   pcCondG:"気相伝導 condG", pcCondGDesc:"気相の熱伝導倍率(κsに乗算・対の調和平均)。小さくすると蒸気層が断熱層になる。",
   pcWallSides:["底","天井","左","右"],
-  pcWallT:(s2)=>`壁温 T_wall(${s2})`, pcWallTDesc:"加熱/冷却壁の目標温度。融点より上なら融解・下なら凝固へ駆動する(🔁往復の手動版)。",
+  pcWallT:(s2)=>`壁温 T_wall(${s2})`, pcWallTDesc:"加熱/冷却壁の目標温度。融点より上なら融解・下なら凝固へ駆動する(🔁往復の手動版)。放熱(rad)面では0表示 — 0より大きく設定するとその面は加熱面に変わる(レートは維持)。壁レート0は壁温の影響なし。",
   pcWallRate:(s2)=>`壁レート(${s2})`, pcWallRateDesc:"壁と粒子の熱交換の速さ。プラトーの持続時間実験に。",
   uiScaleDesc:"UI文字の拡大率。表示のみで物理・保存データには影響しない。",
   // 第23便: 粒子編集のパラメータ名タップ説明
@@ -742,10 +744,12 @@ en: {
   pcBoilT:"Boiling point T_b", pcBoilTDesc:"Boundary temperature between liquid and gas (kept above the melting point). The enthalpy h is preserved and the segments are redrawn.",
   pcValence:"Valence (0 = unlimited)",
   pcValenceDesc:"At 1-3, both bonds (bondK) and cohesion act only along at most this many links per molecule, in every phase (dispatch 57). 2 = chains, 3 = a 3-coordinated network. 0 = unlimited (isotropic). Takes effect live; lowering it dissolves surplus links with the well depth absorbed from heat.",
+  pcAngK:"Angular stiffness angK",
+  pcAngKDesc:"A bond-angle potential: bonds whose angles are close to the ideal (120° at valence 3, 180° at 2) sit in a deeper well (U = −angK·bondK·μ·W·W·g² — dispatch 58). It also exerts a restoring torque toward the ideal angle, so slow cooling anneals a lattice in; pressure can still crush it. 0 = off; needs valence ≥ 2 (disabled when bondN is active).",
   pcLatentV:"Latent heat L_v", pcLatentVDesc:"Latent heat of vaporization per unit mass. Evaporation also pays the actual cohesion energy (an effective latent heat).",
   pcCondG:"Gas conduction condG", pcCondGDesc:"Gas-phase conduction multiplier (on kappaS, harmonic pair mean). Lower it and the vapor layer insulates.",
   pcWallSides:["floor","ceiling","left","right"],
-  pcWallT:(s2)=>`Wall T (${s2})`, pcWallTDesc:"Target temperature of the heating/cooling wall. Above the melting point it drives melting; below, freezing (a manual version of the 🔁 cycle).",
+  pcWallT:(s2)=>`Wall T (${s2})`, pcWallTDesc:"Target temperature of the heating/cooling wall. Above the melting point it drives melting; below, freezing (a manual version of the 🔁 cycle). On a radiating (rad) face it reads 0 — setting it above 0 converts that face to a heating one (rate kept). Rate 0 = no wall influence.",
   pcWallRate:(s2)=>`Wall rate (${s2})`, pcWallRateDesc:"Heat-exchange rate between wall and grains. For plateau-duration experiments.",
   uiScaleDesc:"UI text scale. Display only.",
   beDm:"m: mass. Source of gravity (E4) and the determinacy field W (E1'). Negative values are experimental.",
@@ -2348,11 +2352,11 @@ const BUILTIN_PRESETS = [
   descStruct:{
     summary:"分子間力に「結合価」を導入した相変化実験(E14拡張)。各分子は相に関わらず最大2本(valence=2)のリンクでしか結合・凝集できない — 固体は2本の結合+接触で積もった塊、液体は組み替わり続ける鎖(分子のスパゲッティ)。融解は結合網の組み替えコストを潜熱+結合エネルギー差として支払う — 相変化に逆らうエネルギーが潜熱そのものになる。",
     observe:"融解前線が通ると、積もった塊が白い細線で結ばれた鎖にほどけていく。実測では同条件の等方凝集液体(🫠)に比べ、液体分子の近傍数 2.0 vs 5.2・占有面積は約4倍 — 鎖は嵩張り、垂れ、端が自由に泳ぐ(熱圧 E5′ が身をよじらせる)。壁が t=280 で冷却面へ切り替わると鎖は崩れ落ち、接触充填で幾何配位4以上の緻密な塊へ積もる — ただしリンク(結合)は凝固後もそのまま残り、2本ずつの結合網が塊の中を貫いている(再融解はこの網を引き継ぎながら組み替える — 2往復を機械検証済み)。結合の数だけが構造を切り替え、同じ分子・同じ融点で塊⇄鎖が往復する。エネルギーは壁帳簿+潜熱+結合/凝集+U_repで閉じる(全相リンク組み替え分の帳簿外は総流入の約0.3% — 保存量モニタ)。色=温度・白線=リンク。実在の高分子・会合性流体の定量再現ではない。",
-    control:"結合価 valence は実験ノブで 0〜3 に変えられる(0=無制限の等方=塊だけ/2=鎖/3=3配位の網 — 実測では結合網はほぼ全員が3本になるが、空間配置は接触充填の山のままでハニカム格子には開かない〔結合に角度剛性が無いため〕)。cohesion・潜熱・壁温も変更可。冷却後にT_wall(底)を上げ直せば何往復でも可逆。"},
+    control:"結合価 valence は実験ノブで 0〜3 に変えられる(0=無制限の等方=塊だけ/2=鎖/3=3配位の網 — 実測では結合網はほぼ全員が3本になるが、空間配置は接触充填の山のままでハニカム格子には開かない〔結合に角度剛性が無いため — 第58便で角度剛性 angK を追加: 🕸️格子の焼き鈍しで開く〕)。cohesion・潜熱・壁温も変更可。冷却後にT_wall(底)を上げ直せば何往復でも可逆。"},
   en:{name:"Chain Liquid — Valence Phase Change", descStruct:{
     summary:"A phase-change experiment that gives the intermolecular force a valence (E14 extension). Regardless of phase, each molecule can bond or cohere along at most two links (valence=2) — the solid is a lump piled up by two bonds plus contact, the liquid a set of ever-rewiring chains (molecular spaghetti). Melting pays the rewiring cost of the bond network as latent heat plus the bond-energy difference — the energy that resists the phase change is the latent heat itself. ",
     observe:"As the melt front passes, the pile unravels into chains drawn with thin white links. Measured against the isotropic cohesive liquid (🫠) under identical conditions: 2.0 neighbors per liquid molecule vs 5.2, and about 4x the occupied area — chains are bulky, they dangle, and their free ends wander (thermal pressure E5′ makes them writhe). When the wall switches to cooling at t=280 the chains collapse and pile into a dense lump with geometric coordination ≥4 — but the links (bonds) survive freezing, so a two-bond network keeps threading the lump (re-melting inherits and rewires that network — a double round trip is machine-verified). Only the *number* of bonds rewires the structure; same molecules, same melting point, lump ⇄ chains. Energy closes as wall ledger + latent heat + bond/cohesion + U_rep (all-phase link rewiring leaks about 0.3% of gross inflow — see the conservation monitor). Color = temperature; white lines = links. No claim of quantitative correspondence to real polymers or associating fluids. ",
-    control:"Valence is now a live experiment knob, 0-3 (0 = unlimited isotropic lumps / 2 = chains / 3 = a 3-coordinated network — measured: nearly every molecule ends up with exactly three bonds, but the spatial arrangement stays a contact-packed pile rather than opening into a honeycomb, because bonds carry no angular stiffness). Cohesion, latent heats and wall temperature are adjustable too. Raise the floor T_wall after freezing and the trip repeats."}},
+    control:"Valence is now a live experiment knob, 0-3 (0 = unlimited isotropic lumps / 2 = chains / 3 = a 3-coordinated network — measured: nearly every molecule ends up with exactly three bonds, but the spatial arrangement stays a contact-packed pile rather than opening into a honeycomb, because bonds carry no angular stiffness — dispatch 58 adds it as angK: see 🕸️ Lattice Annealing). Cohesion, latent heats and wall temperature are adjustable too. Raise the floor T_wall after freezing and the trip repeats."}},
   activeParams:["kRep","kappaS","gravityY","gammaN"],
   thermal:"tint",
   phaseChange:{ meltT:1, latentF:4, valence:2, bondK:5, bondRange:1.6, cohesion:3,
@@ -2364,6 +2368,35 @@ const BUILTIN_PRESETS = [
   seed:7,
   bodies:[ // 🫠melt と同一の初期結晶(六方格子・接触平衡)— 差は phaseChange.valence だけ
     {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:93, pitch:5, mMin:1, mMax:1, tInt:0.2}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:true,field:false,phaseGraph:true} },
+
+// 🕸️lattice: 第58便 58A — 結合角ポテンシャル(angK)。原仮定者指示「結合角で結合力が強まる・
+// ゆっくり固相に変移した時に格子状に結晶化する事を予想」。
+// 実測(2026-08-02): 液体(T̂1.5)を底壁 T=0.15・rate0.1 で 60000步冷却 → fl=0.02(凝固)・
+// リンク間角の平均偏差 26.2°(angK=0 の 47.5° から半減)・六角リング多数の開いた蜂の巣状格子
+// (5/7員環の欠陥を含む多結晶)。res 3.9e-3。angK=0 同条件は接触充填の密集塊(格子は開かない)
+{ id:"lattice", name:"格子の焼き鈍し — 結合角の結晶化", emoji:"🕸️", group:"熱の実験室",
+  descStruct:{
+    summary:"⛓️(結合価)の続き — 結合に角度剛性 angK を加えた実験(E14拡張・第58便)。ルールは一項だけ: リンク間の角度が理想角(結合価3=120°)に近いほど結合の井戸が深くなる(=結合が強まる)結合角ポテンシャル U=−angK·bondK·μ·W·W·g²。理想角へ戻す向きのトルクも同じ式の厳密勾配から自動的に生じる。液体をゆっくり冷やすと、組み替えのたびに良い角度の結合が深い井戸に落ち着き、蜂の巣状(グラフェン様)の開いた格子が焼き鈍しで創発する。",
+    observe:"温かい液体(T̂=1.5)が底壁(T=0.15・弱いレート0.1)でゆっくり冷える。凝固が進むと、⛓️の valence=3 では接触充填の山に潰れていた3配位網が、ここでは六角形リングを多数含む開いた格子に組み上がる — 実測ではリンク間角の平均偏差 26°(角度剛性なしの 47.5° から半減)・凝固率98%。5員環・7員環の欠陥を含む多結晶になるのは現実の焼き鈍しと同じ。角度力は保存力(U の厳密勾配)なので運動量・角運動量は厳密に保存し、エネルギーは壁帳簿+潜熱+結合/凝集+U_ang+U_repで閉じる(実測残差 3.9e-3 — 保存量モニタ)。格子は圧力で潰れ得る(角度の井戸は有限の深さ)。色=温度・白線=リンク。実在の共有結合結晶の定量再現ではない。",
+    control:"angK は実験ノブ(0〜10)。0 にして「初めから」→A/B比較すると、同じ冷却で密集塊 vs 開いた格子の違いが並ぶ。壁レートを上げて速く冷やす(急冷)と欠陥だらけのガラス的な塊になり、遅いほど格子が開く — 焼き鈍しの速度依存そのもの。凝固後に壁温を上げれば再融解して何度でも試せる。時間倍率で早送り可。"},
+  en:{name:"Lattice Annealing — Bond-Angle Crystallization", descStruct:{
+    summary:"The sequel to ⛓️ (valence): bonds gain an angular stiffness angK (E14 extension, dispatch 58). One added rule: the closer the angle between links is to the ideal (120° at valence 3), the deeper the bond's well (U = −angK·bondK·μ·W·W·g²) — and the exact gradient of that same term automatically supplies a restoring torque toward the ideal angle. Cool a liquid slowly and every rewiring settles well-angled bonds into deeper wells — an open honeycomb (graphene-like) lattice emerges by annealing. ",
+    observe:"A warm liquid (T̂=1.5) cools slowly against the floor wall (T=0.15, gentle rate 0.1). As it freezes, the 3-coordinated network — which in ⛓️ at valence=3 collapsed into a contact-packed pile — now assembles into an open lattice full of hexagonal rings: measured mean bond-angle deviation 26° (halved from 47.5° without angular stiffness), 98% frozen. It forms a polycrystal with 5- and 7-ring defects, just like real annealing. The angular force is conservative (exact gradient of U), so momentum and angular momentum are conserved exactly, and energy closes as wall ledger + latent heat + bond/cohesion + U_ang + U_rep (measured residual 3.9e-3 — conservation monitor). Pressure can still crush the lattice (the angular well is finite). Color = temperature; white lines = links. No claim of quantitative correspondence to real covalent crystals. ",
+    control:"angK is a live knob (0-10). Set it to 0, restart, and A/B-compare: same cooling, packed pile vs open lattice side by side. Raise the wall rate (quench) and you get a glassy, defect-riddled lump; the slower the cooling, the more the lattice opens — the rate dependence of annealing itself. Reheat the wall after freezing to melt and try again. Use the time-scale knob to fast-forward."}},
+  activeParams:["kRep","kappaS","gravityY","gammaN"],
+  thermal:"tint",
+  phaseChange:{ meltT:1, latentF:4, valence:3, angK:2, bondK:5, bondRange:1.6, cohesion:3,
+    bondDamp:0.1, visc:0.05, condS:1, condL:0.5 },
+  camera:{scale:140}, world:{boundary:"box", size:110,
+    thermalWalls:{ bottom:{mode:"heat", T:0.15, rate:0.1} }},
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:1, muF:0.1, gammaN:0.3, kappaS:0.5, Kt:60,
+    cLight:60, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:4},
+  seed:7,
+  bodies:[ // ⛓️と同じ格子源だが、液相域(Tm<T̂<Tb 相当)の温かい液体から開始(jitter で秩序を崩す)
+    {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:93, pitch:7, jitter:1.0, vScale:0.3,
+     mMin:1, mMax:1, tInt:1.5}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,phaseGraph:true} },
 
@@ -3260,6 +3293,12 @@ function validatePreset(obj){
             warnings.push("phaseChange.bondN(結合予算)モードでは cohesion/valence は使われません");
         } else warnings.push("phaseChange.bondN は正の数値 — 無視します(相率ゲートの従来モード)");
       }
+      // 第58便 58A: angK=結合の角度剛性(0〜10。valence≥2 で有効)
+      if(PC.angK!==undefined){
+        if(isNum(PC.angK) && PC.angK>=0){ out.angK=clamp(PC.angK,0,10);
+          if(out.angK!==PC.angK) warnings.push("phaseChange.angK を値域 [0,10] に修正");
+        } else warnings.push("phaseChange.angK は 0〜10 の数値 — 無視します");
+      }
       // 第55便 55A(結合価): valence=液相凝集の結合価(1〜3 の整数)。省略=等方凝集(従来)
       if(PC.valence!==undefined){
         if(isNum(PC.valence) && PC.valence>=1){
@@ -3767,6 +3806,14 @@ function phaseHsolve(h0, mI, C, a, bMelt, bCe, Q, Tm, Lf, Tb, Lv){
 // A12‴ の相率係数 bAtt を通じて熱量関数から支払われる**(第53便 53A — phaseHsolve 参照)。
 // 帳簿外に残るのは交差項 O(dt²)・b 負側クランプ発動時・力上限クランプ発動時のみ
 // (発動は S.clampBN / S.clampAN に計数 — PHYSICS.md §E14 の限界を参照)
+// 第58便 58A: 帯内の正規化井戸深さ W(d)=w/w_max ∈[0,1](w_max=A²/6)。結合角ポテンシャルの
+// 重み — W は帯端(d=cut)で 0 になるので、リンクの生成・切断とエネルギー連続。
+// _core 側の力計算は dW も要るためインライン展開している(本関数は監査 phaseEnergy 用)
+function phaseAngWv(d,sumR,cut){
+  const A=cut-sumR; if(!(A>1e-9)) return 0;
+  const u=(d>sumR)? Math.min(d-sumR,A) : 0;
+  return ((A*(A*A-u*u)/2 - (A*A*A-u*u*u)/3)/A)/(A*A/6);
+}
 function phaseEnergy(s){
   const pc=s.phase; if(!pc) return 0;
   const K1=pc.bondK, K2=pc.cohesion;
@@ -3798,6 +3845,30 @@ function phaseEnergy(s){
       const muM=mi*s.m[j]/ms, A=cut-sumR;
       const u0=(d>sumR)? d-sumR : 0;
       U-=Katt*muM/A*(A*(A*A-u0*u0)/2 - (A*A*A-u0*u0*u0)/3);
+    }
+  }
+  // 58A: 結合角ポテンシャル U_ang = −angK·bondK·μ_jk·W_ij·W_ik·g(cosθ)²(角の中心 i ごと・
+  // リンク対 (j,k) を1回ずつ)。_core の力はこの U の厳密勾配なので、帳簿はこの項で自然に閉じる
+  if(pc.angK>0 && val>=2 && !(bN>0) && chP){
+    const c0=Math.cos(2*Math.PI/Math.max(2,val)), KA=pc.angK*K1;
+    for(let i=0;i<s.n;i++){
+      const b0=i*PC_VAL_MAX;
+      for(let s1=0;s1<PC_VAL_MAX-1;s1++){
+        const j=chP[b0+s1]; if(j<0) continue;
+        for(let s2=s1+1;s2<PC_VAL_MAX;s2++){
+          const k2=chP[b0+s2]; if(k2<0) continue;
+          const axv=s.x[j]-s.x[i], ayv=s.y[j]-s.y[i], bxv=s.x[k2]-s.x[i], byv=s.y[k2]-s.y[i];
+          const la=Math.sqrt(axv*axv+ayv*ayv), lb=Math.sqrt(bxv*bxv+byv*byv);
+          if(!(la>1e-9 && lb>1e-9)) continue;
+          const sRa=s.R[i]+s.R[j], sRb=s.R[i]+s.R[k2];
+          const Wa=phaseAngWv(la,sRa,pc.bondRange*sRa), Wb=phaseAngWv(lb,sRb,pc.bondRange*sRb);
+          if(!(Wa>0 && Wb>0)) continue;
+          const ms2=s.m[j]+s.m[k2]; if(!(Math.abs(ms2)>1e-9)) continue;
+          const cth=(axv*bxv+ayv*byv)/(la*lb), dcv=cth-c0;
+          const g=1-dcv*dcv/0.5; if(!(g>0)) continue;
+          U-=KA*(s.m[j]*s.m[k2]/ms2)*Wa*Wb*g*g;
+        }
+      }
     }
   }
   return U;
@@ -4222,7 +4293,13 @@ function makeSim(){
           // bondN=公称配位数 N0(>0 で有効)。引力を相率でゲートせず、全帯内対に
           // K_pair = bondK·√(share_i·share_j)、share=min(3, N0/max(c,0.5))(c=滑らかな配位数)
           // を適用する。三態は kRep(T) 熱斥力との競合から創発する(fl/fg は表示・伝導のみ)
-          bondN:(isNum(PC.bondN) && PC.bondN>0)? clamp(PC.bondN,0.5,12) : 0 }
+          bondN:(isNum(PC.bondN) && PC.bondN>0)? clamp(PC.bondN,0.5,12) : 0,
+          // 第58便 58A(原仮定者指示「結合角で結合力が強まる」): angK=結合の角度剛性(0=off)。
+          // valence≥2 のとき、リンク間角が理想角(2π/valence: 3→120°・2→180°)に近いほど
+          // 結合の井戸が深くなる結合角ポテンシャル U=−angK·bondK·μ_jk·W_ij·W_ik·g(cosθ)²。
+          // 厳密勾配の保存力(角度を理想へ戻すトルク成分を含む — 強度変調だけでは焼き鈍しが
+          // 働かないことを 58A 実測で確認)。格子は圧力で潰れ得る。bondN 併用時は無効
+          angK:(isNum(PC.angK) && PC.angK>0)? clamp(PC.angK,0,10) : 0 }
       : null;
     // 第54便 54A(気液相変化): boilT/latentV は両方の有効指定(かつ boilT>meltT)で気相が有効。
     // 片方だけ・境界不整合は無効(validatePreset も同条件で警告 — ここが最終の門番)。
@@ -4778,7 +4855,10 @@ function makeSim(){
           // coordAcc=今サブステップの積算 — _core 末尾で交換)。bondN=0 ではダミー束縛
           pcBondN=pc?(pc.bondN||0):0,
           coordN=(pcBondN>0)?S.coordN:__DF32, coordAcc=(pcBondN>0)?S.coordAcc:__DF32,
-          shPrev=(pcBondN>0)?S.shPrev:__DF32;
+          shPrev=(pcBondN>0)?S.shPrev:__DF32,
+          // 第58便 58A: 結合角ポテンシャル(valence≥2 かつ angK>0。bondN 併用時は無効 —
+          // 予算モードはリンクを使わないため)
+          pcAngK=(pc&&pc.valence>=2&&pc.angK>0&&!(pc.bondN>0))? pc.angK : 0;
     const eps=p.softening, eps2=eps*eps, G=p.G, q=p.q, kRep=p.kRep,
           muF=p.muF, gammaN=p.gammaN, kappaS=p.kappaS, D0=p.D0, kFrame=p.kFrame,
           etaRad=p.etaRad, pRad=p.pRad,
@@ -4820,6 +4900,35 @@ function makeSim(){
     // 撤回 — リンクが結合そのものになった。結合価ノブを下げた場合は使えなくなったスロットの
     // リンクを井戸深さ分の吸熱つきで解消する(帳簿整合)
     const pcVal=(pc&&pc.valence>0)? Math.min(PC_VAL_MAX,pc.valence|0) : 0, chP=pc? S.chainP : null;
+    // 58A: 結合角ポテンシャルの共有定数(理想角の余弦・強度)と、リンク1本ぶんの角度エネルギー
+    // Σ_k A0·W·W·g²(中心 ci・相手 pj・ci の他リンク k)。深部でのリンク形成/スロット落ちは
+    // 角の集合が不連続に変わるため、その ΔU_ang を熱と等価交換して帳簿を閉じる(56B と同作法。
+    // 距離切断は W=0 の帯端でだけ起きるので支払い不要)
+    const pcAngC0=Math.cos(2*Math.PI/Math.max(2,pcVal)), pcAngKB=pcAngK*pcBondK;
+    const angPairQ=(pcAngK>0)? function(ci,pj){
+      const bc=ci*PC_VAL_MAX;
+      const sRa=R[ci]+R[pj], Aa=pcRange*sRa-sRa; if(!(Aa>1e-9)) return 0;
+      const dxa=x[pj]-x[ci], dya=y[pj]-y[ci], la=Math.sqrt(dxa*dxa+dya*dya);
+      if(!(la>1e-9)) return 0;
+      const ua=(la>sRa)? Math.min(la-sRa,Aa) : 0, wmA=Aa*Aa/6;
+      const Wa=((Aa*(Aa*Aa-ua*ua)/2-(Aa*Aa*Aa-ua*ua*ua)/3)/Aa)/wmA;
+      if(!(Wa>0)) return 0;
+      let qA=0;
+      for(let kk=0;kk<PC_VAL_MAX;kk++){
+        const k3=chP[bc+kk]; if(k3<0 || k3===pj) continue;
+        const sRb=R[ci]+R[k3], Ab=pcRange*sRb-sRb; if(!(Ab>1e-9)) continue;
+        const dxb=x[k3]-x[ci], dyb=y[k3]-y[ci], lb=Math.sqrt(dxb*dxb+dyb*dyb);
+        if(!(lb>1e-9)) continue;
+        const ub=(lb>sRb)? Math.min(lb-sRb,Ab) : 0, wmB=Ab*Ab/6;
+        const Wb=((Ab*(Ab*Ab-ub*ub)/2-(Ab*Ab*Ab-ub*ub*ub)/3)/Ab)/wmB;
+        if(!(Wb>0)) continue;
+        const msA=m[pj]+m[k3]; if(!(Math.abs(msA)>1e-9)) continue;
+        const cthA=(dxa*dxb+dya*dyb)/(la*lb), dcA=cthA-pcAngC0;
+        const gA=1-dcA*dcA/0.5; if(!(gA>0)) continue;
+        qA+=pcAngKB*(m[pj]*m[k3]/msA)*Wa*Wb*gA*gA;
+      }
+      return qA;
+    } : null;
     if(chP && pcVal>0 && doPre){
       for(let i2=0;i2<n;i2++){
         const b0=i2*PC_VAL_MAX;
@@ -4840,7 +4949,9 @@ function makeSim(){
               const Kc=pcBondK*fsA*fsB + pcCoh*fLiq[i2]*fLiq[j2];
               const mA=m[i2], mB=m[j2], mS=mA+mB;
               if(Kc>0 && Math.abs(mS)>1e-9){
-                const qC=Kc*(mA*mB/mS)*wDc;
+                let qC=Kc*(mA*mB/mS)*wDc;
+                // 58A: 消えるリンクが張っていた角の U_ang も吸熱で解消(帳簿整合)
+                if(angPairQ) qC+=angPairQ(i2,j2)+angPairQ(j2,i2);
                 if(pinned[i2]) S.radE-=qC*mA/mS; else dQi[i2]-=qC*mA/mS;
                 if(pinned[j2]) S.radE-=qC*mB/mS; else dQi[j2]-=qC*mB/mS;
               }
@@ -4848,6 +4959,62 @@ function makeSim(){
             chP[b0+k2]=-1;
             const bj=j2*PC_VAL_MAX;
             for(let k3=0;k3<PC_VAL_MAX;k3++) if(chP[bj+k3]===i2){ chP[bj+k3]=-1; break; }
+          }
+        }
+      }
+    }
+    // 第58便 58A(原仮定者指示「結合角で結合力が強まる」): 結合角ポテンシャル。
+    // 角の中心 i とリンク先の対 (j,k) について U=−angK·bondK·μ_jk·W_ij·W_ik·g(cosθ)²
+    // (g=max(0,1−(cosθ−cosθ*)²/0.5)・θ*=2π/max(2,valence)〔結合価3→120°・2→180°〕・
+    // W=正規化井戸深さ w/w_max)。「良い角度ほど井戸が深い=結合が強い」を保存力で表す。
+    // U の厳密勾配なので運動量・角運動量とも厳密保存・帳簿は phaseEnergy の U_ang 項で閉じる
+    // (熱交換は不要)。W は帯端で 0 なのでリンク生成・切断とエネルギー連続。∂cosθ 経由の
+    // 成分が角度を理想へ戻すトルクになる — K の強度変調だけでは焼き鈍しが働かない
+    // (角度は距離切断でしか淘汰されず 47.5°→56.9° に悪化)ことを 58A で実測したための設計。
+    // 両パス(leapfrog A/B)で毎回計算する通常の力。O(links·val)
+    if(pcAngK>0 && chP){
+      const c0=pcAngC0, KA=pcAngKB;
+      for(let i2=0;i2<n;i2++){
+        const b0=i2*PC_VAL_MAX;
+        for(let s1=0;s1<PC_VAL_MAX-1;s1++){
+          const j2=chP[b0+s1]; if(j2<0) continue;
+          for(let s2=s1+1;s2<PC_VAL_MAX;s2++){
+            const k2=chP[b0+s2]; if(k2<0) continue;
+            const axv=x[j2]-x[i2], ayv=y[j2]-y[i2], bxv=x[k2]-x[i2], byv=y[k2]-y[i2];
+            const la=Math.sqrt(axv*axv+ayv*ayv), lb=Math.sqrt(bxv*bxv+byv*byv);
+            if(!(la>1e-9 && lb>1e-9)) continue;
+            const sRa=R[i2]+R[j2], Aa=pcRange*sRa-sRa;
+            const sRb=R[i2]+R[k2], Ab=pcRange*sRb-sRb;
+            if(!(Aa>1e-9 && Ab>1e-9)) continue;
+            const ua=(la>sRa)? Math.min(la-sRa,Aa) : 0, ub=(lb>sRb)? Math.min(lb-sRb,Ab) : 0;
+            const wmA=Aa*Aa/6, wmB=Ab*Ab/6;
+            const Wa=((Aa*(Aa*Aa-ua*ua)/2-(Aa*Aa*Aa-ua*ua*ua)/3)/Aa)/wmA;
+            const Wb=((Ab*(Ab*Ab-ub*ub)/2-(Ab*Ab*Ab-ub*ub*ub)/3)/Ab)/wmB;
+            if(!(Wa>0 && Wb>0)) continue;   // 帯端(切断間際)は寄与 0
+            const mj2=m[j2], mk2=m[k2], ms2=mj2+mk2; if(!(Math.abs(ms2)>1e-9)) continue;
+            const nax=axv/la, nay=ayv/la, nbx=bxv/lb, nby=byv/lb;
+            const cth=nax*nbx+nay*nby, dcv=cth-c0;
+            const g=1-dcv*dcv/0.5; if(!(g>0)) continue;
+            const A0=KA*(mj2*mk2/ms2), gg=g*g;
+            // F_j = A0·[dW_a·W_b·g²·â + W_a·W_b·2g·g'·(b̂−cosθ·â)/l_a](g'=−4·dc)。F_k は対称形。
+            // F_i = −(F_j+F_k) — 3体で運動量厳密。dW=u(u−A)/A/w_max(帯内で負=近いほど深い)
+            const dWa=(ua*(ua-Aa)/Aa)/wmA, dWb=(ub*(ub-Ab)/Ab)/wmB;
+            const cAng=A0*Wa*Wb*2*g*(-4*dcv);
+            const cRa=A0*dWa*Wb*gg, cRb=A0*Wa*dWb*gg;
+            let fjx=cRa*nax + cAng*(nbx-cth*nax)/la,
+                fjy=cRa*nay + cAng*(nby-cth*nay)/la,
+                fkx=cRb*nbx + cAng*(nax-cth*nbx)/lb,
+                fky=cRb*nby + cAng*(nay-cth*nby)/lb;
+            const invI=pinned[i2]?0:1/m[i2], invJ=pinned[j2]?0:1/mj2, invK2=pinned[k2]?0:1/mk2;
+            // 力上限(対引力と同じ a≤8 規約)。3体を同率で縮めて保存則を守る(発動は帳簿へ)
+            const fix2=fjx+fkx, fiy2=fjy+fky;
+            const aM=Math.max(Math.sqrt(fjx*fjx+fjy*fjy)*Math.abs(invJ),
+                              Math.sqrt(fkx*fkx+fky*fky)*Math.abs(invK2),
+                              Math.sqrt(fix2*fix2+fiy2*fiy2)*Math.abs(invI));
+            if(aM>8){ const scl=8/aM; fjx*=scl; fjy*=scl; fkx*=scl; fky*=scl; S.clampAN++; }
+            ax[j2]+=fjx*invJ; ay[j2]+=fjy*invJ;
+            ax[k2]+=fkx*invK2; ay[k2]+=fky*invK2;
+            ax[i2]-=(fjx+fkx)*invI; ay[i2]-=(fjy+fky)*invI;
           }
         }
       }
@@ -5125,7 +5292,9 @@ function makeSim(){
               let fj=-1;
               for(let k2=0;k2<pcVal;k2++){ const v2=chP[bj+k2]; if(v2===i){ fj=-2; break; } if(v2<0 && fj<0) fj=k2; }
               if(fj>=0){ chP[bi+fi]=j; chP[bj+fj]=i; li=true;
-                const qF=(pcBondK*spF+pcCoh*lpF)*muM*wD;
+                let qF=(pcBondK*spF+pcCoh*lpF)*muM*wD;
+                // 58A: 深部形成で新たに生まれる角の U_ang も発熱で支払う(帳簿整合)
+                if(angPairQ) qF+=angPairQ(i,j)+angPairQ(j,i);
                 if(qF>0){
                   const qi2=qF*mi/(mi+mj), qj2=qF*mj/(mi+mj);
                   if(pinned[i]) S.radE+=qi2; else dQi[i]+=qi2;
@@ -7471,12 +7640,49 @@ function updatePlayBtn(){
   b.classList.toggle("playing",running);
 }
 $("#btnPlay").addEventListener("click",()=>{ running=!running; updatePlayBtn(); });
+// 第58便 58B(原仮定者指示): ⏮初めから で相変化ノブ・壁温/レート編集も保持する。
+// 相変化係数は build 後に上書きし、h を正本のまま温度・相率を再導出(実験ノブと同じ作法)。
+// valence が変わっていた場合は初期リンクを新しい結合価で張り直す(初期条件として整合)
+function snapshotPhaseEdits(S){
+  if(!S.phase && !S.twall) return null;
+  const o={};
+  if(S.phase){ o.phase={}; for(const def of PC_PARAM_DEFS){ const v=S.phase[def.key]; if(isNum(v)) o.phase[def.key]=v; } }
+  if(S.twall) o.tw=S.twall.map(w=>w? Object.assign({},w) : null);
+  return o;
+}
+function applyPhaseEdits(S,o){
+  if(!o) return;
+  if(o.phase && S.phase){
+    const valBefore=S.phase.valence;
+    for(const def of PC_PARAM_DEFS){ const v=o.phase[def.key]; if(isNum(v)) S.phase[def.key]=def.integer? Math.round(v) : v; }
+    if(S.phase.boilT>0 && !(S.phase.boilT>S.phase.meltT)) S.phase.boilT=S.phase.meltT+1e-6;
+    const C=S.params.cHeat, Tm=S.phase.meltT, Lf=S.phase.latentF;
+    const Tb=(S.phase.boilT>0)? S.phase.boilT : Infinity, Lv=S.phase.latentV||0;
+    for(let i=0;i<S.n;i++){ S.Tint[i]=phaseT(S.hInt[i],C,Tm,Lf,Tb,Lv);
+      S.fLiq[i]=phaseF(S.hInt[i],C,Tm,Lf,Tb,Lv); S.fGas[i]=phaseG(S.hInt[i],C,Tm,Lf,Tb,Lv); }
+    if(S.chainP && S.phase.valence!==valBefore){
+      S.chainP.fill(-1);
+      const vl=S.phase.valence;
+      if(vl>0) for(let i=0;i<S.n;i++) for(let j=i+1;j<S.n;j++){
+        const sumR=S.R[i]+S.R[j], cut=S.phase.bondRange*sumR;
+        const dx=S.x[i]-S.x[j], dy=S.y[i]-S.y[j];
+        if(!(dx*dx+dy*dy<cut*cut)) continue;
+        let fi=-1, fj=-1;
+        for(let k=0;k<vl;k++){ if(S.chainP[i*PC_VAL_MAX+k]<0){ fi=k; break; } }
+        for(let k=0;k<vl;k++){ if(S.chainP[j*PC_VAL_MAX+k]<0){ fj=k; break; } }
+        if(fi>=0 && fj>=0){ S.chainP[i*PC_VAL_MAX+fi]=j; S.chainP[j*PC_VAL_MAX+fj]=i; }
+      }
+    }
+  }
+  if(o.tw && S.twall){ for(let k=0;k<4;k++){ if(o.tw[k]) S.twall[k]=Object.assign({},o.tw[k]); } }
+}
 $("#btnReset").addEventListener("click",()=>{
   if(ab){ // A/B中: 両方を初期配置へ(A・Bそれぞれの編集済みパラメータは保持)
     const keepA=Object.assign({},sim.params), keepB=Object.assign({},ab.simB.params);
+    const snapA=snapshotPhaseEdits(sim), snapB=snapshotPhaseEdits(ab.simB);   // 58B
     const mk2=()=>JSON.parse(JSON.stringify(currentPreset));
-    sim.build(mk2()); sim.params=keepA; sim.updateRadii();
-    ab.simB.build(mk2()); ab.simB.params=keepB; ab.simB.updateRadii();
+    sim.build(mk2()); sim.params=keepA; sim.updateRadii(); applyPhaseEdits(sim,snapA);
+    ab.simB.build(mk2()); ab.simB.params=keepB; ab.simB.updateRadii(); applyPhaseEdits(ab.simB,snapB);
     trailBuf=[]; trailBufB=[]; selIdx=-1; nanNotified=false;
     running=false; updatePlayBtn(); buildParamRows(); updateBodyEdit();
     requestRender();
@@ -7485,8 +7691,10 @@ $("#btnReset").addEventListener("click",()=>{
   }
   // 現在の物理パラメータを保持したまま初期配置へ(仕様: HANDOFF_IMPLEMENTATION エッジケース表)
   const keep=Object.assign({},sim.params), wasDirty=paramsDirty;
+  const snapP=snapshotPhaseEdits(sim);   // 58B: 相変化ノブ・壁編集も保持
   loadPreset(currentPreset.id,false);
   sim.params=keep; sim.updateRadii();
+  applyPhaseEdits(sim,snapP);            // 58B
   setParamsDirty(wasDirty);   // v1.17: ⏮はパラメータ保持なので未保存状態も維持
   buildParamRows();
   notify(T("resetDone"));
@@ -7700,6 +7908,8 @@ const PC_PARAM_DEFS = [
   {key:"condG",    lo:0,    hi:100, sLo:0,    sHi:2,  sStep:0.02, labelKey:"pcCondG",    descKey:"pcCondGDesc",   gasOnly:true},
   // 第57便 57A: 結合価ノブ(0=無制限〔等方〕・1〜3=リンク制限を全相へ適用)。bondN モードでは非表示
   {key:"valence",  lo:0,    hi:3,   sLo:0,    sHi:3,  sStep:1,    labelKey:"pcValence",  descKey:"pcValenceDesc", noBudget:true, integer:true},
+  // 第58便 58A: 結合の角度剛性(良い結合角ほど強い結合 — 格子の焼き鈍し)
+  {key:"angK",     lo:0,    hi:10,  sLo:0,    sHi:5,  sStep:0.1,  labelKey:"pcAngK",     descKey:"pcAngKDesc",    noBudget:true},
   {key:"bondK",    lo:0,    hi:100, sLo:0,    sHi:20, sStep:0.1,  labelKey:"pcBondK",    descKey:"pcBondKDesc"},
   {key:"cohesion", lo:0,    hi:100, sLo:0,    sHi:5,  sStep:0.05, labelKey:"pcCohesion", descKey:"pcCohesionDesc"},
   {key:"bondDamp", lo:0,    hi:1,   sLo:0,    sHi:1,  sStep:0.01, labelKey:"pcBondDamp", descKey:"pcBondDampDesc"},
@@ -7809,12 +8019,15 @@ function buildLabBoxRows(g){
   };
   const sides=T("pcWallSides");
   const ensure=(k)=>{ const S=editSim(); if(!S.twall[k]) S.twall[k]={mode:"heat",T:0,rate:0}; return S.twall[k]; };
+  // 第58便 58B(原仮定者指示「天井と右が無い」): rad(放熱)面も行を出す。
+  // 壁温は rad では 0 表示・0より大きく設定するとその面は加熱面(heat)へ変わる(レートは維持)。
+  // 壁レートはモードを問わずその面のレートを編集する
   for(const k of [1,2,3,0]){   // 表示順: 天井・左側面・右側面・底(原仮定者指定)
-    const w=tw[k];
-    if(w && w.mode!=="heat") continue;   // rad 面は対象外
     mkRow(T("pcWallT")(sides[k]), "pcWallTDesc",
-      ()=>{ const w2=editSim().twall[k]; return w2? w2.T : 0; },
-      (cv)=>{ ensure(k).T=cv; }, 0, 10000, 0, 5, 0.05);
+      ()=>{ const w2=editSim().twall[k]; return (w2 && w2.mode==="heat")? w2.T : 0; },
+      (cv)=>{ const S=editSim(); const w2=S.twall[k];
+        if(w2 && w2.mode!=="heat"){ if(cv>0) S.twall[k]={mode:"heat",T:cv,rate:w2.rate}; }
+        else ensure(k).T=cv; }, 0, 10000, 0, 5, 0.05);
     mkRow(T("pcWallRate")(sides[k]), "pcWallRateDesc",
       ()=>{ const w2=editSim().twall[k]; return w2? w2.rate : 0; },
       (cv)=>{ ensure(k).rate=cv; }, 0, 100, 0, 3, 0.05);
@@ -7962,14 +8175,14 @@ function buildParamRows(){
   // 第32便(W2): 箱宇宙(UniverseBox)の実験用パラメータ編集 — sim.box があるプリセットのみ表示
   if(sim.box) buildBoxParamRows(host);
   if(sim.phase) buildPhaseParamRows(host);   // 第53便 53D: 相変化(E14)の実験用パラメータ
-  { const g=mkCat(T("grpSim"));       for(const def of catDefs("sim")) mkParamRow(def,g); }
+  { const g=mkCat(T("grpSim"));       for(const def of catDefs("sim")) mkParamRow(def,g);
+    // 第58便 58B(原仮定者指示): 時間倍率は表示→シミュレーションカテゴリへ移動
+    // (A/B比較中は両方の画面へ反映される applyBoth 挙動は従来どおり)
+    const tsDef=PARAM_DEFS.find(d=>d.key==="timeScale");
+    if(tsDef) mkParamRow(tsDef, g, true); }
   // 表示設定 — 第54便 54D⑤: 「表示」もカテゴリ扱い(catParams で畳む。h3 → summary)
   const disp=document.createElement("div"); disp.className="group";
-  // v1.23(原仮定者指示): 時間倍率は「表示」に常設 — A/B比較中は両方の画面に反映される
-  {
-    const tsDef=PARAM_DEFS.find(d=>d.key==="timeScale");
-    if(tsDef) mkParamRow(tsDef, disp, true);
-  }
+  // 第58便 58B: 時間倍率はシミュレーションカテゴリへ移動(v1.23 の表示常設を変更)
   // v1.23(原仮定者指示): 表示トグルは A/B 比較中、常に両方の画面へ反映する
   const setOv=(k)=>(v)=>{ sim.overlays[k]=v; if(ab) ab.simB.overlays[k]=v; };
   const toggles=[["trails",T("tgTrails"),()=>trailsOn,(v)=>trailsOn=v,"tgTrailsDesc"],
