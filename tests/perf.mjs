@@ -27,12 +27,9 @@ const SAMPLES = ['galaxy', 'darkrotor', 'merger', 'convection', 'counterring', '
 // 「beta 単独の実測 ms を informational として記録する(pass判定なし・SAMPLES の 6/6 ゲート数
 // には含めない)」。root へ第35便が昇格し両側に揃った時点で自動的に比較ゲートへ昇格する。
 const EXTRA_SAMPLES = ['echo', 'freebox',
-  // 第53便 53B(外部レビュー P1「melt/freeze 自身の性能証跡がない」): E14 相変化サンプル。
-  // root には未昇格のため informational 計測(昇格時に自動で比較ゲートへ)。53D: meltcycle 追加
-  // 第54便 54A: 気液相変化サンプル boil / 第55便 55A: 結合価サンプル chain /
-  // 第58便 58A: 結合角サンプル lattice 追加(同じく root 未昇格 = informational)
-  // 第59便 59A/59B: angK×bondN 併用+創発熱伝導サンプル emergent2 追加
-  'melt', 'freeze', 'meltcycle', 'boil', 'chain', 'lattice', 'emergent2'];
+  // 第60便: E14″ 創発一本化 — 旧サンプル(melt/freeze/meltcycle/boil/chain/lattice)は廃止。
+  // root には未昇格のため informational 計測(昇格時に自動で比較ゲートへ)
+  'emergent', 'emergent2', 'chain2'];
 const THRESH = +(process.env.PERF_THRESH || 1.10);
 // 例: { convection: 1.60 } — 意図的な負荷増を許可する場合のみ
 // 第53便 53D: echo の暫定 ALLOW 1.45 — **意図的な負荷増ではなく、マイクロベンチの計測
