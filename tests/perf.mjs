@@ -41,15 +41,10 @@ const EXTRA_SAMPLES = ['echo', 'freebox',
   'emergent', 'emergent2', 'chain2'];
 const THRESH = +(process.env.PERF_THRESH || 1.10);
 // 例: { convection: 1.60 } — 意図的な負荷増を許可する場合のみ
-// 第53便 53D: echo の暫定 ALLOW 1.45 — **意図的な負荷増ではなく、マイクロベンチの計測
-// アーティファクトに対する許容**。echo は 31粒・60frames=12〜16ms の最小サンプルで、
-// 共有ページ順次計測の JIT 状態に支配される。53D 実測: スイート内比 1.27〜1.33 が3回持続する
-// 一方、**独立ページ計測(交互5回・120frames・中央値)では beta 37.1ms vs root 45.1ms =
-// beta/root 0.82(beta の方が速い)**。53D の _core 変更(壁温スケジュールの Tw 1行)を戻した
-// 対照ビルドとも差なし(36.4ms)= 実回帰は存在しない。root 昇格で echo は byte 同一比較に
-// 戻るため、その時点で本 ALLOW を撤去すること
-// (第62便: ペア測定化で緩和される見込みだが、撤去は実測が安定してから)
-const ALLOW = { echo: 1.45 };
+// 第53便 53D の echo ALLOW 1.45 は第63便(v1.35.0 昇格)で撤去した — 53D の記録どおり、
+// root 昇格で echo は byte 同一比較に戻るため(交互ペア測定〔第62便〕でジッタ耐性も向上)。
+// 経緯の詳細は git 履歴(第62便以前の本ファイル)を参照
+const ALLOW = {};
 // 過去の ALLOW 撤去履歴(darkrotor/convection/saturnLayered)と 40C の粒子数削減の実測記録は
 // git 履歴(第61便以前の本ファイル冒頭コメント)を参照。
 const REPS = 2, FRAMES = 60, WARMUP_FRAMES = 20, SETS = 3;

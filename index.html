@@ -40,6 +40,9 @@
   select,button,input,textarea{font:inherit;color:var(--fg);}
   select{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-height:44px;}
   #presetSelect{flex:1;min-width:0;}
+  /* 第54便 54D②: プリセット選択の階層化 — カテゴリ選択(左)+絞り込まれた一覧(右)
+     第62便(原仮定者指示): カテゴリ側を狭めてタイトル(一覧)側を広げる */
+  #presetGroupSelect{flex:0 0 72px;min-width:0;padding:8px 6px;}
   #canvasWrap{position:relative;flex:1 1 auto;min-height:120px;background:#05070f;}
   canvas#cv{position:absolute;inset:0;width:100%;height:100%;touch-action:none;display:block;}
   #hud{position:absolute;left:8px;top:6px;font-size:calc(11px*var(--uz,1));color:var(--dim);pointer-events:none;
@@ -79,13 +82,17 @@
   #notice{position:absolute;left:50%;top:12px;transform:translateX(-50%);max-width:92%;
     background:rgba(20,24,48,.92);border:1px solid var(--line);border-radius:10px;
     padding:8px 12px;font-size:12px;display:none;pointer-events:none;text-align:center;}
-  #transport{display:flex;gap:8px;padding:8px 12px;background:var(--panel);
+  #transport{display:flex;gap:6px;padding:8px 8px;background:var(--panel);
     border-top:1px solid var(--line);flex:0 0 auto;align-items:center;}
   #transport button{flex:1;min-height:46px;border-radius:12px;border:1px solid var(--line);
     background:var(--panel2);font-size:calc(14px*var(--uz,1));font-weight:600;touch-action:manipulation;}
   #transport button:active{background:#26305e;}
   #btnPlay.playing{background:#20315f;border-color:var(--acc);}
-  #speedSel{flex:0 0 84px;}
+  /* 第62便(原仮定者指示): 時間倍率・チェックポイントを狭め「初めから」「実行」を広げる
+     (#transport button は ID+型 の特異度なので、上書きは #transport #id で行う) */
+  #speedSel{flex:0 0 68px;min-width:0;padding:8px 4px;}
+  #transport #btnCkSave,#transport #btnCkLoad{flex:0 0 auto;min-width:44px;padding:0 4px;}
+  #transport #btnReset,#transport #btnPlay{white-space:nowrap;padding:0 2px;}
   /* 第37便 A1(原仮定者指示): パネル未展開時は下部タブが画面最下段になり、ホームインジケーター
      (iPhone の safe-area-inset-bottom)に被る。#panel と同じ --sab(env(safe-area-inset-bottom))を
      paddingで確保する — 非対応環境/インセット0の端末では現行と厳密に同じ見た目のまま */
@@ -116,10 +123,19 @@
     cursor:pointer;touch-action:manipulation;}
   .pdesc{display:none;margin:-2px 0 8px;padding:7px 10px;border-left:2px solid var(--acc);
     background:var(--panel);border-radius:0 8px 8px 0;
-    font-size:calc(11.5px*var(--uz,1));line-height:1.55;color:var(--dim);}
+    font-size:calc(11.5px*var(--uz,1));line-height:1.55;color:var(--fg);}  /* 第54便 54D③: 開いた説明は本文色(--dim は読みにくい) */
   .pdesc.open{display:block;}
+  /* 第57便 57B(原仮定者指示): 「A/B比較とは」等、details を開いたときの説明本文も本文色に */
+  details[open] p.note{color:var(--fg);}
   /* v1.22: サンプル別「主役パラメータ」— 残りは詳細設定に畳む(第9次裁定 4.6) */
   details.advParams{margin:6px 0 14px;border:1px solid var(--line);border-radius:10px;padding:2px 10px;}
+  /* 第54便 54D⑤: パラメータのカテゴリ折りたたみ(法則/シミュレーション/箱宇宙/相変化/表示) */
+  details.catParams{margin:6px 0 10px;border:1px solid var(--line);border-radius:10px;padding:2px 10px;}
+  details.catParams>summary{cursor:pointer;min-height:34px;display:flex;align-items:center;gap:8px;
+    font-size:calc(12px*var(--uz,1));color:var(--fg);font-weight:700;letter-spacing:.05em;
+    touch-action:manipulation;list-style-position:inside;}
+  details.catParams>summary .catInfo{color:var(--dim);font-weight:400;
+    text-decoration:underline dotted;text-underline-offset:3px;cursor:pointer;}
   details.advParams>summary{cursor:pointer;min-height:38px;display:flex;align-items:center;
     font-size:calc(12px*var(--uz,1));color:var(--dim);font-weight:700;letter-spacing:.06em;
     touch-action:manipulation;list-style-position:inside;}
@@ -218,6 +234,7 @@
       <div class="title" id="appTitle" role="button" tabindex="0" aria-expanded="false" aria-controls="aboutPanel">DFM Lab</div>
       <div class="titleVer" id="appVer"></div>
     </div>
+    <select id="presetGroupSelect" aria-label="カテゴリ選択"></select>
     <select id="presetSelect" aria-label="シミュレーション選択"></select>
     <button id="btnLang" class="btn" style="flex:0 0 auto;min-height:44px;padding:8px 10px;" aria-label="Language">EN</button>
   </header>
@@ -235,17 +252,16 @@
       <div class="beHead"><span id="beTitle">選択粒子の編集</span><button id="beClose" aria-label="minimize">−</button></div>
       <!-- v1.24: 負値を取り得る s/vx/vy は inputmode=text(iOS の数字キーパッドに「−」が無いため) -->
       <!-- 第12便: m は負値も受理するため inputmode=text(iOS の数字キーパッドに「−」が無い) -->
-      <!-- 第25便(原仮定者指示): 行構成を対で整理 — m|mc/m・s|sc/s・R|Rc/R・To×|TcO×・掻出 -->
+      <!-- 第25便(原仮定者指示): 行構成を対で整理 — m|mc/m・s|sc/s・R|Rc/R・掻出
+           (第61便: To×/TcO×〔obsT/coreOT〕は未使用のため廃止 — 原仮定者指示) -->
       <!-- 第14便: 主星2層(比率)— コア質量比 mc/m(既定0・負値=空洞)とコアスピン比 sc/s(既定1) -->
       <div class="beRow"><label id="beLm">m</label><input type="text" id="beM" inputmode="text" autocomplete="off">
         <label id="beLmc" style="min-width:30px">mc/m</label><input type="text" id="beMc" inputmode="text" autocomplete="off"></div>
       <div class="beRow"><label id="beLs">s</label><input type="text" id="beS" inputmode="text" autocomplete="off">
         <label id="beLsc" style="min-width:30px">sc/s</label><input type="text" id="beSc" inputmode="text" autocomplete="off"></div>
-      <!-- 第22便: 半径R(明示指定)・コア半径比 Rc/R・観測温度係数 To×・光掻き出し・コア観測温度比率 TcO× -->
+      <!-- 第22便: 半径R(明示指定)・コア半径比 Rc/R・光掻き出し(To×/TcO× は第61便で廃止) -->
       <div class="beRow"><label id="beLr">R</label><input type="text" id="beR" inputmode="decimal" autocomplete="off">
         <label id="beLrr" style="min-width:30px">Rc/R</label><input type="text" id="beRr" inputmode="decimal" autocomplete="off"></div>
-      <div class="beRow"><label id="beLot">To×</label><input type="text" id="beOt" inputmode="decimal" autocomplete="off">
-        <label id="beLoc" style="min-width:30px">TcO×</label><input type="text" id="beOc" inputmode="decimal" autocomplete="off"></div>
       <!-- 第37便 A2(原仮定者指示): 「auto」チェックボックス — ON で lightSweep="auto" を設定し
            数値欄を読み取り専用にする。OFF は従来の数値入力に戻る。
            第38便(原仮定者指示・構造のみ。ラベル文字列の改称は次波38B): #beLsw の固定幅指定を
@@ -260,7 +276,10 @@
   </div>
   <div id="transport">
     <button id="btnReset">⏮ 初めから</button>
-    <button id="btnPlay">▶ 実行</button>
+    <button id="btnPlay">▶️ 実行</button>
+    <!-- 第61便 61B(レビューP1「チェックポイント」): 今の状態を保存し、いつでも巻き戻す -->
+    <button id="btnCkSave" title="checkpoint">📍</button>
+    <button id="btnCkLoad" title="restore checkpoint" disabled>⤺📍</button>
     <select id="speedSel" aria-label="速度">
       <option value="0.25">×0.25</option><option value="0.5">×0.5</option>
       <option value="1" selected>×1</option><option value="2">×2</option>
@@ -277,6 +296,9 @@
     <button id="btnPanelClose" aria-label="close panel">✕ 閉じる</button>
     <div class="tabPage" id="page-help"><div id="helpBody"></div></div>
     <div class="tabPage" id="page-params">
+      <!-- 第62便(原仮定者指示): ワンタップA/B(相変化 abQuick / 粒子patch abBody)は
+           「A/B比較」グループより上の共通行へ統一(形状は相変化系=btn。JSが動的に生成) -->
+      <div class="rowBtns" id="abQuickRow" style="display:none"></div>
       <div class="group" id="abGroup">
         <h3 id="abHead">A/B比較</h3>
         <div class="rowBtns"><button class="btn primary" id="btnAB">A/B比較を開始</button></div>
@@ -286,9 +308,7 @@
           <button class="btn" id="btnAbTargetA">A</button>
           <button class="btn" id="btnAbTargetB">B</button>
         </div>
-        <!-- 第40便 40B(台帳4-77): abBody 宣言プリセットのみ表示するワンタップA/Bボタン列
-             (粒子への patch を含むA/Bレシピ。ボタンはJSが動的に生成する) -->
-        <div class="rowBtns" id="abBodyRow" style="display:none"></div>
+        <!-- 第40便 40B の abBodyRow は第62便で #abQuickRow(グループ上部)へ統合 -->
         <!-- 第27便(原仮定者指示): A/B比較の説明は畳んでおく -->
         <details id="abNoteWrap"><summary id="abNoteSum" class="note" style="cursor:pointer">A/B比較とは</summary>
         <p class="note" id="abNote">今の状態をAとして、そのコピーのBを作り、上下に並べて同時に走らせます(A=上、B=下)。実行中のパラメータ編集はA側にのみ効き、最後に調整したパラメータの値が両画面に表示されます。「終了」でAの状態を継続しBを破棄します。プリセットを切り替えると解除されます。</p></details>
@@ -445,7 +465,7 @@ let LANG = (localStorage.getItem("hp_lang")==="en") ? "en" : "ja";
 const I18N = {
 ja: {
   appTitle:"DFM Lab", docTitle:"仮想物理ラボ — 仮定物理法則シミュレータ",   // 第23便: 左上タイトルを短縮(document.title は不変)
-  reset:"⏮ 初めから", run:"▶ 実行", resume:"▶ 再開", pause:"⏸ 停止",
+  reset:"⏮ 初めから", run:"▶️ 実行", resume:"▶️ 再開", pause:"⏸ 停止",
   tabHelp:"説明", tabParams:"パラメータ", tabSaves:"セーブ", tabAI:"AI追加",
   paramDefault:"プリセット既定値に戻す",
   abHead:"A/B比較",
@@ -453,10 +473,18 @@ ja: {
   abNote:"今の状態をAとして、そのコピーのBを作り、上下に並べて同時に走らせます(A=上、B=下)。「編集対象」でパラメータ編集をA/Bどちらに効かせるか切り替えられ、最後に調整したパラメータの値が両画面に表示されます。表示設定と時間倍率は常にA/B両方に反映されます。「終了」でAの状態を継続しBを破棄します。プリセットを切り替えると解除されます。",
   abTargetLabel:"編集対象", abNoteSum:"A/B比較とは(タップで説明)",   // 第27便
   abStarted:"A/B比較を開始: 今の状態をBに複製しました(▶実行で両方が同時に走ります)",
+  abQuickStarted:(k,v)=>`対照A/Bを開始: B側だけ ${k}=${v} にしました(▶実行で比較)`,
+  pcAbQuick:(k,v)=>`⚖️ ワンタップ対照A/B(B側: ${k}=${v})`,
+  // 第63便(原仮定者指示「各タイトルに統一感」): abBody 系も同じ書式で組み立てる共通タイトル
+  abQuickTitle:(d)=>`⚖️ ワンタップ対照A/B(B側: ${d})`,
+  ckSaved:"チェックポイントを保存しました(⤺📍 でいつでもこの瞬間に戻れます)",
+  ckLoaded:"チェックポイントに戻しました",
+  ckMismatch:"チェックポイントと粒子数が一致しません(プリセット変更で無効化されました)",
   abStopped:"A/B比較を終了しました",
   abResetDone:"A/B両方を初期配置に戻しました",
   paramNote:"※ 物理パラメータは実行中いつでも反映されます。粒子の初期配置・個数はプリセット選択または「⏮ 初めから」で反映されます。",
-  grpLaws:"仮定物理法則", grpSim:"シミュレーション", grpDisplay:"表示",
+  grpLaws:"仮定物理法則", grpSim:"シミュレーション", grpDisplay:"表示", grpAll:"全カテゴリ",
+  grpSpacetime:"時空", grpSpinHeat:"スピン・熱", grpDrag:"引きずり・測地線", grpLabBox:"実験箱",
   grpActive:"このサンプルの主役", grpAdvanced:"詳細設定(全パラメータ)",
   physLockHead:"物理対応(GR較正)",
   physLockLabel:"物理対応ロック Kt=cLight²/G",
@@ -472,6 +500,7 @@ ja: {
   tgRays:"光線", uiScaleLabel:"文字サイズ",
   // 第32便(W2): 膨張グラフ overlay(a・H・赤方偏移)
   tgBoxGraph:"膨張グラフ(a・H・赤方偏移)",
+  tgPhaseGraph:"相変化グラフ(T̄・液相率)",
   // 第23便(原仮定者指示): 「表示」各行のタップ説明
   tgTrailsDesc:"画面を消さずに粒子の残像を重ねる表示効果。物理には影響しない。",
   tgTrailLineDesc:"粒子の軌道を線で記録して描く(☿の楕円歳差など)。記録間隔は描画品質に従う。",
@@ -483,10 +512,29 @@ ja: {
   tgRaysDesc:"光線束(E8R)を表示。光は ψ=W/Kt で屈折し、決定フレーム u に運ばれる(A11)。光線のないサンプルでも既定の平行光束を点灯できる。",
   tgCurveDesc:"右下に回転曲線(半径ごとの接線速度)を表示。点線はバリオン実加速度基準 v_bar(r)(質量分布だけから期待される回転)。",
   // 第38便 A5(原仮定者指示): バー・折れ線の色を温度に対応させた(粒子の温度色と同じ写像)
-  tgTempDesc:"温度ヒストグラム(左右比較)。表示は観測温度 T_obs=To×·(1−減光)·T。バー・折れ線の色は温度に対応(粒子の温度色と同じ写像)。右系列は破線で区別。",
+  tgTempDesc:"温度ヒストグラム(左右比較)。表示は観測温度 T_obs=(1−減光)·T。バー・折れ線の色は温度に対応(粒子の温度色と同じ写像)。右系列は破線で区別。",
   tgSpectrumDesc:"放射スペクトル(A12: ピーク波長 λ=b_m/T のウィーン型)。表示は観測温度基準。",
   tgMonitorDesc:"運動量P・角運動量Lとリザーバ帳簿(E6′/E11)の保存量モニタ(T7)。",
   tgBoxGraphDesc:"箱宇宙(UniverseBox)の尺度因子a(t)・膨張率H(t)の時系列と、拡大による波長の伸び(赤方偏移 1+z=a/a₀)を表示する。箱宇宙プリセットでのみ有効。",
+  tgPhaseGraphDesc:"二段の相変化グラフ。上段=平均温度T̄(橙)と平均配位数c̄(緑) — 結合が切れて c̄ が下がる間は T̄ の上がりが鈍る=創発した実効潜熱の因果が読める。下段=六方配向秩序ψ6(水色)と結合の組替率(赤紫・0〜1) — 液体=組替が速い/結晶=組替≈0で秩序高い/ガラス=組替≈0なのに秩序低い、という動的な相の分類が読める。左端の縦帯=高さ別の平均配位数(相前線プロファイル — 床から進む融解・凝固前線)。相変化(E14″)プリセットでのみ有効。",
+  ovPhaseGraph:"相変化 T̄・配位数", ovPhaseNote:"上:橙=T̄ 緑=c̄ 下:水=ψ6 紫=組替率×10 左帯=高さ別c(前線) 色=温度 線=結合",
+  // 第53便 53D → 第60便: 相変化(E14″)の実験用パラメータ編集(創発一本化)
+  pcSectionHead:"相変化(E14″)の実験",
+  pcSectionDesc:"相変化サンプル専用の実験ノブ。8つのノブはどれも「いまの結合状態から」物性を決める連続量で、融点・潜熱・相率のような相の構成則は存在しない(第60便で創発一本化)。加熱/冷却壁の壁温・レートは「実験箱」カテゴリ。A/B比較中は編集対象側だけに効く — 「角度あり/なし」「創発伝導あり/なし」等の対照実験が組める。この編集はセーブに保存される(第54便 54B)。",
+  pcBondN:"結合予算 bondN",
+  pcBondNDesc:"各分子が持つ結合の予算(公称配位数)。いま結合している相手の数(滑らかな配位数)で予算を分け合い、結合数が減ると残りの結合が強くなる(予算の集中 — K=bondK·√(share·share))。3にすると120°の網・2にすると鎖・6にすると密な塊が角度剛性との組で好まれる。",
+  pcBondK:"結合の強さ bondK", pcBondKDesc:"結合予算1本ぶんの引力の強さ(井戸の深さ)。0にすると凝縮相が消え、熱圧(kRep)だけのガスになる。融解・蒸発の「実効潜熱」はこの井戸から抜けるエネルギーそのもの。",
+  pcBondRange:"結合の帯 bondRange", pcBondRangeDesc:"引力が働く帯の外縁(接触距離の倍率)。狭いほど結合の出入りが敏感になり、配位数の数え方も変わる。",
+  pcAngK:"角度剛性 angK",
+  pcAngKDesc:"結合角の符号付きポテンシャル(第58〜59便): 理想角(2π/bondN — 予算3で120°)に近い近傍対は井戸、詰め込み過ぎの角(120°理想に対する60°等)は障壁になる。角度を理想へ戻すトルクが厳密勾配から生じ、ゆっくり冷やすと開いた格子が焼き鈍しで創発する。0=無効。",
+  pcBondDamp:"結合減衰 bondDamp", pcBondDampDesc:"結合の振動減衰(散逸は熱へ)。減衰の強さは結合の濃さ(予算重み×井戸深さ)に比例して創発する — 固体の結合は強く減衰し、気体の掠め接触はほぼ素通り(第60便)。定常減衰では散逸の半分×実効係数が帳簿外に落ちる既知の離散化誤差があるため小さめ推奨。",
+  pcCondN:"創発伝導 condN(0=変調なし)",
+  pcCondNDesc:"0より大きくすると、熱伝導率をいまの結合状態(滑らかな配位数B)から導出する — c=condG+(condS−condG)·B/(B+condN)(第59便)。孤立した粒子は condG、密な結合網は condS へ飽和し、液体状態は「接触は多いが網は粗い」中間の伝導になる。condN はBがこの値のとき中間になる半飽和点。0では κs をそのまま使う。",
+  pcCondS:"結合網の伝導 condS", pcCondSDesc:"密な結合網(B≫condN)での熱伝導倍率(κsに乗算・対の調和平均)。",
+  pcCondG:"孤立粒子の伝導 condG", pcCondGDesc:"結合を持たない孤立粒子(B→0)での熱伝導倍率。小さくすると気体状の領域が断熱層になる。",
+  pcWallSides:["底","天井","左","右"],
+  pcWallT:(s2)=>`壁温 T_wall(${s2})`, pcWallTDesc:"加熱/冷却壁の目標温度。高くすると結合が解けて融解・解離へ、低くすると凝固・結晶化へ駆動する。放熱(rad)面では0表示 — 0より大きく設定するとその面は加熱面に変わる(レートは維持)。壁レート0は壁温の影響なし。",
+  pcWallRate:(s2)=>`壁レート(${s2})`, pcWallRateDesc:"壁と粒子の熱交換の速さ。プラトーの持続時間実験に。",
   uiScaleDesc:"UI文字の拡大率。表示のみで物理・保存データには影響しない。",
   // 第23便: 粒子編集のパラメータ名タップ説明
   beDm:"m: 質量。重力(E4)と決定力場W(E1′)の源。負値は実験用(±5000)。",
@@ -495,9 +543,7 @@ ja: {
   beDsc:"sc/s: コアスピン比。コア実スピン sc=比×s が差動引きずり(Rcから減衰)を生む。1=剛体回転=単層等価。",
   beDr:"R: 半径。慣性I=½mR²・接触・引きずり減衰(R/(R+d))^q・温度・扁平率f=5s²R³/(4Gm)に使用。既定はradiusScale·rMul·√|m|(rMulは粒子ごとの倍率・既定1)。",
   beDrr:"Rc/R: コア半径比。コアの引きずり到達距離を決める。既定は√|mc/m|相当。",
-  beDot:"To×: 観測温度係数。観測温度T_obs=To×·(1−減光)·T(表示のみ — 力学不変)。",
-  beDsw:"減光: 自星の光をどれだけ外に出さないか(0〜1・1=完全減光)。機構はスピンによる自光の掻き出し(lightSweep)。観測温度は T_obs=To×·(1−減光)·T、放射冷却も(1−減光)倍(ダークローター)。auto と入力するか隣の「自動」チェックボックスをONにすると、粒子のスピン・半径から lS_eff=min(1,|s|R/c_surf) を毎ステップ算出する — 数値欄は編集不可になり実効値lS_effで上書き表示される(第38便)。",
-  beDoc:"TcO×: コア観測温度比率。Tc_obs=TcO×·(1−減光)·Ic·sc²(表示のみ)。",
+  beDsw:"減光: 自星の光をどれだけ外に出さないか(0〜1・1=完全減光)。機構はスピンによる自光の掻き出し(lightSweep)。観測温度は T_obs=(1−減光)·T、放射冷却も(1−減光)倍(ダークローター)。auto と入力するか隣の「自動」チェックボックスをONにすると、粒子のスピン・半径から lS_eff=min(1,|s|R/c_surf) を毎ステップ算出する — 数値欄は編集不可になり実効値lS_effで上書き表示される(第38便)。",
   beDv:"vx/vy: 速度成分。慣性は局所フレームuに対して働く(A5)。",
   beDp:"固定: 位置・速度・スピンを外部拘束で固定(力・トルクを受けない)。反作用はリザーバへ帳簿(A13)。",
   uiScaleOpts:[["1","小"],["1.15","標準"],["1.3","大"]],   // 第27便: 3段階を繰り下げ(既定=1.15)
@@ -534,7 +580,7 @@ ja: {
   periHud:(m,a)=>`近点移動(最内粒子): 実測 ${m}°/周 / 解析 ${a}°/周`,
   ioNote:"インポートは「単独プリセット / プリセット配列 / {customPresets:[…]} / バックアップ全体」のどの形式でも自動判別します。パラメータが全く同じデータは取り込まず、名前が同じでパラメータが異なるデータは名前にサフィックスを付けて追加します。インポートしたプリセットは保存一覧にも登録されます。",
   ioNoteSum:"インポート",   // 第36便 B4(原仮定者指示): 折畳み見出し
-  presetMissing:"元プリセットが見つからないため既定プリセットに適用しました",
+  presetMissing:"元プリセットが見つからないため読込を中止しました(β専用サンプルのセーブを旧版で開いた可能性 — 対応する版で読み込んでください)",
   resetDone:"初期配置に戻しました(パラメータは保持)", defaultsDone:"プリセットの既定値に戻しました",
   diverged:"数値が発散しました。パラメータを見直すか「⏮ 初めから」を押してください。",
   aiProvHead:"AIプロバイダ", aiProvLabel:"プロバイダ", aiModelLabel:"モデル", aiUrlLabel:"API URL",
@@ -650,7 +696,7 @@ ja: {
 },
 en: {
   appTitle:"DFM Lab", docTitle:"Virtual Physics Lab — Hypothetical-Physics Simulator",
-  reset:"⏮ Restart", run:"▶ Run", resume:"▶ Resume", pause:"⏸ Pause",
+  reset:"⏮ Restart", run:"▶️ Run", resume:"▶️ Resume", pause:"⏸ Pause",
   tabHelp:"Guide", tabParams:"Parameters", tabSaves:"Saves", tabAI:"AI Create",
   paramDefault:"Restore preset defaults",
   abHead:"A/B Compare",
@@ -658,10 +704,17 @@ en: {
   abNote:"Takes the current state as A, creates a copy as B, and runs both stacked vertically (A = top, B = bottom). Use \"Edit target\" to choose whether parameter edits apply to A or B; the value of the last-adjusted parameter is shown on both views. Display settings and the time multiplier always apply to both A and B. Stopping keeps A and discards B. Switching presets exits the mode.",
   abTargetLabel:"Edit target", abNoteSum:"About A/B compare (tap)",
   abStarted:"A/B compare started: current state copied to B (press ▶ Run to advance both)",
+  abQuickStarted:(k,v)=>`Control A/B started: only side B set to ${k}=${v} (press ▶ Run to compare)`,
+  pcAbQuick:(k,v)=>`⚖️ One-tap control A/B (side B: ${k}=${v})`,
+  abQuickTitle:(d)=>`⚖️ One-tap control A/B (side B: ${d})`,
+  ckSaved:"Checkpoint saved (⤺📍 returns to this moment anytime)",
+  ckLoaded:"Returned to the checkpoint",
+  ckMismatch:"Checkpoint particle count mismatch (invalidated by preset change)",
   abStopped:"A/B compare stopped",
   abResetDone:"Both A and B reset to initial layout",
   paramNote:"※ Physics parameters apply instantly, even while running. Initial particle layout/count applies on preset selection or ⏮ Restart.",
-  grpLaws:"Hypothetical physical laws", grpSim:"Simulation", grpDisplay:"Display",
+  grpLaws:"Hypothetical physical laws", grpSim:"Simulation", grpDisplay:"Display", grpAll:"All categories",
+  grpSpacetime:"Spacetime", grpSpinHeat:"Spin & Heat", grpDrag:"Dragging & Geodesics", grpLabBox:"Lab Box",
   grpActive:"Key settings of this sample", grpAdvanced:"Advanced (all parameters)",
   physLockHead:"Physical correspondence (GR calibration)",
   physLockLabel:"Correspondence lock Kt=cLight²/G",
@@ -676,6 +729,7 @@ en: {
   tgTemp:"Temperature graph", tgSpectrum:"Spectrum", tgMonitor:"Conservation monitor (P, L, ledger)",
   tgRays:"Light rays", uiScaleLabel:"Text size",
   tgBoxGraph:"Expansion graph (a, H, redshift)",
+  tgPhaseGraph:"Phase-change graph (T̄, liquid fraction)",
   tgTrailsDesc:"Overlays fading afterimages of the particles. Display only — physics unchanged.",
   tgTrailLineDesc:"Records and draws orbit lines (e.g. Mercury's precessing ellipse). Recording interval follows render quality.",
   tgFieldDesc:"Background color map of the determinacy W (A3/E1'). Brighter = higher W.",
@@ -686,10 +740,28 @@ en: {
   tgRaysDesc:"Shows the light-ray bundle (E8R). Rays refract via psi=W/Kt and are carried by the frame u (A11). Presets without rays can light a default parallel bundle.",
   tgCurveDesc:"Rotation curve (tangential speed vs radius) at bottom right. The dotted line is the baseline v_bar(r) from the real baryonic acceleration — the rotation expected from the mass distribution alone.",
   // 38th flight A5 (design lead's instruction): bar/line color now follows temperature (same mapping as particle color)
-  tgTempDesc:"Temperature histogram (left/right). Uses the observed temperature T_obs = To x (1-dimming) x T. Bar/line color follows temperature (same mapping as particle color). The right series is dashed to tell it apart.",
+  tgTempDesc:"Temperature histogram (left/right). Uses the observed temperature T_obs = (1-dimming) x T. Bar/line color follows temperature (same mapping as particle color). The right series is dashed to tell it apart.",
   tgSpectrumDesc:"Radiation spectrum (A12, Wien-type peak lambda=b_m/T). Uses observed temperature.",
   tgMonitorDesc:"Conservation monitor (T7): momentum P, angular momentum L, and the reservoir ledger (E6'/E11).",
   tgBoxGraphDesc:"Shows the box universe (UniverseBox) scale factor a(t) and expansion rate H(t) over time, plus the wavelength stretch from expansion (redshift 1+z=a/a0). Only active on box-universe presets.",
+  tgPhaseGraphDesc:"Two-panel phase graph. Top: mean temperature T̄ (orange) and mean coordination c̄ (green) — while bonds break (c̄ falls), T̄ climbs more slowly, the emergent latent heat read directly. Bottom: hexatic order ψ6 (cyan) and bond rewiring rate (magenta, 0-1) — liquid = fast rewiring, crystal = frozen and ordered, glass = frozen yet disordered: a dynamic classification of states. The left strip shows mean coordination by height (the phase-front profile advancing from the floor). Only active on phase-change (E14″) presets.",
+  ovPhaseGraph:"Phase T̄ / coordination", ovPhaseNote:"top:orange=T̄ green=c̄ btm:cyan=ψ6 mag=rewiring×10 left=c by height (front) color=T lines=bonds",
+  pcSectionHead:"Phase-change (E14″) experiments",
+  pcSectionDesc:"Experiment knobs for phase-change samples. All eight knobs are continuous quantities that derive material behavior from the current bonding state — there is no phase rule such as a melting point, latent heat or phase fraction (unified as fully emergent in dispatch 60). Wall temperature/rate live in the Lab-box category. During A/B comparison the knobs act only on the edited side, so 'with/without angle' or 'with/without emergent conduction' controls are easy to set up. These edits are stored in saves (dispatch 54, 54B).",
+  pcBondN:"Bond budget bondN",
+  pcBondNDesc:"Each molecule's bonding budget (nominal coordination number). The budget is split among however many partners are currently in range (smooth coordination), so the fewer the bonds, the stronger each remaining one (budget concentration — K=bondK·√(share·share)). 3 favors a 120° network, 2 favors chains, 6 favors a dense pile (together with the angular stiffness).",
+  pcBondK:"Bond strength bondK", pcBondKDesc:"Attraction per unit of budget (well depth). At 0 the condensed phase disappears and only thermal pressure (kRep) remains. The 'effective latent heat' of melting/evaporation is exactly the energy needed to climb out of these wells.",
+  pcBondRange:"Bond band bondRange", pcBondRangeDesc:"Outer edge of the attraction band (multiple of the contact distance). Narrower bands make bond turnover more abrupt and change how coordination is counted.",
+  pcAngK:"Angular stiffness angK",
+  pcAngKDesc:"A signed bond-angle potential (dispatches 58-59): neighbor pairs near the ideal angle (2π/bondN — 120° at budget 3) sit in a well, over-packed angles (60° against a 120° ideal) hit a barrier. A restoring torque toward the ideal angle follows from the exact gradient, so slow cooling anneals an open lattice in. 0 = off.",
+  pcBondDamp:"Bond damping", pcBondDampDesc:"Vibration damping of bonds (dissipation goes to heat). The damping strength emerges from bond intensity (budget weight × well depth): solid bonds damp strongly while grazing gas contacts pass almost freely (dispatch 60). A known discretization error leaks half of the effective coefficient's share of dissipation, so keep it small.",
+  pcCondN:"Emergent conduction condN (0 = off)",
+  pcCondNDesc:"Above 0, the conduction multiplier is derived from the current bonding state (smooth coordination number B): c = condG + (condS−condG)·B/(B+condN) (dispatch 59). Isolated grains sit at condG, dense bond networks saturate to condS, and liquid-like states land in between — many contacts, loose network. condN is the half-saturation coordination; at 0 plain kappaS is used.",
+  pcCondS:"Network conduction condS", pcCondSDesc:"Conduction multiplier in a dense bond network (B≫condN; on kappaS, harmonic pair mean).",
+  pcCondG:"Isolated conduction condG", pcCondGDesc:"Conduction multiplier for isolated, bond-free grains (B→0). Lower it and gas-like regions insulate.",
+  pcWallSides:["floor","ceiling","left","right"],
+  pcWallT:(s2)=>`Wall T (${s2})`, pcWallTDesc:"Target temperature of the heating/cooling wall. Raise it and bonds unravel (melting/dissociation); lower it and the material freezes/crystallizes. On a radiating (rad) face it reads 0 — setting it above 0 converts that face to a heating one (rate kept). Rate 0 = no wall influence.",
+  pcWallRate:(s2)=>`Wall rate (${s2})`, pcWallRateDesc:"Heat-exchange rate between wall and grains. For plateau-duration experiments.",
   uiScaleDesc:"UI text scale. Display only.",
   beDm:"m: mass. Source of gravity (E4) and the determinacy field W (E1'). Negative values are experimental.",
   beDs:"s: spin (rotation rate). Source of frame dragging (A8), temperature T=Is^2 (A9), and spin repulsion (A10).",
@@ -697,9 +769,7 @@ en: {
   beDsc:"sc/s: core spin ratio. Core spin sc = ratio x s drives the differential drag (decaying from Rc). 1 = rigid rotation = single-layer equivalent.",
   beDr:"R: radius. Used in inertia I=1/2 mR^2, contact, drag falloff (R/(R+d))^q, temperature, and oblateness f=5s^2R^3/(4Gm). Default radiusScale x rMul x sqrt(|m|) (rMul = per-body multiplier, default 1).",
   beDrr:"Rc/R: core radius ratio. Sets the reach of the core's drag. Default ~ sqrt(|mc/m|).",
-  beDot:"To x: observed-temperature coefficient. T_obs = To x (1-dimming) x T (display only).",
   beDsw:"dimming: how much of the star's own light is kept from escaping (0-1, 1 = fully dimmed). The mechanism is its spin sweeping its own light out (lightSweep). Observed temperature is T_obs = To x (1-dimming) x T, and radiative cooling scales by (1-dimming) too (the dark-rotor mechanism). Enter \"auto\", or check the \"auto\" box next to it, to derive it every step from the body's own spin and radius: lS_eff = min(1, |s|R / c_surf) — the number field becomes read-only and is overwritten to show the effective lS_eff (38th delivery).",
-  beDoc:"TcO x: core observed-temperature ratio. Tc_obs = TcO x (1-dimming) x Ic sc^2 (display only).",
   beDv:"vx/vy: velocity components. Inertia acts relative to the local frame u (A5).",
   beDp:"Pinned: externally constrained (receives no force or torque; spin fixed). Reactions are ledgered to the reservoir (A13).",
   uiScaleOpts:[["1","Small"],["1.15","Standard"],["1.3","Large"]],
@@ -735,7 +805,7 @@ en: {
   periHud:(m,a)=>`Apsidal drift (innermost): measured ${m}°/orbit / analytic ${a}°/orbit`,
   ioNote:"Import auto-detects any of: a single preset / an array of presets / {customPresets:[…]} / a full backup. Data with identical parameters is skipped; data whose name collides but whose parameters differ is added with a name suffix. Imported presets are also registered in the saved list.",
   ioNoteSum:"Import",   // 第36便 B4
-  presetMissing:"Original preset not found — applied to the default preset",
+  presetMissing:"Original preset not found — load aborted (this save may come from a newer/beta build; open it there instead)",
   resetDone:"Reset to initial layout (parameters kept)", defaultsDone:"Restored preset defaults",
   diverged:"Simulation diverged. Adjust parameters or press ⏮ Restart.",
   aiProvHead:"AI provider", aiProvLabel:"Provider", aiModelLabel:"Model", aiUrlLabel:"API URL",
@@ -909,6 +979,7 @@ ja: {
   E11:"放射冷却 Λ=η_rad·T^p — 熱い粒子ほど速く冷える",
   E12:"測地線1PN補正(v2.0第1段階) — 時計と同じψから物質の軌道が決まり、近日点が前進する(geoPN=1)",
   E13:"帯状重力補正(現実較正・beta先行) — 扁平中心天体のJ2〜J12が近点を順行させる(ϖ̇=Ω−κ。D68でCassini観測と0.03%一致)",
+  E14:"創発相変化(E14″・beta先行) — 相を物理入力にしない。結合予算(bondN)・結合角(angK)・創発伝導(condN)・創発減衰がすべて「いまの結合状態」から決まり、潜熱は結合エネルギーとして創発する(融点・潜熱・相率の構成則なし — 第60便で一本化)",
   T1:"D₀→∞ でニュートンの絶対空間に近づく(空間が「固く」なる)",
   T2:"回る質量は内側の空間ごと引きずる(マッハのバケツ)",
   T3:"衝突する環は軌道が円形化し、回転方向が揃っていく",
@@ -950,6 +1021,7 @@ en: {
   E11:"Radiative cooling Λ=η_rad·T^p — hotter particles cool faster",
   E12:"Geodesic 1PN correction (v2.0 stage 1) — matter orbits follow the same ψ as clocks, and the perihelion advances (geoPN=1)",
   E13:"Zonal gravity correction (real-calibrated, beta) — an oblate primary's J2\u2013J12 drive prograde apsidal precession (\u03d6\u0307=\u03a9\u2212\u03ba; matches Cassini D68 to 0.03%)",
+  E14:"Emergent phase change (E14″, beta) — no phase enters the physics. Bond budget (bondN), bond angle (angK), emergent conduction (condN) and emergent damping all derive from the current bonding state, and latent heat emerges as bond energy (no melting-point/latent/fraction rules — unified in dispatch 60)",
   T1:"As D₀→∞ the universe approaches Newton's absolute space (space becomes rigid)",
   T2:"A rotating mass drags the space inside it (Mach's bucket)",
   T3:"Colliding rings circularize their orbits and align their rotation",
@@ -1081,10 +1153,10 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
   geoPN:0, lambdaPN:1, pnAlpha:1.5,   // v1.20: E12 測地線1PN(geoPN=1で有効。BOX_UNIVERSE §5)
   radiusScale:1, softening:2, timeScale:1 };   // 第26便: radiusScale 既定 1.2→1(内蔵は明示値を維持)
 // v1.7: kLens は廃止(E8R で屈折率は n=e^{2W/Kt} に統一。旧セーブの kLens は受理して無視)
-const APP_VERSION = "1.34";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
+const APP_VERSION = "1.35";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 // 第36便 B1(原仮定者指示): タイトル下に表示するbeta配信時のビルド番号。beta/sw.js の
 // CACHE 接尾辞と同期させる(QA: version.beta-label)。ルート昇格後は使わない("v"+APP_VERSION 表示に戻る)
-const BETA_BUILD = "v1.35-b1";   // 第52便: v1.34.0 昇格に伴い次期プレビュー線へ
+const BETA_BUILD = "v1.36-b1";   // 第63便: v1.35.0 昇格に伴い次期プレビュー線へ
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 // 第45便 45A(台帳4-48): 光線源・1PN源のしきい値を「質量」から「偏向角」へ物理化した。
@@ -1119,47 +1191,47 @@ function pnSource(S, i){ return S.mEff[i] >= pnMassMin(S.params, S.R[i]); }
 // (熱伝導κs1.5・双子時計Kt10000等)がスライダー外に出て端に張り付く問題の解消
 const PARAM_DEFS = [
   // v1.21: desc(タップ説明。ja はここ、en は I18N.en.paramDescs)。仕様は docs/PHYSICS.md §5 準拠
-  {key:"G",     label:"重力 G",              mode:"log", lo:0.01,   hi:20,   group:"法則",
+  {key:"G",     label:"重力 G",              mode:"log", lo:0.01,   hi:20,   cat:"st", group:"法則",
    desc:"粒子同士の万有引力の強さ。この宇宙では決定力Wの勾配が重力になる(A6/E4: a=G∇W)。0にすると自己重力が消える(一様重力g_x/g_yとは別)。"},
-  {key:"D0",    label:"背景決定力 D₀",       mode:"log", lo:0.05,   hi:200,  group:"法則",
+  {key:"D0",    label:"背景決定力 D₀",       mode:"log", lo:0.05,   hi:200,  cat:"dg", group:"法則",
    desc:"遠方宇宙が及ぼす決定力の底値(A5)。大きいほど空間が遠方に固定されて安定し、近くの質量による空間引きずり(kFrame)の効きが相対的に弱まる。"},
-  {key:"kFrame",label:"空間引きずり kFrame", mode:"lin", lo:0, hi:1, step:0.01, group:"法則",
+  {key:"kFrame",label:"空間引きずり kFrame", mode:"lin", lo:0, hi:1, step:0.01, cat:"dg", group:"法則",
    desc:"質量が動く・回ると「近くの空間」(決定フレーム)ごと引きずり、そこにある物質と光を運ぶ効果の強さ(A4/A5/E6′)。1=完全な相対空間、0=引きずりなしのニュートン的空間。銀河外縁の回転速度増強(T4)の主役。"},
-  {key:"q",     label:"引きずり減衰 q",      mode:"lin", lo:0.5, hi:4, step:0.05, group:"法則",
+  {key:"q",     label:"引きずり減衰 q",      mode:"lin", lo:0.5, hi:4, step:0.05, cat:"dg", group:"法則",
    desc:"スピン(自転)による回転引きずりが距離とともに弱まる速さの指数(E3: (R/(R+d))^q)。大きいほど引きずりが天体の近くに限定される。"},
-  {key:"kRep",  label:"スピン斥力 kRep",     mode:"lin", lo:0, hi:5, step:0.05, group:"法則",
+  {key:"kRep",  label:"スピン斥力 kRep",     mode:"lin", lo:0, hi:20, step:0.1, cat:"sh", group:"法則",   /* 第56便 56A: 🧬emergent(kRep=20)を範囲内に — CLAMPS 上限と一致 */
    desc:"スピン=熱を持つ粒子同士が押し合う力(A10/E5′)。この宇宙の「圧力」の正体で、熱いガスが膨らむ(🎈)のも対流(♨️)もこの力から生まれる。"},
-  {key:"muF",   label:"摩擦→スピン変換 muF", mode:"lin", lo:0, hi:1, step:0.01, group:"法則",
+  {key:"muF",   label:"摩擦→スピン変換 muF", mode:"lin", lo:0, hi:1, step:0.01, cat:"sh", group:"法則",
    desc:"接触した粒子のすべり(相対速度)をスピン=熱へ変換する摩擦の効率(A9/E9)。0にすると衝突しても加熱されない(💥で対照実験ができる)。"},
-  {key:"gammaN",label:"衝突減衰 γn",         mode:"lin", lo:0, hi:1, step:0.01, group:"法則",
+  {key:"gammaN",label:"衝突減衰 γn",         mode:"lin", lo:0, hi:1, step:0.01, cat:"sh", group:"法則",
    desc:"衝突の法線方向の減衰(跳ね返りの失われやすさ)。0=よく弾む、1=ぶつかると速度が失われやすい。失われたエネルギーは帳簿に記録される(T7)。"},
-  {key:"kappaS",label:"スピン拡散 κs",       mode:"lin", lo:0, hi:2, step:0.01, group:"法則",
+  {key:"kappaS",label:"スピン拡散 κs",       mode:"lin", lo:0, hi:2, step:0.01, cat:"sh", group:"法則",
    desc:"スピン=熱が近くの粒子へ飛び移って均される熱伝導(E10′)。接触は不要で、近いほど強く伝わる(📏)。0にすると熱が伝わらない。"},
-  {key:"Kt",    label:"時空係数 Kt(時間・光)", mode:"log", lo:1, hi:10000, group:"法則",
+  {key:"Kt",    label:"時空係数 Kt(時間・光)", mode:"log", lo:1, hi:10000, cat:"st", group:"法則",
    desc:"時計の遅れと光の屈折を1本で決める係数(A7′/E7R/E8R: ψ=W/Kt)。小さいほど時空効果が強い — 時計はより遅れ、光はより曲がる。現実との較正は Kt=c²/G(🛰)。"},
-  {key:"cLight",label:"光速 c₀",             mode:"log", lo:5, hi:1000, group:"法則",
+  {key:"cLight",label:"光速 c₀",             mode:"log", lo:5, hi:1000, cat:"st", group:"法則",
    desc:"光線の速さと、運動による時計の遅れの基準(E7R: 共動フレームに対する速さがc₀に近いほど固有時計が遅れる)。下げると相対論的効果が見えやすくなる。"},
-  {key:"bM",    label:"ウィーン定数 b_m",    mode:"log", lo:0.01, hi:100, group:"法則",
+  {key:"bM",    label:"ウィーン定数 b_m",    mode:"log", lo:0.01, hi:100, cat:"sh", group:"法則",
    desc:"温度Tの粒子が放つ光のピーク波長を λ=b_m/T で決める定数(A12)。スペクトル表示(🌈)の横軸の較正に使う。"},
-  {key:"etaRad",label:"放射冷却 η_rad",      mode:"log", lo:0.000001, hi:1, group:"法則",
+  {key:"etaRad",label:"放射冷却 η_rad",      mode:"log", lo:0.000001, hi:1, cat:"sh", group:"法則",
    desc:"粒子が光を放って冷える強さ(E11: 冷却率Λ∝T^p)。0で放射なし。高温ほど速く冷える(🌈)。失った角運動量・エネルギーは帳簿に記録される。"},
-  {key:"pRad",  label:"放射指数 p",          mode:"lin", lo:1, hi:6, step:0.5, group:"法則",
+  {key:"pRad",  label:"放射指数 p",          mode:"lin", lo:1, hi:6, step:0.5, cat:"sh", group:"法則",
    desc:"放射冷却の温度依存の急峻さ(E11: Λ∝T^p)。大きいほど「熱いものだけが急速に冷える」ようになる。"},
-  {key:"cHeat", label:"熱容量 C(内部温度モード)", mode:"log", lo:0.01, hi:100, group:"法則",
+  {key:"cHeat", label:"熱容量 C(内部温度モード)", mode:"log", lo:0.01, hi:100, cat:"sh", group:"法則",
    desc:"内部温度モード(thermal:\"tint\" のサンプル)でだけ働く熱容量係数。粒子が持つ熱エネルギーは E=C·m·T_int で、散逸ΔEは ΔT_int=ΔE/(C·m) として内部温度に貯まる(A9′/E9)。大きくすると同じ散逸でも温まりにくくなる。既定のスピン=熱モード(thermal 省略)のサンプルでは一切効かない。"},
-  {key:"gravityX",label:"一様重力 g_x",      mode:"lin", lo:-5, hi:5, step:0.005, group:"法則",
+  {key:"gravityX",label:"一様重力 g_x",      mode:"lin", lo:-5, hi:5, step:0.005, cat:"box", group:"法則",
    desc:"画面全体に働く横方向の一様な外部重力場(v1.17)。決定力Wには寄与しないので、時計・光・引きずりを歪めずに「地上の実験室」を作れる。運動量は場との交換として帳簿に記録。"},
-  {key:"gravityY",label:"一様重力 g_y",      mode:"lin", lo:-5, hi:5, step:0.005, group:"法則",
+  {key:"gravityY",label:"一様重力 g_y",      mode:"lin", lo:-5, hi:5, step:0.005, cat:"box", group:"法則",
    desc:"画面全体に働く縦方向の一様な外部重力場(+yは画面下向き)。⚾自由落下・♨️対流・🧪浮力の「下向きの重力」はこれ。0にすると無重力になる。"},
-  {key:"geoPN",   label:"測地線モード geoPN", mode:"lin", lo:0, hi:1, step:1,    group:"法則",
+  {key:"geoPN",   label:"測地線モード geoPN", mode:"lin", lo:0, hi:1, step:1,    cat:"dg", group:"法則",
    desc:"v2.0の測地線モード(E12)。1にすると、時計を遅らせるのと同じψ=W/Ktから物質の運動を作用原理で導き、1PN補正が働く(☿)。同時に物質へのE6′引きずりは無効化(二重計上禁止)。0=従来(legacy)。"},
-  {key:"lambdaPN",label:"1PN補正 λ_PN",      mode:"lin", lo:0, hi:1, step:1,    group:"法則",
+  {key:"lambdaPN",label:"1PN補正 λ_PN",      mode:"lin", lo:0, hi:1, step:1,    cat:"dg", group:"法則",
    desc:"測地線モード(geoPN=1)の1PN補正のON/OFF。0にするとニュートン重力に戻り、楕円軌道が閉じる — ☿水星のA/B対照実験用スイッチ。"},
-  {key:"pnAlpha", label:"1PN係数 α(0.5=時間率のみ, 1.5=完全)", mode:"lin", lo:0.5, hi:1.5, step:0.5, group:"法則",
+  {key:"pnAlpha", label:"1PN係数 α(0.5=時間率のみ, 1.5=完全)", mode:"lin", lo:0.5, hi:1.5, step:0.5, cat:"dg", group:"法則",
    desc:"1PN補正の強さの内訳(E12)。1.5=完全(GRのβ=γ=1相当 — 水星の前進42.98″/世紀の全量)、0.5=時間率のみ(前進が1/3になる)。V18〜V20で機械検証。"},
-  {key:"radiusScale",label:"粒子半径スケール", mode:"lin", lo:0.2, hi:4, step:0.02, group:"シミュレーション",
+  {key:"radiusScale",label:"粒子半径スケール", mode:"lin", lo:0.2, hi:4, step:0.02, cat:"sim", group:"シミュレーション",
    desc:"粒子の半径 R=radiusScale·rMul·√m の全粒子共通スケール(既定1)。接触判定の大きさと慣性 I=½mR²(=温度T=Is²の I)に効く。粒子ごとの倍率は body の rMul で、このノブは全体を相対的に増減させる。物理法則そのものではなく、粒子という「離散化の粒」の設定。"},
-  {key:"softening",  label:"ソフトニング ε",  mode:"lin", lo:0.5, hi:10, step:0.1, group:"シミュレーション",
+  {key:"softening",  label:"ソフトニング ε",  mode:"lin", lo:0.5, hi:10, step:0.1, cat:"sim", group:"シミュレーション",
    desc:"近距離で力が無限大に発散しないよう距離に混ぜる緩和長(E1′ Plummer型: 1/√(d²+ε²))。小さいほど近接遭遇が鋭くなるが数値的に荒れやすい。"},
   {key:"timeScale",  label:"時間倍率",        mode:"log", lo:0.1, hi:16, group:"シミュレーション",
    desc:"シミュレーション時間の進みの倍率(速回し)。物理法則は変わらず、1フレームに進む時間だけが変わる。発散したら下げるのが第一選択。"},
@@ -1738,7 +1810,9 @@ const BUILTIN_PRESETS = [
   validT:384,
   // 第40便 40B(台帳4-77): abBody — B側の対向2ローター(bodies順で index1/2)の spin を
   // 0にする対照へワンタップでA/B開始する(粒子レベルpatch。既存のパラメータ単位おすすめA/Bの拡張)
-  abBody:{ label:{ja:"ローターのスピン0(対照)", en:"Rotor spin = 0 (control)"},
+  // 第63便: ラベルは中身だけを書き、表示は共通タイトル abQuickTitle が「⚖️ ワンタップ対照A/B
+  // (B側: …)」に組み立てる(相変化系 pcAbQuick と統一)
+  abBody:{ label:{ja:"ローターのスピン0", en:"rotor spin = 0"},
     targets:[1,2], patch:{spin:0} },
   // 第42便 42A(台帳4-78 A案): claims — 説明文のピッチ角中央値・腕振幅帯平均(既定/対照)を
   // 機械可読化。ピッチ角は behavior.darkrotor-pitch の判定窓[20,35]をそのまま採用。
@@ -1799,7 +1873,7 @@ const BUILTIN_PRESETS = [
   validT:96,   // 第39便 39E(台帳4-75 E2): 説明文の実測窓(6000步=t≈96。L_z平均・帳簿保存の測定窓)と一致
   // 第40便 40B(台帳4-77): abBody — B側の中心コア(bodies順で index0)の spin を0にする対照へ
   // ワンタップでA/B開始する(粒子レベルpatch)
-  abBody:{ label:{ja:"コアのスピン0(対照)", en:"Core spin = 0 (control)"},
+  abBody:{ label:{ja:"コアのスピン0", en:"core spin = 0"},
     targets:[0], patch:{spin:0} },
   // 第42便 42A(台帳4-78 A案): claims — 説明文の③非脱出率(既定/対照)とリング平均L_zを機械可読化。
   // 非脱出率は behavior.rotorSolo の閾値(既定<0.15・対照>0.4)、L_zは(比>1.2・対照≈632.46±1)に窓を合わせる
@@ -2105,31 +2179,6 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,spectrum:true} },
 
-{ id:"phase", name:"固体・液体・気体", emoji:"🧊", group:"熱の実験室",
-  descStruct:{
-    summary:"質量・数・大きさ・初速が完全に同一の3つの雲 — 違いは初期の内部温度T_intだけの統制実験。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂)。一様重力gravityYの下に置き、現実の容器内の三態に近づけている。",
-    observe:"左=低温: 重力(A6)で収縮し、粒同士が接触したまま底で結晶化する固体。中=中温: 熱の斥力(E5′)でほぐれ、重力で底に溜まって液面を作る液体。右=高温: 熱の斥力が重力を振り切り箱に充満する気体。衝突の散逸は熱として粒に残る(E9)ので、低温の雲もゆっくり温まる。※束縛と斥力の競合による形態のアナロジーで、実在物質の潜熱・相平衡の再現ではない。色=温度。"},
-  en:{name:"Solid, Liquid, Gas", descStruct:{
-    summary:"Three clouds identical in mass, count, size and initial speed — only the initial internal temperature T_int differs: a controlled experiment. This sample treats temperature as an internal state variable independent of spin (the A9 revision). Uniform gravity gravityY mimics matter in a real container. ",
-    observe:"Left = cold: gravity (A6) wins and the grains crystallize in contact at the bottom (solid). Middle = warm: thermal repulsion (E5′) loosens it and gravity pools it with a surface (liquid). Right = hot: thermal repulsion beats gravity and fills the box (gas). Collisional dissipation now stays in the grains as heat (E9), so even the cold cloud warms slowly. A morphological analogy of binding vs repulsion — not real latent-heat phase transitions. Color = temperature."}},
-  activeParams:["kRep","G","gravityY","muF"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
-  thermal:"tint",   // 第36便 D(台帳4-51)
-  camera:{scale:260}, world:{boundary:"box",size:240},
-  // v1.21(第9次裁定): kFrame 0.3→0(三態比較に引きずりは不要 — 要因分離)
-  physics:{G:0.7, D0:30, kFrame:0, q:2, kRep:0.8, muF:0.6, gammaN:0.85, kappaS:0.02, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0.04, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.6 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2},
-  bodies:[ // v1.5(付録F F4a): 3群は spin 以外すべて同一(統制実験)。v1.18: 少し上から落とす
-    {type:"disk", rMul:1.6, n:65, cx:-160,cy:-50, radius:38, mMin:0.6,mMax:0.6,
-     spinMin:0,spinMax:0, tInt:0.01, vMode:"none", aroundMass:0, vScale:0, direction:1},
-    {type:"disk", rMul:1.6, n:65, cx:0,cy:-50, radius:38, mMin:0.6,mMax:0.6,
-     spinMin:0,spinMax:0, tInt:2, vMode:"none", aroundMass:0, vScale:0, direction:1},
-    {type:"disk", rMul:1.6, n:65, cx:160,cy:-50, radius:38, mMin:0.6,mMax:0.6,
-     // v1.21: spinMax 10→8.5(Gemini 第9次 2.1 — 気体が天井に張り付かず対流するバランス)
-     // 第36便 D: 旧 spin 8〜8.5 の熱を T_int=68(≈8.25²)へ移した
-     spinMin:0,spinMax:0, tInt:68, vMode:"none", aroundMass:0, vScale:0, direction:1}
-  ],
-  overlays:{rotationCurve:false,tempHistogram:false,field:false} },
-
 // ♨️加熱の対流: v1.14 で撤去 → v1.17 で一様重力場(gravityY)ベースに再設計して復活。
 // 旧構成(画面外の遠方大質量で下向き場を代行)は決定力Wの歪み・凍結が撤去理由だった
 // (経緯は DERIVATIONS 付録K/付録M・HANDOFF_IMPLEMENTATION)。gravityY は W に寄与しない
@@ -2188,6 +2237,95 @@ const BUILTIN_PRESETS = [
     {type:"box", rMul:2.5, n:80, cx:0,cy:0, w:280,h:280, mMin:3,mMax:3, spinMin:0,spinMax:0, tInt:0, vScale:0.1}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
+
+// ===== E14″ 創発相変化サンプル(第60便で創発一本に整理 — 旧サンプル群は廃止)=====
+// 廃止(2026-08-02 原仮定者指示「古い仕組みを使ったサンプルは廃止して構わない」):
+//   🧊phase(形態アナロジー)・🫠melt・❄️freeze・🔁meltcycle(エンタルピー構成則)・
+//   ⛓️chain(valence リンク台帳)・🕸️lattice(valence+angK)・💨boil(5区分エンタルピー)。
+//   現行の3サンプルはすべて同じ4ルール(予算 bondN・強さ bondK・角度 angK・熱圧 kRep)から
+//   三態・格子・鎖を創発させる — 相のスイッチも潜熱の指定も持たない
+
+// 🧬emergent: 第56便 56A → 第60便 純創発化。エンタルピー・潜熱・相依存伝導を外し、
+// 熱力学は素の内部温度 T_int(潜熱は結合の井戸から抜けるエネルギーとして創発)。
+// 実測値は第60便で再計測(QA phasechange.emergent が機械固定)
+{ id:"emergent", name:"三態の創発 — 結合の予算", emoji:"🧬", group:"熱の実験室",
+  descStruct:{
+    summary:"固体・液体・気体を「相のスイッチ」なしで創発させる実験(E14″結合予算)。分子間力のルールはひとつだけ — 各分子は結合の予算(公称6本分)を持ち、いま結合している相手の数で予算を分け合う。結合数が減ると残りの結合力が増す(予算の集中)。結合相手は幾何だけで決まり、固定されない(毎瞬間、帯内の相手と自動でつなぎ直す)。温度は熱圧(E5′)の斥力としてだけ力学に入り、この引力との競合が三態を作る。融点も潜熱も指定しない — 結合の井戸から抜け出すエネルギーがそのまま「実効潜熱」として現れる(第60便で創発一本化)。",
+    observe:"低温では弱い結合を6本ずつ張り合った格子(塊)が安定。加熱すると熱圧が結合を1本また1本と引き剥がし、結合数が徐々に減る — 減るほど残りの結合が濃く太くなる(結合線の表示がそのまま予算の集中を見せる)。中温では数本の強い結合で繋がった液滴・クラスタが漂い、結合相手は衝突のたびに入れ替わる。高温では小さな「分子」だけが残り、飛び回る気体になる — 原子の気体ではなく分子の気体が創発するのは、予算の集中で最後の結合が最も強いから。相変化グラフ(右下)では、結合が切れて配位数c̄が下がる間、温度の上がりが鈍る — 指定していない潜熱が結合エネルギーとして創発しているのが読める。結合の組み替えでポテンシャルが変わる分は熱と等価交換され、エネルギーは壁帳簿+結合+U_repで閉じる(保存量モニタ)。熱伝導も創発版(condN): 結合の多い塊は速く、孤立した分子は遅く伝わる。色=温度・結合線の濃さ=結合の強さ。実在物質の定量再現ではない。",
+    control:"kRep(熱圧)を上げると三態の境目が低温側へ動く。bondK・bondN は「相変化(E14″)の実験」ノブで変更できる。T_wall(底)を下げると分子が再結合して塊へ戻っていく。condN を 0 にすると熱伝導の変調が消える(創発伝導とのA/B)。"},
+  en:{name:"Three States Emerging — a Bond Budget", descStruct:{
+    summary:"An experiment where solid, liquid and gas *emerge* without any phase switch (E14″ bond budget). There is a single intermolecular rule: each molecule carries a bonding budget (nominally six bonds' worth) and splits it among however many partners it currently touches. The fewer the bonds, the stronger each remaining one (budget concentration). Partners are set by geometry alone and are never fixed — connections rewire on the fly with whoever is in range. Temperature enters mechanics only as thermal-pressure repulsion (E5′), and its competition with this attraction is what creates the three states. No melting point and no latent heat are specified — the energy needed to climb out of the bond wells appears by itself as an 'effective latent heat' (unified as fully emergent in dispatch 60). ",
+    observe:"At low temperature a lattice of many weak bonds (a lump) is stable. Heating lets thermal pressure peel bonds away one by one — and as the count drops, the remaining bond lines grow visibly darker and thicker (the display shows the budget concentrating). At mid temperatures droplets and clusters drift about, held by a few strong bonds, their partners swapping at every collision. At high temperature only small \"molecules\" remain, flying freely — a gas of molecules rather than atoms emerges, because budget concentration makes the last bonds the strongest. On the phase graph (bottom right), the temperature climbs more slowly while bonds break (mean coordination c̄ falls) — you can watch the unspecified latent heat emerge as bond energy. Potential changes from bond rewiring are exchanged with heat, so energy closes as wall ledger + bonds + U_rep (conservation monitor). Conduction is emergent too (condN): dense lumps conduct fast, isolated molecules slowly. Color = temperature; bond-line darkness = bond strength. No claim of quantitative correspondence to real substances. ",
+    control:"Raise kRep (thermal pressure) and the state boundaries shift to lower temperatures. bondK and bondN are adjustable in the Phase-change (E14″) experiment knobs. Lower the floor T_wall and the molecules re-bond into a lump. Set condN to 0 to switch off the conduction modulation (an A/B against emergent conduction)."}},
+  activeParams:["kRep","kappaS","gravityY","gammaN"],
+  abQuick:{key:"bondK", v:0},   // 61B: 結合を切った対照(熱圧だけのガス)
+  thermal:"tint",
+  phaseChange:{ bondN:6, bondK:5, bondRange:1.6, bondDamp:0.02, condN:2, condS:1, condG:0.15 },
+  camera:{scale:140}, world:{boundary:"box", size:110,
+    thermalWalls:{ bottom:{mode:"heat", T:2, rate:0.25} }},
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:20, muF:0.1, gammaN:0.3, kappaS:0.5, Kt:60,
+    cLight:60, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:2},
+  seed:7,
+  bodies:[ // 初期は低温の結晶(pitch=接触間隔)— 加熱で三態が順に現れる
+    {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:93, pitch:5, mMin:1, mMax:1, tInt:0.2}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:true,field:false,phaseGraph:true} },
+
+
+// 🧊emergent2: 第59便 59A/59B → 第60便 純創発化(meltT/latentF を除去)。
+// angK×bondN 併用+創発熱伝導。実測値は第60便で再計測(QA phasechange.emergent2)
+{ id:"emergent2", name:"格子も分子も — 予算×角度", emoji:"🧊", group:"熱の実験室",
+  descStruct:{
+    summary:"🧬(結合予算)に結合角を加えた実験(E14″拡張 — 第59便で併用可能化)。ルールは2つだけ: ①各分子は結合の予算(公称3本分)を持ち、結合数が減ると残りが強くなる(bondN)。②結合角が理想角120°(=2π/予算3)に近い近傍対は井戸・詰め込み過ぎの角(60°等)は障壁になる符号付き角ポテンシャル(angK — sp²混成軌道の反発の最小類似)。リンクの台帳は無く、どちらも幾何近傍だけから毎瞬間計算される。熱伝導も相率ではなく、いまの結合状態(滑らかな配位数B)から創発する(condN)。融点も潜熱も指定しない — 徐冷で蜂の巣格子・加熱で分子ガスが同じ2ルールから出る。",
+    observe:"温かい液体を床壁でゆっくり冷やすと、組み替えのたびに120°の対が深い井戸へ落ち着き、蜂の巣状の開いた格子が焼き鈍しで創発する(angK=0の対照は接触充填の密集塊 — 角偏差の実測差はQAが機械固定)。「何本まで」も「どの角度で」も、予算と角度という2つの局所ルールの競合だけで決まる。凝固後に壁温を上げ直すと、今度は予算の集中が効いて小さな分子群へ解離して飛び回る — 同じ2ルールから格子(低温)と分子ガス(高温)の両方が出る。熱伝導も創発版: 結合の多い格子は速く(condS側)、孤立した分子は遅く(condG側)伝わる。エネルギーは壁帳簿+結合+U_ang+U_repで閉じる(角ポテンシャルは位置だけの保存力 — 残差はshare変動の交差項で、angK=0でも同階級)。色=温度・結合線の濃さ=予算の集中。実在物質の定量再現ではない。",
+    control:"angKを0にして「初めから」→A/B比較すると、同じ冷却で密集塊 vs 開いた格子が並ぶ。condNを0にすると熱伝導の変調が消える — 創発伝導とのA/B。冷却後にT_wall(底)を5へ上げると分子ガスへ解離、kRepを12へ上げると分子がより細かくなる(予算集中の実験)。壁レートを上げて急冷するとガラス的な乱れた網になる — 焼き鈍しの速度依存。"},
+  en:{name:"Lattice and Molecules — Budget × Angle", descStruct:{
+    summary:"🧬 (bond budget) plus a bond angle (E14″ extension — combined since dispatch 59). Two rules only: ① each molecule carries a bonding budget (nominally three bonds' worth), and the fewer the bonds, the stronger each remaining one (bondN); ② neighbor pairs whose bond angle is near the ideal 120° (=2π/budget 3) sit in a well, while over-packed angles (60° etc.) hit a barrier — a signed angle potential (angK, a minimal analogue of sp² orbital repulsion). There is no link ledger: both rules are evaluated every instant from geometric neighbors alone. Heat conduction is emergent too — derived from the current bonding state (smooth coordination number B) rather than any phase fraction (condN). No melting point and no latent heat are specified — slow cooling gives a honeycomb lattice, heating gives a molecular gas, from the same two rules. ",
+    observe:"Cool a warm liquid slowly against the floor wall and every rewiring settles 120° pairs into deeper wells — an open honeycomb lattice anneals in (the angK=0 control packs into a contact-filled pile; the measured angle-deviation gap is machine-verified by QA). \"How many bonds\" and \"at what angle\" both come out of the competition between two local rules, budget and angle. Reheat the wall and budget concentration takes over: the lattice dissociates into small molecules flying free — the same two rules give a lattice at low temperature and a molecular gas at high. Conduction is the emergent version too: well-bonded lattice conducts fast (toward condS), isolated molecules slowly (toward condG). Energy closes as wall ledger + bonds + U_ang + U_rep (the angle potential is a conservative, position-only force; the residual is the share-drift cross term, same class with angK=0). Color = temperature; bond-line darkness = budget concentration. No claim of quantitative correspondence to real substances. ",
+    control:"Set angK to 0, restart and A/B-compare: same cooling, packed pile vs open lattice. Set condN to 0 and the conduction modulation disappears — an A/B against emergent conduction. After freezing, raise the floor T_wall to 5 and the lattice dissociates into a molecular gas; raise kRep to 12 for finer molecules (a budget-concentration experiment). Raise the wall rate to quench and you get a glassy, disordered net — the rate dependence of annealing."}},
+  activeParams:["kRep","kappaS","gravityY","gammaN"],
+  abQuick:{key:"angK", v:0},   // 61B: 角度なしの対照(密集塊 vs 開いた格子)
+  thermal:"tint",
+  phaseChange:{ bondN:3, bondK:5, bondRange:1.6, bondDamp:0.1, angK:2, condN:2, condS:1, condG:0.15 },
+  camera:{scale:140}, world:{boundary:"box", size:110,
+    thermalWalls:{ bottom:{mode:"heat", T:0.15, rate:0.15} }},
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:8, muF:0.1, gammaN:0.3, kappaS:1, Kt:60,
+    cLight:60, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:4},
+  seed:7,
+  bodies:[ // 温かい液体スタート(jitter で秩序を崩す)
+    {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:93, pitch:7, jitter:1.0, vScale:0.3,
+     mMin:1, mMax:1, tInt:1.5}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:true,field:false,phaseGraph:true} },
+
+
+// ⛓️chain2: 第60便 60C — 鎖の創発(予算2×角度180°)。旧⛓️chain(valence リンク台帳)の
+// 後継: 台帳なしで、公称予算2本+直線角の井戸から鎖・環が自己組織化する。
+// 実測値は第60便で計測(QA phasechange.chain2)
+{ id:"chain2", name:"鎖の創発 — 予算2×角度180°", emoji:"⛓️", group:"熱の実験室",
+  descStruct:{
+    summary:"🧊(予算3×角度120°=蜂の巣)の姉妹実験 — 予算を2本・理想角を180°(=2π/予算2)にしただけで、同じ2つの局所ルールから鎖(分子のスパゲッティ)が創発する(E14″)。結合価の台帳もリンクの上限も指定しない: 3本目の結合は予算の分散で自然に損になり、折れ曲がった角は障壁に押されて伸びる。",
+    observe:"温かい液体を中温の床壁で穏やかに冷やすと、等方の凝集塊ではなく、組み替わりながら伸びる鎖と環が湧いてくる。鎖の端(配位1)は予算が集中して最も強い結合を持ち、鎖の中程(配位2)は180°へ伸ばすトルクを受ける — 端が相手を捕まえ、胴が伸びる、の繰り返しで鎖が育つ。さらに冷やすと絡んだ鎖のまま凍り付き、壁温を上げると端から解けて短い断片・環になる。エネルギーは壁帳簿+結合+U_ang+U_repで閉じる(保存量モニタ)。色=温度・結合線の濃さ=予算の集中。実在の高分子・会合流体の定量再現ではない。",
+    control:"bondNを3へ上げると鎖が網(🧊の蜂の巣側)へ、6へ上げると等方の塊(🧬側)へ変わる — 予算ノブ1つで分子構造の族を行き来できる。angKを0にすると鎖が保てず液滴に崩れる(角度の対照実験)。T_wall(底)で凍結⇄解離を往復できる。"},
+  en:{name:"Chains Emerging — Budget 2 × Angle 180°", descStruct:{
+    summary:"The sister experiment to 🧊 (budget 3 × angle 120° = honeycomb): set the budget to two bonds and the ideal angle to 180° (=2π/budget 2), and the same two local rules make chains emerge — molecular spaghetti (E14″). No valence ledger and no link cap are specified: a third bond simply does not pay because it dilutes the budget, and kinked angles are pushed straight by the barrier. ",
+    observe:"Cool a warm liquid gently against a mid-temperature floor and, instead of an isotropic cohesive lump, ever-rewiring chains and rings well up. Chain ends (coordination 1) concentrate the budget and carry the strongest bonds; chain middles (coordination 2) feel a torque toward 180° — ends catch partners, bodies straighten, and the chains grow. Cool further and they freeze as tangled chains; raise the wall temperature and they unravel from the ends into short fragments and rings. Energy closes as wall ledger + bonds + U_ang + U_rep (conservation monitor). Color = temperature; bond-line darkness = budget concentration. No claim of quantitative correspondence to real polymers or associating fluids. ",
+    control:"Raise bondN to 3 and the chains become a network (the 🧊 honeycomb side); at 6 they become an isotropic lump (the 🧬 side) — one budget knob walks through a family of molecular structures. Set angK to 0 and the chains cannot hold and collapse into droplets (the angle control). The floor T_wall cycles freezing ⇄ dissociation."}},
+  activeParams:["kRep","kappaS","gravityY","gammaN"],
+  abQuick:{key:"angK", v:0},   // 61B: 角度なしの対照(液滴 vs 鎖)
+  thermal:"tint",
+  phaseChange:{ bondN:2, bondK:5, bondRange:1.6, bondDamp:0.1, angK:1.2, condN:2, condS:1, condG:0.15 },
+  camera:{scale:140}, world:{boundary:"box", size:110,
+    thermalWalls:{ bottom:{mode:"heat", T:0.6, rate:0.15} }},
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:8, muF:0.1, gammaN:0.3, kappaS:1, Kt:60,
+    cLight:60, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:4},
+  seed:7,
+  bodies:[ // 🧊と同じ温かい液体スタート — 差は bondN=2(予算)と壁温だけ
+    {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:93, pitch:7, jitter:1.0, vScale:0.3,
+     mMin:1, mMax:1, tInt:1.5}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:true,field:false,phaseGraph:true} },
+
 
 // ===== グループ: 天体の物語 =====
 { id:"earthMoon", name:"地球と月", emoji:"🌍", group:"天体の物語",
@@ -2671,7 +2809,7 @@ for(const __p of BUILTIN_PRESETS){
 // 第37便 B2(原仮定者裁定「正しい挙動が分からない」): ❄️snowline(塵は冷えると固まる — 冷たい星と
 // 熱い星)を廃止した。v1.24 の廃止手順(🪣mach/🕰twin/💫drag)に倣い、参照(qa.mjs の
 // preset.snowline-name / tint.migrated / shot.regress 対象・tests/baseline-shots.json)を同時整理
-// 済み。旧定義は git 履歴(本コミット以前)を参照。PHYSICS.md §6 の行削除・tint 節の「7種+❄️」
+// 済み。旧定義は git 履歴(本コミット以前)を参照。PHYSICS.md §6 の行削除・tint 節の「7種+snowline」
 // 表記修正は後工程(37b-report.md 参照)。
 
 // ===== プリセット・バリデータ(LLM出力/インポートの検証。構造NG=エラー、値域外=クランプ) =====
@@ -2744,16 +2882,17 @@ function validatePreset(obj){
         }
         // 第22便(原仮定者裁定): 観測温度・半径系。スピン役割分離(sFrame/sTherm/sRep)は
         // トイモデル段階では廃止 — 旧キーは無視される(エンジンは v1.29 力学)
-        // obsT=観測温度係数(T_obs = obsT·(1−lightSweep)·T。既定1・0〜1000)
         // lightSweep=光掻き出し(0〜1。自星の光を出さない → 観測温度 0・E11 も (1−lS) 倍)
-        // coreOT=コア観測温度比率(Tc_obs = coreOT·(1−lS)·Ic·sc²。既定1)
+        // 第61便: obsT(観測温度係数)・coreOT(コア観測温度比率)は未使用のため廃止
+        // (原仮定者指示「使われていないなら廃止」— 指定されていれば警告して無視)
         // radius=半径の明示指定(0.5〜500。未指定は radiusScale·√|m|)・coreRR=コア半径比(0.02〜1)
         // 第36便 C1: rMul=粒子半径の倍率(0.2〜5・既定1。R=radiusScale·rMul·√|m|)。
         //   body.radius の 0.5 下限は経由しない(rMul は内部計算 — 微小粒子の R<0.5 も従来どおり出せる)
         // 第36便 D(台帳4-51): tInt=内部温度 T_int の初期値(thermal:"tint" のときだけ使われる。
         // 既定0。spin モードのプリセットに書かれていても build が参照しないので無害)
-        for(const [k,lo,hi] of [["obsT",0,1000],["coreOT",0,1000],
-                                 ["radius",0.5,500],["coreRR",0.02,1],["rMul",0.2,5],
+        for(const oldKey of ["obsT","coreOT"])
+          if(b[oldKey]!==undefined){ warnings.push(at+"."+oldKey+" は第61便で廃止されました — 無視します"); delete b[oldKey]; }
+        for(const [k,lo,hi] of [["radius",0.5,500],["coreRR",0.02,1],["rMul",0.2,5],
                                  ["tInt",0,10000]]){
           if(b[k]!==undefined){
             if(!isNum(b[k])){ bad(at+"."+k+" が数値ではありません"); return; }
@@ -2858,6 +2997,31 @@ function validatePreset(obj){
           oB.tInt=wc(b.tInt,0,10000,"tInt");
         }
         out.push(oB);
+      } else if(t==="grid"){
+        // 第53便 53A(E14): 格子配置(六方充填の決定論初期条件)。n=総数・cols=列数・
+        // pitch=格子間隔。jitter は一様ノイズ(既定0)。速度は bulkVx/bulkVy のみ
+        if(!needNum(["n","cols","cx","cy","pitch","mMin","mMax"])) return;
+        const oG={type:"grid", n:clamp(Math.round(b.n),0,N_CAP), cols:clamp(Math.round(b.cols),1,N_CAP),
+          cx:CO(b.cx,"cx"), cy:CO(b.cy,"cy"), pitch:LEN(b.pitch,"pitch"),
+          mMin:MASS(Math.min(b.mMin,b.mMax),"mMin"), mMax:MASS(Math.max(b.mMin,b.mMax),"mMax"),
+          bulkVx:isNum(b.bulkVx)?VEL(b.bulkVx,"bulkVx"):0, bulkVy:isNum(b.bulkVy)?VEL(b.bulkVy,"bulkVy"):0};
+        if(b.jitter!==undefined){
+          if(!isNum(b.jitter)){ bad(at+".jitter が数値ではありません"); return; }
+          oG.jitter=wc(b.jitter,0,20,"jitter");
+        }
+        if(b.vScale!==undefined){   // 第53便 53B: 乱数向き初期速度(box と同じ値域)
+          if(!isNum(b.vScale)){ bad(at+".vScale が数値ではありません"); return; }
+          oG.vScale=wc(b.vScale,0,50,"vScale");
+        }
+        if(b.rMul!==undefined){
+          if(!isNum(b.rMul)){ bad(at+".rMul が数値ではありません"); return; }
+          oG.rMul=wc(b.rMul,0.2,5,"rMul");
+        }
+        if(b.tInt!==undefined){
+          if(!isNum(b.tInt)){ bad(at+".tInt が数値ではありません"); return; }
+          oG.tInt=wc(b.tInt,0,10000,"tInt");
+        }
+        out.push(oG);
       } else bad(at+".type が不正です("+String(t)+")");
     });
     // 粒子総数のクランプ(比例縮小)
@@ -2937,6 +3101,48 @@ function validatePreset(obj){
       p.fusion=out;
     }
   }
+  // E14″ phaseChange — 創発相変化(最上位キー。fusion と同じ配置。第60便で創発一本に整理)。
+  // 「相」は物理入力ではない: 結合予算 bondN(必須)を核に、引力・角度・減衰・熱伝導のすべてを
+  // 「いまの結合状態(滑らかな配位数)」から導出する。**thermal:"tint" のときだけ有効**・
+  // **fusion とは併用不可**。旧スキーマ(meltT/latentF/boilT/latentV/cohesion/valence/visc/
+  // condL — 相率ゲート・エンタルピー構成則)は第60便で廃止 — 指定されていれば警告して落とす。
+  // 構造が壊れている場合は警告つきで削除する。※ SYSTEM_PROMPT には載せない(AI生成には開放しない)
+  if(p.phaseChange!==undefined){
+    const PC=p.phaseChange;
+    if(!PC || typeof PC!=="object" || Array.isArray(PC)){
+      warnings.push("phaseChange はオブジェクトが必要 — 無視します"); delete p.phaseChange;
+    } else if(p.thermal!=="tint"){
+      warnings.push('phaseChange は thermal:"tint" でのみ有効 — 無視します'); delete p.phaseChange;
+    } else if(p.fusion!==undefined){
+      warnings.push("phaseChange は fusion とは併用できません — phaseChange を無視します"); delete p.phaseChange;
+    } else if(!isNum(PC.bondN) || !(PC.bondN>0)){
+      warnings.push("phaseChange.bondN(結合予算)は正の数値が必要 — phaseChange を無視します"); delete p.phaseChange;
+    } else {
+      const out={ bondN:clamp(PC.bondN,0.5,12) };
+      if(out.bondN!==PC.bondN) warnings.push("phaseChange.bondN を値域 [0.5,12] に修正");
+      // 任意サブキー(省略時の既定は build 側と同一): 数値でなければ警告して既定へ
+      const optNum=(key, lo, hi, dflt)=>{
+        const v=PC[key];
+        if(v===undefined) return dflt;
+        if(!isNum(v)){ warnings.push("phaseChange."+key+" が数値でないため既定値にします"); return dflt; }
+        const c=clamp(v,lo,hi);
+        if(c!==v) warnings.push("phaseChange."+key+" を値域に修正");
+        return c;
+      };
+      out.bondK=optNum("bondK",0,100,0);
+      out.bondRange=optNum("bondRange",1.05,3,1.6);
+      out.bondDamp=optNum("bondDamp",0,1,0);
+      out.angK=optNum("angK",0,10,0);
+      out.condN=optNum("condN",0,12,0);
+      out.condS=optNum("condS",0,100,1);
+      out.condG=optNum("condG",0,100,1);
+      // 第60便: 廃止キーの移行警告(黙って挙動が変わるのを防ぐ — 値は落とす)
+      for(const oldKey of ["meltT","latentF","boilT","latentV","cohesion","valence","visc","condL"])
+        if(PC[oldKey]!==undefined)
+          warnings.push("phaseChange."+oldKey+" は第60便(創発一本化)で廃止されました — 無視します");
+      p.phaseChange=out;   // 未知のサブキーは落とす(受理する形を1つに固定する — fusion と同方針)
+    }
+  }
   // 第37便 C1(台帳4-70): world.thermalWalls — 伝熱作用する箱の境界条件。
   // {bottom:{mode:"heat",T:..,rate:..}, top:{mode:"rad",rate:..}, left/right: 省略=断熱}
   // 有効条件は boundary:"box" かつ thermal:"tint" の両方。条件を満たさないときは警告つきで
@@ -2971,6 +3177,15 @@ function validatePreset(obj){
             o.T=clamp(w.T,0,10000);
             if(o.T!==w.T) warnings.push("world.thermalWalls."+side+".T を値域に修正");
           } else o.T=0;
+          // 第53便 53D: 壁温スケジュール T2/tSwitch(両方揃って有効 — 片方だけは警告して無視)
+          if(w.T2!==undefined || w.tSwitch!==undefined){
+            if(!isNum(w.T2) || !isNum(w.tSwitch) || !(w.tSwitch>0)){
+              warnings.push("world.thermalWalls."+side+" の T2/tSwitch は両方の数値指定(tSwitch>0)が必要 — 無視します");
+            } else {
+              o.T2=clamp(w.T2,0,10000); o.tSwitch=clamp(w.tSwitch,0,100000);
+              if(o.T2!==w.T2 || o.tSwitch!==w.tSwitch) warnings.push("world.thermalWalls."+side+".T2/tSwitch を値域に修正");
+            }
+          }
         } else if(w.T!==undefined) warnings.push('world.thermalWalls.'+side+'.T は mode:"rad" では使いません(T_wall=0 固定)');
         out[side]=o;
       }
@@ -3187,7 +3402,7 @@ function validatePreset(obj){
       p.claims=out;
     }
   }
-  const ov={rotationCurve:false,tempHistogram:false,field:false,spectrum:false,trail:false,monitor:false,boxGraph:false}; // v1.12: trail/monitor を正式化(第6次裁定 7.5)。boxGraph は第32便(W2)
+  const ov={rotationCurve:false,tempHistogram:false,field:false,spectrum:false,trail:false,monitor:false,boxGraph:false,phaseGraph:false}; // v1.12: trail/monitor を正式化(第6次裁定 7.5)。boxGraph は第32便(W2)。phaseGraph は第53便 53B(E14)
   if(p.overlays!==undefined){
     if(typeof p.overlays!=="object"||Array.isArray(p.overlays)) bad("overlaysはオブジェクト");
     else {
@@ -3256,7 +3471,15 @@ function normThermalWalls(world, thermal){
     const rate=(typeof w.rate==="number" && isFinite(w.rate))? clamp(w.rate,0,100) : 1;
     if(!(rate>0)) continue;
     const T=(mode==="heat" && typeof w.T==="number" && isFinite(w.T))? clamp(w.T,0,10000) : 0;
-    out[k]={mode, T, rate}; any=true;
+    const o={mode, T, rate};
+    // 第53便 53D(外部レビュー「融解→凝固の往復サンプル」): 壁温スケジュール — mode:"heat" で
+    // T2・tSwitch の両方が有効なら、t ≥ tSwitch 以降の壁温を T2 に切り替える(1回だけの階段。
+    // 省略時は従来と 1 ビットも変わらない)。加熱→冷却の壁スケジュール実験に使う
+    if(mode==="heat" && typeof w.T2==="number" && isFinite(w.T2)
+       && typeof w.tSwitch==="number" && isFinite(w.tSwitch) && w.tSwitch>0){
+      o.T2=clamp(w.T2,0,10000); o.tSwitch=clamp(w.tSwitch,0,100000);
+    }
+    out[k]=o; any=true;
   }
   return any? out : null;
 }
@@ -3303,6 +3526,105 @@ function solveTintE(T0, cm, a, Q){
   const z=2*E/(a + Math.sqrt(a*a + 4*cm*E));
   return z*z;
 }
+// ===== E14″ 創発相変化(第53〜59便で段階導入 → 第60便で創発一本に整理)=====
+// 「相」を物理入力にしない。粒子の熱状態は素の内部温度 T_int(A9″/A12″ の tint 経路そのまま —
+// エンタルピー区分・潜熱・融点/沸点の構成則は第60便で廃止)。凝縮相の力学・輸送はすべて
+// 「いまの結合状態」から毎瞬間計算される:
+//   ・引力(結合予算 bondN — 56A): K_pair = bondK·√(share_i·share_j)、share=min(S_max, N0/c)。
+//     結合数が減ると残りが強くなる(予算の集中)— 三態は kRep(E5′ 熱圧)との競合から創発
+//   ・結合角(angK — 58A/59A): 幾何近傍対への符号付き角ポテンシャル(理想角=井戸・過密角=障壁)
+//   ・熱伝導(condN — 59B): c = condG+(condS−condG)·B/(B+condN)(B=滑らかな配位数)
+//   ・減衰(bondDamp — 60A): cD = bondDamp·(√(share_i·share_j)/S_max)·W(結合の濃さに比例 —
+//     固体の結合振動は強く減衰・気体の掠め接触はほぼ減衰しない)
+// 潜熱は指定しない — 融解・蒸発で結合の井戸から抜け出すエネルギーがそのまま「実効潜熱」として
+// 現れる(加熱曲線の傾き低下・凝固時の発熱として観測される。厳密な水平プラトーは主張しない)。
+// 固体/液体/気体のラベルは観測量(配位数・結合線の表示)であり、物理はどこにも相率を読まない。
+// 第56便 56A(結合予算): share の上限。結合が1本まで減っても「元の PC_SHARE_MAX 倍」までしか
+// 強くならない(固相を保てる弱い斥力でも、高温で最後の結合を振り切れる動的レンジの確保 —
+// 上限3では 固相維持と気相脱出の要求が2倍矛盾することを実測で確認し 2 に決定)
+const PC_SHARE_MAX=2;
+// 第59便 59A(angK×bondN 併用): 明示リンクを持たないため、結合角ポテンシャルは「幾何近傍」の
+// 対に適用する。角の中心 i の帯内近傍をサブステップごとに最大 PC_ANG_MAX 体まで記録し
+// (走査順 j 昇順 — 決定論。あふれは angOvfN に計数)、その対 (j,k) へ保存的角ポテンシャルを
+// 掛ける。理想角は公称配位数から θ*=2π/max(2,bondN)(bondN=3→120°・2→180°・6→60°)。
+// W は帯端で 0 なので近傍の出入りとエネルギー連続 — リンク台帳も離散イベントも存在しない
+const PC_ANG_MAX=12;
+// E14″ 凝縮相引力の対ポテンシャルの総和(監査・QA用 — 表示/QA が読むだけで物理には未参照)。
+// 力は r0=R_i+R_j < d < cut=bondRange·r0 の帯で F(d) = K_att·μ·(d−r0)·(cut−d)/(cut−r0)
+// (d=r0, cut で 0 — 連続)。U(d) = −∫_d^cut F ds、重なり d≤r0 では力 0・U は一定(井戸底):
+//   U(d) = −K_att·μ/A·[A·(A²−u0²)/2 − (A³−u0³)/3]、A=cut−r0、u0=max(0, d−r0)
+// K_att = bondK·√(share_i·share_j)。share 変化に伴う U の変化は _core の再配分熱交換
+// (ΔK·μ·w — 56A)で支払われ、帳簿外に残るのは交差項 O(dt·ċ)・力上限クランプ発動時のみ
+// (発動は S.clampAN に計数 — PHYSICS.md §E14 の限界を参照)。
+// W(d)=w/w_max ∈[0,1](w_max=A²/6)は正規化井戸深さ — 結合角ポテンシャルと減衰の重み。
+// _core 側の力計算は dW も要るためインライン展開している(本関数は監査 phaseEnergy 用)
+function phaseAngWv(d,sumR,cut){
+  const A=cut-sumR; if(!(A>1e-9)) return 0;
+  const u=(d>sumR)? Math.min(d-sumR,A) : 0;
+  return ((A*(A*A-u*u)/2 - (A*A*A-u*u*u)/3)/A)/(A*A/6);
+}
+function phaseEnergy(s){
+  const pc=s.phase; if(!pc) return 0;
+  const K1=pc.bondK;
+  if(!(K1>0)) return 0;
+  const bN=pc.bondN, cN=s.coordN;   // 56A: 結合予算(coordN は前サブステップ値)
+  let U=0;
+  for(let i=0;i<s.n;i++){
+    const mi=s.m[i], Ri=s.R[i];
+    const shI=Math.min(PC_SHARE_MAX,bN/Math.max(cN[i],0.5));
+    for(let j=i+1;j<s.n;j++){
+      const sumR=Ri+s.R[j], cut=pc.bondRange*sumR;
+      const dx=s.x[i]-s.x[j], dy=s.y[i]-s.y[j], d=Math.sqrt(dx*dx+dy*dy);
+      if(!(d<cut)) continue;
+      const ms=mi+s.m[j]; if(!(Math.abs(ms)>1e-9)) continue;
+      const shJ=Math.min(PC_SHARE_MAX,bN/Math.max(cN[j],0.5));
+      const Katt=K1*Math.sqrt(shI*shJ);
+      if(!(Katt>0)) continue;
+      const muM=mi*s.m[j]/ms, A=cut-sumR;
+      const u0=(d>sumR)? d-sumR : 0;
+      U-=Katt*muM/A*(A*(A*A-u0*u0)/2 - (A*A*A-u0*u0*u0)/3);
+    }
+  }
+  // 第59便 59A(angK×bondN 併用): 結合予算モードの角ポテンシャル — 幾何近傍
+  // (j 昇順・最大 PC_ANG_MAX 体 — _core の収集則と同一)の対 (j,k) へ
+  //   U_ang=−angK·bondK·μ_jk·W_ij·W_ik·g(cosθ)、g=1−(cosθ−cosθ*)²/0.5(符号付き・クランプなし)
+  // を適用する(θ*=2π/max(2,bondN))。理想角=井戸・悪い角度=障壁の符号付き線形 g で、
+  // 位置だけの純関数=厳密勾配の保存力 — この項だけで帳簿が閉じる(share 非依存。設計の経緯は
+  // _core の 59A ブロック注釈を参照)
+  if(pc.angK>0){
+    const c0=Math.cos(2*Math.PI/Math.max(2,bN)), KA=pc.angK*K1;
+    const nb=new Int32Array(PC_ANG_MAX);
+    for(let i=0;i<s.n;i++){
+      let nc=0;
+      const mi=s.m[i];
+      for(let j=0;j<s.n && nc<PC_ANG_MAX;j++){
+        if(j===i) continue;
+        const sumR=s.R[i]+s.R[j], cut=pc.bondRange*sumR;
+        const dx=s.x[i]-s.x[j], dy=s.y[i]-s.y[j];
+        if(!(dx*dx+dy*dy<cut*cut)) continue;
+        if(!(Math.abs(mi+s.m[j])>1e-9)) continue;
+        nb[nc++]=j;
+      }
+      for(let a1=0;a1<nc-1;a1++){
+        const j=nb[a1];
+        for(let a2=a1+1;a2<nc;a2++){
+          const k2=nb[a2];
+          const axv=s.x[j]-s.x[i], ayv=s.y[j]-s.y[i], bxv=s.x[k2]-s.x[i], byv=s.y[k2]-s.y[i];
+          const la=Math.sqrt(axv*axv+ayv*ayv), lb=Math.sqrt(bxv*bxv+byv*byv);
+          if(!(la>1e-9 && lb>1e-9)) continue;
+          const sRa=s.R[i]+s.R[j], sRb=s.R[i]+s.R[k2];
+          const Wa=phaseAngWv(la,sRa,pc.bondRange*sRa), Wb=phaseAngWv(lb,sRb,pc.bondRange*sRb);
+          if(!(Wa>0 && Wb>0)) continue;
+          const ms2=s.m[j]+s.m[k2]; if(!(Math.abs(ms2)>1e-9)) continue;
+          const cth=(axv*bxv+ayv*byv)/(la*lb), dcv=cth-c0;
+          const g=1-dcv*dcv/0.5;   // 符号付き(負側=角の障壁)
+          U-=KA*(s.m[j]*s.m[k2]/ms2)*Wa*Wb*g;
+        }
+      }
+    }
+  }
+  return U;
+}
 function makeSim(){
   const S = {
     n:0, t:0, params:Object.assign({},DEFAULT_PHYSICS),
@@ -3316,14 +3638,14 @@ function makeSim(){
     coreMR:null, coreSR:null, mEff:null, Rc:null, rotAc:null, hasCore:false,
     // 第22便(原仮定者裁定): スピン役割分離(sFrame/sTherm/sRep)はトイモデル段階では廃止 —
     // エンジンは従来(v1.29)力学へ復帰。代わりに観測層を分離する:
-    // ・obsT = 観測温度係数(観測温度 T_obs = obsT·(1−lightSweep)·T。絶対温度 T=Is² に比例)
+    // ・(obsT = 観測温度係数は第61便で廃止 — 全プリセット未使用〔恒等1〕だった)
     // ・lSw = 光掻き出し lightSweep(0〜1。ダークローター: コアスピンが自星の光を掻き出して
     //   外に出さない → 観測温度を計測できず見掛けは冷たい。E11 放射も (1−lSw) 倍 — 光が出ない
     //   なら放射冷却もしない)。表示系(色・ヒストグラム・スペクトル・HUD)はすべて T_obs
-    // ・coreOT = コア観測温度比率(Tc_obs = coreOT·(1−lSw)·Ic·sc²。旧 coreTR は廃止)
+    // ・(coreOT = コア観測温度比率も第61便で廃止 — 同上。Tc_obs=(1−lSw)·Ic·sc²)
     // ・radOv = 半径の明示指定(0=未指定→radiusScale·√|m|)。扁平率 f=5s²R³/(4Gm) にも使用
     // ・coreRRv = コア半径比 Rc/R(0=未指定→√|coreMR| 相当の従来式)
-    obsT:null, lSw:null, coreOT:null, radOv:null, coreRRv:null,
+    lSw:null, radOv:null, coreRRv:null,   // 第61便: obsT/coreOT は廃止(未使用)
     // 第36便 C1(原仮定者指示「粒子半径スケールの既定は1」): rMulv = 粒子ごとの半径倍率
     // (body.rMul。既定1)。実効倍率は rs_eff = radiusScale·rMul_i で、R_i = rs_eff·√|m_i|。
     // radiusScale スライダーは全粒子に掛かる「相対ノブ」として存続し(既定1が基準)、
@@ -3408,6 +3730,24 @@ function makeSim(){
     //   _fisN0 = build 直後の粒子数(連鎖分裂の暴走保護 nMax の基準)
     fusion:null, fusN:0, fusU:0, fusPx:0, fusPy:0, fusL:0, fusLog:null,
     fisN:0, fisLog:null, _fisN0:0,
+    // E14″ 創発相変化(第60便で一本化)。プリセット最上位キー phaseChange:{bondN,…} を持つ
+    // **かつ** thermal:"tint" **かつ** fusion なし のプリセットだけが非 null になり、省略時は
+    // phase===null のまま(完全ゼロコスト経路 — QA phasechange.zero-cost が bit 一致で保証)。
+    // 熱状態は素の T_int(tint 経路そのまま — エンタルピー正本・相率は第60便で廃止)。
+    // coordN/coordAcc = 滑らかな配位数の2バッファ(56A)・shPrev = 前サブステップの share
+    phase:null,
+    coordN:null, coordAcc:null, shPrev:null, clampAN:0,
+    // 第59便 59A(angK×bondN 併用): 幾何近傍の記録(中心ごとに最大 PC_ANG_MAX 体・毎パス再収集
+    // = サブステップを跨ぐ状態ではない)。angOvfN = 近傍あふれの計数(発動 0 を QA が機械固定)
+    angNbr:null, angNbrN:null, angOvfN:0,
+    // 第53便 53B → 第60〜61便: 相変化履歴 — phaseChange プリセットのみ 25サブステップごとに
+    // {t, T:平均T_int, c:平均配位数, psi6:平均六方配向秩序, churn:結合の組替率, Q:壁正味入熱}
+    // を積む(boxHist と同方式・グラフ用データ層 — 物理不変)。
+    // 第61便 61A(観測層): ψ6_i=|Σ_j e^{i6θ}|/n(帯内近傍 n≥2)・churn=前サンプルとの近傍集合の
+    // 対称差率(液体=速い組替・固体=ほぼ0 — 「粘性の寿命依存」が観測量として読める)。
+    // _phNbrPrev/_phNbrPrevN=前サンプルの近傍集合(最大12/粒)・_phProf=高さ8帯の平均配位数
+    // (相前線プロファイル — 床側から融解・凝固前線が進むのを見る)
+    phHist:null, _phAcc:0, _phNbrPrev:null, _phNbrPrevN:null, _phNbrInit:false, _phProf:null,
     curveBins:null, curveKep:null, tempLR:[0,0], histT:[],
   };
   // 第39便 39B(台帳4-76): thermal="spin" のときに _core が掴む tint 系配列のダミー。
@@ -3417,13 +3757,14 @@ function makeSim(){
   // 実測: ♨️の直後に 🎯 が 1217→1359ms/60frames。root は ♨️ が spin なのでこの退化が無い —
   // これが perf ゲートの saturnLayered beta/root 1.10〜1.22 の正体だった)。
   // 参照はすべて if(tint) の内側なので spin モードでは 1 度も読まれない = 値は 1 bit も変わらない。
-  const __DF32=new Float32Array(1), __DF64=new Float64Array(1);
+  const __DF32=new Float32Array(1), __DF64=new Float64Array(1),
+        __DI32A=new Int32Array(1);   // 第59便 59A: angNbr 系のダミー束縛(型を一定に保つ)
   S.alloc = function(n){
     S.n=n;
     const F=()=>new Float32Array(n);
     S.m=F();S.x=F();S.y=F();S.vx=F();S.vy=F();S.spin=F();S.R=F();S.rotA=F();
     S.coreMR=F();S.coreSR=F();S.mEff=F();S.Rc=F();S.rotAc=F();   // 主星2層(第12〜14便)
-    S.obsT=F();S.lSw=F();S.coreOT=F();S.radOv=F();S.coreRRv=F();// 観測温度・半径系(第22便)
+    S.lSw=F();S.radOv=F();S.coreRRv=F();// 観測系(第22便 — obsT/coreOT は第61便で廃止)
     S.coreSR.fill(1);   // コアスピン比の既定は 1(剛体回転=単層等価)
     S.rMulv=new Float64Array(n); S.rMulv.fill(1);   // 第36便 C1: 半径倍率(既定1。倍精度で保持)
     S.lSwAuto=new Uint8Array(n); S.hasLSwAuto=false;// 第36便 C2: 掻出の自動算出フラグ(既定0=独立指定)
@@ -3459,8 +3800,7 @@ function makeSim(){
           // 主星2層(第14便: 比率仕様)。coreMR=mc/m(既定0)・coreSR=sc/s(既定1)
           coreMR:b.coreMR||0, coreSR:(b.coreSR===undefined?1:b.coreSR),
           // 観測温度・半径系(第22便): 既定は従来と厳密等価
-          obsT:(b.obsT===undefined?1:b.obsT), lightSweep:(b.lightSweep===undefined?0:b.lightSweep),
-          coreOT:(b.coreOT===undefined?1:b.coreOT),
+          lightSweep:(b.lightSweep===undefined?0:b.lightSweep),
           radius:(b.radius===undefined?0:b.radius), coreRR:(b.coreRR===undefined?0:b.coreRR),
           rMul:(b.rMul===undefined?1:b.rMul),   // 第36便 C1: 粒子ごとの半径倍率(既定1)
           tInt:(b.tInt===undefined?0:b.tInt)};  // 第36便 D: 内部温度の初期値(thermal:"tint" 専用・既定0)
@@ -3551,6 +3891,30 @@ function makeSim(){
             vx:v*Math.cos(a2)+(b.bulkVx||0), vy:v*Math.sin(a2)+(b.bulkVy||0),   // v1.18: 並進速度
             spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:0, railOmega:0, rMul:rM, tInt:tI});
         }
+      } else if(b.type==="grid"){
+        // 第53便 53A(E14): 格子配置 — 六方充填の決定論初期条件(相変化デモの「結晶」用)。
+        // {n, cols, cx, cy, pitch} で n 個を cols 列の六方格子(奇数行を pitch/2 ずらし・
+        // 行間 pitch·√3/2)に置く。pitch を接触距離 2R に取ると E9 ばね+E14 結合の平衡格子から
+        // 静かに始められる(box のランダム散布は初期重なりの解放熱で相変化デモが壊れる)。
+        // jitter は各点への一様ノイズ(既定0=完全格子)。速度は bulkVx/bulkVy のみ・spin=0
+        const rM=(b.rMul===undefined?1:b.rMul);
+        const tI=(b.tInt===undefined?0:b.tInt);
+        const cols=Math.max(1,Math.round(b.cols)), pit=b.pitch, HEX=0.8660254037844386;
+        const rows=Math.ceil(b.n/cols);
+        const W2=(cols-1)*pit/2, H2=(rows-1)*pit*HEX/2;
+        // 第53便 53B(外部レビュー P1「凝固初期の格子記憶」): vScale — 乱数向きの初期速度(box と
+        // 同形)。液体初期条件では格子を配置だけで表すと結晶の並びが位置に残るため、攪拌して
+        // 秩序を崩してから冷却へ入る(粘性・凝集が数百步で減衰させ、運動Eは dQi=熱へ入る)
+        for(let i=0;i<b.n;i++){
+          const r=(i/cols)|0, c=i%cols;
+          let x=b.cx - W2 + c*pit + ((r%2)? pit*0.5 : 0), y=b.cy - H2 + r*pit*HEX;
+          const jt=(b.jitter||0);
+          if(jt>0){ x+=(rng()*2-1)*jt; y+=(rng()*2-1)*jt; }
+          const a2=rng()*Math.PI*2, v=(b.vScale||0)*rng();
+          push({m:b.mMin+(b.mMax-b.mMin)*rng(), x,y,
+            vx:v*Math.cos(a2)+(b.bulkVx||0), vy:v*Math.sin(a2)+(b.bulkVy||0),
+            spin:0, pinned:0, railOmega:0, rMul:rM, tInt:tI});
+        }
       }
     }
     S.alloc(P.length);
@@ -3568,7 +3932,6 @@ function makeSim(){
     P.forEach((o,i)=>{ S.m[i]=o.m; S.x[i]=o.x; S.y[i]=o.y; S.vx[i]=o.vx; S.vy[i]=o.vy;
       S.spin[i]=o.spin; S.pinned[i]=o.pinned; S.railOmega[i]=o.railOmega||0;
       S.coreMR[i]=o.coreMR||0; S.coreSR[i]=(o.coreSR===undefined?1:o.coreSR);
-      S.obsT[i]=(o.obsT===undefined?1:o.obsT);
       // 第36便 C2: lightSweep は数値(独立指定・従来どおり)か "auto"(粒子パラメータからの算出)。
       // auto の初期値は 0 で、最初の _core で lS_eff に上書きされる
       const lsw=o.lightSweep;
@@ -3576,7 +3939,6 @@ function makeSim(){
       else { S.lSwAuto[i]=0; S.lSw[i]=(lsw===undefined?0:lsw); }
       S.rMulv[i]=(o.rMul===undefined?1:o.rMul);   // 第36便 C1: 半径倍率(既定1)
       if(S.Tint) S.Tint[i]=(o.tInt===undefined?0:o.tInt);   // 第36便 D: 内部温度の初期値(tint モードのみ)
-      S.coreOT[i]=(o.coreOT===undefined?1:o.coreOT);
       S.radOv[i]=(o.radius===undefined?0:o.radius); S.coreRRv[i]=(o.coreRR===undefined?0:o.coreRR);
       S.railH[i]=o.railH||0;
       if(o.railOmega||o.railH){ S.railR[i]=o.railR; S.railAng[i]=o.railAng; S.railCx[i]=o.railCx; S.railCy[i]=o.railCy; }
@@ -3660,6 +4022,61 @@ function makeSim(){
     }
     S.fusN=0; S.fusU=0; S.fusPx=0; S.fusPy=0; S.fusL=0; S.fusLog=S.fusion? [] : null;
     S.fisN=0; S.fisLog=(S.fusion&&S.fusion.fission)? [] : null; S._fisN0=S.n;
+    // E14″ 創発相変化(第60便で一本化)。最上位キー phaseChange:{bondN,…}(thermal:"tint" かつ
+    // fusion なしのときだけ有効 — validatePreset も同条件で警告つき削除する。内蔵プリセットは
+    // バリデータを通らないので、ここが最終的な門番になる: fusion/twall と同形)。
+    // bondN(公称配位数=結合予算)は正の数値必須 — 予算・角度・伝導のすべてが配位数を読む。
+    // 旧スキーマ(meltT/latentF/boilT/latentV/cohesion/valence/visc/condL — 相率ゲート・
+    // エンタルピー構成則)は第60便で廃止(指定されていても無視される)
+    const PC=preset.phaseChange;
+    S.phase = (PC && typeof PC==="object" && !Array.isArray(PC) && S.thermal==="tint" && !S.fusion
+               && isNum(PC.bondN) && PC.bondN>0)
+      ? { bondN:clamp(PC.bondN,0.5,12),
+          bondK:(isNum(PC.bondK)? clamp(PC.bondK,0,100) : 0),
+          bondRange:(isNum(PC.bondRange)? clamp(PC.bondRange,1.05,3) : 1.6),
+          // 60A: 減衰も結合の濃さから創発 — cD = bondDamp·(√(share·share)/S_max)·W(帯内対)。
+          // 固体の結合振動は強く減衰・気体の掠め接触はほぼ減衰しない(散逸は熱へ — A9′)
+          bondDamp:(isNum(PC.bondDamp)? clamp(PC.bondDamp,0,1) : 0),
+          // 58A/59A: angK=結合の角度剛性(幾何近傍対の符号付き角ポテンシャル。0=off)
+          angK:(isNum(PC.angK) && PC.angK>0)? clamp(PC.angK,0,10) : 0,
+          // 59B: 創発熱伝導 — c = condG+(condS−condG)·B/(B+condN)(condN=半飽和配位数。
+          // 0=伝導の変調なし〔素の κs〕)。condS=結合網の上限・condG=孤立粒子の下限
+          condN:(isNum(PC.condN) && PC.condN>0)? clamp(PC.condN,0.1,12) : 0,
+          condS:(isNum(PC.condS)? clamp(PC.condS,0,100) : 1),
+          condG:(isNum(PC.condG)? clamp(PC.condG,0,100) : 1) }
+      : null;
+    if(S.phase){
+      // 56A: 結合予算の滑らかな配位数(前サブステップ値を読む2バッファ — 決定論)。
+      // 初期値は初期配置から計算する(0 のままだと share が上限に張り付き、最初の監査 E0 が
+      // 実際のポテンシャルとズレる — 実測で res≈1 になった初期化バグの恒久対策)
+      S.coordN=new Float32Array(S.n);
+      S.coordAcc=new Float32Array(S.n);
+      S.shPrev=new Float32Array(S.n);
+      // 59A: 角ポテンシャル用・幾何近傍バッファ(実行中ノブで angK が後から入る場合は
+      // _core が遅延確保する)
+      S.angNbr=(S.phase.angK>0)? new Int32Array(S.n*PC_ANG_MAX) : null;
+      S.angNbrN=(S.phase.angK>0)? new Int32Array(S.n) : null;
+      S.angOvfN=0;
+      for(let i=0;i<S.n;i++) for(let j=i+1;j<S.n;j++){
+        const sumR=S.R[i]+S.R[j], cut=S.phase.bondRange*sumR;
+        const dx=S.x[i]-S.x[j], dy=S.y[i]-S.y[j], d=Math.sqrt(dx*dx+dy*dy);
+        if(!(d<cut)) continue;
+        const A=cut-sumR, u0=(d>sumR)? d-sumR : 0;
+        const wD=(A*(A*A-u0*u0)/2 - (A*A*A-u0*u0*u0)/3)/A;
+        S.coordN[i]+=wD/(A*A/6); S.coordN[j]+=wD/(A*A/6);
+      }
+      for(let i=0;i<S.n;i++) S.shPrev[i]=Math.min(PC_SHARE_MAX, S.phase.bondN/Math.max(S.coordN[i],0.5));
+      S.phHist=[];   // 53B: 相変化履歴(グラフ用データ層。既定プリセットはゼロコストのまま)
+      // 61A: 観測層の状態(表示専用 — 物理には一切読まれない)
+      S._phNbrPrev=new Int32Array(S.n*PC_ANG_MAX).fill(-1);
+      S._phNbrPrevN=new Int32Array(S.n);
+      S._phNbrInit=false;
+      S._phProf=new Float32Array(8);
+    } else {
+      S.coordN=null; S.coordAcc=null; S.shPrev=null; S.phHist=null;
+      S._phNbrPrev=null; S._phNbrPrevN=null; S._phNbrInit=false; S._phProf=null;
+      S.angNbr=null; S.angNbrN=null; S.angOvfN=0; }
+    S._phAcc=0;
     S.resPx=0; S.resPy=0; S.resL=0; S.radE=0; S.radL=0;
     S.wallEin=0; S.wallEout=0; S.wallKE=0;   // 第37便 C1(台帳4-70): 壁帳簿もリセット
     S.pinHeat=0;   // 第47便 47A(台帳4-86): pinned 熱浴の帳簿もリセット
@@ -3667,6 +4084,9 @@ function makeSim(){
     // そのものは1ビットも変えない)。保存則を主張する全構成で「発動0回」を QA が機械固定する
     // (clamp.ledger-zero)。V=速度100 / S=スピン±40(step 内)/ H=Hubble率±0.5(boxScaleAt)
     S.clampVN=0; S.clampSN=0; S.clampHN=0;
+    // 第53便 53B(外部レビュー P2): E14 のクランプ帳簿 — clampAN = 引力・角度力の対称力上限
+    // (8/maxInv)の発動回数。規則は 1 ビットも変えず、発動を数えるだけ(clampVN/SN/HN と同方針)
+    S.clampAN=0;
     S.curveBins=null; S.tempLR=[0,0]; S.histT=[];
   };
   S.updateRadii = function(){ // R_i = radiusScale·rMul_i·√|m| (PHYSICS.md §2 + 第36便 C1)
@@ -3850,7 +4270,7 @@ function makeSim(){
         // 材質係数: 連続量は質量重み平均・離散フラグは重い側を継ぐ(融合体は単一の粒子)
         const wi=mi/mn, wj=mj/mn, heavy=(Math.abs(mi)>=Math.abs(mj))? i : j;
         S.coreMR[i]=S.coreMR[i]*wi+S.coreMR[j]*wj; S.coreSR[i]=S.coreSR[heavy];
-        S.obsT[i]=S.obsT[i]*wi+S.obsT[j]*wj; S.coreOT[i]=S.coreOT[i]*wi+S.coreOT[j]*wj;
+        // (obsT/coreOT は第61便で廃止 — 質量重み合成も不要に)
         S.lSw[i]=S.lSw[i]*wi+S.lSw[j]*wj; S.lSwAuto[i]=S.lSwAuto[heavy];
         S.coreRRv[i]=S.coreRRv[heavy]; S.tau[i]=S.tau[i]*wi+S.tau[j]*wj;
         S.Rc[i]=(S.coreRRv[i]>0)? S.coreRRv[i]*RS
@@ -3912,7 +4332,7 @@ function makeSim(){
     const k=keep.length;
     const mv=(a)=>{ if(!a) return; for(let t=0;t<k;t++){ const s0=keep[t]; if(s0!==t) a[t]=a[s0]; } };
     for(const key of ["m","x","y","vx","vy","spin","R","rotA","coreMR","coreSR","mEff","Rc","rotAc",
-      "obsT","lSw","coreOT","radOv","coreRRv","rMulv","lSwAuto","uPx","uPy","tau",
+      "lSw","radOv","coreRRv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
       "Tint","dQi","arep","arepD","duT","echoX0","echoY0"]) mv(S[key]);
@@ -3944,7 +4364,7 @@ function makeSim(){
     if(need<=cap) return cap;
     const nc=Math.max(need, cap+Math.max(8, cap>>1));
     for(const key of ["m","x","y","vx","vy","spin","R","rotA","coreMR","coreSR","mEff","Rc","rotAc",
-      "obsT","lSw","coreOT","radOv","coreRRv","rMulv","lSwAuto","uPx","uPy","tau",
+      "lSw","radOv","coreRRv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
       "Tint","dQi","arep","arepD","duT","echoX0","echoY0"]){
@@ -4077,7 +4497,7 @@ function makeSim(){
       if(S.radOv[i]>0){ S.radOv[i]=(rs>0)? R1/rs : 0; S.radOv[j]=(rs>0)? R2/rs : 0; }
       else S.radOv[j]=0;
       // 材質係数は両片が親を引き継ぐ(分裂は同じ材質の2片に割れる)
-      S.coreMR[j]=S.coreMR[i]; S.coreSR[j]=S.coreSR[i]; S.obsT[j]=S.obsT[i]; S.coreOT[j]=S.coreOT[i];
+      S.coreMR[j]=S.coreMR[i]; S.coreSR[j]=S.coreSR[i];
       S.lSw[j]=S.lSw[i]; S.lSwAuto[j]=S.lSwAuto[i]; S.coreRRv[j]=S.coreRRv[i]; S.tau[j]=S.tau[i];
       S.rotA[j]=S.rotA[i]; S.rotAc[j]=S.rotAc[i]; S.hasU[j]=S.hasU[i]; S.pinned[j]=0;
       S.Rc[i]=(S.coreRRv[i]>0)? S.coreRRv[i]*R1 : ((S.radOv[i]>0? rs : rs*S.rMulv[i])*Math.sqrt(Math.abs(S.coreMR[i]*E1)));
@@ -4140,6 +4560,23 @@ function makeSim(){
     // 定義側コメント参照 — 型を一定に保つためだけの措置で、参照はすべて if(tint) の内側)
     const tint=(S.thermal==="tint"), Tint=tint?S.Tint:__DF32, dQi=tint?S.dQi:__DF64, arep=tint?S.arep:__DF64,
           arepD=tint?S.arepD:__DF64, duT=tint?S.duT:__DF64, cHeat=p.cHeat;
+    // E14″ 創発相変化(第60便で一本化)。phase===null のプリセットでは全ての追加分岐が
+    // if(pc) で素通りし、配列ローカルはダミーに束縛される(39B と同じ V8 型フィードバック退化の
+    // 予防 — null↔TypedArray の型変化を作らない)。値は 1 bit も変わらない(QA phasechange.zero-cost)
+    const pc=S.phase,
+          pcBondK=pc?pc.bondK:0, pcRange=pc?pc.bondRange:0,
+          pcBDamp=pc?pc.bondDamp:0,
+          pcCs=pc?pc.condS:1, pcCg=pc?pc.condG:1,
+          // 第56便 56A(結合予算): 滑らかな配位数の2バッファ(coordN=前サブステップ値を読む/
+          // coordAcc=今サブステップの積算 — _core 末尾で交換)
+          pcBondN=pc?pc.bondN:0, pcCondN=pc?(pc.condN||0):0,
+          // 第58便 58A → 59A: 結合角ポテンシャル(幾何近傍経路)
+          pcAngKN=(pc&&pc.angK>0)? pc.angK : 0;
+    if(pc && pcAngKN>0 && !S.angNbr){ S.angNbr=new Int32Array(n*PC_ANG_MAX); S.angNbrN=new Int32Array(n); }   // angK ノブの遅延確保
+    const coordN=pc?S.coordN:__DF32, coordAcc=pc?S.coordAcc:__DF32,
+          shPrev=pc?S.shPrev:__DF32,
+          angNbr=(pcAngKN>0)?S.angNbr:__DI32A, angNbrN=(pcAngKN>0)?S.angNbrN:__DI32A;
+    if(pcAngKN>0) angNbrN.fill(0);   // 59A: 近傍は毎パス再収集(サブステップを跨ぐ状態ではない)
     const eps=p.softening, eps2=eps*eps, G=p.G, q=p.q, kRep=p.kRep,
           muF=p.muF, gammaN=p.gammaN, kappaS=p.kappaS, D0=p.D0, kFrame=p.kFrame,
           etaRad=p.etaRad, pRad=p.pRad,
@@ -4383,6 +4820,88 @@ function makeSim(){
             }
           }
         }
+        // ===== E14″ 創発相変化: 結合予算の引力と減衰(53A→56A→60 で創発一本化)=====
+        // phaseChange プリセット(pc 非 null)のみ。平衡距離 r0=R_i+R_j(接触距離)の外側
+        // r0 < d < cut=bondRange·r0 の帯に引力 F = K_att·μ·(d−r0)·(cut−d)/(cut−r0) が働く
+        // (d=r0 と d=cut で 0 = 力は連続。重なり d<r0 は従来どおり E9 の法線ばねが受け持つ
+        //  ので、r0 が力の釣り合う平衡点になる)。
+        // K_att = bondK·√(share_i·share_j)、share = min(S_max, bondN/max(c,0.5))(56A 結合予算):
+        // 結合数が減ると残りの結合力が増し(予算の集中)、結合相手は幾何のみで決まる
+        // (毎サブステップ再計算 — 液相では容易に入れ替わる)。温度は kRep(E5′)を通じてのみ
+        // 斥力として働き、固相(c≈4-6)/液相(少数の強い結合)/気相(c→0)がこの競合から創発。
+        // 潜熱は指定しない — 井戸から抜けるエネルギーがそのまま実効潜熱(第60便)。
+        // 減衰(60A)は同じ帯で相対法線速度を毎サブステップ cD 倍削るインパルス(gammaN と同形式・
+        // 接近/離反の両向き)。cD = bondDamp·(√(share_i·share_j)/S_max)·W — **減衰も結合の濃さ
+        // から創発**する(固体の結合振動は強く減衰・気体の掠め接触はほぼ素通り。旧 visc
+        // 〔液相粘性の相率合成〕は第60便で廃止)。失われた運動エネルギーは E9 と同じ換算則
+        // (質量比分配)で dQi へ積む(A9′ — pinned の持ち分は radE へ)。
+        // 力上限も E9 と同じ「軽い側の加速度≤8」の対称キャップ(非対称な「ロケット」の防止)
+        if(pc && d<pcRange*sumR && Math.abs(mi+mj)>1e-9){
+          const muM=mi*mj/(mi+mj);
+          // 対の井戸形状 w(d): 帯内で U(d)/(−K_att·μ)、重なり d≤r0 では井戸底 A²/6 の定数
+          // (力 0・束縛は満深)
+          const cutW=pcRange*sumR, AW=cutW-sumR;
+          const u0=(d>sumR)? d-sumR : 0;
+          const wD=(AW*(AW*AW-u0*u0)/2 - (AW*AW*AW-u0*u0*u0)/3)/AW;
+          const wN=wD/(AW*AW/6);   // 正規化井戸深さ W ∈[0,1](接触で1・帯端で0)
+          // 滑らかな配位数の積算(56A — 予算・伝導・角度のすべてが読む)
+          if(doPre){ coordAcc[i]+=wN; coordAcc[j]+=wN; }
+          // 第59便 59A: 幾何近傍の記録(両パス — 角ポテンシャルは毎回の力評価に使う通常の力。
+          // 走査順 i<j 昇順により、中心 c の近傍リストは常に「相手 index 昇順」で決定論。
+          // あふれ(>PC_ANG_MAX)は捨てて angOvfN に計数する — 監査 phaseEnergy も同じ収集則)
+          if(pcAngKN>0){
+            const nI=angNbrN[i]; if(nI<PC_ANG_MAX){ angNbr[i*PC_ANG_MAX+nI]=j; angNbrN[i]=nI+1; } else S.angOvfN++;
+            const nJ=angNbrN[j]; if(nJ<PC_ANG_MAX){ angNbr[j*PC_ANG_MAX+nJ]=i; angNbrN[j]=nJ+1; } else S.angOvfN++;
+          }
+          const shI=Math.min(PC_SHARE_MAX, pcBondN/Math.max(coordN[i],0.5)),
+                shJ=Math.min(PC_SHARE_MAX, pcBondN/Math.max(coordN[j],0.5));
+          const shG=Math.sqrt(shI*shJ);
+          const Katt=pcBondK*shG;
+          // 60A: 創発減衰 — 結合の濃さ(予算重み×井戸深さ)に比例。bondDamp∈[0,1]・shG/S_max≤1・
+          // W≤1 なので cD≤bondDamp が保たれ、インパルスの無条件安定は従来のまま
+          const cD=pcBDamp*(shG/PC_SHARE_MAX)*wN;
+          // 再配分の熱交換(56A — 帳簿の恒久対策): share が変わると井戸深さ K·μ·w が力の仕事なしに
+          // 変わる(結合数減 → 残り強化 = U が深くなる)。その ΔU を熱と等価交換する —
+          // ΔQ = (K_now − K_prev)·μ·w を dQi へ(強化=発熱・弱化=吸熱。結合の組み替えは
+          // 熱浴とエネルギーをやり取りする)。d の変化分は力の仕事が受け持つ(交差項 O(dt·ċ))
+          if(doPre){
+            const dK=Katt - pcBondK*Math.sqrt(shPrev[i]*shPrev[j]);
+            if(dK!==0){
+              const qR=dK*muM*wD;
+              const qi3=qR*mi/(mi+mj), qj3=qR*mj/(mi+mj);
+              if(pinned[i]) S.radE+=qi3; else dQi[i]+=qi3;
+              if(pinned[j]) S.radE+=qj3; else dQi[j]+=qj3;
+            }
+          }
+          if((Katt>0 || cD>0) && d>sumR){
+            const nxv=dx/d, nyv=dy/d;
+            const invMi=pinned[i]?0:1/mi, invMj=pinned[j]?0:1/mj;
+            const K=invMi+invMj;
+            if(Katt>0){
+              const cut=pcRange*sumR;
+              let Fa=Katt*muM*(d-sumR)*(cut-d)/(cut-sumR);
+              const maxInv=Math.max(invMi,invMj);
+              if(maxInv>0 && Fa*maxInv>8){ Fa=8/maxInv; S.clampAN++; }   // 第53便 53B: 発動帳簿
+              ax[i]-=Fa*nxv*invMi; ay[i]-=Fa*nyv*invMi;
+              ax[j]+=Fa*nxv*invMj; ay[j]+=Fa*nyv*invMj;
+            }
+            // 減衰は速度を直接書き換える非保存インパルスなので 1サブステップ1回だけ(E9 と同じ)
+            if(cD>0 && K>0 && doPre){
+              const vn=(vx[i]-vx[j])*nxv+(vy[i]-vy[j])*nyv;
+              if(vn!==0){
+                const jn=-cD*vn/K;
+                vx[i]+=jn*nxv*invMi; vy[i]+=jn*nyv*invMi;
+                vx[j]-=jn*nxv*invMj; vy[j]-=jn*nyv*invMj;
+                const eN=0.5*(1/K)*vn*vn*(1-(1-cD)*(1-cD));
+                if(eN>0){
+                  const si2=eN*mi/(mi+mj), sj2=eN*mj/(mi+mj);
+                  if(pinned[i]) S.radE+=si2; else dQi[i]+=si2;
+                  if(pinned[j]) S.radE+=sj2; else dQi[j]+=sj2;
+                }
+              }
+            }
+          }
+        }
         // E10′ スピン拡散(I 重み: 対ごとに I_i·ds_i = −I_j·ds_j で L 厳密保存)
         // 第36便 D(台帳4-51 / E10′ 改訂): thermal:"tint" では κs が拡散するのは T_int で、スピンには
         // 一切触れない。熱容量重み(C·m)で対称化するので C_i·dT_i = −C_j·dT_j = 熱エネルギー厳密保存、
@@ -4404,7 +4923,19 @@ function makeSim(){
               // doPost 限定なのは leapfrog で1サブステップに2回積まないため(E9 は doPre 側)
               const mS=mi+mj;
               if(doPost && Math.abs(mS)>1e-9){   // 第12便: 負質量実験時の0除算保護
-                const qf=cHeat*kappaS*(Tint[j]-Tint[i])*gg*(mi*mj/mS)*dt;
+                let qf=cHeat*kappaS*(Tint[j]-Tint[i])*gg*(mi*mj/mS)*dt;
+                // 第59便 59B(創発熱伝導・第60便で一本化): 相率ではなく滑らかな配位数 B
+                // (coordN — 前サブステップ値)から粒子ごとの伝導率倍率を導出する:
+                //   c_a = condG + (condS−condG)·B_a/(B_a+condN)
+                // 孤立(B→0)= condG・密な結合網(B≫condN)→ condS へ飽和。対の合成は調和平均
+                // 2c_ic_j/(c_i+c_j)(直列合成)。Q̇_i=−Q̇_j の対称形は変えないので熱は厳密保存の
+                // まま。condN=0(または pc なし)では qf は 1 bit も変わらない(素の κs)
+                if(pc && pcCondN>0){
+                  const Bi=coordN[i], Bj=coordN[j];
+                  const ci=pcCg+(pcCs-pcCg)*Bi/(Bi+pcCondN),
+                        cj=pcCg+(pcCs-pcCg)*Bj/(Bj+pcCondN);
+                  const sc=ci+cj;
+                  qf = (sc>1e-12)? qf*(2*ci*cj/sc) : 0; }
                 dQi[i]+=qf;
                 dQi[j]-=qf;
               }
@@ -4416,6 +4947,69 @@ function makeSim(){
               ds[j]-=c*Ii;
             }
             }
+          }
+        }
+      }
+    }
+    // ===== 第59便 59A(angK×bondN 併用 — 原仮定者指示「併用設計: 進める」)=====
+    // 明示リンクの無い結合予算モードでは、対ループで記録した幾何近傍(angNbr — 井戸帯内・
+    // 相手 index 昇順・最大 PC_ANG_MAX)の対 (j,k) へ **符号付き線形 g** の角ポテンシャル
+    //   U = −angK·bondK·μ_jk·W_ij·W_ik·g(cosθ)、g=1−(cosθ−cosθ*)²/0.5(クランプなし)
+    // を適用する(θ*=2π/max(2,bondN) — 予算3=120°・6=60°)。g は理想角で +1(井戸)、
+    // 悪い角度で負(障壁: θ*=120° に対する 60° で −1)— 「理想角の対は引き込み・詰め込み
+    // 過ぎの角は押し返す」(実在の sp² 混成軌道/VSEPR 的反発の最小類似)。障壁側が本質:
+    //   棄却① 58A 同形の g²≥0 型(位置のみ・重みなし)— 密充填(6配位)は 120° 対も 6 対
+    //     あり角エネルギーで蜂の巣(3対)に勝つため格子が開かない(60000步実測: 角偏差
+    //     79.9°・組替停止のガラス固着)
+    //   棄却② レビュー提案の予算重み b_ij·b_ik 型 — 密充填は抑制できるが U が share(状態)に
+    //     依存し、share ドリフトの熱交換(56A 作法)の交差項が積もって res 0.21〜0.47 に劣化
+    // 符号付き g は**位置だけの純関数 = 厳密勾配の保存力**なので、運動量・角運動量厳密保存・
+    // 熱交換不要で帳簿は監査 phaseEnergy の同項だけで閉じる。W は帯端で 0 なので近傍の
+    // 出入りとエネルギー連続 — リンクの生成/切断のような離散イベントは存在しない。
+    // 対ループの後に置くのは angNbr の収集完了を待つためで、力の加算順は積分前なら等価
+    if(pcAngKN>0){
+      const c0=Math.cos(2*Math.PI/Math.max(2,pcBondN)), KA=pcAngKN*pcBondK;
+      for(let i2=0;i2<n;i2++){
+        const b0=i2*PC_ANG_MAX, nc=angNbrN[i2];
+        for(let s1=0;s1<nc-1;s1++){
+          const j2=angNbr[b0+s1];
+          for(let s2=s1+1;s2<nc;s2++){
+            const k2=angNbr[b0+s2];
+            const axv=x[j2]-x[i2], ayv=y[j2]-y[i2], bxv=x[k2]-x[i2], byv=y[k2]-y[i2];
+            const la=Math.sqrt(axv*axv+ayv*ayv), lb=Math.sqrt(bxv*bxv+byv*byv);
+            if(!(la>1e-9 && lb>1e-9)) continue;
+            const sRa=R[i2]+R[j2], Aa=pcRange*sRa-sRa;
+            const sRb=R[i2]+R[k2], Ab=pcRange*sRb-sRb;
+            if(!(Aa>1e-9 && Ab>1e-9)) continue;
+            const ua=(la>sRa)? Math.min(la-sRa,Aa) : 0, ub=(lb>sRb)? Math.min(lb-sRb,Ab) : 0;
+            const wmA=Aa*Aa/6, wmB=Ab*Ab/6;
+            const Wa=((Aa*(Aa*Aa-ua*ua)/2-(Aa*Aa*Aa-ua*ua*ua)/3)/Aa)/wmA;
+            const Wb=((Ab*(Ab*Ab-ub*ub)/2-(Ab*Ab*Ab-ub*ub*ub)/3)/Ab)/wmB;
+            if(!(Wa>0 && Wb>0)) continue;   // 帯端(離脱間際)は寄与 0
+            const mj2=m[j2], mk2=m[k2], ms2=mj2+mk2; if(!(Math.abs(ms2)>1e-9)) continue;
+            const nax=axv/la, nay=ayv/la, nbx=bxv/lb, nby=byv/lb;
+            const cth=nax*nbx+nay*nby, dcv=cth-c0;
+            const g=1-dcv*dcv/0.5;   // 符号付き(クランプなし — 負側=角の障壁)
+            const A0=KA*(mj2*mk2/ms2);
+            // F_j = A0·[dW_a·W_b·g·â + W_a·W_b·g′·(b̂−cosθ·â)/l_a](g′=−4·dc)。F_k は対称形。
+            // F_i = −(F_j+F_k) — 3体で運動量厳密。dW=u(u−A)/A/w_max(帯内で負=近いほど深い)
+            const dWa=(ua*(ua-Aa)/Aa)/wmA, dWb=(ub*(ub-Ab)/Ab)/wmB;
+            const cAng=A0*Wa*Wb*(-4*dcv);
+            const cRa=A0*dWa*Wb*g, cRb=A0*Wa*dWb*g;
+            let fjx=cRa*nax + cAng*(nbx-cth*nax)/la,
+                fjy=cRa*nay + cAng*(nby-cth*nay)/la,
+                fkx=cRb*nbx + cAng*(nax-cth*nbx)/lb,
+                fky=cRb*nby + cAng*(nay-cth*nby)/lb;
+            const invI=pinned[i2]?0:1/m[i2], invJ=pinned[j2]?0:1/mj2, invK2=pinned[k2]?0:1/mk2;
+            // 力上限(対引力と同じ a≤8 規約)。3体を同率で縮めて保存則を守る(発動は帳簿へ)
+            const fix2=fjx+fkx, fiy2=fjy+fky;
+            const aM=Math.max(Math.sqrt(fjx*fjx+fjy*fjy)*Math.abs(invJ),
+                              Math.sqrt(fkx*fkx+fky*fky)*Math.abs(invK2),
+                              Math.sqrt(fix2*fix2+fiy2*fiy2)*Math.abs(invI));
+            if(aM>8){ const scl=8/aM; fjx*=scl; fjy*=scl; fkx*=scl; fky*=scl; S.clampAN++; }
+            ax[j2]+=fjx*invJ; ay[j2]+=fjy*invJ;
+            ax[k2]+=fkx*invK2; ay[k2]+=fky*invK2;
+            ax[i2]-=(fjx+fkx)*invI; ay[i2]-=(fjy+fky)*invI;
           }
         }
       }
@@ -4499,6 +5093,8 @@ function makeSim(){
       const uOld=tint? Math.sqrt(Tint[i]) : 0;   // このサブステップの δ√T を測る基準
       if(tint && dQi[i]!==0){
         const cm=cHeat*m[i];
+        // 第60便: E14″ でも熱状態は素の T_int(エンタルピー正本は廃止 — 潜熱は結合の井戸から
+        // 抜けるエネルギーとして力学側に現れる)。熱量関数 E(T)=C·m·T+a·√T の厳密解は従来どおり
         if(cm>0) Tint[i]=solveTintE(Tint[i], cm, aU, dQi[i]);
         else { const t2=Tint[i]+dQi[i]/cm; Tint[i]=(t2>0)? t2 : 0; }   // 負質量実験の保険(従来式)
       }
@@ -4562,7 +5158,10 @@ function makeSim(){
             if(gg<1e-6) continue;                   // 事実上の無交換(打切り)
             const T0=Tint[i];
             const rf=w.rate*gg*dt, f=(rf>1)? 1 : rf;   // rate·g²·dt>1 の行き過ぎを飽和(無条件安定)
-            let T1=T0+(w.T-T0)*f;
+            // 第53便 53D: 壁温スケジュール — T2/tSwitch のある面は t≥tSwitch 以降 T2 で緩和する
+            // (無い面は Tw===w.T で従来と 1 ビットも変わらない)
+            const Tw=(w.tSwitch!==undefined && S.t>=w.tSwitch)? w.T2 : w.T;
+            let T1=T0+(Tw-T0)*f;
             if(!(T1>0)) T1=0;
             if(T1===T0) continue;
             const dQ=cm*(T1-T0)+aU*(Math.sqrt(T1)-Math.sqrt(T0));
@@ -4726,6 +5325,14 @@ function makeSim(){
       if(doPost) S.tauUpdate(i,dt);
     }
     // 第35便: 以降(近点検出器・t進み・尺度履歴・光子伝播)は 1サブステップ1回。
+    // 第56便 56A(結合予算): 滑らかな配位数バッファの交換 — 今サブステップの積算(doPre 側の
+    // 対ループで積んだ coordAcc)を確定し、次に読む側(coordN)へ。KDK では パスA 末尾で交換し
+    // パスB が同サブステップの値を読む。semi では次サブステップが読む(1サブステップ遅れ・決定論)
+    if(pc && doPre){   // 56A/59B: 配位数バッファの交換(予算・伝導・角度のすべてが読む)
+      // 今サブステップで使った share を保存(次サブステップの再配分熱交換 ΔK の基準)
+      for(let i2=0;i2<n;i2++) shPrev[i2]=Math.min(PC_SHARE_MAX, pcBondN/Math.max(coordN[i2],0.5));
+      const tc=S.coordN; S.coordN=S.coordAcc; S.coordAcc=tc; S.coordAcc.fill(0);
+    }
     // leapfrog パスA(doPost=false)はここで終了し、パスBが引き継ぐ
     if(!doPost) return;
     // ===== 近点検出器(第11次裁定 保留分の実施): E13 中心天体のあるプリセットで、各周回粒子の
@@ -4760,6 +5367,65 @@ function makeSim(){
       }
     }
     S.t+=dt;
+    // 第53便 53B: 相変化履歴のサンプリング(25サブステップごと・上限720点 — boxHist と同方式)。
+    // phHist は phaseChange プリセットだけ非 null(既定はゼロコスト)
+    if(S.phHist){
+      if(++S._phAcc>=25){ S._phAcc=0;
+        let sT=0, sC=0;
+        for(let i=0;i<S.n;i++){ sT+=S.Tint[i]; sC+=S.coordN[i]; }
+        const inv=S.n>0? 1/S.n : 0;
+        // 第61便 61A(観測層 — 25サブステップごとの O(N²) 走査。表示専用・物理不変):
+        // 帯内近傍リスト(最大 PC_ANG_MAX)→ ψ6・組替率 churn・高さプロファイルを計測
+        const pcO=S.phase, nbO=new Int32Array(S.n*PC_ANG_MAX), ncO=new Int32Array(S.n);
+        for(let i=0;i<S.n;i++) for(let j=i+1;j<S.n;j++){
+          const sumR=S.R[i]+S.R[j], cut=pcO.bondRange*sumR;
+          const dx=S.x[i]-S.x[j], dy=S.y[i]-S.y[j];
+          if(!(dx*dx+dy*dy<cut*cut)) continue;
+          if(ncO[i]<PC_ANG_MAX){ nbO[i*PC_ANG_MAX+ncO[i]]=j; ncO[i]++; }
+          if(ncO[j]<PC_ANG_MAX){ nbO[j*PC_ANG_MAX+ncO[j]]=i; ncO[j]++; }
+        }
+        // ψ6(六方配向秩序): 近傍2体以上の粒子の平均
+        let sPsi=0, nPsi=0;
+        for(let i=0;i<S.n;i++){
+          const nc=ncO[i]; if(nc<2) continue;
+          let re=0, im=0;
+          for(let k=0;k<nc;k++){
+            const j=nbO[i*PC_ANG_MAX+k];
+            const th=6*Math.atan2(S.y[j]-S.y[i], S.x[j]-S.x[i]);
+            re+=Math.cos(th); im+=Math.sin(th);
+          }
+          sPsi+=Math.sqrt(re*re+im*im)/nc; nPsi++;
+        }
+        // 組替率 churn: 前サンプル近傍集合との対称差 / 総数(0=不変・1=総入替)。
+        // 液体では高く・固体では ≈0 — 減衰の寿命依存(粘性)が観測量として読める
+        let sCh=0, nCh=0;
+        if(S._phNbrInit){
+          for(let i=0;i<S.n;i++){
+            const pn=S._phNbrPrevN[i], cn2=ncO[i];
+            if(pn===0 && cn2===0) continue;
+            let common=0;
+            for(let a=0;a<pn;a++){
+              const v=S._phNbrPrev[i*PC_ANG_MAX+a];
+              for(let b=0;b<cn2;b++) if(nbO[i*PC_ANG_MAX+b]===v){ common++; break; }
+            }
+            sCh+=(pn+cn2-2*common)/(pn+cn2); nCh++;
+          }
+        }
+        S._phNbrPrev.set(nbO); S._phNbrPrevN.set(ncO); S._phNbrInit=true;
+        // 相前線プロファイル: 箱の高さを8帯に割り、帯ごとの平均配位数(床=末尾)
+        if(S.world.boundary==="box" && S._phProf){
+          const ws=S.world.size, cnt=new Float32Array(8), acc=new Float32Array(8);
+          for(let i=0;i<S.n;i++){
+            let b=Math.floor((S.y[i]+ws)/(2*ws)*8); if(b<0)b=0; if(b>7)b=7;
+            cnt[b]++; acc[b]+=ncO[i];
+          }
+          for(let b=0;b<8;b++) S._phProf[b]=cnt[b]>0? acc[b]/cnt[b] : 0;
+        }
+        S.phHist.push({t:S.t, T:sT*inv, c:sC*inv,
+          psi6:nPsi>0? sPsi/nPsi : 0, churn:nCh>0? sCh/nCh : 0, Q:S.wallEin-S.wallEout});
+        if(S.phHist.length>720) S.phHist.shift();
+      }
+    }
     // 第32便: 尺度・赤方偏移の履歴(25サブステップ=0.4時間単位ごと・上限720点。描画は W2)
     if(S.boxHist){   // 第35便: boxHist は universeBox か measureBox のときだけ非 null(既定はゼロコスト)
       if(++S._bhAcc>=25){ S._bhAcc=0;
@@ -5041,11 +5707,11 @@ function zoom(){ return Math.min(cw,ch)/2/camScale; }
 
 // 温度→色(青→白→橙→赤)
 // 第36便 D(台帳4-51): 観測温度 T_obs の唯一の入口。表示系(色・温度ヒストグラム・スペクトル・
-// HUD)はすべてここを通す — モード差は「データ源」だけで、観測層の式 T_obs=obsT·(1−lSw)·T は同一。
+// HUD)はすべてここを通す — モード差は「データ源」だけで、観測層の式 T_obs=(1−lSw)·T は同一。
 //   thermal="spin"(既定): T = I·s² = ½·m·R²·s²(現行 A9。式の並びも現行と1文字も変えていない)
 //   thermal="tint": T = T_int(内部状態変数。マクロ spin は観測温度に現れない)
 function obsTemp(s,i){
-  return (s.Tint? s.Tint[i] : 0.5*s.m[i]*s.R[i]*s.R[i]*s.spin[i]*s.spin[i])*s.obsT[i]*(1-s.lSw[i]);
+  return (s.Tint? s.Tint[i] : 0.5*s.m[i]*s.R[i]*s.R[i]*s.spin[i]*s.spin[i])*(1-s.lSw[i]);   // 第61便: obsT 係数は廃止(恒等1だった)
 }
 function tempColor(t){ // t: 0..1
   if(t<0.34){ const k=t/0.34; return `rgb(${106+k*149},${165+k*90},255)`; }
@@ -5294,18 +5960,23 @@ function overlaySlots(){
   // 第32便(W2): 膨張グラフ — sim.box が無いプリセットでは(トグルがONでも)スロットを割り当てない
   // 第35便(台帳4-61): 自由な箱(measureBox)は規定 a(t) を持たないが実測 a_eff を描くので対象に含める
   if(sim.overlays.boxGraph && (sim.box || sim.measureBox)) s.push("boxGraph");
+  // 第53便 53B(E14): 相変化グラフ — phaseChange の無いプリセットではスロットを割り当てない
+  if(sim.overlays.phaseGraph && sim.phase) s.push("phaseGraph");
   return s;
 }
 // 第26便(原仮定者指示): グラフの最小化 — キーごとの状態と可変高さのスロット積み。
 // 最小化中はタイトルバー(高さ16)だけを描き、バー全体のタップで復元。展開中は右上「−」で最小化
-const ovMin={rotationCurve:false,tempHistogram:false,spectrum:false,boxGraph:false};
+const ovMin={rotationCurve:false,tempHistogram:false,spectrum:false,boxGraph:false,phaseGraph:false};
 const OV_H=92, OV_HMIN=16;
+// 第61便 61B(レビューP1「phaseGraph 二段化」): グラフごとの展開高さ(未登録は OV_H)
+const OV_HK={phaseGraph:152};
+const ovH=(key)=>OV_HK[key]||OV_H;
 let ovHit=[];   // グラフのトグル用タップ領域(キャンバス座標。描画のたびに再登録)
 function overlayBaseY(slot){
   const uz=uiFontScale, s=overlaySlots();
   // 第25便: 選択粒子の情報行(2行)と重ならない下端余白 18+22·uz
   let y=ch-(18+22*uz);
-  for(let i=0;i<=slot;i++) y-=(ovMin[s[i]]?OV_HMIN:OV_H)*uz+(i>0?6:0);
+  for(let i=0;i<=slot;i++) y-=(ovMin[s[i]]?OV_HMIN:ovH(s[i]))*uz+(i>0?6:0);
   return y;
 }
 // 最小化中の共通バー描画(true=最小化中 — 本体は描かない)
@@ -5541,6 +6212,76 @@ function rayBandColor(nm){
 // 実測 a_eff=⟨r⟩/⟨r⟩₀ を同じ折れ線に描き、見出しに「実測」を付けて規定 a(t) と区別する。
 // 赤方偏移カラーバー・z は universeBox の規定 a に結び付いた規則なので実測では表示しない
 // (未裁定の意味論を勝手に拡張しない — 空いた領域には計測式の注記を出す)
+// 第53便 53B → 第60〜61便(創発一本化+二段化): 相変化グラフ。
+// 上段: 平均温度 T̄(t)(橙)+平均配位数 c̄(t)(緑)— 結合が切れて c̄ が下がる間 T̄ の上がりが
+// 鈍る = 「実効潜熱」が結合エネルギーとして創発する因果を直接読む。
+// 下段(61A 観測層): ψ6(六方配向秩序・水色)+組替率 churn(赤紫)— 0〜1 固定スケール。
+// 「液体=組替が速く秩序が低い/結晶=組替≈0で秩序が高い/ガラス=組替≈0なのに秩序が低い」
+// という動的な相の分類が読める(= 粘性の寿命依存の観測量)。
+// 左端の縦帯: 高さ8帯の平均配位数(相前線プロファイル — 明るいほど結合が濃い。床=下端)。
+// データ層(S.phHist)は _core が 25 サブステップごとに積む純粋な記録 — 物理へは一切手を入れない。
+// phaseChange の無いプリセットでは overlaySlots() 側で除外されるため、ここに到達しない
+function drawPhaseGraph(slot=0){
+  if(ovOverlayMin("phaseGraph",slot,T("ovPhaseGraph"))) return;   // 最小化中はタイトルバーのみ
+  if(!sim.phase) return;   // 防御(直接呼び出しのエッジケース)
+  const uz=uiFontScale, W=150,H=OV_HK.phaseGraph,X=0,Y=0;
+  ctx.save(); ctx.translate(cw-W*uz-8, overlayBaseY(slot)); ctx.scale(uz,uz);
+  ctx.fillStyle="rgba(12,16,34,0.82)"; ctx.fillRect(X,Y,W,H);
+  ctx.strokeStyle="#2a3060"; ctx.strokeRect(X,Y,W,H);
+  ctx.font="8px sans-serif"; ctx.fillStyle="#8b93c8";
+  ctx.fillText(T("ovPhaseGraph"),X+6,Y+9);
+  const hist=sim.phHist||[];
+  const chartX0=X+18, chartX1=X+W-8;
+  const topY0=Y+12, topY1=Y+62, botY0=Y+70, botY1=Y+112;
+  // 相前線プロファイル(左端の縦帯 10px — 現在値。上=天井・下=床)
+  if(sim._phProf){
+    for(let b=0;b<8;b++){
+      const v=Math.min(1,sim._phProf[b]/6);   // 配位6で飽和
+      ctx.fillStyle=`rgba(120,170,255,${(0.10+0.85*v).toFixed(3)})`;
+      const y0p=topY0+(b/8)*(botY1-topY0);
+      ctx.fillRect(X+6, y0p, 8, (botY1-topY0)/8-1);
+    }
+  }
+  if(hist.length>=2){
+    let tMax2=1e-6, cMax2=1e-6;
+    for(const p2 of hist){ if(p2.T>tMax2) tMax2=p2.T; if((p2.c||0)>cMax2) cMax2=p2.c||0; }
+    tMax2*=1.05; cMax2*=1.05;
+    const t0=hist[0].t, t1=hist[hist.length-1].t, tSpan=Math.max(1e-6,t1-t0);
+    const px=(t)=>chartX0+((t-t0)/tSpan)*(chartX1-chartX0);
+    const pyT=(v)=>topY1-(v/tMax2)*(topY1-topY0);
+    const pyC=(v)=>topY1-(v/cMax2)*(topY1-topY0);
+    const pyU=(v)=>botY1-Math.min(1,Math.max(0,v))*(botY1-botY0);   // 下段: 0〜1 固定
+    // 上段: 平均温度(橙)・平均配位数(緑 — 自分の最大値で正規化)
+    ctx.strokeStyle="#ff9d45"; ctx.lineWidth=1.4; ctx.beginPath();
+    hist.forEach((p2,k)=>{ k? ctx.lineTo(px(p2.t),pyT(p2.T)) : ctx.moveTo(px(p2.t),pyT(p2.T)); });
+    ctx.stroke();
+    ctx.strokeStyle="#57d38c"; ctx.lineWidth=1; ctx.beginPath();
+    hist.forEach((p2,k)=>{ k? ctx.lineTo(px(p2.t),pyC(p2.c||0)) : ctx.moveTo(px(p2.t),pyC(p2.c||0)); });
+    ctx.stroke();
+    // 下段の区切り線
+    ctx.strokeStyle="#2a3060"; ctx.beginPath();
+    ctx.moveTo(X+4,botY0-4); ctx.lineTo(X+W-4,botY0-4); ctx.stroke();
+    // 下段: ψ6(水色)・組替率(赤紫)
+    ctx.strokeStyle="#4fd8e8"; ctx.beginPath();
+    hist.forEach((p2,k)=>{ k? ctx.lineTo(px(p2.t),pyU(p2.psi6||0)) : ctx.moveTo(px(p2.t),pyU(p2.psi6||0)); });
+    ctx.stroke();
+    // 組替率は 0〜0.05 域が主戦場なので表示のみ ×10(凡例に明記 — データ層は生値)
+    ctx.strokeStyle="#e05ce0"; ctx.beginPath();
+    hist.forEach((p2,k)=>{ k? ctx.lineTo(px(p2.t),pyU((p2.churn||0)*10)) : ctx.moveTo(px(p2.t),pyU((p2.churn||0)*10)); });
+    ctx.stroke();
+    ctx.lineWidth=1;
+  }
+  const last=hist.length? hist[hist.length-1] : null;
+  ctx.font="8px sans-serif"; ctx.fillStyle="#dfe4ff";
+  if(last){
+    ctx.fillText(`T̄=${last.T.toFixed(2)} c̄=${(last.c||0).toFixed(2)} ψ6=${(last.psi6||0).toFixed(2)} 組替=${(last.churn||0).toFixed(2)}`,X+6,Y+123);
+    ctx.fillText(`Q=${(last.Q>=0?"+":"")+last.Q.toFixed(0)}`,X+6,Y+133);
+  }
+  ctx.font="6px sans-serif"; ctx.fillStyle="#5a6090";
+  ctx.fillText(T("ovPhaseNote"),X+6,Y+146);
+  ctx.restore();
+  ovDrawToggle("phaseGraph",slot);
+}
 function drawBoxGraph(slot=0){
   const meas=!sim.box && !!sim.measureBox;
   const title=meas? T("ovBoxGraphMeas") : T("ovBoxGraph");   // 実測は専用見出し(既定見出しは横幅ぎりぎり)
@@ -5715,6 +6456,35 @@ function render(){
   // 〔原仮定者裁定〕で全品質から撤廃 — drawRadiusCap() は常に Infinity。小さな粒子も
   // 実際の半径どおりに表示する。第37便 A6: drawScale(描画専用倍率)は廃止済み — 以下の
   // 半径式はもう dscale を掛けない(1固定と厳密等価)
+  // 第56便 56B → 第60便(創発一本化): 結合構造の可視化(表示のみ — 物理・帳簿には一切
+  // 触れない)。全帯内対を強度(share)×井戸深さの濃さで結ぶ — 「結合数が徐々に変わり、
+  // 減ると残りが濃くなる」(予算の集中)を直接見せる。相の判別は結合線だけで足りる:
+  // 密な網=固体状・組み替わる数本=液体状・線なし=気体状(旧 白円弧/点線リングは廃止)
+  if(sim.phase && qLevel()!==2){
+    const pcD=sim.phase, cutM=pcD.bondRange;
+    if(sim.coordN){
+      const bN=pcD.bondN, cN=sim.coordN;
+      for(let i=0;i<sim.n;i++){
+        for(let j=i+1;j<sim.n;j++){
+          const dx=sim.x[i]-sim.x[j], dy=sim.y[i]-sim.y[j];
+          const sumR=sim.R[i]+sim.R[j], cut=cutM*sumR;
+          const d2=dx*dx+dy*dy;
+          if(!(d2<cut*cut)) continue;
+          const d=Math.sqrt(d2);
+          const shI=Math.min(PC_SHARE_MAX,bN/Math.max(cN[i],0.5)), shJ=Math.min(PC_SHARE_MAX,bN/Math.max(cN[j],0.5));
+          const str=Math.sqrt(shI*shJ)/PC_SHARE_MAX;             // 強度(share 正規化 0〜1)
+          const wN=(d>sumR)? 1-((d-sumR)/(cut-sumR)):1;          // 井戸の深さ近似(帯端で0)
+          const al=Math.min(0.85, (0.15+0.7*str)*wN);
+          if(al<0.04) continue;
+          ctx.strokeStyle="rgba(190,215,255,"+al.toFixed(3)+")";
+          ctx.lineWidth=0.8+1.8*str*wN;
+          ctx.beginPath(); ctx.moveTo(w2sX(sim.x[i]),w2sY(sim.y[i]));
+          ctx.lineTo(w2sX(sim.x[j]),w2sY(sim.y[j])); ctx.stroke();
+        }
+      }
+      ctx.lineWidth=1;
+    }
+  }
   const rCap=drawRadiusCap(), glowOn=qLevel()===0;
   for(let i=0;i<sim.n;i++){
     const sx=w2sX(sim.x[i]), sy=w2sY(sim.y[i]);
@@ -5744,9 +6514,9 @@ function render(){
     if(sim.coreMR[i]!==0 && rr>=7){
       const rc=Math.max(3,Math.min(sim.Rc[i]*z,rr*0.92));
       // 第22便: コア観測温度比率 coreOT — 既定(coreOT=1・掻き出しなし)以外は観測温度色で描く
-      if(sim.coreMR[i]>0 && (sim.coreOT[i]!==1||sim.lSw[i]!==0)){
+      if(sim.coreMR[i]>0 && sim.lSw[i]!==0){   // 第61便: coreOT 廃止 — 減光時のみ観測温度色
         const sc2=sim.coreSR[i]*sim.spin[i];
-        const Tc=sim.coreOT[i]*(1-sim.lSw[i])*0.5*Math.abs(sim.coreMR[i]*sim.m[i])*sim.Rc[i]*sim.Rc[i]*sc2*sc2;
+        const Tc=(1-sim.lSw[i])*0.5*Math.abs(sim.coreMR[i]*sim.m[i])*sim.Rc[i]*sim.Rc[i]*sc2*sc2;
         ctx.globalAlpha=0.8;
         ctx.fillStyle=tempColor(Math.min(1,Math.sqrt(Math.max(0,Tc)/Math.max(1e-4,tempP90EMA))));
       } else ctx.fillStyle=(sim.coreMR[i]<0)? "rgba(3,4,10,0.85)" : "rgba(10,12,24,0.55)";
@@ -5817,7 +6587,7 @@ function render(){
     const hasCore=(sim.coreMR[i]!==0);
     const mcTxt=hasCore? ` mc/m=${fmt(sim.coreMR[i])}` : "";
     const scTxt=hasCore? ` sc/s=${fmt(sim.coreSR[i])}` : "";
-    const coreTTxt=hasCore? ` Tc=${fmt(sim.coreOT[i]*(1-sim.lSw[i])*0.5*Math.abs(sim.coreMR[i]*sim.m[i])*sim.Rc[i]*sim.Rc[i]*scH*scH)}` : "";
+    const coreTTxt=hasCore? ` Tc=${fmt((1-sim.lSw[i])*0.5*Math.abs(sim.coreMR[i]*sim.m[i])*sim.Rc[i]*sim.Rc[i]*scH*scH)}` : "";
     const fObl=(sim.params.G>0&&sim.m[i]>0)? 1.25*sim.spin[i]*sim.spin[i]*sim.R[i]*sim.R[i]*sim.R[i]/(sim.params.G*sim.m[i]) : NaN;
     const fTxt=isFinite(fObl)? ` f=${fmt(Math.min(fObl,9999))}` : "";
     ctx.fillText(`m=${fmt(sim.m[i])}${mcTxt} s=${fmt(sim.spin[i])}${scTxt} R=${fmt(sim.R[i])}${fTxt}`,8,ch-10-12*uiFontScale);
@@ -5831,6 +6601,7 @@ function render(){
   if(sim.overlays.spectrum) drawSpectrum(slots.indexOf("spectrum"));
   // 第32便(W2): 膨張グラフ。A/B比較は renderAB() 側(未変更)を通るためここには来ない(単独表示のみ)
   if(sim.overlays.boxGraph && (sim.box || sim.measureBox)) drawBoxGraph(slots.indexOf("boxGraph"));   // 第35便: 実測 a_eff も対象
+  if(sim.overlays.phaseGraph && sim.phase) drawPhaseGraph(slots.indexOf("phaseGraph"));   // 第53便 53B(E14)
   // 近点検出器の UI 表示(第11次裁定 保留分): 最内粒子の実測 Δϖ/周 と E13 解析値を左上に併記
   if(sim.zonal && sim.periDet){
     const P=sim.periDet; let bi=-1, ba=1e18;
@@ -5850,8 +6621,17 @@ function render(){
 // 表示のみ — 物理・twall の中身には一切触れない。メイン描画と A/B 分割描画が共用する
 function drawThermalWallBox(S, mx, my){
   const s=S.world.size, tw=S.twall;
-  const colOf=(w)=>(!w || w.mode==="adiabatic")? null
-    : (w.mode==="heat"? "rgba(255,150,60,0.9)" : "rgba(110,190,255,0.9)");
+  // 第54便 54D⑦(原仮定者指示): heat 面は固定の橙ではなく、実効壁温(スケジュール込み)を
+  // 粒子と同じ温度色スケール tempColor で塗る — 壁の色=壁温の読みになる。rad 面は従来の青
+  const colOf=(w)=>{
+    if(!w || w.mode==="adiabatic") return null;
+    if(w.mode==="heat"){
+      if(!(w.rate>0)) return null;   // 第57便 57C: レート0=壁温の影響なし → 断熱と同じ描画
+      const Tw=(w.tSwitch!==undefined && S.t>=w.tSwitch)? w.T2 : w.T;
+      return tempColor(Math.min(1,Math.sqrt(Math.max(0,Tw)/Math.max(1e-4,tempP90EMA))));
+    }
+    return "rgba(110,190,255,0.9)";
+  };
   const seg=(x1,y1,x2,y2,w)=>{
     const c=colOf(w);
     if(c){ ctx.strokeStyle=c; ctx.setLineDash([]); ctx.lineWidth=2.5; }
@@ -5934,9 +6714,9 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
     }
     if(S.coreMR[i]!==0 && rr>=7){   // 主星2層のコア(A/B側も同様。空洞=より暗い穴)
       const rc=Math.max(3,Math.min(S.Rc[i]*z,rr*0.92));
-      if(S.coreMR[i]>0 && (S.coreOT[i]!==1||S.lSw[i]!==0)){   // 第22便: 観測温度色(A側と同様)
+      if(S.coreMR[i]>0 && S.lSw[i]!==0){   // 第22便→第61便: coreOT 廃止 — 減光時のみ観測温度色
         const sc2=S.coreSR[i]*S.spin[i];
-        const Tc=S.coreOT[i]*(1-S.lSw[i])*0.5*Math.abs(S.coreMR[i]*S.m[i])*S.Rc[i]*S.Rc[i]*sc2*sc2;
+        const Tc=(1-S.lSw[i])*0.5*Math.abs(S.coreMR[i]*S.m[i])*S.Rc[i]*S.Rc[i]*sc2*sc2;
         ctx.globalAlpha=0.8;
         ctx.fillStyle=tempColor(Math.min(1,Math.sqrt(Math.max(0,Tc)/Math.max(1e-4,tempP90EMA))));
       } else ctx.fillStyle=(S.coreMR[i]<0)? "rgba(3,4,10,0.85)" : "rgba(10,12,24,0.55)";
@@ -6042,7 +6822,8 @@ function loop(now){
     needsRender=false;
   }
   if((frameCount++%10)===0){
-    let txt=`t=${sim.t.toFixed(1)}  N=${sim.n}  ${Math.round(fpsEMA)}fps`;
+    // 第61便 61B(レビューP1「step/モデル時刻併記」): 步数 = t/dt(dt=0.016 固定)
+    let txt=`t=${sim.t.toFixed(1)} (${Math.round(sim.t/0.016)}步)  N=${sim.n}  ${Math.round(fpsEMA)}fps`;
     // 第39便 39E(台帳4-75 E2): sim.t が validT(評価済み最大時間)を超えたときだけ警告を追記。
     // 窓内では1文字も増えない(クラッタ回避)。表示専用 — 物理には一切フィードバックしない。
     // A/B比較中は simB も同じ座標時間だけ進む(loop() 内 for 文が両方を同じ k だけ step する)ため
@@ -6164,19 +6945,44 @@ function allPresets(){ return BUILTIN_PRESETS.concat(getCustomPresets()); }
 // 第21便: プルダウン表示用の kFrame タグ(physics 未保持の項目は付けない)
 // 第51便 51B(原仮定者指示): プルダウンの「(kF=1)」表示(kfTag)は廃止 — kFrame の有無は
 // 説明タブの分類チップ「引きずり」(bdgDrag)が引き継ぐ
+// 第54便 54D②(原仮定者指示「プルダウンをカテゴリで階層化」): カテゴリ選択+絞り込み一覧の
+// 2段プルダウン。presetFilter="all" では従来と同一の全件表示(optgroup 構造も不変 = QA互換)
+let presetFilter="all";
+function presetCatOf(v){   // 選択値(プリセットID/save#i)の属するカテゴリ名
+  if(String(v).startsWith("save#")) return "保存一覧";
+  if(String(v).startsWith("custom_")) return "AI生成";
+  const bp=BUILTIN_PRESETS.find(p=>p.id===v);
+  return bp? (bp.group||"内蔵") : null;
+}
+function rebuildPresetGroupSelect(){
+  const gs=$("#presetGroupSelect"); if(!gs) return;
+  gs.textContent="";
+  const groups=[];
+  BUILTIN_PRESETS.forEach(p=>{ const g=p.group||"内蔵"; if(!groups.includes(g)) groups.push(g); });
+  const opts=[["all",T("grpAll")]].concat(groups.map(g=>[g,gName(g)]));
+  if(getCustomPresets().length) opts.push(["AI生成",gName("AI生成")]);
+  if(getSaves().length) opts.push(["保存一覧",gName("保存一覧")]);
+  for(const [v,name] of opts){ const o=document.createElement("option"); o.value=v; o.textContent=name; gs.appendChild(o); }
+  if(![...gs.options].some(o=>o.value===presetFilter)) presetFilter="all";
+  gs.value=presetFilter;
+}
 function rebuildPresetSelect(selId){
+  // 54D②: 指定IDが絞り込みの外なら「全カテゴリ」へ戻す(選択と一覧の不整合を作らない)
+  if(selId && presetFilter!=="all" && presetCatOf(selId)!==presetFilter) presetFilter="all";
+  rebuildPresetGroupSelect();
   const sel=$("#presetSelect"); sel.textContent="";
   // 内蔵プリセットは group ごとの optgroup(付録E E4。配列順=表示順)
   let og=null, curGroup=null;
   BUILTIN_PRESETS.forEach(p=>{
     const g=p.group||"内蔵";
+    if(presetFilter!=="all" && g!==presetFilter) return;   // 54D②: カテゴリ絞り込み
     if(g!==curGroup){ curGroup=g; og=document.createElement("optgroup"); og.label=gName(g); sel.appendChild(og); }
     const o=document.createElement("option");
     // 第21便(原仮定者指示): サンプルの kFrame を選択時に判別できるよう名前へ (kF=N) を付記
     o.value=p.id; o.textContent=(p.emoji||"")+" "+pName(p); og.appendChild(o);
   });
   const customs=getCustomPresets();
-  if(customs.length){
+  if(customs.length && (presetFilter==="all"||presetFilter==="AI生成")){
     const og2=document.createElement("optgroup"); og2.label=gName("AI生成");
     customs.forEach(p=>{ const o=document.createElement("option");
       o.value=p.id; o.textContent="🤖 "+(p.emoji||"")+" "+pName(p); og2.appendChild(o); });
@@ -6184,7 +6990,7 @@ function rebuildPresetSelect(selId){
   }
   // v1.17: 保存一覧もプルダウンから直接開けるように(AI生成とカテゴリを分離)
   const saves=getSaves();
-  if(saves.length){
+  if(saves.length && (presetFilter==="all"||presetFilter==="保存一覧")){
     const og3=document.createElement("optgroup"); og3.label=gName("保存一覧");
     saves.forEach((s,idx)=>{ const o=document.createElement("option");
       o.value="save#"+idx; o.textContent="💾 "+(s.name||T("untitled")); og3.appendChild(o); });
@@ -6192,6 +6998,12 @@ function rebuildPresetSelect(selId){
   }
   if(selId) sel.value=selId;
   rebuildAiBaseSelect();   // 第26便: AIタブのベース候補も同期
+}
+// 54D②: 絞り込み中に一覧へ無い項目を選択状態にするときは「全カテゴリ」へ戻して再構築する
+function setPresetSelectValue(v){
+  const sel=$("#presetSelect");
+  if(![...sel.options].some(o=>o.value===v)) rebuildPresetSelect(v);
+  else sel.value=v;
 }
 // 第26便(原仮定者指示): AI生成のベースサンプル候補(なし+内蔵+AI生成)
 function rebuildAiBaseSelect(){
@@ -6217,7 +7029,11 @@ function rebuildAiBaseSelect(){
 // v1.17: セーブ項目の読込(保存一覧・プルダウン共用)
 function loadSave(s, selValue){
   const exists=allPresets().some(p=>p.id===s.presetId);
-  loadPreset(exists?s.presetId:BUILTIN_PRESETS[0].id,false);
+  // 第53便 53B(外部レビュー P1): 元プリセットが無いセーブは**読込を中止**する(従来は先頭サンプルへ
+  // フォールバックして保存済み physics を適用していた — 別サンプルに別調整が載る誤読の温床。
+  // beta 専用サンプル〔melt/freeze 等〕のセーブを root で開くケースが典型)
+  if(!exists){ notify(T("presetMissing"),4500); return; }
+  loadPreset(s.presetId,false);
   sim.params=Object.assign({},DEFAULT_PHYSICS,s.physics); sim.updateRadii();
   if(s.cameraScale) camScale=s.cameraScale;
   // 第33便(台帳4-64): 箱パラメータの復元。プリセットに箱が無いのに保存側にだけ universeBox が
@@ -6225,10 +7041,28 @@ function loadSave(s, selValue){
   // 旧形式セーブ(universeBox キー無し)はこの分岐に入らず従来どおり動く(後方互換)
   if(s.universeBox && sim.box){ sim.box=Object.assign({},sim.box,s.universeBox);
     sim.boxARef=boxScaleAt(sim.box,0).a; if(sim.boxHist) sim.boxHist.length=0; }
+  // 第54便 54B → 第60便: 相変化(E14″)係数・伝熱壁編集の復元。プリセット側に E14/壁が無いのに
+  // セーブ側だけにあるケースは適用しない(universeBox と同方針 — 亡霊設定の防止)。
+  // 旧スキーマの係数(meltT 等)は PC_PARAM_DEFS に無いので自然に無視される
+  if(s.phaseParams && sim.phase){
+    for(const def of PC_PARAM_DEFS){
+      const v=s.phaseParams[def.key];
+      if(!isNum(v)) continue;
+      sim.phase[def.key]=clamp(v,def.lo,def.hi);
+    }
+  }
+  if(s.twallHeat && sim.twall){
+    for(const k of Object.keys(s.twallHeat)){
+      const w=sim.twall[k], e=s.twallHeat[k];
+      if(w && w.mode==="heat" && e){
+        if(isNum(e.T)) w.T=clamp(e.T,0,10000);
+        if(isNum(e.rate)) w.rate=clamp(e.rate,0,100);
+      }
+    }
+  }
   setParamsDirty(false);
   buildParamRows(); notify(T("loadedAs")(s.name));
-  if(selValue) $("#presetSelect").value=selValue;
-  if(!exists) notify(T("presetMissing"),3500);
+  if(selValue) setPresetSelectValue(selValue);
 }
 function loadPreset(id, keepPhysics){
   if(ab) abStop();          // プリセット切替・通常ロードで A/B は解除(v1.13)
@@ -6245,7 +7079,10 @@ function loadPreset(id, keepPhysics){
   setParamsDirty(false);   // v1.17: プリセット読込で編集は破棄される(⏮は呼び出し側で維持)
   running=false; updatePlayBtn(); updateBodyEdit();
   buildParamRows(); renderHelp();
-  $("#presetSelect").value=p.id;
+  setPresetSelectValue(p.id);
+  ckInvalidate();   // 第61便 61B: チェックポイントはプリセット単位(読込で無効化)
+  // 第54便 54D①: 次回起動時の復元用に「最後にロードしたプリセット」を記録
+  try{ localStorage.setItem("hp_last_preset",p.id); }catch(_){}
   updateSaveNameDefault();   // v1.19: セーブ名の初期値=プリセット名+サフィックス
   requestRender();           // v1.22: 停止中でも新しい初期配置を即描画
 }
@@ -6277,7 +7114,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   if(simB.m.length>=sim.n){
     for(const k of ["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy",
       "coreMR","coreSR","mEff","Rc","rotAc",   // 主星2層の状態も転写(第14便: 比率仕様)
-      "obsT","lSw","coreOT","radOv","coreRRv", // 観測温度・半径系(第22便)
+      "lSw","radOv","coreRRv",                 // 観測系(第22便 — obsT/coreOT は第61便で廃止)
       "rMulv","lSwAuto",                       // 第36便 C1/C2: 半径倍率・掻出の自動算出フラグ
       // 第45便 45B: 転写長は「A 側の生存粒子数 sim.n」に固定する(分裂で確保長が A 側だけ
       // 伸びていても RangeError にならない。fission の無い宇宙では sim[k].length===sim.n なので
@@ -6287,8 +7124,15 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
     // 第36便 D(台帳4-51): 内部温度モードの状態も転写(同一プリセットで build 済みなので
     // simB.Tint は同じ長さで確保されている。spin モードでは両方 null で何もしない)
     if(sim.Tint && simB.Tint) simB.Tint.set(sim.Tint.subarray(0,sim.n));
+    // 第53便 53D → 第60便: E14″ の状態(配位数2バッファ・share)も転写する。angNbr は毎パス
+    // 再収集なので転写不要。phase 係数の実行中編集も引き継ぐ
+    if(sim.coordN && simB.coordN){ simB.coordN.set(sim.coordN); simB.coordAcc.set(sim.coordAcc);
+      simB.shPrev.set(sim.shPrev); }   // 56A
     simB.pinned.set(sim.pinned.subarray(0,sim.n)); simB.hasU.set(sim.hasU.subarray(0,sim.n));
   }
+  if(sim.phase && simB.phase) Object.assign(simB.phase, sim.phase);
+  if(sim.phHist && simB.phHist) simB.phHist=sim.phHist.map(o=>Object.assign({},o));
+  simB._phAcc=sim._phAcc; simB.clampAN=sim.clampAN;
   // 第44便 44B(台帳4-68c): 融合済みの宇宙は n が減っているので、B 側の粒子数と index 依存の
   // 内部状態(レール候補・近点検出器・zonal 中心・壁 ring 群)を A 側の現況へ揃える。
   // fusion が無いプリセットでは simB.n===sim.n・fusion===null で、これらは全て自明な代入になる
@@ -6344,7 +7188,10 @@ function applyBodyPatch(S, targets, patch){
 // 第40便 40B(台帳4-77): 第3引数 bodyPatch={targets,patch} は abBody 用 — B側の指定粒子へ
 // patch を適用してから開始する(既存のパラメータ単位A/Bと同じ「開始と同時にB側へ適用」の形)
 function abStart(key, valB, bodyPatch){
-  ab={simB:cloneSimState(), lastKey:null};
+  // 第61便 61B → 第63便: A/B 開始前の(A単独の)チェックポイントは B と desync するため無効化。
+  // A/B 中に保存したチェックポイントは A+B 両側を持つ(ckSave)ので A/B 中は有効に使える
+  ckInvalidate();
+  ab={simB:cloneSimState(), lastKey:null, bodyPatch:null};
   trailBufB=trailBuf.map(b=>b.slice());   // 線の軌跡も現在までの履歴ごと複製
   if(key!==undefined){
     const c=CLAMPS[key];
@@ -6353,10 +7200,17 @@ function abStart(key, valB, bodyPatch){
   }
   if(bodyPatch && Array.isArray(bodyPatch.targets) && bodyPatch.patch){
     applyBodyPatch(ab.simB, bodyPatch.targets, bodyPatch.patch);
+    // 第63便(原仮定者指示): patch レシピを保持 — ⏮初めから のたびに B 側へ再適用する
+    // (「A/B比較を終了」までワンタップ対照が効き続ける)
+    ab.bodyPatch={targets:bodyPatch.targets.slice(), patch:Object.assign({},bodyPatch.patch)};
   }
   selIdx=-1; selWorld="A"; abTarget="A"; updateAbBtn(); updateAbTargetUI(); buildParamRows(); updateBodyEdit(); requestRender();
 }
-function abStop(){ ab=null; selIdx=-1; selWorld="A"; abTarget="A"; trailBufB=[]; updateAbBtn(); updateAbTargetUI(); buildParamRows(); updateBodyEdit(); requestRender(); }
+function abStop(){
+  // 第63便: A/B 中に保存したチェックポイント(B側込み)は A/B 終了で文脈が消えるため無効化
+  if(ckSnap && ckSnap.b) ckInvalidate();
+  ab=null; selIdx=-1; selWorld="A"; abTarget="A"; trailBufB=[]; updateAbBtn(); updateAbTargetUI(); buildParamRows(); updateBodyEdit(); requestRender();
+}
 $("#btnAB").addEventListener("click",()=>{
   if(ab){ abStop(); notify(T("abStopped")); return; }   // A の状態を継続し B を破棄
   abStart();
@@ -6370,12 +7224,82 @@ function updatePlayBtn(){
   b.classList.toggle("playing",running);
 }
 $("#btnPlay").addEventListener("click",()=>{ running=!running; updatePlayBtn(); });
+// 第58便 58B(原仮定者指示): ⏮初めから で相変化ノブ・壁温/レート編集も保持する。
+// 相変化係数は build 後に上書きする(実験ノブと同じ作法。第60便: 相率の再導出・リンクの
+// 張り直しは機構ごと廃止 — 係数はどれも実行中変更可能な連続量になった)
+function snapshotPhaseEdits(S){
+  if(!S.phase && !S.twall) return null;
+  const o={};
+  if(S.phase){ o.phase={}; for(const def of PC_PARAM_DEFS){ const v=S.phase[def.key]; if(isNum(v)) o.phase[def.key]=v; } }
+  if(S.twall) o.tw=S.twall.map(w=>w? Object.assign({},w) : null);
+  return o;
+}
+function applyPhaseEdits(S,o){
+  if(!o) return;
+  if(o.phase && S.phase){
+    for(const def of PC_PARAM_DEFS){ const v=o.phase[def.key]; if(isNum(v)) S.phase[def.key]=v; }
+  }
+  if(o.tw && S.twall){ for(let k=0;k<4;k++){ if(o.tw[k]) S.twall[k]=Object.assign({},o.tw[k]); } }
+}
+// 第61便 61B(レビューP1「チェックポイント」): 実行中の任意の瞬間を保存し、いつでも巻き戻す。
+// 保存対象は cloneSimState と同じ状態集合(粒子配列+熱+E14″状態+帳簿+履歴+係数+壁)。
+// プリセット読込・A/B開始で無効化(粒子数・配置の前提が変わるため)。復帰は介入であり
+// 保存則主張の対象外(⏮や実験ノブと同じ位置づけ)。光子の放出スケジュール進行は対象外
+let ckSnap=null;
+const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU","pinned",
+  "coreMR","coreSR","mEff","Rc","rotAc","lSw","radOv","coreRRv","rMulv","lSwAuto",
+  "railR","railAng","railOmega","railCx","railCy","railH",
+  "Tint","coordN","coordAcc","shPrev","_phNbrPrev","_phNbrPrevN","_phProf"];
+const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wallKE","pinHeat",
+  "clampVN","clampSN","clampHN","clampAN","angOvfN","_phAcc","_phNbrInit",
+  "fusN","fusU","fusPx","fusPy","fusL","fisN","aEffRef","_bhLastA","_bhLastT","_bhAcc"];
+function ckInvalidate(){ ckSnap=null; $("#btnCkLoad").disabled=true; }
+// 第63便(原仮定者指示): チェックポイントを A/B 比較の B 側にも対応 — A/B 中の保存は
+// A+B 両側のスナップショットを持ち、復帰も両側同時(同じ瞬間へ揃って巻き戻る)。
+// A/B 中に保存したものは「A/B比較を終了」で無効化(B の文脈が消えるため — abStop)
+function ckSnapOne(S){
+  const o={n:S.n, arrs:{}, sc:{}, params:Object.assign({},S.params),
+    phase:S.phase? Object.assign({},S.phase) : null,
+    tw:S.twall? S.twall.map(w=>w? Object.assign({},w) : null) : null,
+    phHist:S.phHist? S.phHist.map(p=>Object.assign({},p)) : null};
+  for(const k of CK_ARRS) if(S[k]) o.arrs[k]=S[k].slice();
+  for(const k of CK_SC) o.sc[k]=S[k];
+  return o;
+}
+function ckRestoreOne(S,o){
+  for(const k of CK_ARRS) if(S[k] && o.arrs[k]) S[k].set(o.arrs[k]);
+  for(const k of CK_SC) if(o.sc[k]!==undefined) S[k]=o.sc[k];
+  S.params=Object.assign({},o.params);
+  if(S.phase && o.phase) Object.assign(S.phase, o.phase);
+  if(S.twall && o.tw) for(let k=0;k<4;k++) S.twall[k]=o.tw[k]? Object.assign({},o.tw[k]) : null;
+  if(S.phHist && o.phHist){ S.phHist.length=0; for(const p of o.phHist) S.phHist.push(Object.assign({},p)); }
+  S.railIdx=null; S.periDet=null; S.updateRadii();
+}
+$("#btnCkSave").addEventListener("click",()=>{
+  ckSnap={a:ckSnapOne(sim), b:ab? ckSnapOne(ab.simB) : null};
+  $("#btnCkLoad").disabled=false;
+  notify(T("ckSaved"));
+});
+$("#btnCkLoad").addEventListener("click",()=>{
+  if(!ckSnap) return;
+  // 粒子数と A/B 文脈(保存時に B があったか)が一致しなければ復帰しない
+  if(ckSnap.a.n!==sim.n || (!!ab)!==(!!ckSnap.b) || (ab && ckSnap.b.n!==ab.simB.n)){ notify(T("ckMismatch")); return; }
+  ckRestoreOne(sim, ckSnap.a);
+  if(ab && ckSnap.b){ ckRestoreOne(ab.simB, ckSnap.b); trailBufB=[]; }
+  trailBuf=[]; nanNotified=false; selIdx=-1;
+  buildParamRows(); updateBodyEdit(); requestRender();
+  notify(T("ckLoaded"));
+});
 $("#btnReset").addEventListener("click",()=>{
   if(ab){ // A/B中: 両方を初期配置へ(A・Bそれぞれの編集済みパラメータは保持)
     const keepA=Object.assign({},sim.params), keepB=Object.assign({},ab.simB.params);
+    const snapA=snapshotPhaseEdits(sim), snapB=snapshotPhaseEdits(ab.simB);   // 58B
     const mk2=()=>JSON.parse(JSON.stringify(currentPreset));
-    sim.build(mk2()); sim.params=keepA; sim.updateRadii();
-    ab.simB.build(mk2()); ab.simB.params=keepB; ab.simB.updateRadii();
+    sim.build(mk2()); sim.params=keepA; sim.updateRadii(); applyPhaseEdits(sim,snapA);
+    ab.simB.build(mk2()); ab.simB.params=keepB; ab.simB.updateRadii(); applyPhaseEdits(ab.simB,snapB);
+    // 第63便(原仮定者指示): 粒子patch系ワンタップA/Bは ⏮初めから でも B 側へ再適用
+    // (「A/B比較を終了」するまで有効)
+    if(ab.bodyPatch) applyBodyPatch(ab.simB, ab.bodyPatch.targets, ab.bodyPatch.patch);
     trailBuf=[]; trailBufB=[]; selIdx=-1; nanNotified=false;
     running=false; updatePlayBtn(); buildParamRows(); updateBodyEdit();
     requestRender();
@@ -6384,8 +7308,10 @@ $("#btnReset").addEventListener("click",()=>{
   }
   // 現在の物理パラメータを保持したまま初期配置へ(仕様: HANDOFF_IMPLEMENTATION エッジケース表)
   const keep=Object.assign({},sim.params), wasDirty=paramsDirty;
+  const snapP=snapshotPhaseEdits(sim);   // 58B: 相変化ノブ・壁編集も保持
   loadPreset(currentPreset.id,false);
   sim.params=keep; sim.updateRadii();
+  applyPhaseEdits(sim,snapP);            // 58B
   setParamsDirty(wasDirty);   // v1.17: ⏮はパラメータ保持なので未保存状態も維持
   buildParamRows();
   notify(T("resetDone"));
@@ -6408,10 +7334,31 @@ $("#presetSelect").addEventListener("change",e=>{
   }
   loadPreset(v,false);
 });
+// 第54便 54D②: カテゴリ選択 — 一覧を絞り込む。現在の選択がカテゴリ外ならそのカテゴリの
+// 先頭項目を読み込む(未保存編集の確認は既存のプリセット切替と同じ)
+$("#presetGroupSelect").addEventListener("change",e=>{
+  const v=e.target.value;
+  const curVal=$("#presetSelect").value || (currentPreset? currentPreset.id : "");
+  const needLoad = v!=="all" && presetCatOf(curVal)!==v;
+  if(needLoad && paramsDirty && !confirm(T("confirmDiscard"))){ e.target.value=presetFilter; return; }
+  presetFilter=v;
+  rebuildPresetSelect(needLoad? undefined : curVal);
+  if(needLoad){
+    const first=$("#presetSelect").querySelector("option");
+    if(first){
+      if(first.value.startsWith("save#")){ const sv=getSaves()[+first.value.slice(5)]; if(sv) loadSave(sv,first.value); }
+      else loadPreset(first.value,false);
+    }
+  }
+});
 
 // ===== タブ =====
 let curTab="";
+// 第57便 57B(原仮定者指示): 開いたタブのスクロール位置をタブ別に管理する。
+// 切替時に旧タブの scrollTop を保存し、新タブの保存値を復元(未訪問は先頭)
+const tabScroll={};
 function closePanel(){
+  if(curTab) tabScroll[curTab]=$("#panel").scrollTop;
   curTab=""; $("#panel").classList.remove("open");
   document.querySelectorAll("#tabs button").forEach(x=>x.classList.remove("on"));
   setTimeout(resizeCanvas,50);
@@ -6420,12 +7367,14 @@ document.querySelectorAll("#tabs button").forEach(b=>{
   b.addEventListener("click",()=>{
     const t=b.dataset.tab;
     if(curTab===t){ closePanel(); return; }
+    if(curTab) tabScroll[curTab]=$("#panel").scrollTop;   // 57B: 離れるタブの位置を保存
     curTab=t;
     document.querySelectorAll("#tabs button").forEach(x=>x.classList.toggle("on",x===b));
     document.querySelectorAll(".tabPage").forEach(x=>x.classList.toggle("on",x.id==="page-"+t));
     $("#panel").classList.add("open");
     if(t==="saves") renderSaves();
     if(t==="ai") renderCustomList();
+    $("#panel").scrollTop=tabScroll[t]||0;   // 57B: 新タブの位置を復元
     setTimeout(resizeCanvas,50);
   });
 });
@@ -6439,7 +7388,8 @@ $("#btnPanelClose").addEventListener("click",closePanel);  // v1.17: パネル�
 // グローバルUI設定(プリセット/セーブのスキーマは拡張しない)。ONの間、時計・光のKtを
 // E12・運動時間項が参照するcLightと重力Gから導出される対応条件 Kt=cLight²/G に自動維持する。
 let physLock=false;
-let paramRowSync={};   // key→UI行(スライダー+直値)の表示更新関数(buildParamRowsで登録)
+let paramRowSync={};   // 第54便 54D④: key→UI行の表示更新関数の**配列**(主役+詳細の重複行に対応)
+function syncParamRow(key){ (paramRowSync[key]||[]).forEach(f=>f()); }
 function physLockCalc(S){
   const p=S.params, c=CLAMPS.Kt;
   const tgt=(p.G>0)? (p.cLight*p.cLight)/p.G : Infinity;
@@ -6453,7 +7403,7 @@ function physLockSatisfied(S){
 }
 function enforcePhysLock(targets){
   for(const S of targets) S.params.Kt=physLockCalc(S).applied;
-  if(paramRowSync.Kt) paramRowSync.Kt();
+  syncParamRow("Kt");
   updatePhysLockBadge();
 }
 function updatePhysLockBadge(){
@@ -6484,19 +7434,33 @@ const BOX_PARAM_DEFS = [
   {key:"freq", kind:"num", lo:0,    hi:2,     labelKey:"boxFreqLabel", descKey:"boxFreqDesc"},
   {key:"D",    kind:"num", lo:0,    hi:10000, labelKey:"boxDLabel",    descKey:"boxDDesc"},
 ];
+// 第54便 54D⑤(原仮定者指示「詳細設定をカテゴリ分けしカテゴリ別に畳む」): カテゴリ折りたたみの
+// 共通部品。summary クリックで開閉、ⓘ タップで節の説明(pdesc)を開閉(開閉と説明を分離)
+// 第57便 57B(原仮定者指示「初めからで畳まない」): buildParamRows の再構築(プリセット再読込・
+// ⏮初めから・A/B切替)を跨いで開閉状態をラベル名で保持する
+let _openCats=new Set();
+function mkCatDetails(host,label,descText){
+  const det=document.createElement("details"); det.className="catParams";
+  if(_openCats.has(label)) det.open=true;
+  const sum=document.createElement("summary"); sum.textContent=label;
+  if(descText){
+    const info=document.createElement("span"); info.className="catInfo"; info.textContent="ⓘ";
+    info.addEventListener("click",(e)=>{ e.preventDefault(); e.stopPropagation();
+      const nx=sum.nextElementSibling;
+      const open=(nx && nx.classList && nx.classList.contains("pdesc"))? nx : null;
+      if(open){ open.remove(); return; }
+      const d=document.createElement("div"); d.className="pdesc open"; d.textContent=descText;
+      sum.after(d);
+    });
+    sum.appendChild(info);
+  }
+  det.appendChild(sum); host.appendChild(det);
+  return det;
+}
 function buildBoxParamRows(host){
+  // 54D⑤: 箱宇宙もカテゴリ扱い(節見出し h3 → catParams の summary へ。説明は ⓘ)
+  const det=mkCatDetails(host,T("boxSectionHead"),T("boxSectionDesc"));
   const g=document.createElement("div"); g.className="group";
-  const h=document.createElement("h3"); h.textContent=T("boxSectionHead");
-  h.style.cursor="pointer"; h.style.textDecoration="underline dotted"; h.style.textUnderlineOffset="3px";
-  h.addEventListener("click",()=>{
-    const open=h.nextElementSibling && h.nextElementSibling.classList
-      && h.nextElementSibling.classList.contains("pdesc") ? h.nextElementSibling : null;
-    if(open){ open.remove(); return; }
-    const d=document.createElement("div"); d.className="pdesc open";
-    d.textContent=T("boxSectionDesc");
-    h.after(d);
-  });
-  g.appendChild(h);
   const tapDescRow=(row,lab,descKey)=>{
     lab.className="tappable";
     lab.addEventListener("click",()=>{
@@ -6541,27 +7505,172 @@ function buildBoxParamRows(host){
     }
     g.appendChild(row);
   }
-  host.appendChild(g);
+  det.appendChild(g);
 }
-// 第40便 40B(台帳4-77): abBody を宣言したプリセットだけに出るワンタップA/Bボタン。
+// 第53便 53D → 第60便: 相変化(E14″)の実験用パラメータ編集 — sim.phase のあるプリセットのみ
+// 表示(箱宇宙の BOX_PARAM_DEFS と同方式)。書き込み先は editSim()(A/B 比較中は編集対象側
+// だけ — 「角度あり/なし」「創発伝導あり/なし」の対照実験が A/B でそのまま組める)。
+// 第54便 54B: 実行中編集はセーブに載る(phaseParams/twallHeat)
+// 第54便 54D⑥: sLo/sHi/sStep = スライダーの代表域(直値入力は従来どおり lo〜hi まで受理)
+const PC_PARAM_DEFS = [
+  // 第60便(創発一本化): E14″ の実験ノブは8つ — すべて「いまの結合状態から」の連続量で、
+  // 実行中変更にモード切替・再初期化を要しない(bondN/bondRange も含めて全て可変)
+  {key:"bondN",    lo:0.5,  hi:12,  sLo:0.5,  sHi:8,  sStep:0.1,  labelKey:"pcBondN",    descKey:"pcBondNDesc"},
+  {key:"bondK",    lo:0,    hi:100, sLo:0,    sHi:20, sStep:0.1,  labelKey:"pcBondK",    descKey:"pcBondKDesc"},
+  {key:"bondRange",lo:1.05, hi:3,   sLo:1.05, sHi:2.5,sStep:0.05, labelKey:"pcBondRange",descKey:"pcBondRangeDesc"},
+  {key:"angK",     lo:0,    hi:10,  sLo:0,    sHi:5,  sStep:0.1,  labelKey:"pcAngK",     descKey:"pcAngKDesc"},
+  {key:"bondDamp", lo:0,    hi:1,   sLo:0,    sHi:1,  sStep:0.01, labelKey:"pcBondDamp", descKey:"pcBondDampDesc"},
+  {key:"condN",    lo:0,    hi:12,  sLo:0,    sHi:8,  sStep:0.1,  labelKey:"pcCondN",    descKey:"pcCondNDesc"},
+  {key:"condS",    lo:0,    hi:100, sLo:0,    sHi:3,  sStep:0.05, labelKey:"pcCondS",    descKey:"pcCondSDesc"},
+  {key:"condG",    lo:0,    hi:100, sLo:0,    sHi:2,  sStep:0.02, labelKey:"pcCondG",    descKey:"pcCondGDesc"},
+];
+function buildPhaseParamRows(host){
+  // 54D⑤: 相変化(E14)もカテゴリ扱い(節見出し h3 → catParams の summary へ。説明は ⓘ)
+  const det=mkCatDetails(host,T("pcSectionHead"),T("pcSectionDesc"));
+  const g=document.createElement("div"); g.className="group";
+  const tapDescRow=(row,lab,descKey)=>{
+    lab.className="tappable";
+    lab.addEventListener("click",()=>{
+      const open=row.nextElementSibling && row.nextElementSibling.classList
+        && row.nextElementSibling.classList.contains("pdesc") ? row.nextElementSibling : null;
+      if(open){ open.remove(); return; }
+      const d=document.createElement("div"); d.className="pdesc open";
+      d.textContent=T(descKey);
+      row.after(d);
+    });
+  };
+  // 第54便 54D⑥(原仮定者指示): 各数値をスライダー対応 — スライダーは代表域 sLo〜sHi、
+  // 直値入力はスライダー範囲外も lo〜hi まで受理(主パラメータ行と同じ二段構え)
+  const mkRow=(labelText, descKey, getV, setV, lo, hi, sLo, sHi, sStep)=>{
+    const row=document.createElement("div"); row.className="prow";
+    const lab=document.createElement("label"); lab.textContent=labelText;
+    if(descKey) tapDescRow(row,lab,descKey);
+    const rng=document.createElement("input"); rng.type="range";
+    rng.min=sLo; rng.max=sHi; rng.step=sStep; rng.style.flex="1"; rng.style.minWidth="60px";
+    rng.value=clamp(getV(),sLo,sHi);
+    const num=document.createElement("input"); num.type="text"; num.className="valIn";
+    num.inputMode="decimal"; num.autocomplete="off"; num.value=fmt(getV());
+    rng.addEventListener("input",()=>{
+      const cv=clamp(parseFloat(rng.value),lo,hi);
+      setV(cv); setParamsDirty(true); requestRender(); num.value=fmt(getV());
+    });
+    num.addEventListener("change",()=>{
+      const v=parseFloat(num.value.replace(/[,、\s]/g,""));
+      if(isFinite(v)){ const cv=clamp(v,lo,hi); setV(cv); setParamsDirty(true); requestRender();
+        num.value=String(cv); rng.value=clamp(getV(),sLo,sHi); }   // 範囲外の直値はスライダー端に表示
+      else num.value=fmt(getV());
+    });
+    row.appendChild(lab); row.appendChild(rng); row.appendChild(num); g.appendChild(row);
+  };
+  for(const def of PC_PARAM_DEFS){
+    mkRow(T(def.labelKey), def.descKey,
+      ()=>editSim().phase[def.key],
+      (cv)=>{ editSim().phase[def.key]=cv; },   // 第60便: 全ノブが単純な連続量(副作用なし)
+      def.lo, def.hi, def.sLo, def.sHi, def.sStep);
+  }
+  // 第61便 61B の abQuick ボタンは第62便で #abQuickRow(A/B比較グループの上)へ移設
+  // 第57便 57C: 伝熱壁の壁温・レート行は「実験箱」カテゴリへ移設(buildLabBoxRows)
+  det.appendChild(g);
+}
+// 第57便 57C(原仮定者指示): 実験箱カテゴリの伝熱壁行 — 4面(天井/左/右/底 の表示順)の
+// 壁温 T_wall とレート。壁レート0で壁温の影響なし(断熱と等価 — 描画も断熱表示)。
+// 未設定の面は編集した瞬間に {mode:"heat",T,rate:0} を生成する(レート0のままなら物理不変)。
+// rad(放熱)面はそのまま(壁温を持たないため行を出さない — ラベル誤解の防止)
+function buildLabBoxRows(g){
+  const tw=editSim().twall;
+  if(!tw) return;
+  const tapDescRow=(row,lab,descKey)=>{
+    lab.className="tappable";
+    lab.addEventListener("click",()=>{
+      const open=row.nextElementSibling && row.nextElementSibling.classList
+        && row.nextElementSibling.classList.contains("pdesc") ? row.nextElementSibling : null;
+      if(open){ open.remove(); return; }
+      const d=document.createElement("div"); d.className="pdesc open";
+      d.textContent=T(descKey);
+      row.after(d);
+    });
+  };
+  const mkRow=(labelText, descKey, getV, setV, lo, hi, sLo, sHi, sStep)=>{
+    const row=document.createElement("div"); row.className="prow";
+    const lab=document.createElement("label"); lab.textContent=labelText;
+    if(descKey) tapDescRow(row,lab,descKey);
+    const rng=document.createElement("input"); rng.type="range";
+    rng.min=sLo; rng.max=sHi; rng.step=sStep; rng.style.flex="1"; rng.style.minWidth="60px";
+    rng.value=clamp(getV(),sLo,sHi);
+    const num=document.createElement("input"); num.type="text"; num.className="valIn";
+    num.inputMode="decimal"; num.autocomplete="off"; num.value=fmt(getV());
+    rng.addEventListener("input",()=>{
+      const cv=clamp(parseFloat(rng.value),lo,hi);
+      setV(cv); setParamsDirty(true); requestRender(); num.value=fmt(getV());
+    });
+    num.addEventListener("change",()=>{
+      const v=parseFloat(num.value.replace(/[,、\s]/g,""));
+      if(isFinite(v)){ const cv=clamp(v,lo,hi); setV(cv); setParamsDirty(true); requestRender();
+        num.value=String(cv); rng.value=clamp(getV(),sLo,sHi); }
+      else num.value=fmt(getV());
+    });
+    row.appendChild(lab); row.appendChild(rng); row.appendChild(num); g.appendChild(row);
+  };
+  const sides=T("pcWallSides");
+  const ensure=(k)=>{ const S=editSim(); if(!S.twall[k]) S.twall[k]={mode:"heat",T:0,rate:0}; return S.twall[k]; };
+  // 第58便 58B(原仮定者指示「天井と右が無い」): rad(放熱)面も行を出す。
+  // 壁温は rad では 0 表示・0より大きく設定するとその面は加熱面(heat)へ変わる(レートは維持)。
+  // 壁レートはモードを問わずその面のレートを編集する
+  for(const k of [1,2,3,0]){   // 表示順: 天井・左側面・右側面・底(原仮定者指定)
+    mkRow(T("pcWallT")(sides[k]), "pcWallTDesc",
+      ()=>{ const w2=editSim().twall[k]; return (w2 && w2.mode==="heat")? w2.T : 0; },
+      (cv)=>{ const S=editSim(); const w2=S.twall[k];
+        if(w2 && w2.mode!=="heat"){ if(cv>0) S.twall[k]={mode:"heat",T:cv,rate:w2.rate}; }
+        else ensure(k).T=cv; }, 0, 10000, 0, 5, 0.05);
+    mkRow(T("pcWallRate")(sides[k]), "pcWallRateDesc",
+      ()=>{ const w2=editSim().twall[k]; return w2? w2.rate : 0; },
+      (cv)=>{ ensure(k).rate=cv; }, 0, 100, 0, 3, 0.05);
+  }
+}
+// 第40便 40B(台帳4-77)→ 第62便(原仮定者指示)で統一: ワンタップA/B行 #abQuickRow
+// (「A/B比較」グループの上)。①相変化 abQuick:{key,v}(第61便 61B — B側の相変化ノブだけ
+// 対照値へ)②粒子patch abBody(40B — 例: 対向ローターのスピンを0に)を、同じ形状
+// (相変化系 = class "btn")で並べる。プリセットはどちらか一方のみ宣言する運用。
 // buildParamRows() から呼ぶ(プリセット読込・A/B開始/終了・編集対象切替・言語切替のたびに再同期)
-function updateAbBodyRow(){
-  const row=$("#abBodyRow"); if(!row) return;
+function updateAbQuickRow(){
+  const row=$("#abQuickRow"); if(!row) return;
   row.textContent="";
+  let any=false;
+  const q=currentPreset && currentPreset.abQuick;
+  if(q && editSim().phase){
+    const b=document.createElement("button"); b.className="btn"; b.id="btnAbQuick";
+    b.textContent=T("pcAbQuick")(q.key,q.v);
+    b.addEventListener("click",()=>{
+      if(ab) abStop();
+      abStart();
+      ab.simB.phase[q.key]=q.v;
+      notify(T("abQuickStarted")(q.key,q.v));
+    });
+    row.appendChild(b); any=true;
+  }
   const ent=currentPreset && currentPreset.abBody;
-  if(!ent || !Array.isArray(ent.targets) || !ent.targets.length || !ent.patch){ row.style.display="none"; return; }
-  row.style.display="flex";
-  const btn=document.createElement("button"); btn.className="btn primary";
-  btn.textContent=(ent.label && ((LANG==="en"&&ent.label.en)||ent.label.ja||ent.label.en)) || T("btnAbStart");
-  btn.addEventListener("click",()=>{
-    abStart(undefined, undefined, {targets:ent.targets, patch:ent.patch});
-    notify(T("abStarted"));
-  });
-  row.appendChild(btn);
+  if(ent && Array.isArray(ent.targets) && ent.targets.length && ent.patch){
+    const btn=document.createElement("button"); btn.className="btn";
+    // 第63便: タイトルは共通書式 abQuickTitle(「⚖️ ワンタップ対照A/B(B側: …)」)で統一
+    const lb=(ent.label && ((LANG==="en"&&ent.label.en)||ent.label.ja||ent.label.en)) || "patch";
+    btn.textContent=T("abQuickTitle")(lb);
+    btn.addEventListener("click",()=>{
+      abStart(undefined, undefined, {targets:ent.targets, patch:ent.patch});
+      notify(T("abStarted"));
+    });
+    row.appendChild(btn); any=true;
+  }
+  row.style.display=any? "flex" : "none";
 }
 function buildParamRows(){
-  updateAbBodyRow();
-  const host=$("#paramRows"); host.textContent="";
+  updateAbQuickRow();
+  const host=$("#paramRows");
+  // 57B: 再構築前に開いているカテゴリのラベルを記録(mkCatDetails が復元する)
+  _openCats=new Set();
+  host.querySelectorAll("details[open]>summary").forEach(sm=>{
+    const t=(sm.firstChild&&sm.firstChild.textContent)||sm.textContent; if(t) _openCats.add(t.trim());
+  });
+  host.textContent="";
   paramRowSync={};
   // v1.23: timeScale は表示グループの常設行になったため、主役/詳細からは常に除外
   const act=(currentPreset&&Array.isArray(currentPreset.activeParams))
@@ -6611,21 +7720,27 @@ function buildParamRows(){
       requestRender();   // v1.22: 停止中でも変更を即反映
       return targets[0].params[key];   // v1.26: ロックによる上書き後の実値を返す
     };
+    // 第54便 54D④: 重複行の相互同期 — 自分以外の同一キー行を追随させる
+    const syncFn=()=>{ rng.value=valToSliderPos(def,showSim.params[key]); num.value=fmt(showSim.params[key]); };
+    const syncOthers=()=>{ (paramRowSync[key]||[]).forEach(f=>{ if(f!==syncFn) f(); }); };
     rng.addEventListener("input",()=>{  // 実行中いつでも即時反映
       let v=parseFloat(rng.value);
       if(def.mode==="log") v=sliderPosToVal(def,v);
       setParam(v);
       num.value=fmt(showSim.params[key]);
+      syncOthers();
     });
     num.addEventListener("change",()=>{
       const v=parseFloat(num.value.replace(/[,、\s]/g,"").replace(/[−ー–—－]/g,"-"));  // v1.24: 全角マイナス等も受理
       // v1.19: 直値入力はそのまま反映(fmt で丸めた表示に置き換えない。値域外のみクランプ値を表示)
       if(isFinite(v)){ const applied=setParam(v); rng.value=valToSliderPos(def,applied); num.value=String(applied); }
       else num.value=fmt(showSim.params[key]);
+      syncOthers();
     });
     row.appendChild(lab); row.appendChild(rng); row.appendChild(num); parent.appendChild(row);
     // v1.26: ロック等がコードから値を書き換えたとき、行の表示を追随させる
-    paramRowSync[key]=()=>{ rng.value=valToSliderPos(def,showSim.params[key]); num.value=fmt(showSim.params[key]); };
+    // 第54便 54D④: 同一キーの行が主役と詳細に重複して存在するため配列に積む
+    (paramRowSync[key]||(paramRowSync[key]=[])).push(syncFn);
   };
   // 主役グループ(activeParams 宣言順)
   if(act.length){
@@ -6634,10 +7749,15 @@ function buildParamRows(){
     for(const k of act) mkParamRow(PARAM_DEFS.find(d=>d.key===k), g);
     host.appendChild(g);
   }
-  // v1.26: 物理対応ロック(4-12承認)— 主役グループ直下の常設グループ+状態バッジ
+  // ===== 第57便 57C(原仮定者指示): 「詳細設定(全パラメータ)」の括りを廃止し、
+  // 7カテゴリ(時空/スピン・熱/引きずり・測地線/実験箱/相変化/シミュレーション/表示)を
+  // 直接並べる。主役キーもカテゴリ側へ重複表示(54D④ — paramRowSync 配列で相互同期)=====
+  const catDefs=(cat)=>PARAM_DEFS.filter(d=>d.cat===cat && d.key!=="timeScale");
+  const mkCat=(label)=>{ const cd=mkCatDetails(host,label,null);
+    const g=document.createElement("div"); g.className="group"; cd.appendChild(g); return g; };
+  // 時空(物理対応ロックを筆頭に — 原仮定者指定の並び)
   {
-    const g=document.createElement("div"); g.className="group physCorr";
-    const h=document.createElement("h3"); h.textContent=T("physLockHead"); g.appendChild(h);
+    const g=mkCat(T("grpSpacetime"));
     const row=document.createElement("div"); row.className="prow";
     const lab=document.createElement("label"); lab.textContent=T("physLockLabel");
     lab.style.flex="1"; lab.className="tappable";
@@ -6655,35 +7775,27 @@ function buildParamRows(){
     const badge=document.createElement("div"); badge.id="physLockBadge";
     badge.style.cssText="font-size:12px;opacity:.9;padding:2px 4px 4px;";
     g.appendChild(badge);
-    host.appendChild(g);
+    for(const def of catDefs("st")) mkParamRow(def,g);
   }
-  // 残りのパラメータ(主役があるときは <details> に畳む)
-  let restHost=host;
-  if(act.length){
-    const det=document.createElement("details"); det.className="advParams";
-    const sum=document.createElement("summary"); sum.textContent=T("grpAdvanced");
-    det.appendChild(sum); host.appendChild(det); restHost=det;
-  }
-  let curGroup="", groupDiv=null;
-  for(const def of PARAM_DEFS){
-    if(act.includes(def.key)) continue;
-    if(def.key==="timeScale") continue;   // v1.23: 表示グループへ移設(A/B両方に反映)
-    if(def.group!==curGroup){ curGroup=def.group;
-      groupDiv=document.createElement("div"); groupDiv.className="group";
-      const h=document.createElement("h3"); h.textContent=def.group==="法則"?T("grpLaws"):T("grpSim");
-      groupDiv.appendChild(h); restHost.appendChild(groupDiv); }
-    mkParamRow(def, groupDiv);
+  { const g=mkCat(T("grpSpinHeat"));  for(const def of catDefs("sh")) mkParamRow(def,g); }
+  { const g=mkCat(T("grpDrag"));      for(const def of catDefs("dg")) mkParamRow(def,g); }
+  // 実験箱: 伝熱壁4面(天井/左/右/底)+一様重力(壁レート0=壁温の影響なし)
+  {
+    const g=mkCat(T("grpLabBox"));
+    buildLabBoxRows(g);
+    for(const def of catDefs("box")) mkParamRow(def,g);
   }
   // 第32便(W2): 箱宇宙(UniverseBox)の実験用パラメータ編集 — sim.box があるプリセットのみ表示
   if(sim.box) buildBoxParamRows(host);
-  // 表示設定
-  const disp=document.createElement("div"); disp.className="group";
-  const h=document.createElement("h3"); h.textContent=T("grpDisplay"); disp.appendChild(h);
-  // v1.23(原仮定者指示): 時間倍率は「表示」に常設 — A/B比較中は両方の画面に反映される
-  {
+  if(sim.phase) buildPhaseParamRows(host);   // 第53便 53D: 相変化(E14)の実験用パラメータ
+  { const g=mkCat(T("grpSim"));       for(const def of catDefs("sim")) mkParamRow(def,g);
+    // 第58便 58B(原仮定者指示): 時間倍率は表示→シミュレーションカテゴリへ移動
+    // (A/B比較中は両方の画面へ反映される applyBoth 挙動は従来どおり)
     const tsDef=PARAM_DEFS.find(d=>d.key==="timeScale");
-    if(tsDef) mkParamRow(tsDef, disp, true);
-  }
+    if(tsDef) mkParamRow(tsDef, g, true); }
+  // 表示設定 — 第54便 54D⑤: 「表示」もカテゴリ扱い(catParams で畳む。h3 → summary)
+  const disp=document.createElement("div"); disp.className="group";
+  // 第58便 58B: 時間倍率はシミュレーションカテゴリへ移動(v1.23 の表示常設を変更)
   // v1.23(原仮定者指示): 表示トグルは A/B 比較中、常に両方の画面へ反映する
   const setOv=(k)=>(v)=>{ sim.overlays[k]=v; if(ab) ab.simB.overlays[k]=v; };
   const toggles=[["trails",T("tgTrails"),()=>trailsOn,(v)=>trailsOn=v,"tgTrailsDesc"],
@@ -6700,6 +7812,8 @@ function buildParamRows(){
     ["spectrum",T("tgSpectrum"),()=>!!sim.overlays.spectrum,setOv("spectrum"),"tgSpectrumDesc"],
     // 第32便(W2): 膨張グラフ(箱宇宙のみ有効。setOv は A/B 両画面へ常に反映 — 表示トグルの既定挙動)
     ["boxGraph",T("tgBoxGraph"),()=>!!sim.overlays.boxGraph,setOv("boxGraph"),"tgBoxGraphDesc"],
+    // 第53便 53B(E14): 相変化グラフ(phaseChange プリセットのみ有効)
+    ["phaseGraph",T("tgPhaseGraph"),()=>!!sim.overlays.phaseGraph,setOv("phaseGraph"),"tgPhaseGraphDesc"],
     ["monitor",T("tgMonitor"),()=>monitorOn,(v)=>monitorOn=v,"tgMonitorDesc"]];
   // 第23便(原仮定者指示): 「表示」の各行もパラメータ名タップで説明を開閉(品質行と同じ pdesc 方式)
   const tapDesc=(row,lab,descKey)=>{
@@ -6795,7 +7909,7 @@ function buildParamRows(){
     });
     row.appendChild(lab); row.appendChild(sel); disp.appendChild(row);
   }
-  host.appendChild(disp);
+  mkCatDetails(host,T("grpDisplay"),null).appendChild(disp);
   // v1.26: ロック中はプリセット読込・既定値復帰・A/B切替などの再構築後も条件を維持する
   if(physLock) enforcePhysLock(ab?[sim,ab.simB]:[sim]);
   else updatePhysLockBadge();
@@ -6832,6 +7946,18 @@ $("#btnSave").addEventListener("click",()=>{
   // 第33便(台帳4-64): sim.box があれば箱パラメータの実行中編集をセーブへ含める
   // (photonEmit は含めない — プリセット由来のまま。実装3)
   if(sim.box) item.universeBox=Object.assign({},sim.box);
+  // 第54便 54B(原仮定者指示「相変化パラメータのセーブ保存」): 相変化(E14)実験ノブの実行中編集を
+  // セーブへ含める — phase 係数のスナップショット+伝熱壁(heat 面)の壁温/レート。
+  // 旧セーブはキー無しのままなので後方互換(読込側は値域クランプ+h 正本の再導出で適用)
+  if(sim.phase){
+    item.phaseParams={};
+    for(const def of PC_PARAM_DEFS){ const v=sim.phase[def.key]; if(isNum(v)) item.phaseParams[def.key]=v; }
+  }
+  if(sim.twall){
+    const tws={};
+    for(let k=0;k<4;k++){ const w=sim.twall[k]; if(w && w.mode==="heat") tws[k]={T:w.T, rate:w.rate}; }
+    if(Object.keys(tws).length) item.twallHeat=tws;
+  }
   try{ const a=getSaves(); a.unshift(item); setSaves(a); }
   catch(e){ alert(T("saveFailed")); return; }
   $("#saveComment").value="";
@@ -6868,7 +7994,10 @@ function renderSaves(){
   });
 }
 function exportData(){
-  return JSON.stringify({schemaVersion:2, appVersion:APP_VERSION, exportedAt:new Date().toISOString(),
+  // 第53便 53B(外部レビュー P1): appBuild — どのビルド(root/β)で書き出したかの識別子。
+  // β配信(/beta/)では BETA_BUILD、それ以外は "v"+APP_VERSION(後方互換: 旧データはキー無し)
+  return JSON.stringify({schemaVersion:2, appVersion:APP_VERSION,
+    appBuild:(isBetaServe()? BETA_BUILD : "v"+APP_VERSION), exportedAt:new Date().toISOString(),
     saves:getSaves(), customPresets:getCustomPresets()},null,1);
 }
 $("#btnExport").addEventListener("click",()=>{
@@ -6927,7 +8056,10 @@ function presetSig(p){
     universeBox:q.universeBox||null, photonEmit:q.photonEmit||null,
     integrator:q.integrator||"semi", echoFlipAt:isNum(q.echoFlipAt)?q.echoFlipAt:null,
     measureBox:q.measureBox===true,
-    thermal:(q.thermal==="tint")?"tint":"spin"   // 第36便 D(台帳4-51): 温度の意味論も署名に含める
+    thermal:(q.thermal==="tint")?"tint":"spin",   // 第36便 D(台帳4-51): 温度の意味論も署名に含める
+    // 第54便 54B: phaseChange(E14)と fusion も署名へ — これらだけが異なる2プリセットの
+    // インポートが第36便の integrator 等と同型の誤重複スキップになるのを防ぐ
+    phaseChange:q.phaseChange||null, fusion:q.fusion||null
   });
 }
 function doImportText(text){
@@ -7052,8 +8184,8 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 - box: {type,n,cx,cy,w,h,mMin,mMax,spinMin,spinMax,vScale} — 幅w高さhの矩形にn個、ランダム方向に速さ〜vScale。
 - ring/disk/box には省略可の bulkVx,bulkVy(母集団の並進速度)を指定できる。移動する天体(vx,vyを持つ single)の周りに円盤・環を置くときは、必ず同じ値を bulkVx,bulkVy に与えて核と一体で動かすこと。
 - single には省略可の zonal(扁平中心天体の帯状重力補正 E13)を指定できる: {"refR":基準半径,"calib":1,"J":{"2":0.0163,"4":-0.0009}}。偶数次 J2〜J12 のみ・|J|≤0.1・refR:1〜5000・calib:0〜2。中心の大質量 pinned 粒子に付けると周回粒子の楕円軌道の近点が前進する(内側ほど速い差動近点移動 — 画面左上に実測/解析の近点移動が表示される)。土星なら J2≈0.0163。要望が扁平天体・歳差・近点移動のときだけ使う高度な属性で、通常のプリセットでは指定しない。
-- single には省略可の coreMR,coreSR,coreRR,coreOT(主星2層 — コアの質量比・スピン比・半径比〔Rc=coreRR·R。既定は√|coreMR|相当〕・観測温度比率〔Tc_obs=coreOT·(1−lightSweep)·Ic·sc²、表示のみ〕)を指定できる。m は総質量のままで、coreMR=mc/m(−1〜1。既定0。負値=空洞〔殻に質量集中〕)・coreSR=sc/s(既定1=剛体回転=単層と等価)。差動分だけが ω += coreMR·s·(coreSR−1)·(Rc/(Rc+d))^q(Rc=radiusScale·√|coreMR·m|)として追加の空間引きずりに効く。要望がコア/深部回転・空洞天体・2層天体のときだけ使う高度な属性。
-- single には省略可の radius(半径の明示指定 0.5〜500。未指定は radiusScale·√|m|)・obsT(観測温度係数 0〜1000。観測温度 T_obs=obsT·(1−lightSweep)·T)・lightSweep(減光 0〜1 — 高速スピンコアが自星の光を外に出さない: 観測温度が0になり見掛けは冷たい。放射冷却も(1−lS)倍)を指定できる。要望がダークマター/ダークローター・見えない天体・拡がった天体のときだけ使う高度な属性で、通常のプリセットでは指定しない。
+- single には省略可の coreMR,coreSR,coreRR(主星2層 — コアの質量比・スピン比・半径比〔Rc=coreRR·R。既定は√|coreMR|相当〕)を指定できる。m は総質量のままで、coreMR=mc/m(−1〜1。既定0。負値=空洞〔殻に質量集中〕)・coreSR=sc/s(既定1=剛体回転=単層と等価)。差動分だけが ω += coreMR·s·(coreSR−1)·(Rc/(Rc+d))^q(Rc=radiusScale·√|coreMR·m|)として追加の空間引きずりに効く。要望がコア/深部回転・空洞天体・2層天体のときだけ使う高度な属性。
+- single には省略可の radius(半径の明示指定 0.5〜500。未指定は radiusScale·√|m|)・lightSweep(減光 0〜1 — 高速スピンコアが自星の光を外に出さない: 観測温度が0になり見掛けは冷たい。放射冷却も(1−lS)倍)を指定できる。要望がダークマター/ダークローター・見えない天体・拡がった天体のときだけ使う高度な属性で、通常のプリセットでは指定しない。
 - single には省略可の railOmega(±2・pinned時のみ): 円レール駆動の角速度。railCx/railCy でレール中心を指定(既定は原点)。
 
 # 例
@@ -7584,7 +8716,6 @@ function updateBodyEdit(){
   // beBind)は radOv(未スケール)へ入るため、radiusScale≠1 では表示値と入力すべき値が非対称になる
   // (再度 radiusScale が乗るため)。式粒子(rMul経路)の表示と整合させることを優先し許容する(統括裁定)
   $("#beR").value=fmt(S.R[i]); $("#beRr").value=fmt(S.R[i]>0? S.Rc[i]/S.R[i] : 0);   // 第22便: 半径系(実効値を表示)
-  $("#beOt").value=fmt(S.obsT[i]); $("#beOc").value=fmt(S.coreOT[i]);   // 観測温度系
   // 第36便 C2: 掻出は "auto"(粒子パラメータからの算出モード)を受理。
   // 第37便 A2(原仮定者指示): auto チェックボックスも S.lSwAuto と同期させ、ON中は数値欄を
   // 読み取り専用にする(入力欄への直接 "auto" 入力は従来どおり併存 — 単一の真実 S.lSwAuto 経由)。
@@ -7612,7 +8743,6 @@ beBind("#beS",(S,i,v)=>{ S.spin[i]=clamp(v,-40,40); });
 // 第22便: 半径・コア半径比・観測温度係数・光掻き出し・コア観測温度比率
 beBind("#beR",(S,i,v)=>{ S.radOv[i]=clamp(v,0.5,500); S.updateRadii(); });
 beBind("#beRr",(S,i,v)=>{ S.coreRRv[i]=clamp(v,0.02,1); S.updateRadii(); });
-beBind("#beOt",(S,i,v)=>{ S.obsT[i]=clamp(v,0,1000); });
 // 第36便 C2(原仮定者指示): 掻出欄は数値(0〜1・従来の独立指定)に加えて "auto" を受理する。
 // beBind は parseFloat 前提なので、この欄だけ専用ハンドラにする(他欄の挙動は不変)
 $("#beSw").addEventListener("change",()=>{
@@ -7638,7 +8768,6 @@ $("#beSwAuto").addEventListener("change",()=>{
   setParamsDirty(true); requestRender();
   updateBodyEdit();
 });
-beBind("#beOc",(S,i,v)=>{ S.coreOT[i]=clamp(v,0,1000); });
 beBind("#beVx",(S,i,v)=>{ S.vx[i]=clamp(v,-100,100); });
 beBind("#beVy",(S,i,v)=>{ S.vy[i]=clamp(v,-100,100); });
 $("#bePin").addEventListener("change",()=>{
@@ -7657,7 +8786,7 @@ $("#beClose").addEventListener("click",()=>{ beMin=!beMin; applyBeMin(); });
 let beDescShown=null;
 {
   const BE_DESC={beLm:"beDm",beLs:"beDs",beLmc:"beDmc",beLsc:"beDsc",beLr:"beDr",beLrr:"beDrr",
-    beLot:"beDot",beLsw:"beDsw",beLswAuto:"beDsw",beLoc:"beDoc",beLvx:"beDv",beLvy:"beDv",beLp:"beDp"};
+    beLsw:"beDsw",beLswAuto:"beDsw",beLvx:"beDv",beLvy:"beDv",beLp:"beDp"};
   for(const id of Object.keys(BE_DESC)){
     const el=document.getElementById(id); if(!el) continue;
     el.classList.add("tappable");
@@ -8525,6 +9654,8 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   externalTags, classifyPreset, APP_VERSION, currentPreset:()=>currentPreset,  // v1.15/第35便W4: バッジ/バージョン同期のQA用
   strongFieldPsi,   // 第45便 45C(台帳4-85): 強場トイ領域バッジのψ_static計算式単体のQA用
   urepEnergy, normThermalWalls,   // 第37便 C1/C2(台帳4-70/4-71): U_rep の総和・伝熱境界の正規化(QA/監査用)
+  phaseEnergy,   // E14″ 創発相変化 — 対ポテンシャル総和(QA/監査用。第60便でエンタルピー系は廃止)
+  loadSaveItem:(...a)=>loadSave(...a), exportData, isBetaServe,   // 第53便 53B: セーブ互換の機械検査用(未知ID中止・appBuild)
   speedMul:()=>speedMul, trailBufs:()=>({a:trailBuf,b:trailBufB}),  // v1.19: QA用
   overlaySlots, overlayBaseY, PARAM_DEFS, paramDesc,  // v1.21: スロット配置/パラメータ説明のQA用
   ovMin, aiUserContent,  // 第26便: グラフ最小化/AIベースサンプルのQA用
@@ -8558,7 +9689,9 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
 applyUiScale();   // v1.17: 文字サイズ設定の反映(hp_uiscale 永続)
 rebuildPresetSelect();
 resizeCanvas();
-loadPreset("saturn",false);
+// 第54便 54D①(原仮定者指示): 前回最後にロードしていたプリセットを復元(無ければ既定の🪐)
+{ let last=null; try{ last=localStorage.getItem("hp_last_preset"); }catch(_){}
+  loadPreset((last && allPresets().some(p=>p.id===last))? last : "saturn", false); }
 restoreDraft();   // 第13次裁定 P1-2 後半: 直前の未保存編集ドラフトがあれば復元を提案
 // 第13次裁定 P1-3: β版はルートと localStorage を共有 — 初回起動時に1度だけ明示する
 // (http(s) 配信の /beta/ 配下でのみ発火。file:// の QA・ルート昇格後は発火しない)
