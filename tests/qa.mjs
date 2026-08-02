@@ -2939,6 +2939,51 @@ if (hasBadgeClassify) {
       && d58.convRows === 10 && d58.hasTopT && d58.topWasRad === true && d58.radConv === true,
       `⏮保持: 相変化ノブ(bondN/condN)=${d58.keepPhase}・既存壁=${d58.keepWall}・新設面=${d58.keepNew} / ` +
       `rad面: convection 実験箱行=${d58.convRows}(4面すべて表示)・天井(rad)T編集→heat変換(レート保持)=${d58.radConv}`);
+
+    // ---- 第61便 61B(レビューP1): チェックポイント・ワンタップ対照A/B・step/モデル時刻併記 ----
+    const d61 = await page.evaluate(() => {
+      const out = {};
+      if (!document.getElementById('btnCkSave')) return { gone: true };
+      const s = HP.sim;
+      // ① チェックポイント: 保存 → 500步 → 復帰で x/t が bit 一致・プリセット読込で無効化
+      HP.loadPreset('chain2', false);
+      for (let k = 0; k < 300; k++) s.step(0.016);
+      document.getElementById('btnCkSave').click();
+      const x0 = s.x[0], t0 = s.t, w0 = s.wallEin;
+      for (let k = 0; k < 500; k++) s.step(0.016);
+      out.moved = s.x[0] !== x0;
+      document.getElementById('btnCkLoad').click();
+      out.back = s.x[0] === x0 && s.t === t0 && s.wallEin === w0;
+      HP.loadPreset('chain2', false);
+      out.invalidated = document.getElementById('btnCkLoad').disabled;
+      // ② ワンタップ対照A/B: ボタンで A/B 開始・B 側の angK だけ 0
+      const btn = document.getElementById('btnAbQuick');
+      out.btn = !!btn;
+      if (btn) {
+        btn.click();
+        out.abOn = !!HP.ab();
+        out.bV = HP.ab() ? HP.ab().simB.phase.angK : null;
+        out.aV = s.phase.angK;
+        for (let k = 0; k < 100; k++) { s.step(0.016); HP.ab().simB.step(0.016); }
+        out.abNan = s.hasNaN() || HP.ab().simB.hasNaN();
+        HP.abStop();
+      }
+      HP.loadPreset('saturn', false);
+      return out;
+    });
+    // ③ step/モデル時刻併記(HUD はキャンバス描画のため静的検査 — wallColorOk と同方針)
+    const htmlSrc61 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+    const hudStepOk = /Math\.round\(sim\.t\/0\.016\)\}步/.test(htmlSrc61);
+    if (d61.gone) {
+      console.log('SKIP ui.61b-tools(対象に第61便 61B の UI なし — root 等)');
+    } else {
+      add('ui.61b-tools',
+        d61.moved && d61.back && d61.invalidated
+        && d61.btn && d61.abOn === true && d61.bV === 0 && d61.aV === 1.2 && d61.abNan === false
+        && hudStepOk,
+        `チェックポイント: 500步進めて復帰=bit一致(${d61.back})・プリセット読込で無効化=${d61.invalidated} / ` +
+        `ワンタップ対照A/B(chain2): B側 angK=${d61.bV}(A側=${d61.aV})・100步併走 NaNなし / HUD 步数併記(静的)=${hudStepOk}`);
+    }
   } else {
     console.log('SKIP ui.54d-*(対象に第54便 54D の UI なし — root 等)');
   }
@@ -6839,6 +6884,36 @@ if (hasEchoFlipAt) {
       && !abc.nanA && !abc.nanB,
       `A/B複製: coordN/shPrev の最大差=${abc.dc}/${abc.dsh}(bit一致) phase係数複製=${abc.phaseB}(bondN=${abc.bnB}) ` +
       `相変化履歴=${abc.histA}/${abc.histB}点 一致 / B側 kRep=${abc.kRepB}(対照)・200步併走 NaNなし`);
+
+    // ⑥f phasechange.observables(第61便 61A — 観測層): ψ6(六方配向秩序)・組替率 churn・
+    //    相前線プロファイルを phHist データ層で計測(表示のみ — 物理不変)。
+    //    結晶(低温・静止)= ψ6≈1・churn=0 / 温かい液体(emergent2 3000步)= ψ6 低・churn>0
+    //    → 「液体=速い組替・固体=組替ゼロ」= 減衰・粘性の寿命依存が観測量として読める
+    const ob = await page.evaluate(() => {
+      const s = HP.sim;
+      HP.loadPreset('emergent2', false);
+      for (let k = 0; k < 3000; k++) s.step(0.016);
+      const l1 = s.phHist[s.phHist.length - 1];
+      const prof = Array.from(s._phProf);
+      const liq = { psi6: l1.psi6, churn: l1.churn, hasFields: 'psi6' in l1 && 'churn' in l1 };
+      const botC = (prof[5] + prof[6] + prof[7]) / 3, topC = (prof[0] + prof[1] + prof[2]) / 3;
+      s.build({ id: 'qa_obs_solid', name: 'x', camera: { scale: 200 }, world: { boundary: 'box', size: 60 },
+        thermal: 'tint', phaseChange: { bondN: 6, bondK: 5, bondRange: 1.6, bondDamp: 0.1 },
+        physics: { G: 0, D0: 0, kFrame: 0, kRep: 1, q: 2, muF: 0, gammaN: 0.3, kappaS: 0,
+          etaRad: 0, pRad: 2, cHeat: 1, gravityY: 0, softening: 2, radiusScale: 1, timeScale: 1 },
+        bodies: [{ type: 'grid', rMul: 2.5, n: 25, cols: 5, cx: 0, cy: 0, pitch: 5, mMin: 1, mMax: 1, tInt: 0.1 }],
+        overlays: {} });
+      for (let k = 0; k < 3000; k++) s.step(0.016);
+      const l2 = s.phHist[s.phHist.length - 1];
+      return { liq, botC, topC, sol: { psi6: l2.psi6, churn: l2.churn }, nan: s.hasNaN() };
+    });
+    add('phasechange.observables',
+      ob.liq.hasFields && ob.liq.psi6 < 0.85 && ob.liq.churn > 0.005
+      && ob.sol.psi6 > 0.97 && ob.sol.churn < 1e-4
+      && ob.botC > ob.topC + 1 && !ob.nan,
+      `液体(emergent2 3000步): ψ6=${ob.liq.psi6.toFixed(2)}(<0.85) 組替率=${ob.liq.churn.toFixed(3)}(>0.005 — 速い組替) / ` +
+      `結晶(低温格子): ψ6=${ob.sol.psi6.toFixed(2)}(>0.97) 組替率=${ob.sol.churn.toExponential(1)}(<1e-4 — 凍結) / ` +
+      `前線プロファイル: 床側c̄=${ob.botC.toFixed(1)} > 天井側=${ob.topC.toFixed(1)}+1 — 「液体=速い組替」の粘性シグネチャが観測量として創発`);
 
     // ---- 長時間系(QA_FAST=1 では省略)----
     if (!FAST) {
