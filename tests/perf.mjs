@@ -29,9 +29,9 @@ const SAMPLES = ['galaxy', 'darkrotor', 'merger', 'convection', 'counterring', '
 const EXTRA_SAMPLES = ['echo', 'freebox',
   // 第53便 53B(外部レビュー P1「melt/freeze 自身の性能証跡がない」): E14 相変化サンプル。
   // root には未昇格のため informational 計測(昇格時に自動で比較ゲートへ)。53D: meltcycle 追加
-  // 第54便 54A: 気液相変化サンプル boil / 第55便 55A: 結合価サンプル chain 追加
-  // (同じく root 未昇格 = informational)
-  'melt', 'freeze', 'meltcycle', 'boil', 'chain'];
+  // 第54便 54A: 気液相変化サンプル boil / 第55便 55A: 結合価サンプル chain /
+  // 第58便 58A: 結合角サンプル lattice 追加(同じく root 未昇格 = informational)
+  'melt', 'freeze', 'meltcycle', 'boil', 'chain', 'lattice'];
 const THRESH = +(process.env.PERF_THRESH || 1.10);
 // 例: { convection: 1.60 } — 意図的な負荷増を許可する場合のみ
 // 第53便 53D: echo の暫定 ALLOW 1.45 — **意図的な負荷増ではなく、マイクロベンチの計測
