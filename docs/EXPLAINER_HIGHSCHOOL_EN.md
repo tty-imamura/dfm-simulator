@@ -99,44 +99,43 @@ Set the knob Kt to its real value (c²/G) and:
 - ⚠️ "Pressure" here is the assumed thermal-pressure rule, not kinetic theory; real gas
   constants and material properties are out of scope
 
-### 3-6. Latent heat and phase change (🫠 melting, ❄️ freezing, 🔁 the round trip)
+### 3-6. Phase change emerging — the bond budget (🧬 three states emerging)
 
-Making enthalpy (total heat) the source of truth produces the **temperature plateau at the
-melting point** naturally: while temperature stalls, every joule you pour in goes into the
-phase change (latent heat).
-- ✅ The melt front advances from the heated wall; crystalline order *emerges* on freezing
-  (disorder ψ6≈0.8 → 0.97); the round trip shows no hysteresis; the energy ledger closes
-  (conservation monitor). The white arc on each particle = molten fraction, a phase channel
-  independent of the temperature color
-- ⚠️ No supercooling or stochastic nucleation; no numerical reproduction of real melting
-  points or latent heats
+Since dispatch 60 there is no phase switch and no specified melting point or latent heat
+anywhere. The only assumption is a **bond budget** (each molecule splits its budget among
+however many partners are currently in range; the fewer the bonds, the stronger each
+remaining one; partners are set by geometry alone, every instant).
+- ✅ Competing against thermal pressure (E5′) alone, this makes solid (lattice) →
+  droplet clusters → a **molecular gas** (small clusters flying free) emerge. The last
+  bond is the strongest, so the gas is made of "molecules", not loose atoms — you can
+  watch it directly as the bond lines grow darker and thicker. **Latent heat emerges
+  too**: while bonds are breaking, injected heat goes into climbing out of the wells
+  and the temperature visibly stalls (read it on the phase graph: temperature vs mean
+  coordination). Conduction and damping also derive from the bonding state, and the
+  energy ledger closes (conservation monitor)
+- ⚠️ No claim of an exact horizontal plateau like a specified latent heat (and no
+  quantitative reproduction of real melting points); supercooling/nucleation statistics
+  are uncalibrated
 
-### 3-7. Boiling — in a universe with no buoyancy (💨 boiling & condensation)
+### 3-7. Lattice and molecules — budget × angle (🧊)
 
-- ✅ A second plateau at the boiling point; evaporation also pays the cohesion energy
-  (effective latent heat); two-phase quasi-steady coexistence. **Gas here has the same
-  particle mass as liquid — no density buoyancy — so vapor accumulates between the hot
-  floor and the pool and lifts the liquid: a film-boiling (Leidenfrost) analogue emerges**
-- ⚠️ You will not see ordinary "light bubbles rising" boiling (that needs a density
-  difference); the description says so explicitly to prevent misreading
+- ✅ Add a budget of three plus a **signed bond angle** ("120° is a well, over-packed
+  angles are a barrier" — a minimal analogue of sp² orbital repulsion) and slow cooling
+  anneals an **open honeycomb lattice** in (the no-angle control packs into a dense
+  pile — set them side by side in A/B). Reheat the wall and the same two rules
+  dissociate it into a molecular gas. Quench it and you get a glassy, disordered net —
+  the rate dependence of annealing itself
+- ⚠️ Not a quantitative reproduction of real covalent crystals; pressure can still
+  crush the lattice (the angular well is finite)
 
-### 3-8. Molecules and material structure (⛓️ chain liquid, 🧬 three states emerging)
+### 3-8. Chains emerging (⛓️)
 
-The newest highlights.
-- **⛓️ Chain liquid**: cap the liquid's bonds at *valence 2* (at most two partners) and a
-  structural transition appears — solid = an unlimited-bond lump vs liquid = **chains**
-  (molecular spaghetti). Melting pays the cost of rewiring a coordination-6 network into
-  coordination-2 chains as latent heat, so it melts visibly slower than the isotropic liquid
-- **🧬 Three states emerging**: go further and throw away every phase switch, keeping only a
-  **bond budget**: each molecule splits a fixed budget among its current partners; fewer
-  bonds mean stronger remaining ones; partners are set by geometry alone, never fixed. Then
-  competition with thermal pressure alone makes solid (a coordination-6 lattice) → droplets
-  and clusters → a **gas of molecules** (small 2-9 particle clusters flying free) emerge.
-  The last bonds are the strongest — that is why the gas is made of molecules, not atoms —
-  and the bond lines visibly thicken and darken as the budget concentrates
-- ✅ Gradual change of bond count, emergent structures (lump/chain/molecule), closed ledger
-- ⚠️ Not a quantitative model of real polymers or chemical bonds. No charges or dipoles —
-  a finding of this model is that *limiting the number of bonds* was enough for chains
+- ✅ Set the budget to two and the ideal angle to 180°, and the same rules make
+  **chains (molecular spaghetti)** well up. Chain ends concentrate the budget and catch
+  partners; chain bodies are pushed straight. One budget knob walks through a family of
+  structures: chains (2) ⇄ honeycomb net (3) ⇄ isotropic lump (6)
+- ⚠️ Not a quantitative reproduction of real polymers or associating fluids; no charges
+  or dipoles — the discovery in this model is that budget plus angle suffice for chains
 
 ### 3-9. Cosmic expansion and redshift (📦 box-universe series, 🧭 two H estimators)
 
