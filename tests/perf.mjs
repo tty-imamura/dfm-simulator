@@ -45,6 +45,14 @@ const THRESH = +(process.env.PERF_THRESH || 1.10);
 // root 昇格で echo は byte 同一比較に戻るため(交互ペア測定〔第62便〕でジッタ耐性も向上)。
 // 経緯の詳細は git 履歴(第62便以前の本ファイル)を参照
 const ALLOW = {};
+// 第63便追補(CI 実測 9aae146: PR run で perf.echo 1.608 FAIL/10-11 — ペア比[1.682 1.608
+// 1.013]。同一コードの main run は PASS = フレーク): echo は 31粒・60frames=8〜13ms の
+// マイクロベンチで、**byte 同一昇格後もページ別 JIT 状態・タイマ分解能のノイズが支配する**
+// (53D の「昇格で比≈1へ戻る」仮定は CI で不成立と実測)。ALLOW の復活(1.7 相当が必要 =
+// ゲート無意味化)ではなく**計測時間をノイズフロアから引き上げる**: echo だけ FRAMES を
+// 60→720(≈100ms/rep)にする。判定条件・ペア比中央値の式は不変。ms 表示・msPerFrame は
+// 実フレーム数で正規化される
+const FRAMES_OVERRIDE = { echo: 720 };
 // 過去の ALLOW 撤去履歴(darkrotor/convection/saturnLayered)と 40C の粒子数削減の実測記録は
 // git 履歴(第61便以前の本ファイル冒頭コメント)を参照。
 const REPS = 2, FRAMES = 60, WARMUP_FRAMES = 20, SETS = 3;
@@ -85,6 +93,7 @@ async function measureSet(page, id, reps, frames, warm) {
 // 交互ペア測定: SETS ペアを実行し、ペアごとに (root中央値, beta中央値, 比) を取る。
 // 開始側はペアごとに交互(root先→beta先→root先…)にして順序効果を相殺する。
 async function measurePaired(rootPage, betaPage, id) {
+  const frames = FRAMES_OVERRIDE[id] || FRAMES;
   const pairs = [];
   const rawRoot = [], rawBeta = [];
   let meta = null;
@@ -92,11 +101,11 @@ async function measurePaired(rootPage, betaPage, id) {
     const rootFirst = k % 2 === 0;
     let r, b;
     if (rootFirst) {
-      r = await measureSet(rootPage, id, REPS, FRAMES, WARMUP_FRAMES);
-      b = await measureSet(betaPage, id, REPS, FRAMES, WARMUP_FRAMES);
+      r = await measureSet(rootPage, id, REPS, frames, WARMUP_FRAMES);
+      b = await measureSet(betaPage, id, REPS, frames, WARMUP_FRAMES);
     } else {
-      b = await measureSet(betaPage, id, REPS, FRAMES, WARMUP_FRAMES);
-      r = await measureSet(rootPage, id, REPS, FRAMES, WARMUP_FRAMES);
+      b = await measureSet(betaPage, id, REPS, frames, WARMUP_FRAMES);
+      r = await measureSet(rootPage, id, REPS, frames, WARMUP_FRAMES);
     }
     const rMed = median(r.times), bMed = median(b.times);
     pairs.push({ order: rootFirst ? 'root→beta' : 'beta→root',
@@ -115,10 +124,11 @@ async function measurePaired(rootPage, betaPage, id) {
 
 // 片側のみ(informational): SETS セットの中央値
 async function measureSingle(page, id) {
+  const frames = FRAMES_OVERRIDE[id] || FRAMES;
   const raw = [];
   let meta = null;
   for (let k = 0; k < SETS; k++) {
-    const r = await measureSet(page, id, REPS, FRAMES, WARMUP_FRAMES);
+    const r = await measureSet(page, id, REPS, frames, WARMUP_FRAMES);
     raw.push(...r.times.map((t) => +t.toFixed(1)));
     meta = { stepsPerFrame: r.stepsPerFrame, n: r.n, nan: r.nan };
   }
@@ -163,19 +173,19 @@ for (const id of [...SAMPLES, ...EXTRA_SAMPLES]) {
     const pass = m.ratio <= limit && !m.nan;
     if (!pass) fail++;
     rows.push({ id, rootMs: +m.rootMs.toFixed(1), betaMs: +m.betaMs.toFixed(1),
-      ratio: +m.ratio.toFixed(3), limit,
+      ratio: +m.ratio.toFixed(3), limit, frames: FRAMES_OVERRIDE[id] || FRAMES,
       stepsPerFrameRoot: m.stepsPerFrameRoot, stepsPerFrameBeta: m.stepsPerFrameBeta,
       nRoot: m.nRoot, nBeta: m.nBeta, pass,
       pairs: m.pairs, rawRootMs: m.rawRoot, rawBetaMs: m.rawBeta });
-    console.log(`${pass ? 'PASS' : 'FAIL'} perf.${id}  beta/root=${m.ratio.toFixed(3)} (≤${limit}・ペア比[${m.pairs.map((p) => p.ratio.toFixed(3)).join(' ')}]の中央値)  root=${m.rootMs.toFixed(1)}ms beta=${m.betaMs.toFixed(1)}ms`);
+    console.log(`${pass ? 'PASS' : 'FAIL'} perf.${id}  beta/root=${m.ratio.toFixed(3)} (≤${limit}・ペア比[${m.pairs.map((p) => p.ratio.toFixed(3)).join(' ')}]の中央値)  root=${m.rootMs.toFixed(1)}ms beta=${m.betaMs.toFixed(1)}ms${FRAMES_OVERRIDE[id] ? `(${FRAMES_OVERRIDE[id]}frames)` : ''}`);
   } else if (isExtra && (inRoot || inBeta)) {
     const side = inBeta ? 'beta' : 'root';
     const one = await measureSingle(inBeta ? betaPage : rootPage, id);
     informational.push({ id, side, ms: +one.ms.toFixed(1),
-      msPerFrame: +(one.ms / FRAMES).toFixed(2), stepsPerFrame: one.stepsPerFrame, n: one.n,
+      msPerFrame: +(one.ms / (FRAMES_OVERRIDE[id] || FRAMES)).toFixed(2), stepsPerFrame: one.stepsPerFrame, n: one.n,
       raw: one.raw,
       note: `${side === 'beta' ? 'root' : 'beta'}未実装のため${side}単独実測(pass判定なし・ゲート数に含めない)` });
-    console.log(`INFO perf.${id}  ${side}=${one.ms.toFixed(1)}ms(${(one.ms / FRAMES).toFixed(2)}ms/frame・${side === 'beta' ? 'root' : 'beta'}未実装 — 昇格後に比較ゲート化)`);
+    console.log(`INFO perf.${id}  ${side}=${one.ms.toFixed(1)}ms(${(one.ms / (FRAMES_OVERRIDE[id] || FRAMES)).toFixed(2)}ms/frame・${side === 'beta' ? 'root' : 'beta'}未実装 — 昇格後に比較ゲート化)`);
   } else if (isExtra) {
     console.log(`SKIP perf.${id}(root/betaとも未実装)`);
   } else {
