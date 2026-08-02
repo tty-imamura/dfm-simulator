@@ -2985,6 +2985,59 @@ if (hasBadgeClassify) {
         `チェックポイント: 500步進めて復帰=bit一致(${d61.back})・プリセット読込で無効化=${d61.invalidated} / ` +
         `ワンタップ対照A/B(chain2): B側 angK=${d61.bV}(A側=${d61.aV})・100步併走 NaNなし / HUD 步数併記(静的)=${hudStepOk}`);
     }
+
+    // ---- 第63便(原仮定者指示): ①ワンタップA/Bのタイトル統一(相変化系書式)②粒子patch系は
+    // ---- ⏮初めから で B側へ再patch(「A/B比較を終了」まで有効)③チェックポイントの A/B B側対応
+    // ---- (A/B中の保存は A+B 両側・復帰も両側同時・A/B終了で無効化)----
+    const d63 = await page.evaluate(() => {
+      const out = {};
+      if (!document.getElementById('abQuickRow')) return { gone: true };
+      // ① タイトル統一: 相変化系(chain2)と粒子patch系(darkrotor)が同じ「⚖️ ワンタップ対照A/B(B側: …)」
+      HP.loadPreset('chain2', false);
+      const b1 = document.getElementById('btnAbQuick');
+      out.t1 = b1 ? b1.textContent : '';
+      HP.loadPreset('darkrotor', false);
+      const b2 = document.querySelector('#abQuickRow button');
+      out.t2 = b2 ? b2.textContent : '';
+      const PRE = '⚖️ ワンタップ対照A/B(B側:';
+      out.unified = out.t1.startsWith(PRE) && out.t2.startsWith(PRE);
+      // ② darkrotor: ワンタップ → ⏮初めから → B側の対象粒子へ再patch(spin=0)・A側は保持・A/B継続
+      if (b2) b2.click();
+      const ab0 = HP.ab();
+      out.abOn = !!ab0;
+      out.bPatched0 = ab0 ? (ab0.simB.spin[1] === 0 && ab0.simB.spin[2] === 0) : false;
+      document.getElementById('btnReset').click();
+      const ab1 = HP.ab();
+      out.stillAb = !!ab1;
+      out.bRepatched = ab1 ? (ab1.simB.spin[1] === 0 && ab1.simB.spin[2] === 0) : false;
+      out.aKept = ab1 ? (HP.sim.spin[1] !== 0 && HP.sim.spin[2] !== 0) : false;
+      HP.abStop();
+      // ③ チェックポイント A/B 両側: ワンタップA/B中に保存 → 200步 → 復帰で A/B とも bit一致
+      HP.loadPreset('chain2', false);
+      document.getElementById('btnAbQuick').click();
+      const S = HP.sim, B = HP.ab().simB;
+      for (let k = 0; k < 100; k++) { S.step(0.016); B.step(0.016); }
+      document.getElementById('btnCkSave').click();
+      const ax0 = S.x[0], at0 = S.t, bx0 = B.x[0], bt0 = B.t;
+      for (let k = 0; k < 200; k++) { S.step(0.016); B.step(0.016); }
+      out.ckMoved = S.x[0] !== ax0 || B.x[0] !== bx0;
+      document.getElementById('btnCkLoad').click();
+      out.ckBothBack = S.x[0] === ax0 && S.t === at0 && B.x[0] === bx0 && B.t === bt0;
+      HP.abStop();
+      out.ckInvalidatedOnStop = document.getElementById('btnCkLoad').disabled;
+      HP.loadPreset('saturn', false);
+      return out;
+    });
+    if (d63.gone) {
+      console.log('SKIP ui.63-ab-tools(対象に第62〜63便の #abQuickRow なし — root 等)');
+    } else {
+      add('ui.63-ab-tools',
+        d63.unified && d63.abOn && d63.bPatched0 && d63.stillAb && d63.bRepatched && d63.aKept
+        && d63.ckMoved && d63.ckBothBack && d63.ckInvalidatedOnStop,
+        `タイトル統一(⚖️ ワンタップ対照A/B(B側: …))=${d63.unified} / ` +
+        `darkrotor: ⏮初めから後もB側へ再patch(spin=0)=${d63.bRepatched}(A/B継続=${d63.stillAb}・A側spin保持=${d63.aKept}) / ` +
+        `チェックポイント: A/B中の保存→200步→復帰で両側bit一致=${d63.ckBothBack}・A/B終了で無効化=${d63.ckInvalidatedOnStop}`);
+    }
   } else {
     console.log('SKIP ui.54d-*(対象に第54便 54D の UI なし — root 等)');
   }
