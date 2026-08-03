@@ -3431,6 +3431,111 @@ if (!FAST) {
     }
   }
 
+  // ---- 8a2b) 第70便: 💫galaxyGeo2 — v−u 統一測地線則の基準銀河(beta 先行) ----
+  // 🎡galaxyStd と厳密同一の初期配置で geoPN=2 だけを変えた統一則の較正値を機械固定する。
+  // 較正実測(第69便 exp-p4b → 第70便 exp-4-70 でプリセット経路の再現を確認):
+  //   外縁増強 kF1/kF0 = 1.0803(legacy 🎡 1.2646 の約1/3 — 「legacy 較正値を統一則に
+  //   流用しない」ChatGPT レビュー裁定の実装)。純度Π: 熱斥力=0・結合=0(厳密)、
+  //   測地線=6.7%(1PN — geoPN=2 で初めて銀河系に立つ)・引きずり=19.3%(輸送+渦度)
+  {
+    const hasG2 = await page.evaluate(() => HP.allPresets().some(p => p.id === 'galaxyGeo2'));
+    if (hasG2) {
+      const r2 = await page.evaluate(() => {
+        const s = HP.sim;
+        HP.loadPreset('galaxyGeo2', false);
+        HP.abStart('kFrame', 0);
+        const abG = HP.ab();
+        const outer = (sm) => { let sum = 0, c = 0;
+          for (let i = 1; i < sm.n; i++) { const rr = Math.hypot(sm.x[i], sm.y[i]);
+            if (rr >= 156 && rr <= 286) { sum += (sm.x[i] * sm.vy[i] - sm.y[i] * sm.vx[i]) / rr; c++; } }
+          return c ? sum / c : 0; };
+        for (let k = 0; k < 6000; k++) { s.step(0.016); abG.simB.step(0.016); }
+        const gA = outer(s), gB = outer(abG.simB);
+        const bad = s.hasNaN() || abG.simB.hasNaN();
+        const spec = s.mechSpec(true);
+        const clampV = s.clampVN;
+        HP.abStop();
+        return { gA, gB, bad, clampV, pi: spec ? spec.pi : null };
+      });
+      const ratio = r2.gA / r2.gB;
+      add('claim.galaxygeo2-outerboost',
+        !r2.bad && r2.clampV === 0 && ratio >= 1.05 && ratio <= 1.12
+        && !!r2.pi && r2.pi[2] === 0 && r2.pi[4] === 0 && r2.pi[1] > 0.02 && r2.pi[5] > 0.1,
+        `vφ外縁 kF1=${r2.gA.toFixed(3)} kF0=${r2.gB.toFixed(3)} 比=${ratio.toFixed(4)}` +
+        `(窓1.05〜1.12・較正実測1.0803 — legacy 🎡 1.2646 の約1/3)/ 純度Π: 熱斥力=${r2.pi ? r2.pi[2] : '?'} ` +
+        `結合=${r2.pi ? r2.pi[4] : '?'}(厳密0)・測地線=${r2.pi ? (r2.pi[1] * 100).toFixed(1) + '%' : '?'}(>2% — 1PN)` +
+        `・引きずり=${r2.pi ? (r2.pi[5] * 100).toFixed(1) + '%' : '?'}(>10% — 輸送+渦度)/ クランプ=${r2.clampV}`);
+    } else {
+      console.log('SKIP claim.galaxygeo2-outerboost(対象に 💫galaxyGeo2 なし — root 等。第70便)');
+    }
+  }
+
+  // ---- 8a2c) 第70便: 減光(lightSweep)の力学不変性 — 「暗いが重い」の機械証明 ----
+  // 減光は光学のみ(観測温度と放射冷却)に作用し、etaRad=0 では軌道・スピン・固有時計・光線が
+  // 1 bit も変わらないことを機械固定する(ChatGPT レビュー §8.2 実験1の QA 化 — 隠れ質量実験の
+  // 前提)。disk 群の新属性 lightSweep:"auto"(第70便)の配線検査を兼ねる。
+  // 較正実測(exp-4-70 E2): 121粒子×2000步で 力学差=0(auto/固定1とも)・光線差=0・auto配線=121/121
+  {
+    const hasDiskLsw = await page.evaluate(() => {
+      HP.sim.build({ id: 'qa_dlsw', name: 'p', description: 'd', camera: { scale: 200 },
+        world: { boundary: 'none', size: 0 },
+        physics: { G: 0, D0: 1, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0,
+          Kt: 60, cLight: 60, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0,
+          geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 2, timeScale: 1 },
+        bodies: [{ type: 'disk', n: 8, cx: 0, cy: 0, radius: 100, mMin: 1, mMax: 1,
+          spinMin: 1, spinMax: 1, vMode: 'none', aroundMass: 0, vScale: 0, direction: 1,
+          lightSweep: 'auto' }] });
+      let c = 0; for (let i = 0; i < HP.sim.n; i++) if (HP.sim.lSwAuto[i]) c++;
+      return c === HP.sim.n && HP.sim.n === 8;
+    });
+    if (hasDiskLsw) {
+      const r = await page.evaluate(() => {
+        const build = (lsw) => {
+          HP.sim.build({ id: 'qa_dim', name: 'd', description: 'd', camera: { scale: 300 },
+            world: { boundary: 'none', size: 0 }, seed: 20260804,
+            physics: { G: 0.8, D0: 1.5, kFrame: 1, q: 2, kRep: 0.5, muF: 0.3, gammaN: 0.2, kappaS: 0.05,
+              Kt: 50, cLight: 60, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0,
+              geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 3, timeScale: 1 },
+            bodies: [
+              { type: 'single', rMul: 1.2, m: 2500, x: 0, y: 0, vx: 0, vy: 0, spin: 1.2, pinned: true, radius: 15,
+                ...(lsw === null ? {} : { lightSweep: lsw }) },
+              { type: 'disk', rMul: 1.2, n: 120, cx: 0, cy: 0, radius: 220, mMin: 0.2, mMax: 0.5,
+                spinMin: 0.5, spinMax: 1.5, vMode: 'kepler', aroundMass: 2500, vScale: 1.05, direction: 1,
+                bulkVx: 0, bulkVy: 0, ...(lsw === null ? {} : { lightSweep: lsw }) }] });
+          return HP.sim;
+        };
+        const run = (lsw) => {
+          const S = build(lsw);
+          let auto = 0; for (let i = 0; i < S.n; i++) if (S.lSwAuto[i]) auto++;
+          for (let k = 0; k < 2000; k++) S.step(0.016);
+          let dimmed = 0; for (let i = 0; i < S.n; i++) if (S.lSw[i] > 0) dimmed++;
+          const ray = HP.traceRay(S, -400, 30, 1, 0, 2, 400, null);
+          return { x: [...S.x], y: [...S.y], vx: [...S.vx], vy: [...S.vy], sp: [...S.spin],
+            tau: [...S.tau], ray: [ray.cx, ray.cy], auto, dimmed, n: S.n };
+        };
+        const a = run(null), b = run('auto'), c = run(1);
+        const diffCount = (p, q) => { let d = 0;
+          for (let i = 0; i < p.x.length; i++)
+            for (const kk of ['x', 'y', 'vx', 'vy', 'sp', 'tau']) if (p[kk][i] !== q[kk][i]) d++;
+          return d; };
+        HP.loadPreset('saturn', false);
+        return { n: a.n, autoB: b.auto, dimmedB: b.dimmed, dimmedC: c.dimmed,
+          dA: diffCount(a, b), dC: diffCount(a, c),
+          rayA: Math.hypot(a.ray[0] - b.ray[0], a.ray[1] - b.ray[1]),
+          rayC: Math.hypot(a.ray[0] - c.ray[0], a.ray[1] - c.ray[1]) };
+      });
+      add('dimming.dynamics-invariant',
+        r.dA === 0 && r.dC === 0 && r.rayA === 0 && r.rayC === 0
+        && r.autoB === r.n && r.dimmedB === r.n && r.dimmedC === r.n,
+        `減光なし vs auto vs 固定1(${r.n}粒子・2000步・etaRad=0): 力学+時計の不一致=` +
+        `${r.dA}/${r.dC}(厳密0 — x,y,vx,vy,spin,τ)・光線差=${r.rayA}/${r.rayC}(厳密0)/ ` +
+        `disk群 lightSweep:"auto" 配線=${r.autoB}/${r.n}・実効減光>0=${r.dimmedB}/${r.n} — ` +
+        `減光は光学のみ(「暗いが重い」天体の前提の機械証明)`);
+    } else {
+      console.log('SKIP dimming.dynamics-invariant(対象に disk 群 lightSweep 未対応 — root 等。第70便)');
+    }
+  }
+
   // ---- 8a3) 第69便 P4b(E12v2): geoPN=2 — v−u 統一測地線則(beta 先行) ----
   // DERIVATIONS §18 の実装アンカーを機械固定する: ①kF=0 で geoPN=1 と bit 等価(段階導入)
   // ③共動連星(ガリレイ共変性のエンジン版 — P4a-2)⑤保存則(反作用返しで P・L が対で閉じる)。
