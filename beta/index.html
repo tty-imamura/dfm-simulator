@@ -521,6 +521,7 @@ ja: {
   ovPhaseGraph:"相変化 T̄・配位数", ovPhaseNote:"上:橙=T̄ 緑=c̄ 下:水=ψ6 紫=組替率×10 左帯=高さ別c(前線) 色=温度 線=結合",
   tgMechSpecDesc:"いま系を駆動している機構の内訳を実測表示する(第64便 T13 の診断層)。6チャネル(重力E4/測地線E12/熱斥力E5′/接触E9/結合E14″/引きずりE6′)の粒子平均RMS加速度を正規化した比率Π。分子スケールでは結合、天体スケールでは重力+測地線、銀河スケールでは重力+引きずりが立つ — スケールの主役をパラメータ調整の実データとして読める。※力と輸送のRMS正規化比であり、エネルギー比ではない。表示・診断のみで物理には一切影響しない(OFFで計算コストもゼロ)。",
   ovMechSpec:"機構スペクトル", ovMechNote:"RMS加速度の正規化比Π(診断・物理不変)",
+  ovMechRadial:"半径ビン 左=中心→右=外縁(Π=RMS比・物理不変)", mechDom:"支配:",
   mechCh:["重力","測地線","熱斥力","接触","結合","引きずり"],
   // 第53便 53D → 第60便: 相変化(E14″)の実験用パラメータ編集(創発一本化)
   pcSectionHead:"相変化(E14″)の実験",
@@ -753,6 +754,7 @@ en: {
   ovPhaseGraph:"Phase T̄ / coordination", ovPhaseNote:"top:orange=T̄ green=c̄ btm:cyan=ψ6 mag=rewiring×10 left=c by height (front) color=T lines=bonds",
   tgMechSpecDesc:"Live breakdown of which mechanism is driving the system (the diagnostic layer of T13). Six channels (gravity E4 / geodesic E12 / thermal repulsion E5′ / contact E9 / bonds E14″ / dragging E6′) as the normalized ratio Π of particle-mean RMS accelerations. Bonds dominate at the molecular scale, gravity+geodesic at the celestial scale, gravity+dragging at the galactic scale — the lead actor becomes measured data for parameter tuning. Note: a normalized RMS diagnostic of forces and transport, not an energy ratio. Display-only; physics is untouched (and zero-cost when off).",
   ovMechSpec:"Mechanism spectrum", ovMechNote:"Normalized RMS ratio Π (diagnostic; physics untouched)",
+  ovMechRadial:"Radius bins: center → edge (Π = RMS ratio; physics untouched)", mechDom:"Dominant:",
   mechCh:["Gravity","Geodesic","Th.rep","Contact","Bond","Drag"],
   pcSectionHead:"Phase-change (E14″) experiments",
   pcSectionDesc:"Experiment knobs for phase-change samples. All eight knobs are continuous quantities that derive material behavior from the current bonding state — there is no phase rule such as a melting point, latent heat or phase fraction (unified as fully emergent in dispatch 60). Wall temperature/rate live in the Lab-box category. During A/B comparison the knobs act only on the edited side, so 'with/without angle' or 'with/without emergent conduction' controls are easy to set up. These edits are stored in saves (dispatch 54, 54B).",
@@ -1164,7 +1166,7 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
 const APP_VERSION = "1.35";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 // 第36便 B1(原仮定者指示): タイトル下に表示するbeta配信時のビルド番号。beta/sw.js の
 // CACHE 接尾辞と同期させる(QA: version.beta-label)。ルート昇格後は使わない("v"+APP_VERSION 表示に戻る)
-const BETA_BUILD = "v1.36-b3";   // 第65便: 機構スペクトル診断(P0 — overlays.mechSpectrum)
+const BETA_BUILD = "v1.36-b4";   // 第66便: 🎡galaxyStd+機構スペクトル半径ビン+⭐binary geo化
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 // 第45便 45A(台帳4-48): 光線源・1PN源のしきい値を「質量」から「偏向角」へ物理化した。
@@ -1770,6 +1772,42 @@ const BUILTIN_PRESETS = [
   ],
   rays:{n:24, spread:0.5},
   overlays:{rotationCurve:true,tempHistogram:false,field:true,trail:false,monitor:false} },
+
+{ id:"galaxyStd", name:"空間引きずりの基準実験 — 銀河標準", emoji:"🎡", group:"銀河",
+  // 第66便 66B(P2 標準サンプル — 第64便裁定④「標準サンプル3種」の銀河標準): 🌌galaxy の
+  // **単一機構純化版**。熱斥力(kRep)・接触摩擦(muF)・法線減衰(γn)・熱伝導(κs)を 0 にし、
+  // 恒星スピンも 0 に固定して、E4 重力+E6′ 空間引きずりの2機構だけを残す。初期配置は 🌌 と
+  // 厳密同一(disk の乱数消費は spinMin=spinMax=0 でも同じ — rng() は同回数呼ばれる)。
+  // 源の帰属は第64〜66便の分解実測(tests/exp-scale64/66)で確定:
+  //   外縁増強 kF1/kF0 — 中心スピンのみ 1.2646 ≈ 全スピン残置 1.2648 / 恒星スピンのみ 1.0215 ≈
+  //   スピンゼロ 1.0214(集団公転単独は +2%)。**主源は中心天体のコヒーレントスピンが u に
+  //   与える回転成分**(だから恒星スピン 0 でも増強はほぼ全量残る)。
+  //   本構成の実測(seed 20260727・6000步・外縁帯 [156,286])= 1.2646
+  descStruct:{
+    summary:"🌌銀河の回転曲線から、熱斥力(kRep)・接触摩擦(muF)・減衰(γn)・熱伝導(κs)・恒星スピンをすべて0にした基準実験。増強を担うのは重力(E4)と、中心天体(m=2500・スピン1.2)が空間を引きずる効果(A8/E6′)だけになる(接触の法線ばねは重なり防止の芯として残る — 散逸はしない)。",
+    observe:"右下の機構スペクトルに「いま効いている機構」の実測内訳が出る — 熱斥力・結合・測地線は厳密に0で、重力・引きずり・接触(弾性ばねのみ)の3チャネルが残る(実測Π: 重力41%・接触34%・引きずり25%)。半径ビン表示では引きずりの割合が中心34%→外縁2%と下がる — スピン引きずりの距離減衰が構成比として直接読める。外縁帯の回転はkFrame=1で実測約1.26倍に増強される(T4)。第64〜66便の分解実測で、この増強の主源は中心天体のコヒーレントスピンであり、恒星の集団公転単独では1.02倍に留まる(恒星スピンの寄与はゼロ)ことが確定している。",
+    control:"kFrame=0にすると増強が消える(おすすめA/B)。複合版の🌌(実測1.32倍 — 熱斥力と接触摩擦が上乗せ)と見比べると、機構の足し算も読める。"},
+  en:{name:"Frame-Dragging Baseline — Galactic Standard", descStruct:{
+    summary:"The galactic rotation curve of 🌌 purified: thermal repulsion (kRep), contact friction (muF), normal damping (γn), conduction (κs) and stellar spins are all set to 0. The enhancement is then carried by gravity (E4) and the space-dragging of the central body (m=2500, spin 1.2) alone (A8/E6′) — the elastic contact spring remains as the non-dissipative hard core preventing overlaps. ",
+    observe:"The mechanism spectrum at the bottom right shows the measured breakdown of what is driving the system — thermal repulsion, bonds and geodesic stay exactly 0, leaving gravity, dragging and (elastic-only) contact (measured Π: gravity 41%, contact 34%, dragging 25%). In the radius-bin strip the dragging share falls from 34% at the center to 2% at the edge — the distance decay of spin dragging read directly as a composition. The outer-band rotation is enhanced by a measured factor of about 1.26 at kFrame=1 (T4). The decomposition runs of sessions 64-66 established that the enhancement is sourced by the central body's coherent spin — collective stellar orbiting alone gives only 1.02x (stellar spins contribute zero). ",
+    control:"Set kFrame to 0 and the enhancement disappears (suggested A/B). Compare with the composite 🌌 (measured 1.32x — thermal repulsion and contact friction stack on top) to read the mechanisms adding up."}},
+  activeParams:["kFrame","D0"],
+  // claims — 説明文の「実測約1.26倍」を機械可読化。実測 1.2646(66A・seed 20260727・6000步)。
+  // 窓は実測±12%程度。対照(kFrame=0)側は claim.galaxystd-outerboost が比>1.1 で機械判定
+  claims:[
+    { id:"galaxystd.outer-boost-ratio", kind:"fixed-seed", metric:"outerRotationBoostRatio",
+      expected:{min:1.15, max:1.4},   // 実測1.2646(claim.galaxystd-outerboost: 比>1.1)
+      descPattern:"実測約(\\d+\\.\\d+)倍に増強", testId:"claim.galaxystd-outerboost" }
+  ],
+  camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260727,
+  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:50,
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:3},
+  bodies:[
+    {type:"single", rMul:1.2, m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, radius:15},
+    {type:"disk", rMul:1.2, n:380, cx:0,cy:0, radius:260, mMin:0.16,mMax:0.5,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2500, vScale:1.05, direction:1, bulkVx:0, bulkVy:0}
+  ],
+  overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,mechSpectrum:true} },
 
 { id:"darkrotor", name:"ダークローターの銀河", emoji:"🕶️", group:"銀河",
   // 第39便 39A(台帳4-72)v6: ローター10体 → **対向2体のみ**へ。第38便 38C(台帳4-67)の実験で
@@ -2554,18 +2592,24 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"binary", name:"連星系と周連星円盤", emoji:"⭐", group:"天体の物語",
+  // 第66便 66D(62B 裁定「⭐binary は geo 化の第一候補」の実施): geoPN 0→1。62B+66D の実測 —
+  // geo 化で恒星間距離は 12000步 120.1→120.7(ほぼ不変=安定)・legacy は 137→240 へ散逸で緩む。
+  // 円盤保持は両者 240/240・処理は geo が約42%軽い(12000步 18.9s vs 32.7s)。kFrame:1 は残す —
+  // geoPN=0 の A/B 側が第26便以来の旧構成(引きずり輸送)と厳密一致するため。
+  // 「天体カテゴリの新規・軌道系プリセットは引きずりを主張しない限り geoPN=1 を既定とする」
+  // (62B §4-3 ガイドライン)の内蔵初適用(☿・🛰️D68 は設計対象として先行)
   descStruct:{
-    summary:"等質量の2恒星が共通重心を回り、その外側を軽い天体群が公転する。",
-    observe:"単独星とは異なる時間変動する重力場(E4)が外側の軌道を乱し、恒星の運動は空間を引きずって円盤へ伝わる(A5)。",
-    control:"kFrame=1→0、D0=10→100の比較(A/B比較モード)がおすすめ。"},
+    summary:"等質量の2恒星が共通重心を回り、その外側を軽い天体群が公転する。測地線モード(E12・geoPN=1)が既定 — 時計を遅らせるのと同じψ=W/Ktから軌道が決まる保存的な力学で、連星の間隔が長時間安定する。",
+    observe:"単独星とは異なる時間変動する重力場(E4+E12)が外側の軌道を乱す。測地線モードでは物質への空間引きずり(E6′)は無効(二重計上禁止)なので、恒星間距離は12000步で約121に保たれる(従来の引きずり輸送では散逸で137→240へ緩む)。処理も約4割軽い。",
+    control:"geoPN=0にすると従来の空間引きずり輸送(E6′・kFrame=1)へ戻り、軌道が徐々に緩むのを比較できる(おすすめA/B)。D0=10→100の比較も面白い。"},
   en:{name:"Binary Stars & Circumbinary Disk", descStruct:{
-    summary:"Two equal-mass stars orbit their common barycenter while a ring of light bodies circles outside. ",
-    observe:"The time-varying gravitational field — unlike a single star — perturbs the outer orbits, and the stars' own motion drags space, carrying that disturbance out to the disk (A5). ",
-    control:"Try A/B-comparing kFrame 1 vs 0 or D0 10 vs 100."}},
-  activeParams:["kFrame","D0","G"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+    summary:"Two equal-mass stars orbit their common barycenter while a ring of light bodies circles outside. Geodesic mode (E12, geoPN=1) is the default — a conservative dynamics where orbits follow the same ψ=W/Kt that slows clocks, keeping the binary separation stable over long runs. ",
+    observe:"The time-varying field of the pair (E4+E12) — unlike a single star — perturbs the outer orbits. In geodesic mode the E6′ space-dragging on matter is disabled (no double counting), and the stellar separation holds near 121 over 12,000 steps (the legacy dragging transport relaxes it from 137 to 240 through dissipation). It also runs about 40% lighter. ",
+    control:"Set geoPN to 0 to fall back to the legacy dragging transport (E6′, kFrame=1) and watch the orbit slowly relax (suggested A/B). Comparing D0 10 vs 100 is fun too."}},
+  activeParams:["geoPN","D0","G"],   // 第66便 66D: おすすめA/B の軸を kFrame → geoPN(測地線⇄引きずり)へ
   camera:{scale:320}, world:{boundary:"none",size:0},
   physics:{G:1, D0:10, kFrame:1, q:2, kRep:0, muF:0.05, gammaN:0.1, kappaS:0, Kt:10000,   // 第26便: kFrame 0.5→1(中間値解消。12000步で束縛・円盤240/240残存を実測)
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:4},
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:4},
   bodies:[ // v1.13(付録M): 第6次提案 P1-1 を内蔵化(12000步スモーク・重心ドリフト0.1)
     {type:"single", rMul:1.2, m:500, x:-60,y:0, vx:0,vy:-1.44, spin:0.03, pinned:false},
     {type:"single", rMul:1.2, m:500, x:60,y:0,  vx:0,vy:1.44,  spin:0.03, pinned:false},
@@ -5663,13 +5707,39 @@ function makeSim(){
   // (**力と輸送の RMS を正規化した診断量であり、エネルギー比ではない** — 第64便裁定の明記事項)。
   // reset=true(既定)で窓を閉じる(sum と nS をクリア — 表示は読むたびに直近窓の平均を得る)。
   // 診断層のみ: 物理状態には一切触れない
-  S.mechSpec=function(reset=true){
+  // 第66便 66C: radialBins>0 なら、粒子の**現在**半径 r_i=√(x²+y²) で等幅ビニングした
+  // ビン別スペクトルも返す(radial={rMax, edges[], count[], pi[bin][6]})。窓の間に粒子は動くので
+  // ビン割当は近似(診断表示用)。radialBins=0(既定)では従来の返り値と厳密同一
+  S.mechSpec=function(reset=true, radialBins=0){
     const M=S.mech; if(!M || !M.nS) return null;
     const n=S.n, out={nS:M.nS, ms:[0,0,0,0,0,0], rms:[0,0,0,0,0,0], pi:[0,0,0,0,0,0]};
     for(let c=0;c<6;c++){ let a=0; const o=c*n; for(let i=0;i<n;i++) a+=M.sum[o+i]; out.ms[c]=a/(M.nS*n); }
     let tot=0;
     for(let c=0;c<6;c++){ out.rms[c]=Math.sqrt(out.ms[c]); tot+=out.rms[c]; }
     if(tot>0) for(let c=0;c<6;c++) out.pi[c]=out.rms[c]/tot;
+    if(radialBins>0){
+      const NB=Math.min(16,Math.max(1,Math.round(radialBins)));
+      let rMax=0; const ri=new Float64Array(n);
+      for(let i=0;i<n;i++){ ri[i]=Math.sqrt(S.x[i]*S.x[i]+S.y[i]*S.y[i]); if(ri[i]>rMax) rMax=ri[i]; }
+      const acc=new Float64Array(NB*6), cnt=new Int32Array(NB);
+      for(let i=0;i<n;i++){
+        let b=(rMax>0)? Math.floor(ri[i]/rMax*NB) : 0; if(b>=NB) b=NB-1;
+        cnt[b]++;
+        for(let c=0;c<6;c++) acc[b*6+c]+=M.sum[c*n+i];
+      }
+      const pi=[], edges=[];
+      for(let b=0;b<NB;b++){
+        edges.push(rMax*(b+1)/NB);
+        const row=[0,0,0,0,0,0];
+        if(cnt[b]>0){
+          let t2=0; const rms=[];
+          for(let c=0;c<6;c++){ rms[c]=Math.sqrt(acc[b*6+c]/(M.nS*cnt[b])); t2+=rms[c]; }
+          if(t2>0) for(let c=0;c<6;c++) row[c]=rms[c]/t2;
+        }
+        pi.push(row);
+      }
+      out.radial={rMax, edges, count:Array.from(cnt), pi};
+    }
     if(reset){ M.sum.fill(0); M.nS=0; }
     return out;
   };
@@ -6075,7 +6145,7 @@ function overlaySlots(){
 const ovMin={rotationCurve:false,tempHistogram:false,spectrum:false,boxGraph:false,phaseGraph:false,mechSpectrum:false};
 const OV_H=92, OV_HMIN=16;
 // 第61便 61B(レビューP1「phaseGraph 二段化」): グラフごとの展開高さ(未登録は OV_H)
-const OV_HK={phaseGraph:152};
+const OV_HK={phaseGraph:152, mechSpectrum:152};   // 第66便 66C: 機構スペクトルは二段(全体+半径ビン)
 const ovH=(key)=>OV_HK[key]||OV_H;
 let ovHit=[];   // グラフのトグル用タップ領域(キャンバス座標。描画のたびに再登録)
 function overlayBaseY(slot){
@@ -6395,13 +6465,15 @@ function drawPhaseGraph(slot=0){
 const MECH_COLORS=["#6da8ff","#b07fff","#ff9d45","#9aa2c8","#57d38c","#4fd8e8"];
 function drawMechSpectrum(slot=0){
   if(ovOverlayMin("mechSpectrum",slot,T("ovMechSpec"))) return;   // 最小化中はタイトルバーのみ
-  const uz=uiFontScale, W=150,H=OV_H,X=0,Y=0;
-  const r=sim.mechSpec? sim.mechSpec(true) : null;
+  const uz=uiFontScale, W=150,H=OV_HK.mechSpectrum,X=0,Y=0;
+  // 第66便 66C: 半径ビン(6帯)付きで読む。表示は指数平滑(全体バーのみ)・半径帯は直近窓の生値
+  const r=sim.mechSpec? sim.mechSpec(true,6) : null;
   if(r){
     if(!sim._mechDisp) sim._mechDisp=r.pi.slice();
     else for(let c=0;c<6;c++) sim._mechDisp[c]+=(r.pi[c]-sim._mechDisp[c])*0.25;
+    sim._mechRad=r.radial||null;
   }
-  const pi=sim._mechDisp;
+  const pi=sim._mechDisp, rad=sim._mechRad;
   ctx.save(); ctx.translate(cw-W*uz-8, overlayBaseY(slot)); ctx.scale(uz,uz);
   ctx.fillStyle="rgba(12,16,34,0.82)"; ctx.fillRect(X,Y,W,H);
   ctx.strokeStyle="#2a3060"; ctx.strokeRect(X,Y,W,H);
@@ -6418,12 +6490,36 @@ function drawMechSpectrum(slot=0){
       ctx.fillStyle=MECH_COLORS[c]; ctx.fillRect(bx0,yc,(bx1-bx0)*Math.min(1,pi[c]),8);
       ctx.fillStyle="#dfe4ff"; ctx.fillText((pi[c]*100).toFixed(0)+"%",bx1+3,yc+7);
     }
+    // 支配機構の自動表示(上位2チャネル — 第64便裁定 7.4 の「サンプル説明への支配機構表示」)
+    const ord=[0,1,2,3,4,5].sort((a,b)=>pi[b]-pi[a]);
+    ctx.font="7px sans-serif"; ctx.fillStyle="#dfe4ff";
+    ctx.fillText(T("mechDom")+" "+ord.slice(0,2).filter(c=>pi[c]>0.005)
+      .map(c=>`${labels[c]} ${(pi[c]*100).toFixed(0)}%`).join(" / "),X+6,Y+90);
   } else {
     ctx.font="7px sans-serif"; ctx.fillStyle="#5a6090";
     ctx.fillText("…",X+6,Y+24);   // 窓がまだ空(停止中など)
   }
+  // 半径ビン別の積み上げ帯(左=中心 → 右=外縁。各列は Π の100%積み上げ)
+  ctx.strokeStyle="#2a3060"; ctx.beginPath(); ctx.moveTo(X+4,Y+94); ctx.lineTo(X+W-4,Y+94); ctx.stroke();
   ctx.font="6px sans-serif"; ctx.fillStyle="#5a6090";
-  ctx.fillText(T("ovMechNote"),X+6,Y+88);
+  ctx.fillText(T("ovMechRadial"),X+6,Y+101);
+  if(rad && rad.pi){
+    const NB=rad.pi.length, colW=120/NB, y0r=Y+104, hR=36;
+    for(let b=0;b<NB;b++){
+      const cx0=X+18+b*colW;
+      if(!rad.count[b]){ ctx.fillStyle="#141a3a"; ctx.fillRect(cx0,y0r,colW-2,hR); continue; }
+      let yAcc=y0r;
+      for(let c=0;c<6;c++){
+        const hSeg=hR*rad.pi[b][c];
+        if(hSeg<=0) continue;
+        ctx.fillStyle=MECH_COLORS[c]; ctx.fillRect(cx0,yAcc,colW-2,hSeg);
+        yAcc+=hSeg;
+      }
+    }
+    ctx.font="6px sans-serif"; ctx.fillStyle="#5a6090";
+    ctx.fillText("0",X+18,Y+148);
+    ctx.fillText("r="+rad.rMax.toFixed(0),X+100,Y+148);
+  }
   ctx.restore();
   ovDrawToggle("mechSpectrum",slot);
 }

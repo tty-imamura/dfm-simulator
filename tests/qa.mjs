@@ -702,7 +702,8 @@ const W5C_UNITS = {
     return { on: run(false), ctrl: run(true) };
   }, w5cBands) },
   binary: { enabled: w5cHasV26, weight: 6, run: (pg) => pg.evaluate(() => {
-    // ⭐binary kFrame=1 の挙動(元7n節 3035-3044行から抽出)
+    // ⭐binary の挙動(元7n節 3035-3044行から抽出)。第66便 66D: geoPN=1 化後の較正実測 —
+    // 3000步 sep=120.1・保持240/240(旧 kFrame=1 構成は sep=137.4。窓 60〜350 はどちらも満たす)
     HP.loadPreset('binary', false);
     const s = HP.sim;
     for (let k = 0; k < 3000; k++) s.step(0.016);
@@ -3388,6 +3389,46 @@ if (!FAST) {
     add('behavior.convection', !r.convNaN && r.convCirc > 5 && r.convV > 0.3,
       `24000步(旧設計 pinned ヒーター・Wave C 未適用): 循環=${r.convCirc.toFixed(1)} (>5) ` +
       `平均|v|=${r.convV.toFixed(2)} (>0.3)`);
+  }
+
+  // ---- 8a2) 第66便 66B(P2 標準サンプル): 🎡galaxyStd — 空間引きずりの基準実験 ----
+  // 🌌 の単一機構純化版(kRep=muF=γn=κs=0・恒星スピン0)で、E4+E6′ だけの外縁増強を機械固定する。
+  // 手順・指標は claim.galaxy-outerboost(galaxyAB ユニット)と同一の A/B・同一の外縁帯式。
+  // 較正実測(66A・seed 20260727・6000步): kF1/kF0 = 1.2646(中心スピンのみ 1.2646 ≈ 全スピン
+  // 1.2648 / 恒星のみ 1.0215 — 主源は中心天体のコヒーレントスピン。tests/exp-scale66.mjs)。
+  // 窓は claims の {1.15,1.4} と同期(claims.sync が説明文の「実測約1.26倍」と照合)
+  {
+    const hasStd = await page.evaluate(() => HP.allPresets().some(p => p.id === 'galaxyStd'));
+    if (hasStd) {
+      const r2 = await page.evaluate(() => {
+        const s = HP.sim;
+        HP.loadPreset('galaxyStd', false);
+        HP.abStart('kFrame', 0);
+        const abG = HP.ab();
+        const outer = (sm) => { let sum = 0, c = 0;
+          for (let i = 1; i < sm.n; i++) { const rr = Math.hypot(sm.x[i], sm.y[i]);
+            if (rr >= 156 && rr <= 286) { sum += (sm.x[i] * sm.vy[i] - sm.y[i] * sm.vx[i]) / rr; c++; } }
+          return c ? sum / c : 0; };
+        for (let k = 0; k < 6000; k++) { s.step(0.016); abG.simB.step(0.016); }
+        const gA = outer(s), gB = outer(abG.simB);
+        const bad = s.hasNaN() || abG.simB.hasNaN();
+        // 純度の機械確認: overlay は preset で ON — 6000步の窓を読む。熱斥力・結合・測地線は厳密 0
+        // (接触は法線ばね〔弾性・重なり防止の芯〕が残るので 0 にはならない — 説明文と同じ整理)
+        const spec = s.mechSpec(true);
+        HP.abStop();
+        return { gA, gB, bad, pi: spec ? spec.pi : null };
+      });
+      const ratio = r2.gA / r2.gB;
+      // 較正実測(66A → 本経路で再現 1.2646): Π = [重力41.3, 測地線0, 熱斥力0, 接触34.2, 結合0, 引きずり24.5]%
+      add('claim.galaxystd-outerboost',
+        !r2.bad && ratio > 1.1 && ratio >= 1.15 && ratio <= 1.4
+        && !!r2.pi && r2.pi[1] === 0 && r2.pi[2] === 0 && r2.pi[4] === 0 && r2.pi[5] > 0.15,
+        `vφ外縁 kF1=${r2.gA.toFixed(3)} kF0=${r2.gB.toFixed(3)} 比=${ratio.toFixed(4)}` +
+        `(窓1.15〜1.4・較正実測1.2646) / 純度Π: 測地線=${r2.pi ? r2.pi[1] : '?'} 熱斥力=${r2.pi ? r2.pi[2] : '?'} ` +
+        `結合=${r2.pi ? r2.pi[4] : '?'}(厳密0)・引きずり=${r2.pi ? (r2.pi[5] * 100).toFixed(1) + '%' : '?'}(>15% — 実測24.5%)`);
+    } else {
+      console.log('SKIP claim.galaxystd-outerboost(対象に 66B 未適用 — root 等)');
+    }
   }
 
   // ---- 8b) v1.21 第9次裁定 P0-3: 内蔵 ☿mercury の実条件検証 ----
