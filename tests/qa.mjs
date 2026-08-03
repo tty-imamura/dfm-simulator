@@ -5773,6 +5773,57 @@ if (hasEchoFlipAt) {
       `U_rep 最大=${lat.umax.toFixed(1)}(吸熱の${(lat.ufrac * 100).toFixed(1)}%>35%) / ` +
       `T_int平均 ${lat.T.map(v => v.toFixed(2)).join(' → ')}(1200→2400步 ${lat.plateau.toFixed(2)}倍<1.3 = プラトー)`);
 
+    // ⑤ 第64便 64B(A9″): tint.microspin-alias — thermal:"microspin" は "tint" の同義の別名として
+    //    受理・正規化され、body.microSpinRms は tInt = rms² へ正規化される(正本状態は tInt のまま)。
+    //    数値等価は 300步の x/y/vx/vy/Tint 全要素一致で機械証明する(別名は新モードではない —
+    //    A9″ は既存 T_int の意味論の正式化。PHYSICS.md §2 A9″)。64B 未適用の対象(root 等)では
+    //    "microspin" が enum 外 → "spin" へクランプされるので、正規化の成否を検出子にして分岐する
+    const hasMicrospin = await page.evaluate(() =>
+      HP.validatePreset({ name: 'd', description: 'd', camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+        physics: {}, thermal: 'microspin',
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] }).preset.thermal === 'tint');
+    if (hasMicrospin) {
+      const ms = await page.evaluate(() => {
+        const mk = (thermal, body) => ({ name: 'ms', description: 'microspin 別名検査', camera: { scale: 200 },
+          world: { boundary: 'none', size: 0 }, seed: 1, thermal,
+          physics: { G: 0, D0: 1, kFrame: 0, q: 2, kRep: 0.5, muF: 0.3, gammaN: 0.2, kappaS: 0.05,
+            etaRad: 0.01, pRad: 4, cHeat: 1, softening: 2, radiusScale: 1, timeScale: 1 },
+          bodies: [body,
+            { type: 'box', rMul: 1, n: 20, cx: 0, cy: 0, w: 100, h: 100, mMin: 1, mMax: 1,
+              spinMin: 0, spinMax: 0, tInt: 1, vScale: 0.2 }] });
+        const V = (o) => HP.validatePreset(o);
+        const body = (extra) => Object.assign({ type: 'single', m: 2, x: 10, y: 0, vx: 0, vy: 0, spin: 0.5, pinned: false }, extra);
+        const A = V(mk('microspin', body({ microSpinRms: 3 })));
+        const B = V(mk('tint', body({ tInt: 9 })));
+        const clampHi = V(mk('microspin', body({ microSpinRms: 200 })));
+        const both = V(mk('microspin', body({ microSpinRms: 3, tInt: 4 })));
+        const nonNum = V(mk('microspin', body({ microSpinRms: 'x' })));
+        const s = HP.sim;
+        const run = (v) => { s.build(v.preset); for (let k = 0; k < 300; k++) s.step(0.016);
+          return { x: [...s.x], y: [...s.y], vx: [...s.vx], vy: [...s.vy], T: [...s.Tint], nan: s.hasNaN() }; };
+        const ra = run(A), rb = run(B);
+        const eq = (u, v) => u.length === v.length && u.every((w, i) => w === v[i]);
+        return { aThermal: A.preset.thermal, aW: A.warnings.length, aTint: A.preset.bodies[0].tInt,
+          aNoRms: !('microSpinRms' in A.preset.bodies[0]),
+          bitEq: eq(ra.x, rb.x) && eq(ra.y, rb.y) && eq(ra.vx, rb.vx) && eq(ra.vy, rb.vy) && eq(ra.T, rb.T),
+          nan: ra.nan || rb.nan,
+          hiTint: clampHi.preset.bodies[0].tInt, hiW: clampHi.warnings.length,
+          bothTint: both.preset.bodies[0].tInt, bothW: both.warnings.some(w => /併記/.test(w)),
+          nonNumOk: nonNum.ok };
+      });
+      add('tint.microspin-alias',
+        ms.aThermal === 'tint' && ms.aW === 0 && ms.aTint === 9 && ms.aNoRms
+        && ms.bitEq && !ms.nan
+        && ms.hiTint === 10000 && ms.hiW === 1
+        && ms.bothTint === 4 && ms.bothW
+        && ms.nonNumOk === false,
+        `"microspin"→${ms.aThermal}(警告${ms.aW}件=0) microSpinRms:3→tInt=${ms.aTint}(キー削除=${ms.aNoRms}) / ` +
+        `300步 bit 等価=${ms.bitEq}(NaN=${ms.nan}) / 200→tInt=${ms.hiTint}(警告${ms.hiW}件) / ` +
+        `tInt併記→tInt=${ms.bothTint} 優先(警告=${ms.bothW}) / 非数値→検証NG=${!ms.nonNumOk}`);
+    } else {
+      console.log('SKIP tint.microspin-alias(対象に 64B 未適用 — root 等)');
+    }
+
     await page.evaluate(() => HP.loadPreset('saturn', false));   // 後続項目のため既定プリセットへ戻す
   } else {
     console.log('SKIP tint.schema/tint.zero-cost/tint.migrated/tint.latent-heat(対象に Wave D 未適用 — root 等)');
