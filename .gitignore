@@ -20,6 +20,8 @@ tests/out/*
 !tests/out/p4b-results.json
 # 第70便: 💫galaxyGeo2 較正・減光力学不変・隠れ質量・ディスク/バルジ温度の実測(CHANGELOG v1.36-b7 が参照)
 !tests/out/exp-4-70.json
+# 第71便: 温度選別の機構分解+第70便アーチファクト訂正の実測(CHANGELOG v1.36-b8 が参照)
+!tests/out/exp-4-71.json
 # 第32便 W4(台帳4-58): QAスクリーンショットはCIアーティファクトのみ・コミット対象外
 tests/out/*.png
 # 公開前レビュー P0-5: 依存を固定して QA の再現性を担保(CI は npm ci)

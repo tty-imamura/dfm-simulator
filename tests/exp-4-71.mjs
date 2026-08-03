@@ -142,11 +142,59 @@ const d50 = await runOn(url0, { D0: 5 });
 const q3 = await runOn(url0, { q: 3 });
 console.log('F3 D0=0.5 sep=', d05.sep.toFixed(4), ' D0=5 sep=', d50.sep.toFixed(4), ' q=3 sep=', q3.sep.toFixed(4));
 
+// ---- F4: 第70便 E5「力学選別」のアーチファクト定量化 ----
+// E5 は群を**終状態の符号付き spin>1** で再分類していた。③残余トルクが全星スピンを逆行へ
+// 汲み下げる(F1 パッチBで確定)ため、終状態で spin>1 を保つのは外縁の生存外れ値だけになり、
+// 「高温星が外に残った」ように見える。正追跡(初期集団)とE5方式を同一走行で並記して定量化する
+const F4_SRC = (kRep) => `(() => {
+  HP.sim.build({ id:'f4', name:'d', description:'d', camera:{scale:400},
+    world:{boundary:'none',size:0}, seed:20260804,
+    physics:{ G:0.8, D0:1.5, kFrame:1, q:2, kRep:${kRep}, muF:0, gammaN:0, kappaS:0, Kt:50,
+      cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
+      pnAlpha:1.5, radiusScale:1, softening:3, timeScale:1 },
+    bodies:[
+      { type:'single', rMul:1.2, m:2500, x:0, y:0, vx:0, vy:0, spin:1.2, pinned:true, radius:15 },
+      { type:'disk', rMul:1.2, n:190, cx:0, cy:0, radius:260, mMin:0.3, mMax:0.3,
+        spinMin:2, spinMax:2, vMode:'kepler', aroundMass:2500, vScale:1.05, direction:1, bulkVx:0, bulkVy:0 },
+      { type:'disk', rMul:1.2, n:190, cx:0, cy:0, radius:260, mMin:0.3, mMax:0.3,
+        spinMin:0.2, spinMax:0.2, vMode:'kepler', aroundMass:2500, vScale:1.05, direction:1, bulkVx:0, bulkVy:0 }] });
+  const S = HP.sim;
+  const hotIdx=[], coldIdx=[];
+  for(let i=1;i<S.n;i++) (S.spin[i]>1.1? hotIdx:coldIdx).push(i);
+  for (let k=0;k<6000;k++) S.step(0.016);
+  const meanR=(idx)=>idx.reduce((s,i)=>s+Math.hypot(S.x[i],S.y[i]),0)/idx.length;
+  const proper = meanR(hotIdx)/meanR(coldIdx);
+  const hotEnd=[], coldEnd=[];
+  for(let i=1;i<S.n;i++) (S.spin[i]>1? hotEnd:coldEnd).push(i);
+  const e5style = (hotEnd.length&&coldEnd.length)? meanR(hotEnd)/meanR(coldEnd) : null;
+  const bins=[[0,60],[60,110],[110,160],[160,210],[210,300]];
+  const prof=bins.map(bb=>{ let s=0,a=0,c=0;
+    for(let i=1;i<S.n;i++){ const rr=Math.hypot(S.x[i],S.y[i]);
+      if(rr>=bb[0]&&rr<bb[1]){ s+=S.spin[i]; a+=Math.abs(S.spin[i]); c++; } }
+    return { bin:bb, n:c, spin:c? s/c:0, absSpin:c? a/c:0 }; });
+  return { kRep:${kRep}, proper, e5style, nHotEnd:hotEnd.length, prof, nan:S.hasNaN() };
+})()`;
+async function runF4(kRep) {
+  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  page.on('pageerror', (e) => console.log('PAGEERROR:', e.message));
+  await page.goto(url0);
+  await page.waitForFunction(() => window.HP && HP.sim);
+  const r = await page.evaluate(F4_SRC(kRep));
+  await page.close();
+  return r;
+}
+const f4k0 = await runF4(0), f4k1 = await runF4(1);
+console.log('F4 kRep=0: 正追跡=', f4k0.proper.toFixed(4), ' E5方式=', f4k0.e5style && f4k0.e5style.toFixed(4),
+  '(終状態spin>1の生存数=', f4k0.nHotEnd, ')');
+console.log('F4 kRep=1: 正追跡=', f4k1.proper.toFixed(4), ' E5方式=', f4k1.e5style && f4k1.e5style.toFixed(4),
+  '(生存数=', f4k1.nHotEnd, ')');
+
 const out = { meta: { exp: '4-71', date: new Date().toISOString().slice(0, 10),
     note: 'パッチビルドは本スクリプトが一時生成する診断コピー(アプリ本体は不変)' },
   f1_attribution: { base, patchA_noStarSwirl: pA, patchB_noResTorque: pB, patchAB: pAB },
   f2_spinGap: { gap20_02: base, gap15_05: gap15, gap12_08: gap12 },
-  f3_dose: { D0_05: d05, D0_15: base, D0_50: d50, q3 } };
+  f3_dose: { D0_05: d05, D0_15: base, D0_50: d50, q3 },
+  f4_artifact: { k0: f4k0, k1: f4k1 } };
 fs.writeFileSync(path.join(OUT_DIR, 'exp-4-71.json'), JSON.stringify(out, null, 2));
 console.log('→ tests/out/exp-4-71.json');
 await browser.close();
