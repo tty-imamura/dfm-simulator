@@ -960,7 +960,7 @@ en: {
     gravityX:"Uniform external gravity acting horizontally across the whole scene (v1.17). It does not contribute to determinacy W, so it builds a 'ground lab' without distorting clocks, light or dragging. Momentum exchange is ledgered.",
     gravityY:"Uniform external gravity acting vertically (+y is down on screen). The 'downward gravity' of ⚾ free fall, ♨️ convection and 🧪 buoyancy. Set 0 for weightlessness.",
     geoPN:"The v2.0 geodesic mode (E12). At 1, matter's motion is derived by an action principle from the same ψ=W/Kt that slows clocks, enabling the 1PN correction (☿); E6′ dragging on matter is disabled (no double counting). At 2, the unified v−u geodesic law (stage 2): frame transport, vorticity Coriolis (the true face of dragging) and 1PN all follow from one equation derived with u≠0 — exactly equal to 1 when kFrame=0. 0 = legacy.",
-    lambdaPN:"On/off switch of the 1PN correction in geodesic mode (geoPN=1). At 0 you recover Newtonian gravity and the ellipse closes — the A/B control for ☿ Mercury.",
+    lambdaPN:"On/off switch of the 1PN correction in geodesic mode (geoPN≥1 — also gates the a₁ₚₙ(w) term of geoPN=2). At 0 you recover Newtonian gravity and the ellipse closes — the A/B control for ☿ Mercury.",
     pnAlpha:"Breakdown of the 1PN correction (E12). 1.5 = full (GR's β=γ=1 — the full 42.98″/century of Mercury), 0.5 = time-rate only (advance drops to 1/3). Machine-verified in V18–V20.",
     radiusScale:"Global scale of the particle radius R=radiusScale·rMul·√m (default 1). Affects contact size and the moment of inertia I=½mR² (the I in temperature T=Is²). Per-body variation lives in the body key rMul; this knob scales every particle relatively. A discretization setting, not a law of physics.",
     softening:"Softening length mixed into distances so forces never diverge at close range (E1′ Plummer form: 1/√(d²+ε²)). Smaller = sharper close encounters but numerically rougher.",
@@ -1176,7 +1176,7 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
 const APP_VERSION = "1.35";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 // 第36便 B1(原仮定者指示): タイトル下に表示するbeta配信時のビルド番号。beta/sw.js の
 // CACHE 接尾辞と同期させる(QA: version.beta-label)。ルート昇格後は使わない("v"+APP_VERSION 表示に戻る)
-const BETA_BUILD = "v1.36-b6";   // 第69便: geoPN=2(v−u 統一測地線則・P4b)
+const BETA_BUILD = "v1.36-b7";   // 第70便: geo2銀河🌌²+減光の力学不変QA+disk/ring減光属性
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 // 第45便 45A(台帳4-48): 光線源・1PN源のしきい値を「質量」から「偏向角」へ物理化した。
@@ -1246,7 +1246,7 @@ const PARAM_DEFS = [
   {key:"geoPN",   label:"測地線モード geoPN", mode:"lin", lo:0, hi:2, step:1,    cat:"dg", group:"法則",
    desc:"v2.0の測地線モード(E12)。1にすると、時計を遅らせるのと同じψ=W/Ktから物質の運動を作用原理で導き、1PN補正が働く(☿)。同時に物質へのE6′引きずりは無効化(二重計上禁止)。2にすると v−u 統一測地線則(v2.0第2段階): u≠0 のまま導いた式で、フレーム輸送・渦度コリオリ(引きずりの正体)・1PN が一本の式から出る — kFrame=0 では 1 と厳密に同じ。0=従来(legacy)。"},
   {key:"lambdaPN",label:"1PN補正 λ_PN",      mode:"lin", lo:0, hi:1, step:1,    cat:"dg", group:"法則",
-   desc:"測地線モード(geoPN=1)の1PN補正のON/OFF。0にするとニュートン重力に戻り、楕円軌道が閉じる — ☿水星のA/B対照実験用スイッチ。"},
+   desc:"測地線モード(geoPN≥1 — geoPN=2 の a₁ₚₙ(w) 項も同じスイッチで制御)の1PN補正のON/OFF。0にするとニュートン重力に戻り、楕円軌道が閉じる — ☿水星のA/B対照実験用スイッチ。"},
   {key:"pnAlpha", label:"1PN係数 α(0.5=時間率のみ, 1.5=完全)", mode:"lin", lo:0.5, hi:1.5, step:0.5, cat:"dg", group:"法則",
    desc:"1PN補正の強さの内訳(E12)。1.5=完全(GRのβ=γ=1相当 — 水星の前進42.98″/世紀の全量)、0.5=時間率のみ(前進が1/3になる)。V18〜V20で機械検証。"},
   {key:"radiusScale",label:"粒子半径スケール", mode:"lin", lo:0.2, hi:4, step:0.02, cat:"sim", group:"シミュレーション",
@@ -1829,6 +1829,42 @@ const BUILTIN_PRESETS = [
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260727,
   physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:50,
     cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:3},
+  bodies:[
+    {type:"single", rMul:1.2, m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, radius:15},
+    {type:"disk", rMul:1.2, n:380, cx:0,cy:0, radius:260, mMin:0.16,mMax:0.5,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2500, vScale:1.05, direction:1, bulkVx:0, bulkVy:0}
+  ],
+  overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,mechSpectrum:true} },
+
+{ id:"galaxyGeo2", name:"v−u統一測地線の銀河", emoji:"💫", group:"銀河",
+  sampleClass:"principle",   // 第70便: 統一則(geoPN=2)の単一機構実証(分類は原仮定者裁定で更新可)
+  // 第70便(ChatGPT レビュー §8.1 の採択): 🎡galaxyStd と**厳密同一の初期配置・物理**で
+  // geoPN だけを 2 にした統一測地線則の基準銀河。既存 🎡(geoPN=0 legacy)は比較基準として
+  // 不変に保つ(「legacy 較正値を統一則に流用しない」— 第69便リトマスの帰結)。
+  // 実測(第69便 exp-p4b・seed 20260727・6000步・外縁帯 [156,286]):
+  //   geoPN=2 の外縁増強 kF1/kF0 = **1.0803**(legacy 🎡 は 1.2646 — 同走で厳密再現)。
+  //   差は理論経路の違い: legacy Δv=kF·Δu(勾配補正なしの離散追随)に含まれていた増強の
+  //   約 2/3 は、作用由来の統一則(輸送3項+渦度コリオリ)では出ない。
+  // 現実の銀河回転曲線への一致は主張しない(モデル内の原理実証)。
+  descStruct:{
+    summary:"🎡銀河標準と同じ初期配置のまま、物質の運動則だけを v−u 統一測地線則(geoPN=2・E12)に切り替えた基準実験。重力(E4)とフレーム輸送・渦度コリオリ(空間引きずりE6′の正体)・1PN補正が、時計を遅らせるのと同じψから導いた一本の式(DERIVATIONS §18)で決まる — 引きずりを別の法則として足さない。",
+    observe:"外縁帯の回転はkFrame=1で実測約1.08倍に増強される — legacy引きずり(🎡の1.26倍)の約1/3で、これが作用から導いた式の出す増強の初回較正値。機構スペクトルでは輸送+渦度が「引きずり」チャネルに、1PN補正が「測地線」チャネルに現れる(どちらも同じ統一式の項 — 表示上の内訳)。",
+    control:"kFrame=0にすると輸送・渦度が消えて測地線1PN力学(geoPN=1と厳密同一)へ退化する(おすすめA/B)。🎡(legacy geoPN=0)と見比べると、同じ初期条件から理論経路の違いだけで増強量が変わることが読める。"},
+  en:{name:"Unified v−u Geodesic Galaxy", descStruct:{
+    summary:"The same initial configuration as 🎡 Galactic Standard, with only the matter law switched to the unified v−u geodesic law (geoPN=2, E12). Gravity (E4), frame transport, vorticity Coriolis (the true face of space dragging E6′) and the 1PN correction all follow from one equation (DERIVATIONS §18) derived from the same ψ that slows clocks — dragging is no longer added as a separate rule. ",
+    observe:"The outer-band rotation is enhanced by a measured factor of about 1.08 at kFrame=1 — roughly one third of the legacy dragging (1.26 in 🎡), and this is the first calibration of what the action-derived law actually yields. In the mechanism spectrum, transport+vorticity appear in the dragging channel and the 1PN term in the geodesic channel (both are terms of the same unified equation — a display-level breakdown). ",
+    control:"Set kFrame to 0 and transport+vorticity vanish, degenerating exactly to the geoPN=1 geodesic dynamics (suggested A/B). Compare with 🎡 (legacy geoPN=0) to see how the same initial condition yields a different enhancement purely from the theory path."}},
+  activeParams:["kFrame","geoPN","D0"],
+  // claims — 説明文の「実測約1.08倍」を機械可読化。実測 1.0803(第69便 exp-p4b・seed 20260727・6000步)。
+  // 窓は実測±4%程度(ChatGPT レビュー §8.1 の受入基準案 1.06〜1.11 を包含)
+  claims:[
+    { id:"galaxygeo2.outer-boost-ratio", kind:"fixed-seed", metric:"outerRotationBoostRatio",
+      expected:{min:1.05, max:1.12},   // 実測1.0803(claim.galaxygeo2-outerboost)
+      descPattern:"実測約(\\d+\\.\\d+)倍に増強", testId:"claim.galaxygeo2-outerboost" }
+  ],
+  camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260727,
+  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:50,
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:3},
   bodies:[
     {type:"single", rMul:1.2, m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, radius:15},
     {type:"disk", rMul:1.2, n:380, cx:0,cy:0, radius:260, mMin:0.16,mMax:0.5,
@@ -3118,6 +3154,13 @@ function validatePreset(obj){
           if(!isNum(b.tInt)){ bad(at+".tInt が数値ではありません"); return; }
           oR.tInt=wc(b.tInt,0,10000,"tInt");
         }
+        // 第70便(ChatGPT レビュー P2): 群共通の減光 lightSweep — single と同じ意味論
+        // (数値0〜1 か "auto"。恒星集団の半径別減光実験用。未指定=0 で従来と厳密等価)
+        if(b.lightSweep!==undefined){
+          if(b.lightSweep==="auto") oR.lightSweep="auto";
+          else if(isNum(b.lightSweep)) oR.lightSweep=wc(b.lightSweep,0,1,"lightSweep");
+          else warnings.push(at+'.lightSweep は数値(0〜1)か "auto" — 削除します');
+        }
         // 第31便: railH(膨張レール)— pinned リングを a(t)=e^{H·t} で相似膨張させる規定運動
         if(b.railH!==undefined){
           if(!isNum(b.railH)){ bad(at+".railH が数値ではありません"); return; }
@@ -3141,6 +3184,12 @@ function validatePreset(obj){
         if(b.tInt!==undefined){   // 第36便 D(台帳4-51): 群共通の内部温度初期値(既定0)
           if(!isNum(b.tInt)){ bad(at+".tInt が数値ではありません"); return; }
           oD.tInt=wc(b.tInt,0,10000,"tInt");
+        }
+        // 第70便(ChatGPT レビュー P2): 群共通の減光(single と同じ意味論・未指定=0 で従来等価)
+        if(b.lightSweep!==undefined){
+          if(b.lightSweep==="auto") oD.lightSweep="auto";
+          else if(isNum(b.lightSweep)) oD.lightSweep=wc(b.lightSweep,0,1,"lightSweep");
+          else warnings.push(at+'.lightSweep は数値(0〜1)か "auto" — 削除します');
         }
         out.push(oD);
       } else if(t==="box"){
@@ -4007,6 +4056,7 @@ function makeSim(){
         const rI0=P.length;   // 第35便: この ring 群の先頭インデックス(hubble 初速と壁タグに使用)
         const rM=(b.rMul===undefined?1:b.rMul);   // 第36便 C1: 群共通の半径倍率(既定1)
         const tI=(b.tInt===undefined?0:b.tInt);   // 第36便 D: 群共通の内部温度初期値(既定0)
+        const lS=b.lightSweep;   // 第70便: 群共通の減光(未指定=undefined → P.forEach で 0)
         for(let i=0;i<b.n;i++){
           let ang,r,x,y,tries=0;
           do{
@@ -4023,7 +4073,7 @@ function makeSim(){
             // v1.18: bulkVx/Vy = 母集団の並進速度(移動する親天体の円盤・環が核と一体で動く)
             vx:vt*jit*tx + vr*Math.cos(ang) + (b.bulkVx||0),
             vy:vt*jit*ty + vr*Math.sin(ang) + (b.bulkVy||0),
-            spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:b.pinned?1:0, railOmega:0, rMul:rM, tInt:tI};
+            spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:b.pinned?1:0, railOmega:0, rMul:rM, tInt:tI, lightSweep:lS};
           // 第31便: railH(膨張レール a(t)=e^{H·t})— pinned リングを相似膨張で規定駆動する。
           // 位置は初期半径から毎step解析再構成(前stepへの加算ではないのでドリフトしない)
           if(b.pinned && (b.vMode==="omega" || b.railH)){
@@ -4050,6 +4100,7 @@ function makeSim(){
       } else if(b.type==="disk"){
         const rM=(b.rMul===undefined?1:b.rMul);   // 第36便 C1: 群共通の半径倍率(既定1)
         const tI=(b.tInt===undefined?0:b.tInt);   // 第36便 D: 群共通の内部温度初期値(既定0)
+        const lS=b.lightSweep;   // 第70便: 群共通の減光(未指定=undefined → P.forEach で 0)
         for(let i=0;i<b.n;i++){
           let ang,r,x,y,tries=0;
           do{
@@ -4066,7 +4117,7 @@ function makeSim(){
           if(b.vMode!=="hubble"){ vX += (rng()*2-1)*0.02; vY += (rng()*2-1)*0.02; }   // 第31便: hubble は共動初期条件を乱さない
           push({m:b.mMin+(b.mMax-b.mMin)*rng(), x,y,
             vx:vX+(b.bulkVx||0), vy:vY+(b.bulkVy||0),   // v1.18: 母集団の並進速度
-            spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:0, railOmega:0, rMul:rM, tInt:tI});
+            spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:0, railOmega:0, rMul:rM, tInt:tI, lightSweep:lS});
         }
       } else if(b.type==="box"){
         const rM=(b.rMul===undefined?1:b.rMul);   // 第36便 C1: 群共通の半径倍率(既定1)
@@ -8651,7 +8702,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 - ring/disk/box には省略可の bulkVx,bulkVy(母集団の並進速度)を指定できる。移動する天体(vx,vyを持つ single)の周りに円盤・環を置くときは、必ず同じ値を bulkVx,bulkVy に与えて核と一体で動かすこと。
 - single には省略可の zonal(扁平中心天体の帯状重力補正 E13)を指定できる: {"refR":基準半径,"calib":1,"J":{"2":0.0163,"4":-0.0009}}。偶数次 J2〜J12 のみ・|J|≤0.1・refR:1〜5000・calib:0〜2。中心の大質量 pinned 粒子に付けると周回粒子の楕円軌道の近点が前進する(内側ほど速い差動近点移動 — 画面左上に実測/解析の近点移動が表示される)。土星なら J2≈0.0163。要望が扁平天体・歳差・近点移動のときだけ使う高度な属性で、通常のプリセットでは指定しない。
 - single には省略可の coreMR,coreSR,coreRR(主星2層 — コアの質量比・スピン比・半径比〔Rc=coreRR·R。既定は√|coreMR|相当〕)を指定できる。m は総質量のままで、coreMR=mc/m(−1〜1。既定0。負値=空洞〔殻に質量集中〕)・coreSR=sc/s(既定1=剛体回転=単層と等価)。差動分だけが ω += coreMR·s·(coreSR−1)·(Rc/(Rc+d))^q(Rc=radiusScale·√|coreMR·m|)として追加の空間引きずりに効く。要望がコア/深部回転・空洞天体・2層天体のときだけ使う高度な属性。
-- single には省略可の radius(半径の明示指定 0.5〜500。未指定は radiusScale·√|m|)・lightSweep(減光 0〜1 — 高速スピンコアが自星の光を外に出さない: 観測温度が0になり見掛けは冷たい。放射冷却も(1−lS)倍)を指定できる。要望がダークマター/ダークローター・見えない天体・拡がった天体のときだけ使う高度な属性で、通常のプリセットでは指定しない。
+- single には省略可の radius(半径の明示指定 0.5〜500。未指定は radiusScale·√|m|)・lightSweep(減光 0〜1 — 高速スピンコアが自星の光を外に出さない: 観測温度が0になり見掛けは冷たい。放射冷却も(1−lS)倍)を指定できる。要望がダークマター/ダークローター・見えない天体・拡がった天体のときだけ使う高度な属性で、通常のプリセットでは指定しない。disk/ring にも群共通の lightSweep(数値か "auto")を指定できる(恒星集団の減光実験用)。
 - single には省略可の railOmega(±2・pinned時のみ): 円レール駆動の角速度。railCx/railCy でレール中心を指定(既定は原点)。
 
 # 例
