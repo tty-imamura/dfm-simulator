@@ -675,7 +675,7 @@ ja: {
   bdgDrive:"外部駆動", bdgDriveTip:"固定・レール・熱浴・一様重力のいずれかが外部から系を駆動する(下の詳細参照)",
   bdgClosed:"閉鎖系", bdgClosedTip:"閉鎖系 — 固定・規定運動なし。運動量・角運動量は系内(+遠方宇宙の帳簿)で閉じる。",
   // 第39便 39E(台帳4-75 E1): 温度モデルバッジ — thermal:"tint" のサンプルにだけ表示(表示のみ・物理不変)
-  bdgTint:"温度=T_int", bdgTintTip:"温度を内部状態変数 T_int として扱う(A9′)— スピンと独立で、エネルギー帳簿が閉じる。無印のサンプルは旧来の「スピン=熱」方式",
+  bdgTint:"温度=T_int", bdgTintTip:"温度を内部状態変数 T_int として扱う(A9′)— スピンと独立で、エネルギー帳簿が閉じる。A9″ で T_int の正体はミクロスピン分散 σ_s²(平均0の内部スピン揺らぎの二乗平均)と正式化された — 「熱はスピン」の原仮定のまま、冷たい高速回転体と熱い静止体を両立する。thermal:\"microspin\" は同義の別名。無印のサンプルは旧来の「スピン=熱」方式",
   // 第51便 51B(原仮定者指示): 引きずりタグ — kFrame>0 の系
   bdgDrag:"引きずり", bdgDragTip:"kFrame>0 — 回る質量が周囲の空間(決定フレーム)を引きずる効果(A8/E6′)が働く系。kFrame を 0 にすると引きずりなしの対照実験になる",
   // 第45便 45C(台帳4-85): 強場トイ領域バッジ — ψ_static=max(D/Kt, 各天体のm/(max(R,ε)Kt))>0.5 のときだけ表示
@@ -893,7 +893,7 @@ en: {
   bdgDrive:"External drive", bdgDriveTip:"Pinning, a rail, a heat bath or uniform gravity drives the system from outside (see the detail list below)",
   bdgClosed:"Closed system", bdgClosedTip:"Closed system — no constraints or prescribed motion. Momentum and angular momentum close within the system (plus the distant-universe ledger).",
   // 39th flight 39E (ledger 4-75 E1): temperature-model badge — shown only for thermal:"tint" samples (display only, physics unchanged)
-  bdgTint:"T=T_int", bdgTintTip:"Temperature is treated as an internal state variable T_int (A9′) — independent of spin, so the energy ledger stays closed. Unmarked samples use the older \"spin = heat\" scheme.",
+  bdgTint:"T=T_int", bdgTintTip:"Temperature is treated as an internal state variable T_int (A9′) — independent of spin, so the energy ledger stays closed. A9″ formalizes T_int as the micro-spin variance σ_s² (the mean square of internal spin fluctuations averaging to zero) — keeping the founding assumption \"heat is spin\" while allowing cold fast rotators and hot static bodies alike. thermal:\"microspin\" is an equivalent alias. Unmarked samples use the older \"spin = heat\" scheme.",
   // 第51便 51B: dragging tag — systems with kFrame>0
   bdgDrag:"dragging", bdgDragTip:"kFrame>0 — spinning masses drag the surrounding space (the determinacy frame, A8/E6′). Set kFrame to 0 for a drag-free control.",
   // 45th flight 45C (ledger 4-85): strong-field toy-regime badge — shown only when
@@ -1156,7 +1156,7 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
 const APP_VERSION = "1.35";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 // 第36便 B1(原仮定者指示): タイトル下に表示するbeta配信時のビルド番号。beta/sw.js の
 // CACHE 接尾辞と同期させる(QA: version.beta-label)。ルート昇格後は使わない("v"+APP_VERSION 表示に戻る)
-const BETA_BUILD = "v1.36-b1";   // 第63便: v1.35.0 昇格に伴い次期プレビュー線へ
+const BETA_BUILD = "v1.36-b2";   // 第64便: A9″ ミクロスピン分散(thermal:"microspin" 別名+microSpinRms)
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 // 第45便 45A(台帳4-48): 光線源・1PN源のしきい値を「質量」から「偏向角」へ物理化した。
@@ -2866,6 +2866,18 @@ function validatePreset(obj){
     p.bodies.forEach((b,idx)=>{
       at="bodies["+idx+"]";
       if(!b||typeof b!=="object"){ bad(at+" がオブジェクトではありません"); return; }
+      // 第64便 64B(A9″): microSpinRms — 内部スピン揺らぎの RMS √⟨δs²⟩ による初期温度指定。
+      // T_int = σ_s²(A9″)の別表記なので、受理時に tInt = rms² へ正規化する(正本状態は従来どおり
+      // tInt — 全 body 型に共通なので型分岐の前で1回だけ処理する)。値域 [0,100] は tInt の
+      // 上限 10000 = 100² と整合。tInt と併記されたときは tInt を優先して警告(静かに解決しない)
+      if(b.microSpinRms!==undefined){
+        if(!isNum(b.microSpinRms)){ bad(at+".microSpinRms が数値ではありません"); return; }
+        const _rms=clamp(b.microSpinRms,0,100);
+        if(_rms!==b.microSpinRms) warnings.push(at+".microSpinRms を値域に修正");
+        if(b.tInt!==undefined) warnings.push(at+" は tInt と microSpinRms の併記 — tInt を優先します");
+        else b.tInt=_rms*_rms;
+        delete b.microSpinRms;
+      }
       const t=b.type;
       const needNum=(keys)=>{ for(const k of keys){ if(!isNum(b[k])){ bad(at+"."+k+" が数値ではありません"); return false; } } return true; };
       if(t==="single"){
@@ -3048,8 +3060,12 @@ function validatePreset(obj){
   // "spin"(既定・省略時)= 現行 A9(T=Is²。スピンそのものが熱)で、経路も値も現行と厳密等価。
   // "tint" = 温度を独立な内部状態変数 T_int にする改訂(E9散逸→T_int / E10′=T_int伝導 /
   // E5′=T_int圧力 / E11=T_int放射)。不正値は "spin" へクランプ+警告(integrator と同形)。
+  // 第64便 64B(A9″): "microspin" は "tint" の**同義の別名**として受理し、ここで "tint" へ正規化する。
+  // A9″ は T_int をミクロスピン分散 σ_s²(⟨δs⟩=0 の内部スピン揺らぎの二乗平均)と正式化した意味論で、
+  // 内部経路・数値は tint と完全同一(bit 等価 — 新モードではない。PHYSICS.md §2 A9″)。
   // ※ SYSTEM_PROMPT には載せない(AI生成には開放しない — 受理してクランプするだけ)
   if(p.thermal!==undefined){
+    if(p.thermal==="microspin") p.thermal="tint";   // 64B: 別名の正規化(警告なし — 文書化された同義語)
     const THERM=["spin","tint"];
     if(THERM.indexOf(p.thermal)<0){ warnings.push("thermal が不正のため spin に修正"); p.thermal="spin"; }
   }
