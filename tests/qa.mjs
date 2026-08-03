@@ -5940,6 +5940,51 @@ if (hasEchoFlipAt) {
   }
 }
 
+// ---- 7z5d) 第67便 67B(P3 サンプル分類 — 第64便裁定キュー): sampleClass 4分類チップ ----
+// ----      ①全内蔵が有効値を宣言(principle/composite/calibration/semantic)②スポット照合
+// ----      (🕶️=複合現象の明示は裁定要件・🎡☿=原理実証・🛰️=現実較正・boxredshift=意味論)
+// ----      ③スキーマ(不正値は警告つき削除・有効値は保持)④チップの DOM 表示 ----
+{
+  const hasSC = await page.evaluate(() => HP.allPresets().some(p => p.sampleClass !== undefined));
+  if (hasSC) {
+    const r = await page.evaluate(() => {
+      const SC = ['principle', 'composite', 'calibration', 'semantic'];
+      const builtin = HP.allPresets().filter(p => !String(p.id).startsWith('custom_'));
+      const missing = builtin.filter(p => SC.indexOf(p.sampleClass) < 0).map(p => p.id);
+      const of = (id) => (builtin.find(p => p.id === id) || {}).sampleClass;
+      const dist = {};
+      for (const p of builtin) dist[p.sampleClass] = (dist[p.sampleClass] || 0) + 1;
+      const mk = (sc) => ({ name: 't', description: 'sampleClass 検査', camera: { scale: 200 },
+        world: { boundary: 'none', size: 0 }, physics: {}, sampleClass: sc,
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+      const good = HP.validatePreset(mk('composite'));
+      const bad = HP.validatePreset(mk('hero'));
+      HP.loadPreset('darkrotor', false);
+      const chips = Array.from(document.querySelectorAll('#classChips .classChip')).map(e => e.dataset.g);
+      return { n: builtin.length, missing, dist,
+        spots: { darkrotor: of('darkrotor'), galaxyStd: of('galaxyStd'), mercury: of('mercury'),
+                 zonal: of('saturnZonalD68'), redshift: of('boxredshift'), chaincycle: of('chaincycle') },
+        goodKeep: good.preset.sampleClass === 'composite', goodW: good.warnings.length,
+        badDrop: bad.preset.sampleClass === undefined, badW: bad.warnings.length,
+        chipShown: chips.includes('sclass-composite') };
+    });
+    add('p3.sample-class',
+      r.missing.length === 0
+      && r.spots.darkrotor === 'composite' && r.spots.galaxyStd === 'principle'
+      && r.spots.mercury === 'principle' && r.spots.zonal === 'calibration'
+      && r.spots.redshift === 'semantic' && r.spots.chaincycle === 'principle'
+      && r.goodKeep && r.goodW === 0 && r.badDrop && r.badW === 1
+      && r.chipShown,
+      `全内蔵${r.n}件が宣言(分布: ${Object.entries(r.dist).map(([k, v]) => `${k}=${v}`).join(' ')}) / ` +
+      `スポット: 🕶️=${r.spots.darkrotor}(複合の明示は裁定要件) 🎡=${r.spots.galaxyStd} ☿=${r.spots.mercury} ` +
+      `🛰️=${r.spots.zonal} 赤方偏移=${r.spots.redshift} ♻️=${r.spots.chaincycle} / ` +
+      `スキーマ: 有効値保持=${r.goodKeep}(警告0) 不正値削除=${r.badDrop}(警告1) / チップ表示=${r.chipShown}` +
+      (r.missing.length ? ` / 未宣言: ${r.missing.join(',')}` : ''));
+  } else {
+    console.log('SKIP p3.sample-class(対象に 67B 未適用 — root 等)');
+  }
+}
+
 // ---- 7z5a2) 第47便 47A(台帳4-86 / 原仮定者裁定「対応する」・統括裁定=案B「pinned を外部熱浴
 // ----        として扱う」): E10′(κs 熱伝導)は計算段階では pinned 天体との対も熱を交換するのに、
 // ----        適用段階の②粒子ループが pinned を continue するため、pinned が受け取るはずの dQi が
@@ -7294,8 +7339,62 @@ if (hasEchoFlipAt) {
         !dtc.a.nan && !dtc.b.nan && dtc.dT < 0.1 && dtc.dC < 0.15,
         `t=96(6000步@0.016 vs 12000步@0.008): T̄=${dtc.a.T.toFixed(3)}/${dtc.b.T.toFixed(3)}(相対差${(dtc.dT * 100).toFixed(1)}%<10%) ` +
         `c̄=${dtc.a.c.toFixed(2)}/${dtc.b.c.toFixed(2)}(相対差${(dtc.dC * 100).toFixed(1)}%<15%) — 集計量の dt 収束`);
+
+      // ⑫ 第67便 67A: claim.chaincycle — ♻️温度循環(凍結→解離)。⛓️と同一物理・同一 seed で
+      //    床壁だけ T=0.6 → (t=288) → T2=20。較正実測: t=288 最大連結36・14成分・組替0.01・T̄1.24 /
+      //    t=528 最大6・71成分・組替0.30・T̄12.5。壁温8では解けない(断片化止まり)ことも67Aで実測。
+      //    判定は構造の族(凍結=大きな連結+組替≈0/解離=多成分+速い組替)+T̄の交差
+      {
+        const hasCyc = await page.evaluate(() => HP.allPresets().some(p => p.id === 'chaincycle'));
+        if (hasCyc) {
+          const cyc = await page.evaluate(() => {
+            HP.loadPreset('chaincycle', false);
+            const s = HP.sim;
+            let prevNbr = null;
+            const stats = () => {
+              const nbr = Array.from({ length: s.n }, () => []);
+              for (let i = 0; i < s.n; i++) for (let j = i + 1; j < s.n; j++) {
+                const d = Math.hypot(s.x[i] - s.x[j], s.y[i] - s.y[j]);
+                if (d < s.phase.bondRange * (s.R[i] + s.R[j])) { nbr[i].push(j); nbr[j].push(i); }
+              }
+              let T = 0;
+              for (let i = 0; i < s.n; i++) T += s.Tint[i];
+              const seen = new Uint8Array(s.n); let nComp = 0, maxComp = 0;
+              for (let i = 0; i < s.n; i++) { if (seen[i]) continue; nComp++; let sz = 0; const st = [i]; seen[i] = 1;
+                while (st.length) { const u = st.pop(); sz++; for (const w of nbr[u]) if (!seen[w]) { seen[w] = 1; st.push(w); } }
+                if (sz > maxComp) maxComp = sz; }
+              let churn = NaN;
+              if (prevNbr) { let diff = 0, tot = 0;
+                for (let i = 0; i < s.n; i++) { const a = new Set(prevNbr[i]), b = new Set(nbr[i]);
+                  for (const w of a) { tot++; if (!b.has(w)) diff++; } for (const w of b) if (!a.has(w)) { tot++; diff++; } }
+                churn = tot ? diff / tot : 0; }
+              prevNbr = nbr.map(a => a.slice());
+              return { T: T / s.n, nComp, maxComp, churn };
+            };
+            for (let k = 0; k < 15000; k++) s.step(0.016);
+            stats();   // churn の基準(t=240)
+            for (let k = 0; k < 3000; k++) s.step(0.016);
+            const fz = stats();   // t=288(凍結末)
+            for (let k = 0; k < 12000; k++) s.step(0.016);
+            stats();   // churn の基準(t=480)
+            for (let k = 0; k < 3000; k++) s.step(0.016);
+            const ml = stats();   // t=528(解離末)
+            return { fz, ml, nan: s.hasNaN() };
+          });
+          add('claim.chaincycle',
+            !cyc.nan
+            && cyc.fz.maxComp >= 25 && cyc.fz.maxComp <= 50 && cyc.fz.churn < 0.05
+            && cyc.ml.nComp >= 50 && cyc.ml.nComp <= 95 && cyc.ml.maxComp <= 12 && cyc.ml.churn > 0.15
+            && cyc.ml.T > cyc.fz.T * 3,
+            `♻️凍結末(t=288): 最大連結=${cyc.fz.maxComp}(窓25〜50・実測36) 組替=${cyc.fz.churn.toFixed(3)}(<0.05) T̄=${cyc.fz.T.toFixed(2)} / ` +
+            `解離末(t=528): ${cyc.ml.nComp}成分(窓50〜95・実測71) 最大=${cyc.ml.maxComp}(≤12) 組替=${cyc.ml.churn.toFixed(3)}(>0.15) ` +
+            `T̄=${cyc.ml.T.toFixed(2)}(凍結末の3倍超) — 相・融点・潜熱の入力なしで凍結⇄解離が壁温だけで往復`);
+        } else {
+          console.log('SKIP claim.chaincycle(対象に 67A 未適用 — root 等)');
+        }
+      }
     } else {
-      console.log('SKIP phasechange.emergent/emergent2/chain2/multiseed/dt-convergence(QA_FAST=1 — 長時間系)');
+      console.log('SKIP phasechange.emergent/emergent2/chain2/multiseed/dt-convergence/claim.chaincycle(QA_FAST=1 — 長時間系)');
     }
 
     await page.evaluate(() => HP.loadPreset('saturn', false));   // 後続項目のため既定プリセットへ戻す

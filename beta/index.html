@@ -523,6 +523,10 @@ ja: {
   ovMechSpec:"機構スペクトル", ovMechNote:"RMS加速度の正規化比Π(診断・物理不変)",
   ovMechRadial:"半径ビン 左=中心→右=外縁(Π=RMS比・物理不変)", mechDom:"支配:",
   mechCh:["重力","測地線","熱斥力","接触","結合","引きずり"],
+  bdgSC_principle:"原理実証", bdgSC_principleTip:"主張の主役機構が対照実験(A/B・ノックアウト)で分離され、QA が機械固定している基準・実証系(第67便 P3 分類)",
+  bdgSC_composite:"複合現象", bdgSC_compositeTip:"複数機構の相互作用そのものが主題の物語系 — どの機構が主役かは機構スペクトルと要因分離実測で読む(第67便 P3 分類)",
+  bdgSC_calibration:"現実較正", bdgSC_calibrationTip:"現実の観測値・公理外の補正則(E13等)で較正した対応デモ — DFM公理だけからの創発ではない(第67便 P3 分類)",
+  bdgSC_semantic:"意味論表示", bdgSC_semanticTip:"光子波長など「表示物理」の意味論が主題 — 粒子力学への反作用はない(第67便 P3 分類)",
   // 第53便 53D → 第60便: 相変化(E14″)の実験用パラメータ編集(創発一本化)
   pcSectionHead:"相変化(E14″)の実験",
   pcSectionDesc:"相変化サンプル専用の実験ノブ。8つのノブはどれも「いまの結合状態から」物性を決める連続量で、融点・潜熱・相率のような相の構成則は存在しない(第60便で創発一本化)。加熱/冷却壁の壁温・レートは「実験箱」カテゴリ。A/B比較中は編集対象側だけに効く — 「角度あり/なし」「創発伝導あり/なし」等の対照実験が組める。この編集はセーブに保存される(第54便 54B)。",
@@ -756,6 +760,10 @@ en: {
   ovMechSpec:"Mechanism spectrum", ovMechNote:"Normalized RMS ratio Π (diagnostic; physics untouched)",
   ovMechRadial:"Radius bins: center → edge (Π = RMS ratio; physics untouched)", mechDom:"Dominant:",
   mechCh:["Gravity","Geodesic","Th.rep","Contact","Bond","Drag"],
+  bdgSC_principle:"Principle", bdgSC_principleTip:"A baseline/demonstration system whose lead mechanism is isolated by controls (A/B, knockouts) and machine-verified by QA (P3 classification, session 67)",
+  bdgSC_composite:"Composite", bdgSC_compositeTip:"A narrative system whose subject is the interaction of several mechanisms — read the lead actor from the mechanism spectrum and factor-separation runs (P3 classification, session 67)",
+  bdgSC_calibration:"Calibrated", bdgSC_calibrationTip:"A correspondence demo calibrated with real observed values or beyond-axiom corrections (e.g. E13) — not emergence from the DFM axioms alone (P3 classification, session 67)",
+  bdgSC_semantic:"Semantics", bdgSC_semanticTip:"The subject is the semantics of display physics (photon wavelengths etc.) — no back-reaction on particle dynamics (P3 classification, session 67)",
   pcSectionHead:"Phase-change (E14″) experiments",
   pcSectionDesc:"Experiment knobs for phase-change samples. All eight knobs are continuous quantities that derive material behavior from the current bonding state — there is no phase rule such as a melting point, latent heat or phase fraction (unified as fully emergent in dispatch 60). Wall temperature/rate live in the Lab-box category. During A/B comparison the knobs act only on the edited side, so 'with/without angle' or 'with/without emergent conduction' controls are easy to set up. These edits are stored in saves (dispatch 54, 54B).",
   pcBondN:"Bond budget bondN",
@@ -1131,7 +1139,9 @@ function classifyPreset(p){
   // 第45便 45C(台帳4-85): 強場トイ領域バッジ — ψ_static>0.5 のときだけ立つ(表示専用の追加軸)
   const psiStatic = strongFieldPsi(p);
   const strongField = psiStatic > 0.5;
-  return {layers, external:ext, closed, tint, strongField, psiStatic};
+  // 第67便 67B(P3): sampleClass はプリセット宣言のパススルー(自動判定しない — 主張水準は
+  // 編集判断。未宣言はチップなし)
+  return {layers, external:ext, closed, tint, strongField, psiStatic, sampleClass:p.sampleClass||null};
 }
 function gName(g){ return (LANG==="en" && I18N.en.groups[g]) || g; }
 function pName(p){ return (LANG==="en" && p.en && p.en.name) || p.name; }
@@ -1166,7 +1176,7 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
 const APP_VERSION = "1.35";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 // 第36便 B1(原仮定者指示): タイトル下に表示するbeta配信時のビルド番号。beta/sw.js の
 // CACHE 接尾辞と同期させる(QA: version.beta-label)。ルート昇格後は使わない("v"+APP_VERSION 表示に戻る)
-const BETA_BUILD = "v1.36-b4";   // 第66便: 🎡galaxyStd+機構スペクトル半径ビン+⭐binary geo化
+const BETA_BUILD = "v1.36-b5";   // 第67便: ♻️温度循環+P3 サンプル4分類チップ
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 // 第45便 45A(台帳4-48): 光線源・1PN源のしきい値を「質量」から「偏向角」へ物理化した。
@@ -1275,6 +1285,7 @@ const BUILTIN_PRESETS = [
 // 第26便(原仮定者指示): カテゴリ分け・表示順を再編 — 銀河系サンプルを「銀河」グループへ集約。配列順=表示順
 // ===== グループ: 空間と時間 =====
 { id:"gclock", name:"重力による時計の遅れ", emoji:"⏱️", group:"空間と時間",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"中央の大質量天体から距離70・140・240に置いた3つの静止時計。運動を完全に止め、距離=決定力の強さだけを変えた統制実験。",
     observe:"時計をタップすると、内側ほど固有時計(τ/t)が小さい: 0.931/0.965/0.979(解析値と1e-5で一致)。運動による時計の遅れ(E7R の運動項)と対をなす、重力の遅れ(A7′/E7R の重力項)の単独デモ。",
@@ -1304,6 +1315,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
 { id:"grcal", name:"弱場GR較正 — GPS・光・シャピロ", emoji:"🛰️", group:"空間と時間",
+  sampleClass:"calibration",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"時計と光を1本のψ=W/Ktで決める弱場則(A7′/E7R/E8R/T5)を、現実の観測と突き合わせる較正デモ。",
     observe:"Kt=c²/Gの1本で: GPS時計の正味進み +38.5μs/日(重力+45.7・運動−7.2。観測≈+38.6)/太陽縁の光偏向 1.7512″(観測≈1.75″)/シャピロ遅延 ≈281μs(カッシーニ幾何)が定量一致する。画面はそのアナログ: 地上時計(r=60)はτ/t=0.920、周回衛星(r=180)は運動しているのにτ/t=0.971で速く進む — 重力項が運動項に勝つ、実GPSと同じ符号構造。左からの光線ファンは中心星の場で屈折し(シャピロ遅延と同じn_eff>1の機構)、Ktを下げると時計差と湾曲が同時に強まる。※SI較正の数値はKt=c²/G写像の式計算によるもの。画面初期値は見やすさ優先の誇張アナログで、物理対応条件 Kt=cLight²/G は満たしていない(PHYSICS §5 物理対応条件)。",
@@ -1325,6 +1337,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
 { id:"mercury", name:"水星の近日点前進 — 測地線1PN", emoji:"☿", group:"空間と時間",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"測地線モード(E12)。時計を遅らせるのと同じψ=W/Ktが物質の軌道も決めると(A7′/E7R の作用化)、楕円軌道は公転と同じ向きにゆっくり回り=近日点の前進、花びら模様を描く。",
     observe:"pnAlpha=0.5(時間率のみ)では前進が1/3に減る — 実際の水星で42.98″/世紀(全量)と14.33″/世紀(1/3)に対応する。※画面の初期値は、歳差が数周で見える様に増幅した可視化用の誇張アナログで、物理対応条件 Kt=cLight²/G は満たさない(実値換算は同じ式の解析検証による。PHYSICS §5 物理対応条件)。",
@@ -1345,6 +1358,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"projectile", name:"自由落下と放物運動", emoji:"⚾", group:"空間と時間",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"一様重力場gravityY(外部場)だけを働かせた力学実験室。",
     observe:"左上の2球は質量が2と20の自由落下 — 質量が違っても加速度は同じ(等価原理の簡易デモ)。中段は水平投射、下段は斜方投射(上向きに発射)で、軌跡はきれいな放物線を描く。粒子間の重力(A6/E4)・引きずり・熱は全て切ってあり、床と壁は箱境界で跳ね返る。",
@@ -1370,6 +1384,7 @@ const BUILTIN_PRESETS = [
 // 可逆チャネル限定の構成(kFrame=0・muF=0・γn=0・κs=0・η_rad=0・kRep=0・boundary="none")で、
 // t=echoFlipAt に v と s を一斉反転すると初期配置へ戻る。実測 RMS は QA echo.* を参照
 { id:"echo", name:"時間の矢 — 巻き戻る宇宙と巻き戻らない宇宙", emoji:"⏪", group:"空間と時間",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"重い3天体と28個のテスト粒子だけの閉じた宇宙。",
     observe:"t=20で全粒子の速度とスピンの符号を一斉に反転すると、系は自分の過去を逆再生して初期配置へ戻る(反転時の平均ずれ33.9→復帰後1.3e-3。左上のecho RMSが落ちるのを見る)。これはE4重力とE9法線ばねしか働かない可逆構成(muF=0・γn=0・κs=0・η_rad=0・kFrame=0・境界なし)を、可逆積分器leapfrog(KDK)で解いたときだけ起きる。巻き戻りには地平がある: カオスが数値誤差を指数増幅するため、反転を遅らせるほど戻りは粗くなる(t=30ではRMS≈1.9e-2 = 約15倍)。積分器を既定のsemi(セミ・インプリシット)に戻すだけでも戻らない(RMS≈0.92)— 可逆性は物理の性質であると同時に数値スキームの性質でもある。反転は外部からの介入なので運動量・角運動量はその瞬間だけ符号ごと反転する(帳簿外)。反転の前後それぞれの区間では厳密に保存する(A13/T7・モニタ表示)。",
@@ -1408,6 +1423,7 @@ const BUILTIN_PRESETS = [
 
 // ===== グループ: 箱宇宙(第31便 — BOX_UNIVERSE v1.2。「宇宙に大質量の箱だけがある」思考実験)=====
 { id:"boxtrans", name:"箱宇宙 — 並進する箱", emoji:"📦", group:"箱宇宙",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"質量M=1440の自由な質点リング(壁)と、内部のテスト粒子・時計が全て同じ速度で並進する閉鎖系。",
     observe:"壁が唯一の決定力源なので(D0=0)、決定フレームuは壁の速度そのものになり(A2/A5)、箱と共動する下の時計は|v−u|=0 — 速度1.2で運動しているのに全く遅れない(E7R)。上の時計は箱に対して固有運動(0.9)を持つため遅れる(τ/t≈0.989) — 時計をタップして比較。1つだけ速さが違う粒子(上の時計)の実速度はvx=2.1(箱の並進1.2+箱に対する固有運動0.9の合計)であり、壁と同じ1.2だけで動く下の時計は遅れない — 見かけの数値(1.2と2.1)ではなく箱に対する相対速度|v−u|が遅れを決める。箱宇宙の中に「絶対静止」は無い: 運動はすべて箱に対して相対であり、内部の閉じた実験から箱全体の並進は原理的に検知できない(検知できるなら、より大きな箱宇宙が必要になる — T1・T10)。運動量Pは保存し帳簿はゼロのまま(モニタ表示・A13)。",
@@ -1432,6 +1448,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true} },
 
 { id:"boxrot", name:"箱宇宙 — 回る箱と空間の支え", emoji:"🌀", group:"箱宇宙",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"壁(質点リング・レール駆動)が角速度Ω=0.15で回る。",
     observe:"既存設計は「内部は剛体回転u=Ωrになる」と期待したが、実測すると内部フレームの利得は中心近傍で約1/2 — 速度加重平均(A5)は回転という一次の空間変形を半分しか内部へ運ばない(T10・V23a)。内側の3リングにはΩ/2で共回転する初期速度を与えてあり、重力ゼロ(G=0)なのに引きずりの輸送(E6′)だけで円軌道が保たれる — 空間が軌道を支える(ニュートンのバケツの解)。完全な箱宇宙(連続背景🫧)では回転は内部から検知できない — 質点壁は利得1/2しか作れず「完全な箱」になれないことを実測するのが本サンプル(T10)。",
@@ -1458,6 +1475,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:true} },
 
 { id:"boxexpand", name:"箱宇宙 — 膨張する箱(質点リング)", emoji:"📈", group:"箱宇宙",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"壁リングをa(t)=e^{Ht}(H=0.005)で相似膨張させる規定駆動(railH — 展示系。外部が軌道を規定する)。",
     observe:"内部の自由粒子に壁の半分のHubble流(v=½Hr)を与えると、√aに比例した膨張を続ける — 速度加重平均(A5)が内部へ運ぶ膨張は壁の約半分(利得g(0)=1/2、T10・V24a)。箱宇宙の拡大縮小は内部から検知できる(移動回転と違い、距離・波長・時計率を変える — T10)。壁と同率の完全共動u=Hrは質点リングでは作れず、連続背景UniverseBox(🫧)が必要になる — この「足りなさ」の実測こそが本サンプルの主目的。"},
@@ -1478,6 +1496,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"boxcomoving", name:"箱宇宙 — UniverseBoxの完全共動と膨張時計", emoji:"🫧", group:"箱宇宙",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"連続背景UniverseBox — 静的なD₀を「位置・速度・尺度a(t)を持つ動的背景」へ昇格させ、完全なHubble流u_B=H·rを作る(質点リングの利得1/2を埋めるT10の連続極限。破線円=名目半径L·a)。",
     observe:"自由粒子は共動座標χ=r/aを保って運ばれ(V24b)、粒子間距離はaに正比例して伸びる。膨張は決定力を希釈し(W_B=D/a)、時計則(A7′/E7R)により中央の固定時計は膨張とともに速く進む(タップでτ/t確認) — 「膨張が時間を進める」に見える相関がモデル内で創発する。ただし膨張は時間の原因ではなく、既に定義された時計の速度を変えているだけ。膨張の反作用はリザーバに帳簿(モニタ・A13)。",
@@ -1500,6 +1519,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true,boxGraph:true} },
 
 { id:"boxbound", name:"箱宇宙 — 束縛系は膨張に逆らえるか", emoji:"🪢", group:"箱宇宙",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"膨張するUniverseBox(H=0.004)の中に、束縛された連星(m=100×2)と自由なテスト粒子を置く。",
     observe:"自由粒子の距離はa(t)に正比例して伸びる。では連星は? 実測の答え(V25): 追随の度合いは決定力の持ち分φ_B=W_B/(W_B+w局所)で決まり、箱支配(φ_B≈0.95 — この画面)では連星軌道もd∝a^{2φ_B}で拡大する。E6′のΔu輸送は、絶対時間に対する特異速度を保存する — 一方、局所光速は決定力の希釈で上がるため「光速に対する比」w/c_locは膨張とともに低下する(§12-5・V28 — 比率基準では実宇宙GRの減衰方向と整合。分岐が残るのはこの絶対速度チャネルの軌道励起)。局所の決定力が支配する極限(φ_B→0)でのみ「束縛系は膨張しない」— そして同じ局所決定力Wが時計も遅らせる(E7R)。「膨張に逆らう」と「時間が遅い」は同じ原因(高い決定力)の二つの現れ。",
@@ -1524,6 +1544,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,boxGraph:true} },
 
 { id:"boxbreath", name:"箱宇宙 — 呼吸する宇宙と時計", emoji:"🫁", group:"箱宇宙",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"尺度因子a(t)=1+0.2sin(0.08t)で膨張と収縮を繰り返すUniverseBox。",
     observe:"自由粒子は呼吸するHubble流u_B=H(t)·rに運ばれて往復し、決定力W_B=D/aも振動する — 膨張期(a大)は時計が速く、収縮期(a小)は遅くなる(A7′/E7R。中央の固定時計をタップ)。転回点H=0でも時計は止まらない — 膨張率と時間の速さは別物であり、aだけを「時間の本体」にはできない。散逸ゼロ(摩擦・衝突減衰・放射なし)なら一周期(T≈78.5)でほぼ元の配置に戻る可逆な系。",
@@ -1545,6 +1566,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true,boxGraph:true} },
 
 { id:"boxredshift", name:"箱宇宙 — 光の赤方偏移(A・B・C)", emoji:"🔦", group:"箱宇宙",
+  sampleClass:"semantic",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"膨張する箱宇宙(H=0.02)に粒子A・B・Cを共動で並べ、光の状態を「波長」で保持して伝播させる。",
     observe:"t=0にAが放った波長500の光(λは膨張とともにa(t)/a放出で伸びる)は、宇宙が4倍に膨張した頃にCへ届き、波長は4倍(z=3)。宇宙が2倍に膨張した時点でBが放った光は、同じ頃にCへ届き、波長は2倍(z=1) — 放出時刻の異なる光が、異なる赤方偏移で同時に観測される。これは宇宙膨張による赤方偏移の標準的な尺度因子関係 1+z=a(観測)/a(放出) と同じ形(§12-6。低赤方偏移で距離と後退速度を結ぶハッブル–ルメートル則 v≈H0d とは区別)。膨張グラフに到着ログ(λ放出→λ観測・z)が出る。光子は運動量を運ばない表示物理で、屈折・随伴はE8R/T5と同じψ・uを使う(T10)。"},
@@ -1584,6 +1606,7 @@ const BUILTIN_PRESETS = [
 // D の既定 277.26 = (2/3)ln4·300 ≈ 0.9242·Kt(論文2の較正点 — a=2 の点値がテンション比
 // 67.4/73.0≈0.923 と同水準になる。数値一致は較正であり証拠ではない — Negative claim 6)。
 { id:"probeH", name:"箱宇宙 — ２つのH推定器(ハッブルテンション類似)", emoji:"🧭", group:"箱宇宙",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   // 第50便 50K(台帳4-78 C案パイロット): descStruct(要約/観察/操作)— 純分割+操作文の末尾移設のみ
   descStruct:{
     summary:"同じ箱の膨張率Hを、2人の観測者が別々の物差しで測る(論文2の中心結果V29を操作可能にしたサンプル)。幾何プローブは共動構造を追ってH_geo=Δln a/Δtを報告する。速度プローブはFLRW流の減衰則w/c∝1/aを仮定し、比R=w/c_locの実測減衰からH_w=−Δln R/Δtを推定する。2つの推定値の食い違いがハッブルテンションと同水準(a=2の点値0.92 対 実宇宙比0.923)になる較正で、HUDの「テンション類似」行から常時確認できる。",
@@ -1630,6 +1653,7 @@ const BUILTIN_PRESETS = [
 // kFrame=0 も必須: E6′ を入れると背景 D₀ 持ち分がリザーバへ流れ(実測 |帳簿P|=107)、
 // 「全自由・閉鎖系」の保存則デモが成立しない。
 { id:"freebox", name:"箱宇宙 — 自由な箱(膨張の原因)", emoji:"🕊️", group:"箱宇宙",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"壁を固定も規定もしない箱宇宙。64個の壁粒子(m=20・スピン1.0)は全部が自由粒子で、レールも固定もない — 膨張則a(t)は外から与えるものではなく、E4自己重力とA10/E5′スピン斥力(=圧力)から解かれる(T12: 膨張の「原因」が系の外から内へ移る)。壁には脱出速度に届かない外向き初速v=0.001·rを与えてある。",
     observe:"膨張グラフには規定a(t)ではなく壁の平均中心距離から計測した実測a_eff=⟨r⟩/⟨r⟩₀が出る(見出しの「実測」表示)。赤方偏移は規定a(t)に結び付いた規則なのでこの画面では出さない。全粒子が自由な完全閉鎖系で、リザーバ帳簿は0のまま運動量・角運動量が保存する(A13/T7・モニタ表示)。※要因はG×kRepの4象限で完全に分離できる(1200步=t19.2の実測a_eff): 既定G=1×kRep=0.5は2.18へ加速/G=1×kRep=0は1.005で頭打ち→再収縮/G=0×kRep=0.5は2.19へ加速(重力の減速寄与はa_effでわずか−0.013)/G=0×kRep=0は外向き初速だけの慣性で1.019のまま(加速も収縮もしない)— 加速の源が圧力そのものであることが4象限で確定する(QA freebox.quadrants)。qは圧力の距離依存を決める設計値(詳細設定に表示: q=1でF∝1/d。q=2に上げると剛性dlnF/dlnd≈−3が壁の角度ジッタを増幅してリングが座屈する)。HUDには実測H_effと壁リングの形状診断(RMS偏差・中央値半径・四重極A2・残存率)が常時出る。引きずりkFrame=0でE4とE5′の2機構だけを取り出しているため、内部の8個のテスト粒子は壁の膨張には随伴しない(質点リング壁の限界 — T10)。これはフリードマン方程式のDFM類似の機構デモであり、FLRW宇宙論の再現主張ではない。",
@@ -1693,6 +1717,7 @@ const BUILTIN_PRESETS = [
 //   etaRad=0 の対照でも δ²=3.552(既定 3.578 との差 0.7%)・ボイド率 0.579(同値)。
 //   kRep=0 の対照も δ²=3.834(+7%)で、圧力の効きも小さい。主因は E4 自己重力と規定膨張だけ。
 { id:"cosmicweb", name:"箱宇宙 — 膨張と自己重力の綱引き(コズミックウェブ類似)", emoji:"🕸️", group:"箱宇宙",
+  sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   // 第51便 51G(原仮定者指摘「塊になってしまう」): H0 0.004→0.01(共動初速 vScale も同値)。
   // 旧既定は全体が重力束縛のままで、評価窓の先(12000步〜)で1つの塊へ潰れていた。
   // 新既定は膨張が全体の束縛を解き、12000步でも複数ノット+フィラメントを保つ(実測 δ²=2.91・
@@ -1737,6 +1762,7 @@ const BUILTIN_PRESETS = [
 
 // ===== グループ: 銀河 =====
 { id:"galaxy", name:"銀河の回転曲線", emoji:"🌌", group:"銀河",
+  sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   // 第33便 X4(台帳4-65a): AI生成プリセットを土台に再設計。原案からの変更は円盤の radius(320→260)と
   // mMin/mMax(.08–.25→.16–.50)の3値のみ — 中心天体・physics・rays は原案のまま。
   // 円盤半径 260 は curve.vbar-distributed(評価 r=220)を通すための必須修正: この宇宙は2次元配置に
@@ -1774,6 +1800,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:true,tempHistogram:false,field:true,trail:false,monitor:false} },
 
 { id:"galaxyStd", name:"空間引きずりの基準実験 — 銀河標準", emoji:"🎡", group:"銀河",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   // 第66便 66B(P2 標準サンプル — 第64便裁定④「標準サンプル3種」の銀河標準): 🌌galaxy の
   // **単一機構純化版**。熱斥力(kRep)・接触摩擦(muF)・法線減衰(γn)・熱伝導(κs)を 0 にし、
   // 恒星スピンも 0 に固定して、E4 重力+E6′ 空間引きずりの2機構だけを残す。初期配置は 🌌 と
@@ -1810,6 +1837,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,mechSpectrum:true} },
 
 { id:"darkrotor", name:"ダークローターの銀河", emoji:"🕶️", group:"銀河",
+  sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   // 第39便 39A(台帳4-72)v6: ローター10体 → **対向2体のみ**へ。第38便 38C(台帳4-67)の実験で
   // 「中心BH+ダークローター2つ」が恒星をはるかに安定に保つことが出たための再設計(統括採択=提案A・V1a)。
   // v5 からの変更は3点だけ:
@@ -1907,6 +1935,7 @@ const BUILTIN_PRESETS = [
 //  ・テスト粒子リング(6000步): 平均 L_z 954.1(対照 632.45 = 厳密一定)・24/24 保持・NaN なし
 //  ・帳簿込みの保存(6000步): |ΔP|/P₀=1.27e-4・|ΔL|/L₀=1.26e-4(pinned ゼロの閉鎖系)
 { id:"rotorSolo", name:"ダークローター(単体)", emoji:"🕳️", group:"銀河",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"ダークローターとは、高速スピンによって光学的に暗くなった回転天体を指すこのモデル内の造語である(自光の減光と外来光線の掃き出しの2機構で暗い)。🕶️から「暗い天体」1個だけを取り出した最小構成 — 中心の高スピンコア(m=2000・半径45・スピン2.0・減光=auto)と、r=200を周回する24個のテスト粒子、左から入る20本の光線。全粒子が自由(ピン・レール無し)の閉鎖系。この宇宙の「暗さ」は別々の機構の混合で(DERIVATIONS §17)、この画面はそのうち2つを同時に、しかも分離して見せる。",
     observe:"②自光の減光(掻き出し): 減光を固定値ではなく auto にしてあるので、実効値 lS_eff=min(1,|s|R/c_surf) が粒子のスピンと半径から毎ステップ算出される(中心天体をタップすると減光欄は「自動」チェック済みで、実効値 lS_eff が数値欄に表示される)— 実測1.00。③外来光線の掃き出し: 回るコアが決定フレームごと光を運び(A11/E8R)、スピン0の対照では起きる有限時間の光子捕捉(実測 非脱出率0.66)が消える(実測0.00)。順行側の光線ほど外へ払われ、逆行側は深く潜る(平均最小接近半径 順行123 対 逆行40 — T8と同じ非対称)。②と③は別機構である: lS_effはスピン0.29で既に1に飽和しているのに、そのスピンでは掃き出しがまだ全く起きていない(非脱出率0.72 = 対照以上)。掃き出しが立ち上がるのはスピン0.6→0.7の間(0.70→0.08)で、飽和点とは2倍以上離れている。テスト粒子は空間の引きずり(A8/E6′)で順行方向に角運動量を汲み上げられる(6000步平均 L_z=954 対 対照632)。運動量・角運動量は帳簿込みで保存する(モニタ表示・相対ずれ1e-4台)。※③は物理対応ロック(Kt=c²/G=3600)では起きない — 実測 非脱出率は高スピンでも0.00(反証条件7)。実在のブラックホールやダークマターについての主張ではない(Negative Claims 1/2)。",
@@ -1952,6 +1981,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:true,trail:true,trailTargets:"sampled",monitor:true} },
 
 { id:"merger", name:"銀河合体と潮汐効果", emoji:"🌠", group:"銀河",
+  sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   // 第50便 50K(台帳4-78 C案パイロット): descStruct(要約/観察/操作)— 純分割+A/B文の末尾移設のみ
   descStruct:{
     summary:"2つの回転円盤銀河が接近・合体する過程。潮汐尾の形成、衝突による加熱(A9のスピン変換)、角運動量の再分配、合体後の回転曲線を観察できる。",
@@ -2009,6 +2039,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:true,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"} },
 
 { id:"collapse", name:"自己重力雲の崩壊と原始星形成", emoji:"🌫️", group:"銀河",
+  sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   // 第51便 51F: descStruct 化+塊形成の強化(G↑/kRep↓)に伴う数値の全面再実測。メタ表現不使用
   descStruct:{
     summary:"広がった粒子群が自己重力で崩壊し、中心集中・衝突加熱(A9)・放射冷却(E11)を観察する。雲全体はごくわずかな初期回転(角運動量)を持つ — 現実の分子雲コアと同様、角運動量保存によって収縮とともに回転が増幅され、中心星の周りに円盤構造が形成されやすくなる(ジーンズ不安定性のアナロジー)。",
@@ -2047,6 +2078,7 @@ const BUILTIN_PRESETS = [
 
 // ===== グループ: 光 =====
 { id:"lensing", name:"重力レンズと光子捕捉", emoji:"💡", group:"光",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"左から飛ぶ光線が、決定力の高い(=時間の遅い)領域で屈折して曲がる(A7′/T5)。",
     observe:"時間の遅れと光の屈折は単一のψ=W/Ktで統一(E7R/E8R)— Ktを下げると両方が同時に強まる。強い場では光が捕まって周回する(光子球の類似)。背景の色は決定力Wの強さ。粒子をタップすると固有時計(τ/t)が見える。光線の色は時計率比 e^{ψ0−ψ} による波長表示(重力赤方偏移のアナログ — 意味論表示)。"},
@@ -2065,6 +2097,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
 { id:"spinlens", name:"回る星のレンズ — 非対称湾曲", emoji:"🌗", group:"光",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"中心星が回転すると、光を運ぶ空間(決定フレーム)も回る(A11)。",
     observe:"星の回転と同じ向きに進む光は空間に運ばれて遠くへ流され、逆らって進む光は強く曲がる — 上下対称に入射した光線束が非対称に湾曲する(T8。カー・ブラックホールのフレームドラッグの光学類似)。背景の色は決定力W。",
@@ -2084,6 +2117,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
 { id:"blens", name:"連星重力レンズ", emoji:"🔭", group:"光",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"上下に並ぶ2つの大質量天体へ平行光線束を入射。",
     observe:"単一レンズとは異なり、光線が2つの決定力井戸へ分かれて曲がる複合レンズを観察する(T5)。スピンは0なので非対称引きずり(T8)とは切り離されている。",
@@ -2105,6 +2139,7 @@ const BUILTIN_PRESETS = [
 
 // ===== グループ: 熱の実験室 =====
 { id:"gas", name:"気体の熱平衡", emoji:"🔥", group:"熱の実験室",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"左=低温(青)・右=高温(赤)のガス。左右は質量・数・初速分布が同一で、初期の内部温度T_intだけが異なる統制実験。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂: 温度=構成粒子のミクロなスピン。マクロなspinはコヒーレント回転)。",
     observe:"衝突の散逸が速度を熱に変え(E9)、熱い粒子ほど強く押し合って圧力を生み(E5′)、熱伝導で温度が均一化する(T6/E10′)。自己重力と空間引きずりは切ってあり(G=0, kFrame=0)、働くのは接触・斥力・伝導の熱過程だけ。右下に左右の平均温度バー。熱は熱容量C·mの重みで伝わるので、粒径が違っても温度そのものが均一化する(旧A9のL9が解消)。"},
@@ -2123,6 +2158,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:true,field:false} },
 
 { id:"pressure", name:"熱の圧力 — 熱は押し広げる", emoji:"🎈", group:"熱の実験室",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"重力ゼロの円形容器。中央の熱いガスが熱の斥力(E5′)で押しのけ合い、周りの冷たいガスの殻を外へ押し広げていく — 圧力の正体は温度。このサンプルは温度を内部状態変数T_intとして扱う(A9の改訂)ので、押し合う強さの源は対の√(T_i·T_j)で、冷たい粒子同士は押し合わない。",
     observe:"やがて接触摩擦(E9)と熱伝導(E10′)で熱が外側へ渡り、全体が同じ温度に落ち着く(T6)。色=温度。※この圧力の状態方程式は理想気体則とは異なる(P∝ρ²T — L15)。"},
@@ -2143,6 +2179,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"conduction", name:"熱伝導 — 近いほど速く伝わる", emoji:"📏", group:"熱の実験室",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"力を全て切った、静止した粒の列。左端の白熱粒(固定=熱浴)から、接触していない粒の列を熱伝導(E10′)だけで熱が飛び移っていく。このサンプルは温度を内部状態変数T_intとして扱う(A9の改訂)ので、伝わるのは熱だけでスピンは1ビットも動かない — 角運動量は近似的にではなく自明に厳密保存する(旧「冷たいのに熱伝導」問題の解消)。",
     observe:"上の列は間隔9、下の列は間隔18 — 飛び移りは近いほど強い(カーネルg(d))ので、密な上の列は同じ距離でも高温になり、列全体が運ぶ熱は約2.5倍(実測)。HUDの「前線・列の熱」行が、熱の前線(T>4の最遠到達距離)と列の熱の比を常時表示する — 密な列が先に届き、多くの熱を運ぶことをその場で数値比較できる。よく見ると熱は隙間を飛び越えて遠くへも薄く届く(接触不要の長距離伝達 — L16の可視化)。色=温度。"},
@@ -2200,6 +2237,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"coolrace", name:"放射冷却 — 高温ほど速い", emoji:"🌈", group:"熱の実験室",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"同じ質量で内部温度T_intだけが4・16・64と異なる3粒子を静止配置。力は全て切ってあり、変わるのは放射冷却(E11、Λ∝T^p)だけの統制実験。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂)ので、冷えるのは温度であってスピンではない(放射は角運動量を運ばない)。",
     observe:"最も熱い粒子が最も速く冷え(初期の冷却速度比はほぼ1:16:256=T²則。p=2)、色が赤→青へ、右下のスペクトルのピークが長波長側へ移る。",
@@ -2231,6 +2269,7 @@ const BUILTIN_PRESETS = [
 // 純粋な外部力場なので、時計・光・引きずりを歪めずに箱内へ厳密に一様な下向き場を作れる。
 
 { id:"convection", name:"加熱の対流 — 伝熱する箱", emoji:"♨️", group:"熱の実験室",
+  sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   // 第50便 50K(台帳4-78 C案パイロット): descStruct(要約/観察/操作)— description は起動時に
   // 3区分の連結として生成される(内容は従来文の純分割+A/B文を末尾へ移設したのみ・情報の増減なし)
   descStruct:{
@@ -2264,6 +2303,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"}  },
 
 { id:"buoyancy", name:"重力分離と浮力", emoji:"🧪", group:"熱の実験室",
+  sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"一様重力場gravityYに置かれた、質量の異なる粒子の混合物。重い冷たい粒子は底へ沈んで層を作り、軽い熱い粒子は熱の圧力(E5′)によって重力に逆らって上へ押し上げられ、上層の「大気」を作る — 密度差による沈降と浮力のアナロジー。このサンプルは温度をスピンと独立な内部状態変数T_intとして扱う(A9の改訂)。",
     observe:"要因分離のため熱の出入りはほぼ止めてあり(μF=κs=0・熱容量cHeatを大きく取って衝突散逸(E9)による昇温を抑えた温度ほぼ一定の系)、自己重力・引きずり・放射も切ってある。色=温度。",
@@ -2295,6 +2335,7 @@ const BUILTIN_PRESETS = [
 // 熱力学は素の内部温度 T_int(潜熱は結合の井戸から抜けるエネルギーとして創発)。
 // 実測値は第60便で再計測(QA phasechange.emergent が機械固定)
 { id:"emergent", name:"三態の創発 — 結合の予算", emoji:"🧬", group:"熱の実験室",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"固体・液体・気体を「相のスイッチ」なしで創発させる実験(E14″結合予算)。分子間力のルールはひとつだけ — 各分子は結合の予算(公称6本分)を持ち、いま結合している相手の数で予算を分け合う。結合数が減ると残りの結合力が増す(予算の集中)。結合相手は幾何だけで決まり、固定されない(毎瞬間、帯内の相手と自動でつなぎ直す)。温度は熱圧(E5′)の斥力としてだけ力学に入り、この引力との競合が三態を作る。融点も潜熱も指定しない — 結合の井戸から抜け出すエネルギーがそのまま「実効潜熱」として現れる(第60便で創発一本化)。",
     observe:"低温では弱い結合を6本ずつ張り合った格子(塊)が安定。加熱すると熱圧が結合を1本また1本と引き剥がし、結合数が徐々に減る — 減るほど残りの結合が濃く太くなる(結合線の表示がそのまま予算の集中を見せる)。中温では数本の強い結合で繋がった液滴・クラスタが漂い、結合相手は衝突のたびに入れ替わる。高温では小さな「分子」だけが残り、飛び回る気体になる — 原子の気体ではなく分子の気体が創発するのは、予算の集中で最後の結合が最も強いから。相変化グラフ(右下)では、結合が切れて配位数c̄が下がる間、温度の上がりが鈍る — 指定していない潜熱が結合エネルギーとして創発しているのが読める。結合の組み替えでポテンシャルが変わる分は熱と等価交換され、エネルギーは壁帳簿+結合+U_repで閉じる(保存量モニタ)。熱伝導も創発版(condN): 結合の多い塊は速く、孤立した分子は遅く伝わる。色=温度・結合線の濃さ=結合の強さ。実在物質の定量再現ではない。",
@@ -2321,6 +2362,7 @@ const BUILTIN_PRESETS = [
 // 🧊emergent2: 第59便 59A/59B → 第60便 純創発化(meltT/latentF を除去)。
 // angK×bondN 併用+創発熱伝導。実測値は第60便で再計測(QA phasechange.emergent2)
 { id:"emergent2", name:"格子も分子も — 予算×角度", emoji:"🧊", group:"熱の実験室",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"🧬(結合予算)に結合角を加えた実験(E14″拡張 — 第59便で併用可能化)。ルールは2つだけ: ①各分子は結合の予算(公称3本分)を持ち、結合数が減ると残りが強くなる(bondN)。②結合角が理想角120°(=2π/予算3)に近い近傍対は井戸・詰め込み過ぎの角(60°等)は障壁になる符号付き角ポテンシャル(angK — sp²混成軌道の反発の最小類似)。リンクの台帳は無く、どちらも幾何近傍だけから毎瞬間計算される。熱伝導も相率ではなく、いまの結合状態(滑らかな配位数B)から創発する(condN)。融点も潜熱も指定しない — 徐冷で蜂の巣格子・加熱で分子ガスが同じ2ルールから出る。",
     observe:"温かい液体を床壁でゆっくり冷やすと、組み替えのたびに120°の対が深い井戸へ落ち着き、蜂の巣状の開いた格子が焼き鈍しで創発する(angK=0の対照は接触充填の密集塊 — 角偏差の実測差はQAが機械固定)。「何本まで」も「どの角度で」も、予算と角度という2つの局所ルールの競合だけで決まる。凝固後に壁温を上げ直すと、今度は予算の集中が効いて小さな分子群へ解離して飛び回る — 同じ2ルールから格子(低温)と分子ガス(高温)の両方が出る。熱伝導も創発版: 結合の多い格子は速く(condS側)、孤立した分子は遅く(condG側)伝わる。エネルギーは壁帳簿+結合+U_ang+U_repで閉じる(角ポテンシャルは位置だけの保存力 — 残差はshare変動の交差項で、angK=0でも同階級)。色=温度・結合線の濃さ=予算の集中。実在物質の定量再現ではない。",
@@ -2349,6 +2391,7 @@ const BUILTIN_PRESETS = [
 // 後継: 台帳なしで、公称予算2本+直線角の井戸から鎖・環が自己組織化する。
 // 実測値は第60便で計測(QA phasechange.chain2)
 { id:"chain2", name:"鎖の創発 — 予算2×角度180°", emoji:"⛓️", group:"熱の実験室",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"🧊(予算3×角度120°=蜂の巣)の姉妹実験 — 予算を2本・理想角を180°(=2π/予算2)にしただけで、同じ2つの局所ルールから鎖(分子のスパゲッティ)が創発する(E14″)。結合価の台帳もリンクの上限も指定しない: 3本目の結合は予算の分散で自然に損になり、折れ曲がった角は障壁に押されて伸びる。",
     observe:"温かい液体を中温の床壁で穏やかに冷やすと、等方の凝集塊ではなく、組み替わりながら伸びる鎖と環が湧いてくる。鎖の端(配位1)は予算が集中して最も強い結合を持ち、鎖の中程(配位2)は180°へ伸ばすトルクを受ける — 端が相手を捕まえ、胴が伸びる、の繰り返しで鎖が育つ。さらに冷やすと絡んだ鎖のまま凍り付き、壁温を上げると端から解けて短い断片・環になる。エネルギーは壁帳簿+結合+U_ang+U_repで閉じる(保存量モニタ)。色=温度・結合線の濃さ=予算の集中。実在の高分子・会合流体の定量再現ではない。",
@@ -2372,9 +2415,54 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,phaseGraph:true} },
 
+{ id:"chaincycle", name:"温度循環 — 鎖の凍結と解離", emoji:"♻️", group:"熱の実験室",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  // 第67便 67A(結合標準の温度循環デモ — 第64便裁定キュー・ChatGPT §8.1 の実施):
+  // ⛓️chain2 と同一の物理・同一の初期配置(seed 7)で、床壁だけに温度スケジュール
+  // (T=0.6 → t=288 で T2=20)を与える。前半=冷却で鎖が自己組織化(凍結)・後半=加熱で
+  // 端から解けて断片化(解離) — 相ラベルも潜熱も指定せず、E14″ の結合則と壁温だけで
+  // 状態の族が往復する。較正実測(tests/out/_cycle2 の系・build 経路で同値):
+  //   t=288(18000步): 最大連結 36粒・14成分・組替≈0.01(凍結)・T̄=1.24
+  //   t=528(33000步): 最大 6粒・65成分・組替 0.33(流体)・T̄=12.2
+  //   (較正スクリプト〔twall 実行時変更〕では 71成分 — 切替の±1サブステップ差がカオスで
+  //    育つため個数は揺れる。構造の族〔多成分・小断片・速い組替〕は不変 = 窓 50〜95 で判定)
+  // T2=8 では解けない(T̄6 でも断片化まで — 結合井戸+予算集中が勝つ)ことも実測済み:
+  // 解離には kRep·√(T_iT_j) が井戸を大きく超える壁温 20 が要る(実効的な解離温度の存在も創発)
+  descStruct:{
+    summary:"⛓️(予算2×角度180°)と同じ物理・同じ初期配置のまま、床壁の温度だけをスケジュール(t=288で0.6→20)する温度循環デモ。冷やすと鎖が自己組織化して凍り付き、強く熱すると端から解けて短い断片と自由粒子の流体へ戻る — 相も融点も潜熱も入力せず、結合予算と壁温だけで状態が往復する(E14″)。",
+    observe:"前半(壁0.6)では鎖が育ち、実測で最大36粒の鎖を含む14成分・組替率≈0(凍結)まで固まる。t=288で壁が20へ切り替わると端から解離が進み、実測65成分・最大6粒・組替率0.33の流体になる(T̄1.2→12.2)。右下の機構スペクトルでは、凍結期に結合チャネルが支配し、解離が進むと熱斥力チャネルが立ち上がって並ぶ — スケールの主役の交代(T13)が1画面で動的に見える。壁温8では解けない(T̄6でも断片化止まり — 結合井戸+予算集中が勝つ)ことも実測済みで、明確な解離温度の存在そのものが創発する。",
+    control:"世界タブで壁スケジュール(T2/tSwitch)を編集すると解離温度の閾値を探せる。angK=0にすると前半の鎖が液滴に崩れる(⛓️と同じ角度の対照)。"},
+  en:{name:"Thermal Cycle — Chains Freeze & Dissociate", descStruct:{
+    summary:"Same physics and same initial configuration as ⛓️ (budget 2 × angle 180°), but the floor wall follows a temperature schedule (0.6 → 20 at t=288). Cooling lets chains self-organize and freeze; strong heating unravels them from the ends back into a fluid of short fragments and free particles — no phase, melting point or latent heat is input; the bond budget and wall temperature alone cycle the state (E14″). ",
+    observe:"In the first half (wall 0.6) chains grow to a measured 14 components including a 36-particle chain with rewiring ≈0 (frozen). When the wall switches to 20 at t=288, dissociation proceeds from the ends to a measured 65 components, max size 6, rewiring 0.33 (fluid; T̄ 1.2→12.2). In the mechanism spectrum at bottom right, the bond channel dominates while frozen and the thermal-repulsion channel rises to match it as dissociation proceeds — the changing lead actor (T13) visible dynamically on one screen. A wall at 8 does not melt it (only fragmentation even at T̄6 — the bond wells plus budget concentration win): a definite dissociation temperature emerges by itself. ",
+    control:"Edit the wall schedule (T2/tSwitch) in the world tab to hunt the dissociation threshold. Set angK to 0 and the first-half chains collapse into droplets (the same angle control as ⛓️)."}},
+  activeParams:["kRep","kappaS","gravityY","gammaN"],   // ⛓️と同一(angK は phaseChange サブキーのため不可)
+  // claims — 説明文の凍結期・解離期の構造値を機械可読化(固定seedの決定論。窓は再較正余地込み)
+  claims:[
+    { id:"chaincycle.freeze-maxcomp", kind:"fixed-seed", metric:"freezeMaxComponent",
+      expected:{min:25, max:50},   // 実測36(t=288。claim.chaincycle が機械判定)
+      descPattern:"最大(\\d+)粒の鎖", testId:"claim.chaincycle" },
+    { id:"chaincycle.melt-ncomp", kind:"fixed-seed", metric:"meltComponentCount",
+      expected:{min:50, max:95},   // 実測65(t=528・build経路)
+      descPattern:"実測(\\d+)成分", testId:"claim.chaincycle" }
+  ],
+  thermal:"tint",
+  phaseChange:{ bondN:2, bondK:5, bondRange:1.6, bondDamp:0.1, angK:1.2, condN:2, condS:1, condG:0.15 },
+  camera:{scale:140}, world:{boundary:"box", size:110,
+    thermalWalls:{ bottom:{mode:"heat", T:0.6, rate:0.15, T2:20, tSwitch:288} }},
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:8, muF:0.1, gammaN:0.3, kappaS:1, Kt:60,
+    cLight:60, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:4},
+  seed:7,
+  bodies:[
+    {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:93, pitch:7, jitter:1.0, vScale:0.3,
+     mMin:1, mMax:1, tInt:1.5}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,phaseGraph:true,mechSpectrum:true} },
+
 
 // ===== グループ: 天体の物語 =====
 { id:"earthMoon", name:"地球と月", emoji:"🌍", group:"天体の物語",
+  sampleClass:"calibration",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"月が地球のまわりを公転する二体デモ(コアは現実の観測値で較正)。質量比は現実どおり m月/m地球=0.0123。月は同期自転 — spin を実測公転角速度 ω=0.013908 に一致させてあり、スポーク(車輪の輻)の同じ面が常に地球を向き続ける(潮汐固定)。",
     observe:"コアは観測値: 地球 mc/m=0.325(PREM系の全コア質量比 32.5%)・月 mc/m=0.0168(月レーザー測距の 1.59〜1.77% の中央値)。sc/s=1.0(剛体回転)は中立既定 — 地球内核のマントルに対する差動回転は時期と解析法によって推定が変わり、固定した比率として確定していないため、本サンプルは sc/s=1.0 を中立既定とする。円軌道速度は E6′ 込みの実測較正 v=1.063×ケプラー値(Plummer軟化込み)— 4周で半径ドリフト0.09%・同期維持。地球の自転(0.05)は E6′ 安定域に収めた較正値 — 現実の比(月の27.4倍)では引きずり風が重力(E4)を超えて軌道が崩れる(実測)。地球は pinned の展示系。Kt=10000 は物理対応ロック Kt=c²/G の成立値。",
@@ -2411,6 +2499,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"earthMoonFree", name:"地球と月(自由二体・物理比)", emoji:"🌕", group:"天体の物語",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"地球を固定しない重心系の二体問題。",
     observe:"kFrame=0 の純ニュートン対照 — E6′ 引きずりを切ると spin は軌道に影響しないため、現実の自転比をそのまま入れられる: 地球 spin=0.3609(月の公転の27.4倍=実比)・月は同期自転 spin=ω=0.013174。質量比 0.0123・コアも観測値(地球 mc/m=0.325・月 mc/m=0.0168)。重心を原点に置き全運動量 0 の閉鎖系(外部拘束なし — 保存則が系内で閉じる)。実測: t=5000(10.5周)で半径 179.97〜180.02(0.03%)・重心移動 0.001 未満・同期誤差 0.31°/周。重力(E4)は Plummer 軟化込みの円軌道速度で初期化。",
@@ -2449,6 +2538,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"saturn", name:"土星の環(実験)", emoji:"🪐", group:"天体の物語",
+  sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"氷の粒240個(3環帯 60/120/60・低質量・低散逸 muF=0.2/γN=0.15)で構成された土星の環。中心星のスピンが空間を引きずる(kFrame=1・A8)この条件で、長時間安定な環が得られる。初期配置は t=300〜600 の実測安定分布に合わせてある。",
     observe:"実測(環240粒の新構成): t≈360 で帯内(90≤r≤290)97.1%・落下(r<85)1粒/240・散逸(r>320)0、t≈1200 でも帯内98.8%・落下1粒・散逸0(QA behavior.saturnExp)。※安定の理由づけは実測に合わせて弱めてある: 同一初期配置で kFrame だけを 0 にした対照(3000步)でも環は100%保たれ、離心率RMSはむしろ小さい(0.063 対 kFrame=1 の 0.142)。引きずりは環を内側へ寄せ(帯中央値 159 対 171)離心率を上げる向きに効いており、「引きずりが環を円くして保つ」とは言えない(QA behavior.saturn-kframe-control)。摩擦 muF も、氷粒の半径 R=rMul·√m≈0.18〜0.31 が環の半径域 104〜212 に対して極小で接触がまれなため、この時間窓ではほとんど効かない — 3000步では muF=0.2/0/1.0 の3本が倍精度で完全一致し、6000步でも muF=0 との差は平均|spin| 1.7%・離心率RMS 0.02% にとどまる(QA behavior.saturn-muf-control)。Kt=3600 は物理対応ロック Kt=c²/G の成立値。中心天体の表示半径は個体半径倍率 rMul=1.8 で環との見かけの比率が近くなるよう調整している。",
@@ -2498,6 +2588,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"saturnLayered", name:"土星の環(主星2層)", emoji:"🎯", group:"天体の物語",
+  sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   // 第14便: seed を 🪐(hashStr("saturn")+7)に固定 — 初期配置が 🪐 と完全一致し、
   // 「同一初期配置での姉妹比較」になる(id 由来の別シードでは冷スタート過渡の谷が
   // t≈360 に当たる実現があり、安定 QA の t360 短縮と干渉した — 実測 2026-07-23)
@@ -2548,6 +2639,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"saturnZonalD68", name:"土星の近点移動(D68精密較正)", emoji:"🛰️", group:"天体の物語",
+  sampleClass:"calibration",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"現実の土星の扁平さ(帯状重力調和係数 J2〜J12、Cassini 実測値)を中心星の属性として与えた較正デモ(E13)。",
     observe:"近点方向を揃えた楕円軌道のテスト粒子は、近点が公転と同じ向きに回り続け、内側ほど速い(差動近点移動)。線の軌跡は既定ONで、楕円の向きがゆっくり回るのがそのまま見える。解析式は J2〜J12 で打ち切るため D68 実測 38.243°/日 に対し −0.03% の残差が残るので、較正係数 C=1.0003023(高次項・離心率補正の代替)を中心星の zonal.calib に与えて観測値へ精密一致させている(実測 38.243±0.002)。旧「現実較正」版(C=1)は本サンプルへ一本化(差は 0.03% で画面では区別できない)。",
@@ -2592,6 +2684,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"binary", name:"連星系と周連星円盤", emoji:"⭐", group:"天体の物語",
+  sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   // 第66便 66D(62B 裁定「⭐binary は geo 化の第一候補」の実施): geoPN 0→1。62B+66D の実測 —
   // geo 化で恒星間距離は 12000步 120.1→120.7(ほぼ不変=安定)・legacy は 137→240 へ散逸で緩む。
   // 円盤保持は両者 240/240・処理は geo が約42%軽い(12000步 18.9s vs 32.7s)。kFrame:1 は残す —
@@ -2619,6 +2712,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"fig8", name:"三体問題 — 8の字軌道", emoji:"♾️", group:"天体の物語",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"等質量3天体が重心の周りを交代で通過する8の字周期軌道(12000步でも最大半径87に有界)。",
     observe:"引きずりを切った純粋な重力(E4)のニュートン退化で、運動量と角運動量は厳密に保存する(T7)。軌跡は自動表示。",
@@ -2639,6 +2733,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"counterring", name:"順行・逆行リングの衝突", emoji:"💥", group:"天体の物語",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"同じ軌道帯を逆向きに回る2つのリング。",
     observe:"正面衝突の接触摩擦(A9)が公転運動をスピン=熱へ変換し、リングが光りながら加熱・降着していく。公転エネルギーが熱に変わる「逆回転降着円盤」の思考実験。右下は放射スペクトル。",
@@ -2677,6 +2772,7 @@ const BUILTIN_PRESETS = [
 //  対照     : —     0.583 0.526 0.542   (kRep=0 — E5′ を切ると等方寄りに戻る)
 //  4000步で 極24〜26本 / 赤道0本。全ガスで測っても 0.689(等方の 2.07 倍)
 { id:"agnjet", name:"AGN類似 — 円盤の内縁と双極ジェット", emoji:"🌋", group:"天体の物語",
+  sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"中心の超大質量天体(m=2000・減光=auto → 観測温度0で見掛けは真っ暗な「エンジン」)と、x軸方向に長く薄く伸びた冷たいガスの帯。ガスは自己重力で内側へ落ち、内縁で押し合い擦れ合って摩擦加熱される(E9′ → 内部温度T_int)。温まったガスは熱の斥力=圧力(E5′)で押し返すが、赤道方向(±x)へ抜けるには帯の全長を押しのけねばならない — 抵抗の少ない極方向(±y)だけが出口になり、上下2本の噴出流になる。",
     observe:"実測: 内縁から出て系外(r>300)へ達したガスの84%が±y方向±30°以内に入る(等方なら1/3 — 2.5倍の集中。4000步で極24本・赤道0本)。色=温度で、内縁が赤熱し噴流が冷えながら伸びるのが見える。要因分離のため空間引きずりkFrameと自発放射は切ってある(中心のスピンは減光=自光の抑制にだけ効く)。※これは圧力と幾何だけで双極性が出るという2Dのアナロジーであり、実在のAGN・磁気流体ジェット・相対論的ジェットの再現主張ではない(Negative Claims 1/2)。",
@@ -2743,6 +2839,7 @@ const BUILTIN_PRESETS = [
 // camera.scale 200 は展示調整(t=0 の円盤が画面幅の約75%・収縮後のコアが明瞭に見える)。
 // timeScale 2 も展示速度のみ(sim.step() は timeScale を読まない)。QA は behavior.spinup(6000步)。
 { id:"spinup", name:"収縮とスピン加速", emoji:"🌪️", group:"天体の物語",
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"外から何も加えない、ゆっくり回るガス雲(240粒・剛体回転ω₀=0.00675)。",
     observe:"圧力(E5′)を切ってあるので雲は自己重力だけで自由落下的に縮み、内側半質量=コアの半径が3.06倍縮む間にコアの回転が8.50倍速くなる — 角運動量保存が予言する(R₀/R)²=9.36倍に対して実測は一致90.8%(足りない9.2%は、コアが外側へ渡した軌道角運動量の割合と恒等的に一致する)。6000步で底に達し、以後は平坦。※主張はコア限定: 系全体で見ると回転はむしろ遅くなる(ω_eff×0.275)— 質量の約4%(240個中9個)が遠くへ逃げてΣmr²を支配してしまうため。色=温度。縮むと接触摩擦(E9)で内部温度が上がり(2.0→5.2)、放射(E11)で冷えていく(→0.34)— ケルビン・ヘルムホルツ収縮に似た温度の履歴だが、これは解放された重力エネルギーの行き先の記録であって、冷却が収縮を駆動しているのではない。既定はkRep=0なので温度は力に一切入らない受動的な目印で、冷却を切っても(etaRad=0)軌道は1ビットも変わらない(実測: 力学量が完全一致・変わるのは色と放射エネルギーだけ)。運動量・角運動量はリザーバ帳簿ゼロのまま厳密に閉じる(モニタ表示・|ΔL|/L_scale=1.7e-6)。※有限時間の収縮過程であって定常状態の主張ではない(☀️定常放射が内部熱源なしには成立しないという否定的結論と矛盾しない)。実在の星形成や原始星の再現を主張するものではない(Negative Claims 1/2)。",
@@ -2799,6 +2896,7 @@ const BUILTIN_PRESETS = [
 //       融合124/116/114回・radE 4555/4084/4112・T_mean 4.91/3.89/4.27 と頑健。
 //       対照(融合なし)の radE=60.4 は初期熱の解析的な放出そのもので dt にも seed にも依らない。
 { id:"starcore", name:"恒星の内部 — 融合を熱源とする", emoji:"☀️", group:"天体の物語",
+  sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"※実在の恒星のモデルではない — 「内部熱源が無ければ放射は続かない」の裏返しとして、融合という熱源があれば放射が続くことを示すトイ構成(質量欠損・放射圧・核種・静水圧平衡は扱わない)。中心に固定した重い核(m=600)と、その周りを回る200粒のガス(サブケプラー初速 0.6倍)。ガスは核の重力で落ち込み、深く潜り込んだ対どうしが融合する(中心距離が d<0.35·(R_i+R_j) まで近づくと1つの粒子になる)。融合で消えた対の相対運動エネルギーΔKEと接触ばね(E9)の弾性エネルギーはそのまま内部温度T_intへ入り、そこから放射(E11: Λ=η_rad·T²)で外へ出ていく — これが「重力収縮→融合加熱→放射」の一本道。",
     observe:"12000步(t≈192)の実測: 融合124回・ガスは200粒→76粒(燃料の62%を消費)・平均温度T_int 2.00→4.91(最高66.9)・放射エネルギー radE=4555。同じ初期配置で融合だけを切った対照では熱源が無くなり、温度は2.00→0.49へ単調に下がって放射も60.4で止まる — 放射エネルギーは75.4倍。否定的結論「内部熱源なしに定常放射は成立しない」の裏返しで、融合という熱源があれば星は放射し続けられる、という主張。熱収支: この宇宙で熱が出入りする経路は「融合で入る」「E11で出る」の2本だけ(γn=0・μF=0で接触は完全弾性・kRep=0で圧力なし・κs=0で伝導なし)なので帳簿が閉じる — 融合が入れた熱 Q=ΔH+radE=5313 は etaRad を変えても同値で、対照ではQ=0.0(厳密)。そのQの85.7%が同じ窓のうちに放射で出ていく(残りは温度上昇として溜まる)= 供給と損失がほぼ釣り合った準定常。※点火の原因が重力であることは用量反応で分離した: Gだけを4→2→1に下げ、力学時間の伸び(∝1/√G)に合わせて走行時間も揃えても、融合の熱注入は5313→1719→697と落ちる。※温度は力に一切入らない受動的な目印なので、放射を切っても(etaRad=0)軌道は1ビットも変わらない(実測: 粒子数・融合回数・平均半径が全チェックポイントで完全一致し、温度だけが2.00→48.23まで溜まる)。※有効窓 validT=192 の根拠は燃料: さらに倍のt=384まで走らせても融合は18回しか増えず、放射レートは23.7/時間→8.0/時間(3.0倍暗い)まで落ちる — 燃料切れの余生に入るので主張はここまで。※質量は融合で保存する(現実の核融合の質量欠損はモデル化していない)。中心核は位置を固定した外部拘束(融合の対象外・温度一定のリザーバ)で、系は閉じていない。実在の恒星の核融合・進化を再現する主張ではない(Negative Claims 1/2)。",
@@ -3120,6 +3218,15 @@ function validatePreset(obj){
     if(p.thermal==="microspin") p.thermal="tint";   // 64B: 別名の正規化(警告なし — 文書化された同義語)
     const THERM=["spin","tint"];
     if(THERM.indexOf(p.thermal)<0){ warnings.push("thermal が不正のため spin に修正"); p.thermal="spin"; }
+  }
+  // 第67便 67B(P3 サンプル分類 — 第64便裁定キュー): sampleClass — サンプルの主張水準の宣言
+  // (表示チップ専用・物理には一切影響しない)。principle=原理実証(主役機構の分離・対照が QA で
+  // 機械固定)/composite=複合現象(複数機構の相互作用が主題)/calibration=現実較正(観測値・
+  // 公理外補正 E13 等)/semantic=意味論表示(光子波長など表示物理が主題)。
+  // 不正値は警告つきで削除(チップが出ないだけ)。※ SYSTEM_PROMPT には載せない
+  if(p.sampleClass!==undefined){
+    const SC=["principle","composite","calibration","semantic"];
+    if(SC.indexOf(p.sampleClass)<0){ warnings.push("sampleClass が不正のため削除"); delete p.sampleClass; }
   }
   // 第44便 44B(台帳4-68c 再挑戦条件): fusion — 粒子の融合(最上位キー。integrator/thermal と同じ配置)。
   // {dFrac:0.35} = 中心距離 d < dFrac·(R_i+R_j) で融合する。オブジェクトが在れば有効・省略で完全無効。
@@ -8793,6 +8900,10 @@ function renderHelp(){
   // 「物理対応ロック(Kt=c²/G)」とは別概念(#physLockBadge・パラメータタブ)— 混同しないよう
   // 弱場展開の適用外であることだけを言う独立チップにする(併存しうる: ロックあり+強場も可)
   if(cls.strongField) addChip("strongfield",T("bdgStrongField"),T("bdgStrongFieldTip"));
+  // 第67便 67B(P3 サンプル分類): 4分類チップ — principle/composite/calibration/semantic。
+  // 宣言のあるプリセットにだけ表示(第64便裁定キュー P3。🕶️は複合現象と明示)
+  if(cls.sampleClass) addChip("sclass-"+cls.sampleClass,
+    T("bdgSC_"+cls.sampleClass), T("bdgSC_"+cls.sampleClass+"Tip"));
   // 第51便 51B(原仮定者指示): 引きずりタグ — kFrame>0 の系に表示(A8/E6′ が働く系の目印。
   // 0にすると引きずりなしの対照になることをツールチップで案内)
   if(currentPreset.physics && currentPreset.physics.kFrame>0) addChip("drag",T("bdgDrag"),T("bdgDragTip"));
