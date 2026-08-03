@@ -1176,7 +1176,7 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
 const APP_VERSION = "1.35";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 // 第36便 B1(原仮定者指示): タイトル下に表示するbeta配信時のビルド番号。beta/sw.js の
 // CACHE 接尾辞と同期させる(QA: version.beta-label)。ルート昇格後は使わない("v"+APP_VERSION 表示に戻る)
-const BETA_BUILD = "v1.36-b7";   // 第70便: geo2銀河🌌²+減光の力学不変QA+disk/ring減光属性
+const BETA_BUILD = "v1.36-b8";   // 第71便: ③反作用の1サブステップ上限(P0)+温度選別の機構分解
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 // 第45便 45A(台帳4-48): 光線源・1PN源のしきい値を「質量」から「偏向角」へ物理化した。
@@ -4326,6 +4326,9 @@ function makeSim(){
     // 第53便 53B(外部レビュー P2): E14 のクランプ帳簿 — clampAN = 引力・角度力の対称力上限
     // (8/maxInv)の発動回数。規則は 1 ビットも変えず、発動を数えるだけ(clampVN/SN/HN と同方針)
     S.clampAN=0;
+    // 第71便 P0(ChatGPT レビュー §9 / 台帳「極端質量比」): clampRN = E6′③反作用の
+    // 1サブステップ上限(|Δv|≤0.8・|Δs|≤0.8)の発動回数。超過分はリザーバ帳簿へ(_core ③末尾)
+    S.clampRN=0;
     S.curveBins=null; S.tempLR=[0,0]; S.histT=[];
   };
   S.updateRadii = function(){ // R_i = radiusScale·rMul_i·√|m| (PHYSICS.md §2 + 第36便 C1)
@@ -5664,6 +5667,29 @@ function makeSim(){
       // 対ごとに Float32 へ書くと増分 < |値|·2⁻²⁴ が丸めで消えるが、倍精度で足し切ってから
       // 1回だけ書けば「消える」のは合計に対してだけになる(高スピン合成域の破れの実体)。
       // pinned 粒子・E6′ の相手がいない粒子は acc が厳密に 0 のままなので、加算は無作用
+      // ===== 第71便 P0(ChatGPT レビュー §9 / 原仮定者裁定「進める」): ③反作用の1サブステップ上限 =====
+      // D0=0 かつ極端質量比(例 1:10⁴)では φ 対分配が軽い側へ全量向かい、離散フィードバック利得
+      // m_src/m_recv ≫1 で反作用キックが発振して速度クランプ(|v|=100)に到達する(第70便実測 —
+      // legacy から続く既存特性)。対策は反作用側の「1サブステップ上限」:
+      // 粒子あたりの合計 |Δv| を 16 に制限し、**適用しなかった分の運動量・角運動量は
+      // リザーバ帳簿へ記録**する(T7 恒等式は破れない)。**速度のみ** — スピン移譲(残余トルク)は
+      // 上限を課さない(第71便実測: |Δs| 上限は 🕶️darkrotor の正規の汲み上げ物理に大量発動して
+      // 既存挙動を変えるため不採用。発振の実体は速度側のフィードバックで、速度上限だけで
+      // 1:10⁴ 系の発振が止まりスピンは既存のスピンクランプ±40が受ける)。
+      // 発動は clampRN に計数 — 全内蔵プリセットでは発動 0(QA clamp.reaction-cap が機械固定)
+      // なので既存挙動は 1 bit も変わらない。発動する構成は保存則を「帳簿込み」で主張する
+      // 上限値 16 の較正(第71便実測・全内蔵プリセット 6000步の per-particle 最大 |Δv|/サブステップ):
+      // 🕶️darkrotor 7.52(ローター近接遭遇の正規物理)・🌠merger 1.59・他 ≤1e-4 ⇔ 病的構成 9406。
+      // 16 = 正常域最大の約2倍(正規物理に不発)かつ病的域の 1/600(発振を抑止)
+      for(let i=0;i<n;i++){
+        const dv2=accVx[i]*accVx[i]+accVy[i]*accVy[i];
+        if(dv2>256){
+          const sc=16/Math.sqrt(dv2);
+          const rx=accVx[i]*(1-sc), ry=accVy[i]*(1-sc);   // 適用しない残り(粒子に入らなかった分)
+          S.resPx+=m[i]*rx; S.resPy+=m[i]*ry; S.resL+=m[i]*(x[i]*ry-y[i]*rx);
+          accVx[i]*=sc; accVy[i]*=sc; S.clampRN++;
+        }
+      }
       for(let i=0;i<n;i++){ vx[i]+=accVx[i]; vy[i]+=accVy[i]; spin[i]+=accS[i]; }
       // 背景 D₀+W_B 分は無限慣性リザーバへ移譲(帳簿記録)。UniverseBox は規定運動の
       // 外部コントローラなので、その持ち分の反作用は D₀ と同じくリザーバが引き受ける
@@ -7766,7 +7792,7 @@ const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU",
   "railR","railAng","railOmega","railCx","railCy","railH",
   "Tint","coordN","coordAcc","shPrev","_phNbrPrev","_phNbrPrevN","_phProf"];
 const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wallKE","pinHeat",
-  "clampVN","clampSN","clampHN","clampAN","angOvfN","_phAcc","_phNbrInit",
+  "clampVN","clampSN","clampHN","clampAN","clampRN","angOvfN","_phAcc","_phNbrInit",
   "fusN","fusU","fusPx","fusPy","fusL","fisN","aEffRef","_bhLastA","_bhLastT","_bhAcc"];
 function ckInvalidate(){ ckSnap=null; $("#btnCkLoad").disabled=true; }
 // 第63便(原仮定者指示): チェックポイントを A/B 比較の B 側にも対応 — A/B 中の保存は
