@@ -14,6 +14,8 @@ tests/out/*
 !tests/out/exp-4-74.json
 # 第50便(台帳4-66): 判別実験の実測記録(論文2 fig6 の元データを兼ねる)
 !tests/out/exp-4-66-results.json
+# 第68便 P4a: v−u 統一則の検証実測(DERIVATIONS §18.3 が参照)
+!tests/out/p4a-results.json
 # 第32便 W4(台帳4-58): QAスクリーンショットはCIアーティファクトのみ・コミット対象外
 tests/out/*.png
 # 公開前レビュー P0-5: 依存を固定して QA の再現性を担保(CI は npm ci)
