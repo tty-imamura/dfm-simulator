@@ -3536,6 +3536,55 @@ if (!FAST) {
     }
   }
 
+  // ---- 8a2d) 第71便 P0: E6′③反作用の1サブステップ上限(|Δv|≤16・帳簿化) ----
+  // D0=0+極端質量比(1:10⁴)で③反作用が軽い側へ全recoilし発振→速度クランプに到達する既存特性
+  // (第70便実測・legacyから)への対策。上限16の較正: 全内蔵プリセットの per-particle 最大
+  // |Δv|/サブステップ = darkrotor 7.52・merger 1.59・他≤1e-4 ⇔ 病的構成 9406(千倍の分離)。
+  // 検査: ①病的構成で発動+発振停止(v最大<20・速度クランプ0)+P が帳簿込みで閉じる
+  //       ②正規のドラッグ系(darkrotor/galaxy)では発動0(既存挙動 bit 不変 — baseline QA も担保)
+  // 機能判定子 = S.clampRN の有無(root は SKIP)
+  {
+    const hasRN = await page.evaluate(() => {
+      HP.loadPreset('galaxy', false); return HP.sim.clampRN !== undefined; });
+    if (hasRN) {
+      const r = await page.evaluate(() => {
+        const A = HP.RAY_ALPHA_MIN, PN_R = 12.247, pnThr = (A / 4) * 1600 * Math.max(PN_R, 0.5);
+        HP.sim.build({ id: 'qa_rcap', name: 's', description: 'd', camera: { scale: 200 },
+          world: { boundary: 'none', size: 0 },
+          physics: { G: 1, D0: 0, kFrame: 1, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0,
+            Kt: 10000, cLight: 40, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0,
+            geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 0.5, timeScale: 1 },
+          bodies: [
+            { type: 'single', m: pnThr * 1.2, radius: PN_R, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false },
+            { type: 'single', m: 0.01, x: 47.664, y: 0, vx: 0, vy: 1.94787, spin: 0, pinned: false }] });
+        const S = HP.sim;
+        const tot = () => { let px = 0, py = 0;
+          for (let i = 0; i < S.n; i++) { px += S.m[i] * S.vx[i]; py += S.m[i] * S.vy[i]; }
+          return { px: px + S.resPx, py: py + S.resPy }; };
+        const t0 = tot(); let vMax = 0;
+        for (let k = 0; k < 2000; k++) { S.step(0.016); vMax = Math.max(vMax, Math.hypot(S.vx[1], S.vy[1])); }
+        const t1 = tot();
+        const patho = { clampV: S.clampVN, clampR: S.clampRN, vMax,
+          dP: Math.hypot(t1.px - t0.px, t1.py - t0.py), res: Math.hypot(S.resPx, S.resPy), nan: S.hasNaN() };
+        const inert = (id) => { HP.loadPreset(id, false);
+          for (let k = 0; k < 2000; k++) HP.sim.step(0.016);
+          return HP.sim.clampRN; };
+        const drN = inert('darkrotor'), gxN = inert('galaxy');
+        HP.loadPreset('saturn', false);
+        return { patho, drN, gxN };
+      });
+      add('clamp.reaction-cap',
+        !r.patho.nan && r.patho.clampR > 0 && r.patho.clampV === 0 && r.patho.vMax < 20
+        && r.patho.dP < 0.05 && r.patho.res > 1 && r.drN === 0 && r.gxN === 0,
+        `病的構成(D0=0・質量比1:1.2e4・2000步): 発動=${r.patho.clampR}回・速度クランプ=${r.patho.clampV}` +
+        `(旧実測1998回 → 0)・惑星 v最大=${r.patho.vMax.toFixed(1)}(<20・旧100)・` +
+        `|ΔΣP|帳簿込み=${r.patho.dP.toExponential(1)}(<0.05)・リザーバ吸収=${r.patho.res.toFixed(1)} / ` +
+        `正規ドラッグ系は不発: 🕶️=${r.drN}回・🌌=${r.gxN}回(=0 — 既存挙動 bit 不変)`);
+    } else {
+      console.log('SKIP clamp.reaction-cap(対象に clampRN なし — root 等。第71便 P0)');
+    }
+  }
+
   // ---- 8a3) 第69便 P4b(E12v2): geoPN=2 — v−u 統一測地線則(beta 先行) ----
   // DERIVATIONS §18 の実装アンカーを機械固定する: ①kF=0 で geoPN=1 と bit 等価(段階導入)
   // ③共動連星(ガリレイ共変性のエンジン版 — P4a-2)⑤保存則(反作用返しで P・L が対で閉じる)。
