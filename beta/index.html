@@ -2436,7 +2436,7 @@ const BUILTIN_PRESETS = [
     summary:"Same physics and same initial configuration as ⛓️ (budget 2 × angle 180°), but the floor wall follows a temperature schedule (0.6 → 20 at t=288). Cooling lets chains self-organize and freeze; strong heating unravels them from the ends back into a fluid of short fragments and free particles — no phase, melting point or latent heat is input; the bond budget and wall temperature alone cycle the state (E14″). ",
     observe:"In the first half (wall 0.6) chains grow to a measured 14 components including a 36-particle chain with rewiring ≈0 (frozen). When the wall switches to 20 at t=288, dissociation proceeds from the ends to a measured 65 components, max size 6, rewiring 0.33 (fluid; T̄ 1.2→12.2). In the mechanism spectrum at bottom right, the bond channel dominates while frozen and the thermal-repulsion channel rises to match it as dissociation proceeds — the changing lead actor (T13) visible dynamically on one screen. A wall at 8 does not melt it (only fragmentation even at T̄6 — the bond wells plus budget concentration win): a definite dissociation temperature emerges by itself. ",
     control:"Edit the wall schedule (T2/tSwitch) in the world tab to hunt the dissociation threshold. Set angK to 0 and the first-half chains collapse into droplets (the same angle control as ⛓️)."}},
-  activeParams:["kRep","kappaS","gammaN","angK"],
+  activeParams:["kRep","kappaS","gravityY","gammaN"],   // ⛓️と同一(angK は phaseChange サブキーのため不可)
   // claims — 説明文の凍結期・解離期の構造値を機械可読化(固定seedの決定論。窓は再較正余地込み)
   claims:[
     { id:"chaincycle.freeze-maxcomp", kind:"fixed-seed", metric:"freezeMaxComponent",
