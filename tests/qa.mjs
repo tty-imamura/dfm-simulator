@@ -5830,6 +5830,75 @@ if (hasEchoFlipAt) {
   }
 }
 
+// ---- 7z5c) 第65便 65A(機構スペクトル診断・P0 — 第64便裁定 §2-3): 機構別 RMS 寄与の診断集積。
+// ----       ① mechspec.zero-cost: overlays.mechSpectrum が無い既定状態は実装前基準(5e6ec71 の
+// ----          beta で採取した 300步 x,y,spin(+Tint) ハッシュ)と bit 一致 = OFF はゼロコスト経路
+// ----       ② mechspec.on-unchanged: 診断 ON でも同じ基準と bit 一致 = 集積は物理へ一切還流しない
+// ----          (E14″ の「観測ラベルは物理へ還流しない」原則の機械固定)
+// ----       ③ mechspec.sanity: 支配機構の分離 — ☿=重力+測地線 / 🧊=結合優勢 / 🕊️=熱斥力 /
+// ----          🌌=引きずりチャネルが kFrame=1 でだけ立つ(T13 の診断層としての妥当性)----
+{
+  const hasMech = await page.evaluate(() => !!(HP.sim && typeof HP.sim.mechSpec === 'function'));
+  if (hasMech) {
+    // 基準は 65A 実装直前の beta(= 第64便 5e6ec71)で採取(tint.zero-cost と同形式+tint 系は Tint も連結)
+    const MB = {
+      mercury: '8666f01f3849fa6e2a409915b3a336bc8d8a1b4fa0f8b8d0a2ab3eb6f4e1abca',
+      galaxy: '2f9f3b381a962df5826c340cfbbec9449707f8c758b94523c23237b3ec909f80',
+      saturn: '5a4e97ec425c03b30803e3f8bc4dc419b66f57d1c1a62cd0d5a6df8e7e480085',
+      emergent2: '0d1381838490754920051e5ff0a4123a3ce1483c38cdecfd5b777b7bdd46aa95',
+      convection: 'd03bf56fce6814531be08249b2697ae487f98e109a4a3da6acd1181fa8550219',
+      freebox: 'a9fbb51894a298af70dc7350e61f9e8fce32e10abddd2ecdafa989312260bc7d',
+    };
+    const run = (pid, mon, kF) => page.evaluate(({ pid, mon, kF }) => {
+      HP.loadPreset(pid, false);
+      const s = HP.sim;
+      if (mon) s.overlays.mechSpectrum = true;
+      if (kF !== undefined) s.params.kFrame = kF;
+      for (let k = 0; k < 300; k++) s.step(0.016);
+      const a = [];
+      for (let i = 0; i < s.n; i++) { a.push(s.x[i], s.y[i], s.spin[i]); if (s.Tint) a.push(s.Tint[i]); }
+      const spec = (mon && s.mechSpec) ? s.mechSpec(true) : null;
+      const slots = mon ? HP.overlaySlots() : [];
+      return { str: a.map(v => v.toExponential(12)).join(','), spec, hasMech: !!s.mech, slots };
+    }, { pid, mon, kF });
+    const H = (str) => crypto.createHash('sha256').update(str).digest('hex');
+    const offBad = [], onBad = [], specs = {};
+    for (const id of Object.keys(MB)) {
+      const off = await run(id, false);
+      if (H(off.str) !== MB[id] || off.hasMech) offBad.push(`${id}(${H(off.str).slice(0, 8)}${off.hasMech ? '・mech確保' : ''})`);
+      const on = await run(id, true);
+      if (H(on.str) !== MB[id]) onBad.push(`${id}(${H(on.str).slice(0, 8)})`);
+      specs[id] = on;
+    }
+    add('mechspec.zero-cost', offBad.length === 0,
+      offBad.length ? `bit不一致/経路混入: ${offBad.join(' ')}`
+        : `${Object.keys(MB).length}件が実装前基準と bit 一致(300步)・OFF では mech 未確保`);
+    add('mechspec.on-unchanged', onBad.length === 0,
+      onBad.length ? `診断ONで物理が動いた: ${onBad.join(' ')}`
+        : `診断ON(集積+読み出し)でも全${Object.keys(MB).length}件が同じ基準と bit 一致 = 物理への還流ゼロ`);
+    // ③ 支配機構の分離(実測 65A: ☿ 98.6/1.4/0/0/0/0・🧊 0.5/0/22.9/17.8/58.8/0・
+    //    🕊️ 1.7/0/98.3/0/0/0・🌌 30.4/0/5.1/50.7/0/13.8。チャネル順 [重力,測地線,熱斥力,接触,結合,引きずり])
+    const gal0 = await run('galaxy', true, 0);   // 対照: kFrame=0 では引きずりチャネルが厳密 0
+    const pm = specs.mercury.spec.pi, pe = specs.emergent2.spec.pi, pf = specs.freebox.spec.pi,
+          pg = specs.galaxy.spec.pi, pg0 = gal0.spec.pi;
+    const fmt = (p) => p.map(v => (v * 100).toFixed(1)).join('/');
+    add('mechspec.sanity',
+      pm[0] > 0.9 && pm[1] > 0.005 && pm[3] === 0 && pm[4] === 0 && pm[5] === 0
+      && pe[4] > 0.4 && pe[4] > pe[0] && pe[1] === 0 && pe[5] === 0
+      && pf[2] > 0.9
+      && pg[5] > 0.05 && pg0[5] === 0
+      && specs.galaxy.slots.includes('mechSpectrum'),
+      `☿ Π=${fmt(pm)}(重力>90%・測地線>0.5%・接触/結合/引きずり=0) / ` +
+      `🧊 Π=${fmt(pe)}(結合>40%かつ重力超え・測地線/引きずり=0) / ` +
+      `🕊️ Π=${fmt(pf)}(熱斥力>90%) / ` +
+      `🌌 Π=${fmt(pg)} vs kFrame=0 の引きずり=${(pg0[5] * 100).toFixed(1)}%(ON>5%・対照=厳密0) / ` +
+      `スロット割当=${specs.galaxy.slots.includes('mechSpectrum')}`);
+    await page.evaluate(() => HP.loadPreset('saturn', false));   // 後続項目のため既定プリセットへ戻す
+  } else {
+    console.log('SKIP mechspec.zero-cost/on-unchanged/sanity(対象に 65A 未適用 — root 等)');
+  }
+}
+
 // ---- 7z5a2) 第47便 47A(台帳4-86 / 原仮定者裁定「対応する」・統括裁定=案B「pinned を外部熱浴
 // ----        として扱う」): E10′(κs 熱伝導)は計算段階では pinned 天体との対も熱を交換するのに、
 // ----        適用段階の②粒子ループが pinned を continue するため、pinned が受け取るはずの dQi が

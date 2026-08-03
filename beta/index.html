@@ -501,6 +501,7 @@ ja: {
   // 第32便(W2): 膨張グラフ overlay(a・H・赤方偏移)
   tgBoxGraph:"膨張グラフ(a・H・赤方偏移)",
   tgPhaseGraph:"相変化グラフ(T̄・液相率)",
+  tgMechSpec:"機構スペクトル(支配機構の診断)",
   // 第23便(原仮定者指示): 「表示」各行のタップ説明
   tgTrailsDesc:"画面を消さずに粒子の残像を重ねる表示効果。物理には影響しない。",
   tgTrailLineDesc:"粒子の軌道を線で記録して描く(☿の楕円歳差など)。記録間隔は描画品質に従う。",
@@ -518,6 +519,9 @@ ja: {
   tgBoxGraphDesc:"箱宇宙(UniverseBox)の尺度因子a(t)・膨張率H(t)の時系列と、拡大による波長の伸び(赤方偏移 1+z=a/a₀)を表示する。箱宇宙プリセットでのみ有効。",
   tgPhaseGraphDesc:"二段の相変化グラフ。上段=平均温度T̄(橙)と平均配位数c̄(緑) — 結合が切れて c̄ が下がる間は T̄ の上がりが鈍る=創発した実効潜熱の因果が読める。下段=六方配向秩序ψ6(水色)と結合の組替率(赤紫・0〜1) — 液体=組替が速い/結晶=組替≈0で秩序高い/ガラス=組替≈0なのに秩序低い、という動的な相の分類が読める。左端の縦帯=高さ別の平均配位数(相前線プロファイル — 床から進む融解・凝固前線)。相変化(E14″)プリセットでのみ有効。",
   ovPhaseGraph:"相変化 T̄・配位数", ovPhaseNote:"上:橙=T̄ 緑=c̄ 下:水=ψ6 紫=組替率×10 左帯=高さ別c(前線) 色=温度 線=結合",
+  tgMechSpecDesc:"いま系を駆動している機構の内訳を実測表示する(第64便 T13 の診断層)。6チャネル(重力E4/測地線E12/熱斥力E5′/接触E9/結合E14″/引きずりE6′)の粒子平均RMS加速度を正規化した比率Π。分子スケールでは結合、天体スケールでは重力+測地線、銀河スケールでは重力+引きずりが立つ — スケールの主役をパラメータ調整の実データとして読める。※力と輸送のRMS正規化比であり、エネルギー比ではない。表示・診断のみで物理には一切影響しない(OFFで計算コストもゼロ)。",
+  ovMechSpec:"機構スペクトル", ovMechNote:"RMS加速度の正規化比Π(診断・物理不変)",
+  mechCh:["重力","測地線","熱斥力","接触","結合","引きずり"],
   // 第53便 53D → 第60便: 相変化(E14″)の実験用パラメータ編集(創発一本化)
   pcSectionHead:"相変化(E14″)の実験",
   pcSectionDesc:"相変化サンプル専用の実験ノブ。8つのノブはどれも「いまの結合状態から」物性を決める連続量で、融点・潜熱・相率のような相の構成則は存在しない(第60便で創発一本化)。加熱/冷却壁の壁温・レートは「実験箱」カテゴリ。A/B比較中は編集対象側だけに効く — 「角度あり/なし」「創発伝導あり/なし」等の対照実験が組める。この編集はセーブに保存される(第54便 54B)。",
@@ -730,6 +734,7 @@ en: {
   tgRays:"Light rays", uiScaleLabel:"Text size",
   tgBoxGraph:"Expansion graph (a, H, redshift)",
   tgPhaseGraph:"Phase-change graph (T̄, liquid fraction)",
+  tgMechSpec:"Mechanism spectrum (dominance diagnostic)",
   tgTrailsDesc:"Overlays fading afterimages of the particles. Display only — physics unchanged.",
   tgTrailLineDesc:"Records and draws orbit lines (e.g. Mercury's precessing ellipse). Recording interval follows render quality.",
   tgFieldDesc:"Background color map of the determinacy W (A3/E1'). Brighter = higher W.",
@@ -746,6 +751,9 @@ en: {
   tgBoxGraphDesc:"Shows the box universe (UniverseBox) scale factor a(t) and expansion rate H(t) over time, plus the wavelength stretch from expansion (redshift 1+z=a/a0). Only active on box-universe presets.",
   tgPhaseGraphDesc:"Two-panel phase graph. Top: mean temperature T̄ (orange) and mean coordination c̄ (green) — while bonds break (c̄ falls), T̄ climbs more slowly, the emergent latent heat read directly. Bottom: hexatic order ψ6 (cyan) and bond rewiring rate (magenta, 0-1) — liquid = fast rewiring, crystal = frozen and ordered, glass = frozen yet disordered: a dynamic classification of states. The left strip shows mean coordination by height (the phase-front profile advancing from the floor). Only active on phase-change (E14″) presets.",
   ovPhaseGraph:"Phase T̄ / coordination", ovPhaseNote:"top:orange=T̄ green=c̄ btm:cyan=ψ6 mag=rewiring×10 left=c by height (front) color=T lines=bonds",
+  tgMechSpecDesc:"Live breakdown of which mechanism is driving the system (the diagnostic layer of T13). Six channels (gravity E4 / geodesic E12 / thermal repulsion E5′ / contact E9 / bonds E14″ / dragging E6′) as the normalized ratio Π of particle-mean RMS accelerations. Bonds dominate at the molecular scale, gravity+geodesic at the celestial scale, gravity+dragging at the galactic scale — the lead actor becomes measured data for parameter tuning. Note: a normalized RMS diagnostic of forces and transport, not an energy ratio. Display-only; physics is untouched (and zero-cost when off).",
+  ovMechSpec:"Mechanism spectrum", ovMechNote:"Normalized RMS ratio Π (diagnostic; physics untouched)",
+  mechCh:["Gravity","Geodesic","Th.rep","Contact","Bond","Drag"],
   pcSectionHead:"Phase-change (E14″) experiments",
   pcSectionDesc:"Experiment knobs for phase-change samples. All eight knobs are continuous quantities that derive material behavior from the current bonding state — there is no phase rule such as a melting point, latent heat or phase fraction (unified as fully emergent in dispatch 60). Wall temperature/rate live in the Lab-box category. During A/B comparison the knobs act only on the edited side, so 'with/without angle' or 'with/without emergent conduction' controls are easy to set up. These edits are stored in saves (dispatch 54, 54B).",
   pcBondN:"Bond budget bondN",
@@ -1156,7 +1164,7 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
 const APP_VERSION = "1.35";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 // 第36便 B1(原仮定者指示): タイトル下に表示するbeta配信時のビルド番号。beta/sw.js の
 // CACHE 接尾辞と同期させる(QA: version.beta-label)。ルート昇格後は使わない("v"+APP_VERSION 表示に戻る)
-const BETA_BUILD = "v1.36-b2";   // 第64便: A9″ ミクロスピン分散(thermal:"microspin" 別名+microSpinRms)
+const BETA_BUILD = "v1.36-b3";   // 第65便: 機構スペクトル診断(P0 — overlays.mechSpectrum)
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 // 第45便 45A(台帳4-48): 光線源・1PN源のしきい値を「質量」から「偏向角」へ物理化した。
@@ -3418,7 +3426,7 @@ function validatePreset(obj){
       p.claims=out;
     }
   }
-  const ov={rotationCurve:false,tempHistogram:false,field:false,spectrum:false,trail:false,monitor:false,boxGraph:false,phaseGraph:false}; // v1.12: trail/monitor を正式化(第6次裁定 7.5)。boxGraph は第32便(W2)。phaseGraph は第53便 53B(E14)
+  const ov={rotationCurve:false,tempHistogram:false,field:false,spectrum:false,trail:false,monitor:false,boxGraph:false,phaseGraph:false,mechSpectrum:false}; // v1.12: trail/monitor を正式化(第6次裁定 7.5)。boxGraph は第32便(W2)。phaseGraph は第53便 53B(E14)。mechSpectrum は第65便 65A(機構スペクトル診断)
   if(p.overlays!==undefined){
     if(typeof p.overlays!=="object"||Array.isArray(p.overlays)) bad("overlaysはオブジェクト");
     else {
@@ -3764,6 +3772,14 @@ function makeSim(){
     // _phNbrPrev/_phNbrPrevN=前サンプルの近傍集合(最大12/粒)・_phProf=高さ8帯の平均配位数
     // (相前線プロファイル — 床側から融解・凝固前線が進むのを見る)
     phHist:null, _phAcc:0, _phNbrPrev:null, _phNbrPrevN:null, _phNbrInit:false, _phProf:null,
+    // 第65便 65A(機構スペクトル診断・P0 — 第64便裁定 §2-3): mech は overlays.mechSpectrum が
+    // 真のプリセット(または表示トグルON)でだけ遅延確保される診断データ層。機構別(重力E4+外場/
+    // 測地線E12/熱斥力E5′/接触E9/結合E14″/引きずりE6′)の加速度寄与を粒子ごとのベクトルとして
+    // サブステップ内で集積し、末尾で |a_k|² を窓積算する(読み口 S.mechSpec が RMS と比率 Π を返す)。
+    // **物理へは一切フィードバックしない**(E14″ の「観測ラベルは物理へ還流しない」原則の全体拡張)。
+    // overlay が偽なら mech===null のまま全サイトが if(msOn) で素通り = 値は 1 bit も不変
+    // (QA mechspec.zero-cost / mechspec.on-unchanged)
+    mech:null,
     curveBins:null, curveKep:null, tempLR:[0,0], histT:[],
   };
   // 第39便 39B(台帳4-76): thermal="spin" のときに _core が掴む tint 系配列のダミー。
@@ -3775,6 +3791,9 @@ function makeSim(){
   // 参照はすべて if(tint) の内側なので spin モードでは 1 度も読まれない = 値は 1 bit も変わらない。
   const __DF32=new Float32Array(1), __DF64=new Float64Array(1),
         __DI32A=new Int32Array(1);   // 第59便 59A: angNbr 系のダミー束縛(型を一定に保つ)
+  // 第65便 65A: 機構スペクトルのダミー束縛(msOn=false のとき MS が掴む。参照はすべて if(msOn) の内側)
+  const __DMECH={nAl:0, gx:__DF64,gy:__DF64,px:__DF64,py:__DF64,rx:__DF64,ry:__DF64,
+                 cx:__DF64,cy:__DF64,bx:__DF64,by:__DF64,dxv:__DF64,dyv:__DF64, sum:__DF64, nS:0};
   S.alloc = function(n){
     S.n=n;
     const F=()=>new Float32Array(n);
@@ -3792,6 +3811,7 @@ function makeSim(){
     S.railR=F();S.railAng=F();S.railOmega=F();S.railCx=F();S.railCy=F();S.railH=F();
     S.pinned=new Uint8Array(n); S.hasU=new Uint8Array(n);
     S.railIdx=null;   // 第29便(第25次レビュー P1-1): レール粒子インデックス(step初回に遅延構築)
+    S.mech=null;   // 第65便 65A: 機構スペクトルの診断層は build ごとに破棄(粒子数が変わるため遅延再確保)
   };
   // プリセット→粒子生成(乱数はプリセットidで固定シード: ⏮で同じ初期配置を再現)
   S.build = function(preset){
@@ -4593,6 +4613,24 @@ function makeSim(){
           shPrev=pc?S.shPrev:__DF32,
           angNbr=(pcAngKN>0)?S.angNbr:__DI32A, angNbrN=(pcAngKN>0)?S.angNbrN:__DI32A;
     if(pcAngKN>0) angNbrN.fill(0);   // 59A: 近傍は毎パス再収集(サブステップを跨ぐ状態ではない)
+    // ===== 第65便 65A(機構スペクトル診断・P0): 集積は msOn のときだけ =====
+    // 6チャネル: gx/gy=重力(E4+E13帯状+一様外場) px/py=測地線(E12) rx/ry=熱斥力(E5′)
+    //            cx/cy=接触(E9 ばね+γn・摩擦インパルス) bx/by=結合(E14″ 引力+減衰+角) dxv/dyv=引きずり(E6′輸送)
+    // インパルス(速度直接変更)は Δv·(1/dt)=msIdt で加速度に換算して同じ帳面に積む。
+    // ③E6′反作用・FLRW対照チャネルは対象外(受けた輸送だけを「その粒子を駆動する機構」として読む)。
+    // leapfrog では非保存インパルスがパスA側だけで起きるため、集積(doPost=パスB)は力チャネル中心に
+    // なる(診断層の既知の限定 — 可逆構成 ⏪echo は元々散逸ゼロ)。
+    // mech の locals は束ねない(全参照が if(msOn) の内側 = OFF 経路では 1 度も読まれない。
+    // __DMECH ダミーで MS の型を一定に保つ — 39B の型フィードバック対策と同型)
+    const msOn=!!(S.overlays && S.overlays.mechSpectrum);
+    if(msOn && (!S.mech || S.mech.nAl!==n)){
+      const F6=()=>new Float64Array(n);
+      S.mech={nAl:n, gx:F6(),gy:F6(),px:F6(),py:F6(),rx:F6(),ry:F6(),cx:F6(),cy:F6(),
+              bx:F6(),by:F6(),dxv:F6(),dyv:F6(), sum:new Float64Array(6*n), nS:0};
+    }
+    const MS=msOn? S.mech : __DMECH, msIdt=msOn? 1/dt : 0;
+    if(msOn){ MS.gx.fill(0); MS.gy.fill(0); MS.px.fill(0); MS.py.fill(0); MS.rx.fill(0); MS.ry.fill(0);
+      MS.cx.fill(0); MS.cy.fill(0); MS.bx.fill(0); MS.by.fill(0); MS.dxv.fill(0); MS.dyv.fill(0); }
     const eps=p.softening, eps2=eps*eps, G=p.G, q=p.q, kRep=p.kRep,
           muF=p.muF, gammaN=p.gammaN, kappaS=p.kappaS, D0=p.D0, kFrame=p.kFrame,
           etaRad=p.etaRad, pRad=p.pRad,
@@ -4697,6 +4735,7 @@ function makeSim(){
         const fg=G*invd3;
         ax[i]-=fg*mj*dx; ay[i]-=fg*mj*dy;
         ax[j]+=fg*mi*dx; ay[j]+=fg*mi*dy;
+        if(msOn){ MS.gx[i]-=fg*mj*dx; MS.gy[i]-=fg*mj*dy; MS.gx[j]+=fg*mi*dx; MS.gy[j]+=fg*mi*dy; }   // 65A: 重力チャネル
         const wj=mj*invW, wi=mi*invW;
         sumW[i]+=wj; sumW[j]+=wi;
         // E12 測地線1PN補正(v1.20・v2.0第1段階): a₁ₚₙ = (λ/c²)[((α−½)v² − (1+2α)U)∇U − (1+2α)(∇U·v)v]
@@ -4710,14 +4749,19 @@ function makeSim(){
           if(mj>=pnK*Math.max(Rj,eps) && !pinned[i]){
             const Uj=G*mj*invW, gux=-fg*mj*dx, guy=-fg*mj*dy;
             const v2i=vx[i]*vx[i]+vy[i]*vy[i], dU=gux*vx[i]+guy*vy[i];
-            ax[i]+=invC2*((cB*v2i-cA*Uj)*gux - cA*dU*vx[i]);
-            ay[i]+=invC2*((cB*v2i-cA*Uj)*guy - cA*dU*vy[i]);
+            // 第65便 65A: 値を束ねてから加算(式・値は 1 bit も不変 — 測地線チャネルへも同じ値を積むため)
+            const pnx=invC2*((cB*v2i-cA*Uj)*gux - cA*dU*vx[i]),
+                  pny=invC2*((cB*v2i-cA*Uj)*guy - cA*dU*vy[i]);
+            ax[i]+=pnx; ay[i]+=pny;
+            if(msOn){ MS.px[i]+=pnx; MS.py[i]+=pny; }
           }
           if(mi>=pnK*Math.max(Ri,eps) && !pinned[j]){
             const Ui=G*mi*invW, gux=fg*mi*dx, guy=fg*mi*dy;   // j から見た ∇U(符号反転)
             const v2j=vx[j]*vx[j]+vy[j]*vy[j], dU=gux*vx[j]+guy*vy[j];
-            ax[j]+=invC2*((cB*v2j-cA*Ui)*gux - cA*dU*vx[j]);
-            ay[j]+=invC2*((cB*v2j-cA*Ui)*guy - cA*dU*vy[j]);
+            const pnx=invC2*((cB*v2j-cA*Ui)*gux - cA*dU*vx[j]),
+                  pny=invC2*((cB*v2j-cA*Ui)*guy - cA*dU*vy[j]);
+            ax[j]+=pnx; ay[j]+=pny;
+            if(msOn){ MS.px[j]+=pnx; MS.py[j]+=pny; }
           }
         }
         // E2/E3 フレーム速度への寄与(並進 + スピン回転 ẑ×(r−r_j)=(−dy,dx))
@@ -4758,6 +4802,7 @@ function makeSim(){
                 const f=kRep*(mi*mj/(mi+mj))*Math.sqrt(Ti*Tj)*(gi*gi+gj*gj);
                 ax[i]+=f/mi*dx; ay[i]+=f/mi*dy;
                 ax[j]-=f/mj*dx; ay[j]-=f/mj*dy;
+                if(msOn){ MS.rx[i]+=f/mi*dx; MS.ry[i]+=f/mi*dy; MS.rx[j]-=f/mj*dx; MS.ry[j]-=f/mj*dy; }   // 65A: 熱斥力チャネル
               }
               if(urep){
                 const A=kRep*(mi*mj/(mi+mj))
@@ -4773,6 +4818,7 @@ function makeSim(){
           const f=kRep*(mi*mj/(mi+mj))*(omi*omi+omj*omj);
           ax[i]+=f/mi*dx; ay[i]+=f/mi*dy;
           ax[j]-=f/mj*dx; ay[j]-=f/mj*dy;
+          if(msOn){ MS.rx[i]+=f/mi*dx; MS.ry[i]+=f/mi*dy; MS.rx[j]-=f/mj*dx; MS.ry[j]-=f/mj*dy; }   // 65A: 熱斥力チャネル(spin モード)
         }
         // E9 接触(重なり)
         const sumR=Ri+Rj;
@@ -4790,6 +4836,7 @@ function makeSim(){
           if(maxInv>0 && Fs*maxInv>8) Fs=8/maxInv;
           ax[i]+=Fs*nxv*invMi; ay[i]+=Fs*nyv*invMi;
           ax[j]-=Fs*nxv*invMj; ay[j]-=Fs*nyv*invMj;
+          if(msOn){ MS.cx[i]+=Fs*nxv*invMi; MS.cy[i]+=Fs*nyv*invMi; MS.cx[j]-=Fs*nxv*invMj; MS.cy[j]-=Fs*nyv*invMj; }   // 65A: 接触チャネル(法線ばね)
           // 第35便: 法線ばね(上)は保存力なので毎回の力評価に含めるが、γn 減衰と接線摩擦は
           // 速度・スピンを直接書き換える非保存インパルスなので 1サブステップ1回だけ適用する
           // (leapfrog で2回適用すると散逸レートが semi の2倍になってしまう)
@@ -4803,6 +4850,8 @@ function makeSim(){
               const jn=-gammaN*vn/K;
               vx[i]+=jn*nxv*invMi; vy[i]+=jn*nyv*invMi;
               vx[j]-=jn*nxv*invMj; vy[j]-=jn*nyv*invMj;
+              if(msOn){ MS.cx[i]+=jn*nxv*invMi*msIdt; MS.cy[i]+=jn*nyv*invMi*msIdt;
+                        MS.cx[j]-=jn*nxv*invMj*msIdt; MS.cy[j]-=jn*nyv*invMj*msIdt; }   // 65A: 接触(γn インパルス→Δv/dt)
               const eN=0.5*(1/K)*vn*vn*(1-(1-gammaN)*(1-gammaN));
               if(tint) dEd+=eN; else S.radE+=eN;
             }
@@ -4817,6 +4866,8 @@ function makeSim(){
             const si0=spin[i], sj0=spin[j];
             vx[i]-=jt*invMi*txv; vy[i]-=jt*invMi*tyv;
             vx[j]+=jt*invMj*txv; vy[j]+=jt*invMj*tyv;
+            if(msOn){ MS.cx[i]-=jt*invMi*txv*msIdt; MS.cy[i]-=jt*invMi*tyv*msIdt;
+                      MS.cx[j]+=jt*invMj*txv*msIdt; MS.cy[j]+=jt*invMj*tyv*msIdt; }   // 65A: 接触(摩擦インパルス→Δv/dt)
             if(!pinned[i]) spin[i]+=Li*jt/Ii9;             // ds = +R̃·j_t/I, I=½mR²
             if(!pinned[j]) spin[j]+=Lj*jt/Ij9;
             const vti1=vx[i]*txv+vy[i]*tyv, vtj1=vx[j]*txv+vy[j]*tyv;
@@ -4900,6 +4951,7 @@ function makeSim(){
               if(maxInv>0 && Fa*maxInv>8){ Fa=8/maxInv; S.clampAN++; }   // 第53便 53B: 発動帳簿
               ax[i]-=Fa*nxv*invMi; ay[i]-=Fa*nyv*invMi;
               ax[j]+=Fa*nxv*invMj; ay[j]+=Fa*nyv*invMj;
+              if(msOn){ MS.bx[i]-=Fa*nxv*invMi; MS.by[i]-=Fa*nyv*invMi; MS.bx[j]+=Fa*nxv*invMj; MS.by[j]+=Fa*nyv*invMj; }   // 65A: 結合チャネル(井戸引力)
             }
             // 減衰は速度を直接書き換える非保存インパルスなので 1サブステップ1回だけ(E9 と同じ)
             if(cD>0 && K>0 && doPre){
@@ -4908,6 +4960,8 @@ function makeSim(){
                 const jn=-cD*vn/K;
                 vx[i]+=jn*nxv*invMi; vy[i]+=jn*nyv*invMi;
                 vx[j]-=jn*nxv*invMj; vy[j]-=jn*nyv*invMj;
+                if(msOn){ MS.bx[i]+=jn*nxv*invMi*msIdt; MS.by[i]+=jn*nyv*invMi*msIdt;
+                          MS.bx[j]-=jn*nxv*invMj*msIdt; MS.by[j]-=jn*nyv*invMj*msIdt; }   // 65A: 結合(創発減衰→Δv/dt)
                 const eN=0.5*(1/K)*vn*vn*(1-(1-cD)*(1-cD));
                 if(eN>0){
                   const si2=eN*mi/(mi+mj), sj2=eN*mj/(mi+mj);
@@ -5026,6 +5080,8 @@ function makeSim(){
             ax[j2]+=fjx*invJ; ay[j2]+=fjy*invJ;
             ax[k2]+=fkx*invK2; ay[k2]+=fky*invK2;
             ax[i2]-=(fjx+fkx)*invI; ay[i2]-=(fjy+fky)*invI;
+            if(msOn){ MS.bx[j2]+=fjx*invJ; MS.by[j2]+=fjy*invJ; MS.bx[k2]+=fkx*invK2; MS.by[k2]+=fky*invK2;
+                      MS.bx[i2]-=(fjx+fkx)*invI; MS.by[i2]-=(fjy+fky)*invI; }   // 65A: 結合チャネル(角ポテンシャル3体)
           }
         }
       }
@@ -5050,6 +5106,7 @@ function makeSim(){
           const axz=daz*dxz/rz, ayz=daz*dyz/rz;
           ax[jz]+=axz; ay[jz]+=ayz;
           ax[zi]-=axz*m[jz]/mzi; ay[zi]-=ayz*m[jz]/mzi;   // 作用反作用(帳簿の対称性。中心は pinned 想定)
+          if(msOn){ MS.gx[jz]+=axz; MS.gy[jz]+=ayz; MS.gx[zi]-=axz*m[jz]/mzi; MS.gy[zi]-=ayz*m[jz]/mzi; }   // 65A: 重力チャネル(E13 帯状補正)
         }
       }
     }
@@ -5124,6 +5181,7 @@ function makeSim(){
         vx[i]+=gX*dt; vy[i]+=gY*dt;
         S.resPx-=m[i]*gX*dt; S.resPy-=m[i]*gY*dt;
         S.resL-=m[i]*(x[i]*gY-y[i]*gX)*dt;
+        if(msOn){ MS.gx[i]+=gX; MS.gy[i]+=gY; }   // 65A: 重力チャネル(一様外場 — 加速度そのもの)
       }
       // E6′ 輸送項(自分自身は除外して評価。1サブステップの引きずり量は0.8に制限)
       // v1.20: geoPN=1(E12測地線モード)では物質への E6′ を無効化 — 作用由来の式に
@@ -5140,6 +5198,7 @@ function makeSim(){
           const dl2=dux*dux+duy*duy;
           if(dl2>0.64){ const sc=0.8/Math.sqrt(dl2); dux*=sc; duy*=sc; }
           vx[i]+=kFrame*dux; vy[i]+=kFrame*duy;
+          if(msOn){ MS.dxv[i]+=kFrame*dux*msIdt; MS.dyv[i]+=kFrame*duy*msIdt; }   // 65A: 引きずりチャネル(E6′輸送→Δv/dt)
           dpx[i]=m[i]*kFrame*dux; dpy[i]=m[i]*kFrame*duy;  // Δp_i(反作用パスで分配)
           if(dpx[i]!==0||dpy[i]!==0) anyDp=true;
         }
@@ -5300,6 +5359,21 @@ function makeSim(){
           S.resPx-=rpx; S.resPy-=rpy; S.resL-=x[i]*rpy-y[i]*rpx;
         }
       }
+    }
+    // ===== 第65便 65A: 機構スペクトルの窓積算(診断層 — ③の後・④の前。物理状態は一切読まない/書かない)
+    // このサブステップの機構別ベクトルの |a_k|² を粒子ごとに積む(窓は読み口 S.mechSpec が閉じる)。
+    // doPost 限定 = semi は毎サブステップ・leapfrog はパスB側の1回(二重計上なし)
+    if(msOn && doPost){
+      const sum=MS.sum;
+      for(let i=0;i<n;i++){
+        sum[i]      +=MS.gx[i]*MS.gx[i]+MS.gy[i]*MS.gy[i];
+        sum[n+i]    +=MS.px[i]*MS.px[i]+MS.py[i]*MS.py[i];
+        sum[2*n+i]  +=MS.rx[i]*MS.rx[i]+MS.ry[i]*MS.ry[i];
+        sum[3*n+i]  +=MS.cx[i]*MS.cx[i]+MS.cy[i]*MS.cy[i];
+        sum[4*n+i]  +=MS.bx[i]*MS.bx[i]+MS.by[i]*MS.by[i];
+        sum[5*n+i]  +=MS.dxv[i]*MS.dxv[i]+MS.dyv[i]*MS.dyv[i];
+      }
+      MS.nS++;
     }
     // ===== ④ 粒子ループ: 安全上限・位置更新・境界・時計 =====
     const b=S.world;
@@ -5583,6 +5657,21 @@ function makeSim(){
     // 第36便 D(台帳4-51): 内部温度も発散検出の対象(tint モードのみ。spin モードは配列ごと存在しない)
     if(S.Tint) for(let i=0;i<S.n;i++) if(!isFinite(S.Tint[i])) return true;
     return false;
+  };
+  // 第65便 65A(機構スペクトル診断・P0): 窓積算の読み口。チャネル順 [重力, 測地線, 熱斥力, 接触,
+  // 結合, 引きずり]。ms=平均二乗加速度(粒子・サブステップ平均)・rms=√ms・pi=RMS の正規化比率
+  // (**力と輸送の RMS を正規化した診断量であり、エネルギー比ではない** — 第64便裁定の明記事項)。
+  // reset=true(既定)で窓を閉じる(sum と nS をクリア — 表示は読むたびに直近窓の平均を得る)。
+  // 診断層のみ: 物理状態には一切触れない
+  S.mechSpec=function(reset=true){
+    const M=S.mech; if(!M || !M.nS) return null;
+    const n=S.n, out={nS:M.nS, ms:[0,0,0,0,0,0], rms:[0,0,0,0,0,0], pi:[0,0,0,0,0,0]};
+    for(let c=0;c<6;c++){ let a=0; const o=c*n; for(let i=0;i<n;i++) a+=M.sum[o+i]; out.ms[c]=a/(M.nS*n); }
+    let tot=0;
+    for(let c=0;c<6;c++){ out.rms[c]=Math.sqrt(out.ms[c]); tot+=out.rms[c]; }
+    if(tot>0) for(let c=0;c<6;c++) out.pi[c]=out.rms[c]/tot;
+    if(reset){ M.sum.fill(0); M.nS=0; }
+    return out;
   };
   return S;
 }
@@ -5978,11 +6067,12 @@ function overlaySlots(){
   if(sim.overlays.boxGraph && (sim.box || sim.measureBox)) s.push("boxGraph");
   // 第53便 53B(E14): 相変化グラフ — phaseChange の無いプリセットではスロットを割り当てない
   if(sim.overlays.phaseGraph && sim.phase) s.push("phaseGraph");
+  if(sim.overlays.mechSpectrum) s.push("mechSpectrum");   // 第65便 65A: 機構スペクトル(全プリセット有効)
   return s;
 }
 // 第26便(原仮定者指示): グラフの最小化 — キーごとの状態と可変高さのスロット積み。
 // 最小化中はタイトルバー(高さ16)だけを描き、バー全体のタップで復元。展開中は右上「−」で最小化
-const ovMin={rotationCurve:false,tempHistogram:false,spectrum:false,boxGraph:false,phaseGraph:false};
+const ovMin={rotationCurve:false,tempHistogram:false,spectrum:false,boxGraph:false,phaseGraph:false,mechSpectrum:false};
 const OV_H=92, OV_HMIN=16;
 // 第61便 61B(レビューP1「phaseGraph 二段化」): グラフごとの展開高さ(未登録は OV_H)
 const OV_HK={phaseGraph:152};
@@ -6297,6 +6387,45 @@ function drawPhaseGraph(slot=0){
   ctx.fillText(T("ovPhaseNote"),X+6,Y+146);
   ctx.restore();
   ovDrawToggle("phaseGraph",slot);
+}
+// 第65便 65A(機構スペクトル診断・P0 — 第64便裁定 §2-3): 6機構の粒子平均RMS加速度の正規化比 Π を
+// 横棒で表示する。データ源は S.mechSpec(true)(直近の表示フレーム間の窓平均 — 読むたびに窓を閉じる)。
+// 表示は指数平滑(0.25)で読みやすくするが、データ層は生値(平滑は sim._mechDisp に持ち、A/B の
+// B 側と混ざらない)。**RMS 正規化比であってエネルギー比ではない**(凡例に明記)
+const MECH_COLORS=["#6da8ff","#b07fff","#ff9d45","#9aa2c8","#57d38c","#4fd8e8"];
+function drawMechSpectrum(slot=0){
+  if(ovOverlayMin("mechSpectrum",slot,T("ovMechSpec"))) return;   // 最小化中はタイトルバーのみ
+  const uz=uiFontScale, W=150,H=OV_H,X=0,Y=0;
+  const r=sim.mechSpec? sim.mechSpec(true) : null;
+  if(r){
+    if(!sim._mechDisp) sim._mechDisp=r.pi.slice();
+    else for(let c=0;c<6;c++) sim._mechDisp[c]+=(r.pi[c]-sim._mechDisp[c])*0.25;
+  }
+  const pi=sim._mechDisp;
+  ctx.save(); ctx.translate(cw-W*uz-8, overlayBaseY(slot)); ctx.scale(uz,uz);
+  ctx.fillStyle="rgba(12,16,34,0.82)"; ctx.fillRect(X,Y,W,H);
+  ctx.strokeStyle="#2a3060"; ctx.strokeRect(X,Y,W,H);
+  ctx.font="8px sans-serif"; ctx.fillStyle="#8b93c8";
+  ctx.fillText(T("ovMechSpec"),X+6,Y+9);
+  const labels=T("mechCh");
+  if(pi){
+    const bx0=X+42, bx1=X+120;
+    for(let c=0;c<6;c++){
+      const yc=Y+13+c*11;
+      ctx.font="7px sans-serif"; ctx.fillStyle="#aab2dd";
+      ctx.fillText(labels[c],X+6,yc+7);
+      ctx.fillStyle="#1a2048"; ctx.fillRect(bx0,yc,bx1-bx0,8);
+      ctx.fillStyle=MECH_COLORS[c]; ctx.fillRect(bx0,yc,(bx1-bx0)*Math.min(1,pi[c]),8);
+      ctx.fillStyle="#dfe4ff"; ctx.fillText((pi[c]*100).toFixed(0)+"%",bx1+3,yc+7);
+    }
+  } else {
+    ctx.font="7px sans-serif"; ctx.fillStyle="#5a6090";
+    ctx.fillText("…",X+6,Y+24);   // 窓がまだ空(停止中など)
+  }
+  ctx.font="6px sans-serif"; ctx.fillStyle="#5a6090";
+  ctx.fillText(T("ovMechNote"),X+6,Y+88);
+  ctx.restore();
+  ovDrawToggle("mechSpectrum",slot);
 }
 function drawBoxGraph(slot=0){
   const meas=!sim.box && !!sim.measureBox;
@@ -6618,6 +6747,7 @@ function render(){
   // 第32便(W2): 膨張グラフ。A/B比較は renderAB() 側(未変更)を通るためここには来ない(単独表示のみ)
   if(sim.overlays.boxGraph && (sim.box || sim.measureBox)) drawBoxGraph(slots.indexOf("boxGraph"));   // 第35便: 実測 a_eff も対象
   if(sim.overlays.phaseGraph && sim.phase) drawPhaseGraph(slots.indexOf("phaseGraph"));   // 第53便 53B(E14)
+  if(sim.overlays.mechSpectrum) drawMechSpectrum(slots.indexOf("mechSpectrum"));   // 第65便 65A
   // 近点検出器の UI 表示(第11次裁定 保留分): 最内粒子の実測 Δϖ/周 と E13 解析値を左上に併記
   if(sim.zonal && sim.periDet){
     const P=sim.periDet; let bi=-1, ba=1e18;
@@ -7830,6 +7960,8 @@ function buildParamRows(){
     ["boxGraph",T("tgBoxGraph"),()=>!!sim.overlays.boxGraph,setOv("boxGraph"),"tgBoxGraphDesc"],
     // 第53便 53B(E14): 相変化グラフ(phaseChange プリセットのみ有効)
     ["phaseGraph",T("tgPhaseGraph"),()=>!!sim.overlays.phaseGraph,setOv("phaseGraph"),"tgPhaseGraphDesc"],
+    // 第65便 65A: 機構スペクトル診断(全プリセット有効。OFF で計算コストもゼロ — mechspec.zero-cost)
+    ["mechSpectrum",T("tgMechSpec"),()=>!!sim.overlays.mechSpectrum,setOv("mechSpectrum"),"tgMechSpecDesc"],
     ["monitor",T("tgMonitor"),()=>monitorOn,(v)=>monitorOn=v,"tgMonitorDesc"]];
   // 第23便(原仮定者指示): 「表示」の各行もパラメータ名タップで説明を開閉(品質行と同じ pdesc 方式)
   const tapDesc=(row,lab,descKey)=>{
