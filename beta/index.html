@@ -959,7 +959,7 @@ en: {
     cHeat:"Heat-capacity coefficient, active only in the internal-temperature mode (samples with thermal:\"tint\"). A particle's heat energy is E=C·m·T_int, so a dissipated ΔE raises it by ΔT_int=ΔE/(C·m) (A9′/E9). Larger C means the same dissipation heats less. It does nothing in the default spin-as-heat mode (thermal omitted).",
     gravityX:"Uniform external gravity acting horizontally across the whole scene (v1.17). It does not contribute to determinacy W, so it builds a 'ground lab' without distorting clocks, light or dragging. Momentum exchange is ledgered.",
     gravityY:"Uniform external gravity acting vertically (+y is down on screen). The 'downward gravity' of ⚾ free fall, ♨️ convection and 🧪 buoyancy. Set 0 for weightlessness.",
-    geoPN:"The v2.0 geodesic mode (E12). At 1, matter's motion is derived by an action principle from the same ψ=W/Kt that slows clocks, enabling the 1PN correction (☿); E6′ dragging on matter is disabled (no double counting). 0 = legacy.",
+    geoPN:"The v2.0 geodesic mode (E12). At 1, matter's motion is derived by an action principle from the same ψ=W/Kt that slows clocks, enabling the 1PN correction (☿); E6′ dragging on matter is disabled (no double counting). At 2, the unified v−u geodesic law (stage 2): frame transport, vorticity Coriolis (the true face of dragging) and 1PN all follow from one equation derived with u≠0 — exactly equal to 1 when kFrame=0. 0 = legacy.",
     lambdaPN:"On/off switch of the 1PN correction in geodesic mode (geoPN=1). At 0 you recover Newtonian gravity and the ellipse closes — the A/B control for ☿ Mercury.",
     pnAlpha:"Breakdown of the 1PN correction (E12). 1.5 = full (GR's β=γ=1 — the full 42.98″/century of Mercury), 0.5 = time-rate only (advance drops to 1/3). Machine-verified in V18–V20.",
     radiusScale:"Global scale of the particle radius R=radiusScale·rMul·√m (default 1). Affects contact size and the moment of inertia I=½mR² (the I in temperature T=Is²). Per-body variation lives in the body key rMul; this knob scales every particle relatively. A discretization setting, not a law of physics.",
@@ -1126,7 +1126,7 @@ function classifyPreset(p){
   const ext=externalTags(p);
   const ph=p.physics||{};
   const layers=[];
-  if(ph.geoPN===1 || (p.bodies||[]).some(b=>!!b.zonal)) layers.push("extension");   // E12/E13
+  if(ph.geoPN>=1 || (p.bodies||[]).some(b=>!!b.zonal)) layers.push("extension");   // E12/E13(第69便: geoPN=2 も E12 拡張)
   if(p.universeBox) layers.push("background");                                     // UniverseBox 規定背景
   if(p.photonEmit) layers.push("semantic");                                        // 光子波長の意味論
   if(p.universeBox && p.universeBox.friction==="flrw") layers.push("comparison");   // FLRW対照チャネル
@@ -1176,7 +1176,7 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
 const APP_VERSION = "1.35";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 // 第36便 B1(原仮定者指示): タイトル下に表示するbeta配信時のビルド番号。beta/sw.js の
 // CACHE 接尾辞と同期させる(QA: version.beta-label)。ルート昇格後は使わない("v"+APP_VERSION 表示に戻る)
-const BETA_BUILD = "v1.36-b5";   // 第67便: ♻️温度循環+P3 サンプル4分類チップ
+const BETA_BUILD = "v1.36-b6";   // 第69便: geoPN=2(v−u 統一測地線則・P4b)
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 const N_CAP = 600;                        // 粒子総数上限
 // 第45便 45A(台帳4-48): 光線源・1PN源のしきい値を「質量」から「偏向角」へ物理化した。
@@ -1243,8 +1243,8 @@ const PARAM_DEFS = [
    desc:"画面全体に働く横方向の一様な外部重力場(v1.17)。決定力Wには寄与しないので、時計・光・引きずりを歪めずに「地上の実験室」を作れる。運動量は場との交換として帳簿に記録。"},
   {key:"gravityY",label:"一様重力 g_y",      mode:"lin", lo:-5, hi:5, step:0.005, cat:"box", group:"法則",
    desc:"画面全体に働く縦方向の一様な外部重力場(+yは画面下向き)。⚾自由落下・♨️対流・🧪浮力の「下向きの重力」はこれ。0にすると無重力になる。"},
-  {key:"geoPN",   label:"測地線モード geoPN", mode:"lin", lo:0, hi:1, step:1,    cat:"dg", group:"法則",
-   desc:"v2.0の測地線モード(E12)。1にすると、時計を遅らせるのと同じψ=W/Ktから物質の運動を作用原理で導き、1PN補正が働く(☿)。同時に物質へのE6′引きずりは無効化(二重計上禁止)。0=従来(legacy)。"},
+  {key:"geoPN",   label:"測地線モード geoPN", mode:"lin", lo:0, hi:2, step:1,    cat:"dg", group:"法則",
+   desc:"v2.0の測地線モード(E12)。1にすると、時計を遅らせるのと同じψ=W/Ktから物質の運動を作用原理で導き、1PN補正が働く(☿)。同時に物質へのE6′引きずりは無効化(二重計上禁止)。2にすると v−u 統一測地線則(v2.0第2段階): u≠0 のまま導いた式で、フレーム輸送・渦度コリオリ(引きずりの正体)・1PN が一本の式から出る — kFrame=0 では 1 と厳密に同じ。0=従来(legacy)。"},
   {key:"lambdaPN",label:"1PN補正 λ_PN",      mode:"lin", lo:0, hi:1, step:1,    cat:"dg", group:"法則",
    desc:"測地線モード(geoPN=1)の1PN補正のON/OFF。0にするとニュートン重力に戻り、楕円軌道が閉じる — ☿水星のA/B対照実験用スイッチ。"},
   {key:"pnAlpha", label:"1PN係数 α(0.5=時間率のみ, 1.5=完全)", mode:"lin", lo:0.5, hi:1.5, step:0.5, cat:"dg", group:"法則",
@@ -1276,7 +1276,7 @@ const CLAMPS = { G:[0,100], D0:[0,1000], kFrame:[0,1], q:[0.5,4], kRep:[0,20], m
   cLight:[1,10000], bM:[0.001,1000], etaRad:[0,1], pRad:[1,6], radiusScale:[0.2,5],
   cHeat:[0.01,1000],   // 第36便 D(台帳4-51): 熱容量係数 C(thermal:"tint" 専用)
   gravityX:[-10,10], gravityY:[-10,10],
-  geoPN:[0,1], lambdaPN:[0,1], pnAlpha:[0,2],   // v1.20: E12 測地線1PN
+  geoPN:[0,2], lambdaPN:[0,1], pnAlpha:[0,2],   // v1.20: E12 測地線1PN(第69便: geoPN=2 統一則を追加)
   softening:[0.5,20], timeScale:[0.1,16] };
 
 // ===== 内蔵プリセット(スキーマは内部開発文書 HANDOFF_IMPLEMENTATION.md §契約1 — 非公開管理) =====
@@ -3963,6 +3963,7 @@ function makeSim(){
     S.pinned=new Uint8Array(n); S.hasU=new Uint8Array(n);
     S.railIdx=null;   // 第29便(第25次レビュー P1-1): レール粒子インデックス(step初回に遅延構築)
     S.mech=null;   // 第65便 65A: 機構スペクトルの診断層は build ごとに破棄(粒子数が変わるため遅延再確保)
+    S._g2=null;    // 第69便 P4b: geoPN=2 の ∇u 勾配集積も build ごとに破棄(_core が遅延確保)
   };
   // プリセット→粒子生成(乱数はプリセットidで固定シード: ⏮で同じ初期配置を再現)
   S.build = function(preset){
@@ -4793,6 +4794,24 @@ function makeSim(){
           // (= pnMassMin(p,R) と同一式。K=c²/G は E12 の小ささを決める U/c² 側の時空係数)。
           // geo=0 の宇宙では参照されない。G≤0 なら Infinity=源なし(1PN 自体が消える)
           pnK=(p.G>0)? (RAY_ALPHA_MIN/4)*(p.cLight*p.cLight)/p.G : Infinity;
+    // ===== 第69便 P4b(E12v2): geoPN=2 — v−u 統一測地線則(DERIVATIONS §18)=====
+    //   dv/dt = kF·[∂u/∂t + (u·∇)u + (∇×u)ẑ×w] + ∇U + a₁ₚₙ(w)、 w = v − kF·u
+    // geo2 が立つのは geoPN=2 のときだけで、**0/1 の経路は 1 bit も変えない**(裁定=段階導入)。
+    // kFrame=0 では w=v が厳密に成り立ち輸送3項も消えるため geoPN=1 と bit 等価
+    // (QA geo2.kf0-bitequal — P4a-4 のエンジン版アンカー)。
+    // ∇u は解析勾配: u=P/W(P=Σw_j·c_j+W_B·u_B、W=D₀+W_B+Σw_j)より
+    //   J_ab=∂u_a/∂x_b=(∂P_a/∂x_b − u_a·∂W/∂x_b)/W
+    // を対ループ①で集積する(g2on のときだけ確保・集積 — 既定経路はゼロコスト)
+    const geo2=(p.geoPN||0)>=2, g2on=geo2&&kFrame>0;
+    if(g2on && (!S._g2 || S._g2.nAl!==n)){
+      const F6=()=>new Float64Array(n);
+      S._g2={nAl:n, dPxx:F6(),dPxy:F6(),dPyx:F6(),dPyy:F6(),dWx:F6(),dWy:F6()};
+    }
+    // 39B と同型の型固定: OFF 経路はダミー Float64 を掴む(参照はすべて if(g2on) の内側)
+    const dPxx=g2on?S._g2.dPxx:__DF64, dPxy=g2on?S._g2.dPxy:__DF64,
+          dPyx=g2on?S._g2.dPyx:__DF64, dPyy=g2on?S._g2.dPyy:__DF64,
+          dWxA=g2on?S._g2.dWx:__DF64, dWyA=g2on?S._g2.dWy:__DF64;
+    if(g2on){ dPxx.fill(0); dPxy.fill(0); dPyx.fill(0); dPyy.fill(0); dWxA.fill(0); dWyA.fill(0); }
     // radiusScale 変更の追従。第36便 C1: 主判定を「updateRadii が最後に使った radiusScale との
     // 一致」へ変更(rMul 焼き込み後は R[0] と rs·√|m₀| が恒常的にずれるため、旧式のままだと
     // 全プリセットで毎サブステップ再計算になる)。第2項は S.m を直接書き換える経路への保険。
@@ -4899,20 +4918,46 @@ function makeSim(){
           const cA=1+2*pnA, cB=pnA-0.5;
           if(mj>=pnK*Math.max(Rj,eps) && !pinned[i]){
             const Uj=G*mj*invW, gux=-fg*mj*dx, guy=-fg*mj*dy;
-            const v2i=vx[i]*vx[i]+vy[i]*vy[i], dU=gux*vx[i]+guy*vy[i];
+            // 第69便 P4b: geoPN=2 は特異速度 w=v−kF·u で評価(§18.1 の v→w 置換)。u は直前サブ
+            // ステップの粒子追跡値(uPx/uPy — E6′ と同じ帳面)で、geoPN=1・kFrame=0・初回
+            // (hasU=0)のいずれでも w=v が厳密に成り立つ(bit 等価の要)
+            const wxi=(geo2&&S.hasU[i])? vx[i]-kFrame*S.uPx[i] : vx[i],
+                  wyi=(geo2&&S.hasU[i])? vy[i]-kFrame*S.uPy[i] : vy[i];
+            const v2i=wxi*wxi+wyi*wyi, dU=gux*wxi+guy*wyi;
             // 第65便 65A: 値を束ねてから加算(式・値は 1 bit も不変 — 測地線チャネルへも同じ値を積むため)
-            const pnx=invC2*((cB*v2i-cA*Uj)*gux - cA*dU*vx[i]),
-                  pny=invC2*((cB*v2i-cA*Uj)*guy - cA*dU*vy[i]);
+            const pnx=invC2*((cB*v2i-cA*Uj)*gux - cA*dU*wxi),
+                  pny=invC2*((cB*v2i-cA*Uj)*guy - cA*dU*wyi);
             ax[i]+=pnx; ay[i]+=pny;
             if(msOn){ MS.px[i]+=pnx; MS.py[i]+=pny; }
+            // 第69便 P4b(帳簿=反作用返し・§18.4): geoPN=2 では ∇U_j 因子の対反作用を自由源 j へ
+            // 返す(運動量が対で閉じる)。残余トルクは E6′③ と同じ等角加速度でスピンへ移譲し
+            // L も対で閉じる。pinned 源は E4 と同じ外部拘束の扱い(=第1段階と同じ開放系)
+            if(geo2 && !pinned[j]){
+              ax[j]-=pnx*mi/mj; ay[j]-=pny*mi/mj;
+              const IJ=Imom[i]+Imom[j];
+              if(Math.abs(IJ)>1e-9){
+                const dsn=mi*(dx*pny-dy*pnx)/IJ;
+                spin[i]-=dsn*kickDt; spin[j]-=dsn*kickDt;
+              }
+            }
           }
           if(mi>=pnK*Math.max(Ri,eps) && !pinned[j]){
             const Ui=G*mi*invW, gux=fg*mi*dx, guy=fg*mi*dy;   // j から見た ∇U(符号反転)
-            const v2j=vx[j]*vx[j]+vy[j]*vy[j], dU=gux*vx[j]+guy*vy[j];
-            const pnx=invC2*((cB*v2j-cA*Ui)*gux - cA*dU*vx[j]),
-                  pny=invC2*((cB*v2j-cA*Ui)*guy - cA*dU*vy[j]);
+            const wxj=(geo2&&S.hasU[j])? vx[j]-kFrame*S.uPx[j] : vx[j],
+                  wyj=(geo2&&S.hasU[j])? vy[j]-kFrame*S.uPy[j] : vy[j];
+            const v2j=wxj*wxj+wyj*wyj, dU=gux*wxj+guy*wyj;
+            const pnx=invC2*((cB*v2j-cA*Ui)*gux - cA*dU*wxj),
+                  pny=invC2*((cB*v2j-cA*Ui)*guy - cA*dU*wyj);
             ax[j]+=pnx; ay[j]+=pny;
             if(msOn){ MS.px[j]+=pnx; MS.py[j]+=pny; }
+            if(geo2 && !pinned[i]){   // 第69便 P4b: 対反作用(上と対称 — 自由源 i へ)
+              ax[i]-=pnx*mj/mi; ay[i]-=pny*mj/mi;
+              const IJ=Imom[i]+Imom[j];
+              if(Math.abs(IJ)>1e-9){
+                const dsn=mj*(dy*pnx-dx*pny)/IJ;
+                spin[i]-=dsn*kickDt; spin[j]-=dsn*kickDt;
+              }
+            }
           }
         }
         // E2/E3 フレーム速度への寄与(並進 + スピン回転 ẑ×(r−r_j)=(−dy,dx))
@@ -4935,6 +4980,45 @@ function makeSim(){
         }
         uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));
         uAx[j]+=wi*(vx[i]+omi*(dy));  uAy[j]+=wi*(vy[i]+omi*(-dx));
+        // ===== 第69便 P4b(E12v2): geoPN=2 の ∇u 用勾配集積(g2on のときだけ走る)=====
+        // u=P/W の分子 P_a=Σ_j w_j·c_j,a(c_j=v_j+ω_j(d)·ẑ×(r−r_j))と分母 W の空間勾配を
+        // 対ごとに解析で積む: ∂w_j/∂r=−m_j·(r−r_j)·invW³(E1′ Plummer 型の厳密微分)、
+        // ∂ω/∂d=−q·ω/(R+d)(基底+コア差動は −q·ω_c/(Rc+d) — ②③のフレーム式と同じ核)。
+        // 0/1 経路はこの分岐を素通り(値・型とも不変)
+        if(g2on){
+          const idd=(d>1e-9)? 1/d : 0;
+          let domj=0, domi=0;   // ∂ω/∂d(基底+コア差動)
+          if(sj!==0){ const tt=Rj/(Rj+d), o0=(q===2)? sj*tt*tt : sj*Math.pow(tt,q); domj-=q*o0/(Rj+d); }
+          if(si!==0){ const tt=Ri/(Ri+d), o0=(q===2)? si*tt*tt : si*Math.pow(tt,q); domi-=q*o0/(Ri+d); }
+          if(hasCore){
+            const cmr=coreMR[j];
+            if(cmr!==0 && sj!==0 && Rc[j]>0){ const chi=coreSR[j];
+              if(chi!==1){ const tt=Rc[j]/(Rc[j]+d), oc=cmr*sj*(chi-1)*((q===2)? tt*tt : Math.pow(tt,q)); domj-=q*oc/(Rc[j]+d); } }
+            const cmri=coreMR[i];
+            if(cmri!==0 && si!==0 && Rc[i]>0){ const chi=coreSR[i];
+              if(chi!==1){ const tt=Rc[i]/(Rc[i]+d), oc=cmri*si*(chi-1)*((q===2)? tt*tt : Math.pow(tt,q)); domi-=q*oc/(Rc[i]+d); } }
+          }
+          { // i 側(源 j): r−r_j=(dx,dy)、c=(vx_j−ω_j·dy, vy_j+ω_j·dx)
+            const gwx=-mj*dx*invd3, gwy=-mj*dy*invd3;
+            const cxv=vx[j]+omj*(-dy), cyv=vy[j]+omj*(dx);
+            const nx=dx*idd, ny=dy*idd;
+            dPxx[i]+=gwx*cxv + wj*(-dy*domj*nx);
+            dPxy[i]+=gwy*cxv + wj*(-omj - dy*domj*ny);
+            dPyx[i]+=gwx*cyv + wj*( omj + dx*domj*nx);
+            dPyy[i]+=gwy*cyv + wj*( dx*domj*ny);
+            dWxA[i]+=gwx; dWyA[i]+=gwy;
+          }
+          { // j 側(源 i): r−r_i=(−dx,−dy)、c=(vx_i+ω_i·dy, vy_i−ω_i·dx)
+            const gwx=mi*dx*invd3, gwy=mi*dy*invd3;
+            const cxv=vx[i]+omi*(dy), cyv=vy[i]+omi*(-dx);
+            const nx=-dx*idd, ny=-dy*idd;
+            dPxx[j]+=gwx*cxv + wi*( dy*domi*nx);
+            dPxy[j]+=gwy*cxv + wi*(-omi + dy*domi*ny);
+            dPyx[j]+=gwx*cyv + wi*( omi - dx*domi*nx);
+            dPyy[j]+=gwy*cyv + wi*(-dx*domi*ny);
+            dWxA[j]+=gwx; dWyA[j]+=gwy;
+          }
+        }
         // E5′ スピン斥力(対称化・中心力): F = kRep·μ·(ω_i²+ω_j²)·(r_i−r_j)
         // 第36便 D(台帳4-51 / E5′ 改訂): thermal:"tint" では圧力の源をスピンから内部温度へ移す。
         //   F = kRep·μ·√(T_int,i·T_int,j)·(g_i²+g_j²)·(r_i−r_j)、g_a=(R_a/(R_a+d))^q
@@ -5351,6 +5435,37 @@ function makeSim(){
           vx[i]+=kFrame*dux; vy[i]+=kFrame*duy;
           if(msOn){ MS.dxv[i]+=kFrame*dux*msIdt; MS.dyv[i]+=kFrame*duy*msIdt; }   // 65A: 引きずりチャネル(E6′輸送→Δv/dt)
           dpx[i]=m[i]*kFrame*dux; dpy[i]=m[i]*kFrame*duy;  // Δp_i(反作用パスで分配)
+          if(dpx[i]!==0||dpy[i]!==0) anyDp=true;
+        }
+        S.uPx[i]=ux; S.uPy[i]=uy; S.hasU[i]=1;
+      }
+      // ===== 第69便 P4b(E12v2): geoPN=2 の輸送3項 kF·[∂u/∂t+(u·∇)u+(∇×u)ẑ×w]·dt =====
+      // ∂u/∂t+(v·∇)u は E6′ と同じ「粒子追跡の u 差分」(uPx/uPy)で測り、余分の ((v−u)·∇)u を
+      // ①で集積した解析勾配 J=(∇P−u⊗∇W)/W で差し引く。渦度コリオリは curl=J_yx−J_xy と
+      // w=v−kF·u。Δv の反作用 Δp_i は E6′ と同一の③パス(φ_ij 対分配+残余トルク+背景リザーバ)
+      // へ流す(§18.4 裁定=反作用返し)。legacy E6′ の Δv=kF·Δu はこの式の
+      // 「勾配補正・渦度なし」離散版 — geoPN=2 が連続極限の正式形(§18.2)
+      else if(denom>1e-9 && g2on){
+        let unx=uAx[i], uny=uAy[i];
+        let pxx=dPxx[i], pxy=dPxy[i], pyx=dPyx[i], pyy=dPyy[i];
+        if(WB>0){ const bx=x[i]-B.cx, by=y[i]-B.cy;
+          unx+=WB*(B.vx - B.omega*by + bH*bx); uny+=WB*(B.vy + B.omega*bx + bH*by);
+          // 箱の規定速度場 u_B=V+Ωẑ×(r−c)+H(r−c) の勾配は定数行列 [[H,−Ω],[Ω,H]](W_B は一様)
+          pxx+=WB*bH; pxy+=WB*(-B.omega); pyx+=WB*B.omega; pyy+=WB*bH; }
+        const ux=unx/denom, uy=uny/denom;
+        if(S.hasU[i]){
+          const Jxx=(pxx-ux*dWxA[i])/denom, Jxy=(pxy-ux*dWyA[i])/denom,
+                Jyx=(pyx-uy*dWxA[i])/denom, Jyy=(pyy-uy*dWyA[i])/denom;
+          const rux=vx[i]-ux, ruy=vy[i]-uy;                   // v−u(勾配補正: (v·∇)u−(u·∇)u の差し引き)
+          const wx2=vx[i]-kFrame*ux, wy2=vy[i]-kFrame*uy;    // w=v−kF·u(渦度コリオリの偏向対象)
+          const curl=Jyx-Jxy;                                 // ∇×u(2D スカラー渦度)
+          let dux=(ux-S.uPx[i]) + (-(rux*Jxx+ruy*Jxy) + curl*(-wy2))*dt,
+              duy=(uy-S.uPy[i]) + (-(rux*Jyx+ruy*Jyy) + curl*( wx2))*dt;
+          const dl2=dux*dux+duy*duy;
+          if(dl2>0.64){ const sc=0.8/Math.sqrt(dl2); dux*=sc; duy*=sc; }   // E6′ と同じ1サブステップ上限
+          vx[i]+=kFrame*dux; vy[i]+=kFrame*duy;
+          if(msOn){ MS.dxv[i]+=kFrame*dux*msIdt; MS.dyv[i]+=kFrame*duy*msIdt; }   // 65A: 引きずりチャネル(輸送3項→Δv/dt)
+          dpx[i]=m[i]*kFrame*dux; dpy[i]=m[i]*kFrame*duy;    // Δp_i(③反作用パスで源へ返す)
           if(dpx[i]!==0||dpy[i]!==0) anyDp=true;
         }
         S.uPx[i]=ux; S.uPy[i]=uy; S.hasU[i]=1;
@@ -8526,7 +8641,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
 6. name は30字以内、description は200字以内の日本語。emoji は絵文字1文字。
-7. 値域(超えると自動修正される): G:0〜100, D0:0〜1000, kFrame:0〜1, q:0.5〜4, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, Kt:1〜10000, cLight:1〜10000, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜1(整数), lambdaPN:0〜1(整数), pnAlpha:0.5〜1.5, radiusScale:0.2〜5, softening:0.5〜20, timeScale:0.1〜16, camera.scale:20〜3000, 座標・長さ:±5000, 質量:0.01〜5000, 速度成分:±50, スピン:±20, omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
+7. 値域(超えると自動修正される): G:0〜100, D0:0〜1000, kFrame:0〜1, q:0.5〜4, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, Kt:1〜10000, cLight:1〜10000, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数), lambdaPN:0〜1(整数), pnAlpha:0.5〜1.5, radiusScale:0.2〜5, softening:0.5〜20, timeScale:0.1〜16, camera.scale:20〜3000, 座標・長さ:±5000, 質量:0.01〜5000, 速度成分:±50, スピン:±20, omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
 
 # ジェネレータ(bodiesの要素。typeごとに全フィールド必須)
 - single: {type,m,x,y,vx,vy,spin,pinned} — 粒子1個。pinned:true で力を受けず固定。

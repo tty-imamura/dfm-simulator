@@ -3431,6 +3431,108 @@ if (!FAST) {
     }
   }
 
+  // ---- 8a3) 第69便 P4b(E12v2): geoPN=2 — v−u 統一測地線則(beta 先行) ----
+  // DERIVATIONS §18 の実装アンカーを機械固定する: ①kF=0 で geoPN=1 と bit 等価(段階導入)
+  // ③共動連星(ガリレイ共変性のエンジン版 — P4a-2)⑤保存則(反作用返しで P・L が対で閉じる)。
+  // ②☿回帰は ①+既存 behavior.mercury-builtin が担い、④🎡リトマスは exp-p4b.mjs(裁定材料)。
+  // 較正実測(2026-08-03 第69便): bitDiff=0 / 共動 relDev=0.75% / 保存 relP=1.3e-6・relL=6.6e-6
+  // (geoPN=1 の開放 1PN は relL=1.7e-4 — 対反作用で約26倍閉じる)。
+  // 機能判定子 = geoPN=2 で 1 步進めたとき _core が ∇u 勾配集積(S._g2)を確保するか(root は SKIP)
+  {
+    const hasGeo2 = await page.evaluate(() => {
+      HP.sim.build({ id: 'qa_g2probe', name: 'p', description: 'd', camera: { scale: 200 },
+        world: { boundary: 'none', size: 0 },
+        physics: { G: 1, D0: 0.05, kFrame: 1, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0,
+          Kt: 10000, cLight: 40, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0,
+          geoPN: 2, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 0.5, timeScale: 1 },
+        bodies: [
+          { type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true },
+          { type: 'single', m: 0.01, x: 40, y: 0, vx: 0, vy: 1, spin: 0, pinned: false }] });
+      HP.sim.step(0.016);
+      return !!HP.sim._g2;
+    });
+    if (hasGeo2) {
+      const r = await page.evaluate(() => {
+        const A = HP.RAY_ALPHA_MIN;
+        const PN_R = 12.247, pnThr = (A / 4) * 1600 * Math.max(PN_R, 0.5);
+        const PHYS = { G: 1, D0: 0, kFrame: 1, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0,
+          Kt: 10000, cLight: 40, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0,
+          geoPN: 2, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 0.5, timeScale: 1 };
+        const build = (over, bodies) => {
+          HP.sim.build({ id: 'qa_g2', name: 'p', description: 'd', camera: { scale: 300 },
+            world: { boundary: 'none', size: 0 }, physics: { ...PHYS, ...over }, bodies });
+          return HP.sim;
+        };
+        // ① bit 等価(☿型: pinned 1PN 源+スピン・kFrame=0)— 全状態の厳密一致を数える
+        const stateRun = (geoPN) => {
+          const S = build({ geoPN, kFrame: 0, D0: 0.05 }, [
+            { type: 'single', m: pnThr * 1.2, radius: PN_R, x: 0, y: 0, vx: 0, vy: 0, spin: 0.5, pinned: true },
+            { type: 'single', m: 0.01, x: 47.664, y: 0, vx: 0, vy: 1.94787, spin: 0.1, pinned: false }]);
+          for (let k = 0; k < 1500; k++) S.step(0.016);
+          return { x: [...S.x], y: [...S.y], vx: [...S.vx], vy: [...S.vy], sp: [...S.spin] };
+        };
+        const s2 = stateRun(2), s1 = stateRun(1);
+        let bitDiff = 0;
+        for (let i = 0; i < s2.x.length; i++)
+          for (const kk of ['x', 'y', 'vx', 'vy', 'sp']) if (s2[kk][i] !== s1[kk][i]) bitDiff++;
+        // ③ 共動連星(等質量の自由 1PN 源対+トレーサ・D0=0)。V=3 ブーストの前後で
+        //   連星間距離の窓平均(位相に鈍い観測量)が一致するか
+        const binBodies = (V) => [
+          { type: 'single', m: pnThr * 1.2, radius: PN_R, x: -40, y: 0, vx: V, vy: -0.9, spin: 0.5, pinned: false },
+          { type: 'single', m: pnThr * 1.2, radius: PN_R, x: 40, y: 0, vx: V, vy: 0.9, spin: 0.5, pinned: false },
+          { type: 'single', m: 0.01, x: 0, y: 180, vx: V + 1.1, vy: 0, spin: 0, pinned: false }];
+        const comoving = (V) => {
+          const S = build({}, binBodies(V));
+          let sepSum = 0, c = 0;
+          for (let k = 0; k < 2000; k++) { S.step(0.016);
+            if (k >= 1200 && k % 10 === 0) { sepSum += Math.hypot(S.x[1] - S.x[0], S.y[1] - S.y[0]); c++; } }
+          return { sep: sepSum / c, clampV: S.clampVN, nan: S.hasNaN() };
+        };
+        const rest = comoving(0), boost = comoving(3);
+        // ⑤ 保存則(全粒子自由・D0=0 → リザーバ帳簿もゼロのまま)。ΣP・ΣL(軌道+スピン+res)
+        //   の 3000 步ドリフトを geoPN=1(開放 1PN)と比較する
+        const cons = (geoPN) => {
+          const S = build({ geoPN }, [
+            { type: 'single', m: pnThr * 1.2, radius: PN_R, x: -40, y: 0, vx: 0, vy: -1.1, spin: 0.8, pinned: false },
+            { type: 'single', m: pnThr * 1.2, radius: PN_R, x: 40, y: 0, vx: 0, vy: 1.1, spin: 0.8, pinned: false },
+            { type: 'single', m: 0.01, x: 150, y: 0, vx: 0, vy: 1.6, spin: 0, pinned: false },
+            { type: 'single', m: 0.01, x: 0, y: -170, vx: 1.5, vy: 0, spin: 0, pinned: false }]);
+          const tot = () => { let px = 0, py = 0, L = 0;
+            for (let i = 0; i < S.n; i++) { px += S.m[i] * S.vx[i]; py += S.m[i] * S.vy[i];
+              L += S.m[i] * (S.x[i] * S.vy[i] - S.y[i] * S.vx[i]) + 0.5 * S.m[i] * S.R[i] * S.R[i] * S.spin[i]; }
+            return { px: px + S.resPx, py: py + S.resPy, L: L + S.resL }; };
+          const t0 = tot();
+          for (let k = 0; k < 3000; k++) S.step(0.016);
+          const t1 = tot();
+          let pS = 0; for (let i = 0; i < S.n; i++) pS += S.m[i] * Math.hypot(S.vx[i], S.vy[i]);
+          return { dP: Math.hypot(t1.px - t0.px, t1.py - t0.py), dL: Math.abs(t1.L - t0.L),
+            pScale: pS, L0: Math.abs(t0.L), resP: Math.hypot(S.resPx, S.resPy), nan: S.hasNaN() };
+        };
+        const c2 = cons(2), c1 = cons(1);
+        HP.loadPreset('saturn', false);
+        return { bitDiff, n: s2.x.length, rest, boost, c2, c1 };
+      });
+      const relDev = Math.abs(r.boost.sep - r.rest.sep) / r.rest.sep;
+      add('geo2.kf0-bitequal', r.bitDiff === 0,
+        `geoPN=2∧kFrame=0 ≡ geoPN=1(☿型 pinned 源・1500步): 全状態(x,y,vx,vy,spin×${r.n}粒子)の` +
+        `不一致=${r.bitDiff}(厳密0 — P4a-4 のエンジン版・段階導入アンカー)`);
+      add('geo2.comoving', !r.rest.nan && !r.boost.nan && r.rest.clampV === 0 && r.boost.clampV === 0
+        && relDev < 0.03,
+        `共動連星(等質量自由源対・D0=0・2000步): V=0 の分離窓平均=${r.rest.sep.toFixed(2)} ⇔ ` +
+        `V=3 ブースト=${r.boost.sep.toFixed(2)} 相対差=${(relDev * 100).toFixed(2)}%(<3%・較正実測0.75%) — ` +
+        `統一則のガリレイ共変性(P4a-2 のエンジン版。現行 E12 の絶対 v は式レベルで 34% 破れ)`);
+      const relP2 = r.c2.dP / r.c2.pScale, relL2 = r.c2.dL / r.c2.L0, relL1 = r.c1.dL / r.c1.L0;
+      add('geo2.conservation', !r.c2.nan && !r.c1.nan && r.c2.resP === 0
+        && relP2 < 1e-4 && relL2 < 1e-4 && relL2 < relL1 * 0.2,
+        `自由連星+惑星2(D0=0・3000步)の帳簿: geoPN=2 で |ΔΣP|/Σm|v|=${relP2.toExponential(2)}` +
+        `(<1e-4)・|ΔΣL|/|L₀|=${relL2.toExponential(2)}(<1e-4・リザーバ=0のまま) ⇔ ` +
+        `geoPN=1(開放 1PN)は ΔL 比=${relL1.toExponential(2)} — 対反作用で ${(relL1 / relL2).toFixed(1)}倍閉じる` +
+        `(較正実測26倍。§18.4 反作用返し)`);
+    } else {
+      console.log('SKIP geo2.*(対象に geoPN=2 未実装 — root 等。第69便 P4b/E12v2)');
+    }
+  }
+
   // ---- 8b) v1.21 第9次裁定 P0-3: 内蔵 ☿mercury の実条件検証 ----
   // 説明が引用する V18〜V20 は検証専用条件のため、内蔵プリセットそのものの初期値でも
   // E12 の主張(λ=1 で前進 / λ=0 で基線のみ / α=0.5 で 1/3)が成り立つことを機械検証する。
