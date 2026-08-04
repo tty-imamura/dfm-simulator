@@ -1,0 +1,55 @@
+{
+  "meta": {
+    "exp": "4-77",
+    "wave": 76,
+    "target": "beta/index.html",
+    "date": "2026-08-05"
+  },
+  "cases": {
+    "a_std": {
+      "kf1": {
+        "outer": 3.945172887778632,
+        "keep": 1,
+        "lSwC": 0,
+        "nan": false
+      },
+      "kf0": {
+        "outer": 3.119777358540969,
+        "keep": 1,
+        "lSwC": 0,
+        "nan": false
+      },
+      "boost": 1.2645687285914777
+    },
+    "b_darkRotor": {
+      "kf1": {
+        "outer": 3.322782590234405,
+        "keep": 1,
+        "lSwC": 1,
+        "nan": false
+      },
+      "kf0": {
+        "outer": 3.119777358540969,
+        "keep": 1,
+        "lSwC": 1,
+        "nan": false
+      },
+      "boost": 1.0650704227779817
+    },
+    "c_shellPlusCore": {
+      "kf1": {
+        "outer": 4.339385728424995,
+        "keep": 1,
+        "lSwC": 1,
+        "nan": false
+      },
+      "kf0": {
+        "outer": 3.119777358540969,
+        "keep": 1,
+        "lSwC": 1,
+        "nan": false
+      },
+      "boost": 1.390928014957581
+    }
+  }
+}
