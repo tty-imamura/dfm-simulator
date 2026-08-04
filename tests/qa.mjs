@@ -3621,6 +3621,141 @@ if (!FAST) {
     }
   }
 
+  // ---- 8a2b4) 第75便: 2層減光形(lightSweep auto のコア差動)+群コアの配線 ----
+  // ①機能検出: 「殻はゆっくり・コアは高速」の孤立2層粒で lSw が単層値より大きければ拡張あり
+  //   (root は従来式 = 小 → SKIP)。②単層は解析式 min(1,|s|R/c_surf) と厳密一致・
+  //   coreSR=1(剛体回転)は単層と bit 等価(A8 と同じ「差動分だけがコアから効く」原則)・
+  //   2層(coreSR≠1)は同じ殻スピンで単層より暗い。③disk/ring 群の coreMR/coreSR/coreRR
+  //   通し(第75便)— validatePreset 保持+build 配線(Rc>0・hasCore)
+  {
+    const r = await page.evaluate(() => {
+      const PH = { G: 0.8, D0: 1.5, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, Kt: 50,
+        cLight: 40, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1,
+        pnAlpha: 1.5, radiusScale: 1, softening: 3, timeScale: 1 };
+      const one = (core) => {
+        HP.sim.build({ id: 'qa_l2', name: 'd', description: 'd', camera: { scale: 200 },
+          world: { boundary: 'none', size: 0 }, seed: 7, physics: PH,
+          bodies: [Object.assign({ type: 'single', rMul: 1, m: 30, x: 0, y: 0, vx: 0, vy: 0,
+            spin: 0.6, pinned: false, radius: 4, lightSweep: 'auto' }, core)] });
+        HP.sim.step(0.016);
+        return HP.sim.lSw[0];
+      };
+      const single = one({});
+      const rigid = one({ coreMR: 0.4, coreSR: 1, coreRR: 0.3 });
+      const two = one({ coreMR: 0.4, coreSR: 20, coreRR: 0.3 });
+      // 解析式(単層): lS = min(1, |s|·R/(c₀·e^{−2ψ}))・ψ=(D0+m/√(R²+ε²))/Kt(孤立なので ΣW=0)
+      const psi = (1.5 + 30 / Math.sqrt(16 + 9)) / 50;
+      const ana = Math.min(1, 0.6 * 4 / (40 * Math.exp(-2 * psi)));
+      return { single, rigid, two, ana };
+    });
+    if (r.two > r.single + 0.2) {
+      const g = await page.evaluate(() => {
+        const PH = { G: 0.8, D0: 1.5, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, Kt: 50,
+          cLight: 40, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1,
+          pnAlpha: 1.5, radiusScale: 1, softening: 3, timeScale: 1 };
+        const v = HP.validatePreset({ name: 't', description: 'd', camera: { scale: 300 },
+          world: { boundary: 'none', size: 0 }, seed: 1, physics: PH,
+          bodies: [
+            { type: 'disk', n: 6, cx: 0, cy: 0, radius: 40, mMin: 8, mMax: 8, spinMin: 0.3, spinMax: 0.3,
+              vMode: 'random', vScale: 0.5, aroundMass: 0, direction: 1, rMul: 0.7,
+              coreMR: 0.4, coreSR: 20, coreRR: 0.3, lightSweep: 'auto' },
+            { type: 'ring', n: 6, cx: 0, cy: 0, rIn: 80, rOut: 80, mMin: 8, mMax: 8, spinMin: 0.3, spinMax: 0.3,
+              vMode: 'none', aroundMass: 0, omega: 0, vNoise: 0, direction: 1, pinned: false,
+              coreMR: -0.5, coreSR: 10, coreRR: 0.2, lightSweep: 'auto' }] });
+        const b0 = v.ok ? v.preset.bodies[0] : {}, b1 = v.ok ? v.preset.bodies[1] : {};
+        HP.sim.build(v.preset);
+        const S = HP.sim;
+        return { ok: v.ok, warn: v.warnings.length,
+          diskCore: [b0.coreMR, b0.coreSR, b0.coreRR], ringCore: [b1.coreMR, b1.coreSR, b1.coreRR],
+          hasCore: S.hasCore, Rc0: S.Rc[0], Rc6: S.Rc[6], n: S.n };
+      });
+      add('lsw.core-auto',
+        Math.abs(r.single - r.ana) < 1e-6 && r.rigid === r.single && r.two > r.single + 0.2,
+        `単層=解析式 ${r.single.toFixed(6)}(=${r.ana.toFixed(6)}) / 剛体コア(coreSR=1)=単層 bit等価=${r.rigid === r.single} / ` +
+        `2層(coreSR=20)=${r.two.toFixed(3)}(単層+0.2 以上 — 差動コアが暗さを担う)`);
+      add('preset.group-core',
+        g.ok && g.warn === 0 && g.diskCore[0] === 0.4 && g.diskCore[1] === 20 && g.diskCore[2] === 0.3
+        && g.ringCore[0] === -0.5 && g.ringCore[1] === 10 && g.ringCore[2] === 0.2
+        && g.hasCore && g.Rc0 > 0 && g.Rc6 > 0 && g.n === 12,
+        `disk=[${g.diskCore}] ring=[${g.ringCore}](負値=空洞も通る) hasCore=${g.hasCore} Rc=${g.Rc0.toFixed(2)}/${g.Rc6.toFixed(2)}`);
+    } else {
+      console.log('SKIP lsw.core-auto / preset.group-core(対象に第75便 2層減光 未適用 — root 等)');
+    }
+  }
+
+  // ---- 8a2b5) 第75便: 🐚nebulaShell — 重殻+高速コアの耐圧試験 ----
+  // 熱圧 kRep=0.3 の下で「同じ暗さ」を保てるのは 2層だけであることを機械固定する:
+  // 2層(既定)= コア lS̄ 0.8〜0.95・保持≥0.93・エンベロープ保持=1 ⇔ 単層対照(同一幾何・
+  // 同一質量・spin6 で同等の暗さ)= 保持 0.4〜0.6 に自壊・エンベロープ|spin| 攪乱が2層の2.5倍超。
+  // 較正実測(exp-4-76): 2層 lS̄0.886/保持0.963/env|spin|0.968 ⇔ 単層 lS̄0.954/保持0.481/3.769
+  {
+    const hasShell = await page.evaluate(() => HP.allPresets().some(p => p.id === 'nebulaShell'));
+    if (hasShell) {
+      const r = await page.evaluate(() => {
+        const run = (mod) => {
+          const p = JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'nebulaShell')));
+          if (mod) for (let bi = 0; bi < 3; bi++) { const b = p.bodies[bi];
+            delete b.coreMR; delete b.coreSR; delete b.coreRR; b.spinMin = 4.8; b.spinMax = 7.2; }
+          HP.sim.build(p);
+          const S = HP.sim;
+          for (let k = 0; k < 3000; k++) S.step(0.016);
+          let lS = 0, keep = 0, envKeep = 0, envSp = 0;
+          for (let i = 0; i < 54; i++) { lS += S.lSw[i] / 54; if (Math.hypot(S.x[i], S.y[i]) < 400) keep++; }
+          for (let i = 54; i < S.n; i++) { if (Math.hypot(S.x[i], S.y[i]) < 400) envKeep++;
+            envSp += Math.abs(S.spin[i]) / (S.n - 54); }
+          return { lS, keep: keep / 54, envKeep: envKeep / (S.n - 54), envSp, bad: S.hasNaN() };
+        };
+        return { two: run(false), one: run(true) };
+      });
+      add('claim.nebulashell-stress',
+        !r.two.bad && !r.one.bad
+        && r.two.lS >= 0.8 && r.two.lS <= 0.95 && r.two.keep >= 0.93 && r.two.envKeep === 1
+        && r.one.lS >= 0.9 && r.one.keep >= 0.4 && r.one.keep <= 0.6
+        && r.one.envSp > 2.5 * r.two.envSp,
+        `2層: lS̄=${r.two.lS.toFixed(3)}(窓0.8〜0.95) 保持=${r.two.keep.toFixed(3)}(≥0.93) env保持=${r.two.envKeep} / ` +
+        `単層(spin6・同等暗さ${r.one.lS.toFixed(3)}): 保持=${r.one.keep.toFixed(3)}(0.4〜0.6 — 熱圧で自壊) ` +
+        `env|spin| ${r.one.envSp.toFixed(2)} vs ${r.two.envSp.toFixed(2)}(>2.5倍 — 影響範囲の狭さ)`);
+    } else {
+      console.log('SKIP claim.nebulashell-stress(対象に 🐚nebulaShell なし — root 等。第75便)');
+    }
+  }
+
+  // ---- 8a2b6) 第75便: ⏳nebulaBipolar — 極方向ローブ(E5′圧力+幾何) ----
+  // 系外(r>200)到達ガスの ±y30°以内割合が 0.5〜0.72(等方1/3 — 実測0.610)・脱出数30〜55・
+  // 中心 lSw>0.95・アーク帯 lS̄>0.85(暗黒帯)。対照は kRep=0(圧力オフ)で脱出≤3(実測0)。
+  // ※ガスのスピンを0にするだけでは対照にならない — 中心・アークの回転が E6′残余トルクで
+  //   スピンを再注入し圧力が再点火する(実測32体脱出 — 説明文に明記済み)
+  {
+    const hasBip = await page.evaluate(() => HP.allPresets().some(p => p.id === 'nebulaBipolar'));
+    if (hasBip) {
+      const r = await page.evaluate(() => {
+        HP.loadPreset('nebulaBipolar', false);
+        HP.abStart('kRep', 0);
+        const abG = HP.ab();
+        const S = HP.sim, B = abG.simB;
+        for (let k = 0; k < 6000; k++) { S.step(0.016); B.step(0.016); }
+        const escOf = (sm) => { let esc = 0, polar = 0;
+          for (let i = 23; i < sm.n; i++) { const rr = Math.hypot(sm.x[i], sm.y[i]);
+            if (rr > 200) { esc++; if (Math.atan2(Math.abs(sm.x[i]), Math.abs(sm.y[i])) < Math.PI / 6) polar++; } }
+          return { esc, polar }; };
+        const a = escOf(S), c = escOf(B);
+        let lSt = 0; for (let i = 1; i < 23; i++) lSt += S.lSw[i] / 22;
+        const res = { esc: a.esc, frac: a.esc ? a.polar / a.esc : 0, ctrlEsc: c.esc,
+          lSwC: S.lSw[0], lSwArc: lSt, bad: S.hasNaN() || B.hasNaN() };
+        HP.abStop();
+        return res;
+      });
+      add('claim.nebulabipolar-polar',
+        !r.bad && r.esc >= 30 && r.esc <= 55 && r.frac >= 0.5 && r.frac <= 0.72
+        && r.lSwC > 0.95 && r.lSwArc > 0.85 && r.ctrlEsc <= 3,
+        `脱出=${r.esc}(30〜55) 極方向比=${r.frac.toFixed(3)}(窓0.5〜0.72・等方1/3・実測0.610) / ` +
+        `中心lSw=${r.lSwC.toFixed(2)}(>0.95) アーク帯lS̄=${r.lSwArc.toFixed(3)}(>0.85) / ` +
+        `スピン0対照 脱出=${r.ctrlEsc}(≤3 — 圧力が唯一の駆動源)`);
+    } else {
+      console.log('SKIP claim.nebulabipolar-polar(対象に ⏳nebulaBipolar なし — root 等。第75便)');
+    }
+  }
+
   // ---- 8a2c) 第70便: 減光(lightSweep)の力学不変性 — 「暗いが重い」の機械証明 ----
   // 減光は光学のみ(観測温度と放射冷却)に作用し、etaRad=0 では軌道・スピン・固有時計・光線が
   // 1 bit も変わらないことを機械固定する(ChatGPT レビュー §8.2 実験1の QA 化 — 隠れ質量実験の

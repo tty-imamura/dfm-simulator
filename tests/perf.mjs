@@ -43,7 +43,9 @@ const EXTRA_SAMPLES = ['echo', 'freebox',
   'galaxyStd', 'galaxyGeo2', 'chaincycle',
   // 第74便: v1.37 線の新サンプル(ディスク/バルジ381体・ローター星雲98体)— root 未昇格の間は
   // informational 計測(昇格時に自動で比較ゲートへ)
-  'galaxyDB', 'nebulaRotor'];
+  'galaxyDB', 'nebulaRotor',
+  // 第75便: 重殻ローター星雲98体・双極星雲83体(同上)
+  'nebulaShell', 'nebulaBipolar'];
 const THRESH = +(process.env.PERF_THRESH || 1.10);
 // 例: { convection: 1.60 } — 意図的な負荷増を許可する場合のみ
 // 第53便 53D の echo ALLOW 1.45 は第63便(v1.35.0 昇格)で撤去した — 53D の記録どおり、
