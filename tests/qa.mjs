@@ -3453,13 +3453,13 @@ if (!FAST) {
         const gA = outer(s), gB = outer(abG.simB);
         const bad = s.hasNaN() || abG.simB.hasNaN();
         const spec = s.mechSpec(true);
-        const clampV = s.clampVN;
+        const clampV = s.clampVN, clampR = (s.clampRN || 0);   // 第72便: 反作用上限の無発動も piggyback で機械固定
         HP.abStop();
-        return { gA, gB, bad, clampV, pi: spec ? spec.pi : null };
+        return { gA, gB, bad, clampV, clampR, pi: spec ? spec.pi : null };
       });
       const ratio = r2.gA / r2.gB;
       add('claim.galaxygeo2-outerboost',
-        !r2.bad && r2.clampV === 0 && ratio >= 1.05 && ratio <= 1.12
+        !r2.bad && r2.clampV === 0 && r2.clampR === 0 && ratio >= 1.05 && ratio <= 1.12
         && !!r2.pi && r2.pi[2] === 0 && r2.pi[4] === 0 && r2.pi[1] > 0.02 && r2.pi[5] > 0.1,
         `vφ外縁 kF1=${r2.gA.toFixed(3)} kF0=${r2.gB.toFixed(3)} 比=${ratio.toFixed(4)}` +
         `(窓1.05〜1.12・較正実測1.0803 — legacy 🎡 1.2646 の約1/3)/ 純度Π: 熱斥力=${r2.pi ? r2.pi[2] : '?'} ` +
@@ -3558,28 +3558,41 @@ if (!FAST) {
             { type: 'single', m: pnThr * 1.2, radius: PN_R, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false },
             { type: 'single', m: 0.01, x: 47.664, y: 0, vx: 0, vy: 1.94787, spin: 0, pinned: false }] });
         const S = HP.sim;
-        const tot = () => { let px = 0, py = 0;
-          for (let i = 0; i < S.n; i++) { px += S.m[i] * S.vx[i]; py += S.m[i] * S.vy[i]; }
-          return { px: px + S.resPx, py: py + S.resPy }; };
+        // 第72便(ChatGPT Release レビュー P1): 運動量に加えて**角運動量も帳簿込みで**検証する
+        // (資本の式は保存則モニタと同形: L = Σ[m(x×v) + I·s] + resL。スピンクランプ±40 の
+        // 発動分だけは帳簿外〔既存の設計どおり clampSN に計数〕なので、その分を許容窓に含める)
+        const tot = () => { let px = 0, py = 0, L = 0;
+          for (let i = 0; i < S.n; i++) { px += S.m[i] * S.vx[i]; py += S.m[i] * S.vy[i];
+            L += S.m[i] * (S.x[i] * S.vy[i] - S.y[i] * S.vx[i]) + 0.5 * S.m[i] * S.R[i] * S.R[i] * S.spin[i]; }
+          return { px: px + S.resPx, py: py + S.resPy, L: L + S.resL }; };
         const t0 = tot(); let vMax = 0;
         for (let k = 0; k < 2000; k++) { S.step(0.016); vMax = Math.max(vMax, Math.hypot(S.vx[1], S.vy[1])); }
         const t1 = tot();
-        const patho = { clampV: S.clampVN, clampR: S.clampRN, vMax,
-          dP: Math.hypot(t1.px - t0.px, t1.py - t0.py), res: Math.hypot(S.resPx, S.resPy), nan: S.hasNaN() };
-        const inert = (id) => { HP.loadPreset(id, false);
-          for (let k = 0; k < 2000; k++) HP.sim.step(0.016);
+        let lScale = Math.abs(t0.L); for (let i = 0; i < S.n; i++) lScale += Math.abs(S.m[i] * (S.x[i] * S.vy[i] - S.y[i] * S.vx[i]));
+        const patho = { clampV: S.clampVN, clampS: S.clampSN, clampR: S.clampRN, vMax,
+          dP: Math.hypot(t1.px - t0.px, t1.py - t0.py),
+          dL: Math.abs(t1.L - t0.L), lScale,
+          res: Math.hypot(S.resPx, S.resPy), nan: S.hasNaN() };
+        // 第72便(同レビュー P1): 無発動の確認を正規ドラッグ系の**有効窓相当**へ延長
+        // (🕶️=6000步〔腕の分離窓〕・🌠merger=4000步。較正実測の 6000/24000步 不発〔第71便〕の
+        //  QA 側スナップショット — 全 6000步走査は夜間ジョブ相当のため代表2系+piggyback で担保)
+        const inert = (id, steps) => { HP.loadPreset(id, false);
+          for (let k = 0; k < steps; k++) HP.sim.step(0.016);
           return HP.sim.clampRN; };
-        const drN = inert('darkrotor'), gxN = inert('galaxy');
+        const drN = inert('darkrotor', 6000), mgN = inert('merger', 4000);
         HP.loadPreset('saturn', false);
-        return { patho, drN, gxN };
+        return { patho, drN, mgN };
       });
+      const relL = r.patho.dL / Math.max(1, r.patho.lScale);
       add('clamp.reaction-cap',
         !r.patho.nan && r.patho.clampR > 0 && r.patho.clampV === 0 && r.patho.vMax < 20
-        && r.patho.dP < 0.05 && r.patho.res > 1 && r.drN === 0 && r.gxN === 0,
+        && r.patho.dP < 0.05 && relL < 2e-3 && r.patho.res > 1 && r.drN === 0 && r.mgN === 0,
         `病的構成(D0=0・質量比1:1.2e4・2000步): 発動=${r.patho.clampR}回・速度クランプ=${r.patho.clampV}` +
         `(旧実測1998回 → 0)・惑星 v最大=${r.patho.vMax.toFixed(1)}(<20・旧100)・` +
-        `|ΔΣP|帳簿込み=${r.patho.dP.toExponential(1)}(<0.05)・リザーバ吸収=${r.patho.res.toFixed(1)} / ` +
-        `正規ドラッグ系は不発: 🕶️=${r.drN}回・🌌=${r.gxN}回(=0 — 既存挙動 bit 不変)`);
+        `|ΔΣP|帳簿込み=${r.patho.dP.toExponential(1)}(<0.05)・|ΔΣL|帳簿込み/スケール=` +
+        `${relL.toExponential(1)}(<2e-3・スピンクランプ${r.patho.clampS}回分は帳簿外)・` +
+        `リザーバ吸収=${r.patho.res.toFixed(1)} / 正規ドラッグ系は不発: 🕶️6000步=${r.drN}回・` +
+        `🌠merger4000步=${r.mgN}回(=0 — 既存挙動 bit 不変)`);
     } else {
       console.log('SKIP clamp.reaction-cap(対象に clampRN なし — root 等。第71便 P0)');
     }

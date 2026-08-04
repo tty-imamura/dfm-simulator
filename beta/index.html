@@ -688,7 +688,7 @@ ja: {
   // 第51便 51B(原仮定者指示): 引きずりタグ — kFrame>0 の系
   bdgDrag:"引きずり", bdgDragTip:"kFrame>0 — 回る質量が周囲の空間(決定フレーム)を引きずる効果(A8/E6′)が働く系。kFrame を 0 にすると引きずりなしの対照実験になる",
   // 第45便 45C(台帳4-85): 強場トイ領域バッジ — ψ_static=max(D/Kt, 各天体のm/(max(R,ε)Kt))>0.5 のときだけ表示
-  bdgStrongField:"⚠強場トイ領域", bdgStrongFieldTip:"|ψ|≳0.5 — 弱場GR較正(n≈1+2ψ)の適用外の強場トイ設定。閾値0.5は理論境界ではなく注意喚起の運用基準",
+  bdgStrongField:"⚠強場トイ領域", bdgStrongFieldTip:"|ψ|≳0.5 — 弱場GR較正(n≈1+2ψ)の適用外の強場トイ設定。閾値0.5は理論境界ではなく注意喚起の運用基準。※エラーや不具合ではありません — 効果を画面内で見せるために誇張した設定という意味です",
   // 第39便 39E(台帳4-75 E2): 有効時間窓マーカー(HUD)— sim.t が validT を超えたときだけ HUD に追記
   hudBeyondWindow:(v)=>" ⚠評価窓外(t>"+v+")",
   // 第43便 43A(台帳4-78 B案): 数値主張(claims)の折畳み表示 — claims を持つプリセットにのみ表示
@@ -916,7 +916,7 @@ en: {
   bdgDrag:"dragging", bdgDragTip:"kFrame>0 — spinning masses drag the surrounding space (the determinacy frame, A8/E6′). Set kFrame to 0 for a drag-free control.",
   // 45th flight 45C (ledger 4-85): strong-field toy-regime badge — shown only when
   // psi_static = max(D/Kt, each body's m/(max(R,eps)*Kt)) > 0.5
-  bdgStrongField:"⚠Strong-field toy regime", bdgStrongFieldTip:"|ψ|≳0.5 — a strong-field toy setting outside the weak-field GR calibration (n≈1+2ψ). The 0.5 threshold is an advisory convention, not a theoretical boundary",
+  bdgStrongField:"⚠Strong-field toy regime", bdgStrongFieldTip:"|ψ|≳0.5 — a strong-field toy setting outside the weak-field GR calibration (n≈1+2ψ). The 0.5 threshold is an advisory convention, not a theoretical boundary. Note: this is not an error — it means the setting is exaggerated so the effect is visible on screen",
   // 39th flight 39E (ledger 4-75 E2): valid-window HUD marker — appended only once sim.t exceeds validT
   hudBeyondWindow:(v)=>" ⚠beyond evaluated window (t>"+v+")",
   // 43rd flight 43A (ledger 4-78 plan B): collapsible display of machine-checked numeric claims —
@@ -1176,8 +1176,12 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
 const APP_VERSION = "1.35";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 // 第36便 B1(原仮定者指示): タイトル下に表示するbeta配信時のビルド番号。beta/sw.js の
 // CACHE 接尾辞と同期させる(QA: version.beta-label)。ルート昇格後は使わない("v"+APP_VERSION 表示に戻る)
-const BETA_BUILD = "v1.36-b8";   // 第71便: ③反作用の1サブステップ上限(P0)+温度選別の機構分解
+const BETA_BUILD = "v1.36-b9";   // 第72便: geoPN=2 性能試験+Releaseレビュー採択(帳簿QA強化・定数化)
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
+// 第71便 P0 → 第72便(ChatGPT Release レビュー P2: マジックナンバーの定数化):
+// E6′③反作用の1サブステップ上限(速度のみ)。較正実測(第71便): 正常域最大は 🕶️ の
+// 7.52/サブステップ ⇔ 病的構成(D0=0・質量比1:10⁴)は 9406 — 16 は正常域の約2倍・病的域の 1/600
+const REACTION_DV_CAP = 16, REACTION_DV_CAP2 = REACTION_DV_CAP * REACTION_DV_CAP;
 const N_CAP = 600;                        // 粒子総数上限
 // 第45便 45A(台帳4-48): 光線源・1PN源のしきい値を「質量」から「偏向角」へ物理化した。
 // 弱場の偏向は α ≈ 4ψ(b) = 4·m/(Kt·b)(E8R/T5)。天体 i が与えうる最大偏向は最接近距離が
@@ -4327,7 +4331,9 @@ function makeSim(){
     // (8/maxInv)の発動回数。規則は 1 ビットも変えず、発動を数えるだけ(clampVN/SN/HN と同方針)
     S.clampAN=0;
     // 第71便 P0(ChatGPT レビュー §9 / 台帳「極端質量比」): clampRN = E6′③反作用の
-    // 1サブステップ上限(|Δv|≤0.8・|Δs|≤0.8)の発動回数。超過分はリザーバ帳簿へ(_core ③末尾)
+    // 1サブステップ上限(**|Δv|≤REACTION_DV_CAP=16・速度のみ** — スピン移譲は上限なし。
+    // 第72便: 実装と食い違っていた本コメントの旧案 0.8/Δs を現行仕様へ同期〔ChatGPT Release
+    // レビュー P1〕)の発動回数。超過分はリザーバ帳簿へ(_core ③末尾)
     S.clampRN=0;
     S.curveBins=null; S.tempLR=[0,0]; S.histT=[];
   };
@@ -5678,13 +5684,13 @@ function makeSim(){
       // 1:10⁴ 系の発振が止まりスピンは既存のスピンクランプ±40が受ける)。
       // 発動は clampRN に計数 — 全内蔵プリセットでは発動 0(QA clamp.reaction-cap が機械固定)
       // なので既存挙動は 1 bit も変わらない。発動する構成は保存則を「帳簿込み」で主張する
-      // 上限値 16 の較正(第71便実測・全内蔵プリセット 6000步の per-particle 最大 |Δv|/サブステップ):
-      // 🕶️darkrotor 7.52(ローター近接遭遇の正規物理)・🌠merger 1.59・他 ≤1e-4 ⇔ 病的構成 9406。
-      // 16 = 正常域最大の約2倍(正規物理に不発)かつ病的域の 1/600(発振を抑止)
+      // 上限値 REACTION_DV_CAP=16 の較正(第71便実測・全内蔵プリセット 6000步の per-particle
+      // 最大 |Δv|/サブステップ): 🕶️darkrotor 7.52(ローター近接遭遇の正規物理)・🌠merger 1.59・
+      // 他 ≤1e-4 ⇔ 病的構成 9406。16 = 正常域最大の約2倍(正規物理に不発)かつ病的域の 1/600
       for(let i=0;i<n;i++){
         const dv2=accVx[i]*accVx[i]+accVy[i]*accVy[i];
-        if(dv2>256){
-          const sc=16/Math.sqrt(dv2);
+        if(dv2>REACTION_DV_CAP2){
+          const sc=REACTION_DV_CAP/Math.sqrt(dv2);
           const rx=accVx[i]*(1-sc), ry=accVy[i]*(1-sc);   // 適用しない残り(粒子に入らなかった分)
           S.resPx+=m[i]*rx; S.resPy+=m[i]*ry; S.resL+=m[i]*(x[i]*ry-y[i]*rx);
           accVx[i]*=sc; accVy[i]*=sc; S.clampRN++;

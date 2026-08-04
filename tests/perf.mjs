@@ -193,6 +193,67 @@ for (const id of [...SAMPLES, ...EXTRA_SAMPLES]) {
     fail++;
   }
 }
+// ---- 第72便(原仮定者裁定「geoPN=2 性能試験: 進める」/ChatGPT Release レビュー §4.5・P0-2) ----
+// geoPN=2 の追加コスト(∇u 解析勾配の O(N²) 集積+w 置換 1PN+輸送3項)の機械ゲート。
+// ①💫galaxyGeo2(geoPN=2)⇔🎡galaxyStd(geoPN=0)は**厳密同一の初期配置**なので、同一 beta
+//   ページでの交互ペア比 = 統一則のオーバーヘッドそのもの(root 比較ではない — 新モードの絶対増)。
+// ②合成円盤の N 掃引(100/200/381/600)で geoPN 0⇔2 の比のスケーリングを informational 記録。
+// ゲート: ペア比中央値 ≤ GEO2_THRESH=1.65(較正実測 2026-08-04: 1.38 — N=381・下記 geo2Sweep
+// の N 掃引でも 1.3〜1.5 帯。×1.2 マージン。超過は geo2 経路の性能回帰とみなす)
+const GEO2_THRESH = +(process.env.GEO2_THRESH || 1.65);
+let geo2Gate = null;
+const geo2Sweep = [];
+if (betaIds.includes('galaxyGeo2') && betaIds.includes('galaxyStd')) {
+  const pairs2 = [];
+  for (let k = 0; k < SETS; k++) {
+    const stdFirst = k % 2 === 0;
+    let a, b;
+    if (stdFirst) { a = await measureSet(betaPage, 'galaxyStd', REPS, FRAMES, WARMUP_FRAMES);
+      b = await measureSet(betaPage, 'galaxyGeo2', REPS, FRAMES, WARMUP_FRAMES); }
+    else { b = await measureSet(betaPage, 'galaxyGeo2', REPS, FRAMES, WARMUP_FRAMES);
+      a = await measureSet(betaPage, 'galaxyStd', REPS, FRAMES, WARMUP_FRAMES); }
+    pairs2.push({ order: stdFirst ? 'std→geo2' : 'geo2→std',
+      stdMs: +median(a.times).toFixed(1), geo2Ms: +median(b.times).toFixed(1),
+      ratio: +(median(b.times) / median(a.times)).toFixed(3) });
+  }
+  const ratio2 = median(pairs2.map((p) => p.ratio));
+  const pass2 = ratio2 <= GEO2_THRESH;
+  if (!pass2) fail++;
+  geo2Gate = { id: 'geo2-overhead', ratio: +ratio2.toFixed(3), limit: GEO2_THRESH, pairs: pairs2, pass: pass2 };
+  console.log(`${pass2 ? 'PASS' : 'FAIL'} perf.geo2-overhead  geo2/std=${ratio2.toFixed(3)} (≤${GEO2_THRESH}・ペア比[${pairs2.map((p) => p.ratio.toFixed(3)).join(' ')}]の中央値・同一初期配置 🎡⇔💫)`);
+  // N 掃引(informational — 合成円盤・galaxyStd と同物理)
+  const measureCfg = async (geoPN, n) => page_measureCfg(betaPage, geoPN, n);
+  const page_measureCfg = (page, geoPN, n) => page.evaluate(([geoPN, n, frames, warm, reps]) => {
+    HP.sim.build({ id: 'perfg2', name: 'p', description: 'd', camera: { scale: 400 },
+      world: { boundary: 'none', size: 0 }, seed: 20260727,
+      physics: { G: 0.8, D0: 1.5, kFrame: 1, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, Kt: 50,
+        cLight: 60, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN, lambdaPN: 1,
+        pnAlpha: 1.5, radiusScale: 1, softening: 3, timeScale: 3 },
+      bodies: [
+        { type: 'single', rMul: 1.2, m: 2500, x: 0, y: 0, vx: 0, vy: 0, spin: 1.2, pinned: true, radius: 15 },
+        { type: 'disk', rMul: 1.2, n, cx: 0, cy: 0, radius: 260, mMin: 0.16, mMax: 0.5,
+          spinMin: 0, spinMax: 0, vMode: 'kepler', aroundMass: 2500, vScale: 1.05, direction: 1,
+          bulkVx: 0, bulkVy: 0 }] });
+    const S = HP.sim;
+    const spf = Math.max(1, Math.min(24, Math.round(2 * (S.params.timeScale || 1))));
+    for (let k = 0; k < spf * warm; k++) S.step(0.016);
+    const times = [];
+    for (let r = 0; r < reps; r++) {
+      const t0 = performance.now();
+      for (let f = 0; f < frames; f++) for (let s = 0; s < spf; s++) S.step(0.016);
+      times.push(performance.now() - t0);
+    }
+    return { ms: times.sort((x, y) => x - y)[Math.floor(times.length / 2)], nan: S.hasNaN() };
+  }, [geoPN, n, FRAMES, WARMUP_FRAMES, REPS]);
+  for (const n of [100, 200, 381, 600]) {
+    const g0 = await measureCfg(0, n), g2 = await measureCfg(2, n);
+    geo2Sweep.push({ n, geo0Ms: +g0.ms.toFixed(1), geo2Ms: +g2.ms.toFixed(1),
+      ratio: +(g2.ms / g0.ms).toFixed(3), nan: g0.nan || g2.nan });
+    console.log(`INFO perf.geo2-sweep N=${n}  geo0=${g0.ms.toFixed(1)}ms geo2=${g2.ms.toFixed(1)}ms 比=${(g2.ms / g0.ms).toFixed(3)}`);
+  }
+} else {
+  console.log('SKIP perf.geo2-overhead(galaxyGeo2/galaxyStd が beta に揃っていない)');
+}
 await browser.close();
 
 fs.mkdirSync(OUT_DIR, { recursive: true });
@@ -202,7 +263,8 @@ fs.writeFileSync(path.join(OUT_DIR, 'perf-results.json'), JSON.stringify({
   // results: 比較ゲート対象(pass/fail 判定あり。ratio はペア比の中央値。
   //          pairs に各ペアの順序・両側 ms・比、rawRoot/BetaMs に全反復生値を記録)
   // informational: 片側にしかプリセットが無いための参考計測(pass判定なし。ゲート対象外)
-  results: rows, informational,
+  // geo2: 第72便 — geoPN=2 のオーバーヘッドゲート(🎡⇔💫 同一初期配置ペア比)と N 掃引
+  results: rows, informational, geo2: { gate: geo2Gate, sweep: geo2Sweep },
 }, null, 2));
 console.log(`perf gate: ${rows.length - fail}/${rows.length} PASS → tests/out/perf-results.json`
   + (informational.length ? ` (+${informational.length} informational)` : ''));
