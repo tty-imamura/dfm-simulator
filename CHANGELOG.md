@@ -4,6 +4,25 @@
 2026-07-21 に分離 — ロードマップ P2 群)。新しい版が上。バージョンは `APP_VERSION`
 (index.html)と package.json の major.minor が QA `version.sync` で同期検査される。
 
+## v1.36.0(2026-08-04)
+
+**更新前の注意**: β版とルート版は同一オリジンで localStorage(セーブ・APIキー)を共有する。
+大きな更新の前にはセーブタブから JSON エクスポートでのバックアップを推奨する。
+
+第64〜73便(2026-08-03〜04)で v1.36 を確定し、ルートへ昇格した(原仮定者指示「Releaseを
+進める」・フルゲート root/beta ALL PASS・perf 全ゲート PASS)。**最大の変更は geoPN=2 —
+v−u 統一測地線則(E12v2)**: フレーム輸送・渦度コリオリ(空間引きずりの正体)・1PN 補正が、
+時計を遅らせるのと同じ ψ から導いた一本の作用由来式(DERIVATIONS §18)で決まる。
+kFrame=0 で geoPN=1 と bit 等価・0/1 経路は 1 bit 不変(段階導入)。ほかに機構スペクトル診断
+(T13)・💫geo2銀河(較正 1.0803)・🎡銀河標準(1.2646)・♻️温度循環・減光の力学不変の機械証明・
+E6′③反作用の1サブステップ上限(帳簿化)・A9″ 温度の形式化を含む。
+geoPN=2 の追加コストは実測 ×1.475(O(N²) の定数倍 — perf.geo2-overhead で恒久ゲート化)。
+
+第73便(2026-08-04): **v1.36.0 昇格**(52A/63 と同手順)— beta→root コピー(byte 同一)・
+APP_VERSION=1.36・package/lockfile 1.36.0・root SW=dfm-release-v1.36・beta は次期プレビュー線
+v1.37-b1 へ(BETA_BUILD/beta SW)。perf: root 未実装だった galaxyStd/galaxyGeo2/chaincycle が
+自動で比較ゲートへ。
+
 ## v1.36-b9(beta 先行・2026-08-04)
 
 第72便(2026-08-04): **geoPN=2 性能試験+Release前レビュー(Gemini/ChatGPT/Grok 2026-08-04)の採択**
