@@ -198,8 +198,10 @@ for (const id of [...SAMPLES, ...EXTRA_SAMPLES]) {
 // ①💫galaxyGeo2(geoPN=2)⇔🎡galaxyStd(geoPN=0)は**厳密同一の初期配置**なので、同一 beta
 //   ページでの交互ペア比 = 統一則のオーバーヘッドそのもの(root 比較ではない — 新モードの絶対増)。
 // ②合成円盤の N 掃引(100/200/381/600)で geoPN 0⇔2 の比のスケーリングを informational 記録。
-// ゲート: ペア比中央値 ≤ GEO2_THRESH=1.65(較正実測 2026-08-04: 1.38 — N=381・下記 geo2Sweep
-// の N 掃引でも 1.3〜1.5 帯。×1.2 マージン。超過は geo2 経路の性能回帰とみなす)
+// ゲート: ペア比中央値 ≤ GEO2_THRESH=1.65(較正実測 2026-08-04: **1.475**〔ペア比 1.430〜1.485〕・
+// N 掃引 100/200/381/600 でも 1.42〜1.55 で平坦 = 追加コストは同じ O(N²) の定数倍 ≈1.5
+// 〔∇u 勾配集積 ~40flops/対〕。マージン ×1.12 は既存 THRESH=1.10 と同水準。超過は geo2 経路の
+// 性能回帰とみなす)
 const GEO2_THRESH = +(process.env.GEO2_THRESH || 1.65);
 let geo2Gate = null;
 const geo2Sweep = [];
