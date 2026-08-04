@@ -1224,7 +1224,7 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
 const APP_VERSION = "1.36";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 // 第36便 B1(原仮定者指示): タイトル下に表示するbeta配信時のビルド番号。beta/sw.js の
 // CACHE 接尾辞と同期させる(QA: version.beta-label)。ルート昇格後は使わない("v"+APP_VERSION 表示に戻る)
-const BETA_BUILD = "v1.37-b2";   // 第74便: 5段階スケール+ディスク/バルジ+ローター星雲
+const BETA_BUILD = "v1.37-b3";   // 第75便: 2層減光形+重殻ローター星雲+双極星雲
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 // 第71便 P0 → 第72便(ChatGPT Release レビュー P2: マジックナンバーの定数化):
 // E6′③反作用の1サブステップ上限(速度のみ)。較正実測(第71便): 正常域最大は 🕶️ の
@@ -2248,6 +2248,122 @@ const BUILTIN_PRESETS = [
      direction:1, lightSweep:"auto"}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:false,monitor:false} },
+// 第75便: 🐚nebulaShell — 重殻ローター星雲(原仮定者指示「星雲は引力が弱いと拡散してしまうので、
+// 粒子の外殻は重く、粒子のコアが高速スピンして光学的な影響範囲は狭い想定」の創発実験)。
+// 塵粒 = 重い外殻(m24〜36 — 総質量の重力が雲を束縛)+高速スピンコア(coreSR20 — 2層減光形
+// 〔第75便拡張〕で暗さを担う)。暗さのスピンを小さなコアへ隠すので、スピン斥力 E5′ は遅い殻
+// スピンにしか効かず、熱圧 kRep=0.3 の下でも雲は自壊しない(単層で同じ暗さを出すには spin≈6 が
+// 必要で、同じ kRep で保持48%まで自壊する — exp-4-76 の耐圧試験)。実測 tests/exp-4-76.mjs
+{ id:"nebulaShell", name:"重殻ローター星雲 — 束縛と暗さの両立", emoji:"🐚", group:"銀河",
+  scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  sampleClass:"principle",
+  descStruct:{
+    summary:"🌑ローター星雲の改良版で、塵粒の設計だけを変えた思考実験。各塵粒は「重い外殻(質量のほとんど)+高速スピンの小さなコア(coreMR=0.4・コアスピン比20)」の2層構造を持つ。重い殻の重力が雲を束縛し、暗さは第75便拡張の2層減光(各層が自分の光を自分の表面速度で掻き出し、光度比で混合 — A9/A11系)でコアが担う。スピン斥力 E5′ は遅い殻スピン(0.6)にしか効かないので、熱圧 kRep=0.3 が働いていても雲は自壊しない — 「暗さのスピンを小さなコアへ隠す」ことが束縛と暗さを両立させる。実在の星雲についての主張ではない(Negative Claims)。",
+    observe:"実測(seed固定・3000步・熱圧 kRep=0.3 の下)でコアの平均減光0.89・クランプの保持率は0.96(エンベロープは1.00)。対照として同一幾何・同一質量の**単層**塵(暗さを出すには spin≈6 が必要)では、同じ熱圧で保持率0.48まで自壊し、エンベロープの平均|spin|も3.77まで攪乱される(2層では0.97 — 約3.9倍の差)。コアの高速スピンはA8のコア差動形 ω=coreMR·s·(coreSR−1)·f(Rc,d) で外へ届くが、Rc が小さいので影響範囲が狭く、周辺をほとんど乱さない。粒子タップで減光欄の実効値(2層減光)を確認できる。",
+    control:"おすすめA/B(ワンタップ): 下のボタンで塵粒54個のスピンを0にした対照と比較できる — コアの暗さが消えて雲全体が散光化する。kRep を上げると熱圧試験が厳しくなり、cLight を上げるとコアが未飽和になって明るくなる(🌑と同じ転移)。"},
+  en:{name:"Heavy-Shell Rotor Nebula — Binding and Darkness Together", descStruct:{
+    summary:"A refinement of the 🌑 rotor nebula that changes only the dust-grain design. Each grain is two-layered: a heavy outer shell (most of the mass) plus a small fast-spinning core (coreMR=0.4, core-spin ratio 20). The shells' gravity binds the cloud, while darkness comes from the core via the Wave-75 two-layer dimming extension (each layer sweeps out its own light at its own surface speed, mixed by luminosity — the A9/A11 family). Spin repulsion E5′ only feels the slow shell spin (0.6), so the cloud does not blow itself apart even under thermal pressure kRep=0.3 — hiding the darkness-carrying spin inside a small core is what lets binding and darkness coexist. Not a claim about real nebulae (Negative Claims). ",
+    observe:"Measured (fixed seed, 3000 steps, under thermal pressure kRep=0.3): mean core dimming 0.89, clump retention 0.96 (envelope 1.00). As a control, a **single-layer** dust cloud with identical geometry and mass (which needs spin≈6 to be equally dark) self-destructs to retention 0.48 under the same pressure, and stirs the envelope's mean |spin| up to 3.77 (0.97 for the two-layer cloud — about a 3.9× difference). The fast core does reach outward through the A8 core-differential form ω=coreMR·s·(coreSR−1)·f(Rc,d), but with a small Rc its reach is narrow and the surroundings stay almost undisturbed. Tap a grain to see the effective two-layer dimming value. ",
+    control:"Suggested A/B (one tap): the button below compares against a control with all 54 grain spins set to 0 — the cores' darkness vanishes and the whole cloud turns luminous. Raising kRep makes the pressure test harsher; raising cLight desaturates the cores and brightens them (the same transition as 🌑)."}},
+  activeParams:["kRep","cLight","kFrame"],
+  validT:48,   // 実測窓(3000步=t≈48)と一致
+  abBody:{ label:{ja:"塵粒のスピン0(散光化)", en:"grain spins = 0 (luminous)"},
+    targets:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,
+      27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53],
+    patch:{spin:0} },
+  claims:[
+    { id:"nebulaShell.core-dimming", kind:"fixed-seed", metric:"coreLswMean",
+      expected:{min:0.8, max:0.95},   // 実測0.89(exp-4-76 stress.twoLayer)
+      descPattern:"コアの平均減光(\\d+\\.\\d+)",
+      testId:"claim.nebulashell-stress" },
+    { id:"nebulaShell.retention", kind:"fixed-seed", metric:"coreKeepFrac",
+      expected:{min:0.93, max:1},   // 実測0.963(同・単層対照は0.481 — QA が両構成を機械固定)
+      descPattern:"保持率は(\\d+\\.\\d+)",
+      testId:"claim.nebulashell-stress" }
+  ],
+  camera:{scale:340}, world:{boundary:"none",size:0}, seed:20260804,
+  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0.3, muF:0, gammaN:0, kappaS:0, Kt:50,
+    cLight:40, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:3, timeScale:2},
+  bodies:[
+    // 高密度コア(主クランプ・粒子0..29): 重殻+高速スピンコアの塵粒
+    {type:"disk", rMul:0.7, n:30, cx:0,cy:0, radius:34, mMin:24,mMax:36,
+     spinMin:0.48,spinMax:0.72, vMode:"random", vScale:3, direction:1, bulkVx:0, bulkVy:0,
+     coreMR:0.4, coreSR:20, coreRR:0.3, lightSweep:"auto"},
+    // 副クランプ×2(階層構造・粒子30..41/42..53)
+    {type:"disk", rMul:0.7, n:12, cx:96,cy:44, radius:16, mMin:24,mMax:36,
+     spinMin:0.48,spinMax:0.72, vMode:"random", vScale:2.1, direction:1, bulkVx:-0.4, bulkVy:0.2,
+     coreMR:0.4, coreSR:20, coreRR:0.3, lightSweep:"auto"},
+    {type:"disk", rMul:0.7, n:12, cx:-88,cy:58, radius:16, mMin:24,mMax:36,
+     spinMin:0.48,spinMax:0.72, vMode:"random", vScale:2.1, direction:1, bulkVx:0.4, bulkVy:-0.2,
+     coreMR:0.4, coreSR:20, coreRR:0.3, lightSweep:"auto"},
+    // 低スピン放射エンベロープ(散光成分・粒子54..97)
+    {type:"ring", rMul:1, n:44, cx:0,cy:0, rIn:62, rOut:150, mMin:0.5,mMax:1.2,
+     spinMin:0.4,spinMax:0.9, vMode:"kepler", aroundMass:1134, omega:0, vNoise:0.05,
+     direction:1, lightSweep:"auto"}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:false,monitor:false} },
+// 第75便: ⏳nebulaBipolar — 双極星雲(原仮定者指示「双極星雲: 進める」)。中心の重殻ダーク
+// ローター(自由)+赤道の pinned 重殻ダークアーク(±x を挟む±50°・暗黒帯)+高スピンガス。
+// 機構は 🌋agnjet と同じ「E5′圧力+幾何」— 赤道が塞がれ、抵抗の少ない極方向(±y)だけが
+// 出口になってローブが立つ。実測 tests/exp-4-76.mjs(seed 20260804・6000步)
+{ id:"nebulaBipolar", name:"双極星雲 — 暗黒トーラスと極方向ローブ", emoji:"⏳", group:"銀河",
+  scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  sampleClass:"composite",
+  descStruct:{
+    summary:"惑星状星雲や双極星雲の「暗い帯+明るい2つのローブ」を、ダークローター部品で組んだ思考実験。中心に重殻ダークローター(殻はゆっくり・コアは高速 — 2層減光〔第75便拡張〕で真っ暗)、赤道(±x)を挟む±50°に重殻ダークアーク22個(暗黒トーラスの2D断面)、内側に高スピン=高温のガス60個。ガスは熱の斥力(E5′)で押し合うが、赤道はアークに塞がれている — 抵抗の少ない極方向(±y)だけが出口になり、上下2つの光るローブになる(🌋と同じ「圧力+幾何」の機構を星雲の構成で)。実在の惑星状星雲・双極流の再現主張ではない(Negative Claims)。",
+    observe:"実測(seed固定・6000步): 系外(r>200)へ達したガス41体のうち±y30°以内が0.61(等方なら1/3 — 1.8倍の集中)。ローブのガスは平均観測温度2.0で光り、中心は減光1.00・アーク帯は平均0.92で真っ暗 — 「暗い帯に挟まれた明るいローブ」の明暗が立つ。アークは pinned(外部固定)なので閉鎖系ではない(バッジ参照)。熱圧を切った対照(kRep=0)では脱出が0体になり、ローブは立たない — 圧力が唯一の駆動源であることの機械対照。",
+    control:"おすすめA/B: A/B比較で kRep=0 にすると圧力が消え、脱出は0体になってローブが立たない。なお「ガスのスピンを0にする」だけでは対照にならない — 中心とアークの回転が E6′残余トルクでガスへスピンを再注入し、圧力が再点火する(実測32体脱出)。圧力を確実に切る対照は kRep=0 である。"},
+  en:{name:"Bipolar Nebula — Dark Torus and Polar Lobes", descStruct:{
+    summary:"The 'dark band + two bright lobes' of planetary and bipolar nebulae, assembled from dark-rotor parts: a heavy-shell dark rotor at the center (slow shell, fast core — pitch dark via the Wave-75 two-layer dimming), 22 heavy-shell dark arcs within ±50° of the equator (±x; the 2D cross-section of a dark torus), and 60 high-spin (=hot) gas particles inside. The gas pushes outward with thermal repulsion (E5′), but the equator is blocked by the arcs — the only low-resistance exit is the polar direction (±y), so two glowing lobes rise (the same 'pressure + geometry' mechanism as 🌋, in nebula form). Not a claim to reproduce real planetary nebulae or bipolar outflows (Negative Claims). ",
+    observe:"Measured (fixed seed, 6000 steps): of the 41 gas particles that reach beyond r>200, a fraction 0.61 lies within 30° of ±y (isotropic would be 1/3 — a 1.8× concentration). The lobe gas glows at mean observed temperature 2.0, while the center is dimmed at 1.00 and the arc band averages 0.92 — bright lobes framed by a dark band. The arcs are pinned (externally held), so the system is not closed (see badges). In the pressure-off control (kRep=0) zero particles escape and no lobes form — a machine control showing pressure is the only driver. ",
+    control:"Suggested A/B: start an A/B comparison with kRep=0 and the pressure vanishes — zero particles escape and no lobes form. Note that merely zeroing the gas spins is not a control: the rotation of the center and the arcs re-injects spin into the gas through the E6′ residual torque, and the pressure re-ignites (32 escapees measured). The reliable pressure-off control is kRep=0."}},
+  activeParams:["kRep","cLight","kFrame"],
+  validT:96,   // 実測窓(6000步=t≈96)と一致
+  claims:[
+    { id:"nebulaBipolar.polar-fraction", kind:"fixed-seed", metric:"polarFraction",
+      expected:{min:0.5, max:0.72},   // 実測0.610(exp-4-76 B.final)
+      descPattern:"±y30°以内が(\\d+\\.\\d+)",
+      control:{patch:{kRep:0}, expected:{min:0, max:3},   // 実測0(kRep=0 の圧力オフ — agnjet と同書式)
+        descPattern:"対照\\(kRep=0\\)では脱出が(\\d+)体"},
+      testId:"claim.nebulabipolar-polar" }
+  ],
+  camera:{scale:380}, world:{boundary:"none",size:0}, seed:20260804,
+  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:1.2, muF:0, gammaN:0, kappaS:0, Kt:50,
+    cLight:40, bM:1, etaRad:0.002, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:3, timeScale:2},
+  bodies:[
+    // 中心の重殻ダークローター(自由・粒子0)
+    {type:"single", rMul:1, m:600, x:0,y:0, vx:0,vy:0, spin:0.6, pinned:false,
+     radius:20, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
+    // 赤道ダークアーク(pinned・粒子1..22 — ±x を挟む±50°・10°刻み・r=60)
+    {type:"single", rMul:1, m:40, x:38.6,y:-46, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:46,y:-38.6, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:52,y:-30, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:56.4,y:-20.5, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:59.1,y:-10.4, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:60,y:0, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:59.1,y:10.4, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:56.4,y:20.5, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:52,y:30, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:46,y:38.6, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:38.6,y:46, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:-38.6,y:46, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:-46,y:38.6, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:-52,y:30, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:-56.4,y:20.5, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:-59.1,y:10.4, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:-60,y:0, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:-59.1,y:-10.4, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:-56.4,y:-20.5, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:-52,y:-30, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:-46,y:-38.6, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:-38.6,y:-46, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
+    // 高温ガス(高スピン=熱・粒子23..82)
+    {type:"disk", rMul:1, n:60, cx:0,cy:0, radius:30, mMin:0.4,mMax:0.8,
+     spinMin:4,spinMax:6, vMode:"random", vScale:0.8, direction:1, bulkVx:0, bulkVy:0}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled",monitor:false} },
 { id:"merger", name:"銀河合体と潮汐効果", emoji:"🌠", group:"銀河",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
@@ -3419,6 +3535,21 @@ function validatePreset(obj){
           else if(isNum(b.lightSweep)) oR.lightSweep=wc(b.lightSweep,0,1,"lightSweep");
           else warnings.push(at+'.lightSweep は数値(0〜1)か "auto" — 削除します');
         }
+        // 第75便: 群共通の主星2層(single と同じ意味論・クランプ)。coreMR=mc/m(−1〜1・負値=空洞)・
+        // coreSR=sc/s(−20〜20)・coreRR=Rc/R(0.02〜1)。未指定=従来と厳密等価(RNG消費も不変)。
+        // 「外殻は重く・コアは高速スピン」の重殻ローター塵を群でまけるようにする(原仮定者指示)
+        if(b.coreMR!==undefined){
+          if(!isNum(b.coreMR)){ bad(at+".coreMR が数値ではありません"); return; }
+          oR.coreMR=wc(b.coreMR,-1,1,"coreMR");
+        }
+        if(b.coreSR!==undefined){
+          if(!isNum(b.coreSR)){ bad(at+".coreSR が数値ではありません"); return; }
+          oR.coreSR=wc(b.coreSR,-20,20,"coreSR");
+        }
+        if(b.coreRR!==undefined){
+          if(!isNum(b.coreRR)){ bad(at+".coreRR が数値ではありません"); return; }
+          oR.coreRR=wc(b.coreRR,0.02,1,"coreRR");
+        }
         // 第31便: railH(膨張レール)— pinned リングを a(t)=e^{H·t} で相似膨張させる規定運動
         if(b.railH!==undefined){
           if(!isNum(b.railH)){ bad(at+".railH が数値ではありません"); return; }
@@ -3448,6 +3579,19 @@ function validatePreset(obj){
           if(b.lightSweep==="auto") oD.lightSweep="auto";
           else if(isNum(b.lightSweep)) oD.lightSweep=wc(b.lightSweep,0,1,"lightSweep");
           else warnings.push(at+'.lightSweep は数値(0〜1)か "auto" — 削除します');
+        }
+        // 第75便: 群共通の主星2層(ring と同じ — single と同じ意味論・クランプ。未指定=従来等価)
+        if(b.coreMR!==undefined){
+          if(!isNum(b.coreMR)){ bad(at+".coreMR が数値ではありません"); return; }
+          oD.coreMR=wc(b.coreMR,-1,1,"coreMR");
+        }
+        if(b.coreSR!==undefined){
+          if(!isNum(b.coreSR)){ bad(at+".coreSR が数値ではありません"); return; }
+          oD.coreSR=wc(b.coreSR,-20,20,"coreSR");
+        }
+        if(b.coreRR!==undefined){
+          if(!isNum(b.coreRR)){ bad(at+".coreRR が数値ではありません"); return; }
+          oD.coreRR=wc(b.coreRR,0.02,1,"coreRR");
         }
         out.push(oD);
       } else if(t==="box"){
@@ -4321,6 +4465,7 @@ function makeSim(){
         const rM=(b.rMul===undefined?1:b.rMul);   // 第36便 C1: 群共通の半径倍率(既定1)
         const tI=(b.tInt===undefined?0:b.tInt);   // 第36便 D: 群共通の内部温度初期値(既定0)
         const lS=b.lightSweep;   // 第70便: 群共通の減光(未指定=undefined → P.forEach で 0)
+        const cMR=b.coreMR, cSR=b.coreSR, cRR=b.coreRR;   // 第75便: 群共通の主星2層(未指定=従来等価)
         for(let i=0;i<b.n;i++){
           let ang,r,x,y,tries=0;
           do{
@@ -4337,7 +4482,8 @@ function makeSim(){
             // v1.18: bulkVx/Vy = 母集団の並進速度(移動する親天体の円盤・環が核と一体で動く)
             vx:vt*jit*tx + vr*Math.cos(ang) + (b.bulkVx||0),
             vy:vt*jit*ty + vr*Math.sin(ang) + (b.bulkVy||0),
-            spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:b.pinned?1:0, railOmega:0, rMul:rM, tInt:tI, lightSweep:lS};
+            spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:b.pinned?1:0, railOmega:0, rMul:rM, tInt:tI, lightSweep:lS,
+            coreMR:cMR, coreSR:cSR, coreRR:cRR};
           // 第31便: railH(膨張レール a(t)=e^{H·t})— pinned リングを相似膨張で規定駆動する。
           // 位置は初期半径から毎step解析再構成(前stepへの加算ではないのでドリフトしない)
           if(b.pinned && (b.vMode==="omega" || b.railH)){
@@ -4365,6 +4511,7 @@ function makeSim(){
         const rM=(b.rMul===undefined?1:b.rMul);   // 第36便 C1: 群共通の半径倍率(既定1)
         const tI=(b.tInt===undefined?0:b.tInt);   // 第36便 D: 群共通の内部温度初期値(既定0)
         const lS=b.lightSweep;   // 第70便: 群共通の減光(未指定=undefined → P.forEach で 0)
+        const cMR=b.coreMR, cSR=b.coreSR, cRR=b.coreRR;   // 第75便: 群共通の主星2層(未指定=従来等価)
         for(let i=0;i<b.n;i++){
           let ang,r,x,y,tries=0;
           do{
@@ -4381,7 +4528,8 @@ function makeSim(){
           if(b.vMode!=="hubble"){ vX += (rng()*2-1)*0.02; vY += (rng()*2-1)*0.02; }   // 第31便: hubble は共動初期条件を乱さない
           push({m:b.mMin+(b.mMax-b.mMin)*rng(), x,y,
             vx:vX+(b.bulkVx||0), vy:vY+(b.bulkVy||0),   // v1.18: 母集団の並進速度
-            spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:0, railOmega:0, rMul:rM, tInt:tI, lightSweep:lS});
+            spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:0, railOmega:0, rMul:rM, tInt:tI, lightSweep:lS,
+            coreMR:cMR, coreSR:cSR, coreRR:cRR});
         }
       } else if(b.type==="box"){
         const rM=(b.rMul===undefined?1:b.rMul);   // 第36便 C1: 群共通の半径倍率(既定1)
@@ -5677,15 +5825,47 @@ function makeSim(){
     //   |s|·R ≪ c_surf となり lS_eff≈0 になる(第19便 反証条件7と整合 — この誠実性は仕様)。
     // 数値指定(既定)の粒子はこのブロックを 1 命令も通らない(hasLSwAuto=false ならループごと素通り)
     if(S.hasLSwAuto){
-      const KtA=p.Kt, c0A=p.cLight;
+      const KtA=p.Kt, c0A=p.cLight, qA=p.q;
       for(let i=0;i<n;i++){
         if(!S.lSwAuto[i]) continue;
         const Ri=R[i];
         const psiS=(bgW + sumW[i] + m[i]/Math.sqrt(Ri*Ri+eps2))/KtA;
         const cS=c0A*Math.exp(-2*psiS);
-        const vS=Math.abs(spin[i])*Ri;
-        let ls=(cS>1e-12)? vS/cS : 1;
-        if(!(ls>0)) ls=0; else if(ls>1) ls=1;
+        // 第75便: 主星2層の減光(2層減光形 — 原仮定者指示「外殻は重く・コアが高速スピンして
+        // 光学的な影響範囲は狭い」の実装)。各層は**自分の光を自分の表面速度で**掻き出す:
+        //   殻:  ls_s = min(1, |s + coreMR·s·(coreSR−1)·f(Rc,R)|·R / c_surf)
+        //        (コア差動が殻表面のフレームを回す分も含む — A8 コア差動形と同じ核 f=(Rc/(Rc+d))^q)
+        //   コア: ls_c = min(1, |coreSR·s|·Rc / c_core)。c_core はコア深さの ψ で算出
+        //        (ψ_core = (D+ΣW+|m|/√(Rc²+ε²))/Kt — 深いほど光が遅く、掻き出しやすい)
+        // 合成は層光度比の重み(T∝層質量比·半径²·スピン²。共通因子 m/2 は約分):
+        //   lSw = (w_s·ls_s + w_c·ls_c)/(w_s+w_c)、w_s=(1−|coreMR|)·R²·s²・w_c=|coreMR|·Rc²·(coreSR·s)²
+        // coreMR=0(単層)は w_c=0・差動0 で従来式 min(1,|s|R/c_surf) と**厳密同値**
+        // (全既存プリセットで bit 不変 — QA lsw.core-auto)。力学へは今までどおり一切影響しない
+        // A8 と同じく**差動分 (coreSR−1) だけ**がコア層から効く(coreSR=1 の剛体回転は
+        // 単層と厳密等価 — chi→1 で wC→0 と連続に従来式へ退化する)
+        const si0=spin[i];
+        let ls;
+        const cmr=(S.hasCore? S.coreMR[i] : 0);
+        const chi0=(S.hasCore? S.coreSR[i] : 1);
+        if(cmr!==0 && si0!==0 && S.Rc[i]>0 && chi0!==1){
+          const chi=chi0, Rci=S.Rc[i];
+          const tt=Rci/(Rci+Ri);
+          const sSurf=si0 + cmr*si0*(chi-1)*((qA===2)? tt*tt : Math.pow(tt,qA));
+          let lsS=(cS>1e-12)? Math.abs(sSurf)*Ri/cS : 1;
+          if(!(lsS>0)) lsS=0; else if(lsS>1) lsS=1;
+          const psiC=(bgW + sumW[i] + Math.abs(m[i])/Math.sqrt(Rci*Rci+eps2))/KtA;
+          const cC=c0A*Math.exp(-2*psiC);
+          const sDiff=(chi-1)*si0;   // コアの差動スピン(剛体分は殻側 lsS が既に持つ)
+          let lsC=(cC>1e-12)? Math.abs(sDiff)*Rci/cC : 1;
+          if(!(lsC>0)) lsC=0; else if(lsC>1) lsC=1;
+          const acm=Math.abs(cmr);
+          const wS=(1-acm)*Ri*Ri*si0*si0, wC=acm*Rci*Rci*sDiff*sDiff;
+          ls=(wS+wC>0)? (wS*lsS + wC*lsC)/(wS+wC) : 0;
+        } else {
+          const vS=Math.abs(si0)*Ri;
+          ls=(cS>1e-12)? vS/cS : 1;
+          if(!(ls>0)) ls=0; else if(ls>1) ls=1;
+        }
         lSw[i]=ls;
       }
     }
