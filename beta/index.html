@@ -117,6 +117,9 @@
   .group{margin:6px 0 14px;}
   .group>h3{margin:4px 0 8px;font-size:calc(12px*var(--uz,1));color:var(--dim);font-weight:700;letter-spacing:.06em;}
   .prow{display:flex;align-items:center;gap:10px;margin:7px 0;}
+  /* 第74便: スケール換算の副表示 — 行を折り返して右寄せの小さな1行を添える(表示専用) */
+  .prow{flex-wrap:wrap;}
+  .prow .convVal{flex:1 0 100%;text-align:right;font-size:10px;opacity:.72;margin:-4px 0 0;}
   .prow label{flex:0 0 118px;font-size:calc(12px*var(--uz,1));color:var(--fg);}
   /* v1.21: パラメータ名タップで説明を開閉(点線下線=タップ可能の合図) */
   .prow label.tappable{text-decoration:underline dotted var(--dim);text-underline-offset:3px;
@@ -374,6 +377,11 @@
         <!-- 第36便 B4(原仮定者指示): 説明文を既定closedのdetailsへ折畳み(要点は見出しのみ表示) -->
         <details id="aiBaseDetails"><summary id="aiBaseNoteSum" class="note" style="cursor:pointer">ベースのサンプル</summary>
         <p class="note" id="aiBaseNote">ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの coreMR/lightSweep や 🛰️の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信されます。</p></details>
+        <!-- 第74便: スケール別テンプレート — 5段階スケールの雛形文を要望欄へ挿入(ベースサンプルも同時に推奨値へ)。
+             min-width:0 は #aiBasePreset と同じ横スクロール防止(行28参照) -->
+        <div class="prow"><label id="aiTplLabel" style="flex:0 0 auto">スケール雛形</label>
+          <select id="aiScaleTpl" style="flex:1;min-width:0"></select>
+          <button class="btn" id="btnAiTpl" style="flex:0 0 auto">挿入</button></div>
         <textarea id="aiPrompt" placeholder="例: 3つの恒星が絡み合う三体問題。まわりに塵の環も欲しい"></textarea>
         <div class="rowBtns"><button class="btn primary" id="btnGenerate">生成する</button></div>
         <!-- 第32便 W4(台帳4-58): 送信内容の事前確認(開いている間だけ入力に追従) -->
@@ -701,6 +709,25 @@ ja: {
   claimKindTip:"主張の検証形態(台帳4-92): 解析一致=閉形式解との一致/保存恒等式=帳簿込みの恒等式/意味論回帰=定義・規則の回帰/固定seed実測=決定論的単一走行の実測/多seed統計=シード群にわたる統計",
   // 第50便 50K(台帳4-78 C案): 構造化説明の区分見出し
   descSummaryHead:"📌 要約", descObserveHead:"👀 観察のポイント", descControlHead:"🎛 操作と対照",
+  // 第74便: 5段階スケール(scaleTier)— 絞り込み・チップ・換算表示・AI雛形
+  grpScale:"スケール",
+  scaleName_molecular:"分子", scaleName_everyday:"日常", scaleName_celestial:"天体",
+  scaleName_galactic:"銀河", scaleName_cosmic:"宇宙全体",
+  bdgScaleTip:"5段階スケール分類(分子/日常/天体/銀河/宇宙全体)。UI の分類と表示換算の目安専用 — 物理エンジンはスケールで切り替わらない(同じ公理・同じ法則のまま、質量・距離・速度で支配機構が入れ替わるのが本モデルの主題)",
+  scaleDispLabel:"スケール換算表示",
+  scaleDispDesc:"パラメータの数値(シミュレーション単位)に、現在のスケール指数で SI 換算した値(≈1.2e7 m/s 等)を併記する。換算は次元をもつパラメータ(G・光速・一様重力・ε・D₀・Kt)のみ。表示だけの機能で、物理・セーブには一切影響しない。指数は下の「シミュレーション」カテゴリのスライダーで分子〜宇宙全体まで連続に変えられる",
+  scaleExpLabel:"表示スケール指数",
+  scaleExpDesc:"表示換算に使う長さ指数 log₁₀(m/長さ1) を、分子(10⁻¹⁰m)から宇宙全体(10²³m)まで指数で連続に変える。時間・質量の指数は各スケールの代表点の間を線形補間する。表示専用 — 物理(sim.params)には書き込まない。プリセットを読み込むと、そのサンプルの scaleTier 既定値へ戻る",
+  hudScale:(x,eT,eM,t)=>`スケール換算 長さ1=10^${Math.round(x*10)/10}m 時間1=10^${Math.round(eT*10)/10}s 質量1=10^${Math.round(eM*10)/10}kg t≈${sciFmt(t*Math.pow(10,eT))}s`,
+  // 第74便: AI追加のスケール別雛形
+  aiTplLabel:"スケール雛形", aiTplInsert:"挿入",
+  aiTplName_molecular:"実験箱", aiTplName_everyday:"実験室", aiTplName_celestial:"軌道の舞台",
+  aiTplName_galactic:"回転円盤", aiTplName_cosmic:"箱宇宙",
+  aiTpl_molecular:"【分子スケール|実験箱】箱境界の実験箱(world.boundary:\"box\")に小さな粒子を数十個閉じ込める。スピン=熱(A9)・スピン斥力 kRep(E5′)・摩擦 muF(E9)・スピン拡散 κs(E10′)で、相変化や熱平衡を見せたい。scaleTier:\"molecular\" を付ける。要望: ",
+  aiTpl_everyday:"【日常スケール|実験室】一様重力 gravityY のある実験室(world.boundary:\"box\")で、落下・対流・浮力のような身の回りの現象を作る。加熱は高スピン粒子、冷却は放射 etaRad で。scaleTier:\"everyday\" を付ける。要望: ",
+  aiTpl_celestial:"【天体スケール|軌道の舞台】境界なし(world.boundary:\"none\")の空間に中心天体と周回体を置く。初速は vMode:\"kepler\"(aroundMass=中心質量)。潮汐・レンズ(rays)・時計の遅れも使える。scaleTier:\"celestial\" を付ける。要望: ",
+  aiTpl_galactic:"【銀河スケール|回転円盤】中心に大質量・高スピンの天体(pinned可)、まわりに恒星ディスク(type:\"disk\"・vMode:\"kepler\")。空間引きずり kFrame:1 と回転曲線オーバーレイ(rotationCurve)で外縁の増強を見せる。scaleTier:\"galactic\" を付ける。要望: ",
+  aiTpl_cosmic:"【宇宙全体スケール|箱宇宙】universeBox(膨張する箱)に粒子を共動配置し、初速は vMode:\"hubble\"。膨張と自己重力の綱引きや赤方偏移(boxGraph)を見せる。scaleTier:\"cosmic\" を付ける。要望: ",
   groups:{}, params:{},
 },
 en: {
@@ -930,6 +957,24 @@ en: {
   claimKindTip:"How the claim is verified (ledger 4-92): analytic match = agreement with a closed-form solution / conservation identity = ledger-closed identity / semantic regression = regression of a definition or rule / fixed-seed run = deterministic single-run measurement / multi-seed statistics = statistics across seeds",
   // 第50便 50K(台帳4-78 C案): structured-description section heads
   descSummaryHead:"📌 Summary", descObserveHead:"👀 What to observe", descControlHead:"🎛 Controls & contrasts",
+  // 第74便: 5-tier scale (scaleTier)
+  grpScale:"Scale",
+  scaleName_molecular:"Molecular", scaleName_everyday:"Everyday", scaleName_celestial:"Celestial",
+  scaleName_galactic:"Galactic", scaleName_cosmic:"Cosmic",
+  bdgScaleTip:"Five-tier scale classification (molecular / everyday / celestial / galactic / cosmic). Used only for browsing and unit-conversion hints — the physics engine never switches on scale (the whole point of this model is that the same axioms let different mechanisms dominate as mass, distance and speed change)",
+  scaleDispLabel:"Scale-converted display",
+  scaleDispDesc:"Adds an SI-converted value (≈1.2e7 m/s etc.) next to dimensional parameters (G, light speed, uniform gravity, ε, D₀, Kt), using the current scale exponent. Display only — physics and saves are untouched. The exponent can be swept continuously from molecular to cosmic with the slider in the Simulation category",
+  scaleExpLabel:"Display scale exponent",
+  scaleExpDesc:"The length exponent log₁₀(m per length-unit) used by the converted display, swept exponentially from molecular (10⁻¹⁰ m) to cosmic (10²³ m). Time and mass exponents interpolate linearly between the tier anchor points. Display only — nothing is written into sim.params. Loading a preset resets it to that sample's scaleTier default",
+  hudScale:(x,eT,eM,t)=>`scale conv: len1=10^${Math.round(x*10)/10}m time1=10^${Math.round(eT*10)/10}s mass1=10^${Math.round(eM*10)/10}kg t≈${sciFmt(t*Math.pow(10,eT))}s`,
+  aiTplLabel:"Scale template", aiTplInsert:"Insert",
+  aiTplName_molecular:"Lab box", aiTplName_everyday:"Laboratory", aiTplName_celestial:"Orbital stage",
+  aiTplName_galactic:"Rotating disk", aiTplName_cosmic:"Box universe",
+  aiTpl_molecular:"[Molecular scale | lab box] Confine a few dozen small particles in a bounded box (world.boundary:\"box\"). Spin=heat (A9), spin repulsion kRep (E5′), friction muF (E9) and spin diffusion κs (E10′) are the lead actors; show phase changes or thermal equilibrium. Set scaleTier:\"molecular\". Request: ",
+  aiTpl_everyday:"[Everyday scale | laboratory] A lab with uniform gravity gravityY (world.boundary:\"box\") for familiar phenomena — falling, convection, buoyancy. Heat with high-spin particles, cool with etaRad radiation. Set scaleTier:\"everyday\". Request: ",
+  aiTpl_celestial:"[Celestial scale | orbital stage] Open space (world.boundary:\"none\") with a central body and orbiters. Initial speeds via vMode:\"kepler\" (aroundMass = central mass). Tides, lensing (rays) and clock effects are available. Set scaleTier:\"celestial\". Request: ",
+  aiTpl_galactic:"[Galactic scale | rotating disk] A massive high-spin central body (pinned allowed) with a stellar disk (type:\"disk\", vMode:\"kepler\"). Use frame dragging kFrame:1 and the rotation-curve overlay to show outer-velocity enhancement. Set scaleTier:\"galactic\". Request: ",
+  aiTpl_cosmic:"[Cosmic scale | box universe] Place particles comoving in an expanding universeBox with vMode:\"hubble\" initial flow. Show the tug-of-war between expansion and self-gravity, or redshift (boxGraph). Set scaleTier:\"cosmic\". Request: ",
   groups:{"空間と時間":"Space & Time","箱宇宙":"Box Universe","銀河":"Galaxies","光":"Light","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
   params:{G:"Gravity G", D0:"Background determinacy D₀", kFrame:"Frame dragging kFrame",
     q:"Drag falloff q", kRep:"Spin repulsion kRep", muF:"Friction→spin muF",
@@ -1141,7 +1186,10 @@ function classifyPreset(p){
   const strongField = psiStatic > 0.5;
   // 第67便 67B(P3): sampleClass はプリセット宣言のパススルー(自動判定しない — 主張水準は
   // 編集判断。未宣言はチップなし)
-  return {layers, external:ext, closed, tint, strongField, psiStatic, sampleClass:p.sampleClass||null};
+  // 第74便: scaleTier もパススルー(sampleClass と同方針 — 宣言専用・自動判定しない。
+  // 不正値は validatePreset が削除済みだが、内蔵定義の直接参照にも備えて正規値のみ通す)
+  const scaleTier = (typeof SCALE_TIERS!=="undefined" && SCALE_TIERS.indexOf(p.scaleTier)>=0)? p.scaleTier : null;
+  return {layers, external:ext, closed, tint, strongField, psiStatic, sampleClass:p.sampleClass||null, scaleTier};
 }
 function gName(g){ return (LANG==="en" && I18N.en.groups[g]) || g; }
 function pName(p){ return (LANG==="en" && p.en && p.en.name) || p.name; }
@@ -1176,7 +1224,7 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
 const APP_VERSION = "1.36";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 // 第36便 B1(原仮定者指示): タイトル下に表示するbeta配信時のビルド番号。beta/sw.js の
 // CACHE 接尾辞と同期させる(QA: version.beta-label)。ルート昇格後は使わない("v"+APP_VERSION 表示に戻る)
-const BETA_BUILD = "v1.37-b1";   // 第73便: v1.36.0 昇格に伴い次期プレビュー線へ
+const BETA_BUILD = "v1.37-b2";   // 第74便: 5段階スケール+ディスク/バルジ+ローター星雲
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 // 第71便 P0 → 第72便(ChatGPT Release レビュー P2: マジックナンバーの定数化):
 // E6′③反作用の1サブステップ上限(速度のみ)。較正実測(第71便): 正常域最大は 🕶️ の
@@ -1208,6 +1256,75 @@ function rayHeavy(S, i){ return S.m[i] >= rayMassMin(S.params, S.R[i]); }
 // pnK=(α_min/4)·c²/G を使って展開してある(O(N²) の関数呼出削減)。
 // 質量は下限保護付きの mEff — 対ループ側と同じ配列を見る(判定の正本はこの関数側)
 function pnSource(S, i){ return S.mEff[i] >= pnMassMin(S.params, S.R[i]); }
+
+// 第74便: 5段階スケール(scaleTier)— UI分類・表示換算専用のメタデータ。
+// **物理エンジンには一切使わない**(ChatGPT レビュー §8「スケールを物理入力にしない」採択 —
+// 同じ公理・同じエンジンの中で支配機構が入れ替わるのが DFM の設計思想であり、スケールは
+// 「閲覧分類+単位換算の目安」に限定する)。SCALE_ANCHORS は各スケールの代表指数
+// (log10 の SI 値/シミュレーション単位1あたり: expL=長さ[m]・expT=時間[s]・expM=質量[kg])。
+// 例: molecular は「長さ1=1Å・時間1=0.1ps・質量1≈6u」の実験箱、galactic は
+// 「長さ1≈0.3kpc・時間1≈3Myr・質量1≈5×10³M☉」の回転円盤 — 換算表示とスライダーの目盛りに使う
+const SCALE_TIERS=["molecular","everyday","celestial","galactic","cosmic"];
+const SCALE_ANCHORS={
+  molecular:{expL:-10, expT:-13, expM:-26},
+  everyday: {expL:0,   expT:0,   expM:0},
+  celestial:{expL:8,   expT:4,   expM:24},
+  galactic: {expL:19,  expT:14,  expM:34},
+  cosmic:   {expL:23,  expT:17,  expM:42}};
+const SCALE_EMOJI={molecular:"🧪", everyday:"🏠", celestial:"🪐", galactic:"🌌", cosmic:"🫧"};
+// 表示換算の状態(表示専用 — sim.params には触れない)。scaleExpOverride=null はプリセットの
+// scaleTier 既定指数を使う。スライダー(シミュレーションカテゴリ)が上書きし、プリセット読込で戻る
+let scaleDispOn=false;   // localStorage hp_scale_disp(起動時に復元 — 定義は下の try)
+let scaleExpOverride=null;
+try{ scaleDispOn = localStorage.getItem("hp_scale_disp")==="1"; }catch(_){}
+function scaleTierOf(p){ return (p && SCALE_TIERS.indexOf(p.scaleTier)>=0)? p.scaleTier : "everyday"; }
+function scaleExpNow(){ return (scaleExpOverride!==null)? scaleExpOverride
+  : SCALE_ANCHORS[scaleTierOf(typeof currentPreset!=="undefined"? currentPreset : null)].expL; }
+// expL=x のときの時間・質量指数: 隣接アンカー間の線形補間(端はクランプ)。
+// スライダーで x を連続に振っても T/M の換算が滑らかに追随する
+function scaleTM(x){
+  const pts=SCALE_TIERS.map(t=>SCALE_ANCHORS[t]);
+  if(x<=pts[0].expL) return {eT:pts[0].expT, eM:pts[0].expM};
+  for(let i=1;i<pts.length;i++){
+    if(x<=pts[i].expL){
+      const f=(x-pts[i-1].expL)/(pts[i].expL-pts[i-1].expL);
+      return {eT:pts[i-1].expT+f*(pts[i].expT-pts[i-1].expT),
+              eM:pts[i-1].expM+f*(pts[i].expM-pts[i-1].expM)};
+    }
+  }
+  return {eT:pts[pts.length-1].expT, eM:pts[pts.length-1].expM};
+}
+// 次元をもつパラメータだけ換算する([L,T,M] の指数。モデル固有の無次元ノブは対象外)。
+// W=Σm/√(d²+ε²) は M·L⁻¹ 次元なので D0/Kt も換算できる
+const SCALE_DIMS={ G:[3,-2,-1], cLight:[1,-1,0], gravityX:[1,-2,0], gravityY:[1,-2,0],
+  softening:[1,0,0], D0:[-1,0,1], Kt:[-1,0,1] };
+const SCALE_UNIT_STR={ "G":"m³/(kg·s²)", "cLight":"m/s", "gravityX":"m/s²", "gravityY":"m/s²",
+  "softening":"m", "D0":"kg/m", "Kt":"kg/m" };
+function sciFmt(v){
+  if(!isFinite(v)) return String(v);
+  if(v===0) return "0";
+  const a=Math.abs(v);
+  if(a>=0.01 && a<10000) return (Math.round(v*1000)/1000).toString();
+  const e=Math.floor(Math.log10(a));
+  const mant=v/Math.pow(10,e);
+  return (Math.round(mant*100)/100)+"e"+e;
+}
+// パラメータ key の値 v をスケール換算した文字列("≈1.2e7 m/s" 形式)。対象外キーは null
+function scaleConvStr(key,v){
+  const d=SCALE_DIMS[key]; if(!d) return null;
+  const x=scaleExpNow(), tm=scaleTM(x);
+  const e=d[0]*x + d[1]*tm.eT + d[2]*tm.eM;
+  return "≈"+sciFmt(v*Math.pow(10,e))+" "+SCALE_UNIT_STR[key];
+}
+function setScaleDisp(v){
+  scaleDispOn=!!v;
+  try{ localStorage.setItem("hp_scale_disp", scaleDispOn?"1":"0"); }catch(_){}
+}
+// 表示中の全パラメータ行の換算副表示を更新(paramRowSync の表示同期関数を総なめ — 表示専用)
+function refreshScaleConv(){
+  if(typeof paramRowSync==="undefined") return;
+  for(const k in paramRowSync) (paramRowSync[k]||[]).forEach(f=>f());
+}
 
 // パラメータUI定義。mode:"log"=対数スライダー(桁をまたぐ量の微調整用。
 // スライダー範囲外の値(0を含む)は隣の数値入力欄から直接設定できる)
@@ -1289,6 +1406,7 @@ const BUILTIN_PRESETS = [
 // 第26便(原仮定者指示): カテゴリ分け・表示順を再編 — 銀河系サンプルを「銀河」グループへ集約。配列順=表示順
 // ===== グループ: 空間と時間 =====
 { id:"gclock", name:"重力による時計の遅れ", emoji:"⏱️", group:"空間と時間",
+  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"中央の大質量天体から距離70・140・240に置いた3つの静止時計。運動を完全に止め、距離=決定力の強さだけを変えた統制実験。",
@@ -1319,6 +1437,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
 { id:"grcal", name:"弱場GR較正 — GPS・光・シャピロ", emoji:"🛰️", group:"空間と時間",
+  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"calibration",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"時計と光を1本のψ=W/Ktで決める弱場則(A7′/E7R/E8R/T5)を、現実の観測と突き合わせる較正デモ。",
@@ -1341,6 +1460,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
 { id:"mercury", name:"水星の近日点前進 — 測地線1PN", emoji:"☿", group:"空間と時間",
+  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"測地線モード(E12)。時計を遅らせるのと同じψ=W/Ktが物質の軌道も決めると(A7′/E7R の作用化)、楕円軌道は公転と同じ向きにゆっくり回り=近日点の前進、花びら模様を描く。",
@@ -1362,6 +1482,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"projectile", name:"自由落下と放物運動", emoji:"⚾", group:"空間と時間",
+  scaleTier:"everyday",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"一様重力場gravityY(外部場)だけを働かせた力学実験室。",
@@ -1388,6 +1509,7 @@ const BUILTIN_PRESETS = [
 // 可逆チャネル限定の構成(kFrame=0・muF=0・γn=0・κs=0・η_rad=0・kRep=0・boundary="none")で、
 // t=echoFlipAt に v と s を一斉反転すると初期配置へ戻る。実測 RMS は QA echo.* を参照
 { id:"echo", name:"時間の矢 — 巻き戻る宇宙と巻き戻らない宇宙", emoji:"⏪", group:"空間と時間",
+  scaleTier:"everyday",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"重い3天体と28個のテスト粒子だけの閉じた宇宙。",
@@ -1427,6 +1549,7 @@ const BUILTIN_PRESETS = [
 
 // ===== グループ: 箱宇宙(第31便 — BOX_UNIVERSE v1.2。「宇宙に大質量の箱だけがある」思考実験)=====
 { id:"boxtrans", name:"箱宇宙 — 並進する箱", emoji:"📦", group:"箱宇宙",
+  scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"質量M=1440の自由な質点リング(壁)と、内部のテスト粒子・時計が全て同じ速度で並進する閉鎖系。",
@@ -1452,6 +1575,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true} },
 
 { id:"boxrot", name:"箱宇宙 — 回る箱と空間の支え", emoji:"🌀", group:"箱宇宙",
+  scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"壁(質点リング・レール駆動)が角速度Ω=0.15で回る。",
@@ -1479,6 +1603,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:true} },
 
 { id:"boxexpand", name:"箱宇宙 — 膨張する箱(質点リング)", emoji:"📈", group:"箱宇宙",
+  scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"壁リングをa(t)=e^{Ht}(H=0.005)で相似膨張させる規定駆動(railH — 展示系。外部が軌道を規定する)。",
@@ -1500,6 +1625,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"boxcomoving", name:"箱宇宙 — UniverseBoxの完全共動と膨張時計", emoji:"🫧", group:"箱宇宙",
+  scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"連続背景UniverseBox — 静的なD₀を「位置・速度・尺度a(t)を持つ動的背景」へ昇格させ、完全なHubble流u_B=H·rを作る(質点リングの利得1/2を埋めるT10の連続極限。破線円=名目半径L·a)。",
@@ -1523,6 +1649,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true,boxGraph:true} },
 
 { id:"boxbound", name:"箱宇宙 — 束縛系は膨張に逆らえるか", emoji:"🪢", group:"箱宇宙",
+  scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"膨張するUniverseBox(H=0.004)の中に、束縛された連星(m=100×2)と自由なテスト粒子を置く。",
@@ -1548,6 +1675,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,boxGraph:true} },
 
 { id:"boxbreath", name:"箱宇宙 — 呼吸する宇宙と時計", emoji:"🫁", group:"箱宇宙",
+  scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"尺度因子a(t)=1+0.2sin(0.08t)で膨張と収縮を繰り返すUniverseBox。",
@@ -1570,6 +1698,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true,boxGraph:true} },
 
 { id:"boxredshift", name:"箱宇宙 — 光の赤方偏移(A・B・C)", emoji:"🔦", group:"箱宇宙",
+  scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"semantic",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"膨張する箱宇宙(H=0.02)に粒子A・B・Cを共動で並べ、光の状態を「波長」で保持して伝播させる。",
@@ -1610,6 +1739,7 @@ const BUILTIN_PRESETS = [
 // D の既定 277.26 = (2/3)ln4·300 ≈ 0.9242·Kt(論文2の較正点 — a=2 の点値がテンション比
 // 67.4/73.0≈0.923 と同水準になる。数値一致は較正であり証拠ではない — Negative claim 6)。
 { id:"probeH", name:"箱宇宙 — ２つのH推定器(ハッブルテンション類似)", emoji:"🧭", group:"箱宇宙",
+  scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   // 第50便 50K(台帳4-78 C案パイロット): descStruct(要約/観察/操作)— 純分割+操作文の末尾移設のみ
   descStruct:{
@@ -1657,6 +1787,7 @@ const BUILTIN_PRESETS = [
 // kFrame=0 も必須: E6′ を入れると背景 D₀ 持ち分がリザーバへ流れ(実測 |帳簿P|=107)、
 // 「全自由・閉鎖系」の保存則デモが成立しない。
 { id:"freebox", name:"箱宇宙 — 自由な箱(膨張の原因)", emoji:"🕊️", group:"箱宇宙",
+  scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"壁を固定も規定もしない箱宇宙。64個の壁粒子(m=20・スピン1.0)は全部が自由粒子で、レールも固定もない — 膨張則a(t)は外から与えるものではなく、E4自己重力とA10/E5′スピン斥力(=圧力)から解かれる(T12: 膨張の「原因」が系の外から内へ移る)。壁には脱出速度に届かない外向き初速v=0.001·rを与えてある。",
@@ -1721,6 +1852,7 @@ const BUILTIN_PRESETS = [
 //   etaRad=0 の対照でも δ²=3.552(既定 3.578 との差 0.7%)・ボイド率 0.579(同値)。
 //   kRep=0 の対照も δ²=3.834(+7%)で、圧力の効きも小さい。主因は E4 自己重力と規定膨張だけ。
 { id:"cosmicweb", name:"箱宇宙 — 膨張と自己重力の綱引き(コズミックウェブ類似)", emoji:"🕸️", group:"箱宇宙",
+  scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   // 第51便 51G(原仮定者指摘「塊になってしまう」): H0 0.004→0.01(共動初速 vScale も同値)。
   // 旧既定は全体が重力束縛のままで、評価窓の先(12000步〜)で1つの塊へ潰れていた。
@@ -1766,6 +1898,7 @@ const BUILTIN_PRESETS = [
 
 // ===== グループ: 銀河 =====
 { id:"galaxy", name:"銀河の回転曲線", emoji:"🌌", group:"銀河",
+  scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   // 第33便 X4(台帳4-65a): AI生成プリセットを土台に再設計。原案からの変更は円盤の radius(320→260)と
   // mMin/mMax(.08–.25→.16–.50)の3値のみ — 中心天体・physics・rays は原案のまま。
@@ -1804,6 +1937,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:true,tempHistogram:false,field:true,trail:false,monitor:false} },
 
 { id:"galaxyStd", name:"空間引きずりの基準実験 — 銀河標準", emoji:"🎡", group:"銀河",
+  scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   // 第66便 66B(P2 標準サンプル — 第64便裁定④「標準サンプル3種」の銀河標準): 🌌galaxy の
   // **単一機構純化版**。熱斥力(kRep)・接触摩擦(muF)・法線減衰(γn)・熱伝導(κs)を 0 にし、
@@ -1841,6 +1975,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,mechSpectrum:true} },
 
 { id:"galaxyGeo2", name:"v−u統一測地線の銀河", emoji:"💫", group:"銀河",
+  scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第70便: 統一則(geoPN=2)の単一機構実証(分類は原仮定者裁定で更新可)
   // 第70便(ChatGPT レビュー §8.1 の採択): 🎡galaxyStd と**厳密同一の初期配置・物理**で
   // geoPN だけを 2 にした統一測地線則の基準銀河。既存 🎡(geoPN=0 legacy)は比較基準として
@@ -1876,7 +2011,48 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,mechSpectrum:true} },
 
+// 第74便: 🍳galaxyDB — ディスク/バルジ対比の基準実験(ChatGPT 分析 §4.1 galaxyDiskBulgeAB 採択)。
+// 🎡galaxyStd と同一の中心天体・同一物理で、恒星380体を「回転支持ディスク190体(半径260・
+// kepler 円運動)」と「分散支持バルジ190体(半径90・等方ランダム速度 vScale6)」に二分した。
+// 群の所属は build 順で固定(disk=粒子1..190 / bulge=191..380)— 第71便の訂正(終状態分類の罠)
+// に従い、実験・QA とも固定ID追跡だけを使う。実測は tests/exp-4-75.mjs(seed 20260804・6000步)
+{ id:"galaxyDB", name:"ディスクとバルジ — 回転支持と分散支持", emoji:"🍳", group:"銀河",
+  scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  sampleClass:"principle",
+  descStruct:{
+    summary:"同じ中心天体(m2500・スピン1.2)のまわりに、同じ質量分布の恒星を2群に分けて置く: 円運動で回る「ディスク」190体(半径260)と、等方ランダム速度の「バルジ」190体(中心集中・半径90)。実在銀河の「ディスクは回転支持・バルジは分散支持」という構造対比を、この宇宙の法則(E4重力+A8/E6′空間引きずり)だけで再現する基準実験である。純化のため kRep=muF=γn=κs=0 — スピンを変える経路は空間引きずりの反作用に伴う残余トルク(E6′③)だけに絞ってある。",
+    observe:"実測(seed固定・6000步)で3つの対比が立つ。①回転支持と分散支持: 平均公転速度はディスク4.50対バルジ1.05、速度分散はディスク1.62対バルジ4.25 — σ比は約2.61倍で「バルジは力学的に熱い」(第71便の裁定解釈)。②残余トルクのスピン強制: kFrame=1 では恒星スピンが0から系統的に育ち(E6′③)、6000步の平均|spin|はディスク2.62対バルジ5.04 — 中心を深く通るバルジ側が約1.92倍強い。符号は群で逆(ディスク平均−1.31・バルジ+3.91)なので、符号付き平均と絶対値は分けて読むこと。kFrame=0 の対照ではスピンは厳密に0のまま — この経路が唯一のスピン源であることの機械対照。③統一測地線則: geoPN=2 に切り替えると同じ強制が平均|spin|0.87/1.05 へ縮む(legacy E6′経路の増強の大半は統一則では現れない — 💫と同じ整理)。恒星保持は6000步でディスク99.5%・バルジ97.4%。",
+    control:"おすすめA/B: A/B比較で kFrame=0 にすると引きずりが消え、スピンは両群とも厳密0・ディスク公転も素の重力回転に戻る。geoPN を 2 にすると v−u 統一測地線則での再測定になる。D0 を上げると遠方宇宙の支えが強まり引きずりが弱まる。"},
+  en:{name:"Disk & Bulge — Rotation vs Dispersion Support", descStruct:{
+    summary:"Around the same central body (m 2500, spin 1.2), the same stellar mass is split into two populations: a rotation-supported disk of 190 stars on circular orbits (radius 260) and a dispersion-supported bulge of 190 stars with isotropic random velocities (centrally concentrated, radius 90). The real-galaxy contrast — disks are rotation-supported, bulges dispersion-supported — is reproduced with nothing but this universe's laws (E4 gravity + A8/E6′ frame dragging). For purity, kRep=muF=γn=κs=0: the only channel that can change stellar spin is the residual torque of the frame-dragging back-reaction (E6′ (3)). ",
+    observe:"Fixed-seed measurements (6000 steps) establish three contrasts. (1) Rotation vs dispersion support: mean orbital speed is 4.50 for the disk vs 1.05 for the bulge, velocity dispersion 1.62 vs 4.25 — a σ ratio of about 2.61, so the bulge is dynamically hot (the Wave-71 adjudicated reading). (2) Residual-torque spin forcing: with kFrame=1 stellar spins grow systematically from zero (E6′ (3)); after 6000 steps mean |spin| is 2.62 (disk) vs 5.04 (bulge) — about 1.92 times stronger for bulge stars, whose orbits dive deep past the center. The signs differ between groups (signed means −1.31 disk, +3.91 bulge), so read signed mean and absolute value separately. In the kFrame=0 control the spins stay exactly zero — a machine control showing this path is the only spin source. (3) Unified geodesic law: switching to geoPN=2 shrinks the same forcing to mean |spin| 0.87/1.05 (most of the legacy-E6′ enhancement does not appear under the unified law — same story as 💫). Star retention over 6000 steps: 99.5% disk, 97.4% bulge. ",
+    control:"Suggested A/B: start an A/B comparison with kFrame=0 and the dragging vanishes — both groups keep exactly zero spin and the disk falls back to plain gravitational rotation. Set geoPN to 2 to re-measure under the v−u unified geodesic law. Raising D0 strengthens the far universe's grip and weakens the dragging."}},
+  activeParams:["kFrame","geoPN","D0"],
+  validT:96,   // 実測窓(6000步=t≈96)と一致
+  claims:[
+    { id:"galaxyDB.sigma-ratio", kind:"fixed-seed", metric:"bulgeDiskSigmaRatio",
+      expected:{min:2.2, max:3.0},   // 実測2.61(exp-4-75 kf1)
+      descPattern:"σ比は約(\\d+\\.\\d+)倍",
+      testId:"claim.galaxydb-contrast" },
+    { id:"galaxyDB.spin-forcing-ratio", kind:"fixed-seed", metric:"bulgeDiskSpinAbsRatio",
+      expected:{min:1.5, max:2.4},   // 実測1.92(exp-4-75 kf1。kf0 対照は両群厳密0)
+      descPattern:"バルジ側が約(\\d+\\.\\d+)倍",
+      testId:"claim.galaxydb-contrast" }
+  ],
+  camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260804,
+  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:50,
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:3, timeScale:3},
+  bodies:[
+    {type:"single", rMul:1.2, m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, radius:15},
+    {type:"disk", rMul:1.2, n:190, cx:0,cy:0, radius:260, mMin:0.16,mMax:0.5,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2500, vScale:1.05, direction:1, bulkVx:0, bulkVy:0},
+    {type:"disk", rMul:1.2, n:190, cx:0,cy:0, radius:90, mMin:0.16,mMax:0.5,
+     spinMin:0,spinMax:0, vMode:"random", vScale:6, direction:1, bulkVx:0, bulkVy:0}
+  ],
+  overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,mechSpectrum:false} },
 { id:"darkrotor", name:"ダークローターの銀河", emoji:"🕶️", group:"銀河",
+  scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   // 第39便 39A(台帳4-72)v6: ローター10体 → **対向2体のみ**へ。第38便 38C(台帳4-67)の実験で
   // 「中心BH+ダークローター2つ」が恒星をはるかに安定に保つことが出たための再設計(統括採択=提案A・V1a)。
@@ -1975,6 +2151,7 @@ const BUILTIN_PRESETS = [
 //  ・テスト粒子リング(6000步): 平均 L_z 954.1(対照 632.45 = 厳密一定)・24/24 保持・NaN なし
 //  ・帳簿込みの保存(6000步): |ΔP|/P₀=1.27e-4・|ΔL|/L₀=1.26e-4(pinned ゼロの閉鎖系)
 { id:"rotorSolo", name:"ダークローター(単体)", emoji:"🕳️", group:"銀河",
+  scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"ダークローターとは、高速スピンによって光学的に暗くなった回転天体を指すこのモデル内の造語である(自光の減光と外来光線の掃き出しの2機構で暗い)。🕶️から「暗い天体」1個だけを取り出した最小構成 — 中心の高スピンコア(m=2000・半径45・スピン2.0・減光=auto)と、r=200を周回する24個のテスト粒子、左から入る20本の光線。全粒子が自由(ピン・レール無し)の閉鎖系。この宇宙の「暗さ」は別々の機構の混合で(DERIVATIONS §17)、この画面はそのうち2つを同時に、しかも分離して見せる。",
@@ -2020,7 +2197,59 @@ const BUILTIN_PRESETS = [
   rays:{n:20, spread:0.6},
   overlays:{rotationCurve:false,tempHistogram:false,field:true,trail:true,trailTargets:"sampled",monitor:true} },
 
+// 第74便: 🌑nebulaRotor — 暗黒星雲/散光星雲をダークローター集団として仮定する構造実験
+// (Gemini/Grok/ChatGPT 3分析の採択)。高スピン小ローターの階層クランプ(主コア+副クランプ2)
+// が自光の掻き出し(lightSweep auto)で暗黒星雲類似のシルエットを作り、低スピンの放射
+// エンベロープが散光星雲類似に光る。**注意(ChatGPT §5.2)**: 現行の減光は各天体の自光を減らす
+// 観測属性であり、背景光を視線上で吸収する体積吸収ではない — 本サンプルが見せるのは
+// 「暗い点の集合としての暗黒星雲」まで。波長別吸収・散乱の光学輸送拡張は台帳へ持ち越し。
+// 実測は tests/exp-4-75.mjs(seed 20260804・3000步)
+{ id:"nebulaRotor", name:"ローター星雲 — 暗黒星雲と散光星雲", emoji:"🌑", group:"銀河",
+  scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  sampleClass:"composite",
+  descStruct:{
+    summary:"暗黒星雲を「光学的な性質の強い天体(ダークローター)の集まり」と仮定したらどんな構造になるか、の思考実験。高スピンの小ローター54個が階層的なクランプ(中心の高密度コア+左右の副クランプ)を作り、そのまわりを低スピンの放射粒子44個のエンベロープが取り巻く。ローターは高スピンなので自光を掻き出して暗く(A9/A11/E8R系の lightSweep auto)、エンベロープはスピンが低いので放射(E11)がそのまま漏れて明るい — ひとつの雲の中に「暗黒星雲(コア)」と「散光星雲(縁)」が同居する。実在の星雲(ガスと塵の吸収・散乱)についての主張ではない(Negative Claims)。",
+    observe:"実測(seed固定・3000步)でコアの平均減光0.77に対しエンベロープは0.05 — コントラストは実測約14.9倍。コアの平均|spin|は11.4まで育ち(E6′残余トルク+収縮スピンアップ)、力学温度 I·s² は数千相当なのに観測温度は0.62 — 「力学的に熱いのに光学的に暗い」がここでも成立する(🍳のバルジと同じ整理)。さらに掻き出しの飽和は放射冷却も止める(E11 は (1−lS) 倍)ので、暗さが熱を閉じ込めて自己維持される — 光速 c₀ を 60 に上げるとコアが未飽和になり、放射でスピンが冷えて散光化する(相転移の縁は c₀=40〜60 の間)。粒子保持は3000步でコア85%・エンベロープ93%。",
+    control:"おすすめA/B(ワンタップ): 下のボタンでコア54個のスピンを0にした対照と比較できる — 減光は約14.9倍のコントラストからコア平均0.02へ潰れ、雲全体が散光星雲化する。c₀(光速)スライダーでも同じ転移を連続的に辿れる。"},
+  en:{name:"Rotor Nebula — Dark Cloud & Luminous Envelope", descStruct:{
+    summary:"A thought experiment: what structure emerges if a dark nebula is assumed to be a swarm of optically extreme bodies (dark rotors)? 54 small high-spin rotors form hierarchical clumps (a dense central core plus two side clumps), wrapped in an envelope of 44 low-spin radiating particles. The rotors sweep out their own light and go dark (lightSweep auto — the A9/A11/E8R family), while the envelope's low spins let its radiation (E11) leak out and shine — one cloud contains both a dark nebula (core) and a luminous nebula (rim). Not a claim about real nebulae (gas and dust absorbing and scattering light — Negative Claims). ",
+    observe:"Fixed-seed measurements (3000 steps): mean dimming 0.77 for the core vs 0.05 for the envelope — a measured contrast of about 14.9. The core's mean |spin| grows to 11.4 (E6′ residual torque + contraction spin-up), so its dynamical temperature I·s² is in the thousands while its observed temperature is 0.62 — dynamically hot yet optically dark, the same reading as the 🍳 bulge. Moreover, sweep saturation also shuts off radiative cooling (E11 carries a (1−lS) factor), so the darkness traps the heat and sustains itself — raise light speed c₀ to 60 and the core desaturates, its spins radiate away, and the cloud turns luminous (the transition edge lies between c₀=40 and 60). Particle retention over 3000 steps: 85% core, 93% envelope. ",
+    control:"Suggested A/B (one tap): the button below compares against a control with all 54 core spins set to 0 — the dimming contrast collapses from about 14.9 to a core mean of 0.02 and the whole cloud becomes a luminous nebula. The c₀ (light speed) slider traces the same transition continuously."}},
+  activeParams:["cLight","kFrame","etaRad"],
+  validT:48,   // 実測窓(3000步=t≈48)と一致
+  abBody:{ label:{ja:"コアのスピン0(散光化)", en:"core spins = 0 (luminous)"},
+    targets:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,
+      27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53],
+    patch:{spin:0} },
+  claims:[
+    { id:"nebulaRotor.dimming-contrast", kind:"fixed-seed", metric:"coreLswMean",
+      expected:{min:0.65, max:0.85},   // 実測0.77(exp-4-75)
+      descPattern:"コアの平均減光(\\d+\\.\\d+)",
+      control:{patch:{abBody:true}, expected:{min:0, max:0.1},   // 実測0.02(スピン0対照)
+        descPattern:"コントラストからコア平均(\\d+\\.\\d+)へ潰れ"},
+      testId:"claim.nebularotor-contrast" }
+  ],
+  camera:{scale:340}, world:{boundary:"none",size:0}, seed:20260804,
+  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:50,
+    cLight:40, bM:1, etaRad:0.003, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:3, timeScale:2},
+  bodies:[
+    // 高密度コア(主クランプ・粒子0..29): 高スピン小ローター
+    {type:"disk", rMul:2, n:30, cx:0,cy:0, radius:34, mMin:3,mMax:6,
+     spinMin:8,spinMax:10, vMode:"random", vScale:1.2, direction:1, bulkVx:0, bulkVy:0, lightSweep:"auto"},
+    // 副クランプ×2(階層構造・粒子30..41/42..53)
+    {type:"disk", rMul:2, n:12, cx:96,cy:44, radius:16, mMin:3,mMax:5,
+     spinMin:8,spinMax:10, vMode:"random", vScale:0.8, direction:1, bulkVx:-0.4, bulkVy:0.2, lightSweep:"auto"},
+    {type:"disk", rMul:2, n:12, cx:-88,cy:58, radius:16, mMin:3,mMax:5,
+     spinMin:8,spinMax:10, vMode:"random", vScale:0.8, direction:1, bulkVx:0.4, bulkVy:-0.2, lightSweep:"auto"},
+    // 低スピン放射エンベロープ(散光成分・粒子54..97)
+    {type:"ring", rMul:1, n:44, cx:0,cy:0, rIn:62, rOut:150, mMin:0.5,mMax:1.2,
+     spinMin:0.4,spinMax:0.9, vMode:"kepler", aroundMass:250, omega:0, vNoise:0.05,
+     direction:1, lightSweep:"auto"}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:false,monitor:false} },
 { id:"merger", name:"銀河合体と潮汐効果", emoji:"🌠", group:"銀河",
+  scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   // 第50便 50K(台帳4-78 C案パイロット): descStruct(要約/観察/操作)— 純分割+A/B文の末尾移設のみ
   descStruct:{
@@ -2079,6 +2308,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:true,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"} },
 
 { id:"collapse", name:"自己重力雲の崩壊と原始星形成", emoji:"🌫️", group:"銀河",
+  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   // 第51便 51F: descStruct 化+塊形成の強化(G↑/kRep↓)に伴う数値の全面再実測。メタ表現不使用
   descStruct:{
@@ -2118,6 +2348,7 @@ const BUILTIN_PRESETS = [
 
 // ===== グループ: 光 =====
 { id:"lensing", name:"重力レンズと光子捕捉", emoji:"💡", group:"光",
+  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"左から飛ぶ光線が、決定力の高い(=時間の遅い)領域で屈折して曲がる(A7′/T5)。",
@@ -2137,6 +2368,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
 { id:"spinlens", name:"回る星のレンズ — 非対称湾曲", emoji:"🌗", group:"光",
+  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"中心星が回転すると、光を運ぶ空間(決定フレーム)も回る(A11)。",
@@ -2157,6 +2389,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
 { id:"blens", name:"連星重力レンズ", emoji:"🔭", group:"光",
+  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"上下に並ぶ2つの大質量天体へ平行光線束を入射。",
@@ -2179,6 +2412,7 @@ const BUILTIN_PRESETS = [
 
 // ===== グループ: 熱の実験室 =====
 { id:"gas", name:"気体の熱平衡", emoji:"🔥", group:"熱の実験室",
+  scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"左=低温(青)・右=高温(赤)のガス。左右は質量・数・初速分布が同一で、初期の内部温度T_intだけが異なる統制実験。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂: 温度=構成粒子のミクロなスピン。マクロなspinはコヒーレント回転)。",
@@ -2198,6 +2432,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:true,field:false} },
 
 { id:"pressure", name:"熱の圧力 — 熱は押し広げる", emoji:"🎈", group:"熱の実験室",
+  scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"重力ゼロの円形容器。中央の熱いガスが熱の斥力(E5′)で押しのけ合い、周りの冷たいガスの殻を外へ押し広げていく — 圧力の正体は温度。このサンプルは温度を内部状態変数T_intとして扱う(A9の改訂)ので、押し合う強さの源は対の√(T_i·T_j)で、冷たい粒子同士は押し合わない。",
@@ -2219,6 +2454,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"conduction", name:"熱伝導 — 近いほど速く伝わる", emoji:"📏", group:"熱の実験室",
+  scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"力を全て切った、静止した粒の列。左端の白熱粒(固定=熱浴)から、接触していない粒の列を熱伝導(E10′)だけで熱が飛び移っていく。このサンプルは温度を内部状態変数T_intとして扱う(A9の改訂)ので、伝わるのは熱だけでスピンは1ビットも動かない — 角運動量は近似的にではなく自明に厳密保存する(旧「冷たいのに熱伝導」問題の解消)。",
@@ -2277,6 +2513,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"coolrace", name:"放射冷却 — 高温ほど速い", emoji:"🌈", group:"熱の実験室",
+  scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"同じ質量で内部温度T_intだけが4・16・64と異なる3粒子を静止配置。力は全て切ってあり、変わるのは放射冷却(E11、Λ∝T^p)だけの統制実験。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂)ので、冷えるのは温度であってスピンではない(放射は角運動量を運ばない)。",
@@ -2309,6 +2546,7 @@ const BUILTIN_PRESETS = [
 // 純粋な外部力場なので、時計・光・引きずりを歪めずに箱内へ厳密に一様な下向き場を作れる。
 
 { id:"convection", name:"加熱の対流 — 伝熱する箱", emoji:"♨️", group:"熱の実験室",
+  scaleTier:"everyday",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   // 第50便 50K(台帳4-78 C案パイロット): descStruct(要約/観察/操作)— description は起動時に
   // 3区分の連結として生成される(内容は従来文の純分割+A/B文を末尾へ移設したのみ・情報の増減なし)
@@ -2343,6 +2581,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"}  },
 
 { id:"buoyancy", name:"重力分離と浮力", emoji:"🧪", group:"熱の実験室",
+  scaleTier:"everyday",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"一様重力場gravityYに置かれた、質量の異なる粒子の混合物。重い冷たい粒子は底へ沈んで層を作り、軽い熱い粒子は熱の圧力(E5′)によって重力に逆らって上へ押し上げられ、上層の「大気」を作る — 密度差による沈降と浮力のアナロジー。このサンプルは温度をスピンと独立な内部状態変数T_intとして扱う(A9の改訂)。",
@@ -2375,6 +2614,7 @@ const BUILTIN_PRESETS = [
 // 熱力学は素の内部温度 T_int(潜熱は結合の井戸から抜けるエネルギーとして創発)。
 // 実測値は第60便で再計測(QA phasechange.emergent が機械固定)
 { id:"emergent", name:"三態の創発 — 結合の予算", emoji:"🧬", group:"熱の実験室",
+  scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"固体・液体・気体を「相のスイッチ」なしで創発させる実験(E14″結合予算)。分子間力のルールはひとつだけ — 各分子は結合の予算(公称6本分)を持ち、いま結合している相手の数で予算を分け合う。結合数が減ると残りの結合力が増す(予算の集中)。結合相手は幾何だけで決まり、固定されない(毎瞬間、帯内の相手と自動でつなぎ直す)。温度は熱圧(E5′)の斥力としてだけ力学に入り、この引力との競合が三態を作る。融点も潜熱も指定しない — 結合の井戸から抜け出すエネルギーがそのまま「実効潜熱」として現れる(第60便で創発一本化)。",
@@ -2402,6 +2642,7 @@ const BUILTIN_PRESETS = [
 // 🧊emergent2: 第59便 59A/59B → 第60便 純創発化(meltT/latentF を除去)。
 // angK×bondN 併用+創発熱伝導。実測値は第60便で再計測(QA phasechange.emergent2)
 { id:"emergent2", name:"格子も分子も — 予算×角度", emoji:"🧊", group:"熱の実験室",
+  scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"🧬(結合予算)に結合角を加えた実験(E14″拡張 — 第59便で併用可能化)。ルールは2つだけ: ①各分子は結合の予算(公称3本分)を持ち、結合数が減ると残りが強くなる(bondN)。②結合角が理想角120°(=2π/予算3)に近い近傍対は井戸・詰め込み過ぎの角(60°等)は障壁になる符号付き角ポテンシャル(angK — sp²混成軌道の反発の最小類似)。リンクの台帳は無く、どちらも幾何近傍だけから毎瞬間計算される。熱伝導も相率ではなく、いまの結合状態(滑らかな配位数B)から創発する(condN)。融点も潜熱も指定しない — 徐冷で蜂の巣格子・加熱で分子ガスが同じ2ルールから出る。",
@@ -2431,6 +2672,7 @@ const BUILTIN_PRESETS = [
 // 後継: 台帳なしで、公称予算2本+直線角の井戸から鎖・環が自己組織化する。
 // 実測値は第60便で計測(QA phasechange.chain2)
 { id:"chain2", name:"鎖の創発 — 予算2×角度180°", emoji:"⛓️", group:"熱の実験室",
+  scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"🧊(予算3×角度120°=蜂の巣)の姉妹実験 — 予算を2本・理想角を180°(=2π/予算2)にしただけで、同じ2つの局所ルールから鎖(分子のスパゲッティ)が創発する(E14″)。結合価の台帳もリンクの上限も指定しない: 3本目の結合は予算の分散で自然に損になり、折れ曲がった角は障壁に押されて伸びる。",
@@ -2456,6 +2698,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:true,field:false,phaseGraph:true} },
 
 { id:"chaincycle", name:"温度循環 — 鎖の凍結と解離", emoji:"♻️", group:"熱の実験室",
+  scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   // 第67便 67A(結合標準の温度循環デモ — 第64便裁定キュー・ChatGPT §8.1 の実施):
   // ⛓️chain2 と同一の物理・同一の初期配置(seed 7)で、床壁だけに温度スケジュール
@@ -2502,6 +2745,7 @@ const BUILTIN_PRESETS = [
 
 // ===== グループ: 天体の物語 =====
 { id:"earthMoon", name:"地球と月", emoji:"🌍", group:"天体の物語",
+  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"calibration",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"月が地球のまわりを公転する二体デモ(コアは現実の観測値で較正)。質量比は現実どおり m月/m地球=0.0123。月は同期自転 — spin を実測公転角速度 ω=0.013908 に一致させてあり、スポーク(車輪の輻)の同じ面が常に地球を向き続ける(潮汐固定)。",
@@ -2539,6 +2783,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"earthMoonFree", name:"地球と月(自由二体・物理比)", emoji:"🌕", group:"天体の物語",
+  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"地球を固定しない重心系の二体問題。",
@@ -2578,6 +2823,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"saturn", name:"土星の環(実験)", emoji:"🪐", group:"天体の物語",
+  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"氷の粒240個(3環帯 60/120/60・低質量・低散逸 muF=0.2/γN=0.15)で構成された土星の環。中心星のスピンが空間を引きずる(kFrame=1・A8)この条件で、長時間安定な環が得られる。初期配置は t=300〜600 の実測安定分布に合わせてある。",
@@ -2628,6 +2874,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"saturnLayered", name:"土星の環(主星2層)", emoji:"🎯", group:"天体の物語",
+  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   // 第14便: seed を 🪐(hashStr("saturn")+7)に固定 — 初期配置が 🪐 と完全一致し、
   // 「同一初期配置での姉妹比較」になる(id 由来の別シードでは冷スタート過渡の谷が
@@ -2679,6 +2926,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"saturnZonalD68", name:"土星の近点移動(D68精密較正)", emoji:"🛰️", group:"天体の物語",
+  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"calibration",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"現実の土星の扁平さ(帯状重力調和係数 J2〜J12、Cassini 実測値)を中心星の属性として与えた較正デモ(E13)。",
@@ -2724,6 +2972,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"binary", name:"連星系と周連星円盤", emoji:"⭐", group:"天体の物語",
+  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   // 第66便 66D(62B 裁定「⭐binary は geo 化の第一候補」の実施): geoPN 0→1。62B+66D の実測 —
   // geo 化で恒星間距離は 12000步 120.1→120.7(ほぼ不変=安定)・legacy は 137→240 へ散逸で緩む。
@@ -2752,6 +3001,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"fig8", name:"三体問題 — 8の字軌道", emoji:"♾️", group:"天体の物語",
+  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"等質量3天体が重心の周りを交代で通過する8の字周期軌道(12000步でも最大半径87に有界)。",
@@ -2773,6 +3023,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"counterring", name:"順行・逆行リングの衝突", emoji:"💥", group:"天体の物語",
+  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"同じ軌道帯を逆向きに回る2つのリング。",
@@ -2812,6 +3063,7 @@ const BUILTIN_PRESETS = [
 //  対照     : —     0.583 0.526 0.542   (kRep=0 — E5′ を切ると等方寄りに戻る)
 //  4000步で 極24〜26本 / 赤道0本。全ガスで測っても 0.689(等方の 2.07 倍)
 { id:"agnjet", name:"AGN類似 — 円盤の内縁と双極ジェット", emoji:"🌋", group:"天体の物語",
+  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"中心の超大質量天体(m=2000・減光=auto → 観測温度0で見掛けは真っ暗な「エンジン」)と、x軸方向に長く薄く伸びた冷たいガスの帯。ガスは自己重力で内側へ落ち、内縁で押し合い擦れ合って摩擦加熱される(E9′ → 内部温度T_int)。温まったガスは熱の斥力=圧力(E5′)で押し返すが、赤道方向(±x)へ抜けるには帯の全長を押しのけねばならない — 抵抗の少ない極方向(±y)だけが出口になり、上下2本の噴出流になる。",
@@ -2879,6 +3131,7 @@ const BUILTIN_PRESETS = [
 // camera.scale 200 は展示調整(t=0 の円盤が画面幅の約75%・収縮後のコアが明瞭に見える)。
 // timeScale 2 も展示速度のみ(sim.step() は timeScale を読まない)。QA は behavior.spinup(6000步)。
 { id:"spinup", name:"収縮とスピン加速", emoji:"🌪️", group:"天体の物語",
+  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"外から何も加えない、ゆっくり回るガス雲(240粒・剛体回転ω₀=0.00675)。",
@@ -2936,6 +3189,7 @@ const BUILTIN_PRESETS = [
 //       融合124/116/114回・radE 4555/4084/4112・T_mean 4.91/3.89/4.27 と頑健。
 //       対照(融合なし)の radE=60.4 は初期熱の解析的な放出そのもので dt にも seed にも依らない。
 { id:"starcore", name:"恒星の内部 — 融合を熱源とする", emoji:"☀️", group:"天体の物語",
+  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"※実在の恒星のモデルではない — 「内部熱源が無ければ放射は続かない」の裏返しとして、融合という熱源があれば放射が続くことを示すトイ構成(質量欠損・放射圧・核種・静水圧平衡は扱わない)。中心に固定した重い核(m=600)と、その周りを回る200粒のガス(サブケプラー初速 0.6倍)。ガスは核の重力で落ち込み、深く潜り込んだ対どうしが融合する(中心距離が d<0.35·(R_i+R_j) まで近づくと1つの粒子になる)。融合で消えた対の相対運動エネルギーΔKEと接触ばね(E9)の弾性エネルギーはそのまま内部温度T_intへ入り、そこから放射(E11: Λ=η_rad·T²)で外へ出ていく — これが「重力収縮→融合加熱→放射」の一本道。",
@@ -3280,6 +3534,12 @@ function validatePreset(obj){
   if(p.sampleClass!==undefined){
     const SC=["principle","composite","calibration","semantic"];
     if(SC.indexOf(p.sampleClass)<0){ warnings.push("sampleClass が不正のため削除"); delete p.sampleClass; }
+  }
+  // 第74便: scaleTier — 5段階スケール分類(molecular/everyday/celestial/galactic/cosmic)。
+  // UI 分類チップ・スケール絞り込み・表示換算の既定指数にだけ使う(物理不変 — sampleClass と同方針)。
+  // 不正値は警告つきで削除(チップ・絞り込み対象から外れるだけ)
+  if(p.scaleTier!==undefined){
+    if(SCALE_TIERS.indexOf(p.scaleTier)<0){ warnings.push("scaleTier が不正のため削除"); delete p.scaleTier; }
   }
   // 第44便 44B(台帳4-68c 再挑戦条件): fusion — 粒子の融合(最上位キー。integrator/thermal と同じ配置)。
   // {dFrac:0.35} = 中心距離 d < dFrac·(R_i+R_j) で融合する。オブジェクトが在れば有効・省略で完全無効。
@@ -7462,6 +7722,11 @@ function loop(now){
       // (保存則主張の構成では厳密0で不可視のまま。発動していたら保存則の主張域外であることの明示)
       if(sim.clampVN||sim.clampSN||sim.clampHN) txt+=`\n${T("hudClamp")(sim.clampVN,sim.clampSN,sim.clampHN)}`;
     }
+    // 第74便: スケール換算表示ON のとき、現在の指数と換算単位を HUD に1行追記(表示のみ・物理不変)
+    if(scaleDispOn){
+      const x=scaleExpNow(), tm=scaleTM(x);
+      txt+=`\n${T("hudScale")(x, tm.eT, tm.eM, sim.t)}`;
+    }
     $("#hud").textContent=txt;
     // v1.17: 実行中は編集パネルの表示値を追従(入力フォーカス中は上書きしない)
     if(selIdx>=0 && running && !$("#bodyEdit").contains(document.activeElement)) updateBodyEdit();
@@ -7501,6 +7766,18 @@ function presetCatOf(v){   // 選択値(プリセットID/save#i)の属するカ
   const bp=BUILTIN_PRESETS.find(p=>p.id===v);
   return bp? (bp.group||"内蔵") : null;
 }
+// 第74便: 絞り込み判定の一本化 — 従来のカテゴリ名に加えて "scale:<tier>"(5段階スケール)を受ける。
+// スケール絞り込みは scaleTier 宣言を持つプリセット(内蔵+AI生成)を横断する(group とは別軸)
+function presetInFilter(v){
+  if(presetFilter==="all") return true;
+  if(String(presetFilter).startsWith("scale:")){
+    const st=presetFilter.slice(6);
+    if(String(v).startsWith("save#")) return false;
+    const p=allPresets().find(q=>q.id===v);
+    return !!(p && p.scaleTier===st);
+  }
+  return presetCatOf(v)===presetFilter;
+}
 function rebuildPresetGroupSelect(){
   const gs=$("#presetGroupSelect"); if(!gs) return;
   gs.textContent="";
@@ -7510,26 +7787,37 @@ function rebuildPresetGroupSelect(){
   if(getCustomPresets().length) opts.push(["AI生成",gName("AI生成")]);
   if(getSaves().length) opts.push(["保存一覧",gName("保存一覧")]);
   for(const [v,name] of opts){ const o=document.createElement("option"); o.value=v; o.textContent=name; gs.appendChild(o); }
+  // 第74便: 5段階スケール絞り込み — カテゴリの下に optgroup で追加(group とは別軸の横断分類)
+  {
+    const og=document.createElement("optgroup"); og.label=T("grpScale");
+    for(const t of SCALE_TIERS){
+      const o=document.createElement("option"); o.value="scale:"+t;
+      o.textContent=SCALE_EMOJI[t]+" "+T("scaleName_"+t); og.appendChild(o);
+    }
+    gs.appendChild(og);
+  }
   if(![...gs.options].some(o=>o.value===presetFilter)) presetFilter="all";
   gs.value=presetFilter;
 }
 function rebuildPresetSelect(selId){
   // 54D②: 指定IDが絞り込みの外なら「全カテゴリ」へ戻す(選択と一覧の不整合を作らない)
-  if(selId && presetFilter!=="all" && presetCatOf(selId)!==presetFilter) presetFilter="all";
+  if(selId && presetFilter!=="all" && !presetInFilter(selId)) presetFilter="all";
   rebuildPresetGroupSelect();
   const sel=$("#presetSelect"); sel.textContent="";
   // 内蔵プリセットは group ごとの optgroup(付録E E4。配列順=表示順)
   let og=null, curGroup=null;
   BUILTIN_PRESETS.forEach(p=>{
     const g=p.group||"内蔵";
-    if(presetFilter!=="all" && g!==presetFilter) return;   // 54D②: カテゴリ絞り込み
+    if(presetFilter!=="all" && !presetInFilter(p.id)) return;   // 54D②: カテゴリ絞り込み(74便: スケールも)
     if(g!==curGroup){ curGroup=g; og=document.createElement("optgroup"); og.label=gName(g); sel.appendChild(og); }
     const o=document.createElement("option");
     // 第21便(原仮定者指示): サンプルの kFrame を選択時に判別できるよう名前へ (kF=N) を付記
     o.value=p.id; o.textContent=(p.emoji||"")+" "+pName(p); og.appendChild(o);
   });
-  const customs=getCustomPresets();
-  if(customs.length && (presetFilter==="all"||presetFilter==="AI生成")){
+  // 第74便: スケール絞り込みでは scaleTier を持つ AI生成プリセットも対象(group とは別軸の横断)
+  const scaleF=String(presetFilter).startsWith("scale:");
+  const customs=getCustomPresets().filter(p=>!scaleF || presetInFilter(p.id));
+  if(customs.length && (presetFilter==="all"||presetFilter==="AI生成"||scaleF)){
     const og2=document.createElement("optgroup"); og2.label=gName("AI生成");
     customs.forEach(p=>{ const o=document.createElement("option");
       o.value=p.id; o.textContent="🤖 "+(p.emoji||"")+" "+pName(p); og2.appendChild(o); });
@@ -7570,6 +7858,26 @@ function rebuildAiBaseSelect(){
     customs.forEach(p=>{ const o=document.createElement("option");
       o.value=p.id; o.textContent="🤖 "+(p.emoji||"")+" "+pName(p); og2.appendChild(o); });
     sel.appendChild(og2);
+  }
+  if(cur && [...sel.options].some(o=>o.value===cur)) sel.value=cur;
+}
+// 第74便: AI追加のスケール別テンプレート — 5段階スケールごとの雛形(推奨ベースサンプル+
+// 定型文)。「挿入」で要望欄(#aiPrompt)へ追記し、ベースサンプルも推奨値へ切り替える。
+// 送信文の組み立て(aiUserContent)には手を入れない — 雛形はあくまでユーザー編集可能な下書き
+// (ai.base-context の「未選択は素通し」不変)
+const AI_SCALE_TPL={
+  molecular:{base:"emergent",  tplKey:"aiTpl_molecular"},
+  everyday: {base:"convection",tplKey:"aiTpl_everyday"},
+  celestial:{base:"earthMoon", tplKey:"aiTpl_celestial"},
+  galactic: {base:"galaxyStd", tplKey:"aiTpl_galactic"},
+  cosmic:   {base:"boxcomoving",tplKey:"aiTpl_cosmic"}};
+function rebuildAiScaleTpl(){
+  const sel=$("#aiScaleTpl"); if(!sel) return;
+  const cur=sel.value; sel.textContent="";
+  for(const t of SCALE_TIERS){
+    const o=document.createElement("option"); o.value=t;
+    o.textContent=SCALE_EMOJI[t]+" "+T("scaleName_"+t)+" — "+T("aiTplName_"+t);
+    sel.appendChild(o);
   }
   if(cur && [...sel.options].some(o=>o.value===cur)) sel.value=cur;
 }
@@ -7622,6 +7930,7 @@ function loadPreset(id, keepPhysics){
   if(sim.overlays && sim.overlays.monitor) monitorOn=true;  // v1.12: プリセット既定の保存量モニタ(ONのみ適用)
   basePhysics=Object.assign({},DEFAULT_PHYSICS,p.physics||{});
   camX=0; camY=0; camScale=p.camera.scale; tempP90EMA=0.5; selIdx=-1; nanNotified=false;
+  scaleExpOverride=null;   // 第74便: 表示スケール指数はプリセットの scaleTier 既定へ戻す(表示専用)
   paramSnapA=paramSnapB=null;   // v1.22: 発散Undoのスナップショットはプリセット単位
   setParamsDirty(false);   // v1.17: プリセット読込で編集は破棄される(⏮は呼び出し側で維持)
   running=false; updatePlayBtn(); updateBodyEdit();
@@ -7886,7 +8195,10 @@ $("#presetSelect").addEventListener("change",e=>{
 $("#presetGroupSelect").addEventListener("change",e=>{
   const v=e.target.value;
   const curVal=$("#presetSelect").value || (currentPreset? currentPreset.id : "");
-  const needLoad = v!=="all" && presetCatOf(curVal)!==v;
+  // 第74便: スケール絞り込み("scale:<tier>")も presetInFilter で判定する
+  const prevFilter=presetFilter; presetFilter=v;
+  const needLoad = v!=="all" && !presetInFilter(curVal);
+  presetFilter=prevFilter;
   if(needLoad && paramsDirty && !confirm(T("confirmDiscard"))){ e.target.value=presetFilter; return; }
   presetFilter=v;
   rebuildPresetSelect(needLoad? undefined : curVal);
@@ -8249,6 +8561,12 @@ function buildParamRows(){
     // v1.24: 負値を取り得るパラメータ(g_x/g_y 等)は inputmode=text — iOS の数字キーパッドに「−」が無い
     num.inputMode=(CLAMPS[key] && CLAMPS[key][0]<0)?"text":"decimal";
     num.autocomplete="off"; num.value=fmt(showSim.params[key]);
+    // 第74便: スケール換算値の副表示(表示専用・物理不変)。「表示」のトグルON かつ次元のある
+    // パラメータ(G/cLight/g_x/g_y/ε/D0/Kt)だけ "≈1.2e7 m/s" を数値欄の下に添える
+    const conv=document.createElement("span"); conv.className="convVal";
+    const updConv=()=>{ const s0=(scaleDispOn? scaleConvStr(key,showSim.params[key]) : null);
+      conv.textContent=s0||""; conv.style.display=s0? "" : "none"; };
+    updConv();
     const setParam=(v)=>{
       const c=CLAMPS[key]; v=clamp(v,c[0],c[1]);
       // v1.23: 書き込み先 — applyBoth(時間倍率)は常にA/B両方、それ以外は編集対象(editSim)
@@ -8268,13 +8586,14 @@ function buildParamRows(){
       return targets[0].params[key];   // v1.26: ロックによる上書き後の実値を返す
     };
     // 第54便 54D④: 重複行の相互同期 — 自分以外の同一キー行を追随させる
-    const syncFn=()=>{ rng.value=valToSliderPos(def,showSim.params[key]); num.value=fmt(showSim.params[key]); };
+    const syncFn=()=>{ rng.value=valToSliderPos(def,showSim.params[key]); num.value=fmt(showSim.params[key]); updConv(); };
     const syncOthers=()=>{ (paramRowSync[key]||[]).forEach(f=>{ if(f!==syncFn) f(); }); };
     rng.addEventListener("input",()=>{  // 実行中いつでも即時反映
       let v=parseFloat(rng.value);
       if(def.mode==="log") v=sliderPosToVal(def,v);
       setParam(v);
       num.value=fmt(showSim.params[key]);
+      updConv();
       syncOthers();
     });
     num.addEventListener("change",()=>{
@@ -8282,9 +8601,10 @@ function buildParamRows(){
       // v1.19: 直値入力はそのまま反映(fmt で丸めた表示に置き換えない。値域外のみクランプ値を表示)
       if(isFinite(v)){ const applied=setParam(v); rng.value=valToSliderPos(def,applied); num.value=String(applied); }
       else num.value=fmt(showSim.params[key]);
+      updConv();
       syncOthers();
     });
-    row.appendChild(lab); row.appendChild(rng); row.appendChild(num); parent.appendChild(row);
+    row.appendChild(lab); row.appendChild(rng); row.appendChild(num); row.appendChild(conv); parent.appendChild(row);
     // v1.26: ロック等がコードから値を書き換えたとき、行の表示を追随させる
     // 第54便 54D④: 同一キーの行が主役と詳細に重複して存在するため配列に積む
     (paramRowSync[key]||(paramRowSync[key]=[])).push(syncFn);
@@ -8339,7 +8659,39 @@ function buildParamRows(){
     // 第58便 58B(原仮定者指示): 時間倍率は表示→シミュレーションカテゴリへ移動
     // (A/B比較中は両方の画面へ反映される applyBoth 挙動は従来どおり)
     const tsDef=PARAM_DEFS.find(d=>d.key==="timeScale");
-    if(tsDef) mkParamRow(tsDef, g, true); }
+    if(tsDef) mkParamRow(tsDef, g, true);
+    // 第74便: 表示スケール指数スライダー — 分子(10⁻¹⁰m)〜宇宙全体(10²³m)を指数で連続に振る。
+    // **表示換算(スケール換算表示・HUD)の指数だけを動かし、sim.params には一切書かない**
+    // (物理不変 — QA scale.display-invariant)。プリセット読込で scaleTier の既定指数へ戻る
+    {
+      const row=document.createElement("div"); row.className="prow";
+      const lab=document.createElement("label"); lab.textContent=T("scaleExpLabel");
+      lab.className="tappable";
+      lab.addEventListener("click",()=>{
+        const open=row.nextElementSibling && row.nextElementSibling.classList
+          && row.nextElementSibling.classList.contains("pdesc") ? row.nextElementSibling : null;
+        if(open){ open.remove(); return; }
+        const d=document.createElement("div"); d.className="pdesc open";
+        d.textContent=T("scaleExpDesc");
+        row.after(d);
+      });
+      const rng=document.createElement("input"); rng.type="range"; rng.id="scaleExpSlider";
+      rng.min=-12; rng.max=24; rng.step=0.5; rng.style.flex="1"; rng.style.minWidth="60px";
+      rng.value=scaleExpNow();
+      const out=document.createElement("span"); out.className="valIn"; out.id="scaleExpOut";
+      out.style.cssText="flex:0 0 96px;text-align:right;font-size:11px;opacity:.9;";
+      const nearTier=(x)=>{ let best=SCALE_TIERS[0], bd=1e9;
+        for(const t of SCALE_TIERS){ const d=Math.abs(SCALE_ANCHORS[t].expL-x); if(d<bd){bd=d; best=t;} }
+        return best; };
+      const updOut=()=>{ const x=scaleExpNow();
+        out.textContent=SCALE_EMOJI[nearTier(x)]+" 10^"+(Math.round(x*10)/10)+" m"; };
+      updOut();
+      rng.addEventListener("input",()=>{
+        scaleExpOverride=parseFloat(rng.value);
+        updOut(); refreshScaleConv(); requestRender();
+      });
+      row.appendChild(lab); row.appendChild(rng); row.appendChild(out); g.appendChild(row);
+    } }
   // 表示設定 — 第54便 54D⑤: 「表示」もカテゴリ扱い(catParams で畳む。h3 → summary)
   const disp=document.createElement("div"); disp.className="group";
   // 第58便 58B: 時間倍率はシミュレーションカテゴリへ移動(v1.23 の表示常設を変更)
@@ -8457,6 +8809,17 @@ function buildParamRows(){
       applyUiScale();
     });
     row.appendChild(lab); row.appendChild(sel); disp.appendChild(row);
+  }
+  // 第74便: スケール換算表示 — パラメータの数値を「シミュレーション単位」のまま出すか、
+  // scaleTier/スライダーの指数で SI 換算した値(≈1.2e7 m/s 等)を併記するかの切替。
+  // 表示専用(localStorage hp_scale_disp。物理・セーブ不変)
+  {
+    const row=document.createElement("div"); row.className="prow";
+    const lab=document.createElement("label"); lab.textContent=T("scaleDispLabel"); lab.style.flex="1";
+    tapDesc(row,lab,"scaleDispDesc");
+    const cb=document.createElement("input"); cb.type="checkbox"; cb.id="scaleDispCb"; cb.checked=scaleDispOn;
+    cb.addEventListener("change",()=>{ setScaleDisp(cb.checked); refreshScaleConv(); requestRender(); });
+    row.appendChild(lab); row.appendChild(cb); disp.appendChild(row);
   }
   mkCatDetails(host,T("grpDisplay"),null).appendChild(disp);
   // v1.26: ロック中はプリセット読込・既定値復帰・A/B切替などの再構築後も条件を維持する
@@ -8969,6 +9332,17 @@ function updateAiPreview(){
 $("#aiPreviewWrap").addEventListener("toggle",updateAiPreview);
 $("#aiPrompt").addEventListener("input",updateAiPreview);
 $("#aiBasePreset").addEventListener("change",updateAiPreview);
+// 第74便: スケール雛形の挿入 — 要望欄へ追記(既存文があれば改行で継ぎ足し)+ベースサンプルを
+// 推奨値へ。プレビューにも即反映。テンプレ文は T() 管理(ja/en)
+rebuildAiScaleTpl();
+$("#btnAiTpl").addEventListener("click",()=>{
+  const t=AI_SCALE_TPL[$("#aiScaleTpl").value]; if(!t) return;
+  const base=$("#aiBasePreset");
+  if(base && [...base.options].some(o=>o.value===t.base)) base.value=t.base;
+  const ta=$("#aiPrompt"); const cur=ta.value.trim();
+  ta.value=(cur? cur+"\n" : "")+T(t.tplKey);
+  updateAiPreview();
+});
 $("#btnGenerate").addEventListener("click",async ()=>{
   const cfg=aiCfg();
   if(!cfg.key){ setAiStatus(T("noKey"),"err"); return; }
@@ -9057,6 +9431,9 @@ function applyLang(){
   $("#aiBaseLabel").textContent=T("aiBaseLabel"); $("#aiBaseNote").textContent=T("aiBaseNote");   // 第26便
   $("#aiBaseNoteSum").textContent=T("aiBaseNoteSum");   // 第36便 B4
   rebuildAiBaseSelect();   // 第26便: 言語切替でベース候補名も更新
+  rebuildAiScaleTpl();     // 第74便: 言語切替でスケール雛形の候補名も更新
+  const tplLb=$("#aiTplLabel"); if(tplLb) tplLb.textContent=T("aiTplLabel");
+  const tplBt=$("#btnAiTpl"); if(tplBt) tplBt.textContent=T("aiTplInsert");
   $("#btnGenerate").textContent=T("btnGenerate"); $("#aiListHead").textContent=T("aiListHead");
   $("#aiPrompt").placeholder=T("aiPromptPh");
   $("#aiPreviewSum").textContent=T("aiPreviewSum"); $("#aiPreviewNote").textContent=T("aiPreviewNote");   // 第32便 W4
@@ -9102,6 +9479,9 @@ function renderHelp(){
   // 宣言のあるプリセットにだけ表示(第64便裁定キュー P3。🕶️は複合現象と明示)
   if(cls.sampleClass) addChip("sclass-"+cls.sampleClass,
     T("bdgSC_"+cls.sampleClass), T("bdgSC_"+cls.sampleClass+"Tip"));
+  // 第74便: 5段階スケールチップ — scaleTier 宣言のあるプリセットにだけ表示(絵文字+スケール名)
+  if(cls.scaleTier) addChip("scale-"+cls.scaleTier,
+    SCALE_EMOJI[cls.scaleTier]+" "+T("scaleName_"+cls.scaleTier), T("bdgScaleTip"));
   // 第51便 51B(原仮定者指示): 引きずりタグ — kFrame>0 の系に表示(A8/E6′ が働く系の目印。
   // 0にすると引きずりなしの対照になることをツールチップで案内)
   if(currentPreset.physics && currentPreset.physics.kFrame>0) addChip("drag",T("bdgDrag"),T("bdgDragTip"));
@@ -10212,6 +10592,10 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   speedMul:()=>speedMul, trailBufs:()=>({a:trailBuf,b:trailBufB}),  // v1.19: QA用
   overlaySlots, overlayBaseY, PARAM_DEFS, paramDesc,  // v1.21: スロット配置/パラメータ説明のQA用
   ovMin, aiUserContent,  // 第26便: グラフ最小化/AIベースサンプルのQA用
+  // 第74便: 5段階スケール(分類・表示換算)のQA用フック — すべて表示専用で物理不変
+  SCALE_TIERS, SCALE_ANCHORS, scaleTM, scaleConvStr, scaleExpNow,
+  setScaleExp:(x)=>{ scaleExpOverride=(x===null? null : +x); refreshScaleConv(); },
+  scaleDisp:()=>scaleDispOn, setScaleDisp:(v)=>{ setScaleDisp(v); refreshScaleConv(); },
   curveVBarAt,  // 第32便 W4(台帳4-49): 回転曲線の基準線 v_bar(r) のQA用
   uiScale:()=>uiFontScale,  // 第27便: 文字サイズ既定変更のQA用
   stats:()=>({renderCount,rayTraceCount,fieldCalcCount}), requestRender,  // v1.22: 描画統計のQA用
