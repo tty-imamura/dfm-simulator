@@ -3470,6 +3470,157 @@ if (!FAST) {
     }
   }
 
+  // ---- 8a2b1) 第74便: 5段階スケール(scaleTier)— 分類の完全性と表示換算の物理不変 ----
+  // scaleTier は UI 分類・表示換算専用のメタデータ(ChatGPT §8「スケールを物理入力にしない」)。
+  // ①全内蔵が正規5値のいずれかを宣言し、5スケールすべてが空でない(較正: 分子8・日常4・
+  //   天体18・銀河6+2・宇宙全体10)②換算表示トグル+指数スライダーを操作しても物理
+  //   (240步後の x/vx/spin)が bit 一致 ③AI追加のスケール雛形が5件あり、挿入で要望欄と
+  //   ベースサンプルが埋まる(未選択時の素通し ai.base-context は不変)
+  {
+    const hasScale = await page.evaluate(() => !!(window.HP && HP.SCALE_TIERS));
+    if (hasScale) {
+      const r = await page.evaluate(() => {
+        const res = {};
+        const builtins = HP.allPresets().filter(p => !String(p.id).startsWith('custom_'));
+        res.missing = builtins.filter(p => HP.SCALE_TIERS.indexOf(p.scaleTier) < 0).map(p => p.id);
+        res.counts = {};
+        builtins.forEach(p => { res.counts[p.scaleTier] = (res.counts[p.scaleTier] || 0) + 1; });
+        res.allTiers = HP.SCALE_TIERS.every(t => (res.counts[t] || 0) > 0);
+        res.total = builtins.length;
+        return res;
+      });
+      add('preset.scale-tier', r.missing.length === 0 && r.allTiers,
+        `未分類=${r.missing.join(',') || 'なし'} 内訳=${JSON.stringify(r.counts)}(全${r.total}件)`);
+
+      const inv = await page.evaluate(() => {
+        const run = (touch) => {
+          HP.loadPreset('gas', false);
+          if (touch) {
+            HP.setScaleDisp(true);
+            const sl = document.querySelector('#scaleExpSlider');
+            for (const v of [-10, 3, 19, 24]) { sl.value = String(v); sl.dispatchEvent(new Event('input')); }
+          }
+          for (let k = 0; k < 240; k++) HP.sim.step(0.016);
+          const S = HP.sim, out = [];
+          for (let i = 0; i < S.n; i++) out.push(S.x[i], S.y[i], S.vx[i], S.vy[i], S.spin[i]);
+          if (touch) { HP.setScaleDisp(false); HP.setScaleExp(null); }
+          return out;
+        };
+        const a = run(false), b = run(true);
+        let same = a.length === b.length;
+        if (same) for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) { same = false; break; }
+        const conv = HP.scaleConvStr('cLight', 60);
+        HP.setScaleExp(0);
+        const conv0 = HP.scaleConvStr('cLight', 60);
+        HP.setScaleExp(null);
+        return { same, n: a.length / 5, conv0, convNullKey: HP.scaleConvStr('kRep', 1) === null };
+      });
+      add('scale.display-invariant', inv.same && inv.conv0 === '≈60 m/s' && inv.convNullKey,
+        `240步 bit一致=${inv.same}(N=${inv.n})/ 換算 exp0: cLight60→"${inv.conv0}"(=≈60 m/s)/ 無次元キーは非換算=${inv.convNullKey}`);
+
+      const tpl = await page.evaluate(() => {
+        const sel = document.querySelector('#aiScaleTpl'), btn = document.querySelector('#btnAiTpl');
+        if (!sel || !btn) return null;
+        const res = { opts: [...sel.options].map(o => o.value) };
+        const ta = document.querySelector('#aiPrompt'), base = document.querySelector('#aiBasePreset');
+        const ta0 = ta.value, base0 = base.value;
+        ta.value = ''; sel.value = 'molecular'; btn.click();
+        res.prompt = ta.value;
+        res.base = base.value;
+        ta.value = ta0; base.value = base0 || '';   // 後続テストを汚さない
+        res.plain = HP.aiUserContent('X') === 'X' || base.value !== '';
+        return res;
+      });
+      add('ai.scale-templates',
+        !!tpl && tpl.opts.length === 5 && tpl.prompt.length > 20 && tpl.prompt.includes('scaleTier')
+        && tpl.base === 'emergent' && tpl.plain,
+        tpl ? `候補=${tpl.opts.length} 挿入長=${tpl.prompt.length} base=${tpl.base}` : 'UIなし');
+    } else {
+      console.log('SKIP preset.scale-tier / scale.display-invariant / ai.scale-templates(対象に第74便 未適用 — root 等)');
+    }
+  }
+
+  // ---- 8a2b2) 第74便: 🍳galaxyDB — ディスク/バルジ対比(回転支持 vs 分散支持) ----
+  // 同一中心天体・同一恒星質量で「円運動ディスク190体」と「等方分散バルジ190体」を同時配置し、
+  // 固定ID追跡(build順: disk=1..190 / bulge=191..380 — 第71便の訂正に従い終状態での再分類はしない)
+  // で3対比を機械固定する: ①σ比(バルジ/ディスク)②E6′③残余トルクのスピン強制(|spin| 比・
+  // バルジ側が強い)③kFrame=0 対照では両群のスピンが厳密0(経路の唯一性)。
+  // 較正実測(exp-4-75 kf1・seed 20260804・6000步): σ 4.246/1.624=2.61・|spin| 5.040/2.618=1.92・
+  // 対照は厳密0・保持 disk99.5%/bulge97.4%
+  {
+    const hasDB = await page.evaluate(() => HP.allPresets().some(p => p.id === 'galaxyDB'));
+    if (hasDB) {
+      const r = await page.evaluate(() => {
+        HP.loadPreset('galaxyDB', false);
+        HP.abStart('kFrame', 0);
+        const abG = HP.ab();
+        const S = HP.sim, B = abG.simB;
+        const disk = [], bulge = [];
+        for (let i = 1; i <= 190; i++) disk.push(i);
+        for (let i = 191; i < S.n; i++) bulge.push(i);
+        for (let k = 0; k < 6000; k++) { S.step(0.016); B.step(0.016); }
+        const stat = (sm, idx) => {
+          const vt = [], sp = [];
+          for (const i of idx) {
+            const rr = Math.hypot(sm.x[i], sm.y[i]) || 1;
+            vt.push((sm.vx[i] * -sm.y[i] + sm.vy[i] * sm.x[i]) / rr);
+            sp.push(sm.spin[i]);
+          }
+          const mean = (a) => a.reduce((x, y) => x + y, 0) / a.length;
+          const dv = (a) => { const m = mean(a); return Math.sqrt(mean(a.map(v => (v - m) * (v - m)))); };
+          return { sigT: dv(vt), vt: mean(vt), spinAbs: mean(sp.map(Math.abs)) };
+        };
+        const d = stat(S, disk), b = stat(S, bulge);
+        const d0 = stat(B, disk), b0 = stat(B, bulge);
+        const bad = S.hasNaN() || B.hasNaN();
+        HP.abStop();
+        return { d, b, d0, b0, bad, clampV: S.clampVN, clampR: S.clampRN || 0 };
+      });
+      const sigR = r.b.sigT / r.d.sigT, spinR = r.b.spinAbs / r.d.spinAbs;
+      add('claim.galaxydb-contrast',
+        !r.bad && r.clampV === 0 && r.clampR === 0
+        && sigR >= 2.2 && sigR <= 3.0 && spinR >= 1.5 && spinR <= 2.4
+        && r.d.vt > 3 && Math.abs(r.b.vt) < r.d.vt / 3
+        && r.d0.spinAbs === 0 && r.b0.spinAbs === 0,
+        `σT bulge/disk=${r.b.sigT.toFixed(3)}/${r.d.sigT.toFixed(3)}=${sigR.toFixed(2)}(窓2.2〜3.0・実測2.61)/ ` +
+        `|spin| ${r.b.spinAbs.toFixed(2)}/${r.d.spinAbs.toFixed(2)}=${spinR.toFixed(2)}(窓1.5〜2.4・実測1.92)/ ` +
+        `公転 vt disk=${r.d.vt.toFixed(2)} bulge=${r.b.vt.toFixed(2)}(回転支持 vs 分散支持)/ ` +
+        `kF0対照 spin=${r.d0.spinAbs}/${r.b0.spinAbs}(厳密0 — E6′③が唯一の経路)`);
+    } else {
+      console.log('SKIP claim.galaxydb-contrast(対象に 🍳galaxyDB なし — root 等。第74便)');
+    }
+  }
+
+  // ---- 8a2b3) 第74便: 🌑nebulaRotor — ローター星雲の減光コントラスト(暗黒⇔散光) ----
+  // 高スピンコア(lightSweep auto・粒子0..53)の平均減光がエンベロープ(54..)より1桁以上高く、
+  // コアのスピンを0にした対照(abBody と同一 patch)では散光化することを機械固定する。
+  // 較正実測(exp-4-75・seed 20260804・3000步): コア0.767/エンベロープ0.052(×14.9)・対照0.025
+  {
+    const hasNeb = await page.evaluate(() => HP.allPresets().some(p => p.id === 'nebulaRotor'));
+    if (hasNeb) {
+      const r = await page.evaluate(() => {
+        HP.loadPreset('nebulaRotor', false);
+        const ent = HP.allPresets().find(p => p.id === 'nebulaRotor').abBody;
+        HP.abStart(undefined, undefined, { targets: ent.targets, patch: ent.patch });
+        const abG = HP.ab();
+        const S = HP.sim, B = abG.simB;
+        for (let k = 0; k < 3000; k++) { S.step(0.016); B.step(0.016); }
+        const g = (sm, lo, hi) => { let s = 0; for (let i = lo; i < hi; i++) s += sm.lSw[i] / (hi - lo); return s; };
+        const res = { core: g(S, 0, 54), env: g(S, 54, S.n), ctrl: g(B, 0, 54),
+          bad: S.hasNaN() || B.hasNaN() };
+        HP.abStop();
+        return res;
+      });
+      add('claim.nebularotor-contrast',
+        !r.bad && r.core >= 0.65 && r.core <= 0.85 && r.env < 0.1 && r.ctrl < 0.1
+        && r.core / r.env > 10,
+        `lS̄ コア=${r.core.toFixed(3)}(窓0.65〜0.85・実測0.767) エンベロープ=${r.env.toFixed(3)}(<0.1) ` +
+        `コントラスト=${(r.core / r.env).toFixed(1)}倍(>10)/ スピン0対照 コア=${r.ctrl.toFixed(3)}(<0.1 — 散光化)`);
+    } else {
+      console.log('SKIP claim.nebularotor-contrast(対象に 🌑nebulaRotor なし — root 等。第74便)');
+    }
+  }
+
   // ---- 8a2c) 第70便: 減光(lightSweep)の力学不変性 — 「暗いが重い」の機械証明 ----
   // 減光は光学のみ(観測温度と放射冷却)に作用し、etaRad=0 では軌道・スピン・固有時計・光線が
   // 1 bit も変わらないことを機械固定する(ChatGPT レビュー §8.2 実験1の QA 化 — 隠れ質量実験の
