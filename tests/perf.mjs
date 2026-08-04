@@ -38,7 +38,9 @@ const SAMPLES = ['galaxy', 'darkrotor', 'merger', 'convection', 'counterring', '
 const EXTRA_SAMPLES = ['echo', 'freebox',
   // 第60便: E14″ 創発一本化 — 旧サンプル(melt/freeze/meltcycle/boil/chain/lattice)は廃止。
   // root には未昇格のため informational 計測(昇格時に自動で比較ゲートへ)
-  'emergent', 'emergent2', 'chain2'];
+  'emergent', 'emergent2', 'chain2',
+  // 第73便(v1.36.0 昇格): v1.36 線の新サンプル — 昇格により root にも揃い自動で比較ゲート化
+  'galaxyStd', 'galaxyGeo2', 'chaincycle'];
 const THRESH = +(process.env.PERF_THRESH || 1.10);
 // 例: { convection: 1.60 } — 意図的な負荷増を許可する場合のみ
 // 第53便 53D の echo ALLOW 1.45 は第63便(v1.35.0 昇格)で撤去した — 53D の記録どおり、
