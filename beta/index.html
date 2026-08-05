@@ -1224,7 +1224,7 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
 const APP_VERSION = "1.36";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 // 第36便 B1(原仮定者指示): タイトル下に表示するbeta配信時のビルド番号。beta/sw.js の
 // CACHE 接尾辞と同期させる(QA: version.beta-label)。ルート昇格後は使わない("v"+APP_VERSION 表示に戻る)
-const BETA_BUILD = "v1.37-b5";   // 第77便: コアv2(独立コア・パワーボール・収縮)+🌱星の種
+const BETA_BUILD = "v1.37-b6";   // 第78便: DFM版BH 5層(⚫bhCore)+K_cs 再定義+堅牢性
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 // 第71便 P0 → 第72便(ChatGPT Release レビュー P2: マジックナンバーの定数化):
 // E6′③反作用の1サブステップ上限(速度のみ)。較正実測(第71便): 正常域最大は 🕶️ の
@@ -2364,6 +2364,53 @@ const BUILTIN_PRESETS = [
      spinMin:4,spinMax:6, vMode:"random", vScale:0.8, direction:1, bulkVx:0, bulkVy:0}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled",monitor:false} },
+// 第78便: ⚫bhCore — DFM版ブラックホール(5層の中心)。ChatGPT レビュー §9.2/§13 サンプル3 の
+// 採択実装で、第76便 exp-4-77 の仮説検証と第77便コアv2(τ_cs)の到達点を1画面に束ねたもの。
+// 層0=コア(J 貯蔵・自走の源)/層1=重い内殻(質量集中)/層2=外殻・擬似地平面(減光)/
+// 層3=フレーム場(kFrame の引きずり)/層4=降着円盤(赤道面のガス)。実測 tests/exp-4-79.mjs
+// +tests/out/exp-4-80.json。**双極ジェットは扱わない** — この重力井戸ではガスが束縛され、
+// 統計になる脱出が起きないため(実測: 6000步で脱出2/120体)。ジェット機構は ⏳nebulaBipolar の担当。
+{ id:"bhCore", name:"DFM版ブラックホール — 5層の中心", emoji:"⚫", group:"銀河",
+  scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  sampleClass:"composite",
+  descStruct:{
+    summary:"「銀河中心の暗い天体は、コアの高速スピンが外殻へ伝わって銀河を回している」という仮説を、5つの層に分けて1画面で検証する。層0=中心コア(コアv2 の独立 J_core・初期Ω=20)/層1=重い内殻(m=2500 が引力を担う)/層2=外殻と擬似地平面(2層減光で真っ暗)/層3=決定フレーム(kFrame の空間引きずり)/層4=降着円盤(赤道面の高温ガス120体)。外側には測定用の恒星ディスク200体を置く。コアと外殻は τ_cs(K_cs=0.02)で結ばれており、コアに貯めた角運動量が外殻へ流れ出す。実在のブラックホール物理(事象の地平面・降着円盤の磁気流体・相対論的ジェット)の再現主張ではない — この宇宙の法則で「暗くて重い回転体」を組むとどうなるかのトイモデルである(Negative Claims)。",
+    observe:"実測(seed固定・6000步): ①**自走** — 中心の外殻スピンは0.15から実測1.33へ育ち、コアの角速度は20から4.2へ落ちる(τ_cs でコアの貯金が外殻へ移る)。②**暗いまま回す** — 中心の減光は1.00(真っ暗)なのに、恒星ディスク外縁の回転増強(kFrame=1/kFrame=0 比)は実測1.52で、可視の🎡標準(1.2646)を大きく超える。③層4の降着円盤は圧力(E5′)で膨らむが重力井戸に束縛され、6000步で系外へ出るのは120体中2体だけ(=この構成ではジェットは立たない。双極流は⏳の担当)。④帳簿込みの総角運動量は保存する(相対ずれ9e-7 — A13/T7。コアの J も総和に含む)。⑤**因果の分離**(同一初期配置の対照): コアを外した単層中心では増強が1.05まで落ちる(=コアが主因)。K_cs=0 で自走を止めるとコアに角運動量が残り、増強はむしろ1.58と強い(貯めたままの方が差動が大きく、外へ届く引きずりも強い)。層4の圧力を切る(kRep=0)と1.36 — 降着円盤の圧力も増強に一部寄与している。",
+    control:"おすすめA/B: A/B比較で **kFrame=0** にすると空間引きずりが消え、外縁増強も消滅する(引きずりが増強の唯一の経路)。**kRep=0** で層4の圧力が消え、降着円盤が薄い帯のまま静かに回る。パラメータタブで **D₀** を上げると遠方宇宙の支えが強まり引きずりが弱まる。コアの寄与そのものを消すには、粒子タップで中心天体を選び core を持たない構成と見比べる(実験 exp-4-79 の A/C/D/F 対照が同じ比較を機械化している)。"},
+  en:{name:"A DFM Black Hole — Five-Layer Center", descStruct:{
+    summary:"The hypothesis that a galaxy's dark central body spins the galaxy by passing its fast core rotation out to its shell, laid out in five layers on one screen. Layer 0: the central core (Core v2's independent J_core, initial Ω=20). Layer 1: the heavy inner shell (m=2500 carries the gravity). Layer 2: the outer shell and pseudo-horizon (pitch dark under two-layer dimming). Layer 3: the determinacy frame (kFrame dragging). Layer 4: the accretion disk (120 hot gas particles in the equatorial plane). Outside sits a 200-star measuring disk. Core and shell are coupled by τ_cs (K_cs=0.02), so the angular momentum banked in the core flows out into the shell. Not a claim to reproduce real black-hole physics (event horizons, magnetohydrodynamic accretion, relativistic jets) — it is a toy model of what a dark, heavy rotator looks like under this universe's laws (Negative Claims). ",
+    observe:"Measured (fixed seed, 6000 steps): (1) **Self-drive** — the central shell spin grows from 0.15 to a measured 1.33 while the core's angular velocity falls from 20 to 4.2 (τ_cs moves the core's savings out to the shell). (2) **Dark yet driving** — the center's dimming is 1.00 (pitch dark), yet the outer rotation enhancement of the stellar disk (kFrame=1 over kFrame=0) measures 1.52, well above the visible 🎡 standard of 1.2646. (3) Layer 4's accretion disk swells under pressure (E5′) but stays bound in the gravity well: only 2 of 120 particles leave the system in 6000 steps (so no jet forms in this configuration; bipolar outflows are ⏳'s job). (4) Total angular momentum is conserved ledger-inclusive (relative drift 9e-7 — A13/T7; the core's J is included in the sum). (5) **Isolating the cause** (controls from the same initial state): with the core removed, a single-layer center drops the enhancement to 1.05 — the core is the main driver. Setting K_cs=0 stops the self-drive, leaving the angular momentum banked in the core, and the enhancement is actually stronger at 1.58 (keeping it banked means a larger differential and stronger reach). Turning off layer 4's pressure (kRep=0) gives 1.36, so the accretion disk's pressure contributes part of the enhancement too. ",
+    control:"Suggested A/B: start an A/B comparison with **kFrame=0** and the dragging vanishes along with the outer enhancement (dragging is the sole path to it). With **kRep=0** layer 4's pressure disappears and the accretion disk stays a quiet thin band. Raising **D₀** in the parameters tab strengthens the far universe's grip and weakens the dragging. To remove the core's contribution itself, tap the central body and compare against a configuration without a core (experiment exp-4-79 mechanizes the same A/C/D/F comparison)."}},
+  activeParams:["kFrame","kRep","D0"],
+  validT:96,   // 実測窓(6000步=t≈96)と一致
+  claims:[
+    { id:"bhCore.outer-boost", kind:"fixed-seed", metric:"outerRotationBoostRatio",
+      expected:{min:1.4, max:1.65},   // 実測1.524(exp-4-80)。可視の🎡標準1.2646 を超える
+      descPattern:"回転増強\\(kFrame=1/kFrame=0 比\\)は実測(\\d+\\.\\d+)",
+      testId:"claim.bhcore-selfdrive" },
+    { id:"bhCore.shell-spinup", kind:"fixed-seed", metric:"shellSpinFinal",
+      expected:{min:1.2, max:1.45},   // 実測1.332(コアΩ 20→4.2 の移送先)
+      descPattern:"外殻スピンは0\\.15から実測(\\d+\\.\\d+)へ育ち",
+      testId:"claim.bhcore-selfdrive" }
+  ],
+  camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260805,
+  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:1, muF:0, gammaN:0, kappaS:0, Kt:50,
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:3, timeScale:3},
+  bodies:[
+    // 層0〜2: 中心の暗い重殻ローター(コアv2 の J 貯蔵+重い内殻+2層減光の擬似地平面)
+    {type:"single", rMul:1.2, m:2500, x:0,y:0, vx:0,vy:0, spin:0.15, pinned:true, radius:15,
+     lightSweep:"auto",
+     core:{mode:"differential", massFrac:0.3, radius:7.5, omega:20, Kcs:0.02}},
+    // 層4: 降着円盤(赤道面の高温ガス — E5′ 圧力で膨らむが束縛される)
+    {type:"box", rMul:2, n:120, cx:0,cy:0, w:200, h:16, mMin:0.05,mMax:0.05,
+     spinMin:2.4, spinMax:3.6, vScale:0.05},
+    // 層3の測定対象: 恒星ディスク(回転曲線 — 外縁増強を読む)
+    {type:"disk", rMul:1.2, n:200, cx:0,cy:0, radius:260, mMin:0.16,mMax:0.5,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2500, vScale:1.05, direction:1,
+     bulkVx:0, bulkVy:0}
+  ],
+  overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:true} },
 { id:"merger", name:"銀河合体と潮汐効果", emoji:"🌠", group:"銀河",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
@@ -6248,13 +6295,26 @@ function makeSim(){
             Om=S.coreJ[i]/Ic;
           }
         }
-        // ③ τ_cs 結合(コア⇄殻の J 交換 — 等量反対符号で保存。解析的指数緩和で安定)
-        if(S.coreKcs[i]>0 && !pinned[i]){
+        // ③ τ_cs 結合(コア⇄殻の J 交換 — 等量反対符号で保存。解析的指数緩和で安定)。
+        // 第78便: **K_cs を緩和率[1/時間]として再定義**する — τ_cs = −μ·K_cs·(Ω_c−Ω_s)
+        // (μ=換算慣性 I_c·I_s/(I_c+I_s))。第77便は f=1−e^{−K_cs·dt/μ} だったため、時定数が
+        // μ に比例し、恒星・BH 質量級(μ~10⁴)では K_cs=10 でも 6000步で 5% しか緩和しなかった
+        // (=DFM版BH の「コア→外殻」が実質不動)。μ を τ に掛ける形へ移すと **時定数 1/K_cs が
+        // 質量によらず一定**になり、ノブとして意味を持つ。J の等量交換・散逸帳簿は不変で、
+        // 保存則(T7)にも影響しない。K_cs を使う既存プリセットは無い(🌱は pump/contract のみ)
+        // 第78便: **pinned でも τ_cs を効かせる**(pump は従来どおり pinned で無効 — 加速度が
+        // 外部規定で「揺すり」の意味を持たないため)。pinned は「位置・速度を外部が規定」する
+        // 印であって自転を凍結する意味ではなく、コア⇄殻の J 交換は天体内部の話。totals() は
+        // I_s·spin と J_core の両方を含むので、等量交換で総 L は保存したまま(T7 不変)。
+        // 重い中心天体を自由にすると E6′③反作用の上限が大量発動して系が乱れる(exp-4-79 の
+        // 実測: 自由中心で clampR=30300・外縁増強が 1.2646→0.59 へ崩れる)ため、DFM版BH は
+        // 既存の 🎡🍳 と同じ pinned 中心で組む — その構成で自走を見るには本緩和が必要
+        if(S.coreKcs[i]>0){
           const Ish=0.5*Math.abs(m[i])*R[i]*R[i];
           const dOm=Om-spin[i];
           if(dOm!==0 && Ish>1e-12){
             const mu=Ic*Ish/(Ic+Ish);
-            const f=1-Math.exp(-S.coreKcs[i]*dt/mu);
+            const f=1-Math.exp(-S.coreKcs[i]*dt);
             const dJ=mu*dOm*f;
             S.coreJ[i]-=dJ; spin[i]+=dJ/Ish;
             S.radE+=Math.abs(dJ*dOm)*0.5;             // 相対回転の散逸(近似)
