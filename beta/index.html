@@ -275,6 +275,17 @@
       <div class="beRow"><label id="beLvx">vx</label><input type="text" id="beVx" inputmode="text" autocomplete="off">
         <label id="beLvy">vy</label><input type="text" id="beVy" inputmode="text" autocomplete="off"></div>
       <div class="beRow"><label id="beLp" style="flex:1">固定(pinned)</label><input type="checkbox" id="bePin"></div>
+      <!-- 第80便C: コアv2(第77便。core:{mode,massFrac,radius,omega,Kcs,pump,contract})を持つ粒子
+           だけに出す読み取り専用の内訳。編集欄は無い — コアv2は独立サブシステムなのでこのパネルからは
+           変更しない(mode/pump/contract 等の編集UIはスコープ外)。updateBodyEdit() が
+           #bodyEdit.style.display と同じ毎フレーム経路(τ/t のHUD表示と同じ更新経路)で追随する -->
+      <div id="beCoreV2" style="display:none">
+        <div class="beRow"><label id="beLcvTitle" class="tappable" style="flex:1;color:var(--acc);font-weight:700">コア内訳(v2)</label></div>
+        <div class="beRow"><label id="beLcvMode" style="min-width:34px">種別</label><input type="text" id="beCvMode" readonly tabindex="-1" inputmode="text" autocomplete="off"></div>
+        <div class="beRow"><label id="beLcvOm" style="min-width:34px">Ωc/Ωs/Δ</label><input type="text" id="beCvOm" readonly tabindex="-1" inputmode="text" autocomplete="off"></div>
+        <div class="beRow"><label id="beLcvJ" style="min-width:34px">Jc/Ic/Kc</label><input type="text" id="beCvJ" readonly tabindex="-1" inputmode="text" autocomplete="off"></div>
+        <div class="beRow"><label id="beLcvLs" style="min-width:34px">殻/コア/合成</label><input type="text" id="beCvLs" readonly tabindex="-1" inputmode="text" autocomplete="off"></div>
+      </div>
       <div class="beNote" id="beNote">※編集は即時反映。⏮初めからで初期値に戻ります。</div>
     </div>
   </div>
@@ -573,6 +584,11 @@ ja: {
   beTitle:"選択粒子の編集", bePinned:"固定(pinned)",
   beLsw:"減光",   // 第22便: 光掻き出し(lightSweep)ラベル
   beLswAuto:"自動",   // 第37便 A2(原仮定者指示): 掻出autoの可視化チェックボックス
+  // 第80便C: コアv2(第77便)の読み取り専用内訳ブロックのラベル
+  beCoreTitle:"コア内訳(v2)", beCoreMode:"種別", beCoreOm:"Ωc/Ωs/Δ", beCoreJ:"Jc/Ic/Kc", beCoreLs:"殻/コア/合成",
+  beDcv:"第77便のコアv2(独立コア)を持つ粒子の内部状態(読み取り専用)。Ωc=J_core/I_c(I_c=½·Mc·Rc²)・"
+    +"Ωs=殻スピン・Δ=Ωc−Ωs。減光は殻側ls_s・コア側ls_c・合成lSwの内訳(第75/77便の式を表示用に再計算 — "
+    +"物理配列へは書き込まない)。",
   beNote:"※編集は即時反映。⏮初めからで初期値に戻ります。",
   savesHeadSave:"現在のパラメータを保存", savesHeadList:"保存一覧", savesHeadBackup:"バックアップ",
   saveNamePh:"名前(例: 環が安定する設定)", saveCommentPh:"コメント(例: muFを0.8にすると円形化が速い)",
@@ -827,6 +843,11 @@ en: {
   beTitle:"Edit selected body", bePinned:"Pinned",
   beLsw:"dimming",   // 第22便: lightSweep label
   beLswAuto:"auto",   // 第37便 A2(原仮定者指示): sweep auto checkbox
+  // 第80便C: read-only core-v2 (wave 77) breakdown block labels
+  beCoreTitle:"Core (v2)", beCoreMode:"type", beCoreOm:"Ωc/Ωs/Δ", beCoreJ:"Jc/Ic/Kc", beCoreLs:"shell/core/mix",
+  beDcv:"Internal state (read-only) of a body's independent core (v2, wave 77). Ωc=J_core/I_c (I_c=1/2 Mc Rc^2), "
+    +"Ωs=shell spin, Δ=Ωc−Ωs. Dimming shows the shell-side ls_s, core-side ls_c, and combined lSw "
+    +"(recomputed from the wave 75/77 formula for display only — never written back to the physics arrays).",
   beNote:"Edits apply instantly. ⏮ Restart restores initial values.",
   savesHeadSave:"Save current parameters", savesHeadList:"Saved items", savesHeadBackup:"Backup",
   saveNamePh:"Name (e.g. stable-ring settings)", saveCommentPh:"Comment (e.g. muF=0.8 circularizes faster)",
@@ -9914,6 +9935,9 @@ function applyLang(){
   $("#beTitle").textContent=T("beTitle"); $("#beLp").textContent=T("bePinned");
   $("#beLsw").textContent=T("beLsw");   // 第22便
   $("#beLswAuto").textContent=T("beLswAuto");   // 第37便 A2
+  // 第80便C: コアv2内訳ブロックのラベル
+  $("#beLcvTitle").textContent=T("beCoreTitle"); $("#beLcvMode").textContent=T("beCoreMode");
+  $("#beLcvOm").textContent=T("beCoreOm"); $("#beLcvJ").textContent=T("beCoreJ"); $("#beLcvLs").textContent=T("beCoreLs");
   $("#beNote").textContent=T("beNote");                          // v1.17: 粒子編集パネル
   $("#aiProvHead").textContent=T("aiProvHead"); $("#aiProvLabel").textContent=T("aiProvLabel");
   $("#aiModelLabel").textContent=T("aiModelLabel"); $("#aiUrlLabel").textContent=T("aiUrlLabel");
@@ -10126,6 +10150,12 @@ document.addEventListener("keydown",(e)=>{ if(e.key==="Escape" && $("#aboutPanel
   }
 })();
 
+// 第80便C: コアv2(第77便)の内部 mode 値 → 表示名の名前解決テーブル。coreMd は Uint8Array で
+// 0=コアv2なし・1=rigid・2=differential(第77便実装分のみ)。将来 active/cavity 等が増えても
+// ここに1行足すだけで対応でき、未知の値は "mode#<値>" にフォールバックする(特別扱いをしない汎用形)
+const CORE_MODE_NAMES={1:"rigid", 2:"differential"};
+function coreModeName(md){ return CORE_MODE_NAMES[md] || ("mode#"+md); }
+
 // ===== v1.17: 選択粒子の編集パネル(質量・スピン・速度・固定を即時編集) =====
 // 第12便: A/B比較中も編集可(選択された宇宙 selSimRef() を編集)・2層情報(mc/sc)・m は負値も受理
 function updateBodyEdit(){
@@ -10151,6 +10181,48 @@ function updateBodyEdit(){
   $("#beSwAuto").checked = !!S.lSwAuto[i];
   $("#beVx").value=fmt(S.vx[i]); $("#beVy").value=fmt(S.vy[i]);
   $("#bePin").checked=!!S.pinned[i];
+  // 第80便C: コアv2(第77便)の読み取り専用内訳 — coreMd[i]!=0(独立コアを持つ)のときだけ表示する。
+  // コアなし・旧比率コア(coreMR/coreSR 経路)は coreMd[i]===0 のままなのでブロックごと隠れる。
+  // 実行中はこの関数自体が既存の毎フレーム更新経路(τ/t のHUD表示と同じ呼び出し元 — 上のメインループ
+  // running中の updateBodyEdit() 呼び出し)で追随するので、ここに専用のタイマー等は要らない。
+  // 値は現在の確定状態(S.step() 完了後)からその場で再計算するだけで、物理配列へは一切書き込まない。
+  const md=S.coreMd[i];
+  const cv=$("#beCoreV2");
+  if(md){
+    cv.style.display="block";
+    const p=S.params, Ri=S.R[i], Rci=S.RcV[i], mf=S.coreMF[i], mAbs=Math.abs(S.mEff[i]);
+    const Mc=mf*mAbs;
+    const Ic=(Rci>0)? 0.5*Mc*Rci*Rci : 0;
+    const Omc=(Ic>1e-12)? S.coreJ[i]/Ic : 0;   // Ω_c = J_core/I_c(rigidは coreJ が初期値のまま=静的な参考値)
+    const Oms=S.spin[i];                       // Ω_s = 殻スピン
+    $("#beCvMode").value=coreModeName(md);
+    $("#beCvOm").value=`${fmt(Omc)}/${fmt(Oms)}/${fmt(Omc-Oms)}`;
+    $("#beCvJ").value=`${fmt(S.coreJ[i])}/${fmt(Ic)}/${fmt(S.coreKcs[i])}`;
+    // 減光の内訳(殻 ls_s・コア ls_c・合成 lSw)。第77便の2層減光式(コアループ差動形。差分5992〜6060行の
+    // md===2 分岐と同一式)を表示用に再計算する — 物理側の lightSweep="auto" 判定(hasLSwAuto)や
+    // S.lSw への書き込みには一切触れない、読み取り専用の再計算。rigid(md===1)は殻と剛体回転で
+    // 独立した光学層を持たない(エンジンの掻出式も単層形に落ちる)ため、内訳は「—」とし合成値だけ
+    // 現在の実効 S.lSw を示す
+    let lsS=null, lsC=null, lsMix=S.lSw[i];
+    if(md===2 && Rci>0){
+      const bgW=p.D0+((S.box && S.boxA)? S.boxA.W : 0);   // tauUpdate と同じ「箱の決定力を足す」書き方
+      const eps2=p.softening*p.softening;
+      const dOm=Omc-Oms;
+      const psiS=(bgW + S.sumW[i] + mAbs/Math.sqrt(Ri*Ri+eps2))/p.Kt;
+      const cS=p.cLight*Math.exp(-2*psiS);
+      const tt=Rci/(Rci+Ri);
+      const sSurf=Oms + mf*dOm*((p.q===2)? tt*tt : Math.pow(tt,p.q));
+      lsS=(cS>1e-12)? Math.abs(sSurf)*Ri/cS : 1; if(!(lsS>0)) lsS=0; else if(lsS>1) lsS=1;
+      const psiC=(bgW + S.sumW[i] + mAbs/Math.sqrt(Rci*Rci+eps2))/p.Kt;
+      const cC=p.cLight*Math.exp(-2*psiC);
+      lsC=(cC>1e-12)? Math.abs(dOm)*Rci/cC : 1; if(!(lsC>0)) lsC=0; else if(lsC>1) lsC=1;
+      const wS=(1-mf)*Ri*Ri*Oms*Oms, wC=mf*Rci*Rci*dOm*dOm;
+      lsMix=(wS+wC>0)? (wS*lsS+wC*lsC)/(wS+wC) : 0;
+    }
+    $("#beCvLs").value=(lsS!==null)? `${fmt(lsS)}/${fmt(lsC)}/${fmt(lsMix)}` : `—/—/${fmt(lsMix)}`;
+  } else {
+    cv.style.display="none";
+  }
 }
 function beBind(id,fn){
   $(id).addEventListener("change",()=>{
@@ -10211,7 +10283,8 @@ $("#beClose").addEventListener("click",()=>{ beMin=!beMin; applyBeMin(); });
 let beDescShown=null;
 {
   const BE_DESC={beLm:"beDm",beLs:"beDs",beLmc:"beDmc",beLsc:"beDsc",beLr:"beDr",beLrr:"beDrr",
-    beLsw:"beDsw",beLswAuto:"beDsw",beLvx:"beDv",beLvy:"beDv",beLp:"beDp"};
+    beLsw:"beDsw",beLswAuto:"beDsw",beLvx:"beDv",beLvy:"beDv",beLp:"beDp",
+    beLcvTitle:"beDcv"};   // 第80便C: コアv2内訳ブロックの説明
   for(const id of Object.keys(BE_DESC)){
     const el=document.getElementById(id); if(!el) continue;
     el.classList.add("tappable");
