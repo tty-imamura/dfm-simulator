@@ -10528,7 +10528,7 @@ document.addEventListener("keydown",(e)=>{ if(e.key==="Escape" && $("#aboutPanel
 // 第80便C: コアv2(第77便)の内部 mode 値 → 表示名の名前解決テーブル。coreMd は Uint8Array で
 // 0=コアv2なし・1=rigid・2=differential(第77便実装分のみ)。将来 active/cavity 等が増えても
 // ここに1行足すだけで対応でき、未知の値は "mode#<値>" にフォールバックする(特別扱いをしない汎用形)
-const CORE_MODE_NAMES={1:"rigid", 2:"differential"};
+const CORE_MODE_NAMES={1:"rigid", 2:"differential", 3:"active", 4:"cavity"};   // 第80便統合: B の新モードを追加
 function coreModeName(md){ return CORE_MODE_NAMES[md] || ("mode#"+md); }
 
 // ===== v1.17: 選択粒子の編集パネル(質量・スピン・速度・固定を即時編集) =====
@@ -10566,24 +10566,28 @@ function updateBodyEdit(){
   if(md){
     cv.style.display="block";
     const p=S.params, Ri=S.R[i], Rci=S.RcV[i], mf=S.coreMF[i], mAbs=Math.abs(S.mEff[i]);
-    const Mc=mf*mAbs;
-    const Ic=(Rci>0)? 0.5*Mc*Rci*Rci : 0;
-    const Omc=(Ic>1e-12)? S.coreJ[i]/Ic : 0;   // Ω_c = J_core/I_c(rigidは coreJ が初期値のまま=静的な参考値)
+    // 第80便統合: cavity(md===4)は質量も慣性も厳密に0(coreMF=−voidFraction は光学・引きずりの
+    // 「重み」で質量ではない)。Ω_c は物理と同じ定義で出す — rigid は殻と剛体回転(Ω_c≡Ω_s)・
+    // differential/active は J_core/I_c・cavity は規定値 coreOm0(J を持てないため)
+    const Mc=(md===4)? 0 : mf*mAbs;
+    const Ic=(md===4)? 0 : ((Rci>0)? 0.5*Mc*Rci*Rci : 0);
+    const Omc=(md===1)? S.spin[i] : ((md===4)? S.coreOm0[i] : ((Ic>1e-12)? S.coreJ[i]/Ic : 0));
     const Oms=S.spin[i];                       // Ω_s = 殻スピン
     $("#beCvMode").value=coreModeName(md);
     $("#beCvOm").value=`${fmt(Omc)}/${fmt(Oms)}/${fmt(Omc-Oms)}`;
     $("#beCvJ").value=`${fmt(S.coreJ[i])}/${fmt(Ic)}/${fmt(S.coreKcs[i])}`;
-    // 減光の内訳(殻 ls_s・コア ls_c・合成 lSw)。第77便の2層減光式(コアループ差動形。差分5992〜6060行の
-    // md===2 分岐と同一式)を表示用に再計算する — 物理側の lightSweep="auto" 判定(hasLSwAuto)や
-    // S.lSw への書き込みには一切触れない、読み取り専用の再計算。rigid(md===1)は殻と剛体回転で
-    // 独立した光学層を持たない(エンジンの掻出式も単層形に落ちる)ため、内訳は「—」とし合成値だけ
-    // 現在の実効 S.lSw を示す
+    // 減光の内訳(殻 ls_s・コア ls_c・合成 lSw)。物理側の2層減光式(hasLSwAuto ブロックの
+    // coreMd>=2 分岐と同一式 — 第80便で differential/active/cavity 共通・重みは |coreMF|)を
+    // 表示用に再計算する — 物理側の判定や S.lSw への書き込みには一切触れない、読み取り専用の
+    // 再計算。rigid(md===1)は殻と剛体回転で独立した光学層を持たない(エンジンの掻出式も
+    // 単層形に落ちる)ため、内訳は「—」とし合成値だけ現在の実効 S.lSw を示す
     let lsS=null, lsC=null, lsMix=S.lSw[i];
-    if(md===2 && Rci>0){
+    if(md>=2 && Rci>0 && Omc!==Oms){
       const bgW=p.D0+((S.box && S.boxA)? S.boxA.W : 0);   // tauUpdate と同じ「箱の決定力を足す」書き方
       const eps2=p.softening*p.softening;
       const dOm=Omc-Oms;
-      const psiS=(bgW + S.sumW[i] + mAbs/Math.sqrt(Ri*Ri+eps2))/p.Kt;
+      const amf=Math.abs(mf);   // cavity の負の重みでも光度比の重みは非負(物理側と同じ)
+      const psiS=(bgW + S.sumW[i] + S.mEff[i]/Math.sqrt(Ri*Ri+eps2))/p.Kt;
       const cS=p.cLight*Math.exp(-2*psiS);
       const tt=Rci/(Rci+Ri);
       const sSurf=Oms + mf*dOm*((p.q===2)? tt*tt : Math.pow(tt,p.q));
@@ -10591,7 +10595,7 @@ function updateBodyEdit(){
       const psiC=(bgW + S.sumW[i] + mAbs/Math.sqrt(Rci*Rci+eps2))/p.Kt;
       const cC=p.cLight*Math.exp(-2*psiC);
       lsC=(cC>1e-12)? Math.abs(dOm)*Rci/cC : 1; if(!(lsC>0)) lsC=0; else if(lsC>1) lsC=1;
-      const wS=(1-mf)*Ri*Ri*Oms*Oms, wC=mf*Rci*Rci*dOm*dOm;
+      const wS=(1-amf)*Ri*Ri*Oms*Oms, wC=amf*Rci*Rci*dOm*dOm;
       lsMix=(wS+wC>0)? (wS*lsS+wC*lsC)/(wS+wC) : 0;
     }
     $("#beCvLs").value=(lsS!==null)? `${fmt(lsS)}/${fmt(lsC)}/${fmt(lsMix)}` : `—/—/${fmt(lsMix)}`;
