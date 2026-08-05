@@ -5310,10 +5310,11 @@ function makeSim(){
     const {mEff:m,x,y,vx,vy,spin,R,pinned,ax,ay,sumW,uAx,uAy,ds,dpx,dpy,pairD,coreMR,coreSR,Rc,lSw,
            accVx,accVy,accS}=S;   // 第40便 40A(台帳4-81): ③反作用の倍精度アキュムレータ
     const hasCore=S.hasCore;
+    const hasCoreV2=S.hasCoreV2;   // 第77便: 対ループ内はローカル参照(プロパティ参照のホットループコスト回避)
     // 第77便(コアv2): Ω_c = J_core/I_c をサブステップ冒頭に一括算出(①対ループが参照)。
     // coreJ/RcV は ②末尾の v2 パスでのみ更新されるため、①の間は不変(uPrev と同じ意味論)。
     // v2 粒子ゼロの宇宙はこのループごと素通り(ゼロコスト)
-    if(S.hasCoreV2){
+    if(hasCoreV2){
       for(let i=0;i<S.n;i++){
         if(S.coreMd[i]===2){
           const Ic=0.5*S.coreMF[i]*Math.abs(m[i])*S.RcV[i]*S.RcV[i];
@@ -5559,8 +5560,8 @@ function makeSim(){
         }
         // 第77便(コアv2): 独立コア(differential)の差動が A8 と同型で外へ届く —
         // ω += (Mc/m)·(Ω_c−s)·f(RcV,d)。coreOmV は substep 冒頭に一括算出(J/I)。
-        // v2 粒子ゼロの宇宙はこの分岐を 1 命令も通らない(hasCoreV2 ゲート)
-        if(S.hasCoreV2){
+        // v2 粒子ゼロの宇宙はこの分岐を 1 命令も通らない(hasCoreV2 ローカルゲート)
+        if(hasCoreV2){
           if(S.coreMd[j]===2 && S.RcV[j]>0){ const dOm=S.coreOmV[j]-sj;
             if(dOm!==0){ const tt=S.RcV[j]/(S.RcV[j]+d); omj += S.coreMF[j]*dOm*((q===2)? tt*tt : Math.pow(tt,q)); } }
           if(S.coreMd[i]===2 && S.RcV[i]>0){ const dOm=S.coreOmV[i]-si;
@@ -5587,7 +5588,7 @@ function makeSim(){
               if(chi!==1){ const tt=Rc[i]/(Rc[i]+d), oc=cmri*si*(chi-1)*((q===2)? tt*tt : Math.pow(tt,q)); domi-=q*oc/(Rc[i]+d); } }
           }
           // 第77便(コアv2): 独立コアの差動勾配(A8 v2 分岐と同じ核)
-          if(S.hasCoreV2){
+          if(hasCoreV2){
             if(S.coreMd[j]===2 && S.RcV[j]>0){ const dOm=S.coreOmV[j]-sj;
               if(dOm!==0){ const tt=S.RcV[j]/(S.RcV[j]+d), oc=S.coreMF[j]*dOm*((q===2)? tt*tt : Math.pow(tt,q)); domj-=q*oc/(S.RcV[j]+d); } }
             if(S.coreMd[i]===2 && S.RcV[i]>0){ const dOm=S.coreOmV[i]-si;
@@ -5988,7 +5989,7 @@ function makeSim(){
           const acm=Math.abs(cmr);
           const wS=(1-acm)*Ri*Ri*si0*si0, wC=acm*Rci*Rci*sDiff*sDiff;
           ls=(wS+wC>0)? (wS*lsS + wC*lsC)/(wS+wC) : 0;
-        } else if(S.hasCoreV2 && S.coreMd[i]===2 && S.RcV[i]>0 && S.coreOmV[i]!==si0){
+        } else if(hasCoreV2 && S.coreMd[i]===2 && S.RcV[i]>0 && S.coreOmV[i]!==si0){
           // 第77便(コアv2): 独立コアの2層減光 — 第75便の式の (coreSR−1)·s を (Ω_c−s) に置換。
           // 殻 s=0 でもコアだけで暗くなれる(w_s=0 → lSw=ls_c。冷たい殻は発光ゼロなので整合)
           const Rci=S.RcV[i], mf=S.coreMF[i];
@@ -6200,7 +6201,7 @@ function makeSim(){
     // 帳簿: ポンプ/減速の J はリザーバ resL と等量交換・τ_cs はコア⇄殻の等量交換(totals() が
     //   coreJ を含むので T7 恒等式は閉じる)。仕事・収縮のエネルギー増は coreWork(外部仕事の
     //   明示帳簿 — fusU と同格)・散逸は radE。doPost 限定(leapfrog 二重適用なし)
-    if(S.hasCoreV2 && doPost){
+    if(hasCoreV2 && doPost){
       for(let i=0;i<S.n;i++){
         const md=S.coreMd[i]; if(md===0) continue;
         const Mc=S.coreMF[i]*Math.abs(m[i]); if(!(Mc>1e-9)) continue;
