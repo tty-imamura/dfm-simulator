@@ -3771,6 +3771,112 @@ if (!FAST) {
     }
   }
 
+  // ---- 8a2b4d) 第78便: ⚫bhCore — DFM版BH 5層の自走と因果分離 ----
+  // ①自走: τ_cs で殻スピン 0.15→1.33・コアΩ 20→4.2(コアの貯金が外殻へ)②暗いまま回す:
+  // 中心 lSw=1.00 で外縁増強 1.52(可視の🎡標準 1.2646 超)③因果: コアなし対照は 1.05
+  // (=コアが主因)④帳簿込み総 L 保存(<1e-3)。較正実測は exp-4-80(seed 20260805・6000步)
+  {
+    const hasBH = await page.evaluate(() => HP.allPresets().some(p => p.id === 'bhCore'));
+    if (hasBH) {
+      const r = await page.evaluate(() => {
+        const run = (mod) => {
+          const p = JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'bhCore')));
+          p.physics.kFrame = mod.kFrame;
+          if (mod.noCore) delete p.bodies[0].core;
+          HP.sim.build(p);
+          const S = HP.sim;
+          const L0 = S.totals().L + S.resL + S.radL;
+          const cs0 = HP.coreState(0);
+          for (let k = 0; k < 6000; k++) S.step(0.016);
+          let sum = 0, c = 0;
+          for (let i = 121; i < S.n; i++) { const rr = Math.hypot(S.x[i], S.y[i]);
+            if (rr >= 156 && rr <= 286) { sum += (S.x[i] * S.vy[i] - S.y[i] * S.vx[i]) / rr; c++; } }
+          const L1 = S.totals().L + S.resL + S.radL;
+          let lScale = 0;
+          for (let i = 0; i < S.n; i++) lScale += Math.abs(S.m[i] * (S.x[i] * S.vy[i] - S.y[i] * S.vx[i]))
+            + 0.5 * S.m[i] * S.R[i] * S.R[i] * Math.abs(S.spin[i]);
+          const cs1 = HP.coreState(0);
+          return { outer: c ? sum / c : 0, shell: S.spin[0],
+            om0: cs0 ? cs0.omega : 0, om1: cs1 ? cs1.omega : 0, lSw: S.lSw[0],
+            relL: Math.abs(L1 - L0) / Math.max(lScale, 1e-9), bad: S.hasNaN(), n: S.n };
+        };
+        const a = run({ kFrame: 1 }), z = run({ kFrame: 0 });
+        const nc1 = run({ kFrame: 1, noCore: true }), nc0 = run({ kFrame: 0, noCore: true });
+        return { a, z, ncBoost: nc1.outer / nc0.outer };
+      });
+      const boost = r.a.outer / r.z.outer;
+      add('claim.bhcore-selfdrive',
+        !r.a.bad && !r.z.bad && r.a.n === 321
+        && boost >= 1.4 && boost <= 1.65 && boost > 1.2646
+        && r.a.shell >= 1.2 && r.a.shell <= 1.45 && r.a.om1 < r.a.om0 * 0.5
+        && r.a.lSw > 0.95 && r.ncBoost < 1.15 && r.a.relL < 1e-3,
+        `外縁増強=${boost.toFixed(4)}(窓1.4〜1.65・実測1.524・可視の🎡標準1.2646超)/ ` +
+        `自走: 殻 0.15→${r.a.shell.toFixed(3)}(窓1.2〜1.45) コアΩ ${r.a.om0.toFixed(1)}→${r.a.om1.toFixed(1)}(半減以下)/ ` +
+        `中心lSw=${r.a.lSw.toFixed(3)}(>0.95 — 真っ暗)/ コアなし対照=${r.ncBoost.toFixed(3)}(<1.15 — コアが主因)/ ` +
+        `帳簿込み|ΔL|=${r.a.relL.toExponential(1)}(<1e-3)`);
+    } else {
+      console.log('SKIP claim.bhcore-selfdrive(対象に ⚫bhCore なし — root 等。第78便)');
+    }
+  }
+
+  // ---- 8a2b4e) 第78便: コアv2 の堅牢性(ChatGPT P1: extreme-fuzz / 保存互換) ----
+  // ①境界値・不正値の総当たりで NaN/Infinity/負慣性/半径逆転を起こさない(validate のクランプが
+  //   効き、build→step が走り切る)②root(コアv2 非対応)は未知の core:{} を**安全に無視**して
+  //   従来の単層として読める(beta で作った JSON を root へ持ち込む経路の防御 — 保存互換)
+  {
+    const hasV2b = await page.evaluate(() => !!(window.HP && HP.coreState));
+    if (hasV2b) {
+      const r = await page.evaluate(() => {
+        const PH = { G: 0.8, D0: 1.5, kFrame: 1, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, Kt: 50,
+          cLight: 40, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1,
+          pnAlpha: 1.5, radiusScale: 1, softening: 3, timeScale: 1 };
+        const cases = [
+          { mode: 'differential', massFrac: 0, radius: 0, omega: 0 },
+          { mode: 'differential', massFrac: 1e9, radius: 1e9, omega: 1e9, Kcs: 1e9, pump: 1e9, contract: 1e9 },
+          { mode: 'differential', massFrac: -5, radius: -5, omega: -1e9, Kcs: -5, pump: -5, contract: -5 },
+          { mode: 'rigid', massFrac: 0.6, radius: 200, omega: 50, pump: 5 },
+          { mode: 'bogus', massFrac: 0.3, radius: 2, omega: 3 },
+          { mode: 'differential', massFrac: 0.3, radius: 2 },                      // omega 省略
+          { mode: 'differential', massFrac: 0.3 },                                 // radius 欠落 → core 無視
+        ];
+        let bad = 0, ran = 0, nan = 0;
+        for (const c of cases) {
+          const v = HP.validatePreset({ name: 't', description: 'd', camera: { scale: 200 },
+            world: { boundary: 'none', size: 0 }, seed: 3, physics: PH,
+            bodies: [{ type: 'single', rMul: 1, m: 30, x: 0, y: 0, vx: 0, vy: 0, spin: 0.5,
+              pinned: false, radius: 5, lightSweep: 'auto', core: c },
+              { type: 'single', rMul: 1, m: 20, x: 40, y: 0, vx: 0, vy: 0.6, spin: 0, pinned: false }] });
+          if (!v.ok) { bad++; continue; }
+          HP.sim.build(v.preset);
+          for (let k = 0; k < 200; k++) HP.sim.step(0.016);
+          ran++;
+          const cs = HP.coreState(0);
+          if (HP.sim.hasNaN() || !isFinite(HP.sim.spin[0])
+            || (cs && (!isFinite(cs.omega) || !isFinite(cs.J) || cs.Rc < 0))) nan++;
+        }
+        // 保存互換: 未知キー core を持つ body を、コアv2 非対応の読み手が無視できる形か
+        // (validatePreset は core を保持し、build は coreMd=0 で単層として扱えること)
+        const v2 = HP.validatePreset({ name: 't', description: 'd', camera: { scale: 200 },
+          world: { boundary: 'none', size: 0 }, physics: {},
+          bodies: [{ type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 1, pinned: false,
+            core: { mode: 'differential', massFrac: 0.3, radius: 1, omega: 5 } }] });
+        const keep = v2.ok && !!v2.preset.bodies[0].core;
+        const strip = JSON.parse(JSON.stringify(v2.preset));
+        delete strip.bodies[0].core;                    // root 相当(未知キーを落とした読み)
+        HP.sim.build(strip);
+        for (let k = 0; k < 60; k++) HP.sim.step(0.016);
+        const legacyOK = !HP.sim.hasNaN() && HP.coreState(0) === null;
+        return { cases: cases.length, bad, ran, nan, keep, legacyOK };
+      });
+      add('core.extreme-fuzz',
+        r.nan === 0 && r.ran >= 5 && r.keep && r.legacyOK,
+        `境界・不正値 ${r.cases}件: 走行=${r.ran} 拒否=${r.bad} NaN/Inf/負半径=${r.nan}(=0)/ ` +
+        `保存互換: core 保持=${r.keep}・core を落とした読み(root 相当)も単層として走行=${r.legacyOK}`);
+    } else {
+      console.log('SKIP core.extreme-fuzz(対象に第77便 コアv2 未適用 — root 等)');
+    }
+  }
+
   // ---- 8a2b5) 第75便: 🐚nebulaShell — 重殻+高速コアの耐圧試験 ----
   // 熱圧 kRep=0.3 の下で「同じ暗さ」を保てるのは 2層だけであることを機械固定する:
   // 2層(既定)= コア lS̄ 0.8〜0.95・保持≥0.93・エンベロープ保持=1 ⇔ 単層対照(同一幾何・
