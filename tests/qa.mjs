@@ -3834,6 +3834,78 @@ if (!FAST) {
     }
   }
 
+  // ---- 8a2b4d2) 第80便 A: 🕳️bhCoreFree — 自由な支配天体 + E6′-R(pairReduced)の固定seed受入 ----
+  // ⚫bhCore の中心から pinned を外し、E6′ 反作用を換算質量対称インパルスへ置き換えた実験サンプル。
+  // ①安全上限(反作用・速度・スピン)が一度も発動しない ②中心基準の外縁増強が固定中心版と同帯
+  // ③τ_cs の自走(殻 0.15→1.33・コアΩ 20→4.2)が保たれる ④支配天体は重心まわりに有限反跳
+  // ⑤帳簿込み総 L が保存する。較正実測は exp-4-81(seed 20260805・6000步)。
+  // 「安定」の定義は原点不動ではなく上の5点(提案 §12.4)。対象に無ければ SKIP(root 等)
+  {
+    const hasBHF = await page.evaluate(() => HP.allPresets().some(p => p.id === 'bhCoreFree'));
+    if (hasBHF) {
+      const r = await page.evaluate(() => {
+        const run = (kFrame) => {
+          const p = JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'bhCoreFree')));
+          p.physics.kFrame = kFrame;
+          HP.sim.build(p);
+          const S = HP.sim;
+          const L0 = S.totals().L + S.resL + S.radL;
+          const cs0 = HP.coreState(0);
+          const com = () => { let M = 0, cx = 0, cy = 0, cvx = 0, cvy = 0;
+            for (let i = 0; i < S.n; i++) { const mi = S.m[i]; M += mi;
+              cx += mi * S.x[i]; cy += mi * S.y[i]; cvx += mi * S.vx[i]; cvy += mi * S.vy[i]; }
+            return [cx / M, cy / M, cvx / M, cvy / M]; };
+          let dMax = 0, vMax = 0;
+          for (let k = 0; k < 6000; k++) {
+            S.step(0.016);
+            const c = com();
+            const d = Math.hypot(S.x[0] - c[0], S.y[0] - c[1]);
+            const v = Math.hypot(S.vx[0] - c[2], S.vy[0] - c[3]);
+            if (d > dMax) dMax = d;
+            if (v > vMax) vMax = v;
+          }
+          // 観測はすべて中心天体基準の相対座標(自由中心の並進を混ぜない — exp-4-79 の流儀)
+          const x0 = S.x[0], y0 = S.y[0], vx0 = S.vx[0], vy0 = S.vy[0];
+          let sum = 0, c2 = 0, keep = 0;
+          for (let i = 121; i < S.n; i++) {
+            const dx = S.x[i] - x0, dy = S.y[i] - y0, rr = Math.hypot(dx, dy);
+            if (rr >= 156 && rr <= 286) { sum += (dx * (S.vy[i] - vy0) - dy * (S.vx[i] - vx0)) / rr; c2++; }
+            if (rr < 450) keep++;
+          }
+          const L1 = S.totals().L + S.resL + S.radL;
+          let lScale = 0;
+          for (let i = 0; i < S.n; i++) lScale += Math.abs(S.m[i] * (S.x[i] * S.vy[i] - S.y[i] * S.vx[i]))
+            + 0.5 * S.m[i] * S.R[i] * S.R[i] * Math.abs(S.spin[i]);
+          const cs1 = HP.coreState(0);
+          return { outer: c2 ? sum / c2 : 0, shell: S.spin[0], keep: keep / (S.n - 121),
+            om0: cs0 ? cs0.omega : 0, om1: cs1 ? cs1.omega : 0, lSw: S.lSw[0],
+            relL: Math.abs(L1 - L0) / Math.max(lScale, 1e-9), bad: S.hasNaN(), n: S.n,
+            bf: S.balanceFrame, dMax, vMax,
+            clampR: S.clampRN || 0, clampV: S.clampVN, clampS: S.clampSN };
+        };
+        const a = run(1), z = run(0);
+        return { a, z };
+      });
+      const boost = r.a.outer / r.z.outer;
+      add('claim.bhcore-free',
+        !r.a.bad && !r.z.bad && r.a.n === 321 && r.a.bf === 'barycentric'
+        && r.a.clampR === 0 && r.a.clampV === 0 && r.a.clampS === 0
+        && boost >= 1.37 && boost <= 1.68
+        && r.a.shell >= 1.20 && r.a.shell <= 1.47
+        && r.a.om1 >= 3.8 && r.a.om1 <= 4.7
+        && r.a.lSw >= 0.99 && r.a.keep >= 0.95
+        && r.a.relL < 1e-5 && r.a.dMax < 8 && r.a.vMax < 0.2,
+        `外縁増強=${boost.toFixed(4)}(窓1.37〜1.68・実測1.524。⚫の同構成 pinned 対照 1.522)/ ` +
+        `上限発動 R/V/S=${r.a.clampR}/${r.a.clampV}/${r.a.clampS}(すべて0)/ ` +
+        `自走: 殻 0.15→${r.a.shell.toFixed(3)}(窓1.20〜1.47) コアΩ ${r.a.om0.toFixed(1)}→${r.a.om1.toFixed(2)}(窓3.8〜4.7)/ ` +
+        `中心lSw=${r.a.lSw.toFixed(3)}(≥0.99) 保持率=${r.a.keep.toFixed(3)}(≥0.95)/ ` +
+        `BH重心相対 最大変位=${r.a.dMax.toFixed(3)}(<8) 最大速度=${r.a.vMax.toFixed(4)}(<0.2)/ ` +
+        `重心系初期化=${r.a.bf} 帳簿込み|ΔL|=${r.a.relL.toExponential(1)}(<1e-5)`);
+    } else {
+      console.log('SKIP claim.bhcore-free(対象に 🕳️bhCoreFree なし — root 等。第80便)');
+    }
+  }
+
   // ---- 8a2b4e) 第78便: コアv2 の堅牢性(ChatGPT P1: extreme-fuzz / 保存互換) ----
   // ①境界値・不正値の総当たりで NaN/Infinity/負慣性/半径逆転を起こさない(validate のクランプが
   //   効き、build→step が走り切る)②root(コアv2 非対応)は未知の core:{} を**安全に無視**して
@@ -9191,6 +9263,89 @@ if (hasSwAutoCb) {
       + `jaラベル="${r.labelJa}" enラベル="${r.labelEn}" / en切替後DOM(galaxy)="${r.galaxyEn.text}"`);
   } else {
     console.log('SKIP ui.strongfield-badge(対象に galaxy/gclockのψ_static条件またはHP.strongFieldPsi/classifyPresetが揃っていない — 第45便 45C 未適用の root 等)');
+  }
+}
+
+// ---- 80A) 第80便 A(E6′-R): physics.frameReaction:"pairReduced" — 換算質量対称インパルス ----
+// ① reaction.pair-momentum: 閉鎖系(D0=0・境界なし・全自由・正質量のみ)で、自由対の
+//    線運動量・角運動量が**帳簿なしで**閉じる(resP=resL=0 のまま相対ずれが 1e-6/1e-5 未満)。
+//    legacy も同じ構成で保存するが、pairReduced は対単位で構成的に閉じる(A13 の対単位実現)。
+// ② reaction.pair-test-particle-limit: 重い pinned 中心+軽粒子では、pairReduced の
+//    「pinned 相手 φ·d + 背景 φ_bg·d = d」が legacy の直接適用と同式になる — 軽粒子側の
+//    E6′ 応答は**厳密に一致**する。中心を自由にしても差は 0.1% 程度に留まる(提案 §4.4)。
+// 軽量(粒子8体・2体系の短時間走行)なので QA_FAST=1 でも実行する。未対応の対象は SKIP。
+{
+  const hasPR = await page.evaluate(() => {
+    const v = HP.validatePreset({ name: 'x', description: 'd', camera: { scale: 100 },
+      world: { boundary: 'none', size: 0 },
+      physics: { frameReaction: 'pairReduced' },
+      bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+    return !!(v.ok && v.preset.physics.frameReaction === 'pairReduced');
+  });
+  if (hasPR) {
+    const r = await page.evaluate(() => {
+      const PH = (fr, extra) => ({ G: 0.6, D0: 0, kFrame: 1, q: 2, kRep: 0, muF: 0, gammaN: 0,
+        kappaS: 0, Kt: 300, cLight: 60, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0,
+        geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 2, timeScale: 1,
+        ...(extra || {}), ...(fr ? { frameReaction: fr } : {}) });
+      // ① 閉鎖系: 8体・正質量のみ・全自由・D0=0・境界なし
+      const closed = (fr) => {
+        const bodies = [];
+        for (let i = 0; i < 8; i++) { const a = i * 0.7853981633974483, rr = 30 + 11 * i;
+          bodies.push({ type: 'single', m: 1 + 0.9 * i, x: rr * Math.cos(a), y: rr * Math.sin(a),
+            vx: -0.4 * Math.sin(a), vy: 0.4 * Math.cos(a), spin: 0.25 * (i % 3) - 0.25,
+            pinned: false, rMul: 1 }); }
+        const v = HP.validatePreset({ name: 'closed', description: 'd', camera: { scale: 200 },
+          world: { boundary: 'none', size: 0 }, seed: 20260805, physics: PH(fr), bodies });
+        HP.sim.build(v.preset);
+        const S = HP.sim;
+        const t0 = S.totals(), L0 = t0.L + S.resL + S.radL;
+        for (let k = 0; k < 1500; k++) S.step(0.016);
+        const t1 = S.totals();
+        let pS = 0, lS = 0;
+        for (let i = 0; i < S.n; i++) {
+          pS += Math.abs(S.m[i] * S.vx[i]) + Math.abs(S.m[i] * S.vy[i]);
+          lS += Math.abs(S.m[i] * (S.x[i] * S.vy[i] - S.y[i] * S.vx[i]))
+            + 0.5 * S.m[i] * S.R[i] * S.R[i] * Math.abs(S.spin[i]);
+        }
+        return { relP: Math.hypot(t1.px - t0.px, t1.py - t0.py) / Math.max(pS, 1e-9),
+          relL: Math.abs(t1.L + S.resL + S.radL - L0) / Math.max(lS, 1e-9),
+          resP: Math.hypot(S.resPx, S.resPy), resL: S.resL,
+          clampR: S.clampRN || 0, bad: S.hasNaN() };
+      };
+      // ② テスト粒子極限: 中心 m=2500(pinned/自由)+ 軽粒子 m=0.05・D0=1.5
+      const tp = (fr, pin, kF) => {
+        const v = HP.validatePreset({ name: 'tp', description: 'd', camera: { scale: 200 },
+          world: { boundary: 'none', size: 0 }, seed: 20260805, physics: PH(fr, { G: 0.8, D0: 1.5, kFrame: kF, Kt: 50, softening: 3 }),
+          bodies: [
+            { type: 'single', m: 2500, x: 0, y: 0, vx: 0, vy: 0, spin: 3, pinned: pin, radius: 15, rMul: 1 },
+            { type: 'single', m: 0.05, x: 120, y: 0, vx: 0, vy: Math.sqrt(0.8 * 2500 / 120),
+              spin: 0, pinned: false, radius: 1, rMul: 1 }] });
+        HP.sim.build(v.preset);
+        const S = HP.sim;
+        for (let k = 0; k < 200; k++) S.step(0.016);
+        return [S.vx[1], S.vy[1]];
+      };
+      const resp = (fr, pin) => { const a = tp(fr, pin, 1), z = tp(fr, pin, 0);
+        return [a[0] - z[0], a[1] - z[1]]; };
+      const nrm = (v) => Math.hypot(v[0], v[1]);
+      const dif = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1]) / Math.max(nrm(b), 1e-30);
+      const legPin = resp(null, true), prPin = resp('pairReduced', true), prFree = resp('pairReduced', false);
+      return { pair: closed('pairReduced'), legacy: closed(null),
+        respLegacy: nrm(legPin), relPin: dif(prPin, legPin), relFree: dif(prFree, legPin) };
+    });
+    add('reaction.pair-momentum',
+      !r.pair.bad && r.pair.clampR === 0 && r.pair.resP === 0 && r.pair.resL === 0
+      && r.pair.relP < 1e-6 && r.pair.relL < 1e-5,
+      `pairReduced: |ΔP|/scale=${r.pair.relP.toExponential(1)}(<1e-6) |ΔL|/scale=${r.pair.relL.toExponential(1)}(<1e-5) ` +
+      `帳簿 resP=${r.pair.resP} resL=${r.pair.resL}(自由対のみ=帳簿なしで閉じる) 上限=${r.pair.clampR} / ` +
+      `legacy 対照: ${r.legacy.relP.toExponential(1)} / ${r.legacy.relL.toExponential(1)}`);
+    add('reaction.pair-test-particle-limit',
+      r.respLegacy > 0 && r.relPin < 1e-9 && r.relFree < 5e-3,
+      `固定中心での差=${r.relPin.toExponential(1)}(<1e-9 — 解析的に同式)/ ` +
+      `自由中心での差=${r.relFree.toExponential(1)}(<5e-3 = 0.5%)/ legacy 応答=${r.respLegacy.toExponential(2)}`);
+  } else {
+    console.log('SKIP reaction.pair-*(対象に physics.frameReaction:"pairReduced" なし — root 等。第80便)');
   }
 }
 
