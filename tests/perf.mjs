@@ -41,10 +41,10 @@ const EXTRA_SAMPLES = ['echo', 'freebox',
   'emergent', 'emergent2', 'chain2',
   // 第73便(v1.36.0 昇格): v1.36 線の新サンプル — 昇格により root にも揃い自動で比較ゲート化
   'galaxyStd', 'galaxyGeo2', 'chaincycle',
-  // 第74便: v1.37 線の新サンプル(ディスク/バルジ381体・ローター星雲98体)— root 未昇格の間は
-  // informational 計測(昇格時に自動で比較ゲートへ)
+  // 第74〜78便: v1.37 線の新サンプル(ディスク/バルジ381体・ローター星雲98体・重殻98体・
+  // 双極83体・星の種3体・DFM版BH 321体)— **第79便 v1.37.0 昇格により root にも揃い、
+  // ここから自動で比較ゲートへ昇格する**
   'galaxyDB', 'nebulaRotor',
-  // 第75便: 重殻ローター星雲98体・双極星雲83体(同上)
   'nebulaShell', 'nebulaBipolar',
   // 第77便: 星の種ローター3体(コアv2 — 軽量だが v2 パスの常時計測として)
   'starSeed',
@@ -63,7 +63,14 @@ const ALLOW = {};
 // ゲート無意味化)ではなく**計測時間をノイズフロアから引き上げる**: echo だけ FRAMES を
 // 60→720(≈100ms/rep)にする。判定条件・ペア比中央値の式は不変。ms 表示・msPerFrame は
 // 実フレーム数で正規化される
-const FRAMES_OVERRIDE = { echo: 720 };
+// 第79便(v1.37.0 昇格): starSeed も同じ扱いにする。3体しかないため既定 60frames の計測は
+// **240步 ≈ 0.5ms** = タイマのノイズフロア以下で、しかも JIT が温まりきる前に測り終わる
+// (実測: 温まった定常は約 2.2µs/步 なのに、60frames 計測では 0.6ms〔root〕/4.0ms〔beta〕と
+// 桁で暴れ、byte 同一のはずのペア比が 2.600 になった)。30000frames ≈ 120000步 ≈ 260ms まで
+// 引き上げてノイズフロアから出す。発散しないことは tests/probe-perf-floor.mjs で確認済み
+// (60000frames でも NaN なし・コアΩは 8.3e3 で頭打ち)。
+// 第77便まで informational だったので顕在化せず、昇格で比較ゲート化して初めて露見した
+const FRAMES_OVERRIDE = { echo: 720, starSeed: 30000 };
 // 過去の ALLOW 撤去履歴(darkrotor/convection/saturnLayered)と 40C の粒子数削減の実測記録は
 // git 履歴(第61便以前の本ファイル冒頭コメント)を参照。
 const REPS = 2, FRAMES = 60, WARMUP_FRAMES = 20, SETS = 3;

@@ -119,7 +119,8 @@
   .prow{display:flex;align-items:center;gap:10px;margin:7px 0;}
   /* 第74便: スケール換算の副表示 — 行を折り返して右寄せの小さな1行を添える(表示専用) */
   .prow{flex-wrap:wrap;}
-  .prow .convVal{flex:1 0 100%;text-align:right;font-size:10px;opacity:.72;margin:-4px 0 0;}
+  .prow .convVal{flex:1 0 100%;text-align:right;font-size:12px;opacity:.85;margin:-3px 0 0;}   /* 第79便: 10px→12px(原仮定者指示) */
+  .scaleExpTier{text-align:right;font-size:11px;opacity:.8;margin:-4px 0 4px;}
   .prow label{flex:0 0 118px;font-size:calc(12px*var(--uz,1));color:var(--fg);}
   /* v1.21: パラメータ名タップで説明を開閉(点線下線=タップ可能の合図) */
   .prow label.tappable{text-decoration:underline dotted var(--dim);text-underline-offset:3px;
@@ -491,7 +492,7 @@ ja: {
   abStopped:"A/B比較を終了しました",
   abResetDone:"A/B両方を初期配置に戻しました",
   paramNote:"※ 物理パラメータは実行中いつでも反映されます。粒子の初期配置・個数はプリセット選択または「⏮ 初めから」で反映されます。",
-  grpLaws:"仮定物理法則", grpSim:"シミュレーション", grpDisplay:"表示", grpAll:"全カテゴリ",
+  grpLaws:"仮定物理法則", grpSim:"シミュレーション", grpDisplay:"表示", grpGraph:"グラフ", grpAll:"全カテゴリ",
   grpSpacetime:"時空", grpSpinHeat:"スピン・熱", grpDrag:"引きずり・測地線", grpLabBox:"実験箱",
   grpActive:"このサンプルの主役", grpAdvanced:"詳細設定(全パラメータ)",
   physLockHead:"物理対応(GR較正)",
@@ -749,7 +750,7 @@ en: {
   abStopped:"A/B compare stopped",
   abResetDone:"Both A and B reset to initial layout",
   paramNote:"※ Physics parameters apply instantly, even while running. Initial particle layout/count applies on preset selection or ⏮ Restart.",
-  grpLaws:"Hypothetical physical laws", grpSim:"Simulation", grpDisplay:"Display", grpAll:"All categories",
+  grpLaws:"Hypothetical physical laws", grpSim:"Simulation", grpDisplay:"Display", grpGraph:"Graphs", grpAll:"All categories",
   grpSpacetime:"Spacetime", grpSpinHeat:"Spin & Heat", grpDrag:"Dragging & Geodesics", grpLabBox:"Lab Box",
   grpActive:"Key settings of this sample", grpAdvanced:"Advanced (all parameters)",
   physLockHead:"Physical correspondence (GR calibration)",
@@ -1221,10 +1222,10 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
   geoPN:0, lambdaPN:1, pnAlpha:1.5,   // v1.20: E12 測地線1PN(geoPN=1で有効。BOX_UNIVERSE §5)
   radiusScale:1, softening:2, timeScale:1 };   // 第26便: radiusScale 既定 1.2→1(内蔵は明示値を維持)
 // v1.7: kLens は廃止(E8R で屈折率は n=e^{2W/Kt} に統一。旧セーブの kLens は受理して無視)
-const APP_VERSION = "1.36";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
+const APP_VERSION = "1.37";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 // 第36便 B1(原仮定者指示): タイトル下に表示するbeta配信時のビルド番号。beta/sw.js の
 // CACHE 接尾辞と同期させる(QA: version.beta-label)。ルート昇格後は使わない("v"+APP_VERSION 表示に戻る)
-const BETA_BUILD = "v1.37-b6";   // 第78便: DFM版BH 5層(⚫bhCore)+K_cs 再定義+堅牢性
+const BETA_BUILD = "v1.38-b1";   // 第79便: v1.37.0 昇格に伴い次期プレビュー線へ
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 // 第71便 P0 → 第72便(ChatGPT Release レビュー P2: マジックナンバーの定数化):
 // E6′③反作用の1サブステップ上限(速度のみ)。較正実測(第71便): 正常域最大は 🕶️ の
@@ -1360,9 +1361,9 @@ const PARAM_DEFS = [
    desc:"放射冷却の温度依存の急峻さ(E11: Λ∝T^p)。大きいほど「熱いものだけが急速に冷える」ようになる。"},
   {key:"cHeat", label:"熱容量 C(内部温度モード)", mode:"log", lo:0.01, hi:100, cat:"sh", group:"法則",
    desc:"内部温度モード(thermal:\"tint\" のサンプル)でだけ働く熱容量係数。粒子が持つ熱エネルギーは E=C·m·T_int で、散逸ΔEは ΔT_int=ΔE/(C·m) として内部温度に貯まる(A9′/E9)。大きくすると同じ散逸でも温まりにくくなる。既定のスピン=熱モード(thermal 省略)のサンプルでは一切効かない。"},
-  {key:"gravityX",label:"一様重力 g_x",      mode:"lin", lo:-5, hi:5, step:0.005, cat:"box", group:"法則",
+  {key:"gravityX",label:"一様重力 g_x",      mode:"lin", lo:-5, hi:5, step:0.005, cat:"st", group:"法則",   /* 第79便(原仮定者指示): 実験箱→時空カテゴリへ移動 */
    desc:"画面全体に働く横方向の一様な外部重力場(v1.17)。決定力Wには寄与しないので、時計・光・引きずりを歪めずに「地上の実験室」を作れる。運動量は場との交換として帳簿に記録。"},
-  {key:"gravityY",label:"一様重力 g_y",      mode:"lin", lo:-5, hi:5, step:0.005, cat:"box", group:"法則",
+  {key:"gravityY",label:"一様重力 g_y",      mode:"lin", lo:-5, hi:5, step:0.005, cat:"st", group:"法則",   /* 第79便: 同上 */
    desc:"画面全体に働く縦方向の一様な外部重力場(+yは画面下向き)。⚾自由落下・♨️対流・🧪浮力の「下向きの重力」はこれ。0にすると無重力になる。"},
   {key:"geoPN",   label:"測地線モード geoPN", mode:"lin", lo:0, hi:2, step:1,    cat:"dg", group:"法則",
    desc:"v2.0の測地線モード(E12)。1にすると、時計を遅らせるのと同じψ=W/Ktから物質の運動を作用原理で導き、1PN補正が働く(☿)。同時に物質へのE6′引きずりは無効化(二重計上禁止)。2にすると v−u 統一測地線則(v2.0第2段階): u≠0 のまま導いた式で、フレーム輸送・渦度コリオリ(引きずりの正体)・1PN が一本の式から出る — kFrame=0 では 1 と厳密に同じ。0=従来(legacy)。"},
@@ -8213,6 +8214,23 @@ function allPresets(){ return BUILTIN_PRESETS.concat(getCustomPresets()); }
 // 第51便 51B(原仮定者指示): プルダウンの「(kF=1)」表示(kfTag)は廃止 — kFrame の有無は
 // 説明タブの分類チップ「引きずり」(bdgDrag)が引き継ぐ
 // 第54便 54D②(原仮定者指示「プルダウンをカテゴリで階層化」): カテゴリ選択+絞り込み一覧の
+// 第79便(原仮定者指示): **サンプルカテゴリの表示順をスケールに準拠**させる
+// (分子 → 日常〜天体の基礎 → 天体 → 銀河 → 宇宙全体)。BUILTIN_PRESETS の配列そのものは
+// 動かさず(セーブ・claims・QA の同一性を保つ)、**表示の並びだけ**をこの順で制御する。
+// GROUP_ORDER に無いグループ(将来追加・AI生成の独自 group 等)は元の出現順で末尾に続く
+const GROUP_ORDER=["熱の実験室","空間と時間","光","天体の物語","銀河","箱宇宙"];
+function orderedGroups(){
+  const seen=[];
+  BUILTIN_PRESETS.forEach(p=>{ const g=p.group||"内蔵"; if(!seen.includes(g)) seen.push(g); });
+  const head=GROUP_ORDER.filter(g=>seen.includes(g));
+  return head.concat(seen.filter(g=>!head.includes(g)));
+}
+// 表示順に並べた内蔵プリセット(グループ内の順序は配列順のまま)
+function orderedBuiltins(){
+  const out=[];
+  for(const g of orderedGroups()) BUILTIN_PRESETS.forEach(p=>{ if((p.group||"内蔵")===g) out.push(p); });
+  return out;
+}
 // 2段プルダウン。presetFilter="all" では従来と同一の全件表示(optgroup 構造も不変 = QA互換)
 let presetFilter="all";
 function presetCatOf(v){   // 選択値(プリセットID/save#i)の属するカテゴリ名
@@ -8236,8 +8254,7 @@ function presetInFilter(v){
 function rebuildPresetGroupSelect(){
   const gs=$("#presetGroupSelect"); if(!gs) return;
   gs.textContent="";
-  const groups=[];
-  BUILTIN_PRESETS.forEach(p=>{ const g=p.group||"内蔵"; if(!groups.includes(g)) groups.push(g); });
+  const groups=orderedGroups();   // 第79便: スケール準拠の並び
   const opts=[["all",T("grpAll")]].concat(groups.map(g=>[g,gName(g)]));
   if(getCustomPresets().length) opts.push(["AI生成",gName("AI生成")]);
   if(getSaves().length) opts.push(["保存一覧",gName("保存一覧")]);
@@ -8261,7 +8278,7 @@ function rebuildPresetSelect(selId){
   const sel=$("#presetSelect"); sel.textContent="";
   // 内蔵プリセットは group ごとの optgroup(付録E E4。配列順=表示順)
   let og=null, curGroup=null;
-  BUILTIN_PRESETS.forEach(p=>{
+  orderedBuiltins().forEach(p=>{   // 第79便: スケール準拠の並び
     const g=p.group||"内蔵";
     if(presetFilter!=="all" && !presetInFilter(p.id)) return;   // 54D②: カテゴリ絞り込み(74便: スケールも)
     if(g!==curGroup){ curGroup=g; og=document.createElement("optgroup"); og.label=gName(g); sel.appendChild(og); }
@@ -8302,7 +8319,7 @@ function rebuildAiBaseSelect(){
   sel.textContent="";
   const o0=document.createElement("option"); o0.value=""; o0.textContent=T("aiBaseNone"); sel.appendChild(o0);
   let og=null, curGroup=null;
-  BUILTIN_PRESETS.forEach(p=>{
+  orderedBuiltins().forEach(p=>{   // 第79便: スケール準拠の並び
     const g=p.group||"内蔵";
     if(g!==curGroup){ curGroup=g; og=document.createElement("optgroup"); og.label=gName(g); sel.appendChild(og); }
     const o=document.createElement("option"); o.value=p.id; o.textContent=(p.emoji||"")+" "+pName(p); og.appendChild(o);
@@ -9116,39 +9133,7 @@ function buildParamRows(){
     // 第58便 58B(原仮定者指示): 時間倍率は表示→シミュレーションカテゴリへ移動
     // (A/B比較中は両方の画面へ反映される applyBoth 挙動は従来どおり)
     const tsDef=PARAM_DEFS.find(d=>d.key==="timeScale");
-    if(tsDef) mkParamRow(tsDef, g, true);
-    // 第74便: 表示スケール指数スライダー — 分子(10⁻¹⁰m)〜宇宙全体(10²³m)を指数で連続に振る。
-    // **表示換算(スケール換算表示・HUD)の指数だけを動かし、sim.params には一切書かない**
-    // (物理不変 — QA scale.display-invariant)。プリセット読込で scaleTier の既定指数へ戻る
-    {
-      const row=document.createElement("div"); row.className="prow";
-      const lab=document.createElement("label"); lab.textContent=T("scaleExpLabel");
-      lab.className="tappable";
-      lab.addEventListener("click",()=>{
-        const open=row.nextElementSibling && row.nextElementSibling.classList
-          && row.nextElementSibling.classList.contains("pdesc") ? row.nextElementSibling : null;
-        if(open){ open.remove(); return; }
-        const d=document.createElement("div"); d.className="pdesc open";
-        d.textContent=T("scaleExpDesc");
-        row.after(d);
-      });
-      const rng=document.createElement("input"); rng.type="range"; rng.id="scaleExpSlider";
-      rng.min=-12; rng.max=24; rng.step=0.5; rng.style.flex="1"; rng.style.minWidth="60px";
-      rng.value=scaleExpNow();
-      const out=document.createElement("span"); out.className="valIn"; out.id="scaleExpOut";
-      out.style.cssText="flex:0 0 96px;text-align:right;font-size:11px;opacity:.9;";
-      const nearTier=(x)=>{ let best=SCALE_TIERS[0], bd=1e9;
-        for(const t of SCALE_TIERS){ const d=Math.abs(SCALE_ANCHORS[t].expL-x); if(d<bd){bd=d; best=t;} }
-        return best; };
-      const updOut=()=>{ const x=scaleExpNow();
-        out.textContent=SCALE_EMOJI[nearTier(x)]+" 10^"+(Math.round(x*10)/10)+" m"; };
-      updOut();
-      rng.addEventListener("input",()=>{
-        scaleExpOverride=parseFloat(rng.value);
-        updOut(); refreshScaleConv(); requestRender();
-      });
-      row.appendChild(lab); row.appendChild(rng); row.appendChild(out); g.appendChild(row);
-    } }
+    if(tsDef) mkParamRow(tsDef, g, true); }
   // 表示設定 — 第54便 54D⑤: 「表示」もカテゴリ扱い(catParams で畳む。h3 → summary)
   const disp=document.createElement("div"); disp.className="group";
   // 第58便 58B: 時間倍率はシミュレーションカテゴリへ移動(v1.23 の表示常設を変更)
@@ -9163,6 +9148,11 @@ function buildParamRows(){
     ["rays",T("tgRays"),()=>!!(sim.rays&&sim.rays.n>0),
       (v)=>{ const mk=()=> (currentPreset&&currentPreset.rays)?JSON.parse(JSON.stringify(currentPreset.rays)):{n:26,spread:0.85};
              sim.rays=v?mk():null; if(ab) ab.simB.rays=v?mk():null; },"tgRaysDesc"],
+    ["monitor",T("tgMonitor"),()=>monitorOn,(v)=>monitorOn=v,"tgMonitorDesc"]];
+  // 第79便(原仮定者指示): **グラフウィンドウ系のトグルは「グラフ」カテゴリへ分離**する
+  // (「表示」カテゴリの上に新設)。オーバーレイの重なり順・A/B 連動・ゼロコスト条件は不変で、
+  // UI の並びだけを変える
+  const graphToggles=[
     ["rotationCurve",T("tgCurve"),()=>!!sim.overlays.rotationCurve,setOv("rotationCurve"),"tgCurveDesc"],
     ["tempHistogram",T("tgTemp"),()=>!!sim.overlays.tempHistogram,setOv("tempHistogram"),"tgTempDesc"],
     ["spectrum",T("tgSpectrum"),()=>!!sim.overlays.spectrum,setOv("spectrum"),"tgSpectrumDesc"],
@@ -9171,8 +9161,7 @@ function buildParamRows(){
     // 第53便 53B(E14): 相変化グラフ(phaseChange プリセットのみ有効)
     ["phaseGraph",T("tgPhaseGraph"),()=>!!sim.overlays.phaseGraph,setOv("phaseGraph"),"tgPhaseGraphDesc"],
     // 第65便 65A: 機構スペクトル診断(全プリセット有効。OFF で計算コストもゼロ — mechspec.zero-cost)
-    ["mechSpectrum",T("tgMechSpec"),()=>!!sim.overlays.mechSpectrum,setOv("mechSpectrum"),"tgMechSpecDesc"],
-    ["monitor",T("tgMonitor"),()=>monitorOn,(v)=>monitorOn=v,"tgMonitorDesc"]];
+    ["mechSpectrum",T("tgMechSpec"),()=>!!sim.overlays.mechSpectrum,setOv("mechSpectrum"),"tgMechSpecDesc"]];
   // 第23便(原仮定者指示): 「表示」の各行もパラメータ名タップで説明を開閉(品質行と同じ pdesc 方式)
   const tapDesc=(row,lab,descKey)=>{
     if(!descKey) return;
@@ -9277,6 +9266,52 @@ function buildParamRows(){
     const cb=document.createElement("input"); cb.type="checkbox"; cb.id="scaleDispCb"; cb.checked=scaleDispOn;
     cb.addEventListener("change",()=>{ setScaleDisp(cb.checked); refreshScaleConv(); requestRender(); });
     row.appendChild(lab); row.appendChild(cb); disp.appendChild(row);
+  }
+  // 第74便 → **第79便(原仮定者指示): シミュレーション→表示カテゴリへ移動+指数の直値指定**。
+  // 表示換算(スケール換算表示・HUD)の指数だけを動かし、sim.params には一切書かない
+  // (物理不変 — QA scale.display-invariant)。プリセット読込で scaleTier の既定指数へ戻る
+  {
+    const row=document.createElement("div"); row.className="prow";
+    const lab=document.createElement("label"); lab.textContent=T("scaleExpLabel");
+    lab.style.flex="0 0 auto";
+    tapDesc(row,lab,"scaleExpDesc");
+    const rng=document.createElement("input"); rng.type="range"; rng.id="scaleExpSlider";
+    rng.min=-12; rng.max=24; rng.step=0.5; rng.style.flex="1"; rng.style.minWidth="60px";
+    rng.value=scaleExpNow();
+    // 第79便: 直値入力(スライダー範囲外の指数も受理 — clamp は -30〜30)
+    const num=document.createElement("input"); num.type="text"; num.className="valIn";
+    num.id="scaleExpIn"; num.inputMode="text"; num.autocomplete="off";
+    num.style.cssText="flex:0 0 62px;width:62px;text-align:right;";
+    const tierRow=document.createElement("div"); tierRow.className="scaleExpTier";
+    const nearTier=(x)=>{ let best=SCALE_TIERS[0], bd=1e9;
+      for(const t of SCALE_TIERS){ const d=Math.abs(SCALE_ANCHORS[t].expL-x); if(d<bd){bd=d; best=t;} }
+      return best; };
+    const updOut=()=>{ const x=scaleExpNow();
+      num.value=String(Math.round(x*10)/10);
+      tierRow.textContent=SCALE_EMOJI[nearTier(x)]+" "+T("scaleName_"+nearTier(x))+" — 10^"+(Math.round(x*10)/10)+" m";
+      rng.value=clamp(x,-12,24); };
+    updOut();
+    const setExp=(v)=>{ scaleExpOverride=clamp(v,-30,30); updOut(); refreshScaleConv(); requestRender(); };
+    rng.addEventListener("input",()=>setExp(parseFloat(rng.value)));
+    num.addEventListener("change",()=>{
+      const v=parseFloat(String(num.value).replace(/[,、\s]/g,"").replace(/[−ー–—－]/g,"-"));
+      if(isFinite(v)) setExp(v); else updOut();
+    });
+    row.appendChild(lab); row.appendChild(rng); row.appendChild(num);
+    disp.appendChild(row); disp.appendChild(tierRow);
+  }
+  // 第79便(原仮定者指示): 「グラフ」カテゴリ(グラフウィンドウ表示の切替)を「表示」の上に新設
+  {
+    const gg=document.createElement("div"); gg.className="group";
+    graphToggles.forEach(([id,label,get,set,descKey])=>{
+      const row=document.createElement("div"); row.className="prow";
+      const lab=document.createElement("label"); lab.textContent=label; lab.style.flex="1";
+      tapDesc(row,lab,descKey);
+      const cb=document.createElement("input"); cb.type="checkbox"; cb.checked=get();
+      cb.addEventListener("change",()=>{ set(cb.checked); requestRender(); });
+      row.appendChild(lab); row.appendChild(cb); gg.appendChild(row);
+    });
+    mkCatDetails(host,T("grpGraph"),null).appendChild(gg);
   }
   mkCatDetails(host,T("grpDisplay"),null).appendChild(disp);
   // v1.26: ロック中はプリセット読込・既定値復帰・A/B切替などの再構築後も条件を維持する
