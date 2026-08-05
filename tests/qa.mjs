@@ -879,15 +879,18 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
     const missing = HP.allPresets().filter(p => !String(p.id).startsWith('custom_'))
       .filter(p => !(p.en && p.en.name && p.en.description)).map(p => p.id);
     HP.setLang('en');
+    // 第79便: サンプルカテゴリをスケール順へ並べ替えたため、先頭 optgroup は
+    // 'Heat Lab'(熱の実験室)になる。従来順(root 昇格前)の 'Space & Time' も受理する
+    const g0 = document.querySelector('#presetSelect optgroup').label;
     const en = document.title.includes('Virtual Physics Lab')
-      && document.querySelector('#presetSelect optgroup').label === 'Space & Time'
+      && (g0 === 'Heat Lab' || g0 === 'Space & Time')
       && HP.getSystemPrompt().includes('Language override');
     HP.setLang('ja');
     const ja = document.title.includes('仮想物理ラボ') && !HP.getSystemPrompt().includes('Language override');
-    return { missing, en, ja };
+    return { missing, en, ja, g0 };
   });
   add('i18n.presets-en', r.missing.length === 0, r.missing.join(','));
-  add('i18n.toggle', r.en && r.ja, '');
+  add('i18n.toggle', r.en && r.ja, `EN=${r.en} JA=${r.ja} 先頭optgroup=${r.g0}`);
 }
 
 // ---- 3b) 第40便 40B(台帳4-80): i18n.claim-sync — ja/en の説明文が同じ主張を運んでいることを、
@@ -2868,7 +2871,14 @@ if (hasBadgeClassify) {
       out.hasLab = !!labBox;
       if (labBox) {
         const rows = [...labBox.querySelectorAll('.prow')];
-        out.labRows = rows.length;   // emergent2: 壁8行(4面×T/レート — rad なし)+ g_x/g_y = 10
+        // emergent2: 壁8行(4面×T/レート — rad なし)+ 一様重力 g_x/g_y。
+        // 第79便(原仮定者指示)で g_x/g_y は「時空」カテゴリへ移したので、移動後は 8 行・
+        // 移動前(root 昇格前)は 10 行。どちらの配置かを実測して期待値を決める
+        out.labRows = rows.length;
+        out.gravInLab = /一様重力/.test(labBox.textContent);
+        const stBox = [...document.querySelectorAll('#paramRows details.catParams')]
+          .find(d => (d.querySelector('summary').textContent || '').includes('時空'));
+        out.gravInSt = !!stBox && /一様重力 g_x/.test(stBox.textContent) && /一様重力 g_y/.test(stBox.textContent);
         // 未設定の面(天井=idx1)のレートを編集 → {mode:"heat",rate} が生成される。T=0/rate=0 は物理不変
         const rateRow = rows.find(r => (r.querySelector('label') || {}).textContent === (HP.T ? HP.T('pcWallRate')('天井') : '壁レート(天井)'));
         out.hasTopRate = !!rateRow;
@@ -2895,10 +2905,13 @@ if (hasBadgeClassify) {
     const htmlSrc57 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
     const tabScrollOk = /tabScroll\[curTab\]=\$\("#panel"\)\.scrollTop/.test(htmlSrc57)
       && /\$\("#panel"\)\.scrollTop=tabScroll\[t\]\|\|0/.test(htmlSrc57);
+    const want57 = d57.gravInLab ? 10 : 8;   // 第79便: g_x/g_y の所在で期待行数が変わる
     add('ui.57c-labbox',
-      d57.hasLab && d57.labRows === 10 && d57.hasTopRate && d57.created === true && d57.reset0 === true
+      d57.hasLab && d57.labRows === want57 && (d57.gravInLab || d57.gravInSt)
+      && d57.hasTopRate && d57.created === true && d57.reset0 === true
       && d57.keptOpen === true && tabScrollOk,
-      `実験箱カテゴリ=${d57.hasLab}・行数=${d57.labRows}(壁4面×2+g_x/g_y=10) / 未設定面の編集で生成=${d57.created}(レート0へ復帰=${d57.reset0} — 物理不変) / ` +
+      `実験箱カテゴリ=${d57.hasLab}・行数=${d57.labRows}(期待${want57}=壁4面×2${d57.gravInLab ? '+g_x/g_y' : ''}) / ` +
+      `一様重力の所在=${d57.gravInLab ? '実験箱(従来)' : '時空(第79便)'}・時空に有=${d57.gravInSt} / 未設定面の編集で生成=${d57.created}(レート0へ復帰=${d57.reset0} — 物理不変) / ` +
       `再構築後もカテゴリ開いたまま=${d57.keptOpen}(57B) / タブ別スクロール配線=${tabScrollOk}`);
 
     // ---- 第58便 58B: ①⏮初めから で相変化ノブ・壁温/壁レート編集を保持(h 正本のまま
@@ -2924,6 +2937,7 @@ if (hasBadgeClassify) {
         .find(d => (d.querySelector('summary').textContent || '').includes('実験箱'));
       const rows = lab ? [...lab.querySelectorAll('.prow')] : [];
       out.convRows = rows.length;
+      out.convGravInLab = !!lab && /一様重力/.test(lab.textContent);   // 第79便: 時空へ移動済みなら false
       const tRow = rows.find(r => (r.querySelector('label') || {}).textContent === (HP.T ? HP.T('pcWallT')('天井') : '壁温(天井)'));
       out.hasTopT = !!tRow;
       if (tRow) {
@@ -2936,11 +2950,12 @@ if (hasBadgeClassify) {
       HP.loadPreset('saturn', false);
       return out;
     });
+    const want58 = d58.convGravInLab ? 10 : 8;   // 第79便: g_x/g_y の所在で期待行数が変わる
     add('ui.58b-reset-keep',
       d58.keepPhase && d58.keepWall && d58.keepNew
-      && d58.convRows === 10 && d58.hasTopT && d58.topWasRad === true && d58.radConv === true,
+      && d58.convRows === want58 && d58.hasTopT && d58.topWasRad === true && d58.radConv === true,
       `⏮保持: 相変化ノブ(bondN/condN)=${d58.keepPhase}・既存壁=${d58.keepWall}・新設面=${d58.keepNew} / ` +
-      `rad面: convection 実験箱行=${d58.convRows}(4面すべて表示)・天井(rad)T編集→heat変換(レート保持)=${d58.radConv}`);
+      `rad面: convection 実験箱行=${d58.convRows}(期待${want58} — 4面すべて表示${d58.convGravInLab ? '+g_x/g_y' : '。一様重力は時空へ移動〔第79便〕'})・天井(rad)T編集→heat変換(レート保持)=${d58.radConv}`);
 
     // ---- 第61便 61B(レビューP1): チェックポイント・ワンタップ対照A/B・step/モデル時刻併記 ----
     const d61 = await page.evaluate(() => {
@@ -5273,10 +5288,16 @@ if (!FAST) {
       HP.setLang('ja');
       const labels = [...document.querySelectorAll('#presetSelect optgroup')].map(o => o.label);
       const hasBox = HP.allPresets().some(p => p.group === '箱宇宙');
+      // 第79便(原仮定者指示): サンプルカテゴリの表示順をスケール準拠へ並べ替え
+      // (分子=熱の実験室 → 日常〜天体の基礎=空間と時間 → 天体=光/天体の物語 → 銀河 → 宇宙全体=箱宇宙)。
+      // 第79便を適用していない対象(root 昇格前)は従来順のままなので、両方を許容して判定する
+      const wantNew = hasBox ? ['熱の実験室', '空間と時間', '光', '天体の物語', '銀河', '箱宇宙'] : null;
       const want = hasBox ? ['空間と時間', '箱宇宙', '銀河', '光', '熱の実験室', '天体の物語']
                           : ['空間と時間', '銀河', '光', '熱の実験室', '天体の物語'];
       res.groups = labels.slice(0, want.length);
-      res.groupsOk = JSON.stringify(res.groups) === JSON.stringify(want);
+      res.groupsOk = JSON.stringify(res.groups) === JSON.stringify(want)
+        || (!!wantNew && JSON.stringify(res.groups) === JSON.stringify(wantNew));
+      res.scaleOrder = !!wantNew && JSON.stringify(res.groups) === JSON.stringify(wantNew);
       // ② kFrame 中間値の解消: 全内蔵の physics.kFrame は 0 か 1
       res.kfBad = HP.allPresets().filter(p => !String(p.id).startsWith('custom_'))
         .filter(p => p.physics.kFrame !== 0 && p.physics.kFrame !== 1).map(p => p.id);
@@ -5300,7 +5321,7 @@ if (!FAST) {
       res.basePlain = HP.aiUserContent('テスト要望XYZ') === 'テスト要望XYZ';
       return res;
     });
-    add('groups.reorder', r.groupsOk, `optgroups=${JSON.stringify(r.groups)}`);
+    add('groups.reorder', r.groupsOk, `optgroups=${JSON.stringify(r.groups)}(${r.scaleOrder ? '第79便 スケール準拠順' : '従来順'})`);
     add('preset.kframe-binary01', r.kfBad.length === 0, r.kfBad.join(',') || '全内蔵 kFrame∈{0,1}');
     add('params.radius-default', r.radiusDef === 1, `radiusScale既定=${r.radiusDef}(=1)`);
     add('ai.base-context', r.baseOpts >= 28 && r.baseCtx && r.basePlain,

@@ -41,10 +41,10 @@ const EXTRA_SAMPLES = ['echo', 'freebox',
   'emergent', 'emergent2', 'chain2',
   // 第73便(v1.36.0 昇格): v1.36 線の新サンプル — 昇格により root にも揃い自動で比較ゲート化
   'galaxyStd', 'galaxyGeo2', 'chaincycle',
-  // 第74便: v1.37 線の新サンプル(ディスク/バルジ381体・ローター星雲98体)— root 未昇格の間は
-  // informational 計測(昇格時に自動で比較ゲートへ)
+  // 第74〜78便: v1.37 線の新サンプル(ディスク/バルジ381体・ローター星雲98体・重殻98体・
+  // 双極83体・星の種3体・DFM版BH 321体)— **第79便 v1.37.0 昇格により root にも揃い、
+  // ここから自動で比較ゲートへ昇格する**
   'galaxyDB', 'nebulaRotor',
-  // 第75便: 重殻ローター星雲98体・双極星雲83体(同上)
   'nebulaShell', 'nebulaBipolar',
   // 第77便: 星の種ローター3体(コアv2 — 軽量だが v2 パスの常時計測として)
   'starSeed',
