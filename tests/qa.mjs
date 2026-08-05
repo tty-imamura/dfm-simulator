@@ -3683,6 +3683,94 @@ if (!FAST) {
     }
   }
 
+  // ---- 8a2b4b) 第77便: コアv2 — 独立コアの力学(zero-shell・収縮・τ_cs・保存) ----
+  // ①zero-shell: 殻 spin=0+独立コア Ω=12 が300步後も保持され減光が立つ(旧比率仕様では
+  //   0×coreSR=0 で不可能だった形)②収縮: J 厳密保存で Ω=J/I 上昇(裁定「スピン加速の主要因=
+  //   自己重力圧縮」の機械化)③τ_cs: コア⇄殻の J 交換が合計保存(T7 拡張)
+  {
+    const hasV2 = await page.evaluate(() => {
+      const v = HP.validatePreset({ name: 't', description: 'd', camera: { scale: 200 },
+        world: { boundary: 'none', size: 0 }, physics: {},
+        bodies: [{ type: 'single', m: 30, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false,
+          core: { mode: 'differential', massFrac: 0.3, radius: 1.8, omega: 12 } }] });
+      return v.ok && !!v.preset.bodies[0].core;
+    });
+    if (hasV2) {
+      const r = await page.evaluate(() => {
+        const PH = { G: 0.8, D0: 1.5, kFrame: 1, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, Kt: 50,
+          cLight: 40, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1,
+          pnAlpha: 1.5, radiusScale: 1, softening: 3, timeScale: 1 };
+        const build = (core) => { const v = HP.validatePreset({ name: 't', description: 'd',
+          camera: { scale: 300 }, world: { boundary: 'none', size: 0 }, seed: 7, physics: PH,
+          bodies: [{ type: 'single', rMul: 1, m: 30, x: 0, y: 0, vx: 0, vy: 0, spin: 0,
+            pinned: false, radius: 6, lightSweep: 'auto', core }] });
+          HP.sim.build(v.preset); return HP.sim; };
+        const out = {};
+        { const S = build({ mode: 'differential', massFrac: 0.3, radius: 1.8, omega: 12 });
+          for (let k = 0; k < 300; k++) S.step(0.016);
+          const cs = HP.coreState(0);
+          out.zs = { lSw: S.lSw[0], om: cs.omega, shell: S.spin[0], nan: S.hasNaN() }; }
+        { const S = build({ mode: 'differential', massFrac: 0.3, radius: 3, omega: 2, contract: 0.05 });
+          const J0 = HP.coreState(0).J;
+          for (let k = 0; k < 1200; k++) S.step(0.016);
+          const cs = HP.coreState(0);
+          out.ct = { J0, J1: cs.J, om1: cs.omega, Rc1: cs.Rc, work: S.coreWork, nan: S.hasNaN() }; }
+        { const S = build({ mode: 'differential', massFrac: 0.3, radius: 1.8, omega: 12, Kcs: 0.05 });
+          const Ish = 0.5 * 30 * 36;
+          const t0 = HP.coreState(0).J + Ish * S.spin[0];
+          for (let k = 0; k < 2400; k++) S.step(0.016);
+          const cs = HP.coreState(0);
+          out.tq = { om1: cs.omega, shell1: S.spin[0],
+            drift: Math.abs(cs.J + Ish * S.spin[0] - t0), nan: S.hasNaN() }; }
+        return out;
+      });
+      add('core.v2-mech',
+        !r.zs.nan && !r.ct.nan && !r.tq.nan
+        && r.zs.lSw > 0.7 && Math.abs(r.zs.om - 12) < 0.5 && r.zs.shell === 0
+        && r.ct.J0 === r.ct.J1 && r.ct.om1 > 10 && r.ct.work > 0
+        && r.tq.shell1 > 0.02 && r.tq.om1 < 11 && r.tq.drift < 1e-3,
+        `zero-shell: lSw=${r.zs.lSw.toFixed(3)}(>0.7) Ω=${r.zs.om.toFixed(2)}(≈12) 殻=${r.zs.shell}(=0) / ` +
+        `収縮: J ${r.ct.J0}→${r.ct.J1}(厳密保存) Ω→${r.ct.om1.toFixed(1)}(>10・Rc=${r.ct.Rc1.toFixed(2)}) W=${r.ct.work.toFixed(0)} / ` +
+        `τ_cs: コア→殻 J 移送(殻=${r.tq.shell1.toFixed(3)}) 合計ドリフト=${r.tq.drift.toExponential(1)}(<1e-3)`);
+    } else {
+      console.log('SKIP core.v2-mech(対象に第77便 コアv2 未適用 — root 等)');
+    }
+  }
+
+  // ---- 8a2b4c) 第77便: 🌱starSeed — 圧縮スピンアップ+パワーボール ----
+  // 差動種A: Ω 1.5→約162(比107.9・窓80〜140)・減光0.14→0.999(≥0.98)。rigid種B: 同じ揺すりで
+  // 減速(spin 3→2.61・比0.8〜0.95)。帳簿込み総 L 保存(<1e-3)。対照(pump/contract 0)は不変
+  {
+    const hasSeed = await page.evaluate(() => HP.allPresets().some(p => p.id === 'starSeed'));
+    if (hasSeed) {
+      const r = await page.evaluate(() => {
+        HP.loadPreset('starSeed', false);
+        const S = HP.sim;
+        const om0 = HP.coreState(1).omega;
+        const L0 = S.totals().L + S.resL + S.radL;
+        const sB0 = S.spin[2];
+        for (let k = 0; k < 6000; k++) S.step(0.016);
+        const L1 = S.totals().L + S.resL + S.radL;
+        let lScale = 0;
+        for (let i = 0; i < S.n; i++) lScale += Math.abs(S.m[i] * (S.x[i] * S.vy[i] - S.y[i] * S.vx[i]))
+          + 0.5 * S.m[i] * S.R[i] * S.R[i] * Math.abs(S.spin[i]);
+        return { om0, om1: HP.coreState(1).omega, lSwA: S.lSw[1], sB0, sB1: S.spin[2],
+          relL: Math.abs(L1 - L0) / Math.max(lScale, 1e-9), work: S.coreWork,
+          nan: S.hasNaN(), clampV: S.clampVN };
+      });
+      const ratio = r.om1 / r.om0, bRatio = r.sB1 / r.sB0;
+      add('claim.starseed-powerball',
+        !r.nan && r.clampV === 0 && ratio >= 80 && ratio <= 140
+        && r.lSwA >= 0.98 && bRatio >= 0.8 && bRatio <= 0.95
+        && r.relL < 1e-3 && r.work > 0,
+        `種A: Ω比=${ratio.toFixed(1)}(窓80〜140・実測107.9) 減光=${r.lSwA.toFixed(4)}(≥0.98) / ` +
+        `種B(軸固定): spin比=${bRatio.toFixed(3)}(0.8〜0.95 — 同じ揺すりで減速) / ` +
+        `帳簿込み|ΔL|=${r.relL.toExponential(1)}(<1e-3) コア仕事W=${r.work.toFixed(0)}`);
+    } else {
+      console.log('SKIP claim.starseed-powerball(対象に 🌱starSeed なし — root 等。第77便)');
+    }
+  }
+
   // ---- 8a2b5) 第75便: 🐚nebulaShell — 重殻+高速コアの耐圧試験 ----
   // 熱圧 kRep=0.3 の下で「同じ暗さ」を保てるのは 2層だけであることを機械固定する:
   // 2層(既定)= コア lS̄ 0.8〜0.95・保持≥0.93・エンベロープ保持=1 ⇔ 単層対照(同一幾何・

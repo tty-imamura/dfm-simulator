@@ -1224,7 +1224,7 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
 const APP_VERSION = "1.36";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 // 第36便 B1(原仮定者指示): タイトル下に表示するbeta配信時のビルド番号。beta/sw.js の
 // CACHE 接尾辞と同期させる(QA: version.beta-label)。ルート昇格後は使わない("v"+APP_VERSION 表示に戻る)
-const BETA_BUILD = "v1.37-b4";   // 第76便: ダークローター正式定義+BH仮説実験(exp-4-77)
+const BETA_BUILD = "v1.37-b5";   // 第77便: コアv2(独立コア・パワーボール・収縮)+🌱星の種
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 // 第71便 P0 → 第72便(ChatGPT Release レビュー P2: マジックナンバーの定数化):
 // E6′③反作用の1サブステップ上限(速度のみ)。較正実測(第71便): 正常域最大は 🕶️ の
@@ -3355,6 +3355,51 @@ const BUILTIN_PRESETS = [
   ],
   // 温度ヒストグラム(左右の平均温度)は球対称の星では意味を持たないので出さない(🌪️spinup と同じ)
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
+// 第77便: 🌱starSeed — 星の種ローター(コアv2 の実演)。裁定(2026-08-05): コアのスピン加速の
+// 主要因=自己重力圧縮(contract — J保存で Ω=J/I 上昇・核融合は密度増の副産物)。さらに加速する
+// 副機構としてパワーボール原理(ジャイロ器具の2Dアナログ — 殻の振動加速度が「手首の揺すり」。
+// コアが差動〔軸自由〕なら加速・rigid〔軸固定〕なら減速)。実測 tests/exp-4-78.mjs
+{ id:"starSeed", name:"星の種ローター — 圧縮とパワーボール", emoji:"🌱", group:"天体の物語",
+  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  sampleClass:"principle",
+  descStruct:{
+    summary:"星の種(prestellar core 類似)がダークローターへ育つ過程の原理実験 — コアv2(第77便拡張: 中心コアを J_core を主変数とする独立サブシステムにした)の最初の実演。親天体(固定)のまわりの鏡像楕円軌道に2つの種を置く: 種A=差動コア(軸が自由)・種B=剛体コア(軸を固定)。スピン加速の主要因は自己重力圧縮 — コア半径が縮むと角運動量保存(A13)で角速度が増す(Ω=J/I・核融合は密度が増す過程の副産物でありエネルギー源の主役ではない)。副機構はパワーボール原理: 楕円軌道の重力による揺すり(加速度の変動)が、軸の自由な差動コアの回転を加速する — ジャイロ効果のトレーニング器具と同じで、軸を固定した種Bは同じ揺すりで逆に減速する。",
+    observe:"実測(seed固定・6000步): 種Aのコア角速度は1.5から約162へ(圧縮でコア半径3→0.44・J保存の上昇×パワーボールの汲み上げ)、減光は0.14から実測0.99へ — 明るい種が周回しながら暗黒天体へ育つ(2層減光・A9)。種B(軸固定)は同じ揺すりで殻スピンが3から2.61へ減速する。ポンプと圧縮を切った対照では角速度1.5のまま・減光0.14のまま — 何も育たない。帳簿: パワーボールの角運動量はリザーバと等量交換・仕事はHUDの「コア仕事W」に明示され、総角運動量は帳簿込みで保存する(相対ずれ3e-6・A13/T7)。※実在の原始星のスピン進化・磁気制動の再現主張ではない(Negative Claims)。",
+    control:"おすすめ対照は画面内蔵 — 種A(右・差動)と種B(左・軸固定)が同じ揺すりへの逆応答を同時に見せる。kFrame=0 にすると引きずり経由の揺すり成分が変わり、タップで各種の減光実効値を確認できる。"},
+  en:{name:"Star-Seed Rotor — Compression & Powerball", descStruct:{
+    summary:"A principle experiment on how a star seed (prestellar-core analogue) grows into a dark rotor — the first demonstration of Core v2 (Wave 77 extension: the central core becomes an independent subsystem with J_core as its primary variable). Two seeds ride mirrored elliptical orbits around a pinned parent: seed A has a differential core (free axis), seed B a rigid core (locked axis). The main driver of core spin-up is self-gravitational compression — as the core radius shrinks, conservation of angular momentum (A13) raises the angular velocity (Ω=J/I; fusion is a byproduct of the rising density, not the prime mover). The secondary booster is the powerball principle: the gravitational shaking of an eccentric orbit (varying acceleration) accelerates a free-axis differential core — just like the gyroscopic training ball — while the locked-axis seed B is slowed by the very same shaking. ",
+    observe:"Measured (fixed seed, 6000 steps): seed A's core angular velocity grows from 1.5 to about 162 (core radius 3→0.44 under compression with J conserved, times the powerball pumping), and its dimming rises from 0.14 to a measured 0.99 — a bright seed orbits while maturing into a dark body (two-layer dimming, A9). Seed B (locked axis) is decelerated by the same shaking, its shell spin dropping from 3 to 2.61. In the control with pump and compression off, nothing grows — the angular velocity stays 1.5 and the dimming 0.14. Ledgers: the powerball's angular momentum is exchanged one-for-one with the reservoir, its work is shown explicitly as 'core work W' in the HUD, and total angular momentum is conserved ledger-inclusive (relative drift 3e-6 — A13/T7). Not a claim about real protostellar spin evolution or magnetic braking (Negative Claims). ",
+    control:"The suggested control is built into the screen — seed A (right, differential) and seed B (left, locked axis) show opposite responses to the same shaking side by side. Set kFrame=0 to change the dragging component of the shaking; tap either seed to inspect its effective dimming."}},
+  activeParams:["kFrame","cLight","G"],
+  validT:96,   // 実測窓(6000步=t≈96)と一致
+  claims:[
+    { id:"starSeed.core-spinup", kind:"fixed-seed", metric:"coreOmegaRatio",
+      expected:{min:80, max:140},   // 実測107.9(exp-4-78: Ω 1.5→161.8)
+      descPattern:"コア角速度は1\\.5から約(\\d+)へ",
+      descScale:0.6666666666666666,   // 説明文は終値162 — 比(×1/1.5)へ換算して照合
+      testId:"claim.starseed-powerball" },
+    { id:"starSeed.seed-dimming", kind:"fixed-seed", metric:"seedFinalDimming",
+      expected:{min:0.98, max:1},   // 実測0.9987
+      descPattern:"減光は0\\.14から実測(\\d+\\.\\d+)へ",
+      testId:"claim.starseed-powerball" }
+  ],
+  camera:{scale:320}, world:{boundary:"none",size:0}, seed:20260805,
+  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:50,
+    cLight:40, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:3, timeScale:2},
+  bodies:[
+    // 親天体(固定・揺すりの源になる楕円軌道の中心)
+    {type:"single", rMul:1, m:400, x:0,y:0, vx:0,vy:0, spin:0, pinned:true, radius:10},
+    // 種A(右): 差動コア=軸自由 — 圧縮+パワーボールで育ち、暗くなる
+    {type:"single", rMul:1, m:40, x:120,y:0, vx:0,vy:1.2, spin:0.3, pinned:false,
+     radius:6, lightSweep:"auto",
+     core:{mode:"differential", massFrac:0.3, radius:3, omega:1.5, pump:2.5, contract:0.02}},
+    // 種B(左): 剛体コア=軸固定 — 同じ揺すりで減速する対照
+    {type:"single", rMul:1, m:40, x:-120,y:0, vx:0,vy:-1.2, spin:3, pinned:false,
+     radius:6, lightSweep:"auto",
+     core:{mode:"rigid", massFrac:0.3, radius:3, pump:2.5}}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,trailTargets:"all",monitor:true} },
 ];
 // 第50便 50K(台帳4-78 C案): descStruct を持つ内蔵プリセットは description をその連結から
 // 生成する(要約/観察/操作の**純分割**の同一性を構造的に保証 — 内容の重複記述もしない。
@@ -3469,6 +3514,36 @@ function validatePreset(obj){
           if(b[k]!==undefined){
             if(!isNum(b[k])){ bad(at+"."+k+" が数値ではありません"); return; }
             o[k]=wc(b[k],lo,hi,k);
+          }
+        }
+        // 第77便(コアv2): core:{} — 中心コアの独立サブシステム(single 限定・opt-in)。
+        // 旧比率仕様(coreMR/coreSR/coreRR)とは別経路で、J_core を主変数とする絶対量管理:
+        //   mode:"rigid"(殻と剛体回転 — パワーボールの「軸固定」対照)|"differential"(独立Ω)
+        //   massFrac=Mc/m・radius=Rc(絶対)・omega=初期Ωc(J=½McRc²·Ω で初期化)・
+        //   Kcs=コア/殻トルク結合・pump=パワーボール係数・contract=収縮率(J保存でΩ上昇)
+        // 旧キーと併記された場合は core を優先し旧キーを無効化(警告)。詳細は CHANGELOG v1.37-b5
+        if(b.core!==undefined){
+          const c=b.core;
+          if(!c || typeof c!=="object" || Array.isArray(c)){ warnings.push(at+".core はオブジェクトが必要 — 無視します"); }
+          else{
+            const MODES=["rigid","differential"];
+            const mode=(MODES.indexOf(c.mode)>=0)? c.mode : "differential";
+            if(c.mode!==undefined && MODES.indexOf(c.mode)<0) warnings.push(at+'.core.mode は "rigid"/"differential" — differential に修正');
+            const oc={mode};
+            let ok=true;
+            for(const [k,lo,hi,req] of [["massFrac",0.01,0.6,1],["radius",0.2,200,1],
+                ["omega",-50,50,0],["Kcs",0,10,0],["pump",0,5,0],["contract",0,0.2,0]]){
+              if(c[k]===undefined){ if(req){ warnings.push(at+".core."+k+" が必要 — core を無視します"); ok=false; break; } oc[k]=0; continue; }
+              if(!isNum(c[k])){ bad(at+".core."+k+" が数値ではありません"); return; }
+              oc[k]=wc(c[k],lo,hi,"core."+k);
+            }
+            if(ok){
+              o.core=oc;
+              if(o.coreMR||o.coreRR||(b.coreSR!==undefined&&b.coreSR!==1)){
+                warnings.push(at+": core:{} と旧 coreMR/coreSR/coreRR の併記 — core を優先し旧キーを無効化");
+                o.coreMR=0; o.coreSR=1; o.coreRR=0;
+              }
+            }
           }
         }
         // 第36便 C2: lightSweep は数値(0〜1・従来の独立指定)に加えて "auto"(粒子パラメータからの
@@ -4409,6 +4484,11 @@ function makeSim(){
     S.coreMR=F();S.coreSR=F();S.mEff=F();S.Rc=F();S.rotAc=F();   // 主星2層(第12〜14便)
     S.lSw=F();S.radOv=F();S.coreRRv=F();// 観測系(第22便 — obsT/coreOT は第61便で廃止)
     S.coreSR.fill(1);   // コアスピン比の既定は 1(剛体回転=単層等価)
+    // 第77便(コアv2): 独立コア(single 限定・opt-in)。J_core が主変数(Float64 — 帳簿精度)。
+    // coreMd: 0=なし(旧比率経路含む)・1=rigid(軸固定)・2=differential(独立Ω)。
+    // RcV は updateRadii に触らせない(収縮 contract が動的に縮めるため)
+    S.coreMd=new Uint8Array(n); S.coreMF=F(); S.RcV=F(); S.coreJ=new Float64Array(n);
+    S.coreKcs=F(); S.corePump=F(); S.coreCtr=F(); S.coreOmV=F(); S.hasCoreV2=false;
     S.rMulv=new Float64Array(n); S.rMulv.fill(1);   // 第36便 C1: 半径倍率(既定1。倍精度で保持)
     S.lSwAuto=new Uint8Array(n); S.hasLSwAuto=false;// 第36便 C2: 掻出の自動算出フラグ(既定0=独立指定)
     S.uPx=F();S.uPy=F();S.tau=F();S.ax=F();S.ay=F();S.sumW=F();S.uAx=F();S.uAy=F();S.ds=F();
@@ -4450,6 +4530,7 @@ function makeSim(){
           rMul:(b.rMul===undefined?1:b.rMul),   // 第36便 C1: 粒子ごとの半径倍率(既定1)
           tInt:(b.tInt===undefined?0:b.tInt)};  // 第36便 D: 内部温度の初期値(thermal:"tint" 専用・既定0)
         if(b.zonal) o.zonal=b.zonal;   // E13(第11次裁定): 扁平中心天体の帯状重力属性
+        if(b.core) o.core=b.core;      // 第77便(コアv2): 独立コア(validate 済みオブジェクト)
         // 第27便: 単体粒子のレール駆動(pinned+railOmega — 円軌道。🕶️ハローの
         // 20体相互散乱による形崩れ対策: 軌道を外部が規定し、u場への運動寄与は維持される)
         // 第32便(台帳4-57): レール中心 railCx/railCy(未指定=原点で従来式と厳密等価)
@@ -4591,6 +4672,15 @@ function makeSim(){
       S.rMulv[i]=(o.rMul===undefined?1:o.rMul);   // 第36便 C1: 半径倍率(既定1)
       if(S.Tint) S.Tint[i]=(o.tInt===undefined?0:o.tInt);   // 第36便 D: 内部温度の初期値(tint モードのみ)
       S.radOv[i]=(o.radius===undefined?0:o.radius); S.coreRRv[i]=(o.coreRR===undefined?0:o.coreRR);
+      // 第77便(コアv2): 独立コア。J_core=½·Mc·Rc²·omega で初期化(以後 J が主変数)
+      if(o.core){
+        const c=o.core, Mc=c.massFrac*Math.abs(o.m||0);
+        S.coreMd[i]=(c.mode==="rigid")?1:2; S.coreMF[i]=c.massFrac; S.RcV[i]=c.radius;
+        S.coreJ[i]=0.5*Mc*c.radius*c.radius*(c.omega||0);
+        S.coreKcs[i]=c.Kcs||0; S.corePump[i]=c.pump||0; S.coreCtr[i]=c.contract||0;
+        S.hasCoreV2=true;
+      } else { S.coreMd[i]=0; S.coreMF[i]=0; S.RcV[i]=0; S.coreJ[i]=0;
+        S.coreKcs[i]=0; S.corePump[i]=0; S.coreCtr[i]=0; }
       S.railH[i]=o.railH||0;
       if(o.railOmega||o.railH){ S.railR[i]=o.railR; S.railAng[i]=o.railAng; S.railCx[i]=o.railCx; S.railCy[i]=o.railCy; }
       if(o.zonal) S.zonal={i, refR:o.zonal.refR, J:o.zonal.J, calib:(o.zonal.calib||1), _A:null};
@@ -4731,6 +4821,7 @@ function makeSim(){
     S.resPx=0; S.resPy=0; S.resL=0; S.radE=0; S.radL=0;
     S.wallEin=0; S.wallEout=0; S.wallKE=0;   // 第37便 C1(台帳4-70): 壁帳簿もリセット
     S.pinHeat=0;   // 第47便 47A(台帳4-86): pinned 熱浴の帳簿もリセット
+    S.coreWork=0;  // 第77便(コアv2): パワーボール仕事+収縮の回転エネルギー増(外部仕事の明示帳簿)
     // 第50便 50E(台帳4-89): 安全クランプの帳簿 — 発動回数を数えるだけ(クランプの規則
     // そのものは1ビットも変えない)。保存則を主張する全構成で「発動0回」を QA が機械固定する
     // (clamp.ledger-zero)。V=速度100 / S=スピン±40(step 内)/ H=Hubble率±0.5(boxScaleAt)
@@ -4926,6 +5017,12 @@ function makeSim(){
         // 材質係数: 連続量は質量重み平均・離散フラグは重い側を継ぐ(融合体は単一の粒子)
         const wi=mi/mn, wj=mj/mn, heavy=(Math.abs(mi)>=Math.abs(mj))? i : j;
         S.coreMR[i]=S.coreMR[i]*wi+S.coreMR[j]*wj; S.coreSR[i]=S.coreSR[heavy];
+        // 第77便(コアv2): 融合体はコアv2を継承しない(防御的 — v2 と融合の併用は次段)。
+        // 消える J_core はリザーバ帳簿へ(T7 恒等式維持)
+        if(S.hasCoreV2 && (S.coreMd[i]||S.coreMd[j])){
+          S.resL+=S.coreJ[i]+S.coreJ[j];
+          S.coreMd[i]=0; S.coreMF[i]=0; S.RcV[i]=0; S.coreJ[i]=0; S.coreKcs[i]=0; S.corePump[i]=0; S.coreCtr[i]=0;
+        }
         // (obsT/coreOT は第61便で廃止 — 質量重み合成も不要に)
         S.lSw[i]=S.lSw[i]*wi+S.lSw[j]*wj; S.lSwAuto[i]=S.lSwAuto[heavy];
         S.coreRRv[i]=S.coreRRv[heavy]; S.tau[i]=S.tau[i]*wi+S.tau[j]*wj;
@@ -4988,6 +5085,7 @@ function makeSim(){
     const k=keep.length;
     const mv=(a)=>{ if(!a) return; for(let t=0;t<k;t++){ const s0=keep[t]; if(s0!==t) a[t]=a[s0]; } };
     for(const key of ["m","x","y","vx","vy","spin","R","rotA","coreMR","coreSR","mEff","Rc","rotAc",
+      "coreMd","coreMF","RcV","coreJ","coreKcs","corePump","coreCtr",   // 第77便(コアv2)
       "lSw","radOv","coreRRv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
@@ -5020,6 +5118,7 @@ function makeSim(){
     if(need<=cap) return cap;
     const nc=Math.max(need, cap+Math.max(8, cap>>1));
     for(const key of ["m","x","y","vx","vy","spin","R","rotA","coreMR","coreSR","mEff","Rc","rotAc",
+      "coreMd","coreMF","RcV","coreJ","coreKcs","corePump","coreCtr",   // 第77便(コアv2)
       "lSw","radOv","coreRRv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
@@ -5027,7 +5126,7 @@ function makeSim(){
       const a=S[key]; if(!a) continue;
       const b=new a.constructor(nc); b.set(a); S[key]=b;
     }
-    for(let i=cap;i<nc;i++){ S.coreSR[i]=1; S.rMulv[i]=1; }   // alloc と同じ既定値
+    for(let i=cap;i<nc;i++){ S.coreSR[i]=1; S.rMulv[i]=1; S.coreMd[i]=0; S.coreMF[i]=0; S.coreJ[i]=0; }   // alloc と同じ既定値(+コアv2)
     S.pairD=new Float32Array(Math.max(1,nc*(nc-1)/2));
     S.railIdx=null; S.periDet=null;     // index 依存のキャッシュは作り直させる
     S._fusDead=null; S._fusInto=null; S._ts=null;
@@ -5154,6 +5253,7 @@ function makeSim(){
       else S.radOv[j]=0;
       // 材質係数は両片が親を引き継ぐ(分裂は同じ材質の2片に割れる)
       S.coreMR[j]=S.coreMR[i]; S.coreSR[j]=S.coreSR[i];
+      S.coreMd[j]=0; S.coreMF[j]=0; S.RcV[j]=0; S.coreJ[j]=0; S.coreKcs[j]=0; S.corePump[j]=0; S.coreCtr[j]=0;   // 第77便: 破片はコアv2を継承しない(防御的)
       S.lSw[j]=S.lSw[i]; S.lSwAuto[j]=S.lSwAuto[i]; S.coreRRv[j]=S.coreRRv[i]; S.tau[j]=S.tau[i];
       S.rotA[j]=S.rotA[i]; S.rotAc[j]=S.rotAc[i]; S.hasU[j]=S.hasU[i]; S.pinned[j]=0;
       S.Rc[i]=(S.coreRRv[i]>0)? S.coreRRv[i]*R1 : ((S.radOv[i]>0? rs : rs*S.rMulv[i])*Math.sqrt(Math.abs(S.coreMR[i]*E1)));
@@ -5210,6 +5310,18 @@ function makeSim(){
     const {mEff:m,x,y,vx,vy,spin,R,pinned,ax,ay,sumW,uAx,uAy,ds,dpx,dpy,pairD,coreMR,coreSR,Rc,lSw,
            accVx,accVy,accS}=S;   // 第40便 40A(台帳4-81): ③反作用の倍精度アキュムレータ
     const hasCore=S.hasCore;
+    const hasCoreV2=S.hasCoreV2;   // 第77便: 対ループ内はローカル参照(プロパティ参照のホットループコスト回避)
+    // 第77便(コアv2): Ω_c = J_core/I_c をサブステップ冒頭に一括算出(①対ループが参照)。
+    // coreJ/RcV は ②末尾の v2 パスでのみ更新されるため、①の間は不変(uPrev と同じ意味論)。
+    // v2 粒子ゼロの宇宙はこのループごと素通り(ゼロコスト)
+    if(hasCoreV2){
+      for(let i=0;i<S.n;i++){
+        if(S.coreMd[i]===2){
+          const Ic=0.5*S.coreMF[i]*Math.abs(m[i])*S.RcV[i]*S.RcV[i];
+          S.coreOmV[i]=(Ic>1e-12)? S.coreJ[i]/Ic : 0;
+        } else S.coreOmV[i]=0;
+      }
+    }
     // 第36便 D(台帳4-51 / A9 改訂): 温度の内部状態変数モード。tint=false(既定)のときは
     // 以下の分岐がすべて偽側へ落ち、現行と1ビットも違わない値が出る(QA tint.zero-cost)
     // 第39便 39B(台帳4-76): spin モードでは null ではなくダミー TypedArray を掴む(__DF32/__DF64 の
@@ -5446,6 +5558,15 @@ function makeSim(){
           if(cmri!==0 && si!==0 && Rc[i]>0){ const chi=coreSR[i];
             if(chi!==1){ const tt=Rc[i]/(Rc[i]+d); omi += cmri*si*(chi-1)*((q===2)? tt*tt : Math.pow(tt,q)); } }
         }
+        // 第77便(コアv2): 独立コア(differential)の差動が A8 と同型で外へ届く —
+        // ω += (Mc/m)·(Ω_c−s)·f(RcV,d)。coreOmV は substep 冒頭に一括算出(J/I)。
+        // v2 粒子ゼロの宇宙はこの分岐を 1 命令も通らない(hasCoreV2 ローカルゲート)
+        if(hasCoreV2){
+          if(S.coreMd[j]===2 && S.RcV[j]>0){ const dOm=S.coreOmV[j]-sj;
+            if(dOm!==0){ const tt=S.RcV[j]/(S.RcV[j]+d); omj += S.coreMF[j]*dOm*((q===2)? tt*tt : Math.pow(tt,q)); } }
+          if(S.coreMd[i]===2 && S.RcV[i]>0){ const dOm=S.coreOmV[i]-si;
+            if(dOm!==0){ const tt=S.RcV[i]/(S.RcV[i]+d); omi += S.coreMF[i]*dOm*((q===2)? tt*tt : Math.pow(tt,q)); } }
+        }
         uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));
         uAx[j]+=wi*(vx[i]+omi*(dy));  uAy[j]+=wi*(vy[i]+omi*(-dx));
         // ===== 第69便 P4b(E12v2): geoPN=2 の ∇u 用勾配集積(g2on のときだけ走る)=====
@@ -5465,6 +5586,13 @@ function makeSim(){
             const cmri=coreMR[i];
             if(cmri!==0 && si!==0 && Rc[i]>0){ const chi=coreSR[i];
               if(chi!==1){ const tt=Rc[i]/(Rc[i]+d), oc=cmri*si*(chi-1)*((q===2)? tt*tt : Math.pow(tt,q)); domi-=q*oc/(Rc[i]+d); } }
+          }
+          // 第77便(コアv2): 独立コアの差動勾配(A8 v2 分岐と同じ核)
+          if(hasCoreV2){
+            if(S.coreMd[j]===2 && S.RcV[j]>0){ const dOm=S.coreOmV[j]-sj;
+              if(dOm!==0){ const tt=S.RcV[j]/(S.RcV[j]+d), oc=S.coreMF[j]*dOm*((q===2)? tt*tt : Math.pow(tt,q)); domj-=q*oc/(S.RcV[j]+d); } }
+            if(S.coreMd[i]===2 && S.RcV[i]>0){ const dOm=S.coreOmV[i]-si;
+              if(dOm!==0){ const tt=S.RcV[i]/(S.RcV[i]+d), oc=S.coreMF[i]*dOm*((q===2)? tt*tt : Math.pow(tt,q)); domi-=q*oc/(S.RcV[i]+d); } }
           }
           { // i 側(源 j): r−r_j=(dx,dy)、c=(vx_j−ω_j·dy, vy_j+ω_j·dx)
             const gwx=-mj*dx*invd3, gwy=-mj*dy*invd3;
@@ -5861,6 +5989,21 @@ function makeSim(){
           const acm=Math.abs(cmr);
           const wS=(1-acm)*Ri*Ri*si0*si0, wC=acm*Rci*Rci*sDiff*sDiff;
           ls=(wS+wC>0)? (wS*lsS + wC*lsC)/(wS+wC) : 0;
+        } else if(hasCoreV2 && S.coreMd[i]===2 && S.RcV[i]>0 && S.coreOmV[i]!==si0){
+          // 第77便(コアv2): 独立コアの2層減光 — 第75便の式の (coreSR−1)·s を (Ω_c−s) に置換。
+          // 殻 s=0 でもコアだけで暗くなれる(w_s=0 → lSw=ls_c。冷たい殻は発光ゼロなので整合)
+          const Rci=S.RcV[i], mf=S.coreMF[i];
+          const tt=Rci/(Rci+Ri);
+          const dOm=S.coreOmV[i]-si0;
+          const sSurf=si0 + mf*dOm*((qA===2)? tt*tt : Math.pow(tt,qA));
+          let lsS=(cS>1e-12)? Math.abs(sSurf)*Ri/cS : 1;
+          if(!(lsS>0)) lsS=0; else if(lsS>1) lsS=1;
+          const psiC=(bgW + sumW[i] + Math.abs(m[i])/Math.sqrt(Rci*Rci+eps2))/KtA;
+          const cC=c0A*Math.exp(-2*psiC);
+          let lsC=(cC>1e-12)? Math.abs(dOm)*Rci/cC : 1;
+          if(!(lsC>0)) lsC=0; else if(lsC>1) lsC=1;
+          const wS=(1-mf)*Ri*Ri*si0*si0, wC=mf*Rci*Rci*dOm*dOm;
+          ls=(wS+wC>0)? (wS*lsS + wC*lsC)/(wS+wC) : 0;
         } else {
           const vS=Math.abs(si0)*Ri;
           ls=(cS>1e-12)? vS/cS : 1;
@@ -6050,6 +6193,75 @@ function makeSim(){
     // pinQ は「pinned に入った熱」= 粒子系から出た熱なので、そのまま加算すれば
     // ΔH_free + pinHeat = 0(κs 以外の熱源が無い構成)になる
     if(pinQ!==0) S.pinHeat+=pinQ;
+    // ===== 第77便(コアv2): コア状態の更新パス(収縮・パワーボール・τ_cs 結合)=====
+    // 裁定(2026-08-05): ①スピン加速の主要因=自己重力圧縮(contract で R_c 縮小・J 保存で
+    //   Ω=J/I 自動上昇。核融合は副産物 — 本パスに熱源は無い)②パワーボール原理の 2D アナログ:
+    //   殻の振動加速度 a_osc=|a| が「手首の揺すり」。differential(軸自由)は τ_pb で加速・
+    //   rigid(軸固定)は同じ forcing が殻スピンを減速。
+    // 帳簿: ポンプ/減速の J はリザーバ resL と等量交換・τ_cs はコア⇄殻の等量交換(totals() が
+    //   coreJ を含むので T7 恒等式は閉じる)。仕事・収縮のエネルギー増は coreWork(外部仕事の
+    //   明示帳簿 — fusU と同格)・散逸は radE。doPost 限定(leapfrog 二重適用なし)
+    if(hasCoreV2 && doPost){
+      for(let i=0;i<S.n;i++){
+        const md=S.coreMd[i]; if(md===0) continue;
+        const Mc=S.coreMF[i]*Math.abs(m[i]); if(!(Mc>1e-9)) continue;
+        if(md===1){   // rigid: 軸固定 — pump は殻スピンを減速(実物のパワーボールと同じ)
+          if(S.corePump[i]>0 && !pinned[i] && spin[i]!==0){
+            const aosc=Math.hypot(ax[i],ay[i]);
+            if(aosc>0){
+              const Ish=0.5*Math.abs(m[i])*R[i]*R[i];
+              if(Ish>1e-12){
+                let dJ=S.corePump[i]*Mc*S.RcV[i]*aosc*dt;
+                const lim=Math.abs(Ish*spin[i])*0.25; if(dJ>lim) dJ=lim;
+                const sgn=(spin[i]>0)?1:-1;
+                spin[i]-=sgn*dJ/Ish;
+                S.resL+=sgn*dJ;                       // J はリザーバへ(T7)
+                S.radE+=Math.abs(dJ*spin[i]);         // 減速の散逸(近似 τ·ω)
+              }
+            }
+          }
+          continue;
+        }
+        // differential
+        let Rci=S.RcV[i];
+        let Ic=0.5*Mc*Rci*Rci; if(!(Ic>1e-12)) continue;
+        // ① 収縮(J 保存 → Ω 自動上昇。E_rot 増は重力圧縮の解放分として coreWork へ)
+        if(S.coreCtr[i]>0){
+          const E0=(S.coreJ[i]*S.coreJ[i])/(2*Ic);
+          Rci*=Math.exp(-S.coreCtr[i]*dt);
+          const rmin=0.02*R[i]; if(Rci<rmin) Rci=rmin;
+          S.RcV[i]=Rci; Ic=0.5*Mc*Rci*Rci;
+          if(Ic>1e-12) S.coreWork+=(S.coreJ[i]*S.coreJ[i])/(2*Ic)-E0;
+        }
+        if(!(Ic>1e-12)) continue;
+        let Om=S.coreJ[i]/Ic;
+        // ② パワーボール(軸自由 → 加速。種スピン必須 — Ω_c=0 では立ち上がらない)
+        if(S.corePump[i]>0 && !pinned[i] && Om!==0){
+          const aosc=Math.hypot(ax[i],ay[i]);
+          if(aosc>0){
+            let dJ=S.corePump[i]*Mc*Rci*aosc*dt;
+            const lim=Math.abs(S.coreJ[i])*0.25; if(dJ>lim) dJ=lim;
+            const sgn=(Om>0)?1:-1;
+            S.coreJ[i]+=sgn*dJ;
+            S.resL-=sgn*dJ;                           // 反作用 J はリザーバ(=「手首」)へ
+            S.coreWork+=Math.abs(dJ*Om);              // 外部仕事の帳簿
+            Om=S.coreJ[i]/Ic;
+          }
+        }
+        // ③ τ_cs 結合(コア⇄殻の J 交換 — 等量反対符号で保存。解析的指数緩和で安定)
+        if(S.coreKcs[i]>0 && !pinned[i]){
+          const Ish=0.5*Math.abs(m[i])*R[i]*R[i];
+          const dOm=Om-spin[i];
+          if(dOm!==0 && Ish>1e-12){
+            const mu=Ic*Ish/(Ic+Ish);
+            const f=1-Math.exp(-S.coreKcs[i]*dt/mu);
+            const dJ=mu*dOm*f;
+            S.coreJ[i]-=dJ; spin[i]+=dJ/Ish;
+            S.radE+=Math.abs(dJ*dOm)*0.5;             // 相対回転の散逸(近似)
+          }
+        }
+      }
+    }
     // ===== ③ E6′ 反作用対ループ: φ_ij 分配・残余トルクのスピン移譲・リザーバ帳簿 =====
     // 第35便: anyDp は doPost の中でしか立たないので、leapfrog パスAでは自動的に素通りする
     // 第40便 40A(台帳4-81): 対ごとの反作用(vx/vy/spin への減算)は Float32 の状態配列へ
@@ -6361,6 +6573,7 @@ function makeSim(){
     for(let i=0;i<S.n;i++){
       px+=S.m[i]*S.vx[i]; py+=S.m[i]*S.vy[i];
       L+=S.m[i]*(S.x[i]*S.vy[i]-S.y[i]*S.vx[i]) + 0.5*S.m[i]*S.R[i]*S.R[i]*S.spin[i];
+      if(S.hasCoreV2 && S.coreMd[i]===2) L+=S.coreJ[i];   // 第77便(コアv2): 独立コアの J も総 L
     }
     return {px,py,L};
   };
@@ -7898,6 +8111,8 @@ function loop(now){
       // 実際に熱が出入りしたサンプル(κs>0 + pinned + thermal:"tint")でだけ1行増える
       // (他のサンプルでは pinHeat が厳密に 0 のままなので 1 文字も増えない)。表示のみ・物理不変
       if(sim.pinHeat!==0) txt+=`\n固定天体へ流出E=${fmt(sim.pinHeat)}`;
+      // 第77便(コアv2): パワーボール仕事+収縮の回転エネルギー増(外部仕事の明示 — 発動時のみ)
+      if(sim.coreWork) txt+=`\nコア仕事W=${fmt(sim.coreWork)}`;
       // 第50便 50E(台帳4-89): 安全クランプの帳簿 — 発動があったときだけ1行追記
       // (保存則主張の構成では厳密0で不可視のまま。発動していたら保存則の主張域外であることの明示)
       if(sim.clampVN||sim.clampSN||sim.clampHN) txt+=`\n${T("hudClamp")(sim.clampVN,sim.clampSN,sim.clampHN)}`;
@@ -8150,6 +8365,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   if(simB.m.length>=sim.n){
     for(const k of ["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy",
       "coreMR","coreSR","mEff","Rc","rotAc",   // 主星2層の状態も転写(第14便: 比率仕様)
+      "coreMd","coreMF","RcV","coreJ","coreKcs","corePump","coreCtr",   // 第77便(コアv2)
       "lSw","radOv","coreRRv",                 // 観測系(第22便 — obsT/coreOT は第61便で廃止)
       "rMulv","lSwAuto",                       // 第36便 C1/C2: 半径倍率・掻出の自動算出フラグ
       // 第45便 45B: 転写長は「A 側の生存粒子数 sim.n」に固定する(分裂で確保長が A 側だけ
@@ -8284,9 +8500,10 @@ function applyPhaseEdits(S,o){
 let ckSnap=null;
 const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU","pinned",
   "coreMR","coreSR","mEff","Rc","rotAc","lSw","radOv","coreRRv","rMulv","lSwAuto",
+  "coreMd","coreMF","RcV","coreJ","coreKcs","corePump","coreCtr",
   "railR","railAng","railOmega","railCx","railCy","railH",
   "Tint","coordN","coordAcc","shPrev","_phNbrPrev","_phNbrPrevN","_phProf"];
-const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wallKE","pinHeat",
+const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wallKE","pinHeat","coreWork",
   "clampVN","clampSN","clampHN","clampAN","clampRN","angOvfN","_phAcc","_phNbrInit",
   "fusN","fusU","fusPx","fusPy","fusL","fisN","aEffRef","_bhLastA","_bhLastT","_bhAcc"];
 function ckInvalidate(){ ckSnap=null; $("#btnCkLoad").disabled=true; }
@@ -10773,6 +10990,12 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   overlaySlots, overlayBaseY, PARAM_DEFS, paramDesc,  // v1.21: スロット配置/パラメータ説明のQA用
   ovMin, aiUserContent,  // 第26便: グラフ最小化/AIベースサンプルのQA用
   // 第74便: 5段階スケール(分類・表示換算)のQA用フック — すべて表示専用で物理不変
+  // 第77便(コアv2): QA/実験用の読み口(表示・検査専用)
+  coreState:(i)=>{ const S=sim; if(!S.hasCoreV2||!S.coreMd[i]) return null;
+    const Mc=S.coreMF[i]*Math.abs(S.m[i]), Ic=0.5*Mc*S.RcV[i]*S.RcV[i];
+    return { mode:S.coreMd[i]===1?"rigid":"differential", massFrac:S.coreMF[i], Rc:S.RcV[i],
+      J:S.coreJ[i], omega:(Ic>1e-12)? S.coreJ[i]/Ic : 0, Kcs:S.coreKcs[i],
+      pump:S.corePump[i], contract:S.coreCtr[i] }; },
   SCALE_TIERS, SCALE_ANCHORS, scaleTM, scaleConvStr, scaleExpNow,
   setScaleExp:(x)=>{ scaleExpOverride=(x===null? null : +x); refreshScaleConv(); },
   scaleDisp:()=>scaleDispOn, setScaleDisp:(v)=>{ setScaleDisp(v); refreshScaleConv(); },
