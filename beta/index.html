@@ -3577,6 +3577,30 @@ function validatePreset(obj){
     const wc=(v,lo,hi,k)=>{ const c=clamp(v,lo,hi); if(c!==v) warnings.push(at+"."+k+" を値域に修正"); return c; };
     const CO=(v,k)=>wc(v,-5000,5000,k), LEN=(v,k)=>wc(v,0,5000,k), MASS=(v,k)=>wc(v,0.01,5000,k),
           VEL=(v,k)=>wc(v,-50,50,k), SPN=(v,k)=>wc(v,-20,20,k);
+    // 第80便(コアv2): core:{} の検証を single/disk/ring で共有する(第77便は single 限定の
+    // インライン実装だった)。戻り値: 正規化オブジェクト / null=core を採用しない(警告済み) /
+    // false=致命(呼び出し側は body ごと捨てる)。値域・既定は第77便の single 実装を踏襲し、
+    // 第80便で mode に "active"(sourceRate)/"cavity"(空洞)と sourceRate/internalEnergy/
+    // voidFraction を追加した。旧 mode("rigid"/"differential")の受理・クランプは 1 文字も変えない
+    const vCore=(c)=>{
+      if(!c || typeof c!=="object" || Array.isArray(c)){ warnings.push(at+".core はオブジェクトが必要 — 無視します"); return null; }
+      const MODES=["rigid","differential","active","cavity"];
+      const mode=(MODES.indexOf(c.mode)>=0)? c.mode : "differential";
+      if(c.mode!==undefined && MODES.indexOf(c.mode)<0) warnings.push(at+'.core.mode は "rigid"/"differential"/"active"/"cavity" — differential に修正');
+      const cav=(mode==="cavity");
+      const oc={mode};
+      // [キー, 下限, 上限, 必須]。cavity は質量0(massFrac 不要・下限0)で voidFraction が必須。
+      // 逆に cavity 以外では voidFraction は 0 が正常値なので下限を 0 にする(round-trip した
+      // JSON が「値域に修正」の警告を出さないための対称化)
+      for(const [k,lo,hi,req] of [["massFrac",cav?0:0.01,0.6,cav?0:1],["radius",0.2,200,1],
+          ["omega",-50,50,0],["Kcs",0,10,0],["pump",0,5,0],["contract",0,0.2,0],
+          ["sourceRate",0,100,0],["internalEnergy",0,1e9,0],["voidFraction",cav?0.01:0,1,cav?1:0]]){
+        if(c[k]===undefined){ if(req){ warnings.push(at+".core."+k+" が必要 — core を無視します"); return null; } oc[k]=0; continue; }
+        if(!isNum(c[k])){ bad(at+".core."+k+" が数値ではありません"); return false; }
+        oc[k]=wc(c[k],lo,hi,"core."+k);
+      }
+      return oc;
+    };
     const out=[];
     p.bodies.forEach((b,idx)=>{
       at="bodies["+idx+"]";
@@ -3626,33 +3650,22 @@ function validatePreset(obj){
             o[k]=wc(b[k],lo,hi,k);
           }
         }
-        // 第77便(コアv2): core:{} — 中心コアの独立サブシステム(single 限定・opt-in)。
+        // 第77便(コアv2): core:{} — 中心コアの独立サブシステム(opt-in。第80便で disk/ring 群にも開放)。
         // 旧比率仕様(coreMR/coreSR/coreRR)とは別経路で、J_core を主変数とする絶対量管理:
-        //   mode:"rigid"(殻と剛体回転 — パワーボールの「軸固定」対照)|"differential"(独立Ω)
+        //   mode:"rigid"(殻と剛体回転 — パワーボールの「軸固定」対照)|"differential"(独立Ω)|
+        //        "active"(differential+sourceRate で E_int を増やす)|"cavity"(空洞 — 質量0)
         //   massFrac=Mc/m・radius=Rc(絶対)・omega=初期Ωc(J=½McRc²·Ω で初期化)・
-        //   Kcs=コア/殻トルク結合・pump=パワーボール係数・contract=収縮率(J保存でΩ上昇)
-        // 旧キーと併記された場合は core を優先し旧キーを無効化(警告)。詳細は CHANGELOG v1.37-b5
+        //   Kcs=コア/殻トルク結合・pump=パワーボール係数・contract=収縮率(J保存でΩ上昇)・
+        //   sourceRate=dE_int/dt(active)・internalEnergy=E_int 初期値・voidFraction=空洞率(cavity)
+        // 旧キーと併記された場合は core を優先し旧キーを無効化(警告)。詳細は CHANGELOG v1.37-b5/v1.38-b1
         if(b.core!==undefined){
-          const c=b.core;
-          if(!c || typeof c!=="object" || Array.isArray(c)){ warnings.push(at+".core はオブジェクトが必要 — 無視します"); }
-          else{
-            const MODES=["rigid","differential"];
-            const mode=(MODES.indexOf(c.mode)>=0)? c.mode : "differential";
-            if(c.mode!==undefined && MODES.indexOf(c.mode)<0) warnings.push(at+'.core.mode は "rigid"/"differential" — differential に修正');
-            const oc={mode};
-            let ok=true;
-            for(const [k,lo,hi,req] of [["massFrac",0.01,0.6,1],["radius",0.2,200,1],
-                ["omega",-50,50,0],["Kcs",0,10,0],["pump",0,5,0],["contract",0,0.2,0]]){
-              if(c[k]===undefined){ if(req){ warnings.push(at+".core."+k+" が必要 — core を無視します"); ok=false; break; } oc[k]=0; continue; }
-              if(!isNum(c[k])){ bad(at+".core."+k+" が数値ではありません"); return; }
-              oc[k]=wc(c[k],lo,hi,"core."+k);
-            }
-            if(ok){
-              o.core=oc;
-              if(o.coreMR||o.coreRR||(b.coreSR!==undefined&&b.coreSR!==1)){
-                warnings.push(at+": core:{} と旧 coreMR/coreSR/coreRR の併記 — core を優先し旧キーを無効化");
-                o.coreMR=0; o.coreSR=1; o.coreRR=0;
-              }
+          const oc=vCore(b.core);
+          if(oc===false) return;
+          if(oc){
+            o.core=oc;
+            if(o.coreMR||o.coreRR||(b.coreSR!==undefined&&b.coreSR!==1)){
+              warnings.push(at+": core:{} と旧 coreMR/coreSR/coreRR の併記 — core を優先し旧キーを無効化");
+              o.coreMR=0; o.coreSR=1; o.coreRR=0;
             }
           }
         }
@@ -3735,6 +3748,20 @@ function validatePreset(obj){
           if(!isNum(b.coreRR)){ bad(at+".coreRR が数値ではありません"); return; }
           oR.coreRR=wc(b.coreRR,0.02,1,"coreRR");
         }
+        // 第80便(コアv2): 群共通の core:{}(single と同じ意味論・クランプ)。massFrac は各メンバーの
+        // 質量に対する比・radius/omega は絶対量なので、群の全メンバーが同じコア設定を持つ。
+        // 未指定=従来と厳密等価(RNG 消費も push するオブジェクトの形も不変 — 第77便知見①)
+        if(b.core!==undefined){
+          const oc=vCore(b.core);
+          if(oc===false) return;
+          if(oc){
+            oR.core=oc;
+            if(oR.coreMR||oR.coreRR||(b.coreSR!==undefined&&b.coreSR!==1)){
+              warnings.push(at+": core:{} と旧 coreMR/coreSR/coreRR の併記 — core を優先し旧キーを無効化");
+              delete oR.coreMR; delete oR.coreSR; delete oR.coreRR;
+            }
+          }
+        }
         // 第31便: railH(膨張レール)— pinned リングを a(t)=e^{H·t} で相似膨張させる規定運動
         if(b.railH!==undefined){
           if(!isNum(b.railH)){ bad(at+".railH が数値ではありません"); return; }
@@ -3777,6 +3804,18 @@ function validatePreset(obj){
         if(b.coreRR!==undefined){
           if(!isNum(b.coreRR)){ bad(at+".coreRR が数値ではありません"); return; }
           oD.coreRR=wc(b.coreRR,0.02,1,"coreRR");
+        }
+        // 第80便(コアv2): 群共通の core:{}(ring と同じ — single と同じ意味論・クランプ)
+        if(b.core!==undefined){
+          const oc=vCore(b.core);
+          if(oc===false) return;
+          if(oc){
+            oD.core=oc;
+            if(oD.coreMR||oD.coreRR||(b.coreSR!==undefined&&b.coreSR!==1)){
+              warnings.push(at+": core:{} と旧 coreMR/coreSR/coreRR の併記 — core を優先し旧キーを無効化");
+              delete oD.coreMR; delete oD.coreSR; delete oD.coreRR;
+            }
+          }
         }
         out.push(oD);
       } else if(t==="box"){
@@ -4605,11 +4644,18 @@ function makeSim(){
     S.coreMR=F();S.coreSR=F();S.mEff=F();S.Rc=F();S.rotAc=F();   // 主星2層(第12〜14便)
     S.lSw=F();S.radOv=F();S.coreRRv=F();// 観測系(第22便 — obsT/coreOT は第61便で廃止)
     S.coreSR.fill(1);   // コアスピン比の既定は 1(剛体回転=単層等価)
-    // 第77便(コアv2): 独立コア(single 限定・opt-in)。J_core が主変数(Float64 — 帳簿精度)。
-    // coreMd: 0=なし(旧比率経路含む)・1=rigid(軸固定)・2=differential(独立Ω)。
+    // 第77便(コアv2): 独立コア(opt-in。第80便で disk/ring 群にも開放)。J_core が主変数
+    // (Float64 — 帳簿精度)。coreMd: 0=なし(旧比率経路含む)・1=rigid(軸固定)・
+    // 2=differential(独立Ω)・3=active(differential+sourceRate)・4=cavity(空洞)。
     // RcV は updateRadii に触らせない(収縮 contract が動的に縮めるため)
     S.coreMd=new Uint8Array(n); S.coreMF=F(); S.RcV=F(); S.coreJ=new Float64Array(n);
     S.coreKcs=F(); S.corePump=F(); S.coreCtr=F(); S.coreOmV=F(); S.hasCoreV2=false;
+    // 第80便(コアv2 残段): coreEint=コア内部エネルギー(Float64 — 帳簿 coreSrcE と突き合わせる)・
+    // coreSrc=sourceRate(active のみ)・coreOm0=cavity の規定 Ω(空洞は慣性0で J を持てないため、
+    // Ω は状態変数ではなく規定値。differential 系は coreOmV=J/I を毎サブステップ再計算する)。
+    // **coreMF は cavity のとき負値**(=引きずり重み −voidFraction)を格納するが、これは質量ではなく
+    // 重みであり、空洞の質量・慣性はどちらも厳密に 0(負質量はどこにも生じない)
+    S.coreEint=new Float64Array(n); S.coreSrc=F(); S.coreOm0=F();
     S.rMulv=new Float64Array(n); S.rMulv.fill(1);   // 第36便 C1: 半径倍率(既定1。倍精度で保持)
     S.lSwAuto=new Uint8Array(n); S.hasLSwAuto=false;// 第36便 C2: 掻出の自動算出フラグ(既定0=独立指定)
     S.uPx=F();S.uPy=F();S.tau=F();S.ax=F();S.ay=F();S.sumW=F();S.uAx=F();S.uAy=F();S.ds=F();
@@ -4669,6 +4715,7 @@ function makeSim(){
         const tI=(b.tInt===undefined?0:b.tInt);   // 第36便 D: 群共通の内部温度初期値(既定0)
         const lS=b.lightSweep;   // 第70便: 群共通の減光(未指定=undefined → P.forEach で 0)
         const cMR=b.coreMR, cSR=b.coreSR, cRR=b.coreRR;   // 第75便: 群共通の主星2層(未指定=従来等価)
+        const cCore=b.core;   // 第80便: 群共通のコアv2(未指定=undefined → o に core キーを付けない)
         for(let i=0;i<b.n;i++){
           let ang,r,x,y,tries=0;
           do{
@@ -4687,6 +4734,7 @@ function makeSim(){
             vy:vt*jit*ty + vr*Math.sin(ang) + (b.bulkVy||0),
             spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:b.pinned?1:0, railOmega:0, rMul:rM, tInt:tI, lightSweep:lS,
             coreMR:cMR, coreSR:cSR, coreRR:cRR};
+          if(cCore) o.core=cCore;   // 第80便: 群コア(付けない構成ではキーごと存在しない = 形も従来どおり)
           // 第31便: railH(膨張レール a(t)=e^{H·t})— pinned リングを相似膨張で規定駆動する。
           // 位置は初期半径から毎step解析再構成(前stepへの加算ではないのでドリフトしない)
           if(b.pinned && (b.vMode==="omega" || b.railH)){
@@ -4715,6 +4763,7 @@ function makeSim(){
         const tI=(b.tInt===undefined?0:b.tInt);   // 第36便 D: 群共通の内部温度初期値(既定0)
         const lS=b.lightSweep;   // 第70便: 群共通の減光(未指定=undefined → P.forEach で 0)
         const cMR=b.coreMR, cSR=b.coreSR, cRR=b.coreRR;   // 第75便: 群共通の主星2層(未指定=従来等価)
+        const cCore=b.core;   // 第80便: 群共通のコアv2(未指定=undefined → o に core キーを付けない)
         for(let i=0;i<b.n;i++){
           let ang,r,x,y,tries=0;
           do{
@@ -4729,10 +4778,12 @@ function makeSim(){
           else if(b.vMode==="hubble"){ vX=b.vScale*(x-b.cx)*b.direction; vY=b.vScale*(y-b.cy)*b.direction; }   // 第31便: 初期 Hubble 流 v=H·(r−c)(vScale=H)
           else if(b.vMode==="random"){ const a2=rng()*Math.PI*2, v=b.vScale*rng(); vX=v*Math.cos(a2); vY=v*Math.sin(a2); }
           if(b.vMode!=="hubble"){ vX += (rng()*2-1)*0.02; vY += (rng()*2-1)*0.02; }   // 第31便: hubble は共動初期条件を乱さない
-          push({m:b.mMin+(b.mMax-b.mMin)*rng(), x,y,
+          const o={m:b.mMin+(b.mMax-b.mMin)*rng(), x,y,
             vx:vX+(b.bulkVx||0), vy:vY+(b.bulkVy||0),   // v1.18: 母集団の並進速度
             spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:0, railOmega:0, rMul:rM, tInt:tI, lightSweep:lS,
-            coreMR:cMR, coreSR:cSR, coreRR:cRR});
+            coreMR:cMR, coreSR:cSR, coreRR:cRR};
+          if(cCore) o.core=cCore;   // 第80便: 群コア(付けない構成ではキーごと存在しない = 形も従来どおり)
+          push(o);
         }
       } else if(b.type==="box"){
         const rM=(b.rMul===undefined?1:b.rMul);   // 第36便 C1: 群共通の半径倍率(既定1)
@@ -4815,14 +4866,25 @@ function makeSim(){
       if(S.Tint) S.Tint[i]=(o.tInt===undefined?0:o.tInt);   // 第36便 D: 内部温度の初期値(tint モードのみ)
       S.radOv[i]=(o.radius===undefined?0:o.radius); S.coreRRv[i]=(o.coreRR===undefined?0:o.coreRR);
       // 第77便(コアv2): 独立コア。J_core=½·Mc·Rc²·omega で初期化(以後 J が主変数)
+      // 第80便: mode を4種へ拡張。cavity は質量0・慣性0なので J を持たず、Ω は規定値 coreOm0。
+      // 引きずり重みは coreMF=−voidFraction(旧 coreMR<0 と同じ符号反転を「重み」として表す)
       if(o.core){
-        const c=o.core, Mc=c.massFrac*Math.abs(o.m||0);
-        S.coreMd[i]=(c.mode==="rigid")?1:2; S.coreMF[i]=c.massFrac; S.RcV[i]=c.radius;
-        S.coreJ[i]=0.5*Mc*c.radius*c.radius*(c.omega||0);
+        const c=o.core;
+        if(c.mode==="cavity"){
+          S.coreMd[i]=4; S.coreMF[i]=-(c.voidFraction||0); S.RcV[i]=c.radius;
+          S.coreJ[i]=0; S.coreOm0[i]=c.omega||0;
+        } else {
+          const Mc=c.massFrac*Math.abs(o.m||0);
+          S.coreMd[i]=(c.mode==="rigid")?1:((c.mode==="active")?3:2);
+          S.coreMF[i]=c.massFrac; S.RcV[i]=c.radius;
+          S.coreJ[i]=0.5*Mc*c.radius*c.radius*(c.omega||0); S.coreOm0[i]=0;
+        }
         S.coreKcs[i]=c.Kcs||0; S.corePump[i]=c.pump||0; S.coreCtr[i]=c.contract||0;
+        S.coreSrc[i]=c.sourceRate||0; S.coreEint[i]=c.internalEnergy||0;
         S.hasCoreV2=true;
       } else { S.coreMd[i]=0; S.coreMF[i]=0; S.RcV[i]=0; S.coreJ[i]=0;
-        S.coreKcs[i]=0; S.corePump[i]=0; S.coreCtr[i]=0; }
+        S.coreKcs[i]=0; S.corePump[i]=0; S.coreCtr[i]=0;
+        S.coreSrc[i]=0; S.coreEint[i]=0; S.coreOm0[i]=0; }
       S.railH[i]=o.railH||0;
       if(o.railOmega||o.railH){ S.railR[i]=o.railR; S.railAng[i]=o.railAng; S.railCx[i]=o.railCx; S.railCy[i]=o.railCy; }
       if(o.zonal) S.zonal={i, refR:o.zonal.refR, J:o.zonal.J, calib:(o.zonal.calib||1), _A:null};
@@ -4964,6 +5026,10 @@ function makeSim(){
     S.wallEin=0; S.wallEout=0; S.wallKE=0;   // 第37便 C1(台帳4-70): 壁帳簿もリセット
     S.pinHeat=0;   // 第47便 47A(台帳4-86): pinned 熱浴の帳簿もリセット
     S.coreWork=0;  // 第77便(コアv2): パワーボール仕事+収縮の回転エネルギー増(外部仕事の明示帳簿)
+    // 第80便(コアv2): coreSrcE = active コアの sourceRate による**外部注入エネルギーの累積**
+    // (fusU/coreWork と同格のリザーバ帳簿)。恒等式は Σ_i E_int,i − Σ_i E_int,i(t=0) = coreSrcE。
+    // 融合・分裂は E_int を等量で分配/合算するので、この恒等式は粒子数が変わっても閉じたまま
+    S.coreSrcE=0;
     // 第50便 50E(台帳4-89): 安全クランプの帳簿 — 発動回数を数えるだけ(クランプの規則
     // そのものは1ビットも変えない)。保存則を主張する全構成で「発動0回」を QA が機械固定する
     // (clamp.ledger-zero)。V=速度100 / S=スピン±40(step 内)/ H=Hubble率±0.5(boxScaleAt)
@@ -5159,11 +5225,37 @@ function makeSim(){
         // 材質係数: 連続量は質量重み平均・離散フラグは重い側を継ぐ(融合体は単一の粒子)
         const wi=mi/mn, wj=mj/mn, heavy=(Math.abs(mi)>=Math.abs(mj))? i : j;
         S.coreMR[i]=S.coreMR[i]*wi+S.coreMR[j]*wj; S.coreSR[i]=S.coreSR[heavy];
-        // 第77便(コアv2): 融合体はコアv2を継承しない(防御的 — v2 と融合の併用は次段)。
-        // 消える J_core はリザーバ帳簿へ(T7 恒等式維持)
+        // 第80便(コアv2): 融合体は**保存則ベースでコアを継承する**(第77便の「非継承+J をリザーバへ
+        // 退避」を置き換え)。合成則は殻の融合則と同型:
+        //   M_c′ = M_c,i + M_c,j        (質量の単純和 — coreMF′ = M_c′/|m′|)
+        //   R_c′ = √(R_c,i² + R_c,j²)   (面積等価。殻の R′=√(R_i²+R_j²) と同じ一貫則)
+        //   J_c′ = J_c,i + J_c,j / E_int′ = E_int,i + E_int,j  (**リザーバを経由しない厳密和**)
+        // モードは「少なくとも一方が core 持ちなら differential 系を継承」(active が絡めば active —
+        // 注入源は融合で消えない)。係数(Kcs/pump/contract/sourceRate)は重い側を継ぐ(coreSR と同流儀)。
+        // cavity(質量0・J0)は融合で潰れる = 継承対象外(片方だけ cavity なら相手のコアを継ぐ)
         if(S.hasCoreV2 && (S.coreMd[i]||S.coreMd[j])){
-          S.resL+=S.coreJ[i]+S.coreJ[j];
-          S.coreMd[i]=0; S.coreMF[i]=0; S.RcV[i]=0; S.coreJ[i]=0; S.coreKcs[i]=0; S.corePump[i]=0; S.coreCtr[i]=0;
+          const mdi=S.coreMd[i], mdj=S.coreMd[j];
+          const hi2=(mdi>=1&&mdi<=3), hj2=(mdj>=1&&mdj<=3);
+          if(hi2||hj2){
+            const Mci=hi2? S.coreMF[i]*Math.abs(mi) : 0, Mcj=hj2? S.coreMF[j]*Math.abs(mj) : 0;
+            const Rci=hi2? S.RcV[i] : 0, Rcj=hj2? S.RcV[j] : 0;
+            const Jc=(hi2? S.coreJ[i] : 0)+(hj2? S.coreJ[j] : 0);
+            const Ec=(hi2? S.coreEint[i] : 0)+(hj2? S.coreEint[j] : 0);
+            // 係数の継承元: 双方が core 持ちなら重い側、片方だけならその粒子
+            const src=(hi2&&hj2)? heavy : (hi2? i : j);
+            const anyAct=(mdi===3)||(mdj===3);
+            // rigid どうしの融合は rigid のまま(軸固定の意味を保つ)。それ以外は differential 系
+            const bothRigid=(!hi2||mdi===1)&&(!hj2||mdj===1);
+            S.coreMd[i]=anyAct?3:(bothRigid?1:2);
+            S.coreMF[i]=(Math.abs(mS)>1e-9)? (Mci+Mcj)/Math.abs(mS) : 0;
+            S.RcV[i]=Math.sqrt(Rci*Rci+Rcj*Rcj);
+            S.coreJ[i]=Jc; S.coreEint[i]=Ec; S.coreOm0[i]=0;
+            S.coreKcs[i]=S.coreKcs[src]; S.corePump[i]=S.corePump[src];
+            S.coreCtr[i]=S.coreCtr[src]; S.coreSrc[i]=S.coreSrc[src];
+          } else {   // 双方 cavity: 空洞は融合で消える(質量0・J0 なので帳簿の出入りは無い)
+            S.coreMd[i]=0; S.coreMF[i]=0; S.RcV[i]=0; S.coreJ[i]=0; S.coreEint[i]=0;
+            S.coreKcs[i]=0; S.corePump[i]=0; S.coreCtr[i]=0; S.coreSrc[i]=0; S.coreOm0[i]=0;
+          }
         }
         // (obsT/coreOT は第61便で廃止 — 質量重み合成も不要に)
         S.lSw[i]=S.lSw[i]*wi+S.lSw[j]*wj; S.lSwAuto[i]=S.lSwAuto[heavy];
@@ -5228,6 +5320,7 @@ function makeSim(){
     const mv=(a)=>{ if(!a) return; for(let t=0;t<k;t++){ const s0=keep[t]; if(s0!==t) a[t]=a[s0]; } };
     for(const key of ["m","x","y","vx","vy","spin","R","rotA","coreMR","coreSR","mEff","Rc","rotAc",
       "coreMd","coreMF","RcV","coreJ","coreKcs","corePump","coreCtr",   // 第77便(コアv2)
+      "coreEint","coreSrc","coreOm0",   // 第80便(コアv2 残段): E_int・sourceRate・cavity 規定Ω
       "lSw","radOv","coreRRv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
@@ -5261,6 +5354,7 @@ function makeSim(){
     const nc=Math.max(need, cap+Math.max(8, cap>>1));
     for(const key of ["m","x","y","vx","vy","spin","R","rotA","coreMR","coreSR","mEff","Rc","rotAc",
       "coreMd","coreMF","RcV","coreJ","coreKcs","corePump","coreCtr",   // 第77便(コアv2)
+      "coreEint","coreSrc","coreOm0",   // 第80便(コアv2 残段): E_int・sourceRate・cavity 規定Ω
       "lSw","radOv","coreRRv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
@@ -5268,7 +5362,8 @@ function makeSim(){
       const a=S[key]; if(!a) continue;
       const b=new a.constructor(nc); b.set(a); S[key]=b;
     }
-    for(let i=cap;i<nc;i++){ S.coreSR[i]=1; S.rMulv[i]=1; S.coreMd[i]=0; S.coreMF[i]=0; S.coreJ[i]=0; }   // alloc と同じ既定値(+コアv2)
+    for(let i=cap;i<nc;i++){ S.coreSR[i]=1; S.rMulv[i]=1; S.coreMd[i]=0; S.coreMF[i]=0; S.coreJ[i]=0;
+      S.coreEint[i]=0; S.coreSrc[i]=0; S.coreOm0[i]=0; }   // alloc と同じ既定値(+コアv2・第80便)
     S.pairD=new Float32Array(Math.max(1,nc*(nc-1)/2));
     S.railIdx=null; S.periDet=null;     // index 依存のキャッシュは作り直させる
     S._fusDead=null; S._fusInto=null; S._ts=null;
@@ -5395,7 +5490,26 @@ function makeSim(){
       else S.radOv[j]=0;
       // 材質係数は両片が親を引き継ぐ(分裂は同じ材質の2片に割れる)
       S.coreMR[j]=S.coreMR[i]; S.coreSR[j]=S.coreSR[i];
-      S.coreMd[j]=0; S.coreMF[j]=0; S.RcV[j]=0; S.coreJ[j]=0; S.coreKcs[j]=0; S.corePump[j]=0; S.coreCtr[j]=0;   // 第77便: 破片はコアv2を継承しない(防御的)
+      // 第80便(コアv2): 破片は**質量比例でコアを継承する**(第77便の非継承を置き換え)。融合の逆写像:
+      //   M_c,k = (m_k/m)·M_c ⇒ coreMF は不変(比なので両片が親の値をそのまま持つ)
+      //   R_c,k = √(m_k/m)·R_c ⇒ R_c,1²+R_c,2² = R_c²(融合の √和 の厳密な逆)
+      //   J_c,1 = (m_1/m_Σ)·J_c、J_c,2 = J_c − J_c,1(**差で閉じる** — 和が Float64 で厳密に J_c)
+      //   E_int も同じ配り方(Σ E_int 不変 = coreSrcE 恒等式が分裂をまたいでも閉じる)
+      // Ω は I_c,k=(m_k/m)²·I_c により (m/m_k)·Ω へ上がる(J 比例配分の帰結)。cavity も同じ比で割れる
+      // (質量0・J0 のまま voidFraction を保つ)
+      if(S.hasCoreV2 && S.coreMd[i]){
+        const f1=m1t/mSum;
+        const J1c=S.coreJ[i]*f1, E1c=S.coreEint[i]*f1;
+        S.coreMd[j]=S.coreMd[i]; S.coreMF[j]=S.coreMF[i];
+        S.RcV[j]=Math.sqrt(m2t/mT)*S.RcV[i]; S.RcV[i]=Math.sqrt(m1t/mT)*S.RcV[i];
+        S.coreJ[j]=S.coreJ[i]-J1c; S.coreJ[i]=J1c;
+        S.coreEint[j]=S.coreEint[i]-E1c; S.coreEint[i]=E1c;
+        S.coreKcs[j]=S.coreKcs[i]; S.corePump[j]=S.corePump[i]; S.coreCtr[j]=S.coreCtr[i];
+        S.coreSrc[j]=S.coreSrc[i]; S.coreOm0[j]=S.coreOm0[i];
+      } else {
+        S.coreMd[j]=0; S.coreMF[j]=0; S.RcV[j]=0; S.coreJ[j]=0; S.coreKcs[j]=0; S.corePump[j]=0; S.coreCtr[j]=0;
+        S.coreEint[j]=0; S.coreSrc[j]=0; S.coreOm0[j]=0;
+      }
       S.lSw[j]=S.lSw[i]; S.lSwAuto[j]=S.lSwAuto[i]; S.coreRRv[j]=S.coreRRv[i]; S.tau[j]=S.tau[i];
       S.rotA[j]=S.rotA[i]; S.rotAc[j]=S.rotAc[i]; S.hasU[j]=S.hasU[i]; S.pinned[j]=0;
       S.Rc[i]=(S.coreRRv[i]>0)? S.coreRRv[i]*R1 : ((S.radOv[i]>0? rs : rs*S.rMulv[i])*Math.sqrt(Math.abs(S.coreMR[i]*E1)));
@@ -5456,9 +5570,13 @@ function makeSim(){
     // 第77便(コアv2): Ω_c = J_core/I_c をサブステップ冒頭に一括算出(①対ループが参照)。
     // coreJ/RcV は ②末尾の v2 パスでのみ更新されるため、①の間は不変(uPrev と同じ意味論)。
     // v2 粒子ゼロの宇宙はこのループごと素通り(ゼロコスト)
+    // 第80便: cavity(md=4)は慣性0で J を持たないため Ω は規定値 coreOm0(状態変数ではない)。
+    // active(md=3)は differential と同じ J/I 経路(sourceRate は E_int だけを増やす)
     if(hasCoreV2){
       for(let i=0;i<S.n;i++){
-        if(S.coreMd[i]===2){
+        const md=S.coreMd[i];
+        if(md===4) S.coreOmV[i]=S.coreOm0[i];
+        else if(md>=2){
           const Ic=0.5*S.coreMF[i]*Math.abs(m[i])*S.RcV[i]*S.RcV[i];
           S.coreOmV[i]=(Ic>1e-12)? S.coreJ[i]/Ic : 0;
         } else S.coreOmV[i]=0;
@@ -5714,10 +5832,12 @@ function makeSim(){
         // 第77便(コアv2): 独立コア(differential)の差動が A8 と同型で外へ届く —
         // ω += (Mc/m)·(Ω_c−s)·f(RcV,d)。coreOmV は substep 冒頭に一括算出(J/I)。
         // v2 粒子ゼロの宇宙はこの分岐を 1 命令も通らない(hasCoreV2 ローカルゲート)
+        // 第80便: md≥2 = differential(2)/active(3)/cavity(4) が同じ 1 本の式を通る。
+        // cavity は coreMF=−voidFraction(負の重み)なので、旧 coreMR<0 と同じ符号反転になる
         if(hasCoreV2){
-          if(S.coreMd[j]===2 && S.RcV[j]>0){ const dOm=S.coreOmV[j]-sj;
+          if(S.coreMd[j]>=2 && S.RcV[j]>0){ const dOm=S.coreOmV[j]-sj;
             if(dOm!==0){ const tt=S.RcV[j]/(S.RcV[j]+d); omj += S.coreMF[j]*dOm*((q===2)? tt*tt : Math.pow(tt,q)); } }
-          if(S.coreMd[i]===2 && S.RcV[i]>0){ const dOm=S.coreOmV[i]-si;
+          if(S.coreMd[i]>=2 && S.RcV[i]>0){ const dOm=S.coreOmV[i]-si;
             if(dOm!==0){ const tt=S.RcV[i]/(S.RcV[i]+d); omi += S.coreMF[i]*dOm*((q===2)? tt*tt : Math.pow(tt,q)); } }
         }
         uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));
@@ -5740,11 +5860,11 @@ function makeSim(){
             if(cmri!==0 && si!==0 && Rc[i]>0){ const chi=coreSR[i];
               if(chi!==1){ const tt=Rc[i]/(Rc[i]+d), oc=cmri*si*(chi-1)*((q===2)? tt*tt : Math.pow(tt,q)); domi-=q*oc/(Rc[i]+d); } }
           }
-          // 第77便(コアv2): 独立コアの差動勾配(A8 v2 分岐と同じ核)
+          // 第77便(コアv2): 独立コアの差動勾配(A8 v2 分岐と同じ核。第80便: md≥2 の4モード共通)
           if(hasCoreV2){
-            if(S.coreMd[j]===2 && S.RcV[j]>0){ const dOm=S.coreOmV[j]-sj;
+            if(S.coreMd[j]>=2 && S.RcV[j]>0){ const dOm=S.coreOmV[j]-sj;
               if(dOm!==0){ const tt=S.RcV[j]/(S.RcV[j]+d), oc=S.coreMF[j]*dOm*((q===2)? tt*tt : Math.pow(tt,q)); domj-=q*oc/(S.RcV[j]+d); } }
-            if(S.coreMd[i]===2 && S.RcV[i]>0){ const dOm=S.coreOmV[i]-si;
+            if(S.coreMd[i]>=2 && S.RcV[i]>0){ const dOm=S.coreOmV[i]-si;
               if(dOm!==0){ const tt=S.RcV[i]/(S.RcV[i]+d), oc=S.coreMF[i]*dOm*((q===2)? tt*tt : Math.pow(tt,q)); domi-=q*oc/(S.RcV[i]+d); } }
           }
           { // i 側(源 j): r−r_j=(dx,dy)、c=(vx_j−ω_j·dy, vy_j+ω_j·dx)
@@ -6142,10 +6262,13 @@ function makeSim(){
           const acm=Math.abs(cmr);
           const wS=(1-acm)*Ri*Ri*si0*si0, wC=acm*Rci*Rci*sDiff*sDiff;
           ls=(wS+wC>0)? (wS*lsS + wC*lsC)/(wS+wC) : 0;
-        } else if(hasCoreV2 && S.coreMd[i]===2 && S.RcV[i]>0 && S.coreOmV[i]!==si0){
+        } else if(hasCoreV2 && S.coreMd[i]>=2 && S.RcV[i]>0 && S.coreOmV[i]!==si0){
           // 第77便(コアv2): 独立コアの2層減光 — 第75便の式の (coreSR−1)·s を (Ω_c−s) に置換。
           // 殻 s=0 でもコアだけで暗くなれる(w_s=0 → lSw=ls_c。冷たい殻は発光ゼロなので整合)
-          const Rci=S.RcV[i], mf=S.coreMF[i];
+          // 第80便: 光度比の重みは |coreMF| で取る(旧式の acm=|coreMR| と同じ流儀 — cavity の
+          // 負の重みでも重みが負にならない)。coreMF>0 の differential/active では |mf|===mf なので
+          // 既存プリセットの値は 1 ビットも変わらない
+          const Rci=S.RcV[i], mf=S.coreMF[i], amf=Math.abs(mf);
           const tt=Rci/(Rci+Ri);
           const dOm=S.coreOmV[i]-si0;
           const sSurf=si0 + mf*dOm*((qA===2)? tt*tt : Math.pow(tt,qA));
@@ -6155,7 +6278,7 @@ function makeSim(){
           const cC=c0A*Math.exp(-2*psiC);
           let lsC=(cC>1e-12)? Math.abs(dOm)*Rci/cC : 1;
           if(!(lsC>0)) lsC=0; else if(lsC>1) lsC=1;
-          const wS=(1-mf)*Ri*Ri*si0*si0, wC=mf*Rci*Rci*dOm*dOm;
+          const wS=(1-amf)*Ri*Ri*si0*si0, wC=amf*Rci*Rci*dOm*dOm;
           ls=(wS+wC>0)? (wS*lsS + wC*lsC)/(wS+wC) : 0;
         } else {
           const vS=Math.abs(si0)*Ri;
@@ -6362,9 +6485,18 @@ function makeSim(){
     // 帳簿: ポンプ/減速の J はリザーバ resL と等量交換・τ_cs はコア⇄殻の等量交換(totals() が
     //   coreJ を含むので T7 恒等式は閉じる)。仕事・収縮のエネルギー増は coreWork(外部仕事の
     //   明示帳簿 — fusU と同格)・散逸は radE。doPost 限定(leapfrog 二重適用なし)
+    // 第80便: ③ active(md=3)= differential の全機能 + sourceRate で **E_int を増やすだけ**
+    //   (回転化しない — 裁定「核融合は密度が増す過程の副産物」。回転の源は収縮 contract)。
+    //   注入は外部からなので coreSrcE に等量を積む(fusU/coreWork と同格の明示帳簿)。
+    //   ④ cavity(md=4)= 空洞。質量0・慣性0なので J も E_int も動かず、力学パスは素通りする
+    //   (光学・A8 引きずりへの寄与だけが coreMF=−voidFraction の重みで効く)
     if(hasCoreV2 && doPost){
       for(let i=0;i<S.n;i++){
-        const md=S.coreMd[i]; if(md===0) continue;
+        const md=S.coreMd[i]; if(md===0 || md===4) continue;
+        if(md===3){   // active: E_int += sourceRate·dt(帳簿と等量)
+          const dE=S.coreSrc[i]*dt;
+          if(dE>0){ S.coreEint[i]+=dE; S.coreSrcE+=dE; }
+        }
         const Mc=S.coreMF[i]*Math.abs(m[i]); if(!(Mc>1e-9)) continue;
         if(md===1){   // rigid: 軸固定 — pump は殻スピンを減速(実物のパワーボールと同じ)
           if(S.corePump[i]>0 && !pinned[i] && spin[i]!==0){
@@ -6834,7 +6966,8 @@ function makeSim(){
     for(let i=0;i<S.n;i++){
       px+=S.m[i]*S.vx[i]; py+=S.m[i]*S.vy[i];
       L+=S.m[i]*(S.x[i]*S.vy[i]-S.y[i]*S.vx[i]) + 0.5*S.m[i]*S.R[i]*S.R[i]*S.spin[i];
-      if(S.hasCoreV2 && S.coreMd[i]===2) L+=S.coreJ[i];   // 第77便(コアv2): 独立コアの J も総 L
+      // 第77便(コアv2): 独立コアの J も総 L(第80便: md≥2 — active も同じ。cavity は J=0)
+      if(S.hasCoreV2 && S.coreMd[i]>=2) L+=S.coreJ[i];
     }
     return {px,py,L};
   };
@@ -8374,6 +8507,7 @@ function loop(now){
       if(sim.pinHeat!==0) txt+=`\n固定天体へ流出E=${fmt(sim.pinHeat)}`;
       // 第77便(コアv2): パワーボール仕事+収縮の回転エネルギー増(外部仕事の明示 — 発動時のみ)
       if(sim.coreWork) txt+=`\nコア仕事W=${fmt(sim.coreWork)}`;
+      if(sim.coreSrcE) txt+=`\nコア注入E=${fmt(sim.coreSrcE)}`;   // 第80便: active コアの外部注入(累積)
       // 第50便 50E(台帳4-89): 安全クランプの帳簿 — 発動があったときだけ1行追記
       // (保存則主張の構成では厳密0で不可視のまま。発動していたら保存則の主張域外であることの明示)
       if(sim.clampVN||sim.clampSN||sim.clampHN) txt+=`\n${T("hudClamp")(sim.clampVN,sim.clampSN,sim.clampHN)}`;
@@ -8643,6 +8777,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
     for(const k of ["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy",
       "coreMR","coreSR","mEff","Rc","rotAc",   // 主星2層の状態も転写(第14便: 比率仕様)
       "coreMd","coreMF","RcV","coreJ","coreKcs","corePump","coreCtr",   // 第77便(コアv2)
+      "coreEint","coreSrc","coreOm0",   // 第80便(コアv2 残段): E_int・sourceRate・cavity 規定Ω
       "lSw","radOv","coreRRv",                 // 観測系(第22便 — obsT/coreOT は第61便で廃止)
       "rMulv","lSwAuto",                       // 第36便 C1/C2: 半径倍率・掻出の自動算出フラグ
       // 第45便 45B: 転写長は「A 側の生存粒子数 sim.n」に固定する(分裂で確保長が A 側だけ
@@ -8678,6 +8813,9 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   // 第37便 C1(台帳4-70): 壁帳簿と伝熱境界も転写(build 済みなので twall は同値だが明示する)
   simB.wallEin=sim.wallEin; simB.wallEout=sim.wallEout; simB.wallKE=sim.wallKE;
   simB.pinHeat=sim.pinHeat;   // 第47便 47A(台帳4-86): pinned 熱浴の帳簿も A/B 複製で引き継ぐ
+  // 第80便(コアv2): コアの外部仕事・外部注入の帳簿も複製する(coreEint 配列は上で転写済みなので、
+  // 帳簿を 0 のままにすると B 側だけ Σ(E_int−E_int0)=coreSrcE の恒等式が破れる)
+  simB.coreWork=sim.coreWork; simB.coreSrcE=sim.coreSrcE;
   // 第35便(台帳4-62): 積分器と echo の状態も転写(build 済みなので echoX0/Y0 は同一配置。
   // 反転済みフラグ・RMS だけは現在値を引き継ぐ — A/B を反転後に開始しても再反転しない)
   simB.integrator=sim.integrator; simB.echoFlipAt=sim.echoFlipAt;
@@ -8778,9 +8916,10 @@ let ckSnap=null;
 const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU","pinned",
   "coreMR","coreSR","mEff","Rc","rotAc","lSw","radOv","coreRRv","rMulv","lSwAuto",
   "coreMd","coreMF","RcV","coreJ","coreKcs","corePump","coreCtr",
+  "coreEint","coreSrc","coreOm0",   // 第80便(コアv2 残段): E_int・sourceRate・cavity 規定Ω
   "railR","railAng","railOmega","railCx","railCy","railH",
   "Tint","coordN","coordAcc","shPrev","_phNbrPrev","_phNbrPrevN","_phProf"];
-const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wallKE","pinHeat","coreWork",
+const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wallKE","pinHeat","coreWork","coreSrcE",
   "clampVN","clampSN","clampHN","clampAN","clampRN","angOvfN","_phAcc","_phNbrInit",
   "fusN","fusU","fusPx","fusPy","fusL","fisN","aEffRef","_bhLastA","_bhLastT","_bhAcc"];
 function ckInvalidate(){ ckSnap=null; $("#btnCkLoad").disabled=true; }
@@ -9597,12 +9736,48 @@ function renderSaves(){
     host.appendChild(d);
   });
 }
+// 第80便(コアv2): エクスポート時に core:{} を持つ body へ**旧キー(coreMR/coreSR/coreRR)を併記**する。
+// 目的は round-trip 互換 — コアv2 を知らない読み手(root 等)が同じ JSON を「近い単層/2層」として
+// 読めるようにする(読み手が core を落としても天体が消えない)。逆写像は第76便設計の移行式:
+//   coreMR = cavity? −voidFraction : massFrac / coreRR = R_c/R / coreSR = Ω_c/s(s=0 なら表現不能で 1)
+// R は body.radius があればそれ、無ければ radiusScale·rMul·√|m|(updateRadii と同式)。
+// 読み込み側は従来どおり**新形式優先+併記警告**(validatePreset)なので、beta で読み直すと core が勝つ
+function coreLegacyKeys(body, phys){
+  const c=body.core; if(!c) return null;
+  const rs=(phys && isNum(phys.radiusScale))? phys.radiusScale : 1;
+  const rMul=isNum(body.rMul)? body.rMul : 1;
+  const Rb=(isNum(body.radius) && body.radius>0)? rs*body.radius
+         : rs*rMul*Math.sqrt(Math.abs(isNum(body.m)? body.m : 1));
+  const cav=(c.mode==="cavity");
+  const mr=cav? -(c.voidFraction||0) : (c.massFrac||0);
+  const rr=(Rb>0)? clamp((c.radius||0)/Rb, 0.02, 1) : 0.02;
+  const s=isNum(body.spin)? body.spin : 0;
+  const sr=(s!==0)? clamp((c.omega||0)/s, -20, 20) : 1;
+  return {coreMR:clamp(mr,-1,1), coreSR:sr, coreRR:rr};
+}
+function withLegacyCore(presets){
+  let touched=false;
+  const out=presets.map(p=>{
+    if(!p || !Array.isArray(p.bodies) || !p.bodies.some(b=>b&&b.core)) return p;
+    touched=true;
+    const q=JSON.parse(JSON.stringify(p));
+    for(const b of q.bodies){
+      if(!b || !b.core) continue;
+      const lk=coreLegacyKeys(b, q.physics);
+      if(lk) Object.assign(b, lk);
+    }
+    return q;
+  });
+  return touched? out : presets;   // core:{} を含まない構成では元の配列をそのまま返す(ゼロコスト)
+}
 function exportData(){
   // 第53便 53B(外部レビュー P1): appBuild — どのビルド(root/β)で書き出したかの識別子。
   // β配信(/beta/)では BETA_BUILD、それ以外は "v"+APP_VERSION(後方互換: 旧データはキー無し)
-  return JSON.stringify({schemaVersion:2, appVersion:APP_VERSION,
+  // 第80便: schemaVersion 3 — コアv2 の core:{} と旧キー併記(withLegacyCore)を含むスキーマ。
+  // 旧スキーマ(1/2)の読み込みは従来どおり(インポートは schemaVersion を見ずに形で判別する)
+  return JSON.stringify({schemaVersion:3, appVersion:APP_VERSION,
     appBuild:(isBetaServe()? BETA_BUILD : "v"+APP_VERSION), exportedAt:new Date().toISOString(),
-    saves:getSaves(), customPresets:getCustomPresets()},null,1);
+    saves:getSaves(), customPresets:withLegacyCore(getCustomPresets())},null,1);
 }
 $("#btnExport").addEventListener("click",()=>{
   const data=exportData();
@@ -11287,9 +11462,15 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 第74便: 5段階スケール(分類・表示換算)のQA用フック — すべて表示専用で物理不変
   // 第77便(コアv2): QA/実験用の読み口(表示・検査専用)
   coreState:(i)=>{ const S=sim; if(!S.hasCoreV2||!S.coreMd[i]) return null;
+    const md=S.coreMd[i];
+    // 第80便: cavity は質量0・慣性0(負質量はどこにも無い)。Ω は規定値・J と E_int は 0 のまま
+    if(md===4) return { mode:"cavity", massFrac:0, voidFraction:-S.coreMF[i], mass:0, Rc:S.RcV[i],
+      J:0, omega:S.coreOm0[i], Eint:S.coreEint[i], sourceRate:0, Kcs:0, pump:0, contract:0 };
     const Mc=S.coreMF[i]*Math.abs(S.m[i]), Ic=0.5*Mc*S.RcV[i]*S.RcV[i];
-    return { mode:S.coreMd[i]===1?"rigid":"differential", massFrac:S.coreMF[i], Rc:S.RcV[i],
-      J:S.coreJ[i], omega:(Ic>1e-12)? S.coreJ[i]/Ic : 0, Kcs:S.coreKcs[i],
+    return { mode:(md===1?"rigid":(md===3?"active":"differential")), massFrac:S.coreMF[i],
+      voidFraction:0, mass:Mc, Rc:S.RcV[i],
+      J:S.coreJ[i], omega:(Ic>1e-12)? S.coreJ[i]/Ic : 0, Eint:S.coreEint[i],
+      sourceRate:S.coreSrc[i], Kcs:S.coreKcs[i],
       pump:S.corePump[i], contract:S.coreCtr[i] }; },
   SCALE_TIERS, SCALE_ANCHORS, scaleTM, scaleConvStr, scaleExpNow,
   setScaleExp:(x)=>{ scaleExpOverride=(x===null? null : +x); refreshScaleConv(); },

@@ -38,6 +38,34 @@
   実測ハーネスは `tests/exp-4-81.mjs` → `tests/out/exp-4-81.json`
 - 既定 legacy 経路は無変更(分岐で囲っただけ)。O(N²) ループ内はローカル束縛のみで
   S.xxx プロパティ参照を持たず、要求バッファは pairReduced の宇宙でだけ遅延確保する
+第80便 B(2026-08-05): **コアv2 の残段5件**(第77便の残課題)。
+旧比率経路(coreMR/coreSR/coreRR)は 1 文字も変えていないので、既存プリセットの fixed-seed
+実測値はすべて不変(beta 300/300 で確認)。
+
+- **mode="active"(sourceRate)**: differential の全機能 + `sourceRate`(≥0)で
+  `E_int += sourceRate·dt`。裁定「核融合は密度が増す過程の副産物」に従い **E_int を増やすだけで
+  回転化しない**(回転の源は収縮 contract)。外部注入なので同額を新設の帳簿 **coreSrcE**
+  (fusU/coreWork と同格・HUD「コア注入E」)へ積み、恒等式
+  Σ E_int − Σ E_int(0) = coreSrcE を QA が機械固定(core.active-energy・実測相対差 5e-17)
+- **mode="cavity"(空洞の分離)**: 旧 coreMR<0 に多義的に重ねられていた「空洞」を独立モードへ。
+  `voidFraction`(0.01〜1)+`radius`+`omega` で指定し、**質量も慣性も厳密に 0**
+  (J_core を持たないので Ω は規定値)。引きずりは −voidFraction·(Ω_c−Ω_s)·f(R_c,d) で、
+  内部表現は coreMF=−voidFraction の**負の重み**(質量ではない — 負質量はどこにも生じない)。
+  移行式 coreMR=−voidFraction・Ω_c=coreSR·s・R_c=coreRR·R で旧空洞と**同一状態からの
+  1步が bit 一致**(core.cavity-no-negative-mass)
+- **disk/ring 群への `core:{}` 開放**: 群に書くと全メンバーが同じコア設定を持つ
+  (massFrac は各メンバーの質量に対する比・radius/omega は絶対量)。付けない構成は
+  push するオブジェクトの形も従来どおりで、hasCoreV2=false のゼロコスト経路が生き残る
+  (core.group-core・第77便知見①の「参照の形まで含むゼロコスト」を維持)
+- **融合/分裂のコア継承**: 第77便の「非継承+J_core をリザーバへ退避」を保存則ベースの継承へ
+  置換した。融合は M_c′=M_c,i+M_c,j・**R_c′=√(R_c,i²+R_c,j²)**(殻の R′=√(R_i²+R_j²) と同じ
+  面積等価則)・J_c′ と E_int′ は**厳密和**(リザーバを経由しないので resL は動かない)。
+  分裂は質量比例で分配し R_c,k=√(m_k/m)·R_c(融合の厳密な逆)。実測: 融合 J −1.5→−1.5・
+  E_int 10→10・ΔresL=0、分裂 J 1.2→1.2・R_c² の和が 3e-8 で保存(core.merge-split)
+- **schemaVersion 3**: エクスポートは core:{} を持つ body に旧キー(coreMR/coreSR/coreRR)を
+  併記する(コアv2 を知らない読み手への round-trip 互換)。インポートは新旧両形式を受理し、
+  従来どおり新形式優先+併記警告(core.schema-roundtrip)。buildChannel は追加しない
+  (appBuild が既にある)
 
 ## v1.37.0(2026-08-05)
 
