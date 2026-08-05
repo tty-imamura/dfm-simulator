@@ -786,6 +786,30 @@ v1.28 でルート昇格済み(近点検出器・AI 開放は v1.29 で昇格)�
   エネルギー増は coreWork(外部仕事の明示)・散逸は radE。総 L は totals() が J_core を含み
   T7 恒等式で閉じる(QA core.v2-mech / claim.starseed-powerball・実測 |ΔL|相対 3e-6)。
   A8 フレーム・2層減光・E12v2 勾配には (M_c/m)·(Ω_c−Ω_s)·f(R_c,d) で入る(旧比率式と同型)
+- **コアv2 残段(第80便・beta 先行)**: 第77便の残課題5件を実装した。
+  - **mode="active"**: differential の全機能 + `sourceRate`(≥0)で `E_int += sourceRate·dt`。
+    裁定「核融合は密度が増す過程の副産物」に従い、**E_int を増やすだけで回転化しない**
+    (回転の源は収縮 contract)。外部注入なので同額を帳簿 **coreSrcE**(fusU/coreWork と同格・
+    HUD「コア注入E」)へ積む。恒等式 Σ_i E_int,i − Σ_i E_int,i(0) = coreSrcE を QA が固定
+    (core.active-energy・実測相対差 5e-17)。
+  - **mode="cavity"**: 旧 coreMR<0 に重ねられていた「空洞」の意味を分離した。`voidFraction`
+    (0.01〜1)と `radius`・`omega` で指定し、**質量も慣性も厳密に 0**(J_core を持たないので
+    Ω は状態変数ではなく規定値)。引きずりは −voidFraction·(Ω_c−Ω_s)·f(R_c,d) で、内部表現は
+    coreMF=−voidFraction の**負の重み**(質量ではない — 負質量はどこにも生じない)。光度比の
+    重みは |coreMF| で取るので負にならない(旧式の |coreMR| と同じ流儀)。移行式
+    coreMR=−voidFraction・Ω_c=coreSR·s・R_c=coreRR·R を使うと、旧空洞と**同一状態からの
+    1步が bit 一致**する(QA core.cavity-no-negative-mass)。
+  - **disk/ring 群への開放**: `core:{}` を群に書くと全メンバーが同じコア設定を持つ
+    (massFrac は各メンバーの質量に対する比・radius/omega は絶対量)。付けない構成は
+    coreMd 全0・hasCoreV2=false でゼロコスト経路のまま(QA core.group-core)。
+  - **融合/分裂のコア継承**(第77便の「非継承+J をリザーバへ退避」を置換): 融合は
+    M_c′=M_c,i+M_c,j・**R_c′=√(R_c,i²+R_c,j²)**(殻の R′=√(R_i²+R_j²) と同じ面積等価則)・
+    J_c′=J_c,i+J_c,j・E_int′=E_int,i+E_int,j の**厳密和**(リザーバを経由しないので resL は
+    動かない)。分裂は質量比例で分配し、R_c,k=√(m_k/m)·R_c(融合の厳密な逆)・J と E_int は
+    片方を差で閉じる。cavity は質量0・J0 なので融合で潰れる(QA core.merge-split)。
+  - **schemaVersion 3**: エクスポートは core:{} を持つ body に旧キー(coreMR/coreSR/coreRR)を
+    併記する(コアv2 を知らない読み手への round-trip 互換)。インポートは新旧両形式を受理し、
+    従来どおり**新形式優先+併記警告**(QA core.schema-roundtrip)
 - **ダークローターの正式定義(第76便 — 3外部分析の採択)**: 本モデルでは
   「**重い外殻+高速スピンの中心コア = 引力は強いが、減光で光を出さない天体**」を
   ダークローターと定義する(旧定義「高速スピンで暗くなった回転天体」〔🕳️〕を包含する上位定義 —

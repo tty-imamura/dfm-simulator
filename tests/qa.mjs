@@ -3892,6 +3892,249 @@ if (!FAST) {
     }
   }
 
+  // ---- 8a2b4f) 第80便: コアv2 残段(active / cavity / 群開放 / 融合分裂継承 / schemaVersion)----
+  // 機能判定子: validatePreset が core.mode="active" を受理するか(第77/78便までのビルドは
+  // "differential" へ丸めるので 5 件とも SKIP。root も同様)
+  {
+    const hasV3 = await page.evaluate(() => {
+      const v = HP.validatePreset({ name: 't', description: 'd', camera: { scale: 200 },
+        world: { boundary: 'none', size: 0 }, physics: {},
+        bodies: [{ type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 1, pinned: false,
+          core: { mode: 'active', massFrac: 0.3, radius: 1, omega: 5, sourceRate: 1 } }] });
+      return !!(v.ok && v.preset.bodies[0].core && v.preset.bodies[0].core.mode === 'active');
+    });
+    if (hasV3) {
+      // 共通の物理(孤立・散逸なし)。コアパスの検査なので殻の力学は極力効かせない
+      const PH80 = { G: 0.8, D0: 1.5, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0,
+        Kt: 50, cLight: 40, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0,
+        lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 3, timeScale: 1 };
+
+      // ① core.active-energy: sourceRate は **E_int を増やすだけ**(回転化しない)。
+      //    帳簿 coreSrcE と Σ(E_int − E_int(0)) が一致し、J_core は 1 ビットも動かない。
+      //    対照として differential に同じ sourceRate を書いても注入されない(active 限定)
+      const ae = await page.evaluate((PH) => {
+        const v = HP.validatePreset({ name: 't', description: 'd', camera: { scale: 300 },
+          world: { boundary: 'none', size: 0 }, seed: 7, physics: PH,
+          bodies: [
+            { type: 'single', rMul: 1, m: 30, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false,
+              radius: 6, lightSweep: 'auto',
+              core: { mode: 'active', massFrac: 0.3, radius: 2, omega: 3, sourceRate: 5, internalEnergy: 4 } },
+            { type: 'single', rMul: 1, m: 30, x: 200, y: 0, vx: 0, vy: 0, spin: 0, pinned: false,
+              radius: 6, core: { mode: 'differential', massFrac: 0.3, radius: 2, omega: 3, sourceRate: 5 } }] });
+        const S = HP.sim; S.build(v.preset);
+        const sum0 = S.coreEint[0] + S.coreEint[1];
+        const J0 = HP.coreState(0).J, om0 = HP.coreState(0).omega;
+        for (let k = 0; k < 500; k++) S.step(0.016);
+        const cs = HP.coreState(0);
+        return { warn: v.warnings.length, mode: cs.mode, t: S.t,
+          E0: sum0, E1: S.coreEint[0] + S.coreEint[1], srcE: S.coreSrcE,
+          eDiff: S.coreEint[1], J0, J1: cs.J, om0, om1: cs.omega, nan: S.hasNaN() };
+      }, PH80);
+      const aeExp = 5 * ae.t;                                  // sourceRate·t
+      const aeRel = Math.abs((ae.E1 - ae.E0) - ae.srcE) / Math.max(Math.abs(ae.srcE), 1e-9);
+      add('core.active-energy',
+        !ae.nan && ae.warn === 0 && ae.mode === 'active'
+        && aeRel < 1e-12 && Math.abs(ae.srcE - aeExp) / aeExp < 1e-12
+        && ae.J1 === ae.J0 && ae.om1 === ae.om0 && ae.eDiff === 0,
+        `注入 ΣΔE_int=${(ae.E1 - ae.E0).toFixed(6)} = 帳簿 coreSrcE=${ae.srcE.toFixed(6)}(相対差 ${aeRel.toExponential(1)}<1e-12・` +
+        `理論値 sourceRate·t=${aeExp.toFixed(6)})/ 回転化しない: J=${ae.J1}(不変) Ω=${ae.om1}(不変)/ ` +
+        `differential 対照の E_int=${ae.eDiff}(=0 — 注入は active 限定)`);
+
+      // ② core.cavity-no-negative-mass: 空洞は質量0・慣性0・J0(負質量はどこにも生じない)。
+      //    旧 coreMR<0 の空洞と**同一状態からの1步が bit 一致**する(移行式: coreMR=−voidFraction・
+      //    Ω_c=coreSR·s・R_c=coreRR·R)。長時間走らせても NaN・負半径が出ない
+      const cv = await page.evaluate((PH) => {
+        const mk = (c0) => ({ name: 't', description: 'd', camera: { scale: 300 },
+          world: { boundary: 'none', size: 0 }, seed: 7, physics: Object.assign({}, PH, { kFrame: 1 }),
+          bodies: [Object.assign({ type: 'single', rMul: 1, m: 30, x: 0, y: 0, vx: 0, vy: 0,
+              spin: 0.5, pinned: false, radius: 5, lightSweep: 'auto' }, c0),
+            { type: 'single', rMul: 1, m: 20, x: 14, y: 0, vx: 0, vy: 0.4, spin: 0.2, pinned: false, radius: 4 }] });
+        // 旧: coreMR=−0.5(空洞)・coreSR=3・coreRR=0.4(R=5 → Rc=2)/ 新: cavity voidFraction=0.5・
+        //     radius=2・omega=3×0.5=1.5(すべて2進で厳密 — 丸めの入る余地を作らない)
+        const snap = (S) => ({ ax: S.ax[0], ay: S.ay[0], s0: S.spin[0], s1: S.spin[1],
+          lsw: S.lSw[0], x1: S.x[1], vy1: S.vy[1] });
+        const run1 = (c0) => { const v = HP.validatePreset(mk(c0)); HP.sim.build(v.preset);
+          HP.sim.step(0.016); return { w: v.warnings.length, o: snap(HP.sim) }; };
+        const oldC = run1({ coreMR: -0.5, coreSR: 3, coreRR: 0.4 });
+        const newC = run1({ core: { mode: 'cavity', voidFraction: 0.5, radius: 2, omega: 1.5 } });
+        const same = Object.keys(oldC.o).every(k => oldC.o[k] === newC.o[k]);
+        // 長時間: 質量・慣性が非負(空洞は 0)で NaN・負半径なし
+        const v2 = HP.validatePreset(mk({ core: { mode: 'cavity', voidFraction: 0.5, radius: 2, omega: 1.5 } }));
+        const S = HP.sim; S.build(v2.preset);
+        const M0 = S.m[0] + S.m[1];
+        for (let k = 0; k < 400; k++) S.step(0.016);
+        const cs = HP.coreState(0);
+        let minM = Infinity; for (let i = 0; i < S.n; i++) minM = Math.min(minM, S.m[i]);
+        return { same, oldW: oldC.w, newW: newC.w, old: oldC.o, nw: newC.o,
+          mode: cs.mode, mass: cs.mass, J: cs.J, Rc: cs.Rc, vf: cs.voidFraction,
+          om: cs.omega, mf: S.coreMF[0], M0, M1: S.m[0] + S.m[1], minM, nan: S.hasNaN() };
+      }, PH80);
+      add('core.cavity-no-negative-mass',
+        cv.same && cv.oldW === 0 && cv.newW === 0 && !cv.nan
+        && cv.mode === 'cavity' && cv.mass === 0 && cv.J === 0 && cv.Rc > 0 && cv.vf === 0.5
+        && cv.mf < 0 && cv.minM > 0 && Math.abs(cv.M1 - cv.M0) < 1e-6,
+        `旧 coreMR=−0.5/coreSR=3/coreRR=0.4 ⇔ 新 cavity(voidFraction=0.5・R_c=2・Ω=1.5): 1步 bit一致=${cv.same}(a=${cv.nw.ax.toFixed(6)},${cv.nw.ay.toFixed(6)} lSw=${cv.nw.lsw.toFixed(6)})/ ` +
+        `空洞の質量=${cv.mass}・J=${cv.J}(ともに厳密0)・R_c=${cv.Rc}(>0)/ 引きずり重み coreMF=${cv.mf}(負の**重み**であって質量ではない)/ ` +
+        `400步後: 総質量 ${cv.M0}→${cv.M1}(不変)・最小質量=${cv.minM}(>0 — 負質量なし)`);
+
+      // ③ core.group-core: disk/ring 群へ core:{} を付けると全メンバーが同じコア設定を持つ。
+      //    付けない構成は coreMd 全0・hasCoreV2=false(ゼロコスト経路が生き残る)。
+      //    群コアつきで 600步走らせても帳簿込み総 L が保存する(T7)
+      const gc = await page.evaluate((PH) => {
+        const mk = (dCore, rCore) => {
+          const d = { type: 'disk', n: 6, cx: -60, cy: 0, radius: 30, mMin: 8, mMax: 8,
+            spinMin: 0.3, spinMax: 0.3, vMode: 'random', vScale: 0.3, aroundMass: 0,
+            direction: 1, rMul: 0.7, lightSweep: 'auto' };
+          const r = { type: 'ring', n: 6, cx: 60, cy: 0, rIn: 30, rOut: 30, mMin: 8, mMax: 8,
+            spinMin: 0.3, spinMax: 0.3, vMode: 'none', aroundMass: 0, omega: 0, vNoise: 0,
+            direction: 1, pinned: false, lightSweep: 'auto' };
+          if (dCore) d.core = dCore;
+          if (rCore) r.core = rCore;
+          return { name: 't', description: 'd', camera: { scale: 300 },
+            world: { boundary: 'none', size: 0 }, seed: 11,
+            physics: Object.assign({}, PH, { kFrame: 1 }), bodies: [d, r] };
+        };
+        const S = HP.sim;
+        // 群コアなし: 形も経路も従来どおり
+        const v0 = HP.validatePreset(mk(null, null)); S.build(v0.preset);
+        let md0 = 0; for (let i = 0; i < S.n; i++) md0 += S.coreMd[i];
+        const zero = { hasV2: S.hasCoreV2, md: md0, n: S.n };
+        // 群コアあり(disk=differential・ring=cavity)
+        const v = HP.validatePreset(mk({ mode: 'differential', massFrac: 0.3, radius: 1.5, omega: 4 },
+          { mode: 'cavity', voidFraction: 0.4, radius: 1.2, omega: 0 }));
+        S.build(v.preset);
+        const md = [], rc = [];
+        for (let i = 0; i < S.n; i++) { md.push(S.coreMd[i]); rc.push(S.RcV[i]); }
+        const L0 = S.totals().L + S.resL + S.radL;
+        const om0 = HP.coreState(0).omega;
+        for (let k = 0; k < 600; k++) S.step(0.016);
+        const L1 = S.totals().L + S.resL + S.radL;
+        let lScale = 0;
+        for (let i = 0; i < S.n; i++) lScale += Math.abs(S.m[i] * (S.x[i] * S.vy[i] - S.y[i] * S.vx[i]))
+          + 0.5 * S.m[i] * S.R[i] * S.R[i] * Math.abs(S.spin[i]) + Math.abs(S.coreJ[i]);
+        return { warn: v.warnings.length, ok: v.ok, keep: !!v.preset.bodies[0].core,
+          zero, n: S.n, hasV2: S.hasCoreV2, nDiff: md.filter(m => m === 2).length,
+          nCav: md.filter(m => m === 4).length, rcMin: Math.min(...rc),
+          om0, om1: HP.coreState(0).omega, lsw: S.lSw[0],
+          relL: Math.abs(L1 - L0) / Math.max(lScale, 1e-9), nan: S.hasNaN() };
+      }, PH80);
+      add('core.group-core',
+        gc.ok && gc.warn === 0 && gc.keep && !gc.nan && gc.n === 12
+        && gc.nDiff === 6 && gc.nCav === 6 && gc.rcMin > 0 && gc.relL < 1e-3
+        && !gc.zero.hasV2 && gc.zero.md === 0 && gc.zero.n === 12,
+        `disk 6粒=differential・ring 6粒=cavity(全メンバーに同一設定)/ R_c min=${gc.rcMin}(>0) コアΩ=${gc.om1.toFixed(3)} lSw=${gc.lsw.toFixed(3)}/ ` +
+        `帳簿込み|ΔL|=${gc.relL.toExponential(1)}(<1e-3・600步)/ core 無しの同構成: hasCoreV2=${gc.zero.hasV2}(false) ΣcoreMd=${gc.zero.md}(=0 — ゼロコスト経路)`);
+
+      // ④ core.merge-split: 融合はコアを保存則ベースで合算(M_c 和・R_c は面積等価 √和・
+      //    J_c と E_int は厳密和)、分裂は質量比例で分配(J_c/E_int の和が親と厳密一致・
+      //    R_c,1²+R_c,2²=R_c²)。第77便の「非継承+J をリザーバへ退避」を置き換えたので、
+      //    融合で resL が動かないことも同時に固定する
+      const ms = await page.evaluate((PH) => {
+        const S = HP.sim;
+        const base = (bodies, fusion) => ({ name: 't', description: 'd', camera: { scale: 200 },
+          world: { boundary: 'none', size: 0 }, seed: 5, thermal: 'tint', fusion,
+          physics: Object.assign({}, PH, { G: 0.2, cHeat: 0.2 }), bodies });
+        // --- 融合 ---
+        const vF = HP.validatePreset(base([
+          { type: 'single', rMul: 1, m: 4, x: -6, y: 0, vx: 5, vy: 0, spin: 0, pinned: false, tInt: 1,
+            core: { mode: 'differential', massFrac: 0.3, radius: 1, omega: 5, internalEnergy: 7 } },
+          { type: 'single', rMul: 1, m: 4, x: 6, y: 0, vx: -5, vy: 0, spin: 0, pinned: false, tInt: 1,
+            core: { mode: 'differential', massFrac: 0.5, radius: 1.5, omega: -2, internalEnergy: 3 } }],
+          { dFrac: 0.7 }));
+        S.build(vF.preset);
+        const a0 = HP.coreState(0), b0 = HP.coreState(1);
+        const fJ0 = a0.J + b0.J, fE0 = a0.Eint + b0.Eint, fM0 = a0.mass + b0.mass;
+        const fL0 = S.totals().L + S.resL + S.radL, resL0 = S.resL;
+        for (let k = 0; k < 300 && S.fusN === 0; k++) S.step(0.016);
+        const a1 = S.fusN ? HP.coreState(0) : null;
+        const fus = { n: S.fusN, nPart: S.n,
+          J0: fJ0, J1: a1 ? a1.J : NaN, E0: fE0, E1: a1 ? a1.Eint : NaN,
+          M0: fM0, M1: a1 ? a1.mass : NaN, mode: a1 ? a1.mode : '',
+          Rc: a1 ? a1.Rc : NaN, RcExp: Math.sqrt(1 * 1 + 1.5 * 1.5),
+          dResL: S.resL - resL0, dL: Math.abs((S.totals().L + S.resL + S.radL) - fL0),
+          nan: S.hasNaN() };
+        // --- 分裂 ---
+        const vS = HP.validatePreset(base([
+          { type: 'single', rMul: 1, m: 2, x: 0, y: 0, vx: 0.5, vy: -0.3, spin: 1.2, pinned: false, tInt: 100,
+            core: { mode: 'active', massFrac: 0.3, radius: 1, omega: 4, sourceRate: 2, internalEnergy: 6 } }],
+          { dFrac: 0.35, fission: { Tcrit: 50, frac: 0.5 } }));
+        S.build(vS.preset);
+        const c0 = HP.coreState(0);
+        S.step(0.016);
+        const p = HP.coreState(0), q = S.n > 1 ? HP.coreState(1) : null;
+        const inj = S.coreSrcE;   // 分裂と同じサブステップで注入された分(E_int の突き合わせに要る)
+        const spl = { n: S.n, fisN: S.fisN,
+          J0: c0.J, Jsum: q ? p.J + q.J : NaN, E0: c0.Eint + inj, Esum: q ? p.Eint + q.Eint : NaN,
+          Rc0: c0.Rc, RcSq: q ? p.Rc * p.Rc + q.Rc * q.Rc : NaN,
+          mf0: c0.massFrac, mf1: p.massFrac, mf2: q ? q.massFrac : NaN,
+          mode: p.mode, mode2: q ? q.mode : '', nan: S.hasNaN() };
+        return { fus, spl };
+      }, PH80);
+      const f = ms.fus, s2 = ms.spl;
+      add('core.merge-split',
+        !f.nan && !s2.nan && f.n === 1 && f.nPart === 1 && f.mode === 'differential'
+        && f.J1 === f.J0 && f.E1 === f.E0 && Math.abs(f.M1 - f.M0) < 1e-6
+        && Math.abs(f.Rc - f.RcExp) < 1e-6 && f.dResL === 0 && f.dL < 1e-5
+        && s2.n === 2 && s2.fisN === 1 && s2.mode === 'active' && s2.mode2 === 'active'
+        && Math.abs(s2.Jsum - s2.J0) < 1e-12 && Math.abs(s2.Esum - s2.E0) < 1e-12
+        && Math.abs(s2.RcSq - s2.Rc0 * s2.Rc0) < 1e-6 && s2.mf1 === s2.mf0 && s2.mf2 === s2.mf0,
+        `融合: J_c ${f.J0}→${f.J1}(厳密和) E_int ${f.E0}→${f.E1}(厳密和) M_c ${f.M0.toFixed(6)}→${f.M1.toFixed(6)} ` +
+        `R_c=${f.Rc.toFixed(6)}(面積等価 √(1²+1.5²)=${f.RcExp.toFixed(6)})/ リザーバ退避 ΔresL=${f.dResL}(=0 — 継承なので不要)・帳簿込み|ΔL|=${f.dL.toExponential(1)}/ ` +
+        `分裂: J_c ${s2.J0}→${s2.Jsum}(和が厳密一致) E_int ${s2.E0}→${s2.Esum} R_c²=${s2.Rc0 * s2.Rc0}→${s2.RcSq.toFixed(6)}(和が不変) massFrac=${s2.mf1}(両片とも親と同値)`);
+
+      // ⑤ core.schema-roundtrip: エクスポートは schemaVersion 3 で、core:{} を持つ body に
+      //    旧キー(coreMR/coreSR/coreRR)を併記する(コアv2 を知らない読み手への round-trip 互換)。
+      //    読み戻しは従来どおり**新形式優先+併記警告**で、core の値が 1 つも壊れない
+      const rt = await page.evaluate(() => {
+        const keep = localStorage.getItem('hp_custom_presets');
+        try {
+          const src = { id: 'custom_qa_core80', name: 'core80', description: 'roundtrip',
+            camera: { scale: 200 }, world: { boundary: 'none', size: 0 }, seed: 3,
+            physics: { radiusScale: 1 },
+            bodies: [
+              { type: 'single', m: 30, x: 0, y: 0, vx: 0, vy: 0, spin: 0.5, pinned: false, radius: 5,
+                core: { mode: 'differential', massFrac: 0.3, radius: 2, omega: 1.5, Kcs: 0.2,
+                  pump: 0.4, contract: 0.01, sourceRate: 0, internalEnergy: 0, voidFraction: 0 } },
+              { type: 'single', m: 30, x: 40, y: 0, vx: 0, vy: 0, spin: 0.5, pinned: false, radius: 5,
+                core: { mode: 'cavity', voidFraction: 0.5, radius: 2, omega: 1.5 } }] };
+          const v0 = HP.validatePreset(src);
+          localStorage.setItem('hp_custom_presets', JSON.stringify([Object.assign({ id: src.id }, v0.preset)]));
+          const ex = JSON.parse(HP.exportData());
+          const b0 = ex.customPresets[0].bodies[0], b1 = ex.customPresets[0].bodies[1];
+          // 読み戻し(新形式優先+併記警告)
+          const back = HP.validatePreset(ex.customPresets[0]);
+          const c0 = back.ok ? back.preset.bodies[0].core : null;
+          const c1 = back.ok ? back.preset.bodies[1].core : null;
+          return { schema: ex.schemaVersion, ok: v0.ok, warn0: v0.warnings.length,
+            legacy0: [b0.coreMR, b0.coreSR, b0.coreRR], legacy1: [b1.coreMR, b1.coreSR, b1.coreRR],
+            keepCore0: !!b0.core, keepCore1: !!b1.core,
+            backOk: back.ok, backWarn: back.warnings.length,
+            backMR: back.ok ? (back.preset.bodies[0].coreMR || 0) : -1,
+            c0, c1 };
+        } finally {
+          if (keep === null) localStorage.removeItem('hp_custom_presets');
+          else localStorage.setItem('hp_custom_presets', keep);
+        }
+      });
+      const c0 = rt.c0 || {}, c1 = rt.c1 || {};
+      add('core.schema-roundtrip',
+        rt.schema === 3 && rt.ok && rt.warn0 === 0 && rt.keepCore0 && rt.keepCore1
+        // 逆写像: coreMR=massFrac(cavity は −voidFraction)・coreRR=R_c/R・coreSR=Ω_c/s
+        && rt.legacy0[0] === 0.3 && rt.legacy0[1] === 3 && rt.legacy0[2] === 0.4
+        && rt.legacy1[0] === -0.5 && rt.legacy1[1] === 3 && rt.legacy1[2] === 0.4
+        && rt.backOk && rt.backWarn === 2 && rt.backMR === 0
+        && c0.mode === 'differential' && c0.massFrac === 0.3 && c0.radius === 2 && c0.omega === 1.5
+        && c0.Kcs === 0.2 && c0.pump === 0.4 && c0.contract === 0.01
+        && c1.mode === 'cavity' && c1.voidFraction === 0.5 && c1.radius === 2 && c1.omega === 1.5,
+        `export: schemaVersion=${rt.schema}(=3)/ 旧キー併記 differential=[${rt.legacy0}] cavity=[${rt.legacy1}]` +
+        `(coreMR=massFrac または −voidFraction・coreSR=Ω_c/s=1.5/0.5・coreRR=R_c/R=2/5)/ ` +
+        `読み戻し: core 保持=${rt.backOk}(警告${rt.backWarn}件=併記の明示)・旧キー無効化 coreMR=${rt.backMR}(=0)・` +
+        `mode=${c0.mode}/${c1.mode} 値の欠落なし`);
+    } else {
+      console.log('SKIP core.active-energy / core.cavity-no-negative-mass / core.group-core / core.merge-split / core.schema-roundtrip(対象に第80便 コアv2 残段 未適用 — root 等)');
+    }
+  }
+
   // ---- 8a2b5) 第75便: 🐚nebulaShell — 重殻+高速コアの耐圧試験 ----
   // 熱圧 kRep=0.3 の下で「同じ暗さ」を保てるのは 2層だけであることを機械固定する:
   // 2層(既定)= コア lS̄ 0.8〜0.95・保持≥0.93・エンベロープ保持=1 ⇔ 単層対照(同一幾何・
@@ -7771,15 +8014,22 @@ if (hasEchoFlipAt) {
       const afterKnown = HP.currentPreset().id, gKnown = HP.sim.params.G;
       const ex = JSON.parse(HP.exportData());
       const expectBuild = HP.isBetaServe() ? undefined : 'v' + HP.APP_VERSION;   // file:// 実行では後者
-      return { before, afterUnknown, gUnchanged, afterKnown, gKnown,
+      // 第80便: コアv2 残段(active/cavity)を持つビルドは schemaVersion 3(旧キー併記つき)。
+      // 未適用のビルド(root 等)は従来どおり 2 — 同じ検査を両対象で回すための機能判定子
+      const v3 = HP.validatePreset({ name: 't', description: 'd', camera: { scale: 200 },
+        world: { boundary: 'none', size: 0 }, physics: {},
+        bodies: [{ type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 1, pinned: false,
+          core: { mode: 'active', massFrac: 0.3, radius: 1, omega: 5, sourceRate: 1 } }] });
+      const hasV3 = !!(v3.ok && v3.preset.bodies[0].core && v3.preset.bodies[0].core.mode === 'active');
+      return { before, afterUnknown, gUnchanged, afterKnown, gKnown, hasV3,
         schema: ex.schemaVersion, appBuild: ex.appBuild, expectBuild, isBeta: HP.isBetaServe() };
     });
     add('phasechange.compat',
       cp.before === 'pressure' && cp.afterUnknown === 'pressure' && cp.gUnchanged !== 9
       && cp.afterKnown === 'gas' && Math.abs(cp.gKnown - 0.123) < 1e-12
-      && cp.schema === 2 && (cp.isBeta ? typeof cp.appBuild === 'string' : cp.appBuild === cp.expectBuild),
+      && cp.schema === (cp.hasV3 ? 3 : 2) && (cp.isBeta ? typeof cp.appBuild === 'string' : cp.appBuild === cp.expectBuild),
       `未知ID読込 → 中止(現行=${cp.afterUnknown}・保存physicsも未適用=${cp.gUnchanged !== 9}) / ` +
-      `既知ID読込 → ${cp.afterKnown}(G=${cp.gKnown}) / export: schemaVersion=${cp.schema} appBuild=${cp.appBuild}(期待=${cp.expectBuild ?? 'BETA_BUILD'})`);
+      `既知ID読込 → ${cp.afterKnown}(G=${cp.gKnown}) / export: schemaVersion=${cp.schema}(期待=${cp.hasV3 ? 3 : 2}) appBuild=${cp.appBuild}(期待=${cp.expectBuild ?? 'BETA_BUILD'})`);
 
     // ⑥b2 phasechange.saveparams(第54便 54B → 第60便): 実験ノブ編集(E14″係数+heat 壁)が
     //    phaseParams/twallHeat としてセーブに入り、読込で値域クランプつきで復元される。
