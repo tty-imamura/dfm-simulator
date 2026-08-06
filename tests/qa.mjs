@@ -9290,6 +9290,245 @@ if (hasSwAutoCb) {
   }
 }
 
+// ---- 82B) 第82便B(創発の推進): behavior.selfrotor — 🥚selfRotor(自己形成ダークローター)。
+// ----   「目標形状を初期条件に埋め込まず、局所則から構造が生成される」ことをノックアウト対照
+// ----   つきで機械固定する。本則(9000步=validT)+対照2本(融合オフ / コア種なし)を走らせ、
+// ----   claims の5窓(最大天体の質量比・J_core の継承個数・中心と周囲の実効減光・
+// ----   継承則の総和恒等式)をそのまま判定に使う。決定論(seed 20260806 固定)。
+// ----   軽量寄り(180粒→25体・9000步×3構成)なので QA_FAST=1 でも実行する。
+// ----   実測ハーネスは tests/exp-4-84.mjs(3seed・G/Kt/dFrac 用量反応つき)----
+{
+  const hasSR = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'selfRotor'));
+  if (hasSR) {
+    const r = await page.evaluate(() => {
+      const S = HP.sim;
+      const P = HP.allPresets().find((p) => p.id === 'selfRotor');
+      const meas = () => {
+        let bi = 0, mTot = 0;
+        for (let i = 0; i < S.n; i++) { mTot += Math.abs(S.m[i]); if (Math.abs(S.m[i]) > Math.abs(S.m[bi])) bi = i; }
+        const cs = HP.coreState(bi);
+        const G = S.params.G, MB = Math.abs(S.m[bi]);
+        let bound = 0, lswH = 0, nH = 0, jSum = 0;
+        for (let i = 0; i < S.n; i++) {
+          const c2 = HP.coreState(i); if (c2) jSum += c2.J;
+          if (i === bi) continue;
+          const dx = S.x[i] - S.x[bi], dy = S.y[i] - S.y[bi];
+          const dvx = S.vx[i] - S.vx[bi], dvy = S.vy[i] - S.vy[bi];
+          const rr = Math.hypot(dx, dy);
+          if (0.5 * (dvx * dvx + dvy * dvy) - G * MB / Math.max(rr, 1) < 0) bound++;
+          lswH += S.lSw[i]; nH++;
+        }
+        return { n: S.n, fusN: S.fusN, mMax: MB, mFrac: MB / mTot, spin: S.spin[bi], R: S.R[bi],
+          lSw: S.lSw[bi], lSwHalo: nH ? lswH / nH : 0, Jc: cs ? cs.J : 0, JcSum: jSum,
+          bound: bound / Math.max(1, nH), em: HP.emergenceStats(S) };
+      };
+      const run = (mod, steps) => {
+        const p = JSON.parse(JSON.stringify(P));
+        if (mod.noFuse) delete p.fusion;
+        if (mod.noCore) delete p.bodies[0].core;
+        S.build(p);
+        const c0 = HP.coreState(0);
+        const jSeed = c0 ? c0.J : 0, mSeed = Math.abs(S.m[0]);
+        const t0 = S.totals(), L0 = t0.L + S.resL + S.radL;
+        const em0 = HP.emergenceStats(S), lsw0 = S.lSw[0];
+        for (let k = 0; k < steps; k++) S.step(0.016);
+        const t1 = S.totals(), L1 = t1.L + S.resL + S.radL;
+        let lScale = 0;
+        for (let i = 0; i < S.n; i++) lScale += Math.abs(S.m[i] * (S.x[i] * S.vy[i] - S.y[i] * S.vx[i]))
+          + 0.5 * Math.abs(S.m[i]) * S.R[i] * S.R[i] * Math.abs(S.spin[i]);
+        const m1 = meas();
+        return Object.assign(m1, { jSeed, mSeed, lsw0, align0: em0.align, K0: em0.nCluster,
+          relL: Math.abs(L1 - L0) / Math.max(lScale, 1e-9), nan: S.hasNaN(),
+          clampV: S.clampVN, clampR: S.clampRN || 0 });
+      };
+      HP.loadPreset('selfRotor', false);   // 正規経路で1回読む(currentPreset 同期)
+      const main = run({}, 9000);
+      const noFuse = run({ noFuse: true }, 9000);
+      const noCore = run({ noCore: true }, 9000);
+      const cl = {}; for (const c of P.claims) cl[c.id] = c;
+      return { main, noFuse, noCore, claims: cl, validT: P.validT,
+        dFrac: P.fusion ? P.fusion.dFrac : null, thermal: P.thermal,
+        balance: P.balanceFrame, emergence: P.emergence,
+        cls: HP.classifyPreset(P), n0: P.bodies[0].n };
+    });
+    const m = r.main, nf = r.noFuse, nc = r.noCore;
+    const inW = (v, c) => c && v >= c.expected.min && v <= c.expected.max;
+    const inC = (v, c) => c && c.control && v >= c.control.expected.min && v <= c.control.expected.max;
+    const seeds = m.jSeed > 0 ? m.Jc / m.jSeed : 0;             // 中心天体が飲み込んだ「種の個数」
+    const massSeeds = m.mSeed > 0 ? m.mMax / m.mSeed : 0;       // 同じものを質量で数えた値
+    const idRatio = massSeeds > 0 ? seeds / massSeeds : 0;      // 継承則の総和恒等式(=1)
+    const C = r.claims;
+    // 実測(beta・内蔵プリセットそのもの・seed 20260806 固定で決定論・9000步=t144。第82便B):
+    //   本則: 180粒→25体・融合155回・最大天体 m=48(質量比26.7%)・殻スピン0.351・R=6.93・
+    //     lS_eff 中心0.589 / 周囲平均0.159・J_core=0.0960(=種48個ぶん=質量48)・ΣJ_core=0.3600・
+    //     束縛率0.75・創発モニタ 塊166→2・整列度0.000→1.000・V/σ=10.90・|ΔL|/L=1.8e-7
+    //   対照①融合オフ: 最大天体 質量比0.56%(=1/180)・束縛率0.14(中心天体が育たない)
+    //   対照②コア種なし: J_core=0.0000・ΣJ_core=0.0000(継承以外の生成経路が無い)
+    //   3seed(20260806/07/08): 質量比 18.3/30.0/26.7% ・中心減光 0.472〜0.589・J_core 0.0660〜0.1080
+    // 判定は claims の窓そのもの(claims.sync が説明文との一致を別途固定する)+ 帳簿・NaN・clamp。
+    add('behavior.selfrotor',
+      !m.nan && !nf.nan && !nc.nan && m.clampV === 0 && m.clampR === 0
+      && r.validT === 144 && r.dFrac === 0.7 && r.thermal === 'tint'
+      && r.balance === 'barycentric' && r.emergence === 'E2' && r.cls.closed === true
+      && m.lsw0 === 0 && m.align0 === 0 && m.K0 > 100
+      && inW(m.mFrac, C['selfRotor.max-mass-fraction'])
+      && inC(nf.mFrac, C['selfRotor.max-mass-fraction'])
+      && inW(seeds, C['selfRotor.core-J-inherited'])
+      && inC(nc.Jc, C['selfRotor.core-J-inherited'])
+      && inW(m.lSw, C['selfRotor.center-dimming'])
+      && inW(m.lSwHalo, C['selfRotor.halo-dimming'])
+      && inW(idRatio, C['selfRotor.core-J-counts-mass'])
+      && Math.abs(m.JcSum - r.n0 * m.jSeed) < 1e-6 && nc.JcSum === 0
+      && m.relL < 1e-4,
+      `9000步(t=144=validT・seed固定で決定論) 生成: ${r.n0}粒→${m.n}体(融合${m.fusN}回) ` +
+      `最大天体 m=${m.mMax.toFixed(0)}・**質量比=${(m.mFrac * 100).toFixed(1)}%**` +
+      `(窓${C['selfRotor.max-mass-fraction'].expected.min}〜${C['selfRotor.max-mass-fraction'].expected.max}) ` +
+      `殻スピン=${m.spin.toFixed(3)} R=${m.R.toFixed(2)} 束縛率=${m.bound.toFixed(2)} / ` +
+      `対照①融合オフ: 質量比=${(nf.mFrac * 100).toFixed(2)}%(=1/${r.n0}・束縛率${nf.bound.toFixed(2)}) ` +
+      `→ 中心天体は初期条件ではなく融合則の生成物 / ` +
+      `J_core 継承: 中心天体 J_core=${m.Jc.toFixed(4)}=**種${seeds.toFixed(1)}個ぶん**` +
+      `(窓${C['selfRotor.core-J-inherited'].expected.min}〜${C['selfRotor.core-J-inherited'].expected.max})・` +
+      `質量で数えた個数=${massSeeds.toFixed(1)} → 総和恒等式 J/J_seed ÷ m/m_seed=${idRatio.toFixed(6)}(=1) ・` +
+      `ΣJ_core=${m.JcSum.toFixed(4)}(=${r.n0}×${m.jSeed.toFixed(4)} 不変) / ` +
+      `対照②コア種なし: J_core=${nc.Jc.toFixed(4)} ΣJ_core=${nc.JcSum.toFixed(4)}(継承以外の生成経路なし) / ` +
+      `暗さの生成: lS_eff t=0 で ${m.lsw0.toFixed(3)} → 中心=${m.lSw.toFixed(3)}` +
+      `(窓${C['selfRotor.center-dimming'].expected.min}〜${C['selfRotor.center-dimming'].expected.max})・` +
+      `周囲平均=${m.lSwHalo.toFixed(3)}(窓${C['selfRotor.halo-dimming'].expected.min}〜${C['selfRotor.halo-dimming'].expected.max})` +
+      `= コントラスト${(m.lSw / Math.max(m.lSwHalo, 1e-9)).toFixed(2)}倍 ` +
+      `※対照①では周囲も${nf.lSwHalo.toFixed(3)}まで暗い(暗さ単独では融合の有無を判別しない) / ` +
+      `創発モニタ: 塊 ${m.K0}→${m.em.nCluster}・最大塊質量比=${m.em.maxFrac.toFixed(3)}・` +
+      `スピン整列度 ${m.align0.toFixed(3)}→${m.em.align.toFixed(3)}・V/σ=${m.em.vsig.toFixed(2)} / ` +
+      `保存: |ΔL|/L_scale=${m.relL.toExponential(2)}(<1e-4) clamp=${m.clampV}/${m.clampR} NaN=${m.nan} / ` +
+      `バッジ: 閉鎖系=${r.cls.closed}・E水準=${r.emergence}・分類=${r.cls.sampleClass} / ` +
+      `第82便B の較正実測 = 25体/155回/26.7%/0.589/0.159/種48個/対照0.56%・J=0`);
+  } else {
+    console.log('SKIP behavior.selfrotor(対象に 🥚selfRotor なし — 第82便B 未適用の root 等)');
+  }
+}
+
+// ---- 82B) 第82便B: emergence.tag — E水準タグ(emergence:"E0".."E3")の最小導入。
+// ----   ①宣言済みプリセット(🧬🧊⛓️=E2 / ♻️=E1 / 🥚=E2)が期待どおりの値を持つ
+// ----   ②未宣言のプリセットにはバッジが出ない(ノイズ回避の仕様)
+// ----   ③スキーマ: 有効値は保持(警告0)・未知値は警告つき無視=削除
+// ----   ④説明パネルのチップ DOM(data-g="emg-E2")が sampleClass チップの隣に出る
+// ----   軽量(DOM検査+validatePreset の往復のみ)なので QA_FAST=1 でも実行する ----
+{
+  const hasEmg = await page.evaluate(() => !!(window.HP && HP.EMERGENCE_LEVELS));
+  if (hasEmg) {
+    const r = await page.evaluate(() => {
+      const LV = HP.EMERGENCE_LEVELS;
+      const builtin = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_'));
+      const declared = {};
+      for (const p of builtin) if (p.emergence !== undefined) declared[p.id] = p.emergence;
+      const badVal = Object.entries(declared).filter(([, v]) => LV.indexOf(v) < 0).map(([k]) => k);
+      // チップ DOM(宣言あり=出る / 宣言なし=出ない)。sampleClass チップの直後に並ぶこと
+      const chipsOf = (id) => { HP.loadPreset(id, false);
+        return Array.from(document.querySelectorAll('#classChips .classChip')).map((e) => e.dataset.g); };
+      const cSelf = chipsOf('selfRotor'), cGal = chipsOf('galaxy'), cCyc = chipsOf('chaincycle');
+      const iSC = cSelf.findIndex((g) => g.startsWith('sclass-')), iE = cSelf.indexOf('emg-E2');
+      const mk = (e) => ({ name: 't', description: 'emergence 検査', camera: { scale: 200 },
+        world: { boundary: 'none', size: 0 }, physics: {}, emergence: e,
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+      const good = HP.validatePreset(mk('E2')), bad = HP.validatePreset(mk('E9'));
+      return { levels: LV, declared, badVal,
+        selfChip: iE >= 0, selfAdjacent: iSC >= 0 && iE === iSC + 1,
+        galChip: cGal.some((g) => g.startsWith('emg-')),
+        cycChip: cCyc.indexOf('emg-E1') >= 0,
+        keep: good.ok && good.preset.emergence === 'E2', goodW: good.warnings.length,
+        drop: bad.ok && bad.preset.emergence === undefined,
+        badW: bad.warnings.filter((w) => w.includes('emergence')).length,
+        clsPass: HP.classifyPreset(HP.allPresets().find((p) => p.id === 'selfRotor')).emergence };
+    });
+    const want = { emergent: 'E2', emergent2: 'E2', chain2: 'E2', chaincycle: 'E1', selfRotor: 'E2' };
+    const missing = Object.entries(want).filter(([k, v]) => r.declared[k] !== v).map(([k]) => k);
+    add('emergence.tag',
+      r.badVal.length === 0 && missing.length === 0
+      && r.selfChip && r.selfAdjacent && !r.galChip && r.cycChip
+      && r.keep && r.goodW === 0 && r.drop && r.badW === 1 && r.clsPass === 'E2',
+      `水準=[${r.levels.join(',')}] 宣言=${Object.entries(r.declared).map(([k, v]) => `${k}:${v}`).join(' ')}` +
+      `(未宣言は非表示 — 🌌galaxy のバッジ=${r.galChip}) / ` +
+      `チップ: 🥚=${r.selfChip}(sampleClass の隣=${r.selfAdjacent}) ♻️=E1 ${r.cycChip} / ` +
+      `スキーマ: 有効値保持=${r.keep}(警告${r.goodW}) 未知値は警告つき無視=${r.drop}(警告${r.badW}) / ` +
+      `classifyPreset パススルー=${r.clsPass}` +
+      (missing.length ? ` / 宣言ずれ: ${missing.join(',')}` : '') +
+      (r.badVal.length ? ` / 不正値: ${r.badVal.join(',')}` : ''));
+  } else {
+    console.log('SKIP emergence.tag(対象に E水準タグなし — 第82便B 未適用の root 等)');
+  }
+}
+
+// ---- 82B) 第82便B: emergence.monitor — 創発モニタ(表示専用グラフ)のスモーク。
+// ----   ①「グラフ」カテゴリにトグルが在る ②ON にすると値が出る(統計関数が有限値を返し、
+// ----   描画でスロットが割り当たり履歴が積まれる)③OFF/ON で物理が bit 不変
+// ----   (600步の x,y,spin ハッシュ一致 = 計測は sim.step に一切載っていない)
+// ----   ④統計式の健全性: 単一の接触塊は nCluster=1・maxFrac=1、離れた2群は nCluster=2、
+// ----     同符号スピンの整列度=+1・逆符号対称なら 0、剛体回転の V/σ は分散≈0 で大きくなる ----
+{
+  const hasEM = await page.evaluate(() => !!(window.HP && HP.emergenceStats));
+  if (hasEM) {
+    const r = await page.evaluate(() => {
+      const hash = () => { const S = HP.sim; const a = [];
+        for (let i = 0; i < S.n; i++) a.push(S.x[i], S.y[i], S.spin[i]);
+        return a.map((v) => v.toExponential(12)).join(','); };
+      // ③ 物理 bit 不変(OFF / ON の 600步)
+      HP.loadPreset('galaxy', false); HP.sim.overlays.emergence = false;
+      for (let k = 0; k < 600; k++) HP.sim.step(0.016);
+      const hOff = hash();
+      HP.loadPreset('galaxy', false); HP.sim.overlays.emergence = true;
+      for (let k = 0; k < 600; k++) HP.sim.step(0.016);
+      const hOn = hash();
+      // ① UI トグル(「グラフ」カテゴリ)
+      document.querySelector('#tabs button[data-tab=params]').click();
+      const labels = Array.from(document.querySelectorAll('#paramRows .prow label')).map((e) => e.textContent);
+      const hasToggle = labels.some((t) => t === HP.T('tgEmergence'));
+      // ② ON で値が出る(スロット割当・履歴)
+      HP.loadPreset('selfRotor', false);
+      const st0 = HP.emergenceStats();
+      HP.sim.overlays.emergence = true; HP.tick(40);
+      const slots = HP.overlaySlots();
+      const hist = HP.emergenceHist();
+      // ④ 統計式の健全性(合成配置で解析値と突き合わせる)
+      const mkP = (bodies) => ({ name: 't', description: 'd', camera: { scale: 200 },
+        world: { boundary: 'none', size: 0 }, seed: 1,
+        physics: { G: 0, D0: 2, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, Kt: 60,
+          cLight: 60, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1,
+          pnAlpha: 1.5, radiusScale: 1, softening: 2, timeScale: 1 }, bodies });
+      const B = (x, y, vx, vy, spin) => ({ type: 'single', m: 1, x, y, vx, vy, spin, pinned: false, radius: 1, rMul: 1 });
+      // 接触した3体(間隔1.5 < 1.2·(1+1)=2.4)= 1塊・スピン同符号 → 整列度 +1
+      const v1 = HP.validatePreset(mkP([B(0, 0, 0, 0, 0.5), B(1.5, 0, 0, 0, 0.5), B(3, 0, 0, 0, 0.5)]));
+      HP.sim.build(v1.preset); const s1 = HP.emergenceStats();
+      // 離れた2群(間隔100)= 2塊・スピン逆符号対称 → 整列度 0
+      const v2 = HP.validatePreset(mkP([B(0, 0, 0, 0, 0.5), B(1.5, 0, 0, 0, 0.5),
+        B(100, 0, 0, 0, -0.5), B(101.5, 0, 0, 0, -0.5)]));
+      HP.sim.build(v2.preset); const s2 = HP.emergenceStats();
+      // 剛体回転する4体(v=ω×r・分散0)→ V/σ は非常に大きい(σ²≈0)
+      const w = 0.1, R4 = 50;
+      const v3 = HP.validatePreset(mkP([0, 1, 2, 3].map((k) => { const a = k * Math.PI / 2;
+        return B(R4 * Math.cos(a), R4 * Math.sin(a), -w * R4 * Math.sin(a), w * R4 * Math.cos(a), 0); })));
+      HP.sim.build(v3.preset); const s3 = HP.emergenceStats();
+      return { bitEqual: hOff === hOn, hasToggle, slots, histN: hist.length,
+        st0: { K: st0.nCluster, f: st0.maxFrac, a: st0.align, v: st0.vsig },
+        s1: { K: s1.nCluster, f: s1.maxFrac, a: s1.align },
+        s2: { K: s2.nCluster, f: s2.maxFrac, a: s2.align },
+        s3: { K: s3.nCluster, v: s3.vsig } };
+    });
+    add('emergence.monitor',
+      r.bitEqual && r.hasToggle && r.slots.indexOf('emergence') >= 0 && r.histN >= 1
+      && Number.isFinite(r.st0.v) && r.st0.K > 1
+      && r.s1.K === 1 && Math.abs(r.s1.f - 1) < 1e-9 && Math.abs(r.s1.a - 1) < 1e-9
+      && r.s2.K === 2 && Math.abs(r.s2.f - 0.5) < 1e-9 && Math.abs(r.s2.a) < 1e-9
+      && r.s3.K === 4 && r.s3.v >= 1e9,
+      `トグル(グラフカテゴリ)=${r.hasToggle} スロット=[${r.slots.join(',')}] 履歴=${r.histN}点 / ` +
+      `OFF/ON で物理 bit 一致=${r.bitEqual}(600步 x,y,spin — 計測は sim.step に載っていない) / ` +
+      `🥚初期値: 塊${r.st0.K} 最大塊${r.st0.f.toFixed(4)} 整列${r.st0.a.toFixed(3)} V/σ=${r.st0.v.toFixed(2)} / ` +
+      `解析照合: 接触3体→塊${r.s1.K}・最大塊${r.s1.f.toFixed(3)}・整列${r.s1.a.toFixed(3)}(=1) / ` +
+      `離れた2群(逆符号スピン)→塊${r.s2.K}・最大塊${r.s2.f.toFixed(3)}・整列${r.s2.a.toFixed(3)}(=0) / ` +
+      `剛体回転4体→塊${r.s3.K}・V/σ=${r.s3.v.toExponential(2)}(分散が数値0 → 上限1e9=完全回転支持)`);
+  } else {
+    console.log('SKIP emergence.monitor(対象に 創発モニタ なし — 第82便B 未適用の root 等)');
+  }
+}
+
 // ---- 7z14) D3: behavior.cosmicweb — 膨張する箱の中で自己重力が構造(フィラメント/ボイド類似)を
 // ----      作る。判定量: 共動座標の 10×10 セルでの密度コントラスト δ²=Var(N)/⟨N⟩²(初期は
 // ----      配置のポアソンゆらぎ = 1/⟨N⟩)の成長倍率と、ボイド率(空セル比)の増加。
