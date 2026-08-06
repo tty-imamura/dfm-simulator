@@ -77,7 +77,9 @@
   #bodyEdit .beRow input[readonly]{opacity:.55;}
   #bodyEdit .beNote{color:var(--dim);font-size:calc(10px*var(--uz,1));margin-top:4px;line-height:1.4;}
   /* 第26便(原仮定者指示): 編集パネルの最小化 — ヘッダだけ残して行を畳む(✕廃止→最小化トグル) */
-  #bodyEdit.min .beRow,#bodyEdit.min .beNote{display:none;}
+  /* 第81便C: #beCoreV2 が details 化(summary は .beRow の外)したため、最小化時は summary も
+     明示的に隠す(従来どおり最小化中はコアv2内訳ブロック全体が見えない挙動を維持) */
+  #bodyEdit.min .beRow,#bodyEdit.min .beNote,#bodyEdit.min #beCoreV2>summary{display:none;}
   #bodyEdit.min{width:auto;min-width:120px;}
   #notice{position:absolute;left:50%;top:12px;transform:translateX(-50%);max-width:92%;
     background:rgba(20,24,48,.92);border:1px solid var(--line);border-radius:10px;
@@ -137,7 +139,13 @@
   details.catParams{margin:6px 0 10px;border:1px solid var(--line);border-radius:10px;padding:2px 10px;}
   details.catParams>summary{cursor:pointer;min-height:34px;display:flex;align-items:center;gap:8px;
     font-size:calc(12px*var(--uz,1));color:var(--fg);font-weight:700;letter-spacing:.05em;
-    touch-action:manipulation;list-style-position:inside;}
+    touch-action:manipulation;list-style-position:inside;list-style:none;}
+  details.catParams>summary::-webkit-details-marker{display:none;}
+  /* 第81便C(原仮定者指示): display:flex で summary の既定開閉三角が消えるため、開閉状態を
+     ::before の▸(閉)/▾(開)で明示する。details[open] セレクタのみで実現(JS追加なし) */
+  details.catParams>summary::before{content:"▸";display:inline-block;width:1em;flex:0 0 auto;
+    text-align:center;color:var(--dim);}
+  details.catParams[open]>summary::before{content:"▾";}
   details.catParams>summary .catInfo{color:var(--dim);font-weight:400;
     text-decoration:underline dotted;text-underline-offset:3px;cursor:pointer;}
   details.advParams>summary{cursor:pointer;min-height:38px;display:flex;align-items:center;
@@ -278,14 +286,17 @@
       <!-- 第80便C: コアv2(第77便。core:{mode,massFrac,radius,omega,Kcs,pump,contract})を持つ粒子
            だけに出す読み取り専用の内訳。編集欄は無い — コアv2は独立サブシステムなのでこのパネルからは
            変更しない(mode/pump/contract 等の編集UIはスコープ外)。updateBodyEdit() が
-           #bodyEdit.style.display と同じ毎フレーム経路(τ/t のHUD表示と同じ更新経路)で追随する -->
-      <div id="beCoreV2" style="display:none">
-        <div class="beRow"><label id="beLcvTitle" class="tappable" style="flex:1;color:var(--acc);font-weight:700">コア内訳(v2)</label></div>
+           #bodyEdit.style.display と同じ毎フレーム経路(τ/t のHUD表示と同じ更新経路)で追随する
+           第81便C(原仮定者指示): details/summary の折畳み(既定closed)へ変更 — 328行付近の
+           abNoteWrap 等と同じ見た目の流儀(装飾なし・ブラウザ既定の開閉表示)。閉じていても
+           updateBodyEdit() の値書き込みは従来どおり継続する(コスト無視できるため) -->
+      <details id="beCoreV2" style="display:none">
+        <summary id="beLcvTitle" class="tappable" style="color:var(--acc);font-weight:700;cursor:pointer">コア内訳(v2)</summary>
         <div class="beRow"><label id="beLcvMode" style="min-width:34px">種別</label><input type="text" id="beCvMode" readonly tabindex="-1" inputmode="text" autocomplete="off"></div>
         <div class="beRow"><label id="beLcvOm" style="min-width:34px">Ωc/Ωs/Δ</label><input type="text" id="beCvOm" readonly tabindex="-1" inputmode="text" autocomplete="off"></div>
         <div class="beRow"><label id="beLcvJ" style="min-width:34px">Jc/Ic/Kc</label><input type="text" id="beCvJ" readonly tabindex="-1" inputmode="text" autocomplete="off"></div>
         <div class="beRow"><label id="beLcvLs" style="min-width:34px">殻/コア/合成</label><input type="text" id="beCvLs" readonly tabindex="-1" inputmode="text" autocomplete="off"></div>
-      </div>
+      </details>
       <div class="beNote" id="beNote">※編集は即時反映。⏮初めからで初期値に戻ります。</div>
     </div>
   </div>
@@ -504,6 +515,9 @@ ja: {
   abResetDone:"A/B両方を初期配置に戻しました",
   paramNote:"※ 物理パラメータは実行中いつでも反映されます。粒子の初期配置・個数はプリセット選択または「⏮ 初めから」で反映されます。",
   grpLaws:"仮定物理法則", grpSim:"シミュレーション", grpDisplay:"表示", grpGraph:"グラフ", grpAll:"全カテゴリ",
+  // 第81便C(原仮定者指示): サンプルに依らないアプリ全体設定を集約する「共通設定」カテゴリ(表示の直後)
+  grpCommon:"共通設定",
+  grpCommonDesc:"サンプルに依らないアプリ全体の設定(描画品質・文字サイズ・スケール換算)。物理には影響しない。",
   grpSpacetime:"時空", grpSpinHeat:"スピン・熱", grpDrag:"引きずり・測地線", grpLabBox:"実験箱",
   grpActive:"このサンプルの主役", grpAdvanced:"詳細設定(全パラメータ)",
   physLockHead:"物理対応(GR較正)",
@@ -732,7 +746,7 @@ ja: {
   scaleName_galactic:"銀河", scaleName_cosmic:"宇宙全体",
   bdgScaleTip:"5段階スケール分類(分子/日常/天体/銀河/宇宙全体)。UI の分類と表示換算の目安専用 — 物理エンジンはスケールで切り替わらない(同じ公理・同じ法則のまま、質量・距離・速度で支配機構が入れ替わるのが本モデルの主題)",
   scaleDispLabel:"スケール換算表示",
-  scaleDispDesc:"パラメータの数値(シミュレーション単位)に、現在のスケール指数で SI 換算した値(≈1.2e7 m/s 等)を併記する。換算は次元をもつパラメータ(G・光速・一様重力・ε・D₀・Kt)のみ。表示だけの機能で、物理・セーブには一切影響しない。指数は下の「シミュレーション」カテゴリのスライダーで分子〜宇宙全体まで連続に変えられる",
+  scaleDispDesc:"パラメータの数値(シミュレーション単位)に、現在のスケール指数で SI 換算した値(≈1.2e7 m/s 等)を併記する。換算は次元をもつパラメータ(G・光速・一様重力・ε・D₀・Kt)のみ。表示だけの機能で、物理・セーブには一切影響しない。指数は同じ「共通設定」カテゴリ内の「表示スケール指数」スライダーで分子〜宇宙全体まで連続に変えられる",   // 第81便C: 移動先(共通設定)に合わせ節名を更新
   scaleExpLabel:"表示スケール指数",
   scaleExpDesc:"表示換算に使う長さ指数 log₁₀(m/長さ1) を、分子(10⁻¹⁰m)から宇宙全体(10²³m)まで指数で連続に変える。時間・質量の指数は各スケールの代表点の間を線形補間する。表示専用 — 物理(sim.params)には書き込まない。プリセットを読み込むと、そのサンプルの scaleTier 既定値へ戻る",
   hudScale:(x,eT,eM,t)=>`スケール換算 長さ1=10^${Math.round(x*10)/10}m 時間1=10^${Math.round(eT*10)/10}s 質量1=10^${Math.round(eM*10)/10}kg t≈${sciFmt(t*Math.pow(10,eT))}s`,
@@ -767,6 +781,9 @@ en: {
   abResetDone:"Both A and B reset to initial layout",
   paramNote:"※ Physics parameters apply instantly, even while running. Initial particle layout/count applies on preset selection or ⏮ Restart.",
   grpLaws:"Hypothetical physical laws", grpSim:"Simulation", grpDisplay:"Display", grpGraph:"Graphs", grpAll:"All categories",
+  // 81st delivery, track C: "General" category (right after Display) for app-wide, sample-independent settings
+  grpCommon:"General",
+  grpCommonDesc:"App-wide settings that don't depend on the sample (render quality, text size, scale-converted display). Does not affect the physics.",
   grpSpacetime:"Spacetime", grpSpinHeat:"Spin & Heat", grpDrag:"Dragging & Geodesics", grpLabBox:"Lab Box",
   grpActive:"Key settings of this sample", grpAdvanced:"Advanced (all parameters)",
   physLockHead:"Physical correspondence (GR calibration)",
@@ -985,7 +1002,7 @@ en: {
   scaleName_galactic:"Galactic", scaleName_cosmic:"Cosmic",
   bdgScaleTip:"Five-tier scale classification (molecular / everyday / celestial / galactic / cosmic). Used only for browsing and unit-conversion hints — the physics engine never switches on scale (the whole point of this model is that the same axioms let different mechanisms dominate as mass, distance and speed change)",
   scaleDispLabel:"Scale-converted display",
-  scaleDispDesc:"Adds an SI-converted value (≈1.2e7 m/s etc.) next to dimensional parameters (G, light speed, uniform gravity, ε, D₀, Kt), using the current scale exponent. Display only — physics and saves are untouched. The exponent can be swept continuously from molecular to cosmic with the slider in the Simulation category",
+  scaleDispDesc:"Adds an SI-converted value (≈1.2e7 m/s etc.) next to dimensional parameters (G, light speed, uniform gravity, ε, D₀, Kt), using the current scale exponent. Display only — physics and saves are untouched. The exponent can be swept continuously from molecular to cosmic with the \"Display scale exponent\" slider in the same General category",   // 81st delivery, track C: updated section name to match new location
   scaleExpLabel:"Display scale exponent",
   scaleExpDesc:"The length exponent log₁₀(m per length-unit) used by the converted display, swept exponentially from molecular (10⁻¹⁰ m) to cosmic (10²³ m). Time and mass exponents interpolate linearly between the tier anchor points. Display only — nothing is written into sim.params. Loading a preset resets it to that sample's scaleTier default",
   hudScale:(x,eT,eM,t)=>`scale conv: len1=10^${Math.round(x*10)/10}m time1=10^${Math.round(eT*10)/10}s mass1=10^${Math.round(eM*10)/10}kg t≈${sciFmt(t*Math.pow(10,eT))}s`,
@@ -9496,6 +9513,9 @@ function buildParamRows(){
     if(tsDef) mkParamRow(tsDef, g, true); }
   // 表示設定 — 第54便 54D⑤: 「表示」もカテゴリ扱い(catParams で畳む。h3 → summary)
   const disp=document.createElement("div"); disp.className="group";
+  // 第81便C(原仮定者指示): サンプルに依らないアプリ全体設定(描画品質・文字サイズ・
+  // スケール換算表示・表示スケール指数)は「表示」から分離し「共通設定」カテゴリへ収める
+  const common=document.createElement("div"); common.className="group";
   // 第58便 58B: 時間倍率はシミュレーションカテゴリへ移動(v1.23 の表示常設を変更)
   // v1.23(原仮定者指示): 表示トグルは A/B 比較中、常に両方の画面へ反映する
   const setOv=(k)=>(v)=>{ sim.overlays[k]=v; if(ab) ab.simB.overlays[k]=v; };
@@ -9577,6 +9597,7 @@ function buildParamRows(){
     disp.insertBefore(row, raysRow? raysRow.nextSibling : null);
   }
   // v1.23: 描画品質(自動/正確/軽量)。localStorage hp_quality に永続化。ラベルタップで説明
+  // → 第81便C(原仮定者指示): 「表示」から「共通設定」カテゴリへ移動(挙動・保存先は不変)
   {
     const row=document.createElement("div"); row.className="prow";
     const lab=document.createElement("label"); lab.textContent=T("qualityLabel"); lab.style.flex="1";
@@ -9595,10 +9616,11 @@ function buildParamRows(){
     }
     sel.value=qualityMode;
     sel.addEventListener("change",()=>setQualityMode(sel.value));
-    row.appendChild(lab); row.appendChild(sel); disp.appendChild(row);
+    row.appendChild(lab); row.appendChild(sel); common.appendChild(row);   // 第81便C: 共通設定カテゴリへ
   }
   // 第25便(原仮定者指示): 粒子サイズ表示の切替UIを廃止 — 「半径準拠」に固定(sizeMode 定数)
   // v1.17: UI文字サイズ(標準/大/特大)。localStorage hp_uiscale に永続化
+  // → 第81便C(原仮定者指示): 「表示」から「共通設定」カテゴリへ移動(挙動・保存先は不変)
   {
     const row=document.createElement("div"); row.className="prow";
     const lab=document.createElement("label"); lab.textContent=T("uiScaleLabel"); lab.style.flex="1";
@@ -9614,22 +9636,24 @@ function buildParamRows(){
       localStorage.setItem("hp_uiscale",String(uiFontScale));
       applyUiScale();
     });
-    row.appendChild(lab); row.appendChild(sel); disp.appendChild(row);
+    row.appendChild(lab); row.appendChild(sel); common.appendChild(row);   // 第81便C: 共通設定カテゴリへ
   }
   // 第74便: スケール換算表示 — パラメータの数値を「シミュレーション単位」のまま出すか、
   // scaleTier/スライダーの指数で SI 換算した値(≈1.2e7 m/s 等)を併記するかの切替。
   // 表示専用(localStorage hp_scale_disp。物理・セーブ不変)
+  // → 第81便C(原仮定者指示): 「表示」から「共通設定」カテゴリへ移動(挙動・保存先は不変)
   {
     const row=document.createElement("div"); row.className="prow";
     const lab=document.createElement("label"); lab.textContent=T("scaleDispLabel"); lab.style.flex="1";
     tapDesc(row,lab,"scaleDispDesc");
     const cb=document.createElement("input"); cb.type="checkbox"; cb.id="scaleDispCb"; cb.checked=scaleDispOn;
     cb.addEventListener("change",()=>{ setScaleDisp(cb.checked); refreshScaleConv(); requestRender(); });
-    row.appendChild(lab); row.appendChild(cb); disp.appendChild(row);
+    row.appendChild(lab); row.appendChild(cb); common.appendChild(row);   // 第81便C: 共通設定カテゴリへ
   }
-  // 第74便 → **第79便(原仮定者指示): シミュレーション→表示カテゴリへ移動+指数の直値指定**。
+  // 第74便 → 第79便: シミュレーション→表示カテゴリへ移動+指数の直値指定。
   // 表示換算(スケール換算表示・HUD)の指数だけを動かし、sim.params には一切書かない
   // (物理不変 — QA scale.display-invariant)。プリセット読込で scaleTier の既定指数へ戻る
+  // → 第81便C(原仮定者指示): 表示→「共通設定」カテゴリへ移動(挙動・保存先は不変)
   {
     const row=document.createElement("div"); row.className="prow";
     const lab=document.createElement("label"); lab.textContent=T("scaleExpLabel");
@@ -9658,7 +9682,7 @@ function buildParamRows(){
       if(isFinite(v)) setExp(v); else updOut();
     });
     row.appendChild(lab); row.appendChild(rng); row.appendChild(num);
-    disp.appendChild(row); disp.appendChild(tierRow);
+    common.appendChild(row); common.appendChild(tierRow);   // 第81便C: 共通設定カテゴリへ
   }
   // 第79便(原仮定者指示): 「グラフ」カテゴリ(グラフウィンドウ表示の切替)を「表示」の上に新設
   {
@@ -9674,6 +9698,9 @@ function buildParamRows(){
     mkCatDetails(host,T("grpGraph"),null).appendChild(gg);
   }
   mkCatDetails(host,T("grpDisplay"),null).appendChild(disp);
+  // 第81便C(原仮定者指示): 「共通設定」カテゴリを「表示」の直後に新設 — 描画品質・文字サイズ・
+  // スケール換算表示・表示スケール指数の4項目(サンプル非依存・物理不変)をここへ集約
+  mkCatDetails(host,T("grpCommon"),T("grpCommonDesc")).appendChild(common);
   // v1.26: ロック中はプリセット読込・既定値復帰・A/B切替などの再構築後も条件を維持する
   if(physLock) enforcePhysLock(ab?[sim,ab.simB]:[sim]);
   else updatePhysLockBadge();
