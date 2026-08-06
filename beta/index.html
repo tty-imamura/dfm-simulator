@@ -660,6 +660,7 @@ ja: {
   helpLawsBody:"① 空間は質点の相対配置だけで決まる(絶対空間なし)。② 決定力=質量÷距離。決定力の勾配が重力になる。③ 質点は「近くの空間」に対して慣性を持ち、空間ごと引きずられる(kFrame)。遠方宇宙の決定力がD₀。④ スピン=熱(温度T=Is²)。衝突で速度がスピンに変わり(muF)、スピンは斥力=圧力を生み(kRep)、拡散して平衡になる(κs)。⑤ 決定力が高い場所の時計は遅く、空間(共動フレーム)に対して速く動く時計も遅れる。光は同じψ=W/Ktで屈折して曲がり(n=e^{2ψ}。v1.7で時間と光を単一のψに統一)、「決定した空間」に運ばれる(c₀)。⑥ すべての相互作用は作用反作用対称で、運動量・角運動量を厳密に保存する(遠方宇宙との交換は帳簿に記録=保存量モニタ)。温度Tの質点はλ=b_m/Tの光を放射する(η_rad)。詳細は docs/PHYSICS.md(v1.6)。",
   ovCurve:"v(r): 実測(青) / 基準 v_bar(点線)", ovTemp:"平均温度(Is²) 左/右", ovLeft:"左", ovRight:"右",
   ovSpec:"放射ピーク λ=b_m/T", ovSpecNone:"放射なし(T≈0)", ovSpecHot:"短λ=高温", ovSpecCold:"長λ=低温",
+  ovSpecTrans:"透過後(赤化)",   // 第82便 A: 光学輸送 — 源スペクトル×e^{−τ(λ)} の読み口
   hudClock:"時計τ/t",
   // 第32便(W2): 膨張グラフ overlay(a(t)・H(t)の折れ線+赤方偏移カラーバー)
   ovBoxGraph:"a(青実線) / H(橙点線)", ovEmit:"放出", ovObs:"観測", ovIR:"→赤外", ovUV:"→紫外",
@@ -926,6 +927,8 @@ en: {
   helpLawsBody:"(1) Space is defined only by the relative configuration of masses (no absolute space). (2) Determinacy = mass ÷ distance; its gradient is gravity. (3) Masses have inertia relative to the \"nearby space\" and are dragged along with it (kFrame). D₀ is the determinacy of the distant universe. (4) Spin = heat (T = Is²). Collisions convert velocity to spin (muF), spin creates repulsion = pressure (kRep), and diffuses to equilibrium (κs). (5) Clocks run slow where determinacy is high, and clocks moving fast relative to the comoving frame also run slow. Light refracts under the same ψ = W/Kt (n = e^{2ψ}; time and light unified in v1.7) and is carried by the \"determined space\" (c₀). (6) All interactions are action–reaction symmetric and conserve momentum and angular momentum exactly (exchanges with the distant universe are ledgered — see the conservation monitor). A mass at temperature T radiates at λ = b_m/T (η_rad). Details: docs/PHYSICS.md (v1.6).",
   ovCurve:"v(r): measured (blue) / baseline v_bar (dotted)", ovTemp:"Mean temperature (Is²) L/R", ovLeft:"L", ovRight:"R",
   ovSpec:"Radiation peak λ=b_m/T", ovSpecNone:"No radiation (T≈0)", ovSpecHot:"short λ = hot", ovSpecCold:"long λ = cold",
+  ovSpecTrans:"transmitted (reddened)",   // 82nd flight A: optical transport — source spectrum x e^{-tau(lambda)}
+
   hudClock:"clock τ/t",
   ovBoxGraph:"a (blue, solid) / H (orange, dotted)", ovEmit:"Emitted", ovObs:"Observed", ovIR:"→IR", ovUV:"→UV",
   ovBoxNote:"1+z=a/a0 (semantics, not derived)",
@@ -1281,6 +1284,44 @@ const REACTION_DV_CAP = 16, REACTION_DV_CAP2 = REACTION_DV_CAP * REACTION_DV_CAP
 //            インパルス J_ij=μ_ij(φ_ij d_i−φ_ji d_j)。巨大質量比でも反作用が m_i/m_j 倍に
 //            増幅されないため、支配天体を pinned:false にできる(PHYSICS.md E6′-R)
 const FRAME_REACTION_KEY = "frameReaction", FRAME_REACTIONS = ["legacy","pairReduced"];
+// 第82便 A(光学輸送拡張): 体積吸収・波長依存(赤化)・散乱の opt-in パラメータ。
+// **観測層のみ** — 力学・時計(τ)・既存の減光(lightSweep=自光の掻き出し)には一切触れない。
+// 効くのは光線積分器 traceRay の光学的深さ τ_λ と、その表示(光線の減光・拡散光・スペクトル)だけ。
+//   kAbs  : 吸収強度(既定 0 = 完全 OFF。0 のとき光線ループに追加演算を持ち込まない)
+//   pAbs  : 波長依存指数(既定 4 = レイリー類似。0 でグレー吸収=赤化なし)
+//   fScat : 減衰分のうち吸収体の拡散光として**描画にだけ**足し戻す割合(既定 0)
+// 既定値は DEFAULT_PHYSICS に置かない(第80便 frameReaction の流儀 — 省略時と既定値明示で
+// プリセット署名・エクスポート JSON が 1 文字も変わらない)。UI スライダーも持たせない。
+const ABS_CLAMPS = { kAbs:[0,10], pAbs:[0,8], fScat:[0,1] };
+const ABS_DEFAULT = { kAbs:0, pAbs:4, fScat:0 };
+// 局所質量核(コンパクト台)。遠方 1/d の決定力 W をそのまま使うと吸収が無限遠まで伸びて
+// 「雲の外」が定義できないため、体積吸収には台のある核を別に立てる:
+//   ρ_local(r) = Σ_j m_j·(3/(π a_j²))·(1−(d_j/a_j)²)²  (d_j<a_j のみ・∫ρ dA=Σm_j に規格化)
+//   a_j = ABS_SUPPORT_K · max(R_j, ε)   … 粒子半径の ABS_SUPPORT_K 倍(ソフトニング長 ε が下限
+//   = 吸収核は力の緩和長より鋭くならない)
+// 台の外はちょうど 0(境界で値・1階微分とも 0 に接続)なので、どの天体の台にも入らない光線の
+// τ は厳密に 0 になる — 「雲の外」が定義できることがこの核を採る理由。
+// 台係数 K=4 の較正(tests/exp-4-83.mjs case F):
+//   ・滑らかな(粒状性の小さい)吸収体には台が粒子間隔 s の 1.5 倍程度必要: a ≳ 1.5·s
+//   ・粒子同士が接触斥力(E9)で反発しない散逸のない雲であるには s > 2R
+//   → 両立条件は K > 3。実測の粒状性(解析柱密度からの相対RMS)は K=1.5→6 で 0.32→0.11 と
+//     単調に下がり、K=4 で 0.15。台のはみ出しは間隔側で決まる(K にはほぼ依らない)ので
+//     下限 3 に余裕 33% を見た 4 を採る
+const ABS_SUPPORT_K = 4;
+// 波長依存の基準波長[nm]。τ(λ) = τ_ref·(λ_ref/λ)^pAbs(τ_ref = ∫kAbs·ρ_local ds)。
+// 可視帯の中央付近を基準に採る(光線表示の既定 λ0=580nm とは独立の物理側の基準)
+const ABS_LAMBDA_REF = 550;
+// 散乱の拡散光を描くときの表示正規化。1本の光線が失った分は線分に沿って薄く広がるので、
+// 素の割合をそのまま不透明度にすると見えない。フラッシュ閾値 0.02 の点光を「面輝度」として
+// 読み替える係数(描画専用 — τ にも力学にも入らない。fScat=0 では 1 度も参照されない)
+const ABS_SCAT_GAIN = 8;
+// 第82便: 透過率 T(λ)=e^{−τ(λ)}。表示(光線の減光・スペクトル)と QA・実験ハーネスが
+// 同じ 1 本の式を共有するための純関数(p=sim.params 相当・pAbs 省略時は既定 4)
+function opticsTransmit(p, tauRef, lam, lamRef){
+  if(!(tauRef>0)) return 1;
+  const pA=(p && typeof p.pAbs==="number")? p.pAbs : ABS_DEFAULT.pAbs;
+  return Math.exp(-tauRef*Math.pow(lamRef/Math.max(lam,1e-30), pA));
+}
 const N_CAP = 600;                        // 粒子総数上限
 // 第45便 45A(台帳4-48): 光線源・1PN源のしきい値を「質量」から「偏向角」へ物理化した。
 // 弱場の偏向は α ≈ 4ψ(b) = 4·m/(Kt·b)(E8R/T5)。天体 i が与えうる最大偏向は最接近距離が
@@ -2707,6 +2748,59 @@ const BUILTIN_PRESETS = [
   rays:{n:36, spread:0.85},
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
+// 第82便 A(台帳「光学輸送拡張」): 🌆 暗黒雲の赤化 — 体積吸収・波長依存・散乱のデモ。
+// 背景の高温星群(左・光学的に薄い)の手前を、冷たい暗黒雲(右・力学的にはほぼ素通り)が
+// 横切る。光学輸送は観測層のみ — kAbs を外しても軌道・スピン・τ は 1 bit 変わらない。
+{ id:"reddening", name:"暗黒雲の赤化 — 体積吸収と波長依存", emoji:"🌆", group:"光",
+  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類): 単一機構(体積吸収の波長依存)の原理デモ
+  descStruct:{
+    summary:"背景に広がる高温の星ぼしと、その手前を横切る冷たい暗黒雲。雲は軽くて力学的にはほとんど何もしないのに、通り抜ける光だけを波長ごとに違う強さで吸う — 青い光が先に消え、雲越しの星の色が赤へ寄る(赤化)。光学輸送(体積吸収 kAbs・波長依存指数 pAbs・散乱 fScat)は**観測層だけ**に効き、軌道・スピン・固有時計は 1 bit も変わらない。実在の星間減光則(R_V=3.1 等)の再現主張ではない — この宇宙の光学(E8R)に「経路に沿って積む吸収」を足すとどう見えるか、のトイモデルである(Negative Claims)。",
+    observe:"実測(seed固定・t=0・光線は x=−310 から dl=2.7 で400步): ①**雲越しの光線は赤化する** — 雲の中心を通る光線の光学的深さは基準波長 λ_ref=550nm で τ_ref=2.429 で、透過率は青(450nm)0.0044 / 赤(650nm)0.288、比(青/赤)は0.0154。②**雲の脇は素通り** — 雲から外れた光線(y=200)の τ_ref は厳密に0.000。局所質量核はコンパクト台(粒子半径の4倍・ソフトニング長 ε で下限)なので、どの天体の台にも入らない光線は1度も吸収されない。③**波長依存は pAbs で決まる** — pAbs=0(グレー吸収)では青/赤比が1.0000、pAbs=2 で0.151、既定の pAbs=4(レイリー類似)で0.0154。④**用量反応** — kAbs を 0/1.7/3.4/6.8 と振ると τ_ref は 0.000/1.215/2.429/4.859 になり、τ_ref/kAbs は4点とも 0.714537 で厳密に一致する(経路積分が kAbs について線形)。⑤**力学は不変** — kAbs 無指定の対照と 2000步走らせて位置・速度・スピン・固有時計が1bitも違わない(散乱 fScat も描画層のみ — 画面は変わるが数値は変わらない)。⑥スペクトル表示(右下)の橙の折れ線が透過率 T(λ)、橙の輪郭バーが透過後スペクトル。輝度が λ^{−4} で落ちる源(pRad=4)に τ∝λ^{−4} を掛けると、透過後のピークは長波長側へ実測5.09倍動く(解析形 λ_c·τ_ref^{1/pAbs})。",
+    control:"光線トグルの右にある λ0(光線の基準波長)スライダーを 450nm 側→650nm 側へ動かすと、雲の背後の光線だけが暗い→明るいへ戻る(青は消え、赤は通る)。JSON の physics.kAbs を 0 にすると光学輸送ごと消え、physics.fScat を 0 にすると雲の拡散光(散乱の描き戻し)だけが消える。"},
+  en:{name:"Reddening by a Dark Cloud — Volume Absorption and Wavelength Dependence", descStruct:{
+    summary:"A field of hot background stars with a cold dark cloud drifting in front of it. The cloud is light and does next to nothing dynamically, yet it absorbs the light passing through it by an amount that depends on wavelength — blue goes first, so the starlight seen through the cloud shifts toward red (reddening). Optical transport (volume absorption kAbs, wavelength exponent pAbs, scattering fScat) acts on the **observation layer only**: orbits, spins and proper clocks do not change by a single bit. Not a claim to reproduce real interstellar extinction laws (R_V=3.1 and the like) — it is a toy model of what this universe's optics (E8R) look like once absorption is integrated along the path (Negative Claims). ",
+    observe:"Measured (fixed seed, t=0, rays from x=-310 with dl=2.7 over 400 steps): (1) **Rays through the cloud redden** — the optical depth of the ray crossing the cloud center is tau_ref=2.429 at the reference wavelength 550 nm, giving transmittances of 0.0044 in the blue (450 nm) and 0.288 in the red (650 nm), a blue/red ratio of 0.0154. (2) **Beside the cloud it passes clean** — a ray outside the cloud (y=200) has exactly tau_ref=0.000. The local mass kernel has compact support (four particle radii, floored by the softening length), so a ray that never enters any body's support is never absorbed. (3) **The wavelength dependence is set by pAbs** — with pAbs=0 (gray absorption) the blue/red ratio is 1.0000, with pAbs=2 it is 0.151, and at the default pAbs=4 (Rayleigh-like) 0.0154. (4) **Dose response** — stepping kAbs through 0/1.7/3.4/6.8 gives tau_ref 0.000/1.215/2.429/4.859, and tau_ref/kAbs is 0.714537 at all four points (the path integral is linear in kAbs). (5) **The dynamics are untouched** — against a control with kAbs omitted, run for 2000 steps, positions, velocities, spins and proper clocks agree to the bit (scattering fScat is a drawing layer too: the picture changes, the numbers do not). (6) In the spectrum overlay (bottom right) the orange line is the transmittance T(lambda) and the orange outlined bars are the transmitted spectrum. For a source whose luminosity falls as lambda^-4 (pRad=4), multiplying by tau proportional to lambda^-4 moves the transmitted peak a measured 5.09x toward longer wavelengths (analytically lambda_c * tau_ref^(1/pAbs)). ",
+    control:"Drag the lambda0 slider (the ray reference wavelength, next to the rays toggle) from the 450 nm side to the 650 nm side and only the rays behind the cloud go from dark back to bright — blue is absorbed, red gets through. Setting physics.kAbs to 0 in the JSON removes optical transport entirely; setting physics.fScat to 0 removes only the cloud's diffuse glow (the scattered light drawn back in)."}},
+  activeParams:["Kt","cLight","softening"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+  // 第82便 A: claims — 実測(exp-4-83)から ±10% 程度の窓。testId は QA の claim.reddening
+  claims:[
+    { id:"reddening.tau-cloud", kind:"fixed-seed", metric:"tauRefCloud",
+      expected:{min:2.19, max:2.67},     // 実測 2.429(λ_ref=550nm・雲中心 y=0 の光線)
+      descPattern:"τ_ref=(\\d\\.\\d+) で、透過率", testId:"claim.reddening" },
+    { id:"reddening.blue-red-ratio", kind:"fixed-seed", metric:"transmitRatioBlueRed",
+      expected:{min:0.0139, max:0.0169}, // 実測 0.0154(T(450nm)/T(650nm)・雲中心の光線)
+      descPattern:"比\\(青/赤\\)は(\\d\\.\\d+)", testId:"claim.reddening" },
+    { id:"reddening.tau-clear", kind:"fixed-seed", metric:"tauRefClear",
+      expected:{min:0, max:0.001},       // 実測 0.000(コンパクト台の外は厳密に 0)
+      descPattern:"τ_ref は厳密に(\\d\\.\\d+)", testId:"claim.reddening" },
+    { id:"reddening.gray-ratio", kind:"fixed-seed", metric:"transmitRatioGray",
+      expected:{min:0.99, max:1.01},     // pAbs=0(グレー吸収)は波長依存なし=赤化ゼロの対照
+      descPattern:"では青/赤比が(\\d\\.\\d+)", testId:"claim.reddening" },
+    { id:"reddening.peak-shift", kind:"fixed-seed", metric:"transmittedPeakShift",
+      expected:{min:4.5, max:5.7},       // 実測 5.09倍(源ピーク→透過後ピークの λ 比)
+      descPattern:"長波長側へ実測(\\d\\.\\d+)倍", testId:"claim.reddening" }
+  ],
+  seed:20260806,
+  camera:{scale:300}, world:{boundary:"none",size:0},
+  // kAbs/fScat は第82便の光学輸送キー(既定は kAbs=0・pAbs=4・fScat=0 で全経路が現行と bit 同一。
+  // 既定値のキーは validatePreset が書き出さないので、既存プリセットの署名は 1 文字も変わらない)
+  physics:{G:0.2, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:400,
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:10, timeScale:1, kAbs:3.4, fScat:0.3},
+  bodies:[
+    // 背景の高温星群(左)— 質量を極小にして「光学的に薄い」ままスペクトルの源だけを担う
+    {type:"disk", n:44, cx:-250, cy:0, radius:140, rMul:5, mMin:0.02, mMax:0.02,
+     spinMin:4, spinMax:20, vMode:"random", aroundMass:0, vScale:0, direction:1, bulkVx:0, bulkVy:0},
+    // 前景の冷たい暗黒雲(右)— spin=0 なので自分では光らず(T=0)、吸収だけをする。
+    // 1粒 m=1 は光線源のしきい値 m≥(α_min/4)·Kt·max(R,ε)=20 を大きく下回るので光を曲げない
+    // (= 純粋な吸収体。レンズ効果と混ざらない)
+    {type:"disk", n:110, cx:70, cy:0, radius:120, rMul:1, mMin:1, mMax:1,
+     spinMin:0, spinMax:0, vMode:"random", aroundMass:0, vScale:0, direction:1, bulkVx:0, bulkVy:0.12}
+  ],
+  rays:{n:24, spread:0.75},
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,spectrum:true} },
+
 // ===== グループ: 熱の実験室 =====
 { id:"gas", name:"気体の熱平衡", emoji:"🔥", group:"熱の実験室",
   scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
@@ -3661,6 +3755,15 @@ function validatePreset(obj){
       if(k===FRAME_REACTION_KEY){
         if(FRAME_REACTIONS.indexOf(p.physics[k])<0) warnings.push('physics.frameReaction は "legacy"/"pairReduced" のみ — 既定(legacy)に修正');
         else if(p.physics[k]!=="legacy") ph[k]=p.physics[k];
+        continue;
+      }
+      // 第82便 A(光学輸送): kAbs/pAbs/fScat も既定値は ph へ入れない — 省略時と既定値明示で
+      // プリセット署名(presetSig)・エクスポート JSON が 1 文字も変わらないようにする
+      if(k in ABS_CLAMPS){
+        if(!isNum(p.physics[k])){ bad("physics."+k+" が数値ではありません"); continue; }
+        const ac=ABS_CLAMPS[k], av=clamp(p.physics[k],ac[0],ac[1]);
+        if(av!==p.physics[k]) warnings.push("physics."+k+" を値域に修正");
+        if(av!==ABS_DEFAULT[k]) ph[k]=av;
         continue;
       }
       if(!(k in CLAMPS)){ warnings.push("physicsの未知キー "+k+" を無視"); continue; }
@@ -7464,6 +7567,24 @@ function traceRay(S, px, py, cxv, cyv, dl, maxSteps, emit){
   // 媒質随伴 u_B には入る(時計と光が同じ ψ・同じ u を共有する E8R の統一を維持)
   const BX=S.box; let WB=0, bH=0;
   if(BX){ const sc=boxScaleAt(BX,S.t); WB=boxWAt(BX,sc.a); bH=sc.H; }
+  // 第82便 A(光学輸送・体積吸収): 光学的深さ τ_ref = ∫ kAbs·ρ_local ds を経路に沿って積む。
+  // 吸収体は「台のある局所質量核」を持つ**全粒子**(重い天体だけを見る heavy とは別集合 —
+  // 暗黒雲は個々が軽く rayHeavy に入らないため)。kAbs=0(既定)のときは候補配列を作らず、
+  // 内側ループの追加演算もループ不変な if 1 本だけに保つ(既定経路は bit 同一)
+  // 積分中に粒子は動かないので、位置・台半径²・核係数を平坦な typed array へ写して
+  // 内側ループの間接参照をなくす(値・演算順は不変)
+  const kAbs=(typeof p.kAbs==="number")? p.kAbs : 0;
+  let absN=0, absX=null, absY=null, absA2=null, absC=null;
+  if(kAbs>0){
+    absX=new Float64Array(S.n); absY=new Float64Array(S.n);
+    absA2=new Float64Array(S.n); absC=new Float64Array(S.n);
+    for(let i=0;i<S.n;i++){
+      const mi=S.m[i]; if(!(mi>0)) continue;
+      const a=ABS_SUPPORT_K*Math.max(S.R[i],eps), a2=a*a;
+      absX[absN]=S.x[i]; absY[absN]=S.y[i]; absA2[absN]=a2; absC[absN]=mi*3/(Math.PI*a2); absN++;
+    }
+  }
+  let tau=0;
   // 第32便(台帳4-48): 終端状態 — emit の打ち切り="stopped"(境界・捕捉)/ maxSteps 到達="maxSteps"
   // (有限時間内に停止条件へ達しない=「有限時間非脱出」の機械表現)。既存の呼び出し側は非破壊
   let steps=0, end="maxSteps";
@@ -7480,11 +7601,24 @@ function traceRay(S, px, py, cxv, cyv, dl, maxSteps, emit){
     const neff=Math.exp(kU*Wtot);            // n_eff = e^{2ψ}(ψ は背景 D₀ を含む全 W)
     const adv=(Wtot>1e-9)? (neff/c0)*dl/Wtot : 0;
     px+=cxv*dl+uNx*adv; py+=cyv*dl+uNy*adv;
+    // 第82便 A: 体積吸収 — dτ_ref = kAbs·ρ_local·ds(ds は光路長 dl。u 随伴による余分な変位は
+    // 媒質そのものの移動なので光路長には数えない)。位置は emit と同じ更新後の点で評価する
+    if(kAbs>0){
+      let rho=0;
+      for(let a=0;a<absN;a++){
+        const A2=absA2[a], ddy=py-absY[a], dy2=ddy*ddy;
+        if(dy2>=A2) continue;                      // y だけで先に落とす(台の外の大多数はここで終わり)
+        const ddx=px-absX[a], dd2=ddx*ddx+dy2;
+        if(dd2<A2){ const u=1-dd2/A2; rho+=absC[a]*u*u; }
+      }
+      tau+=kAbs*rho*dl;
+    }
     // 第36便 B3(原仮定者指示): emit へ Wtot も渡す(ψ=Wtot/Kt から波長色を計算する呼び出し側用。
     // 第3引数を使わない既存呼び出し元は変更不要 — 物理・光路の演算はここまで一切不変)
-    if(emit && emit(px,py,Wtot)===false){ end="stopped"; break; }
+    // 第82便 A: 第4引数に累積 τ_ref を渡す(既定 kAbs=0 では常に 0 — 既存呼び出し元は不変)
+    if(emit && emit(px,py,Wtot,tau)===false){ end="stopped"; break; }
   }
-  return {x:px, y:py, cx:cxv, cy:cyv, end, steps};
+  return {x:px, y:py, cx:cxv, cy:cyv, end, steps, tau};
 }
 // v1.22: 光線のキー比較キャッシュ — 光線は「重い天体(rayHeavy=偏向角 α_min 基準)の状態+光学
 // パラメータ+カメラ+光線設定」だけで決まる。源が動かない限り再積分せず、前回の
@@ -7504,8 +7638,21 @@ function rayKeyOf(rays){
   // QA ray.alpha-threshold のキャッシュ節で機械検査する)
   for(let i=0;i<sim.n;i++) if(rayHeavy(sim,i))
     h+=";"+i+","+sim.x[i]+","+sim.y[i]+","+sim.vx[i]+","+sim.vy[i]+","+sim.spin[i]+","+sim.R[i]+","+sim.m[i];
+  // 第82便 A(光学輸送): kAbs>0 のときは吸収体(=質量を持つ全粒子)の配置もキーに入れる。
+  // 吸収体は rayHeavy に入らない軽い粒子(暗黒雲)が主なので、これを入れないと雲が動いても
+  // キャッシュが効いたままになる。kAbs=0(既定)ではキーは 1 文字も増えない
+  const kA=sim.params.kAbs;
+  if(typeof kA==="number" && kA>0){
+    h+=";O"+kA+","+(sim.params.pAbs!==undefined? sim.params.pAbs : ABS_DEFAULT.pAbs)
+      +","+(sim.params.fScat!==undefined? sim.params.fScat : ABS_DEFAULT.fScat);
+    for(let i=0;i<sim.n;i++) if(!rayHeavy(sim,i))
+      h+=";a"+i+","+sim.x[i]+","+sim.y[i]+","+sim.R[i]+","+sim.m[i];
+  }
   return h;
 }
+// 第82便 A: 直近の光線積分で得た光学的深さの統計(表示・診断専用 — スペクトル読み口が使う)。
+// キャッシュヒット時は前回の値がそのまま有効(キーが同じ=同じ光線)
+let rayTauMean=0, rayTauMax=0;
 function drawRays(){
   const rays=sim.rays; if(!rays||rays.n<1) return;
   // v1.23: 品質レベルで光線本数を縮退(係数 1/0.75/0.55)
@@ -7538,27 +7685,65 @@ function drawRays(){
     // 10nm未満の帯域幅がバケット0〜2に潰れ、帯域遷移が描き分けられないため)
     const Kt=sim.params.Kt, lam0=rayLambda0;
     const band=(nm)=> nm<0.01?-4 : nm<10?-3 : nm<380?-2 : nm<=780?0 : -1;   // 可視=0/赤外=-1/紫外=-2/X線=-3/γ線=-4
+    // 第82便 A(光学輸送): ①体積吸収による**光線の減光**(セグメント不透明度を透過率
+    // T(λ)=e^{−τ_ref(λ_ref/λ)^p} 倍にする。波長 nm はすでに重力赤方偏移込みなので、赤化は
+    // 「青いセグメントほど強く消える」形で自動的に出る)②散乱 fScat の**拡散光**(減衰分の
+    // fScat 倍をその場の発光として加算合成で足す)。いずれも描画層のみ — 光路・力学は不変。
+    // kAbs=0(既定)では kAbsD=0 で全経路が従来と 1 bit 同一(不透明度も "8c" のまま)
+    const kAbsD=(typeof sim.params.kAbs==="number")? sim.params.kAbs : 0;
+    const fScat=(kAbsD>0 && typeof sim.params.fScat==="number")? sim.params.fScat : 0;
+    const scBlobs=[];   // 拡散光の点 [x,y,alpha,color,...] — 光線を全部引いた後に加算合成で描く
+    let tauSum=0, tauMax=0;
     for(let r=0;r<nEff;r++){
       const px=x0, py=camY+((r+0.5)/nEff-0.5)*2*rays.spread*camScale;
       let prevSX=w2sX(px), prevSY=w2sY(py), psi0=null, bucket=null;
+      let trPrev=1, scAcc=0, scX=0, scY=0, scCol="#ffffff";
       rayCtx.beginPath(); rayCtx.moveTo(prevSX,prevSY);
-      traceRay(sim, px, py, 1, 0, dl, maxSteps, (nx,ny,Wtot)=>{
+      const rr=traceRay(sim, px, py, 1, 0, dl, maxSteps, (nx,ny,Wtot,tau)=>{
         const psi=Wtot/Kt;
         if(psi0===null) psi0=psi;
         const nm=lam0*Math.exp(psi0-psi), bd=band(nm), b=(bd===0)? Math.round(nm/5) : bd;
         const col=(bd===0)? wavelengthColor(b*5) : rayBandColor(nm);
         const nsx=w2sX(nx), nsy=w2sY(ny);
-        if(bucket===null){ rayCtx.strokeStyle=col+"8c"; bucket=b; }   // 8c≈0.55(旧固定色と同じ不透明度)
-        else if(b!==bucket){
+        let key2=b, aHex="8c";   // 8c≈0.55(旧固定色と同じ不透明度)
+        if(kAbsD>0){
+          const tr=opticsTransmit(sim.params, tau, nm, ABS_LAMBDA_REF);
+          const av=Math.min(140, Math.round(140*tr/8)*8);   // 0x8c=140 を 8 刻み(18段)へ量子化
+          aHex=av.toString(16).padStart(2,"0"); key2=b*256+av;
+          if(fScat>0){
+            scAcc+=fScat*Math.max(0,trPrev-tr); scX=nsx; scY=nsy; scCol=col;
+            if(scAcc>0.012){ scBlobs.push(scX,scY,Math.min(0.5,scAcc*ABS_SCAT_GAIN),scCol); scAcc=0; }
+          }
+          trPrev=tr;
+        }
+        if(bucket===null){ rayCtx.strokeStyle=col+aHex; bucket=key2; }
+        else if(key2!==bucket){
           rayCtx.stroke();
           rayCtx.beginPath(); rayCtx.moveTo(prevSX,prevSY);
-          rayCtx.strokeStyle=col+"8c"; bucket=b;
+          rayCtx.strokeStyle=col+aHex; bucket=key2;
         }
         rayCtx.lineTo(nsx,nsy);
         prevSX=nsx; prevSY=nsy;
         return !(Math.abs(nx-camX)>bx||Math.abs(ny-camY)>by);
       });
       rayCtx.stroke();
+      if(kAbsD>0){
+        tauSum+=rr.tau; if(rr.tau>tauMax) tauMax=rr.tau;
+        if(scAcc>0.002) scBlobs.push(scX,scY,Math.min(0.5,scAcc*ABS_SCAT_GAIN),scCol);
+      }
+    }
+    rayTauMean=(kAbsD>0)? tauSum/Math.max(1,nEff) : 0;
+    rayTauMax=(kAbsD>0)? tauMax : 0;
+    if(scBlobs.length){
+      rayCtx.save(); rayCtx.globalCompositeOperation="lighter";
+      for(let i2=0;i2<scBlobs.length;i2+=4){
+        const bx2=scBlobs[i2], by2=scBlobs[i2+1], col2=scBlobs[i2+3];
+        const g=rayCtx.createRadialGradient(bx2,by2,0,bx2,by2,9);
+        g.addColorStop(0,col2); g.addColorStop(1,col2+"00");
+        rayCtx.globalAlpha=scBlobs[i2+2]; rayCtx.fillStyle=g;
+        rayCtx.beginPath(); rayCtx.arc(bx2,by2,9,0,6.283185307179586); rayCtx.fill();
+      }
+      rayCtx.restore();
     }
   }
   ctx.save(); ctx.setTransform(1,0,0,1,0,0);
@@ -7776,6 +7961,31 @@ function drawSpectrum(slot=0){
     const Tm=specData.tCnt[b2]? specData.tSum[b2]/specData.tCnt[b2] : 0;
     ctx.fillStyle=tempColor(Math.min(1,Math.sqrt(Tm/Math.max(1e-4,tempP90EMA))));
     ctx.fillRect(X+8+b2*bw, Y+H-14-h, Math.max(1.5,bw-1), h);
+  }
+  // ===== 第82便 A(光学輸送): 透過後スペクトルの読み口(表示・診断のみ) =====
+  // 源スペクトル(上のバー)× 透過率 T(λ)=e^{−τ(λ)} を橙の輪郭バーで重ね、透過率そのものを
+  // 折れ線で描く。τ_ref は直近の光線積分の平均光学的深さ(rayTauMean)。
+  // ※このグラフの横軸 λ=b_m/T は**モデル単位**で、光線表示の nm(λ_ref=550nm 基準)とは
+  //   別の尺度なので、ここでは τ_ref を「表示帯域の中央波長 λ_c での光学的深さ」と読み替える
+  //   (帯域内の**相対**赤化 = 形が主張の対象で、絶対値の基準は光線側にある)
+  if(rayTauMean>0 && sim.params.kAbs>0){
+    const lamC=Math.pow(10,(specLo+specHi)/2), TRN=T("ovSpecTrans");
+    const lamAt=(b2)=>Math.pow(10, specLo+((b2+0.5)/BINS)*(specHi-specLo));
+    ctx.strokeStyle="#ffb14d"; ctx.lineWidth=1;
+    for(let b2=0;b2<BINS;b2++){
+      if(specData.lum[b2]<=0) continue;
+      const tr=opticsTransmit(sim.params, rayTauMean, lamAt(b2), lamC);
+      const h=Math.max(1,Math.pow(specData.lum[b2]*tr/specData.lumMax,0.15)*(H-30));
+      ctx.strokeRect(X+8.5+b2*bw, Y+H-14-h, Math.max(1.5,bw-1), h);
+    }
+    ctx.strokeStyle="#ffd08a"; ctx.beginPath();
+    for(let b2=0;b2<BINS;b2++){
+      const tr=opticsTransmit(sim.params, rayTauMean, lamAt(b2), lamC);
+      const xx=X+8+(b2+0.5)*bw, yy=Y+H-14-tr*(H-30);
+      if(b2===0) ctx.moveTo(xx,yy); else ctx.lineTo(xx,yy);
+    }
+    ctx.stroke();
+    ctx.fillStyle="#ffb14d"; ctx.fillText(TRN,X+W-6-ctx.measureText(TRN).width,Y+11);
   }
   ctx.fillStyle="#8b93c8";
   ctx.fillText(T("ovSpecHot"),X+6,Y+H-3);
@@ -11615,6 +11825,11 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   verify:VERIFY, traceRay, getSystemPrompt, aiCfg, T:(k)=>T(k), lang:()=>LANG,
   // 第45便 45A(台帳4-48): 光線源/1PN源の偏向角しきい値(QA ray.alpha-threshold の機能判定子も兼ねる)
   RAY_ALPHA_MIN, rayMassMin, rayHeavy, pnMassMin, pnSource, rayKeyOf,
+  // 第82便 A(光学輸送): 透過率の 1 本の式・基準波長・核の台係数・直近の光学的深さ統計。
+  // すべて観測層(表示・診断)— QA / 実験ハーネスが表示と同じ量を読むための公開フック
+  opticsTransmit:(tauRef,lam,lamRef,p)=>opticsTransmit(p||sim.params,tauRef,lam,lamRef),
+  ABS_LAMBDA_REF, ABS_SUPPORT_K, ABS_DEFAULT,
+  rayTau:()=>({mean:rayTauMean, max:rayTauMax}),
   obsTemp,   // 第36便 D(台帳4-51): 観測温度 T_obs(QA・監査が表示系と同じ量を読むための公開フック)
   extractLawRefs, lawText, ab:()=>ab, abStart, abStop,
   externalTags, classifyPreset, APP_VERSION, currentPreset:()=>currentPreset,  // v1.15/第35便W4: バッジ/バージョン同期のQA用

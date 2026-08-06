@@ -6565,8 +6565,10 @@ if (hasEchoFlipAt) {
     const r = await page.evaluate(() => {
       const A = HP.RAY_ALPHA_MIN;
       // 光線キャッシュキーから実使用の源集合を取り出す(";<i>,<x>,..." が源1件ぶん。";B..." は箱)
+      // 第82便 A: kAbs>0 のプリセットではキー末尾に光学節(";O<kAbs,...>" と吸収体 ";a<i>,...")が
+      // 付く。ここで見たいのは「光線を曲げる源集合」なので、箱(";B")と同様に取り除く
       const keySet = () => [...HP.rayKeyOf({ n: 26, spread: 0.85 }).split(';').slice(1)]
-        .filter((s) => s[0] !== 'B').map((s) => +s.split(',')[0]);
+        .filter((s) => s[0] !== 'B' && s[0] !== 'O' && s[0] !== 'a').map((s) => +s.split(',')[0]);
       // ① 全内蔵プリセット: 式で独立に組み直した集合と、実使用の集合が一致するか
       const bad = [];
       for (const P of HP.allPresets()) {
@@ -9833,6 +9835,162 @@ if (hasSwAutoCb) {
       `自由中心での差=${r.relFree.toExponential(1)}(<5e-3 = 0.5%)/ legacy 応答=${r.respLegacy.toExponential(2)}`);
   } else {
     console.log('SKIP reaction.pair-*(対象に physics.frameReaction:"pairReduced" なし — root 等。第80便)');
+  }
+}
+
+// ---- 82A) 第82便 A(光学輸送拡張): 体積吸収・波長依存(赤化)・散乱 ----
+// ① optics.dynamics-invariant: 吸収 on/off で軌道・スピン・固有時計 τ が **bit 一致**
+//    (dimming.dynamics-invariant と同格の機械固定 — 光学輸送は観測層のみという主張の証明)。
+//    同時に、光線の**幾何**(終端位置・方向)も bit 一致し、τ_ref だけが 0→正になることを見る。
+// ② optics.default-bitequal: 既定値(kAbs=0/pAbs=4/fScat=0)は validatePreset が physics へ
+//    書き出さない ⇒ 既存プリセットの署名・エクスポート JSON が 1 文字も変わらない。
+//    併せて 全内蔵プリセットで τ_ref≡0(🌆reddening を除く)・rayKeyOf に光学節が出ないことも見る。
+// ③ claim.reddening: 🌆reddening の固定seed受入(τ_ref・青/赤透過率比・雲の脇の厳密0・
+//    pAbs 掃引・kAbs 用量反応)。較正実測は tests/exp-4-83.mjs。
+// いずれも軽量(154粒子・2000步1本)なので QA_FAST=1 でも実行する。未対応の対象は SKIP。
+{
+  const hasOptics = await page.evaluate(() => {
+    const v = HP.validatePreset({ name: 'x', description: 'd', camera: { scale: 100 },
+      world: { boundary: 'none', size: 0 }, physics: { kAbs: 0.5, pAbs: 2, fScat: 0.25 },
+      bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+    return !!(v.ok && v.preset.physics.kAbs === 0.5 && typeof HP.opticsTransmit === 'function');
+  });
+  if (hasOptics) {
+    // ---- ① 力学 bit 不変 ----
+    const inv = await page.evaluate(() => {
+      const PH = (o) => ({ G: 0.5, D0: 2, kFrame: 1, q: 2, kRep: 0.5, muF: 0.3, gammaN: 0.2, kappaS: 0.05,
+        Kt: 200, cLight: 60, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0,
+        geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 2, softening: 3, timeScale: 1, ...(o || {}) });
+      const run = (opt) => {
+        const v = HP.validatePreset({ name: 'qa_opt', description: 'd', camera: { scale: 300 },
+          world: { boundary: 'none', size: 0 }, seed: 20260806, physics: PH(opt),
+          bodies: [
+            { type: 'single', rMul: 1.2, m: 900, x: -60, y: 0, vx: 0, vy: 0, spin: 1.1, pinned: true, radius: 12 },
+            { type: 'disk', rMul: 4, n: 60, cx: 120, cy: 0, radius: 90, mMin: 0.4, mMax: 0.9,
+              spinMin: 0, spinMax: 0.8, vMode: 'kepler', aroundMass: 900, vScale: 1, direction: 1,
+              bulkVx: 0, bulkVy: 0 }] });
+        HP.sim.build(v.preset);
+        const S = HP.sim;
+        for (let k = 0; k < 2000; k++) S.step(0.016);
+        const r0 = HP.traceRay(S, -400, 0, 1, 0, 2.7, 400, null);
+        const r1 = HP.traceRay(S, -400, 120, 1, 0, 2.7, 400, null);
+        return { x: [...S.x], y: [...S.y], vx: [...S.vx], vy: [...S.vy], sp: [...S.spin], tau: [...S.tau],
+          ray: [r0.x, r0.y, r0.cx, r0.cy, r1.x, r1.y, r1.cx, r1.cy], t0: r0.tau, t1: r1.tau,
+          n: S.n, nan: S.hasNaN(), kAbs: S.params.kAbs === undefined ? null : S.params.kAbs };
+      };
+      const diff = (a, b) => { let d = 0;
+        for (let i = 0; i < a.n; i++) for (const k of ['x', 'y', 'vx', 'vy', 'sp', 'tau']) if (a[k][i] !== b[k][i]) d++;
+        return d; };
+      const rayDiff = (a, b) => { let d = 0; for (let i = 0; i < a.ray.length; i++) if (a.ray[i] !== b.ray[i]) d++; return d; };
+      const off = run({}), on = run({ kAbs: 4 }), sc = run({ kAbs: 4, fScat: 0.4, pAbs: 2 });
+      HP.loadPreset('saturn', false);
+      return { n: off.n, dOn: diff(off, on), dSc: diff(off, sc),
+        rOn: rayDiff(off, on), rSc: rayDiff(off, sc),
+        tauOff: off.t0, tauOn: on.t0, tauOffClear: off.t1, tauOnClear: on.t1,
+        kAbsOff: off.kAbs, kAbsOn: on.kAbs, nan: off.nan || on.nan || sc.nan };
+    });
+    add('optics.dynamics-invariant',
+      !inv.nan && inv.dOn === 0 && inv.dSc === 0 && inv.rOn === 0 && inv.rSc === 0
+      && inv.kAbsOff === null && inv.kAbsOn === 4 && inv.tauOff === 0 && inv.tauOn > 0.1,
+      `吸収なし vs kAbs=4 vs kAbs=4+散乱(${inv.n}粒子・2000步): 力学+時計の不一致=${inv.dOn}/${inv.dSc}` +
+      `(厳密0 — x,y,vx,vy,spin,τ)・光線の幾何(終端位置/方向)の不一致=${inv.rOn}/${inv.rSc}(厳密0)/ ` +
+      `光学的深さ τ_ref=${inv.tauOff}→${inv.tauOn.toFixed(4)}(吸収は τ にだけ乗る)・` +
+      `雲外の光線=${inv.tauOnClear}(コンパクト台の外は厳密0)/ 既定は physics に kAbs キーごと不在=${inv.kAbsOff === null}`);
+
+    // ---- ② 既定値 bit 等価(署名・エクスポート・光線キー・全プリセット τ≡0)----
+    const dfl = await page.evaluate(() => {
+      const base = { name: 'qa_dflt', description: 'd', camera: { scale: 100 },
+        world: { boundary: 'none', size: 0 },
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] };
+      const sig = (ph) => JSON.stringify(HP.validatePreset({ ...base, physics: ph }).preset.physics);
+      const bare = sig({ G: 1 });
+      const explicit = sig({ G: 1, kAbs: 0, pAbs: 4, fScat: 0 });
+      const vNeg = HP.validatePreset({ ...base, physics: { G: 1, kAbs: -1, fScat: 5 } });
+      const vBad = HP.validatePreset({ ...base, physics: { G: 1, kAbs: 'x' } });
+      // 全内蔵プリセット: 既定のままの presets には光学キーが 1 つも書き出されない
+      const leak = [];
+      for (const p of HP.allPresets()) {
+        if (String(p.id).startsWith('custom_')) continue;
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+        if (!v.ok) continue;   // 既存事情でバリデータを通らない内蔵は対象外(本項の主張と無関係)
+        const has = ['kAbs', 'pAbs', 'fScat'].filter((k) => v.preset.physics[k] !== undefined);
+        if (has.length && p.id !== 'reddening') leak.push(p.id + ':' + has.join('+'));
+      }
+      // 光線を持つ内蔵プリセットの τ_ref はすべて厳密 0(🌆reddening を除く)
+      const tauLeak = [];
+      let keyPlain = '', keyOpt = '';
+      for (const p of HP.allPresets()) {
+        if (!p.rays || p.id === 'reddening' || String(p.id).startsWith('custom_')) continue;
+        HP.loadPreset(p.id, false);
+        const t = HP.traceRay(HP.sim, -400, 20, 1, 0, 2.7, 400, null).tau;
+        if (t !== 0) tauLeak.push(p.id + '=' + t);
+        if (!keyPlain) {
+          keyPlain = HP.rayKeyOf(HP.sim.rays);
+          HP.sim.params.kAbs = 0.5; keyOpt = HP.rayKeyOf(HP.sim.rays); delete HP.sim.params.kAbs;
+        }
+      }
+      HP.loadPreset('saturn', false);
+      return { bare, explicit, same: bare === explicit,
+        negOk: vNeg.ok && vNeg.preset.physics.kAbs === undefined && vNeg.preset.physics.fScat === 1
+          && vNeg.warnings.some((w) => /kAbs/.test(w)),
+        badOk: !vBad.ok, leak, tauLeak,
+        keyPlainNoOptics: keyPlain.indexOf(';O') < 0, keyOptHasOptics: keyOpt.indexOf(';O') >= 0,
+        keyGrew: keyOpt.length > keyPlain.length };
+    });
+    add('optics.default-bitequal',
+      dfl.same && dfl.negOk && dfl.badOk && dfl.leak.length === 0 && dfl.tauLeak.length === 0
+      && dfl.keyPlainNoOptics && dfl.keyOptHasOptics && dfl.keyGrew,
+      `既定値明示 {kAbs:0,pAbs:4,fScat:0} と省略の physics が文字単位一致=${dfl.same}` +
+      `(=署名・エクスポート JSON 不変)/ 値域外は警告つきクランプ後に既定なら削除=${dfl.negOk}・` +
+      `非数は致命=${dfl.badOk}/ 光学キーが漏れた内蔵=[${dfl.leak.slice(0, 4).join(' ')}](0件)/ ` +
+      `光線プリセットの τ_ref≠0=[${dfl.tauLeak.slice(0, 4).join(' ')}](0件)/ ` +
+      `rayKeyOf: 既定に光学節なし=${dfl.keyPlainNoOptics} kAbs>0 で吸収体を追跡=${dfl.keyOptHasOptics}`);
+
+    // ---- ③ claim.reddening(🌆 デモサンプルの固定seed受入)----
+    const hasRed = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'reddening'));
+    if (hasRed) {
+      const r = await page.evaluate(() => {
+        const base = JSON.parse(JSON.stringify(HP.allPresets().find((p) => p.id === 'reddening')));
+        const tauAt = (y) => HP.traceRay(HP.sim, -310, y, 1, 0, 2.7, 400, null).tau;
+        const build = (mod) => { const p = JSON.parse(JSON.stringify(base));
+          Object.assign(p.physics, mod || {});
+          if (mod && mod.pAbs === undefined) delete p.physics.pAbs;
+          HP.sim.build(HP.validatePreset(p).preset); return HP.sim; };
+        build({});
+        const S = HP.sim, LR = HP.ABS_LAMBDA_REF;
+        const tauCloud = tauAt(0), tauClear = tauAt(200);
+        const tr = (t, lam) => HP.opticsTransmit(t, lam, LR);
+        const ratio = tr(tauCloud, 450) / tr(tauCloud, 650);
+        // pAbs 掃引(0=グレー / 2 / 4=既定)
+        const pr = [0, 2, 4].map((pA) => { build({ pAbs: pA }); const t = tauAt(0);
+          return HP.opticsTransmit(t, 450, LR, HP.sim.params) / HP.opticsTransmit(t, 650, LR, HP.sim.params); });
+        // kAbs 用量反応(τ/kAbs が一定)
+        const k0 = base.physics.kAbs;
+        const dose = [k0 / 2, k0, k0 * 2].map((k) => { build({ kAbs: k }); return tauAt(0) / k; });
+        build({});
+        return { n: S.n, kAbs: S.params.kAbs, fScat: S.params.fScat,
+          supportK: HP.ABS_SUPPORT_K, lamRef: LR,
+          tauCloud, tauClear, Tblue: tr(tauCloud, 450), Tred: tr(tauCloud, 650), ratio,
+          pr, dose, doseSpread: Math.max(...dose) - Math.min(...dose),
+          nan: S.hasNaN(), heavy: (() => { let c = 0; for (let i = 0; i < S.n; i++) if (HP.rayHeavy(S, i)) c++; return c; })() };
+      });
+      add('claim.reddening',
+        !r.nan && r.n === 154 && r.heavy === 0
+        && r.tauCloud >= 2.19 && r.tauCloud <= 2.67 && r.tauClear === 0
+        && r.ratio >= 0.0139 && r.ratio <= 0.0169
+        && Math.abs(r.pr[0] - 1) < 1e-12 && r.pr[1] > r.ratio && r.pr[1] > 0.135 && r.pr[1] < 0.167
+        && r.doseSpread < 1e-12,
+        `🌆reddening(${r.n}粒子・光線源0本=純吸収・λ_ref=${r.lamRef}nm・台係数K=${r.supportK}): ` +
+        `雲中心 τ_ref=${r.tauCloud.toFixed(4)}(窓2.19〜2.67・実測2.429) T(450)=${r.Tblue.toFixed(4)} ` +
+        `T(650)=${r.Tred.toFixed(4)} 青/赤=${r.ratio.toFixed(4)}(窓0.0139〜0.0169・実測0.0154)/ ` +
+        `雲の脇 τ_ref=${r.tauClear}(厳密0 = コンパクト台)/ pAbs 掃引 0/2/4 の青赤比=` +
+        `${r.pr.map((v) => v.toFixed(4)).join('/')}(pAbs=0 は厳密に1)/ ` +
+        `kAbs 用量反応 τ/kAbs=${r.dose.map((v) => v.toFixed(6)).join('/')}(ばらつき=${r.doseSpread.toExponential(1)})`);
+    } else {
+      console.log('SKIP claim.reddening(対象に 🌆reddening なし — root 等。第82便)');
+    }
+  } else {
+    console.log('SKIP optics.*/claim.reddening(対象に physics.kAbs(光学輸送)なし — root 等。第82便)');
   }
 }
 
