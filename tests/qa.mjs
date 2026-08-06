@@ -4629,6 +4629,56 @@ if (!FAST) {
   console.log('SKIP behavior.* (QA_FAST=1)');
 }
 
+// ---- 8b81) 第81便 B: 🪜massLadder — 隠れ質量ラダーの固定seed受入 ----
+// ①3つの暗い中心核の実効減光が 1(=光度質量 0・観測温度が厳密に 0)②外縁リングから読む
+// 力学質量 M_dyn=⟨v²r⟩/G が実質量に比例する(比 1.960 / 3.840 — 真の 2 / 4 の ±10% 窓)
+// ③リングが評価窓内で円軌道を保つ(半径ばらつき ≤15%)④NaN・速度/スピン/反作用クランプが 0 回。
+// 較正実測は exp-4-82(seed 20260806・6000步=t96)。プリセットが無い対象は SKIP(root 等)。
+// 1構成6000步(147粒子)と軽いので QA_FAST=1 でも実行する ----
+{
+  const hasML = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'massLadder'));
+  if (hasML) {
+    const r = await page.evaluate(() => {
+      const P = HP.allPresets().find((q) => q.id === 'massLadder');
+      HP.loadPreset('massLadder', false);
+      const S = HP.sim;
+      const NR = 48, D = 1440, R0 = 180, MS = [2500, 5000, 10000];
+      for (let k = 0; k < 6000; k++) S.step(0.016);
+      const G = S.params.G, sys = [];
+      for (let g = 0; g < 3; g++) {
+        const cx = (g - 1) * D;
+        let mD = 0, rq = 0;
+        for (let i = 3 + g * NR; i < 3 + (g + 1) * NR; i++) {
+          const rr = Math.hypot(S.x[i] - cx, S.y[i]);
+          mD += (S.vx[i] * S.vx[i] + S.vy[i] * S.vy[i]) * rr / G / NR;
+          rq += (rr - R0) * (rr - R0) / NR;
+        }
+        sys.push({ m: MS[g], mDyn: mD, ratio: mD / MS[g], rRms: Math.sqrt(rq) / R0,
+          lSw: S.lSw[g], Tobs: HP.obsTemp(S, g) });
+      }
+      return { n: S.n, sys, camScale: P.camera.scale,
+        r21: sys[1].mDyn / sys[0].mDyn, r41: sys[2].mDyn / sys[0].mDyn,
+        bad: S.hasNaN(), clampV: S.clampVN, clampS: S.clampSN, clampR: S.clampRN || 0 };
+    });
+    const lSwMin = Math.min(...r.sys.map((s) => s.lSw));
+    const rRmsMax = Math.max(...r.sys.map((s) => s.rRms));
+    add('claim.massladder',
+      !r.bad && r.n === 147 && r.clampV === 0 && r.clampS === 0 && r.clampR === 0
+      && r.r21 >= 1.76 && r.r21 <= 2.16 && r.r41 >= 3.46 && r.r41 <= 4.22
+      && lSwMin >= 0.99 && r.sys.every((s) => s.Tobs === 0)
+      && r.sys.every((s) => s.ratio > 1 && s.ratio < 1.3)
+      && rRmsMax <= 0.15,
+      `力学質量=${r.sys.map((s) => s.mDyn.toFixed(0)).join('/')}(実質量 2500/5000/10000)/ ` +
+      `比=${r.r21.toFixed(4)}(窓1.76〜2.16・実測1.960) ${r.r41.toFixed(4)}(窓3.46〜4.22・実測3.840)/ ` +
+      `M_dyn/m=${r.sys.map((s) => s.ratio.toFixed(3)).join('/')}(いずれも1超1.3未満 — E6′超過)/ ` +
+      `中心lSw 最小=${lSwMin.toFixed(4)}(≥0.99 — 真っ暗) T_obs=${r.sys.map((s) => s.Tobs).join('/')}(全て0)/ ` +
+      `リング半径ばらつき 最大=${(rRmsMax * 100).toFixed(1)}%(≤15%)/ ` +
+      `上限発動 V/S/R=${r.clampV}/${r.clampS}/${r.clampR}(すべて0)`);
+  } else {
+    console.log('SKIP claim.massladder(対象に 🪜massLadder なし — root 等。第81便)');
+  }
+}
+
 // ---- 8c) 第11次裁定(2026-07-22): E13 帯状重力補正のQA(v1.28 でルート昇格)----
 // 対象に E13 がある場合のみ実行(ルート版は昇格まで対象外 — QA 項目数は対象により変わる)
 {
@@ -9395,6 +9445,107 @@ if (hasSwAutoCb) {
       rows.map((v) => `${v.label}: ${Number.isFinite(v.val) ? v.val : 'NaN'}(窓${v.min}〜${v.max})${v.ok ? '' : ' ✗'}`).join(' / '));
   } else {
     console.log('SKIP claims.sync(対象に descPattern 付き claims 宣言なし — 第42便 42A 未適用の root 等)');
+  }
+}
+
+// ---- 81B) 第81便 B(原仮定者指示): camera.follow — カメラの天体追従(描画層のみ・物理不変)。
+// ----      ①「表示」カテゴリに追従コントロールがある ②validatePreset が camera.follow(整数)を
+// ----      受理し、非整数・負値は警告つきで無視する ③追従ONで camX/camY が対象天体の現在位置に
+// ----      一致する ④追従中のパンは「対象からのオフセット」として生き、camX=対象位置+オフセット
+// ----      ⑤対象が範囲外(融合等で消滅)になったら自動で「なし」へ戻る ⑥sim.params・粒子状態は
+// ----      1 つも変わらない(表示専用の証明)。未対応の対象(root 等)は SKIP。
+// ----      軽量(DOM検査+短時間走行のみ)なので QA_FAST=1 でも実行する ----
+{
+  const hasCF = await page.evaluate(() => !!(window.HP && HP.camState && HP.setCamFollow));
+  if (hasCF) {
+    const r = await page.evaluate(() => {
+      const res = {};
+      // ① コントロールの存在(「表示」カテゴリの select)
+      const sel = document.getElementById('camFollowSel');
+      res.ctrl = !!sel && sel.tagName === 'SELECT';
+      res.ctrlOpts = sel ? [...sel.options].map((o) => o.value) : [];
+      res.ctrlInDisplay = !!(sel && sel.closest('details') &&
+        /表示|Display/.test(sel.closest('details').querySelector('summary').textContent));
+      // ② validatePreset の受理・拒否
+      const mk = (follow) => ({ name: 'cf', description: 'd',
+        camera: (follow === undefined) ? { scale: 300 } : { scale: 300, follow },
+        world: { boundary: 'none', size: 0 },
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+      const v2 = HP.validatePreset(mk(2));
+      const vNeg = HP.validatePreset(mk(-1));
+      const vFrac = HP.validatePreset(mk(1.5));
+      const vStr = HP.validatePreset(mk('x'));
+      const vNone = HP.validatePreset(mk(undefined));
+      res.accept = v2.ok && v2.preset.camera.follow === 2;
+      res.reject = [vNeg, vFrac, vStr].every((v) => v.ok && v.preset.camera.follow === undefined
+        && v.warnings.some((w) => /camera\.follow/.test(w)));
+      res.noneKeepsClean = vNone.ok && vNone.preset.camera.follow === undefined
+        && !vNone.warnings.some((w) => /camera\.follow/.test(w));
+      // ③〜⑥ 実挙動(既存プリセットは follow なし=「なし」で起動する)
+      HP.loadPreset('binary', false);
+      res.defaultNone = HP.camState().mode === 'none';
+      const S = HP.sim;
+      const before = { p: JSON.stringify(S.params), x: [...S.x], v: [...S.vx] };
+      HP.selectBody(1, 'A');
+      HP.setCamFollow('sel');
+      HP.tick(4);
+      const c1 = HP.camState();
+      res.follows = c1.mode === 'sel' && c1.idx === 1
+        && c1.x === S.x[1] && c1.y === S.y[1];
+      // ④ 追従中のパンはオフセットとして積まれ、対象位置+オフセットになる
+      HP.panCam(30, -20);
+      HP.tick(4);
+      const c2 = HP.camState();
+      res.panOffset = c2.offX !== 0 && c2.offY !== 0
+        && Math.abs(c2.x - (S.x[1] + c2.offX)) < 1e-9
+        && Math.abs(c2.y - (S.y[1] + c2.offY)) < 1e-9;
+      // ⑥ 表示専用: 物理パラメータ・粒子状態は追従で 1 つも変わらない(step ぶんは進む)
+      res.physUntouched = JSON.stringify(S.params) === before.p;
+      // ⑤ 対象が範囲外になったら自動解除(UI の選択も「なし」へ戻る)
+      HP.selectBody(S.n + 10, 'A');
+      HP.tick(2);
+      res.autoRelease = HP.camState().mode === 'none'
+        && document.getElementById('camFollowSel').value === 'none';
+      HP.setCamFollow('none');
+      // ⑦ プリセットに camera.follow があれば読込時に既定ON(=追従先が指定 index)。
+      //    内蔵側は 🪜/⚫ の有無に依存させず、カスタムプリセット経由で経路そのものを検査する
+      const saved = localStorage.getItem('hp_custom_presets');
+      localStorage.setItem('hp_custom_presets', JSON.stringify([{ id: 'custom_qa_follow',
+        name: 'cf', description: 'd', camera: { scale: 300, follow: 1 },
+        world: { boundary: 'none', size: 0 }, seed: 7,
+        physics: { G: 1, D0: 2, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, Kt: 50,
+          cLight: 60, bM: 1, etaRad: 0, pRad: 2, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1,
+          pnAlpha: 1.5, radiusScale: 1, softening: 3, timeScale: 1 },
+        bodies: [
+          { type: 'single', m: 100, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true },
+          { type: 'single', m: 1, x: 80, y: 0, vx: 0, vy: 1.1, spin: 0, pinned: false }] }]));
+      HP.loadPreset('custom_qa_follow', false);
+      const c3 = HP.camState();
+      HP.tick(20);
+      const c4 = HP.camState();
+      res.presetFollow = c3.mode === 'preset' && c3.presetIdx === 1 && c3.idx === 1
+        && c4.x === HP.sim.x[1] && c4.y === HP.sim.y[1]
+        && HP.sim.x[1] !== 80   // 実際に動いている対象を追えている
+        && [...document.getElementById('camFollowSel').options].map((o) => o.value).join(',') === 'none,preset,sel';
+      if (saved === null) localStorage.removeItem('hp_custom_presets');
+      else localStorage.setItem('hp_custom_presets', saved);
+      HP.loadPreset('binary', false);
+      res.afterNoFollowPreset = HP.camState().mode === 'none';
+      return res;
+    });
+    add('camera.follow-ui',
+      r.ctrl && r.ctrlInDisplay && r.ctrlOpts.length >= 2
+      && r.ctrlOpts.indexOf('none') === 0 && r.ctrlOpts.indexOf('sel') >= 0
+      && r.accept && r.reject && r.noneKeepsClean
+      && r.defaultNone && r.follows && r.panOffset && r.physUntouched && r.autoRelease
+      && r.presetFollow && r.afterNoFollowPreset,
+      `コントロール=${r.ctrl}(表示カテゴリ内=${r.ctrlInDisplay}・選択肢=${r.ctrlOpts.join(',')})/ ` +
+      `validate: follow=2受理=${r.accept} 不正値は警告つき無視=${r.reject} 未指定は無警告=${r.noneKeepsClean}/ ` +
+      `既定なし=${r.defaultNone} 追従でcamX=天体位置=${r.follows} パン=対象からのオフセット=${r.panOffset}/ ` +
+      `物理不変=${r.physUntouched} 範囲外で自動解除=${r.autoRelease}/ ` +
+      `プリセット camera.follow で既定ON=${r.presetFollow}(follow なしプリセットへ戻すと「なし」=${r.afterNoFollowPreset})`);
+  } else {
+    console.log('SKIP camera.follow-ui(対象にカメラ追従なし — root 等。第81便)');
   }
 }
 
