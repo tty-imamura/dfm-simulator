@@ -96,6 +96,33 @@
   と新設 🥚selfRotor=E2 に付け、他のプリセットには付けない(未宣言=バッジ非表示)。
   QA `emergence.tag`(宣言・チップ DOM・スキーマ往復)
 - 既存プリセットの挙動は bit 不変(root/beta とも QA_FAST ALL PASS。beta 310/310・root 300/300)
+第82便 C(2026-08-06): **サンプルのファミリー表示+旧コア移行警告の強化**(統括裁定「サンプルの
+統廃合」・表示層のみ)。プリセットの削除・ID変更・並び替え・claims・QA・カテゴリ(group)・
+スケール順(GROUP_ORDER)は一切変更していない。
+
+- 内蔵53プリセットのうち11ファミリー(lens・saturn・earthmoon・galaxyrot・darkcenter・
+  rotorform・boxinertia・boxexpand・fewbody・collide・emerge、計33件)へ `familyId`/
+  `familyRole:"primary"|"variant"` を宣言のパススルーとして追加した(`sampleClass` と同方針。
+  他42件のプリセット物理・descStruct 本文には触れていない)。
+- サンプル選択プルダウンの既定表示を**ファミリー表示**に変更: 各カテゴリ(optgroup)内で
+  「ファミリー宣言なしのプリセット+各ファミリーの代表(primary)」だけを表示し、代表名の末尾に
+  「(+N)」(N=そのファミリーの variant 数)を付ける。variant は既定では選択肢から隠れる
+  (内部のプリセット解決・保存 JSON・URL・claims・AI生成のベース選択は全件のまま — 表示だけを
+  絞る)。既定表示は53件→31件(宣言なし20件+代表11件)。
+- ヘッダーに「すべて表示」トグル(チェックボックス。既定OFF)を新設。ONで従来どおり53件全表示に
+  戻り、variant は同じ optgroup 内で primary の直後に「└ 」プレフィクス付きでまとめて並ぶ
+  (ファミリーがカテゴリを跨ぐ場合〔collide: counterring=天体の物語/merger=銀河〕は元の
+  カテゴリに残る)。状態は表示専用で localStorage(`hp_show_all_samples`)に保存し、
+  `sim.params`・保存 JSON には一切書き込まない。
+- 説明パネルのタイトル直下に「この仲間:」行を追加。familyId を持つプリセット(primary・variant
+  いずれも)では、同ファミリーの他メンバー名をタップして即座に切替読込できる(ファミリー表示中で
+  隠れている variant にもここから到達できる)。
+- i18n(ja/en)キーを追加: `showAllSamplesLabel`/`showAllSamplesTip`(トグルラベル)・
+  `familyRowLabel`(「この仲間:」/"Family:")。
+- 旧コア(`coreMR`/`coreSR`/`coreRR`)入り JSON インポート時の移行警告(`legacyCoreToV2`)を
+  強化(ChatGPT レビュー P0-1 採択・変換ロジック自体は不変): 「初期状態は移行されるが、コアが
+  時間発展する構成(differential/active/cavity の omega・Kcs・pump 等)では旧版と同じ軌跡には
+  ならない場合がある」という限定を ja/en 両方の文言へ明示した。
 
 第81便 D(2026-08-06): **descStruct の平易化(summary 中心・19件)**(原仮定者指示・レビュー
 持ち越し項目)。内蔵53プリセットの `descStruct.summary`(ja/en)を、専門用語・記号が先に立つ
