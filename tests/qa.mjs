@@ -227,7 +227,7 @@ const satTotN = await page.evaluate(() => {
 });
 const hasSat240 = satTotN === 241;
 
-const w5cHasCoreEng = await page.evaluate(() => !!(window.HP && HP.sim && HP.sim.coreMR));
+const w5cHasCoreEng = await page.evaluate(() => !!(window.HP && HP.sim && HP.sim.coreMd));
 const w5cHasIce = await page.evaluate(() =>
   !!(window.HP && HP.allPresets().some(p => p.id === 'saturn' && /実験/.test(p.name || ''))));
 const w5cHasObs = await page.evaluate(() => !!(window.HP && HP.sim && HP.sim.obsT));
@@ -325,35 +325,77 @@ const W5C_UNITS = {
              mean: sum / (s.n - 1), nan: s.hasNaN() };
   }) },
   twolayerCore: { enabled: w5cHasCoreEng, weight: 19, run: (pg) => pg.evaluate(() => {
-    // 🎯 主星2層エンジン検証の走行部分のみ(元「第12〜14便」節 2366-2411行から抽出)
+    // 🎯 主星2層コアのエンジン検証の走行部分。第81便でコアv1(比率仕様 coreMR/coreSR/coreRR)を
+    // 廃止したので、対象が **コアv2 の 🎯**(=beta)なら coreMd/coreMF/RcV/coreJ を、
+    // **コアv1 の 🎯**(=root 等の旧ビルド)なら従来どおり coreMR/coreSR を叩いて同じ性質を測る:
+    //   ①差動を持たないコア(v2 rigid / v1 sc/s=1)は単層と bit 等価
+    //   ②Ω_c=s(v2)/ sc/s=1 相当(v1)も差動0で bit 等価
+    //   ③コア静止(Ω_c=0 / sc/s=0)・高速コア(Ω_c=20s / sc/s=20)は差が出る
+    //   ④空洞(v2 cavity / v1 coreMR<0)でも NaN が出ない
     const out = {};
     HP.loadPreset('saturnLayered', false);
     let s = HP.sim;
-    out.preset = { n: s.n, coreMR: +s.coreMR[0].toFixed(4), coreSR: +s.coreSR[0].toFixed(4),
-      R0: s.R[0], Rc0: s.Rc[0], hasCore: s.hasCore };
+    const V2 = !!(s.coreMd && s.coreMd[0]);   // 🎯 がコアv2 かどうか(第81便以降=true)
+    out.v2 = V2;
+    if (V2) {
+      const cs = HP.coreState(0);
+      out.preset = { n: s.n, md: s.coreMd[0], massFrac: +s.coreMF[0].toFixed(4),
+        omega: +cs.omega.toFixed(6), R0: s.R[0], Rc0: s.RcV[0], hasCoreV2: s.hasCoreV2 };
+    } else {
+      out.preset = { n: s.n, md: 0, massFrac: +s.coreMR[0].toFixed(4),
+        omega: +(s.coreSR[0] * s.spin[0]).toFixed(6), R0: s.R[0], Rc0: s.Rc[0], hasCoreV2: s.hasCore };
+    }
+    // コア注入ヘルパ。kind: 'rigid' | 'diff'(Ω_c 指定) | 'cavity'
+    const setCore = (S, i, kind, mf, rc, om) => {
+      if (V2) {
+        S.coreMd[i] = (kind === 'rigid') ? 1 : ((kind === 'cavity') ? 4 : 2);
+        S.coreMF[i] = (kind === 'cavity') ? -mf : mf; S.RcV[i] = rc;
+        // J は**配列へ格納された Float32 の値から**組む(I_c=½·coreMF·|mEff|·RcV² と同式)。
+        // こうすると Ω_c=J/I_c が指定値へ厳密に戻り「Ω_c=s ⇒ 差動0 ⇒ 単層と bit 等価」が成立する
+        const Ic = 0.5 * S.coreMF[i] * Math.abs(S.mEff[i]) * S.RcV[i] * S.RcV[i];
+        S.coreJ[i] = (kind === 'cavity') ? 0 : Ic * om;
+        if (S.coreOm0) S.coreOm0[i] = (kind === 'cavity') ? om : 0;
+        S.coreKcs[i] = 0; S.corePump[i] = 0; S.coreCtr[i] = 0;
+        if (S.coreSrc) S.coreSrc[i] = 0;
+        if (S.coreEint) S.coreEint[i] = 0;
+        S.hasCoreV2 = true;
+      } else {
+        // コアv1(旧ビルド): Rc は coreMR から自動算出されるので mf だけ合わせ、比率で Ω を作る
+        S.coreMR[i] = (kind === 'cavity') ? -mf : mf;
+        S.coreSR[i] = (kind === 'rigid') ? 1 : (S.spin[i] !== 0 ? om / S.spin[i] : 1);
+        S.updateRadii();
+      }
+    };
     HP.loadPreset('saturn', false); s = HP.sim;
+    const noCore = V2 ? s.hasCoreV2 : s.hasCore;   // 🪐 はコアなし(=false)であることの確認
     for (let k = 0; k < 600; k++) s.step(0.016);
     const base = [s.x[10], s.y[10], s.spin[10]];
+    const d3 = () => Math.abs(s.x[10] - base[0]) + Math.abs(s.y[10] - base[1]) + Math.abs(s.spin[10] - base[2]);
+    const d2 = () => Math.abs(s.x[10] - base[0]) + Math.abs(s.y[10] - base[1]);
+    // ① 差動なしのコア(v2 rigid / v1 sc/s=1)= 単層と bit 等価
     HP.loadPreset('saturn', false); s = HP.sim;
-    s.coreMR[0] = 0.6; s.updateRadii();
-    const m0 = s.m[0], hcRigid = s.hasCore;
+    setCore(s, 0, 'rigid', 0.6, 0.6 * s.R[0], s.spin[0]);
+    const m0 = s.m[0], hcRigid = V2 ? s.hasCoreV2 : s.hasCore;
     for (let k = 0; k < 600; k++) s.step(0.016);
-    const eqRigid = Math.abs(s.x[10] - base[0]) + Math.abs(s.y[10] - base[1]) + Math.abs(s.spin[10] - base[2]);
+    const eqRigid = d3();
+    // ② differential でも Ω_c=s(差動0)は bit 等価
     HP.loadPreset('saturn', false); s = HP.sim;
-    s.coreMR[0] = 0.6; s.coreSR[0] = 0; s.updateRadii();
+    setCore(s, 0, 'diff', 0.6, 0.6 * s.R[0], s.spin[0]);
     for (let k = 0; k < 600; k++) s.step(0.016);
-    const restDx = Math.abs(s.x[10] - base[0]) + Math.abs(s.y[10] - base[1]);
+    const eqZero = d2();
+    // ③ コア静止(Ω_c=0)は引きずり低下で差が出る
     HP.loadPreset('saturn', false); s = HP.sim;
-    s.coreSR[0] = 5; s.updateRadii();
-    const hcZero = s.hasCore;
+    setCore(s, 0, 'diff', 0.6, 0.6 * s.R[0], 0);
     for (let k = 0; k < 600; k++) s.step(0.016);
-    const eqZero = Math.abs(s.x[10] - base[0]) + Math.abs(s.y[10] - base[1]);
+    const restDx = d2();
+    // ④ 高速コア(Ω_c=20·s)
     HP.loadPreset('saturn', false); s = HP.sim;
-    s.coreMR[0] = 0.6; s.coreSR[0] = 20; s.updateRadii();
+    setCore(s, 0, 'diff', 0.6, 0.6 * s.R[0], 20 * s.spin[0]);
     for (let k = 0; k < 600; k++) s.step(0.016);
     const effDx = Math.abs(s.x[10] - base[0]), effNan = s.hasNaN();
+    // ⑤ 空洞(v2 cavity / v1 coreMR<0 — 引きずり重みが負)
     HP.loadPreset('saturn', false); s = HP.sim;
-    s.coreMR[0] = -0.6; s.coreSR[0] = 20; s.updateRadii();
+    setCore(s, 0, 'cavity', 0.6, 0.6 * s.R[0], 20 * s.spin[0]);
     for (let k = 0; k < 600; k++) s.step(0.016);
     const holNan = s.hasNaN();
     const holDx = Math.abs(s.x[10] - base[0]);
@@ -363,7 +405,7 @@ const W5C_UNITS = {
     for (let k = 0; k < 400; k++) s.step(0.016);
     const negNan = s.hasNaN();
     HP.loadPreset('saturn', false);
-    return { ...out, m0, hcRigid, eqRigid, restDx, hcZero, eqZero, effDx, effNan, holDx, holNan, negR, negNan };
+    return { ...out, m0, noCore, hcRigid, eqRigid, restDx, eqZero, effDx, effNan, holDx, holNan, negR, negNan };
   }) },
   saturnLayered: { enabled: w5cHasCoreEng && !FAST, weight: 152, run: (pg) => pg.evaluate(() => {
     // 🎯 既定値の長時間安定+差動効果の有界性(元「第12〜14便」節 2466-2490行から抽出)
@@ -376,7 +418,8 @@ const W5C_UNITS = {
     const run = (rigidSc, steps) => {
       HP.loadPreset('saturnLayered', false);
       const s = HP.sim;
-      if (rigidSc) { s.coreSR[0] = 1; }
+      // 第81便: 剛体回転(差動0)対照 — コアv2 なら coreMd=1(rigid)、旧ビルドなら sc/s=1
+      if (rigidSc) { if (s.coreMd && s.coreMd[0]) s.coreMd[0] = 1; else s.coreSR[0] = 1; }
       const med = (lo, hi) => { const rs = []; for (let i = lo; i <= hi; i++) rs.push(Math.hypot(s.x[i], s.y[i])); rs.sort((a, b) => a - b); return rs[Math.floor(0.5 * (rs.length - 1))]; };
       const metric = () => {
         let inB = 0, fall = 0, esc = 0, sum = 0;
@@ -3639,9 +3682,9 @@ if (!FAST) {
   // ---- 8a2b4) 第75便: 2層減光形(lightSweep auto のコア差動)+群コアの配線 ----
   // ①機能検出: 「殻はゆっくり・コアは高速」の孤立2層粒で lSw が単層値より大きければ拡張あり
   //   (root は従来式 = 小 → SKIP)。②単層は解析式 min(1,|s|R/c_surf) と厳密一致・
-  //   coreSR=1(剛体回転)は単層と bit 等価(A8 と同じ「差動分だけがコアから効く」原則)・
-  //   2層(coreSR≠1)は同じ殻スピンで単層より暗い。③disk/ring 群の coreMR/coreSR/coreRR
-  //   通し(第75便)— validatePreset 保持+build 配線(Rc>0・hasCore)
+  //   rigid(Ω_c≡s)は単層と bit 等価(A8 と同じ「差動分だけがコアから効く」原則)・
+  //   2層(Ω_c≠s)は同じ殻スピンで単層より暗い。③disk/ring 群の core:{} 通し(第80便)+
+  //   **旧キー(コアv1)の移行**(第81便)— validatePreset 保持+build 配線(RcV>0・hasCoreV2)
   {
     const r = await page.evaluate(() => {
       const PH = { G: 0.8, D0: 1.5, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, Kt: 50,
@@ -3655,9 +3698,10 @@ if (!FAST) {
         HP.sim.step(0.016);
         return HP.sim.lSw[0];
       };
+      // 第81便: コアv2 直指定(R_c=0.3·R=1.2・Ω_c=20·0.6=12 は旧 coreSR:20/coreRR:0.3 と同じ値)
       const single = one({});
-      const rigid = one({ coreMR: 0.4, coreSR: 1, coreRR: 0.3 });
-      const two = one({ coreMR: 0.4, coreSR: 20, coreRR: 0.3 });
+      const rigid = one({ core: { mode: 'rigid', massFrac: 0.4, radius: 1.2 } });
+      const two = one({ core: { mode: 'differential', massFrac: 0.4, radius: 1.2, omega: 12 } });
       // 解析式(単層): lS = min(1, |s|·R/(c₀·e^{−2ψ}))・ψ=(D0+m/√(R²+ε²))/Kt(孤立なので ΣW=0)
       const psi = (1.5 + 30 / Math.sqrt(16 + 9)) / 50;
       const ana = Math.min(1, 0.6 * 4 / (40 * Math.exp(-2 * psi)));
@@ -3671,6 +3715,9 @@ if (!FAST) {
         const v = HP.validatePreset({ name: 't', description: 'd', camera: { scale: 300 },
           world: { boundary: 'none', size: 0 }, seed: 1, physics: PH,
           bodies: [
+            // 第81便: 群に**旧キー(コアv1)**を書いた JSON を読ませ、移行式で v2 へ変換されることを見る。
+            // disk: R_c=0.3·(0.7·√8)=0.5940・Ω_c=20·0.3=6 / ring(空洞): voidFraction=0.5・
+            // R_c=0.2·(1·√8)=0.5657・Ω_c=10·0.3=3
             { type: 'disk', n: 6, cx: 0, cy: 0, radius: 40, mMin: 8, mMax: 8, spinMin: 0.3, spinMax: 0.3,
               vMode: 'random', vScale: 0.5, aroundMass: 0, direction: 1, rMul: 0.7,
               coreMR: 0.4, coreSR: 20, coreRR: 0.3, lightSweep: 'auto' },
@@ -3680,19 +3727,32 @@ if (!FAST) {
         const b0 = v.ok ? v.preset.bodies[0] : {}, b1 = v.ok ? v.preset.bodies[1] : {};
         HP.sim.build(v.preset);
         const S = HP.sim;
-        return { ok: v.ok, warn: v.warnings.length,
+        const migrated = !!(b0.core && b1.core) && b0.coreMR === undefined && b1.coreMR === undefined;
+        if (migrated) return { ok: v.ok, warn: v.warnings.length, migrated,
+          diskCore: [b0.core.mode, b0.core.massFrac, +b0.core.radius.toFixed(4), b0.core.omega],
+          ringCore: [b1.core.mode, b1.core.voidFraction, +b1.core.radius.toFixed(4), b1.core.omega],
+          hasCore: S.hasCoreV2, md0: S.coreMd[0], md6: S.coreMd[6],
+          Rc0: S.RcV[0], Rc6: S.RcV[6], n: S.n };
+        // 旧ビルド(root 等・第81便未適用): 旧キーがそのまま保持され、コアv1 の配列へ配線される
+        return { ok: v.ok, warn: v.warnings.length, migrated,
           diskCore: [b0.coreMR, b0.coreSR, b0.coreRR], ringCore: [b1.coreMR, b1.coreSR, b1.coreRR],
-          hasCore: S.hasCore, Rc0: S.Rc[0], Rc6: S.Rc[6], n: S.n };
+          hasCore: S.hasCore, md0: 0, md6: 0, Rc0: S.Rc[0], Rc6: S.Rc[6], n: S.n };
       });
       add('lsw.core-auto',
         Math.abs(r.single - r.ana) < 1e-6 && r.rigid === r.single && r.two > r.single + 0.2,
-        `単層=解析式 ${r.single.toFixed(6)}(=${r.ana.toFixed(6)}) / 剛体コア(coreSR=1)=単層 bit等価=${r.rigid === r.single} / ` +
-        `2層(coreSR=20)=${r.two.toFixed(3)}(単層+0.2 以上 — 差動コアが暗さを担う)`);
+        `単層=解析式 ${r.single.toFixed(6)}(=${r.ana.toFixed(6)}) / 剛体コア(mode=rigid)=単層 bit等価=${r.rigid === r.single} / ` +
+        `2層(Ω_c=12)=${r.two.toFixed(3)}(単層+0.2 以上 — 差動コアが暗さを担う)`);
+      const gOk = g.migrated
+        ? (g.diskCore[0] === 'differential' && g.diskCore[1] === 0.4 && Math.abs(g.diskCore[2] - 0.594) < 0.002 && g.diskCore[3] === 6
+          && g.ringCore[0] === 'cavity' && g.ringCore[1] === 0.5 && Math.abs(g.ringCore[2] - 0.5657) < 0.002 && g.ringCore[3] === 3
+          && g.md0 === 2 && g.md6 === 4)
+        : (g.warn === 0 && g.diskCore[0] === 0.4 && g.diskCore[1] === 20 && g.diskCore[2] === 0.3
+          && g.ringCore[0] === -0.5 && g.ringCore[1] === 10 && g.ringCore[2] === 0.2);
       add('preset.group-core',
-        g.ok && g.warn === 0 && g.diskCore[0] === 0.4 && g.diskCore[1] === 20 && g.diskCore[2] === 0.3
-        && g.ringCore[0] === -0.5 && g.ringCore[1] === 10 && g.ringCore[2] === 0.2
-        && g.hasCore && g.Rc0 > 0 && g.Rc6 > 0 && g.n === 12,
-        `disk=[${g.diskCore}] ring=[${g.ringCore}](負値=空洞も通る) hasCore=${g.hasCore} Rc=${g.Rc0.toFixed(2)}/${g.Rc6.toFixed(2)}`);
+        g.ok && gOk && g.hasCore && g.Rc0 > 0 && g.Rc6 > 0 && g.n === 12,
+        `群コア: ${g.migrated ? '旧キー → コアv2 移行(第81便)' : '旧キー保持(コアv1・第75便)'}(警告${g.warn}件) ` +
+        `disk=[${g.diskCore}] ring=[${g.ringCore}](空洞も通る) ` +
+        `コア配線=${g.hasCore} md=${g.md0}/${g.md6} R_c=${g.Rc0.toFixed(3)}/${g.Rc6.toFixed(3)}`);
     } else {
       console.log('SKIP lsw.core-auto / preset.group-core(対象に第75便 2層減光 未適用 — root 等)');
     }
@@ -3786,10 +3846,13 @@ if (!FAST) {
     }
   }
 
-  // ---- 8a2b4d) 第78便: ⚫bhCore — DFM版BH 5層の自走と因果分離 ----
-  // ①自走: τ_cs で殻スピン 0.15→1.33・コアΩ 20→4.2(コアの貯金が外殻へ)②暗いまま回す:
-  // 中心 lSw=1.00 で外縁増強 1.52(可視の🎡標準 1.2646 超)③因果: コアなし対照は 1.05
-  // (=コアが主因)④帳簿込み総 L 保存(<1e-3)。較正実測は exp-4-80(seed 20260805・6000步)
+  // ---- 8a2b4d) 第78便→第81便: ⚫bhCore — DFM版BH 5層の自走と因果分離(自由な中心)----
+  // 第81便で ⚫ の中心を自由(pinned:false + E6′-R + 重心系)へ正式移行したので、観測は
+  // **中心天体基準の相対座標**で取る。①自走: τ_cs で殻スピン 0.15→1.33・コアΩ 20→4.24
+  // (コアの貯金が外殻へ)②暗いまま回す: 中心 lSw=1.00 で外縁増強 1.52(可視の🎡標準 1.2646 超)
+  // ③因果: コアなし対照は 1.05(=コアが主因)④帳簿込み総 L 保存(<1e-3)。
+  // 較正実測は exp-4-81(seed 20260805・6000步): 増強 1.5236 / 殻 1.3302 / Ω_c 4.241 /
+  // コアなし対照 1.0453 / |ΔL| 1.3e-6(pinned 対照は 1.5215 — 同帯)
   {
     const hasBH = await page.evaluate(() => HP.allPresets().some(p => p.id === 'bhCore'));
     if (hasBH) {
@@ -3803,9 +3866,11 @@ if (!FAST) {
           const L0 = S.totals().L + S.resL + S.radL;
           const cs0 = HP.coreState(0);
           for (let k = 0; k < 6000; k++) S.step(0.016);
+          // 中心天体基準の相対座標(自由中心の並進を混ぜない)
+          const x0 = S.x[0], y0 = S.y[0], vx0 = S.vx[0], vy0 = S.vy[0];
           let sum = 0, c = 0;
-          for (let i = 121; i < S.n; i++) { const rr = Math.hypot(S.x[i], S.y[i]);
-            if (rr >= 156 && rr <= 286) { sum += (S.x[i] * S.vy[i] - S.y[i] * S.vx[i]) / rr; c++; } }
+          for (let i = 121; i < S.n; i++) { const dx = S.x[i] - x0, dy = S.y[i] - y0, rr = Math.hypot(dx, dy);
+            if (rr >= 156 && rr <= 286) { sum += (dx * (S.vy[i] - vy0) - dy * (S.vx[i] - vx0)) / rr; c++; } }
           const L1 = S.totals().L + S.resL + S.radL;
           let lScale = 0;
           for (let i = 0; i < S.n; i++) lScale += Math.abs(S.m[i] * (S.x[i] * S.vy[i] - S.y[i] * S.vx[i]))
@@ -3822,11 +3887,11 @@ if (!FAST) {
       const boost = r.a.outer / r.z.outer;
       add('claim.bhcore-selfdrive',
         !r.a.bad && !r.z.bad && r.a.n === 321
-        && boost >= 1.4 && boost <= 1.65 && boost > 1.2646
-        && r.a.shell >= 1.2 && r.a.shell <= 1.45 && r.a.om1 < r.a.om0 * 0.5
+        && boost >= 1.37 && boost <= 1.68 && boost > 1.2646
+        && r.a.shell >= 1.20 && r.a.shell <= 1.47 && r.a.om1 < r.a.om0 * 0.5
         && r.a.lSw > 0.95 && r.ncBoost < 1.15 && r.a.relL < 1e-3,
-        `外縁増強=${boost.toFixed(4)}(窓1.4〜1.65・実測1.524・可視の🎡標準1.2646超)/ ` +
-        `自走: 殻 0.15→${r.a.shell.toFixed(3)}(窓1.2〜1.45) コアΩ ${r.a.om0.toFixed(1)}→${r.a.om1.toFixed(1)}(半減以下)/ ` +
+        `外縁増強(中心基準)=${boost.toFixed(4)}(窓1.37〜1.68・実測1.5236・可視の🎡標準1.2646超)/ ` +
+        `自走: 殻 0.15→${r.a.shell.toFixed(3)}(窓1.20〜1.47) コアΩ ${r.a.om0.toFixed(1)}→${r.a.om1.toFixed(2)}(半減以下)/ ` +
         `中心lSw=${r.a.lSw.toFixed(3)}(>0.95 — 真っ暗)/ コアなし対照=${r.ncBoost.toFixed(3)}(<1.15 — コアが主因)/ ` +
         `帳簿込み|ΔL|=${r.a.relL.toExponential(1)}(<1e-3)`);
     } else {
@@ -3834,18 +3899,22 @@ if (!FAST) {
     }
   }
 
-  // ---- 8a2b4d2) 第80便 A: 🕳️bhCoreFree — 自由な支配天体 + E6′-R(pairReduced)の固定seed受入 ----
-  // ⚫bhCore の中心から pinned を外し、E6′ 反作用を換算質量対称インパルスへ置き換えた実験サンプル。
-  // ①安全上限(反作用・速度・スピン)が一度も発動しない ②中心基準の外縁増強が固定中心版と同帯
-  // ③τ_cs の自走(殻 0.15→1.33・コアΩ 20→4.2)が保たれる ④支配天体は重心まわりに有限反跳
+  // ---- 8a2b4d2) 第80便 A → 第81便: ⚫bhCore の「自由な支配天体 + E6′-R」の固定seed受入 ----
+  // 第80便は実験サンプル 🕳️bhCoreFree でこの受入を組んでいたが、第81便で ⚫bhCore 本体が
+  // 自由中心へ移行したので、本テストは ⚫ を対象に統合した(🕳️ は廃止)。
+  // ①安全上限(反作用・速度・スピン)が一度も発動しない ②中心基準の外縁増強が pinned 版と同帯
+  // ③τ_cs の自走(殻 0.15→1.33・コアΩ 20→4.24)が保たれる ④支配天体は重心まわりに有限反跳
   // ⑤帳簿込み総 L が保存する。較正実測は exp-4-81(seed 20260805・6000步)。
   // 「安定」の定義は原点不動ではなく上の5点(提案 §12.4)。対象に無ければ SKIP(root 等)
   {
-    const hasBHF = await page.evaluate(() => HP.allPresets().some(p => p.id === 'bhCoreFree'));
+    const hasBHF = await page.evaluate(() => {
+      const p = HP.allPresets().find(q => q.id === 'bhCore');
+      return !!(p && p.balanceFrame === 'barycentric' && p.bodies[0].pinned === false);
+    });
     if (hasBHF) {
       const r = await page.evaluate(() => {
         const run = (kFrame) => {
-          const p = JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'bhCoreFree')));
+          const p = JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'bhCore')));
           p.physics.kFrame = kFrame;
           HP.sim.build(p);
           const S = HP.sim;
@@ -3894,15 +3963,15 @@ if (!FAST) {
         && r.a.shell >= 1.20 && r.a.shell <= 1.47
         && r.a.om1 >= 3.8 && r.a.om1 <= 4.7
         && r.a.lSw >= 0.99 && r.a.keep >= 0.95
-        && r.a.relL < 1e-5 && r.a.dMax < 8 && r.a.vMax < 0.2,
-        `外縁増強=${boost.toFixed(4)}(窓1.37〜1.68・実測1.524。⚫の同構成 pinned 対照 1.522)/ ` +
+        && r.a.relL < 1e-5 && r.a.dMax >= 0.2 && r.a.dMax < 8 && r.a.vMax < 0.2,
+        `外縁増強=${boost.toFixed(4)}(窓1.37〜1.68・実測1.5236。同構成 pinned 対照 1.5215)/ ` +
         `上限発動 R/V/S=${r.a.clampR}/${r.a.clampV}/${r.a.clampS}(すべて0)/ ` +
         `自走: 殻 0.15→${r.a.shell.toFixed(3)}(窓1.20〜1.47) コアΩ ${r.a.om0.toFixed(1)}→${r.a.om1.toFixed(2)}(窓3.8〜4.7)/ ` +
         `中心lSw=${r.a.lSw.toFixed(3)}(≥0.99) 保持率=${r.a.keep.toFixed(3)}(≥0.95)/ ` +
-        `BH重心相対 最大変位=${r.a.dMax.toFixed(3)}(<8) 最大速度=${r.a.vMax.toFixed(4)}(<0.2)/ ` +
+        `BH重心相対 最大変位=${r.a.dMax.toFixed(3)}(0.2〜8 — 固定ではない有限反跳) 最大速度=${r.a.vMax.toFixed(4)}(<0.2)/ ` +
         `重心系初期化=${r.a.bf} 帳簿込み|ΔL|=${r.a.relL.toExponential(1)}(<1e-5)`);
     } else {
-      console.log('SKIP claim.bhcore-free(対象に 🕳️bhCoreFree なし — root 等。第80便)');
+      console.log('SKIP claim.bhcore-free(対象の ⚫bhCore が自由中心構成でない — root 等。第81便)');
     }
   }
 
@@ -4013,7 +4082,9 @@ if (!FAST) {
         `differential 対照の E_int=${ae.eDiff}(=0 — 注入は active 限定)`);
 
       // ② core.cavity-no-negative-mass: 空洞は質量0・慣性0・J0(負質量はどこにも生じない)。
-      //    旧 coreMR<0 の空洞と**同一状態からの1步が bit 一致**する(移行式: coreMR=−voidFraction・
+      //    第81便: コアv1 廃止に伴い、この検査は**移行式の機械検証(reimport 型)**を兼ねる —
+      //    旧キー入り JSON(coreMR<0)を読ませると validatePreset が cavity へ変換し、
+      //    手書きの cavity と**同一状態からの1步が bit 一致**する(移行式: voidFraction=|coreMR|・
       //    Ω_c=coreSR·s・R_c=coreRR·R)。長時間走らせても NaN・負半径が出ない
       const cv = await page.evaluate((PH) => {
         const mk = (c0) => ({ name: 't', description: 'd', camera: { scale: 300 },
@@ -4027,7 +4098,7 @@ if (!FAST) {
           lsw: S.lSw[0], x1: S.x[1], vy1: S.vy[1] });
         const run1 = (c0) => { const v = HP.validatePreset(mk(c0)); HP.sim.build(v.preset);
           HP.sim.step(0.016); return { w: v.warnings.length, o: snap(HP.sim) }; };
-        const oldC = run1({ coreMR: -0.5, coreSR: 3, coreRR: 0.4 });
+        const oldC = run1({ coreMR: -0.5, coreSR: 3, coreRR: 0.4 });   // 第81便: 旧キー → 移行式で cavity へ
         const newC = run1({ core: { mode: 'cavity', voidFraction: 0.5, radius: 2, omega: 1.5 } });
         const same = Object.keys(oldC.o).every(k => oldC.o[k] === newC.o[k]);
         // 長時間: 質量・慣性が非負(空洞は 0)で NaN・負半径なし
@@ -4042,10 +4113,10 @@ if (!FAST) {
           om: cs.omega, mf: S.coreMF[0], M0, M1: S.m[0] + S.m[1], minM, nan: S.hasNaN() };
       }, PH80);
       add('core.cavity-no-negative-mass',
-        cv.same && cv.oldW === 0 && cv.newW === 0 && !cv.nan
+        cv.same && cv.oldW >= 1 && cv.newW === 0 && !cv.nan
         && cv.mode === 'cavity' && cv.mass === 0 && cv.J === 0 && cv.Rc > 0 && cv.vf === 0.5
         && cv.mf < 0 && cv.minM > 0 && Math.abs(cv.M1 - cv.M0) < 1e-6,
-        `旧 coreMR=−0.5/coreSR=3/coreRR=0.4 ⇔ 新 cavity(voidFraction=0.5・R_c=2・Ω=1.5): 1步 bit一致=${cv.same}(a=${cv.nw.ax.toFixed(6)},${cv.nw.ay.toFixed(6)} lSw=${cv.nw.lsw.toFixed(6)})/ ` +
+        `旧キー読込 coreMR=−0.5/coreSR=3/coreRR=0.4(移行警告${cv.oldW}件)⇔ 手書き cavity(voidFraction=0.5・R_c=2・Ω=1.5): 1步 bit一致=${cv.same}(a=${cv.nw.ax.toFixed(6)},${cv.nw.ay.toFixed(6)} lSw=${cv.nw.lsw.toFixed(6)})/ ` +
         `空洞の質量=${cv.mass}・J=${cv.J}(ともに厳密0)・R_c=${cv.Rc}(>0)/ 引きずり重み coreMF=${cv.mf}(負の**重み**であって質量ではない)/ ` +
         `400步後: 総質量 ${cv.M0}→${cv.M1}(不変)・最小質量=${cv.minM}(>0 — 負質量なし)`);
 
@@ -4154,9 +4225,9 @@ if (!FAST) {
         `R_c=${f.Rc.toFixed(6)}(面積等価 √(1²+1.5²)=${f.RcExp.toFixed(6)})/ リザーバ退避 ΔresL=${f.dResL}(=0 — 継承なので不要)・帳簿込み|ΔL|=${f.dL.toExponential(1)}/ ` +
         `分裂: J_c ${s2.J0}→${s2.Jsum}(和が厳密一致) E_int ${s2.E0}→${s2.Esum} R_c²=${s2.Rc0 * s2.Rc0}→${s2.RcSq.toFixed(6)}(和が不変) massFrac=${s2.mf1}(両片とも親と同値)`);
 
-      // ⑤ core.schema-roundtrip: エクスポートは schemaVersion 3 で、core:{} を持つ body に
-      //    旧キー(coreMR/coreSR/coreRR)を併記する(コアv2 を知らない読み手への round-trip 互換)。
-      //    読み戻しは従来どおり**新形式優先+併記警告**で、core の値が 1 つも壊れない
+      // ⑤ core.schema-roundtrip: 第81便 — エクスポートは **schemaVersion 4** で、コアは core:{} のみ
+      //    (第80便の旧キー併記 withLegacyCore は廃止)。読み戻しても core の値が 1 つも壊れず、
+      //    旧キーは 1 つも書き出されない(=読み戻しの警告 0 件)
       const rt = await page.evaluate(() => {
         const keep = localStorage.getItem('hp_custom_presets');
         try {
@@ -4177,11 +4248,12 @@ if (!FAST) {
           const back = HP.validatePreset(ex.customPresets[0]);
           const c0 = back.ok ? back.preset.bodies[0].core : null;
           const c1 = back.ok ? back.preset.bodies[1].core : null;
-          return { schema: ex.schemaVersion, ok: v0.ok, warn0: v0.warnings.length,
-            legacy0: [b0.coreMR, b0.coreSR, b0.coreRR], legacy1: [b1.coreMR, b1.coreSR, b1.coreRR],
+          const noLegacy = [b0, b1].every(b => b.coreMR === undefined && b.coreSR === undefined
+            && b.coreRR === undefined);
+          return { schema: ex.schemaVersion, ok: v0.ok, warn0: v0.warnings.length, noLegacy,
             keepCore0: !!b0.core, keepCore1: !!b1.core,
             backOk: back.ok, backWarn: back.warnings.length,
-            backMR: back.ok ? (back.preset.bodies[0].coreMR || 0) : -1,
+            backMR: back.ok ? (back.preset.bodies[0].coreMR || 0) : 0,
             c0, c1 };
         } finally {
           if (keep === null) localStorage.removeItem('hp_custom_presets');
@@ -4190,17 +4262,14 @@ if (!FAST) {
       });
       const c0 = rt.c0 || {}, c1 = rt.c1 || {};
       add('core.schema-roundtrip',
-        rt.schema === 3 && rt.ok && rt.warn0 === 0 && rt.keepCore0 && rt.keepCore1
-        // 逆写像: coreMR=massFrac(cavity は −voidFraction)・coreRR=R_c/R・coreSR=Ω_c/s
-        && rt.legacy0[0] === 0.3 && rt.legacy0[1] === 3 && rt.legacy0[2] === 0.4
-        && rt.legacy1[0] === -0.5 && rt.legacy1[1] === 3 && rt.legacy1[2] === 0.4
-        && rt.backOk && rt.backWarn === 2 && rt.backMR === 0
+        rt.schema === 4 && rt.ok && rt.warn0 === 0 && rt.keepCore0 && rt.keepCore1
+        && rt.noLegacy                                   // 第81便: 旧キーは 1 つも書き出さない
+        && rt.backOk && rt.backWarn === 0 && rt.backMR === 0
         && c0.mode === 'differential' && c0.massFrac === 0.3 && c0.radius === 2 && c0.omega === 1.5
         && c0.Kcs === 0.2 && c0.pump === 0.4 && c0.contract === 0.01
         && c1.mode === 'cavity' && c1.voidFraction === 0.5 && c1.radius === 2 && c1.omega === 1.5,
-        `export: schemaVersion=${rt.schema}(=3)/ 旧キー併記 differential=[${rt.legacy0}] cavity=[${rt.legacy1}]` +
-        `(coreMR=massFrac または −voidFraction・coreSR=Ω_c/s=1.5/0.5・coreRR=R_c/R=2/5)/ ` +
-        `読み戻し: core 保持=${rt.backOk}(警告${rt.backWarn}件=併記の明示)・旧キー無効化 coreMR=${rt.backMR}(=0)・` +
+        `export: schemaVersion=${rt.schema}(=4)/ 旧キー併記なし=${rt.noLegacy}(第81便でコアv1 廃止)/ ` +
+        `読み戻し: core 保持=${rt.backOk}(警告${rt.backWarn}件=0)・` +
         `mode=${c0.mode}/${c1.mode} 値の欠落なし`);
     } else {
       console.log('SKIP core.active-energy / core.cavity-no-negative-mass / core.group-core / core.merge-split / core.schema-roundtrip(対象に第80便 コアv2 残段 未適用 — root 等)');
@@ -4219,7 +4288,10 @@ if (!FAST) {
         const run = (mod) => {
           const p = JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'nebulaShell')));
           if (mod) for (let bi = 0; bi < 3; bi++) { const b = p.bodies[bi];
-            delete b.coreMR; delete b.coreSR; delete b.coreRR; b.spinMin = 4.8; b.spinMax = 7.2; }
+            // 第81便: コアv2 の core:{} と旧コアv1 の両キーを外して単層化する
+            // (root 等の旧ビルドではプリセットが旧キーを持つため、両方消さないと単層にならない)
+            delete b.core; delete b.coreMR; delete b.coreSR; delete b.coreRR;
+            b.spinMin = 4.8; b.spinMax = 7.2; }
           HP.sim.build(p);
           const S = HP.sim;
           for (let k = 0; k < 3000; k++) S.step(0.016);
@@ -4555,6 +4627,56 @@ if (!FAST) {
   }
 } else {
   console.log('SKIP behavior.* (QA_FAST=1)');
+}
+
+// ---- 8b81) 第81便 B: 🪜massLadder — 隠れ質量ラダーの固定seed受入 ----
+// ①3つの暗い中心核の実効減光が 1(=光度質量 0・観測温度が厳密に 0)②外縁リングから読む
+// 力学質量 M_dyn=⟨v²r⟩/G が実質量に比例する(比 1.960 / 3.840 — 真の 2 / 4 の ±10% 窓)
+// ③リングが評価窓内で円軌道を保つ(半径ばらつき ≤15%)④NaN・速度/スピン/反作用クランプが 0 回。
+// 較正実測は exp-4-82(seed 20260806・6000步=t96)。プリセットが無い対象は SKIP(root 等)。
+// 1構成6000步(147粒子)と軽いので QA_FAST=1 でも実行する ----
+{
+  const hasML = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'massLadder'));
+  if (hasML) {
+    const r = await page.evaluate(() => {
+      const P = HP.allPresets().find((q) => q.id === 'massLadder');
+      HP.loadPreset('massLadder', false);
+      const S = HP.sim;
+      const NR = 48, D = 1440, R0 = 180, MS = [2500, 5000, 10000];
+      for (let k = 0; k < 6000; k++) S.step(0.016);
+      const G = S.params.G, sys = [];
+      for (let g = 0; g < 3; g++) {
+        const cx = (g - 1) * D;
+        let mD = 0, rq = 0;
+        for (let i = 3 + g * NR; i < 3 + (g + 1) * NR; i++) {
+          const rr = Math.hypot(S.x[i] - cx, S.y[i]);
+          mD += (S.vx[i] * S.vx[i] + S.vy[i] * S.vy[i]) * rr / G / NR;
+          rq += (rr - R0) * (rr - R0) / NR;
+        }
+        sys.push({ m: MS[g], mDyn: mD, ratio: mD / MS[g], rRms: Math.sqrt(rq) / R0,
+          lSw: S.lSw[g], Tobs: HP.obsTemp(S, g) });
+      }
+      return { n: S.n, sys, camScale: P.camera.scale,
+        r21: sys[1].mDyn / sys[0].mDyn, r41: sys[2].mDyn / sys[0].mDyn,
+        bad: S.hasNaN(), clampV: S.clampVN, clampS: S.clampSN, clampR: S.clampRN || 0 };
+    });
+    const lSwMin = Math.min(...r.sys.map((s) => s.lSw));
+    const rRmsMax = Math.max(...r.sys.map((s) => s.rRms));
+    add('claim.massladder',
+      !r.bad && r.n === 147 && r.clampV === 0 && r.clampS === 0 && r.clampR === 0
+      && r.r21 >= 1.76 && r.r21 <= 2.16 && r.r41 >= 3.46 && r.r41 <= 4.22
+      && lSwMin >= 0.99 && r.sys.every((s) => s.Tobs === 0)
+      && r.sys.every((s) => s.ratio > 1 && s.ratio < 1.3)
+      && rRmsMax <= 0.15,
+      `力学質量=${r.sys.map((s) => s.mDyn.toFixed(0)).join('/')}(実質量 2500/5000/10000)/ ` +
+      `比=${r.r21.toFixed(4)}(窓1.76〜2.16・実測1.960) ${r.r41.toFixed(4)}(窓3.46〜4.22・実測3.840)/ ` +
+      `M_dyn/m=${r.sys.map((s) => s.ratio.toFixed(3)).join('/')}(いずれも1超1.3未満 — E6′超過)/ ` +
+      `中心lSw 最小=${lSwMin.toFixed(4)}(≥0.99 — 真っ暗) T_obs=${r.sys.map((s) => s.Tobs).join('/')}(全て0)/ ` +
+      `リング半径ばらつき 最大=${(rRmsMax * 100).toFixed(1)}%(≤15%)/ ` +
+      `上限発動 V/S/R=${r.clampV}/${r.clampS}/${r.clampR}(すべて0)`);
+  } else {
+    console.log('SKIP claim.massladder(対象に 🪜massLadder なし — root 等。第81便)');
+  }
 }
 
 // ---- 8c) 第11次裁定(2026-07-22): E13 帯状重力補正のQA(v1.28 でルート昇格)----
@@ -5057,33 +5179,37 @@ if (!FAST) {
   }
 }
 
-// ---- 第12〜14便(2026-07-23): 主星2層(比率仕様 coreMR/coreSR)のエンジン検証 ----
-// 第14便: m は総質量のまま、coreMR=コア質量比 mc/m(既定0・負値=空洞)・coreSR=コアスピン比
-// sc/s(既定1=剛体回転=単層と厳密等価 — 錨)。差動形 ω += coreMR·s·(coreSR−1)·f(Rc,d)、
-// Rc=radiusScale·√|coreMR·m|。coreMR=0 は寄与なし・hasCore=false の宇宙は分岐ごと素通り(高速化)。
+// ---- 第12〜14便→第81便: 主星2層コアのエンジン検証(コアv2 一本化)----
+// 第81便でコアv1(比率仕様 coreMR/coreSR/coreRR)を廃止したので、検査対象はコアv2 だけ:
+// m は総質量のまま、coreMF=Mc/m・RcV=R_c(絶対)・coreJ=J_core が主変数で、
+// 差動形 ω += (Mc/m)·(Ω_c−s)·f(R_c,d)。rigid(Ω_c≡s)と Ω_c=s の differential は差動0で
+// 単層と厳密等価(錨)。コアなしの宇宙は hasCoreV2=false で分岐ごと素通り(高速化)。
 // 負質量は実験用に受理(0除算保護のみ)。
 {
-  const hasCoreEng = await page.evaluate(() => !!(window.HP && HP.sim && HP.sim.coreMR));
+  const hasCoreEng = await page.evaluate(() => !!(window.HP && HP.sim && HP.sim.coreMd));
   if (hasCoreEng) {
     // 第35便 W5c: 計算部分は W5C_UNITS.twolayerCore へ移し、ワーカーで実行する
     const r = await w5cGetUnit('twolayerCore');
     add('core.twolayer',
       // 第40便 40C(台帳4-82): n の期待値は 🪐 のプリセット定義から数える(🎯 は「環の帯が 🪐 と
       // 同一」が不変条件なので、両者の総粒子数が一致していること自体が検査になる)。旧: 固定値 301
-      r.preset.n === satTotN && r.preset.coreMR === 0.18 && Math.abs(r.preset.coreSR - 1.05) < 1e-6 &&
-      r.preset.hasCore &&
+      r.preset.n === satTotN && r.preset.md === (r.v2 ? 2 : 0) && r.preset.massFrac === 0.18 &&
+      Math.abs(r.preset.omega - 0.0525) < 1e-4 && r.preset.hasCoreV2 &&
       Math.abs(r.preset.R0 - 1.8 * Math.sqrt(1500)) < 0.01 && Math.abs(r.preset.Rc0 - 1.8 * Math.sqrt(270)) < 0.01 &&
-      r.m0 === 1500 && r.hcRigid && r.eqRigid < 1e-9 &&
+      r.m0 === 1500 && r.noCore === false && r.hcRigid && r.eqRigid < 1e-9 &&
       r.restDx > 1e-4 &&                                       // コア静止は引きずり低下で差が出る
-      r.hcZero === false && r.eqZero < 1e-9 &&
+      r.eqZero < 1e-9 &&
       r.effDx > 0.1 && !r.effNan && r.holDx > 0.1 && !r.holNan &&
       r.negR > 0 && !r.negNan,
-      `🎯 n=${r.preset.n} mc/m=${r.preset.coreMR} sc/s=${r.preset.coreSR} R/Rc=${r.preset.R0.toFixed(1)}/${r.preset.Rc0.toFixed(1)} ` +
-      `剛体回転(sc/s=1)等価=${r.eqRigid}(<1e-9) コア静止差=${r.restDx.toExponential(1)}(>1e-4) ` +
-      `mc/m=0高速パス=${!r.hcZero}&等価${r.eqZero} 高速コア効果=${r.effDx.toFixed(2)}(>0.1) ` +
+      `🎯 n=${r.preset.n} コア=${r.v2 ? 'v2(mode=' + r.preset.md + ')' : 'v1(比率)'} Mc/m=${r.preset.massFrac} Ω_c=${r.preset.omega} ` +
+      `R/Rc=${r.preset.R0.toFixed(1)}/${r.preset.Rc0.toFixed(1)} ` +
+      `rigid 等価=${r.eqRigid}(<1e-9) 差動0(Ω_c=s)等価=${r.eqZero}(<1e-9) ` +
+      `コア静止差=${r.restDx.toExponential(1)}(>1e-4) コアなし高速パス=${!r.noCore} 高速コア効果=${r.effDx.toFixed(2)}(>0.1) ` +
       `空洞NaNなし=${!r.holNan}&効果=${r.holDx.toFixed(2)} 負質量NaNなし=${!r.negNan}`);
 
-    // ---- 第12便: A/B比較中の粒子編集(選択・パネル表示・編集先の分離・負値/コア編集)----
+    // ---- 第12便: A/B比較中の粒子編集(選択・パネル表示・編集先の分離・負値)----
+    // 第81便: mc/m(#beMc)・sc/s(#beSc)・Rc/R(#beRr)の編集欄はコアv1 の廃止に伴い削除した。
+    // 検査は「A/B のどちらを編集しているかが分離されている」ことに絞り、m と s の2欄で見る
     const e = await page.evaluate(() => {
       HP.loadPreset('saturn', false);
       HP.abStart();
@@ -5094,27 +5220,29 @@ if (!FAST) {
       const beM = document.getElementById('beM');
       beM.value = '-2'; beM.dispatchEvent(new Event('change'));
       const mB = HP.ab().simB.m[3], mA_after_B = HP.sim.m[3];
-      const beMc = document.getElementById('beMc');
-      beMc.value = '0.5'; beMc.dispatchEvent(new Event('change'));
-      const mcB = HP.ab().simB.coreMR[3], mcA = HP.sim.coreMR[3], hcB = HP.ab().simB.hasCore;
+      // 第81便でコアv1 欄(mc/m・sc/s・Rc/R)を撤去した。旧ビルド(root 等)では残っているので、
+      // 「エンジンからコアv1 が消えていること」と「欄が消えていること」の**一致**を検査する
+      const v1Gone = !HP.sim.coreMR;
+      const gone = !document.getElementById('beMc') && !document.getElementById('beSc')
+        && !document.getElementById('beRr');
       HP.selectBody(3, 'A');
       const titleA = document.getElementById('beTitle').textContent;
-      const beSc = document.getElementById('beSc');
-      beSc.value = '1.5'; beSc.dispatchEvent(new Event('change'));
-      const scA = HP.sim.coreSR[3], scB = HP.ab().simB.coreSR[3];
+      const beS = document.getElementById('beS');
+      beS.value = '1.5'; beS.dispatchEvent(new Event('change'));
+      const sA = HP.sim.spin[3], sB = HP.ab().simB.spin[3];
       HP.abStop();
       const hiddenAfter = HP.selInfo().selIdx === -1;
       HP.loadPreset('saturn', false);
-      return { shownB, titleB, titleA, mB, mA_after_B, mcB, mcA, hcB, scA, scB, hiddenAfter };
+      return { shownB, titleB, titleA, mB, mA_after_B, gone, v1Gone, sA, sB, hiddenAfter };
     });
     add('core.ab-body-edit',
       e.shownB && /\(B\)/.test(e.titleB) && /\(A\)/.test(e.titleA) &&
       e.mB === -2 && Math.abs(e.mA_after_B - (-2)) > 1e-6 &&        // B編集はAに波及しない
-      e.mcB === 0.5 && e.mcA === 0 && e.hcB === true &&
-      e.scA === 1.5 && e.scB === 1 &&                               // A編集はBに波及しない(既定 sc/s=1)
+      e.gone === e.v1Gone &&                                        // 第81便: エンジンと UI の同期
+      e.sA === 1.5 && Math.abs(e.sB - 1.5) > 1e-9 &&                // A編集はBに波及しない
       e.hiddenAfter,
       `B選択表示=${e.shownB}(${e.titleB}) m(B)=-2受理=${e.mB === -2} A非波及=true ` +
-      `mc/m(B)=0.5/mc/m(A)=${e.mcA} sc/s(A)=1.5/sc/s(B)=${e.scB}(既定1) 終了で選択解除=${e.hiddenAfter}`);
+      `コアv1欄(mc/sc/Rc)撤去=${e.gone}(エンジン側の撤去=${e.v1Gone} と一致) s(A)=1.5/s(B)=${e.sB}(非波及) 終了で選択解除=${e.hiddenAfter}`);
 
     // ---- 第13〜14便: 🎯 既定値の長時間安定+差動効果の有界性 ----
     // 既定(sc/s=1.05・差動形)で t≈360 の帯保持・落下/散逸ゼロ近傍を、🪐 と同じ閾値で機械検証
@@ -5141,7 +5269,13 @@ if (!FAST) {
       const em = await page.evaluate(() => {
         HP.loadPreset('earthMoon', false);
         const s = HP.sim;
-        const core = { mcr: s.coreMR[0], scr: s.coreSR[0], mcrM: s.coreMR[1], spinM: s.spin[1] };
+        // 第81便: コアv2 の読み口へ(mode="rigid" は旧コアv1 の sc/s=1 と同義)。
+        // 旧ビルド(root 等)は従来どおり coreMR/coreSR を読む
+        const cE = HP.coreState(0), cM = HP.coreState(1);
+        const core = cE
+          ? { mcr: cE.massFrac, mode: cE.mode, mcrM: cM ? cM.massFrac : NaN, spinM: s.spin[1] }
+          : { mcr: s.coreMR[0], mode: (s.coreSR[0] === 1 ? 'rigid' : 'differential'),
+              mcrM: s.coreMR[1], spinM: s.spin[1] };
         let rMin = 1e9, rMax = 0, phi = 0;
         let prev = Math.atan2(s.y[1] - s.y[0], s.x[1] - s.x[0]);
         for (let k = 0; k < 56250; k++) {   // t=900 ≒ 2周
@@ -5162,7 +5296,7 @@ if (!FAST) {
       const emSpinRel = Math.abs(em.spinM - em.omMeas) / em.omMeas;
       add('behavior.earthMoon',
         !em.nan &&
-        Math.abs(em.mcr - 0.325) < 1e-6 && Math.abs(em.scr - 1.0) < 1e-6 &&   // 第16便: コア観測値(Float32丸め許容)
+        Math.abs(em.mcr - 0.325) < 1e-6 && em.mode === 'rigid' &&   // 第16便: コア観測値(Float32丸め許容)
         Math.abs(em.mcrM - 0.0168) < 1e-6 &&                                   // 月コア(LLR 中央値)
         em.rMin >= 180 * 0.98 && em.rMax <= 180 * 1.02 &&        // 円軌道が ±2% で維持
         em.orbits > 1.5 &&                                        // 2周走行の確認
@@ -5170,7 +5304,7 @@ if (!FAST) {
         emSpinRel < 0.05,                                         // spin月 ≈ 実測 ω(±5%)
         `🌍 t≈900(${em.orbits.toFixed(2)}周): r=${em.rMin.toFixed(1)}〜${em.rMax.toFixed(1)}(180±2%) ` +
         `同期誤差=${em.syncPerOrbit.toFixed(2)}°/周(≤2) spin月/ω実測 相対差=${(emSpinRel * 100).toFixed(1)}%(<5%) ` +
-        `コア 地球=${em.mcr.toFixed(3)}/${em.scr}・月=${em.mcrM.toFixed(4)} NaNなし=${!em.nan}`);
+        `コア 地球=${em.mcr.toFixed(3)}(${em.mode})・月=${em.mcrM.toFixed(4)} NaNなし=${!em.nan}`);
 
       // ---- 第16便(第17次レビュー 推奨B): 🌕 自由二体・物理比 — 重心系の長時間安定 ----
       // kFrame=0 の純ニュートン対照(spin は軌道に影響しない → 実自転比 27.4× をそのまま使用)。
@@ -5328,8 +5462,8 @@ if (!FAST) {
     // u_φ が大きく低下(外殻+コアの引きずり)。u_φ 評価はエンジンの ω と同形(コア差動項込み)
     // 第32便 W3b: 🕶️ の構成が変わっても同じ測定が成立するよう、ローターは索引固定ではなく
     // 機械判定で選ぶ(恒星は spin=0)。
-    // 第33便 X4(台帳4-65b): v5 でローターが単層化(coreMR 廃止・対向2体のみ spin 2.0)したため
-    // 旧判定「中心(i=0)+コアを持つ粒子(coreMR≠0)」ではローターを選べなくなった(選択が中心1体だけに
+    // 第33便 X4(台帳4-65b): v5 でローターが単層化(コア廃止・対向2体のみ spin 2.0)したため
+    // 旧判定「中心(i=0)+コアを持つ粒子」ではローターを選べなくなった(選択が中心1体だけに
     // なる)。プリセット定義の type:"single" 由来の粒子(=中心BH+全ローター。恒星は disk/ring 由来)
     // で選ぶ方式へ一般化する。「対照=全ローター spin0」の定義は不変で、root(旧v3)では選択集合も
     // u_φ もビット同一(実測: 選択21体・比 1.954/1.543/1.562 — 旧判定と一致)。
@@ -5346,8 +5480,10 @@ if (!FAST) {
             W += w;
             let om = 0; const sj = s.spin[j];
             if (sj !== 0) { const tt = s.R[j] / (s.R[j] + d); om = sj * Math.pow(tt, q); }
-            if (s.coreMR[j] !== 0 && sj !== 0 && s.Rc[j] > 0 && s.coreSR[j] !== 1) {
-              const tt = s.Rc[j] / (s.Rc[j] + d); om += s.coreMR[j] * sj * (s.coreSR[j] - 1) * Math.pow(tt, q);
+            // 第81便: コア差動項はコアv2 の形へ(md≥2 = differential/active/cavity)
+            if (s.coreMd && s.coreMd[j] >= 2 && s.RcV[j] > 0) {
+              const cs = HP.coreState(j), dOm = (cs ? cs.omega : 0) - sj;
+              if (dOm !== 0) { const tt = s.RcV[j] / (s.RcV[j] + d); om += s.coreMF[j] * dOm * Math.pow(tt, q); }
             }
             uNx += w * (s.vx[j] + om * (-dy)); uNy += w * (s.vy[j] + om * dx);
           }
@@ -5366,11 +5502,11 @@ if (!FAST) {
         let nOff = 0;
         if (spinOff) for (const i of rotorIdx()) { s.spin[i] = 0; nOff++; }
         return { u140: uphiAt(s, 140), u200: uphiAt(s, 200), u260: uphiAt(s, 260), nOff }; };
-      // v5 判別: ローターが単層(coreMR なし)/ v6 判別: type:"single" が3体(中心BH+対向2ローター)。
+      // v5 判別: ローターが単層(コアなし)/ v6 判別: type:"single" が3体(中心BH+対向2ローター)。
       // 閾値はこの構成差で切り替える(第39便 39A・台帳4-72)
       const nSingle = P.bodies.filter(b => b.type === 'single').length;
       return { on: run(false), off: run(true), nSingle,
-        v6: nSingle === 3, v5: P.bodies.filter(b => b.type === 'single').every(b => !b.coreMR) };
+        v6: nSingle === 3, v5: P.bodies.filter(b => b.type === 'single').every(b => !b.core) };
     });
     // 第33便 X4 / 第39便 39A: 閾値は対象構成ごとの t=0 実測 ÷ 1.10(v4 と同等マージン)。
     // v6 実測 3.850/2.198/4.030 → 3.50/2.00/3.66 / v5 実測 1.760/1.314/1.823 → 1.60/1.19/1.65 /
@@ -5624,7 +5760,7 @@ if (!FAST) {
       // ④ AIベースサンプル: 選択時に JSON+要望が文脈へ入り、未選択時は要望のみ
       const sel = document.querySelector('#aiBasePreset');
       res.baseOpts = sel.options.length;                      // なし+内蔵27(+AI生成)
-      // 第33便 X4: 🕶️ v5 でローターが単層化(coreMR 廃止)したため、検査キーを coreMR →
+      // 第33便 X4: 🕶️ v5 でローターが単層化(コア廃止)したため、検査キーを coreMR →
       // aroundMass に差し替えた。意図(=要約ではなく body 階層の詳細キーまで payload に入る)は不変で、
       // lightSweep=single 天体の詳細キー・aroundMass=disk/ring 母集団の詳細キー。
       // 双方とも root(旧v3)/beta(v5)の🕶️に存在するので新旧どちらの構成でも成立する。
@@ -8086,22 +8222,22 @@ if (hasEchoFlipAt) {
       const afterKnown = HP.currentPreset().id, gKnown = HP.sim.params.G;
       const ex = JSON.parse(HP.exportData());
       const expectBuild = HP.isBetaServe() ? undefined : 'v' + HP.APP_VERSION;   // file:// 実行では後者
-      // 第80便: コアv2 残段(active/cavity)を持つビルドは schemaVersion 3(旧キー併記つき)。
+      // 第81便: コアv1 を廃止したビルドは schemaVersion 4(コアは core:{} のみ)。
       // 未適用のビルド(root 等)は従来どおり 2 — 同じ検査を両対象で回すための機能判定子
       const v3 = HP.validatePreset({ name: 't', description: 'd', camera: { scale: 200 },
         world: { boundary: 'none', size: 0 }, physics: {},
         bodies: [{ type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 1, pinned: false,
           core: { mode: 'active', massFrac: 0.3, radius: 1, omega: 5, sourceRate: 1 } }] });
-      const hasV3 = !!(v3.ok && v3.preset.bodies[0].core && v3.preset.bodies[0].core.mode === 'active');
-      return { before, afterUnknown, gUnchanged, afterKnown, gKnown, hasV3,
+      const hasV4 = !!(v3.ok && v3.preset.bodies[0].core && v3.preset.bodies[0].core.mode === 'active');
+      return { before, afterUnknown, gUnchanged, afterKnown, gKnown, hasV4,
         schema: ex.schemaVersion, appBuild: ex.appBuild, expectBuild, isBeta: HP.isBetaServe() };
     });
     add('phasechange.compat',
       cp.before === 'pressure' && cp.afterUnknown === 'pressure' && cp.gUnchanged !== 9
       && cp.afterKnown === 'gas' && Math.abs(cp.gKnown - 0.123) < 1e-12
-      && cp.schema === (cp.hasV3 ? 3 : 2) && (cp.isBeta ? typeof cp.appBuild === 'string' : cp.appBuild === cp.expectBuild),
+      && cp.schema === (cp.hasV4 ? 4 : 2) && (cp.isBeta ? typeof cp.appBuild === 'string' : cp.appBuild === cp.expectBuild),
       `未知ID読込 → 中止(現行=${cp.afterUnknown}・保存physicsも未適用=${cp.gUnchanged !== 9}) / ` +
-      `既知ID読込 → ${cp.afterKnown}(G=${cp.gKnown}) / export: schemaVersion=${cp.schema}(期待=${cp.hasV3 ? 3 : 2}) appBuild=${cp.appBuild}(期待=${cp.expectBuild ?? 'BETA_BUILD'})`);
+      `既知ID読込 → ${cp.afterKnown}(G=${cp.gKnown}) / export: schemaVersion=${cp.schema}(期待=${cp.hasV4 ? 4 : 2}) appBuild=${cp.appBuild}(期待=${cp.expectBuild ?? 'BETA_BUILD'})`);
 
     // ⑥b2 phasechange.saveparams(第54便 54B → 第60便): 実験ノブ編集(E14″係数+heat 壁)が
     //    phaseParams/twallHeat としてセーブに入り、読込で値域クランプつきで復元される。
@@ -9309,6 +9445,107 @@ if (hasSwAutoCb) {
       rows.map((v) => `${v.label}: ${Number.isFinite(v.val) ? v.val : 'NaN'}(窓${v.min}〜${v.max})${v.ok ? '' : ' ✗'}`).join(' / '));
   } else {
     console.log('SKIP claims.sync(対象に descPattern 付き claims 宣言なし — 第42便 42A 未適用の root 等)');
+  }
+}
+
+// ---- 81B) 第81便 B(原仮定者指示): camera.follow — カメラの天体追従(描画層のみ・物理不変)。
+// ----      ①「表示」カテゴリに追従コントロールがある ②validatePreset が camera.follow(整数)を
+// ----      受理し、非整数・負値は警告つきで無視する ③追従ONで camX/camY が対象天体の現在位置に
+// ----      一致する ④追従中のパンは「対象からのオフセット」として生き、camX=対象位置+オフセット
+// ----      ⑤対象が範囲外(融合等で消滅)になったら自動で「なし」へ戻る ⑥sim.params・粒子状態は
+// ----      1 つも変わらない(表示専用の証明)。未対応の対象(root 等)は SKIP。
+// ----      軽量(DOM検査+短時間走行のみ)なので QA_FAST=1 でも実行する ----
+{
+  const hasCF = await page.evaluate(() => !!(window.HP && HP.camState && HP.setCamFollow));
+  if (hasCF) {
+    const r = await page.evaluate(() => {
+      const res = {};
+      // ① コントロールの存在(「表示」カテゴリの select)
+      const sel = document.getElementById('camFollowSel');
+      res.ctrl = !!sel && sel.tagName === 'SELECT';
+      res.ctrlOpts = sel ? [...sel.options].map((o) => o.value) : [];
+      res.ctrlInDisplay = !!(sel && sel.closest('details') &&
+        /表示|Display/.test(sel.closest('details').querySelector('summary').textContent));
+      // ② validatePreset の受理・拒否
+      const mk = (follow) => ({ name: 'cf', description: 'd',
+        camera: (follow === undefined) ? { scale: 300 } : { scale: 300, follow },
+        world: { boundary: 'none', size: 0 },
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+      const v2 = HP.validatePreset(mk(2));
+      const vNeg = HP.validatePreset(mk(-1));
+      const vFrac = HP.validatePreset(mk(1.5));
+      const vStr = HP.validatePreset(mk('x'));
+      const vNone = HP.validatePreset(mk(undefined));
+      res.accept = v2.ok && v2.preset.camera.follow === 2;
+      res.reject = [vNeg, vFrac, vStr].every((v) => v.ok && v.preset.camera.follow === undefined
+        && v.warnings.some((w) => /camera\.follow/.test(w)));
+      res.noneKeepsClean = vNone.ok && vNone.preset.camera.follow === undefined
+        && !vNone.warnings.some((w) => /camera\.follow/.test(w));
+      // ③〜⑥ 実挙動(既存プリセットは follow なし=「なし」で起動する)
+      HP.loadPreset('binary', false);
+      res.defaultNone = HP.camState().mode === 'none';
+      const S = HP.sim;
+      const before = { p: JSON.stringify(S.params), x: [...S.x], v: [...S.vx] };
+      HP.selectBody(1, 'A');
+      HP.setCamFollow('sel');
+      HP.tick(4);
+      const c1 = HP.camState();
+      res.follows = c1.mode === 'sel' && c1.idx === 1
+        && c1.x === S.x[1] && c1.y === S.y[1];
+      // ④ 追従中のパンはオフセットとして積まれ、対象位置+オフセットになる
+      HP.panCam(30, -20);
+      HP.tick(4);
+      const c2 = HP.camState();
+      res.panOffset = c2.offX !== 0 && c2.offY !== 0
+        && Math.abs(c2.x - (S.x[1] + c2.offX)) < 1e-9
+        && Math.abs(c2.y - (S.y[1] + c2.offY)) < 1e-9;
+      // ⑥ 表示専用: 物理パラメータ・粒子状態は追従で 1 つも変わらない(step ぶんは進む)
+      res.physUntouched = JSON.stringify(S.params) === before.p;
+      // ⑤ 対象が範囲外になったら自動解除(UI の選択も「なし」へ戻る)
+      HP.selectBody(S.n + 10, 'A');
+      HP.tick(2);
+      res.autoRelease = HP.camState().mode === 'none'
+        && document.getElementById('camFollowSel').value === 'none';
+      HP.setCamFollow('none');
+      // ⑦ プリセットに camera.follow があれば読込時に既定ON(=追従先が指定 index)。
+      //    内蔵側は 🪜/⚫ の有無に依存させず、カスタムプリセット経由で経路そのものを検査する
+      const saved = localStorage.getItem('hp_custom_presets');
+      localStorage.setItem('hp_custom_presets', JSON.stringify([{ id: 'custom_qa_follow',
+        name: 'cf', description: 'd', camera: { scale: 300, follow: 1 },
+        world: { boundary: 'none', size: 0 }, seed: 7,
+        physics: { G: 1, D0: 2, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, Kt: 50,
+          cLight: 60, bM: 1, etaRad: 0, pRad: 2, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1,
+          pnAlpha: 1.5, radiusScale: 1, softening: 3, timeScale: 1 },
+        bodies: [
+          { type: 'single', m: 100, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true },
+          { type: 'single', m: 1, x: 80, y: 0, vx: 0, vy: 1.1, spin: 0, pinned: false }] }]));
+      HP.loadPreset('custom_qa_follow', false);
+      const c3 = HP.camState();
+      HP.tick(20);
+      const c4 = HP.camState();
+      res.presetFollow = c3.mode === 'preset' && c3.presetIdx === 1 && c3.idx === 1
+        && c4.x === HP.sim.x[1] && c4.y === HP.sim.y[1]
+        && HP.sim.x[1] !== 80   // 実際に動いている対象を追えている
+        && [...document.getElementById('camFollowSel').options].map((o) => o.value).join(',') === 'none,preset,sel';
+      if (saved === null) localStorage.removeItem('hp_custom_presets');
+      else localStorage.setItem('hp_custom_presets', saved);
+      HP.loadPreset('binary', false);
+      res.afterNoFollowPreset = HP.camState().mode === 'none';
+      return res;
+    });
+    add('camera.follow-ui',
+      r.ctrl && r.ctrlInDisplay && r.ctrlOpts.length >= 2
+      && r.ctrlOpts.indexOf('none') === 0 && r.ctrlOpts.indexOf('sel') >= 0
+      && r.accept && r.reject && r.noneKeepsClean
+      && r.defaultNone && r.follows && r.panOffset && r.physUntouched && r.autoRelease
+      && r.presetFollow && r.afterNoFollowPreset,
+      `コントロール=${r.ctrl}(表示カテゴリ内=${r.ctrlInDisplay}・選択肢=${r.ctrlOpts.join(',')})/ ` +
+      `validate: follow=2受理=${r.accept} 不正値は警告つき無視=${r.reject} 未指定は無警告=${r.noneKeepsClean}/ ` +
+      `既定なし=${r.defaultNone} 追従でcamX=天体位置=${r.follows} パン=対象からのオフセット=${r.panOffset}/ ` +
+      `物理不変=${r.physUntouched} 範囲外で自動解除=${r.autoRelease}/ ` +
+      `プリセット camera.follow で既定ON=${r.presetFollow}(follow なしプリセットへ戻すと「なし」=${r.afterNoFollowPreset})`);
+  } else {
+    console.log('SKIP camera.follow-ui(対象にカメラ追従なし — root 等。第81便)');
   }
 }
 

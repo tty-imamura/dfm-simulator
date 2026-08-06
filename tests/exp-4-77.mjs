@@ -11,6 +11,8 @@
 // ほぼ同じはず。つまり**「銀河を回す」には外殻スピンが必要で、コアが回すには『コア→外殻
 // トルク結合』(コアv2 — docs/dev/CORE_V2_DESIGN.md)が欠けている**ことの定量化。
 // 出力: tests/out/exp-4-77.json。アプリ本体は不変(HP.sim.build 直接駆動)。
+// ※第81便注記: 本スクリプトは**コアv1(coreMR/coreSR/coreRR)在籍時**の記録用ハーネスである。
+//   第81便でコアv1 は廃止された(移行式は PHYSICS.md「主星2層コア」節を参照)。
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';

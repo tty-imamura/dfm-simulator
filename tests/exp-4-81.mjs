@@ -1,13 +1,14 @@
-// 第80便 実験 4-81: E6′-R(pairReduced = 換算質量対称インパルス)と 🕳️bhCoreFree の実測
+// 第80便 実験 4-81: E6′-R(pairReduced = 換算質量対称インパルス)と自由中心 ⚫bhCore の実測
+// 第81便: 対象を 🕳️bhCoreFree(廃止)から ⚫bhCore(自由中心へ正式移行)へ差し替えた
 // 外部レビュー採択の新方式。②で E6′ 要求 d_i=k_F·Δu を速度へ書かず、③で自由対ごとに
 //   μ_ij=m_im_j/(m_i+m_j)、J_ij=μ_ij(φ_ij d_i−φ_ji d_j)、Δv_i=+J/m_i・Δv_j=−J/m_j
 // として配る(残余トルクは Δs=−n_ij/(I_i+I_j) で等量移譲)。狙いは「支配天体の pinned を
 // 外せるようにする」こと — legacy では自由中心で反作用上限が大量発動して系が崩れる
 // (exp-4-79 実測: clampR=30300・外縁増強 1.2646→0.59)。
 // 測るもの:
-//   A) bhCoreFree 6000步(seed 20260805): NaN/clamp・外殻スピン・コアΩ・外縁増強比(中心相対)・
+//   A) bhCore 6000步(seed 20260805): NaN/clamp・外殻スピン・コアΩ・外縁増強比(中心相対)・
 //      恒星保持率・帳簿込み総 L 相対ずれ・BH の重心相対最大変位/最大速度
-//   B) 対照: 同構成 pinned(=⚫bhCore 相当)/ 同構成 legacy+自由(短縮 1200步 — 崩壊の再確認)
+//   B) 対照: 同構成 pinned(=第80便までの ⚫ 相当)/ 同構成 legacy+自由(短縮 1200步 — 崩壊の再確認)
 //   C) 閉鎖系(D0=0・境界なし・全自由・正質量のみ): P/L の相対ずれと clampRN
 //   D) 巨大質量比回帰(中心 2500 + 軽粒子 0.05・D0=0・24000步): 有界性・上限0・
 //      テスト粒子極限の legacy 一致・中心反跳が質量比程度
@@ -32,10 +33,10 @@ page.on('pageerror', (e) => console.log('PAGEERROR:', e.message));
 await page.goto(INDEX);
 await page.waitForFunction(() => window.HP && HP.sim);
 
-// ===== A/B: 🕳️bhCoreFree(と対照)=====
+// ===== A/B: ⚫bhCore(自由中心)と対照 =====
 // mod: {kFrame?, pinned?, legacy?, steps?}
 const runBH = (mod) => page.evaluate((o) => {
-  const p = JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'bhCoreFree')));
+  const p = JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'bhCore')));
   if (o.kFrame !== undefined) p.physics.kFrame = o.kFrame;
   if (o.pinned) p.bodies[0].pinned = true;
   if (o.legacy) delete p.physics.frameReaction;

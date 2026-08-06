@@ -5,6 +5,8 @@
 //   kFrame=0(引きずりオフ)/ kRep=0(層4の圧力オフ)/ Kcs=0(自走オフ・コアに J が残る)/
 //   core なし(単層 spin0.15 = 暗くない弱い中心)
 // 出力: tests/out/exp-4-80.json
+// ※第81便注記: ⚫bhCore は第81便で**自由な中心**(pinned:false + E6′-R + 重心系)へ移行した。
+//   本スクリプトの絶対座標での測定は pinned 前提のため、現行構成では tests/exp-4-81.mjs を使う。
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';

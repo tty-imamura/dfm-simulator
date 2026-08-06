@@ -38,6 +38,9 @@
 //   要因分離の腕指標 ............. tests/exp-factors.mjs:130-162(darkrotor 節・6000步/後半平均)
 //   保存則の尺度 pS/lS と相対ずれ  tests/qa.mjs:1211-1220(freebox scales)+ 1170-1173
 //     = beta/index.html:5866-5867(HP.verify.v1 の恒等式)と同形
+// ※第81便注記: 本スクリプトは**コアv1(coreMR/coreSR)在籍時**の記録用ハーネスである。
+//   第81便でコアv1 は廃止されたため、現行 beta では s.coreMR 等を参照する箇所が動かない。
+//   再実行するときはコアv2(coreMd/coreMF/RcV + HP.coreState)の形へ読み替えること。
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
