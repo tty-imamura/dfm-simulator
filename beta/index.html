@@ -731,6 +731,14 @@ ja: {
   scaleName_molecular:"分子", scaleName_everyday:"日常", scaleName_celestial:"天体",
   scaleName_galactic:"銀河", scaleName_cosmic:"宇宙全体",
   bdgScaleTip:"5段階スケール分類(分子/日常/天体/銀河/宇宙全体)。UI の分類と表示換算の目安専用 — 物理エンジンはスケールで切り替わらない(同じ公理・同じ法則のまま、質量・距離・速度で支配機構が入れ替わるのが本モデルの主題)",
+  // 第81便(原仮定者指示): カメラの天体追従(描画層のみ・物理不変)
+  camFollowLabel:"カメラ追従",
+  camFollowDesc:"選んだ天体を画面の中央に置き続ける。追従中も1本指ドラッグ(PCはマウスドラッグ)でずらせて、そのずれは「追従対象からのオフセット」として保たれる — 対象が動いても画面の構図は崩れない。追従先が融合などで消えたら自動で「なし」に戻る。表示だけの機能で、物理・保存データには一切影響しない(A/B比較中は選択中の宇宙の対象を追う)。",
+  camFollowOptNone:"なし",
+  camFollowOptPreset:(i)=>`天体#${i}(既定)`,
+  camFollowOptSel:"選択粒子",
+  camFollowNoSel:"追従する粒子を先にタップで選んでください",
+  camFollowReleased:"追従先が消えたのでカメラ追従を解除しました",
   scaleDispLabel:"スケール換算表示",
   scaleDispDesc:"パラメータの数値(シミュレーション単位)に、現在のスケール指数で SI 換算した値(≈1.2e7 m/s 等)を併記する。換算は次元をもつパラメータ(G・光速・一様重力・ε・D₀・Kt)のみ。表示だけの機能で、物理・セーブには一切影響しない。指数は下の「シミュレーション」カテゴリのスライダーで分子〜宇宙全体まで連続に変えられる",
   scaleExpLabel:"表示スケール指数",
@@ -984,6 +992,13 @@ en: {
   scaleName_molecular:"Molecular", scaleName_everyday:"Everyday", scaleName_celestial:"Celestial",
   scaleName_galactic:"Galactic", scaleName_cosmic:"Cosmic",
   bdgScaleTip:"Five-tier scale classification (molecular / everyday / celestial / galactic / cosmic). Used only for browsing and unit-conversion hints — the physics engine never switches on scale (the whole point of this model is that the same axioms let different mechanisms dominate as mass, distance and speed change)",
+  camFollowLabel:"Camera follow",
+  camFollowDesc:"Keeps the chosen body centred on screen. You can still drag (one finger, or the mouse on a PC) while following: the shift is kept as an offset from the followed body, so the framing survives as the target moves. If the target disappears (a merger, say) the setting falls back to \"None\" automatically. Display only — physics and saved data are untouched (during an A/B comparison it follows the target in the selected universe).",
+  camFollowOptNone:"None",
+  camFollowOptPreset:(i)=>`Body #${i} (default)`,
+  camFollowOptSel:"Selected particle",
+  camFollowNoSel:"Tap a particle first to choose what to follow",
+  camFollowReleased:"The followed body is gone — camera follow turned off",
   scaleDispLabel:"Scale-converted display",
   scaleDispDesc:"Adds an SI-converted value (≈1.2e7 m/s etc.) next to dimensional parameters (G, light speed, uniform gravity, ε, D₀, Kt), using the current scale exponent. Display only — physics and saves are untouched. The exponent can be swept continuously from molecular to cosmic with the slider in the Simulation category",
   scaleExpLabel:"Display scale exponent",
@@ -2487,6 +2502,61 @@ const BUILTIN_PRESETS = [
      bulkVx:0, bulkVy:0}
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:true} },
+// 第81便 B: 🪜massLadder — 隠れ質量ラダー(第74便 exp-4-70 E3 の採択残のサンプル化)。
+// 「光度から推定される質量」と「軌道から読む力学質量」が、この宇宙の法則の内側で分離する。
+// 減光 auto の重い中心核は T_obs=0(完全減光=光度質量0)のまま、外縁リングの v²r/G は
+// 実質量に比例する。3系(m=2500/5000/10000)を1画面に並べ、同じ半径のリングの速度差だけで
+// 質量比が読めるようにした。実測・較正は tests/exp-4-82.mjs → tests/out/exp-4-82.json
+{ id:"massLadder", name:"隠れ質量ラダー — 暗い中心の力学質量", emoji:"🪜", group:"銀河",
+  scaleTier:"galactic",
+  sampleClass:"composite",
+  descStruct:{
+    summary:"「光っていないから軽い」とは限らない、を1画面で並べて確かめるサンプル。中心に置いた3つの重い天体(m=2500 / 5000 / 10000)はどれも減光 auto(lightSweep)で、自分の光を表面のフレーム速度で外へ掻き出してしまう — 観測温度は T_obs=(1−減光)·T なので、光度から推定される質量はどれも 0 になる。それぞれの周りに同じ半径180の測定用リング(恒星48体)を回してあり、リングの速度から力学質量 M_dyn=⟨v²r⟩/G を読む。3系は同じ半径・同じ星数・同じ見た目で、違うのは中心の質量だけ。左から右へ 1 : 2 : 4 の「ラダー」になっている。実在のダークマター観測(銀河回転曲線の平坦化・重力レンズ・弾丸銀河団)の再現主張ではない — 光学的な暗さと力学的な重さが独立でありうることを、この宇宙の法則の内側で示すトイモデルである(Negative Claims)。",
+    observe:"実測(seed固定・6000步=t96): ①**光度質量は0** — 3つの中心の実効減光はどれも実測1.000(完全減光)で、観測温度 T_obs は厳密に 0。中心天体は画面上でほぼ見えないが、決定力マップ(背景の色)には深さの違う3つの井戸が出る。②**力学質量は実質量に比例** — M_dyn=⟨v²r⟩/G はそれぞれ 2780 / 5448 / 10676 で、力学質量の比は実測1.960(5000/2500)・実測3.840(10000/2500)。真の比 2 と 4 を −2.0% / −4.0% で回復する。③**力学質量は実質量より少し重く出る** — M_dyn/m は 1.112 / 1.090 / 1.068 で、常に 1 を超える。その出どころは E6′ 空間引きずり: リングを円軌道に保つ初速はケプラー値の 1.05 / 1.04 / 1.04 倍が必要で(半径 RMS 最小の実測較正)、**kFrame=0 にすると 3系とも厳密に 1.00 倍**に戻る(超過 f²−1 の全量が引きずり由来)。④**暗さは高スピンのせいではない** — 中心スピンを 0.05 まで落としても実効減光は1.000 のまま。掻き出しの分母 c_surf=c·e^{−2ψ} が質量の深い井戸で 0.08 まで落ちるので、ごく遅い自転でも掻き出しが飽和する。逆にスピンを 2 まで上げると引きずりが強まって M_dyn/m は 1.53 / 1.43 / 1.33 まで膨らみ、ラダーは 1.87 / 3.46 へ**圧縮**される(引きずりの寄与は軽い中心ほど相対的に大きい)。⑤**減光は力学に一切効かない** — lightSweep を外した対照と軌道・速度・スピンが 1 bit も違わず、M_dyn も完全一致する(第70便 E2 の機械証明がこの構成でも成立)。⑥系間距離を3倍に離した対照でも比は 1.95 / 3.74(差 0.4% / 2.7%)で、1画面配置による相互汚染は結論を変えない。NaN・速度/スピン/反作用クランプはいずれも0回。評価窓 t=96 の外では隣の系の引きが積もり、12000步でリング半径のばらつきが 6.5%→21% まで緩む。",
+    control:"おすすめA/B: A/B比較で **kFrame=0** にすると空間引きずりが消え、M_dyn の超過(+7〜11%)が消えてリングがゆっくり外へ膨らむ — 力学質量が「実質量+引きずり」でできていたことが直接見える。中心天体をタップして**減光の「自動」を外す**と、中心が観測温度どおりに光り出す(=光度質量が復活する)のに軌道は 1 bit も変わらない。**G** を下げると3系とも同率でリングがほどける。"},
+  en:{name:"Hidden-Mass Ladder — Dynamical Mass of a Dark Center", descStruct:{
+    summary:"A side-by-side check that \"it isn't shining, so it must be light\" need not hold. The three heavy central bodies (m=2500 / 5000 / 10000) all use auto dimming (lightSweep): their surface frame speed sweeps their own light away, and since observed temperature is T_obs=(1−dimming)·T, the mass you would infer from luminosity is 0 for every one of them. Around each sits an identical measuring ring of 48 stars at radius 180, and the ring's speed gives the dynamical mass M_dyn=⟨v²r⟩/G. Same radius, same star count, same look — only the central mass differs, stepping 1 : 2 : 4 from left to right. Not a claim to reproduce real dark-matter observations (flat galactic rotation curves, gravitational lensing, the Bullet Cluster): it is a toy model showing that optical darkness and dynamical heaviness can be independent under this universe's laws (Negative Claims). ",
+    observe:"Measured (fixed seed, 6000 steps, t=96): (1) **Luminous mass is zero** — the effective dimming of all three centers measures 1.000 (total), so T_obs is exactly 0. The central bodies are all but invisible on screen, yet the determinacy map (the background colour) shows three wells of different depth. (2) **Dynamical mass tracks true mass** — M_dyn=⟨v²r⟩/G comes out at 2780 / 5448 / 10676, so the dynamical-mass ratios measure 1.960 (5000/2500) and 3.840 (10000/2500), recovering the true 2 and 4 to within −2.0% and −4.0%. (3) **Dynamical mass reads slightly heavy** — M_dyn/m is 1.112 / 1.090 / 1.068, always above 1. The source is E6′ frame dragging: holding the ring on a circular orbit needs 1.05 / 1.04 / 1.04 times the Keplerian speed (calibrated by minimising the radial RMS), and **with kFrame=0 all three fall back to exactly 1.00** — the whole excess f²−1 is dragging. (4) **The darkness is not from fast spin** — drop the central spin to 0.05 and the effective dimming is still 1.000. The denominator of the sweep, c_surf=c·e^{−2ψ}, falls to 0.08 inside such a deep well, so even a very slow rotation saturates it. Raise the spin to 2 instead and the dragging grows: M_dyn/m swells to 1.53 / 1.43 / 1.33 and the ladder **compresses** to 1.87 / 3.46 (dragging contributes relatively more around the lighter center). (5) **Dimming does nothing to the dynamics** — against a control with lightSweep removed, positions, velocities and spins agree to the bit and M_dyn is identical (the machine proof of experiment 70 E2 holds here too). (6) With the systems moved three times further apart the ratios are 1.95 / 3.74 (0.4% and 2.7% different), so packing them onto one screen does not change the conclusion. No NaN; the velocity, spin and reaction caps fire 0 times. Outside the t=96 window the neighbours' pull accumulates and the ring radius scatter relaxes from 6.5% to 21% by step 12000. ",
+    control:"Suggested A/B: run an A/B comparison with **kFrame=0** and the space dragging vanishes along with the +7–11% excess in M_dyn, letting the rings drift slowly outward — you see directly that the dynamical mass was \"true mass + dragging\". Tap a central body and **turn off the auto dimming** and it lights up at its observed temperature (its luminous mass comes back) while the orbits do not change by a single bit. Lowering **G** unwinds all three rings at the same rate."}},
+  activeParams:["kFrame","G","D0"],
+  validT:96,   // 実測窓(6000步=t≈96)と一致。窓外はリングが隣の系の引きで緩む(実測)
+  claims:[
+    { id:"massLadder.dyn-mass-ratio-2", kind:"fixed-seed", metric:"dynMassRatio5000to2500",
+      expected:{min:1.76, max:2.16},   // 実測1.9599(exp-4-82 S2・6000步)の ±10%
+      descPattern:"力学質量の比は実測(\\d+\\.\\d+)\\(5000/2500\\)",
+      testId:"claim.massladder" },
+    { id:"massLadder.dyn-mass-ratio-4", kind:"fixed-seed", metric:"dynMassRatio10000to2500",
+      expected:{min:3.46, max:4.22},   // 実測3.8401(exp-4-82 S2・6000步)の ±10%
+      descPattern:"実測(\\d+\\.\\d+)\\(10000/2500\\)",
+      testId:"claim.massladder" },
+    { id:"massLadder.dark-centers", kind:"fixed-seed", metric:"minCenterLightSweep",
+      expected:{min:0.99, max:1.0},    // 実測1.000000(3中心とも完全減光)
+      descPattern:"3つの中心の実効減光はどれも実測(\\d+\\.\\d+)",
+      testId:"claim.massladder" }
+  ],
+  camera:{scale:1800}, world:{boundary:"none",size:0}, seed:20260806,   // 3系(±1440±180)を余白つきで収める
+  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:50,
+    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:3, timeScale:3},
+  bodies:[
+    // 暗い中心核3つ(pinned・lightSweep auto)。系間距離1440 = 測定リング半径の8倍
+    // (exp-4-82 S4 で相互汚染が結論を変えない距離として実測)
+    {type:"single", rMul:1.2, m:2500,  x:-1440,y:0, vx:0,vy:0, spin:0.5, pinned:true, radius:15, lightSweep:"auto"},
+    {type:"single", rMul:1.2, m:5000,  x:0,    y:0, vx:0,vy:0, spin:0.5, pinned:true, radius:15, lightSweep:"auto"},
+    {type:"single", rMul:1.2, m:10000, x:1440, y:0, vx:0,vy:0, spin:0.5, pinned:true, radius:15, lightSweep:"auto"},
+    // 測定用リング(3系とも半径180・48体で同一)。角速度は E6′ 込みの実測較正
+    // ω=f·√(Gm/r)/r、f=1.05/1.04/1.04(半径 RMS 最小・exp-4-82 S1。kFrame=0 なら f=1.00)
+    {type:"ring", rMul:1.2, n:48, cx:-1440,cy:0, rIn:180,rOut:180, mMin:0.05,mMax:0.05,
+     spinMin:0,spinMax:0, vMode:"omega", aroundMass:0, omega:0.019444, vNoise:0,
+     direction:1, pinned:false, bulkVx:0, bulkVy:0},
+    {type:"ring", rMul:1.2, n:48, cx:0,cy:0, rIn:180,rOut:180, mMin:0.05,mMax:0.05,
+     spinMin:0,spinMax:0, vMode:"omega", aroundMass:0, omega:0.027237, vNoise:0,
+     direction:1, pinned:false, bulkVx:0, bulkVy:0},
+    {type:"ring", rMul:1.2, n:48, cx:1440,cy:0, rIn:180,rOut:180, mMin:0.05,mMax:0.05,
+     spinMin:0,spinMax:0, vMode:"omega", aroundMass:0, omega:0.038519, vNoise:0,
+     direction:1, pinned:false, bulkVx:0, bulkVy:0}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:true,trail:false,monitor:false} },
 { id:"merger", name:"銀河合体と潮汐効果", emoji:"🌠", group:"銀河",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
@@ -3561,7 +3631,18 @@ function validatePreset(obj){
     else p.seed=Math.floor(Math.abs(p.seed))>>>0;
   }
   if(!p.camera || !isNum(p.camera.scale)) bad("camera.scale(数値)が必要です");
-  else p.camera={scale:clamp(p.camera.scale,20,3000)};
+  else {
+    // 第81便: camera.follow — 読込時にカメラが追う天体の index(任意・表示専用)。
+    // 整数のみ受理し、負値・非整数・範囲外(粒子上限 N_CAP 超)は警告つきで無視する。
+    // 実際の粒子数との突き合わせは build 後(applyCamFollow)で行い、範囲外なら自動解除する
+    const cam={scale:clamp(p.camera.scale,20,3000)};
+    if(p.camera.follow!==undefined){
+      const f=p.camera.follow;
+      if(!isNum(f) || Math.floor(f)!==f || f<0 || f>N_CAP) warnings.push("camera.follow は 0 以上の整数(粒子index)— 無視します");
+      else cam.follow=f;
+    }
+    p.camera=cam;
+  }
   const BOUND=["none","box","circle"];
   // 第37便 C1(台帳4-70): world.thermalWalls は thermal の検証(下)より後で処理するため、
   // world を正規化する前に生の値を退避しておく
@@ -7126,6 +7207,41 @@ let running=false, currentPreset=null, basePhysics=null, selIdx=-1;
 let selWorld="A";
 function selSimRef(){ return (ab && selWorld==="B")? ab.simB : sim; }
 let camX=0, camY=0, camScale=300, tempP90EMA=0.5, monitorOn=false;
+// 第81便: カメラの天体追従(描画層のみ — 物理・sim.params・セーブには一切書かない。表示スケール
+// 指数と同じ「表示専用」の流儀)。camFollowMode は "none"(既定)/"preset"(プリセットの
+// camera.follow が指す天体)/"sel"(いま選択中の粒子)。追従中のパン操作は camX/camY を直接
+// 動かすのではなく「追従対象からのオフセット」camFollowOff へ積むので、対象が動いてもユーザーの
+// ずらしはそのまま生き続ける。対象が消滅(融合等で index が範囲外)したら自動で "none" へ戻す
+let camFollowMode="none", camFollowPreset=-1, camFollowOffX=0, camFollowOffY=0;
+function camFollowIdx(){
+  if(camFollowMode==="preset") return camFollowPreset;
+  if(camFollowMode==="sel") return selIdx;
+  return -1;
+}
+function setCamFollowMode(mode){
+  camFollowMode=(mode==="preset"||mode==="sel")?mode:"none";
+  camFollowOffX=0; camFollowOffY=0;   // モード切替でオフセットは畳む(対象が画面中央へ来る)
+  requestRender();
+}
+// 毎フレーム描画の直前に1回だけ呼ぶ(物理ループには 1 命令も入れない)
+function applyCamFollow(){
+  if(camFollowMode==="none") return;
+  const S=selSimRef();   // A/B比較中は選択された宇宙の対象を追う
+  const i=camFollowIdx();
+  if(i<0||i>=S.n){   // 追従先が消えた(融合・選択解除・プリセット外)→ 自動解除+UI同期
+    camFollowMode="none"; camFollowOffX=0; camFollowOffY=0;
+    const el=document.getElementById("camFollowSel"); if(el) el.value="none";
+    notify(T("camFollowReleased"));
+    return;
+  }
+  camX=S.x[i]+camFollowOffX; camY=S.y[i]+camFollowOffY;
+}
+// パン(1本指ドラッグ/マウスドラッグ)の単一の入口 — 追従中はオフセット側へ積む
+function panCam(dxPx,dyPx){
+  const z=zoom();
+  if(camFollowMode!=="none"){ camFollowOffX-=dxPx/z; camFollowOffY-=dyPx/z; }
+  else { camX-=dxPx/z; camY-=dyPx/z; }
+}
 // 第37便 A3(原仮定者指示): 光線の基準波長λ0(nm)。表示設定のみ(セーブ対象外・物理不変) —
 // drawRays の色計算(λ_seg=λ0·e^{ψ0−ψ}。第36便 B3)だけが参照する。
 // 第38便(原仮定者指示): 既定を550→580へ変更(旧固定光線色 rgba(255,240,170,0.55)〔root v1.32〕の
@@ -8030,6 +8146,7 @@ function recTrail(S,buf){
   }
 }
 function render(){
+  applyCamFollow();   // 第81便: 天体追従(描画層のみ — camX/camY だけを動かす)
   ctx.setTransform(dpr,0,0,dpr,0,0);
   if(trailsOn){ ctx.fillStyle="rgba(5,7,15,0.18)"; ctx.fillRect(0,0,cw,ch); }
   else { ctx.fillStyle="#05070f"; ctx.fillRect(0,0,cw,ch); drawBG(); }
@@ -8367,6 +8484,7 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
   ctx.restore();
 }
 function renderAB(){
+  applyCamFollow();   // 第81便: 天体追従(A/B比較中は選択された宇宙の対象を追う)
   ctx.setTransform(dpr,0,0,dpr,0,0);
   ctx.fillStyle="#05070f"; ctx.fillRect(0,0,cw,ch);
   // 線の軌跡の記録(A/B両側。render() と同じ間引き)
@@ -8757,6 +8875,11 @@ function loadPreset(id, keepPhysics){
   if(sim.overlays && sim.overlays.monitor) monitorOn=true;  // v1.12: プリセット既定の保存量モニタ(ONのみ適用)
   basePhysics=Object.assign({},DEFAULT_PHYSICS,p.physics||{});
   camX=0; camY=0; camScale=p.camera.scale; tempP90EMA=0.5; selIdx=-1; nanNotified=false;
+  // 第81便: カメラ追従はプリセット既定へ戻す(camera.follow があれば ON・無ければ「なし」)。
+  // 表示専用 — sim.params・保存 JSON には一切書かない
+  camFollowPreset=(p.camera && isNum(p.camera.follow))? p.camera.follow : -1;
+  camFollowMode=(camFollowPreset>=0)? "preset" : "none";
+  camFollowOffX=0; camFollowOffY=0;
   scaleExpOverride=null;   // 第74便: 表示スケール指数はプリセットの scaleTier 既定へ戻す(表示専用)
   paramSnapA=paramSnapB=null;   // v1.22: 発散Undoのスナップショットはプリセット単位
   setParamsDirty(false);   // v1.17: プリセット読込で編集は破棄される(⏮は呼び出し側で維持)
@@ -9660,6 +9783,31 @@ function buildParamRows(){
     row.appendChild(lab); row.appendChild(rng); row.appendChild(num);
     disp.appendChild(row); disp.appendChild(tierRow);
   }
+  // 第81便(原仮定者指示): カメラ追従 — 選んだ天体を画面中央に置き続ける。描画層のみで
+  // camX/camY だけを毎フレーム動かす(sim.params・物理状態・保存 JSON には一切書かない)。
+  // 選択肢: なし / 天体#N(プリセットの camera.follow が指す既定) / 選択粒子。
+  // プリセットに follow が無ければ「天体#N」の選択肢自体を出さない
+  {
+    const row=document.createElement("div"); row.className="prow";
+    const lab=document.createElement("label"); lab.textContent=T("camFollowLabel"); lab.style.flex="1";
+    tapDesc(row,lab,"camFollowDesc");
+    const sel=document.createElement("select"); sel.id="camFollowSel"; sel.style.flex="0 0 130px";
+    const opts=[["none",T("camFollowOptNone")]];
+    if(camFollowPreset>=0) opts.push(["preset",T("camFollowOptPreset")(camFollowPreset)]);
+    opts.push(["sel",T("camFollowOptSel")]);
+    for(const [v,name] of opts){
+      const o=document.createElement("option"); o.value=v; o.textContent=name; sel.appendChild(o);
+    }
+    sel.value=camFollowMode;
+    if(sel.selectedIndex<0) sel.value="none";
+    sel.addEventListener("change",()=>{
+      if(sel.value==="sel" && (selIdx<0||selIdx>=selSimRef().n)){
+        notify(T("camFollowNoSel")); sel.value=camFollowMode; return;
+      }
+      setCamFollowMode(sel.value);
+    });
+    row.appendChild(lab); row.appendChild(sel); disp.appendChild(row);
+  }
   // 第79便(原仮定者指示): 「グラフ」カテゴリ(グラフウィンドウ表示の切替)を「表示」の上に新設
   {
     const gg=document.createElement("div"); gg.className="group";
@@ -10474,7 +10622,7 @@ document.addEventListener("keydown",(e)=>{ if(e.key==="Escape" && $("#aboutPanel
     for(const t of e.changedTouches){ if(touches.has(t.identifier)){
       const prev=touches.get(t.identifier), cur=pos(t);
       if(touches.size===1){
-        camX-=(cur.x-prev.x)/zoom(); camY-=(cur.y-prev.y)/zoom();
+        panCam(cur.x-prev.x, cur.y-prev.y);   // 第81便: 追従中はオフセットへ積む
         if(Math.abs(cur.x-downX)+Math.abs(cur.y-downY)>8) moved=true;
         requestRender();
       }
@@ -10494,7 +10642,7 @@ document.addEventListener("keydown",(e)=>{ if(e.key==="Escape" && $("#aboutPanel
   let mdown=false,mx=0,my=0,mmoved=false;
   cv.addEventListener("mousedown",e=>{mdown=true;mx=e.clientX;my=e.clientY;mmoved=false;});
   window.addEventListener("mousemove",e=>{ if(!mdown)return;
-    camX-=(e.clientX-mx)/zoom(); camY-=(e.clientY-my)/zoom();
+    panCam(e.clientX-mx, e.clientY-my);   // 第81便: 追従中はオフセットへ積む
     if(Math.abs(e.clientX-mx)+Math.abs(e.clientY-my)>4)mmoved=true; mx=e.clientX;my=e.clientY;
     requestRender(); });
   window.addEventListener("mouseup",e=>{ if(mdown&&!mmoved) tapSelect(e.clientX,e.clientY); mdown=false; });
@@ -11549,6 +11697,10 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
       J:S.coreJ[i], omega:(Ic>1e-12)? S.coreJ[i]/Ic : 0, Eint:S.coreEint[i],
       sourceRate:S.coreSrc[i], Kcs:S.coreKcs[i],
       pump:S.corePump[i], contract:S.coreCtr[i] }; },
+  // 第81便: カメラ天体追従(表示専用)のQA用フック — 物理・保存には一切影響しない
+  camState:()=>({x:camX, y:camY, scale:camScale, mode:camFollowMode, idx:camFollowIdx(),
+    presetIdx:camFollowPreset, offX:camFollowOffX, offY:camFollowOffY}),
+  setCamFollow:setCamFollowMode, panCam,
   SCALE_TIERS, SCALE_ANCHORS, scaleTM, scaleConvStr, scaleExpNow,
   setScaleExp:(x)=>{ scaleExpOverride=(x===null? null : +x); refreshScaleConv(); },
   scaleDisp:()=>scaleDispOn, setScaleDisp:(v)=>{ setScaleDisp(v); refreshScaleConv(); },
