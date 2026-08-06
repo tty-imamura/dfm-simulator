@@ -6,6 +6,17 @@
 
 ## v1.38-b1(beta 先行・2026-08-05)
 
+第81便 D(2026-08-06): **descStruct の平易化(summary 中心・19件)**(原仮定者指示・レビュー
+持ち越し項目)。内蔵53プリセットの `descStruct.summary`(ja/en)を、専門用語・記号が先に立つ
+書き出しから「このサンプルで何が見られるか」を日常語で示す一文を先頭に置く書き方へ改めた。
+初出の記号・略号(ψ=W/Kt・kFrame・レイリー・ベナール等)には短い言い換えを添え、既存の訳語
+(決定力・決定フレーム・空間の引きずり・掻き出し=減光)に統一した。observe/control・claims・
+descPattern・description(descStruct 連結の自動生成)・id/name/emoji/物理値/activeParams は
+一切変更していない。変更したのは ⏱️gclock・🛰️grcal・☿mercury・📈boxexpand・🫧boxcomoving・
+🫁boxbreath・🕊️freebox・🎡galaxyStd・💫galaxyGeo2・🍳galaxyDB・🐚nebulaShell・⚫bhCore・
+🌕earthMoonFree・🪐saturn・🎯saturnLayered・🛰️saturnZonalD68・♨️convection・☀️starcore・
+🌱starSeed の19件で、残り34件は既に平易と判断し変更していない。
+
 第81便 A(2026-08-06): **コアv1(比率仕様)の廃止 — コアはコアv2 の一本へ**(原仮定者指示・
 **破壊的変更**)。併せて⚫DFM版ブラックホールを**自由な中心**へ正式移行した。
 
