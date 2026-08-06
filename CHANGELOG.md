@@ -4,6 +4,69 @@
 2026-07-21 に分離 — ロードマップ P2 群)。新しい版が上。バージョンは `APP_VERSION`
 (index.html)と package.json の major.minor が QA `version.sync` で同期検査される。
 
+## v1.38-b1(beta 先行・2026-08-05)
+
+第80便 A(2026-08-05): **E6′-R — 換算質量対称インパルスによるフレーム引きずり反作用**
+(外部レビュー採択の設計。opt-in で追加し、既定 legacy の挙動は 1 bit も変えない)。
+
+- **新方式 `physics.frameReaction:"pairReduced"`**(既定 `"legacy"`)— E6′ の要求
+  **d**_i = k_F·Δu を**速度へ直接書かず**、自由対 i<j ごとに換算質量
+  μ_ij = m_i m_j/(m_i+m_j) の対称インパルス **J**_ij = μ_ij(φ_ij**d**_i − φ_ji**d**_j) として配る
+  (Δ**v**_i = +**J**/m_i・Δ**v**_j = −**J**/m_j)。相対速度の更新は要求どおり
+  Δ(**v**_i−**v**_j) = φ_ij**d**_i − φ_ji**d**_j のまま、**対の線運動量が構成的に厳密保存**する
+  = A13 の相互性を対単位で満たす。残余トルクは従来と同形の Δs = −n_ij/(I_i+I_j) で移譲。
+  pinned 相手は無限質量コントローラ扱い(この極限では legacy と**厳密に同式** — 実測差 0)、
+  背景 D₀+W_B 分と非正質量対はそれぞれリザーバ帳簿 / legacy 式へフォールバックする。
+  詳細と受入条件は PHYSICS.md §5「E6′-R」
+- **狙い**: 支配天体の `pinned` を外せるようにすること。legacy は m=2500 の中心が引きずられる
+  側になると巨大な Δ**p** を作ってから軽い円盤へ返すため離散フィードバック利得が発振し、
+  第71便の REACTION_DV_CAP はその安全装置でしかなかった(実測: 自由中心で外縁増強が崩れる)
+- **新サンプル 🕳️bhCoreFree「DFM版ブラックホール — 自由な中心(実験)」**(beta のみ・実験扱い。
+  ⚫bhCore は pinned 対照として一切変更せず並存)。実測(seed 20260805・6000步・中心天体基準の
+  相対座標): 反作用/速度/スピンの安全上限が**すべて発動0**、外縁増強 kF1/kF0=**1.524**
+  (⚫の同構成 pinned 対照 1.522 と一致)、自走は殻 0.15→**1.330**・コアΩ 20→**4.24**、
+  恒星保持率 1.000、帳簿込み総 L 保存 1.3e-6、支配天体の重心相対 最大変位 **0.394**・
+  最大速度 **0.0086**。同構成を legacy のまま自由にすると 1200步で速度上限が 12297 回発動し
+  増強は 0.99(消失)・殻スピンは 0.61 で頭打ち
+- **`balanceFrame:"barycentric"`**(最上位キー)— 全 bodies 生成後に系全体の重心位置・重心速度を
+  差し引く**生成時1回の座標変換**(相対配置は不変・物理ループへの追加コスト0)。自由な支配天体の
+  系で、有限個の乱数配置が残す Σm**r**≠0・Σm**v**≠0 を初期条件の側で断つ。pinned を含む構成では
+  警告つきで無効化する
+- **QA 3件**: `reaction.pair-momentum`(閉鎖系で自由対の P・L が**帳簿なしで**閉じる — 相対ずれ
+  9.1e-7 / 5.0e-7・resP=resL=0)/ `reaction.pair-test-particle-limit`(固定中心では legacy と
+  差 0・中心を自由にしても 4.5e-4 = 0.05%)/ `claim.bhcore-free`(🕳️ の固定seed受入)。
+  実測ハーネスは `tests/exp-4-81.mjs` → `tests/out/exp-4-81.json`
+- 既定 legacy 経路は無変更(分岐で囲っただけ)。O(N²) ループ内はローカル束縛のみで
+  S.xxx プロパティ参照を持たず、要求バッファは pairReduced の宇宙でだけ遅延確保する
+第80便 B(2026-08-05): **コアv2 の残段5件**(第77便の残課題)。
+旧比率経路(coreMR/coreSR/coreRR)は 1 文字も変えていないので、既存プリセットの fixed-seed
+実測値はすべて不変(beta 300/300 で確認)。
+
+- **mode="active"(sourceRate)**: differential の全機能 + `sourceRate`(≥0)で
+  `E_int += sourceRate·dt`。裁定「核融合は密度が増す過程の副産物」に従い **E_int を増やすだけで
+  回転化しない**(回転の源は収縮 contract)。外部注入なので同額を新設の帳簿 **coreSrcE**
+  (fusU/coreWork と同格・HUD「コア注入E」)へ積み、恒等式
+  Σ E_int − Σ E_int(0) = coreSrcE を QA が機械固定(core.active-energy・実測相対差 5e-17)
+- **mode="cavity"(空洞の分離)**: 旧 coreMR<0 に多義的に重ねられていた「空洞」を独立モードへ。
+  `voidFraction`(0.01〜1)+`radius`+`omega` で指定し、**質量も慣性も厳密に 0**
+  (J_core を持たないので Ω は規定値)。引きずりは −voidFraction·(Ω_c−Ω_s)·f(R_c,d) で、
+  内部表現は coreMF=−voidFraction の**負の重み**(質量ではない — 負質量はどこにも生じない)。
+  移行式 coreMR=−voidFraction・Ω_c=coreSR·s・R_c=coreRR·R で旧空洞と**同一状態からの
+  1步が bit 一致**(core.cavity-no-negative-mass)
+- **disk/ring 群への `core:{}` 開放**: 群に書くと全メンバーが同じコア設定を持つ
+  (massFrac は各メンバーの質量に対する比・radius/omega は絶対量)。付けない構成は
+  push するオブジェクトの形も従来どおりで、hasCoreV2=false のゼロコスト経路が生き残る
+  (core.group-core・第77便知見①の「参照の形まで含むゼロコスト」を維持)
+- **融合/分裂のコア継承**: 第77便の「非継承+J_core をリザーバへ退避」を保存則ベースの継承へ
+  置換した。融合は M_c′=M_c,i+M_c,j・**R_c′=√(R_c,i²+R_c,j²)**(殻の R′=√(R_i²+R_j²) と同じ
+  面積等価則)・J_c′ と E_int′ は**厳密和**(リザーバを経由しないので resL は動かない)。
+  分裂は質量比例で分配し R_c,k=√(m_k/m)·R_c(融合の厳密な逆)。実測: 融合 J −1.5→−1.5・
+  E_int 10→10・ΔresL=0、分裂 J 1.2→1.2・R_c² の和が 3e-8 で保存(core.merge-split)
+- **schemaVersion 3**: エクスポートは core:{} を持つ body に旧キー(coreMR/coreSR/coreRR)を
+  併記する(コアv2 を知らない読み手への round-trip 互換)。インポートは新旧両形式を受理し、
+  従来どおり新形式優先+併記警告(core.schema-roundtrip)。buildChannel は追加しない
+  (appBuild が既にある)
+
 ## v1.37.0(2026-08-05)
 
 **更新前の注意**: β版とルート版は同一オリジンで localStorage(セーブ・APIキー)を共有する。
