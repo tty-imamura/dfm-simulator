@@ -17,6 +17,8 @@
 //   lS_eff(auto)............. beta/index.html:2593-2604(lS_eff=min(1,|s|R/c_surf)、c_surf=c₀e^{−2ψ_surf})
 //   E3 フレーム ω ............. beta/index.html:2476-2493(コア差動 ω=s·f(R,d)+coreMR·s·(coreSR−1)·f(Rc,d))
 //   捕捉判定 .................. tests/exp-darkrotor.mjs:38-91(実験A: 340步後の終端半径 <300)
+// ※第81便注記: 本スクリプトは**コアv1(coreMR/coreSR/coreRR)在籍時**の記録用ハーネスである。
+//   第81便でコアv1 は廃止されたため、現行 beta では s.coreMR 等を参照する箇所が動かない。
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';

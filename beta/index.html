@@ -256,16 +256,13 @@
       <div class="beHead"><span id="beTitle">選択粒子の編集</span><button id="beClose" aria-label="minimize">−</button></div>
       <!-- v1.24: 負値を取り得る s/vx/vy は inputmode=text(iOS の数字キーパッドに「−」が無いため) -->
       <!-- 第12便: m は負値も受理するため inputmode=text(iOS の数字キーパッドに「−」が無い) -->
-      <!-- 第25便(原仮定者指示): 行構成を対で整理 — m|mc/m・s|sc/s・R|Rc/R・掻出
-           (第61便: To×/TcO×〔obsT/coreOT〕は未使用のため廃止 — 原仮定者指示) -->
-      <!-- 第14便: 主星2層(比率)— コア質量比 mc/m(既定0・負値=空洞)とコアスピン比 sc/s(既定1) -->
+      <!-- 第25便(原仮定者指示): 行構成を対で整理(第61便: To×/TcO×〔obsT/coreOT〕は未使用のため廃止)
+           第81便(原仮定者指示): コアv1(mc/m・sc/s・Rc/R)の編集行を廃止 — コアはコアv2 の
+           独立サブシステムになり、内訳は下の「コア内訳(v2)」ブロックが読み取り専用で示す -->
       <div class="beRow"><label id="beLm">m</label><input type="text" id="beM" inputmode="text" autocomplete="off">
-        <label id="beLmc" style="min-width:30px">mc/m</label><input type="text" id="beMc" inputmode="text" autocomplete="off"></div>
-      <div class="beRow"><label id="beLs">s</label><input type="text" id="beS" inputmode="text" autocomplete="off">
-        <label id="beLsc" style="min-width:30px">sc/s</label><input type="text" id="beSc" inputmode="text" autocomplete="off"></div>
-      <!-- 第22便: 半径R(明示指定)・コア半径比 Rc/R・光掻き出し(To×/TcO× は第61便で廃止) -->
-      <div class="beRow"><label id="beLr">R</label><input type="text" id="beR" inputmode="decimal" autocomplete="off">
-        <label id="beLrr" style="min-width:30px">Rc/R</label><input type="text" id="beRr" inputmode="decimal" autocomplete="off"></div>
+        <label id="beLs">s</label><input type="text" id="beS" inputmode="text" autocomplete="off"></div>
+      <!-- 第22便: 半径R(明示指定)・光掻き出し(To×/TcO× は第61便で廃止) -->
+      <div class="beRow"><label id="beLr">R</label><input type="text" id="beR" inputmode="decimal" autocomplete="off"></div>
       <!-- 第37便 A2(原仮定者指示): 「auto」チェックボックス — ON で lightSweep="auto" を設定し
            数値欄を読み取り専用にする。OFF は従来の数値入力に戻る。
            第38便(原仮定者指示・構造のみ。ラベル文字列の改称は次波38B): #beLsw の固定幅指定を
@@ -388,7 +385,7 @@
           <select id="aiBasePreset" style="flex:1;min-width:0"></select></div>
         <!-- 第36便 B4(原仮定者指示): 説明文を既定closedのdetailsへ折畳み(要点は見出しのみ表示) -->
         <details id="aiBaseDetails"><summary id="aiBaseNoteSum" class="note" style="cursor:pointer">ベースのサンプル</summary>
-        <p class="note" id="aiBaseNote">ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの coreMR/lightSweep や 🛰️の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信されます。</p></details>
+        <p class="note" id="aiBaseNote">ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの lightSweep や ⚫のコアv2 core:{}・🛰️の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信されます。</p></details>
         <!-- 第74便: スケール別テンプレート — 5段階スケールの雛形文を要望欄へ挿入(ベースサンプルも同時に推奨値へ)。
              min-width:0 は #aiBasePreset と同じ横スクロール防止(行28参照) -->
         <div class="prow"><label id="aiTplLabel" style="flex:0 0 auto">スケール雛形</label>
@@ -568,10 +565,7 @@ ja: {
   // 第23便: 粒子編集のパラメータ名タップ説明
   beDm:"m: 質量。重力(E4)と決定力場W(E1′)の源。負値は実験用(±5000)。",
   beDs:"s: スピン(自転角速度)。空間引きずり(A8)・温度T=Is²(A9)・スピン斥力(A10)の源。",
-  beDmc:"mc/m: コア質量比(主星2層)。0=単層。負値=空洞(殻に質量集中・差動引きずりが反転)。",
-  beDsc:"sc/s: コアスピン比。コア実スピン sc=比×s が差動引きずり(Rcから減衰)を生む。1=剛体回転=単層等価。",
   beDr:"R: 半径。慣性I=½mR²・接触・引きずり減衰(R/(R+d))^q・温度・扁平率f=5s²R³/(4Gm)に使用。既定はradiusScale·rMul·√|m|(rMulは粒子ごとの倍率・既定1)。",
-  beDrr:"Rc/R: コア半径比。コアの引きずり到達距離を決める。既定は√|mc/m|相当。",
   beDsw:"減光: 自星の光をどれだけ外に出さないか(0〜1・1=完全減光)。機構はスピンによる自光の掻き出し(lightSweep)。観測温度は T_obs=(1−減光)·T、放射冷却も(1−減光)倍(ダークローター)。auto と入力するか隣の「自動」チェックボックスをONにすると、粒子のスピン・半径から lS_eff=min(1,|s|R/c_surf) を毎ステップ算出する — 数値欄は編集不可になり実効値lS_effで上書き表示される(第38便)。",
   beDv:"vx/vy: 速度成分。慣性は局所フレームuに対して働く(A5)。",
   beDp:"固定: 位置・速度・スピンを外部拘束で固定(力・トルクを受けない)。反作用はリザーバへ帳簿(A13)。",
@@ -623,7 +617,7 @@ ja: {
   aiKeyNoteSum:"キーの保存",   // 第36便 B4(原仮定者指示): 折畳み見出し
   aiGenHead:"新しいシミュレーションを生成", btnGenerate:"生成する", aiListHead:"生成済みプリセット",
   aiBaseLabel:"ベースのサンプル(任意)", aiBaseNone:"なし(要望だけで生成)",   // 第26便
-  aiBaseNote:"ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの coreMR/lightSweep や 🛰️の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信されます。",
+  aiBaseNote:"ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの lightSweep や ⚫のコアv2 core:{}・🛰️の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信されます。",
   aiBaseNoteSum:"ベースのサンプル",   // 第36便 B4(原仮定者指示): 折畳み見出し
   aiPromptPh:"例: 3つの恒星が絡み合う三体問題。まわりに塵の環も欲しい",
   // 第32便 W4(台帳4-58): 送信内容の事前確認
@@ -827,10 +821,7 @@ en: {
   uiScaleDesc:"UI text scale. Display only.",
   beDm:"m: mass. Source of gravity (E4) and the determinacy field W (E1'). Negative values are experimental.",
   beDs:"s: spin (rotation rate). Source of frame dragging (A8), temperature T=Is^2 (A9), and spin repulsion (A10).",
-  beDmc:"mc/m: core mass ratio (two-layer). 0 = single layer. Negative = hollow shell (differential drag flips).",
-  beDsc:"sc/s: core spin ratio. Core spin sc = ratio x s drives the differential drag (decaying from Rc). 1 = rigid rotation = single-layer equivalent.",
   beDr:"R: radius. Used in inertia I=1/2 mR^2, contact, drag falloff (R/(R+d))^q, temperature, and oblateness f=5s^2R^3/(4Gm). Default radiusScale x rMul x sqrt(|m|) (rMul = per-body multiplier, default 1).",
-  beDrr:"Rc/R: core radius ratio. Sets the reach of the core's drag. Default ~ sqrt(|mc/m|).",
   beDsw:"dimming: how much of the star's own light is kept from escaping (0-1, 1 = fully dimmed). The mechanism is its spin sweeping its own light out (lightSweep). Observed temperature is T_obs = To x (1-dimming) x T, and radiative cooling scales by (1-dimming) too (the dark-rotor mechanism). Enter \"auto\", or check the \"auto\" box next to it, to derive it every step from the body's own spin and radius: lS_eff = min(1, |s|R / c_surf) — the number field becomes read-only and is overwritten to show the effective lS_eff (38th delivery).",
   beDv:"vx/vy: velocity components. Inertia acts relative to the local frame u (A5).",
   beDp:"Pinned: externally constrained (receives no force or torque; spin fixed). Reactions are ledgered to the reservoir (A13).",
@@ -881,7 +872,7 @@ en: {
   aiKeyNoteSum:"Key storage",   // 第36便 B4
   aiGenHead:"Generate a new simulation", btnGenerate:"Generate", aiListHead:"Generated presets",
   aiBaseLabel:"Base sample (optional)", aiBaseNone:"None (generate from the request only)",
-  aiBaseNote:"Pick a base to have the AI modify that sample's JSON to your request \u2014 reference structures (\ud83d\udd76\ufe0f dark-rotor coreMR/lightSweep, \ud83d\udef0\ufe0f zonal, etc.) carry over. The selected base JSON (including custom presets) is sent to the currently selected AI provider on generation.",
+  aiBaseNote:"Pick a base to have the AI modify that sample's JSON to your request \u2014 reference structures (\ud83d\udd76\ufe0f dark-rotor lightSweep, \u26ab core:{} (Core v2), \ud83d\udef0\ufe0f zonal, etc.) carry over. The selected base JSON (including custom presets) is sent to the currently selected AI provider on generation.",
   aiBaseNoteSum:"Base sample",   // Wave 36 B4
   aiPromptPh:"e.g. A chaotic three-star system with a ring of dust around it",
   // 第32便 W4(4-58): preview exactly what will be sent
@@ -2164,8 +2155,9 @@ const BUILTIN_PRESETS = [
 // 第37便 D1(原仮定者指示・台帳4-48 / DERIVATIONS §17): ダークローター単体。
 // 🕶️(10体+円盤)から「暗さの機構」だけを取り出した最小構成。中心天体は 🕶️ の BH を出発点に
 // m=2000・radius=45(そのまま)、spin だけ 0.12→2.0 へ上げた(0.12 では③掃き出しが起きない —
-// 実測: 非脱出率は spin 0.5 まで 0.72 のまま・0.7 で 0.08・1.0 で 0.02)。coreMR は付けていない
-// (E8R はコア差動項を見ない=第21便制限。光の主題に対して効かないノブを増やさない)。
+// 実測: 非脱出率は spin 0.5 まで 0.72 のまま・0.7 で 0.08・1.0 で 0.02)。コア(第81便現在は
+// コアv2 core:{})は付けていない(E8R はコア差動項を見ない=第21便制限。光の主題に対して
+// 効かないノブを増やさない)。
 // lightSweep は "auto"(第36便 C2)— 主題が「機構値を見せること」なので固定1のトイ設定は使わない。
 // 実測(2026-07-27・beta・本プリセットそのもの。コアスピンだけを振った用量反応):
 //  spin      : 0     0.1   0.16  0.2   0.3   0.5   0.6   0.7   1.0   1.5   2.0   3.0
@@ -2278,7 +2270,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:false,monitor:false} },
 // 第75便: 🐚nebulaShell — 重殻ローター星雲(原仮定者指示「星雲は引力が弱いと拡散してしまうので、
 // 粒子の外殻は重く、粒子のコアが高速スピンして光学的な影響範囲は狭い想定」の創発実験)。
-// 塵粒 = 重い外殻(m24〜36 — 総質量の重力が雲を束縛)+高速スピンコア(coreSR20 — 2層減光形
+// 塵粒 = 重い外殻(m24〜36 — 総質量の重力が雲を束縛)+高速スピンコア(コアv2 Ω_c=16 — 2層減光形
 // 〔第75便拡張〕で暗さを担う)。暗さのスピンを小さなコアへ隠すので、スピン斥力 E5′ は遅い殻
 // スピンにしか効かず、熱圧 kRep=0.3 の下でも雲は自壊しない(単層で同じ暗さを出すには spin≈6 が
 // 必要で、同じ kRep で保持48%まで自壊する — exp-4-76 の耐圧試験)。実測 tests/exp-4-76.mjs
@@ -2286,12 +2278,12 @@ const BUILTIN_PRESETS = [
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",
   descStruct:{
-    summary:"🌑ローター星雲の改良版で、塵粒の設計だけを変えた思考実験。各塵粒は「重い外殻(質量のほとんど)+高速スピンの小さなコア(coreMR=0.4・コアスピン比20)」の2層構造を持つ。重い殻の重力が雲を束縛し、暗さは第75便拡張の2層減光(各層が自分の光を自分の表面速度で掻き出し、光度比で混合 — A9/A11系)でコアが担う。スピン斥力 E5′ は遅い殻スピン(0.6)にしか効かないので、熱圧 kRep=0.3 が働いていても雲は自壊しない — 「暗さのスピンを小さなコアへ隠す」ことが束縛と暗さを両立させる。この「重い外殻+高速スピンの中心コア=引力は強いが、減光で光を出さない天体」が本モデルのダークローターの正式定義であり(第76便)、暗黒星雲や星の種(prestellar core 類似)はその候補としてここで実験されている。実在の星雲についての主張ではない(Negative Claims)。",
-    observe:"実測(seed固定・3000步・熱圧 kRep=0.3 の下)でコアの平均減光0.89・クランプの保持率は0.96(エンベロープは1.00)。対照として同一幾何・同一質量の**単層**塵(暗さを出すには spin≈6 が必要)では、同じ熱圧で保持率0.48まで自壊し、エンベロープの平均|spin|も3.77まで攪乱される(2層では0.97 — 約3.9倍の差)。コアの高速スピンはA8のコア差動形 ω=coreMR·s·(coreSR−1)·f(Rc,d) で外へ届くが、Rc が小さいので影響範囲が狭く、周辺をほとんど乱さない。粒子タップで減光欄の実効値(2層減光)を確認できる。",
+    summary:"🌑ローター星雲の改良版で、塵粒の設計だけを変えた思考実験。各塵粒は「重い外殻(質量のほとんど)+高速スピンの小さなコア(コアv2: Mc/m=0.4・R_c=1.15・Ω_c=16)」の2層構造を持つ。重い殻の重力が雲を束縛し、暗さは第75便拡張の2層減光(各層が自分の光を自分の表面速度で掻き出し、光度比で混合 — A9/A11系)でコアが担う。スピン斥力 E5′ は遅い殻スピン(0.6)にしか効かないので、熱圧 kRep=0.3 が働いていても雲は自壊しない — 「暗さのスピンを小さなコアへ隠す」ことが束縛と暗さを両立させる。この「重い外殻+高速スピンの中心コア=引力は強いが、減光で光を出さない天体」が本モデルのダークローターの正式定義であり(第76便)、暗黒星雲や星の種(prestellar core 類似)はその候補としてここで実験されている。実在の星雲についての主張ではない(Negative Claims)。",
+    observe:"実測(seed固定・3000步・熱圧 kRep=0.3 の下)でコアの平均減光0.90・クランプの保持率は1.00(エンベロープは1.00)。対照として同一幾何・同一質量の**単層**塵(暗さを出すには spin≈6 が必要)では、同じ熱圧で保持率0.48まで自壊し、エンベロープの平均|spin|も3.77まで攪乱される(2層では1.25 — 約3.0倍の差)。コアの高速スピンはA8のコア差動形 ω=(Mc/m)·(Ω_c−s)·f(Rc,d) で外へ届くが、Rc が小さいので影響範囲が狭く、周辺をほとんど乱さない。粒子タップで「コア内訳(v2)」と減光欄の実効値(2層減光)を確認できる。",
     control:"おすすめA/B(ワンタップ): 下のボタンで塵粒54個のスピンを0にした対照と比較できる — コアの暗さが消えて雲全体が散光化する。kRep を上げると熱圧試験が厳しくなり、cLight を上げるとコアが未飽和になって明るくなる(🌑と同じ転移)。"},
   en:{name:"Heavy-Shell Rotor Nebula — Binding and Darkness Together", descStruct:{
-    summary:"A refinement of the 🌑 rotor nebula that changes only the dust-grain design. Each grain is two-layered: a heavy outer shell (most of the mass) plus a small fast-spinning core (coreMR=0.4, core-spin ratio 20). The shells' gravity binds the cloud, while darkness comes from the core via the Wave-75 two-layer dimming extension (each layer sweeps out its own light at its own surface speed, mixed by luminosity — the A9/A11 family). Spin repulsion E5′ only feels the slow shell spin (0.6), so the cloud does not blow itself apart even under thermal pressure kRep=0.3 — hiding the darkness-carrying spin inside a small core is what lets binding and darkness coexist. This 'heavy shell + fast-spinning core = strong gravity yet dark by dimming' is the model's formal definition of a dark rotor (Wave 76), and dark nebulae and star seeds (prestellar-core analogues) are experimented with here as its candidates. Not a claim about real nebulae (Negative Claims). ",
-    observe:"Measured (fixed seed, 3000 steps, under thermal pressure kRep=0.3): mean core dimming 0.89, clump retention 0.96 (envelope 1.00). As a control, a **single-layer** dust cloud with identical geometry and mass (which needs spin≈6 to be equally dark) self-destructs to retention 0.48 under the same pressure, and stirs the envelope's mean |spin| up to 3.77 (0.97 for the two-layer cloud — about a 3.9× difference). The fast core does reach outward through the A8 core-differential form ω=coreMR·s·(coreSR−1)·f(Rc,d), but with a small Rc its reach is narrow and the surroundings stay almost undisturbed. Tap a grain to see the effective two-layer dimming value. ",
+    summary:"A refinement of the 🌑 rotor nebula that changes only the dust-grain design. Each grain is two-layered: a heavy outer shell (most of the mass) plus a small fast-spinning Core v2 (Mc/m=0.4, R_c=1.15, Ω_c=16). The shells' gravity binds the cloud, while darkness comes from the core via the Wave-75 two-layer dimming extension (each layer sweeps out its own light at its own surface speed, mixed by luminosity — the A9/A11 family). Spin repulsion E5′ only feels the slow shell spin (0.6), so the cloud does not blow itself apart even under thermal pressure kRep=0.3 — hiding the darkness-carrying spin inside a small core is what lets binding and darkness coexist. This 'heavy shell + fast-spinning core = strong gravity yet dark by dimming' is the model's formal definition of a dark rotor (Wave 76), and dark nebulae and star seeds (prestellar-core analogues) are experimented with here as its candidates. Not a claim about real nebulae (Negative Claims). ",
+    observe:"Measured (fixed seed, 3000 steps, under thermal pressure kRep=0.3): mean core dimming 0.90, clump retention 1.00 (envelope 1.00). As a control, a **single-layer** dust cloud with identical geometry and mass (which needs spin≈6 to be equally dark) self-destructs to retention 0.48 under the same pressure, and stirs the envelope's mean |spin| up to 3.77 (1.25 for the two-layer cloud — about a 3.0× difference). The fast core does reach outward through the A8 core-differential form ω=(Mc/m)·(Ω_c−s)·f(Rc,d), but with a small Rc its reach is narrow and the surroundings stay almost undisturbed. Tap a grain to see the Core (v2) readout and the effective two-layer dimming value. ",
     control:"Suggested A/B (one tap): the button below compares against a control with all 54 grain spins set to 0 — the cores' darkness vanishes and the whole cloud turns luminous. Raising kRep makes the pressure test harsher; raising cLight desaturates the cores and brightens them (the same transition as 🌑)."}},
   activeParams:["kRep","cLight","kFrame"],
   validT:48,   // 実測窓(3000步=t≈48)と一致
@@ -2301,11 +2293,11 @@ const BUILTIN_PRESETS = [
     patch:{spin:0} },
   claims:[
     { id:"nebulaShell.core-dimming", kind:"fixed-seed", metric:"coreLswMean",
-      expected:{min:0.8, max:0.95},   // 実測0.89(exp-4-76 stress.twoLayer)
+      expected:{min:0.8, max:0.95},   // 第81便実測0.901(コアv2 Ω_c=16。第75便 v1 は0.886)
       descPattern:"コアの平均減光(\\d+\\.\\d+)",
       testId:"claim.nebulashell-stress" },
     { id:"nebulaShell.retention", kind:"fixed-seed", metric:"coreKeepFrac",
-      expected:{min:0.93, max:1},   // 実測0.963(同・単層対照は0.481 — QA が両構成を機械固定)
+      expected:{min:0.93, max:1},   // 第81便実測1.000(同・単層対照は0.481 — QA が両構成を機械固定)
       descPattern:"保持率は(\\d+\\.\\d+)",
       testId:"claim.nebulashell-stress" }
   ],
@@ -2315,16 +2307,23 @@ const BUILTIN_PRESETS = [
     radiusScale:1, softening:3, timeScale:2},
   bodies:[
     // 高密度コア(主クランプ・粒子0..29): 重殻+高速スピンコアの塵粒
+    // 第81便: コアv1(coreMR:0.4/coreSR:20/coreRR:0.3)→ コアv2 へ移行。R_c は旧写像
+    // 0.3·(0.7·√30)=1.15022 をそのまま絶対量にした。Ω_c は**較正値**で、素直な移行値
+    // (=20×初期殻スピン0.6=12)ではコア平均減光が 0.789 まで落ちて第75便の主張(0.886)と
+    // claim 窓[0.8,0.95]を外れる — v1 は Ω_c=20·s(t) と殻スピンの成長に追従して暗さを維持して
+    // いたが、v2 の J_core は独立で K_cs=0 なら Ω_c 一定だからである。3000步のコア平均減光を
+    // 実測掃引した結果(Ω_c=12→0.789 / 16→0.901 / 20→0.942 / 24→0.955)、旧実測 0.886 に
+    // 最も近い **Ω_c=16** を採用した(主張・対照の構図は不変。単層対照は 0.954/保持0.481)
     {type:"disk", rMul:0.7, n:30, cx:0,cy:0, radius:34, mMin:24,mMax:36,
      spinMin:0.48,spinMax:0.72, vMode:"random", vScale:3, direction:1, bulkVx:0, bulkVy:0,
-     coreMR:0.4, coreSR:20, coreRR:0.3, lightSweep:"auto"},
+     core:{mode:"differential", massFrac:0.4, radius:1.1502173707608487, omega:16, Kcs:0}, lightSweep:"auto"},
     // 副クランプ×2(階層構造・粒子30..41/42..53)
     {type:"disk", rMul:0.7, n:12, cx:96,cy:44, radius:16, mMin:24,mMax:36,
      spinMin:0.48,spinMax:0.72, vMode:"random", vScale:2.1, direction:1, bulkVx:-0.4, bulkVy:0.2,
-     coreMR:0.4, coreSR:20, coreRR:0.3, lightSweep:"auto"},
+     core:{mode:"differential", massFrac:0.4, radius:1.1502173707608487, omega:16, Kcs:0}, lightSweep:"auto"},
     {type:"disk", rMul:0.7, n:12, cx:-88,cy:58, radius:16, mMin:24,mMax:36,
      spinMin:0.48,spinMax:0.72, vMode:"random", vScale:2.1, direction:1, bulkVx:0.4, bulkVy:-0.2,
-     coreMR:0.4, coreSR:20, coreRR:0.3, lightSweep:"auto"},
+     core:{mode:"differential", massFrac:0.4, radius:1.1502173707608487, omega:16, Kcs:0}, lightSweep:"auto"},
     // 低スピン放射エンベロープ(散光成分・粒子54..97)
     {type:"ring", rMul:1, n:44, cx:0,cy:0, rIn:62, rOut:150, mMin:0.5,mMax:1.2,
      spinMin:0.4,spinMax:0.9, vMode:"kepler", aroundMass:1134, omega:0, vNoise:0.05,
@@ -2340,17 +2339,17 @@ const BUILTIN_PRESETS = [
   sampleClass:"composite",
   descStruct:{
     summary:"惑星状星雲や双極星雲の「暗い帯+明るい2つのローブ」を、ダークローター部品で組んだ思考実験。中心に重殻ダークローター(殻はゆっくり・コアは高速 — 2層減光〔第75便拡張〕で真っ暗)、赤道(±x)を挟む±50°に重殻ダークアーク22個(暗黒トーラスの2D断面)、内側に高スピン=高温のガス60個。ガスは熱の斥力(E5′)で押し合うが、赤道はアークに塞がれている — 抵抗の少ない極方向(±y)だけが出口になり、上下2つの光るローブになる(🌋と同じ「圧力+幾何」の機構を星雲の構成で)。実在の惑星状星雲・双極流の再現主張ではない(Negative Claims)。",
-    observe:"実測(seed固定・6000步): 系外(r>200)へ達したガス41体のうち±y30°以内が0.61(等方なら1/3 — 1.8倍の集中)。ローブのガスは平均観測温度2.0で光り、中心は減光1.00・アーク帯は平均0.92で真っ暗 — 「暗い帯に挟まれた明るいローブ」の明暗が立つ。アークは pinned(外部固定)なので閉鎖系ではない(バッジ参照)。熱圧を切った対照(kRep=0)では脱出が0体になり、ローブは立たない — 圧力が唯一の駆動源であることの機械対照。",
-    control:"おすすめA/B: A/B比較で kRep=0 にすると圧力が消え、脱出は0体になってローブが立たない。なお「ガスのスピンを0にする」だけでは対照にならない — 中心とアークの回転が E6′残余トルクでガスへスピンを再注入し、圧力が再点火する(実測32体脱出)。圧力を確実に切る対照は kRep=0 である。"},
+    observe:"実測(seed固定・6000步): 系外(r>200)へ達したガス37体のうち±y30°以内が0.62(等方なら1/3 — 1.9倍の集中)。中心は減光1.00・アーク帯は平均0.92で真っ暗 — 「暗い帯に挟まれた明るいローブ」の明暗が立つ。アークは pinned(外部固定)なので閉鎖系ではない(バッジ参照)。熱圧を切った対照(kRep=0)では脱出が0体になり、ローブは立たない — 圧力が唯一の駆動源であることの機械対照。",
+    control:"おすすめA/B: A/B比較で kRep=0 にすると圧力が消え、脱出は0体になってローブが立たない。なお「ガスのスピンを0にする」だけでは対照にならない — 中心とアークの回転が E6′残余トルクでガスへスピンを再注入し、圧力が再点火する。圧力を確実に切る対照は kRep=0 である。中心天体・アークを粒子タップすると「コア内訳(v2)」で Ω_c と2層減光の内訳が読める。"},
   en:{name:"Bipolar Nebula — Dark Torus and Polar Lobes", descStruct:{
     summary:"The 'dark band + two bright lobes' of planetary and bipolar nebulae, assembled from dark-rotor parts: a heavy-shell dark rotor at the center (slow shell, fast core — pitch dark via the Wave-75 two-layer dimming), 22 heavy-shell dark arcs within ±50° of the equator (±x; the 2D cross-section of a dark torus), and 60 high-spin (=hot) gas particles inside. The gas pushes outward with thermal repulsion (E5′), but the equator is blocked by the arcs — the only low-resistance exit is the polar direction (±y), so two glowing lobes rise (the same 'pressure + geometry' mechanism as 🌋, in nebula form). Not a claim to reproduce real planetary nebulae or bipolar outflows (Negative Claims). ",
-    observe:"Measured (fixed seed, 6000 steps): of the 41 gas particles that reach beyond r>200, a fraction 0.61 lies within 30° of ±y (isotropic would be 1/3 — a 1.8× concentration). The lobe gas glows at mean observed temperature 2.0, while the center is dimmed at 1.00 and the arc band averages 0.92 — bright lobes framed by a dark band. The arcs are pinned (externally held), so the system is not closed (see badges). In the pressure-off control (kRep=0) zero particles escape and no lobes form — a machine control showing pressure is the only driver. ",
-    control:"Suggested A/B: start an A/B comparison with kRep=0 and the pressure vanishes — zero particles escape and no lobes form. Note that merely zeroing the gas spins is not a control: the rotation of the center and the arcs re-injects spin into the gas through the E6′ residual torque, and the pressure re-ignites (32 escapees measured). The reliable pressure-off control is kRep=0."}},
+    observe:"Measured (fixed seed, 6000 steps): of the 37 gas particles that reach beyond r>200, a fraction 0.62 lies within 30° of ±y (isotropic would be 1/3 — a 1.9× concentration). The center is dimmed at 1.00 and the arc band averages 0.92 — bright lobes framed by a dark band. The arcs are pinned (externally held), so the system is not closed (see badges). In the pressure-off control (kRep=0) zero particles escape and no lobes form — a machine control showing pressure is the only driver. ",
+    control:"Suggested A/B: start an A/B comparison with kRep=0 and the pressure vanishes — zero particles escape and no lobes form. Note that merely zeroing the gas spins is not a control: the rotation of the center and the arcs re-injects spin into the gas through the E6′ residual torque, and the pressure re-ignites. The reliable pressure-off control is kRep=0. Tap the center or an arc to read its Core (v2) breakdown \u2014 \u03a9_c and the two-layer dimming split."}},
   activeParams:["kRep","cLight","kFrame"],
   validT:96,   // 実測窓(6000步=t≈96)と一致
   claims:[
     { id:"nebulaBipolar.polar-fraction", kind:"fixed-seed", metric:"polarFraction",
-      expected:{min:0.5, max:0.72},   // 実測0.610(exp-4-76 B.final)
+      expected:{min:0.5, max:0.72},   // 第81便実測0.622(コアv2 移行後。第75便 v1 は0.610)
       descPattern:"±y30°以内が(\\d+\\.\\d+)",
       control:{patch:{kRep:0}, expected:{min:0, max:3},   // 実測0(kRep=0 の圧力オフ — agnjet と同書式)
         descPattern:"対照\\(kRep=0\\)では脱出が(\\d+)体"},
@@ -2361,108 +2360,79 @@ const BUILTIN_PRESETS = [
     cLight:40, bM:1, etaRad:0.002, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:3, timeScale:2},
   bodies:[
-    // 中心の重殻ダークローター(自由・粒子0)
+    // 中心の重殻ダークローター(自由・粒子0)。第81便: コアv1(0.3/15/0.25)→ コアv2 へ
+    // 素直に移行(R_c=0.25×20=5・Ω_c=15×初期spin0.6=9)。アークは pinned で殻スピンが
+    // 一定なので v1 と厳密に同じ差動、中心だけが「Ω_c 追従→独立」の差を受ける
     {type:"single", rMul:1, m:600, x:0,y:0, vx:0,vy:0, spin:0.6, pinned:false,
-     radius:20, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
+     radius:20, core:{mode:"differential", massFrac:0.3, radius:5, omega:9, Kcs:0}, lightSweep:"auto"},
     // 赤道ダークアーク(pinned・粒子1..22 — ±x を挟む±50°・10°刻み・r=60)
-    {type:"single", rMul:1, m:40, x:38.6,y:-46, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:46,y:-38.6, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:52,y:-30, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:56.4,y:-20.5, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:59.1,y:-10.4, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:60,y:0, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:59.1,y:10.4, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:56.4,y:20.5, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:52,y:30, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:46,y:38.6, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:38.6,y:46, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:-38.6,y:46, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:-46,y:38.6, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:-52,y:30, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:-56.4,y:20.5, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:-59.1,y:10.4, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:-60,y:0, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:-59.1,y:-10.4, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:-56.4,y:-20.5, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:-52,y:-30, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:-46,y:-38.6, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:-38.6,y:-46, vx:0,vy:0, spin:0.5, pinned:true, radius:8, coreMR:0.3, coreSR:15, coreRR:0.25, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:38.6,y:-46, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:46,y:-38.6, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:52,y:-30, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:56.4,y:-20.5, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:59.1,y:-10.4, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:60,y:0, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:59.1,y:10.4, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:56.4,y:20.5, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:52,y:30, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:46,y:38.6, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:38.6,y:46, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:-38.6,y:46, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:-46,y:38.6, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:-52,y:30, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:-56.4,y:20.5, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:-59.1,y:10.4, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:-60,y:0, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:-59.1,y:-10.4, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:-56.4,y:-20.5, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:-52,y:-30, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:-46,y:-38.6, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", rMul:1, m:40, x:-38.6,y:-46, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
     // 高温ガス(高スピン=熱・粒子23..82)
     {type:"disk", rMul:1, n:60, cx:0,cy:0, radius:30, mMin:0.4,mMax:0.8,
      spinMin:4,spinMax:6, vMode:"random", vScale:0.8, direction:1, bulkVx:0, bulkVy:0}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled",monitor:false} },
-// 第78便: ⚫bhCore — DFM版ブラックホール(5層の中心)。ChatGPT レビュー §9.2/§13 サンプル3 の
+// 第78便→第81便: ⚫bhCore — DFM版ブラックホール(5層の中心)。ChatGPT レビュー §9.2/§13 サンプル3 の
 // 採択実装で、第76便 exp-4-77 の仮説検証と第77便コアv2(τ_cs)の到達点を1画面に束ねたもの。
 // 層0=コア(J 貯蔵・自走の源)/層1=重い内殻(質量集中)/層2=外殻・擬似地平面(減光)/
-// 層3=フレーム場(kFrame の引きずり)/層4=降着円盤(赤道面のガス)。実測 tests/exp-4-79.mjs
-// +tests/out/exp-4-80.json。**双極ジェットは扱わない** — この重力井戸ではガスが束縛され、
-// 統計になる脱出が起きないため(実測: 6000步で脱出2/120体)。ジェット機構は ⏳nebulaBipolar の担当。
-{ id:"bhCore", name:"DFM版ブラックホール — 5層の中心", emoji:"⚫", group:"銀河",
+// 層3=フレーム場(kFrame の引きずり)/層4=降着円盤(赤道面のガス)。
+// **第81便(原仮定者指示)**: 中心天体を **自由(pinned:false)** へ正式移行した。固定中心は
+// 座標を止めるだけでなく E6′ フレーム引きずりの反作用を受け取る**外部の無限質量リザーバ**でも
+// あり(=境界条件)、それを外すと従来の反作用則では m=2500 の中心にいったん巨大な運動量変化を
+// 作ってから軽い円盤へ返すため離散フィードバックの利得が過大になって系が壊れる(exp-4-79 実測:
+// clampR=30300・増強 1.2646→0.59)。そこで第80便 A で実証した **E6′-R**
+// (physics.frameReaction:"pairReduced" = 換算質量 μ による対称インパルス)+重心系初期化
+// (balanceFrame:"barycentric")をこのサンプルの正式構成とし、第80便の実験サンプル
+// 🕳️bhCoreFree は本サンプルへ統合して廃止した。**双極ジェットは扱わない** — この重力井戸では
+// ガスが束縛され、統計になる脱出が起きないため。ジェット機構は ⏳nebulaBipolar の担当。
+// 実測 tests/exp-4-81.mjs → tests/out/exp-4-81.json
+{ id:"bhCore", name:"DFM版ブラックホール — 自由な5層の中心", emoji:"⚫", group:"銀河",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",
   descStruct:{
-    summary:"「銀河中心の暗い天体は、コアの高速スピンが外殻へ伝わって銀河を回している」という仮説を、5つの層に分けて1画面で検証する。層0=中心コア(コアv2 の独立 J_core・初期Ω=20)/層1=重い内殻(m=2500 が引力を担う)/層2=外殻と擬似地平面(2層減光で真っ暗)/層3=決定フレーム(kFrame の空間引きずり)/層4=降着円盤(赤道面の高温ガス120体)。外側には測定用の恒星ディスク200体を置く。コアと外殻は τ_cs(K_cs=0.02)で結ばれており、コアに貯めた角運動量が外殻へ流れ出す。実在のブラックホール物理(事象の地平面・降着円盤の磁気流体・相対論的ジェット)の再現主張ではない — この宇宙の法則で「暗くて重い回転体」を組むとどうなるかのトイモデルである(Negative Claims)。",
-    observe:"実測(seed固定・6000步): ①**自走** — 中心の外殻スピンは0.15から実測1.33へ育ち、コアの角速度は20から4.2へ落ちる(τ_cs でコアの貯金が外殻へ移る)。②**暗いまま回す** — 中心の減光は1.00(真っ暗)なのに、恒星ディスク外縁の回転増強(kFrame=1/kFrame=0 比)は実測1.52で、可視の🎡標準(1.2646)を大きく超える。③層4の降着円盤は圧力(E5′)で膨らむが重力井戸に束縛され、6000步で系外へ出るのは120体中2体だけ(=この構成ではジェットは立たない。双極流は⏳の担当)。④帳簿込みの総角運動量は保存する(相対ずれ9e-7 — A13/T7。コアの J も総和に含む)。⑤**因果の分離**(同一初期配置の対照): コアを外した単層中心では増強が1.05まで落ちる(=コアが主因)。K_cs=0 で自走を止めるとコアに角運動量が残り、増強はむしろ1.58と強い(貯めたままの方が差動が大きく、外へ届く引きずりも強い)。層4の圧力を切る(kRep=0)と1.36 — 降着円盤の圧力も増強に一部寄与している。",
-    control:"おすすめA/B: A/B比較で **kFrame=0** にすると空間引きずりが消え、外縁増強も消滅する(引きずりが増強の唯一の経路)。**kRep=0** で層4の圧力が消え、降着円盤が薄い帯のまま静かに回る。パラメータタブで **D₀** を上げると遠方宇宙の支えが強まり引きずりが弱まる。コアの寄与そのものを消すには、粒子タップで中心天体を選び core を持たない構成と見比べる(実験 exp-4-79 の A/C/D/F 対照が同じ比較を機械化している)。"},
-  en:{name:"A DFM Black Hole — Five-Layer Center", descStruct:{
-    summary:"The hypothesis that a galaxy's dark central body spins the galaxy by passing its fast core rotation out to its shell, laid out in five layers on one screen. Layer 0: the central core (Core v2's independent J_core, initial Ω=20). Layer 1: the heavy inner shell (m=2500 carries the gravity). Layer 2: the outer shell and pseudo-horizon (pitch dark under two-layer dimming). Layer 3: the determinacy frame (kFrame dragging). Layer 4: the accretion disk (120 hot gas particles in the equatorial plane). Outside sits a 200-star measuring disk. Core and shell are coupled by τ_cs (K_cs=0.02), so the angular momentum banked in the core flows out into the shell. Not a claim to reproduce real black-hole physics (event horizons, magnetohydrodynamic accretion, relativistic jets) — it is a toy model of what a dark, heavy rotator looks like under this universe's laws (Negative Claims). ",
-    observe:"Measured (fixed seed, 6000 steps): (1) **Self-drive** — the central shell spin grows from 0.15 to a measured 1.33 while the core's angular velocity falls from 20 to 4.2 (τ_cs moves the core's savings out to the shell). (2) **Dark yet driving** — the center's dimming is 1.00 (pitch dark), yet the outer rotation enhancement of the stellar disk (kFrame=1 over kFrame=0) measures 1.52, well above the visible 🎡 standard of 1.2646. (3) Layer 4's accretion disk swells under pressure (E5′) but stays bound in the gravity well: only 2 of 120 particles leave the system in 6000 steps (so no jet forms in this configuration; bipolar outflows are ⏳'s job). (4) Total angular momentum is conserved ledger-inclusive (relative drift 9e-7 — A13/T7; the core's J is included in the sum). (5) **Isolating the cause** (controls from the same initial state): with the core removed, a single-layer center drops the enhancement to 1.05 — the core is the main driver. Setting K_cs=0 stops the self-drive, leaving the angular momentum banked in the core, and the enhancement is actually stronger at 1.58 (keeping it banked means a larger differential and stronger reach). Turning off layer 4's pressure (kRep=0) gives 1.36, so the accretion disk's pressure contributes part of the enhancement too. ",
-    control:"Suggested A/B: start an A/B comparison with **kFrame=0** and the dragging vanishes along with the outer enhancement (dragging is the sole path to it). With **kRep=0** layer 4's pressure disappears and the accretion disk stays a quiet thin band. Raising **D₀** in the parameters tab strengthens the far universe's grip and weakens the dragging. To remove the core's contribution itself, tap the central body and compare against a configuration without a core (experiment exp-4-79 mechanizes the same A/C/D/F comparison)."}},
+    summary:"「銀河中心の暗い天体は、コアの高速スピンが外殻へ伝わって銀河を回している」という仮説を、5つの層に分けて1画面で検証する。層0=中心コア(コアv2 の独立 J_core・初期Ω=20)/層1=重い内殻(m=2500 が引力を担う)/層2=外殻と擬似地平面(2層減光で真っ暗)/層3=決定フレーム(kFrame の空間引きずり)/層4=降着円盤(赤道面の高温ガス120体)。外側には測定用の恒星ディスク200体を置く。コアと外殻は τ_cs(K_cs=0.02)で結ばれており、コアに貯めた角運動量が外殻へ流れ出す。中心天体は**固定していない**(支配天体も他の粒子と同じ法則で動く自由な系)— 固定中心は座標を止めるだけでなく E6′ 引きずりの反作用を受け取る外部リザーバでもあるため、それを外すには反作用を換算質量 μ=m_im_j/(m_i+m_j) による対称インパルス J_ij=μ(φ_ij d_i−φ_ji d_j) へ置き換えた E6′-R(physics.frameReaction:\"pairReduced\")が要る。初期配置は重心系(balanceFrame)へ移してあり、観測はすべて中心天体基準の相対座標で行う。実在のブラックホール物理(事象の地平面・降着円盤の磁気流体・相対論的ジェット)の再現主張ではない — この宇宙の法則で「暗くて重い回転体」を組むとどうなるかのトイモデルである(Negative Claims)。",
+    observe:"実測(seed固定・6000步): ①**自走** — 中心の外殻スピンは0.15から実測1.33へ育ち、コアの角速度は20から4.2へ落ちる(τ_cs でコアの貯金が外殻へ移る)。②**暗いまま回す** — 中心の減光は1.00(真っ暗)なのに、中心基準で測った恒星ディスク外縁の回転増強(kFrame=1/kFrame=0 比)は実測1.52で、可視の🎡標準(1.2646)を大きく超える。③**壊れない** — 反作用上限・速度上限・スピン上限の発動はいずれも0回で、恒星の保持率は1.000(中心基準 r<450)。層4の降着円盤は圧力(E5′)で膨らむが重力井戸に束縛され、6000步で系外(中心基準 r>200)へ出るのは120体中1体だけ(=この構成ではジェットは立たない。双極流は⏳の担当)。④**中心は有限に反跳する** — 支配天体の重心相対変位は最大0.39・重心相対速度は最大0.009に留まる(固定ではなく、質量比ぶんの小さな揺れ)。⑤帳簿込みの総角運動量は保存する(相対ずれ1.3e-6 — A13/T7。コアの J も総和に含む)。⑥**因果の分離**(同一初期配置の対照): コアを外した単層中心では増強が1.05まで落ちる(=コアが主因)。⑦**E6′-R の効き目**: 同じ自由構成を従来の反作用則(legacy)のままにすると、1200步で反作用上限が12297回発動し、外縁増強は0.99(=増強消失)・外殻スピンも0.61で頭打ちになる。",
+    control:"おすすめA/B: A/B比較で **kFrame=0** にすると空間引きずりが消え、外縁増強も消滅する(引きずりが増強の唯一の経路)。**kRep=0** で層4の圧力が消え、降着円盤が薄い帯のまま静かに回る。パラメータタブで **D₀** を上げると遠方宇宙の支えが強まり引きずりが弱まる。**固定中心との対照**は、粒子タップで中心天体を選び「固定(pinned)」にチェックを入れると同じ構成のまま比べられる(第80便実測: pinned の外縁増強 1.52 — 自由中心と同帯)。コアの寄与そのものを消すには core を持たない構成と見比べる(実験 exp-4-81 の対照が同じ比較を機械化している)。"},
+  en:{name:"A DFM Black Hole — Free Five-Layer Center", descStruct:{
+    summary:"The hypothesis that a galaxy's dark central body spins the galaxy by passing its fast core rotation out to its shell, laid out in five layers on one screen. Layer 0: the central core (Core v2's independent J_core, initial Ω=20). Layer 1: the heavy inner shell (m=2500 carries the gravity). Layer 2: the outer shell and pseudo-horizon (pitch dark under two-layer dimming). Layer 3: the determinacy frame (kFrame dragging). Layer 4: the accretion disk (120 hot gas particles in the equatorial plane). Outside sits a 200-star measuring disk. Core and shell are coupled by τ_cs (K_cs=0.02), so the angular momentum banked in the core flows out into the shell. The central body is **not pinned** — the dominant mass moves under the same laws as everything else. A pinned center does more than freeze coordinates: it is also the external reservoir that absorbs the E6′ frame-dragging reaction, so freeing it requires E6′-R (physics.frameReaction:\"pairReduced\"), which replaces that reaction with a reduced-mass symmetric impulse J_ij=μ(φ_ij d_i−φ_ji d_j), μ=m_i m_j/(m_i+m_j). The initial state is shifted into the barycentric frame (balanceFrame) and every measurement is taken relative to the central body. Not a claim to reproduce real black-hole physics (event horizons, magnetohydrodynamic accretion, relativistic jets) — it is a toy model of what a dark, heavy rotator looks like under this universe's laws (Negative Claims). ",
+    observe:"Measured (fixed seed, 6000 steps): (1) **Self-drive** — the central shell spin grows from 0.15 to a measured 1.33 while the core's angular velocity falls from 20 to 4.2 (τ_cs moves the core's savings out to the shell). (2) **Dark yet driving** — the center's dimming is 1.00 (pitch dark), yet the outer rotation enhancement of the stellar disk measured about the center (kFrame=1 over kFrame=0) is 1.52, well above the visible 🎡 standard of 1.2646. (3) **It holds together** — the reaction, velocity and spin caps all fire 0 times and 1.000 of the stars stay bound (r<450 about the center). Layer 4's accretion disk swells under pressure (E5′) but stays bound in the gravity well: only 1 of 120 gas particles leaves the system (r>200 about the center) in 6000 steps, so no jet forms in this configuration (bipolar outflows are ⏳'s job). (4) **The center recoils, finitely** — the dominant body stays within 0.39 of the barycenter at relative speeds below 0.009: not frozen, just a small mass-ratio wobble. (5) Total angular momentum is conserved ledger-inclusive (relative drift 1.3e-6 — A13/T7; the core's J is included in the sum). (6) **Isolating the cause** (control from the same initial state): with the core removed, a single-layer center drops the enhancement to 1.05 — the core is the main driver. (7) **What E6′-R buys**: the same free configuration left on the legacy reaction law hits the reaction cap 12297 times in 1200 steps, the enhancement collapses to 0.99 and the shell spin stalls at 0.61. ",
+    control:"Suggested A/B: start an A/B comparison with **kFrame=0** and the dragging vanishes along with the outer enhancement (dragging is the sole path to it). With **kRep=0** layer 4's pressure disappears and the accretion disk stays a quiet thin band. Raising **D₀** in the parameters tab strengthens the far universe's grip and weakens the dragging. **To compare against a fixed center**, tap the central body and tick \"pinned\" — the same configuration with a frozen center (measured in Wave 80: outer enhancement 1.52, the same band as the free center). To remove the core's contribution itself, compare against a configuration without a core (experiment exp-4-81 mechanizes the same comparison)."}},
   activeParams:["kFrame","kRep","D0"],
   validT:96,   // 実測窓(6000步=t≈96)と一致
+  // 第81便: claims は第80便 exp-4-81(自由中心+E6′-R)の実測帯で機械固定する。
+  // ⚫が pinned だった第80便までの帯(1.4〜1.65)は、自由中心の測り方(中心基準の相対座標)に
+  // 合わせて 1.37〜1.68 へ広げてある(pinned 対照 1.5215 と自由 1.5236 の両方を含む窓)
   claims:[
     { id:"bhCore.outer-boost", kind:"fixed-seed", metric:"outerRotationBoostRatio",
-      expected:{min:1.4, max:1.65},   // 実測1.524(exp-4-80)。可視の🎡標準1.2646 を超える
-      descPattern:"回転増強\\(kFrame=1/kFrame=0 比\\)は実測(\\d+\\.\\d+)",
-      testId:"claim.bhcore-selfdrive" },
-    { id:"bhCore.shell-spinup", kind:"fixed-seed", metric:"shellSpinFinal",
-      expected:{min:1.2, max:1.45},   // 実測1.332(コアΩ 20→4.2 の移送先)
-      descPattern:"外殻スピンは0\\.15から実測(\\d+\\.\\d+)へ育ち",
-      testId:"claim.bhcore-selfdrive" }
-  ],
-  camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260805,
-  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:1, muF:0, gammaN:0, kappaS:0, Kt:50,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
-    radiusScale:1, softening:3, timeScale:3},
-  bodies:[
-    // 層0〜2: 中心の暗い重殻ローター(コアv2 の J 貯蔵+重い内殻+2層減光の擬似地平面)
-    {type:"single", rMul:1.2, m:2500, x:0,y:0, vx:0,vy:0, spin:0.15, pinned:true, radius:15,
-     lightSweep:"auto",
-     core:{mode:"differential", massFrac:0.3, radius:7.5, omega:20, Kcs:0.02}},
-    // 層4: 降着円盤(赤道面の高温ガス — E5′ 圧力で膨らむが束縛される)
-    {type:"box", rMul:2, n:120, cx:0,cy:0, w:200, h:16, mMin:0.05,mMax:0.05,
-     spinMin:2.4, spinMax:3.6, vScale:0.05},
-    // 層3の測定対象: 恒星ディスク(回転曲線 — 外縁増強を読む)
-    {type:"disk", rMul:1.2, n:200, cx:0,cy:0, radius:260, mMin:0.16,mMax:0.5,
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2500, vScale:1.05, direction:1,
-     bulkVx:0, bulkVy:0}
-  ],
-  overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:true} },
-// 第80便 A: 🕳️bhCoreFree — ⚫bhCore の中心を**自由**にした実験サンプル(外部レビュー採択の
-// E6′-R = physics.frameReaction:"pairReduced" と重心系初期化 balanceFrame の実証)。
-// ⚫(pinned 中心)は対照として一切変更せず並存させる。既定 legacy のままここを pinned:false に
-// すると③反作用の上限が大量発動して系が崩れる(exp-4-79 実測: clampR=30300・増強 1.2646→0.59)。
-// 実測 tests/exp-4-81.mjs → tests/out/exp-4-81.json
-{ id:"bhCoreFree", name:"DFM版ブラックホール — 自由な中心(実験)", emoji:"🕳️", group:"銀河",
-  scaleTier:"galactic",
-  sampleClass:"composite",
-  descStruct:{
-    summary:"⚫DFM版ブラックホールの中心天体から「固定(pinned)」を外し、支配天体も他の粒子と同じ法則で動く自由な系にしたもの。固定中心は座標を止めるだけでなく、E6′フレーム引きずりの反作用を受け取る**外部の無限質量リザーバ**でもある(=境界条件)。それを外すと、従来の反作用則では m=2500 の中心にいったん巨大な運動量変化を作ってから軽い円盤へ返すため、離散フィードバックの利得が過大になって系が壊れる。そこで反作用を換算質量 μ=m_im_j/(m_i+m_j) による対称インパルス J_ij=μ(φ_ij d_i−φ_ji d_j) へ置き換えた新方式 **E6′-R**(physics.frameReaction:\"pairReduced\")を opt-in で使う。自由粒子対ごとに等大反対向きのインパルスと残余トルクのスピン移譲を同時に構成するので、A13 の相互性が対単位で構成的に満たされる。初期配置は重心系(balanceFrame)へ移してあり、観測はすべて中心天体基準の相対座標で行う。実在のブラックホール物理の再現主張ではない(Negative Claims)。",
-    observe:"実測(seed固定・6000步): ①**壊れない** — 反作用上限・速度上限・スピン上限の発動はいずれも0回で、恒星の保持率は1.000(中心基準 r<450)。②**外縁増強は保たれる** — 中心基準で測った回転増強(kFrame=1/kFrame=0 比)は実測1.52で、固定中心の⚫(同構成の対照 1.52)と一致する。③**自走も同じ** — 外殻スピンは0.15から実測1.33へ育ち、コアの角速度は20から4.2へ落ちる(τ_cs)。④**中心は有限に反跳する** — 支配天体の重心相対変位は最大0.39・重心相対速度は最大0.009に留まる(固定ではなく、質量比ぶんの小さな揺れ)。⑤帳簿込みの総角運動量は保存する(相対ずれ1.3e-6 — A13/T7)。⑥**対照**: 同じ構成を従来の反作用則(legacy)のまま自由にすると、1200步で速度上限が12297回発動し、外縁増強は0.99(=増強消失)・外殻スピンも0.61で頭打ちになる — この差が E6′-R の効き目そのものである。",
-    control:"おすすめA/B: **kFrame=0** で空間引きずりを消すと外縁増強も消える(⚫と同じ対照)。**D₀** を上げると遠方宇宙の支えが強まり引きずりが弱まる。**kRep=0** で降着円盤の圧力が消える。固定中心との比較は ⚫DFM版ブラックホール を読み込んで見比べる(pinned:true の同一構成)。"},
-  en:{name:"A DFM Black Hole — Free Center (experimental)", descStruct:{
-    summary:"The ⚫ DFM black hole with the pin taken off its central body, so the dominant mass moves under the same laws as everything else. A pinned center does more than freeze coordinates: it is also an external infinite-mass reservoir that absorbs the E6′ frame-dragging reaction (a boundary condition). Remove it and the legacy reaction law first turns a tiny frame change into a huge momentum change on the m=2500 center and then hands it back to the light disk, so the discrete feedback gain blows the system apart. This sample therefore opts in to **E6′-R** (physics.frameReaction:\"pairReduced\"), which replaces that with a reduced-mass symmetric impulse J_ij=μ(φ_ij d_i−φ_ji d_j), μ=m_i m_j/(m_i+m_j). Each free pair gets equal and opposite impulses plus the residual-torque spin transfer, so A13 reciprocity holds constructively pair by pair. The initial state is shifted into the barycentric frame (balanceFrame) and every measurement is taken in coordinates relative to the central body. Not a claim to reproduce real black-hole physics (Negative Claims). ",
-    observe:"Measured (fixed seed, 6000 steps): (1) **It holds together** — the reaction, velocity and spin caps all fire 0 times and 1.000 of the stars stay bound (r<450 about the center). (2) **The outer enhancement survives** — the rotation enhancement measured about the center (kFrame=1 over kFrame=0) is 1.52, matching the pinned ⚫ control on the same configuration (1.52). (3) **The self-drive is unchanged** — the shell spin grows from 0.15 to 1.33 while the core's angular velocity falls from 20 to 4.2 (τ_cs). (4) **The center recoils, finitely** — the dominant body stays within 0.39 of the barycenter at relative speeds below 0.009: not frozen, just a small mass-ratio wobble. (5) Total angular momentum is conserved ledger-inclusive (relative drift 1.3e-6 — A13/T7). (6) **Control**: the same configuration freed under the legacy reaction law hits the velocity cap 12297 times in 1200 steps, the enhancement collapses to 0.99 and the shell spin stalls at 0.61 — that difference is what E6′-R buys. ",
-    control:"Suggested A/B: **kFrame=0** removes the dragging and the outer enhancement with it (the same control as ⚫). Raising **D₀** strengthens the far universe's grip and weakens the dragging. **kRep=0** turns off the accretion disk's pressure. To compare against a fixed center, load ⚫ A DFM Black Hole — the same configuration with pinned:true."}},
-  activeParams:["kFrame","kRep","D0"],
-  validT:96,   // 実測窓(6000步=t≈96)と一致
-  claims:[
-    { id:"bhCoreFree.outer-boost", kind:"fixed-seed", metric:"outerRotationBoostRatio",
-      expected:{min:1.37, max:1.68},   // 実測1.5236(exp-4-81。⚫の同構成 pinned 対照は 1.5215)
+      expected:{min:1.37, max:1.68},   // 実測1.5236(exp-4-81。同構成 pinned 対照は 1.5215)
       descPattern:"回転増強\\(kFrame=1/kFrame=0 比\\)は実測(\\d+\\.\\d+)",
       testId:"claim.bhcore-free" },
-    { id:"bhCoreFree.recoil-bounded", kind:"fixed-seed", metric:"bhMaxDisplacementFromCom",
+    { id:"bhCore.shell-spinup", kind:"fixed-seed", metric:"shellSpinFinal",
+      expected:{min:1.20, max:1.47},   // 実測1.332(コアΩ 20→4.2 の移送先 — τ_cs)
+      descPattern:"外殻スピンは0\\.15から実測(\\d+\\.\\d+)へ育ち",
+      testId:"claim.bhcore-selfdrive" },
+    { id:"bhCore.recoil-bounded", kind:"fixed-seed", metric:"bhMaxDisplacementFromCom",
       expected:{min:0.2, max:0.8},     // 実測0.394(重心相対の最大変位。受入上限は 8)
       descPattern:"支配天体の重心相対変位は最大(\\d+\\.\\d+)",
       testId:"claim.bhcore-free" }
@@ -2474,11 +2444,12 @@ const BUILTIN_PRESETS = [
     radiusScale:1, softening:3, timeScale:3,
     frameReaction:"pairReduced"},   // 第80便 A(E6′-R): 換算質量対称インパルス(自由中心の必須条件)
   bodies:[
-    // 層0〜2: 中心の暗い重殻ローター(⚫と同一 — pinned だけが false)
+    // 層0〜2: 中心の暗い重殻ローター(コアv2 の J 貯蔵+重い内殻+2層減光の擬似地平面)。
+    // 第81便: pinned:false(自由な中心)— E6′-R と重心系初期化が前提
     {type:"single", rMul:1.2, m:2500, x:0,y:0, vx:0,vy:0, spin:0.15, pinned:false, radius:15,
      lightSweep:"auto",
      core:{mode:"differential", massFrac:0.3, radius:7.5, omega:20, Kcs:0.02}},
-    // 層4: 降着円盤(赤道面の高温ガス)
+    // 層4: 降着円盤(赤道面の高温ガス — E5′ 圧力で膨らむが束縛される)
     {type:"box", rMul:2, n:120, cx:0,cy:0, w:200, h:16, mMin:0.05,mMax:0.05,
      spinMin:2.4, spinMax:3.6, vScale:0.05},
     // 層3の測定対象: 恒星ディスク(回転曲線 — 外縁増強を中心基準で読む)
@@ -2988,12 +2959,12 @@ const BUILTIN_PRESETS = [
   sampleClass:"calibration",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"月が地球のまわりを公転する二体デモ(コアは現実の観測値で較正)。質量比は現実どおり m月/m地球=0.0123。月は同期自転 — spin を実測公転角速度 ω=0.013908 に一致させてあり、スポーク(車輪の輻)の同じ面が常に地球を向き続ける(潮汐固定)。",
-    observe:"コアは観測値: 地球 mc/m=0.325(PREM系の全コア質量比 32.5%)・月 mc/m=0.0168(月レーザー測距の 1.59〜1.77% の中央値)。sc/s=1.0(剛体回転)は中立既定 — 地球内核のマントルに対する差動回転は時期と解析法によって推定が変わり、固定した比率として確定していないため、本サンプルは sc/s=1.0 を中立既定とする。円軌道速度は E6′ 込みの実測較正 v=1.063×ケプラー値(Plummer軟化込み)— 4周で半径ドリフト0.09%・同期維持。地球の自転(0.05)は E6′ 安定域に収めた較正値 — 現実の比(月の27.4倍)では引きずり風が重力(E4)を超えて軌道が崩れる(実測)。地球は pinned の展示系。Kt=10000 は物理対応ロック Kt=c²/G の成立値。",
-    control:"地球をタップして sc/s を上げると空間引きずり(A8)経由で月軌道への効きが試せる。現実の自転比で見たい場合は 🌕(自由二体・kFrame=0)を参照。"},
+    observe:"コアは観測値: 地球 Mc/m=0.325(PREM系の全コア質量比 32.5%)・月 Mc/m=0.0168(月レーザー測距の 1.59〜1.77% の中央値)。コアv2 の mode=\"rigid\"(殻と剛体回転 Ω_c≡s)は中立既定 — 地球内核のマントルに対する差動回転は時期と解析法によって推定が変わり、固定した比率として確定していないため、本サンプルは剛体回転を中立既定とする(差動なし=単層と厳密等価)。円軌道速度は E6′ 込みの実測較正 v=1.063×ケプラー値(Plummer軟化込み)— 4周で半径ドリフト0.09%・同期維持。地球の自転(0.05)は E6′ 安定域に収めた較正値 — 現実の比(月の27.4倍)では引きずり風が重力(E4)を超えて軌道が崩れる(実測)。地球は pinned の展示系。Kt=10000 は物理対応ロック Kt=c²/G の成立値。",
+    control:"地球をタップすると「コア内訳(v2)」に Ω_c/Ω_s と J_core・慣性が出る(剛体コアなので差動はゼロ)。現実の自転比で見たい場合は 🌕(自由二体・kFrame=0)を参照。"},
   en:{name:"Earth & Moon", descStruct:{
     summary:"A two-body demo with the Moon orbiting Earth (cores calibrated to observed values). The mass ratio is the real one: mMoon/mEarth=0.0123. The Moon rotates synchronously \u2014 its spin equals the measured orbital angular velocity \u03c9=0.013908, so the same face of its spoke wheel always points at Earth (tidal locking). ",
-    observe:"Cores use observed values: Earth mc/m=0.325 (PREM whole-core mass fraction) and Moon mc/m=0.0168 (lunar-laser-ranging median of 1.59\u20131.77%). sc/s=1.0 (rigid rotation) is the neutral default \u2014 Earth's inner-core differential rotation relative to the mantle varies with the period and method of estimation and is not established as a fixed ratio, so this sample adopts sc/s=1.0 as a neutral default. The circular-orbit speed is calibrated with E6\u2032 included: v=1.063\u00d7 Keplerian (Plummer-softened) \u2014 radius drift 0.09% over 4 orbits with sync maintained. Earth's spin (0.05) is calibrated into the E6\u2032-stable regime \u2014 at the real ratio (27.4\u00d7 the Moon's) the drag wind exceeds gravity (E4) and the orbit collapses (measured). Earth is pinned (exhibit system). Kt=10000 satisfies the GR-calibration lock Kt=c\u00b2/G.",
-    control:"Tap Earth and raise sc/s to probe the frame-dragging (A8) effect on the Moon's orbit. For the real spin ratio, see \ud83c\udf15 (free two-body, kFrame=0)."}},
+    observe:"Cores use observed values: Earth Mc/m=0.325 (PREM whole-core mass fraction) and Moon Mc/m=0.0168 (lunar-laser-ranging median of 1.59\u20131.77%). Core v2's mode=\"rigid\" (the core co-rotates with the shell, \u03a9_c\u2261s) is the neutral default \u2014 Earth's inner-core differential rotation relative to the mantle varies with the period and method of estimation and is not established as a fixed ratio, so this sample adopts rigid rotation as its neutral default (no differential = exactly equivalent to a single layer). The circular-orbit speed is calibrated with E6\u2032 included: v=1.063\u00d7 Keplerian (Plummer-softened) \u2014 radius drift 0.09% over 4 orbits with sync maintained. Earth's spin (0.05) is calibrated into the E6\u2032-stable regime \u2014 at the real ratio (27.4\u00d7 the Moon's) the drag wind exceeds gravity (E4) and the orbit collapses (measured). Earth is pinned (exhibit system). Kt=10000 satisfies the GR-calibration lock Kt=c\u00b2/G.",
+    control:"Tap Earth to see the Core (v2) readout \u2014 \u03a9_c/\u03a9_s, J_core and the core moment of inertia (a rigid core has zero differential). For the real spin ratio, see \ud83c\udf15 (free two-body, kFrame=0)."}},
   activeParams:["kFrame","G","D0"],
   // 第42便 42A(台帳4-78 A案): claims — 説明文の観測コア質量比(地球)と半径ドリフトを機械可読化。
   // コア比は QA behavior.earthMoon が Math.abs(em.mcr-0.325)<1e-6 で厳密照合するので窓は狭め。
@@ -3001,7 +2972,7 @@ const BUILTIN_PRESETS = [
   claims:[
     { id:"earthMoon.core-mass-ratio-earth", kind:"semantic", metric:"coreMassRatioEarth",
       expected:{min:0.32, max:0.33},   // 実測0.325(behavior.earthMoon: 厳密一致)
-      descPattern:"地球 mc/m=(\\d+\\.\\d+)\\(PREM", testId:"behavior.earthMoon" },
+      descPattern:"地球 Mc/m=(\\d+\\.\\d+)\\(PREM", testId:"behavior.earthMoon" },
     { id:"earthMoon.radius-drift", kind:"fixed-seed", metric:"radiusDriftFraction",
       expected:{min:0.00072, max:0.00108}, descScale:0.01,   // 実測0.09%(4周・behavior.earthMoonの±2%窓内)
       descPattern:"半径ドリフト(\\d+\\.\\d+)%", testId:"behavior.earthMoon" }
@@ -3016,8 +2987,14 @@ const BUILTIN_PRESETS = [
            // ≈1.0000008 に対し 1.05 は過大)。コア差動項ゼロ化に伴い ω を再実測(0.013931→
            // 0.013908)し月 spin を追随。検証: t2000(4.4周)で r=179.996〜180.163・NaN なし。
            // 粒子の並び: 0=地球(2層コア), 1=月(2層コア・同期自転)
-    {type:"single", rMul:1.5, m:1000, coreMR:0.325, coreSR:1.0, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
-    {type:"single", rMul:1.5, m:12.3, coreMR:0.0168, coreSR:1.0, x:180,y:0, vx:0,vy:2.5053, spin:0.013908, pinned:false}
+    // 第81便: コアv1(比率)→ コアv2 へ移行。sc/s=1.0(剛体回転)= mode:"rigid" で、
+    // 半径は旧既定写像 Rc=radiusScale·rMul·√|mc/m·m| の値をそのまま絶対量として持たせた
+    // (1.5·√(0.325·1000)=27.0416 / 1.5·√(0.0168·12.3)=0.68187)。rigid は A8 差動も2層減光も
+    // 持たないので、移行前後で**1步 bit 一致**(QA legacy.core-migration が機械固定)
+    {type:"single", rMul:1.5, m:1000, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true,
+     core:{mode:"rigid", massFrac:0.325, radius:27.04163456597992}},
+    {type:"single", rMul:1.5, m:12.3, x:180,y:0, vx:0,vy:2.5053, spin:0.013908, pinned:false,
+     core:{mode:"rigid", massFrac:0.0168, radius:0.6818650892955291}}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -3026,11 +3003,11 @@ const BUILTIN_PRESETS = [
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"地球を固定しない重心系の二体問題。",
-    observe:"kFrame=0 の純ニュートン対照 — E6′ 引きずりを切ると spin は軌道に影響しないため、現実の自転比をそのまま入れられる: 地球 spin=0.3609(月の公転の27.4倍=実比)・月は同期自転 spin=ω=0.013174。質量比 0.0123・コアも観測値(地球 mc/m=0.325・月 mc/m=0.0168)。重心を原点に置き全運動量 0 の閉鎖系(外部拘束なし — 保存則が系内で閉じる)。実測: t=5000(10.5周)で半径 179.97〜180.02(0.03%)・重心移動 0.001 未満・同期誤差 0.31°/周。重力(E4)は Plummer 軟化込みの円軌道速度で初期化。",
+    observe:"kFrame=0 の純ニュートン対照 — E6′ 引きずりを切ると spin は軌道に影響しないため、現実の自転比をそのまま入れられる: 地球 spin=0.3609(月の公転の27.4倍=実比)・月は同期自転 spin=ω=0.013174。質量比 0.0123・コアも観測値(コアv2 rigid: 地球 Mc/m=0.325・月 Mc/m=0.0168)。重心を原点に置き全運動量 0 の閉鎖系(外部拘束なし — 保存則が系内で閉じる)。実測: t=5000(10.5周)で半径 179.97〜180.02(0.03%)・重心移動 0.001 未満・同期誤差 0.31°/周。重力(E4)は Plummer 軟化込みの円軌道速度で初期化。",
     control:"A/B比較で kFrame=1 にすると引きずり(A8)の風が強すぎて軌道が崩れる — 🌍(展示版)が自転を安定域へ圧縮している理由が、その対比で見える。"},
   en:{name:"Earth & Moon (Free Two-Body)", descStruct:{
     summary:"A barycentric two-body problem with nothing pinned. ",
-    observe:"With kFrame=0 (pure Newtonian control) spin does not affect orbits, so the REAL spin ratio can be used directly: Earth spin=0.3609 (27.4\u00d7 the Moon's orbital rate \u2014 the actual ratio) and the Moon rotates synchronously at spin=\u03c9=0.013174. Mass ratio 0.0123; cores at observed values (Earth mc/m=0.325, Moon mc/m=0.0168). Initialized at the barycenter with zero total momentum \u2014 a closed system with no external constraint. Measured: over t=5000 (10.5 orbits) the separation stays 179.97\u2013180.02 (0.03%), the center of mass moves less than 0.001, and the sync error is 0.31\u00b0/orbit. Gravity (E4) uses the Plummer-softened circular speed.",
+    observe:"With kFrame=0 (pure Newtonian control) spin does not affect orbits, so the REAL spin ratio can be used directly: Earth spin=0.3609 (27.4\u00d7 the Moon's orbital rate \u2014 the actual ratio) and the Moon rotates synchronously at spin=\u03c9=0.013174. Mass ratio 0.0123; cores at observed values (Core v2 rigid: Earth Mc/m=0.325, Moon Mc/m=0.0168). Initialized at the barycenter with zero total momentum \u2014 a closed system with no external constraint. Measured: over t=5000 (10.5 orbits) the separation stays 179.97\u2013180.02 (0.03%), the center of mass moves less than 0.001, and the sync error is 0.31\u00b0/orbit. Gravity (E4) uses the Plummer-softened circular speed.",
     control:"A/B-compare with kFrame=1: the drag wind (A8) destabilizes the orbit \u2014 which is exactly why \ud83c\udf0d (the exhibit version) compresses Earth's spin into the stable regime."}},
   activeParams:["G","kFrame","D0"],
   // 第42便 42A(台帳4-78 A案): claims — 説明文の半径維持率・実自転比・同期誤差を機械可読化。
@@ -3056,8 +3033,12 @@ const BUILTIN_PRESETS = [
            // 実測: t5000(10.48周)r=179.974〜180.020・重心移動最大0.0009・同期誤差0.31°/周。
            // 自転は実比: 地球=27.39646523×ω=0.360911・月=ω=0.013174(同期)。
            // 粒子の並び: 0=地球, 1=月
-    {type:"single", rMul:1.5, m:1000, coreMR:0.325, coreSR:1.0, x:-2.187105191,y:0, vx:0,vy:-0.028812128, spin:0.360911060, pinned:false},
-    {type:"single", rMul:1.5, m:12.300037, coreMR:0.0168, coreSR:1.0, x:177.812894809,y:0, vx:0,vy:2.342442349, spin:0.013173636, pinned:false}
+    // 第81便: コアv1 → コアv2(mode:"rigid")へ移行。半径は旧既定写像の値そのまま
+    // (1.5·√(0.325·1000)=27.0416 / 1.5·√(0.0168·12.300037)=0.68187)。移行前後で 1步 bit 一致
+    {type:"single", rMul:1.5, m:1000, x:-2.187105191,y:0, vx:0,vy:-0.028812128, spin:0.360911060, pinned:false,
+     core:{mode:"rigid", massFrac:0.325, radius:27.04163456597992}},
+    {type:"single", rMul:1.5, m:12.300037, x:177.812894809,y:0, vx:0,vy:2.342442349, spin:0.013173636, pinned:false,
+     core:{mode:"rigid", massFrac:0.0168, radius:0.6818661148642011}}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -3120,20 +3101,20 @@ const BUILTIN_PRESETS = [
   // t≈360 に当たる実現があり、安定 QA の t360 短縮と干渉した — 実測 2026-07-23)
   seed:1501780989,
   descStruct:{
-    summary:"主星にコア(質量比 mc/m=0.18)を持たせた 🪐 の姉妹版(比率仕様 — m は総質量 1500 のまま)。",
-    observe:"コア質量比 18% は Cassini 後の重元素集中の推定(≈17地球質量/95地球質量)を参考にした値。コア半径比 Rc/R=42% は本シミュレータの既定写像 Rc/R=√|mc/m| により質量比から自動算出されるモデル内値で、観測されたコア境界半径ではない(環震学では重元素勾配領域が半径約60%まで広がるモデルが示されている)。sc/s はコアスピン比で、剛体回転(sc/s=1)なら単層と厳密等価 — 差動分だけが ω += (mc/m)·s·(sc/s−1)·f(Rc,d) としてコア核 Rc から追加の空間引きずり(A8)に効く(既定 sc/s=1.05 は差を見やすくする教材用の仮定値。土星深部の回転は観測・モデル依存で、この単純なコア対表層スピン比としては確定していない。sc/s=1 は剛体回転の中立対照)。コアスピンは熱・散逸(T3/E10′)と切り離された固定内部回転源(反作用で変化しない外部拘束)であり、閉じた2層天体ではなく統制実験である点に注意。氷粒の衝突円形化(T3)は 🪐 と同一。",
-    control:"中心天体をタップして mc/m・sc/s を編集: sc/s=10(高速コア)・sc/s<0(逆回転コア)・mc/m<0(空洞 — 殻に質量集中し差動引きずりの符号が反転する思考実験)・A/B比較で kFrame=1 vs 0 などが見どころ。"},
+    summary:"主星にコア(質量比 Mc/m=0.18)を持たせた 🪐 の姉妹版(コアv2 — m は総質量 1500 のまま)。",
+    observe:"コア質量比 18% は Cassini 後の重元素集中の推定(≈17地球質量/95地球質量)を参考にした値。コア半径比 Rc/R=42% は旧既定写像 Rc/R=√|Mc/m| により質量比から算出したモデル内値で、観測されたコア境界半径ではない(環震学では重元素勾配領域が半径約60%まで広がるモデルが示されている)。コアv2 は独立した角運動量 J_core を持ち、コア角速度 Ω_c と殻スピン s の差動分だけが ω += (Mc/m)·(Ω_c−s)·f(Rc,d) としてコア核 Rc から追加の空間引きずり(A8)に効く(既定 Ω_c=0.0525=1.05×0.05 は差を見やすくする教材用の仮定値。土星深部の回転は観測・モデル依存で、コア対表層のスピン比としては確定していない。mode=\"rigid\" が剛体回転=差動ゼロの中立対照)。コアスピンは熱・散逸(T3/E10′)と切り離された固定内部回転源(反作用で変化しない外部拘束)であり、閉じた2層天体ではなく統制実験である点に注意。氷粒の衝突円形化(T3)は 🪐 と同一。",
+    control:"中心天体をタップすると「コア内訳(v2)」に Ω_c/Ω_s/差動・J_core・慣性・K_cs が出る。A/B比較で kFrame=1 vs 0 にすると引きずりの寄与そのものを消せる。高速コア・逆回転コア・空洞(cavity)を試すときは JSON の core:{omega:…} / core:{mode:\"cavity\", voidFraction:…} を編集する。"},
   en:{name:"Saturn's Rings (Two-Layer Primary)", descStruct:{
-    summary:"Sister sample of 🪐 whose primary has a core specified by ratios: m stays the total mass 1500. The ring is identical to 🪐's (240 icy grains in three bands of 60/120/60 — reduced from 300). ",
-    observe:"Measured: at t≈360, 96.7% in band, 1 grain of 240 fallen, none escaped, band medians 114/144/198; the band-median difference against rigid rotation (sc/s=1) is 0.036 at t≈150 (QA behavior.saturnLayered). The core mass ratio mc/m=0.18 is chosen to reference post-Cassini estimates of heavy-element concentration (≈17 of 95 Earth masses). Rc/R=42% is a model-internal value automatically derived from that mass ratio by the simulator's default mapping Rc/R=√|mc/m| — not an observed core-boundary radius (ring seismology instead points to a heavy-element gradient region extending to roughly 60% of the radius). sc/s is the core spin ratio: rigid rotation (sc/s=1) is exactly equivalent to the single-layer body, and only the differential part adds frame dragging (A8) through the smaller core kernel: ω += (mc/m)·s·(sc/s−1)·f(Rc,d). The default sc/s=1.05 is a teaching assumption chosen to make the contrast visible; Saturn's deep-interior rotation is observation- and model-dependent, and this simple core-vs-envelope spin ratio is not established (sc/s=1 is the rigid-rotation neutral control). The core spin is a fixed internal rotation source decoupled from heat and dissipation (T3/E10′) — a controlled experiment, not a closed two-layer body. Icy-grain circularization (T3) is identical to 🪐. ",
+    summary:"Sister sample of 🪐 whose primary has a Core v2: m stays the total mass 1500. The ring is identical to 🪐's (240 icy grains in three bands of 60/120/60 — reduced from 300). ",
+    observe:"Measured: at t≈360, 96.7% in band, 1 grain of 240 fallen, none escaped, band medians 114/144/198; the band-median difference against rigid rotation (mode=\"rigid\") is 0.036 at t≈150 (QA behavior.saturnLayered). The core mass ratio Mc/m=0.18 is chosen to reference post-Cassini estimates of heavy-element concentration (≈17 of 95 Earth masses). Rc/R=42% is a model-internal value derived from that mass ratio by the legacy default mapping Rc/R=√|Mc/m| — not an observed core-boundary radius (ring seismology instead points to a heavy-element gradient region extending to roughly 60% of the radius). Core v2 gives the core its own angular momentum J_core, and only the differential between the core's angular velocity Ω_c and the shell spin s adds frame dragging (A8) through the smaller core kernel: ω += (Mc/m)·(Ω_c−s)·f(Rc,d). The default Ω_c=0.0525 (=1.05×0.05) is a teaching assumption chosen to make the contrast visible; Saturn's deep-interior rotation is observation- and model-dependent, and a core-vs-envelope spin ratio is not established (mode=\"rigid\" is the rigid-rotation neutral control). The core spin is a fixed internal rotation source decoupled from heat and dissipation (T3/E10′) — a controlled experiment, not a closed two-layer body. Icy-grain circularization (T3) is identical to 🪐. ",
     control:"Tap the central body to edit mc/m and sc/s: try sc/s=10 (fast core), sc/s<0 (counter-rotating core), mc/m<0 (a hollow shell — the differential drag flips sign), or A/B-compare kFrame 1 vs 0."}},
   activeParams:["kFrame","muF","kappaS"],
   // 第42便 42A(台帳4-78 A案): claims — 説明文のコア質量比・コア半径比を機械可読化。
-  // どちらも QA core.twolayer が preset.bodies[0].coreMR===0.18 / Rc0≈1.8·√270(=Rc/R比42.4%)を
+  // どちらも QA core.twolayer が preset.bodies[0].core.massFrac===0.18 / Rc≈1.8·√270(=Rc/R比42.4%)を
   // 厳密照合するので窓は狭め
   claims:[
     { id:"saturnLayered.core-mass-ratio", kind:"semantic", metric:"coreMassRatio",
-      expected:{min:0.17, max:0.19}, descScale:0.01,   // 実測18%(core.twolayer: coreMR===0.18)
+      expected:{min:0.17, max:0.19}, descScale:0.01,   // 実測18%(core.twolayer: core.massFrac===0.18)
       descPattern:"コア質量比 (\\d+)%", testId:"core.twolayer" },
     { id:"saturnLayered.core-radius-ratio", kind:"semantic", metric:"coreRadiusRatio",
       expected:{min:0.40, max:0.45}, descScale:0.01,   // 実測42%(core.twolayer: Rc/R=√0.18=42.4%)
@@ -3142,19 +3123,22 @@ const BUILTIN_PRESETS = [
   camera:{scale:340}, world:{boundary:"none",size:0},
   physics:{G:1, D0:2, kFrame:1, q:2, kRep:1.2, muF:0.2, gammaN:0.15, kappaS:0.08, Kt:3600,
     cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.8 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:3},
-  bodies:[ // 第12〜14便(2026-07-23 原仮定者指示): 主星2層は比率仕様 — m は総質量のまま
-           // (元になる数値をそのまま使える)、coreMR=mc/m(既定0・負値=空洞)・
-           // coreSR=sc/s(既定1=剛体回転=単層等価。コアは推測なので比率が調整し易い)。
-           // 値は第15次レビュー 推奨A: mc/m=0.18(重元素集中≈18%・Rc/R=√0.18=42.4%はモデル内
-           // 既定写像の値で観測半径ではない — 第39便 原仮定者指示 C4-1 修正)・
-           // sc/s=1.05(教材既定。地震学的な確定値ではない — 第39便: 旧「地震学的推定≈1.01」記述を撤回)。
+  bodies:[ // 第81便: コアv1(比率仕様)→ コアv2(J_core 主変数)へ移行。m は総質量のまま。
+           // 値は第15次レビュー 推奨A の写し: Mc/m=0.18(重元素集中≈18%・Rc/R=√0.18=42.4%は
+           // モデル内既定写像の値で観測半径ではない — 第39便 原仮定者指示 C4-1 修正)。
+           // Rc=1.8·√(0.18·1500)=29.577(旧既定写像の絶対値)・Ω_c=1.05×0.05=0.0525
+           // (旧 sc/s=1.05 の教材既定を初期コア角速度へ写した。地震学的な確定値ではない —
+           //  第39便: 旧「地震学的推定≈1.01」記述を撤回)。K_cs=0 なのでコアは殻と結合せず
+           // Ω_c は一定 — 主星は pinned で殻スピンも 0.05 一定なので、旧 v1(Ω_c=1.05·s(t))と
+           // 同じ差動 0.0025 が保たれる(移行は数値丸め以外の差を作らない)。
            // 差動形なので環付近への追加引きずりは
-           // (mc/m)·s·(sc/s−1)·f(Rc,d) ≈ +0.1% と説明に整合する規模。
-           // 環の帯・physics は 🪐(実験)と同一 — sc/s=1 で 🪐 と厳密等価(QA core.twolayer)。
+           // (Mc/m)·(Ω_c−s)·f(Rc,d) ≈ +0.1% と説明に整合する規模。
+           // 環の帯・physics は 🪐(実験)と同一 — Ω_c=s(差動0)で 🪐 と厳密等価(QA core.twolayer)。
            // 第40便 40C(台帳4-82): 🪐 と同時に環粒子 300→240(60/120/60)へ削減。
            // 「環の帯は 🪐 と同一」の不変条件を保つため、必ず 🪐 と同じ n で維持すること
-           // (QA core.twolayer が sc/s=1 での厳密等価を機械検証している)。
-    {type:"single", rMul:1.8, m:1500, coreMR:0.18, coreSR:1.05, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
+           // (QA core.twolayer が差動0での厳密等価を機械検証している)。
+    {type:"single", rMul:1.8, m:1500, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true,
+     core:{mode:"differential", massFrac:0.18, radius:29.57701810527897, omega:0.0525, Kcs:0}},
     {type:"ring", rMul:1.8, n:60, cx:0,cy:0, rIn:104,rOut:132, mMin:0.01,mMax:0.03,
      spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false},
     {type:"ring", rMul:1.8, n:120, cx:0,cy:0, rIn:132,rOut:190, mMin:0.01,mMax:0.03,
@@ -3622,6 +3606,40 @@ function validatePreset(obj){
       }
       return oc;
     };
+    // 第81便(原仮定者指示・破壊的変更): コアv1(比率仕様 coreMR/coreSR/coreRR)は廃止した。
+    // 旧セーブ・旧プリセット JSON(schemaVersion≤3)は**読込時に コアv2 へ移行**する(警告つき)。
+    // 移行式(rep=代表値。single はその粒子・群は平均質量/平均スピン):
+    //   R  = (radius>0 ? radiusScale·radius : radiusScale·rMul·√|m|)     … v1 updateRadii と同式
+    //   Rc = (coreRR>0 ? coreRR·R : radiusScale·rMul·√|coreMR·m|)        … 同上
+    //   coreMR<0  → cavity      {voidFraction:|coreMR|, radius:Rc, omega:coreSR·s}
+    //   coreSR==1 → rigid       {massFrac:coreMR, radius:Rc}
+    //   その他    → differential{massFrac:coreMR, radius:Rc, omega:coreSR·s, Kcs:0}
+    // Ω_c=coreSR·s は**読込時に1回だけ**評価する。v1 のコアは Ω_c=χ·s(t) と殻スピンに比例追従
+    // したが、v2 の J_core は独立変数なので、**中心スピンが時間発展する構成では挙動が変わる**
+    // (これは仕様 — 移行は「同一初期状態」を保証するもので「同一軌跡」は保証しない)。
+    // 群(ring/disk)の v2 コアは絶対量共通なので、質量・スピンのばらつきは代表値に潰れる
+    const legacyCoreToV2=(b, rep)=>{
+      const mr=isNum(b.coreMR)? clamp(b.coreMR,-1,1) : 0;
+      const sr=isNum(b.coreSR)? clamp(b.coreSR,-20,20) : 1;
+      const rr=isNum(b.coreRR)? clamp(b.coreRR,0.02,1) : 0;
+      if(mr===0) return null;   // コアなし(coreSR/coreRR 単独指定は v1 でも寄与ゼロだった)
+      const rs=p.physics.radiusScale, rMul=isNum(rep.rMul)? rep.rMul : 1;
+      const mAbs=Math.max(Math.abs(rep.m),0.01);   // mEff の下限保護と同じ床
+      const Rb=(isNum(rep.radius)&&rep.radius>0)? rs*rep.radius : rs*rMul*Math.sqrt(mAbs);
+      const Rc=(rr>0)? rr*Rb : rs*rMul*Math.sqrt(Math.abs(mr)*mAbs);
+      const om=sr*(isNum(rep.spin)? rep.spin : 0);
+      const c=(mr<0)? {mode:"cavity", voidFraction:Math.abs(mr), radius:Rc, omega:om}
+            : ((sr===1)? {mode:"rigid", massFrac:mr, radius:Rc}
+                       : {mode:"differential", massFrac:mr, radius:Rc, omega:om, Kcs:0});
+      warnings.push(at+': 旧コア指定(coreMR/coreSR/coreRR)は第81便で廃止 — コアv2 core:{mode:"'+c.mode+'"} へ移行しました');
+      return vCore(c);
+    };
+    // 旧キーの後始末(新形式優先。core:{} と併記されていたら旧キーを黙って捨てず警告する)
+    const dropLegacyCore=(b, hasNew)=>{
+      const had=(b.coreMR!==undefined)||(b.coreSR!==undefined)||(b.coreRR!==undefined);
+      if(had && hasNew) warnings.push(at+": core:{} と旧 coreMR/coreSR/coreRR の併記 — core を優先し旧キーを無効化");
+      return had;
+    };
     const out=[];
     p.bodies.forEach((b,idx)=>{
       at="bodies["+idx+"]";
@@ -3644,27 +3662,19 @@ function validatePreset(obj){
         if(!needNum(["m","x","y","vx","vy","spin"])) return;
         if(typeof b.pinned!=="boolean"){ bad(at+".pinned(boolean)が必要"); return; }
         const o={type:"single", m:MASS(b.m,"m"), x:CO(b.x,"x"), y:CO(b.y,"y"), vx:VEL(b.vx,"vx"), vy:VEL(b.vy,"vy"), spin:SPN(b.spin,"spin"), pinned:b.pinned};
-        // 第14便: 主星2層(比率仕様)— coreMR=コア質量比 mc/m(既定0・負値=空洞〔殻集中〕)・
-        // coreSR=コアスピン比 sc/s(既定1=剛体回転=単層等価)
-        if(b.coreMR!==undefined || b.coreSR!==undefined){
-          if(b.coreMR!==undefined && !isNum(b.coreMR)){ bad(at+".coreMR が数値ではありません"); return; }
-          if(b.coreSR!==undefined && !isNum(b.coreSR)){ bad(at+".coreSR が数値ではありません"); return; }
-          o.coreMR=isNum(b.coreMR)? wc(b.coreMR,-1,1,"coreMR") : 0;
-          o.coreSR=isNum(b.coreSR)? wc(b.coreSR,-20,20,"coreSR") : 1;
-        }
         // 第22便(原仮定者裁定): 観測温度・半径系。スピン役割分離(sFrame/sTherm/sRep)は
         // トイモデル段階では廃止 — 旧キーは無視される(エンジンは v1.29 力学)
         // lightSweep=光掻き出し(0〜1。自星の光を出さない → 観測温度 0・E11 も (1−lS) 倍)
         // 第61便: obsT(観測温度係数)・coreOT(コア観測温度比率)は未使用のため廃止
         // (原仮定者指示「使われていないなら廃止」— 指定されていれば警告して無視)
-        // radius=半径の明示指定(0.5〜500。未指定は radiusScale·√|m|)・coreRR=コア半径比(0.02〜1)
+        // radius=半径の明示指定(0.5〜500。未指定は radiusScale·√|m|)
         // 第36便 C1: rMul=粒子半径の倍率(0.2〜5・既定1。R=radiusScale·rMul·√|m|)。
         //   body.radius の 0.5 下限は経由しない(rMul は内部計算 — 微小粒子の R<0.5 も従来どおり出せる)
         // 第36便 D(台帳4-51): tInt=内部温度 T_int の初期値(thermal:"tint" のときだけ使われる。
         // 既定0。spin モードのプリセットに書かれていても build が参照しないので無害)
         for(const oldKey of ["obsT","coreOT"])
           if(b[oldKey]!==undefined){ warnings.push(at+"."+oldKey+" は第61便で廃止されました — 無視します"); delete b[oldKey]; }
-        for(const [k,lo,hi] of [["radius",0.5,500],["coreRR",0.02,1],["rMul",0.2,5],
+        for(const [k,lo,hi] of [["radius",0.5,500],["rMul",0.2,5],
                                  ["tInt",0,10000]]){
           if(b[k]!==undefined){
             if(!isNum(b[k])){ bad(at+"."+k+" が数値ではありません"); return; }
@@ -3672,23 +3682,25 @@ function validatePreset(obj){
           }
         }
         // 第77便(コアv2): core:{} — 中心コアの独立サブシステム(opt-in。第80便で disk/ring 群にも開放)。
-        // 旧比率仕様(coreMR/coreSR/coreRR)とは別経路で、J_core を主変数とする絶対量管理:
+        // J_core を主変数とする絶対量管理(第81便でコアの唯一の仕様になった):
         //   mode:"rigid"(殻と剛体回転 — パワーボールの「軸固定」対照)|"differential"(独立Ω)|
         //        "active"(differential+sourceRate で E_int を増やす)|"cavity"(空洞 — 質量0)
         //   massFrac=Mc/m・radius=Rc(絶対)・omega=初期Ωc(J=½McRc²·Ω で初期化)・
         //   Kcs=コア/殻トルク結合・pump=パワーボール係数・contract=収縮率(J保存でΩ上昇)・
         //   sourceRate=dE_int/dt(active)・internalEnergy=E_int 初期値・voidFraction=空洞率(cavity)
-        // 旧キーと併記された場合は core を優先し旧キーを無効化(警告)。詳細は CHANGELOG v1.37-b5/v1.38-b1
+        // 第81便: 旧キー(コアv1)と併記された場合は core を優先し旧キーを無効化(警告)。
+        // core が無く旧キーだけの body は legacyCoreToV2 で v2 へ移行する。CHANGELOG v1.38-b1 参照
         if(b.core!==undefined){
           const oc=vCore(b.core);
           if(oc===false) return;
-          if(oc){
-            o.core=oc;
-            if(o.coreMR||o.coreRR||(b.coreSR!==undefined&&b.coreSR!==1)){
-              warnings.push(at+": core:{} と旧 coreMR/coreSR/coreRR の併記 — core を優先し旧キーを無効化");
-              o.coreMR=0; o.coreSR=1; o.coreRR=0;
-            }
+          if(oc){ o.core=oc; dropLegacyCore(b,true); }
+          else if(dropLegacyCore(b,false)){
+            const lc=legacyCoreToV2(b,{m:o.m, spin:o.spin, radius:o.radius, rMul:o.rMul});
+            if(lc===false) return; if(lc) o.core=lc;
           }
+        } else if(dropLegacyCore(b,false)){
+          const lc=legacyCoreToV2(b,{m:o.m, spin:o.spin, radius:o.radius, rMul:o.rMul});
+          if(lc===false) return; if(lc) o.core=lc;
         }
         // 第36便 C2: lightSweep は数値(0〜1・従来の独立指定)に加えて "auto"(粒子パラメータからの
         // 算出モード)を受理する。その他の値は削除+警告(生成AI・インポートの誤値で落とさない)
@@ -3754,34 +3766,20 @@ function validatePreset(obj){
           else if(isNum(b.lightSweep)) oR.lightSweep=wc(b.lightSweep,0,1,"lightSweep");
           else warnings.push(at+'.lightSweep は数値(0〜1)か "auto" — 削除します');
         }
-        // 第75便: 群共通の主星2層(single と同じ意味論・クランプ)。coreMR=mc/m(−1〜1・負値=空洞)・
-        // coreSR=sc/s(−20〜20)・coreRR=Rc/R(0.02〜1)。未指定=従来と厳密等価(RNG消費も不変)。
-        // 「外殻は重く・コアは高速スピン」の重殻ローター塵を群でまけるようにする(原仮定者指示)
-        if(b.coreMR!==undefined){
-          if(!isNum(b.coreMR)){ bad(at+".coreMR が数値ではありません"); return; }
-          oR.coreMR=wc(b.coreMR,-1,1,"coreMR");
-        }
-        if(b.coreSR!==undefined){
-          if(!isNum(b.coreSR)){ bad(at+".coreSR が数値ではありません"); return; }
-          oR.coreSR=wc(b.coreSR,-20,20,"coreSR");
-        }
-        if(b.coreRR!==undefined){
-          if(!isNum(b.coreRR)){ bad(at+".coreRR が数値ではありません"); return; }
-          oR.coreRR=wc(b.coreRR,0.02,1,"coreRR");
-        }
         // 第80便(コアv2): 群共通の core:{}(single と同じ意味論・クランプ)。massFrac は各メンバーの
         // 質量に対する比・radius/omega は絶対量なので、群の全メンバーが同じコア設定を持つ。
         // 未指定=従来と厳密等価(RNG 消費も push するオブジェクトの形も不変 — 第77便知見①)
+        // 第81便: 旧キー(コアv1)だけの群は代表値(平均質量・平均スピン)で v2 へ移行する
+        const repR={m:(oR.mMin+oR.mMax)/2, spin:(oR.spinMin+oR.spinMax)/2, rMul:oR.rMul};
         if(b.core!==undefined){
           const oc=vCore(b.core);
           if(oc===false) return;
-          if(oc){
-            oR.core=oc;
-            if(oR.coreMR||oR.coreRR||(b.coreSR!==undefined&&b.coreSR!==1)){
-              warnings.push(at+": core:{} と旧 coreMR/coreSR/coreRR の併記 — core を優先し旧キーを無効化");
-              delete oR.coreMR; delete oR.coreSR; delete oR.coreRR;
-            }
+          if(oc){ oR.core=oc; dropLegacyCore(b,true); }
+          else if(dropLegacyCore(b,false)){
+            const lc=legacyCoreToV2(b,repR); if(lc===false) return; if(lc) oR.core=lc;
           }
+        } else if(dropLegacyCore(b,false)){
+          const lc=legacyCoreToV2(b,repR); if(lc===false) return; if(lc) oR.core=lc;
         }
         // 第31便: railH(膨張レール)— pinned リングを a(t)=e^{H·t} で相似膨張させる規定運動
         if(b.railH!==undefined){
@@ -3813,30 +3811,18 @@ function validatePreset(obj){
           else if(isNum(b.lightSweep)) oD.lightSweep=wc(b.lightSweep,0,1,"lightSweep");
           else warnings.push(at+'.lightSweep は数値(0〜1)か "auto" — 削除します');
         }
-        // 第75便: 群共通の主星2層(ring と同じ — single と同じ意味論・クランプ。未指定=従来等価)
-        if(b.coreMR!==undefined){
-          if(!isNum(b.coreMR)){ bad(at+".coreMR が数値ではありません"); return; }
-          oD.coreMR=wc(b.coreMR,-1,1,"coreMR");
-        }
-        if(b.coreSR!==undefined){
-          if(!isNum(b.coreSR)){ bad(at+".coreSR が数値ではありません"); return; }
-          oD.coreSR=wc(b.coreSR,-20,20,"coreSR");
-        }
-        if(b.coreRR!==undefined){
-          if(!isNum(b.coreRR)){ bad(at+".coreRR が数値ではありません"); return; }
-          oD.coreRR=wc(b.coreRR,0.02,1,"coreRR");
-        }
         // 第80便(コアv2): 群共通の core:{}(ring と同じ — single と同じ意味論・クランプ)
+        // 第81便: 旧キー(コアv1)だけの群は代表値(平均質量・平均スピン)で v2 へ移行する
+        const repD={m:(oD.mMin+oD.mMax)/2, spin:(oD.spinMin+oD.spinMax)/2, rMul:oD.rMul};
         if(b.core!==undefined){
           const oc=vCore(b.core);
           if(oc===false) return;
-          if(oc){
-            oD.core=oc;
-            if(oD.coreMR||oD.coreRR||(b.coreSR!==undefined&&b.coreSR!==1)){
-              warnings.push(at+": core:{} と旧 coreMR/coreSR/coreRR の併記 — core を優先し旧キーを無効化");
-              delete oD.coreMR; delete oD.coreSR; delete oD.coreRR;
-            }
+          if(oc){ oD.core=oc; dropLegacyCore(b,true); }
+          else if(dropLegacyCore(b,false)){
+            const lc=legacyCoreToV2(b,repD); if(lc===false) return; if(lc) oD.core=lc;
           }
+        } else if(dropLegacyCore(b,false)){
+          const lc=legacyCoreToV2(b,repD); if(lc===false) return; if(lc) oD.core=lc;
         }
         out.push(oD);
       } else if(t==="box"){
@@ -4518,12 +4504,12 @@ function makeSim(){
     n:0, t:0, params:Object.assign({},DEFAULT_PHYSICS),
     world:{boundary:"none",size:0}, rays:null, overlays:{},
     m:null,x:null,y:null,vx:null,vy:null,spin:null,R:null, rotA:null,
-    // 第12〜14便(2026-07-23): 主星2層 — 第14便で比率仕様へ(原仮定者指示: 元になる数値を
-    // そのまま使える様に・コアは推測なので比率が調整し易い)。m は総質量のまま、
-    // coreMR=コア質量比 mc/m(既定0。負値=空洞〔殻に質量集中〕)/ coreSR=コアスピン比 sc/s
-    // (既定1=剛体回転=単層と厳密等価)。Rc=radiusScale·√(|coreMR|·|m|)。mEff は m の
-    // 下限保護(|m|≥0.01)付き別名(負質量実験の0除算保護)
-    coreMR:null, coreSR:null, mEff:null, Rc:null, rotAc:null, hasCore:false,
+    // 第81便: コアv1(比率仕様 coreMR/coreSR/coreRR)は廃止 — コアは v2(J_core 主変数の
+    // 独立サブシステム)の1本になった。旧セーブ/旧プリセット JSON は読込時に移行式で v2 へ
+    // 変換される(validatePreset の legacyCoreToV2)。
+    // mEff は m の下限保護(|m|≥0.01)付き別名(負質量実験の0除算保護)。
+    // rotAc はコアのスポーク角(表示専用 — Ω_c で回す)
+    mEff:null, rotAc:null,
     // 第22便(原仮定者裁定): スピン役割分離(sFrame/sTherm/sRep)はトイモデル段階では廃止 —
     // エンジンは従来(v1.29)力学へ復帰。代わりに観測層を分離する:
     // ・(obsT = 観測温度係数は第61便で廃止 — 全プリセット未使用〔恒等1〕だった)
@@ -4532,8 +4518,7 @@ function makeSim(){
     //   なら放射冷却もしない)。表示系(色・ヒストグラム・スペクトル・HUD)はすべて T_obs
     // ・(coreOT = コア観測温度比率も第61便で廃止 — 同上。Tc_obs=(1−lSw)·Ic·sc²)
     // ・radOv = 半径の明示指定(0=未指定→radiusScale·√|m|)。扁平率 f=5s²R³/(4Gm) にも使用
-    // ・coreRRv = コア半径比 Rc/R(0=未指定→√|coreMR| 相当の従来式)
-    lSw:null, radOv:null, coreRRv:null,   // 第61便: obsT/coreOT は廃止(未使用)
+    lSw:null, radOv:null,   // 第61便: obsT/coreOT は廃止(未使用)/ 第81便: coreRRv も廃止
     // 第36便 C1(原仮定者指示「粒子半径スケールの既定は1」): rMulv = 粒子ごとの半径倍率
     // (body.rMul。既定1)。実効倍率は rs_eff = radiusScale·rMul_i で、R_i = rs_eff·√|m_i|。
     // radiusScale スライダーは全粒子に掛かる「相対ノブ」として存続し(既定1が基準)、
@@ -4662,11 +4647,10 @@ function makeSim(){
     S.n=n;
     const F=()=>new Float32Array(n);
     S.m=F();S.x=F();S.y=F();S.vx=F();S.vy=F();S.spin=F();S.R=F();S.rotA=F();
-    S.coreMR=F();S.coreSR=F();S.mEff=F();S.Rc=F();S.rotAc=F();   // 主星2層(第12〜14便)
-    S.lSw=F();S.radOv=F();S.coreRRv=F();// 観測系(第22便 — obsT/coreOT は第61便で廃止)
-    S.coreSR.fill(1);   // コアスピン比の既定は 1(剛体回転=単層等価)
+    S.mEff=F();S.rotAc=F();   // 第81便: coreMR/coreSR/Rc(コアv1)は廃止
+    S.lSw=F();S.radOv=F();    // 観測系(第22便 — obsT/coreOT は第61便で廃止)
     // 第77便(コアv2): 独立コア(opt-in。第80便で disk/ring 群にも開放)。J_core が主変数
-    // (Float64 — 帳簿精度)。coreMd: 0=なし(旧比率経路含む)・1=rigid(軸固定)・
+    // (Float64 — 帳簿精度)。coreMd: 0=コアなし・1=rigid(軸固定)・
     // 2=differential(独立Ω)・3=active(differential+sourceRate)・4=cavity(空洞)。
     // RcV は updateRadii に触らせない(収縮 contract が動的に縮めるため)
     S.coreMd=new Uint8Array(n); S.coreMF=F(); S.RcV=F(); S.coreJ=new Float64Array(n);
@@ -4711,11 +4695,10 @@ function makeSim(){
     for(const b of preset.bodies){
       if(b.type==="single"){
         const o={m:b.m,x:b.x,y:b.y,vx:b.vx,vy:b.vy,spin:b.spin,pinned:b.pinned?1:0,railOmega:0,
-          // 主星2層(第14便: 比率仕様)。coreMR=mc/m(既定0)・coreSR=sc/s(既定1)
-          coreMR:b.coreMR||0, coreSR:(b.coreSR===undefined?1:b.coreSR),
           // 観測温度・半径系(第22便): 既定は従来と厳密等価
+          // 第81便: コアv1(coreMR/coreSR/coreRR)は廃止 — コアは o.core(v2)だけが運ぶ
           lightSweep:(b.lightSweep===undefined?0:b.lightSweep),
-          radius:(b.radius===undefined?0:b.radius), coreRR:(b.coreRR===undefined?0:b.coreRR),
+          radius:(b.radius===undefined?0:b.radius),
           rMul:(b.rMul===undefined?1:b.rMul),   // 第36便 C1: 粒子ごとの半径倍率(既定1)
           tInt:(b.tInt===undefined?0:b.tInt)};  // 第36便 D: 内部温度の初期値(thermal:"tint" 専用・既定0)
         if(b.zonal) o.zonal=b.zonal;   // E13(第11次裁定): 扁平中心天体の帯状重力属性
@@ -4735,7 +4718,6 @@ function makeSim(){
         const rM=(b.rMul===undefined?1:b.rMul);   // 第36便 C1: 群共通の半径倍率(既定1)
         const tI=(b.tInt===undefined?0:b.tInt);   // 第36便 D: 群共通の内部温度初期値(既定0)
         const lS=b.lightSweep;   // 第70便: 群共通の減光(未指定=undefined → P.forEach で 0)
-        const cMR=b.coreMR, cSR=b.coreSR, cRR=b.coreRR;   // 第75便: 群共通の主星2層(未指定=従来等価)
         const cCore=b.core;   // 第80便: 群共通のコアv2(未指定=undefined → o に core キーを付けない)
         for(let i=0;i<b.n;i++){
           let ang,r,x,y,tries=0;
@@ -4754,7 +4736,7 @@ function makeSim(){
             vx:vt*jit*tx + vr*Math.cos(ang) + (b.bulkVx||0),
             vy:vt*jit*ty + vr*Math.sin(ang) + (b.bulkVy||0),
             spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:b.pinned?1:0, railOmega:0, rMul:rM, tInt:tI, lightSweep:lS,
-            coreMR:cMR, coreSR:cSR, coreRR:cRR};
+            };
           if(cCore) o.core=cCore;   // 第80便: 群コア(付けない構成ではキーごと存在しない = 形も従来どおり)
           // 第31便: railH(膨張レール a(t)=e^{H·t})— pinned リングを相似膨張で規定駆動する。
           // 位置は初期半径から毎step解析再構成(前stepへの加算ではないのでドリフトしない)
@@ -4783,7 +4765,6 @@ function makeSim(){
         const rM=(b.rMul===undefined?1:b.rMul);   // 第36便 C1: 群共通の半径倍率(既定1)
         const tI=(b.tInt===undefined?0:b.tInt);   // 第36便 D: 群共通の内部温度初期値(既定0)
         const lS=b.lightSweep;   // 第70便: 群共通の減光(未指定=undefined → P.forEach で 0)
-        const cMR=b.coreMR, cSR=b.coreSR, cRR=b.coreRR;   // 第75便: 群共通の主星2層(未指定=従来等価)
         const cCore=b.core;   // 第80便: 群共通のコアv2(未指定=undefined → o に core キーを付けない)
         for(let i=0;i<b.n;i++){
           let ang,r,x,y,tries=0;
@@ -4802,7 +4783,7 @@ function makeSim(){
           const o={m:b.mMin+(b.mMax-b.mMin)*rng(), x,y,
             vx:vX+(b.bulkVx||0), vy:vY+(b.bulkVy||0),   // v1.18: 母集団の並進速度
             spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:0, railOmega:0, rMul:rM, tInt:tI, lightSweep:lS,
-            coreMR:cMR, coreSR:cSR, coreRR:cRR};
+            };
           if(cCore) o.core=cCore;   // 第80便: 群コア(付けない構成ではキーごと存在しない = 形も従来どおり)
           push(o);
         }
@@ -4877,7 +4858,6 @@ function makeSim(){
     S.periDet=null; // 近点検出器は再構築でリセット(第11次裁定 保留分)
     P.forEach((o,i)=>{ S.m[i]=o.m; S.x[i]=o.x; S.y[i]=o.y; S.vx[i]=o.vx; S.vy[i]=o.vy;
       S.spin[i]=o.spin; S.pinned[i]=o.pinned; S.railOmega[i]=o.railOmega||0;
-      S.coreMR[i]=o.coreMR||0; S.coreSR[i]=(o.coreSR===undefined?1:o.coreSR);
       // 第36便 C2: lightSweep は数値(独立指定・従来どおり)か "auto"(粒子パラメータからの算出)。
       // auto の初期値は 0 で、最初の _core で lS_eff に上書きされる
       const lsw=o.lightSweep;
@@ -4885,10 +4865,10 @@ function makeSim(){
       else { S.lSwAuto[i]=0; S.lSw[i]=(lsw===undefined?0:lsw); }
       S.rMulv[i]=(o.rMul===undefined?1:o.rMul);   // 第36便 C1: 半径倍率(既定1)
       if(S.Tint) S.Tint[i]=(o.tInt===undefined?0:o.tInt);   // 第36便 D: 内部温度の初期値(tint モードのみ)
-      S.radOv[i]=(o.radius===undefined?0:o.radius); S.coreRRv[i]=(o.coreRR===undefined?0:o.coreRR);
+      S.radOv[i]=(o.radius===undefined?0:o.radius);
       // 第77便(コアv2): 独立コア。J_core=½·Mc·Rc²·omega で初期化(以後 J が主変数)
       // 第80便: mode を4種へ拡張。cavity は質量0・慣性0なので J を持たず、Ω は規定値 coreOm0。
-      // 引きずり重みは coreMF=−voidFraction(旧 coreMR<0 と同じ符号反転を「重み」として表す)
+      // 引きずり重みは coreMF=−voidFraction(旧コアv1 の coreMR<0 と同じ符号反転を「重み」で表す)
       if(o.core){
         const c=o.core;
         if(c.mode==="cavity"){
@@ -5067,23 +5047,19 @@ function makeSim(){
   };
   S.updateRadii = function(){ // R_i = radiusScale·rMul_i·√|m| (PHYSICS.md §2 + 第36便 C1)
     const rs=S.params.radiusScale;
-    let hc=false;
     for(let i=0;i<S.n;i++){
-      const mt=S.m[i];   // 第14便: 比率仕様 — m は総質量そのもの(コアは m の内訳)
+      const mt=S.m[i];   // m は総質量そのもの(コアv2 の Mc=massFrac·m は m の内訳)
       // 質量の下限 ±0.01(慣性の除算保護。負質量は実験用に符号を保持 — 第12便)
       S.mEff[i]=(Math.abs(mt)<0.01)? (mt<0? -0.01 : 0.01) : mt;
       // 第36便 C1: 実効倍率 = radiusScale(全粒子共通の相対ノブ)× rMul_i(粒子ごとの倍率)。
       // rMul=1(既定)なら rs*1===rs なので旧式と 1 ビットも変わらない
       const rsi=rs*S.rMulv[i];
-      // 第22便: 半径の明示指定(radius>0)とコア半径比(coreRR>0)。未指定は従来式
+      // 第22便: 半径の明示指定(radius>0)。未指定は従来式(第81便: コアv1 の Rc 算出は廃止)
       // 第38便(原仮定者指示): radiusScale は明示半径(radOv)の粒子にも効くようにする(全粒子共通の
       // 相対ノブという趣旨に合わせる)。rMul は掛けない(明示半径は rMul 無視という既存仕様を維持)。
       // rs=1(既定)では rs*radOv===radOv なので旧式と1ビットも変わらない
       S.R[i]=(S.radOv[i]>0)? rs*S.radOv[i] : rsi*Math.sqrt(Math.abs(S.mEff[i]));
-      S.Rc[i]=(S.coreRRv[i]>0)? S.coreRRv[i]*S.R[i] : rsi*Math.sqrt(Math.abs(S.coreMR[i]*S.mEff[i]));
-      if(S.coreMR[i]!==0) hc=true;
     }
-    S.hasCore=hc;   // コアなし(全 coreMR=0)の宇宙は従来ループのまま(高速化)
     S._rsUsed=rs;   // 第36便 C1: 直近に反映した radiusScale(_core の追従判定に使用)
   };
   // 第36便 C2: 掻出の実効値(auto の粒子は lS_eff、それ以外は指定値)。lSw[i] が常に実効値なので
@@ -5245,14 +5221,13 @@ function makeSim(){
         R[i]=Rn; const RS=R[i];
         // 材質係数: 連続量は質量重み平均・離散フラグは重い側を継ぐ(融合体は単一の粒子)
         const wi=mi/mn, wj=mj/mn, heavy=(Math.abs(mi)>=Math.abs(mj))? i : j;
-        S.coreMR[i]=S.coreMR[i]*wi+S.coreMR[j]*wj; S.coreSR[i]=S.coreSR[heavy];
         // 第80便(コアv2): 融合体は**保存則ベースでコアを継承する**(第77便の「非継承+J をリザーバへ
         // 退避」を置き換え)。合成則は殻の融合則と同型:
         //   M_c′ = M_c,i + M_c,j        (質量の単純和 — coreMF′ = M_c′/|m′|)
         //   R_c′ = √(R_c,i² + R_c,j²)   (面積等価。殻の R′=√(R_i²+R_j²) と同じ一貫則)
         //   J_c′ = J_c,i + J_c,j / E_int′ = E_int,i + E_int,j  (**リザーバを経由しない厳密和**)
         // モードは「少なくとも一方が core 持ちなら differential 系を継承」(active が絡めば active —
-        // 注入源は融合で消えない)。係数(Kcs/pump/contract/sourceRate)は重い側を継ぐ(coreSR と同流儀)。
+        // 注入源は融合で消えない)。係数(Kcs/pump/contract/sourceRate)は重い側を継ぐ(離散フラグと同流儀)。
         // cavity(質量0・J0)は融合で潰れる = 継承対象外(片方だけ cavity なら相手のコアを継ぐ)
         if(S.hasCoreV2 && (S.coreMd[i]||S.coreMd[j])){
           const mdi=S.coreMd[i], mdj=S.coreMd[j];
@@ -5280,9 +5255,7 @@ function makeSim(){
         }
         // (obsT/coreOT は第61便で廃止 — 質量重み合成も不要に)
         S.lSw[i]=S.lSw[i]*wi+S.lSw[j]*wj; S.lSwAuto[i]=S.lSwAuto[heavy];
-        S.coreRRv[i]=S.coreRRv[heavy]; S.tau[i]=S.tau[i]*wi+S.tau[j]*wj;
-        S.Rc[i]=(S.coreRRv[i]>0)? S.coreRRv[i]*RS
-              : ((S.radOv[i]>0? rs : rs*S.rMulv[i])*Math.sqrt(Math.abs(S.coreMR[i]*mEff[i])));
+        S.tau[i]=S.tau[i]*wi+S.tau[j]*wj;
         S.hasU[i]=S.hasU[i]|S.hasU[j];
         S.railR[i]=0; S.railAng[i]=0; S.railOmega[i]=0; S.railCx[i]=0; S.railCy[i]=0; S.railH[i]=0;
         S.accVx[i]=0; S.accVy[i]=0; S.accS[i]=0;
@@ -5339,10 +5312,10 @@ function makeSim(){
     for(let i=0;i<n;i++) if(!dead[i]) keep.push(i);
     const k=keep.length;
     const mv=(a)=>{ if(!a) return; for(let t=0;t<k;t++){ const s0=keep[t]; if(s0!==t) a[t]=a[s0]; } };
-    for(const key of ["m","x","y","vx","vy","spin","R","rotA","coreMR","coreSR","mEff","Rc","rotAc",
+    for(const key of ["m","x","y","vx","vy","spin","R","rotA","mEff","rotAc",
       "coreMd","coreMF","RcV","coreJ","coreKcs","corePump","coreCtr",   // 第77便(コアv2)
       "coreEint","coreSrc","coreOm0",   // 第80便(コアv2 残段): E_int・sourceRate・cavity 規定Ω
-      "lSw","radOv","coreRRv","rMulv","lSwAuto","uPx","uPy","tau",
+      "lSw","radOv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
       "Tint","dQi","arep","arepD","duT","echoX0","echoY0"]) mv(S[key]);
@@ -5373,17 +5346,17 @@ function makeSim(){
     const cap=S.m.length;
     if(need<=cap) return cap;
     const nc=Math.max(need, cap+Math.max(8, cap>>1));
-    for(const key of ["m","x","y","vx","vy","spin","R","rotA","coreMR","coreSR","mEff","Rc","rotAc",
+    for(const key of ["m","x","y","vx","vy","spin","R","rotA","mEff","rotAc",
       "coreMd","coreMF","RcV","coreJ","coreKcs","corePump","coreCtr",   // 第77便(コアv2)
       "coreEint","coreSrc","coreOm0",   // 第80便(コアv2 残段): E_int・sourceRate・cavity 規定Ω
-      "lSw","radOv","coreRRv","rMulv","lSwAuto","uPx","uPy","tau",
+      "lSw","radOv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
       "Tint","dQi","arep","arepD","duT","echoX0","echoY0"]){
       const a=S[key]; if(!a) continue;
       const b=new a.constructor(nc); b.set(a); S[key]=b;
     }
-    for(let i=cap;i<nc;i++){ S.coreSR[i]=1; S.rMulv[i]=1; S.coreMd[i]=0; S.coreMF[i]=0; S.coreJ[i]=0;
+    for(let i=cap;i<nc;i++){ S.rMulv[i]=1; S.coreMd[i]=0; S.coreMF[i]=0; S.coreJ[i]=0;
       S.coreEint[i]=0; S.coreSrc[i]=0; S.coreOm0[i]=0; }   // alloc と同じ既定値(+コアv2・第80便)
     S.pairD=new Float32Array(Math.max(1,nc*(nc-1)/2));
     S.railIdx=null; S.periDet=null;     // index 依存のキャッシュは作り直させる
@@ -5509,8 +5482,6 @@ function makeSim(){
       S.rMulv[j]=S.rMulv[i];
       if(S.radOv[i]>0){ S.radOv[i]=(rs>0)? R1/rs : 0; S.radOv[j]=(rs>0)? R2/rs : 0; }
       else S.radOv[j]=0;
-      // 材質係数は両片が親を引き継ぐ(分裂は同じ材質の2片に割れる)
-      S.coreMR[j]=S.coreMR[i]; S.coreSR[j]=S.coreSR[i];
       // 第80便(コアv2): 破片は**質量比例でコアを継承する**(第77便の非継承を置き換え)。融合の逆写像:
       //   M_c,k = (m_k/m)·M_c ⇒ coreMF は不変(比なので両片が親の値をそのまま持つ)
       //   R_c,k = √(m_k/m)·R_c ⇒ R_c,1²+R_c,2² = R_c²(融合の √和 の厳密な逆)
@@ -5531,10 +5502,9 @@ function makeSim(){
         S.coreMd[j]=0; S.coreMF[j]=0; S.RcV[j]=0; S.coreJ[j]=0; S.coreKcs[j]=0; S.corePump[j]=0; S.coreCtr[j]=0;
         S.coreEint[j]=0; S.coreSrc[j]=0; S.coreOm0[j]=0;
       }
-      S.lSw[j]=S.lSw[i]; S.lSwAuto[j]=S.lSwAuto[i]; S.coreRRv[j]=S.coreRRv[i]; S.tau[j]=S.tau[i];
+      // 材質係数は両片が親を引き継ぐ(分裂は同じ材質の2片に割れる)
+      S.lSw[j]=S.lSw[i]; S.lSwAuto[j]=S.lSwAuto[i]; S.tau[j]=S.tau[i];
       S.rotA[j]=S.rotA[i]; S.rotAc[j]=S.rotAc[i]; S.hasU[j]=S.hasU[i]; S.pinned[j]=0;
-      S.Rc[i]=(S.coreRRv[i]>0)? S.coreRRv[i]*R1 : ((S.radOv[i]>0? rs : rs*S.rMulv[i])*Math.sqrt(Math.abs(S.coreMR[i]*E1)));
-      S.Rc[j]=(S.coreRRv[j]>0)? S.coreRRv[j]*R2 : ((S.radOv[j]>0? rs : rs*S.rMulv[j])*Math.sqrt(Math.abs(S.coreMR[j]*E2)));
       for(const k2 of [i,j]){
         S.railR[k2]=0; S.railAng[k2]=0; S.railOmega[k2]=0; S.railCx[k2]=0; S.railCy[k2]=0; S.railH[k2]=0;
         S.accVx[k2]=0; S.accVy[k2]=0; S.accS[k2]=0;
@@ -5583,10 +5553,9 @@ function makeSim(){
     if(!n){ if(doPost) S.t+=dt; return; }
     // 第12〜14便: m は下限保護(|m|≥0.01)付き別名 mEff を一貫使用(負質量実験の0除算保護。
     // 第14便: 比率仕様 — m は総質量そのもので、コアは m の内訳。運動量・角運動量の恒等式は
-    // 全用途一貫なら保存される。coreMR=0(既定)なら従来と厳密等価)
-    const {mEff:m,x,y,vx,vy,spin,R,pinned,ax,ay,sumW,uAx,uAy,ds,dpx,dpy,pairD,coreMR,coreSR,Rc,lSw,
+    // 全用途一貫なら保存される)
+    const {mEff:m,x,y,vx,vy,spin,R,pinned,ax,ay,sumW,uAx,uAy,ds,dpx,dpy,pairD,lSw,
            accVx,accVy,accS}=S;   // 第40便 40A(台帳4-81): ③反作用の倍精度アキュムレータ
-    const hasCore=S.hasCore;
     const hasCoreV2=S.hasCoreV2;   // 第77便: 対ループ内はローカル参照(プロパティ参照のホットループコスト回避)
     // 第77便(コアv2): Ω_c = J_core/I_c をサブステップ冒頭に一括算出(①対ループが参照)。
     // coreJ/RcV は ②末尾の v2 パスでのみ更新されるため、①の間は不変(uPrev と同じ意味論)。
@@ -5836,20 +5805,8 @@ function makeSim(){
         let omj=0, omi=0;
         if(sj!==0){ const tt=Rj/(Rj+d); omj = (q===2)? sj*tt*tt : sj*Math.pow(tt,q); }
         if(si!==0){ const tt=Ri/(Ri+d); omi = (q===2)? si*tt*tt : si*Math.pow(tt,q); }
-        if(hasCore){ // 主星2層(第13便=差動形/第14便=比率仕様):
-                     // coreMR=コア質量比 mc/m(負値=空洞〔殻集中〕)・coreSR=コアスピン比 sc/s。
-                     // 剛体回転(coreSR=1)は単層と厳密等価で、差動分だけがコア核 Rc から効く:
-                     //   ω_frame = s·f(R,d) + coreMR·s·(coreSR−1)·f(Rc,d)
-                     // (= 第13便の (coreM/mEff)·(sc−s)·f(Rc,d) の比率表記。空洞 coreMR<0 は
-                     //  差動引きずりの符号が反転する)。coreMR=0 は寄与なし。
-                     // hasCore=false の宇宙はこの分岐ごと素通り(高速化)
-          const cmr=coreMR[j];
-          if(cmr!==0 && sj!==0 && Rc[j]>0){ const chi=coreSR[j];
-            if(chi!==1){ const tt=Rc[j]/(Rc[j]+d); omj += cmr*sj*(chi-1)*((q===2)? tt*tt : Math.pow(tt,q)); } }
-          const cmri=coreMR[i];
-          if(cmri!==0 && si!==0 && Rc[i]>0){ const chi=coreSR[i];
-            if(chi!==1){ const tt=Rc[i]/(Rc[i]+d); omi += cmri*si*(chi-1)*((q===2)? tt*tt : Math.pow(tt,q)); } }
-        }
+        // 第81便: コアv1(比率仕様 coreMR/coreSR/coreRR)の分岐は廃止 — コア差動は
+        // コアv2(J_core 主変数)の1本だけになった(移行式はインポート側 legacyCoreToV2 が担う)
         // 第77便(コアv2): 独立コア(differential)の差動が A8 と同型で外へ届く —
         // ω += (Mc/m)·(Ω_c−s)·f(RcV,d)。coreOmV は substep 冒頭に一括算出(J/I)。
         // v2 粒子ゼロの宇宙はこの分岐を 1 命令も通らない(hasCoreV2 ローカルゲート)
@@ -5873,14 +5830,7 @@ function makeSim(){
           let domj=0, domi=0;   // ∂ω/∂d(基底+コア差動)
           if(sj!==0){ const tt=Rj/(Rj+d), o0=(q===2)? sj*tt*tt : sj*Math.pow(tt,q); domj-=q*o0/(Rj+d); }
           if(si!==0){ const tt=Ri/(Ri+d), o0=(q===2)? si*tt*tt : si*Math.pow(tt,q); domi-=q*o0/(Ri+d); }
-          if(hasCore){
-            const cmr=coreMR[j];
-            if(cmr!==0 && sj!==0 && Rc[j]>0){ const chi=coreSR[j];
-              if(chi!==1){ const tt=Rc[j]/(Rc[j]+d), oc=cmr*sj*(chi-1)*((q===2)? tt*tt : Math.pow(tt,q)); domj-=q*oc/(Rc[j]+d); } }
-            const cmri=coreMR[i];
-            if(cmri!==0 && si!==0 && Rc[i]>0){ const chi=coreSR[i];
-              if(chi!==1){ const tt=Rc[i]/(Rc[i]+d), oc=cmri*si*(chi-1)*((q===2)? tt*tt : Math.pow(tt,q)); domi-=q*oc/(Rc[i]+d); } }
-          }
+          // 第81便: コアv1 の勾配分岐は廃止(上の A8 と同じ理由)
           // 第77便(コアv2): 独立コアの差動勾配(A8 v2 分岐と同じ核。第80便: md≥2 の4モード共通)
           if(hasCoreV2){
             if(S.coreMd[j]>=2 && S.RcV[j]>0){ const dOm=S.coreOmV[j]-sj;
@@ -6253,37 +6203,20 @@ function makeSim(){
         const Ri=R[i];
         const psiS=(bgW + sumW[i] + m[i]/Math.sqrt(Ri*Ri+eps2))/KtA;
         const cS=c0A*Math.exp(-2*psiS);
-        // 第75便: 主星2層の減光(2層減光形 — 原仮定者指示「外殻は重く・コアが高速スピンして
-        // 光学的な影響範囲は狭い」の実装)。各層は**自分の光を自分の表面速度で**掻き出す:
-        //   殻:  ls_s = min(1, |s + coreMR·s·(coreSR−1)·f(Rc,R)|·R / c_surf)
+        // 第75便→第81便: 主星2層の減光(2層減光形 — 原仮定者指示「外殻は重く・コアが高速スピンして
+        // 光学的な影響範囲は狭い」の実装)。第81便でコアv1(比率仕様)の分岐を廃止し、
+        // **コアv2(J_core 主変数)の1本**に統一した。各層は**自分の光を自分の表面速度で**掻き出す:
+        //   殻:  ls_s = min(1, |s + (Mc/m)·(Ω_c−s)·f(Rc,R)|·R / c_surf)
         //        (コア差動が殻表面のフレームを回す分も含む — A8 コア差動形と同じ核 f=(Rc/(Rc+d))^q)
-        //   コア: ls_c = min(1, |coreSR·s|·Rc / c_core)。c_core はコア深さの ψ で算出
+        //   コア: ls_c = min(1, |Ω_c−s|·Rc / c_core)。c_core はコア深さの ψ で算出
         //        (ψ_core = (D+ΣW+|m|/√(Rc²+ε²))/Kt — 深いほど光が遅く、掻き出しやすい)
         // 合成は層光度比の重み(T∝層質量比·半径²·スピン²。共通因子 m/2 は約分):
-        //   lSw = (w_s·ls_s + w_c·ls_c)/(w_s+w_c)、w_s=(1−|coreMR|)·R²·s²・w_c=|coreMR|·Rc²·(coreSR·s)²
-        // coreMR=0(単層)は w_c=0・差動0 で従来式 min(1,|s|R/c_surf) と**厳密同値**
-        // (全既存プリセットで bit 不変 — QA lsw.core-auto)。力学へは今までどおり一切影響しない
-        // A8 と同じく**差動分 (coreSR−1) だけ**がコア層から効く(coreSR=1 の剛体回転は
-        // 単層と厳密等価 — chi→1 で wC→0 と連続に従来式へ退化する)
+        //   lSw = (w_s·ls_s + w_c·ls_c)/(w_s+w_c)、w_s=(1−|Mc/m|)·R²·s²・w_c=|Mc/m|·Rc²·(Ω_c−s)²
+        // コアなし・rigid(Ω_c≡s)は w_c=0・差動0 で従来式 min(1,|s|R/c_surf) と**厳密同値**
+        // (QA lsw.core-auto)。力学へは今までどおり一切影響しない
         const si0=spin[i];
         let ls;
-        const cmr=(S.hasCore? S.coreMR[i] : 0);
-        const chi0=(S.hasCore? S.coreSR[i] : 1);
-        if(cmr!==0 && si0!==0 && S.Rc[i]>0 && chi0!==1){
-          const chi=chi0, Rci=S.Rc[i];
-          const tt=Rci/(Rci+Ri);
-          const sSurf=si0 + cmr*si0*(chi-1)*((qA===2)? tt*tt : Math.pow(tt,qA));
-          let lsS=(cS>1e-12)? Math.abs(sSurf)*Ri/cS : 1;
-          if(!(lsS>0)) lsS=0; else if(lsS>1) lsS=1;
-          const psiC=(bgW + sumW[i] + Math.abs(m[i])/Math.sqrt(Rci*Rci+eps2))/KtA;
-          const cC=c0A*Math.exp(-2*psiC);
-          const sDiff=(chi-1)*si0;   // コアの差動スピン(剛体分は殻側 lsS が既に持つ)
-          let lsC=(cC>1e-12)? Math.abs(sDiff)*Rci/cC : 1;
-          if(!(lsC>0)) lsC=0; else if(lsC>1) lsC=1;
-          const acm=Math.abs(cmr);
-          const wS=(1-acm)*Ri*Ri*si0*si0, wC=acm*Rci*Rci*sDiff*sDiff;
-          ls=(wS+wC>0)? (wS*lsS + wC*lsC)/(wS+wC) : 0;
-        } else if(hasCoreV2 && S.coreMd[i]>=2 && S.RcV[i]>0 && S.coreOmV[i]!==si0){
+        if(hasCoreV2 && S.coreMd[i]>=2 && S.RcV[i]>0 && S.coreOmV[i]!==si0){
           // 第77便(コアv2): 独立コアの2層減光 — 第75便の式の (coreSR−1)·s を (Ω_c−s) に置換。
           // 殻 s=0 でもコアだけで暗くなれる(w_s=0 → lSw=ls_c。冷たい殻は発光ゼロなので整合)
           // 第80便: 光度比の重みは |coreMF| で取る(旧式の acm=|coreMR| と同じ流儀 — cavity の
@@ -6797,7 +6730,10 @@ function makeSim(){
       // KDK のドリフト相(doDrift=パスA)。mode=0(semi)では両方 true で現行と同一の並び
       if(doPost){
         S.rotA[i]+=spin[i]*dt;   // v1.17: 表示用の累積回転角(大粒子のスポーク描画で回転方向を可視化)
-        if(hasCore && coreMR[i]!==0) S.rotAc[i]+=coreSR[i]*spin[i]*dt;   // コアのスポーク角(sc=coreSR·s)
+        // 第81便: コアのスポーク角はコアv2 の実 Ω_c で回す(rigid は殻と剛体回転なので Ω_c=s)。
+        // 旧 v1 の sc=coreSR·s は廃止。coreOmV は①の冒頭で J/I から算出済み(cavity は規定Ω)
+        if(hasCoreV2 && S.coreMd[i]!==0)
+          S.rotAc[i]+=((S.coreMd[i]===1)? spin[i] : S.coreOmV[i])*dt;
       }
       if(pinned[i]){ if(doPost) S.tauUpdate(i,dt); continue; }
       // 安全上限(発散防止): 速度100・スピン±40。第50便 50E(台帳4-89): 発動回数を帳簿
@@ -8123,19 +8059,19 @@ function render(){
         ctx.lineTo(sx+Math.cos(a)*rr*0.92, sy+Math.sin(a)*rr*0.92); ctx.stroke(); }
       ctx.lineWidth=1;
     }
-    // 第12〜14便: 主星2層 — コア(coreMR≠0)を内側の暗い円+白スポークで可視化(差動回転が見える)。
-    // 空洞(coreMR<0)はさらに暗い「穴」として描く
-    if(sim.coreMR[i]!==0 && rr>=7){
-      const rc=Math.max(3,Math.min(sim.Rc[i]*z,rr*0.92));
-      // 第22便: コア観測温度比率 coreOT — 既定(coreOT=1・掻き出しなし)以外は観測温度色で描く
-      if(sim.coreMR[i]>0 && sim.lSw[i]!==0){   // 第61便: coreOT 廃止 — 減光時のみ観測温度色
-        const sc2=sim.coreSR[i]*sim.spin[i];
-        const Tc=(1-sim.lSw[i])*0.5*Math.abs(sim.coreMR[i]*sim.m[i])*sim.Rc[i]*sim.Rc[i]*sc2*sc2;
+    // 第81便(コアv2): コア(coreMd≠0)を内側の暗い円+白スポークで可視化(差動回転が見える)。
+    // 空洞(cavity)はさらに暗い「穴」として描く(旧コアv1 の coreMR<0 の描き分けを踏襲)。
+    // 旧 v1 は core を持つ粒子しか描けなかったが、v2 コアも同じ見た目で描くようになった
+    if(sim.coreMd[i]!==0 && rr>=7){
+      const rc=Math.max(3,Math.min(sim.RcV[i]*z,rr*0.92));
+      const cav=(sim.coreMd[i]===4), omc=coreOmegaOf(sim,i);
+      if(!cav && sim.lSw[i]!==0){   // 第61便: coreOT 廃止 — 減光時のみ観測温度色
+        const Tc=(1-sim.lSw[i])*0.5*Math.abs(sim.coreMF[i]*sim.m[i])*sim.RcV[i]*sim.RcV[i]*omc*omc;
         ctx.globalAlpha=0.8;
         ctx.fillStyle=tempColor(Math.min(1,Math.sqrt(Math.max(0,Tc)/Math.max(1e-4,tempP90EMA))));
-      } else ctx.fillStyle=(sim.coreMR[i]<0)? "rgba(3,4,10,0.85)" : "rgba(10,12,24,0.55)";
+      } else ctx.fillStyle=cav? "rgba(3,4,10,0.85)" : "rgba(10,12,24,0.55)";
       ctx.beginPath(); ctx.arc(sx,sy,rc,0,7); ctx.fill(); ctx.globalAlpha=1;
-      if(Math.abs(sim.coreSR[i]*sim.spin[i])>1e-4){
+      if(Math.abs(omc)>1e-4){
         const a0=sim.rotAc[i];
         ctx.strokeStyle="rgba(255,255,255,0.5)"; ctx.lineWidth=Math.max(1,rc*0.12);
         for(let k3=0;k3<3;k3++){ const a=a0+k3*2.0944;
@@ -8194,14 +8130,15 @@ function render(){
     const Ti=obsTemp(sim,i);   // 第36便 D: 観測温度
     const lam=(Ti>1e-12)? fmt(sim.params.bM/Ti) : "—";
     ctx.font=(10*uiFontScale)+"px sans-serif"; ctx.fillStyle="#dfe4ff"; // v1.17: 文字サイズ追従
-    // 第14便: 比率表示+第22便: コア観測温度 Tc_obs・扁平率 f = 5s²R³/(4Gm)(粒子選択時に表示)
-    const scH=sim.coreSR[i]*sim.spin[i];
-    // 第25便(原仮定者指示): 縦画面で見切れないよう2行に分割し、表示順を編集パネルの並び
-    // (m|mc/m・s|sc/s・R…)に整合 — 1行目=力学・構造、2行目=観測量(T・Tc・λ)と固有時計
-    const hasCore=(sim.coreMR[i]!==0);
-    const mcTxt=hasCore? ` mc/m=${fmt(sim.coreMR[i])}` : "";
-    const scTxt=hasCore? ` sc/s=${fmt(sim.coreSR[i])}` : "";
-    const coreTTxt=hasCore? ` Tc=${fmt((1-sim.lSw[i])*0.5*Math.abs(sim.coreMR[i]*sim.m[i])*sim.Rc[i]*sim.Rc[i]*scH*scH)}` : "";
+    // 第81便(コアv2): コア内訳の表示は Mc/m(=coreMF。cavity は −voidFraction)と Ω_c へ。
+    // Tc_obs=(1−lSw)·½·|Mc|·Rc²·Ω_c²・扁平率 f = 5s²R³/(4Gm)(粒子選択時に表示)
+    const omcH=coreOmegaOf(sim,i);
+    // 第25便(原仮定者指示): 縦画面で見切れないよう2行に分割し、1行目=力学・構造、
+    // 2行目=観測量(T・Tc・λ)と固有時計
+    const hasCore=(sim.coreMd[i]!==0);
+    const mcTxt=hasCore? ` Mc/m=${fmt(sim.coreMF[i])}` : "";
+    const scTxt=hasCore? ` Ωc=${fmt(omcH)}` : "";
+    const coreTTxt=hasCore? ` Tc=${fmt((1-sim.lSw[i])*0.5*Math.abs(sim.coreMF[i]*sim.m[i])*sim.RcV[i]*sim.RcV[i]*omcH*omcH)}` : "";
     const fObl=(sim.params.G>0&&sim.m[i]>0)? 1.25*sim.spin[i]*sim.spin[i]*sim.R[i]*sim.R[i]*sim.R[i]/(sim.params.G*sim.m[i]) : NaN;
     const fTxt=isFinite(fObl)? ` f=${fmt(Math.min(fObl,9999))}` : "";
     ctx.fillText(`m=${fmt(sim.m[i])}${mcTxt} s=${fmt(sim.spin[i])}${scTxt} R=${fmt(sim.R[i])}${fTxt}`,8,ch-10-12*uiFontScale);
@@ -8327,16 +8264,16 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
         ctx.lineTo(px+Math.cos(a)*rr*0.92, py+Math.sin(a)*rr*0.92); ctx.stroke(); }
       ctx.lineWidth=1;
     }
-    if(S.coreMR[i]!==0 && rr>=7){   // 主星2層のコア(A/B側も同様。空洞=より暗い穴)
-      const rc=Math.max(3,Math.min(S.Rc[i]*z,rr*0.92));
-      if(S.coreMR[i]>0 && S.lSw[i]!==0){   // 第22便→第61便: coreOT 廃止 — 減光時のみ観測温度色
-        const sc2=S.coreSR[i]*S.spin[i];
-        const Tc=(1-S.lSw[i])*0.5*Math.abs(S.coreMR[i]*S.m[i])*S.Rc[i]*S.Rc[i]*sc2*sc2;
+    if(S.coreMd[i]!==0 && rr>=7){   // 第81便(コアv2): コア(A/B側も同様。cavity=より暗い穴)
+      const rc=Math.max(3,Math.min(S.RcV[i]*z,rr*0.92));
+      const cav=(S.coreMd[i]===4), omc=coreOmegaOf(S,i);
+      if(!cav && S.lSw[i]!==0){   // 第22便→第61便: coreOT 廃止 — 減光時のみ観測温度色
+        const Tc=(1-S.lSw[i])*0.5*Math.abs(S.coreMF[i]*S.m[i])*S.RcV[i]*S.RcV[i]*omc*omc;
         ctx.globalAlpha=0.8;
         ctx.fillStyle=tempColor(Math.min(1,Math.sqrt(Math.max(0,Tc)/Math.max(1e-4,tempP90EMA))));
-      } else ctx.fillStyle=(S.coreMR[i]<0)? "rgba(3,4,10,0.85)" : "rgba(10,12,24,0.55)";
+      } else ctx.fillStyle=cav? "rgba(3,4,10,0.85)" : "rgba(10,12,24,0.55)";
       ctx.beginPath(); ctx.arc(px,py,rc,0,7); ctx.fill(); ctx.globalAlpha=1;
-      if(Math.abs(S.coreSR[i]*S.spin[i])>1e-4){
+      if(Math.abs(omc)>1e-4){
         const a0=S.rotAc[i];
         ctx.strokeStyle="rgba(255,255,255,0.5)"; ctx.lineWidth=Math.max(1,rc*0.12);
         for(let k3=0;k3<3;k3++){ const a=a0+k3*2.0944;
@@ -8796,16 +8733,16 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   if(sim.fusion && sim.fusion.fission) simB._grow(sim.n);
   if(simB.m.length>=sim.n){
     for(const k of ["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy",
-      "coreMR","coreSR","mEff","Rc","rotAc",   // 主星2層の状態も転写(第14便: 比率仕様)
+      "mEff","rotAc",                          // 第81便: コアv1(coreMR/coreSR/Rc)は廃止
       "coreMd","coreMF","RcV","coreJ","coreKcs","corePump","coreCtr",   // 第77便(コアv2)
       "coreEint","coreSrc","coreOm0",   // 第80便(コアv2 残段): E_int・sourceRate・cavity 規定Ω
-      "lSw","radOv","coreRRv",                 // 観測系(第22便 — obsT/coreOT は第61便で廃止)
+      "lSw","radOv",                           // 観測系(第22便 — obsT/coreOT は第61便で廃止)
       "rMulv","lSwAuto",                       // 第36便 C1/C2: 半径倍率・掻出の自動算出フラグ
       // 第45便 45B: 転写長は「A 側の生存粒子数 sim.n」に固定する(分裂で確保長が A 側だけ
       // 伸びていても RangeError にならない。fission の無い宇宙では sim[k].length===sim.n なので
       // subarray は配列そのものと等しく、従来と 1 ビットも変わらない)
       "railR","railAng","railOmega","railCx","railCy"]) simB[k].set(sim[k].subarray(0,sim.n));
-    simB.hasCore=sim.hasCore; simB.hasLSwAuto=sim.hasLSwAuto; simB._rsUsed=sim._rsUsed;
+    simB.hasCoreV2=sim.hasCoreV2; simB.hasLSwAuto=sim.hasLSwAuto; simB._rsUsed=sim._rsUsed;
     // 第36便 D(台帳4-51): 内部温度モードの状態も転写(同一プリセットで build 済みなので
     // simB.Tint は同じ長さで確保されている。spin モードでは両方 null で何もしない)
     if(sim.Tint && simB.Tint) simB.Tint.set(sim.Tint.subarray(0,sim.n));
@@ -8935,7 +8872,7 @@ function applyPhaseEdits(S,o){
 // 保存則主張の対象外(⏮や実験ノブと同じ位置づけ)。光子の放出スケジュール進行は対象外
 let ckSnap=null;
 const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU","pinned",
-  "coreMR","coreSR","mEff","Rc","rotAc","lSw","radOv","coreRRv","rMulv","lSwAuto",
+  "mEff","rotAc","lSw","radOv","rMulv","lSwAuto",   // 第81便: コアv1 配列は廃止
   "coreMd","coreMF","RcV","coreJ","coreKcs","corePump","coreCtr",
   "coreEint","coreSrc","coreOm0",   // 第80便(コアv2 残段): E_int・sourceRate・cavity 規定Ω
   "railR","railAng","railOmega","railCx","railCy","railH",
@@ -9757,48 +9694,18 @@ function renderSaves(){
     host.appendChild(d);
   });
 }
-// 第80便(コアv2): エクスポート時に core:{} を持つ body へ**旧キー(coreMR/coreSR/coreRR)を併記**する。
-// 目的は round-trip 互換 — コアv2 を知らない読み手(root 等)が同じ JSON を「近い単層/2層」として
-// 読めるようにする(読み手が core を落としても天体が消えない)。逆写像は第76便設計の移行式:
-//   coreMR = cavity? −voidFraction : massFrac / coreRR = R_c/R / coreSR = Ω_c/s(s=0 なら表現不能で 1)
-// R は body.radius があればそれ、無ければ radiusScale·rMul·√|m|(updateRadii と同式)。
-// 読み込み側は従来どおり**新形式優先+併記警告**(validatePreset)なので、beta で読み直すと core が勝つ
-function coreLegacyKeys(body, phys){
-  const c=body.core; if(!c) return null;
-  const rs=(phys && isNum(phys.radiusScale))? phys.radiusScale : 1;
-  const rMul=isNum(body.rMul)? body.rMul : 1;
-  const Rb=(isNum(body.radius) && body.radius>0)? rs*body.radius
-         : rs*rMul*Math.sqrt(Math.abs(isNum(body.m)? body.m : 1));
-  const cav=(c.mode==="cavity");
-  const mr=cav? -(c.voidFraction||0) : (c.massFrac||0);
-  const rr=(Rb>0)? clamp((c.radius||0)/Rb, 0.02, 1) : 0.02;
-  const s=isNum(body.spin)? body.spin : 0;
-  const sr=(s!==0)? clamp((c.omega||0)/s, -20, 20) : 1;
-  return {coreMR:clamp(mr,-1,1), coreSR:sr, coreRR:rr};
-}
-function withLegacyCore(presets){
-  let touched=false;
-  const out=presets.map(p=>{
-    if(!p || !Array.isArray(p.bodies) || !p.bodies.some(b=>b&&b.core)) return p;
-    touched=true;
-    const q=JSON.parse(JSON.stringify(p));
-    for(const b of q.bodies){
-      if(!b || !b.core) continue;
-      const lk=coreLegacyKeys(b, q.physics);
-      if(lk) Object.assign(b, lk);
-    }
-    return q;
-  });
-  return touched? out : presets;   // core:{} を含まない構成では元の配列をそのまま返す(ゼロコスト)
-}
+// 第81便: 第80便の旧キー併記(withLegacyCore / coreLegacyKeys)は廃止した。コアv1 が
+// エンジンから消えたため、旧キーを書き出しても「近い2層」として読める相手がいなくなり、
+// 併記は round-trip の曖昧さ(新旧併記の警告)を増やすだけになったため(schemaVersion 4)。
 function exportData(){
   // 第53便 53B(外部レビュー P1): appBuild — どのビルド(root/β)で書き出したかの識別子。
   // β配信(/beta/)では BETA_BUILD、それ以外は "v"+APP_VERSION(後方互換: 旧データはキー無し)
-  // 第80便: schemaVersion 3 — コアv2 の core:{} と旧キー併記(withLegacyCore)を含むスキーマ。
-  // 旧スキーマ(1/2)の読み込みは従来どおり(インポートは schemaVersion を見ずに形で判別する)
-  return JSON.stringify({schemaVersion:3, appVersion:APP_VERSION,
+  // 第81便: schemaVersion 4 — コアは core:{}(コアv2)**のみ**。第80便の旧キー併記は廃止した。
+  // 旧スキーマ(1〜3)の読み込みは従来どおり(インポートは schemaVersion を見ずに形で判別し、
+  // 旧キー coreMR/coreSR/coreRR は validatePreset の legacyCoreToV2 が v2 へ移行する)
+  return JSON.stringify({schemaVersion:4, appVersion:APP_VERSION,
     appBuild:(isBetaServe()? BETA_BUILD : "v"+APP_VERSION), exportedAt:new Date().toISOString(),
-    saves:getSaves(), customPresets:withLegacyCore(getCustomPresets())},null,1);
+    saves:getSaves(), customPresets:getCustomPresets()},null,1);
 }
 $("#btnExport").addEventListener("click",()=>{
   const data=exportData();
@@ -9984,7 +9891,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 - box: {type,n,cx,cy,w,h,mMin,mMax,spinMin,spinMax,vScale} — 幅w高さhの矩形にn個、ランダム方向に速さ〜vScale。
 - ring/disk/box には省略可の bulkVx,bulkVy(母集団の並進速度)を指定できる。移動する天体(vx,vyを持つ single)の周りに円盤・環を置くときは、必ず同じ値を bulkVx,bulkVy に与えて核と一体で動かすこと。
 - single には省略可の zonal(扁平中心天体の帯状重力補正 E13)を指定できる: {"refR":基準半径,"calib":1,"J":{"2":0.0163,"4":-0.0009}}。偶数次 J2〜J12 のみ・|J|≤0.1・refR:1〜5000・calib:0〜2。中心の大質量 pinned 粒子に付けると周回粒子の楕円軌道の近点が前進する(内側ほど速い差動近点移動 — 画面左上に実測/解析の近点移動が表示される)。土星なら J2≈0.0163。要望が扁平天体・歳差・近点移動のときだけ使う高度な属性で、通常のプリセットでは指定しない。
-- single には省略可の coreMR,coreSR,coreRR(主星2層 — コアの質量比・スピン比・半径比〔Rc=coreRR·R。既定は√|coreMR|相当〕)を指定できる。m は総質量のままで、coreMR=mc/m(−1〜1。既定0。負値=空洞〔殻に質量集中〕)・coreSR=sc/s(既定1=剛体回転=単層と等価)。差動分だけが ω += coreMR·s·(coreSR−1)·(Rc/(Rc+d))^q(Rc=radiusScale·√|coreMR·m|)として追加の空間引きずりに効く。要望がコア/深部回転・空洞天体・2層天体のときだけ使う高度な属性。
+- single/ring/disk には省略可の core(コアv2 — 中心コアの独立サブシステム)を指定できる: {"mode":"rigid"|"differential"|"active"|"cavity","massFrac":0.01〜0.6,"radius":0.2〜200,"omega":−50〜50,"Kcs":0〜10,"pump":0〜5,"contract":0〜0.2,"sourceRate":0〜100,"voidFraction":0.01〜1}。m は総質量のままで、massFrac=Mc/m・radius=コア半径 R_c(絶対値)・omega=初期コア角速度 Ω_c(角運動量 J=½·Mc·R_c²·Ω として保持され、以後 J が主変数)。差動分だけが ω += (Mc/m)·(Ω_c−s)·(R_c/(R_c+d))^q として追加の空間引きずりに効く。mode: rigid=殻と剛体回転(差動なし)・differential=独立回転・active=differential+sourceRate で内部エネルギー注入・cavity=空洞(massFrac の代わりに voidFraction。引きずりの符号が反転)。Kcs はコア⇄殻のトルク結合(緩和率)・contract は収縮率(J 保存で Ω 上昇)・pump はパワーボール係数。要望がコア/深部回転・空洞天体・2層天体・ダークローターのときだけ使う高度な属性。
 - single には省略可の radius(半径の明示指定 0.5〜500。未指定は radiusScale·√|m|)・lightSweep(減光 0〜1 — 高速スピンコアが自星の光を外に出さない: 観測温度が0になり見掛けは冷たい。放射冷却も(1−lS)倍)を指定できる。要望がダークマター/ダークローター・見えない天体・拡がった天体のときだけ使う高度な属性で、通常のプリセットでは指定しない。disk/ring にも群共通の lightSweep(数値か "auto")を指定できる(恒星集団の減光実験用)。
 - single には省略可の railOmega(±2・pinned時のみ): 円レール駆動の角速度。railCx/railCy でレール中心を指定(既定は原点)。
 
@@ -10105,7 +10012,7 @@ async function callLLM(cfg, model, messages){
 }
 
 // 第26便(原仮定者指示): ベースサンプル選択時は、そのJSONを土台として改変生成させる
-// (ダークローターの coreMR/lightSweep・🛰️の zonal など参考サンプルの構成をAI生成に利用)。
+// (ダークローターの lightSweep・コアv2 core:{}・🛰️の zonal など参考サンプルの構成をAI生成に利用)。
 // 送るのはシミュレーション定義のみ(en/activeParams等のUI付帯情報は省いてトークンを節約)
 // 第36便(P1-1・ChatGPT差分検証レビュー): 旧実装は name/emoji/description/camera/world/
 // physics/bodies/seed/rays/overlays の手書き allowlist で、integrator/echoFlipAt/measureBox/
@@ -10525,6 +10432,17 @@ document.addEventListener("keydown",(e)=>{ if(e.key==="Escape" && $("#aboutPanel
   }
 })();
 
+// 第81便(コアv2): 表示系が使う Ω_c の即時算出(物理配列へは書かない読み取り専用)。
+// rigid は殻と剛体回転(Ω_c≡s)・cavity は規定値 coreOm0・differential/active は J/I。
+// _core の coreOmV は「サブステップ冒頭の値」なので、描画・HUD はこちらを使う(t=0 でも正しい)
+function coreOmegaOf(S,i){
+  const md=S.coreMd[i];
+  if(!md) return 0;
+  if(md===1) return S.spin[i];
+  if(md===4) return S.coreOm0[i];
+  const Ic=0.5*S.coreMF[i]*Math.abs(S.mEff[i])*S.RcV[i]*S.RcV[i];
+  return (Ic>1e-12)? S.coreJ[i]/Ic : 0;
+}
 // 第80便C: コアv2(第77便)の内部 mode 値 → 表示名の名前解決テーブル。coreMd は Uint8Array で
 // 0=コアv2なし・1=rigid・2=differential(第77便実装分のみ)。将来 active/cavity 等が増えても
 // ここに1行足すだけで対応でき、未知の値は "mode#<値>" にフォールバックする(特別扱いをしない汎用形)
@@ -10541,11 +10459,10 @@ function updateBodyEdit(){
   const i=selIdx;
   $("#beTitle").textContent=T("beTitle")+(ab? `(${selWorld})` : "");   // どちらの宇宙かを明示
   $("#beM").value=fmt(S.m[i]); $("#beS").value=fmt(S.spin[i]);
-  $("#beMc").value=fmt(S.coreMR[i]); $("#beSc").value=fmt(S.coreSR[i]);
   // 第38便(原仮定者指示): #beR は実効半径 S.R(radiusScale適用後)を表示するが、書き込み(下の
   // beBind)は radOv(未スケール)へ入るため、radiusScale≠1 では表示値と入力すべき値が非対称になる
   // (再度 radiusScale が乗るため)。式粒子(rMul経路)の表示と整合させることを優先し許容する(統括裁定)
-  $("#beR").value=fmt(S.R[i]); $("#beRr").value=fmt(S.R[i]>0? S.Rc[i]/S.R[i] : 0);   // 第22便: 半径系(実効値を表示)
+  $("#beR").value=fmt(S.R[i]);   // 第22便: 半径系(実効値を表示。第81便: Rc/R 欄は廃止)
   // 第36便 C2: 掻出は "auto"(粒子パラメータからの算出モード)を受理。
   // 第37便 A2(原仮定者指示): auto チェックボックスも S.lSwAuto と同期させ、ON中は数値欄を
   // 読み取り専用にする(入力欄への直接 "auto" 入力は従来どおり併存 — 単一の真実 S.lSwAuto 経由)。
@@ -10557,7 +10474,7 @@ function updateBodyEdit(){
   $("#beVx").value=fmt(S.vx[i]); $("#beVy").value=fmt(S.vy[i]);
   $("#bePin").checked=!!S.pinned[i];
   // 第80便C: コアv2(第77便)の読み取り専用内訳 — coreMd[i]!=0(独立コアを持つ)のときだけ表示する。
-  // コアなし・旧比率コア(coreMR/coreSR 経路)は coreMd[i]===0 のままなのでブロックごと隠れる。
+  // コアを持たない粒子は coreMd[i]===0 のままなのでブロックごと隠れる(第81便: コアv1 は廃止)。
   // 実行中はこの関数自体が既存の毎フレーム更新経路(τ/t のHUD表示と同じ呼び出し元 — 上のメインループ
   // running中の updateBodyEdit() 呼び出し)で追随するので、ここに専用のタイマー等は要らない。
   // 値は現在の確定状態(S.step() 完了後)からその場で再計算するだけで、物理配列へは一切書き込まない。
@@ -10613,12 +10530,9 @@ function beBind(id,fn){
   });
 }
 beBind("#beM",(S,i,v)=>{ S.m[i]=clamp(v,-5000,5000); S.updateRadii(); });     // 第12便: 負質量も実験用に受理
-beBind("#beMc",(S,i,v)=>{ S.coreMR[i]=clamp(v,-1,1); S.updateRadii(); });   // コア質量比 mc/m(負値=空洞)
-beBind("#beSc",(S,i,v)=>{ S.coreSR[i]=clamp(v,-20,20); });                  // コアスピン比 sc/s(既定1)
 beBind("#beS",(S,i,v)=>{ S.spin[i]=clamp(v,-40,40); });
-// 第22便: 半径・コア半径比・観測温度係数・光掻き出し・コア観測温度比率
+// 第22便: 半径・光掻き出し(第81便: mc/m・sc/s・Rc/R〔コアv1〕の bind は廃止)
 beBind("#beR",(S,i,v)=>{ S.radOv[i]=clamp(v,0.5,500); S.updateRadii(); });
-beBind("#beRr",(S,i,v)=>{ S.coreRRv[i]=clamp(v,0.02,1); S.updateRadii(); });
 // 第36便 C2(原仮定者指示): 掻出欄は数値(0〜1・従来の独立指定)に加えて "auto" を受理する。
 // beBind は parseFloat 前提なので、この欄だけ専用ハンドラにする(他欄の挙動は不変)
 $("#beSw").addEventListener("change",()=>{
@@ -10661,7 +10575,7 @@ $("#beClose").addEventListener("click",()=>{ beMin=!beMin; applyBeMin(); });
 // 第23便(原仮定者指示): 粒子編集のパラメータ名タップで説明を表示(同じ名前を再タップで元に戻る)
 let beDescShown=null;
 {
-  const BE_DESC={beLm:"beDm",beLs:"beDs",beLmc:"beDmc",beLsc:"beDsc",beLr:"beDr",beLrr:"beDrr",
+  const BE_DESC={beLm:"beDm",beLs:"beDs",beLr:"beDr",   // 第81便: beLmc/beLsc/beLrr は廃止
     beLsw:"beDsw",beLswAuto:"beDsw",beLvx:"beDv",beLvy:"beDv",beLp:"beDp",
     beLcvTitle:"beDcv"};   // 第80便C: コアv2内訳ブロックの説明
   for(const id of Object.keys(BE_DESC)){

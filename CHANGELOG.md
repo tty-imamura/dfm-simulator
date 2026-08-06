@@ -6,6 +6,61 @@
 
 ## v1.38-b1(beta 先行・2026-08-05)
 
+第81便 A(2026-08-06): **コアv1(比率仕様)の廃止 — コアはコアv2 の一本へ**(原仮定者指示・
+**破壊的変更**)。併せて⚫DFM版ブラックホールを**自由な中心**へ正式移行した。
+
+- **⚠️ 破壊的変更: コアv1(`coreMR`/`coreSR`/`coreRR`)を廃止**した。エンジンから
+  A8/E3 のコア差動項 `ω += (mc/m)·s·(sc/s−1)·f(Rc,d)`・E12v2(geoPN=2)の同項の勾配・
+  2層減光の v1 分岐・状態配列 `coreMR/coreSR/coreRRv/Rc`・`hasCore` フラグを削除し、
+  粒子編集パネルの **mc/m・sc/s・Rc/R の行**(と i18n 説明)も撤去した。
+  コアは **コアv2**(`core:{mode,massFrac,radius,omega,Kcs,pump,contract,sourceRate,voidFraction}`
+  — J_core を主変数とする独立サブシステム)の一本になる。
+  理由: コアv1 の Ω_c は χ·s(t) と殻スピンに追従する従属量で、τ_cs による角運動量交換や
+  収縮による J 保存スピンアップというコアv2 の物理を原理的に書けず、同じ物理の二重経路が
+  A8・2層減光・E12v2 勾配の3箇所で保守コストになっていた
+- **旧セーブ・旧プリセット JSON は引き続き読める**(移行式で自動変換・警告つき)。
+  R = (radius>0 ? radiusScale·radius : radiusScale·rMul·√|m|)、
+  R_c = (coreRR>0 ? coreRR·R : radiusScale·rMul·√|coreMR·m|) として
+  coreMR<0 → `cavity{voidFraction:|coreMR|, radius:R_c, omega:coreSR·s}` /
+  coreSR==1 → `rigid{massFrac:coreMR, radius:R_c}` /
+  それ以外 → `differential{massFrac:coreMR, radius:R_c, omega:coreSR·s, Kcs:0}`。
+  Ω_c は**読込時に1回だけ**評価するので、移行が保証するのは「同一初期状態」であって
+  「同一軌跡」ではない(中心スピンが時間発展する構成では挙動が変わる)。新旧併記は
+  従来どおり新形式優先+警告。群(ring/disk)は代表値(平均質量・平均スピン)で評価する
+- **schemaVersion 4**: エクスポートはコアを `core:{}` **のみ**で書き出す
+  (第80便の旧キー併記 `withLegacyCore` を廃止)。インポートは v≤3 を上の移行式で受理する
+- **サンプルのコアv2 移行**:
+  - 🌍地球と月 / 🌕地球と月(自由二体)— `rigid`(旧 sc/s=1.0)。差動を持たないので
+    **移行前後で bit 一致**(2000步の位置・スピンハッシュ一致を実測確認)
+  - 🎯土星の環(主星2層)— `differential{massFrac:0.18, radius:29.577, omega:0.0525, Kcs:0}`。
+    主星は pinned で殻スピン一定なのでコアv1 と同じ差動が保たれる(差は数値丸めのみ)
+  - ⏳双極星雲 — 中心 `differential{0.3, R_c=5, Ω_c=9}`・赤道アーク22体 `{0.3, R_c=2, Ω_c=7.5}`
+    (素直な移行値)。アークは pinned なので厳密に同じ差動、中心だけが「追従→独立」の差を受ける。
+    極方向比の実測は 0.610 → **0.622**(窓 0.5〜0.72 内・脱出 41→37体)
+  - 🐚重殻ローター星雲 — `differential{massFrac:0.4, radius:1.15022, omega:16, Kcs:0}`。
+    Ω_c は**較正値**で、素直な移行値(旧 coreSR20×初期殻スピン0.6=12)ではコア平均減光が
+    0.789 まで落ちて主張(0.886)と claim 窓[0.8,0.95]を外れる(v1 は Ω_c=20·s(t) と殻スピンの
+    成長に追従して暗さを維持していた)。3000步のコア平均減光を実測掃引し
+    (Ω_c=12→0.789 / 16→0.901 / 20→0.942 / 24→0.955)、旧実測に最も近い Ω_c=16 を採用。
+    新実測: コア平均減光 **0.901**・保持率 **1.000**(単層対照 0.481 は不変)
+- **⚫DFM版ブラックホール — 自由な5層の中心**(原仮定者指示): 第80便の実験サンプル
+  🕳️bhCoreFree の構成(中心 `pinned:false` + `physics.frameReaction:"pairReduced"` +
+  `balanceFrame:"barycentric"`)を ⚫ の正式構成として採用し、**🕳️bhCoreFree は廃止**した
+  (id `bhCore`・emoji ⚫・camera.scale 400 は不変)。実測(seed 20260805・6000步・中心天体基準):
+  外縁増強 kF1/kF0=**1.5236**(pinned 対照 1.5215 と一致)・自走 殻 0.15→**1.330**・
+  コアΩ 20→**4.24**・恒星保持 1.000・反作用/速度/スピン上限の発動 **すべて0**・
+  帳簿込み総 L 保存 1.3e-6・重心相対 最大変位 **0.394**/最大速度 **0.0086**・
+  コアなし対照 **1.045**(コアが主因)。固定中心との対照は粒子タップで「固定(pinned)」に
+  戻して比較できる。claims は `bhCore.outer-boost`(1.37〜1.68)/`bhCore.shell-spinup`
+  (1.20〜1.47)/`bhCore.recoil-bounded`(0.2〜0.8)
+- **QA**: `core.twolayer`・`behavior.saturnLayered` はコアv2 の SoA を叩く形へ改修(root 等の
+  旧ビルドでは従来のコアv1 経路を叩く二経路構成)。`core.cavity-no-negative-mass` は
+  **移行式の機械検証(reimport 型 — 旧キー入り JSON を読ませて手書き cavity と1步 bit 一致)**を
+  兼ねる形へ、`preset.group-core` は群の旧キー移行検査へ、`core.schema-roundtrip` は
+  schemaVersion 4(旧キー併記なし)へ、`core.ab-body-edit` はコアv1 欄の撤去検査へ更新。
+  `claim.bhcore-free` は ⚫ 向けに統合し、`claim.bhcore-selfdrive` は中心天体基準の測り方へ。
+  実測ハーネス `tests/exp-4-81.mjs` の対象を ⚫bhCore へ差し替えた
+
 第80便 A(2026-08-05): **E6′-R — 換算質量対称インパルスによるフレーム引きずり反作用**
 (外部レビュー採択の設計。opt-in で追加し、既定 legacy の挙動は 1 bit も変えない)。
 

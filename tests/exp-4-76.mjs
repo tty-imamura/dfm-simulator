@@ -8,6 +8,9 @@
 // - 初版の失敗記録: 粒 rMul2(R≈11)を半径34へ30個は幾何的に入らず接触ばねで爆散(保持7〜17%)。
 //   トーラスも同過密+軌道支持なしで分散(保持23%)。本版で粒径 rMul0.7・アーク pinned 化。
 // 出力: tests/out/exp-4-76.json。アプリ本体は不変(HP.sim.build 直接駆動)。
+// ※第81便注記: 本スクリプトは**コアv1(coreMR/coreSR/coreRR)在籍時**の記録用ハーネスである。
+//   第81便でコアv1 は廃止されたため、ここで組み立てる旧キー body は現行 beta の build では
+//   コアが付かない。再実行するときは core:{mode,massFrac,radius,omega} へ読み替えること。
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
