@@ -2469,7 +2469,7 @@ const BUILTIN_PRESETS = [
       descPattern:"支配天体の重心相対変位は最大(\\d+\\.\\d+)",
       testId:"claim.bhcore-free" }
   ],
-  camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260805,
+  camera:{scale:400, follow:0}, world:{boundary:"none",size:0}, seed:20260805,   // 第81便統合: 自由な中心を既定で追従(描画のみ — 物理不変)
   balanceFrame:"barycentric",   // 第80便 A: 生成時1回の重心系変換(pinned を含まない構成でのみ有効)
   physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:1, muF:0, gammaN:0, kappaS:0, Kt:50,
     cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
