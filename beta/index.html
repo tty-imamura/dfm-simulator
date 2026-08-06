@@ -205,6 +205,9 @@
   /* 第45便 45C(台帳4-85): 強場トイ領域バッジ(ψ_static>0.5 のみ)— 注意喚起として err 系統 */
   #classChips .classChip[data-g=strongfield]{border-color:var(--err);color:var(--err);}
   #classChips .classChip[data-g=drag]{border-color:var(--acc);color:var(--acc);}   /* 第51便 51B: 引きずりタグ */
+  /* 第82便B: E水準タグ(emergence:"E0".."E3" の宣言があるプリセットのみ)— 創発の水準の宣言。
+     sampleClass と同方針の宣言専用メタで、物理・保存 JSON には一切影響しない */
+  #classChips .classChip[data-g^=emg-]{border-color:var(--ok);color:var(--ok);}
   /* 第43便 43A(台帳4-78 B案): 数値主張(claims)の折畳み表示 — 分類バッジの直下、claims を
      持つプリセットにのみ表示。表示専用(物理・保存 JSON には無関係)。details.advParams と
      同系統の見た目を流用しつつ独立クラス化。長い数値行でも横スクロールが出ないよう break を許可 */
@@ -533,6 +536,8 @@ ja: {
   tgBoxGraph:"膨張グラフ(a・H・赤方偏移)",
   tgPhaseGraph:"相変化グラフ(T̄・液相率)",
   tgMechSpec:"機構スペクトル(支配機構の診断)",
+  tgEmergence:"創発モニタ(塊・整列・回転支持)",
+  tgEmergenceDesc:"「構造がどれだけ立ったか」を4つの実測量の時系列で読む診断グラフ(第82便)。①塊の数=接触距離ベースの連結成分数(i–j を繋ぐ条件は中心距離 d<1.2·(R_i+R_j))②最大塊の質量比=最大連結成分の質量÷全質量 ③スピン整列度=Σ I_i s_i ÷ Σ I_i |s_i|(+1で全部同じ向き・0で無相関・−1で全部逆向き。I_i=½|m_i|R_i²)④回転支持比 V/σ=⟨v_φ⟩²÷σ²(系の重心・重心速度を基準に取った接線速度の質量重み平均の2乗を、動径・接線の速度分散の平均 σ²=(σ_r²+σ_φ²)/2 で割った値。1より大きければ回転が支え、小さければランダム運動が支えている。分散が数値的に0の完全剛体回転では上限1e9を返す)。表示・診断のみで物理には一切影響しない — 計測は表示ONのときだけ数フレームに1回走り、OFFでは1命令も走らない。",
   // 第23便(原仮定者指示): 「表示」各行のタップ説明
   tgTrailsDesc:"画面を消さずに粒子の残像を重ねる表示効果。物理には影響しない。",
   tgTrailLineDesc:"粒子の軌道を線で記録して描く(☿の楕円歳差など)。記録間隔は描画品質に従う。",
@@ -554,10 +559,19 @@ ja: {
   ovMechSpec:"機構スペクトル", ovMechNote:"RMS加速度の正規化比Π(診断・物理不変)",
   ovMechRadial:"半径ビン 左=中心→右=外縁(Π=RMS比・物理不変)", mechDom:"支配:",
   mechCh:["重力","測地線","熱斥力","接触","結合","引きずり"],
+  // 第82便B(創発の推進): 創発モニタ — 構造がどれだけ立ったかの時系列(表示専用)
+  ovEmergence:"創発モニタ", ovEmergNote:"上:金=最大塊の質量比 水=塊の数/粒子数 下:緑=スピン整列度 紫=回転支持比V/σ(圧縮表示)",
+  ovEmergLegend:"上:金=最大塊質量比 水=塊数/粒子数 下:緑=整列 紫=V/σ(圧縮)",
+  emHud:(k,n,f,a,v)=>`塊${k}/${n} 最大${f}% 整列${a} V/σ=${v}`,
   bdgSC_principle:"原理実証", bdgSC_principleTip:"主張の主役機構が対照実験(A/B・ノックアウト)で分離され、QA が機械固定している基準・実証系(第67便 P3 分類)",
   bdgSC_composite:"複合現象", bdgSC_compositeTip:"複数機構の相互作用そのものが主題の物語系 — どの機構が主役かは機構スペクトルと要因分離実測で読む(第67便 P3 分類)",
   bdgSC_calibration:"現実較正", bdgSC_calibrationTip:"現実の観測値・公理外の補正則(E13等)で較正した対応デモ — DFM公理だけからの創発ではない(第67便 P3 分類)",
   bdgSC_semantic:"意味論表示", bdgSC_semanticTip:"光子波長など「表示物理」の意味論が主題 — 粒子力学への反作用はない(第67便 P3 分類)",
+  // 第82便B: E水準タグ(創発の水準の宣言 — sampleClass と同方針の宣言専用メタ・自動判定しない)
+  bdgE_E0:"E0 規定", bdgE_E0Tip:"創発の主張をしないサンプル(構造・運動が初期条件や外部規定でほぼ決まっている)。E水準は宣言専用のメタで、物理には一切影響しない(第82便)",
+  bdgE_E1:"E1 外部駆動下の自己組織化", bdgE_E1Tip:"外部から駆動(伝熱壁・規定レール・pinned など)されている系で、局所則から構造・秩序が自発的に生じる。E水準は宣言専用のメタで、物理には一切影響しない(第82便)",
+  bdgE_E2:"E2 閉鎖系の創発", bdgE_E2Tip:"外部駆動なし(閉鎖系寄り)で、局所則だけから構造が生成する — 目標の形を初期条件に埋め込んでいない。E水準は宣言専用のメタで、物理には一切影響しない(第82便)",
+  bdgE_E3:"E3 多seed頑健性確認済み", bdgE_E3Tip:"E2 に加えて、複数の乱数seedで同じ構造が再現することを実測で確認済み。E水準は宣言専用のメタで、物理には一切影響しない(第82便)",
   // 第53便 53D → 第60便: 相変化(E14″)の実験用パラメータ編集(創発一本化)
   pcSectionHead:"相変化(E14″)の実験",
   pcSectionDesc:"相変化サンプル専用の実験ノブ。8つのノブはどれも「いまの結合状態から」物性を決める連続量で、融点・潜熱・相率のような相の構成則は存在しない(第60便で創発一本化)。加熱/冷却壁の壁温・レートは「実験箱」カテゴリ。A/B比較中は編集対象側だけに効く — 「角度あり/なし」「創発伝導あり/なし」等の対照実験が組める。この編集はセーブに保存される(第54便 54B)。",
@@ -804,6 +818,8 @@ en: {
   tgBoxGraph:"Expansion graph (a, H, redshift)",
   tgPhaseGraph:"Phase-change graph (T̄, liquid fraction)",
   tgMechSpec:"Mechanism spectrum (dominance diagnostic)",
+  tgEmergence:"Emergence monitor (clumps, alignment, rotation support)",
+  tgEmergenceDesc:"A diagnostic graph reading how much structure has actually formed, as a time series of four measured quantities (dispatch 82). (1) Clump count = number of connected components under a contact-distance link (i–j are linked when their centre distance d < 1.2·(R_i+R_j)). (2) Largest-clump mass fraction = mass of the largest component ÷ total mass. (3) Spin alignment = Σ I_i s_i ÷ Σ I_i |s_i| (+1 all spinning the same way, 0 uncorrelated, −1 all opposed; I_i = ½|m_i|R_i²). (4) Rotation support V/σ = ⟨v_φ⟩² ÷ σ², where v_φ is the tangential velocity taken about the system's centre of mass and its mean velocity, ⟨v_φ⟩ is the mass-weighted mean, and σ² = (σ_r² + σ_φ²)/2 is the mean of the radial and tangential velocity dispersions — above 1 rotation holds the system up, below 1 random motion does; a perfectly rigid rotation with numerically zero dispersion returns the ceiling value 1e9. Display and diagnostics only; the physics is untouched — the measurement runs once every few frames and only while the graph is on, and not a single instruction runs while it is off.",
   tgTrailsDesc:"Overlays fading afterimages of the particles. Display only — physics unchanged.",
   tgTrailLineDesc:"Records and draws orbit lines (e.g. Mercury's precessing ellipse). Recording interval follows render quality.",
   tgFieldDesc:"Background color map of the determinacy W (A3/E1'). Brighter = higher W.",
@@ -824,10 +840,19 @@ en: {
   ovMechSpec:"Mechanism spectrum", ovMechNote:"Normalized RMS ratio Π (diagnostic; physics untouched)",
   ovMechRadial:"Radius bins: center → edge (Π = RMS ratio; physics untouched)", mechDom:"Dominant:",
   mechCh:["Gravity","Geodesic","Th.rep","Contact","Bond","Drag"],
+  // Dispatch 82B: emergence monitor — time series of how much structure has actually formed (display only)
+  ovEmergence:"Emergence monitor", ovEmergNote:"top: gold=largest-clump mass fraction, cyan=clumps/particles; btm: green=spin alignment, magenta=rotation support V/σ (squashed)",
+  ovEmergLegend:"top gold=max clump, cyan=clumps/N; btm green=align, magenta=V/σ",
+  emHud:(k,n,f,a,v)=>`clumps ${k}/${n} max ${f}% align ${a} V/σ=${v}`,
   bdgSC_principle:"Principle", bdgSC_principleTip:"A baseline/demonstration system whose lead mechanism is isolated by controls (A/B, knockouts) and machine-verified by QA (P3 classification, session 67)",
   bdgSC_composite:"Composite", bdgSC_compositeTip:"A narrative system whose subject is the interaction of several mechanisms — read the lead actor from the mechanism spectrum and factor-separation runs (P3 classification, session 67)",
   bdgSC_calibration:"Calibrated", bdgSC_calibrationTip:"A correspondence demo calibrated with real observed values or beyond-axiom corrections (e.g. E13) — not emergence from the DFM axioms alone (P3 classification, session 67)",
   bdgSC_semantic:"Semantics", bdgSC_semanticTip:"The subject is the semantics of display physics (photon wavelengths etc.) — no back-reaction on particle dynamics (P3 classification, session 67)",
+  // Dispatch 82B: emergence-level tag (a declaration-only tag, same policy as sampleClass — never auto-detected)
+  bdgE_E0:"E0 Prescribed", bdgE_E0Tip:"A sample that makes no emergence claim: its structure and motion are essentially fixed by the initial conditions or by external prescription. The E level is declaration-only metadata and never touches the physics (dispatch 82)",
+  bdgE_E1:"E1 Driven self-organization", bdgE_E1Tip:"Structure/order arises spontaneously from local rules, but the system is externally driven (thermal walls, prescribed rails, pinned bodies…). The E level is declaration-only metadata and never touches the physics (dispatch 82)",
+  bdgE_E2:"E2 Closed-system emergence", bdgE_E2Tip:"Structure is generated from local rules alone with no external drive (closed system) — the target shape is not embedded in the initial conditions. The E level is declaration-only metadata and never touches the physics (dispatch 82)",
+  bdgE_E3:"E3 Multi-seed robust", bdgE_E3Tip:"E2 plus a measured confirmation that the same structure reappears across several random seeds. The E level is declaration-only metadata and never touches the physics (dispatch 82)",
   pcSectionHead:"Phase-change (E14″) experiments",
   pcSectionDesc:"Experiment knobs for phase-change samples. All eight knobs are continuous quantities that derive material behavior from the current bonding state — there is no phase rule such as a melting point, latent heat or phase fraction (unified as fully emergent in dispatch 60). Wall temperature/rate live in the Lab-box category. During A/B comparison the knobs act only on the edited side, so 'with/without angle' or 'with/without emergent conduction' controls are easy to set up. These edits are stored in saves (dispatch 54, 54B).",
   pcBondN:"Bond budget bondN",
@@ -1215,6 +1240,12 @@ function strongFieldPsi(p){
 // layers は複数付与しうる(例: boxredshift=background+semantic)。該当なしのときだけ core。
 // 注: measureBox(第35便 W3)は universeBox を使わないため自動的に background にならず core 扱い
 // (「自由な箱は規定背景を持たないことが主題」という設計意図と一致)
+// 第82便B(創発の推進・最小形): E水準タグ — サンプルの「創発の水準」の宣言。
+//   E0=規定(創発の主張なし)/ E1=外部駆動下の自己組織化(伝熱壁・レール・pinned 等の駆動あり)
+//   E2=閉鎖系の創発(外部駆動なしで局所則から構造が生成する)/ E3=E2+多seed頑健性を実測確認済み
+// sampleClass・scaleTier と同方針の**宣言専用メタ**で、自動判定しない・物理には一切影響しない。
+// 未宣言のプリセットにはバッジを出さない(ノイズ回避)
+const EMERGENCE_LEVELS=["E0","E1","E2","E3"];
 function classifyPreset(p){
   const ext=externalTags(p);
   const ph=p.physics||{};
@@ -1237,7 +1268,11 @@ function classifyPreset(p){
   // 第74便: scaleTier もパススルー(sampleClass と同方針 — 宣言専用・自動判定しない。
   // 不正値は validatePreset が削除済みだが、内蔵定義の直接参照にも備えて正規値のみ通す)
   const scaleTier = (typeof SCALE_TIERS!=="undefined" && SCALE_TIERS.indexOf(p.scaleTier)>=0)? p.scaleTier : null;
-  return {layers, external:ext, closed, tint, strongField, psiStatic, sampleClass:p.sampleClass||null, scaleTier};
+  // 第82便B: E水準タグ(創発の水準)も宣言のパススルー(sampleClass と同方針 — 自動判定しない。
+  // 未宣言=null でバッジ非表示。validatePreset が不正値を削除済みだが、内蔵定義の直接参照にも
+  // 備えて正規値のみ通す)
+  const emergence = (EMERGENCE_LEVELS.indexOf(p.emergence)>=0)? p.emergence : null;
+  return {layers, external:ext, closed, tint, strongField, psiStatic, sampleClass:p.sampleClass||null, scaleTier, emergence};
 }
 function gName(g){ return (LANG==="en" && I18N.en.groups[g]) || g; }
 function pName(p){ return (LANG==="en" && p.en && p.en.name) || p.name; }
@@ -2683,6 +2718,90 @@ const BUILTIN_PRESETS = [
      spinMin:0,spinMax:0.15, vMode:"rigid", aroundMass:0, vScale:0.004, direction:1}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"} },
+// 第82便B(創発の推進・統括裁定「目標形状を初期条件に埋め込まない」): 🥚selfRotor —
+// 自己形成ダークローター。設計上の要点:
+//  (1) **初期条件に層構造を置かない**: 単一の一様円盤(180粒・全て m=1・spin=0・自由)+
+//      弱い正味回転(vMode:"rigid" ω₀=0.008)+ 各粒に同一の微小コア種
+//      core:{differential, massFrac 0.05, R_c 0.2, Ω_c 2}。pinned・境界・外部重力はゼロ
+//      (balanceFrame:"barycentric" で系の重心・重心速度も生成時1回で 0 にする)。
+//      「中心天体」「暗い核」「ハロー」はどれも初期条件に無い — 融合則からの生成物である。
+//  (2) 融合は既存機構そのまま(fusion:{dFrac:0.7} + thermal:"tint")。dFrac は上限 1/√2 の
+//      直下を採った: 等質量対では R′=√(R_i²+R_j²)=√2·R なので、d<0.7·(R_i+R_j)≈R′ =
+//      「融合後の半径の内側まで近づいたら1体になる」という自然な閾値になる。
+//      (dFrac を下げると E9 接触ばね〔重なり x>x_C で線形・勾配 8〕の壁を越える相対速度が
+//       必要になり、連鎖が立ちにくくなる。ただし本構成での dFrac 用量反応は**単調ではない**
+//       — 実測 0.7/0.6/0.5/0.35 → 質量比 26.7/47.8/43.3/23.3% なので、構造形成の駆動因は
+//       dFrac ではなく G の側で分離した〔下記(5)〕)。
+//  (3) kRep=0(第44便 44B の教訓 — 融合体の高温が第三者との U_rep を跳ね上げ dU3 が
+//      リザーバ fusU から支払われる自壊を避ける)・kappaS=0(pinned なしなので伝導は
+//      帳簿に載るが、熱は本サンプルの主張ではないので切って要因を減らす)。
+//  (4) Kt=14 は**暗さの較正値**。lS_eff=|s|·R/c_surf・c_surf=c₀e^{−2ψ} なので、井戸の深さ ψ が
+//      Kt で決まる。9000步の中心天体の実効減光を掃引実測(Kt=14→0.561 / 16→0.403 /
+//      18→0.312 / 20→0.255 / 24→0.187、周囲は 0.194/0.139/0.108/0.089/0.066)し、
+//      「中心が暗く・周囲は明るいまま」のコントラストが読める 14 を採った。Kt は本構成では
+//      力学に一切効かない(実測: 上の5点で粒子数・融合回数・質量比・スピン・半径が完全一致)。
+//  (5) G=8 は**構造形成の較正値**。G だけを 2/4/6/8/12 と振ると中心天体の質量比が
+//      1.7/6.1/12.8/26.7/44.4%(融合 7/62/125/155/173回)と単調に増える = 生成の駆動因は
+//      自己重力である、という用量反応の分離。G=8 は「1体が全質量の1/4を占め、まだ25体が
+//      残ってハローを作る」中庸点(G=12 では7体まで潰れ、G=4 では育たない)。
+// ※ 立たなかった主張(実測に基づく正直な記録): ①暗さそのものは融合の有無を判別しない —
+//   融合を切った対照(180粒がそのまま密集した山)の中心も lS_eff≈1.0 まで暗くなる
+//   (暗さを決めるのは井戸の深さで、成長経路ではない)。判別するのは「中心が暗く周囲が明るい」
+//   というコントラストの方。②kFrame=0 対照は外縁回転に系統差を作らない(生き残りが中心集中
+//   するため外縁帯の統計が立たず、差はカオス的な軌道分岐に埋もれる)— 本サンプルは
+//   引きずりの主張をしない。実測ハーネス: tests/exp-4-84.mjs
+{ id:"selfRotor", name:"自己形成ダークローター — 種から育つ暗い中心", emoji:"🥚", group:"銀河",
+  scaleTier:"galactic",
+  sampleClass:"composite",
+  emergence:"E2",   // 第82便B: E水準タグ(閉鎖系の創発 — 目標形状を初期条件に埋め込んでいない)
+  descStruct:{
+    summary:"何も仕込んでいない一様な粒の雲から、重くて暗い「回る中心」がひとりでに育つのを見るサンプル。置いたのは180粒の一様な円盤(全部おなじ重さ1・自転ゼロ・自由)と、雲全体がゆっくり回る初速(ω₀=0.008)、そして各粒がひとつずつ持つ同じ微小なコアの種(質量の5%・半径0.2・Ω_c=2)だけ。中心天体も暗い核もハローも初期条件には一つも置いていない — 働くのは自己重力(E4)と接触(E9)、そして「近づきすぎた2粒は1粒になる」融合(中心距離が d<0.7·(R_i+R_j) まで縮んだら合体)と、そのときコアが保存則どおり足し合わされる継承則(M_c′=M_c,i+M_c,j・R_c′=√(R_c,i²+R_c,j²)・J_c′=J_c,i+J_c,j)だけである。固定天体・境界・一様重力・伝熱壁はどれも無く、系の重心と重心速度は生成時に1回だけ0へ揃えてある(閉鎖系)。",
+    observe:"実測(seed 20260806・9000步=t144): 180粒が155回の融合を経て25体になり、いちばん重い1体が全質量の26.7%(m=48)を占める中心天体に育つ。束縛率は0.75。融合を切った対照では最大天体は最初の1粒のまま(質量比0.56%)で束縛率も0.14 — 中心天体は初期条件ではなく融合則の生成物である。原因が自己重力であることは用量反応で分離した: Gだけを2/4/6/8/12と振ると質量比は1.7/6.1/12.8/26.7/44.4%(融合は7/62/125/155/173回)と単調に増える。コアの角運動量J_coreは融合継承の経路だけで貯まる: 中心天体のJ_coreは0.0960で、これは種48個ぶんちょうど、飲み込んだ質量48と1粒単位で一致する(継承則の総和がそのまま個数を数えている)。系全体のΣJ_coreは0.3600(=180粒×0.0020)のまま最後まで変わらず、コア種を外した対照ではJ_coreは恒等的に0になる(継承以外の生成経路が無い)。暗さも育つ: 実効減光lS_eff(A11/E8R — 自転で自分の光を掃き出す度合い)はt=0で0.000、9000步では中心天体は0.589まで暗くなるのに対し周囲の天体は平均0.159のままで、「暗い中心+明るい周辺」が生成する(コントラスト3.7倍)。この暗さは井戸の深さψ=W/Ktだけで決まり力学には一切効かない(実測: Kt 12/14/16/20/24で粒子数・融合回数・質量比・スピン・半径がすべて完全一致し、変わるのは減光の0.920/0.589/0.421/0.264/0.193だけ)。自転ゼロで始まった粒のスピンは最後には全部が同じ向きに揃う(創発モニタのスピン整列度0.000→1.000・塊の数166→2・最大塊の質量比0.994・回転支持比V/σ=10.9)。運動量・角運動量(A13/T7)はリザーバ帳簿ゼロのまま厳密に閉じる(モニタ表示・9000步で|ΔL|/L_scale=6.7e-7)。※3seed(20260806/07/08)の再現幅は質量比18.3〜30.0%・中心の減光0.472〜0.589・J_core 0.0660〜0.1080で、対照との差はこの幅よりはるかに大きい。※立たなかった主張も正直に記す: (a)暗さそのものは融合の有無を判別しない — 融合を切った対照でも、180粒が密集した山の中心はlS_eff=0.999まで暗くなる(暗さを決めるのは井戸の深さであって成長経路ではない)。判別するのは「中心が暗く周囲は明るい」というコントラストの方で、対照では周囲も平均0.834まで暗い。(b)引きずりkFrame=0の対照は外縁の回転に系統差を作らない(生き残りが中心へ集まって外縁帯の統計が立たず、差はseed幅に埋もれる)— 本サンプルは引きずりの主張をしない。(c)融合閾値dFracの用量反応は単調ではない(0.7/0.6/0.5/0.35→26.7/47.8/43.3/23.3%)。実在の銀河・ダークマター・星形成の再現を主張するものではない(Negative Claims 1/2)。",
+    control:"おすすめA/B: Ktを24に上げると井戸が浅くなり中心の暗さが0.589→0.193まで薄れる(力学は1ビットも変わらない)。Gを4に下げると成長がほぼ止まり、同じ9000步でも中心天体は質量比6.1%までしか育たない。右下の「創発モニタ」で塊の数・最大塊の質量比・スピン整列度・回転支持比V/σの時系列が読める。"},
+  en:{name:"Self-Assembling Dark Rotor — A Dark Center Grown from Seeds", descStruct:{
+    summary:"A sample where a heavy, dark, spinning centre grows all by itself out of a plain cloud of grains with nothing built in. All that is placed is a uniform disk of 180 grains (identical mass 1, zero spin, all free), a slow overall rotation of the cloud (ω₀=0.008), and one identical tiny core seed inside every grain (5% of its mass, radius 0.2, Ω_c=2). No central body, no dark core and no halo appear anywhere in the initial conditions — the only things at work are self-gravity (E4), contact (E9), fusion (two grains that come within d<0.7·(R_i+R_j) of each other become one) and the inheritance rule that adds their cores up by the conservation laws (M_c′=M_c,i+M_c,j, R_c′=√(R_c,i²+R_c,j²), J_c′=J_c,i+J_c,j). There are no pinned bodies, no boundary, no uniform gravity and no thermal walls, and the system's centre of mass and its velocity are zeroed once at build time (a closed system). ",
+    observe:"Measured (seed 20260806, 9000 steps = t144): 180 grains go through 155 fusions down to 25 bodies, and the heaviest single body grows into a centre holding 26.7% of the total mass (m=48). The bound fraction is 0.75. In the control with fusion switched off the largest body stays the original single grain (mass fraction 0.56%) and the bound fraction is only 0.14 — the central body is a product of the fusion rule, not of the initial conditions. That self-gravity is the cause was isolated by a dose–response: varying only G over 2/4/6/8/12 moves the mass fraction monotonically through 1.7/6.1/12.8/26.7/44.4% (7/62/125/155/173 fusions). The core angular momentum J_core accumulates through the inheritance path and nothing else: the centre's J_core is 0.0960, which is exactly 48 seeds' worth and matches the mass 48 it swallowed grain for grain (the sum in the inheritance rule literally counts them). The system-wide ΣJ_core stays at 0.3600 (=180 grains × 0.0020) to the end, and in the control with the core seeds removed J_core is identically 0 — there is no source other than inheritance. The darkness grows too: the effective dimming lS_eff (A11/E8R — how much of its own light a body sweeps out by spinning) is 0.000 at t=0, and by 9000 steps the central body has dimmed to 0.589 while the bodies around it stay at 0.159 on average — a dark centre with a bright surround is generated (a contrast of 3.7). That darkness is set purely by the depth of the well ψ=W/Kt and never enters the dynamics (measured: at Kt 12/14/16/20/24 the particle count, fusion count, mass fraction, spin and radius are all identical to the last bit, and only the dimming changes: 0.920/0.589/0.421/0.264/0.193). The grains start with zero spin and end up unanimously co-rotating (emergence monitor: spin alignment 0.000→1.000, clump count 166→2, largest-clump mass fraction 0.994, rotation support V/σ=10.9). Momentum and angular momentum (A13/T7) close exactly with all reservoir ledgers at zero (see the monitor; |ΔL|/L_scale = 6.7e-7 over the 9000 steps). Across 3 seeds (20260806/07/08) the spread is 18.3–30.0% in mass fraction, 0.472–0.589 in central dimming and 0.0660–0.1080 in J_core — far smaller than the gap to the controls. What did NOT hold, recorded honestly: (a) darkness on its own does not discriminate fusion from no fusion — in the no-fusion control the centre of the 180-grain pile also dims to lS_eff=0.999 (darkness is set by the depth of the well, not by the growth path). What does discriminate is the contrast, dark centre against bright surround: in the control the surround dims to 0.834 as well. (b) The kFrame=0 control produces no systematic difference in the outer rotation (the survivors concentrate at the centre so the outer annulus has no statistics, and the difference is buried in the seed spread) — this sample makes no dragging claim. (c) The dose–response in the fusion threshold dFrac is not monotonic (0.7/0.6/0.5/0.35 → 26.7/47.8/43.3/23.3%). Not a claim to reproduce real galaxies, dark matter or star formation (Negative Claims 1/2). ",
+    control:"Suggested A/B: raise Kt to 24 and the well gets shallower, fading the central darkness from 0.589 to 0.193 (the dynamics do not change by a single bit). Drop G to 4 and the growth all but stops — in the same 9000 steps the centre only reaches a mass fraction of 6.1%. The Emergence monitor at the lower right plots the clump count, largest-clump mass fraction, spin alignment and rotation support V/σ over time."}},
+  activeParams:["G","Kt","kFrame"],
+  thermal:"tint",            // 融合の前提(内部温度が状態変数)
+  fusion:{dFrac:0.7},        // 第44便 44B: 融合(上限 1/√2 の直下 — 設計コメント(2))
+  balanceFrame:"barycentric",// 第80便 A: 生成時1回の重心系変換(閉鎖系の初期条件を厳密に)
+  validT:144,                // 9000步(t=144)= 成長が飽和し終える実測区間
+  // 第82便B: claims — 説明文の主要数値の機械可読化。窓は 3seed(20260806/07/08)の実測幅を
+  // 必ず内側に含むように取る(質量比 18.3〜30.0% / 中心減光 0.472〜0.589 / 周囲減光 0.159〜0.235 /
+  // J_core 0.0660〜0.1080 = 種33〜54個ぶん)。QA behavior.selfrotor が同じ量を実測して照合する
+  claims:[
+    { id:"selfRotor.max-mass-fraction", kind:"fixed-seed", metric:"maxBodyMassFraction",
+      expected:{min:0.14, max:0.36}, descScale:0.01,   // 実測26.7%(3seed 18.3〜30.0)
+      descPattern:"全質量の(\\d+\\.\\d+)%", testId:"behavior.selfrotor",
+      control:{patch:{fusion:null}, expected:{min:0.004, max:0.008}, descScale:0.01,
+        descPattern:"質量比(\\d+\\.\\d+)%\\)で束縛率"} },   // 融合オフ: 0.56% = 1/180
+    { id:"selfRotor.core-J-inherited", kind:"fixed-seed", metric:"centerCoreJInSeeds",
+      expected:{min:25, max:65},   // 実測48個ぶん(3seed 33〜54)
+      descPattern:"種(\\d+)個ぶん", testId:"behavior.selfrotor",
+      control:{patch:{core:null}, expected:{min:0, max:0},
+        descPattern:"J_coreは恒等的に(0)になる"} },   // コア種なし: 恒等的に0
+    { id:"selfRotor.center-dimming", kind:"fixed-seed", metric:"centerDimming",
+      expected:{min:0.35, max:0.80},   // 実測0.589(3seed 0.472〜0.589)
+      descPattern:"中心天体は(\\d+\\.\\d+)まで暗くなる", testId:"behavior.selfrotor" },
+    { id:"selfRotor.halo-dimming", kind:"fixed-seed", metric:"haloDimming",
+      expected:{min:0.09, max:0.32},   // 実測0.159(3seed 0.159〜0.235)
+      descPattern:"周囲の天体は平均(\\d+\\.\\d+)のまま", testId:"behavior.selfrotor" },
+    { id:"selfRotor.core-J-counts-mass", kind:"conservation", metric:"coreJInSeedsOverMassRatio",
+      expected:{min:0.999, max:1.001}, testId:"behavior.selfrotor" }   // J_core/J_seed = m/m_seed(継承則の総和恒等式)
+  ],
+  camera:{scale:150}, world:{boundary:"none",size:0}, seed:20260806,   // 展示調整: t=0 の雲(半径100)が画面の2/3・収縮後の中心天体も見える
+  physics:{G:8, D0:2, kFrame:1, q:2, kRep:0, muF:0.5, gammaN:0.4, kappaS:0, Kt:14,
+    cLight:60, bM:1, etaRad:0.0016, pRad:2, cHeat:0.2, gravityX:0, gravityY:0,
+    geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2},
+  bodies:[
+    // 一様円盤 180粒(全て同質量・spin=0・自由)。層構造・中心天体・ハローはどれも置いていない
+    {type:"disk", rMul:1, n:180, cx:0,cy:0, radius:100, mMin:1,mMax:1,
+     spinMin:0,spinMax:0, tInt:0.5, vMode:"rigid", aroundMass:0, vScale:0.008, direction:1,
+     lightSweep:"auto",
+     core:{mode:"differential", massFrac:0.05, radius:0.2, omega:2, Kcs:0}}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true,emergence:true} },
 
 // ===== グループ: 光 =====
 { id:"lensing", name:"重力レンズと光子捕捉", emoji:"💡", group:"光",
@@ -3007,6 +3126,7 @@ const BUILTIN_PRESETS = [
 { id:"emergent", name:"三態の創発 — 結合の予算", emoji:"🧬", group:"熱の実験室",
   scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  emergence:"E2",   // 第82便B: E水準(閉鎖系の創発 — 三態は初期条件に無く、結合予算の局所則だけから立つ)
   descStruct:{
     summary:"固体・液体・気体を「相のスイッチ」なしで創発させる実験(E14″結合予算)。分子間力のルールはひとつだけ — 各分子は結合の予算(公称6本分)を持ち、いま結合している相手の数で予算を分け合う。結合数が減ると残りの結合力が増す(予算の集中)。結合相手は幾何だけで決まり、固定されない(毎瞬間、帯内の相手と自動でつなぎ直す)。温度は熱圧(E5′)の斥力としてだけ力学に入り、この引力との競合が三態を作る。融点も潜熱も指定しない — 結合の井戸から抜け出すエネルギーがそのまま「実効潜熱」として現れる(第60便で創発一本化)。",
     observe:"低温では弱い結合を6本ずつ張り合った格子(塊)が安定。加熱すると熱圧が結合を1本また1本と引き剥がし、結合数が徐々に減る — 減るほど残りの結合が濃く太くなる(結合線の表示がそのまま予算の集中を見せる)。中温では数本の強い結合で繋がった液滴・クラスタが漂い、結合相手は衝突のたびに入れ替わる。高温では小さな「分子」だけが残り、飛び回る気体になる — 原子の気体ではなく分子の気体が創発するのは、予算の集中で最後の結合が最も強いから。相変化グラフ(右下)では、結合が切れて配位数c̄が下がる間、温度の上がりが鈍る — 指定していない潜熱が結合エネルギーとして創発しているのが読める。結合の組み替えでポテンシャルが変わる分は熱と等価交換され、エネルギーは壁帳簿+結合+U_repで閉じる(保存量モニタ)。熱伝導も創発版(condN): 結合の多い塊は速く、孤立した分子は遅く伝わる。色=温度・結合線の濃さ=結合の強さ。実在物質の定量再現ではない。",
@@ -3035,6 +3155,7 @@ const BUILTIN_PRESETS = [
 { id:"emergent2", name:"格子も分子も — 予算×角度", emoji:"🧊", group:"熱の実験室",
   scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  emergence:"E2",   // 第82便B: E水準(閉鎖系の創発 — 蜂の巣格子も分子ガスも予算×角度の2則から立つ)
   descStruct:{
     summary:"🧬(結合予算)に結合角を加えた実験(E14″拡張 — 第59便で併用可能化)。ルールは2つだけ: ①各分子は結合の予算(公称3本分)を持ち、結合数が減ると残りが強くなる(bondN)。②結合角が理想角120°(=2π/予算3)に近い近傍対は井戸・詰め込み過ぎの角(60°等)は障壁になる符号付き角ポテンシャル(angK — sp²混成軌道の反発の最小類似)。リンクの台帳は無く、どちらも幾何近傍だけから毎瞬間計算される。熱伝導も相率ではなく、いまの結合状態(滑らかな配位数B)から創発する(condN)。融点も潜熱も指定しない — 徐冷で蜂の巣格子・加熱で分子ガスが同じ2ルールから出る。",
     observe:"温かい液体を床壁でゆっくり冷やすと、組み替えのたびに120°の対が深い井戸へ落ち着き、蜂の巣状の開いた格子が焼き鈍しで創発する(angK=0の対照は接触充填の密集塊 — 角偏差の実測差はQAが機械固定)。「何本まで」も「どの角度で」も、予算と角度という2つの局所ルールの競合だけで決まる。凝固後に壁温を上げ直すと、今度は予算の集中が効いて小さな分子群へ解離して飛び回る — 同じ2ルールから格子(低温)と分子ガス(高温)の両方が出る。熱伝導も創発版: 結合の多い格子は速く(condS側)、孤立した分子は遅く(condG側)伝わる。エネルギーは壁帳簿+結合+U_ang+U_repで閉じる(角ポテンシャルは位置だけの保存力 — 残差はshare変動の交差項で、angK=0でも同階級)。色=温度・結合線の濃さ=予算の集中。実在物質の定量再現ではない。",
@@ -3065,6 +3186,7 @@ const BUILTIN_PRESETS = [
 { id:"chain2", name:"鎖の創発 — 予算2×角度180°", emoji:"⛓️", group:"熱の実験室",
   scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  emergence:"E2",   // 第82便B: E水準(閉鎖系の創発 — 鎖は結合価の台帳ではなく予算2×角度180°から立つ)
   descStruct:{
     summary:"🧊(予算3×角度120°=蜂の巣)の姉妹実験 — 予算を2本・理想角を180°(=2π/予算2)にしただけで、同じ2つの局所ルールから鎖(分子のスパゲッティ)が創発する(E14″)。結合価の台帳もリンクの上限も指定しない: 3本目の結合は予算の分散で自然に損になり、折れ曲がった角は障壁に押されて伸びる。",
     observe:"温かい液体を中温の床壁で穏やかに冷やすと、等方の凝集塊ではなく、組み替わりながら伸びる鎖と環が湧いてくる。鎖の端(配位1)は予算が集中して最も強い結合を持ち、鎖の中程(配位2)は180°へ伸ばすトルクを受ける — 端が相手を捕まえ、胴が伸びる、の繰り返しで鎖が育つ。さらに冷やすと絡んだ鎖のまま凍り付き、壁温を上げると端から解けて短い断片・環になる。エネルギーは壁帳簿+結合+U_ang+U_repで閉じる(保存量モニタ)。色=温度・結合線の濃さ=予算の集中。実在の高分子・会合流体の定量再現ではない。",
@@ -3091,6 +3213,7 @@ const BUILTIN_PRESETS = [
 { id:"chaincycle", name:"温度循環 — 鎖の凍結と解離", emoji:"♻️", group:"熱の実験室",
   scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  emergence:"E1",   // 第82便B: E水準(外部駆動下の自己組織化 — 床壁の温度スケジュールが外部駆動)
   // 第67便 67A(結合標準の温度循環デモ — 第64便裁定キュー・ChatGPT §8.1 の実施):
   // ⛓️chain2 と同一の物理・同一の初期配置(seed 7)で、床壁だけに温度スケジュール
   // (T=0.6 → t=288 で T2=20)を与える。前半=冷却で鎖が自己組織化(凍結)・後半=加熱で
@@ -4117,6 +4240,12 @@ function validatePreset(obj){
   if(p.scaleTier!==undefined){
     if(SCALE_TIERS.indexOf(p.scaleTier)<0){ warnings.push("scaleTier が不正のため削除"); delete p.scaleTier; }
   }
+  // 第82便B: emergence — E水準タグ(創発の水準の宣言。表示バッジ専用・物理には一切影響しない)。
+  // sampleClass と同方針(宣言専用・自動判定しない)。不正値は警告つき無視=削除(バッジが出ないだけ)。
+  // ※ SYSTEM_PROMPT には載せない(AI生成には開放しない — 受理して検証するだけ)
+  if(p.emergence!==undefined){
+    if(EMERGENCE_LEVELS.indexOf(p.emergence)<0){ warnings.push("emergence が不正のため削除"); delete p.emergence; }
+  }
   // 第80便 A(E6′-R): balanceFrame — 生成時1回の重心系変換(最上位キー。物理ループには一切
   // 触らない = 初期条件の指定)。"barycentric" のときだけ、全 bodies 生成後に系全体の
   // 重心位置・重心速度を全粒子から差し引く。自由な支配天体(pinned:false)の系で、有限個の
@@ -4477,7 +4606,7 @@ function validatePreset(obj){
       p.claims=out;
     }
   }
-  const ov={rotationCurve:false,tempHistogram:false,field:false,spectrum:false,trail:false,monitor:false,boxGraph:false,phaseGraph:false,mechSpectrum:false}; // v1.12: trail/monitor を正式化(第6次裁定 7.5)。boxGraph は第32便(W2)。phaseGraph は第53便 53B(E14)。mechSpectrum は第65便 65A(機構スペクトル診断)
+  const ov={rotationCurve:false,tempHistogram:false,field:false,spectrum:false,trail:false,monitor:false,boxGraph:false,phaseGraph:false,mechSpectrum:false,emergence:false}; // v1.12: trail/monitor を正式化(第6次裁定 7.5)。boxGraph は第32便(W2)。phaseGraph は第53便 53B(E14)。mechSpectrum は第65便 65A(機構スペクトル診断)。emergence は第82便B(創発モニタ)
   if(p.overlays!==undefined){
     if(typeof p.overlays!=="object"||Array.isArray(p.overlays)) bad("overlaysはオブジェクト");
     else {
@@ -7765,14 +7894,15 @@ function overlaySlots(){
   // 第53便 53B(E14): 相変化グラフ — phaseChange の無いプリセットではスロットを割り当てない
   if(sim.overlays.phaseGraph && sim.phase) s.push("phaseGraph");
   if(sim.overlays.mechSpectrum) s.push("mechSpectrum");   // 第65便 65A: 機構スペクトル(全プリセット有効)
+  if(sim.overlays.emergence) s.push("emergence");   // 第82便B: 創発モニタ(全プリセット有効・表示専用)
   return s;
 }
 // 第26便(原仮定者指示): グラフの最小化 — キーごとの状態と可変高さのスロット積み。
 // 最小化中はタイトルバー(高さ16)だけを描き、バー全体のタップで復元。展開中は右上「−」で最小化
-const ovMin={rotationCurve:false,tempHistogram:false,spectrum:false,boxGraph:false,phaseGraph:false,mechSpectrum:false};
+const ovMin={rotationCurve:false,tempHistogram:false,spectrum:false,boxGraph:false,phaseGraph:false,mechSpectrum:false,emergence:false};
 const OV_H=92, OV_HMIN=16;
 // 第61便 61B(レビューP1「phaseGraph 二段化」): グラフごとの展開高さ(未登録は OV_H)
-const OV_HK={phaseGraph:152, mechSpectrum:152};   // 第66便 66C: 機構スペクトルは二段(全体+半径ビン)
+const OV_HK={phaseGraph:152, mechSpectrum:152, emergence:132};   // 第66便 66C: 機構スペクトルは二段(全体+半径ビン)。第82便B: 創発モニタも二段
 const ovH=(key)=>OV_HK[key]||OV_H;
 let ovHit=[];   // グラフのトグル用タップ領域(キャンバス座標。描画のたびに再登録)
 function overlayBaseY(slot){
@@ -8175,6 +8305,133 @@ function drawMechSpectrum(slot=0){
   ctx.restore();
   ovDrawToggle("mechSpectrum",slot);
 }
+// ===== 第82便B(創発の推進): 創発モニタ(表示専用の診断グラフ)=====
+// 「構造がどれだけ立ったか」を4つの実測量で読む。**物理ループには一切触れない** — sim.step
+// からは呼ばれず、S の状態も1バイトも書き換えない純粋な読み取り関数で、グラフ表示が ON の
+// ときだけ描画パスから数フレームに1回呼ばれる(OFF なら overlaySlots に載らず 1 命令も走らない)。
+//   nCluster = 接触距離ベースの連結成分数。i–j を繋ぐ条件は d < EM_LINK·(R_i+R_j)
+//              (EM_LINK=1.2 = E9 接触ばねが効き始める距離の少し外。融合で1体になった塊は
+//               そもそも1粒子なので、ここで数えるのは「接触して連なっている集団」)
+//   maxFrac  = 最大連結成分の質量 / Σ|m|(1 に近いほど単一の塊へ集約している)
+//   align    = Σ I_i s_i / Σ I_i |s_i|(スピン整列度。I_i=½|m_i|R_i²。+1=全部同方向・
+//              0=無相関・−1=全部逆方向。分母が0のときは0)
+//   vsig     = 回転支持/分散支持比 V/σ = ⟨v_φ⟩² / σ²。系の重心 (c) と重心速度 (cv) を基準に
+//              dx=x_i−c_x, dv=v_i−cv として v_φ,i=(dx·dv_y−dy·dv_x)/r・v_r,i=(dx·dv_x+dy·dv_y)/r
+//              を取り、⟨v_φ⟩=質量重み平均、σ²=(σ_r²+σ_φ²)/2(σ_φ は ⟨v_φ⟩ まわりの質量重み分散)。
+//              >1 で回転支持が優勢・<1 で分散(ランダム運動)支持が優勢。σ²≈0 のときは 0 を返す
+const EM_LINK=1.2, EM_VSIG_MAX=1e9;
+function emergenceStats(S){
+  const n=S.n;
+  if(n<1) return {n:0, nCluster:0, maxFrac:0, align:0, vsig:0};
+  const m=S.m, x=S.x, y=S.y, vx=S.vx, vy=S.vy, R=S.R, spin=S.spin;
+  // ---- 連結成分(union-find。O(N²) の対走査は診断表示のときだけ走る)----
+  let par=emParBuf;
+  if(!par || par.length<n) par=emParBuf=new Int32Array(Math.max(n,64));
+  for(let i=0;i<n;i++) par[i]=i;
+  const find=(a)=>{ while(par[a]!==a){ par[a]=par[par[a]]; a=par[a]; } return a; };
+  for(let i=0;i<n;i++){
+    for(let j=i+1;j<n;j++){
+      const thr=EM_LINK*(R[i]+R[j]);
+      const dx=x[i]-x[j], dy=y[i]-y[j];
+      if(dx*dx+dy*dy < thr*thr){ const ra=find(i), rb=find(j); if(ra!==rb) par[ra]=rb; }
+    }
+  }
+  let mTot=0;
+  for(let i=0;i<n;i++) mTot+=Math.abs(m[i]);
+  const acc=new Map();
+  for(let i=0;i<n;i++){ const r=find(i); acc.set(r,(acc.get(r)||0)+Math.abs(m[i])); }
+  let mBig=0;
+  for(const v of acc.values()) if(v>mBig) mBig=v;
+  // ---- スピン整列度 ----
+  let sNum=0, sDen=0;
+  for(let i=0;i<n;i++){ const I=0.5*Math.abs(m[i])*R[i]*R[i]; sNum+=I*spin[i]; sDen+=I*Math.abs(spin[i]); }
+  // ---- 回転支持/分散支持比 ----
+  let cx=0, cy=0, cvx=0, cvy=0;
+  if(mTot>1e-12){
+    for(let i=0;i<n;i++){ const a=Math.abs(m[i]); cx+=a*x[i]; cy+=a*y[i]; cvx+=a*vx[i]; cvy+=a*vy[i]; }
+    cx/=mTot; cy/=mTot; cvx/=mTot; cvy/=mTot;
+  }
+  let wSum=0, vpM=0, vrM=0;
+  for(let i=0;i<n;i++){
+    const dx=x[i]-cx, dy=y[i]-cy, r=Math.hypot(dx,dy);
+    if(!(r>1e-9)) continue;
+    const dvx=vx[i]-cvx, dvy=vy[i]-cvy, w=Math.abs(m[i]);
+    vpM+=w*((dx*dvy-dy*dvx)/r); vrM+=w*((dx*dvx+dy*dvy)/r); wSum+=w;
+  }
+  let vsig=0;
+  if(wSum>1e-12){
+    const vpBar=vpM/wSum, vrBar=vrM/wSum;
+    let sp=0, sr=0;
+    for(let i=0;i<n;i++){
+      const dx=x[i]-cx, dy=y[i]-cy, r=Math.hypot(dx,dy);
+      if(!(r>1e-9)) continue;
+      const dvx=vx[i]-cvx, dvy=vy[i]-cvy, w=Math.abs(m[i]);
+      const vp=(dx*dvy-dy*dvx)/r - vpBar, vr=(dx*dvx+dy*dvy)/r - vrBar;
+      sp+=w*vp*vp; sr+=w*vr*vr;
+    }
+    const s2=0.5*(sp+sr)/wSum;
+    const vp2=vpBar*vpBar;
+    // 分散が数値的に 0(= 完全な剛体回転など)のときは「完全回転支持」を表す上限 EM_VSIG_MAX を
+    // 返す(Infinity を履歴・JSON に載せないための有限の飽和値。グラフは v/(1+v) で圧縮表示するので
+    // 上限に達すると 1 に張り付く)。⟨v_φ⟩ も 0 なら回転支持は無いので 0
+    vsig=(s2>1e-12)? Math.min(EM_VSIG_MAX, vp2/s2) : (vp2>1e-12? EM_VSIG_MAX : 0);
+  }
+  return {n, nCluster:acc.size, maxFrac:(mTot>1e-12? mBig/mTot : 0),
+    align:(sDen>1e-12? sNum/sDen : 0), vsig};
+}
+let emParBuf=null;
+// 履歴は**表示層のモジュール変数**に持つ(sim のオブジェクト形状を一切変えない — 第77便知見)。
+// t が巻き戻った(=再構築・⏮初めから・echo 反転)ときは自動でリセットする
+let emHist=[], emTick=0;
+const EM_EVERY=6, EM_MAX=240;   // 6描画フレームに1回サンプル・履歴上限240点
+function emergenceReset(){ emHist=[]; emTick=0; }
+function drawEmergence(slot=0){
+  if(ovOverlayMin("emergence",slot,T("ovEmergence"))) return;   // 最小化中はタイトルバーのみ
+  if(emHist.length && sim.t < emHist[emHist.length-1].t) emergenceReset();   // 巻き戻り検出
+  if((emTick++ % EM_EVERY)===0){
+    const st=emergenceStats(sim);
+    const last=emHist[emHist.length-1];
+    if(!last || last.t!==sim.t || emHist.length===1){
+      emHist.push({t:sim.t, k:(st.n? st.nCluster/st.n : 0), f:st.maxFrac, a:st.align, v:st.vsig, K:st.nCluster, N:st.n});
+      if(emHist.length>EM_MAX) emHist.shift();
+    }
+  }
+  const uz=uiFontScale, W=150,H=OV_HK.emergence,X=0,Y=0;
+  ctx.save(); ctx.translate(cw-W*uz-8, overlayBaseY(slot)); ctx.scale(uz,uz);
+  ctx.fillStyle="rgba(12,16,34,0.82)"; ctx.fillRect(X,Y,W,H);
+  ctx.strokeStyle="#2a3060"; ctx.strokeRect(X,Y,W,H);
+  ctx.font="8px sans-serif"; ctx.fillStyle="#8b93c8";
+  ctx.fillText(T("ovEmergence"),X+6,Y+9);
+  const chartX0=X+8, chartX1=X+W-8;
+  const topY0=Y+13, topY1=Y+57, botY0=Y+64, botY1=Y+108;
+  if(emHist.length>=2){
+    const t0=emHist[0].t, t1=emHist[emHist.length-1].t, tSpan=Math.max(1e-6,t1-t0);
+    const px=(t)=>chartX0+((t-t0)/tSpan)*(chartX1-chartX0);
+    const py01=(v)=>topY1-Math.min(1,Math.max(0,v))*(topY1-topY0);        // 上段: 0〜1 固定
+    const pyS=(v)=>botY1-Math.min(1,Math.max(0,(v+1)/2))*(botY1-botY0);   // 下段: −1〜+1 を 0〜1 へ
+    const line=(col,get,pf)=>{ ctx.strokeStyle=col; ctx.beginPath();
+      emHist.forEach((p2,k)=>{ const X2=px(p2.t), Y2=pf(get(p2)); k? ctx.lineTo(X2,Y2) : ctx.moveTo(X2,Y2); }); ctx.stroke(); };
+    ctx.lineWidth=1.4; line("#ffc84f",(p2)=>p2.f,py01);          // 最大塊の質量比(金)
+    ctx.lineWidth=1;   line("#4fd8e8",(p2)=>p2.k,py01);          // 塊の数 / 粒子数(水色)
+    ctx.strokeStyle="#2a3060"; ctx.beginPath(); ctx.moveTo(X+4,botY0-4); ctx.lineTo(X+W-4,botY0-4); ctx.stroke();
+    ctx.strokeStyle="#3a4070"; ctx.beginPath();                  // 下段の中央線(整列度0・V/σ=1)
+    ctx.moveTo(chartX0,pyS(0)); ctx.lineTo(chartX1,pyS(0)); ctx.stroke();
+    line("#57d38c",(p2)=>p2.a,pyS);                              // スピン整列度(緑・−1〜+1)
+    // V/σ は非有界なので v/(1+v) で 0〜1 へ圧縮し、下段の −1〜+1 軸へ 2x−1 で載せる
+    // (中央線 = V/σ=1。凡例に「圧縮表示」と明記 — データ層は生値)
+    line("#e05ce0",(p2)=>2*(p2.v/(1+p2.v))-1,pyS);
+    ctx.lineWidth=1;
+  }
+  const last=emHist.length? emHist[emHist.length-1] : null;
+  ctx.font="8px sans-serif"; ctx.fillStyle="#dfe4ff";
+  if(last){
+    ctx.fillText(T("emHud")(last.K,last.N,(last.f*100).toFixed(0),last.a.toFixed(2),last.v.toFixed(2)),X+6,Y+119);
+  }
+  ctx.font="6px sans-serif"; ctx.fillStyle="#5a6090";
+  ctx.fillText(T("ovEmergLegend"),X+6,Y+128);
+  ctx.restore();
+  ovDrawToggle("emergence",slot);
+}
 function drawBoxGraph(slot=0){
   const meas=!sim.box && !!sim.measureBox;
   const title=meas? T("ovBoxGraphMeas") : T("ovBoxGraph");   // 実測は専用見出し(既定見出しは横幅ぎりぎり)
@@ -8498,6 +8755,7 @@ function render(){
   if(sim.overlays.boxGraph && (sim.box || sim.measureBox)) drawBoxGraph(slots.indexOf("boxGraph"));   // 第35便: 実測 a_eff も対象
   if(sim.overlays.phaseGraph && sim.phase) drawPhaseGraph(slots.indexOf("phaseGraph"));   // 第53便 53B(E14)
   if(sim.overlays.mechSpectrum) drawMechSpectrum(slots.indexOf("mechSpectrum"));   // 第65便 65A
+  if(sim.overlays.emergence) drawEmergence(slots.indexOf("emergence"));   // 第82便B: 創発モニタ(表示専用)
   // 近点検出器の UI 表示(第11次裁定 保留分): 最内粒子の実測 Δϖ/周 と E13 解析値を左上に併記
   if(sim.zonal && sim.periDet){
     const P=sim.periDet; let bi=-1, ba=1e18;
@@ -9036,6 +9294,7 @@ function loadPreset(id, keepPhysics){
   if(keepPhysics && basePhysics) merged.physics=Object.assign({},sim.params);
   sim.build(merged);
   trailBuf=[]; trailBufB=[];  // 軌道トレイルはプリセット読込・⏮初めからでリセット
+  emergenceReset();           // 第82便B: 創発モニタの履歴もプリセット読込でリセット(表示層のみ)
   if(sim.overlays && sim.overlays.monitor) monitorOn=true;  // v1.12: プリセット既定の保存量モニタ(ONのみ適用)
   basePhysics=Object.assign({},DEFAULT_PHYSICS,p.physics||{});
   camX=0; camY=0; camScale=p.camera.scale; tempP90EMA=0.5; selIdx=-1; nanNotified=false;
@@ -9811,7 +10070,10 @@ function buildParamRows(){
     // 第53便 53B(E14): 相変化グラフ(phaseChange プリセットのみ有効)
     ["phaseGraph",T("tgPhaseGraph"),()=>!!sim.overlays.phaseGraph,setOv("phaseGraph"),"tgPhaseGraphDesc"],
     // 第65便 65A: 機構スペクトル診断(全プリセット有効。OFF で計算コストもゼロ — mechspec.zero-cost)
-    ["mechSpectrum",T("tgMechSpec"),()=>!!sim.overlays.mechSpectrum,setOv("mechSpectrum"),"tgMechSpecDesc"]];
+    ["mechSpectrum",T("tgMechSpec"),()=>!!sim.overlays.mechSpectrum,setOv("mechSpectrum"),"tgMechSpecDesc"],
+    // 第82便B: 創発モニタ(全プリセット有効・表示専用。OFF で計測コストもゼロ)
+    ["emergence",T("tgEmergence"),()=>!!sim.overlays.emergence,
+      (v)=>{ setOv("emergence")(v); if(!v) emergenceReset(); },"tgEmergenceDesc"]];
   // 第23便(原仮定者指示): 「表示」の各行もパラメータ名タップで説明を開閉(品質行と同じ pdesc 方式)
   const tapDesc=(row,lab,descKey)=>{
     if(!descKey) return;
@@ -10662,6 +10924,9 @@ function renderHelp(){
   // 宣言のあるプリセットにだけ表示(第64便裁定キュー P3。🕶️は複合現象と明示)
   if(cls.sampleClass) addChip("sclass-"+cls.sampleClass,
     T("bdgSC_"+cls.sampleClass), T("bdgSC_"+cls.sampleClass+"Tip"));
+  // 第82便B: E水準タグ — emergence 宣言のあるプリセットにだけ、sampleClass チップの隣に出す
+  if(cls.emergence) addChip("emg-"+cls.emergence,
+    T("bdgE_"+cls.emergence), T("bdgE_"+cls.emergence+"Tip"));
   // 第74便: 5段階スケールチップ — scaleTier 宣言のあるプリセットにだけ表示(絵文字+スケール名)
   if(cls.scaleTier) addChip("scale-"+cls.scaleTier,
     SCALE_EMOJI[cls.scaleTier]+" "+T("scaleName_"+cls.scaleTier), T("bdgScaleTip"));
@@ -11839,6 +12104,10 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   loadSaveItem:(...a)=>loadSave(...a), exportData, isBetaServe,   // 第53便 53B: セーブ互換の機械検査用(未知ID中止・appBuild)
   speedMul:()=>speedMul, trailBufs:()=>({a:trailBuf,b:trailBufB}),  // v1.19: QA用
   overlaySlots, overlayBaseY, PARAM_DEFS, paramDesc,  // v1.21: スロット配置/パラメータ説明のQA用
+  // 第82便B: 創発モニタ(表示専用)の読み口 — QA・実験ハーネスが同じ式を読むための公開フック。
+  // emergenceStats(S) は S を1バイトも書き換えない純粋な読み取り(既定は現在の sim)
+  emergenceStats:(S)=>emergenceStats(S||sim), emergenceHist:()=>emHist.slice(),
+  EMERGENCE_LEVELS,
   ovMin, aiUserContent,  // 第26便: グラフ最小化/AIベースサンプルのQA用
   // 第74便: 5段階スケール(分類・表示換算)のQA用フック — すべて表示専用で物理不変
   // 第77便(コアv2): QA/実験用の読み口(表示・検査専用)
