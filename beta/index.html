@@ -615,7 +615,7 @@ ja: {
   pcWallRate:(s2)=>`壁レート(${s2})`, pcWallRateDesc:"壁と粒子の熱交換の速さ。プラトーの持続時間実験に。",
   uiScaleDesc:"UI文字の拡大率。表示のみで物理・保存データには影響しない。",
   // 第23便: 粒子編集のパラメータ名タップ説明
-  beDm:"m: 質量。重力(E4)と決定力場W(E1′)の源。負値は実験用(±5000)。",
+  beDm:"m: 質量。重力(E4)と決定力場W(E1′)の源。負値は実験用(±20000)。",
   beDs:"s: スピン(自転角速度)。空間引きずり(A8)・温度T=Is²(A9)・スピン斥力(A10)の源。",
   beDr:"R: 半径。慣性I=½mR²・接触・引きずり減衰(R/(R+d))^q・温度・扁平率f=5s²R³/(4Gm)に使用。既定はradiusScale·rMul·√|m|(rMulは粒子ごとの倍率・既定1)。",
   beDsw:"減光: 自星の光をどれだけ外に出さないか(0〜1・1=完全減光)。機構はスピンによる自光の掻き出し(lightSweep)。観測温度は T_obs=(1−減光)·T、放射冷却も(1−減光)倍(ダークローター)。auto と入力するか隣の「自動」チェックボックスをONにすると、粒子のスピン・半径から lS_eff=min(1,|s|R/c_surf) を毎ステップ算出する — 数値欄は編集不可になり実効値lS_effで上書き表示される(第38便)。",
@@ -3898,6 +3898,34 @@ function isNum(v){ return typeof v==="number" && isFinite(v); }
 // 第50便 50H(台帳4-92): claims の検証形態分類(kind)の正規値。UI 表示(claimKinds)と
 // validatePreset の検証・QA claims.kind が同じ配列を参照する
 const CLAIM_KINDS=["analytic","conservation","semantic","fixed-seed","multi-seed"];
+// 第83便D(往復保全): 説明文の上限を**実測較正**する(REACTION_DV_CAP と同じ「正常域最大の
+// 約2倍」の流儀)。旧上限は 200 字で、descStruct(要約/観察/操作の純分割)を持つ内蔵の説明は
+// 数千字あるため、validatePreset を通すと description だけが切り詰められて連結一致が壊れ、
+// **descStruct が警告つきで削除**されていた(内蔵の読込経路は validatePreset を通らないので
+// 実害は出なかったが、エクスポート→インポートの往復で構造化説明が失われる — 第83便C 発見)。
+// 実測(2026-08-07・内蔵55件 × ja/en = 110 本):
+//   description 最長 4367 字(🥚selfRotor/en。以下 bhCore 3703・massLadder 3233・starcore 3117)
+//   descStruct 節別最長 summary 1501(bhCore/en)・observe 3065(selfRotor/en)・control 691(bhCore/en)
+// 上限は「実測最長の約2倍」: description 9000(≈2×4367)・各節 3000/6000/1500(≈2×1501/3065/691)。
+// 荒らし対策の上限そのものは維持する(節別上限も置くので、1節だけを肥大させる入力も止まる)。
+// 節別上限の合計(10500)は DESC_CAP(9000)より大きいので、3節すべてを上限近くまで埋めた
+// 異常入力は description 側の切り詰めで純分割が壊れ、従来どおり警告つきで descStruct が落ちる
+// (全体上限が最終的な律速 — 意図した設計)。
+const DESC_CAP=9000;
+const DESC_SECT_CAPS={summary:3000, observe:6000, control:1500};
+// 第83便D(往復保全): 粒子質量の上限も同じ流儀で実測較正する。旧上限 5000 は内蔵最大の
+// 🪜massLadder の m=10000 を**クランプして物理を変えて**いた(往復すると別のプリセットになる)。
+// 内蔵最大 10000 の約2倍 = 20000。高質量帯の実測(2026-08-07・2000步=t32・下の3構成)では
+// NaN 0・全クランプ計数(clampVN/SN/HN/AN/RN/angOvfN)0 が m=50000 まで続く:
+//   ①🪜massLadder の中心3体を一律 k 倍(k=1/2/3/5 → 最大 m=50000): いずれも NaN 0・クランプ 0
+//   ②pinned 高質量中心 + ケプラーリング48体(r=180・m=2500〜40000): NaN 0・クランプ 0
+//   ③自由な同質量2体の相互周回(分離400・m=2500〜40000): NaN 0・クランプ 0
+// つまり上限は数値安定性ではなく「荒らし・誤入力の歯止め」でしか律速されないので、実測較正の
+// 流儀どおり内蔵最大の約2倍で止める(クランプ挙動そのもの — 値域外は警告つきクランプ — は不変)。
+// 同じ上限を abBody.patch.m と ring/disk の aroundMass(周回中心の質量)にも掛ける — 質量域が
+// 割れていると「m=20000 の中心を回すケプラー円盤」の初速だけが黙って半分になるため。
+// 内蔵の aroundMass 最大は 2500 なので既存プリセットは 1 bit も変わらない(緩める方向のみ)。
+const MASS_CAP=20000;
 function validatePreset(obj){
   const errors=[], warnings=[];
   const bad=(m)=>{errors.push(m);};
@@ -3906,7 +3934,7 @@ function validatePreset(obj){
   if(typeof p.name!=="string" || !p.name.trim()) bad("name(文字列)が必要です");
   else p.name=p.name.trim().slice(0,30);
   if(typeof p.description!=="string") bad("description(文字列)が必要です");
-  else p.description=p.description.slice(0,200);
+  else p.description=p.description.slice(0,DESC_CAP);   // 第83便D: 200 → 実測較正 DESC_CAP
   if(p.emoji!==undefined && typeof p.emoji!=="string") bad("emojiは文字列");
   // v1.12: seed(乱数シード)を正式スキーマ化 — 指定時は id/name によらず初期配置を再現
   if(p.seed!==undefined){
@@ -3969,7 +3997,7 @@ function validatePreset(obj){
     // 黙って書き換わり「検証成功・警告なし」なのに実行値が入力と違う、を防ぐ
     let at="";
     const wc=(v,lo,hi,k)=>{ const c=clamp(v,lo,hi); if(c!==v) warnings.push(at+"."+k+" を値域に修正"); return c; };
-    const CO=(v,k)=>wc(v,-5000,5000,k), LEN=(v,k)=>wc(v,0,5000,k), MASS=(v,k)=>wc(v,0.01,5000,k),
+    const CO=(v,k)=>wc(v,-5000,5000,k), LEN=(v,k)=>wc(v,0,5000,k), MASS=(v,k)=>wc(v,0.01,MASS_CAP,k),
           VEL=(v,k)=>wc(v,-50,50,k), SPN=(v,k)=>wc(v,-20,20,k);
     // 第80便(コアv2): core:{} の検証を single/disk/ring で共有する(第77便は single 限定の
     // インライン実装だった)。戻り値: 正規化オブジェクト / null=core を採用しない(警告済み) /
@@ -4148,7 +4176,7 @@ function validatePreset(obj){
           rIn:LEN(Math.min(b.rIn,b.rOut),"rIn"), rOut:LEN(Math.max(b.rIn,b.rOut),"rOut"),
           mMin:MASS(Math.min(b.mMin,b.mMax),"mMin"), mMax:MASS(Math.max(b.mMin,b.mMax),"mMax"),
           spinMin:SPN(Math.min(b.spinMin,b.spinMax),"spinMin"), spinMax:SPN(Math.max(b.spinMin,b.spinMax),"spinMax"),
-          vMode:b.vMode, aroundMass:isNum(b.aroundMass)?wc(b.aroundMass,0,5000,"aroundMass"):0, omega:wc(b.omega,-2,2,"omega"),   // 第83便: 未指定=0(kepler 以外は未使用)
+          vMode:b.vMode, aroundMass:isNum(b.aroundMass)?wc(b.aroundMass,0,MASS_CAP,"aroundMass"):0, omega:wc(b.omega,-2,2,"omega"),   // 第83便: 未指定=0(kepler 以外は未使用)
           vNoise:wc(b.vNoise,0,1,"vNoise"), direction:b.direction, pinned:b.pinned,
           vScale:isNum(b.vScale)?wc(b.vScale,0,50,"vScale"):0,   // 第35便: vMode="hubble" の膨張率(他モードでは未使用)
           bulkVx:isNum(b.bulkVx)?VEL(b.bulkVx,"bulkVx"):0, bulkVy:isNum(b.bulkVy)?VEL(b.bulkVy,"bulkVy"):0};
@@ -4197,7 +4225,7 @@ function validatePreset(obj){
         const oD={type:"disk", n:clamp(Math.round(b.n),0,N_CAP), cx:CO(b.cx,"cx"), cy:CO(b.cy,"cy"), radius:LEN(b.radius,"radius"),
           mMin:MASS(Math.min(b.mMin,b.mMax),"mMin"), mMax:MASS(Math.max(b.mMin,b.mMax),"mMax"),
           spinMin:SPN(Math.min(b.spinMin,b.spinMax),"spinMin"), spinMax:SPN(Math.max(b.spinMin,b.spinMax),"spinMax"),
-          vMode:b.vMode, aroundMass:isNum(b.aroundMass)?wc(b.aroundMass,0,5000,"aroundMass"):0, vScale:wc(b.vScale,0,50,"vScale"), direction:b.direction,   // 第83便: 未指定=0(kepler 以外は未使用)
+          vMode:b.vMode, aroundMass:isNum(b.aroundMass)?wc(b.aroundMass,0,MASS_CAP,"aroundMass"):0, vScale:wc(b.vScale,0,50,"vScale"), direction:b.direction,   // 第83便: 未指定=0(kepler 以外は未使用)
           bulkVx:isNum(b.bulkVx)?VEL(b.bulkVx,"bulkVx"):0, bulkVy:isNum(b.bulkVy)?VEL(b.bulkVy,"bulkVy"):0};
         if(b.rMul!==undefined){   // 第36便 C1: 群共通の半径倍率(0.2〜5・既定1)
           if(!isNum(b.rMul)){ bad(at+".rMul が数値ではありません"); return; }
@@ -4501,9 +4529,15 @@ function validatePreset(obj){
   // 第50便 50K(台帳4-78 C案): descStruct — 構造化説明(表示専用)。{summary,observe,control}の
   // 文字列で、連結が description と厳密一致(純分割)しなければ警告して削除する。
   // en.descStruct も同条件(比較先は en.description)
+  // 第83便D: 節別の個別上限 DESC_SECT_CAPS を追加する(荒らし対策の趣旨を保つ)。超過分は
+  // 切り詰めるので、その節が長すぎる入力は下の純分割検査で従来どおり descStruct ごと落ちる
   const chkDS=(o,desc,tag)=>{
     if(!o || typeof o!=="object" || Array.isArray(o)){ warnings.push(tag+" が不正のため無視"); return undefined; }
-    const g=(k)=>(typeof o[k]==="string")? o[k] : "";
+    const g=(k)=>{
+      const s=(typeof o[k]==="string")? o[k] : "";
+      if(s.length>DESC_SECT_CAPS[k]){ warnings.push(tag+"."+k+" が上限"+DESC_SECT_CAPS[k]+"字を超過 — 切り詰めます"); return s.slice(0,DESC_SECT_CAPS[k]); }
+      return s;
+    };
     const out={summary:g("summary"), observe:g("observe"), control:g("control")};
     if(out.summary+out.observe+out.control !== (desc||"")){
       warnings.push(tag+" の連結が description と一致しないため無視(純分割が必要)"); return undefined;
@@ -4587,7 +4621,7 @@ function validatePreset(obj){
   // A/B比較を開始するデータ。UIボタンの表示は abBody の有無で判定する(不正なら丸ごと無視)。
   // patch のキーは spin/m/vx/vy のみ受理(いずれも既存の粒子値クランプ SPN/MASS/VEL と同一域)
   if(p.abBody!==undefined){
-    const AB_BODY_CLAMPS={spin:[-20,20], m:[0.01,5000], vx:[-50,50], vy:[-50,50]};
+    const AB_BODY_CLAMPS={spin:[-20,20], m:[0.01,MASS_CAP], vx:[-50,50], vy:[-50,50]};   // 第83便D: m 上限は MASS と同一域
     const A=p.abBody;
     if(!A || typeof A!=="object" || Array.isArray(A)){ warnings.push("abBody はオブジェクトが必要 — 無視します"); delete p.abBody; }
     else{
@@ -10656,8 +10690,8 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 3. 粒子総数は最大600。滑らかに動かすため通常は120〜400にする。
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
-6. name は30字以内、description は200字以内の日本語。emoji は絵文字1文字。
-7. 値域(超えると自動修正される): G:0〜100, D0:0〜1000, kFrame:0〜1, q:0.5〜4, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, Kt:1〜10000, cLight:1〜10000, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数), lambdaPN:0〜1(整数), pnAlpha:0.5〜1.5, radiusScale:0.2〜5, softening:0.5〜20, timeScale:0.1〜16, camera.scale:20〜3000, 座標・長さ:±5000, 質量:0.01〜5000, 速度成分:±50, スピン:±20, omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
+6. name は30字以内、description は200字程度の日本語(上限は9000字。超えると切り詰められる)。emoji は絵文字1文字。
+7. 値域(超えると自動修正される): G:0〜100, D0:0〜1000, kFrame:0〜1, q:0.5〜4, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, Kt:1〜10000, cLight:1〜10000, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数), lambdaPN:0〜1(整数), pnAlpha:0.5〜1.5, radiusScale:0.2〜5, softening:0.5〜20, timeScale:0.1〜16, camera.scale:20〜3000, 座標・長さ:±5000, 質量:0.01〜20000, 速度成分:±50, スピン:±20, omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
 
 # ジェネレータ(bodiesの要素。typeごとに全フィールド必須)
 - single: {type,m,x,y,vx,vy,spin,pinned} — 粒子1個。pinned:true で力を受けず固定。
@@ -11334,7 +11368,9 @@ function beBind(id,fn){
     updateBodyEdit();
   });
 }
-beBind("#beM",(S,i,v)=>{ S.m[i]=clamp(v,-5000,5000); S.updateRadii(); });     // 第12便: 負質量も実験用に受理
+// 第12便: 負質量も実験用に受理。第83便D: 上限を MASS_CAP へ追随(旧 ±5000 だと 🪜massLadder の
+// m=10000 を編集欄で触るだけで半減していた。負側は従来どおり対称に開ける — 実験用)
+beBind("#beM",(S,i,v)=>{ S.m[i]=clamp(v,-MASS_CAP,MASS_CAP); S.updateRadii(); });
 beBind("#beS",(S,i,v)=>{ S.spin[i]=clamp(v,-40,40); });
 // 第22便: 半径・光掻き出し(第81便: mc/m・sc/s・Rc/R〔コアv1〕の bind は廃止)
 beBind("#beR",(S,i,v)=>{ S.radOv[i]=clamp(v,0.5,500); S.updateRadii(); });
