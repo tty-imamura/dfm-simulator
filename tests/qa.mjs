@@ -232,11 +232,22 @@ const w5cHasIce = await page.evaluate(() =>
   !!(window.HP && HP.allPresets().some(p => p.id === 'saturn' && /実験/.test(p.name || ''))));
 const w5cHasObs = await page.evaluate(() => !!(window.HP && HP.sim && HP.sim.obsT));
 const w5cHasV26 = await page.evaluate(() => !!document.querySelector('#aiBasePreset'));
-let w5cDrFree = false;
-if (w5cHasObs) {
-  w5cDrFree = await page.evaluate(() =>
-    HP.allPresets().find(q => q.id === 'darkrotor').bodies.every(b => !b.pinned && !b.railOmega && !b.railH));
-}
+// 第84便B: w5cDrFree の判定は **w5cHasObs から独立**させた(判定内容は従来と一字も同じ)。
+// 理由: w5cHasObs は `HP.sim.obsT` の存在を見る古い門で、obsT は**第61便で廃止された**ため
+// 現行 beta/root ではどちらも false になる。従来この変数を使う darkrotorMid*/darkrotorLong は
+// `w5cHasObs && …` を保ったままにしてある(挙動は 1 bit も変えない)ので、独立化しても
+// それらの有効/無効は変わらない。第84便B の darkrotorMultiseed だけが obsT に依存せず動く。
+// ※ w5cHasObs が恒常 false になっている件そのもの(= 🕶️ の既存 QA 区画が休眠している)は
+//   本便のスコープ外なので触っていない。統括へ別途報告する。
+const w5cDrFree = await page.evaluate(() =>
+  HP.allPresets().find(q => q.id === 'darkrotor').bodies.every(b => !b.pinned && !b.railOmega && !b.railH));
+// 第84便B(創発の標準試験の展開): 🕶️darkrotor に多seed claim が入っているか
+// (未適用の root 等では重い多seedユニットを起動しない)
+const w5cDrMulti = await page.evaluate(() => {
+  const p = HP.allPresets().find(q => q.id === 'darkrotor');
+  return !!(p && Array.isArray(p.claims)
+    && p.claims.some(c => c.id === 'darkrotor.multi-seed-min-arm-ratio'));
+});
 
 // 第37便 Wave D: 新サンプルの有無(beta 先行 — root には無い)。後段の各セクションのガード式と同一
 const w5cHasAgnjet = await page.evaluate(() => HP.allPresets().some(p => p.id === 'agnjet'));
@@ -744,6 +755,59 @@ const W5C_UNITS = {
     };
     return { on: run(false), ctrl: run(true) };
   }, w5cBands) },
+  // 第84便B(創発の標準試験を 🕶️ へ展開): darkrotorMultiseed — 渦状腕の**多seed 頑健性**。
+  // 既存の darkrotorLong が「内蔵 seed 1本+対照」を見るのに対し、こちらは seed を振って
+  // 「乱数の引きが変わっても同じ増強が立つ」ことを claims の窓で判定する。
+  // **QA は縮約版・exp 側が全数の正本**という既存の kind:"multi-seed" の流儀に合わせ、
+  // QA は内蔵 seed **以外**の2seed(20260727/20260728)だけを回す(内蔵 seed は
+  // darkrotorLong が既に見ているので重複させない)。8seed の分布は tests/exp-4-88.mjs が持つ。
+  // 対照は darkrotorLong と同じ「中心BH も含む全 single の spin=0」。
+  // 重い(6000步 × 4構成 ≈ 155s)ので QA_FAST=1 では実行しない(FAST への時間増はゼロ)。
+  darkrotorMultiseed: { enabled: !FAST && w5cDrFree && w5cDrMulti, weight: 170,
+    run: (pg) => pg.evaluate((o) => {
+      const BANDS = o.bands;
+      const P0 = HP.allPresets().find(q => q.id === 'darkrotor');
+      const NH = P0.bodies.filter(b => b.type === 'single').length - 1;   // ローター体数(=2)
+      const OFF = NH + 1;                                                 // 恒星の先頭 index(=3)
+      // A2 の式は darkrotorLong と同一(環帯ごとの |Σe^{2iθ}|/N。θ は中心BH基準)
+      const a2 = (s) => BANDS.map(([lo, hi]) => {
+        const bx = s.x[0], by = s.y[0];
+        let cr = 0, ci = 0, N = 0;
+        for (let i = OFF; i < s.n; i++) {
+          const dx = s.x[i] - bx, dy = s.y[i] - by, r = Math.hypot(dx, dy);
+          if (r >= lo && r < hi) { const th = Math.atan2(dy, dx);
+            cr += Math.cos(2 * th); ci += Math.sin(2 * th); N++; }
+        }
+        return N ? Math.hypot(cr, ci) / N : 0;
+      });
+      const run = (seed, ctrl) => {
+        const p = JSON.parse(JSON.stringify(P0));
+        p.seed = seed;
+        const v = HP.validatePreset(p);
+        if (!v.ok) return { seed, err: v.errors.join(',') };
+        HP.sim.build(v.preset);
+        const s = HP.sim;
+        if (ctrl) for (let i = 0; i <= NH; i++) s.spin[i] = 0;
+        const st0 = [];
+        for (let i = OFF; i < s.n; i++) st0.push(Math.hypot(s.x[i] - s.x[0], s.y[i] - s.y[0]));
+        const late = []; let maxSpin = 0;
+        for (let blk = 0; blk < 12; blk++) {
+          for (let k = 0; k < 500; k++) s.step(0.016);
+          for (let i = 0; i < s.n; i++) maxSpin = Math.max(maxSpin, Math.abs(s.spin[i]));
+          if ((blk + 1) * 500 >= 3000) late.push(a2(s));
+        }
+        const A2 = BANDS.map((_, b) => late.reduce((a, w) => a + w[b], 0) / late.length);
+        const bx = s.x[0], by = s.y[0];
+        let keep = 0, tot = 0;
+        for (let i = OFF; i < s.n; i++) { const r = Math.hypot(s.x[i] - bx, s.y[i] - by);
+          if (st0[i - OFF] < 350) { tot++; if (r < 500) keep++; } }
+        return { seed, A2, bandAvg: A2.reduce((a, w) => a + w, 0) / A2.length,
+          keepPct: 100 * keep / tot, maxSpin, nLate: late.length,
+          nan: s.hasNaN(), clampV: s.clampVN, clampR: s.clampRN || 0 };
+      };
+      return { seeds: o.seeds, main: o.seeds.map(sd => run(sd, false)),
+        ctrl: o.seeds.map(sd => run(sd, true)) };
+    }, { bands: w5cBands, seeds: [20260727, 20260728] }) },
   binary: { enabled: w5cHasV26, weight: 6, run: (pg) => pg.evaluate(() => {
     // ⭐binary の挙動(元7n節 3035-3044行から抽出)。第66便 66D: geoPN=1 化後の較正実測 —
     // 3000步 sep=120.1・保持240/240(旧 kFrame=1 構成は sep=137.4。窓 60〜350 はどちらも満たす)
@@ -4573,6 +4637,69 @@ if (!FAST) {
     }
   }
 
+  // ---- 8a2b7) 第84便B(創発の標準試験を ⏳ へ展開): claim.nebulabipolar-multiseed ----
+  // 「たまたま極方向に出た1本」ではないことを、seed を振って機械固定する。判定量は claims の
+  // nebulaBipolar.multi-seed-min-polar-fraction =「seed 集合を通した極方向比の**最小値**」。
+  // 内蔵 seed は claim.nebulabipolar-polar が既に見ているので、QA は内蔵 seed **以外**の
+  // 3seed(20260805〜20260807)だけを回す縮約版。16seed の分布は tests/exp-4-88.mjs が正本。
+  // ⏳ は赤道アーク22個が pinned(=外部固定の幾何)なので E水準は **E1**(外部駆動下の
+  // 自己組織化)で、閉鎖系を要件とする E2/E3 には定義上該当しない — その宣言も併せて固定する。
+  // 軽い(83粒子×6000步×6構成 ≈ 10s)が、方針どおり QA_FAST=1 では実行しない(FAST への時間増ゼロ)。
+  if (!FAST) {
+    const hasBipMS = await page.evaluate(() => HP.allPresets().some(p => p.id === 'nebulaBipolar'
+      && Array.isArray(p.claims)
+      && p.claims.some(c => c.id === 'nebulaBipolar.multi-seed-min-polar-fraction')));
+    if (hasBipMS) {
+      const r = await page.evaluate((seeds) => {
+        const P = HP.allPresets().find(q => q.id === 'nebulaBipolar');
+        const NARC = P.bodies.filter(b => b.pinned).length;   // 赤道ダークアーク(=22)
+        const GAS0 = NARC + 1;                                 // ガスの先頭 index(=23)
+        const run = (seed, kRep) => {
+          const p = JSON.parse(JSON.stringify(P));
+          p.seed = seed;
+          if (kRep !== undefined) p.physics.kRep = kRep;
+          const v = HP.validatePreset(p);
+          if (!v.ok) return { seed, err: v.errors.join(',') };
+          HP.sim.build(v.preset);
+          const s = HP.sim;
+          for (let k = 0; k < 6000; k++) s.step(0.016);
+          let esc = 0, pol = 0, lSwArc = 0;
+          for (let i = GAS0; i < s.n; i++) { const rr = Math.hypot(s.x[i], s.y[i]);
+            if (rr > 200) { esc++;
+              if (Math.atan2(Math.abs(s.x[i]), Math.abs(s.y[i])) < Math.PI / 6) pol++; } }
+          for (let i = 1; i <= NARC; i++) lSwArc += s.lSw[i] / NARC;
+          return { seed, esc, frac: esc ? pol / esc : 0, lSwC: s.lSw[0], lSwArc,
+            nGas: s.n - GAS0, nan: s.hasNaN() };
+        };
+        return { main: seeds.map(sd => run(sd, undefined)), ctrl: seeds.map(sd => run(sd, 0)),
+          claim: P.claims.find(c => c.id === 'nebulaBipolar.multi-seed-min-polar-fraction'),
+          emergence: P.emergence, nPin: NARC, nAll: HP.sim.n };
+      }, [20260805, 20260806, 20260807]);
+      const C = r.claim;
+      const fr = r.main.map(v => v.frac);
+      const minF = Math.min(...fr), maxF = Math.max(...fr);
+      const ctrlEscMax = Math.max(...r.ctrl.map(v => v.esc));
+      add('claim.nebulabipolar-multiseed',
+        r.emergence === 'E1'
+        && r.main.every(v => !v.err && !v.nan) && r.ctrl.every(v => !v.err && !v.nan)
+        && minF >= C.expected.min && maxF <= C.expected.max
+        && ctrlEscMax <= C.control.expected.max
+        && minF > 1 / 3 && r.main.every(v => v.esc >= 20 && v.lSwC > 0.95 && v.lSwArc > 0.85),
+        `${r.main.length}seed(${r.main.map(v => v.seed).join('/')}・内蔵seedは claim.nebulabipolar-polar が担当)` +
+        ` 6000步 極方向比 ${fr.map(v => v.toFixed(3)).join('/')} → **最小=${minF.toFixed(3)}**` +
+        `(claim 窓 ${C.expected.min}〜${C.expected.max}・等方 1/3=0.333 — 最小でも` +
+        `${(minF / (1 / 3)).toFixed(2)}倍の集中) / ` +
+        `脱出 ${r.main.map(v => v.esc + '/' + v.nGas).join(' ')}(各≥20) / ` +
+        `圧力オフ対照(kRep=0)の脱出 ${r.ctrl.map(v => v.esc).join('/')}(最大 ≤${C.control.expected.max}) / ` +
+        `中心lSw ${r.main.map(v => v.lSwC.toFixed(2)).join('/')}(>0.95) ` +
+        `アーク帯lS̄ ${r.main.map(v => v.lSwArc.toFixed(3)).join('/')}(>0.85) / ` +
+        `E水準=${r.emergence}(赤道アーク22体が pinned = 外部固定の幾何なので閉鎖系ではなく、` +
+        `E2/E3 には定義上該当しない — 第84便B) / 16seed の分布の正本は tests/exp-4-88.mjs`);
+    } else {
+      console.log('SKIP claim.nebulabipolar-multiseed(対象に ⏳ の multi-seed claim なし — 第84便B 未適用の root 等)');
+    }
+  }
+
   // ---- 8a2c) 第70便: 減光(lightSweep)の力学不変性 — 「暗いが重い」の機械証明 ----
   // 減光は光学のみ(観測温度と放射冷却)に作用し、etaRad=0 では軌道・スピン・固有時計・光線が
   // 1 bit も変わらないことを機械固定する(ChatGPT レビュー §8.2 実験1の QA 化 — 隠れ質量実験の
@@ -5939,6 +6066,7 @@ if (!FAST) {
           `ピッチ ${pCtrl.map(p => p.pitchDeg.toFixed(1)).join('/') || '測定不能'}°・` +
           `後行 ${lg.ctrl.pitch.filter(p => p.trailing === true).length}/${pCtrl.length}点(= 対照側は先行で符号が逆・判定には未使用) ` +
           `— 計測は darkrotorLong の走行に相乗り(追加の走行コストなし)`);
+
       } else {
         console.log('SKIP behavior.darkrotorLong(対象の🕶️はレール駆動の旧v3構成)');
       }
@@ -9712,6 +9840,58 @@ if (!FAST) {
   }
 }
 
+// ---- 84B) 第84便B(創発の標準試験を 🕶️ へ展開): behavior.darkrotor-multiseed ----
+// ----   「それらしく見えた固定seed 1本」ではないことを、seed を振って機械固定する。
+// ----   判定量は claims の darkrotor.multi-seed-min-arm-ratio =「seed 集合を通した
+// ----   腕振幅帯平均の増強比(本則/対照)の**最小値**」。QA は内蔵 seed 以外の 2seed
+// ----   (20260727/20260728)だけの縮約版で、8seed の分布は tests/exp-4-88.mjs
+// ----   (→ tests/out/exp-4-88.json)が正本として持つ(既存の kind:"multi-seed" と同じ流儀)。
+// ----   E水準タグが E2(閉鎖系の創発)であることも併せて固定する — 🕶️ は pinned 0 の
+// ----   閉鎖系だが、⑤摂動回復(自己維持)が通らなかったので E3 ではない(第84便B の実測)。
+// ----   **重い(6000步 × 4構成)ので QA_FAST=1 では実行しない**(FAST への時間増はゼロ)。
+// ----   ※ detail の「内蔵seed は behavior.darkrotorLong が担当」は**設計上の役割分担**を指す。
+// ----     その区画(qa.mjs の `if (hasObs)`)は `HP.sim.obsT` の存在を門にしているが、obsT は
+// ----     第61便で廃止されたため現行 beta/root ではこの門が閉じており、🕶️ の既存 QA
+// ----     (behavior.darkrotor / darkrotorLong / darkrotor-pitch / darkrotor.uphi / allfree)は
+// ----     **実際には走っていない**。本便のスコープ外なので門は触らず、統括へ報告する
+// ----     (本テストだけは obsT に依存しないよう独立させてある)----
+if (!FAST && w5cDrFree && w5cDrMulti) {
+  const mm = await w5cGetUnit('darkrotorMultiseed');
+  const P = await page.evaluate(() => {
+    const p = HP.allPresets().find((q) => q.id === 'darkrotor');
+    return { claim: p.claims.find((c) => c.id === 'darkrotor.multi-seed-min-arm-ratio'),
+      emergence: p.emergence };
+  });
+  const C = P.claim;
+  const ratios = mm.main.map((v, i) => v.bandAvg / Math.max(mm.ctrl[i].bandAvg, 1e-9));
+  const minR = Math.min(...ratios), maxR = Math.max(...ratios);
+  const minBand = Math.min(...mm.main.map((v) => Math.min(...v.A2)));
+  const ctrlMax = Math.max(...mm.ctrl.map((v) => v.bandAvg));
+  // 実測(beta・第84便B・8seed 20260726〜20260733・6000步 = 腕の窓):
+  //   本則の帯平均 0.500〜0.569(中央0.551)/ 対照(中心BH込み全 single spin=0)0.157〜0.265
+  //   → 増強比 2.15〜3.62(中央2.51)。QA の 2seed は 20260727=2.48倍・20260728=2.15倍
+  add('behavior.darkrotor-multiseed',
+    P.emergence === 'E2'
+    && mm.main.every((v) => !v.err && !v.nan && v.clampV === 0 && v.clampR === 0)
+    && mm.ctrl.every((v) => !v.err && !v.nan)
+    && minR >= C.expected.min && maxR <= C.expected.max
+    && ctrlMax <= C.control.expected.max
+    && minBand > 0.22 && mm.main.every((v) => v.keepPct >= 95 && v.maxSpin < 6.0),
+    `${mm.seeds.length}seed(${mm.seeds.join('/')}・内蔵seed 20260726 は既存の behavior.darkrotorLong が担当)` +
+    ` 6000步 腕A2帯平均 本則 ${mm.main.map((v) => v.bandAvg.toFixed(3)).join('/')}` +
+    ` / 対照(中心BH込み全 single spin=0) ${mm.ctrl.map((v) => v.bandAvg.toFixed(3)).join('/')}` +
+    ` → 増強比 ${ratios.map((v) => v.toFixed(2)).join('/')}倍・**最小=${minR.toFixed(2)}倍**` +
+    `(claim 窓 ${C.expected.min}〜${C.expected.max}) / ` +
+    `対照の帯平均 最大=${ctrlMax.toFixed(3)}(≤${C.control.expected.max} — 配置由来分に留まる) / ` +
+    `単帯の最小=${minBand.toFixed(3)}(>0.22) 恒星保持 ${mm.main.map((v) => v.keepPct.toFixed(1) + '%').join('/')}(≥95) ` +
+    `全期間max|spin| ${mm.main.map((v) => v.maxSpin.toFixed(2)).join('/')}(<6.0) ` +
+    `NaN/clamp=${mm.main.filter((v) => v.nan || v.clampV || v.clampR).length}件 / ` +
+    `E水準=${P.emergence}(閉鎖系の創発。⑤摂動回復が通らないので E3 ではない — 第84便B) / ` +
+    `8seed の分布(帯平均 0.500〜0.569・増強比 2.15〜3.62・後行56/56点)の正本は tests/exp-4-88.mjs`);
+} else if (!FAST) {
+  console.log('SKIP behavior.darkrotor-multiseed(対象に 🕶️ の multi-seed claim なし — 第84便B 未適用の root 等)');
+}
+
 // ---- 82B) 第82便B: emergence.tag — E水準タグ(emergence:"E0".."E3")の最小導入。
 // ----   ①宣言済みプリセット(🧬🧊⛓️=E2 / ♻️=E1 / 🥚=E3 ← 第83便A で E2 から昇格)が
 // ----     期待どおりの値を持つ
@@ -9747,7 +9927,10 @@ if (!FAST) {
         badW: bad.warnings.filter((w) => w.includes('emergence')).length,
         clsPass: HP.classifyPreset(HP.allPresets().find((p) => p.id === 'selfRotor')).emergence };
     });
-    const want = { emergent: 'E2', emergent2: 'E2', chain2: 'E2', chaincycle: 'E1', selfRotor: 'E3' };   // 第83便A: 🥚=E3
+    // 第83便A: 🥚=E3 / 第84便B: 🕶️darkrotor=E2(pinned 0 の閉鎖系だが⑤摂動回復が通らない)・
+    // ⏳nebulaBipolar=E1(赤道アーク22体が pinned = 外部固定の幾何なので閉鎖系ではない)
+    const want = { emergent: 'E2', emergent2: 'E2', chain2: 'E2', chaincycle: 'E1', selfRotor: 'E3',
+      darkrotor: 'E2', nebulaBipolar: 'E1' };   // 第83便A: 🥚=E3 / 第84便B: 🕶️=E2・⏳=E1
     const missing = Object.entries(want).filter(([k, v]) => r.declared[k] !== v).map(([k]) => k);
     add('emergence.tag',
       r.badVal.length === 0 && missing.length === 0
