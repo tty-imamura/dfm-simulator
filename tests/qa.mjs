@@ -916,6 +916,88 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   add('preset.' + id, !r.nan, 'n=' + r.n);
 }
 
+// ---- 2b) 第83便 C: preset.validate-all-builtins — 全内蔵プリセットが validatePreset を
+// ----      **致命エラー0** で通る。第82便A(光学輸送)の optics.default-bitequal 実装中に、
+// ----      内蔵4件(🍳galaxyDB・🌑nebulaRotor・🐚nebulaShell・⏳nebulaBipolar)が**元から**
+// ----      通らないことが判明し当該QAでは除外していた。第83便Cで根本解消した:
+// ----       ・validator 側: disk/ring の aroundMass を **vMode:"kepler" のときだけ必須**へ
+// ----         (build 側は kepler 以外でこのキーを 1 命令も参照しない。vScale/bulkVx と同じ
+// ----         「未指定=0 の任意キー」へ揃えた。kepler での宣言漏れは従来どおり致命)
+// ----       ・プリセット側: 🌑/🐚 のエンベロープ ring の `pinned` 宣言漏れを補完
+// ----         (build は未指定を偽として読むので挙動は bit 不変。ring の pinned はレール駆動・
+// ----          壁タグの分岐を持つ挙動キーなので、必須にしている検査側が正しい)
+// ----      内蔵の読込経路(loadPreset→sim.build)は validatePreset を通らないため実害は無かったが、
+// ----      「全内蔵が検証子を通る」ことを本項で恒久固定する。
+// ----      **許容する警告は種類を固定**する(下記2種のみ・件数を detail に出す):
+// ----       W1 descStruct の純分割不一致 — validatePreset は description を200字へ切り詰めるので、
+// ----          構造化説明(数千字)との連結一致は原理的に成立しない。表示専用キーの削除なので無害。
+// ----       W2 bodies[N].m を値域に修正 — 🪜massLadder の m=10000 が MASS クランプ上限5000に当たる。
+// ----      併せて「正規化しても挙動は変わらない」ことを、対象4件について
+// ----      **生定義 build と validatePreset 正規化後 build の 400步後の全状態 bit 一致**で機械確認する。
+// ----      第83便C より前の対象(root 等)は自動 SKIP。
+{
+  const hasW83 = await page.evaluate(() => {
+    const v = HP.validatePreset({ name: 'x', description: 'd', camera: { scale: 100 },
+      world: { boundary: 'none', size: 0 },
+      bodies: [{ type: 'disk', n: 2, cx: 0, cy: 0, radius: 10, mMin: 1, mMax: 1,
+        spinMin: 0, spinMax: 0, vMode: 'random', vScale: 1, direction: 1 }] });
+    return !!(v.ok && v.preset.bodies[0].aroundMass === 0);
+  });
+  if (hasW83) {
+    const r = await page.evaluate(() => {
+      // 許容警告の正規値(この2種以外が1件でも出たら FAIL — 検査を緩めた副作用の検出器)
+      const OKW = [/^descStruct の連結が description と一致しないため無視/,
+        /^bodies\[\d+\]\.m を値域に修正$/];
+      const ng = [], unexpected = [], kinds = [0, 0];
+      let total = 0;
+      for (const p of HP.allPresets()) {
+        if (String(p.id).startsWith('custom_')) continue;
+        total++;
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+        if (!v.ok) { ng.push(p.id + ':' + (v.errors || []).join('/')); continue; }
+        for (const w of (v.warnings || [])) {
+          const i = OKW.findIndex((re) => re.test(w));
+          if (i < 0) unexpected.push(p.id + ':' + w); else kinds[i]++;
+        }
+      }
+      // ---- 正規化の挙動 bit 不変(第83便C の裁定根拠そのものを機械固定)----
+      // 生定義をそのまま build した場合と、validatePreset を通してから build した場合で、
+      // 400步後の力学状態(位置・速度・スピン・固有時計・pinned・コアv2 の J/Ω)が 1 bit も違わない
+      const dump = (S) => {
+        const a = [];
+        for (const k of ['x', 'y', 'vx', 'vy', 'spin', 'tau', 'm', 'pinned',
+          'coreJ', 'coreOmV', 'coreMd', 'railOmega', 'railH']) {
+          const v = S[k]; if (!v) { a.push(k + ':-'); continue; }
+          a.push(k + ':' + Array.prototype.join.call(v.subarray(0, S.n), ','));
+        }
+        return a.join('|');
+      };
+      const run = (pre) => { HP.sim.build(JSON.parse(JSON.stringify(pre)));
+        for (let i = 0; i < 400; i++) HP.sim.step(0.016); return dump(HP.sim); };
+      const bitNg = [];
+      for (const id of ['galaxyDB', 'nebulaRotor', 'nebulaShell', 'nebulaBipolar']) {
+        const p = HP.allPresets().find((q) => q.id === id);
+        if (!p) continue;
+        const raw = run(p);
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+        if (!v.ok) { bitNg.push(id + ':validate-ng'); continue; }
+        if (run(v.preset) !== raw) bitNg.push(id + ':state-diff');
+      }
+      HP.loadPreset('saturn', false);
+      return { total, ng, unexpected, kinds, bitNg };
+    });
+    add('preset.validate-all-builtins',
+      r.ng.length === 0 && r.unexpected.length === 0 && r.bitNg.length === 0 && r.total > 0,
+      `内蔵${r.total}件が validatePreset を致命エラー0で通過(NG=[${r.ng.slice(0, 4).join(' ')}])/ ` +
+      `許容警告のみ: W1 descStruct純分割不一致(description 200字切り詰めのため)=${r.kinds[0]}件・` +
+      `W2 bodies[N].m 値域クランプ(🪜massLadder の m=10000 > 上限5000)=${r.kinds[1]}件・` +
+      `想定外の警告=[${r.unexpected.slice(0, 3).join(' ')}](0件)/ ` +
+      `正規化の挙動bit不変(生定義build vs 正規化後build・400步の全状態)=[${r.bitNg.join(' ')}](0件)`);
+  } else {
+    console.log('SKIP preset.validate-all-builtins(対象に第83便C の validatePreset 修正なし — root 等)');
+  }
+}
+
 // ---- 3) i18n(全内蔵に en / EN切替 / JA復帰)----
 {
   const r = await page.evaluate(() => {
@@ -10147,11 +10229,14 @@ if (hasSwAutoCb) {
       const vNeg = HP.validatePreset({ ...base, physics: { G: 1, kAbs: -1, fScat: 5 } });
       const vBad = HP.validatePreset({ ...base, physics: { G: 1, kAbs: 'x' } });
       // 全内蔵プリセット: 既定のままの presets には光学キーが 1 つも書き出されない
-      const leak = [];
+      // 第83便C: バリデータを通らない内蔵4件の除外(`if(!v.ok) continue;`)を撤去し全件対象へ戻した
+      // (根本原因は解消済み — preset.validate-all-builtins が「全内蔵が致命エラー0」を独立に固定する)。
+      // 通らない内蔵が再び生じたら valNg に載せてここでも FAIL させる
+      const leak = [], valNg = [];
       for (const p of HP.allPresets()) {
         if (String(p.id).startsWith('custom_')) continue;
         const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
-        if (!v.ok) continue;   // 既存事情でバリデータを通らない内蔵は対象外(本項の主張と無関係)
+        if (!v.ok) { valNg.push(p.id); continue; }
         const has = ['kAbs', 'pAbs', 'fScat'].filter((k) => v.preset.physics[k] !== undefined);
         if (has.length && p.id !== 'reddening') leak.push(p.id + ':' + has.join('+'));
       }
@@ -10172,16 +10257,18 @@ if (hasSwAutoCb) {
       return { bare, explicit, same: bare === explicit,
         negOk: vNeg.ok && vNeg.preset.physics.kAbs === undefined && vNeg.preset.physics.fScat === 1
           && vNeg.warnings.some((w) => /kAbs/.test(w)),
-        badOk: !vBad.ok, leak, tauLeak,
+        badOk: !vBad.ok, leak, valNg, tauLeak,
         keyPlainNoOptics: keyPlain.indexOf(';O') < 0, keyOptHasOptics: keyOpt.indexOf(';O') >= 0,
         keyGrew: keyOpt.length > keyPlain.length };
     });
     add('optics.default-bitequal',
-      dfl.same && dfl.negOk && dfl.badOk && dfl.leak.length === 0 && dfl.tauLeak.length === 0
+      dfl.same && dfl.negOk && dfl.badOk && dfl.leak.length === 0 && dfl.valNg.length === 0
+      && dfl.tauLeak.length === 0
       && dfl.keyPlainNoOptics && dfl.keyOptHasOptics && dfl.keyGrew,
       `既定値明示 {kAbs:0,pAbs:4,fScat:0} と省略の physics が文字単位一致=${dfl.same}` +
       `(=署名・エクスポート JSON 不変)/ 値域外は警告つきクランプ後に既定なら削除=${dfl.negOk}・` +
-      `非数は致命=${dfl.badOk}/ 光学キーが漏れた内蔵=[${dfl.leak.slice(0, 4).join(' ')}](0件)/ ` +
+      `非数は致命=${dfl.badOk}/ 光学キーが漏れた内蔵=[${dfl.leak.slice(0, 4).join(' ')}](0件・` +
+      `第83便Cで除外リスト撤去 → 全内蔵が対象。検証子を通らない内蔵=[${dfl.valNg.join(' ')}](0件))/ ` +
       `光線プリセットの τ_ref≠0=[${dfl.tauLeak.slice(0, 4).join(' ')}](0件)/ ` +
       `rayKeyOf: 既定に光学節なし=${dfl.keyPlainNoOptics} kAbs>0 で吸収体を追跡=${dfl.keyOptHasOptics}`);
 

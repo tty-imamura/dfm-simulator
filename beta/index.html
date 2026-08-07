@@ -2410,9 +2410,12 @@ const BUILTIN_PRESETS = [
     {type:"disk", rMul:2, n:12, cx:-88,cy:58, radius:16, mMin:3,mMax:5,
      spinMin:8,spinMax:10, vMode:"random", vScale:0.8, direction:1, bulkVx:0.4, bulkVy:-0.2, lightSweep:"auto"},
     // 低スピン放射エンベロープ(散光成分・粒子54..97)
+    // 第83便: pinned の宣言漏れを補完した(build は未指定を偽として読む〔`pinned:b.pinned?1:0`〕ので
+    // 挙動は bit 不変)。validatePreset は ring の pinned を必須にしている — レール駆動・壁タグ・
+    // balanceFrame の分岐を持つ挙動キーなので、検査側が正しくプリセット側の宣言漏れだった
     {type:"ring", rMul:1, n:44, cx:0,cy:0, rIn:62, rOut:150, mMin:0.5,mMax:1.2,
      spinMin:0.4,spinMax:0.9, vMode:"kepler", aroundMass:250, omega:0, vNoise:0.05,
-     direction:1, lightSweep:"auto"}
+     direction:1, pinned:false, lightSweep:"auto"}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:false,monitor:false} },
 // 第75便: 🐚nebulaShell — 重殻ローター星雲(原仮定者指示「星雲は引力が弱いと拡散してしまうので、
@@ -2473,9 +2476,10 @@ const BUILTIN_PRESETS = [
      spinMin:0.48,spinMax:0.72, vMode:"random", vScale:2.1, direction:1, bulkVx:0.4, bulkVy:-0.2,
      core:{mode:"differential", massFrac:0.4, radius:1.1502173707608487, omega:16, Kcs:0}, lightSweep:"auto"},
     // 低スピン放射エンベロープ(散光成分・粒子54..97)
+    // 第83便: pinned の宣言漏れを補完(🌑nebulaRotor と同文脈・挙動 bit 不変)
     {type:"ring", rMul:1, n:44, cx:0,cy:0, rIn:62, rOut:150, mMin:0.5,mMax:1.2,
      spinMin:0.4,spinMax:0.9, vMode:"kepler", aroundMass:1134, omega:0, vNoise:0.05,
-     direction:1, lightSweep:"auto"}
+     direction:1, pinned:false, lightSweep:"auto"}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:false,monitor:false} },
 // 第75便: ⏳nebulaBipolar — 双極星雲(原仮定者指示「双極星雲: 進める」)。中心の重殻ダーク
@@ -4126,18 +4130,25 @@ function validatePreset(obj){
         }
         out.push(o);
       } else if(t==="ring"){
-        if(!needNum(["n","cx","cy","rIn","rOut","mMin","mMax","spinMin","spinMax","aroundMass","omega","vNoise"])) return;
+        if(!needNum(["n","cx","cy","rIn","rOut","mMin","mMax","spinMin","spinMax","omega","vNoise"])) return;
         // 第35便(台帳4-61): hubble — 群の重心を中心とする放射方向初速 v=vScale·(r−r̄)。
         // 「自由な箱」の壁リングに外向き初速を与えるための最小追加(disk の hubble と同じ意味論だが、
         //  中心は cx/cy ではなく生成後の群の重心 — 群の総運動量を厳密に 0 にするため)
         if(["kepler","omega","hubble","none"].indexOf(b.vMode)<0){ bad(at+".vMode が不正"); return; }
+        // 第83便: aroundMass は vMode:"kepler" のときだけ読まれる(build 側 `b.vMode==="kepler" &&
+        // b.aroundMass>0 && r>1` — 他モードでは 1 命令も参照されない)。従来は全 vMode で必須にして
+        // いたため、kepler を使わない群(random/none 等)の定義が致命エラーで弾かれていた
+        // (内蔵 🍳galaxyDB・🌑nebulaRotor・🐚nebulaShell・⏳nebulaBipolar が該当)。
+        // vScale/bulkVx と同じ「未指定=0 の任意キー」へ揃える。kepler では従来どおり必須(=中心質量
+        // の宣言漏れは黙って v=0 の非軌道にせず致命で止める — 正当な検査なので残す)
+        if(b.vMode==="kepler" && !needNum(["aroundMass"])) return;
         if(b.direction!==1 && b.direction!==-1){ bad(at+".direction は 1 か -1"); return; }
         if(typeof b.pinned!=="boolean"){ bad(at+".pinned(boolean)が必要"); return; }
         const oR={type:"ring", n:clamp(Math.round(b.n),0,N_CAP), cx:CO(b.cx,"cx"), cy:CO(b.cy,"cy"),
           rIn:LEN(Math.min(b.rIn,b.rOut),"rIn"), rOut:LEN(Math.max(b.rIn,b.rOut),"rOut"),
           mMin:MASS(Math.min(b.mMin,b.mMax),"mMin"), mMax:MASS(Math.max(b.mMin,b.mMax),"mMax"),
           spinMin:SPN(Math.min(b.spinMin,b.spinMax),"spinMin"), spinMax:SPN(Math.max(b.spinMin,b.spinMax),"spinMax"),
-          vMode:b.vMode, aroundMass:wc(b.aroundMass,0,5000,"aroundMass"), omega:wc(b.omega,-2,2,"omega"),
+          vMode:b.vMode, aroundMass:isNum(b.aroundMass)?wc(b.aroundMass,0,5000,"aroundMass"):0, omega:wc(b.omega,-2,2,"omega"),   // 第83便: 未指定=0(kepler 以外は未使用)
           vNoise:wc(b.vNoise,0,1,"vNoise"), direction:b.direction, pinned:b.pinned,
           vScale:isNum(b.vScale)?wc(b.vScale,0,50,"vScale"):0,   // 第35便: vMode="hubble" の膨張率(他モードでは未使用)
           bulkVx:isNum(b.bulkVx)?VEL(b.bulkVx,"bulkVx"):0, bulkVy:isNum(b.bulkVy)?VEL(b.bulkVy,"bulkVy"):0};
@@ -4179,13 +4190,14 @@ function validatePreset(obj){
         }
         out.push(oR);
       } else if(t==="disk"){
-        if(!needNum(["n","cx","cy","radius","mMin","mMax","spinMin","spinMax","aroundMass","vScale"])) return;
+        if(!needNum(["n","cx","cy","radius","mMin","mMax","spinMin","spinMax","vScale"])) return;
         if(["kepler","rigid","flat","random","hubble","none"].indexOf(b.vMode)<0){ bad(at+".vMode が不正"); return; }   // 第31便: hubble(初期 Hubble 流 v=vScale·(r−c))を追加
         if(b.direction!==1 && b.direction!==-1){ bad(at+".direction は 1 か -1"); return; }
+        if(b.vMode==="kepler" && !needNum(["aroundMass"])) return;   // 第83便: ring と同条件(kepler 以外は build が参照しない任意キー)
         const oD={type:"disk", n:clamp(Math.round(b.n),0,N_CAP), cx:CO(b.cx,"cx"), cy:CO(b.cy,"cy"), radius:LEN(b.radius,"radius"),
           mMin:MASS(Math.min(b.mMin,b.mMax),"mMin"), mMax:MASS(Math.max(b.mMin,b.mMax),"mMax"),
           spinMin:SPN(Math.min(b.spinMin,b.spinMax),"spinMin"), spinMax:SPN(Math.max(b.spinMin,b.spinMax),"spinMax"),
-          vMode:b.vMode, aroundMass:wc(b.aroundMass,0,5000,"aroundMass"), vScale:wc(b.vScale,0,50,"vScale"), direction:b.direction,
+          vMode:b.vMode, aroundMass:isNum(b.aroundMass)?wc(b.aroundMass,0,5000,"aroundMass"):0, vScale:wc(b.vScale,0,50,"vScale"), direction:b.direction,   // 第83便: 未指定=0(kepler 以外は未使用)
           bulkVx:isNum(b.bulkVx)?VEL(b.bulkVx,"bulkVx"):0, bulkVy:isNum(b.bulkVy)?VEL(b.bulkVy,"bulkVy"):0};
         if(b.rMul!==undefined){   // 第36便 C1: 群共通の半径倍率(0.2〜5・既定1)
           if(!isNum(b.rMul)){ bad(at+".rMul が数値ではありません"); return; }
