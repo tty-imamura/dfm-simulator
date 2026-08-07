@@ -817,8 +817,7 @@ ja: {
   claimKindTip:"主張の検証形態(台帳4-92): 解析一致=閉形式解との一致/保存恒等式=帳簿込みの恒等式/意味論回帰=定義・規則の回帰/固定seed実測=決定論的単一走行の実測/多seed統計=シード群にわたる統計",
   // 第50便 50K(台帳4-78 C案): 構造化説明の区分見出し
   descSummaryHead:"📌 要約", descObserveHead:"👀 観察のポイント", descControlHead:"🎛 操作と対照",
-  // 第74便: 5段階スケール(scaleTier)— 絞り込み・チップ・換算表示・AI雛形
-  grpScale:"スケール",
+  // 第74便: 5段階スケール(scaleTier)— チップ・換算表示・AI雛形(第84便C: 絞り込み用 grpScale は撤去)
   scaleName_molecular:"分子", scaleName_everyday:"日常", scaleName_celestial:"天体",
   scaleName_galactic:"銀河", scaleName_cosmic:"宇宙全体",
   bdgScaleTip:"5段階スケール分類(分子/日常/天体/銀河/宇宙全体)。UI の分類と表示換算の目安専用 — 物理エンジンはスケールで切り替わらない(同じ公理・同じ法則のまま、質量・距離・速度で支配機構が入れ替わるのが本モデルの主題)",
@@ -1108,8 +1107,7 @@ en: {
   claimKindTip:"How the claim is verified (ledger 4-92): analytic match = agreement with a closed-form solution / conservation identity = ledger-closed identity / semantic regression = regression of a definition or rule / fixed-seed run = deterministic single-run measurement / multi-seed statistics = statistics across seeds",
   // 第50便 50K(台帳4-78 C案): structured-description section heads
   descSummaryHead:"📌 Summary", descObserveHead:"👀 What to observe", descControlHead:"🎛 Controls & contrasts",
-  // 第74便: 5-tier scale (scaleTier)
-  grpScale:"Scale",
+  // 第74便: 5-tier scale (scaleTier) — chips/conversion/AI templates (第84便C: filter-only grpScale removed)
   scaleName_molecular:"Molecular", scaleName_everyday:"Everyday", scaleName_celestial:"Celestial",
   scaleName_galactic:"Galactic", scaleName_cosmic:"Cosmic",
   bdgScaleTip:"Five-tier scale classification (molecular / everyday / celestial / galactic / cosmic). Used only for browsing and unit-conversion hints — the physics engine never switches on scale (the whole point of this model is that the same axioms let different mechanisms dominate as mass, distance and speed change)",
@@ -9524,16 +9522,9 @@ function presetCatOf(v){   // 選択値(プリセットID/save#i)の属するカ
   const bp=BUILTIN_PRESETS.find(p=>p.id===v);
   return bp? (bp.group||"内蔵") : null;
 }
-// 第74便: 絞り込み判定の一本化 — 従来のカテゴリ名に加えて "scale:<tier>"(5段階スケール)を受ける。
-// スケール絞り込みは scaleTier 宣言を持つプリセット(内蔵+AI生成)を横断する(group とは別軸)
+// 第74便: 絞り込み判定の一本化(第84便C: "scale:<tier>" 絞り込みは撤去 — group のみで判定)
 function presetInFilter(v){
   if(presetFilter==="all") return true;
-  if(String(presetFilter).startsWith("scale:")){
-    const st=presetFilter.slice(6);
-    if(String(v).startsWith("save#")) return false;
-    const p=allPresets().find(q=>q.id===v);
-    return !!(p && p.scaleTier===st);
-  }
   return presetCatOf(v)===presetFilter;
 }
 function rebuildPresetGroupSelect(){
@@ -9544,15 +9535,7 @@ function rebuildPresetGroupSelect(){
   if(getCustomPresets().length) opts.push(["AI生成",gName("AI生成")]);
   if(getSaves().length) opts.push(["保存一覧",gName("保存一覧")]);
   for(const [v,name] of opts){ const o=document.createElement("option"); o.value=v; o.textContent=name; gs.appendChild(o); }
-  // 第74便: 5段階スケール絞り込み — カテゴリの下に optgroup で追加(group とは別軸の横断分類)
-  {
-    const og=document.createElement("optgroup"); og.label=T("grpScale");
-    for(const t of SCALE_TIERS){
-      const o=document.createElement("option"); o.value="scale:"+t;
-      o.textContent=SCALE_EMOJI[t]+" "+T("scaleName_"+t); og.appendChild(o);
-    }
-    gs.appendChild(og);
-  }
+  // 第84便C: スケール絞り込み(optgroup)は撤去。タグ・チップ・換算既定指数・AI雛形(第74便①②③)は不変
   if(![...gs.options].some(o=>o.value===presetFilter)) presetFilter="all";
   gs.value=presetFilter;
 }
@@ -9568,7 +9551,7 @@ function rebuildPresetSelect(selId){
   let og=null, curGroup=null;
   familyGroupedBuiltins().forEach(p=>{   // 第79便: スケール準拠の並び / 第82便: ファミリー集約
     const g=p.group||"内蔵";
-    if(presetFilter!=="all" && !presetInFilter(p.id)) return;   // 54D②: カテゴリ絞り込み(74便: スケールも)
+    if(presetFilter!=="all" && !presetInFilter(p.id)) return;   // 54D②: カテゴリ絞り込み
     // 第82便: 既定はvariant非表示。ただし現在読込中のプリセット自身がvariantなら選択保持のため表示する
     if(!showAllSamples && p.familyId && p.familyRole==="variant" && !(currentPreset && p.id===currentPreset.id)) return;
     if(g!==curGroup){ curGroup=g; og=document.createElement("optgroup"); og.label=gName(g); sel.appendChild(og); }
@@ -9583,10 +9566,8 @@ function rebuildPresetSelect(selId){
     }
     o.value=p.id; o.textContent=label; og.appendChild(o);
   });
-  // 第74便: スケール絞り込みでは scaleTier を持つ AI生成プリセットも対象(group とは別軸の横断)
-  const scaleF=String(presetFilter).startsWith("scale:");
-  const customs=getCustomPresets().filter(p=>!scaleF || presetInFilter(p.id));
-  if(customs.length && (presetFilter==="all"||presetFilter==="AI生成"||scaleF)){
+  const customs=getCustomPresets();
+  if(customs.length && (presetFilter==="all"||presetFilter==="AI生成")){
     const og2=document.createElement("optgroup"); og2.label=gName("AI生成");
     customs.forEach(p=>{ const o=document.createElement("option");
       o.value=p.id; o.textContent="🤖 "+(p.emoji||"")+" "+pName(p); og2.appendChild(o); });
@@ -9978,7 +9959,6 @@ $("#presetSelect").addEventListener("change",e=>{
 $("#presetGroupSelect").addEventListener("change",e=>{
   const v=e.target.value;
   const curVal=$("#presetSelect").value || (currentPreset? currentPreset.id : "");
-  // 第74便: スケール絞り込み("scale:<tier>")も presetInFilter で判定する
   const prevFilter=presetFilter; presetFilter=v;
   const needLoad = v!=="all" && !presetInFilter(curVal);
   presetFilter=prevFilter;

@@ -145,6 +145,16 @@
   触らず、第84便B の新テストだけが obsT に依存しないよう `w5cDrFree` / `w5cDrMulti` を
   `w5cHasObs` から独立させた(**既存ユニットの `enabled` 式は `w5cHasObs && …` のまま残して
   あるので、既存の有効/無効は 1 つも変わらない**)
+第84便 C(2026-08-07・原仮定者指示): **サンプルのスケールタグは維持、プルダウン絞り込みのみ撤去**。
+カテゴリ選択(`#presetGroupSelect`)にあった「スケール」optgroup(`scale:<tier>` — 分子/日常/天体/
+銀河/宇宙全体でサンプルを横断絞り込みする第74便④の機能)を削除した。**分類チップ・表示換算の
+既定指数・AI生成雛形(第74便①②③)は無変更**——scaleTier 宣言そのもの・チップ表示・
+`scaleExpAnchorOf`・`AI_SCALE_TPL` は一切触れていない。`presetInFilter` の `"scale:"` 分岐と
+`rebuildPresetSelect` 側のスケール横断ロジック(`scaleF`)も削除し、group のみでの絞り込みに戻した。
+絞り込み用だった i18n キー `grpScale`(ja/en)も撤去(他用途なし — `#aiScaleTpl` 側は `scaleName_*`
+を直接使っており無関係)。`presetFilter` は永続化されていない(localStorage 未使用)ため、旧
+`"scale:"` 値が起動時に残留する経路は無いが、`rebuildPresetGroupSelect` の既存の選択肢外れ検査
+(`![...gs.options].some(...)`→`"all"`)がこの場合も自動的に吸収する。
 
 第83便 D(2026-08-07): **エクスポート往復の保全 — 説明文・質量の上限を実測較正し、往復ゲートを
 新設**(統括裁定・原仮定者指示「範囲外の潜在問題: 対応を進める」)。第83便 C が「許容警告2種」
