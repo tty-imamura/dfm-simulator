@@ -916,6 +916,227 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   add('preset.' + id, !r.nan, 'n=' + r.n);
 }
 
+// ---- 2b) 第83便 C: preset.validate-all-builtins — 全内蔵プリセットが validatePreset を
+// ----      **致命エラー0** で通る。第82便A(光学輸送)の optics.default-bitequal 実装中に、
+// ----      内蔵4件(🍳galaxyDB・🌑nebulaRotor・🐚nebulaShell・⏳nebulaBipolar)が**元から**
+// ----      通らないことが判明し当該QAでは除外していた。第83便Cで根本解消した:
+// ----       ・validator 側: disk/ring の aroundMass を **vMode:"kepler" のときだけ必須**へ
+// ----         (build 側は kepler 以外でこのキーを 1 命令も参照しない。vScale/bulkVx と同じ
+// ----         「未指定=0 の任意キー」へ揃えた。kepler での宣言漏れは従来どおり致命)
+// ----       ・プリセット側: 🌑/🐚 のエンベロープ ring の `pinned` 宣言漏れを補完
+// ----         (build は未指定を偽として読むので挙動は bit 不変。ring の pinned はレール駆動・
+// ----          壁タグの分岐を持つ挙動キーなので、必須にしている検査側が正しい)
+// ----      内蔵の読込経路(loadPreset→sim.build)は validatePreset を通らないため実害は無かったが、
+// ----      「全内蔵が検証子を通る」ことを本項で恒久固定する。
+// ----      **許容する警告は種類を固定**する(想定外の警告が1件でも出たら FAIL — 検査を緩めた
+// ----      副作用の検出器。この性質は第83便D でも維持する)。
+// ----      第83便C 時点の許容2種は、**第83便D で両方とも根本解消したので許容リストは空**になった:
+// ----       W1(解消) descStruct の純分割不一致 — validatePreset が description を200字へ切り詰める
+// ----          ため構造化説明(数千字)との連結一致が原理的に成立しなかった。第83便D で上限を
+// ----          実測較正(DESC_CAP=16000 ≈ 統合後実測最長7819の2倍・節別 3000/13000/1500)し、内蔵の
+// ----          descStruct は削除されずに通るようになった(往復での構造化説明の喪失を解消)。
+// ----       W2(解消) bodies[N].m を値域に修正 — 🪜massLadder の m=10000 が MASS 上限5000に当たり、
+// ----          往復すると物理が変質していた。第83便D で MASS_CAP=20000(内蔵最大の約2倍)へ較正。
+// ----      許容リストが空になっても**構造は残す**(将来の較正で新しい許容種が要るときの受け皿)。
+// ----      併せて「正規化しても挙動は変わらない」ことを、対象4件について
+// ----      **生定義 build と validatePreset 正規化後 build の 400步後の全状態 bit 一致**で機械確認する。
+// ----      (往復そのものの保全は第83便D の preset.roundtrip-builtins が別途固定する)
+// ----      第83便C より前の対象(root 等)は自動 SKIP。
+{
+  const hasW83 = await page.evaluate(() => {
+    const v = HP.validatePreset({ name: 'x', description: 'd', camera: { scale: 100 },
+      world: { boundary: 'none', size: 0 },
+      bodies: [{ type: 'disk', n: 2, cx: 0, cy: 0, radius: 10, mMin: 1, mMax: 1,
+        spinMin: 0, spinMax: 0, vMode: 'random', vScale: 1, direction: 1 }] });
+    return !!(v.ok && v.preset.bodies[0].aroundMass === 0);
+  });
+  if (hasW83) {
+    const r = await page.evaluate(() => {
+      // 許容警告の正規値(ここに載っていない警告が1件でも出たら FAIL — 検査を緩めた副作用の
+      // 検出器)。第83便D で W1/W2 とも根本解消したため**空**= 内蔵の警告は0件が正規値
+      const OKW = [];
+      const ng = [], unexpected = [], kinds = OKW.map(() => 0);
+      let total = 0;
+      for (const p of HP.allPresets()) {
+        if (String(p.id).startsWith('custom_')) continue;
+        total++;
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+        if (!v.ok) { ng.push(p.id + ':' + (v.errors || []).join('/')); continue; }
+        for (const w of (v.warnings || [])) {
+          const i = OKW.findIndex((re) => re.test(w));
+          if (i < 0) unexpected.push(p.id + ':' + w); else kinds[i]++;
+        }
+      }
+      // ---- 正規化の挙動 bit 不変(第83便C の裁定根拠そのものを機械固定)----
+      // 生定義をそのまま build した場合と、validatePreset を通してから build した場合で、
+      // 400步後の力学状態(位置・速度・スピン・固有時計・pinned・コアv2 の J/Ω)が 1 bit も違わない
+      const dump = (S) => {
+        const a = [];
+        for (const k of ['x', 'y', 'vx', 'vy', 'spin', 'tau', 'm', 'pinned',
+          'coreJ', 'coreOmV', 'coreMd', 'railOmega', 'railH']) {
+          const v = S[k]; if (!v) { a.push(k + ':-'); continue; }
+          a.push(k + ':' + Array.prototype.join.call(v.subarray(0, S.n), ','));
+        }
+        return a.join('|');
+      };
+      const run = (pre) => { HP.sim.build(JSON.parse(JSON.stringify(pre)));
+        for (let i = 0; i < 400; i++) HP.sim.step(0.016); return dump(HP.sim); };
+      const bitNg = [];
+      for (const id of ['galaxyDB', 'nebulaRotor', 'nebulaShell', 'nebulaBipolar']) {
+        const p = HP.allPresets().find((q) => q.id === id);
+        if (!p) continue;
+        const raw = run(p);
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+        if (!v.ok) { bitNg.push(id + ':validate-ng'); continue; }
+        if (run(v.preset) !== raw) bitNg.push(id + ':state-diff');
+      }
+      HP.loadPreset('saturn', false);
+      return { total, ng, unexpected, kinds, bitNg };
+    });
+    add('preset.validate-all-builtins',
+      r.ng.length === 0 && r.unexpected.length === 0 && r.bitNg.length === 0 && r.total > 0,
+      `内蔵${r.total}件が validatePreset を致命エラー0で通過(NG=[${r.ng.slice(0, 4).join(' ')}])/ ` +
+      `許容警告 ${r.kinds.length}種=[${r.kinds.join(' ')}]件(第83便D で W1 descStruct純分割不一致・` +
+      `W2 m値域クランプ とも根本解消 — 内蔵の警告は0件が正規値)/ ` +
+      `想定外の警告=[${r.unexpected.slice(0, 3).join(' ')}](0件)/ ` +
+      `正規化の挙動bit不変(生定義build vs 正規化後build・400步の全状態)=[${r.bitNg.join(' ')}](0件)`);
+  } else {
+    console.log('SKIP preset.validate-all-builtins(対象に第83便C の validatePreset 修正なし — root 等)');
+  }
+}
+
+// ---- 2c) 第83便 D: preset.roundtrip-builtins — **エクスポート往復の保全**を機械固定する。
+// ----      第83便C が「validatePreset の許容警告2種」として種類固定だけして未対応だった、
+// ----      往復で情報が落ちる/物理が変質する2件の根本対応(第83便D)に対応するゲート。
+// ----        ①descStruct 喪失: description の 200 字切り詰めで純分割一致が壊れ、descStruct を
+// ----          持つ内蔵すべてで構造化説明が往復のたびに消えていた → DESC_CAP=16000(実測最長
+// ----          4367 の約2倍)+節別上限 3000/6000/1500(≈2×1501/3065/691)へ実測較正。
+// ----        ②物理変質: 🪜massLadder の m=10000 が MASS 上限5000でクランプされ、往復すると
+// ----          別の物理になっていた → MASS_CAP=20000(内蔵最大の約2倍)へ実測較正。
+// ----      検査内容(内蔵の全件について):
+// ----        ・**エクスポート JSON を実際に作って往復する** — exportData と同じ封筒
+// ----          {schemaVersion:4, saves, customPresets} を JSON.stringify(…,null,1) で文字列化し、
+// ----          JSON.parse で読み戻して validatePreset → sim.build。JSON 化で壊れる値
+// ----          (undefined/NaN/Infinity)もこの経路なら顕在化する。
+// ----        ・**descStruct 保全**: ja/en とも、往復後の 3 節が元と一字一句同じ(削除されない)。
+// ----        ・**質量クランプ発動 0**: m/mMin/mMax/aroundMass の「値域に修正」警告が 1 件も出ない。
+// ----        ・**bit 一致**: 往復 build と直接 build で、t=0 と 400步後の全状態(位置・速度・
+// ----          スピン・固有時計・質量・pinned・コアv2 の J/Ω/mode・レール)が 1 bit も違わない。
+// ----      区画(実測: 全件の 400步 往復は約136秒 — QA_FAST には重すぎる):
+// ----        ・**t=0 の全状態 bit 一致 + descStruct 保全 + 質量クランプ0 は常に全件**(実測 0.13 秒)。
+// ----          正規化の取りこぼしはほぼすべて初期状態に出るので、これが主検出面。
+// ----        ・**400步の bit 一致**は QA_FAST では代表8件(実測 約8.6秒)、フルQAでは全件。
+// ----          代表8件は 🪜massLadder(質量上限)・🥚selfRotor(最長 description・コアv2 active)・
+// ----          🕳bhCore(最長 summary/control・コアv2)・🌟starcore(コアv2)・🪐saturn(zonal E13)・
+// ----          📏probeH(universeBox+probeHud)・📦freebox(measureBox)・🌀boxrot(レール駆動)。
+// ----          第83便C の preset.validate-all-builtins が別の4件(galaxyDB/nebulaRotor/
+// ----          nebulaShell/nebulaBipolar)の400步 bit 不変を持っているので重複させない。
+// ----      第83便D より前の対象(root 等)は自動 SKIP。
+{
+  const hasW83D = await page.evaluate(() => {
+    // 判定子: description の上限が 200 字より広がっていること(DESC_CAP の実測較正)
+    const long = 'あ'.repeat(1000);
+    const v = HP.validatePreset({ name: 'x', description: long, camera: { scale: 100 },
+      world: { boundary: 'none', size: 0 },
+      bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+    return !!(v.ok && v.preset.description.length === 1000);
+  });
+  if (hasW83D) {
+    const FAST_SAMPLE = ['massLadder', 'selfRotor', 'bhCore', 'starcore', 'saturn',
+      'probeH', 'freebox', 'boxrot'];
+    const r = await page.evaluate(({ fast, sample }) => {
+      // 力学状態の全ダンプ(第83便C の preset.validate-all-builtins と同じキー集合)
+      const dump = (S) => {
+        const a = [];
+        for (const k of ['x', 'y', 'vx', 'vy', 'spin', 'tau', 'm', 'pinned',
+          'coreJ', 'coreOmV', 'coreMd', 'railOmega', 'railH']) {
+          const v = S[k]; if (!v) { a.push(k + ':-'); continue; }
+          a.push(k + ':' + Array.prototype.join.call(v.subarray(0, S.n), ','));
+        }
+        return a.join('|');
+      };
+      const run = (pre, steps) => {
+        HP.sim.build(JSON.parse(JSON.stringify(pre)));
+        const s0 = dump(HP.sim);
+        for (let i = 0; i < steps; i++) HP.sim.step(0.016);
+        return s0 + '#' + dump(HP.sim);
+      };
+      // exportData と同じ封筒に載せて文字列化 → 読み戻し(往復そのもの)
+      const roundtrip = (p) => {
+        const env = JSON.stringify({ schemaVersion: 4, appVersion: HP.APP_VERSION,
+          appBuild: 'qa', exportedAt: '2026-01-01T00:00:00.000Z',
+          saves: [], customPresets: [p] }, null, 1);
+        return JSON.parse(env).customPresets[0];
+      };
+      const dsEq = (a, b) => {
+        if (!a) return !b;
+        if (!b) return false;
+        return ['summary', 'observe', 'control'].every((k) => (a[k] || '') === (b[k] || ''));
+      };
+      const MASSW = /\.(m|mMin|mMax|aroundMass) を値域に修正$/;
+      const ng = [], dsNg = [], massNg = [], bit0Ng = [], bit400Ng = [];
+      let total = 0, nDS = 0, n400 = 0;
+      for (const p of HP.allPresets()) {
+        if (String(p.id).startsWith('custom_')) continue;
+        total++;
+        const v = HP.validatePreset(roundtrip(p));
+        if (!v.ok) { ng.push(p.id + ':' + (v.errors || []).join('/')); continue; }
+        // descStruct 保全(ja/en) — 元が持っているものは 3 節とも一字一句保たれること
+        if (p.descStruct || (p.en && p.en.descStruct)) {
+          nDS++;
+          if (!dsEq(p.descStruct, v.preset.descStruct)) dsNg.push(p.id + ':ja');
+          if (p.en && !dsEq(p.en.descStruct, v.preset.en && v.preset.en.descStruct)) dsNg.push(p.id + ':en');
+        }
+        // 質量クランプ発動 0
+        for (const w of (v.warnings || [])) if (MASSW.test(w)) massNg.push(p.id + ':' + w);
+        // bit 一致: t=0 は常に全件・400步は区画に従う
+        const steps = (!fast || sample.indexOf(p.id) >= 0) ? 400 : 0;
+        if (steps) n400++;
+        const raw = run(p, steps);
+        if (run(v.preset, steps) !== raw) (steps ? bit400Ng : bit0Ng).push(p.id);
+      }
+      // ---- 上限そのものは残っていること(緩めすぎ検出。合成プリセットで負の経路を1回だけ叩く)----
+      const mk = (desc, ds, m) => ({ name: 't', description: desc, descStruct: ds,
+        camera: { scale: 100 }, world: { boundary: 'none', size: 0 }, seed: 1,
+        physics: {}, overlays: {},
+        bodies: [{ type: 'single', m, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+      const A = 'あ';
+      const vDesc = HP.validatePreset(mk(A.repeat(20000), undefined, 1));   // 第83便統合: DESC_CAP 16000 再較正に追随
+      const vSect = HP.validatePreset(mk(A.repeat(9), { summary: A.repeat(9), observe: '', control: '' }, 1));
+      const vSectBig = HP.validatePreset(mk(A.repeat(8000), { summary: A.repeat(8000), observe: '', control: '' }, 1));
+      const vMass = HP.validatePreset(mk('d', undefined, 1e9));
+      const caps = {
+        // description は 16000 で切り詰め(200 でも 20000 でもない — 第83便統合の再較正値)
+        desc: vDesc.ok && vDesc.preset.description.length === 16000,
+        // 節が上限内なら保持される(9 字の純分割)
+        sectKeep: vSect.ok && !!vSect.preset.descStruct && vSect.preset.descStruct.summary.length === 9,
+        // summary 上限 3000 超は切り詰め警告 → 純分割が壊れて descStruct ごと削除(荒らし対策は健在)
+        sectCut: vSectBig.ok && vSectBig.preset.descStruct === undefined &&
+          vSectBig.warnings.some((w) => /descStruct\.summary が上限3000字を超過/.test(w)),
+        // 質量は 20000 で警告つきクランプ(クランプ挙動そのものは不変)
+        mass: vMass.ok && vMass.preset.bodies[0].m === 20000 &&
+          vMass.warnings.some((w) => /^bodies\[0\]\.m を値域に修正$/.test(w))
+      };
+      HP.loadPreset('saturn', false);
+      return { total, nDS, n400, ng, dsNg, massNg, bit0Ng, bit400Ng, caps };
+    }, { fast: FAST, sample: FAST_SAMPLE });
+    const capsOk = Object.values(r.caps).every(Boolean);
+    add('preset.roundtrip-builtins',
+      r.total > 0 && r.ng.length === 0 && r.dsNg.length === 0 && r.massNg.length === 0 &&
+      r.bit0Ng.length === 0 && r.bit400Ng.length === 0 && capsOk,
+      `内蔵${r.total}件のエクスポートJSON往復(stringify→parse→validatePreset→build)/ ` +
+      `致命エラー=[${r.ng.slice(0, 3).join(' ')}](0件)/ ` +
+      `descStruct 保全 ${r.nDS}件=[${r.dsNg.slice(0, 3).join(' ')}](喪失0件)/ ` +
+      `質量クランプ発動=[${r.massNg.slice(0, 3).join(' ')}](0件)/ ` +
+      `bit一致(往復build vs 直接build)t=0 のみ ${r.total - r.n400}件=[${r.bit0Ng.slice(0, 3).join(' ')}](0件)・` +
+      `t=0+400步 ${r.n400}件(${FAST ? 'QA_FAST=代表' : 'フル=全件'})=[${r.bit400Ng.slice(0, 3).join(' ')}](0件)/ ` +
+      `上限は健在(desc 16000切り詰め=${r.caps.desc}・節上限内は保持=${r.caps.sectKeep}・` +
+      `summary 3000超は切り詰め警告→descStruct削除=${r.caps.sectCut}・m は20000で警告つきクランプ=${r.caps.mass})`);
+  } else {
+    console.log('SKIP preset.roundtrip-builtins(対象に第83便D の説明文上限の実測較正なし — root 等)');
+  }
+}
+
 // ---- 3) i18n(全内蔵に en / EN切替 / JA復帰)----
 {
   const r = await page.evaluate(() => {
@@ -9371,7 +9592,7 @@ if (hasSwAutoCb) {
     add('behavior.selfrotor',
       !m.nan && !nf.nan && !nc.nan && m.clampV === 0 && m.clampR === 0
       && r.validT === 144 && r.dFrac === 0.7 && r.thermal === 'tint'
-      && r.balance === 'barycentric' && r.emergence === 'E2' && r.cls.closed === true
+      && r.balance === 'barycentric' && r.emergence === 'E3' && r.cls.closed === true   // 第83便A: E2→E3
       && m.lsw0 === 0 && m.align0 === 0 && m.K0 > 100
       && inW(m.mFrac, C['selfRotor.max-mass-fraction'])
       && inC(nf.mFrac, C['selfRotor.max-mass-fraction'])
@@ -9408,11 +9629,95 @@ if (hasSwAutoCb) {
   }
 }
 
+// ---- 83A) 第83便A(創発の標準試験化): behavior.selfrotor-multiseed — 🥚selfRotor の
+// ----   **多seed頑健性**(E3 の要件)を機械固定する。第82便B の behavior.selfrotor が
+// ----   「固定seed 1本+ノックアウト対照」を見るのに対し、こちらは seed を振って
+// ----   「乱数の引きが変わっても同じ現象が立つ」ことを claims の窓で判定する。
+// ----   **QA は縮約版・exp 側が全数の正本**という既存の kind:"multi-seed" の流儀に合わせる
+// ----   (galaxy.outer-boost-ratio: QA claim.galaxy-outerboost は固定seedの A/B 1組で、
+// ----    5seed の統計は tests/exp-scale66.mjs 側が持つ)。ここでは QA を先頭4seed
+// ----   (20260806〜20260809)に絞り、16seed の分布そのものは tests/exp-4-85.mjs
+// ----   (→ tests/out/exp-4-85.json)が正本として持つ。
+// ----   判定量は「seed 集合を通した最大天体の質量比の**最小値**」= claims の
+// ----   selfRotor.multi-seed-min-mass-fraction の窓(0.10〜0.60)。対照(融合オフ)は
+// ----   融合が無ければ質量が動かないので全seedで厳密に 1/180=0.5556% になることも固定する。
+// ----   **重い(9000步 × 8構成)ので QA_FAST=1 では実行しない**(FAST への時間増はゼロ)----
+if (!FAST) {
+  const hasSR2 = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'selfRotor'
+    && Array.isArray(p.claims) && p.claims.some((c) => c.id === 'selfRotor.multi-seed-min-mass-fraction')));
+  if (hasSR2) {
+    const r = await page.evaluate((seeds) => {
+      const S = HP.sim;
+      const P = HP.allPresets().find((p) => p.id === 'selfRotor');
+      const run = (seed, noFuse, steps) => {
+        const p = JSON.parse(JSON.stringify(P));
+        if (noFuse) delete p.fusion;
+        p.seed = seed;
+        const v = HP.validatePreset(p);
+        if (!v.ok) return { err: v.errors };
+        S.build(v.preset);
+        for (let k = 0; k < steps; k++) S.step(0.016);
+        let bi = 0, mTot = 0;
+        for (let i = 0; i < S.n; i++) { mTot += Math.abs(S.m[i]); if (Math.abs(S.m[i]) > Math.abs(S.m[bi])) bi = i; }
+        const em = HP.emergenceStats(S);
+        let lswH = 0, nH = 0;
+        for (let i = 0; i < S.n; i++) if (i !== bi) { lswH += S.lSw[i]; nH++; }
+        return { seed, n: S.n, fusN: S.fusN, mFrac: Math.abs(S.m[bi]) / mTot,
+          maxFrac: em.maxFrac, align: em.align, vsig: em.vsig,
+          lSw: S.lSw[bi], lSwHalo: nH ? lswH / nH : 0, nan: S.hasNaN(),
+          clampV: S.clampVN, clampR: S.clampRN || 0 };
+      };
+      const main = seeds.map((sd) => run(sd, false, 9000));
+      const ctl = seeds.map((sd) => run(sd, true, 9000));
+      HP.loadPreset('selfRotor', false);
+      const cl = P.claims.find((c) => c.id === 'selfRotor.multi-seed-min-mass-fraction');
+      return { main, ctl, claim: cl, n0: P.bodies[0].n, emergence: P.emergence };
+    }, [20260806, 20260807, 20260808, 20260809]);
+    const C = r.claim;
+    const mFracs = r.main.map((v) => v.mFrac);
+    const minMF = Math.min(...mFracs), maxMF = Math.max(...mFracs);
+    const ctlMF = r.ctl.map((v) => v.mFrac);
+    const ctlMed = [...ctlMF].sort((a, b) => a - b)[Math.floor(ctlMF.length / 2)];
+    // 減光コントラスト(中心/周囲)— 第83便A の16seedで本則2.41〜5.30・対照0.40〜1.26 と重ならない
+    const con = r.main.map((v) => v.lSw / Math.max(v.lSwHalo, 1e-9));
+    const conC = r.ctl.map((v) => v.lSw / Math.max(v.lSwHalo, 1e-9));
+    // 実測(beta・第83便A・16seed 20260806〜20260821・9000步=validT):
+    //   質量比 18.3〜53.3%(中央34.7%)・最大塊 0.972〜1.000・整列度 0.985〜1.000・
+    //   V/σ 3.1〜20.8・中心減光 0.472〜0.919・周囲 0.126〜0.235・コントラスト 2.41〜5.30
+    //   対照(融合オフ)は全seed で質量比 0.5556%(=1/180 厳密)・コントラスト 0.40〜1.26
+    //   → 本則の最小 18.3% は対照中央値の 33.0 倍(統括の判定基準①「10倍超」を満たす)
+    add('behavior.selfrotor-multiseed',
+      r.emergence === 'E3'
+      && r.main.every((v) => !v.nan && v.clampV === 0 && v.clampR === 0)
+      && r.ctl.every((v) => !v.nan)
+      && minMF >= C.expected.min && maxMF <= C.expected.max
+      && ctlMF.every((v) => Math.abs(v - 1 / r.n0) < 1e-12)
+      && ctlMed >= C.control.expected.min && ctlMed <= C.control.expected.max
+      && minMF > 10 * ctlMed
+      && r.main.every((v) => v.maxFrac >= 0.9 && v.align >= 0.9)
+      && Math.min(...con) > Math.max(...conC),
+      `${r.main.length}seed(${r.main.map((v) => v.seed).join('/')}・9000步=validT) 最大天体の質量比 ` +
+      `${r.main.map((v) => (v.mFrac * 100).toFixed(1) + '%').join('/')} → **最小=${(minMF * 100).toFixed(1)}%**` +
+      `(claim 窓 ${C.expected.min * 100}〜${C.expected.max * 100}%) / ` +
+      `対照(融合オフ)は全seed ${(ctlMed * 100).toFixed(4)}%(=1/${r.n0} 厳密 — 融合が無ければ質量は動かない) ` +
+      `→ 比=${(minMF / ctlMed).toFixed(1)}倍(>10) / ` +
+      `秩序変数: 最大塊 ${r.main.map((v) => v.maxFrac.toFixed(3)).join('/')}(≥0.9) ` +
+      `整列度 ${r.main.map((v) => v.align.toFixed(3)).join('/')}(≥0.9) ` +
+      `V/σ ${r.main.map((v) => v.vsig.toFixed(1)).join('/')} / ` +
+      `減光コントラスト(中心/周囲) 本則 ${con.map((v) => v.toFixed(2)).join('/')} vs ` +
+      `対照 ${conC.map((v) => v.toFixed(2)).join('/')}(重なりなし) / ` +
+      `E水準=${r.emergence} / 16seed の正本は tests/exp-4-85.mjs(質量比 18.3〜53.3%・中央34.7%)`);
+  } else {
+    console.log('SKIP behavior.selfrotor-multiseed(対象に 🥚 の multi-seed claim なし — 第83便A 未適用の root 等)');
+  }
+}
+
 // ---- 82B) 第82便B: emergence.tag — E水準タグ(emergence:"E0".."E3")の最小導入。
-// ----   ①宣言済みプリセット(🧬🧊⛓️=E2 / ♻️=E1 / 🥚=E2)が期待どおりの値を持つ
+// ----   ①宣言済みプリセット(🧬🧊⛓️=E2 / ♻️=E1 / 🥚=E3 ← 第83便A で E2 から昇格)が
+// ----     期待どおりの値を持つ
 // ----   ②未宣言のプリセットにはバッジが出ない(ノイズ回避の仕様)
 // ----   ③スキーマ: 有効値は保持(警告0)・未知値は警告つき無視=削除
-// ----   ④説明パネルのチップ DOM(data-g="emg-E2")が sampleClass チップの隣に出る
+// ----   ④説明パネルのチップ DOM(data-g="emg-E3")が sampleClass チップの隣に出る
 // ----   軽量(DOM検査+validatePreset の往復のみ)なので QA_FAST=1 でも実行する ----
 {
   const hasEmg = await page.evaluate(() => !!(window.HP && HP.EMERGENCE_LEVELS));
@@ -9427,7 +9732,8 @@ if (hasSwAutoCb) {
       const chipsOf = (id) => { HP.loadPreset(id, false);
         return Array.from(document.querySelectorAll('#classChips .classChip')).map((e) => e.dataset.g); };
       const cSelf = chipsOf('selfRotor'), cGal = chipsOf('galaxy'), cCyc = chipsOf('chaincycle');
-      const iSC = cSelf.findIndex((g) => g.startsWith('sclass-')), iE = cSelf.indexOf('emg-E2');
+      // 第83便A: 🥚 は E2 → E3 へ昇格(多seed16・粒子数スケーリング・摂動回復の実測を通した)
+      const iSC = cSelf.findIndex((g) => g.startsWith('sclass-')), iE = cSelf.indexOf('emg-E3');
       const mk = (e) => ({ name: 't', description: 'emergence 検査', camera: { scale: 200 },
         world: { boundary: 'none', size: 0 }, physics: {}, emergence: e,
         bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
@@ -9441,12 +9747,12 @@ if (hasSwAutoCb) {
         badW: bad.warnings.filter((w) => w.includes('emergence')).length,
         clsPass: HP.classifyPreset(HP.allPresets().find((p) => p.id === 'selfRotor')).emergence };
     });
-    const want = { emergent: 'E2', emergent2: 'E2', chain2: 'E2', chaincycle: 'E1', selfRotor: 'E2' };
+    const want = { emergent: 'E2', emergent2: 'E2', chain2: 'E2', chaincycle: 'E1', selfRotor: 'E3' };   // 第83便A: 🥚=E3
     const missing = Object.entries(want).filter(([k, v]) => r.declared[k] !== v).map(([k]) => k);
     add('emergence.tag',
       r.badVal.length === 0 && missing.length === 0
       && r.selfChip && r.selfAdjacent && !r.galChip && r.cycChip
-      && r.keep && r.goodW === 0 && r.drop && r.badW === 1 && r.clsPass === 'E2',
+      && r.keep && r.goodW === 0 && r.drop && r.badW === 1 && r.clsPass === 'E3',   // 第83便A: 🥚=E3
       `水準=[${r.levels.join(',')}] 宣言=${Object.entries(r.declared).map(([k, v]) => `${k}:${v}`).join(' ')}` +
       `(未宣言は非表示 — 🌌galaxy のバッジ=${r.galChip}) / ` +
       `チップ: 🥚=${r.selfChip}(sampleClass の隣=${r.selfAdjacent}) ♻️=E1 ${r.cycChip} / ` +
@@ -9528,6 +9834,139 @@ if (hasSwAutoCb) {
       `剛体回転4体→塊${r.s3.K}・V/σ=${r.s3.v.toExponential(2)}(分散が数値0 → 上限1e9=完全回転支持)`);
   } else {
     console.log('SKIP emergence.monitor(対象に 創発モニタ なし — 第82便B 未適用の root 等)');
+  }
+}
+
+// ---- 83B) 第83便B: phasemap.smoke — 相図ランナー(2変数バッチ掃引 → 秩序変数の色マップ)。
+// ----   ①宣言の受理: 🧬emergent / 🥚selfRotor が phaseMap を持ち、正規化後も保持される
+// ----     (phaseMap 由来の警告0)。未宣言(🌌galaxy)は持たず、パラメータタブの行も出ない
+// ----   ②スキーマ: 未知キー/非数/不正 metric/xKey=yKey は「警告つき無視」= phaseMap ごと削除。
+// ----     有効宣言は値域(CLAMPS)と steps 上限 20000 へクランプして保持
+// ----   ③UI: 宣言ありでボタン行が出る・パネルが開き canvas に実寸が入る
+// ----   ④2×2 の極小バッチを headless で走らせ、有限値のグリッドが得られる(同期版 runSync)
+// ----   ⑤本編状態のハッシュ不変(x,y,spin と t が1ビットも動かない = スクラッチ sim だけで走る)
+// ----   ⑥分割実行版(UI と同じ経路)も 2×2 を完走し、本編は pause 状態に落ちる
+// ----   ⑦セル適用の導線は確認ダイアログを承諾したときだけ本編 params を書き換える
+// ----   軽量(2×2×150〜200步のみ)なので QA_FAST=1 でも実行する ----
+{
+  const hasPM = await page.evaluate(() => !!(window.HP && HP.phaseMap && HP.phaseMap.runSync));
+  if (hasPM) {
+    const TINY = { xKey: 'kRep', xValues: [0, 20], yKey: 'gravityY', yValues: [0, 0.5], steps: 200, metric: 'maxFrac' };
+    const r = await page.evaluate(async (TINY) => {
+      const pmW = (v) => v.warnings.filter((w) => w.indexOf('phaseMap') >= 0).length;
+      // ① 宣言の受理(内蔵プリセット)
+      const decl = {};
+      for (const id of ['emergent', 'selfRotor', 'galaxy']) {
+        const p = HP.allPresets().find((q) => q.id === id);
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+        decl[id] = { has: !!p.phaseMap, kept: !!(v.ok && v.preset.phaseMap), w: pmW(v),
+          metric: p.phaseMap ? p.phaseMap.metric : null,
+          axes: p.phaseMap ? (p.phaseMap.xKey + '×' + p.phaseMap.yKey) : null,
+          n: p.phaseMap ? p.phaseMap.xValues.length * p.phaseMap.yValues.length : 0,
+          steps: p.phaseMap ? p.phaseMap.steps : 0 };
+      }
+      // ② スキーマ(未知・非数・不正 metric・同一キー → 警告つき無視 / 有効宣言はクランプ保持)
+      const mk = (pm) => { const p = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'emergent')));
+        p.phaseMap = pm; return HP.validatePreset(p); };
+      const bad = {
+        unknownKey: mk({ xKey: 'nope', xValues: [1, 2], yKey: 'kRep', yValues: [1, 2], steps: 100, metric: 'maxFrac' }),
+        nonNum: mk({ xKey: 'kRep', xValues: [1, 'a'], yKey: 'gravityY', yValues: [1, 2], steps: 100, metric: 'maxFrac' }),
+        badMetric: mk({ xKey: 'kRep', xValues: [1, 2], yKey: 'gravityY', yValues: [1, 2], steps: 100, metric: 'zzz' }),
+        sameKey: mk({ xKey: 'kRep', xValues: [1, 2], yKey: 'kRep', yValues: [1, 2], steps: 100, metric: 'maxFrac' }),
+        tooFew: mk({ xKey: 'kRep', xValues: [1], yKey: 'gravityY', yValues: [1, 2], steps: 100, metric: 'maxFrac' }),
+      };
+      const dropped = Object.entries(bad).filter(([, v]) => v.ok && v.preset.phaseMap === undefined && pmW(v) === 1).map(([k]) => k);
+      const clampCase = mk({ xKey: 'kRep', xValues: [0, 99], yKey: 'gravityY', yValues: [-99, 1], steps: 1e9, metric: 'align' });
+      const cl = clampCase.preset.phaseMap;
+      // ③ UI(宣言ありで行が出る / 未宣言では出ない / パネルが開いて canvas に実寸が入る)
+      HP.loadPreset('emergent', false);
+      document.querySelector('#tabs button[data-tab=params]').click();
+      const rowOn = document.querySelector('#pmRow').style.display;
+      const btn = document.querySelector('#btnPhaseMap');
+      if (btn) btn.click();
+      const panelOpen = document.querySelector('#pmPanel').style.display === 'block';
+      const cv = document.querySelector('#pmCv');
+      const drawn = cv.width > 0 && cv.height > 0;
+      const axesTxt = document.querySelector('#pmAxes').textContent;
+      HP.phaseMap.open(false);
+      HP.loadPreset('galaxy', false);
+      const rowOff = document.querySelector('#pmRow').style.display;
+      // ④⑤ 2×2 の極小バッチ + 本編状態の不変
+      const hash = () => { const S = HP.sim; const a = [];
+        for (let i = 0; i < S.n; i++) a.push(S.x[i], S.y[i], S.spin[i]);
+        return a.map((v) => v.toExponential(12)).join(','); };
+      HP.loadPreset('emergent', false);
+      for (let k = 0; k < 300; k++) HP.sim.step(0.016);
+      const h0 = hash(), t0 = HP.sim.t, n0 = HP.sim.n;
+      const g = HP.phaseMap.runSync('emergent', TINY);
+      const bitEqual = (h0 === hash()) && t0 === HP.sim.t && n0 === HP.sim.n;
+      // ⑥ 分割実行版(UI と同じ経路)— 本番宣言(6×6×2500步)は QA には重いので、
+      //    内蔵プリセットの宣言を一時的に 2×2×150步へ差し替えて回し、必ず元へ戻す
+      HP.loadPreset('emergent', false);
+      const cp = HP.currentPreset(), keepPM = cp.phaseMap;
+      cp.phaseMap = { xKey: 'kRep', xValues: [0, 20], yKey: 'gravityY', yValues: [0, 0.5], steps: 150, metric: 'maxFrac' };
+      HP.setRunning(true);
+      HP.phaseMap.open(true); HP.phaseMap.start();
+      const tw = Date.now();
+      while (HP.phaseMap.running() && Date.now() - tw < 60000) await new Promise((rs) => setTimeout(rs, 20));
+      const R = HP.phaseMap.result();
+      const asyncOk = !!R && R.done === 4 && R.vals.every((v) => Number.isFinite(v)) && !R.aborted;
+      const paused = HP.running() === false;
+      HP.phaseMap.open(false);
+      cp.phaseMap = keepPM;   // 内蔵プリセットの宣言を復元(以降のテストに影響を残さない)
+      return { decl, dropped, badN: Object.keys(bad).length,
+        clamp: cl ? { x1: cl.xValues[1], y0: cl.yValues[0], steps: cl.steps } : null,
+        rowOn, rowOff, panelOpen, drawn, axesTxt, cvw: cv.width, cvh: cv.height,
+        grid: g ? { nx: g.nx, ny: g.ny, vals: g.vals, ms: Math.round(g.ms) } : null,
+        bitEqual, asyncOk, paused, asyncVals: R ? R.vals : null };
+    }, TINY);
+    // ⑦ セル適用の導線(confirm を承諾したときだけ本編へ書く)— dialog を受ける別ページで検査
+    const dp = await browser.newPage();
+    let dlg = 0;
+    dp.on('dialog', (d) => { dlg++; d.accept(); });
+    await dp.goto(INDEX);
+    await dp.waitForFunction(() => !!(window.HP && HP.phaseMap));
+    const ap = await dp.evaluate(() => {
+      HP.loadPreset('emergent', false);
+      const tiny = { xKey: 'kRep', xValues: [0, 20], yKey: 'gravityY', yValues: [0, 0.5], steps: 60, metric: 'maxFrac' };
+      HP.currentPreset().phaseMap = tiny;
+      HP.phaseMap.open(true);
+      const g = HP.phaseMap.runSync('emergent', tiny);
+      // 器(pmRes)を確保してから左上セル(ix=0,iy=1)= kRep 0 / g_y 0.5 を適用する
+      // (🧬の既定は kRep=20・g_y=0.03 なので、両方の値が動くことを見る)
+      HP.phaseMap.start(); HP.phaseMap.stop();
+      const before = { kRep: HP.sim.params.kRep, gy: HP.sim.params.gravityY };
+      HP.phaseMap.applyCell(0, 1);
+      const after = { kRep: HP.sim.params.kRep, gy: HP.sim.params.gravityY };
+      return { before, after, gridOk: !!g && g.vals.every((v) => Number.isFinite(v)) };
+    });
+    await dp.close();
+    const d0 = r.decl;
+    const grid = r.grid;
+    add('phasemap.smoke',
+      d0.emergent.has && d0.emergent.kept && d0.emergent.w === 0
+      && d0.selfRotor.has && d0.selfRotor.kept && d0.selfRotor.w === 0
+      && !d0.galaxy.has && r.rowOn === 'flex' && r.rowOff === 'none'
+      && r.panelOpen && r.drawn
+      && r.dropped.length === r.badN
+      && r.clamp && r.clamp.x1 === 20 && r.clamp.y0 === -10 && r.clamp.steps === 20000
+      && grid && grid.nx === 2 && grid.ny === 2 && grid.vals.length === 4
+      && grid.vals.every((v) => Number.isFinite(v))
+      && r.bitEqual && r.asyncOk && r.paused
+      && dlg === 1 && ap.gridOk
+      && Math.abs(ap.after.kRep - 0) < 1e-12 && Math.abs(ap.after.gy - 0.5) < 1e-12
+      && Math.abs(ap.before.kRep - 20) < 1e-12 && Math.abs(ap.before.gy - 0.03) < 1e-12,
+      `宣言: 🧬${d0.emergent.axes}/${d0.emergent.metric}(${d0.emergent.n}セル×${d0.emergent.steps}步) ` +
+      `🥚${d0.selfRotor.axes}/${d0.selfRotor.metric}(${d0.selfRotor.n}セル×${d0.selfRotor.steps}步) ` +
+      `未宣言🌌=行なし(${r.rowOff}) / スキーマ: 警告つき無視 ${r.dropped.length}/${r.badN}(${r.dropped.join(',')})・` +
+      `クランプ kRep99→${r.clamp && r.clamp.x1}・g_y −99→${r.clamp && r.clamp.y0}・steps 1e9→${r.clamp && r.clamp.steps} / ` +
+      `UI: 行=${r.rowOn} パネル=${r.panelOpen} canvas=${r.cvw}×${r.cvh} / ` +
+      `2×2 バッチ(200步)=[${grid ? grid.vals.map((v) => v.toFixed(3)).join(',') : '-'}] ${grid ? grid.ms : '-'}ms / ` +
+      `本編 bit 不変(x,y,spin・t・n)=${r.bitEqual} / 分割実行 2×2 完走=${r.asyncOk}` +
+      `[${r.asyncVals ? r.asyncVals.map((v) => v.toFixed(3)).join(',') : '-'}] 本編pause=${r.paused} / ` +
+      `セル適用: 確認ダイアログ${dlg}回 → kRep ${ap.before.kRep}→${ap.after.kRep} g_y ${ap.before.gy}→${ap.after.gy}`);
+  } else {
+    console.log('SKIP phasemap.smoke(対象に 相図ランナー なし — 第83便B 未適用の root 等)');
   }
 }
 
@@ -10147,11 +10586,14 @@ if (hasSwAutoCb) {
       const vNeg = HP.validatePreset({ ...base, physics: { G: 1, kAbs: -1, fScat: 5 } });
       const vBad = HP.validatePreset({ ...base, physics: { G: 1, kAbs: 'x' } });
       // 全内蔵プリセット: 既定のままの presets には光学キーが 1 つも書き出されない
-      const leak = [];
+      // 第83便C: バリデータを通らない内蔵4件の除外(`if(!v.ok) continue;`)を撤去し全件対象へ戻した
+      // (根本原因は解消済み — preset.validate-all-builtins が「全内蔵が致命エラー0」を独立に固定する)。
+      // 通らない内蔵が再び生じたら valNg に載せてここでも FAIL させる
+      const leak = [], valNg = [];
       for (const p of HP.allPresets()) {
         if (String(p.id).startsWith('custom_')) continue;
         const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
-        if (!v.ok) continue;   // 既存事情でバリデータを通らない内蔵は対象外(本項の主張と無関係)
+        if (!v.ok) { valNg.push(p.id); continue; }
         const has = ['kAbs', 'pAbs', 'fScat'].filter((k) => v.preset.physics[k] !== undefined);
         if (has.length && p.id !== 'reddening') leak.push(p.id + ':' + has.join('+'));
       }
@@ -10172,16 +10614,18 @@ if (hasSwAutoCb) {
       return { bare, explicit, same: bare === explicit,
         negOk: vNeg.ok && vNeg.preset.physics.kAbs === undefined && vNeg.preset.physics.fScat === 1
           && vNeg.warnings.some((w) => /kAbs/.test(w)),
-        badOk: !vBad.ok, leak, tauLeak,
+        badOk: !vBad.ok, leak, valNg, tauLeak,
         keyPlainNoOptics: keyPlain.indexOf(';O') < 0, keyOptHasOptics: keyOpt.indexOf(';O') >= 0,
         keyGrew: keyOpt.length > keyPlain.length };
     });
     add('optics.default-bitequal',
-      dfl.same && dfl.negOk && dfl.badOk && dfl.leak.length === 0 && dfl.tauLeak.length === 0
+      dfl.same && dfl.negOk && dfl.badOk && dfl.leak.length === 0 && dfl.valNg.length === 0
+      && dfl.tauLeak.length === 0
       && dfl.keyPlainNoOptics && dfl.keyOptHasOptics && dfl.keyGrew,
       `既定値明示 {kAbs:0,pAbs:4,fScat:0} と省略の physics が文字単位一致=${dfl.same}` +
       `(=署名・エクスポート JSON 不変)/ 値域外は警告つきクランプ後に既定なら削除=${dfl.negOk}・` +
-      `非数は致命=${dfl.badOk}/ 光学キーが漏れた内蔵=[${dfl.leak.slice(0, 4).join(' ')}](0件)/ ` +
+      `非数は致命=${dfl.badOk}/ 光学キーが漏れた内蔵=[${dfl.leak.slice(0, 4).join(' ')}](0件・` +
+      `第83便Cで除外リスト撤去 → 全内蔵が対象。検証子を通らない内蔵=[${dfl.valNg.join(' ')}](0件))/ ` +
       `光線プリセットの τ_ref≠0=[${dfl.tauLeak.slice(0, 4).join(' ')}](0件)/ ` +
       `rayKeyOf: 既定に光学節なし=${dfl.keyPlainNoOptics} kAbs>0 で吸収体を追跡=${dfl.keyOptHasOptics}`);
 
