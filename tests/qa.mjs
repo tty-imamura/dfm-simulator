@@ -9712,6 +9712,156 @@ if (!FAST) {
   }
 }
 
+// ---- 84A) 第84便A(創発の標準試験の展開): behavior.phase-multiseed — 熱の実験室の創発4件
+// ----   (🧬emergent / 🧊emergent2 / ⛓️chain2 / ♻️chaincycle)の**多seed頑健性**を機械固定する。
+// ----   第83便A の behavior.selfrotor-multiseed と同じ流儀:**QA は少seed 縮約・exp が全seed の正本**
+// ----   (16seed 7〜22 の分布は tests/exp-4-87.mjs → tests/out/exp-4-87.json が持つ)。
+// ----   ここでは先頭3seed(7/8/9)に絞り、各プリセットの kind:"multi-seed" claim の窓で判定する。
+// ----   実測の要点(第84便A・16seed):
+// ----     🧬 素の 🧬 は grid の jitter/vScale が無く mMin=mMax なので **seed を振っても粒子の初期
+// ----        状態が 1ビットも変わらない**(16seed が bit 一致 = 素の多seed試験は空虚)。そこで
+// ----        jitter 0.3 / vScale 0.05 の初期条件ノイズを足した版で c̄ を測る(16seed 1.98〜2.75)
+// ----     🧊 120°角偏差 12.3〜44.1°(対照 angK=0 は 73.1〜79.0° — 16seed を通して重ならない)
+// ----     ⛓️ 2配位率 0.696〜0.804(対照 0.268〜0.375 — 重ならない)= 4件中唯一 16/16 で通った
+// ----     ♻️ 解離末(t=528)の成分数 48〜84。凍結期は ⛓️ と**壁スケジュール以外が同一設定**なので
+// ----        t=288(18000步)までの軌道が一致する — ⛓️ の値は ♻️ の run から読み、同一性も検査する
+// ----   **重い(3seed × 63000步 + 対照1seed)ので QA_FAST=1 では実行しない**(FAST への時間増はゼロ)----
+if (!FAST) {
+  const PIDS = ['emergent', 'emergent2', 'chain2', 'chaincycle'];
+  const hasPM = await page.evaluate((pids) => pids.every((id) => {
+    const p = HP.allPresets().find((q) => q.id === id);
+    return p && Array.isArray(p.claims) && p.claims.some((c) => c.kind === 'multi-seed');
+  }), PIDS);
+  if (hasPM) {
+    const r = await page.evaluate((seeds) => {
+      const S = HP.sim;
+      // 秩序変数(相変化グラフ量と同じ定義 — 第60便 QA と一致)
+      const stats = () => {
+        const nbr = Array.from({ length: S.n }, () => []);
+        for (let i = 0; i < S.n; i++) for (let j = i + 1; j < S.n; j++) {
+          const d = Math.hypot(S.x[i] - S.x[j], S.y[i] - S.y[j]);
+          if (d < S.phase.bondRange * (S.R[i] + S.R[j])) { nbr[i].push(j); nbr[j].push(i); }
+        }
+        let T = 0, cS = 0, c2 = 0, c3 = 0, a120 = 0, n120 = 0, a180 = 0, n180 = 0;
+        for (let i = 0; i < S.n; i++) {
+          T += S.Tint[i]; cS += nbr[i].length;
+          if (nbr[i].length === 2) {
+            c2++;
+            const [j, k] = nbr[i];
+            const q1 = Math.atan2(S.y[j] - S.y[i], S.x[j] - S.x[i]);
+            const q2 = Math.atan2(S.y[k] - S.y[i], S.x[k] - S.x[i]);
+            let da = Math.abs(q1 - q2); if (da > Math.PI) da = 2 * Math.PI - da;
+            a180 += Math.abs(Math.PI - da); n180++;
+          }
+          if (nbr[i].length === 3) {
+            c3++;
+            const A = nbr[i].map((j) => Math.atan2(S.y[j] - S.y[i], S.x[j] - S.x[i])).sort((x, y) => x - y);
+            for (let k = 0; k < 3; k++) { let da = A[(k + 1) % 3] - A[k]; if (k === 2) da += 2 * Math.PI;
+              a120 += Math.abs(da - 2 * Math.PI / 3); n120++; }
+          }
+        }
+        const par = Array.from({ length: S.n }, (_, i) => i);
+        const find = (a) => { while (par[a] !== a) { par[a] = par[par[a]]; a = par[a]; } return a; };
+        for (let i = 0; i < S.n; i++) for (const j of nbr[i]) { const a = find(i), b = find(j); if (a !== b) par[a] = b; }
+        const cn = {};
+        for (let i = 0; i < S.n; i++) { const r0 = find(i); cn[r0] = (cn[r0] || 0) + 1; }
+        const sz = Object.values(cn).sort((a, b) => b - a);
+        return { T: T / S.n, cMean: cS / S.n, frac2: c2 / S.n, frac3: c3 / S.n,
+          ang120: n120 ? a120 / n120 * 180 / Math.PI : null,
+          ang180: n180 ? a180 / n180 * 180 / Math.PI : null,
+          nComp: sz.length, maxComp: sz[0], nan: S.hasNaN(), clampA: S.clampAN, ovf: S.angOvfN };
+      };
+      // mode: 'main' | 'ko'(機構ノックアウト対照) / icn: 初期条件ノイズ
+      const run = (pid, seed, steps, marks, opt) => {
+        const p = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === pid)));
+        p.seed = seed;
+        if (opt && opt.ko) Object.assign(p.phaseChange, opt.ko);
+        if (opt && opt.icn) Object.assign(p.bodies[0], opt.icn);
+        const v = HP.validatePreset(p);
+        if (!v.ok) return { err: v.errors };
+        S.build(v.preset);
+        const out = {};
+        let k = 0;
+        for (const M of marks) { while (k < M) { S.step(0.016); k++; } out[M] = stats(); }
+        while (k < steps) { S.step(0.016); k++; }
+        out.end = stats();
+        return out;
+      };
+      const ICN = { jitter: 0.3, vScale: 0.05 };
+      const o = { emergent: {}, emergent2: {}, chain2: {}, chaincycle: {}, ctl: {} };
+      for (const sd of seeds) {
+        o.emergent['s' + sd] = run('emergent', sd, 12000, [], { icn: ICN });
+        o.emergent2['s' + sd] = run('emergent2', sd, 18000, [], {});
+        // ♻️ を 33000步 走らせ、@18000步(t=288)を ⛓️ の値として読む(下で同一性を検査)
+        o.chaincycle['s' + sd] = run('chaincycle', sd, 33000, [18000], {});
+      }
+      // 対照(機構ノックアウト)は時間予算のため seed 7 のみ。3seed の統計は exp-4-87 が持つ。
+      // 🧬 の対照は tests/exp-4-87.mjs と揃えて**素の初期配置**で測る(c̄=0.125)。初期条件ノイズを
+      // 入れた対照でも 0.089 とほぼ同値(結合を切れば配位数は幾何だけで決まる)ことも併せて出す
+      o.ctl.emergent = run('emergent', seeds[0], 12000, [], { ko: { bondK: 0 } });
+      o.ctl.emergentIcn = run('emergent', seeds[0], 12000, [], { icn: ICN, ko: { bondK: 0 } });
+      o.ctl.emergent2 = run('emergent2', seeds[0], 18000, [], { ko: { angK: 0 } });
+      o.ctl.chain2 = run('chain2', seeds[0], 18000, [], { ko: { angK: 0 } });
+      // ⛓️≡♻️(t≤288)の同一性: ⛓️ を単独で 18000步 走らせて ♻️@18000步 と全量比較する
+      const c2solo = run('chain2', seeds[0], 18000, [], {});
+      const a = c2solo.end, b = o.chaincycle['s' + seeds[0]][18000];
+      const identical = ['T', 'cMean', 'frac2', 'frac3', 'ang120', 'ang180', 'nComp', 'maxComp']
+        .every((k) => JSON.stringify(a[k]) === JSON.stringify(b[k]));
+      HP.loadPreset('emergent', false);
+      const claimOf = (pid, id) => (HP.allPresets().find((q) => q.id === pid).claims || []).find((c) => c.id === id);
+      return { o, identical, seeds,
+        claims: { emergent: claimOf('emergent', 'emergent.multi-seed-min-coordination'),
+          emergent2: claimOf('emergent2', 'emergent2.multi-seed-max-honeycomb-angle-dev'),
+          chain2: claimOf('chain2', 'chain2.multi-seed-min-chain-fraction'),
+          chaincycle: claimOf('chaincycle', 'chaincycle.multi-seed-min-melt-ncomp') },
+        emergence: Object.fromEntries(['emergent', 'emergent2', 'chain2', 'chaincycle']
+          .map((id) => [id, HP.allPresets().find((q) => q.id === id).emergence])) };
+    }, [7, 8, 9]);
+    const S3 = r.seeds;
+    const inWin = (x, e) => Number.isFinite(x) && x >= e.min && x <= e.max;
+    // 🧬 初期条件ノイズ版の c̄(seed 集合の最小値)
+    const emC = S3.map((sd) => r.o.emergent['s' + sd].end.cMean);
+    const emMin = Math.min(...emC), emCtl = r.o.ctl.emergent.end.cMean;
+    // 🧊 120°角偏差(seed 集合の最大値)— 対照(angK=0)と重ならないこと
+    const e2A = S3.map((sd) => r.o.emergent2['s' + sd].end.ang120);
+    const e2Max = Math.max(...e2A), e2Ctl = r.o.ctl.emergent2.end.ang120;
+    // ⛓️ 2配位率(seed 集合の最小値)— ♻️ の run の @18000步 から読む
+    const c2F = S3.map((sd) => r.o.chaincycle['s' + sd][18000].frac2);
+    const c2Min = Math.min(...c2F), c2Ctl = r.o.ctl.chain2.end.frac2;
+    // ♻️ 解離末の成分数(seed 集合の最小値)
+    const cyN = S3.map((sd) => r.o.chaincycle['s' + sd].end.nComp);
+    const cyMin = Math.min(...cyN);
+    const C = r.claims;
+    const noNaN = S3.every((sd) => ['emergent', 'emergent2', 'chaincycle']
+      .every((p) => !r.o[p]['s' + sd].end.nan && r.o[p]['s' + sd].end.clampA === 0 && r.o[p]['s' + sd].end.ovf === 0));
+    add('behavior.phase-multiseed',
+      noNaN && r.identical
+      && inWin(emMin, C.emergent.expected) && inWin(emCtl, C.emergent.control.expected) && emMin > 10 * emCtl
+      && inWin(e2Max, C.emergent2.expected) && inWin(e2Ctl, C.emergent2.control.expected) && e2Max < e2Ctl
+      && inWin(c2Min, C.chain2.expected) && inWin(c2Ctl, C.chain2.control.expected) && c2Min > c2Ctl
+      && inWin(cyMin, C.chaincycle.expected)
+      // E水準は第84便A の実測どおり据え置き(⑤摂動回復が4件とも通らないので E3 昇格はしていない)
+      && r.emergence.emergent === 'E2' && r.emergence.emergent2 === 'E2'
+      && r.emergence.chain2 === 'E2' && r.emergence.chaincycle === 'E1',
+      `${S3.length}seed(${S3.join('/')}) / ` +
+      `🧬 初期条件ノイズ版の配位数 c̄ ${emC.map((v) => v.toFixed(3)).join('/')} → **最小=${emMin.toFixed(3)}**` +
+      `(claim 窓 ${C.emergent.expected.min}〜${C.emergent.expected.max}) vs 対照 bondK=0 の ${emCtl.toFixed(3)}` +
+      `(=結合が消える・同じ初期条件ノイズを入れた対照でも ${r.o.ctl.emergentIcn.end.cMean.toFixed(3)})` +
+      ` 比 ${(emMin / Math.max(1e-9, emCtl)).toFixed(1)}倍(>10) / ` +
+      `🧊 120°角偏差 ${e2A.map((v) => v.toFixed(1) + '°').join('/')} → **最大=${e2Max.toFixed(1)}°**` +
+      `(窓 ${C.emergent2.expected.min}〜${C.emergent2.expected.max}) vs 対照 angK=0 の ${e2Ctl.toFixed(1)}°(密集塊)— 分離 / ` +
+      `⛓️ 2配位率 ${c2F.map((v) => v.toFixed(3)).join('/')} → **最小=${c2Min.toFixed(3)}**` +
+      `(窓 ${C.chain2.expected.min}〜${C.chain2.expected.max}) vs 対照 angK=0 の ${c2Ctl.toFixed(3)}(等方の液滴)— 分離 / ` +
+      `♻️ 解離末(t=528)の成分数 ${cyN.join('/')} → **最小=${cyMin}**(窓 ${C.chaincycle.expected.min}〜${C.chaincycle.expected.max}) / ` +
+      `⛓️≡♻️(t≤288)の全秩序変数一致=${r.identical}(③④の run 共有の根拠) / ` +
+      `E水準=🧬${r.emergence.emergent}・🧊${r.emergence.emergent2}・⛓️${r.emergence.chain2}・♻️${r.emergence.chaincycle}` +
+      `(第84便A: ⑤摂動回復が4件とも通らないため E3 昇格なし) / ` +
+      `16seed(7〜22)の分布は tests/exp-4-87.mjs が正本: 🧬c̄1.98〜2.75・🧊角偏差12.3〜44.1°・⛓️2配位率0.696〜0.804・♻️成分48〜84`);
+  } else {
+    console.log('SKIP behavior.phase-multiseed(対象に 🧬🧊⛓️♻️ の multi-seed claim なし — 第84便A 未適用の root 等)');
+  }
+}
+
 // ---- 82B) 第82便B: emergence.tag — E水準タグ(emergence:"E0".."E3")の最小導入。
 // ----   ①宣言済みプリセット(🧬🧊⛓️=E2 / ♻️=E1 / 🥚=E3 ← 第83便A で E2 から昇格)が
 // ----     期待どおりの値を持つ
