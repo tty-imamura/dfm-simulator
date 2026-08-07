@@ -916,6 +916,227 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   add('preset.' + id, !r.nan, 'n=' + r.n);
 }
 
+// ---- 2b) 第83便 C: preset.validate-all-builtins — 全内蔵プリセットが validatePreset を
+// ----      **致命エラー0** で通る。第82便A(光学輸送)の optics.default-bitequal 実装中に、
+// ----      内蔵4件(🍳galaxyDB・🌑nebulaRotor・🐚nebulaShell・⏳nebulaBipolar)が**元から**
+// ----      通らないことが判明し当該QAでは除外していた。第83便Cで根本解消した:
+// ----       ・validator 側: disk/ring の aroundMass を **vMode:"kepler" のときだけ必須**へ
+// ----         (build 側は kepler 以外でこのキーを 1 命令も参照しない。vScale/bulkVx と同じ
+// ----         「未指定=0 の任意キー」へ揃えた。kepler での宣言漏れは従来どおり致命)
+// ----       ・プリセット側: 🌑/🐚 のエンベロープ ring の `pinned` 宣言漏れを補完
+// ----         (build は未指定を偽として読むので挙動は bit 不変。ring の pinned はレール駆動・
+// ----          壁タグの分岐を持つ挙動キーなので、必須にしている検査側が正しい)
+// ----      内蔵の読込経路(loadPreset→sim.build)は validatePreset を通らないため実害は無かったが、
+// ----      「全内蔵が検証子を通る」ことを本項で恒久固定する。
+// ----      **許容する警告は種類を固定**する(想定外の警告が1件でも出たら FAIL — 検査を緩めた
+// ----      副作用の検出器。この性質は第83便D でも維持する)。
+// ----      第83便C 時点の許容2種は、**第83便D で両方とも根本解消したので許容リストは空**になった:
+// ----       W1(解消) descStruct の純分割不一致 — validatePreset が description を200字へ切り詰める
+// ----          ため構造化説明(数千字)との連結一致が原理的に成立しなかった。第83便D で上限を
+// ----          実測較正(DESC_CAP=9000 ≈ 実測最長4367の2倍・節別 3000/6000/1500)し、内蔵の
+// ----          descStruct は削除されずに通るようになった(往復での構造化説明の喪失を解消)。
+// ----       W2(解消) bodies[N].m を値域に修正 — 🪜massLadder の m=10000 が MASS 上限5000に当たり、
+// ----          往復すると物理が変質していた。第83便D で MASS_CAP=20000(内蔵最大の約2倍)へ較正。
+// ----      許容リストが空になっても**構造は残す**(将来の較正で新しい許容種が要るときの受け皿)。
+// ----      併せて「正規化しても挙動は変わらない」ことを、対象4件について
+// ----      **生定義 build と validatePreset 正規化後 build の 400步後の全状態 bit 一致**で機械確認する。
+// ----      (往復そのものの保全は第83便D の preset.roundtrip-builtins が別途固定する)
+// ----      第83便C より前の対象(root 等)は自動 SKIP。
+{
+  const hasW83 = await page.evaluate(() => {
+    const v = HP.validatePreset({ name: 'x', description: 'd', camera: { scale: 100 },
+      world: { boundary: 'none', size: 0 },
+      bodies: [{ type: 'disk', n: 2, cx: 0, cy: 0, radius: 10, mMin: 1, mMax: 1,
+        spinMin: 0, spinMax: 0, vMode: 'random', vScale: 1, direction: 1 }] });
+    return !!(v.ok && v.preset.bodies[0].aroundMass === 0);
+  });
+  if (hasW83) {
+    const r = await page.evaluate(() => {
+      // 許容警告の正規値(ここに載っていない警告が1件でも出たら FAIL — 検査を緩めた副作用の
+      // 検出器)。第83便D で W1/W2 とも根本解消したため**空**= 内蔵の警告は0件が正規値
+      const OKW = [];
+      const ng = [], unexpected = [], kinds = OKW.map(() => 0);
+      let total = 0;
+      for (const p of HP.allPresets()) {
+        if (String(p.id).startsWith('custom_')) continue;
+        total++;
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+        if (!v.ok) { ng.push(p.id + ':' + (v.errors || []).join('/')); continue; }
+        for (const w of (v.warnings || [])) {
+          const i = OKW.findIndex((re) => re.test(w));
+          if (i < 0) unexpected.push(p.id + ':' + w); else kinds[i]++;
+        }
+      }
+      // ---- 正規化の挙動 bit 不変(第83便C の裁定根拠そのものを機械固定)----
+      // 生定義をそのまま build した場合と、validatePreset を通してから build した場合で、
+      // 400步後の力学状態(位置・速度・スピン・固有時計・pinned・コアv2 の J/Ω)が 1 bit も違わない
+      const dump = (S) => {
+        const a = [];
+        for (const k of ['x', 'y', 'vx', 'vy', 'spin', 'tau', 'm', 'pinned',
+          'coreJ', 'coreOmV', 'coreMd', 'railOmega', 'railH']) {
+          const v = S[k]; if (!v) { a.push(k + ':-'); continue; }
+          a.push(k + ':' + Array.prototype.join.call(v.subarray(0, S.n), ','));
+        }
+        return a.join('|');
+      };
+      const run = (pre) => { HP.sim.build(JSON.parse(JSON.stringify(pre)));
+        for (let i = 0; i < 400; i++) HP.sim.step(0.016); return dump(HP.sim); };
+      const bitNg = [];
+      for (const id of ['galaxyDB', 'nebulaRotor', 'nebulaShell', 'nebulaBipolar']) {
+        const p = HP.allPresets().find((q) => q.id === id);
+        if (!p) continue;
+        const raw = run(p);
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+        if (!v.ok) { bitNg.push(id + ':validate-ng'); continue; }
+        if (run(v.preset) !== raw) bitNg.push(id + ':state-diff');
+      }
+      HP.loadPreset('saturn', false);
+      return { total, ng, unexpected, kinds, bitNg };
+    });
+    add('preset.validate-all-builtins',
+      r.ng.length === 0 && r.unexpected.length === 0 && r.bitNg.length === 0 && r.total > 0,
+      `内蔵${r.total}件が validatePreset を致命エラー0で通過(NG=[${r.ng.slice(0, 4).join(' ')}])/ ` +
+      `許容警告 ${r.kinds.length}種=[${r.kinds.join(' ')}]件(第83便D で W1 descStruct純分割不一致・` +
+      `W2 m値域クランプ とも根本解消 — 内蔵の警告は0件が正規値)/ ` +
+      `想定外の警告=[${r.unexpected.slice(0, 3).join(' ')}](0件)/ ` +
+      `正規化の挙動bit不変(生定義build vs 正規化後build・400步の全状態)=[${r.bitNg.join(' ')}](0件)`);
+  } else {
+    console.log('SKIP preset.validate-all-builtins(対象に第83便C の validatePreset 修正なし — root 等)');
+  }
+}
+
+// ---- 2c) 第83便 D: preset.roundtrip-builtins — **エクスポート往復の保全**を機械固定する。
+// ----      第83便C が「validatePreset の許容警告2種」として種類固定だけして未対応だった、
+// ----      往復で情報が落ちる/物理が変質する2件の根本対応(第83便D)に対応するゲート。
+// ----        ①descStruct 喪失: description の 200 字切り詰めで純分割一致が壊れ、descStruct を
+// ----          持つ内蔵すべてで構造化説明が往復のたびに消えていた → DESC_CAP=9000(実測最長
+// ----          4367 の約2倍)+節別上限 3000/6000/1500(≈2×1501/3065/691)へ実測較正。
+// ----        ②物理変質: 🪜massLadder の m=10000 が MASS 上限5000でクランプされ、往復すると
+// ----          別の物理になっていた → MASS_CAP=20000(内蔵最大の約2倍)へ実測較正。
+// ----      検査内容(内蔵の全件について):
+// ----        ・**エクスポート JSON を実際に作って往復する** — exportData と同じ封筒
+// ----          {schemaVersion:4, saves, customPresets} を JSON.stringify(…,null,1) で文字列化し、
+// ----          JSON.parse で読み戻して validatePreset → sim.build。JSON 化で壊れる値
+// ----          (undefined/NaN/Infinity)もこの経路なら顕在化する。
+// ----        ・**descStruct 保全**: ja/en とも、往復後の 3 節が元と一字一句同じ(削除されない)。
+// ----        ・**質量クランプ発動 0**: m/mMin/mMax/aroundMass の「値域に修正」警告が 1 件も出ない。
+// ----        ・**bit 一致**: 往復 build と直接 build で、t=0 と 400步後の全状態(位置・速度・
+// ----          スピン・固有時計・質量・pinned・コアv2 の J/Ω/mode・レール)が 1 bit も違わない。
+// ----      区画(実測: 全件の 400步 往復は約136秒 — QA_FAST には重すぎる):
+// ----        ・**t=0 の全状態 bit 一致 + descStruct 保全 + 質量クランプ0 は常に全件**(実測 0.13 秒)。
+// ----          正規化の取りこぼしはほぼすべて初期状態に出るので、これが主検出面。
+// ----        ・**400步の bit 一致**は QA_FAST では代表8件(実測 約8.6秒)、フルQAでは全件。
+// ----          代表8件は 🪜massLadder(質量上限)・🥚selfRotor(最長 description・コアv2 active)・
+// ----          🕳bhCore(最長 summary/control・コアv2)・🌟starcore(コアv2)・🪐saturn(zonal E13)・
+// ----          📏probeH(universeBox+probeHud)・📦freebox(measureBox)・🌀boxrot(レール駆動)。
+// ----          第83便C の preset.validate-all-builtins が別の4件(galaxyDB/nebulaRotor/
+// ----          nebulaShell/nebulaBipolar)の400步 bit 不変を持っているので重複させない。
+// ----      第83便D より前の対象(root 等)は自動 SKIP。
+{
+  const hasW83D = await page.evaluate(() => {
+    // 判定子: description の上限が 200 字より広がっていること(DESC_CAP の実測較正)
+    const long = 'あ'.repeat(1000);
+    const v = HP.validatePreset({ name: 'x', description: long, camera: { scale: 100 },
+      world: { boundary: 'none', size: 0 },
+      bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+    return !!(v.ok && v.preset.description.length === 1000);
+  });
+  if (hasW83D) {
+    const FAST_SAMPLE = ['massLadder', 'selfRotor', 'bhCore', 'starcore', 'saturn',
+      'probeH', 'freebox', 'boxrot'];
+    const r = await page.evaluate(({ fast, sample }) => {
+      // 力学状態の全ダンプ(第83便C の preset.validate-all-builtins と同じキー集合)
+      const dump = (S) => {
+        const a = [];
+        for (const k of ['x', 'y', 'vx', 'vy', 'spin', 'tau', 'm', 'pinned',
+          'coreJ', 'coreOmV', 'coreMd', 'railOmega', 'railH']) {
+          const v = S[k]; if (!v) { a.push(k + ':-'); continue; }
+          a.push(k + ':' + Array.prototype.join.call(v.subarray(0, S.n), ','));
+        }
+        return a.join('|');
+      };
+      const run = (pre, steps) => {
+        HP.sim.build(JSON.parse(JSON.stringify(pre)));
+        const s0 = dump(HP.sim);
+        for (let i = 0; i < steps; i++) HP.sim.step(0.016);
+        return s0 + '#' + dump(HP.sim);
+      };
+      // exportData と同じ封筒に載せて文字列化 → 読み戻し(往復そのもの)
+      const roundtrip = (p) => {
+        const env = JSON.stringify({ schemaVersion: 4, appVersion: HP.APP_VERSION,
+          appBuild: 'qa', exportedAt: '2026-01-01T00:00:00.000Z',
+          saves: [], customPresets: [p] }, null, 1);
+        return JSON.parse(env).customPresets[0];
+      };
+      const dsEq = (a, b) => {
+        if (!a) return !b;
+        if (!b) return false;
+        return ['summary', 'observe', 'control'].every((k) => (a[k] || '') === (b[k] || ''));
+      };
+      const MASSW = /\.(m|mMin|mMax|aroundMass) を値域に修正$/;
+      const ng = [], dsNg = [], massNg = [], bit0Ng = [], bit400Ng = [];
+      let total = 0, nDS = 0, n400 = 0;
+      for (const p of HP.allPresets()) {
+        if (String(p.id).startsWith('custom_')) continue;
+        total++;
+        const v = HP.validatePreset(roundtrip(p));
+        if (!v.ok) { ng.push(p.id + ':' + (v.errors || []).join('/')); continue; }
+        // descStruct 保全(ja/en) — 元が持っているものは 3 節とも一字一句保たれること
+        if (p.descStruct || (p.en && p.en.descStruct)) {
+          nDS++;
+          if (!dsEq(p.descStruct, v.preset.descStruct)) dsNg.push(p.id + ':ja');
+          if (p.en && !dsEq(p.en.descStruct, v.preset.en && v.preset.en.descStruct)) dsNg.push(p.id + ':en');
+        }
+        // 質量クランプ発動 0
+        for (const w of (v.warnings || [])) if (MASSW.test(w)) massNg.push(p.id + ':' + w);
+        // bit 一致: t=0 は常に全件・400步は区画に従う
+        const steps = (!fast || sample.indexOf(p.id) >= 0) ? 400 : 0;
+        if (steps) n400++;
+        const raw = run(p, steps);
+        if (run(v.preset, steps) !== raw) (steps ? bit400Ng : bit0Ng).push(p.id);
+      }
+      // ---- 上限そのものは残っていること(緩めすぎ検出。合成プリセットで負の経路を1回だけ叩く)----
+      const mk = (desc, ds, m) => ({ name: 't', description: desc, descStruct: ds,
+        camera: { scale: 100 }, world: { boundary: 'none', size: 0 }, seed: 1,
+        physics: {}, overlays: {},
+        bodies: [{ type: 'single', m, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+      const A = 'あ';
+      const vDesc = HP.validatePreset(mk(A.repeat(12000), undefined, 1));
+      const vSect = HP.validatePreset(mk(A.repeat(9), { summary: A.repeat(9), observe: '', control: '' }, 1));
+      const vSectBig = HP.validatePreset(mk(A.repeat(8000), { summary: A.repeat(8000), observe: '', control: '' }, 1));
+      const vMass = HP.validatePreset(mk('d', undefined, 1e9));
+      const caps = {
+        // description は 9000 で切り詰め(200 でも 12000 でもない)
+        desc: vDesc.ok && vDesc.preset.description.length === 9000,
+        // 節が上限内なら保持される(9 字の純分割)
+        sectKeep: vSect.ok && !!vSect.preset.descStruct && vSect.preset.descStruct.summary.length === 9,
+        // summary 上限 3000 超は切り詰め警告 → 純分割が壊れて descStruct ごと削除(荒らし対策は健在)
+        sectCut: vSectBig.ok && vSectBig.preset.descStruct === undefined &&
+          vSectBig.warnings.some((w) => /descStruct\.summary が上限3000字を超過/.test(w)),
+        // 質量は 20000 で警告つきクランプ(クランプ挙動そのものは不変)
+        mass: vMass.ok && vMass.preset.bodies[0].m === 20000 &&
+          vMass.warnings.some((w) => /^bodies\[0\]\.m を値域に修正$/.test(w))
+      };
+      HP.loadPreset('saturn', false);
+      return { total, nDS, n400, ng, dsNg, massNg, bit0Ng, bit400Ng, caps };
+    }, { fast: FAST, sample: FAST_SAMPLE });
+    const capsOk = Object.values(r.caps).every(Boolean);
+    add('preset.roundtrip-builtins',
+      r.total > 0 && r.ng.length === 0 && r.dsNg.length === 0 && r.massNg.length === 0 &&
+      r.bit0Ng.length === 0 && r.bit400Ng.length === 0 && capsOk,
+      `内蔵${r.total}件のエクスポートJSON往復(stringify→parse→validatePreset→build)/ ` +
+      `致命エラー=[${r.ng.slice(0, 3).join(' ')}](0件)/ ` +
+      `descStruct 保全 ${r.nDS}件=[${r.dsNg.slice(0, 3).join(' ')}](喪失0件)/ ` +
+      `質量クランプ発動=[${r.massNg.slice(0, 3).join(' ')}](0件)/ ` +
+      `bit一致(往復build vs 直接build)t=0 のみ ${r.total - r.n400}件=[${r.bit0Ng.slice(0, 3).join(' ')}](0件)・` +
+      `t=0+400步 ${r.n400}件(${FAST ? 'QA_FAST=代表' : 'フル=全件'})=[${r.bit400Ng.slice(0, 3).join(' ')}](0件)/ ` +
+      `上限は健在(desc 9000切り詰め=${r.caps.desc}・節上限内は保持=${r.caps.sectKeep}・` +
+      `summary 3000超は切り詰め警告→descStruct削除=${r.caps.sectCut}・m は20000で警告つきクランプ=${r.caps.mass})`);
+  } else {
+    console.log('SKIP preset.roundtrip-builtins(対象に第83便D の説明文上限の実測較正なし — root 等)');
+  }
+}
+
 // ---- 3) i18n(全内蔵に en / EN切替 / JA復帰)----
 {
   const r = await page.evaluate(() => {
@@ -10365,11 +10586,14 @@ if (!FAST) {
       const vNeg = HP.validatePreset({ ...base, physics: { G: 1, kAbs: -1, fScat: 5 } });
       const vBad = HP.validatePreset({ ...base, physics: { G: 1, kAbs: 'x' } });
       // 全内蔵プリセット: 既定のままの presets には光学キーが 1 つも書き出されない
-      const leak = [];
+      // 第83便C: バリデータを通らない内蔵4件の除外(`if(!v.ok) continue;`)を撤去し全件対象へ戻した
+      // (根本原因は解消済み — preset.validate-all-builtins が「全内蔵が致命エラー0」を独立に固定する)。
+      // 通らない内蔵が再び生じたら valNg に載せてここでも FAIL させる
+      const leak = [], valNg = [];
       for (const p of HP.allPresets()) {
         if (String(p.id).startsWith('custom_')) continue;
         const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
-        if (!v.ok) continue;   // 既存事情でバリデータを通らない内蔵は対象外(本項の主張と無関係)
+        if (!v.ok) { valNg.push(p.id); continue; }
         const has = ['kAbs', 'pAbs', 'fScat'].filter((k) => v.preset.physics[k] !== undefined);
         if (has.length && p.id !== 'reddening') leak.push(p.id + ':' + has.join('+'));
       }
@@ -10390,16 +10614,18 @@ if (!FAST) {
       return { bare, explicit, same: bare === explicit,
         negOk: vNeg.ok && vNeg.preset.physics.kAbs === undefined && vNeg.preset.physics.fScat === 1
           && vNeg.warnings.some((w) => /kAbs/.test(w)),
-        badOk: !vBad.ok, leak, tauLeak,
+        badOk: !vBad.ok, leak, valNg, tauLeak,
         keyPlainNoOptics: keyPlain.indexOf(';O') < 0, keyOptHasOptics: keyOpt.indexOf(';O') >= 0,
         keyGrew: keyOpt.length > keyPlain.length };
     });
     add('optics.default-bitequal',
-      dfl.same && dfl.negOk && dfl.badOk && dfl.leak.length === 0 && dfl.tauLeak.length === 0
+      dfl.same && dfl.negOk && dfl.badOk && dfl.leak.length === 0 && dfl.valNg.length === 0
+      && dfl.tauLeak.length === 0
       && dfl.keyPlainNoOptics && dfl.keyOptHasOptics && dfl.keyGrew,
       `既定値明示 {kAbs:0,pAbs:4,fScat:0} と省略の physics が文字単位一致=${dfl.same}` +
       `(=署名・エクスポート JSON 不変)/ 値域外は警告つきクランプ後に既定なら削除=${dfl.negOk}・` +
-      `非数は致命=${dfl.badOk}/ 光学キーが漏れた内蔵=[${dfl.leak.slice(0, 4).join(' ')}](0件)/ ` +
+      `非数は致命=${dfl.badOk}/ 光学キーが漏れた内蔵=[${dfl.leak.slice(0, 4).join(' ')}](0件・` +
+      `第83便Cで除外リスト撤去 → 全内蔵が対象。検証子を通らない内蔵=[${dfl.valNg.join(' ')}](0件))/ ` +
       `光線プリセットの τ_ref≠0=[${dfl.tauLeak.slice(0, 4).join(' ')}](0件)/ ` +
       `rayKeyOf: 既定に光学節なし=${dfl.keyPlainNoOptics} kAbs>0 で吸収体を追跡=${dfl.keyOptHasOptics}`);
 
