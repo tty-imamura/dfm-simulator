@@ -230,13 +230,33 @@ const hasSat240 = satTotN === 241;
 const w5cHasCoreEng = await page.evaluate(() => !!(window.HP && HP.sim && HP.sim.coreMd));
 const w5cHasIce = await page.evaluate(() =>
   !!(window.HP && HP.allPresets().some(p => p.id === 'saturn' && /実験/.test(p.name || ''))));
-const w5cHasObs = await page.evaluate(() => !!(window.HP && HP.sim && HP.sim.obsT));
+// 第85便(休眠QAの復旧・原仮定者指示「既存QAの門の再開: 進める」): 観測層の判定子を現行 API へ置換。
+// 旧: `!!(HP.sim && HP.sim.obsT)` — obsT(観測温度係数)は**第61便で廃止された**配列なので
+// 以後この門は root/beta とも恒常 false になり、🕶️ の既存 QA 区画(下の
+// darkrotorMidNew/darkrotorMidOld/darkrotorLong ユニットと、後段の behavior.darkrotor /
+// behavior.darkrotorLong / behavior.darkrotor-pitch / darkrotor.uphi / darkrotor.allfree)が
+// **フル QA でも一度も実行されない休眠状態**になっていた(第84便B の発見)。
+// 新: 観測層の現行の実体は「観測温度の公開フック HP.obsTemp(第36便 D で公開)+ 光掻き出し配列 lSw」。
+//   obsT は「全プリセット未使用で恒等1だった係数」として消えただけで、観測温度そのものは残っている:
+//     旧 T_obs = ½·m·R²·spin²·obsT[i]·(1−lSw[i])         (qa.mjs 1357-1358行の旧式フォールバック)
+//     現 T_obs = HP.obsTemp(s,i) = (Tint ? Tint[i] : ½·m·R²·spin²)·(1−lSw[i])
+//   obsT≡1 だったので**値としても等価**(app 側コメント「第61便: obsT 係数は廃止(恒等1だった)」)。
+//   よって「観測温度系を持つビルドか」という判定子の意味は obsTemp+lSw で完全に置き換わる。
+const w5cHasObsLayer = await page.evaluate(() =>
+  !!(window.HP && typeof HP.obsTemp === 'function' && HP.sim && HP.sim.lSw));
 const w5cHasV26 = await page.evaluate(() => !!document.querySelector('#aiBasePreset'));
-let w5cDrFree = false;
-if (w5cHasObs) {
-  w5cDrFree = await page.evaluate(() =>
-    HP.allPresets().find(q => q.id === 'darkrotor').bodies.every(b => !b.pinned && !b.railOmega && !b.railH));
-}
+// 第84便B: w5cDrFree の判定は **観測層の門から独立**させた(判定内容は従来と一字も同じ)。
+// 第85便で門が生き返ったので独立のままでも有効/無効は一致する(darkrotorMultiseed は
+// 第84便B 時点から観測層に依存せず動いていた)。
+const w5cDrFree = await page.evaluate(() =>
+  HP.allPresets().find(q => q.id === 'darkrotor').bodies.every(b => !b.pinned && !b.railOmega && !b.railH));
+// 第84便B(創発の標準試験の展開): 🕶️darkrotor に多seed claim が入っているか
+// (未適用の root 等では重い多seedユニットを起動しない)
+const w5cDrMulti = await page.evaluate(() => {
+  const p = HP.allPresets().find(q => q.id === 'darkrotor');
+  return !!(p && Array.isArray(p.claims)
+    && p.claims.some(c => c.id === 'darkrotor.multi-seed-min-arm-ratio'));
+});
 
 // 第37便 Wave D: 新サンプルの有無(beta 先行 — root には無い)。後段の各セクションのガード式と同一
 const w5cHasAgnjet = await page.evaluate(() => HP.allPresets().some(p => p.id === 'agnjet'));
@@ -595,7 +615,7 @@ const W5C_UNITS = {
     HP.loadPreset('saturn', false);
     return { steps: STEPS * 2, on, off };
   }) },
-  darkrotorMidNew: { enabled: w5cHasObs && !FAST && w5cDrFree, weight: 26, run: (pg) => pg.evaluate(() => {
+  darkrotorMidNew: { enabled: w5cHasObsLayer && !FAST && w5cDrFree, weight: 26, run: (pg) => pg.evaluate(() => {
     // 🕶️ の中期安定・v4/v5(全自由系)経路(元7m節 2785-2822行から抽出)
     const NH = HP.allPresets().find(q => q.id === 'darkrotor')
       .bodies.filter(b => b.type === 'single').length - 1;
@@ -631,7 +651,7 @@ const W5C_UNITS = {
       keepPct: 100 * keep / tot, keep, tot, comMove: Math.hypot(cx / M - cx0, cy / M - cy0),
       pTot0, pTotEnd: Math.hypot(px, py), nan: s.hasNaN() };
   }) },
-  darkrotorMidOld: { enabled: w5cHasObs && !FAST && !w5cDrFree, weight: 18, run: (pg) => pg.evaluate(() => {
+  darkrotorMidOld: { enabled: w5cHasObsLayer && !FAST && !w5cDrFree, weight: 18, run: (pg) => pg.evaluate(() => {
     // 🕶️ の中期安定・v3(レール駆動)経路(元7m節 2841-2854行から抽出)
     HP.loadPreset('darkrotor', false);
     const s = HP.sim;
@@ -647,7 +667,7 @@ const W5C_UNITS = {
     return { outer: c ? sum / c : 0, r90: rs[Math.floor(rs.length * 0.9)], inside, nHalo: s.n - 381,
       haloSpin: hs / (s.n - 381), cSpinKeep: Math.abs(s.spin[0] - s0) < 1e-9, nan: s.hasNaN() };
   }) },
-  darkrotorLong: { enabled: w5cHasObs && !FAST && w5cDrFree, weight: 104, run: (pg) => pg.evaluate((BANDS) => {
+  darkrotorLong: { enabled: w5cHasObsLayer && !FAST && w5cDrFree, weight: 104, run: (pg) => pg.evaluate((BANDS) => {
     // 🕶️ v5 の有効窓検査+渦状腕の機械実証(元7m節 2876-2922行から抽出)
     const P = HP.allPresets().find(q => q.id === 'darkrotor');
     const NH = P.bodies.filter(b => b.type === 'single').length - 1;
@@ -744,6 +764,59 @@ const W5C_UNITS = {
     };
     return { on: run(false), ctrl: run(true) };
   }, w5cBands) },
+  // 第84便B(創発の標準試験を 🕶️ へ展開): darkrotorMultiseed — 渦状腕の**多seed 頑健性**。
+  // 既存の darkrotorLong が「内蔵 seed 1本+対照」を見るのに対し、こちらは seed を振って
+  // 「乱数の引きが変わっても同じ増強が立つ」ことを claims の窓で判定する。
+  // **QA は縮約版・exp 側が全数の正本**という既存の kind:"multi-seed" の流儀に合わせ、
+  // QA は内蔵 seed **以外**の2seed(20260727/20260728)だけを回す(内蔵 seed は
+  // darkrotorLong が既に見ているので重複させない)。8seed の分布は tests/exp-4-88.mjs が持つ。
+  // 対照は darkrotorLong と同じ「中心BH も含む全 single の spin=0」。
+  // 重い(6000步 × 4構成 ≈ 155s)ので QA_FAST=1 では実行しない(FAST への時間増はゼロ)。
+  darkrotorMultiseed: { enabled: !FAST && w5cDrFree && w5cDrMulti, weight: 170,
+    run: (pg) => pg.evaluate((o) => {
+      const BANDS = o.bands;
+      const P0 = HP.allPresets().find(q => q.id === 'darkrotor');
+      const NH = P0.bodies.filter(b => b.type === 'single').length - 1;   // ローター体数(=2)
+      const OFF = NH + 1;                                                 // 恒星の先頭 index(=3)
+      // A2 の式は darkrotorLong と同一(環帯ごとの |Σe^{2iθ}|/N。θ は中心BH基準)
+      const a2 = (s) => BANDS.map(([lo, hi]) => {
+        const bx = s.x[0], by = s.y[0];
+        let cr = 0, ci = 0, N = 0;
+        for (let i = OFF; i < s.n; i++) {
+          const dx = s.x[i] - bx, dy = s.y[i] - by, r = Math.hypot(dx, dy);
+          if (r >= lo && r < hi) { const th = Math.atan2(dy, dx);
+            cr += Math.cos(2 * th); ci += Math.sin(2 * th); N++; }
+        }
+        return N ? Math.hypot(cr, ci) / N : 0;
+      });
+      const run = (seed, ctrl) => {
+        const p = JSON.parse(JSON.stringify(P0));
+        p.seed = seed;
+        const v = HP.validatePreset(p);
+        if (!v.ok) return { seed, err: v.errors.join(',') };
+        HP.sim.build(v.preset);
+        const s = HP.sim;
+        if (ctrl) for (let i = 0; i <= NH; i++) s.spin[i] = 0;
+        const st0 = [];
+        for (let i = OFF; i < s.n; i++) st0.push(Math.hypot(s.x[i] - s.x[0], s.y[i] - s.y[0]));
+        const late = []; let maxSpin = 0;
+        for (let blk = 0; blk < 12; blk++) {
+          for (let k = 0; k < 500; k++) s.step(0.016);
+          for (let i = 0; i < s.n; i++) maxSpin = Math.max(maxSpin, Math.abs(s.spin[i]));
+          if ((blk + 1) * 500 >= 3000) late.push(a2(s));
+        }
+        const A2 = BANDS.map((_, b) => late.reduce((a, w) => a + w[b], 0) / late.length);
+        const bx = s.x[0], by = s.y[0];
+        let keep = 0, tot = 0;
+        for (let i = OFF; i < s.n; i++) { const r = Math.hypot(s.x[i] - bx, s.y[i] - by);
+          if (st0[i - OFF] < 350) { tot++; if (r < 500) keep++; } }
+        return { seed, A2, bandAvg: A2.reduce((a, w) => a + w, 0) / A2.length,
+          keepPct: 100 * keep / tot, maxSpin, nLate: late.length,
+          nan: s.hasNaN(), clampV: s.clampVN, clampR: s.clampRN || 0 };
+      };
+      return { seeds: o.seeds, main: o.seeds.map(sd => run(sd, false)),
+        ctrl: o.seeds.map(sd => run(sd, true)) };
+    }, { bands: w5cBands, seeds: [20260727, 20260728] }) },
   binary: { enabled: w5cHasV26, weight: 6, run: (pg) => pg.evaluate(() => {
     // ⭐binary の挙動(元7n節 3035-3044行から抽出)。第66便 66D: geoPN=1 化後の較正実測 —
     // 3000步 sep=120.1・保持240/240(旧 kFrame=1 構成は sep=137.4。窓 60〜350 はどちらも満たす)
@@ -4573,6 +4646,69 @@ if (!FAST) {
     }
   }
 
+  // ---- 8a2b7) 第84便B(創発の標準試験を ⏳ へ展開): claim.nebulabipolar-multiseed ----
+  // 「たまたま極方向に出た1本」ではないことを、seed を振って機械固定する。判定量は claims の
+  // nebulaBipolar.multi-seed-min-polar-fraction =「seed 集合を通した極方向比の**最小値**」。
+  // 内蔵 seed は claim.nebulabipolar-polar が既に見ているので、QA は内蔵 seed **以外**の
+  // 3seed(20260805〜20260807)だけを回す縮約版。16seed の分布は tests/exp-4-88.mjs が正本。
+  // ⏳ は赤道アーク22個が pinned(=外部固定の幾何)なので E水準は **E1**(外部駆動下の
+  // 自己組織化)で、閉鎖系を要件とする E2/E3 には定義上該当しない — その宣言も併せて固定する。
+  // 軽い(83粒子×6000步×6構成 ≈ 10s)が、方針どおり QA_FAST=1 では実行しない(FAST への時間増ゼロ)。
+  if (!FAST) {
+    const hasBipMS = await page.evaluate(() => HP.allPresets().some(p => p.id === 'nebulaBipolar'
+      && Array.isArray(p.claims)
+      && p.claims.some(c => c.id === 'nebulaBipolar.multi-seed-min-polar-fraction')));
+    if (hasBipMS) {
+      const r = await page.evaluate((seeds) => {
+        const P = HP.allPresets().find(q => q.id === 'nebulaBipolar');
+        const NARC = P.bodies.filter(b => b.pinned).length;   // 赤道ダークアーク(=22)
+        const GAS0 = NARC + 1;                                 // ガスの先頭 index(=23)
+        const run = (seed, kRep) => {
+          const p = JSON.parse(JSON.stringify(P));
+          p.seed = seed;
+          if (kRep !== undefined) p.physics.kRep = kRep;
+          const v = HP.validatePreset(p);
+          if (!v.ok) return { seed, err: v.errors.join(',') };
+          HP.sim.build(v.preset);
+          const s = HP.sim;
+          for (let k = 0; k < 6000; k++) s.step(0.016);
+          let esc = 0, pol = 0, lSwArc = 0;
+          for (let i = GAS0; i < s.n; i++) { const rr = Math.hypot(s.x[i], s.y[i]);
+            if (rr > 200) { esc++;
+              if (Math.atan2(Math.abs(s.x[i]), Math.abs(s.y[i])) < Math.PI / 6) pol++; } }
+          for (let i = 1; i <= NARC; i++) lSwArc += s.lSw[i] / NARC;
+          return { seed, esc, frac: esc ? pol / esc : 0, lSwC: s.lSw[0], lSwArc,
+            nGas: s.n - GAS0, nan: s.hasNaN() };
+        };
+        return { main: seeds.map(sd => run(sd, undefined)), ctrl: seeds.map(sd => run(sd, 0)),
+          claim: P.claims.find(c => c.id === 'nebulaBipolar.multi-seed-min-polar-fraction'),
+          emergence: P.emergence, nPin: NARC, nAll: HP.sim.n };
+      }, [20260805, 20260806, 20260807]);
+      const C = r.claim;
+      const fr = r.main.map(v => v.frac);
+      const minF = Math.min(...fr), maxF = Math.max(...fr);
+      const ctrlEscMax = Math.max(...r.ctrl.map(v => v.esc));
+      add('claim.nebulabipolar-multiseed',
+        r.emergence === 'E1'
+        && r.main.every(v => !v.err && !v.nan) && r.ctrl.every(v => !v.err && !v.nan)
+        && minF >= C.expected.min && maxF <= C.expected.max
+        && ctrlEscMax <= C.control.expected.max
+        && minF > 1 / 3 && r.main.every(v => v.esc >= 20 && v.lSwC > 0.95 && v.lSwArc > 0.85),
+        `${r.main.length}seed(${r.main.map(v => v.seed).join('/')}・内蔵seedは claim.nebulabipolar-polar が担当)` +
+        ` 6000步 極方向比 ${fr.map(v => v.toFixed(3)).join('/')} → **最小=${minF.toFixed(3)}**` +
+        `(claim 窓 ${C.expected.min}〜${C.expected.max}・等方 1/3=0.333 — 最小でも` +
+        `${(minF / (1 / 3)).toFixed(2)}倍の集中) / ` +
+        `脱出 ${r.main.map(v => v.esc + '/' + v.nGas).join(' ')}(各≥20) / ` +
+        `圧力オフ対照(kRep=0)の脱出 ${r.ctrl.map(v => v.esc).join('/')}(最大 ≤${C.control.expected.max}) / ` +
+        `中心lSw ${r.main.map(v => v.lSwC.toFixed(2)).join('/')}(>0.95) ` +
+        `アーク帯lS̄ ${r.main.map(v => v.lSwArc.toFixed(3)).join('/')}(>0.85) / ` +
+        `E水準=${r.emergence}(赤道アーク22体が pinned = 外部固定の幾何なので閉鎖系ではなく、` +
+        `E2/E3 には定義上該当しない — 第84便B) / 16seed の分布の正本は tests/exp-4-88.mjs`);
+    } else {
+      console.log('SKIP claim.nebulabipolar-multiseed(対象に ⏳ の multi-seed claim なし — 第84便B 未適用の root 等)');
+    }
+  }
+
   // ---- 8a2c) 第70便: 減光(lightSweep)の力学不変性 — 「暗いが重い」の機械証明 ----
   // 減光は光学のみ(観測温度と放射冷却)に作用し、etaRad=0 では軌道・スピン・固有時計・光線が
   // 1 bit も変わらないことを機械固定する(ChatGPT レビュー §8.2 実験1の QA 化 — 隠れ質量実験の
@@ -5608,7 +5744,8 @@ if (!FAST) {
 }
 
 // ---- 第22便: 観測温度・光掻き出し・半径系(スピン役割分離は原仮定者裁定で廃止)----
-// 対象に obsT 配列があるときだけ実行(ルート昇格前は SKIP)。較正実測は 2026-07-24 第22便:
+// 対象が観測温度系を持つときだけ実行(判定子は第85便で `HP.sim.obsT` → `HP.obsTemp + lSw` へ置換
+// — 旧判定子は第61便の obsT 廃止以降ずっと恒常 false で、この区画は休眠していた)。較正実測は 2026-07-24 第22便:
 // darkrotor v3(root)= 中心(m600・R45・spin0.12・コア mc/m=0.1・sc/s=20・Rc/R=0.3・掻出1・pinned)+
 // コア付きハロー20体(m30・R12・spin0.15・掻出1・レール駆動)。u_φ 比 1.954/1.543/1.562(r=140/200/260)・
 // 12000步安定(r90 220〜239 有界・外縁 2.0→2.8・中心スピン厳密不変)
@@ -5618,8 +5755,21 @@ if (!FAST) {
 // 12000步(偏差8.01%・max|spin|1.30・恒星保持100%・重心移動0.264)。以下の darkrotor 系 QA は
 // プリセット定義(ピン・レールの有無)で新旧を機械判別して分岐する
 {
-  const hasObs = await page.evaluate(() => !!(window.HP && HP.sim && HP.sim.obsT));
-  if (hasObs) {
+  // 第85便(休眠QAの復旧): 門を現行 API へ置換(式・理由とも上の w5cHasObsLayer と同一 — 236-247行のコメント参照)。
+  // 旧 `!!(HP.sim && HP.sim.obsT)` は第61便の obsT 廃止以降 root/beta とも恒常 false で、
+  // この区画まるごと(obs.attrs / obs.equivalence / darkrotor.uphi / darkrotor.allfree /
+  // behavior.darkrotor / behavior.darkrotorLong / behavior.darkrotor-pitch)が休眠していた。
+  const hasObsLayer = await page.evaluate(() =>
+    !!(window.HP && typeof HP.obsTemp === 'function' && HP.sim && HP.sim.lSw));
+  // 第85便: obs.attrs だけは**門の付け替えでは復旧できない**ので旧判定子の副門に閉じ込める。
+  // 理由: 本体が「第61便で廃止された属性層(obsT/coreOT)」と「第81便で廃止されたコアv1
+  // (coreRR → HP.sim.Rc)」を直に読む(`HP.sim.obsT[0] = 7` は現行ビルドで TypeError・
+  // `HP.sim.Rc[0]` は beta に存在しない)。現行 API での等価な検査は「旧キーは警告つきで無視される」
+  // という**別の主張**になり、しかも root(Rc あり)と beta(第81便で撤去)で期待値が割れる。
+  // 本便のスコープ(🕶️darkrotor 系5件の復旧)から外し、SKIP 理由を明示して統括へ引き継ぐ。
+  const hasLegacyObsAttrs = await page.evaluate(() => !!(window.HP && HP.sim && HP.sim.obsT));
+  if (hasObsLayer) {
+   if (hasLegacyObsAttrs) {
     // 属性の受理・クランプ・実効値: radius が R を、coreRR が Rc を上書きし、
     // lightSweep=1 は η_rad>0 でも放射冷却しない(光が外に出ない)。A/B 転写も検査
     const at = await page.evaluate(() => {
@@ -5654,8 +5804,16 @@ if (!FAST) {
     add('obs.attrs', at.okR && at.okRdef && at.coolSwept === 1 && at.coolOpen < 0.5 && at.okClamp && at.okReject && at.okClone,
       `R上書き/Rc比=${at.okR} R既定式=${at.okRdef} 掻出1で無放射=${at.coolSwept}(=1) 対照冷却=${at.coolOpen.toExponential(1)}(<0.5) ` +
       `clamp+警告=${at.okClamp} 非数拒否=${at.okReject} A/B転写=${at.okClone}`);
+   } else {
+    // 第85便: 恒常 SKIP(現行ビルドはすべてこちら)。復旧には検査内容の再定義が要る — 統括へ申し送り。
+    console.log('SKIP obs.attrs(第61便で廃止された obsT/coreOT 属性層+第81便で廃止されたコアv1 Rc を直に読む検査 — ' +
+      '門の付け替えでは復旧できず、現行 API 向けの再定義が必要。第85便で休眠を明示化)');
+   }
 
     // 等価性: 明示既定値(obsT:1, lightSweep:0, coreOT:1)は省略時と bit 等価(回帰の錨)
+    // 第85便: obsT/coreOT は第61便で廃止され、validatePreset が警告つきで delete する。したがって
+    // 本検査は現行ビルドでは「lightSweep:0 の明示が既定と bit 等価」+「廃止済み旧キーを書いても
+    // 力学は 1 bit も動かない(移行処理が preset を汚さない)」の2点の錨として機能する。
     const eq = await page.evaluate(() => {
       const mk = (withKeys) => {
         const b = { type: 'single', m: 500, x: -40, y: 0, vx: 0, vy: -1.2, spin: 1.5, pinned: false };
@@ -5939,12 +6097,13 @@ if (!FAST) {
           `ピッチ ${pCtrl.map(p => p.pitchDeg.toFixed(1)).join('/') || '測定不能'}°・` +
           `後行 ${lg.ctrl.pitch.filter(p => p.trailing === true).length}/${pCtrl.length}点(= 対照側は先行で符号が逆・判定には未使用) ` +
           `— 計測は darkrotorLong の走行に相乗り(追加の走行コストなし)`);
+
       } else {
         console.log('SKIP behavior.darkrotorLong(対象の🕶️はレール駆動の旧v3構成)');
       }
     }
   } else {
-    console.log('SKIP obs.*/darkrotor.*(対象に観測温度系なし)');
+    console.log('SKIP obs.*/darkrotor.*(対象に観測温度系〔HP.obsTemp + lSw〕なし)');
   }
 }
 
@@ -9712,8 +9871,208 @@ if (!FAST) {
   }
 }
 
+// ---- 84A) 第84便A(創発の標準試験の展開): behavior.phase-multiseed — 熱の実験室の創発4件
+// ----   (🧬emergent / 🧊emergent2 / ⛓️chain2 / ♻️chaincycle)の**多seed頑健性**を機械固定する。
+// ----   第83便A の behavior.selfrotor-multiseed と同じ流儀:**QA は少seed 縮約・exp が全seed の正本**
+// ----   (16seed 7〜22 の分布は tests/exp-4-87.mjs → tests/out/exp-4-87.json が持つ)。
+// ----   ここでは先頭3seed(7/8/9)に絞り、各プリセットの kind:"multi-seed" claim の窓で判定する。
+// ----   実測の要点(第84便A・16seed):
+// ----     🧬 素の 🧬 は grid の jitter/vScale が無く mMin=mMax なので **seed を振っても粒子の初期
+// ----        状態が 1ビットも変わらない**(16seed が bit 一致 = 素の多seed試験は空虚)。そこで
+// ----        jitter 0.3 / vScale 0.05 の初期条件ノイズを足した版で c̄ を測る(16seed 1.98〜2.75)
+// ----     🧊 120°角偏差 12.3〜44.1°(対照 angK=0 は 73.1〜79.0° — 16seed を通して重ならない)
+// ----     ⛓️ 2配位率 0.696〜0.804(対照 0.268〜0.375 — 重ならない)= 4件中唯一 16/16 で通った
+// ----     ♻️ 解離末(t=528)の成分数 48〜84。凍結期は ⛓️ と**壁スケジュール以外が同一設定**なので
+// ----        t=288(18000步)までの軌道が一致する — ⛓️ の値は ♻️ の run から読み、同一性も検査する
+// ----   **重い(3seed × 63000步 + 対照1seed)ので QA_FAST=1 では実行しない**(FAST への時間増はゼロ)----
+if (!FAST) {
+  const PIDS = ['emergent', 'emergent2', 'chain2', 'chaincycle'];
+  const hasPM = await page.evaluate((pids) => pids.every((id) => {
+    const p = HP.allPresets().find((q) => q.id === id);
+    return p && Array.isArray(p.claims) && p.claims.some((c) => c.kind === 'multi-seed');
+  }), PIDS);
+  if (hasPM) {
+    const r = await page.evaluate((seeds) => {
+      const S = HP.sim;
+      // 秩序変数(相変化グラフ量と同じ定義 — 第60便 QA と一致)
+      const stats = () => {
+        const nbr = Array.from({ length: S.n }, () => []);
+        for (let i = 0; i < S.n; i++) for (let j = i + 1; j < S.n; j++) {
+          const d = Math.hypot(S.x[i] - S.x[j], S.y[i] - S.y[j]);
+          if (d < S.phase.bondRange * (S.R[i] + S.R[j])) { nbr[i].push(j); nbr[j].push(i); }
+        }
+        let T = 0, cS = 0, c2 = 0, c3 = 0, a120 = 0, n120 = 0, a180 = 0, n180 = 0;
+        for (let i = 0; i < S.n; i++) {
+          T += S.Tint[i]; cS += nbr[i].length;
+          if (nbr[i].length === 2) {
+            c2++;
+            const [j, k] = nbr[i];
+            const q1 = Math.atan2(S.y[j] - S.y[i], S.x[j] - S.x[i]);
+            const q2 = Math.atan2(S.y[k] - S.y[i], S.x[k] - S.x[i]);
+            let da = Math.abs(q1 - q2); if (da > Math.PI) da = 2 * Math.PI - da;
+            a180 += Math.abs(Math.PI - da); n180++;
+          }
+          if (nbr[i].length === 3) {
+            c3++;
+            const A = nbr[i].map((j) => Math.atan2(S.y[j] - S.y[i], S.x[j] - S.x[i])).sort((x, y) => x - y);
+            for (let k = 0; k < 3; k++) { let da = A[(k + 1) % 3] - A[k]; if (k === 2) da += 2 * Math.PI;
+              a120 += Math.abs(da - 2 * Math.PI / 3); n120++; }
+          }
+        }
+        const par = Array.from({ length: S.n }, (_, i) => i);
+        const find = (a) => { while (par[a] !== a) { par[a] = par[par[a]]; a = par[a]; } return a; };
+        for (let i = 0; i < S.n; i++) for (const j of nbr[i]) { const a = find(i), b = find(j); if (a !== b) par[a] = b; }
+        const cn = {};
+        for (let i = 0; i < S.n; i++) { const r0 = find(i); cn[r0] = (cn[r0] || 0) + 1; }
+        const sz = Object.values(cn).sort((a, b) => b - a);
+        return { T: T / S.n, cMean: cS / S.n, frac2: c2 / S.n, frac3: c3 / S.n,
+          ang120: n120 ? a120 / n120 * 180 / Math.PI : null,
+          ang180: n180 ? a180 / n180 * 180 / Math.PI : null,
+          nComp: sz.length, maxComp: sz[0], nan: S.hasNaN(), clampA: S.clampAN, ovf: S.angOvfN };
+      };
+      // mode: 'main' | 'ko'(機構ノックアウト対照) / icn: 初期条件ノイズ
+      const run = (pid, seed, steps, marks, opt) => {
+        const p = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === pid)));
+        p.seed = seed;
+        if (opt && opt.ko) Object.assign(p.phaseChange, opt.ko);
+        if (opt && opt.icn) Object.assign(p.bodies[0], opt.icn);
+        const v = HP.validatePreset(p);
+        if (!v.ok) return { err: v.errors };
+        S.build(v.preset);
+        const out = {};
+        let k = 0;
+        for (const M of marks) { while (k < M) { S.step(0.016); k++; } out[M] = stats(); }
+        while (k < steps) { S.step(0.016); k++; }
+        out.end = stats();
+        return out;
+      };
+      const ICN = { jitter: 0.3, vScale: 0.05 };
+      const o = { emergent: {}, emergent2: {}, chain2: {}, chaincycle: {}, ctl: {} };
+      for (const sd of seeds) {
+        o.emergent['s' + sd] = run('emergent', sd, 12000, [], { icn: ICN });
+        o.emergent2['s' + sd] = run('emergent2', sd, 18000, [], {});
+        // ♻️ を 33000步 走らせ、@18000步(t=288)を ⛓️ の値として読む(下で同一性を検査)
+        o.chaincycle['s' + sd] = run('chaincycle', sd, 33000, [18000], {});
+      }
+      // 対照(機構ノックアウト)は時間予算のため seed 7 のみ。3seed の統計は exp-4-87 が持つ。
+      // 🧬 の対照は tests/exp-4-87.mjs と揃えて**素の初期配置**で測る(c̄=0.125)。初期条件ノイズを
+      // 入れた対照でも 0.089 とほぼ同値(結合を切れば配位数は幾何だけで決まる)ことも併せて出す
+      o.ctl.emergent = run('emergent', seeds[0], 12000, [], { ko: { bondK: 0 } });
+      o.ctl.emergentIcn = run('emergent', seeds[0], 12000, [], { icn: ICN, ko: { bondK: 0 } });
+      o.ctl.emergent2 = run('emergent2', seeds[0], 18000, [], { ko: { angK: 0 } });
+      o.ctl.chain2 = run('chain2', seeds[0], 18000, [], { ko: { angK: 0 } });
+      // ⛓️≡♻️(t≤288)の同一性: ⛓️ を単独で 18000步 走らせて ♻️@18000步 と全量比較する
+      const c2solo = run('chain2', seeds[0], 18000, [], {});
+      const a = c2solo.end, b = o.chaincycle['s' + seeds[0]][18000];
+      const identical = ['T', 'cMean', 'frac2', 'frac3', 'ang120', 'ang180', 'nComp', 'maxComp']
+        .every((k) => JSON.stringify(a[k]) === JSON.stringify(b[k]));
+      HP.loadPreset('emergent', false);
+      const claimOf = (pid, id) => (HP.allPresets().find((q) => q.id === pid).claims || []).find((c) => c.id === id);
+      return { o, identical, seeds,
+        claims: { emergent: claimOf('emergent', 'emergent.multi-seed-min-coordination'),
+          emergent2: claimOf('emergent2', 'emergent2.multi-seed-max-honeycomb-angle-dev'),
+          chain2: claimOf('chain2', 'chain2.multi-seed-min-chain-fraction'),
+          chaincycle: claimOf('chaincycle', 'chaincycle.multi-seed-min-melt-ncomp') },
+        emergence: Object.fromEntries(['emergent', 'emergent2', 'chain2', 'chaincycle']
+          .map((id) => [id, HP.allPresets().find((q) => q.id === id).emergence])) };
+    }, [7, 8, 9]);
+    const S3 = r.seeds;
+    const inWin = (x, e) => Number.isFinite(x) && x >= e.min && x <= e.max;
+    // 🧬 初期条件ノイズ版の c̄(seed 集合の最小値)
+    const emC = S3.map((sd) => r.o.emergent['s' + sd].end.cMean);
+    const emMin = Math.min(...emC), emCtl = r.o.ctl.emergent.end.cMean;
+    // 🧊 120°角偏差(seed 集合の最大値)— 対照(angK=0)と重ならないこと
+    const e2A = S3.map((sd) => r.o.emergent2['s' + sd].end.ang120);
+    const e2Max = Math.max(...e2A), e2Ctl = r.o.ctl.emergent2.end.ang120;
+    // ⛓️ 2配位率(seed 集合の最小値)— ♻️ の run の @18000步 から読む
+    const c2F = S3.map((sd) => r.o.chaincycle['s' + sd][18000].frac2);
+    const c2Min = Math.min(...c2F), c2Ctl = r.o.ctl.chain2.end.frac2;
+    // ♻️ 解離末の成分数(seed 集合の最小値)
+    const cyN = S3.map((sd) => r.o.chaincycle['s' + sd].end.nComp);
+    const cyMin = Math.min(...cyN);
+    const C = r.claims;
+    const noNaN = S3.every((sd) => ['emergent', 'emergent2', 'chaincycle']
+      .every((p) => !r.o[p]['s' + sd].end.nan && r.o[p]['s' + sd].end.clampA === 0 && r.o[p]['s' + sd].end.ovf === 0));
+    add('behavior.phase-multiseed',
+      noNaN && r.identical
+      && inWin(emMin, C.emergent.expected) && inWin(emCtl, C.emergent.control.expected) && emMin > 10 * emCtl
+      && inWin(e2Max, C.emergent2.expected) && inWin(e2Ctl, C.emergent2.control.expected) && e2Max < e2Ctl
+      && inWin(c2Min, C.chain2.expected) && inWin(c2Ctl, C.chain2.control.expected) && c2Min > c2Ctl
+      && inWin(cyMin, C.chaincycle.expected)
+      // E水準は第84便A の実測どおり据え置き(⑤摂動回復が4件とも通らないので E3 昇格はしていない)
+      && r.emergence.emergent === 'E1' && r.emergence.emergent2 === 'E1'   // 第84便統合裁定: 加熱床=外部駆動で E1
+      && r.emergence.chain2 === 'E1' && r.emergence.chaincycle === 'E1',   // 第84便統合裁定
+      `${S3.length}seed(${S3.join('/')}) / ` +
+      `🧬 初期条件ノイズ版の配位数 c̄ ${emC.map((v) => v.toFixed(3)).join('/')} → **最小=${emMin.toFixed(3)}**` +
+      `(claim 窓 ${C.emergent.expected.min}〜${C.emergent.expected.max}) vs 対照 bondK=0 の ${emCtl.toFixed(3)}` +
+      `(=結合が消える・同じ初期条件ノイズを入れた対照でも ${r.o.ctl.emergentIcn.end.cMean.toFixed(3)})` +
+      ` 比 ${(emMin / Math.max(1e-9, emCtl)).toFixed(1)}倍(>10) / ` +
+      `🧊 120°角偏差 ${e2A.map((v) => v.toFixed(1) + '°').join('/')} → **最大=${e2Max.toFixed(1)}°**` +
+      `(窓 ${C.emergent2.expected.min}〜${C.emergent2.expected.max}) vs 対照 angK=0 の ${e2Ctl.toFixed(1)}°(密集塊)— 分離 / ` +
+      `⛓️ 2配位率 ${c2F.map((v) => v.toFixed(3)).join('/')} → **最小=${c2Min.toFixed(3)}**` +
+      `(窓 ${C.chain2.expected.min}〜${C.chain2.expected.max}) vs 対照 angK=0 の ${c2Ctl.toFixed(3)}(等方の液滴)— 分離 / ` +
+      `♻️ 解離末(t=528)の成分数 ${cyN.join('/')} → **最小=${cyMin}**(窓 ${C.chaincycle.expected.min}〜${C.chaincycle.expected.max}) / ` +
+      `⛓️≡♻️(t≤288)の全秩序変数一致=${r.identical}(③④の run 共有の根拠) / ` +
+      `E水準=🧬${r.emergence.emergent}・🧊${r.emergence.emergent2}・⛓️${r.emergence.chain2}・♻️${r.emergence.chaincycle}` +
+      `(第84便A: ⑤摂動回復が4件とも通らないため E3 昇格なし) / ` +
+      `16seed(7〜22)の分布は tests/exp-4-87.mjs が正本: 🧬c̄1.98〜2.75・🧊角偏差12.3〜44.1°・⛓️2配位率0.696〜0.804・♻️成分48〜84`);
+  } else {
+    console.log('SKIP behavior.phase-multiseed(対象に 🧬🧊⛓️♻️ の multi-seed claim なし — 第84便A 未適用の root 等)');
+  }
+}
+
+// ---- 84B) 第84便B(創発の標準試験を 🕶️ へ展開): behavior.darkrotor-multiseed ----
+// ----   「それらしく見えた固定seed 1本」ではないことを、seed を振って機械固定する。
+// ----   判定量は claims の darkrotor.multi-seed-min-arm-ratio =「seed 集合を通した
+// ----   腕振幅帯平均の増強比(本則/対照)の**最小値**」。QA は内蔵 seed 以外の 2seed
+// ----   (20260727/20260728)だけの縮約版で、8seed の分布は tests/exp-4-88.mjs
+// ----   (→ tests/out/exp-4-88.json)が正本として持つ(既存の kind:"multi-seed" と同じ流儀)。
+// ----   E水準タグが E2(閉鎖系の創発)であることも併せて固定する — 🕶️ は pinned 0 の
+// ----   閉鎖系だが、⑤摂動回復(自己維持)が通らなかったので E3 ではない(第84便B の実測)。
+// ----   **重い(6000步 × 4構成)ので QA_FAST=1 では実行しない**(FAST への時間増はゼロ)。
+// ----   ※ detail の「内蔵seed は behavior.darkrotorLong が担当」は**設計上の役割分担**を指す。
+// ----     第84便B の時点ではその区画(`if (hasObs)`)が廃止済み `HP.sim.obsT` を門にしていて
+// ----     休眠しており、実際には走っていなかった。**第85便で門を現行 API(HP.obsTemp + lSw)へ
+// ----     置換して復旧済み**なので、いまは分担どおり両方が走る ----
+if (!FAST && w5cDrFree && w5cDrMulti) {
+  const mm = await w5cGetUnit('darkrotorMultiseed');
+  const P = await page.evaluate(() => {
+    const p = HP.allPresets().find((q) => q.id === 'darkrotor');
+    return { claim: p.claims.find((c) => c.id === 'darkrotor.multi-seed-min-arm-ratio'),
+      emergence: p.emergence };
+  });
+  const C = P.claim;
+  const ratios = mm.main.map((v, i) => v.bandAvg / Math.max(mm.ctrl[i].bandAvg, 1e-9));
+  const minR = Math.min(...ratios), maxR = Math.max(...ratios);
+  const minBand = Math.min(...mm.main.map((v) => Math.min(...v.A2)));
+  const ctrlMax = Math.max(...mm.ctrl.map((v) => v.bandAvg));
+  // 実測(beta・第84便B・8seed 20260726〜20260733・6000步 = 腕の窓):
+  //   本則の帯平均 0.500〜0.569(中央0.551)/ 対照(中心BH込み全 single spin=0)0.157〜0.265
+  //   → 増強比 2.15〜3.62(中央2.51)。QA の 2seed は 20260727=2.48倍・20260728=2.15倍
+  add('behavior.darkrotor-multiseed',
+    P.emergence === 'E2'
+    && mm.main.every((v) => !v.err && !v.nan && v.clampV === 0 && v.clampR === 0)
+    && mm.ctrl.every((v) => !v.err && !v.nan)
+    && minR >= C.expected.min && maxR <= C.expected.max
+    && ctrlMax <= C.control.expected.max
+    && minBand > 0.22 && mm.main.every((v) => v.keepPct >= 95 && v.maxSpin < 6.0),
+    `${mm.seeds.length}seed(${mm.seeds.join('/')}・内蔵seed 20260726 は既存の behavior.darkrotorLong が担当)` +
+    ` 6000步 腕A2帯平均 本則 ${mm.main.map((v) => v.bandAvg.toFixed(3)).join('/')}` +
+    ` / 対照(中心BH込み全 single spin=0) ${mm.ctrl.map((v) => v.bandAvg.toFixed(3)).join('/')}` +
+    ` → 増強比 ${ratios.map((v) => v.toFixed(2)).join('/')}倍・**最小=${minR.toFixed(2)}倍**` +
+    `(claim 窓 ${C.expected.min}〜${C.expected.max}) / ` +
+    `対照の帯平均 最大=${ctrlMax.toFixed(3)}(≤${C.control.expected.max} — 配置由来分に留まる) / ` +
+    `単帯の最小=${minBand.toFixed(3)}(>0.22) 恒星保持 ${mm.main.map((v) => v.keepPct.toFixed(1) + '%').join('/')}(≥95) ` +
+    `全期間max|spin| ${mm.main.map((v) => v.maxSpin.toFixed(2)).join('/')}(<6.0) ` +
+    `NaN/clamp=${mm.main.filter((v) => v.nan || v.clampV || v.clampR).length}件 / ` +
+    `E水準=${P.emergence}(閉鎖系の創発。⑤摂動回復が通らないので E3 ではない — 第84便B) / ` +
+    `8seed の分布(帯平均 0.500〜0.569・増強比 2.15〜3.62・後行56/56点)の正本は tests/exp-4-88.mjs`);
+} else if (!FAST) {
+  console.log('SKIP behavior.darkrotor-multiseed(対象に 🕶️ の multi-seed claim なし — 第84便B 未適用の root 等)');
+}
+
 // ---- 82B) 第82便B: emergence.tag — E水準タグ(emergence:"E0".."E3")の最小導入。
-// ----   ①宣言済みプリセット(🧬🧊⛓️=E2 / ♻️=E1 / 🥚=E3 ← 第83便A で E2 から昇格)が
+// ----   ①宣言済みプリセット(🧬🧊⛓️=E1〔第84便統合裁定: 加熱床=外部駆動〕/ ♻️=E1 / 🥚=E3)が
 // ----     期待どおりの値を持つ
 // ----   ②未宣言のプリセットにはバッジが出ない(ノイズ回避の仕様)
 // ----   ③スキーマ: 有効値は保持(警告0)・未知値は警告つき無視=削除
@@ -9747,7 +10106,10 @@ if (!FAST) {
         badW: bad.warnings.filter((w) => w.includes('emergence')).length,
         clsPass: HP.classifyPreset(HP.allPresets().find((p) => p.id === 'selfRotor')).emergence };
     });
-    const want = { emergent: 'E2', emergent2: 'E2', chain2: 'E2', chaincycle: 'E1', selfRotor: 'E3' };   // 第83便A: 🥚=E3
+    // 第83便A: 🥚=E3 / 第84便B: 🕶️darkrotor=E2(pinned 0 の閉鎖系だが⑤摂動回復が通らない)・
+    // ⏳nebulaBipolar=E1(赤道アーク22体が pinned = 外部固定の幾何なので閉鎖系ではない)
+    const want = { emergent: 'E1', emergent2: 'E1', chain2: 'E1', chaincycle: 'E1', selfRotor: 'E3',   // 第84便統合裁定
+      darkrotor: 'E2', nebulaBipolar: 'E1' };   // 第83便A: 🥚=E3 / 第84便B: 🕶️=E2・⏳=E1
     const missing = Object.entries(want).filter(([k, v]) => r.declared[k] !== v).map(([k]) => k);
     add('emergence.tag',
       r.badVal.length === 0 && missing.length === 0
@@ -10674,6 +11036,52 @@ if (!FAST) {
     }
   } else {
     console.log('SKIP optics.*/claim.reddening(対象に physics.kAbs(光学輸送)なし — root 等。第82便)');
+  }
+}
+
+// ---- 85) 第85便(休眠検出の再発防止): qa.testid-live ----
+// ----   第84便B が見つけた事故の型 =「claims の testId が指す QA テストが、廃止済み API を見る
+// ----   古い判定子(`HP.sim.obsT`)に閉じ込められて**フルQAでも一度も走っていない**」。
+// ----   claims.sync / claims.sync-pilot は claim の窓と説明文の数値の一致だけを見るので、
+// ----   testId の先が実在するか・実行されるかは誰も検査していなかった(第85便で発覚)。
+// ----   本ゲートは全 claims 横断で次の2点を機械検査する(DOM 不要 = 追加の走行コストなし):
+// ----     ① 定義: testId が qa.mjs に `add('<testId>'` として実在する(常に判定)
+// ----     ② 実行: そのテストが**このラン中に実際に results へ入った**(!FAST のときだけ判定)
+// ----   ② を FAST で判定しないのは、!FAST ガードつきの重量テスト(behavior.darkrotorLong 等)が
+// ----   QA_FAST では正当に走らないため。FAST では未実行分を detail に列挙するだけに留める
+// ----   (= QA_FAST への時間増はゼロ。本ゲート自体も page.evaluate 1回+文字列検索のみ)。
+// ----   置き場所は全テストの後(results が出そろってから判定する必要があるため)----
+{
+  const claimList = await page.evaluate(() => {
+    const o = [];
+    for (const p of HP.allPresets())
+      if (Array.isArray(p.claims)) for (const c of p.claims)
+        o.push({ preset: p.id, id: c.id, testId: c.testId || null });
+    return o;
+  });
+  if (claimList.length) {
+    const qaSrc = fs.readFileSync(path.join(ROOT, 'tests', 'qa.mjs'), 'utf8');
+    const ids = [...new Set(claimList.map(c => c.testId).filter(Boolean))].sort();
+    const ranIds = new Set(results.map(r => r.id));
+    const where = (id) => claimList.filter(c => c.testId === id).map(c => `${c.preset}:${c.id}`).join(',');
+    // 定義の判定は `add('<id>'` の文字列一致(qa.mjs の add() 呼び出しは全て単一引用符のリテラル)。
+    // 末尾の引用符まで含めるので behavior.darkrotor と behavior.darkrotor-pitch を取り違えない
+    const undef = ids.filter(id => !qaSrc.includes(`add('${id}'`));
+    const dormant = ids.filter(id => !undef.includes(id) && !ranIds.has(id));
+    const noTid = claimList.filter(c => !c.testId);
+    add('qa.testid-live', undef.length === 0 && (FAST || dormant.length === 0),
+      `claims=${claimList.length}件(${new Set(claimList.map(c => c.preset)).size}プリセット)・` +
+      `testId 実体=${ids.length}種 → qa.mjs に定義あり=${ids.length - undef.length}/${ids.length}` +
+      `(未定義=[${undef.map(id => id + '←' + where(id)).join(' ')}]) / ` +
+      `このランで実行済み=${ids.length - undef.length - dormant.length}/${ids.length - undef.length}` +
+      `(未実行=${dormant.length}件[${dormant.slice(0, 8).join(' ')}${dormant.length > 8 ? ' …他' + (dormant.length - 8) + '件' : ''}]` +
+      `${FAST ? ' — QA_FAST では !FAST ガードのぶんが正当に未実行なので判定対象外' : ' — !FAST なので 0件であること'}) / ` +
+      `testId 無しの claim=${noTid.length}件(${noTid.map(c => c.preset + ':' + c.id).join(',') || 'なし'}` +
+      `— 説明文の数値だけを固定する claim は testId を持たなくてよいので判定しない) / ` +
+      `第85便: 🕶️ の behavior.darkrotorLong・behavior.darkrotor-pitch が「定義あり・未実行」で ` +
+      `第84便まで休眠していた(門が第61便で廃止された HP.sim.obsT を見ていた)— 本ゲートはその再発を検出する`);
+  } else {
+    console.log('SKIP qa.testid-live(対象に claims 宣言プリセットなし)');
   }
 }
 
