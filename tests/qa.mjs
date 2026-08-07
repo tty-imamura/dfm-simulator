@@ -9371,7 +9371,7 @@ if (hasSwAutoCb) {
     add('behavior.selfrotor',
       !m.nan && !nf.nan && !nc.nan && m.clampV === 0 && m.clampR === 0
       && r.validT === 144 && r.dFrac === 0.7 && r.thermal === 'tint'
-      && r.balance === 'barycentric' && r.emergence === 'E2' && r.cls.closed === true
+      && r.balance === 'barycentric' && r.emergence === 'E3' && r.cls.closed === true   // 第83便A: E2→E3
       && m.lsw0 === 0 && m.align0 === 0 && m.K0 > 100
       && inW(m.mFrac, C['selfRotor.max-mass-fraction'])
       && inC(nf.mFrac, C['selfRotor.max-mass-fraction'])
@@ -9408,11 +9408,95 @@ if (hasSwAutoCb) {
   }
 }
 
+// ---- 83A) 第83便A(創発の標準試験化): behavior.selfrotor-multiseed — 🥚selfRotor の
+// ----   **多seed頑健性**(E3 の要件)を機械固定する。第82便B の behavior.selfrotor が
+// ----   「固定seed 1本+ノックアウト対照」を見るのに対し、こちらは seed を振って
+// ----   「乱数の引きが変わっても同じ現象が立つ」ことを claims の窓で判定する。
+// ----   **QA は縮約版・exp 側が全数の正本**という既存の kind:"multi-seed" の流儀に合わせる
+// ----   (galaxy.outer-boost-ratio: QA claim.galaxy-outerboost は固定seedの A/B 1組で、
+// ----    5seed の統計は tests/exp-scale66.mjs 側が持つ)。ここでは QA を先頭4seed
+// ----   (20260806〜20260809)に絞り、16seed の分布そのものは tests/exp-4-85.mjs
+// ----   (→ tests/out/exp-4-85.json)が正本として持つ。
+// ----   判定量は「seed 集合を通した最大天体の質量比の**最小値**」= claims の
+// ----   selfRotor.multi-seed-min-mass-fraction の窓(0.10〜0.60)。対照(融合オフ)は
+// ----   融合が無ければ質量が動かないので全seedで厳密に 1/180=0.5556% になることも固定する。
+// ----   **重い(9000步 × 8構成)ので QA_FAST=1 では実行しない**(FAST への時間増はゼロ)----
+if (!FAST) {
+  const hasSR2 = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'selfRotor'
+    && Array.isArray(p.claims) && p.claims.some((c) => c.id === 'selfRotor.multi-seed-min-mass-fraction')));
+  if (hasSR2) {
+    const r = await page.evaluate((seeds) => {
+      const S = HP.sim;
+      const P = HP.allPresets().find((p) => p.id === 'selfRotor');
+      const run = (seed, noFuse, steps) => {
+        const p = JSON.parse(JSON.stringify(P));
+        if (noFuse) delete p.fusion;
+        p.seed = seed;
+        const v = HP.validatePreset(p);
+        if (!v.ok) return { err: v.errors };
+        S.build(v.preset);
+        for (let k = 0; k < steps; k++) S.step(0.016);
+        let bi = 0, mTot = 0;
+        for (let i = 0; i < S.n; i++) { mTot += Math.abs(S.m[i]); if (Math.abs(S.m[i]) > Math.abs(S.m[bi])) bi = i; }
+        const em = HP.emergenceStats(S);
+        let lswH = 0, nH = 0;
+        for (let i = 0; i < S.n; i++) if (i !== bi) { lswH += S.lSw[i]; nH++; }
+        return { seed, n: S.n, fusN: S.fusN, mFrac: Math.abs(S.m[bi]) / mTot,
+          maxFrac: em.maxFrac, align: em.align, vsig: em.vsig,
+          lSw: S.lSw[bi], lSwHalo: nH ? lswH / nH : 0, nan: S.hasNaN(),
+          clampV: S.clampVN, clampR: S.clampRN || 0 };
+      };
+      const main = seeds.map((sd) => run(sd, false, 9000));
+      const ctl = seeds.map((sd) => run(sd, true, 9000));
+      HP.loadPreset('selfRotor', false);
+      const cl = P.claims.find((c) => c.id === 'selfRotor.multi-seed-min-mass-fraction');
+      return { main, ctl, claim: cl, n0: P.bodies[0].n, emergence: P.emergence };
+    }, [20260806, 20260807, 20260808, 20260809]);
+    const C = r.claim;
+    const mFracs = r.main.map((v) => v.mFrac);
+    const minMF = Math.min(...mFracs), maxMF = Math.max(...mFracs);
+    const ctlMF = r.ctl.map((v) => v.mFrac);
+    const ctlMed = [...ctlMF].sort((a, b) => a - b)[Math.floor(ctlMF.length / 2)];
+    // 減光コントラスト(中心/周囲)— 第83便A の16seedで本則2.41〜5.30・対照0.40〜1.26 と重ならない
+    const con = r.main.map((v) => v.lSw / Math.max(v.lSwHalo, 1e-9));
+    const conC = r.ctl.map((v) => v.lSw / Math.max(v.lSwHalo, 1e-9));
+    // 実測(beta・第83便A・16seed 20260806〜20260821・9000步=validT):
+    //   質量比 18.3〜53.3%(中央34.7%)・最大塊 0.972〜1.000・整列度 0.985〜1.000・
+    //   V/σ 3.1〜20.8・中心減光 0.472〜0.919・周囲 0.126〜0.235・コントラスト 2.41〜5.30
+    //   対照(融合オフ)は全seed で質量比 0.5556%(=1/180 厳密)・コントラスト 0.40〜1.26
+    //   → 本則の最小 18.3% は対照中央値の 33.0 倍(統括の判定基準①「10倍超」を満たす)
+    add('behavior.selfrotor-multiseed',
+      r.emergence === 'E3'
+      && r.main.every((v) => !v.nan && v.clampV === 0 && v.clampR === 0)
+      && r.ctl.every((v) => !v.nan)
+      && minMF >= C.expected.min && maxMF <= C.expected.max
+      && ctlMF.every((v) => Math.abs(v - 1 / r.n0) < 1e-12)
+      && ctlMed >= C.control.expected.min && ctlMed <= C.control.expected.max
+      && minMF > 10 * ctlMed
+      && r.main.every((v) => v.maxFrac >= 0.9 && v.align >= 0.9)
+      && Math.min(...con) > Math.max(...conC),
+      `${r.main.length}seed(${r.main.map((v) => v.seed).join('/')}・9000步=validT) 最大天体の質量比 ` +
+      `${r.main.map((v) => (v.mFrac * 100).toFixed(1) + '%').join('/')} → **最小=${(minMF * 100).toFixed(1)}%**` +
+      `(claim 窓 ${C.expected.min * 100}〜${C.expected.max * 100}%) / ` +
+      `対照(融合オフ)は全seed ${(ctlMed * 100).toFixed(4)}%(=1/${r.n0} 厳密 — 融合が無ければ質量は動かない) ` +
+      `→ 比=${(minMF / ctlMed).toFixed(1)}倍(>10) / ` +
+      `秩序変数: 最大塊 ${r.main.map((v) => v.maxFrac.toFixed(3)).join('/')}(≥0.9) ` +
+      `整列度 ${r.main.map((v) => v.align.toFixed(3)).join('/')}(≥0.9) ` +
+      `V/σ ${r.main.map((v) => v.vsig.toFixed(1)).join('/')} / ` +
+      `減光コントラスト(中心/周囲) 本則 ${con.map((v) => v.toFixed(2)).join('/')} vs ` +
+      `対照 ${conC.map((v) => v.toFixed(2)).join('/')}(重なりなし) / ` +
+      `E水準=${r.emergence} / 16seed の正本は tests/exp-4-85.mjs(質量比 18.3〜53.3%・中央34.7%)`);
+  } else {
+    console.log('SKIP behavior.selfrotor-multiseed(対象に 🥚 の multi-seed claim なし — 第83便A 未適用の root 等)');
+  }
+}
+
 // ---- 82B) 第82便B: emergence.tag — E水準タグ(emergence:"E0".."E3")の最小導入。
-// ----   ①宣言済みプリセット(🧬🧊⛓️=E2 / ♻️=E1 / 🥚=E2)が期待どおりの値を持つ
+// ----   ①宣言済みプリセット(🧬🧊⛓️=E2 / ♻️=E1 / 🥚=E3 ← 第83便A で E2 から昇格)が
+// ----     期待どおりの値を持つ
 // ----   ②未宣言のプリセットにはバッジが出ない(ノイズ回避の仕様)
 // ----   ③スキーマ: 有効値は保持(警告0)・未知値は警告つき無視=削除
-// ----   ④説明パネルのチップ DOM(data-g="emg-E2")が sampleClass チップの隣に出る
+// ----   ④説明パネルのチップ DOM(data-g="emg-E3")が sampleClass チップの隣に出る
 // ----   軽量(DOM検査+validatePreset の往復のみ)なので QA_FAST=1 でも実行する ----
 {
   const hasEmg = await page.evaluate(() => !!(window.HP && HP.EMERGENCE_LEVELS));
@@ -9427,7 +9511,8 @@ if (hasSwAutoCb) {
       const chipsOf = (id) => { HP.loadPreset(id, false);
         return Array.from(document.querySelectorAll('#classChips .classChip')).map((e) => e.dataset.g); };
       const cSelf = chipsOf('selfRotor'), cGal = chipsOf('galaxy'), cCyc = chipsOf('chaincycle');
-      const iSC = cSelf.findIndex((g) => g.startsWith('sclass-')), iE = cSelf.indexOf('emg-E2');
+      // 第83便A: 🥚 は E2 → E3 へ昇格(多seed16・粒子数スケーリング・摂動回復の実測を通した)
+      const iSC = cSelf.findIndex((g) => g.startsWith('sclass-')), iE = cSelf.indexOf('emg-E3');
       const mk = (e) => ({ name: 't', description: 'emergence 検査', camera: { scale: 200 },
         world: { boundary: 'none', size: 0 }, physics: {}, emergence: e,
         bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
@@ -9441,12 +9526,12 @@ if (hasSwAutoCb) {
         badW: bad.warnings.filter((w) => w.includes('emergence')).length,
         clsPass: HP.classifyPreset(HP.allPresets().find((p) => p.id === 'selfRotor')).emergence };
     });
-    const want = { emergent: 'E2', emergent2: 'E2', chain2: 'E2', chaincycle: 'E1', selfRotor: 'E2' };
+    const want = { emergent: 'E2', emergent2: 'E2', chain2: 'E2', chaincycle: 'E1', selfRotor: 'E3' };   // 第83便A: 🥚=E3
     const missing = Object.entries(want).filter(([k, v]) => r.declared[k] !== v).map(([k]) => k);
     add('emergence.tag',
       r.badVal.length === 0 && missing.length === 0
       && r.selfChip && r.selfAdjacent && !r.galChip && r.cycChip
-      && r.keep && r.goodW === 0 && r.drop && r.badW === 1 && r.clsPass === 'E2',
+      && r.keep && r.goodW === 0 && r.drop && r.badW === 1 && r.clsPass === 'E3',   // 第83便A: 🥚=E3
       `水準=[${r.levels.join(',')}] 宣言=${Object.entries(r.declared).map(([k, v]) => `${k}:${v}`).join(' ')}` +
       `(未宣言は非表示 — 🌌galaxy のバッジ=${r.galChip}) / ` +
       `チップ: 🥚=${r.selfChip}(sampleClass の隣=${r.selfAdjacent}) ♻️=E1 ${r.cycChip} / ` +
