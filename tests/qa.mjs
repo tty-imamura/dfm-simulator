@@ -933,7 +933,7 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
 // ----      第83便C 時点の許容2種は、**第83便D で両方とも根本解消したので許容リストは空**になった:
 // ----       W1(解消) descStruct の純分割不一致 — validatePreset が description を200字へ切り詰める
 // ----          ため構造化説明(数千字)との連結一致が原理的に成立しなかった。第83便D で上限を
-// ----          実測較正(DESC_CAP=9000 ≈ 実測最長4367の2倍・節別 3000/6000/1500)し、内蔵の
+// ----          実測較正(DESC_CAP=16000 ≈ 統合後実測最長7819の2倍・節別 3000/13000/1500)し、内蔵の
 // ----          descStruct は削除されずに通るようになった(往復での構造化説明の喪失を解消)。
 // ----       W2(解消) bodies[N].m を値域に修正 — 🪜massLadder の m=10000 が MASS 上限5000に当たり、
 // ----          往復すると物理が変質していた。第83便D で MASS_CAP=20000(内蔵最大の約2倍)へ較正。
@@ -1009,7 +1009,7 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
 // ----      第83便C が「validatePreset の許容警告2種」として種類固定だけして未対応だった、
 // ----      往復で情報が落ちる/物理が変質する2件の根本対応(第83便D)に対応するゲート。
 // ----        ①descStruct 喪失: description の 200 字切り詰めで純分割一致が壊れ、descStruct を
-// ----          持つ内蔵すべてで構造化説明が往復のたびに消えていた → DESC_CAP=9000(実測最長
+// ----          持つ内蔵すべてで構造化説明が往復のたびに消えていた → DESC_CAP=16000(実測最長
 // ----          4367 の約2倍)+節別上限 3000/6000/1500(≈2×1501/3065/691)へ実測較正。
 // ----        ②物理変質: 🪜massLadder の m=10000 が MASS 上限5000でクランプされ、往復すると
 // ----          別の物理になっていた → MASS_CAP=20000(内蔵最大の約2倍)へ実測較正。
@@ -1101,13 +1101,13 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
         physics: {}, overlays: {},
         bodies: [{ type: 'single', m, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
       const A = 'あ';
-      const vDesc = HP.validatePreset(mk(A.repeat(12000), undefined, 1));
+      const vDesc = HP.validatePreset(mk(A.repeat(20000), undefined, 1));   // 第83便統合: DESC_CAP 16000 再較正に追随
       const vSect = HP.validatePreset(mk(A.repeat(9), { summary: A.repeat(9), observe: '', control: '' }, 1));
       const vSectBig = HP.validatePreset(mk(A.repeat(8000), { summary: A.repeat(8000), observe: '', control: '' }, 1));
       const vMass = HP.validatePreset(mk('d', undefined, 1e9));
       const caps = {
-        // description は 9000 で切り詰め(200 でも 12000 でもない)
-        desc: vDesc.ok && vDesc.preset.description.length === 9000,
+        // description は 16000 で切り詰め(200 でも 20000 でもない — 第83便統合の再較正値)
+        desc: vDesc.ok && vDesc.preset.description.length === 16000,
         // 節が上限内なら保持される(9 字の純分割)
         sectKeep: vSect.ok && !!vSect.preset.descStruct && vSect.preset.descStruct.summary.length === 9,
         // summary 上限 3000 超は切り詰め警告 → 純分割が壊れて descStruct ごと削除(荒らし対策は健在)
@@ -1130,7 +1130,7 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
       `質量クランプ発動=[${r.massNg.slice(0, 3).join(' ')}](0件)/ ` +
       `bit一致(往復build vs 直接build)t=0 のみ ${r.total - r.n400}件=[${r.bit0Ng.slice(0, 3).join(' ')}](0件)・` +
       `t=0+400步 ${r.n400}件(${FAST ? 'QA_FAST=代表' : 'フル=全件'})=[${r.bit400Ng.slice(0, 3).join(' ')}](0件)/ ` +
-      `上限は健在(desc 9000切り詰め=${r.caps.desc}・節上限内は保持=${r.caps.sectKeep}・` +
+      `上限は健在(desc 16000切り詰め=${r.caps.desc}・節上限内は保持=${r.caps.sectKeep}・` +
       `summary 3000超は切り詰め警告→descStruct削除=${r.caps.sectCut}・m は20000で警告つきクランプ=${r.caps.mass})`);
   } else {
     console.log('SKIP preset.roundtrip-builtins(対象に第83便D の説明文上限の実測較正なし — root 等)');

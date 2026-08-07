@@ -4027,11 +4027,12 @@ const CLAIM_KINDS=["analytic","conservation","semantic","fixed-seed","multi-seed
 //   descStruct 節別最長 summary 1501(bhCore/en)・observe 3065(selfRotor/en)・control 691(bhCore/en)
 // 上限は「実測最長の約2倍」: description 9000(≈2×4367)・各節 3000/6000/1500(≈2×1501/3065/691)。
 // 荒らし対策の上限そのものは維持する(節別上限も置くので、1節だけを肥大させる入力も止まる)。
-// 節別上限の合計(10500)は DESC_CAP(9000)より大きいので、3節すべてを上限近くまで埋めた
+// 節別上限の合計(17500)は DESC_CAP(16000)より大きいので、3節すべてを上限近くまで埋めた
 // 異常入力は description 側の切り詰めで純分割が壊れ、従来どおり警告つきで descStruct が落ちる
 // (全体上限が最終的な律速 — 意図した設計)。
-const DESC_CAP=9000;
-const DESC_SECT_CAPS={summary:3000, observe:6000, control:1500};
+const DESC_CAP=16000;   // 第83便統合: 第83便A の 🥚16seed 頑健性追記で最長連結が 7819 字に伸びたため
+                        // 「実測最長の約2倍」の流儀のまま再較正(9000→16000)
+const DESC_SECT_CAPS={summary:3000, observe:13000, control:1500};   // observe 最長 6517(🥚/en)の約2倍
 // 第83便D(往復保全): 粒子質量の上限も同じ流儀で実測較正する。旧上限 5000 は内蔵最大の
 // 🪜massLadder の m=10000 を**クランプして物理を変えて**いた(往復すると別のプリセットになる)。
 // 内蔵最大 10000 の約2倍 = 20000。高質量帯の実測(2026-08-07・2000步=t32・下の3構成)では
