@@ -65,6 +65,19 @@
     padding:2px 6px;min-height:28px;}
   #aboutPanel h4{color:var(--acc);margin:10px 0 4px;}
   #aboutPanel p{color:var(--fg);margin:4px 0;}
+  /* 第83便B: 相図ランナー(2変数バッチ掃引の色マップ)。#aboutPanel と同じ「キャンバス上の
+     全面パネル」の流儀。phaseMap を宣言したプリセットでのみ開ける — 宣言なしでは 1 度も表示されない */
+  #pmPanel{position:absolute;left:8px;right:8px;top:8px;bottom:8px;z-index:7;display:none;
+    background:rgba(20,24,48,.96);border:1px solid var(--line);border-radius:10px;padding:10px;
+    overflow-y:auto;font-size:calc(12px*var(--uz,1));line-height:1.5;}
+  #pmPanel .beHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;
+    font-weight:700;color:var(--acc);}
+  #pmPanel .beHead button{background:none;border:none;color:var(--dim);font-size:calc(14px*var(--uz,1));
+    padding:2px 6px;min-height:28px;}
+  #pmPanel .pmNote{color:var(--dim);font-size:calc(10.5px*var(--uz,1));line-height:1.45;margin:4px 0;}
+  #pmPanel #pmCv{display:block;width:100%;height:auto;margin:6px 0;touch-action:manipulation;}
+  #pmPanel .rowBtns{display:flex;gap:6px;margin:6px 0;}
+  #pmStatus{color:var(--acc);font-weight:700;font-size:calc(11.5px*var(--uz,1));margin:2px 0;}
   /* v1.17: 選択粒子の編集パネル(タップ選択中のみ表示) */
   /* 第12便: z-index — 狭い横画面等でキャンバスが低くても、後続UI(操作列・タブ)に隠れず操作できる */
   #bodyEdit{position:absolute;right:8px;top:8px;width:172px;z-index:6;background:rgba(20,24,48,.94);
@@ -283,6 +296,21 @@
       <div class="beHead"><span id="aboutTitle">このアプリについて</span><button id="aboutClose" aria-label="close">✕</button></div>
       <div id="aboutBody"></div>
     </div>
+    <!-- 第83便B: 相図ランナー — 2変数バッチ掃引と秩序変数の色マップ。プリセットが phaseMap を
+         宣言したときだけパラメータタブに開くボタンが出る(宣言なしのプリセットでは UI 非表示)。
+         バッチは描画なしのスクラッチ sim インスタンスだけを使い、本編 sim と保存 JSON には
+         一切書かない(セルのタップからの適用はユーザーの明示操作のみ) -->
+    <div id="pmPanel" role="dialog" aria-modal="true" aria-labelledby="pmTitle">
+      <div class="beHead"><span id="pmTitle">相図ランナー</span><button id="pmClose" aria-label="close">✕</button></div>
+      <div class="pmNote" id="pmAxes"></div>
+      <div class="rowBtns">
+        <button class="btn primary" id="pmRun">掃引を実行</button>
+        <button class="btn" id="pmStop">中断</button>
+      </div>
+      <div id="pmStatus"></div>
+      <canvas id="pmCv"></canvas>
+      <div class="pmNote" id="pmNote"></div>
+    </div>
     <div id="bodyEdit">
       <!-- 第26便(原仮定者指示): 閉じる✕ → 最小化トグル(−/＋)。選択解除は粒子の再タップ/空白タップ -->
       <div class="beHead"><span id="beTitle">選択粒子の編集</span><button id="beClose" aria-label="minimize">−</button></div>
@@ -346,6 +374,8 @@
       <!-- 第62便(原仮定者指示): ワンタップA/B(相変化 abQuick / 粒子patch abBody)は
            「A/B比較」グループより上の共通行へ統一(形状は相変化系=btn。JSが動的に生成) -->
       <div class="rowBtns" id="abQuickRow" style="display:none"></div>
+      <!-- 第83便B: 相図ランナーを開く行(phaseMap 宣言のあるプリセットでのみ表示) -->
+      <div class="rowBtns" id="pmRow" style="display:none"></div>
       <div class="group" id="abGroup">
         <h3 id="abHead">A/B比較</h3>
         <div class="rowBtns"><button class="btn primary" id="btnAB">A/B比較を開始</button></div>
@@ -529,6 +559,20 @@ ja: {
   pcAbQuick:(k,v)=>`⚖️ ワンタップ対照A/B(B側: ${k}=${v})`,
   // 第63便(原仮定者指示「各タイトルに統一感」): abBody 系も同じ書式で組み立てる共通タイトル
   abQuickTitle:(d)=>`⚖️ ワンタップ対照A/B(B側: ${d})`,
+  // 第83便B: 相図ランナー(2変数バッチ掃引 → 秩序変数の色マップ)
+  pmOpen:"🗺️ 相図ランナー(2変数の掃引)",
+  pmTitle:"🗺️ 相図ランナー",
+  pmRun:"▶ 掃引を実行", pmStop:"■ 中断",
+  pmAxes:(xk,nx,yk,ny,st,mt)=>`横軸 ${xk}(${nx}点)× 縦軸 ${yk}(${ny}点)/ 各セル ${st}步 / 色 = ${mt}`,
+  pmIdle:"未実行 — 「掃引を実行」で開始します",
+  pmRunning:(k,n)=>`実行中… セル ${k}/${n}(本編は一時停止しています)`,
+  pmDone:(n,s)=>`完了: ${n}セル / ${s}秒`,
+  pmAborted:(k,n)=>`中断しました(${k}/${n}セルまで)`,
+  pmRange:(lo,hi)=>`色の範囲: ${lo} 〜 ${hi}`,
+  pmMetricNames:{ nCluster:"塊の数", maxFrac:"最大塊の質量比", align:"スピン整列度", vsig:"回転支持比 V/σ" },
+  pmApplyAsk:(xk,xv,yk,yv)=>`このセルの値を本編に適用して読み込みますか?\n${xk} = ${xv}\n${yk} = ${yv}\n(現在の未保存の編集は破棄されます)`,
+  pmApplied:(xk,xv,yk,yv)=>`本編に適用しました: ${xk}=${xv} / ${yk}=${yv}`,
+  pmNote:"バッチは描画なしの一時的なシミュレータで走り、本編の状態にもセーブにも一切書き込みません(結果はこのセッション限りで保存されません)。セルをタップすると、そのパラメータ値を本編へ適用して読み込めます(確認あり)。",
   ckSaved:"チェックポイントを保存しました(⤺📍 でいつでもこの瞬間に戻れます)",
   ckLoaded:"チェックポイントに戻しました",
   ckMismatch:"チェックポイントと粒子数が一致しません(プリセット変更で無効化されました)",
@@ -815,6 +859,20 @@ en: {
   abQuickStarted:(k,v)=>`Control A/B started: only side B set to ${k}=${v} (press ▶ Run to compare)`,
   pcAbQuick:(k,v)=>`⚖️ One-tap control A/B (side B: ${k}=${v})`,
   abQuickTitle:(d)=>`⚖️ One-tap control A/B (side B: ${d})`,
+  // Dispatch 83B: phase-map runner (two-variable batch sweep → color map of an order parameter)
+  pmOpen:"🗺️ Phase-map runner (2-variable sweep)",
+  pmTitle:"🗺️ Phase-map runner",
+  pmRun:"▶ Run sweep", pmStop:"■ Abort",
+  pmAxes:(xk,nx,yk,ny,st,mt)=>`x: ${xk} (${nx} pts) × y: ${yk} (${ny} pts) / ${st} steps per cell / color = ${mt}`,
+  pmIdle:"Not run yet — press \"Run sweep\" to start",
+  pmRunning:(k,n)=>`Running… cell ${k}/${n} (the main simulation is paused)`,
+  pmDone:(n,s)=>`Done: ${n} cells / ${s}s`,
+  pmAborted:(k,n)=>`Aborted (${k}/${n} cells completed)`,
+  pmRange:(lo,hi)=>`Color range: ${lo} to ${hi}`,
+  pmMetricNames:{ nCluster:"Clump count", maxFrac:"Largest-clump mass fraction", align:"Spin alignment", vsig:"Rotation support V/σ" },
+  pmApplyAsk:(xk,xv,yk,yv)=>`Apply this cell's values to the main simulation and load it?\n${xk} = ${xv}\n${yk} = ${yv}\n(unsaved edits will be discarded)`,
+  pmApplied:(xk,xv,yk,yv)=>`Applied to the main simulation: ${xk}=${xv} / ${yk}=${yv}`,
+  pmNote:"The batch runs on a throwaway simulator with no rendering and never writes to the main state or to any save (results live for this session only). Tap a cell to apply its parameter values to the main simulation (with confirmation).",
   ckSaved:"Checkpoint saved (⤺📍 returns to this moment anytime)",
   ckLoaded:"Returned to the checkpoint",
   ckMismatch:"Checkpoint particle count mismatch (invalidated by preset change)",
@@ -1273,6 +1331,9 @@ function strongFieldPsi(p){
 // sampleClass・scaleTier と同方針の**宣言専用メタ**で、自動判定しない・物理には一切影響しない。
 // 未宣言のプリセットにはバッジを出さない(ノイズ回避)
 const EMERGENCE_LEVELS=["E0","E1","E2","E3"];
+// 第83便B: 相図ランナーの秩序変数(= 第82便B 創発モニタ emergenceStats の4量)。
+// プリセットの phaseMap.metric がこの中から選ぶ。宣言専用メタで物理には一切影響しない
+const PM_METRICS=["nCluster","maxFrac","align","vsig"];
 function classifyPreset(p){
   const ext=externalTags(p);
   const ph=p.physics||{};
@@ -2831,6 +2892,19 @@ const BUILTIN_PRESETS = [
     observe:"Measured (seed 20260806, 9000 steps = t144): 180 grains go through 155 fusions down to 25 bodies, and the heaviest single body grows into a centre holding 26.7% of the total mass (m=48). The bound fraction is 0.75. In the control with fusion switched off the largest body stays the original single grain (mass fraction 0.56%) and the bound fraction is only 0.14 — the central body is a product of the fusion rule, not of the initial conditions. That self-gravity is the cause was isolated by a dose–response: varying only G over 2/4/6/8/12 moves the mass fraction monotonically through 1.7/6.1/12.8/26.7/44.4% (7/62/125/155/173 fusions). The core angular momentum J_core accumulates through the inheritance path and nothing else: the centre's J_core is 0.0960, which is exactly 48 seeds' worth and matches the mass 48 it swallowed grain for grain (the sum in the inheritance rule literally counts them). The system-wide ΣJ_core stays at 0.3600 (=180 grains × 0.0020) to the end, and in the control with the core seeds removed J_core is identically 0 — there is no source other than inheritance. The darkness grows too: the effective dimming lS_eff (A11/E8R — how much of its own light a body sweeps out by spinning) is 0.000 at t=0, and by 9000 steps the central body has dimmed to 0.589 while the bodies around it stay at 0.159 on average — a dark centre with a bright surround is generated (a contrast of 3.7). That darkness is set purely by the depth of the well ψ=W/Kt and never enters the dynamics (measured: at Kt 12/14/16/20/24 the particle count, fusion count, mass fraction, spin and radius are all identical to the last bit, and only the dimming changes: 0.920/0.589/0.421/0.264/0.193). The grains start with zero spin and end up unanimously co-rotating (emergence monitor: spin alignment 0.000→1.000, clump count 166→2, largest-clump mass fraction 0.994, rotation support V/σ=10.9). Momentum and angular momentum (A13/T7) close exactly with all reservoir ledgers at zero (see the monitor; |ΔL|/L_scale = 6.7e-7 over the 9000 steps). Standard emergence tests (Wave 83A; see docs/PHYSICS.md §Emergence levels and the standard tests): this phenomenon has been put through four further tests — many seeds, particle-count scaling, perturbation recovery and the time window. [Many seeds, 16] Over seeds 20260806–20260821 the largest body's mass fraction spans 18.3–53.3% (median 34.7%) and is at least 18.3% in every one of the 16 — while the no-fusion control sits at 0.56% for every seed (exactly 1/180: without fusion no mass ever moves), so even the worst seed is 33 times the control. Over the same 16 seeds: largest-clump mass fraction 0.972–1.000, spin alignment 0.985–1.000, rotation support V/σ 3.1–20.8, central dimming 0.472–0.919, surround 0.126–0.235, J_core 0.0660–0.1920 (33–96 seeds' worth), bound fraction 0.43–1.00, 17–37 bodies left (143–163 fusions), no NaN, no clamping, and |ΔL|/L_scale at most 6e-6. The dimming contrast (centre over surround) is 2.41–5.30 (median 4.07) in the main runs against 0.40–1.26 (median 1.17) in the controls, and the two never overlap across the 16 seeds — which confirms, over many seeds, that the discriminating quantity is this contrast and not the darkness on its own (see (a) below). [Particle-count scaling] At n=90/180/360 (3 representative seeds) the median mass fraction is 12.2/26.7/31.7%, the largest-clump mass fraction 0.944/0.994/1.000, and the alignment 1.000 in every case — the phenomenon is not a discrete artefact of one particular particle count. Note honestly, though, that this sample keeps the disk radius and the per-grain mass fixed while varying n, so n is also the total mass (= the strength of self-gravity): n=90 acts like halving G, and the ten-times-the-control bar is met by only 2 of the 3 seeds there (ratios 7.0/11.0/22.0). [Perturbation recovery] Injecting Gaussian velocity noise into every grain once the structure has formed, at t=120 (step 7500), with the mass-weighted mean subtracted so the total momentum is preserved and at 30% of the speed RMS, moves neither the largest-clump mass fraction, nor the alignment, nor the central body's mass fraction at all. This structure is not broken by velocity disorder; sweeping the amplitude, it only starts to break at twice the speed RMS (largest clump 0.994→0.811 by step 15000) and at four times (0.583). What does get disturbed and then returns is the rotation support V/σ (down 28–33%, back within 10 steps = Δt 0.16) and the bound fraction (down at most 11%, back within 200 steps). Alignment is by definition untouched by velocity noise, so a separate perturbation was applied that flips the spin of about half the grains: the alignment is driven from 1.000 down to −0.907/−0.800/−0.232 and climbs back above 0.976 within 10 steps (Δt=0.16), with the flipped central body's own spin returning to positive within 10–200 steps — the co-rotating state is not a one-off configuration but an attractor that contact friction (E9) and dragging (A8/E6′) maintain at every step. [Time window] The clumps merge into one by step 1500 (t=24), the alignment passes 0.99 by step 2000 (t=32), and the mass fraction reaches 90% of its final value between steps 2000 and 3000 (t=32–48) and then saturates; the mass fraction at step 9000 (= validT 144) and at step 18000 differ by 0.0000, so validT sits inside the stable window past the rise. With these four tests on top of the knockouts and dose–responses of Wave 82B — six in all — the emergence level has been raised from E2 (emergence in a closed system) to E3 (emergence with robustness confirmed across seeds, particle counts and perturbations). Measurement harness: tests/exp-4-85.mjs. What did NOT hold, recorded honestly: (a) darkness on its own does not discriminate fusion from no fusion — in the no-fusion control the centre of the 180-grain pile also dims to lS_eff=0.999 (darkness is set by the depth of the well, not by the growth path). What does discriminate is the contrast, dark centre against bright surround: in the control the surround dims to 0.834 as well. (b) The kFrame=0 control produces no systematic difference in the outer rotation (the survivors concentrate at the centre so the outer annulus has no statistics, and the difference is buried in the seed spread) — this sample makes no dragging claim. (c) The dose–response in the fusion threshold dFrac is not monotonic (0.7/0.6/0.5/0.35 → 26.7/47.8/43.3/23.3%). Not a claim to reproduce real galaxies, dark matter or star formation (Negative Claims 1/2). ",
     control:"Suggested A/B: raise Kt to 24 and the well gets shallower, fading the central darkness from 0.589 to 0.193 (the dynamics do not change by a single bit). Drop G to 4 and the growth all but stops — in the same 9000 steps the centre only reaches a mass fraction of 6.1%. The Emergence monitor at the lower right plots the clump count, largest-clump mass fraction, spin alignment and rotation support V/σ over time."}},
   activeParams:["G","Kt","kFrame"],
+  // 第83便B: 相図ランナー(2変数バッチ掃引 → 秩序変数の色マップ)。宣言専用・物理には一切影響しない。
+  // 軸の選定は実測で決めた: 自己重力 G(成長の駆動)× 背景決定力 D₀(局所質量の相対的な効きを
+  // 薄める床)。秩序変数はスピン整列度(自転ゼロで始まった粒が「みな同じ向きに回る」ようになるか)。
+  // 実測(第83便B・exp-4-86・6×6・1500步): 値域は −0.859〜+1.000。G≦6 では整列度が負〜0付近
+  // (バラバラ)、G≧9 で +0.90〜+1.00 へ跳ぶ。相境界(中点 0.07 の交差位置)は D₀=2〜8 で G≈5.3、
+  // D₀=0.5 では G≈1.4 まで下がり、D₀=16 でも G≈3.8 と下がる(単調ではない — 実測どおり記す)。
+  // 1枚 86.3秒 = 2.40秒/セル(実測)。
+  // ※ 銀河標準🎡は kFrame×D₀ を実測したが、創発モニタの4量がどれも動かなかった(整列度は
+  //   中心天体のスピンだけで常に +1.00・V/σ は 0.11 で一定)ため、相図の対象には選んでいない
+  phaseMap:{ xKey:"G", xValues:[1,2,4,6,9,14], yKey:"D0", yValues:[0.5,1,2,4,8,16],
+    steps:1500, metric:"align",
+    label:{ja:"自己形成ローターの相図(自己重力 G × 背景決定力 D₀)",
+      en:"Self-assembling rotor phase map (self-gravity G × background determinacy D₀)"} },
   thermal:"tint",            // 融合の前提(内部温度が状態変数)
   fusion:{dFrac:0.7},        // 第44便 44B: 融合(上限 1/√2 の直下 — 設計コメント(2))
   balanceFrame:"barycentric",// 第80便 A: 生成時1回の重心系変換(閉鎖系の初期条件を厳密に)
@@ -3220,6 +3294,17 @@ const BUILTIN_PRESETS = [
     control:"Raise kRep (thermal pressure) and the state boundaries shift to lower temperatures. bondK and bondN are adjustable in the Phase-change (E14″) experiment knobs. Lower the floor T_wall and the molecules re-bond into a lump. Set condN to 0 to switch off the conduction modulation (an A/B against emergent conduction)."}},
   activeParams:["kRep","kappaS","gravityY","gammaN"],
   abQuick:{key:"bondK", v:0},   // 61B: 結合を切った対照(熱圧だけのガス)
+  // 第83便B: 相図ランナー(2変数バッチ掃引 → 秩序変数の色マップ)。宣言専用・物理には一切影響しない。
+  // 軸は実測で選んだ: 熱圧 kRep(結合を剥がす側)× 一様重力 g_y(分子を加熱床へ押し付ける側)。
+  // 秩序変数は最大塊の質量比(1.00=単一の格子=固体 / 0.1台=ばらけた分子の気体)。
+  // 実測(第83便B・exp-4-86・6×6・2500步): 値域は 0.107〜1.000。相境界(中点 0.55 の交差位置)は
+  // g_y=0 で kRep≈11.4 → g_y=0.5 で kRep≈6.8 と、一様重力を上げるほど低い熱圧側へ寄る
+  // (押し付けが強いほど早く壊れる)。1枚 73.1秒 = 2.03秒/セル(実測)。
+  // ※ cHeat・γn は実測で相図を動かさなかったので軸に採らなかった
+  phaseMap:{ xKey:"kRep", xValues:[0,4,8,12,16,20], yKey:"gravityY", yValues:[0,0.03,0.08,0.2,0.35,0.5],
+    steps:2500, metric:"maxFrac",
+    label:{ja:"三態の相図(熱圧 kRep × 一様重力 g_y)",
+      en:"Three-state phase map (thermal pressure kRep × uniform gravity g_y)"} },
   thermal:"tint",
   phaseChange:{ bondN:6, bondK:5, bondRange:1.6, bondDamp:0.02, condN:2, condS:1, condG:0.15 },
   camera:{scale:140}, world:{boundary:"box", size:110,
@@ -4345,6 +4430,46 @@ function validatePreset(obj){
   // ※ SYSTEM_PROMPT には載せない(AI生成には開放しない — 受理して検証するだけ)
   if(p.emergence!==undefined){
     if(EMERGENCE_LEVELS.indexOf(p.emergence)<0){ warnings.push("emergence が不正のため削除"); delete p.emergence; }
+  }
+  // 第83便B: phaseMap — 相図ランナー(2変数バッチ掃引)の宣言。**宣言専用・opt-in** で、
+  // 宣言の無いプリセットでは UI そのものが出ない(ゼロコスト)。物理には一切影響しない —
+  // 掃引は描画なしのスクラッチ sim インスタンスだけで走り、本編 sim にも保存 JSON にも書かない。
+  //   {xKey,yKey}   物理パラメータキー(CLAMPS のキー)。同一キーは不可
+  //   {xValues,yValues} 掃引値の配列(2〜12点・有限数のみ。CLAMPS の値域へクランプ)
+  //   {steps}       1セルあたりの步数(50〜20000へクランプ)
+  //   {metric}      色にする秩序変数(第82便B 創発モニタの4量: PM_METRICS)
+  //   {label}       任意の {ja,en} 見出し
+  // 不正・未知は「警告つき無視」= phaseMap ごと削除(ボタンが出ないだけで挙動は不変)。
+  // ※ SYSTEM_PROMPT には載せない(AI生成には開放しない — 受理して検証するだけ)
+  if(p.phaseMap!==undefined){
+    const J=p.phaseMap;
+    const bad=(msg)=>{ warnings.push("phaseMap "+msg+" — 無視します"); delete p.phaseMap; };
+    const axVals=(a,nm)=>{
+      if(!Array.isArray(a) || a.length<2 || a.length>12){ bad(nm+" は 2〜12 個の配列が必要"); return null; }
+      if(!a.every(isNum)){ bad(nm+" に非数が含まれる"); return null; }
+      return a.slice();
+    };
+    if(!J || typeof J!=="object" || Array.isArray(J)) bad("はオブジェクトが必要");
+    else if(!CLAMPS[J.xKey] || !CLAMPS[J.yKey]) bad("の xKey/yKey が物理パラメータキーでない");
+    else if(J.xKey===J.yKey) bad("の xKey と yKey が同一");
+    else if(PM_METRICS.indexOf(J.metric)<0) bad("の metric が不正(["+PM_METRICS.join("/")+"])");
+    else if(!isNum(J.steps)) bad("の steps が数値でない");
+    else {
+      const xs=axVals(J.xValues,"xValues");
+      const ys=xs && axVals(J.yValues,"yValues");
+      if(ys){
+        const cx=CLAMPS[J.xKey], cy=CLAMPS[J.yKey];
+        p.phaseMap={ xKey:J.xKey, yKey:J.yKey, metric:J.metric,
+          xValues:xs.map(v=>clamp(+v,cx[0],cx[1])), yValues:ys.map(v=>clamp(+v,cy[0],cy[1])),
+          steps:Math.round(clamp(+J.steps,50,20000)) };
+        if(J.label && typeof J.label==="object" && !Array.isArray(J.label)){
+          const lb={};
+          if(typeof J.label.ja==="string") lb.ja=J.label.ja;
+          if(typeof J.label.en==="string") lb.en=J.label.en;
+          if(lb.ja||lb.en) p.phaseMap.label=lb;
+        }
+      }
+    }
   }
   // 第80便 A(E6′-R): balanceFrame — 生成時1回の重心系変換(最上位キー。物理ループには一切
   // 触らない = 初期条件の指定)。"barycentric" のときだけ、全 bodies 生成後に系全体の
@@ -9440,6 +9565,7 @@ function loadPreset(id, keepPhysics){
   sim.build(merged);
   trailBuf=[]; trailBufB=[];  // 軌道トレイルはプリセット読込・⏮初めからでリセット
   emergenceReset();           // 第82便B: 創発モニタの履歴もプリセット読込でリセット(表示層のみ)
+  pmReset();                  // 第83便B: 相図の結果はプリセット単位・セッション内のみ(保存しない)
   if(sim.overlays && sim.overlays.monitor) monitorOn=true;  // v1.12: プリセット既定の保存量モニタ(ONのみ適用)
   basePhysics=Object.assign({},DEFAULT_PHYSICS,p.physics||{});
   camX=0; camY=0; camScale=p.camera.scale; tempP90EMA=0.5; selIdx=-1; nanNotified=false;
@@ -10051,8 +10177,246 @@ function updateAbQuickRow(){
   }
   row.style.display=any? "flex" : "none";
 }
+
+// ===== 第83便B: 相図ランナー(2変数バッチ掃引 → 秩序変数の色マップ)=====
+// 設計(統括裁定): **メインスレッド分割実行**(Web Worker は使わない — 単一 HTML でエンジンを
+// worker へ運ぶのは侵襲的すぎる)。A/B 比較が複数の sim インスタンスを併走させている既存機構
+// (makeSim / cloneSimState)と同じ足場で、**描画に一切繋がっていないスクラッチ sim
+// インスタンス**をセルごとに1つ作り、順番に走らせる。
+// UI を止めないための分割: 「時間予算 PM_BUDGET(ms)を使い切ったら setTimeout(0) で継続」。
+// セル境界だけでなくセルの途中(PM_INNER 步単位)でも切れるので、1セルが長くてもフリーズしない。
+// 本編の扱い: 掃引中は本編を pause する(running=false)— rAF の描画・積分と CPU を奪い合わない
+// いちばん単純な形(統括裁定の「pause 状態で回す設計も可」を採用)。掃引が終わっても本編 sim の
+// 状態(t・粒子)は1バイトも変わらない。
+// 物理不変: バッチはスクラッチ sim だけを触り、本編 sim・保存 JSON には一切書かない。
+// ゼロコスト: phaseMap 宣言の無いプリセットでは行もパネルも作らない(毎フレーム経路には不在)。
+const PM_BUDGET=24;   // 1ティックあたりの計算時間予算(ms)— 60fps の1フレーム未満に抑える
+const PM_INNER=25;    // 予算チェックの粒度(步)
+// 色マップの傾斜(暗い青 → 青 → 青緑 → 緑 → 金 → 朱)。グラフ類と同系統の配色
+const PM_RAMP=[[26,22,64],[36,72,140],[42,152,150],[120,196,96],[255,200,79],[240,96,64]];
+let pmJob=null;    // 実行中のバッチ {d, base, k, total, S, steps, t0, timer}
+let pmRes=null;    // 直近の結果(セッション内のみ — 保存しない)
+let pmCells=null;  // セルの当たり判定(CSS px)
+function pmDef(){ return (currentPreset && currentPreset.phaseMap) || null; }
+// 秩序変数 — 第82便B の創発モニタと**同じ式**を読む(重複実装しない)
+function pmMetricValue(S,metric){
+  const st=emergenceStats(S);
+  const v=(metric==="nCluster")? st.nCluster : (metric==="maxFrac")? st.maxFrac
+    : (metric==="align")? st.align : st.vsig;
+  return isFinite(v)? v : NaN;
+}
+// 1セルぶんのプリセット(x/y の2キーだけ上書き。バリデータを必ず通す)
+function pmCellPreset(base,d,ix,iy){
+  const p=JSON.parse(JSON.stringify(base));
+  p.physics=Object.assign({},p.physics||{},{[d.xKey]:d.xValues[ix],[d.yKey]:d.yValues[iy]});
+  const v=validatePreset(p);
+  return v.ok? v.preset : null;
+}
+// headless(QA・実験ハーネス)用の同期版 — 分割せず一気に走らせる。UI・本編には一切触れない
+function pmRunSync(base,d){
+  const nx=d.xValues.length, ny=d.yValues.length, vals=new Array(nx*ny).fill(NaN);
+  const t0=(typeof performance!=="undefined")? performance.now() : 0;
+  for(let iy=0;iy<ny;iy++) for(let ix=0;ix<nx;ix++){
+    const p=pmCellPreset(base,d,ix,iy); if(!p) continue;
+    const S=makeSim(); S.build(p);
+    for(let k=0;k<d.steps;k++) S.step(DT);
+    vals[iy*nx+ix]=S.hasNaN()? NaN : pmMetricValue(S,d.metric);
+  }
+  return { xKey:d.xKey, yKey:d.yKey, metric:d.metric, steps:d.steps,
+    xValues:d.xValues.slice(), yValues:d.yValues.slice(), nx, ny, vals,
+    done:nx*ny, aborted:false, ms:((typeof performance!=="undefined")? performance.now() : 0)-t0 };
+}
+function pmStart(){
+  const d=pmDef(); if(!d||pmJob) return;
+  const nx=d.xValues.length, ny=d.yValues.length;
+  pmRes={ xKey:d.xKey, yKey:d.yKey, metric:d.metric, steps:d.steps,
+    xValues:d.xValues.slice(), yValues:d.yValues.slice(), nx, ny,
+    vals:new Array(nx*ny).fill(NaN), done:0, aborted:false, ms:0 };
+  pmJob={ d, base:JSON.parse(JSON.stringify(currentPreset)),
+    k:0, total:nx*ny, S:null, steps:0, t0:performance.now(), timer:0 };
+  running=false; updatePlayBtn();   // 掃引中は本編を一時停止(裁定どおり)
+  pmTick();
+}
+function pmStop(){
+  if(!pmJob) return;
+  if(pmJob.timer) clearTimeout(pmJob.timer);
+  pmRes.aborted=true; pmRes.ms=performance.now()-pmJob.t0;
+  pmJob=null; pmRender();
+}
+function pmTick(){
+  const J=pmJob; if(!J) return;
+  const t0=performance.now();
+  while(J.k<J.total && performance.now()-t0<PM_BUDGET){
+    if(!J.S){
+      const p=pmCellPreset(J.base,J.d,J.k%pmRes.nx,(J.k/pmRes.nx)|0);
+      if(!p){ J.k++; pmRes.done=J.k; continue; }   // バリデータ拒否のセルは NaN のまま送る
+      J.S=makeSim(); J.S.build(p); J.steps=0;
+    }
+    const S=J.S;
+    while(J.steps<J.d.steps && performance.now()-t0<PM_BUDGET){
+      const nn=Math.min(PM_INNER,J.d.steps-J.steps);
+      for(let i=0;i<nn;i++) S.step(DT);
+      J.steps+=nn;
+    }
+    if(J.steps>=J.d.steps){
+      pmRes.vals[J.k]=S.hasNaN()? NaN : pmMetricValue(S,J.d.metric);
+      J.S=null; J.k++; pmRes.done=J.k;
+    }
+  }
+  pmRender();
+  if(J.k<J.total){ J.timer=setTimeout(pmTick,0); return; }
+  pmRes.ms=performance.now()-J.t0; pmJob=null; pmRender();
+}
+// プリセット読込・言語切替で結果を捨てる(結果はセッション内のみ・保存しない)
+function pmReset(){
+  if(pmJob){ if(pmJob.timer) clearTimeout(pmJob.timer); pmJob=null; }
+  pmRes=null; pmCells=null;
+  const el=$("#pmPanel"); if(el) el.style.display="none";
+}
+function pmColor(u){
+  u=(u>=0)? (u>1?1:u) : 0;
+  const s=u*(PM_RAMP.length-1), i=Math.min(PM_RAMP.length-2,Math.floor(s)), f=s-i;
+  const a=PM_RAMP[i], b=PM_RAMP[i+1];
+  return "rgb("+Math.round(a[0]+(b[0]-a[0])*f)+","+Math.round(a[1]+(b[1]-a[1])*f)+","
+    +Math.round(a[2]+(b[2]-a[2])*f)+")";
+}
+function pmFmt(v){
+  if(!isFinite(v)) return "—";
+  const a=Math.abs(v);
+  if(a>=1000||(a>0&&a<0.01)) return v.toExponential(1);
+  return (a>=100? v.toFixed(0) : a>=10? v.toFixed(1) : v.toFixed(2)).replace(/\.0+$/,"");
+}
+function pmSyncHead(){
+  const d=pmDef(); if(!d) return;
+  $("#pmTitle").textContent=T("pmTitle");
+  $("#pmRun").textContent=T("pmRun"); $("#pmStop").textContent=T("pmStop");
+  $("#pmNote").textContent=T("pmNote");
+  const names=T("pmMetricNames")||{}, mt=names[d.metric]||d.metric;
+  const lb=d.label? ((LANG==="en"&&d.label.en)||d.label.ja||d.label.en||"") : "";
+  $("#pmAxes").textContent=(lb? lb+" — " : "")
+    +T("pmAxes")(d.xKey,d.xValues.length,d.yKey,d.yValues.length,d.steps,mt);
+  $("#pmRun").disabled=!!pmJob; $("#pmStop").disabled=!pmJob;
+  const R=pmRes, tot=R? R.nx*R.ny : 0;
+  $("#pmStatus").textContent = pmJob? T("pmRunning")(R.done,tot)
+    : (!R? T("pmIdle") : (R.aborted? T("pmAborted")(R.done,tot) : T("pmDone")(R.done,(R.ms/1000).toFixed(1))));
+}
+// 色マップの描画(グラフ類の流儀 — x/y 軸ラベル+値・カラーバー+数値レンジ)
+function pmRender(){
+  const cvs=$("#pmCv"), d=pmDef();
+  if(!cvs||!d) return;
+  pmSyncHead();
+  const R=pmRes;
+  const nx=R? R.nx : d.xValues.length, ny=R? R.ny : d.yValues.length;
+  const xs=R? R.xValues : d.xValues, ys=R? R.yValues : d.yValues;
+  const uz=uiFontScale;
+  const host=cvs.parentElement;
+  const wCss=Math.max(240, (host? host.clientWidth : 320) - 20);
+  const padL=44*uz, padR=62*uz, padT=8*uz, padB=34*uz;
+  const cell=Math.max(14, Math.min(52, (wCss-padL-padR)/nx));
+  const gw=cell*nx, gh=cell*ny;
+  const hCss=gh+padT+padB;
+  const dpr=Math.min(2, window.devicePixelRatio||1);
+  cvs.style.width=Math.round(wCss)+"px"; cvs.style.height=Math.round(hCss)+"px";
+  cvs.width=Math.round(wCss*dpr); cvs.height=Math.round(hCss*dpr);
+  const g=cvs.getContext("2d");
+  g.setTransform(dpr,0,0,dpr,0,0);
+  g.clearRect(0,0,wCss,hCss);
+  // 値域(有限セルのみ)
+  let lo=Infinity, hi=-Infinity, nFin=0;
+  if(R) for(const v of R.vals) if(isFinite(v)){ nFin++; if(v<lo) lo=v; if(v>hi) hi=v; }
+  if(!nFin){ lo=0; hi=1; }
+  const span=(hi-lo)>1e-12? (hi-lo) : 1;
+  // セル(y は下から上へ = 値の小さい方が下)
+  pmCells=[];
+  g.font=(9*uz)+"px sans-serif"; g.textBaseline="middle";
+  for(let iy=0;iy<ny;iy++) for(let ix=0;ix<nx;ix++){
+    const v=R? R.vals[iy*nx+ix] : NaN;
+    const X=padL+ix*cell, Y=padT+(ny-1-iy)*cell;
+    g.fillStyle=isFinite(v)? pmColor((v-lo)/span) : "rgba(40,46,84,0.6)";
+    g.fillRect(X,Y,cell-1,cell-1);
+    pmCells.push({ix,iy,X,Y,w:cell-1,h:cell-1});
+  }
+  g.strokeStyle="#2a3060"; g.strokeRect(padL,padT,gw,gh);
+  // 進捗中のセル位置に枠(いま走っているセル)
+  if(pmJob){
+    const ix=pmJob.k%nx, iy=(pmJob.k/nx)|0;
+    if(iy<ny){ g.strokeStyle="#dfe4ff";
+      g.strokeRect(padL+ix*cell+0.5, padT+(ny-1-iy)*cell+0.5, cell-2, cell-2); }
+  }
+  // 軸ラベル(値)
+  g.fillStyle="#8b93c8"; g.textAlign="right";
+  for(let iy=0;iy<ny;iy++) g.fillText(pmFmt(ys[iy]), padL-4, padT+(ny-1-iy)*cell+cell/2);
+  g.textAlign="center";
+  for(let ix=0;ix<nx;ix++) g.fillText(pmFmt(xs[ix]), padL+ix*cell+cell/2, padT+gh+9*uz);
+  // 軸名
+  g.fillStyle="#dfe4ff"; g.font="bold "+(9.5*uz)+"px sans-serif";
+  g.fillText(d.xKey, padL+gw/2, padT+gh+24*uz);
+  g.save(); g.translate(10*uz, padT+gh/2); g.rotate(-Math.PI/2);
+  g.textAlign="center"; g.fillText(d.yKey,0,0); g.restore();
+  // カラーバー(数値レンジつき)
+  const bx=padL+gw+12*uz, bw=12*uz;
+  for(let k=0;k<=40;k++){
+    const u=k/40;
+    g.fillStyle=pmColor(u);
+    g.fillRect(bx, padT+gh-(u*gh)-gh/40, bw, gh/40+1);
+  }
+  g.strokeStyle="#2a3060"; g.strokeRect(bx,padT,bw,gh);
+  g.fillStyle="#8b93c8"; g.font=(9*uz)+"px sans-serif"; g.textAlign="left";
+  g.fillText(pmFmt(hi), bx+bw+3, padT+5*uz);
+  g.fillText(pmFmt(lo), bx+bw+3, padT+gh-5*uz);
+}
+// セルのタップ → そのパラメータ値を本編へ適用して読み込む(確認あり・明示操作のみ)
+function pmHit(e){
+  if(!pmRes||pmJob||!pmCells) return;
+  const cvs=$("#pmCv"), r=cvs.getBoundingClientRect();
+  const px=e.clientX-r.left, py=e.clientY-r.top;
+  for(const c of pmCells){
+    if(px>=c.X && px<=c.X+c.w && py>=c.Y && py<=c.Y+c.h){ pmApplyCell(c.ix,c.iy); return; }
+  }
+}
+function pmApplyCell(ix,iy){
+  const R=pmRes; if(!R||!currentPreset) return;
+  const xv=R.xValues[ix], yv=R.yValues[iy];
+  if(!confirm(T("pmApplyAsk")(R.xKey,xv,R.yKey,yv))) return;
+  const id=currentPreset.id;
+  $("#pmPanel").style.display="none";
+  loadPreset(id,false);
+  const setP=(k,v)=>{ const c=CLAMPS[k]; sim.params[k]=clamp(v,c[0],c[1]); };
+  setP(R.xKey,xv); setP(R.yKey,yv);
+  if(R.xKey==="radiusScale"||R.yKey==="radiusScale") sim.updateRadii();
+  basePhysics=Object.assign({},basePhysics,
+    {[R.xKey]:sim.params[R.xKey],[R.yKey]:sim.params[R.yKey]});
+  setParamsDirty(true); buildParamRows(); requestRender();
+  notify(T("pmApplied")(R.xKey,xv,R.yKey,yv));
+}
+function pmOpen(on){
+  const el=$("#pmPanel"); if(!el) return;
+  if(on===undefined) on=(el.style.display!=="block");
+  if(on && !pmDef()) return;
+  if(!on && pmJob) pmStop();
+  el.style.display=on? "block" : "none";
+  // 同じ z-index の全面パネル(このアプリについて)とは排他にする
+  if(on){ const ap=$("#aboutPanel"); if(ap) ap.style.display="none"; pmRender(); }
+}
+// パラメータタブの「相図ランナーを開く」行(phaseMap 宣言のあるプリセットにだけ出す)
+function updatePhaseMapRow(){
+  const row=$("#pmRow"); if(!row) return;
+  row.textContent="";
+  if(!pmDef()){ row.style.display="none"; return; }
+  const b=document.createElement("button"); b.className="btn"; b.id="btnPhaseMap";
+  b.textContent=T("pmOpen");
+  b.addEventListener("click",()=>pmOpen(true));
+  row.appendChild(b); row.style.display="flex";
+}
+$("#pmClose").addEventListener("click",()=>pmOpen(false));
+$("#pmRun").addEventListener("click",()=>pmStart());
+$("#pmStop").addEventListener("click",()=>pmStop());
+$("#pmCv").addEventListener("click",pmHit);
+addEventListener("keydown",(e)=>{ if(e.key==="Escape" && $("#pmPanel").style.display==="block") pmOpen(false); });
+
 function buildParamRows(){
   updateAbQuickRow();
+  updatePhaseMapRow();   // 第83便B: 相図ランナー(phaseMap 宣言のあるプリセットのみ)
   const host=$("#paramRows");
   // 57B: 再構築前に開いているカテゴリのラベルを記録(mkCatDetails が復元する)
   _openCats=new Set();
@@ -11039,6 +11403,8 @@ function applyLang(){
   updateAiPreview();
   rebuildPresetSelect(currentPreset?currentPreset.id:undefined);
   if(currentPreset){ buildParamRows(); renderHelp(); updateSaveNameDefault(); }
+  // 第83便B: 相図ランナーのパネルが開いていれば見出し・軸名も言語追随させる
+  if($("#pmPanel") && $("#pmPanel").style.display==="block") pmRender();
   renderSaves(); renderCustomList(); renderAiConfig(); updatePlayBtn();
   requestRender();   // v1.22: オーバーレイ内の文字列も言語追従するため再描画
 }
@@ -12285,6 +12651,21 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // emergenceStats(S) は S を1バイトも書き換えない純粋な読み取り(既定は現在の sim)
   emergenceStats:(S)=>emergenceStats(S||sim), emergenceHist:()=>emHist.slice(),
   EMERGENCE_LEVELS,
+  // 第83便B: 相図ランナー(2変数バッチ掃引)の読み口 — QA・実験ハーネス用。
+  // runSync は分割せず一気に走らせる同期版で、UI にも本編 sim にも一切触れない
+  // (UI 側の分割実行とセル計算・秩序変数は同じ関数を共有する)
+  phaseMap:{ METRICS:PM_METRICS, def:()=>pmDef(), result:()=>pmRes, running:()=>!!pmJob,
+    start:pmStart, stop:pmStop, open:(v)=>pmOpen(v!==false), render:pmRender,
+    metricValue:(S,m)=>pmMetricValue(S||sim,m), applyCell:pmApplyCell,
+    runSync:(presetOrId,def)=>{
+      const b0=(typeof presetOrId==="string")? allPresets().find(p=>p.id===presetOrId)
+        : (presetOrId||currentPreset);
+      if(!b0) return null;
+      const base=JSON.parse(JSON.stringify(b0));
+      if(def) base.phaseMap=def;
+      const v=validatePreset(base);
+      if(!v.ok || !v.preset.phaseMap) return null;
+      return pmRunSync(v.preset, v.preset.phaseMap); } },
   ovMin, aiUserContent,  // 第26便: グラフ最小化/AIベースサンプルのQA用
   // 第74便: 5段階スケール(分類・表示換算)のQA用フック — すべて表示専用で物理不変
   // 第77便(コアv2): QA/実験用の読み口(表示・検査専用)
