@@ -1,0 +1,103 @@
+{
+ "schemaVersion": 3,
+ "appVersion": "1.37",
+ "appBuild": "v1.38-b1",
+ "exportedAt": "2026-08-06T00:00:00.000Z",
+ "saves": [
+  {
+   "name": "空洞コアの実験",
+   "comment": "coreMR<0(空洞)で保存した旧セーブ",
+   "savedAt": "2026-08-06T00:00:00.000Z",
+   "presetId": "custom_legacy_cavity",
+   "presetName": "空洞コア(旧コアv1・cavity)",
+   "physics": {
+    "G": 1,
+    "D0": 2,
+    "kFrame": 1,
+    "q": 2,
+    "kRep": 0,
+    "muF": 0,
+    "gammaN": 0,
+    "kappaS": 0,
+    "Kt": 300,
+    "cLight": 100,
+    "bM": 1,
+    "etaRad": 0,
+    "pRad": 4,
+    "gravityX": 0,
+    "gravityY": 0,
+    "geoPN": 0,
+    "lambdaPN": 1,
+    "pnAlpha": 1.5,
+    "radiusScale": 1.5,
+    "softening": 2,
+    "timeScale": 4
+   },
+   "cameraScale": 160
+  }
+ ],
+ "customPresets": [
+  {
+   "id": "custom_legacy_cavity",
+   "name": "空洞コア(旧コアv1・cavity)",
+   "emoji": "🕳",
+   "description": "コアv1 の比率仕様で coreMR を負にした旧プリセット(空洞コア)。コアv2 へは mode:\"cavity\"(voidFraction=|coreMR|・質量0)として移行される。radiusScale=1.5 なので、Rc の既定式・coreRR 指定式の両方が表示スケール倍率を掛ける経路を通る。",
+   "camera": { "scale": 160 },
+   "world": { "boundary": "none", "size": 0 },
+   "physics": {
+    "G": 1,
+    "D0": 2,
+    "kFrame": 1,
+    "q": 2,
+    "kRep": 0,
+    "muF": 0,
+    "gammaN": 0,
+    "kappaS": 0,
+    "Kt": 300,
+    "cLight": 100,
+    "bM": 1,
+    "etaRad": 0,
+    "pRad": 4,
+    "gravityX": 0,
+    "gravityY": 0,
+    "geoPN": 0,
+    "lambdaPN": 1,
+    "pnAlpha": 1.5,
+    "radiusScale": 1.5,
+    "softening": 2,
+    "timeScale": 4
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "rMul": 1.2,
+     "m": 600,
+     "coreMR": -0.35,
+     "coreSR": 2.5,
+     "x": 0,
+     "y": 0,
+     "vx": 0,
+     "vy": 0,
+     "spin": 0.4,
+     "pinned": true
+    },
+    {
+     "type": "single",
+     "rMul": 1,
+     "m": 120,
+     "radius": 12,
+     "coreMR": -0.6,
+     "coreSR": -3,
+     "coreRR": 0.5,
+     "x": 140,
+     "y": 0,
+     "vx": 0,
+     "vy": 1.6,
+     "spin": 0.2,
+     "pinned": false
+    }
+   ],
+   "overlays": { "rotationCurve": false, "tempHistogram": false, "field": false, "trail": true }
+  }
+ ]
+}

@@ -1210,6 +1210,287 @@ for (const id of await page.evaluate(() => HP.allPresets().filter(p => !String(p
   }
 }
 
+// ---- 2d) 第86便 P0-2(外部レビュー採択): migration.fixtures — **代表的な旧セーブの移行**を
+// ----      固定資産(tests/fixtures/*.json)で機械固定する。
+// ----      第81便でコアv1(比率仕様 coreMR/coreSR/coreRR)はエンジンから廃止され、旧キーは
+// ----      validatePreset の legacyCoreToV2 が読込時にコアv2 core:{} へ移行する。移行式は
+// ----      アプリ内にしかなく、**入力側の代表例がどこにも固定されていなかった**ため、値域・
+// ----      既定値・build の初期化式を触ったときに「旧セーブを読むと初期状態が変わる」ことを
+// ----      検出できなかった。本項がその検出面である。
+// ----      fixture は当時のエクスポート封筒(schemaVersion 2 = v1.37.0 root / 3 = 第80便)を
+// ----      そのまま再現した**恒久資産**で、将来のスキーマ変更でも書き換えない
+// ----      (詳細と追加ルール: tests/fixtures/README.md)。3種は移行式の分岐を網羅する:
+// ----        ①rigid   coreSR=1     — 🌍地球と月の編集セーブ(coreRR 未指定=Rc は質量比の既定式)
+// ----        ②differential coreSR≠1 — 🐚重殻ローター型(single の radius+coreRR 指定 と
+// ----                                  disk 群の代表値〔平均質量・平均スピン〕の両経路)
+// ----        ③cavity   coreMR<0    — 空洞コア(radiusScale=1.5 = 表示スケール倍率を掛ける経路)
+// ----      検査内容:
+// ----        ・validatePreset が**致命エラー0**で通り、コアv2 へ変換されている(legacyCore=true)
+// ----        ・警告は**移行の告知だけ**(値域クランプ等の想定外の警告が1件でも出たら FAIL)
+// ----        ・変換後の core:{} が、QA 側に**独立に書き下した移行式**の値と厳密一致する
+// ----        ・sim.build 後の **t=0 の全状態**(位置・速度・スピン・質量・pinned と
+// ----          コアの coreMd/coreMF/RcV/coreJ/coreOm0)が理論値と一致する
+// ----      **主張の範囲は t=0 の初期状態一致だけ**である。コアv1 の Ω_c は殻スピンに比例追従
+// ----      (Ω_c=coreSR·s(t))したが、コアv2 の J_core は独立変数なので、コアが時間発展する
+// ----      構成では軌跡は旧版と一致しない場合がある(第81便の仕様・第82便で警告文へ明記)。
+// ----      したがって本項は**1步も進めない** — 「軌跡非互換がありうる」ことを検査するのではなく、
+// ----      移行が保証する範囲そのものを検査の形で体現する。移行の告知文が軌跡の但し書きを
+// ----      持っていることだけは併せて機械固定する(保証範囲の告知が消えたら FAIL)。
+// ----      第81便より前の対象(コアv1 のまま = root 等)は自動 SKIP。
+{
+  const FIX_DIR = path.join(ROOT, 'tests', 'fixtures');
+  const FIX_FILES = ['legacy-core-rigid-v2.json', 'legacy-core-differential-v2.json',
+    'legacy-core-cavity-v3.json'];
+  const fixtures = FIX_FILES.map((f) => ({ file: f,
+    env: JSON.parse(fs.readFileSync(path.join(FIX_DIR, f), 'utf8')) }));
+  const hasMigration = await page.evaluate(() => {
+    const v = HP.validatePreset({ name: 'x', description: 'd', camera: { scale: 100 },
+      world: { boundary: 'none', size: 0 }, physics: { radiusScale: 1 },
+      bodies: [{ type: 'single', m: 100, x: 0, y: 0, vx: 0, vy: 0, spin: 1, pinned: false,
+        coreMR: 0.4, coreSR: 2 }] });
+    return !!(v.ok && v.preset.bodies[0].core && v.preset.bodies[0].core.mode === 'differential');
+  });
+  if (hasMigration) {
+    const r = await page.evaluate((fx) => {
+      const cl = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+      const isN = (v) => typeof v === 'number' && Number.isFinite(v);
+      // ---- 移行式(QA 側の独立実装)。アプリの legacyCoreToV2 + vCore の正規化を、
+      // ---- docs/PHYSICS 記載の式からもう一度書き下したもの。アプリ側の関数は呼ばない。
+      //   R  = (radius>0 ? radiusScale·radius : radiusScale·rMul·√|m|)
+      //   Rc = (coreRR>0 ? coreRR·R          : radiusScale·rMul·√|coreMR·m|)
+      //   coreMR<0  → cavity      {voidFraction:|coreMR|, radius:Rc, omega:coreSR·s}
+      //   coreSR==1 → rigid       {massFrac:coreMR, radius:Rc}          (omega は持たない=0)
+      //   その他    → differential{massFrac:coreMR, radius:Rc, omega:coreSR·s, Kcs:0}
+      const theory = (b, rep, rs) => {
+        const mr = isN(b.coreMR) ? cl(b.coreMR, -1, 1) : 0;
+        const sr = isN(b.coreSR) ? cl(b.coreSR, -20, 20) : 1;
+        const rr = isN(b.coreRR) ? cl(b.coreRR, 0.02, 1) : 0;
+        if (mr === 0) return null;
+        const rMul = isN(rep.rMul) ? rep.rMul : 1;
+        const mAbs = Math.max(Math.abs(rep.m), 0.01);
+        const Rb = (isN(rep.radius) && rep.radius > 0) ? rs * rep.radius : rs * rMul * Math.sqrt(mAbs);
+        const Rc = (rr > 0) ? rr * Rb : rs * rMul * Math.sqrt(Math.abs(mr) * mAbs);
+        const om = sr * (isN(rep.spin) ? rep.spin : 0);
+        // vCore の正規化(既定 0 埋め+値域クランプ)まで含めた最終形
+        const base = { Kcs: 0, pump: 0, contract: 0, sourceRate: 0, internalEnergy: 0 };
+        if (mr < 0) return Object.assign({ mode: 'cavity', massFrac: 0, radius: cl(Rc, 0.2, 200),
+          omega: cl(om, -50, 50), voidFraction: cl(Math.abs(mr), 0.01, 1) }, base);
+        if (sr === 1) return Object.assign({ mode: 'rigid', massFrac: cl(mr, 0.01, 0.6),
+          radius: cl(Rc, 0.2, 200), omega: 0, voidFraction: 0 }, base);
+        return Object.assign({ mode: 'differential', massFrac: cl(mr, 0.01, 0.6),
+          radius: cl(Rc, 0.2, 200), omega: cl(om, -50, 50), voidFraction: 0 }, base);
+      };
+      const KEYS = ['mode', 'massFrac', 'radius', 'omega', 'Kcs', 'pump', 'contract',
+        'sourceRate', 'internalEnergy', 'voidFraction'];
+      const canon = (c) => c ? KEYS.map((k) => k + '=' + c[k]).join(',') : 'null';
+      const MD = { rigid: 1, differential: 2, active: 3, cavity: 4 };
+      // 告知文の但し書き(ja/en どちらでも可 — 保証範囲の明示が消えたら FAIL)
+      const MIGW = /(legacy core keys|旧コア指定)/;
+      const CAVEAT = /(trajectory may not match|軌跡にならない場合がある)/;
+      const f32 = (v) => Math.fround(v);
+      const relEq = (a, b, tol) => (a === b) || (Math.abs(a - b) <= tol * Math.max(1, Math.abs(b)));
+
+      const out = [];
+      for (const { file, env } of fx) {
+        const rec = { file, schemaVersion: env.schemaVersion, presets: 0, migratedBodies: 0,
+          errs: [], warnUnexpected: [], noCaveat: [], coreNg: [], stateNg: [], legacyFlagNg: [] };
+        for (const raw of (env.customPresets || [])) {
+          rec.presets++;
+          const v = HP.validatePreset(JSON.parse(JSON.stringify(raw)));
+          if (!v.ok) { rec.errs.push(file + ':' + (v.errors || []).join('/')); continue; }
+          if (v.legacyCore !== true) rec.legacyFlagNg.push(file + ':legacyCore=' + v.legacyCore);
+          const rs = v.preset.physics.radiusScale;
+          // 期待コア(QA 側の独立実装)と、粒子インデックス範囲を body ごとに作る
+          const exp = [], span = [];
+          for (const b of raw.bodies) {
+            const isGrp = (b.type === 'disk' || b.type === 'ring');
+            const rep = isGrp
+              ? { m: (Math.min(b.mMin, b.mMax) + Math.max(b.mMin, b.mMax)) / 2,
+                  spin: (Math.min(b.spinMin, b.spinMax) + Math.max(b.spinMin, b.spinMax)) / 2,
+                  rMul: isN(b.rMul) ? cl(b.rMul, 0.2, 5) : undefined }
+              : { m: cl(b.m, 0.01, 20000), spin: cl(b.spin, -20, 20),
+                  radius: isN(b.radius) ? cl(b.radius, 0.5, 500) : undefined,
+                  rMul: isN(b.rMul) ? cl(b.rMul, 0.2, 5) : undefined };
+            exp.push(theory(b, rep, rs));
+            span.push(isGrp ? Math.round(b.n) : 1);
+          }
+          // ①変換後の core:{} が理論値と厳密一致
+          v.preset.bodies.forEach((vb, k) => {
+            if (exp[k]) rec.migratedBodies++;
+            if (canon(vb.core || null) !== canon(exp[k])) rec.coreNg.push(file + ':body' + k +
+              ':' + canon(vb.core || null) + '≠' + canon(exp[k]));
+          });
+          // ②警告は移行の告知だけ(値域クランプ等の想定外が1件でもあれば FAIL)
+          for (const w of (v.warnings || [])) {
+            if (!MIGW.test(w)) rec.warnUnexpected.push(file + ':' + w);
+            else if (!CAVEAT.test(w)) rec.noCaveat.push(file + ':' + w);
+          }
+          // ③t=0 の全状態が理論どおり(**1步も進めない** — 移行が保証するのは初期状態だけ)
+          HP.sim.build(JSON.parse(JSON.stringify(v.preset)));
+          const S = HP.sim;
+          let i = 0;
+          raw.bodies.forEach((b, k) => {
+            const ec = exp[k], n = span[k];
+            for (let q = 0; q < n; q++, i++) {
+              if (i >= S.n) { rec.stateNg.push(file + ':body' + k + ':index-overflow'); return; }
+              if (span[k] === 1) {   // single は入力値そのものが t=0 状態
+                for (const [key, want] of [['x', b.x], ['y', b.y], ['vx', b.vx], ['vy', b.vy],
+                  ['spin', b.spin], ['m', b.m]])
+                  if (S[key][i] !== f32(want)) rec.stateNg.push(file + ':p' + i + '.' + key +
+                    '=' + S[key][i] + '≠' + f32(want));
+                if (!!S.pinned[i] !== !!b.pinned) rec.stateNg.push(file + ':p' + i + '.pinned');
+              }
+              const md = ec ? MD[ec.mode] : 0;
+              if (S.coreMd[i] !== md) rec.stateNg.push(file + ':p' + i + '.coreMd=' + S.coreMd[i] + '≠' + md);
+              if (!ec) continue;
+              const cav = (ec.mode === 'cavity');
+              const wMF = cav ? -ec.voidFraction : ec.massFrac;
+              if (S.coreMF[i] !== f32(wMF)) rec.stateNg.push(file + ':p' + i + '.coreMF=' + S.coreMF[i] + '≠' + f32(wMF));
+              if (S.RcV[i] !== f32(ec.radius)) rec.stateNg.push(file + ':p' + i + '.RcV=' + S.RcV[i] + '≠' + f32(ec.radius));
+              // J_core = ½·Mc·Rc²·Ω(cavity は質量0・慣性0 なので厳密に 0)。群は各粒子の
+              // 質量が RNG で決まるので、Float32 で読み戻した m からの相対許容 1e-6 で照合する
+              const wJ = cav ? 0 : 0.5 * (ec.massFrac * Math.abs(S.m[i])) * ec.radius * ec.radius * ec.omega;
+              if (!relEq(S.coreJ[i], wJ, 1e-6)) rec.stateNg.push(file + ':p' + i + '.coreJ=' + S.coreJ[i] + '≠' + wJ);
+              const wOm0 = cav ? ec.omega : 0;
+              if (S.coreOm0[i] !== f32(wOm0)) rec.stateNg.push(file + ':p' + i + '.coreOm0=' + S.coreOm0[i] + '≠' + f32(wOm0));
+            }
+          });
+        }
+        out.push(rec);
+      }
+      HP.loadPreset('saturn', false);
+      return out;
+    }, fixtures);
+    const flat = (k) => r.reduce((a, x) => a.concat(x[k]), []);
+    const bad = ['errs', 'warnUnexpected', 'noCaveat', 'coreNg', 'stateNg', 'legacyFlagNg']
+      .reduce((a, k) => a + flat(k).length, 0);
+    const modes = r.map((x) => x.file.replace(/^legacy-core-|-v\d\.json$/g, '')).join('/');
+    add('migration.fixtures',
+      bad === 0 && r.length === 3 && r.every((x) => x.presets > 0 && x.migratedBodies > 0),
+      `固定資産 ${r.length}件(${modes})/ 封筒 schemaVersion=[${r.map((x) => x.schemaVersion).join(' ')}]/ ` +
+      `移行した body=${r.reduce((a, x) => a + x.migratedBodies, 0)}件・` +
+      `致命エラー=[${flat('errs').slice(0, 2).join(' ')}](0件)/ ` +
+      `legacyCore フラグ=[${flat('legacyFlagNg').slice(0, 2).join(' ')}](0件)/ ` +
+      `想定外の警告=[${flat('warnUnexpected').slice(0, 2).join(' ')}](0件 — 値域クランプ等が起きたら FAIL)/ ` +
+      `軌跡の但し書きが無い告知=[${flat('noCaveat').slice(0, 1).join(' ')}](0件)/ ` +
+      `core:{} が独立実装の移行式と厳密一致=[${flat('coreNg').slice(0, 2).join(' ')}](0件)/ ` +
+      `t=0 の全状態(x,y,vx,vy,spin,m,pinned+coreMd/coreMF/RcV/coreJ/coreOm0)=` +
+      `[${flat('stateNg').slice(0, 2).join(' ')}](0件)/ ` +
+      `**主張は初期状態一致のみ**(1步も進めない — コアv1 の Ω_c=coreSR·s(t) 追従と ` +
+      `コアv2 の独立 J_core は、コアが時間発展する構成で軌跡が割れうる)`);
+  } else {
+    console.log('SKIP migration.fixtures(対象に第81便のコアv1→v2 移行なし — root 等)');
+  }
+}
+
+// ---- 2e) 第86便 P0-3(外部レビュー採択): migration.export-record — エクスポート封筒の
+// ----      migration 記録。旧コアキーから移行した構成は「移行済み」であることが**インポート
+// ----      時点でしか分からない**(localStorage には正規化後のコアv2 だけが残るため)。
+// ----      そこで来歴を localStorage(hp_migration)へ 1 件だけ記録し、エクスポート封筒へ
+// ----      migration:{fromSchema,legacyCoreConverted} として書き出す。
+// ----      **既定で既存エクスポートは1文字も変わらない**ことが本項の主眼:
+// ----        ・移行が一度も無いプロファイルでは migration キーごと存在せず、封筒のキー順も不変
+// ----        ・schemaVersion は 4 のまま(migration は追加の任意キー)
+// ----        ・複数回インポートしたときの fromSchema は**最小(最も古い由来)**= 順序非依存
+// ----        ・移行記録つき JSON を読み込んだときは情報表示が出る(警告レベル)
+// ----      第86便より前の対象(validatePreset が legacyCore を返さない)は自動 SKIP。
+{
+  const hasMigRec = await page.evaluate(() => {
+    const v = HP.validatePreset({ name: 'x', description: 'd', camera: { scale: 100 },
+      world: { boundary: 'none', size: 0 }, physics: { radiusScale: 1 },
+      bodies: [{ type: 'single', m: 100, x: 0, y: 0, vx: 0, vy: 0, spin: 1, pinned: false,
+        coreMR: 0.4, coreSR: 2 }] });
+    return v.ok && v.legacyCore === true && typeof HP.exportData === 'function';
+  });
+  if (hasMigRec) {
+    const legacyEnv = JSON.parse(fs.readFileSync(
+      path.join(ROOT, 'tests', 'fixtures', 'legacy-core-rigid-v2.json'), 'utf8'));
+    const cavityEnv = JSON.parse(fs.readFileSync(
+      path.join(ROOT, 'tests', 'fixtures', 'legacy-core-cavity-v3.json'), 'utf8'));
+    const r = await page.evaluate(({ legacyEnv, cavityEnv }) => {
+      const keep = { cp: localStorage.getItem('hp_custom_presets'),
+        sv: localStorage.getItem('hp_saves'), mg: localStorage.getItem('hp_migration') };
+      const reset = () => { localStorage.setItem('hp_custom_presets', '[]');
+        localStorage.setItem('hp_saves', '[]'); localStorage.removeItem('hp_migration'); };
+      const doImport = (obj) => { document.querySelector('#ioArea').value = JSON.stringify(obj);
+        document.querySelector('#btnImport').click();
+        return document.querySelector('#notice').textContent; };
+      const env = () => JSON.parse(HP.exportData());
+      const keysOf = (o) => Object.keys(o).join(',');
+      const BASE = 'schemaVersion,appVersion,appBuild,exportedAt,saves,customPresets';
+      const WITH = 'schemaVersion,appVersion,appBuild,exportedAt,migration,saves,customPresets';
+      // ①移行が無いプロファイル: migration キーなし・封筒のキー順も従来どおり
+      reset();
+      const e0 = env(); const t0 = HP.exportData();
+      const clean = { keys: keysOf(e0), hasMig: 'migration' in e0, sv: e0.schemaVersion,
+        noText: t0.indexOf('"migration"') < 0 };
+      // ②新規構成(コアv2 を明示指定 — 旧キーなし)を入れても migration は付かない
+      const modern = { id: 'custom_qa_mig_modern', name: 'mig-modern', description: 'd',
+        camera: { scale: 100 }, world: { boundary: 'none', size: 0 }, physics: { radiusScale: 1 },
+        bodies: [{ type: 'single', m: 100, x: 0, y: 0, vx: 0, vy: 0, spin: 1, pinned: false,
+          core: { mode: 'rigid', massFrac: 0.3, radius: 5 } }] };
+      const noticeModern = doImport({ schemaVersion: 4, saves: [], customPresets: [modern] });
+      const e1 = env();
+      const modernOk = !('migration' in e1) && keysOf(e1) === BASE &&
+        localStorage.getItem('hp_migration') === null;
+      // ③旧キー入り(schemaVersion 2)を入れると migration が付く
+      reset();
+      const noticeLegacy = doImport(legacyEnv);
+      const e2 = env();
+      const legacyOk = keysOf(e2) === WITH && e2.schemaVersion === 4 &&
+        e2.migration && e2.migration.fromSchema === 2 && e2.migration.legacyCoreConverted === true;
+      // ④さらに schemaVersion 3 の旧キー入りを重ねても fromSchema は最小(=2)のまま
+      doImport(cavityEnv);
+      const e3 = env();
+      const minOk = e3.migration && e3.migration.fromSchema === 2;
+      // ⑤逆順(3 → 2)でも同じ結果になる(順序非依存)
+      reset();
+      doImport(cavityEnv);
+      const eA = env();
+      doImport(legacyEnv);
+      const eB = env();
+      const orderOk = eA.migration && eA.migration.fromSchema === 3 &&
+        eB.migration && eB.migration.fromSchema === 2;
+      // ⑥移行記録つき JSON を読み込んだら(旧キーが無くても)記録を引き継ぎ情報表示を出す
+      reset();
+      const carried = { schemaVersion: 4, appVersion: HP.APP_VERSION, appBuild: 'qa',
+        exportedAt: '2026-01-01T00:00:00.000Z',
+        migration: { fromSchema: 3, legacyCoreConverted: true },
+        saves: [], customPresets: [modern] };
+      const noticeCarried = doImport(carried);
+      const e4 = env();
+      const carriedOk = e4.migration && e4.migration.fromSchema === 3 &&
+        e4.migration.legacyCoreConverted === true;
+      // ⑦後片付け: localStorage を元へ戻し、空インポートで DOM(プリセット選択・保存一覧)を再同期
+      if (keep.cp === null) localStorage.removeItem('hp_custom_presets'); else localStorage.setItem('hp_custom_presets', keep.cp);
+      if (keep.sv === null) localStorage.removeItem('hp_saves'); else localStorage.setItem('hp_saves', keep.sv);
+      if (keep.mg === null) localStorage.removeItem('hp_migration'); else localStorage.setItem('hp_migration', keep.mg);
+      doImport({ schemaVersion: 4, saves: [], customPresets: [] });
+      HP.loadPreset('saturn', false);
+      return { clean, modernOk, legacyOk, minOk, orderOk, carriedOk,
+        noticeModern, noticeLegacy, noticeCarried,
+        BASE, WITH, keys1: keysOf(e1), keys2: keysOf(e2) };
+    }, { legacyEnv, cavityEnv });
+    // 情報表示: 移行を伴うインポートでだけ「旧コア形式から変換済み」の但し書きが出る
+    const NOTE = /(旧コア形式から変換済み|converted from the legacy core format)/;
+    const noteOk = !NOTE.test(r.noticeModern) && NOTE.test(r.noticeLegacy) && NOTE.test(r.noticeCarried);
+    add('migration.export-record',
+      r.clean.keys === r.BASE && !r.clean.hasMig && r.clean.sv === 4 && r.clean.noText &&
+      r.modernOk && r.legacyOk && r.minOk && r.orderOk && r.carriedOk && noteOk,
+      `移行なし: 封筒キー=[${r.clean.keys}](=従来どおり・migration キーなし=${!r.clean.hasMig}・` +
+      `本文に "migration" の文字列なし=${r.clean.noText}・schemaVersion=${r.clean.sv})/ ` +
+      `コアv2 明示の新規構成でも付かない=${r.modernOk}(キー=[${r.keys1}])/ ` +
+      `旧キー入り(schemaVersion 2)→ migration:{fromSchema:2,legacyCoreConverted:true} 付与=${r.legacyOk}` +
+      `(キー=[${r.keys2}]・schemaVersion は 4 のまま)/ ` +
+      `2→3 の順で重ねても fromSchema は最小=${r.minOk} / 3→2 の逆順でも同じ=${r.orderOk}(順序非依存)/ ` +
+      `移行記録つき JSON の読込で記録を引き継ぐ=${r.carriedOk} / ` +
+      `情報表示は移行時だけ=${noteOk}(新規=「${String(r.noticeModern).slice(0, 24)}…」・` +
+      `移行=「…${String(r.noticeLegacy).slice(-34)}」)`);
+  } else {
+    console.log('SKIP migration.export-record(対象に第86便の migration 記録なし — root 等)');
+  }
+}
+
 // ---- 3) i18n(全内蔵に en / EN切替 / JA復帰)----
 {
   const r = await page.evaluate(() => {

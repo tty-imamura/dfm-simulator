@@ -1,0 +1,101 @@
+{
+ "schemaVersion": 2,
+ "appVersion": "1.37",
+ "appBuild": "v1.37",
+ "exportedAt": "2026-08-05T00:00:00.000Z",
+ "saves": [
+  {
+   "name": "地球と月(コア比を編集)",
+   "comment": "コアv1(coreMR/coreSR)時代の代表的な旧セーブ",
+   "savedAt": "2026-08-05T00:00:00.000Z",
+   "presetId": "custom_legacy_rigid",
+   "presetName": "地球と月(旧コアv1・剛体コア)",
+   "physics": {
+    "G": 1,
+    "D0": 2,
+    "kFrame": 1,
+    "q": 2,
+    "kRep": 0,
+    "muF": 0,
+    "gammaN": 0,
+    "kappaS": 0,
+    "Kt": 10000,
+    "cLight": 100,
+    "bM": 1,
+    "etaRad": 0,
+    "pRad": 4,
+    "gravityX": 0,
+    "gravityY": 0,
+    "geoPN": 0,
+    "lambdaPN": 1,
+    "pnAlpha": 1.5,
+    "radiusScale": 1,
+    "softening": 2,
+    "timeScale": 5
+   },
+   "cameraScale": 220
+  }
+ ],
+ "customPresets": [
+  {
+   "id": "custom_legacy_rigid",
+   "name": "地球と月(旧コアv1・剛体コア)",
+   "emoji": "🌍",
+   "description": "コアv1 の比率仕様(coreMR/coreSR/coreRR)で書かれた旧プリセット。coreSR=1.0(殻と同じ角速度=剛体回転)なので、コアv2 へは mode:\"rigid\" として移行される。coreRR は未指定なので Rc は質量比からの既定式で決まる。",
+   "camera": { "scale": 220 },
+   "world": { "boundary": "none", "size": 0 },
+   "physics": {
+    "G": 1,
+    "D0": 2,
+    "kFrame": 1,
+    "q": 2,
+    "kRep": 0,
+    "muF": 0,
+    "gammaN": 0,
+    "kappaS": 0,
+    "Kt": 10000,
+    "cLight": 100,
+    "bM": 1,
+    "etaRad": 0,
+    "pRad": 4,
+    "gravityX": 0,
+    "gravityY": 0,
+    "geoPN": 0,
+    "lambdaPN": 1,
+    "pnAlpha": 1.5,
+    "radiusScale": 1,
+    "softening": 2,
+    "timeScale": 5
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "rMul": 1.5,
+     "m": 1000,
+     "coreMR": 0.325,
+     "coreSR": 1.0,
+     "x": 0,
+     "y": 0,
+     "vx": 0,
+     "vy": 0,
+     "spin": 0.05,
+     "pinned": true
+    },
+    {
+     "type": "single",
+     "rMul": 1.5,
+     "m": 12.3,
+     "coreMR": 0.0168,
+     "coreSR": 1.0,
+     "x": 180,
+     "y": 0,
+     "vx": 0,
+     "vy": 2.5053,
+     "spin": 0.013908,
+     "pinned": false
+    }
+   ],
+   "overlays": { "rotationCurve": false, "tempHistogram": false, "field": false, "trail": true }
+  }
+ ]
+}

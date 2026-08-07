@@ -693,6 +693,8 @@ ja: {
   copyFallback:"クリップボードに書けなかったため、セーブタブのテキスト欄に表示しました",
   importFailed:"読み込めませんでした(JSONが不正です)",
   importReport:(a,s,r,b)=>"インポート: 追加"+a+"件"+(s?" / 同一パラメータのためスキップ"+s+"件":"")+(r?" / 名前重複にサフィックス"+r+"件":"")+(b?" / 不正"+b+"件":""),
+  // 第86便(外部レビュー P0-3): 旧コア形式(コアv1)からの移行を伴うインポートの情報表示
+  migratedNote:"⚠ この構成は旧コア形式から変換済み(初期状態は互換・軌跡は旧版と一致しない場合あり)",
   btnExportFile:"ファイルに保存", fileSaved:"ファイルとして保存しました", fileShared:"共有しました",
   btnImportFile:"ファイルから読込", fileLoaded:"ファイルを読み込みました",
   unsavedWarn:"※編集中のパラメータは「保存」するまでバックアップに含まれません",
@@ -988,6 +990,8 @@ en: {
   copyFallback:"Clipboard unavailable — shown in the Saves-tab text box instead",
   importFailed:"Could not import (invalid JSON)",
   importReport:(a,s,r,b)=>"Import: "+a+" added"+(s?" / "+s+" skipped (identical parameters)":"")+(r?" / "+r+" renamed (duplicate name)":"")+(b?" / "+b+" invalid":""),
+  // 第86便(外部レビュー P0-3): 旧コア形式(コアv1)からの移行を伴うインポートの情報表示
+  migratedNote:"⚠ This configuration was converted from the legacy core format (initial state is compatible; the trajectory may differ from the old version)",
   btnExportFile:"Save as file", fileSaved:"Saved as a file", fileShared:"Shared",
   btnImportFile:"Load from file", fileLoaded:"File loaded",
   unsavedWarn:"Note: edited parameters are not included in backups until you press Save",
@@ -4132,6 +4136,10 @@ const DESC_SECT_CAPS={summary:3000, observe:13000, control:1500};   // observe �
 const MASS_CAP=20000;
 function validatePreset(obj){
   const errors=[], warnings=[];
+  // 第86便(外部レビュー P0-3): 旧コアキー(コアv1)から コアv2 へ**実際に移行したか**の機械可読フラグ。
+  // 警告文の文言に依存せず「移行が起きた」を呼び出し側(インポート)が判定できるようにする。
+  // 移行そのもの(legacyCoreToV2)のロジックは 1 文字も変えていない — 記録するだけ。
+  let legacyCoreMigrated=false;
   const bad=(m)=>{errors.push(m);};
   if(!obj || typeof obj!=="object" || Array.isArray(obj)) return {ok:false, errors:["ルートがオブジェクトではありません"], warnings};
   const p = JSON.parse(JSON.stringify(obj)); // 破壊防止コピー
@@ -4258,7 +4266,11 @@ function validatePreset(obj){
       warnings.push(LANG==="en"
         ? (at+': legacy core keys (coreMR/coreSR/coreRR) were removed in delivery 81 — migrated to core-v2 core:{mode:"'+c.mode+'"}. The initial state is migrated, but in configurations where the core evolves over time the trajectory may not match the old version.')
         : (at+': 旧コア指定(coreMR/coreSR/coreRR)は第81便で廃止 — コアv2 core:{mode:"'+c.mode+'"} へ移行しました。初期状態は移行されるが、コアが時間発展する構成では旧版と同じ軌跡にならない場合がある。'));
-      return vCore(c);
+      // 第86便: 実際に v2 コアが得られたときだけ「移行あり」を立てる(vCore が null/false を
+      // 返した場合はコアが採用されていないので移行とは呼ばない)
+      const oc2=vCore(c);
+      if(oc2) legacyCoreMigrated=true;
+      return oc2;
     };
     // 旧キーの後始末(新形式優先。core:{} と併記されていたら旧キーを黙って捨てず警告する)
     const dropLegacyCore=(b, hasNew)=>{
@@ -4972,7 +4984,9 @@ function validatePreset(obj){
     }
   }
   p.overlays=ov;
-  return errors.length? {ok:false, errors, warnings} : {ok:true, preset:p, warnings};
+  // 第86便: legacyCore = 旧コアキーから コアv2 へ移行した構成かどうか(エクスポートの migration 記録用)
+  return errors.length? {ok:false, errors, warnings, legacyCore:legacyCoreMigrated}
+                      : {ok:true, preset:p, warnings, legacyCore:legacyCoreMigrated};
 }
 
 // ===== シミュレーションエンジン =====
@@ -10971,15 +10985,39 @@ function renderSaves(){
 // 第81便: 第80便の旧キー併記(withLegacyCore / coreLegacyKeys)は廃止した。コアv1 が
 // エンジンから消えたため、旧キーを書き出しても「近い2層」として読める相手がいなくなり、
 // 併記は round-trip の曖昧さ(新旧併記の警告)を増やすだけになったため(schemaVersion 4)。
+// 第86便(外部レビュー P0-3): **移行の来歴記録**。旧コアキー(コアv1)からコアv2 へ変換した
+// 構成は、その事実がインポート時点でしか分からない(localStorage には正規化後の v2 だけが
+// 残るため)。そこで「このプロファイルは旧コア形式から移行済み」を localStorage に1件だけ
+// 記録し、エクスポート封筒へ migration:{fromSchema,legacyCoreConverted} として書き出す。
+//   ・移行が一度も無いプロファイルではキーごと存在しない = **既存エクスポートは1文字も変わらない**
+//   ・schemaVersion は 4 のまま(封筒の形は変えない — migration は追加の任意キー)
+//   ・fromSchema は複数回インポートしたときは**最も古い(最小の)由来**を残す(順序非依存)
+function getMigrationRec(){
+  try{
+    const o=JSON.parse(localStorage.getItem("hp_migration")||"null");
+    return (o && typeof o==="object" && o.legacyCoreConverted===true && isNum(o.fromSchema))
+      ? {fromSchema:o.fromSchema, legacyCoreConverted:true} : null;
+  }catch(e){ return null; }
+}
+function noteMigration(fromSchema){
+  const n=isNum(fromSchema)? Math.round(fromSchema) : 1;   // 封筒に schemaVersion が無い旧形式は 1 とみなす
+  const cur=getMigrationRec();
+  const v={fromSchema:(cur? Math.min(cur.fromSchema,n) : n), legacyCoreConverted:true};
+  try{ localStorage.setItem("hp_migration",JSON.stringify(v)); }catch(e){}
+  return v;
+}
 function exportData(){
   // 第53便 53B(外部レビュー P1): appBuild — どのビルド(root/β)で書き出したかの識別子。
   // β配信(/beta/)では BETA_BUILD、それ以外は "v"+APP_VERSION(後方互換: 旧データはキー無し)
   // 第81便: schemaVersion 4 — コアは core:{}(コアv2)**のみ**。第80便の旧キー併記は廃止した。
   // 旧スキーマ(1〜3)の読み込みは従来どおり(インポートは schemaVersion を見ずに形で判別し、
   // 旧キー coreMR/coreSR/coreRR は validatePreset の legacyCoreToV2 が v2 へ移行する)
-  return JSON.stringify({schemaVersion:4, appVersion:APP_VERSION,
-    appBuild:(isBetaServe()? BETA_BUILD : "v"+APP_VERSION), exportedAt:new Date().toISOString(),
-    saves:getSaves(), customPresets:getCustomPresets()},null,1);
+  const env={schemaVersion:4, appVersion:APP_VERSION,
+    appBuild:(isBetaServe()? BETA_BUILD : "v"+APP_VERSION), exportedAt:new Date().toISOString()};
+  const mig=getMigrationRec();   // 第86便: 移行があったプロファイルだけキーが増える
+  if(mig) env.migration=mig;
+  env.saves=getSaves(); env.customPresets=getCustomPresets();
+  return JSON.stringify(env,null,1);
 }
 $("#btnExport").addEventListener("click",()=>{
   const data=exportData();
@@ -11055,9 +11093,14 @@ function doImportText(text){
   const sigs=new Set(getCustomPresets().map(p=>{ const v=validatePreset(p); return presetSig(v.ok?v.preset:p); }));
   const names=new Set(allPresets().map(p=>p.name));
   let added=0, skipped=0, renamed=0, bad=0, firstErr="";
+  // 第86便(外部レビュー P0-3): 旧コア形式からの移行を検出する。封筒の schemaVersion を
+  // 由来として記録する(封筒が無い形式=単独プリセット・配列は 1 とみなす)
+  const srcSchema=(d && typeof d==="object" && !Array.isArray(d) && isNum(d.schemaVersion))? d.schemaVersion : 1;
+  let migFrom=null;
   const addedPresets=[];   // v1.17: 保存一覧への自動登録用
   for(const c of co.customPresets){
     const v=validatePreset(c);
+    if(v.legacyCore) migFrom=(migFrom===null)? srcSchema : Math.min(migFrom,srcSchema);
     if(!v.ok){ bad++; if(!firstErr) firstErr=v.errors[0]||""; continue; }
     const sig=presetSig(v.preset);
     if(sigs.has(sig)){ skipped++; continue; }
@@ -11117,7 +11160,18 @@ function doImportText(text){
   updateSaveNameDefault();
   let msg=T("importReport")(added,skipped,renamed,bad);
   if(bad>0 && firstErr) msg+=" / "+firstErr;
-  notify(msg, bad>0?4500:3000);
+  // 第86便(外部レビュー P0-3): 移行の情報表示 —
+  //   ①このインポートで旧コアキーを コアv2 へ変換した場合(migFrom)
+  //   ②読み込んだ JSON 自体が「移行済み」の記録を持っていた場合(imported migration)
+  // どちらも「初期状態は互換だが軌跡は旧版と一致しない場合がある」ことを伝える。
+  // 併せて来歴を localStorage へ記録し、以後のエクスポート封筒へ引き継ぐ。
+  const impMig=(d && typeof d==="object" && !Array.isArray(d) && d.migration
+    && d.migration.legacyCoreConverted===true) ? d.migration : null;
+  let migNote=false;
+  if(migFrom!==null){ noteMigration(migFrom); migNote=true; }
+  else if(impMig){ noteMigration(impMig.fromSchema); migNote=true; }
+  if(migNote) msg+=" / "+T("migratedNote");
+  notify(msg, (bad>0||migNote)?6000:3000);
 }
 $("#btnImport").addEventListener("click",()=>doImportText($("#ioArea").value));
 // v1.17: ファイルから読込 — 選択したJSONをテキストボックスへ反映してからインポート
