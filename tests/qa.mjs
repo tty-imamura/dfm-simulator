@@ -6946,11 +6946,17 @@ if (!FAST) {
   console.log('SKIP shot.regress-*(QA_FAST=1 — 段階導入の差分回帰はフルQAのみ)');
 }
 
-// ---- 7u) 第33便(実装4): ui.aitab-no-hscroll(beta 先行ガード — 修正はルート index.html に
-// ----     未適用のため、対象時のみ検査してスキップする)。原仮定者指摘「AI追加タブだけ
-// ----     パネルの中身が左右にスクロールする」の機械回帰ガード。viewport は本スイート既定の
-// ----     390×844(page 生成時に指定済み)をそのまま使う ----
-if (TARGET.startsWith('beta/')) {
+// ---- 7u) 第33便(実装4): ui.aitab-no-hscroll。原仮定者指摘「AI追加タブだけパネルの中身が
+// ----     左右にスクロールする」の機械回帰ガード。viewport は本スイート既定の 390×844
+// ----     (page 生成時に指定済み)をそのまま使う。
+// ----     第86便(v1.38.0 昇格): 第33便の `TARGET.startsWith('beta/')` は「修正がまだ root に
+// ----     昇格していない」ための beta 先行ガードだったが、本便の昇格で root←beta が byte 同一に
+// ----     なり root にも修正が載った。ガードを**AIタブの存在**の機能判定へ差し替えて root でも
+// ----     実行する(第79便と同じ「実測して期待値を分岐」— 昇格後の root/beta 両方で
+// ----     はみ出し要素0を実測して確認済み。ガードを残すと root 側が恒久的に休眠する)----
+const hasAiTabForHscroll = await page.evaluate(() =>
+  !!document.querySelector('#tabs button[data-tab=ai]') && !!document.querySelector('#page-ai'));
+if (hasAiTabForHscroll) {
   const r = await page.evaluate(() => {
     document.querySelector('#tabs button[data-tab=ai]').click();
     const tab = document.querySelector('#page-ai');
@@ -6963,7 +6969,7 @@ if (TARGET.startsWith('beta/')) {
     r.bad.length ? `はみ出し要素(viewport 390): ${r.bad.join(' / ')}`
       : 'AIタブに横スクロール要素なし(viewport 390。原因は #aiBasePreset のmin-width:0欠落 — 修正済み)');
 } else {
-  console.log('SKIP ui.aitab-no-hscroll(beta先行ガード — 対象はルート index.html で未修正)');
+  console.log('SKIP ui.aitab-no-hscroll(対象に AI追加タブなし)');
 }
 
 // ---- 7v) 第36便 Wave A(ChatGPT差分検証レビュー P1-1): AIベースJSONに新規最上位属性を含める。
