@@ -230,15 +230,24 @@ const hasSat240 = satTotN === 241;
 const w5cHasCoreEng = await page.evaluate(() => !!(window.HP && HP.sim && HP.sim.coreMd));
 const w5cHasIce = await page.evaluate(() =>
   !!(window.HP && HP.allPresets().some(p => p.id === 'saturn' && /実験/.test(p.name || ''))));
-const w5cHasObs = await page.evaluate(() => !!(window.HP && HP.sim && HP.sim.obsT));
+// 第85便(休眠QAの復旧・原仮定者指示「既存QAの門の再開: 進める」): 観測層の判定子を現行 API へ置換。
+// 旧: `!!(HP.sim && HP.sim.obsT)` — obsT(観測温度係数)は**第61便で廃止された**配列なので
+// 以後この門は root/beta とも恒常 false になり、🕶️ の既存 QA 区画(下の
+// darkrotorMidNew/darkrotorMidOld/darkrotorLong ユニットと、後段の behavior.darkrotor /
+// behavior.darkrotorLong / behavior.darkrotor-pitch / darkrotor.uphi / darkrotor.allfree)が
+// **フル QA でも一度も実行されない休眠状態**になっていた(第84便B の発見)。
+// 新: 観測層の現行の実体は「観測温度の公開フック HP.obsTemp(第36便 D で公開)+ 光掻き出し配列 lSw」。
+//   obsT は「全プリセット未使用で恒等1だった係数」として消えただけで、観測温度そのものは残っている:
+//     旧 T_obs = ½·m·R²·spin²·obsT[i]·(1−lSw[i])         (qa.mjs 1357-1358行の旧式フォールバック)
+//     現 T_obs = HP.obsTemp(s,i) = (Tint ? Tint[i] : ½·m·R²·spin²)·(1−lSw[i])
+//   obsT≡1 だったので**値としても等価**(app 側コメント「第61便: obsT 係数は廃止(恒等1だった)」)。
+//   よって「観測温度系を持つビルドか」という判定子の意味は obsTemp+lSw で完全に置き換わる。
+const w5cHasObsLayer = await page.evaluate(() =>
+  !!(window.HP && typeof HP.obsTemp === 'function' && HP.sim && HP.sim.lSw));
 const w5cHasV26 = await page.evaluate(() => !!document.querySelector('#aiBasePreset'));
-// 第84便B: w5cDrFree の判定は **w5cHasObs から独立**させた(判定内容は従来と一字も同じ)。
-// 理由: w5cHasObs は `HP.sim.obsT` の存在を見る古い門で、obsT は**第61便で廃止された**ため
-// 現行 beta/root ではどちらも false になる。従来この変数を使う darkrotorMid*/darkrotorLong は
-// `w5cHasObs && …` を保ったままにしてある(挙動は 1 bit も変えない)ので、独立化しても
-// それらの有効/無効は変わらない。第84便B の darkrotorMultiseed だけが obsT に依存せず動く。
-// ※ w5cHasObs が恒常 false になっている件そのもの(= 🕶️ の既存 QA 区画が休眠している)は
-//   本便のスコープ外なので触っていない。統括へ別途報告する。
+// 第84便B: w5cDrFree の判定は **観測層の門から独立**させた(判定内容は従来と一字も同じ)。
+// 第85便で門が生き返ったので独立のままでも有効/無効は一致する(darkrotorMultiseed は
+// 第84便B 時点から観測層に依存せず動いていた)。
 const w5cDrFree = await page.evaluate(() =>
   HP.allPresets().find(q => q.id === 'darkrotor').bodies.every(b => !b.pinned && !b.railOmega && !b.railH));
 // 第84便B(創発の標準試験の展開): 🕶️darkrotor に多seed claim が入っているか
@@ -606,7 +615,7 @@ const W5C_UNITS = {
     HP.loadPreset('saturn', false);
     return { steps: STEPS * 2, on, off };
   }) },
-  darkrotorMidNew: { enabled: w5cHasObs && !FAST && w5cDrFree, weight: 26, run: (pg) => pg.evaluate(() => {
+  darkrotorMidNew: { enabled: w5cHasObsLayer && !FAST && w5cDrFree, weight: 26, run: (pg) => pg.evaluate(() => {
     // 🕶️ の中期安定・v4/v5(全自由系)経路(元7m節 2785-2822行から抽出)
     const NH = HP.allPresets().find(q => q.id === 'darkrotor')
       .bodies.filter(b => b.type === 'single').length - 1;
@@ -642,7 +651,7 @@ const W5C_UNITS = {
       keepPct: 100 * keep / tot, keep, tot, comMove: Math.hypot(cx / M - cx0, cy / M - cy0),
       pTot0, pTotEnd: Math.hypot(px, py), nan: s.hasNaN() };
   }) },
-  darkrotorMidOld: { enabled: w5cHasObs && !FAST && !w5cDrFree, weight: 18, run: (pg) => pg.evaluate(() => {
+  darkrotorMidOld: { enabled: w5cHasObsLayer && !FAST && !w5cDrFree, weight: 18, run: (pg) => pg.evaluate(() => {
     // 🕶️ の中期安定・v3(レール駆動)経路(元7m節 2841-2854行から抽出)
     HP.loadPreset('darkrotor', false);
     const s = HP.sim;
@@ -658,7 +667,7 @@ const W5C_UNITS = {
     return { outer: c ? sum / c : 0, r90: rs[Math.floor(rs.length * 0.9)], inside, nHalo: s.n - 381,
       haloSpin: hs / (s.n - 381), cSpinKeep: Math.abs(s.spin[0] - s0) < 1e-9, nan: s.hasNaN() };
   }) },
-  darkrotorLong: { enabled: w5cHasObs && !FAST && w5cDrFree, weight: 104, run: (pg) => pg.evaluate((BANDS) => {
+  darkrotorLong: { enabled: w5cHasObsLayer && !FAST && w5cDrFree, weight: 104, run: (pg) => pg.evaluate((BANDS) => {
     // 🕶️ v5 の有効窓検査+渦状腕の機械実証(元7m節 2876-2922行から抽出)
     const P = HP.allPresets().find(q => q.id === 'darkrotor');
     const NH = P.bodies.filter(b => b.type === 'single').length - 1;
@@ -5735,7 +5744,8 @@ if (!FAST) {
 }
 
 // ---- 第22便: 観測温度・光掻き出し・半径系(スピン役割分離は原仮定者裁定で廃止)----
-// 対象に obsT 配列があるときだけ実行(ルート昇格前は SKIP)。較正実測は 2026-07-24 第22便:
+// 対象が観測温度系を持つときだけ実行(判定子は第85便で `HP.sim.obsT` → `HP.obsTemp + lSw` へ置換
+// — 旧判定子は第61便の obsT 廃止以降ずっと恒常 false で、この区画は休眠していた)。較正実測は 2026-07-24 第22便:
 // darkrotor v3(root)= 中心(m600・R45・spin0.12・コア mc/m=0.1・sc/s=20・Rc/R=0.3・掻出1・pinned)+
 // コア付きハロー20体(m30・R12・spin0.15・掻出1・レール駆動)。u_φ 比 1.954/1.543/1.562(r=140/200/260)・
 // 12000步安定(r90 220〜239 有界・外縁 2.0→2.8・中心スピン厳密不変)
@@ -5745,8 +5755,21 @@ if (!FAST) {
 // 12000步(偏差8.01%・max|spin|1.30・恒星保持100%・重心移動0.264)。以下の darkrotor 系 QA は
 // プリセット定義(ピン・レールの有無)で新旧を機械判別して分岐する
 {
-  const hasObs = await page.evaluate(() => !!(window.HP && HP.sim && HP.sim.obsT));
-  if (hasObs) {
+  // 第85便(休眠QAの復旧): 門を現行 API へ置換(式・理由とも上の w5cHasObsLayer と同一 — 236-247行のコメント参照)。
+  // 旧 `!!(HP.sim && HP.sim.obsT)` は第61便の obsT 廃止以降 root/beta とも恒常 false で、
+  // この区画まるごと(obs.attrs / obs.equivalence / darkrotor.uphi / darkrotor.allfree /
+  // behavior.darkrotor / behavior.darkrotorLong / behavior.darkrotor-pitch)が休眠していた。
+  const hasObsLayer = await page.evaluate(() =>
+    !!(window.HP && typeof HP.obsTemp === 'function' && HP.sim && HP.sim.lSw));
+  // 第85便: obs.attrs だけは**門の付け替えでは復旧できない**ので旧判定子の副門に閉じ込める。
+  // 理由: 本体が「第61便で廃止された属性層(obsT/coreOT)」と「第81便で廃止されたコアv1
+  // (coreRR → HP.sim.Rc)」を直に読む(`HP.sim.obsT[0] = 7` は現行ビルドで TypeError・
+  // `HP.sim.Rc[0]` は beta に存在しない)。現行 API での等価な検査は「旧キーは警告つきで無視される」
+  // という**別の主張**になり、しかも root(Rc あり)と beta(第81便で撤去)で期待値が割れる。
+  // 本便のスコープ(🕶️darkrotor 系5件の復旧)から外し、SKIP 理由を明示して統括へ引き継ぐ。
+  const hasLegacyObsAttrs = await page.evaluate(() => !!(window.HP && HP.sim && HP.sim.obsT));
+  if (hasObsLayer) {
+   if (hasLegacyObsAttrs) {
     // 属性の受理・クランプ・実効値: radius が R を、coreRR が Rc を上書きし、
     // lightSweep=1 は η_rad>0 でも放射冷却しない(光が外に出ない)。A/B 転写も検査
     const at = await page.evaluate(() => {
@@ -5781,8 +5804,16 @@ if (!FAST) {
     add('obs.attrs', at.okR && at.okRdef && at.coolSwept === 1 && at.coolOpen < 0.5 && at.okClamp && at.okReject && at.okClone,
       `R上書き/Rc比=${at.okR} R既定式=${at.okRdef} 掻出1で無放射=${at.coolSwept}(=1) 対照冷却=${at.coolOpen.toExponential(1)}(<0.5) ` +
       `clamp+警告=${at.okClamp} 非数拒否=${at.okReject} A/B転写=${at.okClone}`);
+   } else {
+    // 第85便: 恒常 SKIP(現行ビルドはすべてこちら)。復旧には検査内容の再定義が要る — 統括へ申し送り。
+    console.log('SKIP obs.attrs(第61便で廃止された obsT/coreOT 属性層+第81便で廃止されたコアv1 Rc を直に読む検査 — ' +
+      '門の付け替えでは復旧できず、現行 API 向けの再定義が必要。第85便で休眠を明示化)');
+   }
 
     // 等価性: 明示既定値(obsT:1, lightSweep:0, coreOT:1)は省略時と bit 等価(回帰の錨)
+    // 第85便: obsT/coreOT は第61便で廃止され、validatePreset が警告つきで delete する。したがって
+    // 本検査は現行ビルドでは「lightSweep:0 の明示が既定と bit 等価」+「廃止済み旧キーを書いても
+    // 力学は 1 bit も動かない(移行処理が preset を汚さない)」の2点の錨として機能する。
     const eq = await page.evaluate(() => {
       const mk = (withKeys) => {
         const b = { type: 'single', m: 500, x: -40, y: 0, vx: 0, vy: -1.2, spin: 1.5, pinned: false };
@@ -6072,7 +6103,7 @@ if (!FAST) {
       }
     }
   } else {
-    console.log('SKIP obs.*/darkrotor.*(対象に観測温度系なし)');
+    console.log('SKIP obs.*/darkrotor.*(対象に観測温度系〔HP.obsTemp + lSw〕なし)');
   }
 }
 
@@ -10000,11 +10031,9 @@ if (!FAST) {
 // ----   閉鎖系だが、⑤摂動回復(自己維持)が通らなかったので E3 ではない(第84便B の実測)。
 // ----   **重い(6000步 × 4構成)ので QA_FAST=1 では実行しない**(FAST への時間増はゼロ)。
 // ----   ※ detail の「内蔵seed は behavior.darkrotorLong が担当」は**設計上の役割分担**を指す。
-// ----     その区画(qa.mjs の `if (hasObs)`)は `HP.sim.obsT` の存在を門にしているが、obsT は
-// ----     第61便で廃止されたため現行 beta/root ではこの門が閉じており、🕶️ の既存 QA
-// ----     (behavior.darkrotor / darkrotorLong / darkrotor-pitch / darkrotor.uphi / allfree)は
-// ----     **実際には走っていない**。本便のスコープ外なので門は触らず、統括へ報告する
-// ----     (本テストだけは obsT に依存しないよう独立させてある)----
+// ----     第84便B の時点ではその区画(`if (hasObs)`)が廃止済み `HP.sim.obsT` を門にしていて
+// ----     休眠しており、実際には走っていなかった。**第85便で門を現行 API(HP.obsTemp + lSw)へ
+// ----     置換して復旧済み**なので、いまは分担どおり両方が走る ----
 if (!FAST && w5cDrFree && w5cDrMulti) {
   const mm = await w5cGetUnit('darkrotorMultiseed');
   const P = await page.evaluate(() => {
@@ -11007,6 +11036,52 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     }
   } else {
     console.log('SKIP optics.*/claim.reddening(対象に physics.kAbs(光学輸送)なし — root 等。第82便)');
+  }
+}
+
+// ---- 85) 第85便(休眠検出の再発防止): qa.testid-live ----
+// ----   第84便B が見つけた事故の型 =「claims の testId が指す QA テストが、廃止済み API を見る
+// ----   古い判定子(`HP.sim.obsT`)に閉じ込められて**フルQAでも一度も走っていない**」。
+// ----   claims.sync / claims.sync-pilot は claim の窓と説明文の数値の一致だけを見るので、
+// ----   testId の先が実在するか・実行されるかは誰も検査していなかった(第85便で発覚)。
+// ----   本ゲートは全 claims 横断で次の2点を機械検査する(DOM 不要 = 追加の走行コストなし):
+// ----     ① 定義: testId が qa.mjs に `add('<testId>'` として実在する(常に判定)
+// ----     ② 実行: そのテストが**このラン中に実際に results へ入った**(!FAST のときだけ判定)
+// ----   ② を FAST で判定しないのは、!FAST ガードつきの重量テスト(behavior.darkrotorLong 等)が
+// ----   QA_FAST では正当に走らないため。FAST では未実行分を detail に列挙するだけに留める
+// ----   (= QA_FAST への時間増はゼロ。本ゲート自体も page.evaluate 1回+文字列検索のみ)。
+// ----   置き場所は全テストの後(results が出そろってから判定する必要があるため)----
+{
+  const claimList = await page.evaluate(() => {
+    const o = [];
+    for (const p of HP.allPresets())
+      if (Array.isArray(p.claims)) for (const c of p.claims)
+        o.push({ preset: p.id, id: c.id, testId: c.testId || null });
+    return o;
+  });
+  if (claimList.length) {
+    const qaSrc = fs.readFileSync(path.join(ROOT, 'tests', 'qa.mjs'), 'utf8');
+    const ids = [...new Set(claimList.map(c => c.testId).filter(Boolean))].sort();
+    const ranIds = new Set(results.map(r => r.id));
+    const where = (id) => claimList.filter(c => c.testId === id).map(c => `${c.preset}:${c.id}`).join(',');
+    // 定義の判定は `add('<id>'` の文字列一致(qa.mjs の add() 呼び出しは全て単一引用符のリテラル)。
+    // 末尾の引用符まで含めるので behavior.darkrotor と behavior.darkrotor-pitch を取り違えない
+    const undef = ids.filter(id => !qaSrc.includes(`add('${id}'`));
+    const dormant = ids.filter(id => !undef.includes(id) && !ranIds.has(id));
+    const noTid = claimList.filter(c => !c.testId);
+    add('qa.testid-live', undef.length === 0 && (FAST || dormant.length === 0),
+      `claims=${claimList.length}件(${new Set(claimList.map(c => c.preset)).size}プリセット)・` +
+      `testId 実体=${ids.length}種 → qa.mjs に定義あり=${ids.length - undef.length}/${ids.length}` +
+      `(未定義=[${undef.map(id => id + '←' + where(id)).join(' ')}]) / ` +
+      `このランで実行済み=${ids.length - undef.length - dormant.length}/${ids.length - undef.length}` +
+      `(未実行=${dormant.length}件[${dormant.slice(0, 8).join(' ')}${dormant.length > 8 ? ' …他' + (dormant.length - 8) + '件' : ''}]` +
+      `${FAST ? ' — QA_FAST では !FAST ガードのぶんが正当に未実行なので判定対象外' : ' — !FAST なので 0件であること'}) / ` +
+      `testId 無しの claim=${noTid.length}件(${noTid.map(c => c.preset + ':' + c.id).join(',') || 'なし'}` +
+      `— 説明文の数値だけを固定する claim は testId を持たなくてよいので判定しない) / ` +
+      `第85便: 🕶️ の behavior.darkrotorLong・behavior.darkrotor-pitch が「定義あり・未実行」で ` +
+      `第84便まで休眠していた(門が第61便で廃止された HP.sim.obsT を見ていた)— 本ゲートはその再発を検出する`);
+  } else {
+    console.log('SKIP qa.testid-live(対象に claims 宣言プリセットなし)');
   }
 }
 
