@@ -9969,8 +9969,8 @@ if (!FAST) {
       && inWin(c2Min, C.chain2.expected) && inWin(c2Ctl, C.chain2.control.expected) && c2Min > c2Ctl
       && inWin(cyMin, C.chaincycle.expected)
       // E水準は第84便A の実測どおり据え置き(⑤摂動回復が4件とも通らないので E3 昇格はしていない)
-      && r.emergence.emergent === 'E2' && r.emergence.emergent2 === 'E2'
-      && r.emergence.chain2 === 'E2' && r.emergence.chaincycle === 'E1',
+      && r.emergence.emergent === 'E1' && r.emergence.emergent2 === 'E1'   // 第84便統合裁定: 加熱床=外部駆動で E1
+      && r.emergence.chain2 === 'E1' && r.emergence.chaincycle === 'E1',   // 第84便統合裁定
       `${S3.length}seed(${S3.join('/')}) / ` +
       `🧬 初期条件ノイズ版の配位数 c̄ ${emC.map((v) => v.toFixed(3)).join('/')} → **最小=${emMin.toFixed(3)}**` +
       `(claim 窓 ${C.emergent.expected.min}〜${C.emergent.expected.max}) vs 対照 bondK=0 の ${emCtl.toFixed(3)}` +
@@ -10043,7 +10043,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
 }
 
 // ---- 82B) 第82便B: emergence.tag — E水準タグ(emergence:"E0".."E3")の最小導入。
-// ----   ①宣言済みプリセット(🧬🧊⛓️=E2 / ♻️=E1 / 🥚=E3 ← 第83便A で E2 から昇格)が
+// ----   ①宣言済みプリセット(🧬🧊⛓️=E1〔第84便統合裁定: 加熱床=外部駆動〕/ ♻️=E1 / 🥚=E3)が
 // ----     期待どおりの値を持つ
 // ----   ②未宣言のプリセットにはバッジが出ない(ノイズ回避の仕様)
 // ----   ③スキーマ: 有効値は保持(警告0)・未知値は警告つき無視=削除
@@ -10079,7 +10079,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     });
     // 第83便A: 🥚=E3 / 第84便B: 🕶️darkrotor=E2(pinned 0 の閉鎖系だが⑤摂動回復が通らない)・
     // ⏳nebulaBipolar=E1(赤道アーク22体が pinned = 外部固定の幾何なので閉鎖系ではない)
-    const want = { emergent: 'E2', emergent2: 'E2', chain2: 'E2', chaincycle: 'E1', selfRotor: 'E3',
+    const want = { emergent: 'E1', emergent2: 'E1', chain2: 'E1', chaincycle: 'E1', selfRotor: 'E3',   // 第84便統合裁定
       darkrotor: 'E2', nebulaBipolar: 'E1' };   // 第83便A: 🥚=E3 / 第84便B: 🕶️=E2・⏳=E1
     const missing = Object.entries(want).filter(([k, v]) => r.declared[k] !== v).map(([k]) => k);
     add('emergence.tag',
