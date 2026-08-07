@@ -9531,6 +9531,139 @@ if (hasSwAutoCb) {
   }
 }
 
+// ---- 83B) 第83便B: phasemap.smoke — 相図ランナー(2変数バッチ掃引 → 秩序変数の色マップ)。
+// ----   ①宣言の受理: 🧬emergent / 🥚selfRotor が phaseMap を持ち、正規化後も保持される
+// ----     (phaseMap 由来の警告0)。未宣言(🌌galaxy)は持たず、パラメータタブの行も出ない
+// ----   ②スキーマ: 未知キー/非数/不正 metric/xKey=yKey は「警告つき無視」= phaseMap ごと削除。
+// ----     有効宣言は値域(CLAMPS)と steps 上限 20000 へクランプして保持
+// ----   ③UI: 宣言ありでボタン行が出る・パネルが開き canvas に実寸が入る
+// ----   ④2×2 の極小バッチを headless で走らせ、有限値のグリッドが得られる(同期版 runSync)
+// ----   ⑤本編状態のハッシュ不変(x,y,spin と t が1ビットも動かない = スクラッチ sim だけで走る)
+// ----   ⑥分割実行版(UI と同じ経路)も 2×2 を完走し、本編は pause 状態に落ちる
+// ----   ⑦セル適用の導線は確認ダイアログを承諾したときだけ本編 params を書き換える
+// ----   軽量(2×2×150〜200步のみ)なので QA_FAST=1 でも実行する ----
+{
+  const hasPM = await page.evaluate(() => !!(window.HP && HP.phaseMap && HP.phaseMap.runSync));
+  if (hasPM) {
+    const TINY = { xKey: 'kRep', xValues: [0, 20], yKey: 'gravityY', yValues: [0, 0.5], steps: 200, metric: 'maxFrac' };
+    const r = await page.evaluate(async (TINY) => {
+      const pmW = (v) => v.warnings.filter((w) => w.indexOf('phaseMap') >= 0).length;
+      // ① 宣言の受理(内蔵プリセット)
+      const decl = {};
+      for (const id of ['emergent', 'selfRotor', 'galaxy']) {
+        const p = HP.allPresets().find((q) => q.id === id);
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+        decl[id] = { has: !!p.phaseMap, kept: !!(v.ok && v.preset.phaseMap), w: pmW(v),
+          metric: p.phaseMap ? p.phaseMap.metric : null,
+          axes: p.phaseMap ? (p.phaseMap.xKey + '×' + p.phaseMap.yKey) : null,
+          n: p.phaseMap ? p.phaseMap.xValues.length * p.phaseMap.yValues.length : 0,
+          steps: p.phaseMap ? p.phaseMap.steps : 0 };
+      }
+      // ② スキーマ(未知・非数・不正 metric・同一キー → 警告つき無視 / 有効宣言はクランプ保持)
+      const mk = (pm) => { const p = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'emergent')));
+        p.phaseMap = pm; return HP.validatePreset(p); };
+      const bad = {
+        unknownKey: mk({ xKey: 'nope', xValues: [1, 2], yKey: 'kRep', yValues: [1, 2], steps: 100, metric: 'maxFrac' }),
+        nonNum: mk({ xKey: 'kRep', xValues: [1, 'a'], yKey: 'gravityY', yValues: [1, 2], steps: 100, metric: 'maxFrac' }),
+        badMetric: mk({ xKey: 'kRep', xValues: [1, 2], yKey: 'gravityY', yValues: [1, 2], steps: 100, metric: 'zzz' }),
+        sameKey: mk({ xKey: 'kRep', xValues: [1, 2], yKey: 'kRep', yValues: [1, 2], steps: 100, metric: 'maxFrac' }),
+        tooFew: mk({ xKey: 'kRep', xValues: [1], yKey: 'gravityY', yValues: [1, 2], steps: 100, metric: 'maxFrac' }),
+      };
+      const dropped = Object.entries(bad).filter(([, v]) => v.ok && v.preset.phaseMap === undefined && pmW(v) === 1).map(([k]) => k);
+      const clampCase = mk({ xKey: 'kRep', xValues: [0, 99], yKey: 'gravityY', yValues: [-99, 1], steps: 1e9, metric: 'align' });
+      const cl = clampCase.preset.phaseMap;
+      // ③ UI(宣言ありで行が出る / 未宣言では出ない / パネルが開いて canvas に実寸が入る)
+      HP.loadPreset('emergent', false);
+      document.querySelector('#tabs button[data-tab=params]').click();
+      const rowOn = document.querySelector('#pmRow').style.display;
+      const btn = document.querySelector('#btnPhaseMap');
+      if (btn) btn.click();
+      const panelOpen = document.querySelector('#pmPanel').style.display === 'block';
+      const cv = document.querySelector('#pmCv');
+      const drawn = cv.width > 0 && cv.height > 0;
+      const axesTxt = document.querySelector('#pmAxes').textContent;
+      HP.phaseMap.open(false);
+      HP.loadPreset('galaxy', false);
+      const rowOff = document.querySelector('#pmRow').style.display;
+      // ④⑤ 2×2 の極小バッチ + 本編状態の不変
+      const hash = () => { const S = HP.sim; const a = [];
+        for (let i = 0; i < S.n; i++) a.push(S.x[i], S.y[i], S.spin[i]);
+        return a.map((v) => v.toExponential(12)).join(','); };
+      HP.loadPreset('emergent', false);
+      for (let k = 0; k < 300; k++) HP.sim.step(0.016);
+      const h0 = hash(), t0 = HP.sim.t, n0 = HP.sim.n;
+      const g = HP.phaseMap.runSync('emergent', TINY);
+      const bitEqual = (h0 === hash()) && t0 === HP.sim.t && n0 === HP.sim.n;
+      // ⑥ 分割実行版(UI と同じ経路)— 本番宣言(6×6×2500步)は QA には重いので、
+      //    内蔵プリセットの宣言を一時的に 2×2×150步へ差し替えて回し、必ず元へ戻す
+      HP.loadPreset('emergent', false);
+      const cp = HP.currentPreset(), keepPM = cp.phaseMap;
+      cp.phaseMap = { xKey: 'kRep', xValues: [0, 20], yKey: 'gravityY', yValues: [0, 0.5], steps: 150, metric: 'maxFrac' };
+      HP.setRunning(true);
+      HP.phaseMap.open(true); HP.phaseMap.start();
+      const tw = Date.now();
+      while (HP.phaseMap.running() && Date.now() - tw < 60000) await new Promise((rs) => setTimeout(rs, 20));
+      const R = HP.phaseMap.result();
+      const asyncOk = !!R && R.done === 4 && R.vals.every((v) => Number.isFinite(v)) && !R.aborted;
+      const paused = HP.running() === false;
+      HP.phaseMap.open(false);
+      cp.phaseMap = keepPM;   // 内蔵プリセットの宣言を復元(以降のテストに影響を残さない)
+      return { decl, dropped, badN: Object.keys(bad).length,
+        clamp: cl ? { x1: cl.xValues[1], y0: cl.yValues[0], steps: cl.steps } : null,
+        rowOn, rowOff, panelOpen, drawn, axesTxt, cvw: cv.width, cvh: cv.height,
+        grid: g ? { nx: g.nx, ny: g.ny, vals: g.vals, ms: Math.round(g.ms) } : null,
+        bitEqual, asyncOk, paused, asyncVals: R ? R.vals : null };
+    }, TINY);
+    // ⑦ セル適用の導線(confirm を承諾したときだけ本編へ書く)— dialog を受ける別ページで検査
+    const dp = await browser.newPage();
+    let dlg = 0;
+    dp.on('dialog', (d) => { dlg++; d.accept(); });
+    await dp.goto(INDEX);
+    await dp.waitForFunction(() => !!(window.HP && HP.phaseMap));
+    const ap = await dp.evaluate(() => {
+      HP.loadPreset('emergent', false);
+      const tiny = { xKey: 'kRep', xValues: [0, 20], yKey: 'gravityY', yValues: [0, 0.5], steps: 60, metric: 'maxFrac' };
+      HP.currentPreset().phaseMap = tiny;
+      HP.phaseMap.open(true);
+      const g = HP.phaseMap.runSync('emergent', tiny);
+      // 器(pmRes)を確保してから左上セル(ix=0,iy=1)= kRep 0 / g_y 0.5 を適用する
+      // (🧬の既定は kRep=20・g_y=0.03 なので、両方の値が動くことを見る)
+      HP.phaseMap.start(); HP.phaseMap.stop();
+      const before = { kRep: HP.sim.params.kRep, gy: HP.sim.params.gravityY };
+      HP.phaseMap.applyCell(0, 1);
+      const after = { kRep: HP.sim.params.kRep, gy: HP.sim.params.gravityY };
+      return { before, after, gridOk: !!g && g.vals.every((v) => Number.isFinite(v)) };
+    });
+    await dp.close();
+    const d0 = r.decl;
+    const grid = r.grid;
+    add('phasemap.smoke',
+      d0.emergent.has && d0.emergent.kept && d0.emergent.w === 0
+      && d0.selfRotor.has && d0.selfRotor.kept && d0.selfRotor.w === 0
+      && !d0.galaxy.has && r.rowOn === 'flex' && r.rowOff === 'none'
+      && r.panelOpen && r.drawn
+      && r.dropped.length === r.badN
+      && r.clamp && r.clamp.x1 === 20 && r.clamp.y0 === -10 && r.clamp.steps === 20000
+      && grid && grid.nx === 2 && grid.ny === 2 && grid.vals.length === 4
+      && grid.vals.every((v) => Number.isFinite(v))
+      && r.bitEqual && r.asyncOk && r.paused
+      && dlg === 1 && ap.gridOk
+      && Math.abs(ap.after.kRep - 0) < 1e-12 && Math.abs(ap.after.gy - 0.5) < 1e-12
+      && Math.abs(ap.before.kRep - 20) < 1e-12 && Math.abs(ap.before.gy - 0.03) < 1e-12,
+      `宣言: 🧬${d0.emergent.axes}/${d0.emergent.metric}(${d0.emergent.n}セル×${d0.emergent.steps}步) ` +
+      `🥚${d0.selfRotor.axes}/${d0.selfRotor.metric}(${d0.selfRotor.n}セル×${d0.selfRotor.steps}步) ` +
+      `未宣言🌌=行なし(${r.rowOff}) / スキーマ: 警告つき無視 ${r.dropped.length}/${r.badN}(${r.dropped.join(',')})・` +
+      `クランプ kRep99→${r.clamp && r.clamp.x1}・g_y −99→${r.clamp && r.clamp.y0}・steps 1e9→${r.clamp && r.clamp.steps} / ` +
+      `UI: 行=${r.rowOn} パネル=${r.panelOpen} canvas=${r.cvw}×${r.cvh} / ` +
+      `2×2 バッチ(200步)=[${grid ? grid.vals.map((v) => v.toFixed(3)).join(',') : '-'}] ${grid ? grid.ms : '-'}ms / ` +
+      `本編 bit 不変(x,y,spin・t・n)=${r.bitEqual} / 分割実行 2×2 完走=${r.asyncOk}` +
+      `[${r.asyncVals ? r.asyncVals.map((v) => v.toFixed(3)).join(',') : '-'}] 本編pause=${r.paused} / ` +
+      `セル適用: 確認ダイアログ${dlg}回 → kRep ${ap.before.kRep}→${ap.after.kRep} g_y ${ap.before.gy}→${ap.after.gy}`);
+  } else {
+    console.log('SKIP phasemap.smoke(対象に 相図ランナー なし — 第83便B 未適用の root 等)');
+  }
+}
+
 // ---- 7z14) D3: behavior.cosmicweb — 膨張する箱の中で自己重力が構造(フィラメント/ボイド類似)を
 // ----      作る。判定量: 共動座標の 10×10 セルでの密度コントラスト δ²=Var(N)/⟨N⟩²(初期は
 // ----      配置のポアソンゆらぎ = 1/⟨N⟩)の成長倍率と、ボイド率(空セル比)の増加。
