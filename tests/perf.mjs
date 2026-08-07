@@ -48,6 +48,11 @@ const EXTRA_SAMPLES = ['echo', 'freebox',
   'nebulaShell', 'nebulaBipolar',
   // 第77便: 星の種ローター3体(コアv2 — 軽量だが v2 パスの常時計測として)
   'starSeed',
+  // 第86便(v1.38.0 昇格): 上記 v1.37 線の追加分はすでに両側に揃っている。本便の昇格でも
+  // 仕組みは同じ — root←beta が byte 同一になるため、EXTRA の片側計測(informational)は
+  // 昇格の瞬間に自動でペア比較ゲートへ変わる(新規に足した id は次の beta サイクルで
+  // informational から始まり、次の昇格でゲート化される)
+
   // 第78便: DFM版BH 5層321体(コアv2+降着円盤+恒星ディスク)
   'bhCore'];
 const THRESH = +(process.env.PERF_THRESH || 1.10);

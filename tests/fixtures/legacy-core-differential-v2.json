@@ -1,0 +1,81 @@
+{
+ "schemaVersion": 2,
+ "appVersion": "1.37",
+ "appBuild": "v1.37-b6",
+ "exportedAt": "2026-08-05T00:00:00.000Z",
+ "saves": [],
+ "customPresets": [
+  {
+   "id": "custom_legacy_diff",
+   "name": "重殻ローター(旧コアv1・差動コア)",
+   "emoji": "🐚",
+   "description": "コアv1 の比率仕様で書かれた旧プリセット。coreSR≠1(コアが殻より速く回る)なので、コアv2 へは mode:\"differential\" として移行される。single は radius+coreRR 指定・disk 群は代表値(平均質量/平均スピン)+coreRR 指定の経路を通る。",
+   "seed": 20260804,
+   "camera": { "scale": 340 },
+   "world": { "boundary": "none", "size": 0 },
+   "physics": {
+    "G": 0.8,
+    "D0": 1.5,
+    "kFrame": 1,
+    "q": 2,
+    "kRep": 0.3,
+    "muF": 0,
+    "gammaN": 0,
+    "kappaS": 0,
+    "Kt": 50,
+    "cLight": 40,
+    "bM": 1,
+    "etaRad": 0,
+    "pRad": 4,
+    "gravityX": 0,
+    "gravityY": 0,
+    "geoPN": 0,
+    "lambdaPN": 1,
+    "pnAlpha": 1.5,
+    "radiusScale": 1,
+    "softening": 3,
+    "timeScale": 2
+   },
+   "bodies": [
+    {
+     "type": "single",
+     "rMul": 1,
+     "m": 400,
+     "radius": 20,
+     "coreMR": 0.3,
+     "coreSR": 15,
+     "coreRR": 0.25,
+     "lightSweep": "auto",
+     "x": 0,
+     "y": 0,
+     "vx": 0,
+     "vy": 0,
+     "spin": 0.8,
+     "pinned": true
+    },
+    {
+     "type": "disk",
+     "rMul": 0.7,
+     "n": 30,
+     "cx": 0,
+     "cy": 0,
+     "radius": 34,
+     "mMin": 24,
+     "mMax": 36,
+     "spinMin": 0.48,
+     "spinMax": 0.72,
+     "vMode": "random",
+     "vScale": 3,
+     "direction": 1,
+     "bulkVx": 0,
+     "bulkVy": 0,
+     "coreMR": 0.4,
+     "coreSR": 20,
+     "coreRR": 0.3,
+     "lightSweep": "auto"
+    }
+   ],
+   "overlays": { "rotationCurve": false, "tempHistogram": false, "field": false, "trail": false }
+  }
+ ]
+}
