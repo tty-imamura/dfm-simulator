@@ -11542,6 +11542,82 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   }
 }
 
+// ---- 91) 第91便 EXT-07/EXT-14: 標準試験チェックリスト+保存モニタのエネルギー/系表示 ----
+// ----   どちらも表示専用の宣言メタ+読み口(物理・保存 JSON 不変)。root 昇格前は機能判定 SKIP ----
+{
+  // 91-1) ui.stdtests(EXT-07): stdTests 宣言のあるプリセットで6行のチェックリストが出る。
+  //       値の妥当性(pass/partial/na)・🥚/🔥 は全 pass 宣言・en 切替で見出しが変わる
+  const hasSt = await page.evaluate(() => !!(window.HP && HP.allPresets().some((p) => p.stdTests)));
+  if (hasSt) {
+    const r = await page.evaluate(() => {
+      const withSt = HP.allPresets().filter((p) => p.stdTests && !String(p.id).startsWith('custom_'));
+      const bad = [];
+      for (const p of withSt) {
+        for (const [k, v] of Object.entries(p.stdTests))
+          if (!['knockout', 'dose', 'multiSeed', 'nScaling', 'perturb', 'timeWindow'].includes(k)
+            || !['pass', 'partial', 'na'].includes(v)) bad.push(`${p.id}:${k}=${v}`);
+        HP.loadPreset(p.id, false);
+        const rows = document.querySelectorAll('#helpBody .stdDetails .stRow');
+        if (rows.length !== 6) bad.push(`${p.id}:rows=${rows.length}`);
+      }
+      const allPass = ['selfRotor', 'gas'].every((id) => {
+        const p = HP.allPresets().find((q) => q.id === id);
+        return p && p.stdTests && Object.values(p.stdTests).every((v) => v === 'pass')
+          && Object.keys(p.stdTests).length === 6;
+      });
+      HP.loadPreset('gas', false);
+      const jaHead = document.querySelector('#helpBody .stdDetails summary').textContent;
+      HP.setLang('en');
+      const enHead = document.querySelector('#helpBody .stdDetails summary').textContent;
+      HP.setLang('ja');
+      HP.loadPreset('saturn', false);
+      return { n: withSt.length, bad, allPass, enDiffers: jaHead !== enHead && /Standard/.test(enHead) };
+    });
+    add('ui.stdtests', r.bad.length === 0 && r.allPass && r.enDiffers && r.n >= 2,
+      `stdTests 宣言=${r.n}プリセット(不正=[${r.bad.join(' ')}])/ 🥚🔥=6試験全pass宣言=${r.allPass} / ` +
+      `en 切替で見出しが変わる=${r.enDiffers}`);
+  } else {
+    console.log('SKIP ui.stdtests(対象に stdTests 宣言なし — root 等。第91便)');
+  }
+  // 91-2) monitor.system-energy(EXT-14): energies() 読み口の健全性+モニタHUDに
+  //       閉鎖/開放行とエネルギー行が出る。閉鎖(♾️fig8)と開放(⚾projectile)の判定が正しい
+  const hasEn = await page.evaluate(() => !!(window.HP && HP.sim && HP.sim.energies && HP.setMonitor));
+  if (hasEn) {
+    const r = await page.evaluate(() => {
+      // energies() の健全性: ⚾(spin 0・spinモード)で kin>0・rot=0・heat=null / 🔥(tint)で heat>0
+      HP.loadPreset('projectile', false);
+      const e1 = HP.sim.energies();
+      HP.loadPreset('gas', false);
+      const e2 = HP.sim.energies();
+      // HUD: モニタON で 系行+エネルギー行が描画される(⚾=開放系〔外部重力+壁〕・♾️=閉鎖系)。
+      // 待ちは rAF ではなく setTimeout — evaluate 内の rAF は描画ループの HUD 更新と競合し、
+      // 更新前のテキストを掴むことがある(初版の実測 FAIL の原因)
+      HP.loadPreset('projectile', false);
+      HP.setMonitor(true);
+      return new Promise((res) => setTimeout(() => {
+        const hudOpen = document.querySelector('#hud').textContent;
+        HP.loadPreset('fig8', false);
+        HP.requestRender();
+        setTimeout(() => {
+          const hudClosed = document.querySelector('#hud').textContent;
+          HP.setMonitor(false);
+          HP.loadPreset('saturn', false);
+          res({ e1kin: e1.kin, e1rot: e1.rot, e1heat: e1.heat, e2heat: e2.heat,
+            openLine: /開放系|open \(/.test(hudOpen), openEnergy: /E_kin=/.test(hudOpen),
+            closedLine: /閉鎖系|closed \(/.test(hudClosed), closedEnergy: /E_kin=/.test(hudClosed) });
+        }, 300);
+      }, 300));
+    });
+    add('monitor.system-energy',
+      r.e1kin > 0 && r.e1rot === 0 && r.e1heat === null && r.e2heat > 0
+      && r.openLine && r.openEnergy && r.closedLine && r.closedEnergy,
+      `energies(): ⚾ kin=${(+r.e1kin).toFixed(2)}>0・rot=0・heat=null(spinモード)/ 🔥 heat=${(+r.e2heat).toFixed(1)}>0(tint)/ ` +
+      `HUD: ⚾=開放系行=${r.openLine}+E行=${r.openEnergy} / ♾️=閉鎖系行=${r.closedLine}+E行=${r.closedEnergy}`);
+  } else {
+    console.log('SKIP monitor.system-energy(対象に energies() なし — root 等。第91便)');
+  }
+}
+
 // ---- 85) 第85便(休眠検出の再発防止): qa.testid-live ----
 // ----   第84便B が見つけた事故の型 =「claims の testId が指す QA テストが、廃止済み API を見る
 // ----   古い判定子(`HP.sim.obsT`)に閉じ込められて**フルQAでも一度も走っていない**」。

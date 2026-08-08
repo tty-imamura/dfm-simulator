@@ -1,0 +1,231 @@
+% =====================================================================
+% Determinacy-Field Mechanics, Paper 3 -- SKELETON DRAFT (v0.1, 2026-08-08)
+% Theme: "Emergence across scales" -- adopted 2026-08-08.
+% Fallback scope (pre-agreed): drop Sec. IV (micro) -> meso+macro only.
+% Status: section skeleton with measured numbers from the harnesses
+%   tests/exp-4-84/85/89/90/91/92/93.mjs (result JSONs recorded per run).
+%   All figures are placeholders; prose is bullet-level and NOT final.
+% Companion papers: Paper 1 (foundations, dfm-paper.tex),
+%   Paper 2 (box universe, dfm-paper2.tex).
+% =====================================================================
+\documentclass[aps,reprint,amsmath,amssymb,nofootinbib,superscriptaddress,floatfix]{revtex4-2}
+
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{booktabs}
+
+\begin{document}
+
+\title{Emergence Across Scales in Determinacy-Field Mechanics:\\
+A Graded Standard-Test Methodology from Microspin Thermalization\\
+to Self-Forming Dark Rotors}
+
+% TODO(author): author block as in Papers 1--2.
+\author{...}
+\date{2026-08-08 (skeleton v0.1)}
+
+\begin{abstract}
+% --- What we claim (skeleton bullets; final prose TODO) ---
+% 1. In a single relational toy universe (DFM, Paper 1) we test "emergent-looking"
+%    phenomena on three scales -- micro (internal-spin temperature), meso
+%    (self-forming compact bodies), macro (galactic-scale signatures) -- with ONE
+%    shared methodology: an emergence grading E0--E3 and six standard tests
+%    (knockout, dose response, multi-seed, particle-count scaling, perturbation
+%    recovery, time window).
+% 2. Micro: inter-group thermalization is a genuine consequence of the conduction
+%    channel (frozen exactly when all thermal channels are off), with decay rate
+%    lambda ~ lambda_0 (kappa_s/0.15)^{1.006} (n/120)^{1.084}, and an equilibrium
+%    temperature predicted by the C*m-weighted ledger.
+% 3. Meso: a heavy, dark, co-rotating centre forms from a uniform cloud without
+%    being placed in the initial conditions; robust over 16 seeds, 4 particle
+%    counts, perturbations, and a factor-4 range of dt; softening sensitivity is
+%    reported honestly (mass fraction shifts at 2x softening).
+% 4. Macro (application): the model-internal separation of "dark" (optical) from
+%    "heavy" (dynamical) via the hidden-mass ladder, and the m=2 disk signature
+%    with its quadrupole contamination controls.
+% --- What we do NOT claim (fixed list, Sec. IX) ---
+%    no real dark matter / black holes / galactic spiral arms / real
+%    thermodynamics; no 3D extrapolation; no cosmological abundances.
+TODO abstract.
+\end{abstract}
+
+\maketitle
+
+% =====================================================================
+\section{Introduction}
+% - Question: can a toy universe with only simple local rules self-assemble
+%   "emergent-looking" structure -- and how do we tell robust emergence from a
+%   fixed-seed accident?
+% - Position vs Paper 1 (foundations: Machian frame, clocks, light, weak-field
+%   benchmarks) and Paper 2 (box universe: expansion, time, light).
+% - Thesis: the contribution of this paper is METHOD + evidence: a grading
+%   (E0--E3) and six standard tests applied identically on three scales.
+% - Philosophy sentence (to keep): "a single beautiful run is the weakest
+%   form of evidence."
+TODO.
+
+% =====================================================================
+\section{Model additions relevant to structure formation}
+% Minimal recap only (no re-derivation; cite Paper 1):
+% - determinacy field W, gravity a = G grad W, frame dragging (A8/E6'),
+% - internal temperature T_int = coarse-grained microspin variance (A9''),
+%   heat energy E = C m T_int, conduction E10' with C*m weighting,
+% - fusion + core inheritance (M_c' = M_c,i + M_c,j etc.), core v2 (J_core),
+% - dimming lS_eff = min(1, |s| R / c_surf) (A11/E8R),
+% - E6'-R pair-reduced reaction: free dominant bodies in a closed system.
+TODO.
+
+% =====================================================================
+\section{A standard for emergence}
+\label{sec:standard}
+% THE methodological core.
+% Table 1: E0--E3 definitions (declaration-only grading; as in docs/PHYSICS.md).
+% The six standard tests:
+%   (1) knockout control      -- remove one mechanism, the phenomenon must die
+%   (2) dose response         -- strengthen the driver, the order parameter
+%                                must respond monotonically
+%   (3) multi-seed            -- reproduce across random seeds (16 here)
+%   (4) particle-count scaling-- not a discrete artefact of one n
+%   (5) perturbation recovery -- disturb after formation; the state must return
+%   (6) time window           -- state the window in which the claim holds
+% Order parameters must be DECLARED per phenomenon before testing.
+% Honest-reporting rule: negative and partial results are recorded in the same
+% format as positive ones (examples occur in Secs. IV--VII).
+TODO.
+
+% =====================================================================
+\section{Micro scale: thermalization of the internal-spin temperature}
+\label{sec:micro}
+% System: two-box gas (cold T_int=0.01 left, hot 6.25 right; 120+120 grains,
+%   identical masses/speeds; G=0, kFrame=0). Order parameter: R(t) =
+%   DeltaT(t)/DeltaT(0) between the two populations; primary judged quantity is
+%   the decay rate lambda (least-squares slope of ln R).
+% Measured (tests/exp-4-90.mjs, exp-4-91.mjs; 2026-08-08):
+%   - knockout (kappa_s = mu_F = gamma_n = 0): R = 1.0000, lambda = 0 (frozen).
+%   - single knockout kappa_s = 0: lambda ~ 0 -- inter-group transport is
+%     carried (almost) entirely by conduction; collisions only dissipate
+%     within groups.
+%   - dose response: kappa_s in {0.05, 0.15, 0.45} -> lambda monotone,
+%     nearly proportional.
+%   - multi-seed 16: lambda = 2.45e-5 .. 4.20e-5 per step (spread ratio 1.71).
+%   - n scaling 60/120/240 per side: lambda monotone increasing.
+%   - scaling fit: lambda ~ lambda_0 (kappa_s/0.15)^{1.006} (n/120)^{1.084},
+%     lambda_0 = 3.28e-5 per step.
+%   - time window: equilibration to R=0.1 extrapolates to ~6.8e4 steps --
+%     the conduction timescale is LONG; this is itself a time-window result
+%     (the first version of the harness judged t_eq inside a 3000-step window
+%     and failed; the switch of order parameter to lambda is recorded in the
+%     harness header).
+%   - perturbation recovery (5): temperature re-split -> lambda2/lambda1 =
+%     0.96/1.15/1.20; velocity kick via the app's official injector ->
+%     lambda3/lambda1 = 1.10/1.32/1.32 (all within [0.5, 2]).
+%   - equilibrium-temperature prediction (tests/exp-4-93.mjs): T_eq =
+%     Sigma C m T_0 / Sigma C m; equal-mass -> 3.13, unequal-mass (left m=2)
+%     -> 2.09 (mass-weighted, NOT the naive mean 3.13).
+%     TODO: insert measured pass/fail and curves once exp-4-93 lands.
+% Figures: R(t) curves; lambda vs kappa_s and vs n (log-log with slopes).
+TODO.
+
+% =====================================================================
+\section{Meso scale: the self-forming dark rotor}
+\label{sec:meso}
+% Central result. System: 180 identical grains, uniform disk, slow global
+% rotation, per-grain micro core seeds; fusion + core inheritance; closed
+% system (E6'-R; no pinned bodies).
+% Measured (tests/exp-4-84/85.mjs; seed 20260806, t=144):
+%   - 155 fusions -> 25 bodies; largest = 26.7% of total mass; bound 0.75.
+%   - no-fusion control: largest stays 1 grain (0.56% exactly, all seeds).
+%   - dose response in G: 1.7/6.1/12.8/26.7/44.4% (monotone).
+%   - J_core inheritance identity: centre J_core = 48 seeds' worth = mass
+%     swallowed, grain for grain; Sigma J_core invariant; no-core control = 0.
+%   - darkness: centre lS_eff 0.000 -> 0.589 vs halo 0.159 (contrast 3.7);
+%     dimming decouples from dynamics exactly (Kt sweep leaves dynamics
+%     bit-identical).
+%   - 16 seeds: mFrac 18.3--53.3% (median 34.7%); contrast 2.41--5.30 vs
+%     control 0.40--1.26 -- ranges never overlap (Fig. 5).
+%   - honest negatives: darkness alone does not discriminate fusion (control
+%     centre also dims); kFrame=0 control shows no outer-rotation systematics;
+%     dFrac dose response is non-monotonic.
+% Robustness (this paper's additions):
+%   - dt in {0.016, 0.008, 0.004} at fixed physical time: all order parameters
+%     stay inside the 16-seed spread; |Delta L|/L_scale stays ~1e-6
+%     (tests/exp-4-89.mjs). Fusion count drifts mildly (155->147->138).
+%   - softening x0.5/x1/x2: formation survives (maxFrac 0.978--1.000, align
+%     1.000) but mFrac IS softening-sensitive at x2 (fusions drop to 104--122;
+%     mFrac min 11.1% below the 16-seed floor 18.3%) -- quantitative mass
+%     fractions must be quoted at fixed softening.
+%   - n = 90/180/360/720 (4 stages; tests/exp-4-85.mjs + exp-4-92.mjs):
+%     formation complete at n=720 (maxFrac 1.000, control ratio 166--208x);
+%     mFrac saturates (median 31.5% vs 31.7% at n=360). Alignment at n=720
+%     converges more slowly (one seed 0.752 at step 9000 -> 1.000 by 13500):
+%     the alignment timescale grows with n; the t=144 window was tuned at
+%     n=180. Recorded as a time-window caveat, not hidden.
+% Figures: formation snapshots; mFrac(t); J_core lineage; dimming vs halo;
+%   16-seed distributions (draft exists); dt/softening/n robustness table.
+TODO.
+
+% =====================================================================
+\section{Macro scale: hidden mass and disk signatures (application)}
+\label{sec:macro}
+% Deliberately framed as APPLICATION, not headline result.
+% - Hidden-mass ladder: true mass / luminosity proxy / Newtonian dynamical
+%   mass v^2 r / G / frame-drag excess; kFrame=0 control. "Dark" and "heavy"
+%   are separated model-internally.
+% - m=2 disk signature: spin dose response 0->1->2->3 on top of the
+%   quadrupole contamination of the two-rotor placement (spin-0 control keeps
+%   a weak m=2); multipole-controlled variants listed as future work (EXT-15).
+% - Wording rule: "what toy-model signature a self-formed/defined rotor
+%   imprints on a surrounding disk" -- never "explains galaxies".
+TODO.
+
+% =====================================================================
+\section{Numerical robustness summary}
+\label{sec:robust}
+% Cross-scale table: dt convergence, softening sensitivity, n scaling,
+% multi-seed spreads, time windows -- one row per claimed phenomenon,
+% with the honest exceptions highlighted (softening-sensitivity of mFrac;
+% alignment timescale at n=720; conduction timescale ~6.8e4 steps).
+TODO.
+
+% =====================================================================
+\section{Limitations and negative claims}
+\label{sec:negative}
+% Fixed list (kept verbatim in spirit from Papers 1--2, extended):
+%  1. 2D only; no quantitative extrapolation to 3D.
+%  2. Order-unity frame dragging is counterfactual.
+%  3. No Lorentz invariance; absolute simultaneity.
+%  4. No causal field propagation (instantaneous action).
+%  5. Dimming is model-specific (not radiative transfer).
+%  6. Fusion is coarse-grained; inheritance rules are model definitions.
+%  7. Dark rotor != dark matter identification.
+%  8. DFM black-hole analogue != GR black hole.
+%  9. No astrophysical abundance or formation-rate claims.
+% 10. Thermal sector is an analogy; no quantitative correspondence to real
+%     thermodynamics (the energy bookkeeping of Sec. IV is model-internal).
+TODO.
+
+% =====================================================================
+\section{Reproducibility}
+\label{sec:repro}
+% Manifest table: phenomenon -> preset id -> harness -> seed set -> window ->
+% commit -> result JSON. All harnesses run headless in one command
+% (QA_TARGET=... node tests/exp-4-XX.mjs); the app itself is a single HTML
+% file with 396+ machine-checked QA gates.
+% Harness list for this paper: exp-4-84 (knockout/dose), exp-4-85 (multi-seed/
+% n-scaling/perturbation/time-window), exp-4-89 (dt/softening), exp-4-90
+% (micro standard tests), exp-4-91 (micro perturbation recovery + scaling fit),
+% exp-4-92 (n=720), exp-4-93 (equilibrium-temperature prediction).
+TODO.
+
+% =====================================================================
+\section*{Acknowledgments}
+TODO.
+
+% =====================================================================
+% References: Papers 1-2 (self), plus the small canonical set used there.
+\begin{thebibliography}{9}
+\bibitem{paper1} TODO: Paper 1 reference.
+\bibitem{paper2} TODO: Paper 2 reference.
+\end{thebibliography}
+
+\end{document}
