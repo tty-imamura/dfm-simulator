@@ -255,6 +255,10 @@
   .ffRow{font-size:calc(12px*var(--uz,1));line-height:1.55;margin:3px 0;}
   .ffRow.ffFail{color:var(--err);}
   .ffRow.ffPass{color:var(--ok);}
+  /* 第90便 EXT-11: 摂動注入UI(シミュレーションカテゴリ内) */
+  #perturbAmp{flex:1;min-width:0;}
+  #btnPerturb{flex:0 0 auto;min-height:36px;border-radius:10px;background:var(--panel2);
+    border:1px solid var(--hot);color:var(--hot);padding:4px 10px;white-space:nowrap;}
   /* 第43便 43A(台帳4-78 B案): 数値主張(claims)の折畳み表示 — 分類バッジの直下、claims を
      持つプリセットにのみ表示。表示専用(物理・保存 JSON には無関係)。details.advParams と
      同系統の見た目を流用しつつ独立クラス化。長い数値行でも横スクロールが出ないよう break を許可 */
@@ -795,6 +799,13 @@ ja: {
   // 第88便 EXT-09: Failure First(失敗を先に見せる — 宣言専用メタ failureFirst の見出し)
   ffHead:"🧪 失敗から見る(Failure First)",
   ffFail:"FAIL", ffPass:"PASS",
+  // 第90便 EXT-11(論文3 P0-5): 摂動注入の正式UI
+  perturbLabel:"摂動注入",
+  perturbDesc:"全粒子の速度に、質量重みつき平均を差し引いたガウスノイズを注入する実験操作(創発の標準試験⑤「摂動回復」のアプリ版)。全運動量は厳密に保存するが、角運動量と運動エネルギーは外部介入として変化する(保存モニタにはその瞬間の跳びが出る — 帳簿外の介入)。強さは現在の速さRMS比。「スピン半数反転」を含めると約半数の粒子のスピン符号も反転する。乱数はセッション内で決定論(同じ手順で同じ摂動列)。",
+  perturbWeak:"弱(RMSの30%)", perturbMid:"中(RMSの100%)", perturbStrong:"強(RMSの200%)",
+  perturbBtn:"💥 注入",
+  perturbSpinLabel:"スピン半数反転を含める",
+  perturbDone:(f)=>`摂動を注入しました(全運動量は保存・角運動量/エネルギーは介入で変化${f?`・スピン反転 ${f}粒`:""})`,
   helpOps:"操作",
   helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。",
   helpLaws:"この宇宙の法則(要約)",
@@ -1120,6 +1131,13 @@ en: {
   // 第88便 EXT-09: Failure First heading
   ffHead:"🧪 Failure First",
   ffFail:"FAIL", ffPass:"PASS",
+  // 第90便 EXT-11: perturbation injection UI
+  perturbLabel:"Perturbation",
+  perturbDesc:"An experimental operation that injects Gaussian velocity noise (with the mass-weighted mean subtracted) into every particle — the in-app version of standard emergence test (5), perturbation recovery. Total momentum is conserved exactly; angular momentum and kinetic energy change as an external intervention (the conservation monitor will show a jump at that instant — an off-ledger act). The strength is relative to the current speed RMS. \"Include spin flip\" also reverses the spin sign of about half the particles. The randomness is deterministic within a session (the same steps reproduce the same perturbation sequence).",
+  perturbWeak:"Weak (30% of RMS)", perturbMid:"Medium (100% of RMS)", perturbStrong:"Strong (200% of RMS)",
+  perturbBtn:"💥 Inject",
+  perturbSpinLabel:"Include spin flip (half the particles)",
+  perturbDone:(f)=>`Perturbation injected (total momentum conserved; angular momentum/energy changed by the intervention${f?`; spin flipped on ${f} particles`:""})`,
   helpOps:"Controls",
   helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction.",
   helpLaws:"Laws of this universe (summary)",
@@ -1708,6 +1726,8 @@ const PARAM_ROLES={
   gravityX:"experiment", gravityY:"experiment",
   radiusScale:"numerics", softening:"numerics", timeScale:"numerics"};
 function paramRole(key){ return PARAM_ROLES[key]||"physics"; }
+// 第90便 EXT-11: 摂動注入UIの決定論 seed カウンタ(セッション内 — 同じ手順で同じ摂動列)
+let _perturbSeed=12345;
 function sliderPosToVal(def,pos){
   if(def.mode==="log") return def.lo*Math.exp((pos/1000)*Math.log(def.hi/def.lo));
   return pos;
@@ -7874,6 +7894,31 @@ function makeSim(){
     if(S.Tint) for(let i=0;i<S.n;i++) if(!isFinite(S.Tint[i])) return true;
     return false;
   };
+  // 第90便 EXT-11(論文3 P0-5): 摂動注入の正式 API — exp-4-85 ハーネスの inject をアプリ操作へ
+  // 昇格。全粒子の速度に、質量重みつき平均を差し引いたガウスノイズを足す(Σm·Δv=0 —
+  // **全運動量は構成的に厳密保存**。角運動量・運動エネルギーは外部介入として変化する=帳簿外。
+  // spinFlip で約半数のスピン符号を反転)。乱数はハーネスと同じ LCG(rngSeed 固定)で決定論 —
+  // 同じ状態+同じ引数なら同じ摂動が再現する(seed 固定再現の方針と整合)。
+  // o={vAmp: 速さRMS比のノイズ強度, rngSeed: LCG種(既定12345), spinFlip: 真偽}
+  S.injectPerturb=function(o){
+    o=o||{};
+    let sd=(o.rngSeed||12345)>>>0;
+    const rnd=()=>{ sd=(sd*1664525+1013904223)>>>0; return sd/4294967296; };
+    const gauss=()=>{ const u=Math.max(1e-12,rnd()), w=rnd();
+      return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*w); };
+    let vs=0; for(let i=0;i<S.n;i++) vs+=S.vx[i]*S.vx[i]+S.vy[i]*S.vy[i];
+    const vRms=S.n? Math.sqrt(vs/S.n):0;
+    const sig=(o.vAmp||0)*vRms/Math.SQRT2;
+    const dvx=new Float64Array(S.n), dvy=new Float64Array(S.n);
+    for(let i=0;i<S.n;i++){ dvx[i]=sig*gauss(); dvy[i]=sig*gauss(); }
+    let mT=0,px=0,py=0;
+    for(let i=0;i<S.n;i++){ const a=Math.abs(S.m[i]); mT+=a; px+=a*dvx[i]; py+=a*dvy[i]; }
+    if(mT>1e-12){ px/=mT; py/=mT; }
+    for(let i=0;i<S.n;i++){ S.vx[i]+=dvx[i]-px; S.vy[i]+=dvy[i]-py; }
+    let flipped=0;
+    if(o.spinFlip){ for(let i=0;i<S.n;i++) if(rnd()<0.5){ S.spin[i]=-S.spin[i]; flipped++; } }
+    return { sigma:sig, vRms, flipped };
+  };
   // 第65便 65A(機構スペクトル診断・P0): 窓積算の読み口。チャネル順 [重力, 測地線, 熱斥力, 接触,
   // 結合, 引きずり]。ms=平均二乗加速度(粒子・サブステップ平均)・rms=√ms・pi=RMS の正規化比率
   // (**力と輸送の RMS を正規化した診断量であり、エネルギー比ではない** — 第64便裁定の明記事項)。
@@ -10848,7 +10893,37 @@ function buildParamRows(){
     // 第58便 58B(原仮定者指示): 時間倍率は表示→シミュレーションカテゴリへ移動
     // (A/B比較中は両方の画面へ反映される applyBoth 挙動は従来どおり)
     const tsDef=PARAM_DEFS.find(d=>d.key==="timeScale");
-    if(tsDef) mkParamRow(tsDef, g, true); }
+    if(tsDef) mkParamRow(tsDef, g, true);
+    // 第90便 EXT-11(論文3 P0-5): 摂動注入の正式UI — S.injectPerturb の操作行。
+    // 編集対象(editSim — A/B 比較中は選択側)にだけ効く。seed はセッション内で1ずつ進む
+    // 決定論カウンタ(初期12345 — 同じ手順を踏めば同じ摂動列が再現する)
+    {
+      const row=document.createElement("div"); row.className="prow";
+      const lab=document.createElement("label"); lab.textContent=T("perturbLabel"); lab.className="tappable";
+      lab.addEventListener("click",()=>{
+        const open=row.nextElementSibling && row.nextElementSibling.classList
+          && row.nextElementSibling.classList.contains("pdesc") ? row.nextElementSibling : null;
+        if(open){ open.remove(); return; }
+        const d=document.createElement("div"); d.className="pdesc open"; d.textContent=T("perturbDesc");
+        row.after(d);
+      });
+      const sel=document.createElement("select"); sel.id="perturbAmp";
+      [["0.3",T("perturbWeak")],["1",T("perturbMid")],["2",T("perturbStrong")]].forEach(([v,txt])=>{
+        const op=document.createElement("option"); op.value=v; op.textContent=txt; sel.appendChild(op); });
+      const bt=document.createElement("button"); bt.type="button"; bt.id="btnPerturb"; bt.textContent=T("perturbBtn");
+      bt.addEventListener("click",()=>{
+        const Sx=editSim();
+        const res=Sx.injectPerturb({ vAmp:parseFloat(sel.value),
+          spinFlip:!!($("#perturbSpin")&&$("#perturbSpin").checked), rngSeed:_perturbSeed++ });
+        notify(T("perturbDone")(res.flipped));
+        requestRender();
+      });
+      row.appendChild(lab); row.appendChild(sel); row.appendChild(bt); g.appendChild(row);
+      const row2=document.createElement("div"); row2.className="prow";
+      const lab2=document.createElement("label"); lab2.textContent=T("perturbSpinLabel"); lab2.style.flex="1";
+      const cb=document.createElement("input"); cb.type="checkbox"; cb.id="perturbSpin";
+      row2.appendChild(lab2); row2.appendChild(cb); g.appendChild(row2);
+    } }
   // 表示設定 — 第54便 54D⑤: 「表示」もカテゴリ扱い(catParams で畳む。h3 → summary)
   const disp=document.createElement("div"); disp.className="group";
   // 第81便C(原仮定者指示): サンプルに依らないアプリ全体設定(描画品質・文字サイズ・
