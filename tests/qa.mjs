@@ -11477,6 +11477,71 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   }
 }
 
+// ---- 90) 第90便 EXT-11(論文3 P0-5): perturb.inject — 摂動注入の正式APIとUI ----
+// ----   ①全運動量の保存(質量重みつき平均差引の構成保証 — 状態配列が Float32 のため閾値は
+// ----     f32 丸め相応の 1e-6。初版の 1e-12 は f64 前提の誤設定で実測 2e-8 だった)
+// ----   ②vRMS が増える(vAmp=1 → 理論 ≈√2倍。統計を立てるため 240粒の 🔥gas で測る —
+// ----     初版の ♾️fig8 は 3粒で、spinFlip 0粒(確率 12.5%)や RMS の揺らぎを踏んだ)
+// ----   ③同じ状態+同じ seed で同じ結果(決定論)・seed を変えると変わる ④spinFlip ≈ 半数
+// ----   ⑤UI(#btnPerturb)からの注入でも運動量が保存する。root 昇格前は機能判定 SKIP ----
+{
+  const hasPerturb = await page.evaluate(() => !!(window.HP && HP.sim && HP.sim.injectPerturb));
+  if (hasPerturb) {
+    const r = await page.evaluate(() => {
+      const S = HP.sim;
+      const mom = () => { let px = 0, py = 0;
+        for (let i = 0; i < S.n; i++) { px += S.m[i] * S.vx[i]; py += S.m[i] * S.vy[i]; }
+        return { px, py }; };
+      const rms = () => { let s = 0; for (let i = 0; i < S.n; i++) s += S.vx[i] * S.vx[i] + S.vy[i] * S.vy[i];
+        return Math.sqrt(s / S.n); };
+      const mScale = () => { let a = 0; for (let i = 0; i < S.n; i++) a += Math.abs(S.m[i]) * (Math.abs(S.vx[i]) + Math.abs(S.vy[i]));
+        return Math.max(a, 1e-9); };
+      // ① 運動量保存+② vRMS 増加(🔥gas — 240粒で統計が立つ)
+      HP.loadPreset('gas', false);
+      const p0 = mom(), r0 = rms();
+      const res1 = S.injectPerturb({ vAmp: 1, rngSeed: 777 });
+      const p1 = mom(), r1 = rms();
+      const dP = Math.hypot(p1.px - p0.px, p1.py - p0.py) / mScale();
+      const v1 = [S.vx[0], S.vy[0], S.vx[1]];
+      // ③ 決定論: 同じ状態+同 seed → 同一、別 seed → 相違
+      HP.loadPreset('gas', false);
+      S.injectPerturb({ vAmp: 1, rngSeed: 777 });
+      const same = v1.every((v, i) => v === [S.vx[0], S.vy[0], S.vx[1]][i]);
+      HP.loadPreset('gas', false);
+      S.injectPerturb({ vAmp: 1, rngSeed: 778 });
+      const diff = !v1.every((v, i) => v === [S.vx[0], S.vy[0], S.vx[1]][i]);
+      // ④ spinFlip ≈ 半数(全スピンを 1 にして反転数を数える — 240粒なら 0.3n〜0.7n を要求できる)
+      HP.loadPreset('gas', false);
+      for (let i = 0; i < S.n; i++) S.spin[i] = 1;
+      const resF = S.injectPerturb({ vAmp: 0, rngSeed: 42, spinFlip: true });
+      let neg = 0; for (let i = 0; i < S.n; i++) if (S.spin[i] < 0) neg++;
+      const flipOk = resF.flipped === neg && neg > 0.3 * S.n && neg < 0.7 * S.n;
+      // ⑤ UI: パラメータタブの #btnPerturb 経由でも運動量が保存する
+      HP.loadPreset('gas', false);
+      const btn = document.querySelector('#btnPerturb');
+      let uiOk = false, uiDp = null;
+      if (btn) {
+        const q0 = mom();
+        btn.click();
+        const q1 = mom();
+        uiDp = Math.hypot(q1.px - q0.px, q1.py - q0.py) / mScale();
+        uiOk = uiDp < 1e-6;
+      }
+      HP.loadPreset('saturn', false);   // 既定サンプルへ戻す
+      return { dP, grew: r1 > r0 * 1.2 && r1 < r0 * 1.7, ratio: r1 / r0, sigma: res1.sigma,
+        same, diff, flipOk, neg, nAll: 240, uiBtn: !!btn, uiOk, uiDp };
+    });
+    add('perturb.inject',
+      r.dP < 1e-6 && r.grew && r.same && r.diff && r.flipOk && r.uiBtn && r.uiOk,
+      `|ΔP|/scale=${r.dP.toExponential(1)}(<1e-6 — 状態配列 f32 の丸め相応)/ ` +
+      `vRMS×${r.ratio.toFixed(2)}(vAmp=1 → 理論≈1.41・窓1.2〜1.7)/ ` +
+      `決定論: 同seed一致=${r.same}・別seed相違=${r.diff} / spinFlip=${r.neg}/240粒(0.3n〜0.7n=${r.flipOk})/ ` +
+      `UIボタン=${r.uiBtn}・UI経由の|ΔP|/scale=${r.uiDp === null ? '-' : r.uiDp.toExponential(1)}`);
+  } else {
+    console.log('SKIP perturb.inject(対象に摂動注入APIなし — root 等。第90便)');
+  }
+}
+
 // ---- 85) 第85便(休眠検出の再発防止): qa.testid-live ----
 // ----   第84便B が見つけた事故の型 =「claims の testId が指す QA テストが、廃止済み API を見る
 // ----   古い判定子(`HP.sim.obsT`)に閉じ込められて**フルQAでも一度も走っていない**」。
