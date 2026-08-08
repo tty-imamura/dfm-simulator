@@ -11357,17 +11357,33 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       // 再表示→閉じる(以降のテストに残さない)
       HP.firstVisitShow();
       const reshown = !!document.querySelector('#fvOverlay');
+      // 第89便(原仮定者指示): 表示中の言語切り替え — 🌐ボタンで en に切り替わり、
+      // カード見出しが英語になる(アプリ全体の言語と連動 = hp_lang 永続)。ja へ戻して閉じる
+      let langSwap = null;
+      const lb = document.querySelector('#fvLang');
+      if (lb) {
+        lb.click();   // ja→en(ガイドは同位置に再描画される)
+        const enHead = document.querySelector('#fvOverlay .fvCard h4');
+        const enOk = !!enHead && /What is DFM/.test(enHead.textContent) && localStorage.getItem('hp_lang') === 'en';
+        document.querySelector('#fvLang').click();   // en→ja へ戻す
+        const jaHead = document.querySelector('#fvOverlay .fvCard h4');
+        langSwap = enOk && !!jaHead && /DFM とは/.test(jaHead.textContent) && localStorage.getItem('hp_lang') !== 'en';
+      }
       document.querySelector('#fvStart').click();
       // About パネルの再表示導線(buildAbout は開閉時に構築されるため直接呼ぶ)
       if (typeof buildAbout === 'function') buildAbout();
       const aboutBtn = !!document.querySelector('#btnFvAgain');
-      return { autoShown, cards, heads, closed, flag, reshown, aboutBtn };
+      return { autoShown, cards, heads, closed, flag, reshown, aboutBtn, langSwap };
     });
+    // langSwap: 第89便で 🌐 ボタン追加 — ボタンが無い旧ビルド(第88便の beta)では null のまま
+    // 通す(root 昇格前の beta 先行機能の常で、存在すれば判定・無ければ機能自体が無い)
     add('ui.firstvisit',
-      !r.autoShown && r.cards === 3 && r.closed && r.flag === '1' && r.reshown && r.aboutBtn,
+      !r.autoShown && r.cards === 3 && r.closed && r.flag === '1' && r.reshown && r.aboutBtn
+      && r.langSwap !== false,
       `file://起動時の自動表示なし=${!r.autoShown}(自動表示は http(s) 初回のみ)/ カード=${r.cards}枚` +
       `[${r.heads.join(' | ')}] / 「はじめる」で閉じる=${r.closed}・既読フラグ=${r.flag} / ` +
-      `再表示可=${r.reshown} / About に再表示導線=${r.aboutBtn}`);
+      `再表示可=${r.reshown} / About に再表示導線=${r.aboutBtn} / ` +
+      `🌐言語切替(第89便)=${r.langSwap === null ? 'ボタンなし(旧ビルド)' : r.langSwap}`);
   } else {
     console.log('SKIP ui.firstvisit(対象に初見ガイドなし — root 等。第88便)');
   }
