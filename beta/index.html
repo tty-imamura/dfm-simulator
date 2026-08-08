@@ -255,6 +255,14 @@
   .ffRow{font-size:calc(12px*var(--uz,1));line-height:1.55;margin:3px 0;}
   .ffRow.ffFail{color:var(--err);}
   .ffRow.ffPass{color:var(--ok);}
+  /* 第91便 EXT-07: 標準試験チェックリスト(claimsDetails と同系統) */
+  details.stdDetails{margin:8px 0 14px;border:1px solid var(--line);border-radius:10px;padding:2px 10px;}
+  details.stdDetails>summary{cursor:pointer;min-height:38px;display:flex;align-items:center;
+    font-size:calc(12.5px*var(--uz,1));font-weight:700;touch-action:manipulation;list-style-position:inside;}
+  .stRow{font-size:calc(12px*var(--uz,1));margin:5px 0;line-height:1.55;}
+  .stRow[data-st=pass]{color:var(--ok);}
+  .stRow[data-st=partial]{color:var(--hot);}
+  .stRow[data-st=na]{color:var(--dim);}
   /* 第90便 EXT-11: 摂動注入UI(シミュレーションカテゴリ内) */
   #perturbAmp{flex:1;min-width:0;}
   #btnPerturb{flex:0 0 auto;min-height:36px;border-radius:10px;background:var(--panel2);
@@ -806,6 +814,16 @@ ja: {
   perturbBtn:"💥 注入",
   perturbSpinLabel:"スピン半数反転を含める",
   perturbDone:(f)=>`摂動を注入しました(全運動量は保存・角運動量/エネルギーは介入で変化${f?`・スピン反転 ${f}粒`:""})`,
+  // 第91便 EXT-07: 創発の標準試験チェックリスト(宣言専用メタ stdTests の表示)
+  stHead:"🧪 創発の標準試験(6試験)",
+  st_knockout:"① ノックアウト対照", st_dose:"② 用量反応", st_multiSeed:"③ 多seed",
+  st_nScaling:"④ 粒子数スケーリング", st_perturb:"⑤ 摂動回復", st_timeWindow:"⑥ 時間窓",
+  stPass:"PASS", stPartial:"一部", stNa:"未実施",
+  stRefs:(r)=>`実測ハーネス(正本): ${r} — 本表は宣言であり、実測値・判定根拠は各ハーネスの結果 JSON にある。`,
+  // 第91便 EXT-14: 保存モニタの閉鎖/開放表示
+  hudSysClosed:"系: 閉鎖系(外部要素なし — P/L は帳簿込みで保存)",
+  hudSysOpen:(r)=>`系: 開放系(${r} — リザーバ・帳簿を含めて読む)`,
+  sysPin:"固定天体", sysRail:"レール", sysBath:"熱浴", sysWall:"伝熱壁", sysGrav:"外部重力",
   helpOps:"操作",
   helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。",
   helpLaws:"この宇宙の法則(要約)",
@@ -1138,6 +1156,16 @@ en: {
   perturbBtn:"💥 Inject",
   perturbSpinLabel:"Include spin flip (half the particles)",
   perturbDone:(f)=>`Perturbation injected (total momentum conserved; angular momentum/energy changed by the intervention${f?`; spin flipped on ${f} particles`:""})`,
+  // 第91便 EXT-07: standard emergence-test checklist (declaration-only meta stdTests)
+  stHead:"🧪 Standard emergence tests (6)",
+  st_knockout:"(1) Knockout control", st_dose:"(2) Dose response", st_multiSeed:"(3) Multi-seed",
+  st_nScaling:"(4) Particle-count scaling", st_perturb:"(5) Perturbation recovery", st_timeWindow:"(6) Time window",
+  stPass:"PASS", stPartial:"partial", stNa:"not run",
+  stRefs:(r)=>`Measurement harnesses (canonical): ${r} — this table is a declaration; measured values and criteria live in each harness's result JSON.`,
+  // 第91便 EXT-14: conservation-monitor system line
+  hudSysClosed:"System: closed (no external elements — P/L conserved incl. ledgers)",
+  hudSysOpen:(r)=>`System: open (${r} — read together with reservoirs/ledgers)`,
+  sysPin:"pinned bodies", sysRail:"rail", sysBath:"heat bath", sysWall:"thermal walls", sysGrav:"external gravity",
   helpOps:"Controls",
   helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction.",
   helpLaws:"Laws of this universe (summary)",
@@ -1728,6 +1756,8 @@ const PARAM_ROLES={
 function paramRole(key){ return PARAM_ROLES[key]||"physics"; }
 // 第90便 EXT-11: 摂動注入UIの決定論 seed カウンタ(セッション内 — 同じ手順で同じ摂動列)
 let _perturbSeed=12345;
+// 第91便 EXT-14: 保存モニタ用の分類キャッシュ(renderHelp が更新 — 毎フレーム再計算を避ける)
+let _monCls=null;
 function sliderPosToVal(def,pos){
   if(def.mode==="log") return def.lo*Math.exp((pos/1000)*Math.log(def.hi/def.lo));
   return pos;
@@ -3086,6 +3116,10 @@ const BUILTIN_PRESETS = [
   notClaim:["dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"rotorform", familyRole:"variant",   // 第82便統合: ローター形成ファミリー(成長系の変種)
   emergence:"E3",   // 第83便A: E2(閉鎖系の創発)→ E3(多seed16・粒子数90/180/360・摂動回復で頑健性を確認)
+  // 第91便 EXT-07: 標準試験チェックリスト(宣言専用 — 実測は ref のハーネス。①②=exp-4-84・
+  // ③⑤⑥=exp-4-85・数値頑健性=exp-4-89・④は 90/180/360(exp-4-85)+720(exp-4-92)の4段階)
+  stdTests:{knockout:"pass", dose:"pass", multiSeed:"pass", nScaling:"pass", perturb:"pass", timeWindow:"pass"},
+  stdTestsRef:["tests/exp-4-84.mjs","tests/exp-4-85.mjs","tests/exp-4-89.mjs","tests/exp-4-92.mjs"],
   descStruct:{
     summary:"何も仕込んでいない一様な粒の雲から、重くて暗い「回る中心」がひとりでに育つのを見るサンプル。置いたのは180粒の一様な円盤(全部おなじ重さ1・自転ゼロ・自由)と、雲全体がゆっくり回る初速(ω₀=0.008)、そして各粒がひとつずつ持つ同じ微小なコアの種(質量の5%・半径0.2・Ω_c=2)だけ。中心天体も暗い核もハローも初期条件には一つも置いていない — 働くのは自己重力(E4)と接触(E9)、そして「近づきすぎた2粒は1粒になる」融合(中心距離が d<0.7·(R_i+R_j) まで縮んだら合体)と、そのときコアが保存則どおり足し合わされる継承則(M_c′=M_c,i+M_c,j・R_c′=√(R_c,i²+R_c,j²)・J_c′=J_c,i+J_c,j)だけである。固定天体・境界・一様重力・伝熱壁はどれも無く、系の重心と重心速度は生成時に1回だけ0へ揃えてある(閉鎖系)。",
     observe:"実測(seed 20260806・9000步=t144): 180粒が155回の融合を経て25体になり、いちばん重い1体が全質量の26.7%(m=48)を占める中心天体に育つ。束縛率は0.75。融合を切った対照では最大天体は最初の1粒のまま(質量比0.56%)で束縛率も0.14 — 中心天体は初期条件ではなく融合則の生成物である。原因が自己重力であることは用量反応で分離した: Gだけを2/4/6/8/12と振ると質量比は1.7/6.1/12.8/26.7/44.4%(融合は7/62/125/155/173回)と単調に増える。コアの角運動量J_coreは融合継承の経路だけで貯まる: 中心天体のJ_coreは0.0960で、これは種48個ぶんちょうど、飲み込んだ質量48と1粒単位で一致する(継承則の総和がそのまま個数を数えている)。系全体のΣJ_coreは0.3600(=180粒×0.0020)のまま最後まで変わらず、コア種を外した対照ではJ_coreは恒等的に0になる(継承以外の生成経路が無い)。暗さも育つ: 実効減光lS_eff(A11/E8R — 自転で自分の光を掃き出す度合い)はt=0で0.000、9000步では中心天体は0.589まで暗くなるのに対し周囲の天体は平均0.159のままで、「暗い中心+明るい周辺」が生成する(コントラスト3.7倍)。この暗さは井戸の深さψ=W/Ktだけで決まり力学には一切効かない(実測: Kt 12/14/16/20/24で粒子数・融合回数・質量比・スピン・半径がすべて完全一致し、変わるのは減光の0.920/0.589/0.421/0.264/0.193だけ)。自転ゼロで始まった粒のスピンは最後には全部が同じ向きに揃う(創発モニタのスピン整列度0.000→1.000・塊の数166→2・最大塊の質量比0.994・回転支持比V/σ=10.9)。運動量・角運動量(A13/T7)はリザーバ帳簿ゼロのまま厳密に閉じる(モニタ表示・9000步で|ΔL|/L_scale=6.7e-7)。※創発の標準試験(第83便A・詳細はdocs/PHYSICS.md「創発水準と標準試験」): この現象には多seed・粒子数スケーリング・摂動回復・時間窓の4試験を通してある。【多seed16】20260806〜20260821の16seedで最大天体の質量比は18.3〜53.3%(中央34.7%)に分布し、16seedすべてで18.3%以上になる — 融合を切った対照は全seedで0.56%(=1/180が厳密に保たれる。融合が無ければ質量は動かない)なので、最小でも対照の33倍である。同じ16seedで最大塊の質量比0.972〜1.000・スピン整列度0.985〜1.000・回転支持比V/σ 3.1〜20.8・中心の減光0.472〜0.919・周囲0.126〜0.235・J_core 0.0660〜0.1920(種33〜96個ぶん)・束縛率0.43〜1.00・残り体数17〜37体(融合143〜163回)、NaNもclampもゼロで|ΔL|/L_scaleは最大6e-6。中心と周囲の減光コントラストは2.41〜5.30倍(中央4.07)、対照は0.40〜1.26倍(中央1.17)で16seedを通して一度も重ならない — このあとの(a)で「暗さ単独では融合の有無を判別しない」と記す点について、正しい判別量がこのコントラストの方だということが16seedで裏づけられた。【粒子数スケーリング】n=90/180/360(代表3seed)で質量比の中央値は12.2/26.7/31.7%、最大塊の質量比は0.944/0.994/1.000、整列度はどれも1.000 — 現象は特定の粒子数でだけ立つ離散模様ではない。ただし本サンプルは円盤半径と1粒の質量を固定してnを振るので、nは同時に総質量(=自己重力の強さ)でもある: n=90はGを半分にしたのと同じ側に効き、「対照の10倍」という基準は3seed中2seedでしか満たさない(7.0/11.0/22.0倍)— これも正直な記録として残す。【摂動回復】構造ができたt=120(7500步)で全粒子の速度に平均を差し引いたガウスノイズ(速さRMSの30%・系の全運動量は保存)を入れても、最大塊の質量比・整列度・中心天体の質量比は1つも動かない。この構造は速度の乱れでは壊れず、掃引すると壊れ始めるのは速さRMSの2倍から(15000步で最大塊0.994→0.811、4倍で0.583)。乱れて戻るのは回転支持比V/σ(28〜33%落ちて10步=Δt0.16で復帰)と束縛率(最大11%落ちて200步で復帰)。整列度は速度ノイズでは定義上動かないので、粒子の約半数のスピンを反転させる摂動を別に入れた: 整列度は1.000から−0.907/−0.800/−0.232まで壊れるのに10步(Δt=0.16)で0.976以上へ戻り、反転させた中心天体自身のスピンも10〜200步で正へ復帰する — 揃った回転は「一回限りの配置」ではなく、接触摩擦(E9)と引きずり(A8/E6′)が毎步維持している到達点である。【時間窓】塊は1500步(t=24)でひとつにまとまり、整列度は2000步(t=32)で0.99を超え、質量比は2000〜3000步(t=32〜48)で最終値の90%に達してそこから飽和する。9000步(=validT 144)と18000步の質量比の差は0.0000で、validTは立ち上がりが終わった安定域の内側にある。これら4試験と第82便Bのノックアウト・用量反応を合わせた6試験を通したので、E水準はE2(閉鎖系の創発)からE3(多seed・粒子数変更・摂動回復で頑健性を確認した創発)へ上げてある。実測ハーネス: tests/exp-4-85.mjs。※立たなかった主張も正直に記す: (a)暗さそのものは融合の有無を判別しない — 融合を切った対照でも、180粒が密集した山の中心はlS_eff=0.999まで暗くなる(暗さを決めるのは井戸の深さであって成長経路ではない)。判別するのは「中心が暗く周囲は明るい」というコントラストの方で、対照では周囲も平均0.834まで暗い。(b)引きずりkFrame=0の対照は外縁の回転に系統差を作らない(生き残りが中心へ集まって外縁帯の統計が立たず、差はseed幅に埋もれる)— 本サンプルは引きずりの主張をしない。(c)融合閾値dFracの用量反応は単調ではない(0.7/0.6/0.5/0.35→26.7/47.8/43.3/23.3%)。実在の銀河・ダークマター・星形成の再現を主張するものではない(Negative Claims 1/2)。",
@@ -3288,6 +3322,10 @@ const BUILTIN_PRESETS = [
   scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
+  // 第91便 EXT-07: 標準試験チェックリスト(宣言専用 — 実測は ref のハーネス。①②′③④⑥=
+  // exp-4-90〔主判定量=ΔT減衰率λ〕・⑤=exp-4-91〔温度再分裂+速度キック〕。λ≈λ0·(κs/0.15)·(n/120))
+  stdTests:{knockout:"pass", dose:"pass", multiSeed:"pass", nScaling:"pass", perturb:"pass", timeWindow:"pass"},
+  stdTestsRef:["tests/exp-4-90.mjs","tests/exp-4-91.mjs"],
   descStruct:{
     summary:"左=低温(青)・右=高温(赤)のガス。左右は質量・数・初速分布が同一で、初期の内部温度T_intだけが異なる統制実験。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂: 温度=構成粒子のミクロなスピン。マクロなspinはコヒーレント回転)。",
     observe:"衝突の散逸が速度を熱に変え(E9)、熱い粒子ほど強く押し合って圧力を生み(E5′)、熱伝導で温度が均一化する(T6/E10′)。自己重力と空間引きずりは切ってあり(G=0, kFrame=0)、働くのは接触・斥力・伝導の熱過程だけ。右下に左右の平均温度バー。熱は熱容量C·mの重みで伝わるので、粒径が違っても温度そのものが均一化する(旧A9のL9が解消)。"},
@@ -7811,6 +7849,22 @@ function makeSim(){
     }
     return {px,py,L};
   };
+  // 第91便 EXT-14: エネルギー内訳の読み口(表示・監査専用 — 物理には一切影響しない)。
+  // kin = 並進 Σ½m v² / rot = 回転 Σ½I s²(I=½mR²。コアv2独立コアは ½J_c·Ω_c を加算)/
+  // heat = 内部熱 Σ C·m·T_int(tint モードのみ — spin モードでは温度=I s² が rot に含まれる
+  // ため二重計上を避けて null を返す)
+  S.energies=function(){
+    let kin=0, rot=0;
+    for(let i=0;i<S.n;i++){
+      kin+=0.5*S.m[i]*(S.vx[i]*S.vx[i]+S.vy[i]*S.vy[i]);
+      rot+=0.25*S.m[i]*S.R[i]*S.R[i]*S.spin[i]*S.spin[i];
+      if(S.hasCoreV2 && S.coreMd[i]>=2) rot+=0.5*S.coreJ[i]*S.coreOmV[i];
+    }
+    let heat=null;
+    if(S.Tint){ heat=0; const C=S.params.cHeat;
+      for(let i=0;i<S.n;i++) heat+=C*Math.abs(S.m[i])*S.Tint[i]; }
+    return {kin, rot, heat};
+  };
   // E7R 固有時間(v1.7・ψ統一): dτ/dt = √(N²−A²|v−u|²/c₀²)、N=e^{−ψ}、A=e^{+ψ}、
   // ψ = W_ext/Kt(外部の決定力のみ=自己場除外)。u は E3 と同じ自己除外フレーム。
   // 弱場・低速で 1−ψ−|v−u|²/(2c₀²) となり旧 E7(1/(1+ψ))の一次形と一致し、
@@ -9636,8 +9690,22 @@ function loop(now){
     }
     if(monitorOn){ // 保存量モニタ(T7): P+帳簿P・L+帳簿L+放射L が一定なら保存則成立
       const tt=sim.totals();
+      // 第91便 EXT-14: 系の閉鎖/開放の自動判定を先頭に表示(classifyPreset の external/closed —
+      // renderHelp が計算したものを再利用。表示のみ・物理不変)
+      if(_monCls){
+        const rs=[];
+        if(_monCls.external.pin) rs.push(T("sysPin"));
+        if(_monCls.external.rail) rs.push(T("sysRail"));
+        if(_monCls.external.bath) rs.push(T("sysBath"));
+        if(_monCls.external.wall) rs.push(T("sysWall"));
+        if(_monCls.external.grav) rs.push(T("sysGrav"));
+        txt+=`\n${_monCls.closed? T("hudSysClosed") : T("hudSysOpen")(rs.join("・")||"—")}`;
+      }
       txt+=`\nP=(${fmt(tt.px)}, ${fmt(tt.py)})  L=${fmt(tt.L)}`;
       txt+=`\n帳簿P=(${fmt(sim.resPx)}, ${fmt(sim.resPy)})  帳簿L=${fmt(sim.resL)}  放射L=${fmt(sim.radL)}  放射E=${fmt(sim.radE)}`;
+      // 第91便 EXT-14: エネルギー内訳(E_kin/E_rot/E_int — energies() 読み口。表示のみ)
+      { const en=sim.energies();
+        txt+=`\nE_kin=${fmt(en.kin)}  E_rot=${fmt(en.rot)}`+(en.heat===null? "" : `  E_int=${fmt(en.heat)}`); }
       // 第37便 C1(台帳4-70): 伝熱する箱のときだけ壁帳簿を1行追加(他のサンプルでは1文字も増えない)
       if(sim.twall) txt+=`\n壁注入E=${fmt(sim.wallEin)}  壁回収E=${fmt(sim.wallEout)}  壁吸収KE=${fmt(sim.wallKE)}`;
       // 第47便 47A(台帳4-86): pinned を外部熱浴として扱ったときの伝導熱の帳簿。
@@ -11829,6 +11897,7 @@ function renderHelp(){
   // 第51便 51B(原仮定者指示): 表示順を「タグ(分類チップ)→タイトル→数値主張(claims)→本文」へ
   // 組み替え。各ブロックの中身は不変 — 並びだけの変更(タグと数値主張を本文より先に見せる)
   const cls=classifyPreset(currentPreset);
+  _monCls=cls;   // 第91便 EXT-14: 保存モニタの閉鎖/開放表示が再利用(表示のみ)
   const chipRow=document.createElement("div"); chipRow.id="classChips";
   const addChip=(g,label,tip)=>{
     const s=document.createElement("span"); s.className="classChip"; s.dataset.g=g; s.textContent=label;
@@ -11879,6 +11948,29 @@ function renderHelp(){
       const r1=document.createElement("div"); r1.className="ffRow ffFail"; r1.textContent="❌ "+T("ffFail")+" — "+ff.fail; box.appendChild(r1);
       const r2=document.createElement("div"); r2.className="ffRow ffPass"; r2.textContent="✅ "+T("ffPass")+" — "+ff.pass; box.appendChild(r2);
       el.appendChild(box);
+    }
+  }
+  // 第91便 EXT-07: 創発の標準試験チェックリスト — stdTests 宣言のあるプリセットのみ。
+  // sampleClass と同方針の**宣言専用メタ**(自動判定しない — 実測は stdTestsRef のハーネスが正本。
+  // E水準チップの判定根拠を6行でその場に開く)
+  {
+    const st=currentPreset.stdTests;
+    if(st){
+      const det=document.createElement("details"); det.className="stdDetails";
+      const sum=document.createElement("summary"); sum.textContent=T("stHead"); det.appendChild(sum);
+      for(const k of ["knockout","dose","multiSeed","nScaling","perturb","timeWindow"]){
+        const v=st[k]||"na";
+        const row=document.createElement("div"); row.className="stRow"; row.dataset.st=v;
+        row.textContent=(v==="pass"?"✅ ":v==="partial"?"⚠️ ":"— ")+T("st_"+k)+": "
+          +T(v==="pass"?"stPass":v==="partial"?"stPartial":"stNa");
+        det.appendChild(row);
+      }
+      if(Array.isArray(currentPreset.stdTestsRef)&&currentPreset.stdTestsRef.length){
+        const p2=document.createElement("p"); p2.className="note";
+        p2.textContent=T("stRefs")(currentPreset.stdTestsRef.join(" / "));
+        det.appendChild(p2);
+      }
+      el.appendChild(det);
     }
   }
   // 第82便: 「この仲間」— familyId を持つプリセットで、同ファミリーの他メンバーへワンタップ切替
@@ -13167,6 +13259,9 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   firstVisitShow:showFirstVisit,
   paramRoles:()=>PARAM_DEFS.map(d=>({key:d.key, role:paramRole(d.key),
     declared:Object.prototype.hasOwnProperty.call(PARAM_ROLES,d.key)})),
+  // 第91便 EXT-14: 保存モニタの ON/OFF(QA用 — 表示トグルと同じフラグを直接読む/書く)
+  setMonitor:(v)=>{ monitorOn=!!v; requestRender(); },
+  monitorNow:()=>monitorOn,
   running:()=>running, setRunning:(v)=>{running=v;updatePlayBtn();},
   recTrail, drawRadiusCap, Q_TRAILPTS,  // 第29便: 軌跡上限・描画半径上限のQA用
   // 第12便: 粒子選択のQA用(A/B比較中の編集検証 — world: "A"|"B")
