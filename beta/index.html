@@ -227,6 +227,31 @@
   /* 第82便B: E水準タグ(emergence:"E0".."E3" の宣言があるプリセットのみ)— 創発の水準の宣言。
      sampleClass と同方針の宣言専用メタで、物理・保存 JSON には一切影響しない */
   #classChips .classChip[data-g^=emg-]{border-color:var(--ok);color:var(--ok);}
+  /* 第88便(v1.39-b1 スプリント1)EXT-01/03/04/09: 初見ガイド・役割チップ・しない主張・
+     Failure First。すべて表示専用 — 物理・保存 JSON には一切影響しない */
+  #fvOverlay{position:fixed;inset:0;background:rgba(5,8,18,.78);z-index:9999;display:flex;
+    align-items:center;justify-content:center;padding:16px;}
+  .fvBox{background:var(--panel);border:1px solid var(--line);border-radius:14px;max-width:540px;
+    width:100%;max-height:86vh;overflow-y:auto;padding:14px 16px;}
+  .fvBox>h3{margin:2px 0 8px;font-size:calc(16px*var(--uz,1));}
+  .fvCard{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--panel2);}
+  .fvCard>h4{margin:0 0 4px;font-size:calc(13px*var(--uz,1));}
+  .fvCard>p{margin:0;font-size:calc(12.5px*var(--uz,1));line-height:1.6;}
+  #fvStart{display:block;width:100%;margin-top:10px;min-height:44px;border-radius:10px;
+    background:var(--acc);color:#fff;border:0;font-weight:700;}
+  #btnFvAgain{display:block;margin:8px 0;min-height:40px;border-radius:10px;
+    background:var(--panel2);border:1px solid var(--line);padding:6px 12px;}
+  .roleChip{font-size:calc(9.5px*var(--uz,1));border:1px solid var(--dim);color:var(--dim);
+    border-radius:6px;padding:0 4px;margin-left:5px;white-space:nowrap;vertical-align:1px;}
+  .roleChip[data-role=physics]{border-color:var(--acc);color:var(--acc);}
+  .roleChip[data-role=experiment]{border-color:var(--hot);color:var(--hot);}
+  #roleLegend{font-size:calc(10.5px*var(--uz,1));color:var(--dim);line-height:1.5;padding:2px 4px 8px;}
+  .notClaimLine{color:var(--hot);font-size:calc(11.5px*var(--uz,1));line-height:1.55;margin:3px 0;}
+  .ffBox{border:1px solid var(--line);border-radius:10px;padding:6px 10px;margin:8px 0;background:var(--panel2);}
+  .ffHead{font-weight:700;font-size:calc(12px*var(--uz,1));margin:2px 0 4px;}
+  .ffRow{font-size:calc(12px*var(--uz,1));line-height:1.55;margin:3px 0;}
+  .ffRow.ffFail{color:var(--err);}
+  .ffRow.ffPass{color:var(--ok);}
   /* 第43便 43A(台帳4-78 B案): 数値主張(claims)の折畳み表示 — 分類バッジの直下、claims を
      持つプリセットにのみ表示。表示専用(物理・保存 JSON には無関係)。details.advParams と
      同系統の見た目を流用しつつ独立クラス化。長い数値行でも横スクロールが出ないよう break を許可 */
@@ -738,6 +763,35 @@ ja: {
   helpTheoryNote:"※ 正確な定義と導出は docs/PHYSICS.md / docs/DERIVATIONS.md を参照。",
   aboutTitle:"このアプリについて",   // 第27便: タイトルタップの説明パネル
   aboutBody:"DFM Lab は、仮定の物理法則「決定力場モデル(DFM)」の帰結をその場で走らせて観察する実験室です。サンプルを選び、パラメータを変えて、重力・時間・光・熱のふるまいを比較できます。現実の物理の代替ではなく、明示した仮定から何が導かれるかを見る教育用のトイモデルです(詳細は docs/PHYSICS.md)。",
+  // 第88便(v1.39-b1 スプリント1)EXT-01: 初見ガイド(3枚カード — 表示専用)
+  fvTitle:"DFM Lab へようこそ",
+  fvCard1Head:"❶ DFM とは",
+  fvCard1:"「もし空間が、物質どうしの関係だけで決まったら?」という仮定のルール(決定力場モデル)で動く仮想宇宙の実験室です。現実の宇宙の法則そのものではありません。",
+  fvCard2Head:"❷ できること",
+  fvCard2:"サンプルを選び、パラメータを変えて、重力・時間・光・熱のふるまいをその場で数値実験できます。対照実験(A/B比較)・seed固定の完全再現・自動検証(QA)を備えています。",
+  fvCard3Head:"❸ しない主張",
+  fvCard3:"一般相対論の置き換え・ダークマターの説明・実在天体の再現は主張しません。各サンプルの「⚠」行と docs の Negative Claims が主張の境界です。",
+  fvStart:"はじめる",
+  fvAgain:"📖 初見ガイドをもう一度見る",
+  // 第88便 EXT-03: パラメータ役割の3分類(物理仮定/実験条件/数値 — 表示専用)
+  roleLegend:"各パラメータの役割: 「物理仮定」= このモデルの法則そのもの(変えると宇宙のルールが変わる)/「実験条件」= 外から与える実験設定/「数値」= 離散化・数値安定化の設定(物理法則ではない)。",
+  role_physics:"物理仮定", role_experiment:"実験条件", role_numerics:"数値",
+  role_physicsTip:"このモデルの法則そのもの。変えると「別のルールの宇宙」になる。",
+  role_experimentTip:"外から与える実験条件(モデルの法則ではない)。",
+  role_numericsTip:"離散化・数値安定化のための設定。物理法則ではなく、結果がこれに依存しないことを確認して使う。",
+  // 第88便 EXT-04: しない主張(宣言専用メタ notClaim の表示文 — サンプル単位の Negative Claims)
+  nc_toy:"仮定した法則の帰結を見るトイモデル内の実験であり、現実の宇宙についての主張ではない。",
+  nc_dm:"ダークマターの説明・不要論の主張ではない(「暗く重い天体」はモデル内の構成物)。",
+  nc_bh:"GRのブラックホールの再現ではない(事象の地平面・Einstein方程式・Kerr解は含まない)。",
+  nc_galaxy:"実在銀河の回転曲線・渦状腕の説明ではない(kFrame=1 は現実より桁違いに強い反事実的仮定)。",
+  nc_nebula:"実在星雲(ガス・塵の吸収・散乱)の説明ではない。",
+  nc_cosmo:"実宇宙の膨張・ハッブルテンションの説明ではない(数値一致は較正であって証拠ではない — 構造の提示)。",
+  nc_cal:"数値の一致は Kt=c²/G の較正による対応であり、無調整の予言ではない。",
+  nc_solar:"実在の太陽系天体の定量再現ではない(見やすさ優先の誇張アナログ)。",
+  nc_thermo:"熱セクターは現実の熱力学との定量対応を主張しないアナロジーである。",
+  // 第88便 EXT-09: Failure First(失敗を先に見せる — 宣言専用メタ failureFirst の見出し)
+  ffHead:"🧪 失敗から見る(Failure First)",
+  ffFail:"FAIL", ffPass:"PASS",
   helpOps:"操作",
   helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。",
   helpLaws:"この宇宙の法則(要約)",
@@ -1034,6 +1088,35 @@ en: {
   helpTheoryNote:"※ Precise definitions and derivations: docs/PHYSICS.md / docs/DERIVATIONS.md.",
   aboutTitle:"About this app",
   aboutBody:"DFM Lab is a laboratory for running and observing the consequences of a hypothetical physics — the Determinacy Field Model (DFM). Pick a sample, change parameters, and compare how gravity, time, light and heat behave. It is an educational toy model that shows what follows from explicit assumptions — not a replacement for real physics (details: docs/PHYSICS.md).",
+  // 第88便(v1.39-b1 sprint 1)EXT-01: first-visit guide (3 cards — display only)
+  fvTitle:"Welcome to DFM Lab",
+  fvCard1Head:"❶ What is DFM?",
+  fvCard1:"A laboratory for a hypothetical universe running on an assumed rule — the Determinacy Field Model: \"what if space were defined only by the relations between matter?\" It is not the physics of the real universe.",
+  fvCard2Head:"❷ What you can do",
+  fvCard2:"Pick a sample, change parameters, and run numerical experiments on gravity, time, light and heat — with A/B controls, seed-fixed exact reproduction, and automated QA.",
+  fvCard3Head:"❸ What it does not claim",
+  fvCard3:"It does not claim to replace general relativity, explain dark matter, or reproduce real astronomical objects. The \"⚠\" lines on each sample and the Negative Claims in docs mark the boundary.",
+  fvStart:"Start",
+  fvAgain:"📖 Show the first-visit guide again",
+  // 第88便 EXT-03: parameter role chips (display only)
+  roleLegend:"Role of each parameter: \"Physics\" = the laws of this model themselves (changing them changes the universe's rules) / \"Experiment\" = externally imposed experimental conditions / \"Numerics\" = discretization and numerical-stability settings (not physical laws).",
+  role_physics:"Physics", role_experiment:"Experiment", role_numerics:"Numerics",
+  role_physicsTip:"A law of this model itself — change it and you get a universe with different rules.",
+  role_experimentTip:"An externally imposed experimental condition (not a law of the model).",
+  role_numericsTip:"A discretization / numerical-stability setting. Not a physical law — check that results do not depend on it.",
+  // 第88便 EXT-04: per-sample negative-claim lines (declaration-only meta notClaim)
+  nc_toy:"A toy-model experiment showing consequences of assumed laws — not a claim about the real universe.",
+  nc_dm:"Not a claim to explain dark matter or make it unnecessary (the \"dark heavy body\" is a model-internal construct).",
+  nc_bh:"Not a reproduction of a GR black hole (no event horizon, Einstein equations or Kerr metric).",
+  nc_galaxy:"Not an explanation of real galactic rotation curves or spiral arms (kFrame=1 is a counterfactually strong assumption, far beyond reality).",
+  nc_nebula:"Not an explanation of real nebulae (absorption and scattering by gas and dust).",
+  nc_cosmo:"Not an explanation of real cosmic expansion or the Hubble tension (numerical agreement is calibration, not evidence — a structural demonstration).",
+  nc_cal:"The numerical agreement is a correspondence via the Kt=c²/G calibration, not an unadjusted prediction.",
+  nc_solar:"Not a quantitative reproduction of real solar-system bodies (an exaggerated analog tuned for visibility).",
+  nc_thermo:"The thermal sector is an analogy with no claimed quantitative correspondence to real thermodynamics.",
+  // 第88便 EXT-09: Failure First heading
+  ffHead:"🧪 Failure First",
+  ffFail:"FAIL", ffPass:"PASS",
   helpOps:"Controls",
   helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction.",
   helpLaws:"Laws of this universe (summary)",
@@ -1375,6 +1458,21 @@ function pDescStruct(p){
   if(LANG==="en") return (p.en && p.en.descStruct) || null;
   return p.descStruct || null;
 }
+// 第88便(v1.39-b1 スプリント1)EXT-04: しない主張 — notClaim は sampleClass と同方針の
+// **宣言専用メタ**(キー配列 or 単一キー。表示文は I18N の nc_* — ja/en 双方に定義)。
+// タイトル直下に「⚠ …」行として出す = 実在天体名を使うサンプルの二段名称を兼ねる。
+// 物理・保存 JSON には一切影響しない。表示の実在性は QA ui.notclaim が機械検査する。
+function pNotClaims(p){
+  const v=p && p.notClaim; if(!v) return [];
+  return (Array.isArray(v)?v:[v]).map(k=>T("nc_"+k)).filter(t=>typeof t==="string" && t);
+}
+// 第88便 EXT-09: Failure First — failureFirst:{fail,pass} は宣言専用メタ(en は p.en 側)。
+// 「baseの失敗 → オプションでの回復」を本文より先に見せる(☿。負の結果を隠さない方針の UI 化)
+function pFailureFirst(p){
+  if(!p || !p.failureFirst) return null;
+  if(LANG==="en" && p.en && p.en.failureFirst) return p.en.failureFirst;
+  return p.failureFirst;
+}
 function paramLabel(def){ return (LANG==="en" && I18N.en.params[def.key]) || def.label; }
 // v1.21: パラメータ名タップの説明文(ja=PARAM_DEFS.desc / en=I18N.en.paramDescs)
 function paramDesc(def){ return (LANG==="en" && I18N.en.paramDescs[def.key]) || def.desc || ""; }
@@ -1594,6 +1692,19 @@ const PARAM_DEFS = [
   {key:"timeScale",  label:"時間倍率",        mode:"log", lo:0.1, hi:16, group:"シミュレーション",
    desc:"シミュレーション時間の進みの倍率(速回し)。物理法則は変わらず、1フレームに進む時間だけが変わる。発散したら下げるのが第一選択。"},
 ];
+// 第88便(v1.39-b1 スプリント1)EXT-03: パラメータ役割の宣言(物理仮定/実験条件/数値)。
+// sampleClass と同方針の**宣言専用メタ**で、表示(役割チップ・凡例)にのみ使う —
+// 物理・保存 JSON・CLAMPS には一切影響しない。宣言漏れは QA params.roles が検出する。
+// 分類の根拠: g_x/g_y は決定力Wに寄与しない外部場(=実験条件)。radiusScale は「離散化の粒」、
+// softening は E1′ の緩和長、timeScale は速回し(いずれも数値設定 — 各 desc の記述と整合)。
+const PARAM_ROLES={
+  G:"physics", D0:"physics", kFrame:"physics", q:"physics", kRep:"physics", muF:"physics",
+  gammaN:"physics", kappaS:"physics", Kt:"physics", cLight:"physics", bM:"physics",
+  etaRad:"physics", pRad:"physics", cHeat:"physics", geoPN:"physics", lambdaPN:"physics",
+  pnAlpha:"physics",
+  gravityX:"experiment", gravityY:"experiment",
+  radiusScale:"numerics", softening:"numerics", timeScale:"numerics"};
+function paramRole(key){ return PARAM_ROLES[key]||"physics"; }
 function sliderPosToVal(def,pos){
   if(def.mode==="log") return def.lo*Math.exp((pos/1000)*Math.log(def.hi/def.lo));
   return pos;
@@ -1656,6 +1767,7 @@ const BUILTIN_PRESETS = [
 { id:"grcal", name:"弱場GR較正 — GPS・光・シャピロ", emoji:"🛰️", group:"空間と時間",
   scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"calibration",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["cal"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   descStruct:{
     summary:"この宇宙の時計と光を1本の式ψ=W/Kt(弱場則。A7′/E7R/E8R/T5)で決めたら、現実のGPSや太陽のそばの観測とどれだけ合うかを試す較正デモ。",
     observe:"Kt=c²/Gの1本で: GPS時計の正味進み +38.5μs/日(重力+45.7・運動−7.2。観測≈+38.6)/太陽縁の光偏向 1.7512″(観測≈1.75″)/シャピロ遅延 ≈281μs(カッシーニ幾何)が定量一致する。画面はそのアナログ: 地上時計(r=60)はτ/t=0.920、周回衛星(r=180)は運動しているのにτ/t=0.971で速く進む — 重力項が運動項に勝つ、実GPSと同じ符号構造。左からの光線ファンは中心星の場で屈折し(シャピロ遅延と同じn_eff>1の機構)、Ktを下げると時計差と湾曲が同時に強まる。※SI較正の数値はKt=c²/G写像の式計算によるもの。画面初期値は見やすさ優先の誇張アナログで、物理対応条件 Kt=cLight²/G は満たしていない(PHYSICS §5 物理対応条件)。",
@@ -1679,11 +1791,21 @@ const BUILTIN_PRESETS = [
 { id:"mercury", name:"水星の近日点前進 — 測地線1PN", emoji:"☿", group:"空間と時間",
   scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["cal"],   // 第88便 EXT-04(宣言専用 — 表示のみ)
+  // 第88便 EXT-09: Failure First(宣言専用 — 表示のみ)。base の失敗は論文1既報の負の結果
+  failureFirst:{
+    fail:"Base DFM(1PN補正なし・λ_PN=0)は水星の近日点前進を再現しない — 楕円軌道は閉じたまま(重要な負の結果)。",
+    pass:"測地線オプション E12(λ_PN=1・α=1.5)で 1PN 前進を回復 — 同式の実値換算 42.98″/世紀(V18〜V20 で機械検証)。"},
   descStruct:{
     summary:"楕円軌道の惑星が、周るたびに少しずつ向きをずらしながら花びら模様を描くサンプル(近日点の前進)。時計を遅らせるのと同じ量ψ=W/Ktが軌道の形も決める測地線モード(E12・A7′/E7Rの作用化)による。",
     observe:"pnAlpha=0.5(時間率のみ)では前進が1/3に減る — 実際の水星で42.98″/世紀(全量)と14.33″/世紀(1/3)に対応する。※画面の初期値は、歳差が数周で見える様に増幅した可視化用の誇張アナログで、物理対応条件 Kt=cLight²/G は満たさない(実値換算は同じ式の解析検証による。PHYSICS §5 物理対応条件)。",
     control:"λ_PN(lambdaPN)を0にするとニュートンに戻り楕円は閉じる。"},
-  en:{name:"Mercury's Perihelion Advance — Geodesic 1PN", descStruct:{
+  en:{name:"Mercury's Perihelion Advance — Geodesic 1PN",
+    // 第88便 EXT-09: Failure First(en)
+    failureFirst:{
+      fail:"Base DFM (no 1PN correction, λ_PN=0) does not reproduce Mercury's perihelion advance — the ellipse stays closed (an important negative result).",
+      pass:"The geodesic option E12 (λ_PN=1, α=1.5) recovers the 1PN advance — 42.98″/century in real-value conversion of the same formula (machine-checked by V18–V20)."},
+    descStruct:{
     summary:"A planet on an elliptical orbit traces a slowly turning rosette, its orbit shifting a little further round each lap (perihelion advance). This happens in geodesic mode (E12), where the same quantity ψ=W/Kt that slows clocks also shapes the orbit (the action form of A7′/E7R). ",
     observe:"With pnAlpha=0.5 (time rate only) the advance drops to 1/3 — corresponding to 42.98″/century (full) vs 14.33″/century (1/3) for the real Mercury. Note: the on-screen initial values are an exaggerated visualization analog — amplified so the precession shows within a few orbits — and do not satisfy the physical-correspondence condition Kt=cLight²/G (the real-value conversion rests on analytic checks of the same formula; see PHYSICS §5). ",
     control:"Set λ_PN (lambdaPN) to 0 to recover Newton: the ellipse closes."}},
@@ -1963,6 +2085,7 @@ const BUILTIN_PRESETS = [
 { id:"probeH", name:"箱宇宙 — ２つのH推定器(ハッブルテンション類似)", emoji:"🧭", group:"箱宇宙",
   scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["cosmo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   // 第50便 50K(台帳4-78 C案パイロット): descStruct(要約/観察/操作)— 純分割+操作文の末尾移設のみ
   descStruct:{
     summary:"同じ箱の膨張率Hを、2人の観測者が別々の物差しで測る(論文2の中心結果V29を操作可能にしたサンプル)。幾何プローブは共動構造を追ってH_geo=Δln a/Δtを報告する。速度プローブはFLRW流の減衰則w/c∝1/aを仮定し、比R=w/c_locの実測減衰からH_w=−Δln R/Δtを推定する。2つの推定値の食い違いがハッブルテンションと同水準(a=2の点値0.92 対 実宇宙比0.923)になる較正で、HUDの「テンション類似」行から常時確認できる。",
@@ -2076,6 +2199,7 @@ const BUILTIN_PRESETS = [
 { id:"cosmicweb", name:"箱宇宙 — 膨張と自己重力の綱引き(コズミックウェブ類似)", emoji:"🕸️", group:"箱宇宙",
   scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["cosmo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   // 第51便 51G(原仮定者指摘「塊になってしまう」): H0 0.004→0.01(共動初速 vScale も同値)。
   // 旧既定は全体が重力束縛のままで、評価窓の先(12000步〜)で1つの塊へ潰れていた。
   // 新既定は膨張が全体の束縛を解き、12000步でも複数ノット+フィラメントを保つ(実測 δ²=2.91・
@@ -2122,6 +2246,7 @@ const BUILTIN_PRESETS = [
 { id:"galaxy", name:"銀河の回転曲線", emoji:"🌌", group:"銀河",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["galaxy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"galaxyrot", familyRole:"primary",   // 第82便: ファミリー表示(表示専用)
   // 第33便 X4(台帳4-65a): AI生成プリセットを土台に再設計。原案からの変更は円盤の radius(320→260)と
   // mMin/mMax(.08–.25→.16–.50)の3値のみ — 中心天体・physics・rays は原案のまま。
@@ -2162,6 +2287,7 @@ const BUILTIN_PRESETS = [
 { id:"galaxyStd", name:"空間引きずりの基準実験 — 銀河標準", emoji:"🎡", group:"銀河",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["galaxy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"galaxyrot", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
   // 第66便 66B(P2 標準サンプル — 第64便裁定④「標準サンプル3種」の銀河標準): 🌌galaxy の
   // **単一機構純化版**。熱斥力(kRep)・接触摩擦(muF)・法線減衰(γn)・熱伝導(κs)を 0 にし、
@@ -2201,6 +2327,7 @@ const BUILTIN_PRESETS = [
 { id:"galaxyGeo2", name:"v−u統一測地線の銀河", emoji:"💫", group:"銀河",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第70便: 統一則(geoPN=2)の単一機構実証(分類は原仮定者裁定で更新可)
+  notClaim:["galaxy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"galaxyrot", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
   // 第70便(ChatGPT レビュー §8.1 の採択): 🎡galaxyStd と**厳密同一の初期配置・物理**で
   // geoPN だけを 2 にした統一測地線則の基準銀河。既存 🎡(geoPN=0 legacy)は比較基準として
@@ -2244,6 +2371,7 @@ const BUILTIN_PRESETS = [
 { id:"galaxyDB", name:"ディスクとバルジ — 回転支持と分散支持", emoji:"🍳", group:"銀河",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",
+  notClaim:["galaxy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"galaxyrot", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
   descStruct:{
     summary:"同じ中心天体(m2500・スピン1.2)のまわりに、同じ量の恒星を2グループに分けて置き、回り方の違いを比べるサンプル。ひとつは全員が同じ向きにきれいな円運動をする「ディスク」190体(半径260)、もうひとつは向きも速さもバラバラな「バルジ」190体(中心に集中・半径90)。実在の銀河にある「ディスクは回転で支え合い、バルジはバラバラな動きで支え合う」という違いを、この宇宙の法則(E4重力+A8/E6′空間引きずり)だけで再現する基準実験である。純化のためkRep=muF=γn=κs=0 — スピンを変える経路は空間引きずりの反作用に伴う残余トルク(E6′③)だけに絞ってある。",
@@ -2280,6 +2408,7 @@ const BUILTIN_PRESETS = [
 { id:"darkrotor", name:"ダークローターの銀河", emoji:"🕶️", group:"銀河",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["dm","galaxy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"darkcenter", familyRole:"primary",   // 第82便: ファミリー表示(表示専用)
   // 第84便B: E水準(創発の標準試験を展開した実測に基づく宣言 — docs/PHYSICS.md「創発水準と標準試験」)。
   // 383粒子すべて自由(pinned 0・境界なし・一様重力なし)= **閉鎖系**なので E2 の資格があり、
@@ -2400,6 +2529,7 @@ const BUILTIN_PRESETS = [
 { id:"rotorSolo", name:"ダークローター(単体)", emoji:"🕳️", group:"銀河",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"darkcenter", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
   descStruct:{
     summary:"ダークローターとは、高速スピンによって光学的に暗くなった回転天体を指すこのモデル内の造語である(自光の減光と外来光線の掃き出しの2機構で暗い)。🕶️から「暗い天体」1個だけを取り出した最小構成 — 中心の高スピンコア(m=2000・半径45・スピン2.0・減光=auto)と、r=200を周回する24個のテスト粒子、左から入る20本の光線。全粒子が自由(ピン・レール無し)の閉鎖系。この宇宙の「暗さ」は別々の機構の混合で(DERIVATIONS §17)、この画面はそのうち2つを同時に、しかも分離して見せる。",
@@ -2455,6 +2585,7 @@ const BUILTIN_PRESETS = [
 { id:"nebulaRotor", name:"ローター星雲 — 暗黒星雲と散光星雲", emoji:"🌑", group:"銀河",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",
+  notClaim:["nebula","dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"rotorform", familyRole:"primary",   // 第82便: ファミリー表示(表示専用)
   descStruct:{
     summary:"暗黒星雲を「光学的な性質の強い天体(ダークローター)の集まり」と仮定したらどんな構造になるか、の思考実験。高スピンの小ローター54個が階層的なクランプ(中心の高密度コア+左右の副クランプ)を作り、そのまわりを低スピンの放射粒子44個のエンベロープが取り巻く。ローターは高スピンなので自光を掻き出して暗く(A9/A11/E8R系の lightSweep auto)、エンベロープはスピンが低いので放射(E11)がそのまま漏れて明るい — ひとつの雲の中に「暗黒星雲(コア)」と「散光星雲(縁)」が同居する。実在の星雲(ガスと塵の吸収・散乱)についての主張ではない(Negative Claims)。",
@@ -2509,6 +2640,7 @@ const BUILTIN_PRESETS = [
 { id:"nebulaShell", name:"重殻ローター星雲 — 束縛と暗さの両立", emoji:"🐚", group:"銀河",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",
+  notClaim:["nebula","dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"rotorform", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
   descStruct:{
     summary:"重い殻の中に、速く回る小さなコアを隠した粒子の集まり。外は静かなのに中は真っ暗、という星雲を作る思考実験(🌑ローター星雲の改良版で、塵粒の設計だけを変えてある)。各粒は「重い外殻(質量のほとんど)+高速スピンの小さなコア(コアv2: Mc/m=0.4・R_c=1.15・Ω_c=16)」の2層構造を持つ。重い殻の重力が雲をまとめ、暗さは殻ではなくコアだけが担う(各層が自分の光を自分の表面速度で掻き出し、光度比で混ぜる2層減光 — A9/A11系、第75便拡張)。回転の遅い殻にはスピン斥力(E5′)がほとんど効かないので、熱の圧力(kRep=0.3)がかかっても雲は壊れない — 「暗さの原因になるスピンを小さなコアへ隠す」ことで、まとまりと暗さを両立させている。この「重い外殻+高速スピンの中心コア」が本モデルの正式なダークローターの定義であり(第76便)、暗黒星雲や星の種(prestellar core 類似)はその候補としてここで実験される。実在の星雲についての主張ではない(Negative Claims)。",
@@ -2571,6 +2703,7 @@ const BUILTIN_PRESETS = [
 { id:"nebulaBipolar", name:"双極星雲 — 暗黒トーラスと極方向ローブ", emoji:"⏳", group:"銀河",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",
+  notClaim:["nebula"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"rotorform", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
   // 第84便B: E水準(創発の標準試験を展開した実測に基づく宣言 — docs/PHYSICS.md「創発水準と標準試験」)。
   // 24 body 定義のうち **22体(赤道ダークアーク)が pinned** で、ローブを立てている「赤道を塞ぐ幾何」
@@ -2662,6 +2795,7 @@ const BUILTIN_PRESETS = [
 { id:"bhCore", name:"DFM版ブラックホール — 自由な5層の中心", emoji:"⚫", group:"銀河",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",
+  notClaim:["bh"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"darkcenter", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
   descStruct:{
     summary:"銀河の中心にひそむ、暗くて重い天体の正体を探るサンプル。「銀河中心の暗い天体は、コアの高速スピンが外殻へ伝わって銀河を回している」という仮説を、5つの層に分けて1画面で検証する。層0=中心コア(コアv2 の独立 J_core・初期Ω=20)/層1=重い内殻(m=2500 が引力を担う)/層2=外殻と擬似地平面(2層減光で真っ暗)/層3=決定フレーム(kFrame の空間引きずり)/層4=降着円盤(赤道面の高温ガス120体)。外側には測定用の恒星ディスク200体を置く。コアと外殻は τ_cs(K_cs=0.02)で結ばれており、コアに貯めた角運動量が外殻へ流れ出す。中心天体は**固定していない**(支配天体も他の粒子と同じ法則で動く自由な系)— 固定中心は座標を止めるだけでなく E6′ 引きずりの反作用を受け取る外部リザーバでもあるため、それを外すには反作用を換算質量 μ=m_im_j/(m_i+m_j) による対称インパルス J_ij=μ(φ_ij d_i−φ_ji d_j) へ置き換えた E6′-R(physics.frameReaction:\"pairReduced\")が要る。初期配置は重心系(balanceFrame)へ移してあり、観測はすべて中心天体基準の相対座標で行う。実在のブラックホール物理(事象の地平面・降着円盤の磁気流体・相対論的ジェット)の再現主張ではない — この宇宙の法則で「暗くて重い回転体」を組むとどうなるかのトイモデルである(Negative Claims)。",
@@ -2719,6 +2853,7 @@ const BUILTIN_PRESETS = [
 { id:"massLadder", name:"隠れ質量ラダー — 暗い中心の力学質量", emoji:"🪜", group:"銀河",
   scaleTier:"galactic",
   sampleClass:"composite",
+  notClaim:["dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"darkcenter", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
   descStruct:{
     summary:"「光っていないから軽い」とは限らない、を1画面で並べて確かめるサンプル。中心に置いた3つの重い天体(m=2500 / 5000 / 10000)はどれも減光 auto(lightSweep)で、自分の光を表面のフレーム速度で外へ掻き出してしまう — 観測温度は T_obs=(1−減光)·T なので、光度から推定される質量はどれも 0 になる。それぞれの周りに同じ半径180の測定用リング(恒星48体)を回してあり、リングの速度から力学質量 M_dyn=⟨v²r⟩/G を読む。3系は同じ半径・同じ星数・同じ見た目で、違うのは中心の質量だけ。左から右へ 1 : 2 : 4 の「ラダー」になっている。実在のダークマター観測(銀河回転曲線の平坦化・重力レンズ・弾丸銀河団)の再現主張ではない — 光学的な暗さと力学的な重さが独立でありうることを、この宇宙の法則の内側で示すトイモデルである(Negative Claims)。",
@@ -2770,6 +2905,7 @@ const BUILTIN_PRESETS = [
 { id:"merger", name:"銀河合体と潮汐効果", emoji:"🌠", group:"銀河",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["galaxy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"collide", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
   // 第50便 50K(台帳4-78 C案パイロット): descStruct(要約/観察/操作)— 純分割+A/B文の末尾移設のみ
   descStruct:{
@@ -2830,6 +2966,7 @@ const BUILTIN_PRESETS = [
 { id:"collapse", name:"自己重力雲の崩壊と原始星形成", emoji:"🌫️", group:"銀河",
   scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   // 第51便 51F: descStruct 化+塊形成の強化(G↑/kRep↓)に伴う数値の全面再実測。メタ表現不使用
   descStruct:{
     summary:"広がった粒子群が自己重力で崩壊し、中心集中・衝突加熱(A9)・放射冷却(E11)を観察する。雲全体はごくわずかな初期回転(角運動量)を持つ — 現実の分子雲コアと同様、角運動量保存によって収縮とともに回転が増幅され、中心星の周りに円盤構造が形成されやすくなる(ジーンズ不安定性のアナロジー)。",
@@ -2923,6 +3060,7 @@ const BUILTIN_PRESETS = [
 { id:"selfRotor", name:"自己形成ダークローター — 種から育つ暗い中心", emoji:"🥚", group:"銀河",
   scaleTier:"galactic",
   sampleClass:"composite",
+  notClaim:["dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"rotorform", familyRole:"variant",   // 第82便統合: ローター形成ファミリー(成長系の変種)
   emergence:"E3",   // 第83便A: E2(閉鎖系の創発)→ E3(多seed16・粒子数90/180/360・摂動回復で頑健性を確認)
   descStruct:{
@@ -3002,6 +3140,7 @@ const BUILTIN_PRESETS = [
 { id:"lensing", name:"重力レンズと光子捕捉", emoji:"💡", group:"光",
   scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"lens", familyRole:"primary",   // 第82便: ファミリー表示(表示専用 — sampleClass と同方針)
   descStruct:{
     summary:"左から飛ぶ光線が、決定力の高い(=時間の遅い)領域で屈折して曲がる(A7′/T5)。",
@@ -3023,6 +3162,7 @@ const BUILTIN_PRESETS = [
 { id:"spinlens", name:"回る星のレンズ — 非対称湾曲", emoji:"🌗", group:"光",
   scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"lens", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
   descStruct:{
     summary:"中心星が回転すると、光を運ぶ空間(決定フレーム)も回る(A11)。",
@@ -3045,6 +3185,7 @@ const BUILTIN_PRESETS = [
 { id:"blens", name:"連星重力レンズ", emoji:"🔭", group:"光",
   scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"lens", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
   descStruct:{
     summary:"上下に並ぶ2つの大質量天体へ平行光線束を入射。",
@@ -3071,6 +3212,7 @@ const BUILTIN_PRESETS = [
 { id:"reddening", name:"暗黒雲の赤化 — 体積吸収と波長依存", emoji:"🌆", group:"光",
   scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類): 単一機構(体積吸収の波長依存)の原理デモ
+  notClaim:["nebula"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   descStruct:{
     summary:"背景に広がる高温の星ぼしと、その手前を横切る冷たい暗黒雲。雲は軽くて力学的にはほとんど何もしないのに、通り抜ける光だけを波長ごとに違う強さで吸う — 青い光が先に消え、雲越しの星の色が赤へ寄る(赤化)。光学輸送(体積吸収 kAbs・波長依存指数 pAbs・散乱 fScat)は**観測層だけ**に効き、軌道・スピン・固有時計は 1 bit も変わらない。実在の星間減光則(R_V=3.1 等)の再現主張ではない — この宇宙の光学(E8R)に「経路に沿って積む吸収」を足すとどう見えるか、のトイモデルである(Negative Claims)。",
     observe:"実測(seed固定・t=0・光線は x=−310 から dl=2.7 で400步): ①**雲越しの光線は赤化する** — 雲の中心を通る光線の光学的深さは基準波長 λ_ref=550nm で τ_ref=2.429 で、透過率は青(450nm)0.0044 / 赤(650nm)0.288、比(青/赤)は0.0154。②**雲の脇は素通り** — 雲から外れた光線(y=200)の τ_ref は厳密に0.000。局所質量核はコンパクト台(粒子半径の4倍・ソフトニング長 ε で下限)なので、どの天体の台にも入らない光線は1度も吸収されない。③**波長依存は pAbs で決まる** — pAbs=0(グレー吸収)では青/赤比が1.0000、pAbs=2 で0.151、既定の pAbs=4(レイリー類似)で0.0154。④**用量反応** — kAbs を 0/1.7/3.4/6.8 と振ると τ_ref は 0.000/1.215/2.429/4.859 になり、τ_ref/kAbs は4点とも 0.714537 で厳密に一致する(経路積分が kAbs について線形)。⑤**力学は不変** — kAbs 無指定の対照と 2000步走らせて位置・速度・スピン・固有時計が1bitも違わない(散乱 fScat も描画層のみ — 画面は変わるが数値は変わらない)。⑥スペクトル表示(右下)の橙の折れ線が透過率 T(λ)、橙の輪郭バーが透過後スペクトル。輝度が λ^{−4} で落ちる源(pRad=4)に τ∝λ^{−4} を掛けると、透過後のピークは長波長側へ実測5.09倍動く(解析形 λ_c·τ_ref^{1/pAbs})。",
@@ -3122,6 +3264,7 @@ const BUILTIN_PRESETS = [
 { id:"gas", name:"気体の熱平衡", emoji:"🔥", group:"熱の実験室",
   scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   descStruct:{
     summary:"左=低温(青)・右=高温(赤)のガス。左右は質量・数・初速分布が同一で、初期の内部温度T_intだけが異なる統制実験。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂: 温度=構成粒子のミクロなスピン。マクロなspinはコヒーレント回転)。",
     observe:"衝突の散逸が速度を熱に変え(E9)、熱い粒子ほど強く押し合って圧力を生み(E5′)、熱伝導で温度が均一化する(T6/E10′)。自己重力と空間引きずりは切ってあり(G=0, kFrame=0)、働くのは接触・斥力・伝導の熱過程だけ。右下に左右の平均温度バー。熱は熱容量C·mの重みで伝わるので、粒径が違っても温度そのものが均一化する(旧A9のL9が解消)。"},
@@ -3142,6 +3285,7 @@ const BUILTIN_PRESETS = [
 { id:"pressure", name:"熱の圧力 — 熱は押し広げる", emoji:"🎈", group:"熱の実験室",
   scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   descStruct:{
     summary:"重力ゼロの円形容器。中央の熱いガスが熱の斥力(E5′)で押しのけ合い、周りの冷たいガスの殻を外へ押し広げていく — 圧力の正体は温度。このサンプルは温度を内部状態変数T_intとして扱う(A9の改訂)ので、押し合う強さの源は対の√(T_i·T_j)で、冷たい粒子同士は押し合わない。",
     observe:"やがて接触摩擦(E9)と熱伝導(E10′)で熱が外側へ渡り、全体が同じ温度に落ち着く(T6)。色=温度。※この圧力の状態方程式は理想気体則とは異なる(P∝ρ²T — L15)。"},
@@ -3164,6 +3308,7 @@ const BUILTIN_PRESETS = [
 { id:"conduction", name:"熱伝導 — 近いほど速く伝わる", emoji:"📏", group:"熱の実験室",
   scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   descStruct:{
     summary:"力を全て切った、静止した粒の列。左端の白熱粒(固定=熱浴)から、接触していない粒の列を熱伝導(E10′)だけで熱が飛び移っていく。このサンプルは温度を内部状態変数T_intとして扱う(A9の改訂)ので、伝わるのは熱だけでスピンは1ビットも動かない — 角運動量は近似的にではなく自明に厳密保存する(旧「冷たいのに熱伝導」問題の解消)。",
     observe:"上の列は間隔9、下の列は間隔18 — 飛び移りは近いほど強い(カーネルg(d))ので、密な上の列は同じ距離でも高温になり、列全体が運ぶ熱は約2.5倍(実測)。HUDの「前線・列の熱」行が、熱の前線(T>4の最遠到達距離)と列の熱の比を常時表示する — 密な列が先に届き、多くの熱を運ぶことをその場で数値比較できる。よく見ると熱は隙間を飛び越えて遠くへも薄く届く(接触不要の長距離伝達 — L16の可視化)。色=温度。"},
@@ -3223,6 +3368,7 @@ const BUILTIN_PRESETS = [
 { id:"coolrace", name:"放射冷却 — 高温ほど速い", emoji:"🌈", group:"熱の実験室",
   scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   descStruct:{
     summary:"同じ質量で内部温度T_intだけが4・16・64と異なる3粒子を静止配置。力は全て切ってあり、変わるのは放射冷却(E11、Λ∝T^p)だけの統制実験。このサンプルは温度をスピンと独立な内部状態変数として扱う(A9の改訂)ので、冷えるのは温度であってスピンではない(放射は角運動量を運ばない)。",
     observe:"最も熱い粒子が最も速く冷え(初期の冷却速度比はほぼ1:16:256=T²則。p=2)、色が赤→青へ、右下のスペクトルのピークが長波長側へ移る。",
@@ -3256,6 +3402,7 @@ const BUILTIN_PRESETS = [
 { id:"convection", name:"加熱の対流 — 伝熱する箱", emoji:"♨️", group:"熱の実験室",
   scaleTier:"everyday",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   // 第50便 50K(台帳4-78 C案パイロット): descStruct(要約/観察/操作)— description は起動時に
   // 3区分の連結として生成される(内容は従来文の純分割+A/B文を末尾へ移設したのみ・情報の増減なし)
   descStruct:{
@@ -3291,6 +3438,7 @@ const BUILTIN_PRESETS = [
 { id:"buoyancy", name:"重力分離と浮力", emoji:"🧪", group:"熱の実験室",
   scaleTier:"everyday",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   descStruct:{
     summary:"一様重力場gravityYに置かれた、質量の異なる粒子の混合物。重い冷たい粒子は底へ沈んで層を作り、軽い熱い粒子は熱の圧力(E5′)によって重力に逆らって上へ押し上げられ、上層の「大気」を作る — 密度差による沈降と浮力のアナロジー。このサンプルは温度をスピンと独立な内部状態変数T_intとして扱う(A9の改訂)。",
     observe:"要因分離のため熱の出入りはほぼ止めてあり(μF=κs=0・熱容量cHeatを大きく取って衝突散逸(E9)による昇温を抑えた温度ほぼ一定の系)、自己重力・引きずり・放射も切ってある。色=温度。",
@@ -3324,6 +3472,7 @@ const BUILTIN_PRESETS = [
 { id:"emergent", name:"三態の創発 — 結合の予算", emoji:"🧬", group:"熱の実験室",
   scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   emergence:"E1",   // 第84便統合裁定: E2→E1 再格付け — 加熱床(伝熱壁)が唯一の熱経路の外部駆動系で、
                     // ♻️ を E1 とした線引き(外部駆動=E1)を一貫適用。構造の創発自体は不変(第84便A の頑健性実測つき)
   familyId:"emerge", familyRole:"primary",   // 第82便: ファミリー表示(表示専用)
@@ -3382,6 +3531,7 @@ const BUILTIN_PRESETS = [
 { id:"emergent2", name:"格子も分子も — 予算×角度", emoji:"🧊", group:"熱の実験室",
   scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   emergence:"E1",   // 第84便統合裁定: E2→E1 再格付け(加熱床=外部駆動の一貫適用 — 🧬 と同じ)
   familyId:"emerge", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
   descStruct:{
@@ -3425,6 +3575,7 @@ const BUILTIN_PRESETS = [
 { id:"chain2", name:"鎖の創発 — 予算2×角度180°", emoji:"⛓️", group:"熱の実験室",
   scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   emergence:"E1",   // 第84便統合裁定: E2→E1 再格付け(加熱床=外部駆動の一貫適用 — 🧬 と同じ)
   familyId:"emerge", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
   descStruct:{
@@ -3464,6 +3615,7 @@ const BUILTIN_PRESETS = [
 { id:"chaincycle", name:"温度循環 — 鎖の凍結と解離", emoji:"♻️", group:"熱の実験室",
   scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   emergence:"E1",   // 第82便B: E水準(外部駆動下の自己組織化 — 床壁の温度スケジュールが外部駆動)
   familyId:"emerge", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
   // 第67便 67A(結合標準の温度循環デモ — 第64便裁定キュー・ChatGPT §8.1 の実施):
@@ -3524,6 +3676,7 @@ const BUILTIN_PRESETS = [
 { id:"earthMoon", name:"地球と月", emoji:"🌍", group:"天体の物語",
   scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"calibration",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["solar"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"earthmoon", familyRole:"primary",   // 第82便: ファミリー表示(表示専用)
   descStruct:{
     summary:"月が地球のまわりを公転する二体デモ(コアは現実の観測値で較正)。質量比は現実どおり m月/m地球=0.0123。月は同期自転 — spin を実測公転角速度 ω=0.013908 に一致させてあり、スポーク(車輪の輻)の同じ面が常に地球を向き続ける(潮汐固定)。",
@@ -3569,6 +3722,7 @@ const BUILTIN_PRESETS = [
 { id:"earthMoonFree", name:"地球と月(自由二体・物理比)", emoji:"🌕", group:"天体の物語",
   scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["solar"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"earthmoon", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
   descStruct:{
     summary:"地球も月も、どちらも固定しない二体の力学問題(2つの重心を基準に置く)。",
@@ -3614,6 +3768,7 @@ const BUILTIN_PRESETS = [
 { id:"saturn", name:"土星の環(実験)", emoji:"🪐", group:"天体の物語",
   scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["solar"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"saturn", familyRole:"primary",   // 第82便: ファミリー表示(表示専用)
   descStruct:{
     summary:"氷の粒でできた土星の環を再現するサンプル。240個の氷粒(3つの環帯・60/120/60個、軽くて衝突でもエネルギーをあまり失わない muF=0.2/γN=0.15)を配置し、中心星のスピンが空間を引きずる(kFrame=1・A8空間の引きずり)条件のもとで、長時間安定な環になるかを見る。初期配置は t=300〜600 で落ち着いた分布に合わせてある。",
@@ -3666,6 +3821,7 @@ const BUILTIN_PRESETS = [
 { id:"saturnLayered", name:"土星の環(主星2層)", emoji:"🎯", group:"天体の物語",
   scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["solar"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"saturn", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
   // 第14便: seed を 🪐(hashStr("saturn")+7)に固定 — 初期配置が 🪐 と完全一致し、
   // 「同一初期配置での姉妹比較」になる(id 由来の別シードでは冷スタート過渡の谷が
@@ -3722,6 +3878,7 @@ const BUILTIN_PRESETS = [
 { id:"saturnZonalD68", name:"土星の近点移動(D68精密較正)", emoji:"🛰️", group:"天体の物語",
   scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"calibration",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["solar"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"saturn", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
   descStruct:{
     summary:"実際の土星は完全な球ではなく少しつぶれた形をしていて、その「扁平さ」は重力にもわずかなクセを作る。そのクセ(帯状重力調和係数 J2〜J12・Cassini探査機の実測値)をそのまま中心星に持たせた較正デモ(E13)。",
@@ -3863,6 +4020,7 @@ const BUILTIN_PRESETS = [
 { id:"agnjet", name:"AGN類似 — 円盤の内縁と双極ジェット", emoji:"🌋", group:"天体の物語",
   scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   descStruct:{
     summary:"中心の超大質量天体(m=2000・減光=auto → 観測温度0で見掛けは真っ暗な「エンジン」)と、x軸方向に長く薄く伸びた冷たいガスの帯。ガスは自己重力で内側へ落ち、内縁で押し合い擦れ合って摩擦加熱される(E9′ → 内部温度T_int)。温まったガスは熱の斥力=圧力(E5′)で押し返すが、赤道方向(±x)へ抜けるには帯の全長を押しのけねばならない — 抵抗の少ない極方向(±y)だけが出口になり、上下2本の噴出流になる。",
     observe:"実測: 内縁から出て系外(r>300)へ達したガスの84%が±y方向±30°以内に入る(等方なら1/3 — 2.5倍の集中。4000步で極24本・赤道0本)。色=温度で、内縁が赤熱し噴流が冷えながら伸びるのが見える。要因分離のため空間引きずりkFrameと自発放射は切ってある(中心のスピンは減光=自光の抑制にだけ効く)。※これは圧力と幾何だけで双極性が出るという2Dのアナロジーであり、実在のAGN・磁気流体ジェット・相対論的ジェットの再現主張ではない(Negative Claims 1/2)。",
@@ -3989,6 +4147,7 @@ const BUILTIN_PRESETS = [
 { id:"starcore", name:"恒星の内部 — 融合を熱源とする", emoji:"☀️", group:"天体の物語",
   scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   descStruct:{
     summary:"中心の重い核のまわりを回るガス粒が、深く潜り込むと融合して熱を放ち、星のように光り続けるしくみを見るサンプル。※実在の恒星のモデルではない — 「内部に熱源が無ければ放射は続かない」ことの裏返しとして、融合という熱源があれば放射が続くことを示すトイ構成(質量欠損・放射圧・核種・静水圧平衡は扱わない)。中心に固定した重い核(m=600)と、その周りを回る200粒のガス(サブケプラー初速 0.6倍)。ガスは核の重力で落ち込み、深く潜り込んだ対どうしが融合する(中心距離が d<0.35·(R_i+R_j) まで近づくと1つの粒子になる)。融合で消えた対の相対運動エネルギーΔKEと接触ばね(E9)の弾性エネルギーはそのまま内部温度T_intへ入り、そこから放射(E11: Λ=η_rad·T²)で外へ出ていく — これが「重力収縮→融合加熱→放射」の一本道。",
     observe:"12000步(t≈192)の実測: 融合124回・ガスは200粒→76粒(燃料の62%を消費)・平均温度T_int 2.00→4.91(最高66.9)・放射エネルギー radE=4555。同じ初期配置で融合だけを切った対照では熱源が無くなり、温度は2.00→0.49へ単調に下がって放射も60.4で止まる — 放射エネルギーは75.4倍。否定的結論「内部熱源なしに定常放射は成立しない」の裏返しで、融合という熱源があれば星は放射し続けられる、という主張。熱収支: この宇宙で熱が出入りする経路は「融合で入る」「E11で出る」の2本だけ(γn=0・μF=0で接触は完全弾性・kRep=0で圧力なし・κs=0で伝導なし)なので帳簿が閉じる — 融合が入れた熱 Q=ΔH+radE=5313 は etaRad を変えても同値で、対照ではQ=0.0(厳密)。そのQの85.7%が同じ窓のうちに放射で出ていく(残りは温度上昇として溜まる)= 供給と損失がほぼ釣り合った準定常。※点火の原因が重力であることは用量反応で分離した: Gだけを4→2→1に下げ、力学時間の伸び(∝1/√G)に合わせて走行時間も揃えても、融合の熱注入は5313→1719→697と落ちる。※温度は力に一切入らない受動的な目印なので、放射を切っても(etaRad=0)軌道は1ビットも変わらない(実測: 粒子数・融合回数・平均半径が全チェックポイントで完全一致し、温度だけが2.00→48.23まで溜まる)。※有効窓 validT=192 の根拠は燃料: さらに倍のt=384まで走らせても融合は18回しか増えず、放射レートは23.7/時間→8.0/時間(3.0倍暗い)まで落ちる — 燃料切れの余生に入るので主張はここまで。※質量は融合で保存する(現実の核融合の質量欠損はモデル化していない)。中心核は位置を固定した外部拘束(融合の対象外・温度一定のリザーバ)で、系は閉じていない。実在の恒星の核融合・進化を再現する主張ではない(Negative Claims 1/2)。",
@@ -4044,6 +4203,7 @@ const BUILTIN_PRESETS = [
 { id:"starSeed", name:"星の種ローター — 圧縮とパワーボール", emoji:"🌱", group:"天体の物語",
   scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",
+  notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"rotorform", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
   descStruct:{
     summary:"回る速さがどんどん増し、だんだん暗くなっていく「星の種」の成長を、原理から確かめるサンプル。星の種(prestellar core 類似)がダークローターへ育つ過程の原理実験 — コアv2(第77便拡張: 中心コアを J_core を主変数とする独立サブシステムにした)の最初の実演。親天体(固定)のまわりの鏡像楕円軌道に2つの種を置く: 種A=差動コア(軸が自由)・種B=剛体コア(軸を固定)。スピン加速の主要因は自己重力圧縮 — コア半径が縮むと角運動量保存(A13)で角速度が増す(Ω=J/I・核融合は密度が増す過程の副産物でありエネルギー源の主役ではない)。副機構はパワーボール原理: 楕円軌道の重力による揺すり(加速度の変動)が、軸の自由な差動コアの回転を加速する — ジャイロ効果のトレーニング器具と同じで、軸を固定した種Bは同じ揺すりで逆に減速する。",
@@ -10552,6 +10712,8 @@ function buildParamRows(){
   });
   host.textContent="";
   paramRowSync={};
+  // 第88便 EXT-03: 役割3分類の凡例(物理仮定/実験条件/数値 — 表示専用)
+  { const lg=document.createElement("div"); lg.id="roleLegend"; lg.textContent=T("roleLegend"); host.appendChild(lg); }
   // v1.23: timeScale は表示グループの常設行になったため、主役/詳細からは常に除外
   const act=(currentPreset&&Array.isArray(currentPreset.activeParams))
     ? currentPreset.activeParams.filter(k=>k!=="timeScale"&&PARAM_DEFS.some(d=>d.key===k)) : [];
@@ -10561,6 +10723,9 @@ function buildParamRows(){
     const showSim=applyBoth? sim : editSim();   // 表示値の参照元(applyBoth時はA=Bを同期済み)
     const row=document.createElement("div"); row.className="prow";
     const lab=document.createElement("label"); lab.textContent=paramLabel(def);
+    // 第88便 EXT-03: 役割チップ(物理仮定/実験条件/数値)— 宣言 PARAM_ROLES の表示専用チップ
+    { const rc=document.createElement("span"); rc.className="roleChip"; rc.dataset.role=paramRole(key);
+      rc.textContent=T("role_"+paramRole(key)); rc.title=T("role_"+paramRole(key)+"Tip"); lab.appendChild(rc); }
     // v1.21: パラメータ名タップで説明を開閉(行の直下に .pdesc を差し込む)
     if(paramDesc(def)){
       lab.className="tappable";
@@ -11623,6 +11788,21 @@ function renderHelp(){
   el.appendChild(chipRow);
   // タイトル(第51便 51B: チップの直後へ移動)
   mk("h4",(currentPreset.emoji||"")+" "+pName(currentPreset));
+  // 第88便 EXT-04: しない主張 — notClaim 宣言のあるプリセットにだけ、タイトル直下へ「⚠ …」行を
+  // 出す(実在天体名を使うサンプルの二段名称を兼ねる。宣言専用メタ — 物理・保存 JSON に無関係)
+  for(const t of pNotClaims(currentPreset)) mk("p","⚠ "+t).className="notClaimLine";
+  // 第88便 EXT-09: Failure First — failureFirst 宣言のあるプリセット(☿)にだけ、
+  // 「base の失敗 → オプションでの回復」を本文より先に出す(FAIL 行が先・PASS 行が後)
+  {
+    const ff=pFailureFirst(currentPreset);
+    if(ff){
+      const box=document.createElement("div"); box.className="ffBox";
+      const bh=document.createElement("div"); bh.className="ffHead"; bh.textContent=T("ffHead"); box.appendChild(bh);
+      const r1=document.createElement("div"); r1.className="ffRow ffFail"; r1.textContent="❌ "+T("ffFail")+" — "+ff.fail; box.appendChild(r1);
+      const r2=document.createElement("div"); r2.className="ffRow ffPass"; r2.textContent="✅ "+T("ffPass")+" — "+ff.pass; box.appendChild(r2);
+      el.appendChild(box);
+    }
+  }
   // 第82便: 「この仲間」— familyId を持つプリセットで、同ファミリーの他メンバーへワンタップ切替
   // (ファミリー表示ON/OFFどちらでも表示 — variant が選択されているときも primary/他variantへ到達できる導線)。
   // 表示専用: ここからの読込は既存の loadPreset(id,false) を通るだけで、内部のプリセット解決・
@@ -11704,12 +11884,35 @@ function renderHelp(){
   if(!ext.rail && !ext.pin && !ext.grav) mk("p","・"+T("extClosed"));
   // 第27便(原仮定者指示): 「操作」「この宇宙の法則(要約)」はタイトルタップの説明パネルへ移動
 }
+// 第88便(v1.39-b1 スプリント1)EXT-01: 初見ガイド(3枚カード)。表示専用 — 物理・保存に無関係。
+// 自動表示は http(s) 配信の初回のみ(file:// の QA・ローカル直開きでは自動表示しない —
+// β通知 hp_beta_notice と同じ方針)。既読フラグ hp_first_visit は「はじめる」タップ時に立てる。
+// About パネル(タイトルタップ)の「もう一度見る」からいつでも再表示できる
+function showFirstVisit(){
+  const old=$("#fvOverlay"); if(old) old.remove();
+  const ov=document.createElement("div"); ov.id="fvOverlay";
+  const box=document.createElement("div"); box.className="fvBox";
+  const h=document.createElement("h3"); h.textContent=T("fvTitle"); box.appendChild(h);
+  for(const i of [1,2,3]){
+    const c=document.createElement("div"); c.className="fvCard";
+    const ch=document.createElement("h4"); ch.textContent=T("fvCard"+i+"Head"); c.appendChild(ch);
+    const cp=document.createElement("p"); cp.textContent=T("fvCard"+i); c.appendChild(cp);
+    box.appendChild(c);
+  }
+  const bt=document.createElement("button"); bt.type="button"; bt.id="fvStart"; bt.textContent=T("fvStart");
+  bt.addEventListener("click",()=>{ try{ localStorage.setItem("hp_first_visit","1"); }catch(_){} ov.remove(); });
+  box.appendChild(bt);
+  ov.appendChild(box); document.body.appendChild(ov);
+}
 // 第27便: アプリ説明パネル(タイトルタップ)— アプリ説明+操作+法則要約
 function buildAbout(){
   const el=$("#aboutBody"); if(!el) return;
   el.textContent="";
   const mk=(tag,txt)=>{const e=document.createElement(tag); e.textContent=txt; el.appendChild(e); return e;};
   mk("p",T("aboutBody"));
+  // 第88便 EXT-01: 初見ガイドの再表示導線
+  { const fb=document.createElement("button"); fb.type="button"; fb.id="btnFvAgain";
+    fb.textContent=T("fvAgain"); fb.addEventListener("click",showFirstVisit); el.appendChild(fb); }
   mk("h4",T("helpOps"));
   mk("p",T("helpOpsBody"));
   mk("h4",T("helpLaws"));
@@ -12871,6 +13074,10 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   qState:()=>({mode:qualityMode, level:qLevel(), dprCap:Q_DPR[qLevel()],
     fieldRes:Q_FRES[qLevel()], rayFactor:Q_RAY[qLevel()], trailEvery:Q_TREC[qLevel()]}),
   setLang:(l)=>{ LANG=(l==="en")?"en":"ja"; localStorage.setItem("hp_lang",LANG); applyLang(); },
+  // 第88便(v1.39-b1 スプリント1): QA用 — 初見ガイドの手動表示・役割宣言の機械検査口
+  firstVisitShow:showFirstVisit,
+  paramRoles:()=>PARAM_DEFS.map(d=>({key:d.key, role:paramRole(d.key),
+    declared:Object.prototype.hasOwnProperty.call(PARAM_ROLES,d.key)})),
   running:()=>running, setRunning:(v)=>{running=v;updatePlayBtn();},
   recTrail, drawRadiusCap, Q_TRAILPTS,  // 第29便: 軌跡上限・描画半径上限のQA用
   // 第12便: 粒子選択のQA用(A/B比較中の編集検証 — world: "A"|"B")
@@ -12896,6 +13103,9 @@ if(isBetaServe() && !localStorage.getItem("hp_beta_notice")){
   try{ localStorage.setItem("hp_beta_notice","1"); }catch(_){}
   notify(T("betaShared")(BETA_BUILD), 9000);
 }
+// 第88便 EXT-01: 初見ガイドの自動表示 — http(s) 配信で既読フラグが無いときだけ
+// (file:// の QA・ローカル直開きでは自動表示しない。既読は「はじめる」タップで確定)
+if(/^https?:$/.test(location.protocol) && !localStorage.getItem("hp_first_visit")) showFirstVisit();
 applyLang();   // 静的ラベル+AIプロバイダ設定UIの反映(hp_lang 永続)
 requestAnimationFrame((t)=>{lastFrame=t;requestAnimationFrame(loop);});
 // P2(beta): PWA — Service Worker 登録(http(s) 配信時のみ。file:// の QA・ローカル直開きでは無効)

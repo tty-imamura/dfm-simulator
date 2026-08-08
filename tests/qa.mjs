@@ -3243,8 +3243,11 @@ if (hasBadgeClassify) {
     // 直値入力はそのまま反映(fmt 丸め表示に置き換えない)
     // v1.22: activeParams 導入で先頭行は G と限らないため、ラベル「重力 G」で行を特定する
     HP.loadPreset('saturn', false);
+    // 第88便: 役割チップ(EXT-03)が label 内に付いたため、比較は先頭テキストノードで行う
+    // (root=チップなし・beta=チップありの両方で同じ判定になる)
     const gRow = [...document.querySelectorAll('#paramRows .prow')]
-      .find(x => x.querySelector('label') && x.querySelector('label').textContent === '重力 G');
+      .find(x => x.querySelector('label') && x.querySelector('label').firstChild
+        && x.querySelector('label').firstChild.textContent === '重力 G');
     const inp = gRow.querySelector('input.valIn');
     inp.value = '0.123'; inp.dispatchEvent(new Event('change'));
     res.direct = Math.abs(HP.sim.params.G - 0.123) < 1e-12 && inp.value === '0.123';
@@ -3373,7 +3376,9 @@ if (hasBadgeClassify) {
     const cat57 = !det && !!document.querySelector('#paramRows details.catParams');
     let detRows, nRest, detOpen;
     if (cat57) {
-      const catLabels = [...document.querySelectorAll('#paramRows details.catParams .prow label')].map(l => l.textContent);
+      // 第88便: 役割チップ(EXT-03)対応 — 比較は label の先頭テキストノード(root/beta 両対応)
+      const catLabels = [...document.querySelectorAll('#paramRows details.catParams .prow label')]
+        .map(l => (l.firstChild ? l.firstChild.textContent : l.textContent));
       const missing = HP.PARAM_DEFS.filter(d => d.key !== 'timeScale' && d.key !== 'timeScale')
         .filter(d => !catLabels.includes(d.label)).map(d => d.key);
       detRows = total - missing.length; nRest = total;
@@ -3735,8 +3740,10 @@ if (hasBadgeClassify) {
 {
   const r = await page.evaluate(() => {
     const res = {};
+    // 第88便: 役割チップ(EXT-03)対応 — 比較は label の先頭テキストノード(root/beta 両対応)
     const findRow = (label) => [...document.querySelectorAll('#paramRows .prow')]
-      .find(x => x.querySelector('label') && x.querySelector('label').textContent === label);
+      .find(x => x.querySelector('label') && x.querySelector('label').firstChild
+        && x.querySelector('label').firstChild.textContent === label);
     const setVal = (row, v) => { const inp = row.querySelector('input.valIn');
       inp.value = String(v); inp.dispatchEvent(new Event('change')); };
     // ① A/B編集対象: B を選ぶと編集は B のみに効き、表示値も B のものになる
@@ -3762,8 +3769,9 @@ if (hasBadgeClassify) {
     res.raysBoth = !!(HP.sim.rays && HP.sim.rays.n > 0) && !!(simB.rays && simB.rays.n > 0);
     toggleByLabel('光線', false); toggleByLabel('決定力マップ', false);
     // ③ 時間倍率は表示グループの1行のみ+A/B両方に反映
-    const tsRows = [...document.querySelectorAll('#paramRows .prow')]
-      .filter(x => x.querySelector('label') && x.querySelector('label').textContent === '時間倍率');
+    const tsRows = [...document.querySelectorAll('#paramRows .prow')]   // 第88便: 役割チップ対応(先頭テキストノード比較)
+      .filter(x => x.querySelector('label') && x.querySelector('label').firstChild
+        && x.querySelector('label').firstChild.textContent === '時間倍率');
     res.tsSingle = tsRows.length === 1;
     // 詳細設定(advParams)の中ではない(第54便 54D⑤: 表示グループ自体は catParams の
     // details に入ったため、details 一般ではなく advParams 限定で判定する)
@@ -11323,6 +11331,133 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     }
   } else {
     console.log('SKIP optics.*/claim.reddening(対象に physics.kAbs(光学輸送)なし — root 等。第82便)');
+  }
+}
+
+// ---- 88) 第88便(v1.39-b1 スプリント1: EXT-01/03/04/09 — 誤解低減UI 4件)----
+// ----   すべて表示専用の宣言メタ+UI(物理・保存 JSON 不変)。root 昇格前は機能判定で SKIP
+// ----   (migration.export-record と同じ beta 先行パターン — ガード条件は「機能の存在」)----
+{
+  // 88-1) ui.firstvisit(EXT-01): 初見ガイド — 手動表示で3枚カード+「はじめる」で既読フラグ+
+  //       About パネルに再表示導線。自動表示は http(s) 初回のみ(file:// の本スイートでは
+  //       起動時に出ていないことも併せて確認する — 出ていたら既存 UI テスト全体を塞ぐ事故)
+  const hasFv = await page.evaluate(() => !!(window.HP && HP.firstVisitShow));
+  if (hasFv) {
+    const r = await page.evaluate(() => {
+      const autoShown = !!document.querySelector('#fvOverlay');   // file:// では自動表示しないこと
+      try { localStorage.removeItem('hp_first_visit'); } catch (_) {}
+      HP.firstVisitShow();
+      const ov = document.querySelector('#fvOverlay');
+      const cards = ov ? ov.querySelectorAll('.fvCard').length : 0;
+      const heads = ov ? [...ov.querySelectorAll('.fvCard h4')].map(e => e.textContent) : [];
+      const bt = ov ? ov.querySelector('#fvStart') : null;
+      if (bt) bt.click();
+      const closed = !document.querySelector('#fvOverlay');
+      let flag = null; try { flag = localStorage.getItem('hp_first_visit'); } catch (_) {}
+      // 再表示→閉じる(以降のテストに残さない)
+      HP.firstVisitShow();
+      const reshown = !!document.querySelector('#fvOverlay');
+      document.querySelector('#fvStart').click();
+      // About パネルの再表示導線(buildAbout は開閉時に構築されるため直接呼ぶ)
+      if (typeof buildAbout === 'function') buildAbout();
+      const aboutBtn = !!document.querySelector('#btnFvAgain');
+      return { autoShown, cards, heads, closed, flag, reshown, aboutBtn };
+    });
+    add('ui.firstvisit',
+      !r.autoShown && r.cards === 3 && r.closed && r.flag === '1' && r.reshown && r.aboutBtn,
+      `file://起動時の自動表示なし=${!r.autoShown}(自動表示は http(s) 初回のみ)/ カード=${r.cards}枚` +
+      `[${r.heads.join(' | ')}] / 「はじめる」で閉じる=${r.closed}・既読フラグ=${r.flag} / ` +
+      `再表示可=${r.reshown} / About に再表示導線=${r.aboutBtn}`);
+  } else {
+    console.log('SKIP ui.firstvisit(対象に初見ガイドなし — root 等。第88便)');
+  }
+  // 88-2) params.roles(EXT-03): 全 PARAM_DEFS に役割宣言があり(既定フォールバック頼みでない)、
+  //       凡例と3種のチップが DOM に出ている。3分類の内訳も固定(g_x/g_y=実験条件・
+  //       radiusScale/softening/timeScale=数値・他=物理仮定)— 分類変更は宣言と本判定の同時更新で
+  const hasRoles = await page.evaluate(() => !!(window.HP && HP.paramRoles));
+  if (hasRoles) {
+    const r = await page.evaluate(() => {
+      const roles = HP.paramRoles();
+      const badRole = roles.filter(x => !['physics', 'experiment', 'numerics'].includes(x.role)).map(x => x.key);
+      const undeclared = roles.filter(x => !x.declared).map(x => x.key);
+      const exp = roles.filter(x => x.role === 'experiment').map(x => x.key).sort();
+      const num = roles.filter(x => x.role === 'numerics').map(x => x.key).sort();
+      const legend = !!document.querySelector('#roleLegend');
+      const chips = document.querySelectorAll('#paramRows .roleChip').length;
+      const kinds = [...new Set([...document.querySelectorAll('#paramRows .roleChip')].map(e => e.dataset.role))].sort();
+      return { n: roles.length, badRole, undeclared, exp, num, legend, chips, kinds };
+    });
+    add('params.roles',
+      r.badRole.length === 0 && r.undeclared.length === 0 &&
+      r.exp.join(',') === 'gravityX,gravityY' && r.num.join(',') === 'radiusScale,softening,timeScale' &&
+      r.legend && r.chips >= r.n && r.kinds.join(',') === 'experiment,numerics,physics',
+      `PARAM_DEFS=${r.n}件 全宣言あり(未宣言=[${r.undeclared.join(',')}]・不正値=[${r.badRole.join(',')}])/ ` +
+      `実験条件=[${r.exp.join(',')}]・数値=[${r.num.join(',')}]・他=物理仮定 / ` +
+      `凡例=${r.legend}・チップ=${r.chips}個(主役重複込みで定義数${r.n}以上)・出現種=[${r.kinds.join(',')}]`);
+  } else {
+    console.log('SKIP params.roles(対象に役割宣言なし — root 等。第88便)');
+  }
+  // 88-3) ui.notclaim(EXT-04): notClaim 宣言のある全プリセットで、宣言キー数と同数の
+  //       「⚠」行がタイトル直下に出る(ja 全数掃引)+ en でも文面が切り替わる(bhCore で確認)
+  const hasNc = await page.evaluate(() => !!(window.HP && HP.allPresets().some(p => p.notClaim)));
+  if (hasNc) {
+    const r = await page.evaluate(() => {
+      const withNc = HP.allPresets().filter(p => p.notClaim && !String(p.id).startsWith('custom_'));
+      const badCount = [];
+      for (const p of withNc) {
+        HP.loadPreset(p.id, false);
+        const nLines = document.querySelectorAll('#helpBody .notClaimLine').length;
+        const nKeys = Array.isArray(p.notClaim) ? p.notClaim.length : 1;
+        if (nLines !== nKeys) badCount.push(`${p.id}:${nLines}/${nKeys}`);
+        // タイトル(最初の h4)より後に出ること
+        const kids = [...document.querySelectorAll('#helpBody > *')];
+        const iT = kids.findIndex(e => e.tagName === 'H4');
+        const iN = kids.findIndex(e => e.className === 'notClaimLine');
+        if (iN >= 0 && iN < iT) badCount.push(`${p.id}:order`);
+      }
+      // en 切替で文面が変わる(bhCore — nc_bh の ja/en が別テキストであること)
+      HP.loadPreset('bhCore', false);
+      const jaText = document.querySelector('#helpBody .notClaimLine').textContent;
+      HP.setLang('en');
+      const enText = document.querySelector('#helpBody .notClaimLine').textContent;
+      HP.setLang('ja');
+      HP.loadPreset('saturn', false);   // 既定サンプルへ戻す(以降のテストに影響させない)
+      return { n: withNc.length, badCount, enDiffers: jaText !== enText && enText.length > 10 };
+    });
+    add('ui.notclaim', r.badCount.length === 0 && r.enDiffers && r.n >= 30,
+      `notClaim 宣言=${r.n}プリセット(全数で宣言キー数=表示行数・タイトル直下を確認 — ` +
+      `不一致=[${r.badCount.join(' ')}])/ en 切替で文面が変わる=${r.enDiffers}(bhCore)`);
+  } else {
+    console.log('SKIP ui.notclaim(対象に notClaim 宣言なし — root 等。第88便)');
+  }
+  // 88-4) ui.failure-first(EXT-09): ☿ で FAIL 行 → PASS 行の順に、タイトルより後・本文より
+  //       先に出る(「失敗を先に見せる」の機械固定)。en でも文面が切り替わる
+  const hasFf = await page.evaluate(() =>
+    !!(window.HP && (HP.allPresets().find(p => p.id === 'mercury') || {}).failureFirst));
+  if (hasFf) {
+    const r = await page.evaluate(() => {
+      HP.loadPreset('mercury', false);
+      const box = document.querySelector('#helpBody .ffBox');
+      const rows = box ? [...box.querySelectorAll('.ffRow')] : [];
+      const failFirst = rows.length === 2 && rows[0].classList.contains('ffFail') && rows[1].classList.contains('ffPass');
+      const kids = [...document.querySelectorAll('#helpBody > *')];
+      const iT = kids.findIndex(e => e.tagName === 'H4');
+      const iB = kids.indexOf(box);
+      const iD = kids.findIndex(e => e.className === 'descSectHead');
+      const jaFail = rows.length ? rows[0].textContent : '';
+      HP.setLang('en');
+      const enRows = [...document.querySelectorAll('#helpBody .ffBox .ffRow')];
+      const enFail = enRows.length ? enRows[0].textContent : '';
+      HP.setLang('ja');
+      HP.loadPreset('saturn', false);   // 既定サンプルへ戻す(以降のテストに影響させない)
+      return { failFirst, order: iT >= 0 && iB > iT && (iD < 0 || iB < iD),
+        enDiffers: jaFail !== enFail && enFail.length > 10 };
+    });
+    add('ui.failure-first', r.failFirst && r.order && r.enDiffers,
+      `☿: FAIL行→PASS行の2行=${r.failFirst} / 位置=タイトル後・本文前=${r.order} / ` +
+      `en 切替で文面が変わる=${r.enDiffers}`);
+  } else {
+    console.log('SKIP ui.failure-first(対象に failureFirst 宣言なし — root 等。第88便)');
   }
 }
 

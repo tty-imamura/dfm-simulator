@@ -4,6 +4,21 @@
 2026-07-21 に分離 — ロードマップ P2 群)。新しい版が上。バージョンは `APP_VERSION`
 (index.html)と package.json の major.minor が QA `version.sync` で同期検査される。
 
+## v1.39-b1(β・開発中)
+
+第88便(2026-08-08)— 初見レビュー3件(外部AIレビュー)の共通指摘「主張の境界が初見では
+見えない」への対応スプリント1。**すべて表示専用**(物理・保存 JSON・エクスポート封筒は 1 bit 不変):
+
+- **初見ガイド**(EXT-01)— 初回起動時(http(s) 配信のみ)に3枚カード「DFMとは/できること/
+  しない主張」を表示。タイトルタップの About パネルからいつでも再表示可(QA `ui.firstvisit`)
+- **パラメータ役割の3分類**(EXT-03)— 全パラメータに「物理仮定/実験条件/数値」の役割チップと
+  凡例を表示。何を変えると「宇宙のルールが変わる」のかを明示(宣言 `PARAM_ROLES`・QA `params.roles`)
+- **サンプル単位の「しない主張」**(EXT-04)— 実在天体名・実現象名を使う40サンプルに、
+  タイトル直下の「⚠ …」行(nc_* 9種: dm/bh/galaxy/nebula/cosmo/cal/solar/thermo/toy)を表示。
+  実在天体アナログの二段名称を兼ねる(宣言 `notClaim`・QA `ui.notclaim`)
+- **Failure First**(EXT-09)— ☿水星で「Base DFM: FAIL(1PN前進を再現しない)→ E12 ON: PASS」を
+  本文より先に表示。負の結果を隠さない方針の UI 化(宣言 `failureFirst`・QA `ui.failure-first`)
+
 ## v1.38.0(2026-08-08)
 
 **更新前の注意**: β版とルート版は同一オリジンで localStorage(セーブ・APIキー)を共有する。
