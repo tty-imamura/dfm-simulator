@@ -3770,14 +3770,19 @@ if (hasBadgeClassify) {
     toggleByLabel('光線', false); toggleByLabel('決定力マップ', false);
     // ③ 時間倍率は表示グループの1行のみ+A/B両方に反映
     const tsRows = [...document.querySelectorAll('#paramRows .prow')]   // 第88便: 役割チップ対応(先頭テキストノード比較)
+      // 第93便: ラベルは「時間倍率指数」へ改称(旧ビルドの「時間倍率」も受ける prefix 比較)
       .filter(x => x.querySelector('label') && x.querySelector('label').firstChild
-        && x.querySelector('label').firstChild.textContent === '時間倍率');
+        && x.querySelector('label').firstChild.textContent.startsWith('時間倍率'));
     res.tsSingle = tsRows.length === 1;
     // 詳細設定(advParams)の中ではない(第54便 54D⑤: 表示グループ自体は catParams の
     // details に入ったため、details 一般ではなく advParams 限定で判定する)
     res.tsInDisplay = !tsRows[0].closest('details.advParams');
-    setVal(tsRows[0], 5);
-    res.tsBoth = Math.abs(HP.sim.params.timeScale - 5) < 1e-12 && Math.abs(simB.params.timeScale - 5) < 1e-12;
+    // 第93便: 数値欄は指数表示(texp)— 倍率5 に対応する指数を入れて、保存値が倍率 5 になることを見る
+    // (旧ビルドでは HP.scaleEff が無いので従来どおり 5 を直接入れる)
+    if (HP.scaleEff) setVal(tsRows[0], (Math.log10(HP.TS_NOM_RATE * 5) + HP.scaleEff().eT).toFixed(6));
+    else setVal(tsRows[0], 5);
+    const tsTol = HP.scaleEff ? 1e-3 : 1e-12;   // 指数6桁入力の丸めぶん
+    res.tsBoth = Math.abs(HP.sim.params.timeScale - 5) < tsTol && Math.abs(simB.params.timeScale - 5) < tsTol;
     HP.abStop();
     // activeParams に timeScale が残っていない(表示グループへ移設済み)
     res.tsInAct = HP.allPresets().filter(p => !String(p.id).startsWith('custom_'))
@@ -11631,6 +11636,10 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       const label0 = btn.textContent;
       btn.click();
       const modal = !!document.querySelector('#ppModal');
+      // 第93便: 「すべて表示」はウィンドウ内(#ppShowAll)へ移動 — ヘッダ側は非表示で維持
+      const showAllInModal = !!document.querySelector('#ppShowAll');
+      const headerWrap = document.querySelector('#showAllSamplesWrap');
+      const headerHidden = !!headerWrap && headerWrap.style.display === 'none';
       const rows0 = document.querySelectorAll('#ppList .ppRow').length;
       // スケール絞り込み(🌌)→ 銀河 tier だけに減る
       const gal = [...document.querySelectorAll('#ppModal .ppChip')].find((c) => c.textContent.includes('🌌'));
@@ -11650,52 +11659,66 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         // 後始末: 検索語をクリアして saturn へ
         ppSearch = '';
         HP.loadPreset('saturn', false);
-        res({ label0, modal, rows0, rowsGal, galAllGalactic, hasMercury, closed, label1 });
+        res({ label0, modal, rows0, rowsGal, galAllGalactic, hasMercury, closed, label1,
+          showAllInModal, headerHidden });
       }, 150);
     }));
+    // 第93便: すべて表示のウィンドウ内移設(旧ビルドの beta には無いので undefined 通し)
+    const saOk = r.showAllInModal === undefined || (r.showAllInModal && r.headerHidden);
     add('ui.presetpicker',
       /🪐/.test(r.label0) && r.modal && r.rows0 >= 30 && r.rowsGal > 0 && r.rowsGal < r.rows0
-      && r.hasMercury && r.closed && /☿/.test(r.label1),
+      && r.hasMercury && r.closed && /☿/.test(r.label1) && saOk,
       `ボタン=選択中サンプル名(🪐)=${/🪐/.test(r.label0)} / モーダル=${r.modal}・全${r.rows0}行 → ` +
-      `🌌絞り込み ${r.rowsGal}行 / 検索「水星」=☿ヒット=${r.hasMercury} / 行タップで読込+閉じ=${r.closed}(ボタン=☿)`);
+      `🌌絞り込み ${r.rowsGal}行 / 検索「水星」=☿ヒット=${r.hasMercury} / 行タップで読込+閉じ=${r.closed}(ボタン=☿)/ ` +
+      `すべて表示=ウィンドウ内(${r.showAllInModal})・ヘッダ非表示(${r.headerHidden})`);
   } else {
     console.log('SKIP ui.presetpicker(対象にピッカーなし — root 等。第92便)');
   }
-  // 92-2) scale.preset-exp: プリセット宣言 scaleExp — ⚾♨️🧪 で g_y が ≈9.8 m/s² に換算される。
-  //       宣言のないプリセット(🔥)は従来値のまま(scale.display-invariant の exp0 検査と整合)
-  const hasSe = await page.evaluate(() => !!(window.HP
-    && (HP.allPresets().find((p) => p.id === 'projectile') || {}).scaleExp));
-  if (hasSe) {
+  // 92-2→93改) scale.familiar: 馴染み優先の慣習アンカー — 日常の g_y は「9.8 → 9.8 m/s²」・
+  //       cLight は全スケールで「3.0 → 3e8 m/s」。スライダーで指数上書き中は次元系に戻る
+  //       (scale.display-invariant の exp0 検査 "≈60 m/s" と整合)。時間倍率指数(texp)の
+  //       表示変換も検査: 表示 x=0.0 ⇔ 保存値 ts=10^(−eT)/1.92(保存値は倍率のまま)
+  const hasFam = await page.evaluate(() => !!(window.HP && HP.scaleEff && typeof SCALE_FAMILIAR !== 'undefined'));
+  if (hasFam) {
     const r = await page.evaluate(() => {
       const out = {};
-      const gy = { projectile: 0.08, convection: 0.03, buoyancy: 0.05 };
-      for (const [id, v] of Object.entries(gy)) {
-        HP.loadPreset(id, false);
-        out[id] = HP.scaleConvStr('gravityY', v);
-      }
-      HP.loadPreset('gas', false);
-      out.gasCLight = HP.scaleConvStr('cLight', 60);   // 🔥は宣言なし → molecular 既定のまま
-      // 物理不変: ⚾で scaleExp 宣言込みの表示ON/OFF 240步 bit 一致
-      const run = (touch) => {
-        HP.loadPreset('projectile', false);
-        if (touch) HP.setScaleDisp(true);
-        for (let k = 0; k < 240; k++) HP.sim.step(0.016);
-        const S = HP.sim, o = [];
-        for (let i = 0; i < S.n; i++) o.push(S.x[i], S.y[i], S.vx[i], S.vy[i]);
-        if (touch) HP.setScaleDisp(false);
-        return o.join(',');
-      };
-      out.bitSame = run(false) === run(true);
+      HP.loadPreset('projectile', false);   // 日常 tier
+      out.gy98 = HP.scaleConvStr('gravityY', 9.8);
+      out.gyDef = HP.scaleConvStr('gravityY', 0.08);
+      out.eps = HP.scaleConvStr('softening', 2);
+      out.cEvery = HP.scaleConvStr('cLight', 3);
+      HP.loadPreset('saturn', false);       // 天体 tier でも cLight は慣習アンカー
+      out.cCel = HP.scaleConvStr('cLight', 3);
+      // 日常以外の g_y は次元系のまま — 判定相手は銀河 tier(L−2T=−9 → ×1e-9)。
+      // 初版は天体 tier で見たが、天体アンカーは L−2T=0 で係数が偶然 ×1 になり判定にならない
+      // (実測 FAIL で検出 — 慣習表とは無関係の次元系の一致)
+      HP.loadPreset('galaxy', false);
+      out.gyGal = HP.scaleConvStr('gravityY', 9.8);
+      // texp: ⚾で数値欄が指数表示になり、x を入れると倍率 10^(x−eT)/1.92 が保存される
+      HP.loadPreset('projectile', false);
+      const eT = HP.scaleEff().eT;
+      const row = [...document.querySelectorAll('#paramRows .prow')]
+        .find((x) => x.querySelector('label') && x.querySelector('label').firstChild
+          && x.querySelector('label').firstChild.textContent.startsWith('時間倍率'));
+      const inp = row.querySelector('input.valIn');
+      const shown0 = inp.value;
+      inp.value = '0'; inp.dispatchEvent(new Event('change'));
+      out.tsAtZero = HP.sim.params.timeScale;
+      out.tsExpected = Math.pow(10, 0 - eT) / HP.TS_NOM_RATE;
+      out.shownAfter = inp.value;
       HP.loadPreset('saturn', false);
-      return out;
+      return Object.assign(out, { shown0 });
     });
-    const near98 = (s2) => /≈9\.(79|8\d|80)\d* m\/s²/.test(String(s2)) || /≈9\.8 m\/s²/.test(String(s2));
-    add('scale.preset-exp',
-      near98(r.projectile) && near98(r.convection) && near98(r.buoyancy) && r.bitSame,
-      `g_y換算: ⚾"${r.projectile}" ♨️"${r.convection}" 🧪"${r.buoyancy}"(いずれも≈9.8 m/s²)/ ` +
-      `🔥cLight="${r.gasCLight}"(宣言なし=従来)/ 表示ON/OFF 240步 bit一致=${r.bitSame}`);
+    add('scale.familiar',
+      String(r.gy98) === '≈9.8 m/s²' && String(r.gyDef) === '≈0.08 m/s²' && String(r.eps) === '≈2 m'
+      && String(r.cEvery) === '≈3e8 m/s' && String(r.cCel) === '≈3e8 m/s'
+      && /e-9 m\/s²/.test(String(r.gyGal))
+      && Math.abs(r.tsAtZero - r.tsExpected) / r.tsExpected < 1e-3 && /^-?0(\.00)?$/.test(r.shownAfter),
+      `日常: g_y 9.8→"${r.gy98}"・0.08→"${r.gyDef}"・ε2→"${r.eps}" / cLight 3.0→"${r.cEvery}"(日常)・` +
+      `"${r.cCel}"(天体 — 全スケール共通)/ 銀河の g_y は次元系のまま("${r.gyGal}" — ×1e-9)/ ` +
+      `時間倍率指数: 表示x=0 → ts=${(+r.tsAtZero).toFixed(4)}(期待 ${(+r.tsExpected).toFixed(4)}・表示 "${r.shownAfter}")`);
   } else {
-    console.log('SKIP scale.preset-exp(対象に scaleExp 宣言なし — root 等。第92便)');
+    console.log('SKIP scale.familiar(対象に慣習アンカーなし — root 等。第93便)');
   }
   // 92-3) ui.fidelity: fidelity:"real" 宣言(6件)にだけ 📏 チップが出る
   const hasFid = await page.evaluate(() => !!(window.HP && HP.allPresets().some((p) => p.fidelity === 'real')));
@@ -11708,9 +11731,12 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       const chipOff = !document.querySelector('#classChips .classChip[data-g=fid-real]');
       return { reals, chipOn, chipOff };
     });
+    // 第93便: ⚾♨️🧪 の個別較正撤回に伴い real 宣言は 3件(grcal・saturnZonalD68・earthMoonFree)
     add('ui.fidelity',
-      r.reals.length >= 6 && r.chipOn && r.chipOff,
-      `fidelity:"real"=${r.reals.length}件[${r.reals.join(',')}] / 🛰にチップ=${r.chipOn}・🪐(宣言なし)に無し=${r.chipOff}`);
+      r.reals.length === 3 && r.reals.join(',') === 'earthMoonFree,grcal,saturnZonalD68'
+      && r.chipOn && r.chipOff,
+      `fidelity:"real"=${r.reals.length}件[${r.reals.join(',')}](第93便: 3件が正)/ ` +
+      `🛰にチップ=${r.chipOn}・🪐(宣言なし)に無し=${r.chipOff}`);
   } else {
     console.log('SKIP ui.fidelity(対象に fidelity 宣言なし — root 等。第92便)');
   }
