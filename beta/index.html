@@ -40,6 +40,33 @@
   select,button,input,textarea{font:inherit;color:var(--fg);}
   select{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-height:44px;}
   #presetSelect{flex:1;min-width:0;}
+  /* 第92便(原仮定者指示): プリセット選択のウィンドウ化 — 旧プルダウン2つは非表示(DOM は維持)、
+     ボタン(選択中サンプル名)+モーダル #ppModal に置き換える */
+  #presetGroupSelect,#presetSelect{display:none;}
+  #btnPresetPick{flex:1;min-width:0;text-align:left;background:var(--panel2);border:1px solid var(--line);
+    border-radius:10px;padding:8px 10px;min-height:44px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  #ppModal{position:fixed;inset:0;background:rgba(5,8,18,.78);z-index:9998;display:flex;
+    align-items:flex-start;justify-content:center;padding:14px;}
+  .ppBox{background:var(--panel);border:1px solid var(--line);border-radius:14px;max-width:560px;
+    width:100%;max-height:92vh;display:flex;flex-direction:column;padding:10px 12px;}
+  .ppHead{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+  .ppHead h3{margin:0;font-size:calc(15px*var(--uz,1));flex:0 0 auto;}
+  #ppSearch{flex:1;min-width:0;min-height:38px;border-radius:10px;border:1px solid var(--line);
+    background:var(--panel2);padding:4px 10px;}
+  #ppClose{flex:0 0 auto;min-height:38px;border-radius:10px;background:var(--panel2);
+    border:1px solid var(--line);padding:4px 12px;}
+  .ppChips{display:flex;flex-wrap:wrap;gap:5px;margin:3px 0;}
+  .ppChips .ppDim{flex:0 0 auto;font-size:calc(10.5px*var(--uz,1));color:var(--dim);align-self:center;min-width:44px;}
+  .ppChip{font-size:calc(11px*var(--uz,1));border:1px solid var(--line);border-radius:999px;
+    padding:3px 9px;background:var(--panel2);white-space:nowrap;}
+  .ppChip[data-on="1"]{border-color:var(--acc);color:var(--acc);}
+  #ppList{overflow-y:auto;flex:1;margin-top:6px;border-top:1px solid var(--line);}
+  .ppGroupHead{font-size:calc(11px*var(--uz,1));color:var(--dim);font-weight:700;margin:8px 0 2px;}
+  .ppRow{display:flex;align-items:center;gap:6px;width:100%;text-align:left;background:none;
+    border:0;border-radius:8px;padding:7px 6px;min-height:40px;font-size:calc(13px*var(--uz,1));color:var(--fg);}
+  .ppRow:active,.ppRow:hover{background:var(--panel2);}
+  .ppRow[data-cur="1"]{outline:1px solid var(--acc);}
+  .ppRow .ppTags{margin-left:auto;font-size:calc(10px*var(--uz,1));color:var(--dim);white-space:nowrap;}
   /* 第54便 54D②: プリセット選択の階層化 — カテゴリ選択(左)+絞り込まれた一覧(右)
      第62便(原仮定者指示): カテゴリ側を狭めてタイトル(一覧)側を広げる */
   #presetGroupSelect{flex:0 0 72px;min-width:0;padding:8px 6px;}
@@ -80,7 +107,8 @@
   #pmStatus{color:var(--acc);font-weight:700;font-size:calc(11.5px*var(--uz,1));margin:2px 0;}
   /* v1.17: 選択粒子の編集パネル(タップ選択中のみ表示) */
   /* 第12便: z-index — 狭い横画面等でキャンバスが低くても、後続UI(操作列・タブ)に隠れず操作できる */
-  #bodyEdit{position:absolute;right:8px;top:8px;width:172px;z-index:6;background:rgba(20,24,48,.94);
+  /* 第92便(原仮定者指示): コア内訳(v2)の数値見切れ対策 — パネル幅 172→188px */
+  #bodyEdit{position:absolute;right:8px;top:8px;width:188px;z-index:6;background:rgba(20,24,48,.94);
     border:1px solid var(--line);border-radius:10px;padding:8px;display:none;font-size:calc(11.5px*var(--uz,1));}
   #bodyEdit .beHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;
     font-weight:700;color:var(--acc);}
@@ -94,6 +122,9 @@
   #bodyEdit .beRow input[type=checkbox]{width:18px;height:18px;accent-color:var(--acc);}
   /* 第38便(原仮定者指示): auto中で読み取り専用になった数値欄を視覚的に示す */
   #bodyEdit .beRow input[readonly]{opacity:.55;}
+  /* 第92便(原仮定者指示): コア内訳(v2)の3値行(a/b/c)は文字を詰めて全桁を収める
+     (見切れ対策 — フォント縮小+字間圧縮+余白削減。値のツールチップは JS 側で title に設定) */
+  #beCoreV2 .beRow input[type=text]{font-size:calc(10px*var(--uz,1));letter-spacing:-0.3px;padding:2px 3px;}
   #bodyEdit .beNote{color:var(--dim);font-size:calc(10px*var(--uz,1));margin-top:4px;line-height:1.4;}
   /* 第26便(原仮定者指示): 編集パネルの最小化 — ヘッダだけ残して行を畳む(✕廃止→最小化トグル) */
   /* 第81便C: #beCoreV2 が details 化(summary は .beRow の外)したため、最小化時は summary も
@@ -227,6 +258,8 @@
   /* 第82便B: E水準タグ(emergence:"E0".."E3" の宣言があるプリセットのみ)— 創発の水準の宣言。
      sampleClass と同方針の宣言専用メタで、物理・保存 JSON には一切影響しない */
   #classChips .classChip[data-g^=emg-]{border-color:var(--ok);color:var(--ok);}
+  /* 第92便: 現実準拠チップ(fidelity:"real" 宣言のみ) */
+  #classChips .classChip[data-g=fid-real]{border-color:var(--ok);color:var(--ok);font-weight:700;}
   /* 第88便(v1.39-b1 スプリント1)EXT-01/03/04/09: 初見ガイド・役割チップ・しない主張・
      Failure First。すべて表示専用 — 物理・保存 JSON には一切影響しない */
   #fvOverlay{position:fixed;inset:0;background:rgba(5,8,18,.78);z-index:9999;display:flex;
@@ -317,8 +350,12 @@
       <div class="title" id="appTitle" role="button" tabindex="0" aria-expanded="false" aria-controls="aboutPanel">DFM Lab</div>
       <div class="titleVer" id="appVer"></div>
     </div>
+    <!-- 第92便(原仮定者指示): プリセット選択をボタン+ウィンドウ化。旧2段プルダウンは
+         非表示のまま DOM に残す(rebuildPresetSelect の構造・既存 QA の optgroup 参照・
+         カテゴリ絞り込みロジックの互換のため — 表示だけボタンに置き換える) -->
     <select id="presetGroupSelect" aria-label="カテゴリ選択"></select>
     <select id="presetSelect" aria-label="シミュレーション選択"></select>
+    <button type="button" id="btnPresetPick" aria-haspopup="dialog"></button>
     <!-- 第82便: サンプルのファミリー表示 — 「すべて表示」トグル(既定OFF=ファミリー代表のみ表示・
          表示専用でlocalStorageに保存。sim.params には一切書かない) -->
     <label id="showAllSamplesWrap" for="showAllSamplesCb">
@@ -371,6 +408,9 @@
       <div class="beRow"><label id="beLsw">減光</label><input type="text" id="beSw" inputmode="decimal" autocomplete="off"><label id="beLswAuto" style="min-width:0;flex:0 0 auto;margin-left:2px">auto</label><input type="checkbox" id="beSwAuto"></div>
       <div class="beRow"><label id="beLvx">vx</label><input type="text" id="beVx" inputmode="text" autocomplete="off">
         <label id="beLvy">vy</label><input type="text" id="beVy" inputmode="text" autocomplete="off"></div>
+      <!-- 第92便(原仮定者指示): スケール換算表示ON のとき、粒子詳細の換算値を副表示する行
+           (表示のみ — updateBodyEdit が毎フレーム更新。OFF 時は非表示) -->
+      <div class="beNote" id="beConv" style="display:none"></div>
       <div class="beRow"><label id="beLp" style="flex:1">固定(pinned)</label><input type="checkbox" id="bePin"></div>
       <!-- 第80便C: コアv2(第77便。core:{mode,massFrac,radius,omega,Kcs,pump,contract})を持つ粒子
            だけに出す読み取り専用の内訳。編集欄は無い — コアv2は独立サブシステムなのでこのパネルからは
@@ -820,6 +860,18 @@ ja: {
   st_nScaling:"④ 粒子数スケーリング", st_perturb:"⑤ 摂動回復", st_timeWindow:"⑥ 時間窓",
   stPass:"PASS", stPartial:"一部", stNa:"未実施",
   stRefs:(r)=>`実測ハーネス(正本): ${r} — 本表は宣言であり、実測値・判定根拠は各ハーネスの結果 JSON にある。`,
+  // 第92便(原仮定者指示): 現実準拠チップ
+  bdgFidReal:"📏 現実準拠",
+  bdgFidRealTip:"スケール換算表示の数値が現実の対応対象に近づくよう較正されたサンプル(較正の根拠は説明・数値主張を参照)。このチップの無いサンプルはトイ(誇張アナログ)— 現実の数値を主張しない。",
+  // 第92便(原仮定者指示): プリセット選択ウィンドウ
+  ppTitle:"サンプルを選ぶ",
+  ppSearchPh:"検索(名前・ID・絵文字)",
+  ppPickTip:"タップしてサンプル選択ウィンドウを開く(グループ・スケール・分類・E水準で絞り込み/検索)",
+  ppDimGroup:"グループ", ppDimScale:"スケール", ppDimClass:"分類", ppDimE:"E水準",
+  // 第92便(原仮定者指示): スケールバー(距離の目盛)
+  tgScaleBar:"スケールバー",
+  tgScaleBarDesc:"画面左下に距離の目盛(モデル単位)、右下に画面の表示幅を出す。スケール換算表示がONのときは実単位(nm〜ly)も併記する。表示のみ — 物理には影響しない。",
+  hudViewW:"表示幅",
   // 第91便 EXT-14: 保存モニタの閉鎖/開放表示
   hudSysClosed:"系: 閉鎖系(外部要素なし — P/L は帳簿込みで保存)",
   hudSysOpen:(r)=>`系: 開放系(${r} — リザーバ・帳簿を含めて読む)`,
@@ -1162,6 +1214,18 @@ en: {
   st_nScaling:"(4) Particle-count scaling", st_perturb:"(5) Perturbation recovery", st_timeWindow:"(6) Time window",
   stPass:"PASS", stPartial:"partial", stNa:"not run",
   stRefs:(r)=>`Measurement harnesses (canonical): ${r} — this table is a declaration; measured values and criteria live in each harness's result JSON.`,
+  // 第92便: real-fidelity chip
+  bdgFidReal:"📏 Real-calibrated",
+  bdgFidRealTip:"A sample whose scale-converted numbers are calibrated toward its real counterpart (see the description and numeric claims for the basis). Samples without this chip are toys (exaggerated analogs) — no real-world numbers are claimed.",
+  // 第92便: preset picker window
+  ppTitle:"Choose a sample",
+  ppSearchPh:"Search (name, ID, emoji)",
+  ppPickTip:"Tap to open the sample picker (filter by group, scale, class, E-level; search)",
+  ppDimGroup:"Group", ppDimScale:"Scale", ppDimClass:"Class", ppDimE:"E-level",
+  // 第92便: scale bar (distance ruler)
+  tgScaleBar:"Scale bar",
+  tgScaleBarDesc:"Show a distance ruler (model units) at the bottom left and the view width at the bottom right. When scale conversion is ON, real units (nm–ly) are shown alongside. Display only — no effect on physics.",
+  hudViewW:"view width",
   // 第91便 EXT-14: conservation-monitor system line
   hudSysClosed:"System: closed (no external elements — P/L conserved incl. ledgers)",
   hudSysOpen:(r)=>`System: open (${r} — read together with reservoirs/ledgers)`,
@@ -1494,7 +1558,11 @@ function classifyPreset(p){
   // 未宣言=null でバッジ非表示。validatePreset が不正値を削除済みだが、内蔵定義の直接参照にも
   // 備えて正規値のみ通す)
   const emergence = (EMERGENCE_LEVELS.indexOf(p.emergence)>=0)? p.emergence : null;
-  return {layers, external:ext, closed, tint, strongField, psiStatic, sampleClass:p.sampleClass||null, scaleTier, emergence};
+  // 第92便(原仮定者指示「トイと現実準拠を明確に区別」): fidelity は宣言専用のパススルー
+  // ("real"=スケール換算の数値が現実の対応対象へ較正済み。宣言なし=トイ〔誇張アナログ〕が既定 —
+  // 初見ガイド・⚠しない主張行がその既定を明示する)。自動判定しない・物理に一切影響しない
+  const fidelity=(p.fidelity==="real")? "real" : null;
+  return {layers, external:ext, closed, tint, strongField, psiStatic, sampleClass:p.sampleClass||null, scaleTier, emergence, fidelity};
 }
 function gName(g){ return (LANG==="en" && I18N.en.groups[g]) || g; }
 function pName(p){ return (LANG==="en" && p.en && p.en.name) || p.name; }
@@ -1641,9 +1709,17 @@ const SCALE_EMOJI={molecular:"🧪", everyday:"🏠", celestial:"🪐", galactic
 let scaleDispOn=false;   // localStorage hp_scale_disp(起動時に復元 — 定義は下の try)
 let scaleExpOverride=null;
 try{ scaleDispOn = localStorage.getItem("hp_scale_disp")==="1"; }catch(_){}
+// 第92便(原仮定者指示): スケールバーの表示フラグ(既定ON・hp_scalebar 永続。表示のみ)
+let scaleBarOn=true;
+try{ scaleBarOn = localStorage.getItem("hp_scalebar")!=="0"; }catch(_){}
 function scaleTierOf(p){ return (p && SCALE_TIERS.indexOf(p.scaleTier)>=0)? p.scaleTier : "everyday"; }
-function scaleExpNow(){ return (scaleExpOverride!==null)? scaleExpOverride
-  : SCALE_ANCHORS[scaleTierOf(typeof currentPreset!=="undefined"? currentPreset : null)].expL; }
+function scaleExpNow(){
+  // 第92便: プリセット宣言 scaleExp を含む実効指数へ委譲(scaleEffNow — 下で定義)。
+  // 宣言の無いプリセットでは従来値と厳密一致
+  if(scaleExpOverride!==null) return scaleExpOverride;
+  const p=(typeof currentPreset!=="undefined")? currentPreset : null;
+  if(p && p.scaleExp && isFinite(p.scaleExp.L)) return p.scaleExp.L;
+  return SCALE_ANCHORS[scaleTierOf(p)].expL; }
 // expL=x のときの時間・質量指数: 隣接アンカー間の線形補間(端はクランプ)。
 // スライダーで x を連続に振っても T/M の換算が滑らかに追随する
 function scaleTM(x){
@@ -1673,11 +1749,26 @@ function sciFmt(v){
   const mant=v/Math.pow(10,e);
   return (Math.round(mant*100)/100)+"e"+e;
 }
+// 第92便(原仮定者指示「現実準拠は換算数値を現実に近付ける」): 実効換算指数の一本化。
+// 優先順位: スライダー上書き > プリセット宣言 scaleExp:{L,T,M}(宣言専用 — 表示のみ)>
+// tier アンカー(T/M は補間)。scaleExp が無いプリセットでは従来と 1 bit も変わらない
+function scaleEffNow(){
+  if(scaleExpOverride!==null){ const x=scaleExpOverride, tm=scaleTM(x); return {x, eT:tm.eT, eM:tm.eM}; }
+  const p=(typeof currentPreset!=="undefined")? currentPreset : null;
+  if(p && p.scaleExp && isFinite(p.scaleExp.L)){
+    const tm=scaleTM(p.scaleExp.L);
+    return {x:p.scaleExp.L,
+      eT:isFinite(p.scaleExp.T)? p.scaleExp.T : tm.eT,
+      eM:isFinite(p.scaleExp.M)? p.scaleExp.M : tm.eM};
+  }
+  const x=SCALE_ANCHORS[scaleTierOf(p)].expL, tm=scaleTM(x);
+  return {x, eT:tm.eT, eM:tm.eM};
+}
 // パラメータ key の値 v をスケール換算した文字列("≈1.2e7 m/s" 形式)。対象外キーは null
 function scaleConvStr(key,v){
   const d=SCALE_DIMS[key]; if(!d) return null;
-  const x=scaleExpNow(), tm=scaleTM(x);
-  const e=d[0]*x + d[1]*tm.eT + d[2]*tm.eM;
+  const ef=scaleEffNow();
+  const e=d[0]*ef.x + d[1]*ef.eT + d[2]*ef.eM;
   return "≈"+sciFmt(v*Math.pow(10,e))+" "+SCALE_UNIT_STR[key];
 }
 function setScaleDisp(v){
@@ -1818,6 +1909,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
 { id:"grcal", name:"弱場GR較正 — GPS・光・シャピロ", emoji:"🛰️", group:"空間と時間",
+  fidelity:"real",   // 第92便: 現実準拠(Kt=c²/G 較正 — 実値換算は claims/説明を参照)
   scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"calibration",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["cal"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -1875,6 +1967,10 @@ const BUILTIN_PRESETS = [
 
 { id:"projectile", name:"自由落下と放物運動", emoji:"⚾", group:"空間と時間",
   scaleTier:"everyday",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  // 第92便(原仮定者指示「日常タグは g_y=9.8m/s² で試せる様に」): 換算指数の宣言(表示のみ)。
+  // L=0(1unit=1m)・T=-1.044(1時間単位=10^-1.044s)→ 既定 g_y 0.08 が ≈9.8 m/s² と換算される
+  // (投射速度 v=3 → ≈33 m/s・飛距離 ~100m — 日常の数値感)。fidelity=real は換算較正済みの宣言
+  scaleExp:{L:0, T:-1.044, M:0}, fidelity:"real",
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"一様重力場gravityY(外部場)だけを働かせた力学実験室。",
@@ -1901,7 +1997,8 @@ const BUILTIN_PRESETS = [
 // 可逆チャネル限定の構成(kFrame=0・muF=0・γn=0・κs=0・η_rad=0・kRep=0・boundary="none")で、
 // t=echoFlipAt に v と s を一斉反転すると初期配置へ戻る。実測 RMS は QA echo.* を参照
 { id:"echo", name:"時間の矢 — 巻き戻る宇宙と巻き戻らない宇宙", emoji:"⏪", group:"空間と時間",
-  scaleTier:"everyday",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"celestial",   // 第92便(原仮定者指示「日常タグの整理」): 3天体の抽象宇宙は日常ではなく
+  // 天体スケールへ再分類(表示換算のみ — 物理不変。日常タグは g_y=9.8 較正を伴う規約になった)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"重い3天体と28個のテスト粒子だけの閉じた宇宙。",
@@ -3462,6 +3559,7 @@ const BUILTIN_PRESETS = [
 
 { id:"convection", name:"加熱の対流 — 伝熱する箱", emoji:"♨️", group:"熱の実験室",
   scaleTier:"everyday",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleExp:{L:0, T:-1.257, M:0}, fidelity:"real",   // 第92便: g_y 0.03 → ≈9.8 m/s²(表示のみ)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   // 第50便 50K(台帳4-78 C案パイロット): descStruct(要約/観察/操作)— description は起動時に
@@ -3498,6 +3596,7 @@ const BUILTIN_PRESETS = [
 
 { id:"buoyancy", name:"重力分離と浮力", emoji:"🧪", group:"熱の実験室",
   scaleTier:"everyday",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleExp:{L:0, T:-1.146, M:0}, fidelity:"real",   // 第92便: g_y 0.05 → ≈9.8 m/s²(表示のみ)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   descStruct:{
@@ -3781,6 +3880,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"earthMoonFree", name:"地球と月(自由二体・物理比)", emoji:"🌕", group:"天体の物語",
+  fidelity:"real",   // 第92便: 現実準拠(自由二体・物理比)
   scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["solar"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -3937,6 +4037,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"saturnZonalD68", name:"土星の近点移動(D68精密較正)", emoji:"🛰️", group:"天体の物語",
+  fidelity:"real",   // 第92便: 現実準拠(D68 精密較正)
   scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"calibration",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["solar"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -9400,6 +9501,57 @@ function render(){
       ctx.fillText(T("periHud")(mdeg.toFixed(2), adeg.toFixed(2)), 8, 20);
     }
   }
+  drawScaleBar();   // 第92便(原仮定者指示「距離が分かる様にする」): スケールバー+表示幅(表示のみ)
+}
+
+// 第92便(原仮定者指示): スケールバー — 左下に 1/2/5×10^k モデル単位の目盛バー、右下に画面の
+// 表示幅。スケール換算表示ON のときは実単位(nm/µm/mm/m/km/au/ly)を併記する。表示のみ —
+// 物理・保存 JSON には一切影響しない。トグル(表示カテゴリ)で OFF にできる(hp_scalebar 永続)
+function fmtMeters(m){
+  const a=Math.abs(m);
+  if(a<1e-6) return sciFmt(m*1e9)+" nm";
+  if(a<1e-3) return sciFmt(m*1e6)+" µm";
+  if(a<1) return sciFmt(m*1e3)+" mm";
+  if(a<1e3) return sciFmt(m)+" m";
+  if(a<1e10) return sciFmt(m/1e3)+" km";
+  if(a<9.46e14) return sciFmt(m/1.496e11)+" au";
+  return sciFmt(m/9.4607e15)+" ly";
+}
+// 第92便: 質量・速度の馴染み単位(kg → M⊕/M☉、m/s → km/s。表示のみ)
+function fmtKg(m){
+  const a=Math.abs(m);
+  if(a>=1e29) return sciFmt(m/1.989e30)+" M☉";
+  if(a>=1e22) return sciFmt(m/5.972e24)+" M⊕";
+  return sciFmt(m)+" kg";
+}
+function fmtMps(v){
+  const a=Math.abs(v);
+  if(a>=1e3) return sciFmt(v/1e3)+" km/s";
+  return sciFmt(v)+" m/s";
+}
+function drawScaleBar(){
+  if(!scaleBarOn) return;
+  const z=zoom();
+  if(!(z>0) || !isFinite(z)) return;
+  const target=140/z;   // 画面上 ≈140px を目安に 1/2/5×10^k のモデル単位へ丸める
+  const k=Math.pow(10,Math.floor(Math.log10(target)));
+  let L=k; for(const m of [2,5,10]) if(m*k<=target) L=m*k;
+  const px=L*z, x0=10, y0=ch-14;
+  ctx.save();
+  ctx.strokeStyle="rgba(223,228,255,0.85)"; ctx.fillStyle="rgba(223,228,255,0.85)";
+  ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x0+px,y0); ctx.stroke();
+  ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(x0,y0-5); ctx.lineTo(x0,y0+5); ctx.moveTo(x0+px,y0-5); ctx.lineTo(x0+px,y0+5); ctx.stroke();
+  ctx.font=(10*uiFontScale)+"px sans-serif";
+  let lab=sciFmt(L);
+  if(scaleDispOn) lab+=" ≈ "+fmtMeters(L*Math.pow(10,scaleExpNow()));
+  ctx.fillText(lab, x0, y0-8);
+  const wUnits=cw/z;
+  let wl=T("hudViewW")+" "+sciFmt(wUnits);
+  if(scaleDispOn) wl+=" ≈ "+fmtMeters(wUnits*Math.pow(10,scaleExpNow()));
+  ctx.fillText(wl, cw-ctx.measureText(wl).width-10, y0-8);
+  ctx.restore();
 }
 
 // 第50便 50J(原仮定者指摘): 伝熱する箱の壁を熱境界条件の種類で色分けして描く。
@@ -9720,9 +9872,10 @@ function loop(now){
       if(sim.clampVN||sim.clampSN||sim.clampHN) txt+=`\n${T("hudClamp")(sim.clampVN,sim.clampSN,sim.clampHN)}`;
     }
     // 第74便: スケール換算表示ON のとき、現在の指数と換算単位を HUD に1行追記(表示のみ・物理不変)
+    // 第92便: 指数は scaleEffNow(プリセット宣言 scaleExp 込み)から取る — 宣言なしは従来と同値
     if(scaleDispOn){
-      const x=scaleExpNow(), tm=scaleTM(x);
-      txt+=`\n${T("hudScale")(x, tm.eT, tm.eM, sim.t)}`;
+      const ef=scaleEffNow();
+      txt+=`\n${T("hudScale")(ef.x, ef.eT, ef.eM, sim.t)}`;
     }
     $("#hud").textContent=txt;
     // v1.17: 実行中は編集パネルの表示値を追従(入力フォーカス中は上書きしない)
@@ -9874,13 +10027,137 @@ function rebuildPresetSelect(selId){
   }
   if(selId) sel.value=selId;
   rebuildAiBaseSelect();   // 第26便: AIタブのベース候補も同期
+  updatePresetPickBtn();   // 第92便: 選択ボタンのラベル(選択中サンプル名)を同期
 }
 // 54D②: 絞り込み中に一覧へ無い項目を選択状態にするときは「全カテゴリ」へ戻して再構築する
 function setPresetSelectValue(v){
   const sel=$("#presetSelect");
   if(![...sel.options].some(o=>o.value===v)) rebuildPresetSelect(v);
   else sel.value=v;
+  updatePresetPickBtn();   // 第92便: 値設定のみの分岐でも選択ボタンのラベルを同期する
 }
+// ===== 第92便(原仮定者指示): プリセット選択のウィンドウ化 =====================================
+// ボタン(選択中サンプル名)→ モーダル。絞り込み: 検索語(名前 ja/en・ID・絵文字)+
+// グループ/スケール/分類/E水準のチップ(再タップで解除)。「すべて表示」OFF のときの
+// variant 非表示はプルダウンと同じ規則(ただし検索・属性絞り込み中は variant も対象にする —
+// 絞り込みは「探す」操作なので隠さない)。読込は既存の loadPreset/loadSave+paramsDirty 確認を
+// そのまま通る(プルダウンの change と同じ意味論)。表示専用 — 物理・保存 JSON に無関係
+let ppGroup="all", ppScale="all", ppClass="all", ppE="all", ppSearch="";
+function updatePresetPickBtn(){
+  const b=$("#btnPresetPick"); if(!b) return;
+  const sel=$("#presetSelect");
+  let label="";
+  const v=sel && sel.value;
+  if(v && v.startsWith("save#")){ const s=getSaves()[+v.slice(5)]; label="💾 "+((s&&s.name)||T("untitled")); }
+  else if(currentPreset) label=(currentPreset.emoji||"")+" "+pName(currentPreset);
+  b.textContent=label||T("ppTitle");
+  b.title=T("ppPickTip");
+}
+function ppMatch(p){
+  if(ppScale!=="all" && (p.scaleTier||null)!==ppScale) return false;
+  if(ppClass!=="all" && (p.sampleClass||null)!==ppClass) return false;
+  if(ppE!=="all" && (p.emergence||null)!==ppE) return false;
+  if(ppSearch){
+    const q=ppSearch.toLowerCase();
+    const en=(p.en&&p.en.name)||"";
+    if(!((p.name||"").toLowerCase().includes(q) || en.toLowerCase().includes(q)
+      || String(p.id).toLowerCase().includes(q) || (p.emoji||"").includes(ppSearch))) return false;
+  }
+  return true;
+}
+function ppRender(){
+  const list=$("#ppList"); if(!list) return;
+  list.textContent="";
+  const mkHead=(t)=>{ const d=document.createElement("div"); d.className="ppGroupHead"; d.textContent=t; list.appendChild(d); };
+  const mkRow=(label,tags,cur,fn)=>{
+    const b=document.createElement("button"); b.type="button"; b.className="ppRow";
+    if(cur) b.dataset.cur="1";
+    const s1=document.createElement("span"); s1.textContent=label; b.appendChild(s1);
+    if(tags){ const s2=document.createElement("span"); s2.className="ppTags"; s2.textContent=tags; b.appendChild(s2); }
+    b.addEventListener("click",fn);
+    list.appendChild(b);
+  };
+  const pick=(v)=>{   // プルダウンの change ハンドラと同じ意味論
+    if(paramsDirty && !confirm(T("confirmDiscard"))) return;
+    hidePresetPicker();
+    if(v.startsWith("save#")){ const s=getSaves()[+v.slice(5)]; if(s) loadSave(s,v); return; }
+    loadPreset(v,false);
+  };
+  let curGroup=null;
+  const attrFiltered=(ppScale!=="all"||ppClass!=="all"||ppE!=="all");
+  familyGroupedBuiltins().forEach(p=>{
+    const g=p.group||"内蔵";
+    if(ppGroup!=="all" && g!==ppGroup) return;
+    if(!ppMatch(p)) return;
+    if(!showAllSamples && p.familyId && p.familyRole==="variant"
+      && !(currentPreset&&p.id===currentPreset.id) && !ppSearch && !attrFiltered) return;
+    if(g!==curGroup){ curGroup=g; mkHead(gName(g)); }
+    let label=(p.emoji||"")+" "+pName(p);
+    if(p.familyId&&p.familyRole==="variant") label="└ "+label;
+    const tags=[(p.scaleTier? SCALE_EMOJI[p.scaleTier]:""),(p.emergence||""),
+      (p.sampleClass? T("bdgSC_"+p.sampleClass):"")].filter(Boolean).join(" ");
+    mkRow(label,tags,!!(currentPreset&&currentPreset.id===p.id),()=>pick(p.id));
+  });
+  const customs=getCustomPresets();
+  if(customs.length && !attrFiltered && (ppGroup==="all"||ppGroup==="AI生成")){
+    mkHead(gName("AI生成"));
+    customs.forEach(p=>{ if(ppSearch&&!ppMatch(p)) return;
+      mkRow("🤖 "+(p.emoji||"")+" "+pName(p),"",!!(currentPreset&&currentPreset.id===p.id),()=>pick(p.id)); });
+  }
+  const saves=getSaves();
+  if(saves.length && !attrFiltered && (ppGroup==="all"||ppGroup==="保存一覧")){
+    mkHead(gName("保存一覧"));
+    saves.forEach((s,idx)=>{ const nm=s.name||T("untitled");
+      if(ppSearch && !String(nm).toLowerCase().includes(ppSearch.toLowerCase())) return;
+      mkRow("💾 "+nm,"",false,()=>pick("save#"+idx)); });
+  }
+}
+function ppChipsRow(host,dimLabel,opts,get,set){
+  const row=document.createElement("div"); row.className="ppChips";
+  const dl=document.createElement("span"); dl.className="ppDim"; dl.textContent=dimLabel; row.appendChild(dl);
+  opts.forEach(([v,txt])=>{
+    const c=document.createElement("button"); c.type="button"; c.className="ppChip"; c.textContent=txt;
+    if(get()===v) c.dataset.on="1";
+    c.addEventListener("click",()=>{ set(get()===v? "all": v); showPresetPicker(true); });
+    row.appendChild(c);
+  });
+  host.appendChild(row);
+}
+function hidePresetPicker(){ const m=$("#ppModal"); if(m) m.remove(); }
+function showPresetPicker(rebuildOnly){
+  const old=$("#ppModal"); if(old) old.remove();
+  const ov=document.createElement("div"); ov.id="ppModal";
+  ov.addEventListener("click",(e)=>{ if(e.target===ov) hidePresetPicker(); });
+  const box=document.createElement("div"); box.className="ppBox";
+  const hd=document.createElement("div"); hd.className="ppHead";
+  const h=document.createElement("h3"); h.textContent=T("ppTitle"); hd.appendChild(h);
+  const si=document.createElement("input"); si.id="ppSearch"; si.type="text"; si.placeholder=T("ppSearchPh");
+  si.value=ppSearch; si.autocomplete="off";
+  si.addEventListener("input",()=>{ ppSearch=si.value.trim(); ppRender(); });
+  hd.appendChild(si);
+  const cl=document.createElement("button"); cl.type="button"; cl.id="ppClose"; cl.textContent="✕";
+  cl.addEventListener("click",hidePresetPicker); hd.appendChild(cl);
+  box.appendChild(hd);
+  ppChipsRow(box, T("ppDimGroup"),
+    [["all",T("grpAll")]].concat(orderedGroups().map(g=>[g,gName(g)]))
+      .concat(getCustomPresets().length? [["AI生成",gName("AI生成")]]:[])
+      .concat(getSaves().length? [["保存一覧",gName("保存一覧")]]:[]),
+    ()=>ppGroup,(v)=>ppGroup=v);
+  ppChipsRow(box, T("ppDimScale"),
+    [["all",T("grpAll")]].concat(SCALE_TIERS.map(t=>[t,SCALE_EMOJI[t]+" "+T("scaleName_"+t)])),
+    ()=>ppScale,(v)=>ppScale=v);
+  ppChipsRow(box, T("ppDimClass"),
+    [["all",T("grpAll")],["principle",T("bdgSC_principle")],["composite",T("bdgSC_composite")],
+     ["calibration",T("bdgSC_calibration")],["semantic",T("bdgSC_semantic")]],
+    ()=>ppClass,(v)=>ppClass=v);
+  ppChipsRow(box, T("ppDimE"),
+    [["all",T("grpAll")],["E0","E0"],["E1","E1"],["E2","E2"],["E3","E3"]],
+    ()=>ppE,(v)=>ppE=v);
+  const list=document.createElement("div"); list.id="ppList"; box.appendChild(list);
+  ov.appendChild(box); document.body.appendChild(ov);
+  ppRender();
+}
+$("#btnPresetPick").addEventListener("click",()=>showPresetPicker());
 // 第26便(原仮定者指示): AI生成のベースサンプル候補(なし+内蔵+AI生成)
 function rebuildAiBaseSelect(){
   const sel=$("#aiBasePreset"); if(!sel) return;
@@ -11009,7 +11286,10 @@ function buildParamRows(){
     ["rays",T("tgRays"),()=>!!(sim.rays&&sim.rays.n>0),
       (v)=>{ const mk=()=> (currentPreset&&currentPreset.rays)?JSON.parse(JSON.stringify(currentPreset.rays)):{n:26,spread:0.85};
              sim.rays=v?mk():null; if(ab) ab.simB.rays=v?mk():null; },"tgRaysDesc"],
-    ["monitor",T("tgMonitor"),()=>monitorOn,(v)=>monitorOn=v,"tgMonitorDesc"]];
+    ["monitor",T("tgMonitor"),()=>monitorOn,(v)=>monitorOn=v,"tgMonitorDesc"],
+    // 第92便(原仮定者指示): スケールバー(距離の目盛)トグル — 表示のみ・hp_scalebar 永続
+    ["scalebar",T("tgScaleBar"),()=>scaleBarOn,
+      (v)=>{ scaleBarOn=v; try{ localStorage.setItem("hp_scalebar",v?"1":"0"); }catch(_){} },"tgScaleBarDesc"]];
   // 第79便(原仮定者指示): **グラフウィンドウ系のトグルは「グラフ」カテゴリへ分離**する
   // (「表示」カテゴリの上に新設)。オーバーレイの重なり順・A/B 連動・ゼロコスト条件は不変で、
   // UI の並びだけを変える
@@ -11929,6 +12209,8 @@ function renderHelp(){
   // 第74便: 5段階スケールチップ — scaleTier 宣言のあるプリセットにだけ表示(絵文字+スケール名)
   if(cls.scaleTier) addChip("scale-"+cls.scaleTier,
     SCALE_EMOJI[cls.scaleTier]+" "+T("scaleName_"+cls.scaleTier), T("bdgScaleTip"));
+  // 第92便: 現実準拠チップ — fidelity:"real" 宣言のあるプリセットにだけ表示(宣言なし=トイが既定)
+  if(cls.fidelity==="real") addChip("fid-real", T("bdgFidReal"), T("bdgFidRealTip"));
   // 第51便 51B(原仮定者指示): 引きずりタグ — kFrame>0 の系に表示(A8/E6′ が働く系の目印。
   // 0にすると引きずりなしの対照になることをツールチップで案内)
   if(currentPreset.physics && currentPreset.physics.kFrame>0) addChip("drag",T("bdgDrag"),T("bdgDragTip"));
@@ -12216,6 +12498,21 @@ function updateBodyEdit(){
   $("#beSw").readOnly = !!S.lSwAuto[i];
   $("#beSwAuto").checked = !!S.lSwAuto[i];
   $("#beVx").value=fmt(S.vx[i]); $("#beVy").value=fmt(S.vy[i]);
+  // 第92便(原仮定者指示): スケール換算表示ON のとき、粒子詳細にも換算値を副表示(表示のみ)。
+  // m→kg(M⊕/M☉)・R→m(km/au/ly)・|v|→m/s(km/s)・spin→1/s。指数はパラメータ副表示と
+  // 同じ scaleExpNow()/scaleTM() を使う(換算の一貫性)
+  { const bc=$("#beConv");
+    if(bc){
+      if(scaleDispOn){
+        const ef=scaleEffNow();
+        const vAbs=Math.hypot(S.vx[i],S.vy[i]);
+        bc.textContent="≈ m "+fmtKg(Math.abs(S.m[i])*Math.pow(10,ef.eM))
+          +" / R "+fmtMeters(S.R[i]*Math.pow(10,ef.x))
+          +" / |v| "+fmtMps(vAbs*Math.pow(10,ef.x-ef.eT))
+          +" / Ω "+sciFmt(S.spin[i]*Math.pow(10,-ef.eT))+"/s";
+        bc.style.display="block";
+      } else bc.style.display="none";
+    } }
   $("#bePin").checked=!!S.pinned[i];
   // 第80便C: コアv2(第77便)の読み取り専用内訳 — coreMd[i]!=0(独立コアを持つ)のときだけ表示する。
   // コアを持たない粒子は coreMd[i]===0 のままなのでブロックごと隠れる(第81便: コアv1 は廃止)。
@@ -12237,6 +12534,8 @@ function updateBodyEdit(){
     $("#beCvMode").value=coreModeName(md);
     $("#beCvOm").value=`${fmt(Omc)}/${fmt(Oms)}/${fmt(Omc-Oms)}`;
     $("#beCvJ").value=`${fmt(S.coreJ[i])}/${fmt(Ic)}/${fmt(S.coreKcs[i])}`;
+    // 第92便(原仮定者指示): 見切れ対策の補助 — 全文をツールチップ(title)にも載せる
+    $("#beCvOm").title=$("#beCvOm").value; $("#beCvJ").title=$("#beCvJ").value;
     // 減光の内訳(殻 ls_s・コア ls_c・合成 lSw)。物理側の2層減光式(hasLSwAuto ブロックの
     // coreMd>=2 分岐と同一式 — 第80便で differential/active/cavity 共通・重みは |coreMF|)を
     // 表示用に再計算する — 物理側の判定や S.lSw への書き込みには一切触れない、読み取り専用の
@@ -12260,6 +12559,7 @@ function updateBodyEdit(){
       lsMix=(wS+wC>0)? (wS*lsS+wC*lsC)/(wS+wC) : 0;
     }
     $("#beCvLs").value=(lsS!==null)? `${fmt(lsS)}/${fmt(lsC)}/${fmt(lsMix)}` : `—/—/${fmt(lsMix)}`;
+    $("#beCvLs").title=$("#beCvLs").value;   // 第92便: 見切れ対策の補助(全文ツールチップ)
   } else {
     cv.style.display="none";
   }
