@@ -53,16 +53,41 @@ TODO abstract.
 
 % =====================================================================
 \section{Introduction}
-% - Question: can a toy universe with only simple local rules self-assemble
-%   "emergent-looking" structure -- and how do we tell robust emergence from a
-%   fixed-seed accident?
-% - Position vs Paper 1 (foundations: Machian frame, clocks, light, weak-field
-%   benchmarks) and Paper 2 (box universe: expansion, time, light).
-% - Thesis: the contribution of this paper is METHOD + evidence: a grading
-%   (E0--E3) and six standard tests applied identically on three scales.
-% - Philosophy sentence (to keep): "a single beautiful run is the weakest
-%   form of evidence."
-TODO.
+% [第93便: 本文起こし第2弾 — 序論。位置づけ文は論文1/2 の Negative claims と整合]
+
+Determinacy-Field Mechanics (DFM) is a two-dimensional relational toy
+universe in which a single scalar field -- the determinacy $W$ sourced by
+all matter -- supplies the local inertial frame, gravity, clock rates,
+and optics \cite{paper1}. It is an educational \emph{computational
+thought experiment}: it is not proposed as a description of the real
+universe, and none of the phenomena below are claims about real
+astrophysical objects (Sec.~\ref{sec:negative}). Paper 1 established the
+foundations and their weak-field benchmarks; Paper 2 confined the model
+to a finite ``box universe'' and studied expansion, time, and light
+\cite{paper2}.
+
+This third paper asks a question that spans scales rather than sectors:
+\emph{when a toy universe with only simple local rules produces
+structure that looks emergent -- thermal equilibration among grains, a
+heavy dark rotating centre grown from a uniform cloud, galactic-looking
+disk signatures -- how do we tell robust emergence from a fixed-seed
+accident?} Our answer is methodological before it is physical. We fix a
+grading scheme (E0--E3) and a battery of six standard tests
+(Sec.~\ref{sec:standard}), and we apply the same battery on three
+scales: microscopic thermalization of an internal-spin temperature
+(Sec.~\ref{sec:micro}), meso-scale self-formation of a compact dark
+rotor (Sec.~\ref{sec:meso}), and macro-scale disk signatures treated
+strictly as an application (Sec.~\ref{sec:macro}).
+
+The guiding principle throughout is that \emph{a single beautiful run is
+the weakest form of evidence}. Accordingly, the results below include
+their own failures: an order parameter that had to be replaced after its
+first version proved unmeasurable, a mass fraction that is honestly
+sensitive to the softening length, an alignment timescale that outgrows
+its measurement window as the particle count rises, and a heat ledger
+that is only conserved once a work channel is identified and switched
+off. We consider these records part of the result: they are what
+distinguishes a laboratory from a gallery.
 
 % =====================================================================
 \section{Model additions relevant to structure formation}
@@ -78,20 +103,84 @@ TODO.
 % =====================================================================
 \section{A standard for emergence}
 \label{sec:standard}
-% THE methodological core.
-% Table 1: E0--E3 definitions (declaration-only grading; as in docs/PHYSICS.md).
-% The six standard tests:
-%   (1) knockout control      -- remove one mechanism, the phenomenon must die
-%   (2) dose response         -- strengthen the driver, the order parameter
-%                                must respond monotonically
-%   (3) multi-seed            -- reproduce across random seeds (16 here)
-%   (4) particle-count scaling-- not a discrete artefact of one n
-%   (5) perturbation recovery -- disturb after formation; the state must return
-%   (6) time window           -- state the window in which the claim holds
-% Order parameters must be DECLARED per phenomenon before testing.
-% Honest-reporting rule: negative and partial results are recorded in the same
-% format as positive ones (examples occur in Secs. IV--VII).
-TODO.
+% [第93便: 本文起こし第1弾 — 方法論章。数値・定義はアプリ docs/PHYSICS.md と
+%  ハーネス exp-4-84..93 の実測に一致させてある。査読向け英文推敲は次版]
+
+The word ``emergence'' carries a burden of proof that a single striking
+simulation cannot discharge. A fixed random seed, a particular particle
+count, and a hand-tuned time window can make almost any dynamical system
+produce one beautiful movie. The methodological core of this paper is
+therefore a fixed standard, applied identically on every scale we study:
+each claimed phenomenon must declare its order parameters in advance,
+pass a battery of six standard tests, and carry an explicit grade.
+
+\subsection{Grading}
+
+We grade each phenomenon on a four-level scale, declared per sample and
+never auto-assigned:
+
+\begin{itemize}
+\item \textbf{E0} -- a configured display: the pattern is placed in the
+  initial conditions or enforced by an external element (pinned bodies,
+  rails, baths).
+\item \textbf{E1} -- a driven effect: the pattern appears while an
+  external element does work on the system.
+\item \textbf{E2} -- emergence in a closed system: the pattern forms from
+  the declared local rules alone, with momentum and angular momentum
+  closing on the ledger, but robustness has not been established.
+\item \textbf{E3} -- robust emergence: E2, plus reproduction across seeds
+  and particle counts and recovery from perturbations, established by the
+  standard tests below.
+\end{itemize}
+
+The grade is metadata attached to the sample and shown in its user
+interface; the measurement harnesses that justify it are cited next to
+the grade. Nothing in the engine reads the grade -- it is a claim, not a
+mechanism.
+
+\subsection{The six standard tests}
+
+\begin{enumerate}
+\item \emph{Knockout control.} Remove one candidate mechanism (a fusion
+  rule, a conduction coefficient, a core seed) and re-run under identical
+  conditions. If the phenomenon survives, the mechanism was not its
+  cause; if every candidate can be removed without effect, the
+  phenomenon was configured, not emergent.
+\item \emph{Dose response.} Vary the strength of the claimed driver
+  monotonically and require the declared order parameter to respond
+  monotonically. Non-monotonic responses are reported as such (an
+  example: the fusion-threshold sweep of Sec.~\ref{sec:meso}).
+\item \emph{Multi-seed.} Re-run under a fixed set of random seeds
+  (sixteen in this paper) and report the full range of the order
+  parameter, not its best value. Controls run under the same seeds.
+\item \emph{Particle-count scaling.} Repeat at several particle counts
+  (three to four octaves here) to exclude discrete artefacts of one
+  resolution. Where the count is entangled with a physical quantity --
+  in our meso-scale sample $n$ is also the total mass -- the entanglement
+  is stated rather than hidden.
+\item \emph{Perturbation recovery.} Disturb the formed state -- with the
+  application's own momentum-conserving injector where possible -- and
+  measure whether the order parameters return. A pattern that never
+  recovers is a relic of the initial conditions, not an attractor.
+\item \emph{Time window.} State the window in which the claim holds and
+  what happens outside it. Timescales that grow with system size or
+  coupling (both occur below) are reported as part of the result.
+\end{enumerate}
+
+Two reporting rules bind all six tests. First, order parameters are
+declared before testing; switching the judged quantity after a failed
+run is recorded in the harness header when it happens (it happened twice
+in this study -- Secs.~\ref{sec:micro} and \ref{sec:meso} -- and both
+switches are documented with the failed first attempt). Second, negative
+and partial results are published in the same format as positive ones:
+each sample's user interface carries a ``what did not hold'' list, and
+this paper reproduces those lists verbatim in
+Sec.~\ref{sec:negative}.
+
+Every test in this section runs headless from a version-controlled
+harness (Sec.~\ref{sec:repro}); the numbers quoted in
+Secs.~\ref{sec:micro}--\ref{sec:robust} are the outputs of those
+harnesses, not of interactive runs.
 
 % =====================================================================
 \section{Micro scale: thermalization of the internal-spin temperature}

@@ -357,8 +357,10 @@
     <select id="presetSelect" aria-label="シミュレーション選択"></select>
     <button type="button" id="btnPresetPick" aria-haspopup="dialog"></button>
     <!-- 第82便: サンプルのファミリー表示 — 「すべて表示」トグル(既定OFF=ファミリー代表のみ表示・
-         表示専用でlocalStorageに保存。sim.params には一切書かない) -->
-    <label id="showAllSamplesWrap" for="showAllSamplesCb">
+         表示専用でlocalStorageに保存。sim.params には一切書かない)
+         第93便(原仮定者指示): 表示はプリセット選択ウィンドウ内へ移動 — ヘッダ側は非表示で
+         DOM・同期を維持(CSS で隠す) -->
+    <label id="showAllSamplesWrap" for="showAllSamplesCb" style="display:none">
       <input type="checkbox" id="showAllSamplesCb">
       <span id="showAllSamplesTxt"></span>
     </label>
@@ -398,8 +400,12 @@
            独立サブシステムになり、内訳は下の「コア内訳(v2)」ブロックが読み取り専用で示す -->
       <div class="beRow"><label id="beLm">m</label><input type="text" id="beM" inputmode="text" autocomplete="off">
         <label id="beLs">s</label><input type="text" id="beS" inputmode="text" autocomplete="off"></div>
+      <!-- 第93便(原仮定者指示「粒子の詳細にもスケール換算表示を適用」): 各行直下の換算副表示
+           (表示のみ — updateBodyEdit が更新。スケール換算表示OFF 時は非表示) -->
+      <div class="beNote beConvVal" id="beConv" style="display:none"></div>
       <!-- 第22便: 半径R(明示指定)・光掻き出し(To×/TcO× は第61便で廃止) -->
       <div class="beRow"><label id="beLr">R</label><input type="text" id="beR" inputmode="decimal" autocomplete="off"></div>
+      <div class="beNote beConvVal" id="beConvR" style="display:none"></div>
       <!-- 第37便 A2(原仮定者指示): 「auto」チェックボックス — ON で lightSweep="auto" を設定し
            数値欄を読み取り専用にする。OFF は従来の数値入力に戻る。
            第38便(原仮定者指示・構造のみ。ラベル文字列の改称は次波38B): #beLsw の固定幅指定を
@@ -408,9 +414,7 @@
       <div class="beRow"><label id="beLsw">減光</label><input type="text" id="beSw" inputmode="decimal" autocomplete="off"><label id="beLswAuto" style="min-width:0;flex:0 0 auto;margin-left:2px">auto</label><input type="checkbox" id="beSwAuto"></div>
       <div class="beRow"><label id="beLvx">vx</label><input type="text" id="beVx" inputmode="text" autocomplete="off">
         <label id="beLvy">vy</label><input type="text" id="beVy" inputmode="text" autocomplete="off"></div>
-      <!-- 第92便(原仮定者指示): スケール換算表示ON のとき、粒子詳細の換算値を副表示する行
-           (表示のみ — updateBodyEdit が毎フレーム更新。OFF 時は非表示) -->
-      <div class="beNote" id="beConv" style="display:none"></div>
+      <div class="beNote beConvVal" id="beConvV" style="display:none"></div>
       <div class="beRow"><label id="beLp" style="flex:1">固定(pinned)</label><input type="checkbox" id="bePin"></div>
       <!-- 第80便C: コアv2(第77便。core:{mode,massFrac,radius,omega,Kcs,pump,contract})を持つ粒子
            だけに出す読み取り専用の内訳。編集欄は無い — コアv2は独立サブシステムなのでこのパネルからは
@@ -970,7 +974,7 @@ ja: {
   camFollowNoSel:"追従する粒子を先にタップで選んでください",
   camFollowReleased:"追従先が消えたのでカメラ追従を解除しました",
   scaleDispLabel:"スケール換算表示",
-  scaleDispDesc:"パラメータの数値(シミュレーション単位)に、現在のスケール指数で SI 換算した値(≈1.2e7 m/s 等)を併記する。換算は次元をもつパラメータ(G・光速・一様重力・ε・D₀・Kt)のみ。表示だけの機能で、物理・セーブには一切影響しない。指数は同じ「共通設定」カテゴリ内の「表示スケール指数」スライダーで分子〜宇宙全体まで連続に変えられる",   // 第81便C: 移動先(共通設定)に合わせ節名を更新
+  scaleDispDesc:"パラメータの数値(シミュレーション単位)に、現在のスケール指数で SI 換算した値(≈1.2e7 m/s 等)を併記する。換算は次元をもつパラメータ(G・光速・一様重力・ε・D₀・Kt)のみ。表示だけの機能で、物理・セーブには一切影響しない。指数は同じ「共通設定」カテゴリ内の「表示スケール指数」スライダーで分子〜宇宙全体まで連続に変えられる。※第93便: 一部のパラメータは馴染み優先の慣習アンカーで読む — 光速は全スケールで「3.0 → 3×10^8 m/s」、日常スケールの一様重力・εは値がそのまま m/s²・m。これは表示規約であり単一の次元系ではない(粒子速度・距離の換算は次元系のまま)。スライダーで指数を上書き中は次元系に戻る",   // 第81便C: 移動先(共通設定)に合わせ節名を更新
   scaleExpLabel:"表示スケール指数",
   scaleExpDesc:"表示換算に使う長さ指数 log₁₀(m/長さ1) を、分子(10⁻¹⁰m)から宇宙全体(10²³m)まで指数で連続に変える。時間・質量の指数は各スケールの代表点の間を線形補間する。表示専用 — 物理(sim.params)には書き込まない。プリセットを読み込むと、そのサンプルの scaleTier 既定値へ戻る",
   hudScale:(x,eT,eM,t)=>`スケール換算 長さ1=10^${Math.round(x*10)/10}m 時間1=10^${Math.round(eT*10)/10}s 質量1=10^${Math.round(eM*10)/10}kg t≈${sciFmt(t*Math.pow(10,eT))}s`,
@@ -1319,7 +1323,7 @@ en: {
   camFollowNoSel:"Tap a particle first to choose what to follow",
   camFollowReleased:"The followed body is gone — camera follow turned off",
   scaleDispLabel:"Scale-converted display",
-  scaleDispDesc:"Adds an SI-converted value (≈1.2e7 m/s etc.) next to dimensional parameters (G, light speed, uniform gravity, ε, D₀, Kt), using the current scale exponent. Display only — physics and saves are untouched. The exponent can be swept continuously from molecular to cosmic with the \"Display scale exponent\" slider in the same General category",   // 81st delivery, track C: updated section name to match new location
+  scaleDispDesc:"Adds an SI-converted value (≈1.2e7 m/s etc.) next to dimensional parameters (G, light speed, uniform gravity, ε, D₀, Kt), using the current scale exponent. Display only — physics and saves are untouched. The exponent can be swept continuously from molecular to cosmic with the \"Display scale exponent\" slider in the same General category. Note (wave 93): some parameters use familiarity-first anchors — light speed reads 3.0 → 3×10^8 m/s on every scale, and on the everyday scale uniform gravity and ε read as m/s² and m at face value. This is a display convention, not a single dimensional system (particle velocities and distances keep the dimensional conversion). Overriding the exponent with the slider returns to the dimensional system",   // 81st delivery, track C: updated section name to match new location
   scaleExpLabel:"Display scale exponent",
   scaleExpDesc:"The length exponent log₁₀(m per length-unit) used by the converted display, swept exponentially from molecular (10⁻¹⁰ m) to cosmic (10²³ m). Time and mass exponents interpolate linearly between the tier anchor points. Display only — nothing is written into sim.params. Loading a preset resets it to that sample's scaleTier default",
   hudScale:(x,eT,eM,t)=>`scale conv: len1=10^${Math.round(x*10)/10}m time1=10^${Math.round(eT*10)/10}s mass1=10^${Math.round(eM*10)/10}kg t≈${sciFmt(t*Math.pow(10,eT))}s`,
@@ -1341,7 +1345,7 @@ en: {
     geoPN:"Geodesic mode geoPN", lambdaPN:"1PN correction λ_PN",
     pnAlpha:"1PN coefficient α (0.5=time-rate only, 1.5=full)",
     radiusScale:"Particle radius scale", softening:"Softening ε",
-    timeScale:"Time multiplier"},
+    timeScale:"Time-rate exponent"},   // 第93便: 指数表示へ改称
   // v1.21: タップ説明の英語版(ja は PARAM_DEFS.desc)
   paramDescs:{
     G:"Strength of mutual gravity between particles. In this universe gravity is the gradient of determinacy W (A6/E4: a=G∇W). Set 0 to switch self-gravity off (independent of the uniform field g_x/g_y).",
@@ -1365,7 +1369,7 @@ en: {
     pnAlpha:"Breakdown of the 1PN correction (E12). 1.5 = full (GR's β=γ=1 — the full 42.98″/century of Mercury), 0.5 = time-rate only (advance drops to 1/3). Machine-verified in V18–V20.",
     radiusScale:"Global scale of the particle radius R=radiusScale·rMul·√m (default 1). Affects contact size and the moment of inertia I=½mR² (the I in temperature T=Is²). Per-body variation lives in the body key rMul; this knob scales every particle relatively. A discretization setting, not a law of physics.",
     softening:"Softening length mixed into distances so forces never diverge at close range (E1′ Plummer form: 1/√(d²+ε²)). Smaller = sharper close encounters but numerically rougher.",
-    timeScale:"Multiplier on how fast simulated time advances (fast-forward). The physics is unchanged — only the time per frame. If the simulation diverges, lower this first."},
+    timeScale:"Exponent x setting how fast simulated time advances: 10^x (wave 93). x=0.0 is \"real time\" on the current display scale (nominal 60 fps — e.g. 1× wall-clock on the everyday scale). The stored value remains the plain multiplier (save-compatible). Physics is unchanged — only the time per frame. If the simulation diverges, lower this first."},
 },
 };
 function T(key){ const d=I18N[LANG], v=(key in d)? d[key] : I18N.ja[key]; return v; }
@@ -1614,6 +1618,7 @@ const APP_VERSION = "1.38";            // エクスポートの appVersion に�
 // CACHE 接尾辞と同期させる(QA: version.beta-label)。ルート昇格後は使わない("v"+APP_VERSION 表示に戻る)
 const BETA_BUILD = "v1.39-b1";   // 第86便: v1.38.0 昇格に伴い次期プレビュー線へ
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
+const TS_NOM_RATE = 60*SUBSTEPS*DT;      // 第93便: 公称60fpsでの モデル時間/実秒(=1.92 — 時間倍率指数の基準)
 // 第71便 P0 → 第72便(ChatGPT Release レビュー P2: マジックナンバーの定数化):
 // E6′③反作用の1サブステップ上限(速度のみ)。較正実測(第71便): 正常域最大は 🕶️ の
 // 7.52/サブステップ ⇔ 病的構成(D0=0・質量比1:10⁴)は 9406 — 16 は正常域の約2倍・病的域の 1/600
@@ -1764,9 +1769,29 @@ function scaleEffNow(){
   const x=SCALE_ANCHORS[scaleTierOf(p)].expL, tm=scaleTM(x);
   return {x, eT:tm.eT, eM:tm.eM};
 }
+// 第93便(原仮定者指示「馴染みのある数値」): 表示換算の慣習アンカー表。
+// (tier×パラメータ)ごとの固定換算係数で、次元系(SCALE_DIMS)の一貫換算より優先する。
+// 例: cLight は全スケールで「3.0 → 3×10^8 m/s」(×1e8)・日常の g_y は「9.8 → 9.8 m/s²」(×1)。
+// これは**馴染み優先の表示規約**であり単一の次元系ではない(粒子速度・距離の換算は従来の
+// 次元系のまま — cLight だけ光速の慣習アンカーで読む)。スライダーで指数を明示上書きしたときは
+// 次元系に戻る(上書きは「指数で読む」という明示操作のため)。物理・保存には一切影響しない
+const SCALE_FAMILIAR={
+  cLight:{f:1e8},
+  gravityY:{tier:{everyday:1}},
+  gravityX:{tier:{everyday:1}},
+  softening:{tier:{everyday:1}},
+};
 // パラメータ key の値 v をスケール換算した文字列("≈1.2e7 m/s" 形式)。対象外キーは null
 function scaleConvStr(key,v){
   const d=SCALE_DIMS[key]; if(!d) return null;
+  if(scaleExpOverride===null){   // 第93便: 慣習アンカー(スライダー上書き中は次元系)
+    const fam=SCALE_FAMILIAR[key];
+    if(fam){
+      const tier=scaleTierOf(typeof currentPreset!=="undefined"? currentPreset : null);
+      const f=(fam.tier && fam.tier[tier]!==undefined)? fam.tier[tier] : fam.f;
+      if(f!==undefined) return "≈"+sciFmt(v*f)+" "+SCALE_UNIT_STR[key];
+    }
+  }
   const ef=scaleEffNow();
   const e=d[0]*ef.x + d[1]*ef.eT + d[2]*ef.eM;
   return "≈"+sciFmt(v*Math.pow(10,e))+" "+SCALE_UNIT_STR[key];
@@ -1829,8 +1854,8 @@ const PARAM_DEFS = [
    desc:"粒子の半径 R=radiusScale·rMul·√m の全粒子共通スケール(既定1)。接触判定の大きさと慣性 I=½mR²(=温度T=Is²の I)に効く。粒子ごとの倍率は body の rMul で、このノブは全体を相対的に増減させる。物理法則そのものではなく、粒子という「離散化の粒」の設定。"},
   {key:"softening",  label:"ソフトニング ε",  mode:"lin", lo:0.5, hi:10, step:0.1, cat:"sim", group:"シミュレーション",
    desc:"近距離で力が無限大に発散しないよう距離に混ぜる緩和長(E1′ Plummer型: 1/√(d²+ε²))。小さいほど近接遭遇が鋭くなるが数値的に荒れやすい。"},
-  {key:"timeScale",  label:"時間倍率",        mode:"log", lo:0.1, hi:16, group:"シミュレーション",
-   desc:"シミュレーション時間の進みの倍率(速回し)。物理法則は変わらず、1フレームに進む時間だけが変わる。発散したら下げるのが第一選択。"},
+  {key:"timeScale",  label:"時間倍率指数",    mode:"log", lo:0.1, hi:16, group:"シミュレーション", disp:"texp",
+   desc:"シミュレーションの進む速さを 10^x 倍で指定する指数(第93便)。x=0.0 で現在の表示スケールの「実時間」(公称60fps基準 — 例: 日常スケールなら 10^0=等倍の現実時間、天体スケールなら換算実時間)。内部の保存値は従来どおり倍率(セーブ互換)。物理法則は変わらず、1フレームに進む時間だけが変わる。発散したら下げるのが第一選択。"},
 ];
 // 第88便(v1.39-b1 スプリント1)EXT-03: パラメータ役割の宣言(物理仮定/実験条件/数値)。
 // sampleClass と同方針の**宣言専用メタ**で、表示(役割チップ・凡例)にのみ使う —
@@ -1967,10 +1992,8 @@ const BUILTIN_PRESETS = [
 
 { id:"projectile", name:"自由落下と放物運動", emoji:"⚾", group:"空間と時間",
   scaleTier:"everyday",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
-  // 第92便(原仮定者指示「日常タグは g_y=9.8m/s² で試せる様に」): 換算指数の宣言(表示のみ)。
-  // L=0(1unit=1m)・T=-1.044(1時間単位=10^-1.044s)→ 既定 g_y 0.08 が ≈9.8 m/s² と換算される
-  // (投射速度 v=3 → ≈33 m/s・飛距離 ~100m — 日常の数値感)。fidelity=real は換算較正済みの宣言
-  scaleExp:{L:0, T:-1.044, M:0}, fidelity:"real",
+  // 第93便(原仮定者指示): 日常スケールの**プリセット個別較正は撤回** — 第92便の scaleExp は
+  // 廃止し、tier 共通の慣習アンカー(SCALE_FAMILIAR: 日常 g_y ×1 =「9.8 で 9.8 m/s²」)へ移行
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"一様重力場gravityY(外部場)だけを働かせた力学実験室。",
@@ -3559,7 +3582,7 @@ const BUILTIN_PRESETS = [
 
 { id:"convection", name:"加熱の対流 — 伝熱する箱", emoji:"♨️", group:"熱の実験室",
   scaleTier:"everyday",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
-  scaleExp:{L:0, T:-1.257, M:0}, fidelity:"real",   // 第92便: g_y 0.03 → ≈9.8 m/s²(表示のみ)
+  // 第93便: 個別較正撤回(慣習アンカーへ移行 — 日常 g_y は値がそのまま m/s² で読める)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   // 第50便 50K(台帳4-78 C案パイロット): descStruct(要約/観察/操作)— description は起動時に
@@ -3596,7 +3619,7 @@ const BUILTIN_PRESETS = [
 
 { id:"buoyancy", name:"重力分離と浮力", emoji:"🧪", group:"熱の実験室",
   scaleTier:"everyday",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
-  scaleExp:{L:0, T:-1.146, M:0}, fidelity:"real",   // 第92便: g_y 0.05 → ≈9.8 m/s²(表示のみ)
+  // 第93便: 個別較正撤回(慣習アンカーへ移行 — 日常 g_y は値がそのまま m/s² で読める)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   descStruct:{
@@ -9547,10 +9570,12 @@ function drawScaleBar(){
   let lab=sciFmt(L);
   if(scaleDispOn) lab+=" ≈ "+fmtMeters(L*Math.pow(10,scaleExpNow()));
   ctx.fillText(lab, x0, y0-8);
+  // 第93便(原仮定者指示「スケール表示と粒子の詳細が被らない様に」): 表示幅は右下ではなく
+  // 左下の2行目に積む — 右上の #bodyEdit(粒子詳細)や右側 UI と重ならない
   const wUnits=cw/z;
   let wl=T("hudViewW")+" "+sciFmt(wUnits);
   if(scaleDispOn) wl+=" ≈ "+fmtMeters(wUnits*Math.pow(10,scaleExpNow()));
-  ctx.fillText(wl, cw-ctx.measureText(wl).width-10, y0-8);
+  ctx.fillText(wl, x0, y0-22);
   ctx.restore();
 }
 
@@ -10153,6 +10178,19 @@ function showPresetPicker(rebuildOnly){
   ppChipsRow(box, T("ppDimE"),
     [["all",T("grpAll")],["E0","E0"],["E1","E1"],["E2","E2"],["E3","E3"]],
     ()=>ppE,(v)=>ppE=v);
+  // 第93便(原仮定者指示): 「すべて表示」(ファミリー変種)をヘッダからウィンドウ内へ移動。
+  // 状態はヘッダの非表示チェックと同じ showAllSamples(localStorage)— 両者を同期する
+  { const row=document.createElement("div"); row.className="ppChips";
+    const cb=document.createElement("input"); cb.type="checkbox"; cb.id="ppShowAll"; cb.checked=showAllSamples;
+    const lb=document.createElement("label"); lb.htmlFor="ppShowAll"; lb.textContent=T("showAllSamplesLabel");
+    lb.title=T("showAllSamplesTip"); lb.style.fontSize="calc(11px*var(--uz,1))";
+    cb.addEventListener("change",()=>{
+      setShowAllSamples(cb.checked);
+      const hc=$("#showAllSamplesCb"); if(hc) hc.checked=showAllSamples;
+      rebuildPresetSelect(currentPreset? currentPreset.id : undefined);
+      ppRender();
+    });
+    row.appendChild(cb); row.appendChild(lb); box.appendChild(row); }
   const list=document.createElement("div"); list.id="ppList"; box.appendChild(list);
   ov.appendChild(box); document.body.appendChild(ov);
   ppRender();
@@ -11135,11 +11173,18 @@ function buildParamRows(){
     if(def.mode==="log"){ rng.min=0; rng.max=1000; rng.step=1; }
     else { rng.min=def.lo; rng.max=def.hi; rng.step=def.step; }
     rng.value=valToSliderPos(def,showSim.params[key]);
+    // 第93便(原仮定者指示): 時間倍率指数(disp:"texp")— 数値欄の表示・入力を指数 x へ変換する。
+    // x = log10(公称レート×倍率)+表示スケールの時間指数(x=0.0 が換算実時間の等倍)。
+    // **内部の保存値・スライダー・セーブ JSON は従来の倍率のまま**(表示変換のみ — 互換不変)
+    const isTexp=(def.disp==="texp");
+    const texpOf=(ts)=>Math.log10(Math.max(1e-12,TS_NOM_RATE*ts))+scaleEffNow().eT;
+    const texpTs=(x)=>Math.pow(10,x-scaleEffNow().eT)/TS_NOM_RATE;
+    const dispVal=(v)=> isTexp? texpOf(v).toFixed(2) : fmt(v);
     // 直値入力欄(スライダー範囲外の値もバリデータ値域 CLAMPS まで設定可)
     const num=document.createElement("input"); num.type="text"; num.className="valIn";
     // v1.24: 負値を取り得るパラメータ(g_x/g_y 等)は inputmode=text — iOS の数字キーパッドに「−」が無い
-    num.inputMode=(CLAMPS[key] && CLAMPS[key][0]<0)?"text":"decimal";
-    num.autocomplete="off"; num.value=fmt(showSim.params[key]);
+    num.inputMode=(isTexp || (CLAMPS[key] && CLAMPS[key][0]<0))?"text":"decimal";
+    num.autocomplete="off"; num.value=dispVal(showSim.params[key]);
     // 第74便: スケール換算値の副表示(表示専用・物理不変)。「表示」のトグルON かつ次元のある
     // パラメータ(G/cLight/g_x/g_y/ε/D0/Kt)だけ "≈1.2e7 m/s" を数値欄の下に添える
     const conv=document.createElement("span"); conv.className="convVal";
@@ -11165,21 +11210,23 @@ function buildParamRows(){
       return targets[0].params[key];   // v1.26: ロックによる上書き後の実値を返す
     };
     // 第54便 54D④: 重複行の相互同期 — 自分以外の同一キー行を追随させる
-    const syncFn=()=>{ rng.value=valToSliderPos(def,showSim.params[key]); num.value=fmt(showSim.params[key]); updConv(); };
+    const syncFn=()=>{ rng.value=valToSliderPos(def,showSim.params[key]); num.value=dispVal(showSim.params[key]); updConv(); };
     const syncOthers=()=>{ (paramRowSync[key]||[]).forEach(f=>{ if(f!==syncFn) f(); }); };
     rng.addEventListener("input",()=>{  // 実行中いつでも即時反映
       let v=parseFloat(rng.value);
       if(def.mode==="log") v=sliderPosToVal(def,v);
       setParam(v);
-      num.value=fmt(showSim.params[key]);
+      num.value=dispVal(showSim.params[key]);
       updConv();
       syncOthers();
     });
     num.addEventListener("change",()=>{
-      const v=parseFloat(num.value.replace(/[,、\s]/g,"").replace(/[−ー–—－]/g,"-"));  // v1.24: 全角マイナス等も受理
+      let v=parseFloat(num.value.replace(/[,、\s]/g,"").replace(/[−ー–—－]/g,"-"));  // v1.24: 全角マイナス等も受理
+      if(isTexp && isFinite(v)) v=texpTs(v);   // 第93便: 指数入力 → 倍率へ逆変換して適用
       // v1.19: 直値入力はそのまま反映(fmt で丸めた表示に置き換えない。値域外のみクランプ値を表示)
-      if(isFinite(v)){ const applied=setParam(v); rng.value=valToSliderPos(def,applied); num.value=String(applied); }
-      else num.value=fmt(showSim.params[key]);
+      if(isFinite(v)){ const applied=setParam(v); rng.value=valToSliderPos(def,applied);
+        num.value=isTexp? texpOf(applied).toFixed(2) : String(applied); }
+      else num.value=dispVal(showSim.params[key]);
       updConv();
       syncOthers();
     });
@@ -12501,17 +12548,18 @@ function updateBodyEdit(){
   // 第92便(原仮定者指示): スケール換算表示ON のとき、粒子詳細にも換算値を副表示(表示のみ)。
   // m→kg(M⊕/M☉)・R→m(km/au/ly)・|v|→m/s(km/s)・spin→1/s。指数はパラメータ副表示と
   // 同じ scaleExpNow()/scaleTM() を使う(換算の一貫性)
-  { const bc=$("#beConv");
-    if(bc){
+  // 第93便(原仮定者指示): 粒子詳細の**行別**スケール換算 — m/Ω・R・vx/vy の各行直下に副表示
+  { const bc=$("#beConv"), br=$("#beConvR"), bv=$("#beConvV");
+    if(bc&&br&&bv){
       if(scaleDispOn){
         const ef=scaleEffNow();
-        const vAbs=Math.hypot(S.vx[i],S.vy[i]);
         bc.textContent="≈ m "+fmtKg(Math.abs(S.m[i])*Math.pow(10,ef.eM))
-          +" / R "+fmtMeters(S.R[i]*Math.pow(10,ef.x))
-          +" / |v| "+fmtMps(vAbs*Math.pow(10,ef.x-ef.eT))
-          +" / Ω "+sciFmt(S.spin[i]*Math.pow(10,-ef.eT))+"/s";
-        bc.style.display="block";
-      } else bc.style.display="none";
+          +" ・ Ω "+sciFmt(S.spin[i]*Math.pow(10,-ef.eT))+"/s";
+        br.textContent="≈ "+fmtMeters(S.R[i]*Math.pow(10,ef.x));
+        bv.textContent="≈ vx "+fmtMps(S.vx[i]*Math.pow(10,ef.x-ef.eT))
+          +" ・ vy "+fmtMps(S.vy[i]*Math.pow(10,ef.x-ef.eT));
+        bc.style.display=br.style.display=bv.style.display="block";
+      } else bc.style.display=br.style.display=bv.style.display="none";
     } }
   $("#bePin").checked=!!S.pinned[i];
   // 第80便C: コアv2(第77便)の読み取り専用内訳 — coreMd[i]!=0(独立コアを持つ)のときだけ表示する。
@@ -13562,6 +13610,8 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 第91便 EXT-14: 保存モニタの ON/OFF(QA用 — 表示トグルと同じフラグを直接読む/書く)
   setMonitor:(v)=>{ monitorOn=!!v; requestRender(); },
   monitorNow:()=>monitorOn,
+  // 第93便: 実効換算指数の読み口(QA用 — 時間倍率指数・慣習アンカーの機械検査)
+  scaleEff:scaleEffNow, TS_NOM_RATE,
   running:()=>running, setRunning:(v)=>{running=v;updatePlayBtn();},
   recTrail, drawRadiusCap, Q_TRAILPTS,  // 第29便: 軌跡上限・描画半径上限のQA用
   // 第12便: 粒子選択のQA用(A/B比較中の編集検証 — world: "A"|"B")
