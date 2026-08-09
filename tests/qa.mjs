@@ -11618,6 +11618,157 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   }
 }
 
+// ---- 92) 第92便(原仮定者指示8件のUI群): ピッカー・スケールバー・換算・現実準拠・コア表示 ----
+// ----   すべて表示専用(物理・保存 JSON 不変)。root 昇格前は機能判定 SKIP ----
+{
+  // 92-1) ui.presetpicker: ボタン(選択中サンプル名)→モーダル。絞り込み・検索・行タップ読込
+  const hasPp = await page.evaluate(() => !!(window.HP && document.querySelector('#btnPresetPick')
+    && typeof showPresetPicker === 'function'));
+  if (hasPp) {
+    const r = await page.evaluate(() => new Promise((res) => {
+      HP.loadPreset('saturn', false);
+      const btn = document.querySelector('#btnPresetPick');
+      const label0 = btn.textContent;
+      btn.click();
+      const modal = !!document.querySelector('#ppModal');
+      const rows0 = document.querySelectorAll('#ppList .ppRow').length;
+      // スケール絞り込み(🌌)→ 銀河 tier だけに減る
+      const gal = [...document.querySelectorAll('#ppModal .ppChip')].find((c) => c.textContent.includes('🌌'));
+      gal.click();
+      const rowsGal = document.querySelectorAll('#ppList .ppRow').length;
+      const galAllGalactic = [...document.querySelectorAll('#ppList .ppRow')].length > 0;
+      // 絞り込み解除(同チップ再タップ)→ 検索「水星」→ ☿ が出る → タップで読込
+      const gal2 = [...document.querySelectorAll('#ppModal .ppChip')].find((c) => c.textContent.includes('🌌'));
+      gal2.click();
+      const si = document.querySelector('#ppSearch'); si.value = '水星'; si.dispatchEvent(new Event('input'));
+      const searchRows = [...document.querySelectorAll('#ppList .ppRow')];
+      const hasMercury = searchRows.some((x) => x.textContent.includes('☿'));
+      searchRows[0].click();
+      setTimeout(() => {
+        const closed = !document.querySelector('#ppModal');
+        const label1 = document.querySelector('#btnPresetPick').textContent;
+        // 後始末: 検索語をクリアして saturn へ
+        ppSearch = '';
+        HP.loadPreset('saturn', false);
+        res({ label0, modal, rows0, rowsGal, galAllGalactic, hasMercury, closed, label1 });
+      }, 150);
+    }));
+    add('ui.presetpicker',
+      /🪐/.test(r.label0) && r.modal && r.rows0 >= 30 && r.rowsGal > 0 && r.rowsGal < r.rows0
+      && r.hasMercury && r.closed && /☿/.test(r.label1),
+      `ボタン=選択中サンプル名(🪐)=${/🪐/.test(r.label0)} / モーダル=${r.modal}・全${r.rows0}行 → ` +
+      `🌌絞り込み ${r.rowsGal}行 / 検索「水星」=☿ヒット=${r.hasMercury} / 行タップで読込+閉じ=${r.closed}(ボタン=☿)`);
+  } else {
+    console.log('SKIP ui.presetpicker(対象にピッカーなし — root 等。第92便)');
+  }
+  // 92-2) scale.preset-exp: プリセット宣言 scaleExp — ⚾♨️🧪 で g_y が ≈9.8 m/s² に換算される。
+  //       宣言のないプリセット(🔥)は従来値のまま(scale.display-invariant の exp0 検査と整合)
+  const hasSe = await page.evaluate(() => !!(window.HP
+    && (HP.allPresets().find((p) => p.id === 'projectile') || {}).scaleExp));
+  if (hasSe) {
+    const r = await page.evaluate(() => {
+      const out = {};
+      const gy = { projectile: 0.08, convection: 0.03, buoyancy: 0.05 };
+      for (const [id, v] of Object.entries(gy)) {
+        HP.loadPreset(id, false);
+        out[id] = HP.scaleConvStr('gravityY', v);
+      }
+      HP.loadPreset('gas', false);
+      out.gasCLight = HP.scaleConvStr('cLight', 60);   // 🔥は宣言なし → molecular 既定のまま
+      // 物理不変: ⚾で scaleExp 宣言込みの表示ON/OFF 240步 bit 一致
+      const run = (touch) => {
+        HP.loadPreset('projectile', false);
+        if (touch) HP.setScaleDisp(true);
+        for (let k = 0; k < 240; k++) HP.sim.step(0.016);
+        const S = HP.sim, o = [];
+        for (let i = 0; i < S.n; i++) o.push(S.x[i], S.y[i], S.vx[i], S.vy[i]);
+        if (touch) HP.setScaleDisp(false);
+        return o.join(',');
+      };
+      out.bitSame = run(false) === run(true);
+      HP.loadPreset('saturn', false);
+      return out;
+    });
+    const near98 = (s2) => /≈9\.(79|8\d|80)\d* m\/s²/.test(String(s2)) || /≈9\.8 m\/s²/.test(String(s2));
+    add('scale.preset-exp',
+      near98(r.projectile) && near98(r.convection) && near98(r.buoyancy) && r.bitSame,
+      `g_y換算: ⚾"${r.projectile}" ♨️"${r.convection}" 🧪"${r.buoyancy}"(いずれも≈9.8 m/s²)/ ` +
+      `🔥cLight="${r.gasCLight}"(宣言なし=従来)/ 表示ON/OFF 240步 bit一致=${r.bitSame}`);
+  } else {
+    console.log('SKIP scale.preset-exp(対象に scaleExp 宣言なし — root 等。第92便)');
+  }
+  // 92-3) ui.fidelity: fidelity:"real" 宣言(6件)にだけ 📏 チップが出る
+  const hasFid = await page.evaluate(() => !!(window.HP && HP.allPresets().some((p) => p.fidelity === 'real')));
+  if (hasFid) {
+    const r = await page.evaluate(() => {
+      const reals = HP.allPresets().filter((p) => p.fidelity === 'real').map((p) => p.id).sort();
+      HP.loadPreset('grcal', false);
+      const chipOn = !!document.querySelector('#classChips .classChip[data-g=fid-real]');
+      HP.loadPreset('saturn', false);
+      const chipOff = !document.querySelector('#classChips .classChip[data-g=fid-real]');
+      return { reals, chipOn, chipOff };
+    });
+    add('ui.fidelity',
+      r.reals.length >= 6 && r.chipOn && r.chipOff,
+      `fidelity:"real"=${r.reals.length}件[${r.reals.join(',')}] / 🛰にチップ=${r.chipOn}・🪐(宣言なし)に無し=${r.chipOff}`);
+  } else {
+    console.log('SKIP ui.fidelity(対象に fidelity 宣言なし — root 等。第92便)');
+  }
+  // 92-4) ui.scalebar-conv: スケールバーのトグルと単位整形+粒子詳細の換算副表示(#beConv)
+  const hasSb = await page.evaluate(() => typeof drawScaleBar === 'function' && typeof fmtMeters === 'function');
+  if (hasSb) {
+    const r = await page.evaluate(() => {
+      const units = { m5k: fmtMeters(5e3), au: fmtMeters(3e11), ly: fmtMeters(1e16),
+        nm: fmtMeters(5e-9), kg: fmtKg(3), earth: fmtKg(1.2e25), sun: fmtKg(4e30), kms: fmtMps(3.4e4) };
+      const tgRow = [...document.querySelectorAll('#paramRows .prow')].some((x) => {
+        const l = x.querySelector('label'); return l && l.firstChild && /スケールバー|Scale bar/.test(l.firstChild.textContent); });
+      // 粒子詳細の換算副表示: ⚾の粒子0を選択+換算ON → #beConv が可視で m/s 系文字列を含む
+      HP.loadPreset('projectile', false);
+      HP.setScaleDisp(true);
+      HP.selectBody(0, 'A');
+      const bc = document.querySelector('#beConv');
+      const shown = bc && bc.style.display !== 'none' && /m\/s|kg/.test(bc.textContent);
+      const txt = bc ? bc.textContent : '';
+      HP.setScaleDisp(false);
+      HP.selectBody(0, 'A');
+      const hidden = bc && bc.style.display === 'none';
+      HP.selectBody(-1, 'A');
+      HP.loadPreset('saturn', false);
+      return { units, tgRow, shown, txt: txt.slice(0, 80), hidden, barOnDefault: scaleBarOn === true || scaleBarOn === false };
+    });
+    add('ui.scalebar-conv',
+      r.units.m5k === '5 km' && /au$/.test(r.units.au) && /ly$/.test(r.units.ly) && /nm$/.test(r.units.nm)
+      && r.units.kg === '3 kg' && /M⊕$/.test(r.units.earth) && /M☉$/.test(r.units.sun) && /km\/s$/.test(r.units.kms)
+      && r.tgRow && r.shown && r.hidden,
+      `単位整形: 5e3m→"${r.units.m5k}"・3e11m→"${r.units.au}"・1e16m→"${r.units.ly}"・5e-9m→"${r.units.nm}"・` +
+      `3kg→"${r.units.kg}"・1.2e25kg→"${r.units.earth}"・4e30kg→"${r.units.sun}"・3.4e4m/s→"${r.units.kms}" / ` +
+      `表示トグルあり=${r.tgRow} / #beConv 換算ON表示=${r.shown}(「${r.txt}」)・OFF非表示=${r.hidden}`);
+  } else {
+    console.log('SKIP ui.scalebar-conv(対象にスケールバーなし — root 等。第92便)');
+  }
+  // 92-5) ui.corev2-fit: コア内訳(v2)の見切れ対策 — 3値行に全文ツールチップ(title)が付く。
+  //       ガードは #beCoreV2 ではなく #beConv(第92便マーカー)— #beCoreV2 は第81便から root にも
+  //       あるため、初版ガードは root で誤実行して FAIL した(昇格前 beta 先行機能の判定は
+  //       「同じ便で入った要素」で行う — 実測で検出した教訓)
+  const hasCvFit = await page.evaluate(() => !!document.querySelector('#beConv'));
+  if (hasCvFit) {
+    const r = await page.evaluate(() => {
+      HP.loadPreset('saturnLayered', false);   // 主星がコアv2(differential)
+      HP.selectBody(0, 'A');
+      const om = document.querySelector('#beCvOm'), j = document.querySelector('#beCvJ');
+      const ok = om && j && om.title === om.value && j.title === j.value && om.value.split('/').length === 3;
+      const vals = { om: om ? om.value : '', omTitle: om ? om.title : '' };
+      HP.selectBody(-1, 'A');
+      HP.loadPreset('saturn', false);
+      return { ok, vals };
+    });
+    add('ui.corev2-fit', r.ok,
+      `コアv2 3値行: title=value の全文ツールチップ=${r.ok}(Ω行="${r.vals.om}")— 幅188px+縮小フォントで全桁表示`);
+  } else {
+    console.log('SKIP ui.corev2-fit(対象にコアv2内訳なし)');
+  }
+}
+
 // ---- 85) 第85便(休眠検出の再発防止): qa.testid-live ----
 // ----   第84便B が見つけた事故の型 =「claims の testId が指す QA テストが、廃止済み API を見る
 // ----   古い判定子(`HP.sim.obsT`)に閉じ込められて**フルQAでも一度も走っていない**」。
