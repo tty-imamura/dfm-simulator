@@ -403,7 +403,7 @@
         <label id="beLs">s</label><input type="text" id="beS" inputmode="text" autocomplete="off"></div>
       <!-- 第94便(原仮定者指示): 第93便の行別換算副表示(#beConv/#beConvR/#beConvV)は廃止 —
            粒子のスケール換算値は「粒子選択時に画面下に表示される詳細」(canvas)へ移設。
-           パネルを畳んだ(min)ときは換算行も出さない(render() 内 selConvTextNow) -->
+           第95便(原仮定者指示): パネルを畳んで(min)いても表示・2行分割(selConvLinesNow) -->
       <!-- 第22便: 半径R(明示指定)・光掻き出し(To×/TcO× は第61便で廃止) -->
       <div class="beRow"><label id="beLr">R</label><input type="text" id="beR" inputmode="decimal" autocomplete="off"></div>
       <!-- 第37便 A2(原仮定者指示): 「auto」チェックボックス — ON で lightSweep="auto" を設定し
@@ -671,6 +671,14 @@ ja: {
   grpCommonDesc:"サンプルに依らないアプリ全体の設定(描画品質・文字サイズ・スケール換算)。物理には影響しない。",
   grpSpacetime:"時空", grpSpinHeat:"スピン・熱", grpDrag:"引きずり・測地線", grpLabBox:"実験箱",
   grpActive:"このサンプルの主役", grpAdvanced:"詳細設定(全パラメータ)",
+  // 第95便(原仮定者指示): カテゴリの説明(ⓘ)を全カテゴリに用意
+  grpSpacetimeDesc:"時空の骨格を決める法則群 — 光速 c₀・重力 G・時空係数 Kt(時計と光)・一様重力 g_x/g_y・物理対応ロック(Kt=c₀²/G)。この宇宙の「舞台」を作るパラメータ。",
+  grpSpinHeatDesc:"スピン=熱のセクター(A9〜A12系)— 圧力の正体であるスピン斥力 kRep・摩擦 muF・衝突減衰 γn・熱伝導 κs・放射冷却 η_rad・ウィーン定数 b_m・熱容量 C。熱・温度・光のスペクトルに関わる法則。",
+  grpDragDesc:"決定フレームの引きずりと測地線(A4/A5/E3/E6′/E12)— 背景決定力 D₀・空間引きずり kFrame・減衰指数 q・測地線モード geoPN・1PN補正。「空間が物質と光を運ぶ」効果の法則群。",
+  grpLabBoxDesc:"箱境界のサンプル専用の実験条件 — 伝熱壁の壁温/壁レート(tint 箱のみ)と壁別の反発係数。箱を「ビーカーの壁」として外部環境を与える。箱境界のサンプルでのみ表示される。",
+  grpSimDesc:"物理法則ではなく数値・離散化の設定 — 粒子半径スケール・ソフトニング ε・時間倍率(速回し)・摂動注入。結果の頑健性を確かめる実験ノブでもある。",
+  grpGraphDesc:"グラフウィンドウ(回転曲線・温度ヒストグラム・スペクトル・膨張・相変化・機構スペクトル・創発モニタ)の表示切替。表示のみ — OFF なら計測コストもゼロ。「初めから」ではリセットされない(第95便)。",
+  grpDisplayDesc:"画面表示の切替(温度色・軌跡・決定力マップ・光線・保存量モニタ・カメラ追従など)。すべて表示のみで物理には影響しない。",
   physLockHead:"物理対応(GR較正)",
   physLockLabel:"物理対応ロック Kt=cLight²/G",
   physLockDesc:"ONの間、時計・光の時空係数Ktを常に cLight²/G へ自動維持します(SI対応写像 Kt=c²/G のシミュレータ内対応条件 — PHYSICS §5 物理対応条件)。Ktは導出値になり、cLightやGを編集すると追随します(Ktを直接編集しても導出値に戻ります)。OFFでは3つを独立に編集できる「一般化トイ設定」で、GR較正の主張域外です。G=0など導出値がKtの値域[1,10000]の外になる場合はクランプされ、対応は近似になります。ロックは画面全体の設定で、プリセットやセーブデータには保存されません。",
@@ -967,7 +975,7 @@ ja: {
   bdgScaleTip:"5段階スケール分類(分子/日常/天体/銀河/宇宙全体)。UI の分類と表示換算の目安専用 — 物理エンジンはスケールで切り替わらない(同じ公理・同じ法則のまま、質量・距離・速度で支配機構が入れ替わるのが本モデルの主題)",
   // 第81便(原仮定者指示): カメラの天体追従(描画層のみ・物理不変)
   camFollowLabel:"カメラ追従",
-  camFollowDesc:"選んだ天体を画面の中央に置き続ける。追従中も1本指ドラッグ(PCはマウスドラッグ)でずらせて、そのずれは「追従対象からのオフセット」として保たれる — 対象が動いても画面の構図は崩れない。追従先が融合などで消えたら自動で「なし」に戻る。表示だけの機能で、物理・保存データには一切影響しない(A/B比較中は選択中の宇宙の対象を追う)。",
+  camFollowDesc:"選んだ天体を画面の中央に置き続ける。追従中も1本指ドラッグ(PCはマウスドラッグ)でずらせて、そのずれは「追従対象からのオフセット」として保たれる — 対象が動いても画面の構図は崩れない。「選択粒子」は粒子が非選択でも設定でき、非選択の間は「なし」と同じ挙動で、粒子を選んだ瞬間から追従する(第95便)。「天体#N」の追従先が融合などで消えたら自動で「なし」に戻る。表示だけの機能で、物理・保存データには一切影響しない(A/B比較中は選択中の宇宙の対象を追う)。",
   camFollowOptNone:"なし",
   camFollowOptPreset:(i)=>`天体#${i}(既定)`,
   camFollowOptSel:"選択粒子",
@@ -985,14 +993,16 @@ ja: {
   scaleExpMLabel:"質量スケール指数",
   scaleExpMDesc:"表示換算に使う質量指数 log₁₀(kg/質量1)。表示専用 — 物理には影響しない。サンプルのロード時にスケールタグの既定値で上書きされる(「日常」は 0.0)",
   scaleExpCLabel:"光速スケール指数",
-  scaleExpCDesc:"光速パラメータ専用の換算指数。「光速」の換算値 = 値 × 10^指数 m/s。既定 8.0 で「3.0 → 3×10^8 m/s」の慣習を表す(全スケールタグ共通)。表示専用 — 物理には影響しない",
-  hudScale:(x,eT,eM,t)=>`スケール換算 長さ1=10^${Math.round(x*10)/10}m 時間1=10^${Math.round(eT*10)/10}s 質量1=10^${Math.round(eM*10)/10}kg t≈${sciFmt(t*Math.pow(10,eT))}s`,
+  scaleExpCDesc:"光速パラメータ専用の換算指数。「光速」の換算値 = 値 × 10^指数 m/s。既定 7.0 で「30 → 3×10^8 m/s」の一律規約を表す(全スケールタグ共通 — 第95便)。表示専用 — 物理には影響しない",
+  // 第95便(原仮定者指示): 換算の「時間」に計算で使う時間倍率を反映 — 経過 t≈ に加えて
+  // 「再生1秒 ≈ 宇宙の何秒か」(公称60fps: 1秒 = SUBSTEPS·DT·60·倍率 単位 = ×10^eT 秒)を併記
+  hudScale:(x,eT,eM,t,ts)=>`スケール換算 長さ1=10^${Math.round(x*10)/10}m 時間1=10^${Math.round(eT*10)/10}s 質量1=10^${Math.round(eM*10)/10}kg t≈${sciFmt(t*Math.pow(10,eT))}s(倍率${ts}: 再生1s≈${sciFmt(SUBSTEPS*DT*60*ts*Math.pow(10,eT))}s)`,
   // 第74便: AI追加のスケール別雛形
   aiTplLabel:"スケール雛形", aiTplInsert:"挿入",
   aiTplName_molecular:"実験箱", aiTplName_everyday:"実験室", aiTplName_celestial:"軌道の舞台",
   aiTplName_galactic:"回転円盤", aiTplName_cosmic:"箱宇宙",
   aiTpl_molecular:"【分子スケール|実験箱】箱境界の実験箱(world.boundary:\"box\")に小さな粒子を数十個閉じ込める。スピン=熱(A9)・スピン斥力 kRep(E5′)・摩擦 muF(E9)・スピン拡散 κs(E10′)で、相変化や熱平衡を見せたい。scaleTier:\"molecular\" を付ける。要望: ",
-  aiTpl_everyday:"【日常スケール|実験室】一様重力 gravityY のある実験室(world.boundary:\"box\")で、落下・投射のような身の回りの現象を作る。日常タグの規約として gravityY は 9.8(=9.8 m/s²)を既定にする(第94便)。scaleTier:\"everyday\" を付ける。要望: ",
+  aiTpl_everyday:"【日常スケール|実験室】一様重力 gravityY のある実験室(world.boundary:\"box\")で、落下・対流・浮力のような身の回りの現象を作る。日常タグの規約として gravityY は 0.031(換算 ≈9.8 m/s²)・cLight は 30 を既定にする(第95便)。scaleTier:\"everyday\" を付ける。要望: ",
   aiTpl_celestial:"【天体スケール|軌道の舞台】境界なし(world.boundary:\"none\")の空間に中心天体と周回体を置く。初速は vMode:\"kepler\"(aroundMass=中心質量)。潮汐・レンズ(rays)・時計の遅れも使える。scaleTier:\"celestial\" を付ける。要望: ",
   aiTpl_galactic:"【銀河スケール|回転円盤】中心に大質量・高スピンの天体(pinned可)、まわりに恒星ディスク(type:\"disk\"・vMode:\"kepler\")。空間引きずり kFrame:1 と回転曲線オーバーレイ(rotationCurve)で外縁の増強を見せる。scaleTier:\"galactic\" を付ける。要望: ",
   aiTpl_cosmic:"【宇宙全体スケール|箱宇宙】universeBox(膨張する箱)に粒子を共動配置し、初速は vMode:\"hubble\"。膨張と自己重力の綱引きや赤方偏移(boxGraph)を見せる。scaleTier:\"cosmic\" を付ける。要望: ",
@@ -1040,6 +1050,14 @@ en: {
   grpCommonDesc:"App-wide settings that don't depend on the sample (render quality, text size, scale-converted display). Does not affect the physics.",
   grpSpacetime:"Spacetime", grpSpinHeat:"Spin & Heat", grpDrag:"Dragging & Geodesics", grpLabBox:"Lab Box",
   grpActive:"Key settings of this sample", grpAdvanced:"Advanced (all parameters)",
+  // wave 95: category descriptions (ⓘ) for every category
+  grpSpacetimeDesc:"The laws that set the stage of this universe — light speed c₀, gravity G, the spacetime coefficient Kt (clocks & light), uniform gravity g_x/g_y, and the correspondence lock (Kt=c₀²/G).",
+  grpSpinHeatDesc:"The spin=heat sector (A9–A12) — spin repulsion kRep (the origin of pressure), friction muF, collision damping γn, conduction κs, radiative cooling η_rad, Wien constant b_m and heat capacity C. Everything about heat, temperature and spectra.",
+  grpDragDesc:"Determinacy-frame dragging and geodesics (A4/A5/E3/E6′/E12) — background determinacy D₀, frame dragging kFrame, falloff q, geodesic mode geoPN and the 1PN correction. The laws by which space carries matter and light.",
+  grpLabBoxDesc:"Experimental conditions specific to box-bounded samples — thermal-wall temperature/rate (tint boxes only) and per-wall restitution. The box acts as a beaker wall providing an external environment. Shown only for box-bounded samples.",
+  grpSimDesc:"Numerical / discretization settings, not physical laws — particle radius scale, softening ε, time multiplier (fast-forward) and perturbation injection. Also robustness-testing knobs.",
+  grpGraphDesc:"Toggles for graph windows (rotation curve, temperature histogram, spectrum, expansion, phase change, mechanism spectrum, emergence monitor). Display only — zero cost when OFF. Not reset by ⏮ Restart (wave 95).",
+  grpDisplayDesc:"Display toggles (temperature colors, trails, determinacy map, light rays, conservation monitor, camera follow, …). Display only — no effect on physics.",
   physLockHead:"Physical correspondence (GR calibration)",
   physLockLabel:"Correspondence lock Kt=cLight²/G",
   physLockDesc:"While ON, the spacetime coefficient Kt (clocks & light) is automatically kept at cLight²/G — the in-simulator correspondence condition of the SI mapping Kt=c²/G (PHYSICS §5). Kt becomes a derived value that follows edits to cLight or G (direct edits to Kt snap back to the derived value). While OFF, the three parameters are independent — a 'generalized toy setting' outside the GR-calibration claim domain. If the derived value falls outside Kt's range [1,10000] (e.g. G=0) it is clamped and the correspondence becomes approximate. The lock is a global UI setting and is not stored in presets or saves.",
@@ -1326,7 +1344,7 @@ en: {
   scaleName_galactic:"Galactic", scaleName_cosmic:"Cosmic",
   bdgScaleTip:"Five-tier scale classification (molecular / everyday / celestial / galactic / cosmic). Used only for browsing and unit-conversion hints — the physics engine never switches on scale (the whole point of this model is that the same axioms let different mechanisms dominate as mass, distance and speed change)",
   camFollowLabel:"Camera follow",
-  camFollowDesc:"Keeps the chosen body centred on screen. You can still drag (one finger, or the mouse on a PC) while following: the shift is kept as an offset from the followed body, so the framing survives as the target moves. If the target disappears (a merger, say) the setting falls back to \"None\" automatically. Display only — physics and saved data are untouched (during an A/B comparison it follows the target in the selected universe).",
+  camFollowDesc:"Keeps the chosen body centred on screen. You can still drag (one finger, or the mouse on a PC) while following: the shift is kept as an offset from the followed body, so the framing survives as the target moves. \"Selected particle\" can be set even with nothing selected — it then behaves like \"None\" and starts following the moment you select a particle (wave 95). If a \"Body #N\" target disappears (a merger, say) the setting falls back to \"None\" automatically. Display only — physics and saved data are untouched (during an A/B comparison it follows the target in the selected universe).",
   camFollowOptNone:"None",
   camFollowOptPreset:(i)=>`Body #${i} (default)`,
   camFollowOptSel:"Selected particle",
@@ -1344,13 +1362,13 @@ en: {
   scaleExpMLabel:"Mass scale exponent",
   scaleExpMDesc:"The mass exponent log₁₀(kg per mass-unit) used by the converted display. Display only — no effect on physics. Loading a sample overwrites it with the scale-tag default (everyday: 0.0)",
   scaleExpCLabel:"Light-speed scale exponent",
-  scaleExpCDesc:"Conversion exponent dedicated to the light-speed parameter: converted value = value × 10^exponent m/s. Default 8.0 expresses the convention 3.0 → 3×10^8 m/s (shared by every scale tag). Display only — no effect on physics",
-  hudScale:(x,eT,eM,t)=>`scale conv: len1=10^${Math.round(x*10)/10}m time1=10^${Math.round(eT*10)/10}s mass1=10^${Math.round(eM*10)/10}kg t≈${sciFmt(t*Math.pow(10,eT))}s`,
+  scaleExpCDesc:"Conversion exponent dedicated to the light-speed parameter: converted value = value × 10^exponent m/s. Default 7.0 expresses the uniform convention 30 → 3×10^8 m/s (shared by every scale tag — wave 95). Display only — no effect on physics",
+  hudScale:(x,eT,eM,t,ts)=>`scale conv: len1=10^${Math.round(x*10)/10}m time1=10^${Math.round(eT*10)/10}s mass1=10^${Math.round(eM*10)/10}kg t≈${sciFmt(t*Math.pow(10,eT))}s (rate ${ts}: 1s of playback≈${sciFmt(SUBSTEPS*DT*60*ts*Math.pow(10,eT))}s)`,
   aiTplLabel:"Scale template", aiTplInsert:"Insert",
   aiTplName_molecular:"Lab box", aiTplName_everyday:"Laboratory", aiTplName_celestial:"Orbital stage",
   aiTplName_galactic:"Rotating disk", aiTplName_cosmic:"Box universe",
   aiTpl_molecular:"[Molecular scale | lab box] Confine a few dozen small particles in a bounded box (world.boundary:\"box\"). Spin=heat (A9), spin repulsion kRep (E5′), friction muF (E9) and spin diffusion κs (E10′) are the lead actors; show phase changes or thermal equilibrium. Set scaleTier:\"molecular\". Request: ",
-  aiTpl_everyday:"[Everyday scale | laboratory] A lab with uniform gravity gravityY (world.boundary:\"box\") for familiar phenomena — falling and projectile motion. By the everyday-tag convention gravityY defaults to 9.8 (= 9.8 m/s²; wave 94). Set scaleTier:\"everyday\". Request: ",
+  aiTpl_everyday:"[Everyday scale | laboratory] A lab with uniform gravity gravityY (world.boundary:\"box\") for familiar phenomena — falling, convection, buoyancy. By the everyday-tag convention gravityY defaults to 0.031 (≈9.8 m/s² converted) and cLight to 30 (wave 95). Set scaleTier:\"everyday\". Request: ",
   aiTpl_celestial:"[Celestial scale | orbital stage] Open space (world.boundary:\"none\") with a central body and orbiters. Initial speeds via vMode:\"kepler\" (aroundMass = central mass). Tides, lensing (rays) and clock effects are available. Set scaleTier:\"celestial\". Request: ",
   aiTpl_galactic:"[Galactic scale | rotating disk] A massive high-spin central body (pinned allowed) with a stellar disk (type:\"disk\", vMode:\"kepler\"). Use frame dragging kFrame:1 and the rotation-curve overlay to show outer-velocity enhancement. Set scaleTier:\"galactic\". Request: ",
   aiTpl_cosmic:"[Cosmic scale | box universe] Place particles comoving in an expanding universeBox with vMode:\"hubble\" initial flow. Show the tug-of-war between expansion and self-gravity, or redshift (boxGraph). Set scaleTier:\"cosmic\". Request: ",
@@ -1720,9 +1738,13 @@ function pnSource(S, i){ return S.mEff[i] >= pnMassMin(S.params, S.R[i]); }
 // 例: molecular は「長さ1=1Å・時間1=0.1ps・質量1≈6u」の実験箱、galactic は
 // 「長さ1≈0.3kpc・時間1≈3Myr・質量1≈5×10³M☉」の回転円盤 — 換算表示とスライダーの目盛りに使う
 const SCALE_TIERS=["molecular","everyday","celestial","galactic","cosmic"];
+// 第95便(原仮定者指示): 日常タグの既定指数を L=T=−2.5 に変更(g_y 0.031 → ≈9.8 m/s² —
+// 「一様重力 0.03 級」の実験室サンプル群がそのまま日常の重力になる較正)。
+// M=−2.5 は統括裁量(指示は「0にしない」のみ): 長さ1=3.16mm・質量1=3.16g は
+// 密度 ~6×10³ kg/m³(鋼球ビー玉相当)で自己整合する
 const SCALE_ANCHORS={
   molecular:{expL:-10, expT:-13, expM:-26},
-  everyday: {expL:0,   expT:0,   expM:0},
+  everyday: {expL:-2.5, expT:-2.5, expM:-2.5},
   celestial:{expL:8,   expT:4,   expM:24},
   galactic: {expL:19,  expT:14,  expM:34},
   cosmic:   {expL:23,  expT:17,  expM:42}};
@@ -1739,12 +1761,13 @@ let scaleExpL=null, scaleExpT=null, scaleExpM=null, scaleExpC=null;
 let scaleBarOn=true;
 try{ scaleBarOn = localStorage.getItem("hp_scalebar")!=="0"; }catch(_){}
 function scaleTierOf(p){ return (p && SCALE_TIERS.indexOf(p.scaleTier)>=0)? p.scaleTier : "everyday"; }
-// 第94便: スケールタグ既定の4指数(距離/時間/質量は SCALE_ANCHORS・光速は全タグ 8.0 —
-// 「3.0 で 3×10^8 m/s」の慣習を指数として一般化。日常は L/T/M すべて 0.0)
+// 第94便: スケールタグ既定の4指数(距離/時間/質量は SCALE_ANCHORS・光速は全タグ共通)
+// 第95便(原仮定者指示): 光速スケール指数の既定を 8→7 に変更 — 「光速 c₀=30 で 3×10^8 m/s」
+// の一律規約(1 速度単位 = 10^7 m/s = c/30)。サンプル側の c₀=30 統一は §BUILTIN の各プリセット参照
 function scaleAnchorsNow(){
   const p=(typeof currentPreset!=="undefined")? currentPreset : null;
   const a=SCALE_ANCHORS[scaleTierOf(p)];
-  return {L:a.expL, T:a.expT, M:a.expM, C:8};
+  return {L:a.expL, T:a.expT, M:a.expM, C:7};
 }
 function scaleExpNow(){ return scaleEffNow().x; }
 // expL=x のときの時間・質量指数: 隣接アンカー間の線形補間(端はクランプ)。
@@ -1818,8 +1841,7 @@ function refreshScaleConv(){
 // (熱伝導κs1.5・双子時計Kt10000等)がスライダー外に出て端に張り付く問題の解消
 const PARAM_DEFS = [
   // v1.21: desc(タップ説明。ja はここ、en は I18N.en.paramDescs)。仕様は docs/PHYSICS.md §5 準拠
-  {key:"G",     label:"重力 G",              mode:"log", lo:0.01,   hi:20,   cat:"st", group:"法則",
-   desc:"粒子同士の万有引力の強さ。この宇宙では決定力Wの勾配が重力になる(A6/E4: a=G∇W)。0にすると自己重力が消える(一様重力g_x/g_yとは別)。"},
+  // 第95便(原仮定者指示): 「重力 G」は「光速 c₀」の次へ移動(配列順=表示順。定義内容は不変)
   {key:"D0",    label:"背景決定力 D₀",       mode:"log", lo:0.05,   hi:200,  cat:"dg", group:"法則",
    desc:"遠方宇宙が及ぼす決定力の底値(A5)。大きいほど空間が遠方に固定されて安定し、近くの質量による空間引きずり(kFrame)の効きが相対的に弱まる。"},
   {key:"kFrame",label:"空間引きずり kFrame", mode:"lin", lo:0, hi:1, step:0.01, cat:"dg", group:"法則",
@@ -1838,6 +1860,8 @@ const PARAM_DEFS = [
    desc:"時計の遅れと光の屈折を1本で決める係数(A7′/E7R/E8R: ψ=W/Kt)。小さいほど時空効果が強い — 時計はより遅れ、光はより曲がる。現実との較正は Kt=c²/G(🛰)。"},
   {key:"cLight",label:"光速 c₀",             mode:"log", lo:5, hi:1000, cat:"st", group:"法則",
    desc:"光線の速さと、運動による時計の遅れの基準(E7R: 共動フレームに対する速さがc₀に近いほど固有時計が遅れる)。下げると相対論的効果が見えやすくなる。"},
+  {key:"G",     label:"重力 G",              mode:"log", lo:0.01,   hi:20,   cat:"st", group:"法則",   /* 第95便: 光速 c₀ の次へ移動 */
+   desc:"粒子同士の万有引力の強さ。この宇宙では決定力Wの勾配が重力になる(A6/E4: a=G∇W)。0にすると自己重力が消える(一様重力g_x/g_yとは別)。"},
   {key:"bM",    label:"ウィーン定数 b_m",    mode:"log", lo:0.01, hi:100, cat:"sh", group:"法則",
    desc:"温度Tの粒子が放つ光のピーク波長を λ=b_m/T で決める定数(A12)。スペクトル表示(🌈)の横軸の較正に使う。"},
   {key:"etaRad",label:"放射冷却 η_rad",      mode:"log", lo:0.000001, hi:1, cat:"sh", group:"法則",
@@ -1849,7 +1873,7 @@ const PARAM_DEFS = [
   {key:"gravityX",label:"一様重力 g_x",      mode:"lin", lo:-5, hi:5, step:0.005, cat:"st", group:"法則",   /* 第79便(原仮定者指示): 実験箱→時空カテゴリへ移動 */
    desc:"画面全体に働く横方向の一様な外部重力場(v1.17)。決定力Wには寄与しないので、時計・光・引きずりを歪めずに「地上の実験室」を作れる。運動量は場との交換として帳簿に記録。"},
   {key:"gravityY",label:"一様重力 g_y",      mode:"lin", lo:-10, hi:10, step:0.005, cat:"st", group:"法則",   /* 第79便: 同上。第94便: ⚾の g_y=9.8(実値化)がスライダー内に収まるよう CLAMPS と同じ±10へ拡大(第56便 kRep と同じ方針) */
-   desc:"画面全体に働く縦方向の一様な外部重力場(+yは画面下向き)。⚾自由落下・♨️対流・🧪浮力の「下向きの重力」はこれ。日常スケールタグのサンプルは 9.8(=9.8 m/s²)を既定とする(第94便)。0にすると無重力になる。"},
+   desc:"画面全体に働く縦方向の一様な外部重力場(+yは画面下向き)。⚾自由落下・♨️対流・🧪浮力の「下向きの重力」はこれ。日常スケールタグのサンプルは 0.031(換算 ≈9.8 m/s² — 第95便アンカー)を既定とする。0にすると無重力になる。"},
   {key:"geoPN",   label:"測地線モード geoPN", mode:"lin", lo:0, hi:2, step:1,    cat:"dg", group:"法則",
    desc:"v2.0の測地線モード(E12)。1にすると、時計を遅らせるのと同じψ=W/Ktから物質の運動を作用原理で導き、1PN補正が働く(☿)。同時に物質へのE6′引きずりは無効化(二重計上禁止)。2にすると v−u 統一測地線則(v2.0第2段階): u≠0 のまま導いた式で、フレーム輸送・渦度コリオリ(引きずりの正体)・1PN が一本の式から出る — kFrame=0 では 1 と厳密に同じ。0=従来(legacy)。"},
   {key:"lambdaPN",label:"1PN補正 λ_PN",      mode:"lin", lo:0, hi:1, step:1,    cat:"dg", group:"法則",
@@ -1998,10 +2022,11 @@ const BUILTIN_PRESETS = [
 
 { id:"projectile", name:"自由落下と放物運動", emoji:"⚾", group:"空間と時間",
   scaleTier:"everyday",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
-  // 第94便(原仮定者指示「日常タグでは g_y デフォルトを 9.8 とし既存サンプルも修正」):
-  // gravityY 0.08→9.8 の**力学的相似変換**で実値化した。純粋な一様重力+瞬間壁反射はスケール
-  // フリーなので、速度×√(9.8/0.08)=√122.5≈11.068・timeScale÷11.068・cLight×11.068 で
-  // 軌跡(放物線)・等価原理デモ・τ 比まで従来と同一のまま g_y が実値 9.8(=9.8 m/s²)になる
+  // 第94便→95便(原仮定者指示): 日常タグの既定は g_y=0.031(新アンカー L=T=−2.5 で ≈9.8 m/s²)・
+  // 光速 c₀=30(eC=7 で 3×10^8 m/s)。第94便の g=9.8 構成から**力学的相似変換**で再調整:
+  // k=√(0.031/9.8)≈0.0562(旧原型 v1.18 の g0.08 からは k=√(0.031/0.08)≈0.6225)。
+  // 速度×k・timeScale÷k で軌跡(放物線)・等価原理デモは従来と同一(スケールフリー)。
+  // cLight は相似値でなく一律規約の 30(τ 比のみ僅かに変わる — 主張・claims なし)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"一様重力場gravityY(外部場)だけを働かせた力学実験室。",
@@ -2014,13 +2039,13 @@ const BUILTIN_PRESETS = [
   activeParams:["gravityY","gravityX"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:220}, world:{boundary:"box",size:190},
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
-    cLight:664, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:9.8, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:0.271},
+    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0.031, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:4.82},
   bodies:[ // v1.18: Gemini/Grok 第8次提案の合議採用(自由落下×2質量+水平投射+斜方投射)
-           // 第94便: 相似変換(×11.068)— 旧 vx3/vy−3.6・timeScale3・cLight60・g0.08 と同一軌跡
+           // 第95便: 相似変換(×0.6225 — 旧原型 vx3/vy−3.6・g0.08 比)。軌跡は従来と同一
     {type:"single", rMul:1.2, m:2, x:-150,y:-140, vx:0,vy:0, spin:0, pinned:false},
     {type:"single", rMul:1.2, m:20, x:-110,y:-140, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", rMul:1.2, m:2, x:-170,y:-20, vx:33.2,vy:0, spin:0, pinned:false},
-    {type:"single", rMul:1.2, m:2, x:-170,y:100, vx:33.2,vy:-39.84, spin:0, pinned:false}
+    {type:"single", rMul:1.2, m:2, x:-170,y:-20, vx:1.867,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:2, x:-170,y:100, vx:1.867,vy:-2.24, spin:0, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -3465,7 +3490,7 @@ const BUILTIN_PRESETS = [
   thermal:"tint",   // 第36便 D(台帳4-51): 温度=内部状態変数 T_int(A9 改訂)
   camera:{scale:240}, world:{boundary:"box",size:200},
   physics:{G:0, D0:50, kFrame:0, q:2, kRep:2, muF:0.8, gammaN:0.3, kappaS:0.15, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2},
+    cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2},
   bodies:[ // v1.18(第8次裁定): 右の vScale 2.5→0.3 — 比較条件をスピンのみに(統制実験化)
     {type:"box", rMul:1.2, n:120, cx:-100,cy:0, w:180,h:360, mMin:1,mMax:1, spinMin:0,spinMax:0, tInt:0.01, vScale:0.3},
     {type:"box", rMul:1.2, n:120, cx:100,cy:0, w:180,h:360, mMin:1,mMax:1, spinMin:0,spinMax:0, tInt:6.25, vScale:0.3}
@@ -3486,7 +3511,7 @@ const BUILTIN_PRESETS = [
   thermal:"tint",   // 第36便 D(台帳4-51)
   camera:{scale:240}, world:{boundary:"circle",size:210},
   physics:{G:0, D0:50, kFrame:0, q:2, kRep:2, muF:0.2, gammaN:0.3, kappaS:0.05, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2},
+    cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2},
   bodies:[
     {type:"disk", rMul:1.2, n:90, cx:0,cy:0, radius:50, mMin:1,mMax:1,
      spinMin:0,spinMax:0, tInt:42, vMode:"none", aroundMass:0, vScale:0, direction:1},
@@ -3522,7 +3547,7 @@ const BUILTIN_PRESETS = [
   // T29.5に達するのは実時間10秒—旧の5倍かかる)。実時間5秒で近接優勢の勾配(64→1程度まで)、
   // 実時間30秒でも上列 14.0〜39.4/下列 11.5〜32.9 と明確な勾配が残る(旧は10秒で24〜45に均一化)
   physics:{G:0, D0:50, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0.3, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:4},
+    cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:4},
   bodies:[
     {type:"single", rMul:1.2, m:4, x:-150,y:45, vx:0,vy:0, spin:0, tInt:64, pinned:true},
     {type:"single", rMul:1.2, m:4, x:-141,y:45, vx:0,vy:0, spin:0, pinned:false},
@@ -3575,7 +3600,7 @@ const BUILTIN_PRESETS = [
     // tint 移行〔36D〕された残置で、tint では実質「放射冷却が動かない」表示になっていた。
     // 実測(beta 2026-07-28): T=64 が実時間5秒でT≈32(半減)・実時間30秒でT≈9.3(<10)。
     // T=16 の半減は実時間約20秒(4倍遅い)。T=4 は実時間30秒でも4→2.9とほぼ不動(他2粒子比で相対的に)
-    cLight:60, bM:1, etaRad:1.6e-3, pRad:2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:4},
+    cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:1.6e-3, pRad:2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:4},
   bodies:[ // v1.12(付録L): 第6次提案 P0-2 採用。冷却速度比 8.0/7.8(理論8)を機械検証済み(旧スピン熱モードの記録。
     // 第39便: tint 移行後の観測温度 T_obs 基準では新較正 etaRad=1.6e-3 で比 15.8/15.1〔理論16〕を実測)
     {type:"single", rMul:1.2, m:4, x:-100,y:0, vx:0,vy:0, spin:0, tInt:4,  pinned:false},
@@ -3590,11 +3615,11 @@ const BUILTIN_PRESETS = [
 // 純粋な外部力場なので、時計・光・引きずりを歪めずに箱内へ厳密に一様な下向き場を作れる。
 
 { id:"convection", name:"加熱の対流 — 伝熱する箱", emoji:"♨️", group:"熱の実験室",
-  // 第94便(統括裁量・原仮定者指示「日常タグは g_y=9.8 既定」の帰結): everyday→molecular へ再分類。
-  // 対流は接触斥力(E9/E5′)の剛性・kRep クランプ(≤20)に律速され、⚾のような相似変換で
-  // g_y=9.8 へ実値化できない(速度×11 倍で接触が発散的になる実測)。「日常」の g_y=9.8 規約を
-  // 満たせないため、実験箱系の本来の居場所である分子スケールへ移す(表示換算のみ — 物理不変)
-  scaleTier:"molecular",
+  // 第94便: everyday→molecular(g=9.8 規約を相似変換で満たせないため)
+  // 第95便(原仮定者指示「調整後の日常に割当て可能なサンプルを移行」): 日常アンカーが
+  // L=T=−2.5・g_y 規約 0.031(≈9.8 m/s²)になったため **everyday へ復帰**。
+  // g_y 0.03→0.031(+3.3% — 対流セルの成立余裕は実測 循環21.4 vs 閾値12 で十分)
+  scaleTier:"everyday",
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   // 第50便 50K(台帳4-78 C案パイロット): descStruct(要約/観察/操作)— description は起動時に
@@ -3616,7 +3641,7 @@ const BUILTIN_PRESETS = [
     // 「天井右の冷却板+右端床は非加熱=下降域」で作っていた左右非対称を、壁の言葉で置き換えた形
     thermalWalls:{ bottom:{mode:"heat", T:144, rate:1}, top:{mode:"rad", rate:3}, right:{mode:"rad", rate:10} }},
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:2, muF:0.2, gammaN:0.1, kappaS:1.2, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:2},
+    cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.031/* 第95便: 日常規約(≈9.8 m/s²)*/, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:2},
   bodies:[ // 第37便 C1: pinned ヒーター13枚・冷却板5枚を全廃し、自由な気体だけの系にした
            // (外部駆動は壁の熱交換ひとつだけ = 要因の完全分離)。箱を小さく・密にしたのは、
            // 壁と気体が実際に熱をやり取りできる密度にするため(実測: 旧サイズ190では天井付近の
@@ -3630,9 +3655,9 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"}  },
 
 { id:"buoyancy", name:"重力分離と浮力", emoji:"🧪", group:"熱の実験室",
-  // 第94便(統括裁量・♨️と同判断): everyday→molecular へ再分類。熱圧(E5′)と接触斥力に
-  // 律速され g_y=9.8 への相似変換が成立しないため、「日常」の g_y=9.8 規約を満たせない
-  scaleTier:"molecular",
+  // 第94便: everyday→molecular → 第95便(原仮定者指示): 日常アンカー刷新に伴い everyday へ復帰。
+  // g_y 0.05→0.031(日常規約 ≈9.8 m/s²)— 分離は弱まるが持続(claims なし・フルゲートで確認)
+  scaleTier:"everyday",
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   descStruct:{
@@ -3647,8 +3672,8 @@ const BUILTIN_PRESETS = [
   thermal:"tint",   // 第36便 D(台帳4-51)
   camera:{scale:200}, world:{boundary:"box",size:160},
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:3, muF:0, gammaN:0.1, kappaS:0, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:4, cHeat:30/* 第36便 D: 大きな熱容量で衝突散逸(E9)による昇温を抑え、旧版の「温度一定」統制条件を維持(実測: 12000步で T 20.25→20.71 = +2%)*/,
-    gravityX:0, gravityY:0.05, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 2.5 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2},
+    cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:4, cHeat:30/* 第36便 D: 大きな熱容量で衝突散逸(E9)による昇温を抑え、旧版の「温度一定」統制条件を維持(実測: 12000步で T 20.25→20.71 = +2%)*/,
+    gravityX:0, gravityY:0.031/* 第95便: 日常規約(≈9.8 m/s²)— 0.05 から変更。分離は弱まるが持続 */, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 2.5 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2},
   bodies:[ // v1.18: Gemini 第8次提案を機械掃引で調整(スピン固定+radiusScale2.5 — 分離52〜72が持続)
     {type:"box", rMul:2.5, n:200, cx:0,cy:0, w:280,h:280, mMin:0.2,mMax:0.2, spinMin:0,spinMax:0, tInt:20.25, vScale:0.5},
     {type:"box", rMul:2.5, n:80, cx:0,cy:0, w:280,h:280, mMin:3,mMax:3, spinMin:0,spinMax:0, tInt:0, vScale:0.1}
@@ -3714,7 +3739,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:140}, world:{boundary:"box", size:110,
     thermalWalls:{ bottom:{mode:"heat", T:2, rate:0.25} }},
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:20, muF:0.1, gammaN:0.3, kappaS:0.5, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:2},
+    cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:2},
   seed:7,
   bodies:[ // 初期は低温の結晶(pitch=接触間隔)— 加熱で三態が順に現れる
     {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:93, pitch:5, mMin:1, mMax:1, tInt:0.2}
@@ -3756,7 +3781,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:140}, world:{boundary:"box", size:110,
     thermalWalls:{ bottom:{mode:"heat", T:0.15, rate:0.15} }},
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:8, muF:0.1, gammaN:0.3, kappaS:1, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:4},
+    cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:4},
   seed:7,
   bodies:[ // 温かい液体スタート(jitter で秩序を崩す)
     {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:93, pitch:7, jitter:1.0, vScale:0.3,
@@ -3800,7 +3825,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:140}, world:{boundary:"box", size:110,
     thermalWalls:{ bottom:{mode:"heat", T:0.6, rate:0.15} }},
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:8, muF:0.1, gammaN:0.3, kappaS:1, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:4},
+    cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:4},
   seed:7,
   bodies:[ // 🧊と同じ温かい液体スタート — 差は bondN=2(予算)と壁温だけ
     {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:93, pitch:7, jitter:1.0, vScale:0.3,
@@ -3859,7 +3884,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:140}, world:{boundary:"box", size:110,
     thermalWalls:{ bottom:{mode:"heat", T:0.6, rate:0.15, T2:20, tSwitch:288} }},
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:8, muF:0.1, gammaN:0.3, kappaS:1, Kt:60,
-    cLight:60, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:4},
+    cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.03, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:4},
   seed:7,
   bodies:[
     {type:"grid", rMul:2.5, n:112, cols:16, cx:0, cy:93, pitch:7, jitter:1.0, vScale:0.3,
@@ -8219,7 +8244,10 @@ function applyCamFollow(){
   if(camFollowMode==="none") return;
   const S=selSimRef();   // A/B比較中は選択された宇宙の対象を追う
   const i=camFollowIdx();
-  if(i<0||i>=S.n){   // 追従先が消えた(融合・選択解除・プリセット外)→ 自動解除+UI同期
+  if(i<0||i>=S.n){
+    // 第95便(原仮定者指示): 「選択粒子」モードは非選択でも設定を保持し、「なし」と同じ挙動で待つ
+    // (粒子を選んだ瞬間から追従)。自動解除+通知は「天体#N」の対象消滅(融合等)のみに残す
+    if(camFollowMode==="sel") return;
     camFollowMode="none"; camFollowOffX=0; camFollowOffY=0;
     const el=document.getElementById("camFollowSel"); if(el) el.value="none";
     notify(T("camFollowReleased"));
@@ -9548,14 +9576,14 @@ function render(){
     const coreTTxt=hasCore? ` Tc=${fmt((1-sim.lSw[i])*0.5*Math.abs(sim.coreMF[i]*sim.m[i])*sim.RcV[i]*sim.RcV[i]*omcH*omcH)}` : "";
     const fObl=(sim.params.G>0&&sim.m[i]>0)? 1.25*sim.spin[i]*sim.spin[i]*sim.R[i]*sim.R[i]*sim.R[i]/(sim.params.G*sim.m[i]) : NaN;
     const fTxt=isFinite(fObl)? ` f=${fmt(Math.min(fObl,9999))}` : "";
-    // 第94便(原仮定者指示): 粒子のスケール換算値は画面下詳細の3行目に表示(パネル内副表示は廃止)。
-    // 「選択粒子の編集」を畳んだ(min)とき・スケール換算表示OFF のときは出さない(selConvTextNow)
-    const convTxt=selConvTextNow();
+    // 第94便(原仮定者指示): 粒子のスケール換算値は画面下詳細に表示(パネル内副表示は廃止)。
+    // 第95便(原仮定者指示): 編集パネルを畳んでいても表示・見切れないよう2行に分割(3〜4行目)
+    const convLines=selConvLinesNow()||[];
     const lh=12*uiFontScale, yb=ch-10;
-    selInfoLines=convTxt? 3 : 2;   // drawScaleBar の被り回避オフセットに使う(第94便)
+    selInfoLines=2+convLines.length;   // drawScaleBar の被り回避オフセットに使う(第94便)
     ctx.fillText(`m=${fmt(sim.m[i])}${mcTxt} s=${fmt(sim.spin[i])}${scTxt} R=${fmt(sim.R[i])}${fTxt}`,8,yb-(selInfoLines-1)*lh);
     ctx.fillText(`T=${fmt(Ti)}${coreTTxt} λ=${lam} ${T("hudClock")}=${(frac*100).toFixed(1)}%`,8,yb-(selInfoLines-2)*lh);
-    if(convTxt) ctx.fillText(convTxt,8,yb);
+    convLines.forEach((cl,ci)=>ctx.fillText(cl,8,yb-(convLines.length-1-ci)*lh));
   } else selInfoLines=0;
   // v1.21: スロット配置 — 複数グラフは右下から縦に積み、互いを隠さない(🌠merger)
   ovHit=[];   // 第26便: グラフのトグル領域を毎描画で再登録
@@ -9611,19 +9639,20 @@ function fmtMps(v){
 // 第94便(原仮定者指示): 画面下の粒子詳細の行数(0=非表示)。render() が毎描画で更新し、
 // drawScaleBar が「スケールバーと詳細が被らない」ためのオフセットに読む(表示のみ)
 let selInfoLines=0;
-// 第94便(原仮定者指示): 選択粒子のスケール換算行 — 画面下詳細の3行目に出す文字列。
-// スケール換算表示OFF・「選択粒子の編集」を畳んだ(min)とき・未選択時は null(=行ごと出さない)。
+// 第94便(原仮定者指示): 選択粒子のスケール換算 — 画面下詳細に出す文字列。
+// 第95便(原仮定者指示): 「選択粒子の編集」を畳んで(min)いても表示する(min ゲートを撤去)。
+// 見切れないよう2行に分割(m/Ω/R と vx/vy)。スケール換算表示OFF・未選択時は null。
 // 換算はパラメータ副表示と同じ scaleEffNow() の4指数(m→kg・Ω→1/s・R→m・v→m/s)。
-// QA からは HP.selConvText() で同じ文字列を読める(canvas 文字列は DOM から読めないため)
-function selConvTextNow(){
-  if(!scaleDispOn || beMin) return null;
+// QA からは HP.selConvText() で同じ内容(連結文字列)を読める(canvas は DOM から読めないため)
+function selConvLinesNow(){
+  if(!scaleDispOn) return null;
   if(!(selIdx>=0 && selIdx<sim.n)) return null;
   const i=selIdx, ef=scaleEffNow();
-  return "≈ m "+fmtKg(Math.abs(sim.m[i])*Math.pow(10,ef.eM))
-    +" ・ Ω "+sciFmt(sim.spin[i]*Math.pow(10,-ef.eT))+"/s"
-    +" ・ R "+fmtMeters(sim.R[i]*Math.pow(10,ef.x))
-    +" ・ vx "+fmtMps(sim.vx[i]*Math.pow(10,ef.x-ef.eT))
-    +" ・ vy "+fmtMps(sim.vy[i]*Math.pow(10,ef.x-ef.eT));
+  return ["≈ m "+fmtKg(Math.abs(sim.m[i])*Math.pow(10,ef.eM))
+      +" ・ Ω "+sciFmt(sim.spin[i]*Math.pow(10,-ef.eT))+"/s"
+      +" ・ R "+fmtMeters(sim.R[i]*Math.pow(10,ef.x)),
+    "≈ vx "+fmtMps(sim.vx[i]*Math.pow(10,ef.x-ef.eT))
+      +" ・ vy "+fmtMps(sim.vy[i]*Math.pow(10,ef.x-ef.eT))];
 }
 function drawScaleBar(){
   if(!scaleBarOn) return;
@@ -9972,9 +10001,10 @@ function loop(now){
     }
     // 第74便: スケール換算表示ON のとき、現在の指数と換算単位を HUD に1行追記(表示のみ・物理不変)
     // 第94便: 指数は scaleEffNow の4指数(距離/時間/質量 — タグ既定+スライダー上書き)から取る
+    // 第95便(原仮定者指示): 時間の換算に「時間倍率」を反映(再生1秒あたりの宇宙時間を併記)
     if(scaleDispOn){
       const ef=scaleEffNow();
-      txt+=`\n${T("hudScale")(ef.x, ef.eT, ef.eM, sim.t)}`;
+      txt+=`\n${T("hudScale")(ef.x, ef.eT, ef.eM, sim.t, sim.params.timeScale)}`;
     }
     $("#hud").textContent=txt;
     // v1.17: 実行中は編集パネルの表示値を追従(入力フォーカス中は上書きしない)
@@ -10351,6 +10381,11 @@ function loadSave(s, selValue){
     for(let k=0;k<4;k++){ const v=s.wallRest[TWALL_SIDES[k]];
       if(isNum(v)) sim.wallRest[k]=clamp(v,0,1); }
   }
+  // 第95便: グラフトグルとスケール指数の復元(表示のみ。旧セーブはキー無しで素通り)
+  if(s.graphOverlays) applyGraphOverlays(sim, s.graphOverlays);
+  if(s.scaleExps) setScaleExps({ L:isNum(s.scaleExps.L)? s.scaleExps.L : null,
+    T:isNum(s.scaleExps.T)? s.scaleExps.T : null, M:isNum(s.scaleExps.M)? s.scaleExps.M : null,
+    C:isNum(s.scaleExps.C)? s.scaleExps.C : null });
   setParamsDirty(false);
   buildParamRows(); notify(T("loadedAs")(s.name));
   if(selValue) setPresetSelectValue(selValue);
@@ -10466,6 +10501,9 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   simB.world=JSON.parse(JSON.stringify(sim.world));
   simB.twall=normThermalWalls(simB.world, simB.thermal);   // 第37便 C1(台帳4-70)
   simB.wallRest=sim.wallRest? sim.wallRest.slice() : normWallRest(simB.world);   // 第94便: UI編集値ごと転写
+  // 第95便(箱宇宙のA/B対応): A側の箱編集値を複製起点にする(開始時点で両宇宙は同一 —
+  // 以後は編集対象側だけに書く。boxARef は a(0)=1 で mode に依らず不変)
+  if(sim.box && simB.box) Object.assign(simB.box, sim.box);
   simB.rays=sim.rays?JSON.parse(JSON.stringify(sim.rays)):null;
   simB.overlays=Object.assign({},sim.overlays);
   return simB;
@@ -10533,11 +10571,14 @@ $("#btnPlay").addEventListener("click",()=>{ running=!running; updatePlayBtn(); 
 // 相変化係数は build 後に上書きする(実験ノブと同じ作法。第60便: 相率の再導出・リンクの
 // 張り直しは機構ごと廃止 — 係数はどれも実行中変更可能な連続量になった)
 function snapshotPhaseEdits(S){
-  if(!S.phase && !S.twall && !S.wallRest) return null;
+  if(!S.phase && !S.twall && !S.wallRest && !S.box) return null;
   const o={};
   if(S.phase){ o.phase={}; for(const def of PC_PARAM_DEFS){ const v=S.phase[def.key]; if(isNum(v)) o.phase[def.key]=v; } }
   if(S.twall) o.tw=S.twall.map(w=>w? Object.assign({},w) : null);
   if(S.wallRest) o.wr=S.wallRest.slice();   // 第94便: 壁別反発係数も ⏮ で保持
+  // 第95便(原仮定者指示): 箱宇宙(BOX_PARAM_DEFS+mode)の実行中編集も ⏮ で保持
+  if(S.box){ o.box={}; for(const def of BOX_PARAM_DEFS){ const v=S.box[def.key];
+    if(def.kind==="select"? typeof v==="string" : isNum(v)) o.box[def.key]=v; } }
   return o;
 }
 function applyPhaseEdits(S,o){
@@ -10547,6 +10588,8 @@ function applyPhaseEdits(S,o){
   }
   if(o.tw && S.twall){ for(let k=0;k<4;k++){ if(o.tw[k]) S.twall[k]=Object.assign({},o.tw[k]); } }
   if(o.wr && S.wallRest) for(let k=0;k<4;k++) S.wallRest[k]=o.wr[k];   // 第94便
+  if(o.box && S.box){ Object.assign(S.box, o.box);   // 第95便(a(0)=1 なので boxARef 再計算は不要)
+    if(S.boxHist) S.boxHist.length=0; }
 }
 // 第61便 61B(レビューP1「チェックポイント」): 実行中の任意の瞬間を保存し、いつでも巻き戻す。
 // 保存対象は cloneSimState と同じ状態集合(粒子配列+熱+E14″状態+帳簿+履歴+係数+壁)。
@@ -10601,7 +10644,15 @@ $("#btnCkLoad").addEventListener("click",()=>{
   buildParamRows(); updateBodyEdit(); requestRender();
   notify(T("ckLoaded"));
 });
+// 第95便(原仮定者指示): 「グラフ」カテゴリのトグル(sim.overlays のグラフ系フラグ)は
+// ⏮初めから でリセットしない — 退避・復元のキー一覧(表示のみ・物理不変)
+const GRAPH_OVERLAY_KEYS=["rotationCurve","tempHistogram","spectrum","boxGraph","phaseGraph","mechSpectrum","emergence"];
+function snapshotGraphOverlays(){ const o={}; for(const k of GRAPH_OVERLAY_KEYS) o[k]=!!sim.overlays[k]; return o; }
+function applyGraphOverlays(S,o){ if(o) for(const k of GRAPH_OVERLAY_KEYS) S.overlays[k]=!!o[k]; }
 $("#btnReset").addEventListener("click",()=>{
+  // 第95便: グラフ(表示)とスケール指数(表示)は ⏮ で保持する
+  const gsnap=snapshotGraphOverlays();
+  const esnap={L:scaleExpL, T:scaleExpT, M:scaleExpM, C:scaleExpC};
   if(ab){ // A/B中: 両方を初期配置へ(A・Bそれぞれの編集済みパラメータは保持)
     const keepA=Object.assign({},sim.params), keepB=Object.assign({},ab.simB.params);
     const snapA=snapshotPhaseEdits(sim), snapB=snapshotPhaseEdits(ab.simB);   // 58B
@@ -10611,6 +10662,7 @@ $("#btnReset").addEventListener("click",()=>{
     // 第63便(原仮定者指示): 粒子patch系ワンタップA/Bは ⏮初めから でも B 側へ再適用
     // (「A/B比較を終了」するまで有効)
     if(ab.bodyPatch) applyBodyPatch(ab.simB, ab.bodyPatch.targets, ab.bodyPatch.patch);
+    applyGraphOverlays(sim,gsnap); applyGraphOverlays(ab.simB,gsnap);   // 第95便
     trailBuf=[]; trailBufB=[]; selIdx=-1; nanNotified=false;
     running=false; updatePlayBtn(); buildParamRows(); updateBodyEdit();
     requestRender();
@@ -10623,6 +10675,8 @@ $("#btnReset").addEventListener("click",()=>{
   loadPreset(currentPreset.id,false);
   sim.params=keep; sim.updateRadii();
   applyPhaseEdits(sim,snapP);            // 58B
+  applyGraphOverlays(sim,gsnap);         // 第95便: グラフ表示を保持
+  setScaleExps(esnap);                   // 第95便: スケール指数の上書き値を保持(null=タグ既定も保持)
   setParamsDirty(wasDirty);   // v1.17: ⏮はパラメータ保持なので未保存状態も維持
   buildParamRows();
   notify(T("resetDone"));
@@ -10795,29 +10849,33 @@ function buildBoxParamRows(host){
     const row=document.createElement("div"); row.className="prow";
     const lab=document.createElement("label"); lab.textContent=T(def.labelKey); lab.style.flex="1";
     tapDescRow(row,lab,def.descKey);
+    // 第95便(原仮定者指示「箱宇宙のA/B対応」): 書き込み先を editSim()(A/B比較中は編集対象側のみ)
+    // へ変更 — 相変化(PC_PARAM_DEFS)と同じ流儀で「膨張則あり/なし」等の対照実験が組める。
+    // (旧: A/B両方へ同値を書く「背景共通」方式 — 対照が組めなかった)
     if(def.kind==="select"){
       const sel=document.createElement("select"); sel.style.flex="0 0 110px";   // 既定selectと同幅(品質/文字サイズ行に合わせる)
       for(const [v,name] of T(def.optsKey)){
         const o=document.createElement("option"); o.value=v; o.textContent=name; sel.appendChild(o);
       }
-      sel.value=sim.box.mode;
+      sel.value=editSim().box.mode;
       sel.addEventListener("change",()=>{
-        sim.box.mode=sel.value; if(ab) ab.simB.box.mode=sel.value;   // A/B中は両宇宙の背景を共通に保つ
+        const S=editSim(); if(S.box) S.box.mode=sel.value;
         setParamsDirty(true); requestRender();
       });
       row.appendChild(lab); row.appendChild(sel);
     } else {
       const num=document.createElement("input"); num.type="text"; num.className="valIn";
       num.inputMode=(def.lo<0)?"text":"decimal";   // v1.24 と同方針: 負値取り得るキーは text
-      num.autocomplete="off"; num.value=fmt(sim.box[key]);
+      num.autocomplete="off"; num.value=fmt(editSim().box[key]);
       num.addEventListener("change",()=>{
+        const S=editSim();
         const v=parseFloat(num.value.replace(/[,、\s]/g,"").replace(/[−ー–—－]/g,"-"));
-        if(isFinite(v)){
+        if(isFinite(v) && S.box){
           const cv=clamp(v,def.lo,def.hi);
-          sim.box[key]=cv; if(ab) ab.simB.box[key]=cv;   // A/B中は両宇宙の背景を共通に保つ
+          S.box[key]=cv;
           setParamsDirty(true); requestRender();
           num.value=String(cv);
-        } else num.value=fmt(sim.box[key]);   // 空文字/NaN入力は元の値へ戻す(既存の数値入力行の作法)
+        } else num.value=fmt(S.box? S.box[key] : 0);   // 空文字/NaN入力は元の値へ戻す(既存の数値入力行の作法)
       });
       row.appendChild(lab); row.appendChild(num);
     }
@@ -11334,11 +11392,12 @@ function buildParamRows(){
   // 7カテゴリ(時空/スピン・熱/引きずり・測地線/実験箱/相変化/シミュレーション/表示)を
   // 直接並べる。主役キーもカテゴリ側へ重複表示(54D④ — paramRowSync 配列で相互同期)=====
   const catDefs=(cat)=>PARAM_DEFS.filter(d=>d.cat===cat && d.key!=="timeScale");
-  const mkCat=(label)=>{ const cd=mkCatDetails(host,label,null);
+  // 第95便(原仮定者指示): カテゴリの説明(ⓘ)を全カテゴリに用意 — descText を渡せるようにする
+  const mkCat=(label,descText)=>{ const cd=mkCatDetails(host,label,descText||null);
     const g=document.createElement("div"); g.className="group"; cd.appendChild(g); return g; };
   // 時空(物理対応ロックを筆頭に — 原仮定者指定の並び)
   {
-    const g=mkCat(T("grpSpacetime"));
+    const g=mkCat(T("grpSpacetime"),T("grpSpacetimeDesc"));
     const row=document.createElement("div"); row.className="prow";
     const lab=document.createElement("label"); lab.textContent=T("physLockLabel");
     lab.style.flex="1"; lab.className="tappable";
@@ -11358,18 +11417,19 @@ function buildParamRows(){
     g.appendChild(badge);
     for(const def of catDefs("st")) mkParamRow(def,g);
   }
-  { const g=mkCat(T("grpSpinHeat"));  for(const def of catDefs("sh")) mkParamRow(def,g); }
-  { const g=mkCat(T("grpDrag"));      for(const def of catDefs("dg")) mkParamRow(def,g); }
-  // 実験箱: 伝熱壁4面(天井/左/右/底)+一様重力(壁レート0=壁温の影響なし)
-  {
-    const g=mkCat(T("grpLabBox"));
+  { const g=mkCat(T("grpSpinHeat"),T("grpSpinHeatDesc"));  for(const def of catDefs("sh")) mkParamRow(def,g); }
+  { const g=mkCat(T("grpDrag"),T("grpDragDesc"));      for(const def of catDefs("dg")) mkParamRow(def,g); }
+  // 実験箱: 伝熱壁4面(天井/左/右/底)+壁別反発係数。
+  // 第95便(原仮定者指示): 編集対象が無いとき(箱境界でも伝熱壁でもない)はカテゴリごと出さない
+  if((sim.world && sim.world.boundary==="box") || sim.twall){
+    const g=mkCat(T("grpLabBox"),T("grpLabBoxDesc"));
     buildLabBoxRows(g);
     for(const def of catDefs("box")) mkParamRow(def,g);
   }
   // 第32便(W2): 箱宇宙(UniverseBox)の実験用パラメータ編集 — sim.box があるプリセットのみ表示
   if(sim.box) buildBoxParamRows(host);
   if(sim.phase) buildPhaseParamRows(host);   // 第53便 53D: 相変化(E14)の実験用パラメータ
-  { const g=mkCat(T("grpSim"));       for(const def of catDefs("sim")) mkParamRow(def,g);
+  { const g=mkCat(T("grpSim"),T("grpSimDesc"));       for(const def of catDefs("sim")) mkParamRow(def,g);
     // 第58便 58B(原仮定者指示): 時間倍率は表示→シミュレーションカテゴリへ移動
     // (A/B比較中は両方の画面へ反映される applyBoth 挙動は従来どおり)
     const tsDef=PARAM_DEFS.find(d=>d.key==="timeScale");
@@ -11637,13 +11697,10 @@ function buildParamRows(){
     }
     sel.value=camFollowMode;
     if(sel.selectedIndex<0) sel.value="none";
-    sel.addEventListener("change",()=>{
-      if(sel.value==="sel" && (selIdx<0||selIdx>=selSimRef().n)){
-        notify(T("camFollowNoSel")); sel.value=camFollowMode; return;
-      }
-      setCamFollowMode(sel.value);
-    });
-    row.appendChild(lab); row.appendChild(sel); disp.appendChild(row);
+    // 第95便(原仮定者指示): 粒子が非選択でも「選択粒子」を設定できる(ガード撤去)。
+    // 非選択の間は「なし」と同じ挙動(applyCamFollow 側 — 選択した瞬間から追従が始まる)
+    sel.addEventListener("change",()=>setCamFollowMode(sel.value));
+    row.appendChild(lab); row.appendChild(sel); common.appendChild(row);   // 第95便: 表示→共通設定へ移動
   }
   // 第79便(原仮定者指示): 「グラフ」カテゴリ(グラフウィンドウ表示の切替)を「表示」の上に新設
   {
@@ -11656,9 +11713,9 @@ function buildParamRows(){
       cb.addEventListener("change",()=>{ set(cb.checked); requestRender(); });
       row.appendChild(lab); row.appendChild(cb); gg.appendChild(row);
     });
-    mkCatDetails(host,T("grpGraph"),null).appendChild(gg);
+    mkCatDetails(host,T("grpGraph"),T("grpGraphDesc")).appendChild(gg);   // 第95便: 説明を全カテゴリに
   }
-  mkCatDetails(host,T("grpDisplay"),null).appendChild(disp);
+  mkCatDetails(host,T("grpDisplay"),T("grpDisplayDesc")).appendChild(disp);   // 第95便: 同上
   // 第94便(原仮定者指示): 「スケール」カテゴリを「表示」の直後に新設 — スケールバー表示・
   // スケール換算表示・距離/時間/質量/光速スケール指数を集約(共通設定・表示専用)
   mkCatDetails(host,T("grpScale"),T("grpScaleDesc")).appendChild(scaleG);
@@ -11718,6 +11775,10 @@ $("#btnSave").addEventListener("click",()=>{
     for(let k=0;k<4;k++) if(sim.wallRest[k]!==WALL_REST_DEF) wrs[TWALL_SIDES[k]]=sim.wallRest[k];
     if(Object.keys(wrs).length) item.wallRest=wrs;
   }
+  // 第95便(原仮定者指示): 「グラフ」トグルと「スケール」指数の上書きもセーブへ(表示のみ・旧セーブ不変)
+  item.graphOverlays=snapshotGraphOverlays();
+  if(scaleExpL!==null||scaleExpT!==null||scaleExpM!==null||scaleExpC!==null)
+    item.scaleExps={L:scaleExpL, T:scaleExpT, M:scaleExpM, C:scaleExpC};
   try{ const a=getSaves(); a.unshift(item); setSaves(a); }
   catch(e){ alert(T("saveFailed")); return; }
   $("#saveComment").value="";
@@ -13709,7 +13770,9 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   setScaleExp:(x)=>{ if(x===null) setScaleExps(null); else scaleExpL=+x; refreshScaleConv(); },
   scaleEff:scaleEffNow, setScaleExps:(o)=>{ setScaleExps(o); refreshScaleConv(); },
   // 第94便: 画面下詳細のスケール換算行(canvas 描画文字列はDOMから読めないためQA用に同関数を公開)
-  selConvText:selConvTextNow,
+  // 第95便: 2行分割に伴い連結文字列を返す(行配列は selConvLines)
+  selConvText:()=>{ const L=selConvLinesNow(); return L? L.join(" ・ ") : null; },
+  selConvLines:selConvLinesNow,
   scaleDisp:()=>scaleDispOn, setScaleDisp:(v)=>{ setScaleDisp(v); refreshScaleConv(); },
   curveVBarAt,  // 第32便 W4(台帳4-49): 回転曲線の基準線 v_bar(r) のQA用
   uiScale:()=>uiFontScale,  // 第27便: 文字サイズ既定変更のQA用

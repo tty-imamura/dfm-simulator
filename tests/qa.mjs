@@ -1810,11 +1810,17 @@ if (has40BSemanticSync) {
         const coefClamped = s.box.coef;
         coefInput.value = ''; coefInput.dispatchEvent(new Event('change', { bubbles: true }));   // 空文字→元の値
         const coefAfterEmpty = s.box.coef;
-        // A/B比較中の編集は ab.simB.box にも反映される(エッジケース表)
+        // 第95便(原仮定者指示「箱宇宙のA/B対応」): 編集は editSim()(編集対象側)のみに効く。
+        // A/B開始時は A の現況が B へ複製され(開始時点で同値)、以後 A を編集しても B は不変。
+        // 旧ビルド(root 等 — 第95便マーカー HP.selConvLines なし)は従来の「両宇宙へ同値」を判定
+        const per95 = typeof HP.selConvLines === 'function';
         HP.abStart();
+        const abInherited = HP.ab().simB.box.H0 === s.box.H0;   // 開始時に A の編集値を引き継ぐ
         const h0Input2 = findRow('boxH0Label').querySelector('input');
         h0Input2.value = '0.01'; h0Input2.dispatchEvent(new Event('change', { bubbles: true }));
-        const abReflected = HP.ab().simB.box.H0 === 0.01;
+        const abReflected = per95
+          ? (s.box.H0 === 0.01 && HP.ab().simB.box.H0 !== 0.01 && abInherited)   // A側のみ+B引継ぎ
+          : (HP.ab().simB.box.H0 === 0.01);                                       // 旧: 両宇宙へ反映
         HP.abStop();
         const abGoneButBoxKept = s.box.H0 === 0.01;   // A/B終了後もsim.box編集は残る(paramsDirty継続)
         // gclock ではセクション非表示
@@ -1834,7 +1840,7 @@ if (has40BSemanticSync) {
       eErr ? `例外: ${eErr}` :
         `セクション表示=${ed.hasSection} dirty ${ed.dirtyBefore}→${ed.dirtyAfter} H0=${ed.h0Set}(boxScaleAtのH=${ed.hAt}) ` +
         `mode=${ed.modeSet} coef=${ed.coefSet} expo=${ed.expoSet} coef=5→${ed.coefClamped}(クランプ) coef=''→${ed.coefAfterEmpty}(据置) ` +
-        `A/B中simB反映=${ed.abReflected} A/B終了後もsim.box維持=${ed.abGoneButBoxKept} gclockでは非表示=${!ed.hasSectionGclock}`);
+        `A/B編集=対象側のみ(B引継ぎ+A限定反映)=${ed.abReflected}(第95便) A/B終了後もsim.box維持=${ed.abGoneButBoxKept} gclockでは非表示=${!ed.hasSectionGclock}`);
   }
 
   // ---- 第32便 W2) 赤方偏移カラーバー・HUD表示: boxRedshift().z と #hud の "z=" 表示 ----
@@ -3439,6 +3445,11 @@ if (hasBadgeClassify) {
       out.catsClosed = cats.every(d => !d.open);
       // ⑥ 相変化スライダー(melt): 全行にスライダー+スライダー編集反映+スライダー域外の直値
       HP.loadPreset('emergent2', false);
+      // 第95便: 実験箱カテゴリは箱境界サンプルのみ表示 — emergent2(箱)側で存在を確認。
+      // 世代判定は第95便マーカー(HP.selConvLines)— root は従来の常時表示のまま
+      out.per95 = typeof HP.selConvLines === 'function';
+      out.catSums2 = [...document.querySelectorAll('#paramRows details.catParams')]
+        .map(d => (d.querySelector('summary').firstChild.textContent || '').trim());
       const pcDet = [...document.querySelectorAll('#paramRows details.catParams')]
         .find(d => (d.querySelector('summary').textContent || '').includes('相変化'));
       const rows = pcDet ? [...pcDet.querySelectorAll('.prow')] : [];
@@ -3473,16 +3484,22 @@ if (hasBadgeClassify) {
       && d1.lastStored === 'saturn' && restored === 'emergent2',
       `カテゴリ選択肢=${d1.groupOpts.length}(先頭=all) 絞り込み(熱の実験室)=${d1.filtered.opts.length}件・全て域内=${d1.filteredAllInCat}・先頭自動ロード=${d1.filtered.preset} / ` +
       `域外読込で全カテゴリへ復帰=${d1.backToAll.gsVal === 'all'} / hp_last_preset=${d1.lastStored} / 仕込み emergent2 → 別ページ boot 復元=${restored}`);
+    // 第95便: 実験箱カテゴリは箱境界サンプルのみ — 🪐(境界なし)では出ず、🧊(箱)側で確認。
+    // 旧ビルド(root 等 — per95=false)は従来判定(saturn 側にも常時表示)
+    const labBoxOk = d1.per95
+      ? (!d1.catSums.some(t => t.includes('実験箱')) && d1.catSums2.some(t => t.includes('実験箱')))
+      : d1.catSums.some(t => t.includes('実験箱'));
     add('ui.54d-params',
       d1.pdescColor === d1.labColor
       && d1.dupCount === 2 && d1.dupSync === true
       && d1.catSums.some(t => t.includes('時空')) && d1.catSums.some(t => t.includes('スピン・熱'))
-      && d1.catSums.some(t => t.includes('引きずり')) && d1.catSums.some(t => t.includes('実験箱'))
+      && d1.catSums.some(t => t.includes('引きずり')) && labBoxOk
       && d1.catSums.some(t => t.includes('シミュレーション')) && d1.catSums.some(t => t.includes('表示'))
       && d1.catsClosed
       && d1.pcRows === 8 && d1.pcSliders === d1.pcRows && d1.pcSliderEdit && d1.pcDirectBeyond
       && wallColorOk,
       `pdesc色=本文色(${d1.pdescColor}) / 主役重複=2行・同期=${d1.dupSync} / カテゴリ=[${d1.catSums.join(',')}]・全閉=${d1.catsClosed} / ` +
+      `実験箱=箱サンプルのみ(🪐なし・🧊あり)=${labBoxOk} / ` +
       `相変化: ${d1.pcSliders}/${d1.pcRows}行にスライダー・編集反映=${d1.pcSliderEdit}・域外直値=${d1.pcDirectBeyond} / 壁温色(tempColor+tSwitch)=${wallColorOk}`);
 
     // ---- 第57便 57C: 実験箱カテゴリ(壁4面+一様重力)・タブ別スクロール・開閉保持 ----
@@ -7803,6 +7820,10 @@ if (hasEchoFlipAt) {
       convection: 'd03bf56fce6814531be08249b2697ae487f98e109a4a3da6acd1181fa8550219',
       freebox: 'a9fbb51894a298af70dc7350e61f9e8fce32e10abddd2ecdafa989312260bc7d',
     };
+    // 第95便: ♨️は g_y 0.03→0.031(日常規約 ≈9.8 m/s² — 意図した物理変更)で再採取(50J と同じ
+    // 世代判定方式 — 対象の宣言値から基準世代を選ぶ。root=0.03 は従来基準のまま)
+    const convGy95 = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'convection').physics.gravityY);
+    if (convGy95 === 0.031) MB.convection = 'd3a16cadf9df91b66319e20aba1c2ad549e2e0b77aeb65972c9cfec72e18828b';
     const run = (pid, mon, kF) => page.evaluate(({ pid, mon, kF }) => {
       HP.loadPreset(pid, false);
       const s = HP.sim;
@@ -8189,8 +8210,12 @@ if (hasEchoFlipAt) {
     // 対象の構成(n)から選ぶ — root=300粒は基点 9ec1300 の実測のまま、beta=210粒は 50J で
     // 再採取した実測(以降この基準に対する bit 一致が「融合機構の零コスト」を保証し続ける)
     const convN0 = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'convection').bodies[0].n);
+    // 第95便: g_y 0.031(日常規約)世代は再採取基準(50J と同じ世代判定方式)
+    const convGyF = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'convection').physics.gravityY);
     ZCF.convection = convN0 === 210
-      ? ['d03bf56fce6814531be08249b2697ae487f98e109a4a3da6acd1181fa8550219', 210]
+      ? (convGyF === 0.031
+        ? ['d3a16cadf9df91b66319e20aba1c2ad549e2e0b77aeb65972c9cfec72e18828b', 210]
+        : ['d03bf56fce6814531be08249b2697ae487f98e109a4a3da6acd1181fa8550219', 210])
       : ['aae1ee8ffb73b13fc1a9b407277b719ed507e549d2b490dcbb4951e55a283422', 300];
     const zf = [];
     for (const [id, [base, n]] of Object.entries(ZCF)) {
@@ -8708,6 +8733,13 @@ if (hasEchoFlipAt) {
       buoyancy: ['8846253d75f40189e0708238588e2a500df10f2d18e1ed892b8a9c4aa679feed', 280],
       gas: ['da983bab338a8e79adcda619c5c47d886eeada5fb7ffc5e00f8094fa24353a63', 240],
     };
+    // 第95便: ♨️🧪は g_y を日常規約 0.031 へ変更(意図した物理変更)— 0.031 世代の再採取基準
+    // (50J と同じ世代判定方式。root は旧値のまま旧基準)
+    const gy95 = await page.evaluate(() => ({
+      conv: HP.allPresets().find((q) => q.id === 'convection').physics.gravityY,
+      buoy: HP.allPresets().find((q) => q.id === 'buoyancy').physics.gravityY }));
+    if (gy95.conv === 0.031) ZPC.convection = ['d3a16cadf9df91b66319e20aba1c2ad549e2e0b77aeb65972c9cfec72e18828b', 210];
+    if (gy95.buoy === 0.031) ZPC.buoyancy = ['a0a373a8cda3c917880baadbbf82fbb5b72c41287048a2b18d01a8db706befc4', 280];
     const zpc = [];
     for (const [id, [base, n]] of Object.entries(ZPC)) {
       const r = await page.evaluate((pid) => {
@@ -10812,12 +10844,13 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   if (hasCF) {
     const r = await page.evaluate(() => {
       const res = {};
-      // ① コントロールの存在(「表示」カテゴリの select)
+      // ① コントロールの存在 — 第95便で「表示」→「共通設定」カテゴリへ移動(旧ビルドは表示内)
+      const per95cam = typeof HP.selConvLines === 'function';
       const sel = document.getElementById('camFollowSel');
       res.ctrl = !!sel && sel.tagName === 'SELECT';
       res.ctrlOpts = sel ? [...sel.options].map((o) => o.value) : [];
       res.ctrlInDisplay = !!(sel && sel.closest('details') &&
-        /表示|Display/.test(sel.closest('details').querySelector('summary').textContent));
+        (per95cam ? /共通設定|General/ : /表示|Display/).test(sel.closest('details').querySelector('summary').textContent));
       // ② validatePreset の受理・拒否
       const mk = (follow) => ({ name: 'cf', description: 'd',
         camera: (follow === undefined) ? { scale: 300 } : { scale: 300, follow },
@@ -10853,12 +10886,16 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         && Math.abs(c2.y - (S.y[1] + c2.offY)) < 1e-9;
       // ⑥ 表示専用: 物理パラメータ・粒子状態は追従で 1 つも変わらない(step ぶんは進む)
       res.physUntouched = JSON.stringify(S.params) === before.p;
-      // ⑤ 対象が範囲外になったら自動解除(UI の選択も「なし」へ戻る)
+      // ⑤ 対象が範囲外になったとき — 第95便: 「選択粒子」モードは解除せず保持し「なし」と同じ
+      //    挙動で待つ(旧ビルド: 自動解除して UI も「なし」へ)
       HP.selectBody(S.n + 10, 'A');
       HP.tick(2);
-      res.autoRelease = HP.camState().mode === 'none'
-        && document.getElementById('camFollowSel').value === 'none';
+      // (per95: DOM select は setCamFollow の呼出経路では書き換わらないため mode のみ判定)
+      res.autoRelease = per95cam
+        ? (HP.camState().mode === 'sel')
+        : (HP.camState().mode === 'none' && document.getElementById('camFollowSel').value === 'none');
       HP.setCamFollow('none');
+      document.getElementById('camFollowSel').value = 'none';
       // ⑦ プリセットに camera.follow があれば読込時に既定ON(=追従先が指定 index)。
       //    内蔵側は 🪜/⚫ の有無に依存させず、カスタムプリセット経由で経路そのものを検査する
       const saved = localStorage.getItem('hp_custom_presets');
@@ -10891,10 +10928,10 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       && r.accept && r.reject && r.noneKeepsClean
       && r.defaultNone && r.follows && r.panOffset && r.physUntouched && r.autoRelease
       && r.presetFollow && r.afterNoFollowPreset,
-      `コントロール=${r.ctrl}(表示カテゴリ内=${r.ctrlInDisplay}・選択肢=${r.ctrlOpts.join(',')})/ ` +
+      `コントロール=${r.ctrl}(共通設定〔第95便。旧=表示〕内=${r.ctrlInDisplay}・選択肢=${r.ctrlOpts.join(',')})/ ` +
       `validate: follow=2受理=${r.accept} 不正値は警告つき無視=${r.reject} 未指定は無警告=${r.noneKeepsClean}/ ` +
       `既定なし=${r.defaultNone} 追従でcamX=天体位置=${r.follows} パン=対象からのオフセット=${r.panOffset}/ ` +
-      `物理不変=${r.physUntouched} 範囲外で自動解除=${r.autoRelease}/ ` +
+      `物理不変=${r.physUntouched} 範囲外時の挙動(95便: sel保持/旧: 自動解除)=${r.autoRelease}/ ` +
       `プリセット camera.follow で既定ON=${r.presetFollow}(follow なしプリセットへ戻すと「なし」=${r.afterNoFollowPreset})`);
   } else {
     console.log('SKIP camera.follow-ui(対象にカメラ追従なし — root 等。第81便)');
@@ -11713,21 +11750,20 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   if (hasExp4) {
     const r = await page.evaluate(() => {
       const out = {};
-      HP.loadPreset('projectile', false);   // 日常タグ(第94便: g_y=9.8 実値化済み)
-      out.effEvery = HP.scaleEff();         // 期待 {x:0,eT:0,eM:0,eC:8}
-      out.gy98 = HP.scaleConvStr('gravityY', 9.8);
-      out.eps = HP.scaleConvStr('softening', 2);
-      out.cEvery = HP.scaleConvStr('cLight', 3);
-      HP.loadPreset('saturn', false);       // 天体タグでも光速指数は共通の 8
-      out.cCel = HP.scaleConvStr('cLight', 3);
+      HP.loadPreset('projectile', false);   // 日常タグ(第95便: アンカー L=T=M=−2.5・g_y=0.031)
+      out.effEvery = HP.scaleEff();         // 期待 {x:-2.5,eT:-2.5,eM:-2.5,eC:7}
+      out.gy = HP.scaleConvStr('gravityY', 0.031);   // ×10^(−2.5+5)=×316.2 → ≈9.803 m/s²
+      out.cEvery = HP.scaleConvStr('cLight', 30);    // eC=7: 30→3e8 m/s(第95便の一律規約)
+      HP.loadPreset('saturn', false);       // 天体タグでも光速指数は共通の 7
+      out.cCel = HP.scaleConvStr('cLight', 30);
       // 銀河タグの g_y は次元系 ×10^(L−2T)=10^(19−28)=1e-9(天体は L−2T=0 で判定にならない —
       // 第93便実測の教訓を踏襲)
       HP.loadPreset('galaxy', false);
       out.gyGal = HP.scaleConvStr('gravityY', 9.8);
-      // 時間指数の上書き: T=eT+1 で g_y(次元 [1,-2,0])の換算が ×1e-2 される
+      // 時間指数の上書き: eT を絶対値 1 に置くと g_y(次元 [1,-2,0])の換算指数は −2.5−2=−4.5
       HP.loadPreset('projectile', false);
       HP.setScaleExps({ T: 1 });
-      out.gyT1 = HP.scaleConvStr('gravityY', 9.8);   // 期待 ≈0.098 m/s²
+      out.gyT1 = HP.scaleConvStr('gravityY', 0.031);   // 期待 ≈9.8e-7 m/s²(指数 −2.5−2·1=−4.5)
       out.effT1 = HP.scaleEff().eT;
       // ロードで4指数ともタグ既定へ戻る
       HP.setScaleExps({ L: 3, T: 5, M: 7, C: 2 });
@@ -11742,16 +11778,16 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     // 既定ONはソースで判定(このページは先行テストが hp_scale_disp を書いており実行時フラグでは
     // 判定できない): 未設定時 true の初期化行が存在すること
     const srcOn = /let scaleDispOn\s*=\s*true/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
-    const effOk = (e) => e && e.x === 0 && e.eT === 0 && e.eM === 0 && e.eC === 8;
+    const effOk = (e) => e && e.x === -2.5 && e.eT === -2.5 && e.eM === -2.5 && e.eC === 7;
     add('scale.exponents',
-      effOk(r.effEvery) && String(r.gy98) === '≈9.8 m/s²' && String(r.eps) === '≈2 m'
+      effOk(r.effEvery) && /^≈9\.8/.test(String(r.gy))
       && String(r.cEvery) === '≈3e8 m/s' && String(r.cCel) === '≈3e8 m/s'
       && /e-9 m\/s²/.test(String(r.gyGal))
-      && String(r.gyT1) === '≈0.098 m/s²' && r.effT1 === 1
+      && /9\.8e-7/.test(String(r.gyT1)) && r.effT1 === 1
       && effOk(r.effReset) && r.sliders.every(Boolean) && srcOn,
-      `日常既定 ${JSON.stringify(r.effEvery)}: g_y 9.8→"${r.gy98}"・ε2→"${r.eps}"・cLight3→"${r.cEvery}" / ` +
-      `天体 cLight3→"${r.cCel}"(eC 全タグ共通)/ 銀河 g_y→"${r.gyGal}"(×1e-9)/ ` +
-      `T上書き+1→"${r.gyT1}" / ロード復帰=${JSON.stringify(r.effReset)} / ` +
+      `日常既定 ${JSON.stringify(r.effEvery)}: g_y 0.031→"${r.gy}"(≈9.8 m/s²)・cLight30→"${r.cEvery}" / ` +
+      `天体 cLight30→"${r.cCel}"(eC=7 全タグ共通)/ 銀河 g_y→"${r.gyGal}"(×1e-9)/ ` +
+      `T上書き=1→"${r.gyT1}" / ロード復帰=${JSON.stringify(r.effReset)} / ` +
       `新スライダー3本=${r.sliders.join(',')} / 換算表示の既定ON(ソース)=${srcOn}`);
   } else {
     console.log('SKIP scale.exponents(対象に4指数スケールなし — root 等。第94便)');
@@ -11794,9 +11830,10 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       HP.selectBody(0, 'A');
       const txt = HP.selConvText();
       const shown = !!txt && /m\/s/.test(txt) && /kg/.test(txt);
-      // 「選択粒子の編集」を畳む → 換算行は出ない(第94便仕様)
+      // 第95便(原仮定者指示): 「選択粒子の編集」を畳んでいても換算は表示・2行分割(改行)
       document.querySelector('#beClose').click();
-      const minHidden = HP.selConvText() === null;
+      const lines = HP.selConvLines ? HP.selConvLines() : null;
+      const minShown = !!lines && lines.length === 2;
       document.querySelector('#beClose').click();   // 元に戻す
       HP.setScaleDisp(false);
       const offHidden = HP.selConvText() === null;
@@ -11804,16 +11841,16 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       const noSel = HP.selConvText() === null;
       HP.setScaleDisp(true);   // 既定ONへ戻す(第94便)
       HP.loadPreset('saturn', false);
-      return { units, tgRow, shown, txt: String(txt).slice(0, 90), minHidden, offHidden, noSel };
+      return { units, tgRow, shown, txt: String(txt).slice(0, 90), minShown, offHidden, noSel };
     });
     add('ui.scalebar-conv',
       r.units.m5k === '5 km' && /au$/.test(r.units.au) && /ly$/.test(r.units.ly) && /nm$/.test(r.units.nm)
       && r.units.kg === '3 kg' && /M⊕$/.test(r.units.earth) && /M☉$/.test(r.units.sun) && /km\/s$/.test(r.units.kms)
-      && r.tgRow && !r.noSelConv && r.shown && r.minHidden && r.offHidden && r.noSel,
+      && r.tgRow && !r.noSelConv && r.shown && r.minShown && r.offHidden && r.noSel,
       `単位整形: 5e3m→"${r.units.m5k}"・3e11m→"${r.units.au}"・1e16m→"${r.units.ly}"・5e-9m→"${r.units.nm}"・` +
       `3kg→"${r.units.kg}"・1.2e25kg→"${r.units.earth}"・4e30kg→"${r.units.sun}"・3.4e4m/s→"${r.units.kms}" / ` +
-      `スケールバー表示トグル=${r.tgRow} / 画面下換算行(selConvText): ON="${r.txt}"・` +
-      `min時null=${r.minHidden}・換算OFF null=${r.offHidden}・未選択null=${r.noSel}`);
+      `スケールバー表示トグル=${r.tgRow} / 画面下換算(selConvText): ON="${r.txt}"・` +
+      `min中も2行表示=${r.minShown}(第95便)・換算OFF null=${r.offHidden}・未選択null=${r.noSel}`);
   } else {
     console.log('SKIP ui.scalebar-conv(対象にスケールバーなし — root 等。第92便)');
   }
@@ -11866,10 +11903,13 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       HP.loadPreset('saturn', false);
       const restS = rowLabels().filter((t) => /^(反発係数|Restitution)/.test(t)).length;
       // ④ 底面の反発を下げると床バウンド後の運動が変わり、壁吸収KE(帳簿)が増える。
-      //    天井(粒子が届かない面)を変えても同一窓の軌道は不変(壁「別」に効く)
+      //    天井(粒子が届かない面)を変えても同一窓の軌道は不変(壁「別」に効く)。
+      //    第95便: ⚾は g_y=0.031 化で自然落下が遅くなったため、粒子0を床近くへ置き
+      //    下向き初速を注入して短窓(200步)で決定論的にバウンドさせる
       const drop = (side, wr) => { HP.loadPreset('projectile', false); const s = HP.sim;
         if (side >= 0) s.wallRest[side] = wr;
-        for (let k = 0; k < 620; k++) s.step(0.016);   // 粒子0(自由落下)の床バウンド(t≈8.2)込みの窓
+        s.y[0] = 170; s.vy[0] = 10;   // 床(y=+190)まで 20 → 2 モデル時間で衝突
+        for (let k = 0; k < 200; k++) s.step(0.016);
         return { y: s.y[0], vy: s.vy[0], ke: s.wallKE }; };
       const base = drop(-1, 0), low = drop(0, 0.2), top = drop(1, 0.2);
       const differs = base.y !== low.y || base.vy !== low.vy;
@@ -11887,6 +11927,107 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       `天井0.2は同窓で不変(壁別独立)=${r.indep}`);
   } else {
     console.log('SKIP box.wall-restitution(対象に S.wallRest なし — root 等。第94便)');
+  }
+}
+
+// ---- 95) 第95便(原仮定者指示): ①全カテゴリに説明ⓘ ②実験箱は箱境界のみ表示
+// ----   ③カメラ追従=共通設定・非選択でも「選択粒子」可(非選択時は「なし」挙動)
+// ----   ④⏮でグラフ・スケール指数・箱宇宙編集を保持 ⑤セーブに graphOverlays/scaleExps
+// ----   ⑥箱宇宙パラメータの A/B 対応(編集対象側のみ) ⑦HUD換算時間に時間倍率を反映 ----
+{
+  const has95 = await page.evaluate(() => !!(window.HP && typeof HP.selConvLines === 'function'));
+  if (has95) {
+    const r = await page.evaluate(() => new Promise((res) => {
+      const keepSaves = localStorage.getItem('hp_saves');
+      const out = {};
+      const cats = () => [...document.querySelectorAll('#paramRows details.catParams')];
+      const catByName = (s) => cats().find((d) => (d.querySelector('summary').textContent || '').includes(s));
+      // ① 全カテゴリに説明ⓘ(🧊 = 実験箱+相変化ありの構成で数える)
+      HP.loadPreset('emergent2', false);
+      out.catN = cats().length;
+      out.catNoInfo = cats().filter((d) => !d.querySelector('summary .catInfo'))
+        .map((d) => (d.querySelector('summary').firstChild.textContent || '').trim());
+      // ② 実験箱は箱境界のみ(🪐視点は ui.54d-params でも判定)
+      HP.loadPreset('saturn', false);
+      out.labOnSaturn = !!catByName('実験箱');
+      // ③ カメラ追従: 共通設定カテゴリ内・非選択でも sel 設定可・フレームが回っても自動解除しない
+      out.camInCommon = !!(catByName('共通設定') && catByName('共通設定').querySelector('#camFollowSel'));
+      HP.selectBody(-1, 'A');
+      const csel = document.querySelector('#camFollowSel');
+      csel.value = 'sel'; csel.dispatchEvent(new Event('change'));
+      out.camSelSet = HP.camState().mode === 'sel';
+      HP.requestRender();
+      setTimeout(() => {
+        out.camSelKept = HP.camState().mode === 'sel';   // 旧実装なら描画1回で "none" へ自動解除される
+        csel.value = 'none'; csel.dispatchEvent(new Event('change'));
+        try {
+          // ④ ⏮保持(🛸probeH: universeBox あり)
+          HP.loadPreset('probeH', false);
+          HP.sim.overlays.mechSpectrum = true;
+          HP.setScaleExps({ T: 3 });
+          HP.sim.box.H0 = 0.123;
+          document.getElementById('btnReset').click();
+          out.keepGraph = HP.sim.overlays.mechSpectrum === true;
+          out.keepScaleT = HP.scaleEff().eT === 3;
+          out.keepBoxH = Math.abs(HP.sim.box.H0 - 0.123) < 1e-12;
+          HP.loadPreset('probeH', false);   // 通常ロードは従来どおりタグ既定へ
+          out.loadResetT = HP.scaleEff().eT !== 3;
+          // ⑤ セーブ対応(graphOverlays / scaleExps)
+          HP.sim.overlays.mechSpectrum = true; HP.setScaleExps({ M: 9 });
+          document.querySelector('#saveName').value = 'qa95';
+          document.querySelector('#btnSave').click();
+          const item = JSON.parse(localStorage.getItem('hp_saves'))[0];
+          out.savedKeys = !!(item.graphOverlays && item.graphOverlays.mechSpectrum === true
+            && item.scaleExps && item.scaleExps.M === 9);
+          HP.loadPreset('probeH', false);
+          const mechOff = HP.sim.overlays.mechSpectrum !== true;
+          HP.loadSaveItem(item);
+          out.saveRestored = mechOff && HP.sim.overlays.mechSpectrum === true && HP.scaleEff().eM === 9;
+          HP.setScaleExps(null);
+          // ⑥ 箱宇宙の A/B 対応: B を編集対象にして H₀ 行を編集 → B だけ変わる
+          HP.loadPreset('probeH', false);
+          HP.abStart();
+          HP.setAbTarget('B');
+          const bd = catByName('箱宇宙');
+          const h0row = bd ? [...bd.querySelectorAll('.prow')].find((rw) => {
+            const l = rw.querySelector('label'); return l && /H₀/.test(l.textContent); }) : null;
+          if (h0row) {
+            const inp = h0row.querySelector('input.valIn');
+            inp.value = '0.05'; inp.dispatchEvent(new Event('change'));
+            out.abBoxB = Math.abs(HP.ab().simB.box.H0 - 0.05) < 1e-12;
+            out.abBoxA = HP.sim.box.H0 !== 0.05;
+          }
+          HP.setAbTarget('A'); HP.abStop();
+          // ⑦ HUD: スケール換算行に時間倍率が反映される(再生1s≈)
+          HP.loadPreset('projectile', false);
+          HP.setScaleDisp(true);
+          HP.requestRender();
+          setTimeout(() => {
+            out.hudTs = /再生1s≈|1s of playback≈/.test(document.querySelector('#hud').textContent);
+            if (keepSaves === null) localStorage.removeItem('hp_saves');
+            else localStorage.setItem('hp_saves', keepSaves);
+            HP.loadPreset('saturn', false);
+            res(out);
+          }, 350);
+        } catch (e) {
+          if (keepSaves === null) localStorage.removeItem('hp_saves');
+          else localStorage.setItem('hp_saves', keepSaves);
+          out.error = String(e); res(out);
+        }
+      }, 150);
+    }));
+    add('ui.wave95',
+      !r.error && r.catNoInfo && r.catNoInfo.length === 0 && !r.labOnSaturn
+      && r.camInCommon && r.camSelSet && r.camSelKept
+      && r.keepGraph && r.keepScaleT && r.keepBoxH && r.loadResetT
+      && r.savedKeys && r.saveRestored && r.abBoxB === true && r.abBoxA === true && r.hudTs,
+      `カテゴリ説明: ${r.catN}カテゴリ中ⓘ欠落=[${(r.catNoInfo || []).join(',') || 'なし'}] / 🪐に実験箱なし=${!r.labOnSaturn} / ` +
+      `カメラ追従: 共通設定内=${r.camInCommon}・非選択sel設定=${r.camSelSet}・保持=${r.camSelKept} / ` +
+      `⏮保持: グラフ=${r.keepGraph}・時間指数=${r.keepScaleT}・箱H₀=${r.keepBoxH}(通常ロードは既定へ=${r.loadResetT}) / ` +
+      `セーブ: 保存キー=${r.savedKeys}・復元=${r.saveRestored} / 箱A/B: B側のみ=${r.abBoxB}&&A不変=${r.abBoxA} / ` +
+      `HUD時間倍率反映=${r.hudTs}${r.error ? ' / ERROR=' + r.error : ''}`);
+  } else {
+    console.log('SKIP ui.wave95(対象に第95便機能なし — root 等)');
   }
 }
 
