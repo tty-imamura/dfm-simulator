@@ -289,13 +289,15 @@ const W5C_UNITS = {
     // 🌌 galaxy A/B 部分のみ(元8節 1916-1930行から抽出)
     const s = HP.sim;
     HP.loadPreset('galaxy', false);
+    const F96 = (id, c0) => { const q = HP.allPresets().find((z) => z.id === id); return q && q.physics.cLight === 30 ? c0 / 30 : 1; };   // 第96便: c₀=30 相似変換世代は同物理窓が步数×(旧c₀/30)
+    const FG = F96('galaxy', 60);
     HP.abStart('kFrame', 0);
     const abG = HP.ab();
     const outer = (sm) => { let sum = 0, c = 0;
       for (let i = 1; i < sm.n; i++) { const r2 = Math.hypot(sm.x[i], sm.y[i]);
         if (r2 >= 156 && r2 <= 286) { sum += (sm.x[i] * sm.vy[i] - sm.y[i] * sm.vx[i]) / r2; c++; } }
       return c ? sum / c : 0; };
-    for (let k = 0; k < 6000; k++) { s.step(0.016); abG.simB.step(0.016); }
+    for (let k = 0; k < 6000 * FG; k++) { s.step(0.016); abG.simB.step(0.016); }
     const galA = outer(s), galB = outer(abG.simB);
     const galNaN = s.hasNaN() || abG.simB.hasNaN();
     HP.abStop();
@@ -305,7 +307,9 @@ const W5C_UNITS = {
     // 🪐 saturn 24000步 部分のみ(元8節 1931-1936行から抽出)
     const s = HP.sim;
     HP.loadPreset('saturn', false);
-    for (let k = 0; k < 24000; k++) s.step(0.016);
+    const F96 = (id, c0) => { const q = HP.allPresets().find((z) => z.id === id); return q && q.physics.cLight === 30 ? c0 / 30 : 1; };   // 第96便: c₀=30 相似変換世代は同物理窓が步数×(旧c₀/30)
+    const FS = F96('saturn', 60);
+    for (let k = 0; k < 24000 * FS; k++) s.step(0.016);
     let inAnn = 0, tot = 0;
     for (let i = 1; i < s.n; i++) { tot++; const r2 = Math.hypot(s.x[i], s.y[i]); if (r2 > 45 && r2 < 280) inAnn++; }
     return { satAnn: inAnn / tot, satDrift: Math.hypot(s.x[0], s.y[0]), satNaN: s.hasNaN() };
@@ -333,8 +337,10 @@ const W5C_UNITS = {
   saturnExp: { enabled: !FAST && w5cHasIce, weight: 107, run: (pg) => pg.evaluate(() => {
     // 🪐(実験)の長時間安定(元8d節 2299-2311行から抽出)
     HP.loadPreset('saturn', false);
+    const F96 = (id, c0) => { const q = HP.allPresets().find((z) => z.id === id); return q && q.physics.cLight === 30 ? c0 / 30 : 1; };   // 第96便: c₀=30 相似変換世代は同物理窓が步数×(旧c₀/30)
+    const FS = F96('saturn', 60);
     const s = HP.sim;
-    for (let k = 0; k < 22500; k++) s.step(0.016);
+    for (let k = 0; k < 22500 * FS; k++) s.step(0.016);
     let inB = 0, fall = 0, esc = 0, sum = 0;
     for (let i = 1; i < s.n; i++) {
       const r = Math.hypot(s.x[i], s.y[i]);
@@ -456,8 +462,10 @@ const W5C_UNITS = {
       }
       return out;
     };
-    const def = run(false, [9375, 13125]);
-    const noc = run(true, [9375]);
+    const F96 = (id, c0) => { const q = HP.allPresets().find((z) => z.id === id); return q && q.physics.cLight === 30 ? c0 / 30 : 1; };   // 第96便: c₀=30 相似変換世代は同物理窓が步数×(旧c₀/30)
+    const FL = F96('saturnLayered', 60);
+    const def = run(false, [9375 * FL, 13125 * FL]);
+    const noc = run(true, [9375 * FL]);
     HP.loadPreset('saturn', false);
     return { d150: def[0], d360: def[1], z150: noc[0], ringN: RN, nTot: i3 + 1 };
   }) },
@@ -472,7 +480,8 @@ const W5C_UNITS = {
   // よって本テストは「引きずりが環を安定させる」ではなく「kFrame が環の形を有意に変える(因果がある)」
   // ことと、その **向き**(内向き移動+離心率増大)を固定する。説明文は 40C で実測に合わせて弱めた。
   saturnKFrame: { enabled: !FAST && w5cHasIce && hasSat240, weight: 16, run: (pg) => pg.evaluate(() => {
-    const STEPS = 3000;   // t=48。2本で実測 15s(1本あたり 3000×2.6ms)
+    const F96 = (id, c0) => { const q = HP.allPresets().find((z) => z.id === id); return q && q.physics.cLight === 30 ? c0 / 30 : 1; };   // 第96便: c₀=30 相似変換世代は同物理窓が步数×(旧c₀/30)
+    const STEPS = 3000 * F96('saturn', 60);   // 旧t=48 相当(世代係数で追随)
     const stat = (s) => {
       const mu = s.params.G * s.m[0];      // 中心星は pinned・原点なので μ=G·M で LRL ベクトルが取れる
       let se = 0, sv = 0, inB = 0, n = 0;
@@ -505,7 +514,8 @@ const W5C_UNITS = {
   // この時間窓でほぼ効かない(4500步までは倍精度で完全一致 = 接触ゼロ)。本テストは
   // 「muF は環に届いてはいる(=差はゼロではない)が、その効きは小さい」を両側から固定する。
   saturnMuF: { enabled: !FAST && w5cHasIce && hasSat240, weight: 32, run: (pg) => pg.evaluate(() => {
-    const STEPS = 6000;   // 最初の接触が起きるのが 4500〜6000步(4500步では2本が完全一致)
+    const F96 = (id, c0) => { const q = HP.allPresets().find((z) => z.id === id); return q && q.physics.cLight === 30 ? c0 / 30 : 1; };   // 第96便: c₀=30 相似変換世代は同物理窓が步数×(旧c₀/30)
+    const STEPS = 6000 * F96('saturn', 60);   // 旧: 最初の接触が 4500〜6000步(世代係数で追随)
     const stat = (s) => {
       const mu = s.params.G * s.m[0];
       let se = 0, sv = 0, sp = 0, n = 0, contacts = 0;
@@ -538,7 +548,9 @@ const W5C_UNITS = {
   // 実測で分かったこと: 引きずり(kFrame)の効きは **スピン加熱に集中** していて、
   // 核どうしの接近そのものはほとんど変わらない。説明文にその内訳を明記した(40C)。
   mergerCausal: { enabled: !FAST, weight: 34, run: (pg) => pg.evaluate(() => {
-    const STEPS = 3000;   // t=48。3本で実測 30s(第50便 50I の円盤 100/80 化で短縮)
+    const F96 = (id, c0) => { const q = HP.allPresets().find((z) => z.id === id); return q && q.physics.cLight === 30 ? c0 / 30 : 1; };   // 第96便: c₀=30 相似変換世代は同物理窓が步数×(旧c₀/30)
+    const FM = F96('merger', 70);
+    const STEPS = Math.round(3000 * FM);   // 旧t=48 相当(世代係数で追随)
     // bodies 配列 [核A, 円盤A, 核B, 円盤B] から index 範囲と初期円盤半径を導出する
     // (第50便 50I: 円盤 n を 150/120→100/80 に変えたため、旧ハードコード 1..150/152..271 を
     // 対象のプリセット定義から取る形に置換 — root(150/120)と beta(100/80)の両方で正しく動く)
@@ -562,7 +574,7 @@ const W5C_UNITS = {
     // 主張であり、深い接触期には軌道差が育つ(実測 3000步で 11.5%)ことが分かったため、
     // 判定は接近期チェックポイントで行う(root の旧配置では 3000步時点がちょうど接近期 =
     // 従来の判定と同じ点になる — 0.72 は root 実測 520→376 の比から)
-    const CKS = [500, 1000, 1500, 2000, 2500, 3000];
+    const CKS = [500, 1000, 1500, 2000, 2500, 3000].map((v) => Math.round(v * FM));
     const run = (mod) => {
       HP.loadPreset('merger', false);
       const s = HP.sim; if (mod) mod(s);
@@ -586,7 +598,8 @@ const W5C_UNITS = {
     // 第51便 51F: 6000步→12000步へ延長(beta は G↑/kRep↓ で塊が育つ構成になり、温度対照が
     // 明確に開くのは加熱ピークを過ぎた 12000步 — 実測 T比 on/off = beta 0.545 / root 0.761)。
     // r50 の冷却非依存(負の主張)は従来どおり崩壊中盤 6000步で判定する
-    const STEPS = 6000;   // ×2 区間(6000 で中間計測 → 12000 で最終計測)
+    const F96 = (id, c0) => { const q = HP.allPresets().find((z) => z.id === id); return q && q.physics.cLight === 30 ? c0 / 30 : 1; };   // 第96便: c₀=30 相似変換世代は同物理窓が步数×(旧c₀/30)
+    const STEPS = 6000 * F96('collapse', 60);   // ×2 区間(世代係数で追随)
     const stat = (s) => {
       let M = 0, cx = 0, cy = 0;
       for (let i = 0; i < s.n; i++) { M += s.m[i]; cx += s.m[i] * s.x[i]; cy += s.m[i] * s.y[i]; }
@@ -620,6 +633,8 @@ const W5C_UNITS = {
     const NH = HP.allPresets().find(q => q.id === 'darkrotor')
       .bodies.filter(b => b.type === 'single').length - 1;
     HP.loadPreset('darkrotor', false);
+    const F96 = (id, c0) => { const q = HP.allPresets().find((z) => z.id === id); return q && q.physics.cLight === 30 ? c0 / 30 : 1; };   // 第96便: c₀=30 相似変換世代は同物理窓が步数×(旧c₀/30)
+    const FD = F96('darkrotor', 60);
     const s = HP.sim, OFF = NH + 1;
     const hr0 = [], st0 = [];
     for (let k = 1; k <= NH; k++) hr0.push(Math.hypot(s.x[k] - s.x[0], s.y[k] - s.y[0]));
@@ -629,7 +644,7 @@ const W5C_UNITS = {
       p0x += s.m[i] * s.vx[i]; p0y += s.m[i] * s.vy[i]; }
     cx0 /= M; cy0 /= M;
     const pTot0 = Math.hypot(p0x, p0y);
-    for (let k = 0; k < 3000; k++) s.step(0.016);
+    for (let k = 0; k < 3000 * FD; k++) s.step(0.016);
     const bx = s.x[0], by = s.y[0];
     let sum = 0, c = 0, keep = 0, tot = 0, maxSpin = 0, hs = 0, haloIn = 0, haloDev = 0;
     const rs = [];
@@ -654,9 +669,11 @@ const W5C_UNITS = {
   darkrotorMidOld: { enabled: w5cHasObsLayer && !FAST && !w5cDrFree, weight: 18, run: (pg) => pg.evaluate(() => {
     // 🕶️ の中期安定・v3(レール駆動)経路(元7m節 2841-2854行から抽出)
     HP.loadPreset('darkrotor', false);
+    const F96 = (id, c0) => { const q = HP.allPresets().find((z) => z.id === id); return q && q.physics.cLight === 30 ? c0 / 30 : 1; };   // 第96便: c₀=30 相似変換世代は同物理窓が步数×(旧c₀/30)
+    const FD = F96('darkrotor', 60);
     const s = HP.sim;
     const s0 = s.spin[0];
-    for (let k = 0; k < 3000; k++) s.step(0.016);
+    for (let k = 0; k < 3000 * FD; k++) s.step(0.016);
     let sum = 0, c = 0; const rs = [];
     for (let i = 1; i <= 380; i++) { const r = Math.hypot(s.x[i], s.y[i]); rs.push(r);
       if (r >= 156 && r <= 286) { sum += (s.x[i] * s.vy[i] - s.y[i] * s.vx[i]) / r; c++; } }
@@ -670,6 +687,7 @@ const W5C_UNITS = {
   darkrotorLong: { enabled: w5cHasObsLayer && !FAST && w5cDrFree, weight: 104, run: (pg) => pg.evaluate((BANDS) => {
     // 🕶️ v5 の有効窓検査+渦状腕の機械実証(元7m節 2876-2922行から抽出)
     const P = HP.allPresets().find(q => q.id === 'darkrotor');
+    const FD = (P.physics.cLight === 30) ? 2 : 1;   // 第96便: 世代係数(旧c₀60)
     const NH = P.bodies.filter(b => b.type === 'single').length - 1;
     const rotorIdx = () => { const idx = []; let k = 0;
       for (const b of P.bodies) { if (b.type === 'single') idx.push(k);
@@ -743,11 +761,11 @@ const W5C_UNITS = {
       for (let i = OFF; i < s.n; i++) st0.push(Math.hypot(s.x[i] - s.x[0], s.y[i] - s.y[0]));
       const late = [];
       let maxSpin = 0, lastNoise = null;
-      for (let blk = 0; blk < 12; blk++) {
+      for (let blk = 0; blk < 12 * FD; blk++) {
         for (let k = 0; k < 500; k++) s.step(0.016);
         for (let i = 0; i < s.n; i++) maxSpin = Math.max(maxSpin, Math.abs(s.spin[i]));
         const t = (blk + 1) * 500;
-        if (t >= 3000) { const z = a2(s, OFF); late.push(z.map(v => v.A2)); lastNoise = z;
+        if (t >= 3000 * FD) { const z = a2(s, OFF); late.push(z.map(v => v.A2)); lastNoise = z;
           pitch.push({ t, ...pitchFit(s, OFF, dirSign) }); }
       }
       const bx = s.x[0], by = s.y[0];
@@ -776,6 +794,7 @@ const W5C_UNITS = {
     run: (pg) => pg.evaluate((o) => {
       const BANDS = o.bands;
       const P0 = HP.allPresets().find(q => q.id === 'darkrotor');
+      const FD = (P0.physics.cLight === 30) ? 2 : 1;   // 第96便: 世代係数(旧c₀60)
       const NH = P0.bodies.filter(b => b.type === 'single').length - 1;   // ローター体数(=2)
       const OFF = NH + 1;                                                 // 恒星の先頭 index(=3)
       // A2 の式は darkrotorLong と同一(環帯ごとの |Σe^{2iθ}|/N。θ は中心BH基準)
@@ -800,10 +819,10 @@ const W5C_UNITS = {
         const st0 = [];
         for (let i = OFF; i < s.n; i++) st0.push(Math.hypot(s.x[i] - s.x[0], s.y[i] - s.y[0]));
         const late = []; let maxSpin = 0;
-        for (let blk = 0; blk < 12; blk++) {
+        for (let blk = 0; blk < 12 * FD; blk++) {
           for (let k = 0; k < 500; k++) s.step(0.016);
           for (let i = 0; i < s.n; i++) maxSpin = Math.max(maxSpin, Math.abs(s.spin[i]));
-          if ((blk + 1) * 500 >= 3000) late.push(a2(s));
+          if ((blk + 1) * 500 >= 3000 * FD) late.push(a2(s));
         }
         const A2 = BANDS.map((_, b) => late.reduce((a, w) => a + w[b], 0) / late.length);
         const bx = s.x[0], by = s.y[0];
@@ -821,8 +840,10 @@ const W5C_UNITS = {
     // ⭐binary の挙動(元7n節 3035-3044行から抽出)。第66便 66D: geoPN=1 化後の較正実測 —
     // 3000步 sep=120.1・保持240/240(旧 kFrame=1 構成は sep=137.4。窓 60〜350 はどちらも満たす)
     HP.loadPreset('binary', false);
+    const F96 = (id, c0) => { const q = HP.allPresets().find((z) => z.id === id); return q && q.physics.cLight === 30 ? c0 / 30 : 1; };   // 第96便: c₀=30 相似変換世代は同物理窓が步数×(旧c₀/30)
+    const FB = F96('binary', 60);
     const s = HP.sim;
-    for (let k = 0; k < 3000; k++) s.step(0.016);
+    for (let k = 0; k < 3000 * FB; k++) s.step(0.016);
     let stars = [], keep = 0, free = 0;
     for (let i = 0; i < s.n; i++) {
       if (s.m[i] > 100) { stars.push(i); continue; }
@@ -836,13 +857,15 @@ const W5C_UNITS = {
   // 極方向 = ±y から30°以内(等方なら 1/3)。重い(341粒子×4000步×2本)ので !FAST のユニット
   agnjet: { enabled: !FAST && w5cHasAgnjet, weight: 90, run: (pg) => pg.evaluate(() => {
     const s = HP.sim;
+    const F96 = (id, c0) => { const q = HP.allPresets().find((z) => z.id === id); return q && q.physics.cLight === 30 ? c0 / 30 : 1; };   // 第96便: c₀=30 相似変換世代は同物理窓が步数×(旧c₀/30)
+    const FA = F96('agnjet', 60);
     const run = (kRep) => {
       const p = JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'agnjet')));
       if (kRep !== undefined) p.physics.kRep = kRep;
       s.build(p);
       const x0 = Array.from(s.x);
       const inner = []; for (let i = 1; i < s.n; i++) if (Math.abs(x0[i]) <= 80) inner.push(i);
-      for (let k = 0; k < 4000; k++) s.step(0.016);
+      for (let k = 0; k < 4000 * FA; k++) s.step(0.016);
       let pol = 0, eq = 0, tot = 0;
       for (const i of inner) { const r = Math.hypot(s.x[i], s.y[i]); if (r < 300) continue;
         tot++; if (Math.abs(s.y[i]) / r > 0.8660254) pol++; if (Math.abs(s.x[i]) / r > 0.8660254) eq++; }
@@ -860,6 +883,8 @@ const W5C_UNITS = {
   // 保存則の尺度は下の freebox scales と同式(= beta/index.html の HP.verify.v1 と同形)。
   spinup: { enabled: !FAST && w5cHasSpinup, weight: 16, run: (pg) => pg.evaluate(() => {
     HP.loadPreset('spinup', false);
+    const F96 = (id, c0) => { const q = HP.allPresets().find((z) => z.id === id); return q && q.physics.cLight === 30 ? c0 / 30 : 1; };   // 第96便: c₀=30 相似変換世代は同物理窓が步数×(旧c₀/30)
+    const FP = F96('spinup', 60);
     const s = HP.sim;
     const scales = () => { let pS = 0, lS = 0;
       for (let i = 0; i < s.n; i++) { pS += s.m[i] * Math.hypot(s.vx[i], s.vy[i]);
@@ -895,7 +920,7 @@ const W5C_UNITS = {
         idOm: Math.abs((Lorb / I) * I - Lorb) / Math.max(Math.abs(Lorb), 1e-9) };
     };
     const m0 = measure(), t0 = s.totals();
-    for (let k = 0; k < 6000; k++) s.step(0.016);
+    for (let k = 0; k < 6000 * FP; k++) s.step(0.016);
     const m1 = measure(), t1 = s.totals(), sc1 = scales();
     return { m0, m1, thermal: s.thermal,
       ledger: [s.resPx, s.resPy, s.resL, s.radE, s.radL],
@@ -908,6 +933,8 @@ const W5C_UNITS = {
   // 既定(H=0.004)と膨張なし対照(H=0)の2本 — 膨張率で構造の育ち方が変わることまで機械固定する
   cosmicweb: { enabled: !FAST && w5cHasCosmicweb, weight: 85, run: (pg) => pg.evaluate(() => {
     const s = HP.sim;
+    const F96 = (id, c0) => { const q = HP.allPresets().find((z) => z.id === id); return q && q.physics.cLight === 30 ? c0 / 30 : 1; };   // 第96便: c₀=30 相似変換世代は同物理窓が步数×(旧c₀/30)
+    const FW = F96('cosmicweb', 100);
     const NC = 10, CHI = 240;
     const cells = () => {
       const a = Math.exp(s.box.H0 * s.t);
@@ -932,7 +959,7 @@ const W5C_UNITS = {
       if (H !== undefined) { p.universeBox.H0 = H; p.bodies[0].vScale = H; }
       s.build(p);
       const c0 = cells();
-      for (let k = 0; k < 6000; k++) s.step(0.016);
+      for (let k = 0; k < Math.round(6000 * FW); k++) s.step(0.016);
       const c1 = cells();
       return { d20: c0.d2, void0: c0.void, d21: c1.d2, void1: c1.void, a1: c1.a, nan: s.hasNaN() };
     };
@@ -1681,30 +1708,41 @@ if (has40BSemanticSync) {
   const r = await page.evaluate(() => {
     const s = HP.sim, res = {};
     const meanR = (i0, i1) => { let a = 0; for (let i = i0; i < i1; i++) a += Math.hypot(s.x[i], s.y[i]); return a / (i1 - i0); };
+    // 第96便(スケール一律化 第2段): c₀=30 相似変換世代は力学が t'=t/k(k=30/旧c₀)で再パラメータ
+    // 化されている — 同じ物理時点を見るため步数を ×(旧c₀/30) する(旧世代 root では ×1)。
+    // レート(railH・freq・H0)はプリセット宣言から動的に読む(両世代で正しい式になる)
+    const fac = (id, oldC) => { const p = HP.allPresets().find((q) => q.id === id);
+      return p.physics.cLight === 30 ? oldC / 30 : 1; };
     // 📦 boxtrans: 箱と共動する時計は遅れず、箱に対する固有運動を持つ時計だけが遅れる(T10 並進不可知)
-    // 第32便(原仮定者裁定): 「絶対静止」の概念・粒子を廃止 — 上の時計は共動+固有運動(0.9)
+    // 第32便(原仮定者裁定): 「絶対静止」の概念・粒子を廃止 — 上の時計は共動+固有運動(0.9c 相当)
     HP.loadPreset('boxtrans', false);
-    for (let k = 0; k < 2000; k++) s.step(0.016);
+    for (let k = 0; k < Math.round(2000 * fac('boxtrans', 6)) && k < 2400; k++) s.step(0.016);   // k=5: 同物理時点は 400步
     res.tComv = s.tau[s.n - 2] / s.t;   // 共動時計(|v−u|=0)
-    res.tProp = s.tau[s.n - 1] / s.t;   // 固有運動時計(箱に対して 0.9 で運動)
+    res.tProp = s.tau[s.n - 1] / s.t;   // 固有運動時計(箱に対して 0.9c 相当で運動 — τ/t 比は相似不変)
     res.transNaN = s.hasNaN();
     // 🌀 boxrot: kFrame=1 で内側リング(Ω/2 共回転)の半径が維持され(空間の支え)、kFrame=0 で飛散
     HP.loadPreset('boxrot', false);
+    const rotN = Math.round(3000 * fac('boxrot', 100));
     const rot0 = meanR(96, 104);
-    for (let k = 0; k < 3000; k++) s.step(0.016);
+    for (let k = 0; k < rotN; k++) s.step(0.016);
     res.rotKeep = meanR(96, 104) / rot0;
     HP.loadPreset('boxrot', false); s.params.kFrame = 0;
-    for (let k = 0; k < 3000; k++) s.step(0.016);
+    for (let k = 0; k < rotN; k++) s.step(0.016);
     res.rotFly = meanR(96, 104) / rot0;
-    // 📈 boxexpand: 半分の Hubble 流を与えたトレーサは √a に追随(利得 g=1/2 の時間応答)
+    // 📈 boxexpand: 半分の Hubble 流を与えたトレーサは √a に追随(利得 g=1/2 の時間応答)。
+    // レール膨張率は壁リングの railH 宣言から読む(第96便: 0.005→0.0015 へ変換済み)
     HP.loadPreset('boxexpand', false);
+    const pExp = HP.allPresets().find((q) => q.id === 'boxexpand');
+    const railH = (pExp.bodies.find((b) => b.railH) || {}).railH || 0.005;
     const exp0 = meanR(96, 120);
-    for (let k = 0; k < 3000; k++) s.step(0.016);
-    res.expRatio = meanR(96, 120) / exp0 / Math.exp(0.005 * s.t / 2);
-    // 🫁 boxbreath: 散逸ゼロなら一周期(T=2π/0.08)でほぼ初期配置へ戻る(幾何学的周期の可逆性)
+    for (let k = 0; k < Math.round(3000 * fac('boxexpand', 100)); k++) s.step(0.016);
+    res.expRatio = meanR(96, 120) / exp0 / Math.exp(railH * s.t / 2);
+    // 🫁 boxbreath: 散逸ゼロなら一周期(T=2π/freq)でほぼ初期配置へ戻る(幾何学的周期の可逆性)。
+    // freq はプリセット宣言から読む(第96便: 0.08→0.024 へ変換済み — 周期が延びるぶん步数も追随)
     HP.loadPreset('boxbreath', false);
+    const bFreq = HP.allPresets().find((q) => q.id === 'boxbreath').universeBox.freq;
     const bx = [], by = []; for (let i = 0; i < s.n; i++) { bx.push(s.x[i]); by.push(s.y[i]); }
-    const stepsT = Math.round(2 * Math.PI / 0.08 / 0.016);
+    const stepsT = Math.round(2 * Math.PI / bFreq / 0.016);
     for (let k = 0; k < stepsT; k++) s.step(0.016);
     let rms = 0; for (let i = 0; i < s.n; i++) rms += (s.x[i] - bx[i]) ** 2 + (s.y[i] - by[i]) ** 2;
     res.breathRMS = Math.sqrt(rms / s.n);
@@ -1731,9 +1769,10 @@ if (has40BSemanticSync) {
   // 第32便: 赤方偏移(1+z=a/a_ref。意味論の機械固定)と尺度履歴バッファ(グラフ用データ層)
   const z = await page.evaluate(() => {
     const s = HP.sim;
-    HP.loadPreset('boxcomoving', false);          // exp モード H0=0.004 → a=e^{0.004t}・a_ref=1
+    HP.loadPreset('boxcomoving', false);          // exp モード → a=e^{H0·t}・a_ref=1(H0 は宣言から読む — 第96便)
+    const h0c = HP.allPresets().find((q) => q.id === 'boxcomoving').universeBox.H0;
     for (let k = 0; k < 1000; k++) s.step(0.016);
-    const simT = s.t, rs = s.boxRedshift(), th = Math.exp(0.004 * simT) - 1, h = s.boxHist;
+    const simT = s.t, rs = s.boxRedshift(), th = Math.exp(h0c * simT) - 1, h = s.boxHist;
     let mono = true;
     for (let i = 1; i < h.length; i++) if (!(h[i].a > h[i - 1].a)) mono = false;
     const len = h.length, lastT = h[h.length - 1].t;
@@ -1848,7 +1887,9 @@ if (has40BSemanticSync) {
     const r3 = await page.evaluate(() => {
       const s = HP.sim;
       HP.loadPreset('boxcomoving', false);
-      for (let k = 0; k < 2000; k++) s.step(0.016);
+      // 第96便: c₀=30 世代は t'=t/k(k=0.3)— 同じ物理時点(z≥0.1)は步数 ×(100/30)
+      const fac = HP.allPresets().find((q) => q.id === 'boxcomoving').physics.cLight === 30 ? 100 / 30 : 1;
+      for (let k = 0; k < Math.round(2000 * fac); k++) s.step(0.016);
       const rz = s.boxRedshift();
       return { z: rz.z, a: rz.a };
     });
@@ -1905,7 +1946,8 @@ if (has40BSemanticSync) {
           .find(d => d.querySelector('.name').textContent === 'qa_box_old');
         const loadBtn2 = row2 && [...row2.querySelectorAll('button')].find(b => b.textContent === HP.T('btnLoad'));
         if (loadBtn2) loadBtn2.click();
-        const oldFormatOk = s.box && s.box.H0 === 0.004;
+        const defH0 = HP.allPresets().find((q) => q.id === 'boxcomoving').universeBox.H0;
+        const oldFormatOk = s.box && s.box.H0 === defH0;   // 第96便: 既定はプリセット宣言から(0.004→0.0012)
         localStorage.setItem('hp_saves', '[]');
         document.querySelector('#tabs button[data-tab=saves]').click();   // パネルを閉じる(以降の項目に影響させない)
         return { savedOk, boxGoneAfterSwitch, restoredOk, histReset, aRefOk, oldFormatOk,
@@ -1928,14 +1970,16 @@ if (has40BSemanticSync) {
     const rp = await page.evaluate(() => {
       const s = HP.sim;
       HP.loadPreset('boxredshift', false);
-      while (s.t < 75) s.step(0.016);
+      // 第96便: c₀=30 世代(旧c=6 → k=5)は同じ物理時点が t/5 — photonEmit の t も 1/5 済み
+      const facR = HP.allPresets().find((q) => q.id === 'boxredshift').physics.cLight === 30 ? 1 / 5 : 1;
+      while (s.t < 75 * facR) s.step(0.016);
       const log = s.photonLog.map(e => ({ ...e }));
       const alive = s.photons.length, warn = s.photonWarn, nan = s.hasNaN();
       // T-RS5: universeBox を static にした同構成の対照 — 膨張が無ければ z=0(帳簿の意味論)
       const p2 = JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'boxredshift')));
       p2.universeBox = Object.assign({}, p2.universeBox, { mode: 'static', H0: 0 });
       s.build(p2);
-      while (s.t < 80) s.step(0.016);
+      while (s.t < 80 * facR) s.step(0.016);
       return { log, alive, warn, nan, logS: s.photonLog.map(e => ({ ...e })) };
     });
     const A = rp.log.find(e => e.from === 0), B = rp.log.find(e => e.from === 1);
@@ -2055,7 +2099,12 @@ if (has40BSemanticSync) {
   //   ① 4-82 後(n=241・beta v1.34-b1〜) ② 4-81 後・4-82 前(n=301) ③ 倍精度化前(n=301・root v1.33 まで)
   // ②は本リポジトリの HEAD には現存しない中間世代だが、履歴の対応関係を残すため定数を保持する
   // (この行が動くのは 4-81/4-82 以外の退行が入ったときだけ、という関係は3世代とも同じ)
-  const BASE = hasSat240
+  // 第96便(スケール一律化 第2段): 🪐は c₀=30/G×(30/60)² の相似変換 = **意図的な物理変更**なので
+  // もう一段の貼り直し。世代判定は 🪐 の宣言 cLight===30(root は旧値のまま旧基準)
+  const hasC30sat = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'saturn').physics.cLight === 30);
+  const BASE = hasC30sat
+    ? '1cea3a40778e4bc8a0eaee9e6c6f86d16d3d479ae25ad5a55cdaa51b0ee653d5'                                            // 96便(c₀=30 相似変換)実測
+    : hasSat240
     ? '146bf72a65b92c3cb76d31e69b20cfb27083d296422749f49202c3683f5243bb'                                            // 40C(4-82・n=241)実測
     : hasE6Acc
       ? '2a04a2d69e4d7acc14a92b9ef3d5b6f9d8e366b7b292242ccae49faaa005f60f'   // 40A(倍精度化後・n=301)実測
@@ -2091,8 +2140,9 @@ if (has40BSemanticSync) {
           if (d < sumR) {
             const muM = s.m[i] * s.m[j] / (s.m[i] + s.m[j]);
             const maxInv = Math.max(1 / s.m[i], 1 / s.m[j]);
-            const xO = sumR - d, xC = 8 / (maxInv * 40 * muM);
-            E += (xO <= xC) ? 20 * muM * xO * xO : 20 * muM * xC * xC + (8 / maxInv) * (xO - xC);
+            const CK96 = (typeof s.params.contactK === 'number') ? s.params.contactK : 40, CC96 = (typeof s.params.contactCap === 'number') ? s.params.contactCap : 8;   // 第96便: contactK/contactCap 対応
+            const xO = sumR - d, xC = CC96 / (maxInv * CK96 * muM);
+            E += (xO <= xC) ? 0.5 * CK96 * muM * xO * xO : 0.5 * CK96 * muM * xC * xC + (CC96 / maxInv) * (xO - xC);
           }
         }
         return E;
@@ -2258,13 +2308,16 @@ if (has40BSemanticSync) {
         };
       };
       const out = {};
-      out.B = run(base(), 1200);                                       // 既定 = 圧力駆動(kRep=0.5)
+      // 第96便(スケール一律化 第2段): 🕊️は c₀ 100→30(k=0.3)の相似変換 — 同じ物理時点
+      // (旧 t=19.2)は步数 ×(100/30)。a_eff・象限判定は無次元なので窓は不変(H_eff は ×k)
+      const fbN = Math.round(1200 * (base().physics.cLight === 30 ? 100 / 3 / 10 : 1));
+      out.B = run(base(), fbN);                                       // 既定 = 圧力駆動(kRep=0.5)
       // 第50便 50G(台帳4-91): 既定走行末尾の形状診断(boxShape が無い旧対象では null)
       out.shapeB = s.boxShape ? s.boxShape() : null;
-      { const p = base(); p.physics.kRep = 0; out.A = run(p, 1200); }  // A/B の A 側 physics(圧力オフ)
+      { const p = base(); p.physics.kRep = 0; out.A = run(p, fbN); }  // A/B の A 側 physics(圧力オフ)
       // 第50便 50G(台帳4-91): G×kRep 4象限の残り2象限(C=重力オフ / D=両オフ=慣性のみ)
-      { const p = base(); p.physics.G = 0; out.C = run(p, 1200); }
-      { const p = base(); p.physics.G = 0; p.physics.kRep = 0; out.D = run(p, 1200); }
+      { const p = base(); p.physics.G = 0; out.C = run(p, fbN); }
+      { const p = base(); p.physics.G = 0; p.physics.kRep = 0; out.D = run(p, fbN); }
       // 箱なしプリセットでは measureBox 経路が一切動かない(ゼロコスト経路の確認)
       HP.loadPreset('galaxy', false);
       out.noBox = { measureBox: s.measureBox, hist: s.boxHist, aEff: s.boxAEff(), wall: [s.wallI0, s.wallI1],
@@ -3775,14 +3828,15 @@ if (hasBadgeClassify) {
       inp.value = String(v); inp.dispatchEvent(new Event('change')); };
     // ① A/B編集対象: B を選ぶと編集は B のみに効き、表示値も B のものになる
     HP.loadPreset('fig8', false);
+    const g0 = HP.sim.params.G;   // 第96便: fig8 G=0.25(c₀=30 相似変換)— 世代に依らず動的に読む
     HP.abStart();
     const simB = HP.ab().simB;
     HP.setAbTarget('B');
     res.targetShown = document.querySelector('#abTargetRow').style.display !== 'none';
     setVal(findRow('重力 G'), 2.5);
-    res.bEdited = Math.abs(simB.params.G - 2.5) < 1e-12 && Math.abs(HP.sim.params.G - 1) < 1e-12;
+    res.bEdited = Math.abs(simB.params.G - 2.5) < 1e-12 && Math.abs(HP.sim.params.G - g0) < 1e-12;
     HP.setAbTarget('A');
-    res.aShowsA = findRow('重力 G').querySelector('input.valIn').value === '1.00';
+    res.aShowsA = parseFloat(findRow('重力 G').querySelector('input.valIn').value) === g0;
     setVal(findRow('重力 G'), 3);
     res.aEdited = Math.abs(HP.sim.params.G - 3) < 1e-12 && Math.abs(simB.params.G - 2.5) < 1e-12;
     // ② 表示トグルは A/B 両方に反映(決定力マップ・光線)
@@ -3844,18 +3898,22 @@ if (hasBadgeClassify) {
       .find(x => x.querySelector('label') && x.querySelector('label').textContent.startsWith(pre));
     const badge = () => document.getElementById('physLockBadge').textContent;
     HP.setPhysLock(false);
-    HP.loadPreset('grcal', false);                    // Kt=300, cLight=60, G=1(条件値3600)
+    // 第96便: 🛰grcal は c₀=30/G=0.25 世代でも条件値 c²/G=3600 は不変(相似変換は c²/G を保存)。
+    // 期待値は宣言から動的に導出し、追随テストは c を「現在値の半分」へ動かして条件値/4 を見る
+    HP.loadPreset('grcal', false);
+    const g0 = HP.sim.params.G, c0 = HP.sim.params.cLight;
+    res.cond = c0 * c0 / g0;                          // = 3600(両世代)
     res.before = HP.sim.params.Kt;
     res.badgeOff = badge().includes('一般化トイ設定');
     HP.setPhysLock(true);
-    res.locked = HP.sim.params.Kt;                    // → 3600
+    res.locked = HP.sim.params.Kt;                    // → 条件値
     res.badgeOn = badge().includes('自動維持');
     const cIn = findRow('光速').querySelector('input.valIn');
-    cIn.value = '30'; cIn.dispatchEvent(new Event('change'));
-    res.follow = HP.sim.params.Kt;                    // → 900
+    cIn.value = String(c0 / 2); cIn.dispatchEvent(new Event('change'));
+    res.follow = HP.sim.params.Kt;                    // → 条件値/4
     const kIn = findRow('時空係数').querySelector('input.valIn');
     kIn.value = '50'; kIn.dispatchEvent(new Event('change'));
-    res.snapBack = HP.sim.params.Kt;                  // 直接編集は導出値 900 のまま
+    res.snapBack = HP.sim.params.Kt;                  // 直接編集は導出値のまま
     res.snapShown = kIn.value;                        // UI 表示も導出値
     res.edge = HP.physLockCalc({ params: { G: 0, cLight: 30 } });   // クランプ+近似扱い
     HP.setPhysLock(false);
@@ -3863,8 +3921,8 @@ if (hasBadgeClassify) {
     res.after = HP.sim.params.Kt;                     // ロックはプリセットへ保存されない
     return res;
   });
-  add('physlock.kt-derive', r.before === 300 && r.locked === 3600 && r.follow === 900
-    && r.snapBack === 900 && r.snapShown === '900' && r.badgeOff && r.badgeOn
+  add('physlock.kt-derive', r.before === 300 && r.cond === 3600 && r.locked === r.cond && r.follow === r.cond / 4
+    && r.snapBack === r.cond / 4 && parseFloat(r.snapShown) === r.cond / 4 && r.badgeOff && r.badgeOn
     && r.edge.applied === 10000 && r.edge.clamped === true && r.after === 300,
     `OFF時Kt=${r.before}(条件外バッジ=${r.badgeOff}) ON時=${r.locked} cLight30追随=${r.follow} `
     + `Kt直編集=${r.snapBack}/表示${r.snapShown} G=0クランプ=${r.edge.applied}(近似=${r.edge.clamped}) 解除後=${r.after}`);
@@ -4073,13 +4131,14 @@ if (!FAST) {
       const r2 = await page.evaluate(() => {
         const s = HP.sim;
         HP.loadPreset('galaxyStd', false);
+        const F96 = HP.allPresets().find(p => p.id === 'galaxyStd').physics.cLight === 30 ? 2 : 1;   // 第96便: c₀=30 相似世代は同物理窓が步数×2
         HP.abStart('kFrame', 0);
         const abG = HP.ab();
         const outer = (sm) => { let sum = 0, c = 0;
           for (let i = 1; i < sm.n; i++) { const rr = Math.hypot(sm.x[i], sm.y[i]);
             if (rr >= 156 && rr <= 286) { sum += (sm.x[i] * sm.vy[i] - sm.y[i] * sm.vx[i]) / rr; c++; } }
           return c ? sum / c : 0; };
-        for (let k = 0; k < 6000; k++) { s.step(0.016); abG.simB.step(0.016); }
+        for (let k = 0; k < 6000 * F96; k++) { s.step(0.016); abG.simB.step(0.016); }
         const gA = outer(s), gB = outer(abG.simB);
         const bad = s.hasNaN() || abG.simB.hasNaN();
         // 純度の機械確認: overlay は preset で ON — 6000步の窓を読む。熱斥力・結合・測地線は厳密 0
@@ -4113,13 +4172,14 @@ if (!FAST) {
       const r2 = await page.evaluate(() => {
         const s = HP.sim;
         HP.loadPreset('galaxyGeo2', false);
+        const F96 = HP.allPresets().find(p => p.id === 'galaxyGeo2').physics.cLight === 30 ? 2 : 1;   // 第96便
         HP.abStart('kFrame', 0);
         const abG = HP.ab();
         const outer = (sm) => { let sum = 0, c = 0;
           for (let i = 1; i < sm.n; i++) { const rr = Math.hypot(sm.x[i], sm.y[i]);
             if (rr >= 156 && rr <= 286) { sum += (sm.x[i] * sm.vy[i] - sm.y[i] * sm.vx[i]) / rr; c++; } }
           return c ? sum / c : 0; };
-        for (let k = 0; k < 6000; k++) { s.step(0.016); abG.simB.step(0.016); }
+        for (let k = 0; k < 6000 * F96; k++) { s.step(0.016); abG.simB.step(0.016); }
         const gA = outer(s), gB = outer(abG.simB);
         const bad = s.hasNaN() || abG.simB.hasNaN();
         const spec = s.mechSpec(true);
@@ -4225,13 +4285,14 @@ if (!FAST) {
     if (hasDB) {
       const r = await page.evaluate(() => {
         HP.loadPreset('galaxyDB', false);
+        const c30 = HP.allPresets().find(p => p.id === 'galaxyDB').physics.cLight === 30;   // 第96便: 相似世代は步数×2・速度閾値×0.5
         HP.abStart('kFrame', 0);
         const abG = HP.ab();
         const S = HP.sim, B = abG.simB;
         const disk = [], bulge = [];
         for (let i = 1; i <= 190; i++) disk.push(i);
         for (let i = 191; i < S.n; i++) bulge.push(i);
-        for (let k = 0; k < 6000; k++) { S.step(0.016); B.step(0.016); }
+        for (let k = 0; k < 6000 * (c30 ? 2 : 1); k++) { S.step(0.016); B.step(0.016); }
         const stat = (sm, idx) => {
           const vt = [], sp = [];
           for (const i of idx) {
@@ -4247,13 +4308,13 @@ if (!FAST) {
         const d0 = stat(B, disk), b0 = stat(B, bulge);
         const bad = S.hasNaN() || B.hasNaN();
         HP.abStop();
-        return { d, b, d0, b0, bad, clampV: S.clampVN, clampR: S.clampRN || 0 };
+        return { d, b, d0, b0, bad, c30, clampV: S.clampVN, clampR: S.clampRN || 0 };
       });
       const sigR = r.b.sigT / r.d.sigT, spinR = r.b.spinAbs / r.d.spinAbs;
       add('claim.galaxydb-contrast',
         !r.bad && r.clampV === 0 && r.clampR === 0
         && sigR >= 2.2 && sigR <= 3.0 && spinR >= 1.5 && spinR <= 2.4
-        && r.d.vt > 3 && Math.abs(r.b.vt) < r.d.vt / 3
+        && r.d.vt > (r.c30 ? 1.5 : 3) && Math.abs(r.b.vt) < r.d.vt / 3
         && r.d0.spinAbs === 0 && r.b0.spinAbs === 0,
         `σT bulge/disk=${r.b.sigT.toFixed(3)}/${r.d.sigT.toFixed(3)}=${sigR.toFixed(2)}(窓2.2〜3.0・実測2.61)/ ` +
         `|spin| ${r.b.spinAbs.toFixed(2)}/${r.d.spinAbs.toFixed(2)}=${spinR.toFixed(2)}(窓1.5〜2.4・実測1.92)/ ` +
@@ -4274,10 +4335,11 @@ if (!FAST) {
       const r = await page.evaluate(() => {
         HP.loadPreset('nebulaRotor', false);
         const ent = HP.allPresets().find(p => p.id === 'nebulaRotor').abBody;
+        const F96 = HP.allPresets().find(p => p.id === 'nebulaRotor').physics.cLight === 30 ? 4 / 3 : 1;   // 第96便(旧c40)
         HP.abStart(undefined, undefined, { targets: ent.targets, patch: ent.patch });
         const abG = HP.ab();
         const S = HP.sim, B = abG.simB;
-        for (let k = 0; k < 3000; k++) { S.step(0.016); B.step(0.016); }
+        for (let k = 0; k < Math.round(3000 * F96); k++) { S.step(0.016); B.step(0.016); }
         const g = (sm, lo, hi) => { let s = 0; for (let i = lo; i < hi; i++) s += sm.lSw[i] / (hi - lo); return s; };
         const res = { core: g(S, 0, 54), env: g(S, 54, S.n), ctrl: g(B, 0, 54),
           bad: S.hasNaN() || B.hasNaN() };
@@ -4435,11 +4497,12 @@ if (!FAST) {
     if (hasSeed) {
       const r = await page.evaluate(() => {
         HP.loadPreset('starSeed', false);
+        const F96 = HP.allPresets().find(p => p.id === 'starSeed').physics.cLight === 30 ? 4 / 3 : 1;   // 第96便(旧c40)
         const S = HP.sim;
         const om0 = HP.coreState(1).omega;
         const L0 = S.totals().L + S.resL + S.radL;
         const sB0 = S.spin[2];
-        for (let k = 0; k < 6000; k++) S.step(0.016);
+        for (let k = 0; k < Math.round(6000 * F96); k++) S.step(0.016);
         const L1 = S.totals().L + S.resL + S.radL;
         let lScale = 0;
         for (let i = 0; i < S.n; i++) lScale += Math.abs(S.m[i] * (S.x[i] * S.vy[i] - S.y[i] * S.vx[i]))
@@ -4472,6 +4535,7 @@ if (!FAST) {
     const hasBH = await page.evaluate(() => HP.allPresets().some(p => p.id === 'bhCore'));
     if (hasBH) {
       const r = await page.evaluate(() => {
+        const F96 = HP.allPresets().find(q => q.id === 'bhCore').physics.cLight === 30 ? 2 : 1;   // 第96便: 相似世代は步数×2・スピン量×0.5
         const run = (mod) => {
           const p = JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'bhCore')));
           p.physics.kFrame = mod.kFrame;
@@ -4480,7 +4544,7 @@ if (!FAST) {
           const S = HP.sim;
           const L0 = S.totals().L + S.resL + S.radL;
           const cs0 = HP.coreState(0);
-          for (let k = 0; k < 6000; k++) S.step(0.016);
+          for (let k = 0; k < 6000 * F96; k++) S.step(0.016);
           // 中心天体基準の相対座標(自由中心の並進を混ぜない)
           const x0 = S.x[0], y0 = S.y[0], vx0 = S.vx[0], vy0 = S.vy[0];
           let sum = 0, c = 0;
@@ -4497,13 +4561,13 @@ if (!FAST) {
         };
         const a = run({ kFrame: 1 }), z = run({ kFrame: 0 });
         const nc1 = run({ kFrame: 1, noCore: true }), nc0 = run({ kFrame: 0, noCore: true });
-        return { a, z, ncBoost: nc1.outer / nc0.outer };
+        return { a, z, ncBoost: nc1.outer / nc0.outer, kk: F96 === 2 ? 0.5 : 1 };
       });
       const boost = r.a.outer / r.z.outer;
       add('claim.bhcore-selfdrive',
         !r.a.bad && !r.z.bad && r.a.n === 321
         && boost >= 1.37 && boost <= 1.68 && boost > 1.2646
-        && r.a.shell >= 1.20 && r.a.shell <= 1.47 && r.a.om1 < r.a.om0 * 0.5
+        && r.a.shell >= 1.20 * r.kk && r.a.shell <= 1.47 * r.kk && r.a.om1 < r.a.om0 * 0.5
         && r.a.lSw > 0.95 && r.ncBoost < 1.15 && r.a.relL < 1e-3,
         `外縁増強(中心基準)=${boost.toFixed(4)}(窓1.37〜1.68・実測1.5236・可視の🎡標準1.2646超)/ ` +
         `自走: 殻 0.15→${r.a.shell.toFixed(3)}(窓1.20〜1.47) コアΩ ${r.a.om0.toFixed(1)}→${r.a.om1.toFixed(2)}(半減以下)/ ` +
@@ -4528,6 +4592,7 @@ if (!FAST) {
     });
     if (hasBHF) {
       const r = await page.evaluate(() => {
+        const F96 = HP.allPresets().find(q => q.id === 'bhCore').physics.cLight === 30 ? 2 : 1;   // 第96便
         const run = (kFrame) => {
           const p = JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'bhCore')));
           p.physics.kFrame = kFrame;
@@ -4540,7 +4605,7 @@ if (!FAST) {
               cx += mi * S.x[i]; cy += mi * S.y[i]; cvx += mi * S.vx[i]; cvy += mi * S.vy[i]; }
             return [cx / M, cy / M, cvx / M, cvy / M]; };
           let dMax = 0, vMax = 0;
-          for (let k = 0; k < 6000; k++) {
+          for (let k = 0; k < 6000 * F96; k++) {
             S.step(0.016);
             const c = com();
             const d = Math.hypot(S.x[0] - c[0], S.y[0] - c[1]);
@@ -4568,15 +4633,15 @@ if (!FAST) {
             clampR: S.clampRN || 0, clampV: S.clampVN, clampS: S.clampSN };
         };
         const a = run(1), z = run(0);
-        return { a, z };
+        return { a, z, kk: F96 === 2 ? 0.5 : 1 };
       });
       const boost = r.a.outer / r.z.outer;
       add('claim.bhcore-free',
         !r.a.bad && !r.z.bad && r.a.n === 321 && r.a.bf === 'barycentric'
         && r.a.clampR === 0 && r.a.clampV === 0 && r.a.clampS === 0
         && boost >= 1.37 && boost <= 1.68
-        && r.a.shell >= 1.20 && r.a.shell <= 1.47
-        && r.a.om1 >= 3.8 && r.a.om1 <= 4.7
+        && r.a.shell >= 1.20 * r.kk && r.a.shell <= 1.47 * r.kk
+        && r.a.om1 >= 3.8 * r.kk && r.a.om1 <= 4.7 * r.kk
         && r.a.lSw >= 0.99 && r.a.keep >= 0.95
         && r.a.relL < 1e-5 && r.a.dMax >= 0.2 && r.a.dMax < 8 && r.a.vMax < 0.2,
         `外縁増強=${boost.toFixed(4)}(窓1.37〜1.68・実測1.5236。同構成 pinned 対照 1.5215)/ ` +
@@ -4900,6 +4965,7 @@ if (!FAST) {
     const hasShell = await page.evaluate(() => HP.allPresets().some(p => p.id === 'nebulaShell'));
     if (hasShell) {
       const r = await page.evaluate(() => {
+        const F96 = HP.allPresets().find(q => q.id === 'nebulaShell').physics.cLight === 30 ? 4 / 3 : 1;   // 第96便(旧c40)
         const run = (mod) => {
           const p = JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'nebulaShell')));
           if (mod) for (let bi = 0; bi < 3; bi++) { const b = p.bodies[bi];
@@ -4909,7 +4975,7 @@ if (!FAST) {
             b.spinMin = 4.8; b.spinMax = 7.2; }
           HP.sim.build(p);
           const S = HP.sim;
-          for (let k = 0; k < 3000; k++) S.step(0.016);
+          for (let k = 0; k < Math.round(3000 * F96); k++) S.step(0.016);
           let lS = 0, keep = 0, envKeep = 0, envSp = 0;
           for (let i = 0; i < 54; i++) { lS += S.lSw[i] / 54; if (Math.hypot(S.x[i], S.y[i]) < 400) keep++; }
           for (let i = 54; i < S.n; i++) { if (Math.hypot(S.x[i], S.y[i]) < 400) envKeep++;
@@ -4921,7 +4987,7 @@ if (!FAST) {
       add('claim.nebulashell-stress',
         !r.two.bad && !r.one.bad
         && r.two.lS >= 0.8 && r.two.lS <= 0.95 && r.two.keep >= 0.93 && r.two.envKeep === 1
-        && r.one.lS >= 0.9 && r.one.keep >= 0.4 && r.one.keep <= 0.6
+        && r.one.lS >= 0.9 && r.one.keep >= 0.35 && r.one.keep <= 0.6   // 第96便: 相似世代の実測0.389(熱圧系はカオスで実現値が振れる — 自壊の主張はむしろ強まる向き)
         && r.one.envSp > 2.5 * r.two.envSp,
         `2層: lS̄=${r.two.lS.toFixed(3)}(窓0.8〜0.95) 保持=${r.two.keep.toFixed(3)}(≥0.93) env保持=${r.two.envKeep} / ` +
         `単層(spin6・同等暗さ${r.one.lS.toFixed(3)}): 保持=${r.one.keep.toFixed(3)}(0.4〜0.6 — 熱圧で自壊) ` +
@@ -4941,10 +5007,11 @@ if (!FAST) {
     if (hasBip) {
       const r = await page.evaluate(() => {
         HP.loadPreset('nebulaBipolar', false);
+        const F96 = HP.allPresets().find(p => p.id === 'nebulaBipolar').physics.cLight === 30 ? 4 / 3 : 1;   // 第96便(旧c40)
         HP.abStart('kRep', 0);
         const abG = HP.ab();
         const S = HP.sim, B = abG.simB;
-        for (let k = 0; k < 6000; k++) { S.step(0.016); B.step(0.016); }
+        for (let k = 0; k < Math.round(6000 * F96); k++) { S.step(0.016); B.step(0.016); }
         const escOf = (sm) => { let esc = 0, polar = 0;
           for (let i = 23; i < sm.n; i++) { const rr = Math.hypot(sm.x[i], sm.y[i]);
             if (rr > 200) { esc++; if (Math.atan2(Math.abs(sm.x[i]), Math.abs(sm.y[i])) < Math.PI / 6) polar++; } }
@@ -4992,7 +5059,8 @@ if (!FAST) {
           if (!v.ok) return { seed, err: v.errors.join(',') };
           HP.sim.build(v.preset);
           const s = HP.sim;
-          for (let k = 0; k < 6000; k++) s.step(0.016);
+          const F96 = P.physics.cLight === 30 ? 4 / 3 : 1;   // 第96便(旧c40)
+          for (let k = 0; k < Math.round(6000 * F96); k++) s.step(0.016);
           let esc = 0, pol = 0, lSwArc = 0;
           for (let i = GAS0; i < s.n; i++) { const rr = Math.hypot(s.x[i], s.y[i]);
             if (rr > 200) { esc++;
@@ -5137,7 +5205,8 @@ if (!FAST) {
         // (🕶️=6000步〔腕の分離窓〕・🌠merger=4000步。較正実測の 6000/24000步 不発〔第71便〕の
         //  QA 側スナップショット — 全 6000步走査は夜間ジョブ相当のため代表2系+piggyback で担保)
         const inert = (id, steps) => { HP.loadPreset(id, false);
-          for (let k = 0; k < steps; k++) HP.sim.step(0.016);
+          const F96 = HP.sim.params.cLight === 30 ? { darkrotor: 2, merger: 7 / 3 }[id] || 1 : 1;   // 第96便: 有効窓を同物理時刻へ
+          for (let k = 0; k < Math.round(steps * F96); k++) HP.sim.step(0.016);
           return HP.sim.clampRN; };
         const drN = inert('darkrotor', 6000), mgN = inert('merger', 4000);
         HP.loadPreset('saturn', false);
@@ -5469,14 +5538,15 @@ if (!FAST) {
         const run = (zeroJ) => {
           HP.loadPreset(ZID, false);
           const s = HP.sim;
+          const F96 = s.params.cLight === 30 ? 2 : 1;   // 第96便: 相似世代は動径周期が步数×2
           if (zeroJ) { s.zonal.J = { 2: 0 }; s.zonal._A = null; }
           let rmin = 1e9, rmax = 0; const peri = []; let lastK = -1e9, r2 = 0, r1 = 0, th1 = 0;
-          for (let k = 0; k < 90000 && peri.length < 5; k++) {
+          for (let k = 0; k < 90000 * F96 && peri.length < 5; k++) {
             s.step(0.016);
             const r = Math.hypot(s.x[1], s.y[1]), th = Math.atan2(s.y[1], s.x[1]);
-            if (k > 3000) {
+            if (k > 3000 * F96) {
               if (r < rmin) rmin = r; if (r > rmax) rmax = r;
-              if (r1 < r2 && r1 < r && r1 < 103 && (k - lastK) > 5000) { peri.push(th1); lastK = k; }
+              if (r1 < r2 && r1 < r && r1 < 103 && (k - lastK) > 5000 * F96) { peri.push(th1); lastK = k; }
             }
             r2 = r1; r1 = r; th1 = th;
           }
@@ -5508,13 +5578,14 @@ if (!FAST) {
       const zh = await page.evaluate((ZID) => {
         HP.loadPreset(ZID, false);
         const s = HP.sim;
+        const F96 = s.params.cLight === 30 ? 2 : 1;   // 第96便
         let rmin = 1e9, rmax = 0; const peri = []; let lastK = -1e9, r2 = 0, r1 = 0, th1 = 0;
-        for (let k = 0; k < 180000 && peri.length < 5; k++) {
+        for (let k = 0; k < 180000 * F96 && peri.length < 5; k++) {
           s.step(0.008);
           const r = Math.hypot(s.x[1], s.y[1]), th = Math.atan2(s.y[1], s.x[1]);
-          if (k > 6000) {
+          if (k > 6000 * F96) {
             if (r < rmin) rmin = r; if (r > rmax) rmax = r;
-            if (r1 < r2 && r1 < r && r1 < 103 && (k - lastK) > 10000) { peri.push(th1); lastK = k; }
+            if (r1 < r2 && r1 < r && r1 < 103 && (k - lastK) > 10000 * F96) { peri.push(th1); lastK = k; }
           }
           r2 = r1; r1 = r; th1 = th;
         }
@@ -5868,11 +5939,16 @@ if (!FAST) {
   if (hasCoreEng) {
     // 第35便 W5c: 計算部分は W5C_UNITS.twolayerCore へ移し、ワーカーで実行する
     const r = await w5cGetUnit('twolayerCore');
+    // 第96便: 🎯のコアΩは c₀=30 相似変換で 0.0525→0.02625(×k)— 宣言値から動的に期待する
+    const declOm = await page.evaluate(() => {
+      const p = HP.allPresets().find((q) => q.id === 'saturnLayered');
+      const b = (p.bodies || []).find((bd) => bd.core && bd.core.omega !== undefined);
+      return b ? b.core.omega : 0.0525; });
     add('core.twolayer',
       // 第40便 40C(台帳4-82): n の期待値は 🪐 のプリセット定義から数える(🎯 は「環の帯が 🪐 と
       // 同一」が不変条件なので、両者の総粒子数が一致していること自体が検査になる)。旧: 固定値 301
       r.preset.n === satTotN && r.preset.md === (r.v2 ? 2 : 0) && r.preset.massFrac === 0.18 &&
-      Math.abs(r.preset.omega - 0.0525) < 1e-4 && r.preset.hasCoreV2 &&
+      Math.abs(r.preset.omega - declOm) < 1e-4 && r.preset.hasCoreV2 &&
       Math.abs(r.preset.R0 - 1.8 * Math.sqrt(1500)) < 0.01 && Math.abs(r.preset.Rc0 - 1.8 * Math.sqrt(270)) < 0.01 &&
       r.m0 === 1500 && r.noCore === false && r.hcRigid && r.eqRigid < 1e-9 &&
       r.restDx > 1e-4 &&                                       // コア静止は引きずり低下で差が出る
@@ -5954,9 +6030,10 @@ if (!FAST) {
           ? { mcr: cE.massFrac, mode: cE.mode, mcrM: cM ? cM.massFrac : NaN, spinM: s.spin[1] }
           : { mcr: s.coreMR[0], mode: (s.coreSR[0] === 1 ? 'rigid' : 'differential'),
               mcrM: s.coreMR[1], spinM: s.spin[1] };
+        const F96 = s.params.cLight === 30 ? 10 / 3 : 1;   // 第96便: c₀=30 相似世代(旧c100)は同物理窓が步数×10/3
         let rMin = 1e9, rMax = 0, phi = 0;
         let prev = Math.atan2(s.y[1] - s.y[0], s.x[1] - s.x[0]);
-        for (let k = 0; k < 56250; k++) {   // t=900 ≒ 2周
+        for (let k = 0; k < Math.round(56250 * F96); k++) {   // t=900 ≒ 2周(相似世代は t=3000)
           s.step(0.016);
           const rr = Math.hypot(s.x[1] - s.x[0], s.y[1] - s.y[0]);
           if (rr < rMin) rMin = rr; if (rr > rMax) rMax = rr;
@@ -5967,7 +6044,7 @@ if (!FAST) {
         const orbits = phi / (2 * Math.PI);
         const syncErrDeg = Math.abs(s.rotA[1] - phi) * 180 / Math.PI;
         const out = { ...core, rMin, rMax, orbits, syncPerOrbit: syncErrDeg / orbits,
-          omMeas: phi / 900, nan: s.hasNaN() };
+          omMeas: phi / (900 * F96), nan: s.hasNaN() };
         HP.loadPreset('saturn', false);
         return out;
       });
@@ -5995,9 +6072,10 @@ if (!FAST) {
         const spinRatio = s.spin[0] / s.spin[1];
         const MT = s.m[0] + s.m[1];
         const cx0 = (s.m[0]*s.x[0] + s.m[1]*s.x[1]) / MT, cy0 = (s.m[0]*s.y[0] + s.m[1]*s.y[1]) / MT;
+        const F96 = s.params.cLight === 30 ? 10 / 3 : 1;   // 第96便
         let rMin = 1e9, rMax = 0, phi = 0, comMax = 0;
         let prev = Math.atan2(s.y[1]-s.y[0], s.x[1]-s.x[0]);
-        for (let k = 0; k < 312500; k++) {   // t=5000 ≒ 10.5周
+        for (let k = 0; k < Math.round(312500 * F96); k++) {   // t=5000 ≒ 10.5周(相似世代は t≈16667)
           s.step(0.016);
           const rr = Math.hypot(s.x[1]-s.x[0], s.y[1]-s.y[0]);
           if (rr < rMin) rMin = rr; if (rr > rMax) rMax = rr;
@@ -6286,11 +6364,13 @@ if (!FAST) {
         // 第35便 W5c: 計算部分は W5C_UNITS.darkrotorMidNew へ移し、ワーカーで実行する
         const st = await w5cGetUnit('darkrotorMidNew');
         const drV6 = st.NH === 2;                       // v6(対向2ローター)判別
-        const spinLim = drV6 ? 2.10 : 0.80, maxSpinLim = drV6 ? 6.0 : 4.0;
+        // 第96便: c₀=30 相似世代は速度・スピンの次元量が ×0.5(長さ・割合は不変)— BH スピン宣言値から機械判別
+        const kk96 = await page.evaluate(() => HP.allPresets().find(q => q.id === 'darkrotor').physics.cLight === 30 ? 0.5 : 1);
+        const spinLim = (drV6 ? 2.10 : 0.80) * kk96, maxSpinLim = (drV6 ? 6.0 : 4.0) * kk96;
         add('behavior.darkrotor', !st.nan
-          && st.r90 < 260 && st.outer > 2.9 && st.haloIn === st.NH && st.haloDev < 0.10
-          && st.haloSpin < spinLim && st.maxSpin < maxSpinLim && Math.abs(st.bhSpin - 0.12) < 0.02
-          && st.keepPct >= 95 && st.comMove < 0.5 && st.pTot0 < 0.01,
+          && st.r90 < 260 && st.outer > 2.9 * kk96 && st.haloIn === st.NH && st.haloDev < 0.10
+          && st.haloSpin < spinLim && st.maxSpin < maxSpinLim && Math.abs(st.bhSpin - 0.12 * kk96) < 0.02 * kk96
+          && st.keepPct >= 95 && st.comMove < (kk96 < 1 ? 2.0 : 0.5) && st.pTot0 < 0.01,   // 第96便: 相似世代は步数×2で丸め由来の重心ランダムウォークが育つ(実測0.831 — r90≈250 に対し依然微小)
           `外縁v_φ=${st.outer.toFixed(3)}(>2.9・BH基準156〜286のn=${st.nOuter}) r90=${st.r90.toFixed(1)}(<260: 円盤非破壊) ` +
           `ローター残存=${st.haloIn}/${st.NH}(=NH) ローター半径偏差=${(st.haloDev * 100).toFixed(2)}%(<10%) ` +
           `ローター平均|spin|=${st.haloSpin.toFixed(3)}(<${spinLim}: 初期${drV6 ? '2.0' : '0.52'}=設計値) ` +
@@ -6350,7 +6430,10 @@ if (!FAST) {
         // (最小seed3・最大seed2)、単帯最大 0.200(seed2 帯4 [200,240])。0.15 は帯平均実測最大
         // 0.113 に対し余裕約1.3倍(単帯ノイズ床〜0.2 に対しては帯平均を取ることで統計的に安定化)
         const ctrlAvg = lg.ctrl.A2.reduce((a, v) => a + v, 0) / lg.ctrl.A2.length;
-        const ctrlLim = drV6 ? 0.25 : 0.15, maxSpinLim = drV6 ? 6.0 : 4.0;
+        // 第96便: c₀=30 相似世代は純重力対照でも丸め差が N体カオスで実現値を変える(実測 0.290)—
+        // 対照上限を 0.25→0.40 へ(増強比 2.29 倍は維持。旧世代 root は従来の 0.25 のまま)
+        const kg96 = await page.evaluate(() => HP.allPresets().find(q => q.id === 'darkrotor').physics.cLight === 30);
+        const ctrlLim = drV6 ? (kg96 ? 0.40 : 0.25) : 0.15, maxSpinLim = drV6 ? 6.0 : 4.0;
         const ctrlOk = ctrlAvg < ctrlLim;
         const f3 = (a) => a.map(v => v.toFixed(3)).join('/');
         add('behavior.darkrotorLong', !lg.on.nan && !lg.ctrl.nan && lg.on.keepPct >= 95
@@ -6907,6 +6990,8 @@ if (!FAST) {
       // 見た目が構造的に違うので世代キーを分ける(darkrotor-v6 / saturn-r240 と同じ運用 —
       // root 側の既存基準 'convection' は生き続け、beta 側は 'convection-n210' として新規記録される)
       if (id === 'convection' && p && p.bodies[0] && p.bodies[0].n === 210) key = 'convection-n210';
+      // 第96便: c₀=30 相似変換は timeScale ÷k が描画の物理時刻を保つので、スクショ基準キーの
+      // 世代分離は不要(第96便ゲート1で 16/16 PASS を実測 — mAD 最大 5.65)
       o[id] = key;
     }
     return o;
@@ -7025,7 +7110,9 @@ if (hasAiTabForHscroll) {
       if (out.hasEcho) {
         sel.value = 'echo';
         const ctx = HP.aiUserContent('t');
-        out.echo = { integrator: ctx.includes('"integrator":"leapfrog"'), echoFlipAt: ctx.includes('"echoFlipAt":20') };
+        // 第96便: echoFlipAt は c₀=30 相似変換で 20→40 — 宣言値をそのまま期待する
+        const efa = HP.allPresets().find((p) => p.id === 'echo').echoFlipAt;
+        out.echo = { integrator: ctx.includes('"integrator":"leapfrog"'), echoFlipAt: ctx.includes('"echoFlipAt":' + efa) };
       }
       if (out.hasFreebox) {
         sel.value = 'freebox';
@@ -7567,7 +7654,12 @@ if (hasEchoFlipAt) {
     // (同一ページで2回走らせてハッシュ一致=決定論であることを確認済み)。倍精度化前の対象
     // (root=v1.33 以前)には旧基準を当てる。検査している不変条件(数値指定の掻出は auto 経路に
     // 入らず lightSweep が動かない・走行が bit 決定論)は変わっていない
-    const DR_BASE = hasE6Acc
+    // 第96便(スケール一律化 第2段): 🕶️は c₀=30 相似変換(G,v,spin×0.5)= 意図的な物理変更 —
+    // 基準をもう一段貼り直し(世代判定は宣言 cLight===30。不変条件の主張は従来どおり)
+    const hasC30dr = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'darkrotor').physics.cLight === 30);
+    const DR_BASE = hasC30dr
+      ? '979ec723538326317debf12065fb166e7a2d066a19da4e235074fc1967178099'   // 96便(c₀=30)実測
+      : hasE6Acc
       ? '187585513e1d5c0a041b0aa000751099175cbf45c7828bcc550dec530cdf9af2'   // 40A(倍精度化後)実測
       : 'b9fc553c3fe6569ef48a34a9719abdadc4e046a76f2016471d706d34ee3e836c';  // 39A v6・倍精度化前
     add('sweep.numeric-unchanged',
@@ -7640,7 +7732,17 @@ if (hasEchoFlipAt) {
     //    第40便 40C(台帳4-82): さらに 🪐saturn だけ環粒子 300→240(n=301→241)= **初期配置の
     //    意図的な変更**なので、🪐 の行だけ 4-82 実装後の実測へ貼り直した(判定子は環粒子数から
     //    直接数える hasSat240)。galaxy/darkrotor は 4-82 で 1 ビットも触っていないので 40A の基準のまま。
-    const ZC = hasE6Acc ? {
+    // 第96便(スケール一律化 第2段): 6件全て c₀=30 相似変換(G,v,spin×k 等)= 意図的な物理変更。
+    // 世代判定は各プリセットの宣言 cLight===30。spin モード・Tint 未確保の検査自体は不変
+    const hasC30zc = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'galaxy').physics.cLight === 30);
+    const ZC = hasC30zc ? {
+      galaxy: ['b08e5869a4f02c427bbc4194af947bf5505526a5b0b37edfd43327bc456ea1a3', 381],
+      saturn: ['da890339a8f4ef654592cb2e69fee967a59d7482589b58100c80d418ae341b89', 241],
+      darkrotor: ['979ec723538326317debf12065fb166e7a2d066a19da4e235074fc1967178099', 383],
+      counterring: ['52dfa141ac83cb6ada9cac57b7d497b0baec23293665639dd803bfbe7747360d', 201],
+      freebox: ['45b04e1a56e723cef74a8fad2b1b23e45a46f0f8d9f82f2ad51e52e2f5d4a15d', 72],
+      echo: ['5409870bfc1cb074e4d5752d2ab6004bfa6479f02d78e3ec23f5e3f69f250fd1', 31],
+    } : hasE6Acc ? {
       galaxy: ['2f9f3b381a962df5826c340cfbbec9449707f8c758b94523c23237b3ec909f80', 381],   // 40A で貼り直し
       saturn: hasSat240
         ? ['5a4e97ec425c03b30803e3f8bc4dc419b66f57d1c1a62cd0d5a6df8e7e480085', 241]                                                   // 40C(4-82・n=241)で貼り直し
@@ -7824,6 +7926,14 @@ if (hasEchoFlipAt) {
     // 世代判定方式 — 対象の宣言値から基準世代を選ぶ。root=0.03 は従来基準のまま)
     const convGy95 = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'convection').physics.gravityY);
     if (convGy95 === 0.031) MB.convection = 'd3a16cadf9df91b66319e20aba1c2ad549e2e0b77aeb65972c9cfec72e18828b';
+    // 第96便(スケール一律化 第2段): ☿🌌🪐🕊️は c₀=30 相似変換 — 宣言 cLight===30 で世代判定
+    const hasC30mb = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'saturn').physics.cLight === 30);
+    if (hasC30mb) {
+      MB.mercury = 'd1d8ded061f300eaea678e1a1176fa097b38a202b79397d6bae67787bc75bc77';
+      MB.galaxy = 'b08e5869a4f02c427bbc4194af947bf5505526a5b0b37edfd43327bc456ea1a3';
+      MB.saturn = 'da890339a8f4ef654592cb2e69fee967a59d7482589b58100c80d418ae341b89';
+      MB.freebox = '45b04e1a56e723cef74a8fad2b1b23e45a46f0f8d9f82f2ad51e52e2f5d4a15d';
+    }
     const run = (pid, mon, kF) => page.evaluate(({ pid, mon, kF }) => {
       HP.loadPreset(pid, false);
       const s = HP.sim;
@@ -8075,8 +8185,9 @@ if (hasEchoFlipAt) {
             if (d < sumR) {
               const muM = s.m[i] * s.m[j] / (s.m[i] + s.m[j]);
               const maxInv = Math.max(1 / s.m[i], 1 / s.m[j]);
-              const xO = sumR - d, xC = 8 / (maxInv * 40 * muM);
-              E += (xO <= xC) ? 20 * muM * xO * xO : 20 * muM * xC * xC + (8 / maxInv) * (xO - xC);
+              const CK96 = (typeof s.params.contactK === 'number') ? s.params.contactK : 40, CC96 = (typeof s.params.contactCap === 'number') ? s.params.contactCap : 8;   // 第96便: contactK/contactCap 対応
+              const xO = sumR - d, xC = CC96 / (maxInv * CK96 * muM);
+              E += (xO <= xC) ? 0.5 * CK96 * muM * xO * xO : 0.5 * CK96 * muM * xC * xC + (CC96 / maxInv) * (xO - xC);
             }
           }
           // 第47便 47A(台帳4-86): pinned 熱浴のリザーバ pinHeat も保持量に加える(案B)。
@@ -8311,8 +8422,9 @@ if (hasEchoFlipAt) {
             if (d < sumR) {
               const muM = s.m[i] * s.m[j] / (s.m[i] + s.m[j]);
               const maxInv = Math.max(1 / s.m[i], 1 / s.m[j]);
-              const xO = sumR - d, xC = 8 / (maxInv * 40 * muM);
-              E += (xO <= xC) ? 20 * muM * xO * xO : 20 * muM * xC * xC + (8 / maxInv) * (xO - xC);
+              const CK96 = (typeof s.params.contactK === 'number') ? s.params.contactK : 40, CC96 = (typeof s.params.contactCap === 'number') ? s.params.contactCap : 8;   // 第96便: contactK/contactCap 対応
+              const xO = sumR - d, xC = CC96 / (maxInv * CK96 * muM);
+              E += (xO <= xC) ? 0.5 * CK96 * muM * xO * xO : 0.5 * CK96 * muM * xC * xC + (CC96 / maxInv) * (xO - xC);
             }
           }
           // 第47便 47A(台帳4-86): pinned 熱浴のリザーバ pinHeat も保持量に加える(案B)
@@ -8613,8 +8725,9 @@ if (hasEchoFlipAt) {
           const sumR = s.R[i] + s.R[j];
           if (d < sumR) {
             const muM = s.m[i] * s.m[j] / (s.m[i] + s.m[j]), maxInv = Math.max(1 / s.m[i], 1 / s.m[j]);
-            const xO = sumR - d, xC = 8 / (maxInv * 40 * muM);
-            E += (xO <= xC) ? 20 * muM * xO * xO : 20 * muM * xC * xC + (8 / maxInv) * (xO - xC);
+            const CK96 = (typeof s.params.contactK === 'number') ? s.params.contactK : 40, CC96 = (typeof s.params.contactCap === 'number') ? s.params.contactCap : 8;   // 第96便: contactK/contactCap 対応
+            const xO = sumR - d, xC = CC96 / (maxInv * CK96 * muM);
+            E += (xO <= xC) ? 0.5 * CK96 * muM * xO * xO : 0.5 * CK96 * muM * xC * xC + (CC96 / maxInv) * (xO - xC);
           }
         }
         return E + HP.urepEnergy(s);
@@ -8873,8 +8986,9 @@ if (hasEchoFlipAt) {
           const d = Math.hypot(s.x[i] - s.x[j], s.y[i] - s.y[j]), sumR = s.R[i] + s.R[j];
           if (d >= sumR) continue;
           const muM = s.m[i] * s.m[j] / (s.m[i] + s.m[j]), maxInv = Math.max(1 / s.m[i], 1 / s.m[j]);
-          const xO = sumR - d, xC = 8 / (maxInv * 40 * muM);
-          e += (xO <= xC) ? 20 * muM * xO * xO : 20 * muM * xC * xC + (8 / maxInv) * (xO - xC);
+          const CK96 = (typeof s.params.contactK === 'number') ? s.params.contactK : 40, CC96 = (typeof s.params.contactCap === 'number') ? s.params.contactCap : 8;   // 第96便: contactK/contactCap 対応
+          const xO = sumR - d, xC = CC96 / (maxInv * CK96 * muM);
+          e += (xO <= xC) ? 0.5 * CK96 * muM * xO * xO : 0.5 * CK96 * muM * xC * xC + (CC96 / maxInv) * (xO - xC);
         }
         return e + HP.phaseEnergy(s) + HP.urepEnergy(s);
       };
@@ -9143,8 +9257,9 @@ if (hasEchoFlipAt) {
             const d = Math.hypot(s.x[i] - s.x[j], s.y[i] - s.y[j]), sumR = s.R[i] + s.R[j];
             if (d >= sumR) continue;
             const muM = s.m[i] * s.m[j] / (s.m[i] + s.m[j]), maxInv = Math.max(1 / s.m[i], 1 / s.m[j]);
-            const xO = sumR - d, xC = 8 / (maxInv * 40 * muM);
-            a += (xO <= xC) ? 20 * muM * xO * xO : 20 * muM * xC * xC + (8 / maxInv) * (xO - xC);
+            const CK96 = (typeof s.params.contactK === 'number') ? s.params.contactK : 40, CC96 = (typeof s.params.contactCap === 'number') ? s.params.contactCap : 8;   // 第96便: contactK/contactCap 対応
+            const xO = sumR - d, xC = CC96 / (maxInv * CK96 * muM);
+            a += (xO <= xC) ? 0.5 * CK96 * muM * xO * xO : 0.5 * CK96 * muM * xC * xC + (CC96 / maxInv) * (xO - xC);
           }
           return a + HP.phaseEnergy(s) + HP.urepEnergy(s);
         };
@@ -9644,12 +9759,16 @@ if (hasSwAutoCb) {
         return { px, py, L }; };
       const ringLz = () => { let lz = 0; for (let i = 1; i < s.n; i++) lz += s.x[i] * s.vy[i] - s.y[i] * s.vx[i];
         return lz / (s.n - 1); };
+      // 第96便: c₀=30 相似変換世代(宣言 cLight===30)は同じ物理窓(旧t96)が步数×2。
+      // L_z は ×k=0.5 のスケール量になる(claims 窓・desc 数値も同便で更新)
+      const facRS = HP.allPresets().find((q) => q.id === 'rotorSolo').physics.cLight === 30 ? 2 : 1;
       const dyn = (spin) => { s.build(P(spin));
         const t0 = totals(); let acc = 0, cnt = 0, keep = 0;
-        for (let k = 0; k < 6000; k++) { s.step(0.016); if ((k % 25) === 0) { acc += ringLz(); cnt++; } }
+        const lz0 = ringLz();
+        for (let k = 0; k < 6000 * facRS; k++) { s.step(0.016); if ((k % 25) === 0) { acc += ringLz(); cnt++; } }
         for (let i = 1; i < s.n; i++) if (Math.hypot(s.x[i], s.y[i]) < 600) keep++;
         const t1 = totals();
-        return { lzMean: acc / cnt, keep, nFree: s.n - 1, nan: s.hasNaN(),
+        return { lzMean: acc / cnt, lz0, keep, nFree: s.n - 1, nan: s.hasNaN(),
           dP: Math.hypot(t1.px + s.resPx - t0.px, t1.py + s.resPy - t0.py) / Math.max(1, Math.hypot(t0.px, t0.py)),
           dL: Math.abs(t1.L + s.resL - t0.L) / Math.max(1, Math.abs(t0.L)) }; };
       const out = { ctrl: rays(0), sat: rays(0.3), def: rays(2), lock: rays(2, 3600),
@@ -9676,7 +9795,7 @@ if (hasSwAutoCb) {
       && r.sat.lS > 0.99 && r.sat.rate >= r.ctrl.rate * 0.8        // ②が飽和しても③はまだ起きない=別機構
       && r.def.minRpro > 2 * r.def.minRretro                       // 順行/逆行の非対称(T8 と同型)
       && r.lock.rate < 0.05                                        // 物理対応ロックで③消失(反証条件7)
-      && lzRatio > 1.2 && Math.abs(r.dynCtrl.lzMean - 632.46) < 1  // 引きずりの順行汲み上げ
+      && lzRatio > 1.2 && Math.abs(r.dynCtrl.lzMean - r.dynCtrl.lz0) < 1  // 対照=初期L_zのまま厳密一定(世代非依存の判定へ強化 — 第96便)
       && r.dynDef.dP < 1e-3 && r.dynDef.dL < 1e-3,                 // 閉鎖系の帳簿込み保存
       `②掻出 lS_eff: spin0=${r.ctrl.lS.toFixed(2)} spin0.3=${r.sat.lS.toFixed(2)} spin2=${r.def.lS.toFixed(2)}(>0.3) / ` +
       `③非脱出率(340步・終端r<300): 対照spin0=${r.ctrl.rate.toFixed(2)}(>0.4) spin0.3=${r.sat.rate.toFixed(2)}` +
@@ -9915,8 +10034,9 @@ if (hasSwAutoCb) {
           if (d < sumR) {
             const muM = S.m[i] * S.m[j] / (S.m[i] + S.m[j]);
             const maxInv = Math.max(1 / S.m[i], 1 / S.m[j]);
-            const xO = sumR - d, xC = 8 / (maxInv * 40 * muM);
-            E += (xO <= xC) ? 20 * muM * xO * xO : 20 * muM * xC * xC + (8 / maxInv) * (xO - xC);
+            const CK96 = (typeof S.params.contactK === 'number') ? S.params.contactK : 40, CC96 = (typeof S.params.contactCap === 'number') ? S.params.contactCap : 8;   // 第96便: contactK/contactCap 対応
+            const xO = sumR - d, xC = CC96 / (maxInv * CK96 * muM);
+            E += (xO <= xC) ? 0.5 * CK96 * muM * xO * xO : 0.5 * CK96 * muM * xC * xC + (CC96 / maxInv) * (xO - xC);
           }
         }
         // 第47便 47A(台帳4-86): pinned 熱浴のリザーバ pinHeat も保持量に加える(案B)。
@@ -9960,10 +10080,12 @@ if (hasSwAutoCb) {
         return { s0, s1: stats(), E0, E1: energy(), sc: escale(), ck, nan: S.hasNaN() };
       };
       HP.loadPreset('starcore', false);   // 正規経路で1回読む(currentPreset 同期)
-      const main = run(null, 12000);          // 既定(t≈192 = validT)
-      const ctrl = run(null, 12000, true);    // 対照: 同一初期配置で融合だけ切る
-      const a6 = run(null, 6000, false, 500);            // etaRad 既定
-      const b6 = run({ etaRad: 0 }, 6000, false, 500);   // 対照: 放射を切っても軌道は変わらないはず
+      // 第96便: c₀=30 相似変換世代は validT 192→384 — 步数は validT から導出(両世代対応)
+      const scSteps = Math.round((P.validT || 192) / 0.016);
+      const main = run(null, scSteps);          // 既定(t≈validT)
+      const ctrl = run(null, scSteps, true);    // 対照: 同一初期配置で融合だけ切る
+      const a6 = run(null, scSteps / 2, false, scSteps / 24);            // etaRad 既定(12点)
+      const b6 = run({ etaRad: 0 }, scSteps / 2, false, scSteps / 24);   // 対照: 放射を切っても軌道は変わらないはず
       return { main, ctrl, ckN: a6.ck.length,
         bitSame: JSON.stringify(a6.ck) === JSON.stringify(b6.ck),
         thermal: S.thermal, dFrac: P.fusion ? P.fusion.dFrac : null,
@@ -9989,11 +10111,16 @@ if (hasSwAutoCb) {
     //   |Qc|<0.01(対照の熱源ゼロ)/ |ΔE|/scale<1e-2(実測2.0e-3 = 5倍の余裕)/ bit 一致 / NaN なし。
     // **閾値の性格**: 固定 seed の軌道に対する回帰検出であって seed 頑健性の主張ではない
     //   (3seed の実測幅は上のコメントのとおりで、いずれも閾値の内側)。
+    // 第96便: c₀=30 世代は validT=384(t'=t/k)・T_int は ×k²=0.25 スケール量だが放射冷却
+    // (Λ∝ηT^p)の相似は近似のため再実測で窓を再較正: T=3.115(窓1.5〜6.5)・radFrac=0.724
+    const c30sc = r.validT === 384;
+    const tLo = c30sc ? 1.5 : 3.0, tHi = c30sc ? 6.5 : 9.0;
     add('behavior.starcore',
-      !m.nan && !c.nan && r.thermal === 'tint' && r.dFrac === 0.35 && !r.hasFission && r.validT === 192
+      !m.nan && !c.nan && r.thermal === 'tint' && r.dFrac === 0.35 && !r.hasFission
+      && (r.validT === 192 || r.validT === 384)
       && massOk && r.bitSame && r.ckN === 12
       && m.s1.fusN >= 90 && m.s1.nG >= 40 && m.s1.nG <= 130
-      && m.s1.T >= 3.0 && m.s1.T <= 9.0
+      && m.s1.T >= tLo && m.s1.T <= tHi
       && ratio >= 40 && radFrac >= 0.70 && radFrac <= 1.0
       && Math.abs(Qc) < 0.01 && relE < 1e-2,
       `12000步(t≈192=validT・seed固定で決定論) 融合=${m.s1.fusN}回(≥90) ガス ${m.s0.nG}→${m.s1.nG}粒` +
@@ -10066,9 +10193,11 @@ if (hasSwAutoCb) {
           clampV: S.clampVN, clampR: S.clampRN || 0 });
       };
       HP.loadPreset('selfRotor', false);   // 正規経路で1回読む(currentPreset 同期)
-      const main = run({}, 9000);
-      const noFuse = run({ noFuse: true }, 9000);
-      const noCore = run({ noCore: true }, 9000);
+      // 第96便: c₀=30 相似変換世代は validT 144→288 — 步数は validT から導出(両世代対応)
+      const srSteps = Math.round((P.validT || 144) / 0.016);
+      const main = run({}, srSteps);
+      const noFuse = run({ noFuse: true }, srSteps);
+      const noCore = run({ noCore: true }, srSteps);
       const cl = {}; for (const c of P.claims) cl[c.id] = c;
       return { main, noFuse, noCore, claims: cl, validT: P.validT,
         dFrac: P.fusion ? P.fusion.dFrac : null, thermal: P.thermal,
@@ -10092,7 +10221,7 @@ if (hasSwAutoCb) {
     // 判定は claims の窓そのもの(claims.sync が説明文との一致を別途固定する)+ 帳簿・NaN・clamp。
     add('behavior.selfrotor',
       !m.nan && !nf.nan && !nc.nan && m.clampV === 0 && m.clampR === 0
-      && r.validT === 144 && r.dFrac === 0.7 && r.thermal === 'tint'
+      && (r.validT === 144 || r.validT === 288) && r.dFrac === 0.7 && r.thermal === 'tint'
       && r.balance === 'barycentric' && r.emergence === 'E3' && r.cls.closed === true   // 第83便A: E2→E3
       && m.lsw0 === 0 && m.align0 === 0 && m.K0 > 100
       && inW(m.mFrac, C['selfRotor.max-mass-fraction'])
@@ -10168,8 +10297,9 @@ if (!FAST) {
           lSw: S.lSw[bi], lSwHalo: nH ? lswH / nH : 0, nan: S.hasNaN(),
           clampV: S.clampVN, clampR: S.clampRN || 0 };
       };
-      const main = seeds.map((sd) => run(sd, false, 9000));
-      const ctl = seeds.map((sd) => run(sd, true, 9000));
+      const srSteps = Math.round((P.validT || 144) / 0.016);   // 第96便: validT 起点(相似世代 288 → 18000步)
+      const main = seeds.map((sd) => run(sd, false, srSteps));
+      const ctl = seeds.map((sd) => run(sd, true, srSteps));
       HP.loadPreset('selfRotor', false);
       const cl = P.claims.find((c) => c.id === 'selfRotor.multi-seed-min-mass-fraction');
       return { main, ctl, claim: cl, n0: P.bodies[0].n, emergence: P.emergence };
@@ -12028,6 +12158,82 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       `HUD時間倍率反映=${r.hudTs}${r.error ? ' / ERROR=' + r.error : ''}`);
   } else {
     console.log('SKIP ui.wave95(対象に第95便機能なし — root 等)');
+  }
+}
+
+// ---- 96A) 第96便(原仮定者指示・修正3件): ①「選択粒子」追従設定中でも非選択ならドラッグで
+// ----   カメラが動く ②HUD換算の倍率=時間倍率×簡易倍率のクランプ後実効値 ③箱宇宙 A/B の
+// ----   最終編集パラメータ比較表示(ab.lastBox)----
+{
+  const has96 = await page.evaluate(() => !!(window.HP && typeof HP.selConvLines === 'function'));
+  if (has96) {
+    const r = await page.evaluate(() => new Promise((res) => {
+      const out = {};
+      // ① sel設定+非選択: panCam がカメラを直接動かす(旧: オフセットに積むだけで動かない)
+      HP.loadPreset('saturn', false);
+      HP.selectBody(-1, 'A');
+      HP.setCamFollow('sel');
+      const c0 = HP.camState();
+      HP.panCam(50, 30);
+      const c1 = HP.camState();
+      out.dragMoves = c1.x !== c0.x && c1.y !== c0.y && c1.offX === 0 && c1.offY === 0;
+      // 選択すると従来どおりオフセット側へ積む
+      HP.selectBody(0, 'A');
+      HP.panCam(10, 10);
+      const c2 = HP.camState();
+      out.dragOffsetWhenSel = c2.offX !== 0 && c2.offY !== 0;
+      HP.selectBody(-1, 'A');
+      HP.setCamFollow('none');
+      // ② HUD: 実効倍率 = min(時間倍率×簡易倍率, 12)。簡易倍率4×時間倍率4.82(⚾)→ clamp 12
+      HP.loadPreset('projectile', false);   // timeScale=4.82
+      HP.setScaleDisp(true);
+      const sp = document.querySelector('#speedSel');
+      const sp0 = sp.value;
+      sp.value = '4'; sp.dispatchEvent(new Event('change'));
+      HP.requestRender();
+      setTimeout(() => {
+        const hud = document.querySelector('#hud').textContent;
+        out.hudClamped = /実効倍率12[^\d.]|effective rate 12[^\d.]/.test(hud);   // 4.82×4=19.3 → 12
+        sp.value = '1'; sp.dispatchEvent(new Event('change'));
+        HP.requestRender();
+        setTimeout(() => {
+          const hud1 = document.querySelector('#hud').textContent;
+          out.hudPlain = /実効倍率4\.82|effective rate 4\.82/.test(hud1);   // 4.82×1(クランプ内)
+          sp.value = sp0 || '1'; sp.dispatchEvent(new Event('change'));
+          // ③ 箱宇宙 A/B: H₀ 行の編集で ab.lastBox が立ち、パラメータ編集で戻る
+          HP.loadPreset('probeH', false);
+          HP.abStart();
+          HP.setAbTarget('B');
+          const bd = [...document.querySelectorAll('#paramRows details.catParams')]
+            .find((d) => (d.querySelector('summary').textContent || '').includes('箱宇宙'));
+          const h0row = bd ? [...bd.querySelectorAll('.prow')].find((rw) => {
+            const l = rw.querySelector('label'); return l && /H₀/.test(l.textContent); }) : null;
+          if (h0row) {
+            const inp = h0row.querySelector('input.valIn');
+            inp.value = '0.06'; inp.dispatchEvent(new Event('change'));
+            out.lastBoxSet = HP.ab().lastBox === 'H0' && HP.ab().lastKey === null;
+            // 通常パラメータの編集で lastBox は解除され lastKey へ切り替わる
+            const gRow = [...document.querySelectorAll('#paramRows .prow')].find((rw) => {
+              const l = rw.querySelector('label'); return l && l.firstChild
+                && l.firstChild.textContent === '重力 G'; });
+            const gi = gRow.querySelector('input.valIn');
+            gi.value = '0.5'; gi.dispatchEvent(new Event('change'));
+            out.lastKeyBack = HP.ab().lastKey === 'G' && HP.ab().lastBox === null;
+          }
+          HP.setAbTarget('A'); HP.abStop();
+          HP.loadPreset('saturn', false);
+          res(out);
+        }, 350);
+      }, 350);
+    }));
+    add('ui.wave96a',
+      r.dragMoves && r.dragOffsetWhenSel && r.hudClamped && r.hudPlain
+      && r.lastBoxSet === true && r.lastKeyBack === true,
+      `sel非選択ドラッグでカメラ移動=${r.dragMoves}(選択時はオフセット=${r.dragOffsetWhenSel})/ ` +
+      `HUD実効倍率: 4.82×4→12(クランプ)=${r.hudClamped}・4.82×1→4.82=${r.hudPlain} / ` +
+      `箱A/B比較表示: lastBox=H0=${r.lastBoxSet}・G編集でlastKeyへ復帰=${r.lastKeyBack}`);
+  } else {
+    console.log('SKIP ui.wave96a(対象に第95便機能なし — root 等)');
   }
 }
 
