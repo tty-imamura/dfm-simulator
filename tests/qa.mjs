@@ -3499,6 +3499,9 @@ if (hasBadgeClassify) {
         // 移動前(root 昇格前)は 10 行。どちらの配置かを実測して期待値を決める
         out.labRows = rows.length;
         out.gravInLab = /一様重力/.test(labBox.textContent);
+        // 第94便: 壁別反発係数の4行(箱境界で常時表示)— 有無で期待行数が変わる
+        out.restRows = rows.filter((r) => { const l = r.querySelector('label');
+          return l && /^(反発係数|Restitution)/.test(l.textContent); }).length;
         const stBox = [...document.querySelectorAll('#paramRows details.catParams')]
           .find(d => (d.querySelector('summary').textContent || '').includes('時空'));
         out.gravInSt = !!stBox && /一様重力 g_x/.test(stBox.textContent) && /一様重力 g_y/.test(stBox.textContent);
@@ -3528,12 +3531,14 @@ if (hasBadgeClassify) {
     const htmlSrc57 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
     const tabScrollOk = /tabScroll\[curTab\]=\$\("#panel"\)\.scrollTop/.test(htmlSrc57)
       && /\$\("#panel"\)\.scrollTop=tabScroll\[t\]\|\|0/.test(htmlSrc57);
-    const want57 = d57.gravInLab ? 10 : 8;   // 第79便: g_x/g_y の所在で期待行数が変わる
+    // 第79便: g_x/g_y の所在・第94便: 壁別反発係数4行の有無で期待行数が変わる
+    const want57 = (d57.gravInLab ? 10 : 8) + (d57.restRows || 0);
     add('ui.57c-labbox',
       d57.hasLab && d57.labRows === want57 && (d57.gravInLab || d57.gravInSt)
+      && (d57.restRows === 0 || d57.restRows === 4)
       && d57.hasTopRate && d57.created === true && d57.reset0 === true
       && d57.keptOpen === true && tabScrollOk,
-      `実験箱カテゴリ=${d57.hasLab}・行数=${d57.labRows}(期待${want57}=壁4面×2${d57.gravInLab ? '+g_x/g_y' : ''}) / ` +
+      `実験箱カテゴリ=${d57.hasLab}・行数=${d57.labRows}(期待${want57}=壁4面×2${d57.gravInLab ? '+g_x/g_y' : ''}${d57.restRows ? '+反発係数4行〔第94便〕' : ''}) / ` +
       `一様重力の所在=${d57.gravInLab ? '実験箱(従来)' : '時空(第79便)'}・時空に有=${d57.gravInSt} / 未設定面の編集で生成=${d57.created}(レート0へ復帰=${d57.reset0} — 物理不変) / ` +
       `再構築後もカテゴリ開いたまま=${d57.keptOpen}(57B) / タブ別スクロール配線=${tabScrollOk}`);
 
@@ -3561,6 +3566,9 @@ if (hasBadgeClassify) {
       const rows = lab ? [...lab.querySelectorAll('.prow')] : [];
       out.convRows = rows.length;
       out.convGravInLab = !!lab && /一様重力/.test(lab.textContent);   // 第79便: 時空へ移動済みなら false
+      // 第94便: 壁別反発係数の4行(箱境界で常時表示)
+      out.convRestRows = rows.filter((r) => { const l = r.querySelector('label');
+        return l && /^(反発係数|Restitution)/.test(l.textContent); }).length;
       const tRow = rows.find(r => (r.querySelector('label') || {}).textContent === (HP.T ? HP.T('pcWallT')('天井') : '壁温(天井)'));
       out.hasTopT = !!tRow;
       if (tRow) {
@@ -3573,12 +3581,14 @@ if (hasBadgeClassify) {
       HP.loadPreset('saturn', false);
       return out;
     });
-    const want58 = d58.convGravInLab ? 10 : 8;   // 第79便: g_x/g_y の所在で期待行数が変わる
+    // 第79便: g_x/g_y の所在・第94便: 壁別反発係数4行の有無で期待行数が変わる
+    const want58 = (d58.convGravInLab ? 10 : 8) + (d58.convRestRows || 0);
     add('ui.58b-reset-keep',
       d58.keepPhase && d58.keepWall && d58.keepNew
-      && d58.convRows === want58 && d58.hasTopT && d58.topWasRad === true && d58.radConv === true,
+      && d58.convRows === want58 && (d58.convRestRows === 0 || d58.convRestRows === 4)
+      && d58.hasTopT && d58.topWasRad === true && d58.radConv === true,
       `⏮保持: 相変化ノブ(bondN/condN)=${d58.keepPhase}・既存壁=${d58.keepWall}・新設面=${d58.keepNew} / ` +
-      `rad面: convection 実験箱行=${d58.convRows}(期待${want58} — 4面すべて表示${d58.convGravInLab ? '+g_x/g_y' : '。一様重力は時空へ移動〔第79便〕'})・天井(rad)T編集→heat変換(レート保持)=${d58.radConv}`);
+      `rad面: convection 実験箱行=${d58.convRows}(期待${want58} — 4面すべて表示${d58.convGravInLab ? '+g_x/g_y' : '。一様重力は時空へ移動〔第79便〕'}${d58.convRestRows ? '+反発係数4行〔第94便〕' : ''})・天井(rad)T編集→heat変換(レート保持)=${d58.radConv}`);
 
     // ---- 第61便 61B(レビューP1): チェックポイント・ワンタップ対照A/B・step/モデル時刻併記 ----
     const d61 = await page.evaluate(() => {
@@ -3769,20 +3779,17 @@ if (hasBadgeClassify) {
     res.raysBoth = !!(HP.sim.rays && HP.sim.rays.n > 0) && !!(simB.rays && simB.rays.n > 0);
     toggleByLabel('光線', false); toggleByLabel('決定力マップ', false);
     // ③ 時間倍率は表示グループの1行のみ+A/B両方に反映
+    // 第94便: 第93便の指数表示(texp)は原仮定者指示で撤回 — 従来どおり倍率 5 を直接入れる。
+    // prefix 比較は旧「時間倍率指数」ビルドも受けるため維持(新設の「時間スケール指数」行は不一致)
     const tsRows = [...document.querySelectorAll('#paramRows .prow')]   // 第88便: 役割チップ対応(先頭テキストノード比較)
-      // 第93便: ラベルは「時間倍率指数」へ改称(旧ビルドの「時間倍率」も受ける prefix 比較)
       .filter(x => x.querySelector('label') && x.querySelector('label').firstChild
         && x.querySelector('label').firstChild.textContent.startsWith('時間倍率'));
     res.tsSingle = tsRows.length === 1;
     // 詳細設定(advParams)の中ではない(第54便 54D⑤: 表示グループ自体は catParams の
     // details に入ったため、details 一般ではなく advParams 限定で判定する)
     res.tsInDisplay = !tsRows[0].closest('details.advParams');
-    // 第93便: 数値欄は指数表示(texp)— 倍率5 に対応する指数を入れて、保存値が倍率 5 になることを見る
-    // (旧ビルドでは HP.scaleEff が無いので従来どおり 5 を直接入れる)
-    if (HP.scaleEff) setVal(tsRows[0], (Math.log10(HP.TS_NOM_RATE * 5) + HP.scaleEff().eT).toFixed(6));
-    else setVal(tsRows[0], 5);
-    const tsTol = HP.scaleEff ? 1e-3 : 1e-12;   // 指数6桁入力の丸めぶん
-    res.tsBoth = Math.abs(HP.sim.params.timeScale - 5) < tsTol && Math.abs(simB.params.timeScale - 5) < tsTol;
+    setVal(tsRows[0], 5);
+    res.tsBoth = Math.abs(HP.sim.params.timeScale - 5) < 1e-12 && Math.abs(simB.params.timeScale - 5) < 1e-12;
     HP.abStop();
     // activeParams に timeScale が残っていない(表示グループへ移設済み)
     res.tsInAct = HP.allPresets().filter(p => !String(p.id).startsWith('custom_'))
@@ -4155,10 +4162,13 @@ if (!FAST) {
         const a = run(false), b = run(true);
         let same = a.length === b.length;
         if (same) for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) { same = false; break; }
-        const conv = HP.scaleConvStr('cLight', 60);
-        HP.setScaleExp(0);
+        // 第94便: 4指数ビルド(HP.setScaleExps あり)では cLight は専用の光速指数 eC で換算される
+        // (既定 8.0 → "≈6e9 m/s")。exp0 検査は4指数すべてを 0 に置いて従来の "≈60 m/s" を見る。
+        // 旧ビルド(root)は距離指数のみの setScaleExp(0) で同じ表示になる
+        if (HP.setScaleExps) HP.setScaleExps({ L: 0, T: 0, M: 0, C: 0 });
+        else HP.setScaleExp(0);
         const conv0 = HP.scaleConvStr('cLight', 60);
-        HP.setScaleExp(null);
+        if (HP.setScaleExps) HP.setScaleExps(null); else HP.setScaleExp(null);
         return { same, n: a.length / 5, conv0, convNullKey: HP.scaleConvStr('kRep', 1) === null };
       });
       add('scale.display-invariant', inv.same && inv.conv0 === '≈60 m/s' && inv.convNullKey,
@@ -11649,6 +11659,21 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       // 絞り込み解除(同チップ再タップ)→ 検索「水星」→ ☿ が出る → タップで読込
       const gal2 = [...document.querySelectorAll('#ppModal .ppChip')].find((c) => c.textContent.includes('🌌'));
       gal2.click();
+      // 第94便: ①絞り込み行のセパレータ(各 .ppChips の下辺罫線)②E水準「E0」は宣言なしも含む
+      const chipsRows = [...document.querySelectorAll('#ppModal .ppChips')];
+      const sepOk = chipsRows.length >= 4 && chipsRows.every((row) =>
+        parseFloat(getComputedStyle(row).borderBottomWidth) > 0);
+      const e0chip = [...document.querySelectorAll('#ppModal .ppChip')].find((c) => c.textContent === 'E0');
+      let e0Rows = -1, e0Expected = -1, e0HasUndeclared = false;
+      if (e0chip) {
+        e0chip.click();
+        e0Rows = document.querySelectorAll('#ppList .ppRow').length;
+        const builtins = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_'));
+        e0Expected = builtins.filter((p) => (p.emergence || 'E0') === 'E0').length;
+        e0HasUndeclared = builtins.some((p) => !p.emergence);   // 宣言なしが存在する前提の確認
+        const e0chip2 = [...document.querySelectorAll('#ppModal .ppChip')].find((c) => c.textContent === 'E0');
+        e0chip2.click();   // 解除
+      }
       const si = document.querySelector('#ppSearch'); si.value = '水星'; si.dispatchEvent(new Event('input'));
       const searchRows = [...document.querySelectorAll('#ppList .ppRow')];
       const hasMercury = searchRows.some((x) => x.textContent.includes('☿'));
@@ -11660,65 +11685,76 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         ppSearch = '';
         HP.loadPreset('saturn', false);
         res({ label0, modal, rows0, rowsGal, galAllGalactic, hasMercury, closed, label1,
-          showAllInModal, headerHidden });
+          showAllInModal, headerHidden, sepOk, e0Rows, e0Expected, e0HasUndeclared });
       }, 150);
     }));
     // 第93便: すべて表示のウィンドウ内移設(旧ビルドの beta には無いので undefined 通し)
     const saOk = r.showAllInModal === undefined || (r.showAllInModal && r.headerHidden);
+    // 第94便: セパレータ+E0=宣言なし込み(件数が期待と一致し、宣言なしサンプルが実在する)
+    const e0Ok = r.e0Rows === r.e0Expected && r.e0HasUndeclared && r.e0Rows > 0;
     add('ui.presetpicker',
       /🪐/.test(r.label0) && r.modal && r.rows0 >= 30 && r.rowsGal > 0 && r.rowsGal < r.rows0
-      && r.hasMercury && r.closed && /☿/.test(r.label1) && saOk,
+      && r.hasMercury && r.closed && /☿/.test(r.label1) && saOk && r.sepOk && e0Ok,
       `ボタン=選択中サンプル名(🪐)=${/🪐/.test(r.label0)} / モーダル=${r.modal}・全${r.rows0}行 → ` +
       `🌌絞り込み ${r.rowsGal}行 / 検索「水星」=☿ヒット=${r.hasMercury} / 行タップで読込+閉じ=${r.closed}(ボタン=☿)/ ` +
-      `すべて表示=ウィンドウ内(${r.showAllInModal})・ヘッダ非表示(${r.headerHidden})`);
+      `すべて表示=ウィンドウ内(${r.showAllInModal})・ヘッダ非表示(${r.headerHidden})/ ` +
+      `セパレータ=${r.sepOk} / E0絞り込み ${r.e0Rows}行(期待${r.e0Expected}・宣言なし込み=${r.e0HasUndeclared})`);
   } else {
     console.log('SKIP ui.presetpicker(対象にピッカーなし — root 等。第92便)');
   }
-  // 92-2→93改) scale.familiar: 馴染み優先の慣習アンカー — 日常の g_y は「9.8 → 9.8 m/s²」・
-  //       cLight は全スケールで「3.0 → 3e8 m/s」。スライダーで指数上書き中は次元系に戻る
-  //       (scale.display-invariant の exp0 検査 "≈60 m/s" と整合)。時間倍率指数(texp)の
-  //       表示変換も検査: 表示 x=0.0 ⇔ 保存値 ts=10^(−eT)/1.92(保存値は倍率のまま)
-  const hasFam = await page.evaluate(() => !!(window.HP && HP.scaleEff && typeof SCALE_FAMILIAR !== 'undefined'));
-  if (hasFam) {
+  // 92-2→93改→94改) scale.exponents: 4指数(距離/時間/質量/光速)の表示スケール系。
+  //       第93便の慣習アンカー表(SCALE_FAMILIAR)・時間倍率指数(texp)は第94便で撤回され、
+  //       「タグ既定の4指数+スライダー上書き」に一本化された(scale.familiar を全面書き換え)。
+  //       ①日常タグ既定 L=T=M=0(g_y 9.8→9.8 m/s²・ε→m 等値)・光速は専用指数 eC=8(全タグ共通:
+  //       3.0→3e8 m/s)②銀河タグの g_y は次元系 ×10^(L−2T)=1e-9 ③時間指数の上書きが次元換算に
+  //       効く(T+1 → g_y ×1e-2)④ロードで4指数ともタグ既定へ戻る ⑤新スライダー3本の存在
+  //       ⑥スケール換算表示の既定ON(ソース検査 — 実行フラグは他テストの localStorage 書込で汚れるため)
+  const hasExp4 = await page.evaluate(() => !!(window.HP && HP.setScaleExps && HP.scaleEff));
+  if (hasExp4) {
     const r = await page.evaluate(() => {
       const out = {};
-      HP.loadPreset('projectile', false);   // 日常 tier
+      HP.loadPreset('projectile', false);   // 日常タグ(第94便: g_y=9.8 実値化済み)
+      out.effEvery = HP.scaleEff();         // 期待 {x:0,eT:0,eM:0,eC:8}
       out.gy98 = HP.scaleConvStr('gravityY', 9.8);
-      out.gyDef = HP.scaleConvStr('gravityY', 0.08);
       out.eps = HP.scaleConvStr('softening', 2);
       out.cEvery = HP.scaleConvStr('cLight', 3);
-      HP.loadPreset('saturn', false);       // 天体 tier でも cLight は慣習アンカー
+      HP.loadPreset('saturn', false);       // 天体タグでも光速指数は共通の 8
       out.cCel = HP.scaleConvStr('cLight', 3);
-      // 日常以外の g_y は次元系のまま — 判定相手は銀河 tier(L−2T=−9 → ×1e-9)。
-      // 初版は天体 tier で見たが、天体アンカーは L−2T=0 で係数が偶然 ×1 になり判定にならない
-      // (実測 FAIL で検出 — 慣習表とは無関係の次元系の一致)
+      // 銀河タグの g_y は次元系 ×10^(L−2T)=10^(19−28)=1e-9(天体は L−2T=0 で判定にならない —
+      // 第93便実測の教訓を踏襲)
       HP.loadPreset('galaxy', false);
       out.gyGal = HP.scaleConvStr('gravityY', 9.8);
-      // texp: ⚾で数値欄が指数表示になり、x を入れると倍率 10^(x−eT)/1.92 が保存される
+      // 時間指数の上書き: T=eT+1 で g_y(次元 [1,-2,0])の換算が ×1e-2 される
       HP.loadPreset('projectile', false);
-      const eT = HP.scaleEff().eT;
-      const row = [...document.querySelectorAll('#paramRows .prow')]
-        .find((x) => x.querySelector('label') && x.querySelector('label').firstChild
-          && x.querySelector('label').firstChild.textContent.startsWith('時間倍率'));
-      const inp = row.querySelector('input.valIn');
-      const shown0 = inp.value;
-      inp.value = '0'; inp.dispatchEvent(new Event('change'));
-      out.tsAtZero = HP.sim.params.timeScale;
-      out.tsExpected = Math.pow(10, 0 - eT) / HP.TS_NOM_RATE;
-      out.shownAfter = inp.value;
+      HP.setScaleExps({ T: 1 });
+      out.gyT1 = HP.scaleConvStr('gravityY', 9.8);   // 期待 ≈0.098 m/s²
+      out.effT1 = HP.scaleEff().eT;
+      // ロードで4指数ともタグ既定へ戻る
+      HP.setScaleExps({ L: 3, T: 5, M: 7, C: 2 });
+      HP.loadPreset('projectile', false);
+      out.effReset = HP.scaleEff();
+      // スケールカテゴリの新スライダー3本(時間/質量/光速)
+      out.sliders = ['scaleExpTSlider', 'scaleExpMSlider', 'scaleExpCSlider']
+        .map((id) => !!document.getElementById(id));
       HP.loadPreset('saturn', false);
-      return Object.assign(out, { shown0 });
+      return out;
     });
-    add('scale.familiar',
-      String(r.gy98) === '≈9.8 m/s²' && String(r.gyDef) === '≈0.08 m/s²' && String(r.eps) === '≈2 m'
+    // 既定ONはソースで判定(このページは先行テストが hp_scale_disp を書いており実行時フラグでは
+    // 判定できない): 未設定時 true の初期化行が存在すること
+    const srcOn = /let scaleDispOn\s*=\s*true/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
+    const effOk = (e) => e && e.x === 0 && e.eT === 0 && e.eM === 0 && e.eC === 8;
+    add('scale.exponents',
+      effOk(r.effEvery) && String(r.gy98) === '≈9.8 m/s²' && String(r.eps) === '≈2 m'
       && String(r.cEvery) === '≈3e8 m/s' && String(r.cCel) === '≈3e8 m/s'
       && /e-9 m\/s²/.test(String(r.gyGal))
-      && Math.abs(r.tsAtZero - r.tsExpected) / r.tsExpected < 1e-3 && /^-?0(\.00)?$/.test(r.shownAfter),
-      `日常: g_y 9.8→"${r.gy98}"・0.08→"${r.gyDef}"・ε2→"${r.eps}" / cLight 3.0→"${r.cEvery}"(日常)・` +
-      `"${r.cCel}"(天体 — 全スケール共通)/ 銀河の g_y は次元系のまま("${r.gyGal}" — ×1e-9)/ ` +
-      `時間倍率指数: 表示x=0 → ts=${(+r.tsAtZero).toFixed(4)}(期待 ${(+r.tsExpected).toFixed(4)}・表示 "${r.shownAfter}")`);
+      && String(r.gyT1) === '≈0.098 m/s²' && r.effT1 === 1
+      && effOk(r.effReset) && r.sliders.every(Boolean) && srcOn,
+      `日常既定 ${JSON.stringify(r.effEvery)}: g_y 9.8→"${r.gy98}"・ε2→"${r.eps}"・cLight3→"${r.cEvery}" / ` +
+      `天体 cLight3→"${r.cCel}"(eC 全タグ共通)/ 銀河 g_y→"${r.gyGal}"(×1e-9)/ ` +
+      `T上書き+1→"${r.gyT1}" / ロード復帰=${JSON.stringify(r.effReset)} / ` +
+      `新スライダー3本=${r.sliders.join(',')} / 換算表示の既定ON(ソース)=${srcOn}`);
   } else {
-    console.log('SKIP scale.familiar(対象に慣習アンカーなし — root 等。第93便)');
+    console.log('SKIP scale.exponents(対象に4指数スケールなし — root 等。第94便)');
   }
   // 92-3) ui.fidelity: fidelity:"real" 宣言(6件)にだけ 📏 チップが出る
   const hasFid = await page.evaluate(() => !!(window.HP && HP.allPresets().some((p) => p.fidelity === 'real')));
@@ -11740,7 +11776,11 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   } else {
     console.log('SKIP ui.fidelity(対象に fidelity 宣言なし — root 等。第92便)');
   }
-  // 92-4) ui.scalebar-conv: スケールバーのトグルと単位整形+粒子詳細の換算副表示(#beConv)
+  // 92-4→94改) ui.scalebar-conv: スケールバーのトグルと単位整形+粒子換算の画面下移設。
+  //       第93便のパネル内換算副表示(#beConv 系)は第94便で廃止され、粒子のスケール換算値は
+  //       「粒子選択時に画面下に表示される詳細」の3行目(canvas)へ移った。canvas 文字列は DOM から
+  //       読めないため、描画と同じ関数 HP.selConvText() で判定する(選択+換算ON で文字列/
+  //       換算OFF・「選択粒子の編集」を畳んだ(min)とき・未選択時は null = 行ごと非表示)
   const hasSb = await page.evaluate(() => typeof drawScaleBar === 'function' && typeof fmtMeters === 'function');
   if (hasSb) {
     const r = await page.evaluate(() => {
@@ -11748,35 +11788,41 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         nm: fmtMeters(5e-9), kg: fmtKg(3), earth: fmtKg(1.2e25), sun: fmtKg(4e30), kms: fmtMps(3.4e4) };
       const tgRow = [...document.querySelectorAll('#paramRows .prow')].some((x) => {
         const l = x.querySelector('label'); return l && l.firstChild && /スケールバー|Scale bar/.test(l.firstChild.textContent); });
-      // 粒子詳細の換算副表示: ⚾の粒子0を選択+換算ON → #beConv が可視で m/s 系文字列を含む
+      if (typeof HP.selConvText !== 'function') return { units, tgRow, noSelConv: true };
       HP.loadPreset('projectile', false);
       HP.setScaleDisp(true);
       HP.selectBody(0, 'A');
-      const bc = document.querySelector('#beConv');
-      const shown = bc && bc.style.display !== 'none' && /m\/s|kg/.test(bc.textContent);
-      const txt = bc ? bc.textContent : '';
+      const txt = HP.selConvText();
+      const shown = !!txt && /m\/s/.test(txt) && /kg/.test(txt);
+      // 「選択粒子の編集」を畳む → 換算行は出ない(第94便仕様)
+      document.querySelector('#beClose').click();
+      const minHidden = HP.selConvText() === null;
+      document.querySelector('#beClose').click();   // 元に戻す
       HP.setScaleDisp(false);
-      HP.selectBody(0, 'A');
-      const hidden = bc && bc.style.display === 'none';
+      const offHidden = HP.selConvText() === null;
       HP.selectBody(-1, 'A');
+      const noSel = HP.selConvText() === null;
+      HP.setScaleDisp(true);   // 既定ONへ戻す(第94便)
       HP.loadPreset('saturn', false);
-      return { units, tgRow, shown, txt: txt.slice(0, 80), hidden, barOnDefault: scaleBarOn === true || scaleBarOn === false };
+      return { units, tgRow, shown, txt: String(txt).slice(0, 90), minHidden, offHidden, noSel };
     });
     add('ui.scalebar-conv',
       r.units.m5k === '5 km' && /au$/.test(r.units.au) && /ly$/.test(r.units.ly) && /nm$/.test(r.units.nm)
       && r.units.kg === '3 kg' && /M⊕$/.test(r.units.earth) && /M☉$/.test(r.units.sun) && /km\/s$/.test(r.units.kms)
-      && r.tgRow && r.shown && r.hidden,
+      && r.tgRow && !r.noSelConv && r.shown && r.minHidden && r.offHidden && r.noSel,
       `単位整形: 5e3m→"${r.units.m5k}"・3e11m→"${r.units.au}"・1e16m→"${r.units.ly}"・5e-9m→"${r.units.nm}"・` +
       `3kg→"${r.units.kg}"・1.2e25kg→"${r.units.earth}"・4e30kg→"${r.units.sun}"・3.4e4m/s→"${r.units.kms}" / ` +
-      `表示トグルあり=${r.tgRow} / #beConv 換算ON表示=${r.shown}(「${r.txt}」)・OFF非表示=${r.hidden}`);
+      `スケールバー表示トグル=${r.tgRow} / 画面下換算行(selConvText): ON="${r.txt}"・` +
+      `min時null=${r.minHidden}・換算OFF null=${r.offHidden}・未選択null=${r.noSel}`);
   } else {
     console.log('SKIP ui.scalebar-conv(対象にスケールバーなし — root 等。第92便)');
   }
   // 92-5) ui.corev2-fit: コア内訳(v2)の見切れ対策 — 3値行に全文ツールチップ(title)が付く。
-  //       ガードは #beCoreV2 ではなく #beConv(第92便マーカー)— #beCoreV2 は第81便から root にも
+  //       ガードは #beCoreV2 ではなく beta 先行マーカー — #beCoreV2 は第81便から root にも
   //       あるため、初版ガードは root で誤実行して FAIL した(昇格前 beta 先行機能の判定は
-  //       「同じ便で入った要素」で行う — 実測で検出した教訓)
-  const hasCvFit = await page.evaluate(() => !!document.querySelector('#beConv'));
+  //       「同じ便で入った要素」で行う — 実測で検出した教訓)。第92便マーカー #beConv は
+  //       第94便で廃止(換算の画面下移設)されたため、後継の HP.selConvText で判定する
+  const hasCvFit = await page.evaluate(() => !!(window.HP && typeof HP.selConvText === 'function'));
   if (hasCvFit) {
     const r = await page.evaluate(() => {
       HP.loadPreset('saturnLayered', false);   // 主星がコアv2(differential)
@@ -11792,6 +11838,55 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       `コアv2 3値行: title=value の全文ツールチップ=${r.ok}(Ω行="${r.vals.om}")— 幅188px+縮小フォントで全桁表示`);
   } else {
     console.log('SKIP ui.corev2-fit(対象にコアv2内訳なし)');
+  }
+}
+
+// ---- 94) 第94便(パラメータ系): 壁別反発係数+実験箱カテゴリの常時編集 ----
+// ----   S.wallRest[bottom,top,left,right](既定 0.95 = 従来と bit 不変)。boundary:"box" の
+// ----   サンプルでは伝熱壁(tint)が無くても「実験箱」カテゴリに反発係数4行が常に出る ----
+{
+  const hasWr = await page.evaluate(() => !!(window.HP && HP.sim && Array.isArray(HP.sim.wallRest)));
+  if (hasWr) {
+    const r = await page.evaluate(() => {
+      const rowLabels = () => [...document.querySelectorAll('#paramRows .prow')]
+        .map((x) => x.querySelector('label')).filter(Boolean)
+        .map((l) => (l.firstChild ? l.firstChild.textContent : l.textContent));
+      // ① ⚾(箱境界・tint なし): 反発係数4行あり・壁温行なし(=常時編集の実装)・既定 [0.95]×4
+      HP.loadPreset('projectile', false);
+      const labP = rowLabels();
+      const restP = labP.filter((t) => /^(反発係数|Restitution)/.test(t)).length;
+      const wallTP = labP.filter((t) => /^(壁温|Wall T)/.test(t)).length;
+      const defOk = HP.sim.wallRest.length === 4 && HP.sim.wallRest.every((v) => v === 0.95);
+      // ② ♨️(tint 箱): 壁温・壁レート行と反発係数行が共存する
+      HP.loadPreset('convection', false);
+      const labC = rowLabels();
+      const restC = labC.filter((t) => /^(反発係数|Restitution)/.test(t)).length;
+      const wallTC = labC.filter((t) => /^(壁温|Wall T)/.test(t)).length;
+      // ③ 🪐(境界なし): 反発係数行は出ない
+      HP.loadPreset('saturn', false);
+      const restS = rowLabels().filter((t) => /^(反発係数|Restitution)/.test(t)).length;
+      // ④ 底面の反発を下げると床バウンド後の運動が変わり、壁吸収KE(帳簿)が増える。
+      //    天井(粒子が届かない面)を変えても同一窓の軌道は不変(壁「別」に効く)
+      const drop = (side, wr) => { HP.loadPreset('projectile', false); const s = HP.sim;
+        if (side >= 0) s.wallRest[side] = wr;
+        for (let k = 0; k < 620; k++) s.step(0.016);   // 粒子0(自由落下)の床バウンド(t≈8.2)込みの窓
+        return { y: s.y[0], vy: s.vy[0], ke: s.wallKE }; };
+      const base = drop(-1, 0), low = drop(0, 0.2), top = drop(1, 0.2);
+      const differs = base.y !== low.y || base.vy !== low.vy;
+      const keMore = low.ke > base.ke;
+      const indep = base.y === top.y && base.vy === top.vy && base.ke === top.ke;
+      HP.loadPreset('saturn', false);
+      return { restP, wallTP, defOk, restC, wallTC, restS, differs, keMore, indep,
+        keBase: base.ke, keLow: low.ke };
+    });
+    add('box.wall-restitution',
+      r.restP === 4 && r.wallTP === 0 && r.defOk && r.restC === 4 && r.wallTC === 4
+      && r.restS === 0 && r.differs && r.keMore && r.indep,
+      `⚾: 反発係数${r.restP}行(壁温${r.wallTP}行・既定0.95×4=${r.defOk})/ ♨️: 反発${r.restC}行+壁温${r.wallTC}行共存 / ` +
+      `🪐(境界なし): ${r.restS}行 / 底面0.2で軌道変化=${r.differs}・壁吸収KE増 ${(+r.keBase).toFixed(1)}→${(+r.keLow).toFixed(1)}=${r.keMore} / ` +
+      `天井0.2は同窓で不変(壁別独立)=${r.indep}`);
+  } else {
+    console.log('SKIP box.wall-restitution(対象に S.wallRest なし — root 等。第94便)');
   }
 }
 
