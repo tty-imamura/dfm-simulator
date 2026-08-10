@@ -995,8 +995,10 @@ ja: {
   scaleExpCLabel:"光速スケール指数",
   scaleExpCDesc:"光速パラメータ専用の換算指数。「光速」の換算値 = 値 × 10^指数 m/s。既定 7.0 で「30 → 3×10^8 m/s」の一律規約を表す(全スケールタグ共通 — 第95便)。表示専用 — 物理には影響しない",
   // 第95便(原仮定者指示): 換算の「時間」に計算で使う時間倍率を反映 — 経過 t≈ に加えて
-  // 「再生1秒 ≈ 宇宙の何秒か」(公称60fps: 1秒 = SUBSTEPS·DT·60·倍率 単位 = ×10^eT 秒)を併記
-  hudScale:(x,eT,eM,t,ts)=>`スケール換算 長さ1=10^${Math.round(x*10)/10}m 時間1=10^${Math.round(eT*10)/10}s 質量1=10^${Math.round(eM*10)/10}kg t≈${sciFmt(t*Math.pow(10,eT))}s(倍率${ts}: 再生1s≈${sciFmt(SUBSTEPS*DT*60*ts*Math.pow(10,eT))}s)`,
+  // 「再生1秒 ≈ 宇宙の何秒か」(公称60fps: 1秒 = SUBSTEPS·DT·60·倍率 単位 = ×10^eT 秒)を併記。
+  // 第96便(原仮定者指示): 倍率は「時間倍率×フッターの簡易倍率」を1フレーム上限(24步=12倍)で
+  // クランプした**実際に計算で使う実効値**を表示する(呼び出し側 tsEff)
+  hudScale:(x,eT,eM,t,ts)=>`スケール換算 長さ1=10^${Math.round(x*10)/10}m 時間1=10^${Math.round(eT*10)/10}s 質量1=10^${Math.round(eM*10)/10}kg t≈${sciFmt(t*Math.pow(10,eT))}s(実効倍率${sciFmt(ts)}: 再生1s≈${sciFmt(SUBSTEPS*DT*60*ts*Math.pow(10,eT))}s)`,
   // 第74便: AI追加のスケール別雛形
   aiTplLabel:"スケール雛形", aiTplInsert:"挿入",
   aiTplName_molecular:"実験箱", aiTplName_everyday:"実験室", aiTplName_celestial:"軌道の舞台",
@@ -1363,7 +1365,7 @@ en: {
   scaleExpMDesc:"The mass exponent log₁₀(kg per mass-unit) used by the converted display. Display only — no effect on physics. Loading a sample overwrites it with the scale-tag default (everyday: 0.0)",
   scaleExpCLabel:"Light-speed scale exponent",
   scaleExpCDesc:"Conversion exponent dedicated to the light-speed parameter: converted value = value × 10^exponent m/s. Default 7.0 expresses the uniform convention 30 → 3×10^8 m/s (shared by every scale tag — wave 95). Display only — no effect on physics",
-  hudScale:(x,eT,eM,t,ts)=>`scale conv: len1=10^${Math.round(x*10)/10}m time1=10^${Math.round(eT*10)/10}s mass1=10^${Math.round(eM*10)/10}kg t≈${sciFmt(t*Math.pow(10,eT))}s (rate ${ts}: 1s of playback≈${sciFmt(SUBSTEPS*DT*60*ts*Math.pow(10,eT))}s)`,
+  hudScale:(x,eT,eM,t,ts)=>`scale conv: len1=10^${Math.round(x*10)/10}m time1=10^${Math.round(eT*10)/10}s mass1=10^${Math.round(eM*10)/10}kg t≈${sciFmt(t*Math.pow(10,eT))}s (effective rate ${sciFmt(ts)}: 1s of playback≈${sciFmt(SUBSTEPS*DT*60*ts*Math.pow(10,eT))}s)`,
   aiTplLabel:"Scale template", aiTplInsert:"Insert",
   aiTplName_molecular:"Lab box", aiTplName_everyday:"Laboratory", aiTplName_celestial:"Orbital stage",
   aiTplName_galactic:"Rotating disk", aiTplName_cosmic:"Box universe",
@@ -8255,10 +8257,13 @@ function applyCamFollow(){
   }
   camX=S.x[i]+camFollowOffX; camY=S.y[i]+camFollowOffY;
 }
-// パン(1本指ドラッグ/マウスドラッグ)の単一の入口 — 追従中はオフセット側へ積む
+// パン(1本指ドラッグ/マウスドラッグ)の単一の入口 — 追従中はオフセット側へ積む。
+// 第96便(原仮定者指示): 「選択粒子」設定中でも追従先が無い(非選択)間は「なし」と同じく
+// カメラを直接動かす — 旧実装はオフセットへ積むだけで画面が動かずドラッグ不能だった
 function panCam(dxPx,dyPx){
   const z=zoom();
-  if(camFollowMode!=="none"){ camFollowOffX-=dxPx/z; camFollowOffY-=dyPx/z; }
+  const S=selSimRef(), i=camFollowIdx();
+  if(camFollowMode!=="none" && i>=0 && i<S.n){ camFollowOffX-=dxPx/z; camFollowOffY-=dyPx/z; }
   else { camX-=dxPx/z; camY-=dyPx/z; }
 }
 // 第37便 A3(原仮定者指示): 光線の基準波長λ0(nm)。表示設定のみ(セーブ対象外・物理不変) —
@@ -9825,9 +9830,19 @@ function renderAB(){
   if(sim.overlays.trail && running && (frameCount%Q_TREC[qLevel()])===0){
     recTrail(sim,trailBuf); recTrail(ab.simB,trailBufB);
   }
-  const hh=ch/2, lk=ab.lastKey;   // v1.19: A側で最後に調整したパラメータを両画面に表示
-  drawWorldInto(sim, 0, hh, lk? "A: "+lk+"="+fmt(sim.params[lk]) : "A", trailBuf);
-  drawWorldInto(ab.simB, hh, hh-1, lk? "B: "+lk+"="+fmt(ab.simB.params[lk]) : "B", trailBufB);
+  // v1.19: A側で最後に調整したパラメータを両画面に表示。
+  // 第96便(原仮定者指示): 箱宇宙パラメータ(ab.lastBox)も同じ比較表示に対応 —
+  // sim.params ではなく sim.box / simB.box を読む(mode は文字列なので fmt を通さない)
+  const hh=ch/2, lk=ab.lastKey, lb=ab.lastBox;
+  const boxLbl=(k)=>{ const d=BOX_PARAM_DEFS.find(q=>q.key===k); return d? T(d.labelKey) : k; };
+  const boxVal=(S,k)=>{ const v=S.box? S.box[k] : undefined;
+    return (typeof v==="number")? fmt(v) : String(v); };
+  const labA = lb? "A: "+boxLbl(lb)+"="+boxVal(sim,lb)
+    : (lk? "A: "+lk+"="+fmt(sim.params[lk]) : "A");
+  const labB = lb? "B: "+boxLbl(lb)+"="+boxVal(ab.simB,lb)
+    : (lk? "B: "+lk+"="+fmt(ab.simB.params[lk]) : "B");
+  drawWorldInto(sim, 0, hh, labA, trailBuf);
+  drawWorldInto(ab.simB, hh, hh-1, labB, trailBufB);
   ctx.strokeStyle="#2a3060"; ctx.lineWidth=1.5;
   ctx.beginPath(); ctx.moveTo(0,hh); ctx.lineTo(cw,hh); ctx.stroke(); ctx.lineWidth=1;
 }
@@ -10001,10 +10016,12 @@ function loop(now){
     }
     // 第74便: スケール換算表示ON のとき、現在の指数と換算単位を HUD に1行追記(表示のみ・物理不変)
     // 第94便: 指数は scaleEffNow の4指数(距離/時間/質量 — タグ既定+スライダー上書き)から取る
-    // 第95便(原仮定者指示): 時間の換算に「時間倍率」を反映(再生1秒あたりの宇宙時間を併記)
+    // 第95便→96便(原仮定者指示): 倍率は「時間倍率×フッター簡易倍率」を1フレーム上限
+    // (24步/フレーム = 実効12倍)でクランプした、実際に計算で使う値を表示する
     if(scaleDispOn){
       const ef=scaleEffNow();
-      txt+=`\n${T("hudScale")(ef.x, ef.eT, ef.eM, sim.t, sim.params.timeScale)}`;
+      const tsEff=Math.min(sim.params.timeScale*speedMul, 24/SUBSTEPS);
+      txt+=`\n${T("hudScale")(ef.x, ef.eT, ef.eM, sim.t, tsEff)}`;
     }
     $("#hud").textContent=txt;
     // v1.17: 実行中は編集パネルの表示値を追従(入力フォーカス中は上書きしない)
@@ -10534,7 +10551,7 @@ function abStart(key, valB, bodyPatch){
   // 第61便 61B → 第63便: A/B 開始前の(A単独の)チェックポイントは B と desync するため無効化。
   // A/B 中に保存したチェックポイントは A+B 両側を持つ(ckSave)ので A/B 中は有効に使える
   ckInvalidate();
-  ab={simB:cloneSimState(), lastKey:null, bodyPatch:null};
+  ab={simB:cloneSimState(), lastKey:null, lastBox:null, bodyPatch:null};   // 第96便: lastBox=箱宇宙の比較表示
   trailBufB=trailBuf.map(b=>b.slice());   // 線の軌跡も現在までの履歴ごと複製
   if(key!==undefined){
     const c=CLAMPS[key];
@@ -10860,6 +10877,7 @@ function buildBoxParamRows(host){
       sel.value=editSim().box.mode;
       sel.addEventListener("change",()=>{
         const S=editSim(); if(S.box) S.box.mode=sel.value;
+        if(ab){ ab.lastBox=def.key; ab.lastKey=null; }   // 第96便: A/B比較表示(箱宇宙)
         setParamsDirty(true); requestRender();
       });
       row.appendChild(lab); row.appendChild(sel);
@@ -10873,6 +10891,7 @@ function buildBoxParamRows(host){
         if(isFinite(v) && S.box){
           const cv=clamp(v,def.lo,def.hi);
           S.box[key]=cv;
+          if(ab){ ab.lastBox=key; ab.lastKey=null; }   // 第96便: A/B比較表示(箱宇宙)
           setParamsDirty(true); requestRender();
           num.value=String(cv);
         } else num.value=fmt(S.box? S.box[key] : 0);   // 空文字/NaN入力は元の値へ戻す(既存の数値入力行の作法)
@@ -11347,7 +11366,7 @@ function buildParamRows(){
         S.params[key]=v;
         if(key==="radiusScale") S.updateRadii();
       }
-      if(ab) ab.lastKey=key;  // v1.19: A/B比較中は「最後に調整したパラメータ」を両画面に表示
+      if(ab){ ab.lastKey=key; ab.lastBox=null; }  // v1.19: A/B比較中は「最後に調整したパラメータ」を両画面に表示(第96便: 箱宇宙側の表示は解除)
       setParamsDirty(true);  // v1.17: 未保存の編集あり(バックアップ対象外の注意喚起に使用)
       // v1.26: 物理対応ロック — Kt/cLight/G の編集後に Kt=cLight²/G を自動維持
       // (Ktの直接編集も導出値へ戻す)。ロックOFF時もバッジの成立表示を更新する

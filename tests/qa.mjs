@@ -12031,6 +12031,82 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   }
 }
 
+// ---- 96A) 第96便(原仮定者指示・修正3件): ①「選択粒子」追従設定中でも非選択ならドラッグで
+// ----   カメラが動く ②HUD換算の倍率=時間倍率×簡易倍率のクランプ後実効値 ③箱宇宙 A/B の
+// ----   最終編集パラメータ比較表示(ab.lastBox)----
+{
+  const has96 = await page.evaluate(() => !!(window.HP && typeof HP.selConvLines === 'function'));
+  if (has96) {
+    const r = await page.evaluate(() => new Promise((res) => {
+      const out = {};
+      // ① sel設定+非選択: panCam がカメラを直接動かす(旧: オフセットに積むだけで動かない)
+      HP.loadPreset('saturn', false);
+      HP.selectBody(-1, 'A');
+      HP.setCamFollow('sel');
+      const c0 = HP.camState();
+      HP.panCam(50, 30);
+      const c1 = HP.camState();
+      out.dragMoves = c1.x !== c0.x && c1.y !== c0.y && c1.offX === 0 && c1.offY === 0;
+      // 選択すると従来どおりオフセット側へ積む
+      HP.selectBody(0, 'A');
+      HP.panCam(10, 10);
+      const c2 = HP.camState();
+      out.dragOffsetWhenSel = c2.offX !== 0 && c2.offY !== 0;
+      HP.selectBody(-1, 'A');
+      HP.setCamFollow('none');
+      // ② HUD: 実効倍率 = min(時間倍率×簡易倍率, 12)。簡易倍率4×時間倍率4.82(⚾)→ clamp 12
+      HP.loadPreset('projectile', false);   // timeScale=4.82
+      HP.setScaleDisp(true);
+      const sp = document.querySelector('#speedSel');
+      const sp0 = sp.value;
+      sp.value = '4'; sp.dispatchEvent(new Event('change'));
+      HP.requestRender();
+      setTimeout(() => {
+        const hud = document.querySelector('#hud').textContent;
+        out.hudClamped = /実効倍率12[^\d.]|effective rate 12[^\d.]/.test(hud);   // 4.82×4=19.3 → 12
+        sp.value = '1'; sp.dispatchEvent(new Event('change'));
+        HP.requestRender();
+        setTimeout(() => {
+          const hud1 = document.querySelector('#hud').textContent;
+          out.hudPlain = /実効倍率4\.82|effective rate 4\.82/.test(hud1);   // 4.82×1(クランプ内)
+          sp.value = sp0 || '1'; sp.dispatchEvent(new Event('change'));
+          // ③ 箱宇宙 A/B: H₀ 行の編集で ab.lastBox が立ち、パラメータ編集で戻る
+          HP.loadPreset('probeH', false);
+          HP.abStart();
+          HP.setAbTarget('B');
+          const bd = [...document.querySelectorAll('#paramRows details.catParams')]
+            .find((d) => (d.querySelector('summary').textContent || '').includes('箱宇宙'));
+          const h0row = bd ? [...bd.querySelectorAll('.prow')].find((rw) => {
+            const l = rw.querySelector('label'); return l && /H₀/.test(l.textContent); }) : null;
+          if (h0row) {
+            const inp = h0row.querySelector('input.valIn');
+            inp.value = '0.06'; inp.dispatchEvent(new Event('change'));
+            out.lastBoxSet = HP.ab().lastBox === 'H0' && HP.ab().lastKey === null;
+            // 通常パラメータの編集で lastBox は解除され lastKey へ切り替わる
+            const gRow = [...document.querySelectorAll('#paramRows .prow')].find((rw) => {
+              const l = rw.querySelector('label'); return l && l.firstChild
+                && l.firstChild.textContent === '重力 G'; });
+            const gi = gRow.querySelector('input.valIn');
+            gi.value = '0.5'; gi.dispatchEvent(new Event('change'));
+            out.lastKeyBack = HP.ab().lastKey === 'G' && HP.ab().lastBox === null;
+          }
+          HP.setAbTarget('A'); HP.abStop();
+          HP.loadPreset('saturn', false);
+          res(out);
+        }, 350);
+      }, 350);
+    }));
+    add('ui.wave96a',
+      r.dragMoves && r.dragOffsetWhenSel && r.hudClamped && r.hudPlain
+      && r.lastBoxSet === true && r.lastKeyBack === true,
+      `sel非選択ドラッグでカメラ移動=${r.dragMoves}(選択時はオフセット=${r.dragOffsetWhenSel})/ ` +
+      `HUD実効倍率: 4.82×4→12(クランプ)=${r.hudClamped}・4.82×1→4.82=${r.hudPlain} / ` +
+      `箱A/B比較表示: lastBox=H0=${r.lastBoxSet}・G編集でlastKeyへ復帰=${r.lastKeyBack}`);
+  } else {
+    console.log('SKIP ui.wave96a(対象に第95便機能なし — root 等)');
+  }
+}
+
 // ---- 85) 第85便(休眠検出の再発防止): qa.testid-live ----
 // ----   第84便B が見つけた事故の型 =「claims の testId が指す QA テストが、廃止済み API を見る
 // ----   古い判定子(`HP.sim.obsT`)に閉じ込められて**フルQAでも一度も走っていない**」。
