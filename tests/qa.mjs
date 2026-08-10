@@ -3445,7 +3445,9 @@ if (hasBadgeClassify) {
       out.catsClosed = cats.every(d => !d.open);
       // ⑥ 相変化スライダー(melt): 全行にスライダー+スライダー編集反映+スライダー域外の直値
       HP.loadPreset('emergent2', false);
-      // 第95便: 実験箱カテゴリは箱境界サンプルのみ表示 — emergent2(箱)側で存在を確認
+      // 第95便: 実験箱カテゴリは箱境界サンプルのみ表示 — emergent2(箱)側で存在を確認。
+      // 世代判定は第95便マーカー(HP.selConvLines)— root は従来の常時表示のまま
+      out.per95 = typeof HP.selConvLines === 'function';
       out.catSums2 = [...document.querySelectorAll('#paramRows details.catParams')]
         .map(d => (d.querySelector('summary').firstChild.textContent || '').trim());
       const pcDet = [...document.querySelectorAll('#paramRows details.catParams')]
@@ -3483,8 +3485,8 @@ if (hasBadgeClassify) {
       `カテゴリ選択肢=${d1.groupOpts.length}(先頭=all) 絞り込み(熱の実験室)=${d1.filtered.opts.length}件・全て域内=${d1.filteredAllInCat}・先頭自動ロード=${d1.filtered.preset} / ` +
       `域外読込で全カテゴリへ復帰=${d1.backToAll.gsVal === 'all'} / hp_last_preset=${d1.lastStored} / 仕込み emergent2 → 別ページ boot 復元=${restored}`);
     // 第95便: 実験箱カテゴリは箱境界サンプルのみ — 🪐(境界なし)では出ず、🧊(箱)側で確認。
-    // 旧ビルド(新設前)では catSums2 が未定義なので従来判定(saturn 側にあり)へフォールバック
-    const labBoxOk = d1.catSums2
+    // 旧ビルド(root 等 — per95=false)は従来判定(saturn 側にも常時表示)
+    const labBoxOk = d1.per95
       ? (!d1.catSums.some(t => t.includes('実験箱')) && d1.catSums2.some(t => t.includes('実験箱')))
       : d1.catSums.some(t => t.includes('実験箱'));
     add('ui.54d-params',
