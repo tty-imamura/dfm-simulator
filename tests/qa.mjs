@@ -6931,6 +6931,62 @@ if (!FAST) {
   }
 }
 
+// ---- 7s2) 第102便: 外部AIチャット経路(生成用プロンプトコピー+フェンス付きJSONの寛容
+// ----      インポート)+SYSTEM_PROMPT の意図対応表(beta 先行 — ルート対象時はスキップ)----
+{
+  const hasExt = await page.evaluate(() => !!document.querySelector('#btnExtCopy') && !!window.HP.buildExternalPrompt);
+  if (hasExt) {
+    // ai.external-prompt: 組み立て = 依頼ヘッダ+システムプロンプト+要望(ベース文脈込み)。
+    // 空要望はプレースホルダで埋まり undefined が混入しない
+    const r = await page.evaluate(() => {
+      const prompt = document.querySelector('#aiPrompt'), sel = document.querySelector('#aiBasePreset');
+      sel.value = ''; prompt.value = 'QA外部プロンプト検査';
+      const t1 = HP.buildExternalPrompt();
+      const plain = t1.includes(HP.SYSTEM_PROMPT) && t1.includes('QA外部プロンプト検査');
+      sel.value = 'darkrotor';
+      const t2 = HP.buildExternalPrompt();
+      const withBase = t2.includes(HP.aiUserContent('QA外部プロンプト検査')) && t2.includes('lightSweep');
+      prompt.value = '';
+      const t3 = HP.buildExternalPrompt();
+      const emptyOk = t3.includes(HP.SYSTEM_PROMPT) && !t3.includes('undefined');
+      sel.value = '';
+      return { plain, withBase, emptyOk };
+    });
+    add('ai.external-prompt', r.plain && r.withBase && r.emptyOk,
+      `素通し=${r.plain} ベース文脈=${r.withBase} 空要望プレースホルダ=${r.emptyOk}`);
+
+    // prompt.intent-map: 第102便 102A — 要望→設定の対応表と意図分解ルール(8.)が載っている
+    const mapOk = await page.evaluate(() =>
+      HP.SYSTEM_PROMPT.includes('要望→設定の対応') && /\n8\. 出力の前に/.test(HP.SYSTEM_PROMPT));
+    add('prompt.intent-map', mapOk, '対応表+意図分解ルールの明記');
+
+    // import.fenced-json: ```json フェンス+前後説明文つきの単独プリセットを取り込める。
+    // 正規JSONは従来どおり素通し・JSONの無いテキストは従来どおり失敗
+    const imp = await page.evaluate(() => {
+      const keep = localStorage.getItem('hp_custom_presets'), keepS = localStorage.getItem('hp_saves');
+      localStorage.setItem('hp_custom_presets', '[]'); localStorage.setItem('hp_saves', '[]');
+      const mk = (m) => ({ id: 'custom_qa_fence', name: 'impFence', description: 'd', camera: { scale: 200 },
+        world: { boundary: 'none', size: 0 },
+        bodies: [{ type: 'single', m, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+      const count = () => JSON.parse(localStorage.getItem('hp_custom_presets') || '[]').length;
+      const doImp = (text) => { document.querySelector('#ioArea').value = text; document.querySelector('#btnImport').click(); };
+      doImp('生成しました。\n```json\n' + JSON.stringify(mk(10)) + '\n```\nこのJSONを貼り付けてください。');
+      const fenced = count() === 1;
+      doImp(JSON.stringify(mk(11)));
+      const plain = count() === 2;
+      doImp('コードフェンスもJSONも無い説明文だけの応答');
+      const badRejected = count() === 2;
+      if (keep === null) localStorage.removeItem('hp_custom_presets'); else localStorage.setItem('hp_custom_presets', keep);
+      if (keepS === null) localStorage.removeItem('hp_saves'); else localStorage.setItem('hp_saves', keepS);
+      return { fenced, plain, badRejected };
+    });
+    add('import.fenced-json', imp.fenced && imp.plain && imp.badRejected,
+      `フェンス除去=${imp.fenced} 正規JSON素通し=${imp.plain} JSON無しは失敗=${imp.badRejected}`);
+  } else {
+    console.log('SKIP ai.external-prompt / prompt.intent-map / import.fenced-json(対象に外部AIチャット経路なし — 第102便 未適用の root 等)');
+  }
+}
+
 // ---- 7t) 第32便 W4(台帳4-58後半): QAのスクリーンショット取得(CIアーティファクト化)。
 // ----     ピクセル差分回帰ではなく、CI アーティファクトとしての取得+非空検査(差分回帰は
 // ----     表示ゆらぎで壊れやすいため段階導入 — 台帳4-58)。ルート・beta 双方で撮影する ----
