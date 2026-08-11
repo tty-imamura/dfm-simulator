@@ -1,5 +1,9 @@
 % =====================================================================
-% Determinacy-Field Mechanics, Paper 3 -- SKELETON DRAFT (v0.1, 2026-08-08)
+% Determinacy-Field Mechanics, Paper 3 -- DRAFT (v0.2, 2026-08-11)
+% v0.2 (第100便): Secs. IV (micro) and V (meso) drafted in full prose from the
+%   landed harness records (exp-4-90/91/93 for micro; the wave-97 re-measured
+%   exp-4-85 + selfRotor sweep records for meso, with an explicit generation
+%   note for the pre-rescaling exp-4-89/92 robustness sweeps).
 % Theme: "Emergence across scales" -- adopted 2026-08-08.
 % Fallback scope (pre-agreed): drop Sec. IV (micro) -> meso+macro only.
 % Status: section skeleton with measured numbers from the harnesses
@@ -22,7 +26,7 @@ to Self-Forming Dark Rotors}
 
 % TODO(author): author block as in Papers 1--2.
 \author{...}
-\date{2026-08-08 (skeleton v0.1)}
+\date{2026-08-11 (draft v0.2)}
 
 \begin{abstract}
 % --- What we claim (skeleton bullets; final prose TODO) ---
@@ -208,12 +212,119 @@ harnesses, not of interactive runs.
 %   - perturbation recovery (5): temperature re-split -> lambda2/lambda1 =
 %     0.96/1.15/1.20; velocity kick via the app's official injector ->
 %     lambda3/lambda1 = 1.10/1.32/1.32 (all within [0.5, 2]).
-%   - equilibrium-temperature prediction (tests/exp-4-93.mjs): T_eq =
-%     Sigma C m T_0 / Sigma C m; equal-mass -> 3.13, unequal-mass (left m=2)
-%     -> 2.09 (mass-weighted, NOT the naive mean 3.13).
-%     TODO: insert measured pass/fail and curves once exp-4-93 lands.
-% Figures: R(t) curves; lambda vs kappa_s and vs n (log-log with slopes).
-TODO.
+%   - equilibrium-temperature prediction (tests/exp-4-93.mjs): landed 2026-08-08;
+%     numbers now in prose below.
+% Figures: R(t) curves; lambda vs kappa_s and vs n (log-log with slopes) -- TODO.
+% [第100便: 本文起こし — 数値は tests/out/exp-4-90/91/93.json の実測そのまま。
+%  本サンプルは G=0 の分子系なので第96〜97便の c₀=30 再パラメータ化の影響を受けない
+%  (力学 bit 不変) — 旧実測値がそのまま正である]
+
+\subsection{System and order parameter}
+
+The microscopic testbed is deliberately minimal: a closed box of
+$120+120$ identical grains, prepared as a cold population on the left
+($T_{\mathrm{int}}=0.01$) and a hot one on the right ($T_{\mathrm{int}}=6.25$),
+with gravity and frame dragging off ($G=0$, $k_{\mathrm{frame}}=0$).
+Temperature is the internal state variable $T_{\mathrm{int}}$ of the A9$''$
+revision (heat energy $E=C\,m\,T_{\mathrm{int}}$), so ``thermalization''
+here means transport of $T_{\mathrm{int}}$ by the conduction channel
+E10$'$ and by collisions -- not equipartition of translational motion.
+The declared order parameter is the inter-group contrast
+$R(t)=\Delta T(t)/\Delta T(0)$ between the two populations; the judged
+quantity is its decay rate $\lambda$, the least-squares slope of
+$\ln R(t)$.
+
+That choice of judged quantity is itself a documented switch. The first
+version of the harness judged the equilibration time $t_{\mathrm{eq}}$
+inside a 3000-step window and \emph{failed in every condition}: the
+conduction timescale of this system is long -- extrapolating the
+measured decay to $R=0.1$ gives ${\sim}6.8\times10^{4}$ steps. Rather
+than widening the window until the test passed, we replaced the judged
+quantity by the rate $\lambda$, recorded the failed first attempt in the
+harness header (\texttt{tests/exp-4-90.mjs}), and kept the timescale
+itself as the time-window result of the battery (test~6).
+
+\subsection{The six tests}
+
+\emph{Knockout (test 1).} With all thermal channels off
+($\kappa_s=\mu_F=\gamma_n=0$) the contrast is frozen exactly:
+$R=1.0000$, $\lambda=0$ over three seeds. With \emph{only} conduction
+removed ($\kappa_s=0$, collisions on) the rate collapses to the noise
+scale ($|\lambda| \lesssim 2\times10^{-6}$ per step, sign not even
+stable): inter-group transport is carried essentially entirely by the
+conduction channel, while collisions merely dissipate within each
+group. The phenomenon has exactly one load-bearing mechanism, and
+removing it stops the clock.
+
+\emph{Dose response (test 2).} Sweeping $\kappa_s \in \{0.05, 0.15,
+0.45\}$ moves $\lambda$ monotonically and nearly proportionally; the
+global fit below gives an exponent $1.006$.
+
+\emph{Multi-seed (test 3).} Sixteen seeds give $\lambda = 2.45\times
+10^{-5}$--$4.20\times10^{-5}$ per step (spread ratio 1.71, median
+$3.28\times10^{-5}$); no seed fails to relax and no seed relaxes
+without the channel.
+
+\emph{Particle-count scaling (test 4).} At $n=60/120/240$ per side the
+rate increases monotonically. Jointly with the dose sweep the rates
+collapse onto
+\begin{equation}
+\lambda \;\approx\; \lambda_0
+\left(\frac{\kappa_s}{0.15}\right)^{1.006}
+\left(\frac{n}{120}\right)^{1.084},
+\qquad \lambda_0 = 3.28\times10^{-5}\ \text{per step},
+\label{eq:microfit}
+\end{equation}
+i.e.\ proportional to the conduction coefficient and to the grain
+density within a few percent (\texttt{tests/exp-4-91.mjs}).
+
+\emph{Perturbation recovery (test 5).} After equilibration has begun we
+disturb the state twice: (a) re-splitting the temperatures re-starts a
+relaxation with rate ratios $\lambda_2/\lambda_1 = 0.96/1.15/1.20$
+across seeds, and (b) a velocity kick through the application's own
+momentum-conserving injector gives $\lambda_3/\lambda_1 =
+1.10/1.32/1.32$. All ratios sit inside the declared acceptance band
+$[0.5, 2]$: the relaxation is not a one-shot property of the prepared
+initial state but a rate the mechanism re-establishes after arbitrary
+interruptions.
+
+\emph{Time window (test 6).} The honest number is the one that broke
+the first harness: full equilibration takes ${\sim}7\times10^{4}$ steps
+at the default coupling. We report the rate, and we report that the
+timescale is long.
+
+\subsection{A ledger-level prediction}
+
+The battery above establishes robustness; it does not yet show the
+sector is \emph{quantitative} inside the model. For that we use the
+conduction-only configuration ($\mu_F=\gamma_n=k_{\mathrm{rep}}=0$),
+in which the heat $Q=\sum C\,m\,T_{\mathrm{int}}$ should be exactly
+conserved and the equilibrium temperature should be the
+$C\,m$-weighted mean
+\begin{equation}
+T_{\mathrm{eq}} \;=\; \frac{\sum_i C_i m_i T_{0,i}}{\sum_i C_i m_i}.
+\label{eq:teq}
+\end{equation}
+Measured (\texttt{tests/exp-4-93.mjs}, two seeds each): with equal
+masses the prediction is $T_{\mathrm{eq}}=3.13$ and both populations
+approach it monotonically from either side while $Q$ drifts by
+${\sim}10^{-6}$ (relative). The discriminating case is unequal masses
+(left grains at $m=2$): the naive arithmetic mean would remain $3.13$,
+but the ledger predicts $T_{\mathrm{eq}}=2.09$ -- and the measured
+populations bracket and approach $2.09$, again with $Q$ conserved to
+${\sim}10^{-6}$. The prediction is non-trivial (it distinguishes
+mass-weighted from naive averaging) and it is derived from the same
+bookkeeping that the conservation monitor displays in the application.
+In the default, dissipative configuration the same ledger acquires a
+collision-dissipation term; the clean statement is deliberately made in
+the configuration where the channel under test is the only one open.
+
+With the six tests and the ledger prediction, the microscopic sector
+carries the full battery of Sec.~\ref{sec:standard}. What it
+establishes is modest and precise: in this toy universe, inter-group
+thermalization is a genuine, robust consequence of one declared channel,
+with a rate law [Eq.~(\ref{eq:microfit})] and an equilibrium point
+[Eq.~(\ref{eq:teq})] that survive seeds, densities, and perturbations.
 
 % =====================================================================
 \section{Meso scale: the self-forming dark rotor}
@@ -250,8 +361,160 @@ TODO.
 %     the alignment timescale grows with n; the t=144 window was tuned at
 %     n=180. Recorded as a time-window caveat, not hidden.
 % Figures: formation snapshots; mFrac(t); J_core lineage; dimming vs halo;
-%   16-seed distributions (draft exists); dt/softening/n robustness table.
-TODO.
+%   16-seed distributions (draft exists); dt/softening/n robustness table -- TODO.
+% [第100便: 本文起こし — 数値は第97便の c₀=30 単位系での全面再実測(tests/out/exp-4-85.json・
+%  probe-selfrotor-sweeps)を正とする。skeleton コメントの旧世代値(t=144・155融合・
+%  mFrac 18.3〜53.3 等)は再パラメータ化前の記録 — dt/softening/n=720(exp-4-89/92)だけは
+%  旧単位系の記録のまま引用し、その旨を本文で明示する]
+
+\subsection{System}
+
+The meso-scale system is a uniform disk of 180 identical grains (mass
+1, spin 0, all free), given a slow global rotation
+($\omega_0$) and one identical microscopic core seed inside every grain
+(5\% of its mass, $J_{\mathrm{core}}=0.0010$ each). Nothing else is
+placed: no central body, no dark core, no halo, no pinned particles, no
+boundary, no external field. The active rules are self-gravity (E4),
+contact (E9), fusion (two grains merging when their centres come within
+$d<0.7\,(R_i+R_j)$), and the conservation-law inheritance of the cores
+($M_c' = M_{c,i}+M_{c,j}$, $R_c' = \sqrt{R_{c,i}^2+R_{c,j}^2}$,
+$J_c' = J_{c,i}+J_{c,j}$). The centre of mass and its velocity are
+zeroed once at build time; thereafter the system is closed (E6$'$-R),
+and the conservation monitor closes momentum and angular momentum with
+all reservoir ledgers at zero ($|\Delta L|/L_{\mathrm{scale}} =
+3.5\times10^{-6}$ over the reference run, $\leq 1.4\times10^{-5}$ over
+all sixteen seeds).
+
+All numbers below are quoted in the application's uniform light-speed
+convention ($c_0=30$), in which this sample was re-measured in full;
+the reference run is seed 20260806 evaluated at $t=288$ (18000 steps).
+
+\subsection{Formation, and what causes it}
+
+In the reference run the 180 grains undergo 146 fusions down to 34
+bodies, and the heaviest body grows into a centre holding 27.2\% of the
+total mass ($m=49$), with bound fraction 0.94. The knockout control
+(fusion off) leaves the largest body at one original grain -- a mass
+fraction of exactly $0.56\% = 1/180$, for every seed -- with bound
+fraction 0.15: the heavy centre is a product of the fusion rule, not of
+the initial conditions. The causal role of self-gravity is isolated by
+a dose response: varying only $G$ over $0.5/1/1.5/2/3$ moves the mass
+fraction monotonically through $1.1/7.8/18.9/27.2/57.8\%$
+($7/62/125/155/173$ fusions).
+
+The core angular momentum accumulates through the inheritance path and
+nothing else: the centre's $J_{\mathrm{core}}=0.0490$ is exactly 49
+seeds' worth, matching grain for grain the mass 49 it swallowed (the
+sum in the inheritance rule literally counts them); the system-wide
+$\sum J_{\mathrm{core}}$ stays at $0.1800 = 180\times0.0010$ to the
+end; and the no-core control gives $J_{\mathrm{core}}\equiv 0$.
+
+The darkness grows too. The effective dimming (A11/E8R -- how much of
+its own light a body sweeps out by spinning) starts at $0.000$
+everywhere; by $t=288$ the central body has dimmed to $0.818$ while its
+surroundings average $0.192$ -- a dark centre with a bright surround,
+contrast 4.3. Dimming is set purely by the depth of the well
+$\psi=W/K_t$ and never enters the dynamics: sweeping $K_t$ over
+$12/14/16/20/24$ leaves particle count, fusion count, mass fraction,
+spin and radius identical to the last bit while the dimming alone moves
+through $1.000/0.818/0.574/0.349/0.251$. The grains start with zero
+spin and end co-rotating unanimously (spin alignment
+$0.000\rightarrow1.000$, clump count $166\rightarrow2$, largest-clump
+mass fraction 0.994, rotation support $V/\sigma=11.2$).
+
+\subsection{The six tests}
+
+\emph{Multi-seed (test 3).} Over sixteen seeds the central mass
+fraction spans 16.7--47.8\% (median 26.7\%) and is at least 16.7\% in
+every seed, while the no-fusion control sits at 0.56\% for all sixteen:
+the worst seed is 30 times its control. Across the same seeds:
+largest-clump mass fraction 0.978--1.000, spin alignment 1.000 in every
+seed, $V/\sigma$ 4.1--22.0, central dimming 0.513--1.000 against
+surround 0.156--0.220, $J_{\mathrm{core}}$ 0.0300--0.0860 (30--86
+seeds' worth), bound fraction 0.49--0.94, 26--42 bodies left
+(138--154 fusions), no NaN, no clamping. The discriminating optical
+quantity is the \emph{contrast} (centre over surround): 2.59--5.41
+(median 4.11) in the main runs against 0.36--1.26 (median 1.16) in the
+controls -- the two ranges never overlap.
+
+\emph{Knockout and dose (tests 1--2)} are the fusion knockout, the
+no-core control, and the $G$ dose above; a second dose response in the
+fusion threshold $d_{\mathrm{frac}}$ ($0.7/0.6/0.5/0.35 \rightarrow
+27.2/37.2/53.9/53.9\%$) is monotone-then-saturating \emph{in this
+realization} -- in the previous parameterization the same sweep
+measured non-monotonic ($26.7/47.8/43.3/23.3\%$). The very shape of
+this dose curve is sensitive to the rounding realization, and we record
+that rather than choosing the prettier curve.
+
+\emph{Particle-count scaling (test 4).} At $n=90/180/360$ (three
+representative seeds) the median mass fraction is 17.8/22.8/37.5\%,
+largest-clump fraction 0.933/0.994/1.000, alignment 1.000 throughout.
+An honest entanglement is stated rather than hidden: this sample keeps
+the disk radius and per-grain mass fixed, so $n$ is also the total mass
+-- $n=90$ acts like halving $G$, and the ten-times-control bar is met
+there by only 2 of the 3 seeds (ratios 2.0/16.0/20.0).
+
+\emph{Perturbation recovery (test 5).} Gaussian velocity noise injected
+at $t=240$ through the application's momentum-conserving injector, at
+30\% of the speed RMS, moves none of the order parameters; sweeping the
+amplitude, the largest clump only starts to break at four times the
+speed RMS ($0.994\rightarrow0.861$; at twice it stays 0.994). What is
+disturbed and returns is $V/\sigma$ (down 39--61\%, back within
+20--100 steps) and the bound fraction (down $\leq$15\%, back within
+20--50 steps; one seed misses the recovery criterion inside the
+measured window -- recorded). Velocity noise cannot touch the
+alignment by construction, so a separate perturbation flips the spins
+of about half the grains: alignment is driven from 1.000 to
+$0.531/-0.212/0.084$ and recovers within 20 steps ($\Delta t=0.32$).
+The co-rotating state is not a configuration but an attractor that
+contact friction (E9) and dragging (A8/E6$'$) re-establish every step.
+
+\emph{Time window (test 6).} The clumps merge into one by step 3000
+($t=48$); alignment passes 0.99 by steps 4000--5000; the mass fraction
+reaches 90\% of its final value between steps 4000 and 6000 and then
+saturates -- at step 18000 (the declared window) and step 36000 it
+differs by at most 0.6 points. The window sits inside the plateau, past
+the rise.
+
+\subsection{Numerical robustness, with a generation note}
+
+Three further sweeps probe the integration rather than the physics.
+They were recorded (\texttt{tests/exp-4-89.mjs},
+\texttt{exp-4-92.mjs}; 2026-08-08) in the sample's \emph{previous}
+parameterization, before its exact-similarity rescaling into the
+$c_0=30$ convention (velocities and rates $\times k$, times $\div k$;
+the continuum dynamics is identical by construction, the discrete
+integration differs slightly, and the multi-seed distribution above was
+re-measured after the rescaling). We quote them in their original
+units, against the old-unit sixteen-seed floor of 18.3\%:
+
+(i) \emph{Timestep}: $dt \in \{0.016, 0.008, 0.004\}$ at fixed physical
+time leaves every order parameter inside the sixteen-seed spread with
+$|\Delta L|/L_{\mathrm{scale}}\sim10^{-6}$; the fusion count drifts
+mildly ($155\rightarrow147\rightarrow138$). (ii) \emph{Softening}:
+$\times0.5/\times1/\times2$ -- formation survives everywhere
+(largest-clump 0.978--1.000, alignment 1.000), but the mass fraction
+\emph{is} softening-sensitive at $\times2$ (fusions drop to 104--122;
+minimum mass fraction 11.1\%, below the sixteen-seed floor):
+quantitative mass fractions must be quoted at fixed softening, and we
+do so. (iii) \emph{$n=720$}: formation completes (largest-clump 1.000,
+control ratio 166--208$\times$) and the mass fraction saturates
+(median 31.5\% vs.\ 31.7\% at $n=360$), but the alignment timescale
+grows with $n$ -- one seed reaches only 0.752 by step 9000 and 1.000 by
+step 13500. The $t$-window was tuned at $n=180$; at $n=720$ it is a
+caveat, and we record it as such.
+
+\subsection{What the meso chapter claims}
+
+A heavy, dark, co-rotating, angular-momentum-bearing centre forms from
+a uniform cloud of identical grains in a closed system, with every
+ingredient of the outcome traced to a declared rule by knockout or dose
+response, reproduced across sixteen seeds and three particle counts,
+recovering from perturbations, and stated with its two honest
+sensitivities (softening; alignment timescale at large $n$). By the
+grading of Sec.~\ref{sec:standard} this is E3: robust emergence --
+\emph{of the toy universe's own dark rotor}, and of nothing in the real
+sky (Sec.~\ref{sec:negative}).
 
 % =====================================================================
 \section{Macro scale: hidden mass and disk signatures (application)}

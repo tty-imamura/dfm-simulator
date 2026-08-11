@@ -429,6 +429,12 @@
         <div class="beRow"><label id="beLcvJ" style="min-width:34px">Jc/Ic/Kc</label><input type="text" id="beCvJ" readonly tabindex="-1" inputmode="text" autocomplete="off"></div>
         <div class="beRow"><label id="beLcvLs" style="min-width:34px">殻/コア/合成</label><input type="text" id="beCvLs" readonly tabindex="-1" inputmode="text" autocomplete="off"></div>
       </details>
+      <!-- 第100便 EXT-10: 形成系譜 — 融合で育った粒子の吸収履歴(読み取り専用・融合が起きた粒子のみ表示) -->
+      <details id="beLineage" style="display:none">
+        <summary id="beLinTitle" class="tappable" style="color:var(--acc);font-weight:700;cursor:pointer">形成系譜</summary>
+        <div id="beLinSummary" style="font-size:11.5px;opacity:.92;padding:2px 0"></div>
+        <div id="beLinRows" style="font-size:11px;opacity:.88;max-height:110px;overflow-y:auto"></div>
+      </details>
       <div class="beNote" id="beNote">※編集は即時反映。⏮初めからで初期値に戻ります。</div>
     </div>
   </div>
@@ -686,6 +692,10 @@ ja: {
   physLockOnClamped:"⚠ ロック中: 導出値が値域外のため Kt をクランプ(対応は近似)",
   physLockOffOk:"✓ ロック解除中(現在値は条件 Kt=cLight²/G を満たしています)",
   physLockOffNg:"⚠ 一般化トイ設定 — GR較正条件外(Kt≠cLight²/G)",
+  cLinkLabel:"相似変換連動(実験的)",
+  cLinkDesc:"ONの間、「光速 c₀」を変更すると k=新c₀/旧c₀ の力学的相似変換を現在の状態へ自動適用し、見た目の運動を保ちます(G・bM・接触定数 ×k²/η_rad・κs ×k/時間倍率 ÷k/速度・スピン・コアΩ ×k/内部エネルギー ×k²/コア源 ×k³/箱 H0 ×k)。Kt は c²/G が不変なので据え置かれ、物理対応ロックとも整合します。スケールフリーなエンジンでは c₀ の値そのものに意味はなく、この連動で「c₀ を変えても同じ宇宙を記述できる」ことを確かめられます。注意: サブステップ離散化・値域クランプ(特に時間倍率 0.01〜100)・放射冷却の T^p(p≠1)では厳密相似が破れます。画面全体の実験的設定で、プリセットやセーブには保存されません。",
+  cLinkApplied:(k)=>"相似変換を適用: k="+k+"(G×k²・速度×k・時間倍率÷k 等)",
+  cLinkClamped:(keys)=>"⚠ 相似変換: "+keys+" が値域クランプされ厳密相似が破れています",
   divUndo:"⏪ 直前の設定に戻して初めから",
   divRestored:"発散前の設定に戻し、初期配置から再開できます(▶実行)",
   tgTrails:"軌跡を残す", tgTrailLine:"線の軌跡", tgField:"決定力マップ", tgCurve:"回転曲線グラフ",
@@ -768,6 +778,9 @@ ja: {
   beLswAuto:"自動",   // 第37便 A2(原仮定者指示): 掻出autoの可視化チェックボックス
   // 第80便C: コアv2(第77便)の読み取り専用内訳ブロックのラベル
   beCoreTitle:"コア内訳(v2)", beCoreMode:"種別", beCoreOm:"Ωc/Ωs/Δ", beCoreJ:"Jc/Ic/Kc", beCoreLs:"殻/コア/合成",
+  beLinTitle:"形成系譜",
+  beLinSum:(n,tree,ev,ge)=>`直接吸収 ${n} 回・系譜 ${ge?"≥":""}${tree} 粒(記録 ${ev} 件)`,
+  beLinRow:(t,dm,m,ls)=>`t=${t}: +${dm} → m=${m}・減光=${ls}`,
   beDcv:"第77便のコアv2(独立コア)を持つ粒子の内部状態(読み取り専用)。Ωc=J_core/I_c(I_c=½·Mc·Rc²)・"
     +"Ωs=殻スピン・Δ=Ωc−Ωs。減光は殻側ls_s・コア側ls_c・合成lSwの内訳(第75/77便の式を表示用に再計算 — "
     +"物理配列へは書き込まない)。",
@@ -1071,6 +1084,10 @@ en: {
   physLockOnClamped:"⚠ Locked: derived value out of range — Kt clamped (approximate correspondence)",
   physLockOffOk:"✓ Unlocked (current values happen to satisfy Kt=cLight²/G)",
   physLockOffNg:"⚠ Generalized toy setting — outside GR calibration (Kt≠cLight²/G)",
+  cLinkLabel:"Similarity-transform link (experimental)",
+  cLinkDesc:"While ON, changing the light speed c₀ automatically applies the dynamical similarity transform with k = new c₀ / old c₀ to the current state, preserving the visible motion (G, b_m, contact constants ×k²; η_rad, κs ×k; time scale ÷k; velocities, spins, core Ω ×k; internal energy ×k²; core source ×k³; box H0 ×k). Kt stays put since c²/G is invariant — consistent with the correspondence lock. In a scale-free engine the value of c₀ itself carries no meaning; this link lets you verify that the same universe can be described at any c₀. Caveats: exact similarity breaks under substep discretization, range clamps (especially time scale 0.01–100), and radiative cooling's T^p with p≠1. A global experimental setting — not stored in presets or saves.",
+  cLinkApplied:(k)=>"Similarity transform applied: k="+k+" (G×k², velocities ×k, time scale ÷k, …)",
+  cLinkClamped:(keys)=>"⚠ Similarity transform: "+keys+" clamped to range — exact similarity broken",
   divUndo:"⏪ Restore last-good settings & restart",
   divRestored:"Pre-divergence settings restored — press ▶ Run to restart from the initial layout",
   tgTrails:"Motion trails", tgTrailLine:"Line trails", tgField:"Determinacy map", tgCurve:"Rotation-curve graph",
@@ -1149,6 +1166,9 @@ en: {
   beLswAuto:"auto",   // 第37便 A2(原仮定者指示): sweep auto checkbox
   // 第80便C: read-only core-v2 (wave 77) breakdown block labels
   beCoreTitle:"Core (v2)", beCoreMode:"type", beCoreOm:"Ωc/Ωs/Δ", beCoreJ:"Jc/Ic/Kc", beCoreLs:"shell/core/mix",
+  beLinTitle:"Formation lineage",
+  beLinSum:(n,tree,ev,ge)=>`absorbed ${n}× directly · lineage ${ge?"≥":""}${tree} grains (${ev} events logged)`,
+  beLinRow:(t,dm,m,ls)=>`t=${t}: +${dm} → m=${m}, dimming=${ls}`,
   beDcv:"Internal state (read-only) of a body's independent core (v2, wave 77). Ωc=J_core/I_c (I_c=1/2 Mc Rc^2), "
     +"Ωs=shell spin, Δ=Ωc−Ωs. Dimming shows the shell-side ls_s, core-side ls_c, and combined lSw "
     +"(recomputed from the wave 75/77 formula for display only — never written back to the physics arrays).",
@@ -1654,7 +1674,10 @@ function paramDesc(def){ return (LANG==="en" && I18N.en.paramDescs[def.key]) || 
 const FUSION_DFRAC_MAX = Math.SQRT1_2;
 // ===== 物理パラメータ定義(PHYSICS.md §5 既定パラメータ表) =====
 const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
-  kappaS:0.05, Kt:60, cLight:60, bM:1, etaRad:0, pRad:4,
+  kappaS:0.05, Kt:60,
+  cLight:30,   // 第100便(原仮定者裁定): 既定を c₀=30 一律規約へ(旧60)。セーブ/内蔵/AI few-shot は
+               // cLight を全件明示しているため挙動不変 — 効くのは cLight 省略の手書き/外部 JSON のみ
+  bM:1, etaRad:0, pRad:4,
   cHeat:1,   // 第36便 D(台帳4-51): 熱容量係数 C(E_int = C·m·T_int)。thermal:"tint" のときだけ効く
   gravityX:0, gravityY:0,   // v1.17: 一様重力場(外部場。+yは画面下向き)
   geoPN:0, lambdaPN:1, pnAlpha:1.5,   // v1.20: E12 測地線1PN(geoPN=1で有効。BOX_UNIVERSE §5)
@@ -3608,6 +3631,35 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
+// ===== 第100便C(原仮定者裁定「進める」/ Gemini 提案「Molecular/Beaker の拡充」)=====
+// 🛷摩擦熱: E9(接触摩擦 muF・法線散逸 γn)の単一機構デモ。重い投射体が冷たい気体を
+// かき分けて進み、運動エネルギーが接触摩擦でスピン(熱)に変わる。
+// 実測(seed 20260811・4000步): 投射体の速さ 6→4.36(−27%)・気体の平均|spin| 0.047→0.145(約3倍)。
+// 対照(muF=γn=0・同步数): 減速はする(6→4.0 — 弾性散乱の運動量移行)が平均|spin| は 0.024 のまま
+// =「遅くなること」と「熱くなること」は別物で、後者だけが摩擦(E9)の署名(QA behavior.wave100c)
+{ id:"frictionHeat", name:"摩擦熱 — 運動が熱に変わる", emoji:"🛷", group:"熱の実験室",
+  scaleTier:"molecular",
+  sampleClass:"principle",
+  notClaim:["thermo"],   // EXT-04: しない主張(宣言専用 — 表示のみ)
+  descStruct:{
+    summary:"静かな冷たい気体の中へ、重い粒(そり)が速さ6で突っ込む。接触摩擦(E9: muF)がすべりを削り、そりの運動エネルギーが気体のスピン(=熱)に変わっていく — そりは遅くなり、通り道の気体は温まる。摩擦熱のアナロジー。",
+    observe:"4000步でそりの速さは 6→約4.4(−27%)、気体の平均|スピン|は 0.047→約0.15(約3倍)に上がる(実測・種固定)。色=温度。そりの通り道(航跡)が先に温まるのが見える。",
+    control:"muF と γn を 0 にすると、そりは気体をかき分けて同じように遅くなる(運動量は移る)が、平均|スピン|は 0.024 のまま増えない — 減速そのものではなく「減速が熱に変わること」が摩擦の署名(おすすめA/B)。"},
+  en:{name:"Friction Heat — Motion Becomes Heat", descStruct:{
+    summary:"A heavy grain (a 'sled') plows at speed 6 into quiet cold gas. Contact friction (E9: muF) grinds away the sliding, converting the sled's kinetic energy into gas spin (= heat) — the sled slows down and its wake warms up. An analogy of frictional heating.",
+    observe:"Over 4000 steps the sled slows from 6 to ≈4.4 (−27%) while the gas mean |spin| rises from 0.047 to ≈0.15 (≈3×) — measured, fixed seed. Color = temperature; the wake warms first.",
+    control:"Set muF and γn to 0: the sled still slows as it shoves gas aside (momentum transfers), but mean |spin| stays at 0.024 — the signature of friction is not the slowdown itself but the slowdown turning into heat (suggested A/B)."}},
+  activeParams:["muF","gammaN","kRep"],
+  camera:{scale:240}, world:{boundary:"box", size:200}, seed:20260811,
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:1.2, muF:0.9, gammaN:0.5, kappaS:0.05, Kt:60,
+    cLight:30/* c₀=30 一律規約(G=0・光線/PNなし — 力学に不干渉)*/, bM:1, etaRad:0, pRad:4,
+    gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:2},
+  bodies:[
+    {type:"box", rMul:2, n:200, cx:40, cy:0, w:240, h:340, mMin:0.4, mMax:0.4,
+      spinMin:0, spinMax:0.05, vScale:0.05},
+    {type:"single", rMul:2.5, m:12, x:-180, y:0, vx:6, vy:0, spin:0, pinned:false}],
+  overlays:{rotationCurve:false,tempHistogram:true,field:false} },
+
 { id:"coolrace", name:"放射冷却 — 高温ほど速い", emoji:"🌈", group:"熱の実験室",
   scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
@@ -3708,6 +3760,36 @@ const BUILTIN_PRESETS = [
     {type:"box", rMul:2.5, n:80, cx:0,cy:0, w:280,h:280, mMin:3,mMax:3, spinMin:0,spinMax:0, tInt:0, vScale:0.1}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
+
+// 第100便C: ☕冷めるお茶 — 伝熱壁(EXT系の壁4面 mode:"heat")への熱伝導で冷える巨視的デモ。
+// ビーカータグ(g_y 0.031 規約)。実測(seed 7): 平均T_int 60 → 800步56.2 → 2400步42.0 →
+// 4800步25.4(壁温2へ単調減衰 — ニュートン冷却様の曲線)。対照: 壁を断熱(rate 0)にすると冷えない。
+// 開放系(伝熱壁=無限熱容量のリザーバ)なので保存量モニタは開放系判定になる(EXT-14 と整合)
+{ id:"cooling", name:"冷めるお茶 — 壁への熱伝導", emoji:"☕", group:"熱の実験室",
+  scaleTier:"beaker",
+  sampleClass:"composite",
+  notClaim:["thermo"],   // EXT-04: しない主張(宣言専用 — 表示のみ)
+  descStruct:{
+    summary:"熱いお茶(T_int=60 の気体)を、四方の冷たい壁(壁温2の伝熱壁)に囲まれた箱に注ぐ。粒が壁に触れるたび熱が壁へ逃げ、内側では熱伝導(E10′: κs)が温度を運ぶ — 全体がゆっくり壁温へ近づく、ニュートン冷却様の曲線を描く。温度は内部状態変数T_int(A9改訂)で、スピンは動かない。",
+    observe:"平均温度は 60 → 約56(800步)→ 約42(2400步)→ 約25(4800步)と単調に冷える(実測・種固定)。縁から先に冷え、中心が最後まで温かい。弱い重力(ビーカー規約 g_y=0.031 ≈9.8 m/s²)で軽い対流も混ざる。色=温度。伝熱壁はエネルギーの出口なので、保存量モニタは開放系判定になる。",
+    control:"壁の伝達率を 0(断熱)にすると冷えが止まる。κs を上げると内側の温度が速く均される(おすすめA/B)。"},
+  en:{name:"Cooling Tea — Heat Loss to the Walls", descStruct:{
+    summary:"Hot tea (gas at T_int=60) poured into a box whose four walls are cold heat-conducting walls (wall temperature 2). Each wall contact leaks heat out, while conduction (E10′: κs) carries temperature inside — the whole cup relaxes toward the wall temperature along a Newton-cooling-like curve. Temperature is the internal state variable T_int (A9 revision); spins never move.",
+    observe:"Mean temperature falls monotonically: 60 → ≈56 (800 steps) → ≈42 (2400) → ≈25 (4800) — measured, fixed seed. The rim cools first, the center stays warm longest. Weak gravity (beaker convention g_y=0.031 ≈9.8 m/s²) adds a hint of convection. Color = temperature. The walls are an energy outlet, so the conservation monitor reports an open system.",
+    control:"Set the wall transfer rate to 0 (adiabatic) and the cooling stops. Raise κs to even out the inside faster (suggested A/B)."}},
+  activeParams:["kappaS","kRep","gravityY"],
+  thermal:"tint",
+  camera:{scale:220}, seed:7,
+  world:{boundary:"box", size:150, thermalWalls:{
+    bottom:{mode:"heat",T:2,rate:2}, top:{mode:"heat",T:2,rate:2},
+    left:{mode:"heat",T:2,rate:2}, right:{mode:"heat",T:2,rate:2} }},
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:2, muF:0, gammaN:0.1, kappaS:0.4, Kt:60,
+    cLight:30/* c₀=30 一律規約(G=0・光線/PNなし — 力学に不干渉)*/, bM:1, etaRad:0, pRad:4,
+    cHeat:1, gravityX:0, gravityY:0.031/* ビーカー規約(≈9.8 m/s²)*/, geoPN:0, lambdaPN:1,
+    pnAlpha:1.5, radiusScale:1, softening:2, timeScale:2},
+  bodies:[{type:"box", rMul:3, n:220, cx:0, cy:0, w:260, h:260, mMin:0.1, mMax:0.1,
+    tInt:60, spinMin:0, spinMax:0, vScale:0.3}],
+  overlays:{rotationCurve:false,tempHistogram:true,field:false} },
 
 // ===== E14″ 創発相変化サンプル(第60便で創発一本に整理 — 旧サンプル群は廃止)=====
 // 廃止(2026-08-02 原仮定者指示「古い仕組みを使ったサンプルは廃止して構わない」):
@@ -5820,6 +5902,10 @@ function makeSim(){
     // 重みであり、空洞の質量・慣性はどちらも厳密に 0(負質量はどこにも生じない)
     S.coreEint=new Float64Array(n); S.coreSrc=F(); S.coreOm0=F();
     S.rMulv=new Float64Array(n); S.rMulv.fill(1);   // 第36便 C1: 半径倍率(既定1。倍精度で保持)
+    // 第100便 EXT-10(形成系譜): 安定系譜ID(build 時 0..n-1・分裂は新ID発行)と直接吸収数。
+    // 記録専用 — 物理からは一切読まれない(bit 不変)。イベント本体は S.linLog(上限400・古い順に間引く)
+    S.linId=new Int32Array(n); for(let li=0;li<n;li++) S.linId[li]=li;
+    S.linN=new Uint16Array(n); S.linNext=n; S.linLog=[]; S.linTrim=0;
     S.lSwAuto=new Uint8Array(n); S.hasLSwAuto=false;// 第36便 C2: 掻出の自動算出フラグ(既定0=独立指定)
     S.uPx=F();S.uPy=F();S.tau=F();S.ax=F();S.ay=F();S.sumW=F();S.uAx=F();S.uAy=F();S.ds=F();
     S.dpx=F();S.dpy=F();
@@ -6455,6 +6541,12 @@ function makeSim(){
           rL:(lSc>0? Math.abs(eL)/lSc : 0), rE:(eSc>0? Math.abs(eE)/eSc : 0)});
         if(S.fusLog.length>64) S.fusLog.shift();
         S.fusN++;
+        // 第100便 EXT-10(形成系譜): 吸収イベントを安定IDで記録(記録のみ — 物理 bit 不変)。
+        // m/Jc/lSw は融合直後の値 = 系譜の吸収時点履歴。gone 側の履歴は linLog に残る(idで辿れる)
+        if(S.linId){ S.linN[i]=Math.min(65535,S.linN[i]+1);
+          S.linLog.push({t:S.t, id:S.linId[i], gone:S.linId[j], goneN:S.linN[j], dm:mj, m:mS,
+            Jc:(S.hasCoreV2? S.coreJ[i] : 0), lSw:S.lSw[i]});
+          if(S.linLog.length>400){ S.linLog.shift(); S.linTrim=1; } }
         dead[j]=1; into[j]=i; nDead++;
         break;                                   // 1サブステップに同一粒子は1回まで(連鎖は次回)
       }
@@ -6476,7 +6568,8 @@ function makeSim(){
       "lSw","radOv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
-      "Tint","dQi","arep","arepD","duT","echoX0","echoY0"]) mv(S[key]);
+      "Tint","dQi","arep","arepD","duT","echoX0","echoY0",
+      "linId","linN"]) mv(S[key]);   // 第100便 EXT-10: 形成系譜
     // 旧 index → 新 index の写像(消えた粒子は融合先へ写す)
     const nm=new Int32Array(n).fill(-1);
     for(let t=0;t<k;t++) nm[keep[t]]=t;
@@ -6511,12 +6604,14 @@ function makeSim(){
       "lSw","radOv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
-      "Tint","dQi","arep","arepD","duT","echoX0","echoY0"]){
+      "Tint","dQi","arep","arepD","duT","echoX0","echoY0",
+      "linId","linN"]){   // 第100便 EXT-10: 形成系譜
       const a=S[key]; if(!a) continue;
       const b=new a.constructor(nc); b.set(a); S[key]=b;
     }
     for(let i=cap;i<nc;i++){ S.rMulv[i]=1; S.coreMd[i]=0; S.coreMF[i]=0; S.coreJ[i]=0;
-      S.coreEint[i]=0; S.coreSrc[i]=0; S.coreOm0[i]=0; }   // alloc と同じ既定値(+コアv2・第80便)
+      S.coreEint[i]=0; S.coreSrc[i]=0; S.coreOm0[i]=0;
+      S.linId[i]=-1; S.linN[i]=0; }   // alloc と同じ既定値(+コアv2・第80便/第100便: 系譜は分裂時に発行)
     S.pairD=new Float32Array(Math.max(1,nc*(nc-1)/2));
     S.railIdx=null; S.periDet=null;     // index 依存のキャッシュは作り直させる
     S._fusDead=null; S._fusInto=null; S._ts=null;
@@ -6674,6 +6769,7 @@ function makeSim(){
       }
       if(S.echoX0){ S.echoX0[j]=X2; S.echoY0[j]=Y2; }
       S.n=j+1;
+      if(S.linId){ S.linId[j]=S.linNext++; S.linN[j]=0; }   // 第100便 EXT-10: 分裂子は新系譜ID(記録のみ)
       // 第三者との相互作用エネルギーの差分(融合と同じ方式・T′ 確定後に評価する)
       let u3b=0;
       for(let k=0;k<S.n;k++){ if(k===i||k===j) continue; u3b+=pairU(i,k)+pairU(j,k); }
@@ -10869,6 +10965,46 @@ function setPhysLock(v){
   const cb=document.getElementById("physLockCb"); if(cb) cb.checked=physLock;
   requestRender();
 }
+// ===== 第100便(原仮定者裁定「進める」/ Gemini 提案2): 相似変換連動モード =====
+// c₀ を k 倍したとき、第96便B と同じ力学的相似変換を「現在の状態」へ適用して見た目の運動
+// (描画フレームあたりの進み)を保つ実験的機能。変換表(96B): G・bM・contactK/contactCap ×k²/
+// etaRad・kappaS ×k/timeScale ÷k/速度・スピン・コアΩ(J)×k/内部エネルギー・T_int ×k²/
+// コア sourceRate ×k³/箱 H0・freq ×k(S.t ÷k で a(t)=e^{H0·t} は連続)。τ も ÷k(新時間単位)。
+// Kt は c²/G が不変なので据置(物理対応ロックと整合)。スライダードラッグの微小変化は
+// 乗法的に合成される(k₁·k₂ = 通算k)ため、途中経過に依らず最終 c₀ だけで決まる(クランプ時を除く)。
+// 限界(ヘルプ明記): サブステップ離散化・値域クランプ・etaRad の T^p(p≠1)では厳密相似が破れる。
+// photonEmit 等の宣言スケジュール時刻は変換されない(実験的機能の域外)。
+let cLink=false;
+try{ cLink=localStorage.getItem("hp_clink")==="1"; }catch(e){}
+function applyCLink(S,k){
+  const P=S.params, clamped=[];
+  const mul=(key,f)=>{ if(typeof P[key]!=="number") return;
+    const t=P[key]*f, c=CLAMPS[key], a=c? clamp(t,c[0],c[1]) : t;
+    if(Math.abs(a-t)>1e-12*Math.max(1,Math.abs(t))) clamped.push(key);
+    P[key]=a; };
+  mul("G",k*k); mul("bM",k*k); mul("etaRad",k); mul("kappaS",k);
+  mul("contactK",k*k); mul("contactCap",k*k);
+  mul("timeScale",1/k);
+  for(let i=0;i<S.n;i++){
+    S.vx[i]*=k; S.vy[i]*=k; S.spin[i]*=k;
+    if(S.coreJ) S.coreJ[i]*=k;
+    if(S.coreOm0) S.coreOm0[i]*=k;
+    if(S.coreSrc) S.coreSrc[i]*=k*k*k;
+    if(S.coreEint) S.coreEint[i]*=k*k;
+    if(S.Tint) S.Tint[i]*=k*k;
+    if(S.tau) S.tau[i]/=k;
+  }
+  S.t/=k;
+  if(S.box){ if(typeof S.box.H0==="number") S.box.H0*=k;
+    if(typeof S.box.freq==="number") S.box.freq*=k; }
+  return clamped;
+}
+const CLINK_KEYS=["G","bM","etaRad","kappaS","contactK","contactCap","timeScale"];
+function setCLink(v){
+  cLink=!!v;
+  try{ localStorage.setItem("hp_clink", cLink?"1":"0"); }catch(e){}
+  const cb=document.getElementById("cLinkCb"); if(cb) cb.checked=cLink;
+}
 
 // 第32便(W2): 箱宇宙(UniverseBox)の尺度パラメータ — 時間を底とした係数・指数・揺らぎの実行中編集。
 // PARAM_DEFS/CLAMPS(sim.params 系)とは独立: sim.box は物理パラメータではなく W1 のデータ層
@@ -11423,9 +11559,20 @@ function buildParamRows(){
       const c=CLAMPS[key]; v=clamp(v,c[0],c[1]);
       // v1.23: 書き込み先 — applyBoth(時間倍率)は常にA/B両方、それ以外は編集対象(editSim)
       const targets = applyBoth ? (ab?[sim,ab.simB]:[sim]) : [editSim()];
+      let clinkDone=null;   // 第100便: 相似変換連動が発火したら {k, clamped[]} を控える
       for(const S of targets){
+        // 第100便(Gemini 提案2): 連動ONの c₀ 変更は k=新/旧 の相似変換を状態へ適用
+        const oldC=(key==="cLight" && cLink)? S.params.cLight : null;
         S.params[key]=v;
+        if(oldC!==null && oldC>0 && v>0 && v!==oldC){
+          const cl=applyCLink(S, v/oldC);
+          clinkDone={k:v/oldC, clamped:cl};
+        }
         if(key==="radiusScale") S.updateRadii();
+      }
+      if(clinkDone){
+        CLINK_KEYS.forEach(syncParamRow);   // G/時間倍率 等の行表示を追随
+        if(clinkDone.clamped.length) notify(T("cLinkClamped")(clinkDone.clamped.join(",")),4000);
       }
       if(ab){ ab.lastKey=key; ab.lastBox=null; }  // v1.19: A/B比較中は「最後に調整したパラメータ」を両画面に表示(第96便: 箱宇宙側の表示は解除)
       setParamsDirty(true);  // v1.17: 未保存の編集あり(バックアップ対象外の注意喚起に使用)
@@ -11495,6 +11642,23 @@ function buildParamRows(){
     const badge=document.createElement("div"); badge.id="physLockBadge";
     badge.style.cssText="font-size:12px;opacity:.9;padding:2px 4px 4px;";
     g.appendChild(badge);
+    // 第100便(Gemini 提案2): 相似変換連動モードのトグル(物理対応ロックの直下 — c₀ の隣接文脈)
+    {
+      const row2=document.createElement("div"); row2.className="prow";
+      const lab2=document.createElement("label"); lab2.textContent=T("cLinkLabel");
+      lab2.style.flex="1"; lab2.className="tappable";
+      lab2.addEventListener("click",()=>{
+        const open=row2.nextElementSibling && row2.nextElementSibling.classList
+          && row2.nextElementSibling.classList.contains("pdesc") ? row2.nextElementSibling : null;
+        if(open){ open.remove(); return; }
+        const d=document.createElement("div"); d.className="pdesc open";
+        d.textContent=T("cLinkDesc");
+        row2.after(d);
+      });
+      const cb2=document.createElement("input"); cb2.type="checkbox"; cb2.id="cLinkCb"; cb2.checked=cLink;
+      cb2.addEventListener("change",()=>setCLink(cb2.checked));
+      row2.appendChild(lab2); row2.appendChild(cb2); g.appendChild(row2);
+    }
     for(const def of catDefs("st")) mkParamRow(def,g);
   }
   { const g=mkCat(T("grpSpinHeat"),T("grpSpinHeatDesc"));  for(const def of catDefs("sh")) mkParamRow(def,g); }
@@ -12464,6 +12628,7 @@ function applyLang(){
   // 第80便C: コアv2内訳ブロックのラベル
   $("#beLcvTitle").textContent=T("beCoreTitle"); $("#beLcvMode").textContent=T("beCoreMode");
   $("#beLcvOm").textContent=T("beCoreOm"); $("#beLcvJ").textContent=T("beCoreJ"); $("#beLcvLs").textContent=T("beCoreLs");
+  $("#beLinTitle").textContent=T("beLinTitle");   // 第100便 EXT-10: 形成系譜
   $("#beNote").textContent=T("beNote");                          // v1.17: 粒子編集パネル
   $("#aiProvHead").textContent=T("aiProvHead"); $("#aiProvLabel").textContent=T("aiProvLabel");
   $("#aiModelLabel").textContent=T("aiModelLabel"); $("#aiUrlLabel").textContent=T("aiUrlLabel");
@@ -12870,6 +13035,31 @@ function updateBodyEdit(){
     $("#beCvLs").title=$("#beCvLs").value;   // 第92便: 見切れ対策の補助(全文ツールチップ)
   } else {
     cv.style.display="none";
+  }
+  // 第100便 EXT-10: 形成系譜 — 吸収イベント(S.linLog・安定ID)から選択粒子の履歴を表示。
+  // 読み取り専用の表示層(物理配列へは一切書かない)。running 中は既存の毎フレーム更新経路で追随。
+  // 系譜サイズは記録からの再帰計数 — 記録が上限(400件)で間引かれていれば下限「≥」を付す
+  const lp=$("#beLineage");
+  if(lp){
+    const evAll=S.linLog||[];
+    const myId=(S.linId && i<S.linId.length)? S.linId[i] : -1;
+    const mine=(myId>=0 && evAll.length)? evAll.filter(e=>e.id===myId) : [];
+    if(mine.length){
+      lp.style.display="block";
+      const byId=new Map();
+      for(const e of evAll){ let a=byId.get(e.id); if(!a){ a=[]; byId.set(e.id,a); } a.push(e); }
+      const seen=new Set();
+      const treeOf=(id)=>{ if(seen.has(id)) return 0; seen.add(id);
+        let s2=0; for(const e of (byId.get(id)||[])) s2+=1+treeOf(e.gone); return s2; };
+      const tot=treeOf(myId);
+      $("#beLinSummary").textContent=T("beLinSum")(S.linN[i], tot, mine.length, !!S.linTrim);
+      const rows=$("#beLinRows"); rows.textContent="";
+      for(const e of mine.slice(-8).reverse()){
+        const d=document.createElement("div");
+        d.textContent=T("beLinRow")(fmt(e.t), fmt(e.dm), fmt(e.m), fmt(e.lSw));
+        rows.appendChild(d);
+      }
+    } else lp.style.display="none";
   }
 }
 function beBind(id,fn){
@@ -13801,6 +13991,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   externalTags, classifyPreset, APP_VERSION, currentPreset:()=>currentPreset,  // v1.15/第35便W4: バッジ/バージョン同期のQA用
   strongFieldPsi,   // 第45便 45C(台帳4-85): 強場トイ領域バッジのψ_static計算式単体のQA用
   urepEnergy, normThermalWalls,   // 第37便 C1/C2(台帳4-70/4-71): U_rep の総和・伝熱境界の正規化(QA/監査用)
+  applyCLink, setCLink, cLink:()=>cLink,   // 第100便: 相似変換連動モード(QA用 — 変換式と同一実装を公開)
   phaseEnergy,   // E14″ 創発相変化 — 対ポテンシャル総和(QA/監査用。第60便でエンタルピー系は廃止)
   loadSaveItem:(...a)=>loadSave(...a), exportData, isBetaServe,   // 第53便 53B: セーブ互換の機械検査用(未知ID中止・appBuild)
   speedMul:()=>speedMul, trailBufs:()=>({a:trailBuf,b:trailBufB}),  // v1.19: QA用

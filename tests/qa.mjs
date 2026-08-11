@@ -4176,7 +4176,7 @@ if (!FAST) {
 
   // ---- 8a2b1) 第74便: 5段階スケール(scaleTier)— 分類の完全性と表示換算の物理不変 ----
   // scaleTier は UI 分類・表示換算専用のメタデータ(ChatGPT §8「スケールを物理入力にしない」)。
-  // ①全内蔵が正規値のいずれかを宣言し、全スケールが空でない(第98便: beta=7分類/root=5分類 — SCALE_TIERS から動的判定。第99便のサンプル整理で beta 内訳=分子8・ビーカー2・日常1・惑星8・恒星18・銀河8・宇宙10〔🕳️rotorSolo・🌑🐚⏳星雲3種・🥚selfRotor を銀河→恒星へ再分類〕。旧較正: 分子8・日常4・
+  // ①全内蔵が正規値のいずれかを宣言し、全スケールが空でない(第98便: beta=7分類/root=5分類 — SCALE_TIERS から動的判定。第99便のサンプル整理で beta 内訳=分子8・ビーカー2・日常1・惑星8・恒星18・銀河8・宇宙10〔🕳️rotorSolo・🌑🐚⏳星雲3種・🥚selfRotor を銀河→恒星へ再分類〕→ 第100便C の拡充で分子9(+🛷摩擦熱)・ビーカー3(+☕冷めるお茶)= 全57件。旧較正: 分子8・日常4・
   //   天体18・銀河6+2・宇宙全体10)②換算表示トグル+指数スライダーを操作しても物理
   //   (240步後の x/vx/spin)が bit 一致 ③AI追加のスケール雛形が SCALE_TIERS と同数あり、
   //   全タイアの挿入で要望欄とベースサンプルが埋まる(第99便: 全タイア実クリック検査へ拡張。
@@ -4202,9 +4202,18 @@ if (!FAST) {
       // 第99便(外部レビュー P1): c₀=30 一律規約の錨 — 全内蔵が physics.cLight=30 を宣言する
       // (第95〜97便で全55件を c₀=30 へ統一済み。将来のサンプル追加が規約を外れたら即検出)。
       // 7分類ビルド限定 — 旧世代(root v1.38 = 旧c 混在)は対象外で、v1.39 昇格時に自動適用
+      // 第100便(原仮定者裁定): DEFAULT_PHYSICS.cLight も 30 へ移行 — バリデータの既定値マージ
+      // (physics 省略時)が c₀=30 になることも同じ錨で固定する
       if (r.tierN >= 7) {
-        add('light.canonical-builtins', r.badC.length === 0,
-          r.badC.length ? `c₀≠30: ${r.badC.join(' ')}` : `全${r.total}件が c₀=30 を宣言`);
+        const defC = await page.evaluate(() => {
+          const v = HP.validatePreset({ name: 'qa_defc', description: 'd', camera: { scale: 100 },
+            world: { boundary: 'none', size: 0 }, physics: {},
+            bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+          return v.ok ? v.preset.physics.cLight : NaN;
+        });
+        add('light.canonical-builtins', r.badC.length === 0 && defC === 30,
+          (r.badC.length ? `c₀≠30: ${r.badC.join(' ')}` : `全${r.total}件が c₀=30 を宣言`)
+          + ` / 既定値マージ=${defC}(=30)`);
       } else {
         console.log('SKIP light.canonical-builtins(旧5分類ビルド — c₀=30 統一前の世代)');
       }
@@ -11948,6 +11957,164 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       `新スライダー3本=${r.sliders.join(',')} / 換算表示の既定ON(ソース)=${srcOn}`);
   } else {
     console.log('SKIP scale.exponents(対象に4指数スケールなし — root 等。第94便)');
+  }
+
+  // ---- 第100便(原仮定者裁定「進める」/ Gemini 提案2): 相似変換連動モード ----
+  // c₀ 変更時に k=新/旧 の力学的相似変換(96B表)を現在状態へ適用する実験的トグル。
+  // ①変換式: G×k²・timeScale÷k・速度×k・Kt 不変(c²/G 不変 — 物理対応ロック整合)
+  // ②軌道保存: 参照(c₀=30・ts=2)240步 と 変換後(c₀=60・ts=1)120步 の位置が一致
+  //   (同一物理時刻。離散化誤差の実測 1.3e-5 — 閾値 1e-3 はその ×80)
+  // ③往復 k=2→0.5 で厳密復元 ④トグルの既定OFF・永続化(hp_clink)⑤setParam 連動配線(ソース検査)
+  const hasCLink = await page.evaluate(() => !!(window.HP && HP.applyCLink && HP.setCLink));
+  if (hasCLink) {
+    const r = await page.evaluate(() => {
+      const P = { id: 'qa_clink', name: 'p', description: 'd', camera: { scale: 200 },
+        world: { boundary: 'none', size: 0 }, seed: 11,
+        physics: { G: 1, D0: 2, kFrame: 1, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, Kt: 900,
+          cLight: 30, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1,
+          pnAlpha: 1.5, radiusScale: 1, softening: 2, timeScale: 2 },
+        bodies: [{ type: 'single', m: 500, x: 0, y: 0, vx: 0, vy: 0, spin: 0.5, pinned: true },
+          { type: 'single', m: 1, x: 120, y: 0, vx: 0, vy: Math.sqrt(500 / 120), spin: 0, pinned: false },
+          { type: 'single', m: 1, x: -80, y: 0, vx: 0, vy: -Math.sqrt(500 / 80), spin: 0, pinned: false }] };
+      const S = HP.sim, out = {};
+      const run = (steps) => { const o = []; for (let k2 = 0; k2 < steps; k2++) S.step(0.016);
+        for (let i = 0; i < S.n; i++) o.push(S.x[i], S.y[i]); return o; };
+      S.build(JSON.parse(JSON.stringify(P)));
+      const ref = run(240);
+      S.build(JSON.parse(JSON.stringify(P)));
+      const v0 = S.vy[1];
+      S.params.cLight = 60; const cl = HP.applyCLink(S, 2);
+      out.math = S.params.G === 4 && S.params.timeScale === 1 && S.params.Kt === 900
+        && Math.abs(S.vy[1] - 2 * v0) < 1e-12 && cl.length === 0;
+      const tr = run(120);
+      out.maxRel = 0;
+      for (let i = 0; i < ref.length; i++) {
+        out.maxRel = Math.max(out.maxRel, Math.abs(tr[i] - ref[i]) / Math.max(1, Math.abs(ref[i])));
+      }
+      S.build(JSON.parse(JSON.stringify(P)));
+      const b = { G: S.params.G, ts: S.params.timeScale, vy: S.vy[1], t: S.t };
+      HP.applyCLink(S, 2); HP.applyCLink(S, 0.5);
+      out.roundtrip = S.params.G === b.G && S.params.timeScale === b.ts && S.vy[1] === b.vy && S.t === b.t;
+      // トグル: 既定OFF(このページは初回)・setCLink の永続化とチェックボックス同期
+      out.cb = !!document.getElementById('cLinkCb');
+      out.defOff = HP.cLink() === false || localStorage.getItem('hp_clink') !== null;
+      HP.setCLink(true);
+      out.on = HP.cLink() === true && localStorage.getItem('hp_clink') === '1'
+        && (!document.getElementById('cLinkCb') || document.getElementById('cLinkCb').checked);
+      HP.setCLink(false); localStorage.removeItem('hp_clink');   // 後続テストを汚さない
+      return out;
+    });
+    // ⑤ setParam の連動配線(UI 行はビルド順依存で言語にも依るため、ソースで固定する)
+    const src = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+    const wired = /key==="cLight" && cLink/.test(src) && /applyCLink\(S, v\/oldC\)/.test(src);
+    add('scale.clink',
+      r.math && r.maxRel < 1e-3 && r.roundtrip && r.cb && r.defOff && r.on && wired,
+      `変換式(G×4・ts÷2・v×2・Kt不変)=${r.math} / 軌道一致 maxRel=${r.maxRel.toExponential(1)}(<1e-3) / ` +
+      `往復復元=${r.roundtrip} / トグル存在=${r.cb}・ON永続化=${r.on} / setParam配線=${wired}`);
+  } else {
+    console.log('SKIP scale.clink(対象に相似変換連動なし — root 等。第100便)');
+  }
+
+  // ---- 第100便C: molecular/beaker 拡充サンプルの機械検証(🛷摩擦熱・☕冷めるお茶) ----
+  // 🛷(seed 20260811・4000步): ①気体平均|spin| 0.047→実測0.145(窓 0.09〜0.25)②投射体の速さ
+  //   6→実測4.36(窓 3.8〜5.0)③対照(muF=γn=0)は同様に減速しても平均|spin|≤0.04(実測0.024)
+  //   =「減速が熱に変わること」だけが摩擦(E9)の署名 ④融合ゼロ(N不変 — 指標の index 保証を兼ねる)
+  // ☕(seed 7): ①4800步で平均T_int 60→実測25.4(窓 18〜33)②800步ごとに単調減少
+  //   ③伝熱壁が有効(S.twall 非null)④対照(壁 rate=0 → 正規化で断熱)は 2400步で ≥55 のまま
+  // 4000+4000+4800+2400步 ≈ 15秒 — QA_FAST では省略(挙動系の慣例)
+  const hasW100c = await page.evaluate(() => !!(window.HP
+    && HP.allPresets().some((p) => p.id === 'frictionHeat')
+    && HP.allPresets().some((p) => p.id === 'cooling')));
+  if (hasW100c && !FAST) {
+    const r = await page.evaluate(() => {
+      const S = HP.sim, out = {};
+      const meanAbsSpin = (nEx) => { let s = 0; for (let i = 0; i < S.n - nEx; i++) s += Math.abs(S.spin[i]); return s / (S.n - nEx); };
+      // 🛷 本則
+      HP.loadPreset('frictionHeat', false);
+      const n0 = S.n, pi = S.n - 1;
+      out.fhV0 = Math.hypot(S.vx[pi], S.vy[pi]);
+      out.fhSp0 = meanAbsSpin(1);
+      for (let k = 0; k < 4000; k++) S.step(0.016);
+      out.fh = { v: Math.hypot(S.vx[pi], S.vy[pi]), sp: meanAbsSpin(1), n: S.n, n0, nan: S.hasNaN() };
+      // 🛷 対照(muF=γn=0)
+      HP.loadPreset('frictionHeat', false);
+      S.params.muF = 0; S.params.gammaN = 0;
+      for (let k = 0; k < 4000; k++) S.step(0.016);
+      out.fhCtl = { sp: meanAbsSpin(1), nan: S.hasNaN() };
+      // ☕ 本則
+      HP.loadPreset('cooling', false);
+      const mt = () => { let s = 0; for (let i = 0; i < S.n; i++) s += S.Tint[i]; return s / S.n; };
+      out.coT0 = mt(); out.coWall = !!S.twall;
+      const curve = [];
+      for (let f = 0; f < 6; f++) { for (let k = 0; k < 800; k++) S.step(0.016); curve.push(mt()); }
+      out.co = { curve: curve.map((t) => +t.toFixed(2)), nan: S.hasNaN() };
+      // ☕ 対照(壁 rate=0 → normThermalWalls が断熱として棄却 = twall null)
+      const cp = JSON.parse(JSON.stringify(HP.allPresets().find((p) => p.id === 'cooling')));
+      for (const side of ['bottom', 'top', 'left', 'right']) cp.world.thermalWalls[side].rate = 0;
+      S.build(cp);
+      out.ctlWallNull = !S.twall;
+      for (let k = 0; k < 2400; k++) S.step(0.016);
+      out.coCtl = { t: mt(), nan: S.hasNaN() };
+      return out;
+    });
+    const mono = r.co.curve.every((t, i) => i === 0 ? t < r.coT0 : t < r.co.curve[i - 1]);
+    add('behavior.wave100c',
+      r.fh.sp >= 0.09 && r.fh.sp <= 0.25 && r.fh.v >= 3.8 && r.fh.v <= 5.0 && r.fh.n === r.fh.n0
+      && !r.fh.nan && r.fhCtl.sp <= 0.04 && !r.fhCtl.nan
+      && r.coWall && r.co.curve[5] >= 18 && r.co.curve[5] <= 33 && mono && !r.co.nan
+      && r.ctlWallNull && r.coCtl.t >= 55 && !r.coCtl.nan,
+      `🛷 |spin| ${r.fhSp0.toFixed(3)}→${r.fh.sp.toFixed(3)}(窓0.09〜0.25)・v ${r.fhV0.toFixed(1)}→${r.fh.v.toFixed(2)}(窓3.8〜5.0)・` +
+      `対照|spin|=${r.fhCtl.sp.toFixed(3)}(≤0.04)・N=${r.fh.n}(不変) / ` +
+      `☕ T ${r.coT0.toFixed(0)}→[${r.co.curve.join(' ')}](末端窓18〜33・単調=${mono})・壁=${r.coWall}・` +
+      `断熱対照 T=${r.coCtl.t.toFixed(1)}(≥55・twall無効=${r.ctlWallNull})`);
+  } else if (hasW100c) {
+    console.log('SKIP behavior.wave100c(QA_FAST — 挙動系は省略)');
+  } else {
+    console.log('SKIP behavior.wave100c(対象に第100便C サンプルなし — root 等)');
+  }
+
+  // ---- 第100便 EXT-10: 形成系譜(Formation Lineage) ----
+  // 融合の吸収イベントを安定系譜ID(linId — 圧縮・分裂に不変)で記録し、選択粒子の
+  // パネルに履歴を出す**記録専用**の観測層。検査: ①build 直後は記録ゼロ ②🥚3000步で
+  // 記録件数 = min(400, 融合数)③最重粒子の直接吸収数 linN = その id のイベント数・時刻単調・
+  // 最終イベントの m が現在質量と一致(質量は融合以外で変わらない)④吸収された id は生存集合に
+  // 現れない(id の再利用なし)⑤選択で形成系譜ブロックが表示される。
+  // 物理 bit 不変の保証は既存の固定seed窓(claims / exp 正本)が兼ねる — 本記録は状態を読むだけ
+  const hasLin = await page.evaluate(() => !!(window.HP && HP.sim && HP.sim.linId));
+  if (hasLin && !FAST) {
+    const r = await page.evaluate(() => {
+      const S = HP.sim, out = {};
+      HP.loadPreset('selfRotor', false);
+      out.init = { ids: S.linId.length >= S.n, log0: S.linLog.length };
+      for (let k = 0; k < 3000; k++) S.step(0.016);
+      out.fusN = S.fusN; out.log = S.linLog.length;
+      let hv = 0; for (let i = 1; i < S.n; i++) if (S.m[i] > S.m[hv]) hv = i;
+      const myId = S.linId[hv];
+      const mine = S.linLog.filter((e) => e.id === myId);
+      out.hv = { linN: S.linN[hv], mineN: mine.length, m: S.m[hv],
+        mono: mine.every((e, i2) => i2 === 0 || e.t >= mine[i2 - 1].t),
+        mLast: mine.length ? mine[mine.length - 1].m : 0 };
+      const alive = new Set(); for (let i = 0; i < S.n; i++) alive.add(S.linId[i]);
+      out.goneAlive = S.linLog.filter((e) => alive.has(e.gone)).length;
+      HP.selectBody(hv, 'A');
+      const lp = document.getElementById('beLineage');
+      out.ui = !!(lp && lp.style.display === 'block'
+        && document.getElementById('beLinSummary').textContent.length > 0
+        && document.getElementById('beLinRows').children.length > 0);
+      HP.loadPreset('saturn', false);   // 後続テストを汚さない(load で選択も解除)
+      return out;
+    });
+    add('ext.formation-lineage',
+      r.init.ids && r.init.log0 === 0 && r.fusN > 0 && r.log === Math.min(400, r.fusN)
+      && r.hv.linN > 0 && r.hv.mineN === r.hv.linN && r.hv.mono
+      && Math.abs(r.hv.mLast - r.hv.m) <= 1e-6 * Math.max(1, r.hv.m)
+      && r.goneAlive === 0 && r.ui,
+      `🥚3000步: 融合${r.fusN}・記録${r.log}件 / 最重: 直接吸収${r.hv.linN}(イベント${r.hv.mineN}・単調=${r.hv.mono}・` +
+      `m一致=${Math.abs(r.hv.mLast - r.hv.m).toExponential(1)}) / id再利用=${r.goneAlive}(=0) / UI表示=${r.ui}`);
+  } else if (hasLin) {
+    console.log('SKIP ext.formation-lineage(QA_FAST — 挙動系は省略)');
+  } else {
+    console.log('SKIP ext.formation-lineage(対象に形成系譜なし — root 等。第100便 EXT-10)');
   }
   // 92-3) ui.fidelity: fidelity:"real" 宣言(6件)にだけ 📏 チップが出る
   const hasFid = await page.evaluate(() => !!(window.HP && HP.allPresets().some((p) => p.fidelity === 'real')));

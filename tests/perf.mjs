@@ -62,7 +62,10 @@ const EXTRA_SAMPLES = ['echo', 'freebox',
   // informational から始まり、次の昇格でゲート化される)
 
   // 第78便: DFM版BH 5層321体(コアv2+降着円盤+恒星ディスク)
-  'bhCore'];
+  'bhCore',
+  // 第100便C: molecular/beaker 拡充 — 🛷摩擦熱(201体)・☕冷めるお茶(220体・伝熱壁)。
+  // root 未昇格のため informational から開始(昇格で自動比較ゲート化)
+  'frictionHeat', 'cooling'];
 const THRESH = +(process.env.PERF_THRESH || 1.10);
 // 例: { convection: 1.60 } — 意図的な負荷増を許可する場合のみ
 // 第53便 53D の echo ALLOW 1.45 は第63便(v1.35.0 昇格)で撤去した — 53D の記録どおり、
