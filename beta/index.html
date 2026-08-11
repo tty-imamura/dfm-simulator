@@ -2761,7 +2761,7 @@ const BUILTIN_PRESETS = [
 //  ・テスト粒子リング(6000步): 平均 L_z 954.1(対照 632.45 = 厳密一定)・24/24 保持・NaN なし
 //  ・帳簿込みの保存(6000步): |ΔP|/P₀=1.27e-4・|ΔL|/L₀=1.26e-4(pinned ゼロの閉鎖系)
 { id:"rotorSolo", name:"ダークローター(単体)", emoji:"🕳️", group:"銀河",
-  scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"darkcenter", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
@@ -2818,7 +2818,7 @@ const BUILTIN_PRESETS = [
 // 「暗い点の集合としての暗黒星雲」まで。波長別吸収・散乱の光学輸送拡張は台帳へ持ち越し。
 // 実測は tests/exp-4-75.mjs(seed 20260804・3000步)
 { id:"nebulaRotor", name:"ローター星雲 — 暗黒星雲と散光星雲", emoji:"🌑", group:"銀河",
-  scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"composite",
   notClaim:["nebula","dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"rotorform", familyRole:"primary",   // 第82便: ファミリー表示(表示専用)
@@ -2873,7 +2873,7 @@ const BUILTIN_PRESETS = [
 // スピンにしか効かず、熱圧 kRep=0.3 の下でも雲は自壊しない(単層で同じ暗さを出すには spin≈6 が
 // 必要で、同じ kRep で保持48%まで自壊する — exp-4-76 の耐圧試験)。実測 tests/exp-4-76.mjs
 { id:"nebulaShell", name:"重殻ローター星雲 — 束縛と暗さの両立", emoji:"🐚", group:"銀河",
-  scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"principle",
   notClaim:["nebula","dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"rotorform", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
@@ -2936,7 +2936,7 @@ const BUILTIN_PRESETS = [
 // 機構は 🌋agnjet と同じ「E5′圧力+幾何」— 赤道が塞がれ、抵抗の少ない極方向(±y)だけが
 // 出口になってローブが立つ。実測 tests/exp-4-76.mjs(seed 20260804・6000步)
 { id:"nebulaBipolar", name:"双極星雲 — 暗黒トーラスと極方向ローブ", emoji:"⏳", group:"銀河",
-  scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"composite",
   notClaim:["nebula"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"rotorform", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
@@ -3293,7 +3293,7 @@ const BUILTIN_PRESETS = [
 //     すでに含むので不変)。窓を広げるのは主張を弱める方向の変更だが、測っていない再現性を
 //     窓の狭さで主張しないための正直な処置である。
 { id:"selfRotor", name:"自己形成ダークローター — 種から育つ暗い中心", emoji:"🥚", group:"銀河",
-  scaleTier:"galactic",
+  scaleTier:"stellar",   // → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"composite",
   notClaim:["dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"rotorform", familyRole:"variant",   // 第82便統合: ローター形成ファミリー(成長系の変種)
