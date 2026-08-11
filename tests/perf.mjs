@@ -86,7 +86,12 @@ const ALLOW = {};
 // 引き上げてノイズフロアから出す。発散しないことは tests/probe-perf-floor.mjs で確認済み
 // (60000frames でも NaN なし・コアΩは 8.3e3 で頭打ち)。
 // 第77便まで informational だったので顕在化せず、昇格で比較ゲート化して初めて露見した
-const FRAMES_OVERRIDE = { echo: 720, starSeed: 30000 };
+// 第101便(CI 実測 41c7a3f: perf.merger 1.106 FAIL — ペア比[1.169 1.106 1.003]。同一コードの
+// 直前 run は PASS = フレーク): merger は 182粒・60frames ≈ 190ms(CI ランナー)の短時間計測で、
+// ページ別 JIT・共有ランナー負荷のジッタが閾値 1.10 に対し大きい(手元でも 0.971〜1.057 と振れる)。
+// echo/starSeed と同じ対処 — 計測時間をノイズフロアから引き上げる(60→240frames ≈ 0.75〜1.7s/rep)。
+// 判定条件・ペア比中央値の式は不変
+const FRAMES_OVERRIDE = { echo: 720, starSeed: 30000, merger: 240 };
 // 過去の ALLOW 撤去履歴(darkrotor/convection/saturnLayered)と 40C の粒子数削減の実測記録は
 // git 履歴(第61便以前の本ファイル冒頭コメント)を参照。
 const REPS = 2, FRAMES = 60, WARMUP_FRAMES = 20, SETS = 3;
