@@ -72,7 +72,9 @@ const run = (mod) => page.evaluate((o) => {
   const jSeed = cs0 ? cs0.J : 0;
   const mSeed = Math.abs(S.m[0]);
   const T0 = S.totals(), L0 = T0.L + S.resL + S.radL;
-  const step = () => Math.round(S.t / 0.016);
+  // 第97便: c₀=30 相似世代(validT 288)は同じ物理窓が步数×2 — 実行は VF 倍・記録は旧単位で正規化
+  const VF = (v.preset.validT || 144) / 144;
+  const step = () => Math.round(S.t / 0.016 / VF);
   const vRms = () => { let s = 0; for (let i = 0; i < S.n; i++) s += S.vx[i] * S.vx[i] + S.vy[i] * S.vy[i];
     return S.n ? Math.sqrt(s / S.n) : 0; };
   const meas = () => {
@@ -118,11 +120,11 @@ const run = (mod) => page.evaluate((o) => {
     if (k.spinFlip) { for (let i = 0; i < S.n; i++) if (rnd() < 0.5) { S.spin[i] = -S.spin[i]; flipped++; } }
     return { before, sigma: sig, flipped };
   };
-  const steps = o.steps || [3000, 6000, 9000];
+  const steps = o.steps || [3000, 6000, 9000];   // 旧単位(実行步数は ×VF)
   const out = [meas()];
   let kick = null;
   for (const T of steps) {
-    while (step() < T) S.step(0.016);
+    while (step() < T) S.step(0.016);   // step() が旧単位なので実行は自動的に ×VF
     if (o.kick && o.kick.at === T && !kick) { kick = inject(o.kick); out.push(Object.assign(meas(), { kicked: true })); }
     else out.push(meas());
   }
@@ -144,7 +146,8 @@ const f4 = (o) => ({ min: +o.min.toFixed(4), median: +o.median.toFixed(4), max: 
   mean: +o.mean.toFixed(4), vals: o.vals });
 
 const out = { meta: { exp: '4-85', wave: 83, track: 'A', target: TARGET, date: new Date().toISOString().slice(0, 10),
-  note: '🥚selfRotor 創発の標準試験 — 多seed16/粒子数スケーリング/摂動回復/時間窓(QA ではない計測)' } };
+  note: '🥚selfRotor 創発の標準試験 — 多seed16/粒子数スケーリング/摂動回復/時間窓(QA ではない計測)',
+  stepUnit: '旧単位(c₀=30 相似世代は実行步数 ×validT/144 — 第97便再実測)' } };
 const t00 = Date.now();
 
 // ==== ① 多seed 16 ===========================================================================
