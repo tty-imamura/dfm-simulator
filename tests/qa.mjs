@@ -4176,10 +4176,11 @@ if (!FAST) {
 
   // ---- 8a2b1) 第74便: 5段階スケール(scaleTier)— 分類の完全性と表示換算の物理不変 ----
   // scaleTier は UI 分類・表示換算専用のメタデータ(ChatGPT §8「スケールを物理入力にしない」)。
-  // ①全内蔵が正規値のいずれかを宣言し、全スケールが空でない(第98便: beta=7分類〔分子8・ビーカー2・日常1・惑星8・恒星13・銀河13・宇宙10〕/root=5分類 — SCALE_TIERS から動的判定。旧較正: 分子8・日常4・
+  // ①全内蔵が正規値のいずれかを宣言し、全スケールが空でない(第98便: beta=7分類/root=5分類 — SCALE_TIERS から動的判定。第99便のサンプル整理で beta 内訳=分子8・ビーカー2・日常1・惑星8・恒星18・銀河8・宇宙10〔🕳️rotorSolo・🌑🐚⏳星雲3種・🥚selfRotor を銀河→恒星へ再分類〕。旧較正: 分子8・日常4・
   //   天体18・銀河6+2・宇宙全体10)②換算表示トグル+指数スライダーを操作しても物理
-  //   (240步後の x/vx/spin)が bit 一致 ③AI追加のスケール雛形が5件あり、挿入で要望欄と
-  //   ベースサンプルが埋まる(未選択時の素通し ai.base-context は不変)
+  //   (240步後の x/vx/spin)が bit 一致 ③AI追加のスケール雛形が SCALE_TIERS と同数あり、
+  //   全タイアの挿入で要望欄とベースサンプルが埋まる(第99便: 全タイア実クリック検査へ拡張。
+  //   未選択時の素通し ai.base-context は不変)
   {
     const hasScale = await page.evaluate(() => !!(window.HP && HP.SCALE_TIERS));
     if (hasScale) {
@@ -4192,10 +4193,21 @@ if (!FAST) {
         res.allTiers = HP.SCALE_TIERS.every(t => (res.counts[t] || 0) > 0);
         res.total = builtins.length;
         res.tierN = HP.SCALE_TIERS.length;   // 第98便: 5分類(root)/7分類(beta)の両対応
+        res.badC = builtins.filter(p => (p.physics || {}).cLight !== 30).map(p => p.id);
         return res;
       });
       add('preset.scale-tier', r.missing.length === 0 && r.allTiers,
         `未分類=${r.missing.join(',') || 'なし'} 内訳=${JSON.stringify(r.counts)}(全${r.total}件)`);
+
+      // 第99便(外部レビュー P1): c₀=30 一律規約の錨 — 全内蔵が physics.cLight=30 を宣言する
+      // (第95〜97便で全55件を c₀=30 へ統一済み。将来のサンプル追加が規約を外れたら即検出)。
+      // 7分類ビルド限定 — 旧世代(root v1.38 = 旧c 混在)は対象外で、v1.39 昇格時に自動適用
+      if (r.tierN >= 7) {
+        add('light.canonical-builtins', r.badC.length === 0,
+          r.badC.length ? `c₀≠30: ${r.badC.join(' ')}` : `全${r.total}件が c₀=30 を宣言`);
+      } else {
+        console.log('SKIP light.canonical-builtins(旧5分類ビルド — c₀=30 統一前の世代)');
+      }
 
       const inv = await page.evaluate(() => {
         const run = (touch) => {
@@ -4226,23 +4238,39 @@ if (!FAST) {
       add('scale.display-invariant', inv.same && inv.conv0 === '≈60 m/s' && inv.convNullKey,
         `240步 bit一致=${inv.same}(N=${inv.n})/ 換算 exp0: cLight60→"${inv.conv0}"(=≈60 m/s)/ 無次元キーは非換算=${inv.convNullKey}`);
 
+      // 第99便(外部レビュー P0): **全タイアを実クリック**する。第98便で SCALE_TIERS は7段化
+      // したのに AI_SCALE_TPL 内部表が5段のままで、beaker/planetary/stellar の「挿入」が
+      // silent no-op になっていた(molecular だけのクリック検査では検出できず 411/411 PASS の
+      // まま素通り)。各タイアで①挿入文が入る②文中に scaleTier:"<tier>" がある③ベースサンプル
+      // が代表値へ切り替わる、の3点を検証する。旧5段ビルド(root)は generic な scaleTier 含有
+      // 検査に落とす(旧テンプレ文の書式差を許容 — celestial は旧ビルド専用エントリ)。
       const tpl = await page.evaluate(() => {
         const sel = document.querySelector('#aiScaleTpl'), btn = document.querySelector('#btnAiTpl');
         if (!sel || !btn) return null;
-        const res = { opts: [...sel.options].map(o => o.value) };
+        const res = { opts: [...sel.options].map(o => o.value), rows: [] };
         const ta = document.querySelector('#aiPrompt'), base = document.querySelector('#aiBasePreset');
         const ta0 = ta.value, base0 = base.value;
-        ta.value = ''; sel.value = 'molecular'; btn.click();
-        res.prompt = ta.value;
-        res.base = base.value;
+        for (const t of res.opts) {
+          ta.value = ''; base.value = ''; sel.value = t; btn.click();
+          res.rows.push({ tier: t, len: ta.value.length,
+            hasTier: ta.value.includes('scaleTier'),
+            exact: ta.value.includes('scaleTier:"' + t + '"'),
+            base: base.value });
+        }
         ta.value = ta0; base.value = base0 || '';   // 後続テストを汚さない
         res.plain = HP.aiUserContent('X') === 'X' || base.value !== '';
         return res;
       });
-      add('ai.scale-templates',
-        !!tpl && tpl.opts.length === r.tierN && tpl.prompt.length > 20 && tpl.prompt.includes('scaleTier')
-        && tpl.base === 'emergent' && tpl.plain,
-        tpl ? `候補=${tpl.opts.length} 挿入長=${tpl.prompt.length} base=${tpl.base}` : 'UIなし');
+      const TPL_BASE = { molecular: 'emergent', beaker: 'convection', everyday: 'projectile',
+        planetary: 'earthMoon', stellar: 'binary', galactic: 'galaxyStd', cosmic: 'boxcomoving' };
+      // 旧5段ビルド(root v1.38: everyday=♨️convection・celestial あり)はベースの厳密一致を
+      // 求めず「何かのベースへ切り替わる」ことのみ検査(molecular=emergent は従来どおり厳密)
+      const baseOk = (w) => r.tierN >= 7 ? w.base === TPL_BASE[w.tier]
+        : (w.tier === 'molecular' ? w.base === 'emergent' : w.base !== '');
+      const tplOk = !!tpl && tpl.opts.length === r.tierN && tpl.rows.length === r.tierN
+        && tpl.rows.every((w) => w.len > 20 && (r.tierN >= 7 ? w.exact : w.hasTier) && baseOk(w));
+      add('ai.scale-templates', tplOk && !!tpl && tpl.plain,
+        tpl ? `候補=${tpl.opts.length} 全タイア=${tpl.rows.map((w) => `${w.tier}:${w.len}/${w.base || '×'}`).join(' ')}` : 'UIなし');
     } else {
       console.log('SKIP preset.scale-tier / scale.display-invariant / ai.scale-templates(対象に第74便 未適用 — root 等)');
     }

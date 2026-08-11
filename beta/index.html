@@ -994,7 +994,7 @@ ja: {
   scaleExpMLabel:"質量スケール指数",
   scaleExpMDesc:"表示換算に使う質量指数 log₁₀(kg/質量1)。表示専用 — 物理には影響しない。サンプルのロード時にスケールタグの既定値で上書きされる(「日常」は 0.0)",
   scaleExpCLabel:"光速 c₀ 表示較正指数",
-  scaleExpCDesc:"光速パラメータ専用の**表示較正**指数。「光速」の換算値 = 値 × 10^指数 m/s。既定 7.0 で「30 → 3×10^8 m/s」の一律規約を表す(全スケールタグ共通 — 第95便)。これは距離/時間指数から導かれる一般の速度換算(10^(L−T))とは独立した参照較正であり、モデル単位系を単一のSI単位系へ固定するものではない(第98便 — 外部レビュー指摘の明確化)。表示専用 — 物理には影響しない",
+  scaleExpCDesc:"光速パラメータ専用の**表示較正**指数。「光速」の換算値 = 値 × 10^指数 m/s。既定 7.0 で「30 → 3×10^8 m/s」の一律規約を表す(全スケールタグ共通 — 第95便)。これは距離/時間指数から導かれる一般の速度換算(10^(L−T))とは独立した参照較正であり、モデル単位系を単一のSI単位系へ固定するものではない(第98便 — 外部レビュー指摘の明確化)。換算値はアナロジーの目安であり、モデルが実宇宙の定数に束縛されているわけではない(第99便 — 外部レビュー提案の採択)。表示専用 — 物理には影響しない",
   // 第95便(原仮定者指示): 換算の「時間」に計算で使う時間倍率を反映 — 経過 t≈ に加えて
   // 「再生1秒 ≈ 宇宙の何秒か」(公称60fps: 1秒 = SUBSTEPS·DT·60·倍率 単位 = ×10^eT 秒)を併記。
   // 第96便(原仮定者指示): 倍率は「時間倍率×フッターの簡易倍率」を1フレーム上限(24步=12倍)で
@@ -1369,7 +1369,7 @@ en: {
   scaleExpMLabel:"Mass scale exponent",
   scaleExpMDesc:"The mass exponent log₁₀(kg per mass-unit) used by the converted display. Display only — no effect on physics. Loading a sample overwrites it with the scale-tag default (everyday: 0.0)",
   scaleExpCLabel:"c₀ display-calibration exponent",
-  scaleExpCDesc:"A **display-calibration** exponent dedicated to the light-speed parameter: converted value = value × 10^exponent m/s. Default 7.0 expresses the uniform convention 30 → 3×10^8 m/s (shared by every scale tag — wave 95). It is a reference calibration independent of the generic velocity conversion 10^(L−T) derived from the length/time exponents, and does not pin the model units to a single SI unit system (wave 98 — clarification from external reviews). Display only — no effect on physics",
+  scaleExpCDesc:"A **display-calibration** exponent dedicated to the light-speed parameter: converted value = value × 10^exponent m/s. Default 7.0 expresses the uniform convention 30 → 3×10^8 m/s (shared by every scale tag — wave 95). It is a reference calibration independent of the generic velocity conversion 10^(L−T) derived from the length/time exponents, and does not pin the model units to a single SI unit system (wave 98 — clarification from external reviews). Converted values are analogy guides — the model is not bound to real-universe constants (wave 99, adopting an external-review proposal). Display only — no effect on physics",
   hudScale:(x,eT,eM,t,ts)=>`scale conv: len1=10^${Math.round(x*10)/10}m time1=10^${Math.round(eT*10)/10}s mass1=10^${Math.round(eM*10)/10}kg t≈${sciFmt(t*Math.pow(10,eT))}s (effective rate ${sciFmt(ts)}: 1s of playback≈${sciFmt(SUBSTEPS*DT*60*ts*Math.pow(10,eT))}s)`,
   aiTplLabel:"Scale template", aiTplInsert:"Insert",
   aiTplName_molecular:"Lab box", aiTplName_beaker:"Beaker experiment", aiTplName_everyday:"Laboratory",
@@ -1404,13 +1404,13 @@ en: {
     gammaN:"Normal-direction damping of collisions (how easily bounce is lost). 0 = bouncy, 1 = collisions absorb velocity. The lost energy is ledgered (T7).",
     kappaS:"Heat conduction by spin diffusion (E10′): spin = heat hops to nearby particles, no contact needed, stronger when closer (📏). At 0 heat does not spread.",
     Kt:"One coefficient governing both time dilation and light refraction (A7′/E7R/E8R: ψ=W/Kt). Smaller = stronger spacetime effects — clocks slow more and light bends more. The real-world calibration is Kt=c²/G (🛰).",
-    cLight:"Speed of light rays, and the reference for motion time dilation (E7R: clocks moving near c₀ relative to the comoving frame run slow). Lower it to exaggerate relativistic effects.",
+    cLight:"Speed of light rays, and the reference for motion time dilation (E7R: clocks moving near c₀ relative to the comoving frame run slow). Lower it to exaggerate relativistic effects. [Three layers of c₀ (wave 99)] ① base light speed c₀ = this parameter (all built-in samples use the uniform convention c₀=30); ② local light speed c_loc = c₀·e^(−2ψ) (slows locally in gravity wells — used by reddening and auto light sweep); ③ display-calibration exponent eC (only for the on-screen conversion \"30 → 3×10⁸ m/s\" — never enters the physics). Converted values are analogy guides; the model is not bound to real-universe constants.",
     bM:"Wien constant: a particle at temperature T radiates at peak wavelength λ=b_m/T (A12). Calibrates the spectrum overlay (🌈).",
     etaRad:"Strength of radiative cooling (E11: cooling rate Λ∝T^p). 0 = no radiation. Hotter particles cool faster (🌈). Radiated energy and angular momentum are ledgered.",
     pRad:"Temperature steepness of radiative cooling (E11: Λ∝T^p). Larger p means only the hottest bodies cool rapidly.",
     cHeat:"Heat-capacity coefficient, active only in the internal-temperature mode (samples with thermal:\"tint\"). A particle's heat energy is E=C·m·T_int, so a dissipated ΔE raises it by ΔT_int=ΔE/(C·m) (A9′/E9). Larger C means the same dissipation heats less. It does nothing in the default spin-as-heat mode (thermal omitted).",
     gravityX:"Uniform external gravity acting horizontally across the whole scene (v1.17). It does not contribute to determinacy W, so it builds a 'ground lab' without distorting clocks, light or dragging. Momentum exchange is ledgered.",
-    gravityY:"Uniform external gravity acting vertically (+y is down on screen). The 'downward gravity' of ⚾ free fall, ♨️ convection and 🧪 buoyancy. Set 0 for weightlessness.",
+    gravityY:"Uniform external gravity acting vertically (+y is down on screen). The 'downward gravity' of ⚾ free fall, ♨️ convection and 🧪 buoyancy. Beaker-tag samples (♨️🧪) default to 0.031 (≈9.8 m/s² converted — wave 98: the beaker tag inherited the old everyday calibration); the everyday tag (⚾) uses the real value 9.8 (9.8 m/s² as-is). Set 0 for weightlessness.",
     geoPN:"The v2.0 geodesic mode (E12). At 1, matter's motion is derived by an action principle from the same ψ=W/Kt that slows clocks, enabling the 1PN correction (☿); E6′ dragging on matter is disabled (no double counting). At 2, the unified v−u geodesic law (stage 2): frame transport, vorticity Coriolis (the true face of dragging) and 1PN all follow from one equation derived with u≠0 — exactly equal to 1 when kFrame=0. 0 = legacy.",
     lambdaPN:"On/off switch of the 1PN correction in geodesic mode (geoPN≥1 — also gates the a₁ₚₙ(w) term of geoPN=2). At 0 you recover Newtonian gravity and the ellipse closes — the A/B control for ☿ Mercury.",
     pnAlpha:"Breakdown of the 1PN correction (E12). 1.5 = full (GR's β=γ=1 — the full 42.98″/century of Mercury), 0.5 = time-rate only (advance drops to 1/3). Machine-verified in V18–V20.",
@@ -1887,7 +1887,7 @@ const PARAM_DEFS = [
   {key:"Kt",    label:"時空係数 Kt(時間・光)", mode:"log", lo:1, hi:10000, cat:"st", group:"法則",
    desc:"時計の遅れと光の屈折を1本で決める係数(A7′/E7R/E8R: ψ=W/Kt)。小さいほど時空効果が強い — 時計はより遅れ、光はより曲がる。現実との較正は Kt=c²/G(🛰)。"},
   {key:"cLight",label:"光速 c₀",             mode:"log", lo:5, hi:1000, cat:"st", group:"法則",
-   desc:"光線の速さと、運動による時計の遅れの基準(E7R: 共動フレームに対する速さがc₀に近いほど固有時計が遅れる)。下げると相対論的効果が見えやすくなる。"},
+   desc:"光線の速さと、運動による時計の遅れの基準(E7R: 共動フレームに対する速さがc₀に近いほど固有時計が遅れる)。下げると相対論的効果が見えやすくなる。【c₀の三層(第99便)】①基準光速 c₀=このパラメータ(全内蔵サンプルは c₀=30 の一律規約)②局所光速 c_loc=c₀·e^(−2ψ)(重力ポテンシャルの井戸で局所的に遅くなる — 減光・光掃引の auto が使う)③表示較正指数 eC(「30→3×10⁸ m/s」の換算表示専用 — 物理には入らない)。換算値はアナロジーの目安であり、モデルが実宇宙の定数に束縛されているわけではない。"},
   {key:"G",     label:"重力 G",              mode:"log", lo:0.01,   hi:20,   cat:"st", group:"法則",   /* 第95便: 光速 c₀ の次へ移動 */
    desc:"粒子同士の万有引力の強さ。この宇宙では決定力Wの勾配が重力になる(A6/E4: a=G∇W)。0にすると自己重力が消える(一様重力g_x/g_yとは別)。"},
   {key:"bM",    label:"ウィーン定数 b_m",    mode:"log", lo:0.01, hi:100, cat:"sh", group:"法則",
@@ -1901,7 +1901,7 @@ const PARAM_DEFS = [
   {key:"gravityX",label:"一様重力 g_x",      mode:"lin", lo:-5, hi:5, step:0.005, cat:"st", group:"法則",   /* 第79便(原仮定者指示): 実験箱→時空カテゴリへ移動 */
    desc:"画面全体に働く横方向の一様な外部重力場(v1.17)。決定力Wには寄与しないので、時計・光・引きずりを歪めずに「地上の実験室」を作れる。運動量は場との交換として帳簿に記録。"},
   {key:"gravityY",label:"一様重力 g_y",      mode:"lin", lo:-10, hi:10, step:0.005, cat:"st", group:"法則",   /* 第79便: 同上。第94便: ⚾の g_y=9.8(実値化)がスライダー内に収まるよう CLAMPS と同じ±10へ拡大(第56便 kRep と同じ方針) */
-   desc:"画面全体に働く縦方向の一様な外部重力場(+yは画面下向き)。⚾自由落下・♨️対流・🧪浮力の「下向きの重力」はこれ。日常スケールタグのサンプルは 0.031(換算 ≈9.8 m/s² — 第95便アンカー)を既定とする。0にすると無重力になる。"},
+   desc:"画面全体に働く縦方向の一様な外部重力場(+yは画面下向き)。⚾自由落下・♨️対流・🧪浮力の「下向きの重力」はこれ。ビーカータグ(♨️🧪)は 0.031(換算 ≈9.8 m/s² — 第98便: 旧日常較正を引き継ぎ)、日常タグ(⚾)は実値 9.8(そのまま 9.8 m/s²)を既定とする。0にすると無重力になる。"},
   {key:"geoPN",   label:"測地線モード geoPN", mode:"lin", lo:0, hi:2, step:1,    cat:"dg", group:"法則",
    desc:"v2.0の測地線モード(E12)。1にすると、時計を遅らせるのと同じψ=W/Ktから物質の運動を作用原理で導き、1PN補正が働く(☿)。同時に物質へのE6′引きずりは無効化(二重計上禁止)。2にすると v−u 統一測地線則(v2.0第2段階): u≠0 のまま導いた式で、フレーム輸送・渦度コリオリ(引きずりの正体)・1PN が一本の式から出る — kFrame=0 では 1 と厳密に同じ。0=従来(legacy)。"},
   {key:"lambdaPN",label:"1PN補正 λ_PN",      mode:"lin", lo:0, hi:1, step:1,    cat:"dg", group:"法則",
@@ -2761,7 +2761,7 @@ const BUILTIN_PRESETS = [
 //  ・テスト粒子リング(6000步): 平均 L_z 954.1(対照 632.45 = 厳密一定)・24/24 保持・NaN なし
 //  ・帳簿込みの保存(6000步): |ΔP|/P₀=1.27e-4・|ΔL|/L₀=1.26e-4(pinned ゼロの閉鎖系)
 { id:"rotorSolo", name:"ダークローター(単体)", emoji:"🕳️", group:"銀河",
-  scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"darkcenter", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
@@ -2818,7 +2818,7 @@ const BUILTIN_PRESETS = [
 // 「暗い点の集合としての暗黒星雲」まで。波長別吸収・散乱の光学輸送拡張は台帳へ持ち越し。
 // 実測は tests/exp-4-75.mjs(seed 20260804・3000步)
 { id:"nebulaRotor", name:"ローター星雲 — 暗黒星雲と散光星雲", emoji:"🌑", group:"銀河",
-  scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"composite",
   notClaim:["nebula","dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"rotorform", familyRole:"primary",   // 第82便: ファミリー表示(表示専用)
@@ -2873,7 +2873,7 @@ const BUILTIN_PRESETS = [
 // スピンにしか効かず、熱圧 kRep=0.3 の下でも雲は自壊しない(単層で同じ暗さを出すには spin≈6 が
 // 必要で、同じ kRep で保持48%まで自壊する — exp-4-76 の耐圧試験)。実測 tests/exp-4-76.mjs
 { id:"nebulaShell", name:"重殻ローター星雲 — 束縛と暗さの両立", emoji:"🐚", group:"銀河",
-  scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"principle",
   notClaim:["nebula","dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"rotorform", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
@@ -2936,7 +2936,7 @@ const BUILTIN_PRESETS = [
 // 機構は 🌋agnjet と同じ「E5′圧力+幾何」— 赤道が塞がれ、抵抗の少ない極方向(±y)だけが
 // 出口になってローブが立つ。実測 tests/exp-4-76.mjs(seed 20260804・6000步)
 { id:"nebulaBipolar", name:"双極星雲 — 暗黒トーラスと極方向ローブ", emoji:"⏳", group:"銀河",
-  scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"composite",
   notClaim:["nebula"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"rotorform", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
@@ -3293,7 +3293,7 @@ const BUILTIN_PRESETS = [
 //     すでに含むので不変)。窓を広げるのは主張を弱める方向の変更だが、測っていない再現性を
 //     窓の狭さで主張しないための正直な処置である。
 { id:"selfRotor", name:"自己形成ダークローター — 種から育つ暗い中心", emoji:"🥚", group:"銀河",
-  scaleTier:"galactic",
+  scaleTier:"stellar",   // → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"composite",
   notClaim:["dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"rotorform", familyRole:"variant",   // 第82便統合: ローター形成ファミリー(成長系の変種)
@@ -3647,6 +3647,7 @@ const BUILTIN_PRESETS = [
   // 第95便(原仮定者指示「調整後の日常に割当て可能なサンプルを移行」): 日常アンカーが
   // L=T=−2.5・g_y 規約 0.031(≈9.8 m/s²)になったため **everyday へ復帰**。
   // g_y 0.03→0.031(+3.3% — 対流セルの成立余裕は実測 循環21.4 vs 閾値12 で十分)
+  // 第98便: 7分類化 — 旧日常較正(−2.5系・g_y 0.031)は「ビーカー」タグが引き継ぐ(♨️🧪)
   scaleTier:"beaker",
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -3669,7 +3670,7 @@ const BUILTIN_PRESETS = [
     // 「天井右の冷却板+右端床は非加熱=下降域」で作っていた左右非対称を、壁の言葉で置き換えた形
     thermalWalls:{ bottom:{mode:"heat", T:144, rate:1}, top:{mode:"rad", rate:3}, right:{mode:"rad", rate:10} }},
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:2, muF:0.2, gammaN:0.1, kappaS:1.2, Kt:60,
-    cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.031/* 第95便: 日常規約(≈9.8 m/s²)*/, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:2},
+    cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:2, cHeat:1, gravityX:0, gravityY:0.031/* 第95便: 日常規約(≈9.8 m/s²)→ 第98便: ビーカー規約として継続 */, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:2},
   bodies:[ // 第37便 C1: pinned ヒーター13枚・冷却板5枚を全廃し、自由な気体だけの系にした
            // (外部駆動は壁の熱交換ひとつだけ = 要因の完全分離)。箱を小さく・密にしたのは、
            // 壁と気体が実際に熱をやり取りできる密度にするため(実測: 旧サイズ190では天井付近の
@@ -3701,7 +3702,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:200}, world:{boundary:"box",size:160},
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:3, muF:0, gammaN:0.1, kappaS:0, Kt:60,
     cLight:30/* 第95便: 一律規約 c₀=30(G=0・光線/PNなし — 力学は1ビットも変わらない)*/, bM:1, etaRad:0, pRad:4, cHeat:30/* 第36便 D: 大きな熱容量で衝突散逸(E9)による昇温を抑え、旧版の「温度一定」統制条件を維持(実測: 12000步で T 20.25→20.71 = +2%)*/,
-    gravityX:0, gravityY:0.031/* 第95便: 日常規約(≈9.8 m/s²)— 0.05 から変更。分離は弱まるが持続 */, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 2.5 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2},
+    gravityX:0, gravityY:0.031/* 第95便: 日常規約(≈9.8 m/s²)— 0.05 から変更。分離は弱まるが持続 → 第98便: ビーカー規約として継続 */, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 2.5 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2},
   bodies:[ // v1.18: Gemini 第8次提案を機械掃引で調整(スピン固定+radiusScale2.5 — 分離52〜72が持続)
     {type:"box", rMul:2.5, n:200, cx:0,cy:0, w:280,h:280, mMin:0.2,mMax:0.2, spinMin:0,spinMax:0, tInt:20.25, vScale:0.5},
     {type:"box", rMul:2.5, n:80, cx:0,cy:0, w:280,h:280, mMin:3,mMax:3, spinMin:0,spinMax:0, tInt:0, vScale:0.1}
@@ -10387,10 +10388,15 @@ function rebuildAiBaseSelect(){
 // 定型文)。「挿入」で要望欄(#aiPrompt)へ追記し、ベースサンプルも推奨値へ切り替える。
 // 送信文の組み立て(aiUserContent)には手を入れない — 雛形はあくまでユーザー編集可能な下書き
 // (ai.base-context の「未選択は素通し」不変)
+// 第99便(外部レビュー P0): 第98便の7分類化で SCALE_TIERS が7段になったのに本表が5段のままで、
+// beaker/planetary/stellar 選択時に「挿入」が silent no-op になっていた(celestial は選択肢から
+// 消えたため死にエントリ)。7分類へ更新 — ベースは各タイアの代表サンプル。
 const AI_SCALE_TPL={
   molecular:{base:"emergent",  tplKey:"aiTpl_molecular"},
-  everyday: {base:"projectile",tplKey:"aiTpl_everyday"},   // 第94便: ♨️は molecular へ再分類 — 日常の代表は⚾
-  celestial:{base:"earthMoon", tplKey:"aiTpl_celestial"},
+  beaker:   {base:"convection",tplKey:"aiTpl_beaker"},     // ♨️対流(g_y 0.031規約の代表)
+  everyday: {base:"projectile",tplKey:"aiTpl_everyday"},   // 第94便: ♨️は molecular へ再分類 — 日常の代表は⚾ → 第98便: ♨️は beaker へ
+  planetary:{base:"earthMoon", tplKey:"aiTpl_planetary"},
+  stellar:  {base:"binary",    tplKey:"aiTpl_stellar"},
   galactic: {base:"galaxyStd", tplKey:"aiTpl_galactic"},
   cosmic:   {base:"boxcomoving",tplKey:"aiTpl_cosmic"}};
 function rebuildAiScaleTpl(){
@@ -12111,7 +12117,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 
 # 出力ルール
 1. スキーマに完全準拠したJSONのみを出力する。説明文やコードフェンスは書かない。
-2. physicsは全キーを必ず含める。変更不要なキーは既定値を書く。既定値: G=1, D0=2, kFrame=1, q=2, kRep=1, muF=0.5, gammaN=0.4, kappaS=0.05, Kt=60, cLight=60, bM=1, etaRad=0, pRad=4, gravityX=0, gravityY=0, geoPN=0, lambdaPN=1, pnAlpha=1.5, radiusScale=1, softening=2, timeScale=1
+2. physicsは全キーを必ず含める。変更不要なキーは既定値を書く。既定値: G=1, D0=2, kFrame=1, q=2, kRep=1, muF=0.5, gammaN=0.4, kappaS=0.05, Kt=60, cLight=30, bM=1, etaRad=0, pRad=4, gravityX=0, gravityY=0, geoPN=0, lambdaPN=1, pnAlpha=1.5, radiusScale=1, softening=2, timeScale=1
 3. 粒子総数は最大600。滑らかに動かすため通常は120〜400にする。
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。

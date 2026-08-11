@@ -99,6 +99,38 @@
   G=0 で光学・PN と結合しない分子系8件(🔥🎈📏🌈🧬🧊⛓️♻️)の c₀ を 30 へ統一(力学 bit 不変
   — ♨️🧪の意図的変更は零コスト基準ハッシュを世代判定つきで再採取)。**G>0 系の c₀=30/
   G×(30/c)² 統一は相似変換+QA再較正を要するため第96便以降の段階適用**(QA `scale.exponents`)
+- **perf ゲートの世代差対応**(第99便A)— 第97便で相似変換を維持したサンプル(🌌🎡除く銀河系2・
+  ⚫・星雲3・🌱)は timeScale÷k により beta の步数/フレームが root の 1/k 倍で、壁時計比が
+  k⁻¹ 倍に膨らみ公式CIで 8/20 FAIL していた(1步あたりコストは不変)。世代差(beta 宣言
+  c₀=30・root 宣言≠30)があり步数が乖離した場合のみペア比を steps/frame 比で正規化
+  (root 昇格で自動的に厳密比較へ復帰)。geo2-overhead は 🎡(巻き戻し ts=3)⇔💫(維持 ts=6)の
+  步数乖離を 1步あたりコスト比で恒久正規化(実測 1.392 — 較正値 1.475 と整合)
+- **AI雛形の内部表を7分類へ**(第99便B)— 第98便の7分類化で選択肢・雛形文は7種になったが
+  内部表(ベースサンプル対応)が旧5分類のままで、ビーカー/惑星/恒星の「挿入」が無反応だった
+  (外部レビュー P0)。7分類へ更新し、QA `ai.scale-templates` を**全タイア実クリック**検査へ拡張
+- **サンプルの整理 — 星雲/ローター系5件を恒星スケールへ**(第99便C)— 🕳️単体ローター・
+  🌑🐚⏳星雲3種・🥚自己形成ローターを銀河→**恒星**へ再分類(星雲は恒星スケールの現象 —
+  外部レビュー2件の指摘を採択。scaleTier は表示換算専用なので物理 bit 不変)。
+  7分類の割当表(全55件・原仮定者指示「サンプルの整理」):
+
+  | スケール | 件数 | サンプル |
+  |---|---|---|
+  | ⚛️分子 | 8 | 🔥gas 🎈pressure 📏conduction 🌈coolrace 🧬emergent 🧊emergent2 ⛓️chain2 ♻️chaincycle |
+  | 🧪ビーカー | 2 | ♨️convection 🧪buoyancy |
+  | 🏠日常 | 1 | ⚾projectile |
+  | 🪐惑星 | 8 | ⏱️gclock 🛰️grcal ☿mercury 🌍earthMoon 🌕earthMoonFree 🪐saturn 🎯saturnLayered 🛰️saturnZonalD68 |
+  | ☀️恒星 | 18 | ⏪echo 🕳️rotorSolo 🌑nebulaRotor 🐚nebulaShell ⏳nebulaBipolar 🌫️collapse 🥚selfRotor 💡lensing 🌗spinlens 🔭blens 🌆reddening ⭐binary ♾️fig8 💥counterring 🌋agnjet 🌪️spinup ☀️starcore 🌱starSeed |
+  | 🌌銀河 | 8 | 🌌galaxy 🎡galaxyStd 💫galaxyGeo2 🍳galaxyDB 🕶️darkrotor ⚫bhCore 🪜massLadder 🌠merger |
+  | 🫧宇宙全体 | 10 | 📦boxtrans 🌀boxrot 📈boxexpand 🫧boxcomoving 🪢boxbound 🫁boxbreath 🔦boxredshift 🧭probeH 🕊️freebox 🕸️cosmicweb |
+
+- **c₀ 規約まわりの P1 整備**(第99便D)— ①g_y ヘルプの規約記述を7分類へ更新(ビーカー=0.031
+  〔換算 ≈9.8 m/s²〕/日常=実値 9.8 — 旧「日常=0.031」の残存記述を解消)②AI生成の既定値を
+  c₀=30 へ(SYSTEM_PROMPT の既定値行。DEFAULT_PHYSICS の 60 は互換のため据置 — 内蔵は全件
+  宣言済みで実害なし)③QA `light.canonical-builtins` 新設: 全内蔵が physics.cLight=30 を
+  宣言する錨(7分類ビルド限定 — 昇格時に root へも自動適用)④c₀ の**三層分離**をヘルプに明文化:
+  基準光速 c₀(パラメータ・一律規約30)/局所光速 c_loc=c₀·e^(−2ψ)(減光・光掃引 auto)/
+  表示較正指数 eC(換算表示専用)。換算値はアナロジーの目安でありモデルは実宇宙の定数に
+  束縛されない旨のメタ注記を c₀/eC ヘルプへ追加(外部レビュー3件の P1 指摘・提案を採択)
 - **スケールタグの7分類化**(第98便A)— 5分類(分子/日常/天体/銀河/宇宙全体)を
   **7分類(分子/ビーカー/日常/惑星/恒星/銀河/宇宙全体)**へ(原仮定者指示)。旧「日常」の較正
   (L=T=M=−2.5・g_y 0.031→≈9.8 m/s²)は**ビーカー**(♨️🧪)が引き継ぎ、旧「天体」21件は

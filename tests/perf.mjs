@@ -22,6 +22,14 @@
 // - beta 専用サンプル(root 未実装)は従来どおり informational(絶対 ms と ms/frame を記録)。
 //   絶対時間の合否ゲートは共有ランナーの絶対値変動(実測 ±25%)で偽陽性になるため設けない
 //   (Release前レビュー P1-1 は「記録の充実」で対応 — 実機 FPS は実機確認手順に委ねる)。
+// - 第99便: 第97便の相似変換(k=30/旧c₀)で「変換維持」サンプルは timeScale が ÷k され、
+//   beta の steps/frame が root の 1/k 倍(galaxy/galaxyGeo2/bhCore ×2、nebula系/starSeed ×4/3)。
+//   1フレームの物理仕事が意図的に増えたため、壁時計比が k⁻¹ 倍に膨らみ CI で 8/20 FAIL した
+//   (run 31466921121 — 1步あたりコストは不変)。対処: **世代差があるサンプルのみ** ペア比を
+//   steps/frame 比で正規化する(= 1步あたりコスト比で判定)。世代差の検出は qa.mjs と同じ
+//   「beta 宣言 cLight===30 かつ root 宣言 cLight≠30」。root へ v1.39 が昇格して両側の宣言が
+//   揃えば正規化は自動で無効化され、従来の厳密壁時計比ゲートへ戻る(ALLOW の恒久緩和はしない)。
+//   同世代内の timeScale 由来の計算量増(第25次レビュー原因1)は引き続き生の比で検出される。
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -170,6 +178,11 @@ const rootPage = await openPage('index.html');
 const betaPage = await openPage(path.join('beta', 'index.html'));
 const rootIds = await rootPage.evaluate(() => HP.allPresets().map((p) => String(p.id)));
 const betaIds = await betaPage.evaluate(() => HP.allPresets().map((p) => String(p.id)));
+// 第99便: プリセット宣言値(cLight/timeScale)を両側から取得 — 世代差検出用(qa.mjs と同方式)
+const getDecl = (page, id) => page.evaluate((pid) => {
+  const p = HP.allPresets().find((q) => String(q.id) === pid);
+  return p ? { cLight: p.physics?.cLight ?? null, timeScale: p.physics?.timeScale ?? 1 } : null;
+}, id);
 const env = {
   node: process.version,
   chromium: browser.version(),
@@ -192,15 +205,23 @@ for (const id of [...SAMPLES, ...EXTRA_SAMPLES]) {
   const isExtra = EXTRA_SAMPLES.includes(id);
   if (inRoot && inBeta) {
     const m = await measurePaired(rootPage, betaPage, id);
+    // 第99便: 世代差(beta=第96便B変換後 c₀=30・root=旧c)があり steps/frame が乖離した
+    // サンプルは、1步あたりコスト比で判定する(冒頭コメント参照)。同世代なら tsNorm=1。
+    const declR = await getDecl(rootPage, id), declB = await getDecl(betaPage, id);
+    const genGap = declB?.cLight === 30 && declR?.cLight !== 30;
+    const tsNorm = (genGap && m.stepsPerFrameRoot !== m.stepsPerFrameBeta)
+      ? m.stepsPerFrameBeta / m.stepsPerFrameRoot : 1;
+    const normRatio = +(m.ratio / tsNorm).toFixed(3);
     const limit = ALLOW[id] || THRESH;
-    const pass = m.ratio <= limit && !m.nan;
+    const pass = normRatio <= limit && !m.nan;
     if (!pass) fail++;
     rows.push({ id, rootMs: +m.rootMs.toFixed(1), betaMs: +m.betaMs.toFixed(1),
-      ratio: +m.ratio.toFixed(3), limit, frames: FRAMES_OVERRIDE[id] || FRAMES,
+      ratio: +m.ratio.toFixed(3), tsNorm: +tsNorm.toFixed(3), normRatio, genGap,
+      limit, frames: FRAMES_OVERRIDE[id] || FRAMES,
       stepsPerFrameRoot: m.stepsPerFrameRoot, stepsPerFrameBeta: m.stepsPerFrameBeta,
       nRoot: m.nRoot, nBeta: m.nBeta, pass,
       pairs: m.pairs, rawRootMs: m.rawRoot, rawBetaMs: m.rawBeta });
-    console.log(`${pass ? 'PASS' : 'FAIL'} perf.${id}  beta/root=${m.ratio.toFixed(3)} (≤${limit}・ペア比[${m.pairs.map((p) => p.ratio.toFixed(3)).join(' ')}]の中央値)  root=${m.rootMs.toFixed(1)}ms beta=${m.betaMs.toFixed(1)}ms${FRAMES_OVERRIDE[id] ? `(${FRAMES_OVERRIDE[id]}frames)` : ''}`);
+    console.log(`${pass ? 'PASS' : 'FAIL'} perf.${id}  beta/root=${normRatio.toFixed(3)} (≤${limit}${tsNorm !== 1 ? `・生比${m.ratio.toFixed(3)}を steps/frame 比${m.stepsPerFrameBeta}/${m.stepsPerFrameRoot} で正規化〔世代差〕` : ''}・ペア比[${m.pairs.map((p) => p.ratio.toFixed(3)).join(' ')}]の中央値)  root=${m.rootMs.toFixed(1)}ms beta=${m.betaMs.toFixed(1)}ms${FRAMES_OVERRIDE[id] ? `(${FRAMES_OVERRIDE[id]}frames)` : ''}`);
   } else if (isExtra && (inRoot || inBeta)) {
     const side = inBeta ? 'beta' : 'root';
     const one = await measureSingle(inBeta ? betaPage : rootPage, id);
@@ -225,6 +246,10 @@ for (const id of [...SAMPLES, ...EXTRA_SAMPLES]) {
 // N 掃引 100/200/381/600 でも 1.42〜1.55 で平坦 = 追加コストは同じ O(N²) の定数倍 ≈1.5
 // 〔∇u 勾配集積 ~40flops/対〕。マージン ×1.12 は既存 THRESH=1.10 と同水準。超過は geo2 経路の
 // 性能回帰とみなす)
+// 第99便: 第97便で 🎡galaxyStd は変換巻き戻し(ts=3)・💫galaxyGeo2 は変換維持(ts=6)となり、
+// 両者の steps/frame が 6⇔12 に乖離した(壁時計比が geo2 コスト×2 に膨張 → CI 2.783 FAIL)。
+// 本ゲートの目的は「geoPN=2 経路の 1步あたり追加コスト」なので、ペア比を各側の steps/frame で
+// 正規化して判定する(恒久形 — 較正値 1.475 は ts が揃っていた時期の実測なのでそのまま比較可能)。
 const GEO2_THRESH = +(process.env.GEO2_THRESH || 1.65);
 let geo2Gate = null;
 const geo2Sweep = [];
@@ -237,15 +262,19 @@ if (betaIds.includes('galaxyGeo2') && betaIds.includes('galaxyStd')) {
       b = await measureSet(betaPage, 'galaxyGeo2', REPS, FRAMES, WARMUP_FRAMES); }
     else { b = await measureSet(betaPage, 'galaxyGeo2', REPS, FRAMES, WARMUP_FRAMES);
       a = await measureSet(betaPage, 'galaxyStd', REPS, FRAMES, WARMUP_FRAMES); }
+    // 第99便: 1步あたりコスト比で記録(steps/frame 正規化 — 上の恒久形コメント参照)
     pairs2.push({ order: stdFirst ? 'std→geo2' : 'geo2→std',
       stdMs: +median(a.times).toFixed(1), geo2Ms: +median(b.times).toFixed(1),
-      ratio: +(median(b.times) / median(a.times)).toFixed(3) });
+      spfStd: a.stepsPerFrame, spfGeo2: b.stepsPerFrame,
+      rawRatio: +(median(b.times) / median(a.times)).toFixed(3),
+      ratio: +((median(b.times) / b.stepsPerFrame) / (median(a.times) / a.stepsPerFrame)).toFixed(3) });
   }
   const ratio2 = median(pairs2.map((p) => p.ratio));
   const pass2 = ratio2 <= GEO2_THRESH;
   if (!pass2) fail++;
-  geo2Gate = { id: 'geo2-overhead', ratio: +ratio2.toFixed(3), limit: GEO2_THRESH, pairs: pairs2, pass: pass2 };
-  console.log(`${pass2 ? 'PASS' : 'FAIL'} perf.geo2-overhead  geo2/std=${ratio2.toFixed(3)} (≤${GEO2_THRESH}・ペア比[${pairs2.map((p) => p.ratio.toFixed(3)).join(' ')}]の中央値・同一初期配置 🎡⇔💫)`);
+  geo2Gate = { id: 'geo2-overhead', ratio: +ratio2.toFixed(3), limit: GEO2_THRESH, pairs: pairs2, pass: pass2,
+    note: '比は steps/frame 正規化済み(1步あたりコスト比 — 第99便)' };
+  console.log(`${pass2 ? 'PASS' : 'FAIL'} perf.geo2-overhead  geo2/std=${ratio2.toFixed(3)} (≤${GEO2_THRESH}・1步あたりコスト比〔spf ${pairs2[0].spfGeo2}/${pairs2[0].spfStd} 正規化〕・ペア比[${pairs2.map((p) => p.ratio.toFixed(3)).join(' ')}]の中央値・同一初期配置 🎡⇔💫)`);
   // N 掃引(informational — 合成円盤・galaxyStd と同物理)
   const measureCfg = async (geoPN, n) => page_measureCfg(betaPage, geoPN, n);
   const page_measureCfg = (page, geoPN, n) => page.evaluate(([geoPN, n, frames, warm, reps]) => {
