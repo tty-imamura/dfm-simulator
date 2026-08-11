@@ -3619,6 +3619,35 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
+// ===== 第100便C(原仮定者裁定「進める」/ Gemini 提案「Molecular/Beaker の拡充」)=====
+// 🛷摩擦熱: E9(接触摩擦 muF・法線散逸 γn)の単一機構デモ。重い投射体が冷たい気体を
+// かき分けて進み、運動エネルギーが接触摩擦でスピン(熱)に変わる。
+// 実測(seed 20260811・4000步): 投射体の速さ 6→4.36(−27%)・気体の平均|spin| 0.047→0.145(約3倍)。
+// 対照(muF=γn=0・同步数): 減速はする(6→4.0 — 弾性散乱の運動量移行)が平均|spin| は 0.024 のまま
+// =「遅くなること」と「熱くなること」は別物で、後者だけが摩擦(E9)の署名(QA behavior.wave100c)
+{ id:"frictionHeat", name:"摩擦熱 — 運動が熱に変わる", emoji:"🛷", group:"熱の実験室",
+  scaleTier:"molecular",
+  sampleClass:"principle",
+  notClaim:["thermo"],   // EXT-04: しない主張(宣言専用 — 表示のみ)
+  descStruct:{
+    summary:"静かな冷たい気体の中へ、重い粒(そり)が速さ6で突っ込む。接触摩擦(E9: muF)がすべりを削り、そりの運動エネルギーが気体のスピン(=熱)に変わっていく — そりは遅くなり、通り道の気体は温まる。摩擦熱のアナロジー。",
+    observe:"4000步でそりの速さは 6→約4.4(−27%)、気体の平均|スピン|は 0.047→約0.15(約3倍)に上がる(実測・種固定)。色=温度。そりの通り道(航跡)が先に温まるのが見える。",
+    control:"muF と γn を 0 にすると、そりは気体をかき分けて同じように遅くなる(運動量は移る)が、平均|スピン|は 0.024 のまま増えない — 減速そのものではなく「減速が熱に変わること」が摩擦の署名(おすすめA/B)。"},
+  en:{name:"Friction Heat — Motion Becomes Heat", descStruct:{
+    summary:"A heavy grain (a 'sled') plows at speed 6 into quiet cold gas. Contact friction (E9: muF) grinds away the sliding, converting the sled's kinetic energy into gas spin (= heat) — the sled slows down and its wake warms up. An analogy of frictional heating.",
+    observe:"Over 4000 steps the sled slows from 6 to ≈4.4 (−27%) while the gas mean |spin| rises from 0.047 to ≈0.15 (≈3×) — measured, fixed seed. Color = temperature; the wake warms first.",
+    control:"Set muF and γn to 0: the sled still slows as it shoves gas aside (momentum transfers), but mean |spin| stays at 0.024 — the signature of friction is not the slowdown itself but the slowdown turning into heat (suggested A/B)."}},
+  activeParams:["muF","gammaN","kRep"],
+  camera:{scale:240}, world:{boundary:"box", size:200}, seed:20260811,
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:1.2, muF:0.9, gammaN:0.5, kappaS:0.05, Kt:60,
+    cLight:30/* c₀=30 一律規約(G=0・光線/PNなし — 力学に不干渉)*/, bM:1, etaRad:0, pRad:4,
+    gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:2},
+  bodies:[
+    {type:"box", rMul:2, n:200, cx:40, cy:0, w:240, h:340, mMin:0.4, mMax:0.4,
+      spinMin:0, spinMax:0.05, vScale:0.05},
+    {type:"single", rMul:2.5, m:12, x:-180, y:0, vx:6, vy:0, spin:0, pinned:false}],
+  overlays:{rotationCurve:false,tempHistogram:true,field:false} },
+
 { id:"coolrace", name:"放射冷却 — 高温ほど速い", emoji:"🌈", group:"熱の実験室",
   scaleTier:"molecular",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
@@ -3719,6 +3748,36 @@ const BUILTIN_PRESETS = [
     {type:"box", rMul:2.5, n:80, cx:0,cy:0, w:280,h:280, mMin:3,mMax:3, spinMin:0,spinMax:0, tInt:0, vScale:0.1}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
+
+// 第100便C: ☕冷めるお茶 — 伝熱壁(EXT系の壁4面 mode:"heat")への熱伝導で冷える巨視的デモ。
+// ビーカータグ(g_y 0.031 規約)。実測(seed 7): 平均T_int 60 → 800步56.2 → 2400步42.0 →
+// 4800步25.4(壁温2へ単調減衰 — ニュートン冷却様の曲線)。対照: 壁を断熱(rate 0)にすると冷えない。
+// 開放系(伝熱壁=無限熱容量のリザーバ)なので保存量モニタは開放系判定になる(EXT-14 と整合)
+{ id:"cooling", name:"冷めるお茶 — 壁への熱伝導", emoji:"☕", group:"熱の実験室",
+  scaleTier:"beaker",
+  sampleClass:"composite",
+  notClaim:["thermo"],   // EXT-04: しない主張(宣言専用 — 表示のみ)
+  descStruct:{
+    summary:"熱いお茶(T_int=60 の気体)を、四方の冷たい壁(壁温2の伝熱壁)に囲まれた箱に注ぐ。粒が壁に触れるたび熱が壁へ逃げ、内側では熱伝導(E10′: κs)が温度を運ぶ — 全体がゆっくり壁温へ近づく、ニュートン冷却様の曲線を描く。温度は内部状態変数T_int(A9改訂)で、スピンは動かない。",
+    observe:"平均温度は 60 → 約56(800步)→ 約42(2400步)→ 約25(4800步)と単調に冷える(実測・種固定)。縁から先に冷え、中心が最後まで温かい。弱い重力(ビーカー規約 g_y=0.031 ≈9.8 m/s²)で軽い対流も混ざる。色=温度。伝熱壁はエネルギーの出口なので、保存量モニタは開放系判定になる。",
+    control:"壁の伝達率を 0(断熱)にすると冷えが止まる。κs を上げると内側の温度が速く均される(おすすめA/B)。"},
+  en:{name:"Cooling Tea — Heat Loss to the Walls", descStruct:{
+    summary:"Hot tea (gas at T_int=60) poured into a box whose four walls are cold heat-conducting walls (wall temperature 2). Each wall contact leaks heat out, while conduction (E10′: κs) carries temperature inside — the whole cup relaxes toward the wall temperature along a Newton-cooling-like curve. Temperature is the internal state variable T_int (A9 revision); spins never move.",
+    observe:"Mean temperature falls monotonically: 60 → ≈56 (800 steps) → ≈42 (2400) → ≈25 (4800) — measured, fixed seed. The rim cools first, the center stays warm longest. Weak gravity (beaker convention g_y=0.031 ≈9.8 m/s²) adds a hint of convection. Color = temperature. The walls are an energy outlet, so the conservation monitor reports an open system.",
+    control:"Set the wall transfer rate to 0 (adiabatic) and the cooling stops. Raise κs to even out the inside faster (suggested A/B)."}},
+  activeParams:["kappaS","kRep","gravityY"],
+  thermal:"tint",
+  camera:{scale:220}, seed:7,
+  world:{boundary:"box", size:150, thermalWalls:{
+    bottom:{mode:"heat",T:2,rate:2}, top:{mode:"heat",T:2,rate:2},
+    left:{mode:"heat",T:2,rate:2}, right:{mode:"heat",T:2,rate:2} }},
+  physics:{G:0, D0:2, kFrame:0, q:2, kRep:2, muF:0, gammaN:0.1, kappaS:0.4, Kt:60,
+    cLight:30/* c₀=30 一律規約(G=0・光線/PNなし — 力学に不干渉)*/, bM:1, etaRad:0, pRad:4,
+    cHeat:1, gravityX:0, gravityY:0.031/* ビーカー規約(≈9.8 m/s²)*/, geoPN:0, lambdaPN:1,
+    pnAlpha:1.5, radiusScale:1, softening:2, timeScale:2},
+  bodies:[{type:"box", rMul:3, n:220, cx:0, cy:0, w:260, h:260, mMin:0.1, mMax:0.1,
+    tInt:60, spinMin:0, spinMax:0, vScale:0.3}],
+  overlays:{rotationCurve:false,tempHistogram:true,field:false} },
 
 // ===== E14″ 創発相変化サンプル(第60便で創発一本に整理 — 旧サンプル群は廃止)=====
 // 廃止(2026-08-02 原仮定者指示「古い仕組みを使ったサンプルは廃止して構わない」):

@@ -4176,7 +4176,7 @@ if (!FAST) {
 
   // ---- 8a2b1) 第74便: 5段階スケール(scaleTier)— 分類の完全性と表示換算の物理不変 ----
   // scaleTier は UI 分類・表示換算専用のメタデータ(ChatGPT §8「スケールを物理入力にしない」)。
-  // ①全内蔵が正規値のいずれかを宣言し、全スケールが空でない(第98便: beta=7分類/root=5分類 — SCALE_TIERS から動的判定。第99便のサンプル整理で beta 内訳=分子8・ビーカー2・日常1・惑星8・恒星18・銀河8・宇宙10〔🕳️rotorSolo・🌑🐚⏳星雲3種・🥚selfRotor を銀河→恒星へ再分類〕。旧較正: 分子8・日常4・
+  // ①全内蔵が正規値のいずれかを宣言し、全スケールが空でない(第98便: beta=7分類/root=5分類 — SCALE_TIERS から動的判定。第99便のサンプル整理で beta 内訳=分子8・ビーカー2・日常1・惑星8・恒星18・銀河8・宇宙10〔🕳️rotorSolo・🌑🐚⏳星雲3種・🥚selfRotor を銀河→恒星へ再分類〕→ 第100便C の拡充で分子9(+🛷摩擦熱)・ビーカー3(+☕冷めるお茶)= 全57件。旧較正: 分子8・日常4・
   //   天体18・銀河6+2・宇宙全体10)②換算表示トグル+指数スライダーを操作しても物理
   //   (240步後の x/vx/spin)が bit 一致 ③AI追加のスケール雛形が SCALE_TIERS と同数あり、
   //   全タイアの挿入で要望欄とベースサンプルが埋まる(第99便: 全タイア実クリック検査へ拡張。
@@ -12013,6 +12013,64 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       `往復復元=${r.roundtrip} / トグル存在=${r.cb}・ON永続化=${r.on} / setParam配線=${wired}`);
   } else {
     console.log('SKIP scale.clink(対象に相似変換連動なし — root 等。第100便)');
+  }
+
+  // ---- 第100便C: molecular/beaker 拡充サンプルの機械検証(🛷摩擦熱・☕冷めるお茶) ----
+  // 🛷(seed 20260811・4000步): ①気体平均|spin| 0.047→実測0.145(窓 0.09〜0.25)②投射体の速さ
+  //   6→実測4.36(窓 3.8〜5.0)③対照(muF=γn=0)は同様に減速しても平均|spin|≤0.04(実測0.024)
+  //   =「減速が熱に変わること」だけが摩擦(E9)の署名 ④融合ゼロ(N不変 — 指標の index 保証を兼ねる)
+  // ☕(seed 7): ①4800步で平均T_int 60→実測25.4(窓 18〜33)②800步ごとに単調減少
+  //   ③伝熱壁が有効(S.twall 非null)④対照(壁 rate=0 → 正規化で断熱)は 2400步で ≥55 のまま
+  // 4000+4000+4800+2400步 ≈ 15秒 — QA_FAST では省略(挙動系の慣例)
+  const hasW100c = await page.evaluate(() => !!(window.HP
+    && HP.allPresets().some((p) => p.id === 'frictionHeat')
+    && HP.allPresets().some((p) => p.id === 'cooling')));
+  if (hasW100c && !FAST) {
+    const r = await page.evaluate(() => {
+      const S = HP.sim, out = {};
+      const meanAbsSpin = (nEx) => { let s = 0; for (let i = 0; i < S.n - nEx; i++) s += Math.abs(S.spin[i]); return s / (S.n - nEx); };
+      // 🛷 本則
+      HP.loadPreset('frictionHeat', false);
+      const n0 = S.n, pi = S.n - 1;
+      out.fhV0 = Math.hypot(S.vx[pi], S.vy[pi]);
+      out.fhSp0 = meanAbsSpin(1);
+      for (let k = 0; k < 4000; k++) S.step(0.016);
+      out.fh = { v: Math.hypot(S.vx[pi], S.vy[pi]), sp: meanAbsSpin(1), n: S.n, n0, nan: S.hasNaN() };
+      // 🛷 対照(muF=γn=0)
+      HP.loadPreset('frictionHeat', false);
+      S.params.muF = 0; S.params.gammaN = 0;
+      for (let k = 0; k < 4000; k++) S.step(0.016);
+      out.fhCtl = { sp: meanAbsSpin(1), nan: S.hasNaN() };
+      // ☕ 本則
+      HP.loadPreset('cooling', false);
+      const mt = () => { let s = 0; for (let i = 0; i < S.n; i++) s += S.Tint[i]; return s / S.n; };
+      out.coT0 = mt(); out.coWall = !!S.twall;
+      const curve = [];
+      for (let f = 0; f < 6; f++) { for (let k = 0; k < 800; k++) S.step(0.016); curve.push(mt()); }
+      out.co = { curve: curve.map((t) => +t.toFixed(2)), nan: S.hasNaN() };
+      // ☕ 対照(壁 rate=0 → normThermalWalls が断熱として棄却 = twall null)
+      const cp = JSON.parse(JSON.stringify(HP.allPresets().find((p) => p.id === 'cooling')));
+      for (const side of ['bottom', 'top', 'left', 'right']) cp.world.thermalWalls[side].rate = 0;
+      S.build(cp);
+      out.ctlWallNull = !S.twall;
+      for (let k = 0; k < 2400; k++) S.step(0.016);
+      out.coCtl = { t: mt(), nan: S.hasNaN() };
+      return out;
+    });
+    const mono = r.co.curve.every((t, i) => i === 0 ? t < r.coT0 : t < r.co.curve[i - 1]);
+    add('behavior.wave100c',
+      r.fh.sp >= 0.09 && r.fh.sp <= 0.25 && r.fh.v >= 3.8 && r.fh.v <= 5.0 && r.fh.n === r.fh.n0
+      && !r.fh.nan && r.fhCtl.sp <= 0.04 && !r.fhCtl.nan
+      && r.coWall && r.co.curve[5] >= 18 && r.co.curve[5] <= 33 && mono && !r.co.nan
+      && r.ctlWallNull && r.coCtl.t >= 55 && !r.coCtl.nan,
+      `🛷 |spin| ${r.fhSp0.toFixed(3)}→${r.fh.sp.toFixed(3)}(窓0.09〜0.25)・v ${r.fhV0.toFixed(1)}→${r.fh.v.toFixed(2)}(窓3.8〜5.0)・` +
+      `対照|spin|=${r.fhCtl.sp.toFixed(3)}(≤0.04)・N=${r.fh.n}(不変) / ` +
+      `☕ T ${r.coT0.toFixed(0)}→[${r.co.curve.join(' ')}](末端窓18〜33・単調=${mono})・壁=${r.coWall}・` +
+      `断熱対照 T=${r.coCtl.t.toFixed(1)}(≥55・twall無効=${r.ctlWallNull})`);
+  } else if (hasW100c) {
+    console.log('SKIP behavior.wave100c(QA_FAST — 挙動系は省略)');
+  } else {
+    console.log('SKIP behavior.wave100c(対象に第100便C サンプルなし — root 等)');
   }
   // 92-3) ui.fidelity: fidelity:"real" 宣言(6件)にだけ 📏 チップが出る
   const hasFid = await page.evaluate(() => !!(window.HP && HP.allPresets().some((p) => p.fidelity === 'real')));
