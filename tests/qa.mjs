@@ -4193,10 +4193,21 @@ if (!FAST) {
         res.allTiers = HP.SCALE_TIERS.every(t => (res.counts[t] || 0) > 0);
         res.total = builtins.length;
         res.tierN = HP.SCALE_TIERS.length;   // 第98便: 5分類(root)/7分類(beta)の両対応
+        res.badC = builtins.filter(p => (p.physics || {}).cLight !== 30).map(p => p.id);
         return res;
       });
       add('preset.scale-tier', r.missing.length === 0 && r.allTiers,
         `未分類=${r.missing.join(',') || 'なし'} 内訳=${JSON.stringify(r.counts)}(全${r.total}件)`);
+
+      // 第99便(外部レビュー P1): c₀=30 一律規約の錨 — 全内蔵が physics.cLight=30 を宣言する
+      // (第95〜97便で全55件を c₀=30 へ統一済み。将来のサンプル追加が規約を外れたら即検出)。
+      // 7分類ビルド限定 — 旧世代(root v1.38 = 旧c 混在)は対象外で、v1.39 昇格時に自動適用
+      if (r.tierN >= 7) {
+        add('light.canonical-builtins', r.badC.length === 0,
+          r.badC.length ? `c₀≠30: ${r.badC.join(' ')}` : `全${r.total}件が c₀=30 を宣言`);
+      } else {
+        console.log('SKIP light.canonical-builtins(旧5分類ビルド — c₀=30 統一前の世代)');
+      }
 
       const inv = await page.evaluate(() => {
         const run = (touch) => {

@@ -123,6 +123,14 @@
   | 🌌銀河 | 8 | 🌌galaxy 🎡galaxyStd 💫galaxyGeo2 🍳galaxyDB 🕶️darkrotor ⚫bhCore 🪜massLadder 🌠merger |
   | 🫧宇宙全体 | 10 | 📦boxtrans 🌀boxrot 📈boxexpand 🫧boxcomoving 🪢boxbound 🫁boxbreath 🔦boxredshift 🧭probeH 🕊️freebox 🕸️cosmicweb |
 
+- **c₀ 規約まわりの P1 整備**(第99便D)— ①g_y ヘルプの規約記述を7分類へ更新(ビーカー=0.031
+  〔換算 ≈9.8 m/s²〕/日常=実値 9.8 — 旧「日常=0.031」の残存記述を解消)②AI生成の既定値を
+  c₀=30 へ(SYSTEM_PROMPT の既定値行。DEFAULT_PHYSICS の 60 は互換のため据置 — 内蔵は全件
+  宣言済みで実害なし)③QA `light.canonical-builtins` 新設: 全内蔵が physics.cLight=30 を
+  宣言する錨(7分類ビルド限定 — 昇格時に root へも自動適用)④c₀ の**三層分離**をヘルプに明文化:
+  基準光速 c₀(パラメータ・一律規約30)/局所光速 c_loc=c₀·e^(−2ψ)(減光・光掃引 auto)/
+  表示較正指数 eC(換算表示専用)。換算値はアナロジーの目安でありモデルは実宇宙の定数に
+  束縛されない旨のメタ注記を c₀/eC ヘルプへ追加(外部レビュー3件の P1 指摘・提案を採択)
 - **スケールタグの7分類化**(第98便A)— 5分類(分子/日常/天体/銀河/宇宙全体)を
   **7分類(分子/ビーカー/日常/惑星/恒星/銀河/宇宙全体)**へ(原仮定者指示)。旧「日常」の較正
   (L=T=M=−2.5・g_y 0.031→≈9.8 m/s²)は**ビーカー**(♨️🧪)が引き継ぎ、旧「天体」21件は
