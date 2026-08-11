@@ -10387,10 +10387,15 @@ function rebuildAiBaseSelect(){
 // 定型文)。「挿入」で要望欄(#aiPrompt)へ追記し、ベースサンプルも推奨値へ切り替える。
 // 送信文の組み立て(aiUserContent)には手を入れない — 雛形はあくまでユーザー編集可能な下書き
 // (ai.base-context の「未選択は素通し」不変)
+// 第99便(外部レビュー P0): 第98便の7分類化で SCALE_TIERS が7段になったのに本表が5段のままで、
+// beaker/planetary/stellar 選択時に「挿入」が silent no-op になっていた(celestial は選択肢から
+// 消えたため死にエントリ)。7分類へ更新 — ベースは各タイアの代表サンプル。
 const AI_SCALE_TPL={
   molecular:{base:"emergent",  tplKey:"aiTpl_molecular"},
-  everyday: {base:"projectile",tplKey:"aiTpl_everyday"},   // 第94便: ♨️は molecular へ再分類 — 日常の代表は⚾
-  celestial:{base:"earthMoon", tplKey:"aiTpl_celestial"},
+  beaker:   {base:"convection",tplKey:"aiTpl_beaker"},     // ♨️対流(g_y 0.031規約の代表)
+  everyday: {base:"projectile",tplKey:"aiTpl_everyday"},   // 第94便: ♨️は molecular へ再分類 — 日常の代表は⚾ → 第98便: ♨️は beaker へ
+  planetary:{base:"earthMoon", tplKey:"aiTpl_planetary"},
+  stellar:  {base:"binary",    tplKey:"aiTpl_stellar"},
   galactic: {base:"galaxyStd", tplKey:"aiTpl_galactic"},
   cosmic:   {base:"boxcomoving",tplKey:"aiTpl_cosmic"}};
 function rebuildAiScaleTpl(){
