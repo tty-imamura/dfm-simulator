@@ -4176,7 +4176,7 @@ if (!FAST) {
 
   // ---- 8a2b1) 第74便: 5段階スケール(scaleTier)— 分類の完全性と表示換算の物理不変 ----
   // scaleTier は UI 分類・表示換算専用のメタデータ(ChatGPT §8「スケールを物理入力にしない」)。
-  // ①全内蔵が正規5値のいずれかを宣言し、5スケールすべてが空でない(較正: 分子8・日常4・
+  // ①全内蔵が正規値のいずれかを宣言し、全スケールが空でない(第98便: beta=7分類〔分子8・ビーカー2・日常1・惑星8・恒星13・銀河13・宇宙10〕/root=5分類 — SCALE_TIERS から動的判定。旧較正: 分子8・日常4・
   //   天体18・銀河6+2・宇宙全体10)②換算表示トグル+指数スライダーを操作しても物理
   //   (240步後の x/vx/spin)が bit 一致 ③AI追加のスケール雛形が5件あり、挿入で要望欄と
   //   ベースサンプルが埋まる(未選択時の素通し ai.base-context は不変)
@@ -4191,6 +4191,7 @@ if (!FAST) {
         builtins.forEach(p => { res.counts[p.scaleTier] = (res.counts[p.scaleTier] || 0) + 1; });
         res.allTiers = HP.SCALE_TIERS.every(t => (res.counts[t] || 0) > 0);
         res.total = builtins.length;
+        res.tierN = HP.SCALE_TIERS.length;   // 第98便: 5分類(root)/7分類(beta)の両対応
         return res;
       });
       add('preset.scale-tier', r.missing.length === 0 && r.allTiers,
@@ -4239,7 +4240,7 @@ if (!FAST) {
         return res;
       });
       add('ai.scale-templates',
-        !!tpl && tpl.opts.length === 5 && tpl.prompt.length > 20 && tpl.prompt.includes('scaleTier')
+        !!tpl && tpl.opts.length === r.tierN && tpl.prompt.length > 20 && tpl.prompt.includes('scaleTier')
         && tpl.base === 'emergent' && tpl.plain,
         tpl ? `候補=${tpl.opts.length} 挿入長=${tpl.prompt.length} base=${tpl.base}` : 'UIなし');
     } else {
@@ -11865,22 +11866,30 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   //       ⑥スケール換算表示の既定ON(ソース検査 — 実行フラグは他テストの localStorage 書込で汚れるため)
   const hasExp4 = await page.evaluate(() => !!(window.HP && HP.setScaleExps && HP.scaleEff));
   if (hasExp4) {
+    // 第98便: 7分類化 — 日常は 1単位=1m/1s/1kg の実値規約(⚾のみ・g_y=9.8)、旧較正(-2.5系・
+    // g_y 0.031→≈9.8 m/s²)は「ビーカー」(♨️🧪)が引き継ぐ。旧5分類ビルド(過去beta)は対象外
     const r = await page.evaluate(() => {
       const out = {};
-      HP.loadPreset('projectile', false);   // 日常タグ(第95便: アンカー L=T=M=−2.5・g_y=0.031)
-      out.effEvery = HP.scaleEff();         // 期待 {x:-2.5,eT:-2.5,eM:-2.5,eC:7}
-      out.gy = HP.scaleConvStr('gravityY', 0.031);   // ×10^(−2.5+5)=×316.2 → ≈9.803 m/s²
-      out.cEvery = HP.scaleConvStr('cLight', 30);    // eC=7: 30→3e8 m/s(第95便の一律規約)
-      HP.loadPreset('saturn', false);       // 天体タグでも光速指数は共通の 7
-      out.cCel = HP.scaleConvStr('cLight', 30);
-      // 銀河タグの g_y は次元系 ×10^(L−2T)=10^(19−28)=1e-9(天体は L−2T=0 で判定にならない —
-      // 第93便実測の教訓を踏襲)
+      out.tier7 = HP.SCALE_TIERS.length === 7 && HP.SCALE_TIERS.includes('beaker')
+        && HP.SCALE_TIERS.includes('planetary') && HP.SCALE_TIERS.includes('stellar');
+      HP.loadPreset('projectile', false);   // 日常タグ(第98便: アンカー L=T=M=0・g_y=9.8 実値)
+      out.effEvery = HP.scaleEff();         // 期待 {x:0,eT:0,eM:0,eC:7}
+      out.gy = HP.scaleConvStr('gravityY', 9.8);     // ×10^0 → 9.8 m/s²(実値そのまま)
+      out.cEvery = HP.scaleConvStr('cLight', 30);    // eC=7: 30→3e8 m/s(一律規約)
+      HP.loadPreset('convection', false);   // ビーカータグ(旧日常較正 -2.5系を引き継ぐ)
+      out.effBeaker = HP.scaleEff();        // 期待 {x:-2.5,eT:-2.5,eM:-2.5,eC:7}
+      out.gyBk = HP.scaleConvStr('gravityY', 0.031); // ×10^(−2.5+5)=×316.2 → ≈9.803 m/s²
+      HP.loadPreset('saturn', false);       // 惑星タグ(旧 celestial アンカー据置)でも光速指数は共通の 7
+      out.cPl = HP.scaleConvStr('cLight', 30);
+      out.tierPl = HP.allPresets().find((p) => p.id === 'saturn').scaleTier;
+      out.tierSt = HP.allPresets().find((p) => p.id === 'starcore').scaleTier;
+      // 銀河タグの g_y は次元系 ×10^(L−2T)=10^(19−28)=1e-9(惑星は L−2T=0 で判定にならない)
       HP.loadPreset('galaxy', false);
       out.gyGal = HP.scaleConvStr('gravityY', 9.8);
-      // 時間指数の上書き: eT を絶対値 1 に置くと g_y(次元 [1,-2,0])の換算指数は −2.5−2=−4.5
+      // 時間指数の上書き: eT を絶対値 1 に置くと g_y(次元 [1,-2,0])の換算指数は 0−2=−2
       HP.loadPreset('projectile', false);
       HP.setScaleExps({ T: 1 });
-      out.gyT1 = HP.scaleConvStr('gravityY', 0.031);   // 期待 ≈9.8e-7 m/s²(指数 −2.5−2·1=−4.5)
+      out.gyT1 = HP.scaleConvStr('gravityY', 9.8);   // 期待 ≈0.098 m/s²(指数 0−2·1=−2)
       out.effT1 = HP.scaleEff().eT;
       // ロードで4指数ともタグ既定へ戻る
       HP.setScaleExps({ L: 3, T: 5, M: 7, C: 2 });
@@ -11895,15 +11904,18 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     // 既定ONはソースで判定(このページは先行テストが hp_scale_disp を書いており実行時フラグでは
     // 判定できない): 未設定時 true の初期化行が存在すること
     const srcOn = /let scaleDispOn\s*=\s*true/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
-    const effOk = (e) => e && e.x === -2.5 && e.eT === -2.5 && e.eM === -2.5 && e.eC === 7;
+    const effIs = (e, v) => e && e.x === v && e.eT === v && e.eM === v && e.eC === 7;
     add('scale.exponents',
-      effOk(r.effEvery) && /^≈9\.8/.test(String(r.gy))
-      && String(r.cEvery) === '≈3e8 m/s' && String(r.cCel) === '≈3e8 m/s'
+      r.tier7 && effIs(r.effEvery, 0) && /^≈?9\.8/.test(String(r.gy))
+      && effIs(r.effBeaker, -2.5) && /^≈9\.8/.test(String(r.gyBk))
+      && String(r.cEvery) === '≈3e8 m/s' && String(r.cPl) === '≈3e8 m/s'
+      && r.tierPl === 'planetary' && r.tierSt === 'stellar'
       && /e-9 m\/s²/.test(String(r.gyGal))
-      && /9\.8e-7/.test(String(r.gyT1)) && r.effT1 === 1
-      && effOk(r.effReset) && r.sliders.every(Boolean) && srcOn,
-      `日常既定 ${JSON.stringify(r.effEvery)}: g_y 0.031→"${r.gy}"(≈9.8 m/s²)・cLight30→"${r.cEvery}" / ` +
-      `天体 cLight30→"${r.cCel}"(eC=7 全タグ共通)/ 銀河 g_y→"${r.gyGal}"(×1e-9)/ ` +
+      && /0\.098/.test(String(r.gyT1)) && r.effT1 === 1
+      && effIs(r.effReset, 0) && r.sliders.every(Boolean) && srcOn,
+      `7分類=${r.tier7} / 日常既定 ${JSON.stringify(r.effEvery)}: g_y 9.8→"${r.gy}"(実値)・cLight30→"${r.cEvery}" / ` +
+      `ビーカー ${JSON.stringify(r.effBeaker)}: g_y 0.031→"${r.gyBk}"(≈9.8 m/s²)/ ` +
+      `惑星 cLight30→"${r.cPl}"(eC=7 全タグ共通・🪐=${r.tierPl}・☀️=${r.tierSt})/ 銀河 g_y→"${r.gyGal}"(×1e-9)/ ` +
       `T上書き=1→"${r.gyT1}" / ロード復帰=${JSON.stringify(r.effReset)} / ` +
       `新スライダー3本=${r.sliders.join(',')} / 換算表示の既定ON(ソース)=${srcOn}`);
   } else {
@@ -12173,7 +12185,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       HP.setCamFollow('none');
       // ② HUD: 実効倍率 = clamp(時間倍率×簡易倍率, 0.01〜100)(第97便: 上限 12→100)。
       //    ts=30×簡易4=120 → 100 でクランプ・4.82×1=4.82 は素通し
-      HP.loadPreset('projectile', false);   // timeScale=4.82
+      HP.loadPreset('projectile', false);   // 第98便: ⚾は第94便パラメータ(timeScale=0.271)
       HP.setScaleDisp(true);
       const sp = document.querySelector('#speedSel');
       const sp0 = sp.value;
@@ -12183,12 +12195,12 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       setTimeout(() => {
         const hud = document.querySelector('#hud').textContent;
         out.hudClamped = /実効倍率100[^\d.]|effective rate 100[^\d.]/.test(hud);   // 30×4=120 → 100
-        HP.sim.params.timeScale = 4.82;
+        HP.sim.params.timeScale = HP.allPresets().find((p) => p.id === 'projectile').physics.timeScale;   // 宣言値へ復元
         sp.value = '1'; sp.dispatchEvent(new Event('change'));
         HP.requestRender();
         setTimeout(() => {
           const hud1 = document.querySelector('#hud').textContent;
-          out.hudPlain = /実効倍率4\.82|effective rate 4\.82/.test(hud1);   // 4.82×1(クランプ内)
+          out.hudPlain = /実効倍率0\.271|effective rate 0\.271/.test(hud1);   // 0.271×1(クランプ内 — 第98便: ⚾第94便値)
           sp.value = sp0 || '1'; sp.dispatchEvent(new Event('change'));
           // ③ 箱宇宙 A/B: H₀ 行の編集で ab.lastBox が立ち、パラメータ編集で戻る
           HP.loadPreset('probeH', false);
@@ -12220,7 +12232,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       r.dragMoves && r.dragOffsetWhenSel && r.hudClamped && r.hudPlain
       && r.lastBoxSet === true && r.lastKeyBack === true,
       `sel非選択ドラッグでカメラ移動=${r.dragMoves}(選択時はオフセット=${r.dragOffsetWhenSel})/ ` +
-      `HUD実効倍率: 30×4→100(クランプ・第97便上限)=${r.hudClamped}・4.82×1→4.82=${r.hudPlain} / ` +
+      `HUD実効倍率: 30×4→100(クランプ・第97便上限)=${r.hudClamped}・0.271×1→0.271=${r.hudPlain} / ` +
       `箱A/B比較表示: lastBox=H0=${r.lastBoxSet}・G編集でlastKeyへ復帰=${r.lastKeyBack}`);
   } else {
     console.log('SKIP ui.wave96a(対象に第95便機能なし — root 等)');
