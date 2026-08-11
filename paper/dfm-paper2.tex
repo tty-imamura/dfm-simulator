@@ -368,17 +368,20 @@ Redshift in the box is a \emph{semantic} rule: emitted light retains
 the wavelength ratio $1+z=a_{\mathrm{obs}}/a_{\mathrm{emit}}$.
 The suite emits light from two comoving sources A and B at different
 epochs of the same run and checks both arrivals at a third comoving
-observer C nearly simultaneously ($\Delta t=0.080$; gate \texttt{box.photon-abc}, bookkeeping
+observer C nearly simultaneously ($\Delta t=0.016$; gate \texttt{box.photon-abc}, bookkeeping
 closed below $10^{-9}$; Fig.~\ref{fig:abc}).
 
 \begin{figure}[t]
   \includegraphics[width=\linewidth]{p2fig4.pdf}
   \caption{The A/B/C thought experiment, run
-  (preset \texttt{boxredshift}, $H=0.02$, $d_P=1$).
+  (preset \texttt{boxredshift}, $H=0.1$, $d_P=1$ --- the $c_0=30$
+  uniform-light-speed reparameterization of v1.39; an exact dynamical
+  similarity of the run shown previously, with times $\div 5$ and rates
+  $\times 5$; all redshifts are similarity-invariant).
   (a)~Wavelengths in flight, $\lambda(t)=\lambda_E\,a(t)/a_E$. A emits
-  $500$\,nm at $t=0$ ($a=1$) and B emits $500$\,nm at $t=34.657$
-  ($a=2$); both are observed at C at $t\approx68.2$ with
-  $1959$\,nm ($z=2.919$) and $978$\,nm ($z=0.956$).
+  $500$\,nm at $t=0$ ($a=1$) and B emits $500$\,nm at $t=6.944$
+  ($a=2$); both are observed at C at $t\approx13.7$ with
+  $1964$\,nm ($z=2.927$) and $979$\,nm ($z=0.958$).
   (b)~World lines. After B's emission the two photons follow the same
   path, so light emitted at different epochs arrives together carrying
   different redshifts. The measured ledger
@@ -784,11 +787,13 @@ mechanistic value is $0.56$ against the toy value $1$---a gap the
 interface exposes rather than hides.
 \emph{External-ray sweep-out} is a strong-field effect of a rapidly
 spinning core on \emph{incoming} rays: the finite-time capture that a
-non-spinning core produces (measured non-escape rate $0.66$)
-disappears as the core spins up, switching off between $s=0.6$ and
-$s=0.7$ ($0.70\to0.08$) and reaching $0.00$ by $s=1.5$; and the
-effect vanishes entirely under the physical lock $K_t=c^2/G$
-(measured; the mechanism lives in the toy's strong regime only).
+non-spinning core produces (measured non-escape rate $0.62$ on the
+current beta target, v1.39-b1)
+disappears as the core spins up, falling from $0.70$ at $s=0.3$
+through $0.02$ at $s=0.5$ to $0.00$ from $s=0.6$ onward; and the
+capture is essentially absent under the physical lock $K_t=c^2/G$
+(measured non-escape $0.02$; the mechanism lives in the toy's strong
+regime only).
 The two mechanisms are machine-verified to be orthogonal: ray
 endpoints agree to all digits as \texttt{lightSweep} is scanned from
 0 to 1 (project derivations, Sec.~17), and the self-light channel is
@@ -801,12 +806,12 @@ already saturated at $s=0.3$, where no sweep-out has begun
   rays enter from $x=-300$ travelling in $+x$, step $2.7$, $340$
   steps; a ray is counted as non-escaping if it ends inside
   $r=300$, exactly as gate \texttt{behavior.rotorSolo} counts it).
-  (a)~Non-spinning control: $66\%$ of a 50-ray fan is captured.
+  (a)~Non-spinning control: $62\%$ of a 50-ray fan is captured.
   (b)~Core spin $s=2$ (arrow: sense of rotation): capture is
   eliminated ($0.00$) and the fan is asymmetric, the mean closest
-  approach being $123.4$ on the prograde side against $40.4$ on the
+  approach being $158.2$ on the prograde side against $72.4$ on the
   retrograde side. The self-light channel is already saturated at
-  $s=0.3$, where the non-escape rate is still $0.72$ --- the two
+  $s=0.3$, where the non-escape rate is still $0.70$ --- the two
   optical mechanisms are independent. Under the physical lock
   $K_t=c^2/G=3600$ the sweep-out is absent even at $s=2$.}
   \label{fig:sweep}
@@ -818,8 +823,8 @@ Inside the model, a heavy, fast-spinning, optically dark core
 (i)~sources $W$ and hence gravity; (ii)~is dark by two independent
 mechanisms; and (iii)~contributes to outer rotation-curve enhancement
 through dragging, with the radius-resolved profile showing the boost
-concentrated inward ($v/v_{\mathrm{bar}}$ enhancement from $1.58$ at
-$r\approx121$ to $1.16$ at $r\approx251$, eight-seed statistics;
+concentrated inward ($v/v_{\mathrm{bar}}$ enhancement from $1.43$ at
+$r\approx121$ to $1.04$ at $r\approx251$, eight-seed statistics;
 Fig.~\ref{fig:curve}).
 It therefore meets, \emph{inside the model}, a deliberately limited
 checklist---suppressed self-emission, removal of external rays, a
@@ -849,10 +854,13 @@ to audit.
   baseline $v_{\mathrm{bar}}(r)$ computed from the actual mass
   distribution, with dragging on ($k_F=1$) and off ($k_F=0$).
   (b)~The ratio of the two, i.e.\ the enhancement attributable to
-  dragging: $1.58$ at $r\approx121$ falling to $1.16$ at
+  dragging: $1.43$ at $r\approx121$ falling to $1.04$ at
   $r\approx251$. The band-averaged outer boost over the gate's window
-  $r\in[156,286]$ is $1.331\pm0.009$ on the beta target used here
-  (the release target v1.33 gives $1.332\pm0.009$).}
+  $r\in[156,286]$ is $1.074\pm0.006$ on the beta target used here,
+  v1.39-b1 (the release target v1.33 gives $1.332\pm0.009$; the
+  drift across the intervening engine revisions is recorded in the
+  changelog --- the qualitative profile, inner bands boosted more
+  than outer, is unchanged).}
   \label{fig:curve}
 \end{figure}
 

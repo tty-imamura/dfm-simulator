@@ -405,7 +405,8 @@ if (want(4)) {
     h: 300, xlab: 'time t', ylab: 'wavelength lambda (nm)', legend: 'tl', title: 'wavelengths in flight',
     series: [
       { pts: d.tracks.A.pts, label: 'photon A (emitted t=0, a=1)', wide: true },
-      { pts: d.tracks.B.pts, label: 'photon B (emitted t=34.657, a=2)', dash: '7 4' }
+      // 第100便: 放出時刻ラベルを実測値へ(第96便B の相似変換で 34.657→6.944 に変わった固定文字列の解消)
+      { pts: d.tracks.B.pts, label: `photon B (emitted t=${d.tracks.B.emitT.toFixed(3)}, a=2)`, dash: '7 4' }
     ]
   });
   const wl = (x0) => Array.from({ length: 76 }, (_, k) => { const t = k * (d.tEnd / 75); return [t, x0 * Math.exp(d.H0 * t)]; });
