@@ -529,15 +529,17 @@ if (hasNB) {
       return { t, escF, fracF: escF ? +(polF / escF).toFixed(4) : 0,
         escX, fracX: escX ? +(polX / escX).toFixed(4) : 0 };
     };
-    const BLK = 250, NBLK = (o.steps || 6000) / BLK;
+    // 第97便: ⏳は c₀=30 相似変換を維持(旧c40)— 同じ物理窓は步数×4/3。t 目盛りは旧単位で記録する
+    const VF = (p.physics.cLight === 30) ? 4 / 3 : 1;
+    const BLK = Math.round(250 * VF), NBLK = (o.steps || 6000) / 250;
     const series = []; let kickInfo = null, preKick = null;
     for (let blk = 0; blk < NBLK; blk++) {
       for (let k = 0; k < BLK; k++) {
         S.step(0.016);
         for (let i = GAS0; i < S.n; i++) if (crossT[i] < 0 && Math.hypot(S.x[i], S.y[i]) > 200) {
-          crossT[i] = blk * BLK + k + 1; crossA[i] = polarOf(i); }
+          crossT[i] = Math.round((blk * BLK + k + 1) / VF); crossA[i] = polarOf(i); }   // 旧単位へ正規化
       }
-      const t = (blk + 1) * BLK;
+      const t = (blk + 1) * 250;   // 旧単位の目盛り(実行は BLK=250×VF 步/ブロック)
       if (o.kick && t === o.kick.at) { preKick = snap(t); kickInfo = inject(o.kick); }
       series.push(snap(t));
     }

@@ -975,7 +975,7 @@ ja: {
   bdgScaleTip:"5段階スケール分類(分子/日常/天体/銀河/宇宙全体)。UI の分類と表示換算の目安専用 — 物理エンジンはスケールで切り替わらない(同じ公理・同じ法則のまま、質量・距離・速度で支配機構が入れ替わるのが本モデルの主題)",
   // 第81便(原仮定者指示): カメラの天体追従(描画層のみ・物理不変)
   camFollowLabel:"カメラ追従",
-  camFollowDesc:"選んだ天体を画面の中央に置き続ける。追従中も1本指ドラッグ(PCはマウスドラッグ)でずらせて、そのずれは「追従対象からのオフセット」として保たれる — 対象が動いても画面の構図は崩れない。「選択粒子」は粒子が非選択でも設定でき、非選択の間は「なし」と同じ挙動で、粒子を選んだ瞬間から追従する(第95便)。「天体#N」の追従先が融合などで消えたら自動で「なし」に戻る。表示だけの機能で、物理・保存データには一切影響しない(A/B比較中は選択中の宇宙の対象を追う)。",
+  camFollowDesc:"選んだ天体を画面の中央に置き続ける。追従中も1本指ドラッグ(PCはマウスドラッグ)でずらせて、そのずれは「追従対象からのオフセット」として保たれる — 対象が動いても画面の構図は崩れない。「選択粒子」は粒子が非選択でも設定でき、非選択の間は「なし」と同じ挙動で、粒子を選んだ瞬間から追従する(第95便)。この設定は他の共通設定と同様に保存され、「初めから」やサンプル切替でも解除されない。追従先の粒子が融合したら合体後の粒子へ引き継ぎ、消滅しても設定は解除しない(対象が現れるまで「なし」と同じ挙動で待つ — 第97便)。表示だけの機能で、物理・保存データには一切影響しない(A/B比較中は選択中の宇宙の対象を追う)。",
   camFollowOptNone:"なし",
   camFollowOptPreset:(i)=>`天体#${i}(既定)`,
   camFollowOptSel:"選択粒子",
@@ -1346,7 +1346,7 @@ en: {
   scaleName_galactic:"Galactic", scaleName_cosmic:"Cosmic",
   bdgScaleTip:"Five-tier scale classification (molecular / everyday / celestial / galactic / cosmic). Used only for browsing and unit-conversion hints — the physics engine never switches on scale (the whole point of this model is that the same axioms let different mechanisms dominate as mass, distance and speed change)",
   camFollowLabel:"Camera follow",
-  camFollowDesc:"Keeps the chosen body centred on screen. You can still drag (one finger, or the mouse on a PC) while following: the shift is kept as an offset from the followed body, so the framing survives as the target moves. \"Selected particle\" can be set even with nothing selected — it then behaves like \"None\" and starts following the moment you select a particle (wave 95). If a \"Body #N\" target disappears (a merger, say) the setting falls back to \"None\" automatically. Display only — physics and saved data are untouched (during an A/B comparison it follows the target in the selected universe).",
+  camFollowDesc:"Keeps the chosen body centred on screen. You can still drag (one finger, or the mouse on a PC) while following: the shift is kept as an offset from the followed body, so the framing survives as the target moves. \"Selected particle\" can be set even with nothing selected — it then behaves like \"None\" and starts following the moment you select a particle (wave 95). The setting is saved like the other general settings and survives both \"restart\" and sample switches. If the followed particle merges, the follow carries over to the merged body; if it disappears, the setting is kept and simply waits, behaving like \"None\" (wave 97). Display only — physics and saved data are untouched (during an A/B comparison it follows the target in the selected universe).",
   camFollowOptNone:"None",
   camFollowOptPreset:(i)=>`Body #${i} (default)`,
   camFollowOptSel:"Selected particle",
@@ -1901,7 +1901,7 @@ const PARAM_DEFS = [
    desc:"粒子の半径 R=radiusScale·rMul·√m の全粒子共通スケール(既定1)。接触判定の大きさと慣性 I=½mR²(=温度T=Is²の I)に効く。粒子ごとの倍率は body の rMul で、このノブは全体を相対的に増減させる。物理法則そのものではなく、粒子という「離散化の粒」の設定。"},
   {key:"softening",  label:"ソフトニング ε",  mode:"lin", lo:0.5, hi:10, step:0.1, cat:"sim", group:"シミュレーション",
    desc:"近距離で力が無限大に発散しないよう距離に混ぜる緩和長(E1′ Plummer型: 1/√(d²+ε²))。小さいほど近接遭遇が鋭くなるが数値的に荒れやすい。"},
-  {key:"timeScale",  label:"時間倍率",        mode:"log", lo:0.1, hi:16, group:"シミュレーション",
+  {key:"timeScale",  label:"時間倍率",        mode:"log", lo:0.01, hi:100, group:"シミュレーション",   /* 第97便: 範囲拡大 */
    desc:"シミュレーション時間の進みの倍率(速回し)。物理法則は変わらず、1フレームに進む時間だけが変わる。発散したら下げるのが第一選択。(第94便: 第93便の指数表示は原仮定者指示で撤回 — 倍率表示へ戻した。表示上の時間の読み替えは「スケール」カテゴリの時間スケール指数が担う)"},
 ];
 // 第88便(v1.39-b1 スプリント1)EXT-03: パラメータ役割の宣言(物理仮定/実験条件/数値)。
@@ -1942,7 +1942,7 @@ const CLAMPS = { G:[0,100], D0:[0,1000], kFrame:[0,1], q:[0.5,4], kRep:[0,20], m
   cHeat:[0.01,1000],   // 第36便 D(台帳4-51): 熱容量係数 C(thermal:"tint" 専用)
   gravityX:[-10,10], gravityY:[-10,10],
   geoPN:[0,2], lambdaPN:[0,1], pnAlpha:[0,2],   // v1.20: E12 測地線1PN(第69便: geoPN=2 統一則を追加)
-  softening:[0.5,20], timeScale:[0.1,16] };
+  softening:[0.5,20], timeScale:[0.01,100] };   // 第97便: 時間倍率 0.1〜16 → 0.01〜100(原仮定者指示)
 
 // ===== 内蔵プリセット(スキーマは内部開発文書 HANDOFF_IMPLEMENTATION.md §契約1 — 非公開管理) =====
 const BUILTIN_PRESETS = [
@@ -2085,7 +2085,7 @@ const BUILTIN_PRESETS = [
   activeParams:["muF","gammaN","kFrame"],   // おすすめA/B: muF 0(戻る)⇄ 0.3(戻らない)
   seed:4062,                                 // v1.12: 台帳番号を固定シードに(id 変更でも初期配置不変)
   integrator:"leapfrog",                     // 第35便: KDK 可逆積分器(既定 semi では戻らない)
-  echoFlipAt:40,                             // 第35便: この時刻の最初のステップ終端で v・s を1回だけ反転
+  echoFlipAt:20,                             // 第35便: この時刻の最初のステップ終端で v・s を1回だけ反転
   // 第42便 42A(台帳4-78 A案): claims — 説明文の可逆/不可逆RMSを機械可読化。
   // QA echo.leapfrog-return(rms<0.01)・echo.friction-noreturn(rms>1)の閾値に窓を合わせる
   claims:[
@@ -2097,16 +2097,16 @@ const BUILTIN_PRESETS = [
       descPattern:"muFを0→0\\.3にすると二度と戻らない\\(RMS≈(\\d+\\.\\d+)\\)", testId:"echo.friction-noreturn" }
   ],
   camera:{scale:220}, world:{boundary:"none",size:0},   // 境界反射(×0.95)は不可逆なので none 必須
-  physics:{G:0.5, D0:50, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
-    cLight:30, contactK:10, contactCap:2, bM:0.25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
-    radiusScale:1, softening:2, timeScale:4},
+  physics:{G:2, D0:50, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
+    cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:2, timeScale:2},
   bodies:[ // 少数体カオス(3天体)+ 主星まわりの小円盤。スピンは反転対象だが kRep=0・kFrame=0 の
            // ため力学には効かない(温度 T=Is² は反転で不変 — スポークの回転方向だけが逆になる)
-    {type:"single", m:60, x:-55, y:0,   vx:0.05,  vy:-0.375, spin:0.3,  pinned:false},
-    {type:"single", m:45, x:50,  y:-25, vx:0.125,  vy:0.4,  spin:-0.25, pinned:false},
-    {type:"single", m:30, x:15,  y:70,  vx:-0.425, vy:0.075,  spin:0.45,  pinned:false},
-    {type:"disk", n:28, cx:-55, cy:0, radius:30, mMin:0.4, mMax:0.4, spinMin:0.15, spinMax:0.15,
-     vMode:"kepler", aroundMass:60, vScale:1, direction:1, bulkVx:0.05, bulkVy:-0.375}
+    {type:"single", m:60, x:-55, y:0,   vx:0.10,  vy:-0.75, spin:0.6,  pinned:false},
+    {type:"single", m:45, x:50,  y:-25, vx:0.25,  vy:0.80,  spin:-0.5, pinned:false},
+    {type:"single", m:30, x:15,  y:70,  vx:-0.85, vy:0.15,  spin:0.9,  pinned:false},
+    {type:"disk", n:28, cx:-55, cy:0, radius:30, mMin:0.4, mMax:0.4, spinMin:0.3, spinMax:0.3,
+     vMode:"kepler", aroundMass:60, vScale:1, direction:1, bulkVx:0.10, bulkVy:-0.75}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true} },
 
@@ -2153,16 +2153,16 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame","q"],
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
-    cLight:30, contactK:3.6, contactCap:0.72, bM:0.09, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:6.66667},
+    cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:2},
   bodies:[
     {type:"ring", n:96, cx:0, cy:0, rIn:260, rOut:260, mMin:20, mMax:20, spinMin:0, spinMax:0,
-     vMode:"omega", aroundMass:0, omega:0.045, vNoise:0, direction:1, pinned:true},
+     vMode:"omega", aroundMass:0, omega:0.15, vNoise:0, direction:1, pinned:true},
     {type:"ring", n:8, cx:0, cy:0, rIn:70, rOut:70, mMin:0.05, mMax:0.05, spinMin:0, spinMax:0,
-     vMode:"omega", aroundMass:0, omega:0.0225, vNoise:0, direction:1, pinned:false},
+     vMode:"omega", aroundMass:0, omega:0.075, vNoise:0, direction:1, pinned:false},
     {type:"ring", n:8, cx:0, cy:0, rIn:130, rOut:130, mMin:0.05, mMax:0.05, spinMin:0, spinMax:0,
-     vMode:"omega", aroundMass:0, omega:0.0225, vNoise:0, direction:1, pinned:false},
+     vMode:"omega", aroundMass:0, omega:0.075, vNoise:0, direction:1, pinned:false},
     {type:"ring", n:8, cx:0, cy:0, rIn:190, rOut:190, mMin:0.05, mMax:0.05, spinMin:0, spinMax:0,
-     vMode:"omega", aroundMass:0, omega:0.0225, vNoise:0, direction:1, pinned:false}
+     vMode:"omega", aroundMass:0, omega:0.075, vNoise:0, direction:1, pinned:false}
     // 第32便: 「箱の影響を受けない粒子(絶対静止)」を廃止 — 静止粒子(x:230)を削除
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:true} },
@@ -2180,12 +2180,12 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame"],
   camera:{scale:420}, world:{boundary:"none",size:0},
   physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
-    cLight:30, contactK:3.6, contactCap:0.72, bM:0.09, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:13.3333},
+    cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:4},
   bodies:[
     {type:"ring", n:96, cx:0, cy:0, rIn:260, rOut:260, mMin:20, mMax:20, spinMin:0, spinMax:0,
-     vMode:"none", aroundMass:0, omega:0, vNoise:0, direction:1, pinned:true, railH:0.0015},
+     vMode:"none", aroundMass:0, omega:0, vNoise:0, direction:1, pinned:true, railH:0.005},
     {type:"disk", n:24, cx:0, cy:0, radius:180, mMin:0.05, mMax:0.05, spinMin:0, spinMax:0,
-     vMode:"hubble", aroundMass:0, vScale:0.00075, direction:1}
+     vMode:"hubble", aroundMass:0, vScale:0.0025, direction:1}
     // 第32便: 「箱の影響を受けない粒子(絶対静止)」を廃止 — 静止2粒子(x:±100)を削除
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
@@ -2204,14 +2204,14 @@ const BUILTIN_PRESETS = [
     control:"Set kFrame to 0 and comotion vanishes (suggested A/B)."}},
   activeParams:["kFrame","Kt"],
   camera:{scale:420}, world:{boundary:"none",size:0},
-  universeBox:{mode:"exp", H0:0.0012, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
+  universeBox:{mode:"exp", H0:0.004, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
   physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:300,
-    cLight:30, contactK:3.6, contactCap:0.72, bM:0.09, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:13.3333},
+    cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:4},
   bodies:[
     {type:"disk", n:24, cx:0, cy:0, radius:200, mMin:0.05, mMax:0.05, spinMin:0, spinMax:0,
-     vMode:"hubble", aroundMass:0, vScale:0.0012, direction:1},
+     vMode:"hubble", aroundMass:0, vScale:0.004, direction:1},
     {type:"single", m:2, x:0, y:0, vx:0, vy:0, spin:0, pinned:true},
-    {type:"single", m:2, x:150, y:0, vx:0.18, vy:0, spin:0, pinned:false}
+    {type:"single", m:2, x:150, y:0, vx:0.6, vy:0, spin:0, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true,boxGraph:true} },
 
@@ -2229,16 +2229,16 @@ const BUILTIN_PRESETS = [
     control:"Lower kFrame to reduce the following rate, or set G to 0 to unbind (suggested A/B)."}},
   activeParams:["G","kFrame"],
   camera:{scale:420}, world:{boundary:"none",size:0},
-  universeBox:{mode:"exp", H0:0.0012, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
-  physics:{G:0.09, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
-    cLight:30, contactK:3.6, contactCap:0.72, bM:0.09, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:13.3333},
+  universeBox:{mode:"exp", H0:0.004, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
+  physics:{G:1, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
+    cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:4},
   bodies:[ // 連星: d=24 の円軌道(Plummer 厳密 v=√(G·m·d²/(2(d²+ε²)^{3/2}))=1.436。R=10×2<24 で非接触)
-    {type:"single", m:100, x:108, y:0, vx:0.1296, vy:0.4308, spin:0, pinned:false},
-    {type:"single", m:100, x:132, y:0, vx:0.1584, vy:-0.4308, spin:0, pinned:false},
-    {type:"single", m:0.05, x:-80, y:0, vx:-0.096, vy:0, spin:0, pinned:false},
-    {type:"single", m:0.05, x:-160, y:0, vx:-0.192, vy:0, spin:0, pinned:false},
+    {type:"single", m:100, x:108, y:0, vx:0.432, vy:1.436, spin:0, pinned:false},
+    {type:"single", m:100, x:132, y:0, vx:0.528, vy:-1.436, spin:0, pinned:false},
+    {type:"single", m:0.05, x:-80, y:0, vx:-0.32, vy:0, spin:0, pinned:false},
+    {type:"single", m:0.05, x:-160, y:0, vx:-0.64, vy:0, spin:0, pinned:false},
     {type:"disk", n:16, cx:0, cy:0, radius:200, mMin:0.05, mMax:0.05, spinMin:0, spinMax:0,
-     vMode:"hubble", aroundMass:0, vScale:0.0012, direction:1}
+     vMode:"hubble", aroundMass:0, vScale:0.004, direction:1}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,boxGraph:true} },
 
@@ -2255,12 +2255,12 @@ const BUILTIN_PRESETS = [
     control:"Add muF or gammaN and it no longer returns — geometric periodicity and the thermodynamic arrow of time (A12′) are distinct, and you can test it yourself (T10)."}},
   activeParams:["Kt","kFrame"],
   camera:{scale:380}, world:{boundary:"none",size:0},
-  universeBox:{mode:"sin", H0:0, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0.2, freq:0.024, phase:0},
+  universeBox:{mode:"sin", H0:0, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0.2, freq:0.08, phase:0},
   physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:300,
-    cLight:30, contactK:3.6, contactCap:0.72, bM:0.09, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:6.66667},
+    cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:2},
   bodies:[
     {type:"disk", n:24, cx:0, cy:0, radius:180, mMin:0.05, mMax:0.05, spinMin:0, spinMax:0,
-     vMode:"hubble", aroundMass:0, vScale:0.0048, direction:1},
+     vMode:"hubble", aroundMass:0, vScale:0.016, direction:1},
     {type:"single", m:2, x:0, y:0, vx:0, vy:0, spin:0, pinned:true}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true,boxGraph:true} },
@@ -2331,17 +2331,17 @@ const BUILTIN_PRESETS = [
       descPattern:"恒等的に (\\d+\\.\\d+) に張り付く", testId:"behavior.probeH" }
   ],
   camera:{scale:300}, world:{boundary:"none",size:0}, seed:20260730,
-  universeBox:{mode:"exp", H0:0.005, D:277.2589/* =(2/3)ln4·300 — 論文2較正点 */, dPower:1, L:260,
+  universeBox:{mode:"exp", H0:0.01, D:277.2589/* =(2/3)ln4·300 — 論文2較正点 */, dPower:1, L:260,
     cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0, friction:"dfm"},
   physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:300,
-    cLight:30, contactK:10, contactCap:2, bM:0.25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:8},
+    cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:4, timeScale:4},
   bodies:[
     // 測定粒子(index 0 固定 — V29 と同一の初期条件: Hubble流 vx=H·x + 特異速度 vy=1。
     // rMul=5 はバリデータ上限値 — 目立たせる表示用で物理には R 経由の接触のみだが接触相手なし)
-    {type:"single", rMul:5, m:0.05, x:100, y:0, vx:0.5, vy:0.5, spin:0, pinned:false},
+    {type:"single", rMul:5, m:0.05, x:100, y:0, vx:1, vy:1, spin:0, pinned:false},
     // 共動マーカー(視覚用の希薄なテスト質量。G=0 なので力学に不干渉・W への寄与も W_B の1e-4未満)
     {type:"disk", n:16, cx:0, cy:0, radius:200, mMin:0.02, mMax:0.02, spinMin:0, spinMax:0,
-     vMode:"hubble", aroundMass:0, vScale:0.005, direction:1}
+     vMode:"hubble", aroundMass:0, vScale:0.01, direction:1}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,trailTargets:"sampled",boxGraph:true} },
 
@@ -2386,23 +2386,23 @@ const BUILTIN_PRESETS = [
   ],
   camera:{scale:460}, world:{boundary:"none",size:0}, seed:4061,
   measureBox:true,   // 実測尺度因子 a_eff=⟨r⟩/⟨r⟩₀(最初の ring 群=壁)を膨張グラフへ
-  physics:{G:0.09, D0:4, kFrame:0, q:1, kRep:0.5, muF:0, gammaN:0, kappaS:0, Kt:10000,
-    cLight:30, contactK:3.6, contactCap:0.72, bM:0.09, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
-    radiusScale:1, softening:4, timeScale:6.66667},
+  physics:{G:1, D0:4, kFrame:0, q:1, kRep:0.5, muF:0, gammaN:0, kappaS:0, Kt:10000,
+    cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:4, timeScale:2},
   bodies:[
     // 壁: 自由粒子リング(vMode:"hubble" = 群の重心を中心とした放射方向初速 v=vScale·(r−r̄)。
     // 重心基準なので群の総運動量は厳密に 0 — 実測 |ΣP|(t=0)=2.7e-7)
-    {type:"ring", n:64, cx:0, cy:0, rIn:200, rOut:200, mMin:20, mMax:20, spinMin:0.3, spinMax:0.3,
-     vMode:"hubble", aroundMass:0, omega:0, vScale:0.0003, vNoise:0, direction:1, pinned:false},
+    {type:"ring", n:64, cx:0, cy:0, rIn:200, rOut:200, mMin:20, mMax:20, spinMin:1, spinMax:1,
+     vMode:"hubble", aroundMass:0, omega:0, vScale:0.001, vNoise:0, direction:1, pinned:false},
     // 内部テスト粒子(共動の観察用)。4個ずつ対向配置で ΣP=0 を保つ(r=60 と r=130.1)
-    {type:"single", m:0.05, x: 60, y:  0, vx: 0.018,  vy: 0,     spin:0, pinned:false},
-    {type:"single", m:0.05, x:-60, y:  0, vx:-0.018,  vy: 0,     spin:0, pinned:false},
-    {type:"single", m:0.05, x:  0, y: 60, vx: 0,     vy: 0.018,  spin:0, pinned:false},
-    {type:"single", m:0.05, x:  0, y:-60, vx: 0,     vy:-0.018,  spin:0, pinned:false},
-    {type:"single", m:0.05, x: 92, y: 92, vx: 0.0276, vy: 0.0276, spin:0, pinned:false},
-    {type:"single", m:0.05, x:-92, y: 92, vx:-0.0276, vy: 0.0276, spin:0, pinned:false},
-    {type:"single", m:0.05, x: 92, y:-92, vx: 0.0276, vy:-0.0276, spin:0, pinned:false},
-    {type:"single", m:0.05, x:-92, y:-92, vx:-0.0276, vy:-0.0276, spin:0, pinned:false}
+    {type:"single", m:0.05, x: 60, y:  0, vx: 0.06,  vy: 0,     spin:0, pinned:false},
+    {type:"single", m:0.05, x:-60, y:  0, vx:-0.06,  vy: 0,     spin:0, pinned:false},
+    {type:"single", m:0.05, x:  0, y: 60, vx: 0,     vy: 0.06,  spin:0, pinned:false},
+    {type:"single", m:0.05, x:  0, y:-60, vx: 0,     vy:-0.06,  spin:0, pinned:false},
+    {type:"single", m:0.05, x: 92, y: 92, vx: 0.092, vy: 0.092, spin:0, pinned:false},
+    {type:"single", m:0.05, x:-92, y: 92, vx:-0.092, vy: 0.092, spin:0, pinned:false},
+    {type:"single", m:0.05, x: 92, y:-92, vx: 0.092, vy:-0.092, spin:0, pinned:false},
+    {type:"single", m:0.05, x:-92, y:-92, vx:-0.092, vy:-0.092, spin:0, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true,boxGraph:true} },
 
@@ -2439,7 +2439,7 @@ const BUILTIN_PRESETS = [
     control:"Suggested A/B: set H to 0 and the pulling-apart disappears — in the same time, structure grows much further (δ²=8.43, 75% voids) — but it eventually crushes into a single blob. Raise H to 0.02 and expansion wins, suppressing growth (δ²=0.75, 11% voids) — the expansion rate sets the scale of the structure."}},
   activeParams:["G","kFrame","kRep"],
   thermal:"tint",
-  validT:640,   // 実測の評価窓(12000步=t≈192 — 51G で延長。構造が1塊に潰れないことを確認済みの範囲)
+  validT:192,   // 実測の評価窓(12000步=t≈192 — 51G で延長。構造が1塊に潰れないことを確認済みの範囲)
   claims:[
     { id:"cosmicweb.delta2-growth", kind:"fixed-seed", metric:"delta2GrowthRatio",
       expected:{min:4.5, max:6.5},   // 実測5.4倍(0.272→1.482・6000步・H0=0.01)
@@ -2455,16 +2455,14 @@ const BUILTIN_PRESETS = [
       testId:"behavior.cosmicweb" }
   ],
   camera:{scale:420}, world:{boundary:"none",size:0}, seed:20260727,
-  // 第96便: H0 も相似変換 ×k(=0.3)— 変換スクリプトの universeBox 正規表現が claims 内の
-  // control.patch(universeBox:{H0:0})へ先にマッチして本宣言を取りこぼしていたのを手動修正
-  universeBox:{mode:"exp", H0:0.003, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
-  physics:{G:0.9, D0:0, kFrame:1, q:2, kRep:0.5, muF:0.5, gammaN:0.4, kappaS:0.015, Kt:300,
-    cLight:30, contactK:3.6, contactCap:0.72, bM:0.09, etaRad:9e-05, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
-    radiusScale:1, softening:4, timeScale:6.66667},
+  universeBox:{mode:"exp", H0:0.01, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
+  physics:{G:10, D0:0, kFrame:1, q:2, kRep:0.5, muF:0.5, gammaN:0.4, kappaS:0.05, Kt:300,
+    cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:3e-4, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:4, timeScale:2},
   bodies:[
     // 一様ガス(共動初速 v=H·r のみ。むらの種は配置のポアソンゆらぎだけ)
     {type:"disk", rMul:3, n:320, cx:0,cy:0, radius:240, mMin:0.3,mMax:0.3,
-     spinMin:0,spinMax:0, tInt:0.045, vMode:"hubble", aroundMass:0, vScale:0.003, direction:1}
+     spinMin:0,spinMax:0, tInt:0.5, vMode:"hubble", aroundMass:0, vScale:0.01, direction:1}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:false,monitor:true,boxGraph:true} },
 
@@ -2541,10 +2539,10 @@ const BUILTIN_PRESETS = [
       descPattern:"実測約(\\d+\\.\\d+)倍に増強", testId:"claim.galaxystd-outerboost" }
   ],
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260727,
-  physics:{G:0.2, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:50,
-    cLight:30, contactK:10, contactCap:2, bM:0.25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:6},
+  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:50,
+    cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:3},
   bodies:[
-    {type:"single", rMul:1.2, m:2500, x:0,y:0, vx:0,vy:0, spin:0.6, pinned:true, radius:15},
+    {type:"single", rMul:1.2, m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, radius:15},
     {type:"disk", rMul:1.2, n:380, cx:0,cy:0, radius:260, mMin:0.16,mMax:0.5,
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2500, vScale:1.05, direction:1, bulkVx:0, bulkVy:0}
   ],
@@ -2608,7 +2606,7 @@ const BUILTIN_PRESETS = [
     observe:"Fixed-seed measurements (6000 steps) establish three contrasts. (1) Rotation vs dispersion support: mean orbital speed is 4.50 for the disk vs 1.05 for the bulge, velocity dispersion 1.62 vs 4.25 — a σ ratio of about 2.61, so the bulge is dynamically hot (the Wave-71 adjudicated reading). (2) Residual-torque spin forcing: with kFrame=1 stellar spins grow systematically from zero (E6′ (3)); after 6000 steps mean |spin| is 2.62 (disk) vs 5.04 (bulge) — about 1.92 times stronger for bulge stars, whose orbits dive deep past the center. The signs differ between groups (signed means −1.31 disk, +3.91 bulge), so read signed mean and absolute value separately. In the kFrame=0 control the spins stay exactly zero — a machine control showing this path is the only spin source. (3) Unified geodesic law: switching to geoPN=2 shrinks the same forcing to mean |spin| 0.87/1.05 (most of the legacy-E6′ enhancement does not appear under the unified law — same story as 💫). Star retention over 6000 steps: 99.5% disk, 97.4% bulge. ",
     control:"Suggested A/B: start an A/B comparison with kFrame=0 and the dragging vanishes — both groups keep exactly zero spin and the disk falls back to plain gravitational rotation. Set geoPN to 2 to re-measure under the v−u unified geodesic law. Raising D0 strengthens the far universe's grip and weakens the dragging."}},
   activeParams:["kFrame","geoPN","D0"],
-  validT:192,   // 実測窓(6000步=t≈96)と一致
+  validT:96,   // 実測窓(6000步=t≈96)と一致
   claims:[
     { id:"galaxyDB.sigma-ratio", kind:"fixed-seed", metric:"bulgeDiskSigmaRatio",
       expected:{min:2.2, max:3.0},   // 実測2.61(exp-4-75 kf1)
@@ -2620,15 +2618,15 @@ const BUILTIN_PRESETS = [
       testId:"claim.galaxydb-contrast" }
   ],
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260804,
-  physics:{G:0.2, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:50,
-    cLight:30, contactK:10, contactCap:2, bM:0.25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
-    radiusScale:1, softening:3, timeScale:6},
+  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:50,
+    cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:3, timeScale:3},
   bodies:[
-    {type:"single", rMul:1.2, m:2500, x:0,y:0, vx:0,vy:0, spin:0.6, pinned:true, radius:15},
+    {type:"single", rMul:1.2, m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, radius:15},
     {type:"disk", rMul:1.2, n:190, cx:0,cy:0, radius:260, mMin:0.16,mMax:0.5,
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2500, vScale:1.05, direction:1, bulkVx:0, bulkVy:0},
     {type:"disk", rMul:1.2, n:190, cx:0,cy:0, radius:90, mMin:0.16,mMax:0.5,
-     spinMin:0,spinMax:0, vMode:"random", vScale:3, direction:1, bulkVx:0, bulkVy:0}
+     spinMin:0,spinMax:0, vMode:"random", vScale:6, direction:1, bulkVx:0, bulkVy:0}
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,mechSpectrum:false} },
 { id:"darkrotor", name:"ダークローターの銀河", emoji:"🕶️", group:"銀河",
@@ -2685,7 +2683,7 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame","D0","q"],
   // 第39便 39E(台帳4-75 E2): 有効窓は2本立て(恒星の安定t≈384/腕の分離t≈96)だが、腕の
   // サブ窓は説明文が既に明記している。HUD は「評価済み最大時間」= 恒星安定の外側窓384を表示
-  validT:768,
+  validT:384,
   // 第40便 40B(台帳4-77): abBody — B側の対向2ローター(bodies順で index1/2)の spin を
   // 0にする対照へワンタップでA/B開始する(粒子レベルpatch。既存のパラメータ単位おすすめA/Bの拡張)
   // 第63便: ラベルは中身だけを書き、表示は共通タイトル abQuickTitle が「⚖️ ワンタップ対照A/B
@@ -2715,21 +2713,19 @@ const BUILTIN_PRESETS = [
       expected:{min:1.80, max:4.20},   // 実測 2.15〜3.62(8seed・6000步)
       descPattern:"8seedを通した増強比の最小は(\\d+\\.\\d+)倍",
       control:{patch:{bodies:[{index:0,spin:0},{index:1,spin:0},{index:2,spin:0}]},
-        expected:{min:0.10, max:0.42},   // 実測 0.157〜0.265(旧c60世代・配置由来の m=2 の seed 幅)。
-        // 第96便: c₀=30 相似変換後の QA 2seed 実測 0.326/0.331(純重力系だが N体カオスで丸め差が
-        // 実現値を変える)に合わせ上限 0.32→0.42(増強比の最小 1.84 倍は維持 — 分離の主張は不変)
+        expected:{min:0.10, max:0.32},   // 実測 0.157〜0.265(配置由来の m=2 の seed 幅)
         descPattern:"対照の帯平均は8seedで最大(\\d+\\.\\d+)"},
       testId:"behavior.darkrotor-multiseed" }
   ],
   camera:{scale:300}, world:{boundary:"none",size:0}, seed:20260726,
-  physics:{G:0.25, D0:2, kFrame:1, q:2, kRep:0.15, muF:0.02, gammaN:0.05, kappaS:0.025, Kt:60,
-    cLight:30, contactK:10, contactCap:2, bM:0.25, etaRad:0.0025, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 2.0 は各 body の rMul へ焼込(第36便 C1)*/, softening:4, timeScale:4},
+  physics:{G:1, D0:2, kFrame:1, q:2, kRep:0.15, muF:0.02, gammaN:0.05, kappaS:0.05, Kt:60,
+    cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0.005, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 2.0 は各 body の rMul へ焼込(第36便 C1)*/, softening:4, timeScale:2},
   bodies:[
     // 中心ブラックホール(自由・単層・光を出さない lightSweep:1。vx/vy は総運動量ゼロ化の2パス解)
-    {type:"single", rMul:2.0, m:2000, x:0,y:0, vx:0.00057067, vy:-0.00109092, spin:0.06, radius:45, lightSweep:1, pinned:false},
+    {type:"single", rMul:2.0, m:2000, x:0,y:0, vx:0.00114134, vy:-0.00218185, spin:0.12, radius:45, lightSweep:1, pinned:false},
     // ダークローター×2(自由・単層・x=±200 で向かい合う。両方 spin 2.0。周速は再較正値 3.371251)
-    {type:"single", rMul:2.0, m:150, x:200.0,y:0.0, vx:-0.0,vy:1.68563, spin:1, radius:18, lightSweep:1, pinned:false},
-    {type:"single", rMul:2.0, m:150, x:-200.0,y:0.0, vx:0.0,vy:-1.68563, spin:1, radius:18, lightSweep:1, pinned:false},
+    {type:"single", rMul:2.0, m:150, x:200.0,y:0.0, vx:-0.0,vy:3.371251, spin:2.0, radius:18, lightSweep:1, pinned:false},
+    {type:"single", rMul:2.0, m:150, x:-200.0,y:0.0, vx:0.0,vy:-3.371251, spin:2.0, radius:18, lightSweep:1, pinned:false},
     // 恒星リング(自由・kepler 初速・内穴 r=70 は BH 影響圏)
     {type:"ring", rMul:2.0, n:380, cx:0,cy:0, rIn:70, rOut:260, mMin:0.26,mMax:0.63,
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2000, omega:0, vNoise:0, direction:1, pinned:false}
@@ -2873,11 +2869,11 @@ const BUILTIN_PRESETS = [
   familyId:"rotorform", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
   descStruct:{
     summary:"重い殻の中に、速く回る小さなコアを隠した粒子の集まり。外は静かなのに中は真っ暗、という星雲を作る思考実験(🌑ローター星雲の改良版で、塵粒の設計だけを変えてある)。各粒は「重い外殻(質量のほとんど)+高速スピンの小さなコア(コアv2: Mc/m=0.4・R_c=1.15・Ω_c=16)」の2層構造を持つ。重い殻の重力が雲をまとめ、暗さは殻ではなくコアだけが担う(各層が自分の光を自分の表面速度で掻き出し、光度比で混ぜる2層減光 — A9/A11系、第75便拡張)。回転の遅い殻にはスピン斥力(E5′)がほとんど効かないので、熱の圧力(kRep=0.3)がかかっても雲は壊れない — 「暗さの原因になるスピンを小さなコアへ隠す」ことで、まとまりと暗さを両立させている。この「重い外殻+高速スピンの中心コア」が本モデルの正式なダークローターの定義であり(第76便)、暗黒星雲や星の種(prestellar core 類似)はその候補としてここで実験される。実在の星雲についての主張ではない(Negative Claims)。",
-    observe:"実測(seed固定・3000步・熱圧 kRep=0.3 の下)でコアの平均減光0.90・クランプの保持率は1.00(エンベロープは1.00)。対照として同一幾何・同一質量の**単層**塵(暗さを出すには spin≈6 が必要)では、同じ熱圧で保持率0.48まで自壊し、エンベロープの平均|spin|も3.77まで攪乱される(2層では1.25 — 約3.0倍の差)。コアの高速スピンはA8のコア差動形 ω=(Mc/m)·(Ω_c−s)·f(Rc,d) で外へ届くが、Rc が小さいので影響範囲が狭く、周辺をほとんど乱さない。粒子タップで「コア内訳(v2)」と減光欄の実効値(2層減光)を確認できる。",
+    observe:"実測(seed固定・3000步・熱圧 kRep=0.3 の下)でコアの平均減光0.90・クランプの保持率は1.00(エンベロープは1.00)。対照として同一幾何・同一質量の**単層**塵(暗さを出すには spin≈6 が必要)では、同じ熱圧で保持率0.39まで自壊し、エンベロープの平均|spin|も3.70まで攪乱される(2層では0.83 — 約4.5倍の差。第96便 c₀=30 相似単位で再実測)。コアの高速スピンはA8のコア差動形 ω=(Mc/m)·(Ω_c−s)·f(Rc,d) で外へ届くが、Rc が小さいので影響範囲が狭く、周辺をほとんど乱さない。粒子タップで「コア内訳(v2)」と減光欄の実効値(2層減光)を確認できる。",
     control:"おすすめA/B(ワンタップ): 下のボタンで塵粒54個のスピンを0にした対照と比較できる — コアの暗さが消えて雲全体が散光化する。kRep を上げると熱圧試験が厳しくなり、cLight を上げるとコアが未飽和になって明るくなる(🌑と同じ転移)。"},
   en:{name:"Heavy-Shell Rotor Nebula — Binding and Darkness Together", descStruct:{
     summary:"A cluster of grains, each hiding a small, fast-spinning core inside a heavy shell — quiet on the outside, pitch dark within: a nebula built that way. A refinement of the 🌑 rotor nebula that changes only the dust-grain design. Each grain is two-layered: a heavy outer shell (most of the mass) plus a small fast-spinning Core v2 (Mc/m=0.4, R_c=1.15, Ω_c=16). The shell's gravity holds the cloud together, while only the core carries the darkness (each layer sweeps out its own light at its own surface speed, mixed by luminosity — two-layer dimming, the A9/A11 family, the Wave-75 extension). The slow shell spin (0.6) barely feels spin repulsion (E5′), so the cloud does not blow itself apart even under thermal pressure kRep=0.3 — hiding the darkness-causing spin inside a small core is what lets binding and darkness coexist. This 'heavy shell + fast-spinning core' is the model's formal definition of a dark rotor (Wave 76), and dark nebulae and star seeds (prestellar-core analogues) are experimented with here as its candidates. Not a claim about real nebulae (Negative Claims). ",
-    observe:"Measured (fixed seed, 3000 steps, under thermal pressure kRep=0.3): mean core dimming 0.90, clump retention 1.00 (envelope 1.00). As a control, a **single-layer** dust cloud with identical geometry and mass (which needs spin≈6 to be equally dark) self-destructs to retention 0.48 under the same pressure, and stirs the envelope's mean |spin| up to 3.77 (1.25 for the two-layer cloud — about a 3.0× difference). The fast core does reach outward through the A8 core-differential form ω=(Mc/m)·(Ω_c−s)·f(Rc,d), but with a small Rc its reach is narrow and the surroundings stay almost undisturbed. Tap a grain to see the Core (v2) readout and the effective two-layer dimming value. ",
+    observe:"Measured (fixed seed, 3000 steps, under thermal pressure kRep=0.3): mean core dimming 0.90, clump retention 1.00 (envelope 1.00). As a control, a **single-layer** dust cloud with identical geometry and mass (which needs spin≈6 to be equally dark) self-destructs to retention 0.39 under the same pressure, and stirs the envelope's mean |spin| up to 3.70 (0.83 for the two-layer cloud — about a 4.5× difference; re-measured in the wave-96 c₀=30 similarity units). The fast core does reach outward through the A8 core-differential form ω=(Mc/m)·(Ω_c−s)·f(Rc,d), but with a small Rc its reach is narrow and the surroundings stay almost undisturbed. Tap a grain to see the Core (v2) readout and the effective two-layer dimming value. ",
     control:"Suggested A/B (one tap): the button below compares against a control with all 54 grain spins set to 0 — the cores' darkness vanishes and the whole cloud turns luminous. Raising kRep makes the pressure test harsher; raising cLight desaturates the cores and brightens them (the same transition as 🌑)."}},
   activeParams:["kRep","cLight","kFrame"],
   validT:64,   // 実測窓(3000步=t≈48)と一致
@@ -2944,11 +2940,11 @@ const BUILTIN_PRESETS = [
   emergence:"E1",
   descStruct:{
     summary:"惑星状星雲や双極星雲の「暗い帯+明るい2つのローブ」を、ダークローター部品で組んだ思考実験。中心に重殻ダークローター(殻はゆっくり・コアは高速 — 2層減光〔第75便拡張〕で真っ暗)、赤道(±x)を挟む±50°に重殻ダークアーク22個(暗黒トーラスの2D断面)、内側に高スピン=高温のガス60個。ガスは熱の斥力(E5′)で押し合うが、赤道はアークに塞がれている — 抵抗の少ない極方向(±y)だけが出口になり、上下2つの光るローブになる(🌋と同じ「圧力+幾何」の機構を星雲の構成で)。実在の惑星状星雲・双極流の再現主張ではない(Negative Claims)。",
-    observe:"実測(seed固定・6000步): 系外(r>200)へ達したガス37体のうち±y30°以内が0.62(等方なら1/3 — 1.9倍の集中)。中心は減光1.00・アーク帯は平均0.92で真っ暗 — 「暗い帯に挟まれた明るいローブ」の明暗が立つ。アークは pinned(外部固定)なので閉鎖系ではない(バッジ参照)。熱圧を切った対照(kRep=0)では脱出が0体になり、ローブは立たない — 圧力が唯一の駆動源であることの機械対照。※創発の標準試験(第84便B・詳細はdocs/PHYSICS.md「創発水準(E0〜E3)と標準試験」): このサンプルはまず構成で水準が決まる — 24体の定義のうち22体(赤道ダークアーク)がpinnedで、ローブを立てている「赤道を塞ぐ幾何」そのものが外から固定されている。したがって閉鎖系ではなく、E水準は**E1(外部駆動下の自己組織化)**であって、閉鎖系を要件とするE2/E3には定義上該当しない — 昇格しないことがこのサンプルの正しい着地である。そのうえで、E1の中身(局所則から秩序が立つこと)がどれだけ頑健かを4試験で実測した。【多seed16】20260804〜20260819の16seedで極方向比は0.537〜0.833(中央0.675)に分布し、16seedを通した極方向比の最小は0.537 — 等方の1/3に対して最小でも1.61倍(中央2.02倍)の集中が残る。脱出は34〜46体/60、中心の減光は16seedすべてで1.000、アーク帯の平均減光も0.918でほぼ一定。圧力オフ対照の脱出は16seedで最大1体(16seed中15seedは厳密に0)。※上の固定seed窓0.5〜0.72は内蔵seed1本のドリフト検出用であって、seedを通した再現幅(0.537〜0.833)はそれより広い — 固定seed窓を再現性の主張として読んではいけない。【粒子数スケーリング】ガスn=30/60/120で極方向比の中央値は0.750/0.677/0.653、脱出率は0.57〜0.77でほぼ一定、圧力オフ対照はどのnでも脱出0 — 特定の粒子数の離散模様ではない。ただしnはガスの総質量でもあり半径30の円盤への充填密度でもあるので、粒子数だけを独立に振れる設計ではない(アークの幾何と中心質量はnによらず不変なので、「幾何が絞っているか」という問いの側は分離できている)。【摂動回復】3000步(脱出が始まった直後)でガスだけに等方の速度ノイズを入れ、注入より後にr>200を跨いだ粒子だけの極方向比を測った。速さRMSの25%/50%/100%では0.818/0.787/0.776(中央値)で、無摂動の0.714〜0.826と同水準 — 方位をかき混ぜても幾何が絞り直す。200%で0.647・400%で0.526まで薄まる(等方1/3へ近づく)が、400%でもまだ1.58倍の集中が残る。【時間窓】脱出は2500〜3250步で始まり3500〜3750步で10体に達し、極方向比は4000步以降ほぼ横ばい — validT 96(6000步)は立ち上がりが終わった側にある。なおpinnedを含む系なので帳簿込みの角運動量は閉じない(|ΔL|/L_scaleは最大1.7e-2)— これも「閉鎖系ではない」ことの機械的な現れである。実測ハーネス: tests/exp-4-88.mjs。",
+    observe:"実測(seed固定・8000步 — c₀=30 相似単位): 系外(r>200)へ達したガス44体のうち±y30°以内が0.52(等方なら1/3 — 1.6倍の集中)。中心は減光1.00・アーク帯は平均0.92で真っ暗 — 「暗い帯に挟まれた明るいローブ」の明暗が立つ。アークは pinned(外部固定)なので閉鎖系ではない(バッジ参照)。熱圧を切った対照(kRep=0)では脱出が0体になり、ローブは立たない — 圧力が唯一の駆動源であることの機械対照。※創発の標準試験(第84便B・詳細はdocs/PHYSICS.md「創発水準(E0〜E3)と標準試験」): このサンプルはまず構成で水準が決まる — 24体の定義のうち22体(赤道ダークアーク)がpinnedで、ローブを立てている「赤道を塞ぐ幾何」そのものが外から固定されている。したがって閉鎖系ではなく、E水準は**E1(外部駆動下の自己組織化)**であって、閉鎖系を要件とするE2/E3には定義上該当しない — 昇格しないことがこのサンプルの正しい着地である。そのうえで、E1の中身(局所則から秩序が立つこと)がどれだけ頑健かを4試験で実測した。【多seed16】20260804〜20260819の16seedで極方向比は0.523〜0.780(中央0.659)に分布し、16seedを通した極方向比の最小は0.523 — 等方の1/3に対して最小でも1.57倍(中央1.98倍)の集中が残る(第97便: c₀=30 相似単位で再実測)。脱出は31〜44体/60、中心の減光は16seedすべてで1.000、アーク帯の平均減光も0.918でほぼ一定。圧力オフ対照の脱出は16seedで最大0体(全seedで厳密に0)。※上の固定seed窓0.5〜0.72は内蔵seed1本のドリフト検出用であって、seedを通した再現幅(0.523〜0.780)はそれより広い — 固定seed窓を再現性の主張として読んではいけない。【粒子数スケーリング】ガスn=30/60/120で極方向比の中央値は0.684/0.691/0.697、脱出率は0.63〜0.75でほぼ一定、圧力オフ対照はどのnでも脱出0 — 特定の粒子数の離散模様ではない。ただしnはガスの総質量でもあり半径30の円盤への充填密度でもあるので、粒子数だけを独立に振れる設計ではない(アークの幾何と中心質量はnによらず不変なので、「幾何が絞っているか」という問いの側は分離できている)。【摂動回復】3000步(脱出が始まった直後)でガスだけに等方の速度ノイズを入れ、注入より後にr>200を跨いだ粒子だけの極方向比を測った。速さRMSの25%/50%/100%では0.650/0.675/0.725(中央値)で、無摂動の0.619〜0.821と同水準 — 方位をかき混ぜても幾何が絞り直す。200%で0.643・400%で0.500まで薄まる(等方1/3へ近づく)が、400%でもまだ1.50倍の集中が残る。【時間窓】脱出は1750〜3000步で始まり3250〜3750步で10体に達し、極方向比は4000步以降ほぼ横ばい — validT 96(6000步)は立ち上がりが終わった側にある。なおpinnedを含む系なので帳簿込みの角運動量は閉じない(|ΔL|/L_scaleは最大1.7e-2)— これも「閉鎖系ではない」ことの機械的な現れである。実測ハーネス: tests/exp-4-88.mjs。",
     control:"おすすめA/B: A/B比較で kRep=0 にすると圧力が消え、脱出は0体になってローブが立たない。なお「ガスのスピンを0にする」だけでは対照にならない — 中心とアークの回転が E6′残余トルクでガスへスピンを再注入し、圧力が再点火する。圧力を確実に切る対照は kRep=0 である。中心天体・アークを粒子タップすると「コア内訳(v2)」で Ω_c と2層減光の内訳が読める。"},
   en:{name:"Bipolar Nebula — Dark Torus and Polar Lobes", descStruct:{
     summary:"The 'dark band + two bright lobes' of planetary and bipolar nebulae, assembled from dark-rotor parts: a heavy-shell dark rotor at the center (slow shell, fast core — pitch dark via the Wave-75 two-layer dimming), 22 heavy-shell dark arcs within ±50° of the equator (±x; the 2D cross-section of a dark torus), and 60 high-spin (=hot) gas particles inside. The gas pushes outward with thermal repulsion (E5′), but the equator is blocked by the arcs — the only low-resistance exit is the polar direction (±y), so two glowing lobes rise (the same 'pressure + geometry' mechanism as 🌋, in nebula form). Not a claim to reproduce real planetary nebulae or bipolar outflows (Negative Claims). ",
-    observe:"Measured (fixed seed, 6000 steps): of the 37 gas particles that reach beyond r>200, a fraction 0.62 lies within 30° of ±y (isotropic would be 1/3 — a 1.9× concentration). The center is dimmed at 1.00 and the arc band averages 0.92 — bright lobes framed by a dark band. The arcs are pinned (externally held), so the system is not closed (see badges). In the pressure-off control (kRep=0) zero particles escape and no lobes form — a machine control showing pressure is the only driver. Standard emergence tests (Wave 84B; see docs/PHYSICS.md \u00a7Emergence levels and the standard tests): the level of this sample is settled by its construction first \u2014 22 of the 24 body definitions (the equatorial dark arcs) are pinned, so the very geometry that blocks the equator and raises the lobes is held in place from outside. It is therefore not a closed system, and its emergence level is E1 (self-organisation under external drive); by definition it does not qualify for E2 or E3, which require a closed system. Not being promoted is the correct landing for this sample. What was then measured is how robust the E1 content \u2014 order arising from local rules \u2014 actually is. [Many seeds, 16] Over seeds 20260804\u201320260819 the polar fraction spans 0.537\u20130.833 (median 0.675), so the smallest across the sixteen is 0.537 \u2014 still a concentration of 1.61\u00d7 over the isotropic 1/3 (median 2.02\u00d7). Escapes run 34\u201346 of 60, the centre dims to 1.000 in every one of the sixteen, and the arc band averages 0.918 throughout. The pressure-off control escapes at most 1 particle across the sixteen seeds (exactly 0 in 15 of them). Note that the fixed-seed window of 0.5\u20130.72 above is a drift check on the built-in seed alone: the spread across seeds (0.537\u20130.833) is wider than that, so the fixed-seed window must not be read as a reproducibility claim. [Particle-count scaling] At gas n=30/60/120 the median polar fraction is 0.750/0.677/0.653 and the escape rate stays at 0.57\u20130.77, with the pressure-off control escaping 0 at every n \u2014 not a discrete artefact of one particle count. Note, though, that n is also the gas's total mass and its packing density inside a radius-30 disk, so particle count cannot be varied independently here (the arc geometry and the central mass do stay fixed with n, which is what isolates the question of whether the geometry does the collimating). [Perturbation recovery] At step 3000, just after escapes begin, isotropic velocity noise was injected into the gas alone, and the polar fraction was measured over only those particles that crossed r>200 after the injection. At 25%/50%/100% of the speed RMS it comes out at 0.818/0.787/0.776 (medians), the same level as the unperturbed 0.714\u20130.826 \u2014 stir the directions and the geometry re-collimates them. At 200% it thins to 0.647 and at 400% to 0.526 (drifting towards the isotropic 1/3), yet even at 400% a concentration of 1.58\u00d7 remains. [Time window] Escapes begin between steps 2500 and 3250, reach ten particles by steps 3500\u20133750, and the polar fraction is essentially flat from step 4000 on \u2014 validT 96 (6000 steps) sits past the rise. Because the system contains pinned bodies, its ledger-inclusive angular momentum does not close (|\u0394L|/L_scale up to 1.7e-2), which is itself a machine-readable sign that this is not a closed system. Measurement harness: tests/exp-4-88.mjs. ",
+    observe:"Measured (fixed seed, 8000 steps — c₀=30 similarity units): of the 44 gas particles that reach beyond r>200, a fraction 0.52 lies within 30° of ±y (isotropic would be 1/3 — a 1.6× concentration). The center is dimmed at 1.00 and the arc band averages 0.92 — bright lobes framed by a dark band. The arcs are pinned (externally held), so the system is not closed (see badges). In the pressure-off control (kRep=0) zero particles escape and no lobes form — a machine control showing pressure is the only driver. Standard emergence tests (Wave 84B; see docs/PHYSICS.md \u00a7Emergence levels and the standard tests): the level of this sample is settled by its construction first \u2014 22 of the 24 body definitions (the equatorial dark arcs) are pinned, so the very geometry that blocks the equator and raises the lobes is held in place from outside. It is therefore not a closed system, and its emergence level is E1 (self-organisation under external drive); by definition it does not qualify for E2 or E3, which require a closed system. Not being promoted is the correct landing for this sample. What was then measured is how robust the E1 content \u2014 order arising from local rules \u2014 actually is. [Many seeds, 16] Over seeds 20260804\u201320260819 the polar fraction spans 0.523\u20130.780 (median 0.659), so the smallest across the sixteen is 0.523 \u2014 still a concentration of 1.57\u00d7 over the isotropic 1/3 (median 1.98\u00d7; re-measured in the wave-96 c₀=30 similarity units). Escapes run 31\u201344 of 60, the centre dims to 1.000 in every one of the sixteen, and the arc band averages 0.918 throughout. The pressure-off control escapes exactly 0 particles in all sixteen seeds. Note that the fixed-seed window of 0.5\u20130.72 above is a drift check on the built-in seed alone: the spread across seeds (0.523\u20130.780) is wider than that, so the fixed-seed window must not be read as a reproducibility claim. [Particle-count scaling] At gas n=30/60/120 the median polar fraction is 0.684/0.691/0.697 and the escape rate stays at 0.63\u20130.75, with the pressure-off control escaping 0 at every n \u2014 not a discrete artefact of one particle count. Note, though, that n is also the gas's total mass and its packing density inside a radius-30 disk, so particle count cannot be varied independently here (the arc geometry and the central mass do stay fixed with n, which is what isolates the question of whether the geometry does the collimating). [Perturbation recovery] At step 3000, just after escapes begin, isotropic velocity noise was injected into the gas alone, and the polar fraction was measured over only those particles that crossed r>200 after the injection. At 25%/50%/100% of the speed RMS it comes out at 0.650/0.675/0.725 (medians), the same level as the unperturbed 0.619\u20130.821 \u2014 stir the directions and the geometry re-collimates them. At 200% it thins to 0.643 and at 400% to 0.500 (drifting towards the isotropic 1/3), yet even at 400% a concentration of 1.50\u00d7 remains. [Time window] Escapes begin between steps 1750 and 3000, reach ten particles by steps 3250\u20133750, and the polar fraction is essentially flat from step 4000 on \u2014 validT 96 (6000 steps) sits past the rise. Because the system contains pinned bodies, its ledger-inclusive angular momentum does not close (|\u0394L|/L_scale up to 1.7e-2), which is itself a machine-readable sign that this is not a closed system. Measurement harness: tests/exp-4-88.mjs. ",
     control:"Suggested A/B: start an A/B comparison with kRep=0 and the pressure vanishes — zero particles escape and no lobes form. Note that merely zeroing the gas spins is not a control: the rotation of the center and the arcs re-injects spin into the gas through the E6′ residual torque, and the pressure re-ignites. The reliable pressure-off control is kRep=0. Tap the center or an arc to read its Core (v2) breakdown \u2014 \u03a9_c and the two-layer dimming split."}},
   activeParams:["kRep","cLight","kFrame"],
   validT:128,   // 実測窓(6000步=t≈96)と一致
@@ -3027,12 +3023,12 @@ const BUILTIN_PRESETS = [
   notClaim:["bh"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"darkcenter", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
   descStruct:{
-    summary:"銀河の中心にひそむ、暗くて重い天体の正体を探るサンプル。「銀河中心の暗い天体は、コアの高速スピンが外殻へ伝わって銀河を回している」という仮説を、5つの層に分けて1画面で検証する。層0=中心コア(コアv2 の独立 J_core・初期Ω=20)/層1=重い内殻(m=2500 が引力を担う)/層2=外殻と擬似地平面(2層減光で真っ暗)/層3=決定フレーム(kFrame の空間引きずり)/層4=降着円盤(赤道面の高温ガス120体)。外側には測定用の恒星ディスク200体を置く。コアと外殻は τ_cs(K_cs=0.02)で結ばれており、コアに貯めた角運動量が外殻へ流れ出す。中心天体は**固定していない**(支配天体も他の粒子と同じ法則で動く自由な系)— 固定中心は座標を止めるだけでなく E6′ 引きずりの反作用を受け取る外部リザーバでもあるため、それを外すには反作用を換算質量 μ=m_im_j/(m_i+m_j) による対称インパルス J_ij=μ(φ_ij d_i−φ_ji d_j) へ置き換えた E6′-R(physics.frameReaction:\"pairReduced\")が要る。初期配置は重心系(balanceFrame)へ移してあり、観測はすべて中心天体基準の相対座標で行う。実在のブラックホール物理(事象の地平面・降着円盤の磁気流体・相対論的ジェット)の再現主張ではない — この宇宙の法則で「暗くて重い回転体」を組むとどうなるかのトイモデルである(Negative Claims)。",
-    observe:"実測(seed固定・6000步): ①**自走** — 中心の外殻スピンは0.15から実測1.33へ育ち、コアの角速度は20から4.2へ落ちる(τ_cs でコアの貯金が外殻へ移る)。②**暗いまま回す** — 中心の減光は1.00(真っ暗)なのに、中心基準で測った恒星ディスク外縁の回転増強(kFrame=1/kFrame=0 比)は実測1.52で、可視の🎡標準(1.2646)を大きく超える。③**壊れない** — 反作用上限・速度上限・スピン上限の発動はいずれも0回で、恒星の保持率は1.000(中心基準 r<450)。層4の降着円盤は圧力(E5′)で膨らむが重力井戸に束縛され、6000步で系外(中心基準 r>200)へ出るのは120体中1体だけ(=この構成ではジェットは立たない。双極流は⏳の担当)。④**中心は有限に反跳する** — 支配天体の重心相対変位は最大0.39・重心相対速度は最大0.009に留まる(固定ではなく、質量比ぶんの小さな揺れ)。⑤帳簿込みの総角運動量は保存する(相対ずれ1.3e-6 — A13/T7。コアの J も総和に含む)。⑥**因果の分離**(同一初期配置の対照): コアを外した単層中心では増強が1.05まで落ちる(=コアが主因)。⑦**E6′-R の効き目**: 同じ自由構成を従来の反作用則(legacy)のままにすると、1200步で反作用上限が12297回発動し、外縁増強は0.99(=増強消失)・外殻スピンも0.61で頭打ちになる。",
+    summary:"銀河の中心にひそむ、暗くて重い天体の正体を探るサンプル。「銀河中心の暗い天体は、コアの高速スピンが外殻へ伝わって銀河を回している」という仮説を、5つの層に分けて1画面で検証する。層0=中心コア(コアv2 の独立 J_core・初期Ω=10 — c₀=30 相似単位)/層1=重い内殻(m=2500 が引力を担う)/層2=外殻と擬似地平面(2層減光で真っ暗)/層3=決定フレーム(kFrame の空間引きずり)/層4=降着円盤(赤道面の高温ガス120体)。外側には測定用の恒星ディスク200体を置く。コアと外殻は τ_cs(K_cs=0.02)で結ばれており、コアに貯めた角運動量が外殻へ流れ出す。中心天体は**固定していない**(支配天体も他の粒子と同じ法則で動く自由な系)— 固定中心は座標を止めるだけでなく E6′ 引きずりの反作用を受け取る外部リザーバでもあるため、それを外すには反作用を換算質量 μ=m_im_j/(m_i+m_j) による対称インパルス J_ij=μ(φ_ij d_i−φ_ji d_j) へ置き換えた E6′-R(physics.frameReaction:\"pairReduced\")が要る。初期配置は重心系(balanceFrame)へ移してあり、観測はすべて中心天体基準の相対座標で行う。実在のブラックホール物理(事象の地平面・降着円盤の磁気流体・相対論的ジェット)の再現主張ではない — この宇宙の法則で「暗くて重い回転体」を組むとどうなるかのトイモデルである(Negative Claims)。",
+    observe:"実測(seed固定・6000步): ①**自走** — 中心の外殻スピンは0.075から実測0.665へ育ち、コアの角速度は10から2.12へ落ちる(τ_cs でコアの貯金が外殻へ移る — 第96便 c₀=30 相似単位で再実測)。②**暗いまま回す** — 中心の減光は1.00(真っ暗)なのに、中心基準で測った恒星ディスク外縁の回転増強(kFrame=1/kFrame=0 比)は実測1.52で、可視の🎡標準(1.2646)を大きく超える。③**壊れない** — 反作用上限・速度上限・スピン上限の発動はいずれも0回で、恒星の保持率は1.000(中心基準 r<450)。層4の降着円盤は圧力(E5′)で膨らむが重力井戸に束縛され、6000步で系外(中心基準 r>200)へ出るのは120体中1体だけ(=この構成ではジェットは立たない。双極流は⏳の担当)。④**中心は有限に反跳する** — 支配天体の重心相対変位は最大0.39・重心相対速度は最大0.009に留まる(固定ではなく、質量比ぶんの小さな揺れ)。⑤帳簿込みの総角運動量は保存する(相対ずれ1.3e-6 — A13/T7。コアの J も総和に含む)。⑥**因果の分離**(同一初期配置の対照): コアを外した単層中心では増強が1.05まで落ちる(=コアが主因)。⑦**E6′-R の効き目**: 同じ自由構成を従来の反作用則(legacy)のままにすると、1200步で反作用上限が12297回発動し、外縁増強は0.99(=増強消失)・外殻スピンも0.61で頭打ちになる。",
     control:"おすすめA/B: A/B比較で **kFrame=0** にすると空間引きずりが消え、外縁増強も消滅する(引きずりが増強の唯一の経路)。**kRep=0** で層4の圧力が消え、降着円盤が薄い帯のまま静かに回る。パラメータタブで **D₀** を上げると遠方宇宙の支えが強まり引きずりが弱まる。**固定中心との対照**は、粒子タップで中心天体を選び「固定(pinned)」にチェックを入れると同じ構成のまま比べられる(第80便実測: pinned の外縁増強 1.52 — 自由中心と同帯)。コアの寄与そのものを消すには core を持たない構成と見比べる(実験 exp-4-81 の対照が同じ比較を機械化している)。"},
   en:{name:"A DFM Black Hole — Free Five-Layer Center", descStruct:{
-    summary:"A sample probing what a dark, heavy body at a galaxy's center could really be. The hypothesis tested here: that such a body spins the galaxy by passing its fast core rotation out to its shell, laid out in five layers on one screen. Layer 0: the central core (Core v2's independent J_core, initial Ω=20). Layer 1: the heavy inner shell (m=2500 carries the gravity). Layer 2: the outer shell and pseudo-horizon (pitch dark under two-layer dimming). Layer 3: the determinacy frame (kFrame dragging). Layer 4: the accretion disk (120 hot gas particles in the equatorial plane). Outside sits a 200-star measuring disk. Core and shell are coupled by τ_cs (K_cs=0.02), so the angular momentum banked in the core flows out into the shell. The central body is **not pinned** — the dominant mass moves under the same laws as everything else. A pinned center does more than freeze coordinates: it is also the external reservoir that absorbs the E6′ frame-dragging reaction, so freeing it requires E6′-R (physics.frameReaction:\"pairReduced\"), which replaces that reaction with a reduced-mass symmetric impulse J_ij=μ(φ_ij d_i−φ_ji d_j), μ=m_i m_j/(m_i+m_j). The initial state is shifted into the barycentric frame (balanceFrame) and every measurement is taken relative to the central body. Not a claim to reproduce real black-hole physics (event horizons, magnetohydrodynamic accretion, relativistic jets) — it is a toy model of what a dark, heavy rotator looks like under this universe's laws (Negative Claims). ",
-    observe:"Measured (fixed seed, 6000 steps): (1) **Self-drive** — the central shell spin grows from 0.15 to a measured 1.33 while the core's angular velocity falls from 20 to 4.2 (τ_cs moves the core's savings out to the shell). (2) **Dark yet driving** — the center's dimming is 1.00 (pitch dark), yet the outer rotation enhancement of the stellar disk measured about the center (kFrame=1 over kFrame=0) is 1.52, well above the visible 🎡 standard of 1.2646. (3) **It holds together** — the reaction, velocity and spin caps all fire 0 times and 1.000 of the stars stay bound (r<450 about the center). Layer 4's accretion disk swells under pressure (E5′) but stays bound in the gravity well: only 1 of 120 gas particles leaves the system (r>200 about the center) in 6000 steps, so no jet forms in this configuration (bipolar outflows are ⏳'s job). (4) **The center recoils, finitely** — the dominant body stays within 0.39 of the barycenter at relative speeds below 0.009: not frozen, just a small mass-ratio wobble. (5) Total angular momentum is conserved ledger-inclusive (relative drift 1.3e-6 — A13/T7; the core's J is included in the sum). (6) **Isolating the cause** (control from the same initial state): with the core removed, a single-layer center drops the enhancement to 1.05 — the core is the main driver. (7) **What E6′-R buys**: the same free configuration left on the legacy reaction law hits the reaction cap 12297 times in 1200 steps, the enhancement collapses to 0.99 and the shell spin stalls at 0.61. ",
+    summary:"A sample probing what a dark, heavy body at a galaxy's center could really be. The hypothesis tested here: that such a body spins the galaxy by passing its fast core rotation out to its shell, laid out in five layers on one screen. Layer 0: the central core (Core v2's independent J_core, initial Ω=10 in the c₀=30 similarity units). Layer 1: the heavy inner shell (m=2500 carries the gravity). Layer 2: the outer shell and pseudo-horizon (pitch dark under two-layer dimming). Layer 3: the determinacy frame (kFrame dragging). Layer 4: the accretion disk (120 hot gas particles in the equatorial plane). Outside sits a 200-star measuring disk. Core and shell are coupled by τ_cs (K_cs=0.02), so the angular momentum banked in the core flows out into the shell. The central body is **not pinned** — the dominant mass moves under the same laws as everything else. A pinned center does more than freeze coordinates: it is also the external reservoir that absorbs the E6′ frame-dragging reaction, so freeing it requires E6′-R (physics.frameReaction:\"pairReduced\"), which replaces that reaction with a reduced-mass symmetric impulse J_ij=μ(φ_ij d_i−φ_ji d_j), μ=m_i m_j/(m_i+m_j). The initial state is shifted into the barycentric frame (balanceFrame) and every measurement is taken relative to the central body. Not a claim to reproduce real black-hole physics (event horizons, magnetohydrodynamic accretion, relativistic jets) — it is a toy model of what a dark, heavy rotator looks like under this universe's laws (Negative Claims). ",
+    observe:"Measured (fixed seed, 6000 steps): (1) **Self-drive** — the central shell spin grows from 0.075 to a measured 0.665 while the core's angular velocity falls from 10 to 2.12 (re-measured in the wave-96 c₀=30 similarity units; τ_cs moves the core's savings out to the shell). (2) **Dark yet driving** — the center's dimming is 1.00 (pitch dark), yet the outer rotation enhancement of the stellar disk measured about the center (kFrame=1 over kFrame=0) is 1.52, well above the visible 🎡 standard of 1.2646. (3) **It holds together** — the reaction, velocity and spin caps all fire 0 times and 1.000 of the stars stay bound (r<450 about the center). Layer 4's accretion disk swells under pressure (E5′) but stays bound in the gravity well: only 1 of 120 gas particles leaves the system (r>200 about the center) in 6000 steps, so no jet forms in this configuration (bipolar outflows are ⏳'s job). (4) **The center recoils, finitely** — the dominant body stays within 0.39 of the barycenter at relative speeds below 0.009: not frozen, just a small mass-ratio wobble. (5) Total angular momentum is conserved ledger-inclusive (relative drift 1.3e-6 — A13/T7; the core's J is included in the sum). (6) **Isolating the cause** (control from the same initial state): with the core removed, a single-layer center drops the enhancement to 1.05 — the core is the main driver. (7) **What E6′-R buys**: the same free configuration left on the legacy reaction law hits the reaction cap 12297 times in 1200 steps, the enhancement collapses to 0.99 and the shell spin stalls at 0.61. ",
     control:"Suggested A/B: start an A/B comparison with **kFrame=0** and the dragging vanishes along with the outer enhancement (dragging is the sole path to it). With **kRep=0** layer 4's pressure disappears and the accretion disk stays a quiet thin band. Raising **D₀** in the parameters tab strengthens the far universe's grip and weakens the dragging. **To compare against a fixed center**, tap the central body and tick \"pinned\" — the same configuration with a frozen center (measured in Wave 80: outer enhancement 1.52, the same band as the free center). To remove the core's contribution itself, compare against a configuration without a core (experiment exp-4-81 mechanizes the same comparison)."}},
   activeParams:["kFrame","kRep","D0"],
   validT:192,   // 実測窓(6000步=t≈96)と一致
@@ -3045,8 +3041,8 @@ const BUILTIN_PRESETS = [
       descPattern:"回転増強\\(kFrame=1/kFrame=0 比\\)は実測(\\d+\\.\\d+)",
       testId:"claim.bhcore-free" },
     { id:"bhCore.shell-spinup", kind:"fixed-seed", metric:"shellSpinFinal",
-      expected:{min:1.20, max:1.47},   // 実測1.332(コアΩ 20→4.2 の移送先 — τ_cs)
-      descPattern:"外殻スピンは0\\.15から実測(\\d+\\.\\d+)へ育ち",
+      expected:{min:0.60, max:0.735},   // 実測0.665(コアΩ 10→2.12 の移送先 — τ_cs。第97便: c₀=30 相似単位へ再較正)
+      descPattern:"外殻スピンは0\\.075から実測(\\d+\\.\\d+)へ育ち",
       testId:"claim.bhcore-selfdrive" },
     { id:"bhCore.recoil-bounded", kind:"fixed-seed", metric:"bhMaxDisplacementFromCom",
       expected:{min:0.2, max:0.8},     // 実測0.394(重心相対の最大変位。受入上限は 8)
@@ -3170,8 +3166,8 @@ const BUILTIN_PRESETS = [
       descPattern:"6000步には (\\d+(?:\\.\\d+)?)% に達する" }
   ],
   camera:{scale:240}, world:{boundary:"none",size:0},   // 第50便 50I: 160→240(両銀河+円盤全体が初期状態から画面内に収まる)
-  physics:{G:0.165306, D0:4.5, kFrame:1, q:2, kRep:0.8, muF:0.45, gammaN:0.55, kappaS:0.0514286, Kt:90,   // 第26便: kFrame 0.55→1 / 第27便: q 1.8→2(整数冪の高速経路 −34%)・円盤 150/120(負荷改善 — 合計 4320→1681ms/600步・12000步 r90=159 有界を実測)
-    cLight:30, contactK:7.346939, contactCap:1.469388, bM:0.183673, etaRad:0.000342857, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:3.5, timeScale:5.13333/* 第51便 51E: 1.8→2.2(画面上の展開を速く — 物理は1步も不変) */},
+  physics:{G:0.9, D0:4.5, kFrame:1, q:2, kRep:0.8, muF:0.45, gammaN:0.55, kappaS:0.12, Kt:90,   // 第26便: kFrame 0.55→1 / 第27便: q 1.8→2(整数冪の高速経路 −34%)・円盤 150/120(負荷改善 — 合計 4320→1681ms/600步・12000步 r90=159 有界を実測)
+    cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0.0008, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:3.5, timeScale:2.2/* 第51便 51E: 1.8→2.2(画面上の展開を速く — 物理は1步も不変) */},
   bodies:[ // v1.13(付録M): 第6次提案(Grok #1)を内蔵化。v1.18: 円盤に bulkVx/Vy を付与し
            // 核と円盤が一体で並進するよう修正(旧: 核だけが動き円盤が置き去りになっていた)。
            // v1.24: vMode flat(vScale0.85=必要円軌道速度の1/4以下)で円盤が合体前に核へ
@@ -3181,14 +3177,14 @@ const BUILTIN_PRESETS = [
            // ②円盤 150/120→100/80(力対 73.9k→33.1k = 負荷 2.2 分の 1)。接近速度は
            // 総運動量ゼロ近傍を保って再配分(旧: 実効 px≈+140 の系全体ドリフトがあった)。
            // 数値主張は同構成で再実測済み(QA behavior.merger-causal・claims)
-    {type:"single", rMul:1.2, m:920, x:-150,y:20, vx:0.471429,vy:0.0942857, spin:0.0385714, pinned:false},
+    {type:"single", rMul:1.2, m:920, x:-150,y:20, vx:1.1,vy:0.22, spin:0.09, pinned:false},
     {type:"disk", rMul:1.2, n:100, cx:-150,cy:20, radius:95, mMin:0.25,mMax:1.6,
-     spinMin:-0.257143,spinMax:0.257143, vMode:"kepler", aroundMass:920, vScale:1.0, direction:-1,   // 第51便 51E: 両円盤を軌道に対して順行へ(潮汐尾が最も育つ配置 — 6000步で10%)
-     bulkVx:0.471429, bulkVy:0.0942857},
-    {type:"single", rMul:1.2, m:680, x:130,y:-25, vx:-0.638571,vy:-0.128571, spin:0.03, pinned:false},
+     spinMin:-0.6,spinMax:0.6, vMode:"kepler", aroundMass:920, vScale:1.0, direction:-1,   // 第51便 51E: 両円盤を軌道に対して順行へ(潮汐尾が最も育つ配置 — 6000步で10%)
+     bulkVx:1.1, bulkVy:0.22},
+    {type:"single", rMul:1.2, m:680, x:130,y:-25, vx:-1.49,vy:-0.3, spin:0.07, pinned:false},
     {type:"disk", rMul:1.2, n:80, cx:130,cy:-25, radius:78, mMin:0.25,mMax:1.4,
-     spinMin:-0.214286,spinMax:0.214286, vMode:"kepler", aroundMass:680, vScale:1.0, direction:-1,
-     bulkVx:-0.638571, bulkVy:-0.128571}
+     spinMin:-0.5,spinMax:0.5, vMode:"kepler", aroundMass:680, vScale:1.0, direction:-1,
+     bulkVx:-1.49, bulkVy:-0.3}
   ],
   overlays:{rotationCurve:true,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"} },
 
@@ -3222,13 +3218,13 @@ const BUILTIN_PRESETS = [
       testId:"behavior.collapse-cooling" }
   ],
   camera:{scale:280}, world:{boundary:"none",size:0},
-  physics:{G:0.55, D0:1.8, kFrame:1, q:2, kRep:0.6, muF:0.65, gammaN:0.45, kappaS:0.045, Kt:70,   // 第51便 51F(原仮定者指摘「塊にならない」): G 1.4→2.2・kRep 1.2→0.6 — 12000步で r50 144→48(3.0倍の中心集中・rMax 438<600 有界を実測)
-    cLight:30, contactK:10, contactCap:2, bM:0.25, etaRad:0.002, pRad:2.8, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:5, timeScale:4.4},
+  physics:{G:2.2, D0:1.8, kFrame:1, q:2, kRep:0.6, muF:0.65, gammaN:0.45, kappaS:0.09, Kt:70,   // 第51便 51F(原仮定者指摘「塊にならない」): G 1.4→2.2・kRep 1.2→0.6 — 12000步で r50 144→48(3.0倍の中心集中・rMax 438<600 有界を実測)
+    cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0.004, pRad:2.8, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:5, timeScale:2.2},
   bodies:[ // v1.13(付録M): 第6次提案(Grok #3)を内蔵化。v1.18: Gemini 第8次提案採用 —
            // vMode rigid の微小回転 + random 相当の乱れは vNoise でなく速度合成で付与できないため
            // rigid(ω=0.004)を基本にし、乱れは disk 生成の±0.02 ノイズに任せる(機械検証済み)
     {type:"disk", rMul:1.2, n:260, cx:0,cy:0, radius:210, mMin:0.15,mMax:0.9,
-     spinMin:0,spinMax:0.075, vMode:"rigid", aroundMass:0, vScale:0.002, direction:1}
+     spinMin:0,spinMax:0.15, vMode:"rigid", aroundMass:0, vScale:0.004, direction:1}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"} },
 // 第82便B(創発の推進・統括裁定「目標形状を初期条件に埋め込まない」): 🥚selfRotor —
@@ -3298,11 +3294,11 @@ const BUILTIN_PRESETS = [
   stdTestsRef:["tests/exp-4-84.mjs","tests/exp-4-85.mjs","tests/exp-4-89.mjs","tests/exp-4-92.mjs"],
   descStruct:{
     summary:"何も仕込んでいない一様な粒の雲から、重くて暗い「回る中心」がひとりでに育つのを見るサンプル。置いたのは180粒の一様な円盤(全部おなじ重さ1・自転ゼロ・自由)と、雲全体がゆっくり回る初速(ω₀=0.008)、そして各粒がひとつずつ持つ同じ微小なコアの種(質量の5%・半径0.2・Ω_c=2)だけ。中心天体も暗い核もハローも初期条件には一つも置いていない — 働くのは自己重力(E4)と接触(E9)、そして「近づきすぎた2粒は1粒になる」融合(中心距離が d<0.7·(R_i+R_j) まで縮んだら合体)と、そのときコアが保存則どおり足し合わされる継承則(M_c′=M_c,i+M_c,j・R_c′=√(R_c,i²+R_c,j²)・J_c′=J_c,i+J_c,j)だけである。固定天体・境界・一様重力・伝熱壁はどれも無く、系の重心と重心速度は生成時に1回だけ0へ揃えてある(閉鎖系)。",
-    observe:"実測(seed 20260806・9000步=t144): 180粒が155回の融合を経て25体になり、いちばん重い1体が全質量の26.7%(m=48)を占める中心天体に育つ。束縛率は0.75。融合を切った対照では最大天体は最初の1粒のまま(質量比0.56%)で束縛率も0.14 — 中心天体は初期条件ではなく融合則の生成物である。原因が自己重力であることは用量反応で分離した: Gだけを2/4/6/8/12と振ると質量比は1.7/6.1/12.8/26.7/44.4%(融合は7/62/125/155/173回)と単調に増える。コアの角運動量J_coreは融合継承の経路だけで貯まる: 中心天体のJ_coreは0.0960で、これは種48個ぶんちょうど、飲み込んだ質量48と1粒単位で一致する(継承則の総和がそのまま個数を数えている)。系全体のΣJ_coreは0.3600(=180粒×0.0020)のまま最後まで変わらず、コア種を外した対照ではJ_coreは恒等的に0になる(継承以外の生成経路が無い)。暗さも育つ: 実効減光lS_eff(A11/E8R — 自転で自分の光を掃き出す度合い)はt=0で0.000、9000步では中心天体は0.589まで暗くなるのに対し周囲の天体は平均0.159のままで、「暗い中心+明るい周辺」が生成する(コントラスト3.7倍)。この暗さは井戸の深さψ=W/Ktだけで決まり力学には一切効かない(実測: Kt 12/14/16/20/24で粒子数・融合回数・質量比・スピン・半径がすべて完全一致し、変わるのは減光の0.920/0.589/0.421/0.264/0.193だけ)。自転ゼロで始まった粒のスピンは最後には全部が同じ向きに揃う(創発モニタのスピン整列度0.000→1.000・塊の数166→2・最大塊の質量比0.994・回転支持比V/σ=10.9)。運動量・角運動量(A13/T7)はリザーバ帳簿ゼロのまま厳密に閉じる(モニタ表示・9000步で|ΔL|/L_scale=6.7e-7)。※創発の標準試験(第83便A・詳細はdocs/PHYSICS.md「創発水準と標準試験」): この現象には多seed・粒子数スケーリング・摂動回復・時間窓の4試験を通してある。【多seed16】20260806〜20260821の16seedで最大天体の質量比は18.3〜53.3%(中央34.7%)に分布し、16seedすべてで18.3%以上になる — 融合を切った対照は全seedで0.56%(=1/180が厳密に保たれる。融合が無ければ質量は動かない)なので、最小でも対照の33倍である。同じ16seedで最大塊の質量比0.972〜1.000・スピン整列度0.985〜1.000・回転支持比V/σ 3.1〜20.8・中心の減光0.472〜0.919・周囲0.126〜0.235・J_core 0.0660〜0.1920(種33〜96個ぶん)・束縛率0.43〜1.00・残り体数17〜37体(融合143〜163回)、NaNもclampもゼロで|ΔL|/L_scaleは最大6e-6。中心と周囲の減光コントラストは2.41〜5.30倍(中央4.07)、対照は0.40〜1.26倍(中央1.17)で16seedを通して一度も重ならない — このあとの(a)で「暗さ単独では融合の有無を判別しない」と記す点について、正しい判別量がこのコントラストの方だということが16seedで裏づけられた。【粒子数スケーリング】n=90/180/360(代表3seed)で質量比の中央値は12.2/26.7/31.7%、最大塊の質量比は0.944/0.994/1.000、整列度はどれも1.000 — 現象は特定の粒子数でだけ立つ離散模様ではない。ただし本サンプルは円盤半径と1粒の質量を固定してnを振るので、nは同時に総質量(=自己重力の強さ)でもある: n=90はGを半分にしたのと同じ側に効き、「対照の10倍」という基準は3seed中2seedでしか満たさない(7.0/11.0/22.0倍)— これも正直な記録として残す。【摂動回復】構造ができたt=120(7500步)で全粒子の速度に平均を差し引いたガウスノイズ(速さRMSの30%・系の全運動量は保存)を入れても、最大塊の質量比・整列度・中心天体の質量比は1つも動かない。この構造は速度の乱れでは壊れず、掃引すると壊れ始めるのは速さRMSの2倍から(15000步で最大塊0.994→0.811、4倍で0.583)。乱れて戻るのは回転支持比V/σ(28〜33%落ちて10步=Δt0.16で復帰)と束縛率(最大11%落ちて200步で復帰)。整列度は速度ノイズでは定義上動かないので、粒子の約半数のスピンを反転させる摂動を別に入れた: 整列度は1.000から−0.907/−0.800/−0.232まで壊れるのに10步(Δt=0.16)で0.976以上へ戻り、反転させた中心天体自身のスピンも10〜200步で正へ復帰する — 揃った回転は「一回限りの配置」ではなく、接触摩擦(E9)と引きずり(A8/E6′)が毎步維持している到達点である。【時間窓】塊は1500步(t=24)でひとつにまとまり、整列度は2000步(t=32)で0.99を超え、質量比は2000〜3000步(t=32〜48)で最終値の90%に達してそこから飽和する。9000步(=validT 144)と18000步の質量比の差は0.0000で、validTは立ち上がりが終わった安定域の内側にある。これら4試験と第82便Bのノックアウト・用量反応を合わせた6試験を通したので、E水準はE2(閉鎖系の創発)からE3(多seed・粒子数変更・摂動回復で頑健性を確認した創発)へ上げてある。実測ハーネス: tests/exp-4-85.mjs。※立たなかった主張も正直に記す: (a)暗さそのものは融合の有無を判別しない — 融合を切った対照でも、180粒が密集した山の中心はlS_eff=0.999まで暗くなる(暗さを決めるのは井戸の深さであって成長経路ではない)。判別するのは「中心が暗く周囲は明るい」というコントラストの方で、対照では周囲も平均0.834まで暗い。(b)引きずりkFrame=0の対照は外縁の回転に系統差を作らない(生き残りが中心へ集まって外縁帯の統計が立たず、差はseed幅に埋もれる)— 本サンプルは引きずりの主張をしない。(c)融合閾値dFracの用量反応は単調ではない(0.7/0.6/0.5/0.35→26.7/47.8/43.3/23.3%)。実在の銀河・ダークマター・星形成の再現を主張するものではない(Negative Claims 1/2)。",
+    observe:"実測(seed 20260806・18000步=t288〔c₀=30 相似単位 — 第97便で全面再実測〕): 180粒が146回の融合を経て34体になり、いちばん重い1体が全質量の27.2%(m=49)を占める中心天体に育つ。束縛率は0.94。融合を切った対照では最大天体は最初の1粒のまま(質量比0.56%)で束縛率も0.15 — 中心天体は初期条件ではなく融合則の生成物である。原因が自己重力であることは用量反応で分離した: Gだけを0.5/1/1.5/2/3(旧単位 2/4/6/8/12 の×k²)と振ると質量比は1.1/7.8/18.9/27.2/57.8%(融合は2/47/112/146/161回)と単調に増える。コアの角運動量J_coreは融合継承の経路だけで貯まる: 中心天体のJ_coreは0.0490で、これは種49個ぶんちょうど、飲み込んだ質量49と1粒単位で一致する(継承則の総和がそのまま個数を数えている)。系全体のΣJ_coreは0.1800(=180粒×0.0010)のまま最後まで変わらず、コア種を外した対照ではJ_coreは恒等的に0になる(継承以外の生成経路が無い)。暗さも育つ: 実効減光lS_eff(A11/E8R — 自転で自分の光を掃き出す度合い)はt=0で0.000、走行後は中心天体は0.818まで暗くなるのに対し周囲の天体は平均0.192のままで、「暗い中心+明るい周辺」が生成する(コントラスト4.3倍)。この暗さは井戸の深さψ=W/Ktだけで決まり力学には一切効かない(実測: Kt 12/14/16/20/24で粒子数・融合回数・質量比・スピン・半径がすべて完全一致し、変わるのは減光の1.000/0.818/0.574/0.349/0.251だけ)。自転ゼロで始まった粒のスピンは最後には全部が同じ向きに揃う(創発モニタのスピン整列度0.000→1.000・塊の数166→2・最大塊の質量比0.994・回転支持比V/σ=11.2)。運動量・角運動量(A13/T7)はリザーバ帳簿ゼロのまま厳密に閉じる(モニタ表示・18000步で|ΔL|/L_scale=3.5e-6)。※創発の標準試験(第83便A・詳細はdocs/PHYSICS.md「創発水準と標準試験」): この現象には多seed・粒子数スケーリング・摂動回復・時間窓の4試験を通してある。【多seed16】20260806〜20260821の16seedで最大天体の質量比は16.7〜47.8%(中央26.7%)に分布し、16seedすべてで16.7%以上になる — 融合を切った対照は全seedで0.56%(=1/180が厳密に保たれる。融合が無ければ質量は動かない)なので、最小でも対照の30倍である。同じ16seedで最大塊の質量比0.978〜1.000・スピン整列度は全seedで1.000・回転支持比V/σ 4.1〜22.0・中心の減光0.513〜1.000・周囲0.156〜0.220・J_core 0.0300〜0.0860(種30〜86個ぶん)・束縛率0.49〜0.94・残り体数26〜42体(融合138〜154回)、NaNもclampもゼロで|ΔL|/L_scaleは最大1.4e-5。中心と周囲の減光コントラストは2.59〜5.41倍(中央4.11)、対照は0.36〜1.26倍(中央1.16)で16seedを通して一度も重ならない — このあとの(a)で「暗さ単独では融合の有無を判別しない」と記す点について、正しい判別量がこのコントラストの方だということが16seedで裏づけられた。【粒子数スケーリング】n=90/180/360(代表3seed)で質量比の中央値は17.8/22.8/37.5%、最大塊の質量比は0.933/0.994/1.000、整列度の中央値はどれも1.000 — 現象は特定の粒子数でだけ立つ離散模様ではない。ただし本サンプルは円盤半径と1粒の質量を固定してnを振るので、nは同時に総質量(=自己重力の強さ)でもある: n=90はGを半分にしたのと同じ側に効き、「対照の10倍」という基準は3seed中2seedでしか満たさない(2.0/16.0/20.0倍)— これも正直な記録として残す。【摂動回復】構造ができたt=240(15000步)で全粒子の速度に平均を差し引いたガウスノイズ(速さRMSの30%・系の全運動量は保存)を入れても、最大塊の質量比・整列度・中心天体の質量比は1つも動かない。この構造は速度の乱れでは壊れず、掃引すると壊れ始めるのは速さRMSの4倍から(30000步で最大塊0.994→0.861。2倍までは0.994のまま)。乱れて戻るのは回転支持比V/σ(39〜61%落ちて20〜100步で復帰)と束縛率(最大15%落ちて20〜50步で復帰 — 1seedは測定窓内で復帰基準に届かない)。整列度は速度ノイズでは定義上動かないので、粒子の約半数のスピンを反転させる摂動を別に入れた: 整列度は1.000から0.531/−0.212/0.084まで壊れても20步(Δt=0.32)で復帰し、反転させた中心天体自身のスピンも20〜50步で正へ復帰する — 揃った回転は「一回限りの配置」ではなく、接触摩擦(E9)と引きずり(A8/E6′)が毎步維持している到達点である。【時間窓】塊は3000步(t=48)でひとつにまとまり、整列度は4000〜5000步(t=64〜80)で0.99を超え、質量比は4000〜6000步(t=64〜96)で最終値の90%に達してそこから飽和する。18000步(=validT 288)と36000步の質量比の差は最大0.6ポイントで、validTは立ち上がりが終わった安定域の内側にある。これら4試験と第82便Bのノックアウト・用量反応を合わせた6試験を通したので、E水準はE2(閉鎖系の創発)からE3(多seed・粒子数変更・摂動回復で頑健性を確認した創発)へ上げてある。実測ハーネス: tests/exp-4-85.mjs。※立たなかった主張も正直に記す: (a)暗さそのものは融合の有無を判別しない — 融合を切った対照でも、180粒が密集した山の中心はlS_eff=0.999まで暗くなる(暗さを決めるのは井戸の深さであって成長経路ではない)。判別するのは「中心が暗く周囲は明るい」というコントラストの方で、対照では周囲も平均0.837まで暗い。(b)引きずりkFrame=0の対照は外縁の回転に系統差を作らない(生き残りが中心へ集まって外縁帯の統計が立たず、差はseed幅に埋もれる)— 本サンプルは引きずりの主張をしない。(c)融合閾値dFracの用量反応(0.7/0.6/0.5/0.35→27.2/37.2/53.9/53.9%)は今回の実現では0.5以下で飽和する単調形 — 旧世代の実測(26.7/47.8/43.3/23.3%)は非単調だった: 用量反応の形そのものが丸めの実現に敏感な量であることを正直な記録として残す。実在の銀河・ダークマター・星形成の再現を主張するものではない(Negative Claims 1/2)。",
     control:"おすすめA/B: Ktを24に上げると井戸が浅くなり中心の暗さが0.589→0.193まで薄れる(力学は1ビットも変わらない)。Gを4に下げると成長がほぼ止まり、同じ9000步でも中心天体は質量比6.1%までしか育たない。右下の「創発モニタ」で塊の数・最大塊の質量比・スピン整列度・回転支持比V/σの時系列が読める。"},
   en:{name:"Self-Assembling Dark Rotor — A Dark Center Grown from Seeds", descStruct:{
     summary:"A sample where a heavy, dark, spinning centre grows all by itself out of a plain cloud of grains with nothing built in. All that is placed is a uniform disk of 180 grains (identical mass 1, zero spin, all free), a slow overall rotation of the cloud (ω₀=0.008), and one identical tiny core seed inside every grain (5% of its mass, radius 0.2, Ω_c=2). No central body, no dark core and no halo appear anywhere in the initial conditions — the only things at work are self-gravity (E4), contact (E9), fusion (two grains that come within d<0.7·(R_i+R_j) of each other become one) and the inheritance rule that adds their cores up by the conservation laws (M_c′=M_c,i+M_c,j, R_c′=√(R_c,i²+R_c,j²), J_c′=J_c,i+J_c,j). There are no pinned bodies, no boundary, no uniform gravity and no thermal walls, and the system's centre of mass and its velocity are zeroed once at build time (a closed system). ",
-    observe:"Measured (seed 20260806, 9000 steps = t144): 180 grains go through 155 fusions down to 25 bodies, and the heaviest single body grows into a centre holding 26.7% of the total mass (m=48). The bound fraction is 0.75. In the control with fusion switched off the largest body stays the original single grain (mass fraction 0.56%) and the bound fraction is only 0.14 — the central body is a product of the fusion rule, not of the initial conditions. That self-gravity is the cause was isolated by a dose–response: varying only G over 2/4/6/8/12 moves the mass fraction monotonically through 1.7/6.1/12.8/26.7/44.4% (7/62/125/155/173 fusions). The core angular momentum J_core accumulates through the inheritance path and nothing else: the centre's J_core is 0.0960, which is exactly 48 seeds' worth and matches the mass 48 it swallowed grain for grain (the sum in the inheritance rule literally counts them). The system-wide ΣJ_core stays at 0.3600 (=180 grains × 0.0020) to the end, and in the control with the core seeds removed J_core is identically 0 — there is no source other than inheritance. The darkness grows too: the effective dimming lS_eff (A11/E8R — how much of its own light a body sweeps out by spinning) is 0.000 at t=0, and by 9000 steps the central body has dimmed to 0.589 while the bodies around it stay at 0.159 on average — a dark centre with a bright surround is generated (a contrast of 3.7). That darkness is set purely by the depth of the well ψ=W/Kt and never enters the dynamics (measured: at Kt 12/14/16/20/24 the particle count, fusion count, mass fraction, spin and radius are all identical to the last bit, and only the dimming changes: 0.920/0.589/0.421/0.264/0.193). The grains start with zero spin and end up unanimously co-rotating (emergence monitor: spin alignment 0.000→1.000, clump count 166→2, largest-clump mass fraction 0.994, rotation support V/σ=10.9). Momentum and angular momentum (A13/T7) close exactly with all reservoir ledgers at zero (see the monitor; |ΔL|/L_scale = 6.7e-7 over the 9000 steps). Standard emergence tests (Wave 83A; see docs/PHYSICS.md §Emergence levels and the standard tests): this phenomenon has been put through four further tests — many seeds, particle-count scaling, perturbation recovery and the time window. [Many seeds, 16] Over seeds 20260806–20260821 the largest body's mass fraction spans 18.3–53.3% (median 34.7%) and is at least 18.3% in every one of the 16 — while the no-fusion control sits at 0.56% for every seed (exactly 1/180: without fusion no mass ever moves), so even the worst seed is 33 times the control. Over the same 16 seeds: largest-clump mass fraction 0.972–1.000, spin alignment 0.985–1.000, rotation support V/σ 3.1–20.8, central dimming 0.472–0.919, surround 0.126–0.235, J_core 0.0660–0.1920 (33–96 seeds' worth), bound fraction 0.43–1.00, 17–37 bodies left (143–163 fusions), no NaN, no clamping, and |ΔL|/L_scale at most 6e-6. The dimming contrast (centre over surround) is 2.41–5.30 (median 4.07) in the main runs against 0.40–1.26 (median 1.17) in the controls, and the two never overlap across the 16 seeds — which confirms, over many seeds, that the discriminating quantity is this contrast and not the darkness on its own (see (a) below). [Particle-count scaling] At n=90/180/360 (3 representative seeds) the median mass fraction is 12.2/26.7/31.7%, the largest-clump mass fraction 0.944/0.994/1.000, and the alignment 1.000 in every case — the phenomenon is not a discrete artefact of one particular particle count. Note honestly, though, that this sample keeps the disk radius and the per-grain mass fixed while varying n, so n is also the total mass (= the strength of self-gravity): n=90 acts like halving G, and the ten-times-the-control bar is met by only 2 of the 3 seeds there (ratios 7.0/11.0/22.0). [Perturbation recovery] Injecting Gaussian velocity noise into every grain once the structure has formed, at t=120 (step 7500), with the mass-weighted mean subtracted so the total momentum is preserved and at 30% of the speed RMS, moves neither the largest-clump mass fraction, nor the alignment, nor the central body's mass fraction at all. This structure is not broken by velocity disorder; sweeping the amplitude, it only starts to break at twice the speed RMS (largest clump 0.994→0.811 by step 15000) and at four times (0.583). What does get disturbed and then returns is the rotation support V/σ (down 28–33%, back within 10 steps = Δt 0.16) and the bound fraction (down at most 11%, back within 200 steps). Alignment is by definition untouched by velocity noise, so a separate perturbation was applied that flips the spin of about half the grains: the alignment is driven from 1.000 down to −0.907/−0.800/−0.232 and climbs back above 0.976 within 10 steps (Δt=0.16), with the flipped central body's own spin returning to positive within 10–200 steps — the co-rotating state is not a one-off configuration but an attractor that contact friction (E9) and dragging (A8/E6′) maintain at every step. [Time window] The clumps merge into one by step 1500 (t=24), the alignment passes 0.99 by step 2000 (t=32), and the mass fraction reaches 90% of its final value between steps 2000 and 3000 (t=32–48) and then saturates; the mass fraction at step 9000 (= validT 144) and at step 18000 differ by 0.0000, so validT sits inside the stable window past the rise. With these four tests on top of the knockouts and dose–responses of Wave 82B — six in all — the emergence level has been raised from E2 (emergence in a closed system) to E3 (emergence with robustness confirmed across seeds, particle counts and perturbations). Measurement harness: tests/exp-4-85.mjs. What did NOT hold, recorded honestly: (a) darkness on its own does not discriminate fusion from no fusion — in the no-fusion control the centre of the 180-grain pile also dims to lS_eff=0.999 (darkness is set by the depth of the well, not by the growth path). What does discriminate is the contrast, dark centre against bright surround: in the control the surround dims to 0.834 as well. (b) The kFrame=0 control produces no systematic difference in the outer rotation (the survivors concentrate at the centre so the outer annulus has no statistics, and the difference is buried in the seed spread) — this sample makes no dragging claim. (c) The dose–response in the fusion threshold dFrac is not monotonic (0.7/0.6/0.5/0.35 → 26.7/47.8/43.3/23.3%). Not a claim to reproduce real galaxies, dark matter or star formation (Negative Claims 1/2). ",
+    observe:"Measured (seed 20260806, 18000 steps = t288 in the c₀=30 similarity units — fully re-measured in wave 97): 180 grains go through 146 fusions down to 34 bodies, and the heaviest single body grows into a centre holding 27.2% of the total mass (m=49). The bound fraction is 0.94. In the control with fusion switched off the largest body stays the original single grain (mass fraction 0.56%) and the bound fraction is only 0.15 — the central body is a product of the fusion rule, not of the initial conditions. That self-gravity is the cause was isolated by a dose–response: varying only G over 0.5/1/1.5/2/3 (the old 2/4/6/8/12 scaled by k²) moves the mass fraction monotonically through 1.1/7.8/18.9/27.2/57.8% (7/62/125/155/173 fusions). The core angular momentum J_core accumulates through the inheritance path and nothing else: the centre's J_core is 0.0490, which is exactly 49 seeds' worth and matches the mass 49 it swallowed grain for grain (the sum in the inheritance rule literally counts them). The system-wide ΣJ_core stays at 0.1800 (=180 grains × 0.0010) to the end, and in the control with the core seeds removed J_core is identically 0 — there is no source other than inheritance. The darkness grows too: the effective dimming lS_eff (A11/E8R — how much of its own light a body sweeps out by spinning) is 0.000 at t=0, and after the run the central body has dimmed to 0.818 while the bodies around it stay at 0.192 on average — a dark centre with a bright surround is generated (a contrast of 4.3). That darkness is set purely by the depth of the well ψ=W/Kt and never enters the dynamics (measured: at Kt 12/14/16/20/24 the particle count, fusion count, mass fraction, spin and radius are all identical to the last bit, and only the dimming changes: 1.000/0.818/0.574/0.349/0.251). The grains start with zero spin and end up unanimously co-rotating (emergence monitor: spin alignment 0.000→1.000, clump count 166→2, largest-clump mass fraction 0.994, rotation support V/σ=11.2). Momentum and angular momentum (A13/T7) close exactly with all reservoir ledgers at zero (see the monitor; |ΔL|/L_scale = 3.5e-6 over the 9000 steps). Standard emergence tests (Wave 83A; see docs/PHYSICS.md §Emergence levels and the standard tests): this phenomenon has been put through four further tests — many seeds, particle-count scaling, perturbation recovery and the time window. [Many seeds, 16] Over seeds 20260806–20260821 the largest body's mass fraction spans 16.7–47.8% (median 26.7%) and is at least 16.7% in every one of the 16 — while the no-fusion control sits at 0.56% for every seed (exactly 1/180: without fusion no mass ever moves), so even the worst seed is 30 times the control. Over the same 16 seeds: largest-clump mass fraction 0.978–1.000, spin alignment 1.000 in every seed, rotation support V/σ 4.1–22.0, central dimming 0.513–1.000, surround 0.156–0.220, J_core 0.0300–0.0860 (30–86 seeds' worth), bound fraction 0.49–0.94, 26–42 bodies left (138–154 fusions), no NaN, no clamping, and |ΔL|/L_scale at most 1.4e-5. The dimming contrast (centre over surround) is 2.59–5.41 (median 4.11) in the main runs against 0.36–1.26 (median 1.16) in the controls, and the two never overlap across the 16 seeds — which confirms, over many seeds, that the discriminating quantity is this contrast and not the darkness on its own (see (a) below). [Particle-count scaling] At n=90/180/360 (3 representative seeds) the median mass fraction is 17.8/22.8/37.5%, the largest-clump mass fraction 0.933/0.994/1.000, and the alignment 1.000 in every case — the phenomenon is not a discrete artefact of one particular particle count. Note honestly, though, that this sample keeps the disk radius and the per-grain mass fixed while varying n, so n is also the total mass (= the strength of self-gravity): n=90 acts like halving G, and the ten-times-the-control bar is met by only 2 of the 3 seeds there (ratios 2.0/16.0/20.0). [Perturbation recovery] Injecting Gaussian velocity noise into every grain once the structure has formed, at t=240 (step 15000), with the mass-weighted mean subtracted so the total momentum is preserved and at 30% of the speed RMS, moves neither the largest-clump mass fraction, nor the alignment, nor the central body's mass fraction at all. This structure is not broken by velocity disorder; sweeping the amplitude, it only starts to break at four times the speed RMS (largest clump 0.994→0.861 by step 30000; up to twice it stays at 0.994). What does get disturbed and then returns is the rotation support V/σ (down 39–61%, back within 20–100 steps) and the bound fraction (down at most 15%, back within 20–50 steps — one seed misses the recovery criterion inside the measured window). Alignment is by definition untouched by velocity noise, so a separate perturbation was applied that flips the spin of about half the grains: the alignment is driven from 1.000 down to 0.531/−0.212/0.084 and recovers within 20 steps (Δt=0.32), with the flipped central body's own spin returning to positive within 20–50 steps — the co-rotating state is not a one-off configuration but an attractor that contact friction (E9) and dragging (A8/E6′) maintain at every step. [Time window] The clumps merge into one by step 3000 (t=48), the alignment passes 0.99 by steps 4000–5000 (t=64–80), and the mass fraction reaches 90% of its final value between steps 4000 and 6000 (t=64–96) and then saturates; the mass fraction at step 18000 (= validT 288) and at step 36000 differ by at most 0.6 points, so validT sits inside the stable window past the rise. With these four tests on top of the knockouts and dose–responses of Wave 82B — six in all — the emergence level has been raised from E2 (emergence in a closed system) to E3 (emergence with robustness confirmed across seeds, particle counts and perturbations). Measurement harness: tests/exp-4-85.mjs. What did NOT hold, recorded honestly: (a) darkness on its own does not discriminate fusion from no fusion — in the no-fusion control the centre of the 180-grain pile also dims to lS_eff=0.999 (darkness is set by the depth of the well, not by the growth path). What does discriminate is the contrast, dark centre against bright surround: in the control the surround dims to 0.837 as well. (b) The kFrame=0 control produces no systematic difference in the outer rotation (the survivors concentrate at the centre so the outer annulus has no statistics, and the difference is buried in the seed spread) — this sample makes no dragging claim. (c) The dose–response in the fusion threshold dFrac (0.7/0.6/0.5/0.35 → 27.2/37.2/53.9/53.9%) is monotone in this realization, saturating at 0.5 and below — in the previous generation it measured non-monotonic (26.7/47.8/43.3/23.3%): the very shape of this dose curve is sensitive to the rounding realization, recorded honestly. Not a claim to reproduce real galaxies, dark matter or star formation (Negative Claims 1/2). ",
     control:"Suggested A/B: raise Kt to 24 and the well gets shallower, fading the central darkness from 0.589 to 0.193 (the dynamics do not change by a single bit). Drop G to 4 and the growth all but stops — in the same 9000 steps the centre only reaches a mass fraction of 6.1%. The Emergence monitor at the lower right plots the clump count, largest-clump mass fraction, spin alignment and rotation support V/σ over time."}},
   activeParams:["G","Kt","kFrame"],
   // 第83便B: 相図ランナー(2変数バッチ掃引 → 秩序変数の色マップ)。宣言専用・物理には一切影響しない。
@@ -3942,8 +3938,8 @@ const BUILTIN_PRESETS = [
       descPattern:"半径ドリフト(\\d+\\.\\d+)%", testId:"behavior.earthMoon" }
   ],
   camera:{scale:220}, world:{boundary:"none",size:0},
-  physics:{G:0.09, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
-    cLight:30, contactK:3.6, contactCap:0.72, bM:0.09, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.5 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:16},
+  physics:{G:1, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
+    cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.5 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:5},
   bodies:[ // 第15便: 公転版(v=1.063×軟化ケプラー値の実測較正・地球 pinned の展示系 —
            // 自由二体は D0 リザーバ移譲で重心漂流のため。詳細はロードマップ)。
            // 第16便(第17次レビュー 推奨A): コアを観測値へ — 地球 mc/m=0.325(PREM 32.5%)・
@@ -3955,9 +3951,9 @@ const BUILTIN_PRESETS = [
     // 半径は旧既定写像 Rc=radiusScale·rMul·√|mc/m·m| の値をそのまま絶対量として持たせた
     // (1.5·√(0.325·1000)=27.0416 / 1.5·√(0.0168·12.3)=0.68187)。rigid は A8 差動も2層減光も
     // 持たないので、移行前後で**1步 bit 一致**(QA legacy.core-migration が機械固定)
-    {type:"single", rMul:1.5, m:1000, x:0,y:0, vx:0,vy:0, spin:0.015, pinned:true,
+    {type:"single", rMul:1.5, m:1000, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true,
      core:{mode:"rigid", massFrac:0.325, radius:27.04163456597992}},
-    {type:"single", rMul:1.5, m:12.3, x:180,y:0, vx:0,vy:0.75159, spin:0.0041724, pinned:false,
+    {type:"single", rMul:1.5, m:12.3, x:180,y:0, vx:0,vy:2.5053, spin:0.013908, pinned:false,
      core:{mode:"rigid", massFrac:0.0168, radius:0.6818650892955291}}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
@@ -3992,8 +3988,8 @@ const BUILTIN_PRESETS = [
       descPattern:"同期誤差 (\\d+\\.\\d+)°/周", testId:"behavior.earthMoonFree" }
   ],
   camera:{scale:220}, world:{boundary:"none",size:0},
-  physics:{G:0.09, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
-    cLight:30, contactK:3.6, contactCap:0.72, bM:0.09, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.5 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:16},
+  physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
+    cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.5 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:5},
   bodies:[ // 第16便(第17次レビュー 推奨B — ChatGPT §7 の導出値を実エンジンで追認):
            // 重心座標 xE=−D·mM/MT・xM=+D·mE/MT(D=180)、全運動量0の速度配分、
            // vRel=√[G·MT·D²/(D²+ε²)^1.5]=2.371254(kFrame=0 なので f 補正不要)。
@@ -4002,9 +3998,9 @@ const BUILTIN_PRESETS = [
            // 粒子の並び: 0=地球, 1=月
     // 第81便: コアv1 → コアv2(mode:"rigid")へ移行。半径は旧既定写像の値そのまま
     // (1.5·√(0.325·1000)=27.0416 / 1.5·√(0.0168·12.300037)=0.68187)。移行前後で 1步 bit 一致
-    {type:"single", rMul:1.5, m:1000, x:-2.187105191,y:0, vx:0,vy:-0.00864364, spin:0.108273, pinned:false,
+    {type:"single", rMul:1.5, m:1000, x:-2.187105191,y:0, vx:0,vy:-0.028812128, spin:0.360911060, pinned:false,
      core:{mode:"rigid", massFrac:0.325, radius:27.04163456597992}},
-    {type:"single", rMul:1.5, m:12.300037, x:177.812894809,y:0, vx:0,vy:0.702733, spin:0.00395209, pinned:false,
+    {type:"single", rMul:1.5, m:12.300037, x:177.812894809,y:0, vx:0,vy:2.342442349, spin:0.013173636, pinned:false,
      core:{mode:"rigid", massFrac:0.0168, radius:0.6818661148642011}}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
@@ -4038,8 +4034,8 @@ const BUILTIN_PRESETS = [
       testId:"behavior.saturn-kframe-control" }
   ],
   camera:{scale:340}, world:{boundary:"none",size:0},
-  physics:{G:0.25, D0:2, kFrame:1, q:2, kRep:1.2, muF:0.2, gammaN:0.15, kappaS:0.04, Kt:3600,
-    cLight:30, contactK:10, contactCap:2, bM:0.25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.8 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:6},
+  physics:{G:1, D0:2, kFrame:1, q:2, kRep:1.2, muF:0.2, gammaN:0.15, kappaS:0.08, Kt:3600,
+    cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.8 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:3},
   bodies:[ // 原仮定者裁定(2026-07-22): physics は実機確認済みの調整版セーブ — kFrame=1(空間
            // 引きずりが無いと DFM サンプルの意義が薄い)・kRep=1.2・kappaS=0.08・Kt=3600(物理対応
            // ロック成立値)。第4便: 初期配置を t=300〜600 の実測安定分布に再設計(v1.24 の流儀)。
@@ -4052,13 +4048,13 @@ const BUILTIN_PRESETS = [
            // 帯ごとの粒子比(1:2:1)・physics は一切変えていない** — 変えたのは各帯の n だけで、
            // 方位角は ang=(i/n)·2π ジッタ付きなので帯は等方のまま(面密度だけが 20% 下がる)。
            // timeScale=3 は据え置き(裁定)。閾値の再較正実測は QA behavior.saturnExp を参照。
-    {type:"single", rMul:1.8, m:1500, x:0,y:0, vx:0,vy:0, spin:0.025, pinned:true},
+    {type:"single", rMul:1.8, m:1500, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true},
     {type:"ring", rMul:1.8, n:60, cx:0,cy:0, rIn:104,rOut:132, mMin:0.01,mMax:0.03,
-     spinMin:0,spinMax:0.125, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.005, direction:1, pinned:false},
+     spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false},
     {type:"ring", rMul:1.8, n:120, cx:0,cy:0, rIn:132,rOut:190, mMin:0.01,mMax:0.03,
-     spinMin:0,spinMax:0.125, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.005, direction:1, pinned:false},
+     spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false},
     {type:"ring", rMul:1.8, n:60, cx:0,cy:0, rIn:190,rOut:212, mMin:0.01,mMax:0.03,
-     spinMin:0,spinMax:0.125, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.005, direction:1, pinned:false}
+     spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
@@ -4092,8 +4088,8 @@ const BUILTIN_PRESETS = [
       descPattern:"コア半径比 Rc/R=(\\d+)%", testId:"core.twolayer" }
   ],
   camera:{scale:340}, world:{boundary:"none",size:0},
-  physics:{G:0.25, D0:2, kFrame:1, q:2, kRep:1.2, muF:0.2, gammaN:0.15, kappaS:0.04, Kt:3600,
-    cLight:30, contactK:10, contactCap:2, bM:0.25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.8 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:6},
+  physics:{G:1, D0:2, kFrame:1, q:2, kRep:1.2, muF:0.2, gammaN:0.15, kappaS:0.08, Kt:3600,
+    cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.8 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:3},
   bodies:[ // 第81便: コアv1(比率仕様)→ コアv2(J_core 主変数)へ移行。m は総質量のまま。
            // 値は第15次レビュー 推奨A の写し: Mc/m=0.18(重元素集中≈18%・Rc/R=√0.18=42.4%は
            // モデル内既定写像の値で観測半径ではない — 第39便 原仮定者指示 C4-1 修正)。
@@ -4108,14 +4104,14 @@ const BUILTIN_PRESETS = [
            // 第40便 40C(台帳4-82): 🪐 と同時に環粒子 300→240(60/120/60)へ削減。
            // 「環の帯は 🪐 と同一」の不変条件を保つため、必ず 🪐 と同じ n で維持すること
            // (QA core.twolayer が差動0での厳密等価を機械検証している)。
-    {type:"single", rMul:1.8, m:1500, x:0,y:0, vx:0,vy:0, spin:0.025, pinned:true,
-     core:{mode:"differential", massFrac:0.18, radius:29.57701810527897, omega:0.02625, Kcs:0}},
+    {type:"single", rMul:1.8, m:1500, x:0,y:0, vx:0,vy:0, spin:0.05, pinned:true,
+     core:{mode:"differential", massFrac:0.18, radius:29.57701810527897, omega:0.0525, Kcs:0}},
     {type:"ring", rMul:1.8, n:60, cx:0,cy:0, rIn:104,rOut:132, mMin:0.01,mMax:0.03,
-     spinMin:0,spinMax:0.125, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.005, direction:1, pinned:false},
+     spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false},
     {type:"ring", rMul:1.8, n:120, cx:0,cy:0, rIn:132,rOut:190, mMin:0.01,mMax:0.03,
-     spinMin:0,spinMax:0.125, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.005, direction:1, pinned:false},
+     spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false},
     {type:"ring", rMul:1.8, n:60, cx:0,cy:0, rIn:190,rOut:212, mMin:0.01,mMax:0.03,
-     spinMin:0,spinMax:0.125, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.005, direction:1, pinned:false}
+     spinMin:0,spinMax:0.25, vMode:"kepler", aroundMass:1500, omega:0, vNoise:0.01, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
@@ -4145,8 +4141,8 @@ const BUILTIN_PRESETS = [
       descPattern:"較正係数 C=(\\d+\\.\\d+)", testId:"zonal.d68-preset" }
   ],
   camera:{scale:300}, world:{boundary:"none",size:0},
-  physics:{G:0.25, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
-    cLight:30, contactK:10, contactCap:2, bM:0.25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:1, lambdaPN:0, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:6},
+  physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
+    cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:1, lambdaPN:0, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:3},
   bodies:[ // 第11次裁定 保留分(v1.29): 中心に Cassini 重力解 J2〜J12(基準半径 R_S=100 sim units)+
            // calib=1.000302283(D68 精密較正)。テスト粒子は e=0.05・近点+x方向で整列
            // (r_p=a(1−e), v_p=√[μ(1+e)/r_p], μ=G·M=1500)。DFM 効果(kFrame/kRep/muF/γN)は 0 に
@@ -4155,16 +4151,16 @@ const BUILTIN_PRESETS = [
     {type:"single", rMul:1.2, m:1500, x:0,y:0, vx:0,vy:0, spin:0, pinned:true,
      zonal:{refR:100, calib:1.000302283, J:{2:0.016290573, 4:-0.000935314, 6:0.000086340,
             8:-0.000014624, 10:0.000004672, 12:-0.000000997}}},
-    {type:"single", rMul:1.2, m:0.05, x:102.60,y:0, vx:0,vy:1.959, spin:0, pinned:false},
-    {type:"single", rMul:1.2, m:0.05, x:110.20,y:0, vx:0,vy:1.89025, spin:0, pinned:false},
-    {type:"single", rMul:1.2, m:0.05, x:119.70,y:0, vx:0,vy:1.8137, spin:0, pinned:false},
-    {type:"single", rMul:1.2, m:0.05, x:131.10,y:0, vx:0,vy:1.73305, spin:0, pinned:false},
-    {type:"single", rMul:1.2, m:0.05, x:144.40,y:0, vx:0,vy:1.6513, spin:0, pinned:false},
-    {type:"single", rMul:1.2, m:0.05, x:159.60,y:0, vx:0,vy:1.5707, spin:0, pinned:false},
-    {type:"single", rMul:1.2, m:0.05, x:176.70,y:0, vx:0,vy:1.49275, spin:0, pinned:false},
-    {type:"single", rMul:1.2, m:0.05, x:195.70,y:0, vx:0,vy:1.41845, spin:0, pinned:false},
-    {type:"single", rMul:1.2, m:0.05, x:216.60,y:0, vx:0,vy:1.3483, spin:0, pinned:false},
-    {type:"single", rMul:1.2, m:0.05, x:239.40,y:0, vx:0,vy:1.28245, spin:0, pinned:false}
+    {type:"single", rMul:1.2, m:0.05, x:102.60,y:0, vx:0,vy:3.9180, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:0.05, x:110.20,y:0, vx:0,vy:3.7805, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:0.05, x:119.70,y:0, vx:0,vy:3.6274, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:0.05, x:131.10,y:0, vx:0,vy:3.4661, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:0.05, x:144.40,y:0, vx:0,vy:3.3026, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:0.05, x:159.60,y:0, vx:0,vy:3.1414, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:0.05, x:176.70,y:0, vx:0,vy:2.9855, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:0.05, x:195.70,y:0, vx:0,vy:2.8369, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:0.05, x:216.60,y:0, vx:0,vy:2.6966, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:0.05, x:239.40,y:0, vx:0,vy:2.5649, spin:0, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -4212,12 +4208,12 @@ const BUILTIN_PRESETS = [
     control:"Nudge one body's vx from 0.9028 to 0.92 and the periodicity shatters — the three-body problem's sensitivity to initial conditions."}},
   activeParams:["G","softening"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:140}, world:{boundary:"none",size:0},
-  physics:{G:0.25, D0:100, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
-    cLight:30, contactK:10, contactCap:2, bM:0.25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 0.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:0.5, timeScale:4},
+  physics:{G:1, D0:100, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:10000,
+    cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 0.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:0.5, timeScale:2},
   bodies:[ // v1.13(付録M): 第6次提案 P1-2 を内蔵化(有界性を機械検証済み)
-    {type:"single", rMul:0.2, m:300, x:-77.6003,y:19.447, vx:0.4514,vy:0.41865, spin:0, pinned:false},
-    {type:"single", rMul:0.2, m:300, x:77.6003,y:-19.447, vx:0.4514,vy:0.41865, spin:0, pinned:false},
-    {type:"single", rMul:0.2, m:300, x:0,y:0, vx:-0.9028,vy:-0.83725, spin:0, pinned:false}
+    {type:"single", rMul:0.2, m:300, x:-77.6003,y:19.447, vx:0.9028,vy:0.8373, spin:0, pinned:false},
+    {type:"single", rMul:0.2, m:300, x:77.6003,y:-19.447, vx:0.9028,vy:0.8373, spin:0, pinned:false},
+    {type:"single", rMul:0.2, m:300, x:0,y:0, vx:-1.8056,vy:-1.6745, spin:0, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -4235,14 +4231,14 @@ const BUILTIN_PRESETS = [
     control:"Set muF to 0 and the heating stops completely (mean spin 0.76 → 0.00 contrast)."}},
   activeParams:["muF","gammaN","etaRad"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:190}, world:{boundary:"none",size:0},
-  physics:{G:0.25, D0:5, kFrame:0, q:2, kRep:0, muF:1, gammaN:0.6, kappaS:0.01, Kt:10000,
-    cLight:30, contactK:10, contactCap:2, bM:0.25, etaRad:5e-06, pRad:2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 0.8 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:4},
+  physics:{G:1, D0:5, kFrame:0, q:2, kRep:0, muF:1, gammaN:0.6, kappaS:0.02, Kt:10000,
+    cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:1e-5, pRad:2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 0.8 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2},
   bodies:[ // v1.12(付録L): 第6次提案 P0-3 採用。muF=1/0 の加熱対照を機械検証済み
     {type:"single", rMul:0.8, m:800, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
     {type:"ring", rMul:0.8, n:100, cx:0,cy:0, rIn:80,rOut:145, mMin:0.12,mMax:0.18,
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:800, omega:0, vNoise:0.015, direction:1, pinned:false},
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:800, omega:0, vNoise:0.03, direction:1, pinned:false},
     {type:"ring", rMul:0.8, n:100, cx:0,cy:0, rIn:80,rOut:145, mMin:0.12,mMax:0.18,
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:800, omega:0, vNoise:0.015, direction:-1, pinned:false}
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:800, omega:0, vNoise:0.03, direction:-1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,spectrum:true} },
 
@@ -4276,7 +4272,7 @@ const BUILTIN_PRESETS = [
     control:"Suggested A/B: set the thermal repulsion kRep to 0 and the pushing pressure disappears, and the outflow returns toward isotropy (measured 54% — still well above the isotropic 1/3, so geometry and gravity keep contributing)."}},
   activeParams:["kRep","muF","gammaN","cHeat"],
   thermal:"tint",
-  validT:128,   // 第39便 39E(台帳4-75 E2): 説明文の実測窓(4000步=t≈64)と一致
+  validT:64,   // 第39便 39E(台帳4-75 E2): 説明文の実測窓(4000步=t≈64)と一致
   // 第40便 40B パイロット(台帳4-78・claims 新設キー — 表示なし・データ層のみ): 説明文中の
   // 既存実測値(極方向割合の既定/対照)をそのまま転記。control.patch は engine 未接続の記述用
   // メタデータ(UI表示・engine適用は次便裁定)。expected は実測値を含む窓で、QA claims.sync-pilot
@@ -4291,16 +4287,16 @@ const BUILTIN_PRESETS = [
       testId:"behavior.agnjet" }
   ],
   camera:{scale:320}, world:{boundary:"none",size:0}, seed:20260727,
-  physics:{G:0.25, D0:2, kFrame:0, q:2, kRep:2, muF:0.6, gammaN:0.05, kappaS:0.025, Kt:60,
-    cLight:30, contactK:10, contactCap:2, bM:0.25, etaRad:0, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
-    radiusScale:1, softening:3, timeScale:4},
+  physics:{G:1, D0:2, kFrame:0, q:2, kRep:2, muF:0.6, gammaN:0.05, kappaS:0.05, Kt:60,
+    cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:3, timeScale:2},
   bodies:[
     // 中心の「エンジン」(自由・減光 auto。半径18 は見た目の指定 — 質量由来の 44.7 は
     // ガス配置の除外半径として効く = 円盤の内縁が自然にできる)
-    {type:"single", rMul:1, m:2000, x:0,y:0, vx:0,vy:0, spin:1, radius:18, lightSweep:"auto", pinned:false, tInt:0},
+    {type:"single", rMul:1, m:2000, x:0,y:0, vx:0,vy:0, spin:2, radius:18, lightSweep:"auto", pinned:false, tInt:0},
     // 冷たいガスの帯(x方向に長く・y方向に薄く)
     {type:"box", rMul:4, n:340, cx:0,cy:0, w:560,h:14, mMin:0.05,mMax:0.05,
-     spinMin:0,spinMax:0, tInt:0.0025, vScale:0.025}
+     spinMin:0,spinMax:0, tInt:0.01, vScale:0.05}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"} },
 
@@ -4344,7 +4340,7 @@ const BUILTIN_PRESETS = [
     control:"Suggested A/B: set kRep to 1 and pressure holds the collapse back — the contraction drops from 3.06× to 2.59× and the spin-up from 8.50× to 4.26×."}},
   activeParams:["kRep","etaRad","G"],
   thermal:"tint",   // 第36便 D(台帳4-51): 温度は内部状態変数 T_int
-  validT:768,   // 第39便 39E(台帳4-75 E2): 実測(24000步=t≈384・3seed頑健性確認済み)の評価済み最大時間
+  validT:384,   // 第39便 39E(台帳4-75 E2): 実測(24000步=t≈384・3seed頑健性確認済み)の評価済み最大時間
   // 第42便 42A(台帳4-78 A案): claims — 説明文のコア収縮率・回転倍率・角運動量保存の一致率を
   // 機械可読化。窓は QA behavior.spinup の各閾値(shrink>=2.9・omX>=6.5・agree>=0.75)に直結させる
   claims:[
@@ -4359,12 +4355,12 @@ const BUILTIN_PRESETS = [
       descPattern:"実測は一致(\\d+\\.\\d+)%", testId:"behavior.spinup" }
   ],
   camera:{scale:200}, world:{boundary:"none",size:0}, seed:20260728,
-  physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0.5, gammaN:0.4, kappaS:0.025, Kt:60,
-    cLight:30, contactK:10, contactCap:2, bM:0.25, etaRad:0.0015, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:4},
+  physics:{G:4, D0:2, kFrame:0, q:2, kRep:0, muF:0.5, gammaN:0.4, kappaS:0.05, Kt:60,
+    cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0.003, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2},
   bodies:[
     // 一様円盤(自由・剛体回転の初速 v=vScale·r。tInt=2 は E5′ を切ってあるので力には効かない)
     {type:"disk", rMul:3, n:240, cx:0,cy:0, radius:150, mMin:1,mMax:1,
-     spinMin:0,spinMax:0, tInt:0.5, vMode:"rigid", aroundMass:0, vScale:0.003375, direction:1}
+     spinMin:0,spinMax:0, tInt:2, vMode:"rigid", aroundMass:0, vScale:0.00675, direction:1}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
 // 第46便 46S(台帳4-68c 再挑戦・原仮定者裁定「進める」): ☀️starcore — 恒星内部(融合を熱源とする)。
@@ -4404,7 +4400,7 @@ const BUILTIN_PRESETS = [
   activeParams:["G","etaRad","cHeat"],
   thermal:"tint",           // 第36便 D(台帳4-51): 温度は内部状態変数 T_int(fusion の前提)
   fusion:{dFrac:0.35},      // 第44便 44B(台帳4-68c): 融合。fission は使わない(上のコメント(2))
-  validT:384,               // 第39便 39E(台帳4-75 E2): 燃料が有意に続く実測区間(12000步=t≈192)
+  validT:192,               // 第39便 39E(台帳4-75 E2): 燃料が有意に続く実測区間(12000步=t≈192)
   // 第42便 42A(台帳4-78 A案): claims — 説明文の主要数値を機械可読化。窓は QA behavior.starcore の
   // 閾値(fusN≥90・T_mean 3.0〜9.0・radE比≥40)に直結させ、dt 収束(dt 1/2・1/4 で 113〜124回・
   // T_mean 3.73〜4.91・radE比 67.1〜83.8)と 3seed(114〜124回・3.89〜4.91・67.6〜75.4)の
@@ -4422,22 +4418,22 @@ const BUILTIN_PRESETS = [
   ],
   camera:{scale:320}, world:{boundary:"circle",size:300}, seed:20260730,
   // ψ_static = m/(R·Kt) = 600/(24.49·60) = 0.408 < 0.5 なので強場トイ領域バッジは付かない(46S 実測)
-  physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0,
+  physics:{G:4, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0,
     kappaS:0/* 伝導も切る — pinned へ流れた熱は帳簿に載らないため(設計コメント(3))*/, Kt:60,
-    cLight:30, contactK:10, contactCap:2, bM:0.25, etaRad:0.0008/* 第39便の tint 較正系(🌈coolrace と同値)。46S の実測較正:
+    cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0.0016/* 第39便の tint 較正系(🌈coolrace と同値)。46S の実測較正:
     12000步(t≈192)で etaRad を振ると 4e-4/8e-4/1.6e-3/3.2e-3/6.4e-3 → T_mean 11.20/7.51/4.91/3.16/2.02・
     radE 3769/4218/4555/4800/4976(投入熱 Q=5312.5 は5点とも同値 = 帳簿が閉じている)・
     放射率 radE/Q 70.9/79.4/85.7/90.4/93.7%。1.6e-3 は「T_mean が初期値2.0の約2.5倍に保たれる(=星が熱い)」
     かつ「投入熱の85.7%が窓内に出ていく(=供給と損失がほぼ釣り合う)」両立点。6.4e-3 では T_mean が初期値と
     見分けられなくなり、4e-4 では熱が溜まって釣り合わない */,
     pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
-    radiusScale:1, softening:3, timeScale:4},
+    radiusScale:1, softening:3, timeScale:2},
   bodies:[
     // 中心核(固定・R=√600≈24.5)。pinned は融合の対象外なので「燃料」はガス200粒だけ
-    {type:"single", rMul:1, m:600, x:0,y:0, vx:0,vy:0, spin:0, pinned:true, tInt:0.5},
+    {type:"single", rMul:1, m:600, x:0,y:0, vx:0,vy:0, spin:0, pinned:true, tInt:2},
     // ガス球(自由・サブケプラー初速 0.6倍 → 落ち込みながら回る。tInt=2 は kRep=0 なので力に効かない)
     {type:"disk", rMul:1, n:200, cx:0,cy:0, radius:200, mMin:1,mMax:1,
-     spinMin:0,spinMax:0, tInt:0.5, vMode:"kepler", aroundMass:600, vScale:0.6, direction:1}
+     spinMin:0,spinMax:0, tInt:2, vMode:"kepler", aroundMass:600, vScale:0.6, direction:1}
   ],
   // 温度ヒストグラム(左右の平均温度)は球対称の星では意味を持たないので出さない(🌪️spinup と同じ)
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
@@ -4452,18 +4448,18 @@ const BUILTIN_PRESETS = [
   familyId:"rotorform", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
   descStruct:{
     summary:"回る速さがどんどん増し、だんだん暗くなっていく「星の種」の成長を、原理から確かめるサンプル。星の種(prestellar core 類似)がダークローターへ育つ過程の原理実験 — コアv2(第77便拡張: 中心コアを J_core を主変数とする独立サブシステムにした)の最初の実演。親天体(固定)のまわりの鏡像楕円軌道に2つの種を置く: 種A=差動コア(軸が自由)・種B=剛体コア(軸を固定)。スピン加速の主要因は自己重力圧縮 — コア半径が縮むと角運動量保存(A13)で角速度が増す(Ω=J/I・核融合は密度が増す過程の副産物でありエネルギー源の主役ではない)。副機構はパワーボール原理: 楕円軌道の重力による揺すり(加速度の変動)が、軸の自由な差動コアの回転を加速する — ジャイロ効果のトレーニング器具と同じで、軸を固定した種Bは同じ揺すりで逆に減速する。",
-    observe:"実測(seed固定・6000步): 種Aのコア角速度は1.5から約162へ(圧縮でコア半径3→0.44・J保存の上昇×パワーボールの汲み上げ)、減光は0.14から実測0.99へ — 明るい種が周回しながら暗黒天体へ育つ(2層減光・A9)。種B(軸固定)は同じ揺すりで殻スピンが3から2.61へ減速する。ポンプと圧縮を切った対照では角速度1.5のまま・減光0.14のまま — 何も育たない。帳簿: パワーボールの角運動量はリザーバと等量交換・仕事はHUDの「コア仕事W」に明示され、総角運動量は帳簿込みで保存する(相対ずれ3e-6・A13/T7)。※実在の原始星のスピン進化・磁気制動の再現主張ではない(Negative Claims)。",
+    observe:"実測(seed固定・8000步 — c₀=30 相似単位): 種Aのコア角速度は1.125から約121へ(比107.9は相似不変で旧実測と一致。圧縮でコア半径3→0.44・J保存の上昇×パワーボールの汲み上げ)、減光は0.14から実測0.99へ — 明るい種が周回しながら暗黒天体へ育つ(2層減光・A9)。種B(軸固定)は同じ揺すりで殻スピンが2.25から1.96へ減速する(比0.87)。ポンプと圧縮を切った対照では角速度1.125のまま・減光0.14のまま — 何も育たない。帳簿: パワーボールの角運動量はリザーバと等量交換・仕事はHUDの「コア仕事W」に明示され、総角運動量は帳簿込みで保存する(相対ずれ3e-6・A13/T7)。※実在の原始星のスピン進化・磁気制動の再現主張ではない(Negative Claims)。",
     control:"おすすめ対照は画面内蔵 — 種A(右・差動)と種B(左・軸固定)が同じ揺すりへの逆応答を同時に見せる。kFrame=0 にすると引きずり経由の揺すり成分が変わり、タップで各種の減光実効値を確認できる。"},
   en:{name:"Star-Seed Rotor — Compression & Powerball", descStruct:{
     summary:"A sample tracing, from first principles, how a 'star seed' spins up faster and faster and grows steadily darker. A principle experiment on how a star seed (prestellar-core analogue) grows into a dark rotor — the first demonstration of Core v2 (Wave 77 extension: the central core becomes an independent subsystem with J_core as its primary variable). Two seeds ride mirrored elliptical orbits around a pinned parent: seed A has a differential core (free axis), seed B a rigid core (locked axis). The main driver of core spin-up is self-gravitational compression — as the core radius shrinks, conservation of angular momentum (A13) raises the angular velocity (Ω=J/I; fusion is a byproduct of the rising density, not the prime mover). The secondary booster is the powerball principle: the gravitational shaking of an eccentric orbit (varying acceleration) accelerates a free-axis differential core — just like the gyroscopic training ball — while the locked-axis seed B is slowed by the very same shaking. ",
-    observe:"Measured (fixed seed, 6000 steps): seed A's core angular velocity grows from 1.5 to about 162 (core radius 3→0.44 under compression with J conserved, times the powerball pumping), and its dimming rises from 0.14 to a measured 0.99 — a bright seed orbits while maturing into a dark body (two-layer dimming, A9). Seed B (locked axis) is decelerated by the same shaking, its shell spin dropping from 3 to 2.61. In the control with pump and compression off, nothing grows — the angular velocity stays 1.5 and the dimming 0.14. Ledgers: the powerball's angular momentum is exchanged one-for-one with the reservoir, its work is shown explicitly as 'core work W' in the HUD, and total angular momentum is conserved ledger-inclusive (relative drift 3e-6 — A13/T7). Not a claim about real protostellar spin evolution or magnetic braking (Negative Claims). ",
+    observe:"Measured (fixed seed, 8000 steps — c₀=30 similarity units): seed A's core angular velocity grows from 1.125 to about 121 (the ratio 107.9 is similarity-invariant and matches the old measurement; core radius 3→0.44 under compression with J conserved, times the powerball pumping), and its dimming rises from 0.14 to a measured 0.99 — a bright seed orbits while maturing into a dark body (two-layer dimming, A9). Seed B (locked axis) is decelerated by the same shaking, its shell spin dropping from 2.25 to 1.96 (ratio 0.87). In the control with pump and compression off, nothing grows — the angular velocity stays 1.125 and the dimming 0.14. Ledgers: the powerball's angular momentum is exchanged one-for-one with the reservoir, its work is shown explicitly as 'core work W' in the HUD, and total angular momentum is conserved ledger-inclusive (relative drift 3e-6 — A13/T7). Not a claim about real protostellar spin evolution or magnetic braking (Negative Claims). ",
     control:"The suggested control is built into the screen — seed A (right, differential) and seed B (left, locked axis) show opposite responses to the same shaking side by side. Set kFrame=0 to change the dragging component of the shaking; tap either seed to inspect its effective dimming."}},
   activeParams:["kFrame","cLight","G"],
   validT:128,   // 実測窓(6000步=t≈96)と一致
   claims:[
     { id:"starSeed.core-spinup", kind:"fixed-seed", metric:"coreOmegaRatio",
-      expected:{min:80, max:140},   // 実測107.9(exp-4-78: Ω 1.5→161.8)
-      descPattern:"コア角速度は1\\.5から約(\\d+)へ",
+      expected:{min:80, max:140},   // 実測107.9(比は相似不変 — 第97便: c₀=30 単位で 1.125→約121)
+      descPattern:"コア角速度は1\\.125から約(\\d+)へ",
       descScale:0.6666666666666666,   // 説明文は終値162 — 比(×1/1.5)へ換算して照合
       testId:"claim.starseed-powerball" },
     { id:"starSeed.seed-dimming", kind:"fixed-seed", metric:"seedFinalDimming",
@@ -6487,6 +6483,7 @@ function makeSim(){
       if(e.body>=0&&e.body<n) e.body=nm[e.body];
       if(e.aim>=0&&e.aim<n) e.aim=nm[e.aim];
     }
+    if(S.onCompact) S.onCompact(nm);   // 第97便: 表示層へ index 写像を通知(カメラ追従・選択の引き継ぎ)
   };
   // ===== 第45便 45B(台帳4-68d): 粒子の分裂(fission)=====
   // S.alloc は「プリセットの粒子数ちょうど」で確保する(=確保長 == 初期 N)。分裂は粒子を増やす
@@ -8251,6 +8248,14 @@ function makeSim(){
 
 // ===== アプリ状態 =====
 const sim = makeSim();
+// 第97便(原仮定者指示): 融合の index 詰めに追従する — カメラ追従の「天体#N」と選択粒子を
+// 合体先の粒子へ引き継ぐ(nm[旧index]=新index。消えた粒子は融合先へ写る写像 — _compact 参照)
+sim.onCompact=function(nm){
+  if(camFollowPreset>=0 && camFollowPreset<nm.length && nm[camFollowPreset]>=0)
+    camFollowPreset=nm[camFollowPreset];
+  if(selWorld==="A" && selIdx>=0 && selIdx<nm.length && nm[selIdx]>=0){
+    const j=nm[selIdx]; if(j!==selIdx){ selIdx=j; updateBodyEdit(); } }
+};
 let running=false, currentPreset=null, basePhysics=null, selIdx=-1;
 // 第12便: A/B比較中も粒子編集を可能に — 選択粒子がどちらの宇宙かを保持(A=上/B=下)
 let selWorld="A";
@@ -8270,6 +8275,7 @@ function camFollowIdx(){
 function setCamFollowMode(mode){
   camFollowMode=(mode==="preset"||mode==="sel")?mode:"none";
   camFollowOffX=0; camFollowOffY=0;   // モード切替でオフセットは畳む(対象が画面中央へ来る)
+  try{ localStorage.setItem("hp_camfollow",camFollowMode); }catch(_){}   // 第97便: 共通設定として永続
   requestRender();
 }
 // 毎フレーム描画の直前に1回だけ呼ぶ(物理ループには 1 命令も入れない)
@@ -8277,15 +8283,10 @@ function applyCamFollow(){
   if(camFollowMode==="none") return;
   const S=selSimRef();   // A/B比較中は選択された宇宙の対象を追う
   const i=camFollowIdx();
-  if(i<0||i>=S.n){
-    // 第95便(原仮定者指示): 「選択粒子」モードは非選択でも設定を保持し、「なし」と同じ挙動で待つ
-    // (粒子を選んだ瞬間から追従)。自動解除+通知は「天体#N」の対象消滅(融合等)のみに残す
-    if(camFollowMode==="sel") return;
-    camFollowMode="none"; camFollowOffX=0; camFollowOffY=0;
-    const el=document.getElementById("camFollowSel"); if(el) el.value="none";
-    notify(T("camFollowReleased"));
-    return;
-  }
+  // 第97便(原仮定者指示): 対象粒子が消滅しても設定は解除しない — 「なし」と同じ挙動で待つ
+  // (旧: 「天体#N」の対象消滅で自動解除+通知。融合による消滅は onCompact が合体先へ引き継ぐので
+  //  ここへ来るのは index が完全に範囲外へ落ちた場合のみ)
+  if(i<0||i>=S.n) return;
   camX=S.x[i]+camFollowOffX; camY=S.y[i]+camFollowOffY;
 }
 // パン(1本指ドラッグ/マウスドラッグ)の単一の入口 — 追従中はオフセット側へ積む。
@@ -8366,12 +8367,13 @@ function restoreDraft(){
 let tSort=null; // 温度正規化用スクラッチ(90パーセンタイル計算)
 let stepAcc=0, fpsEMA=60, lastFrame=performance.now(), frameCount=0;
 // v1.27: ステップ会計の純関数(P0-1 修正の本体。QA `time.step-accounting` が直接検証)
-// acc に要求ステップを積み、実行分 k(上限24)だけ差し引く。繰越は 24 まで。
+// acc に要求ステップを積み、実行分 k(上限200)だけ差し引く。繰越は 200 まで。
+// 第97便: 上限 24→200(実効倍率の上限 100×SUBSTEPS。dt は不変 — 倍率はサブステップ数で刻む)
 function stepBudget(acc, want){
   acc+=want;
-  const k=Math.min(Math.floor(acc),24);
+  const k=Math.min(Math.floor(acc),200);
   acc-=k;
-  if(acc>24) acc=24;
+  if(acc>200) acc=200;
   return {k, acc};
 }
 // ===== v1.23: 描画品質(自動/正確/軽量)— 処理負荷の縮退は描画のみ。物理(S.step)は不変 =====
@@ -9907,7 +9909,7 @@ function loop(now){
     // 差し引いてから 24 へクランプしており、高倍率時に超過分を黙って破棄 → 表示倍率と
     // 座標時間が不一致だった)。繰越は1フレーム分(24)までクランプし、復帰不能な
     // バックログ蓄積を防ぐ。持続的過負荷時の実効レートは 24步/フレームに飽和する(仕様)。
-    const b=stepBudget(stepAcc, SUBSTEPS*sim.params.timeScale*speedMul);   // v1.19: 時間倍率×プルダウン倍率
+    const b=stepBudget(stepAcc, SUBSTEPS*effTimeMul());   // v1.19: 時間倍率×プルダウン倍率(第97便: 0.01〜100 へクランプ)
     stepAcc=b.acc;
     const k=b.k;
     for(let s2=0;s2<k;s2++) sim.step(DT);
@@ -10051,7 +10053,7 @@ function loop(now){
     // (24步/フレーム = 実効12倍)でクランプした、実際に計算で使う値を表示する
     if(scaleDispOn){
       const ef=scaleEffNow();
-      const tsEff=Math.min(sim.params.timeScale*speedMul, 24/SUBSTEPS);
+      const tsEff=effTimeMul();
       txt+=`\n${T("hudScale")(ef.x, ef.eT, ef.eM, sim.t, tsEff)}`;
     }
     $("#hud").textContent=txt;
@@ -10454,7 +10456,10 @@ function loadPreset(id, keepPhysics){
   // 第81便: カメラ追従はプリセット既定へ戻す(camera.follow があれば ON・無ければ「なし」)。
   // 表示専用 — sim.params・保存 JSON には一切書かない
   camFollowPreset=(p.camera && isNum(p.camera.follow))? p.camera.follow : -1;
-  camFollowMode=(camFollowPreset>=0)? "preset" : "none";
+  // 第97便(原仮定者指示): 追従モードは共通設定として永続 — ⏮・プリセット切替で解除しない。
+  // 一度も触っていないユーザーだけサンプル既定(camera.follow があれば ON)に従う
+  { let st=null; try{ st=localStorage.getItem("hp_camfollow"); }catch(_){}
+    camFollowMode=(st==="sel"||st==="preset"||st==="none")? st : ((camFollowPreset>=0)? "preset" : "none"); }
   camFollowOffX=0; camFollowOffY=0;
   scaleExpL=scaleExpT=scaleExpM=scaleExpC=null;   // 第74便→94便: 4指数ともサンプルのスケールタグ既定へ戻す(表示専用)
   paramSnapA=paramSnapB=null;   // v1.22: 発散Undoのスナップショットはプリセット単位
@@ -10583,6 +10588,11 @@ function abStart(key, valB, bodyPatch){
   // A/B 中に保存したチェックポイントは A+B 両側を持つ(ckSave)ので A/B 中は有効に使える
   ckInvalidate();
   ab={simB:cloneSimState(), lastKey:null, lastBox:null, bodyPatch:null};   // 第96便: lastBox=箱宇宙の比較表示
+  // 第97便: B宇宙の融合でも選択粒子を合体先へ引き継ぐ(追従の sel モードはこの selIdx を追う)
+  ab.simB.onCompact=function(nm){
+    if(selWorld==="B" && selIdx>=0 && selIdx<nm.length && nm[selIdx]>=0){
+      const j=nm[selIdx]; if(j!==selIdx){ selIdx=j; updateBodyEdit(); } }
+  };
   trailBufB=trailBuf.map(b=>b.slice());   // 線の軌跡も現在までの履歴ごと複製
   if(key!==undefined){
     const c=CLAMPS[key];
@@ -10732,6 +10742,9 @@ $("#btnReset").addEventListener("click",()=>{
 // v1.19: 実効速度 = パラメータ「時間倍率」× プルダウンの倍率。
 // (旧: プルダウンがパラメータを書き換えていた — 直値入力と衝突するため分離)
 let speedMul=1;
+// 第97便(原仮定者指示): 実効倍率 = 時間倍率×簡易倍率のクランプ後の値。範囲 0.01〜100。
+// HUD 表示とステップ会計が同じこの値を使う(表示と実計算の一致 — 第96便Aの原則を維持)
+function effTimeMul(){ return Math.min(Math.max(sim.params.timeScale*speedMul,0.01),100); }
 $("#speedSel").addEventListener("change",e=>{ speedMul=parseFloat(e.target.value)||1; });
 $("#presetSelect").addEventListener("change",e=>{
   const v=e.target.value;
@@ -12092,7 +12105,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
 6. name は30字以内、description は200字程度の日本語(上限は9000字。超えると切り詰められる)。emoji は絵文字1文字。
-7. 値域(超えると自動修正される): G:0〜100, D0:0〜1000, kFrame:0〜1, q:0.5〜4, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, Kt:1〜10000, cLight:1〜10000, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数), lambdaPN:0〜1(整数), pnAlpha:0.5〜1.5, radiusScale:0.2〜5, softening:0.5〜20, timeScale:0.1〜16, camera.scale:20〜3000, 座標・長さ:±5000, 質量:0.01〜20000, 速度成分:±50, スピン:±20, omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
+7. 値域(超えると自動修正される): G:0〜100, D0:0〜1000, kFrame:0〜1, q:0.5〜4, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, Kt:1〜10000, cLight:1〜10000, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数), lambdaPN:0〜1(整数), pnAlpha:0.5〜1.5, radiusScale:0.2〜5, softening:0.5〜20, timeScale:0.01〜100, camera.scale:20〜3000, 座標・長さ:±5000, 質量:0.01〜20000, 速度成分:±50, スピン:±20, omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
 
 # ジェネレータ(bodiesの要素。typeごとに全フィールド必須)
 - single: {type,m,x,y,vx,vy,spin,pinned} — 粒子1個。pinned:true で力を受けず固定。
