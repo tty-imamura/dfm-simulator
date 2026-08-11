@@ -11958,6 +11958,62 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   } else {
     console.log('SKIP scale.exponents(対象に4指数スケールなし — root 等。第94便)');
   }
+
+  // ---- 第100便(原仮定者裁定「進める」/ Gemini 提案2): 相似変換連動モード ----
+  // c₀ 変更時に k=新/旧 の力学的相似変換(96B表)を現在状態へ適用する実験的トグル。
+  // ①変換式: G×k²・timeScale÷k・速度×k・Kt 不変(c²/G 不変 — 物理対応ロック整合)
+  // ②軌道保存: 参照(c₀=30・ts=2)240步 と 変換後(c₀=60・ts=1)120步 の位置が一致
+  //   (同一物理時刻。離散化誤差の実測 1.3e-5 — 閾値 1e-3 はその ×80)
+  // ③往復 k=2→0.5 で厳密復元 ④トグルの既定OFF・永続化(hp_clink)⑤setParam 連動配線(ソース検査)
+  const hasCLink = await page.evaluate(() => !!(window.HP && HP.applyCLink && HP.setCLink));
+  if (hasCLink) {
+    const r = await page.evaluate(() => {
+      const P = { id: 'qa_clink', name: 'p', description: 'd', camera: { scale: 200 },
+        world: { boundary: 'none', size: 0 }, seed: 11,
+        physics: { G: 1, D0: 2, kFrame: 1, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, Kt: 900,
+          cLight: 30, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1,
+          pnAlpha: 1.5, radiusScale: 1, softening: 2, timeScale: 2 },
+        bodies: [{ type: 'single', m: 500, x: 0, y: 0, vx: 0, vy: 0, spin: 0.5, pinned: true },
+          { type: 'single', m: 1, x: 120, y: 0, vx: 0, vy: Math.sqrt(500 / 120), spin: 0, pinned: false },
+          { type: 'single', m: 1, x: -80, y: 0, vx: 0, vy: -Math.sqrt(500 / 80), spin: 0, pinned: false }] };
+      const S = HP.sim, out = {};
+      const run = (steps) => { const o = []; for (let k2 = 0; k2 < steps; k2++) S.step(0.016);
+        for (let i = 0; i < S.n; i++) o.push(S.x[i], S.y[i]); return o; };
+      S.build(JSON.parse(JSON.stringify(P)));
+      const ref = run(240);
+      S.build(JSON.parse(JSON.stringify(P)));
+      const v0 = S.vy[1];
+      S.params.cLight = 60; const cl = HP.applyCLink(S, 2);
+      out.math = S.params.G === 4 && S.params.timeScale === 1 && S.params.Kt === 900
+        && Math.abs(S.vy[1] - 2 * v0) < 1e-12 && cl.length === 0;
+      const tr = run(120);
+      out.maxRel = 0;
+      for (let i = 0; i < ref.length; i++) {
+        out.maxRel = Math.max(out.maxRel, Math.abs(tr[i] - ref[i]) / Math.max(1, Math.abs(ref[i])));
+      }
+      S.build(JSON.parse(JSON.stringify(P)));
+      const b = { G: S.params.G, ts: S.params.timeScale, vy: S.vy[1], t: S.t };
+      HP.applyCLink(S, 2); HP.applyCLink(S, 0.5);
+      out.roundtrip = S.params.G === b.G && S.params.timeScale === b.ts && S.vy[1] === b.vy && S.t === b.t;
+      // トグル: 既定OFF(このページは初回)・setCLink の永続化とチェックボックス同期
+      out.cb = !!document.getElementById('cLinkCb');
+      out.defOff = HP.cLink() === false || localStorage.getItem('hp_clink') !== null;
+      HP.setCLink(true);
+      out.on = HP.cLink() === true && localStorage.getItem('hp_clink') === '1'
+        && (!document.getElementById('cLinkCb') || document.getElementById('cLinkCb').checked);
+      HP.setCLink(false); localStorage.removeItem('hp_clink');   // 後続テストを汚さない
+      return out;
+    });
+    // ⑤ setParam の連動配線(UI 行はビルド順依存で言語にも依るため、ソースで固定する)
+    const src = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+    const wired = /key==="cLight" && cLink/.test(src) && /applyCLink\(S, v\/oldC\)/.test(src);
+    add('scale.clink',
+      r.math && r.maxRel < 1e-3 && r.roundtrip && r.cb && r.defOff && r.on && wired,
+      `変換式(G×4・ts÷2・v×2・Kt不変)=${r.math} / 軌道一致 maxRel=${r.maxRel.toExponential(1)}(<1e-3) / ` +
+      `往復復元=${r.roundtrip} / トグル存在=${r.cb}・ON永続化=${r.on} / setParam配線=${wired}`);
+  } else {
+    console.log('SKIP scale.clink(対象に相似変換連動なし — root 等。第100便)');
+  }
   // 92-3) ui.fidelity: fidelity:"real" 宣言(6件)にだけ 📏 チップが出る
   const hasFid = await page.evaluate(() => !!(window.HP && HP.allPresets().some((p) => p.fidelity === 'real')));
   if (hasFid) {

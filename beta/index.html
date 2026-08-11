@@ -686,6 +686,10 @@ ja: {
   physLockOnClamped:"⚠ ロック中: 導出値が値域外のため Kt をクランプ(対応は近似)",
   physLockOffOk:"✓ ロック解除中(現在値は条件 Kt=cLight²/G を満たしています)",
   physLockOffNg:"⚠ 一般化トイ設定 — GR較正条件外(Kt≠cLight²/G)",
+  cLinkLabel:"相似変換連動(実験的)",
+  cLinkDesc:"ONの間、「光速 c₀」を変更すると k=新c₀/旧c₀ の力学的相似変換を現在の状態へ自動適用し、見た目の運動を保ちます(G・bM・接触定数 ×k²/η_rad・κs ×k/時間倍率 ÷k/速度・スピン・コアΩ ×k/内部エネルギー ×k²/コア源 ×k³/箱 H0 ×k)。Kt は c²/G が不変なので据え置かれ、物理対応ロックとも整合します。スケールフリーなエンジンでは c₀ の値そのものに意味はなく、この連動で「c₀ を変えても同じ宇宙を記述できる」ことを確かめられます。注意: サブステップ離散化・値域クランプ(特に時間倍率 0.01〜100)・放射冷却の T^p(p≠1)では厳密相似が破れます。画面全体の実験的設定で、プリセットやセーブには保存されません。",
+  cLinkApplied:(k)=>"相似変換を適用: k="+k+"(G×k²・速度×k・時間倍率÷k 等)",
+  cLinkClamped:(keys)=>"⚠ 相似変換: "+keys+" が値域クランプされ厳密相似が破れています",
   divUndo:"⏪ 直前の設定に戻して初めから",
   divRestored:"発散前の設定に戻し、初期配置から再開できます(▶実行)",
   tgTrails:"軌跡を残す", tgTrailLine:"線の軌跡", tgField:"決定力マップ", tgCurve:"回転曲線グラフ",
@@ -1071,6 +1075,10 @@ en: {
   physLockOnClamped:"⚠ Locked: derived value out of range — Kt clamped (approximate correspondence)",
   physLockOffOk:"✓ Unlocked (current values happen to satisfy Kt=cLight²/G)",
   physLockOffNg:"⚠ Generalized toy setting — outside GR calibration (Kt≠cLight²/G)",
+  cLinkLabel:"Similarity-transform link (experimental)",
+  cLinkDesc:"While ON, changing the light speed c₀ automatically applies the dynamical similarity transform with k = new c₀ / old c₀ to the current state, preserving the visible motion (G, b_m, contact constants ×k²; η_rad, κs ×k; time scale ÷k; velocities, spins, core Ω ×k; internal energy ×k²; core source ×k³; box H0 ×k). Kt stays put since c²/G is invariant — consistent with the correspondence lock. In a scale-free engine the value of c₀ itself carries no meaning; this link lets you verify that the same universe can be described at any c₀. Caveats: exact similarity breaks under substep discretization, range clamps (especially time scale 0.01–100), and radiative cooling's T^p with p≠1. A global experimental setting — not stored in presets or saves.",
+  cLinkApplied:(k)=>"Similarity transform applied: k="+k+" (G×k², velocities ×k, time scale ÷k, …)",
+  cLinkClamped:(keys)=>"⚠ Similarity transform: "+keys+" clamped to range — exact similarity broken",
   divUndo:"⏪ Restore last-good settings & restart",
   divRestored:"Pre-divergence settings restored — press ▶ Run to restart from the initial layout",
   tgTrails:"Motion trails", tgTrailLine:"Line trails", tgField:"Determinacy map", tgCurve:"Rotation-curve graph",
@@ -10872,6 +10880,46 @@ function setPhysLock(v){
   const cb=document.getElementById("physLockCb"); if(cb) cb.checked=physLock;
   requestRender();
 }
+// ===== 第100便(原仮定者裁定「進める」/ Gemini 提案2): 相似変換連動モード =====
+// c₀ を k 倍したとき、第96便B と同じ力学的相似変換を「現在の状態」へ適用して見た目の運動
+// (描画フレームあたりの進み)を保つ実験的機能。変換表(96B): G・bM・contactK/contactCap ×k²/
+// etaRad・kappaS ×k/timeScale ÷k/速度・スピン・コアΩ(J)×k/内部エネルギー・T_int ×k²/
+// コア sourceRate ×k³/箱 H0・freq ×k(S.t ÷k で a(t)=e^{H0·t} は連続)。τ も ÷k(新時間単位)。
+// Kt は c²/G が不変なので据置(物理対応ロックと整合)。スライダードラッグの微小変化は
+// 乗法的に合成される(k₁·k₂ = 通算k)ため、途中経過に依らず最終 c₀ だけで決まる(クランプ時を除く)。
+// 限界(ヘルプ明記): サブステップ離散化・値域クランプ・etaRad の T^p(p≠1)では厳密相似が破れる。
+// photonEmit 等の宣言スケジュール時刻は変換されない(実験的機能の域外)。
+let cLink=false;
+try{ cLink=localStorage.getItem("hp_clink")==="1"; }catch(e){}
+function applyCLink(S,k){
+  const P=S.params, clamped=[];
+  const mul=(key,f)=>{ if(typeof P[key]!=="number") return;
+    const t=P[key]*f, c=CLAMPS[key], a=c? clamp(t,c[0],c[1]) : t;
+    if(Math.abs(a-t)>1e-12*Math.max(1,Math.abs(t))) clamped.push(key);
+    P[key]=a; };
+  mul("G",k*k); mul("bM",k*k); mul("etaRad",k); mul("kappaS",k);
+  mul("contactK",k*k); mul("contactCap",k*k);
+  mul("timeScale",1/k);
+  for(let i=0;i<S.n;i++){
+    S.vx[i]*=k; S.vy[i]*=k; S.spin[i]*=k;
+    if(S.coreJ) S.coreJ[i]*=k;
+    if(S.coreOm0) S.coreOm0[i]*=k;
+    if(S.coreSrc) S.coreSrc[i]*=k*k*k;
+    if(S.coreEint) S.coreEint[i]*=k*k;
+    if(S.Tint) S.Tint[i]*=k*k;
+    if(S.tau) S.tau[i]/=k;
+  }
+  S.t/=k;
+  if(S.box){ if(typeof S.box.H0==="number") S.box.H0*=k;
+    if(typeof S.box.freq==="number") S.box.freq*=k; }
+  return clamped;
+}
+const CLINK_KEYS=["G","bM","etaRad","kappaS","contactK","contactCap","timeScale"];
+function setCLink(v){
+  cLink=!!v;
+  try{ localStorage.setItem("hp_clink", cLink?"1":"0"); }catch(e){}
+  const cb=document.getElementById("cLinkCb"); if(cb) cb.checked=cLink;
+}
 
 // 第32便(W2): 箱宇宙(UniverseBox)の尺度パラメータ — 時間を底とした係数・指数・揺らぎの実行中編集。
 // PARAM_DEFS/CLAMPS(sim.params 系)とは独立: sim.box は物理パラメータではなく W1 のデータ層
@@ -11426,9 +11474,20 @@ function buildParamRows(){
       const c=CLAMPS[key]; v=clamp(v,c[0],c[1]);
       // v1.23: 書き込み先 — applyBoth(時間倍率)は常にA/B両方、それ以外は編集対象(editSim)
       const targets = applyBoth ? (ab?[sim,ab.simB]:[sim]) : [editSim()];
+      let clinkDone=null;   // 第100便: 相似変換連動が発火したら {k, clamped[]} を控える
       for(const S of targets){
+        // 第100便(Gemini 提案2): 連動ONの c₀ 変更は k=新/旧 の相似変換を状態へ適用
+        const oldC=(key==="cLight" && cLink)? S.params.cLight : null;
         S.params[key]=v;
+        if(oldC!==null && oldC>0 && v>0 && v!==oldC){
+          const cl=applyCLink(S, v/oldC);
+          clinkDone={k:v/oldC, clamped:cl};
+        }
         if(key==="radiusScale") S.updateRadii();
+      }
+      if(clinkDone){
+        CLINK_KEYS.forEach(syncParamRow);   // G/時間倍率 等の行表示を追随
+        if(clinkDone.clamped.length) notify(T("cLinkClamped")(clinkDone.clamped.join(",")),4000);
       }
       if(ab){ ab.lastKey=key; ab.lastBox=null; }  // v1.19: A/B比較中は「最後に調整したパラメータ」を両画面に表示(第96便: 箱宇宙側の表示は解除)
       setParamsDirty(true);  // v1.17: 未保存の編集あり(バックアップ対象外の注意喚起に使用)
@@ -11498,6 +11557,23 @@ function buildParamRows(){
     const badge=document.createElement("div"); badge.id="physLockBadge";
     badge.style.cssText="font-size:12px;opacity:.9;padding:2px 4px 4px;";
     g.appendChild(badge);
+    // 第100便(Gemini 提案2): 相似変換連動モードのトグル(物理対応ロックの直下 — c₀ の隣接文脈)
+    {
+      const row2=document.createElement("div"); row2.className="prow";
+      const lab2=document.createElement("label"); lab2.textContent=T("cLinkLabel");
+      lab2.style.flex="1"; lab2.className="tappable";
+      lab2.addEventListener("click",()=>{
+        const open=row2.nextElementSibling && row2.nextElementSibling.classList
+          && row2.nextElementSibling.classList.contains("pdesc") ? row2.nextElementSibling : null;
+        if(open){ open.remove(); return; }
+        const d=document.createElement("div"); d.className="pdesc open";
+        d.textContent=T("cLinkDesc");
+        row2.after(d);
+      });
+      const cb2=document.createElement("input"); cb2.type="checkbox"; cb2.id="cLinkCb"; cb2.checked=cLink;
+      cb2.addEventListener("change",()=>setCLink(cb2.checked));
+      row2.appendChild(lab2); row2.appendChild(cb2); g.appendChild(row2);
+    }
     for(const def of catDefs("st")) mkParamRow(def,g);
   }
   { const g=mkCat(T("grpSpinHeat"),T("grpSpinHeatDesc"));  for(const def of catDefs("sh")) mkParamRow(def,g); }
@@ -13804,6 +13880,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   externalTags, classifyPreset, APP_VERSION, currentPreset:()=>currentPreset,  // v1.15/第35便W4: バッジ/バージョン同期のQA用
   strongFieldPsi,   // 第45便 45C(台帳4-85): 強場トイ領域バッジのψ_static計算式単体のQA用
   urepEnergy, normThermalWalls,   // 第37便 C1/C2(台帳4-70/4-71): U_rep の総和・伝熱境界の正規化(QA/監査用)
+  applyCLink, setCLink, cLink:()=>cLink,   // 第100便: 相似変換連動モード(QA用 — 変換式と同一実装を公開)
   phaseEnergy,   // E14″ 創発相変化 — 対ポテンシャル総和(QA/監査用。第60便でエンタルピー系は廃止)
   loadSaveItem:(...a)=>loadSave(...a), exportData, isBetaServe,   // 第53便 53B: セーブ互換の機械検査用(未知ID中止・appBuild)
   speedMul:()=>speedMul, trailBufs:()=>({a:trailBuf,b:trailBufB}),  // v1.19: QA用
