@@ -12072,6 +12072,50 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   } else {
     console.log('SKIP behavior.wave100c(対象に第100便C サンプルなし — root 等)');
   }
+
+  // ---- 第100便 EXT-10: 形成系譜(Formation Lineage) ----
+  // 融合の吸収イベントを安定系譜ID(linId — 圧縮・分裂に不変)で記録し、選択粒子の
+  // パネルに履歴を出す**記録専用**の観測層。検査: ①build 直後は記録ゼロ ②🥚3000步で
+  // 記録件数 = min(400, 融合数)③最重粒子の直接吸収数 linN = その id のイベント数・時刻単調・
+  // 最終イベントの m が現在質量と一致(質量は融合以外で変わらない)④吸収された id は生存集合に
+  // 現れない(id の再利用なし)⑤選択で形成系譜ブロックが表示される。
+  // 物理 bit 不変の保証は既存の固定seed窓(claims / exp 正本)が兼ねる — 本記録は状態を読むだけ
+  const hasLin = await page.evaluate(() => !!(window.HP && HP.sim && HP.sim.linId));
+  if (hasLin && !FAST) {
+    const r = await page.evaluate(() => {
+      const S = HP.sim, out = {};
+      HP.loadPreset('selfRotor', false);
+      out.init = { ids: S.linId.length >= S.n, log0: S.linLog.length };
+      for (let k = 0; k < 3000; k++) S.step(0.016);
+      out.fusN = S.fusN; out.log = S.linLog.length;
+      let hv = 0; for (let i = 1; i < S.n; i++) if (S.m[i] > S.m[hv]) hv = i;
+      const myId = S.linId[hv];
+      const mine = S.linLog.filter((e) => e.id === myId);
+      out.hv = { linN: S.linN[hv], mineN: mine.length, m: S.m[hv],
+        mono: mine.every((e, i2) => i2 === 0 || e.t >= mine[i2 - 1].t),
+        mLast: mine.length ? mine[mine.length - 1].m : 0 };
+      const alive = new Set(); for (let i = 0; i < S.n; i++) alive.add(S.linId[i]);
+      out.goneAlive = S.linLog.filter((e) => alive.has(e.gone)).length;
+      HP.selectBody(hv, 'A');
+      const lp = document.getElementById('beLineage');
+      out.ui = !!(lp && lp.style.display === 'block'
+        && document.getElementById('beLinSummary').textContent.length > 0
+        && document.getElementById('beLinRows').children.length > 0);
+      HP.loadPreset('saturn', false);   // 後続テストを汚さない(load で選択も解除)
+      return out;
+    });
+    add('ext.formation-lineage',
+      r.init.ids && r.init.log0 === 0 && r.fusN > 0 && r.log === Math.min(400, r.fusN)
+      && r.hv.linN > 0 && r.hv.mineN === r.hv.linN && r.hv.mono
+      && Math.abs(r.hv.mLast - r.hv.m) <= 1e-6 * Math.max(1, r.hv.m)
+      && r.goneAlive === 0 && r.ui,
+      `🥚3000步: 融合${r.fusN}・記録${r.log}件 / 最重: 直接吸収${r.hv.linN}(イベント${r.hv.mineN}・単調=${r.hv.mono}・` +
+      `m一致=${Math.abs(r.hv.mLast - r.hv.m).toExponential(1)}) / id再利用=${r.goneAlive}(=0) / UI表示=${r.ui}`);
+  } else if (hasLin) {
+    console.log('SKIP ext.formation-lineage(QA_FAST — 挙動系は省略)');
+  } else {
+    console.log('SKIP ext.formation-lineage(対象に形成系譜なし — root 等。第100便 EXT-10)');
+  }
   // 92-3) ui.fidelity: fidelity:"real" 宣言(6件)にだけ 📏 チップが出る
   const hasFid = await page.evaluate(() => !!(window.HP && HP.allPresets().some((p) => p.fidelity === 'real')));
   if (hasFid) {

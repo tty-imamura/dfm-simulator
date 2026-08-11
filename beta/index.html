@@ -429,6 +429,12 @@
         <div class="beRow"><label id="beLcvJ" style="min-width:34px">Jc/Ic/Kc</label><input type="text" id="beCvJ" readonly tabindex="-1" inputmode="text" autocomplete="off"></div>
         <div class="beRow"><label id="beLcvLs" style="min-width:34px">殻/コア/合成</label><input type="text" id="beCvLs" readonly tabindex="-1" inputmode="text" autocomplete="off"></div>
       </details>
+      <!-- 第100便 EXT-10: 形成系譜 — 融合で育った粒子の吸収履歴(読み取り専用・融合が起きた粒子のみ表示) -->
+      <details id="beLineage" style="display:none">
+        <summary id="beLinTitle" class="tappable" style="color:var(--acc);font-weight:700;cursor:pointer">形成系譜</summary>
+        <div id="beLinSummary" style="font-size:11.5px;opacity:.92;padding:2px 0"></div>
+        <div id="beLinRows" style="font-size:11px;opacity:.88;max-height:110px;overflow-y:auto"></div>
+      </details>
       <div class="beNote" id="beNote">※編集は即時反映。⏮初めからで初期値に戻ります。</div>
     </div>
   </div>
@@ -772,6 +778,9 @@ ja: {
   beLswAuto:"自動",   // 第37便 A2(原仮定者指示): 掻出autoの可視化チェックボックス
   // 第80便C: コアv2(第77便)の読み取り専用内訳ブロックのラベル
   beCoreTitle:"コア内訳(v2)", beCoreMode:"種別", beCoreOm:"Ωc/Ωs/Δ", beCoreJ:"Jc/Ic/Kc", beCoreLs:"殻/コア/合成",
+  beLinTitle:"形成系譜",
+  beLinSum:(n,tree,ev,ge)=>`直接吸収 ${n} 回・系譜 ${ge?"≥":""}${tree} 粒(記録 ${ev} 件)`,
+  beLinRow:(t,dm,m,ls)=>`t=${t}: +${dm} → m=${m}・減光=${ls}`,
   beDcv:"第77便のコアv2(独立コア)を持つ粒子の内部状態(読み取り専用)。Ωc=J_core/I_c(I_c=½·Mc·Rc²)・"
     +"Ωs=殻スピン・Δ=Ωc−Ωs。減光は殻側ls_s・コア側ls_c・合成lSwの内訳(第75/77便の式を表示用に再計算 — "
     +"物理配列へは書き込まない)。",
@@ -1157,6 +1166,9 @@ en: {
   beLswAuto:"auto",   // 第37便 A2(原仮定者指示): sweep auto checkbox
   // 第80便C: read-only core-v2 (wave 77) breakdown block labels
   beCoreTitle:"Core (v2)", beCoreMode:"type", beCoreOm:"Ωc/Ωs/Δ", beCoreJ:"Jc/Ic/Kc", beCoreLs:"shell/core/mix",
+  beLinTitle:"Formation lineage",
+  beLinSum:(n,tree,ev,ge)=>`absorbed ${n}× directly · lineage ${ge?"≥":""}${tree} grains (${ev} events logged)`,
+  beLinRow:(t,dm,m,ls)=>`t=${t}: +${dm} → m=${m}, dimming=${ls}`,
   beDcv:"Internal state (read-only) of a body's independent core (v2, wave 77). Ωc=J_core/I_c (I_c=1/2 Mc Rc^2), "
     +"Ωs=shell spin, Δ=Ωc−Ωs. Dimming shows the shell-side ls_s, core-side ls_c, and combined lSw "
     +"(recomputed from the wave 75/77 formula for display only — never written back to the physics arrays).",
@@ -5890,6 +5902,10 @@ function makeSim(){
     // 重みであり、空洞の質量・慣性はどちらも厳密に 0(負質量はどこにも生じない)
     S.coreEint=new Float64Array(n); S.coreSrc=F(); S.coreOm0=F();
     S.rMulv=new Float64Array(n); S.rMulv.fill(1);   // 第36便 C1: 半径倍率(既定1。倍精度で保持)
+    // 第100便 EXT-10(形成系譜): 安定系譜ID(build 時 0..n-1・分裂は新ID発行)と直接吸収数。
+    // 記録専用 — 物理からは一切読まれない(bit 不変)。イベント本体は S.linLog(上限400・古い順に間引く)
+    S.linId=new Int32Array(n); for(let li=0;li<n;li++) S.linId[li]=li;
+    S.linN=new Uint16Array(n); S.linNext=n; S.linLog=[]; S.linTrim=0;
     S.lSwAuto=new Uint8Array(n); S.hasLSwAuto=false;// 第36便 C2: 掻出の自動算出フラグ(既定0=独立指定)
     S.uPx=F();S.uPy=F();S.tau=F();S.ax=F();S.ay=F();S.sumW=F();S.uAx=F();S.uAy=F();S.ds=F();
     S.dpx=F();S.dpy=F();
@@ -6525,6 +6541,12 @@ function makeSim(){
           rL:(lSc>0? Math.abs(eL)/lSc : 0), rE:(eSc>0? Math.abs(eE)/eSc : 0)});
         if(S.fusLog.length>64) S.fusLog.shift();
         S.fusN++;
+        // 第100便 EXT-10(形成系譜): 吸収イベントを安定IDで記録(記録のみ — 物理 bit 不変)。
+        // m/Jc/lSw は融合直後の値 = 系譜の吸収時点履歴。gone 側の履歴は linLog に残る(idで辿れる)
+        if(S.linId){ S.linN[i]=Math.min(65535,S.linN[i]+1);
+          S.linLog.push({t:S.t, id:S.linId[i], gone:S.linId[j], goneN:S.linN[j], dm:mj, m:mS,
+            Jc:(S.hasCoreV2? S.coreJ[i] : 0), lSw:S.lSw[i]});
+          if(S.linLog.length>400){ S.linLog.shift(); S.linTrim=1; } }
         dead[j]=1; into[j]=i; nDead++;
         break;                                   // 1サブステップに同一粒子は1回まで(連鎖は次回)
       }
@@ -6546,7 +6568,8 @@ function makeSim(){
       "lSw","radOv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
-      "Tint","dQi","arep","arepD","duT","echoX0","echoY0"]) mv(S[key]);
+      "Tint","dQi","arep","arepD","duT","echoX0","echoY0",
+      "linId","linN"]) mv(S[key]);   // 第100便 EXT-10: 形成系譜
     // 旧 index → 新 index の写像(消えた粒子は融合先へ写す)
     const nm=new Int32Array(n).fill(-1);
     for(let t=0;t<k;t++) nm[keep[t]]=t;
@@ -6581,12 +6604,14 @@ function makeSim(){
       "lSw","radOv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
-      "Tint","dQi","arep","arepD","duT","echoX0","echoY0"]){
+      "Tint","dQi","arep","arepD","duT","echoX0","echoY0",
+      "linId","linN"]){   // 第100便 EXT-10: 形成系譜
       const a=S[key]; if(!a) continue;
       const b=new a.constructor(nc); b.set(a); S[key]=b;
     }
     for(let i=cap;i<nc;i++){ S.rMulv[i]=1; S.coreMd[i]=0; S.coreMF[i]=0; S.coreJ[i]=0;
-      S.coreEint[i]=0; S.coreSrc[i]=0; S.coreOm0[i]=0; }   // alloc と同じ既定値(+コアv2・第80便)
+      S.coreEint[i]=0; S.coreSrc[i]=0; S.coreOm0[i]=0;
+      S.linId[i]=-1; S.linN[i]=0; }   // alloc と同じ既定値(+コアv2・第80便/第100便: 系譜は分裂時に発行)
     S.pairD=new Float32Array(Math.max(1,nc*(nc-1)/2));
     S.railIdx=null; S.periDet=null;     // index 依存のキャッシュは作り直させる
     S._fusDead=null; S._fusInto=null; S._ts=null;
@@ -6744,6 +6769,7 @@ function makeSim(){
       }
       if(S.echoX0){ S.echoX0[j]=X2; S.echoY0[j]=Y2; }
       S.n=j+1;
+      if(S.linId){ S.linId[j]=S.linNext++; S.linN[j]=0; }   // 第100便 EXT-10: 分裂子は新系譜ID(記録のみ)
       // 第三者との相互作用エネルギーの差分(融合と同じ方式・T′ 確定後に評価する)
       let u3b=0;
       for(let k=0;k<S.n;k++){ if(k===i||k===j) continue; u3b+=pairU(i,k)+pairU(j,k); }
@@ -12602,6 +12628,7 @@ function applyLang(){
   // 第80便C: コアv2内訳ブロックのラベル
   $("#beLcvTitle").textContent=T("beCoreTitle"); $("#beLcvMode").textContent=T("beCoreMode");
   $("#beLcvOm").textContent=T("beCoreOm"); $("#beLcvJ").textContent=T("beCoreJ"); $("#beLcvLs").textContent=T("beCoreLs");
+  $("#beLinTitle").textContent=T("beLinTitle");   // 第100便 EXT-10: 形成系譜
   $("#beNote").textContent=T("beNote");                          // v1.17: 粒子編集パネル
   $("#aiProvHead").textContent=T("aiProvHead"); $("#aiProvLabel").textContent=T("aiProvLabel");
   $("#aiModelLabel").textContent=T("aiModelLabel"); $("#aiUrlLabel").textContent=T("aiUrlLabel");
@@ -13008,6 +13035,31 @@ function updateBodyEdit(){
     $("#beCvLs").title=$("#beCvLs").value;   // 第92便: 見切れ対策の補助(全文ツールチップ)
   } else {
     cv.style.display="none";
+  }
+  // 第100便 EXT-10: 形成系譜 — 吸収イベント(S.linLog・安定ID)から選択粒子の履歴を表示。
+  // 読み取り専用の表示層(物理配列へは一切書かない)。running 中は既存の毎フレーム更新経路で追随。
+  // 系譜サイズは記録からの再帰計数 — 記録が上限(400件)で間引かれていれば下限「≥」を付す
+  const lp=$("#beLineage");
+  if(lp){
+    const evAll=S.linLog||[];
+    const myId=(S.linId && i<S.linId.length)? S.linId[i] : -1;
+    const mine=(myId>=0 && evAll.length)? evAll.filter(e=>e.id===myId) : [];
+    if(mine.length){
+      lp.style.display="block";
+      const byId=new Map();
+      for(const e of evAll){ let a=byId.get(e.id); if(!a){ a=[]; byId.set(e.id,a); } a.push(e); }
+      const seen=new Set();
+      const treeOf=(id)=>{ if(seen.has(id)) return 0; seen.add(id);
+        let s2=0; for(const e of (byId.get(id)||[])) s2+=1+treeOf(e.gone); return s2; };
+      const tot=treeOf(myId);
+      $("#beLinSummary").textContent=T("beLinSum")(S.linN[i], tot, mine.length, !!S.linTrim);
+      const rows=$("#beLinRows"); rows.textContent="";
+      for(const e of mine.slice(-8).reverse()){
+        const d=document.createElement("div");
+        d.textContent=T("beLinRow")(fmt(e.t), fmt(e.dm), fmt(e.m), fmt(e.lSw));
+        rows.appendChild(d);
+      }
+    } else lp.style.display="none";
   }
 }
 function beBind(id,fn){
