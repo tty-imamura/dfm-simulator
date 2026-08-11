@@ -969,10 +969,11 @@ ja: {
   claimKindTip:"主張の検証形態(台帳4-92): 解析一致=閉形式解との一致/保存恒等式=帳簿込みの恒等式/意味論回帰=定義・規則の回帰/固定seed実測=決定論的単一走行の実測/多seed統計=シード群にわたる統計",
   // 第50便 50K(台帳4-78 C案): 構造化説明の区分見出し
   descSummaryHead:"📌 要約", descObserveHead:"👀 観察のポイント", descControlHead:"🎛 操作と対照",
-  // 第74便: 5段階スケール(scaleTier)— チップ・換算表示・AI雛形(第84便C: 絞り込み用 grpScale は撤去)
-  scaleName_molecular:"分子", scaleName_everyday:"日常", scaleName_celestial:"天体",
+  // 第74便→第98便: 7段階スケール(scaleTier)— チップ・換算表示・AI雛形(第84便C: 絞り込み用 grpScale は撤去)
+  scaleName_molecular:"分子", scaleName_beaker:"ビーカー", scaleName_everyday:"日常",
+  scaleName_planetary:"惑星", scaleName_stellar:"恒星",
   scaleName_galactic:"銀河", scaleName_cosmic:"宇宙全体",
-  bdgScaleTip:"5段階スケール分類(分子/日常/天体/銀河/宇宙全体)。UI の分類と表示換算の目安専用 — 物理エンジンはスケールで切り替わらない(同じ公理・同じ法則のまま、質量・距離・速度で支配機構が入れ替わるのが本モデルの主題)",
+  bdgScaleTip:"7段階スケール分類(分子/ビーカー/日常/惑星/恒星/銀河/宇宙全体 — 第98便)。UI の分類と表示換算の目安専用 — 物理エンジンはスケールで切り替わらない(同じ公理・同じ法則のまま、質量・距離・速度で支配機構が入れ替わるのが本モデルの主題)",
   // 第81便(原仮定者指示): カメラの天体追従(描画層のみ・物理不変)
   camFollowLabel:"カメラ追従",
   camFollowDesc:"選んだ天体を画面の中央に置き続ける。追従中も1本指ドラッグ(PCはマウスドラッグ)でずらせて、そのずれは「追従対象からのオフセット」として保たれる — 対象が動いても画面の構図は崩れない。「選択粒子」は粒子が非選択でも設定でき、非選択の間は「なし」と同じ挙動で、粒子を選んだ瞬間から追従する(第95便)。この設定は他の共通設定と同様に保存され、「初めから」やサンプル切替でも解除されない。追従先の粒子が融合したら合体後の粒子へ引き継ぎ、消滅しても設定は解除しない(対象が現れるまで「なし」と同じ挙動で待つ — 第97便)。表示だけの機能で、物理・保存データには一切影響しない(A/B比較中は選択中の宇宙の対象を追う)。",
@@ -982,7 +983,7 @@ ja: {
   camFollowNoSel:"追従する粒子を先にタップで選んでください",
   camFollowReleased:"追従先が消えたのでカメラ追従を解除しました",
   scaleDispLabel:"スケール換算表示",
-  scaleDispDesc:"パラメータの数値(シミュレーション単位)に、現在のスケール指数で SI 換算した値(≈1.2e7 m/s 等)を併記する。換算は次元をもつパラメータ(G・光速・一様重力・ε・D₀・Kt)のみ。共通設定・既定ON。表示だけの機能で、物理・セーブには一切影響しない。換算指数は同じ「スケール」カテゴリの距離/時間/質量/光速スケール指数で変えられる(光速は専用指数 — 「3.0 → 3×10^8 m/s」が既定)。",   // 第94便: スケールカテゴリへ・既定ON・4指数化
+  scaleDispDesc:"パラメータの数値(シミュレーション単位)に、現在のスケール指数で SI 換算した値(≈1.2e7 m/s 等)を併記する。換算は次元をもつパラメータ(G・光速・一様重力・ε・D₀・Kt)のみ。共通設定・既定ON。表示だけの機能で、物理・セーブには一切影響しない。換算指数は同じ「スケール」カテゴリの距離/時間/質量/光速の各指数で変えられる(光速は専用の表示較正指数 — 「30 → 3×10^8 m/s」が既定)。",   // 第94便: スケールカテゴリへ・既定ON・4指数化
   // 第94便(原仮定者指示): 「スケール」カテゴリ新設 — 距離/時間/質量(+光速)の表示スケールを集約
   grpScale:"スケール",
   grpScaleDesc:"表示換算に使うスケール指数の集約(共通設定・表示専用 — 物理 sim.params には一切書き込まない)。各指数はサンプルのロード時にスケールタグの既定値で上書きされる(「日常」は距離・時間・質量とも 0.0)。",
@@ -992,8 +993,8 @@ ja: {
   scaleExpTDesc:"表示換算に使う時間指数 log₁₀(s/時間1)。「時間倍率」(物理のシミュレーション速度)とは異なり、物理には影響しない表示専用の換算指数。サンプルのロード時にスケールタグの既定値で上書きされる(「日常」は 0.0)",
   scaleExpMLabel:"質量スケール指数",
   scaleExpMDesc:"表示換算に使う質量指数 log₁₀(kg/質量1)。表示専用 — 物理には影響しない。サンプルのロード時にスケールタグの既定値で上書きされる(「日常」は 0.0)",
-  scaleExpCLabel:"光速スケール指数",
-  scaleExpCDesc:"光速パラメータ専用の換算指数。「光速」の換算値 = 値 × 10^指数 m/s。既定 7.0 で「30 → 3×10^8 m/s」の一律規約を表す(全スケールタグ共通 — 第95便)。表示専用 — 物理には影響しない",
+  scaleExpCLabel:"光速 c₀ 表示較正指数",
+  scaleExpCDesc:"光速パラメータ専用の**表示較正**指数。「光速」の換算値 = 値 × 10^指数 m/s。既定 7.0 で「30 → 3×10^8 m/s」の一律規約を表す(全スケールタグ共通 — 第95便)。これは距離/時間指数から導かれる一般の速度換算(10^(L−T))とは独立した参照較正であり、モデル単位系を単一のSI単位系へ固定するものではない(第98便 — 外部レビュー指摘の明確化)。表示専用 — 物理には影響しない",
   // 第95便(原仮定者指示): 換算の「時間」に計算で使う時間倍率を反映 — 経過 t≈ に加えて
   // 「再生1秒 ≈ 宇宙の何秒か」(公称60fps: 1秒 = SUBSTEPS·DT·60·倍率 単位 = ×10^eT 秒)を併記。
   // 第96便(原仮定者指示): 倍率は「時間倍率×フッターの簡易倍率」を1フレーム上限(24步=12倍)で
@@ -1001,11 +1002,14 @@ ja: {
   hudScale:(x,eT,eM,t,ts)=>`スケール換算 長さ1=10^${Math.round(x*10)/10}m 時間1=10^${Math.round(eT*10)/10}s 質量1=10^${Math.round(eM*10)/10}kg t≈${sciFmt(t*Math.pow(10,eT))}s(実効倍率${sciFmt(ts)}: 再生1s≈${sciFmt(SUBSTEPS*DT*60*ts*Math.pow(10,eT))}s)`,
   // 第74便: AI追加のスケール別雛形
   aiTplLabel:"スケール雛形", aiTplInsert:"挿入",
-  aiTplName_molecular:"実験箱", aiTplName_everyday:"実験室", aiTplName_celestial:"軌道の舞台",
+  aiTplName_molecular:"実験箱", aiTplName_beaker:"ビーカー実験", aiTplName_everyday:"実験室",
+  aiTplName_planetary:"軌道の舞台", aiTplName_stellar:"恒星の現場",
   aiTplName_galactic:"回転円盤", aiTplName_cosmic:"箱宇宙",
   aiTpl_molecular:"【分子スケール|実験箱】箱境界の実験箱(world.boundary:\"box\")に小さな粒子を数十個閉じ込める。スピン=熱(A9)・スピン斥力 kRep(E5′)・摩擦 muF(E9)・スピン拡散 κs(E10′)で、相変化や熱平衡を見せたい。scaleTier:\"molecular\" を付ける。要望: ",
-  aiTpl_everyday:"【日常スケール|実験室】一様重力 gravityY のある実験室(world.boundary:\"box\")で、落下・対流・浮力のような身の回りの現象を作る。日常タグの規約として gravityY は 0.031(換算 ≈9.8 m/s²)・cLight は 30 を既定にする(第95便)。scaleTier:\"everyday\" を付ける。要望: ",
-  aiTpl_celestial:"【天体スケール|軌道の舞台】境界なし(world.boundary:\"none\")の空間に中心天体と周回体を置く。初速は vMode:\"kepler\"(aroundMass=中心質量)。潮汐・レンズ(rays)・時計の遅れも使える。scaleTier:\"celestial\" を付ける。要望: ",
+  aiTpl_beaker:"【ビーカースケール|実験室の流体】一様重力 gravityY のある実験箱(world.boundary:\"box\")で、対流・浮力・熱分離のような巨視的な流体現象を作る。ビーカータグの規約として gravityY は 0.031(換算 ≈9.8 m/s²)・cLight は 30 を既定にする。scaleTier:\"beaker\" を付ける。要望: ",
+  aiTpl_everyday:"【日常スケール|実験室】一様重力 gravityY のある実験室(world.boundary:\"box\")で、落下・投射のような身の回りの力学を作る。日常タグは 1単位=1m/1s/1kg の実値規約で、gravityY は 9.8(=9.8 m/s²)・cLight は 30 を既定にする(第98便)。scaleTier:\"everyday\" を付ける。要望: ",
+  aiTpl_planetary:"【惑星スケール|軌道の舞台】境界なし(world.boundary:\"none\")の空間に中心天体と惑星・衛星・環を置く。初速は vMode:\"kepler\"(aroundMass=中心質量)。潮汐・時計の遅れも使える。scaleTier:\"planetary\" を付ける。要望: ",
+  aiTpl_stellar:"【恒星スケール|恒星の現場】境界なし(world.boundary:\"none\")の空間で、自己重力雲の崩壊・恒星の融合加熱・レンズ(rays)・連星のような恒星スケールの現象を作る。scaleTier:\"stellar\" を付ける。要望: ",
   aiTpl_galactic:"【銀河スケール|回転円盤】中心に大質量・高スピンの天体(pinned可)、まわりに恒星ディスク(type:\"disk\"・vMode:\"kepler\")。空間引きずり kFrame:1 と回転曲線オーバーレイ(rotationCurve)で外縁の増強を見せる。scaleTier:\"galactic\" を付ける。要望: ",
   aiTpl_cosmic:"【宇宙全体スケール|箱宇宙】universeBox(膨張する箱)に粒子を共動配置し、初速は vMode:\"hubble\"。膨張と自己重力の綱引きや赤方偏移(boxGraph)を見せる。scaleTier:\"cosmic\" を付ける。要望: ",
   groups:{}, params:{},
@@ -1342,9 +1346,10 @@ en: {
   // 第50便 50K(台帳4-78 C案): structured-description section heads
   descSummaryHead:"📌 Summary", descObserveHead:"👀 What to observe", descControlHead:"🎛 Controls & contrasts",
   // 第74便: 5-tier scale (scaleTier) — chips/conversion/AI templates (第84便C: filter-only grpScale removed)
-  scaleName_molecular:"Molecular", scaleName_everyday:"Everyday", scaleName_celestial:"Celestial",
+  scaleName_molecular:"Molecular", scaleName_beaker:"Beaker", scaleName_everyday:"Everyday",
+  scaleName_planetary:"Planetary", scaleName_stellar:"Stellar",
   scaleName_galactic:"Galactic", scaleName_cosmic:"Cosmic",
-  bdgScaleTip:"Five-tier scale classification (molecular / everyday / celestial / galactic / cosmic). Used only for browsing and unit-conversion hints — the physics engine never switches on scale (the whole point of this model is that the same axioms let different mechanisms dominate as mass, distance and speed change)",
+  bdgScaleTip:"Seven-tier scale classification (molecular / beaker / everyday / planetary / stellar / galactic / cosmic — wave 98). Used only for browsing and unit-conversion hints — the physics engine never switches on scale (the whole point of this model is that the same axioms let different mechanisms dominate as mass, distance and speed change)",
   camFollowLabel:"Camera follow",
   camFollowDesc:"Keeps the chosen body centred on screen. You can still drag (one finger, or the mouse on a PC) while following: the shift is kept as an offset from the followed body, so the framing survives as the target moves. \"Selected particle\" can be set even with nothing selected — it then behaves like \"None\" and starts following the moment you select a particle (wave 95). The setting is saved like the other general settings and survives both \"restart\" and sample switches. If the followed particle merges, the follow carries over to the merged body; if it disappears, the setting is kept and simply waits, behaving like \"None\" (wave 97). Display only — physics and saved data are untouched (during an A/B comparison it follows the target in the selected universe).",
   camFollowOptNone:"None",
@@ -1353,7 +1358,7 @@ en: {
   camFollowNoSel:"Tap a particle first to choose what to follow",
   camFollowReleased:"The followed body is gone — camera follow turned off",
   scaleDispLabel:"Scale-converted display",
-  scaleDispDesc:"Adds an SI-converted value (≈1.2e7 m/s etc.) next to dimensional parameters (G, light speed, uniform gravity, ε, D₀, Kt), using the current scale exponents. Shared setting, on by default. Display only — physics and saves are untouched. The exponents live in the same Scale category (distance / time / mass / light-speed; light speed uses its own exponent — 3.0 → 3×10^8 m/s by default).",   // wave 94: moved to Scale category, default ON, 4-exponent system
+  scaleDispDesc:"Adds an SI-converted value (≈1.2e7 m/s etc.) next to dimensional parameters (G, light speed, uniform gravity, ε, D₀, Kt), using the current scale exponents. Shared setting, on by default. Display only — physics and saves are untouched. The exponents live in the same Scale category (distance / time / mass / light-speed; light speed uses its own display-calibration exponent — 30 → 3×10^8 m/s by default).",   // wave 94: moved to Scale category, default ON, 4-exponent system
   // wave 94: new Scale category — distance/time/mass (+light speed) display-scale exponents
   grpScale:"Scale",
   grpScaleDesc:"Display-scale exponents used by the converted display (shared setting, display only — nothing is ever written into sim.params). Loading a sample overwrites each exponent with its scale-tag default (everyday: distance, time and mass all 0.0).",
@@ -1363,15 +1368,18 @@ en: {
   scaleExpTDesc:"The time exponent log₁₀(s per time-unit) used by the converted display. Unlike \"Time rate\" (which speeds up the simulation), this has no effect on physics — display only. Loading a sample overwrites it with the scale-tag default (everyday: 0.0)",
   scaleExpMLabel:"Mass scale exponent",
   scaleExpMDesc:"The mass exponent log₁₀(kg per mass-unit) used by the converted display. Display only — no effect on physics. Loading a sample overwrites it with the scale-tag default (everyday: 0.0)",
-  scaleExpCLabel:"Light-speed scale exponent",
-  scaleExpCDesc:"Conversion exponent dedicated to the light-speed parameter: converted value = value × 10^exponent m/s. Default 7.0 expresses the uniform convention 30 → 3×10^8 m/s (shared by every scale tag — wave 95). Display only — no effect on physics",
+  scaleExpCLabel:"c₀ display-calibration exponent",
+  scaleExpCDesc:"A **display-calibration** exponent dedicated to the light-speed parameter: converted value = value × 10^exponent m/s. Default 7.0 expresses the uniform convention 30 → 3×10^8 m/s (shared by every scale tag — wave 95). It is a reference calibration independent of the generic velocity conversion 10^(L−T) derived from the length/time exponents, and does not pin the model units to a single SI unit system (wave 98 — clarification from external reviews). Display only — no effect on physics",
   hudScale:(x,eT,eM,t,ts)=>`scale conv: len1=10^${Math.round(x*10)/10}m time1=10^${Math.round(eT*10)/10}s mass1=10^${Math.round(eM*10)/10}kg t≈${sciFmt(t*Math.pow(10,eT))}s (effective rate ${sciFmt(ts)}: 1s of playback≈${sciFmt(SUBSTEPS*DT*60*ts*Math.pow(10,eT))}s)`,
   aiTplLabel:"Scale template", aiTplInsert:"Insert",
-  aiTplName_molecular:"Lab box", aiTplName_everyday:"Laboratory", aiTplName_celestial:"Orbital stage",
+  aiTplName_molecular:"Lab box", aiTplName_beaker:"Beaker experiment", aiTplName_everyday:"Laboratory",
+  aiTplName_planetary:"Orbital stage", aiTplName_stellar:"Stellar site",
   aiTplName_galactic:"Rotating disk", aiTplName_cosmic:"Box universe",
   aiTpl_molecular:"[Molecular scale | lab box] Confine a few dozen small particles in a bounded box (world.boundary:\"box\"). Spin=heat (A9), spin repulsion kRep (E5′), friction muF (E9) and spin diffusion κs (E10′) are the lead actors; show phase changes or thermal equilibrium. Set scaleTier:\"molecular\". Request: ",
-  aiTpl_everyday:"[Everyday scale | laboratory] A lab with uniform gravity gravityY (world.boundary:\"box\") for familiar phenomena — falling, convection, buoyancy. By the everyday-tag convention gravityY defaults to 0.031 (≈9.8 m/s² converted) and cLight to 30 (wave 95). Set scaleTier:\"everyday\". Request: ",
-  aiTpl_celestial:"[Celestial scale | orbital stage] Open space (world.boundary:\"none\") with a central body and orbiters. Initial speeds via vMode:\"kepler\" (aroundMass = central mass). Tides, lensing (rays) and clock effects are available. Set scaleTier:\"celestial\". Request: ",
+  aiTpl_beaker:"[Beaker scale | lab fluids] A bounded box with uniform gravity gravityY for macroscopic fluid phenomena — convection, buoyancy, thermal separation. By the beaker-tag convention gravityY defaults to 0.031 (≈9.8 m/s² converted) and cLight to 30. Set scaleTier:\"beaker\". Request: ",
+  aiTpl_everyday:"[Everyday scale | laboratory] A lab with uniform gravity gravityY (world.boundary:\"box\") for familiar mechanics — falling, projectiles. The everyday tag uses the real-value convention 1 unit = 1 m / 1 s / 1 kg, with gravityY 9.8 (= 9.8 m/s²) and cLight 30 (wave 98). Set scaleTier:\"everyday\". Request: ",
+  aiTpl_planetary:"[Planetary scale | orbital stage] Open space (world.boundary:\"none\") with a central body, planets, moons or rings. Initial speeds via vMode:\"kepler\" (aroundMass = central mass). Tides and clock effects are available. Set scaleTier:\"planetary\". Request: ",
+  aiTpl_stellar:"[Stellar scale | stellar site] Open space (world.boundary:\"none\") for star-scale phenomena — self-gravitating cloud collapse, fusion-heated stellar interiors, lensing (rays), binaries. Set scaleTier:\"stellar\". Request: ",
   aiTpl_galactic:"[Galactic scale | rotating disk] A massive high-spin central body (pinned allowed) with a stellar disk (type:\"disk\", vMode:\"kepler\"). Use frame dragging kFrame:1 and the rotation-curve overlay to show outer-velocity enhancement. Set scaleTier:\"galactic\". Request: ",
   aiTpl_cosmic:"[Cosmic scale | box universe] Place particles comoving in an expanding universeBox with vMode:\"hubble\" initial flow. Show the tug-of-war between expansion and self-gravity, or redshift (boxGraph). Set scaleTier:\"cosmic\". Request: ",
   groups:{"空間と時間":"Space & Time","箱宇宙":"Box Universe","銀河":"Galaxies","光":"Light","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
@@ -1754,18 +1762,21 @@ function pnSource(S, i){ return S.mEff[i] >= pnMassMin(S.params, S.R[i]); }
 // (log10 の SI 値/シミュレーション単位1あたり: expL=長さ[m]・expT=時間[s]・expM=質量[kg])。
 // 例: molecular は「長さ1=1Å・時間1=0.1ps・質量1≈6u」の実験箱、galactic は
 // 「長さ1≈0.3kpc・時間1≈3Myr・質量1≈5×10³M☉」の回転円盤 — 換算表示とスライダーの目盛りに使う
-const SCALE_TIERS=["molecular","everyday","celestial","galactic","cosmic"];
-// 第95便(原仮定者指示): 日常タグの既定指数を L=T=−2.5 に変更(g_y 0.031 → ≈9.8 m/s² —
-// 「一様重力 0.03 級」の実験室サンプル群がそのまま日常の重力になる較正)。
-// M=−2.5 は統括裁量(指示は「0にしない」のみ): 長さ1=3.16mm・質量1=3.16g は
-// 密度 ~6×10³ kg/m³(鋼球ビー玉相当)で自己整合する
+// 第98便(原仮定者指示): 5分類 → **7分類**(Molecular/Beaker/Everyday/Planetary/Stellar/
+// Galactic/Cosmic)。旧 everyday の較正(-2.5系・g_y 0.031→≈9.8 m/s²)は「ビーカー」が引き継ぎ、
+// 日常は 1単位=1m/1s/1kg の実値規約(⚾のみ・g_y=9.8)。旧 celestial は惑星/恒星へ分割
+// (惑星=旧アンカー据置・恒星=1AU/1年/1M☉ — 外部レビュー3件の提案を採択)。
+// 各アンカーは表示専用の代表単位であり、密度等の導出根拠にはしない(ChatGPT レビュー P1-3)
+const SCALE_TIERS=["molecular","beaker","everyday","planetary","stellar","galactic","cosmic"];
 const SCALE_ANCHORS={
-  molecular:{expL:-10, expT:-13, expM:-26},
-  everyday: {expL:-2.5, expT:-2.5, expM:-2.5},
-  celestial:{expL:8,   expT:4,   expM:24},
-  galactic: {expL:19,  expT:14,  expM:34},
-  cosmic:   {expL:23,  expT:17,  expM:42}};
-const SCALE_EMOJI={molecular:"🧪", everyday:"🏠", celestial:"🪐", galactic:"🌌", cosmic:"🫧"};
+  molecular:{expL:-10, expT:-13, expM:-26},   // 1Å / 0.1ps / ≈6u
+  beaker:   {expL:-2.5, expT:-2.5, expM:-2.5}, // ≈3.16mm / ≈3.16ms / ≈3.16g(1速度=1m/s・g_y 0.031→≈9.8 m/s²)
+  everyday: {expL:0,   expT:0,   expM:0},     // 1m / 1s / 1kg(g_y=9.8 がそのまま 9.8 m/s²)
+  planetary:{expL:8,   expT:4,   expM:24},    // 10万km / ≈2.8h / ≈0.17M⊕
+  stellar:  {expL:11,  expT:7,   expM:30},    // ≈1AU / ≈0.3年 / ≈0.5M☉
+  galactic: {expL:19,  expT:14,  expM:34},    // ≈0.3kpc / ≈3Myr / ≈5×10³M☉
+  cosmic:   {expL:23,  expT:17,  expM:42}};   // ≈3Mpc / ≈3Gyr / ≈5×10¹¹M☉
+const SCALE_EMOJI={molecular:"⚛️", beaker:"🧪", everyday:"🏠", planetary:"🪐", stellar:"☀️", galactic:"🌌", cosmic:"🫧"};
 // 表示換算の状態(表示専用 — sim.params には触れない)。各指数 null はスケールタグ既定を使う。
 // スライダー(スケールカテゴリ)が上書きし、サンプルのロードで既定へ戻る(第94便)
 // 第94便(原仮定者指示): スケール換算表示は**既定ON**(未設定時 true — 明示OFFのみ休止)
@@ -1950,7 +1961,7 @@ const BUILTIN_PRESETS = [
 // 第26便(原仮定者指示): カテゴリ分け・表示順を再編 — 銀河系サンプルを「銀河」グループへ集約。配列順=表示順
 // ===== グループ: 空間と時間 =====
 { id:"gclock", name:"重力による時計の遅れ", emoji:"⏱️", group:"空間と時間",
-  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"重い天体のそばに3つの時計を置き、時間の遅れを比べるサンプル。距離だけを70・140・240と変え、動きは完全に止めてある — 変わる条件を「決定力(重力の強さ)」ひとつに絞った統制実験。",
@@ -1982,7 +1993,7 @@ const BUILTIN_PRESETS = [
 
 { id:"grcal", name:"弱場GR較正 — GPS・光・シャピロ", emoji:"🛰️", group:"空間と時間",
   fidelity:"real",   // 第92便: 現実準拠(Kt=c²/G 較正 — 実値換算は claims/説明を参照)
-  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"calibration",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["cal"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   descStruct:{
@@ -2006,7 +2017,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
 { id:"mercury", name:"水星の近日点前進 — 測地線1PN", emoji:"☿", group:"空間と時間",
-  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["cal"],   // 第88便 EXT-04(宣言専用 — 表示のみ)
   // 第88便 EXT-09: Failure First(宣言専用 — 表示のみ)。base の失敗は論文1既報の負の結果
@@ -2039,11 +2050,10 @@ const BUILTIN_PRESETS = [
 
 { id:"projectile", name:"自由落下と放物運動", emoji:"⚾", group:"空間と時間",
   scaleTier:"everyday",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
-  // 第94便→95便(原仮定者指示): 日常タグの既定は g_y=0.031(新アンカー L=T=−2.5 で ≈9.8 m/s²)・
-  // 光速 c₀=30(eC=7 で 3×10^8 m/s)。第94便の g=9.8 構成から**力学的相似変換**で再調整:
-  // k=√(0.031/9.8)≈0.0562(旧原型 v1.18 の g0.08 からは k=√(0.031/0.08)≈0.6225)。
-  // 速度×k・timeScale÷k で軌跡(放物線)・等価原理デモは従来と同一(スケールフリー)。
-  // cLight は相似値でなく一律規約の 30(τ 比のみ僅かに変わる — 主張・claims なし)
+  // 第94便(原仮定者指示「日常タグでは g_y デフォルトを 9.8 とし既存サンプルも修正」):
+  // gravityY 0.08→9.8 の**力学的相似変換**で実値化した。純粋な一様重力+瞬間壁反射はスケール
+  // フリーなので、速度×√(9.8/0.08)=√122.5≈11.068・timeScale÷11.068 で
+  // 軌跡(放物線)・等価原理デモ・τ 比まで従来と同一のまま g_y が実値 9.8(=9.8 m/s²)になる
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"一様重力場gravityY(外部場)だけを働かせた力学実験室。",
@@ -2056,13 +2066,13 @@ const BUILTIN_PRESETS = [
   activeParams:["gravityY","gravityX"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:220}, world:{boundary:"box",size:190},
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
-    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0.031, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:4.82},
+    cLight:30/* 第98便: c₀は一律規約の30(⚾は光速非依存 — τ比のみ僅かに変わる。力学は第94便の実値 g_y=9.8 のまま) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:9.8, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:0.271},
   bodies:[ // v1.18: Gemini/Grok 第8次提案の合議採用(自由落下×2質量+水平投射+斜方投射)
-           // 第95便: 相似変換(×0.6225 — 旧原型 vx3/vy−3.6・g0.08 比)。軌跡は従来と同一
+           // 第94便: 相似変換(×11.068)— 旧 vx3/vy−3.6・timeScale3・g0.08 と同一軌跡(第98便で本版を日常タグの正とする — 原仮定者指示)
     {type:"single", rMul:1.2, m:2, x:-150,y:-140, vx:0,vy:0, spin:0, pinned:false},
     {type:"single", rMul:1.2, m:20, x:-110,y:-140, vx:0,vy:0, spin:0, pinned:false},
-    {type:"single", rMul:1.2, m:2, x:-170,y:-20, vx:1.867,vy:0, spin:0, pinned:false},
-    {type:"single", rMul:1.2, m:2, x:-170,y:100, vx:1.867,vy:-2.24, spin:0, pinned:false}
+    {type:"single", rMul:1.2, m:2, x:-170,y:-20, vx:33.2,vy:0, spin:0, pinned:false},
+    {type:"single", rMul:1.2, m:2, x:-170,y:100, vx:33.2,vy:-39.84, spin:0, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -2071,7 +2081,7 @@ const BUILTIN_PRESETS = [
 // 可逆チャネル限定の構成(kFrame=0・muF=0・γn=0・κs=0・η_rad=0・kRep=0・boundary="none")で、
 // t=echoFlipAt に v と s を一斉反転すると初期配置へ戻る。実測 RMS は QA echo.* を参照
 { id:"echo", name:"時間の矢 — 巻き戻る宇宙と巻き戻らない宇宙", emoji:"⏪", group:"空間と時間",
-  scaleTier:"celestial",   // 第92便(原仮定者指示「日常タグの整理」): 3天体の抽象宇宙は日常ではなく
+  scaleTier:"stellar",   // 第92便(原仮定者指示「日常タグの整理」): 3天体の抽象宇宙は日常ではなく
   // 天体スケールへ再分類(表示換算のみ — 物理不変。日常タグは g_y=9.8 較正を伴う規約になった)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
@@ -3189,7 +3199,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:true,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"} },
 
 { id:"collapse", name:"自己重力雲の崩壊と原始星形成", emoji:"🌫️", group:"銀河",
-  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   // 第51便 51F: descStruct 化+塊形成の強化(G↑/kRep↓)に伴う数値の全面再実測。メタ表現不使用
@@ -3367,7 +3377,7 @@ const BUILTIN_PRESETS = [
 
 // ===== グループ: 光 =====
 { id:"lensing", name:"重力レンズと光子捕捉", emoji:"💡", group:"光",
-  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"lens", familyRole:"primary",   // 第82便: ファミリー表示(表示専用 — sampleClass と同方針)
@@ -3389,7 +3399,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
 { id:"spinlens", name:"回る星のレンズ — 非対称湾曲", emoji:"🌗", group:"光",
-  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"lens", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
@@ -3412,7 +3422,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
 { id:"blens", name:"連星重力レンズ", emoji:"🔭", group:"光",
-  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"lens", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
@@ -3439,7 +3449,7 @@ const BUILTIN_PRESETS = [
 // 背景の高温星群(左・光学的に薄い)の手前を、冷たい暗黒雲(右・力学的にはほぼ素通り)が
 // 横切る。光学輸送は観測層のみ — kAbs を外しても軌道・スピン・τ は 1 bit 変わらない。
 { id:"reddening", name:"暗黒雲の赤化 — 体積吸収と波長依存", emoji:"🌆", group:"光",
-  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類): 単一機構(体積吸収の波長依存)の原理デモ
   notClaim:["nebula"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   descStruct:{
@@ -3637,7 +3647,7 @@ const BUILTIN_PRESETS = [
   // 第95便(原仮定者指示「調整後の日常に割当て可能なサンプルを移行」): 日常アンカーが
   // L=T=−2.5・g_y 規約 0.031(≈9.8 m/s²)になったため **everyday へ復帰**。
   // g_y 0.03→0.031(+3.3% — 対流セルの成立余裕は実測 循環21.4 vs 閾値12 で十分)
-  scaleTier:"everyday",
+  scaleTier:"beaker",
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   // 第50便 50K(台帳4-78 C案パイロット): descStruct(要約/観察/操作)— description は起動時に
@@ -3675,7 +3685,7 @@ const BUILTIN_PRESETS = [
 { id:"buoyancy", name:"重力分離と浮力", emoji:"🧪", group:"熱の実験室",
   // 第94便: everyday→molecular → 第95便(原仮定者指示): 日常アンカー刷新に伴い everyday へ復帰。
   // g_y 0.05→0.031(日常規約 ≈9.8 m/s²)— 分離は弱まるが持続(claims なし・フルゲートで確認)
-  scaleTier:"everyday",
+  scaleTier:"beaker",
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["thermo"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   descStruct:{
@@ -3913,7 +3923,7 @@ const BUILTIN_PRESETS = [
 
 // ===== グループ: 天体の物語 =====
 { id:"earthMoon", name:"地球と月", emoji:"🌍", group:"天体の物語",
-  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"calibration",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["solar"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"earthmoon", familyRole:"primary",   // 第82便: ファミリー表示(表示専用)
@@ -3960,7 +3970,7 @@ const BUILTIN_PRESETS = [
 
 { id:"earthMoonFree", name:"地球と月(自由二体・物理比)", emoji:"🌕", group:"天体の物語",
   fidelity:"real",   // 第92便: 現実準拠(自由二体・物理比)
-  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["solar"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"earthmoon", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
@@ -4006,7 +4016,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"saturn", name:"土星の環(実験)", emoji:"🪐", group:"天体の物語",
-  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["solar"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"saturn", familyRole:"primary",   // 第82便: ファミリー表示(表示専用)
@@ -4059,7 +4069,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"saturnLayered", name:"土星の環(主星2層)", emoji:"🎯", group:"天体の物語",
-  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["solar"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"saturn", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
@@ -4117,7 +4127,7 @@ const BUILTIN_PRESETS = [
 
 { id:"saturnZonalD68", name:"土星の近点移動(D68精密較正)", emoji:"🛰️", group:"天体の物語",
   fidelity:"real",   // 第92便: 現実準拠(D68 精密較正)
-  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"calibration",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["solar"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"saturn", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
@@ -4165,7 +4175,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"binary", name:"連星系と周連星円盤", emoji:"⭐", group:"天体の物語",
-  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   familyId:"fewbody", familyRole:"primary",   // 第82便: ファミリー表示(表示専用)
   // 第66便 66D(62B 裁定「⭐binary は geo 化の第一候補」の実施): geoPN 0→1。62B+66D の実測 —
@@ -4195,7 +4205,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
 { id:"fig8", name:"三体問題 — 8の字軌道", emoji:"♾️", group:"天体の物語",
-  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   familyId:"fewbody", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
   descStruct:{
@@ -4218,7 +4228,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"counterring", name:"順行・逆行リングの衝突", emoji:"💥", group:"天体の物語",
-  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   familyId:"collide", familyRole:"primary",   // 第82便: ファミリー表示(表示専用)
   descStruct:{
@@ -4259,7 +4269,7 @@ const BUILTIN_PRESETS = [
 //  対照     : —     0.583 0.526 0.542   (kRep=0 — E5′ を切ると等方寄りに戻る)
 //  4000步で 極24〜26本 / 赤道0本。全ガスで測っても 0.689(等方の 2.07 倍)
 { id:"agnjet", name:"AGN類似 — 円盤の内縁と双極ジェット", emoji:"🌋", group:"天体の物語",
-  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   descStruct:{
@@ -4328,7 +4338,7 @@ const BUILTIN_PRESETS = [
 // camera.scale 200 は展示調整(t=0 の円盤が画面幅の約75%・収縮後のコアが明瞭に見える)。
 // timeScale 2 も展示速度のみ(sim.step() は timeScale を読まない)。QA は behavior.spinup(6000步)。
 { id:"spinup", name:"収縮とスピン加速", emoji:"🌪️", group:"天体の物語",
-  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"外から何も加えない、ゆっくり回るガス雲(240粒・剛体回転ω₀=0.00675)。",
@@ -4386,7 +4396,7 @@ const BUILTIN_PRESETS = [
 //       融合124/116/114回・radE 4555/4084/4112・T_mean 4.91/3.89/4.27 と頑健。
 //       対照(融合なし)の radE=60.4 は初期熱の解析的な放出そのもので dt にも seed にも依らない。
 { id:"starcore", name:"恒星の内部 — 融合を熱源とする", emoji:"☀️", group:"天体の物語",
-  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   descStruct:{
@@ -4442,7 +4452,7 @@ const BUILTIN_PRESETS = [
 // 副機構としてパワーボール原理(ジャイロ器具の2Dアナログ — 殻の振動加速度が「手首の揺すり」。
 // コアが差動〔軸自由〕なら加速・rigid〔軸固定〕なら減速)。実測 tests/exp-4-78.mjs
 { id:"starSeed", name:"星の種ローター — 圧縮とパワーボール", emoji:"🌱", group:"天体の物語",
-  scaleTier:"celestial",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",
   notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"rotorform", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
@@ -4967,10 +4977,11 @@ function validatePreset(obj){
     const SC=["principle","composite","calibration","semantic"];
     if(SC.indexOf(p.sampleClass)<0){ warnings.push("sampleClass が不正のため削除"); delete p.sampleClass; }
   }
-  // 第74便: scaleTier — 5段階スケール分類(molecular/everyday/celestial/galactic/cosmic)。
+  // 第74便→第98便: scaleTier — 7段階スケール分類(molecular/beaker/everyday/planetary/stellar/galactic/cosmic)。
   // UI 分類チップ・スケール絞り込み・表示換算の既定指数にだけ使う(物理不変 — sampleClass と同方針)。
   // 不正値は警告つきで削除(チップ・絞り込み対象から外れるだけ)
   if(p.scaleTier!==undefined){
+    if(p.scaleTier==="celestial") p.scaleTier="planetary";   // 第98便: 旧5分類の celestial は惑星へ移行(アンカー同一 — 表示不変)
     if(SCALE_TIERS.indexOf(p.scaleTier)<0){ warnings.push("scaleTier が不正のため削除"); delete p.scaleTier; }
   }
   // 第82便B: emergence — E水準タグ(創発の水準の宣言。表示バッジ専用・物理には一切影響しない)。
