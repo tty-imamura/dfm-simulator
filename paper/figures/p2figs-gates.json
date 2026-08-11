@@ -1,9 +1,34 @@
 {
  "paper": "dfm-paper2",
- "commit": "5207367",
+ "commit": "9687f64",
  "target": "beta/index.html",
- "generated": "2026-08-11T12:41:09.670Z",
+ "generated": "2026-08-11T13:08:29.305Z",
  "gates": [
+  {
+   "id": "p2fig1.schematic",
+   "pass": true,
+   "detail": "模式図(シミュレーション不要 — 数値ゲートなし)"
+  },
+  {
+   "id": "p2fig2.analytic",
+   "pass": true,
+   "detail": "解析との最大相対誤差 回転=0.07% 膨張=0.07%(<2%)・外向き単調増加=true"
+  },
+  {
+   "id": "p2fig2.gain-half",
+   "pass": true,
+   "detail": "g(r=20) 回転=0.5002 膨張=0.5002(解析 0.5 ±0.01 — 本文 Eq.(1) g(0)=1/2)"
+  },
+  {
+   "id": "p2fig3.anchors",
+   "pass": true,
+   "detail": "V25 アンカー: φ_B=0.965→n=1.61(本文 1.61)・φ_B=0.088→n=0.00(本文 0.00)"
+  },
+  {
+   "id": "p2fig3.dial",
+   "pass": true,
+   "detail": "n_eff は φ_B とともに単調増加(φ_B=0.088→0.00 … φ_B=0.990→1.59)"
+  },
   {
    "id": "p2fig4.ledger",
    "pass": true,
@@ -18,6 +43,71 @@
    "id": "p2fig4.simultaneous",
    "pass": true,
    "detail": "到着時刻 t_O=13.680 / 13.664(差=0.016 — ほぼ同時観測)"
+  },
+  {
+   "id": "p2fig5.aeff",
+   "pass": true,
+   "detail": "圧力あり a_eff=2.1795(本文 2.18・単調増加=true) H_eff 前半3.179e-2→後半5.140e-2(加速)"
+  },
+  {
+   "id": "p2fig5.closed",
+   "pass": true,
+   "detail": "リザーバ帳簿=[0,0,0,0,0](全0 — 完全閉鎖系)"
+  },
+  {
+   "id": "p2fig5.recollapse",
+   "pass": true,
+   "detail": "圧力なし a_eff 最大=1.0047(本文 ≈1.005・t=9.2)→ H_eff 4.422e-4→-5.279e-4(符号反転=再収縮)"
+  },
+  {
+   "id": "p2fig6.analytic",
+   "pass": true,
+   "detail": "H_w/H_geo 実測 vs 解析の最大相対誤差=6.22e-3(<1e-2 — 本文 5.3e-4 と同水準)・w 保存ずれ最大=4.84e-4(<1e-3)"
+  },
+  {
+   "id": "p2fig6.calibration",
+   "pass": true,
+   "detail": "較正点 a=2・D/Kt=0.9242 の点値=0.924200(= D/Kt。本文 (2/3)ln4≈0.9242)"
+  },
+  {
+   "id": "p2fig6.control",
+   "pass": true,
+   "detail": "反比例対照は恒等 1(|比−1| 最大=3.65e-3<1e-2)・a=2 で指数形(0.9242)と反比例(1)の差=0.0758 は達成精度 3.65e-3 の 20.8 倍(>10 — 2つの光速則は内側から判別可能)"
+  },
+  {
+   "id": "p2fig7.asymmetry",
+   "pass": true,
+   "detail": "最小接近半径 順行=158.2 逆行=72.4(比 2.19>2)"
+  },
+  {
+   "id": "p2fig7.orthogonal",
+   "pass": true,
+   "detail": "spin0.3 で ②lS_eff=1.00(飽和)でも ③非脱出率=0.70(≥対照×0.8 — 2機構は独立)"
+  },
+  {
+   "id": "p2fig7.physlock",
+   "pass": true,
+   "detail": "物理対応ロック Kt=c²/G=3600 で非脱出率=0.02(<0.05 — 掃き出しは強場トイ域のみ)"
+  },
+  {
+   "id": "p2fig7.sweepout",
+   "pass": true,
+   "detail": "非脱出率: spin0=0.62(>0.4) → spin2=0.00(<0.15 — 掃き出しで捕捉が消える)"
+  },
+  {
+   "id": "p2fig8.dragging",
+   "pass": true,
+   "detail": "kF=1 は全内側帯で kF=0 を上回る(r=153.8: 1.107 vs 0.946 / r=186.3: 1.085 vs 0.990)"
+  },
+  {
+   "id": "p2fig8.outerboost",
+   "pass": true,
+   "detail": "外縁増強(kF1/kF0, r∈[156,286]) = 1.074 ± 0.006(本文 1.332±0.009・8seed)"
+  },
+  {
+   "id": "p2fig8.profile",
+   "pass": true,
+   "detail": "帯別増強比は内側ほど大: 1.43(r=121・本文 1.58)→ 1.04(r=251・本文 1.16)。全帯 n/a/n/a/1.43/1.17/1.10/1.05/1.04/n/a"
   }
  ],
  "pageErrors": []
