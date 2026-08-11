@@ -4202,9 +4202,18 @@ if (!FAST) {
       // 第99便(外部レビュー P1): c₀=30 一律規約の錨 — 全内蔵が physics.cLight=30 を宣言する
       // (第95〜97便で全55件を c₀=30 へ統一済み。将来のサンプル追加が規約を外れたら即検出)。
       // 7分類ビルド限定 — 旧世代(root v1.38 = 旧c 混在)は対象外で、v1.39 昇格時に自動適用
+      // 第100便(原仮定者裁定): DEFAULT_PHYSICS.cLight も 30 へ移行 — バリデータの既定値マージ
+      // (physics 省略時)が c₀=30 になることも同じ錨で固定する
       if (r.tierN >= 7) {
-        add('light.canonical-builtins', r.badC.length === 0,
-          r.badC.length ? `c₀≠30: ${r.badC.join(' ')}` : `全${r.total}件が c₀=30 を宣言`);
+        const defC = await page.evaluate(() => {
+          const v = HP.validatePreset({ name: 'qa_defc', description: 'd', camera: { scale: 100 },
+            world: { boundary: 'none', size: 0 }, physics: {},
+            bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+          return v.ok ? v.preset.physics.cLight : NaN;
+        });
+        add('light.canonical-builtins', r.badC.length === 0 && defC === 30,
+          (r.badC.length ? `c₀≠30: ${r.badC.join(' ')}` : `全${r.total}件が c₀=30 を宣言`)
+          + ` / 既定値マージ=${defC}(=30)`);
       } else {
         console.log('SKIP light.canonical-builtins(旧5分類ビルド — c₀=30 統一前の世代)');
       }

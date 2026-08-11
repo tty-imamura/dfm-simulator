@@ -1654,7 +1654,10 @@ function paramDesc(def){ return (LANG==="en" && I18N.en.paramDescs[def.key]) || 
 const FUSION_DFRAC_MAX = Math.SQRT1_2;
 // ===== 物理パラメータ定義(PHYSICS.md §5 既定パラメータ表) =====
 const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
-  kappaS:0.05, Kt:60, cLight:60, bM:1, etaRad:0, pRad:4,
+  kappaS:0.05, Kt:60,
+  cLight:30,   // 第100便(原仮定者裁定): 既定を c₀=30 一律規約へ(旧60)。セーブ/内蔵/AI few-shot は
+               // cLight を全件明示しているため挙動不変 — 効くのは cLight 省略の手書き/外部 JSON のみ
+  bM:1, etaRad:0, pRad:4,
   cHeat:1,   // 第36便 D(台帳4-51): 熱容量係数 C(E_int = C·m·T_int)。thermal:"tint" のときだけ効く
   gravityX:0, gravityY:0,   // v1.17: 一様重力場(外部場。+yは画面下向き)
   geoPN:0, lambdaPN:1, pnAlpha:1.5,   // v1.20: E12 測地線1PN(geoPN=1で有効。BOX_UNIVERSE §5)
