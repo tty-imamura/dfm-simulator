@@ -313,6 +313,9 @@
   /* 第50便 50H(台帳4-92): 検証形態の分類チップ(claim.kind) */
   /* 第105便B EXT-02: 主張の出所チップ(独立クラス — .claimKind と別計数。QA claims.kind の
      チップ計数を汚さないため見た目プロパティを複製し、アクセント色で区別する) */
+  /* 第106便: プリセットID行(タイトル直下・タップでコピー) */
+  .presetIdLine{color:var(--dim);font-size:calc(11px*var(--uz,1));margin:-4px 0 8px;cursor:pointer;
+    font-family:ui-monospace,Menlo,monospace;}
   .claimProv{font-size:calc(10px*var(--uz,1));color:var(--acc,#8fd);border:1px solid var(--acc,#8fd);
     border-radius:8px;padding:0 6px;margin-right:6px;white-space:nowrap;vertical-align:1px;opacity:.85;}
   .claimKind{font-size:calc(10px*var(--uz,1));color:var(--dim);border:1px solid var(--line);
@@ -1006,6 +1009,7 @@ ja: {
   // 第105便B EXT-02: 主張の出所6分類(Claim Provenance — 段階導入第1段)
   provNames:{axiom:"公理", definition:"定義", derived:"導出", calibrated:"較正", simulated:"実測", analogy:"類似"},
   provTip:"主張の出所(EXT-02): 公理=仮定そのもの/定義=量・規則の定義から従う/導出=公理から数学的に従う/較正=現実の観測値への対応付けで決めた(例: Kt=c²/G・D68)/実測=シミュレーション実走の測定値/類似=実在現象の名前を借りたアナロジー(定量主張なし)。連鎖: 公理→方程式→パラメータ→(較正)→シミュレーション→観測量→QA検証",
+  presetIdTip:"プリセットの機械名(id)。論文・QA・エクスポートJSONはこの名前でサンプルを参照する(例: 論文の preset galaxy = 🌌銀河の回転曲線)。タップでコピー。サンプル選択ウィンドウの検索欄にもこのIDで入力できる。",
   // 第50便 50K(台帳4-78 C案): 構造化説明の区分見出し
   descSummaryHead:"📌 要約", descObserveHead:"👀 観察のポイント", descControlHead:"🎛 操作と対照",
   // 第74便→第98便: 7段階スケール(scaleTier)— チップ・換算表示・AI雛形(第84便C: 絞り込み用 grpScale は撤去)
@@ -1398,6 +1402,7 @@ en: {
   // 第105便B EXT-02: claim provenance (6 classes, staged rollout 1)
   provNames:{axiom:"axiom", definition:"definition", derived:"derived", calibrated:"calibrated", simulated:"simulated", analogy:"analogy"},
   provTip:"Where the claim comes from (EXT-02): axiom = the assumption itself / definition = follows from a definition or rule / derived = follows mathematically from the axioms / calibrated = fixed by matching a real observed value (e.g. Kt=c²/G, D68) / simulated = measured in an actual simulation run / analogy = borrows the name of a real phenomenon (no quantitative claim). Chain: axioms → equations → parameters → (calibration) → simulation → observables → QA checks",
+  presetIdTip:"The preset's machine name (id). Papers, QA and exported JSON refer to samples by this name (e.g. preset galaxy = 🌌 Galaxy rotation curve). Tap to copy. The sample-picker search box also accepts this ID.",
   // 第50便 50K(台帳4-78 C案): structured-description section heads
   descSummaryHead:"📌 Summary", descObserveHead:"👀 What to observe", descControlHead:"🎛 Controls & contrasts",
   // 第74便: 5-tier scale (scaleTier) — chips/conversion/AI templates (第84便C: filter-only grpScale removed)
@@ -12909,6 +12914,16 @@ function renderHelp(){
   el.appendChild(chipRow);
   // タイトル(第51便 51B: チップの直後へ移動)
   mk("h4",(currentPreset.emoji||"")+" "+pName(currentPreset));
+  // 第106便(原仮定者指示「preset galaxy がどのプリセットかアプリで判別できない」):
+  // プリセットID行 — 論文・QA・エクスポートJSONが参照する機械名(id)をタイトル直下に表示。
+  // タップでコピー。サンプル選択ウィンドウの検索は従来から id にもヒットする(ppSearchPh)
+  {
+    const idl=document.createElement("p"); idl.id="presetIdLine"; idl.className="presetIdLine";
+    idl.textContent="id: "+currentPreset.id;
+    idl.title=T("presetIdTip");
+    idl.addEventListener("click",()=>copyJSON(String(currentPreset.id)));
+    el.appendChild(idl);
+  }
   // 第88便 EXT-04: しない主張 — notClaim 宣言のあるプリセットにだけ、タイトル直下へ「⚠ …」行を
   // 出す(実在天体名を使うサンプルの二段名称を兼ねる。宣言専用メタ — 物理・保存 JSON に無関係)
   for(const t of pNotClaims(currentPreset)) mk("p","⚠ "+t).className="notClaimLine";
