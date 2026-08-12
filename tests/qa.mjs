@@ -4162,11 +4162,15 @@ if (!FAST) {
         return { gA, gB, bad, clampV, clampR, pi: spec ? spec.pi : null };
       });
       const ratio = r2.gA / r2.gB;
+      // 第108便A: 巻き戻し世代(G=0.8)は 1PN が c₀=30 で強まり実測 1.1868 — 窓を世代分岐
+      const gg2Rolled = await page.evaluate(() => HP.allPresets().find((p) => p.id === 'galaxyGeo2').physics.G === 0.8);
+      const [ggLo, ggHi, ggNote] = gg2Rolled ? [1.14, 1.23, '窓1.14〜1.23・較正実測1.1868(第108便A)']
+        : [1.05, 1.12, '窓1.05〜1.12・較正実測1.0803 — legacy 🎡 1.2646 の約1/3'];
       add('claim.galaxygeo2-outerboost',
-        !r2.bad && r2.clampV === 0 && r2.clampR === 0 && ratio >= 1.05 && ratio <= 1.12
+        !r2.bad && r2.clampV === 0 && r2.clampR === 0 && ratio >= ggLo && ratio <= ggHi
         && !!r2.pi && r2.pi[2] === 0 && r2.pi[4] === 0 && r2.pi[1] > 0.02 && r2.pi[5] > 0.1,
         `vφ外縁 kF1=${r2.gA.toFixed(3)} kF0=${r2.gB.toFixed(3)} 比=${ratio.toFixed(4)}` +
-        `(窓1.05〜1.12・較正実測1.0803 — legacy 🎡 1.2646 の約1/3)/ 純度Π: 熱斥力=${r2.pi ? r2.pi[2] : '?'} ` +
+        `(${ggNote})/ 純度Π: 熱斥力=${r2.pi ? r2.pi[2] : '?'} ` +
         `結合=${r2.pi ? r2.pi[4] : '?'}(厳密0)・測地線=${r2.pi ? (r2.pi[1] * 100).toFixed(1) + '%' : '?'}(>2% — 1PN)` +
         `・引きずり=${r2.pi ? (r2.pi[5] * 100).toFixed(1) + '%' : '?'}(>10% — 輸送+渦度)/ クランプ=${r2.clampV}`);
     } else {
@@ -4367,10 +4371,14 @@ if (!FAST) {
         HP.abStop();
         return res;
       });
+      // 第108便A: 巻き戻し世代(spinMax=10)は飽和が上がり実測 0.859 — 窓を世代分岐
+      const nrRolled = await page.evaluate(() => { const p = HP.allPresets().find((x) => x.id === 'nebulaRotor');
+        return p.bodies[0].spinMax === 10; });
+      const [nrLo, nrHi, nrNote] = nrRolled ? [0.75, 0.95, '窓0.75〜0.95・実測0.859(第108便A)'] : [0.65, 0.85, '窓0.65〜0.85・実測0.767'];
       add('claim.nebularotor-contrast',
-        !r.bad && r.core >= 0.65 && r.core <= 0.85 && r.env < 0.1 && r.ctrl < 0.1
+        !r.bad && r.core >= nrLo && r.core <= nrHi && r.env < 0.1 && r.ctrl < 0.1
         && r.core / r.env > 10,
-        `lS̄ コア=${r.core.toFixed(3)}(窓0.65〜0.85・実測0.767) エンベロープ=${r.env.toFixed(3)}(<0.1) ` +
+        `lS̄ コア=${r.core.toFixed(3)}(${nrNote}) エンベロープ=${r.env.toFixed(3)}(<0.1) ` +
         `コントラスト=${(r.core / r.env).toFixed(1)}倍(>10)/ スピン0対照 コア=${r.ctrl.toFixed(3)}(<0.1 — 散光化)`);
     } else {
       console.log('SKIP claim.nebularotor-contrast(対象に 🌑nebulaRotor なし — root 等。第74便)');
@@ -7995,8 +8003,10 @@ if (hasEchoFlipAt) {
     // 世代判定は各プリセットの宣言 cLight===30。spin モード・Tint 未確保の検査自体は不変
     // 第97便: 🌌のみ相似変換を維持(光線が主役)— 他5件は c₀=30 のみの巻き戻しで従来基準と bit 一致に復帰
     const hasC30zc = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'galaxy').physics.cLight === 30);
+    // 第108便A: 🌌 は c₀=30 のまま力学のみ巻き戻し(G 0.2→0.8)— 世代は G 値で判定
+    const galRolled = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'galaxy').physics.G === 0.8);
     const ZC = hasC30zc ? {
-      galaxy: ['b08e5869a4f02c427bbc4194af947bf5505526a5b0b37edfd43327bc456ea1a3', 381],   // 96便(c₀=30 相似変換)実測
+      galaxy: [galRolled ? '6c56d8c7023a08b73162d08827202c7ebe24e31bdd41bc1206a351a667566f9d' : 'b08e5869a4f02c427bbc4194af947bf5505526a5b0b37edfd43327bc456ea1a3', 381],   // 第108便A: 巻き戻し世代(G=0.8)は再採取ハッシュ・変換世代(root v1.39 = G=0.2)は96便実測のまま
       saturn: hasSat240
         ? ['5a4e97ec425c03b30803e3f8bc4dc419b66f57d1c1a62cd0d5a6df8e7e480085', 241]
         : ['d77783f2c321a6c84a457492d869a5d68a35061c82d957d0597a5864e3938fbb', 301],
@@ -8193,7 +8203,8 @@ if (hasEchoFlipAt) {
     const hasC30mb = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'mercury').physics.cLight === 30);
     if (hasC30mb) {
       MB.mercury = 'd1d8ded061f300eaea678e1a1176fa097b38a202b79397d6bae67787bc75bc77';
-      MB.galaxy = 'b08e5869a4f02c427bbc4194af947bf5505526a5b0b37edfd43327bc456ea1a3';
+      const galRolledMb = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'galaxy').physics.G === 0.8);
+      MB.galaxy = galRolledMb ? '6c56d8c7023a08b73162d08827202c7ebe24e31bdd41bc1206a351a667566f9d' : 'b08e5869a4f02c427bbc4194af947bf5505526a5b0b37edfd43327bc456ea1a3';   // 第108便A: 巻き戻し世代(G=0.8)は再採取・変換世代(root)は96便実測のまま
     }
     const run = (pid, mon, kF) => page.evaluate(({ pid, mon, kF }) => {
       HP.loadPreset(pid, false);
