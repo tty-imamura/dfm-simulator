@@ -838,7 +838,7 @@ ja: {
   // 第103便: 独立グループ化(aiExtTitle)+手順のみ折畳み+短縮版(仕様書リンク参照)
   aiExtTitle:"外部AIチャットで生成(APIキー不要)",
   aiExtSum:"手順",
-  aiExtNote:"①上の「新しいシミュレーションを生成」でベースのサンプル・要望を書き、「生成用プロンプトをコピー」を押す ②Claude・ChatGPT・Gemini などのAIチャットへ貼り付けて送信 ③返ってきたJSONをコピーし、セーブタブの「インポート」欄へ貼り付けて取り込む(```コードフェンスや前後の説明文・複数案・末尾カンマは自動で処理されます)。APIキーをアプリへ入れずにAI生成を使えます。「短縮版をコピー」は仕様書を公開URLへのリンク参照にした短いプロンプトで、Web閲覧(ブラウジング)ができるAIチャット向けです。",
+  aiExtNote:"①上の「新しいシミュレーションを生成」でベースのサンプル・要望を書き、「生成用プロンプトをコピー」を押す ②Claude・ChatGPT・Gemini などのAIチャットへ貼り付けて送信 ③返ってきたJSONをコピーし、セーブタブの「インポート」欄へ貼り付けて取り込む(```コードフェンスや前後の説明文・複数案・末尾カンマ・スマート引用符“”は自動で処理されます)。APIキーをアプリへ入れずにAI生成を使えます。「短縮版をコピー」は仕様書を公開URLへのリンク参照にした短いプロンプトで、Web閲覧(ブラウジング)ができるAIチャット向けです。",
   btnExtCopy:"生成用プロンプトをコピー",
   btnExtCopyShort:"短縮版をコピー",
   aiExtHead:"あなたはこれから、ブラウザで動く『仮想物理ラボ』のシミュレーション設定JSONを作ります。下記の仕様に従い、最後の要望に合うプリセットJSONを1つだけ出力してください。",
@@ -1227,7 +1227,7 @@ en: {
   // 第103便: own group (aiExtTitle) + collapsed steps only + short version (spec by link)
   aiExtTitle:"Generate via an external AI chat (no API key)",
   aiExtSum:"How to use",
-  aiExtNote:"1) Write your base sample / request in \"Generate a new simulation\" above, then press \"Copy generation prompt\". 2) Paste it into an AI chat (Claude, ChatGPT, Gemini, …) and send. 3) Copy the JSON from the reply and paste it into the Import box on the Saves tab (```code fences, surrounding text, multiple candidates and trailing commas are handled automatically). Lets you use AI generation without entering an API key into the app. \"Copy short version\" replaces the inline specification with a link to the published spec — for AI chats that can browse the web.",
+  aiExtNote:"1) Write your base sample / request in \"Generate a new simulation\" above, then press \"Copy generation prompt\". 2) Paste it into an AI chat (Claude, ChatGPT, Gemini, …) and send. 3) Copy the JSON from the reply and paste it into the Import box on the Saves tab (```code fences, surrounding text, multiple candidates, trailing commas and smart quotes are handled automatically). Lets you use AI generation without entering an API key into the app. \"Copy short version\" replaces the inline specification with a link to the published spec — for AI chats that can browse the web.",
   btnExtCopy:"Copy generation prompt",
   btnExtCopyShort:"Copy short version",
   aiExtHead:"You are about to write a simulation preset JSON for the browser app \"Virtual Physics Lab\". Follow the specification below and output exactly one preset JSON that fulfils the request at the end.",
@@ -12202,6 +12202,16 @@ function presetSig(p){
 // ①```フェンスブロックの中身を先に列挙 ②文字列リテラル("…" のエスケープ込み)を考慮した
 // 釣り合い走査で、最上位レベルの {…} / […] をすべて列挙する(複数JSON・前後説明文・
 // 説明文中の波括弧に耐える)。深さ0の引用符は散文とみなして無視する
+// 第103便A2(実データ検証 — 原仮定者添付の ChatGPT/Grok 返答): 失敗の実原因は
+// **スマート引用符**だった(“name”: “太陽系…” — iOS の「スマート句読点」やメモ経由の
+// コピーで " が “ ” U+201C/201D に変換される。ChatGPT の RTF 保存版も \'93\'94 で同型)。
+// 寛容経路の前段でスマート二重引用符→" へ正規化する(content 内の “ ” も " になるが、
+// 素のparseに失敗したテキストの救済経路に限るので許容)。BOM・ゼロ幅スペースも除去
+function normalizeLLMText(text){
+  return String(text)
+    .replace(/[\u201C\u201D\u201E\u201F\uFF02]/g,"\"")
+    .replace(/[\u200B\u200C\u200D\uFEFF]/g,"");
+}
 function importCandidates(text){
   const t=String(text), out=[];
   const fence=/```[^\n`]*\n([\s\S]*?)```/g; let m;
@@ -12237,7 +12247,8 @@ function doImportText(text){
     //   ①```フェンスブロックの中身(先勝ち) ②文字列リテラルを考慮した釣り合い走査で
     //   最上位 {…}/[…] を列挙(複数JSONは最初に解釈できたもの) ③各候補は素のparse →
     //   サニタイズ(末尾カンマ除去・NaN/Infinity→null)の順に試す。正規のJSONは従来どおり素通し
-    const cands=importCandidates(text);
+    // 103A2: 先にスマート引用符等を正規化(釣り合い走査の文字列判定が " 前提のため入口で行う)
+    const cands=importCandidates(normalizeLLMText(text));
     for(const c of cands){
       try{ d=JSON.parse(c); break; }catch(e1){}
       try{ d=JSON.parse(sanitizeLLMJSON(c)); break; }catch(e2){}

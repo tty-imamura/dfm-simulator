@@ -7013,14 +7013,17 @@ if (!FAST) {
       const multi = count() === 4;
       doImp(JSON.stringify(mk(15)).replace('"physics":{}', '"physics":{"etaRad":NaN}'));
       const nan = count() === 5;
+      // 103A2(実データ: Grok/ChatGPT 返答の失敗原因): スマート引用符 “ ” を " へ正規化して取り込む
+      doImp(JSON.stringify(mk(16)).replace(/"/g, '“'));
+      const smart = count() === 6;
       doImp('コードフェンスもJSONも無い説明文だけの応答');
-      const badRejected = count() === 5;
+      const badRejected = count() === 6;
       if (keep === null) localStorage.removeItem('hp_custom_presets'); else localStorage.setItem('hp_custom_presets', keep);
       if (keepS === null) localStorage.removeItem('hp_saves'); else localStorage.setItem('hp_saves', keepS);
-      return { fenced, plain, trailing, multi, nan, badRejected };
+      return { fenced, plain, trailing, multi, nan, smart, badRejected };
     });
-    add('import.fenced-json', imp.fenced && imp.plain && imp.trailing && imp.multi && imp.nan && imp.badRejected,
-      `フェンス除去=${imp.fenced} 正規JSON素通し=${imp.plain} 末尾カンマ=${imp.trailing} 複数JSON=${imp.multi} NaN許容=${imp.nan} JSON無しは失敗=${imp.badRejected}`);
+    add('import.fenced-json', imp.fenced && imp.plain && imp.trailing && imp.multi && imp.nan && imp.smart && imp.badRejected,
+      `フェンス除去=${imp.fenced} 正規JSON素通し=${imp.plain} 末尾カンマ=${imp.trailing} 複数JSON=${imp.multi} NaN許容=${imp.nan} スマート引用符=${imp.smart} JSON無しは失敗=${imp.badRejected}`);
 
     // 第103便: save.copy-with-preset — 保存一覧のコピーが、参照先カスタムプリセットを
     // {saves,customPresets} 形式で同梱する(内蔵プリセット参照は従来どおり saves のみ)。
