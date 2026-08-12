@@ -4162,11 +4162,15 @@ if (!FAST) {
         return { gA, gB, bad, clampV, clampR, pi: spec ? spec.pi : null };
       });
       const ratio = r2.gA / r2.gB;
+      // 第108便A: 巻き戻し世代(G=0.8)は 1PN が c₀=30 で強まり実測 1.1868 — 窓を世代分岐
+      const gg2Rolled = await page.evaluate(() => HP.allPresets().find((p) => p.id === 'galaxyGeo2').physics.G === 0.8);
+      const [ggLo, ggHi, ggNote] = gg2Rolled ? [1.14, 1.23, '窓1.14〜1.23・較正実測1.1868(第108便A)']
+        : [1.05, 1.12, '窓1.05〜1.12・較正実測1.0803 — legacy 🎡 1.2646 の約1/3'];
       add('claim.galaxygeo2-outerboost',
-        !r2.bad && r2.clampV === 0 && r2.clampR === 0 && ratio >= 1.05 && ratio <= 1.12
+        !r2.bad && r2.clampV === 0 && r2.clampR === 0 && ratio >= ggLo && ratio <= ggHi
         && !!r2.pi && r2.pi[2] === 0 && r2.pi[4] === 0 && r2.pi[1] > 0.02 && r2.pi[5] > 0.1,
         `vφ外縁 kF1=${r2.gA.toFixed(3)} kF0=${r2.gB.toFixed(3)} 比=${ratio.toFixed(4)}` +
-        `(窓1.05〜1.12・較正実測1.0803 — legacy 🎡 1.2646 の約1/3)/ 純度Π: 熱斥力=${r2.pi ? r2.pi[2] : '?'} ` +
+        `(${ggNote})/ 純度Π: 熱斥力=${r2.pi ? r2.pi[2] : '?'} ` +
         `結合=${r2.pi ? r2.pi[4] : '?'}(厳密0)・測地線=${r2.pi ? (r2.pi[1] * 100).toFixed(1) + '%' : '?'}(>2% — 1PN)` +
         `・引きずり=${r2.pi ? (r2.pi[5] * 100).toFixed(1) + '%' : '?'}(>10% — 輸送+渦度)/ クランプ=${r2.clampV}`);
     } else {
@@ -4367,10 +4371,14 @@ if (!FAST) {
         HP.abStop();
         return res;
       });
+      // 第108便A: 巻き戻し世代(spinMax=10)は飽和が上がり実測 0.859 — 窓を世代分岐
+      const nrRolled = await page.evaluate(() => { const p = HP.allPresets().find((x) => x.id === 'nebulaRotor');
+        return p.bodies[0].spinMax === 10; });
+      const [nrLo, nrHi, nrNote] = nrRolled ? [0.75, 0.95, '窓0.75〜0.95・実測0.859(第108便A)'] : [0.65, 0.85, '窓0.65〜0.85・実測0.767'];
       add('claim.nebularotor-contrast',
-        !r.bad && r.core >= 0.65 && r.core <= 0.85 && r.env < 0.1 && r.ctrl < 0.1
+        !r.bad && r.core >= nrLo && r.core <= nrHi && r.env < 0.1 && r.ctrl < 0.1
         && r.core / r.env > 10,
-        `lS̄ コア=${r.core.toFixed(3)}(窓0.65〜0.85・実測0.767) エンベロープ=${r.env.toFixed(3)}(<0.1) ` +
+        `lS̄ コア=${r.core.toFixed(3)}(${nrNote}) エンベロープ=${r.env.toFixed(3)}(<0.1) ` +
         `コントラスト=${(r.core / r.env).toFixed(1)}倍(>10)/ スピン0対照 コア=${r.ctrl.toFixed(3)}(<0.1 — 散光化)`);
     } else {
       console.log('SKIP claim.nebularotor-contrast(対象に 🌑nebulaRotor なし — root 等。第74便)');

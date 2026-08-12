@@ -2635,18 +2635,18 @@ const BUILTIN_PRESETS = [
   // 現実の銀河回転曲線への一致は主張しない(モデル内の原理実証)。
   descStruct:{
     summary:"🎡銀河標準と全く同じ配置のまま、物質の動き方のルールだけを別の式(v−u統一測地線則・geoPN=2・E12)に差し替えた基準実験。重力(E4)も、空間の引きずり(E6′)の正体であるフレーム輸送・渦度コリオリも、1PN補正も、時計を遅らせるのと同じψから導いた一本の式(DERIVATIONS §18)で決まる — 引きずりを別のルールとして後から足していない。",
-    observe:"外縁帯の回転はkFrame=1で実測約1.08倍に増強される — legacy引きずり(🎡の1.26倍)の約1/3で、これが作用から導いた式の出す増強の初回較正値。機構スペクトルでは輸送+渦度が「引きずり」チャネルに、1PN補正が「測地線」チャネルに現れる(どちらも同じ統一式の項 — 表示上の内訳)。",
+    observe:"外縁帯の回転はkFrame=1で実測約1.19倍に増強される — legacy引きずり(🎡の1.26倍)の約7割で、これが作用から導いた式の出す増強の較正値(第108便A: c₀=30規約での再実測 — 1PN補正が c=30 で強まるぶん旧値1.08から上がる)。機構スペクトルでは輸送+渦度が「引きずり」チャネルに、1PN補正が「測地線」チャネルに現れる(どちらも同じ統一式の項 — 表示上の内訳)。",
     control:"kFrame=0にすると輸送・渦度が消えて測地線1PN力学(geoPN=1と厳密同一)へ退化する(おすすめA/B)。🎡(legacy geoPN=0)と見比べると、同じ初期条件から理論経路の違いだけで増強量が変わることが読める。"},
   en:{name:"Unified v−u Geodesic Galaxy", descStruct:{
     summary:"A baseline experiment with the exact same layout as 🎡 Galactic Standard, but with the law of motion swapped for one different formula (the unified v−u geodesic law, geoPN=2, E12). Gravity (E4), the frame transport and vorticity Coriolis that are the true face of space dragging (E6′), and the 1PN correction all fall out of one equation (DERIVATIONS §18) derived from the same ψ that slows clocks — dragging is no longer bolted on as a separate rule. ",
-    observe:"The outer-band rotation is enhanced by a measured factor of about 1.08 at kFrame=1 — roughly one third of the legacy dragging (1.26 in 🎡), and this is the first calibration of what the action-derived law actually yields. In the mechanism spectrum, transport+vorticity appear in the dragging channel and the 1PN term in the geodesic channel (both are terms of the same unified equation — a display-level breakdown). ",
+    observe:"The outer-band rotation is enhanced by a measured factor of about 1.19 at kFrame=1 — roughly 70% of the legacy dragging (1.26 in 🎡), and this is the calibration of what the action-derived law actually yields. In the mechanism spectrum, transport+vorticity appear in the dragging channel and the 1PN term in the geodesic channel (both are terms of the same unified equation — a display-level breakdown). ",
     control:"Set kFrame to 0 and transport+vorticity vanish, degenerating exactly to the geoPN=1 geodesic dynamics (suggested A/B). Compare with 🎡 (legacy geoPN=0) to see how the same initial condition yields a different enhancement purely from the theory path."}},
   activeParams:["kFrame","geoPN","D0"],
   // claims — 説明文の「実測約1.08倍」を機械可読化。実測 1.0803(第69便 exp-p4b・seed 20260727・6000步)。
   // 窓は実測±4%程度(ChatGPT レビュー §8.1 の受入基準案 1.06〜1.11 を包含)
   claims:[
     { id:"galaxygeo2.outer-boost-ratio", kind:"fixed-seed", metric:"outerRotationBoostRatio",
-      expected:{min:1.05, max:1.12},   // 実測1.0803(claim.galaxygeo2-outerboost)
+      expected:{min:1.14, max:1.23},   // 実測1.1868(第108便A: c₀=30のみ巻き戻し後の再実測 — 1PN が c=30 で強まり旧1.0803から上振れ)
       descPattern:"実測約(\\d+\\.\\d+)倍に増強", testId:"claim.galaxygeo2-outerboost" }
   ],
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260727,
@@ -2886,11 +2886,11 @@ const BUILTIN_PRESETS = [
   familyId:"rotorform", familyRole:"primary",   // 第82便: ファミリー表示(表示専用)
   descStruct:{
     summary:"暗黒星雲を「光学的な性質の強い天体(ダークローター)の集まり」と仮定したらどんな構造になるか、の思考実験。高スピンの小ローター54個が階層的なクランプ(中心の高密度コア+左右の副クランプ)を作り、そのまわりを低スピンの放射粒子44個のエンベロープが取り巻く。ローターは高スピンなので自光を掻き出して暗く(A9/A11/E8R系の lightSweep auto)、エンベロープはスピンが低いので放射(E11)がそのまま漏れて明るい — ひとつの雲の中に「暗黒星雲(コア)」と「散光星雲(縁)」が同居する。実在の星雲(ガスと塵の吸収・散乱)についての主張ではない(Negative Claims)。",
-    observe:"実測(seed固定・3000步)でコアの平均減光0.77に対しエンベロープは0.05 — コントラストは実測約14.9倍。コアの平均|spin|は11.4まで育ち(E6′残余トルク+収縮スピンアップ)、力学温度 I·s² は数千相当なのに観測温度は0.62 — 「力学的に熱いのに光学的に暗い」がここでも成立する(🍳のバルジと同じ整理)。さらに掻き出しの飽和は放射冷却も止める(E11 は (1−lS) 倍)ので、暗さが熱を閉じ込めて自己維持される — 光速 c₀ を 60 に上げるとコアが未飽和になり、放射でスピンが冷えて散光化する(相転移の縁は c₀=40〜60 の間)。粒子保持は3000步でコア85%・エンベロープ93%。",
-    control:"おすすめA/B(ワンタップ): 下のボタンでコア54個のスピンを0にした対照と比較できる — 減光は約14.9倍のコントラストからコア平均0.02へ潰れ、雲全体が散光星雲化する。c₀(光速)スライダーでも同じ転移を連続的に辿れる。"},
+    observe:"実測(seed固定・3000步)でコアの平均減光0.86に対しエンベロープは0.08 — コントラストは実測約11.5倍。コアの平均|spin|は13.1まで育ち(E6′残余トルク+収縮スピンアップ)、力学温度 I·s² は数千相当なのに観測温度は0.62 — 「力学的に熱いのに光学的に暗い」がここでも成立する(🍳のバルジと同じ整理)。さらに掻き出しの飽和は放射冷却も止める(E11 は (1−lS) 倍)ので、暗さが熱を閉じ込めて自己維持される — 光速 c₀ を 60 に上げるとコアが未飽和になり、放射でスピンが冷えて散光化する(相転移の縁は c₀=40〜60 の間)。粒子保持は3000步でコア85%・エンベロープ93%。",
+    control:"おすすめA/B(ワンタップ): 下のボタンでコア54個のスピンを0にした対照と比較できる — 減光は約14.9倍のコントラストからコア平均0.03へ潰れ、雲全体が散光星雲化する。c₀(光速)スライダーでも同じ転移を連続的に辿れる。"},
   en:{name:"Rotor Nebula — Dark Cloud & Luminous Envelope", descStruct:{
     summary:"A thought experiment: what structure emerges if a dark nebula is assumed to be a swarm of optically extreme bodies (dark rotors)? 54 small high-spin rotors form hierarchical clumps (a dense central core plus two side clumps), wrapped in an envelope of 44 low-spin radiating particles. The rotors sweep out their own light and go dark (lightSweep auto — the A9/A11/E8R family), while the envelope's low spins let its radiation (E11) leak out and shine — one cloud contains both a dark nebula (core) and a luminous nebula (rim). Not a claim about real nebulae (gas and dust absorbing and scattering light — Negative Claims). ",
-    observe:"Fixed-seed measurements (3000 steps): mean dimming 0.77 for the core vs 0.05 for the envelope — a measured contrast of about 14.9. The core's mean |spin| grows to 11.4 (E6′ residual torque + contraction spin-up), so its dynamical temperature I·s² is in the thousands while its observed temperature is 0.62 — dynamically hot yet optically dark, the same reading as the 🍳 bulge. Moreover, sweep saturation also shuts off radiative cooling (E11 carries a (1−lS) factor), so the darkness traps the heat and sustains itself — raise light speed c₀ to 60 and the core desaturates, its spins radiate away, and the cloud turns luminous (the transition edge lies between c₀=40 and 60). Particle retention over 3000 steps: 85% core, 93% envelope. ",
+    observe:"Fixed-seed measurements (3000 steps): mean dimming 0.86 for the core vs 0.08 for the envelope — a measured contrast of about 11.5. The core's mean |spin| grows to 11.4 (E6′ residual torque + contraction spin-up), so its dynamical temperature I·s² is in the thousands while its observed temperature is 0.62 — dynamically hot yet optically dark, the same reading as the 🍳 bulge. Moreover, sweep saturation also shuts off radiative cooling (E11 carries a (1−lS) factor), so the darkness traps the heat and sustains itself — raise light speed c₀ to 60 and the core desaturates, its spins radiate away, and the cloud turns luminous (the transition edge lies between c₀=40 and 60). Particle retention over 3000 steps: 85% core, 93% envelope. ",
     control:"Suggested A/B (one tap): the button below compares against a control with all 54 core spins set to 0 — the dimming contrast collapses from about 14.9 to a core mean of 0.02 and the whole cloud becomes a luminous nebula. The c₀ (light speed) slider traces the same transition continuously."}},
   activeParams:["cLight","kFrame","etaRad"],
   validT:48,   // 実測窓(3000步=t≈48)と一致
@@ -2900,7 +2900,7 @@ const BUILTIN_PRESETS = [
     patch:{spin:0} },
   claims:[
     { id:"nebulaRotor.dimming-contrast", kind:"fixed-seed", metric:"coreLswMean",
-      expected:{min:0.65, max:0.85},   // 実測0.77(exp-4-75)
+      expected:{min:0.75, max:0.95},   // 実測0.859(第108便A: 巻き戻し後スピン増×c₀=30 で飽和が上がる — 旧0.77)
       descPattern:"コアの平均減光(\\d+\\.\\d+)",
       control:{patch:{abBody:true}, expected:{min:0, max:0.1},   // 実測0.02(スピン0対照)
         descPattern:"コントラストからコア平均(\\d+\\.\\d+)へ潰れ"},
