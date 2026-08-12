@@ -2570,12 +2570,12 @@ const BUILTIN_PRESETS = [
       descPattern:"実測約(\\d+\\.\\d+)倍に増強", testId:"claim.galaxy-outerboost" }
   ],
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260727,
-  physics:{G:0.2, D0:1.5, kFrame:1, q:2, kRep:0.8, muF:0.5, gammaN:0.4, kappaS:0.025, Kt:50,
-    cLight:30, contactK:10, contactCap:2, bM:0.25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:3, timeScale:6},
+  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0.8, muF:0.5, gammaN:0.4, kappaS:0.05, Kt:50,
+    cLight:30, contactK:10, contactCap:2, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:3, timeScale:3},
   bodies:[
-    {type:"single", rMul:1.2, m:2500, x:0,y:0, vx:0,vy:0, spin:0.6, pinned:true, lightSweep:0.8, radius:15},
+    {type:"single", rMul:1.2, m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, lightSweep:0.8, radius:15},
     {type:"disk", rMul:1.2, n:380, cx:0,cy:0, radius:260, mMin:0.16,mMax:0.5,
-     spinMin:0,spinMax:0.15, vMode:"kepler", aroundMass:2500, vScale:1.05, direction:1, bulkVx:0, bulkVy:0}
+     spinMin:0,spinMax:0.3, vMode:"kepler", aroundMass:2500, vScale:1.05, direction:1, bulkVx:0, bulkVy:0}
   ],
   rays:{n:24, spread:0.5},
   overlays:{rotationCurve:true,tempHistogram:false,field:true,trail:false,monitor:false} },
@@ -2650,10 +2650,10 @@ const BUILTIN_PRESETS = [
       descPattern:"実測約(\\d+\\.\\d+)倍に増強", testId:"claim.galaxygeo2-outerboost" }
   ],
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260727,
-  physics:{G:0.2, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:50,
-    cLight:30, contactK:10, contactCap:2, bM:0.25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:6},
+  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:50,
+    cLight:30, contactK:10, contactCap:2, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:3},
   bodies:[
-    {type:"single", rMul:1.2, m:2500, x:0,y:0, vx:0,vy:0, spin:0.6, pinned:true, radius:15},
+    {type:"single", rMul:1.2, m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, radius:15},
     {type:"disk", rMul:1.2, n:380, cx:0,cy:0, radius:260, mMin:0.16,mMax:0.5,
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2500, vScale:1.05, direction:1, bulkVx:0, bulkVy:0}
   ],
@@ -2893,7 +2893,7 @@ const BUILTIN_PRESETS = [
     observe:"Fixed-seed measurements (3000 steps): mean dimming 0.77 for the core vs 0.05 for the envelope — a measured contrast of about 14.9. The core's mean |spin| grows to 11.4 (E6′ residual torque + contraction spin-up), so its dynamical temperature I·s² is in the thousands while its observed temperature is 0.62 — dynamically hot yet optically dark, the same reading as the 🍳 bulge. Moreover, sweep saturation also shuts off radiative cooling (E11 carries a (1−lS) factor), so the darkness traps the heat and sustains itself — raise light speed c₀ to 60 and the core desaturates, its spins radiate away, and the cloud turns luminous (the transition edge lies between c₀=40 and 60). Particle retention over 3000 steps: 85% core, 93% envelope. ",
     control:"Suggested A/B (one tap): the button below compares against a control with all 54 core spins set to 0 — the dimming contrast collapses from about 14.9 to a core mean of 0.02 and the whole cloud becomes a luminous nebula. The c₀ (light speed) slider traces the same transition continuously."}},
   activeParams:["cLight","kFrame","etaRad"],
-  validT:64,   // 実測窓(3000步=t≈48)と一致
+  validT:48,   // 実測窓(3000步=t≈48)と一致
   abBody:{ label:{ja:"コアのスピン0(散光化)", en:"core spins = 0 (luminous)"},
     targets:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,
       27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53],
@@ -2907,24 +2907,24 @@ const BUILTIN_PRESETS = [
       testId:"claim.nebularotor-contrast" }
   ],
   camera:{scale:340}, world:{boundary:"none",size:0}, seed:20260804,
-  physics:{G:0.45, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:50,
-    cLight:30, contactK:22.5, contactCap:4.5, bM:0.5625, etaRad:0.00225, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
-    radiusScale:1, softening:3, timeScale:2.66667},
+  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:50,
+    cLight:30, contactK:22.5, contactCap:4.5, bM:1, etaRad:0.003, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:3, timeScale:2},
   bodies:[
     // 高密度コア(主クランプ・粒子0..29): 高スピン小ローター
     {type:"disk", rMul:2, n:30, cx:0,cy:0, radius:34, mMin:3,mMax:6,
-     spinMin:6,spinMax:7.5, vMode:"random", vScale:0.9, direction:1, bulkVx:0, bulkVy:0, lightSweep:"auto"},
+     spinMin:8,spinMax:10, vMode:"random", vScale:1.2, direction:1, bulkVx:0, bulkVy:0, lightSweep:"auto"},
     // 副クランプ×2(階層構造・粒子30..41/42..53)
     {type:"disk", rMul:2, n:12, cx:96,cy:44, radius:16, mMin:3,mMax:5,
-     spinMin:6,spinMax:7.5, vMode:"random", vScale:0.6, direction:1, bulkVx:-0.3, bulkVy:0.15, lightSweep:"auto"},
+     spinMin:8,spinMax:10, vMode:"random", vScale:0.8, direction:1, bulkVx:-0.4, bulkVy:0.2, lightSweep:"auto"},
     {type:"disk", rMul:2, n:12, cx:-88,cy:58, radius:16, mMin:3,mMax:5,
-     spinMin:6,spinMax:7.5, vMode:"random", vScale:0.6, direction:1, bulkVx:0.3, bulkVy:-0.15, lightSweep:"auto"},
+     spinMin:8,spinMax:10, vMode:"random", vScale:0.8, direction:1, bulkVx:0.4, bulkVy:-0.2, lightSweep:"auto"},
     // 低スピン放射エンベロープ(散光成分・粒子54..97)
     // 第83便: pinned の宣言漏れを補完した(build は未指定を偽として読む〔`pinned:b.pinned?1:0`〕ので
     // 挙動は bit 不変)。validatePreset は ring の pinned を必須にしている — レール駆動・壁タグ・
     // balanceFrame の分岐を持つ挙動キーなので、検査側が正しくプリセット側の宣言漏れだった
     {type:"ring", rMul:1, n:44, cx:0,cy:0, rIn:62, rOut:150, mMin:0.5,mMax:1.2,
-     spinMin:0.3,spinMax:0.675, vMode:"kepler", aroundMass:250, omega:0, vNoise:0.0375,
+     spinMin:0.4,spinMax:0.9, vMode:"kepler", aroundMass:250, omega:0, vNoise:0.05,
      direction:1, pinned:false, lightSweep:"auto"}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:false,monitor:false} },
@@ -3161,7 +3161,7 @@ const BUILTIN_PRESETS = [
     observe:"Measured (fixed seed, 6000 steps, t=96): (1) **Luminous mass is zero** — the effective dimming of all three centers measures 1.000 (total), so T_obs is exactly 0. The central bodies are all but invisible on screen, yet the determinacy map (the background colour) shows three wells of different depth. (2) **Dynamical mass tracks true mass** — M_dyn=⟨v²r⟩/G comes out at 2780 / 5448 / 10676, so the dynamical-mass ratios measure 1.960 (5000/2500) and 3.840 (10000/2500), recovering the true 2 and 4 to within −2.0% and −4.0%. (3) **Dynamical mass reads slightly heavy** — M_dyn/m is 1.112 / 1.090 / 1.068, always above 1. The source is E6′ frame dragging: holding the ring on a circular orbit needs 1.05 / 1.04 / 1.04 times the Keplerian speed (calibrated by minimising the radial RMS), and **with kFrame=0 all three fall back to exactly 1.00** — the whole excess f²−1 is dragging. (4) **The darkness is not from fast spin** — drop the central spin to 0.05 and the effective dimming is still 1.000. The denominator of the sweep, c_surf=c·e^{−2ψ}, falls to 0.08 inside such a deep well, so even a very slow rotation saturates it. Raise the spin to 2 instead and the dragging grows: M_dyn/m swells to 1.53 / 1.43 / 1.33 and the ladder **compresses** to 1.87 / 3.46 (dragging contributes relatively more around the lighter center). (5) **Dimming does nothing to the dynamics** — against a control with lightSweep removed, positions, velocities and spins agree to the bit and M_dyn is identical (the machine proof of experiment 70 E2 holds here too). (6) With the systems moved three times further apart the ratios are 1.95 / 3.74 (0.4% and 2.7% different), so packing them onto one screen does not change the conclusion. No NaN; the velocity, spin and reaction caps fire 0 times. Outside the t=96 window the neighbours' pull accumulates and the ring radius scatter relaxes from 6.5% to 21% by step 12000. ",
     control:"Suggested A/B: run an A/B comparison with **kFrame=0** and the space dragging vanishes along with the +7–11% excess in M_dyn, letting the rings drift slowly outward — you see directly that the dynamical mass was \"true mass + dragging\". Tap a central body and **turn off the auto dimming** and it lights up at its observed temperature (its luminous mass comes back) while the orbits do not change by a single bit. Lowering **G** unwinds all three rings at the same rate."}},
   activeParams:["kFrame","G","D0"],
-  validT:192,   // 実測窓(6000步=t≈96)と一致。窓外はリングが隣の系の引きで緩む(実測)
+  validT:96,   // 実測窓(6000步=t≈96)と一致。窓外はリングが隣の系の引きで緩む(実測)
   claims:[
     { id:"massLadder.dyn-mass-ratio-2", kind:"fixed-seed", metric:"dynMassRatio5000to2500",
       expected:{min:1.76, max:2.16},   // 実測1.9599(exp-4-82 S2・6000步)の ±10%
@@ -3177,25 +3177,25 @@ const BUILTIN_PRESETS = [
       testId:"claim.massladder" }
   ],
   camera:{scale:1800}, world:{boundary:"none",size:0}, seed:20260806,   // 3系(±1440±180)を余白つきで収める
-  physics:{G:0.2, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:50,
-    cLight:30, contactK:10, contactCap:2, bM:0.25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
-    radiusScale:1, softening:3, timeScale:6},
+  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:50,
+    cLight:30, contactK:10, contactCap:2, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:3, timeScale:3},
   bodies:[
     // 暗い中心核3つ(pinned・lightSweep auto)。系間距離1440 = 測定リング半径の8倍
     // (exp-4-82 S4 で相互汚染が結論を変えない距離として実測)
-    {type:"single", rMul:1.2, m:2500,  x:-1440,y:0, vx:0,vy:0, spin:0.25, pinned:true, radius:15, lightSweep:"auto"},
-    {type:"single", rMul:1.2, m:5000,  x:0,    y:0, vx:0,vy:0, spin:0.25, pinned:true, radius:15, lightSweep:"auto"},
-    {type:"single", rMul:1.2, m:10000, x:1440, y:0, vx:0,vy:0, spin:0.25, pinned:true, radius:15, lightSweep:"auto"},
+    {type:"single", rMul:1.2, m:2500,  x:-1440,y:0, vx:0,vy:0, spin:0.5, pinned:true, radius:15, lightSweep:"auto"},
+    {type:"single", rMul:1.2, m:5000,  x:0,    y:0, vx:0,vy:0, spin:0.5, pinned:true, radius:15, lightSweep:"auto"},
+    {type:"single", rMul:1.2, m:10000, x:1440, y:0, vx:0,vy:0, spin:0.5, pinned:true, radius:15, lightSweep:"auto"},
     // 測定用リング(3系とも半径180・48体で同一)。角速度は E6′ 込みの実測較正
     // ω=f·√(Gm/r)/r、f=1.05/1.04/1.04(半径 RMS 最小・exp-4-82 S1。kFrame=0 なら f=1.00)
     {type:"ring", rMul:1.2, n:48, cx:-1440,cy:0, rIn:180,rOut:180, mMin:0.05,mMax:0.05,
-     spinMin:0,spinMax:0, vMode:"omega", aroundMass:0, omega:0.009722, vNoise:0,
+     spinMin:0,spinMax:0, vMode:"omega", aroundMass:0, omega:0.019444, vNoise:0,
      direction:1, pinned:false, bulkVx:0, bulkVy:0},
     {type:"ring", rMul:1.2, n:48, cx:0,cy:0, rIn:180,rOut:180, mMin:0.05,mMax:0.05,
-     spinMin:0,spinMax:0, vMode:"omega", aroundMass:0, omega:0.0136185, vNoise:0,
+     spinMin:0,spinMax:0, vMode:"omega", aroundMass:0, omega:0.027237, vNoise:0,
      direction:1, pinned:false, bulkVx:0, bulkVy:0},
     {type:"ring", rMul:1.2, n:48, cx:1440,cy:0, rIn:180,rOut:180, mMin:0.05,mMax:0.05,
-     spinMin:0,spinMax:0, vMode:"omega", aroundMass:0, omega:0.0192595, vNoise:0,
+     spinMin:0,spinMax:0, vMode:"omega", aroundMass:0, omega:0.038519, vNoise:0,
      direction:1, pinned:false, bulkVx:0, bulkVy:0}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:true,trail:false,monitor:false} },
@@ -4356,13 +4356,13 @@ const BUILTIN_PRESETS = [
     control:"Set geoPN to 0 to fall back to the legacy dragging transport (E6′, kFrame=1) and watch the orbit slowly relax (suggested A/B). Comparing D0 10 vs 100 is fun too."}},
   activeParams:["geoPN","D0","G"],   // 第66便 66D: おすすめA/B の軸を kFrame → geoPN(測地線⇄引きずり)へ
   camera:{scale:320}, world:{boundary:"none",size:0},
-  physics:{G:0.25, D0:10, kFrame:1, q:2, kRep:0, muF:0.05, gammaN:0.1, kappaS:0, Kt:10000,   // 第26便: kFrame 0.5→1(中間値解消。12000步で束縛・円盤240/240残存を実測)
-    cLight:30, contactK:10, contactCap:2, bM:0.25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:8},
+  physics:{G:1, D0:10, kFrame:1, q:2, kRep:0, muF:0.05, gammaN:0.1, kappaS:0, Kt:10000,   // 第26便: kFrame 0.5→1(中間値解消。12000步で束縛・円盤240/240残存を実測)
+    cLight:30, contactK:10, contactCap:2, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:4},
   bodies:[ // v1.13(付録M): 第6次提案 P1-1 を内蔵化(12000步スモーク・重心ドリフト0.1)
-    {type:"single", rMul:1.2, m:500, x:-60,y:0, vx:0,vy:-0.72, spin:0.015, pinned:false},
-    {type:"single", rMul:1.2, m:500, x:60,y:0,  vx:0,vy:0.72,  spin:0.015, pinned:false},
+    {type:"single", rMul:1.2, m:500, x:-60,y:0, vx:0,vy:-1.44, spin:0.03, pinned:false},
+    {type:"single", rMul:1.2, m:500, x:60,y:0,  vx:0,vy:1.44,  spin:0.03, pinned:false},
     {type:"ring", rMul:1.2, n:240, cx:0,cy:0, rIn:180,rOut:290, mMin:0.05,mMax:0.2,
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:1000, omega:0, vNoise:0.02, direction:1, pinned:false}
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:1000, omega:0, vNoise:0.04, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 

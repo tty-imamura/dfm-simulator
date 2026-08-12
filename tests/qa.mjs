@@ -7996,7 +7996,7 @@ if (hasEchoFlipAt) {
     // 第97便: 🌌のみ相似変換を維持(光線が主役)— 他5件は c₀=30 のみの巻き戻しで従来基準と bit 一致に復帰
     const hasC30zc = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'galaxy').physics.cLight === 30);
     const ZC = hasC30zc ? {
-      galaxy: ['b08e5869a4f02c427bbc4194af947bf5505526a5b0b37edfd43327bc456ea1a3', 381],   // 96便(c₀=30 相似変換)実測
+      galaxy: ['6c56d8c7023a08b73162d08827202c7ebe24e31bdd41bc1206a351a667566f9d', 381],   // 第108便(c₀=30のみ巻き戻し — 原仮定者裁定・力学従来値)実測
       saturn: hasSat240
         ? ['5a4e97ec425c03b30803e3f8bc4dc419b66f57d1c1a62cd0d5a6df8e7e480085', 241]
         : ['d77783f2c321a6c84a457492d869a5d68a35061c82d957d0597a5864e3938fbb', 301],
@@ -8193,7 +8193,7 @@ if (hasEchoFlipAt) {
     const hasC30mb = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'mercury').physics.cLight === 30);
     if (hasC30mb) {
       MB.mercury = 'd1d8ded061f300eaea678e1a1176fa097b38a202b79397d6bae67787bc75bc77';
-      MB.galaxy = 'b08e5869a4f02c427bbc4194af947bf5505526a5b0b37edfd43327bc456ea1a3';
+      MB.galaxy = '6c56d8c7023a08b73162d08827202c7ebe24e31bdd41bc1206a351a667566f9d';   // 第108便: 🌌 c₀=30のみ巻き戻し(光線は装飾 — 原仮定者裁定)で再採取
     }
     const run = (pid, mon, kF) => page.evaluate(({ pid, mon, kF }) => {
       HP.loadPreset(pid, false);
