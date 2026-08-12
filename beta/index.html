@@ -540,11 +540,8 @@
         <!-- 第36便 B4(原仮定者指示): 説明文を既定closedのdetailsへ折畳み(要点は見出しのみ表示) -->
         <details id="aiBaseDetails"><summary id="aiBaseNoteSum" class="note" style="cursor:pointer">ベースのサンプル</summary>
         <p class="note" id="aiBaseNote">ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの lightSweep や ⚫のコアv2 core:{}・🛰️の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信されます。</p></details>
-        <!-- 第74便: スケール別テンプレート — 5段階スケールの雛形文を要望欄へ挿入(ベースサンプルも同時に推奨値へ)。
-             min-width:0 は #aiBasePreset と同じ横スクロール防止(行28参照) -->
-        <div class="prow"><label id="aiTplLabel" style="flex:0 0 auto">スケール雛形</label>
-          <select id="aiScaleTpl" style="flex:1;min-width:0"></select>
-          <button class="btn" id="btnAiTpl" style="flex:0 0 auto">挿入</button></div>
+        <!-- 第103便(原仮定者指示): 第74便のスケール雛形挿入UIは撤去(分かりにくいため。
+             スケールの誘導は SYSTEM_PROMPT の「要望→設定の対応」とベースサンプル選択が担う) -->
         <textarea id="aiPrompt" placeholder="例: 3つの恒星が絡み合う三体問題。まわりに塵の環も欲しい"></textarea>
         <div class="rowBtns"><button class="btn primary" id="btnGenerate">生成する</button></div>
         <!-- 第32便 W4(台帳4-58): 送信内容の事前確認(開いている間だけ入力に追従) -->
@@ -552,12 +549,17 @@
         <p class="note" id="aiPreviewNote">APIへ送信されるのはここに表示された内容+システムプロンプト。キーと共に選択AI事業者へ送られる。</p>
         <textarea id="aiPreviewBody" readonly style="min-height:120px;"></textarea>
         <p class="note" id="aiPreviewSysNote"></p></details>
-        <!-- 第102便: 外部AIチャット経路 — APIキー不要。生成用プロンプトをコピーし、
-             返答JSONはセーブタブのインポート欄で取り込む(フェンス・説明文は自動除去) -->
-        <details id="aiExtWrap"><summary id="aiExtSum" class="note" style="cursor:pointer">外部AIチャットで生成(APIキー不要)</summary>
-        <p class="note" id="aiExtNote"></p>
-        <div class="rowBtns"><button class="btn" id="btnExtCopy">生成用プロンプトをコピー</button></div></details>
         <div id="aiStatus"></div>
+      </div>
+      <!-- 第102便: 外部AIチャット経路 — APIキー不要。生成用プロンプトをコピーし、
+           返答JSONはセーブタブのインポート欄で取り込む(フェンス・説明文は自動除去)。
+           第103便(原仮定者指示): details ごと畳まれて気付きにくい → 独立グループへ昇格し、
+           ボタンは常時表示・手順説明だけを details に畳む。短縮版(仕様書リンク参照)も追加 -->
+      <div class="group"><h3 id="aiExtTitle">外部AIチャットで生成(APIキー不要)</h3>
+        <div class="rowBtns"><button class="btn primary" id="btnExtCopy">生成用プロンプトをコピー</button>
+          <button class="btn" id="btnExtCopyShort">短縮版をコピー</button></div>
+        <details id="aiExtWrap"><summary id="aiExtSum" class="note" style="cursor:pointer">手順</summary>
+        <p class="note" id="aiExtNote"></p></details>
       </div>
       <div class="group"><h3 id="aiListHead">生成済みプリセット</h3><div id="customList"></div></div>
     </div>
@@ -833,10 +835,14 @@ ja: {
   aiPreviewNote:"APIへ送信されるのはここに表示された内容+システムプロンプト。キーと共に選択AI事業者へ送られる。",
   aiPreviewSys:(n,head)=>"システムプロンプト: "+n+"文字(先頭200字): "+head+"…",
   // 第102便: 外部AIチャット経路(APIキー不要のプロンプトコピー)
-  aiExtSum:"外部AIチャットで生成(APIキー不要)",
-  aiExtNote:"手順: ①上でベースのサンプル・スケール雛形・要望を書き、下のボタンで生成用プロンプトをコピー ②Claude・ChatGPT・Gemini などのAIチャットへ貼り付けて送信 ③返ってきたJSONをコピーし、セーブタブの「インポート」欄へ貼り付けて取り込む(```コードフェンスや前後の説明文が付いていても自動で除去されます)。APIキーをアプリへ入れずにAI生成を使えます。",
+  // 第103便: 独立グループ化(aiExtTitle)+手順のみ折畳み+短縮版(仕様書リンク参照)
+  aiExtTitle:"外部AIチャットで生成(APIキー不要)",
+  aiExtSum:"手順",
+  aiExtNote:"①上の「新しいシミュレーションを生成」でベースのサンプル・要望を書き、「生成用プロンプトをコピー」を押す ②Claude・ChatGPT・Gemini などのAIチャットへ貼り付けて送信 ③返ってきたJSONをコピーし、セーブタブの「インポート」欄へ貼り付けて取り込む(```コードフェンスや前後の説明文・複数案・末尾カンマは自動で処理されます)。APIキーをアプリへ入れずにAI生成を使えます。「短縮版をコピー」は仕様書を公開URLへのリンク参照にした短いプロンプトで、Web閲覧(ブラウジング)ができるAIチャット向けです。",
   btnExtCopy:"生成用プロンプトをコピー",
+  btnExtCopyShort:"短縮版をコピー",
   aiExtHead:"あなたはこれから、ブラウザで動く『仮想物理ラボ』のシミュレーション設定JSONを作ります。下記の仕様に従い、最後の要望に合うプリセットJSONを1つだけ出力してください。",
+  aiExtHeadShort:(u)=>"あなたはこれから、ブラウザで動く『仮想物理ラボ』のシミュレーション設定JSONを作ります。まず仕様書 "+u+" を読んでください(取得できない場合は、その旨だけを答えて中断してください)。その仕様に従い、下の要望に合うプリセットJSONを1つだけ出力してください。",
   aiExtReqHead:"# 要望",
   aiExtReqPh:"(ここに作りたいシミュレーションの説明を書く)",
   retryFixMsg:(f)=>"あなたの出力に検証エラーがあります: "+f+"。同じ要望に対し、エラーを修正した完全なJSONを出力してください。",
@@ -1027,17 +1033,7 @@ ja: {
   // クランプした**実際に計算で使う実効値**を表示する(呼び出し側 tsEff)
   hudScale:(x,eT,eM,t,ts)=>`スケール換算 長さ1=10^${Math.round(x*10)/10}m 時間1=10^${Math.round(eT*10)/10}s 質量1=10^${Math.round(eM*10)/10}kg t≈${sciFmt(t*Math.pow(10,eT))}s(実効倍率${sciFmt(ts)}: 再生1s≈${sciFmt(SUBSTEPS*DT*60*ts*Math.pow(10,eT))}s)`,
   // 第74便: AI追加のスケール別雛形
-  aiTplLabel:"スケール雛形", aiTplInsert:"挿入",
-  aiTplName_molecular:"実験箱", aiTplName_beaker:"ビーカー実験", aiTplName_everyday:"実験室",
-  aiTplName_planetary:"軌道の舞台", aiTplName_stellar:"恒星の現場",
-  aiTplName_galactic:"回転円盤", aiTplName_cosmic:"箱宇宙",
-  aiTpl_molecular:"【分子スケール|実験箱】箱境界の実験箱(world.boundary:\"box\")に小さな粒子を数十個閉じ込める。スピン=熱(A9)・スピン斥力 kRep(E5′)・摩擦 muF(E9)・スピン拡散 κs(E10′)で、相変化や熱平衡を見せたい。scaleTier:\"molecular\" を付ける。要望: ",
-  aiTpl_beaker:"【ビーカースケール|実験室の流体】一様重力 gravityY のある実験箱(world.boundary:\"box\")で、対流・浮力・熱分離のような巨視的な流体現象を作る。ビーカータグの規約として gravityY は 0.031(換算 ≈9.8 m/s²)・cLight は 30 を既定にする。scaleTier:\"beaker\" を付ける。要望: ",
-  aiTpl_everyday:"【日常スケール|実験室】一様重力 gravityY のある実験室(world.boundary:\"box\")で、落下・投射のような身の回りの力学を作る。日常タグは 1単位=1m/1s/1kg の実値規約で、gravityY は 9.8(=9.8 m/s²)・cLight は 30 を既定にする(第98便)。scaleTier:\"everyday\" を付ける。要望: ",
-  aiTpl_planetary:"【惑星スケール|軌道の舞台】境界なし(world.boundary:\"none\")の空間に中心天体と惑星・衛星・環を置く。初速は vMode:\"kepler\"(aroundMass=中心質量)。潮汐・時計の遅れも使える。scaleTier:\"planetary\" を付ける。要望: ",
-  aiTpl_stellar:"【恒星スケール|恒星の現場】境界なし(world.boundary:\"none\")の空間で、自己重力雲の崩壊・恒星の融合加熱・レンズ(rays)・連星のような恒星スケールの現象を作る。scaleTier:\"stellar\" を付ける。要望: ",
-  aiTpl_galactic:"【銀河スケール|回転円盤】中心に大質量・高スピンの天体(pinned可)、まわりに恒星ディスク(type:\"disk\"・vMode:\"kepler\")。空間引きずり kFrame:1 と回転曲線オーバーレイ(rotationCurve)で外縁の増強を見せる。scaleTier:\"galactic\" を付ける。要望: ",
-  aiTpl_cosmic:"【宇宙全体スケール|箱宇宙】universeBox(膨張する箱)に粒子を共動配置し、初速は vMode:\"hubble\"。膨張と自己重力の綱引きや赤方偏移(boxGraph)を見せる。scaleTier:\"cosmic\" を付ける。要望: ",
+  // 第103便: スケール雛形(aiTpl*)のキー群は撤去(第74便UIの撤去に伴う)
   groups:{}, params:{},
 },
 en: {
@@ -1228,10 +1224,14 @@ en: {
   aiPreviewNote:"What is sent to the API is the text shown here plus the system prompt. It is sent, together with your key, to the AI provider you selected.",
   aiPreviewSys:(n,head)=>"System prompt: "+n+" chars (first 200): "+head+"…",
   // 第102便: external AI chat path (copy prompt, no API key)
-  aiExtSum:"Generate via an external AI chat (no API key)",
-  aiExtNote:"Steps: 1) Write your base sample / scale template / request above, then copy the generation prompt with the button below. 2) Paste it into an AI chat (Claude, ChatGPT, Gemini, …) and send. 3) Copy the JSON from the reply and paste it into the Import box on the Saves tab (```code fences and surrounding text are stripped automatically). Lets you use AI generation without entering an API key into the app.",
+  // 第103便: own group (aiExtTitle) + collapsed steps only + short version (spec by link)
+  aiExtTitle:"Generate via an external AI chat (no API key)",
+  aiExtSum:"How to use",
+  aiExtNote:"1) Write your base sample / request in \"Generate a new simulation\" above, then press \"Copy generation prompt\". 2) Paste it into an AI chat (Claude, ChatGPT, Gemini, …) and send. 3) Copy the JSON from the reply and paste it into the Import box on the Saves tab (```code fences, surrounding text, multiple candidates and trailing commas are handled automatically). Lets you use AI generation without entering an API key into the app. \"Copy short version\" replaces the inline specification with a link to the published spec — for AI chats that can browse the web.",
   btnExtCopy:"Copy generation prompt",
+  btnExtCopyShort:"Copy short version",
   aiExtHead:"You are about to write a simulation preset JSON for the browser app \"Virtual Physics Lab\". Follow the specification below and output exactly one preset JSON that fulfils the request at the end.",
+  aiExtHeadShort:(u)=>"You are about to write a simulation preset JSON for the browser app \"Virtual Physics Lab\". First read the specification at "+u+" (if you cannot fetch it, just say so and stop). Then follow that specification and output exactly one preset JSON for the request below. Write the \"name\" and \"description\" fields in English.",
   aiExtReqHead:"# Request",
   aiExtReqPh:"(describe the simulation you want here)",
   retryFixMsg:(f)=>"Your output failed validation: "+f+". For the same request, output a complete corrected JSON.",
@@ -1412,17 +1412,7 @@ en: {
   scaleExpCLabel:"c₀ display-calibration exponent",
   scaleExpCDesc:"A **display-calibration** exponent dedicated to the light-speed parameter: converted value = value × 10^exponent m/s. Default 7.0 expresses the uniform convention 30 → 3×10^8 m/s (shared by every scale tag — wave 95). It is a reference calibration independent of the generic velocity conversion 10^(L−T) derived from the length/time exponents, and does not pin the model units to a single SI unit system (wave 98 — clarification from external reviews). Converted values are analogy guides — the model is not bound to real-universe constants (wave 99, adopting an external-review proposal). Display only — no effect on physics",
   hudScale:(x,eT,eM,t,ts)=>`scale conv: len1=10^${Math.round(x*10)/10}m time1=10^${Math.round(eT*10)/10}s mass1=10^${Math.round(eM*10)/10}kg t≈${sciFmt(t*Math.pow(10,eT))}s (effective rate ${sciFmt(ts)}: 1s of playback≈${sciFmt(SUBSTEPS*DT*60*ts*Math.pow(10,eT))}s)`,
-  aiTplLabel:"Scale template", aiTplInsert:"Insert",
-  aiTplName_molecular:"Lab box", aiTplName_beaker:"Beaker experiment", aiTplName_everyday:"Laboratory",
-  aiTplName_planetary:"Orbital stage", aiTplName_stellar:"Stellar site",
-  aiTplName_galactic:"Rotating disk", aiTplName_cosmic:"Box universe",
-  aiTpl_molecular:"[Molecular scale | lab box] Confine a few dozen small particles in a bounded box (world.boundary:\"box\"). Spin=heat (A9), spin repulsion kRep (E5′), friction muF (E9) and spin diffusion κs (E10′) are the lead actors; show phase changes or thermal equilibrium. Set scaleTier:\"molecular\". Request: ",
-  aiTpl_beaker:"[Beaker scale | lab fluids] A bounded box with uniform gravity gravityY for macroscopic fluid phenomena — convection, buoyancy, thermal separation. By the beaker-tag convention gravityY defaults to 0.031 (≈9.8 m/s² converted) and cLight to 30. Set scaleTier:\"beaker\". Request: ",
-  aiTpl_everyday:"[Everyday scale | laboratory] A lab with uniform gravity gravityY (world.boundary:\"box\") for familiar mechanics — falling, projectiles. The everyday tag uses the real-value convention 1 unit = 1 m / 1 s / 1 kg, with gravityY 9.8 (= 9.8 m/s²) and cLight 30 (wave 98). Set scaleTier:\"everyday\". Request: ",
-  aiTpl_planetary:"[Planetary scale | orbital stage] Open space (world.boundary:\"none\") with a central body, planets, moons or rings. Initial speeds via vMode:\"kepler\" (aroundMass = central mass). Tides and clock effects are available. Set scaleTier:\"planetary\". Request: ",
-  aiTpl_stellar:"[Stellar scale | stellar site] Open space (world.boundary:\"none\") for star-scale phenomena — self-gravitating cloud collapse, fusion-heated stellar interiors, lensing (rays), binaries. Set scaleTier:\"stellar\". Request: ",
-  aiTpl_galactic:"[Galactic scale | rotating disk] A massive high-spin central body (pinned allowed) with a stellar disk (type:\"disk\", vMode:\"kepler\"). Use frame dragging kFrame:1 and the rotation-curve overlay to show outer-velocity enhancement. Set scaleTier:\"galactic\". Request: ",
-  aiTpl_cosmic:"[Cosmic scale | box universe] Place particles comoving in an expanding universeBox with vMode:\"hubble\" initial flow. Show the tug-of-war between expansion and self-gravity, or redshift (boxGraph). Set scaleTier:\"cosmic\". Request: ",
+  // 第103便: スケール雛形(aiTpl*)のキー群は撤去(第74便UIの撤去に伴う)
   groups:{"空間と時間":"Space & Time","箱宇宙":"Box Universe","銀河":"Galaxies","光":"Light","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
   params:{G:"Gravity G", D0:"Background determinacy D₀", kFrame:"Frame dragging kFrame",
     q:"Drag falloff q", kRep:"Spin repulsion kRep", muF:"Friction→spin muF",
@@ -4116,6 +4106,46 @@ const BUILTIN_PRESETS = [
      core:{mode:"rigid", massFrac:0.325, radius:27.04163456597992}},
     {type:"single", rMul:1.5, m:12.300037, x:177.812894809,y:0, vx:0,vy:2.342442349, spin:0.013173636, pinned:false,
      core:{mode:"rigid", massFrac:0.0168, radius:0.6818661148642011}}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+// 第103便(原仮定者指示「太陽系のプリセットを検討する」): 内惑星系の実距離デモ。
+// 惑星タグの表示規約(1単位=10⁸m)をそのまま距離に採用: 地球 r=1496(=1.496×10¹¹m=1au)。
+// 太陽質量はケプラー写像 M=v²r=13266(G=1・v_実=2.978 相当)。
+// 「太陽の半径が大き過ぎて水星が埋まる」問題は radius の明示指定で回避(太陽40 ≪ 水星軌道579。
+// 実スケールでは太陽6.96×10⁸m=7単位・地球0.06単位と視認不能なので拡大 — DFMの半径は
+// 引きずりの届き方 (R/(R+d))^q にも入るため、拡大は引きずりを見えやすくする側に働く)。
+// 初速は kFrame=1(引きずり込み)の円軌道実測較正 — ケプラー値×1.12/1.09/1.07/1.055
+// (水/金/地/火。earthMoon の 1.063 と同じ E6′ 較正手順)。実測: 各惑星1周窓で半径振れ幅 0.05/0.005/0.002/0.001%(3200步・2水星周)(2026-08-11 tests/out/_exp-solar2.mjs)。knockout(kFrame=0)では
+// 較正超過ぶんだけ楕円化する=引きずりが円軌道を支えている構図(原仮定者指示「引きずりで
+// 軌道が安定するのがベスト」)
+{ id:"solarInner", name:"太陽系 — 内惑星(1au 実距離)", emoji:"🌞", group:"天体の物語",
+  scaleTier:"planetary",
+  sampleClass:"calibration",
+  notClaim:["solar"],   // EXT-04: 実在名を使うが定量主張は距離写像と較正手順に限る
+  descStruct:{
+    summary:"内惑星系(水・金・地・火)+小惑星帯を、距離が実値になる規約で置く。惑星タグ(1単位=10万km)で太陽–地球=1496単位≈1au。初速は空間引きずり(kFrame=1)込みの円軌道実測較正 — 引きずりの中で安定な円軌道を保つ。",
+    observe:"距離は実値(水星579・金星1082・地球1496・火星2279 単位=10万km)。初速はケプラー値×1.12/1.09/1.07/1.055(水/金/地/火)の E6′ 込み実測較正で、2周窓の実測で半径振れ幅0.06%以下の円軌道を維持する(knockout kFrame=0 では水星2.2%の楕円化)(🌍と同じ較正手順 — 内側ほど補正が大きい)。半径は視認のための拡大: 実スケールでは太陽7単位・地球0.06単位と見えないため太陽40・惑星12〜22にした(水星軌道579より十分小さく埋まらない)。太陽は pinned の展示系(中心は固定=外部拘束)。",
+    control:"A/B比較で kFrame を 0(純ニュートン)にすると、較正がケプラー値を上回るぶん軌道が楕円化して遠日点が持ち上がる — 引きずりが円軌道を支えていたことが見える(内側の惑星ほど顕著)。timeScale=30 なので画面の1秒≈9.6時間。小惑星帯(3300〜4600単位≈2.2〜3.1au)はズームアウトで見える。"},
+  en:{name:"Solar System — Inner Planets (real 1 au)", descStruct:{
+    summary:"The inner planets (Mercury–Mars) plus an asteroid belt, laid out so that distances map to real values. With the planetary tag (1 unit = 10^5 km), Sun–Earth = 1496 units ≈ 1 au. Initial speeds are measured circular-orbit calibrations with frame dragging (kFrame=1) included — the orbits stay circular inside the dragged space.",
+    observe:"Distances are real (Mercury 579, Venus 1082, Earth 1496, Mars 2279 units of 10^5 km). Initial speeds are Kepler × 1.12/1.09/1.07/1.055 (Mercury/Venus/Earth/Mars), the measured E6′ calibration that keeps each orbit circular to within 0.06% radius wobble over a two-orbit window (knocking out kFrame=0 turns Mercury into a 2.2% ellipse) (same procedure as 🌍; the correction grows inward). Radii are inflated for visibility — at true scale the Sun would be 7 units and Earth 0.06 units — so the Sun is drawn at 40 and planets at 12–22 (well below Mercury's orbit of 579, so nothing gets buried). The Sun is pinned (exhibit system; the center is an external constraint).",
+    control:"Switch kFrame to 0 (pure Newton) in an A/B run: the orbits turn elliptic by exactly the calibration excess and the aphelia rise — showing that the dragging was supporting the circular orbits (strongest for the inner planets). With timeScale=30 one on-screen second ≈ 9.6 hours. The asteroid belt (3300–4600 units ≈ 2.2–3.1 au) appears when you zoom out."}},
+  activeParams:["kFrame","G"],
+  camera:{scale:1700}, world:{boundary:"none",size:0},
+  physics:{G:1, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:60,
+    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:2, timeScale:30},
+  bodies:[ // 並び: 0=太陽, 1=水星, 2=金星, 3=地球, 4=火星, 5=小惑星帯。
+           // 距離(10⁵km)= 579/1082/1496/2279。質量は地球=1 の実比(0.055/0.815/1/0.107 —
+           // テスト質量極限なので軌道へは影響しない)。速度 = √(13266/r)×較正係数(上記)
+    {type:"single", m:13266, x:0,y:0, vx:0,vy:0, spin:0.5, pinned:true, radius:40},
+    {type:"single", m:0.055, x:579,y:0, vx:0,vy:5.3610, spin:0, pinned:false, radius:12},
+    {type:"single", m:0.815, x:-1082,y:0, vx:0,vy:-3.8167, spin:0, pinned:false, radius:20},
+    {type:"single", m:1, x:1496,y:0, vx:0,vy:3.1864, spin:0, pinned:false, radius:22},
+    {type:"single", m:0.107, x:-2279,y:0, vx:0,vy:-2.5454, spin:0, pinned:false, radius:16},
+    {type:"ring", rMul:5, n:160, cx:0,cy:0, rIn:3300, rOut:4600, mMin:0.04, mMax:0.04,
+     spinMin:0, spinMax:0, vMode:"kepler", aroundMass:13266, omega:0, vNoise:0.02, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -10508,24 +10538,8 @@ function rebuildAiBaseSelect(){
 // 第99便(外部レビュー P0): 第98便の7分類化で SCALE_TIERS が7段になったのに本表が5段のままで、
 // beaker/planetary/stellar 選択時に「挿入」が silent no-op になっていた(celestial は選択肢から
 // 消えたため死にエントリ)。7分類へ更新 — ベースは各タイアの代表サンプル。
-const AI_SCALE_TPL={
-  molecular:{base:"emergent",  tplKey:"aiTpl_molecular"},
-  beaker:   {base:"convection",tplKey:"aiTpl_beaker"},     // ♨️対流(g_y 0.031規約の代表)
-  everyday: {base:"projectile",tplKey:"aiTpl_everyday"},   // 第94便: ♨️は molecular へ再分類 — 日常の代表は⚾ → 第98便: ♨️は beaker へ
-  planetary:{base:"earthMoon", tplKey:"aiTpl_planetary"},
-  stellar:  {base:"binary",    tplKey:"aiTpl_stellar"},
-  galactic: {base:"galaxyStd", tplKey:"aiTpl_galactic"},
-  cosmic:   {base:"boxcomoving",tplKey:"aiTpl_cosmic"}};
-function rebuildAiScaleTpl(){
-  const sel=$("#aiScaleTpl"); if(!sel) return;
-  const cur=sel.value; sel.textContent="";
-  for(const t of SCALE_TIERS){
-    const o=document.createElement("option"); o.value=t;
-    o.textContent=SCALE_EMOJI[t]+" "+T("scaleName_"+t)+" — "+T("aiTplName_"+t);
-    sel.appendChild(o);
-  }
-  if(cur && [...sel.options].some(o=>o.value===cur)) sel.value=cur;
-}
+// 第103便(原仮定者指示): AI_SCALE_TPL / rebuildAiScaleTpl(第74便のスケール雛形挿入)は撤去。
+// スケールの誘導は SYSTEM_PROMPT の「要望→設定の対応」表とベースサンプル選択が担う
 // v1.17: セーブ項目の読込(保存一覧・プルダウン共用)
 function loadSave(s, selValue){
   const exists=allPresets().some(p=>p.id===s.presetId);
@@ -12069,8 +12083,14 @@ function renderSaves(){
       loadSave(s,"save#"+idx);
     });
     // v1.19: JSONコピー(インポート可能な {saves:[…]} 形式)
+    // 第103便(原仮定者指示): 参照先がカスタムプリセットなら同梱してコピー — 移設先で
+    // プリセットごと復元できる(インポート側は内容重複を除外するので二重登録は起きない。
+    // 内蔵プリセット参照のセーブは従来どおり saves のみ)
     const bc=document.createElement("button"); bc.className="btn"; bc.textContent=T("btnCopy");
-    bc.addEventListener("click",()=>copyJSON(JSON.stringify({saves:[s]},null,1)));
+    bc.addEventListener("click",()=>{
+      const cp=getCustomPresets().find(q=>String(q.id)===String(s.presetId));
+      copyJSON(JSON.stringify(cp? {saves:[s], customPresets:[cp]} : {saves:[s]},null,1));
+    });
     const bd=document.createElement("button"); bd.className="btn danger"; bd.textContent=T("btnDelete");
     bd.addEventListener("click",()=>{ const arr=getSaves(); arr.splice(idx,1); setSaves(arr);
       rebuildPresetSelect(currentPreset.id); renderSaves(); });
@@ -12178,17 +12198,50 @@ function presetSig(p){
     phaseChange:q.phaseChange||null, fusion:q.fusion||null
   });
 }
+// 第103便: 外部AIチャット返答からのJSON候補抽出(doImportText の寛容経路用)。
+// ①```フェンスブロックの中身を先に列挙 ②文字列リテラル("…" のエスケープ込み)を考慮した
+// 釣り合い走査で、最上位レベルの {…} / […] をすべて列挙する(複数JSON・前後説明文・
+// 説明文中の波括弧に耐える)。深さ0の引用符は散文とみなして無視する
+function importCandidates(text){
+  const t=String(text), out=[];
+  const fence=/```[^\n`]*\n([\s\S]*?)```/g; let m;
+  while((m=fence.exec(t))) out.push(m[1]);
+  let depth=0, start=-1, inStr=false, esc=false;
+  for(let i=0;i<t.length;i++){
+    const ch=t[i];
+    if(inStr){ if(esc) esc=false; else if(ch==="\\") esc=true; else if(ch==="\"") inStr=false; continue; }
+    if(ch==="\""){ if(depth>0) inStr=true; continue; }
+    if(ch==="{"||ch==="["){ if(depth===0) start=i; depth++; }
+    else if(ch==="}"||ch==="]"){ depth--;
+      if(depth===0&&start>=0){ out.push(t.slice(start,i+1)); start=-1; }
+      if(depth<0) depth=0; }
+  }
+  return out;
+}
+// LLM出力に混ざりやすい非JSON(末尾カンマ・NaN/±Infinity)を許容側へ寄せる。
+// 素のparseに失敗した候補にのみ適用する(正規JSONの経路は一切変えない)。
+// NaN/Infinity は 0 に置換 — null はバリデータが「数値ではありません」で致命拒否するため
+// (実測)。0 は validatePreset の値域クランプ・既定値マージに乗り、警告つきで取り込まれる
+function sanitizeLLMJSON(s){
+  return s.replace(/,\s*([}\]])/g,"$1")
+          .replace(/(:\s*)(?:NaN|-?Infinity)\b/g,"$1 0");
+}
 function doImportText(text){
   let d;
   try{ d=JSON.parse(text); }
   catch(e){
-    // 第102便: 外部AIチャットの返答をそのまま貼れるよう、コードフェンス・前後の説明文を
-    // 除去して再試行する({…} または […] の最外殻を抜き出す。正規のJSONは従来どおり素通し)
-    const t=String(text), io=t.indexOf("{"), ia=t.indexOf("[");
-    let f=-1, cl="";
-    if(io>=0 && (ia<0 || io<ia)){ f=io; cl="}"; } else if(ia>=0){ f=ia; cl="]"; }
-    const l=(f>=0)? t.lastIndexOf(cl) : -1;
-    if(f>=0 && l>f){ try{ d=JSON.parse(t.slice(f,l+1)); }catch(e2){} }
+    // 第102便: 外部AIチャットの返答をそのまま貼れるよう、コードフェンス・前後説明文を除去して再試行。
+    // 第103便(原仮定者指示「ChatGPTとGrokはインポートに失敗したので調査する」): 旧実装の
+    // 「最初の { 〜 最後の }」抜き出しは、返答に複数のJSON(候補案・改変例)や説明文中の波括弧が
+    // あると1つの不正な塊になり失敗していた。候補ラダーへ強化:
+    //   ①```フェンスブロックの中身(先勝ち) ②文字列リテラルを考慮した釣り合い走査で
+    //   最上位 {…}/[…] を列挙(複数JSONは最初に解釈できたもの) ③各候補は素のparse →
+    //   サニタイズ(末尾カンマ除去・NaN/Infinity→null)の順に試す。正規のJSONは従来どおり素通し
+    const cands=importCandidates(text);
+    for(const c of cands){
+      try{ d=JSON.parse(c); break; }catch(e1){}
+      try{ d=JSON.parse(sanitizeLLMJSON(c)); break; }catch(e2){}
+    }
     if(d===undefined){ notify(T("importFailed"),3000); return; }
   }
   const co=coerceImport(d);
@@ -12497,6 +12550,16 @@ function buildExternalPrompt(){
   const req=raw || T("aiExtReqPh");
   return T("aiExtHead")+"\n\n"+getSystemPrompt()+"\n\n"+T("aiExtReqHead")+"\n"+aiUserContent(req);
 }
+// 第103便(原仮定者指示「プロンプトの文字数を減らす為、リンクを参照する方法を検討」):
+// 短縮版 — 仕様全文(SYSTEM_PROMPT)を同梱せず、公開URL(docs/AI_SPEC.md — QA prompt.spec-sync が
+// SYSTEM_PROMPT との逐語一致を機械固定)へのリンク参照にする。Web閲覧できるAIチャット向け。
+// ベースサンプルのJSONは要望の一部なので短縮版でも同梱する(リンクでは渡せない動的文脈)
+const AI_SPEC_URL="https://tty-imamura.github.io/dfm-simulator/docs/AI_SPEC.md";
+function buildExternalPromptShort(){
+  const raw=$("#aiPrompt").value.trim();
+  const req=raw || T("aiExtReqPh");
+  return T("aiExtHeadShort")(AI_SPEC_URL)+"\n\n"+T("aiExtReqHead")+"\n"+aiUserContent(req);
+}
 // 段構え: 選択モデル → 検証NG時リトライ1回 → 上位モデルフォールバック
 // (フォールバック連鎖は Anthropic のみ: haiku→sonnet-5、sonnet→opus-5〔第25便: Opus 4.8 と同価格の後継〕。他プロバイダは
 //  モデル階層をアプリが仮定できないためリトライまで。HANDOFF_RUNTIME_LLM.md v1.10)
@@ -12587,17 +12650,14 @@ $("#aiBasePreset").addEventListener("change",updateAiPreview);
 // 第102便: 外部AIチャット用プロンプトのコピー(クリップボード不可時は copyJSON が
 // #ioArea へフォールバック表示 — セーブタブで全文を選択コピーできる)
 $("#btnExtCopy").addEventListener("click",()=>copyJSON(buildExternalPrompt()));
-// 第74便: スケール雛形の挿入 — 要望欄へ追記(既存文があれば改行で継ぎ足し)+ベースサンプルを
-// 推奨値へ。プレビューにも即反映。テンプレ文は T() 管理(ja/en)
-rebuildAiScaleTpl();
-$("#btnAiTpl").addEventListener("click",()=>{
-  const t=AI_SCALE_TPL[$("#aiScaleTpl").value]; if(!t) return;
-  const base=$("#aiBasePreset");
-  if(base && [...base.options].some(o=>o.value===t.base)) base.value=t.base;
-  const ta=$("#aiPrompt"); const cur=ta.value.trim();
-  ta.value=(cur? cur+"\n" : "")+T(t.tplKey);
-  updateAiPreview();
-});
+$("#btnExtCopyShort").addEventListener("click",()=>copyJSON(buildExternalPromptShort()));   // 第103便: 短縮版
+// 第103便(原仮定者指示): テキスト入力はフォーカスで全選択 — 貼り付け上書き・全文コピーの
+// 手数を減らす(インポート欄・AI要望欄・保存名など)。iOS Safari 対策で選択は次tickに行う
+for(const tid of ["ioArea","aiPrompt","aiPreviewBody","saveName","saveComment","aiModelIn","aiBaseUrl","apiKey"]){
+  const tf=document.getElementById(tid); if(!tf) continue;
+  tf.addEventListener("focus",()=>{ setTimeout(()=>{ try{ tf.select(); }catch(_){} },0); });
+}
+// 第103便: スケール雛形の挿入ハンドラは撤去(第74便UIの撤去に伴う)
 $("#btnGenerate").addEventListener("click",async ()=>{
   const cfg=aiCfg();
   if(!cfg.key){ setAiStatus(T("noKey"),"err"); return; }
@@ -12694,16 +12754,17 @@ function applyLang(){
   $("#aiBaseLabel").textContent=T("aiBaseLabel"); $("#aiBaseNote").textContent=T("aiBaseNote");   // 第26便
   $("#aiBaseNoteSum").textContent=T("aiBaseNoteSum");   // 第36便 B4
   rebuildAiBaseSelect();   // 第26便: 言語切替でベース候補名も更新
-  rebuildAiScaleTpl();     // 第74便: 言語切替でスケール雛形の候補名も更新
-  const tplLb=$("#aiTplLabel"); if(tplLb) tplLb.textContent=T("aiTplLabel");
-  const tplBt=$("#btnAiTpl"); if(tplBt) tplBt.textContent=T("aiTplInsert");
+  // 第103便: スケール雛形(第74便)のラベル更新は撤去に伴い削除
   $("#btnGenerate").textContent=T("btnGenerate"); $("#aiListHead").textContent=T("aiListHead");
   $("#aiPrompt").placeholder=T("aiPromptPh");
   $("#aiPreviewSum").textContent=T("aiPreviewSum"); $("#aiPreviewNote").textContent=T("aiPreviewNote");   // 第32便 W4
   // 第102便: 外部AIチャット経路のラベル(root 未適用でも落ちないよう存在ガード)
+  // 第103便: 独立グループの見出し+短縮版ボタンを追加
+  const exT=$("#aiExtTitle"); if(exT) exT.textContent=T("aiExtTitle");
   const exS=$("#aiExtSum"); if(exS) exS.textContent=T("aiExtSum");
   const exN=$("#aiExtNote"); if(exN) exN.textContent=T("aiExtNote");
   const exB=$("#btnExtCopy"); if(exB) exB.textContent=T("btnExtCopy");
+  const exB2=$("#btnExtCopyShort"); if(exB2) exB2.textContent=T("btnExtCopyShort");
   updateAiPreview();
   rebuildPresetSelect(currentPreset?currentPreset.id:undefined);
   if(currentPreset){ buildParamRows(); renderHelp(); updateSaveNameDefault(); }
@@ -14077,6 +14138,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
       return pmRunSync(v.preset, v.preset.phaseMap); } },
   ovMin, aiUserContent,  // 第26便: グラフ最小化/AIベースサンプルのQA用
   buildExternalPrompt, doImportText,  // 第102便: 外部AIチャット経路(プロンプト組立・寛容インポート)のQA用
+  buildExternalPromptShort, importCandidates, AI_SPEC_URL,  // 第103便: 短縮版プロンプト・候補抽出のQA用
   // 第74便: 5段階スケール(分類・表示換算)のQA用フック — すべて表示専用で物理不変
   // 第77便(コアv2): QA/実験用の読み口(表示・検査専用)
   coreState:(i)=>{ const S=sim; if(!S.hasCoreV2||!S.coreMd[i]) return null;
