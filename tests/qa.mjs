@@ -7156,6 +7156,38 @@ if (!FAST) {
     } else {
       console.log('SKIP ext02.claim-provenance(対象に出所分類なし — 第105便 未適用の root 等)');
     }
+
+    // ---- 第106便: プリセットID行(論文の preset <id> 参照をアプリで判別可能に)----
+    const hasIdLine = await page.evaluate(() => { HP.loadPreset('galaxy', false);
+      return !!document.querySelector('#presetIdLine'); });
+    if (hasIdLine) {
+      const pid = await page.evaluate(() => {
+        HP.loadPreset('galaxy', false);
+        const line = document.querySelector('#presetIdLine');
+        const shown = line.textContent === 'id: galaxy';
+        // タップでコピー(clipboard を外して #ioArea フォールバックで検分)
+        Object.defineProperty(navigator, 'clipboard', { value: undefined, configurable: true });
+        document.querySelector('#ioArea').value = '';
+        line.click();
+        const copied = document.querySelector('#ioArea').value === 'galaxy';
+        // 選択ウィンドウの検索が id にヒット(既存機能の確認 — 判別導線の完成条件)
+        const btn = document.querySelector('#btnPresetPick');
+        let searchOk = null;
+        if (btn) { btn.click();
+          const se = document.querySelector('#ppSearch');
+          if (se) { se.value = 'galaxy'; se.dispatchEvent(new Event('input'));
+            const rows = [...document.querySelectorAll('#ppList .ppRow')];
+            searchOk = rows.length >= 1 && rows.some(r => r.textContent.includes('銀河の回転曲線'));
+            se.value = ''; se.dispatchEvent(new Event('input')); }
+          const cl = document.querySelector('#ppClose'); if (cl) cl.click();
+        }
+        return { shown, copied, searchOk };
+      });
+      add('ui.preset-id', pid.shown && pid.copied && pid.searchOk !== false,
+        `ID行表示=${pid.shown} タップコピー=${pid.copied} 検索ヒット=${pid.searchOk}`);
+    } else {
+      console.log('SKIP ui.preset-id(対象にプリセットID行なし — 第106便 未適用の root 等)');
+    }
   } else {
     console.log('SKIP ai.external-prompt / prompt.intent-map / prompt.spec-sync / import.fenced-json / save.copy-with-preset(対象に外部AIチャット経路なし — 第102便 未適用の root 等)');
   }
