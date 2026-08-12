@@ -9332,35 +9332,42 @@ function drawMechSpectrum(slot=0){
     sim._mechRad=r.radial||null;
   }
   const pi=sim._mechDisp, rad=sim._mechRad;
-  ctx.save(); ctx.translate(cw-W*uz-8, overlayBaseY(slot)); ctx.scale(uz,uz);
+  // 第109便A(原仮定者指示「文字がボヤけている」): translate を整数CSSピクセルへスナップし、
+  // テキストは uz スケールの外で「整数pxフォント+整数座標」で描く(uz=1.15 等の分数スケールが
+  // 7px を 8.05px の非整数実効サイズ・非整数位置に落としてラスタライズが滲むのが原因)。
+  // レイアウト座標系(uz スケール)は従来のまま — txt() が変換だけを打ち消す
+  ctx.save(); ctx.translate(Math.round(cw-W*uz-8), Math.round(overlayBaseY(slot))); ctx.scale(uz,uz);
+  const txt=(px,str,x,y)=>{ ctx.save(); ctx.scale(1/uz,1/uz);
+    ctx.font=Math.max(7,Math.round(px*uz))+"px sans-serif";
+    ctx.fillText(str, Math.round(x*uz), Math.round(y*uz)); ctx.restore(); };
   ctx.fillStyle="rgba(12,16,34,0.82)"; ctx.fillRect(X,Y,W,H);
   ctx.strokeStyle="#2a3060"; ctx.strokeRect(X,Y,W,H);
-  ctx.font="8px sans-serif"; ctx.fillStyle="#8b93c8";
-  ctx.fillText(T("ovMechSpec"),X+6,Y+9);
+  ctx.fillStyle="#8b93c8";
+  txt(8,T("ovMechSpec"),X+6,Y+9);
   const labels=T("mechCh");
   if(pi){
     const bx0=X+42, bx1=X+120;
     for(let c=0;c<6;c++){
       const yc=Y+13+c*11;
-      ctx.font="7px sans-serif"; ctx.fillStyle="#aab2dd";
-      ctx.fillText(labels[c],X+6,yc+7);
+      ctx.fillStyle="#aab2dd";
+      txt(7,labels[c],X+6,yc+7);
       ctx.fillStyle="#1a2048"; ctx.fillRect(bx0,yc,bx1-bx0,8);
       ctx.fillStyle=MECH_COLORS[c]; ctx.fillRect(bx0,yc,(bx1-bx0)*Math.min(1,pi[c]),8);
-      ctx.fillStyle="#dfe4ff"; ctx.fillText((pi[c]*100).toFixed(0)+"%",bx1+3,yc+7);
+      ctx.fillStyle="#dfe4ff"; txt(7,(pi[c]*100).toFixed(0)+"%",bx1+3,yc+7);
     }
     // 支配機構の自動表示(上位2チャネル — 第64便裁定 7.4 の「サンプル説明への支配機構表示」)
     const ord=[0,1,2,3,4,5].sort((a,b)=>pi[b]-pi[a]);
-    ctx.font="7px sans-serif"; ctx.fillStyle="#dfe4ff";
-    ctx.fillText(T("mechDom")+" "+ord.slice(0,2).filter(c=>pi[c]>0.005)
+    ctx.fillStyle="#dfe4ff";
+    txt(7,T("mechDom")+" "+ord.slice(0,2).filter(c=>pi[c]>0.005)
       .map(c=>`${labels[c]} ${(pi[c]*100).toFixed(0)}%`).join(" / "),X+6,Y+90);
   } else {
-    ctx.font="7px sans-serif"; ctx.fillStyle="#5a6090";
-    ctx.fillText("…",X+6,Y+24);   // 窓がまだ空(停止中など)
+    ctx.fillStyle="#5a6090";
+    txt(7,"…",X+6,Y+24);   // 窓がまだ空(停止中など)
   }
   // 半径ビン別の積み上げ帯(左=中心 → 右=外縁。各列は Π の100%積み上げ)
   ctx.strokeStyle="#2a3060"; ctx.beginPath(); ctx.moveTo(X+4,Y+94); ctx.lineTo(X+W-4,Y+94); ctx.stroke();
-  ctx.font="6px sans-serif"; ctx.fillStyle="#5a6090";
-  ctx.fillText(T("ovMechRadial"),X+6,Y+101);
+  ctx.fillStyle="#5a6090";
+  txt(6.5,T("ovMechRadial"),X+6,Y+101);
   if(rad && rad.pi){
     const NB=rad.pi.length, colW=120/NB, y0r=Y+104, hR=36;
     for(let b=0;b<NB;b++){
@@ -9374,9 +9381,9 @@ function drawMechSpectrum(slot=0){
         yAcc+=hSeg;
       }
     }
-    ctx.font="6px sans-serif"; ctx.fillStyle="#5a6090";
-    ctx.fillText("0",X+18,Y+148);
-    ctx.fillText("r="+rad.rMax.toFixed(0),X+100,Y+148);
+    ctx.fillStyle="#5a6090";
+    txt(6.5,"0",X+18,Y+148);
+    txt(6.5,"r="+rad.rMax.toFixed(0),X+100,Y+148);
   }
   ctx.restore();
   ovDrawToggle("mechSpectrum",slot);
