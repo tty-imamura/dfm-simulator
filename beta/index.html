@@ -311,6 +311,10 @@
     overflow-wrap:anywhere;word-break:break-word;}
   .claimQa{font-size:calc(10.5px*var(--uz,1));color:var(--dim);margin-left:4px;white-space:nowrap;}
   /* 第50便 50H(台帳4-92): 検証形態の分類チップ(claim.kind) */
+  /* 第105便B EXT-02: 主張の出所チップ(独立クラス — .claimKind と別計数。QA claims.kind の
+     チップ計数を汚さないため見た目プロパティを複製し、アクセント色で区別する) */
+  .claimProv{font-size:calc(10px*var(--uz,1));color:var(--acc,#8fd);border:1px solid var(--acc,#8fd);
+    border-radius:8px;padding:0 6px;margin-right:6px;white-space:nowrap;vertical-align:1px;opacity:.85;}
   .claimKind{font-size:calc(10px*var(--uz,1));color:var(--dim);border:1px solid var(--line);
     border-radius:8px;padding:0 6px;margin-right:6px;white-space:nowrap;vertical-align:1px;}
   /* 第50便 50K(台帳4-78 C案): 構造化説明の区分見出し */
@@ -999,6 +1003,9 @@ ja: {
   claimKinds:{analytic:"解析一致", conservation:"保存恒等式", semantic:"意味論回帰",
     "fixed-seed":"固定seed実測", "multi-seed":"多seed統計"},
   claimKindTip:"主張の検証形態(台帳4-92): 解析一致=閉形式解との一致/保存恒等式=帳簿込みの恒等式/意味論回帰=定義・規則の回帰/固定seed実測=決定論的単一走行の実測/多seed統計=シード群にわたる統計",
+  // 第105便B EXT-02: 主張の出所6分類(Claim Provenance — 段階導入第1段)
+  provNames:{axiom:"公理", definition:"定義", derived:"導出", calibrated:"較正", simulated:"実測", analogy:"類似"},
+  provTip:"主張の出所(EXT-02): 公理=仮定そのもの/定義=量・規則の定義から従う/導出=公理から数学的に従う/較正=現実の観測値への対応付けで決めた(例: Kt=c²/G・D68)/実測=シミュレーション実走の測定値/類似=実在現象の名前を借りたアナロジー(定量主張なし)。連鎖: 公理→方程式→パラメータ→(較正)→シミュレーション→観測量→QA検証",
   // 第50便 50K(台帳4-78 C案): 構造化説明の区分見出し
   descSummaryHead:"📌 要約", descObserveHead:"👀 観察のポイント", descControlHead:"🎛 操作と対照",
   // 第74便→第98便: 7段階スケール(scaleTier)— チップ・換算表示・AI雛形(第84便C: 絞り込み用 grpScale は撤去)
@@ -1388,6 +1395,9 @@ en: {
   claimKinds:{analytic:"analytic match", conservation:"conservation identity", semantic:"semantic regression",
     "fixed-seed":"fixed-seed run", "multi-seed":"multi-seed statistics"},
   claimKindTip:"How the claim is verified (ledger 4-92): analytic match = agreement with a closed-form solution / conservation identity = ledger-closed identity / semantic regression = regression of a definition or rule / fixed-seed run = deterministic single-run measurement / multi-seed statistics = statistics across seeds",
+  // 第105便B EXT-02: claim provenance (6 classes, staged rollout 1)
+  provNames:{axiom:"axiom", definition:"definition", derived:"derived", calibrated:"calibrated", simulated:"simulated", analogy:"analogy"},
+  provTip:"Where the claim comes from (EXT-02): axiom = the assumption itself / definition = follows from a definition or rule / derived = follows mathematically from the axioms / calibrated = fixed by matching a real observed value (e.g. Kt=c²/G, D68) / simulated = measured in an actual simulation run / analogy = borrows the name of a real phenomenon (no quantitative claim). Chain: axioms → equations → parameters → (calibration) → simulation → observables → QA checks",
   // 第50便 50K(台帳4-78 C案): structured-description section heads
   descSummaryHead:"📌 Summary", descObserveHead:"👀 What to observe", descControlHead:"🎛 Controls & contrasts",
   // 第74便: 5-tier scale (scaleTier) — chips/conversion/AI templates (第84便C: filter-only grpScale removed)
@@ -4047,7 +4057,7 @@ const BUILTIN_PRESETS = [
   // コア比は QA behavior.earthMoon が Math.abs(em.mcr-0.325)<1e-6 で厳密照合するので窓は狭め。
   // ドリフトは対応する単独閾値が無く(radius は 180±2% の合成条件)、説明文数値±20%
   claims:[
-    { id:"earthMoon.core-mass-ratio-earth", kind:"semantic", metric:"coreMassRatioEarth",
+    { id:"earthMoon.core-mass-ratio-earth", kind:"semantic", prov:"calibrated", metric:"coreMassRatioEarth",
       expected:{min:0.32, max:0.33},   // 実測0.325(behavior.earthMoon: 厳密一致)
       descPattern:"地球 Mc/m=(\\d+\\.\\d+)\\(PREM", testId:"behavior.earthMoon" },
     { id:"earthMoon.radius-drift", kind:"fixed-seed", metric:"radiusDriftFraction",
@@ -4290,10 +4300,10 @@ const BUILTIN_PRESETS = [
   // 第42便 42A(台帳4-78 A案): claims — D68実測近点移動率と較正係数を機械可読化。両方とも
   // QA zonal.analytic-d68 / zonal.d68-preset が厳密照合する量なので窓は狭め
   claims:[
-    { id:"saturnZonalD68.d68-rate", kind:"fixed-seed", metric:"apsidalRateDegPerDay",
+    { id:"saturnZonalD68.d68-rate", kind:"fixed-seed", prov:"calibrated", metric:"apsidalRateDegPerDay",
       expected:{min:38.24, max:38.25},   // 実測38.243±0.002(zonal.analytic-d68)
       descPattern:"D68 実測 (\\d+\\.\\d+)°/日", testId:"zonal.analytic-d68" },
-    { id:"saturnZonalD68.calib-factor", kind:"analytic", metric:"zonalCalibFactor",
+    { id:"saturnZonalD68.calib-factor", kind:"analytic", prov:"calibrated", metric:"zonalCalibFactor",
       expected:{min:1.0002, max:1.0004},   // 実測1.000302283(zonal.d68-preset: 厳密一致)
       descPattern:"較正係数 C=(\\d+\\.\\d+)", testId:"zonal.d68-preset" }
   ],
@@ -4663,6 +4673,18 @@ function isNum(v){ return typeof v==="number" && isFinite(v); }
 // 第50便 50H(台帳4-92): claims の検証形態分類(kind)の正規値。UI 表示(claimKinds)と
 // validatePreset の検証・QA claims.kind が同じ配列を参照する
 const CLAIM_KINDS=["analytic","conservation","semantic","fixed-seed","multi-seed"];
+// 第105便B EXT-02(Claim Provenance — 主張の出所6分類・段階導入第1段): claims 単位の
+// 出所チップ。既定は kind から導出し、claim.prov で上書きできる(表示専用 — 物理不変)。
+//   axiom=公理そのもの / definition=定義・規則から従う / derived=公理から数学的に従う /
+//   calibrated=現実値への対応付けで決めた / simulated=シミュレーション実走の測定値 /
+//   analogy=実在現象の名前を借りたアナロジー(定量主張なし)
+const PROV_CLASSES=["axiom","definition","derived","calibrated","simulated","analogy"];
+const PROV_FROM_KIND={analytic:"derived", conservation:"derived", semantic:"definition",
+  "fixed-seed":"simulated", "multi-seed":"simulated"};
+function claimProv(c){
+  if(c && typeof c.prov==="string" && PROV_CLASSES.indexOf(c.prov)>=0) return c.prov;
+  return (c && PROV_FROM_KIND[c.kind]) || null;
+}
 // 第83便D(往復保全): 説明文の上限を**実測較正**する(REACTION_DV_CAP と同じ「正常域最大の
 // 約2倍」の流儀)。旧上限は 200 字で、descStruct(要約/観察/操作の純分割)を持つ内蔵の説明は
 // 数千字あるため、validatePreset を通すと description だけが切り詰められて連結一致が壊れ、
@@ -5556,6 +5578,11 @@ function validatePreset(obj){
         if(c.kind!==undefined){
           if(CLAIM_KINDS.indexOf(c.kind)>=0) o.kind=c.kind;
           else warnings.push("claims["+c.id+"].kind が不正("+String(c.kind).slice(0,20)+")— 無視");
+        }
+        // 第105便B EXT-02: prov — 主張の出所分類(表示専用)。不正値は警告して無視
+        if(c.prov!==undefined){
+          if(PROV_CLASSES.indexOf(c.prov)>=0) o.prov=c.prov;
+          else warnings.push("claims["+c.id+"].prov が不正("+String(c.prov).slice(0,20)+")— 無視");
         }
         out.push(o);
       }
@@ -12952,6 +12979,13 @@ function renderHelp(){
     det.appendChild(sum);
     for(const c of currentPreset.claims){
       const row=document.createElement("div"); row.className="claimRow";
+      // 第105便B EXT-02: 主張の出所チップ(kind から自動導出+claim.prov 上書き。導出不能なら出さない)
+      const pv=claimProv(c);
+      if(pv && T("provNames")[pv]){
+        const pd=document.createElement("span"); pd.className="claimProv"; pd.title=T("provTip");
+        pd.textContent=T("provNames")[pv];
+        row.appendChild(pd);
+      }
       // 第50便 50H(台帳4-92): 検証形態の分類チップ(kind 無指定の claim には出さない)
       if(c.kind && T("claimKinds")[c.kind]){
         const kd=document.createElement("span"); kd.className="claimKind"; kd.title=T("claimKindTip");
@@ -14198,6 +14232,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   buildExternalPrompt, doImportText,  // 第102便: 外部AIチャット経路(プロンプト組立・寛容インポート)のQA用
   buildExternalPromptShort, importCandidates, AI_SPEC_URL,  // 第103便: 短縮版プロンプト・候補抽出のQA用
   scaleEffNow,  // 第104便: ベースのスケール(タグ一括設定)のQA用 — 実効4指数の読み口(表示専用)
+  claimProv, PROV_CLASSES,  // 第105便B EXT-02: 主張の出所分類のQA用(表示専用)
   // 第74便: 5段階スケール(分類・表示換算)のQA用フック — すべて表示専用で物理不変
   // 第77便(コアv2): QA/実験用の読み口(表示・検査専用)
   coreState:(i)=>{ const S=sim; if(!S.hasCoreV2||!S.coreMd[i]) return null;
