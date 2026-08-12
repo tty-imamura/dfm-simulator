@@ -7112,6 +7112,50 @@ if (!FAST) {
     } else {
       console.log('SKIP scale.base-select(対象にベースのスケールUIなし — 第104便 未適用の root 等)');
     }
+
+    // ---- 第105便B EXT-02: Claim Provenance(主張の出所チップ・段階導入第1段)----
+    const hasProv = await page.evaluate(() => !!window.HP.claimProv && !!window.HP.PROV_CLASSES);
+    if (hasProv) {
+      const pr = await page.evaluate(() => {
+        const builtins = HP.allPresets().filter(p => !String(p.id).startsWith('custom_'));
+        let total = 0, chipped = 0, invalid = [];
+        for (const p of builtins) for (const c of (p.claims || [])) {
+          total++;
+          const v = HP.claimProv(c);
+          if (v === null) continue;
+          if (HP.PROV_CLASSES.indexOf(v) < 0) invalid.push(p.id + ':' + c.id);
+          else chipped++;
+        }
+        // 較正系の上書き3件(段階導入第1段の代表量)
+        const provOf = (pid, cid) => { const p = builtins.find(q => q.id === pid);
+          const c = p && (p.claims || []).find(q => q.id === cid); return c ? HP.claimProv(c) : null; };
+        const overrides = provOf('saturnZonalD68', 'saturnZonalD68.d68-rate') === 'calibrated'
+          && provOf('saturnZonalD68', 'saturnZonalD68.calib-factor') === 'calibrated'
+          && provOf('earthMoon', 'earthMoon.core-mass-ratio-earth') === 'calibrated';
+        // UI: 🌍 の数値主張に出所チップ(較正+実測)が出る
+        HP.loadPreset('earthMoon', false);
+        const chips = [...document.querySelectorAll('#claimsDetails .claimProv')].map(x => x.textContent);
+        const uiOk = chips.includes('較正') && chips.includes('実測');
+        // validatePreset: prov が往復保全され、不正値は警告つきで無視される
+        const mk = (prov) => ({ name: 'p', description: 'x: 1.0', camera: { scale: 200 },
+          world: { boundary: 'none', size: 0 }, physics: {},
+          bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }],
+          claims: [{ id: 'q.x', kind: 'fixed-seed', prov, metric: 'x', expected: { min: 0.9, max: 1.1 } }] });
+        const vOk = HP.validatePreset(mk('calibrated'));
+        const keep = vOk.ok && vOk.preset.claims[0].prov === 'calibrated';
+        const vBad = HP.validatePreset(mk('guess'));
+        const drop = vBad.ok && vBad.preset.claims[0].prov === undefined
+          && vBad.warnings.some(w => w.includes('prov'));
+        return { total, chipped, invalid, overrides, uiOk, keep, drop, chips: chips.join(',') };
+      });
+      add('ext02.claim-provenance',
+        pr.invalid.length === 0 && pr.chipped > 0 && pr.overrides && pr.uiOk && pr.keep && pr.drop,
+        `claims=${pr.total}件中チップ解決=${pr.chipped}(不正=[${pr.invalid.slice(0, 3).join(',')}]) `
+        + `較正上書き3件=${pr.overrides} 🌍UI表示=[${pr.chips}](較正+実測=${pr.uiOk}) `
+        + `validate往復=${pr.keep} 不正値は警告無視=${pr.drop}`);
+    } else {
+      console.log('SKIP ext02.claim-provenance(対象に出所分類なし — 第105便 未適用の root 等)');
+    }
   } else {
     console.log('SKIP ai.external-prompt / prompt.intent-map / prompt.spec-sync / import.fenced-json / save.copy-with-preset(対象に外部AIチャット経路なし — 第102便 未適用の root 等)');
   }
