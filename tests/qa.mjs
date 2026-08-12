@@ -4278,8 +4278,18 @@ if (!FAST) {
         : (w.tier === 'molecular' ? w.base === 'emergent' : w.base !== '');
       const tplOk = !!tpl && tpl.opts.length === r.tierN && tpl.rows.length === r.tierN
         && tpl.rows.every((w) => w.len > 20 && (r.tierN >= 7 ? w.exact : w.hasTier) && baseOk(w));
-      add('ai.scale-templates', tplOk && !!tpl && tpl.plain,
-        tpl ? `候補=${tpl.opts.length} 全タイア=${tpl.rows.map((w) => `${w.tier}:${w.len}/${w.base || '×'}`).join(' ')}` : 'UIなし');
+      // 第103便(原仮定者指示「分かりにくいので無くす」): beta ではスケール雛形UIを撤去した。
+      // 7分類ビルドで UI が無い場合は「撤去済み」を検査する(取り残し検出)。旧ビルド(root)は
+      // 従来どおり挿入動作を検査し、v1.40 昇格で自動的に撤去検査へ切り替わる
+      if (tpl === null && r.tierN >= 7) {
+        const gone = await page.evaluate(() =>
+          !document.querySelector('#aiScaleTpl') && !document.querySelector('#btnAiTpl')
+          && !document.querySelector('#aiTplLabel'));
+        add('ai.scale-templates', gone, '第103便: 雛形UI撤去済み(select/ボタン/ラベルの残骸なし)');
+      } else {
+        add('ai.scale-templates', tplOk && !!tpl && tpl.plain,
+          tpl ? `候補=${tpl.opts.length} 全タイア=${tpl.rows.map((w) => `${w.tier}:${w.len}/${w.base || '×'}`).join(' ')}` : 'UIなし');
+      }
     } else {
       console.log('SKIP preset.scale-tier / scale.display-invariant / ai.scale-templates(対象に第74便 未適用 — root 等)');
     }
@@ -6949,11 +6959,31 @@ if (!FAST) {
       prompt.value = '';
       const t3 = HP.buildExternalPrompt();
       const emptyOk = t3.includes(HP.SYSTEM_PROMPT) && !t3.includes('undefined');
+      // 第103便: 短縮版 — 仕様全文を含まず、公開仕様書URLへのリンク参照+要望のみ
+      let shortOk = true;
+      if (HP.buildExternalPromptShort) {
+        prompt.value = 'QA短縮プロンプト検査'; sel.value = '';
+        const t4 = HP.buildExternalPromptShort();
+        shortOk = t4.includes(HP.AI_SPEC_URL) && t4.includes('QA短縮プロンプト検査')
+          && !t4.includes('# 出力ルール') && t4.length < t1.length / 2;
+        prompt.value = '';
+      }
       sel.value = '';
-      return { plain, withBase, emptyOk };
+      return { plain, withBase, emptyOk, shortOk };
     });
-    add('ai.external-prompt', r.plain && r.withBase && r.emptyOk,
-      `素通し=${r.plain} ベース文脈=${r.withBase} 空要望プレースホルダ=${r.emptyOk}`);
+    add('ai.external-prompt', r.plain && r.withBase && r.emptyOk && r.shortOk,
+      `素通し=${r.plain} ベース文脈=${r.withBase} 空要望プレースホルダ=${r.emptyOk} 短縮版=${r.shortOk}`);
+
+    // 第103便: prompt.spec-sync — 公開仕様書 docs/AI_SPEC.md が beta の SYSTEM_PROMPT を
+    // 逐語収載している(短縮版プロンプトのリンク先が古くなる事故の機械固定 — ChatGPT提案§27)
+    {
+      const betaHtml = fs.readFileSync(path.join(ROOT, 'beta', 'index.html'), 'utf8');
+      const spm = betaHtml.match(/const SYSTEM_PROMPT = `([\s\S]*?)`;/);
+      const specPath = path.join(ROOT, 'docs', 'AI_SPEC.md');
+      const spec = fs.existsSync(specPath) ? fs.readFileSync(specPath, 'utf8') : '';
+      add('prompt.spec-sync', !!spm && spec.length > 0 && spec.includes(spm[1]),
+        `docs/AI_SPEC.md(${spec.length}字)が beta SYSTEM_PROMPT(${spm ? spm[1].length : 0}字)を逐語収載=${!!spm && spec.includes(spm[1])}`);
+    }
 
     // prompt.intent-map: 第102便 102A — 要望→設定の対応表と意図分解ルール(8.)が載っている
     const mapOk = await page.evaluate(() =>
@@ -6961,12 +6991,15 @@ if (!FAST) {
     add('prompt.intent-map', mapOk, '対応表+意図分解ルールの明記');
 
     // import.fenced-json: ```json フェンス+前後説明文つきの単独プリセットを取り込める。
-    // 正規JSONは従来どおり素通し・JSONの無いテキストは従来どおり失敗
+    // 正規JSONは従来どおり素通し・JSONの無いテキストは従来どおり失敗。
+    // 第103便(原仮定者指示「ChatGPT/Grokのインポート失敗を調査」): 候補ラダー化の追加ケース —
+    // ①末尾カンマ(sanitize) ②複数JSON+説明文中の波括弧(釣り合い走査で最初の解釈可能候補)
+    // ③NaN 値(sanitize で null 化 → バリデータが既定値へ)
     const imp = await page.evaluate(() => {
       const keep = localStorage.getItem('hp_custom_presets'), keepS = localStorage.getItem('hp_saves');
       localStorage.setItem('hp_custom_presets', '[]'); localStorage.setItem('hp_saves', '[]');
       const mk = (m) => ({ id: 'custom_qa_fence', name: 'impFence', description: 'd', camera: { scale: 200 },
-        world: { boundary: 'none', size: 0 },
+        world: { boundary: 'none', size: 0 }, physics: {},
         bodies: [{ type: 'single', m, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
       const count = () => JSON.parse(localStorage.getItem('hp_custom_presets') || '[]').length;
       const doImp = (text) => { document.querySelector('#ioArea').value = text; document.querySelector('#btnImport').click(); };
@@ -6974,16 +7007,60 @@ if (!FAST) {
       const fenced = count() === 1;
       doImp(JSON.stringify(mk(11)));
       const plain = count() === 2;
+      doImp('できました {説明の中の波括弧} です。\n' + JSON.stringify(mk(12)).replace(/}$/, ',}'));
+      const trailing = count() === 3;
+      doImp('候補A:\n' + JSON.stringify(mk(13)) + '\n候補B(参考):\n' + JSON.stringify(mk(14)));
+      const multi = count() === 4;
+      doImp(JSON.stringify(mk(15)).replace('"physics":{}', '"physics":{"etaRad":NaN}'));
+      const nan = count() === 5;
+      // 103A2(実データ: Grok/ChatGPT 返答の失敗原因): スマート引用符 “ ” を " へ正規化して取り込む
+      doImp(JSON.stringify(mk(16)).replace(/"/g, '“'));
+      const smart = count() === 6;
       doImp('コードフェンスもJSONも無い説明文だけの応答');
-      const badRejected = count() === 2;
+      const badRejected = count() === 6;
       if (keep === null) localStorage.removeItem('hp_custom_presets'); else localStorage.setItem('hp_custom_presets', keep);
       if (keepS === null) localStorage.removeItem('hp_saves'); else localStorage.setItem('hp_saves', keepS);
-      return { fenced, plain, badRejected };
+      return { fenced, plain, trailing, multi, nan, smart, badRejected };
     });
-    add('import.fenced-json', imp.fenced && imp.plain && imp.badRejected,
-      `フェンス除去=${imp.fenced} 正規JSON素通し=${imp.plain} JSON無しは失敗=${imp.badRejected}`);
+    add('import.fenced-json', imp.fenced && imp.plain && imp.trailing && imp.multi && imp.nan && imp.smart && imp.badRejected,
+      `フェンス除去=${imp.fenced} 正規JSON素通し=${imp.plain} 末尾カンマ=${imp.trailing} 複数JSON=${imp.multi} NaN許容=${imp.nan} スマート引用符=${imp.smart} JSON無しは失敗=${imp.badRejected}`);
+
+    // 第103便: save.copy-with-preset — 保存一覧のコピーが、参照先カスタムプリセットを
+    // {saves,customPresets} 形式で同梱する(内蔵プリセット参照は従来どおり saves のみ)。
+    // clipboard を一時的に外して copyJSON の #ioArea フォールバック経路で内容を検分する
+    const sv = await page.evaluate(() => {
+      const keep = localStorage.getItem('hp_custom_presets'), keepS = localStorage.getItem('hp_saves');
+      const cp = { id: 'custom_qa_svcopy', name: 'svcopyP', description: 'd', camera: { scale: 200 },
+        world: { boundary: 'none', size: 0 }, physics: {},
+        bodies: [{ type: 'single', m: 9, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] };
+      const mkSave = (pid, nm) => ({ name: nm, comment: '', savedAt: new Date().toISOString(),
+        presetId: pid, presetName: nm, physics: {}, cameraScale: 200 });
+      localStorage.setItem('hp_custom_presets', JSON.stringify([cp]));
+      localStorage.setItem('hp_saves', JSON.stringify([mkSave('custom_qa_svcopy', 'svcopyS'), mkSave('binary', 'svcopyB')]));
+      Object.defineProperty(navigator, 'clipboard', { value: undefined, configurable: true });
+      HP.doImportText('[]');   // 副作用の renderSaves() で一覧を再構築(import自体は空)
+      const io = document.querySelector('#ioArea');
+      const items = [...document.querySelectorAll('#saveList .saveItem')];
+      const copyOf = (name) => {
+        const it = items.find(x => x.querySelector('.name').textContent === name);
+        if (!it) return null;
+        io.value = ''; it.querySelectorAll('.rowBtns button')[1].click();
+        try { return JSON.parse(io.value); } catch (e) { return null; }
+      };
+      const withP = copyOf('svcopyS'), builtin = copyOf('svcopyB');
+      if (keep === null) localStorage.removeItem('hp_custom_presets'); else localStorage.setItem('hp_custom_presets', keep);
+      if (keepS === null) localStorage.removeItem('hp_saves'); else localStorage.setItem('hp_saves', keepS);
+      HP.doImportText('[]');   // 復元後の再描画
+      return {
+        withPreset: !!(withP && withP.saves && withP.saves.length === 1
+          && withP.customPresets && withP.customPresets.length === 1 && withP.customPresets[0].id === 'custom_qa_svcopy'),
+        builtinPlain: !!(builtin && builtin.saves && builtin.saves.length === 1 && !builtin.customPresets)
+      };
+    });
+    add('save.copy-with-preset', sv.withPreset && sv.builtinPlain,
+      `カスタム参照=同梱(${sv.withPreset}) 内蔵参照=saves のみ(${sv.builtinPlain})`);
   } else {
-    console.log('SKIP ai.external-prompt / prompt.intent-map / import.fenced-json(対象に外部AIチャット経路なし — 第102便 未適用の root 等)');
+    console.log('SKIP ai.external-prompt / prompt.intent-map / prompt.spec-sync / import.fenced-json / save.copy-with-preset(対象に外部AIチャット経路なし — 第102便 未適用の root 等)');
   }
 }
 
