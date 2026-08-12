@@ -6985,10 +6985,13 @@ if (!FAST) {
         `docs/AI_SPEC.md(${spec.length}字)が beta SYSTEM_PROMPT(${spm ? spm[1].length : 0}字)を逐語収載=${!!spm && spec.includes(spm[1])}`);
     }
 
-    // prompt.intent-map: 第102便 102A — 要望→設定の対応表と意図分解ルール(8.)が載っている
+    // prompt.intent-map: 第102便 102A — 要望→設定の対応表と意図分解ルール(8.)が載っている。
+    // 第104便: スケールタグと表示換算の節+few-shot 全5例の scaleTier 宣言も検査
     const mapOk = await page.evaluate(() =>
-      HP.SYSTEM_PROMPT.includes('要望→設定の対応') && /\n8\. 出力の前に/.test(HP.SYSTEM_PROMPT));
-    add('prompt.intent-map', mapOk, '対応表+意図分解ルールの明記');
+      HP.SYSTEM_PROMPT.includes('要望→設定の対応') && /\n8\. 出力の前に/.test(HP.SYSTEM_PROMPT)
+      && HP.SYSTEM_PROMPT.includes('スケールタグと表示換算')
+      && (HP.SYSTEM_PROMPT.match(/"scaleTier":"/g) || []).length >= 5);
+    add('prompt.intent-map', mapOk, '対応表+意図分解ルール+スケールタグ節+few-shot scaleTier×5');
 
     // import.fenced-json: ```json フェンス+前後説明文つきの単独プリセットを取り込める。
     // 正規JSONは従来どおり素通し・JSONの無いテキストは従来どおり失敗。
@@ -7059,6 +7062,56 @@ if (!FAST) {
     });
     add('save.copy-with-preset', sv.withPreset && sv.builtinPlain,
       `カスタム参照=同梱(${sv.withPreset}) 内蔵参照=saves のみ(${sv.builtinPlain})`);
+
+    // ---- 第104便: ベースのスケール(タグ一括設定)+スケール行の並び+セーブ往復 ----
+    const hasBase = await page.evaluate(() => !!document.querySelector('#scaleBaseSel') && !!window.HP.scaleEffNow);
+    if (hasBase) {
+      const sb = await page.evaluate(() => {
+        const keepS = localStorage.getItem('hp_saves');
+        localStorage.setItem('hp_saves', '[]');
+        HP.loadPreset('gas', false);
+        const q = (s) => document.querySelector(s);
+        const rowOf = (el) => el && el.closest('.prow');
+        // 並び: スケールバー表示 → スケール換算表示 → ベースのスケール(第104便の指示順)
+        const bar = rowOf(q('#scaleBarCb')), disp = rowOf(q('#scaleDispCb')), base = rowOf(q('#scaleBaseSel'));
+        const orderOk = !!(bar && disp && base
+          && (bar.compareDocumentPosition(disp) & Node.DOCUMENT_POSITION_FOLLOWING)
+          && (disp.compareDocumentPosition(base) & Node.DOCUMENT_POSITION_FOLLOWING));
+        // 初期値 = プリセットのスケールタグ
+        const initOk = q('#scaleBaseSel').value === HP.currentPreset().scaleTier;
+        // タグ選択で4指数が一括で既定へ
+        let sel = q('#scaleBaseSel');
+        sel.value = 'planetary'; sel.dispatchEvent(new Event('change'));
+        const e1 = HP.scaleEffNow();
+        const setOk = Math.abs(e1.x - 8) < 1e-9 && Math.abs(e1.eT - 4) < 1e-9
+          && Math.abs(e1.eM - 24) < 1e-9 && Math.abs(e1.eC - 7) < 1e-9;
+        // 個別スライダーの変更 → 「なし(個別指定)」へ
+        const tr = q('#scaleExpTSlider'); tr.value = '5'; tr.dispatchEvent(new Event('input'));
+        const noneOk = q('#scaleBaseSel').value === '';
+        // セーブ往復: scaleExps に個別指定が乗り、読込で復元される(第94便の枠組み)
+        q('#saveName').value = 'qa_scale_base';
+        q('#btnSave').click();
+        const saves = JSON.parse(localStorage.getItem('hp_saves') || '[]');
+        const sv0 = saves[0];
+        const savedOk = !!(sv0 && sv0.scaleExps && Math.abs(sv0.scaleExps.T - 5) < 1e-9
+          && Math.abs(sv0.scaleExps.L - 8) < 1e-9);
+        HP.loadPreset('gas', false);   // 指数はタグ既定へ戻る(パネルも再構築)
+        const resetOk = document.querySelector('#scaleBaseSel').value === HP.currentPreset().scaleTier;
+        HP.loadSaveItem(sv0, 'x');
+        const e2 = HP.scaleEffNow();
+        const restoredOk = Math.abs(e2.eT - 5) < 1e-9
+          && document.querySelector('#scaleBaseSel').value === '';
+        HP.setScaleExps(null);
+        if (keepS === null) localStorage.removeItem('hp_saves'); else localStorage.setItem('hp_saves', keepS);
+        HP.doImportText('[]');   // 保存一覧の再描画(復元後)
+        return { orderOk, initOk, setOk, noneOk, savedOk, resetOk, restoredOk };
+      });
+      add('scale.base-select', sb.orderOk && sb.initOk && sb.setOk && sb.noneOk && sb.savedOk && sb.resetOk && sb.restoredOk,
+        `並び(バー→換算→ベース)=${sb.orderOk} 初期=タグ(${sb.initOk}) 一括設定=${sb.setOk} 個別変更→なし=${sb.noneOk} `
+        + `セーブ保存=${sb.savedOk} ロードで既定復帰=${sb.resetOk} セーブ読込で復元+なし表示=${sb.restoredOk}`);
+    } else {
+      console.log('SKIP scale.base-select(対象にベースのスケールUIなし — 第104便 未適用の root 等)');
+    }
   } else {
     console.log('SKIP ai.external-prompt / prompt.intent-map / prompt.spec-sync / import.fenced-json / save.copy-with-preset(対象に外部AIチャット経路なし — 第102便 未適用の root 等)');
   }
