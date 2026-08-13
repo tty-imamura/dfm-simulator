@@ -12331,7 +12331,10 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         e0chip.click();
         e0Rows = document.querySelectorAll('#ppList .ppRow').length;
         const builtins = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_'));
-        e0Expected = builtins.filter((p) => (p.emergence || 'E0') === 'E0').length;
+        // 第117便: catalog 可視性(extended/diagnostic はすべて表示 OFF で厳格非表示)を件数期待に反映
+        const visible = (typeof catalogHidden === 'function')
+          ? builtins.filter((p) => !catalogHidden(p)) : builtins;
+        e0Expected = visible.filter((p) => (p.emergence || 'E0') === 'E0').length;
         e0HasUndeclared = builtins.some((p) => !p.emergence);   // 宣言なしが存在する前提の確認
         const e0chip2 = [...document.querySelectorAll('#ppModal .ppChip')].find((c) => c.textContent === 'E0');
         e0chip2.click();   // 解除
@@ -12363,6 +12366,62 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       `セパレータ=${r.sepOk} / E0絞り込み ${r.e0Rows}行(期待${r.e0Expected}・宣言なし込み=${r.e0HasUndeclared})`);
   } else {
     console.log('SKIP ui.presetpicker(対象にピッカーなし — root 等。第92便)');
+  }
+  // 92-1b) 第117便: catalog 可視性 — extended/diagnostic は「すべて表示」OFF で厳格非表示
+  //        (検索・属性絞り込みでも出ない = family variant の「検索で再表示」より強い)。
+  //        読込中の自身だけは選択保持のため表示に残る。バリデータは不正値を警告つきで削除する
+  const hasCat = await page.evaluate(() => !!(window.HP && typeof catalogHidden === 'function'
+    && document.querySelector('#btnPresetPick')));
+  if (hasCat) {
+    const r = await page.evaluate(() => new Promise((res) => {
+      const out = {};
+      HP.loadPreset('saturn', false);
+      setShowAllSamples(false); rebuildPresetSelect();
+      // ① プルダウン: extended(🎡galaxyStd)が現れない
+      out.hiddenInSelect = ![...document.querySelectorAll('#presetSelect option')]
+        .some((o) => o.value === 'galaxyStd');
+      // ② ピッカー検索でも出ない(strict — variant の検索再表示と違う)
+      document.querySelector('#btnPresetPick').click();
+      const si = document.querySelector('#ppSearch');
+      si.value = '銀河標準'; si.dispatchEvent(new Event('input'));
+      const hit0 = [...document.querySelectorAll('#ppList .ppRow')];
+      out.hiddenInSearch = !hit0.some((x) => x.textContent.includes('銀河標準'));
+      // ③ すべて表示 ON → 同じ検索でヒットし、行タップで読込できる
+      setShowAllSamples(true);
+      si.dispatchEvent(new Event('input'));
+      const hit1 = [...document.querySelectorAll('#ppList .ppRow')]
+        .filter((x) => x.textContent.includes('銀河標準'));
+      out.shownWhenAll = hit1.length === 1;
+      if (!hit1.length) { res(out); return; }
+      hit1[0].click();
+      setTimeout(() => {
+        out.loadedId = HP.currentPreset().id;
+        // ④ 読込中の自身は OFF に戻しても選択肢に残る(選択保持の例外)
+        setShowAllSamples(false); rebuildPresetSelect();
+        out.currentKept = [...document.querySelectorAll('#presetSelect option')]
+          .some((o) => o.value === 'galaxyStd');
+        // ⑤ バリデータ: 不正値は警告つき削除・正値は保持(表示専用メタ)
+        const base = { name: 'c', description: 'd', camera: { scale: 200 },
+          world: { boundary: 'none', size: 0 }, physics: {},
+          bodies: [{ type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] };
+        const vBad = HP.validatePreset({ ...base, catalog: 'bogus' });
+        out.badDropped = vBad.ok && vBad.preset.catalog === undefined
+          && (vBad.warnings || []).some((w) => w.includes('catalog'));
+        const vOk = HP.validatePreset({ ...base, catalog: 'extended' });
+        out.goodKept = vOk.ok && vOk.preset.catalog === 'extended';
+        // 後始末: 検索語クリア・saturn へ復帰(showAll は OFF のまま既定へ)
+        ppSearch = '';
+        HP.loadPreset('saturn', false); rebuildPresetSelect();
+        res(out);
+      }, 150);
+    }));
+    add('catalog.visibility',
+      r.hiddenInSelect && r.hiddenInSearch && r.shownWhenAll && r.loadedId === 'galaxyStd'
+      && r.currentKept && r.badDropped && r.goodKept,
+      `OFF非表示(select=${r.hiddenInSelect}/検索=${r.hiddenInSearch}) ON検索ヒット=${r.shownWhenAll} ` +
+      `読込=${r.loadedId} 選択保持=${r.currentKept} validator(不正削除=${r.badDropped}/正値保持=${r.goodKept})`);
+  } else {
+    console.log('SKIP catalog.visibility(catalog 可視性なし — root。第117便)');
   }
   // 92-2→93改→94改) scale.exponents: 4指数(距離/時間/質量/光速)の表示スケール系。
   //       第93便の慣習アンカー表(SCALE_FAMILIAR)・時間倍率指数(texp)は第94便で撤回され、

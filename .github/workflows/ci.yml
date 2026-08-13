@@ -12,7 +12,10 @@ on:
 jobs:
   qa:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # 第117便: 30→45 分 — QA 累積成長で第116便時点の実測が beta 23分15秒・root 27分55秒に達し、
+    # 第117便(サンプル2件+catalog QA 追加)で beta が 30 分を超過(タイムアウトは
+    # ハング防止のガードであり性能ゲートではない — 性能回帰は perf ジョブが別途担う)
+    timeout-minutes: 45
     strategy:
       fail-fast: false
       matrix:
