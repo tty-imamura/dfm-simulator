@@ -212,6 +212,9 @@
     font-size:calc(12.5px*var(--uz,1));color:var(--acc);background:var(--panel);border:1px solid var(--line);
     border-radius:8px;font-variant-numeric:tabular-nums;}
   .prow input[type=checkbox]{width:22px;height:22px;accent-color:var(--acc);}
+  /* 第110便: 物理対応ロック中の Kt 行 — 導出値のため編集不可(グレーアウト) */
+  .prow.lockedRow input[type=range],.prow.lockedRow input.valIn{opacity:.42;}
+  .prow.lockedRow label{opacity:.6;}
   .btn{display:inline-block;border:1px solid var(--line);background:var(--panel);
     border-radius:10px;padding:10px 14px;font-size:calc(13px*var(--uz,1));font-weight:600;touch-action:manipulation;}
   .btn:active{background:#26305e;}
@@ -701,7 +704,7 @@ ja: {
   grpDisplayDesc:"画面表示の切替(温度色・軌跡・決定力マップ・光線・保存量モニタ・カメラ追従など)。すべて表示のみで物理には影響しない。",
   physLockHead:"物理対応(GR較正)",
   physLockLabel:"物理対応ロック Kt=cLight²/G",
-  physLockDesc:"ONの間、時計・光の時空係数Ktを常に cLight²/G へ自動維持します(SI対応写像 Kt=c²/G のシミュレータ内対応条件 — PHYSICS §5 物理対応条件)。Ktは導出値になり、cLightやGを編集すると追随します(Ktを直接編集しても導出値に戻ります)。OFFでは3つを独立に編集できる「一般化トイ設定」で、GR較正の主張域外です。G=0など導出値がKtの値域[1,10000]の外になる場合はクランプされ、対応は近似になります。ロックは画面全体の設定で、プリセットやセーブデータには保存されません。",
+  physLockDesc:"ONの間、時計・光の時空係数Ktを常に cLight²/G へ自動維持します(SI対応写像 Kt=c²/G のシミュレータ内対応条件 — PHYSICS §5 物理対応条件)。Ktは導出値になり、cLightやGを編集すると追随します(ロック中はKtのスライダー・直値入力はグレーアウトされ編集できません)。OFFでは3つを独立に編集できる「一般化トイ設定」で、GR較正の主張域外です。G=0など導出値がKtの値域[1,10000]の外になる場合はクランプされ、対応は近似になります。ロックの状態はセーブデータに保存され、セーブの読込で復元されます。別のサンプルを読み込むとロックは自動解除されます(意図しないKt上書きの防止)。",
   physLockOn:"✓ ロック中: Kt=cLight²/G を自動維持(Ktは導出値)",
   physLockOnClamped:"⚠ ロック中: 導出値が値域外のため Kt をクランプ(対応は近似)",
   physLockOffOk:"✓ ロック解除中(現在値は条件 Kt=cLight²/G を満たしています)",
@@ -1103,7 +1106,7 @@ en: {
   grpDisplayDesc:"Display toggles (temperature colors, trails, determinacy map, light rays, conservation monitor, camera follow, …). Display only — no effect on physics.",
   physLockHead:"Physical correspondence (GR calibration)",
   physLockLabel:"Correspondence lock Kt=cLight²/G",
-  physLockDesc:"While ON, the spacetime coefficient Kt (clocks & light) is automatically kept at cLight²/G — the in-simulator correspondence condition of the SI mapping Kt=c²/G (PHYSICS §5). Kt becomes a derived value that follows edits to cLight or G (direct edits to Kt snap back to the derived value). While OFF, the three parameters are independent — a 'generalized toy setting' outside the GR-calibration claim domain. If the derived value falls outside Kt's range [1,10000] (e.g. G=0) it is clamped and the correspondence becomes approximate. The lock is a global UI setting and is not stored in presets or saves.",
+  physLockDesc:"While ON, the spacetime coefficient Kt (clocks & light) is automatically kept at cLight²/G — the in-simulator correspondence condition of the SI mapping Kt=c²/G (PHYSICS §5). Kt becomes a derived value that follows edits to cLight or G (while locked, Kt's slider and value box are greyed out and cannot be edited). While OFF, the three parameters are independent — a 'generalized toy setting' outside the GR-calibration claim domain. If the derived value falls outside Kt's range [1,10000] (e.g. G=0) it is clamped and the correspondence becomes approximate. The lock state is stored in save data and restored on load; loading a different preset automatically unlocks (preventing unintended Kt overwrites).",
   physLockOn:"✓ Locked: Kt=cLight²/G maintained automatically (Kt is derived)",
   physLockOnClamped:"⚠ Locked: derived value out of range — Kt clamped (approximate correspondence)",
   physLockOffOk:"✓ Unlocked (current values happen to satisfy Kt=cLight²/G)",
@@ -1466,7 +1469,7 @@ en: {
     gravityX:"Uniform external gravity acting horizontally across the whole scene (v1.17). It does not contribute to determinacy W, so it builds a 'ground lab' without distorting clocks, light or dragging. Momentum exchange is ledgered.",
     gravityY:"Uniform external gravity acting vertically (+y is down on screen). The 'downward gravity' of ⚾ free fall, ♨️ convection and 🧪 buoyancy. Beaker-tag samples (♨️🧪) default to 0.031 (≈9.8 m/s² converted — wave 98: the beaker tag inherited the old everyday calibration); the everyday tag (⚾) uses the real value 9.8 (9.8 m/s² as-is). Set 0 for weightlessness.",
     geoPN:"The v2.0 geodesic mode (E12). At 1, matter's motion is derived by an action principle from the same ψ=W/Kt that slows clocks, enabling the 1PN correction (☿); E6′ dragging on matter is disabled (no double counting). At 2, the unified v−u geodesic law (stage 2): frame transport, vorticity Coriolis (the true face of dragging) and 1PN all follow from one equation derived with u≠0 — exactly equal to 1 when kFrame=0. 0 = legacy.",
-    lambdaPN:"On/off switch of the 1PN correction in geodesic mode (geoPN≥1 — also gates the a₁ₚₙ(w) term of geoPN=2). At 0 you recover Newtonian gravity and the ellipse closes — the A/B control for ☿ Mercury.",
+    lambdaPN:"Strength of the 1PN correction in geodesic mode (geoPN≥1 — also gates the a₁ₚₙ(w) term of geoPN=2), continuous on 0–1 (integer restriction removed in wave 110). The 1PN acceleration scales as λ_PN/c₀², so the 1PN strength can be calibrated with c₀ held fixed. At 0 you recover Newtonian gravity and the ellipse closes — the A/B control for ☿ Mercury.",
     pnAlpha:"Breakdown of the 1PN correction (E12). 1.5 = full (GR's β=γ=1 — the full 42.98″/century of Mercury), 0.5 = time-rate only (advance drops to 1/3). Machine-verified in V18–V20.",
     radiusScale:"Global scale of the particle radius R=radiusScale·rMul·√m (default 1). Affects contact size and the moment of inertia I=½mR² (the I in temperature T=Is²). Per-body variation lives in the body key rMul; this knob scales every particle relatively. A discretization setting, not a law of physics.",
     softening:"Softening length mixed into distances so forces never diverge at close range (E1′ Plummer form: 1/√(d²+ε²)). Smaller = sharper close encounters but numerically rougher.",
@@ -1966,8 +1969,8 @@ const PARAM_DEFS = [
    desc:"画面全体に働く縦方向の一様な外部重力場(+yは画面下向き)。⚾自由落下・♨️対流・🧪浮力の「下向きの重力」はこれ。ビーカータグ(♨️🧪)は 0.031(換算 ≈9.8 m/s² — 第98便: 旧日常較正を引き継ぎ)、日常タグ(⚾)は実値 9.8(そのまま 9.8 m/s²)を既定とする。0にすると無重力になる。"},
   {key:"geoPN",   label:"測地線モード geoPN", mode:"lin", lo:0, hi:2, step:1,    cat:"dg", group:"法則",
    desc:"v2.0の測地線モード(E12)。1にすると、時計を遅らせるのと同じψ=W/Ktから物質の運動を作用原理で導き、1PN補正が働く(☿)。同時に物質へのE6′引きずりは無効化(二重計上禁止)。2にすると v−u 統一測地線則(v2.0第2段階): u≠0 のまま導いた式で、フレーム輸送・渦度コリオリ(引きずりの正体)・1PN が一本の式から出る — kFrame=0 では 1 と厳密に同じ。0=従来(legacy)。"},
-  {key:"lambdaPN",label:"1PN補正 λ_PN",      mode:"lin", lo:0, hi:1, step:1,    cat:"dg", group:"法則",
-   desc:"測地線モード(geoPN≥1 — geoPN=2 の a₁ₚₙ(w) 項も同じスイッチで制御)の1PN補正のON/OFF。0にするとニュートン重力に戻り、楕円軌道が閉じる — ☿水星のA/B対照実験用スイッチ。"},
+  {key:"lambdaPN",label:"1PN補正 λ_PN",      mode:"lin", lo:0, hi:1, step:0.05, cat:"dg", group:"法則",
+   desc:"測地線モード(geoPN≥1 — geoPN=2 の a₁ₚₙ(w) 項も同じスイッチで制御)の1PN補正の強さ(0〜1の連続値 — 第110便で整数制限を撤廃)。1PN加速度は λ_PN/c₀² に比例するので、c₀を固定したまま1PN強度だけを較正できる。0にするとニュートン重力に戻り、楕円軌道が閉じる — ☿水星のA/B対照実験用。"},
   {key:"pnAlpha", label:"1PN係数 α(0.5=時間率のみ, 1.5=完全)", mode:"lin", lo:0.5, hi:1.5, step:0.5, cat:"dg", group:"法則",
    desc:"1PN補正の強さの内訳(E12)。1.5=完全(GRのβ=γ=1相当 — 水星の前進42.98″/世紀の全量)、0.5=時間率のみ(前進が1/3になる)。V18〜V20で機械検証。"},
   {key:"radiusScale",label:"粒子半径スケール", mode:"lin", lo:0.2, hi:4, step:0.02, cat:"sim", group:"シミュレーション",
@@ -10636,12 +10639,20 @@ function loadSave(s, selValue){
   if(s.scaleExps) setScaleExps({ L:isNum(s.scaleExps.L)? s.scaleExps.L : null,
     T:isNum(s.scaleExps.T)? s.scaleExps.T : null, M:isNum(s.scaleExps.M)? s.scaleExps.M : null,
     C:isNum(s.scaleExps.C)? s.scaleExps.C : null });
+  // 第110便(原仮定者指示): 物理対応ロックをセーブ単位で復元。キー無しの旧セーブは解除になり、
+  // プリセット読込時の自動解除と同じ帰結(意図しない持ち越しが起きない)。ONの復元は保存済み
+  // physics(導出Ktを含む)の上に enforcePhysLock が走るだけなので値は変わらない
+  setPhysLock(!!s.physLock);
   setParamsDirty(false);
   buildParamRows(); notify(T("loadedAs")(s.name));
   if(selValue) setPresetSelectValue(selValue);
 }
 function loadPreset(id, keepPhysics){
   if(ab) abStop();          // プリセット切替・通常ロードで A/B は解除(v1.13)
+  // 第110便(原仮定者指示): ロックが別サンプルへ持ち越されて意図しないパラメータ(Kt上書き)に
+  // なるのを防ぐ — 通常のプリセット読込でロックを自動解除する。⏮初めから(keepPhysics)は
+  // 同一サンプルの継続なので現状維持。セーブ読込は loadSave 側で保存時の状態を復元する
+  if(physLock && !keepPhysics) setPhysLock(false);
   const p=allPresets().find(q=>q.id===id) || BUILTIN_PRESETS[0];
   currentPreset=p;
   const merged=JSON.parse(JSON.stringify(p));
@@ -11048,7 +11059,7 @@ function updatePhysLockBadge(){
 function setPhysLock(v){
   physLock=!!v;
   if(physLock) enforcePhysLock(ab?[sim,ab.simB]:[sim]);
-  else updatePhysLockBadge();
+  else { syncParamRow("Kt"); updatePhysLockBadge(); }   // 第110便: 解除時も Kt 行のグレーアウトを解く
   const cb=document.getElementById("physLockCb"); if(cb) cb.checked=physLock;
   requestRender();
 }
@@ -11672,7 +11683,10 @@ function buildParamRows(){
       return targets[0].params[key];   // v1.26: ロックによる上書き後の実値を返す
     };
     // 第54便 54D④: 重複行の相互同期 — 自分以外の同一キー行を追随させる
-    const syncFn=()=>{ rng.value=valToSliderPos(def,showSim.params[key]); num.value=fmt(showSim.params[key]); updConv(); };
+    // 第110便(原仮定者指示): 物理対応ロック中は Kt が導出値になるため、Kt 行の
+    // スライダー・直値入力を編集不可(グレーアウト)にする。解除で編集可へ戻す
+    const syncFn=()=>{ rng.value=valToSliderPos(def,showSim.params[key]); num.value=fmt(showSim.params[key]); updConv();
+      if(key==="Kt"){ rng.disabled=physLock; num.disabled=physLock; row.classList.toggle("lockedRow",physLock); } };
     const syncOthers=()=>{ (paramRowSync[key]||[]).forEach(f=>{ if(f!==syncFn) f(); }); };
     rng.addEventListener("input",()=>{  // 実行中いつでも即時反映
       let v=parseFloat(rng.value);
@@ -12139,6 +12153,9 @@ $("#btnSave").addEventListener("click",()=>{
   item.graphOverlays=snapshotGraphOverlays();
   if(scaleExpL!==null||scaleExpT!==null||scaleExpM!==null||scaleExpC!==null)
     item.scaleExps={L:scaleExpL, T:scaleExpT, M:scaleExpM, C:scaleExpC};
+  // 第110便(原仮定者指示): 物理対応ロックの状態もセーブへ含める(ONのときだけ書く — 旧セーブ不変)。
+  // 読込側 loadSave で復元し、ロックの意図しない持ち越し/喪失を防ぐ
+  if(physLock) item.physLock=true;
   try{ const a=getSaves(); a.unshift(item); setSaves(a); }
   catch(e){ alert(T("saveFailed")); return; }
   $("#saveComment").value="";
@@ -12475,7 +12492,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
 6. name は30字以内、description は200字程度の日本語(上限は9000字。超えると切り詰められる)。emoji は絵文字1文字。
-7. 値域(超えると自動修正される): G:0〜100, D0:0〜1000, kFrame:0〜1, q:0.5〜4, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, Kt:1〜10000, cLight:1〜10000, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数), lambdaPN:0〜1(整数), pnAlpha:0.5〜1.5, radiusScale:0.2〜5, softening:0.5〜20, timeScale:0.01〜100, camera.scale:20〜3000, 座標・長さ:±5000, 質量:0.01〜20000, 速度成分:±50, スピン:±20, omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
+7. 値域(超えると自動修正される): G:0〜100, D0:0〜1000, kFrame:0〜1, q:0.5〜4, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, Kt:1〜10000, cLight:1〜10000, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, softening:0.5〜20, timeScale:0.01〜100, camera.scale:20〜3000, 座標・長さ:±5000, 質量:0.01〜20000, 速度成分:±50, スピン:±20, omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
 8. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 
 # ジェネレータ(bodiesの要素。typeごとに全フィールド必須)
