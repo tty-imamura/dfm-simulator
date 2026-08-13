@@ -3953,6 +3953,55 @@ if (hasBadgeClassify) {
   }
 }
 
+// ---- 第114便(原仮定者裁定「速度キャリーの倍精度化: 採用」): stateCarry:"double" ----
+// ----   opt-in の補償和(Kahan)— Float32 の速度 ulp 未満の増分が丸め落ちせず蓄積される。
+// ----   機械検証: 一様場 g_y=2e-7・vy=1 の自由粒子は、増分 dv=g·dt が半ulp(3e-8)未満のため
+// ----   既定経路では vy が 1.0 のまま動かない(=第113便で実測した量子化の最小再現)。
+// ----   "double" では t=160 で Δvy=g·t=3.2e-5 が正しく蓄積される。第114便 未適用は SKIP ----
+{
+  const gen114 = await page.evaluate(() => {
+    const v = HP.validatePreset({ name: 'x', description: 'd', camera: { scale: 100 },
+      world: { boundary: 'none', size: 0 }, physics: { stateCarry: 'double' },
+      bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+    return !!(v.ok && v.preset.physics.stateCarry === 'double');
+  });
+  if (gen114) {
+    const r = await page.evaluate(() => {
+      const res = {};
+      // ① バリデータ: "double" 保持・不正値は警告つき既定へ・省略時はキー無し(署名不変)
+      const bad = HP.validatePreset({ name: 'x', description: 'd', camera: { scale: 100 },
+        world: { boundary: 'none', size: 0 }, physics: { stateCarry: 'float' },
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+      res.badDropped = bad.ok && !('stateCarry' in bad.preset.physics);
+      // ② 量子化の最小再現: g_y=2e-7・vy=1 → dv/step=3.2e-9 < 半ulp(1.0)=3e-8
+      const mk = (carry) => ({ id: 'qa114', seed: 1, camera: { scale: 100 },
+        world: { boundary: 'none', size: 0 },
+        physics: Object.assign({ G: 0, D0: 2, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0,
+          kappaS: 0, Kt: 60, cLight: 30, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 2e-7,
+          geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 2, timeScale: 1 },
+          carry ? { stateCarry: 'double' } : {}),
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 1, spin: 0, pinned: false }] });
+      const run = (carry) => { const S = HP.sim; S.build(mk(carry));
+        for (let k = 0; k < 10000; k++) S.step(0.016);
+        return { vy: S.vy[0], t: S.t, carArr: !!S.carVx, ax64: S.ax instanceof Float64Array }; };
+      const off = run(false), on = run(true);
+      res.zeroCost = !off.carArr && !off.ax64;             // 既定: キャリー配列なし・ax は Float32
+      res.frozen = off.vy === 1;                            // 量子化: 増分が全て丸め落ち(第113便の機構)
+      res.onAlloc = on.carArr && on.ax64;
+      const expect = 2e-7 * on.t;                           // Δvy = g·t(経過シミュレーション時間で評価)
+      res.accum = expect > 0 && Math.abs((on.vy - 1) / expect - 1) < 0.05;
+      res.vyOn = on.vy;
+      HP.loadPreset('galaxy', false);
+      return res;
+    });
+    add('state.carry-double', r.badDropped && r.zeroCost && r.frozen && r.onAlloc && r.accum,
+      `不正値は既定へ=${r.badDropped} 既定=ゼロコスト(配列なし/ax=F32)=${r.zeroCost} / ` +
+      `量子化再現: 既定は vy=1 のまま凍結=${r.frozen} → "double" で Δvy=g·t を蓄積=${r.accum}(vy=${r.vyOn})`);
+  } else {
+    console.log('SKIP state.carry-double(対象に第114便 未適用 — root 等)');
+  }
+}
+
 // ---- v1.27(公開前レビュー P0-1): ステップ会計 — 高倍率でも要求分を黙って破棄しない ----
 {
   // 第97便: 上限 24→200(実効倍率 100×SUBSTEPS — 時間倍率範囲 0.01〜100 の拡大に追随)。
