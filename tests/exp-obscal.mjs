@@ -289,9 +289,12 @@ for (const [k, p] of Object.entries(PROFILES)) out.profiles[k] = { domain: p.dom
 // 最終段の実測 Δϖ/orbit を ″/公転(×206265)→ ″/世紀(×414.9 公転/世紀)へ換算して報告する。
 {
   const C1 = 3e4, G1 = 6.674;
-  const physD = Object.assign({}, PROFILES.solar.phys, { cLight: C1, Kt: C1 * C1 / G1 });
-  out.profiles.solarRealC = { domain: 'solar(実c値・第113便)', note: '☀️ c₀*=3e4+実G — 誇張率1',
-    physics: physD };
+  // 第114便(裁定採用): stateCarry:"double" — Float32 量子化(第113便の残ブロッカー)を解消して
+  // 実水星深度の直接実測を成立させる
+  const physD = Object.assign({}, PROFILES.solar.phys, { cLight: C1, Kt: C1 * C1 / G1,
+    stateCarry: 'double' });
+  out.profiles.solarRealC = { domain: 'solar(実c値・第113便+stateCarry 第114便)',
+    note: '☀️ c₀*=3e4+実G+倍精度キャリー — 誇張率1', physics: physD };
   const rlRun = async (M, lam, orbits, dt) => page.evaluate(async ({ phys, M, lam, orbits, dt }) => {
     const a = 150, e = 0.206, rp = a * (1 - e);
     const P = Object.assign({}, phys, { lambdaPN: lam });
@@ -305,7 +308,11 @@ for (const [k, p] of Object.entries(PROFILES)) out.profiles[k] = { domain: p.dom
     if (!HP.pnSource(S, 0)) return { srcFail: true };   // フラグが効いていること(閾値∝c² では届かない)
     const GM = P.G * M, TK = 2 * Math.PI * Math.sqrt(a ** 3 / GM);
     const steps = Math.ceil(orbits * TK / dt);
-    let prev = null, un = 0, n = 0, St = 0, Sy = 0, Stt = 0, Sty = 0;
+    // 第114便: 周回ボックスカー(TK ごとの窓平均 → 窓平均列への LSQ)— 周期成分の窓端バイアスを
+    // 除去する。残る床は Float32 状態の丸めランダムウォーク(σ_slope∝1/√公転数・dt を粗くすると
+    // 丸め回数が減ってさらに下がる — 決定測定は dt=0.032×3000公転で S/N≈6)
+    let prev = null, un = 0;
+    const perT = Math.round(TK / dt), means = []; let acc = 0, cnt = 0;
     for (let k = 0; k < steps; k++) {
       S.step(dt);
       const rx = S.x[1], ry = S.y[1], vx = S.vx[1], vy = S.vy[1];
@@ -314,21 +321,23 @@ for (const [k, p] of Object.entries(PROFILES)) out.profiles[k] = { domain: p.dom
       let dd = ang - (prev === null ? ang : prev);
       while (dd > Math.PI) dd -= 2 * Math.PI; while (dd < -Math.PI) dd += 2 * Math.PI;
       un += dd; prev = ang;
-      const t = k * dt;
-      n++; St += t; Sy += un; Stt += t * t; Sty += t * un;
+      acc += un; cnt++;
+      if (cnt === perT) { means.push(acc / cnt); acc = 0; cnt = 0; }
     }
-    const slope = (n * Sty - St * Sy) / (n * Stt - St * St);
-    return { perOrbit: slope * TK, nan: S.hasNaN() };
+    let n = 0, St = 0, Sy = 0, Stt = 0, Sty = 0;
+    for (let k = 0; k < means.length; k++) { n++; St += k; Sy += means[k]; Stt += k * k; Sty += k * means[k]; }
+    return { perOrbit: (n * Sty - St * Sy) / (n * Stt - St * St), nan: S.hasNaN() };
   }, { phys: physD, M, lam, orbits, dt });
-  // 実測知見(第113便): λ0 残差 −1.8e-3 rad/orbit は**ソフトニング歳差** −3π(ε/a)²=−1.68e-3
-  // (dt 非依存・逆行)で、λ1−λ0 差分で相殺される。実水星段(d=2.55e-8)の欠損(比 0.23〜0.26)は
-  // dt=0.016→0.004 でも不変 — 原因は **Float32 状態の量子化**: 1PN/重力 = d = 2.55e-8 が
-  // Float32 の相対 ulp(6e-8)未満のため、加速度・速度への微小加算が系統的に丸め落ちする
-  // (第40便 4-81 の E6′ 反作用と同型の問題 — 解消には速度キャリーの倍精度化〔opt-in〕が必要・
-  // 次便裁定候補)。d≥1e-7(実水星の約4倍深)までは直接実測が成立する。
-  // 最終段は dt=0.004 を残す(dt 非依存の機械記録)
+  // 実測知見(第111〜114便):
+  //   ・λ0 残差 −1.8e-3 rad/orbit = ソフトニング歳差 −3π(ε/a)²(dt 非依存・λ差分で相殺)
+  //   ・第113便: 実水星段の欠損(比0.23〜0.26)= Float32 量子化の系統丸め落ち
+  //   ・第114便: stateCarry:"double"(状態更新の倍精度化)で解消。キャリー+Float64 ax のみでは
+  //     Float32 軌道状態の丸めランダムウォーク(床≈1e-6 rad/orbit @3000公転 — 位相ジッタ3対で
+  //     機械確定)が残るため、x/y/vx/vy の Float64 化まで含めて初めて成立:
+  //     実測 比1.002・ジッタ非依存(600公転・dt0.016)。周回ボックスカー推定器は維持
   const ladder = [];
-  for (const [d, orbits, dt] of [[5e-7, 100, 0.016], [1e-7, 200, 0.016], [2.55e-8, 200, 0.004]]) {
+  for (const [d, orbits, dt] of [[5e-7, 100, 0.016], [1e-7, 200, 0.016],
+                                 [2.55e-8, 600, 0.016]]) {
     const M = d * C1 * C1 * 150 / G1;              // GM=d·c²·a
     const r1 = await rlRun(M, 1, orbits, dt), r0 = await rlRun(M, 0, orbits, dt);
     if (r1.lockFail || r1.srcFail) { console.log(`[D:d=${d}] lock/src FAIL`); break; }

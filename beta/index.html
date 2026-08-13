@@ -1735,6 +1735,12 @@ const REACTION_DV_CAP = 16, REACTION_DV_CAP2 = REACTION_DV_CAP * REACTION_DV_CAP
 //            インパルス J_ij=μ_ij(φ_ij d_i−φ_ji d_j)。巨大質量比でも反作用が m_i/m_j 倍に
 //            増幅されないため、支配天体を pinned:false にできる(PHYSICS.md E6′-R)
 const FRAME_REACTION_KEY = "frameReaction", FRAME_REACTIONS = ["legacy","pairReduced"];
+// 第114便(原仮定者裁定「速度キャリーの倍精度化: 採用」): stateCarry — 状態更新の数値表現の選択。
+// "double" で ①加速度累積 ax/ay を Float64 ②速度キックを補償和(Kahan キャリー)にする。
+// 1PN/重力 = 2.55e-8(実水星深度)が Float32 の相対 ulp(6e-8)未満で系統的に丸め落ちる
+// 問題(第113便 実測比 0.23〜0.26)の解消。既定("legacy"/省略)は従来どおり 1 bit も不変。
+// 第40便 4-81(E6′ 反作用の Float64 アキュムレータ)と同型の解法の速度版・opt-in
+const STATE_CARRY_KEY = "stateCarry", STATE_CARRIES = ["legacy","double"];
 // 第82便 A(光学輸送拡張): 体積吸収・波長依存(赤化)・散乱の opt-in パラメータ。
 // **観測層のみ** — 力学・時計(τ)・既存の減光(lightSweep=自光の掻き出し)には一切触れない。
 // 効くのは光線積分器 traceRay の光学的深さ τ_λ と、その表示(光線の減光・拡散光・スペクトル)だけ。
@@ -4780,6 +4786,12 @@ function validatePreset(obj){
         else if(p.physics[k]!=="legacy") ph[k]=p.physics[k];
         continue;
       }
+      // 第114便: stateCarry も同じ流儀(非数値キー・既定は ph へ入れない=署名不変)
+      if(k===STATE_CARRY_KEY){
+        if(STATE_CARRIES.indexOf(p.physics[k])<0) warnings.push('physics.stateCarry は "legacy"/"double" のみ — 既定(legacy)に修正');
+        else if(p.physics[k]!=="legacy") ph[k]=p.physics[k];
+        continue;
+      }
       // 第82便 A(光学輸送): kAbs/pAbs/fScat も既定値は ph へ入れない — 省略時と既定値明示で
       // プリセット署名(presetSig)・エクスポート JSON が 1 文字も変わらないようにする
       if(k in ABS_CLAMPS){
@@ -6203,6 +6215,19 @@ function makeSim(){
       }
     }
     S.alloc(P.length);
+    // 第114便: stateCarry:"double" — 状態更新の倍精度化(opt-in。既定は alloc の Float32 の
+    // まま = 1 bit も不変)。①加速度累積 ax/ay ②軌道状態 x/y/vx/vy を Float64 に置換し、
+    // ③速度キックは補償和(状態が Float64 ならキャリーは自動的に 0 — 一般性のため残す)。
+    // 実測(第114便): キャリー+Float64 ax だけでは「Float32 軌道状態の丸めランダムウォーク」
+    // (床 ≈1e-6 rad/orbit @3000公転・位相ジッタ3対で機械確定)が残り実水星深度の 1PN
+    // (5e-7 rad/orbit)を覆う — 状態も倍精度化して初めて直接実測が成立する。
+    // ここは alloc 直後・状態充填(P.forEach)前なので参照の掴み直しは不要
+    if(phys[STATE_CARRY_KEY]==="double"){
+      S.ax=new Float64Array(P.length); S.ay=new Float64Array(P.length);
+      S.x=new Float64Array(P.length); S.y=new Float64Array(P.length);
+      S.vx=new Float64Array(P.length); S.vy=new Float64Array(P.length);
+      S.carVx=new Float64Array(P.length); S.carVy=new Float64Array(P.length);
+    } else { S.carVx=null; S.carVy=null; }
     // 第36便 D(台帳4-51): 温度の意味論。"tint" のときだけ内部温度の配列を確保する
     // ("spin" では null のまま = 確保も参照もしないゼロコスト経路)
     S.thermal = (preset.thermal==="tint")? "tint" : "spin";
@@ -6994,7 +7019,9 @@ function makeSim(){
           // geo=0 の宇宙では参照されない。G≤0 なら Infinity=源なし(1PN 自体が消える)
           pnK=(p.G>0)? (RAY_ALPHA_MIN/4)*(p.cLight*p.cLight)/p.G : Infinity,
           // 第113便: 1PN源の明示フラグ(pnSource 関数と同じ正本 — 閾値の OR 上書き。既定全0=bit不変)
-          pnOv=S.pnOv;
+          pnOv=S.pnOv,
+          // 第114便: stateCarry:"double" — 速度キックの補償和用キャリー(既定 null=従来経路)
+          carV=!!S.carVx, carVx=S.carVx||__DF64, carVy=S.carVy||__DF64;
     // ===== 第80便 A(E6′-R): physics.frameReaction:"pairReduced" — 換算質量対称インパルス =====
     // opt-in。既定(undefined / "legacy")では pairR=false となり、②の要求適用も③の対ループも
     // 従来コードがそのまま走る(分岐1つのぶんだけで、値は 1 bit も変わらない)。
@@ -7626,7 +7653,13 @@ function makeSim(){
     let pinQ=0;
     for(let i=0;i<n;i++){
       if(pinned[i]){ if(tint) pinQ+=dQi[i]; continue; }
-      vx[i]+=ax[i]*kickDt; vy[i]+=ay[i]*kickDt;   // 第35便: semi は kickDt=dt、leapfrog は dt/2 の半キック
+      // 第35便: semi は kickDt=dt、leapfrog は dt/2 の半キック
+      // 第114便: stateCarry:"double" は補償和(Kahan)— Float32 の速度 ulp 未満の増分
+      // (実水星深度の 1PN 等)が丸め落ちせず蓄積される。既定経路は従来と 1 bit も不変
+      if(carV){
+        const addX=ax[i]*kickDt+carVx[i], v0x=vx[i]; vx[i]=v0x+addX; carVx[i]=addX-(vx[i]-v0x);
+        const addY=ay[i]*kickDt+carVy[i], v0y=vy[i]; vy[i]=v0y+addY; carVy[i]=addY-(vy[i]-v0y);
+      } else { vx[i]+=ax[i]*kickDt; vy[i]+=ay[i]*kickDt; }
       // 第37便 C2(台帳4-71 / L17 解消): このサブステップに粒子へ入った熱(E9 散逸+E10′ 伝導)を
       // 内部温度へ反映する。熱量関数 E_i(T)=C·m_i·T + a_i·√T(a_i·√T = その粒子が担う U_rep)を
       // 厳密に解くので、T_int が変わるときの ΔU_rep は自動的に同じ熱プールから支払われる。
@@ -7659,7 +7692,11 @@ function makeSim(){
       // v1.17: 一様重力場(外部場)。W に寄与しない純粋な外力なので時計・光は歪めない。
       // 運動量・角運動量の変化は場との交換として帳簿(リザーバ)に記録する(T7 の恒等式を維持)
       if(gX!==0||gY!==0){
-        vx[i]+=gX*dt; vy[i]+=gY*dt;
+        // 第114便: stateCarry:"double" は一様外場も補償和に乗せる(sub-ulp の外場を失わない)
+        if(carV){
+          const addX=gX*dt+carVx[i], v0x=vx[i]; vx[i]=v0x+addX; carVx[i]=addX-(vx[i]-v0x);
+          const addY=gY*dt+carVy[i], v0y=vy[i]; vy[i]=v0y+addY; carVy[i]=addY-(vy[i]-v0y);
+        } else { vx[i]+=gX*dt; vy[i]+=gY*dt; }
         S.resPx-=m[i]*gX*dt; S.resPy-=m[i]*gY*dt;
         S.resL-=m[i]*(x[i]*gY-y[i]*gX)*dt;
         if(msOn){ MS.gx[i]+=gX; MS.gy[i]+=gY; }   // 65A: 重力チャネル(一様外場 — 加速度そのもの)
