@@ -18,7 +18,14 @@
 //      引きずり寄与(Lense–Thirring 型の順行/逆行非対称)
 //   C) saturn環型: 実半径比の C/B/A 3帯テスト粒子 — 単一 kM での帯別角速度残差(同時 <1% か =
 //      予測評価)+離心率RMS の kFrame 1/0 A/B(legacy の既知悪化 2.24倍が geoPN=2 で改善するか)
-// 実行: node tests/exp-obscal.mjs(playwright 必須・数分)
+// 第112便 改良(原仮定者裁定「次便候補: 進める」):
+//   ①B) RL 歳差を最小二乗勾配(8TK)で計測 — 非整数周回の窓誤差(±0.1 相当)を解消
+//   ②B) 引きずりのスピン用量分解 s∈{−2,−1,+1,+2}(λ1)+λ0 対照 — Δϖ(s)=A·s+B·s² の
+//      線形(LT型)と二次(a₁ₚₙ(w) の w² 項)への分解。λ0+スピンは対照(geoPN=2 の
+//      スピン→軌道経路は E12 の w=v−kF·u だけなので、λ0 では消えるはず)
+//   ③A) 自由二体に λ0 条件を追加 — geoPN=2 の崩壊経路が E12 の w=v−kF·u 置換であることの検証
+//   ④C) 弱場環(M=100・深さ半減)を追加し、3帯残差と eccRMS 比の深さ依存を測る
+// 実行: node tests/exp-obscal.mjs(playwright 必須・数分〜10分)
 //   QA_TARGET=index.html node tests/exp-obscal.mjs  … ルート対象(物理キーは共通)
 import fs from 'node:fs';
 import path from 'node:path';
@@ -71,6 +78,8 @@ for (const [k, p] of Object.entries(PROFILES)) out.profiles[k] = { domain: p.dom
     { id: 'G1-free-kF1',   pk: 'solarG1', M: 1000, pin: false, over: {},             fit: false },
     { id: 'G1-free-kF0',   pk: 'solarG1', M: 1000, pin: false, over: { kFrame: 0 }, fit: true },
     { id: 'G1-free-D0=2',  pk: 'solarG1', M: 1000, pin: false, over: { D0: 2 },     fit: false },
+    // 第112便③: λ0(geoPN=2 のまま 1PN 切)— 崩壊経路が E12 の w=v−kF·u なら安定するはず
+    { id: 'G1-free-lam0',  pk: 'solarG1', M: 1000, pin: false, over: { lambdaPN: 0 }, fit: true },
     { id: 'G1-pin-kF1',    pk: 'solarG1', M: 1000, pin: true,  over: {},             fit: true },
     // 実G値(G=6.674)+GM不変の質量再スケール(M=1000/6.674): 自由二体の成立性+kM フィット
     { id: 'realG-free-kF1', pk: 'solar', M: 1000 / 6.674, pin: false, over: {},      fit: true },
@@ -129,7 +138,8 @@ for (const [k, p] of Object.entries(PROFILES)) out.profiles[k] = { domain: p.dom
   console.log(`[A:機構      ] G1自由二体=崩壊(amp>50%)=${broken}(D0=2 → ${(res['G1-free-D0=2'].amp * 100).toFixed(1)}% / kF0 → ${(res['G1-free-kF0'].amp * 100).toFixed(2)}% / pinned → ${(res['G1-pin-kF1'].amp * 100).toFixed(2)}%)/ 実G+再スケール自由二体 amp=${(res['realG-free-kF1'].amp * 100).toFixed(2)}%(w再スケールで成立するか)`);
 }
 
-// ---- B) mercury型: RL 歳差 — λPN 1/0 の M 掃引(弱場式比較)+中心スピン ±2(引きずり) --------
+// ---- B) mercury型: RL 歳差 — λPN 1/0 の M 掃引(弱場式比較)+スピン用量分解(引きずり) --------
+// 第112便①: 歳差は RL 角の**最小二乗勾配**(8TK)で測る — 端点差分の非整数周回窓誤差を解消
 {
   const rlRun = async (M, lam, spin) => page.evaluate(async ({ phys, M, lam, spin }) => {
     const RL = (S, GM, i) => {
@@ -147,29 +157,49 @@ for (const [k, p] of Object.entries(PROFILES)) out.profiles[k] = { domain: p.dom
                { type: 'single', m: 1, x: rp, y: 0, vx: 0, vy: vp, spin: 0, pinned: false }] });
     if (!HP.physLockSatisfied(S)) return { lockFail: true };
     const GM = P.G * M, TK = 2 * Math.PI * Math.sqrt(a ** 3 / GM);
-    const steps = Math.ceil(4 * TK / 0.016);
-    let prev = null, un = 0;
+    const dt = 0.016, steps = Math.ceil(8 * TK / dt);
+    // アンラップ RL 角の最小二乗勾配(逐次和 — 配列を持たない)
+    let prev = null, un = 0, n = 0, St = 0, Sy = 0, Stt = 0, Sty = 0;
     for (let k = 0; k < steps; k++) {
-      S.step(0.016);
+      S.step(dt);
       const ang = RL(S, GM, 1);
       let dd = ang - (prev === null ? ang : prev);
       while (dd > Math.PI) dd -= 2 * Math.PI; while (dd < -Math.PI) dd += 2 * Math.PI;
       un += dd; prev = ang;
+      const t = k * dt;
+      n++; St += t; Sy += un; Stt += t * t; Sty += t * un;
     }
+    const slope = (n * Sty - St * Sy) / (n * Stt - St * St);
     const theo = 6 * Math.PI * GM / (P.cLight ** 2 * a * (1 - e * e));   // α=1.5(完全1PN)の弱場式
-    return { perOrbit: un / (steps * 0.016) * TK, theo, nan: S.hasNaN() };
+    return { perOrbit: slope * TK, theo, nan: S.hasNaN() };
   }, { phys: PROFILES.solar.phys, M, lam, spin });
   const sweep = [];
-  for (const M of [60, 150, 300]) {
+  for (const M of [30, 60, 150, 300]) {
     const r1 = await rlRun(M, 1, 0), r0 = await rlRun(M, 0, 0);
     const pn = r1.perOrbit - r0.perOrbit;
     sweep.push({ M, pn1Measured: pn, theo: r1.theo, ratio: pn / r1.theo, lam0Residual: r0.perOrbit });
     console.log(`[B:M=${String(M).padStart(3)}    ] Δϖ_1PN=${pn.toFixed(5)} rad/TK 弱場式=${r1.theo.toFixed(5)} 比=${(pn / r1.theo).toFixed(3)} λ0残差=${r0.perOrbit.toExponential(2)} NaN=${r1.nan || r0.nan}`);
   }
-  const base = await rlRun(300, 1, 0), sp = await rlRun(300, 1, 2), sm = await rlRun(300, 1, -2);
-  const drag = { prograde: sp.perOrbit - base.perOrbit, retrograde: sm.perOrbit - base.perOrbit };
-  out.tests.mercury = { sweep, drag };
-  console.log(`[B:引きずり ] M=300 spin±2 の Δϖ 差分: 順行=${drag.prograde.toExponential(3)} 逆行=${drag.retrograde.toExponential(3)}(順行−逆行の非対称=${(drag.prograde - drag.retrograde).toExponential(3)})`);
+  // 第112便②: スピン用量分解(M=300・λ1・s∈{−2,−1,+1,+2})+λ0 スピン対照。
+  // Δϖ_drag(s)=Δϖ(s)−Δϖ(0) を A·s+B·s² にフィット — A=LT型(線形・順逆反対称)、
+  // B=a₁ₚₙ(w) の w² 項由来(二次・順逆対称)。λ0+spin は「E12 経由以外のスピン→軌道経路なし」の対照
+  const base = await rlRun(300, 1, 0);
+  const doses = [];
+  for (const s of [-2, -1, 1, 2]) {
+    const r = await rlRun(300, 1, s);
+    doses.push({ s, dPrec: r.perOrbit - base.perOrbit });
+  }
+  // 最小二乗: dPrec = A·s + B·s²(4点・s の対称集合なので正規方程式が対角化する)
+  const Ssum2 = doses.reduce((t, d) => t + d.s * d.s, 0);
+  const Ssum4 = doses.reduce((t, d) => t + d.s ** 4, 0);
+  const A = doses.reduce((t, d) => t + d.s * d.dPrec, 0) / Ssum2;
+  const B = doses.reduce((t, d) => t + d.s * d.s * d.dPrec, 0) / Ssum4;
+  const ctrl = await rlRun(300, 0, 2);
+  const lam0ref = sweep.find((x) => x.M === 300).lam0Residual;
+  out.tests.mercury = { sweep, base: base.perOrbit, doses, dragLinearA: A, dragQuadB: B,
+    lam0SpinCtrl: ctrl.perOrbit - lam0ref };
+  for (const d of doses) console.log(`[B:s=${String(d.s).padStart(2)}    ] Δϖ_drag=${d.dPrec.toExponential(3)} rad/TK`);
+  console.log(`[B:分解    ] Δϖ_drag(s)≈A·s+B·s²: A=${A.toExponential(3)}(LT型・線形) B=${B.toExponential(3)}(w²項・二次) / λ0+spin2 対照=${(ctrl.perOrbit - lam0ref).toExponential(2)}(≈0 なら経路は E12 のみ)`);
 }
 
 // ---- C) saturn環型: 単一 kM での3帯同時性(予測評価)+離心率RMS の kFrame A/B ------------
@@ -181,15 +211,18 @@ for (const [k, p] of Object.entries(PROFILES)) out.profiles[k] = { domain: p.dom
     { id: 'B', r0: 92 * sc, r1: 117.6 * sc },
     { id: 'A', r0: 122.2 * sc, r1: 136.8 * sc },
   ];
+  // 第112便④: 弱場条件 M=100(深さ U/c²≈0.6% — M=300 の 1/3)を追加し深さ依存を測る。
+  // 走行は外帯の1動径周期以上を確保(T∝1/√GM で M=100 は 1.7倍長い)
   const conds = [
-    { id: 'kF1-s2', kFrame: 1, spin: 2 },
-    { id: 'kF0-s2', kFrame: 0, spin: 2 },
-    { id: 'kF1-s0', kFrame: 1, spin: 0 },
+    { id: 'M300-kF1-s2', M: 300, steps: 30000, kFrame: 1, spin: 2 },
+    { id: 'M100-kF1-s2', M: 100, steps: 48000, kFrame: 1, spin: 2 },
+    { id: 'M100-kF0-s2', M: 100, steps: 48000, kFrame: 0, spin: 2 },
+    { id: 'M100-kF1-s0', M: 100, steps: 48000, kFrame: 1, spin: 0 },
   ];
   const res = {};
   for (const c of conds) {
-    const r = await page.evaluate(async ({ phys, kF, spin, bands }) => {
-      const M = 300, NB = 45, P = Object.assign({}, phys, { kFrame: kF });
+    const r = await page.evaluate(async ({ phys, kF, spin, bands, M, STEPS }) => {
+      const NB = 45, P = Object.assign({}, phys, { kFrame: kF });
       const bodies = [{ type: 'single', m: M, x: 0, y: 0, vx: 0, vy: 0, spin, pinned: true }];
       const meta = [];
       const GA = Math.PI * (3 - Math.sqrt(5));   // 黄金角 — 決定的に方位を散らす
@@ -209,7 +242,6 @@ for (const [k, p] of Object.entries(PROFILES)) out.profiles[k] = { domain: p.dom
       const N = S.n, rmin = new Float64Array(N).fill(Infinity), rmax = new Float64Array(N);
       const px = new Float64Array(N), py = new Float64Array(N), cum = new Float64Array(N);
       for (let i = 1; i < N; i++) { px[i] = S.x[i]; py[i] = S.y[i]; }
-      const STEPS = 30000;
       for (let k = 0; k < STEPS; k++) {
         S.step(0.016);
         for (let i = 1; i < N; i++) { const xx = S.x[i], yy = S.y[i], rr = Math.hypot(xx, yy);
@@ -231,18 +263,22 @@ for (const [k, p] of Object.entries(PROFILES)) out.profiles[k] = { domain: p.dom
       for (const b of bands) { const st = bandStat[b.id];
         st.rho = st.n ? st.rho / st.n : NaN; st.eccRMS = st.n ? Math.sqrt(st.e2 / st.n) : NaN; delete st.e2; }
       return { lockOk: true, bands: bandStat, nan: S.hasNaN() };
-    }, { phys: PROFILES.solar.phys, kF: c.kFrame, spin: c.spin, bands: BANDS });
+    }, { phys: PROFILES.solar.phys, kF: c.kFrame, spin: c.spin, bands: BANDS, M: c.M, STEPS: c.steps });
     res[c.id] = r;
     const bs = r.bands || {};
-    console.log(`[C:${c.id.padEnd(6)}] ρ(C/B/A)=${['C', 'B', 'A'].map(b => bs[b]?.rho?.toFixed(4)).join('/')} eccRMS=${['C', 'B', 'A'].map(b => bs[b]?.eccRMS?.toExponential(2)).join('/')} 逸脱=${['C', 'B', 'A'].map(b => bs[b]?.lost).join('/')} NaN=${r.nan}`);
+    console.log(`[C:${c.id.padEnd(11)}] ρ(C/B/A)=${['C', 'B', 'A'].map(b => bs[b]?.rho?.toFixed(4)).join('/')} eccRMS=${['C', 'B', 'A'].map(b => bs[b]?.eccRMS?.toExponential(2)).join('/')} 逸脱=${['C', 'B', 'A'].map(b => bs[b]?.lost).join('/')} NaN=${r.nan}`);
   }
-  const main = res['kF1-s2'].bands;
-  const relC = main.C.rho / main.B.rho - 1, relA = main.A.rho / main.B.rho - 1;
+  // 単一 kM 残差(帯B正規化 — 相対比なので f の再走行は不要)を深さ別に、eccRMS 比は M=100 で
+  const rel3 = (bs) => ({ C: bs.C.rho / bs.B.rho - 1, A: bs.A.rho / bs.B.rho - 1 });
+  const r300 = rel3(res['M300-kF1-s2'].bands), r100 = rel3(res['M100-kF1-s2'].bands);
   const eRatio = {};
-  for (const b of ['C', 'B', 'A']) eRatio[b] = res['kF1-s2'].bands[b].eccRMS / res['kF0-s2'].bands[b].eccRMS;
-  out.tests.saturn = { conds: res, relResidualC: relC, relResidualA: relA,
-    singleKmWithin1pc: Math.abs(relC) < 0.01 && Math.abs(relA) < 0.01, eccRatioKF: eRatio };
-  console.log(`[C:予測    ] 単一kM残差(帯B正規化): C=${(relC * 100).toFixed(3)}% A=${(relA * 100).toFixed(3)}%(同時<1%=${out.tests.saturn.singleKmWithin1pc}) eccRMS比 kF1/kF0: C=${eRatio.C.toFixed(3)} B=${eRatio.B.toFixed(3)} A=${eRatio.A.toFixed(3)}`);
+  for (const b of ['C', 'B', 'A']) eRatio[b] = res['M100-kF1-s2'].bands[b].eccRMS / res['M100-kF0-s2'].bands[b].eccRMS;
+  out.tests.saturn = { conds: res,
+    relResidual: { M300: r300, M100: r100 },
+    singleKmWithin1pc: { M300: Math.abs(r300.C) < 0.01 && Math.abs(r300.A) < 0.01,
+                         M100: Math.abs(r100.C) < 0.01 && Math.abs(r100.A) < 0.01 },
+    eccRatioKF_M100: eRatio };
+  console.log(`[C:予測      ] 単一kM残差(帯B正規化): M300 C=${(r300.C * 100).toFixed(2)}%/A=${(r300.A * 100).toFixed(2)}% → M100 C=${(r100.C * 100).toFixed(2)}%/A=${(r100.A * 100).toFixed(2)}%(同時<1%: M300=${out.tests.saturn.singleKmWithin1pc.M300}・M100=${out.tests.saturn.singleKmWithin1pc.M100}) / eccRMS比 kF1/kF0(M100): C=${eRatio.C.toFixed(3)} B=${eRatio.B.toFixed(3)} A=${eRatio.A.toFixed(3)}`);
 }
 
 fs.writeFileSync(path.join(OUT_DIR, 'obscal-results.json'), JSON.stringify(out, null, 2));

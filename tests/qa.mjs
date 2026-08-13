@@ -12315,6 +12315,39 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     console.log('SKIP scale.exponents(対象に4指数スケールなし — root 等。第94便)');
   }
 
+  // ---- 第112便(原仮定者指示「光速c₀と重力Gのスケールの扱いの整合性を確認する」):
+  // ----   換算規約の機械固定 — G・Kt は次元換算(10^(3x−2eT−eM) / 10^(−x+eM))・cLight は
+  // ----   専用指数 eC の表示規約(次元系なら x−eT)。①☀️実G値 6.674 の表示=万有引力定数
+  // ----   ②physLock の Kt=c₀²/G は「次元的c = c₀·10^(x−eT)=3e5」と厳密整合(Kt表示=c_dim²/G表示)
+  // ----   ③表示c(3e8)で読むと 10^(2(eC−(x−eT)))=1e6 倍ずれて見える — cLight のみ表示規約で
+  // ----   あることの見かけの差で実装の矛盾ではない(PHYSICS §5 注記と対応)----
+  if (hasExp4) {
+    const r = await page.evaluate(() => {
+      const parse = (s) => parseFloat(String(s).replace(/^≈/, ''));
+      HP.setScaleExps({ L: 11, T: 7, M: 30, C: 7 });   // ☀️stellar アンカー(太陽系観測較正の標準)
+      const G = 6.674, Kt = 30 * 30 / G;
+      const out = {
+        g: parse(HP.scaleConvStr('G', G)),         // 実G値規約 → 6.674e-11
+        kt: parse(HP.scaleConvStr('Kt', Kt)),      // 次元換算 −x+eM=19 → ≈1.35e21 kg/m
+        c: parse(HP.scaleConvStr('cLight', 30)),   // eC 表示規約 → 3e8 m/s
+        cDim: 30 * Math.pow(10, 11 - 7),           // 次元的 c(x−eT=4)= 3e5 m/s
+      };
+      HP.setScaleExps(null); HP.loadPreset('galaxy', false);
+      return out;
+    });
+    const rel = (a, b) => Math.abs(a / b - 1);
+    const idDim = rel(r.kt, r.cDim * r.cDim / r.g);   // ② 次元系の恒等式(表示丸め内で 0)
+    const gapDisp = r.c * r.c / r.g / r.kt;           // ③ 表示cで読んだ見かけの差 ≈1e6
+    add('scale.cg-consistency',
+      rel(r.g, 6.674e-11) < 0.01 && rel(r.c, 3e8) < 0.01 && idDim < 0.02
+      && Math.abs(Math.log10(gapDisp) - 6) < 0.02,
+      `☀️アンカー: G表示=${r.g}(実G値→万有引力定数) c表示=${r.c}(eC規約) Kt表示=${r.kt} kg/m / ` +
+      `次元的c=3e5 → 恒等式 Kt=c_dim²/G_SI の残差=${idDim.toExponential(1)}(整合)/ ` +
+      `表示cで読むと ×${gapDisp.toExponential(2)}(≈1e6 の見かけ差 — 規約どおり)`);
+  } else {
+    console.log('SKIP scale.cg-consistency(対象に4指数スケールなし — root 等。第94便)');
+  }
+
   // ---- 第100便(原仮定者裁定「進める」/ Gemini 提案2): 相似変換連動モード ----
   // c₀ 変更時に k=新/旧 の力学的相似変換(96B表)を現在状態へ適用する実験的トグル。
   // ①変換式: G×k²・timeScale÷k・速度×k・Kt 不変(c²/G 不変 — 物理対応ロック整合)
