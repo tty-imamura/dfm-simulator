@@ -3892,9 +3892,65 @@ if (hasBadgeClassify) {
   });
   add('physlock.kt-derive', r.before === 300 && r.cond === 3600 && r.locked === r.cond && r.follow === r.cond / 4
     && r.snapBack === r.cond / 4 && parseFloat(r.snapShown) === r.cond / 4 && r.badgeOff && r.badgeOn
-    && r.edge.applied === 10000 && r.edge.clamped === true && r.after === 300,
+    && (r.edge.applied === 10000 || r.edge.applied === 1e9) && r.edge.clamped === true && r.after === 300,   // 第113便: Kt 値域 1e4→1e9(旧世代 root は 1e4)
     `OFF時Kt=${r.before}(条件外バッジ=${r.badgeOff}) ON時=${r.locked} cLight30追随=${r.follow} `
     + `Kt直編集=${r.snapBack}/表示${r.snapShown} G=0クランプ=${r.edge.applied}(近似=${r.edge.clamped}) 解除後=${r.after}`);
+}
+
+// ---- 第113便: ①CLAMPS 拡張(Kt 1e4→1e9・cLight 1e4→1e6 — ティア別実c値と physLock 導出値を
+// ----   値域内に)②pnSource 明示フラグ(1PN 源の宣言 — 偏向角しきい値 m≥pnK·max(R,ε) の
+// ----   opt-in 上書き。しきい値∝c² のため実c値では太陽級も源外になる問題〔107B 起票〕の解決)。
+// ----   第113便 未適用の root 等は自動 SKIP ----
+{
+  const gen113 = await page.evaluate(() => {
+    const v = HP.validatePreset({ name: 'x', description: 'd', camera: { scale: 100 },
+      world: { boundary: 'none', size: 0 }, physics: { cLight: 30000 },
+      bodies: [{ type: 'single', m: 5, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true, pnSource: true }] });
+    return !!(v.ok && v.preset.physics.cLight === 30000 && v.preset.bodies[0].pnSource === true);
+  });
+  if (gen113) {
+    const r = await page.evaluate(() => {
+      const res = {};
+      // ① 新値域: 域内保持(☀️実c値 3e4・実G physLock の Kt=1.349e8)・域外はクランプ・
+      //   pnSource は true 以外を警告つき削除
+      const v1 = HP.validatePreset({ name: 'x', description: 'd', camera: { scale: 100 },
+        world: { boundary: 'none', size: 0 }, physics: { cLight: 30000, Kt: 30000 * 30000 / 6.674, G: 6.674 },
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+      res.kept = v1.ok && v1.preset.physics.cLight === 30000
+        && Math.abs(v1.preset.physics.Kt - 9e8 / 6.674) < 1;
+      const v2 = HP.validatePreset({ name: 'x', description: 'd', camera: { scale: 100 },
+        world: { boundary: 'none', size: 0 }, physics: { cLight: 2e6, Kt: 2e9 },
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false, pnSource: 1 }] });
+      res.clamped = v2.ok && v2.preset.physics.cLight === 1e6 && v2.preset.physics.Kt === 1e9;
+      res.badFlagDropped = v2.ok && !('pnSource' in v2.preset.bodies[0]);
+      // ② フラグの力学: 閾値未満の中心(m=5 < pnK·max(R,ε)=4.5×2.24≈10)は既定では 1PN 源に
+      //   ならない(λ1/λ0 が一致)。pnSource:true で λ1 の軌道が変わる
+      const mk = (flag, lam) => ({ id: 'qa113', seed: 1, camera: { scale: 100 },
+        world: { boundary: 'none', size: 0 },
+        physics: { G: 1, D0: 2, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, Kt: 900,
+          cLight: 30, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 1, lambdaPN: lam,
+          pnAlpha: 1.5, radiusScale: 1, softening: 2, timeScale: 1 },
+        bodies: [Object.assign({ type: 'single', m: 5, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true },
+                   flag ? { pnSource: true } : {}),
+                 { type: 'single', m: 0.05, x: 40, y: 0, vx: 0, vy: Math.sqrt(5 / 40), spin: 0, pinned: false }] });
+      const run = (flag, lam) => { const S = HP.sim; S.build(mk(flag, lam));
+        for (let k = 0; k < 800; k++) S.step(0.016); return S.x[1] + ',' + S.y[1] + ',' + S.vx[1]; };
+      const offL1 = run(false, 1), offL0 = run(false, 0), onL1 = run(true, 1);
+      res.defaultInert = offL1 === offL0;   // フラグ無し=閾値未満: λ は無関係(bit 一致)
+      res.flagActive = onL1 !== offL1;      // フラグ有り: 1PN が働き軌道が変わる
+      // ③ pnSource() 関数(判定の正本)もフラグを見る
+      const S = HP.sim; S.build(mk(true, 1)); res.fnOn = HP.pnSource(S, 0) === true;
+      S.build(mk(false, 1)); res.fnOff = HP.pnSource(S, 0) === false;
+      HP.loadPreset('galaxy', false);
+      return res;
+    });
+    add('pn.source-flag', r.kept && r.clamped && r.badFlagDropped && r.defaultInert && r.flagActive
+      && r.fnOn && r.fnOff,
+      `新値域保持(c=3e4・Kt=1.35e8)=${r.kept} クランプ(2e6→1e6/2e9→1e9)=${r.clamped} 不正フラグ削除=${r.badFlagDropped} / ` +
+      `既定=閾値未満でλ無関係(bit一致)=${r.defaultInert} フラグで1PN発現=${r.flagActive} pnSource()正本=on:${r.fnOn}/off:${r.fnOff}`);
+  } else {
+    console.log('SKIP pn.source-flag(対象に第113便 未適用 — root 等)');
+  }
 }
 
 // ---- v1.27(公開前レビュー P0-1): ステップ会計 — 高倍率でも要求分を黙って破棄しない ----

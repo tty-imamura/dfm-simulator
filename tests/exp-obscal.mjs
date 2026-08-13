@@ -281,6 +281,72 @@ for (const [k, p] of Object.entries(PROFILES)) out.profiles[k] = { domain: p.dom
   console.log(`[C:予測      ] 単一kM残差(帯B正規化): M300 C=${(r300.C * 100).toFixed(2)}%/A=${(r300.A * 100).toFixed(2)}% → M100 C=${(r100.C * 100).toFixed(2)}%/A=${(r100.A * 100).toFixed(2)}%(同時<1%: M300=${out.tests.saturn.singleKmWithin1pc.M300}・M100=${out.tests.saturn.singleKmWithin1pc.M100}) / eccRMS比 kF1/kF0(M100): C=${eRatio.C.toFixed(3)} B=${eRatio.B.toFixed(3)} A=${eRatio.A.toFixed(3)}`);
 }
 
+// ---- D) 第113便: 水星不変量ラダー — 実c値規約(☀️ c₀*=3e4)+実G+pnSource で 43″/世紀を直接実測 --
+// 実水星の無次元不変量 GM/(c²a)=2.55e-8 は、c₀=30 では M=5.2e-4(質量値域外)だが、
+// ☀️実c値 c₀=3e4 なら M=515.7(値域内)で実現できる(実c値採用の定量的根拠 — PHYSICS §5)。
+// 深さ d=GM/(c²a) を 5e-7 → 1e-7 → 2.55e-8(実水星)と下げるラダーで、Δϖ(λ1−λ0・RL 最小二乗)が
+// 弱場式 6π·d/(1−e²) に一致し続けるかを実測する。e=0.206(実水星)。
+// 最終段の実測 Δϖ/orbit を ″/公転(×206265)→ ″/世紀(×414.9 公転/世紀)へ換算して報告する。
+{
+  const C1 = 3e4, G1 = 6.674;
+  const physD = Object.assign({}, PROFILES.solar.phys, { cLight: C1, Kt: C1 * C1 / G1 });
+  out.profiles.solarRealC = { domain: 'solar(実c値・第113便)', note: '☀️ c₀*=3e4+実G — 誇張率1',
+    physics: physD };
+  const rlRun = async (M, lam, orbits, dt) => page.evaluate(async ({ phys, M, lam, orbits, dt }) => {
+    const a = 150, e = 0.206, rp = a * (1 - e);
+    const P = Object.assign({}, phys, { lambdaPN: lam });
+    const vp = Math.sqrt(P.G * M * (1 + e) / rp);
+    const S = HP.sim;
+    S.build({ id: 'obscalMercReal', name: 'obscal-merc-real', emoji: '🧪', seed: 1,
+      camera: { scale: 300 }, world: { boundary: 'none', size: 0 }, physics: P,
+      bodies: [{ type: 'single', m: M, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true, pnSource: true },
+               { type: 'single', m: 0.01, x: rp, y: 0, vx: 0, vy: vp, spin: 0, pinned: false }] });
+    if (!HP.physLockSatisfied(S)) return { lockFail: true };
+    if (!HP.pnSource(S, 0)) return { srcFail: true };   // フラグが効いていること(閾値∝c² では届かない)
+    const GM = P.G * M, TK = 2 * Math.PI * Math.sqrt(a ** 3 / GM);
+    const steps = Math.ceil(orbits * TK / dt);
+    let prev = null, un = 0, n = 0, St = 0, Sy = 0, Stt = 0, Sty = 0;
+    for (let k = 0; k < steps; k++) {
+      S.step(dt);
+      const rx = S.x[1], ry = S.y[1], vx = S.vx[1], vy = S.vy[1];
+      const L = rx * vy - ry * vx, r = Math.hypot(rx, ry);
+      const ang = Math.atan2((-vx * L) / GM - ry / r, (vy * L) / GM - rx / r);
+      let dd = ang - (prev === null ? ang : prev);
+      while (dd > Math.PI) dd -= 2 * Math.PI; while (dd < -Math.PI) dd += 2 * Math.PI;
+      un += dd; prev = ang;
+      const t = k * dt;
+      n++; St += t; Sy += un; Stt += t * t; Sty += t * un;
+    }
+    const slope = (n * Sty - St * Sy) / (n * Stt - St * St);
+    return { perOrbit: slope * TK, nan: S.hasNaN() };
+  }, { phys: physD, M, lam, orbits, dt });
+  // 実測知見(第113便): λ0 残差 −1.8e-3 rad/orbit は**ソフトニング歳差** −3π(ε/a)²=−1.68e-3
+  // (dt 非依存・逆行)で、λ1−λ0 差分で相殺される。実水星段(d=2.55e-8)の欠損(比 0.23〜0.26)は
+  // dt=0.016→0.004 でも不変 — 原因は **Float32 状態の量子化**: 1PN/重力 = d = 2.55e-8 が
+  // Float32 の相対 ulp(6e-8)未満のため、加速度・速度への微小加算が系統的に丸め落ちする
+  // (第40便 4-81 の E6′ 反作用と同型の問題 — 解消には速度キャリーの倍精度化〔opt-in〕が必要・
+  // 次便裁定候補)。d≥1e-7(実水星の約4倍深)までは直接実測が成立する。
+  // 最終段は dt=0.004 を残す(dt 非依存の機械記録)
+  const ladder = [];
+  for (const [d, orbits, dt] of [[5e-7, 100, 0.016], [1e-7, 200, 0.016], [2.55e-8, 200, 0.004]]) {
+    const M = d * C1 * C1 * 150 / G1;              // GM=d·c²·a
+    const r1 = await rlRun(M, 1, orbits, dt), r0 = await rlRun(M, 0, orbits, dt);
+    if (r1.lockFail || r1.srcFail) { console.log(`[D:d=${d}] lock/src FAIL`); break; }
+    const pn = r1.perOrbit - r0.perOrbit;
+    const theo = 6 * Math.PI * d / (1 - 0.206 * 0.206);
+    ladder.push({ depth: d, M, orbits, dt, pn1Measured: pn, theo, ratio: pn / theo, lam0: r0.perOrbit });
+    console.log(`[D:d=${d.toExponential(2)}] M=${M.toFixed(1)} dt=${dt} Δϖ_1PN=${pn.toExponential(3)} rad/orbit 弱場式=${theo.toExponential(3)} 比=${(pn / theo).toFixed(3)} λ0残差=${r0.perOrbit.toExponential(2)}(${orbits}公転) NaN=${r1.nan || r0.nan}`);
+  }
+  const fin = ladder[ladder.length - 1];
+  let century = null;
+  if (fin && Math.abs(fin.depth - 2.55e-8) < 1e-12) {
+    const arcsecPerOrbit = fin.pn1Measured * 206264.806;      // rad → ″
+    century = arcsecPerOrbit * 414.93;                        // 実水星 414.93 公転/世紀(T=87.969日)
+    console.log(`[D:43″判定  ] 実水星不変量での実測 Δϖ=${arcsecPerOrbit.toFixed(4)}″/公転 → ${century.toFixed(1)}″/世紀(GR実測値 42.98″ — 弱場式との比 ${fin.ratio.toFixed(3)})`);
+  }
+  out.tests.mercuryReal = { ladder, arcsecPerCentury: century };
+}
+
 fs.writeFileSync(path.join(OUT_DIR, 'obscal-results.json'), JSON.stringify(out, null, 2));
 console.log('saved: tests/out/obscal-results.json');
 await browser.close();

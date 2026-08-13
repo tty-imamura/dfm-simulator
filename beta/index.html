@@ -704,7 +704,7 @@ ja: {
   grpDisplayDesc:"画面表示の切替(温度色・軌跡・決定力マップ・光線・保存量モニタ・カメラ追従など)。すべて表示のみで物理には影響しない。",
   physLockHead:"物理対応(GR較正)",
   physLockLabel:"物理対応ロック Kt=cLight²/G",
-  physLockDesc:"ONの間、時計・光の時空係数Ktを常に cLight²/G へ自動維持します(SI対応写像 Kt=c²/G のシミュレータ内対応条件 — PHYSICS §5 物理対応条件)。Ktは導出値になり、cLightやGを編集すると追随します(ロック中はKtのスライダー・直値入力はグレーアウトされ編集できません)。OFFでは3つを独立に編集できる「一般化トイ設定」で、GR較正の主張域外です。G=0など導出値がKtの値域[1,10000]の外になる場合はクランプされ、対応は近似になります。ロックの状態はセーブデータに保存され、セーブの読込で復元されます。別のサンプルを読み込むとロックは自動解除されます(意図しないKt上書きの防止)。",
+  physLockDesc:"ONの間、時計・光の時空係数Ktを常に cLight²/G へ自動維持します(SI対応写像 Kt=c²/G のシミュレータ内対応条件 — PHYSICS §5 物理対応条件)。Ktは導出値になり、cLightやGを編集すると追随します(ロック中はKtのスライダー・直値入力はグレーアウトされ編集できません)。OFFでは3つを独立に編集できる「一般化トイ設定」で、GR較正の主張域外です。G=0など導出値がKtの値域[1,10⁹]の外になる場合はクランプされ、対応は近似になります。ロックの状態はセーブデータに保存され、セーブの読込で復元されます。別のサンプルを読み込むとロックは自動解除されます(意図しないKt上書きの防止)。",
   physLockOn:"✓ ロック中: Kt=cLight²/G を自動維持(Ktは導出値)",
   physLockOnClamped:"⚠ ロック中: 導出値が値域外のため Kt をクランプ(対応は近似)",
   physLockOffOk:"✓ ロック解除中(現在値は条件 Kt=cLight²/G を満たしています)",
@@ -1106,7 +1106,7 @@ en: {
   grpDisplayDesc:"Display toggles (temperature colors, trails, determinacy map, light rays, conservation monitor, camera follow, …). Display only — no effect on physics.",
   physLockHead:"Physical correspondence (GR calibration)",
   physLockLabel:"Correspondence lock Kt=cLight²/G",
-  physLockDesc:"While ON, the spacetime coefficient Kt (clocks & light) is automatically kept at cLight²/G — the in-simulator correspondence condition of the SI mapping Kt=c²/G (PHYSICS §5). Kt becomes a derived value that follows edits to cLight or G (while locked, Kt's slider and value box are greyed out and cannot be edited). While OFF, the three parameters are independent — a 'generalized toy setting' outside the GR-calibration claim domain. If the derived value falls outside Kt's range [1,10000] (e.g. G=0) it is clamped and the correspondence becomes approximate. The lock state is stored in save data and restored on load; loading a different preset automatically unlocks (preventing unintended Kt overwrites).",
+  physLockDesc:"While ON, the spacetime coefficient Kt (clocks & light) is automatically kept at cLight²/G — the in-simulator correspondence condition of the SI mapping Kt=c²/G (PHYSICS §5). Kt becomes a derived value that follows edits to cLight or G (while locked, Kt's slider and value box are greyed out and cannot be edited). While OFF, the three parameters are independent — a 'generalized toy setting' outside the GR-calibration claim domain. If the derived value falls outside Kt's range [1,10⁹] (e.g. G=0) it is clamped and the correspondence becomes approximate. The lock state is stored in save data and restored on load; loading a different preset automatically unlocks (preventing unintended Kt overwrites).",
   physLockOn:"✓ Locked: Kt=cLight²/G maintained automatically (Kt is derived)",
   physLockOnClamped:"⚠ Locked: derived value out of range — Kt clamped (approximate correspondence)",
   physLockOffOk:"✓ Unlocked (current values happen to satisfy Kt=cLight²/G)",
@@ -1813,7 +1813,10 @@ function rayHeavy(S, i){ return S.m[i] >= rayMassMin(S.params, S.R[i]); }
 // 天体 i は E12 1PN 補正の源か(v1.20)。step() の全対ループでは同式を
 // pnK=(α_min/4)·c²/G を使って展開してある(O(N²) の関数呼出削減)。
 // 質量は下限保護付きの mEff — 対ループ側と同じ配列を見る(判定の正本はこの関数側)
-function pnSource(S, i){ return S.mEff[i] >= pnMassMin(S.params, S.R[i]); }
+// 第113便(107B 起票の実装): 天体宣言 pnSource:true は閾値を明示上書きして源にする。
+// しきい値は c² に比例するため、ティア別実c値(☀️=3e4)では太陽級の質量でも閾値に届かない —
+// 観測較正プリセットが弱場の 1PN 源を宣言できる opt-in(既定=従来閾値・bit 不変)
+function pnSource(S, i){ return !!(S.pnOv && S.pnOv[i]) || S.mEff[i] >= pnMassMin(S.params, S.R[i]); }
 
 // 第74便: 5段階スケール(scaleTier)— UI分類・表示換算専用のメタデータ。
 // **物理エンジンには一切使わない**(ChatGPT レビュー §8「スケールを物理入力にしない」採択 —
@@ -2012,9 +2015,12 @@ function valToSliderPos(def,v){
 
 // バリデータのクランプ値域(HANDOFF_RUNTIME_LLM.md と同一)
 // kLens は v1.7 で廃止。旧セーブ・旧AIプリセット互換のため受理のみ(エンジンは参照しない)
+// 第113便(原仮定者指示「43″/世紀を域外にしない」): Kt 1e4→1e9・cLight 1e4→1e6 へ拡張 —
+// ティア別実c値(☀️=3e4)と physLock の導出 Kt=c₀²/G(☀️実G+実cで 1.35e8)を値域内にする。
+// 既存プリセット・既定値は全て旧値域内なので挙動不変(広げるだけ)
 const CLAMPS = { G:[0,100], D0:[0,1000], kFrame:[0,1], q:[0.5,4], kRep:[0,20], muF:[0,1],
-  gammaN:[0,1], kappaS:[0,2], Kt:[1,10000], kLens:[0,1],
-  cLight:[1,10000], bM:[0.001,1000], etaRad:[0,1], pRad:[1,6], radiusScale:[0.2,5],
+  gammaN:[0,1], kappaS:[0,2], Kt:[1,1e9], kLens:[0,1],
+  cLight:[1,1e6], bM:[0.001,1000], etaRad:[0,1], pRad:[1,6], radiusScale:[0.2,5],
   cHeat:[0.01,1000],   // 第36便 D(台帳4-51): 熱容量係数 C(thermal:"tint" 専用)
   gravityX:[-10,10], gravityY:[-10,10],
   geoPN:[0,2], lambdaPN:[0,1], pnAlpha:[0,2],   // v1.20: E12 測地線1PN(第69便: geoPN=2 統一則を追加)
@@ -4945,6 +4951,13 @@ function validatePreset(obj){
           else if(isNum(b.lightSweep)) o.lightSweep=wc(b.lightSweep,0,1,"lightSweep");
           else warnings.push(at+'.lightSweep は数値(0〜1)か "auto" — 削除します');
         }
+        // 第113便: pnSource=true — 1PN 源の明示宣言(偏向角しきい値 m≥pnK·max(R,ε) の上書き。
+        // しきい値は c² に比例するため、ティア別実c値の観測較正では太陽級でも届かない — opt-in で解決。
+        // true 以外は削除+警告(既定=従来閾値・書かないプリセットは 1 bit も不変)
+        if(b.pnSource!==undefined){
+          if(b.pnSource===true) o.pnSource=true;
+          else warnings.push(at+".pnSource は true のみ受理 — 削除します");
+        }
         // E13(第11次裁定 保留分の実施): AI生成・インポートへ zonal を開放。
         // 偶数次 J2〜J12 のみ受理し、|J|≤0.1・refR 1〜5000・calib 0〜2 にクランプする
                 // 第27便: 単体粒子のレール駆動(規定運動)— pinned のときのみ有効。原点中心の円軌道の角速度
@@ -6013,6 +6026,7 @@ function makeSim(){
     S.pairD=new Float32Array(Math.max(1,n*(n-1)/2)); // 対距離キャッシュ(E6′反作用パスで再利用)
     S.railR=F();S.railAng=F();S.railOmega=F();S.railCx=F();S.railCy=F();S.railH=F();
     S.pinned=new Uint8Array(n); S.hasU=new Uint8Array(n);
+    S.pnOv=new Uint8Array(n);   // 第113便: 1PN源の明示フラグ(pnSource — 既定0=従来閾値)
     S.railIdx=null;   // 第29便(第25次レビュー P1-1): レール粒子インデックス(step初回に遅延構築)
     S.mech=null;   // 第65便 65A: 機構スペクトルの診断層は build ごとに破棄(粒子数が変わるため遅延再確保)
     S._g2=null;    // 第69便 P4b: geoPN=2 の ∇u 勾配集積も build ごとに破棄(_core が遅延確保)
@@ -6041,6 +6055,7 @@ function makeSim(){
           // 観測温度・半径系(第22便): 既定は従来と厳密等価
           // 第81便: コアv1(coreMR/coreSR/coreRR)は廃止 — コアは o.core(v2)だけが運ぶ
           lightSweep:(b.lightSweep===undefined?0:b.lightSweep),
+          pnSrc:(b.pnSource===true?1:0),   // 第113便: 1PN源の明示フラグ(opt-in・既定0)
           radius:(b.radius===undefined?0:b.radius),
           rMul:(b.rMul===undefined?1:b.rMul),   // 第36便 C1: 粒子ごとの半径倍率(既定1)
           tInt:(b.tInt===undefined?0:b.tInt)};  // 第36便 D: 内部温度の初期値(thermal:"tint" 専用・既定0)
@@ -6201,6 +6216,7 @@ function makeSim(){
     S.periDet=null; // 近点検出器は再構築でリセット(第11次裁定 保留分)
     P.forEach((o,i)=>{ S.m[i]=o.m; S.x[i]=o.x; S.y[i]=o.y; S.vx[i]=o.vx; S.vy[i]=o.vy;
       S.spin[i]=o.spin; S.pinned[i]=o.pinned; S.railOmega[i]=o.railOmega||0;
+      S.pnOv[i]=o.pnSrc?1:0;   // 第113便: 1PN源の明示フラグ(single の pnSource:true)
       // 第36便 C2: lightSweep は数値(独立指定・従来どおり)か "auto"(粒子パラメータからの算出)。
       // auto の初期値は 0 で、最初の _core で lS_eff に上書きされる
       const lsw=o.lightSweep;
@@ -6976,7 +6992,9 @@ function makeSim(){
           // 第45便 45A(台帳4-48): 1PN 源の偏向角しきい値の係数。源判定は m ≥ pnK·max(R,ε)
           // (= pnMassMin(p,R) と同一式。K=c²/G は E12 の小ささを決める U/c² 側の時空係数)。
           // geo=0 の宇宙では参照されない。G≤0 なら Infinity=源なし(1PN 自体が消える)
-          pnK=(p.G>0)? (RAY_ALPHA_MIN/4)*(p.cLight*p.cLight)/p.G : Infinity;
+          pnK=(p.G>0)? (RAY_ALPHA_MIN/4)*(p.cLight*p.cLight)/p.G : Infinity,
+          // 第113便: 1PN源の明示フラグ(pnSource 関数と同じ正本 — 閾値の OR 上書き。既定全0=bit不変)
+          pnOv=S.pnOv;
     // ===== 第80便 A(E6′-R): physics.frameReaction:"pairReduced" — 換算質量対称インパルス =====
     // opt-in。既定(undefined / "legacy")では pairR=false となり、②の要求適用も③の対ループも
     // 従来コードがそのまま走る(分岐1つのぶんだけで、値は 1 bit も変わらない)。
@@ -7112,7 +7130,7 @@ function makeSim(){
         // 速度は u=0 の絶対値(第1段階の主張域)。E6′ は②で排他。
         if(geo && invC2>0){
           const cA=1+2*pnA, cB=pnA-0.5;
-          if(mj>=pnK*Math.max(Rj,eps) && !pinned[i]){
+          if((pnOv[j]||mj>=pnK*Math.max(Rj,eps)) && !pinned[i]){
             const Uj=G*mj*invW, gux=-fg*mj*dx, guy=-fg*mj*dy;
             // 第69便 P4b: geoPN=2 は特異速度 w=v−kF·u で評価(§18.1 の v→w 置換)。u は直前サブ
             // ステップの粒子追跡値(uPx/uPy — E6′ と同じ帳面)で、geoPN=1・kFrame=0・初回
@@ -7137,7 +7155,7 @@ function makeSim(){
               }
             }
           }
-          if(mi>=pnK*Math.max(Ri,eps) && !pinned[j]){
+          if((pnOv[i]||mi>=pnK*Math.max(Ri,eps)) && !pinned[j]){
             const Ui=G*mi*invW, gux=fg*mi*dx, guy=fg*mi*dy;   // j から見た ∇U(符号反転)
             const wxj=(geo2&&S.hasU[j])? vx[j]-kFrame*S.uPx[j] : vx[j],
                   wyj=(geo2&&S.hasU[j])? vy[j]-kFrame*S.uPy[j] : vy[j];
@@ -12492,7 +12510,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
 6. name は30字以内、description は200字程度の日本語(上限は9000字。超えると切り詰められる)。emoji は絵文字1文字。
-7. 値域(超えると自動修正される): G:0〜100, D0:0〜1000, kFrame:0〜1, q:0.5〜4, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, Kt:1〜10000, cLight:1〜10000, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, softening:0.5〜20, timeScale:0.01〜100, camera.scale:20〜3000, 座標・長さ:±5000, 質量:0.01〜20000, 速度成分:±50, スピン:±20, omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
+7. 値域(超えると自動修正される): G:0〜100, D0:0〜1000, kFrame:0〜1, q:0.5〜4, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, Kt:1〜1e9, cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, softening:0.5〜20, timeScale:0.01〜100, camera.scale:20〜3000, 座標・長さ:±5000, 質量:0.01〜20000, 速度成分:±50, スピン:±20, omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
 8. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 
 # ジェネレータ(bodiesの要素。typeごとに全フィールド必須)
