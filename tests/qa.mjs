@@ -4302,7 +4302,16 @@ if (!FAST) {
         res.allTiers = HP.SCALE_TIERS.every(t => (res.counts[t] || 0) > 0);
         res.total = builtins.length;
         res.tierN = HP.SCALE_TIERS.length;   // 第98便: 5分類(root)/7分類(beta)の両対応
-        res.badC = builtins.filter(p => (p.physics || {}).cLight !== 30).map(p => p.id);
+        // 第116便: 実c値規約(第113便 裁定採用)の観測較正サンプルは、c₀=30 に代えて
+        // ティア実c対応値 3e8×10^−(x−eT) の宣言を許容する(☄️mercuryReal 等 — PHYSICS §5)
+        res.badC = builtins.filter(p => {
+          const c = (p.physics || {}).cLight;
+          if (c === 30) return false;
+          const a = HP.SCALE_ANCHORS && HP.SCALE_ANCHORS[p.scaleTier];
+          if (a && typeof c === 'number' && c > 0
+              && Math.abs(c * Math.pow(10, a.expL - a.expT) / 3e8 - 1) < 0.01) return false;
+          return true;
+        }).map(p => p.id);
         return res;
       });
       add('preset.scale-tier', r.missing.length === 0 && r.allTiers,
@@ -4321,7 +4330,7 @@ if (!FAST) {
           return v.ok ? v.preset.physics.cLight : NaN;
         });
         add('light.canonical-builtins', r.badC.length === 0 && defC === 30,
-          (r.badC.length ? `c₀≠30: ${r.badC.join(' ')}` : `全${r.total}件が c₀=30 を宣言`)
+          (r.badC.length ? `c₀≠30かつ実c値でもない: ${r.badC.join(' ')}` : `全${r.total}件が c₀=30 またはティア実c値を宣言`)
           + ` / 既定値マージ=${defC}(=30)`);
       } else {
         console.log('SKIP light.canonical-builtins(旧5分類ビルド — c₀=30 統一前の世代)');

@@ -1965,9 +1965,9 @@ const PARAM_DEFS = [
    desc:"衝突の法線方向の減衰(跳ね返りの失われやすさ)。0=よく弾む、1=ぶつかると速度が失われやすい。失われたエネルギーは帳簿に記録される(T7)。"},
   {key:"kappaS",label:"スピン拡散 κs",       mode:"lin", lo:0, hi:2, step:0.01, cat:"sh", group:"法則",
    desc:"スピン=熱が近くの粒子へ飛び移って均される熱伝導(E10′)。接触は不要で、近いほど強く伝わる(📏)。0にすると熱が伝わらない。"},
-  {key:"Kt",    label:"時空係数 Kt(時間・光)", mode:"log", lo:1, hi:10000, cat:"st", group:"法則",
+  {key:"Kt",    label:"時空係数 Kt(時間・光)", mode:"log", lo:1, hi:1e9, cat:"st", group:"法則",   /* 第116便: 実c値+physLock の導出値 1.35e8 まで(値域=CLAMPS と同幅) */
    desc:"時計の遅れと光の屈折を1本で決める係数(A7′/E7R/E8R: ψ=W/Kt)。小さいほど時空効果が強い — 時計はより遅れ、光はより曲がる。現実との較正は Kt=c²/G(🛰)。"},
-  {key:"cLight",label:"光速 c₀",             mode:"log", lo:5, hi:1000, cat:"st", group:"法則",
+  {key:"cLight",label:"光速 c₀",             mode:"log", lo:5, hi:1e6, cat:"st", group:"法則",   /* 第116便: ティア実c値(☀️3e4 等)まで */
    desc:"光線の速さと、運動による時計の遅れの基準(E7R: 共動フレームに対する速さがc₀に近いほど固有時計が遅れる)。下げると相対論的効果が見えやすくなる。【c₀の三層(第99便)】①基準光速 c₀=このパラメータ(全内蔵サンプルは c₀=30 の一律規約)②局所光速 c_loc=c₀·e^(−2ψ)(重力ポテンシャルの井戸で局所的に遅くなる — 減光・光掃引の auto が使う)③表示較正指数 eC(「30→3×10⁸ m/s」の換算表示専用 — 物理には入らない)。換算値はアナロジーの目安であり、モデルが実宇宙の定数に束縛されているわけではない。"},
   {key:"G",     label:"重力 G",              mode:"log", lo:0.01,   hi:20,   cat:"st", group:"法則",   /* 第95便: 光速 c₀ の次へ移動 */
    desc:"粒子同士の万有引力の強さ。この宇宙では決定力Wの勾配が重力になる(A6/E4: a=G∇W)。0にすると自己重力が消える(一様重力g_x/g_yとは別)。"},
@@ -2129,6 +2129,39 @@ const BUILTIN_PRESETS = [
   bodies:[
     {type:"single", rMul:1.2, m:150, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
     {type:"single", rMul:1.2, m:0.5, x:47.66,y:0, vx:0,vy:2.3376, spin:0, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+// 第116便(原仮定者裁定「プリセット同梱: 進める。今後のサンプルの雛形とする」): 観測較正
+// プロファイルの内蔵第1号=実不変量の水星。物理構成(実G値・実c値・Kt=c₀²/G・pnSource・
+// stateCarry:"double"・q=3・D0=0.1)が今後の観測較正サンプルの雛形(PHYSICS §5)
+{ id:"mercuryReal", name:"水星(実不変量)— 43″/世紀", emoji:"☄️", group:"空間と時間",
+  scaleTier:"stellar",   // ☀️: 実G(6.674)と実c(3e4)が physLock と両立する標準ティア
+  sampleClass:"calibration",
+  notClaim:["solar"],
+  failureFirst:{
+    fail:"c₀=30 の誇張アナログでは、実水星の不変量 GM/(c²a)=2.55×10⁻⁸ は質量値域外で、Float32 状態では 1PN が丸め落ちして直接再現は域外だった(☿の但し書き=第112便までの負の結果)。",
+    pass:"実G値+実c値+pnSource+stateCarry(第111〜114便)により、ハーネス実測 Δϖ=5.029×10⁻⁷ rad/公転(解析値比 1.002)= 43.0″/世紀 — GR 実測値 42.98″/世紀と 0.2% 以内(tests/exp-obscal.mjs §D・600公転)。"},
+  descStruct:{
+    summary:"実際の水星の無次元不変量(GM/(c²a)=2.55×10⁻⁸・離心率 e=0.206)をそのまま持つ観測較正サンプル — 観測較正プロファイルの雛形。歳差は☿と同じ測地線モード(E12 — A7′/E7R の作用化)の1PNによる。ティア実値定数(G=6.674・c₀=3×10⁴ — スケール換算表示が万有引力定数 6.674×10⁻¹¹ と実光速 3×10⁸ m/s に厳密一致)+物理対応条件 Kt=c₀²/G+1PN源宣言(pnSource)+倍精度状態(stateCarry)で構成。",
+    observe:"近日点前進は 5×10⁻⁷ rad/公転(実測 43.0″/世紀)— 600公転のハーネス計測で確定した値で、画面では見えない。画面上は純粋なケプラー楕円に見えるのが正しい挙動 — ☿(数周で歳差が見える誇張アナログ)との対比で「実スケールの 1PN はこれほど小さい」を体感する。パラメータタブのスケール換算で G と c₀ が実定数に一致していること、物理対応バッジが成立表示になることを確認できる。",
+    control:"今後の観測較正サンプルは本サンプルの物理構成(実G・実c・Kt=c₀²/G・pnSource:true・stateCarry:\"double\"・q=3・D0=0.1・geoPN=2)をコピーして作る(雛形 — PHYSICS §5 観測較正プロファイル)。λ_PN を 0 にしても画面では違いが見えない — それが実スケールの弱場。"},
+  en:{name:"Mercury (Real Invariants) — 43″/century",
+    failureFirst:{
+      fail:"With the c₀=30 exaggerated analog, Mercury's real invariant GM/(c²a)=2.55×10⁻⁸ fell outside the mass range, and Float32 state rounded the 1PN away — direct reproduction was out of scope (the caveat on ☿).",
+      pass:"With real-value G and c₀, pnSource and stateCarry, the harness measures Δϖ=5.029×10⁻⁷ rad/orbit (ratio 1.002 to the analytic value) = 43.0″/century — within 0.2% of the observed 42.98″/century (tests/exp-obscal.mjs §D, 600 orbits)."},
+    descStruct:{
+    summary:"An observation-calibration sample carrying Mercury's real dimensionless invariants (GM/(c²a)=2.55×10⁻⁸, e=0.206) — the template of the observation-calibration profile. Built from tier-real constants (G=6.674, c₀=3×10⁴ — the scale-converted display matches the real gravitational constant and speed of light exactly), the correspondence condition Kt=c₀²/G, an explicit 1PN source declaration (pnSource) and double-precision state (stateCarry). ",
+    observe:"The perihelion advance is 5×10⁻⁷ rad/orbit (measured 43.0″/century over 600 harness orbits) — invisible on screen. Seeing a pure Kepler ellipse IS the correct behaviour; contrast with ☿ (the exaggerated analog) to feel how small the real-scale 1PN is. Check the scale conversion of G and c₀ against the real constants, and the correspondence badge showing 'satisfied'. ",
+    control:"Future observation-calibration samples copy this physics block (real G, real c₀, Kt=c₀²/G, pnSource:true, stateCarry:\"double\", q=3, D0=0.1, geoPN=2) — the template (PHYSICS §5). Setting λ_PN to 0 changes nothing visible — that is the real weak field."}},
+  activeParams:["lambdaPN","cLight","G"],
+  camera:{scale:400}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.1, kFrame:1, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:134851663.17051244,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:20, stateCarry:"double"},
+  bodies:[
+    {type:"single", m:515.8076116272101, x:0,y:0, vx:0,vy:0, spin:0, pinned:true, pnSource:true},
+    {type:"single", m:0.01, x:119.1,y:0, vx:0,vy:5.904114178413053, spin:0, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 

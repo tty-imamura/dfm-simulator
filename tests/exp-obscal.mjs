@@ -416,6 +416,66 @@ for (const [k, p] of Object.entries(PROFILES)) out.profiles[k] = { domain: p.dom
   out.tests.earthMoonReal = { physics: P_EM, realTargetDays: 27.3217, realE: 0.0549, configs: res };
 }
 
+// ---- F) 第116便: kFrame 自由二体崩壊の安定化手順(原仮定者裁定「質量補正などによる安定化」)--
+// 崩壊の制御変数は衛星のフレーム重み χ = w_sat/(D0+w_sat)(w_sat=m2/a — 第111便機構)。
+// 2つの安定化ルートの用量反応で安定境界 χ* を実測する(EM実単位構成・kFrame=1・自由二体):
+//   (i) 質量補正ルート: m2←kSat·m2、M←M+(1−kSat)·m2(GM合計=周期を厳密保存。
+//       代償=重心振幅と月の反作用が kSat 倍 — 衛星軌道だけが目標なら許容)
+//   (ii) D0 ルート: 質量は実値のまま D0 を上げる(代償=背景決定力の宣言値が変わる —
+//       引きずり較正〔r_t≈m/D0〕と干渉するため、観測較正では (i) を推奨)
+{
+  const basePhys = { G: 6.674e-3, cLight: 3e4, Kt: 1e9, q: 3, D0: 0.1, kFrame: 1, geoPN: 2,
+    lambdaPN: 1, pnAlpha: 1.5, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, bM: 1, etaRad: 0, pRad: 4,
+    gravityX: 0, gravityY: 0, radiusScale: 0.2, softening: 0.1, timeScale: 1, stateCarry: 'double' };
+  const stabRun = async (kSat, D0) => page.evaluate(async ({ phys, kSat, D0 }) => {
+    const M0 = 5.9724, m20 = 0.07346, a = 3.844, e = 0.0549;
+    const m2 = kSat * m20, M = M0 + (1 - kSat) * m20;   // GM 合計を厳密保存
+    const P = Object.assign({}, phys, { D0 });
+    const mu = M + m2, GM = P.G * mu, rp = a * (1 - e);
+    const vp = Math.sqrt(GM * (1 + e) / rp);
+    const S = HP.sim;
+    S.build({ id: 'obscalStab', name: 'obscal-stab', emoji: '🧪', seed: 1,
+      camera: { scale: 300 }, world: { boundary: 'none', size: 0 }, physics: P,
+      bodies: [
+        { type: 'single', m: M, x: -rp * m2 / mu, y: 0, vx: 0, vy: -vp * m2 / mu, spin: 0, pinned: false },
+        { type: 'single', m: m2, x: rp * M / mu, y: 0, vx: 0, vy: vp * M / mu, spin: 0, pinned: false },
+      ] });
+    const TK = 2 * Math.PI * Math.sqrt(a * a * a / GM);
+    const dt = 0.016, steps = Math.ceil(2.1 * TK / dt);
+    let rmin = Infinity, rmax = 0;
+    for (let k = 0; k < steps; k++) { S.step(dt);
+      const rr = Math.hypot(S.x[1] - S.x[0], S.y[1] - S.y[0]);
+      if (rr < rmin) rmin = rr; if (rr > rmax) rmax = rr; }
+    const chi = (m2 / a) / (D0 + m2 / a);                 // 衛星のフレーム重み(主星位置)
+    const chiM = (M / a) / (D0 + M / a);                  // 主星のフレーム重み(衛星位置)
+    return { chi, chiM, gain: chi * chiM,                 // 双方向結合のループ利得
+      amp: (rmax - rmin) / ((rmax + rmin) / 2), nan: S.hasNaN() };
+  }, { phys: basePhys, kSat, D0 });
+  const dose = [];
+  console.log('[F:質量補正ルート kSat 掃引(D0=0.1)]');
+  for (const kSat of [1, 0.5, 0.25, 0.1, 0.05]) {
+    const r = await stabRun(kSat, 0.1);
+    dose.push(Object.assign({ route: 'kSat', kSat, D0: 0.1 }, r));
+    console.log(`  kSat=${kSat}: χ=${(r.chi * 100).toFixed(2)}% g=${(r.gain * 100).toFixed(2)}% amp=${(r.amp * 100).toFixed(2)}%(e目標≈11%相当=安定・>50%=崩壊) NaN=${r.nan}`);
+  }
+  console.log('[F:D0ルート(質量実値)]');
+  for (const D0 of [0.1, 0.3, 1, 2, 5]) {
+    const r = await stabRun(1, D0);
+    dose.push(Object.assign({ route: 'D0', kSat: 1, D0 }, r));
+    console.log(`  D0=${D0}: χ=${(r.chi * 100).toFixed(2)}% g=${(r.gain * 100).toFixed(2)}% amp=${(r.amp * 100).toFixed(2)}% NaN=${r.nan}`);
+  }
+  // 第116便の一次発見: 制御変数は衛星側の重み χ ではなく**双方向結合のループ利得
+  // g=[w_sat/(D0+w_sat)]·[w_M/(D0+w_M)]** — 質量補正(kSat)は χ を下げても w_M 側が
+  // D0=0.1 では ≈94% のまま残るため単独では安定化しない(kSat=0.05 でも崩壊)。
+  // D0 は両因子を同時に下げるため有効。安定判定: amp<20%(目標楕円 2e≈11%+ε)
+  const stable = dose.filter(d => d.amp < 0.2), unstable = dose.filter(d => d.amp >= 0.5);
+  const gStar = { maxStable: stable.length ? Math.max(...stable.map(d => d.gain)) : null,
+                  minUnstable: unstable.length ? Math.min(...unstable.map(d => d.gain)) : null };
+  out.tests.kframeStability = { dose, gStar,
+    procedure: '安定化手順: ループ利得 g=[w_sat/(D0+w_sat)]·[w_M/(D0+w_M)] を安定境界未満へ。質量補正単独は不可(w_M側が残る)— D0 併用(kM 同様 GM 保存で周期不変)か主星 pinned を用いる' };
+  console.log(`[F:境界     ] 安定の最大g=${gStar.maxStable !== null ? (gStar.maxStable * 100).toFixed(2) + '%' : '—'} / 崩壊の最小g=${gStar.minUnstable !== null ? (gStar.minUnstable * 100).toFixed(2) + '%' : '—'} → 手順: g を境界未満へ(質量補正単独は不可 — D0 併用か pinned)`);
+}
+
 fs.writeFileSync(path.join(OUT_DIR, 'obscal-results.json'), JSON.stringify(out, null, 2));
 console.log('saved: tests/out/obscal-results.json');
 await browser.close();
