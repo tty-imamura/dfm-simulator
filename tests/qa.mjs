@@ -7201,6 +7201,89 @@ if (!FAST) {
   }
 }
 
+// ---- 7s3) 第110便: ①physLock UI改良 — ロック中は導出値 Kt の行をグレーアウト(disabled+
+// ----   lockedRow)・別プリセット読込でロック自動解除(持ち越しによる意図しない Kt 上書きの
+// ----   防止)・ロック状態のセーブ保存/読込復元(キー無しの旧セーブ=解除)②λPN 連続化 —
+// ----   スライダー step 0.05・validatePreset が 0.25 を丸めず保持・SYSTEM_PROMPT の
+// ----   値域文言から「(整数)」撤廃。第110便 未適用の root 等は自動 SKIP ----
+{
+  const gen110 = await page.evaluate(() => {
+    const row = [...document.querySelectorAll('#paramRows .prow')]
+      .find(x => x.querySelector('label') && x.querySelector('label').textContent.startsWith('1PN補正'));
+    return !!row && row.querySelector('input[type=range]').step === '0.05';
+  });
+  if (gen110) {
+    const r = await page.evaluate(() => {
+      const res = {};
+      const ktRow = () => [...document.querySelectorAll('#paramRows .prow')]
+        .find(x => x.querySelector('label') && x.querySelector('label').textContent.startsWith('時空係数'));
+      const state = () => { const w = ktRow(); return {
+        dis: w.querySelector('input[type=range]').disabled && w.querySelector('input.valIn').disabled,
+        cls: w.classList.contains('lockedRow') }; };
+      // ① ロック ⇄ 解除で Kt 行のグレーアウトが追随する
+      HP.setPhysLock(false);
+      HP.loadPreset('galaxy', false);
+      const ktRef = HP.sim.params.Kt;                    // 対照: galaxy 素の Kt
+      HP.loadPreset('grcal', false);
+      const s0 = state(); res.freeBefore = !s0.dis && !s0.cls;
+      HP.setPhysLock(true);
+      const ktLocked = HP.sim.params.Kt;                 // 導出値 c²/G = 3600
+      const s1 = state(); res.lockedGrey = s1.dis && s1.cls;
+      HP.setPhysLock(false);
+      const s2 = state(); res.freeAfter = !s2.dis && !s2.cls;
+      // ② 別プリセット読込でロック自動解除 — 読込先の Kt は素の値のまま(上書きされない)
+      HP.setPhysLock(true);
+      HP.loadPreset('galaxy', false);
+      res.autoUnlock = HP.physLock() === false;
+      res.ktIntact = HP.sim.params.Kt === ktRef;
+      const s3 = state(); res.freeAfterLoad = !s3.dis && !s3.cls;
+      // ③ セーブ保存/復元(localStorage は退避して復元する)
+      const savesBak = localStorage.getItem('hp_saves');
+      try {
+        HP.loadPreset('grcal', false); HP.setPhysLock(true);
+        document.querySelector('#saveName').value = 'QA110ロック';
+        document.getElementById('btnSave').click();
+        const saves = JSON.parse(localStorage.getItem('hp_saves') || '[]');
+        res.savedFlag = !!(saves[0] && saves[0].name === 'QA110ロック' && saves[0].physLock === true);
+        HP.setPhysLock(false); HP.loadPreset('galaxy', false);
+        document.querySelector('#saveList .saveItem .rowBtns .btn.primary').click();
+        res.loadRestores = HP.physLock() === true && HP.sim.params.Kt === ktLocked;
+        const s4 = state(); res.loadGrey = s4.dis && s4.cls;
+        // 旧セーブ互換: physLock キー無しのセーブ(解除中に保存)の読込はロック解除になる
+        document.querySelector('#saveName').value = 'QA110フリー';
+        HP.setPhysLock(false);
+        document.getElementById('btnSave').click();
+        const saves2 = JSON.parse(localStorage.getItem('hp_saves') || '[]');
+        res.noFlagWhenOff = !!(saves2[0] && saves2[0].name === 'QA110フリー')
+          && !Object.prototype.hasOwnProperty.call(saves2[0], 'physLock');
+        HP.setPhysLock(true);
+        document.querySelector('#saveList .saveItem .rowBtns .btn.primary').click();
+        res.loadUnlocks = HP.physLock() === false;
+      } finally {
+        if (savesBak === null) localStorage.removeItem('hp_saves');
+        else localStorage.setItem('hp_saves', savesBak);
+        HP.setPhysLock(false); HP.loadPreset('galaxy', false);
+      }
+      // ④ λPN 連続化 — validatePreset が 0.25 を丸めず保持・値域文言から「(整数)」撤廃
+      const v = HP.validatePreset({ name: 'λ連続', description: 'd', camera: { scale: 100 },
+        world: { boundary: 'none', size: 0 }, physics: { lambdaPN: 0.25, geoPN: 2 },
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+      res.lamKept = !!(v.ok && v.preset.physics.lambdaPN === 0.25);
+      res.promptCont = HP.SYSTEM_PROMPT.includes('lambdaPN:0〜1,')
+        && !HP.SYSTEM_PROMPT.includes('lambdaPN:0〜1(整数)');
+      return res;
+    });
+    add('physlock.ui-110', r.freeBefore && r.lockedGrey && r.freeAfter && r.autoUnlock && r.ktIntact
+      && r.freeAfterLoad && r.savedFlag && r.loadRestores && r.loadGrey && r.noFlagWhenOff && r.loadUnlocks
+      && r.lamKept && r.promptCont,
+      `グレーアウト(前${r.freeBefore}/中${r.lockedGrey}/後${r.freeAfter}) 読込自動解除=${r.autoUnlock}(Kt維持=${r.ktIntact}・行復帰=${r.freeAfterLoad}) `
+      + `セーブ保存=${r.savedFlag} 復元=${r.loadRestores}(グレー${r.loadGrey}) 旧互換=${r.noFlagWhenOff}/${r.loadUnlocks} `
+      + `λPN0.25保持=${r.lamKept} 値域文言=${r.promptCont}`);
+  } else {
+    console.log('SKIP physlock.ui-110(対象に第110便 未適用 — root 等)');
+  }
+}
+
 // ---- 7t) 第32便 W4(台帳4-58後半): QAのスクリーンショット取得(CIアーティファクト化)。
 // ----     ピクセル差分回帰ではなく、CI アーティファクトとしての取得+非空検査(差分回帰は
 // ----     表示ゆらぎで壊れやすいため段階導入 — 台帳4-58)。ルート・beta 双方で撮影する ----
