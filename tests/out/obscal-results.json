@@ -1,5 +1,5 @@
 {
-  "date": "2026-08-13T11:01:56.378Z",
+  "date": "2026-08-13T12:40:23.993Z",
   "target": "beta/index.html",
   "profiles": {
     "solar": {
@@ -370,6 +370,63 @@
         }
       ],
       "arcsecPerCentury": 43.04083755408758
+    },
+    "earthMoonReal": {
+      "physics": {
+        "G": 0.006674,
+        "cLight": 30000,
+        "Kt": 1000000000,
+        "q": 3,
+        "D0": 0.1,
+        "kFrame": 1,
+        "geoPN": 2,
+        "lambdaPN": 1,
+        "pnAlpha": 1.5,
+        "kRep": 0,
+        "muF": 0,
+        "gammaN": 0,
+        "kappaS": 0,
+        "bM": 1,
+        "etaRad": 0,
+        "pRad": 4,
+        "gravityX": 0,
+        "gravityY": 0,
+        "radiusScale": 0.2,
+        "softening": 0.1,
+        "timeScale": 1,
+        "stateCarry": "double"
+      },
+      "realTargetDays": 27.3217,
+      "realE": 0.0549,
+      "configs": {
+        "em-free-kF0": {
+          "measuredDays": 27.317283950617284,
+          "TK": 235.7397358434899,
+          "Tanom": 236.02133333333333,
+          "periN": 4,
+          "eMeas": 0.05597698127199253,
+          "cmDrift": 1.5074006130961056e-8,
+          "nan": false
+        },
+        "em-pin-kF1": {
+          "measuredDays": 27.485185185185184,
+          "TK": 237.1850940943342,
+          "Tanom": 237.472,
+          "periN": 4,
+          "eMeas": 0.05597697373117069,
+          "cmDrift": 0.011970912465116992,
+          "nan": false
+        },
+        "em-free-kF1": {
+          "measuredDays": 0.003703703703703704,
+          "TK": 235.7397358434899,
+          "Tanom": 0.032,
+          "periN": 21,
+          "eMeas": 0.9956567335774625,
+          "cmDrift": 30.888092201665827,
+          "nan": false
+        }
+      }
     }
   }
 }

@@ -1864,7 +1864,14 @@ function scaleTierOf(p){ return (p && SCALE_TIERS.indexOf(p.scaleTier)>=0)? p.sc
 function scaleAnchorsNow(){
   const p=(typeof currentPreset!=="undefined")? currentPreset : null;
   const a=SCALE_ANCHORS[scaleTierOf(p)];
-  return {L:a.expL, T:a.expT, M:a.expM, C:7};
+  // 第115便(原仮定者裁定「観測較正: 一通り進める」): 実c値プリセット(cLight がティアの
+  // 実c対応値 3e8×10^−(x−eT) に一致)は光速指数の既定を次元指数 x−eT にする — 次元換算系に
+  // 合流した cLight の表示が実光速 3e8 m/s に一致する(PHYSICS §5 実c値規約)。
+  // それ以外(c₀=30 の既存サンプル等)は従来どおり一律 eC=7(第95便規約・表示不変)
+  let C=7;
+  const cl=p&&p.physics&&p.physics.cLight;
+  if(typeof cl==="number"&&cl>0&&Math.abs(cl*Math.pow(10,a.expL-a.expT)/3e8-1)<0.01) C=a.expL-a.expT;
+  return {L:a.expL, T:a.expT, M:a.expM, C};
 }
 function scaleExpNow(){ return scaleEffNow().x; }
 // expL=x のときの時間・質量指数: 隣接アンカー間の線形補間(端はクランプ)。

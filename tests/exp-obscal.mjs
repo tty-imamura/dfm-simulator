@@ -356,6 +356,66 @@ for (const [k, p] of Object.entries(PROFILES)) out.profiles[k] = { domain: p.dom
   out.tests.mercuryReal = { ladder, arcsecPerCentury: century };
 }
 
+// ---- E) 第115便: 地球と月 — 実単位・実不変量版(🪐planetary 実c値・原仮定者裁定「一通り進める」)--
+// 🪐 planetary アンカー(1単位=1e8 m・1e4 s・1e24 kg)の実値で自由二体を組む:
+//   M=5.9724(地球)・m2=0.07346(月)・a=3.844(実 3.844e8 m)・e=0.0549。
+//   実c値 c₀*=3e4・実G値 G*=6.674e-3 → 不変量 GM/(c²a)=1.17e-11(1PN は完全に無視できる弱場)。
+//   physLock は🪐実c+実Gでは Kt=1.349e11 が値域外のためロック外運用(PHYSICS §5 — ψ≈0 で
+//   時計部門は本試験に不関与)。ε=0.1(バリデータ下限 0.5 未満だがハーネス直組みで使用 —
+//   (ε/a)²=6.8e-4 で軌道歪みを 0.1% 未満に)。stateCarry:"double"。
+// 主張: **kM なし(f=1・ビスビバのみ)で実周期 27.32日と実離心率を再現するか**の直接実測。
+// 副検査: 自由二体の安定性(月のフレーム重み w/(D0+w)=16% — 第111便の崩壊機構の限界域)
+{
+  const P_EM = { G: 6.674e-3, cLight: 3e4, Kt: 1e9, q: 3, D0: 0.1, kFrame: 1, geoPN: 2,
+    lambdaPN: 1, pnAlpha: 1.5, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, bM: 1, etaRad: 0, pRad: 4,
+    gravityX: 0, gravityY: 0, radiusScale: 0.2, softening: 0.1, timeScale: 1, stateCarry: 'double' };
+  // 初回実測: kFrame=1 の自由二体は実質量でも崩壊(月のフレーム重み w/(D0+w)=16% —
+  // 第111便の正帰還機構の限界域内。e→0.999・cmDrift 100a)。3構成で分離:
+  //   em-free-kF0 = 主計測(輸送オフ・完全自由二体 — 実周期・実離心率の再現)
+  //   em-pin-kF1  = プロファイル忠実(主星 pinned — μ が G·M_E になる分 +0.5% を明記)
+  //   em-free-kF1 = 機構記録(崩壊の再確認 — 1公転のみ)
+  const emRun = async (id, kF, pin, orbits) => page.evaluate(async ({ phys, kF, pin, orbits }) => {
+    const M = 5.9724, m2 = 0.07346, a = 3.844, e = 0.0549, mu = pin ? M : M + m2;
+    const P = Object.assign({}, phys, { kFrame: kF });
+    const GM = P.G * mu, rp = a * (1 - e);
+    const vp = Math.sqrt(GM * (1 + e) / rp);
+    const bodies = pin
+      ? [{ type: 'single', m: M, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true },
+         { type: 'single', m: m2, x: rp, y: 0, vx: 0, vy: vp, spin: 0, pinned: false }]
+      : [{ type: 'single', m: M, x: -rp * m2 / (M + m2), y: 0, vx: 0, vy: -vp * m2 / (M + m2), spin: 0, pinned: false },
+         { type: 'single', m: m2, x: rp * M / (M + m2), y: 0, vx: 0, vy: vp * M / (M + m2), spin: 0, pinned: false }];
+    const S = HP.sim;
+    S.build({ id: 'obscalEMReal', name: 'obscal-em-real', emoji: '🧪', seed: 1,
+      camera: { scale: 300 }, world: { boundary: 'none', size: 0 }, physics: P, bodies });
+    const TK = 2 * Math.PI * Math.sqrt(a * a * a / GM);
+    const dt = 0.016, steps = Math.ceil(orbits * TK / dt);
+    // 近点通過(相対距離の極小)で動径周期を測る — stateCarry で状態は Float64・平底偽極小なし
+    let rmin = Infinity, rmax = 0, r1 = null, r2 = null; const peri = [];
+    for (let k = 0; k < steps; k++) {
+      S.step(dt);
+      const rr = Math.hypot(S.x[1] - S.x[0], S.y[1] - S.y[0]);
+      if (rr < rmin) rmin = rr; if (rr > rmax) rmax = rr;
+      if (r2 !== null && r1 < r2 && r1 <= rr) peri.push(k * dt);
+      r2 = r1; r1 = rr;
+    }
+    let Tanom = null;
+    if (peri.length >= 2) Tanom = (peri[peri.length - 1] - peri[0]) / (peri.length - 1);
+    const cmx = (M * S.x[0] + m2 * S.x[1]) / (M + m2), cmy = (M * S.y[0] + m2 * S.y[1]) / (M + m2);
+    return { TK, Tanom, periN: peri.length, eMeas: (rmax - rmin) / (rmax + rmin),
+      cmDrift: Math.hypot(cmx, cmy) / a, nan: S.hasNaN() };
+  }, { phys: P_EM, kF, pin, orbits });
+  const res = {};
+  for (const c of [{ id: 'em-free-kF0', kF: 0, pin: false, orbits: 3.2 },
+                   { id: 'em-pin-kF1', kF: 1, pin: true, orbits: 3.2 },
+                   { id: 'em-free-kF1', kF: 1, pin: false, orbits: 1 }]) {
+    const r = await emRun(c.id, c.kF, c.pin, c.orbits);
+    const days = r.Tanom ? r.Tanom * 1e4 / 86400 : null;   // 🪐 eT=4 → 1 t.u. = 1e4 s
+    res[c.id] = Object.assign({ measuredDays: days }, r);
+    console.log(`[E:${c.id.padEnd(11)}] T=${days ? days.toFixed(3) + '日' : '—'}(実 27.32日${days ? ' 残差 ' + ((days / 27.3217 - 1) * 100).toFixed(2) + '%' : ''}) e実測=${r.eMeas.toFixed(4)}(実 0.0549) 近点数=${r.periN} cmDrift=${r.cmDrift.toExponential(2)} NaN=${r.nan}`);
+  }
+  out.tests.earthMoonReal = { physics: P_EM, realTargetDays: 27.3217, realE: 0.0549, configs: res };
+}
+
 fs.writeFileSync(path.join(OUT_DIR, 'obscal-results.json'), JSON.stringify(out, null, 2));
 console.log('saved: tests/out/obscal-results.json');
 await browser.close();
