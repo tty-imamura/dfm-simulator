@@ -1461,7 +1461,7 @@ en: {
     gammaN:"Normal-direction damping of collisions (how easily bounce is lost). 0 = bouncy, 1 = collisions absorb velocity. The lost energy is ledgered (T7).",
     kappaS:"Heat conduction by spin diffusion (E10′): spin = heat hops to nearby particles, no contact needed, stronger when closer (📏). At 0 heat does not spread.",
     Kt:"One coefficient governing both time dilation and light refraction (A7′/E7R/E8R: ψ=W/Kt). Smaller = stronger spacetime effects — clocks slow more and light bends more. The real-world calibration is Kt=c²/G (🛰).",
-    cLight:"Speed of light rays, and the reference for motion time dilation (E7R: clocks moving near c₀ relative to the comoving frame run slow). Lower it to exaggerate relativistic effects. [Three layers of c₀ (wave 99)] ① base light speed c₀ = this parameter (all built-in samples use the uniform convention c₀=30); ② local light speed c_loc = c₀·e^(−2ψ) (slows locally in gravity wells — used by reddening and auto light sweep); ③ display-calibration exponent eC (only for the on-screen conversion \"30 → 3×10⁸ m/s\" — never enters the physics). Converted values are analogy guides; the model is not bound to real-universe constants.",
+    cLight:"Speed of light rays, and the reference for motion time dilation (E7R: clocks moving near c₀ relative to the comoving frame run slow). Lower it to exaggerate relativistic effects. [Three layers of c₀ (wave 99)] ① base light speed c₀ = this parameter (visualization samples use the uniform convention c₀=30; observation-calibration samples — e.g. ☄️ real-invariant Mercury — use the tier real-c convention c₀=3×10⁸×10^(−(x−eT)), wave 113); ② local light speed c_loc = c₀·e^(−2ψ) (slows locally in gravity wells — used by reddening and auto light sweep); ③ display-calibration exponent eC (only for the on-screen conversion \"30 → 3×10⁸ m/s\" — never enters the physics; for real-c samples its default auto-switches to x−eT). Converted values are analogy guides; only real-c-convention samples convert exactly to real constants.",
     bM:"Wien constant: a particle at temperature T radiates at peak wavelength λ=b_m/T (A12). Calibrates the spectrum overlay (🌈).",
     etaRad:"Strength of radiative cooling (E11: cooling rate Λ∝T^p). 0 = no radiation. Hotter particles cool faster (🌈). Radiated energy and angular momentum are ledgered.",
     pRad:"Temperature steepness of radiative cooling (E11: Λ∝T^p). Larger p means only the hottest bodies cool rapidly.",
@@ -1968,8 +1968,8 @@ const PARAM_DEFS = [
   {key:"Kt",    label:"時空係数 Kt(時間・光)", mode:"log", lo:1, hi:1e9, cat:"st", group:"法則",   /* 第116便: 実c値+physLock の導出値 1.35e8 まで(値域=CLAMPS と同幅) */
    desc:"時計の遅れと光の屈折を1本で決める係数(A7′/E7R/E8R: ψ=W/Kt)。小さいほど時空効果が強い — 時計はより遅れ、光はより曲がる。現実との較正は Kt=c²/G(🛰)。"},
   {key:"cLight",label:"光速 c₀",             mode:"log", lo:5, hi:1e6, cat:"st", group:"法則",   /* 第116便: ティア実c値(☀️3e4 等)まで */
-   desc:"光線の速さと、運動による時計の遅れの基準(E7R: 共動フレームに対する速さがc₀に近いほど固有時計が遅れる)。下げると相対論的効果が見えやすくなる。【c₀の三層(第99便)】①基準光速 c₀=このパラメータ(全内蔵サンプルは c₀=30 の一律規約)②局所光速 c_loc=c₀·e^(−2ψ)(重力ポテンシャルの井戸で局所的に遅くなる — 減光・光掃引の auto が使う)③表示較正指数 eC(「30→3×10⁸ m/s」の換算表示専用 — 物理には入らない)。換算値はアナロジーの目安であり、モデルが実宇宙の定数に束縛されているわけではない。"},
-  {key:"G",     label:"重力 G",              mode:"log", lo:0.01,   hi:20,   cat:"st", group:"法則",   /* 第95便: 光速 c₀ の次へ移動 */
+   desc:"光線の速さと、運動による時計の遅れの基準(E7R: 共動フレームに対する速さがc₀に近いほど固有時計が遅れる)。下げると相対論的効果が見えやすくなる。【c₀の三層(第99便)】①基準光速 c₀=このパラメータ(可視化サンプルは c₀=30 の一律規約。観測較正サンプル〔☄️水星実不変量など〕はティア別の実c値規約 c₀=3×10⁸×10^(−(x−eT)) — 第113便)②局所光速 c_loc=c₀·e^(−2ψ)(重力ポテンシャルの井戸で局所的に遅くなる — 減光・光掃引の auto が使う)③表示較正指数 eC(「30→3×10⁸ m/s」の換算表示専用 — 物理には入らない。実c値サンプルでは既定が x−eT に自動切替)。換算値はアナロジーの目安であり、実c値規約のサンプルのみ実定数と換算が厳密一致する。"},
+  {key:"G",     label:"重力 G",              mode:"log", lo:0.005,  hi:20,   cat:"st", group:"法則",   /* 第95便: c₀ の次へ移動 / 第117便: lo 0.01→0.005(🌙 惑星ティア実G値 6.674×10⁻³ を被覆) */
    desc:"粒子同士の万有引力の強さ。この宇宙では決定力Wの勾配が重力になる(A6/E4: a=G∇W)。0にすると自己重力が消える(一様重力g_x/g_yとは別)。"},
   {key:"bM",    label:"ウィーン定数 b_m",    mode:"log", lo:0.01, hi:100, cat:"sh", group:"法則",
    desc:"温度Tの粒子が放つ光のピーク波長を λ=b_m/T で決める定数(A12)。スペクトル表示(🌈)の横軸の較正に使う。"},
@@ -2165,6 +2165,40 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
+{ id:"earthMoonReal", name:"地球と月(実単位)— 恒星月 27.32日", emoji:"🌙", group:"空間と時間",
+  scaleTier:"planetary",   // 🪐: 1単位=10⁵km / ≈2.8h / ≈0.17M⊕ — 位置・速度・質量が実値のまま入る
+  sampleClass:"calibration",
+  notClaim:["solar"],
+  // 第117便: ☄️mercuryReal の物理ブロックをコピーした観測較正サンプル第2号(雛形の規約どおり)。
+  // 惑星ティアの実G値は G=6.674×10⁻³(次元換算 3x−2eT−eM=−8)・実c値は c₀=3×10⁴(x−eT=4)。
+  // Kt=c₀²/G=1.35×10¹¹ はクランプ上限 1e9 の域外 → Kt=1e9(上限)とし物理対応ロックは非成立
+  // (ψ=W/Kt はどのみち微小で力学に影響しない — 重力時計の較正は本サンプルの対象外)。
+  failureFirst:{
+    fail:"kFrame=1 の自由二体は相互フレーム結合の正帰還で崩壊する(exp-obscal §F 用量実測 — 質量補正単独では安定化できない)。また Kt=c₀²/G=1.35×10¹¹ は惑星ティアではクランプ域外で、物理対応ロックは成立しない(重力時計は対象外)。",
+    pass:"安定化手順(a)主星 pinned(PHYSICS §5)で構成。実単位ハーネス(自由二体・kFrame=0・ε=0.1)の実測は恒星月 27.317日 — 実測値 27.3217日と −0.02%(tests/exp-obscal.mjs §E)。画面版は ε=0.5(スライダー下限)+pinned の系統で +2% 弱だが、位置 3.633(=36.33万km)・速度 0.10758・質量 5.9724(=5.9724×10²⁴kg)がすべて実値のまま入っている。"},
+  descStruct:{
+    summary:"地球と月を実単位のまま置いた観測較正サンプル — ☄️(雛形)の物理ブロックをコピーした第2号。惑星ティア(1単位=10⁵km/≈2.8h/≈0.17M⊕)では地球質量 5.9724・月距離 3.633(近地点)・軌道速度 0.10758 が実値そのもので、重力(E4)だけで恒星月 27.32日が再現される。測地線モード(E12 — A7′/E7R の作用化)と倍精度状態(stateCarry)は雛形の規約どおり。",
+    observe:"月が約 27日(換算表示)で一周する — スケール換算パネルで距離 38.4万km・周期 27日・質量 5.97×10²⁴kg が実値と一致することを確認できる。1PN・引きずりは実スケールでは完全に不可視(見えないのが正しい)。精密較正はハーネス実測(§E: 27.317日・−0.02%)で、画面版は ε=0.5+pinned の系統 +2% 弱を持つ(数値は failureFirst 参照)。",
+    control:"表示半径は rMul で誇張してある(表示専用 — 実比では地球 0.064・月 0.017 と点になる)。kFrame を 1 のまま pinned を外すと自由二体崩壊(§F)が観察できる — 安定化は D0≥2 か kFrame=0(PHYSICS §5 の手順)。"},
+  en:{name:"Earth & Moon (Real Units) — sidereal month 27.32 d",
+    failureFirst:{
+      fail:"A free binary with kFrame=1 collapses via the mutual frame-coupling positive feedback (exp-obscal §F dose measurements — mass correction alone cannot stabilize it). Kt=c₀²/G=1.35×10¹¹ also exceeds the clamp on the planetary tier, so the correspondence lock is not satisfied (gravitational clocks are out of scope here).",
+      pass:"Built with stabilization procedure (a), a pinned primary (PHYSICS §5). The real-unit harness (free binary, kFrame=0, ε=0.1) measures a sidereal month of 27.317 d — within −0.02% of the observed 27.3217 d (tests/exp-obscal.mjs §E). The on-screen version carries a small +2% systematic from ε=0.5 (slider floor) plus the pinned primary, but position 3.633 (=363,300 km), velocity 0.10758 and mass 5.9724 (=5.9724×10²⁴ kg) all enter at their real values."},
+    descStruct:{
+    summary:"An observation-calibration sample with the Earth and Moon at their real values — the second sample copying the ☄️ template's physics block. On the planetary tier (1 unit = 10⁵ km / ≈2.8 h / ≈0.17 M⊕) the Earth mass 5.9724, perigee distance 3.633 and orbital speed 0.10758 are the real numbers, and gravity alone (E4) reproduces the 27.32-day sidereal month. The geodesic mode (E12 — the actionization of A7′/E7R) and double-precision state (stateCarry) follow the template convention. ",
+    observe:"The Moon completes one orbit in about 27 days (converted display) — check the scale-conversion panel: distance 384,000 km, period 27 d, mass 5.97×10²⁴ kg all match reality. 1PN and dragging are completely invisible at real scale (invisible IS correct). The precision calibration is the harness measurement (§E: 27.317 d, −0.02%); the on-screen version has the small +2% systematic from ε=0.5 plus pinning. ",
+    control:"Display radii are exaggerated via rMul (display only — at real proportion Earth would be 0.064 and the Moon 0.017, mere dots). Unpin the primary with kFrame=1 to watch the free-binary collapse (§F) — stabilize with D0≥2 or kFrame=0 (PHYSICS §5)."}},
+  activeParams:["lambdaPN","cLight","G"],
+  camera:{scale:20}, world:{boundary:"none",size:0},
+  physics:{G:0.006674, D0:0.1, kFrame:1, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:1e9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.5, timeScale:100, stateCarry:"double"},
+  bodies:[
+    {type:"single", rMul:0.3, m:5.9724, x:0,y:0, vx:0,vy:0, spin:0, pinned:true, pnSource:true},
+    {type:"single", m:0.07346, x:3.633,y:0, vx:0,vy:0.10758, spin:0, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
 { id:"projectile", name:"自由落下と放物運動", emoji:"⚾", group:"空間と時間",
   scaleTier:"everyday",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   // 第94便(原仮定者指示「日常タグでは g_y デフォルトを 9.8 とし既存サンプルも修正」):
@@ -2265,7 +2299,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true} },
 
-{ id:"boxrot", name:"箱宇宙 — 回る箱と空間の支え", emoji:"🌀", group:"箱宇宙",
+{ id:"boxrot", catalog:"extended", name:"箱宇宙 — 回る箱と空間の支え", emoji:"🌀", group:"箱宇宙",
   scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   familyId:"boxinertia", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
@@ -2317,7 +2351,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"boxcomoving", name:"箱宇宙 — UniverseBoxの完全共動と膨張時計", emoji:"🫧", group:"箱宇宙",
+{ id:"boxcomoving", catalog:"extended", name:"箱宇宙 — UniverseBoxの完全共動と膨張時計", emoji:"🫧", group:"箱宇宙",
   scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   familyId:"boxexpand", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
@@ -2342,7 +2376,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true,boxGraph:true} },
 
-{ id:"boxbound", name:"箱宇宙 — 束縛系は膨張に逆らえるか", emoji:"🪢", group:"箱宇宙",
+{ id:"boxbound", catalog:"extended", name:"箱宇宙 — 束縛系は膨張に逆らえるか", emoji:"🪢", group:"箱宇宙",
   scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   familyId:"boxexpand", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
@@ -2635,7 +2669,7 @@ const BUILTIN_PRESETS = [
   rays:{n:24, spread:0.5},
   overlays:{rotationCurve:true,tempHistogram:false,field:true,trail:false,monitor:false} },
 
-{ id:"galaxyStd", name:"空間引きずりの基準実験 — 銀河標準", emoji:"🎡", group:"銀河",
+{ id:"galaxyStd", catalog:"extended", name:"空間引きずりの基準実験 — 銀河標準", emoji:"🎡", group:"銀河",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["galaxy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -2675,7 +2709,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,mechSpectrum:true} },
 
-{ id:"galaxyGeo2", name:"v−u統一測地線の銀河", emoji:"💫", group:"銀河",
+{ id:"galaxyGeo2", catalog:"extended", name:"v−u統一測地線の銀河", emoji:"💫", group:"銀河",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第70便: 統一則(geoPN=2)の単一機構実証(分類は原仮定者裁定で更新可)
   notClaim:["galaxy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -2719,7 +2753,7 @@ const BUILTIN_PRESETS = [
 // kepler 円運動)」と「分散支持バルジ190体(半径90・等方ランダム速度 vScale6)」に二分した。
 // 群の所属は build 順で固定(disk=粒子1..190 / bulge=191..380)— 第71便の訂正(終状態分類の罠)
 // に従い、実験・QA とも固定ID追跡だけを使う。実測は tests/exp-4-75.mjs(seed 20260804・6000步)
-{ id:"galaxyDB", name:"ディスクとバルジ — 回転支持と分散支持", emoji:"🍳", group:"銀河",
+{ id:"galaxyDB", catalog:"extended", name:"ディスクとバルジ — 回転支持と分散支持", emoji:"🍳", group:"銀河",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",
   notClaim:["galaxy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -2989,7 +3023,7 @@ const BUILTIN_PRESETS = [
 // 〔第75便拡張〕で暗さを担う)。暗さのスピンを小さなコアへ隠すので、スピン斥力 E5′ は遅い殻
 // スピンにしか効かず、熱圧 kRep=0.3 の下でも雲は自壊しない(単層で同じ暗さを出すには spin≈6 が
 // 必要で、同じ kRep で保持48%まで自壊する — exp-4-76 の耐圧試験)。実測 tests/exp-4-76.mjs
-{ id:"nebulaShell", name:"重殻ローター星雲 — 束縛と暗さの両立", emoji:"🐚", group:"銀河",
+{ id:"nebulaShell", catalog:"extended", name:"重殻ローター星雲 — 束縛と暗さの両立", emoji:"🐚", group:"銀河",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"principle",
   notClaim:["nebula","dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -3052,7 +3086,7 @@ const BUILTIN_PRESETS = [
 // ローター(自由)+赤道の pinned 重殻ダークアーク(±x を挟む±50°・暗黒帯)+高スピンガス。
 // 機構は 🌋agnjet と同じ「E5′圧力+幾何」— 赤道が塞がれ、抵抗の少ない極方向(±y)だけが
 // 出口になってローブが立つ。実測 tests/exp-4-76.mjs(seed 20260804・6000步)
-{ id:"nebulaBipolar", name:"双極星雲 — 暗黒トーラスと極方向ローブ", emoji:"⏳", group:"銀河",
+{ id:"nebulaBipolar", catalog:"extended", name:"双極星雲 — 暗黒トーラスと極方向ローブ", emoji:"⏳", group:"銀河",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"composite",
   notClaim:["nebula"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -3144,7 +3178,7 @@ const BUILTIN_PRESETS = [
 // 🕳️bhCoreFree は本サンプルへ統合して廃止した。**双極ジェットは扱わない** — この重力井戸では
 // ガスが束縛され、統計になる脱出が起きないため。ジェット機構は ⏳nebulaBipolar の担当。
 // 実測 tests/exp-4-81.mjs → tests/out/exp-4-81.json
-{ id:"bhCore", name:"DFM版ブラックホール — 自由な5層の中心", emoji:"⚫", group:"銀河",
+{ id:"bhCore", catalog:"extended", name:"DFM版ブラックホール — 自由な5層の中心", emoji:"⚫", group:"銀河",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",
   notClaim:["bh"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -3538,7 +3572,7 @@ const BUILTIN_PRESETS = [
   rays:{n:24, spread:0.9},
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
-{ id:"blens", name:"連星重力レンズ", emoji:"🔭", group:"光",
+{ id:"blens", catalog:"extended", name:"連星重力レンズ", emoji:"🔭", group:"光",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -4391,6 +4425,47 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
+{ id:"saturnRingReal", name:"土星の環(実深度)— 見えないのが正しい", emoji:"💍", group:"天体の物語",
+  scaleTier:"stellar",   // ☀️: 実G(6.674)と実c(3e4)が physLock と両立する標準ティア(☄️と同一)
+  sampleClass:"calibration",
+  notClaim:["solar"],
+  familyId:"saturn", familyRole:"variant",   // 🪐(誇張)・🎯・🛰️ と同族(表示専用)
+  // 第117便: ☄️mercuryReal の物理ブロックをコピーした観測較正サンプル第3号。実に取るのは
+  // **無次元深度** d=GM/(c²r_C)=5.64×10⁻⁹(実土星: GM=3.79×10¹⁶ / r_C=7.47×10⁷m)と環の半径比
+  // (C/B/A 帯・主星半径比 0.807)のみ — 絶対長さ・時間はティア規約に従わない(☄️🌙 との違い)。
+  // r_C=110 に置くと GM=d·c²·r_C=558.6 → M=83.70(G=6.674)。主星表示半径は radius:88.8
+  // =0.807×110 の明示指定(表示専用)。帯: 実エッジ(74.7/92.0/117.6/122.2/136.8 千km)×s(s=110/74.7)。
+  failureFirst:{
+    fail:"🪐(誇張アナログ)では kFrame=1 の引きずりが環を内側へ移動させ離心率を上げる(対照実験で実測済み)。同じ機構を実深度 d=5.64×10⁻⁹ に置くと、引きずりも 1PN も走行時間内では検出限界以下になる(tests/exp-obscal.mjs §C 帯構成の弱場実測)。",
+    pass:"見えないのが正しい — 環は純ケプラー円運動 Ω∝r^−1.5 を保ち、回転曲線オーバーレイで v∝r^−0.5 の降下が確認できる。実定数(G=6.674・c₀=3×10⁴)+Kt=c₀²/G で物理対応バッジが成立する(☄️と同じ構成)。"},
+  descStruct:{
+    summary:"実際の土星の環の無次元深度 GM/(c²r_C)=5.64×10⁻⁹ と半径比(C/B/A 帯・主星半径比 0.807)をそのまま持つ観測較正サンプル — ☄️(雛形)の物理ブロックをコピーした第3号。重力(E4)による純ケプラー回転の上で、実深度では空間引きずり(A8)も測地線 1PN(E12 — A7′/E7R の作用化)も見えないことを確認する。倍精度状態(stateCarry)は雛形の規約どおり。",
+    observe:"3つの帯(C/B/A — 間に カッシーニの間隙)が主星のすぐ外から純ケプラーで回る。回転曲線オーバーレイで v∝r^−0.5 の降下(Ω∝r^−1.5)を確認できる。🪐(誇張)と違い環は内側へ移動せず離心率も上がらない — 実深度では引きずりが検出限界以下だから(見えないのが正しい)。スケール換算で G・c₀ が実定数に一致し、物理対応バッジが成立する。",
+    control:"実に取っているのは無次元深度と半径比のみで、絶対の長さ・時間はティア換算に従わない(☄️🌙 との規約差 — 説明冒頭参照)。kFrame や λ_PN を動かしても画面は変わらない — それが実スケールの弱場。誇張版の可視な引きずりは 🪐 で。"},
+  en:{name:"Saturn's Rings (Real Depth) — invisible is correct",
+    failureFirst:{
+      fail:"In 🪐 (the exaggerated analog), kFrame=1 dragging migrates the ring inward and raises eccentricity (measured in the control experiment). Put the same mechanism at the real depth d=5.64×10⁻⁹ and both dragging and 1PN fall below detection within any run time (tests/exp-obscal.mjs §C, weak-field ring-band measurements).",
+      pass:"Invisible IS correct — the ring keeps pure Kepler rotation Ω∝r^−1.5, and the rotation-curve overlay shows the v∝r^−0.5 falloff. Real constants (G=6.674, c₀=3×10⁴) with Kt=c₀²/G satisfy the correspondence badge (same construction as ☄️)."},
+    descStruct:{
+    summary:"An observation-calibration sample carrying the real dimensionless depth of Saturn's rings, GM/(c²r_C)=5.64×10⁻⁹, and the real radius ratios (C/B/A bands, primary/ring ratio 0.807) — the third sample copying the ☄️ template's physics block. On top of pure Kepler rotation from gravity (E4), it confirms that at real depth neither frame dragging (A8) nor geodesic 1PN (E12 — the actionization of A7′/E7R) is visible. Double-precision state (stateCarry) follows the template convention. ",
+    observe:"Three bands (C/B/A, with the Cassini division between) orbit just outside the primary in pure Kepler motion. The rotation-curve overlay shows the v∝r^−0.5 falloff (Ω∝r^−1.5). Unlike 🪐 (exaggerated), the ring does not migrate inward and eccentricity does not rise — at real depth the dragging is below detection (invisible IS correct). The scale conversion matches G and c₀ to the real constants and the correspondence badge is satisfied. ",
+    control:"Only the dimensionless depth and radius ratios are real; absolute lengths and times do not follow the tier conversion (the convention difference from ☄️🌙 — see the summary). Moving kFrame or λ_PN changes nothing on screen — that is the real weak field. For visible dragging, see 🪐."}},
+  activeParams:["kFrame","lambdaPN","G"],
+  camera:{scale:340}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.1, kFrame:1, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:134851663.17051244,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:50, stateCarry:"double"},
+  bodies:[
+    {type:"single", radius:88.8, m:83.70, x:0,y:0, vx:0,vy:0, spin:0, pinned:true, pnSource:true},
+    {type:"ring", n:40, cx:0,cy:0, rIn:110,rOut:135.5, mMin:0.01,mMax:0.01,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:83.70, omega:0, vNoise:0, direction:1, pinned:false},
+    {type:"ring", n:40, cx:0,cy:0, rIn:135.5,rOut:173.2, mMin:0.01,mMax:0.01,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:83.70, omega:0, vNoise:0, direction:1, pinned:false},
+    {type:"ring", n:40, cx:0,cy:0, rIn:180,rOut:201.5, mMin:0.01,mMax:0.01,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:83.70, omega:0, vNoise:0, direction:1, pinned:false}
+  ],
+  overlays:{rotationCurve:true,tempHistogram:false,field:false} },
+
 { id:"binary", name:"連星系と周連星円盤", emoji:"⭐", group:"天体の物語",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
@@ -5218,6 +5293,12 @@ function validatePreset(obj){
   if(p.sampleClass!==undefined){
     const SC=["principle","composite","calibration","semantic"];
     if(SC.indexOf(p.sampleClass)<0){ warnings.push("sampleClass が不正のため削除"); delete p.sampleClass; }
+  }
+  // 第117便(外部レビュー採択): catalog — カタログ可視性の宣言(表示専用・物理不変)。
+  // core(既定=通常表示)/extended(「すべて表示」ON のみ — 検索・絞り込みでも隠す)/
+  // diagnostic(同・診断用)。sampleClass と同方針(宣言専用・不正値は警告つき削除)
+  if(p.catalog!==undefined){
+    if(["core","extended","diagnostic"].indexOf(p.catalog)<0){ warnings.push("catalog が不正のため削除"); delete p.catalog; }
   }
   // 第74便→第98便: scaleTier — 7段階スケール分類(molecular/beaker/everyday/planetary/stellar/galactic/cosmic)。
   // UI 分類チップ・スケール絞り込み・表示換算の既定指数にだけ使う(物理不変 — sampleClass と同方針)。
@@ -10425,6 +10506,14 @@ function setShowAllSamples(v){
 }
 function familyMembersOf(fid){ return BUILTIN_PRESETS.filter(p=>p.familyId===fid); }
 function familyVariantCountOf(fid){ return familyMembersOf(fid).filter(p=>p.familyRole==="variant").length; }
+// 第117便(外部レビュー採択・原仮定者裁定「サンプルの整理を進める」): catalog 可視性 —
+// 「すべて表示」OFF のとき catalog:"extended"/"diagnostic" は**検索・グループ/属性絞り込みでも
+// 表示しない**(strict — family variant の「検索で再表示」より強い)。読込中の自身だけ選択保持。
+// 論文が言及しているサンプルは catalog を付けない(=core・従来表示)方針(第117便整理)
+function catalogHidden(p){
+  return !showAllSamples && (p.catalog==="extended"||p.catalog==="diagnostic")
+    && !(currentPreset && p.id===currentPreset.id);
+}
 // orderedBuiltins() の並び(グループ順序・グループ内配列順は不変)に、グループ内だけ
 // 「primary の直後に同ファミリー variant をまとめる」補正をかける(表示専用の並べ替え —
 // 第79便 GROUP_ORDER+orderedBuiltins() と同じ設計判断。ファミリーがグループを跨ぐ場合
@@ -10483,6 +10572,7 @@ function rebuildPresetSelect(selId){
   let og=null, curGroup=null;
   familyGroupedBuiltins().forEach(p=>{   // 第79便: スケール準拠の並び / 第82便: ファミリー集約
     const g=p.group||"内蔵";
+    if(catalogHidden(p)) return;   // 第117便: catalog 可視性(strict — 絞り込みより先)
     if(presetFilter!=="all" && !presetInFilter(p.id)) return;   // 54D②: カテゴリ絞り込み
     // 第82便: 既定はvariant非表示。ただし現在読込中のプリセット自身がvariantなら選択保持のため表示する
     if(!showAllSamples && p.familyId && p.familyRole==="variant" && !(currentPreset && p.id===currentPreset.id)) return;
@@ -10576,6 +10666,7 @@ function ppRender(){
   const attrFiltered=(ppScale!=="all"||ppClass!=="all"||ppE!=="all");
   familyGroupedBuiltins().forEach(p=>{
     const g=p.group||"内蔵";
+    if(catalogHidden(p)) return;   // 第117便: catalog は検索・属性絞り込みより先に隠す(strict)
     if(ppGroup!=="all" && g!==ppGroup) return;
     if(!ppMatch(p)) return;
     if(!showAllSamples && p.familyId && p.familyRole==="variant"
