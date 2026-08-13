@@ -12453,6 +12453,38 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     console.log('SKIP scale.cg-consistency(対象に4指数スケールなし — root 等。第94便)');
   }
 
+  // ---- 第115便: 実c値プリセットの表示自動切替 — cLight がティア実c対応値(3e8×10^−(x−eT))に
+  // ----   一致するプリセットは光速指数の既定が x−eT になり、次元表示が実光速 3e8 m/s に一致する。
+  // ----   c₀=30 の既存サンプルは従来どおり eC=7(1 サンプルも表示が変わらない)----
+  {
+    const has115 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').includes('光速指数の既定を次元指数 x−eT');
+    if (has115) {
+      const r = await page.evaluate(() => {
+        const keep = localStorage.getItem('hp_custom_presets');
+        try {
+          const cp = { id: 'custom_qa_realc', name: 'QA実c', emoji: '🧪', scaleTier: 'stellar',
+            camera: { scale: 300 }, world: { boundary: 'none', size: 0 },
+            physics: { cLight: 30000, G: 6.674 },
+            bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] };
+          localStorage.setItem('hp_custom_presets', JSON.stringify([cp]));
+          HP.loadPreset('custom_qa_realc', false);
+          const out = { eC: HP.scaleEff().eC, cStr: HP.scaleConvStr('cLight', 30000) };
+          HP.loadPreset('galaxy', false);
+          out.eCBack = HP.scaleEff().eC;
+          return out;
+        } finally {
+          if (keep === null) localStorage.removeItem('hp_custom_presets');
+          else localStorage.setItem('hp_custom_presets', keep);
+        }
+      });
+      add('scale.realc-display', r.eC === 4 && String(r.cStr) === '≈3e8 m/s' && r.eCBack === 7,
+        `実cプリセット(☀️c=3e4): eC既定=${r.eC}(=x−eT=4)・cLight表示="${r.cStr}"(実光速に一致) / ` +
+        `c₀=30 サンプルへ戻すと eC=${r.eCBack}(従来規約 — 既存表示は不変)`);
+    } else {
+      console.log('SKIP scale.realc-display(対象に第115便 未適用 — root 等)');
+    }
+  }
+
   // ---- 第100便(原仮定者裁定「進める」/ Gemini 提案2): 相似変換連動モード ----
   // c₀ 変更時に k=新/旧 の力学的相似変換(96B表)を現在状態へ適用する実験的トグル。
   // ①変換式: G×k²・timeScale÷k・速度×k・Kt 不変(c²/G 不変 — 物理対応ロック整合)

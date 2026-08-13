@@ -950,13 +950,16 @@ $\beta = \gamma = 1$; $\alpha = 1/2$ retains only the time-rate part
 is an A/B switch, not a fitted coefficient.
 
 Because Mercury's real expansion parameter
-$GM_\odot/(c^2a) \approx 2.7\times10^{-8}$ is not numerically
-resolvable in the present single-precision implementation, the
+$GM_\odot/(c^2a) \approx 2.7\times10^{-8}$ is not resolvable in the
+default single-precision state arrays, the
 machine checks keep Mercury's
 eccentricity $e = 0.2056$ and amplify the parameter to
 $GM/(c_0^2a) = 1.56\times10^{-3}$ ($GM = 150$, $a = 60$, $c_0 = 40$),
 subtracting the $\lambda_{\rm PN} = 0$ numerical baseline (the same
-policy as check V6; configurations in Appendix~\ref{app:inputs}).
+policy as check V6; configurations in Appendix~\ref{app:inputs});
+a double-precision engine option later removes this restriction and
+reproduces the advance at Mercury's real parameter directly (end of
+this subsection).
 Check V18 measures $+1.764^\circ$/orbit against the analytic
 $6\pi GM/[c_0^2a(1-e^2)] = 1.762^\circ$/orbit ($0.1\%$ relative
 error); the time-rate-only control V19 gives $1/3$ of the full advance
@@ -988,6 +991,33 @@ principle remains the leading open problem (L1, partially resolved;
 Sec.~\ref{sec:conclusion}).
 With \texttt{geoPN} $= 0$ (the default) every other claim, experiment,
 and conservation statement in this paper is unaffected.
+
+\emph{Direct reproduction at Mercury's real invariant.}
+A released engine revision lifts the single-precision restriction with
+three opt-in, default-off switches that leave every other run
+bit-identical: a double-precision state option
+(\texttt{stateCarry}: accelerations, positions and velocities in
+double precision with compensated velocity kicks), an explicit
+1PN-source declaration (\texttt{pnSource}, replacing the fixed mass
+threshold whose deflection-angle form scales as $c^2$), and
+tier-real constants $G_{\rm sim} = 6.674$, $c_0 = 3\times10^4$ (the
+real-value display conventions of the stellar tier, with
+$\Kt = c_0^2/G$ under the same single calibration).
+A test particle with Mercury's real invariant
+$GM/(c_0^2a) = 2.55\times10^{-8}$ and $e = 0.206$ is then integrated
+directly; the perihelion drift is measured as the least-squares slope
+of the orbit-averaged Runge--Lenz angle over 600 orbits, subtracting
+the $\lambda_{\rm PN} = 0$ baseline (which isolates the softening
+precession $-3\pi(\varepsilon/a)^2$; the same policy as V18).
+The result is $\Delta\varpi = 5.029\times10^{-7}$\,rad/orbit against
+the analytic $5.020\times10^{-7}$ (ratio $1.002$), i.e.\
+$0.1037''$/orbit $\times\,414.93$ orbits/century $= 43.0''$/century,
+within $0.2\%$ of the observed $42.98''$/century; an invariant ladder
+at $5\times10^{-7}$, $10^{-7}$ and $2.55\times10^{-8}$ stays at ratio
+$1.001$--$1.002$ throughout (harness \texttt{tests/exp-obscal.mjs};
+run records in \texttt{tests/out/obscal-results.json}).
+The 1PN advance at Mercury's real parameter is thus recovered
+dynamically, not only by the formula-level mapping above.
 
 % =====================================================================
 \section{Numerical experiments}
