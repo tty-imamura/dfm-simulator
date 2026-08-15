@@ -828,6 +828,9 @@ ja: {
   draftRestore:"未保存の編集の下書きが見つかりました(再読込前の状態)。復元しますか?",
   swFail:"オフライン用キャッシュ(Service Worker)の登録に失敗しました。オンラインでは通常どおり使えます。",
   periHud:(m,a)=>`近点移動(最内粒子): 実測 ${m}°/周 / 解析 ${a}°/周`,
+  ooHud:(cum,rate,e)=>`歳差積算 Δϖ=${cum}″(換算 ${rate}″/世紀・e=${e})— 基準楕円=点線・差分×拡大=橙`,
+  ocHead:"観測結果カード(ハーネス実測 vs 観測値)", ocModel:"実測", ocObs:"観測値",
+  orbUnbound:"軌道: 非束縛(E≥0)",
   ioNote:"インポートは「単独プリセット / プリセット配列 / {customPresets:[…]} / バックアップ全体」のどの形式でも自動判別します。パラメータが全く同じデータは取り込まず、名前が同じでパラメータが異なるデータは名前にサフィックスを付けて追加します。インポートしたプリセットは保存一覧にも登録されます。",
   ioNoteSum:"インポート",   // 第36便 B4(原仮定者指示): 折畳み見出し
   presetMissing:"元プリセットが見つからないため読込を中止しました(β専用サンプルのセーブを旧版で開いた可能性 — 対応する版で読み込んでください)",
@@ -1227,6 +1230,9 @@ en: {
   draftRestore:"Found a draft of unsaved edits (from before the last reload). Restore it?",
   swFail:"Offline cache (Service Worker) registration failed. The app still works normally online.",
   periHud:(m,a)=>`Apsidal drift (innermost): measured ${m}°/orbit / analytic ${a}°/orbit`,
+  ooHud:(cum,rate,e)=>`Precession ∑Δϖ=${cum}″ (rate ${rate}″/century, e=${e}) — reference ellipse dotted, amplified deviation amber`,
+  ocHead:"Observation card (harness measured vs observed)", ocModel:"measured", ocObs:"observed",
+  orbUnbound:"orbit: unbound (E≥0)",
   ioNote:"Import auto-detects any of: a single preset / an array of presets / {customPresets:[…]} / a full backup. Data with identical parameters is skipped; data whose name collides but whose parameters differ is added with a name suffix. Imported presets are also registered in the saved list.",
   ioNoteSum:"Import",   // 第36便 B4
   presetMissing:"Original preset not found — load aborted (this save may come from a newer/beta build; open it there instead)",
@@ -1703,6 +1709,13 @@ function pFailureFirst(p){
   if(LANG==="en" && p.en && p.en.failureFirst) return p.en.failureFirst;
   return p.failureFirst;
 }
+// 第119便(原仮定者裁定「可視化提案: 全て進める」): 観測結果カード — obsCard 宣言(表示専用メタ)。
+// ハーネス実測値と観測値をサンプル画面内で並べて見せる(en は p.en.obsCard)
+function pObsCard(p){
+  if(!p || !Array.isArray(p.obsCard)) return null;
+  if(LANG==="en" && p.en && Array.isArray(p.en.obsCard)) return p.en.obsCard;
+  return p.obsCard;
+}
 function paramLabel(def){ return (LANG==="en" && I18N.en.params[def.key]) || def.label; }
 // v1.21: パラメータ名タップの説明文(ja=PARAM_DEFS.desc / en=I18N.en.paramDescs)
 function paramDesc(def){ return (LANG==="en" && I18N.en.paramDescs[def.key]) || def.desc || ""; }
@@ -2165,6 +2178,12 @@ const BUILTIN_PRESETS = [
   scaleExp:{L:8, T:4, M:27},   // 第118便(原仮定者指示): サンプル別スケール指数 — 1単位=10⁸m/10⁴s/10²⁷kg。
                                // この指数系では実G=6.674×10⁻¹¹→6.674・実c=3×10⁸→3×10⁴(eC=L−T=4)
   sampleClass:"calibration",
+  // 第119便(原仮定者裁定「可視化提案: 全て進める」): 軌道観測(歳差積算+ゴースト軌道)+観測結果カード
+  orbitObs:{center:0, orbiter:1, ghostAmp:1e5},
+  obsCard:[
+    {q:"公転周期", model:"87.974 日(実初期条件の構成値)", obs:"87.969 日"},
+    {q:"近日点前進", model:"43.0″/世紀(exp-obscal §D・解析比1.002)", obs:"42.98″/世紀"},
+    {q:"近日点速度", model:"58.98 km/s", obs:"58.98 km/s"}],
   notClaim:["solar"],
   failureFirst:{
     fail:"c₀=30 の誇張アナログでは、実水星の不変量 GM/(c²a)=2.55×10⁻⁸ は質量値域外で、Float32 状態では 1PN が丸め落ちして直接再現は域外だった(☿の但し書き=第112便までの負の結果)。",
@@ -2174,6 +2193,10 @@ const BUILTIN_PRESETS = [
     observe:"近日点前進は 5×10⁻⁷ rad/公転(実測 43.0″/世紀 — tests/exp-obscal.mjs §D)で、画面では見えない。純粋なケプラー楕円(e=0.206 のつぶれた軌道)に見えるのが正しい挙動 — ☿(誇張アナログ)との対比で「実スケールの 1PN はこれほど小さい」を体感する。スケール換算で G・c₀・距離・周期・質量が実定数・実観測値に一致すること、物理対応バッジの成立を確認できる。実半径では太陽も点に近いため、粒子表示倍率(既定10)が描画だけを拡大している(物理不変)。",
     control:"今後の観測較正サンプルは本構成(実定数 G=6.674・c₀=3×10⁴・Kt=c₀²/G・サンプル別スケール指数・実半径+粒子表示倍率・実自転スピン・pnSource:true・stateCarry:\"double\"・q=3・D0=0.1・kFrame=0〔A8 引きずりは c² 抑制のない誇張機構のため実単位では非主張 — 第118便〕・massFloor=1e-6〔実質量が mEff 床 0.01 で歪まないため〕)をコピーして作る(雛形 — PHYSICS §5)。λ_PN を 0 にしても画面では違いが見えない — それが実スケールの弱場。"},
   en:{name:"Mercury (Real Units) — 43″/century",
+    obsCard:[
+      {q:"Orbital period", model:"87.974 d (from real initial conditions)", obs:"87.969 d"},
+      {q:"Perihelion advance", model:"43.0″/century (exp-obscal §D, ratio 1.002)", obs:"42.98″/century"},
+      {q:"Perihelion speed", model:"58.98 km/s", obs:"58.98 km/s"}],
     failureFirst:{
       fail:"With the c₀=30 exaggerated analog, Mercury's real invariant GM/(c²a)=2.55×10⁻⁸ fell outside the mass range, and Float32 state rounded the 1PN away — direct reproduction was out of scope (the caveat on ☿).",
       pass:"With real-value G and c₀, pnSource and stateCarry, the harness measures Δϖ=5.029×10⁻⁷ rad/orbit (ratio 1.002 to the analytic value) = 43.0″/century — within 0.2% of the observed 42.98″/century (tests/exp-obscal.mjs §D, 600 orbits). Wave 118 made positions, velocities, masses, radii and spins all real-valued (orbital period 87.97 d = observed)."},
@@ -2199,6 +2222,11 @@ const BUILTIN_PRESETS = [
                                // この指数系でも実G=6.674・実c=3×10⁴(eC=L−T=4)— Kt=c₀²/G が値域内に入り
                                // 第117便の「惑星ティアではロック域外」が解消される
   sampleClass:"calibration",
+  orbitObs:{center:0, orbiter:1, ghostAmp:1e6},   // 第119便: 軌道観測(表示専用)
+  obsCard:[
+    {q:"恒星月", model:"27.3219 日(ハーネス実測)", obs:"27.3217 日"},
+    {q:"軌道長半径", model:"38.47万 km", obs:"38.47万 km"},
+    {q:"近地点相対速度", model:"1.082 km/s", obs:"1.082 km/s"}],
   notClaim:["solar"],
   failureFirst:{
     fail:"kFrame=1 の自由二体は相互フレーム結合の正帰還で崩壊する(exp-obscal §F 用量実測 — 質量補正単独では安定化できない)。第117便版はスケール指数の制約から Kt=c₀²/G が域外で物理対応ロック非成立・pinned 主星の系統 +0.6% を抱えていた。",
@@ -2208,6 +2236,10 @@ const BUILTIN_PRESETS = [
     observe:"月が27.32日(換算表示 — HUD の t 表示は日・年単位に自動変換)で一周し、地球も重心のまわりを小さく実運動する(重心距離 4.4=4400km — 地球半径の 69%)。スケール換算で距離 38.5万km・周期 27.3日・質量 5.97×10²⁴kg が実値と一致し、物理対応バッジが成立する。1PN・引きずりは実スケールでは完全に不可視(見えないのが正しい)。実半径では両天体とも小さいため、粒子表示倍率(既定10)が描画だけを拡大している(物理不変)。",
     control:"kFrame は安定化手順(c)の 0(kFrame=1 の自由二体は崩壊する — §F。引きずりは本サンプルの主張外なので、自転スピンは表示・慣性のみに働く)。kFrame を 1 に戻すと崩壊過程が観察できる。粒子表示倍率を 1 にすると実比の点になる。"},
   en:{name:"Earth & Moon (Real Units) — sidereal month 27.32 d",
+    obsCard:[
+      {q:"Sidereal month", model:"27.3219 d (harness)", obs:"27.3217 d"},
+      {q:"Semi-major axis", model:"384,700 km", obs:"384,748 km"},
+      {q:"Perigee relative speed", model:"1.082 km/s", obs:"1.082 km/s"}],
     failureFirst:{
       fail:"A free binary with kFrame=1 collapses via the mutual frame-coupling positive feedback (exp-obscal §F dose measurements — mass correction alone cannot stabilize it). The wave-117 version had Kt=c₀²/G out of clamp range (no correspondence lock) and a +0.6% pinned-primary systematic, both from the tier's fixed exponents.",
       pass:"Wave 118 adopts per-sample scale exponents (1 unit = 10⁶ m / 10² s / 10²⁵ kg) — Kt=c₀²/G now holds, and with stabilization route (c), kFrame=0 (PHYSICS §5), Earth and Moon both move freely about the barycenter. The sidereal month is 27.3218 d by construction (4×10⁻⁶ from the observed 27.3217 d), consistent with the harness measurement (§E: 27.317 d, −0.02%). Masses, radii, spins, distances and velocities are all observed values."},
@@ -2222,6 +2254,52 @@ const BUILTIN_PRESETS = [
     geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.5, timeScale:100, dispMag:10, stateCarry:"double"},
   bodies:[   // 第118便: 全て実値・重心系 — 地球 5.9724e24kg/6.38e6m/自転23.93h、月 7.346e22kg/1.74e6m/
              // 同期自転、a=3.84748e8m(軌道長半径)・e=0.0549・近地点、vis-viva の相対速度を質量比で配分
+    {type:"single", m:0.59724, radius:6.38, x:-4.41822,y:0, vx:0,vy:-0.0013146, spin:0.0072921, pinned:false, pnSource:true},
+    {type:"single", m:0.007346, radius:1.74, x:359.2071,y:0, vx:0,vy:0.1068788, spin:0.00026617, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+{ id:"earthMoonRealKF1", name:"地球と月(実単位・kFrame=1)— 引きずり入りでも安定", emoji:"🌘", group:"空間と時間",
+  scaleTier:"planetary",
+  scaleExp:{L:6, T:2, M:25},   // 🌙 と同一の指数系(1単位=10⁶m/10²s/10²⁵kg)
+  sampleClass:"calibration",
+  orbitObs:{center:0, orbiter:1, ghostAmp:1e6},   // 第119便: 軌道観測(表示専用)
+  obsCard:[
+    {q:"恒星月(kFrame=1)", model:"27.32 日・6公転安定(exp-kf1)", obs:"27.3217 日"},
+    {q:"ループ利得 g", model:"2.9×10⁻⁶(深い安定域)", obs:"崩壊境界 g*≈1〜2%(exp-kf1 用量)"}],
+  notClaim:["solar"],
+  // 第119便(原仮定者指示「kFrame=1版のサンプルを用意する。どうすれば安定するのかを調査する」):
+  // 系統調査(tests/exp-kf1.mjs)の帰結 — 崩壊を決めるループ利得 g=[w_sat/(D0+w_sat)]·
+  // [w_M/(D0+w_M)](§F)の w=m/d は**次元を持つ**ため、崩壊はスケール指数(単位系)の
+  // 選択に依存する。第117便構成(旧指数)では g≈32% で即崩壊(exp-kf1 陽性対照 amp106%・0.008公転)、
+  // 第118便の指数系(本構成)では g≈2.9×10⁻⁶ で深く安定(exp-kf1 6公転実測 amp11.0%=自然離心率
+  // 2e・周期残差0.05%)。よって 🌙 と同一の実値のまま kFrame=1 を入れても安定に回る。
+  // 温度(スピン=熱)系の減衰(κs/η_rad/kRep/muF)は全て不成立・質量再スケール(GM不変の
+  // (G,m)→(kG,m/k))は g の両因子を同時に下げ用量単調(k=2〜50 で amp100%→10%)— exp-kf1 実測。
+  failureFirst:{
+    fail:"第117便までの指数系では kFrame=1 の自由二体は即崩壊した(§F・exp-kf1 陽性対照: amp106%・0.008公転)。質量補正 kSat 単独(§F)も、温度=スピン系の減衰(κs・η_rad・kRep・muF — exp-kf1 全ケース)も安定化できない。",
+    pass:"崩壊の制御量はループ利得 g=[w_sat/(D₀+w_sat)]·[w_M/(D₀+w_M)](w=m/d は次元量 — 単位系依存)。本構成(第118便指数系)では g≈3×10⁻⁶ で、実値のまま kFrame=1 でも6公転安定(amp=11.0%=自然離心率 2e・周期残差 0.05% — tests/exp-kf1.mjs)。GM不変の質量再スケール (G,m)→(kG,m/k) は g の両因子を同時に下げる有効ルート(k=2〜50 で単調・§G 用量実測)。"},
+  descStruct:{
+    summary:"🌙(kFrame=0)の対照 — 同一の実値(地球 5.9724×10²⁴kg・月 7.346×10²²kg・軌道長半径 3.847×10⁸m)のまま空間引きずり(A8/E6′)を有効にした kFrame=1 版。実単位の指数系ではフレーム結合のループ利得が g≈3×10⁻⁶ と深く安定域にあり、崩壊せず恒星月 27.32日(E4+E12)を保つ。第117便で崩壊した理由は w=m/d が次元を持つこと(単位系依存)— スケール指数の選択(第118便)が安定化そのものだった。",
+    observe:"画面は 🌙 と見分けがつかない — それが正しい(実スケールの引きずりは g≈3×10⁻⁶ で完全に不可視)。A/B 比較で 🌙 と並べても軌道・周期は一致する。物理対応バッジ成立・スケール換算は実値一致(🌙 と同一)。",
+    control:"安定の用量反応を再現するには: 質量スケール指数を 25→24(質量×10)にする代わりに本サンプルで両質量を×10(G を 1/10)すると g が上がり、×100 で崩壊域に入る(GM不変 — exp-kf1 の質量再スケールの逆走)。D₀ を下げても g が上がる。温度・スピン系(κs・η_rad・kRep)は g に入らないため何も変わらない(exp-kf1 の否定結果)。"},
+  en:{name:"Earth & Moon (Real Units, kFrame=1) — stable with dragging on",
+    obsCard:[
+      {q:"Sidereal month (kFrame=1)", model:"27.32 d, stable 6+ orbits (exp-kf1)", obs:"27.3217 d"},
+      {q:"Loop gain g", model:"2.9×10⁻⁶ (deep in stable regime)", obs:"collapse boundary g*≈1–2% (exp-kf1 dose)"}],
+    failureFirst:{
+      fail:"In the exponent system used up to wave 117, a free binary with kFrame=1 collapsed immediately (§F / exp-kf1 positive control: amp 106% at 0.008 orbits). Neither the kSat mass correction alone (§F) nor any thermal (spin-heat) damping channel (κs, η_rad, kRep, muF — all exp-kf1 cases) can stabilize it.",
+      pass:"The controlling quantity is the loop gain g=[w_sat/(D₀+w_sat)]·[w_M/(D₀+w_M)] with w=m/d a DIMENSIONAL quantity — so stability depends on the unit system. In this configuration (wave-118 exponents) g≈3×10⁻⁶, and the real values stay stable for 6+ orbits with kFrame=1 (amp=11.0% = the natural 2e, period residual 0.05% — tests/exp-kf1.mjs). The GM-preserving mass rescale (G,m)→(kG,m/k) lowers both factors of g at once and is monotone over k=2–50 (exp-kf1 dose)."},
+    descStruct:{
+    summary:"The contrast to 🌙 (kFrame=0) — the same real values (Earth 5.9724×10²⁴ kg, Moon 7.346×10²² kg, semi-major 3.847×10⁸ m) with frame dragging (A8/E6′) enabled. In the real-unit exponent system the frame-coupling loop gain is g≈3×10⁻⁶, deep in the stable regime, so the binary keeps its 27.32-day sidereal month (E4+E12) without collapsing. The wave-117 collapse followed from w=m/d being dimensional (unit-system dependent) — choosing the scale exponents (wave 118) WAS the stabilization. ",
+    observe:"The screen is indistinguishable from 🌙 — which is correct (real-scale dragging at g≈3×10⁻⁶ is completely invisible). In an A/B comparison the orbits and periods match. The correspondence badge holds and the scale conversion matches reality (same as 🌙). ",
+    control:"To reproduce the dose response: multiply both masses by 10 with G divided by 10 (GM preserved) and g rises; at ×100 you enter the collapse regime (exp-kf1's mass rescale run backwards). Lowering D₀ also raises g. Thermal channels (κs, η_rad, kRep) never enter g and change nothing (exp-kf1's negative result)."}},
+  activeParams:["kFrame","dispMag","lambdaPN"],
+  camera:{scale:450}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.1, kFrame:1, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:134851663.17051244,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.5, timeScale:100, dispMag:10, stateCarry:"double"},
+  bodies:[
     {type:"single", m:0.59724, radius:6.38, x:-4.41822,y:0, vx:0,vy:-0.0013146, spin:0.0072921, pinned:false, pnSource:true},
     {type:"single", m:0.007346, radius:1.74, x:359.2071,y:0, vx:0,vy:0.1068788, spin:0.00026617, pinned:false}
   ],
@@ -4459,6 +4537,9 @@ const BUILTIN_PRESETS = [
                                // この指数系でも実G=6.674・実c=3×10⁴(eC=L−T=4)— 第117便の「無次元深度のみ実」
                                // という妥協が解消され、絶対の長さ・時間・質量まで全て実値になる
   sampleClass:"calibration",
+  obsCard:[
+    {q:"C環内縁の公転", model:"5.79 時間(厳密ケプラー)", obs:"5.8 時間"},
+    {q:"軌道速度(r=8×10⁷m)", model:"21.8 km/s", obs:"21.8 km/s"}],   // 第119便: 観測結果カード
   notClaim:["solar"],
   familyId:"saturn", familyRole:"variant",   // 🪐(誇張)・🎯・🛰️ と同族(表示専用)
   failureFirst:{
@@ -4469,6 +4550,9 @@ const BUILTIN_PRESETS = [
     observe:"3つの帯が実位置のまま純ケプラーで回る — C環内縁の速度 2.18(=21.8km/s)・周期 6.4時間(HUD の t 表示は時間・日単位に自動変換)。回転曲線オーバーレイで v∝r^−0.5 の降下(Ω∝r^−1.5)を確認できる。🪐(誇張)と違い環は内側へ移動せず離心率も上がらない — 実深度では引きずりが検出限界以下だから(見えないのが正しい)。スケール換算で G・c₀・距離・速度・質量が実値に一致し、物理対応バッジが成立する。",
     control:"環粒子は半径 0.01(=100km 級の代表粒)・質量 1e-6(=10²⁰kg — 環の総質量 1.5×10¹⁹kg に近い代表値。0.001=10²³kg では自己重力が実環より約6桁強く、数公転で帯が散乱・降着することを第118便で実測したため、公転を観測値に合わせる較正としてこの値を採る)。kFrame は 0(DFM の A8 引きずりは c² 抑制を持たない誇張可視化スケールの機構で、実自転 0.165 と併用すると軌道が実測から大きく外れることを第118便で実測 — 実単位サンプルでは引きずり非主張とし、スピンは表示・慣性のみ)。kFrame を 1 に上げると誇張引きずりの A/B 対照になる。λ_PN を動かしても画面は変わらない — それが実スケールの弱場。"},
   en:{name:"Saturn's Rings (Real Units) — invisible is correct",
+    obsCard:[
+      {q:"C-ring inner-edge period", model:"5.79 h (exact Kepler)", obs:"5.8 h"},
+      {q:"Orbital speed (r=8×10⁷ m)", model:"21.8 km/s", obs:"21.8 km/s"}],
     failureFirst:{
       fail:"In 🪐 (the exaggerated analog), kFrame=1 dragging migrates the ring inward and raises eccentricity (measured in the control experiment). At the real depth d=GM/(c²r_C)=5.64×10⁻⁹ both dragging and 1PN fall below detection within any run time (tests/exp-obscal.mjs §C). The wave-117 version could only take the dimensionless depth and radius ratios as real (a limitation of the old tier exponents).",
       pass:"Wave 118 adopts per-sample scale exponents (1 unit = 10⁷ m / 10³ s / 10²⁶ kg) — the C-ring inner edge 7.47 (=74,658 km) orbits at 2.18 (=21.8 km/s) with a 6.4-hour period, and Saturn's mass 5.6834 (=5.6834×10²⁶ kg), radius 6.03 and spin 0.165 (10.56-hour rotation) are all observed values; the correspondence badge holds. Invisible IS correct — the ring keeps pure Kepler rotation Ω∝r^−1.5."},
@@ -5349,6 +5433,27 @@ function validatePreset(obj){
       || Math.abs(se.L)>30 || Math.abs(se.T)>30 || Math.abs(se.M)>45){
       warnings.push("scaleExp が不正のため削除(数値 {L,T,M}・|L|,|T|≤30・|M|≤45)"); delete p.scaleExp;
     } else p.scaleExp={L:se.L, T:se.T, M:se.M};
+  }
+  // 第119便: obsCard — 観測結果カードの宣言(表示専用)。{q,model,obs} 文字列の配列(≤8件)
+  if(p.obsCard!==undefined){
+    const oc=p.obsCard;
+    const okRow=(r)=>r && typeof r==="object" && !Array.isArray(r)
+      && typeof r.q==="string" && typeof r.model==="string" && typeof r.obs==="string"
+      && r.q.length<=120 && r.model.length<=120 && r.obs.length<=120;
+    if(!Array.isArray(oc) || oc.length===0 || oc.length>8 || !oc.every(okRow)){
+      warnings.push("obsCard が不正のため削除({q,model,obs}文字列の配列・≤8件)"); delete p.obsCard;
+    } else p.obsCard=oc.map(r=>({q:r.q, model:r.model, obs:r.obs}));
+  }
+  // 第119便: orbitObs — 軌道観測(歳差積算+ゴースト軌道)の宣言(表示専用)。
+  // {center,orbiter}: 粒子 index(非負整数・別)/ ghostAmp: 差分拡大倍率 [1,1e9](省略時 1e5)
+  if(p.orbitObs!==undefined){
+    const d=p.orbitObs;
+    const okIdx=(v)=>isNum(v) && Math.floor(v)===v && v>=0 && v<N_CAP;
+    if(!d || typeof d!=="object" || Array.isArray(d) || !okIdx(d.center) || !okIdx(d.orbiter)
+      || d.center===d.orbiter || (d.ghostAmp!==undefined && !(isNum(d.ghostAmp)&&d.ghostAmp>=1&&d.ghostAmp<=1e9))){
+      warnings.push("orbitObs が不正のため削除({center,orbiter}整数・ghostAmp 1〜1e9)"); delete p.orbitObs;
+    } else p.orbitObs=Object.assign({center:d.center, orbiter:d.orbiter},
+      d.ghostAmp!==undefined? {ghostAmp:d.ghostAmp} : {});
   }
   // 第74便→第98便: scaleTier — 7段階スケール分類(molecular/beaker/everyday/planetary/stellar/galactic/cosmic)。
   // UI 分類チップ・スケール絞り込み・表示換算の既定指数にだけ使う(物理不変 — sampleClass と同方針)。
@@ -8738,10 +8843,10 @@ function applyCamFollow(){
 // 第96便(原仮定者指示): 「選択粒子」設定中でも追従先が無い(非選択)間は「なし」と同じく
 // カメラを直接動かす — 旧実装はオフセットへ積むだけで画面が動かずドラッグ不能だった
 function panCam(dxPx,dyPx){
-  const z=zoom();
+  const z=zoom(), fy=flipY?-1:1;   // 第119便: 上下反転中はドラッグの上下も反転(指に画面が付いてくる)
   const S=selSimRef(), i=camFollowIdx();
-  if(camFollowMode!=="none" && i>=0 && i<S.n){ camFollowOffX-=dxPx/z; camFollowOffY-=dyPx/z; }
-  else { camX-=dxPx/z; camY-=dyPx/z; }
+  if(camFollowMode!=="none" && i>=0 && i<S.n){ camFollowOffX-=dxPx/z; camFollowOffY-=dyPx/z*fy; }
+  else { camX-=dxPx/z; camY-=dyPx/z*fy; }
 }
 // 第37便 A3(原仮定者指示): 光線の基準波長λ0(nm)。表示設定のみ(セーブ対象外・物理不変) —
 // drawRays の色計算(λ_seg=λ0·e^{ψ0−ψ}。第36便 B3)だけが参照する。
@@ -9978,11 +10083,11 @@ function render(){
     ctx.beginPath(); ctx.arc(sx,sy,rr,0,7); ctx.fill();
     // v1.17: 大きく表示される粒子はスポーク(車輪の輻)で回転方向・速さを可視化
     if(rr>=7 && Math.abs(sim.spin[i])>1e-4){
-      const a0=sim.rotA[i];
+      const a0=sim.rotA[i], fy=flipY?-1:1;   // 第119便: 上下反転時はスポークの見た目回転も鏡像(y成分を反転)
       ctx.strokeStyle="rgba(0,0,0,0.45)"; ctx.lineWidth=Math.max(1,rr*0.1);
       for(let k3=0;k3<3;k3++){ const a=a0+k3*2.0944;
-        ctx.beginPath(); ctx.moveTo(sx+Math.cos(a)*rr*0.3, sy+Math.sin(a)*rr*0.3);
-        ctx.lineTo(sx+Math.cos(a)*rr*0.92, sy+Math.sin(a)*rr*0.92); ctx.stroke(); }
+        ctx.beginPath(); ctx.moveTo(sx+Math.cos(a)*rr*0.3, sy+fy*Math.sin(a)*rr*0.3);
+        ctx.lineTo(sx+Math.cos(a)*rr*0.92, sy+fy*Math.sin(a)*rr*0.92); ctx.stroke(); }
       ctx.lineWidth=1;
     }
     // 第81便(コアv2): コア(coreMd≠0)を内側の暗い円+白スポークで可視化(差動回転が見える)。
@@ -9998,11 +10103,11 @@ function render(){
       } else ctx.fillStyle=cav? "rgba(3,4,10,0.85)" : "rgba(10,12,24,0.55)";
       ctx.beginPath(); ctx.arc(sx,sy,rc,0,7); ctx.fill(); ctx.globalAlpha=1;
       if(Math.abs(omc)>1e-4){
-        const a0=sim.rotAc[i];
+        const a0=sim.rotAc[i], fy=flipY?-1:1;   // 第119便: コアスポークも鏡像
         ctx.strokeStyle="rgba(255,255,255,0.5)"; ctx.lineWidth=Math.max(1,rc*0.12);
         for(let k3=0;k3<3;k3++){ const a=a0+k3*2.0944;
-          ctx.beginPath(); ctx.moveTo(sx+Math.cos(a)*rc*0.25, sy+Math.sin(a)*rc*0.25);
-          ctx.lineTo(sx+Math.cos(a)*rc*0.88, sy+Math.sin(a)*rc*0.88); ctx.stroke(); }
+          ctx.beginPath(); ctx.moveTo(sx+Math.cos(a)*rc*0.25, sy+fy*Math.sin(a)*rc*0.25);
+          ctx.lineTo(sx+Math.cos(a)*rc*0.88, sy+fy*Math.sin(a)*rc*0.88); ctx.stroke(); }
         ctx.lineWidth=1;
       }
     }
@@ -10099,6 +10204,7 @@ function render(){
       ctx.fillText(T("periHud")(mdeg.toFixed(2), adeg.toFixed(2)), 8, 20);
     }
   }
+  drawOrbitObs();   // 第119便: 軌道観測(歳差積算+ゴースト軌道 — orbitObs 宣言サンプルのみ・表示専用)
   drawScaleBar();   // 第92便(原仮定者指示「距離が分かる様にする」): スケールバー+表示幅(表示のみ)
 }
 
@@ -10159,11 +10265,113 @@ function selConvLinesNow(){
   if(!scaleDispOn) return null;
   if(!(selIdx>=0 && selIdx<sim.n)) return null;
   const i=selIdx, ef=scaleEffNow();
-  return ["≈ m "+fmtKg(Math.abs(sim.m[i])*Math.pow(10,ef.eM))
+  const lines=["≈ m "+fmtKg(Math.abs(sim.m[i])*Math.pow(10,ef.eM))
       +" ・ Ω "+sciFmt(sim.spin[i]*Math.pow(10,-ef.eT))+"/s"
       +" ・ R "+fmtMeters(sim.R[i]*Math.pow(10,ef.x)),
     "≈ vx "+fmtMps(sim.vx[i]*Math.pow(10,ef.x-ef.eT))
       +" ・ vy "+fmtMps(sim.vy[i]*Math.pow(10,ef.x-ef.eT))];
+  // 第119便(原仮定者裁定「可視化提案: 全て進める」④): 軌道要素ライブ — 選択粒子の
+  // 瞬時オスキュレーティング要素(支配天体=重力加速度最大の相手まわりの二体近似・表示専用)
+  if(sim.n>=2){
+    let j=-1, best=0;
+    for(let k2=0;k2<sim.n;k2++){ if(k2===i) continue;
+      const dx=sim.x[k2]-sim.x[i], dy=sim.y[k2]-sim.y[i];
+      const w=Math.abs(sim.m[k2])/(dx*dx+dy*dy+1e-12);
+      if(w>best){ best=w; j=k2; } }
+    if(j>=0){
+      const mu=sim.params.G*(Math.abs(sim.m[i])+Math.abs(sim.m[j]));
+      const rx=sim.x[i]-sim.x[j], ry=sim.y[i]-sim.y[j];
+      const vx=sim.vx[i]-sim.vx[j], vy=sim.vy[i]-sim.vy[j];
+      const r=Math.hypot(rx,ry), En=(vx*vx+vy*vy)/2-(mu>0? mu/r:0);
+      if(mu>0 && En<0){
+        const a=-mu/(2*En), h=rx*vy-ry*vx;
+        const ex=(vy*h)/mu-rx/r, ey=(-vx*h)/mu-ry/r;
+        const ecc=Math.hypot(ex,ey), pomDeg=Math.atan2(ey,ex)*180/Math.PI;
+        const Torb=2*Math.PI*Math.sqrt(a*a*a/mu);
+        lines.push("≈ a "+fmtMeters(a*Math.pow(10,ef.x))+" ・ e "+sciFmt(ecc)
+          +" ・ T "+fmtSecs(Torb*Math.pow(10,ef.eT))+" ・ ϖ "+pomDeg.toFixed(1)+"°");
+      } else lines.push("≈ "+T("orbUnbound"));
+    }
+  }
+  return lines;
+}
+// 第119便(原仮定者裁定「可視化提案: 全て進める」①②): 軌道観測サブシステム orbitObs —
+// プリセット宣言 orbitObs:{center,orbiter,ghostAmp}(表示専用メタ)のあるサンプルで、
+//  ①歳差積算: Runge–Lenz ベクトルの角度 ϖ をフレームごとに追跡・アンラップ積算し、
+//    累積 Δϖ(″)と換算レート(″/世紀 — 時間スケール指数で実時間化)を HUD に出す
+//  ②基準ケプラー軌道のゴースト: ロード直後の状態から求めたオスキュレーティング楕円を点線で重ね、
+//    実軌道との半径差を ×ghostAmp に拡大した軌跡(橙)で「見えない差」を可視化する
+// すべて表示専用 — 物理・保存 JSON には一切影響しない。⏮・サンプル切替で自動リセット
+let _oo=null;
+function orbitObsSpec(){
+  const p=(typeof currentPreset!=="undefined")? currentPreset : null;
+  const d=p && p.orbitObs;
+  return (d && d.center<sim.n && d.orbiter<sim.n && d.center!==d.orbiter)? d : null;
+}
+function orbitObsUpdate(){
+  const spec=orbitObsSpec(); if(!spec){ _oo=null; return null; }
+  const c=spec.center|0, o=spec.orbiter|0;
+  const rx=sim.x[o]-sim.x[c], ry=sim.y[o]-sim.y[c];
+  const vx=sim.vx[o]-sim.vx[c], vy=sim.vy[o]-sim.vy[c];
+  const mu=sim.params.G*(Math.abs(sim.m[c])+Math.abs(sim.m[o]));
+  const r=Math.hypot(rx,ry);
+  if(!(r>0)||!(mu>0)) return null;
+  const h=rx*vy-ry*vx;
+  const ex=(vy*h)/mu-rx/r, ey=(-vx*h)/mu-ry/r;   // RLベクトル(2D)
+  const e=Math.hypot(ex,ey), pom=Math.atan2(ey,ex);
+  const En=(vx*vx+vy*vy)/2-mu/r, a=(En<0)? -mu/(2*En) : NaN;
+  if(!_oo || _oo.pid!==currentPreset.id || sim.t<_oo.tLast-1e-9){
+    _oo={pid:currentPreset.id, t0:sim.t, tLast:sim.t, a0:a, e0:e, pom0:pom,
+      prevPom:pom, cum:0, bufX:new Float64Array(600), bufY:new Float64Array(600), bn:0, bi:0};
+  }
+  let d=pom-_oo.prevPom;
+  while(d>Math.PI)d-=2*Math.PI; while(d<-Math.PI)d+=2*Math.PI;
+  _oo.cum+=d; _oo.prevPom=pom; _oo.tLast=sim.t;
+  // 差分×拡大点(基準楕円からの半径差 ×ghostAmp — 同じ方位角に描く)
+  if(isFinite(_oo.a0)){
+    const th=Math.atan2(ry,rx), p0=_oo.a0*(1-_oo.e0*_oo.e0);
+    const rRef=p0/(1+_oo.e0*Math.cos(th-_oo.pom0));
+    const rAmp=rRef+(r-rRef)*(spec.ghostAmp||1e5);
+    _oo.bufX[_oo.bi]=sim.x[c]+rAmp*Math.cos(th); _oo.bufY[_oo.bi]=sim.y[c]+rAmp*Math.sin(th);
+    _oo.bi=(_oo.bi+1)%600; if(_oo.bn<600)_oo.bn++;
+  }
+  const ef=scaleEffNow();
+  const dtReal=(_oo.tLast-_oo.t0)*Math.pow(10,ef.eT);   // 実秒
+  const rate=(dtReal>0)? _oo.cum*206264.8/dtReal*3.1557e9 : 0;   // ″/世紀
+  return {c, o, e, a, cumArc:_oo.cum*206264.8, rate,
+    a0:_oo.a0, e0:_oo.e0, pom0:_oo.pom0};
+}
+let _ooLast=null;   // QA 用の直近サマリ(HP.orbitObsNow)
+function drawOrbitObs(){
+  const m=orbitObsUpdate(); _ooLast=m;
+  if(!m || !isFinite(m.a0)) return;
+  const spec=orbitObsSpec(), c=m.c;
+  // ①基準楕円(点線 — ロード時のオスキュレーティング要素・中心天体に追随)
+  const p0=m.a0*(1-m.e0*m.e0);
+  ctx.strokeStyle="rgba(150,200,255,0.5)"; ctx.setLineDash([6,6]); ctx.lineWidth=1;
+  ctx.beginPath();
+  for(let k=0;k<=120;k++){
+    const th=m.pom0+k/120*2*Math.PI;
+    const rr=p0/(1+m.e0*Math.cos(th-m.pom0));
+    const wx=sim.x[c]+rr*Math.cos(th), wy=sim.y[c]+rr*Math.sin(th);
+    if(k===0) ctx.moveTo(w2sX(wx),w2sY(wy)); else ctx.lineTo(w2sX(wx),w2sY(wy));
+  }
+  ctx.stroke(); ctx.setLineDash([]);
+  // ②差分×拡大の軌跡(橙)
+  if(_oo && _oo.bn>2){
+    ctx.strokeStyle="rgba(255,190,90,0.85)"; ctx.lineWidth=1.4;
+    ctx.beginPath();
+    for(let k=0;k<_oo.bn;k++){
+      const idx=(_oo.bi-_oo.bn+k+600)%600;
+      const px=w2sX(_oo.bufX[idx]), py=w2sY(_oo.bufY[idx]);
+      if(k===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+    }
+    ctx.stroke(); ctx.lineWidth=1;
+  }
+  // ③HUD テキスト(歳差積算+換算レート)
+  const y=(sim.zonal&&sim.periDet)? 34 : 20;
+  ctx.font=(10*uiFontScale)+"px sans-serif"; ctx.fillStyle="#8b93c8";
+  ctx.fillText(T("ooHud")(m.cumArc.toFixed(4), sciFmt(m.rate), m.e.toFixed(4)), 8, y);
 }
 function drawScaleBar(){
   if(!scaleBarOn) return;
@@ -10278,15 +10486,15 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
     const px=sx(S.x[i]), py=sy(S.y[i]);
     if(px<-40||px>cw+40||py<y0-40||py>y0+hgt+40) continue;
     const Ti=obsTemp(S,i);   // 第36便 D: 観測温度
-    const rr=Math.max(1.2,Math.min(S.R[i]*z,drawRadiusCap()));   // 第25便: 半径準拠 → 第37便 A5: 上限撤廃(rCap=∞)
+    const rr=Math.max(1.2,Math.min(S.R[i]*(S.params.dispMag||1)*z,drawRadiusCap()));   // 第25便: 半径準拠 → 第37便 A5: 上限撤廃 / 第119便: ×粒子表示倍率(A/B側も対応 — 原仮定者指示)
     ctx.fillStyle=tempColor(Math.min(1,Math.sqrt(Math.max(0,Ti)/p90)));   // 第12便: 負質量はT=0色
     ctx.beginPath(); ctx.arc(px,py,rr,0,7); ctx.fill();
     if(rr>=7 && Math.abs(S.spin[i])>1e-4){ // v1.17: 回転方向スポーク(A/B側も同様)
-      const a0=S.rotA[i];
+      const a0=S.rotA[i], fy=flipY?-1:1;   // 第119便: A/B側スポークも鏡像
       ctx.strokeStyle="rgba(0,0,0,0.45)"; ctx.lineWidth=Math.max(1,rr*0.1);
       for(let k3=0;k3<3;k3++){ const a=a0+k3*2.0944;
-        ctx.beginPath(); ctx.moveTo(px+Math.cos(a)*rr*0.3, py+Math.sin(a)*rr*0.3);
-        ctx.lineTo(px+Math.cos(a)*rr*0.92, py+Math.sin(a)*rr*0.92); ctx.stroke(); }
+        ctx.beginPath(); ctx.moveTo(px+Math.cos(a)*rr*0.3, py+fy*Math.sin(a)*rr*0.3);
+        ctx.lineTo(px+Math.cos(a)*rr*0.92, py+fy*Math.sin(a)*rr*0.92); ctx.stroke(); }
       ctx.lineWidth=1;
     }
     if(S.coreMd[i]!==0 && rr>=7){   // 第81便(コアv2): コア(A/B側も同様。cavity=より暗い穴)
@@ -10299,18 +10507,18 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
       } else ctx.fillStyle=cav? "rgba(3,4,10,0.85)" : "rgba(10,12,24,0.55)";
       ctx.beginPath(); ctx.arc(px,py,rc,0,7); ctx.fill(); ctx.globalAlpha=1;
       if(Math.abs(omc)>1e-4){
-        const a0=S.rotAc[i];
+        const a0=S.rotAc[i], fy=flipY?-1:1;   // 第119便: A/B側コアスポークも鏡像
         ctx.strokeStyle="rgba(255,255,255,0.5)"; ctx.lineWidth=Math.max(1,rc*0.12);
         for(let k3=0;k3<3;k3++){ const a=a0+k3*2.0944;
-          ctx.beginPath(); ctx.moveTo(px+Math.cos(a)*rc*0.25, py+Math.sin(a)*rc*0.25);
-          ctx.lineTo(px+Math.cos(a)*rc*0.88, py+Math.sin(a)*rc*0.88); ctx.stroke(); }
+          ctx.beginPath(); ctx.moveTo(px+Math.cos(a)*rc*0.25, py+fy*Math.sin(a)*rc*0.25);
+          ctx.lineTo(px+Math.cos(a)*rc*0.88, py+fy*Math.sin(a)*rc*0.88); ctx.stroke(); }
         ctx.lineWidth=1;
       }
     }
     if(S.pinned[i]){ ctx.strokeStyle="rgba(255,255,255,0.75)"; ctx.beginPath(); ctx.arc(px,py,rr+2,0,7); ctx.stroke(); }
     if(selIdx===i && S===selSimRef()){   // 第12便: A/B比較中の選択リング(選択された宇宙側にのみ描く)
       ctx.strokeStyle="#59d499"; ctx.lineWidth=1.5;
-      ctx.beginPath(); ctx.arc(px,py,Math.max(6,S.R[i]*z+5),0,7); ctx.stroke(); ctx.lineWidth=1;
+      ctx.beginPath(); ctx.arc(px,py,Math.max(6,S.R[i]*(S.params.dispMag||1)*z+5),0,7); ctx.stroke(); ctx.lineWidth=1;
     }
   }
   // v1.19: 線の軌跡(A/B比較でも表示)
@@ -12043,11 +12251,14 @@ function buildParamRows(){
   // 第32便(W2): 箱宇宙(UniverseBox)の実験用パラメータ編集 — sim.box があるプリセットのみ表示
   if(sim.box) buildBoxParamRows(host);
   if(sim.phase) buildPhaseParamRows(host);   // 第53便 53D: 相変化(E14)の実験用パラメータ
-  { const g=mkCat(T("grpSim"),T("grpSimDesc"));       for(const def of catDefs("sim")) mkParamRow(def,g);
-    // 第58便 58B(原仮定者指示): 時間倍率は表示→シミュレーションカテゴリへ移動
-    // (A/B比較中は両方の画面へ反映される applyBoth 挙動は従来どおり)
+  { const g=mkCat(T("grpSim"),T("grpSimDesc"));
+    // 第58便 58B: 時間倍率はシミュレーションカテゴリへ(applyBoth=A/B両方へ反映は従来どおり)。
+    // 第119便(原仮定者指示): 「時間経過倍率」は「ソフトニング ε」の前(=粒子表示倍率の次)に置く
     const tsDef=PARAM_DEFS.find(d=>d.key==="timeScale");
-    if(tsDef) mkParamRow(tsDef, g, true);
+    for(const def of catDefs("sim")){
+      if(def.key==="softening" && tsDef) mkParamRow(tsDef, g, true);
+      mkParamRow(def,g);
+    }
     // 第90便 EXT-11(論文3 P0-5): 摂動注入の正式UI — S.injectPerturb の操作行。
     // 編集対象(editSim — A/B 比較中は選択側)にだけ効く。seed はセッション内で1ずつ進む
     // 決定論カウンタ(初期12345 — 同じ手順を踏めば同じ摂動列が再現する)
@@ -12284,7 +12495,7 @@ function buildParamRows(){
       return best; };
     const updOut=()=>{ const x=scaleExpNow();
       num.value=String(Math.round(x*10)/10);
-      tierRow.textContent=SCALE_EMOJI[nearTier(x)]+" "+T("scaleName_"+nearTier(x))+" — 10^"+(Math.round(x*10)/10)+" m";
+      tierRow.textContent=SCALE_EMOJI[nearTier(x)]+" "+T("scaleName_"+nearTier(x))+" — 10^"+(Math.round(x*10)/10)+" m(1単位 ≈ "+fmtMeters(Math.pow(10,x))+")";   // 第119便: アンカーの馴染み単位
       rng.value=clamp(x,-12,24); };
     updOut(); scaleUiSync.push(updOut);   // 第104便: ベース一括変更でスライダー表示を追随
     const setExp=(v)=>{ scaleExpL=clamp(v,-30,30); updOut(); refreshScaleConv(); requestRender(); };
@@ -12298,7 +12509,7 @@ function buildParamRows(){
   }
   // 第94便: 時間/質量/光速スケール指数 — 表示専用・サンプルのロードでタグ既定へ戻る
   {
-    const mkExpRow=(labelKey,descKey,idBase,getV,setV,lo,hi)=>{
+    const mkExpRow=(labelKey,descKey,idBase,getV,setV,lo,hi,unitFmt)=>{
       const row=document.createElement("div"); row.className="prow";
       const lab=document.createElement("label"); lab.textContent=T(labelKey); lab.style.flex="0 0 auto";
       tapDesc(row,lab,descKey);
@@ -12307,7 +12518,10 @@ function buildParamRows(){
       const num=document.createElement("input"); num.type="text"; num.className="valIn";
       num.id=idBase+"In"; num.inputMode="text"; num.autocomplete="off";
       num.style.cssText="flex:0 0 62px;width:62px;text-align:right;";
-      const upd=()=>{ const x=getV(); num.value=String(Math.round(x*10)/10); rng.value=clamp(x,lo,hi); };
+      const upd=()=>{ const x=getV(); num.value=String(Math.round(x*10)/10); rng.value=clamp(x,lo,hi);
+        // 第119便(原仮定者裁定・Gemini案採択): スケールアンカーのホバー表示 — 「現在の指数で
+        // 1単位が何秒/何kgか」を行のツールチップに出す(表示のみ)
+        if(unitFmt) row.title=unitFmt(x); };
       upd(); scaleUiSync.push(upd);   // 第104便: ベース一括変更でスライダー表示を追随
       rng.addEventListener("input",()=>{ setV(parseFloat(rng.value)); upd(); refreshScaleConv(); requestRender(); });
       num.addEventListener("change",()=>{
@@ -12317,11 +12531,14 @@ function buildParamRows(){
       row.appendChild(lab); row.appendChild(rng); row.appendChild(num); scaleG.appendChild(row);
     };
     mkExpRow("scaleExpTLabel","scaleExpTDesc","scaleExpT",
-      ()=>scaleEffNow().eT, (v)=>setScaleExps({T:v}), -20, 20);
+      ()=>scaleEffNow().eT, (v)=>setScaleExps({T:v}), -20, 20,
+      (v)=>"1単位 ≈ "+fmtSecs(Math.pow(10,v)));
     mkExpRow("scaleExpMLabel","scaleExpMDesc","scaleExpM",
-      ()=>scaleEffNow().eM, (v)=>setScaleExps({M:v}), -30, 45);
+      ()=>scaleEffNow().eM, (v)=>setScaleExps({M:v}), -30, 45,
+      (v)=>"1単位 ≈ "+fmtKg(Math.pow(10,v)));
     mkExpRow("scaleExpCLabel","scaleExpCDesc","scaleExpC",
-      ()=>scaleEffNow().eC, (v)=>setScaleExps({C:v}), 0, 12);
+      ()=>scaleEffNow().eC, (v)=>setScaleExps({C:v}), 0, 12,
+      (v)=>"c₀=30 → "+fmtMps(30*Math.pow(10,v)));
   }
   // 第81便(原仮定者指示): カメラ追従 — 選んだ天体を画面中央に置き続ける。描画層のみで
   // camX/camY だけを毎フレーム動かす(sim.params・物理状態・保存 JSON には一切書かない)。
@@ -13238,6 +13455,21 @@ function renderHelp(){
       const bh=document.createElement("div"); bh.className="ffHead"; bh.textContent=T("ffHead"); box.appendChild(bh);
       const r1=document.createElement("div"); r1.className="ffRow ffFail"; r1.textContent="❌ "+T("ffFail")+" — "+ff.fail; box.appendChild(r1);
       const r2=document.createElement("div"); r2.className="ffRow ffPass"; r2.textContent="✅ "+T("ffPass")+" — "+ff.pass; box.appendChild(r2);
+      el.appendChild(box);
+    }
+  }
+  // 第119便(原仮定者裁定「可視化提案: 全て進める」③): 観測結果カード — obsCard 宣言のある
+  // プリセットのみ。ハーネス実測値と観測値を並べて見せる(宣言専用メタ・表示のみ)
+  {
+    const oc=pObsCard(currentPreset);
+    if(oc && oc.length){
+      const box=document.createElement("div"); box.className="ffBox ocBox";
+      const bh=document.createElement("div"); bh.className="ffHead"; bh.textContent=T("ocHead"); box.appendChild(bh);
+      for(const row of oc){
+        const r=document.createElement("div"); r.className="ffRow ocRow";
+        r.textContent="📊 "+row.q+": "+T("ocModel")+" "+row.model+" / "+T("ocObs")+" "+row.obs;
+        box.appendChild(r);
+      }
       el.appendChild(box);
     }
   }
@@ -14574,6 +14806,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 第94便: 画面下詳細のスケール換算行(canvas 描画文字列はDOMから読めないためQA用に同関数を公開)
   // 第95便: 2行分割に伴い連結文字列を返す(行配列は selConvLines)
   selConvText:()=>{ const L=selConvLinesNow(); return L? L.join(" ・ ") : null; },
+  orbitObsNow:()=>_ooLast,   // 第119便: 軌道観測サブシステムの直近サマリ(QA・表示専用)
   selConvLines:selConvLinesNow,
   scaleDisp:()=>scaleDispOn, setScaleDisp:(v)=>{ setScaleDisp(v); refreshScaleConv(); },
   curveVBarAt,  // 第32便 W4(台帳4-49): 回転曲線の基準線 v_bar(r) のQA用
