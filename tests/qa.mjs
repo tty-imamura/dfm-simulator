@@ -12523,9 +12523,13 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       out.ocRows = rows.length;
       out.ocHasObs = [...rows].some((x) => x.textContent.includes('42.98'));
       // ③軌道要素ライブ: 選択粒子の第3行に a・e・T・ϖ
+      // (フル実行では先行テストの表示状態が残り得るため、前提を自前で確立する —
+      //  スケール換算表示 ON が selConvText の必要条件)
+      HP.setScaleDisp(true); HP.setLang('ja');
       HP.selectBody(1, 'A');
       const L = HP.selConvText();
       out.orbLine = !!(L && / a .* e .* T .* ϖ /.test(L));
+      out.orbLineTxt = String(L).slice(-90);   // 失敗時の診断用(joined 末尾=軌道行)
       HP.selectBody(-1, 'A');
       // ④アンカーホバー: 時間スケール指数行に「1単位 ≈」title・距離 tierRow に馴染み単位
       buildParamRows();
@@ -12561,7 +12565,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       r.ooOk && r.ocRows === 3 && r.ocHasObs && r.orbLine && r.hoverT && r.tierFam
       && r.abDisp && r.panFlip && r.spokeFlip && r.tsBeforeSoft && r.valid,
       `orbitObs積算=${r.ooOk} / 観測結果カード ${r.ocRows}行(42.98″併記=${r.ocHasObs}) / ` +
-      `軌道要素ライブ=${r.orbLine} / アンカーホバー(T行=${r.hoverT}・距離馴染み単位=${r.tierFam}) / ` +
+      `軌道要素ライブ=${r.orbLine}(${r.orbLineTxt}) / アンカーホバー(T行=${r.hoverT}・距離馴染み単位=${r.tierFam}) / ` +
       `dispMag A/B=${r.abDisp} / 反転(ドラッグ=${r.panFlip}・スポーク=${r.spokeFlip}) / ` +
       `時間経過倍率<ε=${r.tsBeforeSoft} / validator=${r.valid}`);
   } else {
