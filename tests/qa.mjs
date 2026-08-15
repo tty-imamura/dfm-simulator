@@ -12503,6 +12503,70 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   } else {
     console.log('SKIP wave118.ui(第118便 未適用 — root 等)');
   }
+  // 92-1d) 第119便: 軌道観測(歳差積算+ゴースト軌道)・観測結果カード・軌道要素ライブ・
+  //        アンカーホバー・dispMag A/B・上下反転のドラッグ/スポーク対応・時間経過倍率の位置
+  const has119 = await page.evaluate(() => !!(window.HP && typeof HP.orbitObsNow === 'function'
+    && typeof pObsCard === 'function'));
+  if (has119) {
+    const r = await page.evaluate(() => {
+      const out = {};
+      // ① orbitObs: ☄️ を数百步回すと RL 歳差の積算サマリが得られる(表示専用)
+      HP.loadPreset('mercuryReal', false);
+      for (let i = 0; i < 400; i++) HP.sim.step(0.016);
+      drawOrbitObs();
+      const oo = HP.orbitObsNow();
+      out.ooOk = !!(oo && isFinite(oo.cumArc) && isFinite(oo.rate) && oo.e > 0.19 && oo.e < 0.22
+        && isFinite(oo.a0));
+      // ②観測結果カード: ☄️ のヘルプに ocBox が出て、行数=宣言数
+      renderHelp();
+      const rows = document.querySelectorAll('#helpBody .ocRow');
+      out.ocRows = rows.length;
+      out.ocHasObs = [...rows].some((x) => x.textContent.includes('42.98'));
+      // ③軌道要素ライブ: 選択粒子の第3行に a・e・T・ϖ
+      HP.selectBody(1, 'A');
+      const L = HP.selConvText();
+      out.orbLine = !!(L && / a .* e .* T .* ϖ /.test(L));
+      HP.selectBody(-1, 'A');
+      // ④アンカーホバー: 時間スケール指数行に「1単位 ≈」title・距離 tierRow に馴染み単位
+      buildParamRows();
+      const tRow = document.querySelector('#scaleExpTSlider');
+      out.hoverT = !!(tRow && /1単位 ≈/.test(tRow.closest('.prow').title));
+      out.tierFam = [...document.querySelectorAll('#paramRows div')]
+        .some((d) => /1単位 ≈ .*(km|m|au)/.test(d.textContent) && /10\^/.test(d.textContent));
+      // ⑤ dispMag が A/B 側描画式にも入っている(ソース検査 — drawWorldInto)
+      out.abDisp = String(drawWorldInto).includes('S.params.dispMag');
+      // ⑥ 上下反転: panCam が flipY で y 反転・スポーク描画が fy を使う(ソース検査)
+      out.panFlip = String(panCam).includes('flipY');
+      out.spokeFlip = String(render).includes('fy*Math.sin');
+      // ⑦ 時間経過倍率の行がソフトニング ε の行より前(シミュレーションカテゴリ内)
+      const labels = [...document.querySelectorAll('#paramRows .prow label')].map((x) => x.textContent);
+      // ラベルは役割チップ(「数値」等)が末尾に連結されるため部分一致で探す
+      const iTs = labels.findIndex((t) => t.includes('時間経過倍率')),
+        iSoft = labels.findIndex((t) => t.includes('ソフトニング'));
+      out.tsBeforeSoft = iTs >= 0 && iSoft >= 0 && iTs < iSoft;
+      // ⑧ validator: obsCard / orbitObs の不正値は警告つき削除・正値は保持
+      const base = { name: 'w', description: 'd', camera: { scale: 200 },
+        world: { boundary: 'none', size: 0 }, physics: {},
+        bodies: [{ type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] };
+      const vBad = HP.validatePreset({ ...base, obsCard: [{ q: 1 }], orbitObs: { center: 0, orbiter: 0 } });
+      const vOk = HP.validatePreset({ ...base,
+        obsCard: [{ q: 'a', model: 'b', obs: 'c' }], orbitObs: { center: 0, orbiter: 1, ghostAmp: 100 } });
+      out.valid = vBad.ok && vBad.preset.obsCard === undefined && vBad.preset.orbitObs === undefined
+        && (vBad.warnings || []).filter((w) => /obsCard|orbitObs/.test(w)).length === 2
+        && vOk.ok && vOk.preset.obsCard.length === 1 && vOk.preset.orbitObs.ghostAmp === 100;
+      HP.loadPreset('saturn', false);
+      return out;
+    });
+    add('wave119.ui',
+      r.ooOk && r.ocRows === 3 && r.ocHasObs && r.orbLine && r.hoverT && r.tierFam
+      && r.abDisp && r.panFlip && r.spokeFlip && r.tsBeforeSoft && r.valid,
+      `orbitObs積算=${r.ooOk} / 観測結果カード ${r.ocRows}行(42.98″併記=${r.ocHasObs}) / ` +
+      `軌道要素ライブ=${r.orbLine} / アンカーホバー(T行=${r.hoverT}・距離馴染み単位=${r.tierFam}) / ` +
+      `dispMag A/B=${r.abDisp} / 反転(ドラッグ=${r.panFlip}・スポーク=${r.spokeFlip}) / ` +
+      `時間経過倍率<ε=${r.tsBeforeSoft} / validator=${r.valid}`);
+  } else {
+    console.log('SKIP wave119.ui(第119便 未適用 — root 等)');
+  }
   // 92-2→93改→94改) scale.exponents: 4指数(距離/時間/質量/光速)の表示スケール系。
   //       第93便の慣習アンカー表(SCALE_FAMILIAR)・時間倍率指数(texp)は第94便で撤回され、
   //       「タグ既定の4指数+スライダー上書き」に一本化された(scale.familiar を全面書き換え)。
@@ -12831,7 +12895,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       // 第95便(原仮定者指示): 「選択粒子の編集」を畳んでいても換算は表示・2行分割(改行)
       document.querySelector('#beClose').click();
       const lines = HP.selConvLines ? HP.selConvLines() : null;
-      const minShown = !!lines && lines.length === 2;
+      // 第119便: 軌道要素ライブ(3行目)が加わったため 2行以上(m/Ω/R・vx/vy が維持されていること)
+      const minShown = !!lines && lines.length >= 2;
       document.querySelector('#beClose').click();   // 元に戻す
       HP.setScaleDisp(false);
       const offHidden = HP.selConvText() === null;
