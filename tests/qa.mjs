@@ -3823,7 +3823,8 @@ if (hasBadgeClassify) {
     // prefix 比較は旧「時間倍率指数」ビルドも受けるため維持(新設の「時間スケール指数」行は不一致)
     const tsRows = [...document.querySelectorAll('#paramRows .prow')]   // 第88便: 役割チップ対応(先頭テキストノード比較)
       .filter(x => x.querySelector('label') && x.querySelector('label').firstChild
-        && x.querySelector('label').firstChild.textContent.startsWith('時間倍率'));
+        // 第118便: 「時間倍率」→「時間経過倍率」改名 — 新旧両ラベルを受ける(時間スケール指数行は不一致のまま)
+        && /^時間(経過)?倍率/.test(x.querySelector('label').firstChild.textContent));
     res.tsSingle = tsRows.length === 1;
     // 詳細設定(advParams)の中ではない(第54便 54D⑤: 表示グループ自体は catParams の
     // details に入ったため、details 一般ではなく advParams 限定で判定する)
@@ -4006,23 +4007,24 @@ if (hasBadgeClassify) {
 {
   // 第97便: 上限 24→200(実効倍率 100×SUBSTEPS — 時間倍率範囲 0.01〜100 の拡大に追随)。
   // 旧上限のビルド(root 等)は旧期待で検査する(飽和値・繰越上限・バースト消化量が変わる)
-  const cap200 = await page.evaluate(() => HP.stepBudget(0, 500).k === 200);
+  // 第118便: 上限 200→2000(時間経過倍率 0.001〜1000)。上限は実測で判別し世代別期待にする
+  const seCap = await page.evaluate(() => HP.stepBudget(0, 5000).k);
   const r = await page.evaluate((cap) => {
     const runs = {};
     let acc = 0, total = 0;
     for (let f = 0; f < 100; f++) { const b = HP.stepBudget(acc, 8); acc = b.acc; total += b.k; }
     runs.low = total;                                       // 要求 ≤上限/フレーム: 合計=要求合計
     acc = 0; total = 0; let maxAcc = 0;
-    const over = cap ? 320 : 64;
+    const over = Math.round(cap * 1.6);
     for (let f = 0; f < 100; f++) { const b = HP.stepBudget(acc, over); acc = b.acc; total += b.k; if (b.acc > maxAcc) maxAcc = b.acc; }
     runs.high = total; runs.maxAcc = maxAcc;                // 持続的過負荷: 上限/フレームに飽和・繰越は有界
     acc = 0; total = 0;
-    const burst0 = cap ? 250 : 60;
+    const burst0 = Math.round(cap * 1.25);
     for (let f = 0; f < 5; f++) { const b = HP.stepBudget(acc, f === 0 ? burst0 : 0); acc = b.acc; total += b.k; }
     runs.burst = total;                                     // 一時バースト: 繰越上限まで後続で消化
     return runs;
-  }, cap200);
-  const seCap = cap200 ? 200 : 24, seHigh = cap200 ? 20000 : 2400, seBurst = cap200 ? 250 : 48;
+  }, seCap);
+  const seHigh = seCap * 100, seBurst = Math.round(seCap * 1.25);
   add('time.step-accounting', Math.abs(r.low - 800) <= 1 && r.high === seHigh && r.maxAcc <= seCap && r.burst === seBurst,
     `低負荷=${r.low}/800 過負荷=${r.high}/${seHigh} 繰越最大=${r.maxAcc}≤${seCap} バースト=${r.burst}/${seBurst}(上限=${seCap})`);
 }
@@ -8044,11 +8046,14 @@ if (hasEchoFlipAt) {
       const tiny = s.R[0];
       return { ok: v.ok, clamps, warns: v.warnings.length, omitted, rFormula, rExplicit, knob, tiny };
     });
-    const rmOk = rm.ok && JSON.stringify(rm.clamps) === JSON.stringify([5, 0.2, 3, 2]) && rm.warns === 2 &&
+    // 第118便: rMul 上限 5→20(💍 実環代表粒)— 新世代では 9 は素通し・警告は ring 0.01→0.2 の1件のみ
+    const rmNew = rm.clamps && rm.clamps[0] === 9;
+    const rmExp = rmNew ? [9, 0.2, 3, 2] : [5, 0.2, 3, 2], rmWarnExp = rmNew ? 1 : 2;
+    const rmOk = rm.ok && JSON.stringify(rm.clamps) === JSON.stringify(rmExp) && rm.warns === rmWarnExp &&
       rm.omitted && Math.abs(rm.rFormula - 20) < 1e-5 && Math.abs(rm.rExplicit - 7) < 1e-5 &&
       Math.abs(rm.knob - 40) < 1e-5 && Math.abs(rm.tiny - 0.1) < 1e-5;
     add('rmul.schema', rmOk,
-      `clamp=${JSON.stringify(rm.clamps)}(=[5,0.2,3,2]) 警告${rm.warns}件 省略時キーなし=${rm.omitted} ` +
+      `clamp=${JSON.stringify(rm.clamps)}(=${JSON.stringify(rmExp)}) 警告${rm.warns}件(=${rmWarnExp}) 省略時キーなし=${rm.omitted} ` +
       `R(rMul2,m100)=${rm.rFormula}(=20) radius優先=${rm.rExplicit}(=7) rs2倍=${rm.knob}(=40) 微小R=${rm.tiny.toFixed(4)}(=0.1・下限0.5を経由しない)`);
 
     // ③ sweep.auto-monotonic: 同一質量・半径で s=0/0.5/1/2 → lS_eff が単調増加し s=0 で 0
@@ -12082,7 +12087,9 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     });
     add('params.roles',
       r.badRole.length === 0 && r.undeclared.length === 0 &&
-      r.exp.join(',') === 'gravityX,gravityY' && r.num.join(',') === 'radiusScale,softening,timeScale' &&
+      r.exp.join(',') === 'gravityX,gravityY' &&
+      (r.num.join(',') === 'dispMag,softening,timeScale'   /* 第118便: radiusScale の UI 廃止→dispMag */
+        || r.num.join(',') === 'radiusScale,softening,timeScale') &&
       r.legend && r.chips >= r.n && r.kinds.join(',') === 'experiment,numerics,physics',
       `PARAM_DEFS=${r.n}件 全宣言あり(未宣言=[${r.undeclared.join(',')}]・不正値=[${r.badRole.join(',')}])/ ` +
       `実験条件=[${r.exp.join(',')}]・数値=[${r.num.join(',')}]・他=物理仮定 / ` +
@@ -12422,6 +12429,79 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       `読込=${r.loadedId} 選択保持=${r.currentKept} validator(不正削除=${r.badDropped}/正値保持=${r.goodKept})`);
   } else {
     console.log('SKIP catalog.visibility(catalog 可視性なし — root。第117便)');
+  }
+  // 92-1c) 第118便: サンプル別スケール指数(scaleExp)・粒子表示倍率(dispMag=表示専用)・
+  //        上下反転(表示専用ミラー)・時間の単位変換(fmtSecs)・R 入力範囲 0.01〜100
+  const has118 = await page.evaluate(() => !!(window.HP && typeof setFlipY === 'function'
+    && typeof fmtSecs === 'function' && PARAM_DEFS.some((d) => d.key === 'dispMag')));
+  if (has118) {
+    const r = await page.evaluate(() => {
+      const out = {};
+      // ① scaleExp: プリセット宣言がタグ既定を上書きし、eC=x−eT(実c値規約の自動切替)
+      HP.loadPreset('mercuryReal', false);
+      const e1 = scaleEffNow();
+      out.mercuryExp = e1.x === 8 && e1.eT === 4 && e1.eM === 27 && e1.eC === 4;
+      HP.loadPreset('earthMoonReal', false);
+      const e2 = scaleEffNow();
+      out.emExp = e2.x === 6 && e2.eT === 2 && e2.eM === 25 && e2.eC === 4;
+      HP.loadPreset('saturnRingReal', false);
+      const e3 = scaleEffNow();
+      out.srExp = e3.x === 7 && e3.eT === 3 && e3.eM === 26 && e3.eC === 4;
+      // ②'validator: 不正 scaleExp は警告つき削除・正値は保持
+      const base = { name: 's', description: 'd', camera: { scale: 200 },
+        world: { boundary: 'none', size: 0 }, physics: {},
+        bodies: [{ type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] };
+      const vBad = HP.validatePreset({ ...base, scaleExp: { L: 'x', T: 2, M: 3 } });
+      const vOk = HP.validatePreset({ ...base, scaleExp: { L: 6, T: 2, M: 25 } });
+      out.seValid = vBad.ok && vBad.preset.scaleExp === undefined
+        && (vBad.warnings || []).some((w) => w.includes('scaleExp'))
+        && vOk.ok && vOk.preset.scaleExp && vOk.preset.scaleExp.L === 6;
+      // ② dispMag は表示専用: 1 と 1000 で 200 步の力学状態が bit 一致
+      const dump = () => { const S = HP.sim; const a = [];
+        for (const k of ['x', 'y', 'vx', 'vy', 'spin', 'tau'])
+          a.push(Array.prototype.join.call(S[k].subarray(0, S.n), ','));
+        return a.join('|'); };
+      HP.loadPreset('mercuryReal', false);
+      HP.sim.params.dispMag = 1;
+      for (let i = 0; i < 200; i++) HP.sim.step(0.016);
+      const s1 = dump();
+      HP.loadPreset('mercuryReal', false);
+      HP.sim.params.dispMag = 1000;
+      for (let i = 0; i < 200; i++) HP.sim.step(0.016);
+      out.dispMagInert = dump() === s1;
+      // ③ 上下反転: w2sY が画面中央まわりの鏡像になり、OFF で戻る(表示専用)
+      const y0 = w2sY(camY + 50);
+      setFlipY(true);
+      const y1 = w2sY(camY + 50);
+      setFlipY(false);
+      const y2 = w2sY(camY + 50);
+      out.flip = Math.abs((y0 - ch / 2) + (y1 - ch / 2)) < 1e-9 && Math.abs(y0 - ch / 2) > 1 && y2 === y0;
+      out.flipCb = !!document.querySelector('#flipYCb');
+      // ④ 時間の単位変換: s/分/時間/日/年(HUD の t 表示・再生1s換算が使う)
+      out.fmtOk = fmtSecs(30) === '30 s' && /分$/.test(fmtSecs(120)) && /時間$/.test(fmtSecs(7200))
+        && /^27\.3\d* 日$/.test(fmtSecs(2.3606e6)) && /年$/.test(fmtSecs(3.2e7));
+      // ⑤ R 入力範囲 0.01〜100(選択粒子の編集)— 実半径 0.0244(水星)が受理される
+      HP.loadPreset('mercuryReal', false);
+      out.mercR = HP.sim.R[1];
+      HP.selectBody(1, 'A');
+      const be = document.querySelector('#beR');
+      be.value = '0.005'; be.dispatchEvent(new Event('change'));
+      const rLo = HP.sim.R[1];
+      be.value = '500'; be.dispatchEvent(new Event('change'));
+      const rHi = HP.sim.R[1];
+      HP.selectBody(-1, 'A');
+      out.rClamp = Math.abs(rLo - 0.01) < 1e-9 && Math.abs(rHi - 100) < 1e-6;
+      HP.loadPreset('saturn', false);
+      return out;
+    });
+    add('wave118.ui',
+      r.mercuryExp && r.emExp && r.srExp && r.seValid && r.dispMagInert && r.flip && r.flipCb
+      && r.fmtOk && Math.abs(r.mercR - 0.0244) < 1e-6 && r.rClamp,
+      `scaleExp上書き(☄️8/4/27=${r.mercuryExp} 🌙6/2/25=${r.emExp} 💍7/3/26=${r.srExp}・eC=x−eT=4)validator=${r.seValid} / ` +
+      `dispMag力学bit不変=${r.dispMagInert} / 上下反転(鏡像+復帰)=${r.flip}・トグル=${r.flipCb} / ` +
+      `時間単位変換=${r.fmtOk} / R実半径0.0244受理(実測${r.mercR})+クランプ0.01〜100=${r.rClamp}`);
+  } else {
+    console.log('SKIP wave118.ui(第118便 未適用 — root 等)');
   }
   // 92-2→93改→94改) scale.exponents: 4指数(距離/時間/質量/光速)の表示スケール系。
   //       第93便の慣習アンカー表(SCALE_FAMILIAR)・時間倍率指数(texp)は第94便で撤回され、
@@ -12983,7 +13063,10 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       HP.requestRender();
       setTimeout(() => {
         const hud = document.querySelector('#hud').textContent;
-        out.hudClamped = /実効倍率100[^\d.]|effective rate 100[^\d.]/.test(hud);   // 30×4=120 → 100
+        // 第118便: 実効倍率クランプ上限 100→1000 — 30×4=120 は新世代では素通し(旧世代は 100)
+        const capNew = HP.stepBudget(0, 5000).k === 2000;
+        out.hudClamped = capNew ? /実効倍率120[^\d.]|effective rate 120[^\d.]/.test(hud)
+                                : /実効倍率100[^\d.]|effective rate 100[^\d.]/.test(hud);
         HP.sim.params.timeScale = HP.allPresets().find((p) => p.id === 'projectile').physics.timeScale;   // 宣言値へ復元
         sp.value = '1'; sp.dispatchEvent(new Event('change'));
         HP.requestRender();
