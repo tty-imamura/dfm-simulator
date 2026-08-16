@@ -12624,7 +12624,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       const mk = HP.allPresets().find((p) => p.id === 'mercuryRealKF1');
       const sk = HP.allPresets().find((p) => p.id === 'saturnRingRealKF1');
       out.newPresets = !!(mk && sk && mk.physics.kFrame === 1 && sk.abBody && sk.abBody.physicsPatch
-        && sk.abBody.physicsPatch.kFrame === 0);
+        && ((typeof qLockCalc === 'function') ? sk.abBody.physicsPatch.q === 3   // 第123便: 誇張対照は q=3 へ
+          : sk.abBody.physicsPatch.kFrame === 0));
       HP.loadPreset('saturn', false);
       return out;
     });
@@ -12661,11 +12662,13 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       out.ringE6 = sr.scaleExp.L === 6 && sr.physics.timeScale === 10 && titan(sr)
         && sk.scaleExp.L === 6 && titan(sk) && sk.overlays.trail === true
         && sr.bodies.filter((b) => b.type === 'single').length === 7;
+      const gen123 = (typeof qLockCalc === 'function');   // 第123便世代(qLock 自動算出)
       // ④ 🪨: 較正(第121便 D₀=1e4 → 第122便 共通補正 D₀=0.006+q=5)+c₀=30 ワンタップ /
       //    🌙: kF1+D0 ワンタップ / 💍: kF1 ワンタップ
       const mk = HP.allPresets().find((p) => p.id === 'mercuryRealKF1');
       const em = HP.allPresets().find((p) => p.id === 'earthMoonReal');
-      const mkCal = gen122 ? (mk.physics.D0 === 0.006 && mk.physics.q === 5) : mk.physics.D0 === 10000;
+      const mkCal = gen122 ? (mk.physics.D0 === 0.006
+        && (mk.physics.q === 5 || mk.qLock === true)) : mk.physics.D0 === 10000;   // 第123便: qLock 世代は q 自動算出
       out.oneTaps = mkCal && mk.abBody && mk.abBody.physicsPatch.cLight === 30
         && em.abBody && em.abBody.physicsPatch.kFrame === 1 && em.abBody.physicsPatch.D0 === 0.006
         && sr.abBody && sr.abBody.physicsPatch.kFrame === 1;
@@ -12710,13 +12713,15 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       const mk = HP.allPresets().find((p) => p.id === 'mercuryRealKF1');
       const ek = HP.allPresets().find((p) => p.id === 'earthMoonRealKF1');
       const em = HP.allPresets().find((p) => p.id === 'earthMoonReal');
-      out.joint = mk.physics.D0 === 0.006 && mk.physics.q === 5
-        && ek.physics.D0 === 0.006 && ek.physics.q === 5
-        && em.abBody.physicsPatch.q === 5;
-      // ④ q クランプ・スライダー上限 8(共通補正 q=5 を値域内に)
-      out.qRange = /q:\[0\.5,8\]/.test(src) && /key:"q",\s*label:[^}]*hi:\s*8/.test(src);
-      // ⑤ 🪨 の主役ノブが q(共通補正⇄逆行引きずりの対照)
-      out.qKnob = Array.isArray(mk.activeParams) && mk.activeParams[0] === 'q';
+      const gen123 = (typeof qLockCalc === 'function');   // 第123便世代: q は qLock 自動算出へ
+      out.joint = mk.physics.D0 === 0.006 && ek.physics.D0 === 0.006
+        && (gen123 ? (mk.qLock === true && ek.qLock === true && em.abBody.physicsPatch.qLock === true)
+          : (mk.physics.q === 5 && ek.physics.q === 5 && em.abBody.physicsPatch.q === 5));
+      // ④ q クランプ・スライダー上限(第122便: 8 → 第123便: 40)
+      out.qRange = gen123 ? (/q:\[0\.5,40\]/.test(src) && /key:"q",\s*label:[^}]*hi:\s*40/.test(src))
+        : (/q:\[0\.5,8\]/.test(src) && /key:"q",\s*label:[^}]*hi:\s*8/.test(src));
+      // ⑤ 🪨 の主役ノブ(第122便: q ⇄ 第123便: qLock で q は編集対象外 → D0 が先頭)
+      out.qKnob = Array.isArray(mk.activeParams) && mk.activeParams[0] === (gen123 ? 'D0' : 'q');
       return out;
     });
     add('wave122.ui',
@@ -12725,6 +12730,54 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       `共通補正(D₀=0.006,q=5)=${r.joint} / q値域8=${r.qRange} / 🪨主役=q=${r.qKnob}`);
   } else {
     console.log('SKIP wave122.ui(第122便 未適用 — root 等)');
+  }
+  // 92-1h) 第123便: qLock(qの自動算出=LT整合則)・💿共通補正+MM整合・A/B の決定力マップ/線の軌跡修正
+  const has123 = await page.evaluate(() => !!(window.HP && typeof qLockCalc === 'function'));
+  if (has123) {
+    const r = await page.evaluate(() => {
+      const out = {};
+      // ① qLock: 🌘 読込で q が自動算出値(≈8.25)になり、q 行が編集不可
+      HP.loadPreset('earthMoonRealKF1', false);
+      out.qEM = Math.abs(HP.sim.params.q - 8.25) < 0.1;
+      buildParamRows();
+      const qRow = [...document.querySelectorAll('input[type=range]')]
+        .find((el) => el.disabled && el.max === '40');
+      out.qDisabled = !!qRow;
+      // ② 💿: 共通補正 D₀=0.006+qLock(q*≈21.8)・ワンタップ q=3
+      HP.loadPreset('saturnRingRealKF1', false);
+      out.qRing = HP.sim.params.q > 20 && HP.sim.params.q < 24 && HP.sim.params.D0 === 0.006;   // a_ref=環中央値(シード依存で ±1 程度)
+      const sk = HP.allPresets().find((p) => p.id === 'saturnRingRealKF1');
+      const sr = HP.allPresets().find((p) => p.id === 'saturnRingReal');
+      out.oneTaps = sk.abBody.physicsPatch.q === 3 && sk.qLock === true
+        && sr.abBody.physicsPatch.q === 3 && sr.abBody.physicsPatch.kFrame === 1;
+      // ③ 🪨: q*≈6.16
+      HP.loadPreset('mercuryRealKF1', false);
+      out.qMerc = Math.abs(HP.sim.params.q - 6.16) < 0.1;
+      // ④ A/B: 決定力マップの半面描画+線の軌跡の上限半減廃止(ソース検査)
+      out.abField = (typeof drawFieldInto === 'function')
+        && String(drawWorldInto).includes('drawFieldInto');
+      out.trailParity = !String(HP.recTrail).includes('ab?');
+      // ⑤ 🌌 は宣言 q=2 のまま(既存 claims 保護 — 誇張ドメインへは自動適用しない)
+      const gal = HP.allPresets().find((p) => p.id === 'galaxy');
+      out.galaxyQ = gal.physics.q === 2 && !gal.qLock;
+      // ⑥ ワンタップ physicsPatch.qLock: 🌙 B側で q が自動算出される
+      HP.loadPreset('earthMoonReal', false);
+      buildParamRows();
+      const btn = document.querySelector('#btnAbBody');
+      out.abBtn = !!btn;
+      if (btn) { btn.click();
+        out.abQ = !!(ab && Math.abs(ab.simB.params.q - 8.25) < 0.1 && ab.simB.params.kFrame === 1);
+        abStop(); }
+      HP.loadPreset('saturn', false);
+      return out;
+    });
+    add('wave123.ui',
+      r.qEM && r.qDisabled && r.qRing && r.oneTaps && r.qMerc && r.abField && r.trailParity
+      && r.galaxyQ && r.abBtn && r.abQ,
+      `qLock: 🌘=${r.qEM}(行無効=${r.qDisabled})・💿=${r.qRing}・🪨=${r.qMerc} / ワンタップ=${r.oneTaps}&🌙qLock=${r.abQ} / ` +
+      `A/Bマップ=${r.abField}・軌跡上限同一=${r.trailParity} / 🌌宣言q維持=${r.galaxyQ}`);
+  } else {
+    console.log('SKIP wave123.ui(第123便 未適用 — root 等)');
   }
   // 92-2→93改→94改) scale.exponents: 4指数(距離/時間/質量/光速)の表示スケール系。
   //       第93便の慣習アンカー表(SCALE_FAMILIAR)・時間倍率指数(texp)は第94便で撤回され、
