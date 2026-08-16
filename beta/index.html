@@ -717,7 +717,8 @@ ja: {
   cLinkClamped:(keys)=>"⚠ 相似変換: "+keys+" が値域クランプされ厳密相似が破れています",
   divUndo:"⏪ 直前の設定に戻して初めから",
   divRestored:"発散前の設定に戻し、初期配置から再開できます(▶実行)",
-  tgTrails:"軌跡を残す", tgTrailLine:"線の軌跡", tgField:"決定力マップ", tgCurve:"回転曲線グラフ",
+  tgTrails:"軌跡を残す",
+  trailLifeTip:"線の軌跡の残存時間(シミュレーション時間・0=無制限)。線は残り時間でだんだん暗くなる。表示のみ。", tgTrailLine:"線の軌跡", tgField:"決定力マップ", tgCurve:"回転曲線グラフ",
   tgTemp:"温度グラフ", tgSpectrum:"スペクトル", tgMonitor:"保存量モニタ(P・L・帳簿)",
   tgRays:"光線", uiScaleLabel:"文字サイズ",
   // 第32便(W2): 膨張グラフ overlay(a・H・赤方偏移)
@@ -1124,7 +1125,8 @@ en: {
   cLinkClamped:(keys)=>"⚠ Similarity transform: "+keys+" clamped to range — exact similarity broken",
   divUndo:"⏪ Restore last-good settings & restart",
   divRestored:"Pre-divergence settings restored — press ▶ Run to restart from the initial layout",
-  tgTrails:"Motion trails", tgTrailLine:"Line trails", tgField:"Determinacy map", tgCurve:"Rotation-curve graph",
+  tgTrails:"Motion trails",
+  trailLifeTip:"Lifetime of line trails (simulation time units; 0 = unlimited). Lines fade with remaining time. Display only.", tgTrailLine:"Line trails", tgField:"Determinacy map", tgCurve:"Rotation-curve graph",
   tgTemp:"Temperature graph", tgSpectrum:"Spectrum", tgMonitor:"Conservation monitor (P, L, ledger)",
   tgRays:"Light rays", uiScaleLabel:"Text size",
   tgBoxGraph:"Expansion graph (a, H, redshift)",
@@ -2019,7 +2021,7 @@ function refreshScaleConv(){
 const PARAM_DEFS = [
   // v1.21: desc(タップ説明。ja はここ、en は I18N.en.paramDescs)。仕様は docs/PHYSICS.md §5 準拠
   // 第95便(原仮定者指示): 「重力 G」は「光速 c₀」の次へ移動(配列順=表示順。定義内容は不変)
-  {key:"D0",    label:"背景決定力 D₀",       mode:"log", lo:0.005,  hi:200,  cat:"dg", group:"法則",   /* 第120便: lo 0.05→0.005(🌘の近点回転較正 D₀=0.006 を被覆) */
+  {key:"D0",    label:"背景決定力 D₀",       mode:"log", lo:0.005,  hi:1e6,  cat:"dg", group:"法則",   /* 第120便: lo 0.005 / 第121便: hi 1e6(🪨の引きずり抑制較正 D₀=1e4 を被覆) */
    desc:"遠方宇宙が及ぼす決定力の底値(A5)。大きいほど空間が遠方に固定されて安定し、近くの質量による空間引きずり(kFrame)の効きが相対的に弱まる。"},
   {key:"kFrame",label:"空間引きずり kFrame", mode:"lin", lo:0, hi:1, step:0.01, cat:"dg", group:"法則",
    desc:"質量が動く・回ると「近くの空間」(決定フレーム)ごと引きずり、そこにある物質と光を運ぶ効果の強さ(A4/A5/E6′)。1=完全な相対空間、0=引きずりなしのニュートン的空間。銀河外縁の回転速度増強(T4)の主役。"},
@@ -2104,7 +2106,7 @@ function valToSliderPos(def,v){
 // 第113便(原仮定者指示「43″/世紀を域外にしない」): Kt 1e4→1e9・cLight 1e4→1e6 へ拡張 —
 // ティア別実c値(☀️=3e4)と physLock の導出 Kt=c₀²/G(☀️実G+実cで 1.35e8)を値域内にする。
 // 既存プリセット・既定値は全て旧値域内なので挙動不変(広げるだけ)
-const CLAMPS = { G:[0,1e6], D0:[0,1000], kFrame:[0,1], q:[0.5,4], kRep:[0,20], muF:[0,1],
+const CLAMPS = { G:[0,1e6], D0:[0,1e6], kFrame:[0,1], q:[0.5,4], kRep:[0,20], muF:[0,1],
   gammaN:[0,1], kappaS:[0,2], Kt:[1,1e9], kLens:[0,1],
   cLight:[1,1e6], bM:[0.001,1000], etaRad:[0,1], pRad:[1,6], radiusScale:[0.2,5],
   cHeat:[0.01,1000],   // 第36便 D(台帳4-51): 熱容量係数 C(thermal:"tint" 専用)
@@ -2272,8 +2274,8 @@ const BUILTIN_PRESETS = [
   // スピン起源を分解確定)。観測 43″/世紀 と3桁不一致 = kF1×実スピンは較正外(fidelity なし)。
   // A8 引きずりは c² 抑制を持たない誇張スケールの機構であることの定量実証サンプル
   failureFirst:{
-    fail:"kFrame=1 のまま太陽の実自転(25.05日)を入れると、スピン引きずりが逆行 −7.3×10⁻⁵ rad/公転(−1.5万″/世紀)の歳差を加え、観測の +43″/世紀 と3桁不一致になる(exp-kf1b §B — スピン0 なら kF0 と厳密一致=スピン起源)。",
-    pass:"これは A8 引きずりが c² 抑制を持たない誇張可視化スケールの機構であることの定量実証 — 較正サンプル(☄️=kFrame 0)と機構対照(本サンプル)を分けて運用する(第118便の kFrame=0 規約の実測根拠を1サンプル化)。"},
+    fail:"kFrame=1 のまま太陽の実自転(25.05日)を入れると、D₀=0.1 ではスピン引きずりが逆行 −7.3×10⁻⁵ rad/公転(−1.5万″/世紀)の歳差を加え、観測の +43″/世紀 と3桁不一致になる(exp-kf1b §B — スピン0 なら kF0 と厳密一致=スピン起源)。",
+    pass:"第121便の較正: スピン引きずりも χ=w/(D₀+w) 比例 — D₀=10⁴ で引きずりが 1PN の 1/16 に落ち、kF1 のまま 43″/世紀が成立する。ただし 🌘(D₀=0.006)と 🪨(D₀=10⁴)で D₀ が7桁違う — D₀ は系ごとの較正値で普遍定数ではない(w=m/d の次元性の帰結 — 正直な明記)。D₀ を 0.1 へ下げると逆行引きずりが現れる。"},
   obsCard:[
     {q:"引きずり歳差(実スピン)", model:"−7.3×10⁻⁵ rad/公転(−1.5万″/世紀・逆行)", obs:"近日点前進 +43″/世紀(3桁不一致=較正外)"},
     {q:"スピン0 対照", model:"kF0 と厳密一致(引きずり=スピン起源)", obs:"—(exp-kf1b §B)"}],
@@ -2293,9 +2295,17 @@ const BUILTIN_PRESETS = [
     summary:"The same real values as ☄️ (kFrame=0) with frame dragging (A8/E6′) enabled. The pinned Sun's real rotation (25.05 d) drags Mercury's perihelion RETROGRADE at −7.3×10⁻⁵ rad/orbit (−15,000″/century) — three orders of magnitude off the observed +43″/century, quantifying that A8 dragging is an exaggerated-scale mechanism without c² suppression (exp-kf1b §B). Gravity is E4, geodesics E12. ",
     observe:"The precession HUD shows a large retrograde rate and the ghost ellipse (×10³) rotates backwards — contrasting with ☄️ (+43″/century calibrated). Zero the spin and it matches kF0 exactly (check in A/B). ",
     control:"Zero the Sun's spin to remove the drag (spin-origin decomposition). Set kFrame to 0 to recover ☄️ exactly. Raising D₀ weakens the drag (χ=w/(D₀+w))."}},
-  activeParams:["kFrame","dispMag","D0"],
+  // 第121便(原仮定者指示「kF1のまま実測に近付ける補正を調査する」): 調査結論 —
+  // スピン引きずり(−7.3e-5 rad/公転)も χ=w/(D₀+w) に比例(w=1988.5/460≈4.3)。
+  // D₀=1e4 で χ≈4.3e-4 → 引きずり −3e-8 rad/公転(1PN の 1/16)= kF1 のまま 43″/世紀が成立。
+  // ただし 🌘 は D₀=0.006・🪨 は D₀=1e4 — **D₀ は系ごとの較正値で普遍定数ではない**
+  // (w=m/d の次元性の帰結 — 単位系・系規模依存。論文3候補の正直な論点)。
+  // D₀ を 0.1 へ下げると逆行引きずり(−1.5万″/世紀)が現れる(手動対照)
+  abBody:{ label:{ja:"c₀=30(歳差が見える誇張対照)", en:"c₀=30 (visible-precession contrast)"},
+    physicsPatch:{cLight:30, Kt:134.85166317} },
+  activeParams:["D0","kFrame","dispMag"],
   camera:{scale:800}, world:{boundary:"none",size:0},
-  physics:{G:6.674, D0:0.1, kFrame:1, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:134851663.17051244,
+  physics:{G:6.674, D0:10000, kFrame:1, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:134851663.17051244,
     cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:100, dispMag:10, stateCarry:"double"},
   bodies:[
@@ -2336,6 +2346,8 @@ const BUILTIN_PRESETS = [
     summary:"The real Earth and Moon in real units — the second sample copying the ☄️ template. With per-sample scale exponents (1 unit = 10⁶ m / 10² s / 10²⁵ kg), the Earth mass 0.5972 (=5.9724×10²⁴ kg), radius 6.38, spin 0.0073 (23.93 h rotation), the Moon's mass 0.00735, radius 1.74, spin 0.00027 (synchronous, 27.32 d), perigee 363.6 (=3.636×10⁸ m) and relative speed 0.1082 (=1.082 km/s) are all observed values. A free binary about the barycenter, driven by gravity alone (E4), reproduces the 27.3218-day sidereal month (observed: 27.3217 d). Kt=c₀²/G holds. Double-precision state (stateCarry) follows the template. ",
     observe:"The Moon orbits in 27.32 days (the HUD time display auto-converts to days/years) and the Earth genuinely moves about the barycenter (offset 4.4 = 4,400 km — 69% of the Earth radius). The scale conversion matches distance 385,000 km, period 27.3 d and mass 5.97×10²⁴ kg, and the correspondence badge is satisfied. 1PN and dragging are completely invisible at real scale (invisible IS correct). At real radii both bodies are small, so the display magnification (default 10) enlarges rendering only. ",
     control:"kFrame is 0, stabilization route (c) (a free binary with kFrame=1 collapses — §F; dragging is outside this sample's claims, so the real spins act on display and inertia only). Set kFrame back to 1 to watch the collapse. Set the display magnification to 1 for true proportions."}},
+  abBody:{ label:{ja:"kFrame=1・D₀=0.006(近点回転が現れる — 🌘対照)", en:"kFrame=1, D₀=0.006 (apsidal precession appears)"},
+    physicsPatch:{kFrame:1, D0:0.006} },   // 第121便(原仮定者指示): 🌘のワンタップ対照を🌙へ
   activeParams:["dispMag","lambdaPN","cLight"],
   camera:{scale:450}, world:{boundary:"none",size:0},
   physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:134851663.17051244,
@@ -4628,14 +4640,15 @@ const BUILTIN_PRESETS = [
 
 { id:"saturnRingReal", name:"土星の環(実単位)— 見えないのが正しい", emoji:"💍", group:"天体の物語",
   scaleTier:"planetary",
-  scaleExp:{L:7, T:3, M:26},   // 第118便(原仮定者指示): サンプル別スケール指数 — 1単位=10⁷m/10³s/10²⁶kg。
+  scaleExp:{L:6, T:2, M:25},   // 第121便(原仮定者指示): スケールを惑星(e6)へ — 1単位=10⁶m/10²s/10²⁵kg(実G=6.674・実c=3e4 は不変)
                                // この指数系でも実G=6.674・実c=3×10⁴(eC=L−T=4)— 第117便の「無次元深度のみ実」
                                // という妥協が解消され、絶対の長さ・時間・質量まで全て実値になる
   sampleClass:"calibration",
   fidelity:"real",   // 第120便(原仮定者指示): 現実較正タグはスケール換算込みで較正したサンプルのみ
   obsCard:[
-    {q:"C環内縁の公転", model:"5.79 時間(厳密ケプラー)", obs:"5.8 時間"},
-    {q:"軌道速度(r=8×10⁷m)", model:"21.8 km/s", obs:"21.8 km/s"}],   // 第119便: 観測結果カード
+    {q:"C環内縁の公転", model:"5.78 時間(厳密ケプラー)", obs:"5.8 時間"},
+    {q:"タイタンの公転", model:"15.949 日(実軌道半径+ケプラー初速)", obs:"15.945 日"},
+    {q:"軌道速度(C環内縁)", model:"22.5 km/s", obs:"22.5 km/s"}],   // 第119便: 観測結果カード
   notClaim:["solar"],
   familyId:"saturn", familyRole:"variant",   // 🪐(誇張)・🎯・🛰️ と同族(表示専用)
   failureFirst:{
@@ -4647,8 +4660,9 @@ const BUILTIN_PRESETS = [
     control:"環粒子は半径 0.01(=100km 級の代表粒)・質量 1e-6(=10²⁰kg — 環の総質量 1.5×10¹⁹kg に近い代表値。0.001=10²³kg では自己重力が実環より約6桁強く、数公転で帯が散乱・降着することを第118便で実測したため、公転を観測値に合わせる較正としてこの値を採る)。kFrame は 0(DFM の A8 引きずりは c² 抑制を持たない誇張可視化スケールの機構で、実自転 0.165 と併用すると軌道が実測から大きく外れることを第118便で実測 — 実単位サンプルでは引きずり非主張とし、スピンは表示・慣性のみ)。kFrame を 1 に上げると誇張引きずりの A/B 対照になる。λ_PN を動かしても画面は変わらない — それが実スケールの弱場。"},
   en:{name:"Saturn's Rings (Real Units) — invisible is correct",
     obsCard:[
-      {q:"C-ring inner-edge period", model:"5.79 h (exact Kepler)", obs:"5.8 h"},
-      {q:"Orbital speed (r=8×10⁷ m)", model:"21.8 km/s", obs:"21.8 km/s"}],
+      {q:"C-ring inner-edge period", model:"5.78 h (exact Kepler)", obs:"5.8 h"},
+      {q:"Titan's orbital period", model:"15.949 d (real radius + Kepler speed)", obs:"15.945 d"},
+      {q:"Orbital speed (C-ring inner edge)", model:"22.5 km/s", obs:"22.5 km/s"}],
     failureFirst:{
       fail:"In 🪐 (the exaggerated analog), kFrame=1 dragging migrates the ring inward and raises eccentricity (measured in the control experiment). At the real depth d=GM/(c²r_C)=5.64×10⁻⁹ both dragging and 1PN fall below detection within any run time (tests/exp-obscal.mjs §C). The wave-117 version could only take the dimensionless depth and radius ratios as real (a limitation of the old tier exponents).",
       pass:"Wave 118 adopts per-sample scale exponents (1 unit = 10⁷ m / 10³ s / 10²⁶ kg) — the C-ring inner edge 7.47 (=74,658 km) orbits at 2.18 (=21.8 km/s) with a 6.4-hour period, and Saturn's mass 5.6834 (=5.6834×10²⁶ kg), radius 6.03 and spin 0.165 (10.56-hour rotation) are all observed values; the correspondence badge holds. Invisible IS correct — the ring keeps pure Kepler rotation Ω∝r^−1.5."},
@@ -4656,30 +4670,35 @@ const BUILTIN_PRESETS = [
     summary:"The real Saturn and its rings in real units — the third sample copying the ☄️ template. With per-sample scale exponents (1 unit = 10⁷ m / 10³ s / 10²⁶ kg), Saturn's mass 5.6834, radius 6.03 (=6.03×10⁷ m) and spin 0.165 (10.56 h), and the rings at their real radii — C [7.47, 9.20], B [9.20, 11.76], A [12.22, 13.68] with the Cassini division at its real position — 40 grains per band. On top of pure Kepler rotation from gravity (E4), it confirms that at real depth neither frame dragging (A8) nor geodesic 1PN (E12 — the actionization of A7′/E7R) is visible. Kt=c₀²/G holds; double-precision state (stateCarry) follows the template. ",
     observe:"The three bands orbit at their real positions in pure Kepler motion — 2.18 (=21.8 km/s) at the C-ring inner edge, a 6.4-hour period (the HUD time display auto-converts to hours/days). The rotation-curve overlay shows the v∝r^−0.5 falloff (Ω∝r^−1.5). Unlike 🪐, the ring does not migrate inward and eccentricity does not rise — at real depth dragging is below detection (invisible IS correct). The scale conversion matches G, c₀, distances, speeds and masses, and the correspondence badge is satisfied. ",
     control:"Ring grains have radius 0.01 (=100 km-class representative particles) and mass 1e-6 (=10²⁰ kg — a representative value near the ring's real total mass of 1.5×10¹⁹ kg; at 0.001=10²³ kg the grains' self-gravity is ~6 orders stronger than the real ring and wave 118 measured the bands scattering and accreting within a few orbits, so this value is the calibration that keeps the orbits observational). kFrame is 0: DFM's A8 dragging is an exaggerated-visualization-scale mechanism without c² suppression, and wave 118 measured that combining it with the real spin 0.165 pulls the orbits far from observation — real-unit samples make no dragging claim, so spins act on display and inertia only. Raise kFrame to 1 for an A/B contrast with the exaggerated dragging. Moving λ_PN changes nothing on screen — that is the real weak field."}},
+  abBody:{ label:{ja:"kFrame=1(引きずりが見える — 💿対照)", en:"kFrame=1 (dragging becomes visible)"},
+    physicsPatch:{kFrame:1} },   // 第121便(原仮定者指示): 💿のワンタップ対照を💍へ
   activeParams:["kFrame","lambdaPN","dispMag"],
-  camera:{scale:20}, world:{boundary:"none",size:0},
+  camera:{scale:1300}, world:{boundary:"none",size:0},
   physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:134851663.17051244,
     cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
-    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, dispMag:1, stateCarry:"double"},
-  bodies:[   // 第118便: 全て実値 — 土星 5.6834e26kg/6.03e7m/自転10.56h。環は実半径の C/B/A 帯
-             // (74,658〜92,000 / 92,000〜117,580 / 122,170〜136,780 km)・カッシーニの間隙も実位置。
-             // 粒は代表粒 R=0.01(=100km級・rMul10×√1e-6)・m=1e-6(=10²⁰kg)。指示値 m=0.001
-             // (=10²³kg)は総質量が実環(1.5×10¹⁹kg)の約800倍で、代表粒の自己重力により数公転で
-             // 帯が散乱・降着することを実測(inBand 80/120・r域 6.0〜22.8)— 公転を観測値に合わせる
-             // 較正として実環総質量オーダーの 1e-6 を採る(m=1e-6 で全120粒保持・周期 5.79h=厳密ケプラー)
-    {type:"single", m:5.6834, radius:6.03, x:0,y:0, vx:0,vy:0, spin:0.16527, pinned:true, pnSource:true},
-    {type:"ring", rMul:10, n:40, cx:0,cy:0, rIn:7.466,rOut:9.2, mMin:0.000001,mMax:0.000001,
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:5.6834, omega:0, vNoise:0, direction:1, pinned:false},
-    {type:"ring", rMul:10, n:40, cx:0,cy:0, rIn:9.2,rOut:11.758, mMin:0.000001,mMax:0.000001,
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:5.6834, omega:0, vNoise:0, direction:1, pinned:false},
-    {type:"ring", rMul:10, n:40, cx:0,cy:0, rIn:12.217,rOut:13.678, mMin:0.000001,mMax:0.000001,
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:5.6834, omega:0, vNoise:0, direction:1, pinned:false}
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:10, dispMag:1, stateCarry:"double"},
+  bodies:[   // 第121便: 惑星(e6)実単位 — 土星 5.6834e26kg/6.03e7m/自転10.56h。環=実半径 C/B/A 帯
+             // (粒 m=1e20kg・R=1e5m)。主要衛星6(ミマス/エンケラドス/テティス/ディオネ/レア/タイタン —
+             // 実軌道半径・実質量・ケプラー初速・60°間隔配置。タイタンは同期自転)
+    {type:"single", m:56.834, radius:60.3, x:0,y:0, vx:0,vy:0, spin:0.016528, pinned:true, pnSource:true},
+    {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:74.658,rOut:92.0, mMin:0.00001,mMax:0.00001,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false},
+    {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:92.0,rOut:117.58, mMin:0.00001,mMax:0.00001,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false},
+    {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:122.17,rOut:136.775, mMin:0.00001,mMax:0.00001,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false},
+    {type:"single", m:0.00000375, radius:0.198, x:185.5,y:0, vx:0,vy:1.43, spin:0, pinned:false},
+    {type:"single", m:0.0000108, radius:0.252, x:119.0,y:206.1, vx:-1.0933,vy:0.6312, spin:0, pinned:false},
+    {type:"single", m:0.0000617, radius:0.531, x:-147.3,y:255.2, vx:-0.9825,vy:-0.5673, spin:0, pinned:false},
+    {type:"single", m:0.0001095, radius:0.5615, x:-377.4,y:0, vx:0,vy:-1.0025, spin:0, pinned:false},
+    {type:"single", m:0.0002306, radius:0.7635, x:-263.6,y:-456.5, vx:0.7347,vy:-0.4242, spin:0, pinned:false},
+    {type:"single", m:0.013452, radius:2.5747, x:611.0,y:-1058.2, vx:0.4825,vy:0.2786, spin:0.000456, pinned:false}
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:true} },
 
 { id:"saturnRingRealKF1", name:"土星の環(実単位・kFrame=1)— 引きずり誇張の対照", emoji:"💿", group:"天体の物語",
   scaleTier:"planetary",
-  scaleExp:{L:7, T:3, M:26},   // 💍 と同一の指数系
+  scaleExp:{L:6, T:2, M:25},   // 第121便: 💍と同じ惑星(e6)指数系
   sampleClass:"calibration",
   notClaim:["solar"],
   familyId:"saturn", familyRole:"variant",
@@ -4711,20 +4730,28 @@ const BUILTIN_PRESETS = [
   abBody:{ label:{ja:"kFrame=0(ケプラー対照)", en:"kFrame=0 (Kepler contrast)"},
     physicsPatch:{kFrame:0} },
   activeParams:["kFrame","D0","dispMag"],
-  camera:{scale:20}, world:{boundary:"none",size:0},
+  camera:{scale:1300}, world:{boundary:"none",size:0},
   physics:{G:6.674, D0:0.1, kFrame:1, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:134851663.17051244,
     cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
-    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, dispMag:1, stateCarry:"double"},
-  bodies:[
-    {type:"single", m:5.6834, radius:6.03, x:0,y:0, vx:0,vy:0, spin:0.16527, pinned:true, pnSource:true},
-    {type:"ring", n:40, cx:0,cy:0, rIn:7.466,rOut:9.2, mMin:0.001,mMax:0.001, rMul:0.31623,
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:5.6834, omega:0, vNoise:0, direction:1, pinned:false},
-    {type:"ring", n:40, cx:0,cy:0, rIn:9.2,rOut:11.758, mMin:0.001,mMax:0.001, rMul:0.31623,
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:5.6834, omega:0, vNoise:0, direction:1, pinned:false},
-    {type:"ring", n:40, cx:0,cy:0, rIn:12.217,rOut:13.678, mMin:0.001,mMax:0.001, rMul:0.31623,
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:5.6834, omega:0, vNoise:0, direction:1, pinned:false}
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:10, dispMag:1, stateCarry:"double"},
+  bodies:[   // 第121便: 惑星(e6)実単位 — 土星 5.6834e26kg/6.03e7m/自転10.56h。環=実半径 C/B/A 帯
+             // (粒 m=1e20kg・R=1e5m)。主要衛星6(ミマス/エンケラドス/テティス/ディオネ/レア/タイタン —
+             // 実軌道半径・実質量・ケプラー初速・60°間隔配置。タイタンは同期自転)
+    {type:"single", m:56.834, radius:60.3, x:0,y:0, vx:0,vy:0, spin:0.016528, pinned:true, pnSource:true},
+    {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:74.658,rOut:92.0, mMin:0.00001,mMax:0.00001,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false},
+    {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:92.0,rOut:117.58, mMin:0.00001,mMax:0.00001,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false},
+    {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:122.17,rOut:136.775, mMin:0.00001,mMax:0.00001,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false},
+    {type:"single", m:0.00000375, radius:0.198, x:185.5,y:0, vx:0,vy:1.43, spin:0, pinned:false},
+    {type:"single", m:0.0000108, radius:0.252, x:119.0,y:206.1, vx:-1.0933,vy:0.6312, spin:0, pinned:false},
+    {type:"single", m:0.0000617, radius:0.531, x:-147.3,y:255.2, vx:-0.9825,vy:-0.5673, spin:0, pinned:false},
+    {type:"single", m:0.0001095, radius:0.5615, x:-377.4,y:0, vx:0,vy:-1.0025, spin:0, pinned:false},
+    {type:"single", m:0.0002306, radius:0.7635, x:-263.6,y:-456.5, vx:0.7347,vy:-0.4242, spin:0, pinned:false},
+    {type:"single", m:0.013452, radius:2.5747, x:611.0,y:-1058.2, vx:0.4825,vy:0.2786, spin:0.000456, pinned:false}
   ],
-  overlays:{rotationCurve:true,tempHistogram:false,field:false} },
+  overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:true} },
 
 { id:"binary", name:"連星系と周連星円盤", emoji:"⭐", group:"天体の物語",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
@@ -5311,7 +5338,7 @@ function validatePreset(obj){
         // 既定0。spin モードのプリセットに書かれていても build が参照しないので無害)
         for(const oldKey of ["obsT","coreOT"])
           if(b[oldKey]!==undefined){ warnings.push(at+"."+oldKey+" は第61便で廃止されました — 無視します"); delete b[oldKey]; }
-        for(const [k,lo,hi] of [["radius",0.01,100],["rMul",0.2,20],   /* 第118便: R 0.01〜100・rMul 上限 20(💍 実環代表粒 m=1e-6 の表示半径 0.01=rMul10) */
+        for(const [k,lo,hi] of [["radius",0.01,100],["rMul",0.2,40],   /* 第118便: R 0.01〜100 / 第121便: rMul 上限 40(💍e6 実環代表粒 m=1e-5 の表示半径 0.1=rMul31.62) */
                                  ["tInt",0,10000]]){
           if(b[k]!==undefined){
             if(!isNum(b[k])){ bad(at+"."+k+" が数値ではありません"); return; }
@@ -5404,7 +5431,7 @@ function validatePreset(obj){
           bulkVx:isNum(b.bulkVx)?VEL(b.bulkVx,"bulkVx"):0, bulkVy:isNum(b.bulkVy)?VEL(b.bulkVy,"bulkVy"):0};
         if(b.rMul!==undefined){   // 第36便 C1: 群共通の半径倍率(0.2〜5・既定1)
           if(!isNum(b.rMul)){ bad(at+".rMul が数値ではありません"); return; }
-          oR.rMul=wc(b.rMul,0.2,20,"rMul");   /* 第118便: 上限 5→20(💍 実環代表粒) */
+          oR.rMul=wc(b.rMul,0.2,40,"rMul");   /* 第118便: 5→20 / 第121便: 20→40(💍e6 実環代表粒 rMul=31.62) */
         }
         if(b.tInt!==undefined){   // 第36便 D(台帳4-51): 群共通の内部温度初期値(既定0)
           if(!isNum(b.tInt)){ bad(at+".tInt が数値ではありません"); return; }
@@ -10141,6 +10168,7 @@ function drawBG(){
 
 let trailsOn=false;
 let trailBuf=[];   // overlays.trail 用の蓄積ポリライン(v1.9。残像トグルとは別方式 — 長周期の軌道形状を保持する)
+let trailCv=null, trailCtx=null;   // 第121便: 残像(軌跡を残す)の半サイズ・スタンプ用オフスクリーン
 let trailBufB=[];  // v1.19: A/B比較のB側の線の軌跡
 let fusLastN=-1;   // 第44便 44B: 融合による粒子数変化の検出(線の軌跡の引き直し用)
 // 線の軌跡の記録(自由粒子の経路を最大3000点=約100秒・数周分保持)
@@ -10157,20 +10185,67 @@ function recTrail(S,buf){
   }
   // 第29便(第25次レビュー P1-2): 最大点数を品質連動に(正確1500/自動800/軽量400点。A/B中は半減)。
   // 満杯後に毎push splice(0,2)で前詰めしていたのをやめ、120点分たまってからまとめて刈る(償却O(1))
-  const capF=(ab? Q_TRAILPTS[qLevel()]>>1 : Q_TRAILPTS[qLevel()])*2;
+  // 第121便(原仮定者指示「線が残る時間を指定+残り時間で暗く」): 点を (x,y,t) の3要素で記録
+  const capF=(ab? Q_TRAILPTS[qLevel()]>>1 : Q_TRAILPTS[qLevel()])*3;
   let k=0;
   for(let i=0;i<S.n;i++){ if(S.pinned[i]) continue;
     if(sampled && S.m[i]<100 && (k++%stride)!==0) continue;
     const b=buf[i]||(buf[i]=[]);
-    b.push(S.x[i],S.y[i]);
-    if(b.length>capF+240) b.splice(0,b.length-capF);
+    b.push(S.x[i],S.y[i],S.t);
+    if(b.length>capF+360) b.splice(0,b.length-capF);
+  }
+}
+// 第121便: 線の軌跡の残存時間(t.u.・0=無制限〔従来〕)。表示専用・hp_trail_life 永続
+let trailLife=0;
+try{ const _tl=parseFloat(localStorage.getItem("hp_trail_life")); if(isFinite(_tl)&&_tl>=0) trailLife=_tl; }catch(_){}
+function setTrailLife(v){ trailLife=Math.max(0,+v||0); try{ localStorage.setItem("hp_trail_life",String(trailLife)); }catch(_){} }
+// 共通の軌跡ポリライン描画(main/A-B 両ビュー)。寿命指定時は6帯の等分ストロークで
+// 残り時間に応じて暗くする(表示専用)
+function drawTrailPolys(bufArr, tNow, SX, SY, n){
+  const tst=3*(qLevel()+1);
+  for(let i=0;i<n;i++){ const b=bufArr[i]; if(!b||b.length<6) continue;
+    let s0=0;
+    if(trailLife>0){ while(s0<b.length-3 && tNow-b[s0+2]>trailLife) s0+=3; }
+    const last=b.length-3;
+    if(last-s0<3) continue;
+    if(trailLife>0){
+      const bands=6, span=last-s0;
+      for(let q2=0;q2<bands;q2++){
+        let from=s0+Math.floor(span*q2/bands/3)*3, to=s0+Math.floor(span*(q2+1)/bands/3)*3;
+        if(to>last) to=last;
+        if(to-from<3) continue;
+        const age=tNow-b[from+2];
+        const al=Math.max(0.06, 0.55*(1-age/trailLife));
+        ctx.strokeStyle="rgba(150,200,255,"+al.toFixed(3)+")";
+        ctx.beginPath(); ctx.moveTo(SX(b[from]),SY(b[from+1]));
+        for(let k2=from+tst;k2<to;k2+=tst) ctx.lineTo(SX(b[k2]),SY(b[k2+1]));
+        ctx.lineTo(SX(b[to]),SY(b[to+1])); ctx.stroke();
+      }
+    } else {
+      ctx.strokeStyle="rgba(150,200,255,0.55)";
+      ctx.beginPath(); ctx.moveTo(SX(b[s0]),SY(b[s0+1]));
+      for(let k2=s0+tst;k2<last;k2+=tst) ctx.lineTo(SX(b[k2]),SY(b[k2+1]));
+      ctx.lineTo(SX(b[last]),SY(b[last+1])); ctx.stroke();
+    }
   }
 }
 function render(){
   applyCamFollow();   // 第81便: 天体追従(描画層のみ — camX/camY だけを動かす)
   ctx.setTransform(dpr,0,0,dpr,0,0);
-  if(trailsOn){ ctx.fillStyle="rgba(5,7,15,0.18)"; ctx.fillRect(0,0,cw,ch); }
-  else { ctx.fillStyle="#05070f"; ctx.fillRect(0,0,cw,ch); drawBG(); }
+  // 第121便(原仮定者指示「軌跡のサイズを半分にする」): 残像は本描画の残留ではなく、
+  // 専用のオフスクリーン軌跡キャンバスに**半径1/2の点**をスタンプ+フェードして重ねる方式へ。
+  // 粒子・光線などの本描画は毎フレーム全消去(残像は粒子のみ=説明文どおり)
+  ctx.fillStyle="#05070f"; ctx.fillRect(0,0,cw,ch); drawBG();
+  if(trailsOn){
+    if(!trailCv || trailCv.width!==canvas.width || trailCv.height!==canvas.height){
+      trailCv=document.createElement("canvas");
+      trailCv.width=canvas.width; trailCv.height=canvas.height;
+      trailCtx=trailCv.getContext("2d");
+    }
+    trailCtx.setTransform(dpr,0,0,dpr,0,0);
+    trailCtx.fillStyle="rgba(5,7,15,0.18)"; trailCtx.fillRect(0,0,cw,ch);
+    ctx.drawImage(trailCv,0,0,cw,ch);
+  } else if(trailCv){ trailCv=null; trailCtx=null; }
   if(sim.overlays.field) drawField();
   // 境界
   const z=zoom();
@@ -10252,6 +10327,10 @@ function render(){
     }
     ctx.fillStyle=col;
     ctx.beginPath(); ctx.arc(sx,sy,rr,0,7); ctx.fill();
+    if(trailsOn && trailCtx){   // 第121便: 残像は半径1/2の点をオフスクリーンへスタンプ
+      trailCtx.fillStyle=col;
+      trailCtx.beginPath(); trailCtx.arc(sx,sy,Math.max(0.6,rr*0.5),0,7); trailCtx.fill();
+    }
     // v1.17: 大きく表示される粒子はスポーク(車輪の輻)で回転方向・速さを可視化
     if(rr>=7 && Math.abs(sim.spin[i])>1e-4){
       const a0=sim.rotA[i], fy=flipY?-1:1;   // 第119便: 上下反転時はスポークの見た目回転も鏡像(y成分を反転)
@@ -10311,14 +10390,8 @@ function render(){
   }
   // 軌道トレイルの描画(記録は上の粒子ループ前。グローに隠れないよう最上層に描く)
   if(sim.overlays.trail){
-    ctx.strokeStyle="rgba(150,200,255,0.55)"; ctx.lineWidth=1;
-    const tst=2*(qLevel()+1);   // 第29便: 描画間引き(正確=全点/自動=1点おき/軽量=2点おき。末尾は必ず描く)
-    for(let i=0;i<sim.n;i++){ const b=trailBuf[i]; if(!b||b.length<4) continue;
-      ctx.beginPath(); ctx.moveTo(w2sX(b[0]),w2sY(b[1]));
-      for(let k=tst;k<b.length-2;k+=tst) ctx.lineTo(w2sX(b[k]),w2sY(b[k+1]));
-      ctx.lineTo(w2sX(b[b.length-2]),w2sY(b[b.length-1]));
-      ctx.stroke();
-    }
+    ctx.lineWidth=1;
+    drawTrailPolys(trailBuf, sim.t, w2sX, w2sY, sim.n);   // 第121便: 寿命フェード対応の共通描画
   }
   // 選択粒子の固有時計
   if(selIdx>=0&&selIdx<sim.n){
@@ -10684,14 +10757,8 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
   }
   // v1.19: 線の軌跡(A/B比較でも表示)
   if(S.overlays.trail && tbuf){
-    ctx.strokeStyle="rgba(150,200,255,0.55)"; ctx.lineWidth=1;
-    const tst=2*(qLevel()+1);   // 第29便: 描画間引き(メインビューと同じ)
-    for(let i=0;i<S.n;i++){ const b=tbuf[i]; if(!b||b.length<4) continue;
-      ctx.beginPath(); ctx.moveTo(sx(b[0]),sy(b[1]));
-      for(let k=tst;k<b.length-2;k+=tst) ctx.lineTo(sx(b[k]),sy(b[k+1]));
-      ctx.lineTo(sx(b[b.length-2]),sy(b[b.length-1]));
-      ctx.stroke();
-    }
+    ctx.lineWidth=1;
+    drawTrailPolys(tbuf, S.t, sx, sy, S.n);   // 第121便: 寿命フェード対応の共通描画(A/B側)
   }
   ctx.font="11px sans-serif"; ctx.fillStyle="#dfe4ff";
   ctx.fillText(label, 8, y0+hgt-8);   // 左下(左上は HUD と重なる)
@@ -12525,12 +12592,25 @@ function buildParamRows(){
   };
   let raysRow=null;   // 第38便: λ0行を「光線」トグル行の直後へ差し込むために参照を保持する
   toggles.forEach(([id,label,get,set,descKey])=>{
+    // 第121便(原仮定者指示): 「線の軌跡」行に残存時間入力(t.u.・0=無制限)を追加。
+    // 線は残り時間でだんだん暗くなる(drawTrailPolys — 表示専用・hp_trail_life 永続)
+    const isTrailLine=(id==="trail");
     const row=document.createElement("div"); row.className="prow";
     const lab=document.createElement("label"); lab.textContent=label; lab.style.flex="1";
     tapDesc(row,lab,descKey);
+    if(isTrailLine){   // 第121便: 残存時間入力(t.u.・0=無制限)— 線は残り時間で暗くなる
+      const num=document.createElement("input"); num.type="text"; num.className="valIn";
+      num.id="trailLifeIn"; num.inputMode="decimal"; num.autocomplete="off";
+      num.style.cssText="flex:0 0 64px;width:64px;text-align:right;";
+      num.value=String(trailLife||0); num.title=T("trailLifeTip");
+      num.addEventListener("change",()=>{ const v=parseFloat(num.value);
+        setTrailLife(isFinite(v)?v:0); num.value=String(trailLife||0); requestRender(); });
+      row.appendChild(num);
+    }
     const cb=document.createElement("input"); cb.type="checkbox"; cb.checked=get();
     cb.addEventListener("change",()=>{ set(cb.checked); requestRender(); });
     row.appendChild(lab); row.appendChild(cb); disp.appendChild(row);
+    if(isTrailLine){ row.insertBefore(row.querySelector('#trailLifeIn'), cb); }
     if(id==="rays") raysRow=row;
   });
   // 第37便 A3(原仮定者指示): 光線の基準波長λ0(nm)。表示専用(セーブ対象外・物理不変) —
@@ -13171,7 +13251,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
 6. name は30字以内、description は200字程度の日本語(上限は9000字。超えると切り詰められる)。emoji は絵文字1文字。
-7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1000, kFrame:0〜1, q:0.5〜4, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, Kt:1〜1e9, cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100, massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
+7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1, q:0.5〜4, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, Kt:1〜1e9, cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100, massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
 8. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 
 # ジェネレータ(bodiesの要素。typeごとに全フィールド必須)
