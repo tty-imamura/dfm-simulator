@@ -6941,15 +6941,18 @@ if (!FAST) {
     //    先頭(最古)が捨てられて末尾(最新)が残る
     const tc = await page.evaluate(() => {
       HP.loadPreset('convection', false);
-      const capF = HP.Q_TRAILPTS[HP.qState().level] * 2;
+      // 第121便: 記録は (x,y,t) の3要素(寿命フェード対応)— 旧世代(root)は2要素
+      const per = String(HP.recTrail).includes('S.t') ? 3 : 2;
+      const capF = HP.Q_TRAILPTS[HP.qState().level] * per;
+      const slack = per === 3 ? 360 : 240;
       const buf = [];
       for (let k = 0; k < 2000; k++) HP.recTrail(HP.sim, buf);
       const filled = buf.filter(b => b && b.length > 0);
       const lens = filled.map(b => b.length);
-      return { nFilled: filled.length, maxLen: Math.max(...lens), minLen: Math.min(...lens), capF };
+      return { nFilled: filled.length, maxLen: Math.max(...lens), minLen: Math.min(...lens), capF, slack };
     });
-    add('perf.trail-cap', tc.nFilled > 0 && tc.maxLen <= tc.capF + 240 && tc.minLen >= tc.capF,
-      `記録本数=${tc.nFilled} 長さ=${tc.minLen}〜${tc.maxLen}floats(上限${tc.capF}+240)`);
+    add('perf.trail-cap', tc.nFilled > 0 && tc.maxLen <= tc.capF + tc.slack && tc.minLen >= tc.capF,
+      `記録本数=${tc.nFilled} 長さ=${tc.minLen}〜${tc.maxLen}floats(上限${tc.capF}+${tc.slack})`);
 
     // ④ 第29便 P0-2 で導入した描画半径の品質連動上限(自動=40px・軽量=30px)は、
     //    第37便 A5(原仮定者裁定)で全品質から撤廃 — 大粒子を実寸より小さく見せてしまい
@@ -12448,7 +12451,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       out.emExp = e2.x === 6 && e2.eT === 2 && e2.eM === 25 && e2.eC === 4;
       HP.loadPreset('saturnRingReal', false);
       const e3 = scaleEffNow();
-      out.srExp = e3.x === 7 && e3.eT === 3 && e3.eM === 26 && e3.eC === 4;
+      out.srExp = e3.x === 6 && e3.eT === 2 && e3.eM === 25 && e3.eC === 4;   // 第121便: 💍は惑星(e6)へ
       // ②'validator: 不正 scaleExp は警告つき削除・正値は保持
       const base = { name: 's', description: 'd', camera: { scale: 200 },
         world: { boundary: 'none', size: 0 }, physics: {},
@@ -12499,7 +12502,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     add('wave118.ui',
       r.mercuryExp && r.emExp && r.srExp && r.seValid && r.dispMagInert && r.flip && r.flipCb
       && r.fmtOk && Math.abs(r.mercR - 0.0244) < 1e-6 && r.rClamp,
-      `scaleExp上書き(☄️8/4/27=${r.mercuryExp} 🌙6/2/25=${r.emExp} 💍7/3/26=${r.srExp}・eC=x−eT=4)validator=${r.seValid} / ` +
+      `scaleExp上書き(☄️8/4/27=${r.mercuryExp} 🌙6/2/25=${r.emExp} 💍6/2/25=${r.srExp}・eC=x−eT=4)validator=${r.seValid} / ` +
       `dispMag力学bit不変=${r.dispMagInert} / 上下反転(鏡像+復帰)=${r.flip}・トグル=${r.flipCb} / ` +
       `時間単位変換=${r.fmtOk} / R実半径0.0244受理(実測${r.mercR})+クランプ0.01〜100=${r.rClamp}`);
   } else {
@@ -12592,7 +12595,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       out.tierMercury = presetTierOf(HP.allPresets().find((p) => p.id === 'mercuryReal')) === 'planetary';
       // ③ 💍: 時間経過倍率1・線の軌跡ON
       const sr = HP.allPresets().find((p) => p.id === 'saturnRingReal');
-      out.ringTweak = sr.physics.timeScale === 1 && sr.overlays.trail === true;
+      out.ringTweak = sr.physics.timeScale === 10 && sr.overlays.trail === true;   // 第121便: ts=10 へ更新
       // ④ Kt の κ 併記
       HP.loadPreset('mercuryReal', false);
       HP.setScaleDisp(true);
@@ -12633,6 +12636,50 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       `歳差HUD統合=${r.hudMerged} / 🌘D0較正=${r.kf1D0}・正の積算=${r.kf1Prec} / 🪨💿=${r.newPresets}`);
   } else {
     console.log('SKIP wave120.ui(第120便 未適用 — root 等)');
+  }
+  // 92-1f) 第121便: 線の軌跡の寿命フェード・残像半サイズ・💍💿 e6+主要衛星・🪨 D₀較正・
+  //        ワンタップ相互追加
+  const has121 = await page.evaluate(() => !!(window.HP && typeof setTrailLife === 'function'));
+  if (has121) {
+    const r = await page.evaluate(() => {
+      const out = {};
+      // ① 寿命入力 UI+recTrail 3要素+フェード描画(ソース検査)
+      buildParamRows();
+      out.lifeIn = !!document.querySelector('#trailLifeIn');
+      setTrailLife(50); out.lifeSet = trailLife === 50; setTrailLife(0);
+      out.tripletRec = String(HP.recTrail).includes('S.t');
+      out.fade = String(drawTrailPolys).includes('trailLife') && String(drawTrailPolys).includes('age');
+      // ② 残像半サイズ(オフスクリーンスタンプ rr*0.5)
+      out.halfTrail = String(render).includes('rr*0.5') && String(render).includes('trailCtx');
+      // ③ 💍: e6・ts10・衛星6(タイタン m=0.013452)・💿 trail ON
+      const sr = HP.allPresets().find((p) => p.id === 'saturnRingReal');
+      const sk = HP.allPresets().find((p) => p.id === 'saturnRingRealKF1');
+      const titan = (p) => p.bodies.some((b) => b.type === 'single' && Math.abs(b.m - 0.013452) < 1e-9);
+      out.ringE6 = sr.scaleExp.L === 6 && sr.physics.timeScale === 10 && titan(sr)
+        && sk.scaleExp.L === 6 && titan(sk) && sk.overlays.trail === true
+        && sr.bodies.filter((b) => b.type === 'single').length === 7;
+      // ④ 🪨: D₀=1e4 較正+c₀=30 ワンタップ / 🌙: kF1+D0 ワンタップ / 💍: kF1 ワンタップ
+      const mk = HP.allPresets().find((p) => p.id === 'mercuryRealKF1');
+      const em = HP.allPresets().find((p) => p.id === 'earthMoonReal');
+      out.oneTaps = mk.physics.D0 === 10000 && mk.abBody && mk.abBody.physicsPatch.cLight === 30
+        && em.abBody && em.abBody.physicsPatch.kFrame === 1 && em.abBody.physicsPatch.D0 === 0.006
+        && sr.abBody && sr.abBody.physicsPatch.kFrame === 1;
+      // ⑤ 💍のタイタン公転が実測15.95日と整合(ケプラー予測 — 初期条件の構成検査)
+      HP.loadPreset('saturnRingReal', false);
+      const S = HP.sim; let ti = -1;
+      for (let i = 0; i < S.n; i++) if (Math.abs(S.m[i] - 0.013452) < 1e-9) ti = i;
+      const rT = Math.hypot(S.x[ti], S.y[ti]);
+      const Torb = 2 * Math.PI * Math.sqrt(rT ** 3 / (S.params.G * S.m[0])) * 100 / 86400;
+      out.titanT = Math.abs(Torb - 15.945) < 0.05;
+      HP.loadPreset('saturn', false);
+      return out;
+    });
+    add('wave121.ui',
+      r.lifeIn && r.lifeSet && r.tripletRec && r.fade && r.halfTrail && r.ringE6 && r.oneTaps && r.titanT,
+      `寿命UI=${r.lifeIn}&${r.lifeSet}・3要素=${r.tripletRec}・フェード=${r.fade} / 残像半径半分=${r.halfTrail} / ` +
+      `💍💿e6+衛星=${r.ringE6} / ワンタップ相互+🪨D0較正=${r.oneTaps} / タイタン15.95日=${r.titanT}`);
+  } else {
+    console.log('SKIP wave121.ui(第121便 未適用 — root 等)');
   }
   // 92-2→93改→94改) scale.exponents: 4指数(距離/時間/質量/光速)の表示スケール系。
   //       第93便の慣習アンカー表(SCALE_FAMILIAR)・時間倍率指数(texp)は第94便で撤回され、
