@@ -7201,14 +7201,16 @@ if (!FAST) {
         const orderOk = !!(bar && disp && base
           && (bar.compareDocumentPosition(disp) & Node.DOCUMENT_POSITION_FOLLOWING)
           && (disp.compareDocumentPosition(base) & Node.DOCUMENT_POSITION_FOLLOWING));
-        // 初期値 = プリセットのスケールタグ
-        const initOk = q('#scaleBaseSel').value === HP.currentPreset().scaleTier;
-        // タグ選択で4指数が一括で既定へ
+        // 第120便: 選択肢は9行表(SCALE_BASES)・C はスケール別 — 既存サンプル(eC=7)は
+        // どの行とも一致しないため初期値は「なし(個別指定)」が正(光速表示較正の一括適用は
+        // 巻き戻し第2弾と合流予定)
+        const initOk = q('#scaleBaseSel').value === '';
+        // 行選択で4指数が一括で表の値へ(惑星(e8)= 8/4/27・C=4)
         let sel = q('#scaleBaseSel');
-        sel.value = 'planetary'; sel.dispatchEvent(new Event('change'));
+        sel.value = 'planetE8'; sel.dispatchEvent(new Event('change'));
         const e1 = HP.scaleEffNow();
         const setOk = Math.abs(e1.x - 8) < 1e-9 && Math.abs(e1.eT - 4) < 1e-9
-          && Math.abs(e1.eM - 24) < 1e-9 && Math.abs(e1.eC - 7) < 1e-9;
+          && Math.abs(e1.eM - 27) < 1e-9 && Math.abs(e1.eC - 4) < 1e-9;
         // 個別スライダーの変更 → 「なし(個別指定)」へ
         const tr = q('#scaleExpTSlider'); tr.value = '5'; tr.dispatchEvent(new Event('input'));
         const noneOk = q('#scaleBaseSel').value === '';
@@ -7220,7 +7222,7 @@ if (!FAST) {
         const savedOk = !!(sv0 && sv0.scaleExps && Math.abs(sv0.scaleExps.T - 5) < 1e-9
           && Math.abs(sv0.scaleExps.L - 8) < 1e-9);
         HP.loadPreset('gas', false);   // 指数はタグ既定へ戻る(パネルも再構築)
-        const resetOk = document.querySelector('#scaleBaseSel').value === HP.currentPreset().scaleTier;
+        const resetOk = document.querySelector('#scaleBaseSel').value === '';   // 第120便: eC=7 は表と不一致=なし
         HP.loadSaveItem(sv0, 'x');
         const e2 = HP.scaleEffNow();
         const restoredOk = Math.abs(e2.eT - 5) < 1e-9
@@ -12571,6 +12573,67 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   } else {
     console.log('SKIP wave119.ui(第119便 未適用 — root 等)');
   }
+  // 92-1e) 第120便: ベーススケール9択・スケールタグ=距離指数・💍調整・κ併記・
+  //        abBody physics ワンタップ・歳差HUDの主HUD統合・🌘近点回転較正
+  const has120 = await page.evaluate(() => !!(window.HP && typeof SCALE_BASES !== 'undefined'
+    && typeof presetTierOf === 'function'));
+  if (has120) {
+    const r = await page.evaluate(() => {
+      const out = {};
+      // ① ベースのスケール: なし+9択・惑星(e7) 選択で {7,3,26,4}
+      buildParamRows();
+      const sel = document.querySelector('#scaleBaseSel');
+      out.baseOpts = sel ? sel.options.length : 0;
+      if (sel) { sel.value = 'planetE7'; sel.dispatchEvent(new Event('change'));
+        const e = scaleEffNow();
+        out.baseSet = e.x === 7 && e.eT === 3 && e.eM === 26 && e.eC === 4;
+        setScaleExps(null); }
+      // ② スケールタグ=距離指数: ☄️(scaleExp L=8)は惑星
+      out.tierMercury = presetTierOf(HP.allPresets().find((p) => p.id === 'mercuryReal')) === 'planetary';
+      // ③ 💍: 時間経過倍率1・線の軌跡ON
+      const sr = HP.allPresets().find((p) => p.id === 'saturnRingReal');
+      out.ringTweak = sr.physics.timeScale === 1 && sr.overlays.trail === true;
+      // ④ Kt の κ 併記
+      HP.loadPreset('mercuryReal', false);
+      HP.setScaleDisp(true);
+      out.kappa = /κ=1\/Kt/.test(String(scaleConvStr('Kt', HP.sim.params.Kt)));
+      // ⑤ abBody physics ワンタップ(☄️: B側 c₀=30)
+      buildParamRows();
+      const btn = document.querySelector('#btnAbBody');
+      out.abBtn = !!btn;
+      if (btn) { btn.click();
+        out.abPhys = !!(ab && ab.simB && ab.simB.params.cLight === 30
+          && Math.abs(ab.simB.params.Kt - 134.85166317) < 1e-6);
+        abStop(); }
+      // ⑥ 歳差HUD: 独立描画をやめ主HUD(loop の txt ブロック)の行に統合(ソース検査)
+      out.hudMerged = !String(drawOrbitObs).includes('ooHud') && String(loop).includes('T("ooHud")');
+      // ⑦ 🌘: D₀=0.006 較正+引きずり歳差が正で積算される。周回内の RL 角は大きく振動する
+      //   (局所では逆行に見える — 実測)ため、**丸1公転**を回して正味の順行 Δϖ を確認する
+      //   (較正値 +0.052 rad/公転 ≈ +10800″)。積算はフレーム毎更新なので周期的に drawOrbitObs
+      HP.loadPreset('earthMoonRealKF1', false);
+      out.kf1D0 = HP.sim.params.D0 === 0.006;
+      drawOrbitObs();   // 初期化(基準要素の取得)
+      const stepsOrbit = Math.ceil(23608 / 0.016 / 1500);   // 1公転を1500分割
+      for (let j = 0; j < 1500; j++) { for (let i = 0; i < stepsOrbit; i++) HP.sim.step(0.016); drawOrbitObs(); }
+      const oo = HP.orbitObsNow();
+      out.kf1Prec = !!(oo && oo.cumArc > 3000);   // 1公転で ≈+10800″(周回内振動を均して正)
+      // ⑧ 🪨💿 が内蔵に存在し、💿 はワンタップ kFrame=0 対照を持つ
+      const mk = HP.allPresets().find((p) => p.id === 'mercuryRealKF1');
+      const sk = HP.allPresets().find((p) => p.id === 'saturnRingRealKF1');
+      out.newPresets = !!(mk && sk && mk.physics.kFrame === 1 && sk.abBody && sk.abBody.physicsPatch
+        && sk.abBody.physicsPatch.kFrame === 0);
+      HP.loadPreset('saturn', false);
+      return out;
+    });
+    add('wave120.ui',
+      r.baseOpts === 10 && r.baseSet && r.tierMercury && r.ringTweak && r.kappa
+      && r.abBtn && r.abPhys && r.hudMerged && r.kf1D0 && r.kf1Prec && r.newPresets,
+      `ベース9択+なし=${r.baseOpts}(e7選択=${r.baseSet}) / ☄️タグ=惑星=${r.tierMercury} / ` +
+      `💍ts1+trail=${r.ringTweak} / κ併記=${r.kappa} / ワンタップphysics=${r.abBtn}&${r.abPhys} / ` +
+      `歳差HUD統合=${r.hudMerged} / 🌘D0較正=${r.kf1D0}・正の積算=${r.kf1Prec} / 🪨💿=${r.newPresets}`);
+  } else {
+    console.log('SKIP wave120.ui(第120便 未適用 — root 等)');
+  }
   // 92-2→93改→94改) scale.exponents: 4指数(距離/時間/質量/光速)の表示スケール系。
   //       第93便の慣習アンカー表(SCALE_FAMILIAR)・時間倍率指数(texp)は第94便で撤回され、
   //       「タグ既定の4指数+スライダー上書き」に一本化された(scale.familiar を全面書き換え)。
@@ -12861,20 +12924,33 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   // 92-3) ui.fidelity: fidelity:"real" 宣言(6件)にだけ 📏 チップが出る
   const hasFid = await page.evaluate(() => !!(window.HP && HP.allPresets().some((p) => p.fidelity === 'real')));
   if (hasFid) {
-    const r = await page.evaluate(() => {
+    // 第120便で世代分岐: beta(☄️mercuryReal あり)は「スケール換算込み較正のみ」の新定義、
+    // root(v1.39)は従来3件のまま
+    const gen120 = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'mercuryReal'));
+    const r = await page.evaluate(({ gen120 }) => {
       const reals = HP.allPresets().filter((p) => p.fidelity === 'real').map((p) => p.id).sort();
-      HP.loadPreset('grcal', false);
+      HP.loadPreset(gen120 ? 'mercuryReal' : 'grcal', false);
       const chipOn = !!document.querySelector('#classChips .classChip[data-g=fid-real]');
       HP.loadPreset('saturn', false);
       const chipOff = !document.querySelector('#classChips .classChip[data-g=fid-real]');
-      return { reals, chipOn, chipOff };
-    });
-    // 第93便: ⚾♨️🧪 の個別較正撤回に伴い real 宣言は 3件(grcal・saturnZonalD68・earthMoonFree)
+      // beta: 旧宣言(grcal 等 — 解析較正でスケール換算込みではない)にはチップが出ない
+      let chipOffLegacy = true;
+      if (gen120) {
+        HP.loadPreset('grcal', false);
+        chipOffLegacy = !document.querySelector('#classChips .classChip[data-g=fid-real]');
+        HP.loadPreset('saturn', false);
+      }
+      return { reals, chipOn, chipOff, chipOffLegacy };
+    }, { gen120 });
+    // 第120便(原仮定者指示): 現実較正タグはスケール換算込みで較正したサンプルのみ —
+    // ☄️🌙🌘💍系(kF1対照の 🪨💿 は較正外=タグなし)。grcal/saturnZonalD68/earthMoonFree の
+    // 旧宣言(解析較正・物理比)は撤回。root(v1.39)は従来の3件のまま
+    const want = gen120 ? 'earthMoonReal,earthMoonRealKF1,mercuryReal,saturnRingReal'
+      : 'earthMoonFree,grcal,saturnZonalD68';
     add('ui.fidelity',
-      r.reals.length === 3 && r.reals.join(',') === 'earthMoonFree,grcal,saturnZonalD68'
-      && r.chipOn && r.chipOff,
-      `fidelity:"real"=${r.reals.length}件[${r.reals.join(',')}](第93便: 3件が正)/ ` +
-      `🛰にチップ=${r.chipOn}・🪐(宣言なし)に無し=${r.chipOff}`);
+      r.reals.join(',') === want && r.chipOn && r.chipOff && r.chipOffLegacy,
+      `fidelity:"real"=${r.reals.length}件[${r.reals.join(',')}](${gen120 ? '第120便: スケール換算込み較正のみ' : '第93便: 3件(root)'})/ ` +
+      `チップ=${r.chipOn}・🪐なし=${r.chipOff}・旧宣言なし=${r.chipOffLegacy}`);
   } else {
     console.log('SKIP ui.fidelity(対象に fidelity 宣言なし — root 等。第92便)');
   }
