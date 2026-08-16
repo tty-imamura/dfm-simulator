@@ -2025,7 +2025,7 @@ const PARAM_DEFS = [
    desc:"遠方宇宙が及ぼす決定力の底値(A5)。大きいほど空間が遠方に固定されて安定し、近くの質量による空間引きずり(kFrame)の効きが相対的に弱まる。"},
   {key:"kFrame",label:"空間引きずり kFrame", mode:"lin", lo:0, hi:1, step:0.01, cat:"dg", group:"法則",
    desc:"質量が動く・回ると「近くの空間」(決定フレーム)ごと引きずり、そこにある物質と光を運ぶ効果の強さ(A4/A5/E6′)。1=完全な相対空間、0=引きずりなしのニュートン的空間。銀河外縁の回転速度増強(T4)の主役。"},
-  {key:"q",     label:"引きずり減衰 q",      mode:"lin", lo:0.5, hi:8, step:0.05, cat:"dg", group:"法則",
+  {key:"q",     label:"引きずり減衰 q",      mode:"lin", lo:0.5, hi:40, step:0.05, cat:"dg", group:"法則",
    desc:"スピン(自転)による回転引きずりが距離とともに弱まる速さの指数(E3: (R/(R+d))^q)。大きいほど引きずりが天体の近くに限定される。"},
   {key:"kRep",  label:"スピン斥力 kRep",     mode:"lin", lo:0, hi:20, step:0.1, cat:"sh", group:"法則",   /* 第56便 56A: 🧬emergent(kRep=20)を範囲内に — CLAMPS 上限と一致 */
    desc:"スピン=熱を持つ粒子同士が押し合う力(A10/E5′)。この宇宙の「圧力」の正体で、熱いガスが膨らむ(🎈)のも対流(♨️)もこの力から生まれる。"},
@@ -2106,8 +2106,8 @@ function valToSliderPos(def,v){
 // 第113便(原仮定者指示「43″/世紀を域外にしない」): Kt 1e4→1e9・cLight 1e4→1e6 へ拡張 —
 // ティア別実c値(☀️=3e4)と physLock の導出 Kt=c₀²/G(☀️実G+実cで 1.35e8)を値域内にする。
 // 既存プリセット・既定値は全て旧値域内なので挙動不変(広げるだけ)
-// 第122便: q 上限 4→8(🌘🪨 を共に満たす共通補正 — q=4.6 級でスピン項だけを抑える較正を値域内にする)
-const CLAMPS = { G:[0,1e6], D0:[0,1e6], kFrame:[0,1], q:[0.5,8], kRep:[0,20], muF:[0,1],
+// 第122便: q 上限 4→8(共通補正)→ 第123便: 8→40(qLock 自動算出 — 💿 の q*≈21.8 を値域内にする)
+const CLAMPS = { G:[0,1e6], D0:[0,1e6], kFrame:[0,1], q:[0.5,40], kRep:[0,20], muF:[0,1],
   gammaN:[0,1], kappaS:[0,2], Kt:[1,1e9], kLens:[0,1],
   cLight:[1,1e6], bM:[0.001,1000], etaRad:[0,1], pRad:[1,6], radiusScale:[0.2,5],
   cHeat:[0.01,1000],   // 第36便 D(台帳4-51): 熱容量係数 C(thermal:"tint" 専用)
@@ -2276,16 +2276,16 @@ const BUILTIN_PRESETS = [
   // A8 引きずりは c² 抑制を持たない誇張スケールの機構であることの定量実証サンプル
   failureFirst:{
     fail:"kFrame=1 のまま太陽の実自転(25.05日)を入れると、D₀=0.1 ではスピン引きずりが逆行 −7.3×10⁻⁵ rad/公転(−1.5万″/世紀)の歳差を加え、観測の +43″/世紀 と3桁不一致になる(exp-kf1b §B — スピン0 なら kF0 と厳密一致=スピン起源)。",
-    pass:"第122便の共通補正: 逆行歳差はスピン項 ω(d)=s·(R/(R+d))^q 起源なので、D₀ ではなく q で幾何減衰させる — q=5 で引きずりが −5.3×10⁻⁸ rad/公転(1PN の 1/10)まで落ち、kF1 のまま 43″/世紀が成立する。しかも D₀ は 🌘 と**共通の 0.006** に戻る(第121便の D₀=10⁴・7桁差の非普遍性が解消 — 共通補正 (D₀=0.006, q=5) が 🌘🪨 を同時に満たす。exp-kf1c)。q を 3 へ戻すと逆行引きずり(−1.5万″/世紀)が現れる。"},
+    pass:"第122便の共通補正(q でスピン項を幾何減衰)→ 第123便: **q は計算で求まる(qLock)** — q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R)=6.16 の自動算出で引きずりは −5.6×10⁻¹⁰ rad/公転(LT級・1PN の 1/900)まで落ち、kF1 のまま 43″/世紀が成立。D₀ は 🌘💿 と共通の 0.006・q は同一式 — 較正ノブが1つも残らない(exp-kf1c/kf1d)。"},
   obsCard:[
-    {q:"引きずり歳差(共通補正 q=5)", model:"−5.3×10⁻⁸ rad/公転(1PN の 1/10)= 43″/世紀成立", obs:"近日点前進 +43″/世紀"},
+    {q:"引きずり歳差(qLock 自動算出 q*=6.16)", model:"−5.6×10⁻¹⁰ rad/公転(LT級)= 43″/世紀成立", obs:"近日点前進 +43″/世紀"},
     {q:"q=3 対照(第120便版)", model:"−7.3×10⁻⁵ rad/公転(−1.5万″/世紀・逆行=3桁不一致)", obs:"—(exp-kf1b §B・スピン0 なら kF0 と厳密一致)"},
-    {q:"共通性", model:"D₀=0.006・q=5 は 🌘 と共通(exp-kf1c 統合判定 PASS)", obs:"—(被引きずり側スピン×10⁴でも不変)"}],
+    {q:"共通性", model:"D₀=0.006 は 🌘💿 と共通・q は同一式の自動算出(exp-kf1c/kf1d)", obs:"—(被引きずり側スピン×10⁴でも不変)"}],
   orbitObs:{center:0, orbiter:1, ghostAmp:1e3},   // −7.3e-5 rad/公転 ×10³ ≈ −4°/公転で回転が見える
   descStruct:{
     summary:"☄️(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、**共通補正 (D₀=0.006, q=5) で kF1 のまま 43″/世紀を成立**させた版(第122便)。逆行歳差の正体は pinned 太陽の実自転(25.05日)が作る**スピン項 ω(d)=s·(R/(R+d))^q** — q=3 では −7.3×10⁻⁵ rad/公転(−1.5万″/世紀)と3桁不一致だったが、q=5 の幾何減衰で −5.3×10⁻⁸(1PN の 1/10)まで消え、1PN の +43″/世紀だけが残る。D₀=0.006 は 🌘 と共通で、第121便の「D₀ 7桁差」の非普遍性が解消される(exp-kf1c)。重力は E4・測地線は E12。",
     observe:"歳差積算 HUD が ☄️ と同水準(+43″/世紀級)を示す — kF1 でも較正が成り立つ。q を 3 へ下げると大きな逆行レートに変わり、ゴースト楕円(×10³)が逆回りする(スピン項の復活が一目で見える)。スピンを 0 にすると q=3 でも kF0 と厳密一致(スピン起源の分解)。",
-    control:"q が主役ノブ: 5(共通補正)⇄ 3(逆行引きずり −1.5万″/世紀)。太陽の spin を 0 にすると q=3 でも引きずりが消える(スピン起源)。kFrame を 0 にすると ☄️ と同一。被引きずり側(水星)のスピンは×10⁴でも歳差に無関与(自分自身は u から除外 — exp-kf1c §B)。"},
+    control:"q は自動算出(qLock — スライダーはグレーアウト)。太陽の spin を 0 にすると q=3 でも引きずりが消える(スピン起源)。kFrame を 0 にすると ☄️ と同一。被引きずり側(水星)のスピンは×10⁴でも歳差に無関与(自分自身は u から除外 — exp-kf1c §B)。"},
   en:{name:"Mercury (Real Units, kFrame=1) — 43″/century with the joint correction",
     failureFirst:{
       fail:"With kFrame=1, the Sun's real rotation (25.05 d) and q=3, spin dragging adds a RETROGRADE −7.3×10⁻⁵ rad/orbit (−15,000″/century) precession — three orders of magnitude off the observed +43″/century (exp-kf1b §B; with spin 0 it matches kF0 exactly, isolating the spin origin).",
@@ -2310,9 +2310,10 @@ const BUILTIN_PRESETS = [
   //    原仮定者ヒントへの正直な否定結果。exp-kf1c §B)
   abBody:{ label:{ja:"c₀=30(歳差が見える誇張対照)", en:"c₀=30 (visible-precession contrast)"},
     physicsPatch:{cLight:30, Kt:134.85166317} },
-  activeParams:["q","kFrame","dispMag"],
+  qLock:true,   // 第123便: q は自動算出(LT整合則 q*=6.16)— 編集対象から外す
+  activeParams:["D0","kFrame","dispMag"],
   camera:{scale:800}, world:{boundary:"none",size:0},
-  physics:{G:6.674, D0:0.006, kFrame:1, q:5, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:134851663.17051244,
+  physics:{G:6.674, D0:0.006, kFrame:1, q:6.16, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:134851663.17051244,
     cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:100, dispMag:10, stateCarry:"double"},
   bodies:[
@@ -2354,7 +2355,7 @@ const BUILTIN_PRESETS = [
     observe:"The Moon orbits in 27.32 days (the HUD time display auto-converts to days/years) and the Earth genuinely moves about the barycenter (offset 4.4 = 4,400 km — 69% of the Earth radius). The scale conversion matches distance 385,000 km, period 27.3 d and mass 5.97×10²⁴ kg, and the correspondence badge is satisfied. 1PN and dragging are completely invisible at real scale (invisible IS correct). At real radii both bodies are small, so the display magnification (default 10) enlarges rendering only. ",
     control:"kFrame is 0, stabilization route (c) (a free binary with kFrame=1 collapses — §F; dragging is outside this sample's claims, so the real spins act on display and inertia only). Set kFrame back to 1 to watch the collapse. Set the display magnification to 1 for true proportions."}},
   abBody:{ label:{ja:"kFrame=1・D₀=0.006(近点回転が現れる — 🌘対照)", en:"kFrame=1, D₀=0.006 (apsidal precession appears)"},
-    physicsPatch:{kFrame:1, D0:0.006, q:5} },   // 第121便(原仮定者指示): 🌘のワンタップ対照を🌙へ(第122便: 共通補正 q=5 も同期)
+    physicsPatch:{kFrame:1, D0:0.006, qLock:true} },   // 第121便: 🌘のワンタップ対照を🌙へ(第123便: q は自動算出で🌘と同一較正)
   activeParams:["dispMag","lambdaPN","cLight"],
   camera:{scale:450}, world:{boundary:"none",size:0},
   physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:134851663.17051244,
@@ -2391,12 +2392,12 @@ const BUILTIN_PRESETS = [
     {q:"恒星月(kFrame=1・較正後)", model:"27.331 日(+0.03%)", obs:"27.3217 日"},
     {q:"近点回転の周期", model:"≈8.86 年(Δϖ比 0.999 — 第122便 q=5)", obs:"8.85 年"},
     {q:"引きずり歳差の由来", model:"運動引きずり(スピン非依存・D₀∝1/χ)", obs:"実際の主因は太陽摂動(機構は別 — 較正一致)"},
-    {q:"補正の共通性", model:"D₀=0.006・q=5 は 🪨 と共通(exp-kf1c 統合判定 PASS)", obs:"—"}],
+    {q:"補正の共通性", model:"D₀=0.006 は 🪨💿 と共通・q は自動算出(qLock q*=8.25 — exp-kf1d)", obs:"—"}],
   orbitObs:{center:0, orbiter:1, ghostAmp:20},   // 実歳差 3°/公転 — ×20 で数公転で一周が見える
   descStruct:{
     summary:"🌙(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、共通補正 (D₀=0.006, q=5) に較正した版 — 重力(E4)+運動引きずりの二体だけで、恒星月 27.32日と**月の近点回転(実測 約8.85年で一周)**の2観測量を同時に較正再現する(exp-kf1b/kf1c 実測)。純二体のケプラー軌道は閉じた楕円で近点回転を持たない — kFrame=1 の運動引きずりが χ=w/(D₀+w) に比例する順行歳差を作り、D₀ がその較正ノブになる(第120便の一次発見)。測地線 E12・倍精度 stateCarry は雛形の規約どおり。",
     observe:"軌道の向き(近点方向)がゆっくり回る — 実際の月と同じ約8.85年(≈118公転)で一周する。歳差積算 HUD の換算レートと、ゴースト楕円(点線=初期・橙=歳差×20 増幅)で回転が数公転で見える。**HUD の積算は周回内で大きく振動する(局所では逆行にも振れる)— 1公転単位で読むと正味 +0.053 rad/公転(Δϖ比 0.999)**。恒星月は 27.33日(+0.03%)。正直な明記: 実際の近点回転の主因は太陽摂動(第三体)— 本サンプルは運動引きずりという別機構での較正一致であり、機構の同定を主張しない(観測結果カード)。",
-    control:"ワンタップ対照A/B: B側 D₀=0.1 に上げると引きずりが 1/16 になり回転がほぼ止まる(χ∝1/D₀ の用量が見える)。kFrame を 0 にすると純ケプラー(閉じた楕円)へ。スピンを 0 にしても歳差は変わらない(運動起源 — exp-kf1b §A。q=5 は 🪨 と共通の補正で、地球スピン項の混入を除く役)。"},
+    control:"ワンタップ対照A/B: B側 D₀=0.1 に上げると引きずりが 1/16 になり回転がほぼ止まる(χ∝1/D₀ の用量が見える)。kFrame を 0 にすると純ケプラー(閉じた楕円)へ。スピンを 0 にしても歳差は変わらない(運動起源 — exp-kf1b §A。q は自動算出〔qLock〕で、地球スピン項の混入を除く役)。"},
   en:{name:"Earth & Moon (Real Units, kFrame=1) — apsidal precession 8.85 yr, calibrated",
     failureFirst:{
       fail:"A pure two-body system (🌙, kFrame=0) can never show the Moon's apsidal precession (observed: one cycle in 8.85 years) — the ellipse stays closed. The wave-119 🌘 (D₀=0.1) gave +2.7×10⁻³ rad/orbit, 1/20 of the real rate, with a +0.05% period offset.",
@@ -2412,13 +2413,14 @@ const BUILTIN_PRESETS = [
     control:"One-tap A/B: raising D₀ to 0.1 on side B cuts the drag by 1/16 and the rotation nearly stops (the χ∝1/D₀ dose made visible). Setting kFrame to 0 returns to pure Kepler (closed ellipse). Zeroing the spins changes nothing (motion origin — exp-kf1b §A)."}},
   abBody:{ label:{ja:"D₀=0.1(引きずり弱 — 回転が止まる対照)", en:"D₀=0.1 (weak drag — rotation stops)"},
     physicsPatch:{D0:0.1} },
+  qLock:true,   // 第123便: q 自動算出(q*=8.25)
   activeParams:["D0","kFrame","dispMag"],
   camera:{scale:450}, world:{boundary:"none",size:0},
-  physics:{G:6.674, D0:0.006, kFrame:1, q:5, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:134851663.17051244,
+  physics:{G:6.674, D0:0.006, kFrame:1, q:8.25, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:134851663.17051244,
     cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:100, dispMag:10, stateCarry:"double"},
   bodies:[   // 第120便: 初速 −0.32%(f=0.9968 — D₀=0.006 の引きずり下で恒星月を 27.32日へ戻す共同フィット)
-             // 第122便: q=5(🪨 と共通の補正 — スピン項の幾何減衰。運動項較正は不変で Δϖ比 0.999 へ純化)
+             // 第122便: q共通補正 → 第123便: qLock 自動算出(q*=8.25 — Δϖ比 0.9991 のまま)
     {type:"single", m:0.59724, radius:6.38, x:-4.41822,y:0, vx:0,vy:-0.0013104, spin:0.0072921, pinned:false, pnSource:true},
     {type:"single", m:0.007346, radius:1.74, x:359.2071,y:0, vx:0,vy:0.1065368, spin:0.00026617, pinned:false}
   ],
@@ -4681,7 +4683,7 @@ const BUILTIN_PRESETS = [
     observe:"The three bands orbit at their real positions in pure Kepler motion — 2.18 (=21.8 km/s) at the C-ring inner edge, a 6.4-hour period (the HUD time display auto-converts to hours/days). The rotation-curve overlay shows the v∝r^−0.5 falloff (Ω∝r^−1.5). Unlike 🪐, the ring does not migrate inward and eccentricity does not rise — at real depth dragging is below detection (invisible IS correct). The scale conversion matches G, c₀, distances, speeds and masses, and the correspondence badge is satisfied. ",
     control:"Ring grains have radius 0.01 (=100 km-class representative particles) and mass 1e-6 (=10²⁰ kg — a representative value near the ring's real total mass of 1.5×10¹⁹ kg; at 0.001=10²³ kg the grains' self-gravity is ~6 orders stronger than the real ring and wave 118 measured the bands scattering and accreting within a few orbits, so this value is the calibration that keeps the orbits observational). kFrame is 0: DFM's A8 dragging is an exaggerated-visualization-scale mechanism without c² suppression, and wave 118 measured that combining it with the real spin 0.165 pulls the orbits far from observation — real-unit samples make no dragging claim, so spins act on display and inertia only. Raise kFrame to 1 for an A/B contrast with the exaggerated dragging. Moving λ_PN changes nothing on screen — that is the real weak field."}},
   abBody:{ label:{ja:"kFrame=1(引きずりが見える — 💿対照)", en:"kFrame=1 (dragging becomes visible)"},
-    physicsPatch:{kFrame:1} },   // 第121便(原仮定者指示): 💿のワンタップ対照を💍へ
+    physicsPatch:{kFrame:1, q:3} },   // 第121便: 💿のワンタップ対照を💍へ(第123便: 💿較正化に伴い q=3 の誇張引きずりを見せる対照に)
   activeParams:["kFrame","lambdaPN","dispMag"],
   camera:{scale:1300}, world:{boundary:"none",size:0},
   physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:134851663.17051244,
@@ -4706,42 +4708,47 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:true} },
 
-{ id:"saturnRingRealKF1", name:"土星の環(実単位・kFrame=1)— 引きずり誇張の対照", emoji:"💿", group:"天体の物語",
+{ id:"saturnRingRealKF1", name:"土星の環(実単位・kFrame=1)— 表面随伴と自動算出q", emoji:"💿", group:"天体の物語",
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 第121便: 💍と同じ惑星(e6)指数系
   sampleClass:"calibration",
   notClaim:["solar"],
   familyId:"saturn", familyRole:"variant",
-  // 第120便(原仮定者指示「saturnRingReal の kF1版を用意する」): 💍と同一実値で kFrame=1。
-  // 主星フレーム重み χ_M=w/(D₀+w)≈88%(w=5.68/8)で引きずりが有意 — 実測(exp-kf1b §C・
-  // 3×C環周期): Ω残差中央 +4.7%・半径移動中央 −2.5%・保持 119/120。観測(厳密ケプラー)から
-  // 外れる=誇張対照(fidelity なし)。ワンタップで kFrame=0(ケプラー対照)へ戻せる
+  // 第120便: 💍と同一実値で kFrame=1(当時は誇張対照 — Ω+4.7%・r−2.5%/3周)。
+  // 第123便(原仮定者指示「💿への共通補正適用。環粒子の近点移動も検証対象。表面に近い方が
+  // 引きずり効果が高いとした方がMM実験と整合」): 共通補正 D₀=0.006+qLock(自動算出 q*≈21.8)を
+  // 適用 — 環の偏心軌道の近点移動は q=3 の 0.23 rad/公転 → 2×10⁻⁵ へ落ち、環・衛星とも
+  // ケプラー化(exp-kf1d §B)。随伴プロファイル: 表面高度 h=0.5 で LT の45倍 → h≈45(環中域)で
+  // LT 一致 → 遠方で急減 — **表面に近いほど引きずりが強い**(MM null 結果と整合する構造)
   failureFirst:{
-    fail:"kFrame=1 では主星の実自転(10.56時間)と環の公転が空間ごと結合し、環は増速(+4.7%)しながら内側へ移動(−2.5%/3周)する — 実環の厳密ケプラー(Ω∝r^−1.5)から外れる(exp-kf1b §C)。",
-    pass:"これが A8 引きずりの「見える」スケール — 💍(kFrame=0・厳密ケプラー)との A/B で、実深度では引きずりが不可視であるべきこと(kFrame=0 規約)の対照になる。ワンタップ対照A/Bで B側 kFrame=0 に戻せる。"},
+    fail:"kFrame=1・q=3 では主星の実自転(10.56時間)のスピン項が環を増速(+4.7%)・内側移動(−2.5%/3周)させ、偏心軌道の近点は 0.23 rad/公転も回る — 実環の厳密ケプラー(Ω∝r^−1.5)から大きく外れる(exp-kf1b §C・kf1d §B)。",
+    pass:"第123便: 共通補正 D₀=0.006+**qLock(q は自動算出 q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R)≈21.8)**で、環の近点移動は 2×10⁻⁵ rad/公転へ落ち環・衛星ともケプラー化。随伴は表面近傍で強く(h=0.5 で LT の45倍)環中域で LT に一致 — 「表面に近いほど引きずりが強い」= MM 実験の null 結果と整合する構造を、環という表面至近の軌道系で定量化。"},
   obsCard:[
-    {q:"環の角速度残差(kF1・3周)", model:"中央 +4.7%(増速)", obs:"0%(厳密ケプラー)"},
-    {q:"環の半径移動(kF1・3周)", model:"中央 −2.5%(内側へ)・保持 119/120", obs:"移動なし"}],
+    {q:"環の近点移動(偏心軌道・kF1)", model:"q=3: 0.23 rad/公転 → qLock(21.8): 2×10⁻⁵", obs:"≈0(厳密ケプラー)"},
+    {q:"随伴プロファイル(ω_drag/LT)", model:"表面 h=0.5: ×45 → h≈45: ×1 → タイタン: ≪1", obs:"表面随伴は MM null と整合(較正一致 — 機構同定ではない)"},
+    {q:"補正の共通性", model:"D₀=0.006 は 🌘🪨 と共通・q は同一式の自動算出", obs:"—(exp-kf1d)"}],
   descStruct:{
-    summary:"💍(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にした誇張対照。主星のフレーム重み χ≈88% で引きずりが有意になり、環は増速(Ω残差 +4.7%)しつつ内側へ移動(−2.5%/3周)する — 実環の厳密ケプラー(E4)から目に見えて外れる(exp-kf1b §C 実測)。💍 との対比で「実深度の引きずりは見えないのが正しい」を裏側から示す。",
-    observe:"環が 💍 よりわずかに速く回り、ゆっくり内側へ寄っていく。回転曲線オーバーレイでケプラー基準からの上方ずれが見える。保持は 119/120(散逸はしない — 軌道が変質する型)。",
-    control:"ワンタップ対照A/B: B側 kFrame=0 で 💍 と同じ厳密ケプラーに戻る。D₀ を上げると引きずりが弱まる(χ=w/(D₀+w))。"},
-  en:{name:"Saturn's Rings (Real Units, kFrame=1) — exaggerated-drag contrast",
+    summary:"💍(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、共通補正 D₀=0.006+qLock(自動算出 q*≈21.8)を適用した版(第123便)。土星の環は**表面のすぐ外**を回る軌道系 — 随伴(引きずり)は表面に近いほど強く(h=0.5 で LT の45倍)、環中域で LT に一致し、遠方で急減する。この「表面に近いほど強い引きずり」はマイケルソン・モーリー実験の null 結果と整合する構造(表面の干渉計は共回りフレームに乗る)。qLock 下では環の偏心軌道の近点移動が 2×10⁻⁵ rad/公転まで消え、環・衛星6ともケプラー観測に一致する(exp-kf1d §B)。",
+    observe:"環・衛星とも 💍 と同じケプラー運動に見える(見えないのが正しい — kF1 でも較正が成り立つ)。ワンタップ対照A/Bで B側 q=3 にすると環が増速+内側移動し偏心軌道の近点が目に見えて回る(スピン項の復活)。q スライダーは自動算出のためグレーアウト。",
+    control:"ワンタップ対照A/B: B側 q=3(第120便の誇張)で引きずりが見える。kFrame=0 にすると 💍 と同一。D₀ は 🌘🪨 と共通の 0.006(運動項較正)。"},
+  en:{name:"Saturn's Rings (Real Units, kFrame=1) — surface entrainment & auto-derived q",
     failureFirst:{
-      fail:"With kFrame=1 the primary's real rotation (10.56 h) couples to the ring through space itself: the ring speeds up (+4.7%) and migrates inward (−2.5% per 3 orbits) — departing from the real ring's exact Kepler rotation (exp-kf1b §C).",
-      pass:"This is the scale where A8 dragging becomes VISIBLE — the A/B against 💍 (kFrame=0, exact Kepler) shows from the other side why dragging must be invisible at real depth (the kFrame=0 convention). One tap returns side B to kFrame=0."},
+      fail:"With kFrame=1 and q=3, the spin term of the primary's real rotation (10.56 h) speeds the ring up (+4.7%), migrates it inward (−2.5% per 3 orbits), and turns eccentric apses by 0.23 rad/orbit — far off the real ring's exact Kepler rotation (exp-kf1b §C, kf1d §B).",
+      pass:"Wave 123: with the joint correction D₀=0.006 plus qLock — q auto-derived as q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R)≈21.8 — the ring's apsidal drift falls to 2×10⁻⁵ rad/orbit and rings and moons alike become Keplerian. The entrainment profile is strong near the surface (×45 LT at h=0.5), matches LT at mid-ring, and dies off outward — 'stronger dragging nearer the surface', a structure consistent with the Michelson-Morley null result (a calibrated match, not a mechanism claim)."},
     obsCard:[
-      {q:"Ring angular-rate residual (kF1, 3 orbits)", model:"median +4.7% (sped up)", obs:"0% (exact Kepler)"},
-      {q:"Ring radial migration (kF1, 3 orbits)", model:"median −2.5% (inward), 119/120 retained", obs:"no migration"}],
+      {q:"Ring apsidal drift (eccentric, kF1)", model:"q=3: 0.23 rad/orbit → qLock(21.8): 2×10⁻⁵", obs:"≈0 (exact Kepler)"},
+      {q:"Entrainment profile (ω_drag/LT)", model:"surface h=0.5: ×45 → h≈45: ×1 → Titan: ≪1", obs:"surface entrainment consistent with the MM null"},
+      {q:"Universality", model:"D₀=0.006 shared with 🌘🪨; q auto-derived from one formula", obs:"— (exp-kf1d)"}],
     descStruct:{
-    summary:"The same real values as 💍 (kFrame=0) with frame dragging (A8/E6′) enabled — an exaggerated contrast. With the primary's frame weight χ≈88% the drag is significant: the ring speeds up (Ω residual +4.7%) and migrates inward (−2.5% per 3 orbits), visibly departing from the real ring's exact Kepler rotation (E4) (exp-kf1b §C). Together with 💍 it shows, from the other side, why dragging is invisible at real depth. ",
-    observe:"The ring orbits slightly faster than in 💍 and slowly drifts inward. The rotation-curve overlay shows the upward departure from the Kepler baseline. 119/120 grains are retained (orbits deform rather than disperse). ",
-    control:"One-tap A/B: side B with kFrame=0 returns to 💍's exact Kepler. Raising D₀ weakens the drag (χ=w/(D₀+w))."}},
-  abBody:{ label:{ja:"kFrame=0(ケプラー対照)", en:"kFrame=0 (Kepler contrast)"},
-    physicsPatch:{kFrame:0} },
-  activeParams:["kFrame","D0","dispMag"],
+    summary:"The same real values as 💍 (kFrame=0) with frame dragging (A8/E6′) enabled and the joint correction applied: D₀=0.006 plus qLock (auto-derived q*≈21.8) (wave 123). Saturn's ring orbits JUST outside the surface — entrainment is strongest near the surface (×45 LT at h=0.5), matches LT at mid-ring, and decays outward. 'Stronger dragging nearer the surface' is the structure consistent with the Michelson-Morley null result (a surface interferometer rides the co-rotating frame). Under qLock the eccentric apsidal drift falls to 2×10⁻⁵ rad/orbit — rings and all six moons stay Keplerian (exp-kf1d §B). ",
+    observe:"Rings and moons move exactly as in 💍 (invisible IS correct — the calibration survives kF1). One-tap A/B: side B at q=3 revives the wave-120 exaggeration — the ring speeds up, drifts inward, and eccentric apses visibly rotate. The q slider is greyed out (auto-derived). ",
+    control:"One-tap A/B: side B q=3 (the visible-drag contrast). Set kFrame to 0 to recover 💍 exactly. D₀ is 0.006, shared with 🌘🪨 (the motion-term calibration)."}},
+  abBody:{ label:{ja:"q=3(引きずりが見える誇張対照)", en:"q=3 (visible-drag contrast)"},
+    physicsPatch:{q:3} },
+  qLock:true,   // 第123便: q 自動算出(q*≈21.8 — a_ref=自由天体距離の中央値)
+  activeParams:["D0","kFrame","dispMag"],
   camera:{scale:1300}, world:{boundary:"none",size:0},
-  physics:{G:6.674, D0:0.1, kFrame:1, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:134851663.17051244,
+  physics:{G:6.674, D0:0.006, kFrame:1, q:21.8, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:134851663.17051244,
     cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:10, dispMag:1, stateCarry:"double"},
   bodies:[   // 第121便: 惑星(e6)実単位 — 土星 5.6834e26kg/6.03e7m/自転10.56h。環=実半径 C/B/A 帯
@@ -6001,6 +6008,8 @@ function validatePreset(obj){
         } else {
           physicsPatch={};
           for(const k of Object.keys(A.physicsPatch)){
+            // 第123便: qLock:true — B側の q を自動算出(LT整合則)する特別キー(CLAMPS 外)
+            if(k==="qLock"){ if(A.physicsPatch[k]===true) physicsPatch.qLock=true; continue; }
             if(!(k in CLAMPS)){ warnings.push("abBody.physicsPatch の未知キー "+k+" を無視"); continue; }
             if(!isNum(A.physicsPatch[k])){ warnings.push("abBody.physicsPatch."+k+" が数値でないため無視"); continue; }
             physicsPatch[k]=clamp(A.physicsPatch[k],CLAMPS[k][0],CLAMPS[k][1]);
@@ -9221,12 +9230,60 @@ function fieldKeyOf(){
 // 勾配を出すための裁定。物理には一切影響しない: S.Wat 自体・光線〔traceRay/rayField/
 // photonStep〕・時計・接触判定など全ての物理経路はこの合成を経由しない)。
 // gravityX=gravityY=0 のときは常に w のまま(既存の全プリセットと描画結果が厳密に不変)
-function fieldWDisp(wx,wy){
-  const w=sim.Wat(wx,wy);
-  const gx=sim.params.gravityX, gy=sim.params.gravityY;
+function fieldWDisp(wx,wy){ return fieldWDispOf(sim,wx,wy); }
+// 第123便(原仮定者指示「A/B比較で決定力マップが正しく表示されない」): 任意シム版 —
+// A/B 分割ビューの各半面が自分の宇宙(params 込み)で W_disp を評価できるようにする
+function fieldWDispOf(S,wx,wy){
+  const w=S.Wat(wx,wy);
+  const gx=S.params.gravityX, gy=S.params.gravityY;
   if(gx===0 && gy===0) return w;
-  const G=sim.params.G, Geff=(G>0)? G : 1;
+  const G=S.params.G, Geff=(G>0)? G : 1;
   return w + (gx*wx+gy*wy)/Geff;
+}
+// 第123便: 対数正規化+10バンド量子化の色付け(drawField と A/B 半面版の共通ヘルパ —
+// 第36便 B2 の見た目・式をそのまま共有)
+function fieldPaint(fctx,res,vals,wmax){
+  const img=fctx.createImageData(res,res);
+  const sorted=Float32Array.from(vals).sort();
+  const wref=Math.max(sorted[sorted.length>>1], 1e-6);
+  const lnMax=Math.max(Math.log(1+wmax/wref), 1e-6);
+  const BANDS=10;
+  for(let k=0;k<res*res;k++){
+    const ratio=Math.max(vals[k]/wref, -0.999999);
+    const wn=clamp(Math.log(1+ratio)/lnMax, 0, 1);
+    const band=Math.min(BANDS-1, Math.floor(wn*BANDS));
+    const v=band/(BANDS-1);
+    img.data[k*4]=15+v*140; img.data[k*4+1]=10+v*80; img.data[k*4+2]=80+v*175; img.data[k*4+3]=v*170;
+  }
+  fctx.putImageData(img,0,0);
+}
+// 第123便: A/B 分割ビューの決定力マップ(半面ごとに独立キャッシュ — B側は自分の D₀/G 等で評価
+// されるため、ワンタップ対照のパラメータ差がマップにも見える)
+const fieldCvAB=[null,null], fieldCtxAB=[null,null], fieldKeyAB=["",""]; let fieldTickAB=0;
+function drawFieldInto(S, y0, hgt, slot){
+  const res=Q_FRES[qLevel()];
+  let s1=0,s2=0,s3=0;
+  for(let i=0;i<S.n;i++){ s1+=S.x[i]*(i+1); s2+=S.y[i]*(i+1); s3+=S.m[i]; }
+  const key=camX+","+camY+","+camScale+","+cw+","+hgt+","+S.params.D0+","+S.params.softening+
+    ","+S.n+","+s1+","+s2+","+s3+","+S.params.G+","+S.params.gravityX+","+S.params.gravityY+","+res;
+  if(!fieldCvAB[slot]){ fieldCvAB[slot]=document.createElement("canvas");
+    fieldCvAB[slot].width=res; fieldCvAB[slot].height=res;
+    fieldCtxAB[slot]=fieldCvAB[slot].getContext("2d"); }
+  const cvS=fieldCvAB[slot], fctx=fieldCtxAB[slot];
+  if(key!==fieldKeyAB[slot] && (!running || (fieldTickAB++%Q_FEVERY[qLevel()])===0)){
+    fieldKeyAB[slot]=key;
+    if(cvS.width!==res){ cvS.width=res; cvS.height=res; }
+    const z=Math.min(cw,hgt)/2/camScale;
+    let wmax=S.params.D0+0.001;
+    const vals=new Float32Array(res*res);
+    for(let gy=0;gy<res;gy++) for(let gx=0;gx<res;gx++){
+      const wx=camX+((gx+0.5)/res*cw-cw/2)/z, wy=camY+((gy+0.5)/res*hgt-hgt/2)/z*(flipY?-1:1);
+      const w=fieldWDispOf(S,wx,wy); vals[gy*res+gx]=w; if(w>wmax)wmax=w;
+    }
+    fieldPaint(fctx,res,vals,wmax);
+  }
+  ctx.imageSmoothingEnabled=true;
+  ctx.drawImage(cvS,0,y0,cw,hgt);
 }
 function drawField(){
   const res=Q_FRES[qLevel()];                 // v1.23: 品質レベルで格子解像度(48/40/32)
@@ -9235,7 +9292,6 @@ function drawField(){
   if(key!==fieldKey && (!running || (fieldTick++%Q_FEVERY[qLevel()])===0)){
     fieldKey=key; fieldCalcCount++;
     if(fieldCv.width!==res){ fieldCv.width=res; fieldCv.height=res; }
-    const img=fieldCtx.createImageData(res,res);
     const z=zoom();
     let wmax=sim.params.D0+0.001;
     const vals=new Float32Array(res*res);
@@ -9248,21 +9304,8 @@ function drawField(){
     // W_ref はフレーム内の中央値(ソートで概算) — 至近距離の大質量1点に引っ張られやすい
     // 旧来の線形正規化(pow(v/wmax,0.4))より、背景〜中間帯の階調を保ったまま最大値まで
     // 対数圧縮する。明度レンジは現行より広げる(最暗部を暗く・最明部を明るく)
-    const sorted=Float32Array.from(vals).sort();
-    const wref=Math.max(sorted[sorted.length>>1], 1e-6);
-    const lnMax=Math.max(Math.log(1+wmax/wref), 1e-6);
-    const BANDS=10;
-    for(let k=0;k<res*res;k++){
-      // 第37便 A4: 一様重力の Φ_g は負にも振れうるため、log の引数が0以下にならないよう
-      // 比率へ下限を設ける(gravityX=gravityY=0 では vals[k]≥0 相当が通例でこの下限に触れない —
-      // 既存の見た目は不変)
-      const ratio=Math.max(vals[k]/wref, -0.999999);
-      const wn=clamp(Math.log(1+ratio)/lnMax, 0, 1);
-      const band=Math.min(BANDS-1, Math.floor(wn*BANDS));
-      const v=band/(BANDS-1);
-      img.data[k*4]=15+v*140; img.data[k*4+1]=10+v*80; img.data[k*4+2]=80+v*175; img.data[k*4+3]=v*170;
-    }
-    fieldCtx.putImageData(img,0,0);
+    // 第123便: 色付け本体は fieldPaint(A/B 半面版と共通)へ抽出 — 式・見た目は不変
+    fieldPaint(fieldCtx,res,vals,wmax);
   }
   ctx.imageSmoothingEnabled=true;
   ctx.drawImage(fieldCv,0,0,cw,ch);
@@ -10193,10 +10236,13 @@ function recTrail(S,buf){
     for(let i=0;i<S.n;i++) if(!S.pinned[i]&&S.m[i]<100) free++;
     stride=Math.max(1,Math.ceil(free/16));
   }
-  // 第29便(第25次レビュー P1-2): 最大点数を品質連動に(正確1500/自動800/軽量400点。A/B中は半減)。
+  // 第29便(第25次レビュー P1-2): 最大点数を品質連動に(正確1500/自動800/軽量400点)。
   // 満杯後に毎push splice(0,2)で前詰めしていたのをやめ、120点分たまってからまとめて刈る(償却O(1))
   // 第121便(原仮定者指示「線が残る時間を指定+残り時間で暗く」): 点を (x,y,t) の3要素で記録
-  const capF=(ab? Q_TRAILPTS[qLevel()]>>1 : Q_TRAILPTS[qLevel()])*3;
+  // 第123便(原仮定者指示「A/B比較で線の軌跡が正しく表示されない」): A/B 中の上限半減を廃止 —
+  // A/B へ入ると軌跡が即座に半分へ刈られてメインビューと見え方が変わっていた(点は3要素化済みで
+  // 償却コストは低く、両ビュー同一の見え方を優先する)
+  const capF=Q_TRAILPTS[qLevel()]*3;
   let k=0;
   for(let i=0;i<S.n;i++){ if(S.pinned[i]) continue;
     if(sampled && S.m[i]<100 && (k++%stride)!==0) continue;
@@ -10666,6 +10712,9 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
   ctx.save(); ctx.beginPath(); ctx.rect(0,y0,cw,hgt); ctx.clip();
   const z=Math.min(cw,hgt)/2/camScale;
   const sx=(wx)=>cw/2+(wx-camX)*z, sy=(wy)=>y0+hgt/2+(wy-camY)*z*(flipY?-1:1);
+  // 第123便(原仮定者指示): 決定力マップを A/B 分割ビューでも描く(半面ごとの独立キャッシュ —
+  // B側は自分の params で評価されるため、ワンタップ対照の D₀/G 差がマップにも見える)
+  if(S.overlays.field) drawFieldInto(S, y0, hgt, y0===0? 0 : 1);
   // 境界
   if(S.world.boundary!=="none"){
     ctx.strokeStyle="rgba(139,147,200,0.5)"; ctx.setLineDash([5,5]);
@@ -11362,6 +11411,10 @@ function loadPreset(id, keepPhysics){
   const merged=JSON.parse(JSON.stringify(p));
   if(keepPhysics && basePhysics) merged.physics=Object.assign({},sim.params);
   sim.build(merged);
+  // 第123便(原仮定者指示「qが計算で求まるなら編集対象から外す」): qLock サンプルは
+  // 引きずり減衰 q を LT整合則から自動算出して適用(q スライダーはグレーアウト)
+  qLockOn=!!p.qLock;
+  if(qLockOn) applyQLock(sim);
   trailBuf=[]; trailBufB=[];  // 軌道トレイルはプリセット読込・⏮初めからでリセット
   emergenceReset();           // 第82便B: 創発モニタの履歴もプリセット読込でリセット(表示層のみ)
   pmReset();                  // 第83便B: 相図の結果はプリセット単位・セッション内のみ(保存しない)
@@ -11523,6 +11576,8 @@ function abStart(key, valB, bodyPatch){
         if(!(k in CLAMPS)) continue;
         ab.simB.params[k]=clamp(bodyPatch.physicsPatch[k],CLAMPS[k][0],CLAMPS[k][1]);
       }
+      // 第123便: physicsPatch.qLock:true — B側の q を自動算出(🌙のワンタップが 🌘 と同じ較正になる)
+      if(bodyPatch.physicsPatch.qLock) applyQLock(ab.simB);
       ab.simB.updateRadii();
     }
     // 第63便(原仮定者指示): patch レシピを保持 — ⏮初めから のたびに B 側へ再適用する
@@ -11650,6 +11705,7 @@ $("#btnReset").addEventListener("click",()=>{
         for(const k of Object.keys(ab.bodyPatch.physicsPatch)){
           if(k in CLAMPS) ab.simB.params[k]=clamp(ab.bodyPatch.physicsPatch[k],CLAMPS[k][0],CLAMPS[k][1]);
         }
+        if(ab.bodyPatch.physicsPatch.qLock) applyQLock(ab.simB);   // 第123便
         ab.simB.updateRadii();
       }
     }
@@ -11753,6 +11809,34 @@ $("#btnPanelClose").addEventListener("click",closePanel);  // v1.17: パネル�
 // ===== v1.26: 物理対応ロック Kt=cLight²/G(決断事項4-12承認・第10次裁定P0-2) =====
 // グローバルUI設定(プリセット/セーブのスキーマは拡張しない)。ONの間、時計・光のKtを
 // E12・運動時間項が参照するcLightと重力Gから導出される対応条件 Kt=cLight²/G に自動維持する。
+// 第123便(原仮定者指示): qLock — 引きずり減衰 q の自動算出(LT整合則)。
+// スピン項 ω(d)=s·(R/(R+d))^q の LT に対する振幅超過 X=1.25·c₀²R/(GM) は軌道 a・スピン s に
+// 依らない(第122便の抑制率則の帰結)ため、参照軌道 a(支配源から見た自由天体の初期距離の
+// 中央値)で LT に一致する指数 **q*=3+ln(X)/ln((R+a)/R)** が全て既知量から計算で求まる
+// (tests/exp-kf1d.mjs: 🪨6.16→引きずり−5.6e-10・🌘8.25→Δϖ比0.999・💿21.8→環がケプラー化・
+//  🌌3.89=誇張ドメインでも値域内)。d→0(表面)では q によらず強い随伴が残る —
+// 「表面に近いほど引きずりが強い」= マイケルソン・モーリーの null 結果と整合する構造。
+// qLock はサンプル宣言(トップレベルキー)で、読込時に適用・q 行はグレーアウトされる。
+let qLockOn=false;
+function qLockCalc(S){
+  let src=-1;
+  for(let i=0;i<S.n;i++) if(pnSource(S,i)){ src=i; break; }
+  if(src<0){ let mM=-Infinity; for(let i=0;i<S.n;i++) if(S.m[i]>mM && S.R[i]>0){ mM=S.m[i]; src=i; } }
+  if(src<0) return null;
+  const R=S.R[src], M=S.m[src], G=S.params.G, c=S.params.cLight;
+  if(!(R>0)||!(M>0)||!(G>0)||!(c>0)) return null;
+  const ds=[];
+  for(let i=0;i<S.n;i++){ if(i===src||S.pinned[i]) continue;
+    const d=Math.hypot(S.x[i]-S.x[src],S.y[i]-S.y[src]); if(d>R) ds.push(d); }
+  if(!ds.length) return null;
+  ds.sort((a,b)=>a-b);
+  const a=ds[ds.length>>1];
+  const X=1.25*c*c*R/(G*M);
+  const q=3+Math.log(X)/Math.log((R+a)/R);
+  const cc=CLAMPS.q;
+  return { q:clamp(q,cc[0],cc[1]), aRef:a, X, clamped:(q<cc[0]||q>cc[1]) };
+}
+function applyQLock(S){ const r=qLockCalc(S); if(r) S.params.q=r.q; return r; }
 let physLock=false;
 let paramRowSync={};   // 第54便 54D④: key→UI行の表示更新関数の**配列**(主役+詳細の重複行に対応)
 function syncParamRow(key){ (paramRowSync[key]||[]).forEach(f=>f()); }
@@ -12375,6 +12459,9 @@ function buildParamRows(){
     const updConv=()=>{ const s0=(scaleDispOn? scaleConvStr(key,showSim.params[key]) : null);
       conv.textContent=s0||""; conv.style.display=s0? "" : "none"; };
     updConv();
+    // 第123便: qLock サンプルでは q 行を最初から編集不可にする(自動算出 — LT整合則)
+    if(key==="q" && qLockOn){ rng.disabled=true; num.disabled=true;
+      num.title=rng.title="qLock: q は自動算出(q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) — LT整合則。サンプル宣言)"; }
     const setParam=(v)=>{
       const c=CLAMPS[key]; v=clamp(v,c[0],c[1]);
       // v1.23: 書き込み先 — applyBoth(時間倍率)は常にA/B両方、それ以外は編集対象(editSim)
@@ -12408,7 +12495,10 @@ function buildParamRows(){
     // 第110便(原仮定者指示): 物理対応ロック中は Kt が導出値になるため、Kt 行の
     // スライダー・直値入力を編集不可(グレーアウト)にする。解除で編集可へ戻す
     const syncFn=()=>{ rng.value=valToSliderPos(def,showSim.params[key]); num.value=fmt(showSim.params[key]); updConv();
-      if(key==="Kt"){ rng.disabled=physLock; num.disabled=physLock; row.classList.toggle("lockedRow",physLock); } };
+      if(key==="Kt"){ rng.disabled=physLock; num.disabled=physLock; row.classList.toggle("lockedRow",physLock); }
+      // 第123便: qLock サンプルでは q は自動算出(LT整合則)— 編集対象から外す
+      if(key==="q" && qLockOn){ rng.disabled=true; num.disabled=true; row.classList.add("lockedRow");
+        num.title=rng.title="qLock: q は自動算出(q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) — LT整合則。サンプル宣言)"; } };
     const syncOthers=()=>{ (paramRowSync[key]||[]).forEach(f=>{ if(f!==syncFn) f(); }); };
     rng.addEventListener("input",()=>{  // 実行中いつでも即時反映
       let v=parseFloat(rng.value);
@@ -13253,7 +13343,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
 6. name は30字以内、description は200字程度の日本語(上限は9000字。超えると切り詰められる)。emoji は絵文字1文字。
-7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1, q:0.5〜8, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, Kt:1〜1e9, cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100, massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
+7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1, q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, Kt:1〜1e9, cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100, massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
 8. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 
 # ジェネレータ(bodiesの要素。typeごとに全フィールド必須)
