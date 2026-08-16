@@ -717,8 +717,8 @@ ja: {
   cLinkClamped:(keys)=>"⚠ 相似変換: "+keys+" が値域クランプされ厳密相似が破れています",
   divUndo:"⏪ 直前の設定に戻して初めから",
   divRestored:"発散前の設定に戻し、初期配置から再開できます(▶実行)",
-  tgTrails:"軌跡を残す",
-  trailLifeTip:"線の軌跡の残存時間(シミュレーション時間・0=無制限)。線は残り時間でだんだん暗くなる。表示のみ。", tgTrailLine:"線の軌跡", tgField:"決定力マップ", tgCurve:"回転曲線グラフ",
+  
+  trailLifeTip:"線の軌跡の表示時間(シミュレーション時間・既定1000・0=無制限)。線は残り時間でだんだん暗くなる。表示のみ。", tgTrailLine:"線の軌跡", tgField:"決定力マップ", tgCurve:"回転曲線グラフ",
   tgTemp:"温度グラフ", tgSpectrum:"スペクトル", tgMonitor:"保存量モニタ(P・L・帳簿)",
   tgRays:"光線", uiScaleLabel:"文字サイズ",
   // 第32便(W2): 膨張グラフ overlay(a・H・赤方偏移)
@@ -728,7 +728,7 @@ ja: {
   tgEmergence:"創発モニタ(塊・整列・回転支持)",
   tgEmergenceDesc:"「構造がどれだけ立ったか」を4つの実測量の時系列で読む診断グラフ(第82便)。①塊の数=接触距離ベースの連結成分数(i–j を繋ぐ条件は中心距離 d<1.2·(R_i+R_j))②最大塊の質量比=最大連結成分の質量÷全質量 ③スピン整列度=Σ I_i s_i ÷ Σ I_i |s_i|(+1で全部同じ向き・0で無相関・−1で全部逆向き。I_i=½|m_i|R_i²)④回転支持比 V/σ=⟨v_φ⟩²÷σ²(系の重心・重心速度を基準に取った接線速度の質量重み平均の2乗を、動径・接線の速度分散の平均 σ²=(σ_r²+σ_φ²)/2 で割った値。1より大きければ回転が支え、小さければランダム運動が支えている。分散が数値的に0の完全剛体回転では上限1e9を返す)。表示・診断のみで物理には一切影響しない — 計測は表示ONのときだけ数フレームに1回走り、OFFでは1命令も走らない。",
   // 第23便(原仮定者指示): 「表示」各行のタップ説明
-  tgTrailsDesc:"画面を消さずに粒子の残像を重ねる表示効果。物理には影響しない。",
+  
   tgTrailLineDesc:"粒子の軌道を線で記録して描く(☿の楕円歳差など)。記録間隔は描画品質に従う。",
   tgFieldDesc:"決定力 W の強さを背景の色マップで表示(A3/E1′)。明るいほど W が高い。",
   // 第37便 A3(原仮定者指示): 光線の基準波長λ0(表示専用・セーブ対象外・物理不変)
@@ -1125,8 +1125,8 @@ en: {
   cLinkClamped:(keys)=>"⚠ Similarity transform: "+keys+" clamped to range — exact similarity broken",
   divUndo:"⏪ Restore last-good settings & restart",
   divRestored:"Pre-divergence settings restored — press ▶ Run to restart from the initial layout",
-  tgTrails:"Motion trails",
-  trailLifeTip:"Lifetime of line trails (simulation time units; 0 = unlimited). Lines fade with remaining time. Display only.", tgTrailLine:"Line trails", tgField:"Determinacy map", tgCurve:"Rotation-curve graph",
+  
+  trailLifeTip:"Display time of line trails (simulation time units; default 1000; 0 = unlimited). Lines fade with remaining time. Display only.", tgTrailLine:"Line trails", tgField:"Determinacy map", tgCurve:"Rotation-curve graph",
   tgTemp:"Temperature graph", tgSpectrum:"Spectrum", tgMonitor:"Conservation monitor (P, L, ledger)",
   tgRays:"Light rays", uiScaleLabel:"Text size",
   tgBoxGraph:"Expansion graph (a, H, redshift)",
@@ -1134,7 +1134,7 @@ en: {
   tgMechSpec:"Mechanism spectrum (dominance diagnostic)",
   tgEmergence:"Emergence monitor (clumps, alignment, rotation support)",
   tgEmergenceDesc:"A diagnostic graph reading how much structure has actually formed, as a time series of four measured quantities (dispatch 82). (1) Clump count = number of connected components under a contact-distance link (i–j are linked when their centre distance d < 1.2·(R_i+R_j)). (2) Largest-clump mass fraction = mass of the largest component ÷ total mass. (3) Spin alignment = Σ I_i s_i ÷ Σ I_i |s_i| (+1 all spinning the same way, 0 uncorrelated, −1 all opposed; I_i = ½|m_i|R_i²). (4) Rotation support V/σ = ⟨v_φ⟩² ÷ σ², where v_φ is the tangential velocity taken about the system's centre of mass and its mean velocity, ⟨v_φ⟩ is the mass-weighted mean, and σ² = (σ_r² + σ_φ²)/2 is the mean of the radial and tangential velocity dispersions — above 1 rotation holds the system up, below 1 random motion does; a perfectly rigid rotation with numerically zero dispersion returns the ceiling value 1e9. Display and diagnostics only; the physics is untouched — the measurement runs once every few frames and only while the graph is on, and not a single instruction runs while it is off.",
-  tgTrailsDesc:"Overlays fading afterimages of the particles. Display only — physics unchanged.",
+  
   tgTrailLineDesc:"Records and draws orbit lines (e.g. Mercury's precessing ellipse). Recording interval follows render quality.",
   tgFieldDesc:"Background color map of the determinacy W (A3/E1'). Brighter = higher W.",
   // 第37便 A3: ray base wavelength lambda0 (display only, not saved, physics-free)
@@ -2025,7 +2025,7 @@ const PARAM_DEFS = [
    desc:"遠方宇宙が及ぼす決定力の底値(A5)。大きいほど空間が遠方に固定されて安定し、近くの質量による空間引きずり(kFrame)の効きが相対的に弱まる。"},
   {key:"kFrame",label:"空間引きずり kFrame", mode:"lin", lo:0, hi:1, step:0.01, cat:"dg", group:"法則",
    desc:"質量が動く・回ると「近くの空間」(決定フレーム)ごと引きずり、そこにある物質と光を運ぶ効果の強さ(A4/A5/E6′)。1=完全な相対空間、0=引きずりなしのニュートン的空間。銀河外縁の回転速度増強(T4)の主役。"},
-  {key:"q",     label:"引きずり減衰 q",      mode:"lin", lo:0.5, hi:4, step:0.05, cat:"dg", group:"法則",
+  {key:"q",     label:"引きずり減衰 q",      mode:"lin", lo:0.5, hi:8, step:0.05, cat:"dg", group:"法則",
    desc:"スピン(自転)による回転引きずりが距離とともに弱まる速さの指数(E3: (R/(R+d))^q)。大きいほど引きずりが天体の近くに限定される。"},
   {key:"kRep",  label:"スピン斥力 kRep",     mode:"lin", lo:0, hi:20, step:0.1, cat:"sh", group:"法則",   /* 第56便 56A: 🧬emergent(kRep=20)を範囲内に — CLAMPS 上限と一致 */
    desc:"スピン=熱を持つ粒子同士が押し合う力(A10/E5′)。この宇宙の「圧力」の正体で、熱いガスが膨らむ(🎈)のも対流(♨️)もこの力から生まれる。"},
@@ -2106,7 +2106,8 @@ function valToSliderPos(def,v){
 // 第113便(原仮定者指示「43″/世紀を域外にしない」): Kt 1e4→1e9・cLight 1e4→1e6 へ拡張 —
 // ティア別実c値(☀️=3e4)と physLock の導出 Kt=c₀²/G(☀️実G+実cで 1.35e8)を値域内にする。
 // 既存プリセット・既定値は全て旧値域内なので挙動不変(広げるだけ)
-const CLAMPS = { G:[0,1e6], D0:[0,1e6], kFrame:[0,1], q:[0.5,4], kRep:[0,20], muF:[0,1],
+// 第122便: q 上限 4→8(🌘🪨 を共に満たす共通補正 — q=4.6 級でスピン項だけを抑える較正を値域内にする)
+const CLAMPS = { G:[0,1e6], D0:[0,1e6], kFrame:[0,1], q:[0.5,8], kRep:[0,20], muF:[0,1],
   gammaN:[0,1], kappaS:[0,2], Kt:[1,1e9], kLens:[0,1],
   cLight:[1,1e6], bM:[0.001,1000], etaRad:[0,1], pRad:[1,6], radiusScale:[0.2,5],
   cHeat:[0.01,1000],   // 第36便 D(台帳4-51): 熱容量係数 C(thermal:"tint" 専用)
@@ -2263,7 +2264,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"mercuryRealKF1", name:"水星(実単位・kFrame=1)— 実スピン引きずりの対照", emoji:"🪨", group:"空間と時間",
+{ id:"mercuryRealKF1", name:"水星(実単位・kFrame=1)— 共通補正で 43″/世紀成立", emoji:"🪨", group:"空間と時間",
   scaleTier:"planetary",
   scaleExp:{L:8, T:4, M:27},   // ☄️ と同一の指数系
   sampleClass:"calibration",
@@ -2275,37 +2276,43 @@ const BUILTIN_PRESETS = [
   // A8 引きずりは c² 抑制を持たない誇張スケールの機構であることの定量実証サンプル
   failureFirst:{
     fail:"kFrame=1 のまま太陽の実自転(25.05日)を入れると、D₀=0.1 ではスピン引きずりが逆行 −7.3×10⁻⁵ rad/公転(−1.5万″/世紀)の歳差を加え、観測の +43″/世紀 と3桁不一致になる(exp-kf1b §B — スピン0 なら kF0 と厳密一致=スピン起源)。",
-    pass:"第121便の較正: スピン引きずりも χ=w/(D₀+w) 比例 — D₀=10⁴ で引きずりが 1PN の 1/16 に落ち、kF1 のまま 43″/世紀が成立する。ただし 🌘(D₀=0.006)と 🪨(D₀=10⁴)で D₀ が7桁違う — D₀ は系ごとの較正値で普遍定数ではない(w=m/d の次元性の帰結 — 正直な明記)。D₀ を 0.1 へ下げると逆行引きずりが現れる。"},
+    pass:"第122便の共通補正: 逆行歳差はスピン項 ω(d)=s·(R/(R+d))^q 起源なので、D₀ ではなく q で幾何減衰させる — q=5 で引きずりが −5.3×10⁻⁸ rad/公転(1PN の 1/10)まで落ち、kF1 のまま 43″/世紀が成立する。しかも D₀ は 🌘 と**共通の 0.006** に戻る(第121便の D₀=10⁴・7桁差の非普遍性が解消 — 共通補正 (D₀=0.006, q=5) が 🌘🪨 を同時に満たす。exp-kf1c)。q を 3 へ戻すと逆行引きずり(−1.5万″/世紀)が現れる。"},
   obsCard:[
-    {q:"引きずり歳差(実スピン)", model:"−7.3×10⁻⁵ rad/公転(−1.5万″/世紀・逆行)", obs:"近日点前進 +43″/世紀(3桁不一致=較正外)"},
-    {q:"スピン0 対照", model:"kF0 と厳密一致(引きずり=スピン起源)", obs:"—(exp-kf1b §B)"}],
+    {q:"引きずり歳差(共通補正 q=5)", model:"−5.3×10⁻⁸ rad/公転(1PN の 1/10)= 43″/世紀成立", obs:"近日点前進 +43″/世紀"},
+    {q:"q=3 対照(第120便版)", model:"−7.3×10⁻⁵ rad/公転(−1.5万″/世紀・逆行=3桁不一致)", obs:"—(exp-kf1b §B・スピン0 なら kF0 と厳密一致)"},
+    {q:"共通性", model:"D₀=0.006・q=5 は 🌘 と共通(exp-kf1c 統合判定 PASS)", obs:"—(被引きずり側スピン×10⁴でも不変)"}],
   orbitObs:{center:0, orbiter:1, ghostAmp:1e3},   // −7.3e-5 rad/公転 ×10³ ≈ −4°/公転で回転が見える
   descStruct:{
-    summary:"☄️(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にした対照。pinned の太陽の実自転(25.05日)が作るスピン引きずりで、水星の近日点が**逆行 −7.3×10⁻⁵ rad/公転(−1.5万″/世紀)**に回る — 観測(+43″/世紀)と3桁不一致で、A8 引きずりが c² 抑制を持たない誇張スケールの機構であることが定量的に見える(exp-kf1b §B)。重力は E4・測地線は E12。",
-    observe:"歳差積算 HUD が大きな逆行レートを示し、ゴースト楕円(×10³)が逆回りする — ☄️(+43″/世紀の較正値)との対比で「実スピン×kF1 は較正外」が一目で分かる。スピンを 0 にすると kF0 と厳密一致(A/B で確認できる)。",
-    control:"太陽の spin を 0 にすると引きずりが消える(スピン起源の分解)。kFrame を 0 にすると ☄️ と同一。D₀ を上げると引きずりが弱まる(χ=w/(D₀+w))。"},
-  en:{name:"Mercury (Real Units, kFrame=1) — real-spin dragging contrast",
+    summary:"☄️(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、**共通補正 (D₀=0.006, q=5) で kF1 のまま 43″/世紀を成立**させた版(第122便)。逆行歳差の正体は pinned 太陽の実自転(25.05日)が作る**スピン項 ω(d)=s·(R/(R+d))^q** — q=3 では −7.3×10⁻⁵ rad/公転(−1.5万″/世紀)と3桁不一致だったが、q=5 の幾何減衰で −5.3×10⁻⁸(1PN の 1/10)まで消え、1PN の +43″/世紀だけが残る。D₀=0.006 は 🌘 と共通で、第121便の「D₀ 7桁差」の非普遍性が解消される(exp-kf1c)。重力は E4・測地線は E12。",
+    observe:"歳差積算 HUD が ☄️ と同水準(+43″/世紀級)を示す — kF1 でも較正が成り立つ。q を 3 へ下げると大きな逆行レートに変わり、ゴースト楕円(×10³)が逆回りする(スピン項の復活が一目で見える)。スピンを 0 にすると q=3 でも kF0 と厳密一致(スピン起源の分解)。",
+    control:"q が主役ノブ: 5(共通補正)⇄ 3(逆行引きずり −1.5万″/世紀)。太陽の spin を 0 にすると q=3 でも引きずりが消える(スピン起源)。kFrame を 0 にすると ☄️ と同一。被引きずり側(水星)のスピンは×10⁴でも歳差に無関与(自分自身は u から除外 — exp-kf1c §B)。"},
+  en:{name:"Mercury (Real Units, kFrame=1) — 43″/century with the joint correction",
     failureFirst:{
-      fail:"With kFrame=1 and the Sun's real rotation (25.05 d), spin dragging adds a RETROGRADE −7.3×10⁻⁵ rad/orbit (−15,000″/century) precession — three orders of magnitude off the observed +43″/century (exp-kf1b §B; with spin 0 it matches kF0 exactly, isolating the spin origin).",
-      pass:"This quantifies that A8 dragging is an exaggerated-scale mechanism without c² suppression — the calibration sample (☄️, kFrame 0) and this mechanism contrast are kept separate (the measured basis of the wave-118 kFrame=0 convention, packaged as a sample)."},
+      fail:"With kFrame=1, the Sun's real rotation (25.05 d) and q=3, spin dragging adds a RETROGRADE −7.3×10⁻⁵ rad/orbit (−15,000″/century) precession — three orders of magnitude off the observed +43″/century (exp-kf1b §B; with spin 0 it matches kF0 exactly, isolating the spin origin).",
+      pass:"Wave-122 joint correction: the retrograde precession comes from the SPIN term ω(d)=s·(R/(R+d))^q, so it is suppressed geometrically by q rather than by D₀ — at q=5 the drag falls to −5.3×10⁻⁸ rad/orbit (1/10 of 1PN) and 43″/century holds with kF1 on. Moreover D₀ returns to 0.006, SHARED with 🌘 — the wave-121 seven-order D₀ split is resolved: one pair (D₀=0.006, q=5) satisfies both systems at once (exp-kf1c)."},
     obsCard:[
-      {q:"Drag precession (real spin)", model:"−7.3×10⁻⁵ rad/orbit (−15,000″/century, retrograde)", obs:"perihelion advance +43″/century (3 orders off — out of calibration)"},
-      {q:"Spin-0 control", model:"matches kF0 exactly (drag is spin-sourced)", obs:"— (exp-kf1b §B)"}],
+      {q:"Drag precession (joint correction, q=5)", model:"−5.3×10⁻⁸ rad/orbit (1/10 of 1PN) — 43″/century holds", obs:"perihelion advance +43″/century"},
+      {q:"q=3 contrast (wave-120 version)", model:"−7.3×10⁻⁵ rad/orbit (−15,000″/century, retrograde — 3 orders off)", obs:"— (exp-kf1b §B; spin 0 matches kF0 exactly)"},
+      {q:"Universality", model:"D₀=0.006 and q=5 are shared with 🌘 (exp-kf1c joint verdict PASS)", obs:"— (unchanged even with the dragged side's spin ×10⁴)"}],
     descStruct:{
-    summary:"The same real values as ☄️ (kFrame=0) with frame dragging (A8/E6′) enabled. The pinned Sun's real rotation (25.05 d) drags Mercury's perihelion RETROGRADE at −7.3×10⁻⁵ rad/orbit (−15,000″/century) — three orders of magnitude off the observed +43″/century, quantifying that A8 dragging is an exaggerated-scale mechanism without c² suppression (exp-kf1b §B). Gravity is E4, geodesics E12. ",
-    observe:"The precession HUD shows a large retrograde rate and the ghost ellipse (×10³) rotates backwards — contrasting with ☄️ (+43″/century calibrated). Zero the spin and it matches kF0 exactly (check in A/B). ",
-    control:"Zero the Sun's spin to remove the drag (spin-origin decomposition). Set kFrame to 0 to recover ☄️ exactly. Raising D₀ weakens the drag (χ=w/(D₀+w))."}},
-  // 第121便(原仮定者指示「kF1のまま実測に近付ける補正を調査する」): 調査結論 —
-  // スピン引きずり(−7.3e-5 rad/公転)も χ=w/(D₀+w) に比例(w=1988.5/460≈4.3)。
-  // D₀=1e4 で χ≈4.3e-4 → 引きずり −3e-8 rad/公転(1PN の 1/16)= kF1 のまま 43″/世紀が成立。
-  // ただし 🌘 は D₀=0.006・🪨 は D₀=1e4 — **D₀ は系ごとの較正値で普遍定数ではない**
-  // (w=m/d の次元性の帰結 — 単位系・系規模依存。論文3候補の正直な論点)。
-  // D₀ を 0.1 へ下げると逆行引きずり(−1.5万″/世紀)が現れる(手動対照)
+    summary:"The same real values as ☄️ (kFrame=0) with frame dragging (A8/E6′) enabled and the joint correction (D₀=0.006, q=5) applied — 43″/century now holds WITH kF1 on (wave 122). The retrograde precession was the SPIN term ω(d)=s·(R/(R+d))^q of the pinned Sun's real rotation (25.05 d): at q=3 it gave −7.3×10⁻⁵ rad/orbit (3 orders off), while q=5's geometric falloff cuts it to −5.3×10⁻⁸ (1/10 of 1PN), leaving only the 1PN +43″/century. D₀=0.006 is shared with 🌘, resolving the wave-121 seven-order non-universality (exp-kf1c). Gravity is E4, geodesics E12. ",
+    observe:"The precession HUD sits at the ☄️ level (+43″/century class) — the calibration survives kF1. Lower q to 3 and it flips to a large retrograde rate with the ghost ellipse (×10³) rotating backwards (the spin term coming back, visibly). Zero the spin and even q=3 matches kF0 exactly (spin-origin decomposition). ",
+    control:"q is the star knob: 5 (joint correction) ⇄ 3 (retrograde drag, −15,000″/century). Zero the Sun's spin and the drag vanishes even at q=3 (spin origin). Set kFrame to 0 to recover ☄️ exactly. The dragged side's (Mercury's) own spin is irrelevant even at ×10⁴ (self is excluded from u — exp-kf1c §B)."}},
+  // 第122便(原仮定者指示「🌘と🪨を共に満たす補正を検証する。q の算出などを試す。
+  // 引きずられる側のスピンにも着目する」): 検証結論(tests/exp-kf1c.mjs)—
+  //  ①逆行歳差はスピン項 ω(d)=s·(R/(R+d))^q 起源 → q で幾何減衰できる(D₀ 不要)。
+  //    抑制率 (R/(R+a))^(q−3)・算出 q*=3+ln(|A₃|/ε)/ln((R+a)/R)=4.59 → 採用 q=5 で
+  //    引きずり −5.3e-8 rad/公転(1PN の 1/10)= kF1 のまま 43″/世紀成立。
+  //  ②D₀ は 🌘 と共通の 0.006 に復帰 — **共通補正 (D₀=0.006, q=5) が両系を同時に満たす**
+  //    (第121便の D₀=1e4・7桁差の非普遍性は解消。q は水星の幾何 R/(R+a) から算出した値だが、
+  //     🌘 ではスピン項が元々無視できるため同じ q=5 が較正を壊さない — むしろ Δϖ比 0.988→0.999 に純化)。
+  //  ③被引きずり側(水星)のスピンは×10⁴でも歳差に無関与(自分自身は u から除外される —
+  //    原仮定者ヒントへの正直な否定結果。exp-kf1c §B)
   abBody:{ label:{ja:"c₀=30(歳差が見える誇張対照)", en:"c₀=30 (visible-precession contrast)"},
     physicsPatch:{cLight:30, Kt:134.85166317} },
-  activeParams:["D0","kFrame","dispMag"],
+  activeParams:["q","kFrame","dispMag"],
   camera:{scale:800}, world:{boundary:"none",size:0},
-  physics:{G:6.674, D0:10000, kFrame:1, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:134851663.17051244,
+  physics:{G:6.674, D0:0.006, kFrame:1, q:5, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:134851663.17051244,
     cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:100, dispMag:10, stateCarry:"double"},
   bodies:[
@@ -2347,7 +2354,7 @@ const BUILTIN_PRESETS = [
     observe:"The Moon orbits in 27.32 days (the HUD time display auto-converts to days/years) and the Earth genuinely moves about the barycenter (offset 4.4 = 4,400 km — 69% of the Earth radius). The scale conversion matches distance 385,000 km, period 27.3 d and mass 5.97×10²⁴ kg, and the correspondence badge is satisfied. 1PN and dragging are completely invisible at real scale (invisible IS correct). At real radii both bodies are small, so the display magnification (default 10) enlarges rendering only. ",
     control:"kFrame is 0, stabilization route (c) (a free binary with kFrame=1 collapses — §F; dragging is outside this sample's claims, so the real spins act on display and inertia only). Set kFrame back to 1 to watch the collapse. Set the display magnification to 1 for true proportions."}},
   abBody:{ label:{ja:"kFrame=1・D₀=0.006(近点回転が現れる — 🌘対照)", en:"kFrame=1, D₀=0.006 (apsidal precession appears)"},
-    physicsPatch:{kFrame:1, D0:0.006} },   // 第121便(原仮定者指示): 🌘のワンタップ対照を🌙へ
+    physicsPatch:{kFrame:1, D0:0.006, q:5} },   // 第121便(原仮定者指示): 🌘のワンタップ対照を🌙へ(第122便: 共通補正 q=5 も同期)
   activeParams:["dispMag","lambdaPN","cLight"],
   camera:{scale:450}, world:{boundary:"none",size:0},
   physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:134851663.17051244,
@@ -2379,36 +2386,39 @@ const BUILTIN_PRESETS = [
   //    温度・スピン経路は不関与(exp-kf1)・周期との結合は f(初速)で分離できる。
   failureFirst:{
     fail:"純二体(🌙 kFrame=0)では月の近点回転(実測 8.85年で一周)は原理的に出ない(閉じた楕円)。第119便の 🌘(D₀=0.1)でも +2.7×10⁻³ rad/公転と実測の 1/20 で、周期も +0.05% ずれていた。",
-    pass:"引きずり歳差が χ=w/(D₀+w) に比例することを用量実測で確定し、D₀=0.006+初速−0.32% の共同フィットで恒星月 27.32日(+0.04%)と近点回転 8.85年(全窓比0.99)を同時較正(tests/exp-kf1b.mjs)。実際の主因は太陽摂動 — DFM は運動引きずりという別機構での較正一致(正直な明記)。",},
+    pass:"引きずり歳差が χ=w/(D₀+w) に比例することを用量実測で確定し、D₀=0.006+初速−0.32% の共同フィットで恒星月 27.32日(+0.04%)と近点回転 8.85年を同時較正(tests/exp-kf1b.mjs)。第122便: q=5(🪨 と共通の補正)で地球スピン項の混入が除かれ、Δϖ比が 0.988→0.999 へ純化 — **共通補正 (D₀=0.006, q=5) が 🌘🪨 を同時に満たす**(exp-kf1c)。実際の主因は太陽摂動 — DFM は運動引きずりという別機構での較正一致(正直な明記)。",},
   obsCard:[
-    {q:"恒星月(kFrame=1・較正後)", model:"27.333 日(+0.04%)", obs:"27.3217 日"},
-    {q:"近点回転の周期", model:"≈8.9 年(全窓比0.99・窓±15%)", obs:"8.85 年"},
-    {q:"引きずり歳差の由来", model:"運動引きずり(スピン非依存・D₀∝1/χ)", obs:"実際の主因は太陽摂動(機構は別 — 較正一致)"}],
+    {q:"恒星月(kFrame=1・較正後)", model:"27.331 日(+0.03%)", obs:"27.3217 日"},
+    {q:"近点回転の周期", model:"≈8.86 年(Δϖ比 0.999 — 第122便 q=5)", obs:"8.85 年"},
+    {q:"引きずり歳差の由来", model:"運動引きずり(スピン非依存・D₀∝1/χ)", obs:"実際の主因は太陽摂動(機構は別 — 較正一致)"},
+    {q:"補正の共通性", model:"D₀=0.006・q=5 は 🪨 と共通(exp-kf1c 統合判定 PASS)", obs:"—"}],
   orbitObs:{center:0, orbiter:1, ghostAmp:20},   // 実歳差 3°/公転 — ×20 で数公転で一周が見える
   descStruct:{
-    summary:"🌙(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、D₀=0.006 に較正した版 — 重力(E4)+運動引きずりの二体だけで、恒星月 27.32日と**月の近点回転(実測 約8.85年で一周)**の2観測量を同時に較正再現する(exp-kf1b 実測)。純二体のケプラー軌道は閉じた楕円で近点回転を持たない — kFrame=1 の運動引きずりが χ=w/(D₀+w) に比例する順行歳差を作り、D₀ がその較正ノブになる(第120便の一次発見)。測地線 E12・倍精度 stateCarry は雛形の規約どおり。",
-    observe:"軌道の向き(近点方向)がゆっくり回る — 実際の月と同じ約8.85年(≈118公転)で一周する。歳差積算 HUD の換算レートと、ゴースト楕円(点線=初期・橙=歳差×20 増幅)で回転が数公転で見える。**HUD の積算は周回内で大きく振動する(局所では逆行にも振れる)— 1公転単位で読むと正味 +0.052 rad/公転**。恒星月は 27.33日(+0.04%)。正直な明記: 実際の近点回転の主因は太陽摂動(第三体)— 本サンプルは運動引きずりという別機構での較正一致であり、機構の同定を主張しない(観測結果カード)。",
-    control:"ワンタップ対照A/B: B側 D₀=0.1 に上げると引きずりが 1/16 になり回転がほぼ止まる(χ∝1/D₀ の用量が見える)。kFrame を 0 にすると純ケプラー(閉じた楕円)へ。スピンを 0 にしても歳差は変わらない(運動起源 — exp-kf1b §A)。"},
+    summary:"🌙(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、共通補正 (D₀=0.006, q=5) に較正した版 — 重力(E4)+運動引きずりの二体だけで、恒星月 27.32日と**月の近点回転(実測 約8.85年で一周)**の2観測量を同時に較正再現する(exp-kf1b/kf1c 実測)。純二体のケプラー軌道は閉じた楕円で近点回転を持たない — kFrame=1 の運動引きずりが χ=w/(D₀+w) に比例する順行歳差を作り、D₀ がその較正ノブになる(第120便の一次発見)。測地線 E12・倍精度 stateCarry は雛形の規約どおり。",
+    observe:"軌道の向き(近点方向)がゆっくり回る — 実際の月と同じ約8.85年(≈118公転)で一周する。歳差積算 HUD の換算レートと、ゴースト楕円(点線=初期・橙=歳差×20 増幅)で回転が数公転で見える。**HUD の積算は周回内で大きく振動する(局所では逆行にも振れる)— 1公転単位で読むと正味 +0.053 rad/公転(Δϖ比 0.999)**。恒星月は 27.33日(+0.03%)。正直な明記: 実際の近点回転の主因は太陽摂動(第三体)— 本サンプルは運動引きずりという別機構での較正一致であり、機構の同定を主張しない(観測結果カード)。",
+    control:"ワンタップ対照A/B: B側 D₀=0.1 に上げると引きずりが 1/16 になり回転がほぼ止まる(χ∝1/D₀ の用量が見える)。kFrame を 0 にすると純ケプラー(閉じた楕円)へ。スピンを 0 にしても歳差は変わらない(運動起源 — exp-kf1b §A。q=5 は 🪨 と共通の補正で、地球スピン項の混入を除く役)。"},
   en:{name:"Earth & Moon (Real Units, kFrame=1) — apsidal precession 8.85 yr, calibrated",
     failureFirst:{
       fail:"A pure two-body system (🌙, kFrame=0) can never show the Moon's apsidal precession (observed: one cycle in 8.85 years) — the ellipse stays closed. The wave-119 🌘 (D₀=0.1) gave +2.7×10⁻³ rad/orbit, 1/20 of the real rate, with a +0.05% period offset.",
-      pass:"Dose measurements established that the drag precession scales as χ=w/(D₀+w); a joint fit of D₀=0.006 with a −0.32% initial-speed correction calibrates BOTH the sidereal month 27.32 d (+0.04%) and the 8.85-year apsidal cycle (full-window ratio 0.99) at once (tests/exp-kf1b.mjs). The real cause is solar perturbation — DFM matches it via a different mechanism, motion dragging (honest note)."},
+      pass:"Dose measurements established that the drag precession scales as χ=w/(D₀+w); a joint fit of D₀=0.006 with a −0.32% initial-speed correction calibrates BOTH the sidereal month 27.32 d (+0.04%) and the 8.85-year apsidal cycle at once (tests/exp-kf1b.mjs). Wave 122: q=5 (the correction shared with 🪨) removes the Earth-spin contamination and purifies the Δϖ ratio from 0.988 to 0.999 — one pair (D₀=0.006, q=5) satisfies BOTH 🌘 and 🪨 (exp-kf1c). The real cause is solar perturbation — DFM matches it via a different mechanism, motion dragging (honest note)."},
     obsCard:[
-      {q:"Sidereal month (kFrame=1, calibrated)", model:"27.333 d (+0.04%)", obs:"27.3217 d"},
-      {q:"Apsidal precession period", model:"≈8.9 yr (full-window ratio 0.99, ±15% by window)", obs:"8.85 yr"},
-      {q:"Origin of the drag precession", model:"motion dragging (spin-independent, ∝χ(D₀))", obs:"the real cause is solar perturbation (different mechanism — a calibrated match)"}],
+      {q:"Sidereal month (kFrame=1, calibrated)", model:"27.331 d (+0.03%)", obs:"27.3217 d"},
+      {q:"Apsidal precession period", model:"≈8.86 yr (Δϖ ratio 0.999 — wave-122 q=5)", obs:"8.85 yr"},
+      {q:"Origin of the drag precession", model:"motion dragging (spin-independent, ∝χ(D₀))", obs:"the real cause is solar perturbation (different mechanism — a calibrated match)"},
+      {q:"Universality of the correction", model:"D₀=0.006 and q=5 are shared with 🪨 (exp-kf1c joint verdict PASS)", obs:"—"}],
     descStruct:{
-    summary:"The same real values as 🌙 (kFrame=0) with frame dragging (A8/E6′) enabled and D₀ calibrated to 0.006 — gravity (E4) plus motion dragging alone reproduce TWO observables: the 27.32-day sidereal month and the Moon's apsidal precession (observed: one cycle in ≈8.85 years) (exp-kf1b). A pure two-body Kepler orbit is a closed ellipse with no apsidal rotation — the kFrame=1 motion drag adds a prograde precession scaling as χ=w/(D₀+w), making D₀ its calibration knob (wave-120 primary finding). Geodesic E12 and double-precision stateCarry follow the template. ",
-    observe:"The orbit's apse line slowly rotates — one cycle in about 8.85 years (≈118 orbits), as the real Moon does. The precession HUD rate and the ghost ellipses (dotted = initial, amber = precession ×20) make the rotation visible within a few orbits. The HUD accumulator oscillates strongly within each orbit (locally even retrograde) — read it per full orbit: net +0.052 rad/orbit. The sidereal month is 27.33 d (+0.04%). Honest note: the real cause of the lunar apsidal precession is solar perturbation (a third body) — this sample matches it via a different mechanism, motion dragging, and claims no mechanism identification (see the observation card). ",
+    summary:"The same real values as 🌙 (kFrame=0) with frame dragging (A8/E6′) enabled and the joint correction (D₀=0.006, q=5) applied — gravity (E4) plus motion dragging alone reproduce TWO observables: the 27.32-day sidereal month and the Moon's apsidal precession (observed: one cycle in ≈8.85 years) (exp-kf1b/kf1c). A pure two-body Kepler orbit is a closed ellipse with no apsidal rotation — the kFrame=1 motion drag adds a prograde precession scaling as χ=w/(D₀+w), making D₀ its calibration knob (wave-120 primary finding). Geodesic E12 and double-precision stateCarry follow the template. ",
+    observe:"The orbit's apse line slowly rotates — one cycle in about 8.85 years (≈118 orbits), as the real Moon does. The precession HUD rate and the ghost ellipses (dotted = initial, amber = precession ×20) make the rotation visible within a few orbits. The HUD accumulator oscillates strongly within each orbit (locally even retrograde) — read it per full orbit: net +0.053 rad/orbit (Δϖ ratio 0.999). The sidereal month is 27.33 d (+0.03%). Honest note: the real cause of the lunar apsidal precession is solar perturbation (a third body) — this sample matches it via a different mechanism, motion dragging, and claims no mechanism identification (see the observation card). ",
     control:"One-tap A/B: raising D₀ to 0.1 on side B cuts the drag by 1/16 and the rotation nearly stops (the χ∝1/D₀ dose made visible). Setting kFrame to 0 returns to pure Kepler (closed ellipse). Zeroing the spins changes nothing (motion origin — exp-kf1b §A)."}},
   abBody:{ label:{ja:"D₀=0.1(引きずり弱 — 回転が止まる対照)", en:"D₀=0.1 (weak drag — rotation stops)"},
     physicsPatch:{D0:0.1} },
   activeParams:["D0","kFrame","dispMag"],
   camera:{scale:450}, world:{boundary:"none",size:0},
-  physics:{G:6.674, D0:0.006, kFrame:1, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:134851663.17051244,
+  physics:{G:6.674, D0:0.006, kFrame:1, q:5, kRep:0, muF:0, gammaN:0, kappaS:0, Kt:134851663.17051244,
     cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:100, dispMag:10, stateCarry:"double"},
   bodies:[   // 第120便: 初速 −0.32%(f=0.9968 — D₀=0.006 の引きずり下で恒星月を 27.32日へ戻す共同フィット)
+             // 第122便: q=5(🪨 と共通の補正 — スピン項の幾何減衰。運動項較正は不変で Δϖ比 0.999 へ純化)
     {type:"single", m:0.59724, radius:6.38, x:-4.41822,y:0, vx:0,vy:-0.0013104, spin:0.0072921, pinned:false, pnSource:true},
     {type:"single", m:0.007346, radius:1.74, x:359.2071,y:0, vx:0,vy:0.1065368, spin:0.00026617, pinned:false}
   ],
@@ -10166,9 +10176,9 @@ function drawBG(){
   for(const s of bgStars){ ctx.fillRect(s[0]*cw,s[1]*ch,s[2],s[2]); }
 }
 
-let trailsOn=false;
-let trailBuf=[];   // overlays.trail 用の蓄積ポリライン(v1.9。残像トグルとは別方式 — 長周期の軌道形状を保持する)
-let trailCv=null, trailCtx=null;   // 第121便: 残像(軌跡を残す)の半サイズ・スタンプ用オフスクリーン
+// 第122便(原仮定者指示): 「軌跡を残す」(残像トグル)は廃止 — 粒子が見えなくなる不具合もあり、
+// 軌跡表示は「線の軌跡」(寿命フェード付き)に一本化した
+let trailBuf=[];   // overlays.trail 用の蓄積ポリライン(v1.9 — 長周期の軌道形状を保持する)
 let trailBufB=[];  // v1.19: A/B比較のB側の線の軌跡
 let fusLastN=-1;   // 第44便 44B: 融合による粒子数変化の検出(線の軌跡の引き直し用)
 // 線の軌跡の記録(自由粒子の経路を最大3000点=約100秒・数周分保持)
@@ -10195,8 +10205,9 @@ function recTrail(S,buf){
     if(b.length>capF+360) b.splice(0,b.length-capF);
   }
 }
-// 第121便: 線の軌跡の残存時間(t.u.・0=無制限〔従来〕)。表示専用・hp_trail_life 永続
-let trailLife=0;
+// 第121便: 線の軌跡の残存時間(t.u.・0=無制限)。表示専用・hp_trail_life 永続
+// 第122便(原仮定者指示): 既定 1000・スライダー指定
+let trailLife=1000;
 try{ const _tl=parseFloat(localStorage.getItem("hp_trail_life")); if(isFinite(_tl)&&_tl>=0) trailLife=_tl; }catch(_){}
 function setTrailLife(v){ trailLife=Math.max(0,+v||0); try{ localStorage.setItem("hp_trail_life",String(trailLife)); }catch(_){} }
 // 共通の軌跡ポリライン描画(main/A-B 両ビュー)。寿命指定時は6帯の等分ストロークで
@@ -10232,20 +10243,8 @@ function drawTrailPolys(bufArr, tNow, SX, SY, n){
 function render(){
   applyCamFollow();   // 第81便: 天体追従(描画層のみ — camX/camY だけを動かす)
   ctx.setTransform(dpr,0,0,dpr,0,0);
-  // 第121便(原仮定者指示「軌跡のサイズを半分にする」): 残像は本描画の残留ではなく、
-  // 専用のオフスクリーン軌跡キャンバスに**半径1/2の点**をスタンプ+フェードして重ねる方式へ。
-  // 粒子・光線などの本描画は毎フレーム全消去(残像は粒子のみ=説明文どおり)
+  // 第122便: 「軌跡を残す」(残像)は廃止 — 毎フレーム全消去+線の軌跡(寿命フェード)に一本化
   ctx.fillStyle="#05070f"; ctx.fillRect(0,0,cw,ch); drawBG();
-  if(trailsOn){
-    if(!trailCv || trailCv.width!==canvas.width || trailCv.height!==canvas.height){
-      trailCv=document.createElement("canvas");
-      trailCv.width=canvas.width; trailCv.height=canvas.height;
-      trailCtx=trailCv.getContext("2d");
-    }
-    trailCtx.setTransform(dpr,0,0,dpr,0,0);
-    trailCtx.fillStyle="rgba(5,7,15,0.18)"; trailCtx.fillRect(0,0,cw,ch);
-    ctx.drawImage(trailCv,0,0,cw,ch);
-  } else if(trailCv){ trailCv=null; trailCtx=null; }
   if(sim.overlays.field) drawField();
   // 境界
   const z=zoom();
@@ -10327,10 +10326,6 @@ function render(){
     }
     ctx.fillStyle=col;
     ctx.beginPath(); ctx.arc(sx,sy,rr,0,7); ctx.fill();
-    if(trailsOn && trailCtx){   // 第121便: 残像は半径1/2の点をオフスクリーンへスタンプ
-      trailCtx.fillStyle=col;
-      trailCtx.beginPath(); trailCtx.arc(sx,sy,Math.max(0.6,rr*0.5),0,7); trailCtx.fill();
-    }
     // v1.17: 大きく表示される粒子はスポーク(車輪の輻)で回転方向・速さを可視化
     if(rr>=7 && Math.abs(sim.spin[i])>1e-4){
       const a0=sim.rotA[i], fy=flipY?-1:1;   // 第119便: 上下反転時はスポークの見た目回転も鏡像(y成分を反転)
@@ -12550,7 +12545,8 @@ function buildParamRows(){
   // 第58便 58B: 時間倍率はシミュレーションカテゴリへ移動(v1.23 の表示常設を変更)
   // v1.23(原仮定者指示): 表示トグルは A/B 比較中、常に両方の画面へ反映する
   const setOv=(k)=>(v)=>{ sim.overlays[k]=v; if(ab) ab.simB.overlays[k]=v; };
-  const toggles=[["trails",T("tgTrails"),()=>trailsOn,(v)=>trailsOn=v,"tgTrailsDesc"],
+  // 第122便(原仮定者指示): 「軌跡を残す」トグルは廃止(線の軌跡へ一本化)
+  const toggles=[
     // v1.19: 線の軌跡(overlays.trail)をトグル化。A/B比較中はB側にも連動
     ["trail",T("tgTrailLine"),()=>!!sim.overlays.trail,
       (v)=>{ setOv("trail")(v); if(!v){ trailBuf=[]; trailBufB=[]; } },"tgTrailLineDesc"],
@@ -12592,25 +12588,31 @@ function buildParamRows(){
   };
   let raysRow=null;   // 第38便: λ0行を「光線」トグル行の直後へ差し込むために参照を保持する
   toggles.forEach(([id,label,get,set,descKey])=>{
-    // 第121便(原仮定者指示): 「線の軌跡」行に残存時間入力(t.u.・0=無制限)を追加。
+    // 第121便(原仮定者指示): 「線の軌跡」行に残存時間(t.u.・0=無制限)を追加。
+    // 第122便(原仮定者指示): 表示時間は**スライダー**で指定(既定 1000)+直値入力を併設。
     // 線は残り時間でだんだん暗くなる(drawTrailPolys — 表示専用・hp_trail_life 永続)
     const isTrailLine=(id==="trail");
     const row=document.createElement("div"); row.className="prow";
     const lab=document.createElement("label"); lab.textContent=label; lab.style.flex="1";
     tapDesc(row,lab,descKey);
-    if(isTrailLine){   // 第121便: 残存時間入力(t.u.・0=無制限)— 線は残り時間で暗くなる
-      const num=document.createElement("input"); num.type="text"; num.className="valIn";
-      num.id="trailLifeIn"; num.inputMode="decimal"; num.autocomplete="off";
-      num.style.cssText="flex:0 0 64px;width:64px;text-align:right;";
-      num.value=String(trailLife||0); num.title=T("trailLifeTip");
-      num.addEventListener("change",()=>{ const v=parseFloat(num.value);
-        setTrailLife(isFinite(v)?v:0); num.value=String(trailLife||0); requestRender(); });
-      row.appendChild(num);
-    }
     const cb=document.createElement("input"); cb.type="checkbox"; cb.checked=get();
     cb.addEventListener("change",()=>{ set(cb.checked); requestRender(); });
     row.appendChild(lab); row.appendChild(cb); disp.appendChild(row);
-    if(isTrailLine){ row.insertBefore(row.querySelector('#trailLifeIn'), cb); }
+    if(isTrailLine){   // 第122便: スライダー(0〜5000・50刻み・0=無制限)+直値入力(広域も受理)
+      const rng=document.createElement("input"); rng.type="range"; rng.id="trailLifeRange";
+      rng.min=0; rng.max=5000; rng.step=50; rng.style.cssText="flex:0 0 84px;width:84px;";
+      rng.value=String(Math.min(5000,trailLife||0)); rng.title=T("trailLifeTip");
+      const num=document.createElement("input"); num.type="text"; num.className="valIn";
+      num.id="trailLifeIn"; num.inputMode="decimal"; num.autocomplete="off";
+      num.style.cssText="flex:0 0 56px;width:56px;text-align:right;";
+      num.value=String(trailLife||0); num.title=T("trailLifeTip");
+      rng.addEventListener("input",()=>{ setTrailLife(parseFloat(rng.value));
+        num.value=String(trailLife||0); requestRender(); });
+      num.addEventListener("change",()=>{ const v=parseFloat(num.value);
+        setTrailLife(isFinite(v)?v:0); num.value=String(trailLife||0);
+        rng.value=String(Math.min(5000,trailLife||0)); requestRender(); });
+      row.insertBefore(rng, cb); row.insertBefore(num, cb);
+    }
     if(id==="rays") raysRow=row;
   });
   // 第37便 A3(原仮定者指示): 光線の基準波長λ0(nm)。表示専用(セーブ対象外・物理不変) —
@@ -13251,7 +13253,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
 6. name は30字以内、description は200字程度の日本語(上限は9000字。超えると切り詰められる)。emoji は絵文字1文字。
-7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1, q:0.5〜4, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, Kt:1〜1e9, cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100, massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
+7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1, q:0.5〜8, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, Kt:1〜1e9, cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100, massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
 8. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 
 # ジェネレータ(bodiesの要素。typeごとに全フィールド必須)
