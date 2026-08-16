@@ -12644,13 +12644,16 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     const r = await page.evaluate(() => {
       const out = {};
       // ① 寿命入力 UI+recTrail 3要素+フェード描画(ソース検査)
+      // 第122便世代: 残像(trailsOn)廃止・寿命は既定1000+スライダー — halfTrail 検査を世代分岐
+      const gen122 = (typeof trailsOn === 'undefined');
       buildParamRows();
       out.lifeIn = !!document.querySelector('#trailLifeIn');
-      setTrailLife(50); out.lifeSet = trailLife === 50; setTrailLife(0);
+      setTrailLife(50); out.lifeSet = trailLife === 50; setTrailLife(gen122 ? 1000 : 0);
       out.tripletRec = String(HP.recTrail).includes('S.t');
       out.fade = String(drawTrailPolys).includes('trailLife') && String(drawTrailPolys).includes('age');
-      // ② 残像半サイズ(オフスクリーンスタンプ rr*0.5)
-      out.halfTrail = String(render).includes('rr*0.5') && String(render).includes('trailCtx');
+      // ② 残像半サイズ(第121便)/ 第122便世代では残像コードが完全に消えている事
+      out.halfTrail = gen122 ? !String(render).includes('trailCtx')
+        : String(render).includes('rr*0.5') && String(render).includes('trailCtx');
       // ③ 💍: e6・ts10・衛星6(タイタン m=0.013452)・💿 trail ON
       const sr = HP.allPresets().find((p) => p.id === 'saturnRingReal');
       const sk = HP.allPresets().find((p) => p.id === 'saturnRingRealKF1');
@@ -12658,10 +12661,12 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       out.ringE6 = sr.scaleExp.L === 6 && sr.physics.timeScale === 10 && titan(sr)
         && sk.scaleExp.L === 6 && titan(sk) && sk.overlays.trail === true
         && sr.bodies.filter((b) => b.type === 'single').length === 7;
-      // ④ 🪨: D₀=1e4 較正+c₀=30 ワンタップ / 🌙: kF1+D0 ワンタップ / 💍: kF1 ワンタップ
+      // ④ 🪨: 較正(第121便 D₀=1e4 → 第122便 共通補正 D₀=0.006+q=5)+c₀=30 ワンタップ /
+      //    🌙: kF1+D0 ワンタップ / 💍: kF1 ワンタップ
       const mk = HP.allPresets().find((p) => p.id === 'mercuryRealKF1');
       const em = HP.allPresets().find((p) => p.id === 'earthMoonReal');
-      out.oneTaps = mk.physics.D0 === 10000 && mk.abBody && mk.abBody.physicsPatch.cLight === 30
+      const mkCal = gen122 ? (mk.physics.D0 === 0.006 && mk.physics.q === 5) : mk.physics.D0 === 10000;
+      out.oneTaps = mkCal && mk.abBody && mk.abBody.physicsPatch.cLight === 30
         && em.abBody && em.abBody.physicsPatch.kFrame === 1 && em.abBody.physicsPatch.D0 === 0.006
         && sr.abBody && sr.abBody.physicsPatch.kFrame === 1;
       // ⑤ 💍のタイタン公転が実測15.95日と整合(ケプラー予測 — 初期条件の構成検査)
@@ -12680,6 +12685,46 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       `💍💿e6+衛星=${r.ringE6} / ワンタップ相互+🪨D0較正=${r.oneTaps} / タイタン15.95日=${r.titanT}`);
   } else {
     console.log('SKIP wave121.ui(第121便 未適用 — root 等)');
+  }
+  // 92-1g) 第122便: 🌘🪨共通補正(D₀=0.006, q=5)・trail表示時間スライダー(既定1000)・残像廃止
+  const has122 = await page.evaluate(() => !!(window.HP && typeof setTrailLife === 'function'
+    && typeof trailsOn === 'undefined'));
+  if (has122) {
+    const r = await page.evaluate(() => {
+      const out = {};
+      // ① スライダー UI(0〜5000・50刻み)+直値入力の連動・既定 1000(ソース検査 — 実行値は
+      //    先行テストの localStorage 書込で汚れるため、モジュール初期値の宣言を検査する)
+      buildParamRows();
+      const rng = document.querySelector('#trailLifeRange');
+      out.slider = !!rng && rng.type === 'range' && rng.max === '5000' && rng.step === '50';
+      if (rng) { rng.value = '500'; rng.dispatchEvent(new Event('input'));
+        out.sliderSet = trailLife === 500;
+        const num = document.querySelector('#trailLifeIn');
+        out.numSync = !!num && num.value === '500'; setTrailLife(1000); }
+      const src = document.documentElement.outerHTML;
+      out.def1000 = /let trailLife\s*=\s*1000/.test(String(src));
+      // ② 残像(軌跡を残す)の廃止 — 変数・描画コード・トグルとも消えている
+      out.noAfterimage = (typeof trailsOn === 'undefined') && !String(render).includes('trailCtx')
+        && !src.includes('tgTrails:');
+      // ③ 共通補正: 🌘🪨 とも D₀=0.006・q=5(第121便の D₀=1e4・7桁差の解消)+🌙ワンタップ同期
+      const mk = HP.allPresets().find((p) => p.id === 'mercuryRealKF1');
+      const ek = HP.allPresets().find((p) => p.id === 'earthMoonRealKF1');
+      const em = HP.allPresets().find((p) => p.id === 'earthMoonReal');
+      out.joint = mk.physics.D0 === 0.006 && mk.physics.q === 5
+        && ek.physics.D0 === 0.006 && ek.physics.q === 5
+        && em.abBody.physicsPatch.q === 5;
+      // ④ q クランプ・スライダー上限 8(共通補正 q=5 を値域内に)
+      out.qRange = /q:\[0\.5,8\]/.test(src) && /key:"q",\s*label:[^}]*hi:\s*8/.test(src);
+      // ⑤ 🪨 の主役ノブが q(共通補正⇄逆行引きずりの対照)
+      out.qKnob = Array.isArray(mk.activeParams) && mk.activeParams[0] === 'q';
+      return out;
+    });
+    add('wave122.ui',
+      r.slider && r.sliderSet && r.numSync && r.def1000 && r.noAfterimage && r.joint && r.qRange && r.qKnob,
+      `スライダー=${r.slider}&${r.sliderSet}&同期${r.numSync}・既定1000=${r.def1000} / 残像廃止=${r.noAfterimage} / ` +
+      `共通補正(D₀=0.006,q=5)=${r.joint} / q値域8=${r.qRange} / 🪨主役=q=${r.qKnob}`);
+  } else {
+    console.log('SKIP wave122.ui(第122便 未適用 — root 等)');
   }
   // 92-2→93改→94改) scale.exponents: 4指数(距離/時間/質量/光速)の表示スケール系。
   //       第93便の慣習アンカー表(SCALE_FAMILIAR)・時間倍率指数(texp)は第94便で撤回され、
