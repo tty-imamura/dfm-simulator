@@ -107,10 +107,12 @@ if (!TARGET.startsWith('beta/')) {
 
   // ---- v1.27(公開前レビュー P1-1): SYSTEM_PROMPT の physics キー集合 = 正規21キー ----
   {
-    const KEYS = ['G', 'D0', 'kFrame', 'q', 'kRep', 'muF', 'gammaN', 'kappaS', 'Kt', 'cLight', 'bM',
+    const sp = html.match(/const SYSTEM_PROMPT\s*=\s*`([\s\S]*?)`/);
+    // 第125便: κ 正準世代は SYSTEM_PROMPT の時空係数キーが kappaT(旧世代 root は Kt)
+    const KT = sp && sp[1].includes('kappaT=') ? 'kappaT' : 'Kt';
+    const KEYS = ['G', 'D0', 'kFrame', 'q', 'kRep', 'muF', 'gammaN', 'kappaS', KT, 'cLight', 'bM',
       'etaRad', 'pRad', 'gravityX', 'gravityY', 'geoPN', 'lambdaPN', 'pnAlpha',
       'radiusScale', 'softening', 'timeScale'];
-    const sp = html.match(/const SYSTEM_PROMPT\s*=\s*`([\s\S]*?)`/);
     const missDefaults = [], missShot = [];
     if (sp) {
       const defaultsLine = (sp[1].match(/既定値: ([^\n]+)/) || [, ''])[1];
@@ -127,7 +129,8 @@ if (!TARGET.startsWith('beta/')) {
 // (v1.21 第9次裁定 P0-1: 1PN 3キー geoPN/lambdaPN/pnAlpha を追加し 18→21 キー)
 {
   const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
-  const KEYS = ['G', 'D0', 'kFrame', 'q', 'kRep', 'muF', 'gammaN', 'kappaS', 'Kt', 'cLight', 'bM',
+  const KT2 = html.includes('kappaT:0.0166') ? 'kappaT' : 'Kt';   // 第125便: κ 正準世代の検出
+  const KEYS = ['G', 'D0', 'kFrame', 'q', 'kRep', 'muF', 'gammaN', 'kappaS', KT2, 'cLight', 'bM',
     'etaRad', 'pRad', 'gravityX', 'gravityY', 'geoPN', 'lambdaPN', 'pnAlpha',
     'radiusScale', 'softening', 'timeScale'];
   const block = html.match(/const BUILTIN_PRESETS = \[([\s\S]*?)\n\];/)[1];
@@ -3897,7 +3900,7 @@ if (hasBadgeClassify) {
   add('physlock.kt-derive', r.before === 300 && r.cond === 3600 && r.locked === r.cond && r.follow === r.cond / 4
     && r.snapBack === r.cond / 4
     && Math.abs(parseFloat(r.snapShown) - (r.invGen ? 4 / r.cond : r.cond / 4)) / (r.invGen ? 4 / r.cond : r.cond / 4) < 0.02 && r.badgeOff && r.badgeOn
-    && (r.edge.applied === 10000 || r.edge.applied === 1e9) && r.edge.clamped === true && r.after === 300,   // 第113便: Kt 値域 1e4→1e9(旧世代 root は 1e4)
+    && (r.edge.applied === 10000 || r.edge.applied === 1e9 || r.edge.applied === 1e12) && r.edge.clamped === true && r.after === 300,   // 第113便: 1e4→1e9 / 第125便: →1e12(κ=0 対応)
     `OFF時Kt=${r.before}(条件外バッジ=${r.badgeOff}) ON時=${r.locked} cLight30追随=${r.follow} `
     + `Kt直編集=${r.snapBack}/表示${r.snapShown} G=0クランプ=${r.edge.applied}(近似=${r.edge.clamped}) 解除後=${r.after}`);
 }
@@ -3926,7 +3929,10 @@ if (hasBadgeClassify) {
       const v2 = HP.validatePreset({ name: 'x', description: 'd', camera: { scale: 100 },
         world: { boundary: 'none', size: 0 }, physics: { cLight: 2e6, Kt: 2e9 },
         bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false, pnSource: 1 }] });
-      res.clamped = v2.ok && v2.preset.physics.cLight === 1e6 && v2.preset.physics.Kt === 1e9;
+      // 第125便: κ=0 対応で Kt 上限 1e9→1e12(κ 正準世代は 2e9 が値域内 = クランプなし)
+      const ktHi = (typeof CLAMPS !== 'undefined' && CLAMPS.Kt) ? CLAMPS.Kt[1] : 1e9;
+      res.clamped = v2.ok && v2.preset.physics.cLight === 1e6
+        && v2.preset.physics.Kt === (ktHi >= 2e9 ? 2e9 : 1e9);
       res.badFlagDropped = v2.ok && !('pnSource' in v2.preset.bodies[0]);
       // ② フラグの力学: 閾値未満の中心(m=5 < pnK·max(R,ε)=4.5×2.24≈10)は既定では 1PN 源に
       //   ならない(λ1/λ0 が一致)。pnSource:true で λ1 の軌道が変わる
@@ -12834,6 +12840,45 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       `κ編集=${r.kappaLabel}&${r.kappaShown}・kappaT受理=${r.kappaKey}・セーブ記録=${r.saveKeys}`);
   } else {
     console.log('SKIP wave124.ui(第124便 未適用 — root 等)');
+  }
+  // 92-1j) 第125便: kappaT 正準キー交代(121B第2段)+κ/G の0許容+physLock表記+数値欄拡幅
+  const has125 = await page.evaluate(() => {
+    const p = HP.allPresets().find((x) => x.id === 'earthMoonRealKF1');
+    return !!(p && p.physics && typeof p.physics.kappaT === 'number');
+  });
+  if (has125) {
+    const r = await page.evaluate(() => {
+      const out = {};
+      // ① 内蔵プリセットの physics は kappaT 正準(Kt キーなし)+実行時 Kt が bit 一致
+      const ek = HP.allPresets().find((x) => x.id === 'earthMoonRealKF1');
+      out.canonical = typeof ek.physics.kappaT === 'number' && !('Kt' in ek.physics);
+      HP.loadPreset('earthMoonRealKF1', false);
+      out.bitExact = HP.sim.params.Kt === 134851663.17051244 && !('kappaT' in HP.sim.params);
+      // ② SYSTEM_PROMPT: 既定値・few-shot とも kappaT
+      const src = document.documentElement.outerHTML;
+      const sp = src.match(/const SYSTEM_PROMPT\s*=\s*`([\s\S]*?)`/);
+      out.prompt = !!sp && sp[1].includes('kappaT=0.016666666666666666')
+        && (sp[1].match(/"kappaT":/g) || []).length >= 5 && !sp[1].includes('"Kt":');
+      // ③ κ=0 受理(Kt=1e12)+ G/κ の zeroLeft 宣言
+      const v = validatePreset({ id: 'k0', name: 'k', emoji: '🧪', description: 'κ0', camera: { scale: 300 },
+        world: { boundary: 'none', size: 0 }, physics: { kappaT: 0 },
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+      out.kappaZero = !!(v && v.ok && v.preset.physics.Kt === 1e12);
+      out.zeroLeft = /key:"G",[^}]*zeroLeft:true/.test(src) && /key:"Kt",[^}]*zeroLeft:true/.test(src);
+      // ④ physLock 表記が κ=G/cLight²
+      out.lockLabel = HP.T('physLockLabel').includes('κ=G/cLight²');
+      // ⑤ 数値欄拡幅(92px)+セーブ書出しの kappaT 正準
+      out.width = src.includes('flex:0 0 92px;width:92px');
+      out.saveKap = src.includes('o.kappaT=(o.Kt>=CLAMPS.Kt[1])? 0 : 1/o.Kt; delete o.Kt;');
+      HP.loadPreset('saturn', false);
+      return out;
+    });
+    add('wave125.ui',
+      r.canonical && r.bitExact && r.prompt && r.kappaZero && r.zeroLeft && r.lockLabel && r.width && r.saveKap,
+      `kappaT正準=${r.canonical}・実行時Kt bit一致=${r.bitExact} / プロンプト=${r.prompt} / ` +
+      `κ0受理=${r.kappaZero}・0スナップ宣言=${r.zeroLeft} / ロック表記=${r.lockLabel} / 拡幅=${r.width}・セーブκ=${r.saveKap}`);
+  } else {
+    console.log('SKIP wave125.ui(第125便 未適用 — root 等)');
   }
   // 92-2→93改→94改) scale.exponents: 4指数(距離/時間/質量/光速)の表示スケール系。
   //       第93便の慣習アンカー表(SCALE_FAMILIAR)・時間倍率指数(texp)は第94便で撤回され、
