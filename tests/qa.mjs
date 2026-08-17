@@ -4652,7 +4652,7 @@ if (!FAST) {
     if (hasSeed) {
       const r = await page.evaluate(() => {
         HP.loadPreset('starSeed', false);
-        const F96 = HP.allPresets().find(p => p.id === 'starSeed').physics.cLight === 30 ? 4 / 3 : 1;   // 第96便(旧c40)
+        const F96 = HP.allPresets().find(p => p.id === 'starSeed').physics.G === 0.45 ? 4 / 3 : 1;   // 第96便(旧c40)→第126便: 巻き戻し世代(G=0.8・c₀=30)は×1 — 相似世代はG=0.45で判定
         const S = HP.sim;
         const om0 = HP.coreState(1).omega;
         const L0 = S.totals().L + S.resL + S.radL;
@@ -4690,7 +4690,7 @@ if (!FAST) {
     const hasBH = await page.evaluate(() => HP.allPresets().some(p => p.id === 'bhCore'));
     if (hasBH) {
       const r = await page.evaluate(() => {
-        const F96 = HP.allPresets().find(q => q.id === 'bhCore').physics.cLight === 30 ? 2 : 1;   // 第96便: 相似世代は步数×2・スピン量×0.5
+        const F96 = HP.allPresets().find(q => q.id === 'bhCore').physics.G === 0.2 ? 2 : 1;   // 第96便: 相似世代(G=0.2)は步数×2・スピン量×0.5 — 第126便: 巻き戻し世代(G=0.8・c₀=30)は×1
         const run = (mod) => {
           const p = JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'bhCore')));
           p.physics.kFrame = mod.kFrame;
@@ -4747,7 +4747,7 @@ if (!FAST) {
     });
     if (hasBHF) {
       const r = await page.evaluate(() => {
-        const F96 = HP.allPresets().find(q => q.id === 'bhCore').physics.cLight === 30 ? 2 : 1;   // 第96便
+        const F96 = HP.allPresets().find(q => q.id === 'bhCore').physics.G === 0.2 ? 2 : 1;   // 第96便→第126便: 相似世代はG=0.2で判定(巻き戻し世代は×1)
         const run = (kFrame) => {
           const p = JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'bhCore')));
           p.physics.kFrame = kFrame;
@@ -5120,7 +5120,7 @@ if (!FAST) {
     const hasShell = await page.evaluate(() => HP.allPresets().some(p => p.id === 'nebulaShell'));
     if (hasShell) {
       const r = await page.evaluate(() => {
-        const F96 = HP.allPresets().find(q => q.id === 'nebulaShell').physics.cLight === 30 ? 4 / 3 : 1;   // 第96便(旧c40)
+        const F96 = HP.allPresets().find(q => q.id === 'nebulaShell').physics.G === 0.45 ? 4 / 3 : 1;   // 第96便(旧c40)→第126便: 巻き戻し世代は×1(相似世代はG=0.45で判定)
         const run = (mod) => {
           const p = JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'nebulaShell')));
           if (mod) for (let bi = 0; bi < 3; bi++) { const b = p.bodies[bi];
@@ -5137,14 +5137,16 @@ if (!FAST) {
             envSp += Math.abs(S.spin[i]) / (S.n - 54); }
           return { lS, keep: keep / 54, envKeep: envKeep / (S.n - 54), envSp, bad: S.hasNaN() };
         };
-        return { two: run(false), one: run(true) };
+        const C = HP.allPresets().find(q => q.id === 'nebulaShell')
+          .claims.find(c => c.id === 'nebulaShell.core-dimming').expected;   // 第126便: 窓は claims 宣言から動的に読む(世代で窓が異なる — 巻き戻し世代は c₀=30 飽和側 0.9〜0.99)
+        return { two: run(false), one: run(true), C };
       });
       add('claim.nebulashell-stress',
         !r.two.bad && !r.one.bad
-        && r.two.lS >= 0.8 && r.two.lS <= 0.95 && r.two.keep >= 0.93 && r.two.envKeep === 1
+        && r.two.lS >= r.C.min && r.two.lS <= r.C.max && r.two.keep >= 0.93 && r.two.envKeep === 1
         && r.one.lS >= 0.9 && r.one.keep >= 0.35 && r.one.keep <= 0.6   // 第96便: 相似世代の実測0.389(熱圧系はカオスで実現値が振れる — 自壊の主張はむしろ強まる向き)
         && r.one.envSp > 2.5 * r.two.envSp,
-        `2層: lS̄=${r.two.lS.toFixed(3)}(窓0.8〜0.95) 保持=${r.two.keep.toFixed(3)}(≥0.93) env保持=${r.two.envKeep} / ` +
+        `2層: lS̄=${r.two.lS.toFixed(3)}(窓${r.C.min}〜${r.C.max} — claims宣言) 保持=${r.two.keep.toFixed(3)}(≥0.93) env保持=${r.two.envKeep} / ` +
         `単層(spin6・同等暗さ${r.one.lS.toFixed(3)}): 保持=${r.one.keep.toFixed(3)}(0.4〜0.6 — 熱圧で自壊) ` +
         `env|spin| ${r.one.envSp.toFixed(2)} vs ${r.two.envSp.toFixed(2)}(>2.5倍 — 影響範囲の狭さ)`);
     } else {
@@ -5162,7 +5164,7 @@ if (!FAST) {
     if (hasBip) {
       const r = await page.evaluate(() => {
         HP.loadPreset('nebulaBipolar', false);
-        const F96 = HP.allPresets().find(p => p.id === 'nebulaBipolar').physics.cLight === 30 ? 4 / 3 : 1;   // 第96便(旧c40)
+        const F96 = HP.allPresets().find(p => p.id === 'nebulaBipolar').physics.G === 0.45 ? 4 / 3 : 1;   // 第96便(旧c40)→第126便: 巻き戻し世代は×1(相似世代はG=0.45で判定)
         HP.abStart('kRep', 0);
         const abG = HP.ab();
         const S = HP.sim, B = abG.simB;
@@ -5214,7 +5216,7 @@ if (!FAST) {
           if (!v.ok) return { seed, err: v.errors.join(',') };
           HP.sim.build(v.preset);
           const s = HP.sim;
-          const F96 = P.physics.cLight === 30 ? 4 / 3 : 1;   // 第96便(旧c40)
+          const F96 = P.physics.G === 0.45 ? 4 / 3 : 1;   // 第96便(旧c40)→第126便: 巻き戻し世代は×1(相似世代はG=0.45で判定)
           for (let k = 0; k < Math.round(6000 * F96); k++) s.step(0.016);
           let esc = 0, pol = 0, lSwArc = 0;
           for (let i = GAS0; i < s.n; i++) { const rr = Math.hypot(s.x[i], s.y[i]);
@@ -7217,7 +7219,16 @@ if (!FAST) {
         // 第120便: 選択肢は9行表(SCALE_BASES)・C はスケール別 — 既存サンプル(eC=7)は
         // どの行とも一致しないため初期値は「なし(個別指定)」が正(光速表示較正の一括適用は
         // 巻き戻し第2弾と合流予定)
-        const initOk = q('#scaleBaseSel').value === '';
+        // 第126便: eC スケール別化で、現在のプリセットの4指数が9行表と完全一致する場合は
+        // その行が初期選択になる(molecular/galactic/cosmic 等)— 一致行の期待値を動的に計算
+        const gen126i = document.documentElement.outerHTML.includes('TIER_EC');
+        const ROWS = [['molecular',-10,-13,-26,3],['beaker',-2.5,-2.5,-2.5,0],['everyday',0,0,0,0],
+          ['planetE6',6,2,25,4],['planetE7',7,3,26,4],['planetE8',8,4,27,4],
+          ['stellar',11,7,30,4],['galactic',19,14,34,5],['cosmic',23,17,42,6]];
+        const effI = HP.scaleEffNow();
+        const rowI = ROWS.find((w) => Math.abs(effI.x - w[1]) < 1e-9 && Math.abs(effI.eT - w[2]) < 1e-9
+          && Math.abs(effI.eM - w[3]) < 1e-9 && Math.abs(effI.eC - w[4]) < 1e-9);
+        const initOk = q('#scaleBaseSel').value === (gen126i && rowI ? rowI[0] : '');
         // 行選択で4指数が一括で表の値へ(惑星(e8)= 8/4/27・C=4)
         let sel = q('#scaleBaseSel');
         sel.value = 'planetE8'; sel.dispatchEvent(new Event('change'));
@@ -7235,7 +7246,9 @@ if (!FAST) {
         const savedOk = !!(sv0 && sv0.scaleExps && Math.abs(sv0.scaleExps.T - 5) < 1e-9
           && Math.abs(sv0.scaleExps.L - 8) < 1e-9);
         HP.loadPreset('gas', false);   // 指数はタグ既定へ戻る(パネルも再構築)
-        const resetOk = document.querySelector('#scaleBaseSel').value === '';   // 第120便: eC=7 は表と不一致=なし
+        // 第126便: eC スケール別化で 🔥gas(分子タグ)は9行表の molecular 行と完全一致するようになった
+        const gen126s = document.documentElement.outerHTML.includes('TIER_EC');
+        const resetOk = document.querySelector('#scaleBaseSel').value === (gen126s ? 'molecular' : '');
         HP.loadSaveItem(sv0, 'x');
         const e2 = HP.scaleEffNow();
         const restoredOk = Math.abs(e2.eT - 5) < 1e-9
@@ -12926,19 +12939,24 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     });
     // 既定ONはソースで判定(このページは先行テストが hp_scale_disp を書いており実行時フラグでは
     // 判定できない): 未設定時 true の初期化行が存在すること
-    const srcOn = /let scaleDispOn\s*=\s*true/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
-    const effIs = (e, v) => e && e.x === v && e.eT === v && e.eM === v && e.eC === 7;
+    const srcQ = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+    const srcOn = /let scaleDispOn\s*=\s*true/.test(srcQ);
+    // 第126便: 光速表示較正一括 — eC 既定が一律7からスケール別(分子3/ビーカー0/日常0/惑星4/恒星4/銀河5/宇宙6)へ
+    const gen126 = srcQ.includes('TIER_EC');
+    const effIs = (e, v, ec) => e && e.x === v && e.eT === v && e.eM === v
+      && e.eC === (gen126 ? ec : 7);
     add('scale.exponents',
-      r.tier7 && effIs(r.effEvery, 0) && /^≈?9\.8/.test(String(r.gy))
-      && effIs(r.effBeaker, -2.5) && /^≈9\.8/.test(String(r.gyBk))
-      && String(r.cEvery) === '≈3e8 m/s' && String(r.cPl) === '≈3e8 m/s'
+      r.tier7 && effIs(r.effEvery, 0, 0) && /^≈?9\.8/.test(String(r.gy))
+      && effIs(r.effBeaker, -2.5, 0) && /^≈9\.8/.test(String(r.gyBk))
+      && String(r.cEvery) === (gen126 ? '≈30 m/s' : '≈3e8 m/s')
+      && String(r.cPl) === (gen126 ? '≈3e5 m/s' : '≈3e8 m/s')
       && r.tierPl === 'planetary' && r.tierSt === 'stellar'
       && /e-9 m\/s²/.test(String(r.gyGal))
       && /0\.098/.test(String(r.gyT1)) && r.effT1 === 1
-      && effIs(r.effReset, 0) && r.sliders.every(Boolean) && srcOn,
+      && effIs(r.effReset, 0, 0) && r.sliders.every(Boolean) && srcOn,
       `7分類=${r.tier7} / 日常既定 ${JSON.stringify(r.effEvery)}: g_y 9.8→"${r.gy}"(実値)・cLight30→"${r.cEvery}" / ` +
       `ビーカー ${JSON.stringify(r.effBeaker)}: g_y 0.031→"${r.gyBk}"(≈9.8 m/s²)/ ` +
-      `惑星 cLight30→"${r.cPl}"(eC=7 全タグ共通・🪐=${r.tierPl}・☀️=${r.tierSt})/ 銀河 g_y→"${r.gyGal}"(×1e-9)/ ` +
+      `惑星 cLight30→"${r.cPl}"(${gen126 ? 'eC=ティア別 x−eT〔第126便〕' : 'eC=7 全タグ共通'}・🪐=${r.tierPl}・☀️=${r.tierSt})/ 銀河 g_y→"${r.gyGal}"(×1e-9)/ ` +
       `T上書き=1→"${r.gyT1}" / ロード復帰=${JSON.stringify(r.effReset)} / ` +
       `新スライダー3本=${r.sliders.join(',')} / 換算表示の既定ON(ソース)=${srcOn}`);
   } else {
@@ -13002,7 +13020,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
           else localStorage.setItem('hp_custom_presets', keep);
         }
       });
-      add('scale.realc-display', r.eC === 4 && String(r.cStr) === '≈3e8 m/s' && r.eCBack === 7,
+      const gen126b = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').includes('TIER_EC');
+      add('scale.realc-display', r.eC === 4 && String(r.cStr) === '≈3e8 m/s' && r.eCBack === (gen126b ? 5 : 7),
         `実cプリセット(☀️c=3e4): eC既定=${r.eC}(=x−eT=4)・cLight表示="${r.cStr}"(実光速に一致) / ` +
         `c₀=30 サンプルへ戻すと eC=${r.eCBack}(従来規約 — 既存表示は不変)`);
     } else {
