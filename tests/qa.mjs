@@ -11474,7 +11474,9 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     const supNum = (t) => { let n = 0, neg = false;
       for (const ch of t) { if (ch === '⁻') neg = true; else n = n * 10 + SUP[ch]; }
       return neg ? -n : n; };
-    const out = { h: [], q: [], unit: [] };
+    const out = { h: [], q: [], unit: [],
+      hasQ: HP.allPresets().some((p) => p.qLock),
+      hasSE: HP.allPresets().some((p) => p.scaleExp) };
     for (const p of HP.allPresets()) {
       const sum = ((p.descStruct && p.descStruct.summary) || '');
       const pass = ((p.failureFirst && p.failureFirst.pass) || '');
@@ -11508,7 +11510,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   if (all.length) {
     const fmt = (v) => `${v.id}: 説明${JSON.stringify(v.desc)} vs 実装${JSON.stringify(v.impl)}${v.ok ? '' : ' ✗'}`;
     add('desc.config-sync',
-      all.every((v) => v.ok) && r.q.length >= 2 && r.unit.length >= 2 && r.h.length >= 1,
+      all.every((v) => v.ok) && r.h.length >= 1
+      && (!r.hasQ || r.q.length >= 2) && (!r.hasSE || r.unit.length >= 2),   // 世代対応: qLock/scaleExp 未導入の root ではカバレッジ要求を課さない
       `H0同期 ${r.h.length}件 / qLock q* ${r.q.length}件 / スケール単位 ${r.unit.length}件 — ` +
       all.map(fmt).join(' / '));
   } else {
