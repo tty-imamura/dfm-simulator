@@ -11464,6 +11464,58 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   }
 }
 
+// ---- 42A2) 第127便: desc.config-sync — 説明文の設定値と実装値の意味的同期(再発防止ゲート)。
+// ----   claims.sync の盲点だった3種(universeBox.H0 vs 説明の H= / qLock の実効 q* vs 説明の q*= /
+// ----   scaleExp vs 説明の「1単位=10^L m/10^T s/10^M kg」)を横断照合する。第127便のレビューで
+// ----   💍(旧e7単位)・🪨🌘(旧 q=5)・🔦(旧 H=0.02)の説明更新漏れが見つかった穴を機械固定。
+{
+  const r = await page.evaluate(() => {
+    const SUP = { '⁰': 0, '¹': 1, '²': 2, '³': 3, '⁴': 4, '⁵': 5, '⁶': 6, '⁷': 7, '⁸': 8, '⁹': 9 };
+    const supNum = (t) => { let n = 0, neg = false;
+      for (const ch of t) { if (ch === '⁻') neg = true; else n = n * 10 + SUP[ch]; }
+      return neg ? -n : n; };
+    const out = { h: [], q: [], unit: [] };
+    for (const p of HP.allPresets()) {
+      const sum = ((p.descStruct && p.descStruct.summary) || '');
+      const pass = ((p.failureFirst && p.failureFirst.pass) || '');
+      if (p.universeBox && p.universeBox.H0 !== undefined && p.universeBox.mode === 'exp') {
+        const m = sum.match(/H=([0-9.]+)/);
+        if (m) out.h.push({ id: p.id, desc: +m[1], impl: p.universeBox.H0,
+          ok: Math.abs(+m[1] - p.universeBox.H0) < 1e-9 });
+      }
+      if (p.qLock) {
+        const m = (sum + ' ' + pass).match(/q\*=(?:[^=]{0,60}?=)?([0-9]+\.[0-9]+)/);
+        if (m) {
+          HP.loadPreset(p.id, false);
+          const qEff = HP.sim.params.q;
+          out.q.push({ id: p.id, desc: +m[1], impl: Math.round(qEff * 100) / 100,
+            ok: Math.abs(+m[1] - qEff) < 0.01 });
+        }
+      }
+      if (p.scaleExp) {
+        const m = sum.match(/1単位=10([⁻⁰¹²³⁴⁵⁶⁷⁸⁹]+)m\/10([⁻⁰¹²³⁴⁵⁶⁷⁸⁹]+)s\/10([⁻⁰¹²³⁴⁵⁶⁷⁸⁹]+)kg/);
+        if (m) {
+          const L = supNum(m[1]), T = supNum(m[2]), M = supNum(m[3]);
+          out.unit.push({ id: p.id, desc: [L, T, M], impl: [p.scaleExp.L, p.scaleExp.T, p.scaleExp.M],
+            ok: L === p.scaleExp.L && T === p.scaleExp.T && M === p.scaleExp.M });
+        }
+      }
+    }
+    HP.loadPreset('gas', false);
+    return out;
+  });
+  const all = [...r.h, ...r.q, ...r.unit];
+  if (all.length) {
+    const fmt = (v) => `${v.id}: 説明${JSON.stringify(v.desc)} vs 実装${JSON.stringify(v.impl)}${v.ok ? '' : ' ✗'}`;
+    add('desc.config-sync',
+      all.every((v) => v.ok) && r.q.length >= 2 && r.unit.length >= 2 && r.h.length >= 1,
+      `H0同期 ${r.h.length}件 / qLock q* ${r.q.length}件 / スケール単位 ${r.unit.length}件 — ` +
+      all.map(fmt).join(' / '));
+  } else {
+    console.log('SKIP desc.config-sync(対象に照合可能な説明パターンなし — 旧世代 root 等)');
+  }
+}
+
 // ---- 81B) 第81便 B(原仮定者指示): camera.follow — カメラの天体追従(描画層のみ・物理不変)。
 // ----      ①「表示」カテゴリに追従コントロールがある ②validatePreset が camera.follow(整数)を
 // ----      受理し、非整数・負値は警告つきで無視する ③追従ONで camX/camY が対象天体の現在位置に
