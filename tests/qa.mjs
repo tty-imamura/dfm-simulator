@@ -88,6 +88,8 @@ if (!TARGET.startsWith('beta/')) {
   const defs = {};
   for (const mm of html.matchAll(/\{key:"(\w+)",\s*label:[^}]*?lo:([\d.eE+-]+),\s*hi:([\d.eE+-]+)/g))
     defs[mm[1]] = { lo: +mm[2], hi: +mm[3] };
+  // 第124便: inv:true(κ=1/Kt 編集)の def は UI 値域が逆数 — params(Kt)側の値域へ戻して照合
+  if (/key:"Kt",[^}]*inv:true/.test(html) && defs.Kt) defs.Kt = { lo: 1 / defs.Kt.hi, hi: 1 / defs.Kt.lo };
   const over = [];
   const presets = html.match(/const BUILTIN_PRESETS = \[([\s\S]*?)\n\];/)[1];
   for (const mm of presets.matchAll(/physics:\{([\s\S]*?)\}/g))
@@ -3884,7 +3886,8 @@ if (hasBadgeClassify) {
     const kIn = findRow('時空係数').querySelector('input.valIn');
     kIn.value = '50'; kIn.dispatchEvent(new Event('change'));
     res.snapBack = HP.sim.params.Kt;                  // 直接編集は導出値のまま
-    res.snapShown = kIn.value;                        // UI 表示も導出値
+    res.snapShown = kIn.value;                        // UI 表示も導出値(第124便 κ世代は 1/Kt 表示)
+    res.invGen = findRow('時空係数').querySelector('label').textContent.includes('κ');
     res.edge = HP.physLockCalc({ params: { G: 0, cLight: 30 } });   // クランプ+近似扱い
     HP.setPhysLock(false);
     HP.loadPreset('grcal', false);
@@ -3892,7 +3895,8 @@ if (hasBadgeClassify) {
     return res;
   });
   add('physlock.kt-derive', r.before === 300 && r.cond === 3600 && r.locked === r.cond && r.follow === r.cond / 4
-    && r.snapBack === r.cond / 4 && parseFloat(r.snapShown) === r.cond / 4 && r.badgeOff && r.badgeOn
+    && r.snapBack === r.cond / 4
+    && Math.abs(parseFloat(r.snapShown) - (r.invGen ? 4 / r.cond : r.cond / 4)) / (r.invGen ? 4 / r.cond : r.cond / 4) < 0.02 && r.badgeOff && r.badgeOn
     && (r.edge.applied === 10000 || r.edge.applied === 1e9) && r.edge.clamped === true && r.after === 300,   // 第113便: Kt 値域 1e4→1e9(旧世代 root は 1e4)
     `OFF時Kt=${r.before}(条件外バッジ=${r.badgeOff}) ON時=${r.locked} cLight30追随=${r.follow} `
     + `Kt直編集=${r.snapBack}/表示${r.snapShown} G=0クランプ=${r.edge.applied}(近似=${r.edge.clamped}) 解除後=${r.after}`);
@@ -12778,6 +12782,58 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       `A/Bマップ=${r.abField}・軌跡上限同一=${r.trailParity} / 🌌宣言q維持=${r.galaxyQ}`);
   } else {
     console.log('SKIP wave123.ui(第123便 未適用 — root 等)');
+  }
+  // 92-1i) 第124便: qLockセーブ保存+トグル行(qの直前)・κ編集正準化・パラメータ並び替え
+  const has124 = await page.evaluate(() => !!(window.HP && typeof setQLock === 'function'));
+  if (has124) {
+    const r = await page.evaluate(() => {
+      const out = {};
+      HP.loadPreset('earthMoonRealKF1', false);
+      buildParamRows();
+      // ① qLock トグル行が「引きずり減衰 q」行の直前・プリセット宣言で ON
+      const cb = document.getElementById('qLockCb');
+      out.qlRow = !!cb && cb.checked === true;
+      let rows = [...document.querySelectorAll('#paramRows .prow')];
+      // 主役グループに重複行があるため「最後の一致」(カテゴリ側)で判定する
+      const li = (pre) => { let idx = -1; rows.forEach((x, i) => { const l = x.querySelector('label');
+        if (l && l.textContent.startsWith(pre)) idx = i; }); return idx; };
+      out.qlBeforeQ = li('q自動算出') >= 0 && li('q自動算出') === li('引きずり減衰') - 1;
+      // ② OFF で q 編集可・ON で自動算出値へ戻る
+      setQLock(false); buildParamRows();
+      out.qEditable = HP.sim.params.q === HP.sim.params.q;   // 破壊検査は避け状態のみ
+      setQLock(true);
+      out.qReapplied = Math.abs(HP.sim.params.q - 8.25) < 0.1;
+      // ③ 並び順(再構築後の行で隣接判定): kFrame は geoPN の次 / 相似変換連動は 光速 c₀ の直前
+      rows = [...document.querySelectorAll('#paramRows .prow')];
+      const nextProw = (el) => { let n = el.nextElementSibling;
+        while (n && !n.classList.contains('prow')) n = n.nextElementSibling; return n; };
+      const lab0 = (el) => { const l = el && el.querySelector('label'); return l ? l.textContent : ''; };
+      const geoRow = rows[li('測地線モード')], clRow = rows[li('相似変換連動')];
+      out.kfAfterGeo = !!geoRow && lab0(nextProw(geoRow)).startsWith('空間引きずり');
+      out.clinkBeforeC = !!clRow && lab0(nextProw(clRow)).startsWith('光速');
+      // ④ κ 編集正準化: 時空係数行のラベルが κ・表示値=1/Kt
+      const ktRow = rows[li('時空係数')];
+      out.kappaLabel = ktRow.querySelector('label').textContent.includes('κ');
+      const kIn = ktRow.querySelector('input.valIn');
+      out.kappaShown = Math.abs(parseFloat(kIn.value) - 1 / HP.sim.params.Kt) / (1 / HP.sim.params.Kt) < 0.01;
+      // ⑤ バリデータ: physics.kappaT 受理(Kt=1/kappaT)
+      const v = validatePreset({ id: 'kap', name: 'k', emoji: '🧪', description: 'κ受理検査', camera: { scale: 300 },
+        world: { boundary: 'none', size: 0 }, physics: { kappaT: 0.01 },
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+      out.kappaKey = !!(v && v.preset && v.preset.physics && Math.abs(v.preset.physics.Kt - 100) < 1e-9);
+      // ⑥ セーブに kappaT・qLock が記録される(書出し関数のソース検査)
+      const src = document.documentElement.outerHTML;
+      out.saveKeys = src.includes('item.kappaT=1/sim.params.Kt') && src.includes('item.qLock=true');
+      HP.loadPreset('saturn', false);
+      return out;
+    });
+    add('wave124.ui',
+      r.qlRow && r.qlBeforeQ && r.qReapplied && r.kfAfterGeo && r.clinkBeforeC
+      && r.kappaLabel && r.kappaShown && r.kappaKey && r.saveKeys,
+      `qLock行=${r.qlRow}(qの直前=${r.qlBeforeQ})再適用=${r.qReapplied} / 並び kFrame=${r.kfAfterGeo}・cLink=${r.clinkBeforeC} / ` +
+      `κ編集=${r.kappaLabel}&${r.kappaShown}・kappaT受理=${r.kappaKey}・セーブ記録=${r.saveKeys}`);
+  } else {
+    console.log('SKIP wave124.ui(第124便 未適用 — root 等)');
   }
   // 92-2→93改→94改) scale.exponents: 4指数(距離/時間/質量/光速)の表示スケール系。
   //       第93便の慣習アンカー表(SCALE_FAMILIAR)・時間倍率指数(texp)は第94便で撤回され、

@@ -2037,8 +2037,8 @@ const PARAM_DEFS = [
    desc:"衝突の法線方向の減衰(跳ね返りの失われやすさ)。0=よく弾む、1=ぶつかると速度が失われやすい。失われたエネルギーは帳簿に記録される(T7)。"},
   {key:"kappaS",label:"スピン拡散 κs",       mode:"lin", lo:0, hi:2, step:0.01, cat:"sh", group:"法則",
    desc:"スピン=熱が近くの粒子へ飛び移って均される熱伝導(E10′)。接触は不要で、近いほど強く伝わる(📏)。0にすると熱が伝わらない。"},
-  {key:"Kt",    label:"時空係数 Kt(時間・光)", mode:"log", lo:1, hi:1e9, cat:"st", group:"法則",   /* 第116便: 実c値+physLock の導出値 1.35e8 まで(値域=CLAMPS と同幅) */
-   desc:"時計の遅れと光の屈折を1本で決める係数(A7′/E7R/E8R: ψ=W/Kt)。小さいほど時空効果が強い — 時計はより遅れ、光はより曲がる。現実との較正は Kt=c²/G(🛰)。"},
+  {key:"Kt",    label:"時空係数 κ(=1/Kt・G/c²)", mode:"log", lo:1e-9, hi:1, inv:true, cat:"st", group:"法則",   /* 第124便(原仮定者指示「パラメータもκを編集保存する」): κ=1/Kt を編集正準に(内部保持・エンジン・21キー表は Kt のまま=物理bit不変。値域=CLAMPS.Kt の逆数) */
+   desc:"時計の遅れと光の屈折を1本で決める係数を κ=1/Kt(=G/c² と同次元 [L/M] — 質量あたり重力長 r_g=κm)で編集する(第120便裁定の κ 併記 → 第124便で編集正準化)。大きいほど時空効果が強い — ψ=W·κ で時計はより遅れ、光はより曲がる。κ→0 が「時空効果なし」の自然極限。現実との較正は κ=G/c²(物理対応ロックの導出値)。内部・セーブ互換・AIプリセットの Kt キーは従来どおり有効(κ は kappaT キーでも受理)。"},
   {key:"cLight",label:"光速 c₀",             mode:"log", lo:1, hi:1e6, cat:"st", group:"法則",   /* 第116便: ティア実c値まで / 第118便(原仮定者指示): 入力範囲 1〜1e6 */
    desc:"光線の速さと、運動による時計の遅れの基準(E7R: 共動フレームに対する速さがc₀に近いほど固有時計が遅れる)。下げると相対論的効果が見えやすくなる。【c₀の三層(第99便)】①基準光速 c₀=このパラメータ(可視化サンプルは c₀=30 の一律規約。観測較正サンプル〔☄️水星実不変量など〕はティア別の実c値規約 c₀=3×10⁸×10^(−(x−eT)) — 第113便)②局所光速 c_loc=c₀·e^(−2ψ)(重力ポテンシャルの井戸で局所的に遅くなる — 減光・光掃引の auto が使う)③表示較正指数 eC(「30→3×10⁸ m/s」の換算表示専用 — 物理には入らない。実c値サンプルでは既定が x−eT に自動切替)。換算値はアナロジーの目安であり、実c値規約のサンプルのみ実定数と換算が厳密一致する。"},
   {key:"G",     label:"重力 G",              mode:"log", lo:0.005,  hi:1e6,  cat:"st", group:"法則",   /* 第117便: lo 0.005 / 第118便(原仮定者指示): 入力範囲 0〜1e6(0 は数値入力欄から — 対数スライダーは 0.005 起点) */
@@ -5240,6 +5240,13 @@ function validatePreset(obj){
         if(mv!==p.physics[k]) warnings.push("physics."+k+" を値域に修正");
         if(mv!==0.01) ph[k]=mv;
         continue;
+      }
+      // 第124便: κ 正準化 — physics.kappaT(=1/Kt)を受理し Kt へ換算(Kt と併記時は Kt 優先)
+      if(k==="kappaT"){
+        if(!isNum(p.physics[k]) || !(p.physics[k]>0)){ warnings.push("physics.kappaT は正の数値が必要 — 無視"); continue; }
+        if(isNum(p.physics.Kt)) continue;   // Kt 併記時は Kt 優先(重複指定の解決規約)
+        const kt=clamp(1/p.physics[k],CLAMPS.Kt[0],CLAMPS.Kt[1]);
+        ph.Kt=kt; continue;
       }
       if(!(k in CLAMPS)){ warnings.push("physicsの未知キー "+k+" を無視"); continue; }
       if(!isNum(p.physics[k])){ bad("physics."+k+" が数値ではありません"); continue; }
@@ -12460,13 +12467,17 @@ function buildParamRows(){
     const rng=document.createElement("input"); rng.type="range";
     if(def.mode==="log"){ rng.min=0; rng.max=1000; rng.step=1; }
     else { rng.min=def.lo; rng.max=def.hi; rng.step=def.step; }
-    rng.value=valToSliderPos(def,showSim.params[key]);
+    // 第124便: inv 定義(κ=1/Kt 編集)— UI は def 値域(κ)・params は内部値(Kt)
+    const rd=()=> def.inv? 1/showSim.params[key] : showSim.params[key];
+    const wr=(v)=> def.inv? 1/v : v;
+    const fmtV=(v)=> (def.inv && isFinite(v) && v>0 && v<1e-4)? v.toExponential(3) : fmt(v);
+    rng.value=valToSliderPos(def,rd());
     // 直値入力欄(スライダー範囲外の値もバリデータ値域 CLAMPS まで設定可)
     // (第94便: 第93便の指数表示変換〔texp〕は原仮定者指示で撤回)
     const num=document.createElement("input"); num.type="text"; num.className="valIn";
     // v1.24: 負値を取り得るパラメータ(g_x/g_y 等)は inputmode=text — iOS の数字キーパッドに「−」が無い
     num.inputMode=(CLAMPS[key] && CLAMPS[key][0]<0)?"text":"decimal";
-    num.autocomplete="off"; num.value=fmt(showSim.params[key]);
+    num.autocomplete="off"; num.value=fmtV(rd());
     // 第74便: スケール換算値の副表示(表示専用・物理不変)。「表示」のトグルON かつ次元のある
     // パラメータ(G/cLight/g_x/g_y/ε/D0/Kt)だけ "≈1.2e7 m/s" を数値欄の下に添える
     const conv=document.createElement("span"); conv.className="convVal";
@@ -12508,7 +12519,7 @@ function buildParamRows(){
     // 第54便 54D④: 重複行の相互同期 — 自分以外の同一キー行を追随させる
     // 第110便(原仮定者指示): 物理対応ロック中は Kt が導出値になるため、Kt 行の
     // スライダー・直値入力を編集不可(グレーアウト)にする。解除で編集可へ戻す
-    const syncFn=()=>{ rng.value=valToSliderPos(def,showSim.params[key]); num.value=fmt(showSim.params[key]); updConv();
+    const syncFn=()=>{ rng.value=valToSliderPos(def,rd()); num.value=fmtV(rd()); updConv();
       if(key==="Kt"){ rng.disabled=physLock; num.disabled=physLock; row.classList.toggle("lockedRow",physLock); }
       // 第123便: qLock サンプルでは q は自動算出(LT整合則)— 編集対象から外す
       if(key==="q" && qLockOn){ rng.disabled=true; num.disabled=true; row.classList.add("lockedRow");
@@ -12517,16 +12528,17 @@ function buildParamRows(){
     rng.addEventListener("input",()=>{  // 実行中いつでも即時反映
       let v=parseFloat(rng.value);
       if(def.mode==="log") v=sliderPosToVal(def,v);
-      setParam(v);
-      num.value=fmt(showSim.params[key]);
+      setParam(wr(v));
+      num.value=fmtV(rd());
       updConv();
       syncOthers();
     });
     num.addEventListener("change",()=>{
       const v=parseFloat(num.value.replace(/[,、\s]/g,"").replace(/[−ー–—－]/g,"-"));  // v1.24: 全角マイナス等も受理
       // v1.19: 直値入力はそのまま反映(fmt で丸めた表示に置き換えない。値域外のみクランプ値を表示)
-      if(isFinite(v)){ const applied=setParam(v); rng.value=valToSliderPos(def,applied); num.value=String(applied); }
-      else num.value=fmt(showSim.params[key]);
+      if(isFinite(v)){ const applied=setParam(wr(v)); const uiV=def.inv? 1/applied : applied;
+        rng.value=valToSliderPos(def,uiV); num.value=def.inv? fmtV(uiV) : String(uiV); }
+      else num.value=fmtV(rd());
       updConv();
       syncOthers();
     });
@@ -13039,6 +13051,7 @@ $("#btnSave").addEventListener("click",()=>{
   // 読込側 loadSave で復元し、ロックの意図しない持ち越し/喪失を防ぐ
   if(physLock) item.physLock=true;
   if(qLockOn) item.qLock=true;   // 第124便: qLock もセーブ保存
+  item.kappaT=1/sim.params.Kt;   // 第124便: κ=1/Kt を編集正準としてセーブに明示(読込は physics.Kt / kappaT どちらでも可)
   try{ const a=getSaves(); a.unshift(item); setSaves(a); }
   catch(e){ alert(T("saveFailed")); return; }
   $("#saveComment").value="";
@@ -13376,6 +13389,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
 6. name は30字以内、description は200字程度の日本語(上限は9000字。超えると切り詰められる)。emoji は絵文字1文字。
 7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1, q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, Kt:1〜1e9, cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100, massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
+8. κ 正準化(第124便): physics.kappaT(κ=1/Kt・G/c² と同次元)でも指定可 — Kt=1/kappaT として受理する(Kt と併記時は Kt 優先)。アプリの「時空」カテゴリでは κ を編集・セーブは kappaT を明示記録する。
 8. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 
 # ジェネレータ(bodiesの要素。typeごとに全フィールド必須)
