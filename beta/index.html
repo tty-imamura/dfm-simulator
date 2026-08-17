@@ -212,7 +212,7 @@
     font-size:calc(12.5px*var(--uz,1));color:var(--acc);background:var(--panel);border:1px solid var(--line);
     border-radius:8px;font-variant-numeric:tabular-nums;}
   .prow input[type=checkbox]{width:22px;height:22px;accent-color:var(--acc);}
-  /* 第110便: 物理対応ロック中の Kt 行 — 導出値のため編集不可(グレーアウト) */
+  /* 第110便: 物理対応ロック中の κ 行 — 導出値のため編集不可(グレーアウト) */
   .prow.lockedRow input[type=range],.prow.lockedRow input.valIn{opacity:.42;}
   .prow.lockedRow label{opacity:.6;}
   .btn{display:inline-block;border:1px solid var(--line);background:var(--panel);
@@ -697,7 +697,7 @@ ja: {
   grpSpacetime:"時空", grpSpinHeat:"スピン・熱", grpDrag:"引きずり・測地線", grpLabBox:"実験箱",
   grpActive:"このサンプルの主役", grpAdvanced:"詳細設定(全パラメータ)",
   // 第95便(原仮定者指示): カテゴリの説明(ⓘ)を全カテゴリに用意
-  grpSpacetimeDesc:"時空の骨格を決める法則群 — 光速 c₀・重力 G・時空係数 Kt(時計と光)・一様重力 g_x/g_y・物理対応ロック(Kt=c₀²/G)。この宇宙の「舞台」を作るパラメータ。",
+  grpSpacetimeDesc:"時空の骨格を決める法則群 — 光速 c₀・重力 G・時空係数 κ(時計と光)・一様重力 g_x/g_y・物理対応ロック(κ=G/c₀²)。この宇宙の「舞台」を作るパラメータ。",
   grpSpinHeatDesc:"スピン=熱のセクター(A9〜A12系)— 圧力の正体であるスピン斥力 kRep・摩擦 muF・衝突減衰 γn・熱伝導 κs・放射冷却 η_rad・ウィーン定数 b_m・熱容量 C。熱・温度・光のスペクトルに関わる法則。",
   grpDragDesc:"決定フレームの引きずりと測地線(A4/A5/E3/E6′/E12)— 背景決定力 D₀・空間引きずり kFrame・減衰指数 q・測地線モード geoPN・1PN補正。「空間が物質と光を運ぶ」効果の法則群。",
   grpLabBoxDesc:"箱境界のサンプル専用の実験条件 — 伝熱壁の壁温/壁レート(tint 箱のみ)と壁別の反発係数。箱を「ビーカーの壁」として外部環境を与える。箱境界のサンプルでのみ表示される。",
@@ -706,9 +706,9 @@ ja: {
   grpDisplayDesc:"画面表示の切替(温度色・軌跡・決定力マップ・光線・保存量モニタ・カメラ追従など)。すべて表示のみで物理には影響しない。",
   physLockHead:"物理対応(GR較正)",
   physLockLabel:"物理対応ロック κ=G/cLight²",
-  physLockDesc:"ONの間、時計・光の時空係数Ktを常に cLight²/G へ自動維持します(SI対応写像 Kt=c²/G のシミュレータ内対応条件 — PHYSICS §5 物理対応条件)。Ktは導出値になり、cLightやGを編集すると追随します(ロック中はKtのスライダー・直値入力はグレーアウトされ編集できません)。OFFでは3つを独立に編集できる「一般化トイ設定」で、GR較正の主張域外です。G=0など導出値がKtの値域[1,10⁹]の外になる場合はクランプされ、対応は近似になります。ロックの状態はセーブデータに保存され、セーブの読込で復元されます。別のサンプルを読み込むとロックは自動解除されます(意図しないKt上書きの防止)。",
+  physLockDesc:"ONの間、時計・光の時空係数 κ を常に G/cLight² へ自動維持します(SI対応写像 κ=G/c²〔=1/Kt〕のシミュレータ内対応条件 — PHYSICS §5 物理対応条件)。κ は導出値になり、cLightやGを編集すると追随します(ロック中は κ のスライダー・直値入力はグレーアウトされ編集できません)。OFFでは3つを独立に編集できる「一般化トイ設定」で、GR較正の主張域外です。G=0 のときは κ=0(時空効果なし)が導出値そのものなので、第128便から厳密に成立します(旧 Kt 正準ではクランプによる近似でした)。導出値が κ の値域[0,1]の外になる場合(G が c² を超える等)はクランプされ、対応は近似になります。ロックの状態はセーブデータに保存され、セーブの読込で復元されます。別のサンプルを読み込むとロックは自動解除されます(意図しない κ 上書きの防止)。",
   physLockOn:"✓ ロック中: κ=G/cLight² を自動維持(κは導出値)",
-  physLockOnClamped:"⚠ ロック中: 導出値が値域外のため Kt をクランプ(対応は近似)",
+  physLockOnClamped:"⚠ ロック中: 導出値が値域外のため κ をクランプ(対応は近似)",
   physLockOffOk:"✓ ロック解除中(現在値は条件 κ=G/cLight² を満たしています)",
   physLockOffNg:"⚠ 一般化トイ設定 — GR較正条件外(κ≠G/cLight²)",
   qLockLabel:"q自動算出 qLock(LT整合則)",
@@ -737,7 +737,7 @@ ja: {
   // 第38便(原仮定者指示): 既定を580nmへ・スライダーは「光線」トグルの直後に移動・直値は可視外も受理
   rayLambda0Label:"光線の基準波長(nm)",
   rayLambda0Desc:"光線のセグメント色は λ_seg=λ0·e^{ψ0−ψ}(第36便 B3)で決まる。λ0はその基準値(既定580nm=旧固定表示色の黄に相当・第38便)。スライダーは可視光380〜780nmの範囲。直値入力では可視外(赤外>780・紫外10〜380・X線0.01〜10・γ線<0.01nm)も指定でき、可視外は記号色(γ線=白/X線=淡シアン/紫外=明紫/赤外=暗赤)で表示する。表示設定のみで、保存・物理計算には一切影響しない。",
-  tgRaysDesc:"光線束(E8R)を表示。光は ψ=W/Kt で屈折し、決定フレーム u に運ばれる(A11)。光線のないサンプルでも既定の平行光束を点灯できる。",
+  tgRaysDesc:"光線束(E8R)を表示。光は ψ=W·κ で屈折し、決定フレーム u に運ばれる(A11)。光線のないサンプルでも既定の平行光束を点灯できる。",
   tgCurveDesc:"右下に回転曲線(半径ごとの接線速度)を表示。点線はバリオン実加速度基準 v_bar(r)(質量分布だけから期待される回転)。",
   // 第38便 A5(原仮定者指示): バー・折れ線の色を温度に対応させた(粒子の温度色と同じ写像)
   tgTempDesc:"温度ヒストグラム(左右比較)。表示は観測温度 T_obs=(1−減光)·T。バー・折れ線の色は温度に対応(粒子の温度色と同じ写像)。右系列は破線で区別。",
@@ -958,7 +958,7 @@ ja: {
   hudEchoFlipped:"反転済み↩︎",
   // 第50便 50C(台帳4-87): 二つのH推定器 — 累積(t=0基準)の H_w/H_geo(指数読み・反比例読み)
   hudProbeH:(rE,ana,rI)=>`H_w/H_geo 指数読み=${rE.toFixed(3)}(解析${ana.toFixed(3)}) 反比例読み=${rI.toFixed(3)}`,
-  // 第51便 51C: テンション類似行(点値 2(D/Kt)a^{−dP}。数値一致は較正であり証拠ではない)
+  // 第51便 51C: テンション類似行(点値 2(D·κ)a^{−dP}。数値一致は較正であり証拠ではない)
   hudProbeHTension:(pt,dkt)=>`テンション類似: 点値(現a)=${pt.toFixed(3)} → a=2で${dkt.toFixed(3)}(実宇宙67.4/73.0≈0.923と同水準 — 較正)`,
   // 第50便 50E(台帳4-89): 安全クランプの帳簿(発動時のみ表示 — 保存則の主張域外の明示)
   hudClamp:(v,s,h)=>`⚠ クランプ発動: 速度=${v} スピン=${s} H=${h}(保存則の主張域外)`,
@@ -1005,7 +1005,7 @@ ja: {
   bdgTint:"温度=T_int", bdgTintTip:"温度を内部状態変数 T_int として扱う(A9′)— スピンと独立で、エネルギー帳簿が閉じる。A9″ で T_int の正体はミクロスピン分散 σ_s²(平均0の内部スピン揺らぎの二乗平均)と正式化された — 「熱はスピン」の原仮定のまま、冷たい高速回転体と熱い静止体を両立する。thermal:\"microspin\" は同義の別名。無印のサンプルは旧来の「スピン=熱」方式",
   // 第51便 51B(原仮定者指示): 引きずりタグ — kFrame>0 の系
   bdgDrag:"引きずり", bdgDragTip:"kFrame>0 — 回る質量が周囲の空間(決定フレーム)を引きずる効果(A8/E6′)が働く系。kFrame を 0 にすると引きずりなしの対照実験になる",
-  // 第45便 45C(台帳4-85): 強場トイ領域バッジ — ψ_static=max(D/Kt, 各天体のm/(max(R,ε)Kt))>0.5 のときだけ表示
+  // 第45便 45C(台帳4-85): 強場トイ領域バッジ — ψ_static=max(D·κ, 各天体の m·κ/max(R,ε))>0.5 のときだけ表示
   bdgStrongField:"⚠強場トイ領域", bdgStrongFieldTip:"|ψ|≳0.5 — 弱場GR較正(n≈1+2ψ)の適用外の強場トイ設定。閾値0.5は理論境界ではなく注意喚起の運用基準。※エラーや不具合ではありません — 効果を画面内で見せるために誇張した設定という意味です",
   // 第39便 39E(台帳4-75 E2): 有効時間窓マーカー(HUD)— sim.t が validT を超えたときだけ HUD に追記
   hudBeyondWindow:(v)=>" ⚠評価窓外(t>"+v+")",
@@ -1037,7 +1037,7 @@ ja: {
   camFollowNoSel:"追従する粒子を先にタップで選んでください",
   camFollowReleased:"追従先が消えたのでカメラ追従を解除しました",
   scaleDispLabel:"スケール換算表示",
-  scaleDispDesc:"パラメータの数値(シミュレーション単位)に、現在のスケール指数で SI 換算した値(≈1.2e7 m/s 等)を併記する。換算は次元をもつパラメータ(G・光速・一様重力・ε・D₀・Kt)のみ。共通設定・既定ON。表示だけの機能で、物理・セーブには一切影響しない。換算指数は同じ「スケール」カテゴリの距離/時間/質量/光速の各指数で変えられる(光速は専用の表示較正指数 — 「30 → 3×10^8 m/s」が既定)。",   // 第94便: スケールカテゴリへ・既定ON・4指数化
+  scaleDispDesc:"パラメータの数値(シミュレーション単位)に、現在のスケール指数で SI 換算した値(≈1.2e7 m/s 等)を併記する。換算は次元をもつパラメータ(G・光速・一様重力・ε・D₀・κ)のみ。共通設定・既定ON。表示だけの機能で、物理・セーブには一切影響しない。換算指数は同じ「スケール」カテゴリの距離/時間/質量/光速の各指数で変えられる(光速は専用の表示較正指数 — 「30 → 3×10^8 m/s」が既定)。",   // 第94便: スケールカテゴリへ・既定ON・4指数化
   // 第104便(原仮定者指示): ベースのスケール — タグ既定指数への一括設定
   scaleBaseLabel:"ベースのスケール",
   scaleBaseNone:"なし(個別指定)",
@@ -1107,7 +1107,7 @@ en: {
   grpSpacetime:"Spacetime", grpSpinHeat:"Spin & Heat", grpDrag:"Dragging & Geodesics", grpLabBox:"Lab Box",
   grpActive:"Key settings of this sample", grpAdvanced:"Advanced (all parameters)",
   // wave 95: category descriptions (ⓘ) for every category
-  grpSpacetimeDesc:"The laws that set the stage of this universe — light speed c₀, gravity G, the spacetime coefficient Kt (clocks & light), uniform gravity g_x/g_y, and the correspondence lock (Kt=c₀²/G).",
+  grpSpacetimeDesc:"The laws that set the stage of this universe — light speed c₀, gravity G, the spacetime coefficient κ (clocks & light), uniform gravity g_x/g_y, and the correspondence lock (κ=G/c₀²).",
   grpSpinHeatDesc:"The spin=heat sector (A9–A12) — spin repulsion kRep (the origin of pressure), friction muF, collision damping γn, conduction κs, radiative cooling η_rad, Wien constant b_m and heat capacity C. Everything about heat, temperature and spectra.",
   grpDragDesc:"Determinacy-frame dragging and geodesics (A4/A5/E3/E6′/E12) — background determinacy D₀, frame dragging kFrame, falloff q, geodesic mode geoPN and the 1PN correction. The laws by which space carries matter and light.",
   grpLabBoxDesc:"Experimental conditions specific to box-bounded samples — thermal-wall temperature/rate (tint boxes only) and per-wall restitution. The box acts as a beaker wall providing an external environment. Shown only for box-bounded samples.",
@@ -1116,9 +1116,9 @@ en: {
   grpDisplayDesc:"Display toggles (temperature colors, trails, determinacy map, light rays, conservation monitor, camera follow, …). Display only — no effect on physics.",
   physLockHead:"Physical correspondence (GR calibration)",
   physLockLabel:"Correspondence lock κ=G/cLight²",
-  physLockDesc:"While ON, the spacetime coefficient Kt (clocks & light) is automatically kept at cLight²/G — the in-simulator correspondence condition of the SI mapping Kt=c²/G (PHYSICS §5). Kt becomes a derived value that follows edits to cLight or G (while locked, Kt's slider and value box are greyed out and cannot be edited). While OFF, the three parameters are independent — a 'generalized toy setting' outside the GR-calibration claim domain. If the derived value falls outside Kt's range [1,10⁹] (e.g. G=0) it is clamped and the correspondence becomes approximate. The lock state is stored in save data and restored on load; loading a different preset automatically unlocks (preventing unintended Kt overwrites).",
+  physLockDesc:"While ON, the spacetime coefficient κ (clocks & light) is automatically kept at G/cLight² — the in-simulator correspondence condition of the SI mapping κ=G/c² (=1/Kt; PHYSICS §5). κ becomes a derived value that follows edits to cLight or G (while locked, κ's slider and value box are greyed out and cannot be edited). While OFF, the three parameters are independent — a 'generalized toy setting' outside the GR-calibration claim domain. With G=0 the derived value is exactly κ=0 (no spacetime effect), so the lock holds exactly since wave 128 (the old Kt-canonical form could only clamp). If the derived value falls outside κ's range [0,1] it is clamped and the correspondence becomes approximate. The lock state is stored in save data and restored on load; loading a different preset automatically unlocks (preventing unintended κ overwrites).",
   physLockOn:"✓ Locked: κ=G/cLight² maintained automatically (κ is derived)",
-  physLockOnClamped:"⚠ Locked: derived value out of range — Kt clamped (approximate correspondence)",
+  physLockOnClamped:"⚠ Locked: derived value out of range — κ clamped (approximate correspondence)",
   physLockOffOk:"✓ Unlocked (current values happen to satisfy κ=G/cLight²)",
   physLockOffNg:"⚠ Generalized toy setting — outside GR calibration (κ≠G/cLight²)",
   qLockLabel:"Auto-derived q — qLock (LT-matching rule)",
@@ -1437,7 +1437,7 @@ en: {
   camFollowNoSel:"Tap a particle first to choose what to follow",
   camFollowReleased:"The followed body is gone — camera follow turned off",
   scaleDispLabel:"Scale-converted display",
-  scaleDispDesc:"Adds an SI-converted value (≈1.2e7 m/s etc.) next to dimensional parameters (G, light speed, uniform gravity, ε, D₀, Kt), using the current scale exponents. Shared setting, on by default. Display only — physics and saves are untouched. The exponents live in the same Scale category (distance / time / mass / light-speed; light speed uses its own display-calibration exponent — 30 → 3×10^8 m/s by default).",   // wave 94: moved to Scale category, default ON, 4-exponent system
+  scaleDispDesc:"Adds an SI-converted value (≈1.2e7 m/s etc.) next to dimensional parameters (G, light speed, uniform gravity, ε, D₀, κ), using the current scale exponents. Shared setting, on by default. Display only — physics and saves are untouched. The exponents live in the same Scale category (distance / time / mass / light-speed; light speed uses its own display-calibration exponent — 30 → 3×10^8 m/s by default).",   // wave 94: moved to Scale category, default ON, 4-exponent system
   // 第104便: base scale — set all four exponents to a scale tag's defaults at once
   scaleBaseLabel:"Base scale",
   scaleBaseNone:"None (custom)",
@@ -1458,7 +1458,7 @@ en: {
   groups:{"空間と時間":"Space & Time","箱宇宙":"Box Universe","銀河":"Galaxies","光":"Light","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
   params:{G:"Gravity G", D0:"Background determinacy D₀", kFrame:"Frame dragging kFrame",
     q:"Drag falloff q", kRep:"Spin repulsion kRep", muF:"Friction→spin muF",
-    gammaN:"Collision damping γn", kappaS:"Spin diffusion κs", Kt:"Spacetime Kt (time & light)",
+    gammaN:"Collision damping γn", kappaS:"Spin diffusion κs", kappaT:"Spacetime κ (time & light)",
     cLight:"Light speed c₀", bM:"Wien constant b_m", etaRad:"Radiative cooling η_rad",
     pRad:"Radiation exponent p", cHeat:"Heat capacity C (internal-temperature mode)",
     gravityX:"Uniform gravity g_x", gravityY:"Uniform gravity g_y",
@@ -1477,7 +1477,7 @@ en: {
     muF:"Efficiency of converting sliding contact (relative velocity) into spin = heat (A9/E9). At 0, collisions no longer heat anything (try the 💥 contrast experiment).",
     gammaN:"Normal-direction damping of collisions (how easily bounce is lost). 0 = bouncy, 1 = collisions absorb velocity. The lost energy is ledgered (T7).",
     kappaS:"Heat conduction by spin diffusion (E10′): spin = heat hops to nearby particles, no contact needed, stronger when closer (📏). At 0 heat does not spread.",
-    Kt:"One coefficient governing both time dilation and light refraction (A7′/E7R/E8R: ψ=W/Kt). Smaller = stronger spacetime effects — clocks slow more and light bends more. The real-world calibration is Kt=c²/G (🛰).",
+    kappaT:"One coefficient governing both time dilation and light refraction (A7′/E7R/E8R: ψ=W·κ). Larger = stronger spacetime effects — clocks slow more and light bends more. κ has the same dimension as G/c² ([L/M] — the gravitational length per unit mass, r_g=κm), and κ→0 is the natural limit of \"no spacetime effect\". The real-world calibration is κ=G/c² (🛰). Engine, saves and the AI preset schema are all κ-canonical (wave 128); the legacy key Kt=1/κ is still accepted for backward compatibility.",
     cLight:"Speed of light rays, and the reference for motion time dilation (E7R: clocks moving near c₀ relative to the comoving frame run slow). Lower it to exaggerate relativistic effects. [Three layers of c₀ (wave 99)] ① base light speed c₀ = this parameter (visualization samples use the uniform convention c₀=30; observation-calibration samples — e.g. ☄️ real-invariant Mercury — use the tier real-c convention c₀=3×10⁸×10^(−(x−eT)), wave 113); ② local light speed c_loc = c₀·e^(−2ψ) (slows locally in gravity wells — used by reddening and auto light sweep); ③ display-calibration exponent eC (on-screen conversion only — never enters the physics; since wave 126 the default is the **per-tier x−eT**, showing c₀=30 honestly as that tier's dimensional light speed — e.g. 🏠 \"≈30 m/s\", ☀️🪐 \"≈3×10⁵ m/s\"; the old convention was a uniform eC=7 \"30 → 3×10⁸ m/s\". Real-c samples display the real light speed exactly). Converted values are analogy guides; only real-c-convention samples convert exactly to real constants.",
     bM:"Wien constant: a particle at temperature T radiates at peak wavelength λ=b_m/T (A12). Calibrates the spectrum overlay (🌈).",
     etaRad:"Strength of radiative cooling (E11: cooling rate Λ∝T^p). 0 = no radiation. Hotter particles cool faster (🌈). Radiated energy and angular momentum are ledgered.",
@@ -1618,30 +1618,30 @@ function externalTags(p){
   return {pin, rail, bath, grav, wall};
 }
 // 第45便 45C(台帳4-85): 強場トイ領域の静的検出 — ψ_static = max(
-//   (a) universeBox の a=1 箱項 D/Kt、
-//   (b) 各 single 天体の自己場 m/(max(R,ε)·Kt)(R=radius明示指定なら radiusScale·radius、
+//   (a) universeBox の a=1 箱項 D·κ、
+//   (b) 各 single 天体の自己場 m·κ/max(R,ε)(R=radius明示指定なら radiusScale·radius、
 //       無指定なら radiusScale·rMul·√|m| — S.updateRadii と同じ既定写像。ε=softening)
 // )。動的な合成 W(他天体寄与・箱の時間発展)は評価しない — プリセットJSONだけで決まる
 // 決定論的・軽量な静的近似(claims と同じデータ層)。ψ_static>0.5 で弱場展開 n≈1+2ψ が
 // 大きく外れる「強場トイ領域」とみなす(外部レビュー P1-4・dfm-paper2 §4 D/Kt≈0.92 の例)。
 function strongFieldPsi(p){
   const ph=p.physics||{};
-  // 第125便: κ 正準宣言(physics.kappaT)にも対応 — Kt=1/kappaT(κ=0 は 1e12)
-  const Kt=(typeof ph.Kt==="number" && ph.Kt>0)? ph.Kt
-    : (typeof ph.kappaT==="number" && ph.kappaT>=0)? (ph.kappaT===0? 1e12 : 1/ph.kappaT)
-    : DEFAULT_PHYSICS.Kt;
+  // 第128便: κ 正準(physics.kappaT)。旧 Kt 宣言は後方互換で受理(κ=1/Kt)
+  const kap=(typeof ph.kappaT==="number" && ph.kappaT>=0)? ph.kappaT
+    : (typeof ph.Kt==="number" && ph.Kt>0)? 1/ph.Kt
+    : DEFAULT_PHYSICS.kappaT;
   const rs=(typeof ph.radiusScale==="number")? ph.radiusScale : DEFAULT_PHYSICS.radiusScale;
   const eps=(typeof ph.softening==="number")? ph.softening : DEFAULT_PHYSICS.softening;
   let psi=0;
   if(p.universeBox && typeof p.universeBox.D==="number"){
-    psi=Math.max(psi, p.universeBox.D/Kt);   // a=1 なので a^{-dPower}=1(W_B=D)
+    psi=Math.max(psi, p.universeBox.D*kap);   // a=1 なので a^{-dPower}=1(W_B=D)
   }
   for(const b of (p.bodies||[])){
     if(b.type!=="single" || typeof b.m!=="number") continue;
     const rMul=(b.rMul===undefined)? 1 : b.rMul;
     const R=(b.radius>0)? rs*b.radius : rs*rMul*Math.sqrt(Math.abs(b.m));
     const Reff=Math.max(R, eps);
-    if(Reff>0) psi=Math.max(psi, Math.abs(b.m)/(Reff*Kt));
+    if(Reff>0) psi=Math.max(psi, Math.abs(b.m)*kap/Reff);
   }
   return psi;
 }
@@ -1743,7 +1743,7 @@ function paramDesc(def){ return (LANG==="en" && I18N.en.paramDescs[def.key]) || 
 const FUSION_DFRAC_MAX = Math.SQRT1_2;
 // ===== 物理パラメータ定義(PHYSICS.md §5 既定パラメータ表) =====
 const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
-  kappaS:0.05, Kt:60,
+  kappaS:0.05, kappaT:0.016666666666666666,   // 第128便: 時空係数の正準を κ へ(=1/60 と bit 一致。旧 Kt は境界で受理する後方互換キー)
   cLight:30,   // 第100便(原仮定者裁定): 既定を c₀=30 一律規約へ(旧60)。セーブ/内蔵/AI few-shot は
                // cLight を全件明示しているため挙動不変 — 効くのは cLight 省略の手書き/外部 JSON のみ
   bM:1, etaRad:0, pRad:4,
@@ -1829,24 +1829,25 @@ function opticsTransmit(p, tauRef, lam, lamRef){
 }
 const N_CAP = 600;                        // 粒子総数上限
 // 第45便 45A(台帳4-48): 光線源・1PN源のしきい値を「質量」から「偏向角」へ物理化した。
-// 弱場の偏向は α ≈ 4ψ(b) = 4·m/(Kt·b)(E8R/T5)。天体 i が与えうる最大偏向は最接近距離が
-// b ≳ max(R_i, ε) までなので α_max(i) = 4·m_i/(Kt·max(R_i, ε))。これが分解能 α_min 未満の
-// 天体を源から外す ⇔ **m_i ≥ (α_min/4)·Kt·max(R_i, ε)**。物理対応ロック Kt=c²/G のときは
-// m_min = (α_min/4)·(c²/G)·max(R,ε) となり、GR の偏向式 α=4Gm/(bc²) の逆読みとして
-// しきい値が光速と G から導出される(旧 RAY_MASS_MIN=40 / PN_MASS_MIN=40 の固定質量を置換)。
+// 第128便: 時空係数は κ 正準 — 弱場の偏向は α ≈ 4ψ(b) = 4·m·κ/b(E8R/T5)。天体 i が
+// 与えうる最大偏向は最接近距離が b ≳ max(R_i, ε) までなので α_max(i) = 4·m_i·κ/max(R_i, ε)。
+// これが分解能 α_min 未満の天体を源から外す ⇔ **m_i ≥ (α_min/4)·max(R_i, ε)/κ**。物理対応
+// ロック κ=G/c² のときは m_min = (α_min/4)·(c²/G)·max(R,ε) となり、GR の偏向式
+// α=4Gm/(bc²) の逆読みとしてしきい値が光速と G から導出される(旧 RAY_MASS_MIN=40 /
+// PN_MASS_MIN=40 の固定質量を置換)。
 // 既定 0.02 rad の較正(tests/exp-4-48.mjs・全39プリセット×α掃引の実測):
 //   ・光線/1PN を使うプリセットの源集合が現行(m≥40)と厳密一致する窓は 0.0167 < α_min ≤ 0.430
-//   ・物理対応ロック(Kt=c²/G)を掛けた状態でも同じ集合を保つには α_min ≤ 0.0207(🔭lensing)
+//   ・物理対応ロック(κ=G/c²)を掛けた状態でも同じ集合を保つには α_min ≤ 0.0207(🔭lensing)
 //   → 交わり (0.0167, 0.0207] の最大値として 0.02 を採る
 const RAY_ALPHA_MIN = 0.02;               // 光線を曲げる最小偏向角[rad] — 物理的な発生閾値ではなく「これ未満の偏向は無視する」計算対象選別の運用基準(第47便注記)
-// しきい質量 m_min = (α_min/4)·K·max(R, ε)。K はその部門の時空係数:
-//   光線(E8R): K=Kt        — この宇宙の光学そのもの(n=e^{2W/Kt} → α=4m/(Kt·b))
-//   1PN(E12): K=c²/G      — E12 に Kt は現れず、補正の小ささは U/c²=Gm/(c²b) で決まる。
+// しきい質量 m_min = (α_min/4)·max(R, ε)/κ。κ はその部門の時空係数:
+//   光線(E8R): κ=kappaT   — この宇宙の光学そのもの(n=e^{2Wκ} → α=4mκ/b)
+//   1PN(E12): κ=G/c²      — E12 に κ は現れず、補正の小ささは U/c²=Gm/(c²b) で決まる。
 //                            同じ α_min を GR の偏向 α=4Gm/(c²b) に当てた形(=光速とGから導出)
-// 物理対応ロック Kt=c²/G のときは両者が厳密に一致する(QA ray.alpha-threshold で機械固定)
-function rayMassMin(p, Ri){ return (RAY_ALPHA_MIN/4)*p.Kt*Math.max(Ri, p.softening); }
-function pnKtGR(p){ return (p.G>0)? (p.cLight*p.cLight)/p.G : Infinity; }   // G=0 は 1PN 自体が消える
-function pnMassMin(p, Ri){ return (RAY_ALPHA_MIN/4)*pnKtGR(p)*Math.max(Ri, p.softening); }
+// 物理対応ロック κ=G/c² のときは両者が厳密に一致する(QA ray.alpha-threshold で機械固定)
+function rayMassMin(p, Ri){ return (p.kappaT>0)? (RAY_ALPHA_MIN/4)*Math.max(Ri, p.softening)/p.kappaT : Infinity; }   // κ=0 は曲がらない=源なし
+function pnKappaGR(p){ return (p.G>0)? p.G/(p.cLight*p.cLight) : 0; }   // G=0 は 1PN 自体が消える
+function pnMassMin(p, Ri){ const k=pnKappaGR(p); return (k>0)? (RAY_ALPHA_MIN/4)*Math.max(Ri, p.softening)/k : Infinity; }
 // 天体 i は光線を曲げるか(E8R 光線積分・光子伝播・光線キャッシュキーの「重い天体」判定)
 function rayHeavy(S, i){ return S.m[i] >= rayMassMin(S.params, S.R[i]); }
 // 天体 i は E12 1PN 補正の源か(v1.20)。step() の全対ループでは同式を
@@ -1959,11 +1960,11 @@ function scaleTM(x){
   return {eT:pts[pts.length-1].expT, eM:pts[pts.length-1].expM};
 }
 // 次元をもつパラメータだけ換算する([L,T,M] の指数。モデル固有の無次元ノブは対象外)。
-// W=Σm/√(d²+ε²) は M·L⁻¹ 次元なので D0/Kt も換算できる
+// W=Σm/√(d²+ε²) は M·L⁻¹ 次元なので D0・κ も換算できる(κ は [L/M] = D0 の逆次元)
 const SCALE_DIMS={ G:[3,-2,-1], cLight:[1,-1,0], gravityX:[1,-2,0], gravityY:[1,-2,0],
-  softening:[1,0,0], D0:[-1,0,1], Kt:[-1,0,1] };
+  softening:[1,0,0], D0:[-1,0,1], kappaT:[1,0,-1] };   // 第128便: Kt[-1,0,1](kg/m)→ κ[1,0,-1](m/kg — 逆数なので次元指数も符号反転)
 const SCALE_UNIT_STR={ "G":"m³/(kg·s²)", "cLight":"m/s", "gravityX":"m/s²", "gravityY":"m/s²",
-  "softening":"m", "D0":"kg/m", "Kt":"kg/m" };
+  "softening":"m", "D0":"kg/m", "kappaT":"m/kg" };
 function sciFmt(v){
   if(!isFinite(v)) return String(v);
   if(v===0) return "0";
@@ -1994,13 +1995,9 @@ function scaleConvStr(key,v){
   const ef=scaleEffNow();
   if(key==="cLight") return "≈"+sciFmt(v*Math.pow(10,ef.eC))+" "+SCALE_UNIT_STR[key];
   const e=d[0]*ef.x + d[1]*ef.eT + d[2]*ef.eM;
-  // 第120便(原仮定者指示「kT が逆数の方が扱い易い可能性を検討」— 検討結果の併記):
-  // κ=1/Kt は G/c² と同次元([L/M] — 質量あたりの重力長。重力半径 r_g=κ·m)で、物理対応
-  // ロックの導出値が κ=G/c₀² と割り算1回で書ける。保存キー・物理は Kt のまま(互換不変)、
-  // 表示の副行にだけ κ を併記する
-  if(key==="Kt" && v>0)
-    return "≈"+sciFmt(v*Math.pow(10,e))+" "+SCALE_UNIT_STR[key]
-      +"(κ=1/Kt≈"+sciFmt(1/v)+" — 換算 "+sciFmt(1/(v*Math.pow(10,e)))+" m/kg)";
+  // 第120便の κ 併記(Kt 主表示の副行に κ=1/Kt を添える)は第128便で役目を終えた —
+  // κ(kappaT)自体が正準キー=主表示になったため、SCALE_DIMS/SCALE_UNIT_STR の
+  // kappaT 行([L/M] m/kg)が汎用経路でそのまま換算する(特別分岐なし)
   return "≈"+sciFmt(v*Math.pow(10,e))+" "+SCALE_UNIT_STR[key];
 }
 // QA・スライダー用の一括設定(null=タグ既定へ戻す)
@@ -2045,8 +2042,8 @@ const PARAM_DEFS = [
    desc:"衝突の法線方向の減衰(跳ね返りの失われやすさ)。0=よく弾む、1=ぶつかると速度が失われやすい。失われたエネルギーは帳簿に記録される(T7)。"},
   {key:"kappaS",label:"スピン拡散 κs",       mode:"lin", lo:0, hi:2, step:0.01, cat:"sh", group:"法則",
    desc:"スピン=熱が近くの粒子へ飛び移って均される熱伝導(E10′)。接触は不要で、近いほど強く伝わる(📏)。0にすると熱が伝わらない。"},
-  {key:"Kt",    label:"時空係数 κ(=1/Kt)", mode:"log", lo:1e-12, hi:1, inv:true, zeroLeft:true, cat:"st", group:"法則",   /* 第125便: κ=0(時空効果なし)を許容 — 左端=0(内部 Kt=1e12) */   /* 第124便(原仮定者指示「パラメータもκを編集保存する」): κ=1/Kt を編集正準に(内部保持・エンジン・21キー表は Kt のまま=物理bit不変。値域=CLAMPS.Kt の逆数) */
-   desc:"時計の遅れと光の屈折を1本で決める係数を κ=1/Kt(=G/c² と同次元 [L/M] — 質量あたり重力長 r_g=κm)で編集する(第120便裁定の κ 併記 → 第124便で編集正準化)。大きいほど時空効果が強い — ψ=W·κ で時計はより遅れ、光はより曲がる。κ→0 が「時空効果なし」の自然極限。現実との較正は κ=G/c²(物理対応ロックの導出値)。内部・セーブ互換・AIプリセットの Kt キーは従来どおり有効(κ は kappaT キーでも受理)。"},
+  {key:"kappaT", label:"時空係数 κ", mode:"log", lo:1e-12, hi:1, sci:true, zeroLeft:true, cat:"st", group:"法則",   /* 第125便: κ=0(時空効果なし)を許容 — 左端=0 */   /* 第128便(121B 完結編): 内部保持・エンジン計算・UI キー・physLock すべて κ 正準へ(ψ=W·κ)。旧 Kt は境界で受理する後方互換キーのみ。sci:true = 旧 inv 世代と同じ表示規約(0 表示・1e-4 未満は指数表示)を逆数変換なしで保つ新フラグ */
+   desc:"時計の遅れと光の屈折を1本で決める係数 κ(=G/c² と同次元 [L/M] — 質量あたり重力長 r_g=κm)。大きいほど時空効果が強い — ψ=W·κ で時計はより遅れ、光はより曲がる。κ→0 が「時空効果なし」の自然極限。現実との較正は κ=G/c²(物理対応ロックの導出値)。内部エンジン・セーブ・AIプリセットの宣言層すべて κ 正準(第128便で完結)。旧 Kt=1/κ キーはセーブ・AIプリセットの後方互換として受理する。"},
   {key:"cLight",label:"光速 c₀",             mode:"log", lo:1, hi:1e6, cat:"st", group:"法則",   /* 第116便: ティア実c値まで / 第118便(原仮定者指示): 入力範囲 1〜1e6 */
    desc:"光線の速さと、運動による時計の遅れの基準(E7R: 共動フレームに対する速さがc₀に近いほど固有時計が遅れる)。下げると相対論的効果が見えやすくなる。【c₀の三層(第99便)】①基準光速 c₀=このパラメータ(可視化サンプルは c₀=30 の一律規約。観測較正サンプル〔☄️水星実不変量など〕はティア別の実c値規約 c₀=3×10⁸×10^(−(x−eT)) — 第113便)②局所光速 c_loc=c₀·e^(−2ψ)(重力ポテンシャルの井戸で局所的に遅くなる — 減光・光掃引の auto が使う)③表示較正指数 eC(換算表示専用 — 物理には入らない。第126便からの既定は**ティア別 x−eT** — c₀=30 をそのティアの次元的光速として正直表示する〔🏠「≈30 m/s」・☀️🪐「≈3×10⁵ m/s」など。旧規約は一律 eC=7 の「30→3×10⁸ m/s」〕。実c値サンプルは表示が実光速と厳密一致)。換算値はアナロジーの目安であり、実c値規約のサンプルのみ実定数と換算が厳密一致する。"},
   {key:"G",     label:"重力 G",              mode:"log", lo:0.005,  hi:1e6,  zeroLeft:true, cat:"st", group:"法則",   /* 第118便: 入力0〜1e6 / 第125便(原仮定者指示): スライダー左端=0(zeroLeft) */
@@ -2090,7 +2087,7 @@ const PARAM_DEFS = [
 // softening は E1′ の緩和長、timeScale は速回し(いずれも数値設定 — 各 desc の記述と整合)。
 const PARAM_ROLES={
   G:"physics", D0:"physics", kFrame:"physics", q:"physics", kRep:"physics", muF:"physics",
-  gammaN:"physics", kappaS:"physics", Kt:"physics", cLight:"physics", bM:"physics",
+  gammaN:"physics", kappaS:"physics", kappaT:"physics", cLight:"physics", bM:"physics",
   etaRad:"physics", pRad:"physics", cHeat:"physics", geoPN:"physics", lambdaPN:"physics",
   pnAlpha:"physics",
   gravityX:"experiment", gravityY:"experiment",
@@ -2120,7 +2117,7 @@ function valToSliderPos(def,v){
 // 既存プリセット・既定値は全て旧値域内なので挙動不変(広げるだけ)
 // 第122便: q 上限 4→8(共通補正)→ 第123便: 8→40(qLock 自動算出 — 💿 の q*≈21.8 を値域内にする)
 const CLAMPS = { G:[0,1e6], D0:[0,1e6], kFrame:[0,1], q:[0.5,40], kRep:[0,20], muF:[0,1],
-  gammaN:[0,1], kappaS:[0,2], Kt:[1,1e12], kLens:[0,1],   // 第125便: κ=0(時空効果なし)を Kt=1e12 で受ける
+  gammaN:[0,1], kappaS:[0,2], kappaT:[0,1], kLens:[0,1],   // 第128便: 時空係数は κ 正準(κ=0=時空効果なし。旧 Kt[1,1e12] は ktToKappa で受理)
   cLight:[1,1e6], bM:[0.001,1000], etaRad:[0,1], pRad:[1,6], radiusScale:[0.2,5],
   cHeat:[0.01,1000],   // 第36便 D(台帳4-51): 熱容量係数 C(thermal:"tint" 専用)
   gravityX:[-10,10], gravityY:[-10,10],
@@ -2129,6 +2126,10 @@ const CLAMPS = { G:[0,1e6], D0:[0,1e6], kFrame:[0,1], q:[0.5,40], kRep:[0,20], m
   softening:[0.01,20], timeScale:[0.001,1000] };
   // 第97便: 時間倍率 0.1〜16 → 0.01〜100 / 第118便(原仮定者指示): G 0〜1e6・時間経過倍率
   // 0.001〜1000・ソフトニング下限 0.01(実単位サンプルの小半径に追随)へ拡大
+// 第128便(121B 完結編): 旧 Kt キー → κ の唯一の写像。全境界(validatePreset・abBody.physicsPatch・
+// build・ドラフト復元・セーブ読込・A/B patch)がこの1本を共用する。旧値域 [1,1e12] の上端
+// Kt=1e12 は「時空効果なし」を意味していたので κ=0 へ落とす(第125便のセーブ書出しと同じ写像)
+function ktToKappa(Kt){ return (Kt>=1e12)? 0 : 1/clamp(Kt,1,1e12); }
 
 // ===== 内蔵プリセット(スキーマは内部開発文書 HANDOFF_IMPLEMENTATION.md §契約1 — 非公開管理) =====
 const BUILTIN_PRESETS = [
@@ -2146,7 +2147,7 @@ const BUILTIN_PRESETS = [
     summary:"Three still clocks near a heavy body, placed at distances 70, 140 and 240, comparing how much each one lags. All motion is removed, so distance is the only thing that changes — meaning only the determinacy (this model's term for gravitational strength) varies. ",
     observe:"Tap each clock: the inner one ticks slowest, τ/t = 0.931/0.965/0.979 (matches the analytic value to 1e-5). The gravitational counterpart of motion time dilation (the E7R motion term) — the pure gravity term of A7′/E7R. ",
     control:"Lower Kt from 300 to 150 and all three gaps widen together."}},
-  activeParams:["Kt"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+  activeParams:["kappaT"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   // 第42便 42A(台帳4-78 A案): claims — 説明文の解析一致値(内側時計のτ/t)を機械可読化。
   // QA new.gclock は解析値との誤差<1e-3(実質1e-5一致)を検査する回帰テストで、この値自体の
   // 許容域を直接は与えないため、窓は説明文数値±15%のフォールバック規則で設定する
@@ -2178,7 +2179,7 @@ const BUILTIN_PRESETS = [
     summary:"A calibration demo: this universe's clocks and light both follow one formula, ψ=W/Kt (the weak-field law, A7′/E7R/E8R/T5) — this checks how well that matches real observations like GPS and the Sun's light bending. ",
     observe:"With the one mapping Kt=c²/G: net GPS clock rate +38.5 μs/day (gravity +45.7, motion −7.2; observed ≈+38.6) / solar-limb deflection 1.7512″ (observed ≈1.75″) / Shapiro delay ≈281 μs (Cassini geometry) — all match quantitatively. On screen, the analog: the ground clock (r=60) shows τ/t=0.920 while the orbiting satellite (r=180), though moving, ticks faster at τ/t=0.971 — gravity beats motion, the same sign structure as real GPS. The ray fan from the left refracts in the central field (the same n_eff>1 mechanism as the Shapiro delay); lower Kt and clock gaps and bending strengthen together. Note: the SI-calibrated numbers come from formula-level computation under the mapping Kt=c²/G; the on-screen initial values are a visibility-first exaggerated analog and do not satisfy the physical-correspondence condition Kt=cLight²/G (see PHYSICS §5). ",
     control:"Mercury's perihelion advance is covered by ☿ (geodesic 1PN, E12)."}},
-  activeParams:["Kt","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+  activeParams:["kappaT","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:280}, world:{boundary:"none",size:0},
   physics:{G:0.25, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0033333333333333335,
     cLight:30, contactK:10, contactCap:2, bM:0.25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:4},
@@ -2602,7 +2603,7 @@ const BUILTIN_PRESETS = [
     summary:"A sample where the universe's background itself becomes a moving foundation (the continuous UniverseBox). Giving the once-constant background D₀ a position, velocity and size a(t) lets interior particles keep up fully with the expansion — a complete Hubble flow u_B=H·r (closing the gap left by the earlier point-ring wall, which could only carry half the motion inward; dashed circle = nominal radius L·a). ",
     observe:"Free particles are carried preserving comoving coordinates χ=r/a (V24b), and mutual distances grow in proportion to a. Expansion dilutes determinacy (W_B=D/a), so by the clock law (A7′/E7R) the central pinned clock ticks faster as the universe expands (tap it to see τ/t) — a correlation that looks like 'expansion drives time' emerges inside the model. Yet expansion is not the cause of time: it merely changes the rate of an already-defined clock. Reactions are ledgered to the reservoir (monitor, A13). ",
     control:"Set kFrame to 0 and comotion vanishes (suggested A/B)."}},
-  activeParams:["kFrame","Kt"],
+  activeParams:["kFrame","kappaT"],
   camera:{scale:420}, world:{boundary:"none",size:0},
   universeBox:{mode:"exp", H0:0.004, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0, freq:0, phase:0},
   physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0033333333333333335,
@@ -2653,7 +2654,7 @@ const BUILTIN_PRESETS = [
     summary:"A 'breathing universe' that keeps expanding and contracting. Its size, the scale factor a(t)=1+0.2sin(0.08t), oscillates, and the particles inside ride back and forth with it. ",
     observe:"Free particles ride the breathing Hubble flow u_B=H(t)·r back and forth, and determinacy W_B=D/a oscillates too — clocks tick faster while expanded (large a) and slower while contracted (A7′/E7R; tap the central pinned clock). At the turning points H=0 the clock does not stop — expansion rate and the rate of time are different things, so a alone cannot be 'time itself'. With zero dissipation (no friction, collision damping or radiation) the system returns almost exactly after one period (T≈78.5) — reversible. ",
     control:"Add muF or gammaN and it no longer returns — geometric periodicity and the thermodynamic arrow of time (A12′) are distinct, and you can test it yourself (T10)."}},
-  activeParams:["Kt","kFrame"],
+  activeParams:["kappaT","kFrame"],
   camera:{scale:380}, world:{boundary:"none",size:0},
   universeBox:{mode:"sin", H0:0, D:80, dPower:1, L:260, cx:0, cy:0, vx:0, vy:0, omega:0, amp:0.2, freq:0.08, phase:0},
   physics:{G:0, D0:0, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.0033333333333333335,
@@ -2719,7 +2720,7 @@ const BUILTIN_PRESETS = [
     summary:"Two observers measure the expansion rate H of the same box with different rulers (the central result V29 of paper 2, made operable). The geometric probe tracks comoving structure and reports H_geo=Δln a/Δt. The velocity probe assumes the FLRW decay law w/c∝1/a and infers H_w=−Δln R/Δt from the measured decay of the ratio R=w/c_loc. The calibration makes the two estimates disagree at the same magnitude as the Hubble tension (point value 0.92 at a=2 vs the real-universe ratio 0.923), visible at all times in the HUD's tension-analogue line. ",
     observe:"The particle's peculiar velocity w is conserved in the model's absolute bookkeeping (V27), yet the local light speed c_loc=c0·e^{−2ψ} rises as expansion dilutes determinacy, so the light-referenced ratio R decays (E8R, V28) — and its decay law differs from the assumed FLRW form, so the two estimates disagree by H_w/H_geo=2(D/Kt)/a, depending on the epoch a and the calibration D/Kt. The HUD's cumulative measurement (from t=0) shows this live: at a=2 the exponential reading's cumulative ratio is 1.333 (matching the analytic 1.3335 within 1e-2). The inverse reading shown beside it re-reads the same measured w under the alternative light-speed law c_loc∝1/W (the exp-4-66.mjs control law) and stays identically at 1.000 — change the functional form and the probe dependence vanishes (the same model-internal control as the exp-4-66.mjs discrimination experiment). The default D/Kt=(2/3)ln4≈0.9242 is paper 2's calibration point, where the a=2 point value 0.92 matches the magnitude of the real Hubble-tension ratio 67.4/73.0≈0.923 — a calibration, not evidence (Negative claim 6). This is not an explanation of the tension but a structure: a measurement discrepancy can be the consequence of the decay law the estimator assumes (Negative claim 3). ",
     control:"Move D/Kt with the Kt slider or the D input in the Box Universe section and the ratio scales in proportion (rebuild with 🔁 after changing — the cumulative measurement is referenced to t=0)."}},
-  activeParams:["Kt","cLight","kFrame"],
+  activeParams:["kappaT","cLight","kFrame"],
   probeHud:true,
   // 第50便 50C: claims — HUD 累積測定の a=2 実測値を機械可読化(QA behavior.probeH の閾値に直結)
   claims:[
@@ -3163,7 +3164,7 @@ const BUILTIN_PRESETS = [
     summary:"A dark rotor is this model's term for a rapidly spinning body that has become optically dark (via two mechanisms: self-light dimming and the sweep-out of incoming rays). The minimal version of 🕶️: one dark body on its own — a high-spin core at the center (m=2000, radius 45, spin 2.0, dimming=auto), 24 test particles orbiting at r=200, and 20 light rays entering from the left. Every particle is free (no pins, no rails): a closed system. Darkness in this universe is a mixture of separate mechanisms (DERIVATIONS §17), and this screen shows two of them at once — and keeps them apart. ",
     observe:"(2) Dimming its own light (spin sweeping it out): dimming is set to \"auto\" rather than a fixed number, so the effective value lS_eff=min(1,|s|R/c_surf) is computed every step from the body's own spin and radius (tap the core: the dimming field shows the \"auto\" checkbox ticked, with the effective value lS_eff displayed in the number field) — measured 1.00. (3) Sweeping out incoming rays: the spinning core carries light with the rotating determinacy frame (A11/E8R), and the finite-time photon capture that happens in the spin-0 control (measured non-escape rate 0.62) disappears (measured 0.00). Prograde rays are pushed outward while retrograde rays dive deeper (mean closest approach 158 vs 72 — the same asymmetry as T8). (2) and (3) are different mechanisms: lS_eff is already saturated at 1 by spin 0.145, yet at that spin the ray sweep-out has not started at all (non-escape 0.70, above the control). The sweep-out only switches on between spin 0.3 and 0.35 — more than a factor of two away from the saturation point (spin values are in the wave-96 c₀=30 similarity units, half the old ones). The test particles are pumped into prograde rotation by the dragging of space (A8/E6′): mean L_z=484 over 12000 steps versus 316 for the control (re-measured after the wave-96 c₀=30 similarity rescale). Momentum and angular momentum are conserved once the ledger is included (see the monitor; relative drift of order 1e-4). Note: (3) does not happen under the GR-calibration lock (Kt=c²/G=3600) — the measured non-escape rate is 0.00 even at high spin (falsification condition 7). Not a claim about real black holes or dark matter (Negative Claims 1/2). ",
     control:"Suggested A/B (one-tap): use the button below to compare instantly against the core spin set to 0 — the dimming, the sweep-out and the dragging all vanish together."}},
-  activeParams:["kFrame","Kt","q"],
+  activeParams:["kFrame","kappaT","q"],
   validT:192,   // 第39便 39E(台帳4-75 E2): 説明文の実測窓(6000步=t≈96。L_z平均・帳簿保存の測定窓)と一致
   // 第40便 40B(台帳4-77): abBody — B側の中心コア(bodies順で index0)の spin を0にする対照へ
   // ワンタップでA/B開始する(粒子レベルpatch)
@@ -3703,7 +3704,7 @@ const BUILTIN_PRESETS = [
     summary:"A sample where a heavy, dark, spinning centre grows all by itself out of a plain cloud of grains with nothing built in. All that is placed is a uniform disk of 180 grains (identical mass 1, zero spin, all free), a slow overall rotation of the cloud (ω₀=0.008), and one identical tiny core seed inside every grain (5% of its mass, radius 0.2, Ω_c=2). No central body, no dark core and no halo appear anywhere in the initial conditions — the only things at work are self-gravity (E4), contact (E9), fusion (two grains that come within d<0.7·(R_i+R_j) of each other become one) and the inheritance rule that adds their cores up by the conservation laws (M_c′=M_c,i+M_c,j, R_c′=√(R_c,i²+R_c,j²), J_c′=J_c,i+J_c,j). There are no pinned bodies, no boundary, no uniform gravity and no thermal walls, and the system's centre of mass and its velocity are zeroed once at build time (a closed system). ",
     observe:"Measured (seed 20260806, 9000 steps = t144): 180 grains go through 155 fusions down to 25 bodies, and the heaviest single body grows into a centre holding 26.7% of the total mass (m=48). The bound fraction is 0.75. In the control with fusion switched off the largest body stays the original single grain (mass fraction 0.56%) and the bound fraction is only 0.14 — the central body is a product of the fusion rule, not of the initial conditions. That self-gravity is the cause was isolated by a dose–response: varying only G over 2/4/6/8/12 moves the mass fraction monotonically through 1.7/6.1/12.8/26.7/44.4% (7/62/125/155/173 fusions). The core angular momentum J_core accumulates through the inheritance path and nothing else: the centre's J_core is 0.0960, which is exactly 48 seeds' worth and matches the mass 48 it swallowed grain for grain (the sum in the inheritance rule literally counts them). The system-wide ΣJ_core stays at 0.3600 (=180 grains × 0.0020) to the end, and in the control with the core seeds removed J_core is identically 0 — there is no source other than inheritance. The darkness grows too: the effective dimming lS_eff (A11/E8R — how much of its own light a body sweeps out by spinning) is 0.000 at t=0, and by 9000 steps the central body has dimmed to 0.999 while the bodies around it stay at 0.317 on average (dimming saturates under c₀=30 — the v1.38 measurements at c₀=60 were 0.589/0.159; every dynamical quantity — body count, fusions, mass fraction, spins, bound fraction — matches v1.38) — a dark centre with a bright surround is generated (a contrast of 3.2). That darkness is set purely by the depth of the well ψ=W/Kt and never enters the dynamics (measured: at Kt 12/14/16/20/24 the particle count, fusion count, mass fraction, spin and radius are all identical to the last bit, and only the dimming changes: 1.000/0.999/0.843/0.527/0.386). The grains start with zero spin and end up unanimously co-rotating (emergence monitor: spin alignment 0.000→1.000, clump count 166→2, largest-clump mass fraction 0.994, rotation support V/σ=10.9). Momentum and angular momentum (A13/T7) close exactly with all reservoir ledgers at zero (see the monitor; |ΔL|/L_scale = 6.7e-7 over the 9000 steps). Standard emergence tests (Wave 83A; see docs/PHYSICS.md §Emergence levels and the standard tests): this phenomenon has been put through four further tests — many seeds, particle-count scaling, perturbation recovery and the time window. [Many seeds, 16] Over seeds 20260806–20260821 the largest body's mass fraction spans 18.3–53.3% (median 34.7%) and is at least 18.3% in every one of the 16 — while the no-fusion control sits at 0.56% for every seed (exactly 1/180: without fusion no mass ever moves), so even the worst seed is 33 times the control. Over the same 16 seeds: largest-clump mass fraction 0.972–1.000, spin alignment 0.985–1.000, rotation support V/σ 3.1–20.8, central dimming 0.943–1.000, surround 0.253–0.438, J_core 0.0660–0.1920 (33–96 seeds' worth), bound fraction 0.43–1.00, 17–37 bodies left (143–163 fusions), no NaN, no clamping, and |ΔL|/L_scale at most 6e-6. The dimming contrast (centre over surround) is 2.28–3.96 (median 2.75) in the main runs against 0.72–1.08 (median 1.03) in the controls, and the two never overlap across the 16 seeds — which confirms, over many seeds, that the discriminating quantity is this contrast and not the darkness on its own (see (a) below). [Particle-count scaling] At n=90/180/360 (3 representative seeds) the median mass fraction is 12.2/26.7/31.7%, the largest-clump mass fraction 0.944/0.994/1.000, and the alignment 1.000 in every case — the phenomenon is not a discrete artefact of one particular particle count. Note honestly, though, that this sample keeps the disk radius and the per-grain mass fixed while varying n, so n is also the total mass (= the strength of self-gravity): n=90 acts like halving G, and the ten-times-the-control bar is met by only 2 of the 3 seeds there (ratios 7.0/11.0/22.0). [Perturbation recovery] Injecting Gaussian velocity noise into every grain once the structure has formed, at t=120 (step 7500), with the mass-weighted mean subtracted so the total momentum is preserved and at 30% of the speed RMS, moves neither the largest-clump mass fraction, nor the alignment, nor the central body's mass fraction at all. This structure is not broken by velocity disorder; sweeping the amplitude, it only starts to break at twice the speed RMS (largest clump 0.994→0.811 by step 15000) and at four times (0.583). What does get disturbed and then returns is the rotation support V/σ (down 28–33%, back within 10 steps = Δt 0.16) and the bound fraction (down at most 11%, back within 200 steps). Alignment is by definition untouched by velocity noise, so a separate perturbation was applied that flips the spin of about half the grains: the alignment is driven from 1.000 down to −0.907/−0.800/−0.232 and climbs back above 0.976 within 10 steps (Δt=0.16), with the flipped central body's own spin returning to positive within 10–200 steps — the co-rotating state is not a one-off configuration but an attractor that contact friction (E9) and dragging (A8/E6′) maintain at every step. [Time window] The clumps merge into one by step 1500 (t=24), the alignment passes 0.99 by step 2000 (t=32), and the mass fraction reaches 90% of its final value between steps 2000 and 3000 (t=32–48) and then saturates; the mass fraction at step 9000 (= validT 144) and at step 18000 differ by 0.0000, so validT sits inside the stable window past the rise. With these four tests on top of the knockouts and dose–responses of Wave 82B — six in all — the emergence level has been raised from E2 (emergence in a closed system) to E3 (emergence with robustness confirmed across seeds, particle counts and perturbations). Measurement harness: tests/exp-4-85.mjs. What did NOT hold, recorded honestly: (a) darkness on its own does not discriminate fusion from no fusion — in the no-fusion control the centre of the 180-grain pile also dims to lS_eff=0.999 (darkness is set by the depth of the well, not by the growth path). What does discriminate is the contrast, dark centre against bright surround: in the control the surround dims to 0.972 as well. (b) The kFrame=0 control produces no systematic difference in the outer rotation (the survivors concentrate at the centre so the outer annulus has no statistics, and the difference is buried in the seed spread) — this sample makes no dragging claim. (c) The dose–response in the fusion threshold dFrac is not monotonic (0.7/0.6/0.5/0.35 → 26.7/47.8/43.3/23.3%). Not a claim to reproduce real galaxies, dark matter or star formation (Negative Claims 1/2). ",
     control:"Suggested A/B: raise Kt to 24 and the well gets shallower, fading the central darkness from 0.999 to 0.386 (the dynamics do not change by a single bit). Drop G to 4 and the growth all but stops — in the same 9000 steps the centre only reaches a mass fraction of 6.1%. The Emergence monitor at the lower right plots the clump count, largest-clump mass fraction, spin alignment and rotation support V/σ over time."}},
-  activeParams:["G","Kt","kFrame"],
+  activeParams:["G","kappaT","kFrame"],
   // 第83便B: 相図ランナー(2変数バッチ掃引 → 秩序変数の色マップ)。宣言専用・物理には一切影響しない。
   // 軸の選定は実測で決めた: 自己重力 G(成長の駆動)× 背景決定力 D₀(局所質量の相対的な効きを
   // 薄める床)。秩序変数はスピン整列度(自転ゼロで始まった粒が「みな同じ向きに回る」ようになるか)。
@@ -3780,7 +3781,7 @@ const BUILTIN_PRESETS = [
   en:{name:"Gravitational Lensing & Photon Capture", descStruct:{
     summary:"Light rays from the left refract and bend where determinacy is high (= time runs slow) (A7′/T5). ",
     observe:"Time dilation and refraction are unified by one ψ=W/Kt (E7R/E8R) — lower Kt and both strengthen together. In strong fields light is captured into orbit (photon-sphere analogue). Background color = determinacy W. Tap a particle to see its proper clock (τ/t). Ray color encodes wavelength via the clock-rate ratio e^{ψ0−ψ} (a gravitational-redshift analogue — semantic display)."}},
-  activeParams:["Kt","cLight","softening"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+  activeParams:["kappaT","cLight","softening"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{G:0.25, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4, kappaS:0.025, kappaT:0.006666666666666667,
     cLight:30, contactK:10, contactCap:2, bM:0.25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2},
@@ -3804,7 +3805,7 @@ const BUILTIN_PRESETS = [
     summary:"When the central star spins, the space carrying light (the determinacy frame) rotates too (A11). ",
     observe:"Rays moving with the rotation are swept outward; rays moving against it bend sharply — a vertically symmetric fan bends asymmetrically (T8, an optical analogue of Kerr frame dragging). Background color = W. ",
     control:"Set kFrame to 0 and the drag vanishes — the bending returns to vertical symmetry (suggested A/B)."}},
-  activeParams:["kFrame","Kt","cLight","q"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+  activeParams:["kFrame","kappaT","cLight","q"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{G:0.5625, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4, kappaS:0.0375, kappaT:0.005,
     cLight:30, contactK:22.5, contactCap:4.5, bM:0.5625, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:1.33333},
@@ -3827,7 +3828,7 @@ const BUILTIN_PRESETS = [
     summary:"A parallel beam enters two large masses stacked vertically. ",
     observe:"Unlike a single lens, rays split and bend into two determinacy wells — a compound lens (T5). Spins are zero, isolating this from asymmetric dragging (T8). ",
     control:"Raise Kt from 110 to 220 and the bending weakens."}},
-  activeParams:["Kt","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+  activeParams:["kappaT","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   camera:{scale:300}, world:{boundary:"none",size:0},
   physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.00909090909090909,
     cLight:30, contactK:10, contactCap:2, bM:0.25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:2},
@@ -3853,7 +3854,7 @@ const BUILTIN_PRESETS = [
     summary:"A field of hot background stars with a cold dark cloud drifting in front of it. The cloud is light and does next to nothing dynamically, yet it absorbs the light passing through it by an amount that depends on wavelength — blue goes first, so the starlight seen through the cloud shifts toward red (reddening). Optical transport (volume absorption kAbs, wavelength exponent pAbs, scattering fScat) acts on the **observation layer only**: orbits, spins and proper clocks do not change by a single bit. Not a claim to reproduce real interstellar extinction laws (R_V=3.1 and the like) — it is a toy model of what this universe's optics (E8R) look like once absorption is integrated along the path (Negative Claims). ",
     observe:"Measured (fixed seed, t=0, rays from x=-310 with dl=2.7 over 400 steps): (1) **Rays through the cloud redden** — the optical depth of the ray crossing the cloud center is tau_ref=2.429 at the reference wavelength 550 nm, giving transmittances of 0.0044 in the blue (450 nm) and 0.288 in the red (650 nm), a blue/red ratio of 0.0154. (2) **Beside the cloud it passes clean** — a ray outside the cloud (y=200) has exactly tau_ref=0.000. The local mass kernel has compact support (four particle radii, floored by the softening length), so a ray that never enters any body's support is never absorbed. (3) **The wavelength dependence is set by pAbs** — with pAbs=0 (gray absorption) the blue/red ratio is 1.0000, with pAbs=2 it is 0.151, and at the default pAbs=4 (Rayleigh-like) 0.0154. (4) **Dose response** — stepping kAbs through 0/1.7/3.4/6.8 gives tau_ref 0.000/1.215/2.429/4.859, and tau_ref/kAbs is 0.714537 at all four points (the path integral is linear in kAbs). (5) **The dynamics are untouched** — against a control with kAbs omitted, run for 2000 steps, positions, velocities, spins and proper clocks agree to the bit (scattering fScat is a drawing layer too: the picture changes, the numbers do not). (6) In the spectrum overlay (bottom right) the orange line is the transmittance T(lambda) and the orange outlined bars are the transmitted spectrum. For a source whose luminosity falls as lambda^-4 (pRad=4), multiplying by tau proportional to lambda^-4 moves the transmitted peak a measured 5.09x toward longer wavelengths (analytically lambda_c * tau_ref^(1/pAbs)). ",
     control:"Drag the lambda0 slider (the ray reference wavelength, next to the rays toggle) from the 450 nm side to the 650 nm side and only the rays behind the cloud go from dark back to bright — blue is absorbed, red gets through. Setting physics.kAbs to 0 in the JSON removes optical transport entirely; setting physics.fScat to 0 removes only the cloud's diffuse glow (the scattered light drawn back in)."}},
-  activeParams:["Kt","cLight","softening"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+  activeParams:["kappaT","cLight","softening"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   // 第82便 A: claims — 実測(exp-4-83)から ±10% 程度の窓。testId は QA の claim.reddening
   claims:[
     { id:"reddening.tau-cloud", kind:"fixed-seed", metric:"tauRefCloud",
@@ -5252,13 +5253,23 @@ function validatePreset(obj){
         if(mv!==0.01) ph[k]=mv;
         continue;
       }
-      // 第124便: κ 受理 → 第125便: kappaT を正準キーへ(併記時は kappaT 優先・κ=0 は Kt=1e12)
+      // 第124便: κ 受理 → 第125便: kappaT を正準キーへ → 第128便: kappaT は通常キー(CLAMPS[0,1])。
+      // 非数・負値だけをここで弾く(旧世代と同じ「警告して無視」の意味論を保つ)
       if(k==="kappaT"){
         if(!isNum(p.physics[k]) || p.physics[k]<0){ warnings.push("physics.kappaT は 0 以上の数値が必要 — 無視"); continue; }
-        ph.Kt=(p.physics[k]===0)? CLAMPS.Kt[1] : clamp(1/p.physics[k],CLAMPS.Kt[0],CLAMPS.Kt[1]);
+        ph.kappaT=clamp(p.physics[k],CLAMPS.kappaT[0],CLAMPS.kappaT[1]);
+        if(ph.kappaT!==p.physics[k]) warnings.push("physics.kappaT を値域に修正");
         continue;
       }
-      if(k==="Kt" && isNum(p.physics.kappaT)) continue;   // 第125便: kappaT 併記時は kappaT 優先(旧 Kt は後方互換)
+      // 第128便: 旧 Kt は後方互換の入力キー — κ へ換算して受理(kappaT 併記時は kappaT 優先)
+      if(k==="Kt"){
+        if(isNum(p.physics.kappaT)) continue;
+        if(!isNum(p.physics[k])){ bad("physics.Kt が数値ではありません"); continue; }
+        const kv=clamp(p.physics[k],1,1e12);
+        if(kv!==p.physics[k]) warnings.push("physics.Kt を値域に修正");
+        ph.kappaT=ktToKappa(p.physics[k]);
+        continue;
+      }
       if(!(k in CLAMPS)){ warnings.push("physicsの未知キー "+k+" を無視"); continue; }
       if(!isNum(p.physics[k])){ bad("physics."+k+" が数値ではありません"); continue; }
       const c=CLAMPS[k], v=clamp(p.physics[k],c[0],c[1]);
@@ -6032,9 +6043,10 @@ function validatePreset(obj){
           for(const k of Object.keys(A.physicsPatch)){
             // 第123便: qLock:true — B側の q を自動算出(LT整合則)する特別キー(CLAMPS 外)
             if(k==="qLock"){ if(A.physicsPatch[k]===true) physicsPatch.qLock=true; continue; }
-            if(k==="kappaT"){ if(isNum(A.physicsPatch[k]) && A.physicsPatch[k]>=0)
-              physicsPatch.Kt=(A.physicsPatch[k]===0)? CLAMPS.Kt[1] : clamp(1/A.physicsPatch[k],CLAMPS.Kt[0],CLAMPS.Kt[1]);
-              continue; }   // 第125便: κ 正準 — patch も kappaT で書ける(内部 Kt へ換算)
+            // 第128便: kappaT は通常キー(CLAMPS[0,1])— 下の汎用経路が拾う。旧 Kt は後方互換で κ へ換算
+            if(k==="Kt"){ if(!isNum(A.physicsPatch.kappaT) && isNum(A.physicsPatch[k]))
+              physicsPatch.kappaT=ktToKappa(A.physicsPatch[k]);
+              continue; }
             if(!(k in CLAMPS)){ warnings.push("abBody.physicsPatch の未知キー "+k+" を無視"); continue; }
             if(!isNum(A.physicsPatch[k])){ warnings.push("abBody.physicsPatch."+k+" が数値でないため無視"); continue; }
             physicsPatch[k]=clamp(A.physicsPatch[k],CLAMPS[k][0],CLAMPS[k][1]);
@@ -6568,13 +6580,13 @@ function makeSim(){
     const rng = mulberry32(isNum(preset.seed)? (preset.seed>>>0) : (hashStr(preset.id||preset.name||"p")+7));
     const P = [];
     const phys = Object.assign({},DEFAULT_PHYSICS,preset.physics||{});
-    // 第125便: κ 正準(physics.kappaT)— 内部 Kt へ換算。build は実行時経路なので、
-    // 明示の Kt 上書き(プリセット展開後に physics.Kt を差し替えるテスト/フック互換)があれば
-    // それを優先する(宣言層=validator は 規約8 どおり kappaT 優先)
-    if(isNum(phys.kappaT)){
-      if(!(preset.physics && isNum(preset.physics.Kt)))
-        phys.Kt=(phys.kappaT===0)? CLAMPS.Kt[1] : clamp(1/phys.kappaT,CLAMPS.Kt[0],CLAMPS.Kt[1]);
-      delete phys.kappaT;
+    // 第128便: 内部 params は κ 正準(kappaT)。build は実行時経路なので、明示の Kt 上書き
+    // (プリセット展開後に physics.Kt を差し替えるテスト/フック互換 — 第125便裁定)があれば
+    // それを優先して κ へ換算する(宣言層=validator は 規約8 どおり kappaT 優先)。
+    // params に Kt キーは残さない(セーブ書出しが params の直コピーになるため)
+    if("Kt" in phys){
+      if(isNum(phys.Kt)) phys.kappaT=ktToKappa(phys.Kt);
+      delete phys.Kt;
     }
     const G = phys.G;
     const push=(o)=>P.push(o);
@@ -8118,7 +8130,7 @@ function makeSim(){
     }
     // ===== 第36便 C2(原仮定者指示): 掻出 lightSweep="auto" の実効値を毎サブステップ算出 =====
     // lS_eff = min(1, |s_i|·R_i / c_surf)、c_surf = c₀·e^{−2ψ_surf}、
-    // ψ_surf = (W_ext(r_i) + m_i/√(R_i²+ε²)) / Kt
+    // ψ_surf = (W_ext(r_i) + m_i/√(R_i²+ε²)) · κ
     //   = 「コア表面のフレーム速度 |s|·R」と「その場所の局所光速」の比。高速スピンで 1 に飽和し、
     //     自星の光を外へ出さない(=掻き出す)状態になる。W_ext は E7R の時計と同じ自己場除外の
     //     決定力(D₀+W_B+Σ_j≠i w_j)で、自分の表面値 m_i/√(R_i²+ε²) だけをここで足す。
@@ -8128,11 +8140,11 @@ function makeSim(){
     //   |s|·R ≪ c_surf となり lS_eff≈0 になる(第19便 反証条件7と整合 — この誠実性は仕様)。
     // 数値指定(既定)の粒子はこのブロックを 1 命令も通らない(hasLSwAuto=false ならループごと素通り)
     if(S.hasLSwAuto){
-      const KtA=p.Kt, c0A=p.cLight, qA=p.q;
+      const kapA=p.kappaT, c0A=p.cLight, qA=p.q;
       for(let i=0;i<n;i++){
         if(!S.lSwAuto[i]) continue;
         const Ri=R[i];
-        const psiS=(bgW + sumW[i] + m[i]/Math.sqrt(Ri*Ri+eps2))/KtA;
+        const psiS=(bgW + sumW[i] + m[i]/Math.sqrt(Ri*Ri+eps2))*kapA;
         const cS=c0A*Math.exp(-2*psiS);
         // 第75便→第81便: 主星2層の減光(2層減光形 — 原仮定者指示「外殻は重く・コアが高速スピンして
         // 光学的な影響範囲は狭い」の実装)。第81便でコアv1(比率仕様)の分岐を廃止し、
@@ -8140,7 +8152,7 @@ function makeSim(){
         //   殻:  ls_s = min(1, |s + (Mc/m)·(Ω_c−s)·f(Rc,R)|·R / c_surf)
         //        (コア差動が殻表面のフレームを回す分も含む — A8 コア差動形と同じ核 f=(Rc/(Rc+d))^q)
         //   コア: ls_c = min(1, |Ω_c−s|·Rc / c_core)。c_core はコア深さの ψ で算出
-        //        (ψ_core = (D+ΣW+|m|/√(Rc²+ε²))/Kt — 深いほど光が遅く、掻き出しやすい)
+        //        (ψ_core = (D+ΣW+|m|/√(Rc²+ε²))·κ — 深いほど光が遅く、掻き出しやすい)
         // 合成は層光度比の重み(T∝層質量比·半径²·スピン²。共通因子 m/2 は約分):
         //   lSw = (w_s·ls_s + w_c·ls_c)/(w_s+w_c)、w_s=(1−|Mc/m|)·R²·s²・w_c=|Mc/m|·Rc²·(Ω_c−s)²
         // コアなし・rigid(Ω_c≡s)は w_c=0・差動0 で従来式 min(1,|s|R/c_surf) と**厳密同値**
@@ -8159,7 +8171,7 @@ function makeSim(){
           const sSurf=si0 + mf*dOm*((qA===2)? tt*tt : Math.pow(tt,qA));
           let lsS=(cS>1e-12)? Math.abs(sSurf)*Ri/cS : 1;
           if(!(lsS>0)) lsS=0; else if(lsS>1) lsS=1;
-          const psiC=(bgW + sumW[i] + Math.abs(m[i])/Math.sqrt(Rci*Rci+eps2))/KtA;
+          const psiC=(bgW + sumW[i] + Math.abs(m[i])/Math.sqrt(Rci*Rci+eps2))*kapA;
           const cC=c0A*Math.exp(-2*psiC);
           let lsC=(cC>1e-12)? Math.abs(dOm)*Rci/cC : 1;
           if(!(lsC>0)) lsC=0; else if(lsC>1) lsC=1;
@@ -8837,7 +8849,7 @@ function makeSim(){
     // 弧長は dl=(c₀/n_eff)·dt。到着時は 1+z=a_obs/a_emit の帳簿を photonLog へ積む
     if(S.photons && S.photons.length){
       const pp=S.params;
-      const O={heavy:[], kU:2/pp.Kt, eps2:pp.softening*pp.softening, q:pp.q, c0:pp.cLight,
+      const O={heavy:[], kU:2*pp.kappaT, eps2:pp.softening*pp.softening, q:pp.q, c0:pp.cLight,
         D0:pp.D0, kF:pp.kFrame, BX:S.box, WB:0, bH:0};
       for(let i=0;i<n;i++) if(rayHeavy(S,i)) O.heavy.push(i);
       let aO=1;
@@ -8888,7 +8900,7 @@ function makeSim(){
     return {kin, rot, heat};
   };
   // E7R 固有時間(v1.7・ψ統一): dτ/dt = √(N²−A²|v−u|²/c₀²)、N=e^{−ψ}、A=e^{+ψ}、
-  // ψ = W_ext/Kt(外部の決定力のみ=自己場除外)。u は E3 と同じ自己除外フレーム。
+  // ψ = W_ext·κ(外部の決定力のみ=自己場除外。第128便: κ 正準)。u は E3 と同じ自己除外フレーム。
   // 弱場・低速で 1−ψ−|v−u|²/(2c₀²) となり旧 E7(1/(1+ψ))の一次形と一致し、
   // 共動フレームに対する運動の時間遅れが加わる(A7′。DERIVATIONS §10.4/§11)
   S.tauUpdate=function(i,dt){
@@ -8900,7 +8912,7 @@ function makeSim(){
       const bx=S.x[i]-B.cx, by=S.y[i]-B.cy, bH=S.boxA.H;
       ubx=WB*(B.vx - B.omega*by + bH*bx); uby=WB*(B.vy + B.omega*bx + bH*by); }
     const denom=S.params.D0+WB+S.sumW[i];
-    const psi=denom/S.params.Kt;
+    const psi=denom*S.params.kappaT;
     const N=Math.exp(-psi), A=Math.exp(psi);
     let rvx=0, rvy=0;
     if(denom>1e-9){ // フレーム不在(W_ext=0)なら運動は定義されず、運動時間遅れなし(T1 整合)
@@ -9156,8 +9168,8 @@ function restoreDraft(){
   if(!confirm(T("draftRestore"))) return;
   if(d.presetId && allPresets().some(p=>p.id===d.presetId)) loadPreset(d.presetId,false);
   { const ph=Object.assign({},DEFAULT_PHYSICS,d.physics);
-    if(isNum(ph.kappaT)){ if(!(d.physics&&isNum(d.physics.Kt)))
-      ph.Kt=(ph.kappaT===0)? CLAMPS.Kt[1] : clamp(1/ph.kappaT,CLAMPS.Kt[0],CLAMPS.Kt[1]); delete ph.kappaT; }
+    // 第128便: params は κ 正準 — 旧ドラフトの Kt は κ 未併記なら換算して受理し、キーは残さない
+    if("Kt" in ph){ if(!isNum(ph.kappaT) && isNum(ph.Kt)) ph.kappaT=ktToKappa(ph.Kt); delete ph.Kt; }
     sim.params=ph; } sim.updateRadii();
   if(d.cameraScale) camScale=d.cameraScale;
   // 第36便(P2-1): 箱設定の復元。プリセットに箱が無いのに箱設定だけ残る混乱を防ぐため sim.box が
@@ -9391,15 +9403,15 @@ function photonStep(S, ph, dt, O){
 }
 // E8R 光線積分(v1.7・ψ統一。描画と V8 検証で共有。偏向 α_max≥RAY_ALPHA_MIN の天体だけが
 // 曲げる近似 — 第45便 45A(台帳4-48)で固定質量 40 から偏向角基準 rayHeavy へ物理化)
-// 屈折率 n_eff = e^{2ψ} = e^{2W/Kt}(kLens 廃止 — 時計 E7R と同じ ψ が光を曲げる)。
-// 方向更新はフェルマー則 dĉ/dl = (∇n−(∇n·ĉ)ĉ)/n で、∇n/n = 2∇ψ = (2/Kt)∇W と
+// 屈折率 n_eff = e^{2ψ} = e^{2W·κ}(kLens 廃止 — 時計 E7R と同じ ψ が光を曲げる)。
+// 方向更新はフェルマー則 dĉ/dl = (∇n−(∇n·ĉ)ĉ)/n で、∇n/n = 2∇ψ = 2κ∇W と
 // 指数部が消えるため 2∇ψ を直接使う。位置更新に媒質随伴 u·(n_eff/c₀)·dl を加える(A11)。
 // emit(x,y) が false を返すと打ち切り。終端の位置と方向を返す。
 function traceRay(S, px, py, cxv, cyv, dl, maxSteps, emit){
   // v1.21(第9次裁定): 空間随伴項(u輸送)に kFrame を乗算 — UIの kFrame=0 が光でも
-  // 「引きずりなし」の対照実験になる(🌗spinlens)。屈折(ψ=W/Kt)は kFrame と無関係のまま。
+  // 「引きずりなし」の対照実験になる(🌗spinlens)。屈折(ψ=W·κ)は kFrame と無関係のまま。
   // 内蔵プリセットは kFrame=1(💡🌗)または源が静止・無スピン(🔭🛰)のため描画は不変。
-  const p=S.params, kU=2/p.Kt, eps=p.softening, eps2=eps*eps, q=p.q, c0=p.cLight, D0=p.D0, kF=p.kFrame;
+  const p=S.params, kU=2*p.kappaT, eps=p.softening, eps2=eps*eps, q=p.q, c0=p.cLight, D0=p.D0, kF=p.kFrame;
   const heavy=[];
   for(let i=0;i<S.n;i++) if(rayHeavy(S,i)) heavy.push(i);
   // 第31便: UniverseBox — W_B は一様(∇ψ 寄与なし=光は曲げない)だが、n_eff と
@@ -9452,7 +9464,7 @@ function traceRay(S, px, py, cxv, cyv, dl, maxSteps, emit){
       }
       tau+=kAbs*rho*dl;
     }
-    // 第36便 B3(原仮定者指示): emit へ Wtot も渡す(ψ=Wtot/Kt から波長色を計算する呼び出し側用。
+    // 第36便 B3(原仮定者指示): emit へ Wtot も渡す(ψ=Wtot·κ から波長色を計算する呼び出し側用。
     // 第3引数を使わない既存呼び出し元は変更不要 — 物理・光路の演算はここまで一切不変)
     // 第82便 A: 第4引数に累積 τ_ref を渡す(既定 kAbs=0 では常に 0 — 既存呼び出し元は不変)
     if(emit && emit(px,py,Wtot,tau)===false){ end="stopped"; break; }
@@ -9468,11 +9480,11 @@ const rayCtx=rayCv.getContext("2d");
 let rayKey="";
 function rayKeyOf(rays){
   let h=camX+","+camY+","+camScale+","+cw+","+ch+","+dpr+","+rays.n+","+rays.spread+","+
-    sim.params.Kt+","+sim.params.cLight+","+sim.params.D0+","+sim.params.q+","+
+    sim.params.kappaT+","+sim.params.cLight+","+sim.params.D0+","+sim.params.q+","+
     sim.params.softening+","+sim.params.kFrame+","+rayLambda0;   // 第37便 A3: λ0(表示専用)もキーに含める
   // 第31便: UniverseBox は a(t)・H で光学が変わる(static は定数なのでキャッシュ有効のまま)
   if(sim.box){ const sc=boxScaleAt(sim.box,sim.t); h+=";B"+sc.a.toFixed(6)+","+sc.H.toFixed(6)+","+sim.box.D; }
-  // 第45便 45A(台帳4-48): 源集合は rayHeavy(m, R, Kt, ε)で決まる。Kt・softening は上のキーに
+  // 第45便 45A(台帳4-48): 源集合は rayHeavy(m, R, κ, ε)で決まる。κ・softening は上のキーに
   // 含まれ、各源の m・R も1件ずつ並ぶので、集合が変われば必ずキーも変わる(追随性は
   // QA ray.alpha-threshold のキャッシュ節で機械検査する)
   for(let i=0;i<sim.n;i++) if(rayHeavy(sim,i))
@@ -9522,7 +9534,7 @@ function drawRays(){
     // 5nm量子化バケット、可視外は帯域値そのもの(負数なので可視バケットと衝突しない)をバケットに
     // 使う。これにより帯域境界をまたぐセグメントで確実に re-stroke される(5nm量子化のままだと
     // 10nm未満の帯域幅がバケット0〜2に潰れ、帯域遷移が描き分けられないため)
-    const Kt=sim.params.Kt, lam0=rayLambda0;
+    const kap=sim.params.kappaT, lam0=rayLambda0;
     const band=(nm)=> nm<0.01?-4 : nm<10?-3 : nm<380?-2 : nm<=780?0 : -1;   // 可視=0/赤外=-1/紫外=-2/X線=-3/γ線=-4
     // 第82便 A(光学輸送): ①体積吸収による**光線の減光**(セグメント不透明度を透過率
     // T(λ)=e^{−τ_ref(λ_ref/λ)^p} 倍にする。波長 nm はすでに重力赤方偏移込みなので、赤化は
@@ -9539,7 +9551,7 @@ function drawRays(){
       let trPrev=1, scAcc=0, scX=0, scY=0, scCol="#ffffff";
       rayCtx.beginPath(); rayCtx.moveTo(prevSX,prevSY);
       const rr=traceRay(sim, px, py, 1, 0, dl, maxSteps, (nx,ny,Wtot,tau)=>{
-        const psi=Wtot/Kt;
+        const psi=Wtot*kap;
         if(psi0===null) psi0=psi;
         const nm=lam0*Math.exp(psi0-psi), bd=band(nm), b=(bd===0)? Math.round(nm/5) : bd;
         const col=(bd===0)? wavelengthColor(b*5) : rayBandColor(nm);
@@ -10943,20 +10955,20 @@ function loop(now){
       txt+=`  z=${(rz.z>=0?"+":"")+rz.z.toFixed(3)}`;
       // 第50便 50C(台帳4-87): 二つのH推定器 — probeHud プリセットだけ、累積(t=0基準)の
       // H_w/H_geo を指数読み・反比例読みの2通りで1行追記する(他のプリセットでは1文字も
-      // 増えない)。式は V29/exp-4-66 と同一: 指数読み=(2(D/Kt)(1−a^{−dP})−ln(w/w0))/ln a、
+      // 増えない)。式は V29/exp-4-66 と同一: 指数読み=(2(D·κ)(1−a^{−dP})−ln(w/w0))/ln a、
       // 反比例読み=dP−ln(w/w0)/ln a。表示のみ — 物理には一切フィードバックしない
       if(sim.probeHud && sc.a>1.02 && sim.n>0){
-        const B=sim.box, KtV=sim.params.Kt;
+        const B=sim.box, kapV=sim.params.kappaT;   // 第128便: κ 正準(旧 D/Kt → D·κ)
         const w=Math.hypot(sim.vx[0]-sc.H*(sim.x[0]-B.cx), sim.vy[0]-sc.H*(sim.y[0]-B.cy));
         const lnA=Math.log(sc.a), adp=Math.pow(sc.a,-B.dPower);
         const lnW=Math.log(w/sim.probeHud.w0);
-        const rExp=(2*(B.D/KtV)*(1-adp)-lnW)/lnA;
+        const rExp=(2*(B.D*kapV)*(1-adp)-lnW)/lnA;
         const rInv=B.dPower-lnW/lnA;
-        const ana=2*(B.D/KtV)*(1-adp)/lnA;
-        // 第51便 51C(原仮定者指示): テンション類似行 — 点値 2(D/Kt)a^{−dP}(現在a)と
-        // a=2 の点値(=D/Kt — 実宇宙比 67.4/73.0≈0.923 と同水準の較正点)を常時表示
-        const pt=2*(B.D/KtV)*adp*B.dPower;
-        txt+=`\n${T("hudProbeH")(rExp,ana,rInv)}\n${T("hudProbeHTension")(pt,B.D/KtV)}`;
+        const ana=2*(B.D*kapV)*(1-adp)/lnA;
+        // 第51便 51C(原仮定者指示): テンション類似行 — 点値 2(D·κ)a^{−dP}(現在a)と
+        // a=2 の点値(=D·κ — 実宇宙比 67.4/73.0≈0.923 と同水準の較正点)を常時表示
+        const pt=2*(B.D*kapV)*adp*B.dPower;
+        txt+=`\n${T("hudProbeH")(rExp,ana,rInv)}\n${T("hudProbeHTension")(pt,B.D*kapV)}`;
       }
     }
     // 第51便 51D(原仮定者指示): 熱伝導の前線・列熱 — condHud プリセットだけ、pinned 熱浴の
@@ -11392,12 +11404,12 @@ function loadSave(s, selValue){
   // beta 専用サンプル〔melt/freeze 等〕のセーブを root で開くケースが典型)
   if(!exists){ notify(T("presetMissing"),4500); return; }
   loadPreset(s.presetId,false);
-  // 第125便: κ 正準セーブ(physics.kappaT)の読込 — 内部 Kt へ換算(旧セーブの Kt はそのまま)
-  if(s.physics && isNum(s.physics.kappaT)){
+  // 第128便: params は κ 正準 — κ 正準セーブ(physics.kappaT)はそのまま、旧セーブの
+  // physics.Kt は kappaT 未併記なら κ へ換算して受理する(いずれも Kt キーは残さない)
+  if(s.physics && ("Kt" in s.physics)){
     s.physics=Object.assign({},s.physics);
-    if(!isNum(s.physics.Kt)) s.physics.Kt=(s.physics.kappaT===0)? CLAMPS.Kt[1]
-      : clamp(1/s.physics.kappaT,CLAMPS.Kt[0],CLAMPS.Kt[1]);
-    delete s.physics.kappaT;
+    if(!isNum(s.physics.kappaT) && isNum(s.physics.Kt)) s.physics.kappaT=ktToKappa(s.physics.Kt);
+    delete s.physics.Kt;
   }
   sim.params=Object.assign({},DEFAULT_PHYSICS,s.physics); sim.updateRadii();
   if(s.cameraScale) camScale=s.cameraScale;
@@ -11437,7 +11449,7 @@ function loadSave(s, selValue){
     C:isNum(s.scaleExps.C)? s.scaleExps.C : null });
   // 第110便(原仮定者指示): 物理対応ロックをセーブ単位で復元。キー無しの旧セーブは解除になり、
   // プリセット読込時の自動解除と同じ帰結(意図しない持ち越しが起きない)。ONの復元は保存済み
-  // physics(導出Ktを含む)の上に enforcePhysLock が走るだけなので値は変わらない
+  // physics(導出 κ を含む)の上に enforcePhysLock が走るだけなので値は変わらない
   setPhysLock(!!s.physLock);
   // 第124便: qLock の復元 — 復元した状態から q を再算出(physLock と同型。旧セーブはキー無しでOFF)
   qLockOn=!!s.qLock;
@@ -11448,7 +11460,7 @@ function loadSave(s, selValue){
 }
 function loadPreset(id, keepPhysics){
   if(ab) abStop();          // プリセット切替・通常ロードで A/B は解除(v1.13)
-  // 第110便(原仮定者指示): ロックが別サンプルへ持ち越されて意図しないパラメータ(Kt上書き)に
+  // 第110便(原仮定者指示): ロックが別サンプルへ持ち越されて意図しないパラメータ(κ上書き)に
   // なるのを防ぐ — 通常のプリセット読込でロックを自動解除する。⏮初めから(keepPhysics)は
   // 同一サンプルの継続なので現状維持。セーブ読込は loadSave 側で保存時の状態を復元する
   if(physLock && !keepPhysics) setPhysLock(false);
@@ -11622,10 +11634,9 @@ function abStart(key, valB, bodyPatch){
         if(!(k in CLAMPS)) continue;
         ab.simB.params[k]=clamp(bodyPatch.physicsPatch[k],CLAMPS[k][0],CLAMPS[k][1]);
       }
-      // 第125便: kappaT(κ 正準)patch — 内部 Kt へ換算
-      if(isNum(bodyPatch.physicsPatch.kappaT))
-        ab.simB.params.Kt=(bodyPatch.physicsPatch.kappaT===0)? CLAMPS.Kt[1]
-          : clamp(1/bodyPatch.physicsPatch.kappaT,CLAMPS.Kt[0],CLAMPS.Kt[1]);
+      // 第128便: kappaT は上の汎用 CLAMPS ループが拾う。旧 Kt patch のみ κ へ換算(κ 併記時は κ 優先)
+      if(!isNum(bodyPatch.physicsPatch.kappaT) && isNum(bodyPatch.physicsPatch.Kt))
+        ab.simB.params.kappaT=ktToKappa(bodyPatch.physicsPatch.Kt);
       // 第123便: physicsPatch.qLock:true — B側の q を自動算出(🌙のワンタップが 🌘 と同じ較正になる)
       if(bodyPatch.physicsPatch.qLock) applyQLock(ab.simB);
       ab.simB.updateRadii();
@@ -11755,9 +11766,8 @@ $("#btnReset").addEventListener("click",()=>{
         for(const k of Object.keys(ab.bodyPatch.physicsPatch)){
           if(k in CLAMPS) ab.simB.params[k]=clamp(ab.bodyPatch.physicsPatch[k],CLAMPS[k][0],CLAMPS[k][1]);
         }
-        if(isNum(ab.bodyPatch.physicsPatch.kappaT))
-          ab.simB.params.Kt=(ab.bodyPatch.physicsPatch.kappaT===0)? CLAMPS.Kt[1]
-            : clamp(1/ab.bodyPatch.physicsPatch.kappaT,CLAMPS.Kt[0],CLAMPS.Kt[1]);   // 第125便
+        if(!isNum(ab.bodyPatch.physicsPatch.kappaT) && isNum(ab.bodyPatch.physicsPatch.Kt))
+          ab.simB.params.kappaT=ktToKappa(ab.bodyPatch.physicsPatch.Kt);   // 第128便: 旧 Kt patch の後方互換
         if(ab.bodyPatch.physicsPatch.qLock) applyQLock(ab.simB);   // 第123便
         ab.simB.updateRadii();
       }
@@ -11859,9 +11869,10 @@ $("#btnPanelClose").addEventListener("click",closePanel);  // v1.17: パネル�
 // v1.22(第9次裁定 4.6): サンプル別 activeParams — プリセットが宣言した「主役」の
 // パラメータを先頭グループに出し、残りは折りたたみ「詳細設定」へ。全キーは常に編集可能
 // (ロックはしない)。activeParams のないプリセット(AI生成・旧セーブ)は従来表示。
-// ===== v1.26: 物理対応ロック Kt=cLight²/G(決断事項4-12承認・第10次裁定P0-2) =====
-// グローバルUI設定(プリセット/セーブのスキーマは拡張しない)。ONの間、時計・光のKtを
-// E12・運動時間項が参照するcLightと重力Gから導出される対応条件 Kt=cLight²/G に自動維持する。
+// ===== v1.26: 物理対応ロック(第128便で正準形を κ=G/cLight² へ — 旧 Kt=cLight²/G の逆数。
+// =====   決断事項4-12承認・第10次裁定P0-2) =====
+// グローバルUI設定(プリセット/セーブのスキーマは拡張しない)。ONの間、時計・光の κ を
+// E12・運動時間項が参照するcLightと重力Gから導出される対応条件 κ=G/cLight² に自動維持する。
 // 第123便(原仮定者指示): qLock — 引きずり減衰 q の自動算出(LT整合則)。
 // スピン項 ω(d)=s·(R/(R+d))^q の LT に対する振幅超過 X=1.25·c₀²R/(GM) は軌道 a・スピン s に
 // 依らない(第122便の抑制率則の帰結)ため、参照軌道 a(支配源から見た自由天体の初期距離の
@@ -11900,20 +11911,24 @@ function setQLock(v){
 let physLock=false;
 let paramRowSync={};   // 第54便 54D④: key→UI行の表示更新関数の**配列**(主役+詳細の重複行に対応)
 function syncParamRow(key){ (paramRowSync[key]||[]).forEach(f=>f()); }
+// 第128便: 正準形を κ=G/cLight² へ(旧 Kt=cLight²/G の逆数)。G=0 は κ=0 が**正確値**に
+// なり(旧版は Kt=∞ をクランプする近似だった)、clamped=false で厳密成立する。
+// cLight は CLAMPS で ≥1 なので除算は安全
 function physLockCalc(S){
-  const p=S.params, c=CLAMPS.Kt;
-  const tgt=(p.G>0)? (p.cLight*p.cLight)/p.G : Infinity;
-  const applied=clamp(isFinite(tgt)?tgt:c[1], c[0], c[1]);
-  const clamped=!(isFinite(tgt) && Math.abs(applied-tgt)<=1e-9*Math.abs(tgt));
+  const p=S.params, c=CLAMPS.kappaT;
+  const tgt=(p.G>0)? p.G/(p.cLight*p.cLight) : 0;
+  const applied=clamp(tgt,c[0],c[1]);
+  const clamped=(applied!==tgt);
   return {tgt, applied, clamped};
 }
 function physLockSatisfied(S){
   const p=S.params;
-  return p.G>0 && Math.abs(p.Kt-(p.cLight*p.cLight)/p.G)<=1e-6*Math.max(1,Math.abs(p.Kt));
+  const t=(p.G>0)? p.G/(p.cLight*p.cLight) : 0;
+  return Math.abs(p.kappaT-t)<=1e-6*Math.max(p.kappaT,t,1e-12);   // G=0 かつ κ=0 は厳密成立
 }
 function enforcePhysLock(targets){
-  for(const S of targets) S.params.Kt=physLockCalc(S).applied;
-  syncParamRow("Kt");
+  for(const S of targets) S.params.kappaT=physLockCalc(S).applied;
+  syncParamRow("kappaT");
   updatePhysLockBadge();
 }
 function updatePhysLockBadge(){
@@ -11925,7 +11940,7 @@ function updatePhysLockBadge(){
 function setPhysLock(v){
   physLock=!!v;
   if(physLock) enforcePhysLock(ab?[sim,ab.simB]:[sim]);
-  else { syncParamRow("Kt"); updatePhysLockBadge(); }   // 第110便: 解除時も Kt 行のグレーアウトを解く
+  else { syncParamRow("kappaT"); updatePhysLockBadge(); }   // 第110便: 解除時も κ 行のグレーアウトを解く
   const cb=document.getElementById("physLockCb"); if(cb) cb.checked=physLock;
   requestRender();
 }
@@ -11934,7 +11949,7 @@ function setPhysLock(v){
 // (描画フレームあたりの進み)を保つ実験的機能。変換表(96B): G・bM・contactK/contactCap ×k²/
 // etaRad・kappaS ×k/timeScale ÷k/速度・スピン・コアΩ(J)×k/内部エネルギー・T_int ×k²/
 // コア sourceRate ×k³/箱 H0・freq ×k(S.t ÷k で a(t)=e^{H0·t} は連続)。τ も ÷k(新時間単位)。
-// Kt は c²/G が不変なので据置(物理対応ロックと整合)。スライダードラッグの微小変化は
+// κ は G/c² が不変なので据置(物理対応ロックと整合)。スライダードラッグの微小変化は
 // 乗法的に合成される(k₁·k₂ = 通算k)ため、途中経過に依らず最終 c₀ だけで決まる(クランプ時を除く)。
 // 限界(ヘルプ明記): サブステップ離散化・値域クランプ・etaRad の T^p(p≠1)では厳密相似が破れる。
 // photonEmit 等の宣言スケジュール時刻は変換されない(実験的機能の域外)。
@@ -12506,12 +12521,15 @@ function buildParamRows(){
     const rng=document.createElement("input"); rng.type="range";
     if(def.mode==="log"){ rng.min=0; rng.max=1000; rng.step=1; }
     else { rng.min=def.lo; rng.max=def.hi; rng.step=def.step; }
-    // 第124便: inv 定義(κ=1/Kt 編集)— UI は def 値域(κ)・params は内部値(Kt)
+    // 第124便: inv 定義(UI 値=1/params 値の逆数編集)— 第128便で κ が正準になったため
+    // 現用の def は無い(機構だけ温存 — 将来また逆数編集が要るときのため)。
+    // 第128便: sci:true = 逆数変換なしで「0 表示・1e-4 未満は指数表示・zeroLeft は 1e-12 で 0」
+    // という旧 κ(inv)世代の表示規約だけを引き継ぐフラグ(kappaT が使う)
     const rd=()=> def.inv? 1/showSim.params[key] : showSim.params[key];
     const wr=(v)=> def.inv? 1/v : v;
-    const v2p=(v)=> (def.zeroLeft && v<=(def.inv?1e-12:0))? (def.mode==="log"?0:+def.lo) : valToSliderPos(def,v);   // 第125便: 0 は左端へ
-    const fmtV=(v)=> (def.inv && v<=1e-12)? "0"
-      : (def.inv && isFinite(v) && v>0 && v<1e-4)? v.toExponential(3) : fmt(v);
+    const v2p=(v)=> (def.zeroLeft && v<=((def.inv||def.sci)?1e-12:0))? (def.mode==="log"?0:+def.lo) : valToSliderPos(def,v);   // 第125便: 0 は左端へ
+    const fmtV=(v)=> ((def.inv||def.sci) && v<=1e-12)? "0"
+      : ((def.inv||def.sci) && isFinite(v) && v>0 && v<1e-4)? v.toExponential(3) : fmt(v);
     rng.value=v2p(rd());
     // 直値入力欄(スライダー範囲外の値もバリデータ値域 CLAMPS まで設定可)
     // (第94便: 第93便の指数表示変換〔texp〕は原仮定者指示で撤回)
@@ -12520,7 +12538,7 @@ function buildParamRows(){
     num.inputMode=(CLAMPS[key] && CLAMPS[key][0]<0)?"text":"decimal";
     num.autocomplete="off"; num.value=fmtV(rd());
     // 第74便: スケール換算値の副表示(表示専用・物理不変)。「表示」のトグルON かつ次元のある
-    // パラメータ(G/cLight/g_x/g_y/ε/D0/Kt)だけ "≈1.2e7 m/s" を数値欄の下に添える
+    // パラメータ(G/cLight/g_x/g_y/ε/D0/κ)だけ "≈1.2e7 m/s" を数値欄の下に添える
     const conv=document.createElement("span"); conv.className="convVal";
     const updConv=()=>{ const s0=(scaleDispOn? scaleConvStr(key,showSim.params[key]) : null);
       conv.textContent=s0||""; conv.style.display=s0? "" : "none"; };
@@ -12549,19 +12567,19 @@ function buildParamRows(){
       }
       if(ab){ ab.lastKey=key; ab.lastBox=null; }  // v1.19: A/B比較中は「最後に調整したパラメータ」を両画面に表示(第96便: 箱宇宙側の表示は解除)
       setParamsDirty(true);  // v1.17: 未保存の編集あり(バックアップ対象外の注意喚起に使用)
-      // v1.26: 物理対応ロック — Kt/cLight/G の編集後に Kt=cLight²/G を自動維持
-      // (Ktの直接編集も導出値へ戻す)。ロックOFF時もバッジの成立表示を更新する
-      if(key==="Kt"||key==="cLight"||key==="G"){
+      // v1.26: 物理対応ロック — κ/cLight/G の編集後に κ=G/cLight² を自動維持(第128便: κ 正準)
+      // (κの直接編集も導出値へ戻す)。ロックOFF時もバッジの成立表示を更新する
+      if(key==="kappaT"||key==="cLight"||key==="G"){
         if(physLock) enforcePhysLock(targets); else updatePhysLockBadge();
       }
       requestRender();   // v1.22: 停止中でも変更を即反映
       return targets[0].params[key];   // v1.26: ロックによる上書き後の実値を返す
     };
     // 第54便 54D④: 重複行の相互同期 — 自分以外の同一キー行を追随させる
-    // 第110便(原仮定者指示): 物理対応ロック中は Kt が導出値になるため、Kt 行の
+    // 第110便(原仮定者指示): 物理対応ロック中は κ が導出値になるため、κ 行の
     // スライダー・直値入力を編集不可(グレーアウト)にする。解除で編集可へ戻す
     const syncFn=()=>{ rng.value=v2p(rd()); num.value=fmtV(rd()); updConv();
-      if(key==="Kt"){ rng.disabled=physLock; num.disabled=physLock; row.classList.toggle("lockedRow",physLock); }
+      if(key==="kappaT"){ rng.disabled=physLock; num.disabled=physLock; row.classList.toggle("lockedRow",physLock); }
       // 第123便: qLock サンプルでは q は自動算出(LT整合則)— 編集対象から外す
       if(key==="q" && qLockOn){ rng.disabled=true; num.disabled=true; row.classList.add("lockedRow");
         num.title=rng.title="qLock: q は自動算出(q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) — LT整合則。サンプル宣言)"; } };
@@ -12579,7 +12597,7 @@ function buildParamRows(){
       const v=parseFloat(num.value.replace(/[,、\s]/g,"").replace(/[−ー–—－]/g,"-"));  // v1.24: 全角マイナス等も受理
       // v1.19: 直値入力はそのまま反映(fmt で丸めた表示に置き換えない。値域外のみクランプ値を表示)
       if(isFinite(v)){ const applied=setParam(wr(v)); const uiV=def.inv? 1/applied : applied;
-        rng.value=v2p(uiV); num.value=def.inv? fmtV(uiV) : String(uiV); }
+        rng.value=v2p(uiV); num.value=(def.inv||def.sci)? fmtV(uiV) : String(uiV); }
       else num.value=fmtV(rd());
       updConv();
       syncOthers();
@@ -13063,8 +13081,8 @@ $("#btnSave").addEventListener("click",()=>{
   const name=($("#saveName").value.trim()||T("untitled")+" "+new Date().toLocaleString(LANG==="en"?"en-US":"ja-JP"));
   const item={ name, comment:$("#saveComment").value, savedAt:new Date().toISOString(),
     presetId:currentPreset.id, presetName:currentPreset.name,
-    physics:(()=>{ const o=Object.assign({},sim.params);   // 第125便: κ 正準セーブ(Kt→kappaT)
-      o.kappaT=(o.Kt>=CLAMPS.Kt[1])? 0 : 1/o.Kt; delete o.Kt; return o; })(), cameraScale:camScale };
+    physics:Object.assign({},sim.params),   // 第128便: params 自体が κ 正準になったので直コピー(旧: Kt→kappaT 変換 IIFE)
+    cameraScale:camScale };
   // 第33便(台帳4-64): sim.box があれば箱パラメータの実行中編集をセーブへ含める
   // (photonEmit は含めない — プリセット由来のまま。実装3)
   if(sim.box) item.universeBox=Object.assign({},sim.box);
@@ -13094,7 +13112,7 @@ $("#btnSave").addEventListener("click",()=>{
   // 読込側 loadSave で復元し、ロックの意図しない持ち越し/喪失を防ぐ
   if(physLock) item.physLock=true;
   if(qLockOn) item.qLock=true;   // 第124便: qLock もセーブ保存
-  item.kappaT=1/sim.params.Kt;   // 第124便: κ=1/Kt を編集正準としてセーブに明示(読込は physics.Kt / kappaT どちらでも可)
+  item.kappaT=sim.params.kappaT;   // 第124便: κ を編集正準としてセーブに明示(第128便: params が κ 正準なので直代入。読込は physics.Kt / kappaT どちらでも可)
   try{ const a=getSaves(); a.unshift(item); setSaves(a); }
   catch(e){ alert(T("saveFailed")); return; }
   $("#saveComment").value="";
@@ -13407,14 +13425,14 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 - 放射冷却: etaRad>0 にすると温度の高い粒子ほど速く冷えて暗くなる(急峻さはpRad)。加熱・冷却・重力を組み合わせると対流・蒸発・凝集が作れる。
 - 空間は質量に引きずられる(kFrame: 0=通常のニュートン力学, 1=完全な相対空間)。背景決定力D0が大きいほど空間が安定する。
 - 一様重力場: physics.gravityY>0 で画面全体に一様な下向きの外力場がかかる(gravityXは横方向)。地上の実験室・対流・落下のデモに使う。時計や光を歪めないので、画面外に遠方大質量を置く旧手法より安定する。目安は0.02〜0.1。
-- rays を指定すると左端から光線が飛び、質量の近くで曲がる(曲がりの強さと時間の遅れは同じKtで決まり、Ktが小さいほど強い)。超大質量(2000〜3000)をpinnedで置きKtを40〜60に下げると、近くを通る光が捕まって周回する=ブラックホールの光学類似(光子捕捉)。ただし中心のスピンは0〜0.5に抑える(スピンが大きいと空間の引きずりが光を外へ流し、捕捉が消える)。
+- rays を指定すると左端から光線が飛び、質量の近くで曲がる(曲がりの強さと時間の遅れは同じ κ(kappaT)で決まり、κ が大きいほど強い)。超大質量(2000〜3000)をpinnedで置き κ を 0.017〜0.025 に上げると、近くを通る光が捕まって周回する=ブラックホールの光学類似(光子捕捉)。ただし中心のスピンは0〜0.5に抑える(スピンが大きいと空間の引きずりが光を外へ流し、捕捉が消える)。
 - overlays: rotationCurve=回転曲線グラフ, tempHistogram=左右の平均温度グラフ, field=決定力マップ(レンズ系で推奨), spectrum=放射スペクトル。
 - 原点は画面中央。camera.scale は画面短辺の半分に相当するワールド長。
 
 # 要望→設定の対応(よくある意図の目安)
 - 爆発・吹き飛ばす: kRep 5〜10 + muF 0.7〜1(衝突で加熱→スピン斥力で飛散)。中心に高スピン(3〜5)の重い single を置くと勢いが出る。
 - 見えない天体・ダークマター的: single に lightSweep 0.8〜1(見た目は暗いが質量・重力はそのまま)。
-- 光を曲げる・ブラックホール: rays + Kt 40〜60 + 中心 pinned 大質量(2000〜3000)・スピン0〜0.5。
+- 光を曲げる・ブラックホール: rays + κ(kappaT)0.017〜0.025 + 中心 pinned 大質量(2000〜3000)・スピン0〜0.5。
 - 加熱・冷却: ヒーター=pinned 高スピン(8〜12)の列、冷却板=pinned スピン0 の列。系全体を冷やすなら etaRad 0.005〜0.05。
 - 銀河・渦巻き・円盤: 中心 single(質量500〜2000)+ disk vMode:"kepler" aroundMass=中心質量。
 - 地上実験・落下・対流: gravityY 0.02〜0.1 + world.boundary:"box"。自己重力は G=0〜0.05。
@@ -13431,8 +13449,8 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
 6. name は30字以内、description は200字程度の日本語(上限は9000字。超えると切り詰められる)。emoji は絵文字1文字。
-7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1, q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし〔内部では Kt=1e12〕・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100, massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
-8. κ 正準化(第124〜125便): 時空係数の正準キーは physics.kappaT(κ=1/Kt・G/c² と同次元)。旧 Kt キーも後方互換で受理する(kappaT と併記時は kappaT 優先)。アプリの「時空」カテゴリでは κ を編集し、セーブ・プリセット・few-shot とも kappaT で記す。
+7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1, q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100, massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
+8. κ 正準化(第124〜125便): 時空係数の正準キーは physics.kappaT(κ=1/Kt・G/c² と同次元)。旧 Kt キーも後方互換で受理する(kappaT と併記時は kappaT 優先)。アプリの「時空」カテゴリでは κ を編集し、セーブ・プリセット・few-shot とも kappaT で記す。第128便で内部エンジンも κ 正準(ψ=W·κ)になり、Kt は境界で受理する後方互換の入力キーだけになった。
 8. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 
 # ジェネレータ(bodiesの要素。typeごとに全フィールド必須)
@@ -14227,12 +14245,12 @@ function updateBodyEdit(){
       const eps2=p.softening*p.softening;
       const dOm=Omc-Oms;
       const amf=Math.abs(mf);   // cavity の負の重みでも光度比の重みは非負(物理側と同じ)
-      const psiS=(bgW + S.sumW[i] + S.mEff[i]/Math.sqrt(Ri*Ri+eps2))/p.Kt;
+      const psiS=(bgW + S.sumW[i] + S.mEff[i]/Math.sqrt(Ri*Ri+eps2))*p.kappaT;
       const cS=p.cLight*Math.exp(-2*psiS);
       const tt=Rci/(Rci+Ri);
       const sSurf=Oms + mf*dOm*((p.q===2)? tt*tt : Math.pow(tt,p.q));
       lsS=(cS>1e-12)? Math.abs(sSurf)*Ri/cS : 1; if(!(lsS>0)) lsS=0; else if(lsS>1) lsS=1;
-      const psiC=(bgW + S.sumW[i] + mAbs/Math.sqrt(Rci*Rci+eps2))/p.Kt;
+      const psiC=(bgW + S.sumW[i] + mAbs/Math.sqrt(Rci*Rci+eps2))*p.kappaT;
       const cC=p.cLight*Math.exp(-2*psiC);
       lsC=(cC>1e-12)? Math.abs(dOm)*Rci/cC : 1; if(!(lsC>0)) lsC=0; else if(lsC>1) lsC=1;
       const wS=(1-amf)*Ri*Ri*Oms*Oms, wC=amf*Rci*Rci*dOm*dOm;
