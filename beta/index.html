@@ -711,6 +711,8 @@ ja: {
   physLockOnClamped:"⚠ ロック中: 導出値が値域外のため Kt をクランプ(対応は近似)",
   physLockOffOk:"✓ ロック解除中(現在値は条件 Kt=cLight²/G を満たしています)",
   physLockOffNg:"⚠ 一般化トイ設定 — GR較正条件外(Kt≠cLight²/G)",
+  qLockLabel:"q自動算出 qLock(LT整合則)",
+  qLockDesc:"ONの間、「引きずり減衰 q」を LT整合則 q*=3+ln(1.25·c₀²R/GM)/ln((R+a)/R)(R,M=支配源の半径・質量、a=支配源から見た自由天体の距離の中央値)から自動算出します(第123便 — tests/exp-kf1d.mjs)。q はグレーアウトされ編集できません。OFFにすると q を手動編集できます(較正主張の域外)。状態はセーブデータに保存され、読込時は復元した状態から再算出します。qLock宣言サンプル(🌘🪨💿)は読込時に自動でONになります。",
   cLinkLabel:"相似変換連動(実験的)",
   cLinkDesc:"ONの間、「光速 c₀」を変更すると k=新c₀/旧c₀ の力学的相似変換を現在の状態へ自動適用し、見た目の運動を保ちます(G・bM・接触定数 ×k²/η_rad・κs ×k/時間倍率 ÷k/速度・スピン・コアΩ ×k/内部エネルギー ×k²/コア源 ×k³/箱 H0 ×k)。Kt は c²/G が不変なので据え置かれ、物理対応ロックとも整合します。スケールフリーなエンジンでは c₀ の値そのものに意味はなく、この連動で「c₀ を変えても同じ宇宙を記述できる」ことを確かめられます。注意: サブステップ離散化・値域クランプ(特に時間倍率 0.01〜100)・放射冷却の T^p(p≠1)では厳密相似が破れます。画面全体の実験的設定で、プリセットやセーブには保存されません。",
   cLinkApplied:(k)=>"相似変換を適用: k="+k+"(G×k²・速度×k・時間倍率÷k 等)",
@@ -1119,6 +1121,8 @@ en: {
   physLockOnClamped:"⚠ Locked: derived value out of range — Kt clamped (approximate correspondence)",
   physLockOffOk:"✓ Unlocked (current values happen to satisfy Kt=cLight²/G)",
   physLockOffNg:"⚠ Generalized toy setting — outside GR calibration (Kt≠cLight²/G)",
+  qLockLabel:"Auto-derived q — qLock (LT-matching rule)",
+  qLockDesc:"While ON, the drag falloff q is auto-derived from the LT-matching rule q*=3+ln(1.25·c₀²R/GM)/ln((R+a)/R) (R, M = dominant source; a = median distance of free bodies) — wave 123, tests/exp-kf1d.mjs. The q slider is greyed out. Turn OFF to edit q manually (outside the calibration claim domain). The state is stored in save data; on load, q is re-derived from the restored state. qLock-declared samples (🌘🪨💿) switch it ON automatically.",
   cLinkLabel:"Similarity-transform link (experimental)",
   cLinkDesc:"While ON, changing the light speed c₀ automatically applies the dynamical similarity transform with k = new c₀ / old c₀ to the current state, preserving the visible motion (G, b_m, contact constants ×k²; η_rad, κs ×k; time scale ÷k; velocities, spins, core Ω ×k; internal energy ×k²; core source ×k³; box H0 ×k). Kt stays put since c²/G is invariant — consistent with the correspondence lock. In a scale-free engine the value of c₀ itself carries no meaning; this link lets you verify that the same universe can be described at any c₀. Caveats: exact similarity breaks under substep discretization, range clamps (especially time scale 0.01–100), and radiative cooling's T^p with p≠1. A global experimental setting — not stored in presets or saves.",
   cLinkApplied:(k)=>"Similarity transform applied: k="+k+" (G×k², velocities ×k, time scale ÷k, …)",
@@ -2023,8 +2027,6 @@ const PARAM_DEFS = [
   // 第95便(原仮定者指示): 「重力 G」は「光速 c₀」の次へ移動(配列順=表示順。定義内容は不変)
   {key:"D0",    label:"背景決定力 D₀",       mode:"log", lo:0.005,  hi:1e6,  cat:"dg", group:"法則",   /* 第120便: lo 0.005 / 第121便: hi 1e6(🪨の引きずり抑制較正 D₀=1e4 を被覆) */
    desc:"遠方宇宙が及ぼす決定力の底値(A5)。大きいほど空間が遠方に固定されて安定し、近くの質量による空間引きずり(kFrame)の効きが相対的に弱まる。"},
-  {key:"kFrame",label:"空間引きずり kFrame", mode:"lin", lo:0, hi:1, step:0.01, cat:"dg", group:"法則",
-   desc:"質量が動く・回ると「近くの空間」(決定フレーム)ごと引きずり、そこにある物質と光を運ぶ効果の強さ(A4/A5/E6′)。1=完全な相対空間、0=引きずりなしのニュートン的空間。銀河外縁の回転速度増強(T4)の主役。"},
   {key:"q",     label:"引きずり減衰 q",      mode:"lin", lo:0.5, hi:40, step:0.05, cat:"dg", group:"法則",
    desc:"スピン(自転)による回転引きずりが距離とともに弱まる速さの指数(E3: (R/(R+d))^q)。大きいほど引きずりが天体の近くに限定される。"},
   {key:"kRep",  label:"スピン斥力 kRep",     mode:"lin", lo:0, hi:20, step:0.1, cat:"sh", group:"法則",   /* 第56便 56A: 🧬emergent(kRep=20)を範囲内に — CLAMPS 上限と一致 */
@@ -2055,6 +2057,8 @@ const PARAM_DEFS = [
    desc:"画面全体に働く縦方向の一様な外部重力場(+yは画面下向き)。⚾自由落下・♨️対流・🧪浮力の「下向きの重力」はこれ。ビーカータグ(♨️🧪)は 0.031(換算 ≈9.8 m/s² — 第98便: 旧日常較正を引き継ぎ)、日常タグ(⚾)は実値 9.8(そのまま 9.8 m/s²)を既定とする。0にすると無重力になる。"},
   {key:"geoPN",   label:"測地線モード geoPN", mode:"lin", lo:0, hi:2, step:1,    cat:"dg", group:"法則",
    desc:"v2.0の測地線モード(E12)。1にすると、時計を遅らせるのと同じψ=W/Ktから物質の運動を作用原理で導き、1PN補正が働く(☿)。同時に物質へのE6′引きずりは無効化(二重計上禁止)。2にすると v−u 統一測地線則(v2.0第2段階): u≠0 のまま導いた式で、フレーム輸送・渦度コリオリ(引きずりの正体)・1PN が一本の式から出る — kFrame=0 では 1 と厳密に同じ。0=従来(legacy)。"},
+  {key:"kFrame",label:"空間引きずり kFrame", mode:"lin", lo:0, hi:1, step:0.01, cat:"dg", group:"法則",
+   desc:"質量が動く・回ると「近くの空間」(決定フレーム)ごと引きずり、そこにある物質と光を運ぶ効果の強さ(A4/A5/E6′)。1=完全な相対空間、0=引きずりなしのニュートン的空間。銀河外縁の回転速度増強(T4)の主役。"},   // 第124便(原仮定者指示): geoPN の次へ移動
   {key:"lambdaPN",label:"1PN補正 λ_PN",      mode:"lin", lo:0, hi:1, step:0.05, cat:"dg", group:"法則",
    desc:"測地線モード(geoPN≥1 — geoPN=2 の a₁ₚₙ(w) 項も同じスイッチで制御)の1PN補正の強さ(0〜1の連続値 — 第110便で整数制限を撤廃)。1PN加速度は λ_PN/c₀² に比例するので、c₀を固定したまま1PN強度だけを較正できる。0にするとニュートン重力に戻り、楕円軌道が閉じる — ☿水星のA/B対照実験用。"},
   {key:"pnAlpha", label:"1PN係数 α(0.5=時間率のみ, 1.5=完全)", mode:"lin", lo:0.5, hi:1.5, step:0.5, cat:"dg", group:"法則",
@@ -11396,6 +11400,9 @@ function loadSave(s, selValue){
   // プリセット読込時の自動解除と同じ帰結(意図しない持ち越しが起きない)。ONの復元は保存済み
   // physics(導出Ktを含む)の上に enforcePhysLock が走るだけなので値は変わらない
   setPhysLock(!!s.physLock);
+  // 第124便: qLock の復元 — 復元した状態から q を再算出(physLock と同型。旧セーブはキー無しでOFF)
+  qLockOn=!!s.qLock;
+  if(qLockOn) applyQLock(sim);
   setParamsDirty(false);
   buildParamRows(); notify(T("loadedAs")(s.name));
   if(selValue) setPresetSelectValue(selValue);
@@ -11837,6 +11844,13 @@ function qLockCalc(S){
   return { q:clamp(q,cc[0],cc[1]), aRef:a, X, clamped:(q<cc[0]||q>cc[1]) };
 }
 function applyQLock(S){ const r=qLockCalc(S); if(r) S.params.q=r.q; return r; }
+// 第124便(原仮定者指示「qLock のセーブ保存を進める」): 手動トグル+セーブ保存(physLock と同型)
+function setQLock(v){
+  qLockOn=!!v;
+  if(qLockOn){ applyQLock(sim); if(ab) applyQLock(ab.simB); }
+  const cb=document.getElementById("qLockCb"); if(cb) cb.checked=qLockOn;
+  buildParamRows(); requestRender();
+}
 let physLock=false;
 let paramRowSync={};   // 第54便 54D④: key→UI行の表示更新関数の**配列**(主役+詳細の重複行に対応)
 function syncParamRow(key){ (paramRowSync[key]||[]).forEach(f=>f()); }
@@ -12555,7 +12569,9 @@ function buildParamRows(){
     const badge=document.createElement("div"); badge.id="physLockBadge";
     badge.style.cssText="font-size:12px;opacity:.9;padding:2px 4px 4px;";
     g.appendChild(badge);
-    // 第100便(Gemini 提案2): 相似変換連動モードのトグル(物理対応ロックの直下 — c₀ の隣接文脈)
+    // 第100便(Gemini 提案2): 相似変換連動モードのトグル
+    // 第124便(原仮定者指示): 「光速 c₀」行の直前へ移動(行は先に作り、st ループ内で挿入)
+    let cLinkRow=null;
     {
       const row2=document.createElement("div"); row2.className="prow";
       const lab2=document.createElement("label"); lab2.textContent=T("cLinkLabel");
@@ -12570,12 +12586,27 @@ function buildParamRows(){
       });
       const cb2=document.createElement("input"); cb2.type="checkbox"; cb2.id="cLinkCb"; cb2.checked=cLink;
       cb2.addEventListener("change",()=>setCLink(cb2.checked));
-      row2.appendChild(lab2); row2.appendChild(cb2); g.appendChild(row2);
+      row2.appendChild(lab2); row2.appendChild(cb2); cLinkRow=row2;
     }
-    for(const def of catDefs("st")) mkParamRow(def,g);
+    for(const def of catDefs("st")){ if(def.key==="cLight" && cLinkRow) g.appendChild(cLinkRow); mkParamRow(def,g); }
   }
   { const g=mkCat(T("grpSpinHeat"),T("grpSpinHeatDesc"));  for(const def of catDefs("sh")) mkParamRow(def,g); }
-  { const g=mkCat(T("grpDrag"),T("grpDragDesc"));      for(const def of catDefs("dg")) mkParamRow(def,g); }
+  { const g=mkCat(T("grpDrag"),T("grpDragDesc"));
+    // 第124便(原仮定者指示): qLock トグル行を「引きずり減衰 q」の直前に置く
+    const qlRow=document.createElement("div"); qlRow.className="prow";
+    { const lab=document.createElement("label"); lab.textContent=T("qLockLabel");
+      lab.style.flex="1"; lab.className="tappable";
+      lab.addEventListener("click",()=>{
+        const open=qlRow.nextElementSibling && qlRow.nextElementSibling.classList
+          && qlRow.nextElementSibling.classList.contains("pdesc") ? qlRow.nextElementSibling : null;
+        if(open){ open.remove(); return; }
+        const d=document.createElement("div"); d.className="pdesc open";
+        d.textContent=T("qLockDesc"); qlRow.after(d);
+      });
+      const cb=document.createElement("input"); cb.type="checkbox"; cb.id="qLockCb"; cb.checked=qLockOn;
+      cb.addEventListener("change",()=>setQLock(cb.checked));
+      qlRow.appendChild(lab); qlRow.appendChild(cb); }
+    for(const def of catDefs("dg")){ if(def.key==="q") g.appendChild(qlRow); mkParamRow(def,g); } }
   // 実験箱: 伝熱壁4面(天井/左/右/底)+壁別反発係数。
   // 第95便(原仮定者指示): 編集対象が無いとき(箱境界でも伝熱壁でもない)はカテゴリごと出さない
   if((sim.world && sim.world.boundary==="box") || sim.twall){
@@ -13007,6 +13038,7 @@ $("#btnSave").addEventListener("click",()=>{
   // 第110便(原仮定者指示): 物理対応ロックの状態もセーブへ含める(ONのときだけ書く — 旧セーブ不変)。
   // 読込側 loadSave で復元し、ロックの意図しない持ち越し/喪失を防ぐ
   if(physLock) item.physLock=true;
+  if(qLockOn) item.qLock=true;   // 第124便: qLock もセーブ保存
   try{ const a=getSaves(); a.unshift(item); setSaves(a); }
   catch(e){ alert(T("saveFailed")); return; }
   $("#saveComment").value="";
