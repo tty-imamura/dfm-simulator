@@ -1642,9 +1642,11 @@ if (has40BSemanticSync) {
     HP.loadPreset('gclock', false);
     for (let k = 0; k < 1000; k++) s.step(0.016);
     const eps = s.params.softening;
+    // 第128便: 世代ネイティブ演算(root=Kt正準: ψ=W/Kt / beta=κ正準: ψ=W·κ)
+    const kapGen = typeof s.params.kappaT === 'number';
     const psi = (i) => { let w = s.params.D0;
       for (let j = 0; j < s.n; j++) { if (j === i) continue; w += s.m[j] / Math.hypot(Math.hypot(s.x[i] - s.x[j], s.y[i] - s.y[j]), eps); }
-      return w / s.params.Kt; };
+      return kapGen ? w * s.params.kappaT : w / s.params.Kt; };
     res.gErr = Math.max(...[1, 2, 3].map(i => Math.abs(s.tau[i] / s.t - Math.exp(-psi(i))) / Math.exp(-psi(i))));
     res.gOrder = s.tau[1] < s.tau[2] && s.tau[2] < s.tau[3];
     // 🌈 coolrace: 冷却速度比が Λ∝T^p の p 乗則に従う・位置不変
@@ -3072,7 +3074,8 @@ if (hasBadgeClassify) {
       const s = HP.sim;
       HP.loadPreset('probeH', false);
       if (!s.probeHud || !s.box) return { wired: false };
-      const B = s.box, Kt = s.params.Kt, dkt = B.D / Kt;
+      // 第128便: 世代ネイティブ演算(root: D/Kt / beta: D·κ)
+      const B = s.box, dkt = (typeof s.params.kappaT === 'number') ? B.D * s.params.kappaT : B.D / s.params.Kt;
       // a=2 まで規定 exp 膨張を進める(t=ln2/H0)
       const steps = Math.ceil(Math.log(2) / B.H0 / 0.016);
       for (let k = 0; k < steps; k++) s.step(0.016);
@@ -3241,13 +3244,16 @@ if (hasBadgeClassify) {
     HP.loadPreset('grcal', false);
     const s = HP.sim;
     for (let k = 0; k < 1000; k++) s.step(0.016);
-    const eps = s.params.softening, Kt = s.params.Kt, c0 = s.params.cLight, M = s.m[0];
+    const eps = s.params.softening, c0 = s.params.cLight, M = s.m[0];
+    // 第128便: 世代ネイティブ演算(root: W/Kt / beta: W·κ)
+    const PSI = (typeof s.params.kappaT === 'number')
+      ? ((w) => w * s.params.kappaT) : ((w) => w / s.params.Kt);
     // 地上時計(pinned, r=60): τ/t = e^{−ψ}
-    const psiG = (M / Math.sqrt(60 * 60 + eps * eps) + 2 / Math.sqrt(120 * 120 + eps * eps)) / Kt;
+    const psiG = PSI(M / Math.sqrt(60 * 60 + eps * eps) + 2 / Math.sqrt(120 * 120 + eps * eps));
     // 衛星(r=180 円軌道): τ/t = √(N²−A²v²/c₀²)(v は現在速度。他時計の w も W_ext に含める)
     const rS = Math.hypot(s.x[2], s.y[2]);
     const dG = Math.hypot(s.x[2] - s.x[1], s.y[2] - s.y[1]);
-    const psiS = (M / Math.sqrt(rS * rS + eps * eps) + 2 / Math.sqrt(dG * dG + eps * eps)) / Kt;
+    const psiS = PSI(M / Math.sqrt(rS * rS + eps * eps) + 2 / Math.sqrt(dG * dG + eps * eps));
     const v = Math.hypot(s.vx[2], s.vy[2]);
     const N = Math.exp(-psiS), A = Math.exp(psiS);
     const thS = Math.sqrt(N * N - A * A * v * v / (c0 * c0));
@@ -3863,9 +3869,12 @@ if (hasBadgeClassify) {
     `軽量/正確/自動の縮退値=${r.quality} セレクト行=${r.qualityRow}`);
 }
 
-// ---- 7n) v1.26: 物理対応ロック Kt=cLight²/G(決断事項4-12承認・第10次裁定P0-2)----
-// ON でKtが導出値になり cLight/G 編集に追随・Kt直接編集は導出値へ戻る・
-// OFF では条件外バッジ(一般化トイ設定)・G=0 はクランプ扱い・ロックはプリセットに保存されない
+// ---- 7n) v1.26: 物理対応ロック(root=Kt正準: Kt=cLight²/G / beta=κ正準: κ=G/cLight² — 第128便)
+// ----   (決断事項4-12承認・第10次裁定P0-2)----
+// ON で時空係数が導出値になり cLight/G 編集に追随・直接編集は導出値へ戻る・
+// OFF では条件外バッジ(一般化トイ設定)・ロックはプリセットに保存されない。
+// G=0 のエッジは世代で意味論が変わる: Kt 正準は Kt=∞ を値域上端へクランプ(近似)、
+// κ 正準は κ=0 が**正確値**なので clamped=false(第128便で改善した点をここで機械固定する)
 {
   const r = await page.evaluate(() => {
     const res = {};
@@ -3874,35 +3883,48 @@ if (hasBadgeClassify) {
     const badge = () => document.getElementById('physLockBadge').textContent;
     HP.setPhysLock(false);
     // 第96便: 🛰grcal は c₀=30/G=0.25 世代でも条件値 c²/G=3600 は不変(相似変換は c²/G を保存)。
-    // 期待値は宣言から動的に導出し、追随テストは c を「現在値の半分」へ動かして条件値/4 を見る
+    // 期待値は宣言から動的に導出し、追随テストは c を「現在値の半分」へ動かして条件値の追随を見る
     HP.loadPreset('grcal', false);
     const g0 = HP.sim.params.G, c0 = HP.sim.params.cLight;
-    res.cond = c0 * c0 / g0;                          // = 3600(両世代)
-    res.before = HP.sim.params.Kt;
+    // 第128便: 内部の時空係数が κ 正準の世代か(root は Kt 正準)
+    res.kap = typeof HP.sim.params.kappaT === 'number';
+    const stc = () => res.kap ? HP.sim.params.kappaT : HP.sim.params.Kt;   // 世代の時空係数(内部保持値)
+    const drv = (c) => res.kap ? g0 / (c * c) : c * c / g0;                // 導出値(世代ネイティブ演算)
+    res.cond = drv(c0);                               // Kt=3600 / κ=1/3600
+    res.condHalf = drv(c0 / 2);                       // cLight 半減時の導出値(Kt: /4・κ: ×4)
+    res.natural = res.kap ? 1 / 300 : 300;            // grcal 素の時空係数
+    res.before = stc();
     res.badgeOff = badge().includes('一般化トイ設定');
     HP.setPhysLock(true);
-    res.locked = HP.sim.params.Kt;                    // → 条件値
+    res.locked = stc();                               // → 条件値
     res.badgeOn = badge().includes('自動維持');
     const cIn = findRow('光速').querySelector('input.valIn');
     cIn.value = String(c0 / 2); cIn.dispatchEvent(new Event('change'));
-    res.follow = HP.sim.params.Kt;                    // → 条件値/4
+    res.follow = stc();                               // → 条件値(c 半減)
     const kIn = findRow('時空係数').querySelector('input.valIn');
     kIn.value = '50'; kIn.dispatchEvent(new Event('change'));
-    res.snapBack = HP.sim.params.Kt;                  // 直接編集は導出値のまま
-    res.snapShown = kIn.value;                        // UI 表示も導出値(第124便 κ世代は 1/Kt 表示)
+    res.snapBack = stc();                             // 直接編集は導出値のまま
+    res.snapShown = kIn.value;                        // UI 表示も導出値(κ 表示)
     res.invGen = findRow('時空係数').querySelector('label').textContent.includes('κ');
-    res.edge = HP.physLockCalc({ params: { G: 0, cLight: 30 } });   // クランプ+近似扱い
+    res.edge = HP.physLockCalc({ params: { G: 0, cLight: 30 } });   // G=0 エッジ
     HP.setPhysLock(false);
     HP.loadPreset('grcal', false);
-    res.after = HP.sim.params.Kt;                     // ロックはプリセットへ保存されない
+    res.after = stc();                                // ロックはプリセットへ保存されない
     return res;
   });
-  add('physlock.kt-derive', r.before === 300 && r.cond === 3600 && r.locked === r.cond && r.follow === r.cond / 4
-    && r.snapBack === r.cond / 4
-    && Math.abs(parseFloat(r.snapShown) - (r.invGen ? 4 / r.cond : r.cond / 4)) / (r.invGen ? 4 / r.cond : r.cond / 4) < 0.02 && r.badgeOff && r.badgeOn
-    && (r.edge.applied === 10000 || r.edge.applied === 1e9 || r.edge.applied === 1e12) && r.edge.clamped === true && r.after === 300,   // 第113便: 1e4→1e9 / 第125便: →1e12(κ=0 対応)
-    `OFF時Kt=${r.before}(条件外バッジ=${r.badgeOff}) ON時=${r.locked} cLight30追随=${r.follow} `
-    + `Kt直編集=${r.snapBack}/表示${r.snapShown} G=0クランプ=${r.edge.applied}(近似=${r.edge.clamped}) 解除後=${r.after}`);
+  // UI 表示は両世代とも κ(=Kt正準世代は 1/Kt の inv 表示・κ正準世代は素の値)
+  const shownExp = r.invGen ? (r.kap ? r.condHalf : 1 / r.condHalf) : r.condHalf;
+  const edgeOk = r.kap
+    ? (r.edge.applied === 0 && r.edge.clamped === false)          // 第128便: κ=0 は正確値
+    : ((r.edge.applied === 10000 || r.edge.applied === 1e9 || r.edge.applied === 1e12)
+       && r.edge.clamped === true);                               // 第113便: 1e4→1e9 / 第125便: →1e12
+  add('physlock.kt-derive', r.before === r.natural && r.locked === r.cond && r.follow === r.condHalf
+    && r.snapBack === r.condHalf
+    && Math.abs(parseFloat(r.snapShown) - shownExp) / shownExp < 0.02 && r.badgeOff && r.badgeOn
+    && edgeOk && r.after === r.natural,
+    `世代=${r.kap ? 'κ正準(第128便)' : 'Kt正準'} OFF時=${r.before}(条件外バッジ=${r.badgeOff}) ON時=${r.locked}(条件値=${r.cond}) `
+    + `cLight半減追随=${r.follow}(期待${r.condHalf}) 直編集=${r.snapBack}/表示${r.snapShown} `
+    + `G=0エッジ=${r.edge.applied}(クランプ近似=${r.edge.clamped}) 解除後=${r.after}`);
 }
 
 // ---- 第113便: ①CLAMPS 拡張(Kt 1e4→1e9・cLight 1e4→1e6 — ティア別実c値と physLock 導出値を
@@ -3921,18 +3943,23 @@ if (hasBadgeClassify) {
       const res = {};
       // ① 新値域: 域内保持(☀️実c値 3e4・実G physLock の Kt=1.349e8)・域外はクランプ・
       //   pnSource は true 以外を警告つき削除
+      // 第128便: κ 正準世代は宣言の旧 Kt を kappaT へ換算して保持する(κ=1/Kt)。
+      //   どちらの世代でも「Kt 換算値」で読めるように正規化してから照合する
+      const spc = (ph) => (typeof ph.kappaT === 'number') ? 1 / ph.kappaT : ph.Kt;
       const v1 = HP.validatePreset({ name: 'x', description: 'd', camera: { scale: 100 },
         world: { boundary: 'none', size: 0 }, physics: { cLight: 30000, Kt: 30000 * 30000 / 6.674, G: 6.674 },
         bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
       res.kept = v1.ok && v1.preset.physics.cLight === 30000
-        && Math.abs(v1.preset.physics.Kt - 9e8 / 6.674) < 1;
+        && Math.abs(spc(v1.preset.physics) - 9e8 / 6.674) < 1;
       const v2 = HP.validatePreset({ name: 'x', description: 'd', camera: { scale: 100 },
         world: { boundary: 'none', size: 0 }, physics: { cLight: 2e6, Kt: 2e9 },
         bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false, pnSource: 1 }] });
-      // 第125便: κ=0 対応で Kt 上限 1e9→1e12(κ 正準世代は 2e9 が値域内 = クランプなし)
-      const ktHi = (typeof CLAMPS !== 'undefined' && CLAMPS.Kt) ? CLAMPS.Kt[1] : 1e9;
+      // 第125便: κ=0 対応で Kt 上限 1e9→1e12(2e9 は値域内 = クランプなし)
+      // 第128便: CLAMPS のキーが kappaT[0,1] になった世代でも旧 Kt 受理の上限は 1e12
+      const ktHi = (typeof CLAMPS !== 'undefined' && CLAMPS.kappaT) ? 1e12
+        : ((typeof CLAMPS !== 'undefined' && CLAMPS.Kt) ? CLAMPS.Kt[1] : 1e9);
       res.clamped = v2.ok && v2.preset.physics.cLight === 1e6
-        && v2.preset.physics.Kt === (ktHi >= 2e9 ? 2e9 : 1e9);
+        && Math.abs(spc(v2.preset.physics) - (ktHi >= 2e9 ? 2e9 : 1e9)) < 1e-3;
       res.badFlagDropped = v2.ok && !('pnSource' in v2.preset.bodies[0]);
       // ② フラグの力学: 閾値未満の中心(m=5 < pnK·max(R,ε)=4.5×2.24≈10)は既定では 1PN 源に
       //   ならない(λ1/λ0 が一致)。pnSource:true で λ1 の軌道が変わる
@@ -7364,22 +7391,25 @@ if (!FAST) {
       const state = () => { const w = ktRow(); return {
         dis: w.querySelector('input[type=range]').disabled && w.querySelector('input.valIn').disabled,
         cls: w.classList.contains('lockedRow') }; };
-      // ① ロック ⇄ 解除で Kt 行のグレーアウトが追随する
+      // 第128便: 時空係数の内部保持キーは世代で違う(root=Kt正準 / beta=κ正準)
+      const stc = () => (typeof HP.sim.params.kappaT === 'number')
+        ? HP.sim.params.kappaT : HP.sim.params.Kt;
+      // ① ロック ⇄ 解除で 時空係数行のグレーアウトが追随する
       HP.setPhysLock(false);
       HP.loadPreset('galaxy', false);
-      const ktRef = HP.sim.params.Kt;                    // 対照: galaxy 素の Kt
+      const ktRef = stc();                               // 対照: galaxy 素の時空係数
       HP.loadPreset('grcal', false);
       const s0 = state(); res.freeBefore = !s0.dis && !s0.cls;
       HP.setPhysLock(true);
-      const ktLocked = HP.sim.params.Kt;                 // 導出値 c²/G = 3600
+      const ktLocked = stc();                            // 導出値(Kt=c²/G=3600 / κ=G/c²)
       const s1 = state(); res.lockedGrey = s1.dis && s1.cls;
       HP.setPhysLock(false);
       const s2 = state(); res.freeAfter = !s2.dis && !s2.cls;
-      // ② 別プリセット読込でロック自動解除 — 読込先の Kt は素の値のまま(上書きされない)
+      // ② 別プリセット読込でロック自動解除 — 読込先の時空係数は素の値のまま(上書きされない)
       HP.setPhysLock(true);
       HP.loadPreset('galaxy', false);
       res.autoUnlock = HP.physLock() === false;
-      res.ktIntact = HP.sim.params.Kt === ktRef;
+      res.ktIntact = typeof ktRef === 'number' && stc() === ktRef;
       const s3 = state(); res.freeAfterLoad = !s3.dis && !s3.cls;
       // ③ セーブ保存/復元(localStorage は退避して復元する)
       const savesBak = localStorage.getItem('hp_saves');
@@ -7391,7 +7421,7 @@ if (!FAST) {
         res.savedFlag = !!(saves[0] && saves[0].name === 'QA110ロック' && saves[0].physLock === true);
         HP.setPhysLock(false); HP.loadPreset('galaxy', false);
         document.querySelector('#saveList .saveItem .rowBtns .btn.primary').click();
-        res.loadRestores = HP.physLock() === true && HP.sim.params.Kt === ktLocked;
+        res.loadRestores = HP.physLock() === true && typeof ktLocked === 'number' && stc() === ktLocked;
         const s4 = state(); res.loadGrey = s4.dis && s4.cls;
         // 旧セーブ互換: physLock キー無しのセーブ(解除中に保存)の読込はロック解除になる
         document.querySelector('#saveName').value = 'QA110フリー';
@@ -7814,10 +7844,13 @@ if (hasEchoFlipAt) {
   if (hasWL && hasLensing) {
     const r = await page.evaluate(() => {
       HP.loadPreset('lensing', false);
-      const S = HP.sim, Kt = S.params.Kt;
+      const S = HP.sim;
+      // 第128便: 世代ネイティブ演算(root: W/Kt / beta: W·κ)
+      const PSI = (typeof S.params.kappaT === 'number')
+        ? ((w) => w * S.params.kappaT) : ((w) => w / S.params.Kt);
       const pts = [];
       HP.traceRay(S, -600, -20, 1, 0, 3, 800, (nx, ny, Wtot) => { pts.push(Wtot); return true; });
-      const psi = pts.map((w) => w / Kt);
+      const psi = pts.map(PSI);
       const psi0 = psi[0];
       let maxIdx = 0;
       for (let i = 1; i < psi.length; i++) if (psi[i] > psi[maxIdx]) maxIdx = i;
@@ -7865,10 +7898,14 @@ if (hasEchoFlipAt) {
       const bad = [];
       for (const P of HP.allPresets()) {
         HP.loadPreset(P.id, false);
-        const S = HP.sim, Kt = S.params.Kt, eps = S.params.softening;
+        const S = HP.sim, eps = S.params.softening;
+        // 第128便: 世代ネイティブ演算(root: m≥(α/4)·Kt·max(R,ε) / beta: m≥(α/4)·max(R,ε)/κ)
+        const kg = typeof S.params.kappaT === 'number';
+        const thr = (Rv) => kg ? (A / 4) * Math.max(Rv, eps) / S.params.kappaT
+          : (A / 4) * S.params.Kt * Math.max(Rv, eps);
         const want = [];
         for (let i = 0; i < S.n; i++)
-          if (S.m[i] >= (A / 4) * Kt * Math.max(S.R[i], eps)) want.push(i);
+          if (S.m[i] >= thr(S.R[i])) want.push(i);
         const got = keySet();
         if (want.length !== got.length || want.some((v, k) => v !== got[k]))
           bad.push(`${P.id}(式=${want.length}件/実使用=${got.length}件)`);
@@ -7921,7 +7958,9 @@ if (hasEchoFlipAt) {
       // このとき光線側 rayMassMin と 1PN 側 pnMassMin は厳密一致する
       HP.setPhysLock(false); HP.loadPreset('grcal', false); HP.setPhysLock(true);
       const S2 = HP.sim, p2 = S2.params;
-      const lock = { Kt: p2.Kt, want: (A / 4) * (p2.cLight * p2.cLight / p2.G) * Math.max(S2.R[0], p2.softening),
+      // 第128便: ロック値は世代で保持形が違う(Kt 正準=c²/G・κ 正準=G/c²)— Kt 換算で読む
+      const lock = { Kt: (typeof p2.kappaT === 'number') ? 1 / p2.kappaT : p2.Kt,
+        want: (A / 4) * (p2.cLight * p2.cLight / p2.G) * Math.max(S2.R[0], p2.softening),
         got: HP.rayMassMin(p2, S2.R[0]), pnGot: HP.pnMassMin(p2, S2.R[0]), bendsStill: HP.rayHeavy(S2, 0) };
       HP.setPhysLock(false);
       // ⑤ キャッシュキーの追随: 源集合が変わればキーも変わる/変わらなければキーも同一
@@ -10082,11 +10121,14 @@ if (hasSwAutoCb) {
   if (hasWL && hasLensing) {
     const r = await page.evaluate(() => {
       HP.loadPreset('lensing', false);
-      const S = HP.sim, Kt = S.params.Kt;
+      const S = HP.sim;
+      // 第128便: 世代ネイティブ演算(root: W/Kt / beta: W·κ)
+      const PSI = (typeof S.params.kappaT === 'number')
+        ? ((w) => w * S.params.kappaT) : ((w) => w / S.params.Kt);
       const trace = () => {
         const pts = [];
         HP.traceRay(S, -600, -20, 1, 0, 3, 800, (nx, ny, Wtot) => { pts.push(Wtot); return true; });
-        return pts.map((w) => w / Kt);
+        return pts.map(PSI);
       };
       const hashPhys = () => {
         const a = [];
@@ -12674,17 +12716,21 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       // ③ 💍: 時間経過倍率1・線の軌跡ON
       const sr = HP.allPresets().find((p) => p.id === 'saturnRingReal');
       out.ringTweak = sr.physics.timeScale === 10 && sr.overlays.trail === true;   // 第121便: ts=10 へ更新
-      // ④ Kt の κ 併記
+      // ④ 時空係数の κ 換算表示。第120便=Kt 主表示の副行に κ 併記 →
+      //   第128便=κ(kappaT)が正準キーになったので汎用経路が [L/M] m/kg で主表示する
       HP.loadPreset('mercuryReal', false);
       HP.setScaleDisp(true);
-      out.kappa = /κ=1\/Kt/.test(String(scaleConvStr('Kt', HP.sim.params.Kt)));
+      out.kappa = (typeof HP.sim.params.kappaT === 'number')
+        ? /m\/kg/.test(String(scaleConvStr('kappaT', HP.sim.params.kappaT)))
+        : /κ=1\/Kt/.test(String(scaleConvStr('Kt', HP.sim.params.Kt)));
       // ⑤ abBody physics ワンタップ(☄️: B側 c₀=30)
       buildParamRows();
       const btn = document.querySelector('#btnAbBody');
       out.abBtn = !!btn;
       if (btn) { btn.click();
         out.abPhys = !!(ab && ab.simB && ab.simB.params.cLight === 30
-          && Math.abs(ab.simB.params.Kt - 134.85166317) < 1e-6);
+          && Math.abs(((typeof ab.simB.params.kappaT === 'number')
+            ? 1 / ab.simB.params.kappaT : ab.simB.params.Kt) - 134.85166317) < 1e-6);   // 第128便: κ 正準世代は 1/κ で読む
         abStop(); }
       // ⑥ 歳差HUD: 独立描画をやめ主HUD(loop の txt ブロック)の行に統合(ソース検査)
       out.hudMerged = !String(drawOrbitObs).includes('ooHud') && String(loop).includes('T("ooHud")');
@@ -12885,19 +12931,25 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       const geoRow = rows[li('測地線モード')], clRow = rows[li('相似変換連動')];
       out.kfAfterGeo = !!geoRow && lab0(nextProw(geoRow)).startsWith('空間引きずり');
       out.clinkBeforeC = !!clRow && lab0(nextProw(clRow)).startsWith('光速');
-      // ④ κ 編集正準化: 時空係数行のラベルが κ・表示値=1/Kt
+      // ④ κ 編集正準化: 時空係数行のラベルが κ・表示値=κ(第128便: 内部保持も κ 正準)
+      const kapNow = () => (typeof HP.sim.params.kappaT === 'number')
+        ? HP.sim.params.kappaT : 1 / HP.sim.params.Kt;
       const ktRow = rows[li('時空係数')];
       out.kappaLabel = ktRow.querySelector('label').textContent.includes('κ');
       const kIn = ktRow.querySelector('input.valIn');
-      out.kappaShown = Math.abs(parseFloat(kIn.value) - 1 / HP.sim.params.Kt) / (1 / HP.sim.params.Kt) < 0.01;
-      // ⑤ バリデータ: physics.kappaT 受理(Kt=1/kappaT)
+      out.kappaShown = Math.abs(parseFloat(kIn.value) - kapNow()) / kapNow() < 0.01;
+      // ⑤ バリデータ: physics.kappaT 受理(第125便までは内部 Kt=1/kappaT・第128便からは κ のまま)
       const v = validatePreset({ id: 'kap', name: 'k', emoji: '🧪', description: 'κ受理検査', camera: { scale: 300 },
         world: { boundary: 'none', size: 0 }, physics: { kappaT: 0.01 },
         bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
-      out.kappaKey = !!(v && v.preset && v.preset.physics && Math.abs(v.preset.physics.Kt - 100) < 1e-9);
+      out.kappaKey = !!(v && v.preset && v.preset.physics
+        && Math.abs(((typeof v.preset.physics.kappaT === 'number')
+          ? 1 / v.preset.physics.kappaT : v.preset.physics.Kt) - 100) < 1e-9);
       // ⑥ セーブに kappaT・qLock が記録される(書出し関数のソース検査)
       const src = document.documentElement.outerHTML;
-      out.saveKeys = src.includes('item.kappaT=1/sim.params.Kt') && src.includes('item.qLock=true');
+      out.saveKeys = (src.includes('item.kappaT=1/sim.params.Kt')
+        || src.includes('item.kappaT=sim.params.kappaT'))   // 第128便: params が κ 正準になり直代入へ
+        && src.includes('item.qLock=true');
       HP.loadPreset('saturn', false);
       return out;
     });
@@ -12921,7 +12973,10 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       const ek = HP.allPresets().find((x) => x.id === 'earthMoonRealKF1');
       out.canonical = typeof ek.physics.kappaT === 'number' && !('Kt' in ek.physics);
       HP.loadPreset('earthMoonRealKF1', false);
-      out.bitExact = HP.sim.params.Kt === 134851663.17051244 && !('kappaT' in HP.sim.params);
+      // 第125便: 実行時 params は Kt 正準で bit 一致 → 第128便: params も κ 正準(Kt キーは残らない)
+      out.bitExact = (typeof HP.sim.params.kappaT === 'number')
+        ? (HP.sim.params.kappaT === 7.415555555555556e-9 && !('Kt' in HP.sim.params))
+        : (HP.sim.params.Kt === 134851663.17051244 && !('kappaT' in HP.sim.params));
       // ② SYSTEM_PROMPT: 既定値・few-shot とも kappaT
       const src = document.documentElement.outerHTML;
       const sp = src.match(/const SYSTEM_PROMPT\s*=\s*`([\s\S]*?)`/);
@@ -12931,13 +12986,16 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       const v = validatePreset({ id: 'k0', name: 'k', emoji: '🧪', description: 'κ0', camera: { scale: 300 },
         world: { boundary: 'none', size: 0 }, physics: { kappaT: 0 },
         bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
-      out.kappaZero = !!(v && v.ok && v.preset.physics.Kt === 1e12);
-      out.zeroLeft = /key:"G",[^}]*zeroLeft:true/.test(src) && /key:"Kt",[^}]*zeroLeft:true/.test(src);
+      out.kappaZero = !!(v && v.ok && ((typeof v.preset.physics.kappaT === 'number')
+        ? v.preset.physics.kappaT === 0 : v.preset.physics.Kt === 1e12));   // 第128便: κ=0 をそのまま保持
+      out.zeroLeft = /key:"G",[^}]*zeroLeft:true/.test(src)
+        && (/key:"Kt",[^}]*zeroLeft:true/.test(src) || /key:"kappaT",[^}]*zeroLeft:true/.test(src));
       // ④ physLock 表記が κ=G/cLight²
       out.lockLabel = HP.T('physLockLabel').includes('κ=G/cLight²');
       // ⑤ 数値欄拡幅(92px)+セーブ書出しの kappaT 正準
       out.width = src.includes('flex:0 0 92px;width:92px');
-      out.saveKap = src.includes('o.kappaT=(o.Kt>=CLAMPS.Kt[1])? 0 : 1/o.Kt; delete o.Kt;');
+      out.saveKap = src.includes('o.kappaT=(o.Kt>=CLAMPS.Kt[1])? 0 : 1/o.Kt; delete o.Kt;')
+        || src.includes('physics:Object.assign({},sim.params),');   // 第128便: params が κ 正準なので直コピー
       HP.loadPreset('saturn', false);
       return out;
     });
@@ -12947,6 +13005,80 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       `κ0受理=${r.kappaZero}・0スナップ宣言=${r.zeroLeft} / ロック表記=${r.lockLabel} / 拡幅=${r.width}・セーブκ=${r.saveKap}`);
   } else {
     console.log('SKIP wave125.ui(第125便 未適用 — root 等)');
+  }
+  // 92-1k) 第128便(121B 完結編): 内部エンジンの κ 正準化。内部保持(sim.params)・エンジン計算
+  //   (ψ=W·κ)・UI キー・CLAMPS・physLock が κ 正準になり、旧 Kt は「境界で受理する後方互換の
+  //   入力キー」だけになった。第128便 未適用の対象(root 等)は自動 SKIP
+  const has128 = await page.evaluate(() =>
+    typeof HP.sim.params.kappaT === 'number' && !('Kt' in HP.sim.params));
+  if (has128) {
+    const r = await page.evaluate(() => {
+      const out = {}, src = document.documentElement.outerHTML;
+      // ① 内部保持が κ 正準(params・CLAMPS・PARAM_DEFS・PARAM_ROLES に Kt キーが残らない)
+      HP.loadPreset('grcal', false);
+      out.paramsKappa = typeof HP.sim.params.kappaT === 'number' && !('Kt' in HP.sim.params);
+      out.clamps = !!(CLAMPS.kappaT && CLAMPS.kappaT[0] === 0 && CLAMPS.kappaT[1] === 1) && !CLAMPS.Kt;
+      out.defs = !!HP.PARAM_DEFS.find((d) => d.key === 'kappaT')
+        && !HP.PARAM_DEFS.find((d) => d.key === 'Kt');
+      // ② エンジンが乗算形 ψ=W·κ(時計・光線・光子の3経路をソースで固定)
+      out.engineMul = src.includes('const psi=denom*S.params.kappaT;')
+        && src.includes('kU=2*p.kappaT') && src.includes('kU:2*pp.kappaT');
+      // ②′ 時計の実測: 静止プローブ(G=0 で力ゼロ=静的配置)の τ/t が e^{−(D₀+ΣW)·κ} と一致し、
+      //    κ を2倍にすると ψ_eff も2倍になる(= ψ が κ に比例する乗算形であることの直接確認)。
+      //    許容 1e-4 は S.tau が Float32 累積であることに由来(200步=400サブステップで実測 2.9e-6・
+      //    1步なら 2.1e-8 まで詰まる — 解析式のずれではなく累積丸め)
+      const mkP128 = (kap) => ({ id: 'qa128', name: 'k', description: 'd', seed: 1,
+        camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+        physics: { G: 0, D0: 2, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: kap,
+          cLight: 60, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1,
+          pnAlpha: 1.5, radiusScale: 1, softening: 2, timeScale: 1 },
+        bodies: [{ type: 'single', m: 100, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true },
+          { type: 'single', m: 1, x: 50, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+      const S = HP.sim;
+      const run128 = (kap) => { S.build(JSON.parse(JSON.stringify(mkP128(kap))));
+        for (let k = 0; k < 200; k++) S.step(0.016);
+        return { psiEff: -Math.log(S.tau[1] / S.t), ana: (S.params.D0 + S.sumW[1]) * S.params.kappaT }; };
+      const t1 = run128(0.02), t2 = run128(0.04);
+      out.tauAna = Math.abs(t1.psiEff / t1.ana - 1) < 1e-4;
+      out.tauLinear = Math.abs(t2.psiEff / t1.psiEff - 2) < 1e-4;
+      const P = mkP128(0.02);
+      // ③ 旧 Kt の後方互換受理(宣言層=kappaT 優先 / 実行時 build=明示 Kt 優先)
+      const mkP = (ph) => ({ id: 'k', name: 'k', emoji: '🧪', description: '旧Kt受理検査',
+        camera: { scale: 300 }, world: { boundary: 'none', size: 0 }, physics: ph,
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+      const v1 = validatePreset(mkP({ Kt: 50 }));
+      out.bcKt = !!(v1 && v1.ok && v1.preset.physics.kappaT === 0.02 && !('Kt' in v1.preset.physics));
+      const v2 = validatePreset(mkP({ Kt: 1e12 }));
+      out.bcKtInf = !!(v2 && v2.ok && v2.preset.physics.kappaT === 0);   // Kt 上端=時空効果なし
+      const v3 = validatePreset(mkP({ Kt: 50, kappaT: 0.01 }));
+      out.bcBoth = !!(v3 && v3.ok && v3.preset.physics.kappaT === 0.01);  // 併記は kappaT 優先
+      S.build(Object.assign({}, JSON.parse(JSON.stringify(P)),
+        { physics: Object.assign({}, P.physics, { Kt: 25 }) }));
+      out.bcBuild = S.params.kappaT === 0.04 && !('Kt' in S.params);       // 実行時は明示 Kt 優先
+      // ④ physLock κ=G/cLight²(G=0 は κ=0 が正確値 — クランプ近似が消えた)
+      const lc = HP.physLockCalc({ params: { G: 1, cLight: 40 } });
+      out.lock = lc.applied === 1 / 1600 && lc.clamped === false;
+      const lz = HP.physLockCalc({ params: { G: 0, cLight: 30 } });
+      out.lockZero = lz.applied === 0 && lz.clamped === false;
+      // ⑤ 光線源しきい質量が κ 形 m≥(α_min/4)·max(R,ε)/κ(κ=0 は源なし=Infinity)
+      const A = HP.RAY_ALPHA_MIN;
+      out.rayThr = Math.abs(HP.rayMassMin({ kappaT: 0.01, softening: 2 }, 20) - (A / 4) * 20 / 0.01) < 1e-9
+        && HP.rayMassMin({ kappaT: 0, softening: 2 }, 20) === Infinity;
+      // ⑥ セーブ書出しが params 直コピー(κ 正準なので変換不要)
+      out.save = src.includes('physics:Object.assign({},sim.params),')
+        && src.includes('item.kappaT=sim.params.kappaT;');
+      HP.loadPreset('galaxy', false);
+      return out;
+    });
+    const ng = Object.keys(r).filter((k) => !r[k]);
+    add('wave128.engine', ng.length === 0,
+      `κ正準: params=${r.paramsKappa}・CLAMPS[0,1]=${r.clamps}・PARAM_DEFS=${r.defs} / ` +
+      `エンジン乗算形=${r.engineMul}・時計解析一致=${r.tauAna}(ψ∝κ=${r.tauLinear}) / 旧Kt受理: 宣言=${r.bcKt}` +
+      `・Kt1e12→κ0=${r.bcKtInf}・併記κ優先=${r.bcBoth}・build明示Kt優先=${r.bcBuild} / ` +
+      `physLock κ=G/c²=${r.lock}・G=0厳密=${r.lockZero} / 光線しきい値=${r.rayThr} / ` +
+      `セーブ直コピー=${r.save}${ng.length ? ' / NG=' + ng.join(',') : ''}`);
+  } else {
+    console.log('SKIP wave128.engine(第128便 未適用 — root 等)');
   }
   // 92-2→93改→94改) scale.exponents: 4指数(距離/時間/質量/光速)の表示スケール系。
   //       第93便の慣習アンカー表(SCALE_FAMILIAR)・時間倍率指数(texp)は第94便で撤回され、
@@ -13029,9 +13161,13 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       const parse = (s) => parseFloat(String(s).replace(/^≈/, ''));
       HP.setScaleExps({ L: 11, T: 7, M: 30, C: 7 });   // ☀️stellar アンカー(太陽系観測較正の標準)
       const G = 6.674, Kt = 30 * 30 / G;
+      // 第128便: 時空係数の換算キーが Kt(kg/m)→ kappaT(m/kg)へ交代。恒等式の照合は
+      //   「Kt 換算値」に揃えて行う(κ 換算値の逆数 — 次元指数も符号反転しているので整合する)
+      const kapGen = typeof HP.sim.params.kappaT === 'number';
       const out = {
         g: parse(HP.scaleConvStr('G', G)),         // 実G値規約 → 6.674e-11
-        kt: parse(HP.scaleConvStr('Kt', Kt)),      // 次元換算 −x+eM=19 → ≈1.35e21 kg/m
+        kt: kapGen ? 1 / parse(HP.scaleConvStr('kappaT', 1 / Kt))
+          : parse(HP.scaleConvStr('Kt', Kt)),      // 次元換算 −x+eM=19 → ≈1.35e21 kg/m
         c: parse(HP.scaleConvStr('cLight', 30)),   // eC 表示規約 → 3e8 m/s
         cDim: 30 * Math.pow(10, 11 - 7),           // 次元的 c(x−eT=4)= 3e5 m/s
       };
@@ -13109,7 +13245,10 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       S.build(JSON.parse(JSON.stringify(P)));
       const v0 = S.vy[1];
       S.params.cLight = 60; const cl = HP.applyCLink(S, 2);
-      out.math = S.params.G === 4 && S.params.timeScale === 1 && S.params.Kt === 900
+      // 第128便: 時空係数は据置(root: Kt=900 / beta: κ=1/900)
+      const stcKeep = (typeof S.params.kappaT === 'number')
+        ? S.params.kappaT === 1 / 900 : S.params.Kt === 900;
+      out.math = S.params.G === 4 && S.params.timeScale === 1 && stcKeep
         && Math.abs(S.vy[1] - 2 * v0) < 1e-12 && cl.length === 0;
       const tr = run(120);
       out.maxRel = 0;
@@ -13134,7 +13273,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     const wired = /key==="cLight" && cLink/.test(src) && /applyCLink\(S, v\/oldC\)/.test(src);
     add('scale.clink',
       r.math && r.maxRel < 1e-3 && r.roundtrip && r.cb && r.defOff && r.on && wired,
-      `変換式(G×4・ts÷2・v×2・Kt不変)=${r.math} / 軌道一致 maxRel=${r.maxRel.toExponential(1)}(<1e-3) / ` +
+      `変換式(G×4・ts÷2・v×2・時空係数不変)=${r.math} / 軌道一致 maxRel=${r.maxRel.toExponential(1)}(<1e-3) / ` +
       `往復復元=${r.roundtrip} / トグル存在=${r.cb}・ON永続化=${r.on} / setParam配線=${wired}`);
   } else {
     console.log('SKIP scale.clink(対象に相似変換連動なし — root 等。第100便)');
