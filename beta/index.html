@@ -1753,10 +1753,10 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
   radiusScale:1, softening:2, timeScale:1,   // 第26便: radiusScale 既定 1.2→1(内蔵は明示値を維持)
   dispMag:1 };   // 第118便(原仮定者指示): 粒子表示倍率(描画半径のみ×dispMag — 表示専用・力学不変)
 // v1.7: kLens は廃止(E8R で屈折率は n=e^{2W/Kt} に統一。旧セーブの kLens は受理して無視)
-const APP_VERSION = "1.39";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
+const APP_VERSION = "1.40";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 // 第36便 B1(原仮定者指示): タイトル下に表示するbeta配信時のビルド番号。beta/sw.js の
 // CACHE 接尾辞と同期させる(QA: version.beta-label)。ルート昇格後は使わない("v"+APP_VERSION 表示に戻る)
-const BETA_BUILD = "v1.40-b1";   // 第101便: v1.39.0 昇格に伴い次期プレビュー線へ
+const BETA_BUILD = "v1.41-b1";   // 第127便: v1.40.0 昇格に伴い次期プレビュー線へ
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 // 第71便 P0 → 第72便(ChatGPT Release レビュー P2: マジックナンバーの定数化):
 // E6′③反作用の1サブステップ上限(速度のみ)。較正実測(第71便): 正常域最大は 🕶️ の
@@ -2045,7 +2045,7 @@ const PARAM_DEFS = [
    desc:"衝突の法線方向の減衰(跳ね返りの失われやすさ)。0=よく弾む、1=ぶつかると速度が失われやすい。失われたエネルギーは帳簿に記録される(T7)。"},
   {key:"kappaS",label:"スピン拡散 κs",       mode:"lin", lo:0, hi:2, step:0.01, cat:"sh", group:"法則",
    desc:"スピン=熱が近くの粒子へ飛び移って均される熱伝導(E10′)。接触は不要で、近いほど強く伝わる(📏)。0にすると熱が伝わらない。"},
-  {key:"Kt",    label:"時空係数 κ(=1/Kt・G/c²)", mode:"log", lo:1e-12, hi:1, inv:true, zeroLeft:true, cat:"st", group:"法則",   /* 第125便: κ=0(時空効果なし)を許容 — 左端=0(内部 Kt=1e12) */   /* 第124便(原仮定者指示「パラメータもκを編集保存する」): κ=1/Kt を編集正準に(内部保持・エンジン・21キー表は Kt のまま=物理bit不変。値域=CLAMPS.Kt の逆数) */
+  {key:"Kt",    label:"時空係数 κ(=1/Kt)", mode:"log", lo:1e-12, hi:1, inv:true, zeroLeft:true, cat:"st", group:"法則",   /* 第125便: κ=0(時空効果なし)を許容 — 左端=0(内部 Kt=1e12) */   /* 第124便(原仮定者指示「パラメータもκを編集保存する」): κ=1/Kt を編集正準に(内部保持・エンジン・21キー表は Kt のまま=物理bit不変。値域=CLAMPS.Kt の逆数) */
    desc:"時計の遅れと光の屈折を1本で決める係数を κ=1/Kt(=G/c² と同次元 [L/M] — 質量あたり重力長 r_g=κm)で編集する(第120便裁定の κ 併記 → 第124便で編集正準化)。大きいほど時空効果が強い — ψ=W·κ で時計はより遅れ、光はより曲がる。κ→0 が「時空効果なし」の自然極限。現実との較正は κ=G/c²(物理対応ロックの導出値)。内部・セーブ互換・AIプリセットの Kt キーは従来どおり有効(κ は kappaT キーでも受理)。"},
   {key:"cLight",label:"光速 c₀",             mode:"log", lo:1, hi:1e6, cat:"st", group:"法則",   /* 第116便: ティア実c値まで / 第118便(原仮定者指示): 入力範囲 1〜1e6 */
    desc:"光線の速さと、運動による時計の遅れの基準(E7R: 共動フレームに対する速さがc₀に近いほど固有時計が遅れる)。下げると相対論的効果が見えやすくなる。【c₀の三層(第99便)】①基準光速 c₀=このパラメータ(可視化サンプルは c₀=30 の一律規約。観測較正サンプル〔☄️水星実不変量など〕はティア別の実c値規約 c₀=3×10⁸×10^(−(x−eT)) — 第113便)②局所光速 c_loc=c₀·e^(−2ψ)(重力ポテンシャルの井戸で局所的に遅くなる — 減光・光掃引の auto が使う)③表示較正指数 eC(換算表示専用 — 物理には入らない。第126便からの既定は**ティア別 x−eT** — c₀=30 をそのティアの次元的光速として正直表示する〔🏠「≈30 m/s」・☀️🪐「≈3×10⁵ m/s」など。旧規約は一律 eC=7 の「30→3×10⁸ m/s」〕。実c値サンプルは表示が実光速と厳密一致)。換算値はアナロジーの目安であり、実c値規約のサンプルのみ実定数と換算が厳密一致する。"},
@@ -2295,19 +2295,19 @@ const BUILTIN_PRESETS = [
     {q:"共通性", model:"D₀=0.006 は 🌘💿 と共通・q は同一式の自動算出(exp-kf1c/kf1d)", obs:"—(被引きずり側スピン×10⁴でも不変)"}],
   orbitObs:{center:0, orbiter:1, ghostAmp:1e3},   // −7.3e-5 rad/公転 ×10³ ≈ −4°/公転で回転が見える
   descStruct:{
-    summary:"☄️(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、**共通補正 (D₀=0.006, q=5) で kF1 のまま 43″/世紀を成立**させた版(第122便)。逆行歳差の正体は pinned 太陽の実自転(25.05日)が作る**スピン項 ω(d)=s·(R/(R+d))^q** — q=3 では −7.3×10⁻⁵ rad/公転(−1.5万″/世紀)と3桁不一致だったが、q=5 の幾何減衰で −5.3×10⁻⁸(1PN の 1/10)まで消え、1PN の +43″/世紀だけが残る。D₀=0.006 は 🌘 と共通で、第121便の「D₀ 7桁差」の非普遍性が解消される(exp-kf1c)。重力は E4・測地線は E12。",
+    summary:"☄️(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、**共通補正 D₀=0.006+qLock(q*=6.16 自動算出)で kF1 のまま 43″/世紀を成立**させた版(第122便→第123便 qLock 化)。逆行歳差の正体は pinned 太陽の実自転(25.05日)が作る**スピン項 ω(d)=s·(R/(R+d))^q** — q=3 では −7.3×10⁻⁵ rad/公転(−1.5万″/世紀)と3桁不一致だったが、qLock の q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R)=6.16 の幾何減衰で −5.6×10⁻¹⁰(LT級・1PN の約1/900)まで消え、1PN の +43″/世紀だけが残る。D₀=0.006 は 🌘💿 と共通・q は同一式の自動算出 — 「同じ値」ではなく**同じ算出則**が全系を満たす(exp-kf1c/kf1d)。重力は E4・測地線は E12。",
     observe:"歳差積算 HUD が ☄️ と同水準(+43″/世紀級)を示す — kF1 でも較正が成り立つ。q を 3 へ下げると大きな逆行レートに変わり、ゴースト楕円(×10³)が逆回りする(スピン項の復活が一目で見える)。スピンを 0 にすると q=3 でも kF0 と厳密一致(スピン起源の分解)。",
     control:"q は自動算出(qLock — スライダーはグレーアウト)。太陽の spin を 0 にすると q=3 でも引きずりが消える(スピン起源)。kFrame を 0 にすると ☄️ と同一。被引きずり側(水星)のスピンは×10⁴でも歳差に無関与(自分自身は u から除外 — exp-kf1c §B)。"},
   en:{name:"Mercury (Real Units, kFrame=1) — 43″/century with the joint correction",
     failureFirst:{
       fail:"With kFrame=1, the Sun's real rotation (25.05 d) and q=3, spin dragging adds a RETROGRADE −7.3×10⁻⁵ rad/orbit (−15,000″/century) precession — three orders of magnitude off the observed +43″/century (exp-kf1b §B; with spin 0 it matches kF0 exactly, isolating the spin origin).",
-      pass:"Wave-122 joint correction: the retrograde precession comes from the SPIN term ω(d)=s·(R/(R+d))^q, so it is suppressed geometrically by q rather than by D₀ — at q=5 the drag falls to −5.3×10⁻⁸ rad/orbit (1/10 of 1PN) and 43″/century holds with kF1 on. Moreover D₀ returns to 0.006, SHARED with 🌘 — the wave-121 seven-order D₀ split is resolved: one pair (D₀=0.006, q=5) satisfies both systems at once (exp-kf1c)."},
+      pass:"Wave-122 joint correction → wave-123 qLock: the retrograde precession comes from the SPIN term ω(d)=s·(R/(R+d))^q, so it is suppressed geometrically by q rather than by D₀ — with the auto-derived q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R)=6.16 the drag falls to −5.6×10⁻¹⁰ rad/orbit (LT-class, ~1/900 of 1PN) and 43″/century holds with kF1 on. Moreover D₀ returns to 0.006, SHARED with 🌘💿 — not one shared value of q but one shared derivation rule satisfies every system (exp-kf1c/kf1d)."},
     obsCard:[
-      {q:"Drag precession (joint correction, q=5)", model:"−5.3×10⁻⁸ rad/orbit (1/10 of 1PN) — 43″/century holds", obs:"perihelion advance +43″/century"},
+      {q:"Drag precession (qLock auto-derived q*=6.16)", model:"−5.6×10⁻¹⁰ rad/orbit (LT-class) — 43″/century holds", obs:"perihelion advance +43″/century"},
       {q:"q=3 contrast (wave-120 version)", model:"−7.3×10⁻⁵ rad/orbit (−15,000″/century, retrograde — 3 orders off)", obs:"— (exp-kf1b §B; spin 0 matches kF0 exactly)"},
-      {q:"Universality", model:"D₀=0.006 and q=5 are shared with 🌘 (exp-kf1c joint verdict PASS)", obs:"— (unchanged even with the dragged side's spin ×10⁴)"}],
+      {q:"Universality", model:"D₀=0.006 shared with 🌘💿; q auto-derived from the same rule (exp-kf1c/kf1d)", obs:"— (unchanged even with the dragged side's spin ×10⁴)"}],
     descStruct:{
-    summary:"The same real values as ☄️ (kFrame=0) with frame dragging (A8/E6′) enabled and the joint correction (D₀=0.006, q=5) applied — 43″/century now holds WITH kF1 on (wave 122). The retrograde precession was the SPIN term ω(d)=s·(R/(R+d))^q of the pinned Sun's real rotation (25.05 d): at q=3 it gave −7.3×10⁻⁵ rad/orbit (3 orders off), while q=5's geometric falloff cuts it to −5.3×10⁻⁸ (1/10 of 1PN), leaving only the 1PN +43″/century. D₀=0.006 is shared with 🌘, resolving the wave-121 seven-order non-universality (exp-kf1c). Gravity is E4, geodesics E12. ",
+    summary:"The same real values as ☄️ (kFrame=0) with frame dragging (A8/E6′) enabled and the joint correction D₀=0.006 plus qLock (auto-derived q*=6.16) applied — 43″/century now holds WITH kF1 on (wave 122 → qLock in wave 123). The retrograde precession was the SPIN term ω(d)=s·(R/(R+d))^q of the pinned Sun's real rotation (25.05 d): at q=3 it gave −7.3×10⁻⁵ rad/orbit (3 orders off), while qLock's q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R)=6.16 geometric falloff cuts it to −5.6×10⁻¹⁰ (LT-class, about 1/900 of 1PN), leaving only the 1PN +43″/century. D₀=0.006 is shared with 🌘💿 and q is auto-derived from the same rule — not the same VALUE but the same derivation satisfies every system (exp-kf1c/kf1d). Gravity is E4, geodesics E12. ",
     observe:"The precession HUD sits at the ☄️ level (+43″/century class) — the calibration survives kF1. Lower q to 3 and it flips to a large retrograde rate with the ghost ellipse (×10³) rotating backwards (the spin term coming back, visibly). Zero the spin and even q=3 matches kF0 exactly (spin-origin decomposition). ",
     control:"q is the star knob: 5 (joint correction) ⇄ 3 (retrograde drag, −15,000″/century). Zero the Sun's spin and the drag vanishes even at q=3 (spin origin). Set kFrame to 0 to recover ☄️ exactly. The dragged side's (Mercury's) own spin is irrelevant even at ×10⁴ (self is excluded from u — exp-kf1c §B)."}},
   // 第122便(原仮定者指示「🌘と🪨を共に満たす補正を検証する。q の算出などを試す。
@@ -2402,12 +2402,12 @@ const BUILTIN_PRESETS = [
     pass:"引きずり歳差が χ=w/(D₀+w) に比例することを用量実測で確定し、D₀=0.006+初速−0.32% の共同フィットで恒星月 27.32日(+0.04%)と近点回転 8.85年を同時較正(tests/exp-kf1b.mjs)。第122便: q=5(🪨 と共通の補正)で地球スピン項の混入が除かれ、Δϖ比が 0.988→0.999 へ純化 — **共通補正 (D₀=0.006, q=5) が 🌘🪨 を同時に満たす**(exp-kf1c)。実際の主因は太陽摂動 — DFM は運動引きずりという別機構での較正一致(正直な明記)。",},
   obsCard:[
     {q:"恒星月(kFrame=1・較正後)", model:"27.331 日(+0.03%)", obs:"27.3217 日"},
-    {q:"近点回転の周期", model:"≈8.86 年(Δϖ比 0.999 — 第122便 q=5)", obs:"8.85 年"},
+    {q:"近点回転の周期", model:"≈8.86 年(Δϖ比 0.9991 — qLock q*=8.25)", obs:"8.85 年"},
     {q:"引きずり歳差の由来", model:"運動引きずり(スピン非依存・D₀∝1/χ)", obs:"実際の主因は太陽摂動(機構は別 — 較正一致)"},
     {q:"補正の共通性", model:"D₀=0.006 は 🪨💿 と共通・q は自動算出(qLock q*=8.25 — exp-kf1d)", obs:"—"}],
   orbitObs:{center:0, orbiter:1, ghostAmp:20},   // 実歳差 3°/公転 — ×20 で数公転で一周が見える
   descStruct:{
-    summary:"🌙(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、共通補正 (D₀=0.006, q=5) に較正した版 — 重力(E4)+運動引きずりの二体だけで、恒星月 27.32日と**月の近点回転(実測 約8.85年で一周)**の2観測量を同時に較正再現する(exp-kf1b/kf1c 実測)。純二体のケプラー軌道は閉じた楕円で近点回転を持たない — kFrame=1 の運動引きずりが χ=w/(D₀+w) に比例する順行歳差を作り、D₀ がその較正ノブになる(第120便の一次発見)。測地線 E12・倍精度 stateCarry は雛形の規約どおり。",
+    summary:"🌙(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、共通補正 D₀=0.006+qLock(q*=8.25 自動算出)に較正した版 — 重力(E4)+運動引きずりの二体だけで、恒星月 27.32日と**月の近点回転(実測 約8.85年で一周)**の2観測量を同時に較正再現する(exp-kf1b/kf1c 実測)。純二体のケプラー軌道は閉じた楕円で近点回転を持たない — kFrame=1 の運動引きずりが χ=w/(D₀+w) に比例する順行歳差を作り、D₀ がその較正ノブになる(第120便の一次発見)。測地線 E12・倍精度 stateCarry は雛形の規約どおり。",
     observe:"軌道の向き(近点方向)がゆっくり回る — 実際の月と同じ約8.85年(≈118公転)で一周する。歳差積算 HUD の換算レートと、ゴースト楕円(点線=初期・橙=歳差×20 増幅)で回転が数公転で見える。**HUD の積算は周回内で大きく振動する(局所では逆行にも振れる)— 1公転単位で読むと正味 +0.053 rad/公転(Δϖ比 0.999)**。恒星月は 27.33日(+0.03%)。正直な明記: 実際の近点回転の主因は太陽摂動(第三体)— 本サンプルは運動引きずりという別機構での較正一致であり、機構の同定を主張しない(観測結果カード)。",
     control:"ワンタップ対照A/B: B側 D₀=0.1 に上げると引きずりが 1/16 になり回転がほぼ止まる(χ∝1/D₀ の用量が見える)。kFrame を 0 にすると純ケプラー(閉じた楕円)へ。スピンを 0 にしても歳差は変わらない(運動起源 — exp-kf1b §A。q は自動算出〔qLock〕で、地球スピン項の混入を除く役)。"},
   en:{name:"Earth & Moon (Real Units, kFrame=1) — apsidal precession 8.85 yr, calibrated",
@@ -2416,11 +2416,11 @@ const BUILTIN_PRESETS = [
       pass:"Dose measurements established that the drag precession scales as χ=w/(D₀+w); a joint fit of D₀=0.006 with a −0.32% initial-speed correction calibrates BOTH the sidereal month 27.32 d (+0.04%) and the 8.85-year apsidal cycle at once (tests/exp-kf1b.mjs). Wave 122: q=5 (the correction shared with 🪨) removes the Earth-spin contamination and purifies the Δϖ ratio from 0.988 to 0.999 — one pair (D₀=0.006, q=5) satisfies BOTH 🌘 and 🪨 (exp-kf1c). The real cause is solar perturbation — DFM matches it via a different mechanism, motion dragging (honest note)."},
     obsCard:[
       {q:"Sidereal month (kFrame=1, calibrated)", model:"27.331 d (+0.03%)", obs:"27.3217 d"},
-      {q:"Apsidal precession period", model:"≈8.86 yr (Δϖ ratio 0.999 — wave-122 q=5)", obs:"8.85 yr"},
+      {q:"Apsidal precession period", model:"≈8.86 yr (Δϖ ratio 0.9991 — qLock q*=8.25)", obs:"8.85 yr"},
       {q:"Origin of the drag precession", model:"motion dragging (spin-independent, ∝χ(D₀))", obs:"the real cause is solar perturbation (different mechanism — a calibrated match)"},
-      {q:"Universality of the correction", model:"D₀=0.006 and q=5 are shared with 🪨 (exp-kf1c joint verdict PASS)", obs:"—"}],
+      {q:"Universality of the correction", model:"D₀=0.006 shared with 🪨💿; q auto-derived from the same rule (qLock q*=8.25 — exp-kf1d)", obs:"—"}],
     descStruct:{
-    summary:"The same real values as 🌙 (kFrame=0) with frame dragging (A8/E6′) enabled and the joint correction (D₀=0.006, q=5) applied — gravity (E4) plus motion dragging alone reproduce TWO observables: the 27.32-day sidereal month and the Moon's apsidal precession (observed: one cycle in ≈8.85 years) (exp-kf1b/kf1c). A pure two-body Kepler orbit is a closed ellipse with no apsidal rotation — the kFrame=1 motion drag adds a prograde precession scaling as χ=w/(D₀+w), making D₀ its calibration knob (wave-120 primary finding). Geodesic E12 and double-precision stateCarry follow the template. ",
+    summary:"The same real values as 🌙 (kFrame=0) with frame dragging (A8/E6′) enabled and the joint correction D₀=0.006 plus qLock (auto-derived q*=8.25) applied — gravity (E4) plus motion dragging alone reproduce TWO observables: the 27.32-day sidereal month and the Moon's apsidal precession (observed: one cycle in ≈8.85 years) (exp-kf1b/kf1c). A pure two-body Kepler orbit is a closed ellipse with no apsidal rotation — the kFrame=1 motion drag adds a prograde precession scaling as χ=w/(D₀+w), making D₀ its calibration knob (wave-120 primary finding). Geodesic E12 and double-precision stateCarry follow the template. ",
     observe:"The orbit's apse line slowly rotates — one cycle in about 8.85 years (≈118 orbits), as the real Moon does. The precession HUD rate and the ghost ellipses (dotted = initial, amber = precession ×20) make the rotation visible within a few orbits. The HUD accumulator oscillates strongly within each orbit (locally even retrograde) — read it per full orbit: net +0.053 rad/orbit (Δϖ ratio 0.999). The sidereal month is 27.33 d (+0.03%). Honest note: the real cause of the lunar apsidal precession is solar perturbation (a third body) — this sample matches it via a different mechanism, motion dragging, and claims no mechanism identification (see the observation card). ",
     control:"One-tap A/B: raising D₀ to 0.1 on side B cuts the drag by 1/16 and the rotation nearly stops (the χ∝1/D₀ dose made visible). Setting kFrame to 0 returns to pure Kepler (closed ellipse). Zeroing the spins changes nothing (motion origin — exp-kf1b §A)."}},
   abBody:{ label:{ja:"D₀=0.1(引きずり弱 — 回転が止まる対照)", en:"D₀=0.1 (weak drag — rotation stops)"},
@@ -2669,10 +2669,10 @@ const BUILTIN_PRESETS = [
   scaleTier:"cosmic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"semantic",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
-    summary:"膨張する箱宇宙(H=0.02)に粒子A・B・Cを共動で並べ、光の状態を「波長」で保持して伝播させる。",
+    summary:"膨張する箱宇宙(H=0.1)に粒子A・B・Cを共動で並べ、光の状態を「波長」で保持して伝播させる。",
     observe:"t=0にAが放った波長500の光(λは膨張とともにa(t)/a放出で伸びる)は、宇宙が4倍に膨張した頃にCへ届き、波長は4倍(z=3)。宇宙が2倍に膨張した時点でBが放った光は、同じ頃にCへ届き、波長は2倍(z=1) — 放出時刻の異なる光が、異なる赤方偏移で同時に観測される。これは宇宙膨張による赤方偏移の標準的な尺度因子関係 1+z=a(観測)/a(放出) と同じ形(§12-6。低赤方偏移で距離と後退速度を結ぶハッブル–ルメートル則 v≈H0d とは区別)。膨張グラフに到着ログ(λ放出→λ観測・z)が出る。光子は運動量を運ばない表示物理で、屈折・随伴はE8R/T5と同じψ・uを使う(T10)。"},
   en:{name:"Box Universe — Redshift of Light (A, B, C)", descStruct:{
-    summary:"Three comoving particles A, B and C sit in an expanding box universe (H=0.02), and light propagates while holding its state as a 'wavelength'. ",
+    summary:"Three comoving particles A, B and C sit in an expanding box universe (H=0.1), and light propagates while holding its state as a 'wavelength'. ",
     observe:"The 500 nm light A emits at t=0 (λ stretches as a(t)/a_emit) reaches C when the universe has grown fourfold, so its wavelength is four times longer (z=3). Light emitted by B once the universe has doubled arrives at C at about the same moment with twice the wavelength (z=1) — light emitted at different times is observed simultaneously at different redshifts. This is the same shape as the standard scale-factor relation for cosmological redshift from the expansion of the universe, 1+z=a(observed)/a(emitted) (§12-6; distinct from the Hubble–Lemaître law v≈H0d, which relates distance and recession velocity at low redshift). The expansion graph shows the arrival log (λ_emit→λ_obs and z). Photons carry no momentum here — a display-level physics — while refraction and medium advection use the same ψ and u as E8R/T5 (T10)."}},
   activeParams:["cLight","kFrame"],
   // 第42便 42A(台帳4-78 A案): claims — 説明文のA・B到着時赤方偏移(z=3/z=1)を機械可読化。
@@ -2695,7 +2695,7 @@ const BUILTIN_PRESETS = [
     {type:"single", m:2, x:  25, y:0, vx: 2.5, vy:0, spin:0, pinned:false},
     {type:"single", m:2, x: 100, y:0, vx: 10, vy:0, spin:0, pinned:false}
   ],
-  // B の放出時刻 t=ln2/0.02=34.657 → a=2 ちょうど(両光子はほぼ同時に C へ届く: t≈69.3)
+  // B の放出時刻 t=ln2/0.1=6.9314 → a=2 ちょうど(両光子はほぼ同時に C へ届く: t≈13.7)
   photonEmit:[{body:0, t:0, lambda:500, aim:2}, {body:1, t:6.9314, lambda:500, aim:2}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:false,boxGraph:true} },
 
@@ -3215,11 +3215,11 @@ const BUILTIN_PRESETS = [
   descStruct:{
     summary:"暗黒星雲を「光学的な性質の強い天体(ダークローター)の集まり」と仮定したらどんな構造になるか、の思考実験。高スピンの小ローター54個が階層的なクランプ(中心の高密度コア+左右の副クランプ)を作り、そのまわりを低スピンの放射粒子44個のエンベロープが取り巻く。ローターは高スピンなので自光を掻き出して暗く(A9/A11/E8R系の lightSweep auto)、エンベロープはスピンが低いので放射(E11)がそのまま漏れて明るい — ひとつの雲の中に「暗黒星雲(コア)」と「散光星雲(縁)」が同居する。実在の星雲(ガスと塵の吸収・散乱)についての主張ではない(Negative Claims)。",
     observe:"実測(seed固定・3000步)でコアの平均減光0.86に対しエンベロープは0.08 — コントラストは実測約11.5倍。コアの平均|spin|は13.1まで育ち(E6′残余トルク+収縮スピンアップ)、力学温度 I·s² は数千相当なのに観測温度は0.62 — 「力学的に熱いのに光学的に暗い」がここでも成立する(🍳のバルジと同じ整理)。さらに掻き出しの飽和は放射冷却も止める(E11 は (1−lS) 倍)ので、暗さが熱を閉じ込めて自己維持される — 光速 c₀ を 60 に上げるとコアが未飽和になり、放射でスピンが冷えて散光化する(相転移の縁は c₀=40〜60 の間)。粒子保持は3000步でコア85%・エンベロープ93%。",
-    control:"おすすめA/B(ワンタップ): 下のボタンでコア54個のスピンを0にした対照と比較できる — 減光は約14.9倍のコントラストからコア平均0.03へ潰れ、雲全体が散光星雲化する。c₀(光速)スライダーでも同じ転移を連続的に辿れる。"},
+    control:"おすすめA/B(ワンタップ): 下のボタンでコア54個のスピンを0にした対照と比較できる — 減光は約11.5倍のコントラストからコア平均0.03へ潰れ、雲全体が散光星雲化する。c₀(光速)スライダーでも同じ転移を連続的に辿れる。"},
   en:{name:"Rotor Nebula — Dark Cloud & Luminous Envelope", descStruct:{
     summary:"A thought experiment: what structure emerges if a dark nebula is assumed to be a swarm of optically extreme bodies (dark rotors)? 54 small high-spin rotors form hierarchical clumps (a dense central core plus two side clumps), wrapped in an envelope of 44 low-spin radiating particles. The rotors sweep out their own light and go dark (lightSweep auto — the A9/A11/E8R family), while the envelope's low spins let its radiation (E11) leak out and shine — one cloud contains both a dark nebula (core) and a luminous nebula (rim). Not a claim about real nebulae (gas and dust absorbing and scattering light — Negative Claims). ",
-    observe:"Fixed-seed measurements (3000 steps): mean dimming 0.86 for the core vs 0.08 for the envelope — a measured contrast of about 11.5. The core's mean |spin| grows to 11.4 (E6′ residual torque + contraction spin-up), so its dynamical temperature I·s² is in the thousands while its observed temperature is 0.62 — dynamically hot yet optically dark, the same reading as the 🍳 bulge. Moreover, sweep saturation also shuts off radiative cooling (E11 carries a (1−lS) factor), so the darkness traps the heat and sustains itself — raise light speed c₀ to 60 and the core desaturates, its spins radiate away, and the cloud turns luminous (the transition edge lies between c₀=40 and 60). Particle retention over 3000 steps: 85% core, 93% envelope. ",
-    control:"Suggested A/B (one tap): the button below compares against a control with all 54 core spins set to 0 — the dimming contrast collapses from about 14.9 to a core mean of 0.02 and the whole cloud becomes a luminous nebula. The c₀ (light speed) slider traces the same transition continuously."}},
+    observe:"Fixed-seed measurements (3000 steps): mean dimming 0.86 for the core vs 0.08 for the envelope — a measured contrast of about 11.5. The core's mean |spin| grows to 13.1 (E6′ residual torque + contraction spin-up), so its dynamical temperature I·s² is in the thousands while its observed temperature is 0.62 — dynamically hot yet optically dark, the same reading as the 🍳 bulge. Moreover, sweep saturation also shuts off radiative cooling (E11 carries a (1−lS) factor), so the darkness traps the heat and sustains itself — raise light speed c₀ to 60 and the core desaturates, its spins radiate away, and the cloud turns luminous (the transition edge lies between c₀=40 and 60). Particle retention over 3000 steps: 85% core, 93% envelope. ",
+    control:"Suggested A/B (one tap): the button below compares against a control with all 54 core spins set to 0 — the dimming contrast collapses from about 11.5 to a core mean of 0.03 and the whole cloud becomes a luminous nebula. The c₀ (light speed) slider traces the same transition continuously."}},
   activeParams:["cLight","kFrame","etaRad"],
   validT:48,   // 実測窓(3000步=t≈48)と一致
   abBody:{ label:{ja:"コアのスピン0(散光化)", en:"core spins = 0 (luminous)"},
@@ -3230,7 +3230,7 @@ const BUILTIN_PRESETS = [
     { id:"nebulaRotor.dimming-contrast", kind:"fixed-seed", metric:"coreLswMean",
       expected:{min:0.75, max:0.95},   // 実測0.859(第108便A: 巻き戻し後スピン増×c₀=30 で飽和が上がる — 旧0.77)
       descPattern:"コアの平均減光(\\d+\\.\\d+)",
-      control:{patch:{abBody:true}, expected:{min:0, max:0.1},   // 実測0.02(スピン0対照)
+      control:{patch:{abBody:true}, expected:{min:0, max:0.1},   // 実測0.03(スピン0対照 — 第127便で日英同期)
         descPattern:"コントラストからコア平均(\\d+\\.\\d+)へ潰れ"},
       testId:"claim.nebularotor-contrast" }
   ],
@@ -4680,11 +4680,11 @@ const BUILTIN_PRESETS = [
   familyId:"saturn", familyRole:"variant",   // 🪐(誇張)・🎯・🛰️ と同族(表示専用)
   failureFirst:{
     fail:"🪐(誇張アナログ)では kFrame=1 の引きずりが環を内側へ移動させ離心率を上げる(対照実験で実測済み)。同じ機構を実深度 d=GM/(c²r_C)=5.64×10⁻⁹ に置くと、引きずりも 1PN も走行時間内では検出限界以下になる(tests/exp-obscal.mjs §C 帯構成の弱場実測)。第117便版は無次元深度と半径比しか実に取れなかった(旧ティア指数の制約)。",
-    pass:"第118便でサンプル別スケール指数(1単位=10⁷m/10³s/10²⁶kg)を採用 — C環内縁 7.47(=74,658km)の軌道速度 2.18(=21.8km/s)・周期 6.4時間、土星質量 5.6834(=5.6834×10²⁶kg)・半径 6.03・自転 0.165(10.56時間)まで全て観測値になり、物理対応バッジも成立する。見えないのが正しい — 環は純ケプラー Ω∝r^−1.5 を保つ。"},
+    pass:"第118便のサンプル別スケール指数を第121便で惑星e6へ改めた(1単位=10⁶m/10²s/10²⁵kg)— C環内縁 74.658(=74,658km)の軌道速度 2.25(=22.5km/s)・周期 5.78時間、土星質量 56.834(=5.6834×10²⁶kg)・半径 60.3(=6.03×10⁷m)・自転 0.016528(10.56時間)まで全て観測値になり、物理対応バッジも成立する。見えないのが正しい — 環は純ケプラー Ω∝r^−1.5 を保つ。"},
   descStruct:{
-    summary:"実際の土星と環を実単位のまま置いた観測較正サンプル — ☄️(雛形)の構成をコピーした第3号。1単位=10⁷m/10³s/10²⁶kg(サンプル別スケール指数)で、土星質量 5.6834・半径 6.03(=6.03×10⁷m)・自転 0.165(10.56時間)、環は実半径の C帯[7.47,9.20]・B帯[9.20,11.76]・A帯[12.22,13.68](カッシーニの間隙 11.76〜12.22 も実位置)を各40粒で構成。重力(E4)による純ケプラー回転の上で、実深度では空間引きずり(A8)も測地線 1PN(E12 — A7′/E7R の作用化)も見えないことを確認する。物理対応条件 Kt=c₀²/G 成立。倍精度状態(stateCarry)は雛形の規約どおり。",
-    observe:"3つの帯が実位置のまま純ケプラーで回る — C環内縁の速度 2.18(=21.8km/s)・周期 6.4時間(HUD の t 表示は時間・日単位に自動変換)。回転曲線オーバーレイで v∝r^−0.5 の降下(Ω∝r^−1.5)を確認できる。🪐(誇張)と違い環は内側へ移動せず離心率も上がらない — 実深度では引きずりが検出限界以下だから(見えないのが正しい)。スケール換算で G・c₀・距離・速度・質量が実値に一致し、物理対応バッジが成立する。",
-    control:"環粒子は半径 0.01(=100km 級の代表粒)・質量 1e-6(=10²⁰kg — 環の総質量 1.5×10¹⁹kg に近い代表値。0.001=10²³kg では自己重力が実環より約6桁強く、数公転で帯が散乱・降着することを第118便で実測したため、公転を観測値に合わせる較正としてこの値を採る)。kFrame は 0(DFM の A8 引きずりは c² 抑制を持たない誇張可視化スケールの機構で、実自転 0.165 と併用すると軌道が実測から大きく外れることを第118便で実測 — 実単位サンプルでは引きずり非主張とし、スピンは表示・慣性のみ)。kFrame を 1 に上げると誇張引きずりの A/B 対照になる。λ_PN を動かしても画面は変わらない — それが実スケールの弱場。"},
+    summary:"実際の土星と環を実単位のまま置いた観測較正サンプル — ☄️(雛形)の構成をコピーした第3号。1単位=10⁶m/10²s/10²⁵kg(サンプル別スケール指数)で、土星質量 56.834(=5.6834×10²⁶kg)・半径 60.3(=6.03×10⁷m)・自転 0.016528(10.56時間)、環は実半径の C帯[74.658,92.0]・B帯[92.0,117.58]・A帯[122.17,136.775](カッシーニの間隙 117.58〜122.17 も実位置)を各40粒で構成。重力(E4)による純ケプラー回転の上で、実深度では空間引きずり(A8)も測地線 1PN(E12 — A7′/E7R の作用化)も見えないことを確認する。物理対応条件 Kt=c₀²/G 成立。倍精度状態(stateCarry)は雛形の規約どおり。",
+    observe:"3つの帯が実位置のまま純ケプラーで回る — C環内縁の速度 2.25(=22.5km/s)・周期 5.78時間(HUD の t 表示は時間・日単位に自動変換)。回転曲線オーバーレイで v∝r^−0.5 の降下(Ω∝r^−1.5)を確認できる。🪐(誇張)と違い環は内側へ移動せず離心率も上がらない — 実深度では引きずりが検出限界以下だから(見えないのが正しい)。スケール換算で G・c₀・距離・速度・質量が実値に一致し、物理対応バッジが成立する。",
+    control:"環粒子は半径 0.1(=100km 級の代表粒)・質量 1e-5(=10²⁰kg — 環の総質量 1.5×10¹⁹kg に近い代表値。0.01(=10²³kg)では自己重力が実環より約6桁強く、数公転で帯が散乱・降着することを第118便で実測したため、公転を観測値に合わせる較正としてこの値を採る)。kFrame は 0(DFM の A8 引きずりは c² 抑制を持たない誇張可視化スケールの機構で、実自転 0.016528 と併用すると軌道が実測から大きく外れることを第118便で実測 — 実単位サンプルでは引きずり非主張とし、スピンは表示・慣性のみ)。kFrame を 1 に上げると誇張引きずりの A/B 対照になる。λ_PN を動かしても画面は変わらない — それが実スケールの弱場。"},
   en:{name:"Saturn's Rings (Real Units) — invisible is correct",
     obsCard:[
       {q:"C-ring inner-edge period", model:"5.78 h (exact Kepler)", obs:"5.8 h"},
@@ -4692,11 +4692,11 @@ const BUILTIN_PRESETS = [
       {q:"Orbital speed (C-ring inner edge)", model:"22.5 km/s", obs:"22.5 km/s"}],
     failureFirst:{
       fail:"In 🪐 (the exaggerated analog), kFrame=1 dragging migrates the ring inward and raises eccentricity (measured in the control experiment). At the real depth d=GM/(c²r_C)=5.64×10⁻⁹ both dragging and 1PN fall below detection within any run time (tests/exp-obscal.mjs §C). The wave-117 version could only take the dimensionless depth and radius ratios as real (a limitation of the old tier exponents).",
-      pass:"Wave 118 adopts per-sample scale exponents (1 unit = 10⁷ m / 10³ s / 10²⁶ kg) — the C-ring inner edge 7.47 (=74,658 km) orbits at 2.18 (=21.8 km/s) with a 6.4-hour period, and Saturn's mass 5.6834 (=5.6834×10²⁶ kg), radius 6.03 and spin 0.165 (10.56-hour rotation) are all observed values; the correspondence badge holds. Invisible IS correct — the ring keeps pure Kepler rotation Ω∝r^−1.5."},
+      pass:"Wave 118's per-sample scale exponents, recast to the planetary e6 tier in wave 121 (1 unit = 10⁶ m / 10² s / 10²⁵ kg) — the C-ring inner edge 74.658 (=74,658 km) orbits at 2.25 (=22.5 km/s) with a 5.78-hour period, and Saturn's mass 56.834 (=5.6834×10²⁶ kg), radius 60.3 (=6.03×10⁷ m) and spin 0.016528 (10.56-hour rotation) are all observed values; the correspondence badge holds. Invisible IS correct — the ring keeps pure Kepler rotation Ω∝r^−1.5."},
     descStruct:{
-    summary:"The real Saturn and its rings in real units — the third sample copying the ☄️ template. With per-sample scale exponents (1 unit = 10⁷ m / 10³ s / 10²⁶ kg), Saturn's mass 5.6834, radius 6.03 (=6.03×10⁷ m) and spin 0.165 (10.56 h), and the rings at their real radii — C [7.47, 9.20], B [9.20, 11.76], A [12.22, 13.68] with the Cassini division at its real position — 40 grains per band. On top of pure Kepler rotation from gravity (E4), it confirms that at real depth neither frame dragging (A8) nor geodesic 1PN (E12 — the actionization of A7′/E7R) is visible. Kt=c₀²/G holds; double-precision state (stateCarry) follows the template. ",
-    observe:"The three bands orbit at their real positions in pure Kepler motion — 2.18 (=21.8 km/s) at the C-ring inner edge, a 6.4-hour period (the HUD time display auto-converts to hours/days). The rotation-curve overlay shows the v∝r^−0.5 falloff (Ω∝r^−1.5). Unlike 🪐, the ring does not migrate inward and eccentricity does not rise — at real depth dragging is below detection (invisible IS correct). The scale conversion matches G, c₀, distances, speeds and masses, and the correspondence badge is satisfied. ",
-    control:"Ring grains have radius 0.01 (=100 km-class representative particles) and mass 1e-6 (=10²⁰ kg — a representative value near the ring's real total mass of 1.5×10¹⁹ kg; at 0.001=10²³ kg the grains' self-gravity is ~6 orders stronger than the real ring and wave 118 measured the bands scattering and accreting within a few orbits, so this value is the calibration that keeps the orbits observational). kFrame is 0: DFM's A8 dragging is an exaggerated-visualization-scale mechanism without c² suppression, and wave 118 measured that combining it with the real spin 0.165 pulls the orbits far from observation — real-unit samples make no dragging claim, so spins act on display and inertia only. Raise kFrame to 1 for an A/B contrast with the exaggerated dragging. Moving λ_PN changes nothing on screen — that is the real weak field."}},
+    summary:"The real Saturn and its rings in real units — the third sample copying the ☄️ template. With per-sample scale exponents (1 unit = 10⁶ m / 10² s / 10²⁵ kg), Saturn's mass 56.834 (=5.6834×10²⁶ kg), radius 60.3 (=6.03×10⁷ m) and spin 0.016528 (10.56 h), and the rings at their real radii — C [74.658, 92.0], B [92.0, 117.58], A [122.17, 136.775] with the Cassini division at its real position — 40 grains per band. On top of pure Kepler rotation from gravity (E4), it confirms that at real depth neither frame dragging (A8) nor geodesic 1PN (E12 — the actionization of A7′/E7R) is visible. Kt=c₀²/G holds; double-precision state (stateCarry) follows the template. ",
+    observe:"The three bands orbit at their real positions in pure Kepler motion — 2.25 (=22.5 km/s) at the C-ring inner edge, a 5.78-hour period (the HUD time display auto-converts to hours/days). The rotation-curve overlay shows the v∝r^−0.5 falloff (Ω∝r^−1.5). Unlike 🪐, the ring does not migrate inward and eccentricity does not rise — at real depth dragging is below detection (invisible IS correct). The scale conversion matches G, c₀, distances, speeds and masses, and the correspondence badge is satisfied. ",
+    control:"Ring grains have radius 0.1 (=100 km-class representative particles) and mass 1e-5 (=10²⁰ kg — a representative value near the ring's real total mass of 1.5×10¹⁹ kg; at 0.01 (=10²³ kg) the grains' self-gravity is ~6 orders stronger than the real ring and wave 118 measured the bands scattering and accreting within a few orbits, so this value is the calibration that keeps the orbits observational). kFrame is 0: DFM's A8 dragging is an exaggerated-visualization-scale mechanism without c² suppression, and wave 118 measured that combining it with the real spin 0.016528 pulls the orbits far from observation — real-unit samples make no dragging claim, so spins act on display and inertia only. Raise kFrame to 1 for an A/B contrast with the exaggerated dragging. Moving λ_PN changes nothing on screen — that is the real weak field."}},
   abBody:{ label:{ja:"kFrame=1(引きずりが見える — 💿対照)", en:"kFrame=1 (dragging becomes visible)"},
     physicsPatch:{kFrame:1, q:3} },   // 第121便: 💿のワンタップ対照を💍へ(第123便: 💿較正化に伴い q=3 の誇張引きずりを見せる対照に)
   activeParams:["kFrame","lambdaPN","dispMag"],
