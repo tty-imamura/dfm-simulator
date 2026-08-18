@@ -4395,14 +4395,22 @@ if (!FAST) {
         // 第94便: 4指数ビルド(HP.setScaleExps あり)では cLight は専用の光速指数 eC で換算される
         // (既定 8.0 → "≈6e9 m/s")。exp0 検査は4指数すべてを 0 に置いて従来の "≈60 m/s" を見る。
         // 旧ビルド(root)は距離指数のみの setScaleExp(0) で同じ表示になる
+        // 第130便: eC の手動上書きを廃止(C は受理して無視)したので、eC は 🔥gas のティア既定
+        // (分子 eC=3)に固定される → cLight60 の換算は "≈6e4 m/s"。距離/時間/質量の 0 化と
+        // 力学 bit 一致の検査そのものは不変(弱体化なし)
         if (HP.setScaleExps) HP.setScaleExps({ L: 0, T: 0, M: 0, C: 0 });
         else HP.setScaleExp(0);
         const conv0 = HP.scaleConvStr('cLight', 60);
+        const eC0 = HP.scaleEff ? HP.scaleEff().eC : null;
         if (HP.setScaleExps) HP.setScaleExps(null); else HP.setScaleExp(null);
-        return { same, n: a.length / 5, conv0, convNullKey: HP.scaleConvStr('kRep', 1) === null };
+        return { same, n: a.length / 5, conv0, eC0, convNullKey: HP.scaleConvStr('kRep', 1) === null };
       });
-      add('scale.display-invariant', inv.same && inv.conv0 === '≈60 m/s' && inv.convNullKey,
-        `240步 bit一致=${inv.same}(N=${inv.n})/ 換算 exp0: cLight60→"${inv.conv0}"(=≈60 m/s)/ 無次元キーは非換算=${inv.convNullKey}`);
+      const gen130di = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').includes('eC は常にタグ既定');
+      const wantConv0 = gen130di ? '≈6e4 m/s' : '≈60 m/s';
+      add('scale.display-invariant', inv.same && inv.conv0 === wantConv0 && inv.convNullKey
+        && (!gen130di || inv.eC0 === 3),
+        `240步 bit一致=${inv.same}(N=${inv.n})/ 換算 exp0: cLight60→"${inv.conv0}"(=${wantConv0}` +
+        `${gen130di ? ` — 第130便: eC は 🔥gas のティア既定 3 に固定(実測 eC=${inv.eC0})` : ''})/ 無次元キーは非換算=${inv.convNullKey}`);
 
       // 第99便(外部レビュー P0): **全タイアを実クリック**する。第98便で SCALE_TIERS は7段化
       // したのに AI_SCALE_TPL 内部表が5段のままで、beaker/planetary/stellar の「挿入」が
@@ -7249,19 +7257,25 @@ if (!FAST) {
         // 第126便: eC スケール別化で、現在のプリセットの4指数が9行表と完全一致する場合は
         // その行が初期選択になる(molecular/galactic/cosmic 等)— 一致行の期待値を動的に計算
         const gen126i = document.documentElement.outerHTML.includes('TIER_EC');
+        // 第130便: eC の手動上書きを廃止 — 一括設定・一致判定とも距離/時間/質量の3指数だけを見る
+        // (eC はサンプルのティア既定に固定。🔥gas=分子タグなので eC=3 のまま動かない)
+        const gen130i = document.documentElement.outerHTML.includes('eC は常にタグ既定');
         const ROWS = [['molecular',-10,-13,-26,3],['beaker',-2.5,-2.5,-2.5,0],['everyday',0,0,0,0],
           ['planetE6',6,2,25,4],['planetE7',7,3,26,4],['planetE8',8,4,27,4],
           ['stellar',11,7,30,4],['galactic',19,14,34,5],['cosmic',23,17,42,6]];
         const effI = HP.scaleEffNow();
+        const eC0 = effI.eC;
         const rowI = ROWS.find((w) => Math.abs(effI.x - w[1]) < 1e-9 && Math.abs(effI.eT - w[2]) < 1e-9
-          && Math.abs(effI.eM - w[3]) < 1e-9 && Math.abs(effI.eC - w[4]) < 1e-9);
+          && Math.abs(effI.eM - w[3]) < 1e-9 && (gen130i || Math.abs(effI.eC - w[4]) < 1e-9));
         const initOk = q('#scaleBaseSel').value === (gen126i && rowI ? rowI[0] : '');
-        // 行選択で4指数が一括で表の値へ(惑星(e8)= 8/4/27・C=4)
+        // 行選択で指数が一括で表の値へ(惑星(e8)= 8/4/27・C=4。第130便では eC は据置=3)
         let sel = q('#scaleBaseSel');
         sel.value = 'planetE8'; sel.dispatchEvent(new Event('change'));
         const e1 = HP.scaleEffNow();
         const setOk = Math.abs(e1.x - 8) < 1e-9 && Math.abs(e1.eT - 4) < 1e-9
-          && Math.abs(e1.eM - 27) < 1e-9 && Math.abs(e1.eC - 4) < 1e-9;
+          && Math.abs(e1.eM - 27) < 1e-9 && Math.abs(e1.eC - (gen130i ? eC0 : 4)) < 1e-9;
+        // 第130便: eC スライダーは撤去済み(旧世代は存在する)
+        const cSliderOk = !!q('#scaleExpCSlider') === !gen130i;
         // 個別スライダーの変更 → 「なし(個別指定)」へ
         const tr = q('#scaleExpTSlider'); tr.value = '5'; tr.dispatchEvent(new Event('input'));
         const noneOk = q('#scaleBaseSel').value === '';
@@ -7283,11 +7297,13 @@ if (!FAST) {
         HP.setScaleExps(null);
         if (keepS === null) localStorage.removeItem('hp_saves'); else localStorage.setItem('hp_saves', keepS);
         HP.doImportText('[]');   // 保存一覧の再描画(復元後)
-        return { orderOk, initOk, setOk, noneOk, savedOk, resetOk, restoredOk };
+        return { orderOk, initOk, setOk, noneOk, savedOk, resetOk, restoredOk, cSliderOk, gen130i, eC0 };
       });
-      add('scale.base-select', sb.orderOk && sb.initOk && sb.setOk && sb.noneOk && sb.savedOk && sb.resetOk && sb.restoredOk,
+      add('scale.base-select', sb.orderOk && sb.initOk && sb.setOk && sb.noneOk && sb.savedOk
+        && sb.resetOk && sb.restoredOk && sb.cSliderOk,
         `並び(バー→換算→ベース)=${sb.orderOk} 初期=タグ(${sb.initOk}) 一括設定=${sb.setOk} 個別変更→なし=${sb.noneOk} `
-        + `セーブ保存=${sb.savedOk} ロードで既定復帰=${sb.resetOk} セーブ読込で復元+なし表示=${sb.restoredOk}`);
+        + `セーブ保存=${sb.savedOk} ロードで既定復帰=${sb.resetOk} セーブ読込で復元+なし表示=${sb.restoredOk} `
+        + `/ eC=${sb.eC0}(${sb.gen130i ? '第130便: 一括設定の対象外・スライダー撤去' : '旧世代: 一括設定に含む・スライダーあり'})=${sb.cSliderOk}`);
     } else {
       console.log('SKIP scale.base-select(対象にベースのスケールUIなし — 第104便 未適用の root 等)');
     }
@@ -12717,9 +12733,13 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       buildParamRows();
       const sel = document.querySelector('#scaleBaseSel');
       out.baseOpts = sel ? sel.options.length : 0;
-      if (sel) { sel.value = 'planetE7'; sel.dispatchEvent(new Event('change'));
+      // 第130便: eC は一括設定の対象外(ティア既定に固定)— 旧世代は表の C=4 が入る
+      const gen130b = document.documentElement.outerHTML.includes('eC は常にタグ既定');
+      if (sel) { const eCBefore = scaleEffNow().eC;
+        sel.value = 'planetE7'; sel.dispatchEvent(new Event('change'));
         const e = scaleEffNow();
-        out.baseSet = e.x === 7 && e.eT === 3 && e.eM === 26 && e.eC === 4;
+        out.baseSet = e.x === 7 && e.eT === 3 && e.eM === 26
+          && e.eC === (gen130b ? eCBefore : 4);
         setScaleExps(null); }
       // ② スケールタグ=距離指数: ☄️(scaleExp L=8)は惑星
       out.tierMercury = presetTierOf(HP.allPresets().find((p) => p.id === 'mercuryReal')) === 'planetary';
@@ -13124,13 +13144,19 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       HP.setScaleExps({ T: 1 });
       out.gyT1 = HP.scaleConvStr('gravityY', 9.8);   // 期待 ≈0.098 m/s²(指数 0−2·1=−2)
       out.effT1 = HP.scaleEff().eT;
-      // ロードで4指数ともタグ既定へ戻る
+      // ロードで指数がタグ既定へ戻る
       HP.setScaleExps({ L: 3, T: 5, M: 7, C: 2 });
       HP.loadPreset('projectile', false);
       out.effReset = HP.scaleEff();
-      // スケールカテゴリの新スライダー3本(時間/質量/光速)
-      out.sliders = ['scaleExpTSlider', 'scaleExpMSlider', 'scaleExpCSlider']
+      // 第130便: eC 手動上書きの廃止 — setScaleExps({C}) は受理して無視(後方互換)。
+      // 🏠projectile(日常タグ)の eC 既定は 0 なので、C:9 を投げても 0 のままであること
+      HP.setScaleExps({ C: 9 });
+      out.eCAfterSetC = HP.scaleEff().eC;
+      HP.setScaleExps(null);
+      // スケールカテゴリの新スライダー(時間/質量)。光速 eC のスライダーは第130便で撤去
+      out.sliders = ['scaleExpTSlider', 'scaleExpMSlider']
         .map((id) => !!document.getElementById(id));
+      out.cSlider = !!document.getElementById('scaleExpCSlider');
       HP.loadPreset('saturn', false);
       return out;
     });
@@ -13140,6 +13166,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     const srcOn = /let scaleDispOn\s*=\s*true/.test(srcQ);
     // 第126便: 光速表示較正一括 — eC 既定が一律7からスケール別(分子3/ビーカー0/日常0/惑星4/恒星4/銀河5/宇宙6)へ
     const gen126 = srcQ.includes('TIER_EC');
+    // 第130便: eC の手動上書きを廃止(スライダー撤去・setScaleExps の C は受理して無視)
+    const gen130 = srcQ.includes('eC は常にタグ既定');
     const effIs = (e, v, ec) => e && e.x === v && e.eT === v && e.eM === v
       && e.eC === (gen126 ? ec : 7);
     add('scale.exponents',
@@ -13150,12 +13178,17 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       && r.tierPl === 'planetary' && r.tierSt === 'stellar'
       && /e-9 m\/s²/.test(String(r.gyGal))
       && /0\.098/.test(String(r.gyT1)) && r.effT1 === 1
-      && effIs(r.effReset, 0, 0) && r.sliders.every(Boolean) && srcOn,
+      && effIs(r.effReset, 0, 0) && r.sliders.every(Boolean) && srcOn
+      && r.cSlider === !gen130
+      && r.eCAfterSetC === (gen130 ? 0 : 9),
       `7分類=${r.tier7} / 日常既定 ${JSON.stringify(r.effEvery)}: g_y 9.8→"${r.gy}"(実値)・cLight30→"${r.cEvery}" / ` +
       `ビーカー ${JSON.stringify(r.effBeaker)}: g_y 0.031→"${r.gyBk}"(≈9.8 m/s²)/ ` +
       `惑星 cLight30→"${r.cPl}"(${gen126 ? 'eC=ティア別 x−eT〔第126便〕' : 'eC=7 全タグ共通'}・🪐=${r.tierPl}・☀️=${r.tierSt})/ 銀河 g_y→"${r.gyGal}"(×1e-9)/ ` +
       `T上書き=1→"${r.gyT1}" / ロード復帰=${JSON.stringify(r.effReset)} / ` +
-      `新スライダー3本=${r.sliders.join(',')} / 換算表示の既定ON(ソース)=${srcOn}`);
+      `スライダー(時間・質量)=${r.sliders.join(',')}・光速eC=${r.cSlider}` +
+      `(${gen130 ? '第130便: 撤去=期待 false・setScaleExps({C:9})→eC=' + r.eCAfterSetC + '(受理して無視)'
+        : '旧世代: あり=期待 true・setScaleExps({C:9})→eC=' + r.eCAfterSetC})` +
+      ` / 換算表示の既定ON(ソース)=${srcOn}`);
   } else {
     console.log('SKIP scale.exponents(対象に4指数スケールなし — root 等。第94便)');
   }
@@ -13165,11 +13198,15 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   // ----   専用指数 eC の表示規約(次元系なら x−eT)。①☀️実G値 6.674 の表示=万有引力定数
   // ----   ②physLock の Kt=c₀²/G は「次元的c = c₀·10^(x−eT)=3e5」と厳密整合(Kt表示=c_dim²/G表示)
   // ----   ③表示c(3e8)で読むと 10^(2(eC−(x−eT)))=1e6 倍ずれて見える — cLight のみ表示規約で
-  // ----   あることの見かけの差で実装の矛盾ではない(PHYSICS §5 注記と対応)----
+  // ----   あることの見かけの差で実装の矛盾ではない(PHYSICS §5 注記と対応)
+  // ---- 第130便(原仮定者裁定「eC 廃止: 進める」): eC の手動上書きを廃止し、光速換算を
+  // ----   ティア別 x−eT へ一本化した世代では ③ の見かけの差は**消える**(表示c=次元的c)。
+  // ----   ①②(実G値表示・恒等式 Kt=c_dim²/G_SI)は世代不変で従来どおり機械固定する ----
   if (hasExp4) {
     const r = await page.evaluate(() => {
       const parse = (s) => parseFloat(String(s).replace(/^≈/, ''));
       HP.setScaleExps({ L: 11, T: 7, M: 30, C: 7 });   // ☀️stellar アンカー(太陽系観測較正の標準)
+      // 第130便: C:7 は受理して無視される(eC は 🪐saturn のティア既定 4 のまま)
       const G = 6.674, Kt = 30 * 30 / G;
       // 第128便: 時空係数の換算キーが Kt(kg/m)→ kappaT(m/kg)へ交代。恒等式の照合は
       //   「Kt 換算値」に揃えて行う(κ 換算値の逆数 — 次元指数も符号反転しているので整合する)
@@ -13178,7 +13215,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         g: parse(HP.scaleConvStr('G', G)),         // 実G値規約 → 6.674e-11
         kt: kapGen ? 1 / parse(HP.scaleConvStr('kappaT', 1 / Kt))
           : parse(HP.scaleConvStr('Kt', Kt)),      // 次元換算 −x+eM=19 → ≈1.35e21 kg/m
-        c: parse(HP.scaleConvStr('cLight', 30)),   // eC 表示規約 → 3e8 m/s
+        c: parse(HP.scaleConvStr('cLight', 30)),   // eC 表示規約 → 旧: 3e8 m/s / 第130便: 3e5 m/s
+        eC: HP.scaleEff().eC,
         cDim: 30 * Math.pow(10, 11 - 7),           // 次元的 c(x−eT=4)= 3e5 m/s
       };
       HP.setScaleExps(null); HP.loadPreset('galaxy', false);
@@ -13186,13 +13224,18 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     });
     const rel = (a, b) => Math.abs(a / b - 1);
     const idDim = rel(r.kt, r.cDim * r.cDim / r.g);   // ② 次元系の恒等式(表示丸め内で 0)
-    const gapDisp = r.c * r.c / r.g / r.kt;           // ③ 表示cで読んだ見かけの差 ≈1e6
+    const gapDisp = r.c * r.c / r.g / r.kt;           // ③ 表示cで読んだ見かけの差(旧世代 ≈1e6)
+    const gen130g = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').includes('eC は常にタグ既定');
+    const wantC = gen130g ? 3e5 : 3e8;     // 第130便: 表示c は次元的c と一致する
+    const wantGapLog = gen130g ? 0 : 6;    // 第130便: 見かけの差は 1(=10^0)へ解消
     add('scale.cg-consistency',
-      rel(r.g, 6.674e-11) < 0.01 && rel(r.c, 3e8) < 0.01 && idDim < 0.02
-      && Math.abs(Math.log10(gapDisp) - 6) < 0.02,
-      `☀️アンカー: G表示=${r.g}(実G値→万有引力定数) c表示=${r.c}(eC規約) Kt表示=${r.kt} kg/m / ` +
+      rel(r.g, 6.674e-11) < 0.01 && rel(r.c, wantC) < 0.01 && idDim < 0.02
+      && Math.abs(Math.log10(gapDisp) - wantGapLog) < 0.02
+      && (!gen130g || (rel(r.c, r.cDim) < 0.01 && r.eC === 4)),
+      `☀️アンカー: G表示=${r.g}(実G値→万有引力定数) c表示=${r.c}(eC=${r.eC} の表示規約・期待${wantC}) Kt表示=${r.kt} kg/m / ` +
       `次元的c=3e5 → 恒等式 Kt=c_dim²/G_SI の残差=${idDim.toExponential(1)}(整合)/ ` +
-      `表示cで読むと ×${gapDisp.toExponential(2)}(≈1e6 の見かけ差 — 規約どおり)`);
+      `表示cで読むと ×${gapDisp.toExponential(2)}(期待 1e${wantGapLog} — ` +
+      `${gen130g ? '第130便: eC 一本化で見かけ差は解消(表示c=次元的c)' : '旧世代: ≈1e6 の見かけ差 — 規約どおり'})`);
   } else {
     console.log('SKIP scale.cg-consistency(対象に4指数スケールなし — root 等。第94便)');
   }
@@ -13213,6 +13256,11 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
           localStorage.setItem('hp_custom_presets', JSON.stringify([cp]));
           HP.loadPreset('custom_qa_realc', false);
           const out = { eC: HP.scaleEff().eC, cStr: HP.scaleConvStr('cLight', 30000) };
+          // 第130便: eC の手動上書きは廃止 — 実cプリセットの自動切替(x−eT=4)は
+          // setScaleExps({C}) で剥がせないこと(旧世代は剥がせる)まで機械固定する
+          HP.setScaleExps({ C: 9 });
+          out.eCForced = HP.scaleEff().eC;
+          HP.setScaleExps(null);
           HP.loadPreset('galaxy', false);
           out.eCBack = HP.scaleEff().eC;
           return out;
@@ -13221,9 +13269,14 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
           else localStorage.setItem('hp_custom_presets', keep);
         }
       });
-      const gen126b = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').includes('TIER_EC');
-      add('scale.realc-display', r.eC === 4 && String(r.cStr) === '≈3e8 m/s' && r.eCBack === (gen126b ? 5 : 7),
+      const srcRC = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+      const gen126b = srcRC.includes('TIER_EC');
+      const gen130b = srcRC.includes('eC は常にタグ既定');
+      add('scale.realc-display', r.eC === 4 && String(r.cStr) === '≈3e8 m/s'
+        && r.eCBack === (gen126b ? 5 : 7)
+        && r.eCForced === (gen130b ? 4 : 9),
         `実cプリセット(☀️c=3e4): eC既定=${r.eC}(=x−eT=4)・cLight表示="${r.cStr}"(実光速に一致) / ` +
+        `setScaleExps({C:9})→eC=${r.eCForced}(${gen130b ? '第130便: 上書き廃止で 4 のまま' : '旧世代: 上書き可'}) / ` +
         `c₀=30 サンプルへ戻すと eC=${r.eCBack}(従来規約 — 既存表示は不変)`);
     } else {
       console.log('SKIP scale.realc-display(対象に第115便 未適用 — root 等)');
