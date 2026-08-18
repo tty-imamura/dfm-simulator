@@ -331,6 +331,27 @@
     border-radius:8px;padding:0 6px;margin-right:6px;white-space:nowrap;vertical-align:1px;opacity:.85;}
   .claimKind{font-size:calc(10px*var(--uz,1));color:var(--dim);border:1px solid var(--line);
     border-radius:8px;padding:0 6px;margin-right:6px;white-space:nowrap;vertical-align:1px;}
+  /* 第132便 EXT-02 第2段: 主張の連鎖カード(claims 行タップで開く。行はタップ領域を確保) */
+  .claimRow.chainable{cursor:pointer;touch-action:manipulation;padding:3px 4px;border-radius:8px;}
+  .claimRow.chainable:active{background:var(--panel2);}
+  .chainCard{margin:2px 0 10px 6px;padding:6px 10px;border-left:2px solid var(--acc);
+    background:var(--panel2);border-radius:0 8px 8px 0;}
+  .chainHead{font-size:calc(11.5px*var(--uz,1));font-weight:700;margin:2px 0 4px;color:var(--acc);}
+  .chRow{font-size:calc(11.5px*var(--uz,1));line-height:1.55;margin:3px 0;
+    overflow-wrap:anywhere;word-break:break-word;}
+  .chRow>b{color:var(--dim);font-weight:600;margin-right:4px;}
+  .chRow[data-decl=none]{color:var(--dim);}
+  .chNote{font-size:calc(10.5px*var(--uz,1));color:var(--dim);line-height:1.5;margin:6px 0 2px;}
+  /* 第132便 EXT-06: 較正台帳(バッジ列直下の1行チップ+タップで内訳。折畳み時は1行のみ) */
+  details.cbDetails{margin:2px 0 10px;border:1px solid var(--line);border-radius:10px;padding:2px 10px;}
+  details.cbDetails>summary{cursor:pointer;min-height:34px;display:flex;align-items:center;
+    font-size:calc(12px*var(--uz,1));font-weight:700;touch-action:manipulation;list-style-position:inside;}
+  .cbRow{font-size:calc(11.5px*var(--uz,1));line-height:1.55;margin:4px 0;
+    overflow-wrap:anywhere;word-break:break-word;}
+  .cbRow>b{color:var(--dim);font-weight:600;margin-right:4px;}
+  .cbRow[data-cb=derived]{color:var(--acc);}
+  .cbRow[data-cb=calib]{color:var(--hot);}
+  .cbRow[data-cb=cond],.cbRow[data-cb=num]{color:var(--dim);}
   /* 第50便 50K(台帳4-78 C案): 構造化説明の区分見出し */
   .descSectHead{color:var(--dim);font-weight:600;margin:10px 0 2px;
     font-size:calc(12px*var(--uz,1));letter-spacing:0.02em;}
@@ -1028,6 +1049,29 @@ ja: {
   // 第105便B EXT-02: 主張の出所6分類(Claim Provenance — 段階導入第1段)
   provNames:{axiom:"公理", definition:"定義", derived:"導出", calibrated:"較正", simulated:"実測", analogy:"類似"},
   provTip:"主張の出所(EXT-02): 公理=仮定そのもの/定義=量・規則の定義から従う/導出=公理から数学的に従う/較正=現実の観測値への対応付けで決めた(例: κ=G/c²・D68)/実測=シミュレーション実走の測定値/類似=実在現象の名前を借りたアナロジー(定量主張なし)。連鎖: 公理→方程式→パラメータ→(較正)→シミュレーション→観測量→QA検証",
+  // 第132便 EXT-02 第2段: 主張の連鎖カード(claims 行タップで開く — 表示専用)
+  chHead:"🔗 主張の連鎖",
+  chAx:"公理", chEq:"方程式", chParam:"パラメータ", chCalib:"較正",
+  chSim:"シミュレーション", chObs:"観測量", chQa:"QA検証",
+  chNone:"—(宣言なし — 汎用テンプレートのみ)",
+  chNoneQa:"—(専用テストなし)",
+  chCalibYes:"あり — 現実の観測値への対応付けで決めた値を含む(較正1件)",
+  chCalibNo:"なし — 追加の較正なしで得た項目(無較正)",
+  chSimKind:{analytic:"解析式の評価(実走なし — 閉形式解と照合)",
+    conservation:"帳簿込みの保存恒等式を実走で照合",
+    semantic:"定義・規則の回帰照合(実走の状態を読む)",
+    "fixed-seed":"固定 seed 1本の決定論的実走",
+    "multi-seed":"シード群にわたる実走の統計"},
+  chSimNa:"実走(検証形態の宣言なし)",
+  chTapTip:"タップで「主張の連鎖」(公理→方程式→パラメータ→(較正)→シミュレーション→観測量→QA検証)を開く",
+  // 第132便 EXT-06: 較正台帳(Calibration Budget)— 「この結果は何自由度で得たか」の自動集計
+  cbChip:(n,d,m,k)=>"⚖️ 較正台帳: ノブ"+n+"(導出"+d+")・較正"+m+"・検証"+k,
+  cbTip:"較正台帳(EXT-06): ノブ=既定値から変えた物理パラメータの数(=このサンプルが使った自由度)/導出=ノブに見えるが自動算出で自由度ではないもの(qLock の q・physLock の κ)/較正=観測値への対応付けで決めた主張の件数(観測ごとの追加 fit 数)/検証=較正なしで機械検証している主張の件数。実験条件(g_x/g_y)と数値設定(ε 等)は自由度の外なので別行に置く。宣言は持たず、プリセットと実行時状態から毎回自動算出する(表示専用 — 物理・保存 JSON に無関係)。",
+  cbKnobs:"設定ノブ(自由度)", cbDerived:"導出値(ノブではない)",
+  cbCalibList:"較正した主張", cbVerifyList:"無較正の検証項目",
+  cbCond:"実験条件(自由度外)", cbNum:"数値設定(自由度外)",
+  cbNone:"—(なし)", cbDefault:"既定",
+  cbQLock:"qLock 自動算出(LT整合則 q*)", cbPhysLock:"physLock 導出(κ=G/cLight²)",
   presetIdTip:"プリセットの機械名(id)。論文・QA・エクスポートJSONはこの名前でサンプルを参照する(例: 論文の preset galaxy = 🌌銀河の回転曲線)。タップでコピー。サンプル選択ウィンドウの検索欄にもこのIDで入力できる。",
   // 第50便 50K(台帳4-78 C案): 構造化説明の区分見出し
   descSummaryHead:"📌 要約", descObserveHead:"👀 観察のポイント", descControlHead:"🎛 操作と対照",
@@ -1429,6 +1473,29 @@ en: {
   // 第105便B EXT-02: claim provenance (6 classes, staged rollout 1)
   provNames:{axiom:"axiom", definition:"definition", derived:"derived", calibrated:"calibrated", simulated:"simulated", analogy:"analogy"},
   provTip:"Where the claim comes from (EXT-02): axiom = the assumption itself / definition = follows from a definition or rule / derived = follows mathematically from the axioms / calibrated = fixed by matching a real observed value (e.g. κ=G/c², D68) / simulated = measured in an actual simulation run / analogy = borrows the name of a real phenomenon (no quantitative claim). Chain: axioms → equations → parameters → (calibration) → simulation → observables → QA checks",
+  // 第132便 EXT-02 stage 2: claim-chain card (opened by tapping a claim row — display only)
+  chHead:"🔗 Chain of the claim",
+  chAx:"Axioms", chEq:"Equations", chParam:"Parameters", chCalib:"Calibration",
+  chSim:"Simulation", chObs:"Observable", chQa:"QA check",
+  chNone:"— (not declared — generic template only)",
+  chNoneQa:"— (no dedicated test)",
+  chCalibYes:"Yes — includes a value fixed by matching a real observation (1 calibration)",
+  chCalibNo:"None — obtained without any additional calibration",
+  chSimKind:{analytic:"Evaluation of a closed-form expression (no run — compared with the analytic solution)",
+    conservation:"Ledger-closed conservation identity checked on an actual run",
+    semantic:"Regression check of a definition or rule (reads the state of an actual run)",
+    "fixed-seed":"One deterministic run at a fixed seed",
+    "multi-seed":"Statistics over an ensemble of seeds"},
+  chSimNa:"An actual run (verification kind not declared)",
+  chTapTip:"Tap to open the chain of the claim (axioms → equations → parameters → (calibration) → simulation → observable → QA check)",
+  // 第132便 EXT-06: Calibration Budget — how many degrees of freedom produced this result
+  cbChip:(n,d,m,k)=>"⚖️ Calibration budget: knobs "+n+" (derived "+d+") · calibrated "+m+" · verified "+k,
+  cbTip:"Calibration budget (EXT-06): knobs = physics parameters this sample changed from their defaults (= the degrees of freedom it used) / derived = things that look like knobs but are auto-derived, so they are not free (q under qLock, κ under physLock) / calibrated = claims fixed by matching a real observation (one extra fit per observation) / verified = claims machine-checked without any calibration. Experimental conditions (g_x/g_y) and numerical settings (ε etc.) are outside the degrees of freedom and get their own rows. Nothing is declared per sample — the budget is recomputed from the preset and the runtime state every time (display only; no effect on physics or saved JSON).",
+  cbKnobs:"Knobs (degrees of freedom)", cbDerived:"Derived (not a knob)",
+  cbCalibList:"Calibrated claims", cbVerifyList:"Uncalibrated checks",
+  cbCond:"Experimental conditions (outside the budget)", cbNum:"Numerical settings (outside the budget)",
+  cbNone:"— (none)", cbDefault:"default",
+  cbQLock:"auto-derived by qLock (LT-matching q*)", cbPhysLock:"derived by physLock (κ=G/cLight²)",
   presetIdTip:"The preset's machine name (id). Papers, QA and exported JSON refer to samples by this name (e.g. preset galaxy = 🌌 Galaxy rotation curve). Tap to copy. The sample-picker search box also accepts this ID.",
   // 第50便 50K(台帳4-78 C案): structured-description section heads
   descSummaryHead:"📌 Summary", descObserveHead:"👀 What to observe", descControlHead:"🎛 Controls & contrasts",
@@ -2108,6 +2175,67 @@ const PARAM_ROLES={
   gravityX:"experiment", gravityY:"experiment",
   dispMag:"numerics", softening:"numerics", timeScale:"numerics"};   // 第118便: radiusScale の UI 廃止→dispMag(表示専用)
 function paramRole(key){ return PARAM_ROLES[key]||"physics"; }
+// 第132便 EXT-06(較正台帳 Calibration Budget): 「この結果は何自由度で得たか」の自動集計。
+// sampleClass・PARAM_ROLES と同じ**保守コストゼロ方針** — per-sample の手書き台帳は持たず、
+// プリセット宣言(physics・claims・qLock)と実行時状態(qLock/physLock トグル)だけから
+// 純関数で算出する。**表示専用** — 物理・保存 JSON・AI 仕様には一切影響しない。
+//   ノブ N : PARAM_ROLES role=physics のキーのうち、プリセットが DEFAULT_PHYSICS から
+//            変えているキーの数(= このサンプルが使った自由度)。導出キーは N から外す。
+//   導出 d : 「ノブに見えるが自由度ではない」もの — qLock ON の q(LT整合則の自動算出)と
+//            physLock ON の κ(=G/cLight² の導出値)。
+//   較正 M : claims のうち出所が calibrated の件数(= 観測ごとの追加 fit 数)。
+//   検証 K : claims のうち calibrated 以外(導出/実測/定義…)の件数(= 無較正の検証項目数)。
+//   条件   : role=experiment(g_x/g_y)と role=numerics(ε・時間倍率・表示倍率)で既定から
+//            変えているキー。自由度の外なので N には数えず、件数だけを別行に出す。
+// 数値の同一判定は相対 1e-12(kappaT の 1/60 のような循環小数を安全に既定扱いするため)。
+function cbSameNum(a,b){
+  if(a===b) return true;
+  if(typeof a!=="number" || typeof b!=="number" || !isFinite(a) || !isFinite(b)) return false;
+  return Math.abs(a-b) <= 1e-12*Math.max(1, Math.abs(a), Math.abs(b));
+}
+function calibrationBudget(p, st){
+  const ph=(p && p.physics && typeof p.physics==="object")? p.physics : {};
+  const S=st||{};
+  const qL=(S.qLock!==undefined)? !!S.qLock : !!(p && p.qLock);
+  const pL=!!S.physLock;
+  const now=(S.params && typeof S.params==="object")? S.params : null;
+  const derivedHow={};
+  if(qL) derivedHow.q="qlock";
+  if(pL) derivedHow.kappaT="physlock";
+  const knobs=[], derived=[], cond={experiment:[], numerics:[]};
+  for(const def of PARAM_DEFS){
+    const k=def.key, dv=DEFAULT_PHYSICS[k];
+    if(dv===undefined) continue;   // 既定を持たないキーは台帳の対象外
+    const hasP=Object.prototype.hasOwnProperty.call(ph,k) && typeof ph[k]==="number" && isFinite(ph[k]);
+    const v=hasP? ph[k] : dv;
+    if(derivedHow[k]){
+      const cur=(now && typeof now[k]==="number" && isFinite(now[k]))? now[k] : v;
+      derived.push({key:k, value:cur, how:derivedHow[k]});
+      continue;
+    }
+    if(cbSameNum(v,dv)) continue;
+    const role=paramRole(k);
+    if(role==="physics") knobs.push({key:k, value:v, def:dv});
+    else if(role==="experiment") cond.experiment.push({key:k, value:v, def:dv});
+    else cond.numerics.push({key:k, value:v, def:dv});
+  }
+  const calib=[], verify=[];
+  for(const c of ((p && Array.isArray(p.claims))? p.claims : [])){
+    const pv=claimProv(c);
+    const rec={id:c.id, metric:c.metric, prov:pv};
+    if(pv==="calibrated") calib.push(rec); else verify.push(rec);
+  }
+  return {knobs, derived, cond, calib, verify,
+    N:knobs.length, d:derived.length, M:calib.length, K:verify.length};
+}
+// 台帳の数値表示(有効数字6桁 — 極小・極大は指数表記)
+function cbFmt(v){
+  if(typeof v!=="number" || !isFinite(v)) return String(v);
+  if(v===0) return "0";
+  const a=Math.abs(v);
+  if(a>=1e-4 && a<1e6) return String(Number(v.toPrecision(6)));
+  return v.toExponential(3);
+}
 // 第90便 EXT-11: 摂動注入UIの決定論 seed カウンタ(セッション内 — 同じ手順で同じ摂動列)
 let _perturbSeed=12345;
 // 第91便 EXT-14: 保存モニタ用の分類キャッシュ(renderHelp が更新 — 毎フレーム再計算を避ける)
@@ -2167,7 +2295,10 @@ const BUILTIN_PRESETS = [
   // QA new.gclock は解析値との誤差<1e-3(実質1e-5一致)を検査する回帰テストで、この値自体の
   // 許容域を直接は与えないため、窓は説明文数値±15%のフォールバック規則で設定する
   claims:[
-    { id:"gclock.tau-inner", kind:"analytic", metric:"tauInnerClock",
+    { id:"gclock.tau-inner", kind:"analytic", prov:"derived", metric:"tauInnerClock",
+      chain:{ax:["A2","A7"], eq:["E7R"],
+        note:"時空係数 κ ひとつを主役に、ψ=W·κ から τ/t を閉形式で出し、実走の時計と 1e-5 で一致することを機械検証している(較正ノブは無い)。",
+        noteEn:"With the spacetime coefficient κ as the only knob, τ/t follows in closed form from ψ=W·κ and matches the running clock to 1e-5 (no calibration knob)."},
       expected:{min:0.85, max:0.98},   // 実測0.931(解析値と1e-5で一致・new.gclock)
       descPattern:"τ/t\\)が小さい: (\\d\\.\\d+)/", testId:"new.gclock" }
   ],
@@ -2260,10 +2391,10 @@ const BUILTIN_PRESETS = [
   // 第42便 42A(台帳4-78 A案): claims — 説明文の可逆/不可逆RMSを機械可読化。
   // QA echo.leapfrog-return(rms<0.01)・echo.friction-noreturn(rms>1)の閾値に窓を合わせる
   claims:[
-    { id:"echo.rms-return", kind:"fixed-seed", metric:"echoRmsReturn",
+    { id:"echo.rms-return", kind:"fixed-seed", prov:"simulated", metric:"echoRmsReturn",
       expected:{min:0.0005, max:0.005},   // 実測1.30e-3(echo.leapfrog-return: rms<0.01)
       descPattern:"復帰後(\\d+\\.\\d+e-\\d)", testId:"echo.leapfrog-return" },
-    { id:"echo.rms-friction", kind:"fixed-seed", metric:"echoRmsFriction",
+    { id:"echo.rms-friction", kind:"fixed-seed", prov:"simulated", metric:"echoRmsFriction",
       expected:{min:8, max:13},   // 実測10.8(echo.friction-noreturn: rms>1)
       descPattern:"muFを0→0\\.3にすると二度と戻らない\\(RMS≈(\\d+\\.\\d+)\\)", testId:"echo.friction-noreturn" }
   ],
@@ -2449,10 +2580,16 @@ const BUILTIN_PRESETS = [
   // 第42便 42A(台帳4-78 A案): claims — 説明文のA・B到着時赤方偏移(z=3/z=1)を機械可読化。
   // 窓は QA box.photon-abc の許容(z_A=3±0.3・z_B=1±0.15)に合わせる
   claims:[
-    { id:"boxredshift.z-A", kind:"semantic", metric:"redshiftA",
+    { id:"boxredshift.z-A", kind:"semantic", prov:"definition", metric:"redshiftA",
+      chain:{ax:["A11"],
+        note:"箱宇宙(UniverseBox)の尺度因子 a(t) に随伴する光の波長が 1+z=a で伸びる — 定義上の帰結(T10)で、赤方偏移ごとの追加較正は持たない。",
+        noteEn:"Light riding the box universe's scale factor a(t) is stretched as 1+z=a — a consequence of the definition (T10), with no per-redshift calibration."},
       expected:{min:2.7, max:3.3},   // box.photon-abc: |A.z-3|<0.3
       descPattern:"波長は4倍\\(z=(\\d+)\\)", testId:"box.photon-abc" },
-    { id:"boxredshift.z-B", kind:"semantic", metric:"redshiftB",
+    { id:"boxredshift.z-B", kind:"semantic", prov:"definition", metric:"redshiftB",
+      chain:{ax:["A11"],
+        note:"A と同じ規則を別の共動距離へ適用した2点目 — 規則が1本であることの確認で、点ごとの較正は持たない。",
+        noteEn:"The same rule applied at a second comoving distance — a check that one rule covers both points, with no per-point calibration."},
       expected:{min:0.85, max:1.15},   // box.photon-abc: |B.z-1|<0.15
       descPattern:"波長は2倍\\(z=(\\d+)\\)", testId:"box.photon-abc" }
   ],
@@ -2494,10 +2631,16 @@ const BUILTIN_PRESETS = [
   probeHud:true,
   // 第50便 50C: claims — HUD 累積測定の a=2 実測値を機械可読化(QA behavior.probeH の閾値に直結)
   claims:[
-    { id:"probeH.cumulative-ratio-a2", kind:"analytic", metric:"cumulativeRatioA2",
+    { id:"probeH.cumulative-ratio-a2", kind:"analytic", prov:"derived", metric:"cumulativeRatioA2",
+      chain:{ax:["A1","A11"],
+        note:"2つのH推定器の累積比は、共動光路と摩擦則の定義から解析的に出る(1.3335)— ハッブルテンション類似の構造で、推定器ごとの較正ノブは持たない。",
+        noteEn:"The cumulative ratio of the two H estimators follows analytically (1.3335) from the comoving light path and the friction rule — a Hubble-tension-like structure with no per-estimator calibration knob."},
       expected:{min:1.32, max:1.347},   // 解析 1.3335(=2·0.9242·(1−1/2)/ln2)±1%
       descPattern:"指数読みの累積比は (\\d+\\.\\d+)", testId:"behavior.probeH" },
-    { id:"probeH.inverse-identity", kind:"analytic", metric:"inverseRatioA2",
+    { id:"probeH.inverse-identity", kind:"analytic", prov:"derived", metric:"inverseRatioA2",
+      chain:{ax:["A1","A11"],
+        note:"反比例の対照 — 定義から恒等的に 1 に張り付く組合せで、較正ノブを持たない(4-66)。",
+        noteEn:"The inverse-ratio control — a combination pinned to exactly 1 by definition, with no calibration knob (4-66)."},
       expected:{min:0.99, max:1.01},   // 恒等 1(反比例対照 — 4-66)
       descPattern:"恒等的に (\\d+\\.\\d+) に張り付く", testId:"behavior.probeH" }
   ],
@@ -2542,16 +2685,16 @@ const BUILTIN_PRESETS = [
   // 機械可読化。窓は QA freebox.pressure-expand(aLast>1.15)・freebox.inertial-decel(aMax>1)の
   // 閾値と矛盾しない範囲で説明文数値(2.18/1.005)を含むよう設定
   claims:[
-    { id:"freebox.a-eff-final", kind:"fixed-seed", metric:"aEffFinal",
+    { id:"freebox.a-eff-final", kind:"fixed-seed", prov:"simulated", metric:"aEffFinal",
       expected:{min:1.85, max:2.5},   // 実測2.1795(t=19.2・freebox.pressure-expand: aLast>1.15)
       descPattern:"t=19\\.2でa_eff=(\\d+\\.\\d+)まで膨張",
       control:{patch:{kRep:0}, expected:{min:0.85, max:1.15},   // 実測1.0047(t=9.2・freebox.inertial-decel: aMax>1)
         descPattern:"a_effはt=9\\.2の(\\d+\\.\\d+)で頭打ち"} },
     // 第50便 50G(台帳4-91): G×kRep 4象限の残り2象限(QA freebox.quadrants の閾値に直結)
-    { id:"freebox.pressure-only-aeff", kind:"fixed-seed", metric:"aEffPressureOnly",
+    { id:"freebox.pressure-only-aeff", kind:"fixed-seed", prov:"simulated", metric:"aEffPressureOnly",
       expected:{min:2.1, max:2.3},   // 実測2.1924(G=0×kRep=0.5・1200步)
       descPattern:"G=0×kRep=0\\.5は(\\d+\\.\\d+)へ加速", testId:"freebox.quadrants" },
-    { id:"freebox.inertial-only-aeff", kind:"fixed-seed", metric:"aEffInertialOnly",
+    { id:"freebox.inertial-only-aeff", kind:"fixed-seed", prov:"simulated", metric:"aEffInertialOnly",
       expected:{min:1.0, max:1.05},   // 実測1.0192(G=0×kRep=0・1200步)
       descPattern:"慣性で(\\d+\\.\\d+)のまま", testId:"freebox.quadrants" }
   ],
@@ -2612,13 +2755,13 @@ const BUILTIN_PRESETS = [
   thermal:"tint",
   validT:192,   // 実測の評価窓(12000步=t≈192 — 51G で延長。構造が1塊に潰れないことを確認済みの範囲)
   claims:[
-    { id:"cosmicweb.delta2-growth", kind:"fixed-seed", metric:"delta2GrowthRatio",
+    { id:"cosmicweb.delta2-growth", kind:"fixed-seed", prov:"simulated", metric:"delta2GrowthRatio",
       expected:{min:4.5, max:6.5},   // 実測5.4倍(0.272→1.482・6000步・H0=0.01)
       descPattern:"\\((\\d+(?:\\.\\d+)?)倍\\)",
       control:{patch:{universeBox:{H0:0}}, expected:{min:26, max:36},   // 実測≈31.0倍(0.272→8.426)
         descPattern:"δ²=(\\d+(?:\\.\\d+)?)・ボイド率75%", descScale:3.6764706},
       testId:"behavior.cosmicweb" },
-    { id:"cosmicweb.void-rate-final", kind:"fixed-seed", metric:"voidRateFinal",
+    { id:"cosmicweb.void-rate-final", kind:"fixed-seed", prov:"simulated", metric:"voidRateFinal",
       expected:{min:0.29, max:0.40},   // 実測34.2%(6000步)
       descPattern:"→(\\d+(?:\\.\\d+)?)%まで増える", descScale:0.01,
       control:{patch:{universeBox:{H0:0}}, expected:{min:0.68, max:0.82},   // 実測75%
@@ -2664,7 +2807,10 @@ const BUILTIN_PRESETS = [
   // QA claim.galaxy-outerboost の閾値は galA>galB*1.04(比≥1.04)。実測(第33便再設計後)は
   // 外縁比1.322 — 窓はこの実測±15%程度に、下限は閾値1.04を上回るよう設定する
   claims:[
-    { id:"galaxy.outer-boost-ratio", kind:"multi-seed", metric:"outerRotationBoostRatio",
+    { id:"galaxy.outer-boost-ratio", kind:"multi-seed", prov:"simulated", metric:"outerRotationBoostRatio",
+      chain:{ax:["A4","A5","A6"], eq:["E4","E6′"],
+        note:"外縁の回転速度増強(T4)は kFrame=0 では起きない — 引きずり1点の用量反応であり、半径ごとの追加較正は持たない(平坦化の断定はしない)。",
+        noteEn:"The outer rotation boost (T4) does not occur at kFrame=0 — a dose response to one dragging knob, with no per-radius calibration (no flatness claim)."},
       expected:{min:1.1, max:1.5},   // 実測1.322(claim.galaxy-outerboost: 比>1.04)
       descPattern:"実測約(\\d+\\.\\d+)倍に増強", testId:"claim.galaxy-outerboost" }
   ],
@@ -2705,7 +2851,10 @@ const BUILTIN_PRESETS = [
   // claims — 説明文の「実測約1.26倍」を機械可読化。実測 1.2646(66A・seed 20260727・6000步)。
   // 窓は実測±12%程度。対照(kFrame=0)側は claim.galaxystd-outerboost が比>1.1 で機械判定
   claims:[
-    { id:"galaxystd.outer-boost-ratio", kind:"fixed-seed", metric:"outerRotationBoostRatio",
+    { id:"galaxystd.outer-boost-ratio", kind:"fixed-seed", prov:"simulated", metric:"outerRotationBoostRatio",
+      chain:{ax:["A4","A5","A6"], eq:["E4","E6′"],
+        note:"引きずりの基準実験 — スピン斥力・摩擦・拡散をすべて 0 にし、増強が E6′ 単独で出ることを固定する。",
+        noteEn:"The reference experiment for dragging — spin repulsion, friction and diffusion are all zeroed so the boost is pinned to E6′ alone."},
       expected:{min:1.15, max:1.4},   // 実測1.2646(claim.galaxystd-outerboost: 比>1.1)
       descPattern:"実測約(\\d+\\.\\d+)倍に増強", testId:"claim.galaxystd-outerboost" }
   ],
@@ -2744,7 +2893,10 @@ const BUILTIN_PRESETS = [
   // claims — 説明文の「実測約1.08倍」を機械可読化。実測 1.0803(第69便 exp-p4b・seed 20260727・6000步)。
   // 窓は実測±4%程度(ChatGPT レビュー §8.1 の受入基準案 1.06〜1.11 を包含)
   claims:[
-    { id:"galaxygeo2.outer-boost-ratio", kind:"fixed-seed", metric:"outerRotationBoostRatio",
+    { id:"galaxygeo2.outer-boost-ratio", kind:"fixed-seed", prov:"simulated", metric:"outerRotationBoostRatio",
+      chain:{ax:["A4","A5","A6","A7"], eq:["E4","E6′","E12"],
+        note:"v−u 統一測地線(geoPN=2)— フレーム輸送・渦度コリオリ・1PN が一本の式から出る構成で、同じ増強が再現する。",
+        noteEn:"The unified v−u geodesic (geoPN=2) — frame transport, vorticity Coriolis and 1PN all come from one expression, and the same boost reappears."},
       expected:{min:1.14, max:1.23},   // 実測1.1868(第108便A: c₀=30のみ巻き戻し後の再実測 — 1PN が c=30 で強まり旧1.0803から上振れ)
       descPattern:"実測約(\\d+\\.\\d+)倍に増強", testId:"claim.galaxygeo2-outerboost" }
   ],
@@ -2779,11 +2931,11 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame","geoPN","D0"],
   validT:96,   // 実測窓(6000步=t≈96)と一致
   claims:[
-    { id:"galaxyDB.sigma-ratio", kind:"fixed-seed", metric:"bulgeDiskSigmaRatio",
+    { id:"galaxyDB.sigma-ratio", kind:"fixed-seed", prov:"simulated", metric:"bulgeDiskSigmaRatio",
       expected:{min:2.2, max:3.0},   // 実測2.61(exp-4-75 kf1)
       descPattern:"σ比は約(\\d+\\.\\d+)倍",
       testId:"claim.galaxydb-contrast" },
-    { id:"galaxyDB.spin-forcing-ratio", kind:"fixed-seed", metric:"bulgeDiskSpinAbsRatio",
+    { id:"galaxyDB.spin-forcing-ratio", kind:"fixed-seed", prov:"simulated", metric:"bulgeDiskSpinAbsRatio",
       expected:{min:1.5, max:2.4},   // 実測1.92(exp-4-75 kf1。kf0 対照は両群厳密0)
       descPattern:"バルジ側が約(\\d+\\.\\d+)倍",
       testId:"claim.galaxydb-contrast" }
@@ -2865,10 +3017,10 @@ const BUILTIN_PRESETS = [
   // 機械可読化。ピッチ角は behavior.darkrotor-pitch の判定窓[20,35]をそのまま採用。
   // 腕振幅帯平均は対応する単独閾値が無いため説明文数値±15%(対照は abBody 適用条件を patch に記述)
   claims:[
-    { id:"darkrotor.pitch-angle", kind:"fixed-seed", metric:"pitchAngleMedianDeg",
+    { id:"darkrotor.pitch-angle", kind:"fixed-seed", prov:"simulated", metric:"pitchAngleMedianDeg",
       expected:{min:20, max:35},   // behavior.darkrotor-pitch: 中央値20〜35°(実測28.20°)
       descPattern:"中央値(\\d+\\.\\d+)°", testId:"behavior.darkrotor-pitch" },
-    { id:"darkrotor.arm-band-avg", kind:"fixed-seed", metric:"armA2BandAvg",
+    { id:"darkrotor.arm-band-avg", kind:"fixed-seed", prov:"simulated", metric:"armA2BandAvg",
       expected:{min:0.476, max:0.644},   // 実測0.560(behavior.darkrotorLong)
       descPattern:"、帯平均(\\d+\\.\\d+)。",
       control:{patch:{bodies:[{index:1,spin:0},{index:2,spin:0}]}, expected:{min:0.133, max:0.179},   // 実測0.156(配置由来)
@@ -2880,7 +3032,7 @@ const BUILTIN_PRESETS = [
     // behavior.darkrotorLong と同じ「中心BH も含む全 single の spin=0」で、その帯平均は
     // 8seed で 0.157〜0.265 に振れる(固定seed claim 側の窓 0.133〜0.179 は内蔵 seed 1本の
     // ドリフト検出用なので、seed 幅はこちらの窓が受け持つ)
-    { id:"darkrotor.multi-seed-min-arm-ratio", kind:"multi-seed", metric:"armA2BandAvgRatioMinOverSeeds",
+    { id:"darkrotor.multi-seed-min-arm-ratio", kind:"multi-seed", prov:"simulated", metric:"armA2BandAvgRatioMinOverSeeds",
       expected:{min:1.80, max:4.20},   // 実測 2.15〜3.62(8seed・6000步)
       descPattern:"8seedを通した増強比の最小は(\\d+\\.\\d+)倍",
       control:{patch:{bodies:[{index:0,spin:0},{index:1,spin:0},{index:2,spin:0}]},
@@ -2944,13 +3096,13 @@ const BUILTIN_PRESETS = [
   // 非脱出率は behavior.rotorSolo の閾値(既定<0.15・対照>0.4)、L_zは(比>1.2・対照=初期値と厳密一致)に窓を合わせる
   // 第96便(スケール一律化 第2段): c₀=30 相似変換(spin・v・L_z ×0.5)+ 同物理窓 12000步で再採取
   claims:[
-    { id:"rotorSolo.non-escape-rate", kind:"fixed-seed", metric:"nonEscapeRate",
+    { id:"rotorSolo.non-escape-rate", kind:"fixed-seed", prov:"simulated", metric:"nonEscapeRate",
       expected:{min:0, max:0.15},   // 実測0.00(behavior.rotorSolo: def.rate<0.15)
       descPattern:"が消える\\(実測(\\d+\\.\\d+)\\)",
       control:{patch:{abBody:true}, expected:{min:0.55, max:0.78},   // 実測0.66(behavior.rotorSolo: ctrl.rate>0.4)
         descPattern:"実測 非脱出率(\\d+\\.\\d+)\\)が消える"},
       testId:"behavior.rotorSolo" },
-    { id:"rotorSolo.ring-lz-mean", kind:"fixed-seed", metric:"ringLzMean",
+    { id:"rotorSolo.ring-lz-mean", kind:"fixed-seed", prov:"simulated", metric:"ringLzMean",
       expected:{min:405, max:550},   // 実測484.1(第96便 12000步・behavior.rotorSolo: lzRatio>1.2)
       descPattern:"12000步平均 L_z=(\\d+)",
       control:{patch:{abBody:true}, expected:{min:315, max:317.5},   // 実測316.23(=初期値のまま厳密一定)
@@ -2998,7 +3150,7 @@ const BUILTIN_PRESETS = [
       27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53],
     patch:{spin:0} },
   claims:[
-    { id:"nebulaRotor.dimming-contrast", kind:"fixed-seed", metric:"coreLswMean",
+    { id:"nebulaRotor.dimming-contrast", kind:"fixed-seed", prov:"simulated", metric:"coreLswMean",
       expected:{min:0.75, max:0.95},   // 実測0.859(第108便A: 巻き戻し後スピン増×c₀=30 で飽和が上がる — 旧0.77)
       descPattern:"コアの平均減光(\\d+\\.\\d+)",
       control:{patch:{abBody:true}, expected:{min:0, max:0.1},   // 実測0.03(スピン0対照 — 第127便で日英同期)
@@ -3053,11 +3205,11 @@ const BUILTIN_PRESETS = [
       27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53],
     patch:{spin:0} },
   claims:[
-    { id:"nebulaShell.core-dimming", kind:"fixed-seed", metric:"coreLswMean",
+    { id:"nebulaShell.core-dimming", kind:"fixed-seed", prov:"simulated", metric:"coreLswMean",
       expected:{min:0.9, max:0.99},   // 第126便 巻き戻し世代実測0.962(c₀=30 で飽和側。第81便〔c₀=40〕は0.901)
       descPattern:"コアの平均減光(\\d+\\.\\d+)",
       testId:"claim.nebulashell-stress" },
-    { id:"nebulaShell.retention", kind:"fixed-seed", metric:"coreKeepFrac",
+    { id:"nebulaShell.retention", kind:"fixed-seed", prov:"simulated", metric:"coreKeepFrac",
       expected:{min:0.93, max:1},   // 第81便実測1.000(同・単層対照は0.481 — QA が両構成を機械固定)
       descPattern:"保持率は(\\d+\\.\\d+)",
       testId:"claim.nebulashell-stress" }
@@ -3120,7 +3272,7 @@ const BUILTIN_PRESETS = [
   activeParams:["kRep","cLight","kFrame"],
   validT:96,   // 実測窓(6000步=t≈96)と一致
   claims:[
-    { id:"nebulaBipolar.polar-fraction", kind:"fixed-seed", metric:"polarFraction",
+    { id:"nebulaBipolar.polar-fraction", kind:"fixed-seed", prov:"simulated", metric:"polarFraction",
       expected:{min:0.5, max:0.72},   // 第81便実測0.622(コアv2 移行後。第75便 v1 は0.610)
       descPattern:"±y30°以内が(\\d+\\.\\d+)",
       control:{patch:{kRep:0}, expected:{min:0, max:3},   // 実測0(kRep=0 の圧力オフ — agnjet と同書式)
@@ -3129,7 +3281,7 @@ const BUILTIN_PRESETS = [
     // 第84便B(創発の標準試験の展開): 多seed 頑健性。判定量は「seed 集合を通した極方向比の
     // **最小値**」。16seed 実測 0.537〜0.833(中央0.675)を内側に含む窓を取る。上の固定seed
     // claim の窓 0.5〜0.72 は内蔵 seed 1本のドリフト検出用で、seed 幅はこちらの窓が受け持つ
-    { id:"nebulaBipolar.multi-seed-min-polar-fraction", kind:"multi-seed", metric:"polarFractionMinOverSeeds",
+    { id:"nebulaBipolar.multi-seed-min-polar-fraction", kind:"multi-seed", prov:"simulated", metric:"polarFractionMinOverSeeds",
       expected:{min:0.45, max:0.90},   // 実測 0.537〜0.833(16seed・6000步。等方は 1/3=0.333)
       descPattern:"16seedを通した極方向比の最小は(\\d+\\.\\d+)",
       control:{patch:{kRep:0}, expected:{min:0, max:3},   // 実測 最大1体(15/16 seed で厳密に0)
@@ -3207,15 +3359,15 @@ const BUILTIN_PRESETS = [
   // ⚫が pinned だった第80便までの帯(1.4〜1.65)は、自由中心の測り方(中心基準の相対座標)に
   // 合わせて 1.37〜1.68 へ広げてある(pinned 対照 1.5215 と自由 1.5236 の両方を含む窓)
   claims:[
-    { id:"bhCore.outer-boost", kind:"fixed-seed", metric:"outerRotationBoostRatio",
+    { id:"bhCore.outer-boost", kind:"fixed-seed", prov:"simulated", metric:"outerRotationBoostRatio",
       expected:{min:1.37, max:1.68},   // 実測1.5236(exp-4-81。同構成 pinned 対照は 1.5215)
       descPattern:"回転増強\\(kFrame=1/kFrame=0 比\\)は実測(\\d+\\.\\d+)",
       testId:"claim.bhcore-free" },
-    { id:"bhCore.shell-spinup", kind:"fixed-seed", metric:"shellSpinFinal",
+    { id:"bhCore.shell-spinup", kind:"fixed-seed", prov:"simulated", metric:"shellSpinFinal",
       expected:{min:1.20, max:1.47},   // 実測1.332(コアΩ 20→4.2 の移送先 — τ_cs)
       descPattern:"外殻スピンは0\\.15から実測(\\d+\\.\\d+)へ育ち",
       testId:"claim.bhcore-selfdrive" },
-    { id:"bhCore.recoil-bounded", kind:"fixed-seed", metric:"bhMaxDisplacementFromCom",
+    { id:"bhCore.recoil-bounded", kind:"fixed-seed", prov:"simulated", metric:"bhMaxDisplacementFromCom",
       expected:{min:0.2, max:0.8},     // 実測0.394(重心相対の最大変位。受入上限は 8)
       descPattern:"支配天体の重心相対変位は最大(\\d+\\.\\d+)",
       testId:"claim.bhcore-free" }
@@ -3262,15 +3414,15 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame","G","D0"],
   validT:96,   // 実測窓(6000步=t≈96)と一致。窓外はリングが隣の系の引きで緩む(実測)
   claims:[
-    { id:"massLadder.dyn-mass-ratio-2", kind:"fixed-seed", metric:"dynMassRatio5000to2500",
+    { id:"massLadder.dyn-mass-ratio-2", kind:"fixed-seed", prov:"simulated", metric:"dynMassRatio5000to2500",
       expected:{min:1.76, max:2.16},   // 実測1.9599(exp-4-82 S2・6000步)の ±10%
       descPattern:"力学質量の比は実測(\\d+\\.\\d+)\\(5000/2500\\)",
       testId:"claim.massladder" },
-    { id:"massLadder.dyn-mass-ratio-4", kind:"fixed-seed", metric:"dynMassRatio10000to2500",
+    { id:"massLadder.dyn-mass-ratio-4", kind:"fixed-seed", prov:"simulated", metric:"dynMassRatio10000to2500",
       expected:{min:3.46, max:4.22},   // 実測3.8401(exp-4-82 S2・6000步)の ±10%
       descPattern:"実測(\\d+\\.\\d+)\\(10000/2500\\)",
       testId:"claim.massladder" },
-    { id:"massLadder.dark-centers", kind:"fixed-seed", metric:"minCenterLightSweep",
+    { id:"massLadder.dark-centers", kind:"fixed-seed", prov:"simulated", metric:"minCenterLightSweep",
       expected:{min:0.99, max:1.0},    // 実測1.000000(3中心とも完全減光)
       descPattern:"3つの中心の実効減光はどれも実測(\\d+\\.\\d+)",
       testId:"claim.massladder" }
@@ -3317,22 +3469,22 @@ const BUILTIN_PRESETS = [
   // (接近期/深接触期の核間距離差・潮汐尾成長)を機械可読化。窓は QA behavior.merger-causal の
   // 閾値(接近期 sepRel∈(5e-4,0.05)・tail15>0.02)に直結させる
   claims:[
-    { id:"merger.core-separation-diff", kind:"fixed-seed", metric:"coreSeparationRelDiffApproach",
+    { id:"merger.core-separation-diff", kind:"fixed-seed", prov:"simulated", metric:"coreSeparationRelDiffApproach",
       expected:{min:0.02, max:0.048}, descScale:0.01,   // 実測3.99%(接近期2000步・behavior.merger-causal: 5e-4<差<5%)
       descPattern:"接近期の核間距離の差 (\\d+(?:\\.\\d+)?)%", testId:"behavior.merger-causal" },
-    { id:"merger.deep-contact-sep-diff", kind:"fixed-seed", metric:"coreSeparationRelDiffDeep",
+    { id:"merger.deep-contact-sep-diff", kind:"fixed-seed", prov:"simulated", metric:"coreSeparationRelDiffDeep",
       expected:{min:0.11, max:0.155}, descScale:0.01,   // 実測13.3%(深接触期3000步)
       descPattern:"(\\d+(?:\\.\\d+)?)% へ拡大", testId:"behavior.merger-causal" },
-    { id:"merger.spin-heating-growth", kind:"fixed-seed", metric:"spinHeatingRatio3k",
+    { id:"merger.spin-heating-growth", kind:"fixed-seed", prov:"simulated", metric:"spinHeatingRatio3k",
       expected:{min:1.2, max:1.7},   // 実測1.42(3000步。6000步の3.3倍側は下の claim)
       descPattern:"0 の (\\d+(?:\\.\\d+)?)倍\\(3000步\\)", testId:"behavior.merger-causal" },
-    { id:"merger.spin-heating-6000", kind:"fixed-seed", metric:"spinHeatingRatio6k",
+    { id:"merger.spin-heating-6000", kind:"fixed-seed", prov:"simulated", metric:"spinHeatingRatio6k",
       expected:{min:2.8, max:3.9},   // 実測3.35(6000步 — behavior テストは3000步窓のため±15%)
       descPattern:"(\\d+(?:\\.\\d+)?)倍\\(6000步\\)へ開く" },
-    { id:"merger.tidal-tail-growth", kind:"fixed-seed", metric:"tidalTailFraction",
+    { id:"merger.tidal-tail-growth", kind:"fixed-seed", prov:"simulated", metric:"tidalTailFraction",
       expected:{min:0.0425, max:0.0575}, descScale:0.01,   // 実測5.0%(3000步・behavior.merger-causal: >2%)
       descPattern:"→(\\d+(?:\\.\\d+)?)%\\(3000步\\)まで育ち", testId:"behavior.merger-causal" },
-    { id:"merger.tidal-tail-6000", kind:"fixed-seed", metric:"tidalTailFraction6k",
+    { id:"merger.tidal-tail-6000", kind:"fixed-seed", prov:"simulated", metric:"tidalTailFraction6k",
       expected:{min:0.085, max:0.115}, descScale:0.01,   // 実測10.0%(6000步 — ±15%)
       descPattern:"6000步には (\\d+(?:\\.\\d+)?)% に達する" }
   ],
@@ -3378,10 +3530,10 @@ const BUILTIN_PRESETS = [
   // 機械可読化。r50差は QA behavior.collapse-cooling の閾値(r50Rel<5%)に窓を合わせ、
   // 温度(平均|spin|)は対応する単独閾値が無いため説明文数値±15%
   claims:[
-    { id:"collapse.r50-diff", kind:"fixed-seed", metric:"r50RelDiff",
+    { id:"collapse.r50-diff", kind:"fixed-seed", prov:"simulated", metric:"r50RelDiff",
       expected:{min:0.0104, max:0.0156}, descScale:0.01,   // 実測1.29%(6000步・behavior.collapse-cooling: r50Rel<5%)
       descPattern:"r50 の差は (\\d+(?:\\.\\d+)?)% にとどまる", testId:"behavior.collapse-cooling" },
-    { id:"collapse.temperature-cooling", kind:"fixed-seed", metric:"meanSpinTemperature12k",
+    { id:"collapse.temperature-cooling", kind:"fixed-seed", prov:"simulated", metric:"meanSpinTemperature12k",
       expected:{min:0.578, max:0.782},   // 実測0.679(冷却あり・12000步)
       descPattern:"は12000步で (\\d+(?:\\.\\d+)?) 対",
       control:{patch:{etaRad:0}, expected:{min:1.06, max:1.44},   // 実測1.245(冷却なし・12000步)
@@ -3498,7 +3650,7 @@ const BUILTIN_PRESETS = [
   //  J_core 0.0660〜0.1920 = 種33〜96個ぶん)。QA behavior.selfrotor が同じ量を実測して照合し、
   // 多seed の分布そのものは QA behavior.selfrotor-multiseed(!FAST)と tests/exp-4-85.mjs が担う
   claims:[
-    { id:"selfRotor.max-mass-fraction", kind:"fixed-seed", metric:"maxBodyMassFraction",
+    { id:"selfRotor.max-mass-fraction", kind:"fixed-seed", prov:"simulated", metric:"maxBodyMassFraction",
       expected:{min:0.14, max:0.60}, descScale:0.01,   // 実測26.7%(16seed 18.3〜53.3 — 第83便A で上限拡張)
       descPattern:"全質量の(\\d+\\.\\d+)%", testId:"behavior.selfrotor",
       control:{patch:{fusion:null}, expected:{min:0.004, max:0.008}, descScale:0.01,
@@ -3507,23 +3659,23 @@ const BUILTIN_PRESETS = [
     // 正本は tests/exp-4-85.mjs の16seed(min 18.3%)で、QA は時間予算のため先頭4seed に絞って
     // 同じ量(seed 集合の最小値)を測る(既存の kind:"multi-seed" = galaxy.outer-boost-ratio と
     // 同じ流儀 — QA は縮約版・exp 側が全数の正本)。窓下限0.10 は対照中央値0.56%の10倍(5.6%)より上
-    { id:"selfRotor.multi-seed-min-mass-fraction", kind:"multi-seed", metric:"maxBodyMassFractionMinOverSeeds",
+    { id:"selfRotor.multi-seed-min-mass-fraction", kind:"multi-seed", prov:"simulated", metric:"maxBodyMassFractionMinOverSeeds",
       expected:{min:0.10, max:0.60}, descScale:0.01,   // 16seed の最小 18.3%(seed 20260807)
       descPattern:"16seedすべてで(\\d+\\.\\d+)%以上", testId:"behavior.selfrotor-multiseed",
       control:{patch:{fusion:null}, expected:{min:0.004, max:0.008}, descScale:0.01,
         descPattern:"対照は全seedで(\\d+\\.\\d+)%"} },   // 融合オフ: 全seed で 0.56% = 1/180
-    { id:"selfRotor.core-J-inherited", kind:"fixed-seed", metric:"centerCoreJInSeeds",
+    { id:"selfRotor.core-J-inherited", kind:"fixed-seed", prov:"simulated", metric:"centerCoreJInSeeds",
       expected:{min:25, max:100},   // 実測48個ぶん(16seed 33〜96 — 第83便A で上限拡張)
       descPattern:"種(\\d+)個ぶん", testId:"behavior.selfrotor",
       control:{patch:{core:null}, expected:{min:0, max:0},
         descPattern:"J_coreは恒等的に(0)になる"} },   // コア種なし: 恒等的に0
-    { id:"selfRotor.center-dimming", kind:"fixed-seed", metric:"centerDimming",
+    { id:"selfRotor.center-dimming", kind:"fixed-seed", prov:"simulated", metric:"centerDimming",
       expected:{min:0.9, max:1},   // 第126便 巻き戻し世代実測0.999(c₀=30 で飽和側・16seed 0.943〜1.000。v1.38〔c₀=60〕は0.589)
       descPattern:"中心天体は(\\d+\\.\\d+)まで暗くなる", testId:"behavior.selfrotor" },
-    { id:"selfRotor.halo-dimming", kind:"fixed-seed", metric:"haloDimming",
+    { id:"selfRotor.halo-dimming", kind:"fixed-seed", prov:"simulated", metric:"haloDimming",
       expected:{min:0.2, max:0.5},   // 第126便 巻き戻し世代実測0.317(c₀=30・16seed 0.253〜0.438。v1.38〔c₀=60〕は0.159)
       descPattern:"周囲の天体は平均(\\d+\\.\\d+)のまま", testId:"behavior.selfrotor" },
-    { id:"selfRotor.core-J-counts-mass", kind:"conservation", metric:"coreJInSeedsOverMassRatio",
+    { id:"selfRotor.core-J-counts-mass", kind:"conservation", prov:"derived", metric:"coreJInSeedsOverMassRatio",
       expected:{min:0.999, max:1.001}, testId:"behavior.selfrotor" }   // J_core/J_seed = m/m_seed(継承則の総和恒等式)
   ],
   camera:{scale:150}, world:{boundary:"none",size:0}, seed:20260806,   // 展示調整: t=0 の雲(半径100)が画面の2/3・収縮後の中心天体も見える
@@ -3627,19 +3779,19 @@ const BUILTIN_PRESETS = [
   activeParams:["kappaT","cLight","softening"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
   // 第82便 A: claims — 実測(exp-4-83)から ±10% 程度の窓。testId は QA の claim.reddening
   claims:[
-    { id:"reddening.tau-cloud", kind:"fixed-seed", metric:"tauRefCloud",
+    { id:"reddening.tau-cloud", kind:"fixed-seed", prov:"simulated", metric:"tauRefCloud",
       expected:{min:2.19, max:2.67},     // 実測 2.429(λ_ref=550nm・雲中心 y=0 の光線)
       descPattern:"τ_ref=(\\d\\.\\d+) で、透過率", testId:"claim.reddening" },
-    { id:"reddening.blue-red-ratio", kind:"fixed-seed", metric:"transmitRatioBlueRed",
+    { id:"reddening.blue-red-ratio", kind:"fixed-seed", prov:"simulated", metric:"transmitRatioBlueRed",
       expected:{min:0.0139, max:0.0169}, // 実測 0.0154(T(450nm)/T(650nm)・雲中心の光線)
       descPattern:"比\\(青/赤\\)は(\\d\\.\\d+)", testId:"claim.reddening" },
-    { id:"reddening.tau-clear", kind:"fixed-seed", metric:"tauRefClear",
+    { id:"reddening.tau-clear", kind:"fixed-seed", prov:"simulated", metric:"tauRefClear",
       expected:{min:0, max:0.001},       // 実測 0.000(コンパクト台の外は厳密に 0)
       descPattern:"τ_ref は厳密に(\\d\\.\\d+)", testId:"claim.reddening" },
-    { id:"reddening.gray-ratio", kind:"fixed-seed", metric:"transmitRatioGray",
+    { id:"reddening.gray-ratio", kind:"fixed-seed", prov:"simulated", metric:"transmitRatioGray",
       expected:{min:0.99, max:1.01},     // pAbs=0(グレー吸収)は波長依存なし=赤化ゼロの対照
       descPattern:"では青/赤比が(\\d\\.\\d+)", testId:"claim.reddening" },
-    { id:"reddening.peak-shift", kind:"fixed-seed", metric:"transmittedPeakShift",
+    { id:"reddening.peak-shift", kind:"fixed-seed", prov:"simulated", metric:"transmittedPeakShift",
       expected:{min:4.5, max:5.7},       // 実測 5.09倍(源ピーク→透過後ピークの λ 比)
       descPattern:"長波長側へ実測(\\d\\.\\d+)倍", testId:"claim.reddening" }
   ],
@@ -3728,7 +3880,10 @@ const BUILTIN_PRESETS = [
   // 第42便 42A(台帳4-78 A案)+第51便 51D: claims — 上列/下列熱量比(約2.5倍)を機械可読化。
   // 51D で behavior.conduction が列熱比の実測を持つようになったので testId を接続
   claims:[
-    { id:"conduction.dense-row-heat-ratio", kind:"fixed-seed", metric:"denseRowHeatRatio",
+    { id:"conduction.dense-row-heat-ratio", kind:"fixed-seed", prov:"simulated", metric:"denseRowHeatRatio",
+      chain:{ax:["A9"], eq:["E10′"],
+        note:"近いほど速く熱が飛び移る(E10′)の距離依存を、間隔だけが違う2列の比で見る — 列ごとの追加較正は持たない。",
+        noteEn:"The distance dependence of E10′ (heat hops faster when closer), read as the ratio of two rows differing only in spacing — no per-row calibration."},
       expected:{min:2.125, max:2.875},   // 実測2.55倍(4000步・behavior.conduction)
       descPattern:"運ぶ熱は約(\\d+\\.\\d+)倍", testId:"behavior.conduction" }
   ],
@@ -3969,7 +4124,7 @@ const BUILTIN_PRESETS = [
   // (galaxy.outer-boost-ratio・selfRotor.multi-seed-min-mass-fraction)と同じ「QA は縮約版・
   // exp が全数の正本」の流儀。窓下限 1.6 は対照(bondK=0)の 0.125 の10倍(1.25)より上に取る
   claims:[
-    { id:"emergent.multi-seed-min-coordination", kind:"multi-seed", metric:"meanCoordinationMinOverSeedsIcNoise",
+    { id:"emergent.multi-seed-min-coordination", kind:"multi-seed", prov:"simulated", metric:"meanCoordinationMinOverSeedsIcNoise",
       expected:{min:1.6, max:3.0},
       descPattern:"配位数c̄は(\\d+\\.\\d+)〜", testId:"behavior.phase-multiseed",
       control:{patch:{phaseChange:{bondK:0}}, expected:{min:0.10, max:0.15},
@@ -4022,7 +4177,7 @@ const BUILTIN_PRESETS = [
   // 実測(tests/exp-4-87.mjs・16seed 7〜22・18000步=t288): 本則 12.3〜44.1° / 対照 73.1〜79.0° で
   // 一度も重ならない(余裕 1.66倍)。QA は先頭3seed(7/8/9)へ縮約し、16seed の分布は exp が正本
   claims:[
-    { id:"emergent2.multi-seed-max-honeycomb-angle-dev", kind:"multi-seed", metric:"honeycombAngleDevMaxOverSeeds",
+    { id:"emergent2.multi-seed-max-honeycomb-angle-dev", kind:"multi-seed", prov:"simulated", metric:"honeycombAngleDevMaxOverSeeds",
       expected:{min:5, max:55},   // 16seed の最大 44.1°(seed 19)・最小 12.3°
       descPattern:"角偏差は\\d+\\.\\d+〜(\\d+\\.\\d+)°", testId:"behavior.phase-multiseed",
       control:{patch:{phaseChange:{angK:0}}, expected:{min:60, max:95},
@@ -4066,7 +4221,7 @@ const BUILTIN_PRESETS = [
   // 実測(tests/exp-4-87.mjs・16seed 7〜22・18000步=t288): 本則 0.696〜0.804 / 対照(angK=0)
   // 0.268〜0.375 で重ならない(比 1.86倍)。QA は先頭3seed(7/8/9)へ縮約し、16seed は exp が正本
   claims:[
-    { id:"chain2.multi-seed-min-chain-fraction", kind:"multi-seed", metric:"twoCoordFractionMinOverSeeds",
+    { id:"chain2.multi-seed-min-chain-fraction", kind:"multi-seed", prov:"simulated", metric:"twoCoordFractionMinOverSeeds",
       expected:{min:0.60, max:0.90},   // 16seed の最小 0.696(seed 14)・最大 0.804
       descPattern:"2配位率は(\\d+\\.\\d+)〜", testId:"behavior.phase-multiseed",
       control:{patch:{phaseChange:{angK:0}}, expected:{min:0.15, max:0.50},
@@ -4117,17 +4272,17 @@ const BUILTIN_PRESETS = [
   //   凍結末(t=288)の最大連結 26〜70粒(旧窓 25〜50 は 4seed がはみ出す)
   //   解離末(t=528)の成分数 48〜84(旧窓 50〜95 は 2seed がはみ出す)
   claims:[
-    { id:"chaincycle.freeze-maxcomp", kind:"fixed-seed", metric:"freezeMaxComponent",
+    { id:"chaincycle.freeze-maxcomp", kind:"fixed-seed", prov:"simulated", metric:"freezeMaxComponent",
       expected:{min:20, max:80},   // 実測36(t=288。claim.chaincycle が機械判定)/ 16seed 26〜70
       descPattern:"最大(\\d+)粒の鎖", testId:"claim.chaincycle" },
-    { id:"chaincycle.melt-ncomp", kind:"fixed-seed", metric:"meltComponentCount",
+    { id:"chaincycle.melt-ncomp", kind:"fixed-seed", prov:"simulated", metric:"meltComponentCount",
       expected:{min:40, max:95},   // 実測65(t=528・build経路)/ 16seed 48〜84
       descPattern:"実測(\\d+)成分", testId:"claim.chaincycle" },
     // 第84便A: 多seed頑健性の機械可読化(創発の標準試験③)。判定量は「seed 集合を通した
     // 解離末(t=528)の連結成分数の**最小値**」= 最悪 seed でも鎖が細かく砕けること。
     // 実測(16seed 7〜22): 48〜84(seed 7/8/9 では 65/69/65)。QA は先頭3seed へ縮約し exp が正本。
     // ※ ♻️ は外部駆動(壁の温度スケジュール)なので、この試験を通っても E水準は E1 のまま(統括裁定)
-    { id:"chaincycle.multi-seed-min-melt-ncomp", kind:"multi-seed", metric:"meltComponentCountMinOverSeeds",
+    { id:"chaincycle.multi-seed-min-melt-ncomp", kind:"multi-seed", prov:"simulated", metric:"meltComponentCountMinOverSeeds",
       expected:{min:30, max:95},   // 16seed の最小 48(seed 18)・最大 84
       descPattern:"連結(\\d+)〜\\d+成分", testId:"behavior.phase-multiseed" }
   ],
@@ -4167,9 +4322,14 @@ const BUILTIN_PRESETS = [
   // ドリフトは対応する単独閾値が無く(radius は 180±2% の合成条件)、説明文数値±20%
   claims:[
     { id:"earthMoon.core-mass-ratio-earth", kind:"semantic", prov:"calibrated", metric:"coreMassRatioEarth",
+      chain:{note:"地球のコア質量比 32.5%(PREM)を宣言へ写した較正入力 — 公理から導かれる量ではなく、現実の観測値への対応付けそのもの。",
+        noteEn:"Earth's core mass fraction of 32.5% (PREM) copied into the declaration — a calibration input, not a quantity derived from the axioms."},
       expected:{min:0.32, max:0.33},   // 実測0.325(behavior.earthMoon: 厳密一致)
       descPattern:"地球 Mc/m=(\\d+\\.\\d+)\\(PREM", testId:"behavior.earthMoon" },
-    { id:"earthMoon.radius-drift", kind:"fixed-seed", metric:"radiusDriftFraction",
+    { id:"earthMoon.radius-drift", kind:"fixed-seed", prov:"simulated", metric:"radiusDriftFraction",
+      chain:{ax:["A4","A6"], eq:["E4"],
+        note:"較正入力(コア比)を置いたうえで、軌道半径が実走で保たれるかを見る無較正の検証項目。",
+        noteEn:"With the calibration input (core ratio) in place, this is an uncalibrated check that the orbital radius survives an actual run."},
       expected:{min:0.00072, max:0.00108}, descScale:0.01,   // 実測0.09%(4周・behavior.earthMoonの±2%窓内)
       descPattern:"半径ドリフト(\\d+\\.\\d+)%", testId:"behavior.earthMoon" }
   ],
@@ -4212,13 +4372,21 @@ const BUILTIN_PRESETS = [
   // 実自転比は QA behavior.earthMoonFree が Math.abs(spinRatio-27.39646523)<0.01 で厳密照合、
   // 他2件は対応する単独閾値が無いため説明文数値±20〜30%
   claims:[
-    { id:"earthMoonFree.radius-range", kind:"fixed-seed", metric:"radiusRangeFraction",
+    { id:"earthMoonFree.radius-range", kind:"fixed-seed", prov:"simulated", metric:"radiusRangeFraction",
+      chain:{ax:["A4","A6"], eq:["E4"],
+        note:"自由二体(重心系)の円軌道が10周にわたって保たれるかの無較正検証 — 初期条件は解析式から決めており較正ノブを持たない。",
+        noteEn:"An uncalibrated check that the free two-body circular orbit survives ten revolutions — the initial condition comes from a closed-form expression, with no calibration knob."},
       expected:{min:0.00024, max:0.00036}, descScale:0.01,   // 実測0.03%(10.5周・behavior.earthMoonFreeの±1%窓内)
       descPattern:"半径 179\\.97〜180\\.02\\((\\d+\\.\\d+)%\\)", testId:"behavior.earthMoonFree" },
-    { id:"earthMoonFree.spin-ratio", kind:"semantic", metric:"earthMoonSpinRatio",
+    { id:"earthMoonFree.spin-ratio", kind:"semantic", prov:"calibrated", metric:"earthMoonSpinRatio",
+      chain:{note:"地球自転/月公転の実比 27.396 を初期スピンへ写した較正入力(観測値そのもの)。",
+        noteEn:"The real Earth-spin / Moon-orbit ratio 27.396 copied into the initial spins — a calibration input (the observed value itself)."},
       expected:{min:27.0, max:27.8},   // 実測27.4(behavior.earthMoonFree: |比-27.396|<0.01)
       descPattern:"月の公転の(\\d+\\.\\d+)倍=実比", testId:"behavior.earthMoonFree" },
-    { id:"earthMoonFree.sync-error", kind:"fixed-seed", metric:"syncErrorDegPerOrbit",
+    { id:"earthMoonFree.sync-error", kind:"fixed-seed", prov:"simulated", metric:"syncErrorDegPerOrbit",
+      chain:{ax:["A4","A6"], eq:["E4"],
+        note:"潮汐固定(同期自転)の残差 — 較正入力の比を置いたまま、実走で同期が崩れないことを見る無較正の検証項目。",
+        noteEn:"The residual of tidal locking — with the calibrated ratio in place, an uncalibrated check that synchronization does not drift in an actual run."},
       expected:{min:0.22, max:0.40},   // 実測0.31°/周(behavior.earthMoonFree: ≤2°/周)
       descPattern:"同期誤差 (\\d+\\.\\d+)°/周", testId:"behavior.earthMoonFree" }
   ],
@@ -4540,10 +4708,16 @@ const BUILTIN_PRESETS = [
   // 第131便: claims — 初速較正係数(1.000)と2水星周窓の半径振れ幅(水星)を機械可読化。
   // どちらも実測値そのもの(f 掃引・2水星周窓)。testId は付けない(説明文の数値を固定する claim)
   claims:[
-    { id:"solarInner.velocity-calib-factor", kind:"fixed-seed", metric:"velocityCalibFactor",
+    { id:"solarInner.velocity-calib-factor", kind:"fixed-seed", prov:"simulated", metric:"velocityCalibFactor",
+      chain:{ax:["A6"], eq:["E4","E12"],
+        note:"実定数(G・c₀)と実値の軌道要素だけで円軌道速度が成立するかを f 掃引で確かめた項目 — 最小が f=1.000 なので速度較正ノブは残っていない。",
+        noteEn:"An f-sweep checking that circular-orbit speeds hold with real constants (G, c₀) and real orbital elements alone — the minimum sits at f=1.000, so no velocity-calibration knob remains."},
       expected:{min:0.999, max:1.001},   // 実測: f 掃引の最小は f=1.000(1.001 で 0.400%・1.12 で 50.7% へ悪化)
       descPattern:"較正係数 (\\d+\\.\\d+)", testId:"behavior.solarInner" },
-    { id:"solarInner.circular-wobble-mercury", kind:"fixed-seed", metric:"radiusWobbleFraction",
+    { id:"solarInner.circular-wobble-mercury", kind:"fixed-seed", prov:"simulated", metric:"radiusWobbleFraction",
+      chain:{ax:["A4","A5","A6"], eq:["E4","E6′","E12"],
+        note:"実スケールでは引きずりが検出限界以下であることの定量 — kFrame=0 の対照と同値になる(引きずりに較正ノブを使っていない)。",
+        noteEn:"Quantifies that dragging is below detection at real scale — identical to the kFrame=0 control (no calibration knob spent on dragging)."},
       expected:{min:0.0001, max:0.0002}, descScale:0.01,   // 実測 0.0131%(2水星周窓・95006步・dt=0.016)
       descPattern:"2水星周窓の半径振れ幅は (\\d+\\.\\d+)%", testId:"behavior.solarInner",
       control:{patch:{kFrame:0}, expected:{min:0.0001, max:0.0002}, descScale:0.01,   // 実測 0.0131%(kFrame=0)
@@ -4593,10 +4767,10 @@ const BUILTIN_PRESETS = [
   // 保持率窓は QA behavior.saturnExp の閾値(inB>=0.95)に直結。離心率RMSは behavior.saturn-kframe-control
   // の比閾値(eRatio>1.5)と矛盾しない範囲で説明文数値±15%
   claims:[
-    { id:"saturn.band-retention-t360", kind:"fixed-seed", metric:"bandRetentionFraction",
+    { id:"saturn.band-retention-t360", kind:"fixed-seed", prov:"simulated", metric:"bandRetentionFraction",
       expected:{min:0.95, max:0.99}, descScale:0.01,   // 実測97.1%(behavior.saturnExp: inB>=0.95)
       descPattern:"t≈360 で帯内\\(90≤r≤290\\)(\\d+\\.\\d+)%", testId:"behavior.saturnExp" },
-    { id:"saturn.eccentricity-rms", kind:"fixed-seed", metric:"eccentricityRMS",
+    { id:"saturn.eccentricity-rms", kind:"fixed-seed", prov:"simulated", metric:"eccentricityRMS",
       expected:{min:0.1207, max:0.1633},   // 実測0.142(kFrame=1・behavior.saturn-kframe-control)
       descPattern:"kFrame=1 の (\\d+\\.\\d+)\\)",
       control:{patch:{kFrame:0}, expected:{min:0.0536, max:0.0725},   // 実測0.063(kFrame=0)
@@ -4650,10 +4824,10 @@ const BUILTIN_PRESETS = [
   // どちらも QA core.twolayer が preset.bodies[0].core.massFrac===0.18 / Rc≈1.8·√270(=Rc/R比42.4%)を
   // 厳密照合するので窓は狭め
   claims:[
-    { id:"saturnLayered.core-mass-ratio", kind:"semantic", metric:"coreMassRatio",
+    { id:"saturnLayered.core-mass-ratio", kind:"semantic", prov:"definition", metric:"coreMassRatio",
       expected:{min:0.17, max:0.19}, descScale:0.01,   // 実測18%(core.twolayer: core.massFrac===0.18)
       descPattern:"コア質量比 (\\d+)%", testId:"core.twolayer" },
-    { id:"saturnLayered.core-radius-ratio", kind:"semantic", metric:"coreRadiusRatio",
+    { id:"saturnLayered.core-radius-ratio", kind:"semantic", prov:"definition", metric:"coreRadiusRatio",
       expected:{min:0.40, max:0.45}, descScale:0.01,   // 実測42%(core.twolayer: Rc/R=√0.18=42.4%)
       descPattern:"コア半径比 Rc/R=(\\d+)%", testId:"core.twolayer" }
   ],
@@ -4723,12 +4897,21 @@ const BUILTIN_PRESETS = [
   // 第131便: 実単位化でエンジン実測値そのものが照合可能になったので3本目を追加(zonal.d68-realunit)
   claims:[
     { id:"saturnZonalD68.d68-rate", kind:"fixed-seed", prov:"calibrated", metric:"apsidalRateDegPerDay",
+      chain:{ax:["A6"], eq:["E13"],
+        note:"扁平中心天体の帯状重力補正(E13)による近点移動率を Cassini の D68 観測へ対応付けた較正点(観測ごとの追加 fit 1件)。",
+        noteEn:"The apsidal rate from the zonal gravity correction (E13) of an oblate primary, matched to the Cassini D68 observation — one extra fit per observation."},
       expected:{min:38.24, max:38.25},   // 実測38.243±0.002(zonal.analytic-d68)
       descPattern:"D68 実測 (\\d+\\.\\d+)°/日", testId:"zonal.analytic-d68" },
     { id:"saturnZonalD68.calib-factor", kind:"analytic", prov:"calibrated", metric:"zonalCalibFactor",
+      chain:{eq:["E13"],
+        note:"E13 の較正係数そのもの — 観測へ合わせるために使った1自由度を、台帳の「較正」欄に明示的に計上する。",
+        noteEn:"The calibration factor of E13 itself — the one degree of freedom spent on matching the observation, booked explicitly in the budget's calibrated column."},
       expected:{min:1.0002, max:1.0004},   // 実測1.000302283(zonal.d68-preset: 厳密一致)
       descPattern:"較正係数 C=(\\d+\\.\\d+)", testId:"zonal.d68-preset" },
     { id:"saturnZonalD68.d68-rate-sim", kind:"fixed-seed", prov:"simulated", metric:"apsidalRateDegPerDaySim",
+      chain:{ax:["A6"], eq:["E4","E13"],
+        note:"実単位化により、較正係数を通さずエンジン自身が出す近点移動率(実走の測定値)— 較正ではなく検証の側に立つ項目。",
+        noteEn:"With real units, the apsidal rate the engine itself produces without going through the calibration factor (a measured value) — this item stands on the verification side, not the calibration side."},
       expected:{min:37.95, max:38.25},   // 実測38.108°/日(Cassini 38.243 に対し −0.35%)
       descPattern:"エンジン実測 (\\d+\\.\\d+)°/日", testId:"zonal.d68-realunit" }
   ],
@@ -4999,7 +5182,7 @@ const BUILTIN_PRESETS = [
   // が説明文中の数値・behavior.agnjet の閾値(既定 frac≥2/3・対照比 ratio≥1.25)と機械照合する
   // 第42便 42A(台帳4-78 A案): descPattern を追記(claims.sync による汎用照合へ移行)
   claims:[
-    { id:"agnjet.polar-fraction", kind:"fixed-seed", metric:"polarFraction",
+    { id:"agnjet.polar-fraction", kind:"fixed-seed", prov:"simulated", metric:"polarFraction",
       expected:{min:0.75, max:0.92},   // 実測0.839(4000步)
       descPattern:"(\\d+(?:\\.\\d+)?)%が±y", descScale:0.01,
       control:{patch:{kRep:0}, expected:{min:0.45, max:0.58},   // 実測0.542(kRep=0)
@@ -5064,13 +5247,13 @@ const BUILTIN_PRESETS = [
   // 第42便 42A(台帳4-78 A案): claims — 説明文のコア収縮率・回転倍率・角運動量保存の一致率を
   // 機械可読化。窓は QA behavior.spinup の各閾値(shrink>=2.9・omX>=6.5・agree>=0.75)に直結させる
   claims:[
-    { id:"spinup.core-shrink-ratio", kind:"fixed-seed", metric:"coreShrinkRatio",
+    { id:"spinup.core-shrink-ratio", kind:"fixed-seed", prov:"simulated", metric:"coreShrinkRatio",
       expected:{min:2.9, max:3.3},   // 実測3.06(behavior.spinup: shrink>=2.9)
       descPattern:"コアの半径が(\\d+\\.\\d+)倍縮む", testId:"behavior.spinup" },
-    { id:"spinup.core-omega-boost", kind:"fixed-seed", metric:"coreOmegaBoostRatio",
+    { id:"spinup.core-omega-boost", kind:"fixed-seed", prov:"simulated", metric:"coreOmegaBoostRatio",
       expected:{min:6.5, max:9.5},   // 実測8.50(behavior.spinup: omX>=6.5)
       descPattern:"回転が(\\d+\\.\\d+)倍速くなる", testId:"behavior.spinup" },
-    { id:"spinup.angular-momentum-agreement", kind:"conservation", metric:"angularMomentumAgreement",
+    { id:"spinup.angular-momentum-agreement", kind:"conservation", prov:"derived", metric:"angularMomentumAgreement",
       expected:{min:0.75, max:0.98}, descScale:0.01,   // 実測90.8%(behavior.spinup: agree>=0.75)
       descPattern:"実測は一致(\\d+\\.\\d+)%", testId:"behavior.spinup" }
   ],
@@ -5126,13 +5309,19 @@ const BUILTIN_PRESETS = [
   // T_mean 3.73〜4.91・radE比 67.1〜83.8)と 3seed(114〜124回・3.89〜4.91・67.6〜75.4)の
   // 実測幅を必ず内側に含むように取った
   claims:[
-    { id:"starcore.fusion-count", kind:"fixed-seed", metric:"fusionEvents",
+    { id:"starcore.fusion-count", kind:"fixed-seed", prov:"simulated", metric:"fusionEvents",
       expected:{min:90, max:170},   // 実測124(dt収束113〜124・3seed 114〜124。behavior.starcore: fusN≥90)
       descPattern:"融合(\\d+)回・ガスは", testId:"behavior.starcore" },
-    { id:"starcore.mean-tint", kind:"fixed-seed", metric:"meanTintGas",
+    { id:"starcore.mean-tint", kind:"fixed-seed", prov:"simulated", metric:"meanTintGas",
+      chain:{ax:["A9","A12′"], eq:["E9","E11"],
+        note:"融合を熱源とした内部温度の定常値 — 熱源・伝導・放射の3則だけで決まり、温度に較正ノブを当てていない。",
+        noteEn:"The steady internal temperature with fusion as the heat source — set by the heating, conduction and radiation laws alone, with no calibration knob on temperature."},
       expected:{min:3.0, max:9.0},   // 実測4.91(dt収束3.73〜4.91・3seed 3.89〜4.91)
       descPattern:"平均温度T_int 2\\.00→(\\d+\\.\\d+)", testId:"behavior.starcore" },
-    { id:"starcore.radiation-ratio", kind:"fixed-seed", metric:"radERatioVsNoFusion",
+    { id:"starcore.radiation-ratio", kind:"fixed-seed", prov:"simulated", metric:"radERatioVsNoFusion",
+      chain:{ax:["A12","A12′"], eq:["E11"],
+        note:"融合なしの対照に対する放射エネルギー比 — 帳簿(radE)の閉性(A12′)から出る量で、比そのものに較正は入っていない。",
+        noteEn:"The radiated-energy ratio against the no-fusion control — a quantity that follows from the closure of the radE ledger (A12′), with no calibration entering the ratio."},
       expected:{min:40, max:130},   // 実測75.4倍(融合あり radE=4555 対 融合なし radE=60.4)
       descPattern:"放射エネルギーは(\\d+\\.\\d+)倍", testId:"behavior.starcore" }
   ],
@@ -5177,12 +5366,12 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame","cLight","G"],
   validT:96,   // 実測窓(6000步=t≈96)と一致
   claims:[
-    { id:"starSeed.core-spinup", kind:"fixed-seed", metric:"coreOmegaRatio",
+    { id:"starSeed.core-spinup", kind:"fixed-seed", prov:"simulated", metric:"coreOmegaRatio",
       expected:{min:80, max:140},   // 実測107.9(exp-4-78: Ω 1.5→161.8)
       descPattern:"コア角速度は1\\.5から約(\\d+)へ",
       descScale:0.6666666666666666,   // 説明文は終値162 — 比(×1/1.5)へ換算して照合
       testId:"claim.starseed-powerball" },
-    { id:"starSeed.seed-dimming", kind:"fixed-seed", metric:"seedFinalDimming",
+    { id:"starSeed.seed-dimming", kind:"fixed-seed", prov:"simulated", metric:"seedFinalDimming",
       expected:{min:0.98, max:1},   // 実測0.9987
       descPattern:"減光は0\\.14から実測(\\d+\\.\\d+)へ",
       testId:"claim.starseed-powerball" }
@@ -5231,12 +5420,49 @@ const CLAIM_KINDS=["analytic","conservation","semantic","fixed-seed","multi-seed
 //   axiom=公理そのもの / definition=定義・規則から従う / derived=公理から数学的に従う /
 //   calibrated=現実値への対応付けで決めた / simulated=シミュレーション実走の測定値 /
 //   analogy=実在現象の名前を借りたアナロジー(定量主張なし)
+// 第132便 EXT-02 第2段: **全量展開** — 全内蔵 claims が prov を明示宣言する(kind からの
+// 自動導出は外部 JSON・旧セーブのためのフォールバックとして残す)。宣言率 100% は QA
+// claims.prov-coverage が機械固定する。自動導出との差分(意味判定で上書きしたもの)は
+//   earthMoonFree.spin-ratio: definition → calibrated(実比 27.396 は観測値そのもの)
+// の1件のみで、他の81件は自動導出と同値を明示宣言している。
 const PROV_CLASSES=["axiom","definition","derived","calibrated","simulated","analogy"];
 const PROV_FROM_KIND={analytic:"derived", conservation:"derived", semantic:"definition",
   "fixed-seed":"simulated", "multi-seed":"simulated"};
 function claimProv(c){
   if(c && typeof c.prov==="string" && PROV_CLASSES.indexOf(c.prov)>=0) return c.prov;
   return (c && PROV_FROM_KIND[c.kind]) || null;
+}
+// 第132便 EXT-02 第2段(主張の連鎖 — Claim Chain): claims 行タップで開くカードの中身を
+// **自動組立**する純関数。連鎖は
+//   公理(A#)→方程式(E#)→パラメータ→(較正)→シミュレーション→観測量→QA検証
+// の7段で、A#/E# だけは claims が持たないため任意の追加宣言
+//   chain:{ ax:["A6",…], eq:["E4",…], note:"…"(ja), noteEn:"…"(en・省略時は ja へ) }
+// を導入して**代表サンプルへ段階導入**する(全量宣言は要求しない — 未宣言のときは
+// 公理・方程式の行が「宣言なし」になるだけで、残り5段はテンプレート+既存フィールド
+// 〔kind・prov・metric・expected・testId〕+プリセット宣言〔activeParams・physics・
+// stdTestsRef〕から成立する)。**表示専用** — 物理・保存 JSON・AI 仕様に影響しない。
+function claimChain(p, c){
+  const ch=(c && c.chain && typeof c.chain==="object" && !Array.isArray(c.chain))? c.chain : null;
+  const pick=(a)=>(Array.isArray(a)? a : []).filter(x=>typeof x==="string" && LAWS.ja[x]).slice(0,8);
+  const ax=ch? pick(ch.ax) : [], eq=ch? pick(ch.eq) : [];
+  // パラメータ段: 「このサンプルの主役」(activeParams)を優先し、無ければ較正台帳のノブを使う
+  let params=(p && Array.isArray(p.activeParams))? p.activeParams.filter(k=>typeof k==="string").slice(0,6) : [];
+  if(!params.length) params=calibrationBudget(p,{qLock:!!(p&&p.qLock)}).knobs.map(x=>x.key).slice(0,6);
+  const qa=[];
+  if(c && typeof c.testId==="string" && c.testId) qa.push(c.testId);
+  for(const r of ((p && Array.isArray(p.stdTestsRef))? p.stdTestsRef : [])) if(typeof r==="string" && qa.indexOf(r)<0) qa.push(r);
+  const pv=claimProv(c);
+  return {prov:pv, ax, eq, params, qa, kind:(c&&c.kind)||null,
+    metric:(c&&c.metric)||"", expected:(c&&c.expected)||null,
+    calibrated:pv==="calibrated", declared:!!(ax.length||eq.length),
+    // note は ja / noteEn は en(未宣言なら ja へフォールバック — 内蔵の en 宣言と同じ流儀)
+    note:chainNote(ch)};
+}
+function chainNote(ch){
+  if(!ch) return "";
+  const en=(LANG==="en" && typeof ch.noteEn==="string" && ch.noteEn.trim())? ch.noteEn : null;
+  const s=en || ((typeof ch.note==="string")? ch.note : "");
+  return s.trim().slice(0,300);
 }
 // 第83便D(往復保全): 説明文の上限を**実測較正**する(REACTION_DV_CAP と同じ「正常域最大の
 // 約2倍」の流儀)。旧上限は 200 字で、descStruct(要約/観察/操作の純分割)を持つ内蔵の説明は
@@ -6244,6 +6470,28 @@ function validatePreset(obj){
         if(c.prov!==undefined){
           if(PROV_CLASSES.indexOf(c.prov)>=0) o.prov=c.prov;
           else warnings.push("claims["+c.id+"].prov が不正("+String(c.prov).slice(0,20)+")— 無視");
+        }
+        // 第132便 EXT-02 第2段: chain — 主張の連鎖の任意宣言(表示専用のパススルー+型検査)。
+        // {ax:[法則キー], eq:[法則キー], note:文字列}。未知の法則キー・非配列は落として警告する
+        // (物理・保存 JSON には無関係。※ SYSTEM_PROMPT には載せない — AI 生成には要求しない)
+        if(c.chain!==undefined){
+          if(c.chain && typeof c.chain==="object" && !Array.isArray(c.chain)){
+            const ck={}; let bad=false;
+            for(const kk of ["ax","eq"]){
+              if(c.chain[kk]===undefined) continue;
+              if(!Array.isArray(c.chain[kk])){ bad=true; continue; }
+              const v=c.chain[kk].filter(x=>typeof x==="string" && LAWS.ja[x]).slice(0,8);
+              if(v.length!==c.chain[kk].length) bad=true;
+              if(v.length) ck[kk]=v;
+            }
+            for(const nk of ["note","noteEn"]){
+              if(c.chain[nk]===undefined) continue;
+              if(typeof c.chain[nk]==="string" && c.chain[nk].trim()) ck[nk]=c.chain[nk].trim().slice(0,300);
+              else bad=true;
+            }
+            if(Object.keys(ck).length) o.chain=ck;
+            if(bad) warnings.push("claims["+c.id+"].chain に不正な要素(未知の法則キー等)— その要素のみ無視");
+          } else warnings.push("claims["+c.id+"].chain はオブジェクトが必要 — 無視");
         }
         out.push(o);
       }
@@ -14009,6 +14257,36 @@ function renderHelp(){
   // 0にすると引きずりなしの対照になることをツールチップで案内)
   if(currentPreset.physics && currentPreset.physics.kFrame>0) addChip("drag",T("bdgDrag"),T("bdgDragTip"));
   el.appendChild(chipRow);
+  // 第132便 EXT-06: 較正台帳 — バッジ列の直下に1行チップ(折り畳み時は1行のみ = 常時表示)。
+  // 中身は calibrationBudget() の自動算出(宣言は持たない)。タップで内訳を開く。表示専用。
+  {
+    const cb=calibrationBudget(currentPreset,{qLock:qLockOn, physLock:physLock, params:sim.params});
+    const det=document.createElement("details"); det.id="cbDetails"; det.className="cbDetails";
+    const sum=document.createElement("summary");
+    sum.textContent=T("cbChip")(cb.N,cb.d,cb.M,cb.K); sum.title=T("cbTip");
+    det.appendChild(sum);
+    const pLab=(k)=>{ const d=PARAM_DEFS.find(q=>q.key===k); return d? paramLabel(d) : k; };
+    const row=(tag,head,txt)=>{ const r=document.createElement("div"); r.className="cbRow"; r.dataset.cb=tag;
+      const b=document.createElement("b"); b.textContent=head+":"; r.appendChild(b);
+      r.appendChild(document.createTextNode(" "+txt)); det.appendChild(r); return r; };
+    row("knobs", T("cbKnobs")+"("+cb.N+")", cb.knobs.length
+      ? cb.knobs.map(x=>pLab(x.key)+"="+cbFmt(x.value)+"〔"+T("cbDefault")+" "+cbFmt(x.def)+"〕").join(" / ")
+      : T("cbNone"));
+    row("derived", T("cbDerived")+"("+cb.d+")", cb.derived.length
+      ? cb.derived.map(x=>pLab(x.key)+"="+cbFmt(x.value)+"〔"+(x.how==="qlock"?T("cbQLock"):T("cbPhysLock"))+"〕").join(" / ")
+      : T("cbNone"));
+    row("calib", T("cbCalibList")+"("+cb.M+")", cb.calib.length
+      ? cb.calib.map(x=>x.metric+"("+x.id+")").join(" / ") : T("cbNone"));
+    row("verify", T("cbVerifyList")+"("+cb.K+")", cb.verify.length
+      ? cb.verify.map(x=>x.metric+"〔"+((T("provNames")[x.prov])||"—")+"〕").join(" / ") : T("cbNone"));
+    row("cond", T("cbCond")+"("+cb.cond.experiment.length+")", cb.cond.experiment.length
+      ? cb.cond.experiment.map(x=>pLab(x.key)+"="+cbFmt(x.value)).join(" / ") : T("cbNone"));
+    row("num", T("cbNum")+"("+cb.cond.numerics.length+")", cb.cond.numerics.length
+      ? cb.cond.numerics.map(x=>pLab(x.key)+"="+cbFmt(x.value)).join(" / ") : T("cbNone"));
+    const note=document.createElement("p"); note.className="note"; note.textContent=T("cbTip");
+    det.appendChild(note);
+    el.appendChild(det);
+  }
   // タイトル(第51便 51B: チップの直後へ移動)
   mk("h4",(currentPreset.emoji||"")+" "+pName(currentPreset));
   // 第106便(原仮定者指示「preset galaxy がどのプリセットかアプリで判別できない」):
@@ -14128,6 +14406,41 @@ function renderHelp(){
         row.appendChild(qa);
       }
       det.appendChild(row);
+      // 第132便 EXT-02 第2段: 行タップで「主張の連鎖カード」を開閉する(表示専用・トグル)。
+      // カードは claimChain() の自動組立 — chain 宣言があれば公理/方程式の行が実体を持ち、
+      // 無ければ「宣言なし」になるだけで残り5段はテンプレート+既存フィールドで成立する
+      row.classList.add("chainable"); row.title=T("chTapTip");
+      row.setAttribute("role","button"); row.tabIndex=0;
+      const card=document.createElement("div"); card.className="chainCard"; card.style.display="none";
+      card.dataset.claim=c.id;
+      {
+        const ch=claimChain(currentPreset,c);
+        const h=document.createElement("div"); h.className="chainHead"; h.textContent=T("chHead");
+        card.appendChild(h);
+        // 導入部: 第1段(第105便B)の静的説明 provTip をそのまま再利用する
+        const tip=document.createElement("p"); tip.className="chNote"; tip.textContent=T("provTip");
+        card.appendChild(tip);
+        const crow=(step,head,txt,decl)=>{ const r=document.createElement("div"); r.className="chRow";
+          r.dataset.s=step; if(decl===false) r.dataset.decl="none";
+          const b=document.createElement("b"); b.textContent=head+":"; r.appendChild(b);
+          r.appendChild(document.createTextNode(" "+txt)); card.appendChild(r); };
+        const lawList=(a)=>a.map(k=>k+" — "+lawText(k)).join(" / ");
+        crow("ax",T("chAx"),  ch.ax.length? lawList(ch.ax) : T("chNone"), ch.ax.length>0);
+        crow("eq",T("chEq"),  ch.eq.length? lawList(ch.eq) : T("chNone"), ch.eq.length>0);
+        crow("param",T("chParam"), ch.params.length
+          ? ch.params.map(k=>{ const d=PARAM_DEFS.find(q=>q.key===k); return d? paramLabel(d) : k; }).join(" / ")
+          : T("cbNone"));
+        crow("calib",T("chCalib"), ch.calibrated? T("chCalibYes") : T("chCalibNo"));
+        crow("sim",T("chSim"), (ch.kind && T("chSimKind")[ch.kind]) || T("chSimNa"));
+        crow("obs",T("chObs"), ch.metric+": "+T("claimsRangeLabel")+" "
+          +(ch.expected? ch.expected.min+"〜"+ch.expected.max : "—"));
+        crow("qa",T("chQa"), ch.qa.length? ch.qa.join(" / ") : T("chNoneQa"), ch.qa.length>0);
+        if(ch.note){ const n=document.createElement("p"); n.className="chNote"; n.textContent="— "+ch.note; card.appendChild(n); }
+      }
+      det.appendChild(card);
+      const toggleCard=()=>{ card.style.display=(card.style.display==="none")? "" : "none"; };
+      row.addEventListener("click",toggleCard);
+      row.addEventListener("keydown",(e)=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); toggleCard(); } });
     }
     const note=document.createElement("p"); note.className="note"; note.textContent=T("claimsNote");
     det.appendChild(note);
@@ -15360,6 +15673,12 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   buildExternalPromptShort, importCandidates, AI_SPEC_URL,  // 第103便: 短縮版プロンプト・候補抽出のQA用
   scaleEffNow,  // 第104便: ベースのスケール(タグ一括設定)のQA用 — 実効4指数の読み口(表示専用)
   claimProv, PROV_CLASSES,  // 第105便B EXT-02: 主張の出所分類のQA用(表示専用)
+  // 第132便: EXT-06 較正台帳(自動算出)と EXT-02 第2段 主張の連鎖のQA用フック。
+  // どちらも表示専用の純関数 — 呼んでも sim・プリセットを1バイトも書き換えない
+  calibrationBudget:(p,st)=>calibrationBudget(p||currentPreset,
+    st||{qLock:qLockOn, physLock:physLock, params:sim.params}),
+  claimChain:(p,c)=>claimChain(p||currentPreset,c),
+  DEFAULT_PHYSICS, PARAM_ROLES,
   // 第74便: 5段階スケール(分類・表示換算)のQA用フック — すべて表示専用で物理不変
   // 第77便(コアv2): QA/実験用の読み口(表示・検査専用)
   coreState:(i)=>{ const S=sim; if(!S.hasCoreV2||!S.coreMd[i]) return null;
