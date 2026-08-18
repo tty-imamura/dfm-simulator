@@ -7497,6 +7497,172 @@ if (!FAST) {
       console.log('SKIP ext02.claim-provenance(対象に出所分類なし — 第105便 未適用の root 等)');
     }
 
+    // ---- 第132便 EXT-02 第2段: claims.prov-coverage(全 claims の prov 明示宣言率 100%)----
+    // 第105便B の第1段は kind からの自動導出をフォールバックに使っていたので、宣言率は 4/82
+    // だった。第2段では全内蔵 claims が prov を**明示宣言**する(自動導出は外部 JSON・旧セーブの
+    // ためのフォールバックとして残る)。ここでは c.prov そのものを見る(claimProv() 越しではない)
+    // 第132便の適用判定(root 等の未適用対象では SKIP — 第105便B 世代は明示宣言 3件のみ)
+    const hasW132 = await page.evaluate(() => !!(window.HP && HP.calibrationBudget && HP.claimChain));
+    if (hasProv && hasW132) {
+      const pc = await page.evaluate(() => {
+        const builtins = HP.allPresets().filter(p => !String(p.id).startsWith('custom_'));
+        let total = 0, declared = 0; const missing = [], invalid = [], dist = {};
+        for (const p of builtins) for (const c of (p.claims || [])) {
+          total++;
+          if (typeof c.prov !== 'string') { missing.push(p.id + '/' + c.id); continue; }
+          if (HP.PROV_CLASSES.indexOf(c.prov) < 0) { invalid.push(p.id + '/' + c.id + '=' + c.prov); continue; }
+          declared++; dist[c.prov] = (dist[c.prov] || 0) + 1;
+        }
+        return { total, declared, missing: missing.slice(0, 5), invalid: invalid.slice(0, 5), dist };
+      });
+      add('claims.prov-coverage',
+        pc.total > 0 && pc.declared === pc.total && pc.missing.length === 0 && pc.invalid.length === 0,
+        `全${pc.total}claims が prov 明示宣言=${pc.declared}/${pc.total}(分布: `
+        + `${Object.entries(pc.dist).map(([k, v]) => `${k}=${v}`).join(' ')})`
+        + (pc.missing.length ? ` / 未宣言: ${pc.missing.join(',')}` : '')
+        + (pc.invalid.length ? ` / 不正: ${pc.invalid.join(',')}` : ''));
+    } else {
+      console.log('SKIP claims.prov-coverage(対象に出所分類なし — 第132便 未適用の root 等)');
+    }
+
+    // ---- 第132便 EXT-06: budget.consistency(較正台帳の自動算出を独立再計算と照合)----
+    // 表示している台帳の数値(ノブN・導出d・較正M・検証K)が、プリセット JSON/claims から
+    // **このテスト側で独立に組み直した数**と一致することを機械固定する。既定値表・物理役割表は
+    // アプリの定数を読まず、ここに書き下したもの(=独立再計算)を使う。qLock 宣言サンプルでは
+    // q が「導出」に入り「ノブ」から外れることも同時に照合する。
+    if (hasW132) {
+      const bd = await page.evaluate(() => {
+        // 独立再計算用の既定値表(PHYSICS.md §5 既定パラメータ表の写し — アプリの定数は読まない)
+        const DEF = { G: 1, D0: 2, kFrame: 1, q: 2, kRep: 1, muF: 0.5, gammaN: 0.4, kappaS: 0.05,
+          kappaT: 1 / 60, cLight: 30, bM: 1, etaRad: 0, pRad: 4, cHeat: 1,
+          geoPN: 0, lambdaPN: 1, pnAlpha: 1.5,
+          gravityX: 0, gravityY: 0, dispMag: 1, softening: 2, timeScale: 1 };
+        const PHYS = ['G', 'D0', 'kFrame', 'q', 'kRep', 'muF', 'gammaN', 'kappaS', 'kappaT',
+          'cLight', 'bM', 'etaRad', 'pRad', 'cHeat', 'geoPN', 'lambdaPN', 'pnAlpha'];
+        const EXPC = ['gravityX', 'gravityY'], NUMC = ['dispMag', 'softening', 'timeScale'];
+        const same = (a, b) => a === b || Math.abs(a - b) <= 1e-12 * Math.max(1, Math.abs(a), Math.abs(b));
+        const indep = (p) => {
+          const ph = p.physics || {};
+          const derived = [], knobs = [], exp = [], num = [];
+          for (const k of Object.keys(DEF)) {
+            const v = (typeof ph[k] === 'number' && isFinite(ph[k])) ? ph[k] : DEF[k];
+            if (k === 'q' && p.qLock) { derived.push(k); continue; }
+            if (same(v, DEF[k])) continue;
+            if (PHYS.indexOf(k) >= 0) knobs.push(k);
+            else if (EXPC.indexOf(k) >= 0) exp.push(k);
+            else if (NUMC.indexOf(k) >= 0) num.push(k);
+          }
+          let M = 0, K = 0;
+          for (const c of (p.claims || [])) { if (c.prov === 'calibrated') M++; else K++; }
+          return { N: knobs.length, d: derived.length, M, K, knobs: knobs.sort().join(','),
+            exp: exp.sort().join(','), num: num.sort().join(',') };
+        };
+        const rows = [];
+        for (const id of ['saturnRingRealKF1', 'mercuryRealKF1', 'earthMoonRealKF1', 'starcore', 'galaxy']) {
+          const p = HP.allPresets().find(q => q.id === id);
+          HP.loadPreset(id, false);
+          const cb = HP.calibrationBudget();
+          const ex = indep(p);
+          const chip = document.querySelector('#cbDetails > summary').textContent;
+          // 表示チップの4数字を読み取って照合(内部値だけでなく画面に出た数と一致すること)
+          const nums = (chip.match(/\d+/g) || []).map(Number);
+          rows.push({ id,
+            ok: cb.N === ex.N && cb.d === ex.d && cb.M === ex.M && cb.K === ex.K
+              && cb.knobs.map(x => x.key).sort().join(',') === ex.knobs
+              && cb.cond.experiment.map(x => x.key).sort().join(',') === ex.exp
+              && cb.cond.numerics.map(x => x.key).sort().join(',') === ex.num
+              && nums.length === 4 && nums[0] === ex.N && nums[1] === ex.d
+              && nums[2] === ex.M && nums[3] === ex.K,
+            got: `${cb.N}/${cb.d}/${cb.M}/${cb.K}`, want: `${ex.N}/${ex.d}/${ex.M}/${ex.K}`,
+            chipNums: nums.join('/'),
+            qDerived: cb.derived.some(x => x.key === 'q'),
+            qNotKnob: !cb.knobs.some(x => x.key === 'q'),
+            qLock: !!p.qLock });
+        }
+        // qLock 宣言サンプルでは q が導出扱い・非qLock では導出0(💿🪨🌘 と ☀️🌌 の対比)
+        const lockOk = rows.every(r => r.qLock ? (r.qDerived && r.qNotKnob) : !r.qDerived);
+        // physLock を手動 ON にすると κ が「ノブ」から「導出」へ移る(実行時状態の反映)
+        HP.loadPreset('galaxy', false);
+        const b0 = HP.calibrationBudget();
+        HP.setPhysLock(true);
+        const b1 = HP.calibrationBudget();
+        const plOk = b0.derived.length === 0 && b1.derived.some(x => x.key === 'kappaT')
+          && b1.N === b0.N - 1 && !b1.knobs.some(x => x.key === 'kappaT');
+        HP.setPhysLock(false);
+        HP.loadPreset('galaxy', false);   // physLock で書き換わった κ を宣言値へ戻す
+        return { rows, lockOk, plOk };
+      });
+      add('budget.consistency',
+        bd.rows.every(r => r.ok) && bd.lockOk && bd.plOk,
+        `代表5件 台帳=独立再計算: ${bd.rows.map(r => `${r.id}=${r.got}${r.ok ? '' : '≠' + r.want}`).join(' ')} / `
+        + `チップ数字=[${bd.rows.map(r => r.chipNums).join(' ')}] / `
+        + `qLock の q は導出扱い=${bd.lockOk} / physLock ON で κ がノブ→導出=${bd.plOk}`);
+    } else {
+      console.log('SKIP budget.consistency(対象に較正台帳なし — 第132便 未適用の root 等)');
+    }
+
+    // ---- 第132便 EXT-02 第2段: provchain.ui(主張の連鎖カードの開閉と2形)----
+    // 代表サンプルで claims 行タップによりカードが開き、chain 宣言あり(A#/E# の実体が出る)と
+    // 宣言なし(公理・方程式の行が「宣言なし」表示でテンプレート5段のみ)の両形が正しく出ること。
+    if (hasW132) {
+      const pcu = await page.evaluate(() => {
+        const openFirst = (id, idx) => {
+          HP.loadPreset(id, false);
+          const rows = [...document.querySelectorAll('#claimsDetails .claimRow')];
+          const cards = [...document.querySelectorAll('#claimsDetails .chainCard')];
+          const before = cards[idx].style.display;
+          rows[idx].click();
+          const after = cards[idx].style.display;
+          const r = {};
+          for (const e of cards[idx].querySelectorAll('.chRow')) r[e.dataset.s] = { t: e.textContent, decl: e.dataset.decl || '' };
+          rows[idx].click();   // 再タップで閉じる(トグル)
+          return { before, after, closed: cards[idx].style.display, rows: r,
+            nRows: cards[idx].querySelectorAll('.chRow').length,
+            nCards: cards.length, nClaims: rows.length };
+        };
+        // ①chain 宣言あり: ⏱️gclock(ax=A2/A7・eq=E7R)
+        const dec = openFirst('gclock', 0);
+        const decOk = dec.before === 'none' && dec.after === '' && dec.closed === 'none'
+          && dec.nRows === 7 && dec.nCards === dec.nClaims
+          && /A2/.test(dec.rows.ax.t) && /A7/.test(dec.rows.ax.t) && dec.rows.ax.decl === ''
+          && /E7R/.test(dec.rows.eq.t) && dec.rows.eq.decl === ''
+          && /new\.gclock/.test(dec.rows.qa.t);
+        // ②chain 宣言なし: ⏪echo(公理・方程式が「宣言なし」・残り5段はテンプレートで成立)
+        const und = openFirst('echo', 0);
+        const undOk = und.after === '' && und.nRows === 7
+          && und.rows.ax.decl === 'none' && und.rows.eq.decl === 'none'
+          && und.rows.param.t.length > 3 && und.rows.sim.t.length > 3
+          && /echoRmsReturn/.test(und.rows.obs.t) && /echo\.leapfrog-return/.test(und.rows.qa.t);
+        // ③較正 claim では「較正」段が「あり」側になる(🛰️saturnZonalD68 の d68-rate)
+        const cal = openFirst('saturnZonalD68', 0);
+        const calOk = /E13/.test(cal.rows.eq.t) && cal.rows.calib.t !== und.rows.calib.t;
+        return { decOk, undOk, calOk,
+          axTxt: dec.rows.ax.t.slice(0, 40), undAx: und.rows.ax.t.slice(0, 30),
+          calTxt: cal.rows.calib.t.slice(0, 30) };
+      });
+      // ④en 切替でカード(と台帳チップ)のラベルが英語になる — 終わったら ja へ戻す
+      const enOk = await page.evaluate(() => {
+        const keep = HP.lang();
+        HP.setLang('en');
+        HP.loadPreset('gclock', false);
+        document.querySelector('#claimsDetails .claimRow').click();
+        const card = document.querySelector('#claimsDetails .chainCard');
+        const t = [...card.querySelectorAll('.chRow')].map(e => e.textContent).join(' | ');
+        const note = [...card.querySelectorAll('.chNote')].map(e => e.textContent).join(' | ');
+        const sum = document.querySelector('#cbDetails > summary').textContent;
+        HP.setLang(keep === 'en' ? 'en' : 'ja');
+        return { hasEn: /Axioms:/.test(t) && /Equations:/.test(t) && /Observable:/.test(t),
+          cbEn: /Calibration budget/.test(sum),
+          noteEn: /no calibration knob/.test(note), sample: t.slice(0, 60) };
+      });
+      add('provchain.ui',
+        pcu.decOk && pcu.undOk && pcu.calOk && enOk.hasEn && enOk.cbEn && enOk.noteEn,
+        `宣言あり(⏱️: ${pcu.axTxt}…)=${pcu.decOk} / 宣言なし(⏪: ${pcu.undAx})=${pcu.undOk} / `
+        + `較正段(🛰️: ${pcu.calTxt})=${pcu.calOk} / en 切替=${enOk.hasEn}(台帳も en=${enOk.cbEn}・note も en=${enOk.noteEn})`);
+    } else {
+      console.log('SKIP provchain.ui(対象に主張の連鎖なし — 第132便 未適用の root 等)');
+    }
+
     // ---- 第106便: プリセットID行(論文の preset <id> 参照をアプリで判別可能に)----
     const hasIdLine = await page.evaluate(() => { HP.loadPreset('galaxy', false);
       return !!document.querySelector('#presetIdLine'); });
