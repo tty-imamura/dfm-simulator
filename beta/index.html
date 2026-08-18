@@ -4494,43 +4494,84 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-// 第103便(原仮定者指示「太陽系のプリセットを検討する」): 内惑星系の実距離デモ。
-// 惑星タグの表示規約(1単位=10⁸m)をそのまま距離に採用: 地球 r=1496(=1.496×10¹¹m=1au)。
-// 太陽質量はケプラー写像 M=v²r=13266(G=1・v_実=2.978 相当)。
-// 「太陽の半径が大き過ぎて水星が埋まる」問題は radius の明示指定で回避(太陽40 ≪ 水星軌道579。
-// 実スケールでは太陽6.96×10⁸m=7単位・地球0.06単位と視認不能なので拡大 — DFMの半径は
-// 引きずりの届き方 (R/(R+d))^q にも入るため、拡大は引きずりを見えやすくする側に働く)。
-// 初速は kFrame=1(引きずり込み)の円軌道実測較正 — ケプラー値×1.12/1.09/1.07/1.055
-// (水/金/地/火。earthMoon の 1.063 と同じ E6′ 較正手順)。実測: 各惑星1周窓で半径振れ幅 0.05/0.005/0.002/0.001%(3200步・2水星周)(2026-08-11 tests/out/_exp-solar2.mjs)。knockout(kFrame=0)では
-// 較正超過ぶんだけ楕円化する=引きずりが円軌道を支えている構図(原仮定者指示「引きずりで
-// 軌道が安定するのがベスト」)
-{ id:"solarInner", name:"太陽系 — 内惑星(1au 実距離)", emoji:"🌞", group:"天体の物語",
+// 第103便(原仮定者指示「太陽系のプリセットを検討する」): 内惑星系の実距離デモ(トイ質量版)。
+// → 第131便(原仮定者指示「現実較正チップを持ちながらスケールがトイのままの 🌞 を
+//    スケール換算込みの実較正へ引き上げる」): ☄️🪨 と同一の指数系 {L:8,T:4,M:27} へ実単位化。
+//    距離は旧版の実値をそのまま保持(1単位=10⁸m=10万km)。太陽・惑星の質量・半径・自転を実値へ。
+//    初速の較正係数は **1.000(実ケプラー速度そのまま)** — 旧版の ×1.12/1.09/1.07/1.055 は
+//    トイ設定(太陽半径40=実の5.7倍・自転0.5=実の17倍・q=2・D₀=2・c₀=30)が作っていた
+//    人工物で、実単位では不要になることを f 掃引で実測(第131便 — QA behavior.solarInner が再固定)。
+{ id:"solarInner", name:"太陽系 — 内惑星(実単位)", emoji:"🌞", group:"天体の物語",
   scaleTier:"planetary",
+  scaleExp:{L:8, T:4, M:27},   // 第131便: ☄️mercuryReal・🪨mercuryRealKF1 と同一の指数系
+                               // (1単位=10⁸m/10⁴s/10²⁷kg — 実G=6.674・実c=3×10⁴〔eC=L−T=4〕)
   sampleClass:"calibration",
-  notClaim:["solar"],   // EXT-04: 実在名を使うが定量主張は距離写像と較正手順に限る
+  fidelity:"real",   // 第131便: スケール換算込みの較正が成立(距離・質量・半径・自転・周期・速度が全て観測値)
+                     // ※ 離心率は 0 に理想化してある(実: 水星0.206・金星0.007・地球0.017・火星0.093)—
+                     //   本サンプルは「円軌道デモ」として設計されている(第131便 統括裁定)
+  notClaim:["solar"],   // EXT-04: 実在名を使うが定量主張は距離・質量・半径・周期・円軌道維持に限る
+  obsCard:[
+    {q:"公転周期(水/金/地/火)", model:"87.972 / 224.700 / 365.263 / 686.965 日(実距離+実ケプラー初速)",
+     obs:"87.969 / 224.701 / 365.256 / 686.980 日"},
+    {q:"軌道速度(地球)", model:"29.785 km/s", obs:"29.78 km/s"},
+    {q:"円軌道の維持(2水星周窓)", model:"較正係数 1.000 で半径振れ幅 0.0131%(水星)", obs:"—(旧トイ版は ×1.12 の較正が必要だった)"}],
+  failureFirst:{
+    fail:"第103便の旧版は距離だけが実値で、太陽質量 13266(G=1 のケプラー写像)・太陽半径 40(実 6.96 の5.7倍)・自転 0.5(実 0.029031 の17倍)・c₀=30・D₀=2・q=2 のトイ設定だった。この誇張では空間引きずりが軌道速度の1割を担い、円軌道を保つのにケプラー値×1.12/1.09/1.07/1.055 の較正係数が要る。第131便の再実測では、その較正でも2水星周窓の半径振れ幅は 1.52/0.69/0.54/0.24%(dt=0.48・3200步)、kFrame=0 の対照は 50.6/36.2/26.9/11.0% で、旧説明文の「0.06%以下」「水星2.2%の楕円化」は再現できなかった。",
+    pass:"第131便: ☄️🪨 と同じ指数系へ実単位化(実G=6.674・実c₀=3×10⁴・κ=G/c₀²・実質量・実半径・実自転)。すると較正係数は 1.000(実ケプラー速度そのまま)が最適になり、2水星周窓の半径振れ幅は 0.0131%(水星)/0.00489%(金星)/0.00181%(地球)/0.00226%(火星)まで下がる。公転周期は4惑星とも観測と 1×10⁻⁴ 以内で一致する。"},
   descStruct:{
-    summary:"内惑星系(水・金・地・火)+小惑星帯を、距離が実値になる規約で置く。惑星タグ(1単位=10万km)で太陽–地球=1496単位≈1au。初速は空間引きずり(kFrame=1)込みの円軌道実測較正 — 引きずりの中で安定な円軌道を保つ。",
-    observe:"距離は実値(水星579・金星1082・地球1496・火星2279 単位=10万km)。初速はケプラー値×1.12/1.09/1.07/1.055(水/金/地/火)の E6′ 込み実測較正で、2周窓の実測で半径振れ幅0.06%以下の円軌道を維持する(knockout kFrame=0 では水星2.2%の楕円化)(🌍と同じ較正手順 — 内側ほど補正が大きい)。半径は視認のための拡大: 実スケールでは太陽7単位・地球0.06単位と見えないため太陽40・惑星12〜22にした(水星軌道579より十分小さく埋まらない)。太陽は pinned の展示系(中心は固定=外部拘束)。",
-    control:"A/B比較で kFrame を 0(純ニュートン)にすると、較正がケプラー値を上回るぶん軌道が楕円化して遠日点が持ち上がる — 引きずりが円軌道を支えていたことが見える(内側の惑星ほど顕著)。timeScale=30 なので画面の1秒≈9.6時間。小惑星帯(3300〜4600単位≈2.2〜3.1au)はズームアウトで見える。"},
-  en:{name:"Solar System — Inner Planets (real 1 au)", descStruct:{
-    summary:"The inner planets (Mercury–Mars) plus an asteroid belt, laid out so that distances map to real values. With the planetary tag (1 unit = 10^5 km), Sun–Earth = 1496 units ≈ 1 au. Initial speeds are measured circular-orbit calibrations with frame dragging (kFrame=1) included — the orbits stay circular inside the dragged space.",
-    observe:"Distances are real (Mercury 579, Venus 1082, Earth 1496, Mars 2279 units of 10^5 km). Initial speeds are Kepler × 1.12/1.09/1.07/1.055 (Mercury/Venus/Earth/Mars), the measured E6′ calibration that keeps each orbit circular to within 0.06% radius wobble over a two-orbit window (knocking out kFrame=0 turns Mercury into a 2.2% ellipse) (same procedure as 🌍; the correction grows inward). Radii are inflated for visibility — at true scale the Sun would be 7 units and Earth 0.06 units — so the Sun is drawn at 40 and planets at 12–22 (well below Mercury's orbit of 579, so nothing gets buried). The Sun is pinned (exhibit system; the center is an external constraint).",
-    control:"Switch kFrame to 0 (pure Newton) in an A/B run: the orbits turn elliptic by exactly the calibration excess and the aphelia rise — showing that the dragging was supporting the circular orbits (strongest for the inner planets). With timeScale=30 one on-screen second ≈ 9.6 hours. The asteroid belt (3300–4600 units ≈ 2.2–3.1 au) appears when you zoom out."}},
-  activeParams:["kFrame","G"],
+    summary:"内惑星系(水・金・地・火)+小惑星帯を、実定数・実質量・実距離・実半径のまま置いた観測較正サンプル(第131便でトイ→実単位化)。1単位=10⁸m/10⁴s/10²⁷kg(サンプル別スケール指数)で、太陽 1988.5(=1.9885×10³⁰kg)・半径 6.96(=6.96×10⁸m)・自転 0.029031(25.05日)、惑星は実質量・実半径・実自転・実軌道長半径(水星579.09・金星1082.08・地球1495.98・火星2279.39 単位=10万km、太陽–地球=1au)。初速は実ケプラー速度そのまま(較正係数 1.000)。物理対応条件 κ=G/c₀² 成立・kFrame=1+共通補正 D₀=0.006(雛形 🪨🌘💿 の構成)。軌道は円に理想化してある(実離心率 水星0.206・金星0.007・地球0.017・火星0.093 は再現しない — 円軌道デモとしての設計)。",
+    observe:"公転周期は実測 87.972/224.700/365.263/686.965 日(観測 87.969/224.701/365.256/686.980)。以下の軌道実測はすべて dt=0.016・帯を外した太陽+惑星4体の部分系での値(帯の総質量は太陽の 5×10⁻⁸ で力学的に無関係 — 帯込みでも水星0.0131%・金星0.00489%・地球0.00181%・火星0.00227% と3桁目まで一致する)。軌道速度は水星47.87・金星35.02・地球29.785・火星24.13 km/s(いずれも観測値)。2水星周窓の半径振れ幅は 0.0131%(水星)/0.00489%(金星)/0.00181%(地球)/0.00226%(火星)で、1火星周(687日)まで延ばしても 0.0134/0.00607/0.00445/0.00430% にとどまる。kFrame を 0 にしても 0.0131/0.00533/0.00174/0.00124% とほぼ同じ — 実スケールでは空間引きずり(A8/E6′)が円軌道条件に効かない(太陽の自転を 0 にした対照は kFrame=1 と倍精度で完全一致 = スピン項の寄与ゼロ)。旧トイ版の較正超過を実単位へ持ち込むと悪化する(f 掃引: 1.000→0.0131%・1.001→0.400%・1.005→2.00%・1.055→22.3%・1.12→50.7%)。半径が実値なので惑星は点にしか見えない — 粒子表示倍率 dispMag=10(表示専用・力学不変)で太陽を 6.96→69.6 単位に拡大している(水星軌道 579 の12%: ☄️ と同じ「太陽が視覚を支配する」妥協)。小惑星帯はケレス級のテスト質量100個の展示(各 10⁻⁶=10²¹kg・半径 0.005=5×10⁵m)で、帯の総質量は太陽の 5×10⁻⁸(実際の帯 ≈2.4×10²¹kg の約42倍)しかなく、惑星の軌道実測は帯の有無で一致する(帯粒は初期 vNoise 2% ぶんの離心率をもって回り、2水星周での半径ずれは最大2%級)。太陽は pinned の展示系(中心は固定=外部拘束)。",
+    control:"ワンタップ対照A/B: B側 q=0.5(引きずりの幾何減衰を外した誇張)にすると太陽の実自転が内惑星系ごと空間を引きずり、2水星周で軌道が崩壊する(半径振れ幅 102/130/362/135%)— 「実スケールで引きずりが効かない」ことの本体が q の幾何減衰であることが1タップで見える。kFrame を 0 にしても画面は変わらない(実スケールの引きずりは検出限界以下)。q は 3〜21.8 のどこでも軌道は同一(q≥5 では倍精度で完全一致)なので qLock は掛けていない — 多惑星系では自由天体距離の中央値に応じて q* が変わり、1本の LT整合則を定義できないため(第131便 統括裁定)。宣言値 q=5.1 は qLock 則 q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) を帯を含む自由天体距離の中央値 a=3836 で評価した算出値(q*=5.1045)。timeScale=30 なので画面の1秒≈6.7日。小惑星帯(3300〜4600単位≈2.2〜3.1au)はズームアウトで見える。"},
+  en:{name:"Solar System — Inner Planets (Real Units)",
+    obsCard:[
+      {q:"Orbital periods (Me/V/E/Ma)", model:"87.972 / 224.700 / 365.263 / 686.965 d (real distances + real Kepler speeds)",
+       obs:"87.969 / 224.701 / 365.256 / 686.980 d"},
+      {q:"Orbital speed (Earth)", model:"29.785 km/s", obs:"29.78 km/s"},
+      {q:"Circular-orbit maintenance (2 Mercury orbits)", model:"calibration factor 1.000, radius wobble 0.0131% (Mercury)", obs:"— (the old toy build needed a ×1.12 calibration)"}],
+    failureFirst:{
+      fail:"The wave-103 build had real DISTANCES only: the solar mass was the toy Kepler mapping 13266 (G=1), the solar radius 40 (5.7× the real 6.96), the spin 0.5 (17× the real 0.029031), with c₀=30, D₀=2, q=2. Under that exaggeration frame dragging carried ~10% of the orbital speed, so keeping the orbits circular needed Kepler × 1.12/1.09/1.07/1.055. Re-measured in wave 131, even with that calibration the radius wobble over two Mercury orbits is 1.52/0.69/0.54/0.24% (dt=0.48, 3200 steps) and the kFrame=0 control gives 50.6/36.2/26.9/11.0% — the old text's \"under 0.06%\" and \"2.2% ellipse\" could not be reproduced.",
+      pass:"Wave 131: recast into ☄️🪨's exponent system with real constants (G=6.674, c₀=3×10⁴, κ=G/c₀²) and real masses, radii and spins. The optimal calibration factor becomes 1.000 — the real Kepler speed itself — and the radius wobble over two Mercury orbits drops to 0.0131% (Mercury) / 0.00489% (Venus) / 0.00181% (Earth) / 0.00226% (Mars). All four orbital periods match observation to within 1×10⁻⁴."},
+    descStruct:{
+    summary:"The inner planets (Mercury–Mars) plus an asteroid belt, placed with real constants, real masses, real distances and real radii (wave 131 turned the toy build into a real-unit one). With per-sample scale exponents (1 unit = 10⁸ m / 10⁴ s / 10²⁷ kg) the Sun is 1988.5 (=1.9885×10³⁰ kg) with radius 6.96 (=6.96×10⁸ m) and spin 0.029031 (25.05 d), and the planets carry real masses, radii, spins and semi-major axes (Mercury 579.09, Venus 1082.08, Earth 1495.98, Mars 2279.39 units of 10⁵ km; Sun–Earth = 1 au). The initial speeds are the real Kepler speeds themselves (calibration factor 1.000). κ=G/c₀² holds, with kFrame=1 and the joint correction D₀=0.006 (the 🪨🌘💿 construction). The orbits are idealized to circles — the real eccentricities (Mercury 0.206, Venus 0.007, Earth 0.017, Mars 0.093) are not reproduced; this sample is by design a circular-orbit demo.",
+    observe:"Measured periods are 87.972/224.700/365.263/686.965 d (observed 87.969/224.701/365.256/686.980). All orbital measurements below are taken at dt=0.016 on the Sun-plus-four-planets subsystem with the belt removed (the belt is dynamically irrelevant — its total mass is 5×10⁻⁸ of the Sun; with the belt in, the figures are 0.0131 / 0.00489 / 0.00181 / 0.00227%, matching to three digits). Orbital speeds are 47.87/35.02/29.785/24.13 km/s — all observed values. Over a two-Mercury-orbit window the radius wobble is 0.0131% (Mercury) / 0.00489% (Venus) / 0.00181% (Earth) / 0.00226% (Mars), and stretching the window to one Mars orbit (687 d) only takes it to 0.0134/0.00607/0.00445/0.00430%. Setting kFrame to 0 gives 0.0131/0.00533/0.00174/0.00124% — essentially the same, because at real scale frame dragging (A8/E6′) does not touch the circular-orbit condition (zeroing the Sun's spin reproduces the kFrame=1 run to full double precision: the spin term contributes nothing). Carrying the old toy calibration excess into real units only makes things worse (f sweep: 1.000→0.0131%, 1.001→0.400%, 1.005→2.00%, 1.055→22.3%, 1.12→50.7%). At real radii the planets are mere dots, so the display magnification dispMag=10 (display only, dynamics untouched) draws the Sun at 6.96→69.6 units — 12% of Mercury's 579 orbit, the same \"the Sun dominates the view\" compromise as ☄️. The asteroid belt is an exhibit of 100 Ceres-class test masses (each 10⁻⁶ = 10²¹ kg, radius 0.005 = 5×10⁵ m); its total mass is 5×10⁻⁸ of the Sun (about 42× the real belt at ≈2.4×10²¹ kg), and the planetary measurements are identical with and without it (the grains carry the 2% vNoise as eccentricity, so their radii wander by at most ~2% over two Mercury orbits). The Sun is pinned (exhibit system; the center is an external constraint).",
+    control:"One-tap A/B: side B at q=0.5 (removing the geometric falloff of the dragging) lets the Sun's real rotation drag the whole inner system, and the orbits collapse within two Mercury orbits (radius wobble 102/130/362/135%) — one tap shows that the geometric falloff in q is exactly what makes dragging invisible at real scale. Setting kFrame to 0 changes nothing on screen (real-scale dragging is below detection). Any q from 3 to 21.8 gives the same orbits (identical to full double precision for q≥5), so qLock is NOT engaged here: in a multi-planet system q* depends on the median free-body distance, so a single LT-matching rule cannot be defined (wave-131 ruling). The declared q=5.1 is the qLock rule q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) evaluated at the belt-inclusive median free-body distance a=3836 (q*=5.1045). With timeScale=30 one on-screen second ≈ 6.7 days. The asteroid belt (3300–4600 units ≈ 2.2–3.1 au) appears when you zoom out."}},
+  abBody:{ label:{ja:"q=0.5(引きずりの幾何減衰を外した誇張対照)", en:"q=0.5 (drag without geometric falloff)"},
+    physicsPatch:{q:0.5} },
+  // 第131便: claims — 初速較正係数(1.000)と2水星周窓の半径振れ幅(水星)を機械可読化。
+  // どちらも実測値そのもの(f 掃引・2水星周窓)。testId は付けない(説明文の数値を固定する claim)
+  claims:[
+    { id:"solarInner.velocity-calib-factor", kind:"fixed-seed", metric:"velocityCalibFactor",
+      expected:{min:0.999, max:1.001},   // 実測: f 掃引の最小は f=1.000(1.001 で 0.400%・1.12 で 50.7% へ悪化)
+      descPattern:"較正係数 (\\d+\\.\\d+)", testId:"behavior.solarInner" },
+    { id:"solarInner.circular-wobble-mercury", kind:"fixed-seed", metric:"radiusWobbleFraction",
+      expected:{min:0.0001, max:0.0002}, descScale:0.01,   // 実測 0.0131%(2水星周窓・95006步・dt=0.016)
+      descPattern:"2水星周窓の半径振れ幅は (\\d+\\.\\d+)%", testId:"behavior.solarInner",
+      control:{patch:{kFrame:0}, expected:{min:0.0001, max:0.0002}, descScale:0.01,   // 実測 0.0131%(kFrame=0)
+        descPattern:"kFrame を 0 にしても (\\d+\\.\\d+)/"} }
+  ],
+  activeParams:["kFrame","q","dispMag"],
   camera:{scale:1700}, world:{boundary:"none",size:0},
-  physics:{G:1, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
-    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
-    radiusScale:1, softening:2, timeScale:30},
-  bodies:[ // 並び: 0=太陽, 1=水星, 2=金星, 3=地球, 4=火星, 5=小惑星帯。
-           // 距離(10⁵km)= 579/1082/1496/2279。質量は地球=1 の実比(0.055/0.815/1/0.107 —
-           // テスト質量極限なので軌道へは影響しない)。速度 = √(13266/r)×較正係数(上記)
-    {type:"single", m:13266, x:0,y:0, vx:0,vy:0, spin:0.5, pinned:true, radius:40},
-    {type:"single", m:0.055, x:579,y:0, vx:0,vy:5.3610, spin:0, pinned:false, radius:12},
-    {type:"single", m:0.815, x:-1082,y:0, vx:0,vy:-3.8167, spin:0, pinned:false, radius:20},
-    {type:"single", m:1, x:1496,y:0, vx:0,vy:3.1864, spin:0, pinned:false, radius:22},
-    {type:"single", m:0.107, x:-2279,y:0, vx:0,vy:-2.5454, spin:0, pinned:false, radius:16},
-    {type:"ring", rMul:5, n:160, cx:0,cy:0, rIn:3300, rOut:4600, mMin:0.04, mMax:0.04,
-     spinMin:0, spinMax:0, vMode:"kepler", aroundMass:13266, omega:0, vNoise:0.02, direction:1, pinned:false}
+  physics:{G:6.674, D0:0.006, kFrame:1, q:5.1, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:30, dispMag:10,
+    stateCarry:"double"},
+  bodies:[ // 並び: 0=太陽, 1=水星, 2=金星, 3=地球, 4=火星, 5=小惑星帯。すべて実値
+           // (1単位=10⁸m/10⁴s/10²⁷kg): 太陽 1.9885e30kg/6.96e8m/自転25.05日、
+           //  水星 3.3011e23kg/2.44e6m/58.646日・a=5.7909e10m、金星 4.8675e24kg/6.05e6m/−243.025日・a=1.08208e11m、
+           //  地球 5.9724e24kg/6.371e6m/23.934時・a=1.49598e11m、火星 6.4171e23kg/3.39e6m/24.623時・a=2.27939e11m。
+           //  初速 = √(GM/a)(実ケプラー速度・較正係数 1.000)。GM=6.674×1988.5=13271.249
+           //  (実 GM_☉=1.32712×10²⁰ m³/s² と 4×10⁻⁶ 一致)
+           // 第131便 負荷: 雛形構成(kFrame=1×geoPN=2)は旧 geoPN=0 の約2.4倍のステップ費用に
+           //  なるため、力学的に無関係な帯の粒数だけを 160→100 に落として旧版と同じ描画負荷に
+           //  戻した(実測 60frames: 旧構成 23.6ms/frame → 新構成 n=160 で 55〜59 → n=100 で 23.0。
+           //  帯の半径域 3300〜4600・粒の質量/半径・vNoise は不変 — 第40便 40C と同じ流儀)
+    {type:"single", m:1988.5, radius:6.96, x:0,y:0, vx:0,vy:0, spin:0.029031, pinned:true, pnSource:true},
+    {type:"single", m:0.00033011, radius:0.0244, x:579.09,y:0, vx:0,vy:4.787214, spin:0.0124, pinned:false},
+    {type:"single", m:0.0048675, radius:0.0605, x:-1082.08,y:0, vx:0,vy:-3.502081, spin:-0.002992, pinned:false},
+    {type:"single", m:0.0059724, radius:0.0637, x:1495.98,y:0, vx:0,vy:2.978468, spin:0.729212, pinned:false},
+    {type:"single", m:0.00064171, radius:0.0339, x:-2279.39,y:0, vx:0,vy:-2.412940, spin:0.708822, pinned:false},
+    {type:"ring", rMul:5, n:100, cx:0,cy:0, rIn:3300, rOut:4600, mMin:0.000001, mMax:0.000001,
+     spinMin:0, spinMax:0, vMode:"kepler", aroundMass:1988.5, omega:0, vNoise:0.02, direction:1, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -4644,51 +4685,82 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
-{ id:"saturnZonalD68", name:"土星の近点移動(D68精密較正)", emoji:"🛰️", group:"天体の物語",
+{ id:"saturnZonalD68", name:"土星の近点移動(実単位・D68精密較正)", emoji:"🛰️", group:"天体の物語",
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  scaleExp:{L:6, T:2, M:25},   // 第131便(原仮定者指示): 💍💿 と同じ惑星(e6)指数系へ実単位化
+                               // 1単位=10⁶m/10²s/10²⁵kg(実G=6.674・実c=3×10⁴〔eC=L−T=4〕)
   sampleClass:"calibration",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  fidelity:"real",   // 第131便: スケール換算込みの較正が成立(土星の質量・半径・自転・J_n 基準半径・
+                     // 環の実半径・軌道周期が全て観測値。歳差率は Cassini 観測に −0.35%)
   notClaim:["solar"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"saturn", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
+  obsCard:[
+    {q:"D68 リングレットの近点移動", model:"38.108°/日(実単位・エンジン実測)", obs:"38.243°/日(Cassini)"},
+    {q:"D68 の公転周期", model:"4.984 時間(実軌道半径 67,627km+実 GM)", obs:"≈4.98 時間"},
+    {q:"解析式(J一次永年理論)の較正", model:"C=1.000302283 で 38.243°/日 に精密一致", obs:"38.243°/日(Cassini)"}],
+  failureFirst:{
+    fail:"第11次裁定版はスケールがトイだった(G=1・土星 1500・J_n 基準半径 100 単位・テスト粒子は質量 0.05 で軌道が交差)。この構成でエンジンの近点移動を測ると解析式との比は 0.42〜10.9 と桁で散らばる — テスト質量どうしが散乱し合っていて、画面の歳差は観測値と照合できる量になっていなかった(第131便 再実測)。",
+    pass:"第131便: 💍💿 と同じ惑星(e6)指数系へ実単位化(土星 5.6834×10²⁶kg・半径 6.03×10⁷m・自転10.56時間・J_n 基準半径 60,330km、テスト粒子は D68 67,627km から A環外縁 136,775km の実半径・質量 10¹⁹kg)。さらに初速を帯状重力込みの局所円速度基準に直したことで、10粒とも解析式との比が 0.996〜1.003 に収まり、D68 の近点移動はエンジン実測 38.108°/日(Cassini 38.243 に対し −0.35%)まで直接照合できるようになった。"},
   descStruct:{
-    summary:"実際の土星は完全な球ではなく少しつぶれた形をしていて、その「扁平さ」は重力にもわずかなクセを作る。そのクセ(帯状重力調和係数 J2〜J12・Cassini探査機の実測値)をそのまま中心星に持たせた較正デモ(E13)。",
-    observe:"近点方向を揃えた楕円軌道のテスト粒子は、近点が公転と同じ向きに回り続け、内側ほど速い(差動近点移動)。線の軌跡は既定ONで、楕円の向きがゆっくり回るのがそのまま見える。解析式は J2〜J12 で打ち切るため D68 実測 38.243°/日 に対し −0.03% の残差が残るので、較正係数 C=1.0003023(高次項・離心率補正の代替)を中心星の zonal.calib に与えて観測値へ精密一致させている(実測 38.243±0.002)。旧「現実較正」版(C=1)は本サンプルへ一本化(差は 0.03% で画面では区別できない)。",
-    control:"DFM 本来の環の物語は 🪐 を参照。"},
-  en:{name:"Saturn Apsidal Precession (D68 Calibrated)", descStruct:{
-    summary:"The real Saturn is not a perfect sphere but slightly flattened, and that flattening puts a subtle twist on its gravity. This calibration demo (E13) gives the central star that exact twist — the real zonal gravity harmonics J2–J12, measured by the Cassini spacecraft. ",
-    observe:"Test particles on apse-aligned elliptical orbits precess prograde, faster on inner orbits (differential apsidal precession); trails are on by default so the slow rotation of the ellipse orientation is directly visible. Truncating at J2–J12 leaves a −0.03% residual vs the observed 38.243°/day at D68, so the calibration factor C=1.0003023 (standing in for higher-order terms) is applied via the central star's zonal.calib, matching the observation (measured 38.243±0.002). The former “real-calibrated” variant (C=1) was merged into this sample (the 0.03% difference is invisible on screen). ",
-    control:"See 🪐 for the DFM-native ring story."}},
-  activeParams:["G","softening"],
+    summary:"実際の土星は完全な球ではなく少しつぶれた形をしていて、その「扁平さ」は重力にもわずかなクセを作る。そのクセ(帯状重力調和係数 J2〜J12・Cassini探査機の実測値)をそのまま中心星に持たせた較正デモ(E13)を、第131便で実単位化した。1単位=10⁶m/10²s/10²⁵kg(💍💿 と同じ惑星e6指数系)で、土星質量 56.834(=5.6834×10²⁶kg)・半径 60.3(=6.03×10⁷m)・自転 0.016528(10.56時間)・J_n の基準半径 60.330(=60,330km — Cassini 重力解の基準半径)。テスト粒子10個は D68 リングレット(a=67.627=67,627km)から A環外縁(136.775=136,775km)まで実半径に置いてある。実G=6.674・実c₀=3×10⁴・物理対応条件 κ=G/c₀² 成立。",
+    observe:"近点方向を揃えた離心率 e=0.05 の軌道のテスト粒子は、近点が公転と同じ向きに回り続け、内側ほど速い(差動近点移動)。線の軌跡は既定ONで、楕円の向きがゆっくり回るのがそのまま見える。解析式(J一次の永年理論 ϖ̇=C(Ω−κ))は J2〜J12 で打ち切るため D68 実測 38.243°/日 に対し −0.03% の残差が残るので、較正係数 C=1.000302283(高次項・離心率補正の代替)を中心星の zonal.calib に与えて観測値へ精密一致させている。第131便の実単位化で、この歳差率を**シミュレータ自身が出す値**として初めて直接照合できるようになった: エンジン実測 38.108°/日(200公転窓の収束値。Cassini 観測 38.243 に対し −0.35%。QA ゲートの60公転窓では 38.072=−0.45%)。10粒とも解析式との比は 0.996〜1.003(60公転窓でも 0.994〜1.002)に収まる。残差 −0.35% は e=0.05 の有限離心率ぶんで、独立な求積法(動径ポテンシャルの近点角を直接積分)でも −0.30% と一致し、e を 0.01 に下げると −0.15% へ縮む。初速は帯状重力込みの局所円速度 v_c(r)=√[(μ/r)(1+CΣ(2k+1)A_{2k}(R_S/r)^{2k})] に √(1+e) を掛けて与えている — 旧版の点質量 vis-viva では軌道の実効長半径・離心率がずれ、同じ場でも見かけ +9.4% の差が出ていた。DFM 効果(kFrame/kRep/muF/γN)は 0 にして扁平重力の効果だけを分離。測地線 E12(geoPN=2・λ_PN=1)は入れてあるが、実スケールの 1PN 寄与は歳差率の 10⁻⁶ 級で、λ_PN=0 との差は6桁一致(実測)。旧「現実較正」版(C=1)は本サンプルへ一本化(差は 0.03% で画面では区別できない)。",
+    control:"DFM 本来の環の物語は 🪐 を、実単位の環そのものは 💍(kFrame=0)・💿(kFrame=1)を参照。粒子表示倍率 dispMag=1 で半径は実値のまま(土星 60.3 単位=6.03×10⁷m・テスト粒子 0.1 単位=100km 級)。timeScale=3 なので画面の1秒≈9.6分(1公転≈31秒)。"},
+  en:{name:"Saturn Apsidal Precession (Real Units, D68 Calibrated)",
+    obsCard:[
+      {q:"D68 ringlet apsidal precession", model:"38.108°/day (real units, engine-measured)", obs:"38.243°/day (Cassini)"},
+      {q:"D68 orbital period", model:"4.984 h (real radius 67,627 km + real GM)", obs:"≈4.98 h"},
+      {q:"Analytic (first-order secular) calibration", model:"C=1.000302283 matches 38.243°/day exactly", obs:"38.243°/day (Cassini)"}],
+    failureFirst:{
+      fail:"The wave-11 build was toy-scaled (G=1, Saturn 1500, J_n reference radius 100 units, test grains of mass 0.05 on crossing orbits). Measuring the engine's apsidal drift there gives ratios of 0.42–10.9 against the analytic formula — the test masses were scattering off each other, so the on-screen precession was not a quantity that could be compared with observation (re-measured in wave 131).",
+      pass:"Wave 131: recast into the same planetary (e6) exponent system as 💍💿 (Saturn 5.6834×10²⁶ kg, radius 6.03×10⁷ m, 10.56-hour rotation, J_n reference radius 60,330 km; test particles at real radii from D68 at 67,627 km out to the A-ring edge at 136,775 km, mass 10¹⁹ kg). Re-basing the initial speeds on the zonal-inclusive local circular speed brings all ten particles to within 0.996–1.003 of the analytic rate, and D68's apsidal precession becomes directly comparable: 38.108°/day measured in the engine, −0.35% from Cassini's 38.243."},
+    descStruct:{
+    summary:"The real Saturn is not a perfect sphere but slightly flattened, and that flattening puts a subtle twist on its gravity. This calibration demo (E13) gives the central star that exact twist — the real zonal gravity harmonics J2–J12 measured by the Cassini spacecraft — and wave 131 recast it in real units. With per-sample scale exponents (1 unit = 10⁶ m / 10² s / 10²⁵ kg, the same planetary e6 system as 💍💿), Saturn's mass is 56.834 (=5.6834×10²⁶ kg), its radius 60.3 (=6.03×10⁷ m), its spin 0.016528 (10.56 h) and the J_n reference radius 60.330 (=60,330 km, the Cassini gravity solution's reference). The ten test particles sit at real radii from the D68 ringlet (a=67.627=67,627 km) out to the A-ring outer edge (136.775=136,775 km). G=6.674 and c₀=3×10⁴ are the real constants and κ=G/c₀² holds. ",
+    observe:"Test particles on apse-aligned elliptical orbits (e=0.05) precess prograde, faster on inner orbits (differential apsidal precession); trails are on by default so the slow rotation of the ellipse orientation is directly visible. The analytic formula (first-order secular theory ϖ̇=C(Ω−κ)) truncates at J2–J12 and leaves a −0.03% residual against the observed 38.243°/day at D68, so the calibration factor C=1.000302283 (standing in for higher-order and eccentricity corrections) is applied via the central star's zonal.calib. Wave 131's real-unit recast makes this rate directly checkable AS THE SIMULATOR'S OWN OUTPUT for the first time: the engine measures 38.108°/day (converged over a 200-orbit window), −0.35% from Cassini's 38.243 (the QA gate's 60-orbit window gives 38.072 = −0.45%). All ten particles land within 0.996–1.003 of the analytic rate (0.994–1.002 over the 60-orbit window). The −0.35% residual is the finite-eccentricity effect of e=0.05: an independent quadrature (direct integration of the apsidal angle of the radial potential) gives −0.30%, and lowering e to 0.01 shrinks it to −0.15%. Initial speeds are set from the zonal-inclusive local circular speed v_c(r)=√[(μ/r)(1+CΣ(2k+1)A_2k(R_S/r)^2k)] times √(1+e) — the old point-mass vis-viva put the orbit at a different effective semi-major axis and eccentricity, which alone produced an apparent +9.4% discrepancy in the same field. The DFM effects (kFrame/kRep/muF/γN) are all zero so that only the oblateness gravity acts. Geodesic E12 (geoPN=2, λ_PN=1) is on, but at real scale the 1PN contribution is ~10⁻⁶ of the precession rate and switching λ_PN to 0 reproduces the measurement to six digits. The former “real-calibrated” variant (C=1) was merged into this sample (the 0.03% difference is invisible on screen). ",
+    control:"See 🪐 for the DFM-native ring story, and 💍 (kFrame=0) / 💿 (kFrame=1) for the real-unit rings themselves. The display magnification is dispMag=1, so radii are the real values (Saturn 60.3 units = 6.03×10⁷ m, test grains 0.1 units = 100 km class). With timeScale=3 one on-screen second ≈ 9.6 minutes (about 31 s of wall clock per orbit)."}},
+  activeParams:["G","softening","dispMag"],
   // 第42便 42A(台帳4-78 A案): claims — D68実測近点移動率と較正係数を機械可読化。両方とも
-  // QA zonal.analytic-d68 / zonal.d68-preset が厳密照合する量なので窓は狭め
+  // QA zonal.analytic-d68 / zonal.d68-preset が厳密照合する量なので窓は狭め。
+  // 第131便: 実単位化でエンジン実測値そのものが照合可能になったので3本目を追加(zonal.d68-realunit)
   claims:[
     { id:"saturnZonalD68.d68-rate", kind:"fixed-seed", prov:"calibrated", metric:"apsidalRateDegPerDay",
       expected:{min:38.24, max:38.25},   // 実測38.243±0.002(zonal.analytic-d68)
       descPattern:"D68 実測 (\\d+\\.\\d+)°/日", testId:"zonal.analytic-d68" },
     { id:"saturnZonalD68.calib-factor", kind:"analytic", prov:"calibrated", metric:"zonalCalibFactor",
       expected:{min:1.0002, max:1.0004},   // 実測1.000302283(zonal.d68-preset: 厳密一致)
-      descPattern:"較正係数 C=(\\d+\\.\\d+)", testId:"zonal.d68-preset" }
+      descPattern:"較正係数 C=(\\d+\\.\\d+)", testId:"zonal.d68-preset" },
+    { id:"saturnZonalD68.d68-rate-sim", kind:"fixed-seed", prov:"simulated", metric:"apsidalRateDegPerDaySim",
+      expected:{min:37.95, max:38.25},   // 実測38.108°/日(Cassini 38.243 に対し −0.35%)
+      descPattern:"エンジン実測 (\\d+\\.\\d+)°/日", testId:"zonal.d68-realunit" }
   ],
-  camera:{scale:300}, world:{boundary:"none",size:0},
-  physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
-    cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:1, lambdaPN:0, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:3},
-  bodies:[ // 第11次裁定 保留分(v1.29): 中心に Cassini 重力解 J2〜J12(基準半径 R_S=100 sim units)+
-           // calib=1.000302283(D68 精密較正)。テスト粒子は e=0.05・近点+x方向で整列
-           // (r_p=a(1−e), v_p=√[μ(1+e)/r_p], μ=G·M=1500)。DFM 効果(kFrame/kRep/muF/γN)は 0 に
-           // して扁平重力の効果だけを分離。geoPN=1・λ_PN=0 = E6′排他+純ニュートン。
+  camera:{scale:160}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:3, dispMag:1,
+    stateCarry:"double"},
+  bodies:[ // 第131便(実単位化): 中心に Cassini 重力解 J2〜J12(基準半径 R_S=60.330=60,330km)+
+           // calib=1.000302283(D68 精密較正)。土星は実値 5.6834e26kg/6.03e7m/自転10.56時間。
+           // テスト粒子10個は実半径 a=67.627(D68)/74.658(C環内縁)/82/92(B環内縁)/101/110/
+           // 117.58(B環外縁)/122.17(A環内縁)/129/136.775(A環外縁)、e=0.05・近点+x方向で整列。
+           // 初速は帯状重力込みの局所円速度 × √(1+e):
+           //   v_p=√[(μ/r_p)(1+C·Σ(2k+1)A_{2k}(R_S/r_p)^{2k})·(1+e)]、r_p=a(1−e)、μ=G·M=379.310116
+           // (旧版の点質量 vis-viva は同じ場でも実効 a・e がずれ、解析式比で +9.4% の見かけ差を作る)。
+           // 質量 1e-6(=10¹⁹kg)は相互摂動が太陽…ならぬ土星重力比 2e-8 の完全テスト質量
+           // (旧版の 0.05 は交差軌道での相互散乱を起こしていた)。
+           // DFM 効果(kFrame/kRep/muF/γN)は 0 にして扁平重力の効果だけを分離。
            // 旧 🧭(現実較正 C=1)は 2026-07-23 原仮定者裁定で本サンプルへ一本化・廃止
-    {type:"single", rMul:1.2, m:1500, x:0,y:0, vx:0,vy:0, spin:0, pinned:true,
-     zonal:{refR:100, calib:1.000302283, J:{2:0.016290573, 4:-0.000935314, 6:0.000086340,
+    {type:"single", m:56.834, radius:60.3, x:0,y:0, vx:0,vy:0, spin:0.016528, pinned:true, pnSource:true,
+     zonal:{refR:60.330, calib:1.000302283, J:{2:0.016290573, 4:-0.000935314, 6:0.000086340,
             8:-0.000014624, 10:0.000004672, 12:-0.000000997}}},
-    {type:"single", rMul:1.2, m:0.05, x:102.60,y:0, vx:0,vy:3.9180, spin:0, pinned:false},
-    {type:"single", rMul:1.2, m:0.05, x:110.20,y:0, vx:0,vy:3.7805, spin:0, pinned:false},
-    {type:"single", rMul:1.2, m:0.05, x:119.70,y:0, vx:0,vy:3.6274, spin:0, pinned:false},
-    {type:"single", rMul:1.2, m:0.05, x:131.10,y:0, vx:0,vy:3.4661, spin:0, pinned:false},
-    {type:"single", rMul:1.2, m:0.05, x:144.40,y:0, vx:0,vy:3.3026, spin:0, pinned:false},
-    {type:"single", rMul:1.2, m:0.05, x:159.60,y:0, vx:0,vy:3.1414, spin:0, pinned:false},
-    {type:"single", rMul:1.2, m:0.05, x:176.70,y:0, vx:0,vy:2.9855, spin:0, pinned:false},
-    {type:"single", rMul:1.2, m:0.05, x:195.70,y:0, vx:0,vy:2.8369, spin:0, pinned:false},
-    {type:"single", rMul:1.2, m:0.05, x:216.60,y:0, vx:0,vy:2.6966, spin:0, pinned:false},
-    {type:"single", rMul:1.2, m:0.05, x:239.40,y:0, vx:0,vy:2.5649, spin:0, pinned:false}
+    {type:"single", m:0.000001, radius:0.1, x:64.245650,y:0, vx:0,vy:2.518398, spin:0, pinned:false},
+    {type:"single", m:0.000001, radius:0.1, x:70.925100,y:0, vx:0,vy:2.391732, spin:0, pinned:false},
+    {type:"single", m:0.000001, radius:0.1, x:77.900000,y:0, vx:0,vy:2.278392, spin:0, pinned:false},
+    {type:"single", m:0.000001, radius:0.1, x:87.400000,y:0, vx:0,vy:2.147538, spin:0, pinned:false},
+    {type:"single", m:0.000001, radius:0.1, x:95.950000,y:0, vx:0,vy:2.047479, spin:0, pinned:false},
+    {type:"single", m:0.000001, radius:0.1, x:104.500000,y:0, vx:0,vy:1.960375, spin:0, pinned:false},
+    {type:"single", m:0.000001, radius:0.1, x:111.701000,y:0, vx:0,vy:1.895132, spin:0, pinned:false},
+    {type:"single", m:0.000001, radius:0.1, x:116.061500,y:0, vx:0,vy:1.858685, spin:0, pinned:false},
+    {type:"single", m:0.000001, radius:0.1, x:122.550000,y:0, vx:0,vy:1.808176, spin:0, pinned:false},
+    {type:"single", m:0.000001, radius:0.1, x:129.936250,y:0, vx:0,vy:1.755440, spin:0, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
