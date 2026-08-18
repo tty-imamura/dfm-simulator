@@ -591,15 +591,13 @@ precession accumulator is not.
 The same effect had a visible consequence in the application.
 The Mercury sample originally ran at the default $\varepsilon=2$ with
 $a=579.09$, where Eq.~(\ref{eq:soft}) gives
-$-1.2\times10^{-4}$\,rad/orbit---orders of magnitude above the 1PN
-advance---so the on-screen precession accumulator was displaying,
-essentially, the softening artifact.
-% TODO(number): the project canon (docs/PHYSICS.md Sec. 5, CHANGELOG
-% v1.40.0, and the sample comment) records this ratio as "24x the 1PN
-% term". Both quoted magnitudes are canonical, but their ratio is
-% 1.2e-4 / 5.0e-7 = 2.4e2, so the canon's factor appears to be a typo
-% for 240x. The text above therefore states the ratio qualitatively;
-% resolve the canon before quoting a factor here.
+$-1.2\times10^{-4}$\,rad/orbit ($\approx24.7''$/orbit)---about $240$
+times the 1PN advance of $5.03\times10^{-7}$\,rad/orbit---so the
+on-screen precession accumulator was displaying, essentially, the
+softening artifact.
+% Note: earlier canon entries recorded this ratio as "24x"; that was a
+% transcription slip (confusing the 24.7''/orbit magnitude with the
+% ratio) and was corrected to ~240x in docs/PHYSICS.md at wave 129.
 The remedy was to declare $\varepsilon=0.05$ for that sample (and
 $\varepsilon=0.1$ for the Earth--Moon samples), and to record
 explicitly that even then the raw accumulator retains an
