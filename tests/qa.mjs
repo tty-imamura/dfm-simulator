@@ -12474,6 +12474,15 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       const si = document.querySelector('#ppSearch'); si.value = '水星'; si.dispatchEvent(new Event('input'));
       const searchRows = [...document.querySelectorAll('#ppList .ppRow')];
       const hasMercury = searchRows.some((x) => x.textContent.includes('☿'));
+      // 第129便: 水星ファミリー新設(🪨=primary・☿☄️=variant)+ familyGroupedBuiltins() が
+      // primary を先頭へ繰り上げるため、beta の検索「水星」先頭行は ☿ ではなく 🪨 になった
+      // (root=旧世代はファミリー宣言が無いので従来どおり ☿)。判定の意図(検索ヒット→
+      // 行タップで読込され、ボタンラベルがその行のサンプルへ更新される)は不変なので、
+      // 固定値 ☿ ではなく**先頭行の絵文字そのもの**と突き合わせる世代非依存の形へ強化する
+      // (弱体化なし — ☿ が検索に出ること自体は hasMercury で従来どおり機械固定し、
+      //  先頭行が水星ファミリーのどれかであることも row0Emoji で固定する)
+      const row0Emoji = (searchRows[0].querySelector('span').textContent || '')
+        .replace(/^└\s*/, '').split(' ')[0];
       searchRows[0].click();
       setTimeout(() => {
         const closed = !document.querySelector('#ppModal');
@@ -12481,7 +12490,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         // 後始末: 検索語をクリアして saturn へ
         ppSearch = '';
         HP.loadPreset('saturn', false);
-        res({ label0, modal, rows0, rowsGal, galAllGalactic, hasMercury, closed, label1,
+        res({ label0, modal, rows0, rowsGal, galAllGalactic, hasMercury, closed, label1, row0Emoji,
           showAllInModal, headerHidden, sepOk, e0Rows, e0Expected, e0HasUndeclared });
       }, 150);
     }));
@@ -12491,9 +12500,10 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     const e0Ok = r.e0Rows === r.e0Expected && r.e0HasUndeclared && r.e0Rows > 0;
     add('ui.presetpicker',
       /🪐/.test(r.label0) && r.modal && r.rows0 >= 30 && r.rowsGal > 0 && r.rowsGal < r.rows0
-      && r.hasMercury && r.closed && /☿/.test(r.label1) && saOk && r.sepOk && e0Ok,
+      && r.hasMercury && r.closed && ['☿', '🪨', '☄️'].includes(r.row0Emoji)
+      && r.label1.includes(r.row0Emoji) && saOk && r.sepOk && e0Ok,
       `ボタン=選択中サンプル名(🪐)=${/🪐/.test(r.label0)} / モーダル=${r.modal}・全${r.rows0}行 → ` +
-      `🌌絞り込み ${r.rowsGal}行 / 検索「水星」=☿ヒット=${r.hasMercury} / 行タップで読込+閉じ=${r.closed}(ボタン=☿)/ ` +
+      `🌌絞り込み ${r.rowsGal}行 / 検索「水星」=☿ヒット=${r.hasMercury} / 行タップ(先頭行=${r.row0Emoji})で読込+閉じ=${r.closed}(ボタン=${r.row0Emoji}: ${r.label1.includes(r.row0Emoji)})/ ` +
       `すべて表示=ウィンドウ内(${r.showAllInModal})・ヘッダ非表示(${r.headerHidden})/ ` +
       `セパレータ=${r.sepOk} / E0絞り込み ${r.e0Rows}行(期待${r.e0Expected}・宣言なし込み=${r.e0HasUndeclared})`);
   } else {

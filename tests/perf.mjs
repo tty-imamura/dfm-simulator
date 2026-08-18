@@ -91,7 +91,12 @@ const ALLOW = {};
 // ページ別 JIT・共有ランナー負荷のジッタが閾値 1.10 に対し大きい(手元でも 0.971〜1.057 と振れる)。
 // echo/starSeed と同じ対処 — 計測時間をノイズフロアから引き上げる(60→240frames ≈ 0.75〜1.7s/rep)。
 // 判定条件・ペア比中央値の式は不変
-const FRAMES_OVERRIDE = { echo: 720, starSeed: 30000, merger: 240 };
+// 第129便(CI 実測 d63913e: perf.freebox 1.190 FAIL — ペア比[1.267 1.190 0.997]で散乱・
+// 絶対値は beta 34.3ms < root 40.9ms と逆転・手元2回も[0.999 1.134 1.002]/[1.036 0.917 0.952]と
+// 振れつつ PASS = 回帰なしの純ノイズ): freebox は 51粒・60frames ≈ 35〜60ms のマイクロベンチで
+// echo(第63便)・merger(第101便)と同じノイズフロア帯。同系の対処 — 計測時間を引き上げる
+// (60→480frames ≈ 280〜330ms/rep)。判定条件・ペア比中央値の式は不変
+const FRAMES_OVERRIDE = { echo: 720, starSeed: 30000, merger: 240, freebox: 480 };
 // 過去の ALLOW 撤去履歴(darkrotor/convection/saturnLayered)と 40C の粒子数削減の実測記録は
 // git 履歴(第61便以前の本ファイル冒頭コメント)を参照。
 const REPS = 2, FRAMES = 60, WARMUP_FRAMES = 20, SETS = 3;
@@ -175,8 +180,22 @@ async function measureSingle(page, id) {
 }
 
 const browser = await getBrowser();
+// 第129便(CI 実測 8f3165b: perf.frictionHeat 1.139/1.147 FAIL ×2 — ペア比が3本とも
+// 1.13〜1.15 で揃う一方、手元は 0.996、cooling は逆に beta が 9% 速いという非対称):
+// 原因はアプリの**起動既定サンプルの変更**(🪐 saturn → 💿 saturnRingRealKF1)。newPage() は
+// ページごとに独立コンテキストなので、root は 🪐(Float32・241体)で、beta は 💿
+// (stateCarry:"double" の Float64 経路・qLock・127体)で起動し、常駐ページの JIT 型
+// フィードバックが**ページ間で非対称**になる。本ゲートの「ページ常駐+サンプル走査順を
+// 計測条件として固定する」哲学(第39便 39B)の暗黙の前提「両ページは同じサンプルで起動する」が
+// 崩れ、接触多発の frictionHeat だけが CI の 2コア環境で ~14% 劣化した(コードの step 経路は
+// 第129便で無変更 — 偽の回帰シグナル)。対処: **起動プリセットを両ページとも 'saturn' へ明示固定**
+// (hp_last_preset を事前注入)。これは従来までの計測条件(両側 🪐 起動)をアプリの UX 既定から
+// 独立に**保存**する測定環境修正であり、判定条件・閾値・サンプル走査順は不変(第62便 交互ペア化・
+// 第63便 echo FRAMES・第101便 merger FRAMES と同系の「計測の公平性を直す」対処。ALLOW 緩和はしない)
+const BOOT_PRESET = 'saturn';
 const openPage = async (target) => {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  await page.addInitScript((pid) => { try { localStorage.setItem('hp_last_preset', pid); } catch (_) {} }, BOOT_PRESET);
   await page.goto('file://' + path.join(ROOT, target));
   await page.waitForFunction(() => window.HP && HP.sim);
   return page;
