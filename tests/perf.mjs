@@ -91,7 +91,12 @@ const ALLOW = {};
 // ページ別 JIT・共有ランナー負荷のジッタが閾値 1.10 に対し大きい(手元でも 0.971〜1.057 と振れる)。
 // echo/starSeed と同じ対処 — 計測時間をノイズフロアから引き上げる(60→240frames ≈ 0.75〜1.7s/rep)。
 // 判定条件・ペア比中央値の式は不変
-const FRAMES_OVERRIDE = { echo: 720, starSeed: 30000, merger: 240 };
+// 第129便(CI 実測 d63913e: perf.freebox 1.190 FAIL — ペア比[1.267 1.190 0.997]で散乱・
+// 絶対値は beta 34.3ms < root 40.9ms と逆転・手元2回も[0.999 1.134 1.002]/[1.036 0.917 0.952]と
+// 振れつつ PASS = 回帰なしの純ノイズ): freebox は 51粒・60frames ≈ 35〜60ms のマイクロベンチで
+// echo(第63便)・merger(第101便)と同じノイズフロア帯。同系の対処 — 計測時間を引き上げる
+// (60→480frames ≈ 280〜330ms/rep)。判定条件・ペア比中央値の式は不変
+const FRAMES_OVERRIDE = { echo: 720, starSeed: 30000, merger: 240, freebox: 480 };
 // 過去の ALLOW 撤去履歴(darkrotor/convection/saturnLayered)と 40C の粒子数削減の実測記録は
 // git 履歴(第61便以前の本ファイル冒頭コメント)を参照。
 const REPS = 2, FRAMES = 60, WARMUP_FRAMES = 20, SETS = 3;
