@@ -7554,27 +7554,67 @@ if (!FAST) {
           }
           let M = 0, K = 0;
           for (const c of (p.claims || [])) { if (c.prov === 'calibrated') M++; else K++; }
+          // 第133便 P1: 較正台帳 v2 — parameterAudit 宣言のあるサンプルは
+          // I(観測入力)/C(規約)/F(fit)/D(導出)/V(検証=非較正 claims)を独立に組み直す
+          const pa = (p.parameterAudit && typeof p.parameterAudit === 'object'
+            && !Array.isArray(p.parameterAudit)) ? p.parameterAudit : null;
+          const lenOf = (k) => (pa && Array.isArray(pa[k]))
+            ? pa[k].filter((s) => typeof s === 'string' && s.trim()).length : 0;
+          const au = pa ? { I: lenOf('observedInputs'), C: lenOf('fixedConventions'),
+            F: lenOf('fitted'), D: lenOf('derived'), V: K, num: lenOf('numerical') } : null;
+          // claims の role 別内訳(宣言のあるものだけ数える)
+          const roles = {}; let roleNone = 0;
+          const ROLES = ['input_check', 'fit_target', 'retrospective_check', 'held_out',
+            'prediction', 'negative_control'];
+          for (const c of (p.claims || [])) {
+            if (typeof c.role === 'string' && ROLES.indexOf(c.role) >= 0) roles[c.role] = (roles[c.role] || 0) + 1;
+            else roleNone++;
+          }
+          if (au) au.ft = roles.fit_target || 0;
           return { N: knobs.length, d: derived.length, M, K, knobs: knobs.sort().join(','),
-            exp: exp.sort().join(','), num: num.sort().join(',') };
+            exp: exp.sort().join(','), num: num.sort().join(','), au, roles, roleNone };
         };
         const rows = [];
-        for (const id of ['saturnRingRealKF1', 'mercuryRealKF1', 'earthMoonRealKF1', 'starcore', 'galaxy']) {
+        for (const id of ['saturnRingRealKF1', 'mercuryRealKF1', 'earthMoonRealKF1', 'starcore', 'galaxy',
+          'mercuryReal', 'earthMoonReal', 'saturnRingReal', 'solarInner', 'saturnZonalD68']) {
           const p = HP.allPresets().find(q => q.id === id);
           HP.loadPreset(id, false);
           const cb = HP.calibrationBudget();
           const ex = indep(p);
           const chip = document.querySelector('#cbDetails > summary').textContent;
-          // 表示チップの4数字を読み取って照合(内部値だけでなく画面に出た数と一致すること)
+          // 表示チップの数字を読み取って照合(内部値だけでなく画面に出た数と一致すること)。
+          // v1 は4数字(既定から変更N・導出d・較正M・検証K)、v2 は5数字(I・C・F・D・V)
           const nums = (chip.match(/\d+/g) || []).map(Number);
-          rows.push({ id,
-            ok: cb.N === ex.N && cb.d === ex.d && cb.M === ex.M && cb.K === ex.K
-              && cb.knobs.map(x => x.key).sort().join(',') === ex.knobs
-              && cb.cond.experiment.map(x => x.key).sort().join(',') === ex.exp
-              && cb.cond.numerics.map(x => x.key).sort().join(',') === ex.num
-              && nums.length === 4 && nums[0] === ex.N && nums[1] === ex.d
-              && nums[2] === ex.M && nums[3] === ex.K,
-            got: `${cb.N}/${cb.d}/${cb.M}/${cb.K}`, want: `${ex.N}/${ex.d}/${ex.M}/${ex.K}`,
-            chipNums: nums.join('/'),
+          const det = document.querySelector('#cbDetails');
+          const tags = [...det.querySelectorAll('.cbRow')].map((e) => e.dataset.cb).join(',');
+          // 内部値(N/d/M/K)は v1/v2 どちらでも従来どおり独立再計算と一致すること
+          const coreOk = cb.N === ex.N && cb.d === ex.d && cb.M === ex.M && cb.K === ex.K
+            && cb.knobs.map(x => x.key).sort().join(',') === ex.knobs
+            && cb.cond.experiment.map(x => x.key).sort().join(',') === ex.exp
+            && cb.cond.numerics.map(x => x.key).sort().join(',') === ex.num;
+          // role 別内訳も独立再計算と一致すること(v1/v2 共通)
+          const roleOk = JSON.stringify(cb.roles) === JSON.stringify(ex.roles)
+            && cb.roleNone === ex.roleNone;
+          let dispOk, got, want;
+          if (ex.au) {
+            const a = cb.audit;
+            dispOk = !!a && a.I === ex.au.I && a.C === ex.au.C && a.F === ex.au.F
+              && a.D === ex.au.D && a.V === ex.au.V && a.fitTargets === ex.au.ft
+              && nums.length === 5 && nums[0] === ex.au.I && nums[1] === ex.au.C
+              && nums[2] === ex.au.F && nums[3] === ex.au.D && nums[4] === ex.au.V
+              && det.dataset.v === '2'
+              && /inputs,conv,fit,aderived,anum,fitcross,roles/.test(tags);
+            got = a ? `${a.I}/${a.C}/${a.F}/${a.D}/${a.V}` : 'v1表示';
+            want = `${ex.au.I}/${ex.au.C}/${ex.au.F}/${ex.au.D}/${ex.au.V}`;
+          } else {
+            dispOk = cb.audit === null && nums.length === 4 && nums[0] === ex.N && nums[1] === ex.d
+              && nums[2] === ex.M && nums[3] === ex.K
+              && det.dataset.v === '1' && /knobs,derived/.test(tags);
+            got = `${cb.N}/${cb.d}/${cb.M}/${cb.K}`; want = `${ex.N}/${ex.d}/${ex.M}/${ex.K}`;
+          }
+          rows.push({ id, v: ex.au ? 2 : 1,
+            ok: coreOk && roleOk && dispOk,
+            got, want, chipNums: nums.join('/'),
             qDerived: cb.derived.some(x => x.key === 'q'),
             qNotKnob: !cb.knobs.some(x => x.key === 'q'),
             qLock: !!p.qLock });
@@ -7592,13 +7632,114 @@ if (!FAST) {
         HP.loadPreset('galaxy', false);   // physLock で書き換わった κ を宣言値へ戻す
         return { rows, lockOk, plOk };
       });
+      // 第133便: v2(parameterAudit 宣言)と v1(フォールバック)の両形が現物として出ていること
+      const hasBoth = bd.rows.some(r => r.v === 2) && bd.rows.some(r => r.v === 1);
       add('budget.consistency',
-        bd.rows.every(r => r.ok) && bd.lockOk && bd.plOk,
-        `代表5件 台帳=独立再計算: ${bd.rows.map(r => `${r.id}=${r.got}${r.ok ? '' : '≠' + r.want}`).join(' ')} / `
-        + `チップ数字=[${bd.rows.map(r => r.chipNums).join(' ')}] / `
+        bd.rows.every(r => r.ok) && bd.lockOk && bd.plOk && hasBoth,
+        `代表${bd.rows.length}件 台帳=独立再計算: ${bd.rows.map(r => `${r.id}(v${r.v})=${r.got}${r.ok ? '' : '≠' + r.want}`).join(' ')} / `
+        + `チップ数字=[${bd.rows.map(r => r.chipNums).join(' ')}] / v2+v1 両形=${hasBoth} / `
         + `qLock の q は導出扱い=${bd.lockOk} / physLock ON で κ がノブ→導出=${bd.plOk}`);
     } else {
       console.log('SKIP budget.consistency(対象に較正台帳なし — 第132便 未適用の root 等)');
+    }
+
+    // ---- 第133便 P0: claims.mainline(主力較正サンプルの claims と role 宣言を機械固定)----
+    // 外部レビューの P0(主力の較正サンプルが claims ゼロで、⚖️台帳が「較正0・検証0」に
+    // 見えていた)の再発防止。主力8サンプルについて claims≥1・全 claim が role 宣言つき・
+    // parameterAudit 宣言つき(fitted は空でも**明示宣言**が要る)・台帳が v2 表示であることを固定する。
+    const hasW133 = await page.evaluate(() => !!(window.HP && HP.ROLE_CLASSES && HP.claimRole));
+    if (hasW133) {
+      const ml = await page.evaluate(() => {
+        const MAIN = ['mercuryReal', 'mercuryRealKF1', 'earthMoonReal', 'earthMoonRealKF1',
+          'saturnRingReal', 'saturnRingRealKF1', 'solarInner', 'saturnZonalD68'];
+        const PA_KEYS = ['observedInputs', 'fixedConventions', 'fitted', 'derived', 'numerical'];
+        const rows = [];
+        for (const id of MAIN) {
+          const p = HP.allPresets().find((q) => q.id === id);
+          if (!p) { rows.push({ id, missing: true, ok: false }); continue; }
+          const cl = Array.isArray(p.claims) ? p.claims : [];
+          const roleOk = cl.length > 0 && cl.every((c) => HP.ROLE_CLASSES.indexOf(c.role) >= 0);
+          const pa = p.parameterAudit;
+          const paOk = !!pa && typeof pa === 'object' && !Array.isArray(pa)
+            && Array.isArray(pa.fitted)
+            && Object.keys(pa).every((k) => PA_KEYS.indexOf(k) >= 0)
+            && Object.keys(pa).every((k) => Array.isArray(pa[k])
+              && pa[k].every((s) => typeof s === 'string' && s.trim()));
+          // en 版(p.en.parameterAudit)は宣言してあれば ja と**同じ件数**であること
+          // (件数は台帳チップの数字そのものなので、言語で数が変わってはいけない)
+          const paEn = p.en && p.en.parameterAudit;
+          const enOk = !!paEn && PA_KEYS.every((k) => (Array.isArray(pa[k]) ? pa[k].length : 0)
+            === (Array.isArray(paEn[k]) ? paEn[k].length : 0));
+          HP.loadPreset(id, false);
+          const det = document.querySelector('#cbDetails');
+          const v2 = !!det && det.dataset.v === '2';
+          rows.push({ id, n: cl.length, roleOk, paOk, v2, enOk, ok: roleOk && paOk && v2 && enOk,
+            roles: cl.map((c) => c.role).join('+'), fits: pa && pa.fitted ? pa.fitted.length : -1 });
+        }
+        return rows;
+      });
+      add('claims.mainline', ml.every((r) => r.ok),
+        ml.map((r) => `${r.id}=${r.missing ? 'なし' : `${r.n}件[${r.roles}] fit${r.fits}`
+          + `${r.paOk ? '' : ' ✗audit'}${r.v2 ? '' : ' ✗v1表示'}${r.enOk ? '' : ' ✗en件数'}`}`).join(' / '));
+    } else {
+      console.log('SKIP claims.mainline(対象に role/parameterAudit なし — 第133便 未適用の root 等)');
+    }
+
+    // ---- 第133便 P0/P1: claims.role-audit(role・parameterAudit の型検査つきパススルー)----
+    // どちらも**宣言専用**(表示のみ)なので、validatePreset は正しい宣言を往復保全し、
+    // 不正な宣言は警告つきで落とすこと・AI 仕様(SYSTEM_PROMPT)には載っていないことを固定する。
+    if (hasW133) {
+      const ra = await page.evaluate(() => {
+        const base = (extra) => Object.assign({ name: 'p', description: 'x: 1.0',
+          camera: { scale: 200 }, world: { boundary: 'none', size: 0 }, physics: {},
+          bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] }, extra);
+        const claim = (role, extra) => Object.assign({ id: 'q.x', kind: 'fixed-seed', prov: 'simulated',
+          metric: 'x', expected: { min: 0.9, max: 1.1 } }, role === undefined ? {} : { role }, extra || {});
+        // ① 正しい role は往復保全 / ② 未知の role は警告つきで落とす
+        const vOk = HP.validatePreset(base({ claims: [claim('fit_target', { roleNote: 'n', roleNoteEn: 'n' })] }));
+        const keep = vOk.ok && vOk.preset.claims[0].role === 'fit_target'
+          && vOk.preset.claims[0].roleNote === 'n' && vOk.preset.claims[0].roleNoteEn === 'n';
+        const vBad = HP.validatePreset(base({ claims: [claim('guessed')] }));
+        const drop = vBad.ok && vBad.preset.claims[0].role === undefined
+          && vBad.warnings.some((w) => w.includes('role'));
+        // ③ 正しい parameterAudit は往復保全(空配列はキーごと落ちる = 表示上は 0 件)
+        const pa = { observedInputs: ['実G', '実c₀'], fixedConventions: ['kFrame=1'],
+          fitted: ['D₀=0.006'], derived: ['κ=G/c₀²'], numerical: ['ε=0.05'] };
+        const vPa = HP.validatePreset(base({ parameterAudit: pa }));
+        const paKeep = vPa.ok && JSON.stringify(vPa.preset.parameterAudit) === JSON.stringify(pa);
+        // ④ 不正な parameterAudit: 非配列の分類・非文字列の要素・未知キー・非オブジェクト
+        const vPaBad = HP.validatePreset(base({ parameterAudit: { observedInputs: 'x',
+          fitted: [1, 'ok'], bogus: ['y'] } }));
+        const paDrop = vPaBad.ok && vPaBad.preset.parameterAudit
+          && vPaBad.preset.parameterAudit.observedInputs === undefined
+          && JSON.stringify(vPaBad.preset.parameterAudit.fitted) === JSON.stringify(['ok'])
+          && vPaBad.preset.parameterAudit.bogus === undefined
+          && vPaBad.warnings.filter((w) => w.includes('parameterAudit')).length >= 3;
+        const vPaNo = HP.validatePreset(base({ parameterAudit: [1, 2] }));
+        const paNonObj = vPaNo.ok && vPaNo.preset.parameterAudit === undefined
+          && vPaNo.warnings.some((w) => w.includes('parameterAudit'));
+        // ⑤ AI 仕様には載せない(生成 AI に role/parameterAudit を要求しない)
+        const sp = String(HP.SYSTEM_PROMPT || '');
+        const aiClean = !/parameterAudit/.test(sp) && !/"role"/.test(sp);
+        // ⑥ 連鎖カードの「較正」段・「観測量」段に役割が出る(行数は7のまま)
+        HP.loadPreset('earthMoonRealKF1', false);
+        document.querySelector('#claimsDetails .claimRow').click();
+        const card = document.querySelector('#claimsDetails .chainCard');
+        const rows = {}; for (const e of card.querySelectorAll('.chRow')) rows[e.dataset.s] = e.textContent;
+        const nRows = card.querySelectorAll('.chRow').length;
+        const roleLab = HP.T('roleNames').fit_target;
+        const uiOk = nRows === 7 && rows.calib.includes(roleLab) && rows.obs.includes(roleLab);
+        document.querySelector('#claimsDetails .claimRow').click();
+        return { keep, drop, paKeep, paDrop, paNonObj, aiClean, uiOk, nRows,
+          classes: HP.ROLE_CLASSES.join(','), calib: rows.calib.slice(0, 40) };
+      });
+      add('claims.role-audit',
+        ra.keep && ra.drop && ra.paKeep && ra.paDrop && ra.paNonObj && ra.aiClean && ra.uiOk,
+        `role 往復=${ra.keep}・不正値は警告無視=${ra.drop} / parameterAudit 往復=${ra.paKeep}・`
+        + `不正要素は警告無視=${ra.paDrop}・非オブジェクト=${ra.paNonObj} / AI仕様に載せない=${ra.aiClean} / `
+        + `連鎖カード7段のまま役割表示=${ra.uiOk}(${ra.nRows}段・「${ra.calib}」) / 分類=[${ra.classes}]`);
+    } else {
+      console.log('SKIP claims.role-audit(対象に role/parameterAudit なし — 第133便 未適用の root 等)');
     }
 
     // ---- 第132便 EXT-02 第2段: provchain.ui(主張の連鎖カードの開閉と2形)----

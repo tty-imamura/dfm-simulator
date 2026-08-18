@@ -1064,10 +1064,24 @@ ja: {
     "multi-seed":"シード群にわたる実走の統計"},
   chSimNa:"実走(検証形態の宣言なし)",
   chTapTip:"タップで「主張の連鎖」(公理→方程式→パラメータ→(較正)→シミュレーション→観測量→QA検証)を開く",
+  // 第133便 P0/P1: 主張の役割(role)— 「その観測量と較正の関係」の宣言(表示専用)
+  roleNames:{input_check:"観測入力の検証", fit_target:"fit の対象",
+    retrospective_check:"回顧的確認", held_out:"外挿検証(規則形成に不関与)",
+    prediction:"予言", negative_control:"陰性対照"},
+  roleTip:"主張の役割(第133便): 観測入力の検証=観測から写した入力が正しく写っているかの確認(独立な予言ではない)/fit の対象=この観測に合わせてパラメータを決めた(観測ごとの追加 fit)/回顧的確認=fit には使っていないが、規則を決める過程で参照した系での確認/外挿検証=規則形成に不関与の系での確認/予言=未観測量の予測/陰性対照=効かないことを示す対照。**役割は宣言専用**で、物理・保存 JSON・AI 仕様には影響しない。",
+  roleUnset:"—(役割の宣言なし)",
   // 第132便 EXT-06: 較正台帳(Calibration Budget)— 「この結果は何自由度で得たか」の自動集計
-  cbChip:(n,d,m,k)=>"⚖️ 較正台帳: ノブ"+n+"(導出"+d+")・較正"+m+"・検証"+k,
-  cbTip:"較正台帳(EXT-06): ノブ=既定値から変えた物理パラメータの数(=このサンプルが使った自由度)/導出=ノブに見えるが自動算出で自由度ではないもの(qLock の q・physLock の κ)/較正=観測値への対応付けで決めた主張の件数(観測ごとの追加 fit 数)/検証=較正なしで機械検証している主張の件数。実験条件(g_x/g_y)と数値設定(ε 等)は自由度の外なので別行に置く。宣言は持たず、プリセットと実行時状態から毎回自動算出する(表示専用 — 物理・保存 JSON に無関係)。",
-  cbKnobs:"設定ノブ(自由度)", cbDerived:"導出値(ノブではない)",
+  // 第133便 P1: v1 の「ノブ」表記を「既定から変更」へ改名(統計的自由度との誤読防止)
+  cbChip:(n,d,m,k)=>"⚖️ 較正台帳: 既定から変更"+n+"(導出"+d+")・較正"+m+"・検証"+k,
+  cbTip:"較正台帳(EXT-06): 既定から変更=既定値から変えた物理パラメータの数(実定数の写し・規約・ON/OFF・実 fit を区別しない粗い計数で、**統計的な自由パラメータ数ではない**)/導出=変更に見えるが自動算出で自由ではないもの(qLock の q・physLock の κ)/較正=観測値への対応付けで決めた主張の件数(観測ごとの追加 fit 数)/検証=較正なしで機械検証している主張の件数。実験条件(g_x/g_y)と数値設定(ε 等)は別行に置く。宣言は持たず、プリセットと実行時状態から毎回自動算出する(表示専用 — 物理・保存 JSON に無関係)。内訳を宣言したサンプルでは v2 表示(観測入力I・規約C・fit F・導出D・検証V)に切り替わる。",
+  // 第133便 P1: 較正台帳 v2 — parameterAudit 宣言のあるサンプルの内訳表示
+  cbChip2:(i,c,f,d,v)=>"⚖️ 較正台帳: 観測入力"+i+"・規約"+c+"・fit "+f+"・導出"+d+"・検証"+v,
+  cbTip2:"較正台帳 v2(第133便): サンプルが宣言した内訳。観測入力=観測から写しただけの量(実G・実質量・実軌道要素 等 — 自由パラメータではない)/規約=モデルの取り決め・ON/OFF(kFrame・stateCarry・スケール指数 等)/fit=この系の観測に合わせて実際に決めた自由パラメータ(**これが統計的自由度**)/導出=他から自動算出される量(qLock の q・physLock の κ)/検証=較正なしで機械検証している主張の件数(claims の非較正件数)。分類はサンプルの宣言(parameterAudit)で、件数と claims の役割別内訳は毎回自動集計する(表示専用 — 物理・保存 JSON に無関係)。",
+  cbAudInputs:"観測入力(写しただけ)", cbAudConv:"規約・設定(取り決め)",
+  cbAudFit:"fit した自由パラメータ", cbAudDerived:"導出(自動算出)", cbAudNum:"数値設定(宣言)",
+  cbRoles:"主張の役割別内訳", cbFitCross:"fit の照合",
+  cbFitCrossTxt:(f,t)=>"宣言 fit "+f+"件 ⇄ claims の「fit の対象」"+t+"件",
+  cbKnobs:"既定から変更したパラメータ", cbDerived:"導出値(変更ではない)",
   cbCalibList:"較正した主張", cbVerifyList:"無較正の検証項目",
   cbCond:"実験条件(自由度外)", cbNum:"数値設定(自由度外)",
   cbNone:"—(なし)", cbDefault:"既定",
@@ -1488,10 +1502,24 @@ en: {
     "multi-seed":"Statistics over an ensemble of seeds"},
   chSimNa:"An actual run (verification kind not declared)",
   chTapTip:"Tap to open the chain of the claim (axioms → equations → parameters → (calibration) → simulation → observable → QA check)",
+  // 第133便 P0/P1: the ROLE of a claim — how the observable relates to the calibration (display only)
+  roleNames:{input_check:"input check", fit_target:"fit target",
+    retrospective_check:"retrospective check", held_out:"held-out check",
+    prediction:"prediction", negative_control:"negative control"},
+  roleTip:"Role of the claim (wave 133): input check = confirms that a value copied from observation was transcribed correctly (not an independent prediction) / fit target = a parameter was tuned to match this observation (one extra fit per observation) / retrospective check = not used in any fit, but measured on a system that took part in forming the rule / held-out check = a system that took no part in forming the rule / prediction = a not-yet-observed quantity / negative control = a check that something does NOT act. The role is DECLARATION ONLY — no effect on physics, saved JSON or the AI spec.",
+  roleUnset:"— (role not declared)",
   // 第132便 EXT-06: Calibration Budget — how many degrees of freedom produced this result
-  cbChip:(n,d,m,k)=>"⚖️ Calibration budget: knobs "+n+" (derived "+d+") · calibrated "+m+" · verified "+k,
-  cbTip:"Calibration budget (EXT-06): knobs = physics parameters this sample changed from their defaults (= the degrees of freedom it used) / derived = things that look like knobs but are auto-derived, so they are not free (q under qLock, κ under physLock) / calibrated = claims fixed by matching a real observation (one extra fit per observation) / verified = claims machine-checked without any calibration. Experimental conditions (g_x/g_y) and numerical settings (ε etc.) are outside the degrees of freedom and get their own rows. Nothing is declared per sample — the budget is recomputed from the preset and the runtime state every time (display only; no effect on physics or saved JSON).",
-  cbKnobs:"Knobs (degrees of freedom)", cbDerived:"Derived (not a knob)",
+  // 第133便 P1: v1 renames "knobs" to "changed from default" (it is not a count of free parameters)
+  cbChip:(n,d,m,k)=>"⚖️ Calibration budget: changed from default "+n+" (derived "+d+") · calibrated "+m+" · verified "+k,
+  cbTip:"Calibration budget (EXT-06): changed from default = physics parameters this sample changed from their defaults — a coarse count that does NOT separate transcribed real constants, conventions, on/off switches and actual fits, so it is NOT a count of statistical free parameters / derived = things that look changed but are auto-derived, so they are not free (q under qLock, κ under physLock) / calibrated = claims fixed by matching a real observation (one extra fit per observation) / verified = claims machine-checked without any calibration. Experimental conditions (g_x/g_y) and numerical settings (ε etc.) get their own rows. Nothing is declared per sample — the budget is recomputed from the preset and the runtime state every time (display only; no effect on physics or saved JSON). Samples that declare a breakdown switch to the v2 display (inputs / conventions / fits / derived / checks).",
+  // 第133便 P1: calibration ledger v2 — breakdown declared by the sample (parameterAudit)
+  cbChip2:(i,c,f,d,v)=>"⚖️ Calibration ledger: inputs "+i+" · conventions "+c+" · fits "+f+" · derived "+d+" · checks "+v,
+  cbTip2:"Calibration ledger v2 (wave 133): the breakdown declared by this sample. inputs = quantities merely transcribed from observation (real G, real masses, real orbital elements …) — not free parameters / conventions = modelling choices and on/off switches (kFrame, stateCarry, scale exponents …) / fits = free parameters actually tuned to this system's observations — THESE are the statistical degrees of freedom / derived = quantities auto-computed from others (q under qLock, κ under physLock) / checks = claims machine-checked without calibration (the uncalibrated claims). The classification comes from the sample's declaration (parameterAudit); the counts and the per-role breakdown of claims are recomputed every time (display only; no effect on physics or saved JSON).",
+  cbAudInputs:"Observed inputs (transcribed only)", cbAudConv:"Conventions & settings",
+  cbAudFit:"Fitted free parameters", cbAudDerived:"Derived (auto-computed)", cbAudNum:"Numerical settings (declared)",
+  cbRoles:"Claims by role", cbFitCross:"Fit cross-check",
+  cbFitCrossTxt:(f,t)=>"declared fits "+f+" ⇄ claims with role \"fit target\" "+t,
+  cbKnobs:"Changed from default", cbDerived:"Derived (not a change)",
   cbCalibList:"Calibrated claims", cbVerifyList:"Uncalibrated checks",
   cbCond:"Experimental conditions (outside the budget)", cbNum:"Numerical settings (outside the budget)",
   cbNone:"— (none)", cbDefault:"default",
@@ -2220,12 +2248,35 @@ function calibrationBudget(p, st){
     else cond.numerics.push({key:k, value:v, def:dv});
   }
   const calib=[], verify=[];
+  // 第133便 P0: claims の役割(role)別内訳 — 宣言のあるものだけ数える(未宣言は roleNone)
+  const roles={}; let roleNone=0;
   for(const c of ((p && Array.isArray(p.claims))? p.claims : [])){
     const pv=claimProv(c);
-    const rec={id:c.id, metric:c.metric, prov:pv};
+    const rl=claimRole(c);
+    const rec={id:c.id, metric:c.metric, prov:pv, role:rl};
     if(pv==="calibrated") calib.push(rec); else verify.push(rec);
+    if(rl) roles[rl]=(roles[rl]||0)+1; else roleNone++;
   }
-  return {knobs, derived, cond, calib, verify,
+  // 第133便 P1(較正台帳 v2): サンプルが宣言した parameterAudit の内訳。
+  // 「既定から変更した physics キー数(N)」は実定数の写し・規約・ON/OFF・実 fit を同じ箱に
+  // 入れた粗い計数で統計的自由度ではない、という外部レビュー指摘への対応。宣言のあるサンプル
+  // だけ v2 表示に切り替え、無いサンプルは従来の v1 表示にフォールバックする(表示専用)。
+  // 項目名の文字列は en 版(p.en.parameterAudit)があればそちらを使う(obsCard・failureFirst と同じ流儀。
+  // 件数は ja/en で同数であることを QA claims.mainline が固定する)
+  const paObj=(x)=>(x && typeof x==="object" && !Array.isArray(x))? x : null;
+  const pa=(LANG==="en" && p && p.en && paObj(p.en.parameterAudit))
+    || (p? paObj(p.parameterAudit) : null);
+  const paList=(k)=>(pa && Array.isArray(pa[k]))? pa[k].filter(x=>typeof x==="string" && x.trim()) : [];
+  const audit=pa? {
+    observedInputs:paList("observedInputs"), fixedConventions:paList("fixedConventions"),
+    fitted:paList("fitted"), derived:paList("derived"), numerical:paList("numerical")} : null;
+  if(audit){
+    audit.I=audit.observedInputs.length; audit.C=audit.fixedConventions.length;
+    audit.F=audit.fitted.length; audit.D=audit.derived.length; audit.V=verify.length;
+    // fit の照合: 宣言 fit 件数 ⇄ claims の role:"fit_target" 件数(食い違いは内訳に併記する)
+    audit.fitTargets=roles.fit_target||0;
+  }
+  return {knobs, derived, cond, calib, verify, roles, roleNone, audit,
     N:knobs.length, d:derived.length, M:calib.length, K:verify.length};
 }
 // 台帳の数値表示(有効数字6桁 — 極小・極大は指数表記)
@@ -4430,6 +4481,17 @@ const BUILTIN_PRESETS = [
     observe:"月が27.32日(換算表示 — HUD の t 表示は日・年単位に自動変換)で一周し、地球も重心のまわりを小さく実運動する(重心距離 4.4=4400km — 地球半径の 69%)。スケール換算で距離 38.5万km・周期 27.3日・質量 5.97×10²⁴kg が実値と一致し、物理対応バッジが成立する。1PN・引きずりは実スケールでは完全に不可視(見えないのが正しい)。実半径では両天体とも小さいため、粒子表示倍率(既定10)が描画だけを拡大している(物理不変)。",
     control:"kFrame は安定化手順(c)の 0(kFrame=1 の自由二体は崩壊する — §F。引きずりは本サンプルの主張外なので、自転スピンは表示・慣性のみに働く)。kFrame を 1 に戻すと崩壊過程が観察できる。粒子表示倍率を 1 にすると実比の点になる。"},
   en:{name:"Earth & Moon (Real Units) — sidereal month 27.32 d",
+    parameterAudit:{
+      observedInputs:["real G=6.674","real c₀=3×10⁴","the Earth's real mass, radius and rotation (23.93 h)",
+        "the Moon's real mass, radius and synchronous rotation",
+        "semi-major axis 3.84748×10⁸ m, eccentricity 0.0549, perigee relative speed 1.082 km/s"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10⁶ m / 10² s / 10²⁵ kg)","kFrame=0 (stabilization route (c) — a free binary with kF1 collapses)",
+        "D₀=0.1, q=3 (inert here: with kFrame=0 no dragging acts)",
+        "kRep=muF=γN=κ_S=0","geoPN=2, λ_PN=1, pnα=1.5","pnSource:true, stateCarry:\"double\", massFloor=1e-6",
+        "a free binary placed about the barycenter (nothing pinned)"],
+      fitted:[],
+      derived:["κ=G/c₀²=7.4156×10⁻⁹ (the correspondence-lock value)"],
+      numerical:["softening ε=0.1","time multiplier timeScale=100","display magnification dispMag=10 (display only)"]},
     obsCard:[
       {q:"Sidereal month", model:"27.3219 d (harness)", obs:"27.3217 d"},
       {q:"Semi-major axis", model:"384,700 km", obs:"384,748 km"},
@@ -4443,6 +4505,38 @@ const BUILTIN_PRESETS = [
     control:"kFrame is 0, stabilization route (c) (a free binary with kFrame=1 collapses — §F; dragging is outside this sample's claims, so the real spins act on display and inertia only). Set kFrame back to 1 to watch the collapse. Set the display magnification to 1 for true proportions."}},
   abBody:{ label:{ja:"kFrame=1・D₀=0.006(近点回転が現れる — 🌘対照)", en:"kFrame=1, D₀=0.006 (apsidal precession appears)"},
     physicsPatch:{kFrame:1, D0:0.006, qLock:true} },   // 第121便: 🌘のワンタップ対照を🌙へ(第123便: q は自動算出で🌘と同一較正)
+  // 第133便 P0: claims — 説明文・観測結果カードの実値を機械可読化(kind:"semantic")。
+  // 本サンプル(kFrame=0・fit ゼロ)の2件はどちらも「観測入力の写しの検証」であることを role で明示する。
+  claims:[
+    { id:"earthMoonReal.sidereal-month", kind:"semantic", prov:"derived", role:"input_check",
+      metric:"siderealMonthDays",
+      chain:{ax:["A6"], eq:["E4"],
+        note:"実軌道長半径・実質量・実GM から重力(E4)だけで出る恒星月(構成値 27.3218日・ハーネス実測 27.317日)。観測 27.3217日との一致は観測入力の写しの整合。",
+        noteEn:"The sidereal month that gravity (E4) alone gives from the real semi-major axis and real masses (27.3218 d by construction; 27.317 d in the harness). Agreement with the observed 27.3217 d is a consistency check of the transcribed inputs."},
+      roleNote:"観測入力の検証 — 独立な予言ではない(較正ノブは1つも使っていない)。同じ月を kFrame=1 で出すには 🌘 で fit が要る、という対比のための基準点。",
+      roleNoteEn:"Input check — not an independent prediction (no calibration knob is used). It is the baseline against which 🌘 needs a fit to keep the same month with kFrame=1.",
+      expected:{min:27.30, max:27.34},
+      descPattern:"恒星月 (\\d+\\.\\d+)日" },
+    { id:"earthMoonReal.lunar-distance", kind:"semantic", prov:"definition", role:"input_check",
+      metric:"lunarDistanceKm",
+      chain:{eq:["E4"],
+        note:"スケール換算(1単位=10⁶m)で読み戻した月までの距離 — 観測 384,748km の写しがスケール指数を通しても一致することの確認。",
+        noteEn:"The Earth–Moon distance read back through the scale conversion (1 unit = 10⁶ m) — confirms that the transcribed 384,748 km survives the exponent system."},
+      roleNote:"観測入力の検証 — スケール換算の往復が観測値を壊していないことだけを言う項目。",
+      roleNoteEn:"Input check — it only states that the scale round-trip does not corrupt the observed value.",
+      expected:{min:383000, max:387000}, descScale:10000,
+      descPattern:"距離 (\\d+\\.\\d+)万km" }
+  ],
+  parameterAudit:{
+    observedInputs:["実 G=6.674","実 c₀=3×10⁴","地球の実質量・実半径・実自転(23.93時間)",
+      "月の実質量・実半径・同期自転","軌道長半径 3.84748×10⁸m・離心率 0.0549・近地点の相対速度 1.082km/s"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁶m/10²s/10²⁵kg)","kFrame=0(安定化手順(c)— kF1 の自由二体は崩壊する)",
+      "D₀=0.1・q=3(kFrame=0 では引きずりが働かないため結果に無関与)",
+      "kRep=muF=γN=κ_S=0","geoPN=2・λ_PN=1・pnα=1.5","pnSource:true・stateCarry:\"double\"・massFloor=1e-6",
+      "自由二体を重心系で配置(pinned なし)"],
+    fitted:[],
+    derived:["κ=G/c₀²=7.4156×10⁻⁹(物理対応条件の導出値)"],
+    numerical:["ソフトニング ε=0.1","時間倍率 timeScale=100","粒子表示倍率 dispMag=10(表示専用)"]},
   activeParams:["dispMag","lambdaPN","cLight"],
   camera:{scale:450}, world:{boundary:"none",size:0},
   physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
@@ -4487,6 +4581,18 @@ const BUILTIN_PRESETS = [
     observe:"軌道の向き(近点方向)がゆっくり回る — 実際の月と同じ約8.85年(≈118公転)で一周する。歳差積算 HUD の換算レートと、ゴースト楕円(点線=初期・橙=歳差×20 増幅)で回転が数公転で見える。**HUD の積算は周回内で大きく振動する(局所では逆行にも振れる)— 1公転単位で読むと正味 +0.053 rad/公転(Δϖ比 0.999)**。恒星月は 27.33日(+0.03%)。正直な明記: 実際の近点回転の主因は太陽摂動(第三体)— 本サンプルは運動引きずりという別機構での較正一致であり、機構の同定を主張しない(観測結果カード)。",
     control:"本サンプルは**天体の現実較正の雛形**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock。今後の観測較正サンプルは本構成をコピーして作る — PHYSICS §5)。ワンタップ対照A/B: B側 D₀=0.1 に上げると引きずりが 1/16 になり回転がほぼ止まる(χ∝1/D₀ の用量が見える)。kFrame を 0 にすると純ケプラー(閉じた楕円)へ。スピンを 0 にしても歳差は変わらない(運動起源 — exp-kf1b §A。q は自動算出〔qLock〕で、地球スピン項の混入を除く役)。"},
   en:{name:"Earth & Moon (Real Units, kFrame=1) — apsidal precession 8.85 yr, calibrated",
+    parameterAudit:{
+      observedInputs:["real G=6.674","real c₀=3×10⁴","the Earth's real mass, radius and rotation (23.93 h)",
+        "the Moon's real mass, radius and synchronous rotation","semi-major axis 3.84748×10⁸ m, eccentricity 0.0549",
+        "the Moon's 8.85-year apsidal cycle (the observation used as a fit target)",
+        "the sidereal month 27.3217 d (likewise)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10⁶ m / 10² s / 10²⁵ kg)","kFrame=1 (frame dragging on)",
+        "kRep=muF=γN=κ_S=0","geoPN=2, λ_PN=1, pnα=1.5","pnSource:true, stateCarry:\"double\", massFloor=1e-6",
+        "a free binary placed about the barycenter (nothing pinned)"],
+      fitted:["D₀=0.006 (the calibration knob of the drag precession — one value shared with 🪨💿)",
+        "initial-speed correction f=0.9968 (−0.32%, the second knob of the joint fit that restores the sidereal month)"],
+      derived:["q=8.25 (auto-derived by qLock — it removes the Earth-spin contamination)","κ=G/c₀²=7.4156×10⁻⁹"],
+      numerical:["softening ε=0.1","time multiplier timeScale=100","display magnification dispMag=10 (display only)"]},
     failureFirst:{
       fail:"A pure two-body system (🌙, kFrame=0) can never show the Moon's apsidal precession (observed: one cycle in 8.85 years) — the ellipse stays closed. The wave-119 🌘 (D₀=0.1) gave +2.7×10⁻³ rad/orbit, 1/20 of the real rate, with a +0.05% period offset.",
       pass:"Dose measurements established that the drag precession scales as χ=w/(D₀+w); a joint fit of D₀=0.006 with a −0.32% initial-speed correction calibrates BOTH the sidereal month 27.32 d (+0.04%) and the 8.85-year apsidal cycle at once (tests/exp-kf1b.mjs). Wave 122: q=5 (the correction shared with 🪨) removes the Earth-spin contamination and purifies the Δϖ ratio from 0.988 to 0.999 — one pair (D₀=0.006, q=5) satisfies BOTH 🌘 and 🪨 (exp-kf1c). The real cause is solar perturbation — DFM matches it via a different mechanism, motion dragging (honest note)."},
@@ -4502,6 +4608,40 @@ const BUILTIN_PRESETS = [
   abBody:{ label:{ja:"D₀=0.1(引きずり弱 — 回転が止まる対照)", en:"D₀=0.1 (weak drag — rotation stops)"},
     physicsPatch:{D0:0.1} },
   qLock:true,   // 第123便: q 自動算出(q*=8.25)
+  // 第133便 P0: claims — 共同フィット(D₀=0.006+初速 −0.32%)の2つの対象を、fit の対象として
+  // 明示的に台帳へ計上する(prov:"calibrated" = 較正2件)。「較正の少なさ」を主張する場所で、
+  // 実際に使った較正はきちんと数えるための宣言。
+  claims:[
+    { id:"earthMoonRealKF1.apsidal-period", kind:"semantic", prov:"calibrated", role:"fit_target",
+      metric:"apsidalPrecessionPeriodYears",
+      chain:{ax:["A4","A5"], eq:["E4","E6′"],
+        note:"運動引きずりが作る順行歳差 χ=w/(D₀+w) を D₀ で較正して、月の近点回転(実測 約8.85年で一周)に合わせた項目(exp-kf1b)。純二体では原理的に出ない観測量。",
+        noteEn:"The prograde precession from motion dragging, χ=w/(D₀+w), calibrated through D₀ to the Moon's observed 8.85-year apsidal cycle (exp-kf1b) — an observable a pure two-body system can never produce."},
+      roleNote:"fit の対象 — D₀=0.006 と初速 −0.32% の共同フィットが合わせにいった観測量そのもの(観測1件に対する追加 fit)。さらに正直な明記として、実際の月の近点回転の主因は太陽摂動(第三体)であり、本サンプルは別機構での較正一致であって機構の同定ではない。",
+      roleNoteEn:"Fit target — this is the observation the joint fit (D₀=0.006 and the −0.32% initial speed) was tuned to. Honest note: the real cause is solar perturbation (a third body); this is a calibrated match through a different mechanism, not a mechanism identification.",
+      expected:{min:8.4, max:9.3},
+      descPattern:"実際の月と同じ約(\\d+\\.\\d+)年" },
+    { id:"earthMoonRealKF1.sidereal-month-kf1", kind:"semantic", prov:"calibrated", role:"fit_target",
+      metric:"siderealMonthDaysKF1",
+      chain:{ax:["A4","A5","A6"], eq:["E4","E6′"],
+        note:"引きずりを入れるとずれる恒星月を、初速 −0.32%(f=0.9968)で 27.32日級へ戻した項目 — 近点回転と同じ共同フィットの第2の対象。",
+        noteEn:"The sidereal month, which dragging shifts, restored to the 27.32-day class by the −0.32% initial speed (f=0.9968) — the second target of the same joint fit."},
+      roleNote:"fit の対象 — 🌙(kFrame=0)は較正ゼロで同じ月を出すので、この 1 件は「kF1 を成立させるために払った較正」である(回顧的確認ではない)。",
+      roleNoteEn:"Fit target — 🌙 (kFrame=0) reproduces the same month with zero calibration, so this item is the calibration paid to make kF1 work (not a retrospective check).",
+      expected:{min:27.28, max:27.38},
+      descPattern:"恒星月は (\\d+\\.\\d+)日" }
+  ],
+  parameterAudit:{
+    observedInputs:["実 G=6.674","実 c₀=3×10⁴","地球の実質量・実半径・実自転(23.93時間)",
+      "月の実質量・実半径・同期自転","軌道長半径 3.84748×10⁸m・離心率 0.0549",
+      "月の近点回転の周期 8.85年(fit の対象にした観測値)","恒星月 27.3217日(同上)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁶m/10²s/10²⁵kg)","kFrame=1(空間引きずり ON)",
+      "kRep=muF=γN=κ_S=0","geoPN=2・λ_PN=1・pnα=1.5","pnSource:true・stateCarry:\"double\"・massFloor=1e-6",
+      "自由二体を重心系で配置(pinned なし)"],
+    fitted:["D₀=0.006(引きずり歳差の較正ノブ — 🪨💿 と共通の1値)",
+      "初速補正 f=0.9968(−0.32% — 恒星月を戻す共同フィットの第2ノブ)"],
+    derived:["q=8.25(qLock 自動算出 — 地球スピン項の混入を除く役)","κ=G/c₀²=7.4156×10⁻⁹"],
+    numerical:["ソフトニング ε=0.1","時間倍率 timeScale=100","粒子表示倍率 dispMag=10(表示専用)"]},
   activeParams:["D0","kFrame","dispMag"],
   camera:{scale:450}, world:{boundary:"none",size:0},
   physics:{G:6.674, D0:0.006, kFrame:1, q:8.25, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
@@ -4580,6 +4720,18 @@ const BUILTIN_PRESETS = [
     observe:"近日点前進は 5×10⁻⁷ rad/公転(実測 43.0″/世紀 — tests/exp-obscal.mjs §D)で、画面では見えない。純粋なケプラー楕円(e=0.206 のつぶれた軌道)に見えるのが正しい挙動 — ☿(誇張アナログ)との対比で「実スケールの 1PN はこれほど小さい」を体感する。スケール換算で G・c₀・距離・周期・質量が実定数・実観測値に一致すること、物理対応バッジの成立を確認できる。実半径では太陽も点に近いため、粒子表示倍率(既定10)が描画だけを拡大している(物理不変)。",
     control:"実単位化の構成(実定数 G=6.674・c₀=3×10⁴・κ=G/c₀²・サンプル別スケール指数・実半径+粒子表示倍率・実自転スピン・pnSource:true・stateCarry:\"double\"・q=3・D0=0.1・kFrame=0〔A8 引きずりは c² 抑制のない誇張機構のため実単位では非主張 — 第118便〕・massFloor=1e-6〔実質量が mEff 床 0.01 で歪まないため〕)は本サンプルで確立された(内蔵第1号)。今後の観測較正サンプルは、この構成に kFrame=1+共通補正(D₀=0.006・qLock)を加えた**雛形 🪨🌘💿**をコピーして作る(PHYSICS §5)。λ_PN を 0 にしても画面では違いが見えない — それが実スケールの弱場。"},
   en:{name:"Mercury (Real Units) — 43″/century",
+    parameterAudit:{
+      observedInputs:["real G=6.674 (=6.674×10⁻¹¹ m³kg⁻¹s⁻²)","real c₀=3×10⁴ (=3×10⁸ m/s)",
+        "the Sun's real mass, radius and rotation (25.05 d)","Mercury's real mass, radius and rotation (58.65 d)",
+        "Mercury's perihelion distance 4.60×10¹⁰ m and perihelion speed 58.98 km/s"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10⁸ m / 10⁴ s / 10²⁷ kg)","kFrame=0 (the no-dragging contrast)",
+        "D₀=0.1, q=3 (inert here: with kFrame=0 no dragging acts)",
+        "kRep=muF=γN=κ_S=0 (contact and thermal mechanisms switched off)","geoPN=2, λ_PN=1, pnα=1.5 (the geodesic 1PN rule)",
+        "pnSource:true (1PN source declaration), stateCarry:\"double\"",
+        "the Sun is pinned (an external constraint of the exhibit), massFloor=1e-6"],
+      fitted:[],
+      derived:["κ=G/c₀²=7.4156×10⁻⁹ (the correspondence-lock value — not an independent degree of freedom)"],
+      numerical:["softening ε=0.05","time multiplier timeScale=100","display magnification dispMag=10 (display only)"]},
     obsCard:[
       {q:"Orbital period", model:"87.974 d (from real initial conditions)", obs:"87.969 d"},
       {q:"Perihelion advance", model:"43.0″/century (exp-obscal §D, ratio 1.002)", obs:"42.98″/century"},
@@ -4591,6 +4743,43 @@ const BUILTIN_PRESETS = [
     summary:"The real Sun and Mercury in real units — the kFrame=0 CONTRAST (the first built-in real-unit sample; repositioned in wave 129: the current \"real-calibration template\" is the kFrame=1 trio 🪨🌘💿, and this sample is their kF0 counterpart). With per-sample scale exponents (1 unit = 10⁸ m / 10⁴ s / 10²⁷ kg), the solar mass 1988.5 (=1.9885×10³⁰ kg), radius 6.95, spin 0.029 (25.05-day rotation), Mercury's mass 3.3×10⁻⁴, radius 0.0244, spin 0.0124 (58.65 d), perihelion 460 (=4.60×10¹⁰ m) and perihelion speed 5.898 (=58.98 km/s) are all observed values. Gravity alone (E4) reproduces the 87.97-day orbit; the precession comes from the same geodesic mode (E12 — the actionization of A7′/E7R) 1PN as ☿. κ=G/c₀² holds, with pnSource and double-precision state (stateCarry). ",
     observe:"The perihelion advance is 5×10⁻⁷ rad/orbit (measured 43.0″/century — tests/exp-obscal.mjs §D) — invisible on screen. A pure Kepler ellipse (e=0.206) IS the correct behaviour; contrast with ☿ to feel how small real-scale 1PN is. The scale conversion matches G, c₀, distances, period and masses to the real values, and the correspondence badge is satisfied. At real radii even the Sun is nearly a dot, so the display magnification (default 10) enlarges rendering only (physics untouched). ",
     control:"This sample established the real-unit construction (real constants G=6.674, c₀=3×10⁴, κ=G/c₀², per-sample scale exponents, real radii + display magnification, real spins, pnSource:true, stateCarry:\"double\", q=3, D0=0.1, kFrame=0 — A8 dragging is an exaggerated mechanism without c² suppression, so real-unit samples make no dragging claim (wave 118) — and massFloor=1e-6 so real masses are not distorted by the 0.01 mEff floor). Future observation-calibration samples copy the TEMPLATE 🪨🌘💿, which adds kFrame=1 plus the joint correction (D₀=0.006, qLock) on top of it (PHYSICS §5). Setting λ_PN to 0 changes nothing visible — that is the real weak field."}},
+  // 第133便 P0(外部レビュー: 主力較正サンプルが claims ゼロで「較正の少なさ」を主張する場所が
+  // 空だった): claims — 説明文の実測値(exp-obscal §D・観測結果カード)を機械可読化。専用の
+  // 重い QA ゲートは作らず、説明文数値との照合(claims.sync)で固定する(kind:"semantic")。
+  claims:[
+    { id:"mercuryReal.perihelion-advance", kind:"semantic", prov:"simulated", role:"retrospective_check",
+      metric:"perihelionAdvanceArcsecPerCentury",
+      chain:{ax:["A6","A7"], eq:["E4","E12"],
+        note:"実G・実c₀・実軌道要素だけで走らせた 1PN 歳差の実測(exp-obscal §D・600公転)。43″/世紀 に合わせて動かしたパラメータは無い。",
+        noteEn:"The 1PN precession measured with real G, real c₀ and real orbital elements alone (exp-obscal §D, 600 orbits). No parameter was moved to hit 43″/century."},
+      roleNote:"回顧的確認 — 43″/世紀は既知の観測値であり、この系は本モデルの規則(κ=G/c₀²・測地線1PN)を決める過程で参照した。fit には使っていないが、規則形成に不関与の外挿検証(held_out)ではない。",
+      roleNoteEn:"Retrospective check — 43″/century is a known observation, and this system took part in forming the model's rules (κ=G/c₀², geodesic 1PN). No fit was made to it, but it is not a held-out extrapolation either.",
+      expected:{min:42.5, max:43.5},   // 実測 43.0″/世紀(観測 42.98 — 観測結果カード)
+      descPattern:"実測 (\\d+\\.\\d+)″/世紀" },
+    { id:"mercuryReal.orbital-period", kind:"semantic", prov:"derived", role:"input_check",
+      metric:"orbitalPeriodDays",
+      chain:{ax:["A6"], eq:["E4"],
+        note:"実近日点距離・実近日点速度・実GM から重力(E4)だけで出る公転周期 — 観測 87.969日との一致は「観測入力が正しく写っている」ことの確認。",
+        noteEn:"The orbital period that gravity (E4) alone produces from the real perihelion distance, speed and GM — agreement with the observed 87.969 d confirms that the observational inputs were transcribed correctly."},
+      roleNote:"観測入力の検証 — 周期は独立な予言ではなく、実軌道要素の写しの整合性(ケプラー)を確かめる項目。",
+      roleNoteEn:"Input check — the period is not an independent prediction but a Kepler consistency check of the transcribed orbital elements.",
+      expected:{min:87.5, max:88.4},   // 構成値 87.974 日(観測 87.969 日)
+      descPattern:"公転周期 (\\d+\\.\\d+)日" }
+  ],
+  // 第133便 P1(外部レビュー: 台帳の「ノブN」は統計的自由パラメータ数ではない): parameterAudit —
+  // 数値の内訳を「観測入力/規約/fit/導出/数値設定」に分けて宣言する(表示専用)。
+  parameterAudit:{
+    observedInputs:["実 G=6.674(=6.674×10⁻¹¹ m³kg⁻¹s⁻²)","実 c₀=3×10⁴(=3×10⁸ m/s)",
+      "太陽の実質量・実半径・実自転(25.05日)","水星の実質量・実半径・実自転(58.65日)",
+      "水星の近日点距離 4.60×10¹⁰m・近日点速度 58.98km/s"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁸m/10⁴s/10²⁷kg)","kFrame=0(引きずり非主張の対照)",
+      "D₀=0.1・q=3(kFrame=0 では引きずりが働かないため結果に無関与)",
+      "kRep=muF=γN=κ_S=0(接触・熱の機構を切った天体設定)","geoPN=2・λ_PN=1・pnα=1.5(測地線1PN の統一則)",
+      "pnSource:true(1PN 源の宣言)・stateCarry:\"double\"(倍精度状態)",
+      "太陽 pinned(展示系の外部拘束)・massFloor=1e-6(実質量を mEff 床で歪めない)"],
+    fitted:[],
+    derived:["κ=G/c₀²=7.4156×10⁻⁹(物理対応条件の導出値 — 独立な自由度ではない)"],
+    numerical:["ソフトニング ε=0.05","時間倍率 timeScale=100","粒子表示倍率 dispMag=10(表示専用)"]},
   activeParams:["dispMag","lambdaPN","cLight"],
   camera:{scale:800}, world:{boundary:"none",size:0},
   physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
@@ -4627,6 +4816,16 @@ const BUILTIN_PRESETS = [
     observe:"歳差積算 HUD が ☄️ と同水準(+43″/世紀級)を示す — kF1 でも較正が成り立つ。q を 3 へ下げると大きな逆行レートに変わり、ゴースト楕円(×10³)が逆回りする(スピン項の復活が一目で見える)。スピンを 0 にすると q=3 でも kF0 と厳密一致(スピン起源の分解)。",
     control:"本サンプルは**天体の現実較正の雛形**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock。今後の観測較正サンプルは本構成をコピーして作る — PHYSICS §5)。q は自動算出(qLock — スライダーはグレーアウト)。太陽の spin を 0 にすると q=3 でも引きずりが消える(スピン起源)。kFrame を 0 にすると ☄️ と同一。被引きずり側(水星)のスピンは×10⁴でも歳差に無関与(自分自身は u から除外 — exp-kf1c §B)。"},
   en:{name:"Mercury (Real Units, kFrame=1) — 43″/century with the joint correction",
+    parameterAudit:{
+      observedInputs:["real G=6.674","real c₀=3×10⁴","the Sun's real mass, radius and rotation (25.05 d)",
+        "Mercury's real mass, radius and rotation (58.65 d)",
+        "Mercury's perihelion distance 4.60×10¹⁰ m and perihelion speed 58.98 km/s"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10⁸ m / 10⁴ s / 10²⁷ kg)","kFrame=1 (frame dragging on)",
+        "kRep=muF=γN=κ_S=0 (contact and thermal mechanisms switched off)","geoPN=2, λ_PN=1, pnα=1.5 (the geodesic 1PN rule)",
+        "pnSource:true, stateCarry:\"double\"","the Sun is pinned, massFloor=1e-6"],
+      fitted:["D₀=0.006 (the shared value fixed by the joint fit on 🌘, used as is — zero re-tuning here; the observable it was fitted to lives on 🌘)"],
+      derived:["q=6.16 (auto-derived by qLock: q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R))","κ=G/c₀²=7.4156×10⁻⁹"],
+      numerical:["softening ε=0.05","time multiplier timeScale=100","display magnification dispMag=10 (display only)"]},
     failureFirst:{
       fail:"With kFrame=1, the Sun's real rotation (25.05 d) and q=3, spin dragging adds a RETROGRADE −7.3×10⁻⁵ rad/orbit (−15,000″/century) precession — three orders of magnitude off the observed +43″/century (exp-kf1b §B; with spin 0 it matches kF0 exactly, isolating the spin origin).",
       pass:"Wave-122 joint correction → wave-123 qLock: the retrograde precession comes from the SPIN term ω(d)=s·(R/(R+d))^q, so it is suppressed geometrically by q rather than by D₀ — with the auto-derived q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R)=6.16 the drag falls to −5.6×10⁻¹⁰ rad/orbit (LT-class, ~1/900 of 1PN) and 43″/century holds with kF1 on. Moreover D₀ returns to 0.006, SHARED with 🌘💿 — not one shared value of q but one shared derivation rule satisfies every system (exp-kf1c/kf1d)."},
@@ -4651,6 +4850,36 @@ const BUILTIN_PRESETS = [
   abBody:{ label:{ja:"c₀=30(歳差が見える誇張対照)", en:"c₀=30 (visible-precession contrast)"},
     physicsPatch:{cLight:30, kappaT:0.007415555555583735} },
   qLock:true,   // 第123便: q は自動算出(LT整合則 q*=6.16)— 編集対象から外す
+  // 第133便 P0: claims — 説明文の実測値(exp-kf1c/kf1d)を機械可読化(kind:"semantic")。
+  claims:[
+    { id:"mercuryRealKF1.perihelion-advance-kf1", kind:"semantic", prov:"simulated", role:"retrospective_check",
+      metric:"perihelionAdvanceArcsecPerCenturyKF1",
+      chain:{ax:["A5","A6","A7"], eq:["E4","E6′","E12"],
+        note:"kFrame=1(引きずり ON)のまま 1PN の 43″/世紀 が残ることの確認 — 本サンプルでは較正ノブを1つも動かしていない(D₀ は 🌘 で決めた共通値・q は qLock の自動算出)。",
+        noteEn:"Confirms that the 1PN 43″/century survives with kFrame=1 (dragging on) — not one calibration knob was moved here (D₀ is the shared value fixed on 🌘, q is auto-derived by qLock)."},
+      roleNote:"回顧的確認 — 43″/世紀は既知の観測値で、この系は共通補正(D₀・qLock)を決める過程で参照した系。本サンプル内では fit をしていない。",
+      roleNoteEn:"Retrospective check — 43″/century is a known observation and this system took part in fixing the joint correction (D₀, qLock); no fit was performed within this sample.",
+      expected:{min:42.5, max:43.5},
+      descPattern:"kF1 のまま (\\d+)″/世紀を成立" },
+    { id:"mercuryRealKF1.drag-precession", kind:"semantic", prov:"simulated", role:"retrospective_check",
+      metric:"dragPrecessionRadPerOrbitAbs",
+      chain:{ax:["A5","A8"], eq:["E6′"],
+        note:"qLock の幾何減衰(q*=6.16)後に残るスピン引きずり歳差の大きさ(絶対値)— LT 級で 1PN の約 1/900(exp-kf1c/kf1d 実測)。",
+        noteEn:"The residual spin-drag precession after qLock's geometric falloff (q*=6.16) — LT-class, about 1/900 of the 1PN term (exp-kf1c/kf1d)."},
+      roleNote:"回顧的確認 — 「引きずりが 43″/世紀 を壊さない」ことの確認であって、この値に合わせて何かを決めたわけではない(q は自動算出)。",
+      roleNoteEn:"Retrospective check — it verifies that dragging does not break the 43″/century result; nothing was tuned to this number (q is auto-derived).",
+      expected:{min:5.0e-10, max:6.2e-10}, descScale:1e-10,   // 実測 −5.6×10⁻¹⁰ rad/公転(絶対値で照合)
+      descPattern:"−(\\d+\\.\\d+)×10⁻¹⁰" }
+  ],
+  parameterAudit:{
+    observedInputs:["実 G=6.674","実 c₀=3×10⁴","太陽の実質量・実半径・実自転(25.05日)",
+      "水星の実質量・実半径・実自転(58.65日)","水星の近日点距離 4.60×10¹⁰m・近日点速度 58.98km/s"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁸m/10⁴s/10²⁷kg)","kFrame=1(空間引きずり ON)",
+      "kRep=muF=γN=κ_S=0(接触・熱の機構を切った天体設定)","geoPN=2・λ_PN=1・pnα=1.5(測地線1PN の統一則)",
+      "pnSource:true・stateCarry:\"double\"","太陽 pinned・massFloor=1e-6"],
+    fitted:["D₀=0.006(🌘 の共同フィットで決めた共通値をそのまま使用 — 本サンプルでの再調整はゼロ。fit の対象になった観測量は 🌘 側にある)"],
+    derived:["q=6.16(qLock 自動算出 q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R))","κ=G/c₀²=7.4156×10⁻⁹"],
+    numerical:["ソフトニング ε=0.05","時間倍率 timeScale=100","粒子表示倍率 dispMag=10(表示専用)"]},
   activeParams:["D0","kFrame","dispMag"],
   camera:{scale:800}, world:{boundary:"none",size:0},
   physics:{G:6.674, D0:0.006, kFrame:1, q:6.16, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
@@ -4691,6 +4920,19 @@ const BUILTIN_PRESETS = [
     observe:"公転周期は実測 87.972/224.700/365.263/686.965 日(観測 87.969/224.701/365.256/686.980)。以下の軌道実測はすべて dt=0.016・帯を外した太陽+惑星4体の部分系での値(帯の総質量は太陽の 5×10⁻⁸ で力学的に無関係 — 帯込みでも水星0.0131%・金星0.00489%・地球0.00181%・火星0.00227% と3桁目まで一致する)。軌道速度は水星47.87・金星35.02・地球29.785・火星24.13 km/s(いずれも観測値)。2水星周窓の半径振れ幅は 0.0131%(水星)/0.00489%(金星)/0.00181%(地球)/0.00226%(火星)で、1火星周(687日)まで延ばしても 0.0134/0.00607/0.00445/0.00430% にとどまる。kFrame を 0 にしても 0.0131/0.00533/0.00174/0.00124% とほぼ同じ — 実スケールでは空間引きずり(A8/E6′)が円軌道条件に効かない(太陽の自転を 0 にした対照は kFrame=1 と倍精度で完全一致 = スピン項の寄与ゼロ)。旧トイ版の較正超過を実単位へ持ち込むと悪化する(f 掃引: 1.000→0.0131%・1.001→0.400%・1.005→2.00%・1.055→22.3%・1.12→50.7%)。半径が実値なので惑星は点にしか見えない — 粒子表示倍率 dispMag=10(表示専用・力学不変)で太陽を 6.96→69.6 単位に拡大している(水星軌道 579 の12%: ☄️ と同じ「太陽が視覚を支配する」妥協)。小惑星帯はケレス級のテスト質量100個の展示(各 10⁻⁶=10²¹kg・半径 0.005=5×10⁵m)で、帯の総質量は太陽の 5×10⁻⁸(実際の帯 ≈2.4×10²¹kg の約42倍)しかなく、惑星の軌道実測は帯の有無で一致する(帯粒は初期 vNoise 2% ぶんの離心率をもって回り、2水星周での半径ずれは最大2%級)。太陽は pinned の展示系(中心は固定=外部拘束)。",
     control:"ワンタップ対照A/B: B側 q=0.5(引きずりの幾何減衰を外した誇張)にすると太陽の実自転が内惑星系ごと空間を引きずり、2水星周で軌道が崩壊する(半径振れ幅 102/130/362/135%)— 「実スケールで引きずりが効かない」ことの本体が q の幾何減衰であることが1タップで見える。kFrame を 0 にしても画面は変わらない(実スケールの引きずりは検出限界以下)。q は 3〜21.8 のどこでも軌道は同一(q≥5 では倍精度で完全一致)なので qLock は掛けていない — 多惑星系では自由天体距離の中央値に応じて q* が変わり、1本の LT整合則を定義できないため(第131便 統括裁定)。宣言値 q=5.1 は qLock 則 q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) を帯を含む自由天体距離の中央値 a=3836 で評価した算出値(q*=5.1045)。timeScale=30 なので画面の1秒≈6.7日。小惑星帯(3300〜4600単位≈2.2〜3.1au)はズームアウトで見える。"},
   en:{name:"Solar System — Inner Planets (Real Units)",
+    parameterAudit:{
+      observedInputs:["real G=6.674","real c₀=3×10⁴","the Sun's real mass, radius and rotation (25.05 d)",
+        "the real masses, radii and rotations of Mercury, Venus, Earth and Mars",
+        "the four real semi-major axes (Mercury 579.09 – Mars 2279.39 units of 10⁵ km)",
+        "the real Kepler speeds (calibration factor 1.000 — no multiplier)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10⁸ m / 10⁴ s / 10²⁷ kg)","kFrame=1 (the template construction)",
+        "orbits idealized to circles (the real eccentricities 0.206/0.007/0.017/0.093 are not reproduced — by design a circular-orbit demo)",
+        "kRep=muF=γN=κ_S=0","geoPN=2, λ_PN=1, pnα=1.5","pnSource:true, stateCarry:\"double\", massFloor=1e-6",
+        "the Sun is pinned (an external constraint of the exhibit)","asteroid belt = an exhibit of 100 Ceres-class test masses (dynamically irrelevant)"],
+      fitted:["D₀=0.006 (the shared value fixed by the joint fit on 🌘, used as is — zero re-tuning here; the velocity calibration factor is 1.000, i.e. no fit on the speed side)"],
+      derived:["q=5.1 (the qLock rule evaluated at the belt-inclusive median free-body distance a=3836, q*=5.1045, declared statically — in a multi-planet system a_ref is not unique, so qLock is not engaged)",
+        "κ=G/c₀²=7.4156×10⁻⁹"],
+      numerical:["softening ε=0.05","time multiplier timeScale=30","display magnification dispMag=10 (display only)"]},
     obsCard:[
       {q:"Orbital periods (Me/V/E/Ma)", model:"87.972 / 224.700 / 365.263 / 686.965 d (real distances + real Kepler speeds)",
        obs:"87.969 / 224.701 / 365.256 / 686.980 d"},
@@ -4708,13 +4950,21 @@ const BUILTIN_PRESETS = [
   // 第131便: claims — 初速較正係数(1.000)と2水星周窓の半径振れ幅(水星)を機械可読化。
   // どちらも実測値そのもの(f 掃引・2水星周窓)。testId は付けない(説明文の数値を固定する claim)
   claims:[
-    { id:"solarInner.velocity-calib-factor", kind:"fixed-seed", prov:"simulated", metric:"velocityCalibFactor",
+    { id:"solarInner.velocity-calib-factor", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+      // 第133便 P0: 役割は「陰性対照的」だが統括裁定で retrospective_check + note とする
+      // (f=1.000 は fit の結果ではなく、fit が不要であることを掃引で確かめた検証)
+      roleNote:"回顧的確認(fit 不使用の検証)— 較正係数 1.000 は「初速較正を1つも使っていない」ことを f 掃引で確かめた結果であって、この 1.000 に合わせて何かを決めたわけではない。旧トイ版で必要だった ×1.12 が実単位化で不要になったことの定量。",
+      roleNoteEn:"Retrospective check (a verification that no fit was used) — the 1.000 calibration factor is the outcome of an f-sweep confirming that no velocity calibration is spent; nothing was tuned to make it 1.000. It quantifies that the ×1.12 the old toy build needed disappears in real units.",
+      metric:"velocityCalibFactor",
       chain:{ax:["A6"], eq:["E4","E12"],
         note:"実定数(G・c₀)と実値の軌道要素だけで円軌道速度が成立するかを f 掃引で確かめた項目 — 最小が f=1.000 なので速度較正ノブは残っていない。",
         noteEn:"An f-sweep checking that circular-orbit speeds hold with real constants (G, c₀) and real orbital elements alone — the minimum sits at f=1.000, so no velocity-calibration knob remains."},
       expected:{min:0.999, max:1.001},   // 実測: f 掃引の最小は f=1.000(1.001 で 0.400%・1.12 で 50.7% へ悪化)
       descPattern:"較正係数 (\\d+\\.\\d+)", testId:"behavior.solarInner" },
-    { id:"solarInner.circular-wobble-mercury", kind:"fixed-seed", prov:"simulated", metric:"radiusWobbleFraction",
+    { id:"solarInner.circular-wobble-mercury", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+      roleNote:"回顧的確認 — 実スケールでは引きずりが円軌道条件に効かないことの定量で、kFrame=0 の対照と同値。較正ノブは使っていない。",
+      roleNoteEn:"Retrospective check — quantifies that dragging does not affect the circular-orbit condition at real scale (identical to the kFrame=0 control); no calibration knob is spent.",
+      metric:"radiusWobbleFraction",
       chain:{ax:["A4","A5","A6"], eq:["E4","E6′","E12"],
         note:"実スケールでは引きずりが検出限界以下であることの定量 — kFrame=0 の対照と同値になる(引きずりに較正ノブを使っていない)。",
         noteEn:"Quantifies that dragging is below detection at real scale — identical to the kFrame=0 control (no calibration knob spent on dragging)."},
@@ -4723,6 +4973,19 @@ const BUILTIN_PRESETS = [
       control:{patch:{kFrame:0}, expected:{min:0.0001, max:0.0002}, descScale:0.01,   // 実測 0.0131%(kFrame=0)
         descPattern:"kFrame を 0 にしても (\\d+\\.\\d+)/"} }
   ],
+  // 第133便 P1: parameterAudit — 実単位化(第131便)後は初速較正が不要になったので fit はゼロ。
+  parameterAudit:{
+    observedInputs:["実 G=6.674","実 c₀=3×10⁴","太陽の実質量・実半径・実自転(25.05日)",
+      "水星・金星・地球・火星の実質量・実半径・実自転","4惑星の実軌道長半径(水星579.09〜火星2279.39 単位=10⁵km)",
+      "実ケプラー初速(較正係数 1.000 — 掛け算なし)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁸m/10⁴s/10²⁷kg)","kFrame=1(共通補正の構成)",
+      "円軌道への理想化(実離心率 0.206/0.007/0.017/0.093 は再現しない — 円軌道デモとしての設計)",
+      "kRep=muF=γN=κ_S=0","geoPN=2・λ_PN=1・pnα=1.5","pnSource:true・stateCarry:\"double\"・massFloor=1e-6",
+      "太陽 pinned(展示系の外部拘束)","小惑星帯=ケレス級テスト質量100個の展示(力学的に無関与)"],
+    fitted:["D₀=0.006(🌘 の共同フィットで決めた共通値をそのまま使用 — 本サンプルでの再調整はゼロ。初速の較正係数は 1.000 = 速度側の fit はゼロ)"],
+    derived:["q=5.1(qLock 則を帯込み自由天体距離の中央値 a=3836 で評価した算出値 q*=5.1045 の静的宣言 — 多惑星系では a_ref が一意に決まらないため qLock は掛けていない)",
+      "κ=G/c₀²=7.4156×10⁻⁹"],
+    numerical:["ソフトニング ε=0.05","時間倍率 timeScale=30","粒子表示倍率 dispMag=10(表示専用)"]},
   activeParams:["kFrame","q","dispMag"],
   camera:{scale:1700}, world:{boundary:"none",size:0},
   physics:{G:6.674, D0:0.006, kFrame:1, q:5.1, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
@@ -4880,6 +5143,19 @@ const BUILTIN_PRESETS = [
     observe:"近点方向を揃えた離心率 e=0.05 の軌道のテスト粒子は、近点が公転と同じ向きに回り続け、内側ほど速い(差動近点移動)。線の軌跡は既定ONで、楕円の向きがゆっくり回るのがそのまま見える。解析式(J一次の永年理論 ϖ̇=C(Ω−κ))は J2〜J12 で打ち切るため D68 実測 38.243°/日 に対し −0.03% の残差が残るので、較正係数 C=1.000302283(高次項・離心率補正の代替)を中心星の zonal.calib に与えて観測値へ精密一致させている。第131便の実単位化で、この歳差率を**シミュレータ自身が出す値**として初めて直接照合できるようになった: エンジン実測 38.108°/日(200公転窓の収束値。Cassini 観測 38.243 に対し −0.35%。QA ゲートの60公転窓では 38.072=−0.45%)。10粒とも解析式との比は 0.996〜1.003(60公転窓でも 0.994〜1.002)に収まる。残差 −0.35% は e=0.05 の有限離心率ぶんで、独立な求積法(動径ポテンシャルの近点角を直接積分)でも −0.30% と一致し、e を 0.01 に下げると −0.15% へ縮む。初速は帯状重力込みの局所円速度 v_c(r)=√[(μ/r)(1+CΣ(2k+1)A_{2k}(R_S/r)^{2k})] に √(1+e) を掛けて与えている — 旧版の点質量 vis-viva では軌道の実効長半径・離心率がずれ、同じ場でも見かけ +9.4% の差が出ていた。DFM 効果(kFrame/kRep/muF/γN)は 0 にして扁平重力の効果だけを分離。測地線 E12(geoPN=2・λ_PN=1)は入れてあるが、実スケールの 1PN 寄与は歳差率の 10⁻⁶ 級で、λ_PN=0 との差は6桁一致(実測)。旧「現実較正」版(C=1)は本サンプルへ一本化(差は 0.03% で画面では区別できない)。",
     control:"DFM 本来の環の物語は 🪐 を、実単位の環そのものは 💍(kFrame=0)・💿(kFrame=1)を参照。粒子表示倍率 dispMag=1 で半径は実値のまま(土星 60.3 単位=6.03×10⁷m・テスト粒子 0.1 単位=100km 級)。timeScale=3 なので画面の1秒≈9.6分(1公転≈31秒)。"},
   en:{name:"Saturn Apsidal Precession (Real Units, D68 Calibrated)",
+    parameterAudit:{
+      observedInputs:["real G=6.674","real c₀=3×10⁴","Saturn's real mass, radius and rotation (10.56 h)",
+        "the Cassini gravity solution's zonal harmonics J2–J12 and reference radius R_S=60,330 km",
+        "the real orbital radii of the ten test particles (D68 at 67,627 km out to the A-ring edge at 136,775 km)",
+        "the D68 ringlet's apsidal precession 38.243°/day (Cassini — the observation used as a fit target)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10⁶ m / 10² s / 10²⁵ kg)",
+        "all DFM effects zeroed (kFrame=kRep=muF=γN=0) so that only the E13 oblateness gravity acts",
+        "geoPN=2, λ_PN=1 (at real scale the 1PN share of the rate is ~10⁻⁶)","pnSource:true, stateCarry:\"double\"",
+        "perfect test masses of 10⁻⁶ (=10¹⁹ kg) on apse-aligned orbits with e=0.05",
+        "Saturn is pinned (an external constraint of the exhibit)"],
+      fitted:["the E13 calibration factor C=1.000302283 — the one free parameter tuned to match Cassini's D68 rate (standing in for the truncated higher-order and eccentricity corrections)"],
+      derived:["κ=G/c₀²=7.4156×10⁻⁹ (the correspondence-lock value)"],
+      numerical:["softening ε=0.05","time multiplier timeScale=3","display magnification dispMag=1 (real radii)"]},
     obsCard:[
       {q:"D68 ringlet apsidal precession", model:"38.108°/day (real units, engine-measured)", obs:"38.243°/day (Cassini)"},
       {q:"D68 orbital period", model:"4.984 h (real radius 67,627 km + real GM)", obs:"≈4.98 h"},
@@ -4896,25 +5172,48 @@ const BUILTIN_PRESETS = [
   // QA zonal.analytic-d68 / zonal.d68-preset が厳密照合する量なので窓は狭め。
   // 第131便: 実単位化でエンジン実測値そのものが照合可能になったので3本目を追加(zonal.d68-realunit)
   claims:[
-    { id:"saturnZonalD68.d68-rate", kind:"fixed-seed", prov:"calibrated", metric:"apsidalRateDegPerDay",
+    { id:"saturnZonalD68.d68-rate", kind:"fixed-seed", prov:"calibrated", role:"fit_target",
+      roleNote:"fit の対象 — Cassini の D68 観測(38.243°/日)に合わせて E13 の較正係数 C を決めた、その対象そのもの(観測1件に対する追加 fit 1件)。",
+      roleNoteEn:"Fit target — the very observation (Cassini's 38.243°/day at D68) that the E13 calibration factor C was tuned to (one extra fit for one observation).",
+      metric:"apsidalRateDegPerDay",
       chain:{ax:["A6"], eq:["E13"],
         note:"扁平中心天体の帯状重力補正(E13)による近点移動率を Cassini の D68 観測へ対応付けた較正点(観測ごとの追加 fit 1件)。",
         noteEn:"The apsidal rate from the zonal gravity correction (E13) of an oblate primary, matched to the Cassini D68 observation — one extra fit per observation."},
       expected:{min:38.24, max:38.25},   // 実測38.243±0.002(zonal.analytic-d68)
       descPattern:"D68 実測 (\\d+\\.\\d+)°/日", testId:"zonal.analytic-d68" },
-    { id:"saturnZonalD68.calib-factor", kind:"analytic", prov:"calibrated", metric:"zonalCalibFactor",
+    { id:"saturnZonalD68.calib-factor", kind:"analytic", prov:"calibrated", role:"fit_target",
+      roleNote:"fit の対象 — 較正係数 C そのもの。上の d68-rate と同じ 1 個の自由パラメータの表と裏(台帳の「fit」欄は 1 件で数える)。",
+      roleNoteEn:"Fit target — the calibration factor C itself: the same single free parameter as the d68-rate above, seen from the other side (the ledger's \"fits\" column counts it once).",
+      metric:"zonalCalibFactor",
       chain:{eq:["E13"],
         note:"E13 の較正係数そのもの — 観測へ合わせるために使った1自由度を、台帳の「較正」欄に明示的に計上する。",
         noteEn:"The calibration factor of E13 itself — the one degree of freedom spent on matching the observation, booked explicitly in the budget's calibrated column."},
       expected:{min:1.0002, max:1.0004},   // 実測1.000302283(zonal.d68-preset: 厳密一致)
       descPattern:"較正係数 C=(\\d+\\.\\d+)", testId:"zonal.d68-preset" },
-    { id:"saturnZonalD68.d68-rate-sim", kind:"fixed-seed", prov:"simulated", metric:"apsidalRateDegPerDaySim",
+    { id:"saturnZonalD68.d68-rate-sim", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+      roleNote:"回顧的確認 — 較正係数を通さずエンジン自身が出す歳差率(38.108°/日・Cassini に −0.35%)。fit には使っていないが、同じ D68 という較正済みの系での確認なので外挿検証(held_out)ではない。",
+      roleNoteEn:"Retrospective check — the rate the engine itself produces without the calibration factor (38.108°/day, −0.35% from Cassini). It is not used in any fit, but it is measured on the same calibrated D68 system, so it is not a held-out extrapolation.",
+      metric:"apsidalRateDegPerDaySim",
       chain:{ax:["A6"], eq:["E4","E13"],
         note:"実単位化により、較正係数を通さずエンジン自身が出す近点移動率(実走の測定値)— 較正ではなく検証の側に立つ項目。",
         noteEn:"With real units, the apsidal rate the engine itself produces without going through the calibration factor (a measured value) — this item stands on the verification side, not the calibration side."},
       expected:{min:37.95, max:38.25},   // 実測38.108°/日(Cassini 38.243 に対し −0.35%)
       descPattern:"エンジン実測 (\\d+\\.\\d+)°/日", testId:"zonal.d68-realunit" }
   ],
+  // 第133便 P1: parameterAudit — 本サンプルは「実 fit を 1 個使っている」ことを明示する側の代表。
+  parameterAudit:{
+    observedInputs:["実 G=6.674","実 c₀=3×10⁴","土星の実質量・実半径・実自転(10.56時間)",
+      "Cassini 重力解の帯状調和係数 J2〜J12 と基準半径 R_S=60,330km",
+      "テスト粒子10個の実軌道半径(D68 67,627km 〜 A環外縁 136,775km)",
+      "D68 リングレットの近点移動 38.243°/日(Cassini — fit の対象にした観測値)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁶m/10²s/10²⁵kg)",
+      "DFM 効果は全て 0(kFrame=kRep=muF=γN=0)— 扁平重力 E13 だけを分離",
+      "geoPN=2・λ_PN=1(実スケールの 1PN 寄与は歳差率の 10⁻⁶ 級)","pnSource:true・stateCarry:\"double\"",
+      "テスト粒子は質量 10⁻⁶(=10¹⁹kg)の完全テスト質量・離心率 e=0.05 を近点+x方向へ整列",
+      "土星 pinned(展示系の外部拘束)"],
+    fitted:["E13 の較正係数 C=1.000302283(D68 の Cassini 実測へ精密一致させる 1 個の自由パラメータ。J2〜J12 打ち切りの高次項・離心率補正の代替)"],
+    derived:["κ=G/c₀²=7.4156×10⁻⁹(物理対応条件の導出値)"],
+    numerical:["ソフトニング ε=0.05","時間倍率 timeScale=3","粒子表示倍率 dispMag=1(実半径のまま)"]},
   camera:{scale:160}, world:{boundary:"none",size:0},
   physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
     cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
@@ -4965,9 +5264,20 @@ const BUILTIN_PRESETS = [
     pass:"第118便のサンプル別スケール指数を第121便で惑星e6へ改めた(1単位=10⁶m/10²s/10²⁵kg)— C環内縁 74.658(=74,658km)の軌道速度 2.25(=22.5km/s)・周期 5.78時間、土星質量 56.834(=5.6834×10²⁶kg)・半径 60.3(=6.03×10⁷m)・自転 0.016528(10.56時間)まで全て観測値になり、物理対応バッジも成立する。見えないのが正しい — 環は純ケプラー Ω∝r^−1.5 を保つ。"},
   descStruct:{
     summary:"実際の土星と環を実単位のまま置いた観測較正サンプル — ☄️ の構成をコピーした実単位化の第3号で、現在の位置付けは **kFrame=0 での比較対照**(雛形は kF1 の 🪨🌘💿 — 本サンプルの kF1 版は 💿)。1単位=10⁶m/10²s/10²⁵kg(サンプル別スケール指数)で、土星質量 56.834(=5.6834×10²⁶kg)・半径 60.3(=6.03×10⁷m)・自転 0.016528(10.56時間)、環は実半径の C帯[74.658,92.0]・B帯[92.0,117.58]・A帯[122.17,136.775](カッシーニの間隙 117.58〜122.17 も実位置)を各40粒で構成。重力(E4)による純ケプラー回転の上で、実深度では空間引きずり(A8)も測地線 1PN(E12 — A7′/E7R の作用化)も見えないことを確認する。物理対応条件 κ=G/c₀² 成立。倍精度状態(stateCarry)は雛形の規約どおり。",
-    observe:"3つの帯が実位置のまま純ケプラーで回る — C環内縁の速度 2.25(=22.5km/s)・周期 5.78時間(HUD の t 表示は時間・日単位に自動変換)。回転曲線オーバーレイで v∝r^−0.5 の降下(Ω∝r^−1.5)を確認できる。🪐(誇張)と違い環は内側へ移動せず離心率も上がらない — 実深度では引きずりが検出限界以下だから(見えないのが正しい)。スケール換算で G・c₀・距離・速度・質量が実値に一致し、物理対応バッジが成立する。",
+    observe:"3つの帯が実位置のまま純ケプラーで回る — C環内縁の速度 2.25(=22.5km/s)・周期 5.78時間(HUD の t 表示は時間・日単位に自動変換)。主要衛星6のうち最外のタイタンは、実軌道半径+ケプラー初速の構成で公転周期 15.949日(観測 15.945日)になる(QA wave121.ui が構成値を照合)。回転曲線オーバーレイで v∝r^−0.5 の降下(Ω∝r^−1.5)を確認できる。🪐(誇張)と違い環は内側へ移動せず離心率も上がらない — 実深度では引きずりが検出限界以下だから(見えないのが正しい)。スケール換算で G・c₀・距離・速度・質量が実値に一致し、物理対応バッジが成立する。",
     control:"環粒子は半径 0.1(=100km 級の代表粒)・質量 1e-5(=10²⁰kg — 環の総質量 1.5×10¹⁹kg に近い代表値。0.01(=10²³kg)では自己重力が実環より約6桁強く、数公転で帯が散乱・降着することを第118便で実測したため、公転を観測値に合わせる較正としてこの値を採る)。kFrame は 0(DFM の A8 引きずりは c² 抑制を持たない誇張可視化スケールの機構で、実自転 0.016528 と併用すると軌道が実測から大きく外れることを第118便で実測 — 実単位サンプルでは引きずり非主張とし、スピンは表示・慣性のみ)。kFrame を 1 に上げると誇張引きずりの A/B 対照になる。λ_PN を動かしても画面は変わらない — それが実スケールの弱場。"},
   en:{name:"Saturn's Rings (Real Units) — invisible is correct",
+    parameterAudit:{
+      observedInputs:["real G=6.674","real c₀=3×10⁴","Saturn's real mass, radius and rotation (10.56 h)",
+        "the real radii of the C/B/A bands and the real position of the Cassini division",
+        "the real orbital radii and masses of the six major moons (Titan synchronous)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10⁶ m / 10² s / 10²⁵ kg)","kFrame=0 (the no-dragging contrast)",
+        "D₀=0.1, q=3 (inert here: with kFrame=0 no dragging acts)",
+        "kRep=muF=γN=κ_S=0","geoPN=2, λ_PN=1, pnα=1.5","pnSource:true, stateCarry:\"double\", massFloor=1e-6",
+        "Saturn is pinned (an external constraint of the exhibit)","40 representative grains per band (a reduction of the real ring)"],
+      fitted:["representative grain mass m=10⁻⁵ (=10²⁰ kg) — chosen near the real ring's total mass of 1.5×10¹⁹ kg (at 10²³ kg self-gravity destroys the bands within a few orbits). It is not a fit to an observable, so no claim carries the role \"fit target\""],
+      derived:["κ=G/c₀²=7.4156×10⁻⁹ (the correspondence-lock value)"],
+      numerical:["softening ε=0.05","time multiplier timeScale=10","display magnification dispMag=1 (real radii)"]},
     obsCard:[
       {q:"C-ring inner-edge period", model:"5.78 h (exact Kepler)", obs:"5.8 h"},
       {q:"Titan's orbital period", model:"15.949 d (real radius + Kepler speed)", obs:"15.945 d"},
@@ -4977,10 +5287,42 @@ const BUILTIN_PRESETS = [
       pass:"Wave 118's per-sample scale exponents, recast to the planetary e6 tier in wave 121 (1 unit = 10⁶ m / 10² s / 10²⁵ kg) — the C-ring inner edge 74.658 (=74,658 km) orbits at 2.25 (=22.5 km/s) with a 5.78-hour period, and Saturn's mass 56.834 (=5.6834×10²⁶ kg), radius 60.3 (=6.03×10⁷ m) and spin 0.016528 (10.56-hour rotation) are all observed values; the correspondence badge holds. Invisible IS correct — the ring keeps pure Kepler rotation Ω∝r^−1.5."},
     descStruct:{
     summary:"The real Saturn and its rings in real units — the third sample built on ☄️'s construction, now positioned as the kFrame=0 CONTRAST (the template is the kF1 trio 🪨🌘💿; this sample's kF1 version is 💿). With per-sample scale exponents (1 unit = 10⁶ m / 10² s / 10²⁵ kg), Saturn's mass 56.834 (=5.6834×10²⁶ kg), radius 60.3 (=6.03×10⁷ m) and spin 0.016528 (10.56 h), and the rings at their real radii — C [74.658, 92.0], B [92.0, 117.58], A [122.17, 136.775] with the Cassini division at its real position — 40 grains per band. On top of pure Kepler rotation from gravity (E4), it confirms that at real depth neither frame dragging (A8) nor geodesic 1PN (E12 — the actionization of A7′/E7R) is visible. κ=G/c₀² holds; double-precision state (stateCarry) follows the template. ",
-    observe:"The three bands orbit at their real positions in pure Kepler motion — 2.25 (=22.5 km/s) at the C-ring inner edge, a 5.78-hour period (the HUD time display auto-converts to hours/days). The rotation-curve overlay shows the v∝r^−0.5 falloff (Ω∝r^−1.5). Unlike 🪐, the ring does not migrate inward and eccentricity does not rise — at real depth dragging is below detection (invisible IS correct). The scale conversion matches G, c₀, distances, speeds and masses, and the correspondence badge is satisfied. ",
+    observe:"The three bands orbit at their real positions in pure Kepler motion — 2.25 (=22.5 km/s) at the C-ring inner edge, a 5.78-hour period (the HUD time display auto-converts to hours/days). Of the six major moons, outermost Titan — placed at its real orbital radius with the Kepler speed — has an orbital period of 15.949 d (observed 15.945 d), cross-checked by QA wave121.ui. The rotation-curve overlay shows the v∝r^−0.5 falloff (Ω∝r^−1.5). Unlike 🪐, the ring does not migrate inward and eccentricity does not rise — at real depth dragging is below detection (invisible IS correct). The scale conversion matches G, c₀, distances, speeds and masses, and the correspondence badge is satisfied. ",
     control:"Ring grains have radius 0.1 (=100 km-class representative particles) and mass 1e-5 (=10²⁰ kg — a representative value near the ring's real total mass of 1.5×10¹⁹ kg; at 0.01 (=10²³ kg) the grains' self-gravity is ~6 orders stronger than the real ring and wave 118 measured the bands scattering and accreting within a few orbits, so this value is the calibration that keeps the orbits observational). kFrame is 0: DFM's A8 dragging is an exaggerated-visualization-scale mechanism without c² suppression, and wave 118 measured that combining it with the real spin 0.016528 pulls the orbits far from observation — real-unit samples make no dragging claim, so spins act on display and inertia only. Raise kFrame to 1 for an A/B contrast with the exaggerated dragging. Moving λ_PN changes nothing on screen — that is the real weak field."}},
   abBody:{ label:{ja:"kFrame=1(引きずりが見える — 💿対照)", en:"kFrame=1 (dragging becomes visible)"},
     physicsPatch:{kFrame:1, q:3} },   // 第121便: 💿のワンタップ対照を💍へ(第123便: 💿較正化に伴い q=3 の誇張引きずりを見せる対照に)
+  // 第133便 P0: claims — 観測結果カード・説明文の実値を機械可読化。タイタンの公転周期は既存の
+  // 軽い QA ゲート(wave121.ui ⑤: 実軌道半径+実GM のケプラー周期を 15.945日±0.05 で照合)へ紐付ける。
+  claims:[
+    { id:"saturnRingReal.titan-period", kind:"semantic", prov:"derived", role:"input_check",
+      metric:"titanOrbitalPeriodDays",
+      chain:{ax:["A6"], eq:["E4"],
+        note:"実軌道半径(1.2218×10⁹m)と実GM から重力(E4)だけで出るタイタンの公転周期 — 観測 15.945日との一致は観測入力の写しの整合。",
+        noteEn:"Titan's orbital period from its real orbital radius (1.2218×10⁹ m) and the real GM under gravity (E4) alone — agreement with the observed 15.945 d is a consistency check of the transcribed inputs."},
+      roleNote:"観測入力の検証 — 較正ノブは1つも使っていない(kFrame=0・fit ゼロ)。独立な予言ではない。",
+      roleNoteEn:"Input check — no calibration knob is used (kFrame=0, zero fits); this is not an independent prediction.",
+      expected:{min:15.90, max:16.00},
+      descPattern:"公転周期 (\\d+\\.\\d+)日", testId:"wave121.ui" },
+    { id:"saturnRingReal.cring-period", kind:"semantic", prov:"derived", role:"input_check",
+      metric:"cRingInnerPeriodHours",
+      chain:{ax:["A6"], eq:["E4"],
+        note:"C環内縁(実半径 74,658km)の純ケプラー周期 — 観測の約5.8時間と一致する(実深度では引きずりも 1PN も検出限界以下)。",
+        noteEn:"The pure Kepler period at the C-ring inner edge (real radius 74,658 km) — matching the observed ~5.8 h (at real depth both dragging and 1PN are below detection)."},
+      roleNote:"観測入力の検証 — 「見えないのが正しい」を支える基準量で、fit の対象ではない。",
+      roleNoteEn:"Input check — the baseline quantity behind \"invisible is correct\"; it is not a fit target.",
+      expected:{min:5.6, max:5.95},
+      descPattern:"周期 (\\d+\\.\\d+)時間" }
+  ],
+  parameterAudit:{
+    observedInputs:["実 G=6.674","実 c₀=3×10⁴","土星の実質量・実半径・実自転(10.56時間)",
+      "環 C/B/A 帯の実半径とカッシーニの間隙の実位置","主要衛星6の実軌道半径・実質量(タイタンは同期自転)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁶m/10²s/10²⁵kg)","kFrame=0(引きずり非主張の対照)",
+      "D₀=0.1・q=3(kFrame=0 では引きずりが働かないため結果に無関与)",
+      "kRep=muF=γN=κ_S=0","geoPN=2・λ_PN=1・pnα=1.5","pnSource:true・stateCarry:\"double\"・massFloor=1e-6",
+      "土星 pinned(展示系の外部拘束)","環は各帯40粒の代表粒(実際の環粒子数の縮約)"],
+    fitted:["環粒の代表質量 m=10⁻⁵(=10²⁰kg)— 実環の総質量 1.5×10¹⁹kg に近い代表値として選んだ設定値(10²³kg では自己重力で帯が数公転で壊れる)。観測量への fit ではないため、対応する「fit の対象」claim は無い"],
+    derived:["κ=G/c₀²=7.4156×10⁻⁹(物理対応条件の導出値)"],
+    numerical:["ソフトニング ε=0.05","時間倍率 timeScale=10","粒子表示倍率 dispMag=1(実半径のまま)"]},
   activeParams:["kFrame","lambdaPN","dispMag"],
   camera:{scale:1300}, world:{boundary:"none",size:0},
   physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
@@ -5025,10 +5367,22 @@ const BUILTIN_PRESETS = [
     {q:"随伴プロファイル(ω_drag/LT)", model:"表面 h=0.5: ×45 → h≈45: ×1 → タイタン: ≪1", obs:"表面随伴は MM null と整合(較正一致 — 機構同定ではない)"},
     {q:"補正の共通性", model:"D₀=0.006 は 🌘🪨 と共通・q は同一式の自動算出", obs:"—(exp-kf1d)"}],
   descStruct:{
-    summary:"💍(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、共通補正 D₀=0.006+qLock(自動算出 q*≈21.8)を適用した版(第123便)。土星の環は**表面のすぐ外**を回る軌道系 — 随伴(引きずり)は表面に近いほど強く(h=0.5 で LT の45倍)、環中域で LT に一致し、遠方で急減する。この「表面に近いほど強い引きずり」はマイケルソン・モーリー実験の null 結果と整合する構造(表面の干渉計は共回りフレームに乗る)。qLock 下では環の偏心軌道の近点移動が 2×10⁻⁵ rad/公転まで消え、環・衛星6ともケプラー観測に一致する(exp-kf1d §B)。**天体の現実較正の雛形**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock。今後の観測較正サンプルは本構成をコピーして作る — PHYSICS §5)。",
+    summary:"💍(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、共通補正 D₀=0.006+qLock(自動算出 q*≈21.8)を適用した版(第123便)。土星の環は**表面のすぐ外**を回る軌道系 — 随伴(引きずり)は表面に近いほど強く(h=0.5 で LT の45倍)、環中域で LT に一致し、遠方で急減する。この「表面に近いほど強い引きずり」はマイケルソン・モーリー実験の null 結果と整合する構造(表面の干渉計は共回りフレームに乗る)。ただしこれは**形状の整合**であって、MM 実験の観測量を導出したものでも定量比較したものでも機構を同定したものでもない — 本サンプルの主結果は環・衛星がケプラー観測に一致することで、随伴プロファイルはその補足にあたる。qLock 下では環の偏心軌道の近点移動が 2×10⁻⁵ rad/公転まで消え、環・衛星6ともケプラー観測に一致する(exp-kf1d §B)。**天体の現実較正の雛形**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock。今後の観測較正サンプルは本構成をコピーして作る — PHYSICS §5)。",
     observe:"環・衛星とも 💍 と同じケプラー運動に見える(見えないのが正しい — kF1 でも較正が成り立つ)。ワンタップ対照A/Bで B側 q=3 にすると環が増速+内側移動し偏心軌道の近点が目に見えて回る(スピン項の復活)。q スライダーは自動算出のためグレーアウト。",
     control:"本サンプルは**天体の現実較正の雛形**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock。今後の観測較正サンプルは本構成をコピーして作る — PHYSICS §5)。ワンタップ対照A/B: B側 q=3(第120便の誇張)で引きずりが見える。kFrame=0 にすると 💍 と同一。D₀ は 🌘🪨 と共通の 0.006(運動項較正)。"},
   en:{name:"Saturn's Rings (Real Units, kFrame=1) — surface entrainment & auto-derived q",
+    parameterAudit:{
+      observedInputs:["real G=6.674","real c₀=3×10⁴","Saturn's real mass, radius and rotation (10.56 h)",
+        "the real radii of the C/B/A bands and the real position of the Cassini division",
+        "the real orbital radii and masses of the six major moons"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10⁶ m / 10² s / 10²⁵ kg)","kFrame=1 (frame dragging on)",
+        "kRep=muF=γN=κ_S=0","geoPN=2, λ_PN=1, pnα=1.5","pnSource:true, stateCarry:\"double\", massFloor=1e-6",
+        "Saturn is pinned (an external constraint of the exhibit)","40 representative grains per band"],
+      fitted:["D₀=0.006 (the shared value fixed by the joint fit on 🌘, used as is — zero re-tuning here)",
+        "representative grain mass m=10⁻⁵ (=10²⁰ kg — the same representative choice as 💍; not a fit to an observable)"],
+      derived:["q=21.8 (auto-derived by qLock: q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R), a_ref = median free-body distance)",
+        "κ=G/c₀²=7.4156×10⁻⁹"],
+      numerical:["softening ε=0.05","time multiplier timeScale=10","display magnification dispMag=1 (real radii)"]},
     failureFirst:{
       fail:"With kFrame=1 and q=3, the spin term of the primary's real rotation (10.56 h) speeds the ring up (+4.7%), migrates it inward (−2.5% per 3 orbits), and turns eccentric apses by 0.23 rad/orbit — far off the real ring's exact Kepler rotation (exp-kf1b §C, kf1d §B).",
       pass:"Wave 123: with the joint correction D₀=0.006 plus qLock — q auto-derived as q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R)≈21.8 — the ring's apsidal drift falls to 2×10⁻⁵ rad/orbit and rings and moons alike become Keplerian. The entrainment profile is strong near the surface (×45 LT at h=0.5), matches LT at mid-ring, and dies off outward — 'stronger dragging nearer the surface', a structure consistent with the Michelson-Morley null result (a calibrated match, not a mechanism claim)."},
@@ -5037,12 +5391,45 @@ const BUILTIN_PRESETS = [
       {q:"Entrainment profile (ω_drag/LT)", model:"surface h=0.5: ×45 → h≈45: ×1 → Titan: ≪1", obs:"surface entrainment consistent with the MM null"},
       {q:"Universality", model:"D₀=0.006 shared with 🌘🪨; q auto-derived from one formula", obs:"— (exp-kf1d)"}],
     descStruct:{
-    summary:"The same real values as 💍 (kFrame=0) with frame dragging (A8/E6′) enabled and the joint correction applied: D₀=0.006 plus qLock (auto-derived q*≈21.8) (wave 123). Saturn's ring orbits JUST outside the surface — entrainment is strongest near the surface (×45 LT at h=0.5), matches LT at mid-ring, and decays outward. This is one of the three REAL-CALIBRATION TEMPLATES (🪨🌘💿 — real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock; future observation-calibration samples copy this construction — PHYSICS §5). 'Stronger dragging nearer the surface' is the structure consistent with the Michelson-Morley null result (a surface interferometer rides the co-rotating frame). Under qLock the eccentric apsidal drift falls to 2×10⁻⁵ rad/orbit — rings and all six moons stay Keplerian (exp-kf1d §B). ",
+    summary:"The same real values as 💍 (kFrame=0) with frame dragging (A8/E6′) enabled and the joint correction applied: D₀=0.006 plus qLock (auto-derived q*≈21.8) (wave 123). Saturn's ring orbits JUST outside the surface — entrainment is strongest near the surface (×45 LT at h=0.5), matches LT at mid-ring, and decays outward. This is one of the three REAL-CALIBRATION TEMPLATES (🪨🌘💿 — real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock; future observation-calibration samples copy this construction — PHYSICS §5). 'Stronger dragging nearer the surface' is the structure consistent with the Michelson-Morley null result (a surface interferometer rides the co-rotating frame). This is a consistency of SHAPE only: the MM observable is neither derived nor quantitatively compared, and no mechanism is identified — the main result of this sample is that rings and moons match Keplerian observation, with the entrainment profile as a side note. Under qLock the eccentric apsidal drift falls to 2×10⁻⁵ rad/orbit — rings and all six moons stay Keplerian (exp-kf1d §B). ",
     observe:"Rings and moons move exactly as in 💍 (invisible IS correct — the calibration survives kF1). One-tap A/B: side B at q=3 revives the wave-120 exaggeration — the ring speeds up, drifts inward, and eccentric apses visibly rotate. The q slider is greyed out (auto-derived). ",
     control:"This is one of the three REAL-CALIBRATION TEMPLATES (🪨🌘💿 — real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock; future observation-calibration samples copy this construction — PHYSICS §5). One-tap A/B: side B q=3 (the visible-drag contrast). Set kFrame to 0 to recover 💍 exactly. D₀ is 0.006, shared with 🌘🪨 (the motion-term calibration)."}},
   abBody:{ label:{ja:"q=3(引きずりが見える誇張対照)", en:"q=3 (visible-drag contrast)"},
     physicsPatch:{q:3} },
   qLock:true,   // 第123便: q 自動算出(q*≈21.8 — a_ref=自由天体距離の中央値)
+  // 第133便 P0: claims — 説明文の実測値(exp-kf1d §B)を機械可読化。表面随伴(MM 整合)の項目は
+  // 「形状の整合であって導出・定量比較・機構同定ではない」限定を roleNote に明記する。
+  claims:[
+    { id:"saturnRingRealKF1.ring-apsidal-drift", kind:"semantic", prov:"simulated", role:"retrospective_check",
+      metric:"ringApsidalDriftRadPerOrbit",
+      chain:{ax:["A5","A8"], eq:["E4","E6′"],
+        note:"qLock(q*≈21.8)下で環の偏心軌道の近点移動が消え、環・衛星ともケプラー観測に一致することの実測(exp-kf1d §B)。q=3 では 0.23 rad/公転 と桁で外れる。",
+        noteEn:"Under qLock (q*≈21.8) the eccentric apsidal drift of the ring vanishes and rings and moons match Keplerian observation (exp-kf1d §B); at q=3 it is 0.23 rad/orbit, orders away."},
+      roleNote:"回顧的確認 — この系は共通補正(D₀・qLock)の規則を決める過程で参照した系で、本サンプル内での fit はゼロ(D₀ は 🌘 で決めた共通値・q は自動算出)。",
+      roleNoteEn:"Retrospective check — this system took part in forming the joint-correction rule (D₀, qLock); zero fits were performed inside this sample (D₀ is the shared value from 🌘, q is auto-derived).",
+      expected:{min:1e-5, max:3e-5}, descScale:1e-5,
+      descPattern:"近点移動が (\\d+)×10⁻⁵ rad/公転" },
+    { id:"saturnRingRealKF1.surface-entrainment", kind:"semantic", prov:"simulated", role:"retrospective_check",
+      metric:"entrainmentOverLTAtSurface",
+      chain:{ax:["A5","A8"], eq:["E6′"],
+        note:"随伴プロファイル ω_drag/LT の表面近傍(h=0.5)での比 — 環中域で LT 一致・遠方で急減する形の一端。qLock の幾何減衰の帰結であって、この比に合わせて何かを決めてはいない。",
+        noteEn:"The entrainment ratio ω_drag/LT just above the surface (h=0.5) — one end of a profile that matches LT at mid-ring and decays outward. It is a consequence of qLock's geometric falloff; nothing was tuned to this ratio."},
+      roleNote:"回顧的確認 — 「表面に近いほど引きずりが強い」という**形状**がマイケルソン・モーリーの null 結果と整合する、という限定的な主張。MM 実験の観測量そのものを導出・定量比較しておらず、機構の同定でもない(補足であって主結果ではない)。",
+      roleNoteEn:"Retrospective check — a limited statement that the SHAPE \"dragging is stronger nearer the surface\" is consistent with the Michelson-Morley null result. It neither derives nor quantitatively compares the MM observable, and identifies no mechanism (a side note, not the main result).",
+      expected:{min:40, max:50},
+      descPattern:"h=0.5 で LT の(\\d+)倍" }
+  ],
+  parameterAudit:{
+    observedInputs:["実 G=6.674","実 c₀=3×10⁴","土星の実質量・実半径・実自転(10.56時間)",
+      "環 C/B/A 帯の実半径とカッシーニの間隙の実位置","主要衛星6の実軌道半径・実質量"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁶m/10²s/10²⁵kg)","kFrame=1(空間引きずり ON)",
+      "kRep=muF=γN=κ_S=0","geoPN=2・λ_PN=1・pnα=1.5","pnSource:true・stateCarry:\"double\"・massFloor=1e-6",
+      "土星 pinned(展示系の外部拘束)","環は各帯40粒の代表粒"],
+    fitted:["D₀=0.006(🌘 の共同フィットで決めた共通値をそのまま使用 — 本サンプルでの再調整はゼロ)",
+      "環粒の代表質量 m=10⁻⁵(=10²⁰kg — 💍 と同じ代表値の選択。観測量への fit ではない)"],
+    derived:["q=21.8(qLock 自動算出 q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R)・a_ref=自由天体距離の中央値)",
+      "κ=G/c₀²=7.4156×10⁻⁹"],
+    numerical:["ソフトニング ε=0.05","時間倍率 timeScale=10","粒子表示倍率 dispMag=1(実半径のまま)"]},
   activeParams:["D0","kFrame","dispMag"],
   camera:{scale:1300}, world:{boundary:"none",size:0},
   physics:{G:6.674, D0:0.006, kFrame:1, q:21.8, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
@@ -5426,6 +5813,22 @@ const CLAIM_KINDS=["analytic","conservation","semantic","fixed-seed","multi-seed
 //   earthMoonFree.spin-ratio: definition → calibrated(実比 27.396 は観測値そのもの)
 // の1件のみで、他の81件は自動導出と同値を明示宣言している。
 const PROV_CLASSES=["axiom","definition","derived","calibrated","simulated","analogy"];
+// 第133便 P0(外部レビュー採択): claims の任意フィールド **role** — 「その観測量が較正と
+// どういう関係にあるか」の宣言。prov(出所)が「その数値がどこから来たか」を言うのに対し、
+// role は「その主張が fit の対象か・入力の写しの確認か・回顧的確認か・外挿検証か」を言う。
+//   input_check          観測入力の写しが正しいことの確認(独立な予言ではない)
+//   fit_target           この観測に合わせてパラメータを決めた(観測ごとの追加 fit)
+//   retrospective_check  fit には使っていないが、規則形成に関与した系での確認
+//   held_out             規則形成に不関与の系での外挿検証
+//   prediction           未観測量の予言
+//   negative_control     効かないことを示す陰性対照
+// **宣言専用** — 物理・保存 JSON・AI 仕様(SYSTEM_PROMPT)には一切影響しない。
+// validatePreset は型検査つきパススルー(未知値は警告して落とす)。
+const ROLE_CLASSES=["input_check","fit_target","retrospective_check","held_out",
+  "prediction","negative_control"];
+function claimRole(c){
+  return (c && typeof c.role==="string" && ROLE_CLASSES.indexOf(c.role)>=0)? c.role : null;
+}
 const PROV_FROM_KIND={analytic:"derived", conservation:"derived", semantic:"definition",
   "fixed-seed":"simulated", "multi-seed":"simulated"};
 function claimProv(c){
@@ -5454,9 +5857,18 @@ function claimChain(p, c){
   const pv=claimProv(c);
   return {prov:pv, ax, eq, params, qa, kind:(c&&c.kind)||null,
     metric:(c&&c.metric)||"", expected:(c&&c.expected)||null,
+    // 第133便 P0: 役割(role)— 「較正」段と「観測量」段に添えて表示する(宣言専用)
+    role:claimRole(c), roleNote:roleNoteOf(c),
     calibrated:pv==="calibrated", declared:!!(ax.length||eq.length),
     // note は ja / noteEn は en(未宣言なら ja へフォールバック — 内蔵の en 宣言と同じ流儀)
     note:chainNote(ch)};
+}
+// 第133便 P0: role の但し書き(ja=roleNote / en=roleNoteEn — en 未宣言なら ja へフォールバック)
+function roleNoteOf(c){
+  if(!c) return "";
+  const en=(LANG==="en" && typeof c.roleNoteEn==="string" && c.roleNoteEn.trim())? c.roleNoteEn : null;
+  const s=en || ((typeof c.roleNote==="string")? c.roleNote : "");
+  return s.trim().slice(0,300);
 }
 function chainNote(ch){
   if(!ch) return "";
@@ -6471,6 +6883,18 @@ function validatePreset(obj){
           if(PROV_CLASSES.indexOf(c.prov)>=0) o.prov=c.prov;
           else warnings.push("claims["+c.id+"].prov が不正("+String(c.prov).slice(0,20)+")— 無視");
         }
+        // 第133便 P0: role — 主張の役割(較正との関係)の分類。**宣言専用のパススルー+型検査**で、
+        // 物理・保存 JSON・AI 仕様には影響しない(SYSTEM_PROMPT には載せない)。不正値は警告して無視
+        if(c.role!==undefined){
+          if(ROLE_CLASSES.indexOf(c.role)>=0) o.role=c.role;
+          else warnings.push("claims["+c.id+"].role が不正("+String(c.role).slice(0,20)+")— 無視");
+        }
+        // 第133便 P0: note/noteEn — role の但し書き(表示専用の短文)
+        for(const nk of ["roleNote","roleNoteEn"]){
+          if(c[nk]===undefined) continue;
+          if(typeof c[nk]==="string" && c[nk].trim()) o[nk]=c[nk].trim().slice(0,300);
+          else warnings.push("claims["+c.id+"]."+nk+" は文字列が必要 — 無視");
+        }
         // 第132便 EXT-02 第2段: chain — 主張の連鎖の任意宣言(表示専用のパススルー+型検査)。
         // {ax:[法則キー], eq:[法則キー], note:文字列}。未知の法則キー・非配列は落として警告する
         // (物理・保存 JSON には無関係。※ SYSTEM_PROMPT には載せない — AI 生成には要求しない)
@@ -6496,6 +6920,38 @@ function validatePreset(obj){
         out.push(o);
       }
       p.claims=out;
+    }
+  }
+  // 第133便 P1(較正台帳 v2): parameterAudit — 「このサンプルの数値が何でできているか」の
+  // 任意宣言(表示専用のパススルー+型検査)。5分類とも「表示用の項目名の文字列配列」で、
+  // physics キー名でも自由記述("惑星の実質量・実半径" 等)でもよい。物理・保存 JSON・
+  // AI 仕様には一切影響しない(SYSTEM_PROMPT には載せない = AI 生成には要求しない)。
+  //   observedInputs   観測から写しただけの量(自由パラメータではない)
+  //   fixedConventions モデルの取り決め・ON/OFF(規約)
+  //   fitted           この系の観測に合わせて実際に決めた自由パラメータ(=統計的自由度)
+  //   derived          他から自動算出される量(qLock の q・physLock の κ 等)
+  //   numerical        数値・離散化の設定(自由度の外)
+  if(p.parameterAudit!==undefined){
+    if(!p.parameterAudit || typeof p.parameterAudit!=="object" || Array.isArray(p.parameterAudit)){
+      warnings.push("parameterAudit はオブジェクトが必要 — 無視します"); delete p.parameterAudit;
+    } else {
+      const PA_KEYS=["observedInputs","fixedConventions","fitted","derived","numerical"];
+      const pa={};
+      for(const k of PA_KEYS){
+        if(p.parameterAudit[k]===undefined) continue;
+        if(!Array.isArray(p.parameterAudit[k])){
+          warnings.push("parameterAudit."+k+" は配列が必要 — 無視します"); continue;
+        }
+        const v=[];
+        for(const s of p.parameterAudit[k]){
+          if(typeof s==="string" && s.trim()) v.push(s.trim().slice(0,80));
+          else warnings.push("parameterAudit."+k+" の要素は文字列が必要 — その要素を無視");
+        }
+        if(v.length) pa[k]=v.slice(0,24);
+      }
+      for(const k of Object.keys(p.parameterAudit))
+        if(PA_KEYS.indexOf(k)<0) warnings.push("parameterAudit の未知キー("+String(k).slice(0,20)+")— 無視");
+      if(Object.keys(pa).length) p.parameterAudit=pa; else delete p.parameterAudit;
     }
   }
   const ov={rotationCurve:false,tempHistogram:false,field:false,spectrum:false,trail:false,monitor:false,boxGraph:false,phaseGraph:false,mechSpectrum:false,emergence:false}; // v1.12: trail/monitor を正式化(第6次裁定 7.5)。boxGraph は第32便(W2)。phaseGraph は第53便 53B(E14)。mechSpectrum は第65便 65A(機構スペクトル診断)。emergence は第82便B(創発モニタ)
@@ -14259,31 +14715,57 @@ function renderHelp(){
   el.appendChild(chipRow);
   // 第132便 EXT-06: 較正台帳 — バッジ列の直下に1行チップ(折り畳み時は1行のみ = 常時表示)。
   // 中身は calibrationBudget() の自動算出(宣言は持たない)。タップで内訳を開く。表示専用。
+  // 第133便 P1: parameterAudit 宣言のあるサンプルは **v2 表示**(観測入力I・規約C・fit F・
+  // 導出D・検証V)へ切り替える。宣言のないサンプルは従来の v1 表示にフォールバックし、
+  // ラベルだけ「ノブ」→「既定から変更」に改める(統計的自由度との誤読防止)。
   {
     const cb=calibrationBudget(currentPreset,{qLock:qLockOn, physLock:physLock, params:sim.params});
+    const au=cb.audit;
     const det=document.createElement("details"); det.id="cbDetails"; det.className="cbDetails";
+    det.dataset.v=au? "2" : "1";
     const sum=document.createElement("summary");
-    sum.textContent=T("cbChip")(cb.N,cb.d,cb.M,cb.K); sum.title=T("cbTip");
+    sum.textContent=au? T("cbChip2")(au.I,au.C,au.F,au.D,au.V) : T("cbChip")(cb.N,cb.d,cb.M,cb.K);
+    sum.title=au? T("cbTip2") : T("cbTip");
     det.appendChild(sum);
     const pLab=(k)=>{ const d=PARAM_DEFS.find(q=>q.key===k); return d? paramLabel(d) : k; };
     const row=(tag,head,txt)=>{ const r=document.createElement("div"); r.className="cbRow"; r.dataset.cb=tag;
       const b=document.createElement("b"); b.textContent=head+":"; r.appendChild(b);
       r.appendChild(document.createTextNode(" "+txt)); det.appendChild(r); return r; };
-    row("knobs", T("cbKnobs")+"("+cb.N+")", cb.knobs.length
-      ? cb.knobs.map(x=>pLab(x.key)+"="+cbFmt(x.value)+"〔"+T("cbDefault")+" "+cbFmt(x.def)+"〕").join(" / ")
-      : T("cbNone"));
-    row("derived", T("cbDerived")+"("+cb.d+")", cb.derived.length
-      ? cb.derived.map(x=>pLab(x.key)+"="+cbFmt(x.value)+"〔"+(x.how==="qlock"?T("cbQLock"):T("cbPhysLock"))+"〕").join(" / ")
-      : T("cbNone"));
-    row("calib", T("cbCalibList")+"("+cb.M+")", cb.calib.length
-      ? cb.calib.map(x=>x.metric+"("+x.id+")").join(" / ") : T("cbNone"));
-    row("verify", T("cbVerifyList")+"("+cb.K+")", cb.verify.length
-      ? cb.verify.map(x=>x.metric+"〔"+((T("provNames")[x.prov])||"—")+"〕").join(" / ") : T("cbNone"));
+    const listOr=(a)=>a.length? a.join(" / ") : T("cbNone");
+    if(au){
+      // v2: サンプル宣言の内訳(観測入力・規約・fit・導出・数値設定)+ claims の役割別内訳
+      row("inputs", T("cbAudInputs")+"("+au.I+")", listOr(au.observedInputs));
+      row("conv",   T("cbAudConv")+"("+au.C+")",   listOr(au.fixedConventions));
+      row("fit",    T("cbAudFit")+"("+au.F+")",    listOr(au.fitted));
+      row("aderived", T("cbAudDerived")+"("+au.D+")", listOr(au.derived));
+      row("anum",   T("cbAudNum")+"("+au.numerical.length+")", listOr(au.numerical));
+      row("fitcross", T("cbFitCross"), T("cbFitCrossTxt")(au.F,au.fitTargets));
+      const rn=Object.keys(cb.roles);
+      row("roles", T("cbRoles"), rn.length
+        ? rn.map(k=>(T("roleNames")[k]||k)+"="+cb.roles[k]).join(" / ")+(cb.roleNone? " / "+T("roleUnset")+"="+cb.roleNone : "")
+        : T("cbNone")).title=T("roleTip");
+      // 較正・検証の実体リストは v1 と同じ内容をそのまま併記する(claims 一本の内訳)
+      row("calib", T("cbCalibList")+"("+cb.M+")", cb.calib.length
+        ? cb.calib.map(x=>x.metric+"("+x.id+")").join(" / ") : T("cbNone"));
+      row("verify", T("cbVerifyList")+"("+cb.K+")", cb.verify.length
+        ? cb.verify.map(x=>x.metric+"〔"+((T("provNames")[x.prov])||"—")+"〕").join(" / ") : T("cbNone"));
+    } else {
+      row("knobs", T("cbKnobs")+"("+cb.N+")", cb.knobs.length
+        ? cb.knobs.map(x=>pLab(x.key)+"="+cbFmt(x.value)+"〔"+T("cbDefault")+" "+cbFmt(x.def)+"〕").join(" / ")
+        : T("cbNone"));
+      row("derived", T("cbDerived")+"("+cb.d+")", cb.derived.length
+        ? cb.derived.map(x=>pLab(x.key)+"="+cbFmt(x.value)+"〔"+(x.how==="qlock"?T("cbQLock"):T("cbPhysLock"))+"〕").join(" / ")
+        : T("cbNone"));
+      row("calib", T("cbCalibList")+"("+cb.M+")", cb.calib.length
+        ? cb.calib.map(x=>x.metric+"("+x.id+")").join(" / ") : T("cbNone"));
+      row("verify", T("cbVerifyList")+"("+cb.K+")", cb.verify.length
+        ? cb.verify.map(x=>x.metric+"〔"+((T("provNames")[x.prov])||"—")+"〕").join(" / ") : T("cbNone"));
+    }
     row("cond", T("cbCond")+"("+cb.cond.experiment.length+")", cb.cond.experiment.length
       ? cb.cond.experiment.map(x=>pLab(x.key)+"="+cbFmt(x.value)).join(" / ") : T("cbNone"));
     row("num", T("cbNum")+"("+cb.cond.numerics.length+")", cb.cond.numerics.length
       ? cb.cond.numerics.map(x=>pLab(x.key)+"="+cbFmt(x.value)).join(" / ") : T("cbNone"));
-    const note=document.createElement("p"); note.className="note"; note.textContent=T("cbTip");
+    const note=document.createElement("p"); note.className="note"; note.textContent=au? T("cbTip2") : T("cbTip");
     det.appendChild(note);
     el.appendChild(det);
   }
@@ -14423,18 +14905,24 @@ function renderHelp(){
         const crow=(step,head,txt,decl)=>{ const r=document.createElement("div"); r.className="chRow";
           r.dataset.s=step; if(decl===false) r.dataset.decl="none";
           const b=document.createElement("b"); b.textContent=head+":"; r.appendChild(b);
-          r.appendChild(document.createTextNode(" "+txt)); card.appendChild(r); };
+          r.appendChild(document.createTextNode(" "+txt)); card.appendChild(r); return r; };
         const lawList=(a)=>a.map(k=>k+" — "+lawText(k)).join(" / ");
         crow("ax",T("chAx"),  ch.ax.length? lawList(ch.ax) : T("chNone"), ch.ax.length>0);
         crow("eq",T("chEq"),  ch.eq.length? lawList(ch.eq) : T("chNone"), ch.eq.length>0);
         crow("param",T("chParam"), ch.params.length
           ? ch.params.map(k=>{ const d=PARAM_DEFS.find(q=>q.key===k); return d? paramLabel(d) : k; }).join(" / ")
           : T("cbNone"));
-        crow("calib",T("chCalib"), ch.calibrated? T("chCalibYes") : T("chCalibNo"));
+        // 第133便 P0: 「較正」段と「観測量」段に役割(role)を添える(行数は7のまま — 表示専用)
+        const roleTxt=ch.role? T("roleNames")[ch.role] : T("roleUnset");
+        const cRow=crow("calib",T("chCalib"),
+          (ch.calibrated? T("chCalibYes") : T("chCalibNo"))+"〔"+roleTxt+"〕");
+        if(cRow) cRow.title=T("roleTip");
         crow("sim",T("chSim"), (ch.kind && T("chSimKind")[ch.kind]) || T("chSimNa"));
         crow("obs",T("chObs"), ch.metric+": "+T("claimsRangeLabel")+" "
-          +(ch.expected? ch.expected.min+"〜"+ch.expected.max : "—"));
+          +(ch.expected? ch.expected.min+"〜"+ch.expected.max : "—")+"〔"+roleTxt+"〕");
         crow("qa",T("chQa"), ch.qa.length? ch.qa.join(" / ") : T("chNoneQa"), ch.qa.length>0);
+        if(ch.roleNote){ const rn=document.createElement("p"); rn.className="chNote"; rn.dataset.role="1";
+          rn.textContent="— "+ch.roleNote; card.appendChild(rn); }
         if(ch.note){ const n=document.createElement("p"); n.className="chNote"; n.textContent="— "+ch.note; card.appendChild(n); }
       }
       det.appendChild(card);
@@ -15673,6 +16161,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   buildExternalPromptShort, importCandidates, AI_SPEC_URL,  // 第103便: 短縮版プロンプト・候補抽出のQA用
   scaleEffNow,  // 第104便: ベースのスケール(タグ一括設定)のQA用 — 実効4指数の読み口(表示専用)
   claimProv, PROV_CLASSES,  // 第105便B EXT-02: 主張の出所分類のQA用(表示専用)
+  claimRole, ROLE_CLASSES,  // 第133便 P0: 主張の役割分類のQA用(宣言専用 — 表示のみ)
   // 第132便: EXT-06 較正台帳(自動算出)と EXT-02 第2段 主張の連鎖のQA用フック。
   // どちらも表示専用の純関数 — 呼んでも sim・プリセットを1バイトも書き換えない
   calibrationBudget:(p,st)=>calibrationBudget(p||currentPreset,
