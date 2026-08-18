@@ -5692,6 +5692,67 @@ if (!FAST) {
     if (d68 !== null) add('zonal.d68-preset', Math.abs(d68 - 1.000302283) < 1e-9, `zonal.calib=${d68}`);
     else console.log('SKIP zonal.d68-preset(対象に D68 較正プリセットなし)');
 
+    // ---- 第131便(原仮定者指示「🛰️ を実単位へ」): zonal.d68-realunit ----
+    // ----   🛰️ を惑星e6 実単位(1単位=10⁶m/10²s/10²⁵kg)へ移した世代でのみ実行する。
+    // ----   実単位になったことで「エンジンが出す近点移動率(°/日)」を Cassini 観測 38.243°/日 と
+    // ----   直接比較できる(旧トイ幾何では単位が無く、テスト質量 0.05 の相互散乱で
+    // ----   解析式比が 0.42〜10.9 と桁で散らばっていた — 第131便 実測)。
+    // ----   測り方: Runge–Lenz 角の最小二乗勾配(60 内側公転・dt=0.016)を rad/時間単位で取り、
+    // ----   scaleExp.T から 1日=10^(4−eT) 時間単位で °/日 へ換算する ----
+    const hasRU = await page.evaluate(() => {
+      const p = HP.allPresets().find((q) => q.id === 'saturnZonalD68');
+      return !!(p && p.scaleExp && p.scaleExp.L === 6 && p.scaleExp.T === 2 && p.scaleExp.M === 25);
+    });
+    if (hasRU) {
+      const ru = await page.evaluate(() => {
+        HP.loadPreset('saturnZonalD68', false);
+        const S = HP.sim, Z = S.zonal, mu = S.params.G * S.m[Z.i];
+        const n = S.n - 1, dt = 0.016;
+        // 各テスト粒子の宣言長半径 a = r_p/(1−e)(e=0.05・近点+x で整列)
+        const a0 = []; for (let i = 1; i <= n; i++) a0.push(Math.hypot(S.x[i], S.y[i]) / 0.95);
+        const Torb = 2 * Math.PI * Math.sqrt(a0[0] ** 3 / mu);
+        const steps = Math.ceil(60 * Torb / dt);
+        const acc = a0.map(() => ({ p: null, unw: 0, sT: 0, sP: 0, sTT: 0, sTP: 0, nS: 0 }));
+        const SAMPLE = Math.max(1, Math.floor(steps / 20000));
+        for (let k = 0; k < steps; k++) {
+          S.step(dt);
+          if (k % SAMPLE) continue;
+          const t = (k + 1) * dt;
+          for (let i = 0; i < n; i++) {
+            const dx = S.x[i + 1], dy = S.y[i + 1], vx = S.vx[i + 1], vy = S.vy[i + 1];
+            const rr = Math.hypot(dx, dy), h = dx * vy - dy * vx;
+            const ex = (vy * h) / mu - dx / rr, ey = (-vx * h) / mu - dy / rr;
+            const pom = Math.atan2(ey, ex), A = acc[i];
+            if (A.p !== null) { let d = pom - A.p;
+              while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI; A.unw += d; }
+            A.p = pom; A.sT += t; A.sP += A.unw; A.sTT += t * t; A.sTP += t * A.unw; A.nS++;
+          }
+        }
+        const eT = HP.allPresets().find((q) => q.id === 'saturnZonalD68').scaleExp.T;
+        const DAY = 86400 / Math.pow(10, eT);   // 1日あたりの時間単位数(eT=2 → 864)
+        const nan = S.hasNaN();
+        const res = acc.map((A, i) => {
+          const slope = (A.nS * A.sTP - A.sT * A.sP) / (A.nS * A.sTT - A.sT * A.sT);
+          const an = HP.zonal.apsidal(mu, Z.refR, Z.J, a0[i], Z.calib).apsidal;
+          return { a: a0[i], deg: slope * DAY * 180 / Math.PI, ratio: slope / an };
+        });
+        HP.loadPreset('saturn', false);
+        return { steps, nan, res, refR: Z.refR, calib: Z.calib, mu };
+      });
+      const d68deg = ru.res[0].deg;
+      const rmin = Math.min(...ru.res.map((x) => x.ratio));
+      const rmax = Math.max(...ru.res.map((x) => x.ratio));
+      add('zonal.d68-realunit',
+        !ru.nan && d68deg > 37.9 && d68deg < 38.35 && rmin > 0.98 && rmax < 1.02
+        && Math.abs(ru.refR - 60.330) < 1e-9 && Math.abs(ru.mu - 379.310116) < 1e-3,
+        `D68(a=${ru.res[0].a.toFixed(3)}=67,627km)エンジン実測 ${d68deg.toFixed(3)}°/日` +
+        `(Cassini 38.243 に対し ${((d68deg / 38.243 - 1) * 100).toFixed(2)}%・窓 37.9〜38.35)/ ` +
+        `10粒の解析式比 ${rmin.toFixed(4)}〜${rmax.toFixed(4)}(窓 0.98〜1.02)/ ` +
+        `μ=G·M=${ru.mu.toFixed(4)}(実 GM_土星=379.3121)・J基準半径=${ru.refR}(=60,330km)・C=${ru.calib}/ ${ru.steps}步`);
+    } else {
+      console.log('SKIP zonal.d68-realunit(🛰️ が実単位世代でない — root 等。第131便)');
+    }
+
     // ---- 第11次裁定 保留分(v1.29): 近点検出器(engine periDet)の機械検証 ----
     // UI が表示する実測 Δϖ/周 が解析値と符号・量級で一致する(検出器の実装ゲート付き)
     const pd = await page.evaluate((ZID) => {
@@ -5725,18 +5786,22 @@ if (!FAST) {
       //   k>3000 のウォームアップ+近点ゲート r<103 で開始直後の擬似極小を排除する(較正 2026-07-22:
       //   これを怠ると初回区間が汚染され実測 1.4°/9.5° に化ける)。
       // - J=0 走行は数値基線のみ(softening+隣接粒子 ≈ +0.19°/周)= 単極子二重計上なしの実測確認
+      // 第131便: 🛰️ の実単位化(1単位=10⁶m)に伴い、ハードコードだった近点ゲート(r<103)・
+      //   解析式の引数(μ=1500・R=100・J リテラル)をサンプルの宣言値から読む形へ一般化した。
+      //   ゲートは初期近点距離 r_p0 の 1.004 倍(旧トイ幾何では 102.60×1.004=103.0 = 旧定数と同値)
       const zm = await page.evaluate((ZID) => {
         const run = (zeroJ) => {
           HP.loadPreset(ZID, false);
           const s = HP.sim;
           if (zeroJ) { s.zonal.J = { 2: 0 }; s.zonal._A = null; }
+          const gate = Math.hypot(s.x[1], s.y[1]) * 1.004;
           let rmin = 1e9, rmax = 0; const peri = []; let lastK = -1e9, r2 = 0, r1 = 0, th1 = 0;
           for (let k = 0; k < 90000 && peri.length < 5; k++) {
             s.step(0.016);
             const r = Math.hypot(s.x[1], s.y[1]), th = Math.atan2(s.y[1], s.x[1]);
             if (k > 3000) {
               if (r < rmin) rmin = r; if (r > rmax) rmax = r;
-              if (r1 < r2 && r1 < r && r1 < 103 && (k - lastK) > 5000) { peri.push(th1); lastK = k; }
+              if (r1 < r2 && r1 < r && r1 < gate && (k - lastK) > 5000) { peri.push(th1); lastK = k; }
             }
             r2 = r1; r1 = r; th1 = th;
           }
@@ -5749,11 +5814,12 @@ if (!FAST) {
           return { n: peri.length, drift: peri.length > 1 ? acc / (peri.length - 1) : 0, rmin, rmax, nan: s.hasNaN() };
         };
         const on = run(false), off = run(true);
-        const J = { 2: 0.016290573, 4: -0.000935314, 6: 0.000086340, 8: -0.000014624, 10: 0.000004672, 12: -0.000000997 };
+        HP.loadPreset(ZID, false);
+        const Z = HP.sim.zonal, mu = HP.sim.params.G * HP.sim.m[Z.i];
         const aEff = (on.rmin + on.rmax) / 2;
-        const th = HP.zonal.apsidal(1500, 100, J, aEff, 1);
+        const th = HP.zonal.apsidal(mu, Z.refR, Z.J, aEff, 1);
         HP.loadPreset('saturn', false);
-        return { on, off, aEff, expect: 2 * Math.PI * (th.omega / th.kappa - 1) };
+        return { on, off, aEff, expect: (Z.calib || 1) * 2 * Math.PI * (th.omega / th.kappa - 1) };
       }, ZID);
       const relErr = Math.abs(zm.on.drift - zm.expect) / zm.expect;
       add('zonal.sim-precession',
@@ -5768,13 +5834,14 @@ if (!FAST) {
       const zh = await page.evaluate((ZID) => {
         HP.loadPreset(ZID, false);
         const s = HP.sim;
+        const gate = Math.hypot(s.x[1], s.y[1]) * 1.004;   // 第131便: 実単位化に伴う一般化(上と同じ規約)
         let rmin = 1e9, rmax = 0; const peri = []; let lastK = -1e9, r2 = 0, r1 = 0, th1 = 0;
         for (let k = 0; k < 180000 && peri.length < 5; k++) {
           s.step(0.008);
           const r = Math.hypot(s.x[1], s.y[1]), th = Math.atan2(s.y[1], s.x[1]);
           if (k > 6000) {
             if (r < rmin) rmin = r; if (r > rmax) rmax = r;
-            if (r1 < r2 && r1 < r && r1 < 103 && (k - lastK) > 10000) { peri.push(th1); lastK = k; }
+            if (r1 < r2 && r1 < r && r1 < gate && (k - lastK) > 10000) { peri.push(th1); lastK = k; }
           }
           r2 = r1; r1 = r; th1 = th;
         }
@@ -5793,6 +5860,84 @@ if (!FAST) {
     }
   } else {
     console.log('SKIP zonal.*(対象に E13 なし)');
+  }
+}
+
+// ---- 8c2) 第131便(原仮定者指示「🌞 をスケール換算込みの実較正へ」): behavior.solarInner ----
+// ----   🌞solarInner を ☄️🪨 と同じ指数系(1単位=10⁸m/10⁴s/10²⁷kg)の実単位へ移した世代でのみ実行。
+// ----   固定するのは①初速較正係数が 1.000(実ケプラー速度そのまま)であること=2水星周窓の
+// ----   半径振れ幅が 0.0131%(水星)級に収まること、②kFrame=0 対照でも同水準であること
+// ----   (=実スケールでは引きずりが円軌道条件に効かない)、③旧トイ版の較正超過(×1.12)を
+// ----   実単位へ持ち込むと 50% 級の楕円化になること、④水星の公転周期が観測 87.969 日と一致すること。
+// ----   小惑星帯(160粒)は力学的に無関係(太陽重力比 8×10⁻⁷)で O(n²) を 1000 倍にするだけなので、
+// ----   宣言そのままの太陽+惑星4体の部分系で測る(帯込みでも水星・金星の実測値は一致 — 第131便)。
+{
+  const hasSI = await page.evaluate(() => {
+    const p = HP.allPresets().find((q) => q.id === 'solarInner');
+    return !!(p && p.scaleExp && p.scaleExp.L === 8 && p.scaleExp.T === 4 && p.scaleExp.M === 27);
+  });
+  if (hasSI) {
+    const si = await page.evaluate(() => {
+      const P = HP.allPresets().find((q) => q.id === 'solarInner');
+      const TKm = () => {
+        const GM = P.physics.G * P.bodies[0].m, a = P.bodies[1].x;
+        return 2 * Math.PI * Math.sqrt(a * a * a / GM);
+      };
+      const run = (patch, f) => {
+        const bodies = P.bodies.slice(0, 5).map((b, i) => Object.assign({}, b,
+          i === 0 ? {} : { vy: b.vy * f }));
+        const S = HP.sim;
+        S.build({ id: 'qa_solar', name: 'qa', emoji: '🧪', seed: 1, camera: P.camera,
+          world: P.world, physics: Object.assign({}, P.physics, patch), bodies });
+        const dt = 0.016, steps = Math.round(2 * TKm() / dt), n = 4;
+        const rmin = [], rmax = [], rsum = [], ang = [], px = [], py = [], tRev = [];
+        for (let i = 0; i < n; i++) { rmin.push(Infinity); rmax.push(-Infinity); rsum.push(0);
+          ang.push(0); px.push(0); py.push(0); tRev.push(null); }
+        for (let k = 0; k < steps; k++) {
+          S.step(dt);
+          for (let i = 0; i < n; i++) {
+            const dx = S.x[i + 1] - S.x[0], dy = S.y[i + 1] - S.y[0], r = Math.hypot(dx, dy);
+            if (r < rmin[i]) rmin[i] = r; if (r > rmax[i]) rmax[i] = r; rsum[i] += r;
+            if (k === 0) { px[i] = dx; py[i] = dy; }
+            else { ang[i] += Math.atan2(px[i] * dy - py[i] * dx, px[i] * dx + py[i] * dy);
+              px[i] = dx; py[i] = dy;
+              if (tRev[i] === null && Math.abs(ang[i]) >= 2 * Math.PI) tRev[i] = (k + 1) * dt; }
+          }
+        }
+        return { nan: S.hasNaN(), steps,
+          wob: rmin.map((_, i) => (rmax[i] - rmin[i]) / (rsum[i] / steps)), tRev };
+      };
+      const base = run({}, 1), kf0 = run({ kFrame: 0 }, 1), old = run({}, 1.12);
+      HP.loadPreset('saturn', false);
+      const eT = P.scaleExp.T, DAY = 86400 / Math.pow(10, eT);
+      return { base, kf0, old, TmercDay: base.tRev[0] / DAY,
+        decl: { L: P.scaleExp.L, T: P.scaleExp.T, M: P.scaleExp.M, fid: P.fidelity,
+          G: P.physics.G, c: P.physics.cLight, kap: P.physics.kappaT, kF: P.physics.kFrame,
+          D0: P.physics.D0, mf: P.physics.massFloor, sc: P.physics.stateCarry,
+          mSun: P.bodies[0].m, rSun: P.bodies[0].radius } };
+    });
+    const d = si.decl;
+    const declOk = d.fid === 'real' && d.G === 6.674 && d.c === 30000
+      && Math.abs(d.kap - d.G / (d.c * d.c)) < 1e-18 && d.kF === 1 && d.D0 === 0.006
+      && d.mf === 1e-6 && d.sc === 'double' && d.mSun === 1988.5 && d.rSun === 6.96;
+    add('behavior.solarInner',
+      !si.base.nan && !si.kf0.nan && !si.old.nan && declOk
+      && si.base.wob[0] > 1.0e-4 && si.base.wob[0] < 1.7e-4
+      && si.base.wob[1] < 1.0e-4 && si.base.wob[2] < 1.0e-4 && si.base.wob[3] < 1.0e-4
+      && si.kf0.wob[0] > 1.0e-4 && si.kf0.wob[0] < 1.7e-4
+      && si.old.wob[0] > 0.4
+      && Math.abs(si.TmercDay - 87.969) < 0.09,
+      `較正係数 f=1.000(実ケプラー速度)の2水星周窓 半径振れ幅=` +
+      si.base.wob.map((v) => (v * 100).toPrecision(3) + '%').join('/') +
+      `(水星窓 0.010〜0.017%・他は<0.01%)/ kFrame=0 対照=` +
+      si.kf0.wob.map((v) => (v * 100).toPrecision(3) + '%').join('/') +
+      `(実スケールでは引きずりが効かない)/ 旧較正 ×1.12 を実単位へ入れると 水星 ` +
+      `${(si.old.wob[0] * 100).toPrecision(3)}%(>40% の楕円化)/ 水星の公転周期=` +
+      `${si.TmercDay.toFixed(4)}日(観測 87.969±0.09)/ 宣言=${declOk}` +
+      `(fidelity=${d.fid}・指数 L${d.L}/T${d.T}/M${d.M}・G=${d.G}・c₀=${d.c}・κ=G/c₀²・kF=${d.kF}・D₀=${d.D0})/ ` +
+      `${si.base.steps}步×3本`);
+  } else {
+    console.log('SKIP behavior.solarInner(🌞 が実単位世代でない — root 等。第131便)');
   }
 }
 
@@ -13466,8 +13611,13 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     }, { gen120 });
     // 第120便(原仮定者指示): 現実較正タグはスケール換算込みで較正したサンプルのみ —
     // ☄️🌙🌘💍系(kF1対照の 🪨💿 は較正外=タグなし)。grcal/saturnZonalD68/earthMoonFree の
-    // 旧宣言(解析較正・物理比)は撤回。root(v1.39)は従来の3件のまま
-    const want = gen120 ? 'earthMoonReal,earthMoonRealKF1,mercuryReal,saturnRingReal'
+    // 旧宣言(解析較正・物理比)は撤回。root(v1.39)は従来の3件のまま。
+    // 第131便(原仮定者指示): 🌞solarInner・🛰️saturnZonalD68 をスケール換算込みの実較正へ
+    // 引き上げたので 2件追加(🛰️ は第120便で一度撤回された宣言の、実単位化による再取得)
+    const gen131 = await page.evaluate(() =>
+      HP.allPresets().some((p) => p.id === 'solarInner' && p.scaleExp));
+    const want = gen131 ? 'earthMoonReal,earthMoonRealKF1,mercuryReal,saturnRingReal,saturnZonalD68,solarInner'
+      : gen120 ? 'earthMoonReal,earthMoonRealKF1,mercuryReal,saturnRingReal'
       : 'earthMoonFree,grcal,saturnZonalD68';
     add('ui.fidelity',
       r.reals.join(',') === want && r.chipOn && r.chipOff && r.chipOffLegacy,
