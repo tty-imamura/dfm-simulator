@@ -1,9 +1,9 @@
 {
- "commit": "f350ea296ffaa731c577039711dcd21fa8c210ee",
- "date": "2026-08-18T11:57:53.182Z",
+ "commit": "e48c27650c9bac6a796561b31849ebc92168c0ff",
+ "date": "2026-08-18T17:42:14.070Z",
  "fast": false,
  "target": "beta/index.html",
- "targetSha256": "793986f42ce5b8fa46ee0d7ef98535d68252b440ae37904b870a87db6f124e82",
+ "targetSha256": "341becbbfbd3aea18f76c6bcf7d11921a9b0fed992ba328ebdfb68fdd915718e",
  "appVersion": "1.40",
  "swCache": "v1.41-b1",
  "run": {
@@ -20,28 +20,28 @@
   "playwright": "1.61.1",
   "platform": "linux/x64"
  },
- "total": 453,
+ "total": 455,
  "failed": 0,
  "pass": true,
- "durationMs": 2078292,
+ "durationMs": 1441688,
  "results": [
   {
    "id": "syntax",
    "pass": true,
    "detail": "",
-   "ms": 114
+   "ms": 71
   },
   {
    "id": "version.sync",
    "pass": true,
    "detail": "APP_VERSION=1.40 package.json=1.40.0",
-   "ms": 14
+   "ms": 10
   },
   {
    "id": "slider.covers-builtins",
    "pass": true,
    "detail": "",
-   "ms": 14
+   "ms": 11
   },
   {
    "id": "prompt.physics-keys",
@@ -53,13 +53,13 @@
    "id": "builtin.explicit-physics",
    "pass": true,
    "detail": "",
-   "ms": 12
+   "ms": 9
   },
   {
    "id": "docs.no-preset-count",
    "pass": true,
    "detail": "",
-   "ms": 1
+   "ms": 0
   },
   {
    "id": "docs.no-qa-count",
@@ -77,13 +77,13 @@
    "id": "docs.gravity-params",
    "pass": true,
    "detail": "",
-   "ms": 3
+   "ms": 2
   },
   {
    "id": "verify.V1",
    "pass": true,
    "detail": "|ΔP|/P_scale=7.35e-7 |ΔL|/L_scale=2.57e-7 (< 1e-3)",
-   "ms": 12734
+   "ms": 9729
   },
   {
    "id": "verify.V2",
@@ -233,415 +233,415 @@
    "id": "preset.gclock",
    "pass": true,
    "detail": "n=4",
-   "ms": 47
+   "ms": 37
   },
   {
    "id": "preset.grcal",
    "pass": true,
    "detail": "n=3",
-   "ms": 128
+   "ms": 33
   },
   {
    "id": "preset.projectile",
    "pass": true,
    "detail": "n=4",
-   "ms": 77
+   "ms": 41
   },
   {
    "id": "preset.echo",
    "pass": true,
    "detail": "n=31",
-   "ms": 504
+   "ms": 213
   },
   {
    "id": "preset.boxtrans",
    "pass": true,
    "detail": "n=86",
-   "ms": 668
+   "ms": 321
   },
   {
    "id": "preset.boxrot",
    "pass": true,
    "detail": "n=120",
-   "ms": 762
+   "ms": 1269
   },
   {
    "id": "preset.boxexpand",
    "pass": true,
    "detail": "n=120",
-   "ms": 776
+   "ms": 326
   },
   {
    "id": "preset.boxcomoving",
    "pass": true,
    "detail": "n=26",
-   "ms": 868
+   "ms": 301
   },
   {
    "id": "preset.boxbound",
    "pass": true,
    "detail": "n=20",
-   "ms": 198
+   "ms": 68
   },
   {
    "id": "preset.boxbreath",
    "pass": true,
    "detail": "n=25",
-   "ms": 303
+   "ms": 480
   },
   {
    "id": "preset.boxredshift",
    "pass": true,
    "detail": "n=3",
-   "ms": 34
+   "ms": 64
   },
   {
    "id": "preset.probeH",
    "pass": true,
    "detail": "n=17",
-   "ms": 351
+   "ms": 200
   },
   {
    "id": "preset.freebox",
    "pass": true,
    "detail": "n=72",
-   "ms": 1523
+   "ms": 912
   },
   {
    "id": "preset.cosmicweb",
    "pass": true,
    "detail": "n=320",
-   "ms": 7821
+   "ms": 5077
   },
   {
    "id": "preset.galaxy",
    "pass": true,
    "detail": "n=381",
-   "ms": 7681
+   "ms": 4607
   },
   {
    "id": "preset.galaxyStd",
    "pass": true,
    "detail": "n=381",
-   "ms": 8383
+   "ms": 5867
   },
   {
    "id": "preset.galaxyGeo2",
    "pass": true,
    "detail": "n=381",
-   "ms": 13158
+   "ms": 7753
   },
   {
    "id": "preset.galaxyDB",
    "pass": true,
    "detail": "n=381",
-   "ms": 7197
+   "ms": 3737
   },
   {
    "id": "preset.darkrotor",
    "pass": true,
    "detail": "n=383",
-   "ms": 7099
+   "ms": 4402
   },
   {
    "id": "preset.rotorSolo",
    "pass": true,
    "detail": "n=25",
-   "ms": 503
+   "ms": 471
   },
   {
    "id": "preset.nebulaRotor",
    "pass": true,
    "detail": "n=98",
-   "ms": 969
+   "ms": 524
   },
   {
    "id": "preset.nebulaShell",
    "pass": true,
    "detail": "n=98",
-   "ms": 2534
+   "ms": 1441
   },
   {
    "id": "preset.nebulaBipolar",
    "pass": true,
    "detail": "n=83",
-   "ms": 927
+   "ms": 284
   },
   {
    "id": "preset.bhCore",
    "pass": true,
    "detail": "n=321",
-   "ms": 6597
+   "ms": 4472
   },
   {
    "id": "preset.massLadder",
    "pass": true,
    "detail": "n=147",
-   "ms": 956
+   "ms": 682
   },
   {
    "id": "preset.merger",
    "pass": true,
    "detail": "n=182",
-   "ms": 1503
+   "ms": 1084
   },
   {
    "id": "preset.collapse",
    "pass": true,
    "detail": "n=260",
-   "ms": 2661
+   "ms": 2124
   },
   {
    "id": "preset.selfRotor",
    "pass": true,
    "detail": "n=178",
-   "ms": 2219
+   "ms": 1816
   },
   {
    "id": "preset.lensing",
    "pass": true,
    "detail": "n=2",
-   "ms": 400
+   "ms": 108
   },
   {
    "id": "preset.spinlens",
    "pass": true,
    "detail": "n=1",
-   "ms": 239
+   "ms": 50
   },
   {
    "id": "preset.blens",
    "pass": true,
    "detail": "n=2",
-   "ms": 204
+   "ms": 46
   },
   {
    "id": "preset.reddening",
    "pass": true,
    "detail": "n=154",
-   "ms": 673
+   "ms": 603
   },
   {
    "id": "preset.gas",
    "pass": true,
    "detail": "n=240",
-   "ms": 4427
+   "ms": 3212
   },
   {
    "id": "preset.pressure",
    "pass": true,
    "detail": "n=240",
-   "ms": 3616
+   "ms": 2261
   },
   {
    "id": "preset.conduction",
    "pass": true,
    "detail": "n=28",
-   "ms": 419
+   "ms": 254
   },
   {
    "id": "preset.frictionHeat",
    "pass": true,
    "detail": "n=201",
-   "ms": 1259
+   "ms": 936
   },
   {
    "id": "preset.coolrace",
    "pass": true,
    "detail": "n=3",
-   "ms": 28
+   "ms": 18
   },
   {
    "id": "preset.convection",
    "pass": true,
    "detail": "n=210",
-   "ms": 2973
+   "ms": 2804
   },
   {
    "id": "preset.buoyancy",
    "pass": true,
    "detail": "n=280",
-   "ms": 6141
+   "ms": 3355
   },
   {
    "id": "preset.cooling",
    "pass": true,
    "detail": "n=220",
-   "ms": 2842
+   "ms": 2153
   },
   {
    "id": "preset.emergent",
    "pass": true,
    "detail": "n=112",
-   "ms": 2108
+   "ms": 1725
   },
   {
    "id": "preset.emergent2",
    "pass": true,
    "detail": "n=112",
-   "ms": 6976
+   "ms": 4047
   },
   {
    "id": "preset.chain2",
    "pass": true,
    "detail": "n=112",
-   "ms": 2080
+   "ms": 924
   },
   {
    "id": "preset.chaincycle",
    "pass": true,
    "detail": "n=112",
-   "ms": 4765
+   "ms": 2112
   },
   {
    "id": "preset.earthMoon",
    "pass": true,
    "detail": "n=2",
-   "ms": 503
+   "ms": 367
   },
   {
    "id": "preset.earthMoonFree",
    "pass": true,
    "detail": "n=2",
-   "ms": 24
+   "ms": 48
   },
   {
    "id": "preset.earthMoonReal",
    "pass": true,
    "detail": "n=2",
-   "ms": 52
+   "ms": 97
   },
   {
    "id": "preset.earthMoonRealKF1",
    "pass": true,
    "detail": "n=2",
-   "ms": 74
+   "ms": 256
   },
   {
    "id": "preset.mercury",
    "pass": true,
    "detail": "n=2",
-   "ms": 44
+   "ms": 72
   },
   {
    "id": "preset.mercuryReal",
    "pass": true,
    "detail": "n=2",
-   "ms": 52
+   "ms": 29
   },
   {
    "id": "preset.mercuryRealKF1",
    "pass": true,
    "detail": "n=2",
-   "ms": 68
+   "ms": 98
   },
   {
    "id": "preset.solarInner",
    "pass": true,
    "detail": "n=105",
-   "ms": 7707
+   "ms": 4501
   },
   {
    "id": "preset.saturn",
    "pass": true,
    "detail": "n=241",
-   "ms": 3288
+   "ms": 1992
   },
   {
    "id": "preset.saturnLayered",
    "pass": true,
    "detail": "n=241",
-   "ms": 3382
+   "ms": 1919
   },
   {
    "id": "preset.saturnZonalD68",
    "pass": true,
    "detail": "n=11",
-   "ms": 550
+   "ms": 203
   },
   {
    "id": "preset.saturnRingReal",
    "pass": true,
    "detail": "n=127",
-   "ms": 4022
+   "ms": 2308
   },
   {
    "id": "preset.saturnRingRealKF1",
    "pass": true,
    "detail": "n=127",
-   "ms": 6550
+   "ms": 4227
   },
   {
    "id": "preset.binary",
    "pass": true,
    "detail": "n=242",
-   "ms": 4053
+   "ms": 2984
   },
   {
    "id": "preset.fig8",
    "pass": true,
    "detail": "n=3",
-   "ms": 30
+   "ms": 11
   },
   {
    "id": "preset.counterring",
    "pass": true,
    "detail": "n=201",
-   "ms": 1610
+   "ms": 1854
   },
   {
    "id": "preset.agnjet",
    "pass": true,
    "detail": "n=341",
-   "ms": 8000
+   "ms": 4894
   },
   {
    "id": "preset.spinup",
    "pass": true,
    "detail": "n=240",
-   "ms": 1495
+   "ms": 820
   },
   {
    "id": "preset.starcore",
    "pass": true,
    "detail": "n=199",
-   "ms": 862
+   "ms": 626
   },
   {
    "id": "preset.starSeed",
    "pass": true,
    "detail": "n=3",
-   "ms": 74
+   "ms": 22
   },
   {
    "id": "preset.validate-all-builtins",
    "pass": true,
    "detail": "内蔵64件が validatePreset を致命エラー0で通過(NG=[])/ 許容警告 0種=[]件(第83便D で W1 descStruct純分割不一致・W2 m値域クランプ とも根本解消 — 内蔵の警告は0件が正規値)/ 想定外の警告=[](0件)/ 正規化の挙動bit不変(生定義build vs 正規化後build・400步の全状態)=[](0件)",
-   "ms": 11830
+   "ms": 7828
   },
   {
    "id": "preset.roundtrip-builtins",
    "pass": true,
    "detail": "内蔵64件のエクスポートJSON往復(stringify→parse→validatePreset→build)/ 致命エラー=[](0件)/ descStruct 保全 64件=[](喪失0件)/ 質量クランプ発動=[](0件)/ bit一致(往復build vs 直接build)t=0 のみ 0件=[](0件)・t=0+400步 64件(フル=全件)=[](0件)/ 上限は健在(desc 16000切り詰め=true・節上限内は保持=true・summary 3000超は切り詰め警告→descStruct削除=true・m は20000で警告つきクランプ=true)",
-   "ms": 146933
+   "ms": 100635
   },
   {
    "id": "migration.fixtures",
    "pass": true,
    "detail": "固定資産 3件(rigid/differential/cavity)/ 封筒 schemaVersion=[2 2 3]/ 移行した body=6件・致命エラー=[](0件)/ legacyCore フラグ=[](0件)/ 想定外の警告=[](0件 — 値域クランプ等が起きたら FAIL)/ 軌跡の但し書きが無い告知=[](0件)/ core:{} が独立実装の移行式と厳密一致=[](0件)/ t=0 の全状態(x,y,vx,vy,spin,m,pinned+coreMd/coreMF/RcV/coreJ/coreOm0)=[](0件)/ **主張は初期状態一致のみ**(1步も進めない — コアv1 の Ω_c=coreSR·s(t) 追従と コアv2 の独立 J_core は、コアが時間発展する構成で軌跡が割れうる)",
-   "ms": 35
+   "ms": 30
   },
   {
    "id": "migration.export-record",
    "pass": true,
    "detail": "移行なし: 封筒キー=[schemaVersion,appVersion,appBuild,exportedAt,saves,customPresets](=従来どおり・migration キーなし=true・本文に \"migration\" の文字列なし=true・schemaVersion=4)/ コアv2 明示の新規構成でも付かない=true(キー=[schemaVersion,appVersion,appBuild,exportedAt,saves,customPresets])/ 旧キー入り(schemaVersion 2)→ migration:{fromSchema:2,legacyCoreConverted:true} 付与=true(キー=[schemaVersion,appVersion,appBuild,exportedAt,migration,saves,customPresets]・schemaVersion は 4 のまま)/ 2→3 の順で重ねても fromSchema は最小=true / 3→2 の逆順でも同じ=true(順序非依存)/ 移行記録つき JSON の読込で記録を引き継ぐ=true / 情報表示は移行時だけ=true(新規=「インポート: 追加1件…」・移行=「…ア形式から変換済み(初期状態は互換・軌跡は旧版と一致しない場合あり)」)",
-   "ms": 88
+   "ms": 77
   },
   {
    "id": "i18n.presets-en",
    "pass": true,
    "detail": "",
-   "ms": 76
+   "ms": 48
   },
   {
    "id": "i18n.toggle",
@@ -653,7 +653,7 @@
    "id": "i18n.claim-sync",
    "pass": true,
    "detail": "binary: A5 空間の引きずり(dragging)(ja=true/en=true) / fig8: kFrame=0 ニュートン退化(Newtonian degeneracy)(ja=true/en=true) 運動量・角運動量保存(T7 / conservation)(ja=true/en=true)",
-   "ms": 21
+   "ms": 17
   },
   {
    "id": "fewshot.validate",
@@ -671,13 +671,13 @@
    "id": "compat.kLens",
    "pass": true,
    "detail": "",
-   "ms": 10
+   "ms": 1
   },
   {
    "id": "import.formats",
    "pass": true,
    "detail": "added=5/5",
-   "ms": 44
+   "ms": 23
   },
   {
    "id": "import.content-dedup",
@@ -713,7 +713,7 @@
    "id": "new.gclock",
    "pass": true,
    "detail": "err=1.1e-5",
-   "ms": 20994
+   "ms": 14269
   },
   {
    "id": "new.coolrace",
@@ -731,7 +731,7 @@
    "id": "box.trans-clocks",
    "pass": true,
    "detail": "共動τ/t=0.9994(>0.999 — 箱と動く運動は「静止」) 固有運動τ/t=0.9881(0.97<τ/t<0.995)",
-   "ms": 6856
+   "ms": 4446
   },
   {
    "id": "box.rot-support",
@@ -755,13 +755,13 @@
    "id": "box.schema-clamp",
    "pass": true,
    "detail": "H0→0.2 D→10000 非pinned railH→0 warns=3",
-   "ms": 14
+   "ms": 11
   },
   {
    "id": "box.redshift",
    "pass": true,
    "detail": "t=16.0 z=0.066092 vs e^{0.004t}−1 の相対誤差=0.0e+0(<1e-6) 箱なし→null=true",
-   "ms": 58
+   "ms": 79
   },
   {
    "id": "box.hist",
@@ -773,61 +773,61 @@
    "id": "box.graph-overlay",
    "pass": true,
    "detail": "overlays.boxGraph=true boxHist=13件(≥1) slots(boxcomoving)=[boxGraph] slots(gclock)=[] pageErrors増分=0(0期待) i18n ja=\"膨張グラフ(a・H・赤方偏移)\" en=\"Expansion graph (a, H, redshift)\"",
-   "ms": 93
+   "ms": 112
   },
   {
    "id": "box.edit-ui",
    "pass": true,
    "detail": "セクション表示=true dirty none→inline-block H0=0.008(boxScaleAtのH=0.008) mode=pow coef=0.05 expo=0.66 coef=5→1(クランプ) coef=''→1(据置) A/B編集=対象側のみ(B引継ぎ+A限定反映)=true(第95便) A/B終了後もsim.box維持=true gclockでは非表示=true",
-   "ms": 33
+   "ms": 40
   },
   {
    "id": "box.redshift-bar",
    "pass": true,
-   "detail": "2000步後 z=0.1366(≥0.1) a=1.1366(>1.1) HUD=\"t=32.0 (2000步)  N=26  28fps  a=1.137  H=0.0040  W_B=70.4  z=+0.137 / 系: 開放系(固定天体・レール — リザーバ・帳簿を含めて読む) / P=(1.27, -0.0553)  L=0.0000 / 帳簿P=(-0.15, 0.0066)  帳簿L=0.0000  放射L=0.00  放射E=0.00 / E_kin=0.68  E_rot=0.0000 / スケール換算 長さ1=10^23m 時間1=10^17s 質量1=10^42kg t≈1.01e11 年(実効倍率4: 再生1s≈2.43e10 年)\"",
-   "ms": 730
+   "detail": "2000步後 z=0.1366(≥0.1) a=1.1366(>1.1) HUD=\"t=78.5 (4909步)  N=25  32fps  a=1.000  H=0.0160  W_B=80.0  z=+0.000 / 系: 開放系(固定天体・レール — リザーバ・帳簿を含めて読む) / P=(0.30, -0.11)  L=0.0000 / 帳簿P=(-0.0001, 0.0001)  帳簿L=0.0001  放射L=0.00  放射E=0.00 / E_kin=2.86  E_rot=0.0000 / スケール換算 長さ1=10^23m 時間1=10^17s 質量1=10^42kg t≈2.49e11 年(実効倍率2: 再生1s≈1.22e10 年)\"",
+   "ms": 501
   },
   {
    "id": "box.save-roundtrip",
    "pass": true,
    "detail": "保存エントリ universeBox.H0=0.008(0.008期待)=true 切替後sim.box=null=true loadSave復元後 H0=0.008=true boxHistリセット=true boxARef再計算=true 旧形式セーブ(universeBox無し)読込→プリセット既定維持=true",
-   "ms": 603
+   "ms": 355
   },
   {
    "id": "box.photon-abc",
    "pass": true,
    "detail": "到着2件 A(t放出=0.0) z_A=2.9275(3±0.3) λ 500→1963.7nm a 1.0000→3.9275 / B(t放出=6.944) z_B=0.9581(1±0.15) λ 500→979.1nm a 2.0025→3.9212 / 到着時刻 tO=13.680・13.664 差=0.016(<0.2 ほぼ同時観測 — 第50便 50F で厳格化) 帳簿|λ比−a比|<1e-9=true static対照 z=0=true 残存光子=0 範囲外警告=false",
-   "ms": 195
+   "ms": 109
   },
   {
    "id": "box.photon-zero-cost",
    "pass": true,
    "detail": "🌌galaxy: photons=null photonLog=null _phSched=null",
-   "ms": 1916
+   "ms": 1376
   },
   {
    "id": "box.flrw-badge",
    "pass": true,
    "detail": "friction=flrw→grav=true(外部場) 未指定→dfm/grav=false 不正値→dfm(警告1件) 既定dfmのgrav: 🌌=false 🔦=false",
-   "ms": 63
+   "ms": 17
   },
   {
    "id": "box.photon-draw",
    "pass": true,
    "detail": "pageErrors増分=0(0期待) 生存中の光子=1件(render複数回) 到着ログ=2件 wavelengthColor(500)=#00ff80(RGB=0,255,128・G成分最大=true) NaN=false",
-   "ms": 1482
+   "ms": 1379
   },
   {
    "id": "integrator.default-unchanged",
    "pass": true,
    "detail": "🪐saturn 300步 位置ハッシュ=146bf72a65b92c3c…(基準=146bf72a65b92c3c… bit一致=true) n=241(定義=241) [E6′倍精度化(4-81)=true 環240化(4-82)=true]",
-   "ms": 1812
+   "ms": 924
   },
   {
    "id": "echo.leapfrog-return",
    "pass": true,
    "detail": "⏪A条件(leapfrog・muF=0): 反転時RMS=33.88(>10 十分動いた) → 復帰後RMS=1.304e-3(< 0.01 — 実測1.30e-3) 反転步数=1251 t_flip=20.016",
-   "ms": 665
+   "ms": 1093
   },
   {
    "id": "echo.semi-noreturn",
@@ -851,19 +851,19 @@
    "id": "echo.schema-clamp",
    "pass": true,
    "detail": "不正 integrator=\"bogus\"→\"semi\" 非数 echoFlipAt→undefined(無視) 警告2件 / 正常 \"leapfrog\"→\"leapfrog\" echoFlipAt 999999→100000(上限クランプ) / 省略→undefined(未設定=semi扱い)",
-   "ms": 14
+   "ms": 8
   },
   {
    "id": "echo.hud",
    "pass": true,
-   "detail": "ja HUD=\"t=40.0 (2502步)  N=31  29fps  echo RMS=10.789  反転済み↩︎ / 系: 開放系(固定天体・熱浴 — リザーバ・帳簿を含めて読む) / P=(-3.53, 9.65)  L=-8238 / 帳簿P=(0.00, 0.00)  帳簿L=0.00  放射L=0.00  放射E=2.13 / E_kin=80.0  E_rot=629 / スケール換算 長さ1=10^8m 時間1=10^4s 質量1=10^24kg t≈4.633 日(実効倍率2: 再生1s≈10.667 時間)\" en HUD=\"t=20.0 (1251步)  N=31  38fps  echo RMS=33.881  reversed ↩︎ / System: closed (no external elements — P/L conserved incl. ledgers) / P=(-3.53, 9.65)  L=-8238 / 帳簿P=(0.00, 0.00)  帳簿L=0.00  放射L=0.00  放射E=0.00 / E_kin=97.9  E_rot=633 / scale conv: len1=10^11m time1=10^7s mass1=10^30kg t≈6.343 yr (effective rate 2: 1s of playback≈1.217 yr)\" ⏱️gclock(echoFlipAt なし)に echo 行なし=true",
-   "ms": 378
+   "detail": "ja HUD=\"t=40.0 (2502步)  N=31  28fps  echo RMS=10.789  反転済み↩︎ / 系: 開放系(固定天体・熱浴 — リザーバ・帳簿を含めて読む) / P=(-3.53, 9.65)  L=-8238 / 帳簿P=(0.00, 0.00)  帳簿L=0.00  放射L=0.00  放射E=2.13 / E_kin=80.0  E_rot=629 / スケール換算 長さ1=10^8m 時間1=10^4s 質量1=10^24kg t≈4.633 日(実効倍率2: 再生1s≈10.667 時間)\" en HUD=\"t=20.0 (1251步)  N=31  39fps  echo RMS=33.881  reversed ↩︎ / System: closed (no external elements — P/L conserved incl. ledgers) / P=(-3.53, 9.65)  L=-8238 / 帳簿P=(0.00, 0.00)  帳簿L=0.00  放射L=0.00  放射E=0.00 / E_kin=97.9  E_rot=633 / scale conv: len1=10^11m time1=10^7s mass1=10^30kg t≈6.343 yr (effective rate 2: 1s of playback≈1.217 yr)\" ⏱️gclock(echoFlipAt なし)に echo 行なし=true",
+   "ms": 377
   },
   {
    "id": "freebox.pressure-expand",
    "pass": true,
    "detail": "🕊️既定(kRep=0.5・壁スピン1.0): 実測 a_eff=2.1795(> 1.15 — 実測2.1795・単調増加=true) H_eff 前半3.179e-2→後半5.140e-2(圧力駆動で加速) 壁リング動径偏差=0.039%(< 1% 座屈なし) 履歴48点 t=19.20",
-   "ms": 1512
+   "ms": 1065
   },
   {
    "id": "freebox.inertial-decel",
@@ -893,19 +893,19 @@
    "id": "freebox.no-rail-badge",
    "pass": true,
    "detail": "externalTags(freebox)= rail=false pin=0 bath=false grav=false(全て外部駆動なし) universeBox なし=true measureBox=true 壁 pinned=false/railH無し=true",
-   "ms": 14
+   "ms": 9
   },
   {
    "id": "freebox.schema",
    "pass": true,
    "detail": "measureBox true→true / 非真偽値\"yes\"→undefined(無視・警告1件) / 省略→undefined / universeBox 併用→false(規定 a(t) 優先・警告1件) / integrator 併用→true+\"leapfrog\" / ring vMode=\"hubble\" vScale 99→50(上限クランプ)",
-   "ms": 6
+   "ms": 2
   },
   {
    "id": "freebox.graph-measured",
    "pass": true,
-   "detail": "slots=[boxGraph](boxGraph あり — universeBox 無しでも measureBox で有効) 履歴24点 a_eff=1.3529 赤方偏移は非適用(z 全0=true boxRedshift()=null=true) HUD=\"t=9.9 (620步)  N=72  47fps  a_eff=1.353(実測)\" 🫧boxcomoving(規定a)には a_eff 行なし=true i18n ja=\"実測\"/en=\"measured\" pageErrors増分=0(0期待)",
-   "ms": 504
+   "detail": "slots=[boxGraph](boxGraph あり — universeBox 無しでも measureBox で有効) 履歴24点 a_eff=1.3529 赤方偏移は非適用(z 全0=true boxRedshift()=null=true) HUD=\"t=9.9 (620步)  N=72  49fps  a_eff=1.353(実測)\" 🫧boxcomoving(規定a)には a_eff 行なし=true i18n ja=\"実測\"/en=\"measured\" pageErrors増分=0(0期待)",
+   "ms": 433
   },
   {
    "id": "freebox.zero-cost-elsewhere",
@@ -917,7 +917,7 @@
    "id": "conservation.float32-range",
    "pass": true,
    "detail": "回帰側(既定域 S_bh=0.12・n=63・8000步): |ΔL|/L_scale=3.50e-6 (< 1e-3 — 実測 beta(4-81後) 3.50e-6 / 倍精度化前(現 root) 5.14e-6。E6′飽和は 0.26% の頻度で発動するが恒等式は閉じる)",
-   "ms": 4401
+   "ms": 3074
   },
   {
    "id": "conservation.float32-canary",
@@ -929,97 +929,97 @@
    "id": "badge.classify",
    "pass": true,
    "detail": "☿mercury=extension:OK 🛰️saturnZonalD68=extension:OK 🫧boxcomoving=background:OK 🔦boxredshift=background+semantic:OK ♾️fig8=core+closed:OK ⏱️gclock=core+外部駆動(pinned):OK ⏪echo=core+closed:OK 🕊️freebox=core+closed:OK / 実測: mercury=[\"extension\"] saturnZonalD68=[\"extension\"] boxcomoving=[\"background\"] boxredshift=[\"background\",\"semantic\"] fig8=[\"core\"](closed=true) gclock=[\"core\"](pin=4,closed=false) echo=[\"core\"](closed=true) freebox=[\"core\"](closed=true)",
-   "ms": 10
+   "ms": 13
   },
   {
    "id": "badge.no-hscroll",
    "pass": true,
    "detail": "🔦boxredshift チップ=[規定背景, 意味論, 外部駆動, 意味論表示, 🫧 宇宙全体, 引きずり]・横スクロールなし(viewport 390)",
-   "ms": 65
+   "ms": 42
   },
   {
    "id": "badge.tint",
    "pass": true,
    "detail": "ラベル=\"温度=T_int\" / 🔥gas(thermal:\"tint\"): cls.tint=true チップ含む=true チップ一覧=[コア公理, 閉鎖系, 温度=T_int, 原理実証, ⚛️ 分子] / 🌌galaxy(非tint): cls.tint=false チップ含む=false チップ一覧=[コア公理, 外部駆動, ⚠強場トイ領域, 複合現象, 🌌 銀河, 引きずり] / 横スクロールなし(viewport 390): gas=true galaxy=true",
-   "ms": 99
+   "ms": 49
   },
   {
    "id": "ui.valid-window",
    "pass": true,
-   "detail": "(a)validatePreset: accept=kept(384)/warn0 zero=dropped/warn0 negative=dropped/warn0 nan=dropped/warn0 inf=dropped/warn0 string=dropped/warn0 omitted=dropped/warn0(OK) / (b)🕶️darkrotor validT=384 窓内t=4.80 HUD=\"t=4.8 (300步)  N=383  49fps / 系: 閉鎖系(外部要素なし — P/L は帳簿込みで保存) / P=(-14.2, 360)  L=643256 / 帳簿P=(14.2, -360)  帳簿L=6.90  放射L=0.0668  放射E=2310 / E_kin=3312  E_rot=109529 / スケール換算 長さ1=10^19m 時間1=10^14s 質量1=10^34kg t≈1.52e7 年(実効倍率2: 再生1s≈1.22e7 年)\" → t=385.0へ直接進行後 HUD=\"t=385.0 (24063步)  N=383  51fps ⚠評価窓外(t>384) / 系: 閉鎖系(外部要素なし — P/L は帳簿込みで保存) / P=(-14.2, 360)  L=643256 / 帳簿P=(14.2, -360)  帳簿L=6.90  放射L=0.0668  放射E=2310 / E_kin=3312  E_rot=109529 / スケール換算 長さ1=10^19m 時間1=10^14s 質量1=10^34kg t≈1.22e9 年(実効倍率2: 再生1s≈1.22e7 年)\" マーカー有無(窓内true/窓外true) 物理ハッシュ不変=true(OK) / (c)⏱️gclock validT=null(無し) t=100000でもマーカー無し=true(OK)",
-   "ms": 3273
+   "detail": "(a)validatePreset: accept=kept(384)/warn0 zero=dropped/warn0 negative=dropped/warn0 nan=dropped/warn0 inf=dropped/warn0 string=dropped/warn0 omitted=dropped/warn0(OK) / (b)🕶️darkrotor validT=384 窓内t=4.80 HUD=\"t=4.8 (300步)  N=383  50fps / 系: 閉鎖系(外部要素なし — P/L は帳簿込みで保存) / P=(-14.2, 360)  L=643256 / 帳簿P=(14.2, -360)  帳簿L=6.90  放射L=0.0668  放射E=2310 / E_kin=3312  E_rot=109529 / スケール換算 長さ1=10^19m 時間1=10^14s 質量1=10^34kg t≈1.52e7 年(実効倍率2: 再生1s≈1.22e7 年)\" → t=385.0へ直接進行後 HUD=\"t=385.0 (24063步)  N=383  54fps ⚠評価窓外(t>384) / 系: 閉鎖系(外部要素なし — P/L は帳簿込みで保存) / P=(-14.2, 360)  L=643256 / 帳簿P=(14.2, -360)  帳簿L=6.90  放射L=0.0668  放射E=2310 / E_kin=3312  E_rot=109529 / スケール換算 長さ1=10^19m 時間1=10^14s 質量1=10^34kg t≈1.22e9 年(実効倍率2: 再生1s≈1.22e7 年)\" マーカー有無(窓内true/窓外true) 物理ハッシュ不変=true(OK) / (c)⏱️gclock validT=null(無し) t=100000でもマーカー無し=true(OK)",
+   "ms": 2511
   },
   {
    "id": "ui.ab-body-onetap",
    "pass": true,
    "detail": "abBody宣言=true(targets=[1,2] 元spin=[2,2]) ワンタップボタン検出=true クリックでA/B開始=true B側該当粒子spin=0=true A側物理ハッシュ(位置・速度・スピン・半径)不変=true",
-   "ms": 21
+   "ms": 13
   },
   {
    "id": "drawscale.legacy-ignored",
    "pass": true,
    "detail": "drawScale:3 付きJSON: validatePreset ok=true 実効半径R=10 / キー無し: ok=true 実効半径R=10(一致=true — 廃止後は無視される)",
-   "ms": 7
+   "ms": 5
   },
   {
    "id": "behavior.gas",
    "pass": true,
    "detail": "温度分散(T_obs) 初期=9.734 → 6000步後=6.298(比=0.647 < 0.75 — 実測 tint 0.640 / spin 0.485) tint",
-   "ms": 33065
+   "ms": 20926
   },
   {
    "id": "behavior.pressure",
    "pass": true,
    "detail": "2000步後RMS半径比: 既定(kRep=2)=1.1826(>1.10) kRep=0=1.0157(<1.08) 成長量比=11.63倍(閾値2倍以上 — 実測 tint 11.63倍 / spin 3.59倍)",
-   "ms": 15861
+   "ms": 10042
   },
   {
    "id": "behavior.conduction",
    "pass": true,
    "detail": "加熱端T=64.0(不変) 中間(4000步) 近接T1=27.8 > 中位T9=4.9 > 遠端T17=2.3(距離依存) / ΔT 初期=64.0 → 20000步後=43.6(比=0.682 < 0.75 — 実測0.682。第39便 kappaS 1.5→0.3 再較正) / 行別(4000步): 前線 間隔9=90 > 間隔18=72 列熱比=2.55(窓2.125〜2.875・claims 連動) condHud=true",
-   "ms": 711
+   "ms": 526
   },
   {
    "id": "behavior.blens",
    "pass": true,
    "detail": "上側(y0=200)偏向 cy=-0.6162(<-0.3) cx=0.7876(捕獲なし) / 下側(y0=-200)偏向 cy=0.6162(>0.3・符号反転=井戸方向) cx=0.7876",
-   "ms": 15
+   "ms": 16
   },
   {
    "id": "behavior.boxbound",
    "pass": true,
    "detail": "φ_B=0.9506(実測sumW/boxWAtから算出) 2φ_B=1.901 / 12000步 d:24→106.85 a=2.1555 n_eff=1.9445(目標比1.023・許容±40%)",
-   "ms": 363
+   "ms": 335
   },
   {
    "id": "behavior.probeH",
    "pass": true,
    "detail": "D/Kt=0.9242 a=2.0003: 指数読み=1.3337(解析1.3333・相対誤差3.5e-4<1e-2) 反比例読み=1.0005(|−1|<1e-2) w保存ずれ=3.2e-4(<1e-3)",
-   "ms": 113
+   "ms": 63
   },
   {
    "id": "rail.custom-center",
    "pass": true,
    "detail": "中心(100,0)からの距離 50.000〜50.000(50±0.5・警告0件) railOmega無しのrailCx→警告して無視=true 未指定=原点 r=150.000(150)",
-   "ms": 11
+   "ms": 12
   },
   {
    "id": "gravity.uniform",
    "pass": true,
    "detail": "vy=0.800(理論0.8) y=0.646(理論0.6400000000000001) 帳簿=true badge=true",
-   "ms": 3
+   "ms": 19
   },
   {
    "id": "behavior.buoyancy",
    "pass": true,
    "detail": "分離(重-軽の平均y差)=163.8 (>20)",
-   "ms": 0
+   "ms": 1
   },
   {
    "id": "merger.bulk-velocity",
    "pass": true,
    "detail": "|v̄円盤−v核|=0.262 (<0.7 — 回転サンプリング残差込み・第27便 n削減で更新)",
-   "ms": 28356
+   "ms": 19933
   },
   {
    "id": "collapse.rotation",
@@ -1031,19 +1031,19 @@
    "id": "theory.refs-all",
    "pass": true,
    "detail": "",
-   "ms": 30
+   "ms": 19
   },
   {
    "id": "theory.panel",
    "pass": true,
    "detail": "ja=true en=true",
-   "ms": 1
+   "ms": 0
   },
   {
    "id": "ext.detect",
    "pass": true,
    "detail": "{\"gcPin\":4,\"f8Pin\":0,\"cvBath\":true,\"shown\":true,\"closed\":true}",
-   "ms": 19
+   "ms": 14
   },
   {
    "id": "ext.panel",
@@ -1055,7 +1055,7 @@
    "id": "grcal.clocks",
    "pass": true,
    "detail": "τ/t 地上=0.9200 衛星=0.9713 err=9.0e-6/1.0e-5 衛星>地上=true",
-   "ms": 9
+   "ms": 7
   },
   {
    "id": "grcal.calib-text",
@@ -1073,13 +1073,13 @@
    "id": "label.gravity-notation",
    "pass": true,
    "detail": "",
-   "ms": 12
+   "ms": 9
   },
   {
    "id": "params.direct-input",
    "pass": true,
    "detail": "",
-   "ms": 55
+   "ms": 31
   },
   {
    "id": "display.trail-toggle",
@@ -1115,7 +1115,7 @@
    "id": "params.desc-all",
    "pass": true,
    "detail": "ja欠落=なし en欠落=なし",
-   "ms": 564
+   "ms": 528
   },
   {
    "id": "params.desc-toggle",
@@ -1151,7 +1151,7 @@
    "id": "activeParams.all",
    "pass": true,
    "detail": "全内蔵で宣言済み",
-   "ms": 12
+   "ms": 7
   },
   {
    "id": "activeParams.ui",
@@ -1163,61 +1163,61 @@
    "id": "ui.54d-preset-nav",
    "pass": true,
    "detail": "カテゴリ選択肢=7(先頭=all) 絞り込み(熱の実験室)=9件・全て域内=true・先頭自動ロード=gas / 域外読込で全カテゴリへ復帰=true / hp_last_preset=saturn / 仕込み emergent2 → 別ページ boot 復元=emergent2",
-   "ms": 451
+   "ms": 283
   },
   {
    "id": "ui.54d-params",
    "pass": true,
    "detail": "pdesc色=本文色(rgb(223, 228, 255)) / 主役重複=2行・同期=true / カテゴリ=[時空,スピン・熱,引きずり・測地線,シミュレーション,グラフ,表示,スケール,共通設定]・全閉=true / 実験箱=箱サンプルのみ(🪐なし・🧊あり)=true / 相変化: 8/8行にスライダー・編集反映=true・域外直値=true / 壁温色(tempColor+tSwitch)=true",
-   "ms": 1
+   "ms": 0
   },
   {
    "id": "ui.57c-labbox",
    "pass": true,
    "detail": "実験箱カテゴリ=true・行数=12(期待12=壁4面×2+反発係数4行〔第94便〕) / 一様重力の所在=時空(第79便)・時空に有=true / 未設定面の編集で生成=true(レート0へ復帰=true — 物理不変) / 再構築後もカテゴリ開いたまま=true(57B) / タブ別スクロール配線=true",
-   "ms": 36
+   "ms": 27
   },
   {
    "id": "ui.58b-reset-keep",
    "pass": true,
    "detail": "⏮保持: 相変化ノブ(bondN/condN)=true・既存壁=true・新設面=true / rad面: convection 実験箱行=12(期待12 — 4面すべて表示。一様重力は時空へ移動〔第79便〕+反発係数4行〔第94便〕)・天井(rad)T編集→heat変換(レート保持)=true",
-   "ms": 34
+   "ms": 25
   },
   {
    "id": "ui.61b-tools",
    "pass": true,
    "detail": "チェックポイント: 500步進めて復帰=bit一致(true)・プリセット読込で無効化=true / ワンタップ対照A/B(chain2): B側 angK=0(A側=1.2)・100步併走 NaNなし / HUD 步数併記(静的)=true",
-   "ms": 1699
+   "ms": 1172
   },
   {
    "id": "ui.63-ab-tools",
    "pass": true,
    "detail": "タイトル統一(⚖️ ワンタップ対照A/B(B側: …))=true / darkrotor: ⏮初めから後もB側へ再patch(spin=0)=true(A/B継続=true・A側spin保持=true) / チェックポイント: A/B中の保存→200步→復帰で両側bit一致=true・A/B終了で無効化=true",
-   "ms": 1368
+   "ms": 736
   },
   {
    "id": "render.on-demand",
    "pass": true,
    "detail": "停止500msの描画=0回(0) 操作後=1回(≥1)",
-   "ms": 1017
+   "ms": 1010
   },
   {
    "id": "cache.rays-field",
    "pass": true,
    "detail": "描画42回の間に 光線再積分=0(≤2) フィールド再計算=0(≤2)",
-   "ms": 1011
+   "ms": 1006
   },
   {
    "id": "divergence.undo",
    "pass": true,
    "detail": "snapshot=true 停止=true ボタン=true 復元=true",
-   "ms": 3819
+   "ms": 3814
   },
   {
    "id": "ab.edit-target",
    "pass": true,
    "detail": "トグル表示=true B編集=true A表示値=true A編集=true",
-   "ms": 28
+   "ms": 18
   },
   {
    "id": "ab.display-sync",
@@ -1241,31 +1241,31 @@
    "id": "physlock.kt-derive",
    "pass": true,
    "detail": "世代=κ正準(第128便) OFF時=0.0033333333333333335(条件外バッジ=true) ON時=0.0002777777777777778(条件値=0.0002777777777777778) cLight半減追随=0.0011111111111111111(期待0.0011111111111111111) 直編集=0.0011111111111111111/表示0.0011 G=0エッジ=0(クランプ近似=false) 解除後=0.0033333333333333335",
-   "ms": 13
+   "ms": 9
   },
   {
    "id": "pn.source-flag",
    "pass": true,
    "detail": "新値域保持(c=3e4・Kt=1.35e8)=true クランプ(2e6→1e6/2e9→1e9)=true 不正フラグ削除=true / 既定=閾値未満でλ無関係(bit一致)=true フラグで1PN発現=true pnSource()正本=on:true/off:true",
-   "ms": 23
+   "ms": 8
   },
   {
    "id": "state.carry-double",
    "pass": true,
    "detail": "不正値は既定へ=true 既定=ゼロコスト(配列なし/ax=F32)=true / 量子化再現: 既定は vy=1 のまま凍結=true → \"double\" で Δvy=g·t を蓄積=true(vy=1.000032)",
-   "ms": 113
+   "ms": 61
   },
   {
    "id": "time.step-accounting",
    "pass": true,
    "detail": "低負荷=800/800 過負荷=200000/200000 繰越最大=2000≤2000 バースト=2500/2500(上限=2000)",
-   "ms": 16
+   "ms": 5
   },
   {
    "id": "paper.v1-convergence",
    "pass": true,
    "detail": "dt=0.016: P=7.4e-7 L=2.6e-7 / dt=0.008: P=3.4e-6 L=9.7e-7 / dt=0.004: P=8.4e-7 L=4.9e-8(全て丸め床 <5e-5・dt 非依存)",
-   "ms": 1700
+   "ms": 1300
   },
   {
    "id": "paper.zeroth-law-isolated",
@@ -1277,7 +1277,7 @@
    "id": "ab.same-init",
    "pass": true,
    "detail": "",
-   "ms": 2271
+   "ms": 1629
   },
   {
    "id": "ab.params-differ",
@@ -1343,55 +1343,55 @@
    "id": "claim.galaxystd-outerboost",
    "pass": true,
    "detail": "vφ外縁 kF1=3.945 kF0=3.120 比=1.2646(窓1.15〜1.4・較正実測1.2646) / 純度Π: 測地線=0 熱斥力=0 結合=0(厳密0)・引きずり=24.5%(>15% — 実測24.5%)",
-   "ms": 80967
+   "ms": 55016
   },
   {
    "id": "claim.galaxygeo2-outerboost",
    "pass": true,
    "detail": "vφ外縁 kF1=3.342 kF0=2.816 比=1.1868(窓1.14〜1.23・較正実測1.1868(第108便A))/ 純度Π: 熱斥力=0 結合=0(厳密0)・測地線=7.4%(>2% — 1PN)・引きずり=18.5%(>10% — 輸送+渦度)/ クランプ=0",
-   "ms": 226828
+   "ms": 145697
   },
   {
    "id": "preset.scale-tier",
    "pass": true,
    "detail": "未分類=なし 内訳={\"planetary\":15,\"everyday\":1,\"stellar\":18,\"cosmic\":10,\"galactic\":8,\"molecular\":9,\"beaker\":3}(全64件)",
-   "ms": 32
+   "ms": 19
   },
   {
    "id": "light.canonical-builtins",
    "pass": true,
    "detail": "全64件が c₀=30 またはティア実c値を宣言 / 既定値マージ=30(=30)",
-   "ms": 6
+   "ms": 3
   },
   {
    "id": "scale.display-invariant",
    "pass": true,
    "detail": "240步 bit一致=true(N=240)/ 換算 exp0: cLight60→\"≈6e4 m/s\"(=≈6e4 m/s — 第130便: eC は 🔥gas のティア既定 3 に固定(実測 eC=3))/ 無次元キーは非換算=true",
-   "ms": 2482
+   "ms": 1787
   },
   {
    "id": "ai.scale-templates",
    "pass": true,
    "detail": "第103便: 雛形UI撤去済み(select/ボタン/ラベルの残骸なし)",
-   "ms": 5
+   "ms": 3
   },
   {
    "id": "claim.galaxydb-contrast",
    "pass": true,
    "detail": "σT bulge/disk=4.246/1.624=2.61(窓2.2〜3.0・実測2.61)/ |spin| 5.04/2.62=1.93(窓1.5〜2.4・実測1.92)/ 公転 vt disk=4.50 bulge=1.05(回転支持 vs 分散支持)/ kF0対照 spin=0/0(厳密0 — E6′③が唯一の経路)",
-   "ms": 79371
+   "ms": 52733
   },
   {
    "id": "claim.nebularotor-contrast",
    "pass": true,
    "detail": "lS̄ コア=0.859(窓0.75〜0.95・実測0.859(第108便A)) エンベロープ=0.075(<0.1) コントラスト=11.5倍(>10)/ スピン0対照 コア=0.032(<0.1 — 散光化)",
-   "ms": 4809
+   "ms": 3252
   },
   {
    "id": "lsw.core-auto",
    "pass": true,
    "detail": "単層=解析式 0.080992(=0.080992) / 剛体コア(mode=rigid)=単層 bit等価=true / 2層(Ω_c=12)=0.508(単層+0.2 以上 — 差動コアが暗さを担う)",
-   "ms": 14
+   "ms": 11
   },
   {
    "id": "preset.group-core",
@@ -1403,55 +1403,55 @@
    "id": "core.v2-mech",
    "pass": true,
    "detail": "zero-shell: lSw=0.808(>0.7) Ω=12.00(≈12) 殻=0(=0) / 収縮: J 81→81(厳密保存) Ω→13.6(>10・Rc=1.15) W=471 / τ_cs: コア→殻 J 移送(殻=0.269) 合計ドリフト=1.5e-5(<1e-3)",
-   "ms": 31
+   "ms": 24
   },
   {
    "id": "claim.starseed-powerball",
    "pass": true,
    "detail": "種A: Ω比=107.9(窓80〜140・実測107.9) 減光=0.9988(≥0.98) / 種B(軸固定): spin比=0.871(0.8〜0.95 — 同じ揺すりで減速) / 帳簿込み|ΔL|=3.4e-6(<1e-3) コア仕事W=15140",
-   "ms": 57
+   "ms": 41
   },
   {
    "id": "claim.bhcore-selfdrive",
    "pass": true,
    "detail": "外縁増強(中心基準)=1.5236(窓1.37〜1.68・実測1.5236・可視の🎡標準1.2646超)/ 自走: 殻 0.15→1.330(窓 実測±10% — c₀=30単位) コアΩ 20.0→4.24(半減以下)/ 中心lSw=1.000(>0.95 — 真っ暗)/ コアなし対照=1.045(<1.15 — コアが主因)/ 帳簿込み|ΔL|=1.3e-6(<1e-3)",
-   "ms": 111871
+   "ms": 76119
   },
   {
    "id": "claim.bhcore-free",
    "pass": true,
    "detail": "外縁増強=1.5236(窓1.37〜1.68・実測1.5236。同構成 pinned 対照 1.5215)/ 上限発動 R/V/S=0/0/0(すべて0)/ 自走: 殻 0.15→1.330 コアΩ 20.0→4.24(窓は世代係数つき)/ 中心lSw=1.000(≥0.99) 保持率=1.000(≥0.95)/ BH重心相対 最大変位=0.394(0.2〜8 — 固定ではない有限反跳) 最大速度=0.0086(<0.2)/ 重心系初期化=barycentric 帳簿込み|ΔL|=1.3e-6(<1e-5)",
-   "ms": 56949
+   "ms": 38683
   },
   {
    "id": "core.extreme-fuzz",
    "pass": true,
    "detail": "境界・不正値 7件: 走行=7 拒否=0 NaN/Inf/負半径=0(=0)/ 保存互換: core 保持=true・core を落とした読み(root 相当)も単層として走行=true",
-   "ms": 77
+   "ms": 56
   },
   {
    "id": "core.active-energy",
    "pass": true,
    "detail": "注入 ΣΔE_int=40.000000 = 帳簿 coreSrcE=40.000000(相対差 2.1e-15<1e-12・理論値 sourceRate·t=40.000000)/ 回転化しない: J=54(不変) Ω=2.9999998807907153(不変)/ differential 対照の E_int=0(=0 — 注入は active 限定)",
-   "ms": 12
+   "ms": 10
   },
   {
    "id": "core.cavity-no-negative-mass",
    "pass": true,
    "detail": "旧キー読込 coreMR=−0.5/coreSR=3/coreRR=0.4(移行警告1件)⇔ 手書き cavity(voidFraction=0.5・R_c=2・Ω=1.5): 1步 bit一致=true(a=0.076316,0.000000 lSw=0.078840)/ 空洞の質量=0・J=0(ともに厳密0)・R_c=2(>0)/ 引きずり重み coreMF=-0.5(負の**重み**であって質量ではない)/ 400步後: 総質量 50→50(不変)・最小質量=20(>0 — 負質量なし)",
-   "ms": 11
+   "ms": 8
   },
   {
    "id": "core.group-core",
    "pass": true,
    "detail": "disk 6粒=differential・ring 6粒=cavity(全メンバーに同一設定)/ R_c min=1.2000000476837158(>0) コアΩ=4.000 lSw=0.169/ 帳簿込み|ΔL|=1.4e-7(<1e-3・600步)/ core 無しの同構成: hasCoreV2=false(false) ΣcoreMd=0(=0 — ゼロコスト経路)",
-   "ms": 122
+   "ms": 97
   },
   {
    "id": "core.merge-split",
    "pass": true,
    "detail": "融合: J_c -1.5→-1.5(厳密和) E_int 10→10(厳密和) M_c 3.200000→3.200000 R_c=1.802776(面積等価 √(1²+1.5²)=1.802776)/ リザーバ退避 ΔresL=0(=0 — 継承なので不要)・帳簿込み|ΔL|=0.0e+0/ 分裂: J_c 1.2→1.2(和が厳密一致) E_int 6.032→6.032 R_c²=1→1.000000(和が不変) massFrac=0.30000001192092896(両片とも親と同値)",
-   "ms": 11
+   "ms": 4
   },
   {
    "id": "core.schema-roundtrip",
@@ -1463,37 +1463,37 @@
    "id": "claim.nebulashell-stress",
    "pass": true,
    "detail": "2層: lS̄=0.962(窓0.9〜0.99 — claims宣言) 保持=1.000(≥0.93) env保持=1 / 単層(spin6・同等暗さ0.965): 保持=0.481(0.4〜0.6 — 熱圧で自壊) env|spin| 3.77 vs 1.25(>2.5倍 — 影響範囲の狭さ)",
-   "ms": 4026
+   "ms": 2674
   },
   {
    "id": "claim.nebulabipolar-polar",
    "pass": true,
    "detail": "脱出=37(30〜55) 極方向比=0.622(窓0.5〜0.72・等方1/3・実測0.610) / 中心lSw=1.00(>0.95) アーク帯lS̄=0.944(>0.85) / スピン0対照 脱出=0(≤3 — 圧力が唯一の駆動源)",
-   "ms": 5893
+   "ms": 4043
   },
   {
    "id": "claim.nebulabipolar-multiseed",
    "pass": true,
    "detail": "3seed(20260805/20260806/20260807・内蔵seedは claim.nebulabipolar-polar が担当) 6000步 極方向比 0.676/0.761/0.630 → **最小=0.630**(claim 窓 0.45〜0.9・等方 1/3=0.333 — 最小でも1.89倍の集中) / 脱出 34/60 46/60 46/60(各≥20) / 圧力オフ対照(kRep=0)の脱出 0/0/0(最大 ≤3) / 中心lSw 1.00/1.00/1.00(>0.95) アーク帯lS̄ 0.944/0.944/0.944(>0.85) / E水準=E1(赤道アーク22体が pinned = 外部固定の幾何なので閉鎖系ではなく、E2/E3 には定義上該当しない — 第84便B) / 16seed の分布の正本は tests/exp-4-88.mjs",
-   "ms": 15574
+   "ms": 11239
   },
   {
    "id": "dimming.dynamics-invariant",
    "pass": true,
    "detail": "減光なし vs auto vs 固定1(121粒子・2000步・etaRad=0): 力学+時計の不一致=0/0(厳密0 — x,y,vx,vy,spin,τ)・光線差=0/0(厳密0)/ disk群 lightSweep:\"auto\" 配線=121/121・実効減光>0=121/121 — 減光は光学のみ(「暗いが重い」天体の前提の機械証明)",
-   "ms": 6268
+   "ms": 4578
   },
   {
    "id": "clamp.reaction-cap",
    "pass": true,
    "detail": "病的構成(D0=0・質量比1:1.2e4・2000步): 発動=1998回・速度クランプ=0(旧実測1998回 → 0)・惑星 v最大=10.7(<20・旧100)・|ΔΣP|帳簿込み=2.2e-3(<0.05)・|ΔΣL|帳簿込み/スケール=3.1e-5(<2e-3・スピンクランプ0回分は帳簿外)・リザーバ吸収=43.7 / 正規ドラッグ系は不発: 🕶️6000步=0回・🌠merger4000步=0回(=0 — 既存挙動 bit 不変)",
-   "ms": 74346
+   "ms": 51225
   },
   {
    "id": "geo2.kf0-bitequal",
    "pass": true,
    "detail": "geoPN=2∧kFrame=0 ≡ geoPN=1(☿型 pinned 源・1500步): 全状態(x,y,vx,vy,spin×2粒子)の不一致=0(厳密0 — P4a-4 のエンジン版・段階導入アンカー)",
-   "ms": 204
+   "ms": 197
   },
   {
    "id": "geo2.comoving",
@@ -1511,19 +1511,19 @@
    "id": "behavior.mercury-builtin",
    "pass": true,
    "detail": "Δϖ/周: λ1=3.79° λ0=-0.65° α0.5=0.84° 比(基線差引)=2.98(理論3±0.6)",
-   "ms": 396
+   "ms": 357
   },
   {
    "id": "claim.massladder",
    "pass": true,
    "detail": "力学質量=2780/5448/10676(実質量 2500/5000/10000)/ 比=1.9599(窓1.76〜2.16・実測1.960) 3.8401(窓3.46〜4.22・実測3.840)/ M_dyn/m=1.112/1.090/1.068(いずれも1超1.3未満 — E6′超過)/ 中心lSw 最小=1.0000(≥0.99 — 真っ暗) T_obs=0/0/0(全て0)/ リング半径ばらつき 最大=6.5%(≤15%)/ 上限発動 V/S/R=0/0/0(すべて0)",
-   "ms": 7201
+   "ms": 5189
   },
   {
    "id": "zonal.analytic-d68",
    "pass": true,
    "detail": "ϖ̇=38.231443°/日(38.231443±0.05) 較正=38.243000(38.243±0.002)",
-   "ms": 21
+   "ms": 16
   },
   {
    "id": "zonal.point-mass-degenerate",
@@ -1535,7 +1535,7 @@
    "id": "zonal.order-convergence",
    "pass": true,
    "detail": "J2k 打ち切り増分 |Δϖ̇| が単調減衰: 7.8e-7 > 1.0e-7 > 2.0e-8 > 7.1e-9 > 1.6e-9",
-   "ms": 3
+   "ms": 2
   },
   {
    "id": "zonal.radial-monotonic",
@@ -1547,7 +1547,7 @@
    "id": "zonal.ai-open",
    "pass": true,
    "detail": "受理/クランプ(refR→5000, calib→2, J2→0.1)/奇数次は警告無視/refR欠落は拒否 — 警告4件",
-   "ms": 3
+   "ms": 2
   },
   {
    "id": "zonal.d68-preset",
@@ -1559,67 +1559,67 @@
    "id": "zonal.d68-realunit",
    "pass": true,
    "detail": "D68(a=67.627=67,627km)エンジン実測 38.072°/日(Cassini 38.243 に対し -0.45%・窓 37.9〜38.35)/ 10粒の解析式比 0.9944〜1.0021(窓 0.98〜1.02)/ μ=G·M=379.3101(実 GM_土星=379.3121)・J基準半径=60.33(=60,330km)・C=1.000302283/ 672813步",
-   "ms": 8443
+   "ms": 6622
   },
   {
    "id": "zonal.peri-ui",
    "pass": true,
    "detail": "最内粒子(a_eff=67.8): 実測=8.05°/周 解析=7.99°/周(相対差 0.8% <25%・n=4)",
-   "ms": 588
+   "ms": 477
   },
   {
    "id": "zonal.sim-precession",
    "pass": true,
    "detail": "Δϖ/周 実測=8.050° 解析(a_eff=67.8)=7.989°(相対差 0.77% <15%)",
-   "ms": 1318
+   "ms": 1034
   },
   {
    "id": "zonal.no-double-count",
    "pass": true,
    "detail": "J=0 実測基線=0.004°(<1.15°)",
-   "ms": 1
+   "ms": 0
   },
   {
    "id": "zonal.dt-convergence",
    "pass": true,
    "detail": "Δϖ/周: dt=0.016 → 8.050° / dt=0.008 → 8.041°(相対差 0.11% <10%)",
-   "ms": 1036
+   "ms": 835
   },
   {
    "id": "behavior.solarInner",
    "pass": true,
    "detail": "較正係数 f=1.000(実ケプラー速度)の2水星周窓 半径振れ幅=0.0131%/0.00489%/0.00181%/0.00226%(水星窓 0.010〜0.017%・他は<0.01%)/ kFrame=0 対照=0.0131%/0.00533%/0.00174%/0.00124%(実スケールでは引きずりが効かない)/ 旧較正 ×1.12 を実単位へ入れると 水星 50.7%(>40% の楕円化)/ 水星の公転周期=87.9722日(観測 87.969±0.09)/ 宣言=true(fidelity=real・指数 L8/T4/M27・G=6.674・c₀=30000・κ=G/c₀²・kF=1・D₀=0.006)/ 95006步×3本",
-   "ms": 1448
+   "ms": 1216
   },
   {
    "id": "zonal.trail-default",
    "pass": true,
    "detail": "overlays.trail=true",
-   "ms": 12
+   "ms": 11
   },
   {
    "id": "ice.e10-off",
    "pass": true,
    "detail": "ds非ゼロ: kappaS=0 → 0/241(=0)/ kappaS=0.08 → 241/241(≥90%)",
-   "ms": 42
+   "ms": 32
   },
   {
    "id": "pwa.sw-offline",
    "pass": true,
    "detail": "SW=true アセット200=true 名前空間dfm-beta-*=true(dfm-beta-v1.41-b1) オフライン再読込=true",
-   "ms": 655
+   "ms": 400
   },
   {
    "id": "pwa.sw-fail-ui",
    "pass": true,
    "detail": "登録失敗の通知表示=true(オフライン用キャッシュ(Service Worker)の登録に失…)",
-   "ms": 395
+   "ms": 255
   },
   {
    "id": "behavior.saturnExp",
    "pass": true,
    "detail": "t≈360: 帯内=97.1%(≥95%) 落下=0.4%(≤2%) 散逸=0.0%(≤5%) 平均|spin|=0.115(<0.5)",
-   "ms": 1
+   "ms": 0
   },
   {
    "id": "behavior.saturn-kframe-control",
@@ -1649,25 +1649,25 @@
    "id": "draft.restore",
    "pass": true,
    "detail": "confirm=1 muF=0.77(0.77) badge=inline-block 未保存として再保存=true",
-   "ms": 332
+   "ms": 233
   },
   {
    "id": "draft.discard",
    "pass": true,
    "detail": "confirm=2 muF=0.77(0.55 は不適用・直前値 0.77 のまま) 下書き消去=true",
-   "ms": 21
+   "ms": 8
   },
   {
    "id": "core.twolayer",
    "pass": true,
    "detail": "🎯 n=241 コア=v2(mode=2) Mc/m=0.18 Ω_c=0.0525 R/Rc=69.7/29.6 rigid 等価=0(<1e-9) 差動0(Ω_c=s)等価=0(<1e-9) コア静止差=1.7e-1(>1e-4) コアなし高速パス=true 高速コア効果=4.34(>0.1) 空洞NaNなし=true&効果=5.15 負質量NaNなし=true",
-   "ms": 26
+   "ms": 18
   },
   {
    "id": "core.ab-body-edit",
    "pass": true,
    "detail": "B選択表示=true(選択粒子の編集(B)) m(B)=-2受理=true A非波及=true コアv1欄(mc/sc/Rc)撤去=true(エンジン側の撤去=true と一致) s(A)=1.5/s(B)=0.06065329164266586(非波及) 終了で選択解除=true",
-   "ms": 27
+   "ms": 11
   },
   {
    "id": "behavior.saturnLayered",
@@ -1679,37 +1679,37 @@
    "id": "behavior.earthMoon",
    "pass": true,
    "detail": "🌍 t≈900(1.99周): r=180.0〜180.1(180±2%) 同期誤差=0.10°/周(≤2) spin月/ω実測 相対差=0.0%(<5%) コア 地球=0.325(rigid)・月=0.0168 NaNなし=true",
-   "ms": 145
+   "ms": 103
   },
   {
    "id": "behavior.earthMoonFree",
    "pass": true,
    "detail": "🌕 t≈5000(10.48周): r=179.97〜180.02(180±1%) 重心移動=0.0009(<0.01) 自転比=27.40(実比27.40) 同期誤差=0.01°/周(≤2) NaNなし=true",
-   "ms": 614
+   "ms": 495
   },
   {
    "id": "ui.landscape",
    "pass": true,
    "detail": "grid=true 2カラム=true キャンバス=655×707 パネル右=true パネル高>300=true 縦積み復帰(390px)=true",
-   "ms": 506
+   "ms": 328
   },
   {
    "id": "obs.equivalence",
    "pass": true,
    "detail": "maxd=0(=0: bit等価 — 観測層は既定で力学に影響しない)",
-   "ms": 182
+   "ms": 127
   },
   {
    "id": "darkrotor.uphi",
    "pass": true,
    "detail": "u_φ(140)=0.8623/0.2240 比=3.850(>3.5) u_φ(200)=1.1426/0.5198 比=2.198(>2) u_φ(260)=1.0325/0.2562 比=4.030(>3.66) スピン0にしたローター=3体(single=3) v6=true 単層v5=true / 第39便 39A v6 の実測=3.850/2.198/4.030(第33便 X4 v5=1.760/1.314/1.823・v4=1.891/1.268/1.543・旧v3=1.954/1.543/1.562)。v6 は閾値を実測÷1.10 で再設定: 1.60→3.50 / 1.19→2.00 / 1.65→3.66 (全域で強化 — ローターを対向2体だけにしてハロー質量 1500→300 に落としたことで、対照側の u_φ(スピンを全て 0 にした残り = 公転速度だけの引きずり)が下がり、比が2倍以上に開いた。引きずり経路そのものが強くなったのではなく、対照の分母が小さくなったことによる)。root(旧v3)は旧閾値のまま",
-   "ms": 21
+   "ms": 12
   },
   {
    "id": "darkrotor.allfree",
    "pass": true,
    "detail": "pinned/rail 違反=0/4体 外部要素バッジ pin=0(=0) rail=false(=false: 閉鎖系) 粒子数=383 — 第32便 W3b: 旧v3 は中心pinned+ハロー20体の railOmega(展示系)だった",
-   "ms": 13
+   "ms": 8
   },
   {
    "id": "behavior.darkrotor",
@@ -1733,7 +1733,7 @@
    "id": "groups.reorder",
    "pass": true,
    "detail": "optgroups=[\"熱の実験室\",\"空間と時間\",\"光\",\"天体の物語\",\"銀河\",\"箱宇宙\"](第79便 スケール準拠順)",
-   "ms": 15
+   "ms": 9
   },
   {
    "id": "preset.kframe-binary01",
@@ -1757,13 +1757,13 @@
    "id": "overlay.minimize",
    "pass": true,
    "detail": "Δslot0=87.39999999999998 Δslot1=87.39999999999998(≈87.39999999999999) distinct=true",
-   "ms": 17
+   "ms": 6
   },
   {
    "id": "bodyedit.minimize",
    "pass": true,
    "detail": "表示=true 最小化=true 選択維持=true 復元=true",
-   "ms": 14
+   "ms": 6
   },
   {
    "id": "behavior.binary",
@@ -1775,7 +1775,7 @@
    "id": "about.panel",
    "pass": true,
    "detail": "開閉=true/true 操作=true 法則=true 説明=true",
-   "ms": 57
+   "ms": 23
   },
   {
    "id": "about.help-moved",
@@ -1799,619 +1799,631 @@
    "id": "rail.validator",
    "pass": true,
    "detail": "clamp5→2+警告=true 非数拒否=true pinned=false無効化+警告=true",
-   "ms": 8
+   "ms": 5
   },
   {
    "id": "rail.motion",
    "pass": true,
    "detail": "位相=1.6000/-1.6000(±1.6) 半径誤差=4.8e-6 ω=0静止=true",
-   "ms": 7
+   "ms": 4
   },
   {
    "id": "rail.ab-reset-roundtrip",
    "pass": true,
    "detail": "対象=boxrot A/B転写=true 再ロードのレール数=96(=定義96) 検証往復=true",
-   "ms": 200
+   "ms": 112
   },
   {
    "id": "rail.badge",
    "pass": true,
    "detail": "対象=boxrot rail=true pin=96(≥レール96)",
-   "ms": 1
+   "ms": 0
   },
   {
    "id": "perf.particle-caps",
    "pass": true,
    "detail": "merger=182(≤280) counterring=201(≤210) darkrotor=383(≤410) q=2(=2)",
-   "ms": 6
+   "ms": 4
   },
   {
    "id": "about.keyboard",
    "pass": true,
    "detail": "role/tabindex/dialog=true Enterで開く=true Escapeで閉じる=true",
-   "ms": 11
+   "ms": 9
   },
   {
    "id": "perf.convection-timescale",
    "pass": true,
    "detail": "timeScale=2(期待2 — 第25次レビュー P0-1)",
-   "ms": 18
+   "ms": 7
   },
   {
    "id": "perf.rail-indices",
    "pass": true,
    "detail": "対象=boxrot 索引=96/実レール96(定義96) 整合=true 🌌は空=true",
-   "ms": 24
+   "ms": 21
   },
   {
    "id": "perf.trail-cap",
    "pass": true,
    "detail": "記録本数=15 長さ=4548〜4548floats(上限4500+360)",
-   "ms": 34
+   "ms": 21
   },
   {
    "id": "perf.draw-radius-uncapped",
    "pass": true,
    "detail": "正確=Infinity 軽量=Infinity 自動=Infinity(第37便A5: 全品質で∞を期待 — 旧perf.draw-radius-cap[軽量30/自動40]から改訂)",
-   "ms": 5
+   "ms": 2
   },
   {
    "id": "curve.vbar-degenerate",
    "pass": true,
    "detail": "相対誤差(r=30,60,90,150,220,300)=1.3e-16,0.0e+0,0.0e+0,0.0e+0,1.7e-16,0.0e+0 最大=1.70e-16(<1e-6)",
-   "ms": 13
+   "ms": 4
   },
   {
    "id": "curve.vbar-distributed",
    "pass": true,
    "detail": "r=220 v_bar(全質量)=3.0763 v_bar(中心質量のみ)=3.0147 比=1.020(>1.01)",
-   "ms": 8
+   "ms": 4
   },
   {
    "id": "ai.payload-preview",
    "pass": true,
    "detail": "未選択一致=true ベース選択後も一致+文脈注入=true システムプロンプト文字数表示=true",
-   "ms": 11
+   "ms": 14
   },
   {
    "id": "ai.external-prompt",
    "pass": true,
    "detail": "素通し=true ベース文脈=true 空要望プレースホルダ=true 短縮版=true",
-   "ms": 20
+   "ms": 10
   },
   {
    "id": "prompt.spec-sync",
    "pass": true,
    "detail": "docs/AI_SPEC.md(12455字)が beta SYSTEM_PROMPT(12055字)を逐語収載=true",
-   "ms": 11
+   "ms": 9
   },
   {
    "id": "prompt.intent-map",
    "pass": true,
    "detail": "対応表+意図分解ルール+スケールタグ節+few-shot scaleTier×5",
-   "ms": 2
+   "ms": 1
   },
   {
    "id": "import.fenced-json",
    "pass": true,
    "detail": "フェンス除去=true 正規JSON素通し=true 末尾カンマ=true 複数JSON=true NaN許容=true スマート引用符=true JSON無しは失敗=true",
-   "ms": 23
+   "ms": 30
   },
   {
    "id": "save.copy-with-preset",
    "pass": true,
    "detail": "カスタム参照=同梱(true) 内蔵参照=saves のみ(true)",
-   "ms": 19
+   "ms": 10
   },
   {
    "id": "scale.base-select",
    "pass": true,
    "detail": "並び(バー→換算→ベース)=true 初期=タグ(true) 一括設定=true 個別変更→なし=true セーブ保存=true ロードで既定復帰=true セーブ読込で復元+なし表示=true / eC=3(第130便: 一括設定の対象外・スライダー撤去)=true",
-   "ms": 51
+   "ms": 36
   },
   {
    "id": "ext02.claim-provenance",
    "pass": true,
-   "detail": "claims=82件中チップ解決=82(不正=[]) 較正上書き3件=true 🌍UI表示=[較正,実測](較正+実測=true) validate往復=true 不正値は警告無視=true",
-   "ms": 15
+   "detail": "claims=94件中チップ解決=94(不正=[]) 較正上書き3件=true 🌍UI表示=[較正,実測](較正+実測=true) validate往復=true 不正値は警告無視=true",
+   "ms": 7
   },
   {
    "id": "claims.prov-coverage",
    "pass": true,
-   "detail": "全82claims が prov 明示宣言=82/82(分布: derived=5 simulated=69 definition=4 calibrated=4)",
-   "ms": 5
+   "detail": "全94claims が prov 明示宣言=94/94(分布: derived=9 simulated=74 definition=5 calibrated=6)",
+   "ms": 8
   },
   {
    "id": "budget.consistency",
    "pass": true,
-   "detail": "代表5件 台帳=独立再計算: saturnRingRealKF1=9/1/0/0 mercuryRealKF1=9/1/0/0 earthMoonRealKF1=9/1/0/0 starcore=9/0/0/3 galaxy=4/0/0/1 / チップ数字=[9/1/0/0 9/1/0/0 9/1/0/0 9/0/0/3 4/0/0/1] / qLock の q は導出扱い=true / physLock ON で κ がノブ→導出=true",
-   "ms": 33
+   "detail": "代表10件 台帳=独立再計算: saturnRingRealKF1(v2)=5/7/2/2/2 mercuryRealKF1(v2)=5/6/1/2/2 earthMoonRealKF1(v2)=7/6/2/2/0 starcore(v1)=9/0/0/3 galaxy(v1)=4/0/0/1 mercuryReal(v2)=5/7/0/1/2 earthMoonReal(v2)=5/7/0/1/2 saturnRingReal(v2)=5/8/1/1/2 solarInner(v2)=6/8/1/2/2 saturnZonalD68(v2)=6/6/1/1/1 / チップ数字=[5/7/2/2/2 5/6/1/2/2 7/6/2/2/0 9/0/0/3 4/0/0/1 5/7/0/1/2 5/7/0/1/2 5/8/1/1/2 6/8/1/2/2 6/6/1/1/1] / v2+v1 両形=true / qLock の q は導出扱い=true / physLock ON で κ がノブ→導出=true",
+   "ms": 46
+  },
+  {
+   "id": "claims.mainline",
+   "pass": true,
+   "detail": "mercuryReal=2件[retrospective_check+input_check] fit0 / mercuryRealKF1=2件[retrospective_check+retrospective_check] fit1 / earthMoonReal=2件[input_check+input_check] fit0 / earthMoonRealKF1=2件[fit_target+fit_target] fit2 / saturnRingReal=2件[input_check+input_check] fit1 / saturnRingRealKF1=2件[retrospective_check+retrospective_check] fit2 / solarInner=2件[retrospective_check+retrospective_check] fit1 / saturnZonalD68=3件[fit_target+fit_target+retrospective_check] fit1",
+   "ms": 45
+  },
+  {
+   "id": "claims.role-audit",
+   "pass": true,
+   "detail": "role 往復=true・不正値は警告無視=true / parameterAudit 往復=true・不正要素は警告無視=true・非オブジェクト=true / AI仕様に載せない=true / 連鎖カード7段のまま役割表示=true(7段・「較正: あり — 現実の観測値への対応付けで決めた値を含む(較正1件)〔fit 」) / 分類=[input_check,fit_target,retrospective_check,held_out,prediction,negative_control]",
+   "ms": 7
   },
   {
    "id": "provchain.ui",
    "pass": true,
    "detail": "宣言あり(⏱️: 公理: A2 — 決定力 w=m/√(d²+ε²) — 質量に近い場所ほど座標が…)=true / 宣言なし(⏪: 公理: —(宣言なし — 汎用テンプレートのみ))=true / 較正段(🛰️: 較正: あり — 現実の観測値への対応付けで決めた値を含む()=true / en 切替=true(台帳も en=true・note も en=true)",
-   "ms": 68
+   "ms": 55
   },
   {
    "id": "ui.preset-id",
    "pass": true,
    "detail": "ID行表示=true タップコピー=true 検索ヒット=true",
-   "ms": 38
+   "ms": 32
   },
   {
    "id": "physlock.ui-110",
    "pass": true,
    "detail": "グレーアウト(前true/中true/後true) 読込自動解除=true(Kt維持=true・行復帰=true) セーブ保存=true 復元=true(グレーtrue) 旧互換=true/true λPN0.25保持=true 値域文言=true",
-   "ms": 69
+   "ms": 34
   },
   {
    "id": "shot.capture",
    "pass": true,
-   "detail": "path=/home/user/dfm-simulator/tests/out/screenshot-beta.png size=113874bytes(>20000)",
-   "ms": 3342
+   "detail": "path=/home/user/dfm-simulator/tests/out/screenshot-beta.png size=113320bytes(>20000)",
+   "ms": 2415
   },
   {
    "id": "shot.regress-gclock",
    "pass": true,
-   "detail": "mAD=2.33(≤10) diff>24セル比率=3.9%(≤15%) baseline capturedAt=2026-07-28T01:52:56.920Z commit=80f69192",
-   "ms": 187
+   "detail": "mAD=2.34(≤10) diff>24セル比率=3.9%(≤15%) baseline capturedAt=2026-07-28T01:52:56.920Z commit=80f69192",
+   "ms": 140
   },
   {
    "id": "shot.regress-boxcomoving",
    "pass": true,
    "detail": "mAD=2.49(≤10) diff>24セル比率=4.3%(≤15%) baseline capturedAt=2026-07-28T01:52:57.121Z commit=80f69192",
-   "ms": 275
+   "ms": 189
   },
   {
    "id": "shot.regress-boxredshift",
    "pass": true,
    "detail": "mAD=2.68(≤10) diff>24セル比率=4.1%(≤15%) baseline capturedAt=2026-07-28T01:52:57.237Z commit=80f69192",
-   "ms": 142
+   "ms": 108
   },
   {
    "id": "shot.regress-galaxy",
    "pass": true,
-   "detail": "mAD=2.71(≤10) diff>24セル比率=3.4%(≤15%) baseline capturedAt=2026-07-28T01:53:02.536Z commit=80f69192",
-   "ms": 7242
+   "detail": "mAD=2.72(≤10) diff>24セル比率=3.4%(≤15%) baseline capturedAt=2026-07-28T01:53:02.536Z commit=80f69192",
+   "ms": 4908
   },
   {
    "id": "shot.regress-darkrotor",
    "pass": true,
-   "detail": "mAD=2.54(≤10) diff>24セル比率=4.0%(≤15%) key=darkrotor-v6 baseline capturedAt=2026-07-28T06:49:04.682Z commit=4136383e",
-   "ms": 4918
+   "detail": "mAD=2.48(≤10) diff>24セル比率=4.1%(≤15%) key=darkrotor-v6 baseline capturedAt=2026-07-28T06:49:04.682Z commit=4136383e",
+   "ms": 3808
   },
   {
    "id": "shot.regress-lensing",
    "pass": true,
-   "detail": "mAD=1.56(≤10) diff>24セル比率=2.0%(≤15%) baseline capturedAt=2026-07-28T01:53:06.628Z commit=80f69192",
-   "ms": 166
+   "detail": "mAD=1.51(≤10) diff>24セル比率=1.7%(≤15%) baseline capturedAt=2026-07-28T01:53:06.628Z commit=80f69192",
+   "ms": 126
   },
   {
    "id": "shot.regress-gas",
    "pass": true,
-   "detail": "mAD=2.29(≤10) diff>24セル比率=3.7%(≤15%) baseline capturedAt=2026-07-28T01:53:08.385Z commit=80f69192",
-   "ms": 2429
+   "detail": "mAD=2.41(≤10) diff>24セル比率=4.0%(≤15%) baseline capturedAt=2026-07-28T01:53:08.385Z commit=80f69192",
+   "ms": 1785
   },
   {
    "id": "shot.regress-convection",
    "pass": true,
-   "detail": "mAD=2.38(≤10) diff>24セル比率=3.4%(≤15%) key=convection-n210 baseline capturedAt=2026-07-30T18:10:39.160Z commit=f7d06e5e",
-   "ms": 2436
+   "detail": "mAD=3.87(≤10) diff>24セル比率=5.3%(≤15%) key=convection-n210 baseline capturedAt=2026-07-30T18:10:39.160Z commit=f7d06e5e",
+   "ms": 1704
   },
   {
    "id": "shot.regress-saturn",
    "pass": true,
-   "detail": "mAD=2.38(≤10) diff>24セル比率=3.9%(≤15%) key=saturn-r240 baseline capturedAt=2026-07-28T23:28:35.269Z commit=8e3dabdd",
-   "ms": 2902
+   "detail": "mAD=3.81(≤10) diff>24セル比率=7.0%(≤15%) key=saturn-r240 baseline capturedAt=2026-07-28T23:28:35.269Z commit=8e3dabdd",
+   "ms": 2087
   },
   {
    "id": "shot.regress-saturnLayered",
    "pass": true,
    "detail": "mAD=2.35(≤10) diff>24セル比率=3.8%(≤15%) key=saturnLayered-r240 baseline capturedAt=2026-07-28T23:28:38.030Z commit=8e3dabdd",
-   "ms": 2875
+   "ms": 2051
   },
   {
    "id": "shot.regress-earthMoon",
    "pass": true,
    "detail": "mAD=2.33(≤10) diff>24セル比率=3.7%(≤15%) baseline capturedAt=2026-07-28T01:53:14.492Z commit=80f69192",
-   "ms": 144
+   "ms": 116
   },
   {
    "id": "shot.regress-fig8",
    "pass": true,
    "detail": "mAD=2.28(≤10) diff>24セル比率=3.6%(≤15%) baseline capturedAt=2026-07-28T01:53:14.582Z commit=80f69192",
-   "ms": 119
+   "ms": 105
   },
   {
    "id": "shot.regress-echo",
    "pass": true,
-   "detail": "mAD=2.37(≤10) diff>24セル比率=3.4%(≤15%) baseline capturedAt=2026-07-28T01:53:14.703Z commit=80f69192",
-   "ms": 151
+   "detail": "mAD=2.19(≤10) diff>24セル比率=3.3%(≤15%) baseline capturedAt=2026-07-28T01:53:14.703Z commit=80f69192",
+   "ms": 117
   },
   {
    "id": "shot.regress-freebox",
    "pass": true,
    "detail": "mAD=3.59(≤10) diff>24セル比率=7.0%(≤15%) baseline capturedAt=2026-07-28T01:53:14.969Z commit=80f69192",
-   "ms": 472
+   "ms": 306
   },
   {
    "id": "shot.regress-spinup",
    "pass": true,
    "detail": "mAD=2.33(≤10) diff>24セル比率=3.8%(≤15%) baseline capturedAt=2026-07-28T06:49:13.424Z commit=4136383e",
-   "ms": 1301
+   "ms": 999
   },
   {
    "id": "shot.regress-starcore",
    "pass": true,
    "detail": "mAD=2.52(≤10) diff>24セル比率=4.3%(≤15%) baseline capturedAt=2026-07-30T06:04:14.455Z commit=ab0bfe43",
-   "ms": 868
+   "ms": 601
   },
   {
    "id": "ui.aitab-no-hscroll",
    "pass": true,
    "detail": "AIタブに横スクロール要素なし(viewport 390。原因は #aiBasePreset のmin-width:0欠落 — 修正済み)",
-   "ms": 83
+   "ms": 54
   },
   {
    "id": "ai.base-topkeys",
    "pass": true,
    "detail": "echo.integrator:OK echo.echoFlipAt:OK freebox.measureBox:OK boxredshift.universeBox:OK boxredshift.photonEmit:OK",
-   "ms": 10
+   "ms": 9
   },
   {
    "id": "import.distinct-topkeys",
    "pass": true,
    "detail": "integrator:OK echoFlipAt:OK measureBox:OK universeBox:OK photonEmit:OK overlays:OK",
-   "ms": 14
+   "ms": 10
   },
   {
    "id": "save.dedup-box",
    "pass": true,
    "detail": "残存件数=2(期待2) H0=[0.01,0.02](期待 0.01,0.02 の両方)",
-   "ms": 5
+   "ms": 3
   },
   {
    "id": "draft.box-restore",
    "pass": true,
    "detail": "編集前H0=0.004 confirm=1 ドラフトH0=0.09 復元後H0=0.09(いずれも0.09を期待)",
-   "ms": 346
+   "ms": 238
   },
   {
    "id": "version.beta-label",
    "pass": true,
    "detail": "BETA_BUILD=v1.41-b1 sw.CACHE接尾辞=v1.41-b1(要一致) DOM表示(file://)=v1.40(期待=v1.40。isBetaServe()がfile://で偽になり\"v\"+APP_VERSIONへ落ちる仕様を利用した検証)",
-   "ms": 35
+   "ms": 22
   },
   {
    "id": "version.beta-label-http",
    "pass": true,
-   "detail": "http://127.0.0.1:34237/beta/index.html の DOM表示=v1.41-b1(期待=BETA_BUILD=v1.41-b1 — isBetaServe() が http(s)+/beta/ で真になる実配信経路の直接検証。7z の file:// 検証を補完)",
-   "ms": 476
+   "detail": "http://127.0.0.1:44739/beta/index.html の DOM表示=v1.41-b1(期待=BETA_BUILD=v1.41-b1 — isBetaServe() が http(s)+/beta/ で真になる実配信経路の直接検証。7z の file:// 検証を補完)",
+   "ms": 316
   },
   {
    "id": "ray.wavelength-color",
    "pass": true,
    "detail": "steps=800 ψ0=0.0346 ψ最深=0.4723 λ0=550.0nm(#92ff00) λ最深=355.0nm(#460046)(λ0>λ最深=青方偏移を期待・色も相違)",
-   "ms": 21
+   "ms": 12
   },
   {
    "id": "ray.alpha-threshold",
    "pass": true,
    "detail": "α_min=0.02rad / ①全内蔵プリセットで光線源集合=式 m≥(α/4)Kt·max(R,ε)(不一致=0件) / ②カナリア(Kt=100,R=20,ε=2 → m_min=10.000): 直上 m=10.0010 源=true 偏向=-2.01e-2rad(≠0) ⇔ 直下 m=9.9990 源=false 偏向=0(厳密0) / ③比例: Kt×2→m_min=20.000 R×2→20.000 R<εではε支配→4.000 / ④1PN源(c²/G=1600,R=12.247 → m_min=97.976=実装97.976): 直上 源=true |Δr(λ_PN 1−0)|=6.72e-2(>1e-3) ⇔ 直下 源=false |Δr|=0(厳密0) / 物理対応ロック(Kt=c²/G=3600): m_min=836.56=(α/4)(c²/G)max(R,ε)=836.56(1PN側も同値=836.56・🛰️の主星は源のまま=true) / ⑤キャッシュキー追随: 源2→1件でキー変化=true 復帰で同一=true",
-   "ms": 364
+   "ms": 277
   },
   {
    "id": "ai.help-collapsed",
    "pass": true,
    "detail": "ioDetails:closed=true/hidden=true/visibleOnOpen=true aiKeyDetails:closed=true/hidden=true/visibleOnOpen=true aiBaseDetails:closed=true/hidden=true/visibleOnOpen=true",
-   "ms": 57
+   "ms": 32
   },
   {
    "id": "radius.default-one",
    "pass": true,
    "detail": "内蔵64件の physics.radiusScale: 非1=なし / DEFAULT_PHYSICS.radiusScale=1(=1) 実行時非1=なし",
-   "ms": 17
+   "ms": 13
   },
   {
    "id": "rmul.schema",
    "pass": true,
    "detail": "clamp=[9,0.2,3,2](=[9,0.2,3,2]) 警告1件(=1) 省略時キーなし=true R(rMul2,m100)=20(=20) radius優先=7(=7) rs2倍=40(=40) 微小R=0.1000(=0.1・下限0.5を経由しない)",
-   "ms": 4
+   "ms": 3
   },
   {
    "id": "sweep.auto-monotonic",
    "pass": true,
    "detail": "s=0→lS_eff=0.000000 s=0.5→lS_eff=0.210293 s=1→lS_eff=0.420586 s=2→lS_eff=0.841172(s=0で0・単調増加)",
-   "ms": 4
+   "ms": 3
   },
   {
    "id": "sweep.auto-physlock",
    "pass": true,
    "detail": "ロック成立=true 土星の実自転比 lS_eff=3.333e-5(<0.01) 太陽比=6.788e-6 参考: 展示用スピン0.05では 0.0591",
-   "ms": 3
+   "ms": 2
   },
   {
    "id": "sweep.numeric-unchanged",
    "pass": true,
    "detail": "🕶️darkrotor 300步 x,y,spinハッシュ=187585513e1d5c0a…(基準=187585513e1d5c0a… bit一致=true) auto経路=false(false=ゼロコスト) lightSweep=1,1(不変) [E6′倍精度化(4-81)=true]",
-   "ms": 2855
+   "ms": 2028
   },
   {
    "id": "tint.schema",
    "pass": true,
    "detail": "thermal: \"tint\"→tint \"spin\"→spin \"hot\"→spin(警告1件) 省略→undefined / tInt: 99999→10000(警告1件) -5→0 12.5→12.5(警告0件=0) \"x\"→検証NG=true / エンジン: tint で Tint 確保=true(T=7) spin で未確保=true",
-   "ms": 32
+   "ms": 17
   },
   {
    "id": "tint.zero-cost",
    "pass": true,
    "detail": "6件が bit 一致(300步 x,y,spin ハッシュ): galaxy saturn darkrotor counterring freebox echo — 全て thermal=spin・Tint 未確保",
-   "ms": 7348
+   "ms": 5203
   },
   {
    "id": "tint.migrated",
    "pass": true,
    "detail": "gas(T≤6.25·s≤0) pressure(T≤42·s≤0) conduction(T≤64·s≤0) coolrace(T≤64·s≤0) convection(T≤2.25·s≤0) buoyancy(T≤20.25·s≤0)",
-   "ms": 28
+   "ms": 18
   },
   {
    "id": "tint.latent-heat",
    "pass": true,
    "detail": "融解区間(100→600步)の ΔT/ΔQ=0.0555 / 潜熱なし基準 1/(C·M)=0.2083 → 比=0.266(<0.6 — 吸熱の73%が U_rep へ) / U_rep 最大=121.0(吸熱の66.5%>35%) / T_int平均 1.23 → 8.68 → 11.11 → 12.73(1200→2400步 1.15倍<1.3 = プラトー)",
-   "ms": 316
+   "ms": 190
   },
   {
    "id": "tint.microspin-alias",
    "pass": true,
    "detail": "\"microspin\"→tint(警告0件=0) microSpinRms:3→tInt=9(キー削除=true) / 300步 bit 等価=true(NaN=false) / 200→tInt=10000(警告1件) / tInt併記→tInt=4 優先(警告=true) / 非数値→検証NG=true",
-   "ms": 49
+   "ms": 35
   },
   {
    "id": "mechspec.zero-cost",
    "pass": true,
    "detail": "6件が実装前基準と bit 一致(300步)・OFF では mech 未確保",
-   "ms": 12449
+   "ms": 8822
   },
   {
    "id": "mechspec.on-unchanged",
    "pass": true,
    "detail": "診断ON(集積+読み出し)でも全6件が同じ基準と bit 一致 = 物理への還流ゼロ",
-   "ms": 1
+   "ms": 0
   },
   {
    "id": "mechspec.sanity",
    "pass": true,
    "detail": "☿ Π=98.6/1.4/0.0/0.0/0.0/0.0(重力>90%・測地線>0.5%・接触/結合/引きずり=0) / 🧊 Π=0.5/0.0/22.9/17.8/58.8/0.0(結合>40%かつ重力超え・測地線/引きずり=0) / 🕊️ Π=1.7/0.0/98.3/0.0/0.0/0.0(熱斥力>90%) / 🌌 Π=45.0/0.0/7.6/27.0/0.0/20.4 vs kFrame=0 の引きずり=0.0%(ON>5%・対照=厳密0) / スロット割当=true",
-   "ms": 2084
+   "ms": 1468
   },
   {
    "id": "p3.sample-class",
    "pass": true,
    "detail": "全内蔵64件が宣言(分布: principle=36 semantic=1 composite=19 calibration=8) / スポット: 🕶️=composite(複合の明示は裁定要件) 🎡=principle ☿=principle 🛰️=calibration 赤方偏移=semantic ♻️=principle / スキーマ: 有効値保持=true(警告0) 不正値削除=true(警告1) / チップ表示=true",
-   "ms": 56
+   "ms": 36
   },
   {
    "id": "conduction.pinned-bath",
    "pass": true,
    "detail": "E10′ 解析値 Q=C·κs·(T_f−T_p)·g²·μ·dt=-1.514533675590e+0(g²=0.239012 μ=0.990099) → 1步の pinHeat=-1.514533675590e+0(相対差=0.00e+0<1e-9 = 解析値と bit 一致・符号<0 = 高温 pinned → 低温 free の向き) 熱浴の T は不変=true 粒子は静止=true / **閉性 ΔH_free + pinHeat = 0**: 順(pinned 200 → free 0)120步 ΔH_free=119.670341 pinHeat=-119.670337 相対=3.87e-8(≤1e-6) T_free 0→119.670 / 逆(free 200 → pinned 0)120步 ΔH_free=-119.670341 pinHeat=119.670340 相対=1.17e-8(≤1e-6) T_free 200→80.330 / radE=0(放射経路なし)",
-   "ms": 13
+   "ms": 14
   },
   {
    "id": "conduction.pinned-zero-cost",
    "pass": true,
    "detail": "📏conduction(tint・κs=0.3・pinned 2/28体)300步 x,y,vx,vy,spin,R,m,T_int ハッシュ=beb44e8d05eb1fed…(基点 3cc348b〔修正前〕の実測=beb44e8d05eb1fed… bit一致=true) = 自由粒子側の数値経路は 1 ビットも変わっていない(修正は帳簿追加のみ) / 帳簿: ΔH_free=64.632618 pinHeat=-64.632615 相対=4.90e-8(≤1e-6) — 修正前はこの 64.63 がどのリザーバにも載らず消えていた(台帳4-86)",
-   "ms": 21
+   "ms": 13
   },
   {
    "id": "fusion.conservation",
    "pass": true,
    "detail": "正面: n 2→1(融合1回) 質量 3.000000→3.000000 相対残差 P=1.59e-8 L_z=9.01e-9 E=9.35e-9 / 系全体の帳簿の跳び: 融合step=1.14e-2 ≤ 非融合stepの最大=4.79e-1 / 内訳 ΔKE=33.45 U_rep=6.76 U_spring=11.55 U_grav=-0.93(E_scale=67.60・d/ΣR=0.340) / オフセンター: n 2→1(融合1回) 質量 3.000000→3.000000 相対残差 P=0.00e+0 L_z=1.20e-8 E=1.17e-8 / 系全体の帳簿の跳び: 融合step=1.24e-1 ≤ 非融合stepの最大=4.17e-1 / 内訳 ΔKE=33.72 U_rep=6.66 U_spring=11.37 U_grav=-0.92(E_scale=68.35・d/ΣR=0.349) / スキーマ: 0.5→0.5 省略→0.35 9→0.7071067811865476(=1/√2・第45便 45B(2)で 1 から引下げ) 0→0.05 \"x\"→undefined(警告1) 配列→undefined(警告1) spin熱→undefined(警告1) 未知サブキー除去=true / エンジン門番: spin→null tint→dFrac=0.4 / 回収帳簿 fusPx+Σe=0.0e+0(≤1e-12)",
-   "ms": 25
+   "ms": 16
   },
   {
    "id": "fusion.zero-cost",
    "pass": true,
    "detail": "4件が基点 9ec1300 と bit 一致(300步 x,y,spin,T_int ハッシュ): gas pressure convection coolrace — 全て sim.fusion=null・融合0回・fusU=0(機構追加の零コスト)",
-   "ms": 4087
+   "ms": 2969
   },
   {
    "id": "fusion.chain",
    "pass": true,
    "detail": "n 3→1(融合2回 t=1.984,2.000 — 別サブステップ=true) 質量 3.500000→3.500000 相対残差 P=2.49e-9 L_z=6.27e-9 E=2.39e-8 / 系全体の帳簿の跳び: 融合step=1.47e-1 ≤ 非融合stepの最大=2.85e-1 / 第三者との相互作用差分 ΔU₃=-6.66,0.00(リザーバ fusU=-8.50) / 融合体の T_int=98.9",
-   "ms": 13
+   "ms": 9
   },
   {
    "id": "fission.conservation",
    "pass": true,
    "detail": "等分(frac=0.5): n 1→2 質量 2.000000→2.000000 m=2.000→1.000+1.000 R=1.4142→√(1.0000²+1.0000²)=1.4142 d/ΣR=0.3675(>dFrac=0.35) w=1.789 / ΔE_split=20.654(=−ΔKE 2.240 + U_spring 8.520 + U_rep 9.894) を T_int が支払い 100.00→48.37 / 相対残差 P=1.25e-8 L_z=1.42e-8 E=8.54e-9 / 非等分(frac=0.3): n 1→2 質量 2.000000→2.000000 m=2.000→0.600+1.400 R=1.4142→√(0.7746²+1.1832²)=1.4142 d/ΣR=0.3675(>dFrac=0.35) w=1.952 / ΔE_split=17.210(=−ΔKE 1.843 + U_spring 5.258 + U_rep 10.109) を T_int が支払い 100.00→56.97 / 相対残差 P=1.48e-8 L_z=7.57e-10 E=4.56e-9 / 熱不足(T=12 で Tcrit=10 超だが ΔE_split を払えない)→ 発火せず n=1・分裂0回 / 回収帳簿 carry=0.0e+0(≤1e-12) / スキーマ: frac 0.9→0.5 0.01→0.1 省略→0.5 Tcrit無し→undefined(fusion は残る dFrac=0.4) Tcrit≤0→undefined 配列→undefined frac=\"x\"→undefined 未知サブキー除去=true dFrac 0.95→0.7071067811865476(=1/√2) / エンジン門番: Tcrit=0→null Tcrit=7,frac=9→[7,0.5] dFrac 0.95→0.7071068",
-   "ms": 39
+   "ms": 17
   },
   {
    "id": "fission.zero-cost",
    "pass": true,
    "detail": "4件が基点 5b00341(第44便 44B)と bit 一致(x,y,v,spin,R,m,T_int + fusU/fusPx/fusPy/fusL のハッシュ): head:400步 46688b07 / off:400步 0e58f5e6 / chain:800步 c1c8a8ab / boxg:20000步 725938a3 — 全て fusion.fission=null・分裂0回・確保長の拡張なし",
-   "ms": 60
+   "ms": 43
   },
   {
    "id": "fission.cycle",
    "pass": true,
    "detail": "一様重力場の箱(gravityY=1・size=14・G=8)で 20000 步: 融合2回 / 分裂2回 / イベント記号列(F=融合 S=分裂・時刻順)=FSFS(厳密交互・\"FS\" が 2 回 = 2 サイクル) 最大n=2 / ※ 融合体はその場で Tcrit を超えるので融合と分裂は同一サブステップで連続する(サブステップ境界の n は 2 のまま) / 融合の ΔKE=2.13,3.43(>0=発熱) → T′=32.8,38.8 / 分裂の ΔE_split=17.47,18.64 を T_int が支払い 32.8→3.7 , 38.8→7.8(冷却) / 質量 3.000000→3.000000 相対残差 P=2.28e-8 L_z=4.00e-9 E=2.68e-8 / 系全体の帳簿の跳び: イベントstep=0.00e+0 ≤ 非イベントstepの最大=2.06e-1 / リザーバ fusU=-0.614",
-   "ms": 92
+   "ms": 62
   },
   {
    "id": "thermalwalls.schema",
    "pass": true,
    "detail": "正常受理(警告0件=0) / boundary≠box→無視(警告1件) / thermal≠tint→無視(警告1件) / mode:\"burn\"→adiabatic(警告1件・面が落ちる=true) / T:99999→10000 rate:500→100(警告2件) / mode:\"adiabatic\"のみ→状態なし=true / T:\"x\"→検証NG=true / エンジン twall: tint+box で有効=true spin で無効=true",
-   "ms": 13
+   "ms": 9
   },
   {
    "id": "thermalwalls.ledger",
    "pass": true,
    "detail": "帳簿の閉性 |ΔE_系 −(壁注入−壁回収−壁吸収KE−放射)|/E_scale=1.07e-4 (<1e-3) 壁注入=918.24 壁回収=667.38 壁吸収KE=6.90 放射=46.37 / 断熱壁(thermalWalls 省略): twall=false 壁注入=0 壁回収=0(熱交換ゼロ)・反射の運動E吸収のみ=1.36",
-   "ms": 1125
+   "ms": 704
   },
   {
    "id": "phasechange.schema",
    "pass": true,
    "detail": "受理={bondN:3,bondK:5,angK:2,condN:2}(警告0) / spin→無効 fusion→無効 bondN欠落→無効 / クランプ: bondN99→12 bondK9999→100 angK99→10 condN99→12 / bondK\"x\"→既定0(警告1) / 廃止キー6件(meltT/latentF/cohesion/valence/visc/condL)→警告6で無視 / エンジン: coordN/shPrev確保・旧配列なし=true・格子中央c=6.00(>3)・初期配位>0=25/25・share≤上限=true・100步NaNなし=true",
-   "ms": 48
+   "ms": 35
   },
   {
    "id": "phasechange.zero-cost",
    "pass": true,
    "detail": "3件が bit 一致(300步 x,y,spin,Tint ハッシュ): convection buoyancy gas — 全て phase=null",
-   "ms": 4389
+   "ms": 3231
   },
   {
    "id": "phasechange.schema-angK",
    "pass": true,
    "detail": "angK 受理=2(警告0) / 99→10(クランプ) / \"x\"→既定0(警告1) / angNbr確保=true U_ang監査=true(on/offでUが変わる) 300步NaNなし=true 近傍あふれ=0回",
-   "ms": 117
+   "ms": 89
   },
   {
    "id": "phasechange.schema-condN",
    "pass": true,
    "detail": "condN 受理=2(condS=3/condG=0.5 同時受理・警告0) / 99→12(クランプ) / \"x\"→既定0 / 2粒子接触 B=1: 実測ΔT=2.400e-3 vs 解析 c=κ_G+(κ_S−κ_G)/(1+condN)(誤差4.1e-8<1e-6) / condN=0 → 素のκs(誤差5.9e-8)・pcなしビルドと bit 一致=true",
-   "ms": 5
+   "ms": 11
   },
   {
    "id": "phasechange.angK-budget",
    "pass": true,
    "detail": "U_ang監査(井戸側が優勢: U低下)=true / 1000步: |Δp|=(2.4e-6,2.3e-6)<1e-3 |ΔL|=8.6e-5<1e-2(3体力の厳密保存 — Float32丸めのみ) / E相対ドリフト=1.64e-2(<3e-2 — share会計の既知交差項) / 近傍あふれ=0回・力クランプ=0回・NaN=false",
-   "ms": 255
+   "ms": 142
   },
   {
    "id": "phasechange.grid",
    "pass": true,
    "detail": "n=10 同行隣接=2(=pitch) 隣行隣接=2.000000(六方=pitch) / vScale省略→静止=true vScale0.5→|v|max=0.412(>0.01) / バリデータ: jitter99→20 vScale99→50(警告2) pitch欠落→NG=true",
-   "ms": 6
+   "ms": 3
   },
   {
    "id": "phasechange.compat",
    "pass": true,
    "detail": "未知ID読込 → 中止(現行=pressure・保存physicsも未適用=true) / 既知ID読込 → gas(G=0.123) / export: schemaVersion=4(期待=4) appBuild=v1.40(期待=v1.40)",
-   "ms": 17
+   "ms": 10
   },
   {
    "id": "phasechange.saveparams",
    "pass": true,
    "detail": "保存: phaseParams bondK=7/condN=5/angK=1.1・twallHeat[床]=T9/rate0.7 / 読込: 復元=7/5/1.1・壁=9/0.7 / 旧スキーマ: bondK99999→100(クランプ)・meltT/cohesion→無視=true",
-   "ms": 55
+   "ms": 30
   },
   {
    "id": "phasechange.wallschedule",
    "pass": true,
    "detail": "バリデータ: T2/tSwitch 受理=0.2/40(警告0) 片方欠落→無視(警告1) / エンジン: 切替前 T=3.00(>2 — 壁温3へ加熱) 切替後 T=0.20(<0.5 — 壁温0.2へ冷却)",
-   "ms": 44
+   "ms": 38
   },
   {
    "id": "phasechange.damp-residual",
    "pass": true,
    "detail": "帳簿外に落ちる散逸の割合: bondDamp=0.3 → 0.0948(実測窓0.095±0.02) / bondDamp=0.05 → 0.0157(実測窓0.0157±0.005) / 比=6.04(=6±15% — cD_eff∝bondDamp の線形性) — 60A 創発減衰の cD_eff/2 則(W の軌道平均で cD_eff≈0.63·bondDamp・終端 d=r0=2)",
-   "ms": 111
+   "ms": 103
   },
   {
    "id": "phasechange.abclone",
    "pass": true,
    "detail": "A/B複製: coordN/shPrev の最大差=0/0(bit一致) phase係数複製=true(bondN=3) 相変化履歴=120/120点 一致 / B側 kRep=0(対照)・200步併走 NaNなし",
-   "ms": 4789
+   "ms": 3684
   },
   {
    "id": "phasechange.observables",
    "pass": true,
    "detail": "液体(emergent2 3000步): ψ6=0.67(<0.85) 組替率=0.017(>0.005 — 速い組替) / 結晶(低温格子): ψ6=1.00(>0.97) 組替率=0.0e+0(<1e-4 — 凍結) / 前線プロファイル: 床側c̄=2.4 > 天井側=0.0+1 — 「液体=速い組替」の粘性シグネチャが観測量として創発",
-   "ms": 4117
+   "ms": 2753
   },
   {
    "id": "phasechange.emergent",
    "pass": true,
    "detail": "🧬emergent: 1500步 固体状(c̄=3.46>3.2・最大32≥25) → 12000步 液滴・分子群(c̄=2.36<2.9・34成分) → 45000步 分子ガス(c̄=2.41・30成分 最大9≤15 — 予算集中で「分子」が創発) 帳簿残差=6.32e-4(<1e-2 — 潜熱なしでも share 再配分の熱交換で閉鎖) クランプ=0回・あふれ=0回",
-   "ms": 50295
+   "ms": 36311
   },
   {
    "id": "phasechange.emergent2",
    "pass": true,
    "detail": "🧊emergent2: 60000步冷却 T̄=0.15(<0.25 凝固)・幾何配位c̄=3.04(2.7〜3.4=開いた網)・3配位率=0.38(>0.3) 角偏差=17.5°(<25° — angK=0 対照の実測79.2°から1/4=リンク台帳なしの蜂の巣格子) 連結=3成分(≤6・最大44≥35) 帳簿残差=2.78e-2(<0.1 — bondN=3域のshare交差項・angK=0対照でも同階級) クランプ=0回・近傍あふれ=0回",
-   "ms": 69122
+   "ms": 51300
   },
   {
    "id": "phasechange.chain2",
    "pass": true,
    "detail": "⛓️chain2: 45000步 2配位率=0.80(>0.6 鎖)・c̄=1.89(1.6〜2.2)・180°偏差=13.0°(<25° — angK=0 対照の実測94.5°=まっすぐな鎖) 連結=8成分(≤15・最大37≥25 — 長い鎖) T̄=0.62 帳簿残差=2.27e-2(<0.1) クランプ=0回・あふれ=0回",
-   "ms": 50126
+   "ms": 37425
   },
   {
    "id": "phasechange.multiseed",
    "pass": true,
    "detail": "⛓️chain2 15000步 × seed3種: seed7: 2配位率=0.70(>0.5) 180°偏差=16.1°(<30°) / seed8: 2配位率=0.77(>0.5) 180°偏差=11.8°(<30°) / seed9: 2配位率=0.75(>0.5) 180°偏差=12.3°(<30°) — 鎖の創発は seed 非依存(欠陥数のみ変動)",
-   "ms": 50351
+   "ms": 36095
   },
   {
    "id": "phasechange.dt-convergence",
    "pass": true,
    "detail": "t=96(6000步@0.016 vs 12000步@0.008): T̄=1.254/1.131(相対差9.8%<10%) c̄=2.49/2.55(相対差2.4%<15%) — 集計量の dt 収束",
-   "ms": 20858
+   "ms": 14761
   },
   {
    "id": "claim.chaincycle",
    "pass": true,
    "detail": "♻️凍結末(t=288): 最大連結=36(窓25〜50・実測36) 組替=0.010(<0.05) T̄=1.24 / 解離末(t=528): 65成分(窓50〜95・実測71) 最大=6(≤12) 組替=0.328(>0.15) T̄=12.20(凍結末の3倍超) — 相・融点・潜熱の入力なしで凍結⇄解離が壁温だけで往復",
-   "ms": 40672
+   "ms": 30222
   },
   {
    "id": "ui.tabbar-safearea",
    "pass": true,
    "detail": "CSS宣言: nav#tabs{padding-bottom:var(--sab)}=true --sab=env(safe-area-inset-bottom,...)由来=true / 390×844実測(パネル閉): 横スクロールなし=true タブ4件全表示=true(computed padding-bottom=0px・ヘッドレスはインセット0のため0px相当が正常) タブ下端=844.0px/vh=844",
-   "ms": 35
+   "ms": 27
   },
   {
    "id": "ui.sweep-auto-checkbox",
    "pass": true,
    "detail": "OFF初期: 読取専用=false 値=0.3(数値0.3) auto=0 / ONタップ後(1步): auto=1 読取専用=true 値=0.42(実効値lS_eff=0.420586と一致・第38便で#beSwEff廃止→#beSw自体が表示) / OFFタップで復帰: auto=0 読取専用=false 値=0.42(実効値0.420586を引き継いだ数値)",
-   "ms": 8
+   "ms": 5
   },
   {
    "id": "ui.ray-lambda0",
    "pass": true,
    "detail": "既定λ0=580(=580・第38便で550から移行) → HP.setRayLambda0(650)後=650(λ0色 #ffff00→#ff0000) 物理ハッシュ不変=true 可視外直値は非clamp: 1200→1200 0.001→0.001 復帰=580 帯域色: γ=#ffffff(白) X=#7fdfff(淡シアン) UV=#c44dff(明紫) IR=#b22222(暗赤) 既定移行: 未保存=580(=580) 旧550=580(=580) 650保持=650(=650) 不正値=580(=580)",
-   "ms": 12
+   "ms": 10
   },
   {
    "id": "radius.explicit-scale",
    "pass": true,
    "detail": "radiusScale=1: R=45(=45・従来値とbit一致) radiusScale=2: R=90(=90・明示半径にもradiusScaleが乗る)",
-   "ms": 26
+   "ms": 3
   },
   {
    "id": "field.uniform-gravity",
    "pass": true,
    "detail": "⚾projectile(gravityY=0.08,G=0→G_eff=1): W_disp(y=-3000)=-29397.99 W_disp(y=+3000)=29402.01(下端>上端=true) Φ_g(y=-3000)=-29400.0000(期待-29400.0000) Φ_g(y=+3000)=29400.0000(期待29400.0000) Φ_g式一致=true / 🪐saturn(重力場なし): fieldWDisp≡Wat=true",
-   "ms": 22
+   "ms": 12
   },
   {
    "id": "behavior.rotorSolo",
    "pass": true,
    "detail": "②掻出 lS_eff: spin0=0.00 spin0.3=1.00 spin2=1.00(>0.3) / ③非脱出率(340步・終端r<300): 対照spin0=0.62(>0.4) spin0.3=0.70(≥対照×0.8 — ②飽和でも③未発火=別機構) spin2=0.00(<0.15) Kt3600ロック=0.02(<0.05) / 最小接近半径 順行=158.2 逆行=72.4(>2倍) / リング平均L_z(6000步) 既定=640.8 対照=316.23(比=2.03>1.2) 保持=24/24 / 帳簿込み保存 |ΔP|/P₀=2.28e-4 |ΔL|/L₀=1.55e-5(<1e-3)",
-   "ms": 1081
+   "ms": 755
   },
   {
    "id": "ray.observer-flux",
    "pass": true,
    "detail": "幾何基準(直進光の軸上|y|≤60)=0.28 / Kt=c²/G ロック: 到達=1.00(>0.95) 軸上=0.28(≥基準×0.9 — 明るい基準) / spin0: 軸上=0.02(<0.1 — 捕捉の暗さ・周回=0.14) / spin2: 軸上=0.14(<0.2 — 捕捉ゼロでも角度再配分で暗い) 横断y平均=331.1(>50 — 逆行側へ偏る) 平均方向角=0.72rad(>0.3)",
-   "ms": 22
+   "ms": 20
   },
   {
    "id": "clamp.ledger-zero",
    "pass": true,
    "detail": "配線: 挑発構成で発動 速度=1 スピン=1 H=1(各>0) / 発動0回: freebox=0 boxcomoving=0 echo=0(保存則主張の代表構成で全帳簿が厳密0)",
-   "ms": 892
+   "ms": 668
   },
   {
    "id": "behavior.agnjet",
    "pass": true,
    "detail": "4000步・内縁(初期|x|≤80)起源で r>300 へ出たガス: 既定(kRep=2) 31個中 極方向(±y±30°)=26 赤道方向(±x±30°)=0 → 割合=0.839(等方=1/3 の 2.52倍・閾値 2/3) / 対照(kRep=0) 24個中 極=13 赤道=1 → 割合=0.542(比=1.55倍 ≥1.25)",
-   "ms": 0
+   "ms": 1
   },
   {
    "id": "behavior.spinup",
@@ -2423,49 +2435,49 @@
    "id": "behavior.starcore",
    "pass": true,
    "detail": "12000步(t≈192=validT・seed固定で決定論) 融合=124回(≥90) ガス 200→76粒(燃料消費 62.0%・窓40〜130) T_mean 2.000→4.911(窓3.0〜9.0・最高66.93) radE=4554.6 / 対照(融合だけ切る): T_mean 2.000→0.491 radE=60.4 → **放射エネルギー比=75.46倍**(≥40) / 熱収支: 融合が入れた熱 Q=ΔH+radE=5312.5・そのうち放射で出た割合=85.7%(窓70〜100%)・対照の Q=-0.0000(≈0 = 熱源なし) / etaRad=0 対照との bit 一致(6000步 12点の [n,fusN,rMean])=true(温度は力に一切入らない) / 保存: 質量 800.0→800.0(融合は質量保存=true)・fusU=-1827.3・wallKE=40.5・|ΔE|/scale=2.01e-3(<1e-2) NaN=false / バッジ: 分類=core・温度モード=tint・閉鎖系=false(中心核が pinned なので false)・ψ_static=0.4082(強場バッジ=false — 0.5 未満なので付かない) / 46S の較正実測 = 124回/76粒/4.911/4554.6/75.46倍/85.7%/2.0e-3",
-   "ms": 33390
+   "ms": 24464
   },
   {
    "id": "behavior.selfrotor",
    "pass": true,
    "detail": "9000步(t=144=validT・seed固定で決定論) 生成: 180粒→25体(融合155回) 最大天体 m=48・**質量比=26.7%**(窓0.14〜0.6) 殻スピン=0.351 R=6.93 束縛率=0.75 / 対照①融合オフ: 質量比=0.56%(=1/180・束縛率0.14) → 中心天体は初期条件ではなく融合則の生成物 / J_core 継承: 中心天体 J_core=0.0960=**種48.0個ぶん**(窓25〜100)・質量で数えた個数=48.0 → 総和恒等式 J/J_seed ÷ m/m_seed=1.000000(=1) ・ΣJ_core=0.3600(=180×0.0020 不変) / 対照②コア種なし: J_core=0.0000 ΣJ_core=0.0000(継承以外の生成経路なし) / 暗さの生成: lS_eff t=0 で 0.000 → 中心=0.999(窓0.9〜1)・周囲平均=0.317(窓0.2〜0.5)= コントラスト3.16倍 ※対照①では周囲も0.972まで暗い(暗さ単独では融合の有無を判別しない) / 創発モニタ: 塊 166→2・最大塊質量比=0.994・スピン整列度 0.000→1.000・V/σ=10.90 / 保存: |ΔL|/L_scale=6.74e-7(<1e-4) clamp=0/0 NaN=false / バッジ: 閉鎖系=true・E水準=E3・分類=composite / 第82便B の較正実測 = 25体/155回/26.7%/0.589/0.159/種48個/対照0.56%・J=0",
-   "ms": 28340
+   "ms": 21513
   },
   {
    "id": "behavior.selfrotor-multiseed",
    "pass": true,
    "detail": "4seed(20260806/20260807/20260808/20260809・9000步=validT) 最大天体の質量比 26.7%/18.3%/30.0%/35.0% → **最小=18.3%**(claim 窓 10〜60%) / 対照(融合オフ)は全seed 0.5556%(=1/180 厳密 — 融合が無ければ質量は動かない) → 比=33.0倍(>10) / 秩序変数: 最大塊 0.994/1.000/0.989/0.994(≥0.9) 整列度 1.000/1.000/1.000/1.000(≥0.9) V/σ 10.9/12.7/7.2/12.3 / 減光コントラスト(中心/周囲) 本則 3.16/2.89/2.28/2.29 vs 対照 1.03/1.04/1.02/1.02(重なりなし) / E水準=E3 / 16seed の正本は tests/exp-4-85.mjs(質量比 18.3〜53.3%・中央34.7%)",
-   "ms": 101682
+   "ms": 75107
   },
   {
    "id": "behavior.phase-multiseed",
    "pass": true,
    "detail": "3seed(7/8/9) / 🧬 初期条件ノイズ版の配位数 c̄ 2.232/2.107/2.107 → **最小=2.107**(claim 窓 1.6〜3) vs 対照 bondK=0 の 0.125(=結合が消える・同じ初期条件ノイズを入れた対照でも 0.089) 比 16.9倍(>10) / 🧊 120°角偏差 19.6°/18.1°/29.2° → **最大=29.2°**(窓 5〜55) vs 対照 angK=0 の 78.8°(密集塊)— 分離 / ⛓️ 2配位率 0.714/0.768/0.750 → **最小=0.714**(窓 0.6〜0.9) vs 対照 angK=0 の 0.268(等方の液滴)— 分離 / ♻️ 解離末(t=528)の成分数 65/69/65 → **最小=65**(窓 30〜95) / ⛓️≡♻️(t≤288)の全秩序変数一致=true(③④の run 共有の根拠) / E水準=🧬E1・🧊E1・⛓️E1・♻️E1(第84便A: ⑤摂動回復が4件とも通らないため E3 昇格なし) / 16seed(7〜22)の分布は tests/exp-4-87.mjs が正本: 🧬c̄1.98〜2.75・🧊角偏差12.3〜44.1°・⛓️2配位率0.696〜0.804・♻️成分48〜84",
-   "ms": 317055
+   "ms": 224725
   },
   {
    "id": "behavior.darkrotor-multiseed",
    "pass": true,
    "detail": "2seed(20260727/20260728・内蔵seed 20260726 は既存の behavior.darkrotorLong が担当) 6000步 腕A2帯平均 本則 0.538/0.569 / 対照(中心BH込み全 single spin=0) 0.217/0.265 → 増強比 2.48/2.15倍・**最小=2.15倍**(claim 窓 1.8〜4.2) / 対照の帯平均 最大=0.265(≤0.32 — 配置由来分に留まる) / 単帯の最小=0.437(>0.22) 恒星保持 99.7%/100.0%(≥95) 全期間max|spin| 4.34/4.07(<6.0) NaN/clamp=0件 / E水準=E2(閉鎖系の創発。⑤摂動回復が通らないので E3 ではない — 第84便B) / 8seed の分布(帯平均 0.500〜0.569・増強比 2.15〜3.62・後行56/56点)の正本は tests/exp-4-88.mjs",
-   "ms": 7
+   "ms": 4
   },
   {
    "id": "emergence.tag",
    "pass": true,
    "detail": "水準=[E0,E1,E2,E3] 宣言=darkrotor:E2 nebulaBipolar:E1 selfRotor:E3 emergent:E1 emergent2:E1 chain2:E1 chaincycle:E1(未宣言は非表示 — 🌌galaxy のバッジ=false) / チップ: 🥚=true(sampleClass の隣=true) ♻️=E1 true / スキーマ: 有効値保持=true(警告0) 未知値は警告つき無視=true(警告1) / classifyPreset パススルー=E3",
-   "ms": 31
+   "ms": 15
   },
   {
    "id": "emergence.monitor",
    "pass": true,
    "detail": "トグル(グラフカテゴリ)=true スロット=[emergence] 履歴=1点 / OFF/ON で物理 bit 一致=true(600步 x,y,spin — 計測は sim.step に載っていない) / 🥚初期値: 塊166 最大塊0.0167 整列0.000 V/σ=15.07 / 解析照合: 接触3体→塊1・最大塊1.000・整列1.000(=1) / 離れた2群(逆符号スピン)→塊2・最大塊0.500・整列0.000(=0) / 剛体回転4体→塊4・V/σ=1.00e+9(分散が数値0 → 上限1e9=完全回転支持)",
-   "ms": 13643
+   "ms": 8171
   },
   {
    "id": "phasemap.smoke",
    "pass": true,
-   "detail": "宣言: 🧬kRep×gravityY/maxFrac(36セル×2500步) 🥚G×D0/align(36セル×1500步) 未宣言🌌=行なし(none) / スキーマ: 警告つき無視 5/5(unknownKey,nonNum,badMetric,sameKey,tooFew)・クランプ kRep99→20・g_y −99→-10・steps 1e9→20000 / UI: 行=flex パネル=true canvas=352×152 / 2×2 バッチ(200步)=[1.000,1.000,1.000,1.000] 1727ms / 本編 bit 不変(x,y,spin・t・n)=true / 分割実行 2×2 完走=true[1.000,1.000,1.000,1.000] 本編pause=true / セル適用: 確認ダイアログ1回 → kRep 20→0 g_y 0.03→0.5",
-   "ms": 4405
+   "detail": "宣言: 🧬kRep×gravityY/maxFrac(36セル×2500步) 🥚G×D0/align(36セル×1500步) 未宣言🌌=行なし(none) / スキーマ: 警告つき無視 5/5(unknownKey,nonNum,badMetric,sameKey,tooFew)・クランプ kRep99→20・g_y −99→-10・steps 1e9→20000 / UI: 行=flex パネル=true canvas=352×152 / 2×2 バッチ(200步)=[1.000,1.000,1.000,1.000] 1209ms / 本編 bit 不変(x,y,spin・t・n)=true / 分割実行 2×2 完走=true[1.000,1.000,1.000,1.000] 本編pause=true / セル適用: 確認ダイアログ1回 → kRep 20→0 g_y 0.03→0.5",
+   "ms": 2874
   },
   {
    "id": "behavior.cosmicweb",
@@ -2477,265 +2489,265 @@
    "id": "claims.sync-pilot",
    "pass": true,
    "detail": "agnjetPolarFraction: claim有=true 数値抽出=true(既定=0.84/対照=0.54) 既定域内=true 対照域内=true 閾値整合=true / cosmicwebDelta2Growth: claim有=true 数値抽出=true(既定=5.4/対照=30.992647058823525) 既定域内=true 対照域内=true 閾値整合=true / cosmicwebVoidRateFinal: claim有=true 数値抽出=true(既定=0.342/対照=0.75) 既定域内=true 対照域内=true 閾値整合=true",
-   "ms": 10
+   "ms": 6
   },
   {
    "id": "claims.sync",
    "pass": true,
-   "detail": "gclock.tau-inner: 0.931(窓0.85〜0.98) / echo.rms-return: 0.0013(窓0.0005〜0.005) / echo.rms-friction: 10.8(窓8〜13) / boxredshift.z-A: 3(窓2.7〜3.3) / boxredshift.z-B: 1(窓0.85〜1.15) / probeH.cumulative-ratio-a2: 1.333(窓1.32〜1.347) / probeH.inverse-identity: 1(窓0.99〜1.01) / freebox.a-eff-final: 2.18(窓1.85〜2.5) / freebox.a-eff-final.control: 1.005(窓0.85〜1.15) / freebox.pressure-only-aeff: 2.19(窓2.1〜2.3) / freebox.inertial-only-aeff: 1.019(窓1〜1.05) / cosmicweb.delta2-growth: 5.4(窓4.5〜6.5) / cosmicweb.delta2-growth.control: 30.992647158(窓26〜36) / cosmicweb.void-rate-final: 0.342(窓0.29〜0.4) / cosmicweb.void-rate-final.control: 0.75(窓0.68〜0.82) / galaxy.outer-boost-ratio: 1.3(窓1.1〜1.5) / galaxystd.outer-boost-ratio: 1.26(窓1.15〜1.4) / galaxygeo2.outer-boost-ratio: 1.19(窓1.14〜1.23) / galaxyDB.sigma-ratio: 2.61(窓2.2〜3) / galaxyDB.spin-forcing-ratio: 1.92(窓1.5〜2.4) / darkrotor.pitch-angle: 28.2(窓20〜35) / darkrotor.arm-band-avg: 0.56(窓0.476〜0.644) / darkrotor.arm-band-avg.control: 0.156(窓0.133〜0.179) / darkrotor.multi-seed-min-arm-ratio: 2.15(窓1.8〜4.2) / darkrotor.multi-seed-min-arm-ratio.control: 0.265(窓0.1〜0.32) / rotorSolo.non-escape-rate: 0(窓0〜0.15) / rotorSolo.non-escape-rate.control: 0.62(窓0.55〜0.78) / rotorSolo.ring-lz-mean: 484(窓405〜550) / rotorSolo.ring-lz-mean.control: 316(窓315〜317.5) / nebulaRotor.dimming-contrast: 0.86(窓0.75〜0.95) / nebulaRotor.dimming-contrast.control: 0.03(窓0〜0.1) / nebulaShell.core-dimming: 0.96(窓0.9〜0.99) / nebulaShell.retention: 1(窓0.93〜1) / nebulaBipolar.polar-fraction: 0.62(窓0.5〜0.72) / nebulaBipolar.polar-fraction.control: 0(窓0〜3) / nebulaBipolar.multi-seed-min-polar-fraction: 0.537(窓0.45〜0.9) / nebulaBipolar.multi-seed-min-polar-fraction.control: 1(窓0〜3) / bhCore.outer-boost: 1.52(窓1.37〜1.68) / bhCore.shell-spinup: 1.33(窓1.2〜1.47) / bhCore.recoil-bounded: 0.39(窓0.2〜0.8) / massLadder.dyn-mass-ratio-2: 1.96(窓1.76〜2.16) / massLadder.dyn-mass-ratio-4: 3.84(窓3.46〜4.22) / massLadder.dark-centers: 1(窓0.99〜1) / merger.core-separation-diff: 0.04(窓0.02〜0.048) / merger.deep-contact-sep-diff: 0.133(窓0.11〜0.155) / merger.spin-heating-growth: 1.4(窓1.2〜1.7) / merger.spin-heating-6000: 3.3(窓2.8〜3.9) / merger.tidal-tail-growth: 0.05(窓0.0425〜0.0575) / merger.tidal-tail-6000: 0.1(窓0.085〜0.115) / collapse.r50-diff: 0.013000000000000001(窓0.0104〜0.0156) / collapse.temperature-cooling: 0.68(窓0.578〜0.782) / collapse.temperature-cooling.control: 1.25(窓1.06〜1.44) / selfRotor.max-mass-fraction: 0.267(窓0.14〜0.6) / selfRotor.max-mass-fraction.control: 0.005600000000000001(窓0.004〜0.008) / selfRotor.multi-seed-min-mass-fraction: 0.18300000000000002(窓0.1〜0.6) / selfRotor.multi-seed-min-mass-fraction.control: 0.005600000000000001(窓0.004〜0.008) / selfRotor.core-J-inherited: 48(窓25〜100) / selfRotor.core-J-inherited.control: 0(窓0〜0) / selfRotor.center-dimming: 0.999(窓0.9〜1) / selfRotor.halo-dimming: 0.317(窓0.2〜0.5) / reddening.tau-cloud: 2.429(窓2.19〜2.67) / reddening.blue-red-ratio: 0.0154(窓0.0139〜0.0169) / reddening.tau-clear: 0(窓0〜0.001) / reddening.gray-ratio: 1(窓0.99〜1.01) / reddening.peak-shift: 5.09(窓4.5〜5.7) / conduction.dense-row-heat-ratio: 2.5(窓2.125〜2.875) / emergent.multi-seed-min-coordination: 1.98(窓1.6〜3) / emergent.multi-seed-min-coordination.control: 0.125(窓0.1〜0.15) / emergent2.multi-seed-max-honeycomb-angle-dev: 44.1(窓5〜55) / emergent2.multi-seed-max-honeycomb-angle-dev.control: 73.1(窓60〜95) / chain2.multi-seed-min-chain-fraction: 0.696(窓0.6〜0.9) / chain2.multi-seed-min-chain-fraction.control: 0.268(窓0.15〜0.5) / chaincycle.freeze-maxcomp: 36(窓20〜80) / chaincycle.melt-ncomp: 65(窓40〜95) / chaincycle.multi-seed-min-melt-ncomp: 48(窓30〜95) / earthMoon.core-mass-ratio-earth: 0.325(窓0.32〜0.33) / earthMoon.radius-drift: 0.0009(窓0.00072〜0.00108) / earthMoonFree.radius-range: 0.0003(窓0.00024〜0.00036) / earthMoonFree.spin-ratio: 27.4(窓27〜27.8) / earthMoonFree.sync-error: 0.31(窓0.22〜0.4) / solarInner.velocity-calib-factor: 1(窓0.999〜1.001) / solarInner.circular-wobble-mercury: 0.000131(窓0.0001〜0.0002) / solarInner.circular-wobble-mercury.control: 0.000131(窓0.0001〜0.0002) / saturn.band-retention-t360: 0.971(窓0.95〜0.99) / saturn.eccentricity-rms: 0.142(窓0.1207〜0.1633) / saturn.eccentricity-rms.control: 0.063(窓0.0536〜0.0725) / saturnLayered.core-mass-ratio: 0.18(窓0.17〜0.19) / saturnLayered.core-radius-ratio: 0.42(窓0.4〜0.45) / saturnZonalD68.d68-rate: 38.243(窓38.24〜38.25) / saturnZonalD68.calib-factor: 1.000302283(窓1.0002〜1.0004) / saturnZonalD68.d68-rate-sim: 38.108(窓37.95〜38.25) / agnjet.polar-fraction: 0.84(窓0.75〜0.92) / agnjet.polar-fraction.control: 0.54(窓0.45〜0.58) / spinup.core-shrink-ratio: 3.06(窓2.9〜3.3) / spinup.core-omega-boost: 8.5(窓6.5〜9.5) / spinup.angular-momentum-agreement: 0.908(窓0.75〜0.98) / starcore.fusion-count: 124(窓90〜170) / starcore.mean-tint: 4.91(窓3〜9) / starcore.radiation-ratio: 75.4(窓40〜130) / starSeed.core-spinup: 108(窓80〜140) / starSeed.seed-dimming: 0.99(窓0.98〜1)",
-   "ms": 19
+   "detail": "gclock.tau-inner: 0.931(窓0.85〜0.98) / echo.rms-return: 0.0013(窓0.0005〜0.005) / echo.rms-friction: 10.8(窓8〜13) / boxredshift.z-A: 3(窓2.7〜3.3) / boxredshift.z-B: 1(窓0.85〜1.15) / probeH.cumulative-ratio-a2: 1.333(窓1.32〜1.347) / probeH.inverse-identity: 1(窓0.99〜1.01) / freebox.a-eff-final: 2.18(窓1.85〜2.5) / freebox.a-eff-final.control: 1.005(窓0.85〜1.15) / freebox.pressure-only-aeff: 2.19(窓2.1〜2.3) / freebox.inertial-only-aeff: 1.019(窓1〜1.05) / cosmicweb.delta2-growth: 5.4(窓4.5〜6.5) / cosmicweb.delta2-growth.control: 30.992647158(窓26〜36) / cosmicweb.void-rate-final: 0.342(窓0.29〜0.4) / cosmicweb.void-rate-final.control: 0.75(窓0.68〜0.82) / galaxy.outer-boost-ratio: 1.3(窓1.1〜1.5) / galaxystd.outer-boost-ratio: 1.26(窓1.15〜1.4) / galaxygeo2.outer-boost-ratio: 1.19(窓1.14〜1.23) / galaxyDB.sigma-ratio: 2.61(窓2.2〜3) / galaxyDB.spin-forcing-ratio: 1.92(窓1.5〜2.4) / darkrotor.pitch-angle: 28.2(窓20〜35) / darkrotor.arm-band-avg: 0.56(窓0.476〜0.644) / darkrotor.arm-band-avg.control: 0.156(窓0.133〜0.179) / darkrotor.multi-seed-min-arm-ratio: 2.15(窓1.8〜4.2) / darkrotor.multi-seed-min-arm-ratio.control: 0.265(窓0.1〜0.32) / rotorSolo.non-escape-rate: 0(窓0〜0.15) / rotorSolo.non-escape-rate.control: 0.62(窓0.55〜0.78) / rotorSolo.ring-lz-mean: 484(窓405〜550) / rotorSolo.ring-lz-mean.control: 316(窓315〜317.5) / nebulaRotor.dimming-contrast: 0.86(窓0.75〜0.95) / nebulaRotor.dimming-contrast.control: 0.03(窓0〜0.1) / nebulaShell.core-dimming: 0.96(窓0.9〜0.99) / nebulaShell.retention: 1(窓0.93〜1) / nebulaBipolar.polar-fraction: 0.62(窓0.5〜0.72) / nebulaBipolar.polar-fraction.control: 0(窓0〜3) / nebulaBipolar.multi-seed-min-polar-fraction: 0.537(窓0.45〜0.9) / nebulaBipolar.multi-seed-min-polar-fraction.control: 1(窓0〜3) / bhCore.outer-boost: 1.52(窓1.37〜1.68) / bhCore.shell-spinup: 1.33(窓1.2〜1.47) / bhCore.recoil-bounded: 0.39(窓0.2〜0.8) / massLadder.dyn-mass-ratio-2: 1.96(窓1.76〜2.16) / massLadder.dyn-mass-ratio-4: 3.84(窓3.46〜4.22) / massLadder.dark-centers: 1(窓0.99〜1) / merger.core-separation-diff: 0.04(窓0.02〜0.048) / merger.deep-contact-sep-diff: 0.133(窓0.11〜0.155) / merger.spin-heating-growth: 1.4(窓1.2〜1.7) / merger.spin-heating-6000: 3.3(窓2.8〜3.9) / merger.tidal-tail-growth: 0.05(窓0.0425〜0.0575) / merger.tidal-tail-6000: 0.1(窓0.085〜0.115) / collapse.r50-diff: 0.013000000000000001(窓0.0104〜0.0156) / collapse.temperature-cooling: 0.68(窓0.578〜0.782) / collapse.temperature-cooling.control: 1.25(窓1.06〜1.44) / selfRotor.max-mass-fraction: 0.267(窓0.14〜0.6) / selfRotor.max-mass-fraction.control: 0.005600000000000001(窓0.004〜0.008) / selfRotor.multi-seed-min-mass-fraction: 0.18300000000000002(窓0.1〜0.6) / selfRotor.multi-seed-min-mass-fraction.control: 0.005600000000000001(窓0.004〜0.008) / selfRotor.core-J-inherited: 48(窓25〜100) / selfRotor.core-J-inherited.control: 0(窓0〜0) / selfRotor.center-dimming: 0.999(窓0.9〜1) / selfRotor.halo-dimming: 0.317(窓0.2〜0.5) / reddening.tau-cloud: 2.429(窓2.19〜2.67) / reddening.blue-red-ratio: 0.0154(窓0.0139〜0.0169) / reddening.tau-clear: 0(窓0〜0.001) / reddening.gray-ratio: 1(窓0.99〜1.01) / reddening.peak-shift: 5.09(窓4.5〜5.7) / conduction.dense-row-heat-ratio: 2.5(窓2.125〜2.875) / emergent.multi-seed-min-coordination: 1.98(窓1.6〜3) / emergent.multi-seed-min-coordination.control: 0.125(窓0.1〜0.15) / emergent2.multi-seed-max-honeycomb-angle-dev: 44.1(窓5〜55) / emergent2.multi-seed-max-honeycomb-angle-dev.control: 73.1(窓60〜95) / chain2.multi-seed-min-chain-fraction: 0.696(窓0.6〜0.9) / chain2.multi-seed-min-chain-fraction.control: 0.268(窓0.15〜0.5) / chaincycle.freeze-maxcomp: 36(窓20〜80) / chaincycle.melt-ncomp: 65(窓40〜95) / chaincycle.multi-seed-min-melt-ncomp: 48(窓30〜95) / earthMoon.core-mass-ratio-earth: 0.325(窓0.32〜0.33) / earthMoon.radius-drift: 0.0009(窓0.00072〜0.00108) / earthMoonFree.radius-range: 0.0003(窓0.00024〜0.00036) / earthMoonFree.spin-ratio: 27.4(窓27〜27.8) / earthMoonFree.sync-error: 0.31(窓0.22〜0.4) / earthMoonReal.sidereal-month: 27.3218(窓27.3〜27.34) / earthMoonReal.lunar-distance: 385000(窓383000〜387000) / earthMoonRealKF1.apsidal-period: 8.85(窓8.4〜9.3) / earthMoonRealKF1.sidereal-month-kf1: 27.33(窓27.28〜27.38) / mercuryReal.perihelion-advance: 43(窓42.5〜43.5) / mercuryReal.orbital-period: 87.97(窓87.5〜88.4) / mercuryRealKF1.perihelion-advance-kf1: 43(窓42.5〜43.5) / mercuryRealKF1.drag-precession: 5.6e-10(窓5e-10〜6.2e-10) / solarInner.velocity-calib-factor: 1(窓0.999〜1.001) / solarInner.circular-wobble-mercury: 0.000131(窓0.0001〜0.0002) / solarInner.circular-wobble-mercury.control: 0.000131(窓0.0001〜0.0002) / saturn.band-retention-t360: 0.971(窓0.95〜0.99) / saturn.eccentricity-rms: 0.142(窓0.1207〜0.1633) / saturn.eccentricity-rms.control: 0.063(窓0.0536〜0.0725) / saturnLayered.core-mass-ratio: 0.18(窓0.17〜0.19) / saturnLayered.core-radius-ratio: 0.42(窓0.4〜0.45) / saturnZonalD68.d68-rate: 38.243(窓38.24〜38.25) / saturnZonalD68.calib-factor: 1.000302283(窓1.0002〜1.0004) / saturnZonalD68.d68-rate-sim: 38.108(窓37.95〜38.25) / saturnRingReal.titan-period: 15.949(窓15.9〜16) / saturnRingReal.cring-period: 5.78(窓5.6〜5.95) / saturnRingRealKF1.ring-apsidal-drift: 0.00002(窓0.00001〜0.00003) / saturnRingRealKF1.surface-entrainment: 45(窓40〜50) / agnjet.polar-fraction: 0.84(窓0.75〜0.92) / agnjet.polar-fraction.control: 0.54(窓0.45〜0.58) / spinup.core-shrink-ratio: 3.06(窓2.9〜3.3) / spinup.core-omega-boost: 8.5(窓6.5〜9.5) / spinup.angular-momentum-agreement: 0.908(窓0.75〜0.98) / starcore.fusion-count: 124(窓90〜170) / starcore.mean-tint: 4.91(窓3〜9) / starcore.radiation-ratio: 75.4(窓40〜130) / starSeed.core-spinup: 108(窓80〜140) / starSeed.seed-dimming: 0.99(窓0.98〜1)",
+   "ms": 15
   },
   {
    "id": "desc.config-sync",
    "pass": true,
    "detail": "H0同期 3件 / qLock q* 2件 / スケール単位 5件 — boxbound: 説明0.004 vs 実装0.004 / boxredshift: 説明0.1 vs 実装0.1 / cosmicweb: 説明0.01 vs 実装0.01 / earthMoonRealKF1: 説明8.25 vs 実装8.25 / mercuryRealKF1: 説明6.16 vs 実装6.16 / earthMoonReal: 説明[6,2,25] vs 実装[6,2,25] / mercuryReal: 説明[8,4,27] vs 実装[8,4,27] / solarInner: 説明[8,4,27] vs 実装[8,4,27] / saturnZonalD68: 説明[6,2,25] vs 実装[6,2,25] / saturnRingReal: 説明[6,2,25] vs 実装[6,2,25]",
-   "ms": 17
+   "ms": 12
   },
   {
    "id": "camera.follow-ui",
    "pass": true,
    "detail": "コントロール=true(共通設定〔第95便。旧=表示〕内=true・選択肢=none,sel)/ validate: follow=2受理=true 不正値は警告つき無視=true 未指定は無警告=true/ 既定なし=true 永続化=true・プリセット切替でも保持=true(第97便)/ 追従でcamX=天体位置=true パン=対象からのオフセット=true/ 物理不変=true 範囲外時の挙動(95便: sel保持/旧: 自動解除)=true/ プリセット camera.follow で既定ON=true(未設定ユーザー経路)/ 融合で合体先へ引き継ぎ=true・対象消滅でも設定保持=true(第97便)/ follow なしプリセットへ戻すと「なし」=true",
-   "ms": 185
+   "ms": 155
   },
   {
    "id": "claims.kind",
    "pass": true,
-   "detail": "全82claims が kind 宣言(分布: analytic=4 fixed-seed=62 semantic=6 multi-seed=8 conservation=2) / validatePreset 保持=true 不正値は警告つき無視=true / UI チップ 1/1件(galaxy・例「多seed統計」)",
-   "ms": 17
+   "detail": "全94claims が kind 宣言(分布: analytic=4 fixed-seed=62 semantic=18 multi-seed=8 conservation=2) / validatePreset 保持=true 不正値は警告つき無視=true / UI チップ 1/1件(galaxy・例「多seed統計」)",
+   "ms": 12
   },
   {
    "id": "desc.struct-sync",
    "pass": true,
    "detail": "descStruct 64件(gclock grcal projectile echo boxtrans boxrot boxexpand boxcomoving boxbound boxbreath boxredshift probeH freebox cosmicweb galaxy galaxyStd galaxyGeo2 galaxyDB darkrotor rotorSolo nebulaRotor nebulaShell nebulaBipolar bhCore massLadder merger collapse selfRotor lensing spinlens blens reddening gas pressure conduction frictionHeat coolrace convection buoyancy cooling emergent emergent2 chain2 chaincycle earthMoon earthMoonFree earthMoonReal earthMoonRealKF1 mercury mercuryReal mercuryRealKF1 solarInner saturn saturnLayered saturnZonalD68 saturnRingReal saturnRingRealKF1 binary fig8 counterring agnjet spinup starcore starSeed)の連結=description 一致(ja/en) / パイロット3件=true / UI 区分見出し=3(例「📌 要約」) / validatePreset 保持=true 連結不一致は警告つき削除=true",
-   "ms": 37
+   "ms": 23
   },
   {
    "id": "ui.claims-display",
    "pass": true,
    "detail": "galaxy: present=true rows=1/1 / spinup: present=true rows=3/3 / boxrot: present=false(期待false) / ja見出し=\"🔎 数値主張(機械検証済み)\" en見出し=\"🔎 Numeric claims (machine-checked)\" / en切替後DOM見出し(galaxy)=\"🔎 Numeric claims (machine-checked)\"",
-   "ms": 47
+   "ms": 32
   },
   {
    "id": "ui.strongfield-badge",
    "pass": true,
    "detail": "galaxy: ψ_static=3.333 present=true(期待true) / gclock: ψ_static=0.108 present=false(期待false) / jaラベル=\"⚠強場トイ領域\" enラベル=\"⚠Strong-field toy regime\" / en切替後DOM(galaxy)=\"⚠Strong-field toy regime\"",
-   "ms": 55
+   "ms": 34
   },
   {
    "id": "reaction.pair-momentum",
    "pass": true,
    "detail": "pairReduced: |ΔP|/scale=9.1e-7(<1e-6) |ΔL|/scale=5.0e-7(<1e-5) 帳簿 resP=0 resL=0(自由対のみ=帳簿なしで閉じる) 上限=0 / legacy 対照: 1.2e-6 / 2.3e-7",
-   "ms": 123
+   "ms": 94
   },
   {
    "id": "reaction.pair-test-particle-limit",
    "pass": true,
    "detail": "固定中心での差=0.0e+0(<1e-9 — 解析的に同式)/ 自由中心での差=4.5e-4(<5e-3 = 0.5%)/ legacy 応答=4.55e-1",
-   "ms": 1
+   "ms": 0
   },
   {
    "id": "optics.dynamics-invariant",
    "pass": true,
    "detail": "吸収なし vs kAbs=4 vs kAbs=4+散乱(61粒子・2000步): 力学+時計の不一致=0/0(厳密0 — x,y,vx,vy,spin,τ)・光線の幾何(終端位置/方向)の不一致=0/0(厳密0)/ 光学的深さ τ_ref=0→43.8788(吸収は τ にだけ乗る)・雲外の光線=0.3724737909713468(コンパクト台の外は厳密0)/ 既定は physics に kAbs キーごと不在=true",
-   "ms": 1671
+   "ms": 1304
   },
   {
    "id": "optics.default-bitequal",
    "pass": true,
    "detail": "既定値明示 {kAbs:0,pAbs:4,fScat:0} と省略の physics が文字単位一致=true(=署名・エクスポート JSON 不変)/ 値域外は警告つきクランプ後に既定なら削除=true・非数は致命=true/ 光学キーが漏れた内蔵=[](0件・第83便Cで除外リスト撤去 → 全内蔵が対象。検証子を通らない内蔵=[](0件))/ 光線プリセットの τ_ref≠0=[](0件)/ rayKeyOf: 既定に光学節なし=true kAbs>0 で吸収体を追跡=true",
-   "ms": 55
+   "ms": 39
   },
   {
    "id": "claim.reddening",
    "pass": true,
    "detail": "🌆reddening(154粒子・光線源0本=純吸収・λ_ref=550nm・台係数K=4): 雲中心 τ_ref=2.4294(窓2.19〜2.67・実測2.429) T(450)=0.0044 T(650)=0.2878 青/赤=0.0154(窓0.0139〜0.0169・実測0.0154)/ 雲の脇 τ_ref=0(厳密0 = コンパクト台)/ pAbs 掃引 0/2/4 の青赤比=1.0000/0.1511/0.0154(pAbs=0 は厳密に1)/ kAbs 用量反応 τ/kAbs=0.714537/0.714537/0.714537(ばらつき=0.0e+0)",
-   "ms": 20
+   "ms": 14
   },
   {
    "id": "ui.firstvisit",
    "pass": true,
    "detail": "file://起動時の自動表示なし=true(自動表示は http(s) 初回のみ)/ カード=3枚[❶ DFM とは | ❷ できること | ❸ しない主張] / 「はじめる」で閉じる=true・既読フラグ=1 / 再表示可=true / About に再表示導線=true / 🌐言語切替(第89便)=true",
-   "ms": 28
+   "ms": 13
   },
   {
    "id": "params.roles",
    "pass": true,
    "detail": "PARAM_DEFS=22件 全宣言あり(未宣言=[]・不正値=[])/ 実験条件=[gravityX,gravityY]・数値=[dispMag,softening,timeScale]・他=物理仮定 / 凡例=true・チップ=25個(主役重複込みで定義数22以上)・出現種=[experiment,numerics,physics]",
-   "ms": 29
+   "ms": 21
   },
   {
    "id": "ui.notclaim",
    "pass": true,
    "detail": "notClaim 宣言=49プリセット(全数で宣言キー数=表示行数・タイトル直下を確認 — 不一致=[])/ en 切替で文面が変わる=true(bhCore)",
-   "ms": 304
+   "ms": 187
   },
   {
    "id": "ui.failure-first",
    "pass": true,
    "detail": "☿: FAIL行→PASS行の2行=true / 位置=タイトル後・本文前=true / en 切替で文面が変わる=true",
-   "ms": 41
+   "ms": 40
   },
   {
    "id": "perturb.inject",
    "pass": true,
    "detail": "|ΔP|/scale=6.1e-10(<1e-6 — 状態配列 f32 の丸め相応)/ vRMS×1.39(vAmp=1 → 理論≈1.41・窓1.2〜1.7)/ 決定論: 同seed一致=true・別seed相違=true / spinFlip=115/240粒(0.3n〜0.7n=true)/ UIボタン=true・UI経由の|ΔP|/scale=2.2e-9",
-   "ms": 45
+   "ms": 34
   },
   {
    "id": "ui.stdtests",
    "pass": true,
    "detail": "stdTests 宣言=2プリセット(不正=[])/ 🥚🔥=6試験全pass宣言=true / en 切替で見出しが変わる=true",
-   "ms": 57
+   "ms": 28
   },
   {
    "id": "monitor.system-energy",
    "pass": true,
    "detail": "energies(): ⚾ kin=3791.71>0・rot=0・heat=null(spinモード)/ 🔥 heat=751.2>0(tint)/ HUD: ⚾=開放系行=true+E行=true / ♾️=閉鎖系行=true+E行=true",
-   "ms": 637
+   "ms": 629
   },
   {
    "id": "ui.presetpicker",
    "pass": true,
    "detail": "ボタン=選択中サンプル名(🪐)=true / モーダル=true・全36行 → 🌌絞り込み 4行 / 検索「水星」=☿ヒット=true / 行タップ(先頭行=🪨)で読込+閉じ=true(ボタン=🪨: true)/ すべて表示=ウィンドウ内(true)・ヘッダ非表示(true)/ セパレータ=true / E0絞り込み 48行(期待48・宣言なし込み=true)",
-   "ms": 185
+   "ms": 170
   },
   {
    "id": "catalog.visibility",
    "pass": true,
    "detail": "OFF非表示(select=true/検索=true) ON検索ヒット=true 読込=galaxyStd 選択保持=true validator(不正削除=true/正値保持=true)",
-   "ms": 178
+   "ms": 169
   },
   {
    "id": "wave118.ui",
    "pass": true,
    "detail": "scaleExp上書き(☄️8/4/27=true 🌙6/2/25=true 💍6/2/25=true・eC=x−eT=4)validator=true / dispMag力学bit不変=true / 上下反転(鏡像+復帰)=true・トグル=true / 時間単位変換=true / R実半径0.0244受理(実測0.024399999529123306)+クランプ0.01〜100=true",
-   "ms": 37
+   "ms": 35
   },
   {
    "id": "wave119.ui",
    "pass": true,
    "detail": "orbitObs積算=true / 観測結果カード 3行(42.98″併記=true) / 軌道要素ライブ=true( 2440 km ・ ≈ vx -4.008 km/s ・ vy 58.812 km/s ・ ≈ a 0.387 au ・ e 0.206 ・ T 87.97 日 ・ ϖ 0.0°) / アンカーホバー(T行=true・距離馴染み単位=true) / dispMag A/B=true / 反転(ドラッグ=true・スポーク=true) / 時間経過倍率<ε=true / validator=true",
-   "ms": 38
+   "ms": 24
   },
   {
    "id": "wave120.ui",
    "pass": true,
    "detail": "ベース9択+なし=10(e7選択=true) / ☄️タグ=惑星=true / 💍ts1+trail=true / κ併記=true / ワンタップphysics=true&true / 歳差HUD統合=true / 🌘D0較正=true・正の積算=true / 🪨💿=true",
-   "ms": 3877
+   "ms": 3357
   },
   {
    "id": "wave121.ui",
    "pass": true,
    "detail": "寿命UI=true&true・3要素=true・フェード=true / 残像半径半分=true / 💍💿e6+衛星=true / ワンタップ相互+🪨D0較正=true / タイタン15.95日=true",
-   "ms": 389
+   "ms": 283
   },
   {
    "id": "wave122.ui",
    "pass": true,
    "detail": "スライダー=true&true&同期true・既定1000=true / 残像廃止=true / 共通補正(D₀=0.006,q=5)=true / q値域8=true / 🪨主役=q=true",
-   "ms": 20
+   "ms": 14
   },
   {
    "id": "wave123.ui",
    "pass": true,
    "detail": "qLock: 🌘=true(行無効=true)・💿=true・🪨=true / ワンタップ=true&🌙qLock=true / A/Bマップ=true・軌跡上限同一=true / 🌌宣言q維持=true",
-   "ms": 35
+   "ms": 25
   },
   {
    "id": "wave124.ui",
    "pass": true,
    "detail": "qLock行=true(qの直前=true)再適用=true / 並び kFrame=true・cLink=true / κ編集=true&true・kappaT受理=true・セーブ記録=true",
-   "ms": 43
+   "ms": 21
   },
   {
    "id": "wave125.ui",
    "pass": true,
    "detail": "kappaT正準=true・実行時Kt bit一致=true / プロンプト=true / κ0受理=true・0スナップ宣言=true / ロック表記=true / 拡幅=true・セーブκ=true",
-   "ms": 30
+   "ms": 14
   },
   {
    "id": "wave128.engine",
    "pass": true,
    "detail": "κ正準: params=true・CLAMPS[0,1]=true・PARAM_DEFS=true / エンジン乗算形=true・時計解析一致=true(ψ∝κ=true) / 旧Kt受理: 宣言=true・Kt1e12→κ0=true・併記κ優先=true・build明示Kt優先=true / physLock κ=G/c²=true・G=0厳密=true / 光線しきい値=true / セーブ直コピー=true",
-   "ms": 28
+   "ms": 19
   },
   {
    "id": "scale.exponents",
    "pass": true,
    "detail": "7分類=true / 日常既定 {\"x\":0,\"eT\":0,\"eM\":0,\"eC\":0}: g_y 9.8→\"≈9.8 m/s²\"(実値)・cLight30→\"≈30 m/s\" / ビーカー {\"x\":-2.5,\"eT\":-2.5,\"eM\":-2.5,\"eC\":0}: g_y 0.031→\"≈9.803 m/s²\"(≈9.8 m/s²)/ 惑星 cLight30→\"≈3e5 m/s\"(eC=ティア別 x−eT〔第126便〕・🪐=planetary・☀️=stellar)/ 銀河 g_y→\"≈9.8e-9 m/s²\"(×1e-9)/ T上書き=1→\"≈0.098 m/s²\" / ロード復帰={\"x\":0,\"eT\":0,\"eM\":0,\"eC\":0} / スライダー(時間・質量)=true,true・光速eC=false(第130便: 撤去=期待 false・setScaleExps({C:9})→eC=0(受理して無視)) / 換算表示の既定ON(ソース)=true",
-   "ms": 62
+   "ms": 38
   },
   {
    "id": "scale.cg-consistency",
    "pass": true,
    "detail": "☀️アンカー: G表示=6.67e-11(実G値→万有引力定数) c表示=300000(eC=4 の表示規約・期待300000) Kt表示=1.3477088948787062e+21 kg/m / 次元的c=3e5 → 恒等式 Kt=c_dim²/G_SI の残差=1.2e-3(整合)/ 表示cで読むと ×1.00e+0(期待 1e0 — 第130便: eC 一本化で見かけ差は解消(表示c=次元的c))",
-   "ms": 20
+   "ms": 14
   },
   {
    "id": "scale.realc-display",
    "pass": true,
    "detail": "実cプリセット(☀️c=3e4): eC既定=4(=x−eT=4)・cLight表示=\"≈3e8 m/s\"(実光速に一致) / setScaleExps({C:9})→eC=4(第130便: 上書き廃止で 4 のまま) / c₀=30 サンプルへ戻すと eC=5(従来規約 — 既存表示は不変)",
-   "ms": 38
+   "ms": 22
   },
   {
    "id": "scale.clink",
    "pass": true,
    "detail": "変換式(G×4・ts÷2・v×2・時空係数不変)=true / 軌道一致 maxRel=1.3e-5(<1e-3) / 往復復元=true / トグル存在=true・ON永続化=true / setParam配線=true",
-   "ms": 24
+   "ms": 18
   },
   {
    "id": "behavior.wave100c",
    "pass": true,
    "detail": "🛷 |spin| 0.025→0.145(窓0.09〜0.25)・v 6.0→4.36(窓3.8〜5.0)・対照|spin|=0.024(≤0.04)・N=201(不変) / ☕ T 60→[56.16 48.1 41.98 35.24 29.43 25.38](末端窓18〜33・単調=true)・壁=true・断熱対照 T=60.0(≥55・twall無効=true)",
-   "ms": 43810
+   "ms": 31149
   },
   {
    "id": "ext.formation-lineage",
    "pass": true,
    "detail": "🥚3000步: 融合149・記録149件 / 最重: 直接吸収19(イベント19・単調=true・m一致=0.0e+0) / id再利用=0(=0) / UI表示=true",
-   "ms": 3612
+   "ms": 2544
   },
   {
    "id": "ui.fidelity",
    "pass": true,
    "detail": "fidelity:\"real\"=6件[earthMoonReal,earthMoonRealKF1,mercuryReal,saturnRingReal,saturnZonalD68,solarInner](第120便: スケール換算込み較正のみ)/ チップ=true・🪐なし=true・旧宣言なし=true",
-   "ms": 50
+   "ms": 35
   },
   {
    "id": "ui.scalebar-conv",
    "pass": true,
    "detail": "単位整形: 5e3m→\"5 km\"・3e11m→\"2.005 au\"・1e16m→\"1.057 ly\"・5e-9m→\"5 nm\"・3kg→\"3 kg\"・1.2e25kg→\"2.009 M⊕\"・4e30kg→\"2.011 M☉\"・3.4e4m/s→\"34 km/s\" / スケールバー表示トグル=true / 画面下換算(selConvText): ON=\"≈ m 2 kg ・ Ω 0/s ・ R 1.697 m ・ ≈ vx 0 m/s ・ vy 0 m/s ・ ≈ 軌道: 非束縛(E≥0)\"・min中も2行表示=true(第95便)・換算OFF null=true・未選択null=true",
-   "ms": 19
+   "ms": 10
   },
   {
    "id": "ui.corev2-fit",
    "pass": true,
    "detail": "コアv2 3値行: title=value の全文ツールチップ=true(Ω行=\"0.0525/0.0500/0.0025\")— 幅188px+縮小フォントで全桁表示",
-   "ms": 24
+   "ms": 11
   },
   {
    "id": "box.wall-restitution",
    "pass": true,
    "detail": "⚾: 反発係数4行(壁温0行・既定0.95×4=true)/ ♨️: 反発4行+壁温4行共存 / 🪐(境界なし): 0行 / 底面0.2で軌道変化=true・壁吸収KE増 48.2→494.1=true / 天井0.2は同窓で不変(壁別独立)=true",
-   "ms": 40
+   "ms": 20
   },
   {
    "id": "ui.wave95",
    "pass": true,
    "detail": "カテゴリ説明: 10カテゴリ中ⓘ欠落=[なし] / 🪐に実験箱なし=true / カメラ追従: 共通設定内=true・非選択sel設定=true・保持=true / ⏮保持: グラフ=true・時間指数=true・箱H₀=true(通常ロードは既定へ=true) / セーブ: 保存キー=true・復元=true / 箱A/B: B側のみ=true&&A不変=true / HUD時間倍率反映=true",
-   "ms": 593
+   "ms": 551
   },
   {
    "id": "ui.wave96a",
    "pass": true,
    "detail": "sel非選択ドラッグでカメラ移動=true(選択時はオフセット=true)/ HUD実効倍率: 30×4→100(クランプ・第97便上限)=true・0.271×1→0.271=true / 箱A/B比較表示: lastBox=H0=true・G編集でlastKeyへ復帰=true",
-   "ms": 747
+   "ms": 725
   },
   {
    "id": "qa.testid-live",
    "pass": true,
-   "detail": "claims=82件(36プリセット)・testId 実体=43種 → qa.mjs に定義あり=43/43(未定義=[]) / このランで実行済み=43/43(未実行=0件[] — !FAST なので 0件であること) / testId 無しの claim=3件(freebox:freebox.a-eff-final,merger:merger.spin-heating-6000,merger:merger.tidal-tail-6000— 説明文の数値だけを固定する claim は testId を持たなくてよいので判定しない) / 第85便: 🕶️ の behavior.darkrotorLong・behavior.darkrotor-pitch が「定義あり・未実行」で 第84便まで休眠していた(門が第61便で廃止された HP.sim.obsT を見ていた)— 本ゲートはその再発を検出する",
-   "ms": 23
+   "detail": "claims=94件(42プリセット)・testId 実体=44種 → qa.mjs に定義あり=44/44(未定義=[]) / このランで実行済み=44/44(未実行=0件[] — !FAST なので 0件であること) / testId 無しの claim=14件(freebox:freebox.a-eff-final,merger:merger.spin-heating-6000,merger:merger.tidal-tail-6000,earthMoonReal:earthMoonReal.sidereal-month,earthMoonReal:earthMoonReal.lunar-distance,earthMoonRealKF1:earthMoonRealKF1.apsidal-period,earthMoonRealKF1:earthMoonRealKF1.sidereal-month-kf1,mercuryReal:mercuryReal.perihelion-advance,mercuryReal:mercuryReal.orbital-period,mercuryRealKF1:mercuryRealKF1.perihelion-advance-kf1,mercuryRealKF1:mercuryRealKF1.drag-precession,saturnRingReal:saturnRingReal.cring-period,saturnRingRealKF1:saturnRingRealKF1.ring-apsidal-drift,saturnRingRealKF1:saturnRingRealKF1.surface-entrainment— 説明文の数値だけを固定する claim は testId を持たなくてよいので判定しない) / 第85便: 🕶️ の behavior.darkrotorLong・behavior.darkrotor-pitch が「定義あり・未実行」で 第84便まで休眠していた(門が第61便で廃止された HP.sim.obsT を見ていた)— 本ゲートはその再発を検出する",
+   "ms": 25
   },
   {
    "id": "page.no-errors",
