@@ -16,6 +16,14 @@
 %     (b) The spacetime coefficient is written in the current canonical form
 %         kappa (kappaT), with Kt = 1/kappa and the correspondence lock
 %         kappa = G/c0^2 (wave 128 engine canonicalization).
+%   2026-08-18 (later, same day): TODO(refs) resolved -- primary sources
+%     added for the observed values quoted (Mercury 42.98''/cy, sidereal
+%     month, lunar apsidal cycle, Titan, Saturn rotation and ring radii,
+%     ring mass, solar LT rate, Michelson--Morley).  Values quoted in the
+%     Michelson--Morley consistency remark of Sec. VI F were left
+%     unchanged; only its limiting clause was tightened.  Nothing else in
+%     the text or in any number was touched.  The Japanese full
+%     translation is dfm-paper3-ja.tex (v1.0-draft-ja).
 % Pillars (chronological by wave):
 %   P1  43''/century reproduced by direct dynamics (waves 113-115:
 %       real-c convention, stateCarry:"double"; ratio 1.002).
@@ -244,8 +252,8 @@ The gravitational constant transforms as
   \qquad k = 3L-2T-M ,
   \label{eq:Gk}
 \end{equation}
-so a sample can carry the SI gravitational constant exactly if
-$G_{\mathrm{sim}}=6.674\times10^{-11}\times10^{-k}$.
+so a sample can carry the SI gravitational constant~\cite{CODATA2022}
+exactly if $G_{\mathrm{sim}}=6.674\times10^{-11}\times10^{-k}$.
 The three reality-calibration samples of this paper all satisfy
 $k=-11$, which is why all three run with the same $G_{\mathrm{sim}}=
 6.674$ (Table~\ref{tab:scales}).
@@ -271,9 +279,18 @@ visualization convention carried.
   and the SI values they pin. All three satisfy $3L-2T-M=-11$, so all
   three run with $G_{\mathrm{sim}}=6.674$
   (Eq.~\ref{eq:Gk}), and all three satisfy $L-T=4$, so all three run
-  with $c_0=3\times10^{4}$. Source: \texttt{docs/PHYSICS.md} Sec.~5
-  and the sample declarations in the application.}
+  with $c_0=3\times10^{4}$. Declarations: \texttt{docs/PHYSICS.md}
+  Sec.~5 and the sample declarations in the application; the observed
+  masses, radii and rotation rates they carry are the standard values
+  \cite{Prsa2016,NASAFact,Mankovich2019}.}
 \label{tab:scales}
+% TODO(ref-verify): the solar rotation period used here, 25.05 d, is the
+% commonly quoted *equatorial sidereal* value; the NASA Sun fact sheet
+% tabulates 609.12 h (25.38 d) for the sidereal rotation period, so
+% \cite{NASAFact} does NOT cover the 25.05 d figure.  Candidate primary
+% sources to check before citing: Snodgrass & Ulrich (1990) Doppler
+% differential-rotation law, or the Explanatory Supplement's solar
+% rotation table.  Left uncited deliberately rather than mis-attributed.
 \begin{ruledtabular}
 \begin{tabular}{lccc}
  & Mercury & Earth--Moon & Saturn ring \\
@@ -412,7 +429,8 @@ the effective falloff index
   n(d) = q+\frac{D_0}{D_0+w(d)}
   \label{eq:neff}
 \end{equation}
-equals $3$---the Lense--Thirring distance law---throughout the
+equals $3$---the Lense--Thirring distance
+law~\cite{LenseThirring1918}---throughout the
 central-dominated region, with the crossover radius $r_t\approx m/D_0$
 pushed outside the system.
 Equation~(\ref{eq:neff}) is the model's built-in crossover: $n\to q$
@@ -456,7 +474,8 @@ $\varepsilon=2$ for this reason.
 
 Mercury's perihelion advance is the model's most exposed test, because
 the geodesic option E12 of Paper~1 reproduces the $+42.98''$/century
-main term \emph{at the level of the equations}, with $\beta=\gamma=1$
+main term~\cite{Clemence1947,Park2017,Will2014} \emph{at the level of
+the equations}, with $\beta=\gamma=1$
 and no additional free coefficient, while the base dynamics
 E1$'$--E11 provably does not (Paper~1, negative claim~5).
 Formula-level agreement, however, is not the same as measuring the
@@ -535,13 +554,13 @@ At Mercury's own depth the measured advance is
 $\Delta\varpi=5.029\times10^{-7}$\,rad/orbit, a ratio of $1.002$ to
 the weak-field expression, independent of the initial phase.
 Converting with $206264.806''$/rad and $414.93$ orbits per century
-(from the observed sidereal period $87.969$\,d) gives
+(from the observed sidereal period $87.969$\,d~\cite{NASAFact}) gives
 \begin{equation}
   \Delta\varpi = 0.1037''/\text{orbit} = 43.0''/\text{century},
   \label{eq:43}
 \end{equation}
-against the observed $42.98''$/century---agreement to better than
-$0.2\%$.
+against the observed $42.98''$/century~\cite{Park2017}---agreement to
+better than $0.2\%$.
 The claim this licenses is narrow and worth stating precisely: the
 advance is now obtained \emph{from the dynamics of a running orbit
 carrying Mercury's real invariants}, not from evaluating a formula and
@@ -553,7 +572,8 @@ is the caveat that the equation could not actually be run at the real
 depth.
 
 The in-application sample carries the same construction with all
-orbital elements at their observed values: solar mass $1988.5$
+orbital elements at their observed values~\cite{Prsa2016,NASAFact}:
+solar mass $1988.5$
 ($1.9885\times10^{30}$\,kg), Mercury mass $3.3011\times10^{-4}$,
 perihelion $460.012$ ($4.60\times10^{10}$\,m), perihelion speed
 $5.897643$ ($58.98$\,km/s), giving a measured orbital period of
@@ -761,7 +781,8 @@ observation that P3 exploits.
 \label{sec:p3fit}
 
 The real Moon's line of apsides completes a revolution in $8.85$
-years, about $118$ sidereal months, i.e.\ $\Delta\varpi\approx0.0531$
+years, about $118$ sidereal
+months~\cite{ExplSup2013,NASAFact}, i.e.\ $\Delta\varpi\approx0.0531$
 rad per orbit.
 A pure two-body Kepler orbit cannot do this: the ellipse closes.
 The DFM Earth--Moon system with dragging on can, and a joint fit of two
@@ -772,7 +793,8 @@ quantities against two observables fixes it:
   \label{eq:fit}
 \end{equation}
 after which the measured sidereal month is $27.33$\,d against the
-observed $27.3217$\,d (a residual of $+0.03$ to $+0.04\%$) and the
+observed $27.3217$\,d~\cite{NASAFact} (a residual of $+0.03$ to
+$+0.04\%$) and the
 measured apsidal advance reproduces the $8.85$-year cycle, with an
 all-window ratio of $0.99$ under the wave-120 configuration.
 The two knobs are named and counted: $D_0$ sets the precession rate,
@@ -826,6 +848,7 @@ the paper is the point.
 
 The calibration of Sec.~\ref{sec:p3} did not transfer.
 Applying $k_{\mathrm{Frame}}=1$ to the Mercury system with the Sun's
+% TODO(ref-verify): 25.05 d -- see the note at Table~\ref{tab:scales}.
 real rotation ($25.05$\,d) and the solar-system profile $q=3$,
 $D_0=0.1$ produces a \emph{retrograde} drag precession of
 $-7.3\times10^{-5}$\,rad/orbit, i.e.\ $-1.5\times10^{4}\,''$/century:
@@ -1000,10 +1023,14 @@ and repeated here with its own qualification---is that ``dragging is
 strongest nearest the surface'' is the configuration in which a
 surface-mounted interferometer rides the co-rotating frame, and is
 therefore consistent with the null result of the Michelson--Morley
-experiment.
-We record this as a consistency observation about a shape, not as a
-derivation, not as a quantitative comparison with that experiment, and
-emphatically not as a mechanism claim.
+experiment~\cite{MichelsonMorley1887}.
+We record this as an observation about the \emph{shape} of a profile
+and nothing more: it is not a derivation, not a quantitative comparison
+with that experiment (no fringe shift, no velocity bound, and no
+figure of merit of any kind is computed here), and not a mechanism
+identification in the sense of Sec.~\ref{sec:definitions}.
+It is placed in this subsection, after the results of P4 and outside
+every claim the paper makes, because it is not one of them.
 
 \subsection{A hypothesis tested and retired}
 \label{sec:p4spin}
@@ -1035,23 +1062,31 @@ The Saturn system is included for scope rather than for a new
 mechanism, and its scope statement is the point of this short section.
 
 The sample places Saturn's real mass ($56.834=5.6834\times10^{26}$\,kg),
-real radius ($60.3=6.03\times10^{7}$\,m) and real rotation
-($0.016528$, i.e.\ a $10.56$-hour day) at the planetary exponents of
+real radius ($60.3=6.03\times10^{7}$\,m)~\cite{Prsa2016,NASAFact} and
+real rotation ($0.016528$, i.e.\ a $10.56$-hour
+day~\cite{Mankovich2019}) at the planetary exponents of
 Table~\ref{tab:scales}, with the ring resolved as three bands at their
-observed radii---C $[74.658,92.0]$, B $[92.0,117.58]$, A
-$[122.17,136.775]$, with the Cassini division at its real
+observed radii~\cite{NASAFact}---C $[74.658,92.0]$, B $[92.0,117.58]$,
+A $[122.17,136.775]$, with the Cassini division at its real
 position---populated by 40 representative grains each, plus the six
-major moons from Mimas to Titan at their real orbital radii and masses
-with Keplerian initial speeds.
+major moons from Mimas to Titan at their real orbital radii and
+masses~\cite{Jacobson2006,NASAFact} with Keplerian initial speeds.
 The calibrated observables are Keplerian: the C-ring inner edge orbits
 at $2.25$ ($22.5$\,km/s) with a period of $5.78$\,h against the
 observed $5.8$\,h, and Titan's period is $15.949$\,d against the
-observed $15.945$\,d.
+observed $15.945$\,d~\cite{Jacobson2006,NASAFact}.
+% TODO(ref-verify): the "observed 5.8 h" C-ring inner-edge period is the
+% Keplerian period at the catalogued inner-edge radius 74,658 km
+% \cite{NASAFact}, not itself a catalogued observable; if a directly
+% measured value is wanted, cite a ring-occultation radius/kinematics
+% source (French et al. 1993, Icarus, 28 Sgr occultation geometry) after
+% verifying the volume and page.
 All 120 ring particles are retained over the verification run.
 
 The grain mass is a declared calibration and is stated as such: at
 $10^{-5}$ ($10^{20}$\,kg) it is a representative value near the ring's
-real total mass of $1.5\times10^{19}$\,kg, whereas at $10^{-2}$
+real total mass of $1.5\times10^{19}$\,kg~\cite{Iess2019},
+whereas at $10^{-2}$
 ($10^{23}$\,kg) the grains' mutual gravity is some six orders of
 magnitude stronger than the real ring's and the bands were measured to
 scatter and accrete within a few orbits.
@@ -1079,7 +1114,8 @@ contribution is the qLock verification of Table~\ref{tab:qlock} and the
 entrainment shape of Sec.~\ref{sec:mm}, neither of which is a
 measurement of a real Lense--Thirring precession.
 For reference, the real solar Lense--Thirring precession
-($\sim0.002''$/century) is $2\times10^{-4}$ of the 1PN term and lies
+($\sim0.002''$/century)~\cite{IorioEtAl2011} is $2\times10^{-4}$ of the
+1PN term and lies
 below this implementation's measurement floor, which is why the
 dragging sector is verified by dose decomposition at exaggerated spin
 rather than by direct comparison with the sky.
@@ -1434,7 +1470,7 @@ calibrations recorded here; all decisions and the final text are the
 author's responsibility.
 \end{acknowledgments}
 
-\begin{thebibliography}{9}
+\begin{thebibliography}{99}
 \bibitem{DFM1} T. Imamura, \emph{Determinacy-Field Mechanics: A
 Machian Toy Universe with Tunable Frame Dragging, Inverse-Square
 Gravity, and Clock-and-Light Sectors}, Zenodo (2026),
@@ -1445,11 +1481,102 @@ and Light in a Relational Toy Model}, companion paper (2026).
 Determinacy-Field Mechanics: A Graded Standard-Test Methodology from
 Microspin Thermalization to Self-Forming Dark Rotors}, companion
 paper (2026).
-% TODO(refs): standard references for the observed values quoted
-% (Mercury's perihelion advance 42.98''/century; sidereal month
-% 27.3217 d; lunar apsidal period 8.85 yr; Titan 15.945 d; Saturn
-% C-ring inner-edge period 5.8 h) -- IAU/CODATA-class sources, to be
-% added in the form used by Papers 1--2.
+
+% --- Primary sources for the observed values quoted in this paper. ---
+% Entries marked TODO(ref-verify) are real publications whose exact
+% volume/page/DOI could not be checked offline in this session; verify
+% before submission.  No entry below is a placeholder.
+
+\bibitem{CODATA2022}
+P.~J.~Mohr, D.~B.~Newell, B.~N.~Taylor, and E.~Tiesinga,
+``CODATA recommended values of the fundamental physical constants:
+2022,'' Rev.\ Mod.\ Phys.\ \textbf{97}, 025002 (2025),
+\href{https://doi.org/10.1103/RevModPhys.97.025002}
+{doi:10.1103/RevModPhys.97.025002}.
+
+\bibitem{Prsa2016}
+A.~Pr\v{s}a \emph{et al.}, ``Nominal values for selected solar and
+planetary quantities: IAU 2015 Resolution B3,''
+Astron.\ J.\ \textbf{152}, 41 (2016),
+\href{https://doi.org/10.3847/0004-6256/152/2/41}
+{doi:10.3847/0004-6256/152/2/41}.
+
+\bibitem{Clemence1947}
+G.~M.~Clemence, ``The relativity effect in planetary motions,''
+Rev.\ Mod.\ Phys.\ \textbf{19}, 361--364 (1947),
+\href{https://doi.org/10.1103/RevModPhys.19.361}
+{doi:10.1103/RevModPhys.19.361}.
+
+\bibitem{Park2017}
+R.~S.~Park, W.~M.~Folkner, A.~S.~Konopliv, J.~G.~Williams,
+D.~E.~Smith, and M.~T.~Zuber, ``Precession of Mercury's perihelion
+from ranging to the MESSENGER spacecraft,''
+Astron.\ J.\ \textbf{153}, 121 (2017).
+% TODO(ref-verify): confirm volume/page and add the AAS DOI.
+
+\bibitem{Will2014}
+C.~M.~Will, ``The confrontation between general relativity and
+experiment,'' Living Rev.\ Relativity \textbf{17}, 4 (2014),
+\href{https://doi.org/10.12942/lrr-2014-4}{doi:10.12942/lrr-2014-4}.
+
+\bibitem{LenseThirring1918}
+J.~Lense and H.~Thirring, ``\"Uber den Einflu\ss{} der Eigenrotation
+der Zentralk\"orper auf die Bewegung der Planeten und Monde nach der
+Einsteinschen Gravitationstheorie,''
+Phys.\ Z.\ \textbf{19}, 156--163 (1918); English translation in
+Gen.\ Relativ.\ Gravit.\ \textbf{16}, 727--741 (1984),
+\href{https://doi.org/10.1007/BF00759853}{doi:10.1007/BF00759853}.
+
+\bibitem{IorioEtAl2011}
+L.~Iorio, H.~I.~M.~Lichtenegger, M.~L.~Ruggiero, and C.~Corda,
+``Phenomenology of the Lense--Thirring effect in the Solar System,''
+Astrophys.\ Space Sci.\ \textbf{331}, 351--395 (2011),
+\href{https://doi.org/10.1007/s10509-010-0489-5}
+{doi:10.1007/s10509-010-0489-5}.
+
+\bibitem{ExplSup2013}
+S.~E.~Urban and P.~K.~Seidelmann (eds.), \emph{Explanatory Supplement
+to the Astronomical Almanac}, 3rd ed.\ (University Science Books,
+Mill Valley, CA, 2013), Chap.~15 (the Moon: sidereal month and the
+revolution of the lunar perigee).
+
+\bibitem{NASAFact}
+D.~R.~Williams, \emph{NASA Planetary Fact Sheets} (NASA Goddard Space
+Flight Center / NSSDCA),
+\href{https://nssdc.gsfc.nasa.gov/planetary/factsheet/}
+{https://nssdc.gsfc.nasa.gov/planetary/factsheet/}
+(Mercury, Earth, Moon, Saturn and Saturnian-satellite sheets; the
+Saturn sheet also tabulates the C/B/A ring edge radii and the Cassini
+division).
+
+\bibitem{Mankovich2019}
+C.~R.~Mankovich, M.~S.~Marley, J.~J.~Fortney, and N.~Movshovitz,
+``Cassini ring seismology as a probe of Saturn's interior.
+I.\ Rigid rotation,'' Astrophys.\ J.\ \textbf{871}, 1 (2019).
+% TODO(ref-verify): confirm volume/article number and add the DOI.
+% This is the source of the 10h33m38s (=10.56 h) rotation period used
+% by the Saturn samples; it is NOT the System III value (10.656 h)
+% carried by the NASA fact sheet.
+
+\bibitem{Jacobson2006}
+R.~A.~Jacobson \emph{et al.}, ``The gravity field of the Saturnian
+system from satellite observations and spacecraft tracking data,''
+Astron.\ J.\ \textbf{132}, 2520--2526 (2006).
+% TODO(ref-verify): confirm volume/page and add the DOI.
+
+\bibitem{Iess2019}
+L.~Iess \emph{et al.}, ``Measurement and implications of Saturn's
+gravity field and ring mass,'' Science \textbf{364}, eaat2965 (2019),
+\href{https://doi.org/10.1126/science.aat2965}
+{doi:10.1126/science.aat2965}.
+
+\bibitem{MichelsonMorley1887}
+A.~A.~Michelson and E.~W.~Morley, ``On the relative motion of the
+Earth and the luminiferous ether,''
+Am.\ J.\ Sci.\ \textbf{34}, 333--345 (1887),
+\href{https://doi.org/10.2475/ajs.s3-34.203.333}
+{doi:10.2475/ajs.s3-34.203.333}.
+
 \end{thebibliography}
 
 \end{document}

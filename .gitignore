@@ -5,6 +5,12 @@ tests/out/*
 !tests/out/qa-results.json
 !tests/out/qa-results-beta.json
 !tests/out/perf-results.json
+# 第134便: kF1 較正ハーネスの実測正本(論文3 再現性 — 外部レビュー P0 対応。
+# 本文の中心値〔q*=6.16/8.25/21.8・drag −5.6e-10・第122便 q*=4.59〕を提出コミットから再生成可能に)
+!tests/out/kf1-results.json
+!tests/out/kf1b-results.json
+!tests/out/kf1c-results.json
+!tests/out/kf1d-results.json
 # 第19便: ダークローター探索実験の実測生データ(裁定記録 REVIEW_20260723_DARK_ROTOR_* が参照)
 !tests/out/darkrotor-results.json
 !tests/out/exp-4-67.json
