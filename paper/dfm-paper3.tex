@@ -1,10 +1,21 @@
 % =====================================================================
-% Determinacy-Field Mechanics, Paper 3 -- SECTION SKELETON (v0.1, 2026-08-16)
+% Determinacy-Field Mechanics, Paper 3 -- FULL DRAFT (v1.0-draft, 2026-08-18)
 % Theme: "Reality calibration" -- adopted 2026-08-16 (原仮定者裁定, 第121-122便).
 %   The emergence-across-scales draft that previously held this slot moved,
 %   content-unchanged, to Paper 4 (dfm-paper4.tex).
-% Status: chapter outline (章立て素案) with the measured anchor numbers from
-%   the landed harnesses. All prose is bullet-level; nothing here is final.
+% v1.0-draft (2026-08-18): full prose raised from the v0.1 chapter skeleton
+%   (2026-08-16).  Two substantive updates to the skeleton's numbers, both
+%   adjudicated before writing:
+%     (a) P4 is now told in TWO stages, chronologically: (i) the joint
+%         correction (D0=0.006, q=5; derived q*=4.59) discovered in wave 122,
+%         and (ii) its purification into the qLock derivation rule in wave 123,
+%         which removes q from the set of calibration knobs entirely.  The
+%         final calibrated state of record is the qLock generation
+%         (q*: 6.16 / 8.25 / 21.8 for the Mercury / Earth-Moon / Saturn
+%         systems), and the wave-122 numbers are kept as history.
+%     (b) The spacetime coefficient is written in the current canonical form
+%         kappa (kappaT), with Kt = 1/kappa and the correspondence lock
+%         kappa = G/c0^2 (wave 128 engine canonicalization).
 % Pillars (chronological by wave):
 %   P1  43''/century reproduced by direct dynamics (waves 113-115:
 %       real-c convention, stateCarry:"double"; ratio 1.002).
@@ -13,10 +24,9 @@
 %   P3  kF1 drag precession as a calibration mechanism: the lunar apsidal
 %       cycle 8.85 yr reproduced by a two-body system via motion dragging,
 %       with D0 as the calibration knob (wave 120).
-%   P4  The joint correction (D0=0.006, q=5): one pair satisfies both the
-%       Earth-Moon and Mercury systems at once; the spin term is suppressed
-%       geometrically by q, and the wave-121 seven-order D0 split dissolves
-%       (wave 122, tests/exp-kf1c.mjs).
+%   P4  The joint correction (wave 122) and its purification into qLock
+%       (wave 123): one background D0 and ONE derivation rule for q satisfy
+%       the Earth-Moon, Mercury and Saturn systems at once.
 % Honest-calibration philosophy (runs through every section):
 %   calibrated match =/= mechanism identification; every failure that led
 %   to a convention (kFrame=0 samples, softening retrograde precession,
@@ -24,15 +34,25 @@
 % Companion papers: Paper 1 (foundations), Paper 2 (box universe),
 %   Paper 4 (emergence across scales, dfm-paper4.tex).
 % Measurement harnesses of record: tests/exp-obscal.mjs, exp-kf1.mjs,
-%   exp-kf1b.mjs, exp-kf1c.mjs; app samples: mercuryReal (comet emoji
-%   in-app), earthMoonReal, earthMoonRealKF1, mercuryRealKF1,
-%   saturnRingReal (docs/PHYSICS.md sec. 5, v1.34).
+%   exp-kf1b.mjs, exp-kf1c.mjs, exp-kf1d.mjs; app samples: mercuryReal,
+%   earthMoonReal, saturnRingReal, mercuryRealKF1, earthMoonRealKF1,
+%   saturnRingRealKF1 (docs/PHYSICS.md sec. 5, v1.40 / CHANGELOG v1.40.0).
+% Build:  pdflatex dfm-paper3.tex  (RevTeX 4.2, as Papers 1-2)
 % =====================================================================
 \documentclass[aps,reprint,amsmath,amssymb,nofootinbib,superscriptaddress,floatfix]{revtex4-2}
 
 \usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage{bm}
 \usepackage{hyperref}
 \usepackage{booktabs}
+\hypersetup{
+  pdftitle={Reality Calibration of a Machian Toy Universe},
+  % TODO(author): pdfauthor as in Papers 1--2.
+  pdfkeywords={toy model, relational mechanics, calibration, perihelion
+    advance, frame dragging, reproducibility},
+  pdfsubject={Educational toy model; observation calibration; honest
+    negative results}}
 
 \begin{document}
 
@@ -42,122 +62,1396 @@ by Honest Calibration, Not Mechanism Claims}
 
 % TODO(author): author block as in Papers 1--2.
 \author{...}
-\date{2026-08-16 (skeleton v0.1)}
+
+\date{2026-08-18 (draft v1.0)}
 
 \begin{abstract}
-% --- Planned claims (each tied to a harness measurement) ---
-% 1. A single scale-conversion convention (per-sample exponents L/T/M,
-%    real G = 6.674, real c0 = 3x10^4, Kt = c0^2/G "correspondence lock")
-%    lets real solar-system data be placed in the toy universe unchanged.
-% 2. With the double-precision state carry, the 1PN geodesic mode
-%    reproduces Mercury's 42.98''/century directly in the dynamics
-%    (ratio 1.002) -- not as a formula overlay (P1).
-% 3. The kFrame=1 sector calibrates: motion dragging reproduces the lunar
-%    apsidal cycle (8.85 yr) in a PURE TWO-BODY system (P3), and the joint
-%    correction (D0=0.006, q=5) makes the same pair of constants hold for
-%    the Earth-Moon and Mercury systems simultaneously (P4).
-% 4. Throughout: what a calibrated match does and does not license.
-%    The real lunar apsidal driver is solar perturbation; DFM matches the
-%    observable via a different mechanism. We claim calibration agreement,
-%    never mechanism identification.
-% --- Honest negatives (fixed list, planned Sec. VIII) ---
-%    D0 remains dimensional (P2); q=5 trades away the Lense-Thirring
-%    distance law of the spin term; window dependence of the apsidal
-%    ratio; the dragged body's own spin is provably irrelevant
-%    (self-excluded from u) -- a hypothesis tested and honestly retired.
-TODO abstract.
+Determinacy-Field Mechanics (DFM) is a two-dimensional relational toy
+model, introduced in a companion paper, in which inertia, gravity,
+clock rate, and light propagation are all read from a single scalar
+field.
+This paper asks how far such a model can be pushed \emph{toward real
+numbers}---real constants, real masses, real orbital elements---before
+it breaks, and what has to be said honestly at each step.
+We fix a scale-conversion convention in which each sample declares its
+own length/time/mass exponents, so that the simulation constants
+$G=6.674$ and $c_0=3\times10^{4}$ restore to the SI gravitational
+constant and the SI speed of light, and the correspondence lock
+$\kappa=G/c_0^{2}$ holds exactly.
+Under this convention four results follow.
+(P1)~With a double-precision state carry, the geodesic 1PN mode
+reproduces Mercury's perihelion advance \emph{in the dynamics}, not as
+a formula overlay: the measured $\Delta\varpi=5.029\times10^{-7}$
+rad/orbit is $1.002$ times the weak-field expression and converts to
+$43.0''$/century against the observed $42.98''$/century.
+(P2)~The stability of the strong-dragging sector is
+\emph{unit-system dependent}: the loop gain that controls collapse is
+built from the dimensional weight $w=m/d$, so the same physical
+configuration survives or collapses according to the declared
+exponents.
+(P3)~With dragging on, a \emph{pure two-body} Earth--Moon system
+reproduces the sidereal month and the $8.85$-year lunar apsidal cycle
+simultaneously, with the background $D_0$ as the single calibration
+knob---while the real driver of that cycle is solar perturbation, so
+what we report is a calibrated match through a different mechanism.
+(P4)~One background value $D_0=0.006$ and, after a further
+purification, one \emph{derivation rule} for the dragging falloff
+exponent, $q^{*}=3+\ln(1.25\,c_0^{2}R/GM)/\ln((R+a)/R)$, satisfy the
+Earth--Moon, Mercury, and Saturn systems at once, leaving no free
+exponent to tune.
+Throughout, the failures that produced the conventions---collapse of
+free binaries under strong dragging, softening-induced retrograde
+precession that swamped the raw precession readout, window dependence
+of the apsidal ratio, and a hypothesis about the dragged body's own
+spin that was tested and retired---are reported as results.
+We state explicitly what a calibrated match does and does not license:
+agreement of a number is not identification of a mechanism.
 \end{abstract}
 
 \maketitle
 
 % =====================================================================
 \section{Introduction}
-% - Papers 1/2 recap in two sentences; this paper asks: how far can a
-%   relational toy universe be pushed TOWARD REAL NUMBERS before it breaks,
-%   and what must be said honestly at each step?
-% - Define "reality calibration" vs "mechanism identification" up front.
-% - Chronology-as-method: each pillar P1-P4 arose from a failure of the
-%   previous convention; the failures are data.
-TODO.
+\label{sec:intro}
+
+The first companion paper~\cite{DFM1} introduced Determinacy-Field
+Mechanics (DFM): a two-dimensional educational toy model in which
+space is purely relational, every mechanical property of a point being
+set by the surrounding masses through a scalar \emph{determinacy
+field} $W$, from which inertia, gravity, clock rate, and light
+propagation are all read.
+The second~\cite{DFM2} replaced ``everything far away'' by a single
+summarized \emph{box} and studied expansion, redshift semantics, and
+probe-dependent expansion estimates inside it.
+Both papers worked in the model's own internal units, and both were
+explicit that DFM is a computational thought experiment rather than a
+proposal about nature.
+
+This paper asks a different question, and one that the earlier
+internal-unit framing deliberately postponed: \emph{how far can a
+relational toy universe be pushed toward real numbers before it
+breaks?}
+Concretely: can the real Sun and the real Mercury---real masses, real
+radii, real spin rates, real perihelion distance and perihelion
+speed---be placed in the toy universe unchanged, with the simulation's
+$G$ and $c_0$ restoring to the SI gravitational constant and the SI
+speed of light, and can the model then be asked for a number that
+astronomers measure?
+
+\subsection{Reality calibration versus mechanism identification}
+\label{sec:definitions}
+
+We use two terms throughout, and the distinction between them is the
+thesis of this paper.
+
+\emph{Reality calibration} is the operation of choosing conventions and
+parameter values so that a stated observable of the model agrees with
+a stated observable of the sky, together with an audit of exactly
+which quantities were fixed by the choice and which were then
+predicted.
+A reality calibration is successful when the agreement is quantitative,
+the number of adjusted quantities is smaller than the number of
+matched observables, and every adjusted quantity is named.
+
+\emph{Mechanism identification} is the far stronger claim that the
+physical process producing the number in the model is the process
+producing the number in nature.
+Nothing in this paper is a mechanism identification.
+The clearest case is the lunar apsidal cycle of
+Sec.~\ref{sec:p3}: DFM reproduces the observed $8.85$-year period in a
+system containing only two bodies, whereas the real cycle is driven
+principally by solar perturbation---a third body that the model does
+not contain.
+The agreement is real, reproducible, and machine-checked; it is also,
+demonstrably, produced by a different mechanism.
+We therefore report it as a calibrated match and say so in the same
+breath in which we report the number.
+
+This distinction is not a disclaimer appended to the results.
+It is what makes the results usable: a toy model that says which of
+its agreements are calibrations and which are consequences is a
+teaching instrument, whereas one that does not is a source of
+confusion.
+
+\subsection{Chronology as method}
+\label{sec:chronology}
+
+The four pillars of this paper (P1--P4) are presented in the order in
+which they were measured, because each arose from the failure of the
+convention that preceded it.
+
+P1 (Sec.~\ref{sec:p1}) had been declared out of scope twice.
+Under the earlier convention---an exaggerated analogue speed of light
+$c_0=30$---Mercury's dimensionless depth $GM/(c^{2}a)=2.55\times
+10^{-8}$ required a mass outside the model's admissible range, and
+even after that was fixed by a real-$c$ convention, the single-precision
+state representation rounded the 1PN signal away.
+Only the third attempt, with a double-precision state carry, succeeded.
+
+P2 (Sec.~\ref{sec:p2}) is a negative result promoted to a structural
+statement: when free binaries with full dragging collapsed, the control
+variable turned out to be a loop gain assembled from the
+\emph{dimensional} weight $w=m/d$, so that the stability of a
+configuration depends on the declared unit system.
+Every subsequent calibration inherits that fact.
+
+P3 (Sec.~\ref{sec:p3}) came from asking whether the collapse-prone
+sector could nevertheless be calibrated rather than merely avoided.
+It could, and the calibrated observable turned out to be one that a
+two-body model has no right to possess.
+
+P4 (Sec.~\ref{sec:p4}) came from the failure of P3's calibration to
+transfer: the value of $D_0$ that calibrated the Earth--Moon system was
+seven orders of magnitude away from the value that calibrated Mercury.
+That tension was first resolved by a joint correction in which a
+\emph{second} parameter absorbed the mismatch, and then dissolved
+altogether when that second parameter was shown to be computable from
+known quantities, leaving no adjustable exponent at all.
+
+Section~\ref{sec:conv} fixes the scale-conversion conventions used
+everywhere below.
+Sections~\ref{sec:p1}--\ref{sec:p4} present P1--P4.
+Section~\ref{sec:ring} states the scope of the ring-system
+calibration.
+Section~\ref{sec:license} is the philosophical core: what a calibrated
+match licenses and what it does not.
+Section~\ref{sec:negative} states the fixed list of negative claims,
+and Sec.~\ref{sec:repro} maps every central number to its harness,
+result file, and verification gate.
 
 % =====================================================================
 \section{Scale-conversion conventions}
-% - Per-sample scale exponents {L,T,M}; display-only, physics-invariant.
-% - Real-G convention (G_sim* per tier), real-c convention (c0=3x10^4),
-%   correspondence lock Kt=c0^2/G (physLock), massFloor=1e-6.
-% - eC = L-T for real-c presets; the 9-row scale base table.
-% - Table: sample-by-sample exponents and the SI values they pin.
-TODO.
+\label{sec:conv}
+
+\subsection{Per-sample scale exponents}
+\label{sec:exponents}
+
+The simulator is dimensionless.
+A \emph{scale declaration} attaches to each sample a triple of
+exponents $\{L,T,M\}$ meaning that one simulation length unit is
+$10^{L}$\,m, one time unit is $10^{T}$\,s, and one mass unit is
+$10^{M}$\,kg.
+The declaration is display-only: no equation of motion reads it, and
+two samples that differ only in their exponents run bit-identically.
+Its role is to make the numbers on the screen and in the harness
+readable as SI quantities, and---critically---to decide whether the
+\emph{constants} of the model can simultaneously be given their real
+values.
+
+The gravitational constant transforms as
+\begin{equation}
+  G_{\mathrm{SI}} = G_{\mathrm{sim}}\times10^{k},
+  \qquad k = 3L-2T-M ,
+  \label{eq:Gk}
+\end{equation}
+so a sample can carry the SI gravitational constant exactly if
+$G_{\mathrm{sim}}=6.674\times10^{-11}\times10^{-k}$.
+The three reality-calibration samples of this paper all satisfy
+$k=-11$, which is why all three run with the same $G_{\mathrm{sim}}=
+6.674$ (Table~\ref{tab:scales}).
+This is the \emph{real-$G$ convention}.
+
+The speed of light needs a separate treatment, because the dimensional
+combination $c_{\mathrm{dim}}=c_0\times10^{L-T}$ does not equal the SI
+speed of light for any of the model's standard scale tiers.
+The \emph{real-$c$ convention} therefore chooses $c_0$ per sample so
+that the dimensional conversion is exact:
+$c_{0}^{*}=3\times10^{8}\times10^{-(L-T)}$.
+For all three samples here $L-T=4$, giving
+$c_0=3\times10^{4}$.
+The consequence is stated once and used throughout: with the real-$G$
+and real-$c$ conventions in force simultaneously, \emph{every
+dimensionless invariant of the sample is real}---both $GM/(c^{2}a)$
+and $v/c$---so the model's ``exaggeration factor'' relative to nature
+is unity rather than the $10^{6}$ that the earlier $c_0=30$
+visualization convention carried.
+
+\begin{table}[t]
+\caption{Scale declarations of the three reality-calibration systems
+  and the SI values they pin. All three satisfy $3L-2T-M=-11$, so all
+  three run with $G_{\mathrm{sim}}=6.674$
+  (Eq.~\ref{eq:Gk}), and all three satisfy $L-T=4$, so all three run
+  with $c_0=3\times10^{4}$. Source: \texttt{docs/PHYSICS.md} Sec.~5
+  and the sample declarations in the application.}
+\label{tab:scales}
+\begin{ruledtabular}
+\begin{tabular}{lccc}
+ & Mercury & Earth--Moon & Saturn ring \\
+\colrule
+$\{L,T,M\}$ & $\{8,4,27\}$ & $\{6,2,25\}$ & $\{6,2,25\}$ \\
+1 length unit & $10^{8}$\,m & $10^{6}$\,m & $10^{6}$\,m \\
+1 time unit & $10^{4}$\,s & $10^{2}$\,s & $10^{2}$\,s \\
+1 mass unit & $10^{27}$\,kg & $10^{25}$\,kg & $10^{25}$\,kg \\
+primary mass & $1988.5$ & $0.59724$ & $56.834$ \\
+ & $1.9885{\times}10^{30}$\,kg & $5.9724{\times}10^{24}$\,kg
+ & $5.6834{\times}10^{26}$\,kg \\
+primary radius & $6.95$ & $6.38$ & $60.3$ \\
+primary spin & $0.029031$ & $0.0072921$ & $0.016528$ \\
+ & ($25.05$\,d) & ($23.93$\,h) & ($10.56$\,h) \\
+secondary mass & $3.3011{\times}10^{-4}$ & $7.346{\times}10^{-3}$
+ & $10^{-5}$ (grain) \\
+$G_{\mathrm{sim}}$ & $6.674$ & $6.674$ & $6.674$ \\
+$c_0$ & $3{\times}10^{4}$ & $3{\times}10^{4}$ & $3{\times}10^{4}$ \\
+$\kappa=G/c_0^{2}$ & $7.4156{\times}10^{-9}$ & $7.4156{\times}10^{-9}$
+ & $7.4156{\times}10^{-9}$ \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+\subsection{The correspondence lock $\kappa=G/c_0^{2}$}
+\label{sec:physlock}
+
+DFM reads clocks and light from the single dimensionless potential
+$\psi = W\kappa$, where $\kappa$ (the parameter \texttt{kappaT}) is
+the spacetime coefficient and $W$ the determinacy field; the earlier
+papers wrote the same quantity as $\psi=W/K_t$ with $K_t=1/\kappa$.
+The two forms are equivalent, and $\kappa$ is now the canonical
+editing, declaration, and storage key throughout the
+implementation, with $K_t$ retained only as a backward-compatible
+input.\footnote{The engine's internal canonicalization to $\kappa$
+(with $\psi=W\kappa$ evaluated as a multiplication rather than a
+division) leaves the matter sector bit-identical---E4 gravity,
+E6$'$ dragging and the E12 geodesic term do not read $\kappa$---and
+perturbs only clocks, optics, and heads-up displays at the ULP level,
+far inside every analytic-comparison tolerance.}
+$\kappa$ carries dimensions of length per mass, the same as $G/c^{2}$,
+so $\kappa m$ is a gravitational length.
+
+The \emph{correspondence lock} (\texttt{physLock}) is the declaration
+\begin{equation}
+  \kappa = \frac{G}{c_{\mathrm{light}}^{2}} ,
+  \label{eq:lock}
+\end{equation}
+which places the clock-and-light sector in the same weak-field
+correspondence with general relativity that Paper~1 established for
+its benchmark preset.
+With $G=6.674$ and $c_0=3\times10^{4}$ the lock gives
+$\kappa=7.4156\times10^{-9}$, equivalently $K_t=1.3485\times10^{8}$;
+all six samples of this paper declare exactly this value, and a
+verification gate asserts that the lock is satisfied at the moment
+each harness configuration is built.
+An honest bookkeeping note belongs here: because $c_0$ alone is carried
+by a display convention rather than by the dimensional conversion,
+multiplying displayed constants together to derive a third displayed
+quantity is not a legitimate operation, and the project's canon says
+so explicitly; the dimensional-conversion system
+($G$, $\kappa$, $g_x/g_y$, $\varepsilon$, $D_0$) is internally
+consistent on its own.
+
+\subsection{The dragging profile and its two parameters}
+\label{sec:profile}
+
+The quantities calibrated in Secs.~\ref{sec:p3}--\ref{sec:p4} live in
+the model's Machian sector, so we restate the three equations they
+involve.
+The determinacy weight of a source $j$ at distance $d_j$, the field,
+and the local frame velocity are
+\begin{align}
+  w_j &= \frac{m_j}{\sqrt{d_j^{2}+\varepsilon^{2}}},
+  \qquad W = D_0+\sum_j w_j,
+  \label{eq:W}\\
+  \bm u(\bm r) &= \frac{1}{W(\bm r)}\sum_j w_j
+   \Bigl[\bm v_j+\omega_j(d_j)\,\hat z\times(\bm r-\bm r_j)\Bigr],
+  \label{eq:u}
+\end{align}
+with the \emph{spin term} of a source of radius $R_j$ and spin $s_j$,
+\begin{equation}
+  \omega_j(d) = s_j\left(\frac{R_j}{R_j+d}\right)^{q}.
+  \label{eq:spinterm}
+\end{equation}
+Dragging transports a particle through the change of its own local
+frame, $\Delta\bm v_i = k_{\mathrm{Frame}}\,[\,\bm u_i(\text{now})-
+\bm u_i(\text{prev})\,]$, with the particle's own contribution
+excluded from $\bm u_i$, and with the reaction distributed back to the
+sources in proportion to their weights $\varphi_{ij}=w_j/W$ (the
+background share $\varphi_{\mathrm{bg}}=D_0/W$ going to an infinite
+reservoir that the ledger tracks).
+
+Two structural features of Eqs.~(\ref{eq:W})--(\ref{eq:spinterm})
+organize this paper.
+First, $\bm u$ has a \emph{motion} part (the $\bm v_j$ term) and a
+\emph{spin} part (the $\omega_j$ term), and they calibrate
+independently: the motion part is controlled by the background $D_0$
+through the frame weight
+\begin{equation}
+  \chi = \frac{w}{D_0+w},
+  \label{eq:chi}
+\end{equation}
+while the spin part is controlled by the geometric falloff exponent
+$q$.
+Second, $D_0$ has dimensions (mass over length), so the numerical value
+that calibrates a system carries that system's scale---the fact that
+Sec.~\ref{sec:p2} turns into a statement about stability and
+Sec.~\ref{sec:license} into a limitation.
+
+Table~\ref{tab:profiles} records the two solar-system profiles used in
+this paper alongside the pre-existing galactic visualization profile,
+which is left untouched.
+
+\begin{table}[t]
+\caption{Calibration profiles (declarations; the harness
+  \texttt{tests/exp-obscal.mjs} and the reality-calibration samples
+  follow them). The kF1 joint-correction row is the state of record of
+  this paper: $q$ is not chosen but derived
+  (Sec.~\ref{sec:qlock}). Source: \texttt{docs/PHYSICS.md} Sec.~5.}
+\label{tab:profiles}
+\begin{ruledtabular}
+\begin{tabular}{lccccc}
+Domain & $q$ & $D_0$ & geoPN & $k_{\mathrm{Frame}}$ & lock \\
+\colrule
+Solar system & $3$ & $0.1$ & $2$ & $1$ & on \\
+Solar, kF1 joint & $q^{*}$ derived & $0.006$ & $2$ & $1$ & on \\
+Galactic (legacy) & $2$ & $2$ & $0$ & $1$ & off \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+The solar-system row's choice $q=3$ with $D_0=0.1$ was made so that
+the effective falloff index
+\begin{equation}
+  n(d) = q+\frac{D_0}{D_0+w(d)}
+  \label{eq:neff}
+\end{equation}
+equals $3$---the Lense--Thirring distance law---throughout the
+central-dominated region, with the crossover radius $r_t\approx m/D_0$
+pushed outside the system.
+Equation~(\ref{eq:neff}) is the model's built-in crossover: $n\to q$
+where the central source dominates and $n\to q+1$ where the background
+does, without introducing any radius-dependent $q(r)$.
+That design decision---to express ``different values suit the center and
+the outskirts'' through the pair $(q,D_0)$ rather than through a new
+radial model---was taken before the calibrations reported here and is
+not revisited.
+
+\subsection{Two further conventions that the measurements forced}
+\label{sec:forced}
+
+Two settings in the sample declarations are not aesthetic choices but
+consequences of measurements, and are stated here so that later
+sections can refer to them.
+
+\paragraph*{Mass floor.}
+The effective-mass floor that protects the field evaluation from
+vanishing masses was lowered to $10^{-6}$ by declaration
+(\texttt{massFloor}) in the reality-calibration samples.
+With the default floor, the Moon's real mass in the Earth--Moon
+exponent system sits below the floor, and the floor's clamping
+inflates the Earth-side attraction by a factor $1.36$---a measured
+distortion of a real orbit by a numerical guard, removed by the
+declaration.
+
+\paragraph*{Softening.}
+The Plummer softening length $\varepsilon$ is the source of an honest
+failure documented in Sec.~\ref{sec:p1soft}, and the
+reality-calibration samples run with $\varepsilon=0.05$ (Mercury,
+Saturn) or $\varepsilon=0.1$ (Earth--Moon) instead of the default
+$\varepsilon=2$ for this reason.
 
 % =====================================================================
 \section{P1: 43$''$/century by direct dynamics}
-% - stateCarry:"double" (wave 114): sub-ulp velocity carry; measured
-%   42.98''/century, ratio 1.002 vs GR's 42.98.
-% - The invariant ladder (wave 113) and softening retrograde precession
-%   (wave 120: eps=2 gave -1.2e-4 rad/orbit = 24x 1PN -- the honest reason
-%   the raw HUD needed a subtraction method).
-TODO.
+\label{sec:p1}
+
+\subsection{Why this was twice out of scope}
+\label{sec:p1history}
+
+Mercury's perihelion advance is the model's most exposed test, because
+the geodesic option E12 of Paper~1 reproduces the $+42.98''$/century
+main term \emph{at the level of the equations}, with $\beta=\gamma=1$
+and no additional free coefficient, while the base dynamics
+E1$'$--E11 provably does not (Paper~1, negative claim~5).
+Formula-level agreement, however, is not the same as measuring the
+advance in a running orbit, and until the conventions of
+Sec.~\ref{sec:conv} were in place the running measurement was
+impossible for two independent reasons.
+
+The first was range.
+Mercury's dimensionless depth is
+$d\equiv GM/(c^{2}a)=2.55\times10^{-8}$.
+Under the earlier visualization convention $c_0=30$, realizing that
+depth requires a central mass $M=5.2\times10^{-4}$, outside the
+admissible mass range of the engine; under the real-$c$ convention
+$c_0=3\times10^{4}$ the same depth is realized at $M=515.7$, comfortably
+inside it.
+This quantitative statement is the reason the real-$c$ convention was
+adopted at all.
+
+The second was numerical representation.
+With the real invariants in range, the 1PN advance per orbit is
+$5\times10^{-7}$\,rad, and in single-precision state the measurement
+returned only $23$--$26\%$ of the analytic value: the per-step velocity
+increments were being rounded away systematically, and the orbital
+state itself performed a rounding random walk with a floor of
+$\approx10^{-6}$\,rad/orbit over $3000$ orbits.
+The remedy, adopted as an opt-in physics key
+(\texttt{stateCarry:"double"}), promotes the acceleration accumulators
+and the orbital state $x,y,v_x,v_y$ to double precision and makes the
+velocity kick and the uniform external field compensated (Kahan) sums.
+The default path is bit-identical, so no previously published number
+moves.
+
+\subsection{The invariant ladder}
+\label{sec:p1ladder}
+
+The measurement is a ladder in depth rather than a single run, so that
+the approach to the real invariant can be seen rather than asserted.
+Each rung fixes $a=150$, $e=0.206$ and a pinned primary declared as a
+1PN source, chooses $M$ so that $GM=d\,c^{2}a$, and measures the
+apsidal drift twice---once with the 1PN term on ($\lambda_{PN}=1$) and
+once with it off ($\lambda_{PN}=0$)---taking the difference.
+The estimator is a per-orbit boxcar (window averages over one Kepler
+period, then least squares on the sequence of window means), which
+removes the window-edge bias of the periodic component.
+The comparison is with the weak-field expression
+\begin{equation}
+  \Delta\varpi_{1\mathrm{PN}} = \frac{6\pi\,d}{1-e^{2}} .
+  \label{eq:1pn}
+\end{equation}
+
+\begin{table}[t]
+\caption{The Mercury invariant ladder (harness
+  \texttt{tests/exp-obscal.mjs} \S D; recorded in
+  \texttt{tests/out/obscal-results.json}). Depth $d=GM/(c^{2}a)$;
+  $a=150$, $e=0.206$, $\Delta t=0.016$, real-$G$ and real-$c$
+  conventions, correspondence lock on, \texttt{pnSource} declared,
+  \texttt{stateCarry:"double"}. The last row is Mercury's own
+  invariant.}
+\label{tab:ladder}
+\begin{ruledtabular}
+\begin{tabular}{lrrrrr}
+$d$ & $M$ & orbits & measured & Eq.~(\ref{eq:1pn}) & ratio \\
+\colrule
+$5{\times}10^{-7}$ & $10113.9$ & $100$ & $9.857{\times}10^{-6}$
+  & $9.842{\times}10^{-6}$ & $1.0015$ \\
+$1{\times}10^{-7}$ & $2022.8$ & $200$ & $1.9710{\times}10^{-6}$
+  & $1.9685{\times}10^{-6}$ & $1.0013$ \\
+$2.55{\times}10^{-8}$ & $515.8$ & $600$ & $5.0290{\times}10^{-7}$
+  & $5.0197{\times}10^{-7}$ & $1.0019$ \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+Table~\ref{tab:ladder} gives the result.
+At Mercury's own depth the measured advance is
+$\Delta\varpi=5.029\times10^{-7}$\,rad/orbit, a ratio of $1.002$ to
+the weak-field expression, independent of the initial phase.
+Converting with $206264.806''$/rad and $414.93$ orbits per century
+(from the observed sidereal period $87.969$\,d) gives
+\begin{equation}
+  \Delta\varpi = 0.1037''/\text{orbit} = 43.0''/\text{century},
+  \label{eq:43}
+\end{equation}
+against the observed $42.98''$/century---agreement to better than
+$0.2\%$.
+The claim this licenses is narrow and worth stating precisely: the
+advance is now obtained \emph{from the dynamics of a running orbit
+carrying Mercury's real invariants}, not from evaluating a formula and
+overlaying it, and not from an exaggerated analogue.
+It does not add evidence for the model beyond what Paper~1's
+formula-level checks already established, because the equation that the
+run integrates is the same one those checks verified; what it removes
+is the caveat that the equation could not actually be run at the real
+depth.
+
+The in-application sample carries the same construction with all
+orbital elements at their observed values: solar mass $1988.5$
+($1.9885\times10^{30}$\,kg), Mercury mass $3.3011\times10^{-4}$,
+perihelion $460.012$ ($4.60\times10^{10}$\,m), perihelion speed
+$5.897643$ ($58.98$\,km/s), giving a measured orbital period of
+$87.974$\,d against the observed $87.969$\,d.
+
+\subsection{The honest failure: softening produces retrograde
+  precession}
+\label{sec:p1soft}
+
+The subtraction in Sec.~\ref{sec:p1ladder}---measuring with the 1PN
+term on and off and differencing---is not a refinement.
+It is required, and the reason is a failure worth reporting in full.
+
+Plummer softening replaces $1/d^{2}$ attraction by
+$d/(d^{2}+\varepsilon^{2})^{3/2}$, which is not an inverse-square law,
+so a softened Kepler orbit does not close: it precesses
+\emph{retrograde} by
+\begin{equation}
+  \Delta\varpi_{\varepsilon} \simeq -3\pi\left(\frac{\varepsilon}{a}
+  \right)^{2}
+  \label{eq:soft}
+\end{equation}
+per orbit, independently of the time step.
+On the ladder configuration ($a=150$, $\varepsilon=2$) this is
+$-1.68\times10^{-3}$\,rad/orbit, and the measured
+$\lambda_{PN}=0$ residual is $-1.8\times10^{-3}$\,rad/orbit---i.e.\ the
+residual is quantitatively the softening precession, and it is
+\emph{three to four orders of magnitude larger} than the 1PN signal
+being sought.
+Because Eq.~(\ref{eq:soft}) does not involve $\lambda_{PN}$, the
+difference of the two runs cancels it exactly; that is why the
+subtraction method is the method of record and why the raw
+precession accumulator is not.
+
+The same effect had a visible consequence in the application.
+The Mercury sample originally ran at the default $\varepsilon=2$ with
+$a=579.09$, where Eq.~(\ref{eq:soft}) gives
+$-1.2\times10^{-4}$\,rad/orbit---orders of magnitude above the 1PN
+advance---so the on-screen precession accumulator was displaying,
+essentially, the softening artifact.
+% TODO(number): the project canon (docs/PHYSICS.md Sec. 5, CHANGELOG
+% v1.40.0, and the sample comment) records this ratio as "24x the 1PN
+% term". Both quoted magnitudes are canonical, but their ratio is
+% 1.2e-4 / 5.0e-7 = 2.4e2, so the canon's factor appears to be a typo
+% for 240x. The text above therefore states the ratio qualitatively;
+% resolve the canon before quoting a factor here.
+The remedy was to declare $\varepsilon=0.05$ for that sample (and
+$\varepsilon=0.1$ for the Earth--Moon samples), and to record
+explicitly that even then the raw accumulator retains an
+integrator-level numerical floor, so that the calibrated
+$43''$/century figure of record is the subtraction measurement of
+Table~\ref{tab:ladder} and the value shown on the sample's observation
+card---not the raw readout.
+We report this because it is exactly the kind of artifact that a toy
+model can present as a physical result if nobody differences it away.
 
 % =====================================================================
-\section{P2: Stability is unit-system dependent}
-% - Loop gain g=[w_sat/(D0+w_sat)][w_M/(D0+w_M)] with w=m/d DIMENSIONAL;
-%   the same configuration collapses or survives depending on the unit
-%   system (wave 119, exp-kf1.mjs).
-% - This is the root of every D0 subtlety below -- state it early.
-TODO.
+\section{P2: stability is unit-system dependent}
+\label{sec:p2}
+
+\subsection{The loop gain}
+\label{sec:p2gain}
+
+A free two-body system with full dragging ($k_{\mathrm{Frame}}=1$)
+frequently collapses: the eccentricity runs to unity within a few
+orbits.
+Systematic dose measurements identify the control variable as a
+\emph{loop gain} built from the two bodies' frame weights,
+\begin{equation}
+  g = \frac{w_{\mathrm{sat}}}{D_0+w_{\mathrm{sat}}}\cdot
+      \frac{w_{M}}{D_0+w_{M}}
+    = \chi_{\mathrm{sat}}\,\chi_{M},
+  \label{eq:gain}
+\end{equation}
+which is the product of the satellite's share of the primary's local
+frame and the primary's share of the satellite's.
+Dragging transports each body through the change of the other's frame;
+Eq.~(\ref{eq:gain}) is the round-trip factor of that mutual transport,
+and when it is too large the loop is a positive feedback.
+
+Table~\ref{tab:gain} gives the measured dose response along two routes.
+The gain that bounds stability in these runs lies between the largest
+stable value $4.1\times10^{-3}$ and the smallest unstable one
+$8.9\times10^{-3}$, but the boundary is route-dependent: reducing the
+gain by shrinking the satellite's weight alone leaves the system
+unstable at $g=8.9\times10^{-3}$, while reducing it by raising the
+background is stable at $g=4.1\times10^{-3}$.
+The asymmetry is itself informative---the primary-side factor
+$\chi_M\approx0.94$ persists under a satellite-only correction, so one
+factor of Eq.~(\ref{eq:gain}) never comes down.
+
+\begin{table}[t]
+\caption{Loop-gain dose response for the Earth--Moon configuration
+  (harness \texttt{tests/exp-obscal.mjs} \S F; recorded in
+  \texttt{tests/out/obscal-results.json}). ``amp'' is the relative
+  radial excursion $(r_{\max}-r_{\min})/\bar r$; the target set by the
+  natural eccentricity is $\approx0.11$. The satellite-mass route
+  cannot stabilize the system because $\chi_M$ stays near unity.}
+\label{tab:gain}
+\begin{ruledtabular}
+\begin{tabular}{llrrrr}
+route & knob & $\chi_{\mathrm{sat}}$ & $\chi_{M}$ & $g$ & amp \\
+\colrule
+$k_{\mathrm{sat}}$ & $1$    & $0.1604$ & $0.9395$ & $0.1507$ & $2.00$ \\
+$k_{\mathrm{sat}}$ & $0.25$ & $0.0456$ & $0.9400$ & $0.0429$ & $1.51$ \\
+$k_{\mathrm{sat}}$ & $0.05$ & $0.0095$ & $0.9402$ & $0.0089$ & $1.04$ \\
+$D_0$ & $0.3$ & $0.0599$ & $0.8382$ & $0.0502$ & $0.87$ \\
+$D_0$ & $1$   & $0.0188$ & $0.6084$ & $0.0114$ & $0.219$ \\
+$D_0$ & $2$   & $0.0095$ & $0.4372$ & $0.0041$ & $0.153$ \\
+$D_0$ & $5$   & $0.0038$ & $0.2371$ & $0.0009$ & $0.125$ \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+\subsection{Why this makes stability a property of the unit system}
+\label{sec:p2units}
+
+The weights entering Eq.~(\ref{eq:gain}) are $w=m/\sqrt{d^{2}+
+\varepsilon^{2}}$, which is \emph{dimensional}: it carries mass over
+length.
+The background $D_0$ carries the same dimensions.
+Consequently the ratio $\chi=w/(D_0+w)$---and with it the loop
+gain---depends on the numerical values of $m$ and $d$, that is, on the
+declared scale exponents, even when the physical system being
+represented is identical.
+
+The effect is not marginal.
+The same Earth--Moon system, declared under the exponent set used
+before the reality-calibration samples were rebuilt, gives
+$g\approx32\%$ and collapses immediately (a positive control reaches
+$106\%$ radial excursion within $0.008$ of an orbit); declared under
+the exponent set of Table~\ref{tab:scales} it gives
+$g\approx2.9\times10^{-6}$ and survives six orbits with the excursion
+equal to the natural eccentricity ($2e$) and a period residual of
+$0.05\%$.
+A change of display-only exponents cannot change physics---and it does
+not: what it changes is which \emph{numerical} configuration the
+declaration produces, and the model's dragging sector is sensitive to
+that number because $D_0$ is not dimensionless.
+
+This is the root of every subtlety about $D_0$ in the rest of the
+paper, and we state it early because it determines what
+Sec.~\ref{sec:p4}'s ``one common value'' can and cannot mean.
+
+\subsection{Routes that work, and routes that were tested and failed}
+\label{sec:p2routes}
+
+The systematic search recorded three effective routes and four
+ineffective ones.
+The effective routes are: (i)~a $GM$-preserving mass rescaling
+$(G,m)\to(kG,m/k)$, which leaves orbits, periods and the 1PN term
+exactly invariant while dividing \emph{both} factors of
+Eq.~(\ref{eq:gain}) by $k$, with a monotone dose from
+$k=2$ to $k=50$ taking the radial excursion from $100\%$ to $10\%$;
+(ii)~raising the background $D_0$, as in Table~\ref{tab:gain}; and
+(iii)~pinning the primary, which removes one factor of the loop
+entirely at the cost of declaring an open system.
+A reduced-mass pair-reaction rule is a partial route on its own
+($49\%$ excursion) and reaches $15.7\%$ in combination with the
+rescaling.
+
+The ineffective routes are reported with the same weight.
+Damping through the thermal and spin channels---spin diffusion,
+radiative cooling, spin repulsion, tangential friction---collapses in
+every case: the instability lives in the frame field $\bm u$, not in
+the spin bookkeeping, so no thermal channel touches it.
+Dosing the falloff exponent $q$ over $\{2,3,4\}$ likewise collapses.
+Correcting the satellite mass alone fails for the structural reason
+given above.
+Reporting these is not modesty; it is what makes the mechanism claim in
+Eq.~(\ref{eq:gain}) falsifiable, since a channel that damped the
+collapse without touching $g$ would refute it.
+
+The three effective routes are codified as the stabilization procedure
+for reality-calibration samples, in priority order: pin the primary
+(and declare the system open); or raise $D_0$ to $\gtrsim2$ (permitted
+only where dragging is not being calibrated, since $D_0$ also sets the
+crossover radius $r_t\approx m/D_0$); or set $k_{\mathrm{Frame}}=0$
+(permitted only where transport is not being claimed).
+The $k_{\mathrm{Frame}}=0$ route is what the three non-dragging
+reality-calibration samples use, and it is the reason those samples
+make no dragging claim at all.
 
 % =====================================================================
-\section{P3: The lunar apsidal cycle from motion dragging}
-% - kF1 drag precession is motion-drag origin (spin-independent,
-%   lambdaPN-independent), proportional to chi = w/(D0+w).
-% - Joint fit D0=0.006 + initial speed -0.32%: sidereal month 27.33 d
-%   (+0.03-0.04%) AND apsidal cycle 8.85 yr simultaneously, two bodies only.
-% - Honest note as a section, not a footnote: the real driver is solar
-%   perturbation; a pure two-body match is a DIFFERENT mechanism.
-TODO.
+\section{P3: the lunar apsidal cycle from motion dragging}
+\label{sec:p3}
+
+\subsection{The origin of the drag precession}
+\label{sec:p3origin}
+
+With $k_{\mathrm{Frame}}=1$ the Earth--Moon system precesses.
+Decomposition measurements settle where the precession comes from:
+it is unchanged when both spins are set to zero, and unchanged when
+the 1PN coefficient $\lambda_{PN}$ is switched between $0$ and $1$.
+It is therefore a \emph{motion-dragging} effect---the $\bm v_j$ term of
+Eq.~(\ref{eq:u}), i.e.\ the mutual orbital motion entering each body's
+local frame---and not a spin effect and not a post-Newtonian one.
+
+Its magnitude scales as the frame weight $\chi=w/(D_0+w)$ of
+Eq.~(\ref{eq:chi}): at $D_0=0.1$ the measured advance is
+$+2.7\times10^{-3}$\,rad/orbit, and raising $D_0$ to $1$ reduces it by
+a factor $10.7$.
+This makes $D_0$ a calibration knob for a precession rate, which is the
+observation that P3 exploits.
+
+\subsection{A two-body system with an apsidal cycle}
+\label{sec:p3fit}
+
+The real Moon's line of apsides completes a revolution in $8.85$
+years, about $118$ sidereal months, i.e.\ $\Delta\varpi\approx0.0531$
+rad per orbit.
+A pure two-body Kepler orbit cannot do this: the ellipse closes.
+The DFM Earth--Moon system with dragging on can, and a joint fit of two
+quantities against two observables fixes it:
+\begin{equation}
+  D_0 = 0.006, \qquad
+  f_{v} = 0.9968 \;(\text{initial speed } -0.32\%),
+  \label{eq:fit}
+\end{equation}
+after which the measured sidereal month is $27.33$\,d against the
+observed $27.3217$\,d (a residual of $+0.03$ to $+0.04\%$) and the
+measured apsidal advance reproduces the $8.85$-year cycle, with an
+all-window ratio of $0.99$ under the wave-120 configuration.
+The two knobs are named and counted: $D_0$ sets the precession rate,
+the initial-speed factor restores the period that $D_0$ perturbs, and
+nothing else is adjusted---the masses, radii, spins, semi-major axis
+and eccentricity are the observed values of Table~\ref{tab:scales}.
+
+Two honest qualifications attach to the number.
+First, the apsidal ratio is \emph{window dependent}: the accumulator
+oscillates strongly within each orbit---locally it even runs
+retrograde---and averaging over different windows moves the ratio by
+up to $\pm15\%$.
+The quoted value is the per-orbit net over the full run, and the
+convention has to be stated with the number, because no single
+``the'' precession rate exists in this system at sub-orbit resolution.
+Second, the fit was performed at $q=3$; Sec.~\ref{sec:p4} shows that
+part of the residual was a spin-term contamination that a later
+correction removes, improving the ratio to $0.9991$.
+
+\subsection{What this is not}
+\label{sec:p3not}
+
+The real lunar apsidal cycle is driven principally by solar
+perturbation: the Sun is a third body, and the $8.85$-year period is a
+resonant consequence of its tidal forcing of the Earth--Moon orbit.
+The DFM system contains two bodies and no Sun.
+Whatever it is doing, it is not doing what nature does.
+
+We therefore make exactly this claim and no other: \emph{a two-body
+relational system with strong dragging, calibrated with one background
+value and one initial-speed correction, matches two lunar observables
+simultaneously---and it does so through a mechanism (motion dragging)
+that is not the mechanism operating in the sky.}
+The value of the result is that it is a clean, fully auditable example
+of the general hazard: an observable that ``a two-body model cannot
+possibly produce'' turns out to be producible, at the observed value,
+by a different mechanism with a small number of knobs.
+A reader who took the agreement as evidence for the mechanism would be
+wrong, and the model itself supplies the disproof by containing no
+third body.
+
+This is reported as a section, not a footnote, because its position in
+the paper is the point.
 
 % =====================================================================
-\section{P4: The joint correction (D0=0.006, q=5)}
-% - Mercury's kF1 retrograde precession is the SPIN term
-%   omega(d) = s (R/(R+d))^q; suppression factor (R/(R+a))^(q-3);
-%   derived q* = 3 + ln(|A3|/eps)/ln((R+a)/R) = 4.59 -> adopt q=5.
-% - Measured: drag -5.3e-8 rad/orbit (1/10 of 1PN) at q=5; Earth-Moon
-%   ratio purifies 0.988 -> 0.999 (the Earth-spin contamination leaves).
-% - ONE pair (D0, q) satisfies both systems (exp-kf1c joint verdict).
-% - The wave-121 interim answer (D0=1e4, seven orders from the Moon's
-%   0.006) is reported as the failure that motivated this section.
-% - Dragged-side spin: x10^4 changes nothing (self-excluded from u) --
-%   the hypothesis was tested and is retired honestly.
-TODO.
+\section{P4: from a joint correction to a derived exponent}
+\label{sec:p4}
+
+\subsection{The failure that motivated it}
+\label{sec:p4fail}
+
+The calibration of Sec.~\ref{sec:p3} did not transfer.
+Applying $k_{\mathrm{Frame}}=1$ to the Mercury system with the Sun's
+real rotation ($25.05$\,d) and the solar-system profile $q=3$,
+$D_0=0.1$ produces a \emph{retrograde} drag precession of
+$-7.3\times10^{-5}$\,rad/orbit, i.e.\ $-1.5\times10^{4}\,''$/century:
+three orders of magnitude away from the observed $+43''$/century, and
+of the wrong sign.
+Setting the Sun's spin to zero recovers the $k_{\mathrm{Frame}}=0$
+result exactly, isolating the spin term of Eq.~(\ref{eq:spinterm}) as
+the culprit.
+
+The first repair was to apply P3's knob: since drag precession scales
+as $\chi=w/(D_0+w)$, raising $D_0$ suppresses it, and $D_0=10^{4}$
+restores $43''$/century with dragging on.
+That worked and was, on its own terms, a failure.
+The Earth--Moon calibration needed $D_0=0.006$; the Mercury
+calibration needed $D_0=10^{4}$; the two differ by seven orders of
+magnitude, and the honest conclusion recorded at the time was that
+$D_0$ is a per-system calibration value and not a universal constant of
+the model---a direct consequence of its dimensionality
+(Sec.~\ref{sec:p2units}).
+That interim answer is the failure this section exists to resolve.
+
+\subsection{Stage (i): the joint correction $(D_0,q)=(0.006,5)$}
+\label{sec:p4joint}
+
+The resolution came from the decomposition rather than from a finer
+fit.
+The two systems are calibrated by \emph{different terms} of
+Eq.~(\ref{eq:u}): the Earth--Moon precession is a motion-term effect
+(Sec.~\ref{sec:p3origin}), while the Mercury retrograde precession is a
+spin-term effect, because a pinned Sun has $\bm v=0$ and therefore
+contributes to $\bm u$ only through $\omega(d)$.
+The motion term is controlled by $D_0$; the spin term is controlled by
+$q$.
+So the right repair is not to suppress everything with $D_0$ but to
+attenuate the spin term geometrically, leaving the motion-term
+calibration untouched.
+
+Raising $q$ multiplies the spin term at orbital distance $a$ by the
+suppression factor $(R/(R+a))^{q-3}$ relative to $q=3$, so the exponent
+required to bring a measured spin-term amplitude $|A_3|$ below a
+tolerance $\epsilon$ is
+\begin{equation}
+  q^{*} = 3+\frac{\ln(|A_3|/\epsilon)}{\ln\bigl((R+a)/R\bigr)} .
+  \label{eq:qstar1}
+\end{equation}
+With the measured $q=3$ amplitude and the tolerance set at one eighth
+of the 1PN advance, Eq.~(\ref{eq:qstar1}) gave $q^{*}=4.59$ for
+Mercury, and $q=5$ was adopted.
+At $q=5$ the residual drag is $-5.3\times10^{-8}$\,rad/orbit, one tenth
+of the 1PN term, so $43''$/century holds with dragging on;
+$D_0$ returns to the Earth--Moon value $0.006$; and, unexpectedly, the
+Earth--Moon calibration \emph{improves}, its apsidal ratio moving from
+$0.988$ to $0.999$ as the Earth's own spin-term contamination is
+attenuated out of a fit that had silently absorbed it.
+One pair of constants, $(D_0,q)=(0.006,5)$, thus satisfied both systems
+at once, and the seven-order tension dissolved.
+
+The honest reading of stage (i) is that it traded one problem for a
+smaller one.
+The value $q=5$ was derived from Mercury's geometry through
+Eq.~(\ref{eq:qstar1}) and then found to be harmless for the
+Earth--Moon system---which is a coincidence of scales, not a
+principle---and Eq.~(\ref{eq:qstar1}) itself contains a measured
+amplitude $|A_3|$ and a chosen tolerance $\epsilon$, so $q$ remained a
+calibration knob, merely one with a good story.
+
+\subsection{Stage (ii): qLock, the derivation rule}
+\label{sec:qlock}
+
+The purification removes the knob.
+The spin term's amplitude excess over the Lense--Thirring rate does not
+depend on the orbit $a$ or on the spin $s$: both cancel, leaving
+\begin{equation}
+  X = \frac{1.25\,c_0^{2}R}{GM},
+  \label{eq:X}
+\end{equation}
+a pure function of the source's radius, mass, and the model's speed of
+light.
+The exponent at which the spin term matches the Lense--Thirring
+distance law at a reference orbit $a$ is therefore computable in
+closed form from known quantities:
+\begin{equation}
+  q^{*} = 3+\frac{\ln X}{\ln\bigl((R+a)/R\bigr)}
+        = 3+\frac{\ln\bigl(1.25\,c_0^{2}R/GM\bigr)}
+                 {\ln\bigl((R+a)/R\bigr)} .
+  \label{eq:qlock}
+\end{equation}
+Equation~(\ref{eq:qlock}) contains no measured amplitude and no chosen
+tolerance.
+The reference orbit $a$ is declared as the median initial distance of
+the free bodies from the dominating source---a stated convention, and
+the only remaining discretion in the rule.
+
+Under this rule (\texttt{qLock}), $q$ ceases to be an editable
+parameter in the declaring samples: it is recomputed on load, and the
+interface greys the control out.
+Table~\ref{tab:qlock} gives the derived exponents and the resulting
+measurements.
+
+\begin{table}[t]
+\caption{The qLock derivation rule Eq.~(\ref{eq:qlock}) applied to the
+  four systems of record (harness \texttt{tests/exp-kf1d.mjs};
+  calibration state of the samples \texttt{mercuryRealKF1},
+  \texttt{earthMoonRealKF1}, \texttt{saturnRingRealKF1}). All three
+  calibrated systems share $D_0=0.006$; none of them chooses $q$.
+  The galactic entry shows that the rule stays in range even in the
+  exaggerated visualization domain, where it is nevertheless \emph{not}
+  applied, so that the existing galactic claims are unaffected.}
+\label{tab:qlock}
+\begin{ruledtabular}
+\begin{tabular}{lrrl}
+system & $a_{\mathrm{ref}}$ & $q^{*}$ & measured outcome \\
+\colrule
+Mercury & $460.0$ & $6.16$ & drag $-5.6{\times}10^{-10}$ rad/orbit \\
+ & & & (LT-class, ${\sim}1/900$ of 1PN) \\
+Earth--Moon & $363.6$ & $8.25$ & $\Delta\varpi$ ratio $0.9991$; \\
+ & & & sidereal month $27.331$\,d \\
+Saturn ring & $105$ & $21.8$ & ring apsidal drift \\
+ & & & $0.23\to2{\times}10^{-5}$ rad/orbit \\
+Galaxy & $150$ & $3.89$ & not applied (declared $q=2$ kept) \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+Three consequences deserve separate statement.
+
+First, the shared object is a \emph{rule}, not a value.
+The three calibrated systems have $q^{*}=6.16$, $8.25$ and $21.8$
+respectively; what they share is Eq.~(\ref{eq:qlock}) and the single
+background $D_0=0.006$.
+The claim ``one correction satisfies all three systems'' is therefore
+weaker than ``one number fits all three'' in one respect and stronger
+in another: weaker because the numbers differ, stronger because no
+number was chosen.
+
+Second, the Mercury drag falls to $-5.6\times10^{-10}$\,rad/orbit,
+which is Lense--Thirring class---about $1/900$ of the 1PN term---so
+the $43''$/century calibration of Sec.~\ref{sec:p1} now survives with
+dragging switched on, which it did not before.
+
+Third, the rule extends to a regime it was not fitted on.
+Applied to the Saturn ring system it gives $q^{*}=21.8$ and collapses
+the ring's spurious apsidal drift from $0.23$\,rad/orbit at $q=3$ to
+$2\times10^{-5}$\,rad/orbit, restoring Keplerian motion for the ring
+particles and all six modeled moons (Sec.~\ref{sec:ring}).
+Applied to the galactic visualization preset it returns $3.89$, in
+range but not adopted: the galactic samples keep their declared $q=2$
+so that previously published galactic claims remain exactly as
+measured, and this exclusion is a declaration, not a result.
+
+\subsection{An entrainment profile, and a consistency remark}
+\label{sec:mm}
+
+Because Eq.~(\ref{eq:qlock}) fixes the exponent from the source's
+surface geometry, it also fixes the shape of the entrainment profile
+$\omega_{\mathrm{drag}}(d)$ relative to the Lense--Thirring rate
+$\Omega_{LT}\propto d^{-3}$.
+For the Saturn system the profile is strongly super-LT immediately
+above the surface, crosses unity in the mid-ring region, and falls off
+rapidly outward: at a surface height $h=0.5$ the ratio is $\times45$,
+at $h\approx45$ it is $\times1$, and at Titan's distance it is far
+below unity.
+% TODO(numbers): exp-kf1d.mjs B evaluates the full profile at surface
+% heights h = 0.5, 5, 20, 45, 70, 170, 1160, but tests/out/kf1d-results.json
+% is not committed, so only the three ratios that the sample's own
+% observation card states (x45 at h=0.5, x1 at h~45, <<1 at Titan) are
+% quoted above. Commit the result file, then either tabulate the full
+% profile or plot it as figure F3 (see the figure TODO in Sec. IX).
+
+The structural remark that accompanies this---made in the project canon
+and repeated here with its own qualification---is that ``dragging is
+strongest nearest the surface'' is the configuration in which a
+surface-mounted interferometer rides the co-rotating frame, and is
+therefore consistent with the null result of the Michelson--Morley
+experiment.
+We record this as a consistency observation about a shape, not as a
+derivation, not as a quantitative comparison with that experiment, and
+emphatically not as a mechanism claim.
+
+\subsection{A hypothesis tested and retired}
+\label{sec:p4spin}
+
+The investigation that produced the joint correction was directed to
+examine the spin of the \emph{dragged} body as well as the dragging
+one.
+It was examined, over four decades: Mercury's own spin was set to zero,
+to its real value, to $100\times$, and to $10^{4}\times$ its real
+value, at both $q=3$ and the corrected exponent; the Moon's spin was
+similarly scanned.
+The precession is unchanged in every case.
+
+The reason is structural rather than numerical: Eq.~(\ref{eq:u}) is
+evaluated for particle $i$ with $i$ itself excluded from the sum, so a
+body's own spin cannot enter its own local frame, and hence cannot
+affect its own transport.
+The hypothesis is therefore not merely unsupported by the measurement
+but excluded by the construction.
+We report it as a negative result with the same prominence as the
+positive ones, since a reader is entitled to know which plausible
+mechanisms were tested and closed.
 
 % =====================================================================
-\section{Ring-system scope (Saturn)}
-% - saturnRingReal at e6 with six major moons: Titan 15.949 d vs 15.945 d,
-%   C-ring 5.78 h vs 5.8 h, 22.5 km/s -- Kepler-level calibration only;
-%   Lense-Thirring scope stays excluded (kFrame=0 sample).
-TODO.
+\section{Ring-system scope}
+\label{sec:ring}
+
+The Saturn system is included for scope rather than for a new
+mechanism, and its scope statement is the point of this short section.
+
+The sample places Saturn's real mass ($56.834=5.6834\times10^{26}$\,kg),
+real radius ($60.3=6.03\times10^{7}$\,m) and real rotation
+($0.016528$, i.e.\ a $10.56$-hour day) at the planetary exponents of
+Table~\ref{tab:scales}, with the ring resolved as three bands at their
+observed radii---C $[74.658,92.0]$, B $[92.0,117.58]$, A
+$[122.17,136.775]$, with the Cassini division at its real
+position---populated by 40 representative grains each, plus the six
+major moons from Mimas to Titan at their real orbital radii and masses
+with Keplerian initial speeds.
+The calibrated observables are Keplerian: the C-ring inner edge orbits
+at $2.25$ ($22.5$\,km/s) with a period of $5.78$\,h against the
+observed $5.8$\,h, and Titan's period is $15.949$\,d against the
+observed $15.945$\,d.
+All 120 ring particles are retained over the verification run.
+
+The grain mass is a declared calibration and is stated as such: at
+$10^{-5}$ ($10^{20}$\,kg) it is a representative value near the ring's
+real total mass of $1.5\times10^{19}$\,kg, whereas at $10^{-2}$
+($10^{23}$\,kg) the grains' mutual gravity is some six orders of
+magnitude stronger than the real ring's and the bands were measured to
+scatter and accrete within a few orbits.
+The choice is made to keep the orbits observational, and it means the
+sample calibrates ring \emph{kinematics}, not ring dynamics.
+
+What the sample does \emph{not} claim is more important than what it
+does.
+The dimensionless depth at the C ring is
+$GM/(c^{2}r_C)=5.64\times10^{-9}$, shallower than Mercury's, and the
+radial period is long enough that direct measurement of the 1PN effect
+exceeds practical run times; the project's estimate---an extrapolation
+from a depth scan in which the band residual roughly halves as the
+depth is reduced, together with the linear convergence of the 1PN
+ladder (ratios $1.001$--$1.002$ across all rungs)---is that at the real
+invariants the band residual falls to the $0.01\%$ class, and the
+$\pm2$--$6\%$ residuals measured at exaggerated depth are artifacts of
+that exaggeration.
+That is a prediction with a stated basis, not a measurement, and it is
+labeled as such.
+Likewise the Lense--Thirring sector stays out of scope: the
+non-dragging Saturn sample runs at $k_{\mathrm{Frame}}=0$ by the
+convention of Sec.~\ref{sec:p2routes}, and the dragging sample's
+contribution is the qLock verification of Table~\ref{tab:qlock} and the
+entrainment shape of Sec.~\ref{sec:mm}, neither of which is a
+measurement of a real Lense--Thirring precession.
+For reference, the real solar Lense--Thirring precession
+($\sim0.002''$/century) is $2\times10^{-4}$ of the 1PN term and lies
+below this implementation's measurement floor, which is why the
+dragging sector is verified by dose decomposition at exaggerated spin
+rather than by direct comparison with the sky.
+
+Finally, the failure that the calibration repairs is worth recording:
+with dragging on at $q=3$, the real rotation of Saturn speeds the ring
+up by $4.7\%$ and migrates it inward by $2.5\%$ over three orbits, and
+turns the apsides of an eccentric test particle by $0.23$\,rad/orbit.
+It is the qLock exponent that removes all three, and the visible
+contrast between the two states is retained in the application as a
+one-tap control so that a reader can see the uncalibrated behavior
+rather than take our word for it.
 
 % =====================================================================
-\section{What calibration licenses -- and what it does not}
-% - The philosophy section: calibrated match vs mechanism identification;
-%   D0's dimensionality imports a system scale; q=5 trades the LT distance
-%   law; window dependence quantified.
-TODO.
+\section{What calibration licenses---and what it does not}
+\label{sec:license}
+
+This section states the position that the preceding five sections were
+written to support.
+
+\subsection{The audit that a calibration must pass}
+\label{sec:audit}
+
+A calibrated agreement is a claim about a procedure, so the procedure
+must be auditable in four respects, and we record them for the results
+above.
+
+\emph{What was adjusted.}
+For P1: nothing---the conventions of Sec.~\ref{sec:conv} were fixed
+before the measurement, the orbital elements are the observed ones, and
+the ratio $1.002$ is an outcome.
+For P3: two quantities ($D_0$ and the initial speed) against two
+observables (the month and the apsidal cycle).
+For P4 stage (i): one further quantity ($q$), derived from Mercury's
+geometry and a chosen tolerance.
+For P4 stage (ii): none---Eq.~(\ref{eq:qlock}) computes $q$ from
+declared quantities, with the reference orbit convention as the only
+remaining discretion.
+
+\emph{What was predicted afterwards.}
+The Earth--Moon apsidal ratio improved from $0.988$ to $0.999$ under a
+correction derived from Mercury's geometry; the Saturn ring's spurious
+apsidal drift collapsed by four orders of magnitude under an exponent
+derived from Saturn's geometry.
+Neither outcome was fitted.
+
+\emph{What the number costs.}
+Two costs are quantified below.
+
+\emph{What mechanism produced it.}
+Stated in each case, including the case where the mechanism is
+demonstrably not nature's (Sec.~\ref{sec:p3not}).
+
+\subsection{Cost 1: $D_0$ is dimensional, so a calibration imports a
+  scale}
+\label{sec:cost1}
+
+Because $D_0$ carries mass over length, the statement ``$D_0=0.006$ is
+shared by all three calibrated systems'' needs its domain of validity
+stated.
+Inside the reality-calibration family it is stronger than it looks.
+Imposing both conventions of Sec.~\ref{sec:exponents} on a sample---the
+real-$G$ condition $3L-2T-M=-11$ and the real-$c$ condition $L-T=4$---
+forces $M=3L-2T+11$ and $T=L-4$, hence
+\begin{equation}
+  M-L = 19
+  \label{eq:ML}
+\end{equation}
+for \emph{every} sample that satisfies both.
+Since $D_0$ has dimensions of mass over length, its unit is
+$10^{M-L}=10^{19}$\,kg\,m$^{-1}$ in all of them, so the shared numeral
+$0.006$ denotes the same physical background density in the Mercury
+system and in the Earth--Moon and Saturn systems, despite their
+different exponent triples (Table~\ref{tab:scales}).
+The sharing is therefore a physical statement within that family, and
+not an artifact of how the three samples happen to be declared.
+
+Outside the family the statement has no content.
+A sample that does not satisfy both conventions---the galactic
+visualization presets, or the earlier planetary-tier declaration of the
+Earth--Moon system, which satisfied $3L-2T-M=-8$ and failed the
+correspondence lock---has a different unit for $D_0$, so the numeral
+does not transfer, and Sec.~\ref{sec:p2units} shows that what moves
+with it is not merely a label but the stability of the configuration.
+The honest summary is thus narrower than ``a universal constant of the
+model has been measured'' and wider than ``a coincidence of three
+declarations'': one background density, in one family of samples
+pinned to the real constants, satisfies three calibrations that
+previously demanded values seven orders of magnitude apart.
+A dimensionless reformulation of the background, which would remove the
+qualification entirely, is not attempted here and is the natural next
+question.
+
+\subsection{Cost 2: qLock trades away the Lense--Thirring distance
+  law}
+\label{sec:cost2}
+
+The solar-system profile was designed so that the effective falloff
+index of Eq.~(\ref{eq:neff}) equals $3$, matching the
+Lense--Thirring $\Omega\propto r^{-3}$, throughout the
+central-dominated region.
+The qLock exponents are $6.16$, $8.25$ and $21.8$.
+The spin term therefore no longer obeys the Lense--Thirring distance
+law anywhere except, by construction, at the single reference orbit
+where Eq.~(\ref{eq:qlock}) forces agreement.
+This is a genuine trade, made deliberately: the model buys the survival
+of the $43''$/century calibration under dragging, at the price of the
+radial profile of the dragging term.
+The non-dragging reality-calibration samples keep $q=3$, so the two
+regimes remain separated and inspectable, but no reading of the
+combined result can claim both.
+
+\subsection{Cost 3: the window convention is part of the number}
+\label{sec:cost3}
+
+The lunar apsidal ratio depends on the averaging window at the $\pm15\%$
+level, because the accumulator oscillates within each orbit strongly
+enough to change sign locally.
+The quoted ratios ($0.99$ at wave 120, $0.9991$ under qLock) are
+per-orbit nets over the full run.
+Quoting such a number without its window is not a small imprecision; it
+is the difference between a measurement and a choice, and the same
+caution applies to the raw on-screen accumulator discussed in
+Sec.~\ref{sec:p1soft}.
+
+\subsection{What follows}
+\label{sec:follows}
+
+Putting the three costs beside the four results: DFM can be driven to
+real numbers, and when it is, it produces agreements of the kind
+astronomers measure---one of them ($43''$/century) inherited from an
+equation-level correspondence established in Paper~1, one of them (the
+lunar apsidal cycle) produced by a mechanism that is not nature's, and
+one of them (the qLock rule) obtained by removing a knob rather than
+tuning it.
+The instructive content is not that a toy model can be made to agree.
+It is that agreement, in a system small enough to audit completely,
+decomposes into parts with entirely different epistemic weight---and
+that a model which does not perform that decomposition on itself will
+present all of them as the same kind of success.
 
 % =====================================================================
-\section{Negative claims}
-% - Mirrors Papers 1/2/4: no claim about real gravitation, no 3D
-%   extrapolation, no solar-perturbation physics, etc. (fixed list).
-TODO.
+\section{Limitations and negative claims}
+\label{sec:negative}
+
+As in the companion papers, these statements are part of the thesis,
+not disclaimers appended to it.
+
+\subsection{Negative claim 1: no claim about real gravitation}
+DFM is not proposed as a description of nature.
+It remains a computational thought experiment: the study of a
+counterfactual axiom system in which space is purely relational and
+dragging is of order unity.
+None of the calibrations above changes that status; they change only
+which numbers the thought experiment can be asked for.
+
+\subsection{Negative claim 2: calibrated match is not mechanism
+  identification}
+Every agreement reported here is a calibrated match.
+The lunar apsidal cycle is the explicit case: the real driver is solar
+perturbation, and the model reproduces the observable in a system with
+no third body, through motion dragging.
+No claim is made that any DFM mechanism is the mechanism operating in
+the sky.
+
+\subsection{Negative claim 3: $D_0$ is not a universal constant}
+The background $D_0$ carries dimensions.
+Its shared value $0.006$ is a shared \emph{physical} background density
+only within the family of samples that satisfy both the real-$G$ and
+real-$c$ conventions, for which Eq.~(\ref{eq:ML}) fixes a common unit;
+it does not transfer to samples outside that family, and the stability
+of a configuration moves with the declaration
+(Secs.~\ref{sec:p2units} and~\ref{sec:cost1}).
+
+\subsection{Negative claim 4: qLock trades the Lense--Thirring
+  distance law}
+The derived exponents $q^{*}>3$ suppress the spin term geometrically
+and thereby abandon the $\Omega\propto r^{-3}$ distance law away from
+the reference orbit (Sec.~\ref{sec:cost2}).
+The rule removes a calibration knob; it does not remove the trade.
+
+\subsection{Negative claim 5: two dimensions, no Lorentz invariance, no
+  causal propagation}
+The model is two-dimensional, spin is a scalar, and the field $W$ and
+frame $\bm u$ are set instantaneously by the global configuration.
+No three-dimensional quantitative extrapolation is offered, and
+phenomena requiring causal field propagation---gravitational radiation
+foremost---remain outside the model in every mode.
+
+\subsection{Negative claim 6: no solar-perturbation physics is
+  simulated}
+The Earth--Moon calibration contains two bodies.
+The model implements no third-body perturbation theory, no evection or
+variation terms, and no lunar theory of any kind.
+
+\subsection{Negative claim 7: the ring result is Kepler-level only}
+The Saturn calibration matches orbital periods and speeds.
+The 1PN band residual at real invariants is an extrapolation, not a
+measurement; the Lense--Thirring sector is out of scope; and the grain
+mass is a declared calibration that makes the sample a kinematic, not a
+dynamical, model of a ring.
+
+\subsection{Negative claim 8: the entrainment/Michelson--Morley remark
+  is a consistency observation}
+That the entrainment profile is strongest near the surface is a
+statement about a shape derived from Eq.~(\ref{eq:qlock}).
+It is recorded as consistent with a surface interferometer riding the
+co-rotating frame; it is not a derivation of, a quantitative comparison
+with, or an explanation of the Michelson--Morley null result.
+
+\subsection{Negative claim 9: quoted precession ratios are
+  window-dependent}
+The apsidal ratios are per-orbit nets over the stated run window and
+move by up to $\pm15\%$ under other window conventions
+(Sec.~\ref{sec:cost3}).
+The raw on-screen accumulator additionally carries an
+integrator-level numerical floor and is not the figure of record.
 
 % =====================================================================
 \section{Reproducibility}
-% - Harnesses exp-obscal/kf1/kf1b/kf1c, result JSONs, app sample IDs,
-%   QA gates (wave120-122.ui), commit/tag/DOI at submission time.
-TODO.
+\label{sec:repro}
+
+\subsection{Harnesses and result files}
+\label{sec:harnesses}
+
+Every number in this paper comes from one of five headless measurement
+harnesses in the public repository, each run by a single command
+(\texttt{QA\_TARGET=... node tests/exp-*.mjs}) against the same
+single-file simulator that the reader can open in a browser, and each
+writing a machine-readable result file.
+
+\begin{center}
+{\small
+\begin{tabular}{lll}
+\toprule
+Harness & Scope & Result file \\
+\midrule
+\texttt{exp-obscal.mjs} & P1 ladder; & \texttt{obscal-} \\
+ & Earth--Moon real units; & \texttt{results.json} \\
+ & ring bands; loop gain & \\
+\texttt{exp-kf1.mjs} & P2 stabilization search &
+  \texttt{kf1-results.json} \\
+\texttt{exp-kf1b.mjs} & P3 drag-precession &
+  \texttt{kf1b-results.json} \\
+ & decomposition and fit & \\
+\texttt{exp-kf1c.mjs} & P4 stage (i): joint &
+  \texttt{kf1c-results.json} \\
+ & correction, $q$ scan, spin & \\
+\texttt{exp-kf1d.mjs} & P4 stage (ii): qLock, &
+  \texttt{kf1d-results.json} \\
+ & ring, entrainment profile & \\
+\bottomrule
+\end{tabular}}
+\end{center}
+
+The harnesses are deliberately \emph{not} wired into the
+continuous-integration suite: they are measurement instruments whose
+run times are minutes, and the numbers they produce are pinned
+separately by the gates below.
+The in-application samples that carry the calibrated configurations are
+\texttt{mercuryReal}, \texttt{earthMoonReal}, \texttt{saturnRingReal}
+(non-dragging) and \texttt{mercuryRealKF1},
+\texttt{earthMoonRealKF1}, \texttt{saturnRingRealKF1} (dragging), all
+of which are marked as core samples and carry their observation cards,
+their failure-first records, and their one-tap contrast configurations
+in the application itself.
+
+\subsection{Verification map}
+\label{sec:map}
+
+Each central claim maps to an automated gate that runs in continuous
+integration on the release and beta targets.
+
+\begin{center}
+{\small
+\begin{tabular}{lll}
+\toprule
+Claim & Type & Gate \\
+\midrule
+correspondence lock $\kappa=G/c_0^{2}$ & analytic &
+  \texttt{physlock.kt-derive} \\
+1PN source declaration & semantic & \texttt{pn.source-flag} \\
+double-precision state carry & fixed-seed &
+  \texttt{state.carry-double} \\
+real-$c$ display convention & semantic &
+  \texttt{scale.realc-display} \\
+$c$/$G$ conversion consistency & semantic &
+  \texttt{scale.cg-consistency} \\
+$43''$/century (ratio $1.002$) & analytic &
+  \texttt{exp-obscal} \S D \\
+loop gain $g$ and routes & fixed-seed &
+  \texttt{exp-obscal} \S F \\
+$D_0=0.006$; positive net & fixed-seed & \texttt{wave120.ui} \\
+Titan $15.949$\,d; ring e6 & fixed-seed & \texttt{wave121.ui} \\
+joint correction $(D_0,q)$ & semantic & \texttt{wave122.ui} \\
+qLock $q^{*}$ $6.16/8.25/21.8$ & analytic &
+  \texttt{wave123.ui} \\
+qLock persistence and toggle & semantic & \texttt{wave124.ui} \\
+$\kappa$ canonical form & semantic &
+  \texttt{wave125.ui}, \texttt{wave128.engine} \\
+sample claim consistency & semantic & \texttt{claims.sync} \\
+\bottomrule
+\end{tabular}}
+\end{center}
+
+Two honesty notes carry over from the companion papers and apply here
+unchanged.
+First, the gates are largely regression baselines whose tolerances were
+set after the first measurement; they pin recorded values rather than
+constituting blind predictions, and they are labeled accordingly.
+Second, the harnesses drive the simulator itself, which guarantees that
+the paper and the implementation agree but is not an independent proof
+of the implementation; the analytic comparisons
+(Eqs.~\ref{eq:1pn}, \ref{eq:soft}, \ref{eq:qlock}) are evaluated in the
+harness, outside the engine, and it is those comparisons that carry the
+independent content.
+
+\subsection{Code and data availability}
+\label{sec:avail}
+
+The simulator, the verification suite, the measurement harnesses, the
+result files, and this manuscript are in the public repository
+\url{https://github.com/tty-imamura/dfm-simulator} (code MIT,
+documentation CC~BY~4.0).
+The state of record for this paper is the v1.40 line, whose release
+notes record the completion of the observation-calibration program
+described here---the real-$G$, real-$c$, \texttt{pnSource} and
+\texttt{stateCarry} conventions, the reality-calibration sample set,
+and the purification of the kF1 joint correction into
+$D_0=0.006$ plus qLock with no remaining calibration knob.
+% TODO(release): submission-time annotated tag and Zenodo DOI, in the
+% form used by Papers 1--2 (Paper 1: doi:10.5281/zenodo.21454189).
+The environment is Node.js~$\geq$22 with a Playwright-driven Chromium
+for the harnesses and TeX~Live for the manuscript;
+\texttt{npm ci \&\& npm test} reproduces the verification suite.
+
+% TODO(figure): this paper currently carries no figures; the existing
+% figures/ directory contains only the Paper 1 (fig1--fig6) and Paper 2
+% (p2fig1--p2fig8) sets. Candidates, each backed by an existing harness:
+%   (F1) the invariant ladder of Table~\ref{tab:ladder} as measured
+%        vs analytic across three decades of depth;
+%   (F2) the loop-gain dose response of Table~\ref{tab:gain};
+%   (F3) the entrainment profile omega_drag/Omega_LT vs surface height
+%        (exp-kf1d.mjs B), which needs the intermediate profile values
+%        recorded in a committed result file first.
+
+\begin{acknowledgments}
+% TODO(ack): match the wording adopted in Papers 1--2.
+Automated review passes generated with large-language-model
+assistants, run by the author, were used to cross-check the
+calibrations recorded here; all decisions and the final text are the
+author's responsibility.
+\end{acknowledgments}
 
 \begin{thebibliography}{9}
-% TODO: Papers 1, 2, 4 + standard references (CODATA, IAU) as needed.
+\bibitem{DFM1} T. Imamura, \emph{Determinacy-Field Mechanics: A
+Machian Toy Universe with Tunable Frame Dragging, Inverse-Square
+Gravity, and Clock-and-Light Sectors}, Zenodo (2026),
+doi:10.5281/zenodo.21454189.
+\bibitem{DFM2} T. Imamura, \emph{The Box Universe: Expansion, Time,
+and Light in a Relational Toy Model}, companion paper (2026).
+\bibitem{DFM4} T. Imamura, \emph{Emergence Across Scales in
+Determinacy-Field Mechanics: A Graded Standard-Test Methodology from
+Microspin Thermalization to Self-Forming Dark Rotors}, companion
+paper (2026).
+% TODO(refs): standard references for the observed values quoted
+% (Mercury's perihelion advance 42.98''/century; sidereal month
+% 27.3217 d; lunar apsidal period 8.85 yr; Titan 15.945 d; Saturn
+% C-ring inner-edge period 5.8 h) -- IAU/CODATA-class sources, to be
+% added in the form used by Papers 1--2.
 \end{thebibliography}
 
 \end{document}
