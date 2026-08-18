@@ -1045,11 +1045,11 @@ ja: {
   camFollowNoSel:"追従する粒子を先にタップで選んでください",
   camFollowReleased:"追従先が消えたのでカメラ追従を解除しました",
   scaleDispLabel:"スケール換算表示",
-  scaleDispDesc:"パラメータの数値(シミュレーション単位)に、現在のスケール指数で SI 換算した値(≈1.2e7 m/s 等)を併記する。換算は次元をもつパラメータ(G・光速・一様重力・ε・D₀・κ)のみ。共通設定・既定ON。表示だけの機能で、物理・セーブには一切影響しない。換算指数は同じ「スケール」カテゴリの距離/時間/質量/光速の各指数で変えられる(光速は専用の表示較正指数 eC — 「30 → 3×10^8 m/s」が既定)。現実較正(実c値規約)のサンプルでは、eC を「距離スケール指数−時間スケール指数」(x−eT)に一致させる必要がある(第126便からの既定はティア別 x−eT)。",   // 第94便 / 第129便(原仮定者指示): eC の規約を明記: スケールカテゴリへ・既定ON・4指数化
+  scaleDispDesc:"パラメータの数値(シミュレーション単位)に、現在のスケール指数で SI 換算した値(≈1.2e7 m/s 等)を併記する。換算は次元をもつパラメータ(G・光速・一様重力・ε・D₀・κ)のみ。共通設定・既定ON。表示だけの機能で、物理・セーブには一切影響しない。換算指数は同じ「スケール」カテゴリの距離/時間/質量の各指数で変えられる。光速の換算指数 eC は**ティア別 x−eT(距離スケール指数−時間スケール指数)固定**で、手で変えることはできない(第126便で正直表示を既定化 → 第130便で手動上書きを廃止)。現実較正(実c値規約)のサンプルが要求する「eC=x−eT」は、この固定により常に成立する。",   // 第94便 / 第129便(原仮定者指示): eC の規約を明記 / 第130便(原仮定者裁定): eC 手動上書きの廃止に追随
   // 第104便(原仮定者指示): ベースのスケール — タグ既定指数への一括設定
   scaleBaseLabel:"ベースのスケール",
   scaleBaseNone:"なし(個別指定)",
-  scaleBaseDesc:"スケールタグ(分子〜宇宙全体)の既定指数へ、距離・時間・質量・光速の4指数を一括で設定する。下の指数スライダーを個別に動かして、どのタグの既定とも一致しなくなると「なし(個別指定)」になる。表示専用 — 物理には影響しない。指数の状態はセーブに保存される(第94便 scaleExps)。",
+  scaleBaseDesc:"スケールタグ(分子〜宇宙全体)の既定指数へ、距離・時間・質量の3指数を一括で設定する。下の指数スライダーを個別に動かして、どのタグの既定とも一致しなくなると「なし(個別指定)」になる。光速の換算指数 eC はサンプルのティア別 x−eT 固定なので、この一括設定の対象外(第130便)。表示専用 — 物理には影響しない。指数の状態はセーブに保存される(第94便 scaleExps)。",
   // 第94便(原仮定者指示): 「スケール」カテゴリ新設 — 距離/時間/質量(+光速)の表示スケールを集約
   grpScale:"スケール",
   grpScaleDesc:"表示換算に使うスケール指数の集約(共通設定・表示専用 — 物理 sim.params には一切書き込まない)。各指数はサンプルのロード時にスケールタグの既定値で上書きされる(「日常」は距離・時間・質量とも 0.0)。",
@@ -1059,8 +1059,8 @@ ja: {
   scaleExpTDesc:"表示換算に使う時間指数 log₁₀(s/時間1)。「時間倍率」(物理のシミュレーション速度)とは異なり、物理には影響しない表示専用の換算指数。サンプルのロード時にスケールタグの既定値で上書きされる(「日常」は 0.0)",
   scaleExpMLabel:"質量スケール指数",
   scaleExpMDesc:"表示換算に使う質量指数 log₁₀(kg/質量1)。表示専用 — 物理には影響しない。サンプルのロード時にスケールタグの既定値で上書きされる(「日常」は 0.0)",
-  scaleExpCLabel:"光速 c₀ 表示較正指数",
-  scaleExpCDesc:"光速パラメータ専用の**表示較正**指数。「光速」の換算値 = 値 × 10^指数 m/s。既定 7.0 で「30 → 3×10^8 m/s」の一律規約を表す(全スケールタグ共通 — 第95便)。これは距離/時間指数から導かれる一般の速度換算(10^(L−T))とは独立した参照較正であり、モデル単位系を単一のSI単位系へ固定するものではない(第98便 — 外部レビュー指摘の明確化)。換算値はアナロジーの目安であり、モデルが実宇宙の定数に束縛されているわけではない(第99便 — 外部レビュー提案の採択)。表示専用 — 物理には影響しない",
+  // 第130便(原仮定者裁定「進める」): 光速 c₀ 表示較正指数 eC のスライダーを廃止したため、
+  // scaleExpCLabel / scaleExpCDesc も撤去(ja/en 同時)。光速換算はティア別 x−eT 固定
   // 第95便(原仮定者指示): 換算の「時間」に計算で使う時間倍率を反映 — 経過 t≈ に加えて
   // 「再生1秒 ≈ 宇宙の何秒か」(公称60fps: 1秒 = SUBSTEPS·DT·60·倍率 単位 = ×10^eT 秒)を併記。
   // 第96便(原仮定者指示): 倍率は「時間倍率×フッターの簡易倍率」を1フレーム上限(24步=12倍)で
@@ -1445,11 +1445,11 @@ en: {
   camFollowNoSel:"Tap a particle first to choose what to follow",
   camFollowReleased:"The followed body is gone — camera follow turned off",
   scaleDispLabel:"Scale-converted display",
-  scaleDispDesc:"Adds an SI-converted value (≈1.2e7 m/s etc.) next to dimensional parameters (G, light speed, uniform gravity, ε, D₀, κ), using the current scale exponents. Shared setting, on by default. Display only — physics and saves are untouched. The exponents live in the same Scale category (distance / time / mass / light-speed; light speed uses its own display-calibration exponent eC — 30 → 3×10^8 m/s by default). For real-calibration samples (the real-c convention), eC must equal the distance scale exponent minus the time scale exponent (x−eT) — the default since wave 126 is the per-tier x−eT. ",   // wave 94 / wave 129: eC convention spelled out: moved to Scale category, default ON, 4-exponent system
+  scaleDispDesc:"Adds an SI-converted value (≈1.2e7 m/s etc.) next to dimensional parameters (G, light speed, uniform gravity, ε, D₀, κ), using the current scale exponents. Shared setting, on by default. Display only — physics and saves are untouched. The exponents live in the same Scale category (distance / time / mass). The light-speed conversion exponent eC is **fixed to the per-tier x−eT** (distance exponent minus time exponent) and can no longer be set by hand (wave 126 made the honest display the default; wave 130 retired the manual override). The \"eC = x−eT\" requirement of real-calibration samples (the real-c convention) therefore always holds. ",   // wave 94 / wave 129: eC convention spelled out / wave 130: follows the retirement of the manual eC override
   // 第104便: base scale — set all four exponents to a scale tag's defaults at once
   scaleBaseLabel:"Base scale",
   scaleBaseNone:"None (custom)",
-  scaleBaseDesc:"Sets all four display exponents (distance, time, mass, light speed) to a scale tag's defaults (molecular … cosmic) at once. Moving an individual exponent slider below so the set no longer matches any tag switches this to \"None (custom)\". Display only — physics is untouched. The exponent state is stored in saves (wave 94 scaleExps).",
+  scaleBaseDesc:"Sets the three display exponents (distance, time, mass) to a scale tag's defaults (molecular … cosmic) at once. Moving an individual exponent slider below so the set no longer matches any tag switches this to \"None (custom)\". The light-speed conversion exponent eC is fixed to the sample's per-tier x−eT, so it is not part of this bulk setting (wave 130). Display only — physics is untouched. The exponent state is stored in saves (wave 94 scaleExps).",
   // wave 94: new Scale category — distance/time/mass (+light speed) display-scale exponents
   grpScale:"Scale",
   grpScaleDesc:"Display-scale exponents used by the converted display (shared setting, display only — nothing is ever written into sim.params). Loading a sample overwrites each exponent with its scale-tag default (everyday: distance, time and mass all 0.0).",
@@ -1459,8 +1459,8 @@ en: {
   scaleExpTDesc:"The time exponent log₁₀(s per time-unit) used by the converted display. Unlike \"Time rate\" (which speeds up the simulation), this has no effect on physics — display only. Loading a sample overwrites it with the scale-tag default (everyday: 0.0)",
   scaleExpMLabel:"Mass scale exponent",
   scaleExpMDesc:"The mass exponent log₁₀(kg per mass-unit) used by the converted display. Display only — no effect on physics. Loading a sample overwrites it with the scale-tag default (everyday: 0.0)",
-  scaleExpCLabel:"c₀ display-calibration exponent",
-  scaleExpCDesc:"A **display-calibration** exponent dedicated to the light-speed parameter: converted value = value × 10^exponent m/s. Default 7.0 expresses the uniform convention 30 → 3×10^8 m/s (shared by every scale tag — wave 95). It is a reference calibration independent of the generic velocity conversion 10^(L−T) derived from the length/time exponents, and does not pin the model units to a single SI unit system (wave 98 — clarification from external reviews). Converted values are analogy guides — the model is not bound to real-universe constants (wave 99, adopting an external-review proposal). Display only — no effect on physics",
+  // wave 130: the eC (c₀ display-calibration) slider was retired, so its label/description keys
+  // are removed here too (ja/en together). Light-speed conversion is fixed to the per-tier x−eT
   hudScale:(x,eT,eM,t,ts)=>`scale conv: len1=10^${Math.round(x*10)/10}m time1=10^${Math.round(eT*10)/10}s mass1=10^${Math.round(eM*10)/10}kg t≈${fmtSecsEn(t*Math.pow(10,eT))} (effective rate ${sciFmt(ts)}: 1s of playback≈${fmtSecsEn(SUBSTEPS*DT*60*ts*Math.pow(10,eT))})`,
   // 第103便: スケール雛形(aiTpl*)のキー群は撤去(第74便UIの撤去に伴う)
   groups:{"空間と時間":"Space & Time","箱宇宙":"Box Universe","銀河":"Galaxies","光":"Light","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
@@ -1486,7 +1486,7 @@ en: {
     gammaN:"Normal-direction damping of collisions (how easily bounce is lost). 0 = bouncy, 1 = collisions absorb velocity. The lost energy is ledgered (T7).",
     kappaS:"Heat conduction by spin diffusion (E10′): spin = heat hops to nearby particles, no contact needed, stronger when closer (📏). At 0 heat does not spread.",
     kappaT:"One coefficient governing both time dilation and light refraction (A7′/E7R/E8R: ψ=W·κ). Larger = stronger spacetime effects — clocks slow more and light bends more. κ has the same dimension as G/c² ([L/M] — the gravitational length per unit mass, r_g=κm), and κ→0 is the natural limit of \"no spacetime effect\". The real-world calibration is κ=G/c² (🛰). Engine, saves and the AI preset schema are all κ-canonical (wave 128); the legacy key Kt=1/κ is still accepted for backward compatibility. Note on notation: this is NOT the Einstein gravitational constant of GR, κ=8πG/c⁴ (dimension s²·m⁻¹·kg⁻¹) — this model's κ has the dimension of G/c² ([m/kg]).",
-    cLight:"Speed of light rays, and the reference for motion time dilation (E7R: clocks moving near c₀ relative to the comoving frame run slow). Lower it to exaggerate relativistic effects. [Three layers of c₀ (wave 99)] ① base light speed c₀ = this parameter (visualization samples use the uniform convention c₀=30; observation-calibration samples — e.g. ☄️ real-invariant Mercury — use the tier real-c convention c₀=3×10⁸×10^(−(x−eT)), wave 113); ② local light speed c_loc = c₀·e^(−2ψ) (slows locally in gravity wells — used by reddening and auto light sweep); ③ display-calibration exponent eC (on-screen conversion only — never enters the physics; since wave 126 the default is the **per-tier x−eT**, showing c₀=30 honestly as that tier's dimensional light speed — e.g. 🏠 \"≈30 m/s\", ☀️🪐 \"≈3×10⁵ m/s\"; the old convention was a uniform eC=7 \"30 → 3×10⁸ m/s\". Real-c samples display the real light speed exactly). For real-calibration samples (the real-c convention), eC must equal the distance scale exponent minus the time scale exponent (x−eT) — the default since wave 126 is the per-tier x−eT. Converted values are analogy guides; only real-c-convention samples convert exactly to real constants.",
+    cLight:"Speed of light rays, and the reference for motion time dilation (E7R: clocks moving near c₀ relative to the comoving frame run slow). Lower it to exaggerate relativistic effects. [Three layers of c₀ (wave 99)] ① base light speed c₀ = this parameter (visualization samples use the uniform convention c₀=30; observation-calibration samples — e.g. ☄️ real-invariant Mercury — use the tier real-c convention c₀=3×10⁸×10^(−(x−eT)), wave 113); ② local light speed c_loc = c₀·e^(−2ψ) (slows locally in gravity wells — used by reddening and auto light sweep); ③ display-calibration exponent eC (on-screen conversion only — never enters the physics; **fixed to the per-tier x−eT**, showing c₀=30 honestly as that tier's dimensional light speed — e.g. 🏠 \"≈30 m/s\", ☀️🪐 \"≈3×10⁵ m/s\". Wave 126 made this the default and wave 130 retired the manual override (the former \"c₀ display-calibration exponent\" slider); the older convention was a uniform eC=7 \"30 → 3×10⁸ m/s\" — historical note. Real-c samples display the real light speed exactly). The \"eC = x−eT\" requirement of real-calibration samples (the real-c convention) therefore always holds. Converted values are analogy guides; only real-c-convention samples convert exactly to real constants.",
     bM:"Wien constant: a particle at temperature T radiates at peak wavelength λ=b_m/T (A12). Calibrates the spectrum overlay (🌈).",
     etaRad:"Strength of radiative cooling (E11: cooling rate Λ∝T^p). 0 = no radiation. Hotter particles cool faster (🌈). Radiated energy and angular momentum are ledgered.",
     pRad:"Temperature steepness of radiative cooling (E11: Λ∝T^p). Larger p means only the hottest bodies cool rapidly.",
@@ -1889,9 +1889,10 @@ const SCALE_ANCHORS={
   cosmic:   {expL:23,  expT:17,  expM:42}};   // ≈3Mpc / ≈3Gyr / ≈5×10¹¹M☉
 const SCALE_EMOJI={molecular:"⚛️", beaker:"🧪", everyday:"🏠", planetary:"🪐", stellar:"☀️", galactic:"🌌", cosmic:"🫧"};
 // 第120便(原仮定者指示): 「ベースのスケール」の選択肢表 — 惑星は e6/e7/e8 の3種
-// (スケールタグはいずれも「惑星」)。C はスケール別の光速表示較正指数(新規約 — 既存
-// サンプルの光速較正の一括変更は別便〔巻き戻し第2弾と合流〕で実施予定。本表は表示
-// セレクタ専用で、サンプル読込時のタグ既定〔SCALE_ANCHORS+eC 規約〕には触れない)
+// (スケールタグはいずれも「惑星」)。C 列はスケール別の光速表示較正指数だが、第130便で
+// eC の手動上書きを廃止したため**一括設定の対象外**になった(eC は常にサンプルのティア別
+// x−eT)。C 列は各ティアの eC を示す参考値として残す。本表は表示セレクタ専用で、
+// サンプル読込時のタグ既定〔SCALE_ANCHORS+eC 規約〕には触れない
 const SCALE_BASES=[
   {id:"molecular", tier:"molecular", suffix:"",     L:-10,  T:-13,  M:-26,  C:3},
   {id:"beaker",    tier:"beaker",    suffix:"",     L:-2.5, T:-2.5, M:-2.5, C:0},
@@ -1921,14 +1922,19 @@ let scaleDispOn=true;
 try{ const _sd=localStorage.getItem("hp_scale_disp"); if(_sd!==null) scaleDispOn=(_sd==="1"); }catch(_){}
 // 第94便(原仮定者指示): 表示スケールを距離/時間/質量/光速の**4指数**へ分離。
 // null=スケールタグ既定(サンプルのロード時に上書き=null へ戻る)。すべて表示専用
-let scaleExpL=null, scaleExpT=null, scaleExpM=null, scaleExpC=null;
+// 第130便(原仮定者裁定「進める」): 光速表示較正指数 eC の**手動上書きを廃止**。
+// 光速換算は常にティア別 x−eT(第126便の正直表示既定)へ一本化されたので、上書き状態
+// scaleExpC は撤去した(スライダー・セーブの scaleExps.C も廃止 — setScaleExps の C は
+// 後方互換で「受理して無視」)。距離/時間/質量の3指数は従来どおり上書きできる
+let scaleExpL=null, scaleExpT=null, scaleExpM=null;
 // 第92便(原仮定者指示): スケールバーの表示フラグ(既定ON・hp_scalebar 永続。表示のみ)
 let scaleBarOn=true;
 try{ scaleBarOn = localStorage.getItem("hp_scalebar")!=="0"; }catch(_){}
 function scaleTierOf(p){ return (p && SCALE_TIERS.indexOf(p.scaleTier)>=0)? p.scaleTier : "everyday"; }
-// 第94便: スケールタグ既定の4指数(距離/時間/質量は SCALE_ANCHORS・光速は全タグ共通)
-// 第95便(原仮定者指示): 光速スケール指数の既定を 8→7 に変更 — 「光速 c₀=30 で 3×10^8 m/s」
-// の一律規約(1 速度単位 = 10^7 m/s = c/30)。サンプル側の c₀=30 統一は §BUILTIN の各プリセット参照
+// 第94便: スケールタグ既定の4指数(距離/時間/質量は SCALE_ANCHORS・光速は下記 TIER_EC)
+// 〔履歴〕第95便: 光速指数の既定を 8→7 に変更(「c₀=30 で 3×10^8 m/s」の一律規約)→ 第126便で
+// ティア別 eC=x−eT へ較正 → **第130便で手動上書きを廃止し、この既定へ一本化**(現行規約)。
+// サンプル側の c₀=30 統一は §BUILTIN の各プリセット参照
 function scaleAnchorsNow(){
   const p=(typeof currentPreset!=="undefined")? currentPreset : null;
   let a=SCALE_ANCHORS[scaleTierOf(p)];
@@ -1987,17 +1993,18 @@ function sciFmt(v){
   const mant=v/Math.pow(10,e);
   return (Math.round(mant*100)/100)+"e"+e;
 }
-// 第94便(原仮定者指示): 実効換算指数 = 4指数それぞれ「上書き値 or タグ既定」。
+// 第94便(原仮定者指示): 実効換算指数 = 距離/時間/質量は「上書き値 or タグ既定」。
 // 第93便の慣習アンカー表(SCALE_FAMILIAR)は撤去 — 日常の g_y/ε ×1 はタグ既定 L=T=M=0 が
-// そのまま与え、光速は独立の「光速スケール指数」(既定 8.0 = 3.0→3×10^8 m/s)が担う。
+// そのまま与える。光速の換算指数 eC は第130便(原仮定者裁定)で**常にタグ既定**
+// (=ティア別 x−eT — 第126便の正直表示)へ一本化され、上書きの余地は無くなった。
 // 第92便のプリセット宣言 scaleExp も撤去(タグ既定+スライダーへ一本化)。すべて表示専用
 function scaleEffNow(){
   const a=scaleAnchorsNow();
   return {x:(scaleExpL!==null? scaleExpL : a.L), eT:(scaleExpT!==null? scaleExpT : a.T),
-          eM:(scaleExpM!==null? scaleExpM : a.M), eC:(scaleExpC!==null? scaleExpC : a.C)};
+          eM:(scaleExpM!==null? scaleExpM : a.M), eC:a.C};   // 第130便: eC は常にタグ既定(ティア別 x−eT)— 手動上書き廃止
 }
 // パラメータ key の値 v をスケール換算した文字列("≈1.2e7 m/s" 形式)。対象外キーは null。
-// cLight は光速スケール指数で読む(次元系の L−T ではなく専用指数 — 表示規約)
+// cLight は光速の換算指数 eC で読む(第130便以降 eC はティア別 x−eT 固定 — 表示規約)
 function scaleConvStr(key,v){
   const d=SCALE_DIMS[key]; if(!d) return null;
   const ef=scaleEffNow();
@@ -2010,11 +2017,11 @@ function scaleConvStr(key,v){
 }
 // QA・スライダー用の一括設定(null=タグ既定へ戻す)
 function setScaleExps(o){
-  if(o===null){ scaleExpL=scaleExpT=scaleExpM=scaleExpC=null; }
+  if(o===null){ scaleExpL=scaleExpT=scaleExpM=null; }
   else { if(o.L!==undefined) scaleExpL=(o.L===null? null : clamp(o.L,-30,30));
          if(o.T!==undefined) scaleExpT=(o.T===null? null : clamp(o.T,-30,30));
          if(o.M!==undefined) scaleExpM=(o.M===null? null : clamp(o.M,-45,45));
-         if(o.C!==undefined) scaleExpC=(o.C===null? null : clamp(o.C,0,12)); }
+         /* 第130便: o.C は受理して無視(後方互換 — 旧セーブ・旧呼び出しがそのまま通る)*/ }
 }
 function setScaleDisp(v){
   scaleDispOn=!!v;
@@ -2053,7 +2060,7 @@ const PARAM_DEFS = [
   {key:"kappaT", label:"時空係数 κ", mode:"log", lo:1e-12, hi:1, sci:true, zeroLeft:true, cat:"st", group:"法則",   /* 第125便: κ=0(時空効果なし)を許容 — 左端=0 */   /* 第128便(121B 完結編): 内部保持・エンジン計算・UI キー・physLock すべて κ 正準へ(ψ=W·κ)。旧 Kt は境界で受理する後方互換キーのみ。sci:true = 旧 inv 世代と同じ表示規約(0 表示・1e-4 未満は指数表示)を逆数変換なしで保つ新フラグ */
    desc:"時計の遅れと光の屈折を1本で決める係数 κ(=G/c² と同次元 [L/M] — 質量あたり重力長 r_g=κm)。大きいほど時空効果が強い — ψ=W·κ で時計はより遅れ、光はより曲がる。κ→0 が「時空効果なし」の自然極限。現実との較正は κ=G/c²(物理対応ロックの導出値)。内部エンジン・セーブ・AIプリセットの宣言層すべて κ 正準(第128便で完結)。旧 Kt=1/κ キーはセーブ・AIプリセットの後方互換として受理する。※記号の注意: GR の「アインシュタインの重力定数」κ=8πG/c⁴(次元 s²·m⁻¹·kg⁻¹)とは別の量である(本モデルの κ は G/c² と同次元 [m/kg])。"},
   {key:"cLight",label:"光速 c₀",             mode:"log", lo:1, hi:1e6, cat:"st", group:"法則",   /* 第116便: ティア実c値まで / 第118便(原仮定者指示): 入力範囲 1〜1e6 */
-   desc:"光線の速さと、運動による時計の遅れの基準(E7R: 共動フレームに対する速さがc₀に近いほど固有時計が遅れる)。下げると相対論的効果が見えやすくなる。【c₀の三層(第99便)】①基準光速 c₀=このパラメータ(可視化サンプルは c₀=30 の一律規約。観測較正サンプル〔☄️水星実不変量など〕はティア別の実c値規約 c₀=3×10⁸×10^(−(x−eT)) — 第113便)②局所光速 c_loc=c₀·e^(−2ψ)(重力ポテンシャルの井戸で局所的に遅くなる — 減光・光掃引の auto が使う)③表示較正指数 eC(換算表示専用 — 物理には入らない。第126便からの既定は**ティア別 x−eT** — c₀=30 をそのティアの次元的光速として正直表示する〔🏠「≈30 m/s」・☀️🪐「≈3×10⁵ m/s」など。旧規約は一律 eC=7 の「30→3×10⁸ m/s」〕。実c値サンプルは表示が実光速と厳密一致)。現実較正(実c値規約)のサンプルでは、eC を「距離スケール指数−時間スケール指数」(x−eT)に一致させる必要がある(第126便からの既定はティア別 x−eT)。換算値はアナロジーの目安であり、実c値規約のサンプルのみ実定数と換算が厳密一致する。"},
+   desc:"光線の速さと、運動による時計の遅れの基準(E7R: 共動フレームに対する速さがc₀に近いほど固有時計が遅れる)。下げると相対論的効果が見えやすくなる。【c₀の三層(第99便)】①基準光速 c₀=このパラメータ(可視化サンプルは c₀=30 の一律規約。観測較正サンプル〔☄️水星実不変量など〕はティア別の実c値規約 c₀=3×10⁸×10^(−(x−eT)) — 第113便)②局所光速 c_loc=c₀·e^(−2ψ)(重力ポテンシャルの井戸で局所的に遅くなる — 減光・光掃引の auto が使う)③表示較正指数 eC(換算表示専用 — 物理には入らない。**ティア別 x−eT 固定** — c₀=30 をそのティアの次元的光速として正直表示する〔🏠「≈30 m/s」・☀️🪐「≈3×10⁵ m/s」など〕。第126便でこれを既定化し、第130便で手動上書き〔旧「光速 c₀ 表示較正指数」スライダー〕を廃止した〔さらに旧規約は一律 eC=7 の「30→3×10⁸ m/s」— 歴史記述〕。実c値サンプルは表示が実光速と厳密一致)。現実較正(実c値規約)のサンプルが要求する「eC=x−eT」は、この固定により常に成立する。換算値はアナロジーの目安であり、実c値規約のサンプルのみ実定数と換算が厳密一致する。"},
   {key:"G",     label:"重力 G",              mode:"log", lo:0.005,  hi:1e6,  zeroLeft:true, cat:"st", group:"法則",   /* 第118便: 入力0〜1e6 / 第125便(原仮定者指示): スライダー左端=0(zeroLeft) */
    desc:"粒子同士の万有引力の強さ。この宇宙では決定力Wの勾配が重力になる(A6/E4: a=G∇W)。0にすると自己重力が消える(一様重力g_x/g_yとは別)。"},
   {key:"bM",    label:"ウィーン定数 b_m",    mode:"log", lo:0.01, hi:100, cat:"sh", group:"法則",
@@ -2177,7 +2184,10 @@ const BUILTIN_PRESETS = [
 
 { id:"grcal", name:"弱場GR較正 — GPS・光・シャピロ", emoji:"🛰️", group:"空間と時間",
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
-  sampleClass:"calibration",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類)→ 第130便 統括裁定(原仮定者提示「外すのも選択肢」の個別適用):
+                             // "calibration" → "principle"。SI 対応は式レベル較正(κ=G/c²)が本質で、画面初期値は
+                             // 見やすさ優先の誇張アナログ(物理対応条件 κ=G/cLight² 未成立 — 説明文に明記済み)。
+                             // 「現実較正」チップは実スケール較正(fidelity:"real")系と紛らわしいため原理実証へ移す
   notClaim:["cal"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   descStruct:{
     summary:"この宇宙の時計と光を1本の式ψ=W·κ(κ=時空係数=1/Kt。弱場則。A7′/E7R/E8R/T5)で決めたら、現実のGPSや太陽のそばの観測とどれだけ合うかを試す較正デモ。",
@@ -2198,260 +2208,6 @@ const BUILTIN_PRESETS = [
   ],
   rays:{n:9, spread:0.4},
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
-
-{ id:"mercury", name:"水星の近日点前進 — 測地線1PN", emoji:"☿", group:"空間と時間",
-  familyId:"mercury", familyRole:"variant",   // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)
-  scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
-  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
-  notClaim:["cal"],   // 第88便 EXT-04(宣言専用 — 表示のみ)
-  // 第88便 EXT-09: Failure First(宣言専用 — 表示のみ)。base の失敗は論文1既報の負の結果
-  failureFirst:{
-    fail:"Base DFM(1PN補正なし・λ_PN=0)は水星の近日点前進を再現しない — 楕円軌道は閉じたまま(重要な負の結果)。",
-    pass:"測地線オプション E12(λ_PN=1・α=1.5)で 1PN 前進を回復 — 同式の実値換算 42.98″/世紀(V18〜V20 で機械検証)。"},
-  descStruct:{
-    summary:"楕円軌道の惑星が、周るたびに少しずつ向きをずらしながら花びら模様を描くサンプル(近日点の前進)。時計を遅らせるのと同じ量ψ=W·κが軌道の形も決める測地線モード(E12・A7′/E7Rの作用化)による。",
-    observe:"pnAlpha=0.5(時間率のみ)では前進が1/3に減る — 実際の水星で42.98″/世紀(全量)と14.33″/世紀(1/3)に対応する。※画面の初期値は、歳差が数周で見える様に増幅した可視化用の誇張アナログで、物理対応条件 κ=G/cLight² は満たさない(実値換算は同じ式の解析検証による。PHYSICS §5 物理対応条件)。",
-    control:"λ_PN(lambdaPN)を0にするとニュートンに戻り楕円は閉じる。"},
-  en:{name:"Mercury's Perihelion Advance — Geodesic 1PN",
-    // 第88便 EXT-09: Failure First(en)
-    failureFirst:{
-      fail:"Base DFM (no 1PN correction, λ_PN=0) does not reproduce Mercury's perihelion advance — the ellipse stays closed (an important negative result).",
-      pass:"The geodesic option E12 (λ_PN=1, α=1.5) recovers the 1PN advance — 42.98″/century in real-value conversion of the same formula (machine-checked by V18–V20)."},
-    descStruct:{
-    summary:"A planet on an elliptical orbit traces a slowly turning rosette, its orbit shifting a little further round each lap (perihelion advance). This happens in geodesic mode (E12), where the same quantity ψ=W·κ that slows clocks also shapes the orbit (the action form of A7′/E7R). ",
-    observe:"With pnAlpha=0.5 (time rate only) the advance drops to 1/3 — corresponding to 42.98″/century (full) vs 14.33″/century (1/3) for the real Mercury. Note: the on-screen initial values are an exaggerated visualization analog — amplified so the precession shows within a few orbits — and do not satisfy the physical-correspondence condition κ=G/cLight² (the real-value conversion rests on analytic checks of the same formula; see PHYSICS §5). ",
-    control:"Set λ_PN (lambdaPN) to 0 to recover Newton: the ellipse closes."}},
-  activeParams:["lambdaPN","pnAlpha","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
-  camera:{scale:220}, world:{boundary:"none",size:0},
-  physics:{G:1.44, D0:0.05, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
-    cLight:30, contactK:57.6, contactCap:11.52, bM:1.44, etaRad:0, pRad:4, gravityX:0, gravityY:0,
-    geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:6.66667},
-  bodies:[
-    {type:"single", rMul:1.2, m:150, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
-    {type:"single", rMul:1.2, m:0.5, x:47.66,y:0, vx:0,vy:2.3376, spin:0, pinned:false}
-  ],
-  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
-
-// 第116便(原仮定者裁定「プリセット同梱: 進める。今後のサンプルの雛形とする」): 観測較正
-// プロファイルの内蔵第1号=実不変量の水星。物理構成(実G値・実c値・Kt=c₀²/G・pnSource・
-// stateCarry:"double"・q=3・D0=0.1)が今後の観測較正サンプルの雛形(PHYSICS §5)
-{ id:"mercuryReal", name:"水星(実単位)— 43″/世紀", emoji:"☄️", group:"空間と時間",
-  familyId:"mercury", familyRole:"variant",   // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)(kFrame=0 対照)
-  scaleTier:"planetary",   // 第120便(原仮定者指示): スケールタグは距離スケール指数(L=8)対応の「惑星」
-  scaleExp:{L:8, T:4, M:27},   // 第118便(原仮定者指示): サンプル別スケール指数 — 1単位=10⁸m/10⁴s/10²⁷kg。
-                               // この指数系では実G=6.674×10⁻¹¹→6.674・実c=3×10⁸→3×10⁴(eC=L−T=4)
-  sampleClass:"calibration",
-  fidelity:"real",   // 第120便(原仮定者指示): 現実較正タグはスケール換算込みで較正したサンプルのみ
-  // 第119便(原仮定者裁定「可視化提案: 全て進める」): 軌道観測(歳差積算+ゴースト軌道)+観測結果カード
-  orbitObs:{center:0, orbiter:1, ghostAmp:1e5},
-  // 第120便: ①ε 2→0.05 — ソフトニング逆行歳差(−1.2e-4 rad/公転 ≈24.7″/公転=1PN の約240倍
-  //   〔第129便訂正: 旧記載「24倍」は 24.7″/公転との混同による誤記。5.03e-7 rad/公転 比〕)が歳差積算 HUD を
-  // 支配していた問題の解消(実機確認の 1.7e5″/世紀 の正体)。残る HUD 生レートは積分器の数値床
-  // (−1e2″/世紀級)込み — 43″の較正実測は §D(λ0 差し引き法)=観測結果カードの値が正。
-  // ②ワンタップ誇張対照: B側 c₀=30(+physLock 追随 Kt=c₀²/G)で 1PN が10⁶倍 —
-  // 歳差が数公転で肉眼視できる(Δϖ≈14°/公転)。原仮定者指示「歳差が数周で見える様に増幅する」
-  abBody:{ label:{ja:"c₀=30(歳差が見える誇張対照)", en:"c₀=30 (visible-precession contrast)"},
-    physicsPatch:{cLight:30, kappaT:0.007415555555583735} },
-  obsCard:[
-    {q:"公転周期", model:"87.974 日(実初期条件の構成値)", obs:"87.969 日"},
-    {q:"近日点前進", model:"43.0″/世紀(exp-obscal §D・解析比1.002)", obs:"42.98″/世紀"},
-    {q:"近日点速度", model:"58.98 km/s", obs:"58.98 km/s"}],
-  notClaim:["solar"],
-  failureFirst:{
-    fail:"c₀=30 の誇張アナログでは、実水星の不変量 GM/(c²a)=2.55×10⁻⁸ は質量値域外で、Float32 状態では 1PN が丸め落ちして直接再現は域外だった(☿の但し書き=第112便までの負の結果)。",
-    pass:"実G値+実c値+pnSource+stateCarry(第111〜114便)により、ハーネス実測 Δϖ=5.029×10⁻⁷ rad/公転(解析値比 1.002)= 43.0″/世紀 — GR 実測値 42.98″/世紀と 0.2% 以内(tests/exp-obscal.mjs §D・600公転)。第118便で位置・速度・質量・半径・自転まで全て実値化(公転周期 87.97日=実測と一致)。"},
-  descStruct:{
-    summary:"実際の太陽と水星を実単位のまま置いた観測較正サンプル — **kFrame=0 での比較対照**(実単位化の内蔵第1号。第129便で位置付けを更新: 現在の「天体の現実較正の雛形」は kFrame=1+共通補正を備えた 🪨🌘💿 の3本で、本サンプルはその kF0 側の対照にあたる)。1単位=10⁸m/10⁴s/10²⁷kg(サンプル別スケール指数)で、太陽質量 1988.5(=1.9885×10³⁰kg)・半径 6.95(=6.95×10⁸m)・自転 0.029(恒星自転 25.05日)、水星質量 3.3×10⁻⁴・半径 0.0244・自転 0.0124(58.65日)、近日点 460(=4.60×10¹⁰m)・近日点速度 5.898(=58.98km/s)が全て観測値。重力(E4)だけで公転周期 87.97日が再現され、歳差は☿と同じ測地線モード(E12 — A7′/E7R の作用化)の1PNによる。物理対応条件 κ=G/c₀² 成立+1PN源宣言(pnSource)+倍精度状態(stateCarry)。",
-    observe:"近日点前進は 5×10⁻⁷ rad/公転(実測 43.0″/世紀 — tests/exp-obscal.mjs §D)で、画面では見えない。純粋なケプラー楕円(e=0.206 のつぶれた軌道)に見えるのが正しい挙動 — ☿(誇張アナログ)との対比で「実スケールの 1PN はこれほど小さい」を体感する。スケール換算で G・c₀・距離・周期・質量が実定数・実観測値に一致すること、物理対応バッジの成立を確認できる。実半径では太陽も点に近いため、粒子表示倍率(既定10)が描画だけを拡大している(物理不変)。",
-    control:"実単位化の構成(実定数 G=6.674・c₀=3×10⁴・κ=G/c₀²・サンプル別スケール指数・実半径+粒子表示倍率・実自転スピン・pnSource:true・stateCarry:\"double\"・q=3・D0=0.1・kFrame=0〔A8 引きずりは c² 抑制のない誇張機構のため実単位では非主張 — 第118便〕・massFloor=1e-6〔実質量が mEff 床 0.01 で歪まないため〕)は本サンプルで確立された(内蔵第1号)。今後の観測較正サンプルは、この構成に kFrame=1+共通補正(D₀=0.006・qLock)を加えた**雛形 🪨🌘💿**をコピーして作る(PHYSICS §5)。λ_PN を 0 にしても画面では違いが見えない — それが実スケールの弱場。"},
-  en:{name:"Mercury (Real Units) — 43″/century",
-    obsCard:[
-      {q:"Orbital period", model:"87.974 d (from real initial conditions)", obs:"87.969 d"},
-      {q:"Perihelion advance", model:"43.0″/century (exp-obscal §D, ratio 1.002)", obs:"42.98″/century"},
-      {q:"Perihelion speed", model:"58.98 km/s", obs:"58.98 km/s"}],
-    failureFirst:{
-      fail:"With the c₀=30 exaggerated analog, Mercury's real invariant GM/(c²a)=2.55×10⁻⁸ fell outside the mass range, and Float32 state rounded the 1PN away — direct reproduction was out of scope (the caveat on ☿).",
-      pass:"With real-value G and c₀, pnSource and stateCarry, the harness measures Δϖ=5.029×10⁻⁷ rad/orbit (ratio 1.002 to the analytic value) = 43.0″/century — within 0.2% of the observed 42.98″/century (tests/exp-obscal.mjs §D, 600 orbits). Wave 118 made positions, velocities, masses, radii and spins all real-valued (orbital period 87.97 d = observed)."},
-    descStruct:{
-    summary:"The real Sun and Mercury in real units — the kFrame=0 CONTRAST (the first built-in real-unit sample; repositioned in wave 129: the current \"real-calibration template\" is the kFrame=1 trio 🪨🌘💿, and this sample is their kF0 counterpart). With per-sample scale exponents (1 unit = 10⁸ m / 10⁴ s / 10²⁷ kg), the solar mass 1988.5 (=1.9885×10³⁰ kg), radius 6.95, spin 0.029 (25.05-day rotation), Mercury's mass 3.3×10⁻⁴, radius 0.0244, spin 0.0124 (58.65 d), perihelion 460 (=4.60×10¹⁰ m) and perihelion speed 5.898 (=58.98 km/s) are all observed values. Gravity alone (E4) reproduces the 87.97-day orbit; the precession comes from the same geodesic mode (E12 — the actionization of A7′/E7R) 1PN as ☿. κ=G/c₀² holds, with pnSource and double-precision state (stateCarry). ",
-    observe:"The perihelion advance is 5×10⁻⁷ rad/orbit (measured 43.0″/century — tests/exp-obscal.mjs §D) — invisible on screen. A pure Kepler ellipse (e=0.206) IS the correct behaviour; contrast with ☿ to feel how small real-scale 1PN is. The scale conversion matches G, c₀, distances, period and masses to the real values, and the correspondence badge is satisfied. At real radii even the Sun is nearly a dot, so the display magnification (default 10) enlarges rendering only (physics untouched). ",
-    control:"This sample established the real-unit construction (real constants G=6.674, c₀=3×10⁴, κ=G/c₀², per-sample scale exponents, real radii + display magnification, real spins, pnSource:true, stateCarry:\"double\", q=3, D0=0.1, kFrame=0 — A8 dragging is an exaggerated mechanism without c² suppression, so real-unit samples make no dragging claim (wave 118) — and massFloor=1e-6 so real masses are not distorted by the 0.01 mEff floor). Future observation-calibration samples copy the TEMPLATE 🪨🌘💿, which adds kFrame=1 plus the joint correction (D₀=0.006, qLock) on top of it (PHYSICS §5). Setting λ_PN to 0 changes nothing visible — that is the real weak field."}},
-  activeParams:["dispMag","lambdaPN","cLight"],
-  camera:{scale:800}, world:{boundary:"none",size:0},
-  physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
-    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
-    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:100, dispMag:10, stateCarry:"double"},
-  bodies:[   // 第118便: 全て実値 — 太陽 1.9885e30kg/6.95e8m/自転25.05日、水星 3.3011e23kg/2.44e6m/
-             // 自転58.646日・近日点 4.60e10m・近日点速度 58.98km/s(vis-viva、a=5.7909e10m・e=0.20563)
-    {type:"single", m:1988.5, radius:6.95, x:0,y:0, vx:0,vy:0, spin:0.029031, pinned:true, pnSource:true},
-    {type:"single", m:0.00033011, radius:0.0244, x:460.012,y:0, vx:0,vy:5.897643, spin:0.0124, pinned:false}
-  ],
-  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
-
-{ id:"mercuryRealKF1", name:"水星(実単位・kFrame=1)— 共通補正で 43″/世紀成立", emoji:"🪨", group:"空間と時間",
-  familyId:"mercury", familyRole:"primary",   // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)(天体の現実較正の雛形)
-  scaleTier:"planetary",
-  scaleExp:{L:8, T:4, M:27},   // ☄️ と同一の指数系
-  sampleClass:"calibration",
-  notClaim:["solar"],
-  // 第120便(原仮定者指示「mercuryReal の kF1版を用意する」): ☄️と同一実値で kFrame=1。
-  // 実測(tests/exp-kf1b.mjs §B): 太陽の実自転(25.05日)によるスピン引きずりが
-  // **逆行 −7.3×10⁻⁵ rad/公転(−1.5万″/世紀)**の歳差を加える(スピン0なら kF0 と一致 —
-  // スピン起源を分解確定)。観測 43″/世紀 と3桁不一致 = kF1×実スピンは較正外(fidelity なし)。
-  // A8 引きずりは c² 抑制を持たない誇張スケールの機構であることの定量実証サンプル
-  failureFirst:{
-    fail:"kFrame=1 のまま太陽の実自転(25.05日)を入れると、D₀=0.1 ではスピン引きずりが逆行 −7.3×10⁻⁵ rad/公転(−1.5万″/世紀)の歳差を加え、観測の +43″/世紀 と3桁不一致になる(exp-kf1b §B — スピン0 なら kF0 と厳密一致=スピン起源)。",
-    pass:"第122便の共通補正(q でスピン項を幾何減衰)→ 第123便: **q は計算で求まる(qLock)** — q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R)=6.16 の自動算出で引きずりは −5.6×10⁻¹⁰ rad/公転(LT級・1PN の 1/900)まで落ち、kF1 のまま 43″/世紀が成立。D₀ は 🌘💿 と共通の 0.006・q は同一式 — 較正ノブが1つも残らない(exp-kf1c/kf1d)。"},
-  obsCard:[
-    {q:"引きずり歳差(qLock 自動算出 q*=6.16)", model:"−5.6×10⁻¹⁰ rad/公転(LT級)= 43″/世紀成立", obs:"近日点前進 +43″/世紀"},
-    {q:"q=3 対照(第120便版)", model:"−7.3×10⁻⁵ rad/公転(−1.5万″/世紀・逆行=3桁不一致)", obs:"—(exp-kf1b §B・スピン0 なら kF0 と厳密一致)"},
-    {q:"共通性", model:"D₀=0.006 は 🌘💿 と共通・q は同一式の自動算出(exp-kf1c/kf1d)", obs:"—(被引きずり側スピン×10⁴でも不変)"}],
-  orbitObs:{center:0, orbiter:1, ghostAmp:1e3},   // −7.3e-5 rad/公転 ×10³ ≈ −4°/公転で回転が見える
-  descStruct:{
-    summary:"☄️(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、**共通補正 D₀=0.006+qLock(q*=6.16 自動算出)で kF1 のまま 43″/世紀を成立**させた版(第122便→第123便 qLock 化)。逆行歳差の正体は pinned 太陽の実自転(25.05日)が作る**スピン項 ω(d)=s·(R/(R+d))^q** — q=3 では −7.3×10⁻⁵ rad/公転(−1.5万″/世紀)と3桁不一致だったが、qLock の q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R)=6.16 の幾何減衰で −5.6×10⁻¹⁰(LT級・1PN の約1/900)まで消え、1PN の +43″/世紀だけが残る。D₀=0.006 は 🌘💿 と共通・q は同一式の自動算出 — 「同じ値」ではなく**同じ算出則**が全系を満たす(exp-kf1c/kf1d)。重力は E4・測地線は E12。**天体の現実較正の雛形**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock。今後の観測較正サンプルは本構成をコピーして作る — PHYSICS §5)。",
-    observe:"歳差積算 HUD が ☄️ と同水準(+43″/世紀級)を示す — kF1 でも較正が成り立つ。q を 3 へ下げると大きな逆行レートに変わり、ゴースト楕円(×10³)が逆回りする(スピン項の復活が一目で見える)。スピンを 0 にすると q=3 でも kF0 と厳密一致(スピン起源の分解)。",
-    control:"本サンプルは**天体の現実較正の雛形**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock。今後の観測較正サンプルは本構成をコピーして作る — PHYSICS §5)。q は自動算出(qLock — スライダーはグレーアウト)。太陽の spin を 0 にすると q=3 でも引きずりが消える(スピン起源)。kFrame を 0 にすると ☄️ と同一。被引きずり側(水星)のスピンは×10⁴でも歳差に無関与(自分自身は u から除外 — exp-kf1c §B)。"},
-  en:{name:"Mercury (Real Units, kFrame=1) — 43″/century with the joint correction",
-    failureFirst:{
-      fail:"With kFrame=1, the Sun's real rotation (25.05 d) and q=3, spin dragging adds a RETROGRADE −7.3×10⁻⁵ rad/orbit (−15,000″/century) precession — three orders of magnitude off the observed +43″/century (exp-kf1b §B; with spin 0 it matches kF0 exactly, isolating the spin origin).",
-      pass:"Wave-122 joint correction → wave-123 qLock: the retrograde precession comes from the SPIN term ω(d)=s·(R/(R+d))^q, so it is suppressed geometrically by q rather than by D₀ — with the auto-derived q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R)=6.16 the drag falls to −5.6×10⁻¹⁰ rad/orbit (LT-class, ~1/900 of 1PN) and 43″/century holds with kF1 on. Moreover D₀ returns to 0.006, SHARED with 🌘💿 — not one shared value of q but one shared derivation rule satisfies every system (exp-kf1c/kf1d)."},
-    obsCard:[
-      {q:"Drag precession (qLock auto-derived q*=6.16)", model:"−5.6×10⁻¹⁰ rad/orbit (LT-class) — 43″/century holds", obs:"perihelion advance +43″/century"},
-      {q:"q=3 contrast (wave-120 version)", model:"−7.3×10⁻⁵ rad/orbit (−15,000″/century, retrograde — 3 orders off)", obs:"— (exp-kf1b §B; spin 0 matches kF0 exactly)"},
-      {q:"Universality", model:"D₀=0.006 shared with 🌘💿; q auto-derived from the same rule (exp-kf1c/kf1d)", obs:"— (unchanged even with the dragged side's spin ×10⁴)"}],
-    descStruct:{
-    summary:"The same real values as ☄️ (kFrame=0) with frame dragging (A8/E6′) enabled and the joint correction D₀=0.006 plus qLock (auto-derived q*=6.16) applied — 43″/century now holds WITH kF1 on (wave 122 → qLock in wave 123). The retrograde precession was the SPIN term ω(d)=s·(R/(R+d))^q of the pinned Sun's real rotation (25.05 d): at q=3 it gave −7.3×10⁻⁵ rad/orbit (3 orders off), while qLock's q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R)=6.16 geometric falloff cuts it to −5.6×10⁻¹⁰ (LT-class, about 1/900 of 1PN), leaving only the 1PN +43″/century. D₀=0.006 is shared with 🌘💿 and q is auto-derived from the same rule — not the same VALUE but the same derivation satisfies every system (exp-kf1c/kf1d). Gravity is E4, geodesics E12. This is one of the three REAL-CALIBRATION TEMPLATES (🪨🌘💿 — real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock; future observation-calibration samples copy this construction — PHYSICS §5). ",
-    observe:"The precession HUD sits at the ☄️ level (+43″/century class) — the calibration survives kF1. Lower q to 3 and it flips to a large retrograde rate with the ghost ellipse (×10³) rotating backwards (the spin term coming back, visibly). Zero the spin and even q=3 matches kF0 exactly (spin-origin decomposition). ",
-    control:"This is one of the three REAL-CALIBRATION TEMPLATES (🪨🌘💿 — real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock; future observation-calibration samples copy this construction — PHYSICS §5). q is the star knob: 5 (joint correction) ⇄ 3 (retrograde drag, −15,000″/century). Zero the Sun's spin and the drag vanishes even at q=3 (spin origin). Set kFrame to 0 to recover ☄️ exactly. The dragged side's (Mercury's) own spin is irrelevant even at ×10⁴ (self is excluded from u — exp-kf1c §B)."}},
-  // 第122便(原仮定者指示「🌘と🪨を共に満たす補正を検証する。q の算出などを試す。
-  // 引きずられる側のスピンにも着目する」): 検証結論(tests/exp-kf1c.mjs)—
-  //  ①逆行歳差はスピン項 ω(d)=s·(R/(R+d))^q 起源 → q で幾何減衰できる(D₀ 不要)。
-  //    抑制率 (R/(R+a))^(q−3)・算出 q*=3+ln(|A₃|/ε)/ln((R+a)/R)=4.59 → 採用 q=5 で
-  //    引きずり −5.3e-8 rad/公転(1PN の 1/10)= kF1 のまま 43″/世紀成立。
-  //  ②D₀ は 🌘 と共通の 0.006 に復帰 — **共通補正 (D₀=0.006, q=5) が両系を同時に満たす**
-  //    (第121便の D₀=1e4・7桁差の非普遍性は解消。q は水星の幾何 R/(R+a) から算出した値だが、
-  //     🌘 ではスピン項が元々無視できるため同じ q=5 が較正を壊さない — むしろ Δϖ比 0.988→0.999 に純化)。
-  //  ③被引きずり側(水星)のスピンは×10⁴でも歳差に無関与(自分自身は u から除外される —
-  //    原仮定者ヒントへの正直な否定結果。exp-kf1c §B)
-  abBody:{ label:{ja:"c₀=30(歳差が見える誇張対照)", en:"c₀=30 (visible-precession contrast)"},
-    physicsPatch:{cLight:30, kappaT:0.007415555555583735} },
-  qLock:true,   // 第123便: q は自動算出(LT整合則 q*=6.16)— 編集対象から外す
-  activeParams:["D0","kFrame","dispMag"],
-  camera:{scale:800}, world:{boundary:"none",size:0},
-  physics:{G:6.674, D0:0.006, kFrame:1, q:6.16, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
-    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
-    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:100, dispMag:10, stateCarry:"double"},
-  bodies:[
-    {type:"single", m:1988.5, radius:6.95, x:0,y:0, vx:0,vy:0, spin:0.029031, pinned:true, pnSource:true},
-    {type:"single", m:0.00033011, radius:0.0244, x:460.012,y:0, vx:0,vy:5.897643, spin:0.0124, pinned:false}
-  ],
-  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
-
-{ id:"earthMoonReal", name:"地球と月(実単位)— 恒星月 27.32日", emoji:"🌙", group:"空間と時間",
-  familyId:"earthmoon", familyRole:"variant",   // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)(kFrame=0 対照)
-  scaleTier:"planetary",
-  scaleExp:{L:6, T:2, M:25},   // 第118便(原仮定者指示): サンプル別スケール指数 — 1単位=10⁶m/10²s/10²⁵kg。
-                               // この指数系でも実G=6.674・実c=3×10⁴(eC=L−T=4)— Kt=c₀²/G が値域内に入り
-                               // 第117便の「惑星ティアではロック域外」が解消される
-  sampleClass:"calibration",
-  fidelity:"real",   // 第120便(原仮定者指示): 現実較正タグはスケール換算込みで較正したサンプルのみ
-  orbitObs:{center:0, orbiter:1, ghostAmp:1e6},   // 第119便: 軌道観測(表示専用)
-  obsCard:[
-    {q:"恒星月", model:"27.3219 日(ハーネス実測)", obs:"27.3217 日"},
-    {q:"軌道長半径", model:"38.47万 km", obs:"38.47万 km"},
-    {q:"近地点相対速度", model:"1.082 km/s", obs:"1.082 km/s"}],
-  notClaim:["solar"],
-  failureFirst:{
-    fail:"kFrame=1 の自由二体は相互フレーム結合の正帰還で崩壊する(exp-obscal §F 用量実測 — 質量補正単独では安定化できない)。第117便版はスケール指数の制約から κ=G/c₀² が域外で物理対応ロック非成立・pinned 主星の系統 +0.6% を抱えていた。",
-    pass:"第118便でサンプル別スケール指数(1単位=10⁶m/10²s/10²⁵kg)を採用 — κ=G/c₀² が成立し、安定化手順(c)kFrame=0(PHYSICS §5)の自由二体で地球・月とも重心系を実運動する。恒星月は初期条件の構成値で 27.3218日(実測 27.3217日と 4×10⁻⁶)— ハーネス実測(§E: 27.317日・−0.02%)と整合。質量・半径・自転・距離・速度が全て観測値。"},
-  descStruct:{
-    summary:"実際の地球と月を実単位のまま置いた観測較正サンプル — ☄️ の構成をコピーした実単位化の第2号で、現在の位置付けは **kFrame=0 での比較対照**(雛形は kF1 の 🪨🌘💿 — 本サンプルの kF1 版は 🌘)。1単位=10⁶m/10²s/10²⁵kg(サンプル別スケール指数)で、地球質量 0.5972(=5.9724×10²⁴kg)・半径 6.38(=6.38×10⁶m)・自転 0.0073(23.93時間)、月質量 0.00735・半径 1.74・自転 0.00027(同期自転 27.32日)、近地点 363.6(=3.636×10⁸m)・相対速度 0.1082(=1.082km/s)が全て観測値。自由二体(重心系)を重力(E4)だけで回し、恒星月 27.3218日(実測 27.3217日)が再現される。物理対応条件 κ=G/c₀² 成立。倍精度状態(stateCarry)は雛形の規約どおり。",
-    observe:"月が27.32日(換算表示 — HUD の t 表示は日・年単位に自動変換)で一周し、地球も重心のまわりを小さく実運動する(重心距離 4.4=4400km — 地球半径の 69%)。スケール換算で距離 38.5万km・周期 27.3日・質量 5.97×10²⁴kg が実値と一致し、物理対応バッジが成立する。1PN・引きずりは実スケールでは完全に不可視(見えないのが正しい)。実半径では両天体とも小さいため、粒子表示倍率(既定10)が描画だけを拡大している(物理不変)。",
-    control:"kFrame は安定化手順(c)の 0(kFrame=1 の自由二体は崩壊する — §F。引きずりは本サンプルの主張外なので、自転スピンは表示・慣性のみに働く)。kFrame を 1 に戻すと崩壊過程が観察できる。粒子表示倍率を 1 にすると実比の点になる。"},
-  en:{name:"Earth & Moon (Real Units) — sidereal month 27.32 d",
-    obsCard:[
-      {q:"Sidereal month", model:"27.3219 d (harness)", obs:"27.3217 d"},
-      {q:"Semi-major axis", model:"384,700 km", obs:"384,748 km"},
-      {q:"Perigee relative speed", model:"1.082 km/s", obs:"1.082 km/s"}],
-    failureFirst:{
-      fail:"A free binary with kFrame=1 collapses via the mutual frame-coupling positive feedback (exp-obscal §F dose measurements — mass correction alone cannot stabilize it). The wave-117 version had κ=G/c₀² out of clamp range (no correspondence lock) and a +0.6% pinned-primary systematic, both from the tier's fixed exponents.",
-      pass:"Wave 118 adopts per-sample scale exponents (1 unit = 10⁶ m / 10² s / 10²⁵ kg) — κ=G/c₀² now holds, and with stabilization route (c), kFrame=0 (PHYSICS §5), Earth and Moon both move freely about the barycenter. The sidereal month is 27.3218 d by construction (4×10⁻⁶ from the observed 27.3217 d), consistent with the harness measurement (§E: 27.317 d, −0.02%). Masses, radii, spins, distances and velocities are all observed values."},
-    descStruct:{
-    summary:"The real Earth and Moon in real units — the second sample built on ☄️'s construction, now positioned as the kFrame=0 CONTRAST (the template is the kF1 trio 🪨🌘💿; this sample's kF1 version is 🌘). With per-sample scale exponents (1 unit = 10⁶ m / 10² s / 10²⁵ kg), the Earth mass 0.5972 (=5.9724×10²⁴ kg), radius 6.38, spin 0.0073 (23.93 h rotation), the Moon's mass 0.00735, radius 1.74, spin 0.00027 (synchronous, 27.32 d), perigee 363.6 (=3.636×10⁸ m) and relative speed 0.1082 (=1.082 km/s) are all observed values. A free binary about the barycenter, driven by gravity alone (E4), reproduces the 27.3218-day sidereal month (observed: 27.3217 d). κ=G/c₀² holds. Double-precision state (stateCarry) follows the template. ",
-    observe:"The Moon orbits in 27.32 days (the HUD time display auto-converts to days/years) and the Earth genuinely moves about the barycenter (offset 4.4 = 4,400 km — 69% of the Earth radius). The scale conversion matches distance 385,000 km, period 27.3 d and mass 5.97×10²⁴ kg, and the correspondence badge is satisfied. 1PN and dragging are completely invisible at real scale (invisible IS correct). At real radii both bodies are small, so the display magnification (default 10) enlarges rendering only. ",
-    control:"kFrame is 0, stabilization route (c) (a free binary with kFrame=1 collapses — §F; dragging is outside this sample's claims, so the real spins act on display and inertia only). Set kFrame back to 1 to watch the collapse. Set the display magnification to 1 for true proportions."}},
-  abBody:{ label:{ja:"kFrame=1・D₀=0.006(近点回転が現れる — 🌘対照)", en:"kFrame=1, D₀=0.006 (apsidal precession appears)"},
-    physicsPatch:{kFrame:1, D0:0.006, qLock:true} },   // 第121便: 🌘のワンタップ対照を🌙へ(第123便: q は自動算出で🌘と同一較正)
-  activeParams:["dispMag","lambdaPN","cLight"],
-  camera:{scale:450}, world:{boundary:"none",size:0},
-  physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
-    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
-    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:100, dispMag:10, stateCarry:"double"},
-  bodies:[   // 第118便: 全て実値・重心系 — 地球 5.9724e24kg/6.38e6m/自転23.93h、月 7.346e22kg/1.74e6m/
-             // 同期自転、a=3.84748e8m(軌道長半径)・e=0.0549・近地点、vis-viva の相対速度を質量比で配分
-    {type:"single", m:0.59724, radius:6.38, x:-4.41822,y:0, vx:0,vy:-0.0013146, spin:0.0072921, pinned:false, pnSource:true},
-    {type:"single", m:0.007346, radius:1.74, x:359.2071,y:0, vx:0,vy:0.1068788, spin:0.00026617, pinned:false}
-  ],
-  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
-
-{ id:"earthMoonRealKF1", name:"地球と月(実単位・kFrame=1)— 近点回転 8.85年の較正再現", emoji:"🌘", group:"空間と時間",
-  familyId:"earthmoon", familyRole:"primary",   // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)(天体の現実較正の雛形)
-  scaleTier:"planetary",
-  scaleExp:{L:6, T:2, M:25},   // 🌙 と同一の指数系(1単位=10⁶m/10²s/10²⁵kg)
-  sampleClass:"calibration",
-  fidelity:"real",   // 第120便: 恒星月+近点回転の2観測量をスケール換算込みで較正
-  notClaim:["solar"],
-  // 第120便(原仮定者指示「kF1のまま実測に近付ける補正を調査する。重大な発見を予想している」):
-  // 系統実測(tests/exp-kf1b.mjs)の結論 —
-  //  ①kF1 の引きずり歳差は+2.7×10⁻³ rad/公転(D₀=0.1)で、スピン0でも不変=**運動引きずり
-  //    (相互速度のフレーム結合)起源**。λPN にも依存しない。
-  //  ②大きさは χ=w/(D₀+w) に比例(D₀=1 で 1/10.7)— **D₀ が歳差の較正ノブになる**。
-  //  ③D₀=0.006+初速 −0.32% の共同フィットで、**恒星月 27.32日(+0.04%)と実際の月の
-  //    近点回転(約8.85年で一周・0.0531 rad/公転)を同時に較正再現**(全窓比 0.99 —
-  //    窓・平均法により ±15% 級のゆらぎ)。純二体では絶対に出ない観測量が出る。
-  //  ④正直な明記: 実際の月の近点回転の主因は太陽摂動(第三体)であり、DFM は運動引きずり
-  //    という**別機構**で同じ回転を較正一致させている(機構の同定ではなく較正一致)。
-  //    温度・スピン経路は不関与(exp-kf1)・周期との結合は f(初速)で分離できる。
-  failureFirst:{
-    fail:"純二体(🌙 kFrame=0)では月の近点回転(実測 8.85年で一周)は原理的に出ない(閉じた楕円)。第119便の 🌘(D₀=0.1)でも +2.7×10⁻³ rad/公転と実測の 1/20 で、周期も +0.05% ずれていた。",
-    pass:"引きずり歳差が χ=w/(D₀+w) に比例することを用量実測で確定し、D₀=0.006+初速−0.32% の共同フィットで恒星月 27.32日(+0.04%)と近点回転 8.85年を同時較正(tests/exp-kf1b.mjs)。第122便: q=5(🪨 と共通の補正)で地球スピン項の混入が除かれ、Δϖ比が 0.988→0.999 へ純化 — **共通補正 (D₀=0.006, q=5) が 🌘🪨 を同時に満たす**(exp-kf1c)。実際の主因は太陽摂動 — DFM は運動引きずりという別機構での較正一致(正直な明記)。",},
-  obsCard:[
-    {q:"恒星月(kFrame=1・較正後)", model:"27.331 日(+0.03%)", obs:"27.3217 日"},
-    {q:"近点回転の周期", model:"≈8.86 年(Δϖ比 0.9991 — qLock q*=8.25)", obs:"8.85 年"},
-    {q:"引きずり歳差の由来", model:"運動引きずり(スピン非依存・D₀∝1/χ)", obs:"実際の主因は太陽摂動(機構は別 — 較正一致)"},
-    {q:"補正の共通性", model:"D₀=0.006 は 🪨💿 と共通・q は自動算出(qLock q*=8.25 — exp-kf1d)", obs:"—"}],
-  orbitObs:{center:0, orbiter:1, ghostAmp:20},   // 実歳差 3°/公転 — ×20 で数公転で一周が見える
-  descStruct:{
-    summary:"🌙(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、共通補正 D₀=0.006+qLock(q*=8.25 自動算出)に較正した版 — 重力(E4)+運動引きずりの二体だけで、恒星月 27.32日と**月の近点回転(実測 約8.85年で一周)**の2観測量を同時に較正再現する(exp-kf1b/kf1c 実測)。純二体のケプラー軌道は閉じた楕円で近点回転を持たない — kFrame=1 の運動引きずりが χ=w/(D₀+w) に比例する順行歳差を作り、D₀ がその較正ノブになる(第120便の一次発見)。測地線 E12・倍精度 stateCarry は雛形の規約どおり。",
-    observe:"軌道の向き(近点方向)がゆっくり回る — 実際の月と同じ約8.85年(≈118公転)で一周する。歳差積算 HUD の換算レートと、ゴースト楕円(点線=初期・橙=歳差×20 増幅)で回転が数公転で見える。**HUD の積算は周回内で大きく振動する(局所では逆行にも振れる)— 1公転単位で読むと正味 +0.053 rad/公転(Δϖ比 0.999)**。恒星月は 27.33日(+0.03%)。正直な明記: 実際の近点回転の主因は太陽摂動(第三体)— 本サンプルは運動引きずりという別機構での較正一致であり、機構の同定を主張しない(観測結果カード)。",
-    control:"本サンプルは**天体の現実較正の雛形**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock。今後の観測較正サンプルは本構成をコピーして作る — PHYSICS §5)。ワンタップ対照A/B: B側 D₀=0.1 に上げると引きずりが 1/16 になり回転がほぼ止まる(χ∝1/D₀ の用量が見える)。kFrame を 0 にすると純ケプラー(閉じた楕円)へ。スピンを 0 にしても歳差は変わらない(運動起源 — exp-kf1b §A。q は自動算出〔qLock〕で、地球スピン項の混入を除く役)。"},
-  en:{name:"Earth & Moon (Real Units, kFrame=1) — apsidal precession 8.85 yr, calibrated",
-    failureFirst:{
-      fail:"A pure two-body system (🌙, kFrame=0) can never show the Moon's apsidal precession (observed: one cycle in 8.85 years) — the ellipse stays closed. The wave-119 🌘 (D₀=0.1) gave +2.7×10⁻³ rad/orbit, 1/20 of the real rate, with a +0.05% period offset.",
-      pass:"Dose measurements established that the drag precession scales as χ=w/(D₀+w); a joint fit of D₀=0.006 with a −0.32% initial-speed correction calibrates BOTH the sidereal month 27.32 d (+0.04%) and the 8.85-year apsidal cycle at once (tests/exp-kf1b.mjs). Wave 122: q=5 (the correction shared with 🪨) removes the Earth-spin contamination and purifies the Δϖ ratio from 0.988 to 0.999 — one pair (D₀=0.006, q=5) satisfies BOTH 🌘 and 🪨 (exp-kf1c). The real cause is solar perturbation — DFM matches it via a different mechanism, motion dragging (honest note)."},
-    obsCard:[
-      {q:"Sidereal month (kFrame=1, calibrated)", model:"27.331 d (+0.03%)", obs:"27.3217 d"},
-      {q:"Apsidal precession period", model:"≈8.86 yr (Δϖ ratio 0.9991 — qLock q*=8.25)", obs:"8.85 yr"},
-      {q:"Origin of the drag precession", model:"motion dragging (spin-independent, ∝χ(D₀))", obs:"the real cause is solar perturbation (different mechanism — a calibrated match)"},
-      {q:"Universality of the correction", model:"D₀=0.006 shared with 🪨💿; q auto-derived from the same rule (qLock q*=8.25 — exp-kf1d)", obs:"—"}],
-    descStruct:{
-    summary:"The same real values as 🌙 (kFrame=0) with frame dragging (A8/E6′) enabled and the joint correction D₀=0.006 plus qLock (auto-derived q*=8.25) applied — gravity (E4) plus motion dragging alone reproduce TWO observables: the 27.32-day sidereal month and the Moon's apsidal precession (observed: one cycle in ≈8.85 years) (exp-kf1b/kf1c). A pure two-body Kepler orbit is a closed ellipse with no apsidal rotation — the kFrame=1 motion drag adds a prograde precession scaling as χ=w/(D₀+w), making D₀ its calibration knob (wave-120 primary finding). Geodesic E12 and double-precision stateCarry follow the template. This is one of the three REAL-CALIBRATION TEMPLATES (🪨🌘💿 — real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock; future observation-calibration samples copy this construction — PHYSICS §5). ",
-    observe:"The orbit's apse line slowly rotates — one cycle in about 8.85 years (≈118 orbits), as the real Moon does. The precession HUD rate and the ghost ellipses (dotted = initial, amber = precession ×20) make the rotation visible within a few orbits. The HUD accumulator oscillates strongly within each orbit (locally even retrograde) — read it per full orbit: net +0.053 rad/orbit (Δϖ ratio 0.999). The sidereal month is 27.33 d (+0.03%). Honest note: the real cause of the lunar apsidal precession is solar perturbation (a third body) — this sample matches it via a different mechanism, motion dragging, and claims no mechanism identification (see the observation card). ",
-    control:"This is one of the three REAL-CALIBRATION TEMPLATES (🪨🌘💿 — real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock; future observation-calibration samples copy this construction — PHYSICS §5). One-tap A/B: raising D₀ to 0.1 on side B cuts the drag by 1/16 and the rotation nearly stops (the χ∝1/D₀ dose made visible). Setting kFrame to 0 returns to pure Kepler (closed ellipse). Zeroing the spins changes nothing (motion origin — exp-kf1b §A)."}},
-  abBody:{ label:{ja:"D₀=0.1(引きずり弱 — 回転が止まる対照)", en:"D₀=0.1 (weak drag — rotation stops)"},
-    physicsPatch:{D0:0.1} },
-  qLock:true,   // 第123便: q 自動算出(q*=8.25)
-  activeParams:["D0","kFrame","dispMag"],
-  camera:{scale:450}, world:{boundary:"none",size:0},
-  physics:{G:6.674, D0:0.006, kFrame:1, q:8.25, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
-    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
-    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:100, dispMag:10, stateCarry:"double"},
-  bodies:[   // 第120便: 初速 −0.32%(f=0.9968 — D₀=0.006 の引きずり下で恒星月を 27.32日へ戻す共同フィット)
-             // 第122便: q共通補正 → 第123便: qLock 自動算出(q*=8.25 — Δϖ比 0.9991 のまま)
-    {type:"single", m:0.59724, radius:6.38, x:-4.41822,y:0, vx:0,vy:-0.0013104, spin:0.0072921, pinned:false, pnSource:true},
-    {type:"single", m:0.007346, radius:1.74, x:359.2071,y:0, vx:0,vy:0.1065368, spin:0.00026617, pinned:false}
-  ],
-  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"projectile", name:"自由落下と放物運動", emoji:"⚾", group:"空間と時間",
   scaleTier:"everyday",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
@@ -4392,17 +4148,19 @@ const BUILTIN_PRESETS = [
 // ===== グループ: 天体の物語 =====
 { id:"earthMoon", name:"地球と月", emoji:"🌍", group:"天体の物語",
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
-  sampleClass:"calibration",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  sampleClass:"composite",   // 第67便 67B(P3 サンプル分類)→ 第130便 統括裁定(原仮定者提示「外すのも選択肢」の個別適用):
+                             // "calibration" → "composite"。実較正版(🌘earthMoonRealKF1・🌙earthMoonReal)が別在するので、
+                             // 本サンプルの役割は「物語トイ+コア較正(PREM 0.325 等)」の複合。コア較正の記述・claims は事実として不変
   notClaim:["solar"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"earthmoon", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)/ 第129便: primary は 🌘(実単位・kF1 雛形)へ移譲
   descStruct:{
     summary:"月が地球のまわりを公転する二体デモ(コアは現実の観測値で較正)。質量比は現実どおり m月/m地球=0.0123。月は同期自転 — spin を実測公転角速度 ω=0.013908 に一致させてあり、スポーク(車輪の輻)の同じ面が常に地球を向き続ける(潮汐固定)。",
     observe:"コアは観測値: 地球 Mc/m=0.325(PREM系の全コア質量比 32.5%)・月 Mc/m=0.0168(月レーザー測距の 1.59〜1.77% の中央値)。コアv2 の mode=\"rigid\"(殻と剛体回転 Ω_c≡s)は中立既定 — 地球内核のマントルに対する差動回転は時期と解析法によって推定が変わり、固定した比率として確定していないため、本サンプルは剛体回転を中立既定とする(差動なし=単層と厳密等価)。円軌道速度は E6′ 込みの実測較正 v=1.063×ケプラー値(Plummer軟化込み)— 4周で半径ドリフト0.09%・同期維持。地球の自転(0.05)は E6′ 安定域に収めた較正値 — 現実の比(月の27.4倍)では引きずり風が重力(E4)を超えて軌道が崩れる(実測)。地球は pinned の展示系。κ=1×10⁻⁴(旧表記 Kt=10000)は物理対応ロック κ=G/c² の成立値。",
-    control:"地球をタップすると「コア内訳(v2)」に Ω_c/Ω_s と J_core・慣性が出る(剛体コアなので差動はゼロ)。現実の自転比で見たい場合は 🌕(自由二体・kFrame=0)を参照。"},
+    control:"地球をタップすると「コア内訳(v2)」に Ω_c/Ω_s と J_core・慣性が出る(剛体コアなので差動はゼロ)。現実の自転比で見たい場合は 🌕(自由二体・kFrame=0)を参照。実スケール較正(実G値+実c値・実距離/実質量で恒星月 27.32日を再現する版)は 🌙(実単位・kFrame=0)と 🌘(実単位・kFrame=1 — 近点回転 8.85年まで較正した雛形)を参照 — 本サンプルは較正版ではなく、コア比だけを観測値に合わせた物語トイである。"},
   en:{name:"Earth & Moon", descStruct:{
     summary:"A two-body demo with the Moon orbiting Earth (cores calibrated to observed values). The mass ratio is the real one: mMoon/mEarth=0.0123. The Moon rotates synchronously \u2014 its spin equals the measured orbital angular velocity \u03c9=0.013908, so the same face of its spoke wheel always points at Earth (tidal locking). ",
     observe:"Cores use observed values: Earth Mc/m=0.325 (PREM whole-core mass fraction) and Moon Mc/m=0.0168 (lunar-laser-ranging median of 1.59\u20131.77%). Core v2's mode=\"rigid\" (the core co-rotates with the shell, \u03a9_c\u2261s) is the neutral default \u2014 Earth's inner-core differential rotation relative to the mantle varies with the period and method of estimation and is not established as a fixed ratio, so this sample adopts rigid rotation as its neutral default (no differential = exactly equivalent to a single layer). The circular-orbit speed is calibrated with E6\u2032 included: v=1.063\u00d7 Keplerian (Plummer-softened) \u2014 radius drift 0.09% over 4 orbits with sync maintained. Earth's spin (0.05) is calibrated into the E6\u2032-stable regime \u2014 at the real ratio (27.4\u00d7 the Moon's) the drag wind exceeds gravity (E4) and the orbit collapses (measured). Earth is pinned (exhibit system). \u03ba=1\u00d710\u207b\u2074 (legacy notation Kt=10000) satisfies the GR-calibration lock \u03ba=G/c\u00b2.",
-    control:"Tap Earth to see the Core (v2) readout \u2014 \u03a9_c/\u03a9_s, J_core and the core moment of inertia (a rigid core has zero differential). For the real spin ratio, see \ud83c\udf15 (free two-body, kFrame=0)."}},
+    control:"Tap Earth to see the Core (v2) readout \u2014 \u03a9_c/\u03a9_s, J_core and the core moment of inertia (a rigid core has zero differential). For the real spin ratio, see \ud83c\udf15 (free two-body, kFrame=0). For the real-scale calibration (real G and real c, real distances and masses, reproducing the 27.32-day sidereal month) see \ud83c\udf19 (real units, kFrame=0) and \ud83c\udf18 (real units, kFrame=1 \u2014 the template calibrated all the way to the 8.85-year apsidal precession); this sample is not a calibration but a storytelling toy whose only observed-value fit is the core mass fraction."}},
   activeParams:["kFrame","G","D0"],
   // 第42便 42A(台帳4-78 A案): claims — 説明文の観測コア質量比(地球)と半径ドリフトを機械可読化。
   // コア比は QA behavior.earthMoon が Math.abs(em.mcr-0.325)<1e-6 で厳密照合するので窓は狭め。
@@ -4479,6 +4237,260 @@ const BUILTIN_PRESETS = [
      core:{mode:"rigid", massFrac:0.325, radius:27.04163456597992}},
     {type:"single", rMul:1.5, m:12.300037, x:177.812894809,y:0, vx:0,vy:2.342442349, spin:0.013173636, pinned:false,
      core:{mode:"rigid", massFrac:0.0168, radius:0.6818661148642011}}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+{ id:"earthMoonReal", name:"地球と月(実単位)— 恒星月 27.32日", emoji:"🌙", group:"天体の物語",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
+  familyId:"earthmoon", familyRole:"variant",   // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)(kFrame=0 対照)
+  scaleTier:"planetary",
+  scaleExp:{L:6, T:2, M:25},   // 第118便(原仮定者指示): サンプル別スケール指数 — 1単位=10⁶m/10²s/10²⁵kg。
+                               // この指数系でも実G=6.674・実c=3×10⁴(eC=L−T=4)— Kt=c₀²/G が値域内に入り
+                               // 第117便の「惑星ティアではロック域外」が解消される
+  sampleClass:"calibration",
+  fidelity:"real",   // 第120便(原仮定者指示): 現実較正タグはスケール換算込みで較正したサンプルのみ
+  orbitObs:{center:0, orbiter:1, ghostAmp:1e6},   // 第119便: 軌道観測(表示専用)
+  obsCard:[
+    {q:"恒星月", model:"27.3219 日(ハーネス実測)", obs:"27.3217 日"},
+    {q:"軌道長半径", model:"38.47万 km", obs:"38.47万 km"},
+    {q:"近地点相対速度", model:"1.082 km/s", obs:"1.082 km/s"}],
+  notClaim:["solar"],
+  failureFirst:{
+    fail:"kFrame=1 の自由二体は相互フレーム結合の正帰還で崩壊する(exp-obscal §F 用量実測 — 質量補正単独では安定化できない)。第117便版はスケール指数の制約から κ=G/c₀² が域外で物理対応ロック非成立・pinned 主星の系統 +0.6% を抱えていた。",
+    pass:"第118便でサンプル別スケール指数(1単位=10⁶m/10²s/10²⁵kg)を採用 — κ=G/c₀² が成立し、安定化手順(c)kFrame=0(PHYSICS §5)の自由二体で地球・月とも重心系を実運動する。恒星月は初期条件の構成値で 27.3218日(実測 27.3217日と 4×10⁻⁶)— ハーネス実測(§E: 27.317日・−0.02%)と整合。質量・半径・自転・距離・速度が全て観測値。"},
+  descStruct:{
+    summary:"実際の地球と月を実単位のまま置いた観測較正サンプル — ☄️ の構成をコピーした実単位化の第2号で、現在の位置付けは **kFrame=0 での比較対照**(雛形は kF1 の 🪨🌘💿 — 本サンプルの kF1 版は 🌘)。1単位=10⁶m/10²s/10²⁵kg(サンプル別スケール指数)で、地球質量 0.5972(=5.9724×10²⁴kg)・半径 6.38(=6.38×10⁶m)・自転 0.0073(23.93時間)、月質量 0.00735・半径 1.74・自転 0.00027(同期自転 27.32日)、近地点 363.6(=3.636×10⁸m)・相対速度 0.1082(=1.082km/s)が全て観測値。自由二体(重心系)を重力(E4)だけで回し、恒星月 27.3218日(実測 27.3217日)が再現される。物理対応条件 κ=G/c₀² 成立。倍精度状態(stateCarry)は雛形の規約どおり。",
+    observe:"月が27.32日(換算表示 — HUD の t 表示は日・年単位に自動変換)で一周し、地球も重心のまわりを小さく実運動する(重心距離 4.4=4400km — 地球半径の 69%)。スケール換算で距離 38.5万km・周期 27.3日・質量 5.97×10²⁴kg が実値と一致し、物理対応バッジが成立する。1PN・引きずりは実スケールでは完全に不可視(見えないのが正しい)。実半径では両天体とも小さいため、粒子表示倍率(既定10)が描画だけを拡大している(物理不変)。",
+    control:"kFrame は安定化手順(c)の 0(kFrame=1 の自由二体は崩壊する — §F。引きずりは本サンプルの主張外なので、自転スピンは表示・慣性のみに働く)。kFrame を 1 に戻すと崩壊過程が観察できる。粒子表示倍率を 1 にすると実比の点になる。"},
+  en:{name:"Earth & Moon (Real Units) — sidereal month 27.32 d",
+    obsCard:[
+      {q:"Sidereal month", model:"27.3219 d (harness)", obs:"27.3217 d"},
+      {q:"Semi-major axis", model:"384,700 km", obs:"384,748 km"},
+      {q:"Perigee relative speed", model:"1.082 km/s", obs:"1.082 km/s"}],
+    failureFirst:{
+      fail:"A free binary with kFrame=1 collapses via the mutual frame-coupling positive feedback (exp-obscal §F dose measurements — mass correction alone cannot stabilize it). The wave-117 version had κ=G/c₀² out of clamp range (no correspondence lock) and a +0.6% pinned-primary systematic, both from the tier's fixed exponents.",
+      pass:"Wave 118 adopts per-sample scale exponents (1 unit = 10⁶ m / 10² s / 10²⁵ kg) — κ=G/c₀² now holds, and with stabilization route (c), kFrame=0 (PHYSICS §5), Earth and Moon both move freely about the barycenter. The sidereal month is 27.3218 d by construction (4×10⁻⁶ from the observed 27.3217 d), consistent with the harness measurement (§E: 27.317 d, −0.02%). Masses, radii, spins, distances and velocities are all observed values."},
+    descStruct:{
+    summary:"The real Earth and Moon in real units — the second sample built on ☄️'s construction, now positioned as the kFrame=0 CONTRAST (the template is the kF1 trio 🪨🌘💿; this sample's kF1 version is 🌘). With per-sample scale exponents (1 unit = 10⁶ m / 10² s / 10²⁵ kg), the Earth mass 0.5972 (=5.9724×10²⁴ kg), radius 6.38, spin 0.0073 (23.93 h rotation), the Moon's mass 0.00735, radius 1.74, spin 0.00027 (synchronous, 27.32 d), perigee 363.6 (=3.636×10⁸ m) and relative speed 0.1082 (=1.082 km/s) are all observed values. A free binary about the barycenter, driven by gravity alone (E4), reproduces the 27.3218-day sidereal month (observed: 27.3217 d). κ=G/c₀² holds. Double-precision state (stateCarry) follows the template. ",
+    observe:"The Moon orbits in 27.32 days (the HUD time display auto-converts to days/years) and the Earth genuinely moves about the barycenter (offset 4.4 = 4,400 km — 69% of the Earth radius). The scale conversion matches distance 385,000 km, period 27.3 d and mass 5.97×10²⁴ kg, and the correspondence badge is satisfied. 1PN and dragging are completely invisible at real scale (invisible IS correct). At real radii both bodies are small, so the display magnification (default 10) enlarges rendering only. ",
+    control:"kFrame is 0, stabilization route (c) (a free binary with kFrame=1 collapses — §F; dragging is outside this sample's claims, so the real spins act on display and inertia only). Set kFrame back to 1 to watch the collapse. Set the display magnification to 1 for true proportions."}},
+  abBody:{ label:{ja:"kFrame=1・D₀=0.006(近点回転が現れる — 🌘対照)", en:"kFrame=1, D₀=0.006 (apsidal precession appears)"},
+    physicsPatch:{kFrame:1, D0:0.006, qLock:true} },   // 第121便: 🌘のワンタップ対照を🌙へ(第123便: q は自動算出で🌘と同一較正)
+  activeParams:["dispMag","lambdaPN","cLight"],
+  camera:{scale:450}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:100, dispMag:10, stateCarry:"double"},
+  bodies:[   // 第118便: 全て実値・重心系 — 地球 5.9724e24kg/6.38e6m/自転23.93h、月 7.346e22kg/1.74e6m/
+             // 同期自転、a=3.84748e8m(軌道長半径)・e=0.0549・近地点、vis-viva の相対速度を質量比で配分
+    {type:"single", m:0.59724, radius:6.38, x:-4.41822,y:0, vx:0,vy:-0.0013146, spin:0.0072921, pinned:false, pnSource:true},
+    {type:"single", m:0.007346, radius:1.74, x:359.2071,y:0, vx:0,vy:0.1068788, spin:0.00026617, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+{ id:"earthMoonRealKF1", name:"地球と月(実単位・kFrame=1)— 近点回転 8.85年の較正再現", emoji:"🌘", group:"天体の物語",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
+  familyId:"earthmoon", familyRole:"primary",   // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)(天体の現実較正の雛形)
+  scaleTier:"planetary",
+  scaleExp:{L:6, T:2, M:25},   // 🌙 と同一の指数系(1単位=10⁶m/10²s/10²⁵kg)
+  sampleClass:"calibration",
+  fidelity:"real",   // 第120便: 恒星月+近点回転の2観測量をスケール換算込みで較正
+  notClaim:["solar"],
+  // 第120便(原仮定者指示「kF1のまま実測に近付ける補正を調査する。重大な発見を予想している」):
+  // 系統実測(tests/exp-kf1b.mjs)の結論 —
+  //  ①kF1 の引きずり歳差は+2.7×10⁻³ rad/公転(D₀=0.1)で、スピン0でも不変=**運動引きずり
+  //    (相互速度のフレーム結合)起源**。λPN にも依存しない。
+  //  ②大きさは χ=w/(D₀+w) に比例(D₀=1 で 1/10.7)— **D₀ が歳差の較正ノブになる**。
+  //  ③D₀=0.006+初速 −0.32% の共同フィットで、**恒星月 27.32日(+0.04%)と実際の月の
+  //    近点回転(約8.85年で一周・0.0531 rad/公転)を同時に較正再現**(全窓比 0.99 —
+  //    窓・平均法により ±15% 級のゆらぎ)。純二体では絶対に出ない観測量が出る。
+  //  ④正直な明記: 実際の月の近点回転の主因は太陽摂動(第三体)であり、DFM は運動引きずり
+  //    という**別機構**で同じ回転を較正一致させている(機構の同定ではなく較正一致)。
+  //    温度・スピン経路は不関与(exp-kf1)・周期との結合は f(初速)で分離できる。
+  failureFirst:{
+    fail:"純二体(🌙 kFrame=0)では月の近点回転(実測 8.85年で一周)は原理的に出ない(閉じた楕円)。第119便の 🌘(D₀=0.1)でも +2.7×10⁻³ rad/公転と実測の 1/20 で、周期も +0.05% ずれていた。",
+    pass:"引きずり歳差が χ=w/(D₀+w) に比例することを用量実測で確定し、D₀=0.006+初速−0.32% の共同フィットで恒星月 27.32日(+0.04%)と近点回転 8.85年を同時較正(tests/exp-kf1b.mjs)。第122便: q=5(🪨 と共通の補正)で地球スピン項の混入が除かれ、Δϖ比が 0.988→0.999 へ純化 — **共通補正 (D₀=0.006, q=5) が 🌘🪨 を同時に満たす**(exp-kf1c)。実際の主因は太陽摂動 — DFM は運動引きずりという別機構での較正一致(正直な明記)。",},
+  obsCard:[
+    {q:"恒星月(kFrame=1・較正後)", model:"27.331 日(+0.03%)", obs:"27.3217 日"},
+    {q:"近点回転の周期", model:"≈8.86 年(Δϖ比 0.9991 — qLock q*=8.25)", obs:"8.85 年"},
+    {q:"引きずり歳差の由来", model:"運動引きずり(スピン非依存・D₀∝1/χ)", obs:"実際の主因は太陽摂動(機構は別 — 較正一致)"},
+    {q:"補正の共通性", model:"D₀=0.006 は 🪨💿 と共通・q は自動算出(qLock q*=8.25 — exp-kf1d)", obs:"—"}],
+  orbitObs:{center:0, orbiter:1, ghostAmp:20},   // 実歳差 3°/公転 — ×20 で数公転で一周が見える
+  descStruct:{
+    summary:"🌙(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、共通補正 D₀=0.006+qLock(q*=8.25 自動算出)に較正した版 — 重力(E4)+運動引きずりの二体だけで、恒星月 27.32日と**月の近点回転(実測 約8.85年で一周)**の2観測量を同時に較正再現する(exp-kf1b/kf1c 実測)。純二体のケプラー軌道は閉じた楕円で近点回転を持たない — kFrame=1 の運動引きずりが χ=w/(D₀+w) に比例する順行歳差を作り、D₀ がその較正ノブになる(第120便の一次発見)。測地線 E12・倍精度 stateCarry は雛形の規約どおり。",
+    observe:"軌道の向き(近点方向)がゆっくり回る — 実際の月と同じ約8.85年(≈118公転)で一周する。歳差積算 HUD の換算レートと、ゴースト楕円(点線=初期・橙=歳差×20 増幅)で回転が数公転で見える。**HUD の積算は周回内で大きく振動する(局所では逆行にも振れる)— 1公転単位で読むと正味 +0.053 rad/公転(Δϖ比 0.999)**。恒星月は 27.33日(+0.03%)。正直な明記: 実際の近点回転の主因は太陽摂動(第三体)— 本サンプルは運動引きずりという別機構での較正一致であり、機構の同定を主張しない(観測結果カード)。",
+    control:"本サンプルは**天体の現実較正の雛形**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock。今後の観測較正サンプルは本構成をコピーして作る — PHYSICS §5)。ワンタップ対照A/B: B側 D₀=0.1 に上げると引きずりが 1/16 になり回転がほぼ止まる(χ∝1/D₀ の用量が見える)。kFrame を 0 にすると純ケプラー(閉じた楕円)へ。スピンを 0 にしても歳差は変わらない(運動起源 — exp-kf1b §A。q は自動算出〔qLock〕で、地球スピン項の混入を除く役)。"},
+  en:{name:"Earth & Moon (Real Units, kFrame=1) — apsidal precession 8.85 yr, calibrated",
+    failureFirst:{
+      fail:"A pure two-body system (🌙, kFrame=0) can never show the Moon's apsidal precession (observed: one cycle in 8.85 years) — the ellipse stays closed. The wave-119 🌘 (D₀=0.1) gave +2.7×10⁻³ rad/orbit, 1/20 of the real rate, with a +0.05% period offset.",
+      pass:"Dose measurements established that the drag precession scales as χ=w/(D₀+w); a joint fit of D₀=0.006 with a −0.32% initial-speed correction calibrates BOTH the sidereal month 27.32 d (+0.04%) and the 8.85-year apsidal cycle at once (tests/exp-kf1b.mjs). Wave 122: q=5 (the correction shared with 🪨) removes the Earth-spin contamination and purifies the Δϖ ratio from 0.988 to 0.999 — one pair (D₀=0.006, q=5) satisfies BOTH 🌘 and 🪨 (exp-kf1c). The real cause is solar perturbation — DFM matches it via a different mechanism, motion dragging (honest note)."},
+    obsCard:[
+      {q:"Sidereal month (kFrame=1, calibrated)", model:"27.331 d (+0.03%)", obs:"27.3217 d"},
+      {q:"Apsidal precession period", model:"≈8.86 yr (Δϖ ratio 0.9991 — qLock q*=8.25)", obs:"8.85 yr"},
+      {q:"Origin of the drag precession", model:"motion dragging (spin-independent, ∝χ(D₀))", obs:"the real cause is solar perturbation (different mechanism — a calibrated match)"},
+      {q:"Universality of the correction", model:"D₀=0.006 shared with 🪨💿; q auto-derived from the same rule (qLock q*=8.25 — exp-kf1d)", obs:"—"}],
+    descStruct:{
+    summary:"The same real values as 🌙 (kFrame=0) with frame dragging (A8/E6′) enabled and the joint correction D₀=0.006 plus qLock (auto-derived q*=8.25) applied — gravity (E4) plus motion dragging alone reproduce TWO observables: the 27.32-day sidereal month and the Moon's apsidal precession (observed: one cycle in ≈8.85 years) (exp-kf1b/kf1c). A pure two-body Kepler orbit is a closed ellipse with no apsidal rotation — the kFrame=1 motion drag adds a prograde precession scaling as χ=w/(D₀+w), making D₀ its calibration knob (wave-120 primary finding). Geodesic E12 and double-precision stateCarry follow the template. This is one of the three REAL-CALIBRATION TEMPLATES (🪨🌘💿 — real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock; future observation-calibration samples copy this construction — PHYSICS §5). ",
+    observe:"The orbit's apse line slowly rotates — one cycle in about 8.85 years (≈118 orbits), as the real Moon does. The precession HUD rate and the ghost ellipses (dotted = initial, amber = precession ×20) make the rotation visible within a few orbits. The HUD accumulator oscillates strongly within each orbit (locally even retrograde) — read it per full orbit: net +0.053 rad/orbit (Δϖ ratio 0.999). The sidereal month is 27.33 d (+0.03%). Honest note: the real cause of the lunar apsidal precession is solar perturbation (a third body) — this sample matches it via a different mechanism, motion dragging, and claims no mechanism identification (see the observation card). ",
+    control:"This is one of the three REAL-CALIBRATION TEMPLATES (🪨🌘💿 — real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock; future observation-calibration samples copy this construction — PHYSICS §5). One-tap A/B: raising D₀ to 0.1 on side B cuts the drag by 1/16 and the rotation nearly stops (the χ∝1/D₀ dose made visible). Setting kFrame to 0 returns to pure Kepler (closed ellipse). Zeroing the spins changes nothing (motion origin — exp-kf1b §A)."}},
+  abBody:{ label:{ja:"D₀=0.1(引きずり弱 — 回転が止まる対照)", en:"D₀=0.1 (weak drag — rotation stops)"},
+    physicsPatch:{D0:0.1} },
+  qLock:true,   // 第123便: q 自動算出(q*=8.25)
+  activeParams:["D0","kFrame","dispMag"],
+  camera:{scale:450}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.006, kFrame:1, q:8.25, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:100, dispMag:10, stateCarry:"double"},
+  bodies:[   // 第120便: 初速 −0.32%(f=0.9968 — D₀=0.006 の引きずり下で恒星月を 27.32日へ戻す共同フィット)
+             // 第122便: q共通補正 → 第123便: qLock 自動算出(q*=8.25 — Δϖ比 0.9991 のまま)
+    {type:"single", m:0.59724, radius:6.38, x:-4.41822,y:0, vx:0,vy:-0.0013104, spin:0.0072921, pinned:false, pnSource:true},
+    {type:"single", m:0.007346, radius:1.74, x:359.2071,y:0, vx:0,vy:0.1065368, spin:0.00026617, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+{ id:"mercury", name:"水星の近日点前進 — 測地線1PN", emoji:"☿", group:"天体の物語",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
+  familyId:"mercury", familyRole:"variant",   // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)
+  scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
+  sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
+  notClaim:["cal"],   // 第88便 EXT-04(宣言専用 — 表示のみ)
+  // 第88便 EXT-09: Failure First(宣言専用 — 表示のみ)。base の失敗は論文1既報の負の結果
+  failureFirst:{
+    fail:"Base DFM(1PN補正なし・λ_PN=0)は水星の近日点前進を再現しない — 楕円軌道は閉じたまま(重要な負の結果)。",
+    pass:"測地線オプション E12(λ_PN=1・α=1.5)で 1PN 前進を回復 — 同式の実値換算 42.98″/世紀(V18〜V20 で機械検証)。"},
+  descStruct:{
+    summary:"楕円軌道の惑星が、周るたびに少しずつ向きをずらしながら花びら模様を描くサンプル(近日点の前進)。時計を遅らせるのと同じ量ψ=W·κが軌道の形も決める測地線モード(E12・A7′/E7Rの作用化)による。",
+    observe:"pnAlpha=0.5(時間率のみ)では前進が1/3に減る — 実際の水星で42.98″/世紀(全量)と14.33″/世紀(1/3)に対応する。※画面の初期値は、歳差が数周で見える様に増幅した可視化用の誇張アナログで、物理対応条件 κ=G/cLight² は満たさない(実値換算は同じ式の解析検証による。PHYSICS §5 物理対応条件)。",
+    control:"λ_PN(lambdaPN)を0にするとニュートンに戻り楕円は閉じる。"},
+  en:{name:"Mercury's Perihelion Advance — Geodesic 1PN",
+    // 第88便 EXT-09: Failure First(en)
+    failureFirst:{
+      fail:"Base DFM (no 1PN correction, λ_PN=0) does not reproduce Mercury's perihelion advance — the ellipse stays closed (an important negative result).",
+      pass:"The geodesic option E12 (λ_PN=1, α=1.5) recovers the 1PN advance — 42.98″/century in real-value conversion of the same formula (machine-checked by V18–V20)."},
+    descStruct:{
+    summary:"A planet on an elliptical orbit traces a slowly turning rosette, its orbit shifting a little further round each lap (perihelion advance). This happens in geodesic mode (E12), where the same quantity ψ=W·κ that slows clocks also shapes the orbit (the action form of A7′/E7R). ",
+    observe:"With pnAlpha=0.5 (time rate only) the advance drops to 1/3 — corresponding to 42.98″/century (full) vs 14.33″/century (1/3) for the real Mercury. Note: the on-screen initial values are an exaggerated visualization analog — amplified so the precession shows within a few orbits — and do not satisfy the physical-correspondence condition κ=G/cLight² (the real-value conversion rests on analytic checks of the same formula; see PHYSICS §5). ",
+    control:"Set λ_PN (lambdaPN) to 0 to recover Newton: the ellipse closes."}},
+  activeParams:["lambdaPN","pnAlpha","cLight"],   // v1.22: 主役パラメータ(第9次裁定 4.6)
+  camera:{scale:220}, world:{boundary:"none",size:0},
+  physics:{G:1.44, D0:0.05, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+    cLight:30, contactK:57.6, contactCap:11.52, bM:1.44, etaRad:0, pRad:4, gravityX:0, gravityY:0,
+    geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:6.66667},
+  bodies:[
+    {type:"single", rMul:1.2, m:150, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", rMul:1.2, m:0.5, x:47.66,y:0, vx:0,vy:2.3376, spin:0, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+// 第116便(原仮定者裁定「プリセット同梱: 進める。今後のサンプルの雛形とする」): 観測較正
+// プロファイルの内蔵第1号=実不変量の水星。物理構成(実G値・実c値・Kt=c₀²/G・pnSource・
+// stateCarry:"double"・q=3・D0=0.1)が今後の観測較正サンプルの雛形(PHYSICS §5)
+{ id:"mercuryReal", name:"水星(実単位)— 43″/世紀", emoji:"☄️", group:"天体の物語",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
+  familyId:"mercury", familyRole:"variant",   // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)(kFrame=0 対照)
+  scaleTier:"planetary",   // 第120便(原仮定者指示): スケールタグは距離スケール指数(L=8)対応の「惑星」
+  scaleExp:{L:8, T:4, M:27},   // 第118便(原仮定者指示): サンプル別スケール指数 — 1単位=10⁸m/10⁴s/10²⁷kg。
+                               // この指数系では実G=6.674×10⁻¹¹→6.674・実c=3×10⁸→3×10⁴(eC=L−T=4)
+  sampleClass:"calibration",
+  fidelity:"real",   // 第120便(原仮定者指示): 現実較正タグはスケール換算込みで較正したサンプルのみ
+  // 第119便(原仮定者裁定「可視化提案: 全て進める」): 軌道観測(歳差積算+ゴースト軌道)+観測結果カード
+  orbitObs:{center:0, orbiter:1, ghostAmp:1e5},
+  // 第120便: ①ε 2→0.05 — ソフトニング逆行歳差(−1.2e-4 rad/公転 ≈24.7″/公転=1PN の約240倍
+  //   〔第129便訂正: 旧記載「24倍」は 24.7″/公転との混同による誤記。5.03e-7 rad/公転 比〕)が歳差積算 HUD を
+  // 支配していた問題の解消(実機確認の 1.7e5″/世紀 の正体)。残る HUD 生レートは積分器の数値床
+  // (−1e2″/世紀級)込み — 43″の較正実測は §D(λ0 差し引き法)=観測結果カードの値が正。
+  // ②ワンタップ誇張対照: B側 c₀=30(+physLock 追随 Kt=c₀²/G)で 1PN が10⁶倍 —
+  // 歳差が数公転で肉眼視できる(Δϖ≈14°/公転)。原仮定者指示「歳差が数周で見える様に増幅する」
+  abBody:{ label:{ja:"c₀=30(歳差が見える誇張対照)", en:"c₀=30 (visible-precession contrast)"},
+    physicsPatch:{cLight:30, kappaT:0.007415555555583735} },
+  obsCard:[
+    {q:"公転周期", model:"87.974 日(実初期条件の構成値)", obs:"87.969 日"},
+    {q:"近日点前進", model:"43.0″/世紀(exp-obscal §D・解析比1.002)", obs:"42.98″/世紀"},
+    {q:"近日点速度", model:"58.98 km/s", obs:"58.98 km/s"}],
+  notClaim:["solar"],
+  failureFirst:{
+    fail:"c₀=30 の誇張アナログでは、実水星の不変量 GM/(c²a)=2.55×10⁻⁸ は質量値域外で、Float32 状態では 1PN が丸め落ちして直接再現は域外だった(☿の但し書き=第112便までの負の結果)。",
+    pass:"実G値+実c値+pnSource+stateCarry(第111〜114便)により、ハーネス実測 Δϖ=5.029×10⁻⁷ rad/公転(解析値比 1.002)= 43.0″/世紀 — GR 実測値 42.98″/世紀と 0.2% 以内(tests/exp-obscal.mjs §D・600公転)。第118便で位置・速度・質量・半径・自転まで全て実値化(公転周期 87.97日=実測と一致)。"},
+  descStruct:{
+    summary:"実際の太陽と水星を実単位のまま置いた観測較正サンプル — **kFrame=0 での比較対照**(実単位化の内蔵第1号。第129便で位置付けを更新: 現在の「天体の現実較正の雛形」は kFrame=1+共通補正を備えた 🪨🌘💿 の3本で、本サンプルはその kF0 側の対照にあたる)。1単位=10⁸m/10⁴s/10²⁷kg(サンプル別スケール指数)で、太陽質量 1988.5(=1.9885×10³⁰kg)・半径 6.95(=6.95×10⁸m)・自転 0.029(恒星自転 25.05日)、水星質量 3.3×10⁻⁴・半径 0.0244・自転 0.0124(58.65日)、近日点 460(=4.60×10¹⁰m)・近日点速度 5.898(=58.98km/s)が全て観測値。重力(E4)だけで公転周期 87.97日が再現され、歳差は☿と同じ測地線モード(E12 — A7′/E7R の作用化)の1PNによる。物理対応条件 κ=G/c₀² 成立+1PN源宣言(pnSource)+倍精度状態(stateCarry)。",
+    observe:"近日点前進は 5×10⁻⁷ rad/公転(実測 43.0″/世紀 — tests/exp-obscal.mjs §D)で、画面では見えない。純粋なケプラー楕円(e=0.206 のつぶれた軌道)に見えるのが正しい挙動 — ☿(誇張アナログ)との対比で「実スケールの 1PN はこれほど小さい」を体感する。スケール換算で G・c₀・距離・周期・質量が実定数・実観測値に一致すること、物理対応バッジの成立を確認できる。実半径では太陽も点に近いため、粒子表示倍率(既定10)が描画だけを拡大している(物理不変)。",
+    control:"実単位化の構成(実定数 G=6.674・c₀=3×10⁴・κ=G/c₀²・サンプル別スケール指数・実半径+粒子表示倍率・実自転スピン・pnSource:true・stateCarry:\"double\"・q=3・D0=0.1・kFrame=0〔A8 引きずりは c² 抑制のない誇張機構のため実単位では非主張 — 第118便〕・massFloor=1e-6〔実質量が mEff 床 0.01 で歪まないため〕)は本サンプルで確立された(内蔵第1号)。今後の観測較正サンプルは、この構成に kFrame=1+共通補正(D₀=0.006・qLock)を加えた**雛形 🪨🌘💿**をコピーして作る(PHYSICS §5)。λ_PN を 0 にしても画面では違いが見えない — それが実スケールの弱場。"},
+  en:{name:"Mercury (Real Units) — 43″/century",
+    obsCard:[
+      {q:"Orbital period", model:"87.974 d (from real initial conditions)", obs:"87.969 d"},
+      {q:"Perihelion advance", model:"43.0″/century (exp-obscal §D, ratio 1.002)", obs:"42.98″/century"},
+      {q:"Perihelion speed", model:"58.98 km/s", obs:"58.98 km/s"}],
+    failureFirst:{
+      fail:"With the c₀=30 exaggerated analog, Mercury's real invariant GM/(c²a)=2.55×10⁻⁸ fell outside the mass range, and Float32 state rounded the 1PN away — direct reproduction was out of scope (the caveat on ☿).",
+      pass:"With real-value G and c₀, pnSource and stateCarry, the harness measures Δϖ=5.029×10⁻⁷ rad/orbit (ratio 1.002 to the analytic value) = 43.0″/century — within 0.2% of the observed 42.98″/century (tests/exp-obscal.mjs §D, 600 orbits). Wave 118 made positions, velocities, masses, radii and spins all real-valued (orbital period 87.97 d = observed)."},
+    descStruct:{
+    summary:"The real Sun and Mercury in real units — the kFrame=0 CONTRAST (the first built-in real-unit sample; repositioned in wave 129: the current \"real-calibration template\" is the kFrame=1 trio 🪨🌘💿, and this sample is their kF0 counterpart). With per-sample scale exponents (1 unit = 10⁸ m / 10⁴ s / 10²⁷ kg), the solar mass 1988.5 (=1.9885×10³⁰ kg), radius 6.95, spin 0.029 (25.05-day rotation), Mercury's mass 3.3×10⁻⁴, radius 0.0244, spin 0.0124 (58.65 d), perihelion 460 (=4.60×10¹⁰ m) and perihelion speed 5.898 (=58.98 km/s) are all observed values. Gravity alone (E4) reproduces the 87.97-day orbit; the precession comes from the same geodesic mode (E12 — the actionization of A7′/E7R) 1PN as ☿. κ=G/c₀² holds, with pnSource and double-precision state (stateCarry). ",
+    observe:"The perihelion advance is 5×10⁻⁷ rad/orbit (measured 43.0″/century — tests/exp-obscal.mjs §D) — invisible on screen. A pure Kepler ellipse (e=0.206) IS the correct behaviour; contrast with ☿ to feel how small real-scale 1PN is. The scale conversion matches G, c₀, distances, period and masses to the real values, and the correspondence badge is satisfied. At real radii even the Sun is nearly a dot, so the display magnification (default 10) enlarges rendering only (physics untouched). ",
+    control:"This sample established the real-unit construction (real constants G=6.674, c₀=3×10⁴, κ=G/c₀², per-sample scale exponents, real radii + display magnification, real spins, pnSource:true, stateCarry:\"double\", q=3, D0=0.1, kFrame=0 — A8 dragging is an exaggerated mechanism without c² suppression, so real-unit samples make no dragging claim (wave 118) — and massFloor=1e-6 so real masses are not distorted by the 0.01 mEff floor). Future observation-calibration samples copy the TEMPLATE 🪨🌘💿, which adds kFrame=1 plus the joint correction (D₀=0.006, qLock) on top of it (PHYSICS §5). Setting λ_PN to 0 changes nothing visible — that is the real weak field."}},
+  activeParams:["dispMag","lambdaPN","cLight"],
+  camera:{scale:800}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:100, dispMag:10, stateCarry:"double"},
+  bodies:[   // 第118便: 全て実値 — 太陽 1.9885e30kg/6.95e8m/自転25.05日、水星 3.3011e23kg/2.44e6m/
+             // 自転58.646日・近日点 4.60e10m・近日点速度 58.98km/s(vis-viva、a=5.7909e10m・e=0.20563)
+    {type:"single", m:1988.5, radius:6.95, x:0,y:0, vx:0,vy:0, spin:0.029031, pinned:true, pnSource:true},
+    {type:"single", m:0.00033011, radius:0.0244, x:460.012,y:0, vx:0,vy:5.897643, spin:0.0124, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+{ id:"mercuryRealKF1", name:"水星(実単位・kFrame=1)— 共通補正で 43″/世紀成立", emoji:"🪨", group:"天体の物語",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
+  familyId:"mercury", familyRole:"primary",   // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)(天体の現実較正の雛形)
+  scaleTier:"planetary",
+  scaleExp:{L:8, T:4, M:27},   // ☄️ と同一の指数系
+  sampleClass:"calibration",
+  notClaim:["solar"],
+  // 第120便(原仮定者指示「mercuryReal の kF1版を用意する」): ☄️と同一実値で kFrame=1。
+  // 実測(tests/exp-kf1b.mjs §B): 太陽の実自転(25.05日)によるスピン引きずりが
+  // **逆行 −7.3×10⁻⁵ rad/公転(−1.5万″/世紀)**の歳差を加える(スピン0なら kF0 と一致 —
+  // スピン起源を分解確定)。観測 43″/世紀 と3桁不一致 = kF1×実スピンは較正外(fidelity なし)。
+  // A8 引きずりは c² 抑制を持たない誇張スケールの機構であることの定量実証サンプル
+  failureFirst:{
+    fail:"kFrame=1 のまま太陽の実自転(25.05日)を入れると、D₀=0.1 ではスピン引きずりが逆行 −7.3×10⁻⁵ rad/公転(−1.5万″/世紀)の歳差を加え、観測の +43″/世紀 と3桁不一致になる(exp-kf1b §B — スピン0 なら kF0 と厳密一致=スピン起源)。",
+    pass:"第122便の共通補正(q でスピン項を幾何減衰)→ 第123便: **q は計算で求まる(qLock)** — q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R)=6.16 の自動算出で引きずりは −5.6×10⁻¹⁰ rad/公転(LT級・1PN の 1/900)まで落ち、kF1 のまま 43″/世紀が成立。D₀ は 🌘💿 と共通の 0.006・q は同一式 — 較正ノブが1つも残らない(exp-kf1c/kf1d)。"},
+  obsCard:[
+    {q:"引きずり歳差(qLock 自動算出 q*=6.16)", model:"−5.6×10⁻¹⁰ rad/公転(LT級)= 43″/世紀成立", obs:"近日点前進 +43″/世紀"},
+    {q:"q=3 対照(第120便版)", model:"−7.3×10⁻⁵ rad/公転(−1.5万″/世紀・逆行=3桁不一致)", obs:"—(exp-kf1b §B・スピン0 なら kF0 と厳密一致)"},
+    {q:"共通性", model:"D₀=0.006 は 🌘💿 と共通・q は同一式の自動算出(exp-kf1c/kf1d)", obs:"—(被引きずり側スピン×10⁴でも不変)"}],
+  orbitObs:{center:0, orbiter:1, ghostAmp:1e3},   // −7.3e-5 rad/公転 ×10³ ≈ −4°/公転で回転が見える
+  descStruct:{
+    summary:"☄️(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、**共通補正 D₀=0.006+qLock(q*=6.16 自動算出)で kF1 のまま 43″/世紀を成立**させた版(第122便→第123便 qLock 化)。逆行歳差の正体は pinned 太陽の実自転(25.05日)が作る**スピン項 ω(d)=s·(R/(R+d))^q** — q=3 では −7.3×10⁻⁵ rad/公転(−1.5万″/世紀)と3桁不一致だったが、qLock の q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R)=6.16 の幾何減衰で −5.6×10⁻¹⁰(LT級・1PN の約1/900)まで消え、1PN の +43″/世紀だけが残る。D₀=0.006 は 🌘💿 と共通・q は同一式の自動算出 — 「同じ値」ではなく**同じ算出則**が全系を満たす(exp-kf1c/kf1d)。重力は E4・測地線は E12。**天体の現実較正の雛形**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock。今後の観測較正サンプルは本構成をコピーして作る — PHYSICS §5)。",
+    observe:"歳差積算 HUD が ☄️ と同水準(+43″/世紀級)を示す — kF1 でも較正が成り立つ。q を 3 へ下げると大きな逆行レートに変わり、ゴースト楕円(×10³)が逆回りする(スピン項の復活が一目で見える)。スピンを 0 にすると q=3 でも kF0 と厳密一致(スピン起源の分解)。",
+    control:"本サンプルは**天体の現実較正の雛形**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock。今後の観測較正サンプルは本構成をコピーして作る — PHYSICS §5)。q は自動算出(qLock — スライダーはグレーアウト)。太陽の spin を 0 にすると q=3 でも引きずりが消える(スピン起源)。kFrame を 0 にすると ☄️ と同一。被引きずり側(水星)のスピンは×10⁴でも歳差に無関与(自分自身は u から除外 — exp-kf1c §B)。"},
+  en:{name:"Mercury (Real Units, kFrame=1) — 43″/century with the joint correction",
+    failureFirst:{
+      fail:"With kFrame=1, the Sun's real rotation (25.05 d) and q=3, spin dragging adds a RETROGRADE −7.3×10⁻⁵ rad/orbit (−15,000″/century) precession — three orders of magnitude off the observed +43″/century (exp-kf1b §B; with spin 0 it matches kF0 exactly, isolating the spin origin).",
+      pass:"Wave-122 joint correction → wave-123 qLock: the retrograde precession comes from the SPIN term ω(d)=s·(R/(R+d))^q, so it is suppressed geometrically by q rather than by D₀ — with the auto-derived q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R)=6.16 the drag falls to −5.6×10⁻¹⁰ rad/orbit (LT-class, ~1/900 of 1PN) and 43″/century holds with kF1 on. Moreover D₀ returns to 0.006, SHARED with 🌘💿 — not one shared value of q but one shared derivation rule satisfies every system (exp-kf1c/kf1d)."},
+    obsCard:[
+      {q:"Drag precession (qLock auto-derived q*=6.16)", model:"−5.6×10⁻¹⁰ rad/orbit (LT-class) — 43″/century holds", obs:"perihelion advance +43″/century"},
+      {q:"q=3 contrast (wave-120 version)", model:"−7.3×10⁻⁵ rad/orbit (−15,000″/century, retrograde — 3 orders off)", obs:"— (exp-kf1b §B; spin 0 matches kF0 exactly)"},
+      {q:"Universality", model:"D₀=0.006 shared with 🌘💿; q auto-derived from the same rule (exp-kf1c/kf1d)", obs:"— (unchanged even with the dragged side's spin ×10⁴)"}],
+    descStruct:{
+    summary:"The same real values as ☄️ (kFrame=0) with frame dragging (A8/E6′) enabled and the joint correction D₀=0.006 plus qLock (auto-derived q*=6.16) applied — 43″/century now holds WITH kF1 on (wave 122 → qLock in wave 123). The retrograde precession was the SPIN term ω(d)=s·(R/(R+d))^q of the pinned Sun's real rotation (25.05 d): at q=3 it gave −7.3×10⁻⁵ rad/orbit (3 orders off), while qLock's q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R)=6.16 geometric falloff cuts it to −5.6×10⁻¹⁰ (LT-class, about 1/900 of 1PN), leaving only the 1PN +43″/century. D₀=0.006 is shared with 🌘💿 and q is auto-derived from the same rule — not the same VALUE but the same derivation satisfies every system (exp-kf1c/kf1d). Gravity is E4, geodesics E12. This is one of the three REAL-CALIBRATION TEMPLATES (🪨🌘💿 — real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock; future observation-calibration samples copy this construction — PHYSICS §5). ",
+    observe:"The precession HUD sits at the ☄️ level (+43″/century class) — the calibration survives kF1. Lower q to 3 and it flips to a large retrograde rate with the ghost ellipse (×10³) rotating backwards (the spin term coming back, visibly). Zero the spin and even q=3 matches kF0 exactly (spin-origin decomposition). ",
+    control:"This is one of the three REAL-CALIBRATION TEMPLATES (🪨🌘💿 — real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock; future observation-calibration samples copy this construction — PHYSICS §5). q is the star knob: 5 (joint correction) ⇄ 3 (retrograde drag, −15,000″/century). Zero the Sun's spin and the drag vanishes even at q=3 (spin origin). Set kFrame to 0 to recover ☄️ exactly. The dragged side's (Mercury's) own spin is irrelevant even at ×10⁴ (self is excluded from u — exp-kf1c §B)."}},
+  // 第122便(原仮定者指示「🌘と🪨を共に満たす補正を検証する。q の算出などを試す。
+  // 引きずられる側のスピンにも着目する」): 検証結論(tests/exp-kf1c.mjs)—
+  //  ①逆行歳差はスピン項 ω(d)=s·(R/(R+d))^q 起源 → q で幾何減衰できる(D₀ 不要)。
+  //    抑制率 (R/(R+a))^(q−3)・算出 q*=3+ln(|A₃|/ε)/ln((R+a)/R)=4.59 → 採用 q=5 で
+  //    引きずり −5.3e-8 rad/公転(1PN の 1/10)= kF1 のまま 43″/世紀成立。
+  //  ②D₀ は 🌘 と共通の 0.006 に復帰 — **共通補正 (D₀=0.006, q=5) が両系を同時に満たす**
+  //    (第121便の D₀=1e4・7桁差の非普遍性は解消。q は水星の幾何 R/(R+a) から算出した値だが、
+  //     🌘 ではスピン項が元々無視できるため同じ q=5 が較正を壊さない — むしろ Δϖ比 0.988→0.999 に純化)。
+  //  ③被引きずり側(水星)のスピンは×10⁴でも歳差に無関与(自分自身は u から除外される —
+  //    原仮定者ヒントへの正直な否定結果。exp-kf1c §B)
+  abBody:{ label:{ja:"c₀=30(歳差が見える誇張対照)", en:"c₀=30 (visible-precession contrast)"},
+    physicsPatch:{cLight:30, kappaT:0.007415555555583735} },
+  qLock:true,   // 第123便: q は自動算出(LT整合則 q*=6.16)— 編集対象から外す
+  activeParams:["D0","kFrame","dispMag"],
+  camera:{scale:800}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.006, kFrame:1, q:6.16, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:100, dispMag:10, stateCarry:"double"},
+  bodies:[
+    {type:"single", m:1988.5, radius:6.95, x:0,y:0, vx:0,vy:0, spin:0.029031, pinned:true, pnSource:true},
+    {type:"single", m:0.00033011, radius:0.0244, x:460.012,y:0, vx:0,vy:5.897643, spin:0.0124, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -11472,8 +11484,8 @@ function loadSave(s, selValue){
   // 第95便: グラフトグルとスケール指数の復元(表示のみ。旧セーブはキー無しで素通り)
   if(s.graphOverlays) applyGraphOverlays(sim, s.graphOverlays);
   if(s.scaleExps) setScaleExps({ L:isNum(s.scaleExps.L)? s.scaleExps.L : null,
-    T:isNum(s.scaleExps.T)? s.scaleExps.T : null, M:isNum(s.scaleExps.M)? s.scaleExps.M : null,
-    C:isNum(s.scaleExps.C)? s.scaleExps.C : null });
+    T:isNum(s.scaleExps.T)? s.scaleExps.T : null, M:isNum(s.scaleExps.M)? s.scaleExps.M : null });
+    // 第130便: 旧セーブの scaleExps.C(光速表示較正の手動上書き)は読み捨てる — eC は常にタグ既定
   // 第110便(原仮定者指示): 物理対応ロックをセーブ単位で復元。キー無しの旧セーブは解除になり、
   // プリセット読込時の自動解除と同じ帰結(意図しない持ち越しが起きない)。ONの復元は保存済み
   // physics(導出 κ を含む)の上に enforcePhysLock が走るだけなので値は変わらない
@@ -11514,7 +11526,7 @@ function loadPreset(id, keepPhysics){
   { let st=null; try{ st=localStorage.getItem("hp_camfollow"); }catch(_){}
     camFollowMode=(st==="sel"||st==="preset"||st==="none")? st : ((camFollowPreset>=0)? "preset" : "none"); }
   camFollowOffX=0; camFollowOffY=0;
-  scaleExpL=scaleExpT=scaleExpM=scaleExpC=null;   // 第74便→94便: 4指数ともサンプルのスケールタグ既定へ戻す(表示専用)
+  scaleExpL=scaleExpT=scaleExpM=null;   // 第74便→94便: サンプルのスケールタグ既定へ戻す(表示専用)/ 第130便: eC は上書き自体を廃止
   paramSnapA=paramSnapB=null;   // v1.22: 発散Undoのスナップショットはプリセット単位
   setParamsDirty(false);   // v1.17: プリセット読込で編集は破棄される(⏮は呼び出し側で維持)
   running=false; updatePlayBtn(); updateBodyEdit();
@@ -11778,7 +11790,7 @@ function applyGraphOverlays(S,o){ if(o) for(const k of GRAPH_OVERLAY_KEYS) S.ove
 $("#btnReset").addEventListener("click",()=>{
   // 第95便: グラフ(表示)とスケール指数(表示)は ⏮ で保持する
   const gsnap=snapshotGraphOverlays();
-  const esnap={L:scaleExpL, T:scaleExpT, M:scaleExpM, C:scaleExpC};
+  const esnap={L:scaleExpL, T:scaleExpT, M:scaleExpM};   // 第130便: eC は上書き廃止(常にタグ既定)
   if(ab){ // A/B中: 両方を初期配置へ(A・Bそれぞれの編集済みパラメータは保持)
     const keepA=Object.assign({},sim.params), keepB=Object.assign({},ab.simB.params);
     const snapA=snapshotPhaseEdits(sim), snapB=snapshotPhaseEdits(ab.simB);   // 58B
@@ -12945,10 +12957,12 @@ function buildParamRows(){
     // 第120便(原仮定者指示): 選択肢を9行表(SCALE_BASES — 惑星 e6/e7/e8・スケール別 eC)へ
     for(const b of SCALE_BASES){ const o=document.createElement("option"); o.value=b.id;
       o.textContent=SCALE_EMOJI[b.tier]+" "+T("scaleName_"+b.tier)+b.suffix; sel.appendChild(o); }
+    // 第130便: eC は上書き対象から外れた(常にタグ既定=ティア別 x−eT)ので、
+    // 一致判定・一括設定とも距離/時間/質量の3指数だけを見る(表 C 列は参考値として残す)
     const matchBase=()=>{ const e=scaleEffNow();
       for(const b of SCALE_BASES){
         if(Math.abs(e.x-b.L)<1e-9 && Math.abs(e.eT-b.T)<1e-9
-          && Math.abs(e.eM-b.M)<1e-9 && Math.abs(e.eC-b.C)<1e-9) return b.id; }
+          && Math.abs(e.eM-b.M)<1e-9) return b.id; }
       return ""; };
     const upd=()=>{ sel.value=matchBase(); if(sel.selectedIndex<0) sel.value=""; };
     upd(); scaleUiSync.push(upd);
@@ -12956,7 +12970,7 @@ function buildParamRows(){
       const id=sel.value;
       if(!id){ upd(); return; }   // 「なし」の手動選択は状態を変えない(表示は実状態へ戻す)
       const b=SCALE_BASES.find(x=>x.id===id);
-      setScaleExps({L:b.L, T:b.T, M:b.M, C:b.C});
+      setScaleExps({L:b.L, T:b.T, M:b.M});   // 第130便: C は設定しない(eC はタグ既定固定)
       refreshScaleConv(); requestRender();
     });
     row.appendChild(lab); row.appendChild(sel); scaleG.appendChild(row);
@@ -12995,7 +13009,8 @@ function buildParamRows(){
     row.appendChild(lab); row.appendChild(rng); row.appendChild(num);
     scaleG.appendChild(row); scaleG.appendChild(tierRow);   // 第94便: スケールカテゴリへ(距離スケール指数)
   }
-  // 第94便: 時間/質量/光速スケール指数 — 表示専用・サンプルのロードでタグ既定へ戻る
+  // 第94便: 時間/質量スケール指数 — 表示専用・サンプルのロードでタグ既定へ戻る
+  // (光速 eC の行は第130便で撤去 — 常にティア別 x−eT)
   {
     const mkExpRow=(labelKey,descKey,idBase,getV,setV,lo,hi,unitFmt)=>{
       const row=document.createElement("div"); row.className="prow";
@@ -13024,9 +13039,8 @@ function buildParamRows(){
     mkExpRow("scaleExpMLabel","scaleExpMDesc","scaleExpM",
       ()=>scaleEffNow().eM, (v)=>setScaleExps({M:v}), -30, 45,
       (v)=>"1単位 ≈ "+fmtKg(Math.pow(10,v)));
-    mkExpRow("scaleExpCLabel","scaleExpCDesc","scaleExpC",
-      ()=>scaleEffNow().eC, (v)=>setScaleExps({C:v}), 0, 12,
-      (v)=>"c₀=30 → "+fmtMps(30*Math.pow(10,v)));
+    // 第130便(原仮定者裁定「進める」): 光速 c₀ 表示較正指数 eC のスライダーは**撤去**した。
+    // 光速換算はティア別 x−eT(第126便の正直表示既定)へ一本化 — 手動上書きの余地をなくす
   }
   // 第81便(原仮定者指示): カメラ追従 — 選んだ天体を画面中央に置き続ける。描画層のみで
   // camX/camY だけを毎フレーム動かす(sim.params・物理状態・保存 JSON には一切書かない)。
@@ -13074,7 +13088,7 @@ function buildParamRows(){
   }
   mkCatDetails(host,T("grpDisplay"),T("grpDisplayDesc")).appendChild(disp);   // 第95便: 同上
   // 第94便(原仮定者指示): 「スケール」カテゴリを「表示」の直後に新設 — スケールバー表示・
-  // スケール換算表示・距離/時間/質量/光速スケール指数を集約(共通設定・表示専用)
+  // スケール換算表示・距離/時間/質量スケール指数を集約(共通設定・表示専用。光速 eC の行は第130便で撤去)
   mkCatDetails(host,T("grpScale"),T("grpScaleDesc")).appendChild(scaleG);
   // 第81便C: 「共通設定」カテゴリ(描画品質・文字サイズ — サンプル非依存・物理不変)
   mkCatDetails(host,T("grpCommon"),T("grpCommonDesc")).appendChild(common);
@@ -13135,8 +13149,8 @@ $("#btnSave").addEventListener("click",()=>{
   }
   // 第95便(原仮定者指示): 「グラフ」トグルと「スケール」指数の上書きもセーブへ(表示のみ・旧セーブ不変)
   item.graphOverlays=snapshotGraphOverlays();
-  if(scaleExpL!==null||scaleExpT!==null||scaleExpM!==null||scaleExpC!==null)
-    item.scaleExps={L:scaleExpL, T:scaleExpT, M:scaleExpM, C:scaleExpC};
+  if(scaleExpL!==null||scaleExpT!==null||scaleExpM!==null)
+    item.scaleExps={L:scaleExpL, T:scaleExpT, M:scaleExpM};   // 第130便: C は廃止(旧セーブの C は読込側で無視)
   // 第110便(原仮定者指示): 物理対応ロックの状態もセーブへ含める(ONのときだけ書く — 旧セーブ不変)。
   // 読込側 loadSave で復元し、ロックの意図しない持ち越し/喪失を防ぐ
   if(physLock) item.physLock=true;
@@ -13468,7 +13482,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 
 # スケールタグと表示換算(表示専用 — 物理は不変)
 - 各プリセットに scaleTier を1つ付ける: "molecular"(分子)/"beaker"(ビーカー)/"everyday"(日常)/"planetary"(惑星)/"stellar"(恒星)/"galactic"(銀河)/"cosmic"(宇宙全体)。場面で選ぶ: 軌道系=planetary、恒星・連星・レンズ=stellar、渦巻き円盤=galactic、箱のガス・分子実験=molecular、対流・地上の流体=beaker、落下・投射=everyday、膨張宇宙=cosmic。
-- タグは表示換算の基準(1距離単位=10^x m): molecular −10 / beaker −2.5 / everyday 0 / planetary 8 / stellar 11 / galactic 19 / cosmic 23。光速は全タグ共通で cLight=30 が 3×10^8 m/s に対応する。
+- タグは表示換算の基準(1距離単位=10^x m): molecular −10 / beaker −2.5 / everyday 0 / planetary 8 / stellar 11 / galactic 19 / cosmic 23。光速の換算指数 eC はティア別 x−eT 固定(分子3 / ビーカー・日常0 / 惑星・恒星4 / 銀河5 / 宇宙全体6)で、cLight=30 はそのティアの次元的光速として表示される(日常 ≈30 m/s・惑星/恒星 ≈3×10^5 m/s)。手動での上書きはできない(第130便)。
 - 実スケールの数値を写したいときは、この規約で座標・速度を決める(例: planetary で太陽–地球1au → 距離1496。everyday は 1単位=1m/1s/1kg の実値規約で gravityY=9.8、beaker は gravityY=0.031 が ≈9.8 m/s²)。
 
 # 出力ルール
