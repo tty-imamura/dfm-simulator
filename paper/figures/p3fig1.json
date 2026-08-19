@@ -1,0 +1,46 @@
+{
+ "figure": "p3fig1",
+ "paper": "dfm-paper3",
+ "generated": "2026-08-19T10:29:22.744Z",
+ "commit": "6399b4d",
+ "provenance": "コミット済み結果 JSON からの再描画のみ(本スクリプトは物理エンジンを駆動しない)",
+ "source": "tests/out/obscal-results.json",
+ "sourceKey": "tests.mercuryReal",
+ "harness": "tests/exp-obscal.mjs §D",
+ "sourceTarget": "beta/index.html",
+ "sourceDate": "2026-08-13T14:55:03.411Z",
+ "ladder": [
+  {
+   "depth": 5e-7,
+   "M": 10113.874737788432,
+   "orbits": 100,
+   "dt": 0.016,
+   "pn1Measured": 0.00000985723763789791,
+   "theo": 0.000009842452265090772,
+   "ratio": 1.0015022041671036,
+   "lam0": -0.0018334426819717605
+  },
+  {
+   "depth": 1e-7,
+   "M": 2022.7749475576863,
+   "orbits": 200,
+   "dt": 0.016,
+   "pn1Measured": 0.0000019710113385038378,
+   "theo": 0.0000019684904530181543,
+   "ratio": 1.001280618598794,
+   "lam0": -0.0018259099755426561
+  },
+  {
+   "depth": 2.55e-8,
+   "M": 515.8076116272101,
+   "orbits": 600,
+   "dt": 0.016,
+   "pn1Measured": 5.028989689256566e-7,
+   "theo": 5.019650655196293e-7,
+   "ratio": 1.0018604948235998,
+   "lam0": -0.0018245824375317605
+  }
+ ],
+ "arcsecPerCentury": 43.04083755408758,
+ "note": "論文3 Table ladder と同一データ。実測は 1PN on/off の差分、解析は Eq.(1) 6πd/(1−e²)。"
+}
