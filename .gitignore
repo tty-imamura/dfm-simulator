@@ -12,6 +12,9 @@ tests/out/*
 !tests/out/kf1b-results.json
 !tests/out/kf1c-results.json
 !tests/out/kf1d-results.json
+# 第136便: qLock 半径方向監査の実測正本(論文3 Cost 2 の可視化+将来 Fig.4 の生成元データ。
+# QA ゲート behavior.qlockRadial が claims の説明文数値と本 JSON の同期を機械照合する)
+!tests/out/qlockradial-results.json
 # 第19便: ダークローター探索実験の実測生データ(裁定記録 REVIEW_20260723_DARK_ROTOR_* が参照)
 !tests/out/darkrotor-results.json
 !tests/out/exp-4-67.json
