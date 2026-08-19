@@ -5941,6 +5941,140 @@ if (!FAST) {
   }
 }
 
+// ---- 8c3) 第135便(外部レビュー P0-1・原仮定者裁定「進める」): behavior.emAudit ----
+// ----   論文3 の中心命題「数値一致 ≠ 機構同定」を実験結果として示す3条件比較サンプル群
+// ----   ⭕emAuditNewton(A: 二体ニュートン)/ 🧲emAuditDFM(B: 二体DFM較正 — 🌘 と bit 一致)/
+// ----   🔆emAuditSolar(C: 太陽+地球+月の三体・kFrame=0・較正ゼロ)の**事前登録窓**を機械固定する。
+// ----   判定量と窓は**実装前に統括ブリーフへ登録**したもので、実測後に一切動かしていない:
+// ----     A: |Δϖ| < 3×10⁻⁴ rad/公転(20公転窓)/ 恒星月 27.32±0.10 日
+// ----     B: 近点回転周期 8.85年 ±15%(=7.5225〜10.1775年。窓は**較正が使った 8公転**— 窓依存は
+// ----        既知で PHYSICS §5 に明記。第135便の判別実測でその窓依存そのものを固定する)/
+// ----        恒星月 27.32±0.10 日
+// ----     C: Δϖ の符号が正(前進)/ |Δϖ_C| ≥ 10×|Δϖ_A|(機構が働いていることの判別)/
+// ----        恒星月 27.32±0.15 日。**大きさの窓は事前登録しない**(実測値を記録するだけ)
+// ----   判定量は RL(Runge–Lenz)ベクトル角の全步 LSQ 勾配(exp-kf1b/kf1d と同一手法)と、
+// ----   近点通過検出(r 極小の放物線補間)による近点方向の累積の2本を両方出す。窓の判定は RL 側。
+// ----   フルQAでは追加で 🧲B を 118公転(=約8.85年ぶん)まで延ばし、第135便の一次発見
+// ----   (①近点回転が単調に遅くなる ②離心率が単調に汲み上げられる)を機械固定する。
+// ----   軽い(A 20公転 2.8s+B 8公転 1.8s+C 118公転 2.1s ≈ 7s)ので QA_FAST=1 でも中核3件を実行する。
+{
+  const hasEA = await page.evaluate(() => ['emAuditNewton', 'emAuditDFM', 'emAuditSolar']
+    .every((id) => HP.allPresets().some((p) => p.id === id)));
+  if (hasEA) {
+    const ea = await page.evaluate(({ fast }) => {
+      // 相対軌道の近点回転を2方式で測る(RL 角の LSQ 勾配 / 近点通過の方位の累積)
+      const measure = (id, iE, iM, dt, orbits, Torb) => {
+        HP.loadPreset(id, false);
+        const S = HP.sim;
+        const decl = { kF: S.params.kFrame, D0: S.params.D0, q: S.params.q, geo: S.params.geoPN,
+          eps: S.params.softening, n: S.n, pin0: S.pinned[0] };
+        const GM = S.params.G * (S.m[iE] + S.m[iM]);
+        const steps = Math.round(orbits * Torb / dt);
+        const SAMPLE = Math.max(1, Math.floor(steps / 8000));
+        let r1 = null, r2 = null, th1 = 0, th2 = 0, t1 = 0;
+        let pomPrev = null, pomUnw = 0, sT = 0, sP = 0, sTT = 0, sTP = 0, nS = 0;
+        let eMin = 1e9, eMax = 0, ang = 0, px = 0, py = 0, nSid = 0;
+        const peri = [], sidT = [];
+        for (let k = 0; k < steps; k++) {
+          S.step(dt);
+          const t = (k + 1) * dt;
+          const dx = S.x[iM] - S.x[iE], dy = S.y[iM] - S.y[iE];
+          const rr = Math.hypot(dx, dy), thn = Math.atan2(dy, dx);
+          if (k === 0) { px = dx; py = dy; }
+          else { ang += Math.atan2(px * dy - py * dx, px * dx + py * dy); px = dx; py = dy;
+            while (ang >= (nSid + 1) * 2 * Math.PI) { nSid++; sidT.push(t); } }
+          if (r1 !== null && r2 !== null && r1 < r2 && r1 < rr) {   // r の極小=近点通過(放物線補間)
+            const den = (r2 - 2 * r1 + rr), dd = den !== 0 ? 0.5 * (r2 - rr) / den : 0;
+            let dth = thn - th2; while (dth > Math.PI) dth -= 2 * Math.PI; while (dth < -Math.PI) dth += 2 * Math.PI;
+            peri.push({ t: t1 + dd * dt, th: th1 + dd * (dth / 2) });
+          }
+          r2 = r1; th2 = th1; r1 = rr; th1 = thn; t1 = t;
+          if (k % SAMPLE === 0) {
+            const vx = S.vx[iM] - S.vx[iE], vy = S.vy[iM] - S.vy[iE];
+            const h = dx * vy - dy * vx;
+            const ex = (vy * h) / GM - dx / rr, ey = (-vx * h) / GM - dy / rr;
+            const ecc = Math.hypot(ex, ey), pom = Math.atan2(ey, ex);
+            if (ecc < eMin) eMin = ecc; if (ecc > eMax) eMax = ecc;
+            if (pomPrev !== null) { let d = pom - pomPrev;
+              while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI; pomUnw += d; }
+            pomPrev = pom;
+            sT += t; sP += pomUnw; sTT += t * t; sTP += t * pomUnw; nS++;
+          }
+        }
+        const slopeRL = (nS * sTP - sT * sP) / (nS * sTT - sT * sT);
+        let acc = 0, prev = peri.length ? peri[0].th : 0;
+        const pw = peri.map((q) => { let d = q.th - prev;
+          while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI;
+          acc += d; prev = q.th; return acc; });
+        let qT = 0, qP = 0, qTT = 0, qTP = 0;
+        for (let i = 0; i < peri.length; i++) { qT += peri[i].t; qP += pw[i];
+          qTT += peri[i].t * peri[i].t; qTP += peri[i].t * pw[i]; }
+        const nP = peri.length;
+        const slopePeri = nP >= 3 ? (nP * qTP - qT * qP) / (nP * qTT - qT * qT) : NaN;
+        const sid = sidT.length >= 2 ? (sidT[sidT.length - 1] - sidT[0]) / (sidT.length - 1) : sidT[0];
+        const nan = S.hasNaN();
+        return { decl, nP, sid, slopeRL, slopePeri, eMin, eMax, nan,
+          dpomRL: slopeRL * sid, dpomPeri: slopePeri * sid };
+      };
+      // 1単位: A/B は 10²s(恒星月 23606・ユリウス年 315576)、C は 10⁴s(236.06 / 3155.76)
+      const A = measure('emAuditNewton', 0, 1, 0.16, 20, 23606);
+      const B = measure('emAuditDFM', 0, 1, 0.16, 8, 23606);
+      const C = measure('emAuditSolar', 1, 2, 0.016, 118, 236.06);
+      const Bl = fast ? null : measure('emAuditDFM', 0, 1, 0.8, 118, 23606);
+      // 宣言の照合(3本ともファミリー emAudit・fidelity real・A/C は kFrame=0)
+      const P = (id) => HP.allPresets().find((p) => p.id === id);
+      const fam = ['emAuditNewton', 'emAuditDFM', 'emAuditSolar']
+        .every((id) => P(id).familyId === 'emAudit' && P(id).fidelity === 'real'
+          && Array.isArray(P(id).claims) && P(id).claims.length > 0
+          && P(id).claims.every((c) => HP.ROLE_CLASSES.indexOf(c.role) >= 0)
+          && P(id).parameterAudit && Array.isArray(P(id).parameterAudit.fitted));
+      const roleOk = P('emAuditDFM').claims[0].role === 'fit_target'
+        && P('emAuditNewton').claims[0].role === 'negative_control'
+        && P('emAuditSolar').claims[0].role === 'negative_control'
+        && P('emAuditDFM').familyRole === 'primary';
+      // fit の宣言: A/C は fit ゼロ・B は 2件(D₀ と初速)
+      const fitOk = P('emAuditNewton').parameterAudit.fitted.length === 0
+        && P('emAuditSolar').parameterAudit.fitted.length === 0
+        && P('emAuditDFM').parameterAudit.fitted.length === 2;
+      HP.loadPreset('saturn', false);
+      return { A, B, C, Bl, fam, roleOk, fitOk };
+    }, { fast: FAST });
+    const YR6 = 315576, YR8 = 3155.76;   // ユリウス年(1単位=10²s / 10⁴s)
+    const apsA = 2 * Math.PI / ea.A.slopeRL / YR6;
+    const apsB = 2 * Math.PI / ea.B.slopeRL / YR6;
+    const apsC = 2 * Math.PI / ea.C.slopeRL / YR8;
+    const apsBl = ea.Bl ? 2 * Math.PI / ea.Bl.slopeRL / YR6 : null;
+    const dayA = ea.A.sid / 864, dayB = ea.B.sid / 864, dayC = ea.C.sid / 8.64;
+    const ratio = Math.abs(ea.C.dpomRL) / Math.abs(ea.A.dpomRL);
+    const declOk = ea.A.decl.kF === 0 && ea.A.decl.n === 2
+      && ea.B.decl.kF === 1 && ea.B.decl.D0 === 0.006 && Math.abs(ea.B.decl.q - 8.25) < 0.1
+      && ea.C.decl.kF === 0 && ea.C.decl.geo === 0 && ea.C.decl.n === 3 && ea.C.decl.pin0 === 1;
+    const longOk = !ea.Bl || (apsBl > 15 && apsBl < 26 && ea.Bl.eMax > 0.12 && ea.Bl.eMax < 0.22);
+    add('behavior.emAudit',
+      !ea.A.nan && !ea.B.nan && !ea.C.nan && (!ea.Bl || !ea.Bl.nan)
+      && declOk && ea.fam && ea.roleOk && ea.fitOk
+      // A: 事前登録窓 |Δϖ| < 3e-4 rad/公転(2方式とも)+ 恒星月 27.32±0.10
+      && Math.abs(ea.A.dpomRL) < 3e-4 && Math.abs(ea.A.dpomPeri) < 3e-4
+      && Math.abs(dayA - 27.32) <= 0.10
+      // B: 較正窓(8公転)で 8.85年 ±15% + 恒星月 27.32±0.10
+      && apsB > 8.85 * 0.85 && apsB < 8.85 * 1.15 && Math.abs(dayB - 27.32) <= 0.10
+      // C: 前進(正)+ A比 ≥10倍 + 恒星月 27.32±0.15(大きさの窓は事前登録しない)
+      && ea.C.dpomRL > 0 && ea.C.dpomPeri > 0 && ratio >= 10 && Math.abs(dayC - 27.32) <= 0.15
+      && longOk,
+      `⭕A(20公転): Δϖ=${ea.A.dpomRL.toExponential(3)}(近点通過法 ${ea.A.dpomPeri.toExponential(3)})rad/公転 ` +
+      `[窓 |Δϖ|<3e-4] 恒星月=${dayA.toFixed(4)}日(27.32±0.10) e=${ea.A.eMin.toFixed(5)}〜${ea.A.eMax.toFixed(5)} / ` +
+      `🧲B(較正窓8公転): ${apsB.toFixed(3)}年[窓 8.85±15%=7.52〜10.18] Δϖ=${ea.B.dpomRL.toFixed(5)} ` +
+      `恒星月=${dayB.toFixed(4)}日(27.32±0.10) e≤${ea.B.eMax.toFixed(4)} / ` +
+      `🔆C(118公転・較正ゼロ): Δϖ=${ea.C.dpomRL.toFixed(5)}(>0=前進) ${apsC.toFixed(3)}年(実測記録 — 窓は事前登録なし) ` +
+      `A比=${ratio.toExponential(2)}倍(≥10) 恒星月=${dayC.toFixed(4)}日(27.32±0.15) e=${ea.C.eMin.toFixed(4)}〜${ea.C.eMax.toFixed(4)} / ` +
+      (ea.Bl ? `🧲B 窓依存(118公転): ${apsBl.toFixed(2)}年(15〜26)・離心率上端 ${ea.Bl.eMax.toFixed(4)}(0.12〜0.22)`
+        : '🧲B 118公転窓は QA_FAST=1 では省略') +
+      ` / 宣言=${declOk}・ファミリー/role/fit=${ea.fam}&${ea.roleOk}&${ea.fitOk}`);
+  } else {
+    console.log('SKIP behavior.emAudit(機構判別3条件 ⭕🧲🔆 が未導入 — root 等。第135便)');
+  }
+}
+
 // ---- 8d) 第12次裁定(2026-07-22): 🧊 saturnIce(氷・低熱結合)のQA ----
 // 対象に 🪐(実験)がある場合のみ実行(v1.28 でルート昇格)。🧭 の trail 既定ONもここで検査
 {
@@ -7650,6 +7784,11 @@ if (!FAST) {
     const hasW133 = await page.evaluate(() => !!(window.HP && HP.ROLE_CLASSES && HP.claimRole));
     if (hasW133) {
       const ml = await page.evaluate(() => {
+        // 第135便(統括裁定): 機構判別サンプル群 emAudit(⭕🧲🔆)は MAIN に**追加しない**。
+        // 主力8の定義は「現実較正の正本サンプル」であり、audit 系は同じ物理の**再宣言+対照**
+        // (🧲B は 🌘 と bit 一致・⭕A は 🌙 と bit 一致)なので、正本を二重計上すると
+        // 「主力の較正サンプル数」という指標の意味が崩れる。3本の claims/role/parameterAudit は
+        // behavior.emAudit と claims.prov-coverage / claims.kind / claims.sync が別枠で固定する。
         const MAIN = ['mercuryReal', 'mercuryRealKF1', 'earthMoonReal', 'earthMoonRealKF1',
           'saturnRingReal', 'saturnRingRealKF1', 'solarInner', 'saturnZonalD68'];
         const PA_KEYS = ['observedInputs', 'fixedConventions', 'fitted', 'derived', 'numerical'];
@@ -13921,9 +14060,15 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     // 旧宣言(解析較正・物理比)は撤回。root(v1.39)は従来の3件のまま。
     // 第131便(原仮定者指示): 🌞solarInner・🛰️saturnZonalD68 をスケール換算込みの実較正へ
     // 引き上げたので 2件追加(🛰️ は第120便で一度撤回された宣言の、実単位化による再取得)
+    // 第135便: 機構判別サンプル群 emAudit(⭕🧲🔆)を3件追加。⭕A は 🌙・🧲B は 🌘 と bit 一致の
+    // 再宣言、🔆C は ☄️🪨🌞 と同一指数系の実単位三体なので、いずれもスケール換算込みの実較正である
     const gen131 = await page.evaluate(() =>
       HP.allPresets().some((p) => p.id === 'solarInner' && p.scaleExp));
-    const want = gen131 ? 'earthMoonReal,earthMoonRealKF1,mercuryReal,saturnRingReal,saturnZonalD68,solarInner'
+    const gen135 = await page.evaluate(() =>
+      HP.allPresets().some((p) => p.id === 'emAuditSolar'));
+    const want = gen135 ? 'earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+        + 'mercuryReal,saturnRingReal,saturnZonalD68,solarInner'
+      : gen131 ? 'earthMoonReal,earthMoonRealKF1,mercuryReal,saturnRingReal,saturnZonalD68,solarInner'
       : gen120 ? 'earthMoonReal,earthMoonRealKF1,mercuryReal,saturnRingReal'
       : 'earthMoonFree,grcal,saturnZonalD68';
     add('ui.fidelity',

@@ -4654,6 +4654,337 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
+// ===== 第135便(外部レビュー P0-1・原仮定者裁定「進める」): 機構判別サンプル群 emAudit =====
+// 論文3 の中心命題「**数値一致 ≠ 機構同定**」を、注意書きではなく**実験結果として**示す3条件比較。
+// 月の近点回転(実測 約8.85年で一周)について、同じ観測量を出す2つの経路と、現実の主因を並べる:
+//   ⭕A 二体ニュートン(kFrame=0)          — 近点回転は原理的に出ない(閉じた楕円=陰性対照)
+//   🧲B 二体DFM較正(kFrame=1・D₀=0.006)  — 🌘 と同一構成。較正窓では 8.85年に一致する
+//   🔆C 太陽+地球+月の三体(kFrame=0)     — **較正ゼロ**で太陽摂動が近点前進を駆動する(現実側の機構)
+// 判定量と窓は**実装前に統括ブリーフへ事前登録**した(実測後に窓を動かしていない)。
+// 第135便の一次発見(下の各サンプルの観測結果カードに実測値):
+//   ① A の残差はソフトニング ε の解析値 −3πε²/(a²(1−e²)²) で説明し切れる(数値床ではなく宣言済み規約)。
+//   ② B の 8.85年は**較正窓(8公転)だけの値**で、窓を延ばすと単調に遅くなる(118公転で 20.8年)。
+//      同時に離心率が単調に汲み上げられる(0.055→0.169)— 実際の月(0.026〜0.077 有界)と合わない。
+//   ③ C は窓にも dt にも依存しない定常な永年率(118公転 8.754年 / 236公転 8.752年)で、
+//      離心率も有界(0.011〜0.055)。**数値一致の頑健さ**が A/B/C を判別する。
+{ id:"emAuditNewton", name:"地球と月・機構判別A(二体ニュートン)— 閉じた楕円", emoji:"⭕", group:"天体の物語",
+  familyId:"emAudit", familyRole:"variant",
+  scaleTier:"planetary",
+  scaleExp:{L:6, T:2, M:25},   // 🌙🌘 と同一の指数系(1単位=10⁶m/10²s/10²⁵kg)
+  sampleClass:"calibration",
+  fidelity:"real",
+  notClaim:["solar"],
+  orbitObs:{center:0, orbiter:1, ghostAmp:1e6},   // 残差 6×10⁻⁷ rad/公転 — ×10⁶ でようやく見える
+  obsCard:[
+    {q:"近点回転(20公転窓)", model:"−6.404×10⁻⁷ rad/公転(近点通過法。RL勾配法 −6.295×10⁻⁷)", obs:"0(二体ケプラー=閉じた楕円)"},
+    {q:"残差の正体", model:"ソフトニング ε=0.1 の解析値 −3πε²/(a²(1−e²)²)=−6.406×10⁻⁷", obs:"—(宣言済みの数値規約であって物理ではない)"},
+    {q:"恒星月", model:"27.3218 日", obs:"27.3217 日"},
+    {q:"軌道要素の安定", model:"a=384.7481 で不変・e=0.05490(20公転を通して変化なし)", obs:"—"}],
+  failureFirst:{
+    fail:"純二体のニュートン重力では、月の近点回転(実測 約8.85年で一周=+0.0531 rad/公転)は**原理的に出ない**。閉じた楕円は閉じたままで、8.85年をこの構成から導くことはできない(重要な負の結果)。",
+    pass:"第135便の実測: 20公転窓の正味 Δϖ は −6.404×10⁻⁷ rad/公転(近点通過法。RL勾配法でも −6.295×10⁻⁷)で、事前登録窓 |Δϖ|<3×10⁻⁴ の 1/470。しかもこの残差はソフトニング ε=0.1 が作る解析値 −3πε²/(a²(1−e²)²)=−6.406×10⁻⁷ と 0.04% で一致する — **『閉じている』が宣言済みの数値規約の精度まで確かめられた**。dt を 10倍にしても値は 0.4% しか動かない(数値積分の寄与ではない)。"},
+  descStruct:{
+    summary:"機構判別の**陰性対照A**。🌙(地球と月・実単位)と物理・幾何が bit 一致の二体で、空間引きずり(A8/E6′)を切った(kFrame=0)**重力(E4)だけ**の純ニュートン。同じ観測入力から出発して、**月の近点回転が出ないこと**を確かめるための宣言サンプルである(🌙 は「恒星月が出ること」を主張する較正サンプルで、本サンプルは同じ構成を『判別の基準点』として宣言し直したもの — 物理は 1bit も違わない)。3条件比較 ⭕A / 🧲B / 🔆C のうち、A は「較正も第三体も無いとき何が出ないか」を固定する。",
+    observe:"軌道の向き(近点方向)は回らない — 20公転窓で正味 −6.40×10⁻⁷ rad/公転(近点通過法の実測 −6.404×10⁻⁷・RL勾配法 −6.295×10⁻⁷。事前登録窓 |Δϖ|<3×10⁻⁴ の 1/470)。この残差はソフトニング ε=0.1 の解析値 −3πε²/(a²(1−e²)²)=−6.406×10⁻⁷ と 0.04% で一致するので、**数値の揺らぎではなく宣言済みの規約が作る逆行**である(dt を 10倍にしても 0.4% しか動かない)。恒星月は 27.3218日(観測 27.3217日)、軌道長半径は 384.7481 で不変、離心率は 0.05490 のまま変化しない。ゴースト楕円の増幅は ×10⁶ にしてある(それでようやく回転が見える桁)。",
+    control:"ワンタップ対照A/B: B側は kFrame=1・D₀=0.006・qLock(=🧲判別B と同じ較正)。同じ二体・同じ実値のまま、**空間引きずりを入れて較正するだけで 8.85年級の近点回転が現れる**ことが1タップで見える。もう一方の対照 🔆C(太陽+地球+月の三体)は、較正を一切使わずに同じ観測量を出す — 3本を見比べるのが本ファミリーの目的である。"},
+  en:{name:"Earth & Moon — Mechanism Audit A (Newtonian two-body): the closed ellipse",
+    parameterAudit:{
+      observedInputs:["real G=6.674","real c₀=3×10⁴","the Earth's real mass, radius and rotation (23.93 h)",
+        "the Moon's real mass, radius and synchronous rotation",
+        "semi-major axis 3.84748×10⁸ m, eccentricity 0.0549, perigee relative speed 1.082 km/s"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10⁶ m / 10² s / 10²⁵ kg)","kFrame=0 (no frame dragging — the point of this control)",
+        "D₀=0.1, q=3 (inert here: with kFrame=0 no dragging acts)",
+        "kRep=muF=γN=κ_S=0","geoPN=2, λ_PN=1, pnα=1.5","pnSource:true, stateCarry:\"double\", massFloor=1e-6",
+        "a free binary placed about the barycenter (nothing pinned)",
+        "physics and geometry bit-identical to 🌙 earthMoonReal (a re-declaration of intent, not a new construction)"],
+      fitted:[],
+      derived:["κ=G/c₀²=7.4156×10⁻⁹ (the correspondence-lock value)",
+        "the softening residual −3πε²/(a²(1−e²)²)=−6.406×10⁻⁷ rad/orbit (analytic)"],
+      numerical:["softening ε=0.1","time multiplier timeScale=100","display magnification dispMag=10 (display only)"]},
+    obsCard:[
+      {q:"Apsidal drift (20-orbit window)", model:"−6.404×10⁻⁷ rad/orbit (perigee-passage method; RL-slope method −6.295×10⁻⁷)", obs:"0 (a Kepler two-body ellipse is closed)"},
+      {q:"What the residual is", model:"the analytic softening term −3πε²/(a²(1−e²)²)=−6.406×10⁻⁷ with ε=0.1", obs:"— (a declared numerical convention, not physics)"},
+      {q:"Sidereal month", model:"27.3218 d", obs:"27.3217 d"},
+      {q:"Element stability", model:"a=384.7481 constant, e=0.05490 unchanged over 20 orbits", obs:"—"}],
+    failureFirst:{
+      fail:"Newtonian gravity in a pure two-body system CANNOT produce the Moon's apsidal precession (observed: one cycle in ≈8.85 years, +0.0531 rad/orbit). The ellipse stays closed, and 8.85 years cannot be derived from this construction (an important negative result).",
+      pass:"Wave-135 measurement: the net Δϖ over a 20-orbit window is −6.404×10⁻⁷ rad/orbit (perigee-passage method; −6.295×10⁻⁷ by the RL-slope method) — 1/470 of the pre-registered window |Δϖ|<3×10⁻⁴. Moreover it agrees to 0.04% with the analytic softening term −3πε²/(a²(1−e²)²)=−6.406×10⁻⁷ for ε=0.1: the ellipse is closed down to the precision of a DECLARED numerical convention. Increasing dt tenfold moves the value by only 0.4% (it is not an integration artifact)."},
+    descStruct:{
+    summary:"The NEGATIVE CONTROL A of the mechanism audit. A two-body system bit-identical in physics and geometry to 🌙 (Earth & Moon, real units), with frame dragging (A8/E6′) switched off (kFrame=0) — gravity (E4) alone, pure Newton. Starting from the same observed inputs, it fixes what does NOT appear: the Moon's apsidal precession. (🌙 is a calibration sample claiming that the sidereal month comes out; this sample re-declares the same construction as the audit's baseline — not a single bit of physics differs.) Of the three-condition comparison ⭕A / 🧲B / 🔆C, A pins down what is absent when there is neither a calibration nor a third body. ",
+    observe:"The apse line does not turn — the net drift over a 20-orbit window is −6.404×10⁻⁷ rad/orbit (1/470 of the pre-registered window |Δϖ|<3×10⁻⁴). That residual matches the analytic softening term −3πε²/(a²(1−e²)²)=−6.406×10⁻⁷ (ε=0.1) to 0.04%, so it is a retrograde drift produced by a DECLARED convention rather than numerical noise (raising dt tenfold shifts it by 0.4%). The sidereal month is 27.3218 d (observed 27.3217 d), the semi-major axis stays at 384.7481 and the eccentricity at 0.05490. The ghost-ellipse amplification is set to ×10⁶ — that is the order needed before the rotation is visible at all. ",
+    control:"One-tap A/B: side B is kFrame=1, D₀=0.006 with qLock (= 🧲 Mechanism Audit B). One tap shows that on the SAME two bodies with the SAME real values, switching dragging on and calibrating it is enough to produce an 8.85-year-class apsidal precession. The other control, 🔆C (Sun + Earth + Moon), reaches the same observable with no calibration at all — comparing the three is the whole point of this family."}},
+  abBody:{ label:{ja:"kFrame=1・D₀=0.006(=🧲判別B の較正)", en:"kFrame=1, D₀=0.006 (= 🧲 audit B)"},
+    physicsPatch:{kFrame:1, D0:0.006, qLock:true} },
+  // 第135便: claims — 陰性対照(近点回転が出ないこと)と観測入力の写しの検証。fit はゼロ。
+  claims:[
+    { id:"emAuditNewton.closed-ellipse", kind:"fixed-seed", prov:"simulated", role:"negative_control",
+      metric:"apsidalDriftRadPerOrbit",
+      chain:{ax:["A6"], eq:["E4"],
+        note:"重力(E4)だけの二体では近点回転が出ないことの定量。残差はソフトニング ε=0.1 の解析値 −3πε²/(a²(1−e²)²) と 0.04% で一致するので、宣言済みの数値規約の寄与であって物理の歳差ではない。3条件比較の基準点(🧲B・🔆C は同じ観測量をそれぞれ別の機構で出す)。",
+        noteEn:"Quantifies that a two-body system driven by gravity (E4) alone produces no apsidal precession. The residual matches the analytic softening term −3πε²/(a²(1−e²)²) (ε=0.1) to 0.04%, so it is the contribution of a declared numerical convention, not a physical precession. This is the baseline of the three-condition comparison (🧲B and 🔆C reach the same observable through different mechanisms)."},
+      roleNote:"陰性対照 — 「出ないこと」を事前登録窓(|Δϖ|<3×10⁻⁴ rad/公転)で機械固定する項目。較正ノブは1つも使っていない。",
+      roleNoteEn:"Negative control — it machine-fixes the ABSENCE of the effect against the pre-registered window (|Δϖ|<3×10⁻⁴ rad/orbit). No calibration knob is spent.",
+      expected:{min:1e-7, max:3e-4}, descScale:1e-7,
+      descPattern:"20公転窓で正味 −(\\d+\\.\\d+)×10⁻⁷ rad/公転", testId:"behavior.emAudit" },
+    { id:"emAuditNewton.sidereal-month", kind:"semantic", prov:"derived", role:"input_check",
+      metric:"siderealMonthDays",
+      chain:{ax:["A6"], eq:["E4"],
+        note:"実軌道長半径・実質量から重力(E4)だけで出る恒星月 — 観測入力の写しが 3条件とも同じ月を出発点にしていることの確認。",
+        noteEn:"The sidereal month that gravity (E4) alone gives from the real semi-major axis and masses — a check that all three conditions start from the same transcribed month."},
+      roleNote:"観測入力の検証 — 独立な予言ではない(較正ノブを使っていない)。A/B/C を同じ土俵に載せるための基準点。",
+      roleNoteEn:"Input check — not an independent prediction (no calibration knob). It places A/B/C on the same footing.",
+      expected:{min:27.22, max:27.42},
+      descPattern:"恒星月は (\\d+\\.\\d+)日", testId:"behavior.emAudit" }
+  ],
+  parameterAudit:{
+    observedInputs:["実 G=6.674","実 c₀=3×10⁴","地球の実質量・実半径・実自転(23.93時間)",
+      "月の実質量・実半径・同期自転","軌道長半径 3.84748×10⁸m・離心率 0.0549・近地点の相対速度 1.082km/s"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁶m/10²s/10²⁵kg)","kFrame=0(空間引きずり OFF — 本対照の要点)",
+      "D₀=0.1・q=3(kFrame=0 では引きずりが働かないため結果に無関与)",
+      "kRep=muF=γN=κ_S=0","geoPN=2・λ_PN=1・pnα=1.5","pnSource:true・stateCarry:\"double\"・massFloor=1e-6",
+      "自由二体を重心系で配置(pinned なし)",
+      "物理・幾何は 🌙earthMoonReal と bit 一致(新規構成ではなく判別意図の再宣言)"],
+    fitted:[],
+    derived:["κ=G/c₀²=7.4156×10⁻⁹(物理対応条件の導出値)",
+      "ソフトニング残差 −3πε²/(a²(1−e²)²)=−6.406×10⁻⁷ rad/公転(解析値)"],
+    numerical:["ソフトニング ε=0.1","時間倍率 timeScale=100","粒子表示倍率 dispMag=10(表示専用)"]},
+  activeParams:["kFrame","D0","dispMag"],
+  camera:{scale:450}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:100, dispMag:10, stateCarry:"double"},
+  bodies:[   // 🌙earthMoonReal と同一値(bit 一致 — 判別意図の再宣言)。粒子の並び: 0=地球, 1=月
+    {type:"single", m:0.59724, radius:6.38, x:-4.41822,y:0, vx:0,vy:-0.0013146, spin:0.0072921, pinned:false, pnSource:true},
+    {type:"single", m:0.007346, radius:1.74, x:359.2071,y:0, vx:0,vy:0.1068788, spin:0.00026617, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+{ id:"emAuditDFM", name:"地球と月・機構判別B(二体DFM較正)— 8.85年を別機構で", emoji:"🧲", group:"天体の物語",
+  familyId:"emAudit", familyRole:"primary",
+  scaleTier:"planetary",
+  scaleExp:{L:6, T:2, M:25},   // 🌙🌘 と同一の指数系
+  sampleClass:"calibration",
+  fidelity:"real",
+  notClaim:["solar"],
+  qLock:true,   // q 自動算出(q*=8.25 — 🌘 と同一)
+  orbitObs:{center:0, orbiter:1, ghostAmp:20},
+  obsCard:[
+    {q:"近点回転の周期(8公転窓=較正窓)", model:"8.857 年(Δϖ=+0.05308 rad/公転)", obs:"8.85 年"},
+    {q:"恒星月", model:"27.331 日(+0.03%)", obs:"27.3217 日"},
+    {q:"窓を延ばすと(第135便 実測)", model:"20公転 10.10年 / 40公転 12.42年 / 118公転窓では 20.78年(単調に遅くなる)", obs:"8.85 年(実際の月は定常)"},
+    {q:"離心率(第135便 実測)", model:"8公転 0.048〜0.059 → 118公転で 0.048〜0.169(単調に汲み上がる)", obs:"0.026〜0.077(有界)"}],
+  failureFirst:{
+    fail:"第135便の機構判別で分かったこと: 本サンプルの「8.85年」は**較正に使った 8公転窓だけの値**である。同じ設定のまま窓を延ばすと近点回転は単調に遅くなり(20公転 10.10年・40公転 12.42年・118公転=約8.85年ぶんで 20.78年)、同時に離心率が 0.0549 から 0.169 まで単調に汲み上げられる。実際の月の離心率は 0.026〜0.077 に有界で、近点回転率も定常である — **この2点で本サンプルの運動引きずり機構は現実の月と区別できる**(dt を 0.016〜0.8 の 50倍幅に振っても 8公転窓は 8.858年で4桁一致・118公転窓は 20.78〜20.77年で 0.04% 一致なので、数値の問題ではない)。",
+    pass:"較正窓(8公転)では 🌘 の較正どおり Δϖ=+0.05308 rad/公転=8.857年(観測 8.85年と +0.08%)・恒星月 27.331日(+0.03%)を再現する。純二体では原理的に出ない観測量が、空間引きずり(A8/E6′)+D₀=0.006+qLock だけで出る。**その一致が本物の機構同定ではないこと**を示すのが本サンプルの役目であり、それは注意書きではなく上の窓依存・離心率汲み上げという実験結果として示される。"},
+  descStruct:{
+    summary:"機構判別の**主役B**。🌘(地球と月・実単位・kFrame=1)と物理・幾何が bit 一致の二体で、空間引きずり(A8/E6′)を共通補正 D₀=0.006+qLock(q*=8.25)に較正したもの。較正窓(8公転)では月の近点回転 8.85年と恒星月 27.32日を同時に再現する — しかし**それは較正一致であって機構の同定ではない**。第135便はその主張を、注意書きではなく3条件比較(⭕A 二体ニュートン / 🧲B 本サンプル / 🔆C 太陽+地球+月の三体)の実験結果として示す。",
+    observe:"較正窓の 8公転窓で 8.857年(Δϖ=+0.05308 rad/公転・観測 8.85年と +0.08%)、恒星月は 27.331日。**ここからが第135便の判別実測**: 同じ設定のまま測定窓を延ばすと近点回転は単調に遅くなり、20公転で 10.10年・40公転で 12.42年・118公転窓では 20.78年になる(dt を 0.016〜0.8 の 50倍幅に振っても 8公転窓は 8.858年で4桁一致・118公転窓は 0.04% 一致なので、数値の問題ではない)。同時に離心率が 0.0549 から 0.169 へ単調に汲み上げられる — 実際の月は 0.026〜0.077 に有界で、近点回転も定常である。つまり本サンプルの数値一致は**較正窓に固有の一致**であって、機構としては実際の月と区別できる。🔆C(較正ゼロの三体)は同じ観測量を窓にも dt にも依らない定常率で出す。",
+    control:"ワンタップ対照A/B: B側は kFrame=0・D₀=0.1(=⭕判別A)で、引きずりを切ると近点回転が消えて閉じた楕円へ戻る。D₀ を 0.1 に上げるだけでも引きずりは 1/16 になる(χ=w/(D₀+w) の用量)。スピンを 0 にしても歳差は変わらない(運動起源 — exp-kf1b §A)。本サンプルは 🌘 と bit 一致なので、🌘 側の説明・claims もそのまま読める(本サンプルは**判別のための再宣言**)。"},
+  en:{name:"Earth & Moon — Mechanism Audit B (DFM-calibrated two-body): 8.85 yr by a different mechanism",
+    parameterAudit:{
+      observedInputs:["real G=6.674","real c₀=3×10⁴","the Earth's real mass, radius and rotation (23.93 h)",
+        "the Moon's real mass, radius and synchronous rotation","semi-major axis 3.84748×10⁸ m, eccentricity 0.0549",
+        "the Moon's 8.85-year apsidal cycle (the observation used as a fit target)",
+        "the sidereal month 27.3217 d (likewise)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10⁶ m / 10² s / 10²⁵ kg)","kFrame=1 (frame dragging on)",
+        "kRep=muF=γN=κ_S=0","geoPN=2, λ_PN=1, pnα=1.5","pnSource:true, stateCarry:\"double\", massFloor=1e-6",
+        "a free binary placed about the barycenter (nothing pinned)",
+        "the 8-orbit measurement window in which the original calibration was made (declared, not chosen after the fact)",
+        "physics and geometry bit-identical to 🌘 earthMoonRealKF1 (a re-declaration of intent)"],
+      fitted:["D₀=0.006 (the calibration knob of the drag precession — one value shared with 🪨💿)",
+        "initial-speed correction f=0.9968 (−0.32%, the second knob of the joint fit that restores the sidereal month)"],
+      derived:["q=8.25 (auto-derived by qLock)","κ=G/c₀²=7.4156×10⁻⁹"],
+      numerical:["softening ε=0.1","time multiplier timeScale=100","display magnification dispMag=10 (display only)"]},
+    obsCard:[
+      {q:"Apsidal period (8-orbit = calibration window)", model:"8.857 yr (Δϖ=+0.05308 rad/orbit)", obs:"8.85 yr"},
+      {q:"Sidereal month", model:"27.331 d (+0.03%)", obs:"27.3217 d"},
+      {q:"Stretching the window (wave-135 measurement)", model:"20 orbits 10.10 yr / 40 orbits 12.42 yr / 118 orbits 20.78 yr — monotonically slower", obs:"8.85 yr (the real Moon is steady)"},
+      {q:"Eccentricity (wave-135 measurement)", model:"0.048–0.059 over 8 orbits → 0.048–0.169 over 118 orbits (monotonically pumped)", obs:"0.026–0.077 (bounded)"}],
+    failureFirst:{
+      fail:"What the wave-135 mechanism audit found: the \"8.85 years\" of this sample is the value IN THE 8-ORBIT WINDOW THE CALIBRATION USED. Keeping everything else fixed and stretching the window, the precession slows monotonically (20 orbits 10.10 yr, 40 orbits 12.42 yr, 118 orbits — one nominal 8.85-year cycle — 20.78 yr), while the eccentricity is pumped monotonically from 0.0549 to 0.169. The real Moon's eccentricity is bounded between 0.026 and 0.077 and its apsidal rate is steady: on those two counts the motion-dragging mechanism of this sample is DISTINGUISHABLE from the real Moon. Sweeping dt over a fiftyfold range (0.016–0.8) leaves the 8-orbit window at 8.858 yr to four digits and the 118-orbit window within 0.04%, so this is not a numerical issue.",
+      pass:"Within the calibration window (8 orbits) the sample reproduces 🌘's calibration: Δϖ=+0.05308 rad/orbit = 8.857 yr (+0.08% from the observed 8.85 yr) with a 27.331-day sidereal month (+0.03%). An observable a pure two-body system can never produce comes out of frame dragging (A8/E6′) plus D₀=0.006 and qLock alone. The sample's job is to show that this agreement is NOT a mechanism identification — and it shows it as an experimental result (the window dependence and eccentricity pumping above), not as a footnote."},
+    descStruct:{
+    summary:"The PRIMARY, condition B of the mechanism audit. A two-body system bit-identical in physics and geometry to 🌘 (Earth & Moon, real units, kFrame=1), with frame dragging (A8/E6′) calibrated by the shared correction D₀=0.006 plus qLock (q*=8.25). In the calibration window (8 orbits) it reproduces BOTH the Moon's 8.85-year apsidal cycle and the 27.32-day sidereal month — but that is a CALIBRATED MATCH, not a mechanism identification. Wave 135 makes that claim an experimental result rather than a footnote, through the three-condition comparison ⭕A (Newtonian two-body) / 🧲B (this sample) / 🔆C (Sun + Earth + Moon). ",
+    observe:"In the 8-orbit calibration window: 8.857 years (Δϖ=+0.05308 rad/orbit, +0.08% from the observed 8.85 yr) with a 27.331-day sidereal month. HERE IS THE WAVE-135 AUDIT MEASUREMENT: keeping the setup fixed and stretching the measurement window, the precession slows monotonically — 10.10 yr at 20 orbits, 12.42 yr at 40 orbits, 20.78 yr at 118 orbits (sweeping dt over a fiftyfold range holds the 8-orbit value to four digits and the 118-orbit value to 0.04%, so this is not numerics). At the same time the eccentricity is pumped monotonically from 0.0549 to 0.169, while the real Moon stays bounded between 0.026 and 0.077 with a steady apsidal rate. The numerical agreement is therefore specific to the calibration window, and as a mechanism this sample is distinguishable from the real Moon. 🔆C (the uncalibrated three-body case) delivers the same observable at a steady rate independent of both window and dt. ",
+    control:"One-tap A/B: side B is kFrame=0, D₀=0.1 (= ⭕ Audit A) — switching dragging off makes the precession vanish and the ellipse close. Raising D₀ to 0.1 alone already cuts the drag by 1/16 (the χ=w/(D₀+w) dose). Zeroing the spins changes nothing (motion origin — exp-kf1b §A). This sample is bit-identical to 🌘, so 🌘's own description and claims apply verbatim; this is a RE-DECLARATION for the audit."}},
+  abBody:{ label:{ja:"kFrame=0・D₀=0.1(=⭕判別A・閉じた楕円へ)", en:"kFrame=0, D₀=0.1 (= ⭕ audit A: the closed ellipse)"},
+    physicsPatch:{kFrame:0, D0:0.1} },
+  // 第135便: claims — 較正窓での fit_target(8.85年)に加えて、**窓依存**と**離心率の汲み上げ**を
+  // 機械可読な回顧的確認として計上する(機構判別の本体はこの2件)。
+  claims:[
+    { id:"emAuditDFM.apsidal-period-fitwindow", kind:"fixed-seed", prov:"calibrated", role:"fit_target",
+      metric:"apsidalPrecessionPeriodYears",
+      chain:{ax:["A4","A5"], eq:["E4","E6′"],
+        note:"運動引きずりが作る順行歳差 χ=w/(D₀+w) を D₀ で較正して、月の近点回転(実測 約8.85年)に合わせた項目(exp-kf1b/kf1c)。**較正に使った 8公転窓での値**であることを窓ごと宣言する。",
+        noteEn:"The prograde precession from motion dragging, χ=w/(D₀+w), calibrated through D₀ to the Moon's observed 8.85-year cycle (exp-kf1b/kf1c). The window (8 orbits, the one the calibration used) is declared together with the value."},
+      roleNote:"fit の対象 — D₀=0.006 と初速 −0.32% の共同フィットが合わせにいった観測量そのもの。実際の月の近点回転の主因は太陽摂動(第三体)で、本サンプルは別機構での較正一致であって機構の同定ではない(🔆C が現実側の機構の対照)。",
+      roleNoteEn:"Fit target — the observation the joint fit (D₀=0.006 and the −0.32% initial speed) was tuned to. The real cause is solar perturbation (a third body); this is a calibrated match through a different mechanism, not a mechanism identification (🔆C is the real-mechanism control).",
+      expected:{min:7.53, max:10.18},
+      descPattern:"較正窓の 8公転窓で (\\d+\\.\\d+)年", testId:"behavior.emAudit" },
+    { id:"emAuditDFM.window-dependence", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+      metric:"apsidalPeriodYearsAt118Orbits",
+      chain:{ax:["A4","A5"], eq:["E4","E6′"],
+        note:"同じ設定のまま測定窓を 8→118公転に延ばしたときの近点回転周期。定常な永年率なら窓に依らないはずで、実測 20.78年(較正窓の 2.35倍)は**歳差が定常でない**ことを意味する。🔆C は同じ延長で 8.754→8.752年(窓依存なし)。",
+        noteEn:"The apsidal period measured over 118 orbits instead of 8, everything else fixed. A steady secular rate would be window-independent; the measured 20.78 yr (2.35× the calibration window) means the precession is NOT steady. Under the same extension 🔆C goes 8.754→8.752 yr (no window dependence)."},
+      roleNote:"回顧的確認 — 較正後に測り直した判別量で、fit の対象ではない。3条件比較の判別力そのもの。",
+      roleNoteEn:"Retrospective check — a discriminating quantity measured after the calibration, not a fit target. It is where the three-condition comparison gets its discriminating power.",
+      expected:{min:15, max:26},
+      descPattern:"118公転窓では (\\d+\\.\\d+)年", testId:"behavior.emAudit" },
+    { id:"emAuditDFM.eccentricity-pumping", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+      metric:"maxEccentricityAt118Orbits",
+      chain:{ax:["A4","A5"], eq:["E4","E6′"],
+        note:"引きずり較正下の離心率の上端(118公転)。実際の月は 0.026〜0.077 に有界だが、本構成では 0.169 まで単調に汲み上げられる — 近点回転を合わせた代償として現れる第2の判別量。",
+        noteEn:"The upper end of the eccentricity over 118 orbits under the drag calibration. The real Moon stays bounded between 0.026 and 0.077; this construction pumps it monotonically to 0.169 — a second discriminant, the price paid for matching the apsidal rate."},
+      roleNote:"回顧的確認 — 較正の対象外の観測量で、実際の月と合わない側の実測。正直な明記のための計上。",
+      roleNoteEn:"Retrospective check — an observable outside the calibration that does NOT match the real Moon. Counted here for honesty.",
+      expected:{min:0.12, max:0.22},
+      descPattern:"離心率が 0\\.0549 から (\\d+\\.\\d+) へ単調", testId:"behavior.emAudit" }
+  ],
+  parameterAudit:{
+    observedInputs:["実 G=6.674","実 c₀=3×10⁴","地球の実質量・実半径・実自転(23.93時間)",
+      "月の実質量・実半径・同期自転","軌道長半径 3.84748×10⁸m・離心率 0.0549",
+      "月の近点回転の周期 8.85年(fit の対象にした観測値)","恒星月 27.3217日(同上)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁶m/10²s/10²⁵kg)","kFrame=1(空間引きずり ON)",
+      "kRep=muF=γN=κ_S=0","geoPN=2・λ_PN=1・pnα=1.5","pnSource:true・stateCarry:\"double\"・massFloor=1e-6",
+      "自由二体を重心系で配置(pinned なし)",
+      "測定窓は較正が使った 8公転(事後に選んだ窓ではなく宣言済み)",
+      "物理・幾何は 🌘earthMoonRealKF1 と bit 一致(判別意図の再宣言)"],
+    fitted:["D₀=0.006(引きずり歳差の較正ノブ — 🪨💿 と共通の1値)",
+      "初速補正 f=0.9968(−0.32% — 恒星月を戻す共同フィットの第2ノブ)"],
+    derived:["q=8.25(qLock 自動算出)","κ=G/c₀²=7.4156×10⁻⁹"],
+    numerical:["ソフトニング ε=0.1","時間倍率 timeScale=100","粒子表示倍率 dispMag=10(表示専用)"]},
+  activeParams:["D0","kFrame","dispMag"],
+  camera:{scale:450}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.006, kFrame:1, q:8.25, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:100, dispMag:10, stateCarry:"double"},
+  bodies:[   // 🌘earthMoonRealKF1 と同一値(bit 一致 — 判別意図の再宣言)。粒子の並び: 0=地球, 1=月
+    {type:"single", m:0.59724, radius:6.38, x:-4.41822,y:0, vx:0,vy:-0.0013104, spin:0.0072921, pinned:false, pnSource:true},
+    {type:"single", m:0.007346, radius:1.74, x:359.2071,y:0, vx:0,vy:0.1065368, spin:0.00026617, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+{ id:"emAuditSolar", name:"地球と月・機構判別C(太陽+地球+月の三体)— 較正なしの太陽摂動", emoji:"🔆", group:"天体の物語",
+  familyId:"emAudit", familyRole:"variant",
+  scaleTier:"planetary",
+  scaleExp:{L:8, T:4, M:27},   // ☄️🪨🌞 と同一の指数系(1単位=10⁸m/10⁴s/10²⁷kg — 太陽を座標 ±1500 に収める)
+  sampleClass:"calibration",
+  fidelity:"real",
+  notClaim:["solar"],   // 2D・太陽は円軌道・軌道傾斜なし・他惑星なし = 太陽系の定量再現そのものではない
+  orbitObs:{center:1, orbiter:2, ghostAmp:20},   // 0=太陽, 1=地球, 2=月
+  obsCard:[
+    {q:"近点回転の周期(118公転窓・較正ゼロ)", model:"8.754 年(Δϖ=+0.05369 rad/公転)", obs:"8.85 年(−1.1%)"},
+    {q:"窓・dt 依存", model:"236公転窓 8.752年・dt を10倍にしても 5桁一致(定常な永年率)", obs:"—(🧲B は 8→118公転で 8.86→20.78年)"},
+    {q:"恒星月", model:"27.319 日", obs:"27.3217 日"},
+    {q:"離心率(236公転=17.7年)", model:"0.011〜0.055(有界)", obs:"0.026〜0.077(有界)"},
+    {q:"一次永年論との比較", model:"ニュートンの (3/4)m² 一次論は 17.8年(約2倍長い)— 数値三体はその 1/2.04=8.75年", obs:"8.85年(クレローの二次解が解決した歴史的難点)"}],
+  failureFirst:{
+    fail:"ニュートン自身の一次永年論は、太陽摂動による月の近点前進を ϖ̇/n=(3/4)m²(m=n′/n=0.0748)=17.8年で一周と与え、**観測の約2倍長い**。18世紀に「万有引力の最大の難点」とされた問題である(クレローが二次項まで進めて解決した)。本サンプルの数値三体積分も、一次論をそのまま当てれば同じ 17.8年になる。",
+    pass:"第135便の実測: 太陽・地球・月の三体を実定数・実質量のまま **kFrame=0 の純ニュートン**で回すと、近点回転は 118公転窓で 8.754年・236公転窓で 8.752年(観測 8.85年と −1.1%)。窓にも dt にも依存しない定常な永年率で、離心率も 0.011〜0.055 に有界。**近点回転側の較正ノブはゼロ**(fit 欄は空)— 8.75年は出力であって合わせ込んだ値ではない。一次論との比 2.04 は、クレロー/ヒルの高次解が数値積分と同じ答えに到達することの再現である。"},
+  descStruct:{
+    summary:"機構判別の**対照C = 現実の主因**。太陽・地球・月の三体を実定数(実G・実c₀・κ=G/c₀²)・実質量・実半径・実自転のまま置き、**空間引きずり(A8/E6′)を切った純ニュートン(kFrame=0・geoPN=0)= 重力(E4)だけ**で回す。月の近点回転は、較正ノブを1つも使わずに太陽摂動から出る。1単位=10⁸m/10⁴s/10²⁷kg(☄️🪨🌞 と同一指数系)で、太陽 1988.5(=1.9885×10³⁰kg・pinned)・地球 0.0059724・月 7.346×10⁻⁵、地球月重心が 1au=1495.98 を円軌道で公転する。**⭕A・🧲B と同じ観測量(近点回転 8.85年・恒星月 27.32日)を、まったく違う因果チャネルで出す** — これが「数値一致 ≠ 機構同定」の実験的な提示である。",
+    observe:"月の近点方向がゆっくり前進する — 118公転窓で 8.754年(Δϖ=+0.05369 rad/公転)、236公転窓で 8.752年。**窓にも dt にも依らない**(dt を10倍にしても5桁一致)ところが 🧲B との決定的な違いで、B は同じ延長で 8.86→20.78年へ落ちる。恒星月は 27.319日、離心率は 236公転(17.7年)を通して 0.011〜0.055 に有界。初期条件は「太陽・地球・月が一直線・月は太陽の反対側の近地点(満月かつ近地点)・すべて順行・2D」に固定してある(seed 固定・自由度なし)。カメラは地球追従・視野 ±10単位(=±10⁹m)なので、画面には月軌道だけが映る — 太陽は追従を切ってズームアウトすると 1496単位の彼方に見える。正直な限界: 2D・太陽は円軌道・軌道傾斜 5.15° なし・他惑星なしなので、8.85年との −1.1% はこの理想化の範囲内の値であり、**一致の精度ではなく一致の頑健さ**が本サンプルの主張である。",
+    control:"ワンタップ対照A/B: B側は太陽の質量を 10⁻⁶(=実質ゼロ)にする — 第三体が消えた瞬間に近点回転が止まり、⭕判別A と同じ閉じた楕円へ戻る(地球月ペアは公転速度を保ったまま直線的に去るが、カメラが地球を追うので軌道はそのまま見える)。**kFrame を 1 に上げると、太陽摂動の上に DFM の引きずり歳差が上乗せされる** — 実測で近点回転は +0.481 rad/公転(周期 1.00年 = 本来の 8.75年の 8.7倍速)へ跳ね上がり、離心率も 0.130 まで膨らむ。D₀ を 0.006(🧲B の較正値)に下げても +0.483 でほとんど変わらない: 太陽に対する公転速度(w≈3 単位/時間)が D₀ をはるかに上回って χ=w/(D₀+w) が飽和しているためで、**二体で決めた較正ノブは三体系ではまったく別の量になる**。同じ観測量を2つの機構で二重計上するとどうなるかが1操作で見える。geoPN は 0(純ニュートン)にしてある: 1PN を 2 に戻しても近点回転周期は5桁一致で変わらない(月の 1PN 歳差は 2×10⁻¹⁰ rad/公転 = 信号の 4×10⁻⁹)。"},
+  en:{name:"Earth & Moon — Mechanism Audit C (Sun+Earth+Moon three-body): solar perturbation, uncalibrated",
+    parameterAudit:{
+      observedInputs:["real G=6.674","real c₀=3×10⁴","the Sun's real mass, radius and rotation (25.05 d)",
+        "the Earth's real mass, radius and rotation (23.93 h)",
+        "the Moon's real mass, radius and synchronous rotation",
+        "the Sun–Earth distance 1 au = 1.49598×10¹¹ m","the Moon's observed eccentricity 0.0549",
+        "the observed sidereal month 27.3217 d (= the Moon's mean motion — what the initial separation is inverted from)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10⁸ m / 10⁴ s / 10²⁷ kg)",
+        "kFrame=0 and geoPN=0 — pure Newtonian gravity (no dragging, no 1PN)",
+        "D₀=0.1, q=3 (inert here: with kFrame=0 no dragging acts)",
+        "kRep=muF=γN=κ_S=0","pnSource:true, stateCarry:\"double\", massFloor=1e-6",
+        "the Sun is pinned (an external constraint of the exhibit; the mass ratio makes recoil irrelevant)",
+        "the Earth–Moon barycentre on a circular 1 au orbit; everything planar (2D) and prograde",
+        "t=0 geometry: Sun, Earth and Moon collinear with the Moon at perigee on the far side (full moon at perigee) — seed-fixed, no freedom left",
+        "the measurement window is 118 orbits = one nominal 8.85-year cycle (declared before measuring)"],
+      fitted:[],
+      derived:["the initial perigee separation 3.65178 (=365,178 km) — obtained by a one-dimensional inversion on the OBSERVED sidereal month, i.e. the mean-element→osculating-element conversion under solar perturbation (the tabulated a=384,748 km is defined from the observed mean motion, so it is not an osculating element). Nothing on the apsidal side is touched.",
+        "κ=G/c₀²=7.4156×10⁻⁹"],
+      numerical:["softening ε=0.01 (the clamp minimum; its analytic retrograde contribution is −6.4×10⁻⁵ rad/orbit = 0.12% of the signal)",
+        "time multiplier timeScale=1 (the same on-screen pace as ⭕A / 🧲B)","display magnification dispMag=10 (display only)"]},
+    obsCard:[
+      {q:"Apsidal period (118-orbit window, zero calibration)", model:"8.754 yr (Δϖ=+0.05369 rad/orbit)", obs:"8.85 yr (−1.1%)"},
+      {q:"Window / dt dependence", model:"8.752 yr over 236 orbits; five-digit agreement at ten times the step (a steady secular rate)", obs:"— (🧲B goes 8.86→20.78 yr from 8 to 118 orbits)"},
+      {q:"Sidereal month", model:"27.319 d", obs:"27.3217 d"},
+      {q:"Eccentricity (236 orbits = 17.7 yr)", model:"0.011–0.055 (bounded)", obs:"0.026–0.077 (bounded)"},
+      {q:"Against first-order secular theory", model:"Newton's (3/4)m² first-order result is 17.8 yr (about twice too long); the numerical three-body value is 1/2.04 of it = 8.75 yr", obs:"8.85 yr (the historical difficulty Clairaut resolved at second order)"}],
+    failureFirst:{
+      fail:"Newton's own first-order secular theory gives the solar-driven advance of the lunar apse as ϖ̇/n=(3/4)m² (m=n′/n=0.0748), i.e. one cycle in 17.8 years — ABOUT TWICE the observed value. In the 18th century this was called the greatest difficulty of universal gravitation (Clairaut resolved it by carrying the expansion to second order). Applying that first-order formula to this sample's own numbers reproduces the same 17.8 years.",
+      pass:"Wave-135 measurement: integrating Sun, Earth and Moon with real constants and real masses under PURE NEWTONIAN gravity (kFrame=0) gives an apsidal period of 8.754 yr over 118 orbits and 8.752 yr over 236 orbits (−1.1% from the observed 8.85 yr). The rate is steady — independent of both window and dt — and the eccentricity stays bounded between 0.011 and 0.055. NO calibration knob is spent on the apsidal side (the fit list is empty): 8.75 years is an output, not a tuned value. The ratio of 2.04 against the first-order theory reproduces the fact that the Clairaut/Hill higher-order solutions converge on the same answer as numerical integration."},
+    descStruct:{
+    summary:"Condition C of the mechanism audit — THE REAL CAUSE. Sun, Earth and Moon integrated as a three-body system with real constants (real G, real c₀, κ=G/c₀²), real masses, radii and spins, under PURE NEWTONIAN gravity with frame dragging (A8/E6′) off (kFrame=0, geoPN=0) — gravity (E4) alone. The Moon's apsidal precession comes out of the solar perturbation without a single calibration knob. With per-sample scale exponents (1 unit = 10⁸ m / 10⁴ s / 10²⁷ kg, the same system as ☄️🪨🌞) the Sun is 1988.5 (=1.9885×10³⁰ kg, pinned), the Earth 0.0059724 and the Moon 7.346×10⁻⁵, with the Earth–Moon barycentre on a circular orbit at 1 au = 1495.98. It reaches the SAME observables as ⭕A and 🧲B (8.85-year apsidal cycle, 27.32-day sidereal month) through a completely different causal channel — that is the experimental form of \"numerical agreement ≠ mechanism identification\". ",
+    observe:"The Moon's perigee direction advances slowly — 8.754 years over a 118-orbit window (Δϖ=+0.05369 rad/orbit) and 8.752 years over 236 orbits. The rate is INDEPENDENT OF BOTH WINDOW AND dt (five-digit agreement at ten times the step), which is the decisive difference from 🧲B: under the same extension B falls from 8.86 to 20.78 years. The sidereal month is 27.319 d and the eccentricity stays between 0.011 and 0.055 through 236 orbits (17.7 years). The initial condition is fixed to \"Sun, Earth and Moon collinear, the Moon at perigee on the far side from the Sun (full moon at perigee), everything prograde and planar\" — seed-fixed, with no freedom left. The camera follows the Earth with a ±10-unit (±10⁹ m) field, so only the lunar orbit is on screen; switch the follow off and zoom out to find the Sun 1496 units away. Honest limits: 2D, a circular solar orbit, no 5.15° inclination and no other planets, so the −1.1% against 8.85 years sits inside that idealization. The claim is the ROBUSTNESS of the agreement, not its precision. ",
+    control:"One-tap A/B: side B sets the Sun's mass to 10⁻⁶ (effectively zero) — the moment the third body is gone the apsidal rotation stops and the orbit returns to the closed ellipse of ⭕ Audit A (the Earth–Moon pair keeps its orbital velocity and drifts off in a straight line, but the camera follows the Earth so the orbit stays in view). RAISING kFrame TO 1 STACKS the DFM drag precession ON TOP of the solar perturbation: measured, the apsidal drift jumps to +0.481 rad/orbit (a 1.00-year period, 8.7× faster than the proper 8.75 yr) and the eccentricity swells to 0.130. Lowering D₀ to 0.006 (🧲B's calibrated value) barely changes it (+0.483), because the heliocentric orbital speed (w≈3 units/time) dwarfs D₀ and saturates χ=w/(D₀+w) — A CALIBRATION KNOB FIXED ON A TWO-BODY SYSTEM MEANS SOMETHING ENTIRELY DIFFERENT IN A THREE-BODY ONE. One control shows what double-counting a mechanism does. geoPN is 0 (pure Newton): restoring it to 2 leaves the apsidal period unchanged to five digits (the Moon's 1PN precession is 2×10⁻¹⁰ rad/orbit = 4×10⁻⁹ of the signal)."}},
+  abBody:{ label:{ja:"太陽の質量を消す(=⭕判別A・閉じた楕円へ)", en:"remove the Sun's mass (= ⭕ audit A: the closed ellipse)"},
+    targets:[0], patch:{m:1e-6} },
+  // 第135便: claims — C の役割は「較正ゼロの機構対照」なので、近点前進の**符号と大きさ**を
+  // negative_control として計上する(B と同じ数値を出すことは期待しない — chain.note 参照)。
+  claims:[
+    { id:"emAuditSolar.apsidal-prograde", kind:"fixed-seed", prov:"simulated", role:"negative_control",
+      metric:"apsidalDriftRadPerOrbit",
+      chain:{ax:["A6"], eq:["E4"],
+        note:"太陽(第三体)の重力(E4)だけが作る月の近点前進。符号が正(順行)であること・大きさが ⭕A の残差の 8万倍であることを固定する。**C は現実の主因〔太陽摂動〕の対照であり、🧲B と同じ数値を出すことは期待しない** — 同じ観測量を別の因果チャネルで出すことが要点で、一致の精度ではなく一致の頑健さ(窓・dt 非依存)が判別量である。",
+        noteEn:"The Moon's prograde apsidal advance produced by the gravity (E4) of the third body alone. It fixes the sign (prograde) and that the magnitude is ~80,000× the residual of ⭕A. C IS THE CONTROL FOR THE REAL CAUSE (solar perturbation) AND IS NOT EXPECTED TO REPRODUCE 🧲B's NUMBER — the point is that the same observable arises through a different causal channel, and the discriminant is the robustness of the agreement (independence of window and dt), not its precision."},
+      roleNote:"陰性対照(較正ゼロの機構対照)— 近点回転側に fit を1つも使っていない状態で、太陽摂動が観測量を駆動することを機械固定する。",
+      roleNoteEn:"Negative control (an uncalibrated mechanism control) — it machine-fixes that solar perturbation drives the observable with zero fits spent on the apsidal side.",
+      expected:{min:0.04, max:0.07},
+      descPattern:"Δϖ=\\+(\\d+\\.\\d+) rad/公転", testId:"behavior.emAudit" },
+    { id:"emAuditSolar.apsidal-period", kind:"fixed-seed", prov:"simulated", role:"negative_control",
+      metric:"apsidalPrecessionPeriodYears",
+      chain:{ax:["A6"], eq:["E4"],
+        note:"118公転窓(=約8.85年ぶん)の近点回転周期。236公転窓 8.752年・dt 10倍で5桁一致という**窓にも dt にも依存しない定常率**であることが、🧲B(8→118公転で 8.86→20.78年)との判別量になる。",
+        noteEn:"The apsidal period over a 118-orbit window (one nominal 8.85-year cycle). Its independence of window and dt (8.752 yr over 236 orbits; five-digit agreement at ten times the step) is what discriminates it from 🧲B (8.86→20.78 yr from 8 to 118 orbits)."},
+      roleNote:"陰性対照 — 較正ゼロで出た出力値。窓は実測前に事前登録した(実測後に動かしていない)。8.85年との −1.1% は 2D・円軌道太陽・軌道傾斜なしの理想化の範囲。",
+      roleNoteEn:"Negative control — an output obtained with zero calibration. The window was pre-registered before measuring (and not moved afterwards). The −1.1% against 8.85 years sits inside the 2D / circular-solar-orbit / no-inclination idealization.",
+      expected:{min:7.5, max:10.2},
+      descPattern:"118公転窓で (\\d+\\.\\d+)年", testId:"behavior.emAudit" },
+    { id:"emAuditSolar.sidereal-month", kind:"semantic", prov:"derived", role:"input_check",
+      metric:"siderealMonthDays",
+      chain:{ax:["A6"], eq:["E4"],
+        note:"太陽摂動込みで出る恒星月。初期近地点距離は**この観測値から逆算**しているので、これは fit ではなく観測入力の写し方(平均要素→接触要素の変換)が正しく閉じていることの確認である。",
+        noteEn:"The sidereal month including the solar perturbation. The initial perigee separation is inverted FROM this observed value, so this item is not a fit but a check that the transcription (mean element → osculating element) closes correctly."},
+      roleNote:"観測入力の検証 — 太陽摂動下では観測表の a=384,748km(観測された平均運動から定義された量)が接触要素と 0.4% ずれるため、初期条件は恒星月の側から逆算している。近点回転側には触れていない。",
+      roleNoteEn:"Input check — under solar perturbation the tabulated a=384,748 km (defined from the observed mean motion) differs from the osculating element by 0.4%, so the initial condition is inverted from the sidereal month instead. Nothing on the apsidal side is touched.",
+      expected:{min:27.17, max:27.47},
+      descPattern:"恒星月は (\\d+\\.\\d+)日", testId:"behavior.emAudit" }
+  ],
+  parameterAudit:{
+    observedInputs:["実 G=6.674","実 c₀=3×10⁴","太陽の実質量・実半径・実自転(25.05日)",
+      "地球の実質量・実半径・実自転(23.93時間)","月の実質量・実半径・同期自転",
+      "太陽–地球距離 1au=1.49598×10¹¹m","月の離心率 0.0549(観測値)",
+      "恒星月 27.3217日(=月の平均運動 — 初期距離をここから逆算する観測入力)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁸m/10⁴s/10²⁷kg)",
+      "kFrame=0・geoPN=0 — 純ニュートン重力(引きずりも 1PN も入れない)",
+      "D₀=0.1・q=3(kFrame=0 では引きずりが働かないため結果に無関与)",
+      "kRep=muF=γN=κ_S=0","pnSource:true・stateCarry:\"double\"・massFloor=1e-6",
+      "太陽 pinned(展示系の外部拘束 — 質量比から反跳は無関係)",
+      "地球月重心は 1au の円軌道・全て同一平面(2D)・順行",
+      "t=0 の幾何: 太陽–地球–月が一直線で月は反太陽側の近地点(満月かつ近地点)— seed 固定・自由度なし",
+      "測定窓は 118公転(=約8.85年ぶん・実測前に事前登録)"],
+    fitted:[],
+    derived:["初期近地点距離 3.65178(=365,178km)— **観測の恒星月**からの1次元逆算(太陽摂動下の平均要素→接触要素の変換。観測表の a=384,748km は観測された平均運動から定義された量で接触要素ではない)。近点回転側には一切触れていない",
+      "κ=G/c₀²=7.4156×10⁻⁹"],
+    numerical:["ソフトニング ε=0.01(クランプ下限。解析上の逆行寄与 −6.4×10⁻⁵ rad/公転=信号の 0.12%)",
+      "時間倍率 timeScale=1(⭕A・🧲B と同じ画面上の速さ)","粒子表示倍率 dispMag=10(表示専用)"]},
+  activeParams:["kFrame","D0","dispMag"],
+  camera:{scale:10, follow:1}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.01, timeScale:1, dispMag:10, stateCarry:"double"},
+  bodies:[   // 並び: 0=太陽(pinned), 1=地球, 2=月。全て実値(1単位=10⁸m/10⁴s/10²⁷kg)
+             // 地球月重心 x=1495.98(1au)・円軌道初速 √(GM☉/a)=2.9784685
+             // 月の接触要素: 近地点 3.6517798(=365,178km)・e=0.0549 → 相対速度 0.10796334
+             // (近地点距離は観測の恒星月 27.3217日 からの逆算 — parameterAudit の derived 参照)
+             // 質量比 fM=m月/(m地+m月)=0.012150463 で重心配分
+    {type:"single", m:1988.5, radius:6.96, x:0,y:0, vx:0,vy:0, spin:0.029031, pinned:true, pnSource:true},
+    {type:"single", m:0.0059724, radius:0.06371, x:1495.9356292,y:0, vx:0,vy:2.97715665, spin:0.729212, pinned:false, pnSource:true},
+    {type:"single", m:0.00007346, radius:0.0174, x:1499.5874090,y:0, vx:0,vy:3.08512000, spin:0.026617, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false} },
+
 { id:"mercury", name:"水星の近日点前進 — 測地線1PN", emoji:"☿", group:"天体の物語",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
   familyId:"mercury", familyRole:"variant",   // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
