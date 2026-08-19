@@ -4578,7 +4578,7 @@ const BUILTIN_PRESETS = [
   orbitObs:{center:0, orbiter:1, ghostAmp:20},   // 実歳差 3°/公転 — ×20 で数公転で一周が見える
   descStruct:{
     summary:"🌙(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、共通補正 D₀=0.006+qLock(q*=8.25 自動算出)に較正した版 — 重力(E4)+運動引きずりの二体だけで、恒星月 27.32日と**月の近点回転(実測 約8.85年で一周)**の2観測量を同時に較正再現する(exp-kf1b/kf1c 実測)。純二体のケプラー軌道は閉じた楕円で近点回転を持たない — kFrame=1 の運動引きずりが χ=w/(D₀+w) に比例する順行歳差を作り、D₀ がその較正ノブになる(第120便の一次発見)。測地線 E12・倍精度 stateCarry は雛形の規約どおり。",
-    observe:"軌道の向き(近点方向)がゆっくり回る — 実際の月と同じ約8.85年(≈118公転)で一周する。歳差積算 HUD の換算レートと、ゴースト楕円(点線=初期・橙=歳差×20 増幅)で回転が数公転で見える。**HUD の積算は周回内で大きく振動する(局所では逆行にも振れる)— 1公転単位で読むと正味 +0.053 rad/公転(Δϖ比 0.999)**。恒星月は 27.33日(+0.03%)。正直な明記: 実際の近点回転の主因は太陽摂動(第三体)— 本サンプルは運動引きずりという別機構での較正一致であり、機構の同定を主張しない(観測結果カード)。",
+    observe:"軌道の向き(近点方向)がゆっくり回る — 実際の月と同じ約8.85年(≈118公転)で一周する。歳差積算 HUD の換算レートと、ゴースト楕円(点線=初期・橙=歳差×20 増幅)で回転が数公転で見える。**HUD の積算は周回内で大きく振動する(局所では逆行にも振れる)— 1公転単位で読むと正味 +0.053 rad/公転(Δϖ比 0.999)**。恒星月は 27.33日(+0.03%)。この 8.85年は較正が使った8公転窓での値で、窓を118公転まで延ばすと 20.78年に遅くなる(歳差は定常ではない — 第135便 emAudit の実測)。機構としての同定は判別サンプル群 ⭕🧲🔆 を参照。正直な明記: 実際の近点回転の主因は太陽摂動(第三体)— 本サンプルは運動引きずりという別機構での較正一致であり、機構の同定を主張しない(観測結果カード)。",
     control:"本サンプルは**天体の現実較正の雛形**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock。今後の観測較正サンプルは本構成をコピーして作る — PHYSICS §5)。ワンタップ対照A/B: B側 D₀=0.1 に上げると引きずりが 1/16 になり回転がほぼ止まる(χ∝1/D₀ の用量が見える)。kFrame を 0 にすると純ケプラー(閉じた楕円)へ。スピンを 0 にしても歳差は変わらない(運動起源 — exp-kf1b §A。q は自動算出〔qLock〕で、地球スピン項の混入を除く役)。"},
   en:{name:"Earth & Moon (Real Units, kFrame=1) — apsidal precession 8.85 yr, calibrated",
     parameterAudit:{
@@ -4603,7 +4603,7 @@ const BUILTIN_PRESETS = [
       {q:"Universality of the correction", model:"D₀=0.006 shared with 🪨💿; q auto-derived from the same rule (qLock q*=8.25 — exp-kf1d)", obs:"—"}],
     descStruct:{
     summary:"The same real values as 🌙 (kFrame=0) with frame dragging (A8/E6′) enabled and the joint correction D₀=0.006 plus qLock (auto-derived q*=8.25) applied — gravity (E4) plus motion dragging alone reproduce TWO observables: the 27.32-day sidereal month and the Moon's apsidal precession (observed: one cycle in ≈8.85 years) (exp-kf1b/kf1c). A pure two-body Kepler orbit is a closed ellipse with no apsidal rotation — the kFrame=1 motion drag adds a prograde precession scaling as χ=w/(D₀+w), making D₀ its calibration knob (wave-120 primary finding). Geodesic E12 and double-precision stateCarry follow the template. This is one of the three REAL-CALIBRATION TEMPLATES (🪨🌘💿 — real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock; future observation-calibration samples copy this construction — PHYSICS §5). ",
-    observe:"The orbit's apse line slowly rotates — one cycle in about 8.85 years (≈118 orbits), as the real Moon does. The precession HUD rate and the ghost ellipses (dotted = initial, amber = precession ×20) make the rotation visible within a few orbits. The HUD accumulator oscillates strongly within each orbit (locally even retrograde) — read it per full orbit: net +0.053 rad/orbit (Δϖ ratio 0.999). The sidereal month is 27.33 d (+0.03%). Honest note: the real cause of the lunar apsidal precession is solar perturbation (a third body) — this sample matches it via a different mechanism, motion dragging, and claims no mechanism identification (see the observation card). ",
+    observe:"The orbit's apse line slowly rotates — one cycle in about 8.85 years (≈118 orbits), as the real Moon does. The precession HUD rate and the ghost ellipses (dotted = initial, amber = precession ×20) make the rotation visible within a few orbits. The HUD accumulator oscillates strongly within each orbit (locally even retrograde) — read it per full orbit: net +0.053 rad/orbit (Δϖ ratio 0.999). The sidereal month is 27.33 d (+0.03%). This 8.85-year figure is the value IN THE 8-ORBIT WINDOW the calibration used — stretching the window to 118 orbits slows it to 20.78 years (the precession is not steady; see wave-135's mechanism audit). For mechanism identification, see the audit family ⭕🧲🔆 (emAudit). Honest note: the real cause of the lunar apsidal precession is solar perturbation (a third body) — this sample matches it via a different mechanism, motion dragging, and claims no mechanism identification (see the observation card). ",
     control:"This is one of the three REAL-CALIBRATION TEMPLATES (🪨🌘💿 — real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock; future observation-calibration samples copy this construction — PHYSICS §5). One-tap A/B: raising D₀ to 0.1 on side B cuts the drag by 1/16 and the rotation nearly stops (the χ∝1/D₀ dose made visible). Setting kFrame to 0 returns to pure Kepler (closed ellipse). Zeroing the spins changes nothing (motion origin — exp-kf1b §A)."}},
   abBody:{ label:{ja:"D₀=0.1(引きずり弱 — 回転が止まる対照)", en:"D₀=0.1 (weak drag — rotation stops)"},
     physicsPatch:{D0:0.1} },
@@ -4760,7 +4760,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"emAuditDFM", name:"地球と月・機構判別B(二体DFM較正)— 8.85年を別機構で", emoji:"🧲", group:"天体の物語",
-  familyId:"emAudit", familyRole:"primary",
+  familyId:"emAudit", familyRole:"variant",   // 第137便(統括裁定): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 🌙🌘 と同一の指数系
   sampleClass:"calibration",
@@ -4865,7 +4865,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"emAuditSolar", name:"地球と月・機構判別C(太陽+地球+月の三体)— 較正なしの太陽摂動", emoji:"🔆", group:"天体の物語",
-  familyId:"emAudit", familyRole:"variant",
+  familyId:"emAudit", familyRole:"primary",   // 第137便(統括裁定): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)
   scaleTier:"planetary",
   scaleExp:{L:8, T:4, M:27},   // ☄️🪨🌞 と同一の指数系(1単位=10⁸m/10⁴s/10²⁷kg — 太陽を座標 ±1500 に収める)
   sampleClass:"calibration",
@@ -5536,6 +5536,7 @@ const BUILTIN_PRESETS = [
 //    トイ設定(太陽半径40=実の5.7倍・自転0.5=実の17倍・q=2・D₀=2・c₀=30)が作っていた
 //    人工物で、実単位では不要になることを f 掃引で実測(第131便 — QA behavior.solarInner が再固定)。
 { id:"solarInner", name:"太陽系 — 内惑星(実単位)", emoji:"🌞", group:"天体の物語",
+  familyId:"mercury", familyRole:"variant",   // 第137便(統括裁定): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)
   scaleTier:"planetary",
   scaleExp:{L:8, T:4, M:27},   // 第131便: ☄️mercuryReal・🪨mercuryRealKF1 と同一の指数系
                                // (1単位=10⁸m/10⁴s/10²⁷kg — 実G=6.674・実c=3×10⁴〔eC=L−T=4〕)
@@ -5646,6 +5647,183 @@ const BUILTIN_PRESETS = [
     {type:"single", m:0.00064171, radius:0.0339, x:-2279.39,y:0, vx:0,vy:-2.412940, spin:0.708822, pinned:false},
     {type:"ring", rMul:5, n:100, cx:0,cy:0, rIn:3300, rOut:4600, mMin:0.000001, mMax:0.000001,
      spinMin:0, spinMax:0, vMode:"kepler", aroundMass:1988.5, omega:0, vNoise:0.02, direction:1, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+
+// ===== 第138便: 木星ガリレオ衛星 hold-out(規則を一切再フィットしない初の事後外挿テスト)=====
+// 現行の実較正3系(☄️🪨 水星・🌙🌘 地球月・💿🛰️ 土星)は、共通補正 D₀=0.006 と qLock 則そのものの
+// 形成に関与した**回顧的確認**である。木星系はその規則を**再フィットせずに初めて外挿する系**で、
+// 事前登録窓 JW1〜JW5 は実測前に固定し、実測後に動かしていない(PASS でも FAIL でも実測を記録)。
+{ id:"jupiterGalilean", name:"木星とガリレオ衛星(実単位)— 規則を再フィットしない hold-out", emoji:"🟠", group:"天体の物語",
+  familyId:"jupiter", familyRole:"primary",
+  scaleTier:"planetary",
+  scaleExp:{L:7, T:3, M:26},   // 1単位=10⁷m/10³s/10²⁶kg。規約 L−T=4 で c₀=3×10⁴、M+2T−3L=11 で G=6.674
+                               // (🌘 の {6,2,25}・🌞🪨 の {8,4,27} と同じ族の、木星系に合う組)
+  sampleClass:"calibration",
+  fidelity:"real",   // 距離・質量・半径・自転・離心率・周期がすべて観測値(2D 赤道面理想化のみ)
+  notClaim:["solar"],
+  obsCard:[
+    {q:"恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)",
+     model:"1.770342 / 3.552263 / 7.154235 / 16.684462 日(最大ずれ 0.0681%)",
+     obs:"1.769138 / 3.551181 / 7.154553 / 16.689017 日"},
+    {q:"kFrame=1(D₀=0.006・q=12.30)での周期",
+     model:"1.770047 / 3.552374 / 7.156300 / 16.690658 日(ずれ 0.0514/0.0336/0.0244/0.0098%)",
+     obs:"同上(再フィットは一切していない)"},
+    {q:"20イオ公転窓の軌道保持(kFrame=1)", model:"|Δa|/a=0.0114/0.0704/0.0721/0.1421%(NaN なし)", obs:"—(事前登録窓は 2% 未満)"},
+    {q:"フレーム回転の内訳", model:"自転引きずりは全系の 1.55×10⁻⁵(イオ)〜2.96×10⁻¹²(カリスト)— 衛星どうしの運動引きずりが支配", obs:"—"},
+    {q:"払った較正", model:"衛星別 fit ゼロ(共有 D₀=0.006 のみ・q は qLock 則の算出値)", obs:"—"},
+    {q:"ラプラス共鳴", model:"周期比 2.006938 / 2.014512(記録のみ — 再現は要求していない)", obs:"2.007295 / 2.014697"}],
+  failureFirst:{
+    fail:"hold-out は落ちうる。木星系は χ=w/(D₀+w) が 0.944〜0.987 と 🌘(参照点 0.215)の4倍以上あり、**引きずりが薄まらない**領域である。ここで D₀ や q を木星系向けに引き直せば、それは hold-out ではなく4本目の較正になってしまう。実際、qLock の幾何減衰を外した q=3 の対照では恒星公転周期が観測から 1.4604/1.0865/0.7048/0.3545% ずれ、事前登録窓 ±1% を2衛星で割る。また事前登録の JW4 のうち『フレーム ω の符号=自転と同方向』は、**全系の実測では成立しない**(4衛星とも逆行の瞬時値)— 全系の ω は木星の自転を 0 にしてもほとんど変わらないからである。",
+    pass:"規則を1つも動かさずに通った。**共通補正 D₀=0.006 をそのまま使い、q は qLock 則 q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) を参照軌道=イオで1回だけ評価した 12.30 を直値宣言する**(衛星別の fit はゼロ)。kFrame=0 の転写で恒星公転周期は観測と最大 0.0681% のずれ(JW1 PASS)、kFrame=1 でも 20イオ公転窓で4衛星とも NaN なし・|Δa|/a が イオ 0.0114%・エウロパ 0.0704%・ガニメデ 0.0721%・カリスト 0.1421% で、4衛星とも事前登録窓 2% の 1/14 以下、周期も ±0.052% 以内を保つ(JW2 PASS)。60イオ公転へ延ばしても 0.0145/0.0799/0.0721/0.1421% で崩れない。JW4 の符号については、**自転引きずりだけを取り出したチャネル(木星+その衛星の2体)では4衛星とも順行**で、しかも解析形 χ·s·(R/(R+r))^q と4桁一致する(tests/exp-jupiter.mjs)。"},
+  descStruct:{
+    summary:"木星(実質量 1.898×10²⁷kg・実半径 71,492km・実自転 9.925時間)と4つのガリレオ衛星(イオ/エウロパ/ガニメデ/カリスト — 実軌道長半径 421,800/671,100/1,070,400/1,882,700km・実離心率 0.0041/0.009/0.0013/0.0074・実質量 8.93/4.80/14.8/10.76×10²²kg・同期自転)を、1単位=10⁷m/10³s/10²⁶kg のサンプル別スケール指数で置いた**外挿検証(hold-out)サンプル**。働いているのは重力(E4)と空間引きずり(A8/E6′)+測地線1PN(E12)だけで、規約は実較正の雛形(🪨🌘💿)そのままである(kFrame=1・kRep=muF=γN=κ_S=0・geoPN=2・λ_PN=1・pnα=1.5・stateCarry:\"double\"・κ=G/c₀²)。**本サンプルでは規則を一切再フィットしない**: 引きずりの共通補正 D₀=0.006 は 🪨🌘💿 で決まった1値をそのまま使い、幾何減衰 q は qLock 則を参照軌道=イオで1回だけ評価した算出値 12.30 を直値で宣言する(多天体系では a_ref が一意に決まらないため実行時 qLock は掛けない — 🌞 と同じ既存裁定)。初速は実ケプラー速度そのもの(較正係数 1.000)。**軌道傾斜(0.04°/0.47°/0.20°/0.19°)を無視した2D赤道面理想化**であることを宣言する。事前登録窓 JW1〜JW5 は実測前に固定してあり、実測後に動かしていない。",
+    observe:"kFrame=0 の転写では恒星公転周期が 1.770342/3.552263/7.154235/16.684462 日(観測 1.769138/3.551181/7.154553/16.689017 日)で、**恒星公転周期は観測と最大 0.0681% のずれ**にとどまる(JW1 PASS)。空間引きずりを入れた kFrame=1(D₀=0.006・q=12.30)でも周期は 1.770047/3.552374/7.156300/16.690658 日(ずれ 0.0514/0.0336/0.0244/0.0098%)で、20イオ公転窓の軌道長半径の保持は |Δa|/a が イオ 0.0114%・エウロパ 0.0704%・ガニメデ 0.0721%・カリスト 0.1421% で、4衛星とも事前登録窓 2% を大きく下回る(NaN ゼロ・JW2 PASS)。60イオ公転(カリスト 6.4公転)へ延ばしても 0.0145/0.0799/0.0721/0.1421% で、離心率も 0.0011〜0.0154 の有界帯に留まる。**引きずりのチャネル分解**(第138便の一次発見): この系のフレーム回転は木星の自転ではなく**衛星どうしの運動引きずり**に支配される — 木星の自転を 0 にしても全系の ω は 5桁目までしか変わらず、自転引きずりだけを取り出したチャネル(木星+その衛星の2体)の ω は 8.72×10⁻¹²/5.98×10⁻¹⁴/2.73×10⁻¹⁶/3.86×10⁻¹⁹ rad(10³s)⁻¹ で、全系の 1.55×10⁻⁵(イオ)〜2.96×10⁻¹²(カリスト)しかない。この自転チャネルの ω は**4衛星とも順行(自転と同方向)**で、解析形 χ·s·(R/(R+r))^q と4桁一致する。力学差分 Δϖ_drag(kFrame=1−kFrame=0)は全系で −1.377×10⁻²/−7.461×10⁻²/−1.844×10⁻¹/−4.093×10⁻² rad/公転、自転チャネルだけなら −6.18×10⁻⁸/−9.13×10⁻¹⁰/−8.41×10⁻¹²/+2.40×10⁻¹³ rad/公転(最後の1件は数値床以下=上限値)。**kFrame を 0 に落とした対照でも4衛星は同じ精度で保たれ、周期の差は最大 0.0371%(カリスト)**にとどまる — 実スケールでは引きずりが軌道条件を壊さない。木星の自転周期 9.925時間 は観測どおりの転写である。**正直な明記**: 全系の Δϖ_drag は、衛星どうしの永年摂動が kFrame の有無で位相ずれを起こした差も含むため、步幅を半分にすると 1.3〜23% 動く — 桁として読む量である(自転チャネルの分離と、収束している周期・|Δa|/a のほうが判定に耐える)。決定性は同一構成2回実行でビット同一、収束は步幅を半分にしても周期の相対差 2.7×10⁻⁵ 以内(tests/exp-jupiter.mjs → tests/out/jupiter-results.json)。",
+    control:"ワンタップ対照A/B: B側は kFrame=0(空間引きずり A8/E6′ を OFF — 重力 E4 と測地線1PN E12 だけが残る)— 上の Δϖ_drag はこの2つの差そのものである(同一初期条件・同一步幅なので、数値床とソフトニング歳差は相殺する)。q のスライダーを 3(LT と同じ r⁻³ 則)まで下げると自転引きずりが運動引きずりを追い越して全系の ω が順行へ反転し、恒星公転周期が観測から 1.4604/1.0865/0.7048/0.3545% ずれる — **qLock の幾何減衰が実スケールを成立させている**ことの対照である(JW5・記録のみ)。ラプラス共鳴(λ_I−3λ_E+2λ_G)の再現は事前登録の対象外で、初期位相は 90° ずつずらした理想化配置である(周期比の実測 2.006938/2.014512 は記録のみ)。半径が実値なので衛星は点にしか見えない — 粒子表示倍率 dispMag=3(表示専用・力学不変)で描いている(木星の実半径 7.1492 はイオ軌道 42.18 の 17% あるので、倍率は小さく取ってある)。木星は pinned の展示系(中心は固定=外部拘束 — 中心天体の反跳が引きずり差分へ運動引きずりを混ぜないため)。"},
+  en:{name:"Jupiter & the Galilean Moons (Real Units) — a hold-out with no rule re-fitted",
+    parameterAudit:{
+      observedInputs:["real G=6.674","real c₀=3×10⁴","Jupiter's real mass, radius and rotation (9.925 h)",
+        "the real semi-major axes of Io, Europa, Ganymede and Callisto (421,800 / 671,100 / 1,070,400 / 1,882,700 km)",
+        "their real eccentricities (0.0041 / 0.009 / 0.0013 / 0.0074) and real masses (8.93 / 4.80 / 14.8 / 10.76 ×10²² kg)",
+        "their synchronous rotations","the real Kepler speeds (calibration factor 1.000 — no multiplier)",
+        "the observed sidereal periods 1.769138 / 3.551181 / 7.154553 / 16.689017 d (compared against, NOT fitted to)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10⁷ m / 10³ s / 10²⁶ kg)","kFrame=1 (the template construction)",
+        "a 2D equatorial idealization — the orbital inclinations (0.04°/0.47°/0.20°/0.19°) are ignored, declared",
+        "kRep=muF=γN=κ_S=0","geoPN=2, λ_PN=1, pnα=1.5","pnSource:true, stateCarry:\"double\", massFloor=1e-6",
+        "Jupiter is pinned (an external constraint of the exhibit: recoil of the central body would mix motion dragging into the differential)",
+        "initial phases spread by 90° (the Laplace resonance angle is NOT set up as an initial condition)",
+        "the pre-registered windows JW1–JW5 were fixed before measuring and were not moved afterwards"],
+      fitted:["D₀=0.006 (the shared value fixed by the joint fit on 🌘, used as is — zero re-tuning here, and zero per-moon fits)"],
+      derived:["q=12.30 (the qLock rule q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) evaluated ONCE at the reference orbit = Io, q*=12.3017, declared as a literal — runtime qLock is not engaged because a_ref is not unique in a multi-body system, the same ruling as 🌞)",
+        "κ=G/c₀²=7.4156×10⁻⁹"],
+      numerical:["softening ε=0.05","time multiplier timeScale=30","display magnification dispMag=3 (display only)"]},
+    obsCard:[
+      {q:"Sidereal periods (Io/Europa/Ganymede/Callisto, kFrame=0 transcription)",
+       model:"1.770342 / 3.552263 / 7.154235 / 16.684462 d (worst deviation 0.0681%)",
+       obs:"1.769138 / 3.551181 / 7.154553 / 16.689017 d"},
+      {q:"Periods at kFrame=1 (D₀=0.006, q=12.30)",
+       model:"1.770047 / 3.552374 / 7.156300 / 16.690658 d (0.0514/0.0336/0.0244/0.0098%)",
+       obs:"same observation — nothing was re-fitted"},
+      {q:"Orbit retention over 20 Io orbits (kFrame=1)", model:"|Δa|/a = 0.0114/0.0704/0.0721/0.1421% (no NaN)", obs:"— (the pre-registered window is under 2%)"},
+      {q:"Where the frame rotation comes from", model:"spin dragging is 1.55×10⁻⁵ (Io) to 2.96×10⁻¹² (Callisto) of the total — moon-to-moon motion dragging dominates", obs:"—"},
+      {q:"Calibration spent here", model:"zero per-moon fits (only the shared D₀=0.006; q is the qLock rule's output)", obs:"—"},
+      {q:"The Laplace resonance", model:"period ratios 2.006938 / 2.014512 (recorded only — reproduction was never required)", obs:"2.007295 / 2.014697"}],
+    failureFirst:{
+      fail:"A hold-out can fail. In the Jovian system χ=w/(D₀+w) runs 0.944–0.987, more than four times the 0.215 at 🌘's reference orbit, so the dragging is NOT diluted here. Re-deriving D₀ or q for Jupiter would turn this into a fourth calibration rather than a hold-out. And indeed the q=3 control (the geometric falloff of qLock removed) shifts the sidereal periods by 1.4604/1.0865/0.7048/0.3545% from observation, breaking the ±1% window on two moons. One clause of the pre-registered JW4 — that the frame rotation ω should share the sign of the spin — DOES NOT HOLD on the full system: all four moons show a retrograde instantaneous value, because the total ω barely changes when Jupiter's spin is set to zero.",
+      pass:"It passed without moving a single rule. The shared correction D₀=0.006 is used as is, and q is the qLock rule q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) evaluated ONCE at the reference orbit = Io (12.30), declared as a literal — zero per-moon fits. The kFrame=0 transcription reproduces the sidereal periods to within 0.0681% (JW1 PASS); at kFrame=1 all four moons survive a 20-Io-orbit window with no NaN and |Δa|/a of 0.0114/0.0704/0.0721/0.1421% — under a fourteenth of the pre-registered 2% — while the periods hold to ±0.052% (JW2 PASS). Stretching to 60 Io orbits gives 0.0145/0.0799/0.0721/0.1421%. On the JW4 sign question, the channel that isolates spin dragging (Jupiter plus one moon) IS prograde on all four moons and agrees with the analytic form χ·s·(R/(R+r))^q to four digits (tests/exp-jupiter.mjs)."},
+    descStruct:{
+    summary:"Jupiter (real mass 1.898×10²⁷ kg, real radius 71,492 km, real 9.925-hour rotation) with the four Galilean moons (Io, Europa, Ganymede, Callisto — real semi-major axes 421,800/671,100/1,070,400/1,882,700 km, real eccentricities 0.0041/0.009/0.0013/0.0074, real masses 8.93/4.80/14.8/10.76 ×10²² kg, synchronous rotations), placed with per-sample scale exponents of 1 unit = 10⁷ m / 10³ s / 10²⁶ kg. This is a HOLD-OUT sample. Only gravity (E4), frame dragging (A8/E6′) and the geodesic 1PN term (E12) act, and the conventions are exactly those of the real-calibration templates (🪨🌘💿) — kFrame=1, kRep=muF=γN=κ_S=0, geoPN=2, λ_PN=1, pnα=1.5, stateCarry:\"double\", κ=G/c₀² — and NOT ONE RULE IS RE-FITTED HERE. The shared drag correction D₀=0.006 is the single value fixed on 🪨🌘💿, and the geometric falloff q is the qLock rule evaluated ONCE at the reference orbit = Io, giving 12.30, declared as a literal (runtime qLock is not engaged: in a multi-body system a_ref is not unique — the same ruling as 🌞). The initial speeds are the real Kepler speeds themselves (calibration factor 1.000). The construction is a 2D EQUATORIAL IDEALIZATION: the orbital inclinations (0.04°/0.47°/0.20°/0.19°) are ignored, and this is declared. The pre-registered windows JW1–JW5 were fixed before measuring and were not moved afterwards. ",
+    observe:"The kFrame=0 transcription gives sidereal periods of 1.770342/3.552263/7.154235/16.684462 d (observed 1.769138/3.551181/7.154553/16.689017 d) — a worst deviation of 0.0681% (JW1 PASS). Switching frame dragging on (kFrame=1, D₀=0.006, q=12.30) the periods are 1.770047/3.552374/7.156300/16.690658 d (0.0514/0.0336/0.0244/0.0098%), and over a 20-Io-orbit window the semi-major axes hold to |Δa|/a of 0.0114% (Io), 0.0704% (Europa), 0.0721% (Ganymede) and 0.1421% (Callisto) — far inside the pre-registered 2%, with zero NaN (JW2 PASS). Stretching to 60 Io orbits (6.4 Callisto orbits) gives 0.0145/0.0799/0.0721/0.1421%, and the eccentricities stay in a bounded 0.0011–0.0154 band. THE CHANNEL DECOMPOSITION (the wave-138 primary finding): the frame rotation in this system is dominated not by Jupiter's spin but by MOON-TO-MOON MOTION DRAGGING — zeroing Jupiter's spin changes the total ω only in the fifth digit, and the channel that isolates spin dragging (Jupiter plus one moon) gives ω = 8.72×10⁻¹² / 5.98×10⁻¹⁴ / 2.73×10⁻¹⁶ / 3.86×10⁻¹⁹ rad per 10³ s, i.e. 1.55×10⁻⁵ (Io) down to 2.96×10⁻¹² (Callisto) of the total. That spin channel IS prograde on all four moons and matches the analytic form χ·s·(R/(R+r))^q to four digits. The dynamical differential Δϖ_drag (kFrame=1 minus kFrame=0) is −1.377×10⁻²/−7.461×10⁻²/−1.844×10⁻¹/−4.093×10⁻² rad per orbit on the full system, and −6.18×10⁻⁸/−9.13×10⁻¹⁰/−8.41×10⁻¹²/+2.40×10⁻¹³ rad per orbit on the spin channel alone (the last of these sits below the rounding floor and is an upper limit). The kFrame=0 control keeps all four moons to the same accuracy, the periods differing by at most 0.0371% (Callisto) — at real scale the dragging does not break the orbital condition. Jupiter's 9.925-hour rotation is transcribed as observed. HONEST NOTE: the full-system Δϖ_drag also contains the phase decorrelation of the moons' mutual secular perturbations between the two kFrame settings, so halving the step moves it by 1.3–23% — read it as an order of magnitude (the isolated spin channel, and the converged periods and |Δa|/a, are what carry the verdict). The run is deterministic (two runs bit-identical) and converged (halving the step changes the periods by under 2.7×10⁻⁵ relative) — tests/exp-jupiter.mjs → tests/out/jupiter-results.json. ",
+    control:"One-tap A/B: side B is kFrame=0 (frame dragging A8/E6′ off, leaving gravity E4 and the geodesic 1PN term E12) — the Δϖ_drag figures above are exactly the difference between the two sides (same initial condition, same step size, so the rounding floor and the softening precession cancel). Drag the q slider down to 3 (the same r⁻³ law as Lense–Thirring) and spin dragging overtakes motion dragging: the total ω flips prograde and the sidereal periods drift 1.4604/1.0865/0.7048/0.3545% away from observation — the control that shows qLock's geometric falloff is what makes real scale work (JW5, recorded only). Reproducing the Laplace resonance (λ_I−3λ_E+2λ_G) was never part of the pre-registration; the initial phases are an idealized 90°-apart layout, and the measured period ratios 2.006938/2.014512 are recorded only. At real radii the moons are mere dots, so a display magnification dispMag=3 (display only, dynamics untouched) is used — kept small because Jupiter's real radius of 7.1492 is already 17% of Io's 42.18 orbit. Jupiter is pinned (exhibit system; the centre is an external constraint, so the central body's recoil cannot mix motion dragging into the differential)."}},
+  abBody:{ label:{ja:"kFrame=0(空間引きずり OFF — 差分の土台)", en:"kFrame=0 (frame dragging off — the baseline of the differential)"},
+    physicsPatch:{kFrame:0} },
+  // 第138便: claims — hold-out の役割分担をそのまま台帳へ。
+  //   ①4衛星の周期転写 = input_check(観測入力の写しの検証)
+  //   ②イオ = retrospective_check(qLock の参照軌道 — 規則側の参照点なので予言ではない)
+  //   ③エウロパ/ガニメデ/カリスト = held_out(規則形成に**使っていない**外挿検証)
+  //   ④kFrame=0 対照 = negative_control
+  // fitted は共有 D₀ の1件のみ(衛星別 fit ゼロ)。
+  claims:[
+    { id:"jupiterGalilean.periods-transcribed", kind:"fixed-seed", prov:"simulated", role:"input_check",
+      metric:"periodTranscriptionWorstDeviation",
+      chain:{ax:["A4","A6"], eq:["E4"],
+        note:"観測入力(実軌道長半径・実質量・実 G)から実ケプラー初速で置いた4衛星の恒星公転周期が、観測周期(1.769138/3.551181/7.154553/16.689017 日)を写せていることの検証。較正ノブは1つも使っていない(初速較正係数 1.000)。",
+        noteEn:"A check that the four sidereal periods, obtained from the observed inputs (real semi-major axes, real masses, real G) with the real Kepler speeds, transcribe the observed periods (1.769138/3.551181/7.154553/16.689017 d). No calibration knob is spent (velocity calibration factor 1.000)."},
+      roleNote:"観測入力の検証 — 独立な予言ではなく、hold-out の出発点が実在の木星系であることの確認。事前登録窓 JW1(±1%)の判定量。",
+      roleNoteEn:"Input check — not an independent prediction, but a verification that the hold-out starts from the real Jovian system. The quantity judged by pre-registered window JW1 (±1%).",
+      expected:{min:0.0001, max:0.01}, descScale:0.01,
+      descPattern:"恒星公転周期は観測と最大 (\\d+\\.\\d+)% のずれ", testId:"behavior.jupiter" },
+    { id:"jupiterGalilean.io-retention", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+      metric:"ioSemiMajorAxisSpread",
+      chain:{ax:["A4","A5"], eq:["E4","E6′"],
+        note:"qLock の**参照軌道**であるイオが、kFrame=1(D₀=0.006・q=12.30)の 20イオ公転窓で軌道長半径を保つこと。q はこの軌道を参照点として算出した値なので、イオは予言側ではなく規則側の参照点である。",
+        noteEn:"That Io — the REFERENCE ORBIT of qLock — holds its semi-major axis over a 20-Io-orbit window at kFrame=1 (D₀=0.006, q=12.30). Since q was derived using this orbit as the reference point, Io sits on the rule side, not the prediction side."},
+      roleNote:"回顧的確認 — イオは q の算出に使った参照軌道なので、規則形成に不関与の外挿検証(held_out)ではない。fit には使っていない(q は算出則の出力であって合わせ込みではない)。",
+      roleNoteEn:"Retrospective check — Io is the reference orbit used to derive q, so it is not a held-out extrapolation. Nothing was fitted to it (q is the output of a rule, not a tuned value).",
+      expected:{min:0.00005, max:0.02}, descScale:0.01,
+      descPattern:"イオ (\\d+\\.\\d+)%・エウロパ", testId:"behavior.jupiter" },
+    { id:"jupiterGalilean.europa-holdout", kind:"fixed-seed", prov:"simulated", role:"held_out",
+      metric:"europaSemiMajorAxisSpread",
+      chain:{ax:["A4","A5"], eq:["E4","E6′"],
+        note:"エウロパは D₀ にも qLock の参照軌道にも使っていない。共有規則のまま外挿して 20イオ公転窓で軌道長半径が保たれるかを見る**予言側**の項目(事前登録窓 JW2: |Δa|/a<2% かつ周期 ±1%)。",
+        noteEn:"Europa entered neither D₀ nor the qLock reference orbit. This is a PREDICTION-side item: extrapolate the shared rules unchanged and see whether the semi-major axis holds over a 20-Io-orbit window (pre-registered window JW2: |Δa|/a<2% and period within ±1%)."},
+      roleNote:"外挿検証(規則形成に不関与)— 本サンプルで初めて使う系であり、エウロパに合わせた較正は1つもない。窓は実測前に固定し、実測後に動かしていない。",
+      roleNoteEn:"Held-out check — this system enters the model for the first time here, and no calibration was tuned to Europa. The window was fixed before measuring and not moved afterwards.",
+      expected:{min:0.0001, max:0.02}, descScale:0.01,
+      descPattern:"エウロパ (\\d+\\.\\d+)%・ガニメデ", testId:"behavior.jupiter" },
+    { id:"jupiterGalilean.ganymede-holdout", kind:"fixed-seed", prov:"simulated", role:"held_out",
+      metric:"ganymedeSemiMajorAxisSpread",
+      chain:{ax:["A4","A5"], eq:["E4","E6′"],
+        note:"ガニメデも規則形成に不関与。太陽系最大の衛星(質量 1.48×10²³kg)で、衛星どうしの運動引きずりが最も強く効く位置にある。",
+        noteEn:"Ganymede likewise took no part in forming the rules. It is the largest moon in the solar system (1.48×10²³ kg) and sits where moon-to-moon motion dragging acts most strongly."},
+      roleNote:"外挿検証(規則形成に不関与)— ガニメデに合わせた較正はゼロ。",
+      roleNoteEn:"Held-out check — zero calibration tuned to Ganymede.",
+      expected:{min:0.0001, max:0.02}, descScale:0.01,
+      descPattern:"ガニメデ (\\d+\\.\\d+)%・カリスト", testId:"behavior.jupiter" },
+    { id:"jupiterGalilean.callisto-holdout", kind:"fixed-seed", prov:"simulated", role:"held_out",
+      metric:"callistoSemiMajorAxisSpread",
+      chain:{ax:["A4","A5"], eq:["E4","E6′"],
+        note:"カリストは参照軌道イオの 4.5倍の距離にあり、qLock の幾何減衰 (R/(R+a))^q が最も強く効く外側端である。ここまで規則を延ばしても軌道が保たれるかを見る項目。",
+        noteEn:"Callisto sits 4.5× the reference radius, at the outer end where qLock's geometric falloff (R/(R+a))^q bites hardest. The item asks whether the rules, stretched that far, still hold the orbit."},
+      roleNote:"外挿検証(規則形成に不関与)— カリストに合わせた較正はゼロ。半径方向の外挿幅が最大の点でもある。",
+      roleNoteEn:"Held-out check — zero calibration tuned to Callisto; it is also the largest radial extrapolation in the sample.",
+      expected:{min:0.0001, max:0.02}, descScale:0.01,
+      descPattern:"カリスト (\\d+\\.\\d+)% で、4衛星とも", testId:"behavior.jupiter" },
+    { id:"jupiterGalilean.kf0-control", kind:"fixed-seed", prov:"simulated", role:"negative_control",
+      metric:"periodShiftKF1MinusKF0Worst",
+      chain:{ax:["A6"], eq:["E4"],
+        note:"空間引きずりを切った対照(kFrame=0)でも4衛星が同じ精度で保たれ、周期の差が最大 0.0371%(カリスト)にとどまることの定量。差分 Δϖ_drag の土台が引きずり以外の何かを拾っていないことの機械固定であり、実スケールでは引きずりが軌道条件を壊さないことの直接の数字でもある。",
+        noteEn:"Quantifies that the kFrame=0 control (dragging off) keeps all four moons to the same accuracy, the periods differing by at most 0.0371% (Callisto). It machine-fixes that the baseline of the Δϖ_drag differential picks up nothing besides the dragging, and is the direct number for 'at real scale the dragging does not break the orbital condition'."},
+      roleNote:"陰性対照 — 引きずりを切ったときにも同じ観測量が出ることを固定する。較正ノブは1つも使っていない。",
+      roleNoteEn:"Negative control — it fixes that the same observables appear with dragging switched off. No calibration knob is spent.",
+      expected:{min:0.0001, max:0.005}, descScale:0.01,
+      descPattern:"周期の差は最大 (\\d+\\.\\d+)%", testId:"behavior.jupiter" },
+    { id:"jupiterGalilean.jupiter-rotation", kind:"semantic", prov:"derived", role:"input_check",
+      metric:"jupiterRotationHours",
+      chain:{ax:["A8"], eq:["E6′"],
+        note:"引きずり源である木星の自転を観測どおりに写せていることの確認(spin=0.175851814 rad/10³s → 周期 9.925時間)。qLock の算出にも入る量である。",
+        noteEn:"A check that Jupiter's rotation — the source of the dragging — is transcribed as observed (spin=0.175851814 rad per 10³ s → a 9.925-hour period). It also enters the qLock derivation."},
+      roleNote:"観測入力の検証 — 較正ノブを使っていない写しの確認。",
+      roleNoteEn:"Input check — a verification of a transcription, with no calibration knob spent.",
+      expected:{min:9.85, max:10.0},
+      descPattern:"自転周期 (\\d+\\.\\d+)時間", testId:"behavior.jupiter" }
+  ],
+  parameterAudit:{
+    observedInputs:["実 G=6.674","実 c₀=3×10⁴","木星の実質量・実半径・実自転(9.925時間)",
+      "イオ/エウロパ/ガニメデ/カリストの実軌道長半径(421,800/671,100/1,070,400/1,882,700km)",
+      "同・実離心率(0.0041/0.009/0.0013/0.0074)と実質量(8.93/4.80/14.8/10.76×10²²kg)",
+      "同・同期自転","実ケプラー初速(較正係数 1.000 — 掛け算なし)",
+      "観測周期 1.769138/3.551181/7.154553/16.689017 日(**照合先であって fit の対象ではない**)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁷m/10³s/10²⁶kg)","kFrame=1(雛形 🪨🌘💿 の構成)",
+      "2D赤道面理想化(軌道傾斜 0.04°/0.47°/0.20°/0.19° は再現しない — 宣言)",
+      "kRep=muF=γN=κ_S=0","geoPN=2・λ_PN=1・pnα=1.5","pnSource:true・stateCarry:\"double\"・massFloor=1e-6",
+      "木星は pinned(展示系の外部拘束 — 中心天体の反跳が引きずり差分へ運動引きずりを混ぜないため)",
+      "初期位相は 90° ずつずらした配置(ラプラス共鳴角は初期条件として与えていない)",
+      "事前登録窓 JW1〜JW5 は実測前に固定し、実測後に動かしていない"],
+    fitted:["D₀=0.006(🪨🌘💿 の共同フィットで決めた共通値をそのまま使用 — 本サンプルでの再調整はゼロ・衛星別 fit もゼロ)"],
+    derived:["q=12.30(qLock 則 q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) を参照軌道=イオで1回だけ評価した q*=12.3017 の直値宣言 — 多天体系では a_ref が一意に決まらないため実行時 qLock は掛けていない〔🌞 と同じ既存裁定〕)",
+      "κ=G/c₀²=7.4156×10⁻⁹"],
+    numerical:["ソフトニング ε=0.05","時間倍率 timeScale=30","粒子表示倍率 dispMag=3(表示専用)"]},
+  activeParams:["kFrame","q","D0"],
+  camera:{scale:220}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.006, kFrame:1, q:12.30, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:30, dispMag:3, stateCarry:"double"},
+  bodies:[   // 並び: 0=木星(pinned), 1=イオ, 2=エウロパ, 3=ガニメデ, 4=カリスト。すべて実値
+             // (1単位=10⁷m/10³s/10²⁶kg): 木星 1.898×10²⁷kg/7.1492×10⁷m/自転 9.925h、
+             //  イオ 8.93×10²²kg/1.8216×10⁶m/a=4.218×10⁸m・e=0.0041、
+             //  エウロパ 4.80×10²²kg/1.5608×10⁶m/a=6.711×10⁸m・e=0.009、
+             //  ガニメデ 1.48×10²³kg/2.6341×10⁶m/a=1.0704×10⁹m・e=0.0013、
+             //  カリスト 1.076×10²³kg/2.4103×10⁶m/a=1.8827×10⁹m・e=0.0074。自転はいずれも同期(2π/P_obs)。
+             //  初期位置は各衛星の近点 r_p=a(1−e)、初速は接線方向の √(GM(1+e)/r_p)(実ケプラー速度・
+             //  較正係数 1.000)。GM=6.674×18.98=126.67252(実 GM_J=1.26687×10¹⁷ m³/s² と 1.1×10⁻⁴ 一致)。
+             //  位相は 90° ずつずらしてある(初期合を避けるため — ラプラス共鳴角の設定ではない)。
+    {type:"single", m:18.98, radius:7.1492, x:0,y:0, vx:0,vy:0, spin:0.175851814, pinned:true, pnSource:true},
+    {type:"single", m:0.000893, radius:0.18216, x:42.0070620,y:0, vx:0,vy:1.74007727, spin:0.0411059240, pinned:false},
+    {type:"single", m:0.000480, radius:0.15608, x:0,y:66.5060100, vx:-1.38629719,vy:0, spin:0.0204782725, pinned:false},
+    {type:"single", m:0.001480, radius:0.26341, x:-106.900848,y:0, vx:0,vy:-1.08926297, spin:0.0101644438, pinned:false},
+    {type:"single", m:0.001076, radius:0.24103, x:0,y:-186.876802, vx:0.826350857,vy:0, spin:0.00435747966, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
