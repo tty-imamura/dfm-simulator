@@ -28,7 +28,12 @@
 //   JW5 q=3 対照を記録(窓なし)
 //   ラプラス共鳴の再現は要求しない(記録のみ)
 //
-// 実行: node tests/exp-jupiter.mjs(playwright 必須・数分)→ tests/out/jupiter-results.json
+// 第141便の追記(感度実測 — §H): 参照軌道 a の ±20%・高q対照(8/10/14)・厳密一致式 q_exact の対照・
+//   共有背景 D₀ の ×0.5/×2 を**付帯記録**として足した。事前登録窓 JW1〜JW5 と主測定は 1bit も
+//   変更していない(本節を足す前後で JSON の既存キーはすべてビット不変であることを確認済み)。
+//   結果は out.sensitivity にだけ入る。
+//
+// 実行: node tests/exp-jupiter.mjs(playwright 必須・約5秒)→ tests/out/jupiter-results.json
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -104,8 +109,8 @@ const HARNESS = ({ PHYS, MJ, RJ, SPIN_J, GM, T_IO, BODIES }) => {
   window.__jup = {
     // subset を渡すと部分系を組む(単独衛星=木星+その衛星の2体 → 自転引きずりだけのチャネル)。
     // spinJ を 0 にすると自転引きずりが消え、衛星どうしの運動引きずりだけのチャネルになる。
-    build(kF, q, spinJ, subset) {
-      const P = Object.assign({}, PHYS, { kFrame: kF, q });
+    build(kF, q, spinJ, subset, patch) {
+      const P = Object.assign({}, PHYS, { kFrame: kF, q }, patch || {});
       const S = HP.sim;
       S.build({ id: 'jup', name: 'jup', emoji: '🟠', seed: 1, camera: { scale: 200 },
         world: { boundary: 'none', size: 0 }, physics: P,
@@ -129,8 +134,8 @@ const HARNESS = ({ PHYS, MJ, RJ, SPIN_J, GM, T_IO, BODIES }) => {
       return rows;
     },
     // 主測定: 恒星公転周期・軌道長半径の保持・離心率の帯・近点移動
-    run(kF, q, N, orbits, spinJ, subset, Tbase) {
-      const S = this.build(kF, q, spinJ, subset);
+    run(kF, q, N, orbits, spinJ, subset, Tbase, patch) {
+      const S = this.build(kF, q, spinJ, subset, patch);
       const dt = (Tbase || T_IO) / N, steps = Math.round(orbits * N);
       const n = (subset || BODIES).length;
       const st = [];
@@ -479,6 +484,139 @@ out.uField.note = 'rowsTotal* は4衛星同居の全系、rowsSpinOnly は木星
   + 'rowsSpinOnly の om は解析形 χ·s·(R/(R+r))^q と 1.3% 以内で一致する。';
 out.floor.rows = fl;
 out.floor.note = '全系の1步あたり引きずり増分 |Δv| と速度の 1 ulp の比(2步走らせて1步あたりに直した値)。';
+
+// ================= H) 感度実測(第141便 — 追加記録。既存の窓 JW1〜JW5 と主測定は 1bit も動かさない)==
+// 外部レビュー対応で「参照軌道 a の選定がどれだけ効くか」を数字にするための**付帯記録**である。
+// 事前登録窓ではない(PASS/FAIL の判定に使わない)。判定条件だけは JW2 と同じものを並記して
+// 「同じ物差しで見たときにどうなるか」が読めるようにしてある。
+//   ① 参照軌道 a を ±20% 振ったときの q* と4衛星の保持/周期
+//   ② 高q対照 q=8 / 10 / 14(qLock 値 12.30 の上下)
+//   ③ 厳密一致式 q_exact = q* + 3·ln(a/(R+a))/ln((R+a)/R) の対照(採らなかった代替規約)
+//   ④ 共有背景 D₀ の ×0.5 / ×2 感度(D₀ は再フィット禁止の共有値なので、感度の記録のみ)
+console.log('\n== H) 感度実測(第141便・付帯記録)==');
+const A_IO = MOONS[0].a;
+const LN_RA = Math.log((RJ + A_IO) / RJ);
+const qStarAt = (a) => 3 + Math.log(1.25 * PHYS.cLight * PHYS.cLight * RJ / GM)
+  / Math.log((RJ + a) / RJ);
+// 参照軌道 a における「素のスピン項 / Ω_LT」(J=(2/5)MR²s の一様球近似。s は約分して消える)
+const bareOverLT = (q, a) => Math.pow(RJ / (RJ + a), q)
+  * PHYS.cLight * PHYS.cLight * a * a * a / (0.8 * GM * RJ * RJ);
+const Q_EXACT = Q_STAR + 3 * Math.log(A_IO / (RJ + A_IO)) / LN_RA;
+const Q_EXACT_DECL = +Q_EXACT.toFixed(2);
+
+const senseRun = async (label, q, patch) => {
+  const r1 = await page.evaluate(({ N, o, q, patch }) =>
+    window.__jup.run(1, q, N, o, undefined, undefined, undefined, patch),
+    { N: N_STEP, o: ORBITS, q, patch: patch || null });
+  const r0 = patch ? await page.evaluate(({ N, o, q, patch }) =>
+    window.__jup.run(0, q, N, o, undefined, undefined, undefined, patch),
+    { N: N_STEP, o: ORBITS, q, patch }) : kf0;
+  const rows = MOONS.map((mo, i) => ({
+    name: mo.name, periodDays: r1.rows[i].Tavg / DAY, devPercent: relDev(r1.rows[i].Tavg, mo.Pobs) * 100,
+    aSpreadPercent: 100 * (r1.rows[i].aMax - r1.rows[i].aMin) / r1.rows[i].aMean,
+    dragPe: r1.rows[i].dpomPe - r0.rows[i].dpomPe,
+    periodShift: (r1.rows[i].Tavg - r0.rows[i].Tavg) / r0.rows[i].Tavg }));
+  return { label, q, patch: patch || null, nan: r1.nan, rows,
+    // JW2 と同じ判定条件で見たときの成否(窓ではなく比較のための併記)
+    sameAsJW2Condition: !r1.nan && rows.every((r) => r.aSpreadPercent < 2 && Math.abs(r.devPercent) < 1),
+    maxAbsDevPercent: Math.max(...rows.map((r) => Math.abs(r.devPercent))),
+    maxASpreadPercent: Math.max(...rows.map((r) => r.aSpreadPercent)),
+    fin: r1.fin };
+};
+
+// ① 参照軌道 a ±20%
+const aVariants = [{ f: 0.8 }, { f: 1.0 }, { f: 1.2 }].map((v) => {
+  const a = A_IO * v.f, qs = qStarAt(a);
+  return { f: v.f, aRef: a, qStar: qs, qDeclared: +qs.toFixed(2), dqStar: qs - Q_STAR };
+});
+const aRefRows = [];
+for (const v of aVariants) {
+  const r = await senseRun(`aRef×${v.f.toFixed(1)}`, v.qDeclared);
+  aRefRows.push(Object.assign({}, v, {
+    nan: r.nan, rows: r.rows, sameAsJW2Condition: r.sameAsJW2Condition,
+    maxAbsDevPercent: r.maxAbsDevPercent, maxASpreadPercent: r.maxASpreadPercent,
+    // 参照軌道での素のスピン項/Ω_LT(遠方近似の規約が置きにいく量。有限半径因子ぶんだけ 1 を外す)
+    bareOverLTatIo: bareOverLT(v.qDeclared, A_IO),
+    bareOverLTatOwnRef: bareOverLT(v.qDeclared, v.aRef) }));
+  console.log(`  a_ref×${v.f.toFixed(1)}(a=${v.aRef.toFixed(3)}) q*=${v.qStar.toFixed(4)}→宣言 ${v.qDeclared}`
+    + ` 周期ずれ最大 ${r.maxAbsDevPercent.toFixed(4)}% / |Δa|/a 最大 ${r.maxASpreadPercent.toFixed(5)}%`
+    + ` / NaN=${r.nan}(JW2 と同条件: ${r.sameAsJW2Condition})`);
+}
+
+// ② 高q対照 + ③ q_exact 対照
+const qRows = [];
+for (const q of [8, 10, 14, Q_EXACT_DECL]) {
+  const r = await senseRun(`q=${q}`, q);
+  qRows.push({ q, isQExact: q === Q_EXACT_DECL, nan: r.nan, rows: r.rows,
+    sameAsJW2Condition: r.sameAsJW2Condition, maxAbsDevPercent: r.maxAbsDevPercent,
+    maxASpreadPercent: r.maxASpreadPercent, bareOverLTatIo: bareOverLT(q, A_IO) });
+  console.log(`  q=${q}${q === Q_EXACT_DECL ? '(q_exact)' : ''}`
+    + ` 周期ずれ最大 ${r.maxAbsDevPercent.toFixed(4)}% / |Δa|/a 最大 ${r.maxASpreadPercent.toFixed(5)}%`
+    + ` / 素のスピン項/Ω_LT(イオ)=${bareOverLT(q, A_IO).toExponential(3)}(JW2 と同条件: ${r.sameAsJW2Condition})`);
+}
+
+// ④ D₀ 感度(×0.5 / ×2)
+const d0Rows = [];
+for (const f of [0.5, 1, 2]) {
+  const D0 = PHYS.D0 * f;
+  const r = f === 1 ? null : await senseRun(`D0×${f}`, Q_LOCK, { D0 });
+  const rows = r ? r.rows : MOONS.map((mo, i) => ({
+    name: mo.name, periodDays: kf1.rows[i].Tavg / DAY, devPercent: relDev(kf1.rows[i].Tavg, mo.Pobs) * 100,
+    aSpreadPercent: 100 * (kf1.rows[i].aMax - kf1.rows[i].aMin) / kf1.rows[i].aMean,
+    dragPe: kf1.rows[i].dpomPe - kf0.rows[i].dpomPe,
+    periodShift: (kf1.rows[i].Tavg - kf0.rows[i].Tavg) / kf0.rows[i].Tavg }));
+  const mx = Math.max(...rows.map((v) => Math.abs(v.devPercent)));
+  const ms = Math.max(...rows.map((v) => v.aSpreadPercent));
+  d0Rows.push({ factor: f, D0, nan: r ? r.nan : kf1.nan, rows,
+    sameAsJW2Condition: r ? r.sameAsJW2Condition : out.windows.JW2.pass,
+    maxAbsDevPercent: mx, maxASpreadPercent: ms });
+  console.log(`  D₀=${D0}(×${f}) 周期ずれ最大 ${mx.toFixed(4)}% / |Δa|/a 最大 ${ms.toFixed(5)}%`
+    + ` / NaN=${r ? r.nan : kf1.nan}(JW2 と同条件: ${r ? r.sameAsJW2Condition : out.windows.JW2.pass})`);
+}
+
+// 感度実測の決定性(追加分も2回一致することを確認する)
+const sens1 = await page.evaluate(({ N, o }) =>
+  window.__jup.run(1, 8, N, o, undefined, undefined, undefined, null), { N: N_STEP, o: ORBITS });
+const sens2 = await page.evaluate(({ N, o }) =>
+  window.__jup.run(1, 8, N, o, undefined, undefined, undefined, null), { N: N_STEP, o: ORBITS });
+const sensBit = sens1.fin.length === sens2.fin.length
+  && sens1.fin.every((v, i) => Object.is(v, sens2.fin[i]));
+console.log(`  感度構成(q=8)の決定性: 2回実行でビット同一 = ${sensBit}`);
+
+out.sensitivity = {
+  wave: 141, recordOnly: true,
+  statement: '第141便の付帯記録。既存の事前登録窓 JW1〜JW5 と主測定は一切変更していない'
+    + '(本節を足す前後で他の全キーの値はビット不変)。ここは「参照軌道 a の選定・指数 q・共有背景 D₀ を'
+    + '動かすと何がどれだけ動くか」の感度記録であって、事前登録した判定ではない。',
+  farFieldConvention: {
+    rule: 'qLock 則 q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) は、スピン項の**遠方近似 a≫R**での振幅を '
+      + 'Ω_LT=2GJ/(c₀²r³)(J=(2/5)MR²s の一様球近似)に合わせる宣言規約である。',
+    finiteRadiusFactor: Math.pow(A_IO / (RJ + A_IO), 3),
+    finiteRadiusNote: '有限半径因子。参照軌道 a で素のスピン項 s·(R/(R+a))^q* を Ω_LT(a) と比べると、'
+      + '比は厳密に (a/(R+a))³ になる(a≫R で 1 に漸近する — 遠方近似であることの定量)。',
+    bareOverLTatIoDeclared: bareOverLT(Q_LOCK, A_IO),
+    bareOverLTatIoExactQStar: bareOverLT(Q_STAR, A_IO),
+    qExact: Q_EXACT, qExactDeclared: Q_EXACT_DECL,
+    qExactRule: 'q_exact = q* + 3·ln(a/(R+a))/ln((R+a)/R) — 参照軌道で比を厳密に 1 にする代替規約。'
+      + '本便では採らない(確定済みの較正世界線〔共有 D₀=0.006・kf1d・木星 hold-out〕を'
+      + '再実測なしで保存する最小修正を優先した)。採否は規約の選択であって物理の判定ではない。',
+    chiNote: 'χ=w/(D₀+w) を掛けた実効フレーム回転はさらに小さい(木星系では χ=0.944〜0.987 と 1 に近い)。' },
+  aRefSensitivity: {
+    statement: '参照軌道 a を ±20% 振ると q* がどれだけ動き、4衛星の保持・周期がどうなるか',
+    whyIo: 'イオを参照軌道に選ぶ理由: 多体系では自由天体距離の中央値が一意でないため参照を1つ宣言する'
+      + '必要があり(🌞第131便の裁定)、①支配源(木星)に最も近い=スピン項が最大で効く軌道であること、'
+      + '②公転周期が最短で同じ実時間窓で最も多くの公転を積めること(数値床が最良)から、'
+      + '4衛星のうちイオが最も厳しい・最も解像度の高い参照点になる。',
+    rows: aRefRows },
+  qControls: {
+    statement: '高q対照(q=8/10/14)と厳密一致式 q_exact の対照。qLock 宣言値 12.30 との比較用',
+    qDeclared: Q_LOCK, qStar: Q_STAR, rows: qRows },
+  d0Sensitivity: {
+    statement: '共有背景 D₀ の ×0.5 / ×2 感度(D₀=0.006 は 🪨🌘💿 と共通の値で、本系では再フィットしない)',
+    rows: d0Rows },
+  determinism: { config: 'q=8・kF1・主測定窓', bitIdentical: sensBit,
+    maxAbsDiff: Math.max(...sens1.fin.map((v, i) => Math.abs(v - sens2.fin[i]))) },
+};
 
 // ================= 出力 =================
 console.log('\n== JW1 kF0 転写(周期 ±1%)==');

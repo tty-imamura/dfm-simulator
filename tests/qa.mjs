@@ -2200,9 +2200,13 @@ if (has40BSemanticSync) {
         HP.loadPreset('echo', false); const s = HP.sim;
         while (!s.echoFlipped && s.t < 100) s.step(0.016);   // 反転済みの状態にする
       });
+      // 第142便: 待ち条件は「反転済みマークまで出ている」= 判定条件そのもの。
+      // loadPreset 直後の同期HUD(第142便 syncHud)も echoFlipAt 有りなら "echo RMS=0.00e+0" を
+      // 出すため、"echo RMS=" だけを待つと反転前の t=0 表示で待ちが抜けてしまう(判定は弱めない —
+      // 待ち条件を判定条件へ揃えて強めている)
       await page.waitForFunction(() => {
         const el = document.querySelector('#hud');
-        return el && el.textContent.includes('echo RMS=');
+        return el && el.textContent.includes('echo RMS=') && el.textContent.includes('反転済み↩︎');
       }, null, { timeout: 5000 });
       hudJa = await page.evaluate(() => document.querySelector('#hud').textContent);
       await page.evaluate(() => HP.setLang('en'));
@@ -6076,10 +6080,11 @@ if (!FAST) {
 }
 
 // ---- 8c4) 第136便: behavior.qlockRadial — qLock 半径方向監査サンプル群 qlockAudit ----
-// ----   🧭qLockRadialAudit(q=8.25 = 月の実軌道に対する qLock の LT整合値)と
+// ----   🧭qLockRadialAudit(q=8.25 = 月の実軌道に対する qLock〔遠方近似の LT 級振幅規約〕の算出値)と
 // ----   📐qLockRadialAuditQ3(q=3 = LT と同じ r⁻³ 則の物差し)を、縮小構成で機械固定する。
 // ----   ①宣言(ファミリー・fidelity・claims の role・parameterAudit.fitted が空・q/kFrame/D₀/構成)
-// ----   ②参照点の LT整合(サンプル自身の宣言値から解析で: 素の s·(R/(R+a))^q が Ω_LT の 0.8〜1.15倍)
+// ----   ②参照点の LT 級振幅(サンプル自身の宣言値から解析で: 素の s·(R/(R+a))^q が Ω_LT の 0.8〜1.15倍。
+// ----     この比は有限半径因子 (a/(R+a))³ に等しく、1 ではない — 第141便)
 // ----   ③u 場の解析一致(最内プローブで ω_engine が χ·s·(R/(R+r))^q と 5% 以内)
 // ----   ④引きずり差分の符号と落ち方(内側2プローブの kF1−kF0 差分・短窓)—
 // ----      実測どおり**逆行**(負)で、内側ほど急に落ち、q=3 対照の方が桁違いに大きい
@@ -13684,8 +13689,13 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
           && Math.abs(((typeof ab.simB.params.kappaT === 'number')
             ? 1 / ab.simB.params.kappaT : ab.simB.params.Kt) - 134.85166317) < 1e-6);   // 第128便: κ 正準世代は 1/κ で読む
         abStop(); }
-      // ⑥ 歳差HUD: 独立描画をやめ主HUD(loop の txt ブロック)の行に統合(ソース検査)
-      out.hudMerged = !String(drawOrbitObs).includes('ooHud') && String(loop).includes('T("ooHud")');
+      // ⑥ 歳差HUD: 独立描画をやめ主HUD(#hud を書く txt ブロック)の行に統合(ソース検査)。
+      //   第142便でそのブロックが loop() から syncHud() へ切り出されたので、**#hud を実際に書いて
+      //   いる関数**を主HUDブロックとして特定してから検査する(判定は弱めない — 統合先が
+      //   `$("#hud").textContent` を書くことも併せて要求する)
+      const hudSrc = String((typeof syncHud === 'function') ? syncHud : loop);
+      out.hudMerged = !String(drawOrbitObs).includes('ooHud') && hudSrc.includes('T("ooHud")')
+        && hudSrc.includes('$("#hud").textContent');
       // ⑦ 🌘: D₀=0.006 較正+引きずり歳差が正で積算される。周回内の RL 角は大きく振動する
       //   (局所では逆行に見える — 実測)ため、**丸1公転**を回して正味の順行 Δϖ を確認する
       //   (較正値 +0.052 rad/公転 ≈ +10800″)。積算はフレーム毎更新なので周期的に drawOrbitObs
@@ -13807,7 +13817,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   } else {
     console.log('SKIP wave122.ui(第122便 未適用 — root 等)');
   }
-  // 92-1h) 第123便: qLock(qの自動算出=LT整合則)・💿共通補正+MM整合・A/B の決定力マップ/線の軌跡修正
+  // 92-1h) 第123便: qLock(qの自動算出=LT 級振幅規約〔遠方近似〕)・💿共通補正+MM整合・A/B の決定力マップ/線の軌跡修正
   const has123 = await page.evaluate(() => !!(window.HP && typeof qLockCalc === 'function'));
   if (has123) {
     const r = await page.evaluate(() => {
@@ -14722,6 +14732,99 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       `箱A/B比較表示: lastBox=H0=${r.lastBoxSet}・G編集でlastKeyへ復帰=${r.lastKeyBack}`);
   } else {
     console.log('SKIP ui.wave96a(対象に第95便機能なし — root 等)');
+  }
+}
+
+// ---- 142) 第142便: ui.hud-sync — 停止中の状態変化に HUD が同期する ----
+// ----   再現していた不具合: 停止中にサンプルを切り替えるとタイトルは新サンプルへ変わるのに、
+// ----   HUD だけが旧サンプルの t・步数・N・スケール指数・実効倍率を表示し続けた(HUD の再計算が
+// ----   loop() の「10フレームに1回」経路にしか無かったため。実行を始めるまで気づけない)。
+// ----   第142便で HUD 1ブロックを syncHud() へ切り出し、loadPreset・セーブ読込・⏮初めから・
+// ----   チェックポイント復元の完了直後に同期的に呼ぶようにした。本ゲートはその3経路を E2E で固定する:
+// ----     ①停止中に A(conduction)を 200 步進めてから B(saturnZonalD68)へ切替 → **1フレームも
+// ----       待たずに** t=0・0步・N・スケール指数(長さ/時間/質量)・実効倍率が B と一致し、
+// ----       かつ rAF 経路が回った後の定常表示と1文字も違わない(fps 欄を除く)
+// ----     ②⏮初めから 直後に t=0・0步(直前は t>0)
+// ----     ③チェックポイント復元 直後に t が保存点へ戻る(直前は保存点より進んでいる)
+// ----   期待値は表示文字列の再実装ではなく HP.scaleEffNow()/HP.sim/HP.speedMul() から作る
+// ----   (実測値の手打ちをしない)。root 世代は syncHud を持たないので SKIP(既存ゲートは不変)----
+{
+  const hasSync = await page.evaluate(() => typeof HP.syncHud === 'function');
+  if (hasSync) {
+    const r = await page.evaluate(async () => {
+      const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
+      const hudTxt = () => document.querySelector('#hud').textContent;
+      const noFps = (s) => s.replace(/\s+\d+fps/, ' *fps');
+      const parse = (s) => {
+        const a = s.match(/t=(-?[\d.]+)\s+\((\d+)步\)\s+N=(\d+)/);
+        const b = s.match(/長さ1=10\^(-?[\d.]+)m 時間1=10\^(-?[\d.]+)s 質量1=10\^(-?[\d.]+)kg/);
+        const c = s.match(/実効倍率([^\s:]+)\s*:/);
+        return { t: a && +a[1], step: a && +a[2], n: a && +a[3],
+          L: b && +b[1], T: b && +b[2], M: b && +b[3], mul: c && Number(c[1]) };
+      };
+      // 期待値はアプリの読み口から作る(HUD の書式と同じ丸め: 指数は 0.1 刻み・t は小数1桁・
+      // 步数は t/0.016・実効倍率は timeScale×簡易倍率を 0.001〜1000 でクランプ)
+      const want = () => {
+        const ef = HP.scaleEffNow(), r1 = (v) => Math.round(v * 10) / 10;
+        return { t: +HP.sim.t.toFixed(1), step: Math.round(HP.sim.t / 0.016), n: HP.sim.n,
+          L: r1(ef.x), T: r1(ef.eT), M: r1(ef.eM),
+          mul: Math.min(Math.max(HP.sim.params.timeScale * HP.speedMul(), 0.001), 1000) };
+      };
+      const out = {};
+      // ①停止中のサンプル切替
+      HP.loadPreset('conduction', false);
+      await sleep(250);
+      for (let i = 0; i < 200; i++) HP.sim.step(0.016);
+      await sleep(250);                       // 旧サンプルの HUD を rAF 経路で確定させる
+      out.a = parse(hudTxt());
+      HP.loadPreset('saturnZonalD68', false);
+      out.bNow = parse(hudTxt());             // 1フレームも待たない同期直後の読み
+      out.bWant = want();
+      const bNowTxt = noFps(hudTxt());
+      await sleep(300);
+      out.bSame = bNowTxt === noFps(hudTxt());
+      // ②⏮初めから
+      for (let i = 0; i < 150; i++) HP.sim.step(0.016);
+      await sleep(250);
+      out.rBefore = parse(hudTxt());
+      document.querySelector('#btnReset').click();
+      out.rNow = parse(hudTxt());
+      out.rWant = want();
+      // ③チェックポイント復元
+      for (let i = 0; i < 100; i++) HP.sim.step(0.016);
+      document.querySelector('#btnCkSave').click();
+      out.ckT = +HP.sim.t.toFixed(1);
+      for (let i = 0; i < 100; i++) HP.sim.step(0.016);
+      await sleep(250);
+      out.cBefore = parse(hudTxt());
+      document.querySelector('#btnCkLoad').click();
+      out.cNow = parse(hudTxt());
+      out.cWant = want();
+      HP.loadPreset('saturn', false);         // 後続項目のため既定プリセットへ戻す
+      return out;
+    });
+    const near = (a, b) => a !== null && b !== null && Math.abs(a - b) <= Math.max(1e-9, Math.abs(b) * 1e-2);
+    const same = (g, w) => !!g && !!w && g.t === w.t && g.step === w.step && g.n === w.n
+      && g.L === w.L && g.T === w.T && g.M === w.M && near(g.mul, w.mul);
+    const chk = {
+      switchSync: same(r.bNow, r.bWant) && r.bNow.t === 0 && r.bNow.step === 0,
+      // 取り残しを見逃さないための対照: 旧サンプルと新サンプルで N・t・指数・倍率が実際に違う
+      switchMoved: r.a.n !== r.bNow.n && r.a.t > 0
+        && (r.a.L !== r.bNow.L || r.a.T !== r.bNow.T || r.a.M !== r.bNow.M) && r.a.mul !== r.bNow.mul,
+      switchSettled: r.bSame,
+      resetSync: same(r.rNow, r.rWant) && r.rNow.t === 0 && r.rNow.step === 0 && r.rBefore.t > 0,
+      ckSync: same(r.cNow, r.cWant) && r.cNow.t === r.ckT && r.cBefore.t > r.ckT };
+    const ng = Object.keys(chk).filter((k) => !chk[k]);
+    add('ui.hud-sync', ng.length === 0,
+      `①切替(停止中): 旧=t${r.a.t}/N${r.a.n}/指数${r.a.L},${r.a.T},${r.a.M}/倍率${r.a.mul} → ` +
+      `実行前に新=t${r.bNow.t}(${r.bNow.step}步)/N${r.bNow.n}/指数${r.bNow.L},${r.bNow.T},${r.bNow.M}/` +
+      `倍率${r.bNow.mul}(期待 t${r.bWant.t}/N${r.bWant.n}/指数${r.bWant.L},${r.bWant.T},${r.bWant.M}/` +
+      `倍率${r.bWant.mul})=${chk.switchSync}・A/B で差分あり=${chk.switchMoved}・rAF後と同一=${chk.switchSettled} / ` +
+      `②⏮直後: t${r.rBefore.t}→t${r.rNow.t}(${r.rNow.step}步)=${chk.resetSync} / ` +
+      `③CK復元直後: t${r.cBefore.t}→t${r.cNow.t}(保存点 t${r.ckT})=${chk.ckSync}` +
+      (ng.length ? ` / NG=${ng.join(',')}` : ''));
+  } else {
+    console.log('SKIP ui.hud-sync(対象に第142便の syncHud なし — root 等)');
   }
 }
 

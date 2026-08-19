@@ -153,11 +153,13 @@ boxredshift・rotorSolo は beta 先行)。各図の `.json` に生成パラメ�
   柱は ①43″/世紀の力学直接再現(比1.002)②kF1 安定性の単位系依存 ③運動引きずりによる
   月の近点回転 8.85年の較正再現 ④共通補正 (D₀=0.006) の qLock 導出規則への純化 — 全章を
   「較正一致≠機構同定」の正直な較正の哲学で貫く。第140便で図4点と木星ガリレオ衛星
-  hold-out(第VI節E)を収載。計測正本: tests/exp-obscal.mjs・exp-kf1.mjs・exp-kf1b.mjs・
+  hold-out(第VI節F)を収載。第141便で外部レビュー対応(qLock を「遠方近似の LT 級振幅規約」
+  として再定義+有限半径因子表・W1〜W5 表・検証対応表の3列化・木星の感度実測)。計測正本: tests/exp-obscal.mjs・exp-kf1.mjs・exp-kf1b.mjs・
   exp-kf1c.mjs・exp-kf1d.mjs・exp-qlockradial.mjs・exp-jupiter.mjs / docs/PHYSICS.md §5。
 - ビルドは第1・2論文と同じ(英語版 pdflatex ×2 / 日本語版 lualatex ×2)。
   CI は `.github/workflows/paper3.yml`(第140便)が paper2 と同格のゲートを張る:
-  図再生成+数値ゲート25件 → コミット済み JSON との一致 assert → 英日ビルド
+  図再生成+**回帰整合ゲート(regression/consistency gates)** → コミット済み JSON との
+  一致 assert → 英日ビルド
   (エラー・未定義参照ゼロ)→ PDF アーティファクト。論文4は引き続き手動。
 
 ## 論文3の図の再生成(機械生成)
@@ -170,8 +172,9 @@ FIG=3,4 node tools/gen-figures3.mjs  # 個別再生成
 第1・2論文の生成器と同じ流儀(自前 SVG + headless Chromium での印刷・外部チャート
 ライブラリなし)だが、**シミュレータは駆動しない**: 図の数値はすべて **コミット済みの
 結果 JSON**(`tests/out/*.json`)から読む(手打ちの実測値ゼロ・2回実行で揮発キー以外
-バイト一致)。数値ゲート `figures/p3figs-gates.json`(25件)が本文・キャプションの値との
-一致を機械強制する。
+バイト一致)。**回帰整合ゲート** `figures/p3figs-gates.json`(第141便で「数値ゲート25件」から
+改称・現在28件)が本文・キャプションの値との一致を機械強制する。これは独立な再測定では
+なく、描画値とコミット済み結果 JSON の整合を固定する回帰検査である(検査は弱めていない)。
 
 | 図 | 内容 | 出典 JSON | 実測ゲート |
 |---|---|---|---|

@@ -6,7 +6,10 @@
 //   印刷にのみ使う(図の見た目を第1・第2論文と揃えるため)。
 // - 出力: paper/figures/p3fig{1..4}.{svg,pdf,json}(第1論文 fig1..6・第2論文 p2fig1..8 と
 //   衝突しない接頭辞)。各図に .json(出典 JSON・抽出値・コミット)を併置する。
-// - 数値ゲート25件を assert し、まとめを p3figs-gates.json に書く(ALL PASS で exit 0)。
+// - **回帰整合ゲート(regression/consistency gates)** を assert し、まとめを p3figs-gates.json に
+//   書く(ALL PASS で exit 0)。第141便で改称: これらは独立な再測定ではなく、図に載る値が
+//   コミット済みの結果 JSON と互いに整合していること・過去に記録した値から動いていないことを
+//   固定する回帰検査である(検査内容は弱めていない — 第141便で3件追加して28件)。
 // - 実行: `node tools/gen-figures3.mjs`(全図)/ FIG=3,4 で個別再生成。
 // - 外部チャートライブラリは使わない(単一HTML・ゼロ依存の設計思想と揃える)。
 //
@@ -423,6 +426,9 @@ if (want(4)) {
       spinOnlyOverAnalytic: m.uField.spinOnlyOverAnalytic
     })),
     audit: W.JW3, resonance: jupiter.resonance, determinism: jupiter.determinism, convergence: jupiter.convergence,
+    // 第141便: 感度実測(付帯記録)— 参照軌道 a ±20%・高q対照・q_exact 対照・D₀ ±factor。
+    // 図そのものは変えない(事前登録窓の主測定だけを描く)が、本文の a 感度記述の出典として併置する。
+    sensitivity: jupiter.sensitivity || null,
     note: 'q* はイオを参照軌道として qLock 則を1回だけ評価した値(実行時 qLock は掛けない)。衛星別 fit はゼロ。'
   });
   gate('p3fig4.jw1', W.JW1.pass && jw1.every(r => Math.abs(r.devPercent) < 1),
@@ -446,6 +452,36 @@ if (want(4)) {
   gate('p3fig4.determinism', jupiter.determinism.bitIdentical && jupiter.determinism.maxAbsDiff === 0 &&
     !jupiter.runs.main.nan.kF0 && !jupiter.runs.main.nan.kF1 && !jupiter.runs.main.nan.q3,
     `同一構成2回でビット一致(最終状態 ${jupiter.determinism.nFin} 値・最大差 ${jupiter.determinism.maxAbsDiff})・主測定窓に NaN なし`);
+  // ---- 第141便: 感度実測(out.sensitivity)の回帰整合ゲート3件 ----
+  const SEN = jupiter.sensitivity;
+  if (SEN) {
+    const aRows = SEN.aRefSensitivity.rows, base = jw2;
+    const dqMax = Math.max(...aRows.map(r => Math.abs(r.dqStar)));
+    const devMax = Math.max(...aRows.map(r => Math.max(...r.rows.map((x, i) => Math.abs(x.devPercent - base[i].devPercent)))));
+    const spMax = Math.max(...aRows.map(r => Math.max(...r.rows.map((x, i) => Math.abs(x.aSpreadPercent - base[i].aSpreadPercent)))));
+    gate('p3fig4.aref-sensitivity', dqMax > 0.5 && devMax === 0 && spMax < 1e-3 &&
+      aRows.every(r => !r.nan && r.sameAsJW2Condition),
+      `参照軌道 a を ±20% 振ると q* は最大 ${dqMax.toFixed(3)} 動く(${aRows.map(r => r.qDeclared).join(' / ')})が、` +
+      `4衛星の周期偏差は記録桁で不変(最大差 ${devMax}pp)・|Δa|/a の差は ${spMax.toExponential(1)}pp 以下・NaN なし`);
+    const fr = SEN.farFieldConvention;
+    const cfgIo = jupiter.config.moons[0], RJ = jupiter.config.rJupiter, aIo = cfgIo.a;
+    const frAnalytic = Math.pow(aIo / (RJ + aIo), 3);
+    gate('p3fig4.qlock-farfield', Math.abs(fr.finiteRadiusFactor - frAnalytic) < 1e-12 &&
+      Math.abs(fr.bareOverLTatIoExactQStar - frAnalytic) / frAnalytic < 1e-12 &&
+      fr.qExact < cfg.qStar && Math.abs(fr.qExactDeclared - fr.qExact) < 0.005,
+      `qLock は遠方近似 (a≫R) の規約: 参照軌道で素のスピン項/Ω_LT は有限半径因子 (a/(R+a))³ = ` +
+      `${frAnalytic.toFixed(4)} に等しく(規則の出力 q*=${cfg.qStar.toFixed(4)} を代入した実値 ` +
+      `${fr.bareOverLTatIoExactQStar.toFixed(4)} と 1e-12 以内で一致)、厳密一致式は q_exact=${fr.qExact.toFixed(4)}`);
+    const qRow = SEN.qControls.rows.find(r => r.isQExact);
+    gate('p3fig4.sensitivity-determinism', SEN.determinism.bitIdentical && SEN.determinism.maxAbsDiff === 0 &&
+      SEN.qControls.rows.every(r => !r.nan && r.sameAsJW2Condition) &&
+      SEN.d0Sensitivity.rows.every(r => !r.nan && r.sameAsJW2Condition) &&
+      !!qRow && Math.abs(qRow.bareOverLTatIo - 1) < 0.01,
+      `感度実測は決定的(2回でビット同一・最大差 ${SEN.determinism.maxAbsDiff})。高q対照 ` +
+      `${SEN.qControls.rows.map(r => 'q=' + r.q).join(' / ')} と D₀×` +
+      `${SEN.d0Sensitivity.rows.map(r => r.factor).join(' / ×')} はいずれも JW2 と同条件で保持・NaN なし ` +
+      `(q_exact=${qRow ? qRow.q : '—'} での素のスピン項/Ω_LT = ${qRow ? qRow.bareOverLTatIo.toFixed(4) : '—'})`);
+  }
   gate('p3fig4.resonance-record', Math.abs(jupiter.resonance.measuredRatiosKF1.EuropaOverIo - 2) < 0.02 &&
     Math.abs(jupiter.resonance.measuredRatiosKF1.GanymedeOverEuropa - 2) < 0.02,
     `ラプラス共鳴は記録のみ(要求せず): 周期比 実測 ${jupiter.resonance.measuredRatiosKF1.EuropaOverIo.toFixed(4)} / ${jupiter.resonance.measuredRatiosKF1.GanymedeOverEuropa.toFixed(4)}` +
@@ -459,5 +495,5 @@ fs.writeFileSync(path.join(OUT, 'p3figs-gates.json'), JSON.stringify({
   provenance: 'コミット済み結果 JSON のみを読む(新規シミュレーションなし)',
   sources: Object.values(SRC), gates
 }, null, 1));
-console.log(ok ? `ALL GATES PASS (${gates.length})` : 'GATE FAIL');
+console.log(ok ? `ALL REGRESSION/CONSISTENCY GATES PASS (${gates.length})` : 'GATE FAIL');
 process.exit(ok ? 0 : 1);
