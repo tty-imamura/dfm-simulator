@@ -6075,6 +6075,168 @@ if (!FAST) {
   }
 }
 
+// ---- 8c4) 第136便: behavior.qlockRadial — qLock 半径方向監査サンプル群 qlockAudit ----
+// ----   🧭qLockRadialAudit(q=8.25 = 月の実軌道に対する qLock の LT整合値)と
+// ----   📐qLockRadialAuditQ3(q=3 = LT と同じ r⁻³ 則の物差し)を、縮小構成で機械固定する。
+// ----   ①宣言(ファミリー・fidelity・claims の role・parameterAudit.fitted が空・q/kFrame/D₀/構成)
+// ----   ②参照点の LT整合(サンプル自身の宣言値から解析で: 素の s·(R/(R+a))^q が Ω_LT の 0.8〜1.15倍)
+// ----   ③u 場の解析一致(最内プローブで ω_engine が χ·s·(R/(R+r))^q と 5% 以内)
+// ----   ④引きずり差分の符号と落ち方(内側2プローブの kF1−kF0 差分・短窓)—
+// ----      実測どおり**逆行**(負)で、内側ほど急に落ち、q=3 対照の方が桁違いに大きい
+// ----   ⑤claims の説明文数値(descPattern 抽出)と実測 JSON(tests/out/qlockradial-results.json)の同期
+// ----   事前登録窓 W1〜W5 の完全な判定はハーネス側(tests/exp-qlockradial.mjs)の仕事で、
+// ----   ここは CI 時間内に収まる縮小版(内側2プローブ・12公転窓・約 0.7 秒)である。
+// ----   軽いので QA_FAST=1 でも実行する。root 世代(サンプル未導入)は SKIP ----
+{
+  const hasQR = await page.evaluate(() => ['qLockRadialAudit', 'qLockRadialAuditQ3']
+    .every((id) => HP.allPresets().some((p) => p.id === id)));
+  if (hasQR) {
+    const qr = await page.evaluate(() => {
+      // 近点通過法(r 極小の放物線補間)で、指定プローブの Δϖ/公転 を測る
+      const measure = (id, kF, idxs, dt, steps) => {
+        HP.loadPreset(id, false);
+        const S = HP.sim;
+        S.params.kFrame = kF;
+        const st = idxs.map(() => ({ r1: null, r2: null, th1: 0, th2: 0, t1: 0, peri: [] }));
+        for (let k = 0; k < steps; k++) {
+          S.step(dt);
+          const t = (k + 1) * dt;
+          for (let a = 0; a < idxs.length; a++) {
+            const i = idxs[a], s = st[a];
+            const dx = S.x[i] - S.x[0], dy = S.y[i] - S.y[0];
+            const rr = Math.hypot(dx, dy), thn = Math.atan2(dy, dx);
+            if (s.r1 !== null && s.r2 !== null && s.r1 < s.r2 && s.r1 < rr) {
+              const den = (s.r2 - 2 * s.r1 + rr), dd = den !== 0 ? 0.5 * (s.r2 - rr) / den : 0;
+              let dth = thn - s.th2;
+              while (dth > Math.PI) dth -= 2 * Math.PI; while (dth < -Math.PI) dth += 2 * Math.PI;
+              s.peri.push({ t: s.t1 + dd * dt, th: s.th1 + dd * (dth / 2) });
+            }
+            s.r2 = s.r1; s.th2 = s.th1; s.r1 = rr; s.th1 = thn; s.t1 = t;
+          }
+        }
+        return { nan: S.hasNaN(), rows: st.map((s) => {
+          const p = s.peri;
+          if (p.length < 3) return { dpom: NaN, nP: p.length };
+          let acc = 0, prev = p[0].th;
+          const pw = p.map((q) => { let d = q.th - prev;
+            while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI;
+            acc += d; prev = q.th; return acc; });
+          let qT = 0, qP = 0, qTT = 0, qTP = 0;
+          for (let i = 0; i < p.length; i++) { qT += p[i].t; qP += pw[i];
+            qTT += p[i].t * p[i].t; qTP += p[i].t * pw[i]; }
+          const n = p.length, sl = (n * qTP - qT * qP) / (n * qTT - qT * qT);
+          return { dpom: sl * ((p[n - 1].t - p[0].t) / (n - 1)), nP: n };
+        }) };
+      };
+      const P = (id) => HP.allPresets().find((p) => p.id === id);
+      // ① 宣言の照合
+      const ids = ['qLockRadialAudit', 'qLockRadialAuditQ3'];
+      const fam = ids.every((id) => P(id).familyId === 'qlockAudit' && P(id).fidelity === 'real'
+        && Array.isArray(P(id).claims) && P(id).claims.length > 0
+        && P(id).claims.every((c) => HP.ROLE_CLASSES.indexOf(c.role) >= 0)
+        && P(id).parameterAudit && Array.isArray(P(id).parameterAudit.fitted)
+        && P(id).parameterAudit.fitted.length === 0);   // 本ファミリーは fit ゼロ(qLock は算出則)
+      const roleOk = P('qLockRadialAudit').familyRole === 'primary'
+        && P('qLockRadialAuditQ3').familyRole === 'variant'
+        && P('qLockRadialAudit').claims.some((c) => c.role === 'negative_control')
+        && P('qLockRadialAudit').claims.some((c) => c.role === 'input_check')
+        && P('qLockRadialAudit').claims.some((c) => c.role === 'retrospective_check');
+      // ② 参照点の LT 整合(サンプル自身の宣言値だけから解析で出す)
+      HP.loadPreset('qLockRadialAudit', false);
+      const S = HP.sim, p = S.params;
+      const decl = { n: S.n, q: p.q, kF: p.kFrame, D0: p.D0, geo: p.geoPN, eps: p.softening,
+        pin0: S.pinned[0], mProbe: S.m[1] };
+      const RE = S.R[0], ME = S.m[0], SP = S.spin[0];
+      const Jsp = 0.4 * ME * RE * RE * SP;                     // 一様球近似(宣言済み)
+      const omLT = (r) => 2 * p.G * Jsp / (p.cLight * p.cLight * r * r * r);
+      const bare = (r) => SP * Math.pow(RE / (RE + r), p.q);
+      // 参照プローブ(配列 8 = qLock 参照半径)の軌道長半径を状態から復元する
+      const iRef = 8;
+      const rr0 = Math.hypot(S.x[iRef] - S.x[0], S.y[iRef] - S.y[0]);
+      const v20 = Math.pow(S.vx[iRef] - S.vx[0], 2) + Math.pow(S.vy[iRef] - S.vy[0], 2);
+      const aRef = 1 / (2 / rr0 - v20 / (p.G * ME));
+      const ltRatio = bare(aRef) / omLT(aRef);
+      // ③ u 場の解析一致(最内プローブ)— 1步だけ進めて場を確定させる
+      S.step(1e-9);
+      const r1 = Math.hypot(S.x[1] - S.x[0], S.y[1] - S.y[0]);
+      const den1 = p.D0 + S.sumW[1], chi1 = S.sumW[1] / den1;
+      const om1 = (-(S.y[1] - S.y[0]) * S.uAx[1] + (S.x[1] - S.x[0]) * S.uAy[1]) / (r1 * r1 * den1);
+      const uRel = Math.abs(om1 / (chi1 * bare(r1)) - 1);
+      // ④ 引きずり差分(内側2プローブ・最内の 12公転窓)
+      const T1 = 2 * Math.PI * Math.sqrt(Math.pow(aRef * 9.57 / 363.6253, 3) / (p.G * ME));   // 最内 a=9.57
+      const dt = T1 / 1000, steps = 12000, IDX = [1, 2];
+      const k1 = measure('qLockRadialAudit', 1, IDX, dt, steps);
+      const k0 = measure('qLockRadialAudit', 0, IDX, dt, steps);
+      const g1 = measure('qLockRadialAuditQ3', 1, IDX, dt, steps);
+      const g0 = measure('qLockRadialAuditQ3', 0, IDX, dt, steps);
+      const drag = IDX.map((_, a) => k1.rows[a].dpom - k0.rows[a].dpom);
+      const dragQ3 = IDX.map((_, a) => g1.rows[a].dpom - g0.rows[a].dpom);
+      // ⑤ claims の説明文数値(descPattern 抽出)— node 側で実測 JSON と突き合わせる
+      const desc = {};
+      for (const id of ids) for (const c of P(id).claims) {
+        const m = (P(id).description || '').match(new RegExp(c.descPattern));
+        desc[c.id] = m && m[1] !== undefined ? parseFloat(m[1]) * (c.descScale === undefined ? 1 : c.descScale) : NaN;
+      }
+      HP.loadPreset('saturn', false);
+      return { fam, roleOk, decl, qFlat: P('qLockRadialAuditQ3').physics.q, aRef, ltRatio,
+        chi1, om1, uRel, drag, dragQ3, desc,
+        nan: k1.nan || k0.nan || g1.nan || g0.nan,
+        nP: [k1.rows[0].nP, k1.rows[1].nP] };
+    });
+    // ⑤ 実測 JSON(tests/out/qlockradial-results.json)との同期照合
+    const QRF = path.join(OUT_DIR, 'qlockradial-results.json');
+    let sync = [], syncOk = false, syncNote = '';
+    if (fs.existsSync(QRF)) {
+      const J = JSON.parse(fs.readFileSync(QRF, 'utf8'));
+      const U = J.uField, PR = J.probes, iR = J.config.iRef, last = PR.length - 1;
+      const want = {
+        'qLockRadialAudit.reference-lt-match': U[iR].ratioBare,
+        'qLockRadialAudit.effective-frame-rate': U[iR].ratioQLock,
+        'qLockRadialAudit.outer-slope': -J.slopes.omegaQLockOuter,
+        'qLockRadialAudit.outer-drop': J.windows.W4.ratio * 100,
+        'qLockRadialAudit.kf0-softening-control': Math.min(...PR.map((v) => v.kF0Ratio)),
+        'qLockRadialAudit.drag-sign': Math.abs(PR[iR].dragOverLT),
+        'qLockRadialAudit.earth-rotation': 2 * Math.PI / J.config.spinEarth * 100 / 3600,
+        'qLockRadialAuditQ3.slope-gap': J.windows.W5.byOmegaOuter.diff,
+        'qLockRadialAuditQ3.reference-period': Math.abs(J.windows.W2.apsidalYearsQ3),
+        'qLockRadialAuditQ3.outer-survival': Math.abs(PR[last].dragQ3 / PR[last].dragQLock) / 1e9,
+        'qLockRadialAuditQ3.earth-rotation': 2 * Math.PI / J.config.spinEarth * 100 / 3600,
+      };
+      sync = Object.keys(want).map((k) => {
+        const d = qr.desc[k], w = want[k];
+        const rel = Number.isFinite(d) && Number.isFinite(w) && w !== 0 ? Math.abs(d - w) / Math.abs(w) : Infinity;
+        return { k, desc: d, json: w, rel, ok: rel <= 0.01 };   // 説明文は3〜4桁丸めなので 1%
+      });
+      syncOk = sync.length > 0 && sync.every((v) => v.ok);
+      syncNote = sync.filter((v) => !v.ok).map((v) => `${v.k}: 説明${v.desc} vs 実測${v.json}`).join(' / ');
+    } else {
+      syncNote = '実測 JSON なし(tests/out/qlockradial-results.json — node tests/exp-qlockradial.mjs で生成)';
+    }
+    const declOk = qr.decl.n === 11 && Math.abs(qr.decl.q - 8.25) < 1e-9 && qr.decl.kF === 1
+      && qr.decl.D0 === 0.006 && qr.decl.geo === 2 && qr.decl.pin0 === 1
+      && Math.abs(qr.decl.mProbe - 1e-6) < 1e-12 && qr.qFlat === 3;   // 質量は f32 保持なので相対許容
+    add('behavior.qlockRadial',
+      !qr.nan && declOk && qr.fam && qr.roleOk && syncOk
+      // ② 参照点で素の引きずり率が LT 級(0.8〜1.15倍)
+      && qr.ltRatio > 0.80 && qr.ltRatio < 1.15
+      // ③ u 場が解析形 χ·s·(R/(R+r))^q と 5% 以内
+      && qr.uRel < 0.05
+      // ④ 引きずり差分は内側2プローブとも逆行(負)・内側ほど急・q=3 対照は桁違いに大きい
+      && qr.drag[0] < 0 && qr.drag[1] < 0
+      && Math.abs(qr.drag[0]) > 3 * Math.abs(qr.drag[1])
+      && Math.abs(qr.dragQ3[1]) > 5 * Math.abs(qr.drag[1]),
+      `参照点(a=${qr.aRef.toFixed(2)})の素の引きずり率/Ω_LT=${qr.ltRatio.toFixed(4)}(窓 0.80〜1.15) / ` +
+      `u場の解析一致(最内 χ=${qr.chi1.toFixed(4)}・ω=${qr.om1.toExponential(3)})残差=${(qr.uRel * 100).toFixed(2)}%(<5%) / ` +
+      `Δϖ_drag(内側2点・12公転窓)=${qr.drag.map((v) => v.toExponential(3)).join(' / ')}(ともに逆行) ` +
+      `落ち方=${(Math.abs(qr.drag[0]) / Math.abs(qr.drag[1])).toFixed(2)}倍(>3) ` +
+      `q=3 対照(2点目)=${qr.dragQ3[1].toExponential(3)}(qLock の ${(Math.abs(qr.dragQ3[1]) / Math.abs(qr.drag[1])).toFixed(1)}倍・>5) / ` +
+      `宣言=${declOk}・ファミリー/role=${qr.fam}&${qr.roleOk} / ` +
+      `claims↔実測JSON 同期=${syncOk}(${sync.length}件)${syncNote ? ' ' + syncNote : ''}`);
+  } else {
+    console.log('SKIP behavior.qlockRadial(qLock 半径方向監査 🧭📐 が未導入 — root 等。第136便)');
+  }
+}
+
 // ---- 8d) 第12次裁定(2026-07-22): 🧊 saturnIce(氷・低熱結合)のQA ----
 // 対象に 🪐(実験)がある場合のみ実行(v1.28 でルート昇格)。🧭 の trail 既定ONもここで検査
 {
@@ -14066,7 +14228,13 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       HP.allPresets().some((p) => p.id === 'solarInner' && p.scaleExp));
     const gen135 = await page.evaluate(() =>
       HP.allPresets().some((p) => p.id === 'emAuditSolar'));
-    const want = gen135 ? 'earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+    // 第136便: qLock 半径方向監査(🧭📐)を2件追加。実定数・サンプル別スケール指数・実自転の
+    // 地球のまわりの実単位構成なので、いずれもスケール換算込みの実較正である(fit はゼロ)
+    const gen136 = await page.evaluate(() =>
+      HP.allPresets().some((p) => p.id === 'qLockRadialAudit'));
+    const want = gen136 ? 'earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+        + 'mercuryReal,qLockRadialAudit,qLockRadialAuditQ3,saturnRingReal,saturnZonalD68,solarInner'
+      : gen135 ? 'earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
         + 'mercuryReal,saturnRingReal,saturnZonalD68,solarInner'
       : gen131 ? 'earthMoonReal,earthMoonRealKF1,mercuryReal,saturnRingReal,saturnZonalD68,solarInner'
       : gen120 ? 'earthMoonReal,earthMoonRealKF1,mercuryReal,saturnRingReal'
