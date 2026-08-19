@@ -6031,7 +6031,7 @@ if (!FAST) {
       const roleOk = P('emAuditDFM').claims[0].role === 'fit_target'
         && P('emAuditNewton').claims[0].role === 'negative_control'
         && P('emAuditSolar').claims[0].role === 'negative_control'
-        && P('emAuditDFM').familyRole === 'primary';
+        && P('emAuditSolar').familyRole === 'primary';   // 第137便(統括裁定): primary 🧲→🔆(表示専用の再編 — 窓・role は不変)
       // fit の宣言: A/C は fit ゼロ・B は 2件(D₀ と初速)
       const fitOk = P('emAuditNewton').parameterAudit.fitted.length === 0
         && P('emAuditSolar').parameterAudit.fitted.length === 0
@@ -6234,6 +6234,175 @@ if (!FAST) {
       `claims↔実測JSON 同期=${syncOk}(${sync.length}件)${syncNote ? ' ' + syncNote : ''}`);
   } else {
     console.log('SKIP behavior.qlockRadial(qLock 半径方向監査 🧭📐 が未導入 — root 等。第136便)');
+  }
+}
+
+// ---- 8c5) 第138便: behavior.jupiter — 木星ガリレオ衛星 hold-out サンプル 🟠jupiterGalilean ----
+// ----   「規則を一切再フィットしない事後外挿テスト」という位置づけを機械固定する。
+// ----   ①宣言(ファミリー jupiter・fidelity・スケール指数 {7,3,26}・q=12.30 直値・D₀=0.006・
+// ----     kFrame=1・geoPN=2・κ=G/c₀²・木星 pinned・parameterAudit.fitted が共有 D₀ の1件だけ)
+// ----   ②claims の役割分担(input_check ×2・retrospective_check〔参照点=イオ〕・
+// ----     held_out ×3〔エウロパ/ガニメデ/カリスト = 規則形成に不関与〕・negative_control〔kF0〕)
+// ----   ③縮小窓の力学(20 イオ公転・1000 步/公転)— kF1・kF0 とも NaN なし・4衛星の恒星公転
+// ----     周期が観測と ±1%・|Δa|/a<2%
+// ----   ④q=3 対照(qLock の幾何減衰を外す)ではイオの周期が観測から 0.5% 以上ずれる
+// ----   ⑤claims の説明文数値(descPattern 抽出)と実測 JSON(tests/out/jupiter-results.json)の
+// ----     同期+事前登録窓 JW1/JW2/JW3 の PASS・決定性(ビット同一)・収束の記録
+// ----   事前登録窓 JW1〜JW5 の完全な判定はハーネス側(tests/exp-jupiter.mjs)の仕事で、
+// ----   ここは CI 時間内に収まる縮小版(約1〜2秒)である。軽いので QA_FAST=1 でも実行する。
+// ----   root 世代(サンプル未導入)は SKIP ----
+{
+  const hasJup = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'jupiterGalilean'));
+  if (hasJup) {
+    const jp = await page.evaluate(() => {
+      const P = HP.allPresets().find((p) => p.id === 'jupiterGalilean');
+      const GM = P.physics.G * P.bodies[0].m;
+      const A_IO = 42.18, T_IO = 2 * Math.PI * Math.sqrt(A_IO * A_IO * A_IO / GM);
+      const DAY = 86400 / Math.pow(10, P.scaleExp.T);
+      // 縮小窓: 20 イオ公転 × 1000 步/公転(最も外側のカリストが2公転する窓 — 周期の平均が取れる)
+      const run = (patch) => {
+        const S = HP.sim;
+        S.build({ id: 'qa_jup', name: 'qa', emoji: '🧪', seed: 1, camera: P.camera,
+          world: P.world, physics: Object.assign({}, P.physics, patch), bodies: P.bodies });
+        const N = 1000, dt = T_IO / N, steps = 20 * N, n = 4;
+        const st = [];
+        for (let i = 0; i < n; i++) st.push({ ang: 0, px: 0, py: 0, tRev: [],
+          aMin: Infinity, aMax: -Infinity, aSum: 0, nS: 0 });
+        for (let k = 0; k < steps; k++) {
+          S.step(dt);
+          const t = (k + 1) * dt;
+          for (let i = 0; i < n; i++) {
+            const j = i + 1, s = st[i];
+            const dx = S.x[j] - S.x[0], dy = S.y[j] - S.y[0];
+            const vx = S.vx[j] - S.vx[0], vy = S.vy[j] - S.vy[0];
+            const rr = Math.hypot(dx, dy);
+            if (k === 0) { s.px = dx; s.py = dy; }
+            else { s.ang += Math.atan2(s.px * dy - s.py * dx, s.px * dx + s.py * dy);
+              s.px = dx; s.py = dy;
+              if (Math.abs(s.ang) >= 2 * Math.PI * (s.tRev.length + 1)) s.tRev.push(t); }
+            const aa = 1 / (2 / rr - (vx * vx + vy * vy) / GM);   // vis-viva
+            if (aa < s.aMin) s.aMin = aa; if (aa > s.aMax) s.aMax = aa;
+            s.aSum += aa; s.nS++;
+          }
+        }
+        return { nan: S.hasNaN(), rows: st.map((s) => ({
+          T: s.tRev.length >= 2 ? (s.tRev[s.tRev.length - 1] - s.tRev[0]) / (s.tRev.length - 1)
+            : (s.tRev.length === 1 ? s.tRev[0] : null),
+          nRev: s.tRev.length, spread: (s.aMax - s.aMin) / (s.aSum / s.nS) })) };
+      };
+      const kf1 = run({}), kf0 = run({ kFrame: 0 }), q3 = run({ q: 3 });
+      const OBS = [1.769138, 3.551181, 7.154553, 16.689017];
+      const dev = (r) => r.rows.map((v, i) => v.T === null ? NaN : (v.T / DAY) / OBS[i] - 1);
+      // claims の説明文数値(descPattern 抽出)— node 側で実測 JSON と突き合わせる
+      const desc = {};
+      for (const c of P.claims) {
+        const m = (P.description || '').match(new RegExp(c.descPattern));
+        desc[c.id] = m && m[1] !== undefined
+          ? parseFloat(m[1]) * (c.descScale === undefined ? 1 : c.descScale) : NaN;
+      }
+      const roles = P.claims.map((c) => c.role);
+      const pa = P.parameterAudit, paEn = P.en && P.en.parameterAudit;
+      HP.loadPreset('saturn', false);
+      return {
+        kf1: { nan: kf1.nan, dev: dev(kf1), spread: kf1.rows.map((v) => v.spread),
+          periodDays: kf1.rows.map((v) => v.T === null ? NaN : v.T / DAY),
+          nRev: kf1.rows.map((v) => v.nRev) },
+        kf0: { nan: kf0.nan, dev: dev(kf0), spread: kf0.rows.map((v) => v.spread) },
+        q3: { nan: q3.nan, dev: dev(q3) },
+        desc, roles,
+        decl: { n: P.bodies.length, q: P.physics.q, D0: P.physics.D0, kF: P.physics.kFrame,
+          geo: P.physics.geoPN, kap: P.physics.kappaT, G: P.physics.G, c: P.physics.cLight,
+          mf: P.physics.massFloor, sc: P.physics.stateCarry,
+          L: P.scaleExp.L, T: P.scaleExp.T, M: P.scaleExp.M, fid: P.fidelity,
+          fam: P.familyId, famRole: P.familyRole,
+          mJ: P.bodies[0].m, rJ: P.bodies[0].radius, spinJ: P.bodies[0].spin,
+          pin: P.bodies[0].pinned, pnS: P.bodies[0].pnSource,
+          fitted: pa && Array.isArray(pa.fitted) ? pa.fitted : null,
+          fittedEn: paEn && Array.isArray(paEn.fitted) ? paEn.fitted : null,
+          obsIn: pa && Array.isArray(pa.observedInputs) ? pa.observedInputs.length : -1,
+          obsInEn: paEn && Array.isArray(paEn.observedInputs) ? paEn.observedInputs.length : -1,
+          rolesOk: P.claims.every((c) => HP.ROLE_CLASSES.indexOf(c.role) >= 0) },
+      };
+    });
+    // ⑤ 実測 JSON(tests/out/jupiter-results.json)との同期照合+事前登録窓の記録
+    const JPF = path.join(OUT_DIR, 'jupiter-results.json');
+    let sync = [], syncOk = false, syncNote = '', winNote = '', winOk = false;
+    if (fs.existsSync(JPF)) {
+      const J = JSON.parse(fs.readFileSync(JPF, 'utf8'));
+      const W1 = J.windows.JW1, W2 = J.windows.JW2, W4 = J.windows.JW4;
+      const want = {
+        'jupiterGalilean.periods-transcribed': Math.max(...W1.rows.map((r) => Math.abs(r.devPercent))) / 100,
+        'jupiterGalilean.io-retention': W2.rows[0].aSpread,
+        'jupiterGalilean.europa-holdout': W2.rows[1].aSpread,
+        'jupiterGalilean.ganymede-holdout': W2.rows[2].aSpread,
+        'jupiterGalilean.callisto-holdout': W2.rows[3].aSpread,
+        'jupiterGalilean.kf0-control': Math.max(...W4.rows.map((r) => Math.abs(r.periodShiftTotal))),
+        'jupiterGalilean.jupiter-rotation': 2 * Math.PI / J.config.spinJupiter * 1000 / 3600,
+      };
+      sync = Object.keys(want).map((k) => {
+        const d = jp.desc[k], w = want[k];
+        const rel = Number.isFinite(d) && Number.isFinite(w) && w !== 0
+          ? Math.abs(d - w) / Math.abs(w) : Infinity;
+        return { k, desc: d, json: w, rel, ok: rel <= 0.01 };   // 説明文は3〜4桁丸めなので 1%
+      });
+      syncOk = sync.length > 0 && sync.every((v) => v.ok);
+      syncNote = sync.filter((v) => !v.ok).map((v) => `${v.k}: 説明${v.desc} vs 実測${v.json}`).join(' / ');
+      // 事前登録窓 JW1/JW2/JW3 の PASS と、決定性・収束の記録を機械固定する
+      // (JW4/JW5 は窓なしの記録項目なので判定に使わない — 実測後に窓を動かさないための扱い)
+      winOk = J.windows.JW1.pass === true && J.windows.JW2.pass === true
+        && J.windows.JW3.pass === true && J.windows.JW2.nan === false
+        && J.determinism.bitIdentical === true && J.convergence.periodConverged === true
+        && J.windows.JW2.windowIoOrbits >= 20
+        && J.config.qLockRuntime === false && J.config.D0Shared === 0.006
+        && J.windows.JW3.perMoonFits === 0;
+      winNote = `JW1=${J.windows.JW1.pass ? 'PASS' : 'FAIL'}/JW2=${J.windows.JW2.pass ? 'PASS' : 'FAIL'}`
+        + `(窓 ${J.windows.JW2.windowIoOrbits} イオ公転)/JW3=${J.windows.JW3.pass ? 'PASS' : 'FAIL'}`
+        + `(衛星別 fit ${J.windows.JW3.perMoonFits} 件)/JW4・JW5=記録のみ`
+        + `(自転チャネルの ω 順行=${J.windows.JW4.omegaProgradeSpinChannel}・`
+        + `全系の ω 順行=${J.windows.JW4.omegaProgradeTotalField})/`
+        + `決定性=${J.determinism.bitIdentical}・収束=${J.convergence.periodConverged}`;
+    } else {
+      syncNote = '実測 JSON なし(tests/out/jupiter-results.json — node tests/exp-jupiter.mjs で生成)';
+    }
+    const d = jp.decl;
+    const declOk = d.n === 5 && Math.abs(d.q - 12.30) < 1e-9 && d.D0 === 0.006 && d.kF === 1
+      && d.geo === 2 && d.G === 6.674 && d.c === 30000
+      && Math.abs(d.kap - d.G / (d.c * d.c)) < 1e-18
+      && d.mf === 1e-6 && d.sc === 'double'
+      && d.L === 7 && d.T === 3 && d.M === 26 && d.fid === 'real'
+      && d.fam === 'jupiter' && d.famRole === 'primary'
+      && d.mJ === 18.98 && d.rJ === 7.1492 && d.spinJ === 0.175851814
+      && d.pin === true && d.pnS === true;
+    // hold-out の正直さ: fitted は共有 D₀ の1件だけ(衛星別 fit ゼロ)・en も同数
+    const fitOk = Array.isArray(d.fitted) && d.fitted.length === 1 && /D₀=0\.006/.test(d.fitted[0])
+      && Array.isArray(d.fittedEn) && d.fittedEn.length === 1
+      && d.obsIn > 0 && d.obsIn === d.obsInEn;
+    // role 分担: held_out ×3(規則形成に不関与の3衛星)+ input_check + retrospective_check + negative_control
+    const roleOk = d.rolesOk
+      && jp.roles.filter((r) => r === 'held_out').length === 3
+      && jp.roles.filter((r) => r === 'input_check').length >= 1
+      && jp.roles.indexOf('retrospective_check') >= 0
+      && jp.roles.indexOf('negative_control') >= 0
+      && jp.roles.indexOf('fit_target') < 0;   // hold-out なので fit の対象はゼロ
+    const dynOk = !jp.kf1.nan && !jp.kf0.nan && !jp.q3.nan
+      && jp.kf1.dev.every((v) => Math.abs(v) < 0.01) && jp.kf0.dev.every((v) => Math.abs(v) < 0.01)
+      && jp.kf1.spread.every((v) => v < 0.02) && jp.kf0.spread.every((v) => v < 0.02)
+      && jp.kf1.nRev.every((v) => v >= 2)
+      && Math.abs(jp.q3.dev[0]) > 0.005;   // q=3 では qLock の幾何減衰が外れて周期がずれる
+    add('behavior.jupiter',
+      declOk && fitOk && roleOk && dynOk && syncOk && winOk,
+      `縮小窓(20 イオ公転・1000 步/公転)の恒星公転周期=`
+      + jp.kf1.periodDays.map((v) => v.toFixed(5)).join('/') + ' 日(観測 1.769138/3.551181/7.154553/16.689017・'
+      + `ずれ ${jp.kf1.dev.map((v) => (v * 100).toFixed(4) + '%').join('/')}・窓 ±1%)/ `
+      + `|Δa|/a=${jp.kf1.spread.map((v) => (v * 100).toPrecision(3) + '%').join('/')}(窓 <2%)/ `
+      + `kFrame=0 対照 ずれ ${jp.kf0.dev.map((v) => (v * 100).toFixed(4) + '%').join('/')} / `
+      + `q=3 対照(幾何減衰を外す)イオ ${(jp.q3.dev[0] * 100).toFixed(4)}%(>0.5%)/ `
+      + `宣言=${declOk}(指数 L${d.L}/T${d.T}/M${d.M}・q=${d.q} 直値・D₀=${d.D0}・kF=${d.kF}・κ=G/c₀²・木星 pinned)/ `
+      + `hold-out の正直さ=${fitOk}(fitted=共有 D₀ の1件のみ)・role 分担=${roleOk}`
+      + `(held_out ${jp.roles.filter((r) => r === 'held_out').length} 件・fit_target 0 件)/ `
+      + `claims↔実測JSON 同期=${syncOk}(${sync.length}件)${syncNote ? ' ' + syncNote : ''} / 事前登録窓=${winOk} ${winNote}`);
+  } else {
+    console.log('SKIP behavior.jupiter(木星 hold-out サンプル 🟠 が未導入 — root 等。第138便)');
   }
 }
 
@@ -14232,7 +14401,15 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     // 地球のまわりの実単位構成なので、いずれもスケール換算込みの実較正である(fit はゼロ)
     const gen136 = await page.evaluate(() =>
       HP.allPresets().some((p) => p.id === 'qLockRadialAudit'));
-    const want = gen136 ? 'earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+    // 第138便: 木星ガリレオ衛星 hold-out(🟠)を1件追加。実定数・サンプル別スケール指数
+    // (1単位=10⁷m/10³s/10²⁶kg)・実質量/実半径/実自転/実軌道要素の木星系なので、
+    // スケール換算込みの実較正である(衛星別 fit はゼロ — 規則を再フィットしない hold-out)
+    const gen138 = await page.evaluate(() =>
+      HP.allPresets().some((p) => p.id === 'jupiterGalilean'));
+    const want = gen138 ? 'earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+        + 'jupiterGalilean,mercuryReal,qLockRadialAudit,qLockRadialAuditQ3,saturnRingReal,'
+        + 'saturnZonalD68,solarInner'
+      : gen136 ? 'earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
         + 'mercuryReal,qLockRadialAudit,qLockRadialAuditQ3,saturnRingReal,saturnZonalD68,solarInner'
       : gen135 ? 'earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
         + 'mercuryReal,saturnRingReal,saturnZonalD68,solarInner'
