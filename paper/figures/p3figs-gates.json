@@ -1,0 +1,138 @@
+{
+ "paper": "dfm-paper3",
+ "commit": "6399b4d",
+ "generated": "2026-08-19T10:29:23.037Z",
+ "provenance": "コミット済み結果 JSON のみを読む(新規シミュレーションなし)",
+ "sources": [
+  "tests/out/obscal-results.json",
+  "tests/out/qlockradial-results.json",
+  "tests/out/jupiter-results.json"
+ ],
+ "gates": [
+  {
+   "id": "p3fig1.ratio",
+   "pass": true,
+   "detail": "3段すべてで 実測/解析 ∈ (1.0005, 1.005): 1.0015 / 1.0013 / 1.0019(最深段 1.0019 — 本文 1.002)"
+  },
+  {
+   "id": "p3fig1.linearity",
+   "pass": true,
+   "detail": "実測は深さに比例(log–log 傾き 0.9999、解析 1 との差 1.1e-4 < 0.01・深さ3桁)"
+  },
+  {
+   "id": "p3fig1.arcsec",
+   "pass": true,
+   "detail": "水星深さでの換算 43.041''/century(観測 42.98''/century との差 0.142% < 0.2% — 本文 43.0)"
+  },
+  {
+   "id": "p3fig2.boundary",
+   "pass": true,
+   "detail": "安定境界は g ∈ (4.138e-3, 8.899e-3) に挟まれる(全10行 NaN なし — 本文 4.1e-3 / 8.9e-3)"
+  },
+  {
+   "id": "p3fig2.route-asymmetry",
+   "pass": true,
+   "detail": "k_sat 経路では χ_M が下がらない(0.9395〜0.9402、本文 ≈0.94)— 利得の一方の因子が残る"
+  },
+  {
+   "id": "p3fig2.d0-route",
+   "pass": true,
+   "detail": "D_0 経路では χ_M が 0.9395 → 0.2371 まで下がり amp は 2.00 → 0.125(目標 ≈0.11 へ接近)"
+  },
+  {
+   "id": "p3fig2.monotone",
+   "pass": true,
+   "detail": "D_0 経路の amp は利得とともに単調減少: 1.996 → 0.870 → 0.219 → 0.153 → 0.125"
+  },
+  {
+   "id": "p3fig3.refpoint",
+   "pass": true,
+   "detail": "参照軌道(r/R_E=57.0)で裸のプロファイルが LT と一致: ω_bare/Ω_LT = 0.9440(|1−比| = 0.0560 < 0.1)"
+  },
+  {
+   "id": "p3fig3.refpoint-chi",
+   "pass": true,
+   "detail": "同じ点で χ(r)=0.2149 を掛けた実効比は 0.2029(= ratioBare × χ を 1e-6 以内で満たす)"
+  },
+  {
+   "id": "p3fig3.outerslope",
+   "pass": true,
+   "detail": "ω_DFM の外側傾き -8.994(解析の目安 −(1+q*) = -9.25)。比 ω/Ω_LT の外側傾きは -5.994(= 傾き −(−3)・図の3点から再フィット -5.994)"
+  },
+  {
+   "id": "p3fig3.q3slope",
+   "pass": true,
+   "detail": "q=3 対照の外側傾き -3.807 は LT の -3 の近傍に留まる(差 0.807 < 1)"
+  },
+  {
+   "id": "p3fig3.slopediff",
+   "pass": true,
+   "detail": "事前登録窓 W5(q3 − qLock の外側傾き差 3〜8): 5.187"
+  },
+  {
+   "id": "p3fig3.crossing",
+   "pass": true,
+   "detail": "qLock 曲線は内側 2.89e+6(超 LT)から外側 2.28e-3 まで落ち、比=1 を r=276.6(参照軌道 363.6 の内側)で横切る"
+  },
+  {
+   "id": "p3fig3.saturation",
+   "pass": true,
+   "detail": "χ=w/(D₀+w) は内側で1へ飽和(0.9123 → 0.1145)— LT の r⁻³ 発散に対し DFM は有限に留まる"
+  },
+  {
+   "id": "p3fig4.jw1",
+   "pass": true,
+   "detail": "JW1 転写(kF0): 4衛星の周期が観測と最大 0.068%(窓 ±1%)"
+  },
+  {
+   "id": "p3fig4.jw2-period",
+   "pass": true,
+   "detail": "JW2 引きずり込み(kF1・q*=12.3): 周期偏差 最大 0.0514%(窓 ±1%・20 イオ公転)"
+  },
+  {
+   "id": "p3fig4.jw2-retention",
+   "pass": true,
+   "detail": "JW2 軌道保持: |Δa|/a 最大 0.142%(窓 2%・NaN なし)"
+  },
+  {
+   "id": "p3fig4.long-window",
+   "pass": true,
+   "detail": "60 イオ公転の長窓でも保持: |Δa|/a 最大 0.142%・周期偏差 最大 0.0488%"
+  },
+  {
+   "id": "p3fig4.jw3-holdout",
+   "pass": true,
+   "detail": "JW3 hold-out の正直さ: 衛星別 fit 0 件・初速較正係数 1.000・共有ノブは 1 件(D₀=0.006)"
+  },
+  {
+   "id": "p3fig4.qstar",
+   "pass": true,
+   "detail": "q* はイオ参照で qLock 則を1回評価した 12.3017(宣言値 12.3・実行時 qLock は掛けない)"
+  },
+  {
+   "id": "p3fig4.q3-control",
+   "pass": true,
+   "detail": "q=3 対照は2衛星で ±1% を超える: Io 1.460% / Europa 1.087% / Ganymede 0.705% / Callisto 0.355%"
+  },
+  {
+   "id": "p3fig4.channel-split",
+   "pass": true,
+   "detail": "全系フレーム ω は衛星間の運動引きずり支配(自転チャネルの寄与は Δϖ の 4.5e-6 以下・全系 ω は順行でない)"
+  },
+  {
+   "id": "p3fig4.spin-channel",
+   "pass": true,
+   "detail": "自転チャネルは分離すると4衛星とも順行で、解析形との比 最小 0.9999998(5桁以上一致)"
+  },
+  {
+   "id": "p3fig4.determinism",
+   "pass": true,
+   "detail": "同一構成2回でビット一致(最終状態 16 値・最大差 0)・主測定窓に NaN なし"
+  },
+  {
+   "id": "p3fig4.resonance-record",
+   "pass": true,
+   "detail": "ラプラス共鳴は記録のみ(要求せず): 周期比 実測 2.0069 / 2.0145(観測 2.0073 / 2.0147)"
+  }
+ ]
+}

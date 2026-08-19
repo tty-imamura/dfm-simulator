@@ -1,0 +1,234 @@
+{
+ "figure": "p3fig4",
+ "paper": "dfm-paper3",
+ "generated": "2026-08-19T10:29:22.902Z",
+ "commit": "6399b4d",
+ "provenance": "コミット済み結果 JSON からの再描画のみ(本スクリプトは物理エンジンを駆動しない)",
+ "source": "tests/out/jupiter-results.json",
+ "sourceKey": "windows JW1/JW2/JW4/JW5, moons[].long, config",
+ "harness": "tests/exp-jupiter.mjs(第138便)",
+ "sourceTarget": "beta/index.html",
+ "sourceWave": 138,
+ "referenceMoon": "Io",
+ "heldOut": [
+  "Europa",
+  "Ganymede",
+  "Callisto"
+ ],
+ "config": {
+  "D0": 0.006,
+  "q": 12.3,
+  "qStar": 12.301733261350822,
+  "qStarRule": "q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R)(参照軌道=イオ a=42.18)",
+  "qFlat": 3,
+  "units": "1単位=10⁷m/10³s/10²⁶kg",
+  "orbits": 20,
+  "orbitsLong": 60,
+  "idealization": "2D 赤道面理想化(軌道傾斜 0.04°/0.47°/0.20°/0.19° を無視する — 宣言)",
+  "D0Note": "D₀=0.006 は 🪨🌘💿 と共通の既存値。本便での再フィットはゼロ。",
+  "qLockNote": "実行時 qLock は掛けない(多天体系では a_ref が一意でないため — 🌞solarInner 第131便の既存裁定)。"
+ },
+ "periods": [
+  {
+   "name": "Io",
+   "obsDays": 1.769138,
+   "kF0Days": 1.7703419485521656,
+   "kF0DevPercent": 0.06805283432753662,
+   "kF1Days": 1.770046940728711,
+   "kF1DevPercent": 0.051377604726754456,
+   "kF1LongDays": 1.7700019395353028,
+   "kF1LongDevPercent": 0.048833925635127784,
+   "q3Days": 1.7949751018106403,
+   "q3DevPercent": 1.4604345059933355
+  },
+  {
+   "name": "Europa",
+   "obsDays": 3.551181,
+   "kF0Days": 3.552262954174932,
+   "kF0DevPercent": 0.030467446602466808,
+   "kF1Days": 3.552373582108728,
+   "kF1DevPercent": 0.03358269006079606,
+   "kF1LongDays": 3.552547426004692,
+   "kF1LongDevPercent": 0.0384780726381484,
+   "q3Days": 3.589765823731622,
+   "q3DevPercent": 1.0865349789723977
+  },
+  {
+   "name": "Ganymede",
+   "obsDays": 7.154553,
+   "kF0Days": 7.154234726601996,
+   "kF0DevPercent": -0.004448543438062558,
+   "kF1Days": 7.1562997813661795,
+   "kF1DevPercent": 0.024414961580121464,
+   "kF1LongDays": 7.156367860094669,
+   "kF1LongDevPercent": 0.025366505701596154,
+   "q3Days": 7.204976072236219,
+   "q3DevPercent": 0.7047690084372782
+  },
+  {
+   "name": "Callisto",
+   "obsDays": 16.689017,
+   "kF0Days": 16.684462463308833,
+   "kF0DevPercent": -0.027290622875908443,
+   "kF1Days": 16.690657627601382,
+   "kF1DevPercent": 0.009830582600423021,
+   "kF1LongDays": 16.6911886416836,
+   "kF1LongDevPercent": 0.013012400212653041,
+   "q3Days": 16.748184153175064,
+   "q3DevPercent": 0.3545274905949469
+  }
+ ],
+ "retention": [
+  {
+   "name": "Io",
+   "aSpreadPercentMain": 0.011414622084803943,
+   "aSpreadPercentLong": 0.014458542810529213,
+   "aSpreadPercentQ3": 0.017709758325680437,
+   "longRevs": 60
+  },
+  {
+   "name": "Europa",
+   "aSpreadPercentMain": 0.07043850707273094,
+   "aSpreadPercentLong": 0.0798648600060523,
+   "aSpreadPercentQ3": 0.07293246198692743,
+   "longRevs": 29
+  },
+  {
+   "name": "Ganymede",
+   "aSpreadPercentMain": 0.07205490787404271,
+   "aSpreadPercentLong": 0.07205423437596083,
+   "aSpreadPercentQ3": 0.07347945727204666,
+   "longRevs": 14
+  },
+  {
+   "name": "Callisto",
+   "aSpreadPercentMain": 0.1421009296470758,
+   "aSpreadPercentLong": 0.14210005292181427,
+   "aSpreadPercentQ3": 0.14365883371408406,
+   "longRevs": 6
+  }
+ ],
+ "channels": [
+  {
+   "name": "Io",
+   "totalPe": -0.013766199590359626,
+   "motionPe": -0.013766137846849035,
+   "spinPe": -6.182048666369941e-8,
+   "omegaTotalPrograde": false,
+   "omegaSpinOnlyPrograde": true,
+   "spinOnlyOverAnalytic": 0.9999999376406169
+  },
+  {
+   "name": "Europa",
+   "totalPe": -0.0746129560409227,
+   "motionPe": -0.07461296134619738,
+   "spinPe": -9.128031042107047e-10,
+   "omegaTotalPrograde": false,
+   "omegaSpinOnlyPrograde": true,
+   "spinOnlyOverAnalytic": 0.9999998188955668
+  },
+  {
+   "name": "Ganymede",
+   "totalPe": -0.18435198763323077,
+   "motionPe": -0.18435192722951924,
+   "spinPe": -8.409893664980145e-12,
+   "omegaTotalPrograde": false,
+   "omegaSpinOnlyPrograde": true,
+   "spinOnlyOverAnalytic": 0.9999999356846495
+  },
+  {
+   "name": "Callisto",
+   "totalPe": -0.040930541384795294,
+   "motionPe": -0.04093053545206024,
+   "spinPe": 2.395944262488601e-13,
+   "omegaTotalPrograde": false,
+   "omegaSpinOnlyPrograde": true,
+   "spinOnlyOverAnalytic": 0.9999999488693484
+  }
+ ],
+ "audit": {
+  "statement": "hold-out の正直さ — 衛星別 fit ゼロ(parameterAudit.fitted は共有 D₀ 以外空)",
+  "velocityCalibFactor": 1,
+  "perMoonFits": 0,
+  "sharedFits": [
+   "D₀=0.006(🪨🌘💿 と共通 — 本便での再調整ゼロ)"
+  ],
+  "derived": [
+   "q=12.3(qLock 則を参照軌道=イオで1回だけ評価した q*=12.3017 の直値宣言)",
+   "κ=G/c₀²=7.4155555…×10⁻⁹"
+  ],
+  "pass": true,
+  "note": "初速は実ケプラー速度そのもの(較正係数 1.000)。衛星ごとに合わせたノブは1つもない。"
+ },
+ "resonance": {
+  "requirement": "再現は要求しない(記録のみ)",
+  "observedRatios": {
+   "EuropaOverIo": 2.007294512920982,
+   "GanymedeOverEuropa": 2.0146968008670916
+  },
+  "measuredRatiosKF1": {
+   "EuropaOverIo": 2.0069375000000003,
+   "GanymedeOverEuropa": 2.014512160941733
+  },
+  "laplaceCombination": -0.00007496651084903938,
+  "laplaceCombinationObs": -7.953275438232765e-8,
+  "note": "本サンプルは初期位相を 90° ずつずらした2D理想化配置で、共鳴角の平衡は初期条件として 与えていない。ラプラス共鳴(λ_I−3λ_E+2λ_G=180°)の再現は事前登録の対象外である。"
+ },
+ "determinism": {
+  "bitIdentical": true,
+  "nFin": 16,
+  "maxAbsDiff": 0,
+  "note": "同一構成(kF1・主測定窓)を2回実行し、4衛星の最終 (x,y,vx,vy) を Object.is で照合。"
+ },
+ "convergence": {
+  "statement": "步幅を半分(2000→4000 步/イオ公転)にした dt 掃引1点",
+  "rows": [
+   {
+    "name": "Io",
+    "periodMain": 1.770046940728711,
+    "periodFine": 1.770046940728711,
+    "periodRelDiff": 0,
+    "aSpreadMain": 0.00011414622084803943,
+    "aSpreadFine": 0.00010163822164014328,
+    "dragMain": -0.013766199590359626,
+    "dragFine": -0.01695998499804985,
+    "dragRelDiff": -0.23200196878787147
+   },
+   {
+    "name": "Europa",
+    "periodMain": 3.552373582108728,
+    "periodFine": 3.5523182681418297,
+    "periodRelDiff": -0.000015570988135094055,
+    "aSpreadMain": 0.0007043850707273095,
+    "aSpreadFine": 0.0006896192537079732,
+    "dragMain": -0.0746129560409227,
+    "dragFine": -0.07367906550811895,
+    "dragRelDiff": 0.012516466071811236
+   },
+   {
+    "name": "Ganymede",
+    "periodMain": 7.1562997813661795,
+    "periodFine": 7.156447285277907,
+    "periodRelDiff": 0.000020611756946120607,
+    "aSpreadMain": 0.0007205490787404272,
+    "aSpreadFine": 0.0007198298764129351,
+    "dragMain": -0.18435198763323077,
+    "dragFine": -0.1413909107820437,
+    "dragRelDiff": 0.23303831655267185
+   },
+   {
+    "name": "Callisto",
+    "periodMain": 16.690657627601382,
+    "periodFine": 16.691100139336566,
+    "periodRelDiff": 0.000026512540431733456,
+    "aSpreadMain": 0.0014210092964707579,
+    "aSpreadFine": 0.0014228415469947082,
+    "dragMain": -0.040930541384795294,
+    "dragFine": -0.04189884469977695,
+    "dragRelDiff": -0.02365723203801445
+   }
+  ],
+  "periodConverged": true
+ },
+ "note": "q* はイオを参照軌道として qLock 則を1回だけ評価した値(実行時 qLock は掛けない)。衛星別 fit はゼロ。"
+}

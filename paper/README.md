@@ -149,10 +149,36 @@ boxredshift・rotorSolo は beta 先行)。各図の `.json` に生成パラメ�
 - **番号再編(2026-08-16 裁定)**: 論文3のテーマを**現実較正**とし、執筆中だった
   「スケール横断の創発」ドラフト(旧 dfm-paper3)は**内容不変のまま論文4へ繰り下げ**
   (`dfm-paper4.tex` / `dfm-paper4-ja.tex` v0.3)。
-- **dfm-paper3.tex / dfm-paper3-ja.tex(v0.1 骨子)**: 現実較正テーマの章立て素案。
+- **dfm-paper3.tex / dfm-paper3-ja.tex(v1.0-draft)**: 現実較正テーマの全文稿。
   柱は ①43″/世紀の力学直接再現(比1.002)②kF1 安定性の単位系依存 ③運動引きずりによる
-  月の近点回転 8.85年の較正再現 ④共通補正 (D₀=0.006, q=5) — 全章を「較正一致≠機構同定」の
-  正直な較正の哲学で貫く。計測正本: tests/exp-obscal.mjs・exp-kf1.mjs・exp-kf1b.mjs・
-  exp-kf1c.mjs / docs/PHYSICS.md §5(v1.34)。
-- ビルドは第1・2論文と同じ(英語版 pdflatex ×2 / 日本語版 lualatex ×2)。CI は paper2 のみ
-  機械ビルド対象(paper3/4 は投稿前に手動で全図・数値ゲートを整備する)。
+  月の近点回転 8.85年の較正再現 ④共通補正 (D₀=0.006) の qLock 導出規則への純化 — 全章を
+  「較正一致≠機構同定」の正直な較正の哲学で貫く。第140便で図4点と木星ガリレオ衛星
+  hold-out(第VI節E)を収載。計測正本: tests/exp-obscal.mjs・exp-kf1.mjs・exp-kf1b.mjs・
+  exp-kf1c.mjs・exp-kf1d.mjs・exp-qlockradial.mjs・exp-jupiter.mjs / docs/PHYSICS.md §5。
+- ビルドは第1・2論文と同じ(英語版 pdflatex ×2 / 日本語版 lualatex ×2)。
+  CI は `.github/workflows/paper3.yml`(第140便)が paper2 と同格のゲートを張る:
+  図再生成+数値ゲート25件 → コミット済み JSON との一致 assert → 英日ビルド
+  (エラー・未定義参照ゼロ)→ PDF アーティファクト。論文4は引き続き手動。
+
+## 論文3の図の再生成(機械生成)
+
+```sh
+node tools/gen-figures3.mjs          # 全4図を figures/ に p3fig1..4.{svg,pdf,json} で生成
+FIG=3,4 node tools/gen-figures3.mjs  # 個別再生成
+```
+
+第1・2論文の生成器と同じ流儀(自前 SVG + headless Chromium での印刷・外部チャート
+ライブラリなし)だが、**シミュレータは駆動しない**: 図の数値はすべて **コミット済みの
+結果 JSON**(`tests/out/*.json`)から読む(手打ちの実測値ゼロ・2回実行で揮発キー以外
+バイト一致)。数値ゲート `figures/p3figs-gates.json`(25件)が本文・キャプションの値との
+一致を機械強制する。
+
+| 図 | 内容 | 出典 JSON | 実測ゲート |
+|---|---|---|---|
+| p3fig1 | 不変量ラダー(実測 vs 解析・深さ3桁)+段別の比 | `obscal-results.json` `.tests.mercuryReal` | 比 1.0013〜1.0019・log–log 傾き 0.9999・43.04″/世紀(観測比 0.14%) |
+| p3fig2 | ループ利得の用量応答(2経路)+ χ_M の非対称 | `obscal-results.json` `.tests.kframeStability` | 安定境界 4.1e-3〜8.9e-3・k_sat 経路の χ_M 0.9395〜0.9402・D₀ 経路で単調減少 |
+| p3fig3 | ω_DFM/Ω_LT の半径プロファイル(qLock q*=8.25 / q=3 / LT) | `qlockradial-results.json` | 参照点 裸 0.944・外側傾き −8.99(ω)・W5 傾き差 5.19・χ 飽和 0.912→0.115 |
+| p3fig4 | 木星ガリレオ衛星 hold-out(周期偏差・軌道保持) | `jupiter-results.json` | JW1 ≤0.068%・JW2 周期 ≤0.051%/\|Δa\|/a ≤0.142%・衛星別 fit 0・q=3 対照は2衛星で ±1% 超 |
+
+**投稿直前に必ず提出コミットで全図を再生成し、図 JSON と論文のコミット参照を
+一致させること**(第1・2論文と同じ規律)。
