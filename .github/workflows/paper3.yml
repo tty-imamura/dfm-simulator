@@ -1,7 +1,9 @@
 # 第140便: 論文3(現実較正)のビルド・図再生成を CI ゲート化(論文2の paper2.yml と同格)。
 # paper/ または図生成スクリプトの変更時のみ実行(重い TeX インストールを常時走らせない)。
-# 内容: ①図4点を再生成し数値ゲート25件を assert(図生成はコミット済みの結果 JSON だけを
-# 読み、新規シミュレーションは走らせない)②再生成 JSON がコミット済み JSON とデータ一致
+# 内容: ①図4点を再生成し**回帰整合ゲート(regression/consistency gates)**を assert
+# (図生成はコミット済みの結果 JSON だけを読み、新規シミュレーションは走らせない — したがって
+# CI は独立な再測定ではなく回帰検査である。第141便で「数値ゲート25件」から改称・28件へ)
+# ②再生成 JSON がコミット済み JSON とデータ一致
 # (揮発キー generated/commit を除く)③英(pdflatex)・日(lualatex)を各2回ビルドし
 # エラー・未定義参照ゼロを assert。
 name: paper3
@@ -30,7 +32,7 @@ jobs:
         run: |
           npm ci
           npx playwright install --with-deps chromium
-      - name: Regenerate figures (asserts 25 numeric gates)
+      - name: Regenerate figures (asserts the regression/consistency gates)
         run: node tools/gen-figures3.mjs
       - name: Assert figure data matches committed JSONs (volatile keys excluded)
         run: |

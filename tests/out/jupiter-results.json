@@ -1069,5 +1069,483 @@
     "laplaceCombination": -0.00007496651084903938,
     "laplaceCombinationObs": -7.953275438232765e-8,
     "note": "本サンプルは初期位相を 90° ずつずらした2D理想化配置で、共鳴角の平衡は初期条件として 与えていない。ラプラス共鳴(λ_I−3λ_E+2λ_G=180°)の再現は事前登録の対象外である。"
+  },
+  "sensitivity": {
+    "wave": 141,
+    "recordOnly": true,
+    "statement": "第141便の付帯記録。既存の事前登録窓 JW1〜JW5 と主測定は一切変更していない(本節を足す前後で他の全キーの値はビット不変)。ここは「参照軌道 a の選定・指数 q・共有背景 D₀ を動かすと何がどれだけ動くか」の感度記録であって、事前登録した判定ではない。",
+    "farFieldConvention": {
+      "rule": "qLock 則 q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) は、スピン項の**遠方近似 a≫R**での振幅を Ω_LT=2GJ/(c₀²r³)(J=(2/5)MR²s の一様球近似)に合わせる宣言規約である。",
+      "finiteRadiusFactor": 0.6251835025527328,
+      "finiteRadiusNote": "有限半径因子。参照軌道 a で素のスピン項 s·(R/(R+a))^q* を Ω_LT(a) と比べると、比は厳密に (a/(R+a))³ になる(a≫R で 1 に漸近する — 遠方近似であることの定量)。",
+      "bareOverLTatIoDeclared": 0.6272800127824957,
+      "bareOverLTatIoExactQStar": 0.6251835025527337,
+      "qExact": 12.058551153315456,
+      "qExactDeclared": 12.06,
+      "qExactRule": "q_exact = q* + 3·ln(a/(R+a))/ln((R+a)/R) — 参照軌道で比を厳密に 1 にする代替規約。本便では採らない(確定済みの較正世界線〔共有 D₀=0.006・kf1d・木星 hold-out〕を再実測なしで保存する最小修正を優先した)。採否は規約の選択であって物理の判定ではない。",
+      "chiNote": "χ=w/(D₀+w) を掛けた実効フレーム回転はさらに小さい(木星系では χ=0.944〜0.987 と 1 に近い)。"
+    },
+    "aRefSensitivity": {
+      "statement": "参照軌道 a を ±20% 振ると q* がどれだけ動き、4衛星の保持・周期がどうなるか",
+      "whyIo": "イオを参照軌道に選ぶ理由: 多体系では自由天体距離の中央値が一意でないため参照を1つ宣言する必要があり(🌞第131便の裁定)、①支配源(木星)に最も近い=スピン項が最大で効く軌道であること、②公転周期が最短で同じ実時間窓で最も多くの公転を積めること(数値床が最良)から、4衛星のうちイオが最も厳しい・最も解像度の高い参照点になる。",
+      "rows": [
+        {
+          "f": 0.8,
+          "aRef": 33.744,
+          "qStar": 13.302076813094375,
+          "qDeclared": 13.3,
+          "dqStar": 1.000343551743553,
+          "nan": false,
+          "rows": [
+            {
+              "name": "Io",
+              "periodDays": 1.770046940728711,
+              "devPercent": 0.051377604726754456,
+              "aSpreadPercent": 0.011414633062463918,
+              "dragPe": -0.013766146614374187,
+              "periodShift": -0.00016663889351773082
+            },
+            {
+              "name": "Europa",
+              "periodDays": 3.552373582108728,
+              "devPercent": 0.03358269006079606,
+              "aSpreadPercent": 0.07043854650119444,
+              "dragPe": -0.07461295866954776,
+              "periodShift": 0.00003114294612275805
+            },
+            {
+              "name": "Ganymede",
+              "periodDays": 7.1562997813661795,
+              "devPercent": 0.024414961580121464,
+              "aSpreadPercent": 0.07205487712051326,
+              "dragPe": -0.18435193112271958,
+              "periodShift": 0.0002886478908086443
+            },
+            {
+              "name": "Callisto",
+              "periodDays": 16.690657627601382,
+              "devPercent": 0.009830582600423021,
+              "aSpreadPercent": 0.1421009208368593,
+              "dragPe": -0.04093051982909854,
+              "periodShift": 0.0003713133884997591
+            }
+          ],
+          "sameAsJW2Condition": true,
+          "maxAbsDevPercent": 0.051377604726754456,
+          "maxASpreadPercent": 0.1421009208368593,
+          "bareOverLTatIo": 0.09091066279981469,
+          "bareOverLTatOwnRef": 0.5639094369911347
+        },
+        {
+          "f": 1,
+          "aRef": 42.18,
+          "qStar": 12.301733261350822,
+          "qDeclared": 12.3,
+          "dqStar": 0,
+          "nan": false,
+          "rows": [
+            {
+              "name": "Io",
+              "periodDays": 1.770046940728711,
+              "devPercent": 0.051377604726754456,
+              "aSpreadPercent": 0.011414622084803943,
+              "dragPe": -0.013766199590359626,
+              "periodShift": -0.00016663889351773082
+            },
+            {
+              "name": "Europa",
+              "periodDays": 3.552373582108728,
+              "devPercent": 0.03358269006079606,
+              "aSpreadPercent": 0.07043850707273096,
+              "dragPe": -0.0746129560409227,
+              "periodShift": 0.00003114294612275805
+            },
+            {
+              "name": "Ganymede",
+              "periodDays": 7.1562997813661795,
+              "devPercent": 0.024414961580121464,
+              "aSpreadPercent": 0.07205490787404271,
+              "dragPe": -0.18435198763323077,
+              "periodShift": 0.0002886478908086443
+            },
+            {
+              "name": "Callisto",
+              "periodDays": 16.690657627601382,
+              "devPercent": 0.009830582600423021,
+              "aSpreadPercent": 0.1421009296470758,
+              "dragPe": -0.040930541384795294,
+              "periodShift": 0.0003713133884997591
+            }
+          ],
+          "sameAsJW2Condition": true,
+          "maxAbsDevPercent": 0.051377604726754456,
+          "maxASpreadPercent": 0.1421009296470758,
+          "bareOverLTatIo": 0.6272800127824957,
+          "bareOverLTatOwnRef": 0.6272800127824957
+        },
+        {
+          "f": 1.2,
+          "aRef": 50.616,
+          "qStar": 11.5989107234158,
+          "qDeclared": 11.6,
+          "dqStar": -0.7028225379350221,
+          "nan": false,
+          "rows": [
+            {
+              "name": "Io",
+              "periodDays": 1.770046940728711,
+              "devPercent": 0.051377604726754456,
+              "aSpreadPercent": 0.01141462883517872,
+              "dragPe": -0.013766339756869292,
+              "periodShift": -0.00016663889351773082
+            },
+            {
+              "name": "Europa",
+              "periodDays": 3.552373582108728,
+              "devPercent": 0.03358269006079606,
+              "aSpreadPercent": 0.07043865872744867,
+              "dragPe": -0.07461293791657037,
+              "periodShift": 0.00003114294612275805
+            },
+            {
+              "name": "Ganymede",
+              "periodDays": 7.1562997813661795,
+              "devPercent": 0.024414961580121464,
+              "aSpreadPercent": 0.07205493004125324,
+              "dragPe": -0.18435190696692894,
+              "periodShift": 0.0002886478908086443
+            },
+            {
+              "name": "Callisto",
+              "periodDays": 16.690657627601382,
+              "devPercent": 0.009830582600423021,
+              "aSpreadPercent": 0.14210104636438703,
+              "dragPe": -0.040930578351138606,
+              "periodShift": 0.0003713133884997591
+            }
+          ],
+          "sameAsJW2Condition": true,
+          "maxAbsDevPercent": 0.051377604726754456,
+          "maxASpreadPercent": 0.14210104636438703,
+          "bareOverLTatIo": 2.4246780874776785,
+          "bareOverLTatOwnRef": 0.6712374844505387
+        }
+      ]
+    },
+    "qControls": {
+      "statement": "高q対照(q=8/10/14)と厳密一致式 q_exact の対照。qLock 宣言値 12.30 との比較用",
+      "qDeclared": 12.3,
+      "qStar": 12.301733261350822,
+      "rows": [
+        {
+          "q": 8,
+          "isQExact": false,
+          "nan": false,
+          "rows": [
+            {
+              "name": "Io",
+              "periodDays": 1.770046940728711,
+              "devPercent": 0.051377604726754456,
+              "aSpreadPercent": 0.011414198003719038,
+              "dragPe": -0.01386051614199946,
+              "periodShift": -0.00016663889351773082
+            },
+            {
+              "name": "Europa",
+              "periodDays": 3.552373582108728,
+              "devPercent": 0.03358269006079606,
+              "aSpreadPercent": 0.07044451242049046,
+              "dragPe": -0.07461315141838464,
+              "periodShift": 0.00003114294612275805
+            },
+            {
+              "name": "Ganymede",
+              "periodDays": 7.1562997813661795,
+              "devPercent": 0.024414961580121464,
+              "aSpreadPercent": 0.07205852680495142,
+              "dragPe": -0.18434943849480717,
+              "periodShift": 0.0002886478908086443
+            },
+            {
+              "name": "Callisto",
+              "periodDays": 16.690657627601382,
+              "devPercent": 0.009830582600423021,
+              "aSpreadPercent": 0.14210495838908063,
+              "dragPe": -0.040935066751080856,
+              "periodShift": 0.0003713133884997591
+            }
+          ],
+          "sameAsJW2Condition": true,
+          "maxAbsDevPercent": 0.051377604726754456,
+          "maxASpreadPercent": 0.14210495838908063,
+          "bareOverLTatIo": 2538.060322775479
+        },
+        {
+          "q": 10,
+          "isQExact": false,
+          "nan": false,
+          "rows": [
+            {
+              "name": "Io",
+              "periodDays": 1.770046940728711,
+              "devPercent": 0.051377604726754456,
+              "aSpreadPercent": 0.011414602267278268,
+              "dragPe": -0.01376941214654383,
+              "periodShift": -0.00016663889351773082
+            },
+            {
+              "name": "Europa",
+              "periodDays": 3.552373582108728,
+              "devPercent": 0.03358269006079606,
+              "aSpreadPercent": 0.07043875231337905,
+              "dragPe": -0.07461283718570984,
+              "periodShift": 0.00003114294612275805
+            },
+            {
+              "name": "Ganymede",
+              "periodDays": 7.1562997813661795,
+              "devPercent": 0.024414961580121464,
+              "aSpreadPercent": 0.0720549877835874,
+              "dragPe": -0.18435188760203652,
+              "periodShift": 0.0002886478908086443
+            },
+            {
+              "name": "Callisto",
+              "periodDays": 16.690657627601382,
+              "devPercent": 0.009830582600423021,
+              "aSpreadPercent": 0.14210109007481803,
+              "dragPe": -0.040930626274128724,
+              "periodShift": 0.0003713133884997591
+            }
+          ],
+          "sameAsJW2Condition": true,
+          "maxAbsDevPercent": 0.051377604726754456,
+          "maxASpreadPercent": 0.14210109007481803,
+          "bareOverLTatIo": 53.310000749543704
+        },
+        {
+          "q": 14,
+          "isQExact": false,
+          "nan": false,
+          "rows": [
+            {
+              "name": "Io",
+              "periodDays": 1.770046940728711,
+              "devPercent": 0.051377604726754456,
+              "aSpreadPercent": 0.01141462939776521,
+              "dragPe": -0.013766136633400745,
+              "periodShift": -0.00016663889351773082
+            },
+            {
+              "name": "Europa",
+              "periodDays": 3.552373582108728,
+              "devPercent": 0.03358269006079606,
+              "aSpreadPercent": 0.070438509653231,
+              "dragPe": -0.07461295801797344,
+              "periodShift": 0.00003114294612275805
+            },
+            {
+              "name": "Ganymede",
+              "periodDays": 7.1562997813661795,
+              "devPercent": 0.024414961580121464,
+              "aSpreadPercent": 0.07205487502532044,
+              "dragPe": -0.18435188092110064,
+              "periodShift": 0.0002886478908086443
+            },
+            {
+              "name": "Callisto",
+              "periodDays": 16.690657627601382,
+              "devPercent": 0.009830582600423021,
+              "aSpreadPercent": 0.14210090146664744,
+              "dragPe": -0.04093050953412927,
+              "periodShift": 0.0003713133884997591
+            }
+          ],
+          "sameAsJW2Condition": true,
+          "maxAbsDevPercent": 0.051377604726754456,
+          "maxASpreadPercent": 0.14210090146664744,
+          "bareOverLTatIo": 0.02351918055334762
+        },
+        {
+          "q": 12.06,
+          "isQExact": true,
+          "nan": false,
+          "rows": [
+            {
+              "name": "Io",
+              "periodDays": 1.770046940728711,
+              "devPercent": 0.051377604726754456,
+              "aSpreadPercent": 0.011414630206002443,
+              "dragPe": -0.013766229161305238,
+              "periodShift": -0.00016663889351773082
+            },
+            {
+              "name": "Europa",
+              "periodDays": 3.552373582108728,
+              "devPercent": 0.03358269006079606,
+              "aSpreadPercent": 0.070438513779742,
+              "dragPe": -0.07461295518419266,
+              "periodShift": 0.00003114294612275805
+            },
+            {
+              "name": "Ganymede",
+              "periodDays": 7.1562997813661795,
+              "devPercent": 0.024414961580121464,
+              "aSpreadPercent": 0.07205488998033158,
+              "dragPe": -0.18435187888926008,
+              "periodShift": 0.0002886478908086443
+            },
+            {
+              "name": "Callisto",
+              "periodDays": 16.690657627601382,
+              "devPercent": 0.009830582600423021,
+              "aSpreadPercent": 0.14210101095154154,
+              "dragPe": -0.0409305898452132,
+              "periodShift": 0.0003713133884997591
+            }
+          ],
+          "sameAsJW2Condition": true,
+          "maxAbsDevPercent": 0.051377604726754456,
+          "maxASpreadPercent": 0.14210101095154154,
+          "bareOverLTatIo": 0.9972054418980494
+        }
+      ]
+    },
+    "d0Sensitivity": {
+      "statement": "共有背景 D₀ の ×0.5 / ×2 感度(D₀=0.006 は 🪨🌘💿 と共通の値で、本系では再フィットしない)",
+      "rows": [
+        {
+          "factor": 0.5,
+          "D0": 0.003,
+          "nan": false,
+          "rows": [
+            {
+              "name": "Io",
+              "periodDays": 1.769997772758135,
+              "devPercent": 0.048598399793298164,
+              "aSpreadPercent": 0.011340952100541526,
+              "dragPe": -0.013905271730218036,
+              "periodShift": -0.00019441204243744552
+            },
+            {
+              "name": "Europa",
+              "periodDays": 3.552373582108728,
+              "devPercent": 0.03358269006079606,
+              "aSpreadPercent": 0.0712098213096414,
+              "dragPe": -0.07505497129758568,
+              "periodShift": 0.00003114294612275805
+            },
+            {
+              "name": "Ganymede",
+              "periodDays": 7.1562997813661795,
+              "devPercent": 0.024414961580121464,
+              "aSpreadPercent": 0.07312468055855341,
+              "dragPe": -0.18472302032137772,
+              "periodShift": 0.0002886478908086443
+            },
+            {
+              "name": "Callisto",
+              "periodDays": 16.691542651071746,
+              "devPercent": 0.015133611954176729,
+              "aSpreadPercent": 0.14681522599224756,
+              "dragPe": -0.04163014377111733,
+              "periodShift": 0.00042435815828555166
+            }
+          ],
+          "sameAsJW2Condition": true,
+          "maxAbsDevPercent": 0.048598399793298164,
+          "maxASpreadPercent": 0.14681522599224756
+        },
+        {
+          "factor": 1,
+          "D0": 0.006,
+          "nan": false,
+          "rows": [
+            {
+              "name": "Io",
+              "periodDays": 1.770046940728711,
+              "devPercent": 0.051377604726754456,
+              "aSpreadPercent": 0.011414622084803943,
+              "dragPe": -0.013766199590359626,
+              "periodShift": -0.00016663889351773082
+            },
+            {
+              "name": "Europa",
+              "periodDays": 3.552373582108728,
+              "devPercent": 0.03358269006079606,
+              "aSpreadPercent": 0.07043850707273096,
+              "dragPe": -0.0746129560409227,
+              "periodShift": 0.00003114294612275805
+            },
+            {
+              "name": "Ganymede",
+              "periodDays": 7.1562997813661795,
+              "devPercent": 0.024414961580121464,
+              "aSpreadPercent": 0.07205490787404271,
+              "dragPe": -0.18435198763323077,
+              "periodShift": 0.0002886478908086443
+            },
+            {
+              "name": "Callisto",
+              "periodDays": 16.690657627601382,
+              "devPercent": 0.009830582600423021,
+              "aSpreadPercent": 0.1421009296470758,
+              "dragPe": -0.040930541384795294,
+              "periodShift": 0.0003713133884997591
+            }
+          ],
+          "sameAsJW2Condition": true,
+          "maxAbsDevPercent": 0.051377604726754456,
+          "maxASpreadPercent": 0.1421009296470758
+        },
+        {
+          "factor": 2,
+          "D0": 0.012,
+          "nan": false,
+          "rows": [
+            {
+              "name": "Io",
+              "periodDays": 1.770046940728711,
+              "devPercent": 0.051377604726754456,
+              "aSpreadPercent": 0.011559016662847286,
+              "dragPe": -0.013495760481955648,
+              "periodShift": -0.00016663889351773082
+            },
+            {
+              "name": "Europa",
+              "periodDays": 3.552373582108728,
+              "devPercent": 0.03358269006079606,
+              "aSpreadPercent": 0.06894216392624454,
+              "dragPe": -0.07374686001269498,
+              "periodShift": 0.00003114294612275805
+            },
+            {
+              "name": "Ganymede",
+              "periodDays": 7.1562997813661795,
+              "devPercent": 0.024414961580121464,
+              "aSpreadPercent": 0.07001703419675674,
+              "dragPe": -0.1835905541441541,
+              "periodShift": 0.0002886478908086443
+            },
+            {
+              "name": "Callisto",
+              "periodDays": 16.690657627601382,
+              "devPercent": 0.009830582600423021,
+              "aSpreadPercent": 0.1334222650758795,
+              "dragPe": -0.03956836702603058,
+              "periodShift": 0.0003713133884997591
+            }
+          ],
+          "sameAsJW2Condition": true,
+          "maxAbsDevPercent": 0.051377604726754456,
+          "maxASpreadPercent": 0.1334222650758795
+        }
+      ]
+    },
+    "determinism": {
+      "config": "q=8・kF1・主測定窓",
+      "bitIdentical": true,
+      "maxAbsDiff": 0
+    }
   }
 }

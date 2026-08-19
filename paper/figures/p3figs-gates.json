@@ -1,7 +1,7 @@
 {
  "paper": "dfm-paper3",
- "commit": "6399b4d",
- "generated": "2026-08-19T10:29:23.037Z",
+ "commit": "363426f",
+ "generated": "2026-08-19T14:37:39.458Z",
  "provenance": "コミット済み結果 JSON のみを読む(新規シミュレーションなし)",
  "sources": [
   "tests/out/obscal-results.json",
@@ -128,6 +128,21 @@
    "id": "p3fig4.determinism",
    "pass": true,
    "detail": "同一構成2回でビット一致(最終状態 16 値・最大差 0)・主測定窓に NaN なし"
+  },
+  {
+   "id": "p3fig4.aref-sensitivity",
+   "pass": true,
+   "detail": "参照軌道 a を ±20% 振ると q* は最大 1.000 動く(13.3 / 12.3 / 11.6)が、4衛星の周期偏差は記録桁で不変(最大差 0pp)・|Δa|/a の差は 1.5e-7pp 以下・NaN なし"
+  },
+  {
+   "id": "p3fig4.qlock-farfield",
+   "pass": true,
+   "detail": "qLock は遠方近似 (a≫R) の規約: 参照軌道で素のスピン項/Ω_LT は有限半径因子 (a/(R+a))³ = 0.6252 に等しく(規則の出力 q*=12.3017 を代入した実値 0.6252 と 1e-12 以内で一致)、厳密一致式は q_exact=12.0586"
+  },
+  {
+   "id": "p3fig4.sensitivity-determinism",
+   "pass": true,
+   "detail": "感度実測は決定的(2回でビット同一・最大差 0)。高q対照 q=8 / q=10 / q=14 / q=12.06 と D₀×0.5 / ×1 / ×2 はいずれも JW2 と同条件で保持・NaN なし (q_exact=12.06 での素のスピン項/Ω_LT = 0.9972)"
   },
   {
    "id": "p3fig4.resonance-record",
