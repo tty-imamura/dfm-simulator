@@ -254,5 +254,170 @@
       "ok2": true,
       "pass": true
     }
+  },
+  "manifest": {
+    "schema": "dfm-experiment-manifest",
+    "schemaVersion": "1.0",
+    "generatedAt": "2026-08-20T08:06:16.865Z",
+    "experiment": {
+      "id": "kf1c",
+      "wave": 122,
+      "title": "🌘 と 🪨 を「共に満たす」共通補正(D₀=0.006 共通・q 幾何抑制)の検証",
+      "script": "tests/exp-kf1c.mjs",
+      "scriptSha256": "2512ee664c3bc3c08c704f25c655dc1c0e282db391902d3a3cb3a42bc1b2407e",
+      "scriptBytes": 14048,
+      "helperSha256": "502979b3027a7a79bc4b2df5e1bc0fbb86e3bbc252af85b6f2266e101666103a",
+      "command": "node tests/exp-kf1c.mjs"
+    },
+    "provenance": {
+      "git": {
+        "commit": "fbaef3a4884f3499ba1d63612d4847fcae09200d",
+        "describe": "fbaef3a-dirty",
+        "dirty": true,
+        "dirtyFiles": {
+          "count": 17,
+          "sample": [
+            "paper/README.md",
+            "paper/dfm-paper.tex",
+            "paper/dfm-paper3-ja.tex",
+            "paper/dfm-paper3.tex",
+            "tests/exp-coreshell.mjs",
+            "tests/exp-coreshell2.mjs",
+            "tests/exp-jupiter.mjs",
+            "tests/exp-kf1.mjs"
+          ]
+        }
+      },
+      "target": {
+        "path": "beta/index.html",
+        "sha256": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+        "bytes": 1665860,
+        "appVersion": "1.41"
+      },
+      "presets": {
+        "mode": "dynamic",
+        "note": "MERC の D₀ は共通候補 0.006 に置いてある(第118便の観測較正プロファイルからの唯一の変更点)",
+        "declaration": "動的構成(内蔵プリセットを読まず、ハーネス内の宣言値から HP.sim.build する)",
+        "declaredIn": "A/B) 🪨 mkMerc() / C) 🌘 mkEM()",
+        "configSha256": "608d4d2c8e78468a49303921a71887631090af2220ba7ad38efa8b6b1da3f30f",
+        "configCanonicalization": "宣言済み構成(configs)を再帰キー整列した JSON の SHA-256"
+      }
+    },
+    "numerics": {
+      "seed": 1,
+      "dt": 0.016,
+      "timeScale": 1,
+      "substeps": "not-applicable",
+      "steps": "steps=ceil(orbits·T_K/dt)(構成ごとに T_K から算出 — 固定步数ではない)",
+      "window": {
+        "mercury": "8 公転",
+        "earthMoon": "8 公転"
+      },
+      "warmup": "not-applicable",
+      "sweeps": {
+        "mercuryQ": [
+          3,
+          3.5,
+          4,
+          4.5,
+          5,
+          6
+        ],
+        "earthMoonQ": [
+          3,
+          4.5,
+          5,
+          6
+        ],
+        "spin2Mercury": [
+          0,
+          0.0124,
+          1.24,
+          124
+        ],
+        "spin2Moon": [
+          0,
+          0.026617
+        ]
+      }
+    },
+    "environment": {
+      "node": "v22.22.2",
+      "platform": "linux/x64",
+      "playwright": "playwright@1.61.1",
+      "browser": "Playwright Chromium 141.0.7390.37",
+      "date": "2026-08-20T08:06:16.901Z",
+      "tz": "UTC"
+    },
+    "classification": {
+      "note": "本便で新規に導入した自由度は q(既存の物理キー)のみで、その値は当てはめではなく**算出**している(derivation)。D₀ は第120便の共有値のままである",
+      "input": [
+        "🪨🌘 の実単位の質量・軌道要素・自転・半径(観測由来の外部入力)",
+        "dt=0.016・seed=1・8 公転窓",
+        "q の掃引点と spin2 の用量点"
+      ],
+      "fit": [
+        "D₀=0.006(第120便 🌘 で当てはめた共有較正値 — 本便では両系に**共通で**当て、再フィットしない)",
+        "f=0.9968(同上)"
+      ],
+      "derived": [
+        "Δϖ/公転(RL 全步 LSQ)",
+        "引きずり歳差 = kF1 − kF0",
+        "幾何抑制則からの必要指数 q* = 3 + ln(|A₃|/ε)/ln((R+a)/R)(tests.mercuryQscan.derivation)",
+        "統合判定 tests.joint"
+      ],
+      "holdOut": [
+        "q* の算出値(A₃ と ε だけから解析的に決まる予測であり、q の掃引結果に当てはめていない。掃引実測がその近傍で条件を満たすかは事後外挿として読む)"
+      ]
+    },
+    "judgement": {
+      "pointers": [
+        "tests.mercuryQscan",
+        "tests.mercuryQscan.derivation",
+        "tests.mercurySpin2",
+        "tests.earthMoonCal",
+        "tests.joint"
+      ],
+      "note": "統合判定 D) の窓は tests.joint に構造ごと入っている — 🪨 側は |引きずり| < 5.02e-7/8 (1PN の 1/8・第121便の採用水準)、🌘 側は Δϖ比 0.85〜1.15(第120便の窓依存 ±15% と同水準)。残差・合否(ok1/ok2/pass)も同ポインタにある",
+      "externalReferences": [
+        "☄️/🪨 水星の 1PN 解析値 5.02e-7 rad/公転",
+        "🌘 の近点回転 0.05311 rad/公転(8.85 年)・恒星月 27.3217 日"
+      ]
+    },
+    "health": {
+      "nan": {
+        "instrumented": true,
+        "flagsFound": 21,
+        "anyTrue": false,
+        "truePaths": [],
+        "numericNaNInPayload": 0,
+        "note": "結果ペイロード内の nan/hasNaN フラグを走査して集計した値(再測定はしていない)。numericNaNInPayload は JSON 化後に NaN として残った数値の件数(JSON.stringify では null になるため通常 0)"
+      },
+      "clamps": {
+        "aggregate": "not-instrumented",
+        "lastBuild": {
+          "clampVN": 0,
+          "clampSN": 0,
+          "clampHN": 0,
+          "clampAN": 0,
+          "clampRN": 0,
+          "angOvfN": 0,
+          "n": 2
+        },
+        "lastBuildTotal": 0,
+        "note": "エンジンのクランプ計数は sim.build() ごとに 0 へリセットされるため、ここに記録できるのは**この実行で最後に build した構成**の計数だけである(全構成を横断した集計は未計装)。lastBuildTotal>0 なら少なくとも最終構成で安全クランプが発動している(保存則主張の域外)"
+      },
+      "conservation": {
+        "status": "not-instrumented",
+        "note": "本ハーネスは保存量残差を記録していない(記録しているのは e ドリフト・振幅という軌道要素のドリフト)"
+      }
+    },
+    "regeneration": {
+      "canonicalization": "再生成時のペイロード照合は `manifest` キーを除外して行う(manifest は実行ごとに日時・環境・git 状態が変わる非測定メタである)。除外後の全キーは同一スクリプト・同一対象・同一 seed/步数で bit 一致することを要求する",
+      "payloadKeysExcluded": [
+        "manifest"
+      ],
+      "note": null
+    }
   }
 }

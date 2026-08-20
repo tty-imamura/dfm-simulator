@@ -18,6 +18,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { buildManifest, NOT_APPLICABLE, NOT_INSTRUMENTED } from './manifest.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -158,6 +159,60 @@ const basePhys = { G: 1, D0: 0.1, kFrame: 1, q: 3, kRep: 0, muF: 0, gammaN: 0, k
   console.log(`[B3 D0=2              ] ${fmt(B.d02)}`);
   out.tests.real = B;
 }
+
+// ---- 第145便: 実験マニフェスト(生成来歴・数値環境・分類・判定ポインタ・健全性)-------------
+// 測定ロジック・数値は一切変更していない。結果へ `manifest` キーを1本足すだけの additive 変更。
+out.manifest = await buildManifest({
+  root: ROOT, scriptUrl: import.meta.url, page, browser, payload: out,
+  target: TARGET,
+  experiment: { id: 'kf1', wave: 119,
+    title: 'kFrame=1 自由二体の安定化手法の系統探索(ループ利得 g の用量反応)',
+    command: 'node tests/exp-kf1.mjs' },
+  presets: { mode: 'dynamic',
+    declaredIn: 'Phase1 = mkG() の誇張アナログ構成 / Phase2 = mkR() の実単位 🌙 構成',
+    declaration: '動的構成(内蔵プリセットを読まず、ハーネス内の宣言値から HP.sim.build する)',
+    configs: { phase1Base: { physics: basePhys, M: 1000, m2: 12.3, a: 180, e: 0,
+        note: 'mkG の既定 — 個別の上書きは tests.analog.* の各エントリに記録' },
+      phase2Real: { G: 6.674, D0: 0.1, kFrame: 1, q: 3, cLight: 30000, softening: 0.5,
+        M: 0.59724, m2: 0.007346, a: 384.748, e: 0.0549,
+        spinM: 0.0072921, spin2: 0.00026617, stateCarry: 'double' } },
+    note: 'physLock 条件 Kt=c₀²/G は mkR 内で厳密に再計算して維持している' },
+  numerics: {
+    seed: 1, dt: 0.016,
+    timeScale: 1,
+    substeps: NOT_APPLICABLE,
+    steps: '構成ごとに steps=ceil(orbits·T_K/dt)(T_K は各構成のケプラー周期 — 固定步数ではない)',
+    window: { phase1Orbits: 2.1, phase2Orbits: 2.1,
+      note: '崩壊検出で早期打ち切りする(rr>3a / rr<a/4 / NaN)。打ち切り時刻は collapseAt に公転単位で記録' },
+    warmup: NOT_APPLICABLE,
+  },
+  classification: {
+    input: ['物理キー(G・D₀・kFrame・q・λPN・geoPN・pnAlpha)の宣言値と用量',
+      '🌙 実単位の質量・軌道要素・自転(観測由来の外部入力 — 本便で当てはめない)',
+      'dt=0.016・seed=1・窓 2.1 公転'],
+    fit: [],
+    derived: ['振幅 amp=(rmax−rmin)/mean', '崩壊時刻 collapseAt(公転単位)',
+      '周期残差 Tres=T/T_K−1', '重心ドリフト cmDrift', 'NaN フラグ'],
+    holdOut: [],
+    note: '本便は探索(どの機構が安定化に効くか)であり、当てはめた較正値を持たない。' +
+      '質量再スケール (G,m)→(kG,m/k) は GM 不変の恒等変換であって fit ではない',
+  },
+  judgement: {
+    pointers: ['tests.analog.base', 'tests.analog.pairReduced', 'tests.analog.massRescale',
+      'tests.analog.qDose', 'tests.analog.thermal', 'tests.analog.d0ref', 'tests.analog.lam0',
+      'tests.analog.combo', 'tests.real'],
+    note: '合否窓を持たない探索ハーネスである(QA 非連動)。判定は「崩壊するか(collapseAt が非 null か)」' +
+      'と振幅 amp の対照間比較で読む。許容窓は宣言していない — 数値はすべて上記ポインタの実測値である',
+    externalReferences: ['🌙 の観測値: 恒星月 27.3217 日・e=0.0549(比較参照のみ・当てはめには使っていない)'],
+  },
+  health: {
+    conservation: { status: 'partially-instrumented',
+      quantity: '重心ドリフト |r_cm|/a(運動量保存の代理指標)',
+      pointers: ['tests.analog.*.cmDrift', 'tests.real.*.cmDrift'],
+      note: '運動量保存の代理として重心ドリフトのみ記録している。角運動量・エネルギーの残差は' +
+        '記録していない(' + NOT_INSTRUMENTED + ')' },
+  },
+});
 
 fs.writeFileSync(path.join(OUT_DIR, 'kf1-results.json'), JSON.stringify(out, null, 2));
 console.log('saved: tests/out/kf1-results.json');

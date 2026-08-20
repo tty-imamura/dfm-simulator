@@ -1547,5 +1547,167 @@
       "bitIdentical": true,
       "maxAbsDiff": 0
     }
+  },
+  "manifest": {
+    "schema": "dfm-experiment-manifest",
+    "schemaVersion": "1.0",
+    "generatedAt": "2026-08-20T08:08:34.430Z",
+    "experiment": {
+      "id": "jupiter",
+      "wave": 138,
+      "title": "木星ガリレオ衛星 hold-out(規則を再フィットしない初の事後外挿テスト)",
+      "script": "tests/exp-jupiter.mjs",
+      "scriptSha256": "c86b5a7371dc21fc3a49340a566648724c88e1a13a349197106d241c8fbca7ef",
+      "scriptBytes": 51245,
+      "helperSha256": "502979b3027a7a79bc4b2df5e1bc0fbb86e3bbc252af85b6f2266e101666103a",
+      "command": "node tests/exp-jupiter.mjs"
+    },
+    "provenance": {
+      "git": {
+        "commit": "fbaef3a4884f3499ba1d63612d4847fcae09200d",
+        "describe": "fbaef3a-dirty",
+        "dirty": true,
+        "dirtyFiles": {
+          "count": 20,
+          "sample": [
+            "paper/README.md",
+            "paper/dfm-paper.tex",
+            "paper/dfm-paper3-ja.tex",
+            "paper/dfm-paper3.tex",
+            "tests/exp-coreshell.mjs",
+            "tests/exp-coreshell2.mjs",
+            "tests/exp-jupiter.mjs",
+            "tests/exp-kf1.mjs"
+          ]
+        }
+      },
+      "target": {
+        "path": "beta/index.html",
+        "sha256": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+        "bytes": 1665860,
+        "appVersion": "1.41"
+      },
+      "presets": {
+        "mode": "dynamic",
+        "note": "実行時 qLock は掛けない(多天体系では a_ref が一意でないため — 🌞solarInner 第131便の既存裁定)。q は参照軌道=イオで1回だけ評価した q* の直値宣言である",
+        "declaration": "動的構成(内蔵プリセットを読まず、観測値からの宣言値で HP.sim.build する)",
+        "declaredIn": "PHYS / MOONS / MJ / RJ / SPIN_J(ハーネス冒頭の宣言値)",
+        "configSha256": "78422e361e00f87de43190c258bf7acf77edeaac9d2d8da12ac8df077298ff95",
+        "configCanonicalization": "宣言済み構成(configs)を再帰キー整列した JSON の SHA-256"
+      }
+    },
+    "numerics": {
+      "seed": "not-applicable",
+      "dt": "dt = T_IO / N(主測定 N=2000 → dt=7.646603e-2 時間単位・収束確認 N=4000 で半分)",
+      "timeScale": 1,
+      "substeps": "not-applicable",
+      "steps": {
+        "main": "2000 步/イオ公転 × 20 公転 = 40000 步",
+        "long": "2000 步/イオ公転 × 60 公転",
+        "fine": "4000 步/イオ公転 × 20 公転",
+        "floorProbe": "2 步(1步あたりの引きずり増分 Δv と速度 ulp の比を測るための最小窓)"
+      },
+      "window": {
+        "main": "20 イオ公転(事前登録窓 JW2 の「≥20 イオ公転」)",
+        "long": "60 イオ公転(付帯記録 — カリスト 6.4 公転ぶん)"
+      },
+      "warmup": "not-applicable",
+      "unitRule": "1単位=10⁷m/10³s/10²⁶kg(L−T=4 → c₀=3×10⁴・M+2T−3L=11 → G=6.674)",
+      "numericalFloor": "引きずり増分 Δv/ulp は floor および windows.JW4.rows.dvOverUlp に記録済み"
+    },
+    "environment": {
+      "node": "v22.22.2",
+      "platform": "linux/x64",
+      "playwright": "playwright@1.61.1",
+      "browser": "Playwright Chromium 141.0.7390.37",
+      "date": "2026-08-20T08:08:34.477Z",
+      "tz": "UTC"
+    },
+    "classification": {
+      "note": "初速は実ケプラー速度そのもの(較正係数 1.000)。衛星ごとに合わせたノブは1つもない — これが本便を hold-out たらしめる条件であり、windows.JW3 がその条件を構成から機械的に固定する",
+      "input": [
+        "木星の実質量・実半径・実自転(9.925h)とガリレオ衛星4体の実軌道長半径・観測周期(観測由来の外部入力 — MOONS)",
+        "D₀=0.006(🪨🌘💿 と共通の既存値 — 本便での再フィットはゼロ)",
+        "dt・步数・窓(実測前に固定)"
+      ],
+      "fit": [],
+      "derived": [
+        "q=12.30(qLock 則 q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) を参照軌道=イオで1回評価した値の直値宣言)",
+        "κ=G/c₀²=7.4155555…×10⁻⁹",
+        "衛星別の周期・|Δa|/a・離心率・Δϖ_drag(moons)",
+        "フレーム角速度 ω とチャネル分解(uField・windows.JW4)",
+        "収束(convergence)・決定性(determinism)",
+        "第141便の感度記録(sensitivity — 付帯記録であって事前登録判定ではない)"
+      ],
+      "holdOut": [
+        "ガリレオ衛星4体の恒星公転周期・軌道保持そのもの(既存の較正世界線〔共有 D₀・qLock 則〕を**一切再フィットせずに**当てた先の観測。衛星別 fit ゼロは windows.JW3 で機械記録している)",
+        "ラプラス共鳴(記録のみ — 再現は要求していない)"
+      ]
+    },
+    "judgement": {
+      "pointers": [
+        "windowsPreRegistered",
+        "windows.JW1",
+        "windows.JW2",
+        "windows.JW3",
+        "windows.JW4",
+        "windows.JW5",
+        "moons",
+        "runs",
+        "uField",
+        "floor",
+        "convergence",
+        "determinism",
+        "resonance",
+        "sensitivity"
+      ],
+      "note": "許容窓は windowsPreRegistered(実測前固定・実測後に動かしていない)、判定と実測値・残差は windows.JW1〜JW5 に構造ごと入っている。JW4/JW5 は窓なしの記録専用(recordOnly)である",
+      "externalReferences": [
+        "ガリレオ衛星の観測公転周期(MOONS[].Pobs — JW1/JW2 の ±1% 照合先)",
+        "Lense–Thirring 角速度 Ω_LT=2GJ/(c₀²r³)(J=(2/5)MR²s の一様球近似 — ω の解析形比の照合先)",
+        "ラプラス共鳴の観測周期比(resonance.observedRatios)"
+      ]
+    },
+    "health": {
+      "nan": {
+        "instrumented": true,
+        "flagsFound": 23,
+        "anyTrue": false,
+        "truePaths": [],
+        "numericNaNInPayload": 0,
+        "note": "結果ペイロード内の nan/hasNaN フラグを走査して集計した値(再測定はしていない)。numericNaNInPayload は JSON 化後に NaN として残った数値の件数(JSON.stringify では null になるため通常 0)"
+      },
+      "clamps": {
+        "aggregate": "not-instrumented",
+        "lastBuild": {
+          "clampVN": 0,
+          "clampSN": 0,
+          "clampHN": 0,
+          "clampAN": 0,
+          "clampRN": 0,
+          "angOvfN": 0,
+          "n": 5
+        },
+        "lastBuildTotal": 0,
+        "note": "エンジンのクランプ計数は sim.build() ごとに 0 へリセットされるため、ここに記録できるのは**この実行で最後に build した構成**の計数だけである(全構成を横断した集計は未計装)。lastBuildTotal>0 なら少なくとも最終構成で安全クランプが発動している(保存則主張の域外)"
+      },
+      "conservation": {
+        "status": "partially-instrumented",
+        "quantity": "軌道長半径の広がり |Δa|/a(aSpread)と NaN 監視・決定性ビット同一",
+        "pointers": [
+          "windows.JW2.rows[].aSpread",
+          "runs.*.nan",
+          "determinism.bitIdentical"
+        ],
+        "note": "木星を pinned にしているため運動量は原理的に閉じない構成である。保存量残差そのものは記録していない(not-instrumented)が、軌道保持 |Δa|/a と 2回実行のビット同一性を数値健全性の指標として持つ"
+      }
+    },
+    "regeneration": {
+      "canonicalization": "再生成時のペイロード照合は `manifest` キーを除外して行う(manifest は実行ごとに日時・環境・git 状態が変わる非測定メタである)。除外後の全キーは同一スクリプト・同一対象・同一 seed/步数で bit 一致することを要求する",
+      "payloadKeysExcluded": [
+        "manifest"
+      ],
+      "note": null
+    }
   }
 }

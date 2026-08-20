@@ -43,6 +43,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { buildManifest, NOT_APPLICABLE, NOT_INSTRUMENTED } from './manifest.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -667,6 +668,72 @@ console.log(`  周期の収束(相対差 <10⁻³): ${out.convergence.periodConv
 console.log('\n== ラプラス共鳴(記録のみ)==');
 console.log(`  周期比(観測)  E/I=${out.resonance.observedRatios.EuropaOverIo.toFixed(6)} G/E=${out.resonance.observedRatios.GanymedeOverEuropa.toFixed(6)}`);
 console.log(`  周期比(kF1実測)E/I=${out.resonance.measuredRatiosKF1.EuropaOverIo.toFixed(6)} G/E=${out.resonance.measuredRatiosKF1.GanymedeOverEuropa.toFixed(6)}`);
+
+// ---- 第145便: 実験マニフェスト(生成来歴・数値環境・分類・判定ポインタ・健全性)-------------
+// 測定ロジック・数値は一切変更していない。結果へ `manifest` キーを1本足すだけの additive 変更。
+out.manifest = await buildManifest({
+  root: ROOT, scriptUrl: import.meta.url, page, browser, payload: out,
+  target: TARGET,
+  experiment: { id: 'jupiter', wave: 138,
+    title: '木星ガリレオ衛星 hold-out(規則を再フィットしない初の事後外挿テスト)',
+    command: 'node tests/exp-jupiter.mjs' },
+  presets: { mode: 'dynamic',
+    declaredIn: 'PHYS / MOONS / MJ / RJ / SPIN_J(ハーネス冒頭の宣言値)',
+    declaration: '動的構成(内蔵プリセットを読まず、観測値からの宣言値で HP.sim.build する)',
+    configs: { physics: PHYS, mJupiter: MJ, rJupiter: RJ, spinJupiter: SPIN_J, moons: MOONS,
+      qStar: Q_STAR, qDeclared: Q_LOCK, qFlat: Q_FLAT, pinned: true, GM, day: DAY, T_IO },
+    note: '実行時 qLock は掛けない(多天体系では a_ref が一意でないため — 🌞solarInner 第131便の既存裁定)。' +
+      'q は参照軌道=イオで1回だけ評価した q* の直値宣言である' },
+  numerics: {
+    seed: NOT_APPLICABLE,
+    dt: `dt = T_IO / N(主測定 N=${N_STEP} → dt=${(T_IO / N_STEP).toExponential(6)} 時間単位・` +
+      `収束確認 N=${N_FINE} で半分)`,
+    timeScale: 1, substeps: NOT_APPLICABLE,
+    steps: { main: `${N_STEP} 步/イオ公転 × ${ORBITS} 公転 = ${N_STEP * ORBITS} 步`,
+      long: `${N_STEP} 步/イオ公転 × ${ORBITS_LONG} 公転`,
+      fine: `${N_FINE} 步/イオ公転 × ${ORBITS} 公転`,
+      floorProbe: '2 步(1步あたりの引きずり増分 Δv と速度 ulp の比を測るための最小窓)' },
+    window: { main: `${ORBITS} イオ公転(事前登録窓 JW2 の「≥20 イオ公転」)`,
+      long: `${ORBITS_LONG} イオ公転(付帯記録 — カリスト 6.4 公転ぶん)` },
+    warmup: NOT_APPLICABLE,
+    unitRule: '1単位=10⁷m/10³s/10²⁶kg(L−T=4 → c₀=3×10⁴・M+2T−3L=11 → G=6.674)',
+    numericalFloor: '引きずり増分 Δv/ulp は floor および windows.JW4.rows.dvOverUlp に記録済み',
+  },
+  classification: {
+    input: ['木星の実質量・実半径・実自転(9.925h)とガリレオ衛星4体の実軌道長半径・観測周期' +
+      '(観測由来の外部入力 — MOONS)',
+      'D₀=0.006(🪨🌘💿 と共通の既存値 — 本便での再フィットはゼロ)',
+      'dt・步数・窓(実測前に固定)'],
+    fit: [],
+    derived: ['q=12.30(qLock 則 q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) を参照軌道=イオで1回評価した値の直値宣言)',
+      'κ=G/c₀²=7.4155555…×10⁻⁹', '衛星別の周期・|Δa|/a・離心率・Δϖ_drag(moons)',
+      'フレーム角速度 ω とチャネル分解(uField・windows.JW4)', '収束(convergence)・決定性(determinism)',
+      '第141便の感度記録(sensitivity — 付帯記録であって事前登録判定ではない)'],
+    holdOut: ['ガリレオ衛星4体の恒星公転周期・軌道保持そのもの(既存の較正世界線〔共有 D₀・qLock 則〕を' +
+      '**一切再フィットせずに**当てた先の観測。衛星別 fit ゼロは windows.JW3 で機械記録している)',
+      'ラプラス共鳴(記録のみ — 再現は要求していない)'],
+    note: '初速は実ケプラー速度そのもの(較正係数 1.000)。衛星ごとに合わせたノブは1つもない — ' +
+      'これが本便を hold-out たらしめる条件であり、windows.JW3 がその条件を構成から機械的に固定する',
+  },
+  judgement: {
+    pointers: ['windowsPreRegistered', 'windows.JW1', 'windows.JW2', 'windows.JW3', 'windows.JW4',
+      'windows.JW5', 'moons', 'runs', 'uField', 'floor', 'convergence', 'determinism',
+      'resonance', 'sensitivity'],
+    note: '許容窓は windowsPreRegistered(実測前固定・実測後に動かしていない)、判定と実測値・残差は ' +
+      'windows.JW1〜JW5 に構造ごと入っている。JW4/JW5 は窓なしの記録専用(recordOnly)である',
+    externalReferences: ['ガリレオ衛星の観測公転周期(MOONS[].Pobs — JW1/JW2 の ±1% 照合先)',
+      'Lense–Thirring 角速度 Ω_LT=2GJ/(c₀²r³)(J=(2/5)MR²s の一様球近似 — ω の解析形比の照合先)',
+      'ラプラス共鳴の観測周期比(resonance.observedRatios)'],
+  },
+  health: {
+    conservation: { status: 'partially-instrumented',
+      quantity: '軌道長半径の広がり |Δa|/a(aSpread)と NaN 監視・決定性ビット同一',
+      pointers: ['windows.JW2.rows[].aSpread', 'runs.*.nan', 'determinism.bitIdentical'],
+      note: '木星を pinned にしているため運動量は原理的に閉じない構成である。保存量残差そのものは' +
+        '記録していない(' + NOT_INSTRUMENTED + ')が、軌道保持 |Δa|/a と 2回実行のビット同一性を' +
+        '数値健全性の指標として持つ' },
+  },
+});
 
 fs.writeFileSync(path.join(OUT_DIR, 'jupiter-results.json'), JSON.stringify(out, null, 2));
 console.log('\nsaved: tests/out/jupiter-results.json');

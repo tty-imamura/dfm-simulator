@@ -8217,6 +8217,163 @@ if (!FAST) {
       console.log('SKIP claims.role-audit(対象に role/parameterAudit なし — 第133便 未適用の root 等)');
     }
 
+    // ---- 第146便: ui.audit-view(現実較正ファミリー監査ビューの表示と開閉)----
+    // 監査ビューは**表示専用**で、行の中身をすべてプリセット宣言(failureFirst /
+    // parameterAudit / claims)から実行時に導出する。ここでは「画面に出た件数」が、
+    // アプリの導出関数を通さず**このテスト側でプリセット JSON から独立に組み直した数**と
+    // 一致することを機械固定する(観測入力 I・fit F・導出 D・claims の role 別件数)。
+    // 併せて、主要残差・QA ゲート・結果ファイルの各行も独立再計算と一致すること、
+    // パネルの開閉(ボタン→block・✕→none)と ja/en で件数が変わらないことを見る。
+    // 第132便 EXT-06 の budget.consistency と同じ流儀(独立再計算はテスト側に書き下す)。
+    const hasW146 = await page.evaluate(() => !!(window.HP && HP.auditView && HP.auditView.rows));
+    if (hasW146) {
+      const av = await page.evaluate(() => {
+        const ROLES = ['input_check', 'fit_target', 'retrospective_check', 'held_out',
+          'prediction', 'negative_control'];
+        // 独立再計算: ハーネス名 → 結果ファイル名(アプリの表は読まずここに書き下す)
+        const FILES = { 'exp-obscal': 'obscal-results.json', 'exp-kf1': 'kf1-results.json',
+          'exp-kf1b': 'kf1b-results.json', 'exp-kf1c': 'kf1c-results.json',
+          'exp-kf1d': 'kf1d-results.json', 'exp-qlockradial': 'qlockradial-results.json',
+          'exp-jupiter': 'jupiter-results.json' };
+        const indep = (p) => {
+          const pa = (p.parameterAudit && typeof p.parameterAudit === 'object'
+            && !Array.isArray(p.parameterAudit)) ? p.parameterAudit : null;
+          const len = (k) => (pa && Array.isArray(pa[k]))
+            ? pa[k].filter((s) => typeof s === 'string' && s.trim()).length : 0;
+          const cl = Array.isArray(p.claims) ? p.claims : [];
+          const roles = []; let none = 0;
+          const cnt = {};
+          for (const c of cl) {
+            if (typeof c.role === 'string' && ROLES.indexOf(c.role) >= 0) cnt[c.role] = (cnt[c.role] || 0) + 1;
+            else none++;
+          }
+          for (const r of ROLES) if (cnt[r]) roles.push(cnt[r]);
+          if (none) roles.push(none);
+          // 主要残差: descPattern を ja 説明文へ当てて抽出(claims.sync と同式)
+          const resid = [];
+          for (const c of cl) {
+            if (typeof c.descPattern !== 'string') continue;
+            let v = NaN;
+            try {
+              const m = String(p.description || '').match(new RegExp(c.descPattern));
+              if (m && m[1] !== undefined) v = parseFloat(m[1]) * (c.descScale === undefined ? 1 : c.descScale);
+            } catch (e) { v = NaN; }
+            if (Number.isFinite(v)) resid.push({ metric: c.metric || c.id, v });
+          }
+          // QA ゲート: claims の testId + stdTestsRef(宣言順・重複排除)
+          const gates = [];
+          for (const c of cl) if (typeof c.testId === 'string' && c.testId && gates.indexOf(c.testId) < 0) gates.push(c.testId);
+          for (const r of (Array.isArray(p.stdTestsRef) ? p.stdTestsRef : []))
+            if (typeof r === 'string' && r && gates.indexOf(r) < 0) gates.push(r);
+          // 結果ファイル: 宣言テキスト(ja 説明文+failureFirst ja/en+chain note/roleNote)の exp-* 言及
+          const parts = [p.description || ''];
+          for (const f of [p.failureFirst, p.en && p.en.failureFirst]) if (f && typeof f === 'object') {
+            if (typeof f.fail === 'string') parts.push(f.fail);
+            if (typeof f.pass === 'string') parts.push(f.pass);
+          }
+          for (const c of cl) {
+            const ch = (c.chain && typeof c.chain === 'object') ? c.chain : null;
+            if (ch) { if (typeof ch.note === 'string') parts.push(ch.note); if (typeof ch.noteEn === 'string') parts.push(ch.noteEn); }
+            if (typeof c.roleNote === 'string') parts.push(c.roleNote);
+            if (typeof c.roleNoteEn === 'string') parts.push(c.roleNoteEn);
+          }
+          const files = [];
+          for (const m of parts.join(' ').matchAll(/exp-[a-z0-9]+(?:\/[a-z0-9]+)*/g)) {
+            const seg = m[0].split('/');
+            const keys = [seg[0]];
+            for (let i = 1; i < seg.length; i++) keys.push('exp-' + seg[i]);
+            for (const k of keys) { const f = FILES[k]; if (f && files.indexOf(f) < 0) files.push(f); }
+          }
+          return { I: len('observedInputs'), F: len('fitted'), D: len('derived'),
+            roles, resid, gates, files,
+            hasFF: !!(p.failureFirst && p.failureFirst.fail && p.failureFirst.pass) };
+        };
+        // ① 導線: 説明タブのボタンでパネルが開く
+        const btn = document.querySelector('#btnAuditView');
+        const panel = document.querySelector('#avPanel');
+        const before = panel.style.display;
+        if (btn) btn.click();
+        const opened = panel.style.display;
+        // ② 表示内容(画面に出た文字列)を読む
+        const readCards = () => [...document.querySelectorAll('#avBody .avCard')].map((c) => {
+          const o = { id: c.dataset.av };
+          for (const e of c.querySelectorAll('.avRow')) {
+            const t = e.textContent;
+            const i = t.indexOf(':');
+            o[e.dataset.avk] = (i >= 0 ? t.slice(i + 1) : t).trim();
+          }
+          return o;
+        });
+        const cards = readCards();
+        const family = HP.auditView.family;
+        const rows = [];
+        for (const id of family) {
+          const p = HP.allPresets().find((q) => q.id === id);
+          const card = cards.find((c) => c.id === id);
+          if (!p || !card) { rows.push({ id, ok: false, why: 'カードなし' }); continue; }
+          const ex = indep(p);
+          // 件数(観測入力・fit・導出)は括弧つきで表示される
+          const nums = [...(card.counts || '').matchAll(/\((\d+)\)/g)].map((m) => +m[1]);
+          const countOk = nums.length === 3 && nums[0] === ex.I && nums[1] === ex.F && nums[2] === ex.D;
+          // role 別件数(並びは ROLE_CLASSES 固定 → 数字列がそのまま独立再計算と一致)
+          const rn = [...(card.roles || '').matchAll(/=(\d+)/g)].map((m) => +m[1]);
+          const roleOk = rn.join(',') === ex.roles.join(',');
+          // 主要残差: metric=値 の対が独立抽出と一致(表示は有効桁丸めなので相対1e-3で見る)
+          const shown = [...(card.resid || '').matchAll(/([A-Za-z][A-Za-z0-9]*)=(-?[\d.]+(?:e[-+]?\d+)?)/g)]
+            .map((m) => ({ metric: m[1], v: parseFloat(m[2]) }));
+          const residOk = shown.length === ex.resid.length && ex.resid.every((e, i) =>
+            shown[i].metric === e.metric
+            && Math.abs(shown[i].v - e.v) <= 1e-3 * Math.max(Math.abs(e.v), Number.MIN_VALUE));
+          const gateOk = (card.gates || '') === (ex.gates.length ? ex.gates.join(' / ') : HP.T('cbNone'));
+          const fileOk = (card.files || '') === (ex.files.length ? ex.files.join(' / ') : HP.T('cbNone'));
+          // Failure→Correction→Outcome: 失敗・結果は failureFirst 宣言から、補正は fit 宣言から
+          const ffOk = ex.hasFF ? (!!card.fail && !!card.out) : true;
+          const corrOk = !!card.corr
+            && (ex.F > 0 ? card.corr !== HP.T('avCorrNone') : card.corr === HP.T('avCorrNone'));
+          rows.push({ id, ok: countOk && roleOk && residOk && gateOk && fileOk && ffOk && corrOk,
+            got: nums.join('/'), want: `${ex.I}/${ex.F}/${ex.D}`,
+            roles: rn.join(','), rolesWant: ex.roles.join(','),
+            countOk, roleOk, residOk, gateOk, fileOk, ffOk, corrOk,
+            nResid: shown.length, nGate: ex.gates.length, nFile: ex.files.length });
+        }
+        // ③ ja/en で件数が変わらない(宣言の件数は言語に依存しない)
+        HP.setLang('en');
+        HP.auditView.open(true);
+        const enCards = readCards();
+        const enSame = enCards.length === cards.length && enCards.every((c, i) =>
+          c.id === cards[i].id
+          && [...(c.counts || '').matchAll(/\((\d+)\)/g)].map((m) => m[1]).join(',')
+            === [...(cards[i].counts || '').matchAll(/\((\d+)\)/g)].map((m) => m[1]).join(',')
+          && [...(c.roles || '').matchAll(/=(\d+)/g)].map((m) => m[1]).join(',')
+            === [...(cards[i].roles || '').matchAll(/=(\d+)/g)].map((m) => m[1]).join(','));
+        const enTranslated = enCards[0] && cards[0] && enCards[0].counts !== cards[0].counts;
+        HP.setLang('ja');
+        // ④ 開閉: ✕ で閉じ、フックからも開閉できる
+        document.querySelector('#avClose').click();
+        const closed = panel.style.display;
+        HP.auditView.open(true);
+        const reopened = panel.style.display;
+        HP.auditView.open(false);
+        const reclosed = panel.style.display;
+        return { hadBtn: !!btn, before, opened, closed, reopened, reclosed,
+          n: cards.length, nFamily: family.length, rows, enSame, enTranslated };
+      });
+      const openOk = av.hadBtn && av.before !== 'block' && av.opened === 'block'
+        && av.closed === 'none' && av.reopened === 'block' && av.reclosed === 'none';
+      add('ui.audit-view',
+        av.n === av.nFamily && av.n > 0 && av.rows.every((r) => r.ok) && openOk
+        && av.enSame && av.enTranslated,
+        `ファミリー${av.n}件 表示=独立再計算: `
+        + av.rows.map((r) => `${r.id}=${r.got}${r.ok ? '' : '≠' + r.want
+          + `[件数${r.countOk}/役割${r.roleOk}(${r.roles}⇄${r.rolesWant})/残差${r.residOk}/`
+          + `ゲート${r.gateOk}/ファイル${r.fileOk}/FF${r.ffOk}/補正${r.corrOk}]`}`).join(' ')
+        + ` / 残差${av.rows.reduce((s, r) => s + r.nResid, 0)}件・ゲート${av.rows.reduce((s, r) => s + r.nGate, 0)}件・`
+        + `結果ファイル${av.rows.reduce((s, r) => s + r.nFile, 0)}件 / 開閉=${openOk} / `
+        + `ja=en 件数一致=${av.enSame}(ラベルは翻訳=${av.enTranslated})`);
+    } else {
+      console.log('SKIP ui.audit-view(対象に監査ビューなし — 第146便 未適用の root 等)');
+    }
+
     // ---- 第132便 EXT-02 第2段: provchain.ui(主張の連鎖カードの開閉と2形)----
     // 代表サンプルで claims 行タップによりカードが開き、chain 宣言あり(A#/E# の実体が出る)と
     // 宣言なし(公理・方程式の行が「宣言なし」表示でテンプレート5段のみ)の両形が正しく出ること。
@@ -14872,6 +15029,150 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   } else {
     console.log('SKIP qa.testid-live(対象に claims 宣言プリセットなし)');
   }
+}
+
+// ---- 86) 第145便(実験マニフェスト): manifest.coverage ----
+// ----   事故の型 =「説明文に載っている実測数値が、どのスクリプトのどの実行から出たものか辿れず
+// ----   再現できない」(第131便の 0.06%/2.2%)。同根の再発を、計測 JSON 側の必須メタで塞ぐ。
+// ----   本ゲートは **現行正典のハーネスが吐く結果 JSON**(下の TARGETS)について、
+// ----   tests/manifest.mjs が定める manifest ブロックの**存在と形式**を機械検査する:
+// ----     ① 来歴: git commit(40桁hex)・対象 HTML の SHA-256(64桁hex)+APP_VERSION・
+// ----        スクリプト自身の SHA-256・プリセット(内蔵ならID別ハッシュ / 動的なら構成ハッシュ)
+// ----     ② 数値環境: seed・dt・timeScale・substeps・steps・window・warmup が**明示値**で在る
+// ----        (空欄・null を残さない。該当しないものは "not-applicable"、未計装は
+// ----         "not-instrumented" という固定語彙でのみ書ける = 語彙外の逃げ口上を弾く)
+// ----     ③ 実行環境: Node 版・Playwright 版・ブラウザ版・実行日時
+// ----     ④ 分類: input / fit / derived / hold-out の4分類が配列で在る
+// ----     ⑤ 判定: judgement.pointers の各ポインタが**その JSON の中に実在する**
+// ----        (manifest は判定値を重複コピーせず位置ポインタだけを持つ規約なので、
+// ----         ポインタが腐っていないことがそのまま「判定の実体に辿れる」ことの機械保証になる)
+// ----     ⑥ 健全性: nan / clamps / conservation の3項が在り、未計装なら固定語彙で正直に書かれている
+// ----   **歴史的 JSON(tests/out/exp-4-xx.json・darkrotor-results.json・darkness-results.json・
+// ----   factors-results.json・p4a/p4b・seeds・ureq・perf 等)は対象外**である。これらは
+// ----   第145便より前の便が出した記録で、当時のハーネスには manifest の概念そのものが無い。
+// ----   遡って再生成すると数値が変わりうる(=履歴の書き換え)ので、過去の記録は不変のまま残し、
+// ----   本ゲートは第145便以降に再生成した現行正典の JSON だけを対象にする。
+// ----   対象を増やすときは TARGETS に足す(ハーネス側へ buildManifest() を入れてから)。
+// ----   DOM 不要 = 追加の走行コストはファイル読みのみ(QA_FAST でも判定する)----
+{
+  const TARGETS = [
+    { json: 'obscal-results.json', harness: 'tests/exp-obscal.mjs' },
+    { json: 'kf1-results.json', harness: 'tests/exp-kf1.mjs' },
+    { json: 'kf1b-results.json', harness: 'tests/exp-kf1b.mjs' },
+    { json: 'kf1c-results.json', harness: 'tests/exp-kf1c.mjs' },
+    { json: 'kf1d-results.json', harness: 'tests/exp-kf1d.mjs' },
+    { json: 'qlockradial-results.json', harness: 'tests/exp-qlockradial.mjs' },
+    { json: 'jupiter-results.json', harness: 'tests/exp-jupiter.mjs' },
+    { json: 'coreshell-results.json', harness: 'tests/exp-coreshell.mjs' },
+    { json: 'coreshell2-results.json', harness: 'tests/exp-coreshell2.mjs' },
+  ];
+  const SENTINELS = ['not-applicable', 'not-instrumented', 'unavailable'];
+  const isHex = (v, n) => typeof v === 'string' && new RegExp(`^[0-9a-f]{${n}}$`).test(v);
+  const isIso = (v) => typeof v === 'string' && !Number.isNaN(Date.parse(v));
+  // 明示値であることの検査: null/undefined/空文字は不可。文字列が "not-…" の形なら固定語彙のみ許す
+  const isExplicit = (v) => {
+    if (v === null || v === undefined) return false;
+    if (typeof v === 'string') {
+      if (v.trim() === '') return false;
+      if (/^not-/.test(v) && !SENTINELS.includes(v)) return false;
+      return true;
+    }
+    if (typeof v === 'object') return Object.keys(v).length > 0;
+    return true;   // number / boolean
+  };
+  const resolvePtr = (obj, dotted) => {
+    let o = obj;
+    for (const seg of String(dotted).split('.')) {
+      const m = seg.match(/^([^[]*)((\[\d+\])*)$/);
+      const key = m ? m[1] : seg;
+      if (key !== '') { if (o === null || typeof o !== 'object' || !(key in o)) return false; o = o[key]; }
+      if (m && m[2]) for (const idx of m[2].match(/\d+/g)) {
+        if (!Array.isArray(o) || o.length <= Number(idx)) return false; o = o[Number(idx)];
+      }
+    }
+    return true;
+  };
+  const NUMERICS = ['seed', 'dt', 'timeScale', 'substeps', 'steps', 'window', 'warmup'];
+  const CLASSES = ['input', 'fit', 'derived', 'holdOut'];
+  const problems = [];
+  const okFiles = [];
+  let fieldsChecked = 0, pointersChecked = 0;
+  for (const t of TARGETS) {
+    const p = path.join(OUT_DIR, t.json);
+    if (!fs.existsSync(p)) { problems.push(`${t.json}: ファイルなし(git 管理下の正本が欠けている)`); continue; }
+    let j; try { j = JSON.parse(fs.readFileSync(p, 'utf8')); }
+    catch (e) { problems.push(`${t.json}: JSON 解析失敗 ${String(e.message || e)}`); continue; }
+    const m = j.manifest;
+    if (!m || typeof m !== 'object') {
+      problems.push(`${t.json}: manifest ブロックなし(${t.harness} で buildManifest() を呼んで再生成する)`);
+      continue;
+    }
+    const bad = [];
+    const req = (cond, label) => { fieldsChecked++; if (!cond) bad.push(label); };
+    req(m.schema === 'dfm-experiment-manifest', 'schema');
+    req(typeof m.schemaVersion === 'string' && /^\d+\.\d+$/.test(m.schemaVersion), 'schemaVersion');
+    req(isIso(m.generatedAt), 'generatedAt');
+    const e = m.experiment || {};
+    req(typeof e.id === 'string' && e.id.length > 0 && e.id !== 'unavailable', 'experiment.id');
+    req(isExplicit(e.wave), 'experiment.wave');
+    req(typeof e.script === 'string' && e.script.startsWith('tests/'), 'experiment.script');
+    req(isHex(e.scriptSha256, 64), 'experiment.scriptSha256');
+    req(isHex(e.helperSha256, 64), 'experiment.helperSha256');
+    const pv = m.provenance || {}, g = pv.git || {}, tg = pv.target || {}, ps = pv.presets || {};
+    req(isHex(g.commit, 40), 'provenance.git.commit');
+    req(typeof g.dirty === 'boolean', 'provenance.git.dirty');
+    req(typeof tg.path === 'string' && tg.path.endsWith('index.html'), 'provenance.target.path');
+    req(isHex(tg.sha256, 64), 'provenance.target.sha256');
+    req(isExplicit(tg.appVersion) && tg.appVersion !== 'unavailable', 'provenance.target.appVersion');
+    req(['builtin', 'dynamic', 'mixed'].includes(ps.mode), 'provenance.presets.mode');
+    if (ps.mode === 'builtin' || ps.mode === 'mixed')
+      req(ps.hashes && typeof ps.hashes === 'object' && Object.keys(ps.hashes).length > 0 &&
+        Object.values(ps.hashes).every((h) => isHex(h, 64)), 'provenance.presets.hashes');
+    if (ps.mode === 'dynamic' || ps.mode === 'mixed')
+      req(isHex(ps.configSha256, 64) || ps.configSha256 === 'not-applicable', 'provenance.presets.configSha256');
+    const nm = m.numerics || {};
+    for (const k of NUMERICS) req(isExplicit(nm[k]), `numerics.${k}`);
+    const en = m.environment || {};
+    for (const k of ['node', 'platform', 'playwright', 'browser', 'date'])
+      req(isExplicit(en[k]) && en[k] !== 'unavailable', `environment.${k}`);
+    req(isIso(en.date), 'environment.date(ISO)');
+    const cl = m.classification || {};
+    for (const k of CLASSES) req(Array.isArray(cl[k]), `classification.${k}`);
+    req(CLASSES.some((k) => Array.isArray(cl[k]) && cl[k].length > 0), 'classification(4分類すべて空)');
+    const jd = m.judgement || {};
+    req(Array.isArray(jd.pointers) && jd.pointers.length > 0, 'judgement.pointers');
+    if (Array.isArray(jd.pointers)) for (const ptr of jd.pointers) {
+      pointersChecked++;
+      if (!resolvePtr(j, ptr)) bad.push(`judgement.pointers→${ptr}(この JSON に実在しない)`);
+    }
+    req(isExplicit(jd.note), 'judgement.note');
+    const hl = m.health || {};
+    for (const k of ['nan', 'clamps', 'conservation']) req(isExplicit(hl[k]), `health.${k}`);
+    // 健全性の逃げ口上を弾く: 文字列で書くなら固定語彙のみ(オブジェクトなら中の status/aggregate を見る)
+    for (const k of ['nan', 'clamps', 'conservation']) {
+      const v = hl[k]; fieldsChecked++;
+      const s = (v && typeof v === 'object') ? (v.status ?? v.aggregate ?? v.instrumented) : v;
+      const okS = (s === undefined) || (typeof s === 'boolean') ||
+        (typeof s === 'string' && (SENTINELS.includes(s) || !/^not-/.test(s)));
+      if (!okS) bad.push(`health.${k}(未計装の表記は固定語彙 ${SENTINELS.join('/')} のみ)`);
+    }
+    const rg = m.regeneration || {};
+    req(isExplicit(rg.canonicalization), 'regeneration.canonicalization');
+    req(Array.isArray(rg.payloadKeysExcluded) && rg.payloadKeysExcluded.includes('manifest'),
+      'regeneration.payloadKeysExcluded(manifest を含むこと)');
+    if (bad.length) problems.push(`${t.json}: ${bad.join(' / ')}`);
+    else okFiles.push(`${t.json}(${e.id}・第${e.wave}便・${g.commit.slice(0, 7)}・app v${tg.appVersion})`);
+  }
+  add('manifest.coverage', problems.length === 0,
+    `対象=${TARGETS.length}件(第145便で manifest 必須化した現行正典のハーネス出力)・` +
+    `検査フィールド=${fieldsChecked}件+判定ポインタ実在確認=${pointersChecked}件 → ` +
+    `合格=${okFiles.length}/${TARGETS.length}` +
+    (problems.length ? ` / 不備=[${problems.join(' | ')}]` : '') +
+    ` / 内訳: ${okFiles.join(' , ') || 'なし'}` +
+    ` / 歴史的 JSON(exp-4-xx・darkrotor・darkness・factors・p4a/p4b・seeds・ureq・perf 等)は対象外 —` +
+    ` 第145便より前の便の記録で当時のハーネスに manifest の概念が無く、遡って再生成すると数値が` +
+    ` 変わりうる(履歴の書き換え)ため、過去の記録は不変のまま残す` +
+    ` / 第131便の事故(説明値 0.06%/2.2% の出所が辿れず再現不能)と同根の再発防止`);
 }
 
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));

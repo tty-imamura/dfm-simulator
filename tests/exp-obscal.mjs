@@ -30,6 +30,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { buildManifest, NOT_APPLICABLE, NOT_INSTRUMENTED } from './manifest.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -475,6 +476,63 @@ for (const [k, p] of Object.entries(PROFILES)) out.profiles[k] = { domain: p.dom
     procedure: '安定化手順: ループ利得 g=[w_sat/(D0+w_sat)]·[w_M/(D0+w_M)] を安定境界未満へ。質量補正単独は不可(w_M側が残る)— D0 併用(kM 同様 GM 保存で周期不変)か主星 pinned を用いる' };
   console.log(`[F:境界     ] 安定の最大g=${gStar.maxStable !== null ? (gStar.maxStable * 100).toFixed(2) + '%' : '—'} / 崩壊の最小g=${gStar.minUnstable !== null ? (gStar.minUnstable * 100).toFixed(2) + '%' : '—'} → 手順: g を境界未満へ(質量補正単独は不可 — D0 併用か pinned)`);
 }
+
+// ---- 第145便: 実験マニフェスト(生成来歴・数値環境・分類・判定ポインタ・健全性)-------------
+// 測定ロジック・数値は一切変更していない。結果へ `manifest` キーを1本足すだけの additive 変更。
+out.manifest = await buildManifest({
+  root: ROOT, scriptUrl: import.meta.url, page, browser, payload: out,
+  target: TARGET,
+  experiment: { id: 'obscal', wave: 111,
+    title: '観測較正ハーネス(ドメイン宣言プロファイル下での kM フィット・1PN・引きずりの A/B)',
+    command: 'node tests/exp-obscal.mjs(QA_TARGET=index.html でルート対象)' },
+  presets: { mode: 'dynamic',
+    declaredIn: 'PROFILES(solar / solarG1)+ out.profiles.solarRealC(実c値プロファイル)',
+    declaration: '動的構成(内蔵プリセットを読まず、宣言プロファイルの物理キー全指定から build する)',
+    configs: { profiles: PROFILES, note: 'solarRealC は PROFILES.solar に cLight=3e4・Kt=c²/G・' +
+      'stateCarry:"double" を重ねたもので、out.profiles.solarRealC に実体を記録済み' },
+    note: 'physLock 条件 Kt=c₀²/G は各プロファイルの導出値として厳密に満たしてある(109B §3 のアサート)' },
+  numerics: {
+    seed: NOT_APPLICABLE,
+    dt: '試験ごとに宣言(A) 0.016 / B) 各ラダー段で宣言 / C) 環の周期から算出 — 個別値は tests.* の各構造にある)',
+    timeScale: 1, substeps: NOT_APPLICABLE,
+    steps: 'steps=ceil(orbits·T_K/dt)(構成ごとに T_K から算出 — 固定步数ではない)',
+    window: { earthMoon: 'kM フィット・周期残差の窓は tests.earthMoon / tests.earthMoonReal に記録',
+      mercury: '8 T_K の RL 最小二乗窓(第112便 改良①)', saturn: 'C/B/A 3帯の角速度残差窓は tests.saturn に記録',
+      note: '窓の実値は各 tests.* 構造の中にある(manifest は重複コピーを持たない)' },
+    warmup: NOT_APPLICABLE,
+    precision: 'stateCarry:"double"(第114便裁定 — Float32 量子化を解消して実水星深度の直接実測を成立させる)',
+  },
+  classification: {
+    input: ['ドメイン宣言プロファイル solar/solarG1(q=3・D₀=0.1・geoPN=2・λPN=1・α=1.5・kFrame=1・physLock)',
+      'G=6.674(☀️stellar ティアの実G対応値 — 第111便裁定)',
+      '実天体の質量比・軌道要素・離心率(観測由来の外部入力)'],
+    fit: ['kM(較正自由度 — tests.earthMoon / tests.saturn で当てはめる質量補正係数)'],
+    derived: ['RL 歳差 Δϖ(最小二乗勾配)', '周期残差 T/T_K−1', '離心率 RMS の kFrame 1/0 比',
+      '″/世紀 換算(tests.mercuryReal.arcsecPerCentury)',
+      'ループ利得 g=[w_sat/(D0+w_sat)]·[w_M/(D0+w_M)] と安定境界(tests.kframeStability)'],
+    holdOut: [],
+    note: '当てはめるのは kM だけである。43″/世紀の直接再現は本便の域外(V18〜V20 が正式経路)で、' +
+      '本便が測るのはプロファイル下の A/B 差分と較正自由度の効き方である。' +
+      'B) の弱場式 6π·d/(1−e²) は外部解析値であって当てはめ対象ではない',
+  },
+  judgement: {
+    pointers: ['tests.earthMoon', 'tests.mercury', 'tests.saturn', 'tests.mercuryReal',
+      'tests.earthMoonReal', 'tests.kframeStability', 'profiles'],
+    note: 'QA 非連動(合否は JSON に記録するが suite には繋がない)。C) の「単一 kM 残差が同時 <1%」は ' +
+      'tests.saturn.singleKmWithin1pc に、安定境界は tests.kframeStability.gStar(安定 amp<0.2 / ' +
+      '崩壊 amp≥0.5)にある。外部解析値との残差も同ポインタの中にある',
+    externalReferences: ['弱場 1PN 歳差式 6π·GM/(c²a(1−e²))',
+      '実水星の無次元不変量 GM/(c²a)=2.55e-8・e=0.206・414.9 公転/世紀',
+      '恒星月 27.3217 日・🌘 の e=0.0549',
+      'legacy の既知悪化(離心率 RMS 比 2.24 倍)'],
+  },
+  health: {
+    conservation: { status: NOT_INSTRUMENTED,
+      note: '本ハーネスは保存量残差を記録していない(記録しているのは軌道要素の残差とドリフト)' },
+  },
+  regenerationNote: 'out.date は非測定メタなので照合対象外',
+  excludeKeys: ['date'],
+});
 
 fs.writeFileSync(path.join(OUT_DIR, 'obscal-results.json'), JSON.stringify(out, null, 2));
 console.log('saved: tests/out/obscal-results.json');
