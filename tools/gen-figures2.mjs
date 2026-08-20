@@ -3,7 +3,8 @@
 //   直接駆動し、図データを収集 → 自前 SVG 描画 → Chromium print-to-PDF で paper/figures/ へ出力。
 // - 各図に .json(生成パラメータ+実測値+コミット)を併置(図の機械可読な出典)。
 //   ファイル名は p2fig1..8.{svg,pdf,json}(第1論文の fig1..6 と衝突しない接頭辞)。
-// - 数値ゲート21件を assert し、まとめを p2figs-gates.json に書く(ALL PASS で exit 0)。
+// - 数値ゲート22件を assert し、まとめを p2figs-gates.json に書く(ALL PASS で exit 0)。
+//   (第143便で p2fig8.caption を1件追加 — 21件 → 22件。既存21件は値・意味とも不変。)
 // - 実行: `node tools/gen-figures2.mjs`(全図)/ FIG=2,5 で個別再生成。
 // - 対象は **beta/index.html**(箱宇宙プリセット・V23a〜V29 は beta 先行)。
 // - 外部チャートライブラリは使わない(単一HTML・ゼロ依存の設計思想と揃える)。
@@ -731,11 +732,45 @@ if (want(8)) {
     `kF=1 は全内側帯で kF=0 を上回る(r=${kFrame1[cmp[0]].rMid.toFixed(1)}: ${kFrame1[cmp[0]].mean.toFixed(3)} vs ${kFrame0[cmp[0]].mean.toFixed(3)} / `
     + `r=${kFrame1[cmp[1]].rMid.toFixed(1)}: ${kFrame1[cmp[1]].mean.toFixed(3)} vs ${kFrame0[cmp[1]].mean.toFixed(3)})`);
   gate('p2fig8.outerboost', outerBoost.mean > 1.04 && !perSeed.some(s => s.nan),
-    `外縁増強(kF1/kF0, r∈[156,286]) = ${outerBoost.mean.toFixed(3)} ± ${outerBoost.sd.toFixed(3)}(本文 1.332±0.009・8seed)`);
+    `外縁増強(kF1/kF0, r∈[156,286]) = ${outerBoost.mean.toFixed(3)} ± ${outerBoost.sd.toFixed(3)}(本文 1.331±0.008・8seed)`);
   gate('p2fig8.profile', innermostUsableBand.mean > outermostUsableBand.mean,
     `帯別増強比は内側ほど大: ${innermostUsableBand.mean.toFixed(2)}(r=${innermostUsableBand.rMid.toFixed(0)}・本文 1.58)→ `
     + `${outermostUsableBand.mean.toFixed(2)}(r=${outermostUsableBand.rMid.toFixed(0)}・本文 1.16)。`
     + `全帯 ${enhancementByBand.map(e => e.mean === null ? 'n/a' : e.mean.toFixed(2)).join('/')}`);
+
+  // ---- 第143便(P0-1): キャプション・ゲート(既存20件に追加する1件 — 計21→22件)----
+  // 論文2 Fig.8 のキャプションから主数値を **機械抽出** し、いま測った値と照合する。
+  // (第100便のエンジン改訂と第108便Aの巻き戻しの間で、キャプションだけが旧世代の
+  //  1.43/1.04/1.074±0.006 のまま取り残された。同種の世代混在を機械的に止める。)
+  // 履歴として明示分離した文(\emph{History:} 以降)は照合対象から外す。
+  const capExpect = {
+    inner: innermostUsableBand.mean.toFixed(2), innerR: innermostUsableBand.rMid.toFixed(0),
+    outer: outermostUsableBand.mean.toFixed(2), outerR: outermostUsableBand.rMid.toFixed(0),
+    boost: outerBoost.mean.toFixed(3), boostSd: outerBoost.sd.toFixed(3)
+  };
+  let capDetail = '', capPass = false;
+  try {
+    const tex = fs.readFileSync(path.join(ROOT, 'paper', 'dfm-paper2.tex'), 'utf8');
+    const figBlock = (tex.match(/\\begin\{figure\}(?:[\s\S](?!\\begin\{figure\}))*?p2fig8\.pdf[\s\S]*?\\end\{figure\}/) || [])[0] || '';
+    const caption = (figBlock.match(/\\caption\{[\s\S]*\}/) || [])[0] || '';
+    const current = caption.split('\\emph{History:}')[0].replace(/\s+/g, ' ');
+    const mProf = current.match(/\$([\d.]+)\$ at \$r\\approx(\d+)\$ falling to \$([\d.]+)\$ at \$r\\approx(\d+)\$/);
+    const mBoost = current.match(/\$r\\in\[156,286\]\$ is \$([\d.]+)\\pm([\d.]+)\$/);
+    const got = mProf && mBoost
+      ? { inner: mProf[1], innerR: mProf[2], outer: mProf[3], outerR: mProf[4], boost: mBoost[1], boostSd: mBoost[2] }
+      : null;
+    const bad = got ? Object.keys(capExpect).filter(k => got[k] !== capExpect[k]) : ['(抽出失敗)'];
+    capPass = !!got && bad.length === 0;
+    capDetail = got
+      ? `キャプション実測 帯別 ${got.inner}(r=${got.innerR})→${got.outer}(r=${got.outerR})・`
+        + `外縁 ${got.boost}±${got.boostSd} / 図データ 帯別 ${capExpect.inner}(r=${capExpect.innerR})→`
+        + `${capExpect.outer}(r=${capExpect.outerR})・外縁 ${capExpect.boost}±${capExpect.boostSd}`
+        + (capPass ? '(一致)' : `(不一致: ${bad.join(',')})`)
+      : 'dfm-paper2.tex の Fig.8 キャプションから主数値を抽出できなかった';
+  } catch (e) {
+    capDetail = `dfm-paper2.tex を読めなかった: ${e.message}`;
+  }
+  gate('p2fig8.caption', capPass, capDetail);
 }
 
 await browser.close();

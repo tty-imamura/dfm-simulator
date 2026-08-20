@@ -59,6 +59,9 @@
 \usepackage{graphicx}
 \graphicspath{{figures/}}
 \usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}   % 第143便(P0-3): 幅の広い対応表を段幅内で折り返す
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 \usepackage{xcolor}
 \usepackage{caption}
 \captionsetup{font=small,labelfont=bf}
@@ -87,44 +90,37 @@ by Honest Calibration, Not Mechanism Claims)}}
 \maketitle
 
 \begin{abstract}
+% 第143便(P1-4): 要旨を約3割圧縮(英語版とパリティ)。主要数値
+% (43.0''/世紀・比 1.002・8.85年・木星 0.051%)は逐語で維持し、木星感度の
+% 詳細と有限半径因子は本文へ送った(本文には既にある)。
 決定力場力学(Determinacy-Field Mechanics, DFM)は、先行論文で導入した2次元の
 関係論的トイモデルであり、慣性・重力・時計の進み・光の伝播がすべて単一の
 スカラー場から読み出される。本論文は、こうしたモデルを\textbf{実数値}へ---
 実定数・実質量・実軌道要素へ---どこまで押し進めれば壊れるのか、そして各段階で
 何を正直に述べねばならないのかを問う。各サンプルが自分の長さ・時間・質量の指数を
-宣言するスケール換算規約を固定し、シミュレーション定数 $G=6.674$ と
-$c_0=3\times10^{4}$ が SI の重力定数と SI の光速に復元され、対応ロック
-$\kappa=G/c_0^{2}$ が厳密に成り立つようにする。この規約のもとで4つの結果が従う。
+宣言することで、$G=6.674$ と $c_0=3\times10^{4}$ が SI の値に復元され、対応ロック
+$\kappa=G/c_0^{2}$ が厳密に成り立つ。この規約のもとで4つの結果が従う。
 (P1) 倍精度の状態キャリーのもとで、測地線 1PN モードは水星の近日点前進を
-\textbf{力学の中で}再現する---公式の重ね描きとしてではない: 実測の
-$\Delta\varpi=5.029\times10^{-7}$\,rad/周 は弱場表式の $1.002$ 倍であり、
-観測値 $42.98''$/世紀 に対して $43.0''$/世紀 に換算される。
+\textbf{力学の中で}再現する---公式の重ね描きとしてではない: 実測値は弱場表式の
+$1.002$ 倍であり、観測値 $42.98''$/世紀 に対して $43.0''$/世紀 に換算される。
 (P2) 強引きずり領域の安定性は\textbf{単位系依存}である: 崩壊を支配する
-ループ利得が、次元を持つ重み $w=m/d$ から組み上がっているため、同一の物理配置が
+ループ利得が次元を持つ重み $w=m/d$ から組み上がっているため、同一の物理配置が
 宣言された指数次第で生き残りもし崩壊もする。
-(P3) 引きずりを入れると、\textbf{純粋な二体}の地球=月系が恒星月(実測 $27.33$ 日・
-観測 $27.3217$ 日)と $8.85$ 年の月の近点回転周期(近点比 $0.99$。P4 の導出指数の
-もとでは $0.9991$)を同時に再現する。較正ノブは背景 $D_0$ と初速係数の2つである---
-ただしこの周期を実際に駆動しているのは太陽摂動であるから、我々が報告している
-のは別機構を通じた較正一致である。
-(P4) 1つの背景値 $D_0=0.006$ と、さらなる純化のあとには引きずり減衰指数に
-ついての1つの\textbf{導出規則}
+(P3) 引きずりを入れると、\textbf{純粋な二体}の地球=月系が恒星月と $8.85$ 年の
+月の近点回転周期を、2つの較正ノブだけで同時に再現する---ただしこの周期を実際に
+駆動しているのは太陽摂動であるから、これは別機構を通じた較正一致である。
+(P4) 1つの背景値 $D_0=0.006$ と、引きずり減衰指数についての1つの\textbf{導出規則}
 $q^{*}=3+\ln(1.25\,c_0^{2}R/GM)/\ln((R+a)/R)$ が、地球=月・水星・土星の3系を
 同時に満たし、調整すべき自由指数を1つも残さない。
-この規則は、スピン項の\textbf{遠方近似}($a\gg R$)での振幅をレンズ=サーリング級に
-置く宣言規約であって、その場所ごとの一致ではない: 規則の出力を参照軌道へ代入し直すと
-有限半径因子 $(a/(R+a))^{3}$ が残り、3系でそれぞれ $0.956$・$0.949$・$0.256$ である。
+この規則は、スピン項の\textbf{遠方近似}での振幅をレンズ=サーリング級に置く
+宣言規約であって、その場所ごとの一致ではない。
 再フィットを一切せずに木星系へ適用すると---参照軌道はイオでの1回評価のみ・衛星別
 パラメータはゼロ---ガリレオ衛星4個すべてが $20$ イオ公転の窓で観測恒星周期の
-$0.051\%$ 以内に留まり、$q=3$ 対照は4個中2個を事前登録の $\pm1\%$ から外す
-(ただし4個とも軌道は保持する)。
-これらの周期は転写された値であって予言ではないので、木星系の結果は
-\textbf{観測された配置が算出された指数のもとで生き残る}ことを数値積分で検証した
-主張であり、周期そのものの予言ではない。
-全体を通じて、規約を生んだ失敗---強引きずりのもとでの自由連星の崩壊、生の歳差
-読み出しを覆い隠したソフトニング由来の逆行歳差、近点比の窓依存性、そして検証
-されて退けられた「引きずられる側自身のスピン」の仮説---を結果として報告する。
-較正一致が何を許可し何を許可しないかを明示する: 数値の一致は機構の同定ではない。
+$0.051\%$ 以内に留まり、$q=3$ 対照は4個中2個を事前登録の $\pm1\%$ から外す。
+これらの周期は転写された値であって予言ではないので、これは\textbf{観測された配置が
+算出された指数のもとで生き残る}ことについての主張である。
+規約を生んだ失敗は結果として報告し、較正一致が許可する以上のことは主張しない:
+数値の一致は機構の同定ではない。
 \end{abstract}
 
 % =====================================================================
@@ -294,7 +290,8 @@ $\kappa=G/c_0^{2}$ & $7.4156{\times}10^{-9}$ & $7.4156{\times}10^{-9}$
 \end{tabular}
 \end{table*}
 
-\subsection{対応ロック $\kappa=G/c_0^{2}$}
+% 第143便(P1-4): PDF しおり文字列から数式を外す(hyperref 警告の解消)
+\subsection{対応ロック \texorpdfstring{$\kappa=G/c_0^{2}$}{κ = G/c0 の2乗}}
 \label{sec:physlock}
 
 DFM は時計と光を単一の無次元ポテンシャル $\psi = W\kappa$ から読む。ここで
@@ -418,7 +415,7 @@ Plummer 軟化長 $\varepsilon$ は第\ref{sec:p1soft}節に記録する正直�
 $\varepsilon=0.05$(水星・土星)または $\varepsilon=0.1$(地球=月)で走らせる。
 
 % =====================================================================
-\section{P1: 力学の直接再現による $43''$/世紀}
+\section{P1: 力学の直接再現による \texorpdfstring{$43''$}{43秒}/世紀}
 \label{sec:p1}
 
 \subsection{なぜ二度も対象外だったのか}
@@ -817,7 +814,7 @@ $43''$/世紀 を回復する。
 直接の帰結である。
 その暫定的な答えこそ、本節が解消するために存在する失敗である。
 
-\subsection{第1段: 共通補正 $(D_0,q)=(0.006,5)$}
+\subsection{第1段: 共通補正 \texorpdfstring{$(D_0,q)=(0.006,5)$}{(D0,q) = (0.006,5)}}
 \label{sec:p4joint}
 
 解決は、より細かいフィットからではなく分解からもたらされた。
@@ -910,6 +907,8 @@ $q=3$ かつ\textbf{源から遠い}($d\gg R$)ところでは裸のスピン項�
   各サンプルの宣言値 $R$・$M$・$a$ と $G=6.674$・$c_0=3\times10^{4}$ から計算した。
   木星の行は第\ref{sec:jupiter}節の hold-out である。}
 \label{tab:finrad}
+% 第143便(P0-3): 列間を詰めて段幅内に収める
+{\small\setlength{\tabcolsep}{3pt}
 \begin{tabular}{lrrrr}
 \toprule
 系 & $a/R$ & $q^{*}$ & $(a/(R+a))^{3}$ & $q_{\mathrm{exact}}$ \\
@@ -919,7 +918,7 @@ $q=3$ かつ\textbf{源から遠い}($d\gg R$)ところでは裸のスピン項�
 土星環 & $1.74$ & $21.843$ & $0.2563$ & $20.493$ \\
 木星(イオ基準) & $5.90$ & $12.302$ & $0.6252$ & $12.059$ \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 表\ref{tab:finrad}にはさらに2つの正直な注記が付く。
@@ -1109,27 +1108,25 @@ $\omega_{\mathrm{DFM}}(r)=\chi(r)\,s\,(R/(R+r))^{q}$ である。
   \texttt{windowsPreRegistered} と \texttt{windows} に記録)。帯は実装前に固定し、
   以後変更していない。成績は 2 PASS・3 FAIL。}
 \label{tab:w15}
-\begin{tabular}{llll}
+% 第143便(P0-3): 手作業の折返しを tabularx の自動折返しへ置換(右カラム侵入の解消)
+{\small\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\columnwidth}{@{}lYYY@{}}
 \toprule
  & 判定量 & 事前登録窓 & 実測 \\
 \midrule
-W1 & $k_{\mathrm{Frame}}{=}0$ の $\Delta\varpi$ & 解析値と $\pm5\%$ &
-  $0.9993$〜$1.0018$ \\
- & (全10プローブ) & $-3\pi\varepsilon^{2}/(a^{2}(1-e^{2})^{2})$ &
-  \textbf{PASS} \\
+W1 & $k_{\mathrm{Frame}}{=}0$ の $\Delta\varpi$(全10プローブ) &
+  解析値 $-3\pi\varepsilon^{2}/(a^{2}(1-e^{2})^{2})$ と $\pm5\%$ &
+  $0.9993$〜$1.0018$ \textbf{PASS} \\
 W2 & 参照点の近点回転周期 & $8.85$ 年 $\pm15\%$ &
-  $-1.28\times10^{11}$ 年 \\
- & & & \textbf{FAIL} \\
-W3 & $\Delta\varpi_{\mathrm{drag}}$ の符号 & 全プローブで順行 &
-  全10半径で逆行 \\
- & (全10プローブ) & & \textbf{FAIL} \\
-W4 & $|\Delta\varpi_{\mathrm{drag}}|$ の & $1/8$($=12.5\%$)未満 &
-  $2.42\%$ \\
- & 最外/参照点 & & \textbf{PASS} \\
-W5 & 外側域の log--log 傾き差 & $3$〜$8$ & $2.72$ \\
- & ($q{=}3$ − qLock) & & \textbf{FAIL} \\
+  $-1.28\times10^{11}$ 年 \textbf{FAIL} \\
+W3 & $\Delta\varpi_{\mathrm{drag}}$ の符号(全10プローブ) &
+  全プローブで順行 & 全10半径で逆行 \textbf{FAIL} \\
+W4 & $|\Delta\varpi_{\mathrm{drag}}|$ の最外/参照点 &
+  $1/8$($=12.5\%$)未満 & $2.42\%$ \textbf{PASS} \\
+W5 & 外側域の log--log 傾き差($q{=}3$ − qLock) & $3$〜$8$ &
+  $2.72$ \textbf{FAIL} \\
 \bottomrule
-\end{tabular}
+\end{tabularx}}
 \end{table}
 
 3件の FAIL のうち2件には\textbf{事後指定の補助解析}が付いている。これらを窓と同じ列に
@@ -1163,7 +1160,9 @@ $\dot\varpi=-4GJ/(c_0^{2}a^{3}(1-e^{2})^{3/2})$ もまた逆行であり、\text
   事前登録が与えるはずの意味での証拠は最初の行だけであり、残る3行は種類の異なる帳簿で
   ある。本論文は引用するすべての量に、どの行に属するかのラベルを付けている。}
 \label{tab:checkkinds}
-\begin{tabular}{p{0.20\linewidth}p{0.36\linewidth}p{0.30\linewidth}}
+% 第143便(P0-3): 段幅内に収まるよう列幅を微調整
+{\small\setlength{\tabcolsep}{3pt}
+\begin{tabular}{p{0.19\linewidth}p{0.35\linewidth}p{0.30\linewidth}}
 \toprule
 種類 & いつ固定したか & 例 \\
 \midrule
@@ -1179,9 +1178,9 @@ $\dot\varpi=-4GJ/(c_0^{2}a^{3}(1-e^{2})^{3/2})$ もまた逆行であり、\text
 回帰ゲート &
   最初の測定の\textbf{あと}に許容値を決め、CI で固定する &
   第\ref{sec:map}節のゲートと
-  \texttt{paper/figures/p3figs-gates.json} \\
+  \texttt{paper/\allowbreak figures/\allowbreak p3figs-\allowbreak gates.json} \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 表\ref{tab:checkkinds}が4種類を述べ、互いに分けておく。
@@ -1216,10 +1215,20 @@ $\dot\varpi=-4GJ/(c_0^{2}a^{3}(1-e^{2})^{3/2})$ もまた逆行であり、\text
 
 数値より先に設計を述べる。この検証を hold-out にしているのは設計だからである。
 木星は pinned で、実測の質量・半径・自転周期を担う。4つのガリレオ衛星は実測の軌道長半径・
-離心率・質量・同期自転~\cite{JPLSats}を担い、初速は厳密なケプラー速度そのものである
+離心率・質量・同期自転~\cite{NASASats}を担い、初速は厳密なケプラー速度そのものである
 (速度較正係数 $1.000$)。
 本節で比較の相手にする周期($1.769138$・$3.551181$・$7.154553$・$16.689017$ 日)は、
-同じ表~\cite{JPLSats}の\textbf{恒星(sidereal)}公転周期である。
+NASA の惑星衛星 fact sheet 系~\cite{NASASats}が載せる\textbf{恒星(sidereal)}
+公転周期である。
+第143便の外部レビューは、現行の JPL \textsc{jup365} 平均要素表から得られる周期とは
+最大 ${\approx}0.7\%$ の差がありうると指摘している。本環境では外部ネットワークへ
+出られないためこの比較は実施できておらず、測定結果としてではなく\textbf{未検証の
+指摘}としてそのまま記す。
+JW1 の $\pm1\%$ 転写窓と JW2 の保持結論は不変である---どちらもハーネスが実際に
+宣言している値についての言明だからである---が、周期比較の\textbf{意味}は宣言した
+出典に紐づくため、上の帰属は正確に述べてある。
+\textsc{jup365} の値で hold-out を測り直すことは将来の変種として記録し、本稿では
+実施していない。
 背景は第\ref{sec:p4joint}節の共有値 $D_0=0.006$ であり、ここで再フィットはしていない。
 指数は式(\ref{eq:qlock})を、イオの軌道を参照として\textbf{1回だけ}評価した
 $q^{*}=12.3017$ を $q=12.3$ と宣言したものである。実行時の qLock 再計算は掛けない。
@@ -1229,13 +1238,12 @@ $q^{*}=12.3017$ を $q=12.3$ と宣言したものである。実行時の qLock
 理想化も併せて宣言する: ランは2次元・赤道面であり、観測された軌道傾斜
 ($0.04^{\circ}$・$0.47^{\circ}$・$0.20^{\circ}$・$0.19^{\circ}$)は無視される。
 衛星同士の摂動は入っているが、太陽は入っていない。
-% 第141便: 木星衛星の出典を明示的に引いた(\cite{JPLSats} — JPL Solar System
-% Dynamics, Planetary Satellite Mean Elements)。周期種別が sidereal であることも
-% 本文に明記した。
-% TODO(ref-verify): tests/exp-jupiter.mjs の宣言に実際に使った平均要素セットの
-% epoch は、本セッションでは外部ネットワークに出られず確認できなかったため、
-% 推測で書かずに意図的に未記載としてある。提出前に JPL の表の epoch 行を確認して
-% \cite{JPLSats} に加えること。
+% 第141便: 木星衛星の出典を明示的に引き、周期種別が sidereal であることも本文に
+% 明記した。
+% 第143便: 出典を**再帰属**した。第141便の「JPL Planetary Satellite Mean Elements」
+% への帰属は撤回し、NASA の惑星衛星 fact sheet 系(\cite{NASASats})の恒星公転周期
+% とする。数値・窓・実測は一切変更していない(変わったのは帰属だけ)。
+% TODO(ref-verify): アーカイブ URL と版の確定は投稿時(本環境は egress 遮断)。
 
 事前登録窓に対する結果は図\ref{fig:jupiter}に示す。
 引きずりを切ると(JW1)、転写は4衛星の恒星公転周期を $0.068\%$ 以内で再現する---これは
@@ -1326,6 +1334,8 @@ $2.0145$、観測は $2.0073$ と $2.0147$ だが、初期位相は共鳴平衡�
   状態、最終行は比較のために再掲した第\ref{sec:jupiter}節の $q=3$ 対照である。
   全行が NaN なしで4衛星とも軌道を保持した。}
 \label{tab:jupsens}
+% 第143便(P0-3): 列間を詰めて段幅内に収める
+{\setlength{\tabcolsep}{4pt}
 \begin{tabular}{llrr}
 \toprule
 変化 & 使った $q$ & 周期ずれ & $|\Delta a|/a$ \\
@@ -1342,7 +1352,7 @@ $D_0\times0.5$ & $12.30$ & $0.0486$ & $0.1468$ \\
 $D_0\times2$ & $12.30$ & $0.0514$ & $0.1334$ \\
 $q=3$ 対照 & $3$ & $1.4604$ & $0.1437$ \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 読み取れることは3つあり、3つめが結果を限定する。
@@ -1467,7 +1477,7 @@ P4 の第2段では何も調整していない---式(\ref{eq:qlock})が $q$ を�
 それぞれの場合について述べてある。機構が明らかに自然のものではない場合
 (第\ref{sec:p3not}節)を含めてである。
 
-\subsection{代償1: $D_0$ は次元を持つので、較正はスケールを持ち込む}
+\subsection{代償1: \texorpdfstring{$D_0$}{D0} は次元を持つので、較正はスケールを持ち込む}
 \label{sec:cost1}
 
 $D_0$ が質量/長さを担うので、「$D_0=0.006$ を較正済みの3系すべてが共有している」という
@@ -1576,7 +1586,7 @@ DFM は自然の記述として提案されていない。
 持たない系で、運動引きずりを通じてその観測量を再現している。
 いかなる DFM の機構も空で働いている機構であるという主張はしない。
 
-\subsection{否定的主張3: $D_0$ は普遍定数ではない}
+\subsection{否定的主張3: \texorpdfstring{$D_0$}{D0} は普遍定数ではない}
 背景 $D_0$ は次元を担う。
 その共有値 $0.006$ が共有された\textbf{物理的}背景密度であるのは、実 $G$ 規約と
 実 $c$ 規約の両方を満たすサンプルの一族---式(\ref{eq:ML})が共通の単位を固定する一族---
@@ -1641,40 +1651,30 @@ $\pm15\%$ 動く(第\ref{sec:cost3}節)。
 読者がブラウザで開けるのと同じ単一ファイルのシミュレータに対して走り、それぞれが機械
 可読な結果ファイルを書く。
 
+% 第143便(P0-3): 手作業の折返しを tabularx の自動折返しへ置換
 \begin{center}
-{\footnotesize\setlength{\tabcolsep}{2pt}
-\begin{tabular}{lll}
+{\footnotesize\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\columnwidth}{@{}YYY@{}}
 \toprule
 ハーネス & 範囲 & 結果ファイル \\
 \midrule
-\texttt{exp-obscal.mjs} & P1 梯子; & \texttt{obscal-} \\
- & 地球=月の実単位; & \texttt{results.json} \\
- & 環の帯; & \\
- & ループ利得 & \\
+\texttt{exp-\allowbreak obscal.mjs} &
+  P1 梯子; 地球=月の実単位; 環の帯; ループ利得 &
+  \texttt{obscal-\allowbreak results.json} \\
 \texttt{exp-kf1.mjs} & P2 安定化探索 &
-  \texttt{kf1-results.json} \\
-\texttt{exp-kf1b.mjs} & P3 引きずり歳差の &
-  \texttt{kf1b-results.json} \\
- & 分解とフィット & \\
-\texttt{exp-kf1c.mjs} & P4 第1段: &
-  \texttt{kf1c-results.json} \\
- & 共通補正・ & \\
- & $q$ 走査・スピン & \\
-\texttt{exp-kf1d.mjs} & P4 第2段: &
-  \texttt{kf1d-results.json} \\
- & qLock・環・ & \\
- & 引き込み & \\
- & プロファイル & \\
-\texttt{exp-qlockradial.mjs} & 引き込み &
-  \texttt{qlockradial-} \\
- & プロファイルと & \texttt{results.json} \\
- & チャネル分解 & \\
-\texttt{exp-jupiter.mjs} & ガリレオ衛星の &
-  \texttt{jupiter-} \\
- & hold-out; & \texttt{results.json} \\
- & \S H 感度(第141便) & \\
+  \texttt{kf1-\allowbreak results.json} \\
+\texttt{exp-kf1b.mjs} & P3 引きずり歳差の分解とフィット &
+  \texttt{kf1b-\allowbreak results.json} \\
+\texttt{exp-kf1c.mjs} & P4 第1段: 共通補正・$q$ 走査・スピン &
+  \texttt{kf1c-\allowbreak results.json} \\
+\texttt{exp-kf1d.mjs} & P4 第2段: qLock・環・引き込みプロファイル &
+  \texttt{kf1d-\allowbreak results.json} \\
+\texttt{exp-\allowbreak qlockradial.mjs} & 引き込みプロファイルとチャネル分解 &
+  \texttt{qlockradial-\allowbreak results.json} \\
+\texttt{exp-\allowbreak jupiter.mjs} & ガリレオ衛星の hold-out; \S H 感度(第141便) &
+  \texttt{jupiter-\allowbreak results.json} \\
 \bottomrule
-\end{tabular}}
+\end{tabularx}}
 \end{center}
 
 これらのハーネスは意図的に継続的インテグレーションのスイートへ組み込んで\textbf{いない}:
@@ -1699,58 +1699,58 @@ CI で走る自動ゲートに対応する」と書くと、CI が push のた�
 CI が走らせ直しているのは、コミット済みの数値と、アプリの宣言状態あるいは再生成した
 図データとの照合である。
 
+% 第143便(P0-3): 手作業の折返しを tabularx の自動折返しへ置換
+%(右カラムとの重なりを解消)
 \begin{center}
-{\footnotesize\setlength{\tabcolsep}{1pt}
-\begin{tabular}{lll}
+{\footnotesize\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\columnwidth}{@{}YYY@{}}
 \toprule
-主張 & 1回の測定元/ & CI 回帰ゲート \\
- & コミット済み結果 & (それを固定する) \\
+主張 & 1回の測定元/コミット済み結果 & CI 回帰ゲート(それを固定する) \\
 \midrule
 対応ロック $\kappa=G/c_0^{2}$ & 解析恒等式 &
-  \texttt{physlock.kt-derive} \\
+  \texttt{physlock.\allowbreak kt-derive} \\
 1PN 源の宣言 & サンプル宣言 & \texttt{pn.source-flag} \\
 倍精度の状態キャリー & \texttt{exp-obscal} \S D &
-  \texttt{state.carry-double} \\
+  \texttt{state.\allowbreak carry-double} \\
 実 $c$ 表示規約 & サンプル宣言 &
-  \texttt{scale.realc-display} \\
+  \texttt{scale.\allowbreak realc-display} \\
 $c$/$G$ 換算の整合性 & サンプル宣言 &
-  \texttt{scale.cg-consistency} \\
-$43''$/世紀(比 $1.002$) & \texttt{exp-obscal} \S D / &
-  \texttt{wave119.ui}, \\
- & \texttt{obscal-results.json} & \texttt{p3fig1.*} \\
-ループ利得 $g$ と経路 & \texttt{exp-obscal} \S F / &
+  \texttt{scale.\allowbreak cg-consistency} \\
+$43''$/世紀(比 $1.002$) &
+  \texttt{exp-obscal} \S D / \texttt{obscal-\allowbreak results.json} &
+  \texttt{wave119.ui}, \texttt{p3fig1.*} \\
+ループ利得 $g$ と経路 &
+  \texttt{exp-obscal} \S F / \texttt{obscal-\allowbreak results.json} &
   \texttt{p3fig2.*} \\
- & \texttt{obscal-results.json} & \\
-$D_0=0.006$;正味は正 & \texttt{exp-kf1b} / &
+$D_0=0.006$;正味は正 &
+  \texttt{exp-kf1b} / \texttt{kf1b-\allowbreak results.json} &
   \texttt{wave120.ui} \\
- & \texttt{kf1b-results.json} & \\
-タイタン $15.949$\,d;環 e6 & \texttt{exp-kf1d} / &
+タイタン $15.949$\,d;環 e6 &
+  \texttt{exp-kf1d} / \texttt{kf1d-\allowbreak results.json} &
   \texttt{wave121.ui} \\
- & \texttt{kf1d-results.json} & \\
-共通補正 $(D_0,q)$ & \texttt{exp-kf1c} / &
+共通補正 $(D_0,q)$ &
+  \texttt{exp-kf1c} / \texttt{kf1c-\allowbreak results.json} &
   \texttt{wave122.ui} \\
- & \texttt{kf1c-results.json} & \\
 qLock $q^{*}$ $6.16/8.25/21.8$ & 式(\ref{eq:qlock})・解析 &
   \texttt{wave123.ui} \\
 qLock の永続化とトグル & サンプル宣言 & \texttt{wave124.ui} \\
 $\kappa$ 正準形 & エンジン宣言 &
-  \texttt{wave125.ui}, \\
- & & \texttt{wave128.engine} \\
-半径方向監査 W1〜W5 & \texttt{exp-qlockradial} / &
-  \texttt{behavior.} \\
- & \texttt{qlockradial-results.json} & \texttt{qlockRadial} \\
-ガリレオ hold-out JW1〜JW5 & \texttt{exp-jupiter} / &
-  \texttt{behavior.jupiter}, \\
- & \texttt{jupiter-results.json} & \texttt{p3fig4.*} \\
-感度(第141便) & \texttt{exp-jupiter} \S H / &
-  \texttt{p3fig4.aref-} \\
- & \texttt{jupiter-results.json} & \texttt{sensitivity} 等 \\
+  \texttt{wave125.ui}, \texttt{wave128.\allowbreak engine} \\
+半径方向監査 W1〜W5 &
+  \texttt{exp-\allowbreak qlockradial} /
+  \texttt{qlockradial-\allowbreak results.json} &
+  \texttt{behavior.\allowbreak qlockRadial} \\
+ガリレオ hold-out JW1〜JW5 &
+  \texttt{exp-jupiter} / \texttt{jupiter-\allowbreak results.json} &
+  \texttt{behavior.\allowbreak jupiter}, \texttt{p3fig4.*} \\
+感度(第141便) &
+  \texttt{exp-jupiter} \S H / \texttt{jupiter-\allowbreak results.json} &
+  \texttt{p3fig4.\allowbreak aref-sensitivity} 等 \\
 サンプル主張の整合 & サンプル宣言 & \texttt{claims.sync} \\
-図が同一値で再生成される & コミット済み結果 &
-  \texttt{p3figs-} \\
- & ファイル & \texttt{gates.json} \\
+図が同一値で再生成される & コミット済み結果ファイル &
+  \texttt{p3figs-\allowbreak gates.json} \\
 \bottomrule
-\end{tabular}}
+\end{tabularx}}
 \end{center}
 
 この対応表には誠実性の注記が3つ付く。最初の2つは姉妹論文からそのまま持ち越される。
@@ -1803,8 +1803,11 @@ $\kappa$ 正準形 & エンジン宣言 &
 
 \bibitem{DFM1} T. Imamura, \emph{Determinacy-Field Mechanics: A
 Machian Toy Universe with Tunable Frame Dragging, Inverse-Square
-Gravity, and Clock-and-Light Sectors}, Zenodo (2026),
+Gravity, and Spin-as-Heat Analogies}, Zenodo (2026),
 doi:10.5281/zenodo.21454189.
+% wave 143: title corrected to the actual title of paper 1
+% (dfm-paper.tex \title); the earlier "Clock-and-Light Sectors" variant
+% never existed as a published title.
 
 \bibitem{DFM2} T. Imamura, \emph{The Box Universe: Expansion, Time,
 and Light in a Relational Toy Model}, 姉妹論文 (2026).
@@ -1845,8 +1848,11 @@ Rev.\ Mod.\ Phys.\ \textbf{19}, 361--364 (1947),
 R.~S.~Park, W.~M.~Folkner, A.~S.~Konopliv, J.~G.~Williams,
 D.~E.~Smith, and M.~T.~Zuber, ``Precession of Mercury's perihelion
 from ranging to the MESSENGER spacecraft,''
-Astron.\ J.\ \textbf{153}, 121 (2017).
-% TODO(ref-verify): 巻・頁を確認し AAS の DOI を付す。
+Astron.\ J.\ \textbf{153}, 121 (2017),
+\href{https://doi.org/10.3847/1538-3881/aa5be2}
+{doi:10.3847/1538-3881/aa5be2}.
+% DOI は独立レビュー2件の一致提示に基づく収載 — 投稿時に resolve 再確認
+% (TODO(ref-verify))。本環境は外部ネットワーク遮断で resolve できていない。
 
 \bibitem{Will2014}
 C.~M.~Will, ``The confrontation between general relativity and
@@ -1881,30 +1887,37 @@ Flight Center / NSSDCA),
 (水星・地球・月・土星および土星衛星のシート。土星のシートには C/B/A 環の
 縁の半径とカッシーニの間隙も表になっている)。
 
-\bibitem{JPLSats}
-Jet Propulsion Laboratory, Solar System Dynamics group,
-\emph{Planetary Satellite Mean Elements}, NASA/JPL,
-\href{https://ssd.jpl.nasa.gov/sats/elem/}
-{https://ssd.jpl.nasa.gov/sats/elem/}
-(木星の衛星。\texttt{tests/exp-jupiter.mjs} が宣言するイオ・エウロパ・ガニメデ・
-カリストの軌道長半径・離心率・\emph{恒星(sidereal)}公転周期はこの表による)。
-% TODO(ref-verify): 実際に用いた平均要素セットの epoch 行を加えること。
-% 本セッションでは外部ネットワークへ出られず確認できなかったため、推測で書かずに
-% 意図的に未記載としてある。
+\bibitem{NASASats}
+D.~R.~Williams, \emph{Jovian Satellite Fact Sheet}, NASA planetary
+fact sheet series (NASA Goddard Space Flight Center / NSSDCA),
+\url{https://nssdc.gsfc.nasa.gov/planetary/factsheet/joviansatfact.html}
+(\texttt{tests/exp-jupiter.mjs} が宣言するイオ・エウロパ・ガニメデ・カリストの
+軌道長半径・離心率・質量・\emph{恒星(sidereal)}公転周期はこの fact sheet の転写である)。
+% 第143便: 出典を再帰属した。第141便で付けた JPL Solar System Dynamics
+% 「Planetary Satellite Mean Elements」への帰属は撤回する。tests/exp-jupiter.mjs が
+% 実際に転写しているのは NASA の惑星衛星 fact sheet 系(惑星について既に
+% \cite{NASAFact} で引いているのと同じ系列)の恒星公転周期である。
+% TODO(ref-verify): アーカイブ URL と fact sheet の版は投稿時に確定すること。
+% 本環境は外部ネットワークへ出られないため、resolve も版の刻印もできていない。
 
 \bibitem{Mankovich2019}
 C.~R.~Mankovich, M.~S.~Marley, J.~J.~Fortney, and N.~Movshovitz,
 ``Cassini ring seismology as a probe of Saturn's interior.
-I.\ Rigid rotation,'' Astrophys.\ J.\ \textbf{871}, 1 (2019).
-% TODO(ref-verify): 巻・論文番号を確認し DOI を付す。
+I.\ Rigid rotation,'' Astrophys.\ J.\ \textbf{871}, 1 (2019),
+\href{https://doi.org/10.3847/1538-4357/aaf798}
+{doi:10.3847/1538-4357/aaf798}.
+% DOI は独立レビュー2件の一致提示に基づく収載 — 投稿時に resolve 再確認
+% (TODO(ref-verify))。本環境は外部ネットワーク遮断で resolve できていない。
 % これは土星サンプルが用いる自転周期 10h33m38s(= 10.56 h)の出典であり、
 % NASA fact sheet が載せる System III の値(10.656 h)ではない。
 
 \bibitem{Jacobson2006}
 R.~A.~Jacobson \emph{et al.}, ``The gravity field of the Saturnian
 system from satellite observations and spacecraft tracking data,''
-Astron.\ J.\ \textbf{132}, 2520--2526 (2006).
-% TODO(ref-verify): 巻・頁を確認し DOI を付す。
+Astron.\ J.\ \textbf{132}, 2520--2526 (2006),
+\href{https://doi.org/10.1086/508812}{doi:10.1086/508812}.
+% DOI は独立レビュー2件の一致提示に基づく収載 — 投稿時に resolve 再確認
+% (TODO(ref-verify))。本環境は外部ネットワーク遮断で resolve できていない。
 
 \bibitem{Iess2019}
 L.~Iess \emph{et al.}, ``Measurement and implications of Saturn's

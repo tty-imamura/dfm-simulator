@@ -6080,7 +6080,7 @@ if (!FAST) {
 }
 
 // ---- 8c4) 第136便: behavior.qlockRadial — qLock 半径方向監査サンプル群 qlockAudit ----
-// ----   🧭qLockRadialAudit(q=8.25 = 月の実軌道に対する qLock〔遠方近似の LT 級振幅規約〕の算出値)と
+// ----   📶qLockRadialAudit(q=8.25 = 月の実軌道に対する qLock〔遠方近似の LT 級振幅規約〕の算出値)と
 // ----   📐qLockRadialAuditQ3(q=3 = LT と同じ r⁻³ 則の物差し)を、縮小構成で機械固定する。
 // ----   ①宣言(ファミリー・fidelity・claims の role・parameterAudit.fitted が空・q/kFrame/D₀/構成)
 // ----   ②参照点の LT 級振幅(サンプル自身の宣言値から解析で: 素の s·(R/(R+a))^q が Ω_LT の 0.8〜1.15倍。
@@ -6238,7 +6238,7 @@ if (!FAST) {
       `宣言=${declOk}・ファミリー/role=${qr.fam}&${qr.roleOk} / ` +
       `claims↔実測JSON 同期=${syncOk}(${sync.length}件)${syncNote ? ' ' + syncNote : ''}`);
   } else {
-    console.log('SKIP behavior.qlockRadial(qLock 半径方向監査 🧭📐 が未導入 — root 等。第136便)');
+    console.log('SKIP behavior.qlockRadial(qLock 半径方向監査 📶📐 が未導入 — root 等。第136便)');
   }
 }
 
@@ -14407,7 +14407,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       HP.allPresets().some((p) => p.id === 'solarInner' && p.scaleExp));
     const gen135 = await page.evaluate(() =>
       HP.allPresets().some((p) => p.id === 'emAuditSolar'));
-    // 第136便: qLock 半径方向監査(🧭📐)を2件追加。実定数・サンプル別スケール指数・実自転の
+    // 第136便: qLock 半径方向監査(📶📐)を2件追加。実定数・サンプル別スケール指数・実自転の
     // 地球のまわりの実単位構成なので、いずれもスケール換算込みの実較正である(fit はゼロ)
     const gen136 = await page.evaluate(() =>
       HP.allPresets().some((p) => p.id === 'qLockRadialAudit'));

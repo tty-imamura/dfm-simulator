@@ -1,0 +1,69 @@
+# 第143便(P1-4): 論文1(DFM 本論)のビルドを CI ゲート化(paper2.yml / paper3.yml のひな型)。
+# paper/ または図生成スクリプトの変更時のみ実行(重い TeX インストールを常時走らせない)。
+#
+# 内容: 英(pdflatex)・日(lualatex)を各2回ビルドし、エラーゼロ・未定義参照ゼロを assert →
+#       PDF をアーティファクトとして保存。
+#
+# **図の再生成ゲートを敢えて張っていない理由**(第143便の実測に基づく — 検査の捏造をしない):
+#   論文1のコミット済み図データ(paper/figures/fig1..6.json、生成コミット 082fc0b・2026-07-20)は
+#   本論文の version of record である提出タグ `paper-v1`(release **v1.27.0** 系)の
+#   index.html に対して取られている。一方 CI が走るのは HEAD であり、ルートのアプリは
+#   その後 v1.38 → v1.39 → v1.40 と進んでいる(第96便Bの相似変換と第108便Aの巻き戻しを含む)。
+#   第143便でローカル実行して実測したところ、HEAD の index.html に対する再生成値は
+#   コミット済み値と一致しない(例: fig2 外縁比 1.082 → 1.320 / fig3 −7.52・+10.71 →
+#   −6.81・+7.73 / fig5 ∓6.77e-2 → ∓4.97e-2 / fig6 温度ギャップ 4.36→0.29 が 0.00→0.02 に
+#   なり、gen-figures.mjs 既存の数値ゲート7件のうち fig6.equalize が FAIL する)。
+#   したがって「再生成 → コミット済み JSON と一致」を HEAD で張ると、**別世代どうしを
+#   比較する常時 RED のゲート**になる。論文2・3 の図が追いかけている beta 対象とは
+#   事情が異なる(あちらは生きている対象を追う設計)。
+#
+#   有効化の条件(将来の作業 — CI ではなく物理側の判断が要る):
+#     提出コミットで論文1の図6点を再生成し、本文・キャプションの数値をその世代へ同期した
+#     うえで、下の2ステップ(再生成+コミット済み JSON との一致 assert)を paper2.yml と
+#     同じ形で足す。gen-figures.mjs には既存の数値ゲート7件(fig1.dial / fig2.flatten /
+#     fig3.sign / fig4.analytic / fig5.asym / fig6.expand / fig6.equalize)があるので、
+#     新しい検査を作る必要はない。
+name: paper1
+on:
+  push:
+    paths:
+      - "paper/**"
+      - "tools/gen-figures.mjs"
+      - ".github/workflows/paper1.yml"
+  pull_request:
+    paths:
+      - "paper/**"
+      - "tools/gen-figures.mjs"
+      - ".github/workflows/paper1.yml"
+
+jobs:
+  paper1:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - name: Install TeX Live
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            texlive-latex-base texlive-latex-recommended texlive-publishers \
+            texlive-fonts-recommended texlive-lang-japanese texlive-luatex
+      - name: Build English (pdflatex x2, halt on error)
+        working-directory: paper
+        run: |
+          pdflatex -interaction=nonstopmode -halt-on-error dfm-paper.tex
+          pdflatex -interaction=nonstopmode -halt-on-error dfm-paper.tex
+          ! grep -i "undefined references\|undefined citations" dfm-paper.log
+      - name: Build Japanese (lualatex x2, halt on error)
+        working-directory: paper
+        run: |
+          lualatex -interaction=nonstopmode -halt-on-error dfm-paper-ja.tex
+          lualatex -interaction=nonstopmode -halt-on-error dfm-paper-ja.tex
+          ! grep -i "undefined references\|undefined citations" dfm-paper-ja.log
+      - name: Upload PDFs
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: paper1-pdfs
+          path: |
+            paper/dfm-paper.pdf
+            paper/dfm-paper-ja.pdf

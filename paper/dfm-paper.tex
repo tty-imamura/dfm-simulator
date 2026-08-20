@@ -1,5 +1,9 @@
 % =====================================================================
-% Determinacy-Field Mechanics -- arXiv draft (v0.8, 2026-07-20)
+% Determinacy-Field Mechanics -- arXiv draft
+% VERSION OF RECORD: v0.9 (2026-07-20; wave 143 typesetting/citation
+% pass, no claim or number changed).  The single version statement for
+% this manuscript is v0.9 -- it is repeated in paper/README.md and
+% nowhere else.  The list below is the revision history.
 % Written per docs/dev/HANDOFF_PAPER_V2.md (sole authoritative writing brief).
 % v0.2: all 21 adjudicated items of the fifth AI mock review applied
 %       (claim-level restriction, axiom clarifications A2/A5/A10,
@@ -58,6 +62,15 @@
 %       (= v0.8 merge, release v1.27.0 series) and its Zenodo DOI
 %       10.5281/zenodo.21454189 inserted; TODO(submission) resolved;
 %       sentence moved to present tense. No other change.
+% v0.9 (wave 143, 2026-08-19): second external review round, typesetting
+%       and citation only -- Eq. (15) broken with split and three tables
+%       set as paragraph columns (zero major overfull boxes), the
+%       abstract's thermodynamic-analogy limitation sharpened by one
+%       sentence, the 2D pseudo-3D force
+%       (broken Gauss law) given a fuller paragraph, and the paper's
+%       target tag separated from the current app build in
+%       Reproducibility. No claim, number, or equation changed, so the
+%       version of record stays v0.9.
 % Input canon: docs/DERIVATIONS.md, docs/PHYSICS.md v1.6,
 %              docs/THEORY_SYNTHESIS.md v1.7, index.html v1.23.
 % Target: American Journal of Physics / European Journal of Physics
@@ -136,6 +149,11 @@ description of the real universe; it does not remove the need for dark
 matter; it has neither Lorentz invariance nor causal propagation; and
 its thermodynamic sector is an analogy rather than a quantitative
 theory.
+The last limitation is the sharpest: the single signed spin variable
+reproduces the \emph{bookkeeping} of the zeroth and first laws on a
+stated domain, but it carries no microstate count, no entropy defined
+from one, and no second law, so none of its ``temperatures'' may be
+read as thermodynamic temperatures.
 DFM is offered as a compact, fully inspectable laboratory for teaching
 and exploring Machian ideas, weak-field phenomenology, and conservation
 bookkeeping in interactive form.
@@ -468,6 +486,24 @@ inverse-square phenomenology (Kepler orbits, $1/d^2$ forces) survives
 in the picture students see; the flux (Gauss-law) interpretation of
 the field is deliberately suspended, while orbits remain conic
 sections.
+It is worth being explicit about what that suspension costs, because
+the cost is structural rather than cosmetic.
+With $w \propto m/d$ on a plane there is no two-dimensional Poisson
+equation the field satisfies: $\nabla^2 W$ does not reduce to a
+multiple of the mass density, the flux of $\nabla W$ through a closed
+curve is not proportional to the mass it encloses, and consequently
+no shell theorem holds---the field inside a uniform ring of matter
+does not cancel the way a Newtonian 3D shell does.
+Every statement in this paper that would ordinarily be justified by
+Gauss's law is therefore justified instead by direct summation over
+sources, which is what the implementation does and what the
+verification checks measure (V9 compares the summed acceleration with
+the numerical gradient of $W$ to $2.4\times10^{-4}$).
+The practical consequence for the reader is that extended-body
+intuition imported from three dimensions is not reliable here: rings,
+disks, and shells must be integrated, not argued about, and the
+model's outer-rotation results in Sec.~\ref{sec:exp3} are quoted as
+measured band averages for exactly that reason.
 
 \item[A7$'$.]{\bf (Time)} The local proper-time rate decreases with
 determinacy and with speed relative to the comoving frame:
@@ -932,10 +968,14 @@ order in the static, $\vect{u} = 0$ domain yields an additional
 acceleration, included in the released implementation as the clearly
 labeled \emph{geodesic option} E12 (engine switch \texttt{geoPN}, off
 by default), applied per source $j$:
+% wave 143 (P0-3): broken with split so that the line fits the column
+% (it previously overran the column by 71 pt).  Content unchanged.
 \begin{equation}
+\begin{split}
 \vect{a}_{\rm 1PN} = \frac{\lambda_{\rm PN}}{c_0^2}\sum_j
- \left[\Bigl((\alpha-\tfrac12)v^2 - (1+2\alpha)U_j\Bigr)\nabla U_j
- - (1+2\alpha)(\nabla U_j\cdot\vect{v})\,\vect{v}\right],
+ \Bigl[&\Bigl((\alpha-\tfrac12)v^2 - (1+2\alpha)U_j\Bigr)\nabla U_j\\
+ &{}- (1+2\alpha)(\nabla U_j\cdot\vect{v})\,\vect{v}\Bigr],
+\end{split}
 \label{eq:e12}
 \end{equation}
 with $U_j = Gm_j/\sqrt{d_j^2+\varepsilon^2}$ (so $\nabla U_j$ is the
@@ -1077,7 +1117,9 @@ discretization-limited.
 The first-law closure is claimed \emph{only} on the stated domain
 (open problem L17).}
 \begin{ruledtabular}
-\begin{tabular}{lp{0.28\columnwidth}p{0.24\columnwidth}}
+% wave 143 (P0-3): all three columns made paragraph columns so that the
+% long check labels wrap inside the column instead of overrunning it.
+\begin{tabular}{p{0.36\columnwidth}p{0.20\columnwidth}p{0.24\columnwidth}}
 Check & Domain & Result \\
 \hline
 V1: $|\Delta P|$, $|\Delta L|$ (relative) &
@@ -1541,6 +1583,14 @@ Zenodo as
 \href{https://doi.org/10.5281/zenodo.21454189}
 {doi:10.5281/zenodo.21454189}, so that every number in the paper is
 tied to one immutable commit.
+That tag, and not the head of the repository, is what this paper
+describes: development has continued past it, and the simulator a
+reader downloads today is a later build (v1.41-b1 on the beta channel
+at the time of writing) whose presets, engine options, and gate counts
+have moved on.
+Numbers quoted here should therefore be reproduced against
+\texttt{paper-v1}; the later builds are a different, separately
+documented artifact.
 Machine-verification outputs are part of that record: the
 continuous-integration suite (\texttt{tests/qa.mjs}, 109 items
 including the embedded \texttt{HP.verify.all()} checks, the time-step
@@ -1635,7 +1685,8 @@ quantities consistent with the IAU 2015 nominal
 values~\cite{Prsa2016}, and the GPS orbit, velocity, and clock-offset
 inputs from the standard GPS relativity literature~\cite{Ashby2003}.}
 \begin{ruledtabular}
-\begin{tabular}{llp{0.30\columnwidth}}
+% wave 143 (P0-3): paragraph columns so the long symbolic inputs wrap.
+\begin{tabular}{p{0.28\columnwidth}p{0.30\columnwidth}p{0.20\columnwidth}}
 Input & Value & Used in \\
 \hline
 $M_\oplus$ & $5.972\times10^{24}$ kg & GPS \\
@@ -1666,7 +1717,9 @@ $\ud t = 0.016$ except in the V1 sweep.
 Verification-run configurations (embedded suite; preset IDs
 \texttt{verify\_v1} etc.\ seed the deterministic layout generator).}
 \begin{ruledtabular}
-\begin{tabular}{lp{0.72\columnwidth}}
+% wave 143 (P0-3): narrower configuration column (0.72 -> 0.64) so the
+% widest row no longer overruns the column.
+\begin{tabular}{p{0.16\columnwidth}p{0.64\columnwidth}}
 Run & Configuration \\
 \hline
 V1 & $\Dz{=}0$, $k_F{=}1$, $G{=}1$, $k_{\rm rep}{=}1$,
