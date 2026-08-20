@@ -91,8 +91,12 @@
 \usepackage{graphicx}
 \graphicspath{{figures/}}
 \usepackage{bm}
-\usepackage{hyperref}
 \usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}   % wave 143 (P0-3): the wide maps must wrap inside
+                        % the column instead of overrunning it
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\usepackage{hyperref}
 \hypersetup{
   pdftitle={Reality Calibration of a Machian Toy Universe},
   pdfauthor={Tetsuya Imamura},
@@ -103,9 +107,12 @@
 
 \begin{document}
 
-\title{Reality Calibration of a Machian Toy Universe:\\
+% wave 143 (P1-4): \texorpdfstring keeps the PDF bookmark/PDF-string
+% expansion free of math and line breaks (hyperref warnings).
+\title{\texorpdfstring{Reality Calibration of a Machian Toy Universe:\\
 From 43$''$/century to the Lunar Apsidal Cycle\\
-by Honest Calibration, Not Mechanism Claims}
+by Honest Calibration, Not Mechanism Claims}%
+{Reality Calibration of a Machian Toy Universe: From 43 arcsec/century to the Lunar Apsidal Cycle by Honest Calibration, Not Mechanism Claims}}
 
 \author{Tetsuya Imamura}
 \affiliation{Independent researcher, Japan}
@@ -113,62 +120,50 @@ by Honest Calibration, Not Mechanism Claims}
 \date{2026-08-18 (draft v1.0); revised 2026-08-19 (wave 141)}
 
 \begin{abstract}
-Determinacy-Field Mechanics (DFM) is a two-dimensional relational toy
-model, introduced in a companion paper, in which inertia, gravity,
-clock rate, and light propagation are all read from a single scalar
-field.
-This paper asks how far such a model can be pushed \emph{toward real
-numbers}---real constants, real masses, real orbital elements---before
-it breaks, and what has to be said honestly at each step.
-We fix a scale-conversion convention in which each sample declares its
-own length/time/mass exponents, so that the simulation constants
-$G=6.674$ and $c_0=3\times10^{4}$ restore to the SI gravitational
-constant and the SI speed of light, and the correspondence lock
-$\kappa=G/c_0^{2}$ holds exactly.
-Under this convention four results follow.
+% wave 143 (P1-4): abstract compressed by about 30%.  The headline
+% numbers (43.0''/century, ratio 1.002, the 8.85-year cycle, the
+% Jovian 0.051%) are kept verbatim; the Jovian sensitivity detail and
+% the finite-radius factors moved to the body, where they already are.
+Determinacy-Field Mechanics (DFM), introduced in a companion paper, is
+a two-dimensional relational toy model in which inertia, gravity, clock
+rate and light propagation are all read from a single scalar field.
+We ask how far such a model can be pushed \emph{toward real
+numbers}---real constants, masses and orbital elements---before it
+breaks, and what has to be said honestly at each step.
+Each sample declares its own length/time/mass exponents, so that
+$G=6.674$ and $c_0=3\times10^{4}$ restore to their SI counterparts and
+the correspondence lock $\kappa=G/c_0^{2}$ holds exactly.
+Four results follow.
 (P1)~With a double-precision state carry, the geodesic 1PN mode
 reproduces Mercury's perihelion advance \emph{in the dynamics}, not as
-a formula overlay: the measured $\Delta\varpi=5.029\times10^{-7}$
-rad/orbit is $1.002$ times the weak-field expression and converts to
-$43.0''$/century against the observed $42.98''$/century.
-(P2)~The stability of the strong-dragging sector is
-\emph{unit-system dependent}: the loop gain that controls collapse is
-built from the dimensional weight $w=m/d$, so the same physical
-configuration survives or collapses according to the declared
-exponents.
+a formula overlay: the measured advance is $1.002$ times the weak-field
+expression and converts to $43.0''$/century against the observed
+$42.98''$/century.
+(P2)~The stability of the strong-dragging sector is \emph{unit-system
+dependent}: the loop gain that controls collapse is built from the
+dimensional weight $w=m/d$, so the same physical configuration
+survives or collapses according to the declared exponents.
 (P3)~With dragging on, a \emph{pure two-body} Earth--Moon system
-reproduces the sidereal month ($27.33$\,d measured against $27.3217$\,d
-observed) and the $8.85$-year lunar apsidal cycle (apsidal ratio
-$0.99$, improving to $0.9991$ under P4's derived exponent)
-simultaneously, with the background $D_0$ and one initial-speed factor
-as the two calibration knobs---while the real driver of that cycle is
-solar perturbation, so what we report is a calibrated match through a
-different mechanism.
-(P4)~One background value $D_0=0.006$ and, after a further
-purification, one \emph{derivation rule} for the dragging falloff
-exponent, $q^{*}=3+\ln(1.25\,c_0^{2}R/GM)/\ln((R+a)/R)$, satisfy the
-Earth--Moon, Mercury, and Saturn systems at once, leaving no free
-exponent to tune.
-The rule is a declared convention that places the spin term's
-\emph{far-field} ($a\gg R$) amplitude at the Lense--Thirring scale, not
-a pointwise match to it: substituted back at the reference orbit it
-leaves the finite-radius factor $(a/(R+a))^{3}$, which is
-$0.956$, $0.949$ and $0.256$ for the three systems.
+reproduces the sidereal month and the $8.85$-year lunar apsidal cycle
+simultaneously on two calibration knobs---though the real driver of
+that cycle is solar perturbation, making this a calibrated match
+through a different mechanism.
+(P4)~One background value $D_0=0.006$ and one \emph{derivation rule}
+for the dragging falloff exponent,
+$q^{*}=3+\ln(1.25\,c_0^{2}R/GM)/\ln((R+a)/R)$, satisfy the Earth--Moon,
+Mercury and Saturn systems at once, leaving no free exponent to tune.
+The rule is a declared convention placing the spin term's
+\emph{far-field} amplitude at the Lense--Thirring scale, not a
+pointwise match to it.
 Applied without refitting to the Jovian system---one evaluation at Io's
 orbit, no per-moon parameter---it keeps all four Galilean moons within
 $0.051\%$ of their observed sidereal periods over $20$ Io revolutions,
 whereas the $q=3$ control moves two of the four outside the
-pre-registered $\pm1\%$ while retaining all four orbits.
-Those periods are transcribed rather than predicted, so the Jovian
-result is a statement about \emph{survival of an observed configuration
-under a computed exponent}, verified by numerical integration, and not a
-prediction of the periods themselves.
-Throughout, the failures that produced the conventions---collapse of
-free binaries under strong dragging, softening-induced retrograde
-precession that swamped the raw precession readout, window dependence
-of the apsidal ratio, and a hypothesis about the dragged body's own
-spin that was tested and retired---are reported as results.
-We state explicitly what a calibrated match does and does not license:
+pre-registered $\pm1\%$; those periods are transcribed rather than
+predicted, so this is a statement about \emph{survival of an observed
+configuration under a computed exponent}.
+The failures that produced the conventions are reported as results, and
+a calibrated match is not claimed to license more than it does:
 agreement of a number is not identification of a mechanism.
 \end{abstract}
 
@@ -330,6 +325,9 @@ and $v/c$---so the model's ``exaggeration factor'' relative to nature
 is unity rather than the $10^{6}$ that the earlier $c_0=30$
 visualization convention carried.
 
+% wave 143 (P0-3): squeezed so the row of real-unit values fits the
+% column (it previously overran it by 16 pt).
+{\squeezetable
 \begin{table}[t]
 \caption{Scale declarations of the three reality-calibration systems
   and the SI values they pin. All three satisfy $3L-2T-M=-11$, so all
@@ -379,9 +377,10 @@ $\kappa=G/c_0^{2}$ & $7.4156{\times}10^{-9}$ & $7.4156{\times}10^{-9}$
  & $7.4156{\times}10^{-9}$ \\
 \end{tabular}
 \end{ruledtabular}
-\end{table}
+\end{table}}
 
-\subsection{The correspondence lock $\kappa=G/c_0^{2}$}
+\subsection{The correspondence lock
+  \texorpdfstring{$\kappa=G/c_0^{2}$}{kappa = G/c0\textasciicircum 2}}
 \label{sec:physlock}
 
 DFM reads clocks and light from the single dimensionless potential
@@ -532,7 +531,8 @@ Saturn) or $\varepsilon=0.1$ (Earth--Moon) instead of the default
 $\varepsilon=2$ for this reason.
 
 % =====================================================================
-\section{P1: 43$''$/century by direct dynamics}
+\section{P1: \texorpdfstring{43$''$}{43 arcsec}/century by direct
+  dynamics}
 \label{sec:p1}
 
 \subsection{Why this was twice out of scope}
@@ -594,6 +594,8 @@ The comparison is with the weak-field expression
   \label{eq:1pn}
 \end{equation}
 
+% wave 143 (P0-3): squeezed so the invariant ladder fits the column.
+{\squeezetable
 \begin{table}[t]
 \caption{The Mercury invariant ladder (harness
   \texttt{tests/exp-obscal.mjs} \S D; recorded in
@@ -615,7 +617,7 @@ $2.55{\times}10^{-8}$ & $515.8$ & $600$ & $5.0290{\times}10^{-7}$
   & $5.0197{\times}10^{-7}$ & $1.0019$ \\
 \end{tabular}
 \end{ruledtabular}
-\end{table}
+\end{table}}
 
 \begin{figure}[t]
   \includegraphics[width=\linewidth]{p3fig1.pdf}
@@ -1032,7 +1034,8 @@ the model---a direct consequence of its dimensionality
 (Sec.~\ref{sec:p2units}).
 That interim answer is the failure this section exists to resolve.
 
-\subsection{Stage (i): the joint correction $(D_0,q)=(0.006,5)$}
+\subsection{Stage (i): the joint correction
+  \texorpdfstring{$(D_0,q)=(0.006,5)$}{(D0,q) = (0.006,5)}}
 \label{sec:p4joint}
 
 The resolution came from the decomposition rather than from a finer
@@ -1393,24 +1396,24 @@ worth less than no pre-registration at all.
   3 FAIL.}
 \label{tab:w15}
 \begin{ruledtabular}
-\begin{tabular}{llll}
+% wave 143 (P0-3): paragraph columns so the long window expressions wrap
+% inside the column (the fixed-width version overran it by 41 pt).
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}{@{}lp{0.24\columnwidth}p{0.30\columnwidth}p{0.26\columnwidth}@{}}
  & quantity & window & measured \\
 \colrule
-W1 & $\Delta\varpi$ at $k_{\mathrm{Frame}}{=}0$, & within $\pm5\%$ of &
-  $0.9993$--$1.0018$ \\
- & all ten probes & $-3\pi\varepsilon^{2}/(a^{2}(1-e^{2})^{2})$ &
-  \textbf{PASS} \\
-W2 & apsidal period at the & $8.85$\,yr $\pm15\%$ &
-  $-1.28\times10^{11}$\,yr \\
- & reference probe & & \textbf{FAIL} \\
-W3 & sign of $\Delta\varpi_{\mathrm{drag}}$, & prograde at every &
-  retrograde at all ten \\
- & all ten probes & probe & \textbf{FAIL} \\
-W4 & $|\Delta\varpi_{\mathrm{drag}}|$, & below $1/8$ ($=12.5\%$) &
-  $2.42\%$ \\
- & outermost / reference & & \textbf{PASS} \\
-W5 & outer log--log slope & between $3$ and $8$ & $2.72$ \\
- & gap, $q{=}3$ minus qLock & & \textbf{FAIL} \\
+W1 & $\Delta\varpi$ at $k_{\mathrm{Frame}}{=}0$, all ten probes &
+  within $\pm5\%$ of $-3\pi\varepsilon^{2}/(a^{2}(1-e^{2})^{2})$ &
+  $0.9993$--$1.0018$ \textbf{PASS} \\
+W2 & apsidal period at the reference probe & $8.85$\,yr $\pm15\%$ &
+  $-1.28\times10^{11}$\,yr \textbf{FAIL} \\
+W3 & sign of $\Delta\varpi_{\mathrm{drag}}$, all ten probes &
+  prograde at every probe &
+  retrograde at all ten \textbf{FAIL} \\
+W4 & $|\Delta\varpi_{\mathrm{drag}}|$, outermost / reference &
+  below $1/8$ ($=12.5\%$) & $2.42\%$ \textbf{PASS} \\
+W5 & outer log--log slope gap, $q{=}3$ minus qLock &
+  between $3$ and $8$ & $2.72$ \textbf{FAIL} \\
 \end{tabular}
 \end{ruledtabular}
 \end{table}
@@ -1471,7 +1474,7 @@ input check &
 regression gate &
   tolerance set \emph{after} the first measurement, then pinned in CI &
   the gates of Sec.~\ref{sec:map} and
-  \texttt{paper/figures/p3figs-gates.json} \\
+  \texttt{paper/\allowbreak figures/\allowbreak p3figs-\allowbreak gates.json} \\
 \end{tabular}
 \end{ruledtabular}
 \end{table}
@@ -1519,13 +1522,26 @@ The design is stated before the numbers, because it is what makes the
 test a hold-out.
 Jupiter is pinned and carries its observed mass, radius and rotation
 period; the four Galilean moons carry their observed semi-major axes,
-eccentricities, masses and synchronous spins~\cite{JPLSats}, and their
+eccentricities, masses and synchronous spins~\cite{NASASats}, and their
 initial speeds are the exact Kepler values (velocity calibration factor
 $1.000$).
 The periods compared against throughout this section
-($1.769138$, $3.551181$, $7.154553$ and $16.689017$\,d) are
-\emph{sidereal} orbital periods from the same
-tabulation~\cite{JPLSats}.
+($1.769138$, $3.551181$, $7.154553$ and $16.689017$\,d) are the
+\emph{sidereal} orbital periods carried by the NASA planetary
+satellite fact sheet series~\cite{NASASats}.
+An external review of wave 143 points out that the periods obtainable
+from the current JPL \textsc{jup365} mean-element table can differ
+from these by as much as ${\approx}0.7\%$; that comparison could not
+be carried out in the environment used here (no external network
+egress), so it is reported as an outstanding, unverified remark rather
+than as a measurement.
+The JW1 $\pm1\%$ transcription window and the retention conclusion of
+JW2 are unaffected---both are statements about the values the harness
+actually declares---but the \emph{meaning} of a period comparison is
+tied to the source one declares, which is why the attribution above is
+stated exactly.
+Re-running the hold-out against the \textsc{jup365} values is recorded
+as a future variant, not performed here.
 The background is the shared $D_0=0.006$ of Sec.~\ref{sec:p4joint},
 not re-fitted here.
 The exponent is Eq.~(\ref{eq:qlock}) evaluated \emph{once}, with Io's
@@ -1540,14 +1556,15 @@ equatorial, so the observed inclinations
 ($0.04^{\circ}$, $0.47^{\circ}$, $0.20^{\circ}$, $0.19^{\circ}$) are
 ignored, and the moons' mutual perturbations are present but the Sun
 is not.
-% wave 141: the Jovian-satellite source is now cited explicitly
-% (\cite{JPLSats}, JPL Solar System Dynamics, Planetary Satellite Mean
-% Elements), and the period type is stated as sidereal in the text.
-% TODO(ref-verify): the epoch of the mean-element set actually used for
-% the declarations in tests/exp-jupiter.mjs could not be confirmed in
-% this session (no external network egress was available), so the epoch
-% is deliberately NOT stated rather than guessed. Confirm the epoch line
-% of the JPL table and add it to \cite{JPLSats} before submission.
+% wave 141: the Jovian-satellite source was cited explicitly and the
+% period type was stated as sidereal in the text.
+% wave 143: the source is RE-ATTRIBUTED.  The wave-141 attribution to
+% the JPL "Planetary Satellite Mean Elements" tabulation is withdrawn;
+% the four declared periods are the sidereal periods of the NASA
+% planetary satellite fact sheet series (\cite{NASASats}).  Numbers,
+% windows and measurements are unchanged -- only the attribution is.
+% TODO(ref-verify): pin the archival URL and the sheet revision at
+% submission time (no external network egress in this environment).
 
 Figure~\ref{fig:jupiter} gives the outcome against the pre-registered
 windows.
@@ -1858,8 +1875,8 @@ Two costs are quantified below.
 Stated in each case, including the case where the mechanism is
 demonstrably not nature's (Sec.~\ref{sec:p3not}).
 
-\subsection{Cost 1: $D_0$ is dimensional, so a calibration imports a
-  scale}
+\subsection{Cost 1: \texorpdfstring{$D_0$}{D0} is dimensional, so a
+  calibration imports a scale}
 \label{sec:cost1}
 
 Because $D_0$ carries mass over length, the statement ``$D_0=0.006$ is
@@ -2005,7 +2022,8 @@ no third body, through motion dragging.
 No claim is made that any DFM mechanism is the mechanism operating in
 the sky.
 
-\subsection{Negative claim 3: $D_0$ is not a universal constant}
+\subsection{Negative claim 3: \texorpdfstring{$D_0$}{D0} is not a
+  universal constant}
 The background $D_0$ carries dimensions.
 Its shared value $0.006$ is a shared \emph{physical} background density
 only within the family of samples that satisfy both the real-$G$ and
@@ -2088,34 +2106,33 @@ command
 single-file simulator that the reader can open in a browser, and each
 writing a machine-readable result file.
 
+% wave 143 (P0-3): tabularx with wrapping columns replaces the
+% hand-broken fixed-width tabular, which overran the column by 38 pt.
 \begin{center}
-{\small
-\begin{tabular}{lll}
+{\small\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\columnwidth}{@{}YYY@{}}
 \toprule
 Harness & Scope & Result file \\
 \midrule
-\texttt{exp-obscal.mjs} & P1 ladder; & \texttt{obscal-} \\
- & Earth--Moon real units; & \texttt{results.json} \\
- & ring bands; loop gain & \\
+\texttt{exp-\allowbreak obscal.mjs} &
+  P1 ladder; Earth--Moon real units; ring bands; loop gain &
+  \texttt{obscal-\allowbreak results.json} \\
 \texttt{exp-kf1.mjs} & P2 stabilization search &
-  \texttt{kf1-results.json} \\
-\texttt{exp-kf1b.mjs} & P3 drag-precession &
-  \texttt{kf1b-results.json} \\
- & decomposition and fit & \\
-\texttt{exp-kf1c.mjs} & P4 stage (i): joint &
-  \texttt{kf1c-results.json} \\
- & correction, $q$ scan, spin & \\
-\texttt{exp-kf1d.mjs} & P4 stage (ii): qLock, &
-  \texttt{kf1d-results.json} \\
- & ring, entrainment profile & \\
-\texttt{exp-qlockradial.mjs} & entrainment profile &
-  \texttt{qlockradial-} \\
- & and channel split & \texttt{results.json} \\
-\texttt{exp-jupiter.mjs} & Galilean hold-out; &
-  \texttt{jupiter-} \\
- & \S H sensitivity (wave 141) & \texttt{results.json} \\
+  \texttt{kf1-\allowbreak results.json} \\
+\texttt{exp-kf1b.mjs} & P3 drag-precession decomposition and fit &
+  \texttt{kf1b-\allowbreak results.json} \\
+\texttt{exp-kf1c.mjs} & P4 stage (i): joint correction, $q$ scan, spin &
+  \texttt{kf1c-\allowbreak results.json} \\
+\texttt{exp-kf1d.mjs} & P4 stage (ii): qLock, ring, entrainment profile &
+  \texttt{kf1d-\allowbreak results.json} \\
+\texttt{exp-\allowbreak qlockradial.mjs} &
+  entrainment profile and channel split &
+  \texttt{qlockradial-\allowbreak results.json} \\
+\texttt{exp-\allowbreak jupiter.mjs} &
+  Galilean hold-out; \S H sensitivity (wave 141) &
+  \texttt{jupiter-\allowbreak results.json} \\
 \bottomrule
-\end{tabular}}
+\end{tabularx}}
 \end{center}
 
 The harnesses are deliberately \emph{not} wired into the
@@ -2147,60 +2164,63 @@ The measurement harnesses are deliberately outside the CI loop
 the committed numbers and either the application's declared state or
 the regenerated figure data.
 
+% wave 143 (P0-3): tabularx with wrapping columns replaces the
+% hand-broken fixed-width tabular, which overran the column by 95 pt and
+% collided with the neighbouring column.
 \begin{center}
-{\small
-\begin{tabular}{lll}
+{\small\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\columnwidth}{@{}YYY@{}}
 \toprule
-Claim & Measured once by / & CI regression \\
- & committed result & gate (pins it) \\
+Claim & Measured once by / committed result &
+  CI regression gate (pins it) \\
 \midrule
 correspondence lock $\kappa=G/c_0^{2}$ & analytic identity &
-  \texttt{physlock.kt-derive} \\
+  \texttt{physlock.\allowbreak kt-derive} \\
 1PN source declaration & sample declaration &
   \texttt{pn.source-flag} \\
 double-precision state carry & \texttt{exp-obscal} \S D &
-  \texttt{state.carry-double} \\
+  \texttt{state.\allowbreak carry-double} \\
 real-$c$ display convention & sample declaration &
-  \texttt{scale.realc-display} \\
+  \texttt{scale.\allowbreak realc-display} \\
 $c$/$G$ conversion consistency & sample declaration &
-  \texttt{scale.cg-consistency} \\
-$43''$/century (ratio $1.002$) & \texttt{exp-obscal} \S D /&
-  \texttt{wave119.ui}, \\
- & \texttt{obscal-results.json} & \texttt{p3fig1.*} \\
-loop gain $g$ and routes & \texttt{exp-obscal} \S F /&
+  \texttt{scale.\allowbreak cg-consistency} \\
+$43''$/century (ratio $1.002$) &
+  \texttt{exp-obscal} \S D / \texttt{obscal-\allowbreak results.json} &
+  \texttt{wave119.ui}, \texttt{p3fig1.*} \\
+loop gain $g$ and routes &
+  \texttt{exp-obscal} \S F / \texttt{obscal-\allowbreak results.json} &
   \texttt{p3fig2.*} \\
- & \texttt{obscal-results.json} & \\
-$D_0=0.006$; positive net & \texttt{exp-kf1b} /&
+$D_0=0.006$; positive net &
+  \texttt{exp-kf1b} / \texttt{kf1b-\allowbreak results.json} &
   \texttt{wave120.ui} \\
- & \texttt{kf1b-results.json} & \\
-Titan $15.949$\,d; ring e6 & \texttt{exp-kf1d} /&
+Titan $15.949$\,d; ring e6 &
+  \texttt{exp-kf1d} / \texttt{kf1d-\allowbreak results.json} &
   \texttt{wave121.ui} \\
- & \texttt{kf1d-results.json} & \\
-joint correction $(D_0,q)$ & \texttt{exp-kf1c} /&
+joint correction $(D_0,q)$ &
+  \texttt{exp-kf1c} / \texttt{kf1c-\allowbreak results.json} &
   \texttt{wave122.ui} \\
- & \texttt{kf1c-results.json} & \\
 qLock $q^{*}$ $6.16/8.25/21.8$ & Eq.~(\ref{eq:qlock}), analytic &
   \texttt{wave123.ui} \\
 qLock persistence and toggle & sample declaration &
   \texttt{wave124.ui} \\
 $\kappa$ canonical form & engine declaration &
-  \texttt{wave125.ui}, \\
- & & \texttt{wave128.engine} \\
-radial audit W1--W5 & \texttt{exp-qlockradial} /&
-  \texttt{behavior.} \\
- & \texttt{qlockradial-results.json} & \texttt{qlockRadial} \\
-Galilean hold-out JW1--JW5 & \texttt{exp-jupiter} /&
-  \texttt{behavior.jupiter}, \\
- & \texttt{jupiter-results.json} & \texttt{p3fig4.*} \\
-sensitivity (wave 141) & \texttt{exp-jupiter} \S H /&
-  \texttt{p3fig4.aref-} \\
- & \texttt{jupiter-results.json} & \texttt{sensitivity} etc. \\
+  \texttt{wave125.ui}, \texttt{wave128.\allowbreak engine} \\
+radial audit W1--W5 &
+  \texttt{exp-\allowbreak qlockradial} /
+  \texttt{qlockradial-\allowbreak results.json} &
+  \texttt{behavior.\allowbreak qlockRadial} \\
+Galilean hold-out JW1--JW5 &
+  \texttt{exp-jupiter} / \texttt{jupiter-\allowbreak results.json} &
+  \texttt{behavior.\allowbreak jupiter}, \texttt{p3fig4.*} \\
+sensitivity (wave 141) &
+  \texttt{exp-jupiter} \S H / \texttt{jupiter-\allowbreak results.json} &
+  \texttt{p3fig4.\allowbreak aref-sensitivity} etc. \\
 sample claim consistency & sample declarations &
   \texttt{claims.sync} \\
 figures redraw unchanged & committed result files &
-  {\footnotesize\texttt{p3figs-gates.json}} \\
+  \texttt{p3figs-\allowbreak gates.json} \\
 \bottomrule
-\end{tabular}}
+\end{tabularx}}
 \end{center}
 
 Three honesty notes attach to the map; the first two carry over from the
@@ -2274,8 +2294,11 @@ responsibility.
 \begin{thebibliography}{99}
 \bibitem{DFM1} T. Imamura, \emph{Determinacy-Field Mechanics: A
 Machian Toy Universe with Tunable Frame Dragging, Inverse-Square
-Gravity, and Clock-and-Light Sectors}, Zenodo (2026),
+Gravity, and Spin-as-Heat Analogies}, Zenodo (2026),
 doi:10.5281/zenodo.21454189.
+% wave 143: title corrected to the actual title of paper 1
+% (dfm-paper.tex \title); the earlier "Clock-and-Light Sectors" variant
+% never existed as a published title.
 \bibitem{DFM2} T. Imamura, \emph{The Box Universe: Expansion, Time,
 and Light in a Relational Toy Model}, companion paper (2026).
 \bibitem{DFM4} T. Imamura, \emph{Emergence Across Scales in
@@ -2316,8 +2339,11 @@ Rev.\ Mod.\ Phys.\ \textbf{19}, 361--364 (1947),
 R.~S.~Park, W.~M.~Folkner, A.~S.~Konopliv, J.~G.~Williams,
 D.~E.~Smith, and M.~T.~Zuber, ``Precession of Mercury's perihelion
 from ranging to the MESSENGER spacecraft,''
-Astron.\ J.\ \textbf{153}, 121 (2017).
-% TODO(ref-verify): confirm volume/page and add the AAS DOI.
+Astron.\ J.\ \textbf{153}, 121 (2017),
+\href{https://doi.org/10.3847/1538-3881/aa5be2}
+{doi:10.3847/1538-3881/aa5be2}.
+% DOI は独立レビュー2件の一致提示に基づく収載 — 投稿時に resolve 再確認
+% (TODO(ref-verify))。本環境は外部ネットワーク遮断で resolve できていない。
 
 \bibitem{Will2014}
 C.~M.~Will, ``The confrontation between general relativity and
@@ -2354,24 +2380,31 @@ Flight Center / NSSDCA),
 Saturn sheet also tabulates the C/B/A ring edge radii and the Cassini
 division).
 
-\bibitem{JPLSats}
-Jet Propulsion Laboratory, Solar System Dynamics group,
-\emph{Planetary Satellite Mean Elements}, NASA/JPL,
-\href{https://ssd.jpl.nasa.gov/sats/elem/}
-{https://ssd.jpl.nasa.gov/sats/elem/}
-(Jovian satellites; the semi-major axes, eccentricities and
-\emph{sidereal} orbital periods of Io, Europa, Ganymede and Callisto
-declared in \texttt{tests/exp-jupiter.mjs} are taken from this
-tabulation).
-% TODO(ref-verify): add the epoch line of the mean-element set actually
-% used.  It could not be confirmed in this session (no external network
-% egress), and is deliberately left unstated rather than guessed.
+\bibitem{NASASats}
+D.~R.~Williams, \emph{Jovian Satellite Fact Sheet}, NASA planetary
+fact sheet series (NASA Goddard Space Flight Center / NSSDCA),
+\url{https://nssdc.gsfc.nasa.gov/planetary/factsheet/joviansatfact.html}
+(the semi-major axes, eccentricities, masses and \emph{sidereal}
+orbital periods of Io, Europa, Ganymede and Callisto declared in
+\texttt{tests/exp-jupiter.mjs} are transcribed from this sheet).
+% wave 143: re-attributed.  The wave-141 attribution of these four
+% periods to the JPL Solar System Dynamics "Planetary Satellite Mean
+% Elements" tabulation is WITHDRAWN: the values actually transcribed in
+% tests/exp-jupiter.mjs are the sidereal periods carried by the NASA
+% planetary satellite fact sheet series, which is the same family of
+% sheets already cited as \cite{NASAFact} for the planets.
+% TODO(ref-verify): pin the archival URL and the sheet revision at
+% submission time.  This environment had no external network egress, so
+% nothing could be resolved or version-stamped here.
 
 \bibitem{Mankovich2019}
 C.~R.~Mankovich, M.~S.~Marley, J.~J.~Fortney, and N.~Movshovitz,
 ``Cassini ring seismology as a probe of Saturn's interior.
-I.\ Rigid rotation,'' Astrophys.\ J.\ \textbf{871}, 1 (2019).
-% TODO(ref-verify): confirm volume/article number and add the DOI.
+I.\ Rigid rotation,'' Astrophys.\ J.\ \textbf{871}, 1 (2019),
+\href{https://doi.org/10.3847/1538-4357/aaf798}
+{doi:10.3847/1538-4357/aaf798}.
+% DOI は独立レビュー2件の一致提示に基づく収載 — 投稿時に resolve 再確認
+% (TODO(ref-verify))。本環境は外部ネットワーク遮断で resolve できていない。
 % This is the source of the 10h33m38s (=10.56 h) rotation period used
 % by the Saturn samples; it is NOT the System III value (10.656 h)
 % carried by the NASA fact sheet.
@@ -2379,8 +2412,10 @@ I.\ Rigid rotation,'' Astrophys.\ J.\ \textbf{871}, 1 (2019).
 \bibitem{Jacobson2006}
 R.~A.~Jacobson \emph{et al.}, ``The gravity field of the Saturnian
 system from satellite observations and spacecraft tracking data,''
-Astron.\ J.\ \textbf{132}, 2520--2526 (2006).
-% TODO(ref-verify): confirm volume/page and add the DOI.
+Astron.\ J.\ \textbf{132}, 2520--2526 (2006),
+\href{https://doi.org/10.1086/508812}{doi:10.1086/508812}.
+% DOI は独立レビュー2件の一致提示に基づく収載 — 投稿時に resolve 再確認
+% (TODO(ref-verify))。本環境は外部ネットワーク遮断で resolve できていない。
 
 \bibitem{Iess2019}
 L.~Iess \emph{et al.}, ``Measurement and implications of Saturn's

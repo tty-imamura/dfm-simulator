@@ -4991,7 +4991,7 @@ const BUILTIN_PRESETS = [
 // LT 級に置く」宣言規約で、追加 fit を1つも使わない(参照軌道そのものでは有限半径因子
 // (a/(R+a))³ が残る — 第141便。🌘 では 0.9492、宣言直値 q=8.25 で評価すると 0.9440)。その長所と代償を、地球のまわりの試験粒子を
 // **1.5R_地球 〜 2a_月 の 10半径**に置いて同時に測る:
-//   🧭 qLockRadialAudit  — q=8.25(🌘 と同一・月の実軌道を参照軌道とする qLock 値)
+//   📶 qLockRadialAudit  — q=8.25(🌘 と同一・月の実軌道を参照軌道とする qLock 値)
 //   📐 qLockRadialAuditQ3 — q=3(=LT と同じ r⁻³ 則の物差し。他は 1bit も変えない)
 // 判定量と窓は**実装前に統括ブリーフへ事前登録**した(実測後に窓を動かしていない)。
 // 第136便の一次発見(実測は tests/exp-qlockradial.mjs → tests/out/qlockradial-results.json):
@@ -5009,7 +5009,7 @@ const BUILTIN_PRESETS = [
 //     −3.402×10⁻¹² rad/公転 = 周期 1.28×10¹¹年。同じ参照点で地球を自由にしてプローブ質量を
 //     月質量まで上げると +5.233×10⁻² rad/公転 = 8.253年が戻る — 8.85年の駆動源は自転ではなく
 //     **地球の重心運動**である。
-{ id:"qLockRadialAudit", name:"qLock 半径方向監査 — 参照点は LT 級・その外では r⁻³ を捨てる", emoji:"🧭", group:"天体の物語",
+{ id:"qLockRadialAudit", name:"qLock 半径方向監査 — 参照点は LT 級・その外では r⁻³ を捨てる", emoji:"📶", group:"天体の物語",
   familyId:"qlockAudit", familyRole:"primary",
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 🌙🌘 と同一の指数系(1単位=10⁶m/10²s/10²⁵kg)
@@ -5173,24 +5173,24 @@ const BUILTIN_PRESETS = [
 { id:"qLockRadialAuditQ3", name:"qLock 半径方向監査・対照(q=3)— r⁻³ 則そのものの物差し", emoji:"📐", group:"天体の物語",
   familyId:"qlockAudit", familyRole:"variant",
   scaleTier:"planetary",
-  scaleExp:{L:6, T:2, M:25},   // 🧭 と同一の指数系
+  scaleExp:{L:6, T:2, M:25},   // 📶 と同一の指数系
   sampleClass:"calibration",
   fidelity:"real",
   notClaim:["solar"],
   orbitObs:{center:0, orbiter:8, ghostAmp:20},   // 参照半径のプローブ — q=3 では外側でも歳差が見える
   obsCard:[
-    {q:"外側域の落ち方(log–log 傾き)", model:"ω_DFM は −3.81乗(🧭 の qLock は −8.99乗)", obs:"LT は −3.00乗"},
-    {q:"🧭 との傾き差(q3 − qLock)", model:"傾き差は 5.19(q の差 5.25 とほぼ同じ)", obs:"—(事前登録窓 W5=3〜8)"},
-    {q:"参照点の近点回転周期", model:"参照点の近点回転周期は 617.7年(逆行)", obs:"—(🧭 の qLock 版は 1.28×10¹¹年)"},
+    {q:"外側域の落ち方(log–log 傾き)", model:"ω_DFM は −3.81乗(📶 の qLock は −8.99乗)", obs:"LT は −3.00乗"},
+    {q:"📶 との傾き差(q3 − qLock)", model:"傾き差は 5.19(q の差 5.25 とほぼ同じ)", obs:"—(事前登録窓 W5=3〜8)"},
+    {q:"参照点の近点回転周期", model:"参照点の近点回転周期は 617.7年(逆行)", obs:"—(📶 の qLock 版は 1.28×10¹¹年)"},
     {q:"最外プローブ(2a_月)", model:"最外プローブでは qLock の 1.70×10⁹倍以上", obs:"—(qLock 版は丸め床の下)"},
     {q:"参照点での LT 級振幅", model:"Ω_LT の 3.67×10⁸倍(振幅を合わせる規約を外したので桁違いになる)", obs:"—"}],
   failureFirst:{
-    fail:"q=3 は LT と同じ r⁻³ 則を持つが、**振幅を合わせる規則が無い**ので参照点では Ω_LT の 3.67×10⁸倍という桁違いの引きずりになる。qLock が捨てた r⁻³ 則を取り戻す代わりに、参照点の LT 級一致(🧭 では 0.944倍)を丸ごと失う — 同じ1つの指数 q でその両方を同時に満たすことはできない、というのが本対照の内容である。",
-    pass:"🧭 と 1bit も違わない構成のまま q だけを 8.25→3 に落とすと、外側域の落ち方は −3.81乗になり(🧭 は −8.99乗)、傾き差は 5.19 で事前登録窓 3〜8 に入る。q の差 5.25 とほぼ一致するので、**外側域の傾き差は q の差そのもの**であることが実測で確かめられた。参照点の近点回転周期は 617.7年で、qLock 版(1.28×10¹¹年)より 8桁速い。"},
+    fail:"q=3 は LT と同じ r⁻³ 則を持つが、**振幅を合わせる規則が無い**ので参照点では Ω_LT の 3.67×10⁸倍という桁違いの引きずりになる。qLock が捨てた r⁻³ 則を取り戻す代わりに、参照点の LT 級一致(📶 では 0.944倍)を丸ごと失う — 同じ1つの指数 q でその両方を同時に満たすことはできない、というのが本対照の内容である。",
+    pass:"📶 と 1bit も違わない構成のまま q だけを 8.25→3 に落とすと、外側域の落ち方は −3.81乗になり(📶 は −8.99乗)、傾き差は 5.19 で事前登録窓 3〜8 に入る。q の差 5.25 とほぼ一致するので、**外側域の傾き差は q の差そのもの**であることが実測で確かめられた。参照点の近点回転周期は 617.7年で、qLock 版(1.28×10¹¹年)より 8桁速い。"},
   descStruct:{
-    summary:"🧭(qLock 半径方向監査)と物理・幾何・プローブ配置が bit 一致で、**空間引きずり(A8/E6′)の減衰指数 q だけ 8.25→3 に落とした対照**。q=3 は ω∝(R/(R+r))³ = 遠方で r⁻³ となり、Lense–Thirring と同じ半径依存を持つ — つまりこの対照は「r⁻³ 則そのものの物差し」である。1単位=10⁶m/10²s/10²⁵kg・地球の自転周期 23.93時間・D₀=0.006・geoPN=2 など、q 以外の規約はすべて 🧭 と同一で、較正ノブは1つも使っていない。qLock が参照点の振幅を合わせるために何を捨てたのかは、この2本を並べたときの傾き差として現れる。",
-    observe:"外側域(参照半径より外)の log–log 傾きは −3.81乗(🧭 の qLock は −8.99乗・LT は −3.00乗)で、傾き差は 5.19 — q の差 5.25 とほぼ一致する。参照点の近点回転周期は 617.7年(逆行)で、qLock 版の 1.28×10¹¹年より 8桁速い。最外プローブ(2a_月)では引きずり近点移動が −1.399×10⁻⁴ rad/公転 と十分な大きさで残り、最外プローブでは qLock の 1.70×10⁹倍以上ある(qLock 版はそこで倍精度の丸め床を下回るため、比は下限値である)。ただし振幅を合わせる規則を外したので、参照点での引きずり率は Ω_LT の 3.67×10⁸倍という桁違いの値になる — **r⁻³ 則と参照点の振幅一致は、単一の指数 q では両立しない**。",
-    control:"ワンタップ対照A/B: B側は q=8.25(=🧭 の qLock 値)。同じ10本の軌道のまま指数だけを戻すと、外側域の引きずりが 5 乗ぶん急に落ちるのが見える。kFrame を 0 にすれば両者ともソフトニング歳差だけの純ケプラーへ戻る(差分の土台)。実測は 🧭 と同じハーネス(tests/exp-qlockradial.mjs)で、1 run 1 プローブ・同一初期条件・同一步幅の kF1−kF0 差分として取ってある(10プローブ同時の表示配置では、参照点より外でプローブどうしの運動引きずりがスピン引きずりを上回る — 🧭 の操作欄を参照)。"},
+    summary:"📶(qLock 半径方向監査)と物理・幾何・プローブ配置が bit 一致で、**空間引きずり(A8/E6′)の減衰指数 q だけ 8.25→3 に落とした対照**。q=3 は ω∝(R/(R+r))³ = 遠方で r⁻³ となり、Lense–Thirring と同じ半径依存を持つ — つまりこの対照は「r⁻³ 則そのものの物差し」である。1単位=10⁶m/10²s/10²⁵kg・地球の自転周期 23.93時間・D₀=0.006・geoPN=2 など、q 以外の規約はすべて 📶 と同一で、較正ノブは1つも使っていない。qLock が参照点の振幅を合わせるために何を捨てたのかは、この2本を並べたときの傾き差として現れる。",
+    observe:"外側域(参照半径より外)の log–log 傾きは −3.81乗(📶 の qLock は −8.99乗・LT は −3.00乗)で、傾き差は 5.19 — q の差 5.25 とほぼ一致する。参照点の近点回転周期は 617.7年(逆行)で、qLock 版の 1.28×10¹¹年より 8桁速い。最外プローブ(2a_月)では引きずり近点移動が −1.399×10⁻⁴ rad/公転 と十分な大きさで残り、最外プローブでは qLock の 1.70×10⁹倍以上ある(qLock 版はそこで倍精度の丸め床を下回るため、比は下限値である)。ただし振幅を合わせる規則を外したので、参照点での引きずり率は Ω_LT の 3.67×10⁸倍という桁違いの値になる — **r⁻³ 則と参照点の振幅一致は、単一の指数 q では両立しない**。",
+    control:"ワンタップ対照A/B: B側は q=8.25(=📶 の qLock 値)。同じ10本の軌道のまま指数だけを戻すと、外側域の引きずりが 5 乗ぶん急に落ちるのが見える。kFrame を 0 にすれば両者ともソフトニング歳差だけの純ケプラーへ戻る(差分の土台)。実測は 📶 と同じハーネス(tests/exp-qlockradial.mjs)で、1 run 1 プローブ・同一初期条件・同一步幅の kF1−kF0 差分として取ってある(10プローブ同時の表示配置では、参照点より外でプローブどうしの運動引きずりがスピン引きずりを上回る — 📶 の操作欄を参照)。"},
   en:{name:"qLock Radial Audit — control at q=3, the yardstick of the r⁻³ law itself",
     parameterAudit:{
       observedInputs:["real G=6.674","real c₀=3×10⁴","the Earth's real mass, radius and rotation (23.93 h)"],
@@ -5199,26 +5199,26 @@ const BUILTIN_PRESETS = [
         "q=3 — the falloff that reproduces the r⁻³ radial law of Lense–Thirring (the point of this control)",
         "kRep=muF=γN=κ_S=0","geoPN=2, λ_PN=1, pnα=1.5","pnSource:true, stateCarry:\"double\", massFloor=1e-6",
         "the Earth is pinned; probes are mass-floor test particles on e=0.05 orbits",
-        "geometry and probe placement bit-identical to 🧭 (only q differs)",
+        "geometry and probe placement bit-identical to 📶 (only q differs)",
         "the measurement window is 8 orbits (declared before measuring)"],
       fitted:[],
       derived:["κ=G/c₀²=7.4156×10⁻⁹",
         "Ω_LT=2GJ/(c₀²r³) with J=(2/5)MR²Ω (uniform-sphere approximation, declared as such)"],
       numerical:["softening ε=0.1","time multiplier timeScale=10","display magnification dispMag=10 (display only)"]},
     obsCard:[
-      {q:"Outer falloff (log–log slope)", model:"ω_DFM goes as r^−3.81 (qLock in 🧭: r^−8.99)", obs:"LT goes as r^−3.00"},
-      {q:"Slope gap against 🧭 (q3 − qLock)", model:"5.19 — essentially the difference in q itself (5.25)", obs:"— (pre-registered window W5: 3–8)"},
+      {q:"Outer falloff (log–log slope)", model:"ω_DFM goes as r^−3.81 (qLock in 📶: r^−8.99)", obs:"LT goes as r^−3.00"},
+      {q:"Slope gap against 📶 (q3 − qLock)", model:"5.19 — essentially the difference in q itself (5.25)", obs:"— (pre-registered window W5: 3–8)"},
       {q:"Apsidal period at the reference orbit", model:"617.7 yr (retrograde)", obs:"— (1.28×10¹¹ yr for the qLock version)"},
       {q:"Outermost probe (2a_Moon)", model:"at least 1.70×10⁹ times the qLock value", obs:"— (the qLock version is below the rounding floor there)"},
       {q:"Agreement with LT at the reference orbit", model:"3.67×10⁸× Ω_LT — dropping the matching rule loses the amplitude entirely", obs:"—"}],
     failureFirst:{
-      fail:"q=3 carries the same r⁻³ law as Lense–Thirring but has NO RULE FIXING THE AMPLITUDE, so at the reference orbit the dragging comes out 3.67×10⁸ times Ω_LT. Recovering the r⁻³ law that qLock discards costs the whole LT-class match at the reference point (0.944 in 🧭): a single exponent q cannot satisfy both at once, and that is the content of this control.",
-      pass:"Keeping the construction bit-identical to 🧭 and lowering only q from 8.25 to 3, the outer falloff becomes r^−3.81 (🧭: r^−8.99) and the slope gap is 5.19, inside the pre-registered window 3–8. It matches the difference in q (5.25) almost exactly, so the measurement confirms that THE OUTER SLOPE GAP IS THE DIFFERENCE IN q ITSELF. The apsidal period at the reference orbit is 617.7 years — eight orders of magnitude faster than the qLock version's 1.28×10¹¹ years."},
+      fail:"q=3 carries the same r⁻³ law as Lense–Thirring but has NO RULE FIXING THE AMPLITUDE, so at the reference orbit the dragging comes out 3.67×10⁸ times Ω_LT. Recovering the r⁻³ law that qLock discards costs the whole LT-class match at the reference point (0.944 in 📶): a single exponent q cannot satisfy both at once, and that is the content of this control.",
+      pass:"Keeping the construction bit-identical to 📶 and lowering only q from 8.25 to 3, the outer falloff becomes r^−3.81 (📶: r^−8.99) and the slope gap is 5.19, inside the pre-registered window 3–8. It matches the difference in q (5.25) almost exactly, so the measurement confirms that THE OUTER SLOPE GAP IS THE DIFFERENCE IN q ITSELF. The apsidal period at the reference orbit is 617.7 years — eight orders of magnitude faster than the qLock version's 1.28×10¹¹ years."},
     descStruct:{
-    summary:"A control that is bit-identical to 🧭 (the qLock radial audit) in physics, geometry and probe placement, WITH ONLY THE FALLOFF EXPONENT q OF THE FRAME DRAGGING (A8/E6′) LOWERED FROM 8.25 TO 3. At q=3 the frame rotation goes as (R/(R+r))³, i.e. r⁻³ far from the source — the same radial dependence as Lense–Thirring — so this sample is the yardstick of the r⁻³ law itself. Every other convention (the Earth's 23.93-hour rotation, D₀=0.006, geoPN=2 …) is identical to 🧭, and no calibration knob is spent. What qLock gave up in order to match the amplitude at one reference orbit shows up as the slope gap between these two samples. ",
-    observe:"The log–log slope outside the reference radius is r^−3.81 (qLock in 🧭: r^−8.99; LT: r^−3.00), a slope gap of 5.19 — essentially the difference in q (5.25). The apsidal period at the reference orbit is 617.7 years (retrograde), eight orders of magnitude faster than the qLock version's 1.28×10¹¹ years. At the outermost probe (2a_Moon) the drag apsidal drift survives at −1.399×10⁻⁴ rad/orbit, at least 1.70×10⁹ times the qLock value (a lower bound, because the qLock version has dropped below the double-precision rounding floor there). But with the amplitude-matching rule gone, the drag rate at the reference orbit is 3.67×10⁸ times Ω_LT: THE r⁻³ LAW AND THE AMPLITUDE MATCH AT THE REFERENCE ORBIT CANNOT BOTH BE HAD FROM A SINGLE EXPONENT q. ",
-    control:"One-tap A/B: side B is q=8.25 (the qLock value used by 🧭). With the same ten orbits, restoring the exponent alone makes the outer dragging fall five powers faster. Setting kFrame to 0 returns either side to pure Kepler with only the softening precession (the baseline of the differential). The measurements come from the same harness as 🧭 (tests/exp-qlockradial.mjs), taken one probe per run as a kF1−kF0 difference at identical initial conditions and identical step size (in the ten-probe exhibit layout, probe-to-probe motion dragging exceeds spin dragging outside the reference orbit — see 🧭's control note)."}},
-  abBody:{ label:{ja:"q=8.25(=🧭 の qLock 値へ戻す)", en:"q=8.25 (back to 🧭's qLock value)"},
+    summary:"A control that is bit-identical to 📶 (the qLock radial audit) in physics, geometry and probe placement, WITH ONLY THE FALLOFF EXPONENT q OF THE FRAME DRAGGING (A8/E6′) LOWERED FROM 8.25 TO 3. At q=3 the frame rotation goes as (R/(R+r))³, i.e. r⁻³ far from the source — the same radial dependence as Lense–Thirring — so this sample is the yardstick of the r⁻³ law itself. Every other convention (the Earth's 23.93-hour rotation, D₀=0.006, geoPN=2 …) is identical to 📶, and no calibration knob is spent. What qLock gave up in order to match the amplitude at one reference orbit shows up as the slope gap between these two samples. ",
+    observe:"The log–log slope outside the reference radius is r^−3.81 (qLock in 📶: r^−8.99; LT: r^−3.00), a slope gap of 5.19 — essentially the difference in q (5.25). The apsidal period at the reference orbit is 617.7 years (retrograde), eight orders of magnitude faster than the qLock version's 1.28×10¹¹ years. At the outermost probe (2a_Moon) the drag apsidal drift survives at −1.399×10⁻⁴ rad/orbit, at least 1.70×10⁹ times the qLock value (a lower bound, because the qLock version has dropped below the double-precision rounding floor there). But with the amplitude-matching rule gone, the drag rate at the reference orbit is 3.67×10⁸ times Ω_LT: THE r⁻³ LAW AND THE AMPLITUDE MATCH AT THE REFERENCE ORBIT CANNOT BOTH BE HAD FROM A SINGLE EXPONENT q. ",
+    control:"One-tap A/B: side B is q=8.25 (the qLock value used by 📶). With the same ten orbits, restoring the exponent alone makes the outer dragging fall five powers faster. Setting kFrame to 0 returns either side to pure Kepler with only the softening precession (the baseline of the differential). The measurements come from the same harness as 📶 (tests/exp-qlockradial.mjs), taken one probe per run as a kF1−kF0 difference at identical initial conditions and identical step size (in the ten-probe exhibit layout, probe-to-probe motion dragging exceeds spin dragging outside the reference orbit — see 📶's control note)."}},
+  abBody:{ label:{ja:"q=8.25(=📶 の qLock 値へ戻す)", en:"q=8.25 (back to 📶's qLock value)"},
     physicsPatch:{q:8.25} },
   // 第136便: claims — 傾き差(q の差そのもの)と、参照点・最外での対比を回顧的確認として計上する。fit はゼロ。
   claims:[
@@ -5252,8 +5252,8 @@ const BUILTIN_PRESETS = [
     { id:"qLockRadialAuditQ3.earth-rotation", kind:"semantic", prov:"derived", role:"input_check",
       metric:"earthRotationHours",
       chain:{ax:["A8"], eq:["E6′"],
-        note:"引きずり源である地球の自転を観測値どおりに写せていることの確認 — 🧭 と同じ出発点に立っていることの検証。",
-        noteEn:"A check that the Earth's rotation, the source of the dragging, is transcribed as observed — a verification that this control starts from the same point as 🧭."},
+        note:"引きずり源である地球の自転を観測値どおりに写せていることの確認 — 📶 と同じ出発点に立っていることの検証。",
+        noteEn:"A check that the Earth's rotation, the source of the dragging, is transcribed as observed — a verification that this control starts from the same point as 📶."},
       roleNote:"観測入力の検証 — 較正ノブを使っていない写しの確認。",
       roleNoteEn:"Input check — a verification of a transcription, with no calibration knob spent.",
       expected:{min:23.8, max:24.05},
@@ -5266,7 +5266,7 @@ const BUILTIN_PRESETS = [
       "q=3 — Lense–Thirring と同じ r⁻³ の半径依存を持つ減衰(本対照の要点)",
       "kRep=muF=γN=κ_S=0","geoPN=2・λ_PN=1・pnα=1.5","pnSource:true・stateCarry:\"double\"・massFloor=1e-6",
       "地球は pinned・プローブは質量床級の試験粒子(e=0.05)",
-      "幾何・プローブ配置は 🧭 と bit 一致(違うのは q だけ)",
+      "幾何・プローブ配置は 📶 と bit 一致(違うのは q だけ)",
       "測定窓は 8公転(実測前に宣言)"],
     fitted:[],
     derived:["κ=G/c₀²=7.4156×10⁻⁹",
@@ -5277,7 +5277,7 @@ const BUILTIN_PRESETS = [
   physics:{G:6.674, D0:0.006, kFrame:1, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
     cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:10, dispMag:10, stateCarry:"double"},
-  bodies:[   // 🧭qLockRadialAudit と同一値(bit 一致 — 違うのは physics.q だけ)
+  bodies:[   // 📶qLockRadialAudit と同一値(bit 一致 — 違うのは physics.q だけ)
     {type:"single", m:0.59724, radius:6.38, x:0,y:0, vx:0,vy:0, spin:0.0072921, pinned:true, pnSource:true},
     {type:"single", m:1e-6, radius:0.5, x:9.0915,y:0, vx:0,vy:0.678491518, spin:0, pinned:false},
     {type:"single", m:1e-6, radius:0.5, x:12.7278483,y:9.2473231, vx:-0.303167195,vy:0.417273847, spin:0, pinned:false},
@@ -5689,7 +5689,7 @@ const BUILTIN_PRESETS = [
         "the real semi-major axes of Io, Europa, Ganymede and Callisto (421,800 / 671,100 / 1,070,400 / 1,882,700 km)",
         "their real eccentricities (0.0041 / 0.009 / 0.0013 / 0.0074) and real masses (8.93 / 4.80 / 14.8 / 10.76 ×10²² kg)",
         "their synchronous rotations","the real Kepler speeds (calibration factor 1.000 — no multiplier)",
-        "the observed sidereal periods 1.769138 / 3.551181 / 7.154553 / 16.689017 d (compared against, NOT fitted to)"],
+        "the observed sidereal periods 1.769138 / 3.551181 / 7.154553 / 16.689017 d (compared against, NOT fitted to; source: the sidereal periods carried by the NASA planetary satellite fact sheet series, re-attributed in wave 143)"],
       fixedConventions:["per-sample scale exponents (1 unit = 10⁷ m / 10³ s / 10²⁶ kg)","kFrame=1 (the template construction)",
         "a 2D equatorial idealization — the orbital inclinations (0.04°/0.47°/0.20°/0.19°) are ignored, declared",
         "kRep=muF=γN=κ_S=0","geoPN=2, λ_PN=1, pnα=1.5","pnSource:true, stateCarry:\"double\", massFloor=1e-6",
@@ -5796,7 +5796,7 @@ const BUILTIN_PRESETS = [
       "イオ/エウロパ/ガニメデ/カリストの実軌道長半径(421,800/671,100/1,070,400/1,882,700km)",
       "同・実離心率(0.0041/0.009/0.0013/0.0074)と実質量(8.93/4.80/14.8/10.76×10²²kg)",
       "同・同期自転","実ケプラー初速(較正係数 1.000 — 掛け算なし)",
-      "観測周期 1.769138/3.551181/7.154553/16.689017 日(**照合先であって fit の対象ではない**)"],
+      "観測周期 1.769138/3.551181/7.154553/16.689017 日(**照合先であって fit の対象ではない** — 出典は NASA の惑星衛星 fact sheet 系が載せる恒星公転周期。第143便で再帰属)"],
     fixedConventions:["サンプル別スケール指数(1単位=10⁷m/10³s/10²⁶kg)","kFrame=1(雛形 🪨🌘💿 の構成)",
       "2D赤道面理想化(軌道傾斜 0.04°/0.47°/0.20°/0.19° は再現しない — 宣言)",
       "kRep=muF=γN=κ_S=0","geoPN=2・λ_PN=1・pnα=1.5","pnSource:true・stateCarry:\"double\"・massFloor=1e-6",

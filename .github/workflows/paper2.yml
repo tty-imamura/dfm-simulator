@@ -1,6 +1,7 @@
 # 第47便 47P(外部レビュー Major 4): 論文2のビルド・図再生成を CI ゲート化。
 # paper/ または図生成スクリプトの変更時のみ実行(重い TeX インストールを常時走らせない)。
-# 内容: ①図8点を再生成し数値ゲート21件を assert ②再生成 JSON がコミット済み JSON と
+# 内容: ①図8点を再生成し数値ゲート22件を assert(第143便で図8キャプションの
+#       主数値照合ゲート p2fig8.caption を1件追加 — 21件 → 22件) ②再生成 JSON がコミット済み JSON と
 # データ一致(揮発キー generated/commit を除く)③英(pdflatex)・日(lualatex)を各2回
 # ビルドしエラー・未定義参照ゼロを assert。
 name: paper2
@@ -29,7 +30,7 @@ jobs:
         run: |
           npm ci
           npx playwright install --with-deps chromium
-      - name: Regenerate figures (asserts 21 numeric gates)
+      - name: Regenerate figures (asserts 22 numeric gates)
         run: node tools/gen-figures2.mjs
       - name: Assert figure data matches committed JSONs (volatile keys excluded)
         run: |

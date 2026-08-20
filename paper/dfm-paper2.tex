@@ -3,7 +3,8 @@
 % Written per docs/dev/HANDOFF_PAPER2_WRITE.md (sole authoritative
 % writing brief; approved skeleton HANDOFF_PAPER_BOX v0.3).
 % Input canon: docs/BOX_UNIVERSE.md, docs/PHYSICS.md, docs/DERIVATIONS.md,
-%              beta v1.34 (V29 PASS).
+%              beta build v1.41-b1 (the target of the committed figure
+%              data; V29 PASS).
 % v0.8: major revision per external pre-submission review (dispatch 51):
 %        - new Sec. II "Model and numerical methods" (M-01): axioms,
 %          parameter/observable definitions, integrator, error taxonomy;
@@ -33,6 +34,10 @@
 \usepackage{graphicx}
 \graphicspath{{figures/}}
 \usepackage{bm}
+\usepackage{array}
+\usepackage{tabularx}   % wave 143 (P0-3): the verification map must wrap
+                        % inside the column instead of overrunning it
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 \usepackage{hyperref}
 \hypersetup{
   pdftitle={The Box Universe: Expansion, Time, and Light in a Relational
@@ -72,6 +77,11 @@ The measured ratio matches the analytic factor to $5.3\times10^{-4}$,
 and the discrepancy pattern furnishes a structural analogy to
 probe-dependent determinations of the Hubble constant, discussed---and
 deliberately bounded---in the Discussion.
+We state the bound in the abstract because it is easy to overread:
+this is \emph{not} a proposed resolution of the Hubble tension, and
+nothing here is offered as evidence about the real expansion history;
+the analogy is to the shape of an estimator problem, not to the
+cosmology.
 All central simulation-derived quantitative claims are tied to
 automated verification gates that run in continuous integration.
 \end{abstract}
@@ -564,10 +574,19 @@ draft and caught in external review): for $d_P=1$ the ratio
 $\rho(a)=2(D/K_t)/a$ decreases monotonically, but the probe
 \emph{mismatch} $|\rho-1|$ does not.
 The probes agree exactly once, at $a=2D/K_t\approx1.85$; the mismatch
-shrinks up to that epoch and grows again thereafter, with
-$H_w/H_{\mathrm{geo}}\to0$ as $a\to\infty$.
+shrinks up to that epoch and grows again thereafter.
+The late-time behaviour is worth naming, because it is the part that
+does \emph{not} transfer to cosmology: as $a\to\infty$ the ratio
+$\rho(a)=2(D/K_t)/a$ falls to zero, so the velocity probe reports an
+arbitrarily small expansion rate compared with the geometric one, and
+the two estimators diverge without limit rather than settling on a
+common value.
+That limit is a property of the exponential light-speed law written
+into the axioms, reached in a regime where the box approximation has
+long stopped being a reasonable summary of anything.
 The model therefore provides probe dependence, not a monotonic
-early-to-late relaxation of the discrepancy.
+early-to-late relaxation of the discrepancy, and its late-time limit
+is a statement about the axioms, not a prediction.
 
 % ---------------------------------------------------------------------
 \section{Discussion: estimator bias, and a bounded analogy}
@@ -680,8 +699,11 @@ and a fuller treatment of the reversibility demonstration.
 Every central simulation-derived claim above maps to an automated
 verification gate in the public repository.
 Core behavioral QA runs on every commit for both the release and
-beta targets; the paper-specific figure regeneration and its 21
-numeric gates run on the beta target whenever the paper, the figure
+beta targets; the paper-specific figure regeneration and its 22
+numeric gates---21 on the figure data itself, plus one added in
+wave 143 that machine-extracts the principal numbers of the
+Fig.~\ref{fig:curve} caption and compares them with the regenerated
+figure data---run on the beta target whenever the paper, the figure
 generator, or the paper workflow changes.
 The app-wide gate \texttt{claims.sync} cross-checks the 44 numeric
 claims embedded in the simulator's own sample descriptions (of which
@@ -689,9 +711,11 @@ the paper uses a subset); it is an application-wide consistency
 gate, not a one-to-one manifest of this paper's claims---the table
 below is that manifest.
 
+% wave 143 (P0-3): tabularx keeps the long gate identifiers inside the
+% column (the previous fixed-width tabular overran it by 31 pt).
 \begin{center}
-{\small
-\begin{tabular}{lll}
+{\small\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\columnwidth}{@{}YlY@{}}
 Claim & Type & Gate \\
 \hline
 $g(0)=1/2$ (Eq.~\ref{eq:gain}) & analytic & V23a/V24a \\
@@ -708,19 +732,27 @@ clamp ledger (0 activations) & conservation & \texttt{clamp.ledger-zero} \\
 arrow of time ($1.3{\times}10^{-3}$ vs $10.8$) & fixed-seed & \texttt{echo.*} \\
 darkness orthogonality; sweep & fixed-seed & App.~\ref{app:dark} \\
 observer flux ($0.04/0.12$ vs $0.28$) & fixed-seed & \texttt{ray.observer-flux} \\
-outer boost $1.331\pm0.009$ & multi-seed & seeds statistics \\
-figures (21 gates) & mixed & {\footnotesize\texttt{p2figs-gates.json}} \\
-\end{tabular}}
+outer boost $1.331\pm0.008$ & multi-seed & seeds statistics \\
+figures (22 gates) & mixed & {\footnotesize\texttt{p2figs-\allowbreak
+gates.json}} \\
+\end{tabularx}}
 \end{center}
 
 \emph{Code and data availability.}
 The simulator, the verification suite, the figure generator, the
 figure data (JSON), and this manuscript are in the public repository
 \url{https://github.com/tty-imamura/dfm-simulator} (MIT license).
-The submitted version will be pinned by an annotated release tag and
-archived (with the exact commit SHA, the QA and figure JSONs, and the
-built PDFs) on Zenodo, alongside the companion paper's archive
-(doi:10.5281/zenodo.21454189); the environment is Node.js~$\geq$22,
+The version of record for this paper is the annotated release tag
+created at submission, archived on Zenodo with the exact commit SHA,
+the QA and figure JSONs, and the built PDFs, alongside the companion
+paper's archive (doi:10.5281/zenodo.21454189); the tag name and the
+Zenodo DOI are inserted here at that point, and until then this
+sentence is the only placeholder in the manuscript
+(TODO(release)).
+% TODO(release): replace the sentence above with the concrete tag and
+% DOI when the submission tag is cut.  Kept as an explicit, single
+% placeholder rather than an unmarked future-tense promise (wave 143).
+The environment is Node.js~$\geq$22,
 Playwright-driven Chromium for the harness, and TeX~Live for the
 manuscript, with \texttt{npm ci \&\& npm test} reproducing the QA and
 \texttt{node tools/gen-figures2.mjs} regenerating every figure.
@@ -742,9 +774,10 @@ author's responsibility.
 
 The companion paper showed that DFM's rotating cores enhance outer
 rotation curves through frame dragging (measured outer boost
-$1.331\pm0.009$ over eight seeds on the submission target, beta
-v1.34; the $\pm$ is the between-realization standard deviation across
-seeds, not a model uncertainty).
+$1.331\pm0.008$ over eight seeds on the figure target used
+throughout this paper, beta build v1.41-b1; the $\pm$ is the
+between-realization standard deviation across seeds, not a model
+uncertainty).
 This appendix assembles the model's \emph{darkness} mechanisms and
 asks, inside the model, which phenomenological requirements of dark
 matter a single object can meet.
@@ -788,7 +821,7 @@ interface exposes rather than hides.
 \emph{External-ray sweep-out} is a strong-field effect of a rapidly
 spinning core on \emph{incoming} rays: the finite-time capture that a
 non-spinning core produces (measured non-escape rate $0.62$ on the
-current beta target, v1.39-b1)
+beta target used here, build v1.41-b1)
 disappears as the core spins up, falling from $0.70$ at $s=0.3$
 through $0.02$ at $s=0.5$ to $0.00$ from $s=0.6$ onward; and the
 capture is essentially absent under the physical lock $K_t=c^2/G$
@@ -823,8 +856,8 @@ Inside the model, a heavy, fast-spinning, optically dark core
 (i)~sources $W$ and hence gravity; (ii)~is dark by two independent
 mechanisms; and (iii)~contributes to outer rotation-curve enhancement
 through dragging, with the radius-resolved profile showing the boost
-concentrated inward ($v/v_{\mathrm{bar}}$ enhancement from $1.43$ at
-$r\approx121$ to $1.04$ at $r\approx251$, eight-seed statistics;
+concentrated inward ($v/v_{\mathrm{bar}}$ enhancement from $1.58$ at
+$r\approx121$ to $1.16$ at $r\approx251$, eight-seed statistics;
 Fig.~\ref{fig:curve}).
 It therefore meets, \emph{inside the model}, a deliberately limited
 checklist---suppressed self-emission, removal of external rays, a
@@ -854,21 +887,27 @@ to audit.
   baseline $v_{\mathrm{bar}}(r)$ computed from the actual mass
   distribution, with dragging on ($k_F=1$) and off ($k_F=0$).
   (b)~The ratio of the two, i.e.\ the enhancement attributable to
-  dragging: $1.43$ at $r\approx121$ falling to $1.04$ at
+  dragging: $1.58$ at $r\approx121$ falling to $1.16$ at
   $r\approx251$. The band-averaged outer boost over the gate's window
-  $r\in[156,286]$ is $1.074\pm0.006$ on the beta target used here,
-  v1.39-b1 (the release target v1.33 gives $1.332\pm0.009$; the
-  drift across the intervening engine revisions is recorded in the
-  changelog --- the qualitative profile, inner bands boosted more
-  than outer, is unchanged).}
+  $r\in[156,286]$ is $1.331\pm0.008$ on the beta target used here,
+  build v1.41-b1. \emph{History:} an intermediate engine generation
+  (regenerated at build v1.39-b1) gave $1.074\pm0.006$ with a
+  $1.43\to1.04$ profile; the engine rollback recorded in the
+  changelog restored the present values, and the figure data,
+  caption, and gates were resynchronized in wave 143. The
+  qualitative profile --- inner bands boosted more than outer ---
+  is unchanged throughout.}
   \label{fig:curve}
 \end{figure}
 
 \begin{thebibliography}{99}
 \bibitem{DFM1} T. Imamura, \emph{Determinacy-Field Mechanics: A
 Machian Toy Universe with Tunable Frame Dragging, Inverse-Square
-Gravity, and Clock-and-Light Sectors}, Zenodo (2026),
+Gravity, and Spin-as-Heat Analogies}, Zenodo (2026),
 doi:10.5281/zenodo.21454189.
+% wave 143: title corrected to the actual title of paper 1
+% (dfm-paper.tex \title); the earlier "Clock-and-Light Sectors" variant
+% never existed as a published title.
 \bibitem{Mach1893} E. Mach, \emph{The Science of Mechanics} (Open
 Court, Chicago, 1893).
 \bibitem{BarbourBertotti1982} J. B. Barbour and B. Bertotti,
