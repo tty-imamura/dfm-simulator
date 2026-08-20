@@ -7506,17 +7506,40 @@ if (!FAST) {
       const want = hasBox ? ['空間と時間', '箱宇宙', '銀河', '光', '熱の実験室', '天体の物語']
                           : ['空間と時間', '銀河', '光', '熱の実験室', '天体の物語'];
       // 第147便(原仮定者指示): グループ再編(表示専用)— 「銀河」→「銀河の物語」・「光」→「光の物語」
-      // へ改名し、新グループ「現実較正」を天体の物語の直後へ新設した。第79便のスケール準拠順
-      // (分子→日常→天体→現実較正→銀河→宇宙全体)はそのまま引き継ぐ。名前だけの追随で、
-      // 判定の強さは不変(従来順・第79便順・第147便順のいずれかに厳密一致することを要求する)
-      const wantW147 = hasBox
-        ? ['熱の実験室', '空間と時間', '光の物語', '天体の物語', '現実較正', '銀河の物語', '箱宇宙'] : null;
-      const cands = [want, wantNew, wantW147].filter(Boolean);
+      // へ改名し、新グループを天体の物語の直後へ新設した。第79便のスケール準拠順
+      // (分子→日常→天体→現実との照合→銀河→宇宙全体)はそのまま引き継ぐ。名前だけの追随で、
+      // 判定の強さは不変(従来順・第79便順・第147/149便順のいずれかに厳密一致することを要求する)
+      // 第149便(原仮定者裁定): その新グループ名を「現実較正」→「現実との照合」へ改称した。
+      // 旧名は beta にも root にも残らないので、候補は差し替え(候補数=3 のまま — 弱体化なし)
+      const wantW149 = hasBox
+        ? ['熱の実験室', '空間と時間', '光の物語', '天体の物語', '現実との照合', '銀河の物語', '箱宇宙'] : null;
+      const cands = [want, wantNew, wantW149].filter(Boolean);
       const hit = cands.find((c) => JSON.stringify(labels.slice(0, c.length)) === JSON.stringify(c));
       res.groups = labels.slice(0, (hit || want).length);
       res.groupsOk = !!hit;
       res.scaleOrder = !!hit && hit !== want;
-      res.wave147 = !!wantW147 && hit === wantW147;
+      res.wave147 = !!wantW149 && hit === wantW149;
+      // 第149便: グループ跨ぎファミリーの分割(表示専用)。天体の物語側の 🌍🌕 / 🪐🎯 は
+      // それぞれ earthmoonToy / saturnToy として自グループ内で完結し、☿ は単独(familyId なし)。
+      // 現実との照合側の既存ファミリー(mercury / earthmoon / saturn)は id 名ごと不変。
+      // 本便未適用の対象(root 等)では自動 SKIP する(第147便 w147Gen と同じ流儀)
+      const P = (id) => HP.allPresets().find((q) => q.id === id);
+      res.w149Gen = HP.allPresets().some((p) => p.group === '現実との照合');
+      const famOf = (id) => { const p = P(id); return p ? [p.familyId || null, p.familyRole || null, p.group || null] : null; };
+      res.fam = {
+        earthMoon: famOf('earthMoon'), earthMoonFree: famOf('earthMoonFree'),
+        mercury: famOf('mercury'), saturn: famOf('saturn'), saturnLayered: famOf('saturnLayered'),
+        mercuryRealKF1: famOf('mercuryRealKF1'), earthMoonRealKF1: famOf('earthMoonRealKF1'),
+        saturnRingRealKF1: famOf('saturnRingRealKF1'),
+      };
+      // 分割後、グループを跨いだままのファミリーは第82便からの2つ(collide: 💥天体の物語/🌠銀河の物語、
+      // rotorform: 🌱天体の物語/その他 銀河の物語)だけ。mercury/earthmoon/saturn は跨がなくなる
+      const fids = [...new Set(HP.allPresets().filter((p) => p.familyId).map((p) => p.familyId))];
+      res.crossGroupFams = fids.filter((f) => new Set(HP.allPresets()
+        .filter((p) => p.familyId === f).map((p) => p.group || '内蔵')).size > 1).sort();
+      // 各ファミリーに primary がちょうど1本
+      res.famPrimaryBad = fids.filter((f) => HP.allPresets()
+        .filter((p) => p.familyId === f && p.familyRole === 'primary').length !== 1);
       // ② kFrame 中間値の解消: 全内蔵の physics.kFrame は 0 か 1
       res.kfBad = HP.allPresets().filter(p => !String(p.id).startsWith('custom_'))
         .filter(p => p.physics.kFrame !== 0 && p.physics.kFrame !== 1).map(p => p.id);
@@ -7541,8 +7564,30 @@ if (!FAST) {
       return res;
     });
     add('groups.reorder', r.groupsOk,
-      `optgroups=${JSON.stringify(r.groups)}(${r.wave147 ? '第147便 再編順(現実較正 新設)'
+      `optgroups=${JSON.stringify(r.groups)}(${r.wave147 ? '第147便 再編順(第149便で「現実との照合」へ改称)'
         : (r.scaleOrder ? '第79便 スケール準拠順' : '従来順')})`);
+    // 第149便(原仮定者裁定): グループ跨ぎファミリーの分割。本便未適用の対象は自動 SKIP
+    {
+      const eq = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+      const split = r.w149Gen && eq(r.fam.earthMoon, ['earthmoonToy', 'primary', '天体の物語'])
+        && eq(r.fam.earthMoonFree, ['earthmoonToy', 'variant', '天体の物語'])
+        && eq(r.fam.mercury, [null, null, '天体の物語'])
+        && eq(r.fam.saturn, ['saturnToy', 'primary', '天体の物語'])
+        && eq(r.fam.saturnLayered, ['saturnToy', 'variant', '天体の物語'])
+        // 現実との照合側の既存ファミリーは id 名ごと不変(primary は第129便のまま)
+        && eq(r.fam.mercuryRealKF1, ['mercury', 'primary', '現実との照合'])
+        && eq(r.fam.earthMoonRealKF1, ['earthmoon', 'primary', '現実との照合'])
+        && eq(r.fam.saturnRingRealKF1, ['saturn', 'primary', '現実との照合'])
+        // 跨ぐファミリーは第82便からの collide / rotorform だけ・全ファミリーに primary がちょうど1本
+        && eq(r.crossGroupFams, ['collide', 'rotorform']) && r.famPrimaryBad.length === 0;
+      add('groups.family-split', !r.w149Gen || split,
+        r.w149Gen
+          ? `🌍🌕=earthmoonToy・🪐🎯=saturnToy・☿=単独=${split} / 現実との照合側の primary=`
+            + `${JSON.stringify([r.fam.mercuryRealKF1, r.fam.earthMoonRealKF1, r.fam.saturnRingRealKF1])} / `
+            + `グループを跨ぐファミリー=${JSON.stringify(r.crossGroupFams)}(第82便からの collide / rotorform のみ)/ `
+            + `primary が1本でないファミリー=${JSON.stringify(r.famPrimaryBad)}(0件)`
+          : 'SKIP(第149便 未適用 — 対象にグループ「現実との照合」なし)');
+    }
     add('preset.kframe-binary01', r.kfBad.length === 0, r.kfBad.join(',') || '全内蔵 kFrame∈{0,1}');
     add('params.radius-default', r.radiusDef === 1, `radiusScale既定=${r.radiusDef}(=1)`);
     add('ai.base-context', r.baseOpts >= 28 && r.baseCtx && r.basePlain,
@@ -13755,15 +13800,16 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       const headerHidden = !!headerWrap && headerWrap.style.display === 'none';
       const rows0 = document.querySelectorAll('#ppList .ppRow').length;
       // 第147便(原仮定者指示): 一覧のグループ区切り = 見出し付きセパレータ(グループ名+罫線)。
-      // 見出しが2つ以上出て、先頭以外の見出しが上辺の罫線を持ち、見出しの右へ罫線(::after)が
-      // 伸びていること。表示専用の追加検査(既存の sepOk〔絞り込み行の罫線〕は不変)
+      // 第149便(原仮定者指示): 見出しの右へ伸ばしていた罫線(::after)は**削除**した。区切りは
+      // 「見出しテキスト+先頭以外の見出しの上辺境界」だけで示す。判定は同じ強さで新仕様へ追随
+      // (見出しが2つ以上・先頭以外は上辺罫線あり・見出しテキストは非空・::after の擬似要素は無い)
       const heads0 = [...document.querySelectorAll('#ppList .ppGroupHead')];
       const grpSepOk = heads0.length >= 2
         && heads0.slice(1).every((h) => parseFloat(getComputedStyle(h).borderTopWidth) > 0)
         && heads0.every((h) => {
           const a = getComputedStyle(h, '::after');
           return h.textContent.trim().length > 0
-            && (a.content === '""' || parseFloat(a.height) > 0);
+            && a.content === 'none' && !(parseFloat(a.height) > 0);
         });
       const grpHeadTexts = heads0.map((h) => h.textContent.trim());
       // 第147便: E水準フィルタの運用注記(件数は実行時導出 — 宣言のあるサンプル数と一致)。
@@ -13772,6 +13818,39 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       const w147Gen = !!eNoteEl;
       const nDecl = HP.allPresets().filter((p) => HP.EMERGENCE_LEVELS.indexOf(p.emergence) >= 0).length;
       const eNoteOk = w147Gen && nDecl > 0 && eNoteEl.textContent.includes(String(nDecl));
+      // 第149便(原仮定者指示): 絞り込み4次元(グループ/スケール/分類/E水準)の説明が
+      // **次元見出しのタップで開閉する畳み込み**であること。既定は閉 → タップで開き中身が出る →
+      // 再タップで閉じる。内容は既存文言からの転記なので「宣言側の文字列を含むか」で機械判定する
+      // (グループ=実在するグループ名/スケール=全ティア名/分類=sampleClass チップ名/E水準=件数)。
+      // 見出しボタンはチップとは別要素なので、チップの選択状態が変わらないことも併せて見る
+      const NOTES = [
+        ['ppDimGroupBtn', 'ppGroupNote', HP.allPresets().filter((p) => !String(p.id).startsWith('custom_'))
+          .map((p) => p.group).filter((g, i, a) => g && a.indexOf(g) === i)],
+        ['ppDimScaleBtn', 'ppScaleNote', HP.SCALE_TIERS.map((t) => HP.T('scaleName_' + t))],
+        ['ppDimClassBtn', 'ppClassNote', ['principle', 'composite', 'calibration', 'semantic']
+          .map((k) => HP.T('bdgSC_' + k))],
+        ['ppDimEBtn', 'ppENote', [String(nDecl)]],
+      ];
+      const noteRows = [];
+      const w149Gen = !!document.querySelector('#ppDimGroupBtn');
+      if (w149Gen) for (const [bid, nid, needles] of NOTES) {
+        const b = document.querySelector('#' + bid), d = document.querySelector('#' + nid);
+        if (!b || !d) { noteRows.push({ id: nid, ok: false, why: 'missing' }); continue; }
+        const chipsOn0 = [...document.querySelectorAll('#ppModal .ppChip[data-on="1"]')].length;
+        const closed0 = d.hidden && getComputedStyle(d).display === 'none'
+          && b.getAttribute('aria-expanded') === 'false';
+        b.click();
+        const opened = !d.hidden && getComputedStyle(d).display !== 'none'
+          && b.getAttribute('aria-expanded') === 'true';
+        const body = d.textContent || '';
+        const hasAll = needles.length > 0 && needles.every((s) => body.includes(s));
+        b.click();
+        const closed1 = d.hidden && b.getAttribute('aria-expanded') === 'false';
+        const chipsOn1 = [...document.querySelectorAll('#ppModal .ppChip[data-on="1"]')].length;
+        noteRows.push({ id: nid, ok: closed0 && opened && hasAll && closed1 && chipsOn0 === chipsOn1,
+          closed0, opened, hasAll, closed1, len: body.length, chips: chipsOn0 === chipsOn1 });
+      }
+      const notesOk = !w149Gen || noteRows.every((x) => x.ok);
       // スケール絞り込み(🌌)→ 銀河 tier だけに減る
       const gal = [...document.querySelectorAll('#ppModal .ppChip')].find((c) => c.textContent.includes('🌌'));
       gal.click();
@@ -13819,7 +13898,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         HP.loadPreset('saturn', false);
         res({ label0, modal, rows0, rowsGal, galAllGalactic, hasMercury, closed, label1, row0Emoji,
           showAllInModal, headerHidden, sepOk, e0Rows, e0Expected, e0HasUndeclared,
-          grpSepOk, grpHeadTexts, eNoteOk, nDecl, w147Gen });
+          grpSepOk, grpHeadTexts, eNoteOk, nDecl, w147Gen, w149Gen, noteRows, notesOk });
       }, 150);
     }));
     // 第93便: すべて表示のウィンドウ内移設(旧ビルドの beta には無いので undefined 通し)
@@ -13829,15 +13908,19 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     // 第147便: グループセパレータ+E水準注記。本便未適用の対象(root 等・注記が存在しない世代)は
     // 自動 SKIP し、適用済み世代でだけ機械固定する(第93便 saOk と同じ流儀)
     const w147Ok = !r.w147Gen || (r.grpSepOk && r.eNoteOk);
+    // 第149便: 説明4種の畳み込み(開閉+内容)。未適用の対象(root 等)は自動 SKIP
+    const w149Ok = !r.w149Gen || r.notesOk;
     add('ui.presetpicker',
       /🪐/.test(r.label0) && r.modal && r.rows0 >= 30 && r.rowsGal > 0 && r.rowsGal < r.rows0
       && r.hasMercury && r.closed && ['☿', '🪨', '☄️'].includes(r.row0Emoji)
-      && r.label1.includes(r.row0Emoji) && saOk && r.sepOk && e0Ok && w147Ok,
+      && r.label1.includes(r.row0Emoji) && saOk && r.sepOk && e0Ok && w147Ok && w149Ok,
       `ボタン=選択中サンプル名(🪐)=${/🪐/.test(r.label0)} / モーダル=${r.modal}・全${r.rows0}行 → ` +
       `🌌絞り込み ${r.rowsGal}行 / 検索「水星」=☿ヒット=${r.hasMercury} / 行タップ(先頭行=${r.row0Emoji})で読込+閉じ=${r.closed}(ボタン=${r.row0Emoji}: ${r.label1.includes(r.row0Emoji)})/ ` +
       `すべて表示=ウィンドウ内(${r.showAllInModal})・ヘッダ非表示(${r.headerHidden})/ ` +
       `セパレータ=${r.sepOk} / E0絞り込み ${r.e0Rows}行(期待${r.e0Expected}・宣言なし込み=${r.e0HasUndeclared})/ ` +
-      `グループ見出しセパレータ=${r.w147Gen ? r.grpSepOk : 'SKIP(第147便 未適用)'}(${JSON.stringify(r.grpHeadTexts)})・E水準注記=${r.w147Gen ? r.eNoteOk : 'SKIP'}(宣言${r.nDecl}件)`);
+      `グループ見出しセパレータ(第149便: 罫線なし)=${r.w147Gen ? r.grpSepOk : 'SKIP(第147便 未適用)'}(${JSON.stringify(r.grpHeadTexts)})・E水準注記=${r.w147Gen ? r.eNoteOk : 'SKIP'}(宣言${r.nDecl}件)/ ` +
+      `説明の畳み込み4種=${r.w149Gen ? `${r.notesOk}(${(r.noteRows || []).map((x) => `${x.id}:閉${x.closed0}→開${x.opened}(${x.len}字・内容${x.hasAll})→閉${x.closed1}・チップ不変${x.chips}`).join(' / ')})`
+        : 'SKIP(第149便 未適用)'}`);
   } else {
     console.log('SKIP ui.presetpicker(対象にピッカーなし — root 等。第92便)');
   }

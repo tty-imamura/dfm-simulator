@@ -66,17 +66,29 @@
   .ppChip[data-on="1"]{border-color:var(--acc);color:var(--acc);}
   #ppList{overflow-y:auto;flex:1;margin-top:6px;border-top:1px solid var(--line);}
   /* 第147便(原仮定者指示): 一覧のグループ区切りを「見出し+罫線」のセパレータへ(表示専用)。
-     見出し行そのものが上辺の区切り線を持ち、名前の右へ罫線を伸ばす(::after)。先頭の見出しだけは
-     上辺の線を出さない。絞り込み・「すべて表示」トグルとは独立(見出しは行が1つ以上出る
-     グループにだけ ppRender() が挿入する)。flex+min-width:0 なので狭い画面でも横スクロールしない */
+     見出し行そのものが上辺の区切り線を持つ。先頭の見出しだけは上辺の線を出さない。絞り込み・
+     「すべて表示」トグルとは独立(見出しは行が1つ以上出るグループにだけ ppRender() が挿入する)。
+     flex+min-width:0 なので狭い画面でも横スクロールしない。
+     第149便(原仮定者指示): 見出し名の右へ伸ばしていた罫線(::after)は削除した — 区切りは
+     見出しテキストと上辺の境界だけで示す */
   .ppGroupHead{display:flex;align-items:center;gap:8px;min-width:0;overflow-wrap:anywhere;
     font-size:calc(11px*var(--uz,1));color:var(--dim);font-weight:700;
     margin:10px 0 2px;padding-top:8px;border-top:1px solid var(--line,#2a3242);}
-  .ppGroupHead::after{content:"";flex:1 1 auto;min-width:12px;height:1px;background:var(--line,#2a3242);opacity:.75;}
   .ppGroupHead:first-child{margin-top:2px;padding-top:0;border-top:0;}
-  /* 第147便: E水準フィルタの運用注記(件数は実行時導出 — 手打ちしない) */
+  /* 第147便: E水準フィルタの運用注記(件数は実行時導出 — 手打ちしない)
+     第149便(原仮定者指示): グループ/スケール/分類/E水準の4種とも**次元見出しのタップで開閉**する
+     畳み込みにした。既定は閉。改行を活かすため white-space:pre-line */
   .ppNote{font-size:calc(10px*var(--uz,1));color:var(--dim);line-height:1.45;
+    white-space:pre-line;overflow-wrap:anywhere;
+    flex:0 0 auto;max-height:26vh;overflow-y:auto;   /* 第149便: 説明が長くても一覧(#ppList)を潰さない
+       (overflow を持つと flex の自動最小サイズが 0 になるので shrink を明示的に止める) */
     margin:0;padding:4px 0 5px;border-bottom:1px solid var(--line,#2a3242);}
+  .ppNote[hidden]{display:none;}
+  /* 第149便: 絞り込みの次元見出し(グループ/スケール/分類/E水準)を説明の開閉ボタンにする。
+     ボタンは行頭の見出し領域だけを占め、チップ(.ppChip)の当たり判定とは重ならない */
+  .ppChips .ppDimBtn{background:none;border:0;padding:3px 0;margin:0;text-align:left;
+    color:var(--dim);font-size:calc(10.5px*var(--uz,1));line-height:1.3;cursor:pointer;}
+  .ppChips .ppDimBtn[aria-expanded="true"]{color:var(--acc);}
   .ppRow{display:flex;align-items:center;gap:6px;width:100%;text-align:left;background:none;
     border:0;border-radius:8px;padding:7px 6px;min-height:40px;font-size:calc(13px*var(--uz,1));color:var(--fg);}
   .ppRow:active,.ppRow:hover{background:var(--panel2);}
@@ -1010,6 +1022,25 @@ ja: {
   // 第147便(統括裁定の実行): E水準の運用規約を UI へ明文化。件数 n は実行時導出(宣言のある
   // サンプル数)で、手打ちの数値は持たない。フィルタの意味論は不変(E0 は第94便どおり宣言なしも含む)
   ppENote:(n)=>`E水準は創発プログラム(論文4系)の宣言専用メタで、宣言のあるサンプルだけが対象(現在 ${n} 件 — E1〜E3)。全プリセットへの強制分類はしない。E0 チップは宣言なしのサンプルも含む(第94便)。E2/E3 の拡充は論文4の着手便で再判定する(第147便 運用規約)。`,
+  // 第149便(原仮定者指示): 絞り込み4次元(グループ/スケール/分類/E水準)の説明を、次元見出しの
+  // タップで開閉する畳み込みにした。内容は**既存文書からの転記・要約のみ**で、新しい物理的主張は
+  // 一切書かない(グループ=README のグループ紹介 / スケール=scaleTier の既存定義〔アンカーは
+  // SCALE_ANCHORS から実行時導出〕/ 分類=sampleClass チップの tip 文そのまま / E水準=第147便の注記)
+  ppNoteTip:"タップして説明を開閉",
+  ppNoteGroupHead:"サンプルのグループは表示・分類専用の区分で、物理・保存 JSON には一切影響しない(並びはスケール順)。",
+  groupNotes:{
+    "熱の実験室":"熱平衡・スピン圧・熱伝導・放射冷却・対流・三態の創発など、熱まわりの統制実験。",
+    "空間と時間":"重力による時計の遅れ・弱場GR較正とその焦点版(GPS/光偏向/シャピロ)・水星の近日点前進・自由落下など、時空係数まわりの統制実験。",
+    "光の物語":"重力レンズと光子捕捉・回る星のレンズ・連星重力レンズ・暗黒雲の赤化など、光の見え方が主題。",
+    "天体の物語":"物語・トイ系。実単位で現実へ較正したサンプルは「現実との照合」へ移してある。",
+    "現実との照合":"スケール換算込みで数値を現実の対応対象へ較正したサンプルと、その較正を監査する対照群。",
+    "銀河の物語":"銀河の回転曲線・ダークローターの銀河・銀河合体・自己重力雲の崩壊など、銀河スケールの構造が主題。",
+    "箱宇宙":"箱そのものを宇宙に見立てた系(並進・回転・膨張・呼吸・光の赤方偏移)。正本は docs/BOX_UNIVERSE.md。",
+    "AI生成":"AI追加で作ったサンプル(この端末のローカル保存)。",
+    "保存一覧":"「保存」で残した状態(この端末のローカル保存)。"},
+  ppNoteScaleHead:"スケールは各サンプルの代表単位(scaleTier)を示す表示・分類専用のタグで、換算表示とスライダーの目盛に使う。scaleExp 宣言のあるサンプルは距離指数から最近傍ティアを導出する(第120便)。各ティアのアンカー(実行時導出 — 距離/時間/質量):",
+  ppNoteScaleUnit:"1単位",
+  ppNoteClassHead:"分類は P3 サンプル分類(sampleClass)の宣言専用タグで、物理には一切影響しない。",
   // 第92便(原仮定者指示): スケールバー(距離の目盛)
   tgScaleBar:"スケールバー表示",   // 第94便: 「スケール」カテゴリへ移設し「スケールバー表示」に改称(共通設定・既定ON)
   tgScaleBarDesc:"画面左下に距離の目盛(モデル単位)、右下に画面の表示幅を出す。スケール換算表示がONのときは実単位(nm〜ly)も併記する。共通設定・既定ON。表示のみ — 物理には影響しない。",
@@ -1462,6 +1493,23 @@ en: {
   ppDimGroup:"Group", ppDimScale:"Scale", ppDimClass:"Class", ppDimE:"E-level",
   // wave 147: operating rule for the E-level filter. The count is derived at runtime.
   ppENote:(n)=>`The E-level is declaration-only metadata for the emergence program (paper 4 line); only samples that declare one are in scope (${n} at present — E1–E3). It is never forced onto every preset. The E0 chip also covers samples with no declaration (wave 94). Extending E2/E3 is re-decided when paper 4 starts (wave 147 operating rule).`,
+  // Wave 149: the four filter dimensions each carry a collapsible note, opened by tapping the
+  // dimension label. Wording is transcribed/condensed from existing docs — no new physical claim.
+  ppNoteTip:"Tap to show or hide the note",
+  ppNoteGroupHead:"Sample groups are a display/classification split only and never touch the physics or the saved JSON (the order runs from small to large scale).",
+  groupNotes:{
+    "熱の実験室":"Controlled experiments around heat: thermal equilibrium, spin pressure, conduction, radiative cooling, convection, emergent states of matter.",
+    "空間と時間":"Controlled experiments around the spacetime coefficient: gravitational clock delay, the weak-field GR calibration and its focused versions (GPS / light bending / Shapiro), Mercury's perihelion advance, free fall.",
+    "光の物語":"The subject is how light appears: gravitational lensing and photon capture, the lens of a spinning star, binary lensing, reddening by a dark cloud.",
+    "天体の物語":"Narrative / toy systems. Samples calibrated to reality in real units live under \"Reality Checks\".",
+    "現実との照合":"Samples whose numbers are calibrated — unit conversion included — against their real-world counterparts, plus the controls that audit that calibration.",
+    "銀河の物語":"The subject is structure on galactic scales: rotation curves, dark-rotor galaxies, galaxy mergers, collapse of self-gravitating clouds.",
+    "箱宇宙":"Systems in which the box itself stands for a universe (translation, rotation, expansion, breathing, redshift of light). The reference document is docs/BOX_UNIVERSE.md.",
+    "AI生成":"Samples created with the AI-add tab (stored locally on this device).",
+    "保存一覧":"States kept with \"Save\" (stored locally on this device)."},
+  ppNoteScaleHead:"Scale is a display/classification tag naming each sample's representative units (scaleTier); it drives the unit conversion and the slider ticks. Samples that declare scaleExp derive their tier from the length exponent (wave 120). Anchors per tier (derived at runtime — length / time / mass):",
+  ppNoteScaleUnit:"1 unit",
+  ppNoteClassHead:"Class is the declaration-only P3 sample classification (sampleClass); it never touches the physics.",
   // 第92便: scale bar (distance ruler)
   tgScaleBar:"Scale bar",
   tgScaleBarDesc:"Show a distance ruler (model units) at the bottom left and the view width at the bottom right. When scale conversion is ON, real units (nm–ly) are shown alongside. Display only — no effect on physics.",
@@ -1628,8 +1676,10 @@ en: {
   hudScale:(x,eT,eM,t,ts)=>`scale conv: len1=10^${Math.round(x*10)/10}m time1=10^${Math.round(eT*10)/10}s mass1=10^${Math.round(eM*10)/10}kg t≈${fmtSecsEn(t*Math.pow(10,eT))} (effective rate ${sciFmt(ts)}: 1s of playback≈${fmtSecsEn(SUBSTEPS*DT*60*ts*Math.pow(10,eT))})`,
   // 第103便: スケール雛形(aiTpl*)のキー群は撤去(第74便UIの撤去に伴う)
   // wave 147: group rename (display only) — 銀河→銀河の物語 / 光→光の物語, plus the new
-  // 現実較正 (reality-calibration) group placed right after 天体の物語
-  groups:{"空間と時間":"Space & Time","箱宇宙":"Box Universe","銀河の物語":"Galaxy Stories","光の物語":"Light Stories","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","現実較正":"Reality Calibration","法則の実験室":"Law Lab","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
+  // 現実との照合 (reality checks) group placed right after 天体の物語
+  // 第149便(原仮定者裁定): グループ名を「現実較正」→「現実との照合」(en: Reality Calibration →
+  // Reality Checks)へ改称。分類チップ(sampleClass calibration)と現実準拠チップ「📏 現実較正」は不変
+  groups:{"空間と時間":"Space & Time","箱宇宙":"Box Universe","銀河の物語":"Galaxy Stories","光の物語":"Light Stories","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","現実との照合":"Reality Checks","法則の実験室":"Law Lab","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
   params:{G:"Gravity G", D0:"Background determinacy D₀", kFrame:"Frame dragging kFrame",
     q:"Drag falloff q", kRep:"Spin repulsion kRep", muF:"Friction→spin muF",
     gammaN:"Collision damping γn", kappaS:"Spin diffusion κs", kappaT:"Spacetime κ (time & light)",
@@ -2435,7 +2485,9 @@ const BUILTIN_PRESETS = [
 // ===== v1.9 サンプル全面刷新(付録I)。旧16種は廃止し「1サンプル=1効果」で再構成 =====
 // 第26便(原仮定者指示): カテゴリ分け・表示順を再編 — 銀河系サンプルを「銀河」グループへ集約。配列順=表示順
 // 第147便(原仮定者指示): グループ改名(「銀河」→「銀河の物語」・「光」→「光の物語」)+
-//   新グループ「現実較正」の新設(表示・分類専用 — 配列順・物理・claims は不変。GROUP_ORDER 参照)
+//   新グループの新設(表示・分類専用 — 配列順・物理・claims は不変。GROUP_ORDER 参照)
+// 第149便(原仮定者裁定): そのグループ名を「現実との照合」へ改称(旧名は分類チップ「現実較正」・
+//   現実準拠チップ「📏 現実較正」と紛らわしかった — チップ側は従来どおり不変)
 // ===== グループ: 空間と時間 =====
 { id:"gclock", name:"重力による時計の遅れ", emoji:"⏱️", group:"空間と時間",
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
@@ -4767,17 +4819,25 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,phaseGraph:true,mechSpectrum:true} },
 
 
-// ===== グループ: 天体の物語 / 現実較正 =====
-// 第147便(原仮定者指示): この区間の現実較正・監査系14本(☄️🪨🌙🌘💍💿📡🌞🟠⭕🧲🔆📶📐)は
-// group:"現実較正" へ移した(表示・分類専用 — 配列順・物理・claims は bit 不変)。
-// 天体の物語には物語・トイ系(🌍🌕⭐♾️💥🌋🌪️☀️🌱 等)が残る
+// ===== グループ: 天体の物語 / 現実との照合 =====
+// 第147便(原仮定者指示): この区間の観測較正・監査系14本(☄️🪨🌙🌘💍💿📡🌞🟠⭕🧲🔆📶📐)は
+// 天体の物語から別グループへ移した(表示・分類専用 — 配列順・物理・claims は bit 不変)。
+// 第149便(原仮定者裁定): そのグループ名を group:"現実との照合" とする(旧名「現実較正」)。
+// 天体の物語には物語・トイ系(🌍🌕⭐♾️💥🌋🌪️☀️🌱 等)が残る。
+// 第149便(原仮定者裁定): グループを跨いでいたファミリーを分割し、天体の物語側は自前の
+// ファミリーを持つ — 🌍earthMoon(primary)+🌕earthMoonFree(variant)= "earthmoonToy"、
+// 🪐saturn(primary)+🎯saturnLayered(variant)= "saturnToy"、☿mercury は単独(familyId なし)。
+// 現実との照合側の既存ファミリー(mercury=☄️🪨🌞・earthmoon=🌙🌘・saturn=💍💿📡)は id 名ごと不変
 { id:"earthMoon", name:"地球と月", emoji:"🌍", group:"天体の物語",
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類)→ 第130便 統括裁定(原仮定者提示「外すのも選択肢」の個別適用):
                              // "calibration" → "composite"。実較正版(🌘earthMoonRealKF1・🌙earthMoonReal)が別在するので、
                              // 本サンプルの役割は「物語トイ+コア較正(PREM 0.325 等)」の複合。コア較正の記述・claims は事実として不変
   notClaim:["solar"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
-  familyId:"earthmoon", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)/ 第129便: primary は 🌘(実単位・kF1 雛形)へ移譲
+  familyId:"earthmoonToy", familyRole:"primary",   // 第82便: ファミリー表示(表示専用)/ 第129便: family "earthmoon" の primary は 🌘(実単位・kF1 雛形)へ移譲
+                                                  // 第149便(原仮定者裁定): グループ跨ぎのファミリーを分割 — 天体の物語側の 🌍🌕 を
+                                                  // family "earthmoonToy"(🌍=primary・🌕=variant)として独立させた。現実との照合側の
+                                                  // family "earthmoon"(🌙🌘)は id 名ごと不変。表示専用 — 物理・claims・QA・配列順・group は不変
   descStruct:{
     summary:"月が地球のまわりを公転する二体デモ(コアは現実の観測値で較正)。質量比は現実どおり m月/m地球=0.0123。月は同期自転 — spin を実測公転角速度 ω=0.013908 に一致させてあり、スポーク(車輪の輻)の同じ面が常に地球を向き続ける(潮汐固定)。",
     observe:"コアは観測値: 地球 Mc/m=0.325(PREM系の全コア質量比 32.5%)・月 Mc/m=0.0168(月レーザー測距の 1.59〜1.77% の中央値)。コアv2 の mode=\"rigid\"(殻と剛体回転 Ω_c≡s)は中立既定 — 地球内核のマントルに対する差動回転は時期と解析法によって推定が変わり、固定した比率として確定していないため、本サンプルは剛体回転を中立既定とする(差動なし=単層と厳密等価)。円軌道速度は E6′ 込みの実測較正 v=1.063×ケプラー値(Plummer軟化込み)— 4周で半径ドリフト0.09%・同期維持。地球の自転(0.05)は E6′ 安定域に収めた較正値 — 現実の比(月の27.4倍)では引きずり風が重力(E4)を超えて軌道が崩れる(実測)。地球は pinned の展示系。κ=1×10⁻⁴(旧表記 Kt=10000)は物理対応ロック κ=G/c² の成立値。",
@@ -4828,7 +4888,8 @@ const BUILTIN_PRESETS = [
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["solar"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
-  familyId:"earthmoon", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
+  familyId:"earthmoonToy", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)/ 第149便(原仮定者裁定):
+                                                  // ファミリー分割 — 🌍earthMoon を primary とする "earthmoonToy" の variant へ(表示専用)
   descStruct:{
     summary:"地球も月も、どちらも固定しない二体の力学問題(2つの重心を基準に置く)。",
     observe:"kFrame=0 の純ニュートン対照 — E6′ 引きずりを切ると spin は軌道に影響しないため、現実の自転比をそのまま入れられる: 地球 spin=0.3609(月の公転の27.4倍=実比)・月は同期自転 spin=ω=0.013174。質量比 0.0123・コアも観測値(コアv2 rigid: 地球 Mc/m=0.325・月 Mc/m=0.0168)。重心を原点に置き全運動量 0 の閉鎖系(外部拘束なし — 保存則が系内で閉じる)。実測: t=5000(10.5周)で半径 179.97〜180.02(0.03%)・重心移動 0.001 未満・同期誤差 0.31°/周。重力(E4)は Plummer 軟化込みの円軌道速度で初期化。",
@@ -4878,7 +4939,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"earthMoonReal", name:"地球と月(実単位)— 恒星月 27.32日", emoji:"🌙", group:"現実較正",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
+{ id:"earthMoonReal", name:"地球と月(実単位)— 恒星月 27.32日", emoji:"🌙", group:"現実との照合",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
   familyId:"earthmoon", familyRole:"variant",   // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)(kFrame=0 対照)
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 第118便(原仮定者指示): サンプル別スケール指数 — 1単位=10⁶m/10²s/10²⁵kg。
@@ -4968,7 +5029,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"earthMoonRealKF1", name:"地球と月(実単位・kFrame=1)— 近点回転 8.85年の較正再現", emoji:"🌘", group:"現実較正",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
+{ id:"earthMoonRealKF1", name:"地球と月(実単位・kFrame=1)— 近点回転 8.85年の較正再現", emoji:"🌘", group:"現実との照合",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
   familyId:"earthmoon", familyRole:"primary",   // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)(天体の現実較正の雛形)
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 🌙 と同一の指数系(1単位=10⁶m/10²s/10²⁵kg)
@@ -5086,7 +5147,7 @@ const BUILTIN_PRESETS = [
 //      同時に離心率が単調に汲み上げられる(0.055→0.169)— 実際の月(0.026〜0.077 有界)と合わない。
 //   ③ C は窓にも dt にも依存しない定常な永年率(118公転 8.754年 / 236公転 8.752年)で、
 //      離心率も有界(0.011〜0.055)。**数値一致の頑健さ**が A/B/C を判別する。
-{ id:"emAuditNewton", name:"地球と月・機構判別A(二体ニュートン)— 閉じた楕円", emoji:"⭕", group:"現実較正",
+{ id:"emAuditNewton", name:"地球と月・機構判別A(二体ニュートン)— 閉じた楕円", emoji:"⭕", group:"現実との照合",
   familyId:"emAudit", familyRole:"variant",
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 🌙🌘 と同一の指数系(1単位=10⁶m/10²s/10²⁵kg)
@@ -5178,7 +5239,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"emAuditDFM", name:"地球と月・機構判別B(二体DFM較正)— 8.85年を別機構で", emoji:"🧲", group:"現実較正",
+{ id:"emAuditDFM", name:"地球と月・機構判別B(二体DFM較正)— 8.85年を別機構で", emoji:"🧲", group:"現実との照合",
   familyId:"emAudit", familyRole:"variant",   // 第137便(統括裁定): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 🌙🌘 と同一の指数系
@@ -5283,7 +5344,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"emAuditSolar", name:"地球と月・機構判別C(太陽+地球+月の三体)— 較正なしの太陽摂動", emoji:"🔆", group:"現実較正",
+{ id:"emAuditSolar", name:"地球と月・機構判別C(太陽+地球+月の三体)— 較正なしの太陽摂動", emoji:"🔆", group:"現実との照合",
   familyId:"emAudit", familyRole:"primary",   // 第137便(統括裁定): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)
   scaleTier:"planetary",
   scaleExp:{L:8, T:4, M:27},   // ☄️🪨🌞 と同一の指数系(1単位=10⁸m/10⁴s/10²⁷kg — 太陽を座標 ±1500 に収める)
@@ -5428,7 +5489,7 @@ const BUILTIN_PRESETS = [
 //     −3.402×10⁻¹² rad/公転 = 周期 1.28×10¹¹年。同じ参照点で地球を自由にしてプローブ質量を
 //     月質量まで上げると +5.233×10⁻² rad/公転 = 8.253年が戻る — 8.85年の駆動源は自転ではなく
 //     **地球の重心運動**である。
-{ id:"qLockRadialAudit", name:"qLock 半径方向監査 — 参照点は LT 級・その外では r⁻³ を捨てる", emoji:"📶", group:"現実較正",
+{ id:"qLockRadialAudit", name:"qLock 半径方向監査 — 参照点は LT 級・その外では r⁻³ を捨てる", emoji:"📶", group:"現実との照合",
   familyId:"qlockAudit", familyRole:"primary",
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 🌙🌘 と同一の指数系(1単位=10⁶m/10²s/10²⁵kg)
@@ -5589,7 +5650,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"qLockRadialAuditQ3", name:"qLock 半径方向監査・対照(q=3)— r⁻³ 則そのものの物差し", emoji:"📐", group:"現実較正",
+{ id:"qLockRadialAuditQ3", name:"qLock 半径方向監査・対照(q=3)— r⁻³ 則そのものの物差し", emoji:"📐", group:"現実との照合",
   familyId:"qlockAudit", familyRole:"variant",
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 📶 と同一の指数系
@@ -5713,7 +5774,10 @@ const BUILTIN_PRESETS = [
 
 
 { id:"mercury", name:"水星の近日点前進 — 測地線1PN", emoji:"☿", group:"天体の物語",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
-  familyId:"mercury", familyRole:"variant",   // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)
+  // 第129便(原仮定者指示)でファミリー "mercury" の variant としていたが、第149便(原仮定者裁定)で
+  // familyId を除去し**単独サンプル**に戻した(primary 🪨 が別グループ「現実との照合」にあり、
+  // グループを跨いだ variant として既定表示から落ちていたため)。表示専用 — 物理・claims・QA・
+  // 配列順・group は不変。現実との照合側の family "mercury"(☄️🪨🌞)は id 名ごと不変
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["cal"],   // 第88便 EXT-04(宣言専用 — 表示のみ)
@@ -5748,7 +5812,7 @@ const BUILTIN_PRESETS = [
 // 第116便(原仮定者裁定「プリセット同梱: 進める。今後のサンプルの雛形とする」): 観測較正
 // プロファイルの内蔵第1号=実不変量の水星。物理構成(実G値・実c値・Kt=c₀²/G・pnSource・
 // stateCarry:"double"・q=3・D0=0.1)が今後の観測較正サンプルの雛形(PHYSICS §5)
-{ id:"mercuryReal", name:"水星(実単位)— 43″/世紀", emoji:"☄️", group:"現実較正",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
+{ id:"mercuryReal", name:"水星(実単位)— 43″/世紀", emoji:"☄️", group:"現実との照合",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
   familyId:"mercury", familyRole:"variant",   // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)(kFrame=0 対照)
   scaleTier:"planetary",   // 第120便(原仮定者指示): スケールタグは距離スケール指数(L=8)対応の「惑星」
   scaleExp:{L:8, T:4, M:27},   // 第118便(原仮定者指示): サンプル別スケール指数 — 1単位=10⁸m/10⁴s/10²⁷kg。
@@ -5850,7 +5914,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"mercuryRealKF1", name:"水星(実単位・kFrame=1)— 共通補正で 43″/世紀成立", emoji:"🪨", group:"現実較正",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
+{ id:"mercuryRealKF1", name:"水星(実単位・kFrame=1)— 共通補正で 43″/世紀成立", emoji:"🪨", group:"現実との照合",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
   familyId:"mercury", familyRole:"primary",   // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)(天体の現実較正の雛形)
   scaleTier:"planetary",
   scaleExp:{L:8, T:4, M:27},   // ☄️ と同一の指数系
@@ -5961,7 +6025,7 @@ const BUILTIN_PRESETS = [
 //    初速の較正係数は **1.000(実ケプラー速度そのまま)** — 旧版の ×1.12/1.09/1.07/1.055 は
 //    トイ設定(太陽半径40=実の5.7倍・自転0.5=実の17倍・q=2・D₀=2・c₀=30)が作っていた
 //    人工物で、実単位では不要になることを f 掃引で実測(第131便 — QA behavior.solarInner が再固定)。
-{ id:"solarInner", name:"太陽系 — 内惑星(実単位)", emoji:"🌞", group:"現実較正",
+{ id:"solarInner", name:"太陽系 — 内惑星(実単位)", emoji:"🌞", group:"現実との照合",
   familyId:"mercury", familyRole:"variant",   // 第137便(統括裁定): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)
   scaleTier:"planetary",
   scaleExp:{L:8, T:4, M:27},   // 第131便: ☄️mercuryReal・🪨mercuryRealKF1 と同一の指数系
@@ -6081,7 +6145,7 @@ const BUILTIN_PRESETS = [
 // 現行の実較正3系(☄️🪨 水星・🌙🌘 地球月・💿📡 土星)は、共通補正 D₀=0.006 と qLock 則そのものの
 // 形成に関与した**回顧的確認**である。木星系はその規則を**再フィットせずに初めて外挿する系**で、
 // 事前登録窓 JW1〜JW5 は実測前に固定し、実測後に動かしていない(PASS でも FAIL でも実測を記録)。
-{ id:"jupiterGalilean", name:"木星とガリレオ衛星(実単位)— 規則を再フィットしない hold-out", emoji:"🟠", group:"現実較正",
+{ id:"jupiterGalilean", name:"木星とガリレオ衛星(実単位)— 規則を再フィットしない hold-out", emoji:"🟠", group:"現実との照合",
   familyId:"jupiter", familyRole:"primary",
   scaleTier:"planetary",
   scaleExp:{L:7, T:3, M:26},   // 1単位=10⁷m/10³s/10²⁶kg。規約 L−T=4 で c₀=3×10⁴、M+2T−3L=11 で G=6.674
@@ -6257,7 +6321,10 @@ const BUILTIN_PRESETS = [
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["solar"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
-  familyId:"saturn", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)/ 第129便: primary は 💿(実単位・kF1 雛形)へ移譲
+  familyId:"saturnToy", familyRole:"primary",   // 第82便: ファミリー表示(表示専用)/ 第129便: family "saturn" の primary は 💿(実単位・kF1 雛形)へ移譲
+                                                // 第149便(原仮定者裁定): グループ跨ぎのファミリーを分割 — 天体の物語側の 🪐🎯 を
+                                                // family "saturnToy"(🪐=primary・🎯=variant)として独立させた。現実との照合側の
+                                                // family "saturn"(💍💿📡)は id 名ごと不変。表示専用 — 物理・claims・QA・配列順・group は不変
   descStruct:{
     summary:"氷の粒でできた土星の環を再現するサンプル。240個の氷粒(3つの環帯・60/120/60個、軽くて衝突でもエネルギーをあまり失わない muF=0.2/γN=0.15)を配置し、中心星のスピンが空間を引きずる(kFrame=1・A8空間の引きずり)条件のもとで、長時間安定な環になるかを見る。初期配置は t=300〜600 で落ち着いた分布に合わせてある。",
     observe:"実測(環240粒の新構成): t≈360 で帯内(90≤r≤290)97.1%・落下(r<85)1粒/240・散逸(r>320)0、t≈1200 でも帯内98.8%・落下1粒・散逸0(QA behavior.saturnExp)。※安定の理由づけは実測に合わせて弱めてある: 同一初期配置で kFrame だけを 0 にした対照(3000步)でも環は100%保たれ、離心率RMSはむしろ小さい(0.063 対 kFrame=1 の 0.142)。引きずりは環を内側へ寄せ(帯中央値 159 対 171)離心率を上げる向きに効いており、「引きずりが環を円くして保つ」とは言えない(QA behavior.saturn-kframe-control)。摩擦 muF も、氷粒の半径 R=rMul·√m≈0.18〜0.31 が環の半径域 104〜212 に対して極小で接触がまれなため、この時間窓ではほとんど効かない — 3000步では muF=0.2/0/1.0 の3本が倍精度で完全一致し、6000步でも muF=0 との差は平均|spin| 1.7%・離心率RMS 0.02% にとどまる(QA behavior.saturn-muf-control)。κ=1/3600(旧表記 Kt=3600)は物理対応ロック κ=G/c² の成立値。中心天体の表示半径は個体半径倍率 rMul=1.8 で環との見かけの比率が近くなるよう調整している。",
@@ -6310,7 +6377,8 @@ const BUILTIN_PRESETS = [
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["solar"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
-  familyId:"saturn", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
+  familyId:"saturnToy", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)/ 第149便(原仮定者裁定):
+                                                // ファミリー分割 — 🪐saturn を primary とする "saturnToy" の variant へ(表示専用)
   // 第14便: seed を 🪐(hashStr("saturn")+7)に固定 — 初期配置が 🪐 と完全一致し、
   // 「同一初期配置での姉妹比較」になる(id 由来の別シードでは冷スタート過渡の谷が
   // t≈360 に当たる実現があり、安定 QA の t360 短縮と干渉した — 実測 2026-07-23)
@@ -6363,7 +6431,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
-{ id:"saturnZonalD68", name:"土星の近点移動(実単位・D68精密較正)", emoji:"📡", group:"現実較正",
+{ id:"saturnZonalD68", name:"土星の近点移動(実単位・D68精密較正)", emoji:"📡", group:"現実との照合",
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   scaleExp:{L:6, T:2, M:25},   // 第131便(原仮定者指示): 💍💿 と同じ惑星(e6)指数系へ実単位化
                                // 1単位=10⁶m/10²s/10²⁵kg(実G=6.674・実c=3×10⁴〔eC=L−T=4〕)
@@ -6487,7 +6555,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"saturnRingReal", name:"土星の環(実単位)— 見えないのが正しい", emoji:"💍", group:"現実較正",
+{ id:"saturnRingReal", name:"土星の環(実単位)— 見えないのが正しい", emoji:"💍", group:"現実との照合",
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 第121便(原仮定者指示): スケールを惑星(e6)へ — 1単位=10⁶m/10²s/10²⁵kg(実G=6.674・実c=3e4 は不変)
                                // この指数系でも実G=6.674・実c=3×10⁴(eC=L−T=4)— 第117便の「無次元深度のみ実」
@@ -6499,7 +6567,8 @@ const BUILTIN_PRESETS = [
     {q:"タイタンの公転", model:"15.949 日(実軌道半径+ケプラー初速)", obs:"15.945 日"},
     {q:"軌道速度(C環内縁)", model:"22.5 km/s", obs:"22.5 km/s"}],   // 第119便: 観測結果カード
   notClaim:["solar"],
-  familyId:"saturn", familyRole:"variant",   // 🪐(誇張)・🎯・📡 と同族(表示専用)
+  familyId:"saturn", familyRole:"variant",   // 💿(primary)・📡 と同族(表示専用)。第149便(原仮定者裁定)で
+                                             // トイ側の 🪐(誇張)・🎯 は family "saturnToy" へ分割した
   failureFirst:{
     fail:"🪐(誇張アナログ)では kFrame=1 の引きずりが環を内側へ移動させ離心率を上げる(対照実験で実測済み)。同じ機構を実深度 d=GM/(c²r_C)=5.64×10⁻⁹ に置くと、引きずりも 1PN も走行時間内では検出限界以下になる(tests/exp-obscal.mjs §C 帯構成の弱場実測)。第117便版は無次元深度と半径比しか実に取れなかった(旧ティア指数の制約)。",
     pass:"第118便のサンプル別スケール指数を第121便で惑星e6へ改めた(1単位=10⁶m/10²s/10²⁵kg)— C環内縁 74.658(=74,658km)の軌道速度 2.25(=22.5km/s)・周期 5.78時間、土星質量 56.834(=5.6834×10²⁶kg)・半径 60.3(=6.03×10⁷m)・自転 0.016528(10.56時間)まで全て観測値になり、物理対応バッジも成立する。見えないのが正しい — 環は純ケプラー Ω∝r^−1.5 を保つ。"},
@@ -6588,7 +6657,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:true} },
 
-{ id:"saturnRingRealKF1", name:"土星の環(実単位・kFrame=1)— 表面随伴と自動算出q", emoji:"💿", group:"現実較正",
+{ id:"saturnRingRealKF1", name:"土星の環(実単位・kFrame=1)— 表面随伴と自動算出q", emoji:"💿", group:"現実との照合",
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 第121便: 💍と同じ惑星(e6)指数系
   sampleClass:"calibration",
@@ -13298,12 +13367,17 @@ function allPresets(){ return BUILTIN_PRESETS.concat(getCustomPresets()); }
 // GROUP_ORDER に無いグループ(将来追加・AI生成の独自 group 等)は元の出現順で末尾に続く
 // 第147便(原仮定者指示): グループ再編(表示・分類専用 — 物理・claims・BUILTIN_PRESETS の配列順は不変)。
 //   「銀河」→「銀河の物語」/「光」→「光の物語」/(パラメータ側)「法則」→「法則の実験室」へ改名し、
-//   **新グループ「現実較正」**を天体の物語の直後へ新設した(現実較正・監査系14本を移動 —
+//   **新グループ**を天体の物語の直後へ新設した(観測較正・監査系14本を移動 —
 //   ☄️🪨🌙🌘💍💿📡🌞🟠⭕🧲🔆📶📐)。天体の物語には物語・トイ系が残る。
 //   ファミリー折り畳み(familyGroupedBuiltins)は**同一グループ内**で機能する設計なので、
-//   各ファミリーの primary(🪨🌘💿🟠🔆📶)は移動先の「現実較正」に揃えてある。
-//   グループを跨いだ variant(☿🌍🌕🪐🎯)は従来の 🌠 と同じく自分の group の元位置に残る
-const GROUP_ORDER=["熱の実験室","空間と時間","光の物語","天体の物語","現実較正","銀河の物語","箱宇宙"];
+//   各ファミリーの primary(🪨🌘💿🟠🔆📶)は移動先に揃えてある。
+// 第149便(原仮定者裁定): その新グループ名を**「現実との照合」**とする(旧名「現実較正」— 分類チップ
+//   〔sampleClass calibration〕と現実準拠チップ「📏 現実較正」に同名が並んでいた。チップ側は不変)。
+//   併せて**グループを跨いでいたファミリーを分割**した(☿🌍🌕🪐🎯 が第147便まで自分の group の
+//   元位置に取り残されていた問題の解消): 🌍+🌕="earthmoonToy"・🪐+🎯="saturnToy"(いずれも
+//   天体の物語で完結)・☿ は単独。グループを跨ぐファミリーは第82便からの collide(💥⇄🌠)と
+//   rotorform(🌱⇄銀河の物語)だけになる
+const GROUP_ORDER=["熱の実験室","空間と時間","光の物語","天体の物語","現実との照合","銀河の物語","箱宇宙"];
 function orderedGroups(){
   const seen=[];
   BUILTIN_PRESETS.forEach(p=>{ const g=p.group||"内蔵"; if(!seen.includes(g)) seen.push(g); });
@@ -13339,16 +13413,21 @@ function catalogHidden(p){
 // orderedBuiltins() の並び(グループ順序・グループ内配列順は不変)に、グループ内だけ
 // 「primary の直後に同ファミリー variant をまとめる」補正をかける(表示専用の並べ替え —
 // 第79便 GROUP_ORDER+orderedBuiltins() と同じ設計判断。ファミリーがグループを跨ぐ場合
-// 〔collide: counterring=天体の物語/merger=銀河の物語。第147便以降は mercury/earthmoon/saturn の
-// 一部も 天体の物語⇄現実較正 を跨ぐ〕は group 自体を動かせないため、その variant は
-// 自分の group 内の元位置に残る — 「この仲間」導線(説明パネル)がその橋渡しを担う)
+// 〔collide: counterring=天体の物語/merger=銀河の物語。rotorform: starSeed=天体の物語/他=銀河の物語〕
+// は group 自体を動かせないため、その variant は自分の group 内の元位置に残る —
+// 「この仲間」導線(説明パネル)がその橋渡しを担う。
+// 第147便で 天体の物語⇄現実との照合 を跨いでいた mercury/earthmoon/saturn は、第149便の
+// ファミリー分割〔earthmoonToy・saturnToy・☿単独〕で解消し、跨ぐのは第82便からの
+// collide / rotorform の2つだけになった)
 // 第129便(原仮定者指示のファミリー再編に伴う最小修正): primary が配列順で同グループの variant
-// より**後ろ**にあるファミリー(mercury: 🪨 が ☿☄️ の後 / earthmoon: 🌘 が 🌙 の後 /
-// saturn: 💿 が 🪐🎯📡💍 の後)では、素直に走査すると「└ variant …(親なし)… primary」と
+// より**後ろ**にあるファミリー(mercury: 🪨 が ☄️ の後 / earthmoon: 🌘 が 🌙 の後 /
+// saturn: 💿 が 📡💍 の後 — いずれも現実との照合グループ内。第149便のファミリー分割で
+// ☿🌍🌕🪐🎯 は別ファミリー/単独になったが、この繰り上げ自体は引き続き必要)では、
+// 素直に走査すると「└ variant …(親なし)… primary」と
 // 並び、└ 接頭辞が孤立して読めなくなる。同グループに**未出力の primary** を持つ variant は
 // いったん飛ばし、primary へ到達したときに直後へまとめて出す(= primary が最初の変種の位置に
 // 繰り上がる)。表示専用 — BUILTIN_PRESETS の配列順・group・claims・QA は一切不変。
-// グループを跨ぐ variant(earthmoon の 🌍🌕 / collide の 🌠)は従来どおり自分の group の
+// グループを跨ぐ variant(collide の 🌠 / rotorform の 🌱)は従来どおり自分の group の
 // 元位置に残る(「この仲間」導線が橋渡し — 第82便の設計判断のまま)
 function familyGroupedBuiltins(){
   const src=orderedBuiltins(), out=[], used=new Set();
@@ -13528,9 +13607,61 @@ function ppRender(){
       mkRow("💾 "+nm,"",false,()=>pick("save#"+idx)); });
   }
 }
-function ppChipsRow(host,dimLabel,opts,get,set){
+// 第149便(原仮定者指示): 絞り込み4次元の説明文(畳み込みの中身)。いずれも**既存の宣言・文言からの
+// 導出/転記だけ**で、この場で新しい数値・主張は作らない:
+//   group = I18N の groupNotes(README のグループ紹介の要約)を、実際に存在するグループぶんだけ並べる
+//   scale = scaleTier の既存定義(SCALE_ANCHORS の指数を fmtMeters/fmtSecs/fmtKg で実行時に整形)
+//   cls   = sampleClass バッジの tip 文そのもの(bdgSC_*Tip)
+//   e     = 第147便の E水準 運用規約注記(件数は実行時導出)
+function ppNoteText(kind){
+  if(kind==="group"){
+    const nt=(LANG==="en"? I18N.en.groupNotes : I18N.ja.groupNotes)||{};
+    const gs=orderedGroups().slice();
+    if(getCustomPresets().length) gs.push("AI生成");
+    if(getSaves().length) gs.push("保存一覧");
+    return T("ppNoteGroupHead")+"\n"
+      +gs.filter(g=>nt[g]).map(g=>"・"+gName(g)+" — "+nt[g]).join("\n");
+  }
+  if(kind==="scale"){
+    const fT=(LANG==="en")? fmtSecsEn : fmtSecs;
+    return T("ppNoteScaleHead")+"\n"
+      +SCALE_TIERS.map(t=>{ const a=SCALE_ANCHORS[t];
+        return "・"+SCALE_EMOJI[t]+" "+T("scaleName_"+t)+" — "+T("ppNoteScaleUnit")+" ≈ "
+          +fmtMeters(Math.pow(10,a.expL))+" / "+fT(Math.pow(10,a.expT))+" / "+fmtKg(Math.pow(10,a.expM));
+      }).join("\n");
+  }
+  if(kind==="cls"){
+    return T("ppNoteClassHead")+"\n"
+      +["principle","composite","calibration","semantic"]
+        .map(k=>"・"+T("bdgSC_"+k)+" — "+T("bdgSC_"+k+"Tip")).join("\n");
+  }
+  const n=allPresets().filter(p=>EMERGENCE_LEVELS.indexOf(p.emergence)>=0).length;
+  return T("ppENote")(n);
+}
+// 第149便: 説明の開閉状態(表示専用・セッション内のみ)。チップ選択のたびにウィンドウを組み直す
+// (showPresetPicker(true))ので、開閉はこの外部状態で持ち越す。既定はすべて閉。
+// 開くのは一度に1つ(アコーディオン)— 4つ同時に開くと狭い画面で一覧が潰れるため
+const ppNoteOpen={group:false,scale:false,cls:false,e:false};
+function ppNoteToggle(key){
+  const on=!ppNoteOpen[key];
+  for(const k of Object.keys(ppNoteOpen)) ppNoteOpen[k]=false;
+  ppNoteOpen[key]=on;
+}
+// いま組み立てているウィンドウの説明ブロックの同期関数(showPresetPicker() の先頭で空にする)
+let ppNoteSyncs=[];
+// dimLabel は次元見出し。note を渡すと見出しが**開閉ボタン**になり、行の直下へ .ppNote を置く
+// (ボタンは見出し領域だけを占めるので、チップの選択操作とは当たり判定が重ならない)
+function ppChipsRow(host,dimLabel,opts,get,set,note){
   const row=document.createElement("div"); row.className="ppChips";
-  const dl=document.createElement("span"); dl.className="ppDim"; dl.textContent=dimLabel; row.appendChild(dl);
+  let dl;
+  if(note){
+    dl=document.createElement("button"); dl.type="button"; dl.className="ppDim ppDimBtn";
+    dl.id=note.btnId; dl.title=T("ppNoteTip"); dl.setAttribute("aria-controls",note.id);
+    dl.textContent=dimLabel+" ⓘ";
+  }else{
+    dl=document.createElement("span"); dl.className="ppDim"; dl.textContent=dimLabel;
+  }
+  row.appendChild(dl);
   opts.forEach(([v,txt])=>{
     const c=document.createElement("button"); c.type="button"; c.className="ppChip"; c.textContent=txt;
     if(get()===v) c.dataset.on="1";
@@ -13538,10 +13669,21 @@ function ppChipsRow(host,dimLabel,opts,get,set){
     row.appendChild(c);
   });
   host.appendChild(row);
+  if(note){
+    const d=document.createElement("div"); d.className="ppNote"; d.id=note.id;
+    d.textContent=ppNoteText(note.key);
+    const sync=()=>{ const on=!!ppNoteOpen[note.key];
+      d.hidden=!on; dl.setAttribute("aria-expanded",on? "true":"false"); };
+    ppNoteSyncs.push(sync);
+    dl.addEventListener("click",()=>{ ppNoteToggle(note.key); ppNoteSyncs.forEach(f=>f()); });
+    sync();
+    host.appendChild(d);
+  }
 }
 function hidePresetPicker(){ const m=$("#ppModal"); if(m) m.remove(); }
 function showPresetPicker(rebuildOnly){
   const old=$("#ppModal"); if(old) old.remove();
+  ppNoteSyncs=[];   // 第149便: 説明ブロックの同期関数はウィンドウごとに作り直す(開閉状態は ppNoteOpen が持ち越す)
   const ov=document.createElement("div"); ov.id="ppModal";
   ov.addEventListener("click",(e)=>{ if(e.target===ov) hidePresetPicker(); });
   const box=document.createElement("div"); box.className="ppBox";
@@ -13554,26 +13696,25 @@ function showPresetPicker(rebuildOnly){
   const cl=document.createElement("button"); cl.type="button"; cl.id="ppClose"; cl.textContent="✕";
   cl.addEventListener("click",hidePresetPicker); hd.appendChild(cl);
   box.appendChild(hd);
+  // 第147便(統括裁定の実行): E水準の運用規約の注記。件数は**実行時導出**(emergence 宣言のある
+  // サンプル数 — 手打ちしない)。表示専用で、フィルタの意味論(第94便: E0 は宣言なしも含む)は不変
+  // 第149便(原仮定者指示): その注記を「E水準」ラベルのタップで開く畳み込みへ変え、グループ・
+  // スケール・分類にも同じ作法の説明を新設した(既定は閉。ppNoteText() が中身を組み立てる)
   ppChipsRow(box, T("ppDimGroup"),
     [["all",T("grpAll")]].concat(orderedGroups().map(g=>[g,gName(g)]))
       .concat(getCustomPresets().length? [["AI生成",gName("AI生成")]]:[])
       .concat(getSaves().length? [["保存一覧",gName("保存一覧")]]:[]),
-    ()=>ppGroup,(v)=>ppGroup=v);
+    ()=>ppGroup,(v)=>ppGroup=v, {key:"group", id:"ppGroupNote", btnId:"ppDimGroupBtn"});
   ppChipsRow(box, T("ppDimScale"),
     [["all",T("grpAll")]].concat(SCALE_TIERS.map(t=>[t,SCALE_EMOJI[t]+" "+T("scaleName_"+t)])),
-    ()=>ppScale,(v)=>ppScale=v);
+    ()=>ppScale,(v)=>ppScale=v, {key:"scale", id:"ppScaleNote", btnId:"ppDimScaleBtn"});
   ppChipsRow(box, T("ppDimClass"),
     [["all",T("grpAll")],["principle",T("bdgSC_principle")],["composite",T("bdgSC_composite")],
      ["calibration",T("bdgSC_calibration")],["semantic",T("bdgSC_semantic")]],
-    ()=>ppClass,(v)=>ppClass=v);
+    ()=>ppClass,(v)=>ppClass=v, {key:"cls", id:"ppClassNote", btnId:"ppDimClassBtn"});
   ppChipsRow(box, T("ppDimE"),
     [["all",T("grpAll")],["E0","E0"],["E1","E1"],["E2","E2"],["E3","E3"]],
-    ()=>ppE,(v)=>ppE=v);
-  // 第147便(統括裁定の実行): E水準の運用規約の注記。件数は**実行時導出**(emergence 宣言のある
-  // サンプル数 — 手打ちしない)。表示専用で、フィルタの意味論(第94便: E0 は宣言なしも含む)は不変
-  { const n=allPresets().filter(p=>EMERGENCE_LEVELS.indexOf(p.emergence)>=0).length;
-    const d=document.createElement("div"); d.className="ppNote"; d.id="ppENote";
-    d.textContent=T("ppENote")(n); box.appendChild(d); }
+    ()=>ppE,(v)=>ppE=v, {key:"e", id:"ppENote", btnId:"ppDimEBtn"});
   // 第93便(原仮定者指示): 「すべて表示」(ファミリー変種)をヘッダからウィンドウ内へ移動。
   // 状態はヘッダの非表示チェックと同じ showAllSamples(localStorage)— 両者を同期する
   { const row=document.createElement("div"); row.className="ppChips";
