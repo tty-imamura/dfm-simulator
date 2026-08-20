@@ -65,7 +65,18 @@
     padding:3px 9px;background:var(--panel2);white-space:nowrap;}
   .ppChip[data-on="1"]{border-color:var(--acc);color:var(--acc);}
   #ppList{overflow-y:auto;flex:1;margin-top:6px;border-top:1px solid var(--line);}
-  .ppGroupHead{font-size:calc(11px*var(--uz,1));color:var(--dim);font-weight:700;margin:8px 0 2px;}
+  /* 第147便(原仮定者指示): 一覧のグループ区切りを「見出し+罫線」のセパレータへ(表示専用)。
+     見出し行そのものが上辺の区切り線を持ち、名前の右へ罫線を伸ばす(::after)。先頭の見出しだけは
+     上辺の線を出さない。絞り込み・「すべて表示」トグルとは独立(見出しは行が1つ以上出る
+     グループにだけ ppRender() が挿入する)。flex+min-width:0 なので狭い画面でも横スクロールしない */
+  .ppGroupHead{display:flex;align-items:center;gap:8px;min-width:0;overflow-wrap:anywhere;
+    font-size:calc(11px*var(--uz,1));color:var(--dim);font-weight:700;
+    margin:10px 0 2px;padding-top:8px;border-top:1px solid var(--line,#2a3242);}
+  .ppGroupHead::after{content:"";flex:1 1 auto;min-width:12px;height:1px;background:var(--line,#2a3242);opacity:.75;}
+  .ppGroupHead:first-child{margin-top:2px;padding-top:0;border-top:0;}
+  /* 第147便: E水準フィルタの運用注記(件数は実行時導出 — 手打ちしない) */
+  .ppNote{font-size:calc(10px*var(--uz,1));color:var(--dim);line-height:1.45;
+    margin:0;padding:4px 0 5px;border-bottom:1px solid var(--line,#2a3242);}
   .ppRow{display:flex;align-items:center;gap:6px;width:100%;text-align:left;background:none;
     border:0;border-radius:8px;padding:7px 6px;min-height:40px;font-size:calc(13px*var(--uz,1));color:var(--fg);}
   .ppRow:active,.ppRow:hover{background:var(--panel2);}
@@ -94,6 +105,12 @@
     font-weight:700;color:var(--acc);}
   #aboutPanel .beHead button{background:none;border:none;color:var(--dim);font-size:calc(14px*var(--uz,1));
     padding:2px 6px;min-height:28px;}
+  /* 第147便(原仮定者指示): 全面パネルの見出し行(✕を含む)を sticky 化 — 中身をスクロール
+     した状態でも閉じるボタンが常に上端に留まる(#btnPanelClose〔v1.17〕と同じ作法を
+     #aboutPanel / #pmPanel / #avPanel の3枚へ揃えた)。表示のみ — 開閉の意味論は不変 */
+  #aboutPanel .beHead,#pmPanel .beHead,#avPanel .beHead{position:sticky;top:-10px;z-index:5;
+    margin:-10px -10px 4px;padding:8px 10px 6px;background:rgba(20,24,48,.98);
+    border-bottom:1px solid var(--line);}
   #aboutPanel h4{color:var(--acc);margin:10px 0 4px;}
   #aboutPanel p{color:var(--fg);margin:4px 0;}
   /* 第83便B: 相図ランナー(2変数バッチ掃引の色マップ)。#aboutPanel と同じ「キャンバス上の
@@ -990,6 +1007,9 @@ ja: {
   ppSearchPh:"検索(名前・ID・絵文字)",
   ppPickTip:"タップしてサンプル選択ウィンドウを開く(グループ・スケール・分類・E水準で絞り込み/検索)",
   ppDimGroup:"グループ", ppDimScale:"スケール", ppDimClass:"分類", ppDimE:"E水準",
+  // 第147便(統括裁定の実行): E水準の運用規約を UI へ明文化。件数 n は実行時導出(宣言のある
+  // サンプル数)で、手打ちの数値は持たない。フィルタの意味論は不変(E0 は第94便どおり宣言なしも含む)
+  ppENote:(n)=>`E水準は創発プログラム(論文4系)の宣言専用メタで、宣言のあるサンプルだけが対象(現在 ${n} 件 — E1〜E3)。全プリセットへの強制分類はしない。E0 チップは宣言なしのサンプルも含む(第94便)。E2/E3 の拡充は論文4の着手便で再判定する(第147便 運用規約)。`,
   // 第92便(原仮定者指示): スケールバー(距離の目盛)
   tgScaleBar:"スケールバー表示",   // 第94便: 「スケール」カテゴリへ移設し「スケールバー表示」に改称(共通設定・既定ON)
   tgScaleBarDesc:"画面左下に距離の目盛(モデル単位)、右下に画面の表示幅を出す。スケール換算表示がONのときは実単位(nm〜ly)も併記する。共通設定・既定ON。表示のみ — 物理には影響しない。",
@@ -1440,6 +1460,8 @@ en: {
   ppSearchPh:"Search (name, ID, emoji)",
   ppPickTip:"Tap to open the sample picker (filter by group, scale, class, E-level; search)",
   ppDimGroup:"Group", ppDimScale:"Scale", ppDimClass:"Class", ppDimE:"E-level",
+  // wave 147: operating rule for the E-level filter. The count is derived at runtime.
+  ppENote:(n)=>`The E-level is declaration-only metadata for the emergence program (paper 4 line); only samples that declare one are in scope (${n} at present — E1–E3). It is never forced onto every preset. The E0 chip also covers samples with no declaration (wave 94). Extending E2/E3 is re-decided when paper 4 starts (wave 147 operating rule).`,
   // 第92便: scale bar (distance ruler)
   tgScaleBar:"Scale bar",
   tgScaleBarDesc:"Show a distance ruler (model units) at the bottom left and the view width at the bottom right. When scale conversion is ON, real units (nm–ly) are shown alongside. Display only — no effect on physics.",
@@ -1605,7 +1627,9 @@ en: {
   // are removed here too (ja/en together). Light-speed conversion is fixed to the per-tier x−eT
   hudScale:(x,eT,eM,t,ts)=>`scale conv: len1=10^${Math.round(x*10)/10}m time1=10^${Math.round(eT*10)/10}s mass1=10^${Math.round(eM*10)/10}kg t≈${fmtSecsEn(t*Math.pow(10,eT))} (effective rate ${sciFmt(ts)}: 1s of playback≈${fmtSecsEn(SUBSTEPS*DT*60*ts*Math.pow(10,eT))})`,
   // 第103便: スケール雛形(aiTpl*)のキー群は撤去(第74便UIの撤去に伴う)
-  groups:{"空間と時間":"Space & Time","箱宇宙":"Box Universe","銀河":"Galaxies","光":"Light","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
+  // wave 147: group rename (display only) — 銀河→銀河の物語 / 光→光の物語, plus the new
+  // 現実較正 (reality-calibration) group placed right after 天体の物語
+  groups:{"空間と時間":"Space & Time","箱宇宙":"Box Universe","銀河の物語":"Galaxy Stories","光の物語":"Light Stories","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","現実較正":"Reality Calibration","法則の実験室":"Law Lab","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
   params:{G:"Gravity G", D0:"Background determinacy D₀", kFrame:"Frame dragging kFrame",
     q:"Drag falloff q", kRep:"Spin repulsion kRep", muF:"Friction→spin muF",
     gammaN:"Collision damping γn", kappaS:"Spin diffusion κs", kappaT:"Spacetime κ (time & light)",
@@ -2187,43 +2211,43 @@ function refreshScaleConv(){
 const PARAM_DEFS = [
   // v1.21: desc(タップ説明。ja はここ、en は I18N.en.paramDescs)。仕様は docs/PHYSICS.md §5 準拠
   // 第95便(原仮定者指示): 「重力 G」は「光速 c₀」の次へ移動(配列順=表示順。定義内容は不変)
-  {key:"D0",    label:"背景決定力 D₀",       mode:"log", lo:0.005,  hi:1e6,  cat:"dg", group:"法則",   /* 第120便: lo 0.005 / 第121便: hi 1e6(🪨の引きずり抑制較正 D₀=1e4 を被覆) */
+  {key:"D0",    label:"背景決定力 D₀",       mode:"log", lo:0.005,  hi:1e6,  cat:"dg", group:"法則の実験室",   /* 第120便: lo 0.005 / 第121便: hi 1e6(🪨の引きずり抑制較正 D₀=1e4 を被覆) */
    desc:"遠方宇宙が及ぼす決定力の底値(A5)。大きいほど空間が遠方に固定されて安定し、近くの質量による空間引きずり(kFrame)の効きが相対的に弱まる。"},
-  {key:"q",     label:"引きずり減衰 q",      mode:"lin", lo:0.5, hi:40, step:0.05, cat:"dg", group:"法則",
+  {key:"q",     label:"引きずり減衰 q",      mode:"lin", lo:0.5, hi:40, step:0.05, cat:"dg", group:"法則の実験室",
    desc:"スピン(自転)による回転引きずりが距離とともに弱まる速さの指数(E3: (R/(R+d))^q)。大きいほど引きずりが天体の近くに限定される。"},
-  {key:"kRep",  label:"スピン斥力 kRep",     mode:"lin", lo:0, hi:20, step:0.1, cat:"sh", group:"法則",   /* 第56便 56A: 🧬emergent(kRep=20)を範囲内に — CLAMPS 上限と一致 */
+  {key:"kRep",  label:"スピン斥力 kRep",     mode:"lin", lo:0, hi:20, step:0.1, cat:"sh", group:"法則の実験室",   /* 第56便 56A: 🧬emergent(kRep=20)を範囲内に — CLAMPS 上限と一致 */
    desc:"スピン=熱を持つ粒子同士が押し合う力(A10/E5′)。この宇宙の「圧力」の正体で、熱いガスが膨らむ(🎈)のも対流(♨️)もこの力から生まれる。"},
-  {key:"muF",   label:"摩擦→スピン変換 muF", mode:"lin", lo:0, hi:1, step:0.01, cat:"sh", group:"法則",
+  {key:"muF",   label:"摩擦→スピン変換 muF", mode:"lin", lo:0, hi:1, step:0.01, cat:"sh", group:"法則の実験室",
    desc:"接触した粒子のすべり(相対速度)をスピン=熱へ変換する摩擦の効率(A9/E9)。0にすると衝突しても加熱されない(💥で対照実験ができる)。"},
-  {key:"gammaN",label:"衝突減衰 γn",         mode:"lin", lo:0, hi:1, step:0.01, cat:"sh", group:"法則",
+  {key:"gammaN",label:"衝突減衰 γn",         mode:"lin", lo:0, hi:1, step:0.01, cat:"sh", group:"法則の実験室",
    desc:"衝突の法線方向の減衰(跳ね返りの失われやすさ)。0=よく弾む、1=ぶつかると速度が失われやすい。失われたエネルギーは帳簿に記録される(T7)。"},
-  {key:"kappaS",label:"スピン拡散 κs",       mode:"lin", lo:0, hi:2, step:0.01, cat:"sh", group:"法則",
+  {key:"kappaS",label:"スピン拡散 κs",       mode:"lin", lo:0, hi:2, step:0.01, cat:"sh", group:"法則の実験室",
    desc:"スピン=熱が近くの粒子へ飛び移って均される熱伝導(E10′)。接触は不要で、近いほど強く伝わる(📏)。0にすると熱が伝わらない。"},
-  {key:"kappaT", label:"時空係数 κ", mode:"log", lo:1e-12, hi:1, sci:true, zeroLeft:true, cat:"st", group:"法則",   /* 第125便: κ=0(時空効果なし)を許容 — 左端=0 */   /* 第128便(121B 完結編): 内部保持・エンジン計算・UI キー・physLock すべて κ 正準へ(ψ=W·κ)。旧 Kt は境界で受理する後方互換キーのみ。sci:true = 旧 inv 世代と同じ表示規約(0 表示・1e-4 未満は指数表示)を逆数変換なしで保つ新フラグ */
+  {key:"kappaT", label:"時空係数 κ", mode:"log", lo:1e-12, hi:1, sci:true, zeroLeft:true, cat:"st", group:"法則の実験室",   /* 第125便: κ=0(時空効果なし)を許容 — 左端=0 */   /* 第128便(121B 完結編): 内部保持・エンジン計算・UI キー・physLock すべて κ 正準へ(ψ=W·κ)。旧 Kt は境界で受理する後方互換キーのみ。sci:true = 旧 inv 世代と同じ表示規約(0 表示・1e-4 未満は指数表示)を逆数変換なしで保つ新フラグ */
    desc:"時計の遅れと光の屈折を1本で決める係数 κ(=G/c² と同次元 [L/M] — 質量あたり重力長 r_g=κm)。大きいほど時空効果が強い — ψ=W·κ で時計はより遅れ、光はより曲がる。κ→0 が「時空効果なし」の自然極限。現実との較正は κ=G/c²(物理対応ロックの導出値)。内部エンジン・セーブ・AIプリセットの宣言層すべて κ 正準(第128便で完結)。旧 Kt=1/κ キーはセーブ・AIプリセットの後方互換として受理する。※記号の注意: GR の「アインシュタインの重力定数」κ=8πG/c⁴(次元 s²·m⁻¹·kg⁻¹)とは別の量である(本モデルの κ は G/c² と同次元 [m/kg])。"},
-  {key:"cLight",label:"光速 c₀",             mode:"log", lo:1, hi:1e6, cat:"st", group:"法則",   /* 第116便: ティア実c値まで / 第118便(原仮定者指示): 入力範囲 1〜1e6 */
+  {key:"cLight",label:"光速 c₀",             mode:"log", lo:1, hi:1e6, cat:"st", group:"法則の実験室",   /* 第116便: ティア実c値まで / 第118便(原仮定者指示): 入力範囲 1〜1e6 */
    desc:"光線の速さと、運動による時計の遅れの基準(E7R: 共動フレームに対する速さがc₀に近いほど固有時計が遅れる)。下げると相対論的効果が見えやすくなる。【c₀の三層(第99便)】①基準光速 c₀=このパラメータ(可視化サンプルは c₀=30 の一律規約。観測較正サンプル〔☄️水星実不変量など〕はティア別の実c値規約 c₀=3×10⁸×10^(−(x−eT)) — 第113便)②局所光速 c_loc=c₀·e^(−2ψ)(重力ポテンシャルの井戸で局所的に遅くなる — 減光・光掃引の auto が使う)③表示較正指数 eC(換算表示専用 — 物理には入らない。**ティア別 x−eT 固定** — c₀=30 をそのティアの次元的光速として正直表示する〔🏠「≈30 m/s」・☀️🪐「≈3×10⁵ m/s」など〕。第126便でこれを既定化し、第130便で手動上書き〔旧「光速 c₀ 表示較正指数」スライダー〕を廃止した〔さらに旧規約は一律 eC=7 の「30→3×10⁸ m/s」— 歴史記述〕。実c値サンプルは表示が実光速と厳密一致)。現実較正(実c値規約)のサンプルが要求する「eC=x−eT」は、この固定により常に成立する。換算値はアナロジーの目安であり、実c値規約のサンプルのみ実定数と換算が厳密一致する。"},
-  {key:"G",     label:"重力 G",              mode:"log", lo:0.005,  hi:1e6,  zeroLeft:true, cat:"st", group:"法則",   /* 第118便: 入力0〜1e6 / 第125便(原仮定者指示): スライダー左端=0(zeroLeft) */
+  {key:"G",     label:"重力 G",              mode:"log", lo:0.005,  hi:1e6,  zeroLeft:true, cat:"st", group:"法則の実験室",   /* 第118便: 入力0〜1e6 / 第125便(原仮定者指示): スライダー左端=0(zeroLeft) */
    desc:"粒子同士の万有引力の強さ。この宇宙では決定力Wの勾配が重力になる(A6/E4: a=G∇W)。0にすると自己重力が消える(一様重力g_x/g_yとは別)。"},
-  {key:"bM",    label:"ウィーン定数 b_m",    mode:"log", lo:0.01, hi:100, cat:"sh", group:"法則",
+  {key:"bM",    label:"ウィーン定数 b_m",    mode:"log", lo:0.01, hi:100, cat:"sh", group:"法則の実験室",
    desc:"温度Tの粒子が放つ光のピーク波長を λ=b_m/T で決める定数(A12)。スペクトル表示(🌈)の横軸の較正に使う。"},
-  {key:"etaRad",label:"放射冷却 η_rad",      mode:"log", lo:0.000001, hi:1, cat:"sh", group:"法則",
+  {key:"etaRad",label:"放射冷却 η_rad",      mode:"log", lo:0.000001, hi:1, cat:"sh", group:"法則の実験室",
    desc:"粒子が光を放って冷える強さ(E11: 冷却率Λ∝T^p)。0で放射なし。高温ほど速く冷える(🌈)。失った角運動量・エネルギーは帳簿に記録される。"},
-  {key:"pRad",  label:"放射指数 p",          mode:"lin", lo:1, hi:6, step:0.5, cat:"sh", group:"法則",
+  {key:"pRad",  label:"放射指数 p",          mode:"lin", lo:1, hi:6, step:0.5, cat:"sh", group:"法則の実験室",
    desc:"放射冷却の温度依存の急峻さ(E11: Λ∝T^p)。大きいほど「熱いものだけが急速に冷える」ようになる。"},
-  {key:"cHeat", label:"熱容量 C(内部温度モード)", mode:"log", lo:0.01, hi:100, cat:"sh", group:"法則",
+  {key:"cHeat", label:"熱容量 C(内部温度モード)", mode:"log", lo:0.01, hi:100, cat:"sh", group:"法則の実験室",
    desc:"内部温度モード(thermal:\"tint\" のサンプル)でだけ働く熱容量係数。粒子が持つ熱エネルギーは E=C·m·T_int で、散逸ΔEは ΔT_int=ΔE/(C·m) として内部温度に貯まる(A9′/E9)。大きくすると同じ散逸でも温まりにくくなる。既定のスピン=熱モード(thermal 省略)のサンプルでは一切効かない。"},
-  {key:"gravityX",label:"一様重力 g_x",      mode:"lin", lo:-5, hi:5, step:0.005, cat:"st", group:"法則",   /* 第79便(原仮定者指示): 実験箱→時空カテゴリへ移動 */
+  {key:"gravityX",label:"一様重力 g_x",      mode:"lin", lo:-5, hi:5, step:0.005, cat:"st", group:"法則の実験室",   /* 第79便(原仮定者指示): 実験箱→時空カテゴリへ移動 */
    desc:"画面全体に働く横方向の一様な外部重力場(v1.17)。決定力Wには寄与しないので、時計・光・引きずりを歪めずに「地上の実験室」を作れる。運動量は場との交換として帳簿に記録。"},
-  {key:"gravityY",label:"一様重力 g_y",      mode:"lin", lo:-10, hi:10, step:0.005, cat:"st", group:"法則",   /* 第79便: 同上。第94便: ⚾の g_y=9.8(実値化)がスライダー内に収まるよう CLAMPS と同じ±10へ拡大(第56便 kRep と同じ方針) */
+  {key:"gravityY",label:"一様重力 g_y",      mode:"lin", lo:-10, hi:10, step:0.005, cat:"st", group:"法則の実験室",   /* 第79便: 同上。第94便: ⚾の g_y=9.8(実値化)がスライダー内に収まるよう CLAMPS と同じ±10へ拡大(第56便 kRep と同じ方針) */
    desc:"画面全体に働く縦方向の一様な外部重力場(+yは画面下向き)。⚾自由落下・♨️対流・🧪浮力の「下向きの重力」はこれ。ビーカータグ(♨️🧪)は 0.031(換算 ≈9.8 m/s² — 第98便: 旧日常較正を引き継ぎ)、日常タグ(⚾)は実値 9.8(そのまま 9.8 m/s²)を既定とする。0にすると無重力になる。"},
-  {key:"geoPN",   label:"測地線モード geoPN", mode:"lin", lo:0, hi:2, step:1,    cat:"dg", group:"法則",
+  {key:"geoPN",   label:"測地線モード geoPN", mode:"lin", lo:0, hi:2, step:1,    cat:"dg", group:"法則の実験室",
    desc:"v2.0の測地線モード(E12)。1にすると、時計を遅らせるのと同じψ=W·κから物質の運動を作用原理で導き、1PN補正が働く(☿)。同時に物質へのE6′引きずりは無効化(二重計上禁止)。2にすると v−u 統一測地線則(v2.0第2段階): u≠0 のまま導いた式で、フレーム輸送・渦度コリオリ(引きずりの正体)・1PN が一本の式から出る — kFrame=0 では 1 と厳密に同じ。0=従来(legacy)。"},
-  {key:"kFrame",label:"空間引きずり kFrame", mode:"lin", lo:0, hi:1, step:0.01, cat:"dg", group:"法則",
+  {key:"kFrame",label:"空間引きずり kFrame", mode:"lin", lo:0, hi:1, step:0.01, cat:"dg", group:"法則の実験室",
    desc:"質量が動く・回ると「近くの空間」(決定フレーム)ごと引きずり、そこにある物質と光を運ぶ効果の強さ(A4/A5/E6′)。1=完全な相対空間、0=引きずりなしのニュートン的空間。銀河外縁の回転速度増強(T4)の主役。"},   // 第124便(原仮定者指示): geoPN の次へ移動
-  {key:"lambdaPN",label:"1PN補正 λ_PN",      mode:"lin", lo:0, hi:1, step:0.05, cat:"dg", group:"法則",
+  {key:"lambdaPN",label:"1PN補正 λ_PN",      mode:"lin", lo:0, hi:1, step:0.05, cat:"dg", group:"法則の実験室",
    desc:"測地線モード(geoPN≥1 — geoPN=2 の a₁ₚₙ(w) 項も同じスイッチで制御)の1PN補正の強さ(0〜1の連続値 — 第110便で整数制限を撤廃)。1PN加速度は λ_PN/c₀² に比例するので、c₀を固定したまま1PN強度だけを較正できる。0にするとニュートン重力に戻り、楕円軌道が閉じる — ☿水星のA/B対照実験用。"},
-  {key:"pnAlpha", label:"1PN係数 α(0.5=時間率のみ, 1.5=完全)", mode:"lin", lo:0.5, hi:1.5, step:0.5, cat:"dg", group:"法則",
+  {key:"pnAlpha", label:"1PN係数 α(0.5=時間率のみ, 1.5=完全)", mode:"lin", lo:0.5, hi:1.5, step:0.5, cat:"dg", group:"法則の実験室",
    desc:"1PN補正の強さの内訳(E12)。1.5=完全(GRのβ=γ=1相当 — 水星の前進42.98″/世紀の全量)、0.5=時間率のみ(前進が1/3になる)。V18〜V20で機械検証。"},
   // 第118便(原仮定者指示): 「粒子半径スケール」(radiusScale)の UI を廃止し「粒子表示倍率」
   // (dispMag — 表示専用)を新設。radiusScale はエンジン・バリデータ・既存セーブでは従来どおり
@@ -2372,10 +2396,46 @@ const CLAMPS = { G:[0,1e6], D0:[0,1e6], kFrame:[0,1], q:[0.5,40], kRep:[0,20], m
 // Kt=1e12 は「時空効果なし」を意味していたので κ=0 へ落とす(第125便のセーブ書出しと同じ写像)
 function ktToKappa(Kt){ return (Kt>=1e12)? 0 : 1/clamp(Kt,1,1e12); }
 
+// ===== 第148便: 弱場GR較正の「式レベル出力」(SI)— 🛰️grcal の焦点3サンプル用 =====
+// 位置づけ: **表示・QA 専用の純関数**。エンジンの力学経路(step/photonStep/traceRay)には
+// 一切入らず、sim・プリセットを1バイトも書き換えない。写像は κ=G/c² の1本だけで、
+// 自由パラメータ(fit)は存在しない。入力は下の GR_SI_INPUTS の観測入力の**転記のみ**で、
+// 値は 🛰️grcal に固定済みの正典(GPS 正味 +38.5μs/日〔重力 +45.7・運動 −7.2〕・
+// 太陽縁の偏向 1.7512″・シャピロ ≈281μs)を再現する。数値をここで新たに作らない。
+// 「式レベル一致」の意味も grcal の限定文言を踏襲する: DFM の式が弱場で同じ基準式へ帰着する
+// ことを言うだけで、「DFM が GR を導出した」とも「実験データに当てて検証した」とも主張しない。
+const GR_SI_INPUTS={
+  G:6.674e-11, c:2.99792458e8,          // CODATA 準拠の標準参照値
+  Mearth:5.972e24, Rearth:6.371e6,      // GPS: 地球の質量・地上時計の半径
+  rGPS:2.6562e7, vGround:465,           // GPS: 軌道半径・地上時計の自転速度 Ω⊕R⊕(=0.465km/s)
+  Msun:1.989e30, Rsun:6.96e8,           // 偏向・シャピロ: 太陽の質量・半径(=衝突径数 b)
+  au:1.496e11, r2au:8.43,               // シャピロ: r₁=1au(地球)・r₂=8.43au(土星)
+  secPerDay:86400 };
+function grSI(){
+  const K=GR_SI_INPUTS, c2=K.c*K.c, usPerDay=K.secPerDay*1e6;
+  // ① GPS 時計差(A7′/E7R): ψ=W·κ=GM/(rc²)。弱場一次で τ/t≈1−ψ−½|v|²/c²
+  const psiGround=K.G*K.Mearth/(K.Rearth*c2), psiSat=K.G*K.Mearth/(K.rGPS*c2);
+  const vSat=Math.sqrt(K.G*K.Mearth/K.rGPS);
+  const gravity=(psiGround-psiSat)*usPerDay;                 // 重力項(衛星が速く進む向き=正)
+  const motion=-(vSat*vSat/(2*c2))*usPerDay;                 // 運動項(衛星の二次ドップラー)
+  // 地上時計自身の自転項。正典の分解(論文1 Table I)は運動項へ畳み込まず別立てにしてある
+  const groundRot=(K.vGround*K.vGround/(2*c2))*usPerDay;
+  // ② 太陽縁の光偏向(E8R/T5): n_eff=e^{2ψ} のフェルマー則から弱場一次で α=4GM/(c²R)
+  const deflection=(4*K.G*K.Msun/(c2*K.Rsun))*(180/Math.PI)*3600;   // 秒角
+  // ③ シャピロ遅延(E8R の n_eff 積分): Δt=(4GM/c³)ln(4r₁r₂/b²)(往復・上合幾何)
+  const r1=K.au, r2=K.r2au*K.au, b=K.Rsun;
+  const shapiro=(4*K.G*K.Msun/(K.c*c2))*Math.log(4*r1*r2/(b*b))*1e6;   // μs
+  return { gpsGravity:gravity, gpsMotion:motion, gpsNet:gravity+motion,
+    gpsGroundRotation:groundRot, gpsSatSpeed:vSat,
+    deflectionArcsec:deflection, shapiroMicros:shapiro };
+}
+
 // ===== 内蔵プリセット(スキーマは内部開発文書 HANDOFF_IMPLEMENTATION.md §契約1 — 非公開管理) =====
 const BUILTIN_PRESETS = [
 // ===== v1.9 サンプル全面刷新(付録I)。旧16種は廃止し「1サンプル=1効果」で再構成 =====
 // 第26便(原仮定者指示): カテゴリ分け・表示順を再編 — 銀河系サンプルを「銀河」グループへ集約。配列順=表示順
+// 第147便(原仮定者指示): グループ改名(「銀河」→「銀河の物語」・「光」→「光の物語」)+
+//   新グループ「現実較正」の新設(表示・分類専用 — 配列順・物理・claims は不変。GROUP_ORDER 参照)
 // ===== グループ: 空間と時間 =====
 { id:"gclock", name:"重力による時計の遅れ", emoji:"⏱️", group:"空間と時間",
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
@@ -2412,6 +2472,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
 { id:"grcal", name:"弱場GR較正 — GPS・光・シャピロ", emoji:"🛰️", group:"空間と時間",
+  familyId:"grcal", familyRole:"primary",   // 第148便: 焦点3サンプル(🕰️🌟⏲️)の primary(表示専用)
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類)→ 第130便 統括裁定(原仮定者提示「外すのも選択肢」の個別適用):
                              // "calibration" → "principle"。SI 対応は式レベル較正(κ=G/c²)が本質で、画面初期値は
@@ -2436,6 +2497,314 @@ const BUILTIN_PRESETS = [
     {type:"single", rMul:1.2, m:2, x:180,y:0, vx:0,vy:1.44325, spin:0, pinned:false}
   ],
   rays:{n:9, spread:0.4},
+  overlays:{rotationCurve:false,tempHistogram:false,field:true} },
+
+// ===== 第148便: 🛰️grcal の焦点3サンプル(ファミリー grcal の variant)=====
+// 3本とも **物理対応条件 κ=G/cLight²(=1/3600)を満たす**構成にしてある(🛰️ 本体は見やすさ優先の
+// 誇張アナログで κ=1/300 — この条件を満たしていない。PHYSICS §5 物理対応条件)。SI の正典値は
+// 🛰️ と論文1 Table I に固定済みのものの**転記だけ**を使い、式レベル出力は HP.grSI()(表示・QA
+// 専用の純関数)が同じ κ=G/c² の1本から毎回その場で計算する。「式レベル一致」の意味は 🛰️ の
+// 限定文言を踏襲する — 弱場で同じ基準式へ帰着することを言うだけで、「DFM が GR を導出した」とも
+// 「実験データに当てて検証した」とも主張しない。QA は behavior.grcal3。
+{ id:"grcalGps", name:"GPS 時計差 — 重力項と速度項の分解", emoji:"🕰️", group:"空間と時間",
+  familyId:"grcal", familyRole:"variant",
+  scaleTier:"planetary",
+  sampleClass:"principle",
+  notClaim:["cal"],
+  obsCard:[
+    {q:"GPS 時計の正味の進み(衛星−地上)", model:"κ=G/c² の1本で +38.5μs/日(式レベル出力)", obs:"≈+38.6μs/日(GPS の系統設計値)"},
+    {q:"内訳: 重力項", model:"+45.7μs/日(ψ=GM/(rc²) の差)", obs:"—"},
+    {q:"内訳: 運動項", model:"−7.2μs/日(衛星の二次ドップラー −v²/2c²)", obs:"—"},
+    {q:"画面のアナログ(重力項:運動項)", model:"半径比を実 GPS(R⊕/r_GPS)に合わせたので、画面上の比も 6.3 になる", obs:"—(45.7/7.2=6.3)"}],
+  descStruct:{
+    summary:"GPS の時計差を「重力項」と「速度項」に分解して見せるサンプル。中心天体のまわりに時計を3つ置く: 地上時計(r=60・静止)、周回衛星(r=250・運動)、そして衛星と同じ半径に置いた静止参照時計(r=250)。3つの時計をタップして固有時(τ/t)を比べると、時計則(A7′/E7R: dτ/dt=√(N²−A²|v−u|²/c₀²))の差が2つの原因にきれいに分かれる。κ=G/cLight²(=1/3600)を満たす構成なので、これは物理対応条件つきの縮尺模型である(🛰️ 本体は見やすさ優先の誇張アナログでこの条件を満たしていない)。",
+    observe:"SI の式レベル出力(κ=G/c² の1本・観測入力は論文1 Table I の転記のみ・自由パラメータなし)は、GPS 時計の正味 +38.5μs/日(重力項 +45.7・運動項 −7.2。観測≈+38.6μs/日)。入力は地球質量 5.972×10²⁴kg・地上半径 6.371×10⁶m・軌道半径 2.6562×10⁷m で、衛星速度は円軌道の √(GM/r) から出る。画面のアナログでは: 地上時計(r=60)がいちばん遅く、静止参照時計(r=250)がいちばん速く、周回衛星(r=250)はその中間 — 参照時計との差が**運動項だけ**、地上時計との差が**重力項と運動項の合計**になる(差の引き算で2項が分離できる)。衛星が参照時計とすれ違う瞬間は同じ場所・同じ重力なのに時計だけが違う: そこに残るのは速度の効果だけである。半径比 60:250 は実 GPS の R⊕/r_GPS=0.2399 の転記(丸め)なので、画面上の重力項:運動項の比も実 GPS と同じ 6.3 になる — 誇張しているのは効果の大きさだけで、内訳の比は誇張していない。",
+    control:"ワンタップ対照は κ=0(時空係数ゼロ)— 3つの時計が完全に同じ速さで進む宇宙。κ のスライダーを上げると3つの差が同時に広がる。※SI 側の数値は κ=G/c² 写像の式計算(式レベル)によるもので、実験データに当てて検証したものではない。地上時計自身の自転項(Table I の v_ground=0.465km/s)は、論文1 Table I の分解が運動項へ畳み込んでいないので、ここでも別扱いにしてある。"},
+  en:{name:"GPS Clock Difference — Splitting Gravity from Speed",
+    obsCard:[
+      {q:"Net GPS clock rate (satellite − ground)", model:"+38.5 μs/day from the single mapping κ=G/c² (formula-level output)", obs:"≈+38.6 μs/day (GPS system design value)"},
+      {q:"Breakdown: gravity term", model:"+45.7 μs/day (the difference in ψ=GM/(rc²))", obs:"—"},
+      {q:"Breakdown: motion term", model:"−7.2 μs/day (the satellite's second-order Doppler, −v²/2c²)", obs:"—"},
+      {q:"On-screen analog (gravity : motion)", model:"the radius ratio is transcribed from the real GPS R⊕/r_GPS, so the on-screen ratio is 6.3 as well", obs:"— (45.7/7.2 = 6.3)"}],
+    parameterAudit:{
+      observedInputs:["Earth mass 5.972×10²⁴ kg","ground-clock radius 6.371×10⁶ m","GPS orbit radius 2.6562×10⁷ m",
+        "ground rotation speed v_ground=Ω⊕R⊕=0.465 km/s","G and c (CODATA-consistent standard reference values)"],
+      fixedConventions:["the single mapping κ=G/c² (no additional coefficient)","weak-field first order: τ/t≈1−ψ−½v²/c²",
+        "the satellite is on a circular orbit, v=√(GM/r)","the benchmark decomposition of paper 1 Table I keeps the ground rotation term separate from the motion term",
+        "on-screen analog: G=0.25, c₀=30, κ=G/c₀²=1/3600 (the physical-correspondence condition holds)",
+        "on-screen radii 60 : 250 transcribe the real ratio R⊕/r_GPS=0.2399 (rounded)",
+        "the static reference clock is a mass-floor marker (m=0.001) and the contact spring sits at the bottom of its range (contactK=0.1, contactCap=0.01, effectively zero), so the satellite passes it without a kick"],
+      fitted:[],
+      derived:["satellite speed v=√(GM/r_GPS)","gravity term (ψ_ground−ψ_sat)·86400s","motion term −(v²/2c²)·86400s","net = gravity + motion"],
+      numerical:["softening ε=2","time multiplier timeScale=4"]},
+    descStruct:{
+    summary:"A sample that splits the GPS clock difference into its GRAVITY part and its SPEED part. Three clocks sit around a central body: a ground clock (r=60, at rest), an orbiting satellite (r=250, moving), and a static reference clock at the satellite's own radius (r=250). Tap the three and compare their proper time (τ/t): the clock law (A7′/E7R: dτ/dt=√(N²−A²|v−u|²/c₀²)) splits the differences cleanly into the two causes. This configuration satisfies κ=G/cLight² (=1/3600), so it is a scale model WITH the physical-correspondence condition — unlike 🛰️ itself, which is a visibility-first exaggerated analog that does not satisfy it. ",
+    observe:"The formula-level SI output (one mapping, κ=G/c²; inputs are transcriptions from paper 1 Table I; no free parameter) is a net GPS clock rate of +38.5 μs/day (gravity +45.7, motion −7.2; observed ≈+38.6 μs/day). The inputs are the Earth's mass 5.972×10²⁴ kg, the ground radius 6.371×10⁶ m and the orbit radius 2.6562×10⁷ m, with the satellite speed following from the circular orbit √(GM/r). On screen: the ground clock (r=60) is the slowest, the static reference clock (r=250) the fastest, and the orbiting satellite (r=250) sits between them — its gap to the reference is the MOTION term alone, its gap to the ground clock is gravity AND motion together, so subtracting separates the two. At the instant the satellite passes the reference clock they are at the same place in the same gravity, and only the speed effect is left. The radii 60:250 transcribe the real GPS ratio R⊕/r_GPS=0.2399, so the on-screen gravity:motion ratio is the real 6.3 as well — only the SIZE of the effect is exaggerated, not the breakdown. ",
+    control:"The one-tap control is κ=0 (no spacetime coefficient): a universe where all three clocks tick at exactly the same rate. Raising the κ slider widens all three gaps together. Note: the SI numbers come from formula-level computation under the mapping κ=G/c²; they are not a test against experimental data. The ground clock's own rotation term (v_ground=0.465 km/s in Table I) is kept separate here because the Table I decomposition keeps it separate too."}},
+  claims:[
+    { id:"grcalGps.net-rate", kind:"analytic", prov:"derived", role:"retrospective_check",
+      metric:"gpsNetRateMicrosPerDay",
+      chain:{ax:["A7′"], eq:["E7R"],
+        note:"κ=G/c² の1本から出る GPS 時計の正味の進み(衛星−地上)。エンジンの式レベル出力(HP.grSI)が 🛰️ に固定済みの正典 +38.5μs/日 と ±1% で一致することを事前登録窓とする。弱場一次 τ/t≈1−ψ−½v²/c² の帰着であって、GR の導出でも実験データへの当てはめでもない。",
+        noteEn:"The net GPS clock rate (satellite − ground) that follows from the single mapping κ=G/c². The pre-registered window is that the engine's formula-level output (HP.grSI) agrees within ±1% with the canonical +38.5 μs/day already fixed in 🛰️. It is a weak-field reduction of τ/t≈1−ψ−½v²/c², not a derivation of GR and not a fit to experimental data."},
+      roleNote:"回顧的確認 — 較正ノブは1つも使っていない(観測入力の転記と κ=G/c² の写像だけ)。独立な予言ではなく、式レベルで同じ基準式へ帰着することの定量である。",
+      roleNoteEn:"Retrospective check — no calibration knob is spent (only transcribed observational inputs and the mapping κ=G/c²). Not an independent prediction: it quantifies the reduction to the same benchmark formula.",
+      expected:{min:38.115, max:38.885},
+      descPattern:"正味 \\+(\\d+\\.\\d+)μs/日", testId:"behavior.grcal3" },
+    { id:"grcalGps.gravity-term", kind:"analytic", prov:"derived", role:"retrospective_check",
+      metric:"gpsGravityTermMicrosPerDay",
+      chain:{ax:["A7′"], eq:["E7R"],
+        note:"内訳の重力項 — ψ=W·κ=GM/(rc²) の地上と軌道の差に1日を掛けたもの。正典 +45.7μs/日 と ±1%。",
+        noteEn:"The gravity part of the breakdown — the ground-to-orbit difference of ψ=W·κ=GM/(rc²) times one day. Within ±1% of the canonical +45.7 μs/day."},
+      roleNote:"回顧的確認 — 分解表示の一方の項。較正ノブはゼロ。",
+      roleNoteEn:"Retrospective check — one of the two terms of the breakdown. Zero calibration knobs.",
+      expected:{min:45.243, max:46.157},
+      descPattern:"重力項 \\+(\\d+\\.\\d+)", testId:"behavior.grcal3" },
+    { id:"grcalGps.motion-term", kind:"analytic", prov:"derived", role:"retrospective_check",
+      metric:"gpsMotionTermMicrosPerDay",
+      chain:{ax:["A7′"], eq:["E7R"],
+        note:"内訳の運動項 — 衛星の二次ドップラー −v²/2c²(v=√(GM/r_GPS))に1日を掛けたもの。正典 −7.2μs/日 と ±1%。地上時計自身の自転項は正典の分解にならって別扱いにしてある。",
+        noteEn:"The motion part of the breakdown — the satellite's second-order Doppler −v²/2c² (v=√(GM/r_GPS)) times one day. Within ±1% of the canonical −7.2 μs/day. The ground clock's own rotation term is kept separate, following the canonical decomposition."},
+      roleNote:"回顧的確認 — 分解表示のもう一方の項。較正ノブはゼロ。",
+      roleNoteEn:"Retrospective check — the other term of the breakdown. Zero calibration knobs.",
+      expected:{min:7.128, max:7.272},
+      descPattern:"運動項 −(\\d+\\.\\d+)", testId:"behavior.grcal3" },
+    { id:"grcalGps.orbit-radius", kind:"semantic", prov:"definition", role:"input_check",
+      metric:"gpsOrbitRadiusMeters",
+      chain:{ax:["A7′"], eq:["E7R"],
+        note:"GPS 軌道半径の観測入力(論文1 Table I)を、式レベル出力の入力として正しく写せていることの確認。独立な予言ではない。",
+        noteEn:"A check that the observed GPS orbit radius (paper 1 Table I) is transcribed correctly as the input of the formula-level output. Not an independent prediction."},
+      roleNote:"観測入力の検証 — 較正ノブを使っていない写しの確認。",
+      roleNoteEn:"Input check — a verification of a transcription, with no calibration knob spent.",
+      expected:{min:2.63, max:2.68},
+      descPattern:"軌道半径 (\\d+\\.\\d+)×10⁷m", testId:"behavior.grcal3" },
+    { id:"grcalGps.earth-mass", kind:"semantic", prov:"definition", role:"input_check",
+      metric:"earthMassKg",
+      chain:{ax:["A6"], eq:["E4"],
+        note:"地球質量の観測入力(論文1 Table I)の写しの確認。ψ=GM/(rc²) の M そのもので、自由パラメータではない。",
+        noteEn:"A check on the transcription of the Earth's mass (paper 1 Table I). It is the M of ψ=GM/(rc²) itself, not a free parameter."},
+      roleNote:"観測入力の検証 — 写しの確認。",
+      roleNoteEn:"Input check — a verification of a transcription.",
+      expected:{min:5.912, max:6.032},
+      descPattern:"地球質量 (\\d+\\.\\d+)×10²⁴kg", testId:"behavior.grcal3" }
+  ],
+  parameterAudit:{
+    observedInputs:["地球質量 5.972×10²⁴kg","地上時計の半径 6.371×10⁶m","GPS 軌道半径 2.6562×10⁷m",
+      "地上の自転速度 v_ground=Ω⊕R⊕=0.465km/s","G・c(CODATA 準拠の標準参照値)"],
+    fixedConventions:["写像は κ=G/c² の1本(追加係数なし)","弱場一次 τ/t≈1−ψ−½v²/c²",
+      "衛星は円軌道 v=√(GM/r)","論文1 Table I の分解は地上の自転項を運動項へ畳み込まない(ここでも別扱い)",
+      "画面アナログ: G=0.25・c₀=30・κ=G/c₀²=1/3600(物理対応条件が成立)",
+      "画面の半径 60:250 は実比 R⊕/r_GPS=0.2399 の転記(丸め)",
+      "静止参照時計は質量床級の目印(m=0.001)で、接触ばねは値域下限 contactK=0.1/contactCap=0.01(実質ゼロ)— 衛星がすれ違っても蹴られない"],
+    fitted:[],
+    derived:["衛星速度 v=√(GM/r_GPS)","重力項 (ψ_地上−ψ_衛星)·86400s","運動項 −(v²/2c²)·86400s","正味 = 重力項+運動項"],
+    numerical:["ソフトニング ε=2","時間倍率 timeScale=4"]},
+  abBody:{ label:{ja:"κ=0(時空係数ゼロ — 3つの時計が同じ速さ)", en:"κ=0 (no spacetime coefficient — all three clocks tick alike)"},
+    physicsPatch:{kappaT:0} },
+  activeParams:["kappaT","cLight"],
+  camera:{scale:300}, world:{boundary:"none",size:0},
+  physics:{G:0.25, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:2.7777777777777778e-4,
+    cLight:30, contactK:0.1, contactCap:0.01, bM:0.25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:4},
+  bodies:[   // 0=中心天体(pinned)、1=地上時計(r=60・静止)、2=周回衛星(r=250・円軌道)、3=静止参照時計(r=250)
+             // 衛星の初速は 🛰️ と同じ Plummer 厳密円軌道 v=√(G·M·r²/(r²+ε²)^{3/2})
+    {type:"single", rMul:1.2, m:12000, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", rMul:1.2, m:2, x:60,y:0, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", rMul:1.2, m:2, x:250,y:0, vx:0,vy:3.46393535, spin:0, pinned:false},
+    {type:"single", radius:4, m:0.001, x:-250,y:0, vx:0,vy:0, spin:0, pinned:true}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:true,trail:true} },
+
+{ id:"grcalLight", name:"太陽縁の光偏向 — 1.75″", emoji:"🌟", group:"空間と時間",
+  familyId:"grcal", familyRole:"variant",
+  scaleTier:"stellar",
+  sampleClass:"principle",
+  notClaim:["cal"],
+  obsCard:[
+    {q:"太陽縁をかすめる光の曲がり", model:"α=4GM☉/(c²R☉)=1.7512″(追加パラメータなし)", obs:"≈1.75″(VLBI の光偏向・%水準)"},
+    {q:"曲げているもの", model:"時計を遅らせるのと同じ ψ=W·κ から出る屈折率 n_eff=e^{2ψ}(E8R)", obs:"—(k_lens のような独立係数は持たない)"},
+    {q:"画面のアナログ", model:"κ=G/c₀²=1/3600 の物理対応条件つき。最内の光線は限のすぐ外(b=1.25R)を通る", obs:"—"}],
+  descStruct:{
+    summary:"太陽の縁(限)をかすめる光がどれだけ曲がるかを見せるサンプル。左から入る光線ファンのうち、いちばん内側の1組が中心星の限のすぐ外を通り、大きく折れ曲がる。光を曲げているのは時計を遅らせるのと同じ ψ=W·κ で(E8R: n_eff=e^{2ψ})、レンズ専用の係数は1つも持たない。κ=G/cLight²(=1/3600)を満たす構成なので、物理対応条件つきの縮尺模型である。",
+    observe:"SI の式レベル出力(κ=G/c² の1本・観測入力は論文1 Table I の転記のみ・自由パラメータなし)は、太陽縁の光偏向は 1.7512″(観測≈1.75″)。入力は太陽質量 1.989×10³⁰kg・太陽半径 6.96×10⁸m(=衝突径数 b)の2つだけで、式は α=4GM/(c²R) — フェルマーの原理を n_eff=e^{2ψ} に当てた弱場一次の帰結である。画面では、光線ファンの最内の1組が限のすぐ外(b=1.25R)を通っていちばん強く折れる。さらに、光源(左の小さな星)から観測者(右の点)へまっすぐ狙って撃った光子は、太陽に引き寄せられて観測者に届かない: 逆に言えば、観測者に届く光は「太陽の向こうのずれた位置」から来ている — 日食観測が測ったのはこのずれである。この光子だけは b=4R を通してある(ψ_b=0.023 の弱場帯なので、エンジンの光学が弱場一次 α=4GM/(c₀²b) と数%で一致することを機械照合できる)。背景色は決定力 W で、限に近いほど濃い。",
+    control:"ワンタップ対照は κ=0(時空係数ゼロ)— 光線はまっすぐ通り、狙った光子はそのまま観測者に届く。κ のスライダーを上げると曲がりが強まり、時計の遅れも同時に強まる(同じ ψ の2つの顔)。※SI 側の数値は κ=G/c² 写像の式計算(式レベル)によるもので、実験データに当てて検証したものではない。"},
+  en:{name:"Solar-Limb Light Deflection — 1.75″",
+    obsCard:[
+      {q:"Bending of light grazing the solar limb", model:"α=4GM☉/(c²R☉)=1.7512″ (no additional parameter)", obs:"≈1.75″ (VLBI light deflection, percent level)"},
+      {q:"What does the bending", model:"the refractive index n_eff=e^{2ψ} built from the same ψ=W·κ that slows clocks (E8R)", obs:"— (there is no independent coefficient such as k_lens)"},
+      {q:"On-screen analog", model:"κ=G/c₀²=1/3600, so the physical-correspondence condition holds; the innermost ray passes just outside the limb (b=1.25R)", obs:"—"}],
+    parameterAudit:{
+      observedInputs:["solar mass 1.989×10³⁰ kg","solar radius 6.96×10⁸ m (= the impact parameter b)","G and c (CODATA-consistent standard reference values)"],
+      fixedConventions:["the single mapping κ=G/c² (no additional coefficient)","light optics from ψ alone: n_eff=e^{2ψ} (k_lens was retired in v1.7)",
+        "weak-field first order α=4GM/(c²R)","a grazing ray at the limb (b=R☉)",
+        "on-screen analog: G=0.25, c₀=30, κ=G/c₀²=1/3600 (the physical-correspondence condition holds)",
+        "the ray fan is the standard parallel bundle from the left (n=8, spread=1)"],
+      fitted:[],
+      derived:["α=4GM☉/(c²R☉) converted to arcseconds"],
+      numerical:["softening ε=2","time multiplier timeScale=4"]},
+    descStruct:{
+    summary:"A sample that shows how much light grazing the Sun's limb is bent. Of the ray fan entering from the left, the innermost pair passes just outside the central star's limb and turns sharply. What bends the light is the same ψ=W·κ that slows the clocks (E8R: n_eff=e^{2ψ}); there is not a single lens-only coefficient. The configuration satisfies κ=G/cLight² (=1/3600), so it is a scale model with the physical-correspondence condition. ",
+    observe:"The formula-level SI output (one mapping, κ=G/c²; inputs transcribed from paper 1 Table I; no free parameter) is a solar-limb deflection of 1.7512″ (observed ≈1.75″). The inputs are just two — the solar mass 1.989×10³⁰ kg and the solar radius 6.96×10⁸ m (= the impact parameter b) — and the formula is α=4GM/(c²R), the weak-field first order of Fermat's principle applied to n_eff=e^{2ψ}. On screen the innermost pair of the ray fan passes just outside the limb (b=1.25R) and turns the most. In addition, a photon fired from the source (the small star on the left) straight at the observer (the dot on the right) is pulled toward the star and misses: put the other way round, the light that DOES reach the observer comes from a displaced apparent position beyond the Sun — and that displacement is what the eclipse expeditions measured. That single photon is sent through b=4R, where ψ_b=0.023 puts it in the weak-field band, so the engine's optics can be machine-checked against the first-order α=4GM/(c₀²b) at the percent level. The background colour is the determinacy W, deepest near the limb. ",
+    control:"The one-tap control is κ=0 (no spacetime coefficient): the rays go straight and the aimed photon lands on the observer. Raising the κ slider strengthens the bending and the clock lag together — two faces of the same ψ. Note: the SI numbers come from formula-level computation under the mapping κ=G/c²; they are not a test against experimental data."}},
+  claims:[
+    { id:"grcalLight.solar-limb-deflection", kind:"analytic", prov:"derived", role:"retrospective_check",
+      metric:"solarLimbDeflectionArcsec",
+      chain:{ax:["A7′"], eq:["E8R"], /* T5 は結論側 */
+        note:"太陽縁をかすめる光の偏向 α=4GM☉/(c²R☉)。エンジンの式レベル出力(HP.grSI)が 🛰️ に固定済みの正典 1.7512″ と ±1% で一致することを事前登録窓とする。n_eff=e^{2ψ} のフェルマー則の弱場一次への帰着であって、GR の導出でも実験データへの当てはめでもない。",
+        noteEn:"The deflection of light grazing the solar limb, α=4GM☉/(c²R☉). The pre-registered window is that the engine's formula-level output (HP.grSI) agrees within ±1% with the canonical 1.7512″ already fixed in 🛰️. It is the weak-field first order of Fermat's rule for n_eff=e^{2ψ}, not a derivation of GR and not a fit to experimental data."},
+      roleNote:"回顧的確認 — 較正ノブは1つも使っていない(観測入力2つの転記と κ=G/c² の写像だけ。レンズ専用係数 k_lens は v1.7 で廃止済み)。",
+      roleNoteEn:"Retrospective check — no calibration knob is spent (two transcribed inputs and the mapping κ=G/c²; the lens-only coefficient k_lens was retired in v1.7).",
+      expected:{min:1.7337, max:1.7687},
+      descPattern:"太陽縁の光偏向は (\\d+\\.\\d+)″", testId:"behavior.grcal3" },
+    { id:"grcalLight.solar-mass", kind:"semantic", prov:"definition", role:"input_check",
+      metric:"solarMassKg",
+      chain:{ax:["A6"], eq:["E4"],
+        note:"太陽質量の観測入力(論文1 Table I)の写しの確認。α=4GM/(c²R) の M そのもので、自由パラメータではない。",
+        noteEn:"A check on the transcription of the solar mass (paper 1 Table I). It is the M of α=4GM/(c²R) itself, not a free parameter."},
+      roleNote:"観測入力の検証 — 写しの確認。",
+      roleNoteEn:"Input check — a verification of a transcription.",
+      expected:{min:1.969, max:2.009},
+      descPattern:"太陽質量 (\\d+\\.\\d+)×10³⁰kg", testId:"behavior.grcal3" },
+    { id:"grcalLight.solar-radius", kind:"semantic", prov:"definition", role:"input_check",
+      metric:"solarRadiusMeters",
+      chain:{ax:["A7′"], eq:["E8R"],
+        note:"太陽半径(=衝突径数 b)の観測入力の写しの確認。偏向は b に反比例するので、この1つが入力として効く。",
+        noteEn:"A check on the transcription of the solar radius (= the impact parameter b). The deflection goes as 1/b, so this single input carries the scale."},
+      roleNote:"観測入力の検証 — 写しの確認。",
+      roleNoteEn:"Input check — a verification of a transcription.",
+      expected:{min:6.89, max:7.03},
+      descPattern:"太陽半径 (\\d+\\.\\d+)×10⁸m", testId:"behavior.grcal3" }
+  ],
+  parameterAudit:{
+    observedInputs:["太陽質量 1.989×10³⁰kg","太陽半径 6.96×10⁸m(=衝突径数 b)","G・c(CODATA 準拠の標準参照値)"],
+    fixedConventions:["写像は κ=G/c² の1本(追加係数なし)","光学は ψ だけから: n_eff=e^{2ψ}(k_lens は v1.7 で廃止)",
+      "弱場一次 α=4GM/(c²R)","限をかすめる光線(b=R☉)",
+      "画面アナログ: G=0.25・c₀=30・κ=G/c₀²=1/3600(物理対応条件が成立)",
+      "光線ファンは左からの標準平行束(n=8・spread=1)"],
+    fitted:[],
+    derived:["α=4GM☉/(c²R☉) を秒角へ換算した値"],
+    numerical:["ソフトニング ε=2","時間倍率 timeScale=4"]},
+  abBody:{ label:{ja:"κ=0(時空係数ゼロ — 光はまっすぐ)", en:"κ=0 (no spacetime coefficient — light goes straight)"},
+    physicsPatch:{kappaT:0} },
+  activeParams:["kappaT","cLight"],
+  camera:{scale:300}, world:{boundary:"none",size:0},
+  physics:{G:0.25, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:2.7777777777777778e-4,
+    cLight:30, contactK:0.1, contactCap:0.01, bM:0.25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:4},
+  bodies:[   // 0=中心星(限 R=30・pinned)、1=光源(左・質量床級)、2=観測者(右・質量床級)。
+             // 光線ファンの最内は b=37.5(=1.25R)= 限すれすれ(見せ場)。一方 1→2 をまっすぐ
+             // 狙った光子は b=120(=4R)を通す — ここは ψ_b=0.023 で**弱場一次 α=4GM/(c₀²b) が
+             // 数%で効く帯**なので、エンジンの光学をその式と機械照合できる(QA behavior.grcal3)。
+             // 実測の曲がりは 0.0940rad で、観測者(半径7)を 35 単位ぶん外す
+    {type:"single", radius:30, m:10000, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", radius:7, m:0.001, x:-380,y:120, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", radius:7, m:0.001, x:380,y:120, vx:0,vy:0, spin:0, pinned:true}
+  ],
+  // 32単位ごとに 24 発(値域上限は 32 件)— 片道の飛行は t≈25 なので常に1発が飛んでいる
+  photonEmit:[{body:1,t:0,lambda:550,aim:2},{body:1,t:32,lambda:550,aim:2},{body:1,t:64,lambda:550,aim:2},
+    {body:1,t:96,lambda:550,aim:2},{body:1,t:128,lambda:550,aim:2},{body:1,t:160,lambda:550,aim:2},
+    {body:1,t:192,lambda:550,aim:2},{body:1,t:224,lambda:550,aim:2},{body:1,t:256,lambda:550,aim:2},
+    {body:1,t:288,lambda:550,aim:2},{body:1,t:320,lambda:550,aim:2},{body:1,t:352,lambda:550,aim:2},
+    {body:1,t:384,lambda:550,aim:2},{body:1,t:416,lambda:550,aim:2},{body:1,t:448,lambda:550,aim:2},
+    {body:1,t:480,lambda:550,aim:2},{body:1,t:512,lambda:550,aim:2},{body:1,t:544,lambda:550,aim:2},
+    {body:1,t:576,lambda:550,aim:2},{body:1,t:608,lambda:550,aim:2},{body:1,t:640,lambda:550,aim:2},
+    {body:1,t:672,lambda:550,aim:2},{body:1,t:704,lambda:550,aim:2},{body:1,t:736,lambda:550,aim:2}],
+  rays:{n:8, spread:1},
+  overlays:{rotationCurve:false,tempHistogram:false,field:true} },
+
+{ id:"grcalShapiro", name:"シャピロ遅延 — 太陽の近くを往復する信号", emoji:"⏲️", group:"空間と時間",
+  familyId:"grcal", familyRole:"variant",
+  scaleTier:"stellar",
+  sampleClass:"principle",
+  notClaim:["cal"],
+  obsCard:[
+    {q:"太陽近傍を往復する信号の遅延", model:"Δt=(4GM☉/c³)ln(4r₁r₂/b²)≈281μs(カッシーニ上合幾何・往復)", obs:"カッシーニ電波リンクはこの式の PPN 係数を拘束: γ−1=(2.1±2.3)×10⁻⁵"},
+    {q:"遅らせているもの", model:"光を曲げるのと同じ n_eff=e^{2ψ}>1(局所光速 c₀/n_eff が落ちる)", obs:"—"},
+    {q:"画面のアナログ", model:"κ=G/c₀²=1/3600 の物理対応条件つき。A/B で κ 有無の同時送信を比べる", obs:"—"}],
+  descStruct:{
+    summary:"太陽のすぐ近くを通る電波信号が、まっすぐ飛ぶ場合より遅れて届くことを見せるサンプル(シャピロ遅延)。遅らせているのは光を曲げているのと同じ屈折率 n_eff=e^{2ψ}>1(A7′/E8R/T5)で、その中では局所光速が c₀/n_eff まで落ちる — 曲がりと遅れは同じ ψ の2つの顔である。κ=G/cLight²(=1/3600)を満たす構成なので、物理対応条件つきの縮尺模型である。",
+    observe:"SI の式レベル出力(κ=G/c² の1本・観測入力は論文1 Table I の転記のみ・自由パラメータなし)は、往復の遅延は ≈281μs。幾何はカッシーニの上合配置の理想化で、r₁=1au(地球)・r₂=8.43au(土星)・b=太陽半径 6.96×10⁸m、式は Δt=(4GM/c³)ln(4r₁r₂/b²) である(数値は幾何に依存する — バイキング幾何なら別の値になる)。画面では左の送信機から右の受信機へ信号を繰り返し送る。ワンタップ対照(κ=0)を開くと上下2画面で同じ送信が同時に走り、**時空係数のある宇宙の信号だけが遅れて進む**のが直接見える — 距離も送信時刻も同じで、違うのは通り道の n_eff だけである。",
+    control:"ワンタップ対照は κ=0(時空係数ゼロ)— 信号はまっすぐ・最短時間で届く。κ のスライダーを上げると遅れも曲がりも同時に増える。※SI 側の数値は κ=G/c² 写像の式計算(式レベル)によるもので、実験データに当てて検証したものではない。往復という言い方は上合幾何の往復(地球→太陽近傍→土星→太陽近傍→地球)を指し、画面のアナログは片道の伝播をそのまま見せている。"},
+  en:{name:"Shapiro Delay — A Signal Passing Close to the Sun",
+    obsCard:[
+      {q:"Delay of a signal passing close to the Sun", model:"Δt=(4GM☉/c³)ln(4r₁r₂/b²)≈281 μs (idealized Cassini conjunction geometry, round trip)", obs:"the Cassini radio links constrain the PPN coefficient of this formula: γ−1=(2.1±2.3)×10⁻⁵"},
+      {q:"What does the delaying", model:"the same n_eff=e^{2ψ}>1 that bends the light (the local light speed drops to c₀/n_eff)", obs:"—"},
+      {q:"On-screen analog", model:"κ=G/c₀²=1/3600, so the physical-correspondence condition holds; the A/B control runs the same transmission with and without κ", obs:"—"}],
+    parameterAudit:{
+      observedInputs:["solar mass 1.989×10³⁰ kg","solar radius 6.96×10⁸ m (= the impact parameter b)",
+        "r₁=1 au=1.496×10¹¹ m (Earth)","r₂=8.43 au=1.261×10¹² m (Saturn)","G and c (CODATA-consistent standard reference values)"],
+      fixedConventions:["the single mapping κ=G/c² (no additional coefficient)","light optics from ψ alone: n_eff=e^{2ψ}",
+        "the idealized Cassini superior-conjunction geometry, round trip","Δt=(4GM/c³)ln(4r₁r₂/b²) — the value is geometry-dependent and is declared as such",
+        "on-screen analog: G=0.25, c₀=30, κ=G/c₀²=1/3600 (the physical-correspondence condition holds)",
+        "the on-screen transmission is one-way; the round trip is a statement about the SI geometry"],
+      fitted:[],
+      derived:["Δt=(4GM☉/c³)ln(4r₁r₂/b²) converted to microseconds"],
+      numerical:["softening ε=2","time multiplier timeScale=4"]},
+    descStruct:{
+    summary:"A sample showing that a radio signal passing close to the Sun arrives LATER than one that flies straight (the Shapiro delay). What delays it is the same refractive index n_eff=e^{2ψ}>1 (A7′/E8R/T5) that bends the light: inside it the local light speed drops to c₀/n_eff — bending and delay are two faces of the same ψ. The configuration satisfies κ=G/cLight² (=1/3600), so it is a scale model with the physical-correspondence condition. ",
+    observe:"The formula-level SI output (one mapping, κ=G/c²; inputs transcribed from paper 1 Table I; no free parameter) is a round-trip delay of ≈281 μs. The geometry is the idealized Cassini superior conjunction — r₁=1 au (Earth), r₂=8.43 au (Saturn), b = the solar radius 6.96×10⁸ m — and the formula is Δt=(4GM/c³)ln(4r₁r₂/b²) (the number depends on the geometry; the Viking geometry gives a different one). On screen a transmitter on the left sends repeated signals to a receiver on the right. Open the one-tap control (κ=0) and the same transmission runs in two stacked universes at once, so you can watch directly that ONLY the signal in the universe with a spacetime coefficient falls behind — same distance, same send time, and the only difference is the n_eff along the way. ",
+    control:"The one-tap control is κ=0 (no spacetime coefficient): the signal goes straight and arrives in the shortest time. Raising the κ slider increases the delay and the bending together. Note: the SI numbers come from formula-level computation under the mapping κ=G/c²; they are not a test against experimental data. \"Round trip\" refers to the superior-conjunction round trip (Earth → past the Sun → Saturn → past the Sun → Earth); the on-screen analog simply shows the one-way propagation."}},
+  claims:[
+    { id:"grcalShapiro.round-trip-delay", kind:"analytic", prov:"derived", role:"retrospective_check",
+      metric:"shapiroRoundTripMicros",
+      chain:{ax:["A7′"], eq:["E8R"],
+        note:"上合幾何の往復シャピロ遅延 Δt=(4GM☉/c³)ln(4r₁r₂/b²)。エンジンの式レベル出力(HP.grSI)が 🛰️ に固定済みの正典 ≈281μs と ±1% で一致することを事前登録窓とする。n_eff=e^{2ψ} の光路積分からの帰結で、数値が幾何に依存することは宣言のとおり。GR の導出でも実験データへの当てはめでもない。",
+        noteEn:"The round-trip Shapiro delay in the superior-conjunction geometry, Δt=(4GM☉/c³)ln(4r₁r₂/b²). The pre-registered window is that the engine's formula-level output (HP.grSI) agrees within ±1% with the canonical ≈281 μs already fixed in 🛰️. It follows from the optical-path integral of n_eff=e^{2ψ}; the value is geometry-dependent, as declared. Not a derivation of GR and not a fit to experimental data."},
+      roleNote:"回顧的確認 — 較正ノブは1つも使っていない(幾何と観測入力の転記と κ=G/c² の写像だけ)。",
+      roleNoteEn:"Retrospective check — no calibration knob is spent (a declared geometry, transcribed inputs and the mapping κ=G/c²).",
+      expected:{min:278.19, max:283.81},
+      descPattern:"往復の遅延は ≈(\\d+)μs", testId:"behavior.grcal3" },
+    { id:"grcalShapiro.far-distance", kind:"semantic", prov:"definition", role:"input_check",
+      metric:"shapiroR2Au",
+      chain:{ax:["A7′"], eq:["E8R"],
+        note:"遠端(土星)の距離 r₂ の観測入力の写しの確認。遅延は ln(4r₁r₂/b²) を通してこの値に効くので、幾何の宣言そのものである。",
+        noteEn:"A check on the transcription of the far-end (Saturn) distance r₂. The delay depends on it through ln(4r₁r₂/b²), so it is the declaration of the geometry itself."},
+      roleNote:"観測入力の検証 — 写しの確認。数値が幾何依存であることの明記でもある。",
+      roleNoteEn:"Input check — a verification of a transcription, and a statement that the number is geometry-dependent.",
+      expected:{min:8.35, max:8.51},
+      descPattern:"r₂=(\\d+\\.\\d+)au", testId:"behavior.grcal3" },
+    { id:"grcalShapiro.impact-parameter", kind:"semantic", prov:"definition", role:"input_check",
+      metric:"shapiroImpactParamMeters",
+      chain:{ax:["A7′"], eq:["E8R"],
+        note:"衝突径数 b=太陽半径 の観測入力の写しの確認。🌟 の偏向と**同じ1つの入力**を使っていることの固定でもある。",
+        noteEn:"A check on the transcription of the impact parameter b = the solar radius. It also fixes that this is the SAME single input used by 🌟's deflection."},
+      roleNote:"観測入力の検証 — 写しの確認。",
+      roleNoteEn:"Input check — a verification of a transcription.",
+      expected:{min:6.89, max:7.03},
+      descPattern:"b=太陽半径 (\\d+\\.\\d+)×10⁸m", testId:"behavior.grcal3" }
+  ],
+  parameterAudit:{
+    observedInputs:["太陽質量 1.989×10³⁰kg","太陽半径 6.96×10⁸m(=衝突径数 b)",
+      "r₁=1au=1.496×10¹¹m(地球)","r₂=8.43au=1.261×10¹²m(土星)","G・c(CODATA 準拠の標準参照値)"],
+    fixedConventions:["写像は κ=G/c² の1本(追加係数なし)","光学は ψ だけから: n_eff=e^{2ψ}",
+      "幾何はカッシーニ上合配置の理想化・往復","Δt=(4GM/c³)ln(4r₁r₂/b²)(数値は幾何依存 — 宣言のうえで用いる)",
+      "画面アナログ: G=0.25・c₀=30・κ=G/c₀²=1/3600(物理対応条件が成立)",
+      "画面の送信は片道(往復は SI 幾何側の言明)"],
+    fitted:[],
+    derived:["Δt=(4GM☉/c³)ln(4r₁r₂/b²) をマイクロ秒へ換算した値"],
+    numerical:["ソフトニング ε=2","時間倍率 timeScale=4"]},
+  abBody:{ label:{ja:"κ=0(時空係数ゼロ — 信号は最短時間で届く)", en:"κ=0 (no spacetime coefficient — the signal arrives in the shortest time)"},
+    physicsPatch:{kappaT:0} },
+  activeParams:["kappaT","cLight"],
+  camera:{scale:380}, world:{boundary:"none",size:0},
+  physics:{G:0.25, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:2.7777777777777778e-4,
+    cLight:30, contactK:0.1, contactCap:0.01, bM:0.25, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:2, timeScale:4},
+  bodies:[   // 0=太陽(pinned)、1=送信機(左・質量床級)、2=受信機(右・質量床級・受信面を広く取る)
+             // 1→2 の直線は b=150 を通る。κ のある宇宙では n_eff>1 のぶんだけ到達が遅れる。
+             // QA(behavior.grcal3)は受信機の到着判定円(半径30)の手前 x=300 の通過時刻で
+             // 遅れを測り、有限幾何のシャピロ形 (2GM/c₀³)[asinh(x₁/b)+asinh(300/b)] と照合する
+    {type:"single", radius:30, m:10000, x:0,y:0, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", radius:8, m:0.001, x:-380,y:150, vx:0,vy:0, spin:0, pinned:true},
+    {type:"single", radius:30, m:0.001, x:380,y:150, vx:0,vy:0, spin:0, pinned:true}
+  ],
+  // 32単位ごとに 24 発(値域上限は 32 件)— 片道の飛行は κ 有りで t≈25.5・κ=0 で t≈24.3
+  photonEmit:[{body:1,t:0,lambda:600,aim:2},{body:1,t:32,lambda:600,aim:2},{body:1,t:64,lambda:600,aim:2},
+    {body:1,t:96,lambda:600,aim:2},{body:1,t:128,lambda:600,aim:2},{body:1,t:160,lambda:600,aim:2},
+    {body:1,t:192,lambda:600,aim:2},{body:1,t:224,lambda:600,aim:2},{body:1,t:256,lambda:600,aim:2},
+    {body:1,t:288,lambda:600,aim:2},{body:1,t:320,lambda:600,aim:2},{body:1,t:352,lambda:600,aim:2},
+    {body:1,t:384,lambda:600,aim:2},{body:1,t:416,lambda:600,aim:2},{body:1,t:448,lambda:600,aim:2},
+    {body:1,t:480,lambda:600,aim:2},{body:1,t:512,lambda:600,aim:2},{body:1,t:544,lambda:600,aim:2},
+    {body:1,t:576,lambda:600,aim:2},{body:1,t:608,lambda:600,aim:2},{body:1,t:640,lambda:600,aim:2},
+    {body:1,t:672,lambda:600,aim:2},{body:1,t:704,lambda:600,aim:2},{body:1,t:736,lambda:600,aim:2}],
+  rays:{n:8, spread:1},
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
 { id:"projectile", name:"自由落下と放物運動", emoji:"⚾", group:"空間と時間",
@@ -2878,8 +3247,8 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:false,monitor:true,boxGraph:true} },
 
-// ===== グループ: 銀河 =====
-{ id:"galaxy", name:"銀河の回転曲線", emoji:"🌌", group:"銀河",
+// ===== グループ: 銀河の物語(第147便で「銀河」から改名 — 表示・分類専用)=====
+{ id:"galaxy", name:"銀河の回転曲線", emoji:"🌌", group:"銀河の物語",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["galaxy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -2923,7 +3292,7 @@ const BUILTIN_PRESETS = [
   rays:{n:24, spread:0.5},
   overlays:{rotationCurve:true,tempHistogram:false,field:true,trail:false,monitor:false} },
 
-{ id:"galaxyStd", catalog:"extended", name:"空間引きずりの基準実験 — 銀河標準", emoji:"🎡", group:"銀河",
+{ id:"galaxyStd", catalog:"extended", name:"空間引きずりの基準実験 — 銀河標準", emoji:"🎡", group:"銀河の物語",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["galaxy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -2966,7 +3335,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,mechSpectrum:true} },
 
-{ id:"galaxyGeo2", catalog:"extended", name:"v−u統一測地線の銀河", emoji:"💫", group:"銀河",
+{ id:"galaxyGeo2", catalog:"extended", name:"v−u統一測地線の銀河", emoji:"💫", group:"銀河の物語",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第70便: 統一則(geoPN=2)の単一機構実証(分類は原仮定者裁定で更新可)
   notClaim:["galaxy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -3013,7 +3382,7 @@ const BUILTIN_PRESETS = [
 // kepler 円運動)」と「分散支持バルジ190体(半径90・等方ランダム速度 vScale6)」に二分した。
 // 群の所属は build 順で固定(disk=粒子1..190 / bulge=191..380)— 第71便の訂正(終状態分類の罠)
 // に従い、実験・QA とも固定ID追跡だけを使う。実測は tests/exp-4-75.mjs(seed 20260804・6000步)
-{ id:"galaxyDB", catalog:"extended", name:"ディスクとバルジ — 回転支持と分散支持", emoji:"🍳", group:"銀河",
+{ id:"galaxyDB", catalog:"extended", name:"ディスクとバルジ — 回転支持と分散支持", emoji:"🍳", group:"銀河の物語",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",
   notClaim:["galaxy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -3050,7 +3419,7 @@ const BUILTIN_PRESETS = [
      spinMin:0,spinMax:0, vMode:"random", vScale:6, direction:1, bulkVx:0, bulkVy:0}
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,mechSpectrum:false} },
-{ id:"darkrotor", name:"ダークローターの銀河", emoji:"🕶️", group:"銀河",
+{ id:"darkrotor", name:"ダークローターの銀河", emoji:"🕶️", group:"銀河の物語",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["dm","galaxy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -3171,7 +3540,7 @@ const BUILTIN_PRESETS = [
 //  ・物理対応ロック Kt=3600: spin 0 でも 2.0 でも非脱出率 0.00(③は場の強さで消える=反証条件7)
 //  ・テスト粒子リング(6000步): 平均 L_z 954.1(対照 632.45 = 厳密一定)・24/24 保持・NaN なし
 //  ・帳簿込みの保存(6000步): |ΔP|/P₀=1.27e-4・|ΔL|/L₀=1.26e-4(pinned ゼロの閉鎖系)
-{ id:"rotorSolo", name:"ダークローター(単体)", emoji:"🕳️", group:"銀河",
+{ id:"rotorSolo", name:"ダークローター(単体)", emoji:"🕳️", group:"銀河の物語",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -3228,7 +3597,7 @@ const BUILTIN_PRESETS = [
 // 観測属性であり、背景光を視線上で吸収する体積吸収ではない — 本サンプルが見せるのは
 // 「暗い点の集合としての暗黒星雲」まで。波長別吸収・散乱の光学輸送拡張は台帳へ持ち越し。
 // 実測は tests/exp-4-75.mjs(seed 20260804・3000步)
-{ id:"nebulaRotor", name:"ローター星雲 — 暗黒星雲と散光星雲", emoji:"🌑", group:"銀河",
+{ id:"nebulaRotor", name:"ローター星雲 — 暗黒星雲と散光星雲", emoji:"🌑", group:"銀河の物語",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"composite",
   notClaim:["nebula","dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -3283,7 +3652,7 @@ const BUILTIN_PRESETS = [
 // 〔第75便拡張〕で暗さを担う)。暗さのスピンを小さなコアへ隠すので、スピン斥力 E5′ は遅い殻
 // スピンにしか効かず、熱圧 kRep=0.3 の下でも雲は自壊しない(単層で同じ暗さを出すには spin≈6 が
 // 必要で、同じ kRep で保持48%まで自壊する — exp-4-76 の耐圧試験)。実測 tests/exp-4-76.mjs
-{ id:"nebulaShell", catalog:"extended", name:"重殻ローター星雲 — 束縛と暗さの両立", emoji:"🐚", group:"銀河",
+{ id:"nebulaShell", catalog:"extended", name:"重殻ローター星雲 — 束縛と暗さの両立", emoji:"🐚", group:"銀河の物語",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"principle",
   notClaim:["nebula","dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -3346,7 +3715,7 @@ const BUILTIN_PRESETS = [
 // ローター(自由)+赤道の pinned 重殻ダークアーク(±x を挟む±50°・暗黒帯)+高スピンガス。
 // 機構は 🌋agnjet と同じ「E5′圧力+幾何」— 赤道が塞がれ、抵抗の少ない極方向(±y)だけが
 // 出口になってローブが立つ。実測 tests/exp-4-76.mjs(seed 20260804・6000步)
-{ id:"nebulaBipolar", catalog:"extended", name:"双極星雲 — 暗黒トーラスと極方向ローブ", emoji:"⏳", group:"銀河",
+{ id:"nebulaBipolar", catalog:"extended", name:"双極星雲 — 暗黒トーラスと極方向ローブ", emoji:"⏳", group:"銀河の物語",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"composite",
   notClaim:["nebula"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -3438,7 +3807,7 @@ const BUILTIN_PRESETS = [
 // 🕳️bhCoreFree は本サンプルへ統合して廃止した。**双極ジェットは扱わない** — この重力井戸では
 // ガスが束縛され、統計になる脱出が起きないため。ジェット機構は ⏳nebulaBipolar の担当。
 // 実測 tests/exp-4-81.mjs → tests/out/exp-4-81.json
-{ id:"bhCore", catalog:"extended", name:"DFM版ブラックホール — 自由な5層の中心", emoji:"⚫", group:"銀河",
+{ id:"bhCore", catalog:"extended", name:"DFM版ブラックホール — 自由な5層の中心", emoji:"⚫", group:"銀河の物語",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",
   notClaim:["bh"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -3496,7 +3865,7 @@ const BUILTIN_PRESETS = [
 // 減光 auto の重い中心核は T_obs=0(完全減光=光度質量0)のまま、外縁リングの v²r/G は
 // 実質量に比例する。3系(m=2500/5000/10000)を1画面に並べ、同じ半径のリングの速度差だけで
 // 質量比が読めるようにした。実測・較正は tests/exp-4-82.mjs → tests/out/exp-4-82.json
-{ id:"massLadder", name:"隠れ質量ラダー — 暗い中心の力学質量", emoji:"🪜", group:"銀河",
+{ id:"massLadder", name:"隠れ質量ラダー — 暗い中心の力学質量", emoji:"🪜", group:"銀河の物語",
   scaleTier:"galactic",
   sampleClass:"composite",
   notClaim:["dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -3548,7 +3917,7 @@ const BUILTIN_PRESETS = [
      direction:1, pinned:false, bulkVx:0, bulkVy:0}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:true,trail:false,monitor:false} },
-{ id:"merger", name:"銀河合体と潮汐効果", emoji:"🌠", group:"銀河",
+{ id:"merger", name:"銀河合体と潮汐効果", emoji:"🌠", group:"銀河の物語",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["galaxy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -3609,7 +3978,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:true,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"} },
 
-{ id:"collapse", name:"自己重力雲の崩壊と原始星形成", emoji:"🌫️", group:"銀河",
+{ id:"collapse", name:"自己重力雲の崩壊と原始星形成", emoji:"🌫️", group:"銀河の物語",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -3706,7 +4075,7 @@ const BUILTIN_PRESETS = [
 //   ※ 第126便(巻き戻し第2弾): 力学は v1.38 の値へ復元(16seed の力学量は v1.38 と完全一致)。
 //     減光のみ c₀=30 で飽和側 — 中心 {0.9,1}(16seed 0.943〜1.000)・周囲 {0.2,0.5}
 //     (16seed 0.253〜0.438)へ再固定(exp-4-85 を巻き戻し世代で再走)。
-{ id:"selfRotor", name:"自己形成ダークローター — 種から育つ暗い中心", emoji:"🥚", group:"銀河",
+{ id:"selfRotor", name:"自己形成ダークローター — 種から育つ暗い中心", emoji:"🥚", group:"銀河の物語",
   scaleTier:"stellar",   // → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"composite",
   notClaim:["dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -3789,8 +4158,8 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true,emergence:true} },
 
-// ===== グループ: 光 =====
-{ id:"lensing", name:"重力レンズと光子捕捉", emoji:"💡", group:"光",
+// ===== グループ: 光の物語(第147便で「光」から改名 — 表示・分類専用)=====
+{ id:"lensing", name:"重力レンズと光子捕捉", emoji:"💡", group:"光の物語",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -3812,7 +4181,7 @@ const BUILTIN_PRESETS = [
   rays:{n:26, spread:0.85},
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
-{ id:"spinlens", name:"回る星のレンズ — 非対称湾曲", emoji:"🌗", group:"光",
+{ id:"spinlens", name:"回る星のレンズ — 非対称湾曲", emoji:"🌗", group:"光の物語",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -3835,7 +4204,7 @@ const BUILTIN_PRESETS = [
   rays:{n:24, spread:0.9},
   overlays:{rotationCurve:false,tempHistogram:false,field:true} },
 
-{ id:"blens", catalog:"extended", name:"連星重力レンズ", emoji:"🔭", group:"光",
+{ id:"blens", catalog:"extended", name:"連星重力レンズ", emoji:"🔭", group:"光の物語",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -3862,7 +4231,7 @@ const BUILTIN_PRESETS = [
 // 第82便 A(台帳「光学輸送拡張」): 🌆 暗黒雲の赤化 — 体積吸収・波長依存・散乱のデモ。
 // 背景の高温星群(左・光学的に薄い)の手前を、冷たい暗黒雲(右・力学的にはほぼ素通り)が
 // 横切る。光学輸送は観測層のみ — kAbs を外しても軌道・スピン・τ は 1 bit 変わらない。
-{ id:"reddening", name:"暗黒雲の赤化 — 体積吸収と波長依存", emoji:"🌆", group:"光",
+{ id:"reddening", name:"暗黒雲の赤化 — 体積吸収と波長依存", emoji:"🌆", group:"光の物語",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類): 単一機構(体積吸収の波長依存)の原理デモ
   notClaim:["nebula"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -4398,7 +4767,10 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,phaseGraph:true,mechSpectrum:true} },
 
 
-// ===== グループ: 天体の物語 =====
+// ===== グループ: 天体の物語 / 現実較正 =====
+// 第147便(原仮定者指示): この区間の現実較正・監査系14本(☄️🪨🌙🌘💍💿📡🌞🟠⭕🧲🔆📶📐)は
+// group:"現実較正" へ移した(表示・分類専用 — 配列順・物理・claims は bit 不変)。
+// 天体の物語には物語・トイ系(🌍🌕⭐♾️💥🌋🌪️☀️🌱 等)が残る
 { id:"earthMoon", name:"地球と月", emoji:"🌍", group:"天体の物語",
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類)→ 第130便 統括裁定(原仮定者提示「外すのも選択肢」の個別適用):
@@ -4506,7 +4878,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"earthMoonReal", name:"地球と月(実単位)— 恒星月 27.32日", emoji:"🌙", group:"天体の物語",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
+{ id:"earthMoonReal", name:"地球と月(実単位)— 恒星月 27.32日", emoji:"🌙", group:"現実較正",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
   familyId:"earthmoon", familyRole:"variant",   // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)(kFrame=0 対照)
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 第118便(原仮定者指示): サンプル別スケール指数 — 1単位=10⁶m/10²s/10²⁵kg。
@@ -4596,7 +4968,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"earthMoonRealKF1", name:"地球と月(実単位・kFrame=1)— 近点回転 8.85年の較正再現", emoji:"🌘", group:"天体の物語",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
+{ id:"earthMoonRealKF1", name:"地球と月(実単位・kFrame=1)— 近点回転 8.85年の較正再現", emoji:"🌘", group:"現実較正",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
   familyId:"earthmoon", familyRole:"primary",   // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)(天体の現実較正の雛形)
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 🌙 と同一の指数系(1単位=10⁶m/10²s/10²⁵kg)
@@ -4714,7 +5086,7 @@ const BUILTIN_PRESETS = [
 //      同時に離心率が単調に汲み上げられる(0.055→0.169)— 実際の月(0.026〜0.077 有界)と合わない。
 //   ③ C は窓にも dt にも依存しない定常な永年率(118公転 8.754年 / 236公転 8.752年)で、
 //      離心率も有界(0.011〜0.055)。**数値一致の頑健さ**が A/B/C を判別する。
-{ id:"emAuditNewton", name:"地球と月・機構判別A(二体ニュートン)— 閉じた楕円", emoji:"⭕", group:"天体の物語",
+{ id:"emAuditNewton", name:"地球と月・機構判別A(二体ニュートン)— 閉じた楕円", emoji:"⭕", group:"現実較正",
   familyId:"emAudit", familyRole:"variant",
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 🌙🌘 と同一の指数系(1単位=10⁶m/10²s/10²⁵kg)
@@ -4806,7 +5178,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"emAuditDFM", name:"地球と月・機構判別B(二体DFM較正)— 8.85年を別機構で", emoji:"🧲", group:"天体の物語",
+{ id:"emAuditDFM", name:"地球と月・機構判別B(二体DFM較正)— 8.85年を別機構で", emoji:"🧲", group:"現実較正",
   familyId:"emAudit", familyRole:"variant",   // 第137便(統括裁定): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 🌙🌘 と同一の指数系
@@ -4911,7 +5283,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"emAuditSolar", name:"地球と月・機構判別C(太陽+地球+月の三体)— 較正なしの太陽摂動", emoji:"🔆", group:"天体の物語",
+{ id:"emAuditSolar", name:"地球と月・機構判別C(太陽+地球+月の三体)— 較正なしの太陽摂動", emoji:"🔆", group:"現実較正",
   familyId:"emAudit", familyRole:"primary",   // 第137便(統括裁定): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)
   scaleTier:"planetary",
   scaleExp:{L:8, T:4, M:27},   // ☄️🪨🌞 と同一の指数系(1単位=10⁸m/10⁴s/10²⁷kg — 太陽を座標 ±1500 に収める)
@@ -5056,7 +5428,7 @@ const BUILTIN_PRESETS = [
 //     −3.402×10⁻¹² rad/公転 = 周期 1.28×10¹¹年。同じ参照点で地球を自由にしてプローブ質量を
 //     月質量まで上げると +5.233×10⁻² rad/公転 = 8.253年が戻る — 8.85年の駆動源は自転ではなく
 //     **地球の重心運動**である。
-{ id:"qLockRadialAudit", name:"qLock 半径方向監査 — 参照点は LT 級・その外では r⁻³ を捨てる", emoji:"📶", group:"天体の物語",
+{ id:"qLockRadialAudit", name:"qLock 半径方向監査 — 参照点は LT 級・その外では r⁻³ を捨てる", emoji:"📶", group:"現実較正",
   familyId:"qlockAudit", familyRole:"primary",
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 🌙🌘 と同一の指数系(1単位=10⁶m/10²s/10²⁵kg)
@@ -5217,7 +5589,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"qLockRadialAuditQ3", name:"qLock 半径方向監査・対照(q=3)— r⁻³ 則そのものの物差し", emoji:"📐", group:"天体の物語",
+{ id:"qLockRadialAuditQ3", name:"qLock 半径方向監査・対照(q=3)— r⁻³ 則そのものの物差し", emoji:"📐", group:"現実較正",
   familyId:"qlockAudit", familyRole:"variant",
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 📶 と同一の指数系
@@ -5376,7 +5748,7 @@ const BUILTIN_PRESETS = [
 // 第116便(原仮定者裁定「プリセット同梱: 進める。今後のサンプルの雛形とする」): 観測較正
 // プロファイルの内蔵第1号=実不変量の水星。物理構成(実G値・実c値・Kt=c₀²/G・pnSource・
 // stateCarry:"double"・q=3・D0=0.1)が今後の観測較正サンプルの雛形(PHYSICS §5)
-{ id:"mercuryReal", name:"水星(実単位)— 43″/世紀", emoji:"☄️", group:"天体の物語",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
+{ id:"mercuryReal", name:"水星(実単位)— 43″/世紀", emoji:"☄️", group:"現実較正",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
   familyId:"mercury", familyRole:"variant",   // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)(kFrame=0 対照)
   scaleTier:"planetary",   // 第120便(原仮定者指示): スケールタグは距離スケール指数(L=8)対応の「惑星」
   scaleExp:{L:8, T:4, M:27},   // 第118便(原仮定者指示): サンプル別スケール指数 — 1単位=10⁸m/10⁴s/10²⁷kg。
@@ -5478,7 +5850,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"mercuryRealKF1", name:"水星(実単位・kFrame=1)— 共通補正で 43″/世紀成立", emoji:"🪨", group:"天体の物語",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
+{ id:"mercuryRealKF1", name:"水星(実単位・kFrame=1)— 共通補正で 43″/世紀成立", emoji:"🪨", group:"現実較正",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
   familyId:"mercury", familyRole:"primary",   // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)(天体の現実較正の雛形)
   scaleTier:"planetary",
   scaleExp:{L:8, T:4, M:27},   // ☄️ と同一の指数系
@@ -5487,8 +5859,13 @@ const BUILTIN_PRESETS = [
   // 第120便(原仮定者指示「mercuryReal の kF1版を用意する」): ☄️と同一実値で kFrame=1。
   // 実測(tests/exp-kf1b.mjs §B): 太陽の実自転(25.05日)によるスピン引きずりが
   // **逆行 −7.3×10⁻⁵ rad/公転(−1.5万″/世紀)**の歳差を加える(スピン0なら kF0 と一致 —
-  // スピン起源を分解確定)。観測 43″/世紀 と3桁不一致 = kF1×実スピンは較正外(fidelity なし)。
-  // A8 引きずりは c² 抑制を持たない誇張スケールの機構であることの定量実証サンプル
+  // スピン起源を分解確定)。この q=3 対照が観測 43″/世紀 と3桁不一致になるのが本サンプルの出発点で、
+  // A8 引きずりは c² 抑制を持たない誇張スケールの機構であることの定量実証サンプル。
+  // 第148便(統括裁定 — 第147便残課題の rider): fidelity:"real" の**宣言漏れを修正**。
+  // 第120便の定義「スケール換算込みで較正したサンプル」に照らすと、本サンプルは ☄️ と同一実値の
+  // スケール指数系(1単位=10⁸m/10⁴s/10²⁷kg)・実G・実c₀で、第123便の qLock により kF1 のまま
+  // 43″/世紀 が成立している(「較正外」は第120便当時の q=3 版の記述で、第123便で解消済み)。
+  fidelity:"real",
   failureFirst:{
     fail:"kFrame=1 のまま太陽の実自転(25.05日)を入れると、D₀=0.1 ではスピン引きずりが逆行 −7.3×10⁻⁵ rad/公転(−1.5万″/世紀)の歳差を加え、観測の +43″/世紀 と3桁不一致になる(exp-kf1b §B — スピン0 なら kF0 と厳密一致=スピン起源)。",
     pass:"第122便の共通補正(q でスピン項を幾何減衰)→ 第123便: **q は計算で求まる(qLock)** — q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R)=6.16 の自動算出で引きずりは −5.6×10⁻¹⁰ rad/公転(LT級・1PN の 1/900)まで落ち、kF1 のまま 43″/世紀が成立。D₀ は 🌘💿 と共通の 0.006・q は同一式 — 較正ノブが1つも残らない(exp-kf1c/kf1d)。"},
@@ -5584,7 +5961,7 @@ const BUILTIN_PRESETS = [
 //    初速の較正係数は **1.000(実ケプラー速度そのまま)** — 旧版の ×1.12/1.09/1.07/1.055 は
 //    トイ設定(太陽半径40=実の5.7倍・自転0.5=実の17倍・q=2・D₀=2・c₀=30)が作っていた
 //    人工物で、実単位では不要になることを f 掃引で実測(第131便 — QA behavior.solarInner が再固定)。
-{ id:"solarInner", name:"太陽系 — 内惑星(実単位)", emoji:"🌞", group:"天体の物語",
+{ id:"solarInner", name:"太陽系 — 内惑星(実単位)", emoji:"🌞", group:"現実較正",
   familyId:"mercury", familyRole:"variant",   // 第137便(統括裁定): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)
   scaleTier:"planetary",
   scaleExp:{L:8, T:4, M:27},   // 第131便: ☄️mercuryReal・🪨mercuryRealKF1 と同一の指数系
@@ -5704,7 +6081,7 @@ const BUILTIN_PRESETS = [
 // 現行の実較正3系(☄️🪨 水星・🌙🌘 地球月・💿📡 土星)は、共通補正 D₀=0.006 と qLock 則そのものの
 // 形成に関与した**回顧的確認**である。木星系はその規則を**再フィットせずに初めて外挿する系**で、
 // 事前登録窓 JW1〜JW5 は実測前に固定し、実測後に動かしていない(PASS でも FAIL でも実測を記録)。
-{ id:"jupiterGalilean", name:"木星とガリレオ衛星(実単位)— 規則を再フィットしない hold-out", emoji:"🟠", group:"天体の物語",
+{ id:"jupiterGalilean", name:"木星とガリレオ衛星(実単位)— 規則を再フィットしない hold-out", emoji:"🟠", group:"現実較正",
   familyId:"jupiter", familyRole:"primary",
   scaleTier:"planetary",
   scaleExp:{L:7, T:3, M:26},   // 1単位=10⁷m/10³s/10²⁶kg。規約 L−T=4 で c₀=3×10⁴、M+2T−3L=11 で G=6.674
@@ -5986,7 +6363,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
-{ id:"saturnZonalD68", name:"土星の近点移動(実単位・D68精密較正)", emoji:"📡", group:"天体の物語",
+{ id:"saturnZonalD68", name:"土星の近点移動(実単位・D68精密較正)", emoji:"📡", group:"現実較正",
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   scaleExp:{L:6, T:2, M:25},   // 第131便(原仮定者指示): 💍💿 と同じ惑星(e6)指数系へ実単位化
                                // 1単位=10⁶m/10²s/10²⁵kg(実G=6.674・実c=3×10⁴〔eC=L−T=4〕)
@@ -6110,7 +6487,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"saturnRingReal", name:"土星の環(実単位)— 見えないのが正しい", emoji:"💍", group:"天体の物語",
+{ id:"saturnRingReal", name:"土星の環(実単位)— 見えないのが正しい", emoji:"💍", group:"現実較正",
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 第121便(原仮定者指示): スケールを惑星(e6)へ — 1単位=10⁶m/10²s/10²⁵kg(実G=6.674・実c=3e4 は不変)
                                // この指数系でも実G=6.674・実c=3×10⁴(eC=L−T=4)— 第117便の「無次元深度のみ実」
@@ -6211,7 +6588,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:true} },
 
-{ id:"saturnRingRealKF1", name:"土星の環(実単位・kFrame=1)— 表面随伴と自動算出q", emoji:"💿", group:"天体の物語",
+{ id:"saturnRingRealKF1", name:"土星の環(実単位・kFrame=1)— 表面随伴と自動算出q", emoji:"💿", group:"現実較正",
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 第121便: 💍と同じ惑星(e6)指数系
   sampleClass:"calibration",
@@ -6223,6 +6600,10 @@ const BUILTIN_PRESETS = [
   // 適用 — 環の偏心軌道の近点移動は q=3 の 0.23 rad/公転 → 2×10⁻⁵ へ落ち、環・衛星とも
   // ケプラー化(exp-kf1d §B)。随伴プロファイル: 表面高度 h=0.5 で LT の45倍 → h≈45(環中域)で
   // LT と同水準を横切る → 遠方で急減 — **表面に近いほど引きずりが強い**(MM null 結果と整合する構造)
+  // 第148便(統括裁定 — 第147便残課題の rider): fidelity:"real" の**宣言漏れを修正**。
+  // 💍 と同一実値・同一スケール指数系(1単位=10⁶m/10²s/10²⁵kg)で、第123便の qLock により
+  // kF1 のまま環が実測どおりケプラー化している(第120便当時の「誇張対照」記述は解消済み)。
+  fidelity:"real",
   failureFirst:{
     fail:"kFrame=1・q=3 では主星の実自転(10.56時間)のスピン項が環を増速(+4.7%)・内側移動(−2.5%/3周)させ、偏心軌道の近点は 0.23 rad/公転も回る — 実環の厳密ケプラー(Ω∝r^−1.5)から大きく外れる(exp-kf1b §C・kf1d §B)。",
     pass:"第123便: 共通補正 D₀=0.006+**qLock(q は自動算出 q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R)≈21.8)**で、環の近点移動は 2×10⁻⁵ rad/公転へ落ち環・衛星ともケプラー化。随伴は表面近傍で強く(h=0.5 で LT の45倍)環中域で LT と同水準の値を横切る — 「表面に近いほど引きずりが強い」= MM 実験の null 結果と整合する構造を、環という表面至近の軌道系で定量化(なお qLock が置きにいくのは**遠方近似での振幅**であって特定半径での一致ではない。参照軌道では有限半径因子 (a/(R+a))³=0.256 が残る — 第141便)。"},
@@ -12915,7 +13296,14 @@ function allPresets(){ return BUILTIN_PRESETS.concat(getCustomPresets()); }
 // (分子 → 日常〜天体の基礎 → 天体 → 銀河 → 宇宙全体)。BUILTIN_PRESETS の配列そのものは
 // 動かさず(セーブ・claims・QA の同一性を保つ)、**表示の並びだけ**をこの順で制御する。
 // GROUP_ORDER に無いグループ(将来追加・AI生成の独自 group 等)は元の出現順で末尾に続く
-const GROUP_ORDER=["熱の実験室","空間と時間","光","天体の物語","銀河","箱宇宙"];
+// 第147便(原仮定者指示): グループ再編(表示・分類専用 — 物理・claims・BUILTIN_PRESETS の配列順は不変)。
+//   「銀河」→「銀河の物語」/「光」→「光の物語」/(パラメータ側)「法則」→「法則の実験室」へ改名し、
+//   **新グループ「現実較正」**を天体の物語の直後へ新設した(現実較正・監査系14本を移動 —
+//   ☄️🪨🌙🌘💍💿📡🌞🟠⭕🧲🔆📶📐)。天体の物語には物語・トイ系が残る。
+//   ファミリー折り畳み(familyGroupedBuiltins)は**同一グループ内**で機能する設計なので、
+//   各ファミリーの primary(🪨🌘💿🟠🔆📶)は移動先の「現実較正」に揃えてある。
+//   グループを跨いだ variant(☿🌍🌕🪐🎯)は従来の 🌠 と同じく自分の group の元位置に残る
+const GROUP_ORDER=["熱の実験室","空間と時間","光の物語","天体の物語","現実較正","銀河の物語","箱宇宙"];
 function orderedGroups(){
   const seen=[];
   BUILTIN_PRESETS.forEach(p=>{ const g=p.group||"内蔵"; if(!seen.includes(g)) seen.push(g); });
@@ -12951,7 +13339,8 @@ function catalogHidden(p){
 // orderedBuiltins() の並び(グループ順序・グループ内配列順は不変)に、グループ内だけ
 // 「primary の直後に同ファミリー variant をまとめる」補正をかける(表示専用の並べ替え —
 // 第79便 GROUP_ORDER+orderedBuiltins() と同じ設計判断。ファミリーがグループを跨ぐ場合
-// 〔collide: counterring=天体の物語/merger=銀河〕は group 自体を動かせないため、その variant は
+// 〔collide: counterring=天体の物語/merger=銀河の物語。第147便以降は mercury/earthmoon/saturn の
+// 一部も 天体の物語⇄現実較正 を跨ぐ〕は group 自体を動かせないため、その variant は
 // 自分の group 内の元位置に残る — 「この仲間」導線(説明パネル)がその橋渡しを担う)
 // 第129便(原仮定者指示のファミリー再編に伴う最小修正): primary が配列順で同グループの variant
 // より**後ろ**にあるファミリー(mercury: 🪨 が ☿☄️ の後 / earthmoon: 🌘 が 🌙 の後 /
@@ -13180,6 +13569,11 @@ function showPresetPicker(rebuildOnly){
   ppChipsRow(box, T("ppDimE"),
     [["all",T("grpAll")],["E0","E0"],["E1","E1"],["E2","E2"],["E3","E3"]],
     ()=>ppE,(v)=>ppE=v);
+  // 第147便(統括裁定の実行): E水準の運用規約の注記。件数は**実行時導出**(emergence 宣言のある
+  // サンプル数 — 手打ちしない)。表示専用で、フィルタの意味論(第94便: E0 は宣言なしも含む)は不変
+  { const n=allPresets().filter(p=>EMERGENCE_LEVELS.indexOf(p.emergence)>=0).length;
+    const d=document.createElement("div"); d.className="ppNote"; d.id="ppENote";
+    d.textContent=T("ppENote")(n); box.appendChild(d); }
   // 第93便(原仮定者指示): 「すべて表示」(ファミリー変種)をヘッダからウィンドウ内へ移動。
   // 状態はヘッダの非表示チェックと同じ showAllSamples(localStorage)— 両者を同期する
   { const row=document.createElement("div"); row.className="ppChips";
@@ -17201,6 +17595,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   scaleEffNow,  // 第104便: ベースのスケール(タグ一括設定)のQA用 — 実効4指数の読み口(表示専用)
   claimProv, PROV_CLASSES,  // 第105便B EXT-02: 主張の出所分類のQA用(表示専用)
   claimRole, ROLE_CLASSES,  // 第133便 P0: 主張の役割分類のQA用(宣言専用 — 表示のみ)
+  grSI, GR_SI_INPUTS,  // 第148便: 弱場GR較正の式レベル出力(SI)— 表示・QA 専用の純関数
   // 第132便: EXT-06 較正台帳(自動算出)と EXT-02 第2段 主張の連鎖のQA用フック。
   // どちらも表示専用の純関数 — 呼んでも sim・プリセットを1バイトも書き換えない
   calibrationBudget:(p,st)=>calibrationBudget(p||currentPreset,
