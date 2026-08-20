@@ -3276,6 +3276,185 @@ if (hasBadgeClassify) {
   add('grcal.rays', !r.missing && r.rays, '');
 }
 
+// ---- 7f2) 第148便: behavior.grcal3 — 🛰️grcal ファミリーの焦点3サンプル
+// ----   (🕰️grcalGps・🌟grcalLight・⏲️grcalShapiro)。次の4点を機械固定する:
+// ----   ①宣言 — familyId=grcal の variant・claims の role/kind/prov・parameterAudit.fitted が空・
+// ----     3本とも**物理対応条件 κ=G/cLight² が厳密成立**(🛰️ 本体は誇張アナログなので成立しない)
+// ----   ②式レベル出力(HP.grSI)と **🛰️ に固定済みの正典値**(primary の説明文から抽出)の一致 —
+// ----     事前登録窓(統括固定): 3観測量とも ±1%
+// ----   ③各サンプルの claims の説明文数値(descPattern 抽出)と式レベル出力の同期(同じく ±1%)
+// ----   ④動的表示の機械検査(**実測値の手打ちはゼロ** — すべてこのランのその場の実行結果):
+// ----     🕰️ 3時計の順序 τ_地上<τ_衛星<τ_参照 と、分解比(重力項/運動項)が SI の分解比と一致
+// ----        (窓 ±3% — 画面の半径比を実 GPS の R⊕/r_GPS へ合わせてあるので、両者は同じ
+// ----        無次元量で決まる。一次量どうしの比較に揃えて評価する)
+// ----     🌟 まっすぐ狙った光子の偏向が弱場一次 α=4GM/(c₀²b) と一致(b=120 は ψ_b=0.023 の弱場帯。
+// ----        窓 ±10% は二次項 O(2ψ)≈5% と有限距離打ち切り≈5% の見積りから a priori に置いた)
+// ----     ⏲️ κ 有無の同時送信で κ 側だけが遅れて着く(x=300 通過時刻の差)。その遅れが有限幾何の
+// ----        シャピロ形 (2GM/c₀³)[asinh(x₁/b)+asinh(x₂/b)] と一致(窓 −10%〜+25% — 曲がりに
+// ----        よる経路伸長がこの構成では片側にだけ上乗せされるので非対称に取る)
+// ----   軽い(数秒)ので QA_FAST=1 でも実行する。3サンプル未導入の対象(root 等)は SKIP ----
+{
+  const has3 = await page.evaluate(() => !!(window.HP && HP.grSI)
+    && ['grcalGps', 'grcalLight', 'grcalShapiro'].every((id) => HP.allPresets().some((p) => p.id === id)));
+  if (has3) {
+    const g3 = await page.evaluate(() => {
+      const P = (id) => HP.allPresets().find((p) => p.id === id);
+      const IDS = ['grcalGps', 'grcalLight', 'grcalShapiro'];
+      const si = HP.grSI(), inputs = HP.GR_SI_INPUTS;
+      // ① 宣言の照合
+      const prim = P('grcal');
+      const decl = {
+        primary: !!prim && prim.familyId === 'grcal' && prim.familyRole === 'primary',
+        variants: IDS.every((id) => P(id).familyId === 'grcal' && P(id).familyRole === 'variant'),
+        group: IDS.every((id) => P(id).group === prim.group),
+        cls: IDS.every((id) => P(id).sampleClass === 'principle'),
+        claims: IDS.every((id) => Array.isArray(P(id).claims) && P(id).claims.length > 0
+          && P(id).claims.every((c) => HP.ROLE_CLASSES.indexOf(c.role) >= 0
+            && HP.PROV_CLASSES.indexOf(c.prov) >= 0 && typeof c.kind === 'string'
+            && typeof c.descPattern === 'string' && !!c.chain && typeof c.roleNote === 'string'
+            && typeof c.roleNoteEn === 'string')),
+        roles: IDS.every((id) => P(id).claims.some((c) => c.role === 'retrospective_check')
+          && P(id).claims.some((c) => c.role === 'input_check')),
+        noFit: IDS.every((id) => P(id).parameterAudit && Array.isArray(P(id).parameterAudit.fitted)
+          && P(id).parameterAudit.fitted.length === 0),
+        // 物理対応条件 κ=G/cLight²(3本とも厳密成立)
+        physCorr: IDS.map((id) => {
+          const ph = P(id).physics;
+          return Math.abs(ph.kappaT - ph.G / (ph.cLight * ph.cLight)) < 1e-15;
+        }),
+        // 🛰️ 本体は誇張アナログ = 物理対応条件を満たさない(宣言どおりであることの対照)
+        primaryExaggerated: Math.abs(prim.physics.kappaT
+          - prim.physics.G / (prim.physics.cLight * prim.physics.cLight)) > 1e-6 };
+      // ② 🛰️ の説明文に固定済みの正典値(数値をここで作らない — primary からの抽出だけ)
+      const d0 = prim.description || '';
+      const pick = (re) => { const m = d0.match(re); return m ? parseFloat(m[1]) : NaN; };
+      const canon = {
+        gpsNet: pick(/正味進み \+(\d+\.\d+)μs\/日/),
+        gpsGravity: pick(/重力\+(\d+\.\d+)/),
+        gpsMotion: pick(/運動(?:−|-)(\d+\.\d+)/),
+        deflectionArcsec: pick(/太陽縁の光偏向 (\d+\.\d+)″/),
+        shapiroMicros: pick(/シャピロ遅延 ≈(\d+)μs/) };
+      // ③ claims の説明文数値(descPattern 抽出)
+      const desc = {};
+      for (const id of IDS) for (const c of P(id).claims) {
+        const m = (P(id).description || '').match(new RegExp(c.descPattern));
+        desc[c.id] = m && m[1] !== undefined
+          ? parseFloat(m[1]) * (c.descScale === undefined ? 1 : c.descScale) : NaN;
+      }
+      // ④-1 🕰️ 3時計の順序と分解比
+      HP.loadPreset('grcalGps', false);
+      let S = HP.sim;
+      for (let k = 0; k < 3200; k++) S.step(0.01);
+      const c0 = S.params.cLight;
+      const tG = S.tau[1] / S.t, tS = S.tau[2] / S.t, tR = S.tau[3] / S.t;
+      const vSat = Math.hypot(S.vx[2], S.vy[2]);
+      const gpsRun = { nan: S.hasNaN(), tG, tS, tR,
+        order: tG < tS && tS < tR,
+        rSat: Math.hypot(S.x[2], S.y[2]), rRef: Math.hypot(S.x[3], S.y[3]),
+        // 一次量どうしの比較: 重力項 = ψ_地上−ψ_参照(静止時計は τ/t=e^{−ψ} が厳密)、
+        // 運動項 = ½v²/c₀²(SI 側と同じ一次の定義)
+        ratio: (Math.log(tR) - Math.log(tG)) / (vSat * vSat / (2 * c0 * c0)) };
+      // ④-2 🌟 まっすぐ狙った光子の偏向(b は宣言の幾何からその場で読む)
+      HP.loadPreset('grcalLight', false);
+      S = HP.sim;
+      const bL = Math.abs(S.y[1]), ML = S.m[0], GL = S.params.G, cL = S.params.cLight;
+      let a0 = null, aF = null, yF = null;
+      for (let k = 0; k < 6000 && aF === null; k++) {
+        S.step(0.01);
+        if (S.photons && S.photons.length) {
+          const ph = S.photons[0];
+          if (a0 === null) a0 = Math.atan2(ph.dy, ph.dx);
+          if (ph.x >= S.x[2]) { aF = Math.atan2(ph.dy, ph.dx); yF = ph.y; }
+        }
+      }
+      const lightRun = { nan: S.hasNaN(), b: bL, defl: (a0 !== null && aF !== null) ? a0 - aF : NaN,
+        analytic: 4 * GL * ML / (cL * cL * bL), miss: (yF === null) ? NaN : Math.abs(bL - yF),
+        rays: !!(P('grcalLight').rays && P('grcalLight').rays.n >= 6) };
+      lightRun.ratio = lightRun.defl / lightRun.analytic;
+      // ④-3 ⏲️ κ 有無の伝播時間差(x=300 通過)。x=300 は受信機の到着判定円(半径30)の手前
+      const runShap = (kap) => {
+        HP.loadPreset('grcalShapiro', false);
+        const s = HP.sim; s.params.kappaT = kap;
+        for (let k = 0; k < 6000; k++) {
+          s.step(0.01);
+          if (s.photons && s.photons.length && s.photons[0].x >= 300)
+            return { t: s.t, nan: s.hasNaN() };
+        }
+        return { t: NaN, nan: s.hasNaN() };
+      };
+      HP.loadPreset('grcalShapiro', false);
+      const sp = HP.sim.params, sb = HP.sim;
+      const bS = Math.abs(sb.y[1]), x1 = Math.abs(sb.x[1]), MS = sb.m[0];
+      const kapDecl = P('grcalShapiro').physics.kappaT;
+      const w1 = runShap(kapDecl), w0 = runShap(0);
+      const asinh = (v) => Math.log(v + Math.sqrt(v * v + 1));
+      const shapRun = { nan: w1.nan || w0.nan, tK: w1.t, t0: w0.t, delay: w1.t - w0.t,
+        analytic: (2 * sp.G * MS / Math.pow(sp.cLight, 3)) * (asinh(x1 / bS) + asinh(300 / bS)) };
+      shapRun.ratio = shapRun.delay / shapRun.analytic;
+      HP.loadPreset('saturn', false);
+      return { si, inputs, decl, canon, desc, gpsRun, lightRun, shapRun };
+    });
+    // ② 事前登録窓(統括固定): 式レベル出力 vs 🛰️ の正典値 — 3観測量とも ±1%
+    const KEY = [['gpsNet', 'GPS正味'], ['gpsGravity', 'GPS重力項'], ['gpsMotion', 'GPS運動項'],
+      ['deflectionArcsec', '光偏向'], ['shapiroMicros', 'シャピロ']];
+    const canonRows = KEY.map(([k, label]) => {
+      const eng = Math.abs(g3.si[k]), can = g3.canon[k];
+      const rel = Number.isFinite(eng) && Number.isFinite(can) && can !== 0
+        ? Math.abs(eng - can) / Math.abs(can) : Infinity;
+      return { label, eng, can, rel, ok: rel <= 0.01 };
+    });
+    const canonOk = canonRows.every((v) => v.ok);
+    // ③ claims の説明文数値 ↔ 式レベル出力(同じ ±1% 窓)
+    const WANT = {
+      'grcalGps.net-rate': g3.si.gpsNet,
+      'grcalGps.gravity-term': g3.si.gpsGravity,
+      'grcalGps.motion-term': Math.abs(g3.si.gpsMotion),
+      // 観測入力側は **エンジンが宣言している入力表(HP.GR_SI_INPUTS)から**引く — QA 側に
+      // 数値を手打ちしない(説明文の転記が入力表とずれたら FAIL する)
+      'grcalGps.orbit-radius': g3.inputs.rGPS / 1e7,
+      'grcalGps.earth-mass': g3.inputs.Mearth / 1e24,
+      'grcalLight.solar-limb-deflection': g3.si.deflectionArcsec,
+      'grcalLight.solar-mass': g3.inputs.Msun / 1e30,
+      'grcalLight.solar-radius': g3.inputs.Rsun / 1e8,
+      'grcalShapiro.round-trip-delay': g3.si.shapiroMicros,
+      'grcalShapiro.far-distance': g3.inputs.r2au,
+      'grcalShapiro.impact-parameter': g3.inputs.Rsun / 1e8 };
+    const syncRows = Object.keys(WANT).map((k) => {
+      const d = g3.desc[k], w = WANT[k];
+      const rel = Number.isFinite(d) && Number.isFinite(w) && w !== 0 ? Math.abs(d - w) / Math.abs(w) : Infinity;
+      return { k, d, w, rel, ok: rel <= 0.01 };
+    });
+    const syncOk = syncRows.length === 11 && syncRows.every((v) => v.ok);
+    // ④ 動的表示の機械検査
+    const siRatio = Math.abs(g3.si.gpsGravity / g3.si.gpsMotion);
+    const gpsOk = !g3.gpsRun.nan && g3.gpsRun.order
+      && Math.abs(g3.gpsRun.ratio / siRatio - 1) <= 0.03;
+    const lightOk = !g3.lightRun.nan && g3.lightRun.rays && g3.lightRun.defl > 0
+      && g3.lightRun.ratio >= 0.90 && g3.lightRun.ratio <= 1.10
+      && g3.lightRun.miss > 3 * 7;   // 観測者(半径7)を明確に外す = 見かけの位置がずれる
+    const shapOk = !g3.shapRun.nan && g3.shapRun.delay > 0
+      && g3.shapRun.ratio >= 0.90 && g3.shapRun.ratio <= 1.25;
+    const declOk = g3.decl.primary && g3.decl.variants && g3.decl.group && g3.decl.cls
+      && g3.decl.claims && g3.decl.roles && g3.decl.noFit
+      && g3.decl.physCorr.every(Boolean) && g3.decl.primaryExaggerated;
+    add('behavior.grcal3', declOk && canonOk && syncOk && gpsOk && lightOk && shapOk,
+      `式レベル出力↔🛰️正典(事前登録窓 ±1%)=${canonOk}: `
+      + canonRows.map((v) => `${v.label} ${v.eng.toPrecision(6)} vs ${v.can}(${(v.rel * 100).toFixed(3)}%)${v.ok ? '' : ' ✗'}`).join(' / ')
+      + ` / claims↔式レベル 同期=${syncOk}(${syncRows.length}件`
+      + `${syncRows.filter((v) => !v.ok).map((v) => ` ✗${v.k}:説明${v.d} vs 式${v.w}`).join('')}) / `
+      + `🕰️ τ/t 地上=${g3.gpsRun.tG.toFixed(5)}<衛星=${g3.gpsRun.tS.toFixed(5)}<参照=${g3.gpsRun.tR.toFixed(5)}`
+      + `(順序=${g3.gpsRun.order}) 分解比 重力/運動=${g3.gpsRun.ratio.toFixed(4)} vs SI ${siRatio.toFixed(4)}`
+      + `(${(Math.abs(g3.gpsRun.ratio / siRatio - 1) * 100).toFixed(2)}%・窓±3%) / `
+      + `🌟 光子偏向=${g3.lightRun.defl.toFixed(5)}rad vs 4GM/(c₀²b)=${g3.lightRun.analytic.toFixed(5)}`
+      + `(比 ${g3.lightRun.ratio.toFixed(4)}・窓0.90〜1.10) 観測者を外す距離=${g3.lightRun.miss.toFixed(1)} / `
+      + `⏲️ 伝播 κ=${g3.shapRun.tK.toFixed(2)} vs κ=0 は ${g3.shapRun.t0.toFixed(2)}(遅れ ${g3.shapRun.delay.toFixed(3)})`
+      + ` vs 有限幾何シャピロ ${g3.shapRun.analytic.toFixed(3)}(比 ${g3.shapRun.ratio.toFixed(4)}・窓0.90〜1.25) / `
+      + `宣言=${declOk}(物理対応条件 κ=G/c₀²=[${g3.decl.physCorr.join(',')}]・🛰️は誇張=${g3.decl.primaryExaggerated})`);
+  } else {
+    console.log('SKIP behavior.grcal3(🛰️grcal の焦点3サンプル 🕰️🌟⏲️ が未導入 — root 等。第148便)');
+  }
+}
+
 // ---- 7e) v1.19 UI改善: 表記統一 / 直値入力 / 線の軌跡トグル / 速度倍率 / セーブ名初期値 / コピー ----
 {
   // 一様重力の表記統一(g_x / g_y。Unicode 下付き gₓ の混在を排除)
@@ -7326,10 +7505,18 @@ if (!FAST) {
       const wantNew = hasBox ? ['熱の実験室', '空間と時間', '光', '天体の物語', '銀河', '箱宇宙'] : null;
       const want = hasBox ? ['空間と時間', '箱宇宙', '銀河', '光', '熱の実験室', '天体の物語']
                           : ['空間と時間', '銀河', '光', '熱の実験室', '天体の物語'];
-      res.groups = labels.slice(0, want.length);
-      res.groupsOk = JSON.stringify(res.groups) === JSON.stringify(want)
-        || (!!wantNew && JSON.stringify(res.groups) === JSON.stringify(wantNew));
-      res.scaleOrder = !!wantNew && JSON.stringify(res.groups) === JSON.stringify(wantNew);
+      // 第147便(原仮定者指示): グループ再編(表示専用)— 「銀河」→「銀河の物語」・「光」→「光の物語」
+      // へ改名し、新グループ「現実較正」を天体の物語の直後へ新設した。第79便のスケール準拠順
+      // (分子→日常→天体→現実較正→銀河→宇宙全体)はそのまま引き継ぐ。名前だけの追随で、
+      // 判定の強さは不変(従来順・第79便順・第147便順のいずれかに厳密一致することを要求する)
+      const wantW147 = hasBox
+        ? ['熱の実験室', '空間と時間', '光の物語', '天体の物語', '現実較正', '銀河の物語', '箱宇宙'] : null;
+      const cands = [want, wantNew, wantW147].filter(Boolean);
+      const hit = cands.find((c) => JSON.stringify(labels.slice(0, c.length)) === JSON.stringify(c));
+      res.groups = labels.slice(0, (hit || want).length);
+      res.groupsOk = !!hit;
+      res.scaleOrder = !!hit && hit !== want;
+      res.wave147 = !!wantW147 && hit === wantW147;
       // ② kFrame 中間値の解消: 全内蔵の physics.kFrame は 0 か 1
       res.kfBad = HP.allPresets().filter(p => !String(p.id).startsWith('custom_'))
         .filter(p => p.physics.kFrame !== 0 && p.physics.kFrame !== 1).map(p => p.id);
@@ -7353,7 +7540,9 @@ if (!FAST) {
       res.basePlain = HP.aiUserContent('テスト要望XYZ') === 'テスト要望XYZ';
       return res;
     });
-    add('groups.reorder', r.groupsOk, `optgroups=${JSON.stringify(r.groups)}(${r.scaleOrder ? '第79便 スケール準拠順' : '従来順'})`);
+    add('groups.reorder', r.groupsOk,
+      `optgroups=${JSON.stringify(r.groups)}(${r.wave147 ? '第147便 再編順(現実較正 新設)'
+        : (r.scaleOrder ? '第79便 スケール準拠順' : '従来順')})`);
     add('preset.kframe-binary01', r.kfBad.length === 0, r.kfBad.join(',') || '全内蔵 kFrame∈{0,1}');
     add('params.radius-default', r.radiusDef === 1, `radiusScale既定=${r.radiusDef}(=1)`);
     add('ai.base-context', r.baseOpts >= 28 && r.baseCtx && r.basePlain,
@@ -8355,13 +8544,32 @@ if (!FAST) {
         const reopened = panel.style.display;
         HP.auditView.open(false);
         const reclosed = panel.style.display;
+        // ⑤ 第147便(原仮定者指示): **スクロールした状態でも閉じられる**。見出し行(✕を含む)を
+        // sticky 化したので、中身を末尾までスクロールしても ✕ はパネル上端に留まり、
+        // その位置のヒットテストで最前面にいて、タップで閉じられる(既存④の弱体化はなし・追加のみ)
+        HP.auditView.open(true);
+        panel.scrollTop = panel.scrollHeight;
+        const scrolled = panel.scrollTop > 0;
+        const btnC = document.querySelector('#avClose');
+        const pr = panel.getBoundingClientRect(), br = btnC.getBoundingClientRect();
+        const inView = br.height > 0 && br.top >= pr.top - 1 && br.bottom <= pr.bottom + 1;
+        const hitEl = document.elementFromPoint((br.left + br.right) / 2, (br.top + br.bottom) / 2);
+        const onTop = !!hitEl && (hitEl === btnC || btnC.contains(hitEl) || hitEl.contains(btnC));
+        btnC.click();
+        const closedAfterScroll = panel.style.display;
         return { hadBtn: !!btn, before, opened, closed, reopened, reclosed,
+          scrolled, inView, onTop, closedAfterScroll,
           n: cards.length, nFamily: family.length, rows, enSame, enTranslated };
       });
       const openOk = av.hadBtn && av.before !== 'block' && av.opened === 'block'
         && av.closed === 'none' && av.reopened === 'block' && av.reclosed === 'none';
+      // 第147便: スクロール後の閉じ(sticky 見出し)— 実際にスクロールが起きた場合にだけ
+      // 「上端に留まる+最前面+タップで閉じる」を要求する(パネルが短くスクロールしない
+      // 画面では従来どおり openOk が閉じを担保する)
+      const scrollCloseOk = av.closedAfterScroll === 'none'
+        && (!av.scrolled || (av.inView && av.onTop));
       add('ui.audit-view',
-        av.n === av.nFamily && av.n > 0 && av.rows.every((r) => r.ok) && openOk
+        av.n === av.nFamily && av.n > 0 && av.rows.every((r) => r.ok) && openOk && scrollCloseOk
         && av.enSame && av.enTranslated,
         `ファミリー${av.n}件 表示=独立再計算: `
         + av.rows.map((r) => `${r.id}=${r.got}${r.ok ? '' : '≠' + r.want
@@ -8369,6 +8577,7 @@ if (!FAST) {
           + `ゲート${r.gateOk}/ファイル${r.fileOk}/FF${r.ffOk}/補正${r.corrOk}]`}`).join(' ')
         + ` / 残差${av.rows.reduce((s, r) => s + r.nResid, 0)}件・ゲート${av.rows.reduce((s, r) => s + r.nGate, 0)}件・`
         + `結果ファイル${av.rows.reduce((s, r) => s + r.nFile, 0)}件 / 開閉=${openOk} / `
+        + `スクロール後の閉じ=${scrollCloseOk}(scrolled=${av.scrolled}・上端保持=${av.inView}・最前面=${av.onTop}) / `
         + `ja=en 件数一致=${av.enSame}(ラベルは翻訳=${av.enTranslated})`);
     } else {
       console.log('SKIP ui.audit-view(対象に監査ビューなし — 第146便 未適用の root 等)');
@@ -13545,6 +13754,24 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       const headerWrap = document.querySelector('#showAllSamplesWrap');
       const headerHidden = !!headerWrap && headerWrap.style.display === 'none';
       const rows0 = document.querySelectorAll('#ppList .ppRow').length;
+      // 第147便(原仮定者指示): 一覧のグループ区切り = 見出し付きセパレータ(グループ名+罫線)。
+      // 見出しが2つ以上出て、先頭以外の見出しが上辺の罫線を持ち、見出しの右へ罫線(::after)が
+      // 伸びていること。表示専用の追加検査(既存の sepOk〔絞り込み行の罫線〕は不変)
+      const heads0 = [...document.querySelectorAll('#ppList .ppGroupHead')];
+      const grpSepOk = heads0.length >= 2
+        && heads0.slice(1).every((h) => parseFloat(getComputedStyle(h).borderTopWidth) > 0)
+        && heads0.every((h) => {
+          const a = getComputedStyle(h, '::after');
+          return h.textContent.trim().length > 0
+            && (a.content === '""' || parseFloat(a.height) > 0);
+        });
+      const grpHeadTexts = heads0.map((h) => h.textContent.trim());
+      // 第147便: E水準フィルタの運用注記(件数は実行時導出 — 宣言のあるサンプル数と一致)。
+      // 注記の有無を本便の世代フラグに使い、未適用の対象(root 等)では上の2検査を自動 SKIP する
+      const eNoteEl = document.querySelector('#ppENote');
+      const w147Gen = !!eNoteEl;
+      const nDecl = HP.allPresets().filter((p) => HP.EMERGENCE_LEVELS.indexOf(p.emergence) >= 0).length;
+      const eNoteOk = w147Gen && nDecl > 0 && eNoteEl.textContent.includes(String(nDecl));
       // スケール絞り込み(🌌)→ 銀河 tier だけに減る
       const gal = [...document.querySelectorAll('#ppModal .ppChip')].find((c) => c.textContent.includes('🌌'));
       gal.click();
@@ -13591,21 +13818,26 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
         ppSearch = '';
         HP.loadPreset('saturn', false);
         res({ label0, modal, rows0, rowsGal, galAllGalactic, hasMercury, closed, label1, row0Emoji,
-          showAllInModal, headerHidden, sepOk, e0Rows, e0Expected, e0HasUndeclared });
+          showAllInModal, headerHidden, sepOk, e0Rows, e0Expected, e0HasUndeclared,
+          grpSepOk, grpHeadTexts, eNoteOk, nDecl, w147Gen });
       }, 150);
     }));
     // 第93便: すべて表示のウィンドウ内移設(旧ビルドの beta には無いので undefined 通し)
     const saOk = r.showAllInModal === undefined || (r.showAllInModal && r.headerHidden);
     // 第94便: セパレータ+E0=宣言なし込み(件数が期待と一致し、宣言なしサンプルが実在する)
     const e0Ok = r.e0Rows === r.e0Expected && r.e0HasUndeclared && r.e0Rows > 0;
+    // 第147便: グループセパレータ+E水準注記。本便未適用の対象(root 等・注記が存在しない世代)は
+    // 自動 SKIP し、適用済み世代でだけ機械固定する(第93便 saOk と同じ流儀)
+    const w147Ok = !r.w147Gen || (r.grpSepOk && r.eNoteOk);
     add('ui.presetpicker',
       /🪐/.test(r.label0) && r.modal && r.rows0 >= 30 && r.rowsGal > 0 && r.rowsGal < r.rows0
       && r.hasMercury && r.closed && ['☿', '🪨', '☄️'].includes(r.row0Emoji)
-      && r.label1.includes(r.row0Emoji) && saOk && r.sepOk && e0Ok,
+      && r.label1.includes(r.row0Emoji) && saOk && r.sepOk && e0Ok && w147Ok,
       `ボタン=選択中サンプル名(🪐)=${/🪐/.test(r.label0)} / モーダル=${r.modal}・全${r.rows0}行 → ` +
       `🌌絞り込み ${r.rowsGal}行 / 検索「水星」=☿ヒット=${r.hasMercury} / 行タップ(先頭行=${r.row0Emoji})で読込+閉じ=${r.closed}(ボタン=${r.row0Emoji}: ${r.label1.includes(r.row0Emoji)})/ ` +
       `すべて表示=ウィンドウ内(${r.showAllInModal})・ヘッダ非表示(${r.headerHidden})/ ` +
-      `セパレータ=${r.sepOk} / E0絞り込み ${r.e0Rows}行(期待${r.e0Expected}・宣言なし込み=${r.e0HasUndeclared})`);
+      `セパレータ=${r.sepOk} / E0絞り込み ${r.e0Rows}行(期待${r.e0Expected}・宣言なし込み=${r.e0HasUndeclared})/ ` +
+      `グループ見出しセパレータ=${r.w147Gen ? r.grpSepOk : 'SKIP(第147便 未適用)'}(${JSON.stringify(r.grpHeadTexts)})・E水準注記=${r.w147Gen ? r.eNoteOk : 'SKIP'}(宣言${r.nDecl}件)`);
   } else {
     console.log('SKIP ui.presetpicker(対象にピッカーなし — root 等。第92便)');
   }
@@ -14573,7 +14805,16 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     // スケール換算込みの実較正である(衛星別 fit はゼロ — 規則を再フィットしない hold-out)
     const gen138 = await page.evaluate(() =>
       HP.allPresets().some((p) => p.id === 'jupiterGalilean'));
-    const want = gen138 ? 'earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+    // 第148便(統括裁定 — 第147便残課題の rider): 🪨mercuryRealKF1・💿saturnRingRealKF1 の
+    // fidelity:"real" 宣言漏れを修正した(いずれも ☄️/💍 と同一実値・同一スケール指数系で、
+    // 第123便の qLock により kF1 のまま較正が成立している)。期待件数は 12→14 へ**強化追随**する
+    // — 判定は「宣言集合が期待リストと厳密一致」のままで、弱体化はゼロ
+    const gen148 = await page.evaluate(() =>
+      HP.allPresets().some((p) => p.id === 'grcalGps'));
+    const want = gen148 ? 'earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+        + 'jupiterGalilean,mercuryReal,mercuryRealKF1,qLockRadialAudit,qLockRadialAuditQ3,'
+        + 'saturnRingReal,saturnRingRealKF1,saturnZonalD68,solarInner'
+      : gen138 ? 'earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
         + 'jupiterGalilean,mercuryReal,qLockRadialAudit,qLockRadialAuditQ3,saturnRingReal,'
         + 'saturnZonalD68,solarInner'
       : gen136 ? 'earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'

@@ -74,7 +74,11 @@ const gs = await page.evaluate(() => {
   const ag = ai ? [...ai.querySelectorAll('optgroup')].map(o => o.label) : [];
   return { groups, og, ag };
 });
-const WANT = ['熱の実験室', '空間と時間', '光', '天体の物語', '銀河', '箱宇宙'];
+// 第147便: グループ再編(「銀河」→「銀河の物語」・「光」→「光の物語」+ 新グループ「現実較正」)。
+// 第79便順と第147便順のどちらか**に厳密一致**することを要求する(名前の追随のみ — 判定は不変)
+const WANT79 = ['熱の実験室', '空間と時間', '光', '天体の物語', '銀河', '箱宇宙'];
+const WANT147 = ['熱の実験室', '空間と時間', '光の物語', '天体の物語', '現実較正', '銀河の物語', '箱宇宙'];
+const WANT = JSON.stringify(gs.og) === JSON.stringify(WANT147) ? WANT147 : WANT79;
 const eq = (a) => JSON.stringify(a) === JSON.stringify(WANT);
 chk('ui6.group-order', eq(gs.og) && eq(gs.ag), `optgroup=${JSON.stringify(gs.og)} aiBase=${JSON.stringify(gs.ag)}`);
 chk('ui6.groupSelect-order', JSON.stringify(gs.groups.filter(g => WANT.includes(g))) === JSON.stringify(WANT),
