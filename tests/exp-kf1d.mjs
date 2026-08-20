@@ -10,6 +10,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { buildManifest, NOT_APPLICABLE, NOT_INSTRUMENTED } from './manifest.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -187,6 +188,68 @@ const PROF = { G: 6.674, D0: 0.006, kFrame: 1, q: 3, kRep: 0, muF: 0, gammaN: 0,
   console.log(`[C1 外縁平均回転角(3000步)] q=2: ${C.q2.meanOut.toFixed(4)} / q=q*(${C.qStarGal.toFixed(1)}): ${C.qStar.meanOut.toFixed(4)}(比 ${(C.qStar.meanOut / C.q2.meanOut).toFixed(3)}) / q=5: ${C.q5.meanOut.toFixed(4)}`);
   out.tests.galaxy = C;
 }
+
+// ---- 第145便: 実験マニフェスト(生成来歴・数値環境・分類・判定ポインタ・健全性)-------------
+// 測定ロジック・数値は一切変更していない。結果へ `manifest` キーを1本足すだけの additive 変更。
+out.manifest = await buildManifest({
+  root: ROOT, scriptUrl: import.meta.url, page, browser, payload: out,
+  target: TARGET,
+  experiment: { id: 'kf1d', wave: 123,
+    title: 'q の自動算出(LT 整合則 q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R))と 💿 環系・銀河スケールの検証',
+    command: 'node tests/exp-kf1d.mjs' },
+  presets: { mode: 'mixed', ids: ['galaxy'],
+    declaredIn: 'A) runRL() の 🪨🌘 構成 / B) page.evaluate 内の 💿 環構成 / C) 内蔵 🌌galaxy を loadPreset',
+    declaration: 'A)B) は動的構成(宣言値から build)、C) だけ内蔵プリセット 🌌galaxy を読み込んで S.params.q を差し替える',
+    modifiedAtRuntime: 'C) は HP.loadPreset("galaxy", false) の後に S.params.q のみ上書きする(他キーはプリセット既定のまま)',
+    configs: {
+      profile: PROF,
+      mercury: { M: 1988.5, m2: 0.00033011, a: 579.09, e: 0.20563, rM: 6.95, r2: 0.0244,
+        spinM: 0.029031, spin2: 0.0124, pin: true, orbits: 8, qRefA: 460.012 },
+      earthMoon: { M: 0.59724, m2: 0.007346, a: 384.748, e: 0.0549, rM: 6.38, r2: 1.74,
+        spinM: 0.0072921, spin2: 0.00026617, f: 0.9968, orbits: 8, softening: 0.1, qRefA: 363.63 },
+      ring: { M: 56.834, radius: 60.3, spin: 0.016528, softening: 0.05,
+        probeRadii: [80, 105, 130, 1221.9], probeMass: 1e-5, e: 0.1, orbits: '6 × T(a=80)',
+        qRefA: 105 },
+      galaxy: { source: '内蔵プリセット 🌌galaxy', steps: 3000, dt: 0.016,
+        qRefParams: { c: 30, R: 15, G: 0.8, M: 2500, a: 150 }, outerRadius: '>180' } },
+    note: 'Kt=134851663.17051244 は c₀²/G(physLock 条件)の値である' },
+  numerics: {
+    seed: { dynamicSections: 1, galaxy: '内蔵 🌌galaxy のプリセット定義値',
+      note: 'A)B) は build に seed:1 を渡す。C) は loadPreset がプリセット定義の seed を使う' },
+    dt: 0.016, timeScale: 1, substeps: NOT_APPLICABLE,
+    steps: { mercuryEarthMoon: 'ceil(8·T_K/dt)', ring: 'ceil(6·T(a=80)/dt)', galaxy: 3000 },
+    window: { mercuryEarthMoon: '8 公転', ring: '6 × 内縁(a=80)公転', galaxy: '3000 步(t=48)' },
+    warmup: NOT_APPLICABLE,
+    lsqSampling: '≤4000 標本(SAMPLE=floor(steps/4000)— RL 角の LSQ 標本数。測定窓は間引いていない)',
+  },
+  classification: {
+    input: ['🪨🌘💿🌌 の質量・半径・自転・軌道要素(観測由来ないし内蔵プリセットの既存値)',
+      'dt=0.016・各系の窓', 'D₀=0.006(第120便の共有較正値 — 本便で再フィットしない)'],
+    fit: [],
+    derived: ['q* = 3 + ln(1.25·c₀²R/(GM))/ln((R+a)/R)(既知量だけから計算 — tests.qcalc.qMerc/qEM・' +
+      'tests.ring.qStar・tests.galaxy.qStarGal)',
+      '引きずり歳差 kF1−kF0(tests.qcalc.dragMerc・tests.ring)',
+      'LT 解析値 Ω_LT=2GJ/(c²a³)(tests.qcalc.ltPerOrbit・tests.ring.profile.omLT)',
+      '外縁平均回転角(tests.galaxy)'],
+    holdOut: ['💿 環系と 🌌 銀河スケールへの q* 適用(算出則は 🪨🌘 から導いたもので、💿🌌 の' +
+      'データには一度も当てはめていない — 値域と効き方の事後外挿テストである)'],
+    note: '**本便の眼目は q を編集対象から外すこと**である。q は当てはめではなく既知量からの算出値であり、' +
+      'fit は空である(D₀ も第120便の共有値をそのまま使う)',
+  },
+  judgement: {
+    pointers: ['tests.qcalc', 'tests.qcalc.ltPerOrbit', 'tests.ring', 'tests.ring.profile',
+      'tests.galaxy'],
+    note: '合否窓を持たない検証ハーネスである(QA 非連動)。🪨 は引きずり歳差を LT 級目安 ' +
+      'tests.qcalc.ltPerOrbit および 1PN=5.0e-7 rad/公転 と、💿 は随伴プロファイル比 ω_drag/ω_LT と' +
+      '突き合わせて読む。外部解析値も残差も上記ポインタの中にある',
+    externalReferences: ['Lense–Thirring 解析値 Ω_LT=2GJ/(c²a³)(J=0.4MR²s の一様球近似)',
+      '☄️/🪨 水星の 1PN 解析値 5.02e-7 rad/公転', '🌘 の近点回転 0.05311 rad/公転'],
+  },
+  health: {
+    conservation: { status: NOT_INSTRUMENTED,
+      note: '本ハーネスは保存量残差を記録していない' },
+  },
+});
 
 fs.writeFileSync(path.join(OUT_DIR, 'kf1d-results.json'), JSON.stringify(out, null, 2));
 console.log('saved: tests/out/kf1d-results.json');

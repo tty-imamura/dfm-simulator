@@ -1540,5 +1540,158 @@
       "kF0RatioFine": 1.0017680516459821,
       "duPerStepOverUlp": 0.014315965825254717
     }
-  ]
+  ],
+  "manifest": {
+    "schema": "dfm-experiment-manifest",
+    "schemaVersion": "1.0",
+    "generatedAt": "2026-08-20T08:08:27.069Z",
+    "experiment": {
+      "id": "qlockradial",
+      "wave": 136,
+      "title": "qLockRadialAudit — qLock の半径方向ストレステスト(参照点の外で r⁻³ 則を捨てる代償の実測)",
+      "script": "tests/exp-qlockradial.mjs",
+      "scriptSha256": "28107130ae1a0ce18204531ccabf7ea10d7ec5e41fdd22b1bd00115c5f95a98d",
+      "scriptBytes": 31613,
+      "helperSha256": "502979b3027a7a79bc4b2df5e1bc0fbb86e3bbc252af85b6f2266e101666103a",
+      "command": "node tests/exp-qlockradial.mjs"
+    },
+    "provenance": {
+      "git": {
+        "commit": "fbaef3a4884f3499ba1d63612d4847fcae09200d",
+        "describe": "fbaef3a-dirty",
+        "dirty": true,
+        "dirtyFiles": {
+          "count": 19,
+          "sample": [
+            "paper/README.md",
+            "paper/dfm-paper.tex",
+            "paper/dfm-paper3-ja.tex",
+            "paper/dfm-paper3.tex",
+            "tests/exp-coreshell.mjs",
+            "tests/exp-coreshell2.mjs",
+            "tests/exp-jupiter.mjs",
+            "tests/exp-kf1.mjs"
+          ]
+        }
+      },
+      "target": {
+        "path": "beta/index.html",
+        "sha256": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+        "bytes": 1665860,
+        "appVersion": "1.41"
+      },
+      "presets": {
+        "mode": "dynamic",
+        "note": "規約は beta の 🌘earthMoonRealKF1 と同一(単位 1=10⁶m/10²s/10²⁵kg)。中心天体は pinned で、反跳による運動引きずりの混入は §D(recoil)で別途実測している",
+        "declaration": "動的構成(内蔵プリセットを読まず、🌘earthMoonRealKF1 と同一規約の宣言値から build する)",
+        "declaredIn": "PHYS 定数群+ハーネス冒頭の宣言値(ME/RE/SPIN/MP/ECC/RADII…)",
+        "configSha256": "feab16dc1bc060c421192b37b5e6f689d3ad8e7c231f94ea6e38f8a4c70b75dd",
+        "configCanonicalization": "宣言済み構成(configs)を再帰キー整列した JSON の SHA-256"
+      }
+    },
+    "numerics": {
+      "seed": "not-applicable",
+      "dt": "dt = T_orbit / N(N は下記 stepsPerOrbit。半径ごとに T_orbit が異なるため dt も異なる)",
+      "timeScale": 1,
+      "substeps": "not-applicable",
+      "steps": {
+        "coarse": "1000 步/公転 × 8 公転",
+        "medium": "4000 步/公転 × 8 公転",
+        "fine": "400000 步/公転 × 8 公転(W1 用)",
+        "long": "1000 步/公転 × 64 公転"
+      },
+      "window": {
+        "main": "8 公転(事前登録窓 W2 と同一)",
+        "long": "64 公転(解像判定用)",
+        "note": "主測定は粗側 NC。NM(4倍細)と長窓の3点一致で解像を機械判定する(convergence)"
+      },
+      "warmup": "not-applicable",
+      "numericalFloor": "引きずり増分 Δv=kF·Δu が速度の ulp を下回ると 1 bit も積まれない丸め床がある。床の判定は probes.*.resolvedQLock に記録済み"
+    },
+    "environment": {
+      "node": "v22.22.2",
+      "platform": "linux/x64",
+      "playwright": "playwright@1.61.1",
+      "browser": "Playwright Chromium 141.0.7390.37",
+      "date": "2026-08-20T08:08:27.121Z",
+      "tz": "UTC"
+    },
+    "classification": {
+      "note": "本便は追加の当てはめを一つも持たない(fit は空)。q=8.25 は算出値、D₀=0.006 は既存の共有値。事前登録窓 W1〜W5 は実測前に固定し実測後に動かしていない",
+      "input": [
+        "地球の実質量 5.9724×10²⁴kg・実半径 6.38×10⁶m・実自転 23.93h(観測由来の外部入力)",
+        "D₀=0.006(既存の共有較正値 — 本便で再フィットしない)",
+        "q=8.25(qLock の LT 整合則を月の実軌道 R_REF=363.6253 を参照軌道として**算出**した値)",
+        "プローブ配置(対数等間隔9点+参照半径1点)・e=0.05・窓・步数(実測前に固定)"
+      ],
+      "fit": [],
+      "derived": [
+        "u 場のフレーム角速度 ω_DFM(r)(時間積分を通さない厳密量 — uField)",
+        "近点移動 Δϖ(近点通過法・RL 勾配法の2方式 — probes)",
+        "引きずり差分 Δϖ_drag = kF1 − kF0(同一構成差分)",
+        "log–log 傾き(slopes)・内側飽和(innerSaturation)・収束(convergence)",
+        "反跳混入量(recoil)・スピン対称性(spinSymmetry)"
+      ],
+      "holdOut": []
+    },
+    "judgement": {
+      "pointers": [
+        "windowsPreRegistered",
+        "windows.W1",
+        "windows.W2",
+        "windows.W3",
+        "windows.W4",
+        "windows.W5",
+        "uField",
+        "probes",
+        "slopes",
+        "convergence",
+        "innerSaturation",
+        "recoil",
+        "spinSymmetry"
+      ],
+      "note": "許容窓は windowsPreRegistered(実測前固定の文言)、判定と実測値・比・残差は windows.W1〜W5 に構造ごと入っている。W1 の外部解析値はソフトニング歳差 −3πε²/(a²(1−e²)²)、W2 は近点回転周期 8.85 年",
+      "externalReferences": [
+        "ソフトニング歳差の解析値 −3πε²/(a²(1−e²)²)(W1 の照合先)",
+        "月の近点回転周期 8.85 年(W2 の照合先)",
+        "Lense–Thirring 角速度 Ω_LT(内側飽和・ω 比の照合先)",
+        "一様球近似の自転角運動量 J=(2/5)MR²Ω(近似であることを config.JspinNote で宣言済み)"
+      ]
+    },
+    "health": {
+      "nan": {
+        "instrumented": true,
+        "flagsFound": 40,
+        "anyTrue": false,
+        "truePaths": [],
+        "numericNaNInPayload": 0,
+        "note": "結果ペイロード内の nan/hasNaN フラグを走査して集計した値(再測定はしていない)。numericNaNInPayload は JSON 化後に NaN として残った数値の件数(JSON.stringify では null になるため通常 0)"
+      },
+      "clamps": {
+        "aggregate": "not-instrumented",
+        "lastBuild": {
+          "clampVN": 0,
+          "clampSN": 0,
+          "clampHN": 0,
+          "clampAN": 0,
+          "clampRN": 0,
+          "angOvfN": 0,
+          "n": 2
+        },
+        "lastBuildTotal": 0,
+        "note": "エンジンのクランプ計数は sim.build() ごとに 0 へリセットされるため、ここに記録できるのは**この実行で最後に build した構成**の計数だけである(全構成を横断した集計は未計装)。lastBuildTotal>0 なら少なくとも最終構成で安全クランプが発動している(保存則主張の域外)"
+      },
+      "conservation": {
+        "status": "not-instrumented",
+        "note": "中心天体を pinned にしているため運動量は原理的に閉じない構成である(その代わり反跳の混入量そのものを recoil で実測している)。保存量残差は記録していない"
+      }
+    },
+    "regeneration": {
+      "canonicalization": "再生成時のペイロード照合は `manifest` キーを除外して行う(manifest は実行ごとに日時・環境・git 状態が変わる非測定メタである)。除外後の全キーは同一スクリプト・同一対象・同一 seed/步数で bit 一致することを要求する",
+      "payloadKeysExcluded": [
+        "manifest"
+      ],
+      "note": null
+    }
+  }
 }

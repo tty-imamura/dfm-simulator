@@ -2242,3 +2242,84 @@ v1.3 の QA で確立した本法則系の帰結(付録D 書き戻しの要約�
 
 各プリセットは §5 の同一エンジン上のデータ(プリセットJSON)であり、
 LLM によるプリセット追加も同じスキーマで行う(内部開発文書 HANDOFF_RUNTIME_LLM.md に仕様 — 非公開管理)。
+
+## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
+
+論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、
+どの結果ファイルに数値が入っているか」を1枚で辿れるようにした対応表である。
+主張の文言は `paper/dfm-paper-ja.tex`・`dfm-paper2-ja.tex`・`dfm-paper3-ja.tex` の
+**実際の節題・表の行から転記**したもので、本表で新しい主張を作ってはいない。
+
+読み方について3つ断っておく。
+
+1. **測定ハーネス(`tests/exp-*.mjs`)は意図的に CI の外にある**(論文3 §再現性)。
+   ラン時間が分単位の測定機器であり、生み出した数値は**コミット済みの結果ファイル**
+   (`tests/out/*-results.json`)に固定され、CI ゲートはその記録値・アプリの宣言状態・
+   再生成した図データとの**照合**を回している。したがって「主張 ↔ ゲート」は
+   「push のたびに物理を測り直している」という意味ではない。
+2. ゲートは最初の実測の**あと**に許容値を設定した回帰基準であり、記録値がずれないように
+   固定するものであって、固定している値の証拠にはならない(論文3 §検証対応表の誠実性注記)。
+3. **プリセット欄が空の行**は、その主張に対応する対話サンプルが無い(専用プリセットを廃止した、
+   あるいは検証ルーチン・ハーネス側だけで成立している)ことを意味する。
+
+アプリ側の対応物として、説明タブの ⚖️較正台帳(第132・133便)の直下から開く
+**現実較正ファミリー監査ビュー**(第146便)がある。ファミリー各サンプルの
+「失敗→補正→結果・観測入力/fit/導出の件数・claims の役割別内訳・主要残差・QA ゲート・
+結果ファイル」を1画面に並べたもので、表示は**すべてプリセット宣言からの実行時導出**
+(手書きの数値を持たない)。QA `ui.audit-view` が件数の独立再計算との一致を固定する。
+
+### 7.1 論文1(`paper/dfm-paper.tex` — 公理・動力学・数値実験)
+
+| 論文の主張(節題・表の行) | プリセット | QA ゲート | 結果ファイル・図データ |
+|---|---|---|---|
+| §対応関係「弱場対応とベンチマーク較正」(κ=G/c² 写像) | 🛰 `grcal` | `physlock.kt-derive`・`physlock.ui-110` | — |
+| §対応関係「測地線オプション E12:静的 1PN セクターの回復」 | ☿ `mercury` | `verify.V18`・`verify.V19`・`verify.V20`・`behavior.mercury-builtin` | — |
+| §数値実験 表「実験の機械検証ゲート」(V1/V9/V10/V10b の保存・第1法則) | (全サンプル共通) | `verify.V1`・`verify.V9`・`verify.V10`・`verify.V10b` | `tests/out/qa-results.json` |
+| 実験1「マッハのバケツ---絶対空間から関係論的空間へ」(専用プリセットは v1.24 で廃止) | — | `fig1.dial`(測定曲線と重み分率スケーリングが <0.1% 一致) | `paper/figures/fig1.json`・`figures-gates.json` |
+| 実験2「増幅された引きずりによる外縁速度増強」(外縁帯比 1.082・縮小構成 V11 のゲイン 0.055) | 🌌 `galaxy` | `verify.V11`・`fig2.flatten` | `paper/figures/fig2.json`・`figures-gates.json` |
+| 実験3「近点後退とその反転」(−7.52°/周回・スピン反転 +10.71°/周回・対照 −1.03°/周回) | (旧 `drag` は v1.24 で ☿ `mercury` に置換・廃止) | `verify.V6`・`fig3.sign` | `paper/figures/fig3.json`・`figures-gates.json` |
+| 実験4「時計---重力+運動,そして双子」(全6時計の最悪相対偏差 9.1×10⁻⁵) | ⏱ `gclock` | `verify.V12`・`verify.V13`・`verify.V16`・`new.gclock`・`fig4.analytic` | `paper/figures/fig4.json`・`figures-gates.json` |
+| 実験5「光---偏向,捕獲,非対称な屈曲」(非対称度 6.77×10⁻² rad) | 💡 `lensing`・🌗 `spinlens` | `verify.V8`・`fig5.asym` | `paper/figures/fig5.json`・`figures-gates.json` |
+| 実験6「スピン=熱---平衡化と圧力」(コア平均半径 34.5→140.9) | 🔥 `gas`・🎈 `pressure` | `behavior.gas`・`behavior.pressure`・`fig6.expand`・`fig6.equalize` | `paper/figures/fig6.json`・`figures-gates.json` |
+| 否定的主張5「基本力学は水星の近日点前進を再現しない」 | ☿ `mercury`(E12 オプション側)・☄️ `mercuryReal`(実単位側) | `behavior.mercury-builtin` | — |
+
+### 7.2 論文2(`paper/dfm-paper2.tex` — 箱宇宙・膨張の3層・プローブ依存)
+
+行は論文2 §検証対応表の表そのものに対応する(「主張 / 形態 / ゲート」)。
+
+| 論文の主張(検証対応表の行) | プリセット | QA ゲート | 結果ファイル・図データ |
+|---|---|---|---|
+| $g(0)=1/2$(ループ利得の解析一致) | — | `verify.V23a`・`verify.V24a`・`p2fig2.gain-half` | `paper/figures/p2fig2.json` |
+| $\chi=r/a$ 保存(1.5×10⁻⁵) | — | `verify.V24b` | — |
+| $n_{\rm eff}(\varphi_B)$(1.61/0.00) | — | `verify.V25` | — |
+| 規定べき膨張 / FLRW 摩擦対照(0.03%) | 🔦 `boxredshift` | `verify.V26`・`verify.V27` | `paper/figures/p2fig3.json` |
+| $R(a)$ 減衰(2.5×10⁻⁴)/ プローブ比(5.3×10⁻⁴) | 🧭 `probeH` | `verify.V28`・`verify.V29`・`behavior.probeH` | `paper/figures/p2fig6.json` |
+| A/B/C 波長(<10⁻⁹) | 🔦 `boxredshift` | `box.photon-abc`・`p2fig4.redshift` | `paper/figures/p2fig4.json` |
+| 自由な箱($a_{\rm eff}$=2.18・帳簿閉) | 🕊️ `freebox` | `freebox.*`(`conservation`・`quadrants` 他)・`p2fig5.aeff` | `paper/figures/p2fig5.json` |
+| クランプ帳簿(発動0回) | 🕊️ `freebox` | `clamp.ledger-zero`・`clamp.reaction-cap` | — |
+| 時間の矢(1.3×10⁻³ 対 10.8) | ⏪ `echo` | `echo.leapfrog-return`・`echo.friction-noreturn`・`echo.energy` | — |
+| 暗さの直交性・掃き出し / 観測面光束(0.04/0.12 対 0.28) | 🕳️ `rotorSolo`・🕶️ `darkrotor` | `ray.observer-flux`・`behavior.darkrotor`・`p2fig7.orthogonal`・`p2fig7.sweepout` | `tests/out/darkness-results.json`・`darkrotor-results.json`・`paper/figures/p2fig7.json` |
+| 外縁ブースト 1.331±0.008(多seed。プリセット `galaxy`・8シード・6000步) | 🌌 `galaxy` | `p2fig8.outerboost`・`p2fig8.caption`・`p2fig8.dragging` | `paper/figures/p2fig8.json` |
+| 図(22 ゲート) | — | `p2fig1.*`〜`p2fig8.*` | `paper/figures/p2figs-gates.json` |
+
+### 7.3 論文3(`paper/dfm-paper3.tex` — 現実較正と機構同定)
+
+| 論文の主張(節題・検証対応表の行) | プリセット | QA ゲート | 結果ファイル・図データ |
+|---|---|---|---|
+| §スケール換算規約「対応ロック κ=G/c₀²」 | ☄️ `mercuryReal`(以下 fidelity:"real" 系すべて) | `physlock.kt-derive`・`scale.cg-consistency`・`scale.realc-display` | — |
+| 同「測定が強いた2つの追加規約」(1PN 源の宣言・倍精度の状態キャリー) | ☄️ `mercuryReal` | `pn.source-flag`・`state.carry-double` | — |
+| §「P1: 力学の直接再現による 43″/世紀」(比 1.002) | ☄️ `mercuryReal`(kF0 対照)・🪨 `mercuryRealKF1`(kF1 雛形) | `wave119.ui`・`p3fig1.ratio`・`p3fig1.arcsec`・`claims.sync` | `tests/out/obscal-results.json`(exp-obscal §D)・`paper/figures/p3fig1.json` |
+| 同「正直な失敗: ソフトニングが逆行歳差を生む」 | ☄️ `mercuryReal`(failureFirst 宣言) | `ui.failure-first`・`ui.audit-view` | `tests/out/obscal-results.json` |
+| §「P2: 安定性は単位系依存である」(ループ利得 $g$ と経路) | 🌙 `earthMoonReal`(kF1 自由二体の崩壊 → kF0 で安定) | `p3fig2.boundary`・`p3fig2.d0-route`・`p3fig2.monotone` | `tests/out/obscal-results.json`(exp-obscal §F)・`kf1-results.json`・`paper/figures/p3fig2.json` |
+| §「P3: 運動引きずりによる月の近点回転周期」($D_0$=0.006;正味は正) | 🌘 `earthMoonRealKF1`(🌙 `earthMoonReal` が kF0 対照) | `wave120.ui`・`behavior.earthMoon`・`claims.sync` | `tests/out/kf1b-results.json` |
+| 同「これが何ではないか」(否定的主張2「較正一致は機構同定ではない」) | ⭕ `emAuditNewton`・🧲 `emAuditDFM`・🔆 `emAuditSolar`(第135・137便のアプリ側実装) | `behavior.emAudit` | `tests/out/qa-results-beta.json` |
+| §「P4: 共通補正から導出された指数へ」第1段: 共通補正 $(D_0,q)=(0.006,5)$ | 🪨 `mercuryRealKF1`・🌘 `earthMoonRealKF1` | `wave122.ui` | `tests/out/kf1c-results.json` |
+| 同 第2段: qLock、導出規則($q^*$ 6.16/8.25/21.8) | 🪨 `mercuryRealKF1`・🌘 `earthMoonRealKF1`・💿 `saturnRingRealKF1` | `wave123.ui`・`wave124.ui` | `tests/out/kf1d-results.json` |
+| 同「引き込みプロファイルと、整合性についての注記」/「半径方向監査の事前登録窓と、4種類の検査」(W1〜W5) | 📶 `qLockRadialAudit`・📐 `qLockRadialAuditQ3`(q=3 対照) | `behavior.qlockRadial`・`p3fig3.refpoint`・`p3fig3.outerslope`・`p3fig3.slopediff` | `tests/out/qlockradial-results.json`・`paper/figures/p3fig3.json` |
+| 同「イオ基準・3衛星外挿」(ガリレオ hold-out JW1〜JW5) | 🟠 `jupiterGalilean` | `behavior.jupiter`・`p3fig4.jw1`・`p3fig4.jw3-holdout`・`p3fig4.aref-sensitivity` | `tests/out/jupiter-results.json`・`paper/figures/p3fig4.json` |
+| §「環系の適用範囲」(タイタン 15.949 d;環 e6) | 💍 `saturnRingReal`(kF0)・💿 `saturnRingRealKF1`(kF1) | `wave121.ui`・`behavior.saturn-kframe-control` | `tests/out/kf1d-results.json` |
+| 帯状重力 E13 の D68 精密較正(較正係数 C=1.000302283・エンジン実測 38.108°/日) | 📡 `saturnZonalD68` | `zonal.analytic-d68`・`zonal.d68-preset`・`zonal.d68-realunit` | — |
+| 実単位の内惑星系(初速較正係数 1.000 = 速度側の fit ゼロ) | 🌞 `solarInner` | `behavior.solarInner` | — |
+| §「較正が許可すること---そして許可しないこと」(較正が通過すべき監査・代償1〜3) | 現実較正ファミリー全9本(`parameterAudit` 宣言) | `budget.consistency`・`claims.mainline`・`claims.role-audit`・`ui.audit-view` | — |
+| §検証対応表「サンプル主張の整合」 | 全内蔵サンプル(`descPattern` 宣言) | `claims.sync` | — |
+| §検証対応表「図が同一値で再生成される」 | — | `p3fig1.*`〜`p3fig4.*` | `paper/figures/p3figs-gates.json` |

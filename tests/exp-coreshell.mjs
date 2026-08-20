@@ -47,6 +47,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { buildManifest, NOT_APPLICABLE, NOT_INSTRUMENTED } from './manifest.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'index.html';
@@ -518,6 +519,63 @@ if (doSec('neb')) {
 }
 
 out.meta.elapsedSec = (Date.now() - T_START) / 1000;
+
+// ---- 第145便: 実験マニフェスト(生成来歴・数値環境・分類・判定ポインタ・健全性)-------------
+// 測定ロジック・数値は一切変更していない。結果へ `manifest` キーを1本足すだけの additive 変更。
+out.manifest = await buildManifest({
+  root: ROOT, scriptUrl: import.meta.url, page, browser, payload: out,
+  target: TARGET,
+  experiment: { id: 'coreshell', wave: 135,
+    title: 'コアの引きずりの影響範囲が外殻を安定させているか(用量反応+交差対照)',
+    command: 'node tests/exp-coreshell.mjs(節選択 CS_ONLY=… / 追記合流 CS_MERGE=1 / 煙試験 CS_QUICK=1)' },
+  presets: { mode: 'builtin', ids: ['bhCore', 'saturnLayered', 'selfRotor', 'starSeed', 'nebulaShell'],
+    modifiedAtRuntime: 'kFrame / core.omega 倍率 Ω_c / 影響範囲指数 q / K_cs / 殻スピン s / kRep を' +
+      'サンプル改変器で上書きして build する(改変内容は各 run.cfg に記録済み)',
+    note: 'seed は各プリセット定義値をそのまま使う(改変器は seed を触らない)' },
+  numerics: {
+    seed: { bhCore: 20260805, starSeed: 20260805, selfRotor: 20260806,
+      saturnLayered: 'プリセット既定値', nebulaShell: 'プリセット既定値',
+      note: 'build がプリセット定義の seed を使うため構成間で同一' },
+    dt: 0.016,
+    timeScale: 'プリセット既定値(ハーネスは sim.step(dt) を直接呼ぶため積分には掛からない)',
+    substeps: NOT_APPLICABLE,
+    steps: { bhCore: SC(6000), saturnLayered: SC(9375), selfRotor: SC(9000),
+      starSeed: SC(6000), nebulaShell: SC(3000), quick: QUICK },
+    window: { bhCore: 't=96(validT・exp-4-81 と同一窓)', saturnLayered: 't=150(QA behavior.saturnLayered 第1窓)',
+      selfRotor: 't=144(validT)', starSeed: 't=96(validT)', nebulaShell: 't=48(validT)' },
+    warmup: NOT_APPLICABLE,
+    configCount: '⚫38 / 🎯28 / 🥚6 / 🌱4 / 🐚20 = 96 構成(節選択時はその部分集合)',
+    sectionsRun: ONLY.length ? ONLY : ['(all)'],
+  },
+  classification: {
+    input: ['内蔵プリセットの初期配置・質量・seed(既存の展示構成 — 本便で再フィットしない)',
+      'dt=0.016(エンジン既定の刻み)', '各サンプルの窓(validT / QA 窓)'],
+    fit: [],
+    derived: ['外殻の逃散率・落下率・σ_r/⟨r⟩・相対半径変化(samples.*.runs.*.final)',
+      'Ω_frame(r) / Ω_kepler(r) の初期配置1步プローブ(samples.*.profiles)'],
+    holdOut: [],
+    note: '本便は**当てはめを持たない**用量反応+交差対照の実測である(fit は空 = 新しい自由度を' +
+      '一つも導入していない)。Ω_c・q・kFrame・K_cs・s・kRep は既存の物理キーを用量として振った' +
+      '入力であり、当てはめた較正値ではない',
+  },
+  judgement: {
+    pointers: ['samples.bhCore.runs', 'samples.saturnLayered.runs', 'samples.selfRotor.runs',
+      'samples.starSeed.runs', 'samples.nebulaShell.runs',
+      'samples.bhCore.profiles', 'samples.saturnLayered.profiles', 'samples.nebulaShell.profiles'],
+    note: '判定(安定 = 逃散率+落下率が対照比で増えない かつ σ_r/⟨r⟩ が対照比で増えない)は' +
+      '上記 runs の対照間比較で行う。許容窓は固定閾値ではなく「対照比」なので、比較対象の' +
+      '対照アームも同じ runs に入っている(kF0 / Ω_c=0 / kRep=0 / K_cs=0 / s=0)',
+    externalReferences: NOT_APPLICABLE,
+  },
+  health: {
+    conservation: { status: NOT_INSTRUMENTED,
+      note: '本ハーネスは |ΔL|/L_scale 等の保存量残差を記録していない(測っているのは外殻の' +
+        '逃散/落下/分散であり、保存則の主張はしていない)' },
+  },
+  regenerationNote: 'meta.date / meta.elapsedSec / meta.mergedFrom は非測定メタなので照合対象外',
+  excludeKeys: ['meta.date', 'meta.elapsedSec', 'meta.mergedFrom'],
+});
+
 fs.writeFileSync(OUT_PATH, JSON.stringify(out, null, 2));
 log(`\nsaved: tests/out/coreshell-results.json (総実行 ${(out.meta.elapsedSec / 60).toFixed(1)} 分)`);
 await browser.close();

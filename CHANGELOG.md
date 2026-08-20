@@ -4,6 +4,43 @@
 2026-07-21 に分離 — ロードマップ P2 群)。新しい版が上。バージョンは `APP_VERSION`
 (index.html)と package.json の major.minor が QA `version.sync` で同期検査される。
 
+## v1.42-b1(beta 先行・開発中)
+
+第146便(2026-08-20): **監査ビュー — 現実較正ファミリーを1画面で監査する**(外部レビューの
+「現実較正ファミリー監査ビュー」+「Papers↔Simulator 対応表」の採択)。**beta のみ**の変更で、
+ルート版 `index.html` は一切変更していない。物理・保存 JSON・AI 仕様(SYSTEM_PROMPT)への
+影響はゼロ — 追加はすべて**表示専用**である。
+
+- **🔬 現実較正ファミリー監査ビュー(beta/index.html)** — 現実較正ファミリー9本
+  (☄️`mercuryReal`・🪨`mercuryRealKF1`/🌙`earthMoonReal`・🌘`earthMoonRealKF1`/
+  💍`saturnRingReal`・💿`saturnRingRealKF1`+📡`saturnZonalD68`・🌞`solarInner`・
+  🟠`jupiterGalilean`)を1画面のカード列に並べる表示専用パネルを新設した。
+  導線は説明タブの ⚖️較正台帳(第132・133便)の直下 — 台帳が「1サンプルの内訳」を出すのに対し、
+  本ビューは同じ宣言を**ファミリー横断で横に並べて**読むためのもの。各カードの行は:
+  **①失敗→補正→結果**(`failureFirst` 宣言の fail/pass と `parameterAudit.fitted` 宣言)
+  **②観測入力 I・fit F・導出 D の件数**(較正台帳 v2 と**同じ** `calibrationBudget()` の
+  `audit` を再利用 — 件数の二重実装を作らない)
+  **③claims の役割別内訳**(`fit_target`/`held_out`/`negative_control` 等。並びは
+  `ROLE_CLASSES` 固定なので言語・宣言順に依存しない)
+  **④主要残差**(claims の `descPattern` を ja 説明文へ当てて抽出した実測値 — QA `claims.sync`
+  と同式)**⑤QA ゲート**(claims の `testId` + `stdTestsRef`)
+  **⑥結果ファイル**(宣言テキスト中の `exp-*` 言及 → ハーネス名⇄結果ファイル名の小さな対応表)。
+  **パネルは独自の数値を1つも持たない**(手書き数値ゼロ)。宣言から導出できない項目は
+  「—(なし)」になる。ja/en 両対応・開閉つき・カード積みなので横スクロールは発生しない
+- **QA `ui.audit-view` 新設**(beta 世代のみ・root は SKIP): 画面に出た件数(観測入力・fit・
+  導出・role 別)が、**アプリの導出関数を通さずテスト側でプリセット JSON から独立に組み直した数**と
+  一致することを機械照合する(第132便 `budget.consistency` と同じ流儀)。併せて主要残差・
+  QA ゲート・結果ファイルの各行の独立再計算一致、パネルの開閉(ボタン→block・✕→none・
+  フックからの再開閉)、ja/en で件数が変わらないこと(ラベルだけ翻訳されること)を固定する
+- **PHYSICS.md §7「論文 ↔ シミュレータ 対応表」新設** — 論文1〜3の主要主張を、対応する
+  プリセット・CI ゲート・コミット済み結果ファイル/図データへ1枚で辿れる対応表
+  (論文1=10行・論文2=12行・論文3=17行の計39行)。
+  主張の文言は `paper/dfm-paper-ja.tex`・`dfm-paper2-ja.tex`・`dfm-paper3-ja.tex` の**実際の
+  節題・表の行から転記**しており、本表で新しい主張は作っていない。測定ハーネスが意図的に CI の
+  外にあること・ゲートが実測の**あと**に設定された回帰基準であることも、論文3 §再現性の誠実性
+  注記のまま明記した
+- 既存ゲートの削除・弱体化はゼロ。ルート版 `index.html` は不変(root ALL PASS を維持)
+
 ## v1.41.0(2026-08-20)
 
 **更新前の注意**: β版とルート版は同一オリジンで localStorage(セーブ・APIキー)を共有する。

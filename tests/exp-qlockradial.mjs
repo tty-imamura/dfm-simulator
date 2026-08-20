@@ -21,6 +21,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { buildManifest, NOT_APPLICABLE, NOT_INSTRUMENTED } from './manifest.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -416,6 +417,67 @@ console.log(`W5 外側域 傾き差(q3−qLock)3〜8: ${out.windows.W5.pass ? 'P
 console.log(`内側飽和: χ=${U[0].chi.toFixed(4)}(最内)→${U[U.length - 1].chi.toFixed(4)}(最外)・` +
   `ω/Ω_LT=${U[0].ratioQLock.toExponential(3)}(最内)/${U[IREF].ratioQLock.toFixed(4)}(参照)/` +
   `${U[U.length - 1].ratioQLock.toExponential(3)}(最外)・交点 r≈${out.innerSaturation.crossingRadius?.toFixed(1)}`);
+
+// ---- 第145便: 実験マニフェスト(生成来歴・数値環境・分類・判定ポインタ・健全性)-------------
+// 測定ロジック・数値は一切変更していない。結果へ `manifest` キーを1本足すだけの additive 変更。
+out.manifest = await buildManifest({
+  root: ROOT, scriptUrl: import.meta.url, page, browser, payload: out,
+  target: TARGET,
+  experiment: { id: 'qlockradial', wave: 136,
+    title: 'qLockRadialAudit — qLock の半径方向ストレステスト(参照点の外で r⁻³ 則を捨てる代償の実測)',
+    command: 'node tests/exp-qlockradial.mjs' },
+  presets: { mode: 'dynamic',
+    declaredIn: 'PHYS 定数群+ハーネス冒頭の宣言値(ME/RE/SPIN/MP/ECC/RADII…)',
+    declaration: '動的構成(内蔵プリセットを読まず、🌘earthMoonRealKF1 と同一規約の宣言値から build する)',
+    configs: { physics: PHYS, mEarth: ME, rEarth: RE, spinEarth: SPIN, mProbe: MP, rProbe: RP_DISP,
+      ecc: ECC, radii: RADII, rRef: R_REF, rIn: R_IN, rOut: R_OUT, qLock: Q_LOCK, qFlat: Q_FLAT,
+      pinned: true },
+    note: '規約は beta の 🌘earthMoonRealKF1 と同一(単位 1=10⁶m/10²s/10²⁵kg)。中心天体は pinned で、' +
+      '反跳による運動引きずりの混入は §D(recoil)で別途実測している' },
+  numerics: {
+    seed: NOT_APPLICABLE,
+    dt: 'dt = T_orbit / N(N は下記 stepsPerOrbit。半径ごとに T_orbit が異なるため dt も異なる)',
+    timeScale: 1, substeps: NOT_APPLICABLE,
+    steps: { coarse: `${NC} 步/公転 × ${ORBITS} 公転`, medium: `${NM} 步/公転 × ${ORBITS} 公転`,
+      fine: `${NF} 步/公転 × ${ORBITS} 公転(W1 用)`, long: `${NC} 步/公転 × ${ORBITS_LONG} 公転` },
+    window: { main: `${ORBITS} 公転(事前登録窓 W2 と同一)`, long: `${ORBITS_LONG} 公転(解像判定用)`,
+      note: '主測定は粗側 NC。NM(4倍細)と長窓の3点一致で解像を機械判定する(convergence)' },
+    warmup: NOT_APPLICABLE,
+    numericalFloor: '引きずり増分 Δv=kF·Δu が速度の ulp を下回ると 1 bit も積まれない丸め床がある。' +
+      '床の判定は probes.*.resolvedQLock に記録済み',
+  },
+  classification: {
+    input: ['地球の実質量 5.9724×10²⁴kg・実半径 6.38×10⁶m・実自転 23.93h(観測由来の外部入力)',
+      'D₀=0.006(既存の共有較正値 — 本便で再フィットしない)',
+      'q=8.25(qLock の LT 整合則を月の実軌道 R_REF=363.6253 を参照軌道として**算出**した値)',
+      'プローブ配置(対数等間隔9点+参照半径1点)・e=0.05・窓・步数(実測前に固定)'],
+    fit: [],
+    derived: ['u 場のフレーム角速度 ω_DFM(r)(時間積分を通さない厳密量 — uField)',
+      '近点移動 Δϖ(近点通過法・RL 勾配法の2方式 — probes)',
+      '引きずり差分 Δϖ_drag = kF1 − kF0(同一構成差分)',
+      'log–log 傾き(slopes)・内側飽和(innerSaturation)・収束(convergence)',
+      '反跳混入量(recoil)・スピン対称性(spinSymmetry)'],
+    holdOut: [],
+    note: '本便は追加の当てはめを一つも持たない(fit は空)。q=8.25 は算出値、D₀=0.006 は既存の共有値。' +
+      '事前登録窓 W1〜W5 は実測前に固定し実測後に動かしていない',
+  },
+  judgement: {
+    pointers: ['windowsPreRegistered', 'windows.W1', 'windows.W2', 'windows.W3', 'windows.W4',
+      'windows.W5', 'uField', 'probes', 'slopes', 'convergence', 'innerSaturation', 'recoil',
+      'spinSymmetry'],
+    note: '許容窓は windowsPreRegistered(実測前固定の文言)、判定と実測値・比・残差は windows.W1〜W5 に' +
+      '構造ごと入っている。W1 の外部解析値はソフトニング歳差 −3πε²/(a²(1−e²)²)、W2 は近点回転周期 8.85 年',
+    externalReferences: ['ソフトニング歳差の解析値 −3πε²/(a²(1−e²)²)(W1 の照合先)',
+      '月の近点回転周期 8.85 年(W2 の照合先)',
+      'Lense–Thirring 角速度 Ω_LT(内側飽和・ω 比の照合先)',
+      '一様球近似の自転角運動量 J=(2/5)MR²Ω(近似であることを config.JspinNote で宣言済み)'],
+  },
+  health: {
+    conservation: { status: NOT_INSTRUMENTED,
+      note: '中心天体を pinned にしているため運動量は原理的に閉じない構成である(その代わり反跳の' +
+        '混入量そのものを recoil で実測している)。保存量残差は記録していない' },
+  },
+});
 
 fs.writeFileSync(path.join(OUT_DIR, 'qlockradial-results.json'), JSON.stringify(out, null, 2));
 console.log('\nsaved: tests/out/qlockradial-results.json');

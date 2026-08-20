@@ -290,5 +290,149 @@
         "nan": false
       }
     }
+  },
+  "manifest": {
+    "schema": "dfm-experiment-manifest",
+    "schemaVersion": "1.0",
+    "generatedAt": "2026-08-20T08:03:04.419Z",
+    "experiment": {
+      "id": "kf1",
+      "wave": 119,
+      "title": "kFrame=1 自由二体の安定化手法の系統探索(ループ利得 g の用量反応)",
+      "script": "tests/exp-kf1.mjs",
+      "scriptSha256": "c23fd399f32cb8143c6e48291c014562efb0b139de664dbad44947be850f4f49",
+      "scriptBytes": 13152,
+      "helperSha256": "502979b3027a7a79bc4b2df5e1bc0fbb86e3bbc252af85b6f2266e101666103a",
+      "command": "node tests/exp-kf1.mjs"
+    },
+    "provenance": {
+      "git": {
+        "commit": "fbaef3a4884f3499ba1d63612d4847fcae09200d",
+        "describe": "fbaef3a-dirty",
+        "dirty": true,
+        "dirtyFiles": {
+          "count": 10,
+          "sample": [
+            "tests/exp-coreshell.mjs",
+            "tests/exp-coreshell2.mjs",
+            "tests/exp-jupiter.mjs",
+            "tests/exp-kf1.mjs",
+            "tests/exp-kf1b.mjs",
+            "tests/exp-kf1c.mjs",
+            "tests/exp-kf1d.mjs",
+            "tests/exp-obscal.mjs"
+          ]
+        }
+      },
+      "target": {
+        "path": "beta/index.html",
+        "sha256": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+        "bytes": 1665860,
+        "appVersion": "1.41"
+      },
+      "presets": {
+        "mode": "dynamic",
+        "note": "physLock 条件 Kt=c₀²/G は mkR 内で厳密に再計算して維持している",
+        "declaration": "動的構成(内蔵プリセットを読まず、ハーネス内の宣言値から HP.sim.build する)",
+        "declaredIn": "Phase1 = mkG() の誇張アナログ構成 / Phase2 = mkR() の実単位 🌙 構成",
+        "configSha256": "479fec5d271ee20cc4b40dd8ef0e10c65cf142e2b3491de7c4a114926f923c21",
+        "configCanonicalization": "宣言済み構成(configs)を再帰キー整列した JSON の SHA-256"
+      }
+    },
+    "numerics": {
+      "seed": 1,
+      "dt": 0.016,
+      "timeScale": 1,
+      "substeps": "not-applicable",
+      "steps": "構成ごとに steps=ceil(orbits·T_K/dt)(T_K は各構成のケプラー周期 — 固定步数ではない)",
+      "window": {
+        "phase1Orbits": 2.1,
+        "phase2Orbits": 2.1,
+        "note": "崩壊検出で早期打ち切りする(rr>3a / rr<a/4 / NaN)。打ち切り時刻は collapseAt に公転単位で記録"
+      },
+      "warmup": "not-applicable"
+    },
+    "environment": {
+      "node": "v22.22.2",
+      "platform": "linux/x64",
+      "playwright": "playwright@1.61.1",
+      "browser": "Playwright Chromium 141.0.7390.37",
+      "date": "2026-08-20T08:03:04.458Z",
+      "tz": "UTC"
+    },
+    "classification": {
+      "note": "本便は探索(どの機構が安定化に効くか)であり、当てはめた較正値を持たない。質量再スケール (G,m)→(kG,m/k) は GM 不変の恒等変換であって fit ではない",
+      "input": [
+        "物理キー(G・D₀・kFrame・q・λPN・geoPN・pnAlpha)の宣言値と用量",
+        "🌙 実単位の質量・軌道要素・自転(観測由来の外部入力 — 本便で当てはめない)",
+        "dt=0.016・seed=1・窓 2.1 公転"
+      ],
+      "fit": [],
+      "derived": [
+        "振幅 amp=(rmax−rmin)/mean",
+        "崩壊時刻 collapseAt(公転単位)",
+        "周期残差 Tres=T/T_K−1",
+        "重心ドリフト cmDrift",
+        "NaN フラグ"
+      ],
+      "holdOut": []
+    },
+    "judgement": {
+      "pointers": [
+        "tests.analog.base",
+        "tests.analog.pairReduced",
+        "tests.analog.massRescale",
+        "tests.analog.qDose",
+        "tests.analog.thermal",
+        "tests.analog.d0ref",
+        "tests.analog.lam0",
+        "tests.analog.combo",
+        "tests.real"
+      ],
+      "note": "合否窓を持たない探索ハーネスである(QA 非連動)。判定は「崩壊するか(collapseAt が非 null か)」と振幅 amp の対照間比較で読む。許容窓は宣言していない — 数値はすべて上記ポインタの実測値である",
+      "externalReferences": [
+        "🌙 の観測値: 恒星月 27.3217 日・e=0.0549(比較参照のみ・当てはめには使っていない)"
+      ]
+    },
+    "health": {
+      "nan": {
+        "instrumented": true,
+        "flagsFound": 24,
+        "anyTrue": false,
+        "truePaths": [],
+        "numericNaNInPayload": 0,
+        "note": "結果ペイロード内の nan/hasNaN フラグを走査して集計した値(再測定はしていない)。numericNaNInPayload は JSON 化後に NaN として残った数値の件数(JSON.stringify では null になるため通常 0)"
+      },
+      "clamps": {
+        "aggregate": "not-instrumented",
+        "lastBuild": {
+          "clampVN": 0,
+          "clampSN": 0,
+          "clampHN": 0,
+          "clampAN": 0,
+          "clampRN": 0,
+          "angOvfN": 0,
+          "n": 2
+        },
+        "lastBuildTotal": 0,
+        "note": "エンジンのクランプ計数は sim.build() ごとに 0 へリセットされるため、ここに記録できるのは**この実行で最後に build した構成**の計数だけである(全構成を横断した集計は未計装)。lastBuildTotal>0 なら少なくとも最終構成で安全クランプが発動している(保存則主張の域外)"
+      },
+      "conservation": {
+        "status": "partially-instrumented",
+        "quantity": "重心ドリフト |r_cm|/a(運動量保存の代理指標)",
+        "pointers": [
+          "tests.analog.*.cmDrift",
+          "tests.real.*.cmDrift"
+        ],
+        "note": "運動量保存の代理として重心ドリフトのみ記録している。角運動量・エネルギーの残差は記録していない(not-instrumented)"
+      }
+    },
+    "regeneration": {
+      "canonicalization": "再生成時のペイロード照合は `manifest` キーを除外して行う(manifest は実行ごとに日時・環境・git 状態が変わる非測定メタである)。除外後の全キーは同一スクリプト・同一対象・同一 seed/步数で bit 一致することを要求する",
+      "payloadKeysExcluded": [
+        "manifest"
+      ],
+      "note": null
+    }
   }
 }

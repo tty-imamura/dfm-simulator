@@ -45,6 +45,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { buildManifest, NOT_APPLICABLE, NOT_INSTRUMENTED } from './manifest.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'index.html';
@@ -806,6 +807,63 @@ if (fs.existsSync(REF135) && !QUICK) {
 out.meta.elapsedSec = (Date.now() - T_START) / 1000;
 out.meta.sectionRuns.push({ sections: ONLY.length ? ONLY : ['(all)'], date: out.meta.date, elapsedSec: out.meta.elapsedSec });
 out.meta.measurementElapsedSecTotal = out.meta.sectionRuns.reduce((a, e) => a + e.elapsedSec, 0);
+
+// ---- 第145便: 実験マニフェスト(生成来歴・数値環境・分類・判定ポインタ・健全性)-------------
+// 測定ロジック・数値は一切変更していない。結果へ `manifest` キーを1本足すだけの additive 変更。
+out.manifest = await buildManifest({
+  root: ROOT, scriptUrl: import.meta.url, page, browser, payload: out,
+  target: TARGET,
+  experiment: { id: 'coreshell2', wave: 139,
+    title: 'コア外殻フォロー(臨界指数 q=3/2 の挟み込み・Ω_c* の内点性・Rc 用量の (Rc/R)^q 照合)',
+    command: 'node tests/exp-coreshell2.mjs(節選択 CS2_ONLY=… / 追記合流 CS2_MERGE=1 / 出力先 CS2_OUT=… / 煙試験 CS2_QUICK=1)' },
+  presets: { mode: 'builtin', ids: ['bhCore', 'nebulaShell'],
+    modifiedAtRuntime: 'kFrame / core.omega 倍率 Ω_c / 影響範囲指数 q / core.radius 倍率 Rc / kRep を' +
+      '第135便と同一の改変器で上書きして build する(改変内容は各 run.cfg に記録済み)',
+    note: 'seed は各プリセット定義値(⚫20260805 / 🐚20260804)をそのまま使う' },
+  numerics: {
+    seed: { bhCore: 20260805, nebulaShell: 20260804, note: 'プリセット定義値(改変器は seed を触らない)' },
+    dt: 0.016,
+    timeScale: 'プリセット既定値(ハーネスは sim.step(dt) を直接呼ぶため積分には掛からない)',
+    substeps: NOT_APPLICABLE,
+    steps: { bhCore: BH_STEPS, nebulaShell: NEB_STEPS, quick: QUICK },
+    window: { bhCore: 't=96(validT・exp-4-81 および第135便と同一窓)', nebulaShell: 't=48(validT)' },
+    warmup: NOT_APPLICABLE,
+    sweeps: { q: QS, omegaC: OMS, omegaCSub: OMS_SUB, rcMul: RC_MULS, rc0: RC0 },
+    sectionsRun: ONLY.length ? ONLY : ['(all)'],
+  },
+  classification: {
+    input: ['内蔵プリセットの初期配置・質量・seed(第135便と同一 — 本便で再フィットしない)',
+      'dt=0.016', '窓(bhCore 6000步 / nebulaShell 3000步 = 第135便と同一)',
+      '掃引点 q∈{1.0,1.2…2.0} / Ω_c/Ω_c0∈[0,2] / Rc 倍率∈{0.25,0.5,1,2,4}(実測前に事前登録)'],
+    fit: [],
+    derived: ['外殻損失率(cw1.arms.*.table)', 'Ω_c* の内点性(cw2)',
+      'ω 振幅比と理論 (Rc/R)^q の相対偏差(cw3)', '対照の bit 一致(controls)',
+      '決定性ハッシュ(determinism)', '第135便との共有点照合(crossWaveCheck)'],
+    holdOut: ['臨界指数 q=3/2 の予想(解析的に事前導出した値であり、本便のデータから当てはめていない ' +
+      '— CW1 の挟み区間がこれを含むかは事後外挿テストとして扱う)'],
+    note: '事前登録窓(preRegistered)は実測前に固定し実測後に動かしていない。fit は空 = 本便で' +
+      '新しい較正自由度を一つも導入していない',
+  },
+  judgement: {
+    pointers: ['preRegistered', 'limits', 'cw1.verdict', 'cw2.verdict', 'cw3.verdict',
+      'controls.allDynamicsIdentical', 'determinism', 'crossWaveCheck', 'raw'],
+    note: '許容窓は preRegistered(実測前固定)、エンジン実測は raw、残差・判定は cw1/cw2/cw3 の ' +
+      'verdict にある。CW3 の外部解析値は理論式 (Rc/R)^q で、その残差は cw3.*.maxAbsRelDev である',
+    externalReferences: ['臨界指数 q=3/2(Ω_drag/Ω_kepler ∝ r^{3/2−q} の解析的帰結)',
+      'ω 振幅比の理論形 (Rc/R)^q'],
+  },
+  health: {
+    conservation: { status: NOT_INSTRUMENTED,
+      note: '本ハーネスは保存量残差を記録していない。代わりに **kF0×kRep=0 対照の bit 一致**' +
+        '(controls.allDynamicsIdentical)と**決定性ハッシュ**(determinism.sha256)を数値健全性の' +
+        '代理指標として持つ' },
+  },
+  regenerationNote: 'meta.date / meta.elapsedSec / meta.mergedFrom / meta.only / meta.sectionRuns / ' +
+    'meta.measurementElapsedSecTotal は非測定メタなので照合対象外(determinism の正規化と同方針)',
+  excludeKeys: ['meta.date', 'meta.elapsedSec', 'meta.mergedFrom', 'meta.only', 'meta.sectionRuns',
+    'meta.measurementElapsedSecTotal'],
+});
+
 fs.writeFileSync(OUT_PATH, JSON.stringify(out, null, 2));
 log(`\n===== 判定 =====`);
 log('CW1 ' + JSON.stringify(out.cw1.verdict));

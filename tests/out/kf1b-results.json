@@ -138,5 +138,151 @@
       "dPomPerOrbit": 0.05247396977530139,
       "Tday": 27.333012345679013
     }
+  },
+  "manifest": {
+    "schema": "dfm-experiment-manifest",
+    "schemaVersion": "1.0",
+    "generatedAt": "2026-08-20T08:04:33.726Z",
+    "experiment": {
+      "id": "kf1b",
+      "wave": 120,
+      "title": "kFrame=1 実単位サンプルの精密残差調査(RL 全步 LSQ による Δϖ/公転の分解)",
+      "script": "tests/exp-kf1b.mjs",
+      "scriptSha256": "5364517729bb7721655467db75d98b09e18ae7222416441a214ed570202c3335",
+      "scriptBytes": 18542,
+      "helperSha256": "502979b3027a7a79bc4b2df5e1bc0fbb86e3bbc252af85b6f2266e101666103a",
+      "command": "node tests/exp-kf1b.mjs"
+    },
+    "provenance": {
+      "git": {
+        "commit": "fbaef3a4884f3499ba1d63612d4847fcae09200d",
+        "describe": "fbaef3a-dirty",
+        "dirty": true,
+        "dirtyFiles": {
+          "count": 12,
+          "sample": [
+            "tests/exp-coreshell.mjs",
+            "tests/exp-coreshell2.mjs",
+            "tests/exp-jupiter.mjs",
+            "tests/exp-kf1.mjs",
+            "tests/exp-kf1b.mjs",
+            "tests/exp-kf1c.mjs",
+            "tests/exp-kf1d.mjs",
+            "tests/exp-obscal.mjs"
+          ]
+        }
+      },
+      "target": {
+        "path": "beta/index.html",
+        "sha256": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+        "bytes": 1665860,
+        "appVersion": "1.41"
+      },
+      "presets": {
+        "mode": "dynamic",
+        "note": "Kt=134851663.17051244 は c₀²/G(physLock 条件)の値である",
+        "declaration": "動的構成(内蔵プリセットを読まず、ハーネス内の宣言値から HP.sim.build する)",
+        "declaredIn": "A) 🌘地球月 mk() / B) ☄️水星 mk() / C) 💍土星環 page.evaluate 内 bodies / D) 🌘較正 page.evaluate 内",
+        "configSha256": "febf5af507278afa56f6a25866d453ad6f68c0aa86d77cc629159da94e1bfdf8",
+        "configCanonicalization": "宣言済み構成(configs)を再帰キー整列した JSON の SHA-256"
+      }
+    },
+    "numerics": {
+      "seed": 1,
+      "dt": 0.016,
+      "timeScale": 1,
+      "substeps": "not-applicable",
+      "steps": "steps=ceil(orbits·T_K/dt)(構成ごとに T_K から算出 — 固定步数ではない)",
+      "window": {
+        "earthMoon": "5 公転",
+        "mercury": "8 公転",
+        "saturnRing": "3 × C環内縁周期",
+        "calibration": "8 公転",
+        "note": "崩壊検出(rr>3a / rr<a/4 / NaN)で早期打ち切り。打ち切り時刻は collapsed に公転単位で記録"
+      },
+      "warmup": "not-applicable",
+      "lsqSampling": {
+        "earthMoonMercury": "≤4000 標本(SAMPLE=floor(steps/4000))",
+        "calibration": "≤6000 標本(SAMPLE=floor(steps/6000))",
+        "note": "RL 角の全步追跡を間引いて最小二乗勾配に掛ける標本数(測定窓そのものは間引いていない)"
+      }
+    },
+    "environment": {
+      "node": "v22.22.2",
+      "platform": "linux/x64",
+      "playwright": "playwright@1.61.1",
+      "browser": "Playwright Chromium 141.0.7390.37",
+      "date": "2026-08-20T08:04:33.761Z",
+      "tz": "UTC"
+    },
+    "classification": {
+      "note": "較正した自由度は D₀ と f の2つだけであり、いずれも 🌘 で当てはめた**共有値**である(系ごとに別々の値を当てはめてはいない)。☄️ 水星・💍 土星環はその共有値を当てた先の観測であって本便で再フィットしていない",
+      "input": [
+        "🌘🪨💍 の実単位の質量・軌道要素・自転・半径(観測由来の外部入力)",
+        "dt=0.016・seed=1・各系の窓(公転数)",
+        "D₀・kFrame・q・λPN・スピン用量の掃引点(用量反応の入力)"
+      ],
+      "fit": [
+        "D₀=0.006(🌘 の近点回転較正 — 第120便で採用した共有較正値。本便 D) はその検証)",
+        "f=0.9968(初速の較正係数 — 同上)"
+      ],
+      "derived": [
+        "Δϖ/公転(RL 全步 LSQ 勾配)",
+        "周期残差 Tres",
+        "e ドリフト",
+        "振幅 amp",
+        "引きずり歳差 = kF1 − kF0 の差分",
+        "環の帯保持数・Ω 残差中央値・r 移動中央値"
+      ],
+      "holdOut": []
+    },
+    "judgement": {
+      "pointers": [
+        "tests.earthMoonKF1",
+        "tests.mercuryKF1",
+        "tests.saturnKF1",
+        "tests.calibration"
+      ],
+      "note": "合否窓を持たない残差調査ハーネスである(QA 非連動)。D) の較正検証は Δϖ比(実測/0.05311)を目標 1.0・窓依存 ±15% で読む(この窓は tests.calibration の値から手計算せず、上記ポインタの実測 dPomPerOrbit をそのまま用いる)",
+      "externalReferences": [
+        "☄️ 水星の 1PN 解析値 5.02e-7 rad/公転",
+        "🌘 の近点回転 0.05311 rad/公転(= 8.85 年周期)・恒星月 27.3217 日"
+      ]
+    },
+    "health": {
+      "nan": {
+        "instrumented": true,
+        "flagsFound": 12,
+        "anyTrue": false,
+        "truePaths": [],
+        "numericNaNInPayload": 0,
+        "note": "結果ペイロード内の nan/hasNaN フラグを走査して集計した値(再測定はしていない)。numericNaNInPayload は JSON 化後に NaN として残った数値の件数(JSON.stringify では null になるため通常 0)"
+      },
+      "clamps": {
+        "aggregate": "not-instrumented",
+        "lastBuild": {
+          "clampVN": 0,
+          "clampSN": 0,
+          "clampHN": 0,
+          "clampAN": 0,
+          "clampRN": 0,
+          "angOvfN": 0,
+          "n": 2
+        },
+        "lastBuildTotal": 0,
+        "note": "エンジンのクランプ計数は sim.build() ごとに 0 へリセットされるため、ここに記録できるのは**この実行で最後に build した構成**の計数だけである(全構成を横断した集計は未計装)。lastBuildTotal>0 なら少なくとも最終構成で安全クランプが発動している(保存則主張の域外)"
+      },
+      "conservation": {
+        "status": "not-instrumented",
+        "note": "本ハーネスは保存量残差を記録していない(記録しているのは e ドリフトと振幅で、これは軌道要素のドリフトであって保存則の残差ではない)"
+      }
+    },
+    "regeneration": {
+      "canonicalization": "再生成時のペイロード照合は `manifest` キーを除外して行う(manifest は実行ごとに日時・環境・git 状態が変わる非測定メタである)。除外後の全キーは同一スクリプト・同一対象・同一 seed/步数で bit 一致することを要求する",
+      "payloadKeysExcluded": [
+        "manifest"
+      ],
+      "note": null
+    }
   }
 }

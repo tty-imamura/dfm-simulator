@@ -1,5 +1,5 @@
 {
-  "date": "2026-08-13T14:55:03.411Z",
+  "date": "2026-08-20T08:08:36.767Z",
   "target": "beta/index.html",
   "profiles": {
     "solar": {
@@ -536,6 +536,151 @@
         "minUnstable": 0.008898591518746429
       },
       "procedure": "安定化手順: ループ利得 g=[w_sat/(D0+w_sat)]·[w_M/(D0+w_M)] を安定境界未満へ。質量補正単独は不可(w_M側が残る)— D0 併用(kM 同様 GM 保存で周期不変)か主星 pinned を用いる"
+    }
+  },
+  "manifest": {
+    "schema": "dfm-experiment-manifest",
+    "schemaVersion": "1.0",
+    "generatedAt": "2026-08-20T08:13:34.605Z",
+    "experiment": {
+      "id": "obscal",
+      "wave": 111,
+      "title": "観測較正ハーネス(ドメイン宣言プロファイル下での kM フィット・1PN・引きずりの A/B)",
+      "script": "tests/exp-obscal.mjs",
+      "scriptSha256": "f0ef6df6e98c6ab67a0e70256f0b5befecf41d352553a22ee614fa6c0f2798f0",
+      "scriptBytes": 39092,
+      "helperSha256": "502979b3027a7a79bc4b2df5e1bc0fbb86e3bbc252af85b6f2266e101666103a",
+      "command": "node tests/exp-obscal.mjs(QA_TARGET=index.html でルート対象)"
+    },
+    "provenance": {
+      "git": {
+        "commit": "fbaef3a4884f3499ba1d63612d4847fcae09200d",
+        "describe": "fbaef3a-dirty",
+        "dirty": true,
+        "dirtyFiles": {
+          "count": 21,
+          "sample": [
+            "paper/README.md",
+            "paper/dfm-paper.tex",
+            "paper/dfm-paper3-ja.tex",
+            "paper/dfm-paper3.tex",
+            "tests/exp-coreshell.mjs",
+            "tests/exp-coreshell2.mjs",
+            "tests/exp-jupiter.mjs",
+            "tests/exp-kf1.mjs"
+          ]
+        }
+      },
+      "target": {
+        "path": "beta/index.html",
+        "sha256": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+        "bytes": 1665860,
+        "appVersion": "1.41"
+      },
+      "presets": {
+        "mode": "dynamic",
+        "note": "physLock 条件 Kt=c₀²/G は各プロファイルの導出値として厳密に満たしてある(109B §3 のアサート)",
+        "declaration": "動的構成(内蔵プリセットを読まず、宣言プロファイルの物理キー全指定から build する)",
+        "declaredIn": "PROFILES(solar / solarG1)+ out.profiles.solarRealC(実c値プロファイル)",
+        "configSha256": "acbc445c433d9d7b47dd78c870eb8ee7d04a51fcc9325301644fd5c95cb1bf81",
+        "configCanonicalization": "宣言済み構成(configs)を再帰キー整列した JSON の SHA-256"
+      }
+    },
+    "numerics": {
+      "seed": "not-applicable",
+      "dt": "試験ごとに宣言(A) 0.016 / B) 各ラダー段で宣言 / C) 環の周期から算出 — 個別値は tests.* の各構造にある)",
+      "timeScale": 1,
+      "substeps": "not-applicable",
+      "steps": "steps=ceil(orbits·T_K/dt)(構成ごとに T_K から算出 — 固定步数ではない)",
+      "window": {
+        "earthMoon": "kM フィット・周期残差の窓は tests.earthMoon / tests.earthMoonReal に記録",
+        "mercury": "8 T_K の RL 最小二乗窓(第112便 改良①)",
+        "saturn": "C/B/A 3帯の角速度残差窓は tests.saturn に記録",
+        "note": "窓の実値は各 tests.* 構造の中にある(manifest は重複コピーを持たない)"
+      },
+      "warmup": "not-applicable",
+      "precision": "stateCarry:\"double\"(第114便裁定 — Float32 量子化を解消して実水星深度の直接実測を成立させる)"
+    },
+    "environment": {
+      "node": "v22.22.2",
+      "platform": "linux/x64",
+      "playwright": "playwright@1.61.1",
+      "browser": "Playwright Chromium 141.0.7390.37",
+      "date": "2026-08-20T08:13:34.643Z",
+      "tz": "UTC"
+    },
+    "classification": {
+      "note": "当てはめるのは kM だけである。43″/世紀の直接再現は本便の域外(V18〜V20 が正式経路)で、本便が測るのはプロファイル下の A/B 差分と較正自由度の効き方である。B) の弱場式 6π·d/(1−e²) は外部解析値であって当てはめ対象ではない",
+      "input": [
+        "ドメイン宣言プロファイル solar/solarG1(q=3・D₀=0.1・geoPN=2・λPN=1・α=1.5・kFrame=1・physLock)",
+        "G=6.674(☀️stellar ティアの実G対応値 — 第111便裁定)",
+        "実天体の質量比・軌道要素・離心率(観測由来の外部入力)"
+      ],
+      "fit": [
+        "kM(較正自由度 — tests.earthMoon / tests.saturn で当てはめる質量補正係数)"
+      ],
+      "derived": [
+        "RL 歳差 Δϖ(最小二乗勾配)",
+        "周期残差 T/T_K−1",
+        "離心率 RMS の kFrame 1/0 比",
+        "″/世紀 換算(tests.mercuryReal.arcsecPerCentury)",
+        "ループ利得 g=[w_sat/(D0+w_sat)]·[w_M/(D0+w_M)] と安定境界(tests.kframeStability)"
+      ],
+      "holdOut": []
+    },
+    "judgement": {
+      "pointers": [
+        "tests.earthMoon",
+        "tests.mercury",
+        "tests.saturn",
+        "tests.mercuryReal",
+        "tests.earthMoonReal",
+        "tests.kframeStability",
+        "profiles"
+      ],
+      "note": "QA 非連動(合否は JSON に記録するが suite には繋がない)。C) の「単一 kM 残差が同時 <1%」は tests.saturn.singleKmWithin1pc に、安定境界は tests.kframeStability.gStar(安定 amp<0.2 / 崩壊 amp≥0.5)にある。外部解析値との残差も同ポインタの中にある",
+      "externalReferences": [
+        "弱場 1PN 歳差式 6π·GM/(c²a(1−e²))",
+        "実水星の無次元不変量 GM/(c²a)=2.55e-8・e=0.206・414.9 公転/世紀",
+        "恒星月 27.3217 日・🌘 の e=0.0549",
+        "legacy の既知悪化(離心率 RMS 比 2.24 倍)"
+      ]
+    },
+    "health": {
+      "nan": {
+        "instrumented": true,
+        "flagsFound": 24,
+        "anyTrue": false,
+        "truePaths": [],
+        "numericNaNInPayload": 0,
+        "note": "結果ペイロード内の nan/hasNaN フラグを走査して集計した値(再測定はしていない)。numericNaNInPayload は JSON 化後に NaN として残った数値の件数(JSON.stringify では null になるため通常 0)"
+      },
+      "clamps": {
+        "aggregate": "not-instrumented",
+        "lastBuild": {
+          "clampVN": 0,
+          "clampSN": 0,
+          "clampHN": 0,
+          "clampAN": 0,
+          "clampRN": 0,
+          "angOvfN": 0,
+          "n": 2
+        },
+        "lastBuildTotal": 0,
+        "note": "エンジンのクランプ計数は sim.build() ごとに 0 へリセットされるため、ここに記録できるのは**この実行で最後に build した構成**の計数だけである(全構成を横断した集計は未計装)。lastBuildTotal>0 なら少なくとも最終構成で安全クランプが発動している(保存則主張の域外)"
+      },
+      "conservation": {
+        "status": "not-instrumented",
+        "note": "本ハーネスは保存量残差を記録していない(記録しているのは軌道要素の残差とドリフト)"
+      }
+    },
+    "regeneration": {
+      "canonicalization": "再生成時のペイロード照合は `manifest` キーを除外して行う(manifest は実行ごとに日時・環境・git 状態が変わる非測定メタである)。除外後の全キーは同一スクリプト・同一対象・同一 seed/步数で bit 一致することを要求する",
+      "payloadKeysExcluded": [
+        "manifest",
+        "date"
+      ],
+      "note": "out.date は非測定メタなので照合対象外"
     }
   }
 }

@@ -8,6 +8,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { buildManifest, NOT_APPLICABLE, NOT_INSTRUMENTED } from './manifest.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -230,6 +231,68 @@ const fmtR = (r) => `Δϖ/公転=${isFinite(r.dPomPerOrbit) ? r.dPomPerOrbit.toE
   console.log(`== D) 🌘 較正検証(D₀=0.006・f=0.9968・8公転)== Δϖ比=${(r.dPomPerOrbit / 0.05311).toFixed(3)}(目標1.0・窓±15%) T=${r.Tday?.toFixed(4)}日(観測 27.3217)`);
   out.tests.calibration = r;
 }
+
+// ---- 第145便: 実験マニフェスト(生成来歴・数値環境・分類・判定ポインタ・健全性)-------------
+// 測定ロジック・数値は一切変更していない。結果へ `manifest` キーを1本足すだけの additive 変更。
+out.manifest = await buildManifest({
+  root: ROOT, scriptUrl: import.meta.url, page, browser, payload: out,
+  target: TARGET,
+  experiment: { id: 'kf1b', wave: 120,
+    title: 'kFrame=1 実単位サンプルの精密残差調査(RL 全步 LSQ による Δϖ/公転の分解)',
+    command: 'node tests/exp-kf1b.mjs' },
+  presets: { mode: 'dynamic',
+    declaredIn: 'A) 🌘地球月 mk() / B) ☄️水星 mk() / C) 💍土星環 page.evaluate 内 bodies / D) 🌘較正 page.evaluate 内',
+    declaration: '動的構成(内蔵プリセットを読まず、ハーネス内の宣言値から HP.sim.build する)',
+    configs: {
+      earthMoon: { G: 6.674, D0: 0.1, kFrame: 1, q: 3, cLight: 30000, softening: 0.5,
+        M: 0.59724, m2: 0.007346, a: 384.748, e: 0.0549, spinM: 0.0072921, spin2: 0.00026617,
+        orbits: 5, pinned: false },
+      mercury: { G: 6.674, D0: 0.1, kFrame: 1, q: 3, cLight: 30000, softening: 2,
+        M: 1988.5, m2: 0.00033011, a: 579.09, e: 0.20563, spinM: 0.029031, spin2: 0.0124,
+        orbits: 8, pinned: true },
+      saturnRing: { G: 6.674, D0: 0.1, kFrame: 1, q: 3, cLight: 30000, softening: 0.05,
+        M: 5.6834, spin: 0.16527, bands: [[7.466, 9.2], [9.2, 11.758], [12.217, 13.678]],
+        nPerBand: 40, mParticle: 0.001, orbits: '3 × C環内縁周期', pinned: '中心のみ' },
+      calibration: { G: 6.674, D0: 0.006, kFrame: 1, q: 3, cLight: 30000, softening: 0.1,
+        M: 0.59724, m2: 0.007346, a: 384.748, e: 0.0549, f: 0.9968, orbits: 8, pinned: false } },
+    note: 'Kt=134851663.17051244 は c₀²/G(physLock 条件)の値である' },
+  numerics: {
+    seed: 1, dt: 0.016, timeScale: 1, substeps: NOT_APPLICABLE,
+    steps: 'steps=ceil(orbits·T_K/dt)(構成ごとに T_K から算出 — 固定步数ではない)',
+    window: { earthMoon: '5 公転', mercury: '8 公転', saturnRing: '3 × C環内縁周期', calibration: '8 公転',
+      note: '崩壊検出(rr>3a / rr<a/4 / NaN)で早期打ち切り。打ち切り時刻は collapsed に公転単位で記録' },
+    warmup: NOT_APPLICABLE,
+    lsqSampling: { earthMoonMercury: '≤4000 標本(SAMPLE=floor(steps/4000))',
+      calibration: '≤6000 標本(SAMPLE=floor(steps/6000))',
+      note: 'RL 角の全步追跡を間引いて最小二乗勾配に掛ける標本数(測定窓そのものは間引いていない)' },
+  },
+  classification: {
+    input: ['🌘🪨💍 の実単位の質量・軌道要素・自転・半径(観測由来の外部入力)',
+      'dt=0.016・seed=1・各系の窓(公転数)',
+      'D₀・kFrame・q・λPN・スピン用量の掃引点(用量反応の入力)'],
+    fit: ['D₀=0.006(🌘 の近点回転較正 — 第120便で採用した共有較正値。本便 D) はその検証)',
+      'f=0.9968(初速の較正係数 — 同上)'],
+    derived: ['Δϖ/公転(RL 全步 LSQ 勾配)', '周期残差 Tres', 'e ドリフト', '振幅 amp',
+      '引きずり歳差 = kF1 − kF0 の差分', '環の帯保持数・Ω 残差中央値・r 移動中央値'],
+    holdOut: [],
+    note: '較正した自由度は D₀ と f の2つだけであり、いずれも 🌘 で当てはめた**共有値**である' +
+      '(系ごとに別々の値を当てはめてはいない)。☄️ 水星・💍 土星環はその共有値を当てた先の観測であって' +
+      '本便で再フィットしていない',
+  },
+  judgement: {
+    pointers: ['tests.earthMoonKF1', 'tests.mercuryKF1', 'tests.saturnKF1', 'tests.calibration'],
+    note: '合否窓を持たない残差調査ハーネスである(QA 非連動)。D) の較正検証は Δϖ比(実測/0.05311)を' +
+      '目標 1.0・窓依存 ±15% で読む(この窓は tests.calibration の値から手計算せず、上記ポインタの' +
+      '実測 dPomPerOrbit をそのまま用いる)',
+    externalReferences: ['☄️ 水星の 1PN 解析値 5.02e-7 rad/公転',
+      '🌘 の近点回転 0.05311 rad/公転(= 8.85 年周期)・恒星月 27.3217 日'],
+  },
+  health: {
+    conservation: { status: NOT_INSTRUMENTED,
+      note: '本ハーネスは保存量残差を記録していない(記録しているのは e ドリフトと振幅で、これは' +
+        '軌道要素のドリフトであって保存則の残差ではない)' },
+  },
+});
 
 fs.writeFileSync(path.join(OUT_DIR, 'kf1b-results.json'), JSON.stringify(out, null, 2));
 console.log('saved: tests/out/kf1b-results.json');

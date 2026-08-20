@@ -2248,14 +2248,17 @@ The simulator, the verification suite, the measurement harnesses, the
 result files, and this manuscript are in the public repository
 \url{https://github.com/tty-imamura/dfm-simulator} (code MIT,
 documentation CC~BY~4.0).
-The state of record for this paper is the v1.40 line, whose release
-notes record the completion of the observation-calibration program
-described here---the real-$G$, real-$c$, \texttt{pnSource} and
+The state of record for this paper is the tag \texttt{v1.41.0}, the
+release that carries the Jupiter hold-out, the qLock radial audit and
+the mechanism discrimination reported here, on top of the
+observation-calibration program whose completion the v1.40 line
+recorded---the real-$G$, real-$c$, \texttt{pnSource} and
 \texttt{stateCarry} conventions, the reality-calibration sample set,
 and the purification of the kF1 joint correction into
 $D_0=0.006$ plus qLock with no remaining calibration knob.
-% TODO(release): submission-time annotated tag and Zenodo DOI, in the
-% form used by Papers 1--2 (Paper 1: doi:10.5281/zenodo.21454189).
+% TODO(release): Zenodo DOI only --- the annotated tag is settled
+% (v1.41.0); the DOI is minted at submission time, in the form used by
+% Papers 1--2 (Paper 1: doi:10.5281/zenodo.21454189).
 The environment is Node.js~$\geq$22 with a Playwright-driven Chromium
 for the harnesses and TeX~Live for the manuscript;
 \texttt{npm ci \&\& npm test} reproduces the verification suite and

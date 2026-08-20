@@ -1770,12 +1770,14 @@ $\kappa$ 正準形 & エンジン宣言 &
 
 シミュレータ・検証スイート・測定ハーネス・結果ファイル・本原稿は公開リポジトリ
 \url{https://github.com/tty-imamura/dfm-simulator}(コード MIT・文書 CC~BY~4.0)にある。
-本論文の記録状態は v1.40 系列であり、そのリリースノートがここで述べた観測較正プログラムの
+本論文の記録状態はタグ \texttt{v1.41.0} であり、これはここで報告する木星 hold-out・
+qLock 半径監査・機構判別を含むリリースである。その土台となる観測較正プログラムの
 完了---実 $G$・実 $c$・\texttt{pnSource}・\texttt{stateCarry} の各規約、現実較正サンプル
-一式、そして kF1 共通補正の $D_0=0.006$ + qLock(較正ノブが1つも残らない)への純化---を
-記録している。
-% TODO(release): 提出時の注釈付きタグと Zenodo DOI を、論文1〜2で用いた形式で
-% 記載する(論文1: doi:10.5281/zenodo.21454189)。
+一式、そして kF1 共通補正の $D_0=0.006$ + qLock(較正ノブが1つも残らない)への純化---は
+v1.40 系列のリリースノートが記録している。
+% TODO(release): 残るは Zenodo DOI のみ — 注釈付きタグは v1.41.0 で確定済み。
+% DOI は提出時に発行し、論文1〜2で用いた形式で記載する
+% (論文1: doi:10.5281/zenodo.21454189)。
 環境は Node.js~$\geq$22 に、ハーネス用の Playwright 駆動 Chromium と原稿用の TeX~Live
 であり、\texttt{npm ci \&\& npm test} が検証スイートを、
 \texttt{node tools/gen-figures3.mjs} が本論文の全図を再現する。

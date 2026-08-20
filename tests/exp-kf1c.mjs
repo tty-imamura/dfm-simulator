@@ -10,6 +10,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { buildManifest, NOT_APPLICABLE, NOT_INSTRUMENTED } from './manifest.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -179,6 +180,60 @@ const mkMerc = (id, over, extra) => Object.assign({ id, M: 1988.5, m2: 0.0003301
   console.log(`[D 総合] ${ok1 && ok2 ? '共通補正成立(D₀=0.006, q=5)' : '不成立 — 数値を精査'}`);
   out.tests.joint = { dragQ5, ok1, ratio, ok2, pass: ok1 && ok2 };
 }
+
+// ---- 第145便: 実験マニフェスト(生成来歴・数値環境・分類・判定ポインタ・健全性)-------------
+// 測定ロジック・数値は一切変更していない。結果へ `manifest` キーを1本足すだけの additive 変更。
+out.manifest = await buildManifest({
+  root: ROOT, scriptUrl: import.meta.url, page, browser, payload: out,
+  target: TARGET,
+  experiment: { id: 'kf1c', wave: 122,
+    title: '🌘 と 🪨 を「共に満たす」共通補正(D₀=0.006 共通・q 幾何抑制)の検証',
+    command: 'node tests/exp-kf1c.mjs' },
+  presets: { mode: 'dynamic',
+    declaredIn: 'A/B) 🪨 mkMerc() / C) 🌘 mkEM()',
+    declaration: '動的構成(内蔵プリセットを読まず、ハーネス内の宣言値から HP.sim.build する)',
+    configs: {
+      mercury: { physics: MERC, M: 1988.5, m2: 0.00033011, a: 579.09, e: 0.20563,
+        rM: 6.95, r2: 0.0244, spinM: 0.029031, spin2: 0.0124, pin: true, orbits: 8 },
+      earthMoon: { G: 6.674, D0: 0.006, kFrame: 1, q: 3, cLight: 30000, softening: 0.1,
+        M: 0.59724, m2: 0.007346, a: 384.748, e: 0.0549, f: 0.9968,
+        spinM: 0.0072921, spin2: 0.00026617, orbits: 8, pinned: false } },
+    note: 'MERC の D₀ は共通候補 0.006 に置いてある(第118便の観測較正プロファイルからの唯一の変更点)' },
+  numerics: {
+    seed: 1, dt: 0.016, timeScale: 1, substeps: NOT_APPLICABLE,
+    steps: 'steps=ceil(orbits·T_K/dt)(構成ごとに T_K から算出 — 固定步数ではない)',
+    window: { mercury: '8 公転', earthMoon: '8 公転' },
+    warmup: NOT_APPLICABLE,
+    sweeps: { mercuryQ: [3, 3.5, 4, 4.5, 5, 6], earthMoonQ: [3, 4.5, 5, 6],
+      spin2Mercury: [0, 0.0124, 1.24, 124], spin2Moon: [0, 0.026617] },
+  },
+  classification: {
+    input: ['🪨🌘 の実単位の質量・軌道要素・自転・半径(観測由来の外部入力)',
+      'dt=0.016・seed=1・8 公転窓', 'q の掃引点と spin2 の用量点'],
+    fit: ['D₀=0.006(第120便 🌘 で当てはめた共有較正値 — 本便では両系に**共通で**当て、再フィットしない)',
+      'f=0.9968(同上)'],
+    derived: ['Δϖ/公転(RL 全步 LSQ)', '引きずり歳差 = kF1 − kF0',
+      '幾何抑制則からの必要指数 q* = 3 + ln(|A₃|/ε)/ln((R+a)/R)(tests.mercuryQscan.derivation)',
+      '統合判定 tests.joint'],
+    holdOut: ['q* の算出値(A₃ と ε だけから解析的に決まる予測であり、q の掃引結果に当てはめていない。' +
+      '掃引実測がその近傍で条件を満たすかは事後外挿として読む)'],
+    note: '本便で新規に導入した自由度は q(既存の物理キー)のみで、その値は当てはめではなく' +
+      '**算出**している(derivation)。D₀ は第120便の共有値のままである',
+  },
+  judgement: {
+    pointers: ['tests.mercuryQscan', 'tests.mercuryQscan.derivation', 'tests.mercurySpin2',
+      'tests.earthMoonCal', 'tests.joint'],
+    note: '統合判定 D) の窓は tests.joint に構造ごと入っている — 🪨 側は |引きずり| < 5.02e-7/8 ' +
+      '(1PN の 1/8・第121便の採用水準)、🌘 側は Δϖ比 0.85〜1.15(第120便の窓依存 ±15% と同水準)。' +
+      '残差・合否(ok1/ok2/pass)も同ポインタにある',
+    externalReferences: ['☄️/🪨 水星の 1PN 解析値 5.02e-7 rad/公転',
+      '🌘 の近点回転 0.05311 rad/公転(8.85 年)・恒星月 27.3217 日'],
+  },
+  health: {
+    conservation: { status: NOT_INSTRUMENTED,
+      note: '本ハーネスは保存量残差を記録していない(記録しているのは e ドリフト・振幅という軌道要素のドリフト)' },
+  },
+});
 
 fs.writeFileSync(path.join(OUT_DIR, 'kf1c-results.json'), JSON.stringify(out, null, 2));
 console.log('saved: tests/out/kf1c-results.json');

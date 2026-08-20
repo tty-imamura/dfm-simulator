@@ -109,6 +109,28 @@
   #pmPanel #pmCv{display:block;width:100%;height:auto;margin:6px 0;touch-action:manipulation;}
   #pmPanel .rowBtns{display:flex;gap:6px;margin:6px 0;}
   #pmStatus{color:var(--acc);font-weight:700;font-size:calc(11.5px*var(--uz,1));margin:2px 0;}
+  /* 第146便: 現実較正ファミリー監査ビュー(表示専用)。#aboutPanel / #pmPanel と同じ
+     「キャンバス上の全面パネル」の流儀。中身は毎回プリセット宣言から組み立てる純表示で、
+     物理・保存 JSON・AI 仕様には一切影響しない */
+  #avPanel{position:absolute;left:8px;right:8px;top:8px;bottom:8px;z-index:7;display:none;
+    background:rgba(20,24,48,.96);border:1px solid var(--line);border-radius:10px;padding:10px;
+    overflow-y:auto;font-size:calc(12px*var(--uz,1));line-height:1.5;}
+  #avPanel .beHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;
+    font-weight:700;color:var(--acc);}
+  #avPanel .beHead button{background:none;border:none;color:var(--dim);font-size:calc(14px*var(--uz,1));
+    padding:2px 6px;min-height:28px;}
+  #avPanel .avNote{color:var(--dim);font-size:calc(10.5px*var(--uz,1));line-height:1.45;margin:4px 0;}
+  /* カード積み(1サンプル=1カード)— 横スクロールを作らず狭い画面でも縦に伸びるだけ */
+  #avPanel .avCard{border:1px solid var(--line);border-radius:8px;padding:6px 8px;margin:6px 0;
+    background:rgba(0,0,0,.18);}
+  #avPanel .avCardHead{color:var(--acc);font-weight:700;margin-bottom:3px;
+    overflow-wrap:anywhere;}
+  #avPanel .avCardHead .avId{color:var(--dim);font-weight:400;font-size:calc(10.5px*var(--uz,1));
+    margin-left:4px;}
+  #avPanel .avRow{margin:2px 0;overflow-wrap:anywhere;font-size:calc(11.5px*var(--uz,1));}
+  #avPanel .avRow b{color:var(--dim);font-weight:700;}
+  #avPanel .avRow[data-avk="fail"] b{color:#ff9a9a;}
+  #avPanel .avRow[data-avk="out"] b{color:#9ae6a0;}
   /* v1.17: 選択粒子の編集パネル(タップ選択中のみ表示) */
   /* 第12便: z-index — 狭い横画面等でキャンバスが低くても、後続UI(操作列・タブ)に隠れず操作できる */
   /* 第92便(原仮定者指示): コア内訳(v2)の数値見切れ対策 — パネル幅 172→188px */
@@ -429,6 +451,15 @@
       <div id="pmStatus"></div>
       <canvas id="pmCv"></canvas>
       <div class="pmNote" id="pmNote"></div>
+    </div>
+    <!-- 第146便: 現実較正ファミリー監査ビュー — 現実較正ファミリーの各サンプルを1画面に並べる
+         表示専用パネル。行の中身(失敗→補正→結果・件数・役割別内訳・主要残差・QA ゲート・
+         結果ファイル)は**すべてプリセット宣言(failureFirst / parameterAudit / claims)から
+         実行時に導出**する(手書きの数値は持たない)。物理・保存 JSON・AI 仕様には影響しない -->
+    <div id="avPanel" role="dialog" aria-modal="true" aria-labelledby="avTitle">
+      <div class="beHead"><span id="avTitle">現実較正ファミリー監査ビュー</span><button id="avClose" aria-label="close">✕</button></div>
+      <div class="avNote" id="avNote"></div>
+      <div id="avBody"></div>
     </div>
     <div id="bodyEdit">
       <!-- 第26便(原仮定者指示): 閉じる✕ → 最小化トグル(−/＋)。選択解除は粒子の再タップ/空白タップ -->
@@ -1086,6 +1117,14 @@ ja: {
   cbCond:"実験条件(自由度外)", cbNum:"数値設定(自由度外)",
   cbNone:"—(なし)", cbDefault:"既定",
   cbQLock:"qLock 自動算出(LT級振幅規約 q*)", cbPhysLock:"physLock 導出(κ=G/cLight²)",
+  // 第146便: 現実較正ファミリー監査ビュー(表示専用 — 全項目をプリセット宣言から実行時に導出)
+  avOpen:(n)=>"🔬 現実較正ファミリー監査ビュー("+n+"サンプル)",
+  avTitle:"現実較正ファミリー監査ビュー",
+  avNote:"現実較正ファミリーのサンプルを1画面に並べた**表示専用**の監査ビュー(第146便)。各カードの内容は、そのサンプルが宣言した failureFirst(失敗と結果)・parameterAudit(観測入力・fit・導出)・claims(役割・説明文の実測値・QA テストID)から**毎回その場で組み立てている**。ビューは独自の数値を1つも持たない — 宣言に無い項目は空欄になる。物理・保存 JSON・AI 仕様には一切影響しない。",
+  avFail:"❌ 失敗(base)", avCorr:"🛠 補正(fit した自由パラメータ)", avOut:"✅ 結果",
+  avCounts:"宣言の内訳", avResid:"主要残差(説明文の実測値)",
+  avGates:"QA ゲート(claims の testId)", avFiles:"結果ファイル(宣言テキストの言及から)",
+  avCorrNone:"—(追加 fit なし)",
   presetIdTip:"プリセットの機械名(id)。論文・QA・エクスポートJSONはこの名前でサンプルを参照する(例: 論文の preset galaxy = 🌌銀河の回転曲線)。タップでコピー。サンプル選択ウィンドウの検索欄にもこのIDで入力できる。",
   // 第50便 50K(台帳4-78 C案): 構造化説明の区分見出し
   descSummaryHead:"📌 要約", descObserveHead:"👀 観察のポイント", descControlHead:"🎛 操作と対照",
@@ -1524,6 +1563,14 @@ en: {
   cbCond:"Experimental conditions (outside the budget)", cbNum:"Numerical settings (outside the budget)",
   cbNone:"— (none)", cbDefault:"default",
   cbQLock:"auto-derived by qLock (LT-class amplitude q*)", cbPhysLock:"derived by physLock (κ=G/cLight²)",
+  // 第146便: real-calibration family audit view (display only — every item derived from declarations)
+  avOpen:(n)=>"🔬 Real-calibration family audit ("+n+" samples)",
+  avTitle:"Real-calibration family audit",
+  avNote:"A DISPLAY-ONLY audit view (wave 146) that lines up the real-calibration family on one screen. Every card is assembled on the spot from what that sample declares: failureFirst (the failure and the outcome), parameterAudit (observed inputs, fits, derived values) and claims (roles, the measured values quoted in the description, QA test IDs). The view holds no numbers of its own — anything not declared is left blank. No effect on physics, saved JSON or the AI spec.",
+  avFail:"❌ Failure (base)", avCorr:"🛠 Correction (fitted free parameters)", avOut:"✅ Outcome",
+  avCounts:"Declared breakdown", avResid:"Key residuals (measured values in the description)",
+  avGates:"QA gates (claim testId)", avFiles:"Result files (from the declared text)",
+  avCorrNone:"— (no extra fit)",
   presetIdTip:"The preset's machine name (id). Papers, QA and exported JSON refer to samples by this name (e.g. preset galaxy = 🌌 Galaxy rotation curve). Tap to copy. The sample-picker search box also accepts this ID.",
   // 第50便 50K(台帳4-78 C案): structured-description section heads
   descSummaryHead:"📌 Summary", descObserveHead:"👀 What to observe", descControlHead:"🎛 Controls & contrasts",
@@ -6692,6 +6739,149 @@ function chainNote(ch){
   const en=(LANG==="en" && typeof ch.noteEn==="string" && ch.noteEn.trim())? ch.noteEn : null;
   const s=en || ((typeof ch.note==="string")? ch.note : "");
   return s.trim().slice(0,300);
+}
+
+// ===== 第146便: 現実較正ファミリー監査ビュー(表示専用)=====
+// 外部レビューの「現実較正ファミリーを1画面で監査したい」への対応。較正台帳 v2(第133便)は
+// **1サンプルの内訳**を出すが、ファミリー横断の比較(どこで失敗し、何を fit して、どの残差が
+// 残ったか)は画面上に存在しなかった。本ビューはその横断表で、**独自の数値を1つも持たない**:
+//   失敗/結果 = failureFirst 宣言(pFailureFirst — ja/en 追随)
+//   補正      = parameterAudit.fitted 宣言(較正台帳 v2 と同じ calibrationBudget() の audit)
+//   件数      = calibrationBudget(p).audit の I/F/D と cb.roles(claims の role 別内訳)
+//   主要残差  = claims の descPattern を **ja 説明文**へ適用して抽出した実測値(QA claims.sync と同式)
+//   QA ゲート = claims の testId(+ stdTestsRef)
+//   結果ファイル = 宣言テキスト(ja 説明文+chain.note/noteEn+roleNote)中の exp-* 言及 → 既知名の対応表
+// 宣言から導出できない項目は「—」になる(手書きの補完はしない)。物理・保存 JSON・AI 仕様に無関係。
+const AUDIT_FAMILY=["mercuryReal","mercuryRealKF1","earthMoonReal","earthMoonRealKF1",
+  "saturnRingReal","saturnRingRealKF1","saturnZonalD68","solarInner","jupiterGalilean"];
+// 測定ハーネス名 → コミット済み結果ファイル名の対応(名前だけの小さな宣言表)。
+// **どのサンプルがどれを使うかは書かない** — それはサンプル宣言のテキストから走査して決める。
+const AUDIT_RESULT_FILES={"exp-obscal":"obscal-results.json", "exp-kf1":"kf1-results.json",
+  "exp-kf1b":"kf1b-results.json", "exp-kf1c":"kf1c-results.json", "exp-kf1d":"kf1d-results.json",
+  "exp-qlockradial":"qlockradial-results.json", "exp-jupiter":"jupiter-results.json"};
+// 走査対象の宣言テキスト(言語で結果が変わらないよう ja 側と en 側の両方を常に連結する)
+function auditDeclText(p){
+  const parts=[p.description||""];
+  const ff=[p.failureFirst, (p.en && p.en.failureFirst)];
+  for(const f of ff) if(f && typeof f==="object"){
+    if(typeof f.fail==="string") parts.push(f.fail);
+    if(typeof f.pass==="string") parts.push(f.pass);
+  }
+  for(const c of ((p && Array.isArray(p.claims))? p.claims : [])){
+    const ch=(c.chain && typeof c.chain==="object")? c.chain : null;
+    if(ch){ if(typeof ch.note==="string") parts.push(ch.note); if(typeof ch.noteEn==="string") parts.push(ch.noteEn); }
+    if(typeof c.roleNote==="string") parts.push(c.roleNote);
+    if(typeof c.roleNoteEn==="string") parts.push(c.roleNoteEn);
+  }
+  return parts.join(" ");
+}
+// 「exp-obscal」「exp-kf1c/kf1d」のような言及を拾って結果ファイル名へ写す(未知名は無視)
+function auditResultFiles(p){
+  const out=[];
+  const txt=auditDeclText(p);
+  for(const m of txt.matchAll(/exp-[a-z0-9]+(?:\/[a-z0-9]+)*/g)){
+    const seg=m[0].split("/");
+    const keys=[seg[0]];
+    for(let i=1;i<seg.length;i++) keys.push("exp-"+seg[i]);
+    for(const k of keys){ const f=AUDIT_RESULT_FILES[k]; if(f && out.indexOf(f)<0) out.push(f); }
+  }
+  return out;
+}
+// claims の descPattern を ja 説明文へ適用して実測値を取り出す(QA claims.sync と同じ式)。
+// descPattern は ja 説明文に対する宣言なので、表示言語によらず p.description を読む
+// (取り出すのは数値そのもの — 言語に依存しない)
+function auditResiduals(p){
+  const out=[];
+  for(const c of ((p && Array.isArray(p.claims))? p.claims : [])){
+    if(typeof c.descPattern!=="string") continue;
+    let v=NaN;
+    try{
+      const m=String(p.description||"").match(new RegExp(c.descPattern));
+      if(m && m[1]!==undefined) v=parseFloat(m[1])*((c.descScale===undefined)? 1 : c.descScale);
+    }catch(e){ v=NaN; }
+    if(!isFinite(v)) continue;   // 抽出できないものは出さない(手書きで補わない)
+    out.push({id:c.id, metric:c.metric||c.id, value:v, role:claimRole(c)});
+  }
+  return out;
+}
+// claims の testId(+ プリセットの stdTestsRef)= このサンプルを固定している QA ゲート
+function auditGates(p){
+  const out=[];
+  for(const c of ((p && Array.isArray(p.claims))? p.claims : []))
+    if(typeof c.testId==="string" && c.testId && out.indexOf(c.testId)<0) out.push(c.testId);
+  for(const r of ((p && Array.isArray(p.stdTestsRef))? p.stdTestsRef : []))
+    if(typeof r==="string" && r && out.indexOf(r)<0) out.push(r);
+  return out;
+}
+// 1サンプル分の監査行(すべて宣言からの導出。宣言が無い項目は null / 空配列)
+function auditRow(p){
+  if(!p) return null;
+  // 較正台帳 v2 と**同じ部品**を使う(件数の二重実装を作らない)。実行時状態は宣言値で固定
+  const cb=calibrationBudget(p,{qLock:!!p.qLock});
+  const au=cb.audit;
+  const ff=pFailureFirst(p);
+  return {id:p.id, emoji:p.emoji||"", name:pName(p),
+    fail:(ff && typeof ff.fail==="string")? ff.fail : "",
+    pass:(ff && typeof ff.pass==="string")? ff.pass : "",
+    fitted:au? au.fitted.slice() : [],
+    I:au? au.I : null, C:au? au.C : null, F:au? au.F : null, D:au? au.D : null, V:au? au.V : null,
+    roles:cb.roles, roleNone:cb.roleNone,
+    residuals:auditResiduals(p), gates:auditGates(p), files:auditResultFiles(p)};
+}
+function auditRows(){
+  const out=[];
+  for(const id of AUDIT_FAMILY){
+    const p=BUILTIN_PRESETS.find(q=>q.id===id);
+    const r=auditRow(p); if(r) out.push(r);
+  }
+  return out;
+}
+function avRender(){
+  const body=$("#avBody"); if(!body) return;
+  body.textContent="";
+  const note=$("#avNote"); if(note) note.textContent=T("avNote");
+  const ttl=$("#avTitle"); if(ttl) ttl.textContent=T("avTitle");
+  const none=T("cbNone");
+  for(const r of auditRows()){
+    const card=document.createElement("div"); card.className="avCard"; card.dataset.av=r.id;
+    const h=document.createElement("div"); h.className="avCardHead";
+    h.textContent=(r.emoji? r.emoji+" " : "")+r.name;
+    const idl=document.createElement("span"); idl.className="avId"; idl.textContent=r.id;
+    h.appendChild(idl); card.appendChild(h);
+    const row=(tag,head,txt)=>{ const e=document.createElement("div"); e.className="avRow"; e.dataset.avk=tag;
+      const b=document.createElement("b"); b.textContent=head+":"; e.appendChild(b);
+      e.appendChild(document.createTextNode(" "+txt)); card.appendChild(e); return e; };
+    // Failure → Correction → Outcome(宣言が無ければその行は出さない)
+    if(r.fail) row("fail", T("avFail"), r.fail);
+    row("corr", T("avCorr"), r.fitted.length? r.fitted.join(" / ") : T("avCorrNone"));
+    if(r.pass) row("out", T("avOut"), r.pass);
+    // 件数(観測入力 I・fit F・導出 D)— parameterAudit 宣言のあるサンプルだけ
+    if(r.I!==null) row("counts", T("avCounts"),
+      T("cbAudInputs")+"("+r.I+") / "+T("cbAudFit")+"("+r.F+") / "+T("cbAudDerived")+"("+r.D+")");
+    // claims の役割別内訳 — 並びは ROLE_CLASSES 固定(言語・宣言順に依存しない)
+    {
+      const parts=[];
+      for(const k of ROLE_CLASSES) if(r.roles[k]) parts.push((T("roleNames")[k]||k)+"="+r.roles[k]);
+      if(r.roleNone) parts.push(T("roleUnset")+"="+r.roleNone);
+      row("roles", T("cbRoles"), parts.length? parts.join(" / ") : none).title=T("roleTip");
+    }
+    row("resid", T("avResid"), r.residuals.length
+      ? r.residuals.map(x=>x.metric+"="+cbFmt(x.value)).join(" / ") : none);
+    row("gates", T("avGates"), r.gates.length? r.gates.join(" / ") : none);
+    row("files", T("avFiles"), r.files.length? r.files.join(" / ") : none);
+    body.appendChild(card);
+  }
+}
+function avOpen(on){
+  const el=$("#avPanel"); if(!el) return;
+  if(on===undefined) on=(el.style.display!=="block");
+  el.style.display=on? "block" : "none";
+  // 同じ z-index の全面パネル(このアプリについて・相図ランナー)とは排他にする
+  if(on){
+    const ap=$("#aboutPanel"); if(ap) ap.style.display="none";
+    const pp=$("#pmPanel"); if(pp && pp.style.display==="block") pmOpen(false);
+    avRender();
+  }
 }
 // 第83便D(往復保全): 説明文の上限を**実測較正**する(REACTION_DV_CAP と同じ「正常域最大の
 // 約2倍」の流儀)。旧上限は 200 字で、descStruct(要約/観察/操作の純分割)を持つ内蔵の説明は
@@ -14129,6 +14319,9 @@ $("#pmRun").addEventListener("click",()=>pmStart());
 $("#pmStop").addEventListener("click",()=>pmStop());
 $("#pmCv").addEventListener("click",pmHit);
 addEventListener("keydown",(e)=>{ if(e.key==="Escape" && $("#pmPanel").style.display==="block") pmOpen(false); });
+// 第146便: 現実較正ファミリー監査ビュー(表示専用パネル)の開閉導線
+$("#avClose").addEventListener("click",()=>avOpen(false));
+addEventListener("keydown",(e)=>{ if(e.key==="Escape" && $("#avPanel").style.display==="block") avOpen(false); });
 
 function buildParamRows(){
   updateAbQuickRow();
@@ -15493,6 +15686,8 @@ function applyLang(){
   if(currentPreset){ buildParamRows(); renderHelp(); updateSaveNameDefault(); }
   // 第83便B: 相図ランナーのパネルが開いていれば見出し・軸名も言語追随させる
   if($("#pmPanel") && $("#pmPanel").style.display==="block") pmRender();
+  // 第146便: 監査ビューが開いていれば見出し・ラベル・宣言文も言語追随させる(件数は ja/en 同数)
+  if($("#avPanel") && $("#avPanel").style.display==="block") avRender();
   renderSaves(); renderCustomList(); renderAiConfig(); updatePlayBtn();
   requestRender();   // v1.22: オーバーレイ内の文字列も言語追従するため再描画
 }
@@ -15600,6 +15795,17 @@ function renderHelp(){
     const note=document.createElement("p"); note.className="note"; note.textContent=au? T("cbTip2") : T("cbTip");
     det.appendChild(note);
     el.appendChild(det);
+  }
+  // 第146便: 較正台帳(1サンプルの内訳)の直下に、ファミリー横断の監査ビューを開く行を置く。
+  // 台帳と同じ宣言(failureFirst/parameterAudit/claims)を**横に並べて**読むための表示専用導線で、
+  // どのサンプルを見ているときでも開ける(ビューの中身は currentPreset に依存しない)
+  {
+    const row=document.createElement("div"); row.className="rowBtns"; row.id="avRow";
+    const b=document.createElement("button"); b.type="button"; b.className="btn"; b.id="btnAuditView";
+    b.textContent=T("avOpen")(AUDIT_FAMILY.length);
+    b.title=T("avNote");
+    b.addEventListener("click",()=>avOpen(true));
+    row.appendChild(b); el.appendChild(row);
   }
   // タイトル(第51便 51B: チップの直後へ移動)
   mk("h4",(currentPreset.emoji||"")+" "+pName(currentPreset));
@@ -17001,6 +17207,11 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
     st||{qLock:qLockOn, physLock:physLock, params:sim.params}),
   claimChain:(p,c)=>claimChain(p||currentPreset,c),
   DEFAULT_PHYSICS, PARAM_ROLES,
+  // 第146便: 現実較正ファミリー監査ビューの QA 用フック。rows() は純関数(sim・プリセットを
+  // 1バイトも書き換えない)。open/render は表示専用パネルの開閉・再描画
+  auditView:{ family:AUDIT_FAMILY.slice(), rows:auditRows, row:auditRow,
+    resultFiles:auditResultFiles, residuals:auditResiduals, gates:auditGates,
+    open:avOpen, render:avRender },
   // 第74便: 5段階スケール(分類・表示換算)のQA用フック — すべて表示専用で物理不変
   // 第77便(コアv2): QA/実験用の読み口(表示・検査専用)
   coreState:(i)=>{ const S=sim; if(!S.hasCoreV2||!S.coreMd[i]) return null;
