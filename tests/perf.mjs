@@ -96,7 +96,11 @@ const ALLOW = {};
 // 振れつつ PASS = 回帰なしの純ノイズ): freebox は 51粒・60frames ≈ 35〜60ms のマイクロベンチで
 // echo(第63便)・merger(第101便)と同じノイズフロア帯。同系の対処 — 計測時間を引き上げる
 // (60→480frames ≈ 280〜330ms/rep)。判定条件・ペア比中央値の式は不変
-const FRAMES_OVERRIDE = { echo: 720, starSeed: 30000, merger: 240, freebox: 480 };
+// 第144便(v1.41.0 昇格に同梱): 2コア CI×小サンプル(60フレーム・180ms/60ms 級)のノイズフロアが
+// ~1.13 署名(frictionHeat・第135便以降3回)と散在ペア(nebulaRotor)を作るため、計測時間を引き上げる。
+// 判定条件・閾値 1.10・走査順は不変
+const FRAMES_OVERRIDE = { echo: 720, starSeed: 30000, merger: 240, freebox: 480,
+  frictionHeat: 480, nebulaRotor: 480 };
 // 過去の ALLOW 撤去履歴(darkrotor/convection/saturnLayered)と 40C の粒子数削減の実測記録は
 // git 履歴(第61便以前の本ファイル冒頭コメント)を参照。
 const REPS = 2, FRAMES = 60, WARMUP_FRAMES = 20, SETS = 3;
