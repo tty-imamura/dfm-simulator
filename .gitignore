@@ -31,6 +31,10 @@ tests/out/*
 #   — 全7アームを**同一の11点格子**(q=1.0〜2.0・0.1 刻み)で実測しており、第152便の格子非対称を
 #   設計で排した版。第152便の coreshell3-results.json は不変のまま並置する
 !tests/out/coreshell4-results.json
+# 第155便: コア外殻理論便(保持喪失の条件式 → 振幅寄与込みのアンカー式 → 2項複合の数値解)の解析出力
+#   — **解析専用**(シミュレーション再実行なし)。入力は第152便・第154便の実測正本だけで、両者を
+#   1 bit も書き換えない。窓は置かない(既発行の XW/YW 窓の付け替え・再判定もしていない)
+!tests/out/coreshell-theory-results.json
 # 第19便: ダークローター探索実験の実測生データ(裁定記録 REVIEW_20260723_DARK_ROTOR_* が参照)
 !tests/out/darkrotor-results.json
 !tests/out/exp-4-67.json

@@ -1,0 +1,1897 @@
+{
+  "meta": {
+    "exp": "coreshell-theory",
+    "wave": 155,
+    "target": "index.html",
+    "kind": "analysis-only / retrospective(解析専用・回顧的検証。シミュレーション再実行なし)",
+    "basedOn": "第154便 tests/exp-coreshell4.mjs(YW3 が分離した「振幅寄与が予測式に無い」問題) / 第152便 tests/exp-coreshell3.mjs / 第139便 exp-coreshell2 / 第135便 exp-coreshell(原型)",
+    "volatileFields": "なし(本ペイロードは Date.now / Math.random 由来の値を一切含まない)。実行日時・環境は manifest ブロックにのみ入り、再現照合では manifest を除外する"
+  },
+  "scope": {
+    "retrospective": "**回顧的である**。予測式は対象アームの実測が既に存在する状態で書かれたので、本便の照合は事前登録された hold-out ではなく、回顧的な当てはまりの点検である",
+    "noWindows": "**窓を一切置かない**。本 JSON に PASS/FAIL は存在しない",
+    "noReassignment": "既発行の窓(第152便 XW1〜XW4・第154便 YW1〜YW4)の付け替え・再判定は一切しない — 第154便 YW1 の FAIL は FAIL のままである",
+    "inputsReadOnly": "入力 JSON(coreshell4-results.json・coreshell3-results.json)は 1 bit も書き換えない",
+    "noNewMeasurement": "シミュレーションを実行しない(ブラウザ非起動・エンジン非 build・積分なし)。追加実測はゼロである",
+    "notClaim": "実在天体についての主張ではない。すべて DFM 公理系内部の構成依存の実測と、その解析である"
+  },
+  "provenance": {
+    "inputs": [
+      {
+        "path": "tests/out/coreshell4-results.json",
+        "sha256": "795dfd0ed3ee13bbf2cade51b80e7d5a71713fd5a85e7e1876b95d9efcfb848b",
+        "bytes": 713543,
+        "exp": "coreshell4",
+        "wave": 154,
+        "targetSha256": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+        "appVersion": "1.41",
+        "gitCommit": "e863e67ffb53b6f12120c21fd91d3e7606c544dc",
+        "role": "第154便の実測正本(⚫5アーム+🐚×1/×2 を全アーム同一の11点格子で実測)— 本便の主入力",
+        "mutated": false
+      },
+      {
+        "path": "tests/out/coreshell3-results.json",
+        "sha256": "7b80d38107c8ef8ff2587a46533cc70bb0d8838fceacba2ed698e365ad8eab1d",
+        "bytes": 634516,
+        "exp": "coreshell3",
+        "wave": 152,
+        "targetSha256": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+        "appVersion": "1.41",
+        "gitCommit": "c207ec36950db01accb05f42dee8abb34771b4d0",
+        "role": "第152便の実測正本(格子非対称の版)— 補足照合(参考)と来歴の突き合わせに使う",
+        "mutated": false
+      }
+    ],
+    "targetConsistency": {
+      "target": "index.html",
+      "sha256Now": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+      "inputs": [
+        {
+          "path": "tests/out/coreshell4-results.json",
+          "targetSha256": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+          "sameAsNow": true
+        },
+        {
+          "path": "tests/out/coreshell3-results.json",
+          "targetSha256": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+          "sameAsNow": true
+        }
+      ],
+      "allSame": true,
+      "note": "本ハーネスは index.html を実行しない(解析専用)。ここで照合しているのは、入力 JSON の実測を出した対象 HTML の SHA-256 が、いま作業ツリーにある index.html と一致するかだけである(一致なら入力実測はこの実体に対する測定である)"
+    }
+  },
+  "derivation": {
+    "T1_condition": "Ω_drag(r; q₅₀) = Ω_crit — 保持喪失を「外殻位置 r での引きずり量が臨界値を下回る」ことと置く。Ω_drag は核 x<1 のべき x^q の和なので q について単調減少であり、解は一意",
+    "T2_singleTerm": "Ω_drag = A·x^q(x = R_eff/(R_eff+r) < 1)なら q₅₀ = ln(Ω_crit/A)/ln x = ln(A/Ω_crit)/ln(1/x)。分子 L ≡ ln(A/Ω_crit) は振幅の動作域であり、**振幅そのものが指数を決める**",
+    "T3_anchor": "q₅₀' = q₅₀_ref · ln(x_ref)/ln(x_var) — 基準アームの実測 q₅₀ で Ω_crit/A を消去した形。**自由パラメータゼロ**(A と Ω_crit は個別に決めない)",
+    "T4_amplitude": "q₅₀' = [ q₅₀_ref·ln(x_ref) + ln(A_ref/A_var) ] / ln(x_var) — 振幅が構成間で変わる場合の一般形。**本便の主題**。A_ref = A_var のとき (T3) に一致する",
+    "T5_twoTerm": "Ω_drag(r;R,Rc,s,q) = s·(R/(R+r))^q + f·(Ω_c−s)·(Rc/(Rc+r))^q — ⚫ のエンジン実装(index.html の基底スピン項+A8 コア差動項)を tests/exp-coreshell4.mjs profileOf から転記した形。予測は「Ω_drag_var(q₅₀') = Ω_drag_ref(q₅₀_ref)」の数値解(決定論的二分法)で、アンカーは同じく基準アームの実測 q₅₀ ただ1つ",
+    "weightCancellation": "エンジンが実際に掛ける重み係数 w/(D₀+ΣW) は q に依らず、⚫ の全アームで初期配置・質量・r が同一なので (T1) の両辺で相殺する(下記 checks.geometryIdentical / checks.wFracSpread が実測での確認)",
+    "T6_legacy": "q*_old = (3/2)(1 + R/r) = (3/2)/(1−x)(x = R/(R+r) と書くと 1−x = r/(R+r))",
+    "T7_expansion": "u ≡ 1−x として −ln x = u + u²/2 + u³/3 + … なので (T2) は q₅₀ = (L/u)(1 − u/2 − u²/12 + O(u³))。旧式は (3/2)/u",
+    "T8_relation": "q₅₀ / q*_old = (2L/3)(1 − u/2 − u²/12 + O(u³))。すなわち **① 近接極限 u→0(r ≪ R_eff)で両者はともに 1/u で発散し、② 振幅の動作域 L が 3/2 のときに限りその主要項が一致する**。旧式は Ω_drag の局所対数傾き −q·r/(R+r) を Ω_kepler の −3/2(第135便が同定した遠方漸近の臨界指数)に釣り合わせた式で、x^q の**水準(振幅)**を見ない。(T2)〜(T5) は水準の釣り合いを直接書く式であり、第154便 limits.amplitudeCaveat が「予測式に含まれていない」と名指しした寄与がここに入る",
+    "T9_qlockAnalogy": "qLock(第123便・第141便)の q* = 3 + ln X/ln((R+a)/R) と (T2) は、どちらも q* = q_∞ + ln(振幅比)/ln((R+r)/R) という同じ**対数比構造**をもつ(qLock は遠方漸近 r⁻³ に対する規約なので q_∞=3、本便は臨界値を r 固定の定数 Ω_crit と置いたので q_∞=0)。**これは DFM モデル内部で式の形が揃うという記述であり、新しい物理主張でも実在天体についての主張でもない**",
+    "ReffChoiceBH": "⚫ の単一項近似では R_eff = **Rc**(コア差動項の核)を採る。理由: 第154便 YW3 の実測core/base 引きずり比が正準 r 近傍で 10.2〜85.5 = コア差動項が一桁以上支配的だから。R_eff = R(基底スピン項の核)を採った場合は sensitivity.bhKernelChoice に併記する",
+    "ReffChoiceNeb": "🐚 の単一項近似では R_eff = **R̄**(クランプ54体の粒子半径平均 RbarClump)を採る — 第152便 XW2・第154便 YW2 の R 対応と同一。クランプのコア半径 Rc を核に採った場合は sensitivity.nebKernelChoice に併記する",
+    "solver": {
+      "bracket": [
+        0.05,
+        8
+      ],
+      "iterations": 200,
+      "method": "二分法(区間・反復回数を固定した決定論的解法。反復停止条件に時間・乱数を使わない)"
+    }
+  },
+  "checks": {
+    "geometryIdentical": true,
+    "geometryIdenticalNote": "⚫ 全アームで位置指紋・恒星帯/ガス帯の初期平均半径・中心質量が一致する(第154便の実測。初期配置は R・Rc に依存しない)。これが「r と重み係数が構成間で共通」の根拠",
+    "wFracAtCanonicalR": {
+      "base_q1.50": {
+        "rBin": 180,
+        "r": 181.2736841565787,
+        "wFrac0": 0.9018928985228809
+      },
+      "base_q2.00": {
+        "rBin": 180,
+        "r": 181.27357273159666,
+        "wFrac0": 0.901892952896009
+      },
+      "prop_R10Rc5_q1.50": {
+        "rBin": 180,
+        "r": 181.27360415630622,
+        "wFrac0": 0.9018929375613883
+      },
+      "prop_R10Rc5_q2.00": {
+        "rBin": 180,
+        "r": 181.27356925409998,
+        "wFrac0": 0.9018929545929568
+      },
+      "prop_R5Rc2p5_q1.50": {
+        "rBin": 180,
+        "r": 181.27357273619825,
+        "wFrac0": 0.9018929528937635
+      },
+      "prop_R5Rc2p5_q2.00": {
+        "rBin": 180,
+        "r": 181.27356811085082,
+        "wFrac0": 0.9018929551508392
+      },
+      "ronly_R10_q1.50": {
+        "rBin": 180,
+        "r": 181.2736792326428,
+        "wFrac0": 0.9018929009256615
+      },
+      "ronly_R10_q2.00": {
+        "rBin": 180,
+        "r": 181.27357273159666,
+        "wFrac0": 0.901892952896009
+      },
+      "ronly_R5_q1.50": {
+        "rBin": 180,
+        "r": 181.273672914725,
+        "wFrac0": 0.9018929040086769
+      },
+      "ronly_R5_q2.00": {
+        "rBin": 180,
+        "r": 181.27357263633783,
+        "wFrac0": 0.9018929529424933
+      }
+    },
+    "wFracSpread": 5.662795832250822e-8,
+    "wFracNote": "正準 r に最も近いプロファイル bin での w/(D₀+w) の構成間ばらつき。0 に近いほど、重み係数が (T1) の両辺で相殺するという扱いが実測で裏づけられる",
+    "spinConstantAcrossProfileQs": {
+      "base": true,
+      "prop_R10Rc5": true,
+      "prop_R5Rc2p5": true,
+      "ronly_R10": true,
+      "ronly_R5": true
+    },
+    "spinNote": "殻スピン s は q に依らない(各アームの q=1.5 / q=2.0 プロファイルで bit 一致)ので、(T5) の s をアームごとの単一値として扱ってよい",
+    "coreOverBaseFromInput": {
+      "n": 10,
+      "min": 10.166611282266244,
+      "max": 85.50461511364992,
+      "source": "tests/out/coreshell4-results.json の yw3.dragDecompositionAtShell(第154便 YW3 の記述統計)からの転記。⚫ の単一項近似で核に Rc(コア差動項)を採る根拠 = コア差動項が一桁以上支配的であること"
+    }
+  },
+  "bh": {
+    "label": "⚫bhCore — 正準 r(恒星帯の初期平均半径)・主指標 q₅₀(帯合算の損失率。第154便 q50.summary の転記)",
+    "r": 178.261909972834,
+    "anchorArm": "base",
+    "anchorQ50": 1.7125000000000001,
+    "anchorNote": "アンカーは基準アームの**実測 q₅₀ の転記**である(本ハーネスが当てはめた値ではない)。未知の臨界値 Ω_crit を消去するための1点の代入であり、残差を最小化する自由度ではない",
+    "omegaCrit": 0.026314273944862594,
+    "refParams": {
+      "R": 15,
+      "Rc": 7.5,
+      "s": 0.15044309198856354,
+      "f": 0.30000001192092896,
+      "Omc": 20,
+      "spinSameAcrossProfileQs": true,
+      "coreMassFracSame": true,
+      "coreOmegaSame": true
+    },
+    "kernels": {
+      "xBaseRef": 0.0776148802529608,
+      "xCoreRef": 0.0403742618769198
+    },
+    "arms": [
+      {
+        "armKey": "base",
+        "label": "⚫kF1kRep実 基準 (R,Rc)=(15,7.5)",
+        "group": "base",
+        "isAnchor": true,
+        "geometry": {
+          "R": 15,
+          "Rc": 7.5,
+          "r": 178.261909972834,
+          "xBase": 0.0776148802529608,
+          "xCore": 0.0403742618769198,
+          "oneMinusXCore": 0.9596257381230802
+        },
+        "amplitudes": {
+          "base": 0.15044309198856354,
+          "core": 5.954867309028589,
+          "coreOverBaseAtQ50": 12.924780002534693
+        },
+        "measuredQ50": 1.7125000000000001,
+        "predicted": {
+          "legacy": 1.7125000000000001,
+          "singleTerm": 1.7125,
+          "singleTermAmplitude": 1.7125,
+          "twoTerm": 1.7125,
+          "singleTermBaseKernel": 1.7125000000000001
+        },
+        "absDiff": {
+          "legacy": 0,
+          "singleTerm": 2.220446049250313e-16,
+          "singleTermAmplitude": 2.220446049250313e-16,
+          "twoTerm": 2.220446049250313e-16,
+          "singleTermBaseKernel": 0
+        },
+        "twoTermSolve": {
+          "bracketed": true,
+          "residualOmega": 2.42861286636753e-17,
+          "omegaDragAtPrediction": 0.026314273944862618
+        }
+      },
+      {
+        "armKey": "prop_R10Rc5",
+        "label": "⚫kF1kRep実 同率 (R,Rc)=(10,5)",
+        "group": "proportional",
+        "isAnchor": false,
+        "geometry": {
+          "R": 10,
+          "Rc": 5,
+          "r": 178.261909972834,
+          "xBase": 0.05311748936066244,
+          "xCore": 0.027283356376353273,
+          "oneMinusXCore": 0.9727166436236467
+        },
+        "amplitudes": {
+          "base": 0.15044309198856354,
+          "core": 5.954867309028589,
+          "coreOverBaseAtQ50": 14.164240206512936
+        },
+        "measuredQ50": 1.5425,
+        "predicted": {
+          "legacy": 1.6704270748241004,
+          "singleTerm": 1.5261444383946725,
+          "singleTermAmplitude": 1.5261444383946725,
+          "twoTerm": 1.5241717191177817,
+          "singleTermBaseKernel": 1.4912340617212303
+        },
+        "absDiff": {
+          "legacy": 0.12792707482410037,
+          "singleTerm": 0.016355561605327473,
+          "singleTermAmplitude": 0.016355561605327473,
+          "twoTerm": 0.018328280882218273,
+          "singleTermBaseKernel": 0.051265938278769685
+        },
+        "twoTermSolve": {
+          "bracketed": true,
+          "residualOmega": 1.734723475976807e-17,
+          "omegaDragAtPrediction": 0.02631427394486261
+        }
+      },
+      {
+        "armKey": "prop_R5Rc2p5",
+        "label": "⚫kF1kRep実 同率 (R,Rc)=(5,2.5)",
+        "group": "proportional",
+        "isAnchor": false,
+        "geometry": {
+          "R": 5,
+          "Rc": 2.5,
+          "r": 178.261909972834,
+          "xBase": 0.027283356376353273,
+          "xCore": 0.013830347335761805,
+          "oneMinusXCore": 0.9861696526642382
+        },
+        "amplitudes": {
+          "base": 0.15044309198856354,
+          "core": 5.954867309028589,
+          "coreOverBaseAtQ50": 15.791552170588218
+        },
+        "measuredQ50": 1.3525,
+        "predicted": {
+          "legacy": 1.6283541496482006,
+          "singleTerm": 1.2839330688701354,
+          "singleTermAmplitude": 1.2839330688701354,
+          "twoTerm": 1.2801998339154381,
+          "singleTermBaseKernel": 1.2153740315109323
+        },
+        "absDiff": {
+          "legacy": 0.27585414964820054,
+          "singleTerm": 0.06856693112986467,
+          "singleTermAmplitude": 0.06856693112986467,
+          "twoTerm": 0.07230016608456191,
+          "singleTermBaseKernel": 0.13712596848906777
+        },
+        "twoTermSolve": {
+          "bracketed": true,
+          "residualOmega": -1.0408340855860843e-17,
+          "omegaDragAtPrediction": 0.026314273944862583
+        }
+      },
+      {
+        "armKey": "ronly_R10",
+        "label": "⚫kF1kRep実 R単独対照 (R,Rc)=(10,7.5)",
+        "group": "radiusOnly",
+        "isAnchor": false,
+        "geometry": {
+          "R": 10,
+          "Rc": 7.5,
+          "r": 178.261909972834,
+          "xBase": 0.05311748936066244,
+          "xCore": 0.0403742618769198,
+          "oneMinusXCore": 0.9596257381230802
+        },
+        "amplitudes": {
+          "base": 0.15091699361801147,
+          "core": 5.954725138534105,
+          "coreOverBaseAtQ50": 24.78524605715845
+        },
+        "measuredQ50": 1.695,
+        "predicted": {
+          "legacy": 1.6704270748241004,
+          "singleTerm": 1.7125,
+          "singleTermAmplitude": 1.7124925613059843,
+          "twoTerm": 1.7016190556221664,
+          "singleTermBaseKernel": 1.4912340617212303
+        },
+        "absDiff": {
+          "legacy": 0.024572925175899707,
+          "singleTerm": 0.01749999999999985,
+          "singleTermAmplitude": 0.0174925613059842,
+          "twoTerm": 0.006619055622166359,
+          "singleTermBaseKernel": 0.20376593827876976
+        },
+        "twoTermSolve": {
+          "bracketed": true,
+          "residualOmega": -1.0408340855860843e-17,
+          "omegaDragAtPrediction": 0.026314273944862583
+        }
+      },
+      {
+        "armKey": "ronly_R5",
+        "label": "⚫kF1kRep実 R単独対照 (R,Rc)=(5,7.5)",
+        "group": "radiusOnly",
+        "isAnchor": false,
+        "geometry": {
+          "R": 5,
+          "Rc": 7.5,
+          "r": 178.261909972834,
+          "xBase": 0.027283356376353273,
+          "xCore": 0.0403742618769198,
+          "oneMinusXCore": 0.9596257381230802
+        },
+        "amplitudes": {
+          "base": 0.15255935490131378,
+          "core": 5.954232430129536,
+          "coreOverBaseAtQ50": 75.54146410868053
+        },
+        "measuredQ50": 1.685,
+        "predicted": {
+          "legacy": 1.6283541496482006,
+          "singleTerm": 1.7125,
+          "singleTermAmplitude": 1.712466780271274,
+          "twoTerm": 1.6933316909645786,
+          "singleTermBaseKernel": 1.2153740315109323
+        },
+        "absDiff": {
+          "legacy": 0.056645850351799476,
+          "singleTerm": 0.027499999999999858,
+          "singleTermAmplitude": 0.027466780271274027,
+          "twoTerm": 0.00833169096457853,
+          "singleTermBaseKernel": 0.4696259684890678
+        },
+        "twoTermSolve": {
+          "bracketed": true,
+          "residualOmega": -6.938893903907228e-18,
+          "omegaDragAtPrediction": 0.026314273944862587
+        }
+      }
+    ],
+    "canonicalR": "恒星帯(外殻200体)の初期平均半径(第152便・第154便 canonicalr と同一定義)",
+    "q50Source": "tests/out/coreshell4-results.json の q50.summary(第154便が全アーム同一の11点格子で当てはめた値の転記。本ハーネスは主指標の q₅₀ を当てはめ直さない)"
+  },
+  "neb": {
+    "label": "🐚nebulaShell — エンベロープ半径 ×1(アンカー)→ ×2(予測対象)",
+    "canonicalR": "R̄ = クランプ54体の粒子半径の平均(RbarClump・第154便 引きずりプローブ実測)",
+    "canonicalr": "エンベロープの平均半径(envMeanR・構成ごとに実測)",
+    "dragForm": "Ω_drag,i(q) = [ Σ_j w_ij ( s_j(R_j/(R_j+d_ij))^q + [コア持ち] f_j(Ω_cj−s_j)(Rc_j/(Rc_j+d_ij))^q ) の接線成分 ] / (D₀ + Σ_j w_ij) — tests/exp-coreshell4.mjs nebDragProbe からの転記",
+    "meanFieldNote": "平均場の単一項 Ω̄_drag(q) = C·x̄^q を置く。C は q に依らないが、エンベロープ半径を変えると重み w_ij と正規化 D₀+ΣW が変わるので**構成間で等しくない** — ここが 🐚 における振幅寄与。C は引きずりプローブの実測(q_probe での44粒子平均 Ω̄_drag)から C = Ω̄_drag(q_probe)/x̄^{q_probe} と転記する",
+    "twoTermNote": "🐚 の2項複合は**本便の入力 JSON からは評価できない**。エンジンの引きずりは粒子対ごとの距離 d_ij に依存する多項和で、対ごとの d_ij・各クランプ粒子のスピン s_j・コア質量比 f_j は入力 JSON に記録されていない。引きずりプローブは 1 つの q(q_probe)でしか回っておらず、記録済みの集約量から2つの振幅を分離することもできない(未知2個に対し方程式1本)。分離には **q を2点以上に振ったプローブの再実測**が必要で、再実測を行わない本便(回顧的検証)の範囲外である。代わりに、核の取り方の違い(R̄ と クランプのコア半径 Rc)を感度として両方収載し、真の多スケール複合がその間に位置することを示す",
+    "labelStatistic": "エンベロープ44粒子の omDragAnalytic の**平均**を Ω̄_drag に採る(中央値の場合は sensitivity.nebDragStatistic に併記)",
+    "primary": {
+      "label": "🐚 ×1 → ×2(核 = R̄・Ω̄_drag = 44粒子平均)",
+      "kernelRadius": 3.845526527475428,
+      "dragStatistic": "nebMeanDrag",
+      "reference": {
+        "envScale": 1,
+        "RbarClump": 3.845526527475428,
+        "kernelRadius": 3.845526527475428,
+        "rBar": 108.35684127569475,
+        "x": 0.03427313168846314,
+        "qProbe": 2,
+        "omegaDragAtProbeQ": 0.0010559713109917594,
+        "amplitudeC": 0.8989686360273866,
+        "nEnv": 44
+      },
+      "variant": {
+        "envScale": 2,
+        "RbarClump": 3.845526527475428,
+        "kernelRadius": 3.845526527475428,
+        "rBar": 214.96482495653498,
+        "x": 0.017574701111690506,
+        "qProbe": 2,
+        "omegaDragAtProbeQ": 0.00045915276179423517,
+        "amplitudeC": 1.486556106609243,
+        "nEnv": 44
+      },
+      "amplitudeRatio": 1.65362399424573,
+      "omegaCrit": 0.0034388900686512193,
+      "anchorQ50": 1.6500000000000001,
+      "measuredQ50": 1.5350000000000001,
+      "predicted": {
+        "legacy": 1.6235994446678508,
+        "singleTerm": 1.3773059355728445,
+        "singleTermAmplitude": 1.5017633826340504,
+        "twoTerm": null
+      },
+      "absDiff": {
+        "legacy": 0.08859944466785064,
+        "singleTerm": 0.1576940644271556,
+        "singleTermAmplitude": 0.03323661736594974,
+        "twoTerm": null
+      }
+    }
+  },
+  "comparisonTable": {
+    "note": "**窓ではない**。3種の予測(いずれも同じ基準アームの実測 q₅₀ 1点だけをアンカーにする)と実測 q₅₀ の照合表である。legacy = 旧式 (3/2)(1+R/r) の差分予測(第152便 XW2・第154便 YW1 と同じ形)/ singleTerm = (T3) 単一項アンカー式 / singleTermAmplitude = (T4) 振幅寄与込み / twoTerm = (T5) 2項複合",
+    "rows": [
+      {
+        "sample": "⚫bhCore",
+        "arm": "prop_R10Rc5",
+        "label": "⚫kF1kRep実 同率 (R,Rc)=(10,5)",
+        "group": "proportional",
+        "measuredQ50": 1.5425,
+        "predicted": {
+          "legacy": 1.6704270748241004,
+          "singleTerm": 1.5261444383946725,
+          "singleTermAmplitude": 1.5261444383946725,
+          "twoTerm": 1.5241717191177817,
+          "singleTermBaseKernel": 1.4912340617212303
+        },
+        "absDiff": {
+          "legacy": 0.12792707482410037,
+          "singleTerm": 0.016355561605327473,
+          "singleTermAmplitude": 0.016355561605327473,
+          "twoTerm": 0.018328280882218273,
+          "singleTermBaseKernel": 0.051265938278769685
+        }
+      },
+      {
+        "sample": "⚫bhCore",
+        "arm": "prop_R5Rc2p5",
+        "label": "⚫kF1kRep実 同率 (R,Rc)=(5,2.5)",
+        "group": "proportional",
+        "measuredQ50": 1.3525,
+        "predicted": {
+          "legacy": 1.6283541496482006,
+          "singleTerm": 1.2839330688701354,
+          "singleTermAmplitude": 1.2839330688701354,
+          "twoTerm": 1.2801998339154381,
+          "singleTermBaseKernel": 1.2153740315109323
+        },
+        "absDiff": {
+          "legacy": 0.27585414964820054,
+          "singleTerm": 0.06856693112986467,
+          "singleTermAmplitude": 0.06856693112986467,
+          "twoTerm": 0.07230016608456191,
+          "singleTermBaseKernel": 0.13712596848906777
+        }
+      },
+      {
+        "sample": "⚫bhCore",
+        "arm": "ronly_R10",
+        "label": "⚫kF1kRep実 R単独対照 (R,Rc)=(10,7.5)",
+        "group": "radiusOnly",
+        "measuredQ50": 1.695,
+        "predicted": {
+          "legacy": 1.6704270748241004,
+          "singleTerm": 1.7125,
+          "singleTermAmplitude": 1.7124925613059843,
+          "twoTerm": 1.7016190556221664,
+          "singleTermBaseKernel": 1.4912340617212303
+        },
+        "absDiff": {
+          "legacy": 0.024572925175899707,
+          "singleTerm": 0.01749999999999985,
+          "singleTermAmplitude": 0.0174925613059842,
+          "twoTerm": 0.006619055622166359,
+          "singleTermBaseKernel": 0.20376593827876976
+        }
+      },
+      {
+        "sample": "⚫bhCore",
+        "arm": "ronly_R5",
+        "label": "⚫kF1kRep実 R単独対照 (R,Rc)=(5,7.5)",
+        "group": "radiusOnly",
+        "measuredQ50": 1.685,
+        "predicted": {
+          "legacy": 1.6283541496482006,
+          "singleTerm": 1.7125,
+          "singleTermAmplitude": 1.712466780271274,
+          "twoTerm": 1.6933316909645786,
+          "singleTermBaseKernel": 1.2153740315109323
+        },
+        "absDiff": {
+          "legacy": 0.056645850351799476,
+          "singleTerm": 0.027499999999999858,
+          "singleTermAmplitude": 0.027466780271274027,
+          "twoTerm": 0.00833169096457853,
+          "singleTermBaseKernel": 0.4696259684890678
+        }
+      },
+      {
+        "sample": "🐚nebulaShell",
+        "arm": "neb_env2",
+        "label": "🐚 ×1 → ×2(核 = R̄・Ω̄_drag = 44粒子平均)",
+        "group": "nebulaEnvelope",
+        "measuredQ50": 1.5350000000000001,
+        "predicted": {
+          "legacy": 1.6235994446678508,
+          "singleTerm": 1.3773059355728445,
+          "singleTermAmplitude": 1.5017633826340504,
+          "twoTerm": null
+        },
+        "absDiff": {
+          "legacy": 0.08859944466785064,
+          "singleTerm": 0.1576940644271556,
+          "singleTermAmplitude": 0.03323661736594974,
+          "twoTerm": null
+        }
+      }
+    ],
+    "summary": {
+      "legacy": {
+        "n": 5,
+        "max": 0.27585414964820054,
+        "mean": 0.11471988893357014
+      },
+      "singleTerm": {
+        "n": 5,
+        "max": 0.1576940644271556,
+        "mean": 0.05752331143246949
+      },
+      "singleTermAmplitude": {
+        "n": 5,
+        "max": 0.06856693112986467,
+        "mean": 0.03262369033568002
+      },
+      "twoTerm": {
+        "n": 4,
+        "max": 0.07230016608456191,
+        "mean": 0.02639479838838127
+      }
+    }
+  },
+  "legacyRelation": {
+    "formulas": {
+      "legacy": "q*_old = (3/2)/(1−x)",
+      "new": "q₅₀ = L/(−ln x),  L = ln(A/Ω_crit)",
+      "expansion": "q₅₀ = (L/u)(1 − u/2 − u²/12 + O(u³)),  u = 1−x",
+      "ratio": "q₅₀/q*_old = (2L/3)(1 − u/2 − u²/12 + O(u³))",
+      "agreementCondition": "主要項が一致するのは **u→0(近接極限 r ≪ R_eff)かつ L = 3/2** のときに限る"
+    },
+    "perArm": [
+      {
+        "armKey": "base",
+        "xCore": 0.0403742618769198,
+        "u": 0.9596257381230802,
+        "L": 5.4218526717599955,
+        "LminusThreeHalves": 3.9218526717599955,
+        "qFromT2": 1.6892807664459988,
+        "qLegacyClosedForm": 1.5631093877638496,
+        "ratioNewOverOld": 1.0807182015985761,
+        "leadingOrderApprox": 2.505460423309351,
+        "leadingOrderRelError": 0.4831521633792561
+      },
+      {
+        "armKey": "prop_R10Rc5",
+        "xCore": 0.027283356376353273,
+        "u": 0.9727166436236467,
+        "L": 5.4218526717599955,
+        "LminusThreeHalves": 3.9218526717599955,
+        "qFromT2": 1.50545193961965,
+        "qLegacyClosedForm": 1.5420729251758996,
+        "ratioNewOverOld": 0.9762521052290233,
+        "leadingOrderApprox": 2.4235079426377806,
+        "leadingOrderRelError": 0.6098208643246864
+      },
+      {
+        "armKey": "prop_R5Rc2p5",
+        "xCore": 0.013830347335761805,
+        "u": 0.9861696526642382,
+        "L": 5.4218526717599955,
+        "LminusThreeHalves": 3.9218526717599955,
+        "qFromT2": 1.266524635705872,
+        "qLegacyClosedForm": 1.5210364625879498,
+        "ratioNewOverOld": 0.8326721067231737,
+        "leadingOrderApprox": 2.341391855962383,
+        "leadingOrderRelError": 0.8486745460402794
+      },
+      {
+        "armKey": "ronly_R10",
+        "xCore": 0.0403742618769198,
+        "u": 0.9596257381230802,
+        "L": 5.421828796804557,
+        "LminusThreeHalves": 3.921828796804557,
+        "qFromT2": 1.6892733277519834,
+        "qLegacyClosedForm": 1.5631093877638496,
+        "ratioNewOverOld": 1.0807134426904192,
+        "leadingOrderApprox": 2.5054493905942294,
+        "leadingOrderRelError": 0.4831521633792562
+      },
+      {
+        "armKey": "ronly_R5",
+        "xCore": 0.0403742618769198,
+        "u": 0.9596257381230802,
+        "L": 5.421746050955139,
+        "LminusThreeHalves": 3.9217460509551394,
+        "qFromT2": 1.689247546717273,
+        "qLegacyClosedForm": 1.5631093877638496,
+        "ratioNewOverOld": 1.080696949260777,
+        "leadingOrderApprox": 2.5054111533968246,
+        "leadingOrderRelError": 0.48315216337925626
+      }
+    ],
+    "qFromT2Note": "qFromT2 は **単一項** (T2) の読みで、振幅に A_core だけを使う一方、Ω_crit は 2項複合 (T5) の臨界水準である。したがってアンカーアームでも qFromT2 は実測 q₅₀ を厳密には再現しない — その差が基底スピン項の寄与分である(2項複合 (T5) はこの差を持たない)",
+    "expansionValidityNote": "(T7) の展開は u ≪ 1 でのみ収束が速い。実測構成の u ≈ 0.96 では leadingOrderRelError が示すとおり主要3項では足りない — (T7)(T8) は**極限での関係を述べる式**であって、実測構成での近似計算式ではない",
+    "reading": "実測構成では u ≈ 0.96(= 近接極限から最も遠い側)・L ≈ 5.4(≠ 3/2)であり、両式は**まったく別の領域にいる**。第152便・第154便で旧式の差分予測が桁として近く見えたのは、差分をとると両式の主要な r 依存が部分的に相殺したためで、水準そのものが一致していたからではない(この読みは post-hoc の解釈である)"
+  },
+  "sensitivity": {
+    "note": "**すべて記述のみ**。主結果の頑健さを見るための併記であり、窓も判定もない",
+    "bhKernelChoice": {
+      "question": "⚫ の単一項近似で核を Rc(コア差動項)に採るか R(基底スピン項)に採るか",
+      "rows": [
+        {
+          "armKey": "prop_R10Rc5",
+          "measuredQ50": 1.5425,
+          "kernelRc": {
+            "predicted": 1.5261444383946725,
+            "absDiff": 0.016355561605327473
+          },
+          "kernelR": {
+            "predicted": 1.4912340617212303,
+            "absDiff": 0.051265938278769685
+          }
+        },
+        {
+          "armKey": "prop_R5Rc2p5",
+          "measuredQ50": 1.3525,
+          "kernelRc": {
+            "predicted": 1.2839330688701354,
+            "absDiff": 0.06856693112986467
+          },
+          "kernelR": {
+            "predicted": 1.2153740315109323,
+            "absDiff": 0.13712596848906777
+          }
+        },
+        {
+          "armKey": "ronly_R10",
+          "measuredQ50": 1.695,
+          "kernelRc": {
+            "predicted": 1.7125,
+            "absDiff": 0.01749999999999985
+          },
+          "kernelR": {
+            "predicted": 1.4912340617212303,
+            "absDiff": 0.20376593827876976
+          }
+        },
+        {
+          "armKey": "ronly_R5",
+          "measuredQ50": 1.685,
+          "kernelRc": {
+            "predicted": 1.7125,
+            "absDiff": 0.027499999999999858
+          },
+          "kernelR": {
+            "predicted": 1.2153740315109323,
+            "absDiff": 0.4696259684890678
+          }
+        }
+      ],
+      "reading": "コア差動項の核 Rc を採る側が一貫して小さい残差になる。第154便 YW3 の core/base 比(コア差動項が一桁以上支配的)と整合する"
+    },
+    "bhBandSplit": {
+      "question": "⚫ の損失率はガス帯(120体・⟨r⟩≈81.8)と恒星帯(200体・⟨r⟩≈178.3)の合算である。帯ごとに当てはめ直し、各帯の r で理論を評価するとどうなるか",
+      "method": "第152便・第154便と**同一の当てはめ関数・同一の当てはめ格子・同一の INCONCLUSIVE 規則**を帯別の損失率へ適用する。合算指標(all)も同じ関数で当てはめ直し、入力 JSON の q50.summary と一致することを確認する(refitMatchesInput)",
+      "refitMatchesInput": true,
+      "perBandQ50": {
+        "base": {
+          "all": 1.7125000000000001,
+          "gas": 1.855,
+          "star": 1.6425,
+          "results": {
+            "all": "OK",
+            "gas": "OK",
+            "star": "OK"
+          }
+        },
+        "prop_R10Rc5": {
+          "all": 1.5425,
+          "gas": 1.6025,
+          "star": 1.51,
+          "results": {
+            "all": "OK",
+            "gas": "OK",
+            "star": "OK"
+          }
+        },
+        "prop_R5Rc2p5": {
+          "all": 1.3525,
+          "gas": 1.3900000000000001,
+          "star": 1.3075,
+          "results": {
+            "all": "OK",
+            "gas": "OK",
+            "star": "OK"
+          }
+        },
+        "ronly_R10": {
+          "all": 1.695,
+          "gas": 1.8425,
+          "star": 1.635,
+          "results": {
+            "all": "OK",
+            "gas": "OK",
+            "star": "OK"
+          }
+        },
+        "ronly_R5": {
+          "all": 1.685,
+          "gas": 1.84,
+          "star": 1.6225,
+          "results": {
+            "all": "OK",
+            "gas": "OK",
+            "star": "OK"
+          }
+        }
+      },
+      "gasBand": {
+        "label": "⚫ ガス帯のみ(r = ガス帯の初期平均半径)",
+        "r": 81.76671261800567,
+        "anchorArm": "base",
+        "anchorQ50": 1.855,
+        "anchorNote": "アンカーは基準アームの**実測 q₅₀ の転記**である(本ハーネスが当てはめた値ではない)。未知の臨界値 Ω_crit を消去するための1点の代入であり、残差を最小化する自由度ではない",
+        "omegaCrit": 0.06493490163426191,
+        "refParams": {
+          "R": 15,
+          "Rc": 7.5,
+          "s": 0.15044309198856354,
+          "f": 0.30000001192092896,
+          "Omc": 20,
+          "spinSameAcrossProfileQs": true,
+          "coreMassFracSame": true,
+          "coreOmegaSame": true
+        },
+        "kernels": {
+          "xBaseRef": 0.15501198288313978,
+          "xCoreRef": 0.08401788057430046
+        },
+        "arms": [
+          {
+            "armKey": "base",
+            "label": "⚫kF1kRep実 基準 (R,Rc)=(15,7.5)",
+            "group": "base",
+            "isAnchor": true,
+            "geometry": {
+              "R": 15,
+              "Rc": 7.5,
+              "r": 81.76671261800567,
+              "xBase": 0.15501198288313978,
+              "xCore": 0.08401788057430046,
+              "oneMinusXCore": 0.9159821194256995
+            },
+            "amplitudes": {
+              "base": 0.15044309198856354,
+              "core": 5.954867309028589,
+              "coreOverBaseAtQ50": 12.70813451002653
+            },
+            "measuredQ50": 1.855,
+            "predicted": {
+              "legacy": 1.855,
+              "singleTerm": 1.855,
+              "singleTermAmplitude": 1.855,
+              "twoTerm": 1.855,
+              "singleTermBaseKernel": 1.855
+            },
+            "absDiff": {
+              "legacy": 0,
+              "singleTerm": 0,
+              "singleTermAmplitude": 0,
+              "twoTerm": 0,
+              "singleTermBaseKernel": 0
+            },
+            "twoTermSolve": {
+              "bracketed": true,
+              "residualOmega": 0,
+              "omegaDragAtPrediction": 0.06493490163426191
+            }
+          },
+          {
+            "armKey": "prop_R10Rc5",
+            "label": "⚫kF1kRep実 同率 (R,Rc)=(10,5)",
+            "group": "proportional",
+            "isAnchor": false,
+            "geometry": {
+              "R": 10,
+              "Rc": 5,
+              "r": 81.76671261800567,
+              "xBase": 0.10897197594542453,
+              "xCore": 0.05762578584730672,
+              "oneMinusXCore": 0.9423742141526933
+            },
+            "amplitudes": {
+              "base": 0.15044309198856354,
+              "core": 5.954867309028589,
+              "coreOverBaseAtQ50": 14.259074863535375
+            },
+            "measuredQ50": 1.6025,
+            "predicted": {
+              "legacy": 1.7632756324687018,
+              "singleTerm": 1.6099060839592287,
+              "singleTermAmplitude": 1.6099060839592287,
+              "twoTerm": 1.607183230563693,
+              "singleTermBaseKernel": 1.5600867877837612
+            },
+            "absDiff": {
+              "legacy": 0.16077563246870175,
+              "singleTerm": 0.007406083959228704,
+              "singleTermAmplitude": 0.007406083959228704,
+              "twoTerm": 0.004683230563693019,
+              "singleTermBaseKernel": 0.04241321221623884
+            },
+            "twoTermSolve": {
+              "bracketed": true,
+              "residualOmega": -1.3877787807814457e-17,
+              "omegaDragAtPrediction": 0.0649349016342619
+            }
+          },
+          {
+            "armKey": "prop_R5Rc2p5",
+            "label": "⚫kF1kRep実 同率 (R,Rc)=(5,2.5)",
+            "group": "proportional",
+            "isAnchor": false,
+            "geometry": {
+              "R": 5,
+              "Rc": 2.5,
+              "r": 81.76671261800567,
+              "xBase": 0.05762578584730672,
+              "xCore": 0.029667705340932132,
+              "oneMinusXCore": 0.9703322946590679
+            },
+            "amplitudes": {
+              "base": 0.15044309198856354,
+              "core": 5.954867309028589,
+              "coreOverBaseAtQ50": 15.729579088707654
+            },
+            "measuredQ50": 1.3900000000000001,
+            "predicted": {
+              "legacy": 1.6715512649374036,
+              "singleTerm": 1.3060610739844716,
+              "singleTermAmplitude": 1.3060610739844716,
+              "twoTerm": 1.301073582303097,
+              "singleTermBaseKernel": 1.2117902637607183
+            },
+            "absDiff": {
+              "legacy": 0.28155126493740346,
+              "singleTerm": 0.08393892601552855,
+              "singleTermAmplitude": 0.08393892601552855,
+              "twoTerm": 0.08892641769690313,
+              "singleTermBaseKernel": 0.17820973623928182
+            },
+            "twoTermSolve": {
+              "bracketed": true,
+              "residualOmega": -2.7755575615628914e-17,
+              "omegaDragAtPrediction": 0.06493490163426188
+            }
+          },
+          {
+            "armKey": "ronly_R10",
+            "label": "⚫kF1kRep実 R単独対照 (R,Rc)=(10,7.5)",
+            "group": "radiusOnly",
+            "isAnchor": false,
+            "geometry": {
+              "R": 10,
+              "Rc": 7.5,
+              "r": 81.76671261800567,
+              "xBase": 0.10897197594542453,
+              "xCore": 0.08401788057430046,
+              "oneMinusXCore": 0.9159821194256995
+            },
+            "amplitudes": {
+              "base": 0.15091699361801147,
+              "core": 5.954725138534105,
+              "coreOverBaseAtQ50": 24.4357630761989
+            },
+            "measuredQ50": 1.8425,
+            "predicted": {
+              "legacy": 1.7632756324687018,
+              "singleTerm": 1.855,
+              "singleTermAmplitude": 1.8549903602744426,
+              "twoTerm": 1.8405930497465244,
+              "singleTermBaseKernel": 1.5600867877837612
+            },
+            "absDiff": {
+              "legacy": 0.07922436753129825,
+              "singleTerm": 0.012499999999999956,
+              "singleTermAmplitude": 0.012490360274442613,
+              "twoTerm": 0.0019069502534756477,
+              "singleTermBaseKernel": 0.28241321221623883
+            },
+            "twoTermSolve": {
+              "bracketed": true,
+              "residualOmega": -1.3877787807814457e-17,
+              "omegaDragAtPrediction": 0.0649349016342619
+            }
+          },
+          {
+            "armKey": "ronly_R5",
+            "label": "⚫kF1kRep実 R単独対照 (R,Rc)=(5,7.5)",
+            "group": "radiusOnly",
+            "isAnchor": false,
+            "geometry": {
+              "R": 5,
+              "Rc": 7.5,
+              "r": 81.76671261800567,
+              "xBase": 0.05762578584730672,
+              "xCore": 0.08401788057430046,
+              "oneMinusXCore": 0.9159821194256995
+            },
+            "amplitudes": {
+              "base": 0.15255935490131378,
+              "core": 5.954232430129536,
+              "coreOverBaseAtQ50": 78.10806595325666
+            },
+            "measuredQ50": 1.84,
+            "predicted": {
+              "legacy": 1.6715512649374036,
+              "singleTerm": 1.855,
+              "singleTermAmplitude": 1.8549569509019546,
+              "twoTerm": 1.829529991779323,
+              "singleTermBaseKernel": 1.2117902637607183
+            },
+            "absDiff": {
+              "legacy": 0.1684487350625965,
+              "singleTerm": 0.014999999999999902,
+              "singleTermAmplitude": 0.01495695090195448,
+              "twoTerm": 0.010470008220677007,
+              "singleTermBaseKernel": 0.6282097362392818
+            },
+            "twoTermSolve": {
+              "bracketed": true,
+              "residualOmega": -1.3877787807814457e-17,
+              "omegaDragAtPrediction": 0.0649349016342619
+            }
+          }
+        ]
+      },
+      "starBand": {
+        "label": "⚫ 恒星帯のみ(r = 恒星帯の初期平均半径)",
+        "r": 178.261909972834,
+        "anchorArm": "base",
+        "anchorQ50": 1.6425,
+        "anchorNote": "アンカーは基準アームの**実測 q₅₀ の転記**である(本ハーネスが当てはめた値ではない)。未知の臨界値 Ω_crit を消去するための1点の代入であり、残差を最小化する自由度ではない",
+        "omegaCrit": 0.03283727458045928,
+        "refParams": {
+          "R": 15,
+          "Rc": 7.5,
+          "s": 0.15044309198856354,
+          "f": 0.30000001192092896,
+          "Omc": 20,
+          "spinSameAcrossProfileQs": true,
+          "coreMassFracSame": true,
+          "coreOmegaSame": true
+        },
+        "kernels": {
+          "xBaseRef": 0.0776148802529608,
+          "xCoreRef": 0.0403742618769198
+        },
+        "arms": [
+          {
+            "armKey": "base",
+            "label": "⚫kF1kRep実 基準 (R,Rc)=(15,7.5)",
+            "group": "base",
+            "isAnchor": true,
+            "geometry": {
+              "R": 15,
+              "Rc": 7.5,
+              "r": 178.261909972834,
+              "xBase": 0.0776148802529608,
+              "xCore": 0.0403742618769198,
+              "oneMinusXCore": 0.9596257381230802
+            },
+            "amplitudes": {
+              "base": 0.15044309198856354,
+              "core": 5.954867309028589,
+              "coreOverBaseAtQ50": 13.529819017615015
+            },
+            "measuredQ50": 1.6425,
+            "predicted": {
+              "legacy": 1.6425,
+              "singleTerm": 1.6425,
+              "singleTermAmplitude": 1.6425,
+              "twoTerm": 1.6425,
+              "singleTermBaseKernel": 1.6425
+            },
+            "absDiff": {
+              "legacy": 0,
+              "singleTerm": 0,
+              "singleTermAmplitude": 0,
+              "twoTerm": 0,
+              "singleTermBaseKernel": 0
+            },
+            "twoTermSolve": {
+              "bracketed": true,
+              "residualOmega": 0,
+              "omegaDragAtPrediction": 0.03283727458045928
+            }
+          },
+          {
+            "armKey": "prop_R10Rc5",
+            "label": "⚫kF1kRep実 同率 (R,Rc)=(10,5)",
+            "group": "proportional",
+            "isAnchor": false,
+            "geometry": {
+              "R": 10,
+              "Rc": 5,
+              "r": 178.261909972834,
+              "xBase": 0.05311748936066244,
+              "xCore": 0.027283356376353273,
+              "oneMinusXCore": 0.9727166436236467
+            },
+            "amplitudes": {
+              "base": 0.15044309198856354,
+              "core": 5.954867309028589,
+              "coreOverBaseAtQ50": 14.474275174825715
+            },
+            "measuredQ50": 1.51,
+            "predicted": {
+              "legacy": 1.6004270748241003,
+              "singleTerm": 1.463761892007737,
+              "singleTermAmplitude": 1.463761892007737,
+              "twoTerm": 1.4619462095718436,
+              "singleTermBaseKernel": 1.4302785088333552
+            },
+            "absDiff": {
+              "legacy": 0.09042707482410028,
+              "singleTerm": 0.04623810799226291,
+              "singleTermAmplitude": 0.04623810799226291,
+              "twoTerm": 0.048053790428156384,
+              "singleTermBaseKernel": 0.07972149116664484
+            },
+            "twoTermSolve": {
+              "bracketed": true,
+              "residualOmega": 0,
+              "omegaDragAtPrediction": 0.03283727458045928
+            }
+          },
+          {
+            "armKey": "prop_R5Rc2p5",
+            "label": "⚫kF1kRep実 同率 (R,Rc)=(5,2.5)",
+            "group": "proportional",
+            "isAnchor": false,
+            "geometry": {
+              "R": 5,
+              "Rc": 2.5,
+              "r": 178.261909972834,
+              "xBase": 0.027283356376353273,
+              "xCore": 0.013830347335761805,
+              "oneMinusXCore": 0.9861696526642382
+            },
+            "amplitudes": {
+              "base": 0.15044309198856354,
+              "core": 5.954867309028589,
+              "coreOverBaseAtQ50": 16.281811832162532
+            },
+            "measuredQ50": 1.3075,
+            "predicted": {
+              "legacy": 1.5583541496482005,
+              "singleTerm": 1.2314511332082905,
+              "singleTermAmplitude": 1.2314511332082905,
+              "twoTerm": 1.2280060707445082,
+              "singleTermBaseKernel": 1.165694509055011
+            },
+            "absDiff": {
+              "legacy": 0.2508541496482004,
+              "singleTerm": 0.07604886679170964,
+              "singleTermAmplitude": 0.07604886679170964,
+              "twoTerm": 0.07949392925549192,
+              "singleTermBaseKernel": 0.14180549094498907
+            },
+            "twoTermSolve": {
+              "bracketed": true,
+              "residualOmega": 2.0816681711721685e-17,
+              "omegaDragAtPrediction": 0.0328372745804593
+            }
+          },
+          {
+            "armKey": "ronly_R10",
+            "label": "⚫kF1kRep実 R単独対照 (R,Rc)=(10,7.5)",
+            "group": "radiusOnly",
+            "isAnchor": false,
+            "geometry": {
+              "R": 10,
+              "Rc": 7.5,
+              "r": 178.261909972834,
+              "xBase": 0.05311748936066244,
+              "xCore": 0.0403742618769198,
+              "oneMinusXCore": 0.9596257381230802
+            },
+            "amplitudes": {
+              "base": 0.15091699361801147,
+              "core": 5.954725138534105,
+              "coreOverBaseAtQ50": 25.196557638424643
+            },
+            "measuredQ50": 1.635,
+            "predicted": {
+              "legacy": 1.6004270748241003,
+              "singleTerm": 1.6425,
+              "singleTermAmplitude": 1.6424925613059844,
+              "twoTerm": 1.6323934880520974,
+              "singleTermBaseKernel": 1.4302785088333552
+            },
+            "absDiff": {
+              "legacy": 0.034572925175899716,
+              "singleTerm": 0.007500000000000062,
+              "singleTermAmplitude": 0.007492561305984413,
+              "twoTerm": 0.0026065119479026233,
+              "singleTermBaseKernel": 0.20472149116664484
+            },
+            "twoTermSolve": {
+              "bracketed": true,
+              "residualOmega": 1.3877787807814457e-17,
+              "omegaDragAtPrediction": 0.03283727458045929
+            }
+          },
+          {
+            "armKey": "ronly_R5",
+            "label": "⚫kF1kRep実 R単独対照 (R,Rc)=(5,7.5)",
+            "group": "radiusOnly",
+            "isAnchor": false,
+            "geometry": {
+              "R": 5,
+              "Rc": 7.5,
+              "r": 178.261909972834,
+              "xBase": 0.027283356376353273,
+              "xCore": 0.0403742618769198,
+              "oneMinusXCore": 0.9596257381230802
+            },
+            "amplitudes": {
+              "base": 0.15255935490131378,
+              "core": 5.954232430129536,
+              "coreOverBaseAtQ50": 73.7135747487525
+            },
+            "measuredQ50": 1.6225,
+            "predicted": {
+              "legacy": 1.5583541496482005,
+              "singleTerm": 1.6425,
+              "singleTermAmplitude": 1.6424667802712742,
+              "twoTerm": 1.6244449091787212,
+              "singleTermBaseKernel": 1.165694509055011
+            },
+            "absDiff": {
+              "legacy": 0.06414585035179954,
+              "singleTerm": 0.020000000000000018,
+              "singleTermAmplitude": 0.019966780271274187,
+              "twoTerm": 0.0019449091787211437,
+              "singleTermBaseKernel": 0.456805490944989
+            },
+            "twoTermSolve": {
+              "bracketed": true,
+              "residualOmega": 0,
+              "omegaDragAtPrediction": 0.03283727458045928
+            }
+          }
+        ]
+      }
+    },
+    "bhSpinChoice": {
+      "question": "(T5) の s に、プロファイル実測の s0(1步後)ではなくプリセット宣言値を使うとどうなるか",
+      "presetSpin": 0.15,
+      "profileSpins": {
+        "base": 0.15044309198856354,
+        "prop_R10Rc5": 0.15044309198856354,
+        "prop_R5Rc2p5": 0.15044309198856354,
+        "ronly_R10": 0.15091699361801147,
+        "ronly_R5": 0.15255935490131378
+      },
+      "rows": [
+        {
+          "armKey": "prop_R10Rc5",
+          "measuredQ50": 1.5425,
+          "twoTerm": 1.524177239614851,
+          "twoTermAbsDiff": 0.018322760385149017,
+          "singleTerm": 1.5261444383946725,
+          "singleTermAbsDiff": 0.016355561605327473
+        },
+        {
+          "armKey": "prop_R5Rc2p5",
+          "measuredQ50": 1.3525,
+          "twoTerm": 1.2802102954437684,
+          "twoTermAbsDiff": 0.07228970455623163,
+          "singleTerm": 1.2839330688701354,
+          "singleTermAbsDiff": 0.06856693112986467
+        },
+        {
+          "armKey": "ronly_R10",
+          "measuredQ50": 1.695,
+          "twoTerm": 1.701618786531598,
+          "twoTermAbsDiff": 0.0066187865315978645,
+          "singleTerm": 1.7125,
+          "singleTermAbsDiff": 0.01749999999999985
+        },
+        {
+          "armKey": "ronly_R5",
+          "measuredQ50": 1.685,
+          "twoTerm": 1.6933626766794632,
+          "twoTermAbsDiff": 0.00836267667946311,
+          "singleTerm": 1.7125,
+          "singleTermAbsDiff": 0.027499999999999858
+        }
+      ]
+    },
+    "nebKernelChoice": {
+      "question": "🐚 の平均場単一項で核を R̄(クランプ粒子半径の平均)に採るか、クランプのコア半径 Rc に採るか",
+      "RbarClump": 3.845526527475428,
+      "coreRcClump": 1.1502173707608487,
+      "kernelRbar": {
+        "label": "🐚 ×1 → ×2(核 = R̄・Ω̄_drag = 44粒子平均)",
+        "kernelRadius": 3.845526527475428,
+        "dragStatistic": "nebMeanDrag",
+        "reference": {
+          "envScale": 1,
+          "RbarClump": 3.845526527475428,
+          "kernelRadius": 3.845526527475428,
+          "rBar": 108.35684127569475,
+          "x": 0.03427313168846314,
+          "qProbe": 2,
+          "omegaDragAtProbeQ": 0.0010559713109917594,
+          "amplitudeC": 0.8989686360273866,
+          "nEnv": 44
+        },
+        "variant": {
+          "envScale": 2,
+          "RbarClump": 3.845526527475428,
+          "kernelRadius": 3.845526527475428,
+          "rBar": 214.96482495653498,
+          "x": 0.017574701111690506,
+          "qProbe": 2,
+          "omegaDragAtProbeQ": 0.00045915276179423517,
+          "amplitudeC": 1.486556106609243,
+          "nEnv": 44
+        },
+        "amplitudeRatio": 1.65362399424573,
+        "omegaCrit": 0.0034388900686512193,
+        "anchorQ50": 1.6500000000000001,
+        "measuredQ50": 1.5350000000000001,
+        "predicted": {
+          "legacy": 1.6235994446678508,
+          "singleTerm": 1.3773059355728445,
+          "singleTermAmplitude": 1.5017633826340504,
+          "twoTerm": null
+        },
+        "absDiff": {
+          "legacy": 0.08859944466785064,
+          "singleTerm": 0.1576940644271556,
+          "singleTermAmplitude": 0.03323661736594974,
+          "twoTerm": null
+        }
+      },
+      "kernelCoreRc": {
+        "label": "🐚 ×1 → ×2(核 = クランプのコア半径 Rc・Ω̄_drag = 44粒子平均)",
+        "kernelRadius": 1.1502173707608487,
+        "dragStatistic": "nebMeanDrag",
+        "reference": {
+          "envScale": 1,
+          "RbarClump": 3.845526527475428,
+          "kernelRadius": 1.1502173707608487,
+          "rBar": 108.35684127569475,
+          "x": 0.010503591138123202,
+          "qProbe": 2,
+          "omegaDragAtProbeQ": 0.0010559713109917594,
+          "amplitudeC": 9.571422850111388,
+          "nEnv": 44
+        },
+        "variant": {
+          "envScale": 2,
+          "RbarClump": 3.845526527475428,
+          "kernelRadius": 1.1502173707608487,
+          "rBar": 214.96482495653498,
+          "x": 0.005322245774169203,
+          "qProbe": 2,
+          "omegaDragAtProbeQ": 0.00045915276179423517,
+          "amplitudeC": 16.209415295564625,
+          "nEnv": 44
+        },
+        "amplitudeRatio": 1.6935220133311724,
+        "omegaCrit": 0.005202162168454026,
+        "anchorQ50": 1.6500000000000001,
+        "measuredQ50": 1.5350000000000001,
+        "predicted": {
+          "legacy": 1.6235994446678508,
+          "singleTerm": 1.4357646911901907,
+          "singleTermAmplitude": 1.5363805211179322,
+          "twoTerm": null
+        },
+        "absDiff": {
+          "legacy": 0.08859944466785064,
+          "singleTerm": 0.09923530880980946,
+          "singleTermAmplitude": 0.0013805211179320764,
+          "twoTerm": null
+        }
+      },
+      "reading": "真の引きずりは R_j と Rc_j の両方を核に含む多スケール複合なので、実際の指数は2つの核による予測の**間**に位置すると期待される。どちらか一方を「正しい核」と主張しない"
+    },
+    "nebDragStatistic": {
+      "question": "🐚 の Ω̄_drag に 44 粒子の平均を採るか中央値を採るか",
+      "mean": {
+        "label": "🐚 ×1 → ×2(核 = R̄・Ω̄_drag = 44粒子平均)",
+        "kernelRadius": 3.845526527475428,
+        "dragStatistic": "nebMeanDrag",
+        "reference": {
+          "envScale": 1,
+          "RbarClump": 3.845526527475428,
+          "kernelRadius": 3.845526527475428,
+          "rBar": 108.35684127569475,
+          "x": 0.03427313168846314,
+          "qProbe": 2,
+          "omegaDragAtProbeQ": 0.0010559713109917594,
+          "amplitudeC": 0.8989686360273866,
+          "nEnv": 44
+        },
+        "variant": {
+          "envScale": 2,
+          "RbarClump": 3.845526527475428,
+          "kernelRadius": 3.845526527475428,
+          "rBar": 214.96482495653498,
+          "x": 0.017574701111690506,
+          "qProbe": 2,
+          "omegaDragAtProbeQ": 0.00045915276179423517,
+          "amplitudeC": 1.486556106609243,
+          "nEnv": 44
+        },
+        "amplitudeRatio": 1.65362399424573,
+        "omegaCrit": 0.0034388900686512193,
+        "anchorQ50": 1.6500000000000001,
+        "measuredQ50": 1.5350000000000001,
+        "predicted": {
+          "legacy": 1.6235994446678508,
+          "singleTerm": 1.3773059355728445,
+          "singleTermAmplitude": 1.5017633826340504,
+          "twoTerm": null
+        },
+        "absDiff": {
+          "legacy": 0.08859944466785064,
+          "singleTerm": 0.1576940644271556,
+          "singleTermAmplitude": 0.03323661736594974,
+          "twoTerm": null
+        }
+      },
+      "median": {
+        "label": "🐚 ×1 → ×2(核 = R̄・Ω̄_drag = 44粒子中央値)",
+        "kernelRadius": 3.845526527475428,
+        "dragStatistic": "nebMedianDrag",
+        "reference": {
+          "envScale": 1,
+          "RbarClump": 3.845526527475428,
+          "kernelRadius": 3.845526527475428,
+          "rBar": 108.35684127569475,
+          "x": 0.03427313168846314,
+          "qProbe": 2,
+          "omegaDragAtProbeQ": 0.001046974343920402,
+          "amplitudeC": 0.891309345351274,
+          "nEnv": 44
+        },
+        "variant": {
+          "envScale": 2,
+          "RbarClump": 3.845526527475428,
+          "kernelRadius": 3.845526527475428,
+          "rBar": 214.96482495653498,
+          "x": 0.017574701111690506,
+          "qProbe": 2,
+          "omegaDragAtProbeQ": 0.0003127535099736161,
+          "amplitudeC": 1.0125728925117643,
+          "nEnv": 44
+        },
+        "amplitudeRatio": 1.1360510217837996,
+        "omegaCrit": 0.0034095904272806454,
+        "anchorQ50": 1.6500000000000001,
+        "measuredQ50": 1.5350000000000001,
+        "predicted": {
+          "legacy": 1.6235994446678508,
+          "singleTerm": 1.3773059355728445,
+          "singleTermAmplitude": 1.4088696391960673,
+          "twoTerm": null
+        },
+        "absDiff": {
+          "legacy": 0.08859944466785064,
+          "singleTerm": 0.1576940644271556,
+          "singleTermAmplitude": 0.1261303608039328,
+          "twoTerm": null
+        }
+      }
+    },
+    "criticalConditionForm": {
+      "question": "臨界条件を「Ω_drag が絶対値 Ω_crit を下回る」ではなく「Ω_drag/Ω_kepler が一定比を下回る」と置くとどうなるか(⚫ は全アームで r が同一なので両者は完全に一致する。差が出るのは r を振る 🐚 だけである)",
+      "declaredForm": "本便の条件式 (T1) は**絶対値**の形で宣言した(導出 T0/T1)。以下は別形の併記であり、主結果を置き換えるものではない",
+      "bhIdentical": "⚫ は r が全アームで同一なので Ω_kepler も同一 — 両形の予測は厳密に一致する",
+      "nebKeplerRatio": {
+        "label": "🐚 ×1 → ×2(条件 = Ω_drag/Ω_kepler 一定・核 = R̄)",
+        "kernelRadius": 3.845526527475428,
+        "dragStatistic": "nebMeanDragOverKepler",
+        "reference": {
+          "envScale": 1,
+          "RbarClump": 3.845526527475428,
+          "kernelRadius": 3.845526527475428,
+          "rBar": 108.35684127569475,
+          "x": 0.03427313168846314,
+          "qProbe": 2,
+          "omegaDragAtProbeQ": 0.03143138754545322,
+          "amplitudeC": 26.7581432336894,
+          "nEnv": 44
+        },
+        "variant": {
+          "envScale": 2,
+          "RbarClump": 3.845526527475428,
+          "kernelRadius": 3.845526527475428,
+          "rBar": 214.96482495653498,
+          "x": 0.017574701111690506,
+          "qProbe": 2,
+          "omegaDragAtProbeQ": 0.030159603726537542,
+          "amplitudeC": 97.64493829330631,
+          "nEnv": 44
+        },
+        "amplitudeRatio": 3.6491671877429845,
+        "omegaCrit": 0.10235987033821056,
+        "anchorQ50": 1.6500000000000001,
+        "measuredQ50": 1.5350000000000001,
+        "predicted": {
+          "legacy": 1.6235994446678508,
+          "singleTerm": 1.3773059355728445,
+          "singleTermAmplitude": 1.6976238095578366,
+          "twoTerm": null
+        },
+        "absDiff": {
+          "legacy": 0.08859944466785064,
+          "singleTerm": 0.1576940644271556,
+          "singleTermAmplitude": 0.1626238095578365,
+          "twoTerm": null
+        }
+      }
+    }
+  },
+  "referenceComparison": {
+    "value": 0.15,
+    "whatItIs": "第152便 XW2・第154便 YW1/YW2 が**窓の許容幅**として使った数値。本便では**窓ではなく、単なる参考照合値**として内外を記述するだけであり、本 JSON のどの結果にも判定として使っていない(本便に PASS/FAIL は存在しない)",
+    "note": "ここでの |差| は「Δ(差分)の差」ではなく「予測 q₅₀ と実測 q₅₀ の差」である点に注意(第152便・第154便の窓は Δq₅₀ どうしの差を見ていた。本便の予測は q₅₀ そのものを与える)",
+    "rows": [
+      {
+        "sample": "⚫bhCore",
+        "arm": "prop_R10Rc5",
+        "absDiff": {
+          "legacy": 0.12792707482410037,
+          "singleTerm": 0.016355561605327473,
+          "singleTermAmplitude": 0.016355561605327473,
+          "twoTerm": 0.018328280882218273,
+          "singleTermBaseKernel": 0.051265938278769685
+        },
+        "withinReference": {
+          "legacy": true,
+          "singleTerm": true,
+          "singleTermAmplitude": true,
+          "twoTerm": true,
+          "singleTermBaseKernel": true
+        }
+      },
+      {
+        "sample": "⚫bhCore",
+        "arm": "prop_R5Rc2p5",
+        "absDiff": {
+          "legacy": 0.27585414964820054,
+          "singleTerm": 0.06856693112986467,
+          "singleTermAmplitude": 0.06856693112986467,
+          "twoTerm": 0.07230016608456191,
+          "singleTermBaseKernel": 0.13712596848906777
+        },
+        "withinReference": {
+          "legacy": false,
+          "singleTerm": true,
+          "singleTermAmplitude": true,
+          "twoTerm": true,
+          "singleTermBaseKernel": true
+        }
+      },
+      {
+        "sample": "⚫bhCore",
+        "arm": "ronly_R10",
+        "absDiff": {
+          "legacy": 0.024572925175899707,
+          "singleTerm": 0.01749999999999985,
+          "singleTermAmplitude": 0.0174925613059842,
+          "twoTerm": 0.006619055622166359,
+          "singleTermBaseKernel": 0.20376593827876976
+        },
+        "withinReference": {
+          "legacy": true,
+          "singleTerm": true,
+          "singleTermAmplitude": true,
+          "twoTerm": true,
+          "singleTermBaseKernel": false
+        }
+      },
+      {
+        "sample": "⚫bhCore",
+        "arm": "ronly_R5",
+        "absDiff": {
+          "legacy": 0.056645850351799476,
+          "singleTerm": 0.027499999999999858,
+          "singleTermAmplitude": 0.027466780271274027,
+          "twoTerm": 0.00833169096457853,
+          "singleTermBaseKernel": 0.4696259684890678
+        },
+        "withinReference": {
+          "legacy": true,
+          "singleTerm": true,
+          "singleTermAmplitude": true,
+          "twoTerm": true,
+          "singleTermBaseKernel": false
+        }
+      },
+      {
+        "sample": "🐚nebulaShell",
+        "arm": "neb_env2",
+        "absDiff": {
+          "legacy": 0.08859944466785064,
+          "singleTerm": 0.1576940644271556,
+          "singleTermAmplitude": 0.03323661736594974,
+          "twoTerm": null
+        },
+        "withinReference": {
+          "legacy": true,
+          "singleTerm": false,
+          "singleTermAmplitude": true,
+          "twoTerm": null
+        }
+      }
+    ]
+  },
+  "supplementaryWave152": {
+    "note": "**参考・判定に未使用**。第152便は⚫の基準アームが10点格子・R 変更アームが8点格子という格子非対称を抱えており(第154便がその非対称を設計で排した)、q₅₀ の比較可能性が第154便より低い。ここでは同じ式を第152便の実測へ当てるとどうなるかだけを記録する",
+    "anchorQ50": 1.7125000000000001,
+    "r": 178.261909972834,
+    "omegaCrit": 0.026314273944862594,
+    "bhArms": [
+      {
+        "armKey": "R10",
+        "label": "⚫kF1kRep実(R=10・XW2 のアーム)",
+        "R": 10,
+        "Rc": 7.5,
+        "measuredQ50": 1.7475,
+        "predicted": {
+          "legacy": 1.6704270748241004,
+          "singleTerm": 1.7125,
+          "singleTermAmplitude": 1.7124925613059843,
+          "twoTerm": 1.7016190556221664
+        },
+        "absDiff": {
+          "legacy": 0.0770729251758997,
+          "singleTerm": 0.03500000000000014,
+          "singleTermAmplitude": 0.03500743869401579,
+          "twoTerm": 0.04588094437783363
+        }
+      },
+      {
+        "armKey": "R5",
+        "label": "⚫kF1kRep実(R=5・XW2 のアーム)",
+        "R": 5,
+        "Rc": 7.5,
+        "measuredQ50": 1.7375,
+        "predicted": {
+          "legacy": 1.6283541496482006,
+          "singleTerm": 1.7125,
+          "singleTermAmplitude": 1.712466780271274,
+          "twoTerm": 1.6933316909645786
+        },
+        "absDiff": {
+          "legacy": 0.10914585035179947,
+          "singleTerm": 0.025000000000000133,
+          "singleTermAmplitude": 0.025033219728725964,
+          "twoTerm": 0.04416830903542146
+        }
+      }
+    ],
+    "neb": {
+      "label": "🐚(第152便)×1 → ×2(核 = R̄・Ω̄_drag = 44粒子平均)",
+      "kernelRadius": 3.845526527475428,
+      "dragStatistic": "nebMeanDrag",
+      "reference": {
+        "envScale": 1,
+        "RbarClump": 3.845526527475428,
+        "kernelRadius": 3.845526527475428,
+        "rBar": 108.35684127569475,
+        "x": 0.03427313168846314,
+        "qProbe": 2,
+        "omegaDragAtProbeQ": 0.0010559713109917594,
+        "amplitudeC": 0.8989686360273866,
+        "nEnv": 44
+      },
+      "variant": {
+        "envScale": 2,
+        "RbarClump": 3.845526527475428,
+        "kernelRadius": 3.845526527475428,
+        "rBar": 214.96482495653498,
+        "x": 0.017574701111690506,
+        "qProbe": 2,
+        "omegaDragAtProbeQ": 0.00045915276179423517,
+        "amplitudeC": 1.486556106609243,
+        "nEnv": 44
+      },
+      "amplitudeRatio": 1.65362399424573,
+      "omegaCrit": 0.0033813728546226982,
+      "anchorQ50": 1.655,
+      "measuredQ50": 1.54,
+      "predicted": {
+        "legacy": 1.6285994446678507,
+        "singleTerm": 1.3814795899230652,
+        "singleTermAmplitude": 1.505937036984271,
+        "twoTerm": null
+      },
+      "absDiff": {
+        "legacy": 0.08859944466785064,
+        "singleTerm": 0.15852041007693485,
+        "singleTermAmplitude": 0.034062963015728975,
+        "twoTerm": null
+      }
+    }
+  },
+  "postHoc": {
+    "disclosure": "**以下はすべて post-hoc(事後)の解釈である**。実測前に登録した仮説ではなく、本便で新しい測定を行って確かめてもいない。次便以降の実測課題の候補として記録する",
+    "residuals": [
+      {
+        "arm": "prop_R10Rc5",
+        "twoTerm": 0.018328280882218273,
+        "singleTerm": 0.016355561605327473,
+        "legacy": 0.12792707482410037
+      },
+      {
+        "arm": "prop_R5Rc2p5",
+        "twoTerm": 0.07230016608456191,
+        "singleTerm": 0.06856693112986467,
+        "legacy": 0.27585414964820054
+      },
+      {
+        "arm": "ronly_R10",
+        "twoTerm": 0.006619055622166359,
+        "singleTerm": 0.01749999999999985,
+        "legacy": 0.024572925175899707
+      },
+      {
+        "arm": "ronly_R5",
+        "twoTerm": 0.00833169096457853,
+        "singleTerm": 0.027499999999999858,
+        "legacy": 0.056645850351799476
+      },
+      {
+        "arm": "neb_env2",
+        "twoTerm": null,
+        "singleTerm": 0.1576940644271556,
+        "legacy": 0.08859944466785064
+      }
+    ],
+    "sweepGridStep": 0.1,
+    "sweepGridNote": "第154便の q 掃引の刻みは 0.1 で、第154便 limits.q50Resolution が「q₅₀ の実質的な分解能を決めるのは掃引点の刻み(0.1)と損失率の粒度(1/320・1/44)である」と明記している。本便の残差がこの刻みに対してどの大きさかは residualsVsGridStep に収載する",
+    "residualsVsGridStep": [
+      {
+        "arm": "prop_R10Rc5",
+        "twoTermOverGridStep": 0.18328280882218273,
+        "singleTermOverGridStep": 0.16355561605327473
+      },
+      {
+        "arm": "prop_R5Rc2p5",
+        "twoTermOverGridStep": 0.7230016608456191,
+        "singleTermOverGridStep": 0.6856693112986467
+      },
+      {
+        "arm": "ronly_R10",
+        "twoTermOverGridStep": 0.06619055622166359,
+        "singleTermOverGridStep": 0.1749999999999985
+      },
+      {
+        "arm": "ronly_R5",
+        "twoTermOverGridStep": 0.08331690964578531,
+        "singleTermOverGridStep": 0.2749999999999986
+      },
+      {
+        "arm": "neb_env2",
+        "twoTermOverGridStep": null,
+        "singleTermOverGridStep": 1.5769406442715561
+      }
+    ],
+    "unexplainedCandidates": [
+      "① 同率スイープの非引きずり寄与: R と Rc を同率で下げると、コアの慣性 I_c = ½M_c·Rc²(= 初期 J_core = I_c·Ω_c)と殻の慣性 ½m·R² も同率²で下がる。τ_cs(K_cs=0.02)によるコア→殻の角運動量の受け渡しの速さが変わるので、6000步の窓を通した**実効の**引きずりは、本便が使った t=0+ の解析値からずれうる。第154便 limits.proportionalSweepCaveat が「差分では相殺されない系統」として既に名指ししている量である",
+      "② 本便の Ω_drag は 1步後(t=0+)の解析値である。⚫ は窓の間に殻スピンが 0.15→1.33・コア Ω_c が 20→4.24 まで動く自走系(第78便・第81便の実測)なので、窓平均の引きずりはt=0+ の値と同じではない。アームごとに時間発展の速さが違えば、その差が残差に乗る",
+      "③ q₅₀ 自体の分解能: 掃引刻み 0.1・損失率の粒度 1/320(⚫)/ 1/44(🐚)。残差が 0.1 を下回る領域では、実測 q₅₀ の側の不確かさと同程度である",
+      "④ 🐚 の2項複合を評価できていないこと(neb.twoTermNote)。核 R̄ と 核 Rc の予測が両側に分かれることは sensitivity.nebKernelChoice に収載してある"
+    ],
+    "nextMeasurementCandidates": [
+      "🐚 引きずりプローブを **2 点以上の q** で回す(2つの振幅を分離でき、🐚 でも 2項複合が組める)",
+      "窓平均の Ω_drag(t=0+ ではなく窓を通した実効値)を測る計装を足す(候補①②の切り分け)",
+      "Rc を固定したまま I_c だけを振る対照(候補① の慣性経路と引きずり核経路の分離)",
+      "q 掃引の刻みを 0.05 に落として q₅₀ の分解能を上げる(候補③)"
+    ]
+  },
+  "selfCheck": {
+    "numbersInPayload": 849,
+    "nonFiniteNumbers": 0,
+    "note": "出力ペイロード内の数値の総数と、そのうち非有限(NaN/±Infinity)の件数。本ハーネスはエンジンを起動しないので NaN 監視の対象は自分の計算だけである"
+  },
+  "determinism": {
+    "canonicalization": "manifest と determinism を除く全キーを再帰キー整列した JSON の SHA-256。本ペイロードは Date.now / Math.random 由来の値を含まないので、除外するのはこの2キーだけでよい",
+    "sha256": "5f9deda880d9be8cdb0e09db6364a0ebe9acb61d5f3313ba117c1e733f6bdd9e",
+    "bytes": 42202,
+    "reference": "cst-run1.json",
+    "identical": true,
+    "referenceSha256": "5f9deda880d9be8cdb0e09db6364a0ebe9acb61d5f3313ba117c1e733f6bdd9e",
+    "note": "2回目は別プロセスで同一スクリプト・同一入力を再実行したもの"
+  },
+  "manifest": {
+    "schema": "dfm-experiment-manifest",
+    "schemaVersion": "1.0",
+    "generatedAt": "2026-08-21T10:09:42.952Z",
+    "experiment": {
+      "id": "coreshell-theory",
+      "wave": 155,
+      "title": "コア外殻理論便 — 振幅寄与込み予測式(単一項アンカー式・2項複合)の定式化と、既存実測のみによる回顧的検証(窓なし・再実測なし・解析専用)",
+      "script": "tests/exp-coreshell-theory.mjs",
+      "scriptSha256": "19e24971b3ee1db745c17c5d9703d0bc1cbfef6695ce8e53922a0665e786f2b2",
+      "scriptBytes": 63009,
+      "helperSha256": "502979b3027a7a79bc4b2df5e1bc0fbb86e3bbc252af85b6f2266e101666103a",
+      "command": "node tests/exp-coreshell-theory.mjs(出力先 CST_OUT=… / 決定性参照 CST_DET_REF=…)"
+    },
+    "provenance": {
+      "git": {
+        "commit": "5409b3a4a34d956081e385235b06942a64fa18bf",
+        "describe": "5409b3a-dirty",
+        "dirty": true,
+        "dirtyFiles": {
+          "count": 5,
+          "sample": [
+            ".gitignore",
+            "docs/PHYSICS.md",
+            "tests/qa.mjs",
+            "tests/exp-coreshell-theory.mjs",
+            "tests/out/coreshell-theory-results.json"
+          ]
+        }
+      },
+      "target": {
+        "path": "index.html",
+        "sha256": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+        "bytes": 1665860,
+        "appVersion": "1.41"
+      },
+      "presets": {
+        "mode": "dynamic",
+        "note": "入力 JSON の来歴(git commit・対象 HTML の SHA-256・プリセットハッシュ)は各入力 JSON の manifest に入っており、本便はそれを書き換えずに参照する",
+        "declaration": "**本ハーネスは内蔵プリセットを読まない**(シミュレーションを実行しない解析専用ハーネスであり、エンジンを build しない)。構成の実体は入力 JSON 側の実測に固定されている",
+        "declaredIn": "provenance.inputs / bh.refParams / neb",
+        "configSha256": "2d969fa04a7fe45aba4617e9bc7657264c1612e271fb09b5ef03bf6a4e011ac1",
+        "configCanonicalization": "宣言済み構成(configs)を再帰キー整列した JSON の SHA-256"
+      }
+    },
+    "numerics": {
+      "seed": "not-applicable",
+      "dt": "not-applicable",
+      "timeScale": "not-applicable",
+      "substeps": "not-applicable",
+      "steps": "not-applicable",
+      "window": "not-applicable",
+      "warmup": "not-applicable",
+      "notApplicableReason": "本ハーネスは時間積分を行わない(シミュレーションを実行せず、既存 JSON の実測値に対する解析だけを行う)。seed / dt / timeScale / substeps / steps / window / warmup はいずれも本ハーネスに存在しない概念なので \"not-applicable\" と明示する",
+      "inputRunNumerics": "入力実測の数値環境(seed ⚫20260805 / 🐚20260804・dt 0.016・步数 6000/3000・窓 t=96/48)は入力 JSON 側の manifest.numerics に記録されている — 本便はそれを再宣言しない",
+      "solver": {
+        "bracket": [
+          0.05,
+          8
+        ],
+        "iterations": 200,
+        "method": "二分法(区間・反復回数を固定した決定論的解法。反復停止条件に時間・乱数を使わない)"
+      },
+      "q50RefitGrid": {
+        "grid": {
+          "qLo": 0.3,
+          "qHi": 3,
+          "qStep": 0.0025,
+          "wLo": 0.004,
+          "wHi": 0.8,
+          "wN": 80
+        },
+        "note": "感度 sensitivity.bhBandSplit の帯別再当てはめでのみ使う。主指標の q₅₀ は入力 JSON からの転記"
+      },
+      "arithmetic": "IEEE754 倍精度。反復解法は区間・回数を固定した二分法のみで、乱数・初期値依存・時間依存の停止条件を持たない"
+    },
+    "environment": {
+      "node": "v22.22.2",
+      "platform": "linux/x64",
+      "playwright": "playwright@1.61.1",
+      "browser": "not-applicable",
+      "date": "2026-08-21T10:09:42.983Z",
+      "tz": "UTC"
+    },
+    "classification": {
+      "note": "**fit は空**である — 本便は新しい較正自由度を一つも導入していない。アンカーは実測値の転記1点で、予測式の未知定数を代数的に消去する役割しか持たない(最小二乗も探索も行わない)",
+      "input": [
+        "tests/out/coreshell4-results.json の実測(全アームの q₅₀・幾何・引きずりプローブ・損失率表) — sha256 は provenance.inputs に記録",
+        "tests/out/coreshell3-results.json の実測(補足照合と来歴突き合わせ)— 同上",
+        "**アンカー = 基準アームの実測 q₅₀**(⚫ base / 🐚 env×1)。これは入力 JSON からの**転記**であり、本ハーネスが当てはめた値ではない。未知の臨界値 Ω_crit(と単一項では振幅 A との比)を消去するための1点の代入で、残差を最小化する自由度を一つも導入しない — したがって fit ではなく input に置く",
+        "予測式の関数形((T1)〜(T5))と核 R_eff の取り方(⚫: Rc / 🐚: R̄)— 予測の計算前に宣言した(ただし対象アームの実測は既に存在していた = 事前登録ではない。scope.retrospective 参照)",
+        "参考照合値 0.15(第152便・第154便の窓の許容幅。本便では窓として使わない)"
+      ],
+      "fit": [],
+      "derived": [
+        "予測 q₅₀(legacy / singleTerm / singleTermAmplitude / twoTerm)と実測との |差|(bh・neb・comparisonTable)",
+        "振幅 A_b・A_c(⚫)と平均場振幅 C(🐚)— 入力 JSON の実測パラメータからの算術",
+        "旧式との関係量 L・u・比(legacyRelation)",
+        "感度(核の取り方・帯別・殻スピンの取り方・引きずり統計量・臨界条件の形)",
+        "帯別 q₅₀ の再当てはめ(sensitivity.bhBandSplit — 入力 JSON の損失率表に対する記述統計であり、物理モデルの較正自由度ではない。当てはめは第152便・第154便と同一の決定論的閉形式+格子探索)",
+        "第152便への同式適用(supplementaryWave152 — 参考)",
+        "決定性ハッシュ(determinism)"
+      ],
+      "holdOut": [
+        "予測対象アームの実測 q₅₀(⚫ 同率(10,5)・同率(5,2.5)・R単独(10,7.5)・R単独(5,7.5) / 🐚 ×2)— 予測の構成には一切使っていない(使うのはアンカー1点だけ)。ただし **事前登録された hold-out ではない**: これらの実測は予測式が書かれる前から存在しており、本便は回顧的検証である",
+        "旧式 q*_eff=(3/2)(1+R/r) と遠方漸近の臨界指数 3/2(第135便・第139便の外部解析値。本便で当てはめ直していない)",
+        "第152便・第154便の実測値そのもの(読み取り専用。本便は 1 bit も書き換えない)"
+      ]
+    },
+    "judgement": {
+      "pointers": [
+        "scope",
+        "derivation",
+        "checks",
+        "bh.anchorQ50",
+        "bh.arms",
+        "neb.primary",
+        "comparisonTable",
+        "legacyRelation",
+        "sensitivity",
+        "referenceComparison",
+        "supplementaryWave152",
+        "postHoc",
+        "selfCheck",
+        "determinism",
+        "provenance.inputs"
+      ],
+      "note": "**本便に窓(PASS/FAIL)は存在しない**(scope.noWindows)。導出は derivation、予測と実測の照合は bh / neb / comparisonTable、参考照合値 0.15 に対する内外は referenceComparison(窓ではなく判定に未使用)、事後解釈は postHoc にある。既発行の窓(第152便 XW1〜XW4・第154便 YW1〜YW4)の付け替えは一切していない",
+      "externalReferences": [
+        "旧式 実効臨界指数 q*_eff=(3/2)(1+R/r)(第139便 post-hoc → 第152便 XW2 → 第154便 YW1 が使った解析値)",
+        "遠方漸近の臨界指数 3/2(第135便が同定)",
+        "qLock の q*=3+ln X/ln((R+a)/R)(第123便・第141便 — 構造的類似の記述にのみ使う)"
+      ]
+    },
+    "health": {
+      "nan": {
+        "status": "not-applicable",
+        "note": "本ハーネスはエンジンを起動しないので、エンジンの NaN 監視という概念が存在しない。代わりに自分の計算結果に非有限値が無いことを selfCheck で機械確認している",
+        "selfCheck": "本 JSON の selfCheck(nonFiniteNumbers)"
+      },
+      "clamps": {
+        "aggregate": "not-applicable",
+        "note": "本ハーネスはエンジンを起動しないので安全クランプの計数という概念が存在しない。入力実測のクランプ計数は各入力 JSON の manifest.health に記録されている"
+      },
+      "conservation": {
+        "status": "not-applicable",
+        "note": "本ハーネスは時間積分を行わないので保存量残差という概念が存在しない。入力実測側の健全性(kF0×kRep0 対照の bit 一致・共有点 bit 一致・決定性ハッシュ)は第152便・第154便の JSON に記録されている"
+      }
+    },
+    "regeneration": {
+      "canonicalization": "再生成時のペイロード照合は `manifest` キーを除外して行う(manifest は実行ごとに日時・環境・git 状態が変わる非測定メタである)。除外後の全キーは同一スクリプト・同一対象・同一 seed/步数で bit 一致することを要求する",
+      "payloadKeysExcluded": [
+        "manifest",
+        "determinism.reference",
+        "determinism.identical",
+        "determinism.referenceSha256",
+        "determinism.note",
+        "determinism.error"
+      ],
+      "note": "本ペイロードは実行日時・経過時間・乱数を一切含まないので、除外すべき非測定メタは manifest(と、参照 JSON 指定時にだけ埋まる determinism.reference/identical/referenceSha256)だけである"
+    }
+  }
+}
