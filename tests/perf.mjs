@@ -30,6 +30,9 @@
 //   「beta 宣言 cLight===30 かつ root 宣言 cLight≠30」。root へ v1.39 が昇格して両側の宣言が
 //   揃えば正規化は自動で無効化され、従来の厳密壁時計比ゲートへ戻る(ALLOW の恒久緩和はしない)。
 //   同世代内の timeScale 由来の計算量増(第25次レビュー原因1)は引き続き生の比で検出される。
+// - 第160便: **再トス機構**(下部 RETOSS 節を参照)。FAIL したサンプルだけ fresh pages で1回だけ
+//   再測定し、その結果で判定を置き換える。**閾値 1.10・ペア比中央値の判定式・FRAMES_OVERRIDE・
+//   測定手順は一切変更しない**(緩和ではない — 同一状態で2回連続 FAIL が必要になるだけ)。
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -104,6 +107,25 @@ const FRAMES_OVERRIDE = { echo: 720, starSeed: 30000, merger: 240, freebox: 480,
 // 過去の ALLOW 撤去履歴(darkrotor/convection/saturnLayered)と 40C の粒子数削減の実測記録は
 // git 履歴(第61便以前の本ファイル冒頭コメント)を参照。
 const REPS = 2, FRAMES = 60, WARMUP_FRAMES = 20, SETS = 3;
+
+// ---- RETOSS(第160便: 再トス機構) ----
+// 経緯: perf.frictionHeat だけが「セッション単位の二値状態」(beta/root ≈1.13〜1.14 で3ペアとも
+// 揃い、その run 全体で一貫する)を第129/144/149/155便に反復して示した。第144便の FRAMES 引き上げで
+// ペア内のばらつきは収束済みで、残るのは**セッション(ページ)ごとの当たり外れ**である。第155便で
+// 「同一 sha の並行 run では perf が一発 green」を実測し、原因が 2コア CI ランナーの JIT/接触状態
+// (= セッションを引き直せば消える環境要因)であることが直接裏付けられた。手動 rerun はワークフロー
+// 全体の再実行になり高コスト。
+// 機構: **FAIL したサンプルのみ**、fresh pages(root/beta のページを新規に開き直す = セッション状態の
+// 引き直し)で **1回だけ** 再測定し、その結果で当該サンプルの判定を置き換える(サンプルあたり最大1回・
+// 再測定も FAIL ならそのまま FAIL 確定)。**閾値・判定式・FRAMES_OVERRIDE・測定手順・サンプル走査順は
+// 不変**。コード起因の恒常的劣化は fresh pages でも再現するため検出力は保たれる。
+// 常駐ペア(rootPage/betaPage)は閉じずにそのまま残す — 再トスは専用の一時ページ対で行うので、
+// 後続サンプルの計測条件(2ページ常駐・走査順による JIT 型フィードバック〔第39便 39B〕)は不変。
+// 開発用強制フック: env PERF_FORCE_RETOSS=<サンプル名>(カンマ区切り可)で当該サンプルの初回測定を
+// 人工的に FAIL 扱いにし、再トス経路を必ず1回踏ませる(経路検証専用 — 判定式・実測値には一切影響
+// しない。JSON に forcedRetoss:true を記録)。CI では未設定。
+const FORCE_RETOSS = new Set(String(process.env.PERF_FORCE_RETOSS || '')
+  .split(',').map((s) => s.trim()).filter(Boolean));
 
 async function getBrowser() {
   const exe = process.env.CHROMIUM_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
@@ -204,6 +226,14 @@ const openPage = async (target) => {
   await page.waitForFunction(() => window.HP && HP.sim);
   return page;
 };
+// 第160便: 再トス1回分の測定 — root/beta を新しいページで開き直し(= セッション状態の引き直し)、
+// 同じ交互ペア測定(第62便方式・同じ FRAMES/REPS/SETS)を1回だけ行って一時ページを閉じる。
+const measurePairedFresh = async (id) => {
+  const freshRoot = await openPage('index.html');
+  const freshBeta = await openPage(path.join('beta', 'index.html'));
+  try { return await measurePaired(freshRoot, freshBeta, id); }
+  finally { await freshRoot.close(); await freshBeta.close(); }
+};
 console.log('perf gate: root/beta の2ページを常駐させ交互ペア測定(第62便方式)…');
 const rootPage = await openPage('index.html');
 const betaPage = await openPage(path.join('beta', 'index.html'));
@@ -235,24 +265,54 @@ for (const id of [...SAMPLES, ...EXTRA_SAMPLES]) {
   const inRoot = rootIds.includes(id), inBeta = betaIds.includes(id);
   const isExtra = EXTRA_SAMPLES.includes(id);
   if (inRoot && inBeta) {
-    const m = await measurePaired(rootPage, betaPage, id);
     // 第99便: 世代差(beta=第96便B変換後 c₀=30・root=旧c)があり steps/frame が乖離した
     // サンプルは、1步あたりコスト比で判定する(冒頭コメント参照)。同世代なら tsNorm=1。
     const declR = await getDecl(rootPage, id), declB = await getDecl(betaPage, id);
     const genGap = declB?.cLight === 30 && declR?.cLight !== 30;
-    const tsNorm = (genGap && m.stepsPerFrameRoot !== m.stepsPerFrameBeta)
-      ? m.stepsPerFrameBeta / m.stepsPerFrameRoot : 1;
-    const normRatio = +(m.ratio / tsNorm).toFixed(3);
     const limit = ALLOW[id] || THRESH;
-    const pass = normRatio <= limit && !m.nan;
-    if (!pass) fail++;
-    rows.push({ id, rootMs: +m.rootMs.toFixed(1), betaMs: +m.betaMs.toFixed(1),
-      ratio: +m.ratio.toFixed(3), tsNorm: +tsNorm.toFixed(3), normRatio, genGap,
+    // 判定式は第99便のまま — 初回測定にも再トス後の再測定にも同一の式・同一の閾値を適用する
+    const judge = (m) => {
+      const tsNorm = (genGap && m.stepsPerFrameRoot !== m.stepsPerFrameBeta)
+        ? m.stepsPerFrameBeta / m.stepsPerFrameRoot : 1;
+      const normRatio = +(m.ratio / tsNorm).toFixed(3);
+      return { tsNorm, normRatio, pass: normRatio <= limit && !m.nan };
+    };
+    // PASS/FAIL 行の様式(第62便以来の形式。tag は再トス時のみ「(初回)」「(再トス後・最終)」)
+    const logRow = (m, v, verdict, tag) => console.log(`${verdict ? 'PASS' : 'FAIL'} perf.${id}${tag}  beta/root=${v.normRatio.toFixed(3)} (≤${limit}${v.tsNorm !== 1 ? `・生比${m.ratio.toFixed(3)}を steps/frame 比${m.stepsPerFrameBeta}/${m.stepsPerFrameRoot} で正規化〔世代差〕` : ''}・ペア比[${m.pairs.map((p) => p.ratio.toFixed(3)).join(' ')}]の中央値)  root=${m.rootMs.toFixed(1)}ms beta=${m.betaMs.toFixed(1)}ms${FRAMES_OVERRIDE[id] ? `(${FRAMES_OVERRIDE[id]}frames)` : ''}`);
+    let m = await measurePaired(rootPage, betaPage, id);
+    let v = judge(m);
+    // 第160便: FAIL したサンプルのみ fresh pages で1回だけ再トス(RETOSS 節参照)。
+    // PASS のサンプルはここを素通りするので、green パスの挙動・所要時間は従来と同一。
+    const forced = FORCE_RETOSS.has(id);
+    let retossRec = null;
+    if (!v.pass || forced) {
+      const m0 = m, v0 = v;
+      logRow(m0, v0, false, forced && v0.pass
+        ? '(初回・人工FAIL扱い〔PERF_FORCE_RETOSS〕・実測判定=PASS)' : '(初回)');
+      console.log(`RETOSS perf.${id}  → fresh pages(root/beta を開き直し)で1回だけ再測定します`
+        + `(サンプルあたり最大1回・閾値/判定式/測定手順は不変)`);
+      m = await measurePairedFresh(id);
+      v = judge(m);
+      logRow(m, v, v.pass, '(再トス後・最終)');
+      retossRec = { retossed: true, ...(forced ? { forcedRetoss: true } : {}),
+        firstRatio: +m0.ratio.toFixed(3), firstNormRatio: v0.normRatio, firstPass: v0.pass,
+        firstRootMs: +m0.rootMs.toFixed(1), firstBetaMs: +m0.betaMs.toFixed(1),
+        firstPairs: m0.pairs, firstRawRootMs: m0.rawRoot, firstRawBetaMs: m0.rawBeta,
+        finalRatio: v.normRatio, finalPass: v.pass,
+        retossNote: `初回 FAIL${forced && v0.pass ? '(PERF_FORCE_RETOSS による人工FAIL扱い — 実測は PASS)' : ''}のため、`
+          + 'fresh pages で1回だけ再測定し、その結果で判定を置き換えた(第160便・閾値/判定式は不変)' };
+    } else {
+      logRow(m, v, true, '');
+    }
+    if (!v.pass) fail++;
+    const row = { id, rootMs: +m.rootMs.toFixed(1), betaMs: +m.betaMs.toFixed(1),
+      ratio: +m.ratio.toFixed(3), tsNorm: +v.tsNorm.toFixed(3), normRatio: v.normRatio, genGap,
       limit, frames: FRAMES_OVERRIDE[id] || FRAMES,
       stepsPerFrameRoot: m.stepsPerFrameRoot, stepsPerFrameBeta: m.stepsPerFrameBeta,
-      nRoot: m.nRoot, nBeta: m.nBeta, pass,
-      pairs: m.pairs, rawRootMs: m.rawRoot, rawBetaMs: m.rawBeta });
-    console.log(`${pass ? 'PASS' : 'FAIL'} perf.${id}  beta/root=${normRatio.toFixed(3)} (≤${limit}${tsNorm !== 1 ? `・生比${m.ratio.toFixed(3)}を steps/frame 比${m.stepsPerFrameBeta}/${m.stepsPerFrameRoot} で正規化〔世代差〕` : ''}・ペア比[${m.pairs.map((p) => p.ratio.toFixed(3)).join(' ')}]の中央値)  root=${m.rootMs.toFixed(1)}ms beta=${m.betaMs.toFixed(1)}ms${FRAMES_OVERRIDE[id] ? `(${FRAMES_OVERRIDE[id]}frames)` : ''}`);
+      nRoot: m.nRoot, nBeta: m.nBeta, pass: v.pass,
+      pairs: m.pairs, rawRootMs: m.rawRoot, rawBetaMs: m.rawBeta };
+    if (retossRec) Object.assign(row, retossRec);
+    rows.push(row);
   } else if (isExtra && (inRoot || inBeta)) {
     const side = inBeta ? 'beta' : 'root';
     const one = await measureSingle(inBeta ? betaPage : rootPage, id);
@@ -281,6 +341,12 @@ for (const id of [...SAMPLES, ...EXTRA_SAMPLES]) {
 // 両者の steps/frame が 6⇔12 に乖離した(壁時計比が geo2 コスト×2 に膨張 → CI 2.783 FAIL)。
 // 本ゲートの目的は「geoPN=2 経路の 1步あたり追加コスト」なので、ペア比を各側の steps/frame で
 // 正規化して判定する(恒久形 — 較正値 1.475 は ts が揃っていた時期の実測なのでそのまま比較可能)。
+// 第160便: **geo2 系には再トスを適用しない**。理由は2つ — ①perf.geo2-overhead は 🎡galaxyStd ⇔
+// 💫galaxyGeo2 を**同一 beta ページ内**で交互ペア測定する自己比較なので、再トスが対象とする不安定要因
+// (root ページと beta ページで JIT 型フィードバック・接触状態が非対称になる「セッション単位の当たり
+// 外れ」— 第129/144/149/155便)は構造上発生しない(両側が同一セッションを共有する)。実際 FAIL 履歴も
+// 世代差起因(第99便・steps/frame 正規化で恒久解決)であってセッション起因のフレークではない。
+// ②geo2-sweep は informational(pass 判定なし)なので再測定の対象になる判定自体が無い。
 const GEO2_THRESH = +(process.env.GEO2_THRESH || 1.65);
 let geo2Gate = null;
 const geo2Sweep = [];
@@ -347,10 +413,17 @@ fs.writeFileSync(path.join(OUT_DIR, 'perf-results.json'), JSON.stringify({
   reps: REPS, frames: FRAMES, sets: SETS, env,
   // results: 比較ゲート対象(pass/fail 判定あり。ratio はペア比の中央値。
   //          pairs に各ペアの順序・両側 ms・比、rawRoot/BetaMs に全反復生値を記録)
-  // informational: 片側にしかプリセットが無いための参考計測(pass判定なし。ゲート対象外)
+  //          第160便: 再トスが走ったサンプルにのみ retossed:true と first*/final*(初回測定の
+  //          比・ペア・生値と最終判定)を追加する。上位キー(ratio/normRatio/pairs/raw*Ms/pass)は
+  //          **再トス後の最終測定**の値。再トス無しのサンプルには一切追加されない(既存様式のまま)
+  // informational: 片側にしかプリセットが無いための参考計測(pass判定なし。ゲート対象外 —
+  //          判定が無いので再トスの対象にもならない)
   // geo2: 第72便 — geoPN=2 のオーバーヘッドゲート(🎡⇔💫 同一初期配置ペア比)と N 掃引
   results: rows, informational, geo2: { gate: geo2Gate, sweep: geo2Sweep },
 }, null, 2));
+const retossed = rows.filter((r) => r.retossed);
 console.log(`perf gate: ${rows.length - fail}/${rows.length} PASS → tests/out/perf-results.json`
-  + (informational.length ? ` (+${informational.length} informational)` : ''));
+  + (informational.length ? ` (+${informational.length} informational)` : '')
+  // 第160便: 再トスが走ったサンプルは要約行にも残す(再トス無しの run では何も出ない)
+  + (retossed.length ? ` [再トス ${retossed.length}件: ${retossed.map((r) => `${r.id} ${r.firstNormRatio}→${r.finalRatio}${r.finalPass ? '' : '(FAIL確定)'}`).join(' / ')}]` : ''));
 process.exit(fail ? 1 : 0);
