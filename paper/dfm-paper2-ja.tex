@@ -514,10 +514,17 @@ A/B/C 波長($<10^{-9}$) & 意味論 & \texttt{box.photon-abc} \\
 \url{https://github.com/tty-imamura/dfm-simulator}(MIT ライセンス)にある。
 本論文の version of record は投稿時に切る注釈付きリリースタグであり、正確なコミット
 SHA・QA/図 JSON・ビルド済み PDF とともに Zenodo にアーカイブされる(先行論文の
-アーカイブ doi:10.5281/zenodo.21454189 と併置)。タグ名と Zenodo DOI はその時点で
-ここに挿入する。それまでの間、本文で未確定なのはこの1文だけである(TODO(release))。
-% TODO(release): 提出タグを切った時点で、この文を具体的なタグ名と DOI に置き換える。
-% 未確定箇所を「未来形の約束」ではなく明示的な単一のプレースホルダとして残す(第143便)。
+アーカイブ doi:10.5281/zenodo.21454189 と併置)。タグ名と本原稿自身の寄託 DOI は
+その時点でここに挿入する。それまでの間、本文で未確定なのはこの1文だけである
+(TODO(release))。
+% TODO(release): 提出タグを切った時点で、この文を具体的なタグ名と本原稿自身の寄託
+% DOI に置き換える。ソフトウェアのアーカイブ DOI は次の文で確定済みなので、残るのは
+% 原稿自身の DOI のみである。未確定箇所を「未来形の約束」ではなく明示的な単一の
+% プレースホルダとして残す(第143便)。
+シミュレータのソースコードそのものは、すでに Zenodo にソフトウェアとして寄託されて
+いる(本原稿の DOI ではなくコードのアーカイブである): concept DOI
+\mbox{doi:10.5281/zenodo.21454188} が全バージョンに解決し、リリース v1.41.0 は
+\mbox{doi:10.5281/zenodo.22025091} としてアーカイブされている。
 環境は Node.js $\geq$22・Playwright 駆動の Chromium・TeX Live で、
 \texttt{npm ci \&\& npm test} が QA を、\texttt{node tools/gen-figures2.mjs} が全図を
 再現する。

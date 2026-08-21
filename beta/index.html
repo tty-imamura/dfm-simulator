@@ -78,7 +78,10 @@
   /* 第147便: E水準フィルタの運用注記(件数は実行時導出 — 手打ちしない)
      第149便(原仮定者指示): グループ/スケール/分類/E水準の4種とも**次元見出しのタップで開閉**する
      畳み込みにした。既定は閉。改行を活かすため white-space:pre-line */
-  .ppNote{font-size:calc(10px*var(--uz,1));color:var(--dim);line-height:1.45;
+  /* 第151便(原仮定者指示): 開いた状態の説明文は**本文水準の可読性**にする — 注記用の縮小・灰色
+     (10px / var(--dim))をやめ、一覧の行(.ppRow)と同じ 13px・前景色 var(--fg)・行間 1.7 へ。
+     畳んだ状態のラベル(.ppDimBtn)・開閉挙動・内部スクロール(max-height)は不変 */
+  .ppNote{font-size:calc(13px*var(--uz,1));color:var(--fg);line-height:1.7;
     white-space:pre-line;overflow-wrap:anywhere;
     flex:0 0 auto;max-height:26vh;overflow-y:auto;   /* 第149便: 説明が長くても一覧(#ppList)を潰さない
        (overflow を持つと flex の自動最小サイズが 0 になるので shrink を明示的に止める) */
@@ -1034,7 +1037,8 @@ ja: {
     "光の物語":"重力レンズと光子捕捉・回る星のレンズ・連星重力レンズ・暗黒雲の赤化など、光の見え方が主題。",
     "天体の物語":"物語・トイ系。実単位で現実へ較正したサンプルは「現実との照合」へ移してある。",
     "現実との照合":"スケール換算込みで数値を現実の対応対象へ較正したサンプルと、その較正を監査する対照群。",
-    "銀河の物語":"銀河の回転曲線・ダークローターの銀河・銀河合体・自己重力雲の崩壊など、銀河スケールの構造が主題。",
+    "銀河の物語":"銀河の回転曲線・銀河合体・自己重力雲の崩壊など、銀河スケールの構造が主題。",
+    "ローターの物語":"ダークローター(高スピンで自光を掻き出す天体)を中心に据えた系 — 暗い中心の銀河・ローター星雲・自己形成・星の種など、スピンが作る暗さと構造が主題。実在のダークマターについての主張ではない。",
     "箱宇宙":"箱そのものを宇宙に見立てた系(並進・回転・膨張・呼吸・光の赤方偏移)。正本は docs/BOX_UNIVERSE.md。",
     "AI生成":"AI追加で作ったサンプル(この端末のローカル保存)。",
     "保存一覧":"「保存」で残した状態(この端末のローカル保存)。"},
@@ -1503,7 +1507,8 @@ en: {
     "光の物語":"The subject is how light appears: gravitational lensing and photon capture, the lens of a spinning star, binary lensing, reddening by a dark cloud.",
     "天体の物語":"Narrative / toy systems. Samples calibrated to reality in real units live under \"Reality Checks\".",
     "現実との照合":"Samples whose numbers are calibrated — unit conversion included — against their real-world counterparts, plus the controls that audit that calibration.",
-    "銀河の物語":"The subject is structure on galactic scales: rotation curves, dark-rotor galaxies, galaxy mergers, collapse of self-gravitating clouds.",
+    "銀河の物語":"The subject is structure on galactic scales: rotation curves, galaxy mergers, collapse of self-gravitating clouds.",
+    "ローターの物語":"Systems built around dark rotors (bodies whose high spin sweeps out their own light): galaxies with a dark centre, rotor nebulae, self-assembly from seeds, star seeds — the subject is the darkness and the structure that spin produces. Not a claim about real dark matter.",
     "箱宇宙":"Systems in which the box itself stands for a universe (translation, rotation, expansion, breathing, redshift of light). The reference document is docs/BOX_UNIVERSE.md.",
     "AI生成":"Samples created with the AI-add tab (stored locally on this device).",
     "保存一覧":"States kept with \"Save\" (stored locally on this device)."},
@@ -1679,7 +1684,8 @@ en: {
   // 現実との照合 (reality checks) group placed right after 天体の物語
   // 第149便(原仮定者裁定): グループ名を「現実較正」→「現実との照合」(en: Reality Calibration →
   // Reality Checks)へ改称。分類チップ(sampleClass calibration)と現実準拠チップ「📏 現実較正」は不変
-  groups:{"空間と時間":"Space & Time","箱宇宙":"Box Universe","銀河の物語":"Galaxy Stories","光の物語":"Light Stories","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","現実との照合":"Reality Checks","法則の実験室":"Law Lab","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
+  // 第151便(原仮定者指示): 新グループ「ローターの物語」(en: Rotor Stories)を銀河の物語の直後へ新設
+  groups:{"空間と時間":"Space & Time","箱宇宙":"Box Universe","銀河の物語":"Galaxy Stories","ローターの物語":"Rotor Stories","光の物語":"Light Stories","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","現実との照合":"Reality Checks","法則の実験室":"Law Lab","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
   params:{G:"Gravity G", D0:"Background determinacy D₀", kFrame:"Frame dragging kFrame",
     q:"Drag falloff q", kRep:"Spin repulsion kRep", muF:"Friction→spin muF",
     gammaN:"Collision damping γn", kappaS:"Spin diffusion κs", kappaT:"Spacetime κ (time & light)",
@@ -2488,6 +2494,10 @@ const BUILTIN_PRESETS = [
 //   新グループの新設(表示・分類専用 — 配列順・物理・claims は不変。GROUP_ORDER 参照)
 // 第149便(原仮定者裁定): そのグループ名を「現実との照合」へ改称(旧名は分類チップ「現実較正」・
 //   現実準拠チップ「📏 現実較正」と紛らわしかった — チップ側は従来どおり不変)
+// 第151便(原仮定者指示+統括裁定): 新グループ「ローターの物語」を銀河の物語の直後へ新設し、
+//   darkcenter(🕶️🕳️⚫🪜)+ rotorform 全5本(🌑🐚⏳🥚🌱)の計9本を移動(group 宣言のみの変更)。
+//   collide ファミリーは解散(💥🌠 は familyId/familyRole を除去して単独サンプルに)。
+//   **配列順・physics・claims は bit 不変** — 変わるのは group / familyId / familyRole の宣言だけ
 // ===== グループ: 空間と時間 =====
 { id:"gclock", name:"重力による時計の遅れ", emoji:"⏱️", group:"空間と時間",
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
@@ -3299,7 +3309,10 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:false,monitor:true,boxGraph:true} },
 
-// ===== グループ: 銀河の物語(第147便で「銀河」から改名 — 表示・分類専用)=====
+// ===== グループ: 銀河の物語(第147便で「銀河」から改名)/ ローターの物語(第151便 新設)=====
+// 第151便: BUILTIN_PRESETS の配列順は動かさないので、この区間には両グループのサンプルが
+// 交互に並ぶ(どのグループに出るかは各サンプルの group 宣言が正 — 表示は GROUP_ORDER 順)。
+// ローターの物語 = 🕶️🕳️⚫🪜(darkcenter)+ 🌑🐚⏳🥚(rotorform。🌱 は天体の物語の区間にある)
 { id:"galaxy", name:"銀河の回転曲線", emoji:"🌌", group:"銀河の物語",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
@@ -3471,7 +3484,7 @@ const BUILTIN_PRESETS = [
      spinMin:0,spinMax:0, vMode:"random", vScale:6, direction:1, bulkVx:0, bulkVy:0}
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,mechSpectrum:false} },
-{ id:"darkrotor", name:"ダークローターの銀河", emoji:"🕶️", group:"銀河の物語",
+{ id:"darkrotor", name:"ダークローターの銀河", emoji:"🕶️", group:"ローターの物語",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["dm","galaxy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -3592,7 +3605,7 @@ const BUILTIN_PRESETS = [
 //  ・物理対応ロック Kt=3600: spin 0 でも 2.0 でも非脱出率 0.00(③は場の強さで消える=反証条件7)
 //  ・テスト粒子リング(6000步): 平均 L_z 954.1(対照 632.45 = 厳密一定)・24/24 保持・NaN なし
 //  ・帳簿込みの保存(6000步): |ΔP|/P₀=1.27e-4・|ΔL|/L₀=1.26e-4(pinned ゼロの閉鎖系)
-{ id:"rotorSolo", name:"ダークローター(単体)", emoji:"🕳️", group:"銀河の物語",
+{ id:"rotorSolo", name:"ダークローター(単体)", emoji:"🕳️", group:"ローターの物語",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -3649,7 +3662,7 @@ const BUILTIN_PRESETS = [
 // 観測属性であり、背景光を視線上で吸収する体積吸収ではない — 本サンプルが見せるのは
 // 「暗い点の集合としての暗黒星雲」まで。波長別吸収・散乱の光学輸送拡張は台帳へ持ち越し。
 // 実測は tests/exp-4-75.mjs(seed 20260804・3000步)
-{ id:"nebulaRotor", name:"ローター星雲 — 暗黒星雲と散光星雲", emoji:"🌑", group:"銀河の物語",
+{ id:"nebulaRotor", name:"ローター星雲 — 暗黒星雲と散光星雲", emoji:"🌑", group:"ローターの物語",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"composite",
   notClaim:["nebula","dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -3704,7 +3717,7 @@ const BUILTIN_PRESETS = [
 // 〔第75便拡張〕で暗さを担う)。暗さのスピンを小さなコアへ隠すので、スピン斥力 E5′ は遅い殻
 // スピンにしか効かず、熱圧 kRep=0.3 の下でも雲は自壊しない(単層で同じ暗さを出すには spin≈6 が
 // 必要で、同じ kRep で保持48%まで自壊する — exp-4-76 の耐圧試験)。実測 tests/exp-4-76.mjs
-{ id:"nebulaShell", catalog:"extended", name:"重殻ローター星雲 — 束縛と暗さの両立", emoji:"🐚", group:"銀河の物語",
+{ id:"nebulaShell", catalog:"extended", name:"重殻ローター星雲 — 束縛と暗さの両立", emoji:"🐚", group:"ローターの物語",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"principle",
   notClaim:["nebula","dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -3767,7 +3780,7 @@ const BUILTIN_PRESETS = [
 // ローター(自由)+赤道の pinned 重殻ダークアーク(±x を挟む±50°・暗黒帯)+高スピンガス。
 // 機構は 🌋agnjet と同じ「E5′圧力+幾何」— 赤道が塞がれ、抵抗の少ない極方向(±y)だけが
 // 出口になってローブが立つ。実測 tests/exp-4-76.mjs(seed 20260804・6000步)
-{ id:"nebulaBipolar", catalog:"extended", name:"双極星雲 — 暗黒トーラスと極方向ローブ", emoji:"⏳", group:"銀河の物語",
+{ id:"nebulaBipolar", catalog:"extended", name:"双極星雲 — 暗黒トーラスと極方向ローブ", emoji:"⏳", group:"ローターの物語",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"composite",
   notClaim:["nebula"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -3859,7 +3872,7 @@ const BUILTIN_PRESETS = [
 // 🕳️bhCoreFree は本サンプルへ統合して廃止した。**双極ジェットは扱わない** — この重力井戸では
 // ガスが束縛され、統計になる脱出が起きないため。ジェット機構は ⏳nebulaBipolar の担当。
 // 実測 tests/exp-4-81.mjs → tests/out/exp-4-81.json
-{ id:"bhCore", catalog:"extended", name:"DFM版ブラックホール — 自由な5層の中心", emoji:"⚫", group:"銀河の物語",
+{ id:"bhCore", catalog:"extended", name:"DFM版ブラックホール — 自由な5層の中心", emoji:"⚫", group:"ローターの物語",
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",
   notClaim:["bh"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -3917,7 +3930,7 @@ const BUILTIN_PRESETS = [
 // 減光 auto の重い中心核は T_obs=0(完全減光=光度質量0)のまま、外縁リングの v²r/G は
 // 実質量に比例する。3系(m=2500/5000/10000)を1画面に並べ、同じ半径のリングの速度差だけで
 // 質量比が読めるようにした。実測・較正は tests/exp-4-82.mjs → tests/out/exp-4-82.json
-{ id:"massLadder", name:"隠れ質量ラダー — 暗い中心の力学質量", emoji:"🪜", group:"銀河の物語",
+{ id:"massLadder", name:"隠れ質量ラダー — 暗い中心の力学質量", emoji:"🪜", group:"ローターの物語",
   scaleTier:"galactic",
   sampleClass:"composite",
   notClaim:["dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -3973,7 +3986,10 @@ const BUILTIN_PRESETS = [
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["galaxy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
-  familyId:"collide", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
+  // 第151便(統括裁定): ファミリー collide(💥primary / 🌠variant)を解散し、本サンプルを
+  // **単独サンプル**に戻した(familyId/familyRole を除去)。💥 は天体の物語・🌠 は銀河の物語に
+  // そのまま残る — グループを跨ぐファミリーを 0 件にするための表示専用の整理で、
+  // physics・claims・配列順・group は不変(「この仲間」導線は自然消滅する)
   // 第50便 50K(台帳4-78 C案パイロット): descStruct(要約/観察/操作)— 純分割+A/B文の末尾移設のみ
   descStruct:{
     summary:"2つの回転円盤銀河が接近・合体する過程。潮汐尾の形成、衝突による加熱(A9のスピン変換)、角運動量の再分配、合体後の回転曲線を観察できる。",
@@ -4127,7 +4143,7 @@ const BUILTIN_PRESETS = [
 //   ※ 第126便(巻き戻し第2弾): 力学は v1.38 の値へ復元(16seed の力学量は v1.38 と完全一致)。
 //     減光のみ c₀=30 で飽和側 — 中心 {0.9,1}(16seed 0.943〜1.000)・周囲 {0.2,0.5}
 //     (16seed 0.253〜0.438)へ再固定(exp-4-85 を巻き戻し世代で再走)。
-{ id:"selfRotor", name:"自己形成ダークローター — 種から育つ暗い中心", emoji:"🥚", group:"銀河の物語",
+{ id:"selfRotor", name:"自己形成ダークローター — 種から育つ暗い中心", emoji:"🥚", group:"ローターの物語",
   scaleTier:"stellar",   // → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"composite",
   notClaim:["dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -4823,7 +4839,8 @@ const BUILTIN_PRESETS = [
 // 第147便(原仮定者指示): この区間の観測較正・監査系14本(☄️🪨🌙🌘💍💿📡🌞🟠⭕🧲🔆📶📐)は
 // 天体の物語から別グループへ移した(表示・分類専用 — 配列順・物理・claims は bit 不変)。
 // 第149便(原仮定者裁定): そのグループ名を group:"現実との照合" とする(旧名「現実較正」)。
-// 天体の物語には物語・トイ系(🌍🌕⭐♾️💥🌋🌪️☀️🌱 等)が残る。
+// 天体の物語には物語・トイ系(🌍🌕⭐♾️💥🌋🌪️☀️ 等)が残る(🌱starSeed は第151便で
+// 新グループ「ローターの物語」へ移動 — 配列上の位置はこの区間のまま)。
 // 第149便(原仮定者裁定): グループを跨いでいたファミリーを分割し、天体の物語側は自前の
 // ファミリーを持つ — 🌍earthMoon(primary)+🌕earthMoonFree(variant)= "earthmoonToy"、
 // 🪐saturn(primary)+🎯saturnLayered(variant)= "saturnToy"、☿mercury は単独(familyId なし)。
@@ -6824,7 +6841,8 @@ const BUILTIN_PRESETS = [
 { id:"counterring", name:"順行・逆行リングの衝突", emoji:"💥", group:"天体の物語",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
-  familyId:"collide", familyRole:"primary",   // 第82便: ファミリー表示(表示専用)
+  // 第151便(統括裁定): ファミリー collide の解散に伴い **単独サンプル**へ(familyId/familyRole を除去)。
+  // 相方の 🌠merger は銀河の物語に残る(表示専用の整理 — physics・claims・配列順・group は不変)
   descStruct:{
     summary:"同じ軌道帯を逆向きに回る2つのリング。",
     observe:"正面衝突の接触摩擦(A9)が公転運動をスピン=熱へ変換し、リングが光りながら加熱・降着していく。公転エネルギーが熱に変わる「逆回転降着円盤」の思考実験。右下は放射スペクトル。",
@@ -7051,7 +7069,7 @@ const BUILTIN_PRESETS = [
 // 主要因=自己重力圧縮(contract — J保存で Ω=J/I 上昇・核融合は密度増の副産物)。さらに加速する
 // 副機構としてパワーボール原理(ジャイロ器具の2Dアナログ — 殻の振動加速度が「手首の揺すり」。
 // コアが差動〔軸自由〕なら加速・rigid〔軸固定〕なら減速)。実測 tests/exp-4-78.mjs
-{ id:"starSeed", name:"星の種ローター — 圧縮とパワーボール", emoji:"🌱", group:"天体の物語",
+{ id:"starSeed", name:"星の種ローター — 圧縮とパワーボール", emoji:"🌱", group:"ローターの物語",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",
   notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
@@ -13377,7 +13395,13 @@ function allPresets(){ return BUILTIN_PRESETS.concat(getCustomPresets()); }
 //   元位置に取り残されていた問題の解消): 🌍+🌕="earthmoonToy"・🪐+🎯="saturnToy"(いずれも
 //   天体の物語で完結)・☿ は単独。グループを跨ぐファミリーは第82便からの collide(💥⇄🌠)と
 //   rotorform(🌱⇄銀河の物語)だけになる
-const GROUP_ORDER=["熱の実験室","空間と時間","光の物語","天体の物語","現実との照合","銀河の物語","箱宇宙"];
+// 第151便(原仮定者指示+統括裁定): 残る跨ぎ2件の解消。**新グループ「ローターの物語」**(en: Rotor
+//   Stories)を銀河の物語の直後へ新設し、darkcenter ファミリー(🕶️🕳️⚫🪜)+ rotorform ファミリー
+//   全5本(🌑🐚⏳🥚+天体の物語にいた🌱)の計9本を移した。collide ファミリーは解散し、💥counterring
+//   (天体の物語)・🌠merger(銀河の物語)は familyId を除いて単独サンプルにした。これで
+//   **グループを跨ぐファミリーは0件**になる(QA groups.family-invariant で機械固定)。
+//   表示・分類専用 — physics・claims・BUILTIN_PRESETS の配列順は bit 不変
+const GROUP_ORDER=["熱の実験室","空間と時間","光の物語","天体の物語","現実との照合","銀河の物語","ローターの物語","箱宇宙"];
 function orderedGroups(){
   const seen=[];
   BUILTIN_PRESETS.forEach(p=>{ const g=p.group||"内蔵"; if(!seen.includes(g)) seen.push(g); });
@@ -13413,12 +13437,16 @@ function catalogHidden(p){
 // orderedBuiltins() の並び(グループ順序・グループ内配列順は不変)に、グループ内だけ
 // 「primary の直後に同ファミリー variant をまとめる」補正をかける(表示専用の並べ替え —
 // 第79便 GROUP_ORDER+orderedBuiltins() と同じ設計判断。ファミリーがグループを跨ぐ場合
-// 〔collide: counterring=天体の物語/merger=銀河の物語。rotorform: starSeed=天体の物語/他=銀河の物語〕
+// 〔第149便までの collide: counterring=天体の物語/merger=銀河の物語。rotorform: starSeed=天体の物語/
+//   他=銀河の物語 — いずれも第151便で解消済み〕
 // は group 自体を動かせないため、その variant は自分の group 内の元位置に残る —
 // 「この仲間」導線(説明パネル)がその橋渡しを担う。
 // 第147便で 天体の物語⇄現実との照合 を跨いでいた mercury/earthmoon/saturn は、第149便の
 // ファミリー分割〔earthmoonToy・saturnToy・☿単独〕で解消し、跨ぐのは第82便からの
-// collide / rotorform の2つだけになった)
+// collide / rotorform の2つだけになった。
+// 第151便でその2件も解消した〔rotorform 全5本+darkcenter を新グループ「ローターの物語」へ移動・
+// collide は解散して 💥/🌠 を単独サンプルに〕ので、**グループを跨ぐファミリーは現在0件**
+// = この分岐は将来の再編に備えた保険として残っている)
 // 第129便(原仮定者指示のファミリー再編に伴う最小修正): primary が配列順で同グループの variant
 // より**後ろ**にあるファミリー(mercury: 🪨 が ☄️ の後 / earthmoon: 🌘 が 🌙 の後 /
 // saturn: 💿 が 📡💍 の後 — いずれも現実との照合グループ内。第149便のファミリー分割で
@@ -13427,8 +13455,9 @@ function catalogHidden(p){
 // 並び、└ 接頭辞が孤立して読めなくなる。同グループに**未出力の primary** を持つ variant は
 // いったん飛ばし、primary へ到達したときに直後へまとめて出す(= primary が最初の変種の位置に
 // 繰り上がる)。表示専用 — BUILTIN_PRESETS の配列順・group・claims・QA は一切不変。
-// グループを跨ぐ variant(collide の 🌠 / rotorform の 🌱)は従来どおり自分の group の
-// 元位置に残る(「この仲間」導線が橋渡し — 第82便の設計判断のまま)
+// (第82便から残っていたグループ跨ぎの variant〔collide の 🌠 / rotorform の 🌱〕は第151便で
+// 解消済み — 跨ぐ variant が現れた場合は従来どおり自分の group の元位置に残り、
+// 「この仲間」導線が橋渡しを担う)
 function familyGroupedBuiltins(){
   const src=orderedBuiltins(), out=[], used=new Set();
   const waitsForPrimary=(q)=> !!(q.familyId && q.familyRole==="variant"

@@ -7513,12 +7513,19 @@ if (!FAST) {
       // 旧名は beta にも root にも残らないので、候補は差し替え(候補数=3 のまま — 弱体化なし)
       const wantW149 = hasBox
         ? ['熱の実験室', '空間と時間', '光の物語', '天体の物語', '現実との照合', '銀河の物語', '箱宇宙'] : null;
-      const cands = [want, wantNew, wantW149].filter(Boolean);
+      // 第151便(原仮定者指示): 新グループ「ローターの物語」を**銀河の物語の直後**へ新設した
+      // (darkcenter+rotorform の9本を移動)。第149便順の並びに1つ挿入した形なので、候補を
+      // 追加して両世代を厳密一致で判定する(候補数=4 — 弱体化なし)
+      const wantW151 = hasBox
+        ? ['熱の実験室', '空間と時間', '光の物語', '天体の物語', '現実との照合', '銀河の物語',
+           'ローターの物語', '箱宇宙'] : null;
+      const cands = [want, wantNew, wantW149, wantW151].filter(Boolean);
       const hit = cands.find((c) => JSON.stringify(labels.slice(0, c.length)) === JSON.stringify(c));
       res.groups = labels.slice(0, (hit || want).length);
       res.groupsOk = !!hit;
       res.scaleOrder = !!hit && hit !== want;
       res.wave147 = !!wantW149 && hit === wantW149;
+      res.wave151 = !!wantW151 && hit === wantW151;
       // 第149便: グループ跨ぎファミリーの分割(表示専用)。天体の物語側の 🌍🌕 / 🪐🎯 は
       // それぞれ earthmoonToy / saturnToy として自グループ内で完結し、☿ は単独(familyId なし)。
       // 現実との照合側の既存ファミリー(mercury / earthmoon / saturn)は id 名ごと不変。
@@ -7533,10 +7540,22 @@ if (!FAST) {
         saturnRingRealKF1: famOf('saturnRingRealKF1'),
       };
       // 分割後、グループを跨いだままのファミリーは第82便からの2つ(collide: 💥天体の物語/🌠銀河の物語、
-      // rotorform: 🌱天体の物語/その他 銀河の物語)だけ。mercury/earthmoon/saturn は跨がなくなる
+      // rotorform: 🌱天体の物語/その他 銀河の物語)だけ。mercury/earthmoon/saturn は跨がなくなる。
+      // 第151便(原仮定者指示+統括裁定): その2件も解消した — darkcenter+rotorform の9本を
+      // 新グループ「ローターの物語」へ移し、collide は解散(💥🌠 を単独サンプルへ)。
+      // 跨ぎは0件になる(下の groups.family-invariant が全ファミリーで機械固定する)
       const fids = [...new Set(HP.allPresets().filter((p) => p.familyId).map((p) => p.familyId))];
       res.crossGroupFams = fids.filter((f) => new Set(HP.allPresets()
         .filter((p) => p.familyId === f).map((p) => p.group || '内蔵')).size > 1).sort();
+      res.w151Gen = HP.allPresets().some((p) => p.group === 'ローターの物語');
+      // 第151便: 移動9本(darkcenter 4+rotorform 5)と単独化2本(💥🌠)の宣言
+      res.fam151 = {};
+      for (const id of ['darkrotor', 'rotorSolo', 'bhCore', 'massLadder', 'nebulaRotor', 'nebulaShell',
+        'nebulaBipolar', 'selfRotor', 'starSeed', 'counterring', 'merger']) res.fam151[id] = famOf(id);
+      // 第151便: 全ファミリーのグループ集合(単一であること = family-invariant)
+      res.famGroups = fids.map((f) => [f, [...new Set(HP.allPresets()
+        .filter((p) => p.familyId === f).map((p) => p.group || '内蔵'))].sort()]).sort();
+      res.nFam = fids.length;
       // 各ファミリーに primary がちょうど1本
       res.famPrimaryBad = fids.filter((f) => HP.allPresets()
         .filter((p) => p.familyId === f && p.familyRole === 'primary').length !== 1);
@@ -7564,8 +7583,9 @@ if (!FAST) {
       return res;
     });
     add('groups.reorder', r.groupsOk,
-      `optgroups=${JSON.stringify(r.groups)}(${r.wave147 ? '第147便 再編順(第149便で「現実との照合」へ改称)'
-        : (r.scaleOrder ? '第79便 スケール準拠順' : '従来順')})`);
+      `optgroups=${JSON.stringify(r.groups)}(${r.wave151 ? '第151便 再編順(銀河の物語の直後へ「ローターの物語」を新設)'
+        : (r.wave147 ? '第147便 再編順(第149便で「現実との照合」へ改称)'
+          : (r.scaleOrder ? '第79便 スケール準拠順' : '従来順'))})`);
     // 第149便(原仮定者裁定): グループ跨ぎファミリーの分割。本便未適用の対象は自動 SKIP
     {
       const eq = (a, b) => JSON.stringify(a) === JSON.stringify(b);
@@ -7578,15 +7598,43 @@ if (!FAST) {
         && eq(r.fam.mercuryRealKF1, ['mercury', 'primary', '現実との照合'])
         && eq(r.fam.earthMoonRealKF1, ['earthmoon', 'primary', '現実との照合'])
         && eq(r.fam.saturnRingRealKF1, ['saturn', 'primary', '現実との照合'])
-        // 跨ぐファミリーは第82便からの collide / rotorform だけ・全ファミリーに primary がちょうど1本
-        && eq(r.crossGroupFams, ['collide', 'rotorform']) && r.famPrimaryBad.length === 0;
+        // 跨ぐファミリーは第82便からの collide / rotorform だけ・全ファミリーに primary がちょうど1本。
+        // 第151便を適用した世代ではその2件も解消済みなので期待は0件(世代で切り替え — 弱体化なし)
+        && eq(r.crossGroupFams, r.w151Gen ? [] : ['collide', 'rotorform']) && r.famPrimaryBad.length === 0;
       add('groups.family-split', !r.w149Gen || split,
         r.w149Gen
           ? `🌍🌕=earthmoonToy・🪐🎯=saturnToy・☿=単独=${split} / 現実との照合側の primary=`
             + `${JSON.stringify([r.fam.mercuryRealKF1, r.fam.earthMoonRealKF1, r.fam.saturnRingRealKF1])} / `
-            + `グループを跨ぐファミリー=${JSON.stringify(r.crossGroupFams)}(第82便からの collide / rotorform のみ)/ `
+            + `グループを跨ぐファミリー=${JSON.stringify(r.crossGroupFams)}`
+            + `(期待=${r.w151Gen ? '0件(第151便で collide/rotorform の跨ぎも解消)'
+              : '第82便からの collide / rotorform のみ'})/ `
             + `primary が1本でないファミリー=${JSON.stringify(r.famPrimaryBad)}(0件)`
           : 'SKIP(第149便 未適用 — 対象にグループ「現実との照合」なし)');
+    }
+    // 第151便(統括裁定): groups.family-invariant — **全ファミリーの所属グループが単一**であること
+    // を機械検査する。ファミリー折り畳み(familyGroupedBuiltins)・「この仲間」導線は同一グループ内
+    // でしか機能しない設計なので、跨ぎが生まれると variant が既定表示から落ちる(第147便→第149便で
+    // 実際に起きた事故の再発防止)。併せて第151便の移動9本(darkcenter 4+rotorform 5 → ローターの物語)
+    // と単独化2本(💥counterring / 🌠merger は familyId なし)を宣言レベルで固定する。
+    // 第151便 未適用の対象(root 等・グループ「ローターの物語」なし)は自動 SKIP(第149便と同じ流儀)
+    {
+      const eq = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+      const multi = (r.famGroups || []).filter((x) => x[1].length !== 1);
+      const ROTOR = 'ローターの物語';
+      const moved = ['darkrotor', 'rotorSolo', 'bhCore', 'massLadder'].every(
+        (id) => eq((r.fam151 || {})[id], ['darkcenter', id === 'darkrotor' ? 'primary' : 'variant', ROTOR]))
+        && ['nebulaRotor', 'nebulaShell', 'nebulaBipolar', 'selfRotor', 'starSeed'].every(
+          (id) => eq((r.fam151 || {})[id], ['rotorform', id === 'nebulaRotor' ? 'primary' : 'variant', ROTOR]))
+        && eq((r.fam151 || {}).counterring, [null, null, '天体の物語'])
+        && eq((r.fam151 || {}).merger, [null, null, '銀河の物語']);
+      const ok = r.nFam > 0 && multi.length === 0 && moved;
+      add('groups.family-invariant', !r.w151Gen || ok,
+        r.w151Gen
+          ? `全${r.nFam}ファミリーが単一グループ=${multi.length === 0}(複数グループに跨るファミリー=`
+            + `${JSON.stringify(multi)}〔0件〕)/ 第151便の移動9本+単独化2本=${moved}`
+            + `(darkcenter 4本・rotorform 5本 → ${ROTOR} / 💥counterring=天体の物語・🌠merger=銀河の物語 は`
+            + `いずれも familyId なし)/ ファミリー別グループ=${JSON.stringify(r.famGroups)}`
+          : 'SKIP(第151便 未適用 — 対象にグループ「ローターの物語」なし)');
     }
     add('preset.kframe-binary01', r.kfBad.length === 0, r.kfBad.join(',') || '全内蔵 kFrame∈{0,1}');
     add('params.radius-default', r.radiusDef === 1, `radiusScale既定=${r.radiusDef}(=1)`);
@@ -15389,6 +15437,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     { json: 'jupiter-results.json', harness: 'tests/exp-jupiter.mjs' },
     { json: 'coreshell-results.json', harness: 'tests/exp-coreshell.mjs' },
     { json: 'coreshell2-results.json', harness: 'tests/exp-coreshell2.mjs' },
+    { json: 'coreshell3-results.json', harness: 'tests/exp-coreshell3.mjs' },
   ];
   const SENTINELS = ['not-applicable', 'not-instrumented', 'unavailable'];
   const isHex = (v, n) => typeof v === 'string' && new RegExp(`^[0-9a-f]{${n}}$`).test(v);
