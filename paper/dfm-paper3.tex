@@ -385,19 +385,22 @@ $\kappa=G/c_0^{2}$ & $7.4156{\times}10^{-9}$ & $7.4156{\times}10^{-9}$
 
 DFM reads clocks and light from the single dimensionless potential
 $\psi = W\kappa$, where $\kappa$ (the parameter \texttt{kappaT}) is
-the spacetime coefficient and $W$ the determinacy field; the earlier
-papers wrote the same quantity as $\psi=W/K_t$ with $K_t=1/\kappa$.
-The two forms are equivalent, and $\kappa$ is now the canonical
-editing, declaration, and storage key throughout the
-implementation, with $K_t$ retained only as a backward-compatible
-input.\footnote{The engine's internal canonicalization to $\kappa$
+the spacetime coefficient and $W$ the determinacy field; the legacy
+form of the same quantity is $\psi=W/K_t$ with $K_t=1/\kappa$.
+The two forms are equivalent, and $\kappa$ is the canonical
+editing, declaration, and storage key throughout the implementation
+and throughout the companion papers, with $K_t$ retained only as a
+backward-compatible input key (and on the committed figure panels of
+Papers~1 and~2, whose labels predate the change).\footnote{The engine's internal canonicalization to $\kappa$
 (with $\psi=W\kappa$ evaluated as a multiplication rather than a
 division) leaves the matter sector bit-identical---E4 gravity,
 E6$'$ dragging and the E12 geodesic term do not read $\kappa$---and
 perturbs only clocks, optics, and heads-up displays at the ULP level,
 far inside every analytic-comparison tolerance.}
 $\kappa$ carries dimensions of length per mass, the same as $G/c^{2}$,
-so $\kappa m$ is a gravitational length.
+so $\kappa m$ is a gravitational length; it is \emph{not} Einstein's
+gravitational constant $\kappa=8\pi G/c^{4}$ of general relativity,
+with which it shares only the letter.
 
 The \emph{correspondence lock} (\texttt{physLock}) is the declaration
 \begin{equation}
@@ -408,7 +411,7 @@ which places the clock-and-light sector in the same weak-field
 correspondence with general relativity that Paper~1 established for
 its benchmark preset.
 With $G=6.674$ and $c_0=3\times10^{4}$ the lock gives
-$\kappa=7.4156\times10^{-9}$, equivalently $K_t=1.3485\times10^{8}$;
+$\kappa=7.4156\times10^{-9}$;
 all six samples of this paper declare exactly this value, and a
 verification gate asserts that the lock is satisfied at the moment
 each harness configuration is built.
@@ -2304,6 +2307,10 @@ responsibility.
 \end{acknowledgments}
 
 \begin{thebibliography}{99}
+% wave 153: the citation keeps the archived record's actual title
+% (main title only); Paper 1's extended subtitle is applied to the
+% record at submission-time re-registration, and this bibitem is
+% updated then (TODO(release) scope).
 \bibitem{DFM1} T. Imamura, \emph{Determinacy-Field Mechanics: A
 Machian Toy Universe with Tunable Frame Dragging, Inverse-Square
 Gravity, and Spin-as-Heat Analogies}, Zenodo (2026),
@@ -2311,8 +2318,12 @@ doi:10.5281/zenodo.21454189.
 % wave 143: title corrected to the actual title of paper 1
 % (dfm-paper.tex \title); the earlier "Clock-and-Light Sectors" variant
 % never existed as a published title.
+% wave 153: paper 1 gained the subtitle line above (dfm-paper.tex
+% \title).  The Zenodo v1 record behind the DOI carries the main title
+% only; it is to be re-deposited at submission.
 \bibitem{DFM2} T. Imamura, \emph{The Box Universe: Expansion, Time,
-and Light in a Relational Toy Model}, companion paper (2026).
+and Light in a Relational Toy Model, with a Deliberately Bounded
+Hubble-Tension Analogue}, companion paper (2026).
 \bibitem{DFM4} T. Imamura, \emph{Emergence Across Scales in
 Determinacy-Field Mechanics: A Graded Standard-Test Methodology from
 Microspin Thermalization to Self-Forming Dark Rotors}, companion

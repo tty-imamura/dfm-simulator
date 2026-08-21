@@ -70,7 +70,7 @@
   colorlinks=true, linkcolor=blue!50!black, citecolor=blue!50!black,
   urlcolor=blue!60!black,
   pdftitle={マッハ的トイ宇宙の現実較正},
-  pdfauthor={今村哲矢},
+  pdfauthor={今村哲矢 (Tetsuya Imamura)},
   pdfkeywords={トイモデル, 関係論的力学, 較正, 近日点前進,
     フレーム引きずり, 再現性},
   pdfsubject={教育用トイモデル;観測較正;正直な否定的結果}}
@@ -82,7 +82,7 @@ $43''$/世紀から月の近点回転周期まで\\
 From 43$''$/century to the Lunar Apsidal Cycle
 by Honest Calibration, Not Mechanism Claims)}}
 
-\author{今村 哲矢}
+\author{今村 哲矢(Tetsuya Imamura)}
 
 \date{2026-08-18(ドラフト v1.0-draft-ja)/ 2026-08-19 改訂(第141便)}
 
@@ -295,16 +295,18 @@ $\kappa=G/c_0^{2}$ & $7.4156{\times}10^{-9}$ & $7.4156{\times}10^{-9}$
 \label{sec:physlock}
 
 DFM は時計と光を単一の無次元ポテンシャル $\psi = W\kappa$ から読む。ここで
-$\kappa$(パラメータ \texttt{kappaT})は時空係数、$W$ は決定力場である。先行論文
-では同じ量を $K_t=1/\kappa$ として $\psi=W/K_t$ と書いていた。
-2つの形は等価であり、現在は実装全体で $\kappa$ が編集・宣言・保存の正準キーであり、
-$K_t$ は後方互換の入力としてのみ残されている。\footnote{エンジン内部の $\kappa$ への
+$\kappa$(パラメータ \texttt{kappaT})は時空係数、$W$ は決定力場である。同じ量の
+旧表記が $K_t=1/\kappa$ による $\psi=W/K_t$ である。
+2つの形は等価であり、実装全体でも姉妹論文でも $\kappa$ が編集・宣言・保存の正準キーであり、
+$K_t$ は後方互換の入力キーとしてのみ残されている(論文1・論文2のコミット済みの図の
+パネル見出しは、この変更より前に生成されたため旧表記のままである)。\footnote{エンジン内部の $\kappa$ への
 正準化($\psi=W\kappa$ を除算ではなく乗算として評価する)は物質セクターを bit 一致に
 保ち---E4 重力・E6$'$ 引きずり・E12 測地線項は $\kappa$ を読まない---、時計・光学・
 ヘッドアップ表示だけを ULP 水準で摂動する。これはすべての解析比較の許容値の
 はるか内側である。}
 $\kappa$ は長さ/質量の次元を持ち、これは $G/c^{2}$ と同じである。したがって
-$\kappa m$ は重力長になる。
+$\kappa m$ は重力長になる。これは一般相対論のアインシュタインの重力定数
+$\kappa=8\pi G/c^{4}$ とは記号を共有するだけの\textbf{別の量}である。
 
 \textbf{対応ロック}(\texttt{physLock})は宣言
 \begin{equation}
@@ -313,8 +315,8 @@ $\kappa m$ は重力長になる。
 \end{equation}
 であり、時計と光のセクターを、論文1がそのベンチマークプリセットについて確立した
 のと同じ弱場対応に置く。
-$G=6.674$・$c_0=3\times10^{4}$ のもとでロックは $\kappa=7.4156\times10^{-9}$、
-すなわち $K_t=1.3485\times10^{8}$ を与える。本論文の6サンプルはすべてまさにこの値を
+$G=6.674$・$c_0=3\times10^{4}$ のもとでロックは $\kappa=7.4156\times10^{-9}$ を
+与える。本論文の6サンプルはすべてまさにこの値を
 宣言しており、各ハーネス構成が組み立てられた時点でロックが満たされていることを
 検証ゲートが assert する。
 ここで正直な帳簿上の注記を1つ置く: $c_0$ だけは次元換算ではなく表示規約によって
@@ -1809,6 +1811,9 @@ DOI ではなくコードのアーカイブである): concept DOI
 % =====================================================================
 \begin{thebibliography}{99}
 
+% 第153便: 引用はアーカイブ済みレコードの実表題(主題のみ)に合わせる。
+% 論文1の拡張副題は投稿時のレコード再登録で反映し、その時点で本 bibitem を更新
+% (TODO(release) の範囲)。
 \bibitem{DFM1} T. Imamura, \emph{Determinacy-Field Mechanics: A
 Machian Toy Universe with Tunable Frame Dragging, Inverse-Square
 Gravity, and Spin-as-Heat Analogies}, Zenodo (2026),
@@ -1816,9 +1821,12 @@ doi:10.5281/zenodo.21454189.
 % wave 143: title corrected to the actual title of paper 1
 % (dfm-paper.tex \title); the earlier "Clock-and-Light Sectors" variant
 % never existed as a published title.
+% 第153便: 論文1に副題行が付いた(dfm-paper.tex \title)。DOI の指す
+% Zenodo v1 レコードは主題のみを持つ。投稿時に再登録する。
 
 \bibitem{DFM2} T. Imamura, \emph{The Box Universe: Expansion, Time,
-and Light in a Relational Toy Model}, 姉妹論文 (2026).
+and Light in a Relational Toy Model, with a Deliberately Bounded
+Hubble-Tension Analogue}, 姉妹論文 (2026).
 
 \bibitem{DFM4} T. Imamura, \emph{Emergence Across Scales in
 Determinacy-Field Mechanics: A Graded Standard-Test Methodology from

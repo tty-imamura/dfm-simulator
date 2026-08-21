@@ -25,6 +25,12 @@ tests/out/*
 # 第152便: コア外殻第3実験(事前登録窓 XW1 しきい値非依存の q₅₀ / XW2 R/r 差分検証 /
 #   XW3 経路固定 / XW4 決定性・共有点 bit 一致・kF0×kRep0 対照)の実測正本
 !tests/out/coreshell3-results.json
+# 第154便: コア外殻第4実験(第152便 XW2 FAIL の再設計 — 事前登録窓 YW1 R/Rc 同率スイープの
+#   Δq₅₀ 差分検証 / YW2 エンベロープ半径差分 / YW3 R単独対照と core/base 引きずり比の記述 /
+#   YW4 決定性・第152便との共有点 bit 一致・kF0×kRep0 対照)の実測正本
+#   — 全7アームを**同一の11点格子**(q=1.0〜2.0・0.1 刻み)で実測しており、第152便の格子非対称を
+#   設計で排した版。第152便の coreshell3-results.json は不変のまま並置する
+!tests/out/coreshell4-results.json
 # 第19便: ダークローター探索実験の実測生データ(裁定記録 REVIEW_20260723_DARK_ROTOR_* が参照)
 !tests/out/darkrotor-results.json
 !tests/out/exp-4-67.json
