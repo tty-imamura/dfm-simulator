@@ -803,8 +803,8 @@ ja: {
   physLockOnClamped:"⚠ ロック中: 導出値が値域外のため κ をクランプ(対応は近似)",
   physLockOffOk:"✓ ロック解除中(現在値は条件 κ=G/cLight² を満たしています)",
   physLockOffNg:"⚠ 一般化トイ設定 — GR較正条件外(κ≠G/cLight²)",
-  qLockLabel:"q自動算出 qLock(LT級振幅規約)",
-  qLockDesc:"ONの間、「引きずり減衰 q」を LT級振幅規約(遠方近似)q*=3+ln(1.25·c₀²R/GM)/ln((R+a)/R)(R,M=支配源の半径・質量、a=支配源から見た自由天体の距離の中央値)から自動算出します(第123便 — tests/exp-kf1d.mjs)。この規約が置きにいくのは**遠方(a≫R)でのスピン項の振幅**であって参照軌道での一致ではありません — 参照軌道で比を取ると有限半径因子 (a/(R+a))³ が残ります(🪨0.956・🌘0.949・💿0.256・🟠0.625。第141便)。q はグレーアウトされ編集できません。OFFにすると q を手動編集できます(較正主張の域外)。状態はセーブデータに保存され、読込時は復元した状態から再算出します。qLock宣言サンプル(🌘🪨💿)は読込時に自動でONになります。",
+  qLockLabel:"q自動算出 qLock(有限参照正規化規約)",
+  qLockDesc:"ONの間、「引きずり減衰 q」を有限参照正規化規約 q*=3+ln(1.25·c₀²R/GM)/ln((R+a)/R)(R,M=支配源の半径・質量、a=支配源から見た自由天体の距離の中央値)から自動算出します(第123便 — tests/exp-kf1d.mjs)。**qLock は有限参照正規化規約です**: q=3 核の遠方超過量 X=1.25c₀²R/GM を用い、宣言参照軌道 a においてスピン項振幅が LT 振幅×裸比 (a/(R+a))³(遠方近似 a≫R で 1 に漸近)に一致するよう、より急峻な指数 q* を選びます(🪨0.956・🌘0.949・💿0.256・🟠0.625。第141便→第157便で再定義)。LT の r⁻³ 則も、無限遠での非零 LT 比も保存しません(比は d^{3−q*} で消えます)。q はグレーアウトされ編集できません。OFFにすると q を手動編集できます(較正主張の域外)。状態はセーブデータに保存され、読込時は復元した状態から再算出します。qLock宣言サンプル(🌘🪨💿)は読込時に自動でONになります。",
   cLinkLabel:"相似変換連動(実験的)",
   cLinkDesc:"ONの間、「光速 c₀」を変更すると k=新c₀/旧c₀ の力学的相似変換を現在の状態へ自動適用し、見た目の運動を保ちます(G・bM・接触定数 ×k²/η_rad・κs ×k/時間倍率 ÷k/速度・スピン・コアΩ ×k/内部エネルギー ×k²/コア源 ×k³/箱 H0 ×k)。κ は G/c² が不変なので据え置かれ、物理対応ロックとも整合します。スケールフリーなエンジンでは c₀ の値そのものに意味はなく、この連動で「c₀ を変えても同じ宇宙を記述できる」ことを確かめられます。注意: サブステップ離散化・値域クランプ(特に時間倍率 0.01〜100)・放射冷却の T^p(p≠1)では厳密相似が破れます。画面全体の実験的設定で、プリセットやセーブには保存されません。",
   cLinkApplied:(k)=>"相似変換を適用: k="+k+"(G×k²・速度×k・時間倍率÷k 等)",
@@ -997,6 +997,9 @@ ja: {
   nc_cosmo:"実宇宙の膨張・ハッブルテンションの説明ではない(数値一致は較正であって証拠ではない — 構造の提示)。",
   nc_cal:"数値の一致は κ=G/c² の較正による対応であり、無調整の予言ではない。",
   nc_solar:"実在の太陽系天体の定量再現ではない(見やすさ優先の誇張アナログ)。",
+  // 第157便(外部レビュー第3巡 P1): 現実較正(fidelity:"real")サンプル専用の文言。
+  // 誇張アナログ用の nc_solar は同画面の実単位較正・現実準拠チップと矛盾するため分離した
+  nc_solar_cal:"実在天体のうち明示した観測量だけを較正した2次元モデルです。太陽系全体・3次元摂動・未掲載の観測量まで再現するものではありません。",
   nc_thermo:"熱セクターは現実の熱力学との定量対応を主張しないアナロジーである。",
   // 第88便 EXT-09: Failure First(失敗を先に見せる — 宣言専用メタ failureFirst の見出し)
   ffHead:"🧪 失敗から見る(Failure First)",
@@ -1171,7 +1174,7 @@ ja: {
   cbCalibList:"較正した主張", cbVerifyList:"無較正の検証項目",
   cbCond:"実験条件(自由度外)", cbNum:"数値設定(自由度外)",
   cbNone:"—(なし)", cbDefault:"既定",
-  cbQLock:"qLock 自動算出(LT級振幅規約 q*)", cbPhysLock:"physLock 導出(κ=G/cLight²)",
+  cbQLock:"qLock 自動算出(有限参照正規化規約 q*)", cbPhysLock:"physLock 導出(κ=G/cLight²)",
   // 第146便: 現実較正ファミリー監査ビュー(表示専用 — 全項目をプリセット宣言から実行時に導出)
   avOpen:(n)=>"🔬 現実較正ファミリー監査ビュー("+n+"サンプル)",
   avTitle:"現実較正ファミリー監査ビュー",
@@ -1281,8 +1284,8 @@ en: {
   physLockOnClamped:"⚠ Locked: derived value out of range — κ clamped (approximate correspondence)",
   physLockOffOk:"✓ Unlocked (current values happen to satisfy κ=G/cLight²)",
   physLockOffNg:"⚠ Generalized toy setting — outside GR calibration (κ≠G/cLight²)",
-  qLockLabel:"Auto-derived q — qLock (LT-class amplitude convention)",
-  qLockDesc:"While ON, the drag falloff q is auto-derived from the LT-class amplitude convention (a far-field rule) q*=3+ln(1.25·c₀²R/GM)/ln((R+a)/R) (R, M = dominant source; a = median distance of free bodies) — wave 123, tests/exp-kf1d.mjs. What the convention places at the Lense–Thirring scale is the spin term's FAR-FIELD (a≫R) amplitude, not its value at the reference orbit: taken at the reference orbit the ratio retains the finite-radius factor (a/(R+a))³ (🪨0.956, 🌘0.949, 💿0.256, 🟠0.625 — wave 141). The q slider is greyed out. Turn OFF to edit q manually (outside the calibration claim domain). The state is stored in save data; on load, q is re-derived from the restored state. qLock-declared samples (🌘🪨💿) switch it ON automatically.",
+  qLockLabel:"Auto-derived q — qLock (finite-reference normalization rule)",
+  qLockDesc:"While ON, the drag falloff q is auto-derived from the finite-reference normalization rule q*=3+ln(1.25·c₀²R/GM)/ln((R+a)/R) (R, M = dominant source; a = median distance of free bodies) — wave 123, tests/exp-kf1d.mjs. **qLock is a finite-reference normalization rule**: using the far-field excess X=1.25c₀²R/GM of the q=3 kernel, it selects a steeper exponent q* such that at the declared reference orbit a the spin-term amplitude matches the Lense–Thirring amplitude times the bare ratio (a/(R+a))³ (which tends to 1 in the far-field limit a≫R) — 🪨0.956, 🌘0.949, 💿0.256, 🟠0.625 (wave 141, redefined in wave 157). It preserves neither the Lense–Thirring r⁻³ law nor a nonzero Lense–Thirring ratio at infinity (the ratio dies as d^{3−q*}). The q slider is greyed out. Turn OFF to edit q manually (outside the calibration claim domain). The state is stored in save data; on load, q is re-derived from the restored state. qLock-declared samples (🌘🪨💿) switch it ON automatically.",
   cLinkLabel:"Similarity-transform link (experimental)",
   cLinkDesc:"While ON, changing the light speed c₀ automatically applies the dynamical similarity transform with k = new c₀ / old c₀ to the current state, preserving the visible motion (G, b_m, contact constants ×k²; η_rad, κs ×k; time scale ÷k; velocities, spins, core Ω ×k; internal energy ×k²; core source ×k³; box H0 ×k). κ stays put since G/c² is invariant — consistent with the correspondence lock. In a scale-free engine the value of c₀ itself carries no meaning; this link lets you verify that the same universe can be described at any c₀. Caveats: exact similarity breaks under substep discretization, range clamps (especially time scale 0.01–100), and radiative cooling's T^p with p≠1. A global experimental setting — not stored in presets or saves.",
   cLinkApplied:(k)=>"Similarity transform applied: k="+k+" (G×k², velocities ×k, time scale ÷k, …)",
@@ -1470,6 +1473,8 @@ en: {
   nc_cosmo:"Not an explanation of real cosmic expansion or the Hubble tension (numerical agreement is calibration, not evidence — a structural demonstration).",
   nc_cal:"The numerical agreement is a correspondence via the κ=G/c² calibration, not an unadjusted prediction.",
   nc_solar:"Not a quantitative reproduction of real solar-system bodies (an exaggerated analog tuned for visibility).",
+  // 第157便: wording reserved for the real-calibration family (fidelity:"real")
+  nc_solar_cal:"A two-dimensional model calibrated only on the observables stated here for the real bodies named. It does not reproduce the solar system as a whole, three-dimensional perturbations, or any observable not listed.",
   nc_thermo:"The thermal sector is an analogy with no claimed quantitative correspondence to real thermodynamics.",
   // 第88便 EXT-09: Failure First heading
   ffHead:"🧪 Failure First",
@@ -1637,7 +1642,7 @@ en: {
   cbCalibList:"Calibrated claims", cbVerifyList:"Uncalibrated checks",
   cbCond:"Experimental conditions (outside the budget)", cbNum:"Numerical settings (outside the budget)",
   cbNone:"— (none)", cbDefault:"default",
-  cbQLock:"auto-derived by qLock (LT-class amplitude q*)", cbPhysLock:"derived by physLock (κ=G/cLight²)",
+  cbQLock:"auto-derived by qLock (finite-reference normalization q*)", cbPhysLock:"derived by physLock (κ=G/cLight²)",
   // 第146便: real-calibration family audit view (display only — every item derived from declarations)
   avOpen:(n)=>"🔬 Real-calibration family audit ("+n+" samples)",
   avTitle:"Real-calibration family audit",
@@ -2336,7 +2341,7 @@ function paramRole(key){ return PARAM_ROLES[key]||"physics"; }
 // 純関数で算出する。**表示専用** — 物理・保存 JSON・AI 仕様には一切影響しない。
 //   ノブ N : PARAM_ROLES role=physics のキーのうち、プリセットが DEFAULT_PHYSICS から
 //            変えているキーの数(= このサンプルが使った自由度)。導出キーは N から外す。
-//   導出 d : 「ノブに見えるが自由度ではない」もの — qLock ON の q(LT級振幅規約の自動算出)と
+//   導出 d : 「ノブに見えるが自由度ではない」もの — qLock ON の q(有限参照正規化規約の自動算出)と
 //            physLock ON の κ(=G/cLight² の導出値)。
 //   較正 M : claims のうち出所が calibrated の件数(= 観測ごとの追加 fit 数)。
 //   検証 K : claims のうち calibrated 以外(導出/実測/定義…)の件数(= 無較正の検証項目数)。
@@ -4969,7 +4974,7 @@ const BUILTIN_PRESETS = [
     {q:"恒星月", model:"27.3219 日(ハーネス実測)", obs:"27.3217 日"},
     {q:"軌道長半径", model:"38.47万 km", obs:"38.47万 km"},
     {q:"近地点相対速度", model:"1.082 km/s", obs:"1.082 km/s"}],
-  notClaim:["solar"],
+  notClaim:["solar_cal"],
   failureFirst:{
     fail:"kFrame=1 の自由二体は相互フレーム結合の正帰還で崩壊する(exp-obscal §F 用量実測 — 質量補正単独では安定化できない)。第117便版はスケール指数の制約から κ=G/c₀² が域外で物理対応ロック非成立・pinned 主星の系統 +0.6% を抱えていた。",
     pass:"第118便でサンプル別スケール指数(1単位=10⁶m/10²s/10²⁵kg)を採用 — κ=G/c₀² が成立し、安定化手順(c)kFrame=0(PHYSICS §5)の自由二体で地球・月とも重心系を実運動する。恒星月は初期条件の構成値で 27.3218日(実測 27.3217日と 4×10⁻⁶)— ハーネス実測(§E: 27.317日・−0.02%)と整合。質量・半径・自転・距離・速度が全て観測値。"},
@@ -5052,7 +5057,7 @@ const BUILTIN_PRESETS = [
   scaleExp:{L:6, T:2, M:25},   // 🌙 と同一の指数系(1単位=10⁶m/10²s/10²⁵kg)
   sampleClass:"calibration",
   fidelity:"real",   // 第120便: 恒星月+近点回転の2観測量をスケール換算込みで較正
-  notClaim:["solar"],
+  notClaim:["solar_cal"],
   // 第120便(原仮定者指示「kF1のまま実測に近付ける補正を調査する。重大な発見を予想している」):
   // 系統実測(tests/exp-kf1b.mjs)の結論 —
   //  ①kF1 の引きずり歳差は+2.7×10⁻³ rad/公転(D₀=0.1)で、スピン0でも不変=**運動引きずり
@@ -5170,7 +5175,7 @@ const BUILTIN_PRESETS = [
   scaleExp:{L:6, T:2, M:25},   // 🌙🌘 と同一の指数系(1単位=10⁶m/10²s/10²⁵kg)
   sampleClass:"calibration",
   fidelity:"real",
-  notClaim:["solar"],
+  notClaim:["solar_cal"],
   orbitObs:{center:0, orbiter:1, ghostAmp:1e6},   // 残差 6×10⁻⁷ rad/公転 — ×10⁶ でようやく見える
   obsCard:[
     {q:"近点回転(20公転窓)", model:"−6.404×10⁻⁷ rad/公転(近点通過法。RL勾配法 −6.295×10⁻⁷)", obs:"0(二体ケプラー=閉じた楕円)"},
@@ -5262,7 +5267,7 @@ const BUILTIN_PRESETS = [
   scaleExp:{L:6, T:2, M:25},   // 🌙🌘 と同一の指数系
   sampleClass:"calibration",
   fidelity:"real",
-  notClaim:["solar"],
+  notClaim:["solar_cal"],
   qLock:true,   // q 自動算出(q*=8.25 — 🌘 と同一)
   orbitObs:{center:0, orbiter:1, ghostAmp:20},
   obsCard:[
@@ -5367,7 +5372,7 @@ const BUILTIN_PRESETS = [
   scaleExp:{L:8, T:4, M:27},   // ☄️🪨🌞 と同一の指数系(1単位=10⁸m/10⁴s/10²⁷kg — 太陽を座標 ±1500 に収める)
   sampleClass:"calibration",
   fidelity:"real",
-  notClaim:["solar"],   // 2D・太陽は円軌道・軌道傾斜なし・他惑星なし = 太陽系の定量再現そのものではない
+  notClaim:["solar_cal"],   // 2D・太陽は円軌道・軌道傾斜なし・他惑星なし = 太陽系の定量再現そのものではない
   orbitObs:{center:1, orbiter:2, ghostAmp:20},   // 0=太陽, 1=地球, 2=月
   obsCard:[
     {q:"近点回転の周期(118公転窓・較正ゼロ)", model:"8.754 年(Δϖ=+0.05369 rad/公転)", obs:"8.85 年(−1.1%)"},
@@ -5484,9 +5489,10 @@ const BUILTIN_PRESETS = [
 
 // ===== 第136便: qLock 半径方向監査サンプル群 qlockAudit =====
 // 論文3 の Cost 2(qLock の代償)を、注意書きではなく**同一の実測・同一の図**として置く。
-// qLock(q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R))は「スピン引きずり率の**遠方近似(a≫R)での振幅**を
-// LT 級に置く」宣言規約で、追加 fit を1つも使わない(参照軌道そのものでは有限半径因子
-// (a/(R+a))³ が残る — 第141便。🌘 では 0.9492、宣言直値 q=8.25 で評価すると 0.9440)。その長所と代償を、地球のまわりの試験粒子を
+// qLock(q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R))は**有限参照正規化規約**で、追加 fit を1つも
+// 使わずに、宣言参照軌道 a でのスピン項振幅を LT 振幅×裸比 (a/(R+a))³ に載せる
+// (第141便→第157便 再定義。🌘 では 0.9492、宣言直値 q=8.25 で評価すると 0.9440。LT の r⁻³ 則も
+//  無限遠での非零 LT 比も保存しない — 比は d^{3−q*} で消える)。その長所と代償を、地球のまわりの試験粒子を
 // **1.5R_地球 〜 2a_月 の 10半径**に置いて同時に測る:
 //   📶 qLockRadialAudit  — q=8.25(🌘 と同一・月の実軌道を参照軌道とする qLock 値)
 //   📐 qLockRadialAuditQ3 — q=3(=LT と同じ r⁻³ 則の物差し。他は 1bit も変えない)
@@ -5512,7 +5518,7 @@ const BUILTIN_PRESETS = [
   scaleExp:{L:6, T:2, M:25},   // 🌙🌘 と同一の指数系(1単位=10⁶m/10²s/10²⁵kg)
   sampleClass:"calibration",
   fidelity:"real",
-  notClaim:["solar"],
+  notClaim:["solar_cal"],
   orbitObs:{center:0, orbiter:1, ghostAmp:20},   // 最内プローブ(1.5R_地球)— 引きずり歳差が実際に見える唯一の帯
   obsCard:[
     {q:"参照点(月の実軌道)の引きずり率", model:"素の s·(R/(R+a))^q は Ω_LT の 0.944倍(追加 fit ゼロ。宣言直値 q=8.25 での有限半径因子 (a/(R+a))³ そのもの)", obs:"—(Ω_LT=2GJ/(c₀²r³)・J は一様球近似)"},
@@ -5522,10 +5528,10 @@ const BUILTIN_PRESETS = [
     {q:"内側(1.5R_地球)", model:"χ=0.9123 で飽和・ω_DFM/Ω_LT=2.89×10⁶(交点 r≈276.6)", obs:"—(LT は r⁻³ で発散)"},
     {q:"参照点の近点回転周期", model:"1.28×10¹¹ 年(逆行)— 🌘 の 8.85年は試験粒子には出ない", obs:"8.85 年(実際の月 — 駆動源は地球の重心運動)"}],
   failureFirst:{
-    fail:"qLock は「スピン引きずりの遠方近似での振幅を LT 級に置く」宣言規約なので、参照点から離れれば合わないし、参照点でも厳密には合わない(有限半径因子 (a/(R+a))³ が残る — 🌘 では 0.9492、宣言直値 q=8.25 では 0.9440)。第136便の実測はその代償を数字で置いた: 外側域で ω_DFM は −8.99乗で落ち(LT は −3.00乗)、最外プローブ(2a_月)の引きずり近点移動は参照点の 2.42% しか残らない(r⁻³ なら 12.5%)。参照点より外では引きずり増分が速度の 1 ulp を下回り(最外で 0.014ulp)、倍精度の状態には 1 bit も積まれない。さらに事前登録窓のうち3件が FAIL した: W2(参照点で 8.85年 ±15%)は実測 1.28×10¹¹年、W3(全プローブで順行)は全半径で逆行、W5(外側域の傾き差 3〜8)は文字どおりの帯では 2.72(最外点が丸め床のため)。",
+    fail:"qLock は**有限参照正規化規約**(宣言参照軌道 a でスピン項振幅を LT 振幅×裸比 (a/(R+a))³ に合わせる規則)なので、参照点から離れれば LT とは合わない — 比は d^{3−q*} で消え、LT の r⁻³ 則も無限遠での非零 LT 比も保存しない。参照点でも厳密一致ではなく裸比が残る(🌘 では 0.9492、宣言直値 q=8.25 では 0.9440)。第136便の実測はその代償を数字で置いた: 外側域で ω_DFM は −8.99乗で落ち(LT は −3.00乗)、最外プローブ(2a_月)の引きずり近点移動は参照点の 2.42% しか残らない(r⁻³ なら 12.5%)。参照点より外では引きずり増分が速度の 1 ulp を下回り(最外で 0.014ulp)、倍精度の状態には 1 bit も積まれない。さらに事前登録窓のうち3件が FAIL した: W2(参照点で 8.85年 ±15%)は実測 1.28×10¹¹年、W3(全プローブで順行)は全半径で逆行、W5(外側域の傾き差 3〜8)は文字どおりの帯では 2.72(最外点が丸め床のため)。",
     pass:"長所の側も同じ実測で確かめた: 参照点(月の実軌道)では素の引きずり率 s·(R/(R+a))^q が Ω_LT の 0.944倍で、**追加 fit を1つも使わずに LT 級の振幅へ載る**(この 0.944 は宣言直値 q=8.25 での有限半径因子 (a/(R+a))³ そのもので、実測が代数を4桁で確認している)。kF0 対照は全10半径でソフトニング解析値 −3πε²/(a²(1−e²)²) の 0.9993〜1.0018倍(事前登録窓 W1 ±5% を PASS)、最外プローブは参照点の 2.42%(W4 の 1/8 未満を PASS)。逆行という符号も、赤道面順行軌道に対する LT の解析値 ϖ̇=−4GJ/(c₀²a³(1−e²)^{3/2}) と同符号で、参照点では LT 解析値の 3.55倍で同符号だった。W5 も厳密場 ω_DFM 基準では 5.19、外側漸近域の Δϖ_drag 基準では 5.25 で窓内に入る。"},
   descStruct:{
-    summary:"qLock(引きずり減衰 q の自動算出則)の**半径方向ストレステスト**。地球を実質量・実半径・実自転(自転周期 23.93時間)のまま固定し、質量床級(m=10⁻⁶)の試験粒子を 1.5R_地球 〜 2a_月 の 10半径に置いて、空間引きずり(A8/E6′)が作るフレーム回転 ω_DFM(r) と引きずり近点移動 Δϖ_drag(r) を同時に測る。規約は 🌘(地球と月・実単位・kFrame=1)と同一(1単位=10⁶m/10²s/10²⁵kg・D₀=0.006・q=8.25・geoPN=2)。q=8.25 は qLock の LT級振幅規約(遠方近似)に月の実軌道を入れて出る値そのもので、**プローブ半径によって動かないよう直値で固定して宣言**してある(参照軌道を1つに固定するのが本監査の要点)。qLock の長所は「追加 fit なしで参照点を LT 級の振幅に載せる」こと、代償は「参照点の外で r⁻³ 則を捨てる」こと — 第136便はその2つを同一の実測・同一の図にした。",
+    summary:"qLock(引きずり減衰 q の自動算出則)の**半径方向ストレステスト**。地球を実質量・実半径・実自転(自転周期 23.93時間)のまま固定し、質量床級(m=10⁻⁶)の試験粒子を 1.5R_地球 〜 2a_月 の 10半径に置いて、空間引きずり(A8/E6′)が作るフレーム回転 ω_DFM(r) と引きずり近点移動 Δϖ_drag(r) を同時に測る。規約は 🌘(地球と月・実単位・kFrame=1)と同一(1単位=10⁶m/10²s/10²⁵kg・D₀=0.006・q=8.25・geoPN=2)。q=8.25 は qLock の有限参照正規化規約に月の実軌道を参照軌道として入れて出る値そのもので、**プローブ半径によって動かないよう直値で固定して宣言**してある(参照軌道を1つに固定するのが本監査の要点)。qLock の長所は「追加 fit なしで参照点を LT 級の振幅に載せる」こと、代償は「参照点の外で r⁻³ 則を捨てる」こと — 第136便はその2つを同一の実測・同一の図にした。",
     observe:"参照点(月の実軌道)では素の引きずり率 s·(R/(R+a))^q が Ω_LT の 0.944倍に載る(追加 fit ゼロ)。ただし試験粒子が実際に感じるのは背景決定力で薄めた実効フレーム回転で、χ=w/(D₀+w)=0.2149 を掛けた**実効フレーム回転は Ω_LT の 0.203倍**になる。**ここからが代償**: 外側域の傾きは −8.99乗(Ω_LT は −3.00乗・q=3 対照は −3.81乗)で、最外プローブ(2a_月)の引きずり近点移動は参照点の 2.42% しか残らない(r⁻³ なら 12.5%)。逆に内側では χ が 1 へ飽和して ω_DFM が有限値に留まる一方 Ω_LT は r⁻³ で発散するため、比は 1.5R_地球 で 2.89×10⁶ に達し、r≈276.6(43.4R_地球)で 1 を横切る。引きずりが作る近点移動は全10半径で**逆行**で、参照点では LT 解析値の 3.55倍で同符号だった(LT の赤道面順行軌道の解析値 ϖ̇=−4GJ/(c₀²a³(1−e²)^{3/2}) も逆行)。kF0 対照(引きずり OFF)は全10半径で解析値の 0.9993〜1.0018倍に収まる — 差分の土台が数値規約だけで説明できることの確認である。参照点の近点回転周期は 1.28×10¹¹年で、🌘 の 8.85年は試験粒子にはまったく出ない: 同じ参照点で地球を自由にしプローブ質量を月質量まで上げると 8.253年が戻るので、8.85年の駆動源は自転(スピン引きずり)ではなく**地球の重心運動(運動引きずり)**である(tests/exp-qlockradial.mjs)。",
     control:"ワンタップ対照A/B: B側は kFrame=0(引きずり OFF)— 10本の軌道はソフトニング歳差だけの純ケプラーへ戻る。実測の Δϖ_drag はこの2つの差そのものである(同一初期条件・同一步幅の差分なので、数値床とソフトニング歳差は相殺する)。q のスライダーを 3 まで下げると 📐(q=3 対照)と同じ設定になり、外側域の落ち方が 5 乗ぶん緩くなるのが見える。表示は10プローブ同時だが、**実測は 1 run 1 プローブ**で取ってある — そしてその理由自体が監査結果の一部である: 参照点より外ではスピン引きずりのフレーム速度が 10⁻¹⁵ 級まで小さく、100〜200単位離れた質量床プローブ(m=10⁻⁶)が動くだけで作るフレーム速度(10⁻⁷ 級)に埋もれてしまう。**他の粒子が少し動くだけで消える大きさ**まで落ちている、というのが「r⁻³ を捨てた」ことの最も直接的な言い方であり、🌘 の月(質量比 0.0123)の運動引きずりが地球の自転引きずりを桁違いに上回るのも同じ理由である。画面で歳差が見えるのは最内プローブ(1.5R_地球)だけ。"},
   en:{name:"qLock Radial Audit — LT-class at the reference orbit, r⁻³ abandoned outside it",
@@ -5534,7 +5540,7 @@ const BUILTIN_PRESETS = [
         "the Moon's real orbit (semi-major axis 3.84748×10⁸ m, eccentricity 0.0549) — used only to fix the qLock reference orbit"],
       fixedConventions:["per-sample scale exponents (1 unit = 10⁶ m / 10² s / 10²⁵ kg)","kFrame=1 (frame dragging on)",
         "D₀=0.006 (the value shared with 🪨🌘💿 — not re-fitted here)",
-        "q=8.25 declared as a literal (the qLock LT-class-amplitude value for the Moon's real orbit; fixing it keeps ONE reference orbit regardless of probe radius)",
+        "q=8.25 declared as a literal (the qLock finite-reference normalization value for the Moon's real orbit; fixing it keeps ONE reference orbit regardless of probe radius)",
         "kRep=muF=γN=κ_S=0","geoPN=2, λ_PN=1, pnα=1.5","pnSource:true, stateCarry:\"double\", massFloor=1e-6",
         "the Earth is pinned (an external constraint of the exhibit: recoil from a mass-floor probe would inject motion dragging into the differential)",
         "probes are test particles at the mass floor (m=10⁻⁶, no pnSource), on e=0.05 near-circular orbits",
@@ -5554,10 +5560,10 @@ const BUILTIN_PRESETS = [
       {q:"Inner region (1.5 R_Earth)", model:"χ saturates at 0.9123; ω_DFM/Ω_LT=2.89×10⁶ (the curves cross at r≈276.6)", obs:"— (LT diverges as r⁻³)"},
       {q:"Apsidal period at the reference orbit", model:"1.28×10¹¹ yr (retrograde) — 🌘's 8.85 yr does not transfer to a test particle", obs:"8.85 yr for the real Moon (driven by the Earth's barycentric motion)"}],
     failureFirst:{
-      fail:"qLock is a convention that declares the spin dragging's FAR-FIELD amplitude to be Lense–Thirring class, so it cannot match away from the reference orbit — and it does not match exactly at the reference orbit either, where the finite-radius factor (a/(R+a))³ remains (0.9492 for 🌘, or 0.9440 at the declared literal q=8.25). Wave 136 put a number on the price: in the outer region ω_DFM falls as r^−8.99 (LT: r^−3.00), and the drag apsidal drift at the outermost probe (2a_Moon) retains only 2.42% of the reference value (12.5% if it went as r⁻³). Beyond the reference orbit the per-step drag increment drops below one ulp of the probe's velocity (0.014 ulp at the outermost radius), so not a single bit of it accumulates in double precision. Three of the five pre-registered windows failed: W2 (8.85 yr ±15% at the reference point) measured 1.28×10¹¹ yr, W3 (prograde at every probe) came out retrograde at every radius, and W5 (outer slope gap 3–8) gave 2.72 on the literal band because its outermost point sits on the rounding floor.",
+      fail:"qLock is a FINITE-REFERENCE NORMALIZATION RULE: at the declared reference orbit a it sets the spin-term amplitude to the Lense–Thirring amplitude times the bare ratio (a/(R+a))³, so it cannot match away from that orbit — the ratio dies as d^{3−q*}, and the rule preserves neither the Lense–Thirring r⁻³ law nor a nonzero Lense–Thirring ratio at infinity. Even at the reference orbit the bare ratio remains rather than exact agreement (0.9492 for 🌘, or 0.9440 at the declared literal q=8.25). Wave 136 put a number on the price: in the outer region ω_DFM falls as r^−8.99 (LT: r^−3.00), and the drag apsidal drift at the outermost probe (2a_Moon) retains only 2.42% of the reference value (12.5% if it went as r⁻³). Beyond the reference orbit the per-step drag increment drops below one ulp of the probe's velocity (0.014 ulp at the outermost radius), so not a single bit of it accumulates in double precision. Three of the five pre-registered windows failed: W2 (8.85 yr ±15% at the reference point) measured 1.28×10¹¹ yr, W3 (prograde at every probe) came out retrograde at every radius, and W5 (outer slope gap 3–8) gave 2.72 on the literal band because its outermost point sits on the rounding floor.",
       pass:"The same measurement confirmed the upside. At the reference orbit (the Moon's) the bare drag rate s·(R/(R+a))^q is 0.944× Ω_LT — an LT-class amplitude WITH NOT ONE EXTRA FIT SPENT, and that 0.944 IS the finite-radius factor (a/(R+a))³ at the declared literal q=8.25, so the measurement confirms the algebra to four digits. The kFrame=0 control lands within 0.9993–1.0018 of the analytic softening term −3πε²/(a²(1−e²)²) at all ten radii (pre-registered window W1, ±5%: PASS), and the outermost probe stays under 1/8 of the reference (W4: PASS). The retrograde sign also matches Lense–Thirring: for an equatorial prograde orbit the analytic LT drift is ϖ̇=−4GJ/(c₀²a³(1−e²)^{3/2}), likewise retrograde, and at the reference point the measured drift is 3.55× that analytic value with the same sign. W5 falls inside its window on the exact field quantity (5.19 by ω_DFM) and on the outer asymptotic band of Δϖ_drag (5.25)."},
     descStruct:{
-    summary:"A RADIAL STRESS TEST of qLock (the rule that auto-derives the drag falloff q). The Earth is held fixed with its real mass, radius and rotation (a 23.93-hour day), and mass-floor test particles (m=10⁻⁶) are placed at ten radii from 1.5 R_Earth to 2a_Moon, so that the frame rotation ω_DFM(r) produced by frame dragging (A8/E6′) and the drag apsidal drift Δϖ_drag(r) are measured together. The conventions are identical to 🌘 (Earth & Moon, real units, kFrame=1): 1 unit = 10⁶ m / 10² s / 10²⁵ kg, D₀=0.006, q=8.25, geoPN=2. The value 8.25 is exactly what the qLock LT-class amplitude convention returns for the Moon's real orbit, and it is DECLARED AS A LITERAL so that it cannot drift with the probe radius — pinning one reference orbit is the whole point of the audit. qLock's virtue is that it lands on an LT-class amplitude with no extra fit; its price is that it abandons the r⁻³ law, and even at the reference orbit it leaves the finite-radius factor (a/(R+a))³ rather than exact agreement (wave 141). Wave 136 puts both into one measurement and one figure. ",
+    summary:"A RADIAL STRESS TEST of qLock (the rule that auto-derives the drag falloff q). The Earth is held fixed with its real mass, radius and rotation (a 23.93-hour day), and mass-floor test particles (m=10⁻⁶) are placed at ten radii from 1.5 R_Earth to 2a_Moon, so that the frame rotation ω_DFM(r) produced by frame dragging (A8/E6′) and the drag apsidal drift Δϖ_drag(r) are measured together. The conventions are identical to 🌘 (Earth & Moon, real units, kFrame=1): 1 unit = 10⁶ m / 10² s / 10²⁵ kg, D₀=0.006, q=8.25, geoPN=2. The value 8.25 is exactly what the qLock finite-reference normalization rule returns for the Moon's real orbit, and it is DECLARED AS A LITERAL so that it cannot drift with the probe radius — pinning one reference orbit is the whole point of the audit. qLock's virtue is that it lands on an LT-class amplitude at the declared reference orbit with no extra fit; its price is that it abandons the r⁻³ law (and any nonzero LT ratio at infinity), and even at the reference orbit it leaves the bare ratio (a/(R+a))³ rather than exact agreement (waves 141/157). Wave 136 puts both into one measurement and one figure. ",
     observe:"At the reference orbit (the Moon's) the bare drag rate s·(R/(R+a))^q sits at 0.944× Ω_LT with zero extra fits. What a test particle actually feels, however, is the effective frame rotation diluted by the background determinacy: multiplying by χ=w/(D₀+w)=0.2149 gives 0.203× Ω_LT. THEN COMES THE PRICE: the outer slope is r^−8.99 (Ω_LT is r^−3.00, the q=3 control r^−3.81), and the drag apsidal drift at the outermost probe (2a_Moon) retains only 2.42% of the reference value — 12.5% is what r⁻³ would give. Inward the picture inverts: χ saturates towards 1 so ω_DFM stays finite while Ω_LT diverges as r⁻³, and the ratio reaches 2.89×10⁶ at 1.5 R_Earth, crossing unity at r≈276.6 (43.4 R_Earth). The drag apsidal drift is RETROGRADE at all ten radii and is 3.55× the analytic LT value at the reference point with the same sign (the equatorial prograde LT drift ϖ̇=−4GJ/(c₀²a³(1−e²)^{3/2}) is retrograde too). The kFrame=0 control lands within 0.9993–1.0018 of the analytic softening value at all ten radii, confirming that the baseline of the differential is nothing but a declared numerical convention. The apsidal period at the reference orbit is 1.28×10¹¹ years: 🌘's 8.85 years simply does not appear for a test particle. Free the Earth at that same radius and raise the probe mass to the Moon's, and 8.253 years comes back — so the driver of the 8.85-year figure is not the Earth's SPIN but its BARYCENTRIC MOTION (tests/exp-qlockradial.mjs). ",
     control:"One-tap A/B: side B is kFrame=0 (dragging off) — the ten orbits fall back to pure Kepler with only the softening precession. The measured Δϖ_drag is exactly the difference between the two sides (same initial condition, same step size, so the numerical floor and the softening precession cancel). Drag the q slider down to 3 and the sample becomes 📐 (the q=3 control): the outer falloff slackens by five powers. The exhibit shows all ten probes at once, but THE MEASUREMENTS WERE TAKEN ONE PROBE PER RUN — and the reason is itself part of the audit. Outside the reference orbit the spin-dragging frame velocity is down at the 10⁻¹⁵ level, where it is buried under the 10⁻⁷-level frame velocity produced merely by a mass-floor probe (m=10⁻⁶) drifting 100–200 units away. Having fallen to a size that ANY OTHER MOVING PARTICLE ERASES is the most direct way of saying that the r⁻³ law has been abandoned — and it is the same reason the Moon's own motion dragging in 🌘 (mass ratio 0.0123) dwarfs the Earth's spin dragging. The only probe whose precession is visible on screen is the innermost one at 1.5 R_Earth."}},
   abBody:{ label:{ja:"kFrame=0(引きずり OFF — 差分の土台)", en:"kFrame=0 (dragging off — the baseline of the differential)"},
@@ -5568,8 +5574,8 @@ const BUILTIN_PRESETS = [
     { id:"qLockRadialAudit.reference-lt-match", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
       metric:"omegaBareOverOmegaLTAtReference",
       chain:{ax:["A5","A8"], eq:["E6′"],
-        note:"qLock の LT級振幅規約(遠方近似)が狙っている量そのもの — 参照軌道での素の引きずり率 s·(R/(R+a))^q と Ω_LT=2GJ/(c₀²r³) の比。追加 fit を1つも使わずに 0.944倍(=LT 級の振幅)へ載ることの定量(exp-qlockradial)。この 0.944 は宣言直値 q=8.25 での有限半径因子 (a/(R+a))³ そのもの(丸めない q*=8.2487 なら 0.9492)であって、規約が一致を強制している点ではない — 第141便。J は一様球近似 (2/5)MR²Ω で、近似であることを宣言して用いる。",
-        noteEn:"Exactly what the qLock LT-class amplitude convention aims at — the ratio of the bare drag rate s·(R/(R+a))^q at the reference orbit to Ω_LT=2GJ/(c₀²r³). It quantifies that the rule lands at 0.944 (LT-class amplitude) with not one extra fit spent (exp-qlockradial). That 0.944 IS the finite-radius factor (a/(R+a))³ evaluated at the declared literal q=8.25 (0.9492 at the unrounded q*=8.2487); the convention fixes the FAR-FIELD amplitude and never forced agreement here (wave 141). J uses the uniform-sphere approximation (2/5)MR²Ω, declared as an approximation."},
+        note:"qLock の有限参照正規化規約が狙っている量そのもの — 参照軌道での素の引きずり率 s·(R/(R+a))^q と Ω_LT=2GJ/(c₀²r³) の比。追加 fit を1つも使わずに 0.944倍(=LT 級の振幅)へ載ることの定量(exp-qlockradial)。この 0.944 は宣言直値 q=8.25 での有限半径因子 (a/(R+a))³ そのもの(丸めない q*=8.2487 なら 0.9492)であって、規約が厳密一致を強制している点ではない — 第141便→第157便。J は一様球近似 (2/5)MR²Ω で、近似であることを宣言して用いる。",
+        noteEn:"Exactly what the qLock finite-reference normalization rule aims at — the ratio of the bare drag rate s·(R/(R+a))^q at the reference orbit to Ω_LT=2GJ/(c₀²r³). It quantifies that the rule lands at 0.944 (LT-class amplitude) with not one extra fit spent (exp-qlockradial). That 0.944 IS the finite-radius factor (a/(R+a))³ evaluated at the declared literal q=8.25 (0.9492 at the unrounded q*=8.2487); the rule normalizes the amplitude at the declared reference orbit to the LT amplitude times (a/(R+a))³ and never forced exact agreement here (waves 141/157). J uses the uniform-sphere approximation (2/5)MR²Ω, declared as an approximation."},
       roleNote:"回顧的確認 — 較正ノブは1つも使っていない(q は qLock 則の出力・D₀ は 🪨🌘💿 と共通の既存値)。本サンプルで新たに合わせた量はゼロである。",
       roleNoteEn:"Retrospective check — no calibration knob is spent here (q is the output of the qLock rule, D₀ is the existing value shared with 🪨🌘💿). Nothing new was tuned for this sample.",
       expected:{min:0.80, max:1.15},
@@ -5634,7 +5640,7 @@ const BUILTIN_PRESETS = [
       "月の実軌道(軌道長半径 3.84748×10⁸m・離心率 0.0549)— qLock の参照軌道を固定するためだけに使う"],
     fixedConventions:["サンプル別スケール指数(1単位=10⁶m/10²s/10²⁵kg)","kFrame=1(空間引きずり ON)",
       "D₀=0.006(🪨🌘💿 と共通の値 — 本サンプルで再フィットしていない)",
-      "q=8.25 を直値で宣言(月の実軌道に対する qLock の LT級振幅規約の算出値。固定することで参照軌道が1つに定まり、プローブ半径で q が動かない)",
+      "q=8.25 を直値で宣言(月の実軌道に対する qLock の有限参照正規化規約の算出値。固定することで参照軌道が1つに定まり、プローブ半径で q が動かない)",
       "kRep=muF=γN=κ_S=0","geoPN=2・λ_PN=1・pnα=1.5","pnSource:true・stateCarry:\"double\"・massFloor=1e-6",
       "地球は pinned(展示系の外部拘束 — 質量床プローブの反跳が差分へ運動引きずりを混入させるため)",
       "プローブは質量床級の試験粒子(m=10⁻⁶・pnSource なし)・e=0.05 の近円軌道",
@@ -5673,7 +5679,7 @@ const BUILTIN_PRESETS = [
   scaleExp:{L:6, T:2, M:25},   // 📶 と同一の指数系
   sampleClass:"calibration",
   fidelity:"real",
-  notClaim:["solar"],
+  notClaim:["solar_cal"],
   orbitObs:{center:0, orbiter:8, ghostAmp:20},   // 参照半径のプローブ — q=3 では外側でも歳差が見える
   obsCard:[
     {q:"外側域の落ち方(log–log 傾き)", model:"ω_DFM は −3.81乗(📶 の qLock は −8.99乗)", obs:"LT は −3.00乗"},
@@ -5850,7 +5856,7 @@ const BUILTIN_PRESETS = [
     {q:"公転周期", model:"87.974 日(実初期条件の構成値)", obs:"87.969 日"},
     {q:"近日点前進", model:"43.0″/世紀(exp-obscal §D・解析比1.002)", obs:"42.98″/世紀"},
     {q:"近日点速度", model:"58.98 km/s", obs:"58.98 km/s"}],
-  notClaim:["solar"],
+  notClaim:["solar_cal"],
   failureFirst:{
     fail:"c₀=30 の誇張アナログでは、実水星の不変量 GM/(c²a)=2.55×10⁻⁸ は質量値域外で、Float32 状態では 1PN が丸め落ちして直接再現は域外だった(☿の但し書き=第112便までの負の結果)。",
     pass:"実G値+実c値+pnSource+stateCarry(第111〜114便)により、ハーネス実測 Δϖ=5.029×10⁻⁷ rad/公転(解析値比 1.002)= 43.0″/世紀 — GR 実測値 42.98″/世紀と 0.2% 以内(tests/exp-obscal.mjs §D・600公転)。第118便で位置・速度・質量・半径・自転まで全て実値化(公転周期 87.97日=実測と一致)。"},
@@ -5936,7 +5942,7 @@ const BUILTIN_PRESETS = [
   scaleTier:"planetary",
   scaleExp:{L:8, T:4, M:27},   // ☄️ と同一の指数系
   sampleClass:"calibration",
-  notClaim:["solar"],
+  notClaim:["solar_cal"],
   // 第120便(原仮定者指示「mercuryReal の kF1版を用意する」): ☄️と同一実値で kFrame=1。
   // 実測(tests/exp-kf1b.mjs §B): 太陽の実自転(25.05日)によるスピン引きずりが
   // **逆行 −7.3×10⁻⁵ rad/公転(−1.5万″/世紀)**の歳差を加える(スピン0なら kF0 と一致 —
@@ -5993,7 +5999,7 @@ const BUILTIN_PRESETS = [
   //    原仮定者ヒントへの正直な否定結果。exp-kf1c §B)
   abBody:{ label:{ja:"c₀=30(歳差が見える誇張対照)", en:"c₀=30 (visible-precession contrast)"},
     physicsPatch:{cLight:30, kappaT:0.007415555555583735} },
-  qLock:true,   // 第123便: q は自動算出(LT級振幅規約 q*=6.16)— 編集対象から外す
+  qLock:true,   // 第123便: q は自動算出(有限参照正規化規約 q*=6.16)— 編集対象から外す
   // 第133便 P0: claims — 説明文の実測値(exp-kf1c/kf1d)を機械可読化(kind:"semantic")。
   claims:[
     { id:"mercuryRealKF1.perihelion-advance-kf1", kind:"semantic", prov:"simulated", role:"retrospective_check",
@@ -6051,7 +6057,7 @@ const BUILTIN_PRESETS = [
   fidelity:"real",   // 第131便: スケール換算込みの較正が成立(距離・質量・半径・自転・周期・速度が全て観測値)
                      // ※ 離心率は 0 に理想化してある(実: 水星0.206・金星0.007・地球0.017・火星0.093)—
                      //   本サンプルは「円軌道デモ」として設計されている(第131便 統括裁定)
-  notClaim:["solar"],   // EXT-04: 実在名を使うが定量主張は距離・質量・半径・周期・円軌道維持に限る
+  notClaim:["solar_cal"],   // EXT-04: 実在名を使うが定量主張は距離・質量・半径・周期・円軌道維持に限る
   obsCard:[
     {q:"公転周期(水/金/地/火)", model:"87.972 / 224.700 / 365.263 / 686.965 日(実距離+実ケプラー初速)",
      obs:"87.969 / 224.701 / 365.256 / 686.980 日"},
@@ -6063,7 +6069,7 @@ const BUILTIN_PRESETS = [
   descStruct:{
     summary:"内惑星系(水・金・地・火)+小惑星帯を、実定数・実質量・実距離・実半径のまま置いた観測較正サンプル(第131便でトイ→実単位化)。1単位=10⁸m/10⁴s/10²⁷kg(サンプル別スケール指数)で、太陽 1988.5(=1.9885×10³⁰kg)・半径 6.96(=6.96×10⁸m)・自転 0.029031(25.05日)、惑星は実質量・実半径・実自転・実軌道長半径(水星579.09・金星1082.08・地球1495.98・火星2279.39 単位=10万km、太陽–地球=1au)。初速は実ケプラー速度そのまま(較正係数 1.000)。物理対応条件 κ=G/c₀² 成立・kFrame=1+共通補正 D₀=0.006(雛形 🪨🌘💿 の構成)。軌道は円に理想化してある(実離心率 水星0.206・金星0.007・地球0.017・火星0.093 は再現しない — 円軌道デモとしての設計)。",
     observe:"公転周期は実測 87.972/224.700/365.263/686.965 日(観測 87.969/224.701/365.256/686.980)。以下の軌道実測はすべて dt=0.016・帯を外した太陽+惑星4体の部分系での値(帯の総質量は太陽の 5×10⁻⁸ で力学的に無関係 — 帯込みでも水星0.0131%・金星0.00489%・地球0.00181%・火星0.00227% と3桁目まで一致する)。軌道速度は水星47.87・金星35.02・地球29.785・火星24.13 km/s(いずれも観測値)。2水星周窓の半径振れ幅は 0.0131%(水星)/0.00489%(金星)/0.00181%(地球)/0.00226%(火星)で、1火星周(687日)まで延ばしても 0.0134/0.00607/0.00445/0.00430% にとどまる。kFrame を 0 にしても 0.0131/0.00533/0.00174/0.00124% とほぼ同じ — 実スケールでは空間引きずり(A8/E6′)が円軌道条件に効かない(太陽の自転を 0 にした対照は kFrame=1 と倍精度で完全一致 = スピン項の寄与ゼロ)。旧トイ版の較正超過を実単位へ持ち込むと悪化する(f 掃引: 1.000→0.0131%・1.001→0.400%・1.005→2.00%・1.055→22.3%・1.12→50.7%)。半径が実値なので惑星は点にしか見えない — 粒子表示倍率 dispMag=10(表示専用・力学不変)で太陽を 6.96→69.6 単位に拡大している(水星軌道 579 の12%: ☄️ と同じ「太陽が視覚を支配する」妥協)。小惑星帯はケレス級のテスト質量100個の展示(各 10⁻⁶=10²¹kg・半径 0.005=5×10⁵m)で、帯の総質量は太陽の 5×10⁻⁸(実際の帯 ≈2.4×10²¹kg の約42倍)しかなく、惑星の軌道実測は帯の有無で一致する(帯粒は初期 vNoise 2% ぶんの離心率をもって回り、2水星周での半径ずれは最大2%級)。太陽は pinned の展示系(中心は固定=外部拘束)。",
-    control:"ワンタップ対照A/B: B側 q=0.5(引きずりの幾何減衰を外した誇張)にすると太陽の実自転が内惑星系ごと空間を引きずり、2水星周で軌道が崩壊する(半径振れ幅 102/130/362/135%)— 「実スケールで引きずりが効かない」ことの本体が q の幾何減衰であることが1タップで見える。kFrame を 0 にしても画面は変わらない(実スケールの引きずりは検出限界以下)。q は 3〜21.8 のどこでも軌道は同一(q≥5 では倍精度で完全一致)なので qLock は掛けていない — 多惑星系では自由天体距離の中央値に応じて q* が変わり、1本の規約(遠方近似の LT 級振幅規約)を定義できないため(第131便 統括裁定)。宣言値 q=5.1 は qLock 則 q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) を帯を含む自由天体距離の中央値 a=3836 で評価した算出値(q*=5.1045)。timeScale=30 なので画面の1秒≈6.7日。小惑星帯(3300〜4600単位≈2.2〜3.1au)はズームアウトで見える。"},
+    control:"ワンタップ対照A/B: B側 q=0.5(引きずりの幾何減衰を外した誇張)にすると太陽の実自転が内惑星系ごと空間を引きずり、2水星周で軌道が崩壊する(半径振れ幅 102/130/362/135%)— 「実スケールで引きずりが効かない」ことの本体が q の幾何減衰であることが1タップで見える。kFrame を 0 にしても画面は変わらない(実スケールの引きずりは検出限界以下)。q は 3〜21.8 のどこでも軌道は同一(q≥5 では倍精度で完全一致)なので qLock は掛けていない — 多惑星系では自由天体距離の中央値に応じて q* が変わり、1本の規約(有限参照正規化規約)を定義できないため(第131便 統括裁定)。宣言値 q=5.1 は qLock 則 q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) を帯を含む自由天体距離の中央値 a=3836 で評価した算出値(q*=5.1045)。timeScale=30 なので画面の1秒≈6.7日。小惑星帯(3300〜4600単位≈2.2〜3.1au)はズームアウトで見える。"},
   en:{name:"Solar System — Inner Planets (Real Units)",
     parameterAudit:{
       observedInputs:["real G=6.674","real c₀=3×10⁴","the Sun's real mass, radius and rotation (25.05 d)",
@@ -6169,7 +6175,7 @@ const BUILTIN_PRESETS = [
                                // (🌘 の {6,2,25}・🌞🪨 の {8,4,27} と同じ族の、木星系に合う組)
   sampleClass:"calibration",
   fidelity:"real",   // 距離・質量・半径・自転・離心率・周期がすべて観測値(2D 赤道面理想化のみ)
-  notClaim:["solar"],
+  notClaim:["solar_cal"],
   obsCard:[
     {q:"恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)",
      model:"1.770342 / 3.552263 / 7.154235 / 16.684462 日(最大ずれ 0.0681%)",
@@ -6202,7 +6208,7 @@ const BUILTIN_PRESETS = [
         "initial phases spread by 90° (the Laplace resonance angle is NOT set up as an initial condition)",
         "the pre-registered windows JW1–JW5 were fixed before measuring and were not moved afterwards"],
       fitted:["D₀=0.006 (the shared value fixed by the joint fit on 🌘, used as is — zero re-tuning here, and zero per-moon fits)"],
-      derived:["q=12.30 (the qLock LT-class amplitude convention q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) evaluated ONCE at the reference orbit = Io, q*=12.3017, declared as a literal — runtime qLock is not engaged because a_ref is not unique in a multi-body system, the same ruling as 🌞. The convention fixes the FAR-FIELD amplitude: at Io the bare spin term is (a/(R+a))³ = 0.625 of Ω_LT, and the exact-agreement variant would be q_exact=12.059 — recorded, not adopted, wave 141)",
+      derived:["q=12.30 (the qLock finite-reference normalization rule q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) evaluated ONCE at the reference orbit = Io, q*=12.3017, declared as a literal — runtime qLock is not engaged because a_ref is not unique in a multi-body system, the same ruling as 🌞. The rule normalizes at the declared reference orbit: at Io the bare spin term is (a/(R+a))³ = 0.625 of Ω_LT, and the exact-agreement variant would be q_exact=12.059 — recorded, not adopted, waves 141/157)",
         "κ=G/c₀²=7.4156×10⁻⁹"],
       numerical:["softening ε=0.05","time multiplier timeScale=30","display magnification dispMag=3 (display only)"]},
     obsCard:[
@@ -6455,7 +6461,7 @@ const BUILTIN_PRESETS = [
   sampleClass:"calibration",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   fidelity:"real",   // 第131便: スケール換算込みの較正が成立(土星の質量・半径・自転・J_n 基準半径・
                      // 環の実半径・軌道周期が全て観測値。歳差率は Cassini 観測に −0.35%)
-  notClaim:["solar"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
+  notClaim:["solar_cal"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   familyId:"saturn", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
   obsCard:[
     {q:"D68 リングレットの近点移動", model:"38.108°/日(実単位・エンジン実測)", obs:"38.243°/日(Cassini)"},
@@ -6583,7 +6589,7 @@ const BUILTIN_PRESETS = [
     {q:"C環内縁の公転", model:"5.78 時間(厳密ケプラー)", obs:"5.8 時間(導出ケプラー周期 — 実半径 74,658km でのケプラー周期であって、カタログ化された観測量そのものではない)"},
     {q:"タイタンの公転", model:"15.949 日(実軌道半径+ケプラー初速)", obs:"15.945 日"},
     {q:"軌道速度(C環内縁)", model:"22.5 km/s", obs:"22.5 km/s"}],   // 第119便: 観測結果カード
-  notClaim:["solar"],
+  notClaim:["solar_cal"],
   familyId:"saturn", familyRole:"variant",   // 💿(primary)・📡 と同族(表示専用)。第149便(原仮定者裁定)で
                                              // トイ側の 🪐(誇張)・🎯 は family "saturnToy" へ分割した
   failureFirst:{
@@ -6678,7 +6684,7 @@ const BUILTIN_PRESETS = [
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 第121便: 💍と同じ惑星(e6)指数系
   sampleClass:"calibration",
-  notClaim:["solar"],
+  notClaim:["solar_cal"],
   familyId:"saturn", familyRole:"primary",   // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)(天体の現実較正の雛形)
   // 第120便: 💍と同一実値で kFrame=1(当時は誇張対照 — Ω+4.7%・r−2.5%/3周)。
   // 第123便(原仮定者指示「💿への共通補正適用。環粒子の近点移動も検証対象。表面に近い方が
@@ -6692,13 +6698,13 @@ const BUILTIN_PRESETS = [
   fidelity:"real",
   failureFirst:{
     fail:"kFrame=1・q=3 では主星の実自転(10.56時間)のスピン項が環を増速(+4.7%)・内側移動(−2.5%/3周)させ、偏心軌道の近点は 0.23 rad/公転も回る — 実環の厳密ケプラー(Ω∝r^−1.5)から大きく外れる(exp-kf1b §C・kf1d §B)。",
-    pass:"第123便: 共通補正 D₀=0.006+**qLock(q は自動算出 q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R)≈21.8)**で、環の近点移動は 2×10⁻⁵ rad/公転へ落ち環・衛星ともケプラー化。随伴は表面近傍で強く(h=0.5 で LT の45倍)環中域で LT と同水準の値を横切る — 「表面に近いほど引きずりが強い」= MM 実験の null 結果と整合する構造を、環という表面至近の軌道系で定量化(なお qLock が置きにいくのは**遠方近似での振幅**であって特定半径での一致ではない。参照軌道では有限半径因子 (a/(R+a))³=0.256 が残る — 第141便)。"},
+    pass:"第123便: 共通補正 D₀=0.006+**qLock(q は自動算出 q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R)≈21.8)**で、環の近点移動は 2×10⁻⁵ rad/公転へ落ち環・衛星ともケプラー化。随伴は表面近傍で強く(h=0.5 で LT の45倍)環中域で LT と同水準の値を横切る — 「表面に近いほど引きずりが強い」= MM 実験の null 結果と整合する構造を、環という表面至近の軌道系で定量化(なお qLock は**有限参照正規化規約**で、宣言参照軌道でスピン項振幅を LT 振幅×裸比 (a/(R+a))³=0.256 に載せる規則であり、特定半径での厳密一致でも LT の r⁻³ 則の保存でもない — 第141便→第157便)。"},
   obsCard:[
     {q:"環の近点移動(偏心軌道・kF1)", model:"q=3: 0.23 rad/公転 → qLock(21.8): 2×10⁻⁵", obs:"≈0(厳密ケプラー)"},
     {q:"随伴プロファイル(ω_drag/LT)", model:"表面 h=0.5: ×45 → h≈45: ×1 → タイタン: ≪1", obs:"表面随伴は MM null と整合(較正一致 — 機構同定ではない)"},
     {q:"補正の共通性", model:"D₀=0.006 は 🌘🪨 と共通・q は同一式の自動算出", obs:"—(exp-kf1d)"}],
   descStruct:{
-    summary:"💍(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、共通補正 D₀=0.006+qLock(自動算出 q*≈21.8)を適用した版(第123便)。土星の環は**表面のすぐ外**を回る軌道系 — 随伴(引きずり)は表面に近いほど強く(h=0.5 で LT の45倍)、環中域で LT と同水準の値を横切り、遠方で急減する(qLock 則が固定しているのは**遠方近似(a≫R)でのスピン項の振幅**であって特定半径での一致ではない — 参照軌道 a=105 では有限半径因子 (a/(R+a))³=0.256 が残る。第141便)。この「表面に近いほど強い引きずり」はマイケルソン・モーリー実験の null 結果と整合する構造(表面の干渉計は共回りフレームに乗る)。ただしこれは**形状の整合**であって、MM 実験の観測量を導出したものでも定量比較したものでも機構を同定したものでもない — 本サンプルの主結果は環・衛星がケプラー観測に一致することで、随伴プロファイルはその補足にあたる。qLock 下では環の偏心軌道の近点移動が 2×10⁻⁵ rad/公転まで消え、環・衛星6ともケプラー観測に一致する(exp-kf1d §B)。**天体の現実較正の雛形**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock。今後の観測較正サンプルは本構成をコピーして作る — PHYSICS §5)。",
+    summary:"💍(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、共通補正 D₀=0.006+qLock(自動算出 q*≈21.8)を適用した版(第123便)。土星の環は**表面のすぐ外**を回る軌道系 — 随伴(引きずり)は表面に近いほど強く(h=0.5 で LT の45倍)、環中域で LT と同水準の値を横切り、遠方で急減する(qLock 則は**有限参照正規化規約**で、宣言参照軌道 a=105 でスピン項振幅を LT 振幅×裸比 (a/(R+a))³=0.256 に載せる — LT の r⁻³ 則も無限遠での非零 LT 比も保存しない。第141便→第157便)。この「表面に近いほど強い引きずり」はマイケルソン・モーリー実験の null 結果と整合する構造(表面の干渉計は共回りフレームに乗る)。ただしこれは**形状の整合**であって、MM 実験の観測量を導出したものでも定量比較したものでも機構を同定したものでもない — 本サンプルの主結果は環・衛星がケプラー観測に一致することで、随伴プロファイルはその補足にあたる。qLock 下では環の偏心軌道の近点移動が 2×10⁻⁵ rad/公転まで消え、環・衛星6ともケプラー観測に一致する(exp-kf1d §B)。**天体の現実較正の雛形**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock。今後の観測較正サンプルは本構成をコピーして作る — PHYSICS §5)。",
     observe:"環・衛星とも 💍 と同じケプラー運動に見える(見えないのが正しい — kF1 でも較正が成り立つ)。ワンタップ対照A/Bで B側 q=3 にすると環が増速+内側移動し偏心軌道の近点が目に見えて回る(スピン項の復活)。q スライダーは自動算出のためグレーアウト。",
     control:"本サンプルは**天体の現実較正の雛形**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock。今後の観測較正サンプルは本構成をコピーして作る — PHYSICS §5)。ワンタップ対照A/B: B側 q=3(第120便の誇張)で引きずりが見える。kFrame=0 にすると 💍 と同一。D₀ は 🌘🪨 と共通の 0.006(運動項較正)。"},
   en:{name:"Saturn's Rings (Real Units, kFrame=1) — surface entrainment & auto-derived q",
@@ -6716,13 +6722,13 @@ const BUILTIN_PRESETS = [
       numerical:["softening ε=0.05","time multiplier timeScale=10","display magnification dispMag=1 (real radii)"]},
     failureFirst:{
       fail:"With kFrame=1 and q=3, the spin term of the primary's real rotation (10.56 h) speeds the ring up (+4.7%), migrates it inward (−2.5% per 3 orbits), and turns eccentric apses by 0.23 rad/orbit — far off the real ring's exact Kepler rotation (exp-kf1b §C, kf1d §B).",
-      pass:"Wave 123: with the joint correction D₀=0.006 plus qLock — q auto-derived as q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R)≈21.8 — the ring's apsidal drift falls to 2×10⁻⁵ rad/orbit and rings and moons alike become Keplerian. The entrainment profile is strong near the surface (×45 LT at h=0.5), crosses the LT level at mid-ring, and dies off outward (what qLock fixes is the FAR-FIELD amplitude, not agreement at any particular radius: at the reference orbit a=105 the finite-radius factor (a/(R+a))³=0.256 remains — wave 141) — 'stronger dragging nearer the surface', a structure consistent with the Michelson-Morley null result (a calibrated match, not a mechanism claim)."},
+      pass:"Wave 123: with the joint correction D₀=0.006 plus qLock — q auto-derived as q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R)≈21.8 — the ring's apsidal drift falls to 2×10⁻⁵ rad/orbit and rings and moons alike become Keplerian. The entrainment profile is strong near the surface (×45 LT at h=0.5), crosses the LT level at mid-ring, and dies off outward (qLock is a finite-reference normalization rule: at the declared reference orbit a=105 it sets the spin-term amplitude to the LT amplitude times the bare ratio (a/(R+a))³=0.256, preserving neither the r⁻³ law nor a nonzero LT ratio at infinity — waves 141/157) — 'stronger dragging nearer the surface', a structure consistent with the Michelson-Morley null result (a calibrated match, not a mechanism claim)."},
     obsCard:[
       {q:"Ring apsidal drift (eccentric, kF1)", model:"q=3: 0.23 rad/orbit → qLock(21.8): 2×10⁻⁵", obs:"≈0 (exact Kepler)"},
       {q:"Entrainment profile (ω_drag/LT)", model:"surface h=0.5: ×45 → h≈45: ×1 → Titan: ≪1", obs:"surface entrainment consistent with the MM null"},
       {q:"Universality", model:"D₀=0.006 shared with 🌘🪨; q auto-derived from one formula", obs:"— (exp-kf1d)"}],
     descStruct:{
-    summary:"The same real values as 💍 (kFrame=0) with frame dragging (A8/E6′) enabled and the joint correction applied: D₀=0.006 plus qLock (auto-derived q*≈21.8) (wave 123). Saturn's ring orbits JUST outside the surface — entrainment is strongest near the surface (×45 LT at h=0.5), crosses the LT level at mid-ring, and decays outward (the qLock rule fixes the spin term's FAR-FIELD (a≫R) amplitude, not agreement at a particular radius: at the reference orbit a=105 the finite-radius factor (a/(R+a))³=0.256 remains — wave 141). This is one of the three REAL-CALIBRATION TEMPLATES (🪨🌘💿 — real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock; future observation-calibration samples copy this construction — PHYSICS §5). 'Stronger dragging nearer the surface' is the structure consistent with the Michelson-Morley null result (a surface interferometer rides the co-rotating frame). This is a consistency of SHAPE only: the MM observable is neither derived nor quantitatively compared, and no mechanism is identified — the main result of this sample is that rings and moons match Keplerian observation, with the entrainment profile as a side note. Under qLock the eccentric apsidal drift falls to 2×10⁻⁵ rad/orbit — rings and all six moons stay Keplerian (exp-kf1d §B). ",
+    summary:"The same real values as 💍 (kFrame=0) with frame dragging (A8/E6′) enabled and the joint correction applied: D₀=0.006 plus qLock (auto-derived q*≈21.8) (wave 123). Saturn's ring orbits JUST outside the surface — entrainment is strongest near the surface (×45 LT at h=0.5), crosses the LT level at mid-ring, and decays outward (the qLock rule is a finite-reference normalization: at the declared reference orbit a=105 it sets the spin-term amplitude to the LT amplitude times the bare ratio (a/(R+a))³=0.256, preserving neither the r⁻³ law nor a nonzero LT ratio at infinity — waves 141/157). This is one of the three REAL-CALIBRATION TEMPLATES (🪨🌘💿 — real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock; future observation-calibration samples copy this construction — PHYSICS §5). 'Stronger dragging nearer the surface' is the structure consistent with the Michelson-Morley null result (a surface interferometer rides the co-rotating frame). This is a consistency of SHAPE only: the MM observable is neither derived nor quantitatively compared, and no mechanism is identified — the main result of this sample is that rings and moons match Keplerian observation, with the entrainment profile as a side note. Under qLock the eccentric apsidal drift falls to 2×10⁻⁵ rad/orbit — rings and all six moons stay Keplerian (exp-kf1d §B). ",
     observe:"Rings and moons move exactly as in 💍 (invisible IS correct — the calibration survives kF1). One-tap A/B: side B at q=3 revives the wave-120 exaggeration — the ring speeds up, drifts inward, and eccentric apses visibly rotate. The q slider is greyed out (auto-derived). ",
     control:"This is one of the three REAL-CALIBRATION TEMPLATES (🪨🌘💿 — real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock; future observation-calibration samples copy this construction — PHYSICS §5). One-tap A/B: side B q=3 (the visible-drag contrast). Set kFrame to 0 to recover 💍 exactly. D₀ is 0.006, shared with 🌘🪨 (the motion-term calibration)."}},
   abBody:{ label:{ja:"q=3(引きずりが見える誇張対照)", en:"q=3 (visible-drag contrast)"},
@@ -8252,7 +8258,7 @@ function validatePreset(obj){
         } else {
           physicsPatch={};
           for(const k of Object.keys(A.physicsPatch)){
-            // 第123便: qLock:true — B側の q を自動算出(LT級振幅規約)する特別キー(CLAMPS 外)
+            // 第123便: qLock:true — B側の q を自動算出(有限参照正規化規約)する特別キー(CLAMPS 外)
             if(k==="qLock"){ if(A.physicsPatch[k]===true) physicsPatch.qLock=true; continue; }
             // 第128便: kappaT は通常キー(CLAMPS[0,1])— 下の汎用経路が拾う。旧 Kt は後方互換で κ へ換算
             if(k==="Kt"){ if(!isNum(A.physicsPatch.kappaT) && isNum(A.physicsPatch[k]))
@@ -13867,7 +13873,7 @@ function loadPreset(id, keepPhysics){
   if(keepPhysics && basePhysics) merged.physics=Object.assign({},sim.params);
   sim.build(merged);
   // 第123便(原仮定者指示「qが計算で求まるなら編集対象から外す」): qLock サンプルは
-  // 引きずり減衰 q を LT級振幅規約(遠方近似)から自動算出して適用(q スライダーはグレーアウト)
+  // 引きずり減衰 q を有限参照正規化規約から自動算出して適用(q スライダーはグレーアウト)
   qLockOn=!!p.qLock;
   if(qLockOn) applyQLock(sim);
   trailBuf=[]; trailBufB=[];  // 軌道トレイルはプリセット読込・⏮初めからでリセット
@@ -14276,10 +14282,12 @@ $("#btnPanelClose").addEventListener("click",closePanel);  // v1.17: パネル�
 // =====   決断事項4-12承認・第10次裁定P0-2) =====
 // グローバルUI設定(プリセット/セーブのスキーマは拡張しない)。ONの間、時計・光の κ を
 // E12・運動時間項が参照するcLightと重力Gから導出される対応条件 κ=G/cLight² に自動維持する。
-// 第123便(原仮定者指示): qLock — 引きずり減衰 q の自動算出(LT級振幅規約 — 第141便で改称)。
+// 第123便(原仮定者指示): qLock — 引きずり減衰 q の自動算出(有限参照正規化規約 — 第141便で改称・第157便で再定義)。
 // スピン項 ω(d)=s·(R/(R+d))^q の LT に対する振幅超過 X=1.25·c₀²R/(GM) は軌道 a・スピン s に
 // 依らない(第122便の抑制率則の帰結)ため、参照軌道 a(支配源から見た自由天体の初期距離の
 // 中央値)でその遠方超過を打ち消す指数 **q*=3+ln(X)/ln((R+a)/R)** が全て既知量から計算で求まる
+// (第157便 再定義: 規約が固定するのは**宣言参照軌道 a での**スピン項振幅=LT 振幅×裸比
+//  (a/(R+a))³ であり、LT の r⁻³ 則も無限遠での非零 LT 比も保存しない — 比は d^{3−q*} で消える)
 // (tests/exp-kf1d.mjs: 🪨6.16→引きずり−5.6e-10・🌘8.25→Δϖ比0.999・💿21.8→環がケプラー化・
 //  🌌3.89=誇張ドメインでも値域内)。d→0(表面)では q によらず強い随伴が残る —
 // 「表面に近いほど引きずりが強い」= マイケルソン・モーリーの null 結果と整合する構造。
@@ -14949,9 +14957,9 @@ function buildParamRows(){
     const updConv=()=>{ const s0=(scaleDispOn? scaleConvStr(key,showSim.params[key]) : null);
       conv.textContent=s0||""; conv.style.display=s0? "" : "none"; };
     updConv();
-    // 第123便: qLock サンプルでは q 行を最初から編集不可にする(自動算出 — LT級振幅規約)
+    // 第123便: qLock サンプルでは q 行を最初から編集不可にする(自動算出 — 有限参照正規化規約)
     if(key==="q" && qLockOn){ rng.disabled=true; num.disabled=true;
-      num.title=rng.title="qLock: q は自動算出(q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) — LT級振幅規約〔遠方近似〕。サンプル宣言)"; }
+      num.title=rng.title="qLock: q は自動算出(q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) — 有限参照正規化規約〔宣言参照軌道 a で LT 振幅×(a/(R+a))³ に正規化〕。サンプル宣言)"; }
     const setParam=(v)=>{
       const c=CLAMPS[key]; v=clamp(v,c[0],c[1]);
       // v1.23: 書き込み先 — applyBoth(時間倍率)は常にA/B両方、それ以外は編集対象(editSim)
@@ -14986,9 +14994,9 @@ function buildParamRows(){
     // スライダー・直値入力を編集不可(グレーアウト)にする。解除で編集可へ戻す
     const syncFn=()=>{ rng.value=v2p(rd()); num.value=fmtV(rd()); updConv();
       if(key==="kappaT"){ rng.disabled=physLock; num.disabled=physLock; row.classList.toggle("lockedRow",physLock); }
-      // 第123便: qLock サンプルでは q は自動算出(LT級振幅規約)— 編集対象から外す
+      // 第123便: qLock サンプルでは q は自動算出(有限参照正規化規約)— 編集対象から外す
       if(key==="q" && qLockOn){ rng.disabled=true; num.disabled=true; row.classList.add("lockedRow");
-        num.title=rng.title="qLock: q は自動算出(q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) — LT級振幅規約〔遠方近似〕。サンプル宣言)"; } };
+        num.title=rng.title="qLock: q は自動算出(q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) — 有限参照正規化規約〔宣言参照軌道 a で LT 振幅×(a/(R+a))³ に正規化〕。サンプル宣言)"; } };
     const syncOthers=()=>{ (paramRowSync[key]||[]).forEach(f=>{ if(f!==syncFn) f(); }); };
     rng.addEventListener("input",()=>{  // 実行中いつでも即時反映
       let v=parseFloat(rng.value);

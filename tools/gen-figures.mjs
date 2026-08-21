@@ -397,7 +397,7 @@ if (want(5)) {
     const rays1 = fan(s, 26, 0.85, dl, 340);
     const bodies1 = [];
     for (let i = 0; i < s.n; i++) bodies1.push([s.x[i], s.y[i], s.R[i]]);
-    // V8 構成(m1500, spin±0.5, Kt=500)
+    // V8 構成(m1500, spin±0.5, κ=1/500)
     const mk = (sp) => {
       const q = HP.sim;
       q.build({ id: 'fig_v8', name: 'V8', camera: { scale: 300 }, world: { boundary: 'none', size: 0 },
@@ -413,8 +413,8 @@ if (want(5)) {
     const asymM = bend(s3, 90) + bend(s3, -90);
     return { rays1, bodies1, rays2, body2: [0, 0, 1.2 * Math.sqrt(1500)], asymP, asymM };
   });
-  const a = rayPanel({ rays: d.rays1, bodies: d.bodies1, box: 330, title: 'preset lensing (Kt=150): deflection and capture' });
-  const b = rayPanel({ rays: d.rays2, bodies: [d.body2], box: 330, title: 'V8 configuration (spin +0.5, Kt=500): asymmetric fan' });
+  const a = rayPanel({ rays: d.rays1, bodies: d.bodies1, box: 330, title: 'preset lensing (&#954; = 1/150): deflection and capture' });
+  const b = rayPanel({ rays: d.rays2, bodies: [d.body2], box: 330, title: 'V8 configuration (spin +0.5, &#954; = 1/500): asymmetric fan' });
   const fig = panelStack([a, b]);
   await writeFig(pdfPage, 5, fig, { presets: 'lensing (26 rays, x0=-300, dl=300/110, 340 steps) + V8 config (13 rays)',
     asymmetryRad: { plus: d.asymP, minus: d.asymM } });

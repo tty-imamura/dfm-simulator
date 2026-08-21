@@ -1,12 +1,17 @@
 # paper/ — arXiv 向け第1論文(software / computational toy model paper)
 
-- **version of record = v0.9**(2026-07-20 確定・第143便の組版/書誌パスを含む。
-  版表記はここと `dfm-paper.tex` 冒頭の "VERSION OF RECORD" 行の2箇所だけで、
-  両者は常に一致させる — 第143便で v0.8/v0.9/README v0.7 の三重表記を解消)。
+- **現行稿 = v0.10**(2026-08-21・第156便)/ **version of record = v0.9**
+  (2026-07-20 確定・第143便の組版/書誌パスを含む)。現行稿は記録版の
+  **post-record editorial revision** であり、数値・claims・式・窓は v0.9 から
+  1つも動いていない(表記の正準化〔K_t → κ〕・副題・組版のみ)。Zenodo への再登録は
+  投稿時作業(`dfm-paper.tex` 冒頭 TODO(release))。
+  版表記はここと `dfm-paper.tex` 冒頭の "CURRENT VERSION"/"VERSION OF RECORD" 行の
+  2箇所だけで、常に一致させる(第143便で v0.8/v0.9/README v0.7 の三重表記を解消)。
   改稿履歴は `dfm-paper.tex` 冒頭コメントに記録(v0.1 初稿 → v0.2 第5次模擬査読 →
   v0.3 英文校閲 → v0.4 E12 節 → v0.5 第6次査読=論文・コード一致回復 →
   v0.6 タイトル変更(4-19)→ v0.7 公開前整合 → v0.8 標準資料引用 →
-  v0.9 提出版タグ+Zenodo DOI 確定 → 第143便 組版・書誌のみ〔主張・数値は不変〕)。
+  v0.9 提出版タグ+Zenodo DOI 確定 → 第143便 組版・書誌のみ〔主張・数値は不変〕→
+  v0.10 第156便 図5見出しの κ 変換とメタデータ統一〔主張・数値は不変〕)。
 - **対象の分離**: 本論文が記述するのは提出タグ `paper-v1`(release v1.27.0 系)で
   あって、リポジトリの HEAD ではない。現行アプリは **v1.41.0**(リリース済み —
   beta v1.41-b1 から昇格)で、プリセット・エンジンオプション・ゲート件数はすでに
@@ -55,7 +60,8 @@ lualatex dfm-paper-ja.tex && lualatex dfm-paper-ja.tex
 LuaLaTeX + luatexja + 原ノ味フォント(TeX Live の
 `texlive-luatex` / `texlive-lang-japanese` 相当)が必要。クラスは
 `ltjsarticle`(2段組)。図は英語版と同じ `figures/` を参照する。
-生成 PDF(20ページ)は英語版と同様ビルド成果物扱いでコミットしない
+生成 PDF(頁数は下の「頁数(ローカルビルド実測)」を参照)は英語版と同様
+ビルド成果物扱いでコミットしない
 (`.gitignore` の `paper/*.pdf`)。
 
 ## 図の再生成(機械生成 — スクリーンショットは補助のみ)
@@ -77,7 +83,7 @@ headless Chromium + HP フック駆動(依存は `npm ci` の playwright のみ)
 | Fig. 2 | preset `galaxy`(n=380, r≤260, D₀=1)+ abStart(kFrame,0)、6000步 | 外縁比 kF1/kF0 = 1.082 (>1.04) |
 | Fig. 3 | V6 構成3ラン+ロゼット構成(スクリプト内明示。旧 `drag`)168000步 | −7.52° / +10.71° / 対照 −1.03° |
 | Fig. 4 | V12/V13/V16 同構成(各1000步) | 最大相対誤差 9.1e-5 (<1e-3) |
-| Fig. 5 | preset `lensing`(26本ファン)+ V8 構成(spin±0.5, Kt=500) | 非対称度 ∓6.77e-2 rad(符号反転) |
+| Fig. 5 | preset `lensing`(26本ファン)+ V8 構成(spin±0.5, κ=1/500) | 非対称度 ∓6.77e-2 rad(符号反転) |
 | Fig. 6 | preset `gas`(**64000步** — v1.18/21 統制化対応)/ `pressure`(16000步) | 温度ギャップ 4.36→0.29・コア半径 34.5→140.9(×4.09) |
 
 ## 投稿前 TODO(現況)
@@ -88,8 +94,8 @@ headless Chromium + HP フック駆動(依存は `npm ci` の playwright のみ)
 - [x] 英文校閲(v0.3)・第6次外部AI査読の裁定(v0.5)・タイトル確定(v0.6)
 - [x] Table I/IV の標準資料引用(v0.8: CODATA 2022 / IAU 2015 B3(Prša+16)/
       Ashby 2003 — 一次資料照合済み。第6次査読 Major 12)
-- [x] pdflatex 2パス+ページ数確定(**16ページ** — エラー0・未解決参照0。
-      arXiv Comments 欄確定)
+- [x] pdflatex 2パス+ページ数確定(エラー0・未解決参照0。arXiv Comments 欄の
+      頁数は下の「頁数(ローカルビルド実測)」の値を用いる)
 - [x] リポジトリ提出版タグ+Zenodo DOI の挿入(v0.9: タグ `paper-v1`・
       **doi:10.5281/zenodo.21454189** を Reproducibility 節に確定。TODO 解消)
 - [x] 日本語要旨(国内発表用・必要なら)→ 全訳版 `dfm-paper-ja.tex` として
@@ -113,7 +119,9 @@ grep で機械確認する:
 
 # 第2論文「箱宇宙」(dfm-paper2.tex / dfm-paper2-ja.tex)
 
-- 現行稿 **v0.4**(2026-07-30 第46便 46F — 図8点の機械生成と組み込み)。
+- 現行稿 **v0.9**(2026-08-21 第156便 — Code and data availability の現在形化・
+  要旨の免責圧縮・所属統一。数値・ゲート・図は不変)。v0.8 は 2026-07-31 第51便
+  (外部査読対応の Major revision)、図8点の機械生成と組み込みは v0.4(第46便 46F)。
   改稿履歴は `dfm-paper2.tex` 冒頭コメント。
 - 執筆指示書は内部開発文書 HANDOFF_PAPER2_WRITE.md v1.1(唯一の正本・非公開管理)。
 - 図の設計正本: 骨子 HANDOFF_PAPER_BOX.md v0.3 §4 と EXP_4-66_PROBE_H_DESIGN.md
@@ -122,8 +130,8 @@ grep で機械確認する:
 ## ビルド
 
 ```sh
-pdflatex dfm-paper2.tex    && pdflatex dfm-paper2.tex      # 英語版(RevTeX 4.2・7ページ)
-lualatex dfm-paper2-ja.tex && lualatex dfm-paper2-ja.tex   # 日本語版(ltjsarticle・8ページ)
+pdflatex dfm-paper2.tex    && pdflatex dfm-paper2.tex      # 英語版(RevTeX 4.2)
+lualatex dfm-paper2-ja.tex && lualatex dfm-paper2-ja.tex   # 日本語版(ltjsarticle)
 ```
 
 ## 図の再生成(機械生成)
@@ -146,7 +154,7 @@ boxredshift・rotorSolo は beta 先行)。各図の `.json` に生成パラメ�
 | p2fig1 | 模式図(シミュレーション不要・SVG 手組み) | 数値なし |
 | p2fig2 | V23a/V24a 構成(96質点リング R=260)を r=20..240 へ半径スキャン+連続リング極限の求積 | g(20)=0.5002(解析 1/2)・解析との最大差 0.07% |
 | p2fig3 | V25 の binLn/nNet を転記し universeBox.D をスキャン(連星 m=2000, d=24 固定) | アンカー n=1.61 / 0.00・φ_B 0.088→0.990 で単調 0.00→1.59 |
-| p2fig4 | preset `boxredshift`(QA `box.photon-abc` と同一構成・t<75) | z_A=2.9187 / z_B=0.9556・帳簿ずれ 0(<1e-9)・到着差 0.080 |
+| p2fig4 | preset `boxredshift`(QA `box.photon-abc` と同一構成・t<75) | z_A=2.9275 / z_B=0.9581・帳簿ずれ 0(<1e-9)・到着差 0.080 |
 | p2fig5 | preset `freebox`(QA `freebox.*` と同一・1200步) | a_eff=2.1795 / 圧力オフ 最大 1.0047(t=9.2)→再収縮・帳簿全0 |
 | p2fig6 | V29 の測定系を D/Kt∈{0.3, 0.9242, 1.5}×24窓へ拡張+反比例対照(後処理) | 解析との最大相対誤差 6.2e-3・較正点 0.9242・対照 |比−1|<3.7e-3 |
 | p2fig7 | preset `rotorSolo`(QA `behavior.rotorSolo` と同一光線条件) | 非脱出率 0.66→0.00・spin0.3 で 0.72(別機構)・ロックで 0.00・順行/逆行 123.4/40.4 |
@@ -162,12 +170,19 @@ boxredshift・rotorSolo は beta 先行)。各図の `.json` に生成パラメ�
 - **番号再編(2026-08-16 裁定)**: 論文3のテーマを**現実較正**とし、執筆中だった
   「スケール横断の創発」ドラフト(旧 dfm-paper3)は**内容不変のまま論文4へ繰り下げ**
   (`dfm-paper4.tex` / `dfm-paper4-ja.tex` v0.3)。
-- **dfm-paper3.tex / dfm-paper3-ja.tex(v1.0-draft)**: 現実較正テーマの全文稿。
+- **dfm-paper3.tex / dfm-paper3-ja.tex(現行稿 v1.1 / v1.1-ja — 2026-08-21 第156便。
+  初出の全文稿は v1.0-draft)**: 現実較正テーマの全文稿。
   柱は ①43″/世紀の力学直接再現(比1.002)②kF1 安定性の単位系依存 ③運動引きずりによる
   月の近点回転 8.85年の較正再現 ④共通補正 (D₀=0.006) の qLock 導出規則への純化 — 全章を
   「較正一致≠機構同定」の正直な較正の哲学で貫く。第140便で図4点と木星ガリレオ衛星
-  hold-out(第VI節F)を収載。第141便で外部レビュー対応(qLock を「遠方近似の LT 級振幅規約」
-  として再定義+有限半径因子表・W1〜W5 表・検証対応表の3列化・木星の感度実測)。計測正本: tests/exp-obscal.mjs・exp-kf1.mjs・exp-kf1b.mjs・
+  hold-out(第VI節F)を収載。第141便で外部レビュー対応(有限半径因子表・W1〜W5 表・
+  検証対応表の3列化・木星の感度実測)。**第156便(v1.1)で qLock を
+  「有限参照正規化規約」として再定義**した — 宣言参照軌道 a でスピン項振幅を
+  LT 振幅×裸比 (a/(R+a))³ に一致させる規約であって、LT の r⁻³ 則も無限遠での
+  非零 LT 比も保存しない(比は d^(3−q*) で消える)。第141便の「遠方近似の LT 級
+  振幅規約」という表現は漸近命題として偽なので撤回した(数値・窓は一切不変)。
+  木星 hold-out も「規則が選ぶ強減衰クラス(q≳8)の検証」へ範囲を狭めて記述する。
+  計測正本: tests/exp-obscal.mjs・exp-kf1.mjs・exp-kf1b.mjs・
   exp-kf1c.mjs・exp-kf1d.mjs・exp-qlockradial.mjs・exp-jupiter.mjs / docs/PHYSICS.md §5。
 - ビルドは第1・2論文と同じ(英語版 pdflatex ×2 / 日本語版 lualatex ×2)。
   CI は `.github/workflows/paper3.yml`(第140便)が paper2 と同格のゲートを張る:
@@ -198,3 +213,24 @@ FIG=3,4 node tools/gen-figures3.mjs  # 個別再生成
 
 **投稿直前に必ず提出コミットで全図を再生成し、図 JSON と論文のコミット参照を
 一致させること**(第1・2論文と同じ規律)。
+
+---
+
+# 頁数(ローカルビルド実測)
+
+2026-08-21(第156便)にこのリポジトリ内でビルドした実測値。arXiv の Comments 欄・
+投稿フォームの頁数はここを正とする。
+
+| 原稿 | 版 | エンジン | 頁数 |
+|---|---|---|---|
+| `dfm-paper.tex` | v0.10(記録版 v0.9) | pdflatex ×2 | 17 |
+| `dfm-paper-ja.tex` | v1.1-ja | lualatex ×2 | 21 |
+| `dfm-paper2.tex` | v0.9 | pdflatex ×2 | 10 |
+| `dfm-paper2-ja.tex` | v0.9-ja | lualatex ×2 | 11 |
+| `dfm-paper3.tex` | v1.1 | pdflatex ×2 | 20 |
+| `dfm-paper3-ja.tex` | v1.1-ja | lualatex ×2 | 25 |
+
+**注記**: ローカル TeX Live での実測であり、CI(`paper1.yml` / `paper2.yml` /
+`paper3.yml` が入れる TeX Live)とは **±1頁の差がありうる**(パッケージ版差による
+行分割の違い)。エラー0・未定義参照0・overfull > 10pt が0件であることは
+ローカル・CI の双方で確認する。

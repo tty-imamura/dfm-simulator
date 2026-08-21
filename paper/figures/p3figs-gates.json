@@ -1,7 +1,7 @@
 {
  "paper": "dfm-paper3",
- "commit": "10c7909",
- "generated": "2026-08-19T23:31:43.030Z",
+ "commit": "3a719d9",
+ "generated": "2026-08-21T13:11:54.337Z",
  "provenance": "コミット済み結果 JSON のみを読む(新規シミュレーションなし)",
  "sources": [
   "tests/out/obscal-results.json",
@@ -137,7 +137,7 @@
   {
    "id": "p3fig4.qlock-farfield",
    "pass": true,
-   "detail": "qLock は遠方近似 (a≫R) の規約: 参照軌道で素のスピン項/Ω_LT は有限半径因子 (a/(R+a))³ = 0.6252 に等しく(規則の出力 q*=12.3017 を代入した実値 0.6252 と 1e-12 以内で一致)、厳密一致式は q_exact=12.0586"
+   "detail": "qLock は有限参照正規化規約(遠方近似 a≫R を参照軌道での宣言に用いる — 第156便再定義): 参照軌道で素のスピン項/Ω_LT は有限半径因子 (a/(R+a))³ = 0.6252 に等しく(規則の出力 q*=12.3017 を代入した実値 0.6252 と 1e-12 以内で一致)、厳密一致式は q_exact=12.0586"
   },
   {
    "id": "p3fig4.sensitivity-determinism",
