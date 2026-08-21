@@ -15439,6 +15439,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     { json: 'coreshell2-results.json', harness: 'tests/exp-coreshell2.mjs' },
     { json: 'coreshell3-results.json', harness: 'tests/exp-coreshell3.mjs' },
     { json: 'coreshell4-results.json', harness: 'tests/exp-coreshell4.mjs' },
+    { json: 'coreshell-theory-results.json', harness: 'tests/exp-coreshell-theory.mjs' },
   ];
   const SENTINELS = ['not-applicable', 'not-instrumented', 'unavailable'];
   const isHex = (v, n) => typeof v === 'string' && new RegExp(`^[0-9a-f]{${n}}$`).test(v);
