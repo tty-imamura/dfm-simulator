@@ -77,9 +77,12 @@ const gs = await page.evaluate(() => {
 // 第147便: グループ再編(「銀河」→「銀河の物語」・「光」→「光の物語」+ 新グループの新設)。
 // 第149便(原仮定者裁定): その新グループ名を「現実較正」→「現実との照合」へ改称した。
 // 第79便順と第149便順のどちらか**に厳密一致**することを要求する(名前の追随のみ — 判定は不変)
+// 第151便(原仮定者指示): 新グループ「ローターの物語」を銀河の物語の直後へ新設(候補を1つ追加)
 const WANT79 = ['熱の実験室', '空間と時間', '光', '天体の物語', '銀河', '箱宇宙'];
 const WANT149 = ['熱の実験室', '空間と時間', '光の物語', '天体の物語', '現実との照合', '銀河の物語', '箱宇宙'];
-const WANT = JSON.stringify(gs.og) === JSON.stringify(WANT149) ? WANT149 : WANT79;
+const WANT151 = ['熱の実験室', '空間と時間', '光の物語', '天体の物語', '現実との照合', '銀河の物語',
+  'ローターの物語', '箱宇宙'];
+const WANT = [WANT151, WANT149].find((w) => JSON.stringify(gs.og) === JSON.stringify(w)) || WANT79;
 const eq = (a) => JSON.stringify(a) === JSON.stringify(WANT);
 chk('ui6.group-order', eq(gs.og) && eq(gs.ag), `optgroup=${JSON.stringify(gs.og)} aiBase=${JSON.stringify(gs.ag)}`);
 chk('ui6.groupSelect-order', JSON.stringify(gs.groups.filter(g => WANT.includes(g))) === JSON.stringify(WANT),

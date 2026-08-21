@@ -1775,9 +1775,15 @@ qLock 半径監査・機構判別を含むリリースである。その土台�
 完了---実 $G$・実 $c$・\texttt{pnSource}・\texttt{stateCarry} の各規約、現実較正サンプル
 一式、そして kF1 共通補正の $D_0=0.006$ + qLock(較正ノブが1つも残らない)への純化---は
 v1.40 系列のリリースノートが記録している。
-% TODO(release): 残るは Zenodo DOI のみ — 注釈付きタグは v1.41.0 で確定済み。
-% DOI は提出時に発行し、論文1〜2で用いた形式で記載する
-% (論文1: doi:10.5281/zenodo.21454189)。
+% TODO(release): 残るは本原稿自身の DOI のみ — 注釈付きタグは v1.41.0 で確定済みで、
+% ソフトウェアのアーカイブ DOI は次の文で確定済み。原稿の DOI は提出時に発行し、
+% 論文1〜2で用いた形式で記載する(論文1: doi:10.5281/zenodo.21454189)。
+シミュレータのソースコードは Zenodo にソフトウェアとして寄託されている(本原稿の
+DOI ではなくコードのアーカイブである): concept DOI
+\href{https://doi.org/10.5281/zenodo.21454188}%
+{doi:10.5281/zenodo.21454188} が全バージョンに解決し、記録状態である v1.41.0 は
+\href{https://doi.org/10.5281/zenodo.22025091}%
+{doi:10.5281/zenodo.22025091} としてアーカイブされている。
 環境は Node.js~$\geq$22 に、ハーネス用の Playwright 駆動 Chromium と原稿用の TeX~Live
 であり、\texttt{npm ci \&\& npm test} が検証スイートを、
 \texttt{node tools/gen-figures3.mjs} が本論文の全図を再現する。
