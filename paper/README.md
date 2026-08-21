@@ -18,8 +18,11 @@
 - 入力正本: `docs/DERIVATIONS.md` / `docs/PHYSICS.md` v1.9 /
   `docs/THEORY_SYNTHESIS.md` v1.7+ / `index.html` **v1.27**(実験の物理エンジンは
   v1.20–1.21 の E12/E8R 改訂以降不変)。
-- タイトル(4-19 確定): *Determinacy-Field Mechanics: A Machian Toy Universe with
-  Tunable Frame Dragging, Inverse-Square Gravity, and Spin-as-Heat Analogies*
+- タイトル(4-19 確定 → 第153便で副題を追加): *Determinacy-Field Mechanics: A Machian
+  Toy Universe with Tunable Frame Dragging, Inverse-Square Gravity, and Spin-as-Heat
+  Analogies: Reproducing the GPS Clock Offset, Solar-Limb Deflection and Shapiro Delay
+  as Consequences of One Calibration, Not as Evidence*
+  (Zenodo v1 レコード 21454189 の表題は主題のみ — bibitem は投稿時の再登録まで主題で引用)
 - 投稿先候補: American Journal of Physics / European Journal of Physics(第1)、
   Foundations of Physics / SciPost Physics Core(第2)。
   arXiv カテゴリ: physics.ed-ph(主)+ gr-qc(クロスリスト)。

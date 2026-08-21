@@ -86,20 +86,33 @@
 \hypersetup{
   pdftitle={Determinacy-Field Mechanics: A Machian Toy Universe with
     Tunable Frame Dragging, Inverse-Square Gravity, and
-    Spin-as-Heat Analogies},
+    Spin-as-Heat Analogies: Reproducing the GPS Clock Offset,
+    Solar-Limb Deflection and Shapiro Delay as Consequences of One
+    Calibration, Not as Evidence},
   pdfauthor={Tetsuya Imamura},
   pdfsubject={Educational toy model; Machian mechanics; frame dragging}}
 
 \newcommand{\ud}{\mathrm{d}}
 \newcommand{\vect}[1]{\bm{#1}}
-\newcommand{\Kt}{K_t}
+% wave 153: the spacetime coefficient is written in the canonical form
+% kappa (parameter kappaT) used by the implementation and docs/PHYSICS.md
+% since wave 128.  kappa = 1/K_t, so the correspondence mapping reads
+% kappa = G/c^2 and psi = W*kappa (a multiplication).  The macro name is
+% kept so that the diff stays confined to the definition and to the
+% formulas that had to be inverted.
+\newcommand{\Kt}{\kappa}
 \newcommand{\Dz}{D_0}
 
 \begin{document}
 
-\title{Determinacy-Field Mechanics: A Machian Toy Universe with Tunable
-Frame Dragging, Inverse-Square Gravity, and Spin-as-Heat
-Analogies}
+% wave 153: \texorpdfstring keeps the PDF bookmark/PDF-string expansion
+% free of the line breaks in the title (hyperref warnings), as in paper 3.
+\title{\texorpdfstring{Determinacy-Field Mechanics: A Machian Toy
+Universe with Tunable Frame Dragging, Inverse-Square Gravity, and
+Spin-as-Heat Analogies:\\
+Reproducing the GPS Clock Offset, Solar-Limb Deflection and Shapiro
+Delay as Consequences of One Calibration, Not as Evidence}%
+{Determinacy-Field Mechanics: A Machian Toy Universe with Tunable Frame Dragging, Inverse-Square Gravity, and Spin-as-Heat Analogies: Reproducing the GPS Clock Offset, Solar-Limb Deflection and Shapiro Delay as Consequences of One Calibration, Not as Evidence}}
 
 \author{Tetsuya Imamura}
 % Affiliation confirmed 2026-07-18 (author's decision).
@@ -115,6 +128,12 @@ four roles---the weight defining the local inertial frame, the
 gravitational potential, the local clock rate, and the optical
 refractive index---while a single signed spin degree of freedom $s$ per
 particle acts as heat.
+Under one calibration of that field, $\Kt = G/c^2$, the model's
+weak-field clock-and-light sector reproduces the leading benchmark
+formulas for the GPS clock offset ($+38.5\ \mu$s/day), the solar-limb
+light deflection ($1.7512''$) and the Shapiro delay
+($\approx 281\ \mu$s)---agreement that is a consequence of that single
+calibration, not evidence for the model.
 The model is specified by axioms A1--A13 and update rules E1$'$--E11 on a
 two-dimensional Euclidean background, and is implemented as a
 self-contained single-file HTML simulator whose principal claims are
@@ -128,12 +147,9 @@ develop a modest outer-velocity enhancement---a machine-gated increase
 in the outer rotation velocities relative to the $k_F = 0$ control---as
 a demonstration of the mechanism within the model; with $k_F = 0$ the
 dynamics reduces exactly to Newtonian $N$-body gravity.
-Under the single calibration $\Kt = c^2/G$, and with the observational
-inputs for each benchmark specified in an appendix, the model's
-weak-field clock-and-light sector reproduces the leading weak-field
-benchmark formulas for the GPS clock offset, the solar-limb light
-deflection, and
-the Shapiro delay (formula-level benchmark agreement), with the
+The observational inputs behind each of those three benchmarks are
+specified in an appendix, and the agreement is at the level of the
+leading weak-field formulas, with the
 gravitational-to-optical ratio $1{:}2$ fixed by the single axiomatic
 exponent choice $a = b = 1$ rather than by per-observable fitting; the
 same dynamics does \emph{not} reproduce the static first
@@ -199,8 +215,12 @@ scalar $s_i$ per particle, then plays every dynamical role in the model:
 the determinacy-weighted average of the sources' motion defines the
 local frame $\vect{u}(\vect{r})$ against which inertia holds; the
 gradient of $W$ is the gravitational acceleration; a single
-dimensionless potential $\psi = W/\Kt$ sets both the local clock rate
-and the optical refractive index; and spin doubles as heat, generating
+dimensionless potential $\psi = W\Kt$ sets both the local clock
+rate and the optical refractive index---the coefficient $\Kt$ (the
+implementation parameter \texttt{kappaT}) carries the dimensions of
+$G/c^2$, length per mass, and is \emph{not} Einstein's gravitational
+constant $\kappa = 8\pi G/c^4$ of general relativity, with which it
+shares only the letter; and spin doubles as heat, generating
 pressure through spin-induced frame rotation.
 
 The model is intentionally not a candidate description of nature.
@@ -250,7 +270,7 @@ three-dimensional-like distance law on the plane (a pseudo-3D
 idealization, Sec.~\ref{sec:axioms}).
 
 \item[C3.]{\bf Structural correspondence with weak-field GR.}
-Under the parameter mapping $\Kt = c^2/G$, the model's proper-time and
+Under the parameter mapping $\Kt = G/c^2$, the model's proper-time and
 light-deflection formulas have the same structure as weak-field GR
 (Sec.~\ref{sec:corr}).
 Beginning with version 1.7 of the model, clock rate and refraction are
@@ -258,7 +278,7 @@ generated
 by the single potential $\psi$ through $N = e^{-a\psi}$ and
 $A = e^{+b\psi}$ with the exponents fixed once, axiomatically, at
 $a = b = 1$; under that choice the effective lensing coefficient is the
-derived combination $(a+b)/\Kt = 2/\Kt$ and is never retuned per
+derived combination $(a+b)\Kt = 2\Kt$ and is never retuned per
 observable.
 The geodesic option E12 (Sec.~\ref{sec:e12}), derived from the same
 potential's line element, extends the correspondence to the static 1PN
@@ -514,14 +534,14 @@ determinacy and with speed relative to the comoving frame:
 N = e^{-a\psi},\; A = e^{+b\psi},
 \label{eq:A7}
 \end{equation}
-with $\psi = W_{\rm ext}/\Kt$ evaluated excluding the particle's own
+with $\psi = W_{\rm ext}\Kt$ evaluated excluding the particle's own
 field.
 The exponents in the general two-parameter family
 $N = e^{-a\psi}$, $A = e^{+b\psi}$ are fixed \emph{once, as part of
 this axiom}, at $a = b = 1$; they are never retuned per observable.
 Every weak-field coefficient of the clock-and-light sector presented
 below, including the effective lensing coefficient
-$(a+b)/\Kt = 2/\Kt$, is a consequence of this single axiomatic choice,
+$(a+b)\Kt = 2\Kt$, is a consequence of this single axiomatic choice,
 not a consequence merely of using a single potential $\psi$.
 Where no frame exists ($W_{\rm ext}=0$) motion is undefined and there
 is no kinematic time dilation (consistent with T1); a non-positive
@@ -731,7 +751,7 @@ rounding floor and independent of the time step
 \paragraph*{E7R (Proper time).}
 Equation~(\ref{eq:A7}) integrated per particle,
 $\tau_i \mathrel{+}= \dot\tau_i\,\ud t$, with
-$\psi_i = W_{\rm ext}(\vect{r}_i)/\Kt$ self-excluded.
+$\psi_i = W_{\rm ext}(\vect{r}_i)\,\Kt$ self-excluded.
 Weak-field, low-speed expansion:
 $\dot\tau \approx 1 - \psi - |\vect{v}-\vect{u}|^2/(2c_0^2)$.
 
@@ -760,7 +780,7 @@ threshold.)
 Clock rate and refraction are thus generated by the \emph{same}
 potential $\psi$ with the axiomatic exponents $a = b = 1$ (A7$'$); the
 weak-field lensing coefficient is the derived combination
-$(a+b)/\Kt = 2/\Kt$ and is never retuned per observable.
+$(a+b)\Kt = 2\Kt$ and is never retuned per observable.
 
 \paragraph*{E9 (Contact).}
 For $d_{ij} < R_i + R_j$: a symmetric normal spring resolves overlap; a
@@ -796,7 +816,7 @@ $T_i = I_i s_i^2$, $\Lambda_i = \eta_{\rm rad}T_i^p$,
 $\ud s_i/\ud t = -\Lambda_i/(I_i s_i)$, which preserves the sign of
 $s$ (default $\eta_{\rm rad} = 0$, off).
 
-The single potential $\psi = W_{\rm ext}/\Kt$ entering E7R and E8R is
+The single potential $\psi = W_{\rm ext}\Kt$ entering E7R and E8R is
 the structural heart of the clock-and-light sector: a single field and
 a single coefficient, $\Kt$, govern both phenomena.
 
@@ -822,12 +842,12 @@ $\dot\tau \approx 1 - \psi - |\vect{v}-\vect{u}|^2/(2c_0^2)$,
 matches the weak-field, slow-motion GR clock rate
 $1 + \Phi_N/c^2 - v^2/(2c^2)$ under the single identification
 \begin{equation}
-\Kt = \frac{c^2}{G} \approx 1.35\times10^{27}\ {\rm kg\,m^{-1}},
-\label{eq:Kt}
+\Kt = \frac{G}{c^2} \approx 7.43\times10^{-28}\ {\rm m\,kg^{-1}},
+\label{eq:kappa}
 \end{equation}
 with $\Dz$ contributing a global clock recalibration and the DFM
 velocity referred to $\vect{u}$.
-The refractive index $n_{\rm eff} = e^{2\psi} \approx 1 + 2W/\Kt$ then
+The refractive index $n_{\rm eff} = e^{2\psi} \approx 1 + 2W\Kt$ then
 has the same weak-field form as the GR value
 $n \approx 1 - 2\Phi_N/c^2$---the gravitational-to-optical ratio
 $1{:}2$ is fixed by the single axiomatic exponent choice $a = b = 1$
@@ -836,7 +856,7 @@ through a second calibrated coefficient.
 
 Table~\ref{tab:calib} compares this sector with the standard
 weak-field benchmarks and reports both its successes and its failure.
-Each benchmark requires, besides $\Kt = c^2/G$, a set of fixed
+Each benchmark requires, besides $\Kt = G/c^2$, a set of fixed
 \emph{observational inputs} (masses, radii, orbit radii, geometry) and
 two conventions ($c_0 = c$; the frame velocity $\vect{u} = 0$ for the
 solar-system configuration); these are tabulated once in
@@ -852,7 +872,7 @@ Sec.~\ref{sec:e12}).
 \begin{table*}[t]
 \caption{\label{tab:calib}%
 Benchmark calibration of the weak-field sector under the single model
-mapping $\Kt = c^2/G$, with the observational inputs of each row fixed
+mapping $\Kt = G/c^2$, with the observational inputs of each row fixed
 in Appendix~\ref{app:inputs} (no adjustable model parameter beyond
 $\Kt$).
 ``Formula-level agreement'' means: the DFM expression reduces, in the
@@ -866,10 +886,10 @@ claim~5) and is recovered by the geodesic option E12
 All values are computed from the inputs of Table~\ref{tab:inputs}
 (standard reference values); the GPS-based inverse calibration of
 $\Kt$ agrees with
-$c^2/G$ to $0.107\%$.}
+$G/c^2$ to $0.107\%$.}
 \begin{ruledtabular}
 \begin{tabular}{p{0.18\textwidth}p{0.32\textwidth}p{0.26\textwidth}p{0.12\textwidth}}
-Observable & DFM ($\Kt = c^2/G$) & Experimental constraint & Verdict \\
+Observable & DFM ($\Kt = G/c^2$) & Experimental constraint & Verdict \\
 \hline
 GPS net clock-rate difference (satellite $-$ ground) &
 $+38.5\ \mu$s/day (gravity $+45.7$, motion $-7.2$; inputs in
@@ -1008,7 +1028,7 @@ $3$).
 The same formula at Mercury's real values gives $+42.98''$/century
 ($\beta = \gamma = 1$; the time-rate-only value would be
 $+14.33''$/century)---recovered under the same single calibration
-$\Kt = c^2/G$ with no additional free coefficient.
+$\Kt = G/c^2$ with no additional free coefficient.
 
 The claim domain of this first stage is deliberately narrow: a static,
 single-dominant-source test-particle problem.
@@ -1042,7 +1062,7 @@ double precision with compensated velocity kicks), an explicit
 threshold whose deflection-angle form scales as $c^2$), and
 tier-real constants $G_{\rm sim} = 6.674$, $c_0 = 3\times10^4$ (the
 real-value display conventions of the stellar tier, with
-$\Kt = c_0^2/G$ under the same single calibration).
+$\Kt = G/c_0^2$ under the same single calibration).
 A test particle with Mercury's real invariant
 $GM/(c_0^2a) = 2.55\times10^{-8}$ and $e = 0.206$ is then integrated
 directly; the perihelion drift is measured as the least-squares slope
@@ -1323,7 +1343,7 @@ Measured and analytic clock rates $\tau/t$ for the kinematic
 configurations; the worst relative deviation across all six clocks is
 $9.1\times10^{-5}$.
 Generated by \texttt{tools/gen-figures.mjs} from the V12/V13/V16
-configurations at their embedded parameters (V12: $\Kt{=}10^6$,
+configurations at their embedded parameters (V12: $\Kt{=}10^{-6}$,
 $v/c_0\in\{0,0.3,0.6\}$; V16: $v{=}0.5c_0$), 1000 steps each;
 interactive counterpart for the gravitational term: preset
 \texttt{gclock}.}
@@ -1334,7 +1354,7 @@ bending}
 \label{sec:exp5}
 
 A fan of 26 parallel rays is traced through the field of a compact
-mass (preset \texttt{lensing}, $\Kt = 150$): mean bending angle
+mass (preset \texttt{lensing}, $\Kt = 1/150$): mean bending angle
 $48.6^\circ$, with five rays captured into circulating paths that
 persist for the duration of the integration---an optical analogue of a
 photon sphere (no claim of black-hole or event-horizon physics is
@@ -1343,7 +1363,7 @@ With a spinning center (preset \texttt{spinlens}), the two sides of
 the ray fan bend unequally---the medium advection term
 $\vect{u}$ in Eq.~(\ref{eq:E8}) speeds prograde rays and retards
 retrograde ones (a Kerr-like optical asymmetry, T8).
-The machine gate V8 (run at $\Kt = 500$ for coefficient sensitivity)
+The machine gate V8 (run at $\Kt = 1/500$ for coefficient sensitivity)
 measures the asymmetry at $6.77\times10^{-2}$~rad, proportional to the
 center spin.
 
@@ -1351,13 +1371,15 @@ center spin.
 \centering
 \includegraphics[width=\columnwidth]{fig5.pdf}
 \caption{\label{fig:light}%
-(a)~Ray fan in preset \texttt{lensing} ($\Kt{=}150$, 26 rays,
+(a)~Ray fan in preset \texttt{lensing} ($\Kt{=}1/150$, 26 rays,
 $x_0{=}-300$, $|y_0|\le255$, $\ud l{=}2.73$): deflection toward the
 masses and captured circulating rays (an optical analogue of a photon
 sphere).
 (b)~Ray fan in the V8 configuration (central mass 1500, spin $+0.5$,
-$\Kt{=}500$): the upper and lower halves bend unequally because the
+$\Kt{=}1/500$): the upper and lower halves bend unequally because the
 medium is advected by the rotating frame.
+The panel labels carry the legacy form of the coefficient,
+$K_t = 1/\Kt$ (i.e.\ $K_t = 150$ and $500$).
 Generated by \texttt{tools/gen-figures.mjs} via the shared ray tracer
 (rule E8R); quantitative gate: verification routine V8, asymmetry
 $\pm6.77\times10^{-2}$~rad with sign reversing under spin reversal.}
@@ -1472,13 +1494,13 @@ Lense--Thirring-sign \emph{regression} with a different radial power
 (a forced fit to Mercury mispredicts Venus by $1.38\times$, Earth by
 $1.63\times$, Mars by $2.00\times$).
 Meanwhile the clock-and-light sector does show formula-level benchmark
-agreement at $\Kt = c^2/G$ (Table~\ref{tab:calib})---the model is
+agreement at $\Kt = G/c^2$ (Table~\ref{tab:calib})---the model is
 explicit about which sector works and which does not.
 This claim is scoped to the base dynamics E1$'$--E11 and stands
 unchanged.
 The clearly labeled geodesic option E12 (Sec.~\ref{sec:e12}) recovers
 the full advance ($\beta = \gamma = 1$, $+42.98''$/century) at the
-same $\Kt = c^2/G$ with no additional free coefficient (checks
+same $\Kt = G/c^2$ with no additional free coefficient (checks
 V18/V20, with the time-rate-only control V19 at $1/3$); strong-field
 and gravitational-wave phenomena remain outside the model in either
 mode (L8, L12).
@@ -1516,7 +1538,7 @@ Sec.~\ref{sec:conclusion});
 {\bf L8} (instantaneous action at a distance);
 {\bf L12} (no Lorentzian matter response);
 {\bf L14} (cosmological $\Dz$ scale problem: counting all matter gives
-$\Dz \sim 10^{27}\,{\rm kg\,m^{-1}} \approx \Kt$, whereas rotation
+$\Dz \sim 10^{27}\,{\rm kg\,m^{-1}} \approx 1/\Kt$, whereas rotation
 curves want $\sim10^{20}$---a seven-order-of-magnitude tension whose
 resolution requires specifying which matter counts, linked to L8);
 {\bf L15--L17} (thermodynamic sector: non-ideal equation of state and
@@ -1644,24 +1666,25 @@ For the ideal ($\varepsilon \to 0$) formulas:
 Quantity & Value & Note \\
 \hline
 $[W]$ & ${\rm kg\,m^{-1}}$ & determinacy dimension \\
-$\Kt = c^2/G$ & $\approx 1.35\times10^{27}\ {\rm kg\,m^{-1}}$ &
+$\Kt = G/c^2$ & $\approx 7.43\times10^{-28}\ {\rm m\,kg^{-1}}$ &
 clock/light coefficient \\
-$2/\Kt = 2G/c^2$ & $\approx 1.48\times10^{-27}\ {\rm m\,kg^{-1}}$ &
+$2\Kt = 2G/c^2$ & $\approx 1.48\times10^{-27}\ {\rm m\,kg^{-1}}$ &
 effective lensing coefficient \\
 \end{tabular}
 \end{ruledtabular}
 \end{table}
 
-The effective lensing coefficient $2/\Kt$ is a derived combination
+The effective lensing coefficient $2\Kt$ is a derived combination
 (Sec.~\ref{sec:dynamics}, E8R), not an independent parameter of the
 model.
 The softening $\varepsilon$ carries dimensions of length but is
 numerical regularization only; quoted physical comparisons refer to
 the $\varepsilon \to 0$ limit.
 
-A physical intuition for why the calibration constant is a \emph{line
-density} (kg\,m$^{-1}$): the determinacy $W = \sum m/d$ itself has
-mass-per-length dimension, and $\psi = W/\Kt$ reaches order unity
+A physical intuition for why the calibration constant is an
+\emph{inverse line density} (m\,kg$^{-1}$), i.e.\ a gravitational
+length per unit mass: the determinacy $W = \sum m/d$ itself has
+mass-per-length dimension, and $\psi = W\Kt$ reaches order unity
 exactly when $GM/(c^2 d) \sim 1$, i.e.\ at the mass-to-radius ratio of
 a relativistically compact system.
 The same combination recurs as the mass-per-radius scale of the
@@ -1675,7 +1698,7 @@ in the GR literature.
 
 Table~\ref{tab:inputs} fixes every input behind the weak-field
 benchmark rows of Table~\ref{tab:calib}; with these values and
-$\Kt = c^2/G$, each number in that table is recomputable with no
+$\Kt = G/c^2$, each number in that table is recomputable with no
 further choices.
 Two conventions apply to all rows: the model light speed is
 $c_0 = c$, and the solar-system configuration is taken at rest in the
@@ -1759,7 +1782,7 @@ $8\times6$ static lattice (spacing 40), $m{=}1$, spins $0.3$
 (left) / $2.5$ (right), 4000 steps; two-body variant $m{=}2$,
 $d{=}30$, spins $2/0$, 2500 steps \\
 V18--V20 & $G{=}1$, $\Dz{=}0.05$, $k_F{=}0$, $k_{\rm rep}{=}0$, all
-dissipation off, $\Kt{=}10^4$, $c_0{=}40$, \texttt{geoPN}{=}1,
+dissipation off, $\Kt{=}10^{-4}$, $c_0{=}40$, \texttt{geoPN}{=}1,
 $\varepsilon{=}0.5$; pinned source $m{=}150$ at origin, test
 $m{=}0.01$ at $(47.664,0)$ with $v_y{=}1.94787$ ($a{=}60$,
 $e{=}0.2056$); three runs $(\alpha,\lambda_{\rm PN}) =
