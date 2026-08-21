@@ -13657,6 +13657,99 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   } else {
     console.log('SKIP ui.notclaim(対象に notClaim 宣言なし — root 等。第88便)');
   }
+  // 157-1) ui.notclaim-real(第157便 — 外部レビュー第3巡 P1): 現実較正サンプルの「しない主張」が
+  //        誇張アナログ用の汎用文言(nc_solar「見やすさ優先の誇張アナログ」)を出さないことの
+  //        機械固定。fidelity:"real" のサンプルは同じ画面で実単位較正・現実準拠チップを出すので、
+  //        誇張アナログ宣言は文言矛盾になる。ja/en 双方で全数走査し、①誇張文言が1件も出ない
+  //        ②現実較正用の新文言(nc_solar_cal)が全数で出る ③宣言キー側にも "solar" が残っていない
+  //        ④誇張文言そのものは非 real サンプル(🌍🌕🪐 等)で生きている、の4点を同時に見る。
+  //        nc_solar_cal 未導入の世代(root 等)は SKIP。
+  const hasNcReal = await page.evaluate(() => !!(window.HP
+    && typeof HP.T('nc_solar_cal') === 'string' && HP.T('nc_solar_cal').length > 10
+    && HP.allPresets().some((p) => p.fidelity === 'real')));
+  if (hasNcReal) {
+    const r = await page.evaluate(() => {
+      const keysOf = (p) => [].concat(p.notClaim || []);
+      const all = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_'));
+      const reals = all.filter((p) => p.fidelity === 'real');
+      const exaggShown = [], calMissing = [];
+      for (const lang of ['ja', 'en']) {
+        HP.setLang(lang);
+        const exagg = HP.T('nc_solar'), cal = HP.T('nc_solar_cal');
+        for (const p of reals) {
+          HP.loadPreset(p.id, false);
+          const txt = [...document.querySelectorAll('#helpBody .notClaimLine')].map((e) => e.textContent);
+          if (txt.some((t) => t.includes(exagg))) exaggShown.push(`${lang}:${p.id}`);
+          if (!txt.some((t) => t.includes(cal))) calMissing.push(`${lang}:${p.id}`);
+        }
+      }
+      HP.setLang('ja');
+      HP.loadPreset('saturn', false);   // 既定サンプルへ戻す(以降のテストに影響させない)
+      return { n: reals.length, exaggShown, calMissing,
+        realDeclSolar: reals.filter((p) => keysOf(p).includes('solar')).map((p) => p.id),
+        exaggKeep: all.filter((p) => p.fidelity !== 'real' && keysOf(p).includes('solar')).map((p) => p.id) };
+    });
+    add('ui.notclaim-real',
+      r.exaggShown.length === 0 && r.calMissing.length === 0
+      && r.realDeclSolar.length === 0 && r.exaggKeep.length >= 1 && r.n >= 14,
+      `fidelity:"real"=${r.n}件 / 誇張アナログ文言(nc_solar)の表示=${r.exaggShown.length}件` +
+      `[${r.exaggShown.join(' ')}](0件)・現実較正文言(nc_solar_cal)の欠落=${r.calMissing.length}件` +
+      `[${r.calMissing.join(' ')}](0件)・real 側に "solar" 宣言残存=[${r.realDeclSolar.join(' ')}](0件) / ` +
+      `誇張文言は非 real の ${r.exaggKeep.length}件[${r.exaggKeep.join(' ')}]で存続`);
+  } else {
+    console.log('SKIP ui.notclaim-real(現実較正用 notClaim 文言 nc_solar_cal が未導入 — root 等。第157便)');
+  }
+  // 157-2) ui.qlock-wording(第157便 — 外部レビュー第3巡 P0): qLock の説明文言が
+  //        **有限参照正規化規約**の言い方で統一されていることの機械固定。
+  //        q*>3 では d→∞ で ω_q*/Ω_LT → 0 なので、「遠方(far-field)の LT 級振幅を固定する」は
+  //        漸近命題として偽である(第141便の言い回しを第157便で再定義)。UI ラベル・パラメータ説明・
+  //        サンプル説明文(観測カード側の descStruct / failureFirst / claims の note)を ja/en とも
+  //        走査し、禁止語が1つも出ないこと+新語が qLockDesc に入っていることを見る。
+  //        数値・窓・claims は一切対象にしない(表示文言だけのゲート)。
+  const hasQW = await page.evaluate(() => !!(window.HP
+    && typeof HP.T('qLockDesc') === 'string' && HP.T('qLockDesc').includes('有限参照正規化規約')));
+  if (hasQW) {
+    const r = await page.evaluate(() => {
+      // 禁止語(第141便の旧言い回し=遠方についての主張)。「LT 級」単体は参照軌道での
+      // 振幅を述べる正しい用法なので禁止しない
+      const BAN = ['LT級振幅規約', 'LT 級振幅規約', 'LT-class amplitude convention',
+        'FAR-FIELD amplitude', "spin term's FAR-FIELD", '遠方近似での振幅', '遠方近似(a≫R)でのスピン項の振幅'];
+      const hits = [];
+      const scan = (where, t) => {
+        if (typeof t !== 'string') return;
+        for (const b of BAN) if (t.includes(b)) hits.push(`${where}:${b}`);
+      };
+      for (const lang of ['ja', 'en']) {
+        HP.setLang(lang);
+        for (const k of ['qLockLabel', 'qLockDesc', 'cbQLock']) scan(`${lang}/${k}`, HP.T(k));
+      }
+      HP.setLang('ja');
+      const walk = (where, v, d) => {
+        if (d > 6 || v == null) return;
+        if (typeof v === 'string') { scan(where, v); return; }
+        if (typeof v !== 'object') return;
+        for (const k of Object.keys(v)) walk(where, v[k], d + 1);
+      };
+      for (const p of HP.allPresets()) {
+        if (String(p.id).startsWith('custom_')) continue;
+        for (const k of ['descStruct', 'failureFirst', 'claims', 'parameterAudit', 'en'])
+          walk(`${p.id}.${k}`, p[k], 0);
+      }
+      const desc = { ja: null, en: null };
+      for (const lang of ['ja', 'en']) { HP.setLang(lang); desc[lang] = HP.T('qLockDesc'); }
+      HP.setLang('ja');
+      return { hits,
+        jaNew: desc.ja.includes('有限参照正規化規約') && desc.ja.includes('(a/(R+a))³')
+          && desc.ja.includes('d^{3−q*}'),
+        enNew: desc.en.includes('finite-reference normalization rule')
+          && desc.en.includes('neither the Lense–Thirring r⁻³ law nor a nonzero Lense–Thirring ratio at infinity') };
+    });
+    add('ui.qlock-wording', r.hits.length === 0 && r.jaNew && r.enNew,
+      `旧言い回し(遠方 LT 級振幅規約)の残存=${r.hits.length}件[${r.hits.slice(0, 6).join(' ')}](0件)/ ` +
+      `新定義 ja=${r.jaNew}・en=${r.enNew}(有限参照正規化規約・裸比 (a/(R+a))³・比は d^{3−q*} で消える)`);
+  } else {
+    console.log('SKIP ui.qlock-wording(qLock 文言が第157便の再定義前 — root 等)');
+  }
   // 88-4) ui.failure-first(EXT-09): ☿ で FAIL 行 → PASS 行の順に、タイトルより後・本文より
   //       先に出る(「失敗を先に見せる」の機械固定)。en でも文面が切り替わる
   const hasFf = await page.evaluate(() =>
@@ -15440,6 +15533,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     { json: 'coreshell3-results.json', harness: 'tests/exp-coreshell3.mjs' },
     { json: 'coreshell4-results.json', harness: 'tests/exp-coreshell4.mjs' },
     { json: 'coreshell-theory-results.json', harness: 'tests/exp-coreshell-theory.mjs' },
+    { json: 'coreshell5-results.json', harness: 'tests/exp-coreshell5.mjs' },
   ];
   const SENTINELS = ['not-applicable', 'not-instrumented', 'unavailable'];
   const isHex = (v, n) => typeof v === 'string' && new RegExp(`^[0-9a-f]{${n}}$`).test(v);

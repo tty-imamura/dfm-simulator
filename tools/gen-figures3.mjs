@@ -469,7 +469,7 @@ if (want(4)) {
     gate('p3fig4.qlock-farfield', Math.abs(fr.finiteRadiusFactor - frAnalytic) < 1e-12 &&
       Math.abs(fr.bareOverLTatIoExactQStar - frAnalytic) / frAnalytic < 1e-12 &&
       fr.qExact < cfg.qStar && Math.abs(fr.qExactDeclared - fr.qExact) < 0.005,
-      `qLock は遠方近似 (a≫R) の規約: 参照軌道で素のスピン項/Ω_LT は有限半径因子 (a/(R+a))³ = ` +
+      `qLock は有限参照正規化規約(遠方近似 a≫R を参照軌道での宣言に用いる — 第156便再定義): 参照軌道で素のスピン項/Ω_LT は有限半径因子 (a/(R+a))³ = ` +
       `${frAnalytic.toFixed(4)} に等しく(規則の出力 q*=${cfg.qStar.toFixed(4)} を代入した実値 ` +
       `${fr.bareOverLTatIoExactQStar.toFixed(4)} と 1e-12 以内で一致)、厳密一致式は q_exact=${fr.qExact.toFixed(4)}`);
     const qRow = SEN.qControls.rows.find(r => r.isQExact);
