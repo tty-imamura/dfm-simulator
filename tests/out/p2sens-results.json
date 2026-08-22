@@ -1,0 +1,2405 @@
+{
+ "meta": {
+  "exp": "p2sens",
+  "wave": 167,
+  "target": "beta/index.html",
+  "targetSha256": "bfc165dc580f8db563eb81dbf1f3a43feb035f26b0417aa86be47e701bae0f80",
+  "appVersion": "1.41",
+  "date": "2026-08-22T09:02:47.351Z",
+  "dt": 0.016,
+  "role": "論文2「箱宇宙」のプローブ依存比 H_w/H_geo について、減衰係数・観測窓・推定量定義(ビニング)を掃引し、「0.92 という値は係数選択の反映」と「プローブ依存自体は構成に依らず生じる」を分離して機械実証する感度分析(外部レビュー第4巡 P1-5 への恒久対応)",
+  "basedOn": "tools/gen-figures2.mjs p2fig6 節(committed 出力 paper/figures/p2fig6.json)/ beta/index.html HP.verify.v29 / tests/exp-4-66.mjs(台帳4-66 判別実験) — 測定系・推定式・定数を逐語踏襲し、既存ファイルは1 bit も変更しない",
+  "stage": "complete",
+  "timings": {
+   "elapsedSec": 1
+  }
+ },
+ "preRegistered": {
+  "fixedBy": "統括(ハンドオフ 2026-08-22b §3b — 実測前に固定)",
+  "fixedBefore": "実測",
+  "designPrinciples": {
+   "canonUntouched": "tools/gen-figures2.mjs・paper/figures/p2fig*.json・p2figs-gates.json は**読み取り専用**で参照するだけで、1 bit も変更しない。図の新設もしない (gen-figures2 のゲート体系22件は不変)",
+   "transcriptionFirst": "掃引の前に、正準構成で committed 正本(paper/figures/p2fig6.json の Dκ=0.9242 系列24行)を再現できることを機械証明する(PW1)。再現できない実装で振った掃引値には意味がないため、PW1 は掃引の前提条件として先に判定する",
+   "separation": "本ハーネスの目的は「0.92 という**値**は Dκ の選択の反映」と「**比が 1 からずれること自体**は係数・窓・ビニングの選択に依らない」を**分離**して示すことである。前者は PW2 の表(比が Dκ に比例すること)が、後者は PW3(全構成で |比−1| > 数値床)が担う",
+   "noNewNumbersByHand": "本 JSON と論文2 本文に載る数値はすべて本スクリプトの出力である。本文への転記の正しさは paperSync ブロックが論文 tex を読んで機械照合する"
+  },
+  "PW1": {
+   "role": "窓(転記照合・基準再現)",
+   "verbatim": "PW1(転記照合・基準再現): 正準構成(係数 0.9242・論文2 の正本窓・正本推定量)で、ハーネスの H_w/H_geo(または論文2 正本の対応量)が committed 正本値を**論文2 既存ゲートと同じ許容**で再現。",
+   "window": "正準構成 24 窓の比について、committed 正本 paper/figures/p2fig6.json (Dκ=0.9242 系列)との最大相対差 < 1e-2",
+   "tolerance": 0.01,
+   "toleranceSource": "tools/gen-figures2.mjs のゲート p2fig6.analytic が用いる許容 (maxRelErrVsAnalytic < 1e-2)と同一 = 「論文2 既存ゲートと同じ許容」",
+   "canonicalReference": "paper/figures/p2fig6.json の data[] のうち dkt=0.9242 の系列の rows[](a1・a2・aEff・meas・ana・inv の24行)",
+   "note": "併せて bit 一致(全144フィールド)も記述として記録する。bit 一致は許容判定より強い証拠だが、窓判定は上の許容で行う(事前登録どおり)"
+  },
+  "PW2": {
+   "role": "記述(窓なし — 判定に使わない)",
+   "verbatim": "PW2(記述 — 窓なし): 減衰係数 {0.5, 0.75, 0.9242, 1.25, 1.5} × 観測窓 {×0.5, ×1, ×2} ×推定量定義(正本2種+代替ビニング1種)の全組み合わせの比を表収載。",
+   "grid": "5 係数 × 3 観測窓 × 2 ビニング = 30 構成。各構成につき比を1つ(24 部分窓の算術平均)。「正本2種」= 正本の2プローブ(幾何 H_geo と速度 H_w)であり、両ビニングともこの同一の2プローブ・同一推定式を使う(違いは観測範囲の分割だけ)。併せて反比例対照(モデル内対照)の比も全構成で記録する",
+   "window": "なし(記述のみ)"
+  },
+  "PW3": {
+   "role": "主窓(構造)",
+   "verbatim": "PW3(構造窓): 掃引全構成で**プローブ依存が消えない**こと — |比 − 1| > 数値床(床は正準構成の収束誤差から事前宣言)。「0.92 という値は係数選択の反映・プローブ依存自体は一般的」の分離を機械実証する。",
+   "window": "30 構成すべてで |比 − 1| > 床",
+   "floorRule": "床 := 正準構成(PW1)の 24 窓における |比_実測 − 比_解析| の最大値(dt=0.016 における比の離散化収束誤差。安全係数を掛けない素の数値床)",
+   "scope": "判定対象はモデル自身の光速則(E8R 指数形)で読む 30 構成。反比例対照は「プローブ依存が消える反実仮想」であり構成上 ≡ 1 になるので判定対象に入れない(記述としては全構成で収載する)",
+   "honestLimitation": "PW3 は**構成レベルの比**(1構成 = 24 部分窓の算術平均)についての窓である。部分窓レベルでは ρ(a)=2Dκ·a^{−1} が a* = 2Dκ で 1 を横切るため、a* が観測範囲に入る構成では「比が 1 に一致する時期」が必ず存在する(論文2 第V節が既に述べている)。本 JSON は a* と部分窓レベルの min|比−1| も記述として収載し、この限定を隠さない"
+  },
+  "PW4": {
+   "role": "窓(決定性)",
+   "verbatim": "PW4(決定性): 別プロセス2回 SHA 一致。",
+   "window": "全体を2回実行(別プロセス・別ブラウザ起動)し、raw(実測部)の正準化 JSON の SHA-256 が一致すること",
+   "canonicalization": "raw を再帰キー整列した JSON の SHA-256。走行時間は meta.timings にのみ置き raw には入れないので、除外すべき揮発値は対象内に存在しない"
+  }
+ },
+ "limits": {
+  "toyUnits": "質量・長さ・時間はトイ単位であり実世界の物理単位ではない。Dκ は無次元(ψ=Dκ)",
+  "strongField": "Dκ≈0.92 は ψ≈0.92 の強場設定(c_loc/c0=e^{−2ψ}≈0.16)で、論文1 の弱場較正(|ψ|≪1)の領域外である。本ハーネスはその較正を一切継承しない",
+  "extrapolation": "観測窓 ×2(a: 1→9)は論文2 の正準走査範囲(a≤3)の外側への外挿である。箱近似が良い要約であり続ける保証はなく、ここで測っているのは推定量の振る舞いだけである",
+  "singleParticle": "測定は単独自由粒子1体の系である(統計的な散らばりは測っていない)。系は決定論的で、seed 依存性は持たない",
+  "fixedDp": "減衰則の指数 d_P は正準値 1 に固定した(振ったのは減衰係数 Dκ である)",
+  "notClaim": "実在宇宙についての主張ではない。すべて DFM 公理系内部の構成依存の実測であり、ハッブルテンションの解決案でも、その説明でもない"
+ },
+ "sweepAxes": {
+  "dkt": [
+   0.5,
+   0.75,
+   0.9242,
+   1.25,
+   1.5
+  ],
+  "windowScale": [
+   0.5,
+   1,
+   2
+  ],
+  "binning": [
+   "canonLog",
+   "altLinear"
+  ]
+ },
+ "config": {
+  "H0": 0.01,
+  "KT": 300,
+  "C0": 60,
+  "DT": 0.016,
+  "DP": 1,
+  "A_END_CANON": 3,
+  "NW": 24,
+  "body": {
+   "m": 0.05,
+   "x": 100,
+   "y": 0,
+   "vy": 1
+  },
+  "softening": 4,
+  "kFrame": 1,
+  "kRep": 0,
+  "G": 0,
+  "D0": 0,
+  "q": 2,
+  "seed": 1
+ },
+ "provenance": {
+  "inputs": [
+   {
+    "path": "paper/figures/p2fig6.json",
+    "sha256": "8a539c2ff12352774b21bf984b62e1244dd8dab6be976fd22160138e8b0decdd",
+    "bytes": 16227,
+    "generatedCommit": "10c7909",
+    "role": "論文2 fig6 の committed 正本(PW1 の転記照合の参照値。Dκ=0.9242 系列24行)",
+    "mutated": false
+   },
+   {
+    "path": "paper/figures/p2figs-gates.json",
+    "sha256": "6af3d3e169e4d24fcb959ab9f17dd81f01bc7431b0b825a9048ced9c3493ea46",
+    "bytes": 3857,
+    "generatedCommit": "10c7909",
+    "role": "論文2 図ゲート22件の committed 記録(PW1 の許容 1e-2 の出所 p2fig6.analytic を含む)",
+    "mutated": false
+   },
+   {
+    "path": "tests/out/exp-4-66-results.json",
+    "sha256": "f1f7cfe4bbcdedcf7f3d6f2743c0a6a8f1077fbe5a1e2855908788f3e503430e",
+    "bytes": 30204,
+    "generatedCommit": "860f8ce7801387ec5513df4b4ab100b8129be3b5",
+    "role": "台帳4-66 の判別実験の実測記録(fig6 の元データを兼ねる — 測定系・推定式の来歴)",
+    "mutated": false
+   }
+  ],
+  "target": {
+   "path": "beta/index.html",
+   "sha256": "bfc165dc580f8db563eb81dbf1f3a43feb035f26b0417aa86be47e701bae0f80"
+  },
+  "gateToleranceSource": {
+   "found": true,
+   "id": "p2fig6.analytic",
+   "detail": "H_w/H_geo 実測 vs 解析の最大相対誤差=6.22e-3(<1e-2 — 本文 5.3e-4 と同水準)・w 保存ずれ最大=4.84e-4(<1e-3)",
+   "tolerance": 0.01,
+   "note": "許容 1e-2 は p2fig6.analytic ゲート(maxRelErrVsAnalytic < 1e-2)と同一。committed ゲート記録に当該 id が在ることを機械確認した"
+  }
+ },
+ "raw": {
+  "canonical": {
+   "dkt": 0.9242,
+   "D": 277.26,
+   "aEnd": 3,
+   "binning": "canonLog",
+   "nSamp": 25,
+   "nWindows": 24,
+   "wDrift": 0.000483616915767926,
+   "nan": false,
+   "clamps": {
+    "clampVN": 0,
+    "clampSN": 0,
+    "clampHN": 0,
+    "clampAN": 0,
+    "clampRN": 0
+   },
+   "rows": [
+    {
+     "a1": 1,
+     "a2": 1.0469906483546094,
+     "aEff": 1.0231357143581021,
+     "meas": 1.81025233314159,
+     "ana": 1.8066029501859922,
+     "inv": 1.0036493829555932
+    },
+    {
+     "a1": 1.0469906483546094,
+     "a2": 1.096014041465643,
+     "aEff": 1.071128485926948,
+     "meas": 1.725825881521362,
+     "ana": 1.725656654906723,
+     "inv": 1.0001692266146407
+    },
+    {
+     "a1": 1.096014041465643,
+     "a2": 1.1473328639349958,
+     "aEff": 1.1212820884644192,
+     "meas": 1.648648500126003,
+     "ana": 1.648470103122185,
+     "inv": 1.00017839700381
+    },
+    {
+     "a1": 1.1473328639349958,
+     "a2": 1.2010545949803333,
+     "aEff": 1.1737840403180793,
+     "meas": 1.5749152423176345,
+     "ana": 1.574736013192946,
+     "inv": 1.000179229124691
+    },
+    {
+     "a1": 1.2010545949803333,
+     "a2": 1.2572917463341295,
+     "aEff": 1.2287442985843746,
+     "meas": 1.5045029513329193,
+     "ana": 1.504299960642361,
+     "inv": 1.0002029906905516
+    },
+    {
+     "a1": 1.2572917463341295,
+     "a2": 1.3161620978818283,
+     "aEff": 1.286277968896622,
+     "meas": 1.4372229402086287,
+     "ana": 1.4370144282153647,
+     "inv": 1.0002085119932673
+    },
+    {
+     "a1": 1.3161620978818283,
+     "a2": 1.3777889443333189,
+     "aEff": 1.3465055464956832,
+     "meas": 1.3729528447944226,
+     "ana": 1.3727384969267382,
+     "inv": 1.0002143478676866
+    },
+    {
+     "a1": 1.3777889443333189,
+     "a2": 1.442301353444354,
+     "aEff": 1.4095531685883729,
+     "meas": 1.3115529380620496,
+     "ana": 1.3113375509283693,
+     "inv": 1.0002153871336754
+    },
+    {
+     "a1": 1.442301353444354,
+     "a2": 1.509834436328703,
+     "aEff": 1.4755528785219758,
+     "meas": 1.2529287099753523,
+     "ana": 1.2526829955775598,
+     "inv": 1.00024571439779
+    },
+    {
+     "a1": 1.509834436328703,
+     "a2": 1.5805296304271705,
+     "aEff": 1.5446429023283692,
+     "meas": 1.1969020785191344,
+     "ana": 1.196651988115669,
+     "inv": 1.0002500904034681
+    },
+    {
+     "a1": 1.5805296304271705,
+     "a2": 1.654799742504606,
+     "aEff": 1.6170963124912494,
+     "meas": 1.143296450337119,
+     "ana": 1.1430364324759426,
+     "inv": 1.0002600178611745
+    },
+    {
+     "a1": 1.654799742504606,
+     "a2": 1.7322826679006647,
+     "aEff": 1.6929503100021182,
+     "meas": 1.0920851931039772,
+     "ana": 1.0918217676440174,
+     "inv": 1.0002634254599605
+    },
+    {
+     "a1": 1.7322826679006647,
+     "a2": 1.8133935874120983,
+     "aEff": 1.7722195648852397,
+     "meas": 1.0432897541302402,
+     "ana": 1.0429858899112725,
+     "inv": 1.000303864218976
+    },
+    {
+     "a1": 1.8133935874120983,
+     "a2": 1.8983023751270884,
+     "aEff": 1.8552004554452164,
+     "meas": 0.9966263604799939,
+     "ana": 0.9963343823977315,
+     "inv": 1.0002919780822574
+    },
+    {
+     "a1": 1.8983023751270884,
+     "a2": 1.9871868591726196,
+     "aEff": 1.9420667721310383,
+     "meas": 0.9520752744067715,
+     "ana": 0.9517695408442329,
+     "inv": 1.0003057335625365
+    },
+    {
+     "a1": 1.9871868591726196,
+     "a2": 2.080233194147464,
+     "aEff": 2.0330004428068182,
+     "meas": 0.9095538962515507,
+     "ana": 0.9091980311858892,
+     "inv": 1.000355865065659
+    },
+    {
+     "a1": 2.080233194147464,
+     "a2": 2.177636250993877,
+     "aEff": 2.1281919137710275,
+     "meas": 0.8689041730725628,
+     "ana": 0.8685306940785932,
+     "inv": 1.0003734789939662
+    },
+    {
+     "a1": 2.177636250993877,
+     "a2": 2.2796000251241586,
+     "aEff": 2.2278405486165433,
+     "meas": 0.8299730652776761,
+     "ana": 0.8296823581686892,
+     "inv": 1.000290707108989
+    },
+    {
+     "a1": 2.2796000251241586,
+     "a2": 2.3863380636570217,
+     "aEff": 2.332155045766254,
+     "meas": 0.7929830721755572,
+     "ana": 0.7925716617150077,
+     "inv": 1.0004114104605542
+    },
+    {
+     "a1": 2.3863380636570217,
+     "a2": 2.4980739126585094,
+     "aEff": 2.4413538755592437,
+     "meas": 0.7575483426898172,
+     "ana": 0.7571208821894306,
+     "inv": 1.0004274605003816
+    },
+    {
+     "a1": 2.4980739126585094,
+     "a2": 2.615460025452109,
+     "aEff": 2.5558686371472263,
+     "meas": 0.7235887922748132,
+     "ana": 0.7231983573549857,
+     "inv": 1.0003904349198245
+    },
+    {
+     "a1": 2.615460025452109,
+     "a2": 2.737924084892828,
+     "aEff": 2.6757581277995786,
+     "meas": 0.691221696186976,
+     "ana": 0.6907948744679849,
+     "inv": 1.0004268217189896
+    },
+    {
+     "a1": 2.737924084892828,
+     "a2": 2.8661222965319193,
+     "aEff": 2.801045533924322,
+     "meas": 0.6603482793674553,
+     "ana": 0.6598964485273305,
+     "inv": 1.0004518308401276
+    },
+    {
+     "a1": 2.8661222965319193,
+     "a2": 3.000323151399194,
+     "aEff": 2.9321992902136595,
+     "meas": 0.6308698386090758,
+     "ana": 0.6303800721080297,
+     "inv": 1.0004897665010395
+    }
+   ],
+   "targetsReached": true
+  },
+  "numericFloor": {
+   "value": 0.003649382955597913,
+   "rule": "床 := 正準構成(PW1)の 24 窓における |比_実測 − 比_解析| の最大値(dt=0.016 における比の離散化収束誤差。安全係数を掛けない素の数値床)",
+   "from": "正準構成(PW1)の24窓 |meas − ana| の最大値",
+   "canonicalMaxRelErrVsAnalytic": 0.0020200249065365217,
+   "canonicalWDrift": 0.000483616915767926
+  },
+  "sweep": [
+   {
+    "dkt": 0.5,
+    "windowScale": 0.5,
+    "aEnd": 1.7320508075688772,
+    "binning": "canonLog",
+    "ratio": 0.7698580418442643,
+    "ratioAnalytic": 0.7693559909781187,
+    "ratioControl": 1.0005020508661462,
+    "absDevFrom1": 0.23014195815573568,
+    "absDevFrom1Control": 0.0005020508661461864,
+    "relDiffVsAnalytic": 0.0006525598968916135,
+    "maxAbsErrVsAnalytic": 0.0071057841567440105,
+    "perWindowMin": 0.5841917012798084,
+    "perWindowMax": 0.9956737504880918,
+    "perWindowMinAbsDevFrom1": 0.004326249511908187,
+    "crossingA": 1,
+    "crossingInRange": false,
+    "wDrift": 0.0002768275564390965,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 0.5,
+    "windowScale": 0.5,
+    "aEnd": 1.7320508075688772,
+    "binning": "altLinear",
+    "ratio": 0.7507723764194482,
+    "ratioAnalytic": 0.7503327319644253,
+    "ratioControl": 1.0004396444550234,
+    "absDevFrom1": 0.24922762358055184,
+    "absDevFrom1Control": 0.00043964445502342464,
+    "relDiffVsAnalytic": 0.0005859326619963579,
+    "maxAbsErrVsAnalytic": 0.0054804568647487395,
+    "perWindowMin": 0.5827070099140946,
+    "perWindowMax": 0.990590130695625,
+    "perWindowMinAbsDevFrom1": 0.00940986930437504,
+    "crossingA": 1,
+    "crossingInRange": false,
+    "wDrift": 0.0002768275564390965,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 0.5,
+    "windowScale": 1,
+    "aEnd": 3,
+    "binning": "canonLog",
+    "ratio": 0.6072148971430875,
+    "ratioAnalytic": 0.606775060748103,
+    "ratioControl": 1.0004398363949838,
+    "absDevFrom1": 0.3927851028569125,
+    "absDevFrom1Control": 0.0004398363949837947,
+    "relDiffVsAnalytic": 0.0007248755320337086,
+    "maxAbsErrVsAnalytic": 0.0036493829555911406,
+    "perWindowMin": 0.34153070575012984,
+    "perWindowMax": 0.9810368262503284,
+    "perWindowMinAbsDevFrom1": 0.018963173749671602,
+    "crossingA": 1,
+    "crossingInRange": false,
+    "wDrift": 0.000483616915767926,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 0.5,
+    "windowScale": 1,
+    "aEnd": 3,
+    "binning": "altLinear",
+    "ratio": 0.549792485086636,
+    "ratioAnalytic": 0.5493849200143858,
+    "ratioControl": 1.0004075650722501,
+    "absDevFrom1": 0.45020751491336397,
+    "absDevFrom1Control": 0.00040756507225014893,
+    "relDiffVsAnalytic": 0.0007418570430357541,
+    "maxAbsErrVsAnalytic": 0.002162899011554309,
+    "perWindowMin": 0.3385477127061243,
+    "perWindowMax": 0.9631327145495663,
+    "perWindowMinAbsDevFrom1": 0.03686728545043372,
+    "crossingA": 1,
+    "crossingInRange": false,
+    "wDrift": 0.000483616915767926,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 0.5,
+    "windowScale": 2,
+    "aEnd": 9,
+    "binning": "canonLog",
+    "ratio": 0.4051739312823797,
+    "ratioAnalytic": 0.4045204189849518,
+    "ratioControl": 1.000653512297428,
+    "absDevFrom1": 0.5948260687176203,
+    "absDevFrom1Control": 0.0006535122974280494,
+    "relDiffVsAnalytic": 0.001615523634302063,
+    "maxAbsErrVsAnalytic": 0.001912341570753151,
+    "perWindowMin": 0.1177554358527599,
+    "perWindowMax": 0.9574416838732166,
+    "perWindowMinAbsDevFrom1": 0.0425583161267834,
+    "crossingA": 1,
+    "crossingInRange": false,
+    "wDrift": 0.00143508093952327,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 0.5,
+    "windowScale": 2,
+    "aEnd": 9,
+    "binning": "altLinear",
+    "ratio": 0.27601453988878405,
+    "ratioAnalytic": 0.2751962845274835,
+    "ratioControl": 1.0008182553613005,
+    "absDevFrom1": 0.7239854601112159,
+    "absDevFrom1Control": 0.000818255361300535,
+    "relDiffVsAnalytic": 0.0029733517758261385,
+    "maxAbsErrVsAnalytic": 0.0015202585679342517,
+    "perWindowMin": 0.11460918930571418,
+    "perWindowMax": 0.8696901938254403,
+    "perWindowMinAbsDevFrom1": 0.13030980617455967,
+    "crossingA": 1,
+    "crossingInRange": false,
+    "wDrift": 0.00143508093952327,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 0.75,
+    "windowScale": 0.5,
+    "aEnd": 1.7320508075688772,
+    "binning": "canonLog",
+    "ratio": 1.154536037333324,
+    "ratioAnalytic": 1.154033986467178,
+    "ratioControl": 1.0005020508661462,
+    "absDevFrom1": 0.154536037333324,
+    "absDevFrom1Control": 0.0005020508661461864,
+    "relDiffVsAnalytic": 0.00043503993126137175,
+    "maxAbsErrVsAnalytic": 0.007105784156740569,
+    "perWindowMin": 0.8761555271517071,
+    "perWindowMax": 1.4899577336537622,
+    "perWindowMinAbsDevFrom1": 0.005187084061210934,
+    "crossingA": 1.5,
+    "crossingInRange": true,
+    "wDrift": 0.0002768275564390965,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 0.75,
+    "windowScale": 0.5,
+    "aEnd": 1.7320508075688772,
+    "binning": "altLinear",
+    "ratio": 1.1259387424016605,
+    "ratioAnalytic": 1.125499097946638,
+    "ratioControl": 1.0004396444550234,
+    "absDevFrom1": 0.12593874240166048,
+    "absDevFrom1Control": 0.00043964445502342464,
+    "relDiffVsAnalytic": 0.0003906217746638685,
+    "maxAbsErrVsAnalytic": 0.005480456864751071,
+    "perWindowMin": 0.8739218394959447,
+    "perWindowMax": 1.4831449676110655,
+    "perWindowMinAbsDevFrom1": 0.0019374902245202774,
+    "crossingA": 1.5,
+    "crossingInRange": true,
+    "wDrift": 0.0002768275564390965,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 0.75,
+    "windowScale": 1,
+    "aEnd": 3,
+    "binning": "canonLog",
+    "ratio": 0.910602427517139,
+    "ratioAnalytic": 0.9101625911221544,
+    "ratioControl": 1.0004398363949838,
+    "absDevFrom1": 0.08939757248286095,
+    "absDevFrom1Control": 0.0004398363949837947,
+    "relDiffVsAnalytic": 0.00048325035468921307,
+    "maxAbsErrVsAnalytic": 0.003649382955587921,
+    "perWindowMin": 0.5120511753746821,
+    "perWindowMax": 1.4697305478976939,
+    "perWindowMinAbsDevFrom1": 0.016813823771488545,
+    "crossingA": 1.5,
+    "crossingInRange": true,
+    "wDrift": 0.000483616915767926,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 0.75,
+    "windowScale": 1,
+    "aEnd": 3,
+    "binning": "altLinear",
+    "ratio": 0.8244849450938286,
+    "ratioAnalytic": 0.8240773800215789,
+    "ratioControl": 1.0004075650722501,
+    "absDevFrom1": 0.17551505490617136,
+    "absDevFrom1Control": 0.00040756507225014893,
+    "relDiffVsAnalytic": 0.0004945713620230219,
+    "maxAbsErrVsAnalytic": 0.002162899011555197,
+    "perWindowMin": 0.507565023307323,
+    "perWindowMax": 1.4436176223185733,
+    "perWindowMinAbsDevFrom1": 0.026437674671291433,
+    "crossingA": 1.5,
+    "crossingInRange": true,
+    "wDrift": 0.000483616915767926,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 0.75,
+    "windowScale": 2,
+    "aEnd": 9,
+    "binning": "canonLog",
+    "ratio": 0.6074341407748557,
+    "ratioAnalytic": 0.6067806284774276,
+    "ratioControl": 1.000653512297428,
+    "absDevFrom1": 0.3925658592251443,
+    "absDevFrom1Control": 0.0006535122974280494,
+    "relDiffVsAnalytic": 0.0010770157562014493,
+    "maxAbsErrVsAnalytic": 0.0019123415707542613,
+    "perWindowMin": 0.17592935154744122,
+    "perWindowMax": 1.4352063550244494,
+    "perWindowMinAbsDevFrom1": 0.005918924168337392,
+    "crossingA": 1.5,
+    "crossingInRange": true,
+    "wDrift": 0.00143508093952327,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 0.75,
+    "windowScale": 2,
+    "aEnd": 9,
+    "binning": "altLinear",
+    "ratio": 0.41361268215252606,
+    "ratioAnalytic": 0.4127944267912255,
+    "ratioControl": 1.0008182553613005,
+    "absDevFrom1": 0.5863873178474739,
+    "absDevFrom1Control": 0.000818255361300535,
+    "relDiffVsAnalytic": 0.0019822345172173517,
+    "maxAbsErrVsAnalytic": 0.0015202585679383873,
+    "perWindowMin": 0.17122382351835644,
+    "perWindowMax": 1.3041649650676959,
+    "perWindowMinAbsDevFrom1": 0.00845004552332651,
+    "crossingA": 1.5,
+    "crossingInRange": true,
+    "wDrift": 0.00143508093952327,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 0.9242,
+    "windowScale": 0.5,
+    "aEnd": 1.7320508075688772,
+    "binning": "canonLog",
+    "ratio": 1.4225796645901003,
+    "ratioAnalytic": 1.422077613723955,
+    "ratioControl": 1.0005020508661462,
+    "absDevFrom1": 0.4225796645901003,
+    "absDevFrom1Control": 0.0005020508661461864,
+    "relDiffVsAnalytic": 0.00035304041164851974,
+    "maxAbsErrVsAnalytic": 0.0071057841567485625,
+    "perWindowMin": 1.0795959210192745,
+    "perWindowMax": 1.834374813123612,
+    "perWindowMinAbsDevFrom1": 0.07959592101927448,
+    "crossingA": 1.8484,
+    "crossingInRange": false,
+    "wDrift": 0.0002768275564390965,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 0.9242,
+    "windowScale": 0.5,
+    "aEnd": 1.7320508075688772,
+    "binning": "altLinear",
+    "ratio": 1.387354666218067,
+    "ratioAnalytic": 1.3869150217630437,
+    "ratioControl": 1.0004396444550234,
+    "absDevFrom1": 0.3873546662180669,
+    "absDevFrom1Control": 0.00043964445502342464,
+    "relDiffVsAnalytic": 0.0003169945152545761,
+    "maxAbsErrVsAnalytic": 0.005480456864751737,
+    "perWindowMin": 1.0768403327485796,
+    "perWindowMax": 1.8263571779737433,
+    "perWindowMinAbsDevFrom1": 0.0768403327485796,
+    "crossingA": 1.8484,
+    "crossingInRange": false,
+    "wDrift": 0.0002768275564390965,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 0.9242,
+    "windowScale": 1,
+    "aEnd": 3,
+    "binning": "canonLog",
+    "ratio": 1.122002858681778,
+    "ratioAnalytic": 1.1215630222867934,
+    "ratioControl": 1.0004398363949838,
+    "absDevFrom1": 0.12200285868177807,
+    "absDevFrom1Control": 0.0004398363949837947,
+    "relDiffVsAnalytic": 0.000392163780585264,
+    "maxAbsErrVsAnalytic": 0.003649382955597913,
+    "perWindowMin": 0.6308698386090758,
+    "perWindowMax": 1.81025233314159,
+    "perWindowMinAbsDevFrom1": 0.003373639520006133,
+    "crossingA": 1.8484,
+    "crossingInRange": true,
+    "wDrift": 0.000483616915767926,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 0.9242,
+    "windowScale": 1,
+    "aEnd": 3,
+    "binning": "altLinear",
+    "ratio": 1.0158906512268413,
+    "ratioAnalytic": 1.0154830861545907,
+    "ratioControl": 1.0004075650722501,
+    "absDevFrom1": 0.0158906512268413,
+    "absDevFrom1Control": 0.00040756507225014893,
+    "relDiffVsAnalytic": 0.0004013509213569577,
+    "maxAbsErrVsAnalytic": 0.002162899011553865,
+    "perWindowMin": 0.6253362853342407,
+    "perWindowMax": 1.7784195060520152,
+    "perWindowMinAbsDevFrom1": 0.013672801666566703,
+    "crossingA": 1.8484,
+    "crossingInRange": true,
+    "wDrift": 0.000483616915767926,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 0.9242,
+    "windowScale": 2,
+    "aEnd": 9,
+    "binning": "canonLog",
+    "ratio": 0.748369054749213,
+    "ratioAnalytic": 0.7477155424517848,
+    "ratioControl": 1.000653512297428,
+    "absDevFrom1": 0.251630945250787,
+    "absDevFrom1Control": 0.0006535122974280494,
+    "relDiffVsAnalytic": 0.0008740119207435448,
+    "maxAbsErrVsAnalytic": 0.0019123415707553715,
+    "perWindowMin": 0.21646493600349553,
+    "perWindowMax": 1.7681127778826287,
+    "perWindowMinAbsDevFrom1": 0.019958057305118126,
+    "crossingA": 1.8484,
+    "crossingInRange": true,
+    "wDrift": 0.00143508093952327,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 0.9242,
+    "windowScale": 2,
+    "aEnd": 9,
+    "binning": "altLinear",
+    "ratio": 0.5094910676819012,
+    "ratioAnalytic": 0.5086728123206009,
+    "ratioControl": 1.0008182553613005,
+    "absDevFrom1": 0.4905089323180988,
+    "absDevFrom1Control": 0.000818255361300535,
+    "relDiffVsAnalytic": 0.001608608405012646,
+    "maxAbsErrVsAnalytic": 0.0015202585679426617,
+    "perWindowMin": 0.21067290063773547,
+    "perWindowMax": 1.6069069856693,
+    "perWindowMinAbsDevFrom1": 0.014014037121168554,
+    "crossingA": 1.8484,
+    "crossingInRange": true,
+    "wDrift": 0.00143508093952327,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 1.25,
+    "windowScale": 0.5,
+    "aEnd": 1.7320508075688772,
+    "binning": "canonLog",
+    "ratio": 1.9238920283114425,
+    "ratioAnalytic": 1.9233899774452967,
+    "ratioControl": 1.0005020508661462,
+    "absDevFrom1": 0.9238920283114425,
+    "absDevFrom1Control": 0.0005020508661461864,
+    "relDiffVsAnalytic": 0.000261023958756601,
+    "maxAbsErrVsAnalytic": 0.0071057841567490065,
+    "perWindowMin": 1.4600831788955497,
+    "perWindowMax": 2.4785256999851186,
+    "perWindowMinAbsDevFrom1": 0.4600831788955497,
+    "crossingA": 2.5,
+    "crossingInRange": false,
+    "wDrift": 0.0002768275564390965,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 1.25,
+    "windowScale": 0.5,
+    "aEnd": 1.7320508075688772,
+    "binning": "altLinear",
+    "ratio": 1.8762714743660853,
+    "ratioAnalytic": 1.875831829911063,
+    "ratioControl": 1.0004396444550234,
+    "absDevFrom1": 0.8762714743660853,
+    "absDevFrom1Control": 0.00043964445502342464,
+    "relDiffVsAnalytic": 0.00023437306479823228,
+    "maxAbsErrVsAnalytic": 0.005480456864746408,
+    "perWindowMin": 1.4563514986596375,
+    "perWindowMax": 2.468254641441937,
+    "perWindowMinAbsDevFrom1": 0.45635149865963753,
+    "crossingA": 2.5,
+    "crossingInRange": false,
+    "wDrift": 0.0002768275564390965,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 1.25,
+    "windowScale": 1,
+    "aEnd": 3,
+    "binning": "canonLog",
+    "ratio": 1.5173774882652424,
+    "ratioAnalytic": 1.5169376518702578,
+    "ratioControl": 1.0004398363949838,
+    "absDevFrom1": 0.5173774882652424,
+    "absDevFrom1Control": 0.0004398363949837947,
+    "relDiffVsAnalytic": 0.00028995021281352784,
+    "maxAbsErrVsAnalytic": 0.003649382955587477,
+    "perWindowMin": 0.8530921146237777,
+    "perWindowMax": 2.447117991192431,
+    "perWindowMinAbsDevFrom1": 0.021468527757382172,
+    "crossingA": 2.5,
+    "crossingInRange": true,
+    "wDrift": 0.000483616915767926,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 1.25,
+    "windowScale": 1,
+    "aEnd": 3,
+    "binning": "altLinear",
+    "ratio": 1.3738698651082144,
+    "ratioAnalytic": 1.3734623000359643,
+    "ratioControl": 1.0004075650722501,
+    "absDevFrom1": 0.3738698651082144,
+    "absDevFrom1Control": 0.00040756507225014893,
+    "relDiffVsAnalytic": 0.0002967428172142572,
+    "maxAbsErrVsAnalytic": 0.0021628990115512003,
+    "perWindowMin": 0.845599644509725,
+    "perWindowMax": 2.404587437856581,
+    "perWindowMinAbsDevFrom1": 0.01585814148794895,
+    "crossingA": 2.5,
+    "crossingInRange": true,
+    "wDrift": 0.000483616915767926,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 1.25,
+    "windowScale": 2,
+    "aEnd": 9,
+    "binning": "canonLog",
+    "ratio": 1.0119545597598074,
+    "ratioAnalytic": 1.0113010474623796,
+    "ratioControl": 1.000653512297428,
+    "absDevFrom1": 0.011954559759807415,
+    "absDevFrom1Control": 0.0006535122974280494,
+    "relDiffVsAnalytic": 0.0006462094537207363,
+    "maxAbsErrVsAnalytic": 0.0019123415707498204,
+    "perWindowMin": 0.29227718293680033,
+    "perWindowMax": 2.3907356973269085,
+    "perWindowMinAbsDevFrom1": 0.04332532033017389,
+    "crossingA": 2.5,
+    "crossingInRange": true,
+    "wDrift": 0.00143508093952327,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 1.25,
+    "windowScale": 2,
+    "aEnd": 9,
+    "binning": "altLinear",
+    "ratio": 0.6888089666800093,
+    "ratioAnalytic": 0.687990711318709,
+    "ratioControl": 1.0008182553613005,
+    "absDevFrom1": 0.31119103331999065,
+    "absDevFrom1Control": 0.000818255361300535,
+    "relDiffVsAnalytic": 0.0011893407103300557,
+    "maxAbsErrVsAnalytic": 0.0015202585679372493,
+    "perWindowMin": 0.2844530919436551,
+    "perWindowMax": 2.1731145075522074,
+    "perWindowMinAbsDevFrom1": 0.003299345295905809,
+    "crossingA": 2.5,
+    "crossingInRange": true,
+    "wDrift": 0.00143508093952327,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 1.5,
+    "windowScale": 0.5,
+    "aEnd": 1.7320508075688772,
+    "binning": "canonLog",
+    "ratio": 2.308570023800502,
+    "ratioAnalytic": 2.308067972934356,
+    "ratioControl": 1.0005020508661462,
+    "absDevFrom1": 1.308570023800502,
+    "absDevFrom1Control": 0.0005020508661461864,
+    "relDiffVsAnalytic": 0.00021751996563068587,
+    "maxAbsErrVsAnalytic": 0.007105784156743233,
+    "perWindowMin": 1.7520470047674623,
+    "perWindowMax": 2.9728096831507864,
+    "perWindowMinAbsDevFrom1": 0.7520470047674623,
+    "crossingA": 3,
+    "crossingInRange": false,
+    "wDrift": 0.0002768275564390965,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 1.5,
+    "windowScale": 0.5,
+    "aEnd": 1.7320508075688772,
+    "binning": "altLinear",
+    "ratio": 2.251437840348298,
+    "ratioAnalytic": 2.250998195893276,
+    "ratioControl": 1.0004396444550234,
+    "absDevFrom1": 1.2514378403482982,
+    "absDevFrom1Control": 0.00043964445502342464,
+    "relDiffVsAnalytic": 0.00019531088733182322,
+    "maxAbsErrVsAnalytic": 0.005480456864750405,
+    "perWindowMin": 1.7475663282414766,
+    "perWindowMax": 2.9608094783573793,
+    "perWindowMinAbsDevFrom1": 0.7475663282414766,
+    "crossingA": 3,
+    "crossingInRange": false,
+    "wDrift": 0.0002768275564390965,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 1.5,
+    "windowScale": 1,
+    "aEnd": 3,
+    "binning": "canonLog",
+    "ratio": 1.8207650186392934,
+    "ratioAnalytic": 1.8203251822443087,
+    "ratioControl": 1.0004398363949838,
+    "absDevFrom1": 0.8207650186392934,
+    "absDevFrom1Control": 0.0004398363949837947,
+    "relDiffVsAnalytic": 0.00024162517734471756,
+    "maxAbsErrVsAnalytic": 0.0036493829555861446,
+    "perWindowMin": 1.0236125842483277,
+    "perWindowMax": 2.935811712839798,
+    "perWindowMinAbsDevFrom1": 0.023612584248327684,
+    "crossingA": 3,
+    "crossingInRange": false,
+    "wDrift": 0.000483616915767926,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 1.5,
+    "windowScale": 1,
+    "aEnd": 3,
+    "binning": "altLinear",
+    "ratio": 1.6485623251154076,
+    "ratioAnalytic": 1.6481547600431579,
+    "ratioControl": 1.0004075650722501,
+    "absDevFrom1": 0.6485623251154076,
+    "absDevFrom1Control": 0.00040756507225014893,
+    "relDiffVsAnalytic": 0.00024728568101162196,
+    "maxAbsErrVsAnalytic": 0.002162899011548536,
+    "perWindowMin": 1.0146169551109296,
+    "perWindowMax": 2.8850723456255847,
+    "perWindowMinAbsDevFrom1": 0.014616955110929641,
+    "crossingA": 3,
+    "crossingInRange": false,
+    "wDrift": 0.000483616915767926,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 1.5,
+    "windowScale": 2,
+    "aEnd": 9,
+    "binning": "canonLog",
+    "ratio": 1.2142147692522836,
+    "ratioAnalytic": 1.2135612569548553,
+    "ratioControl": 1.000653512297428,
+    "absDevFrom1": 0.21421476925228355,
+    "absDevFrom1Control": 0.0006535122974280494,
+    "relDiffVsAnalytic": 0.0005385078781008357,
+    "maxAbsErrVsAnalytic": 0.0019123415707489322,
+    "perWindowMin": 0.35045109863148133,
+    "perWindowMax": 2.868500368478139,
+    "perWindowMinAbsDevFrom1": 0.04399634941143593,
+    "crossingA": 3,
+    "crossingInRange": true,
+    "wDrift": 0.00143508093952327,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   },
+   {
+    "dkt": 1.5,
+    "windowScale": 2,
+    "aEnd": 9,
+    "binning": "altLinear",
+    "ratio": 0.8264071089437511,
+    "ratioAnalytic": 0.825588853582451,
+    "ratioControl": 1.0008182553613005,
+    "absDevFrom1": 0.17359289105624887,
+    "absDevFrom1Control": 0.000818255361300535,
+    "relDiffVsAnalytic": 0.0009911172586081207,
+    "maxAbsErrVsAnalytic": 0.0015202585679391367,
+    "perWindowMin": 0.34106772615629716,
+    "perWindowMax": 2.607589278794464,
+    "perWindowMinAbsDevFrom1": 0.050436705227496104,
+    "crossingA": 3,
+    "crossingInRange": true,
+    "wDrift": 0.00143508093952327,
+    "nan": false,
+    "nWindows": 24,
+    "targetsReached": true,
+    "clamps": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0
+    }
+   }
+  ],
+  "structure": {
+   "proportionality": {
+    "groups": [
+     {
+      "windowScale": 0.5,
+      "binning": "canonLog",
+      "slopePerDkt": 1.539302596290041,
+      "maxRelSpread": 0.00026861995781990444
+     },
+     {
+      "windowScale": 0.5,
+      "binning": "altLinear",
+      "slopePerDkt": 1.5011826631499319,
+      "maxRelSpread": 0.0002412029514147207
+     },
+     {
+      "windowScale": 1,
+      "binning": "canonLog",
+      "slopePerDkt": 1.2140675465161066,
+      "maxRelSpread": 0.00029837530136433976
+     },
+     {
+      "windowScale": 1,
+      "binning": "altLinear",
+      "slopePerDkt": 1.0992493009556625,
+      "maxRelSpread": 0.0003053622297668479
+     },
+     {
+      "windowScale": 2,
+      "binning": "canonLog",
+      "slopePerDkt": 0.8098096320427853,
+      "maxRelSpread": 0.0006646383306363468
+     },
+     {
+      "windowScale": 2,
+      "binning": "altLinear",
+      "slopePerDkt": 0.5513551674243433,
+      "maxRelSpread": 0.0012222835533999277
+     }
+    ],
+    "maxRelSpreadOverAll": 0.0012222835533999277,
+    "note": "同じ(観測窓・ビニング)の中で 比/Dκ が構成に依らず一定なら、比は Dκ に**比例**する = 「0.92 という値は Dκ の選択の反映」の機械証拠。maxRelSpread は測定誤差の水準に落ちる"
+   },
+   "binningEffect": {
+    "rows": [
+     {
+      "dkt": 0.5,
+      "windowScale": 0.5,
+      "canonLog": 0.7698580418442643,
+      "altLinear": 0.7507723764194482,
+      "relShift": 0.02479114900078816
+     },
+     {
+      "dkt": 0.5,
+      "windowScale": 1,
+      "canonLog": 0.6072148971430875,
+      "altLinear": 0.549792485086636,
+      "relShift": 0.09456686969740158
+     },
+     {
+      "dkt": 0.5,
+      "windowScale": 2,
+      "canonLog": 0.4051739312823797,
+      "altLinear": 0.27601453988878405,
+      "relShift": 0.3187751763416883
+     },
+     {
+      "dkt": 0.75,
+      "windowScale": 0.5,
+      "canonLog": 1.154536037333324,
+      "altLinear": 1.1259387424016605,
+      "relShift": 0.024769512606740096
+     },
+     {
+      "dkt": 0.75,
+      "windowScale": 1,
+      "canonLog": 0.910602427517139,
+      "altLinear": 0.8244849450938286,
+      "relShift": 0.09457198863187688
+     },
+     {
+      "dkt": 0.75,
+      "windowScale": 2,
+      "canonLog": 0.6074341407748557,
+      "altLinear": 0.41361268215252606,
+      "relShift": 0.31908226030082365
+     },
+     {
+      "dkt": 0.9242,
+      "windowScale": 0.5,
+      "canonLog": 1.4225796645901003,
+      "altLinear": 1.387354666218067,
+      "relShift": 0.024761353791868723
+     },
+     {
+      "dkt": 0.9242,
+      "windowScale": 1,
+      "canonLog": 1.122002858681778,
+      "altLinear": 1.0158906512268413,
+      "relShift": 0.09457391898235101
+     },
+     {
+      "dkt": 0.9242,
+      "windowScale": 2,
+      "canonLog": 0.748369054749213,
+      "altLinear": 0.5094910676819012,
+      "relShift": 0.3191981089428698
+     },
+     {
+      "dkt": 1.25,
+      "windowScale": 0.5,
+      "canonLog": 1.9238920283114425,
+      "altLinear": 1.8762714743660853,
+      "relShift": 0.024752196716128938
+     },
+     {
+      "dkt": 1.25,
+      "windowScale": 1,
+      "canonLog": 1.5173774882652424,
+      "altLinear": 1.3738698651082144,
+      "relShift": 0.09457608556002406
+     },
+     {
+      "dkt": 1.25,
+      "windowScale": 2,
+      "canonLog": 1.0119545597598074,
+      "altLinear": 0.6888089666800093,
+      "relShift": 0.3193281654430198
+     },
+     {
+      "dkt": 1.5,
+      "windowScale": 0.5,
+      "canonLog": 2.308570023800502,
+      "altLinear": 2.251437840348298,
+      "relShift": 0.024747866802042884
+     },
+     {
+      "dkt": 1.5,
+      "windowScale": 1,
+      "canonLog": 1.8207650186392934,
+      "altLinear": 1.6485623251154076,
+      "relShift": 0.09457711003948088
+     },
+     {
+      "dkt": 1.5,
+      "windowScale": 2,
+      "canonLog": 1.2142147692522836,
+      "altLinear": 0.8264071089437511,
+      "relShift": 0.31938967481621505
+     }
+    ],
+    "maxRelShift": 0.31938967481621505,
+    "minRelShift": 0.024747866802042884,
+    "atCanonical": {
+     "dkt": 0.9242,
+     "windowScale": 1,
+     "canonLog": 1.122002858681778,
+     "altLinear": 1.0158906512268413,
+     "relShift": 0.09457391898235101
+    },
+    "note": "係数も観測範囲も同じまま、部分窓の切り方(ln a 等間隔 → a 等間隔)だけを変えたときの比の相対変化。推定量定義そのものが比を動かすことの機械証拠"
+   },
+   "windowEffect": {
+    "rows": [
+     {
+      "dkt": 0.5,
+      "binning": "canonLog",
+      "w05": 0.7698580418442643,
+      "w2": 0.4051739312823797,
+      "factor": 1.900068050794027
+     },
+     {
+      "dkt": 0.5,
+      "binning": "altLinear",
+      "w05": 0.7507723764194482,
+      "w2": 0.27601453988878405,
+      "factor": 2.7200464755297338
+     },
+     {
+      "dkt": 0.75,
+      "binning": "canonLog",
+      "w05": 1.154536037333324,
+      "w2": 0.6074341407748557,
+      "factor": 1.9006768961991067
+     },
+     {
+      "dkt": 0.75,
+      "binning": "altLinear",
+      "w05": 1.1259387424016605,
+      "w2": 0.41361268215252606,
+      "factor": 2.7222055584515497
+     },
+     {
+      "dkt": 0.9242,
+      "binning": "canonLog",
+      "w05": 1.4225796645901003,
+      "w2": 0.748369054749213,
+      "factor": 1.9009065855439773
+     },
+     {
+      "dkt": 0.9242,
+      "binning": "altLinear",
+      "w05": 1.387354666218067,
+      "w2": 0.5094910676819012,
+      "factor": 2.723020587054249
+     },
+     {
+      "dkt": 1.25,
+      "binning": "canonLog",
+      "w05": 1.9238920283114425,
+      "w2": 1.0119545597598074,
+      "factor": 1.90116444434826
+     },
+     {
+      "dkt": 1.25,
+      "binning": "altLinear",
+      "w05": 1.8762714743660853,
+      "w2": 0.6888089666800093,
+      "factor": 2.7239359025907097
+     },
+     {
+      "dkt": 1.5,
+      "binning": "canonLog",
+      "w05": 2.308570023800502,
+      "w2": 1.2142147692522836,
+      "factor": 1.901286396987351
+     },
+     {
+      "dkt": 1.5,
+      "binning": "altLinear",
+      "w05": 2.251437840348298,
+      "w2": 0.8264071089437511,
+      "factor": 2.7243689169444703
+     }
+    ],
+    "maxFactor": 2.7243689169444703,
+    "minFactor": 1.900068050794027,
+    "atCanonical": {
+     "dkt": 0.9242,
+     "binning": "canonLog",
+     "w05": 1.4225796645901003,
+     "w2": 0.748369054749213,
+     "factor": 1.9009065855439773
+    },
+    "note": "同じ係数・同じビニングのまま観測範囲を a:1→√3 から a:1→9 へ広げたときの比の倍率。式(6) が a に依存する以上、「いつ観測したか」だけで推定値が動くことの機械証拠"
+   },
+   "calibrationPoint": {
+    "dkt": 0.9242,
+    "pointValueAtA2": 0.9242,
+    "nearestWindow": {
+     "a1": 1.9871868591726196,
+     "a2": 2.080233194147464,
+     "aEff": 2.0330004428068182,
+     "meas": 0.9095538962515507,
+     "ana": 0.9091980311858892,
+     "inv": 1.000355865065659
+    },
+    "aggregatedRatioOverCanonRange": 1.122002858681778,
+    "note": "較正点は「a=2 の**点値**が Dκ」であり、観測範囲全体で集約した比(本ハーネスの表の値)とは別量である。0.92 という数字が出るのは「Dκ=0.9242 を選び」「a=2 で読む」という2つの選択の積であることが、この2つの数の違いに現れている"
+   }
+  }
+ },
+ "pw1": {
+  "rule": {
+   "role": "窓(転記照合・基準再現)",
+   "verbatim": "PW1(転記照合・基準再現): 正準構成(係数 0.9242・論文2 の正本窓・正本推定量)で、ハーネスの H_w/H_geo(または論文2 正本の対応量)が committed 正本値を**論文2 既存ゲートと同じ許容**で再現。",
+   "window": "正準構成 24 窓の比について、committed 正本 paper/figures/p2fig6.json (Dκ=0.9242 系列)との最大相対差 < 1e-2",
+   "tolerance": 0.01,
+   "toleranceSource": "tools/gen-figures2.mjs のゲート p2fig6.analytic が用いる許容 (maxRelErrVsAnalytic < 1e-2)と同一 = 「論文2 既存ゲートと同じ許容」",
+   "canonicalReference": "paper/figures/p2fig6.json の data[] のうち dkt=0.9242 の系列の rows[](a1・a2・aEff・meas・ana・inv の24行)",
+   "note": "併せて bit 一致(全144フィールド)も記述として記録する。bit 一致は許容判定より強い証拠だが、窓判定は上の許容で行う(事前登録どおり)"
+  },
+  "reference": "paper/figures/p2fig6.json data[dkt=0.9242].rows",
+  "referenceSha256": "8a539c2ff12352774b21bf984b62e1244dd8dab6be976fd22160138e8b0decdd",
+  "nWindows": 24,
+  "nFieldsCompared": 144,
+  "bitIdenticalFields": 144,
+  "bitIdentical": true,
+  "maxRelDiffVsCommitted": 0,
+  "maxAbsDiffVsCommitted": 0,
+  "worst": {
+   "field": null,
+   "i": null,
+   "rel": 0
+  },
+  "tolerance": 0.01,
+  "result": "PASS",
+  "note": "窓判定は「committed 正本との最大相対差 < 1e-2(論文2 既存ゲート p2fig6.analytic と同じ許容)」。bit 一致はそれより強い証拠だが、事前登録どおり判定は許容で行う"
+ },
+ "pw2": {
+  "rule": {
+   "role": "記述(窓なし — 判定に使わない)",
+   "verbatim": "PW2(記述 — 窓なし): 減衰係数 {0.5, 0.75, 0.9242, 1.25, 1.5} × 観測窓 {×0.5, ×1, ×2} ×推定量定義(正本2種+代替ビニング1種)の全組み合わせの比を表収載。",
+   "grid": "5 係数 × 3 観測窓 × 2 ビニング = 30 構成。各構成につき比を1つ(24 部分窓の算術平均)。「正本2種」= 正本の2プローブ(幾何 H_geo と速度 H_w)であり、両ビニングともこの同一の2プローブ・同一推定式を使う(違いは観測範囲の分割だけ)。併せて反比例対照(モデル内対照)の比も全構成で記録する",
+   "window": "なし(記述のみ)"
+  },
+  "nCells": 30,
+  "table": [
+   {
+    "dkt": 0.5,
+    "windowScale": 0.5,
+    "binning": "canonLog",
+    "ratio": 0.7698580418442643,
+    "ratioAnalytic": 0.7693559909781187,
+    "ratioControl": 1.0005020508661462,
+    "absDevFrom1": 0.23014195815573568
+   },
+   {
+    "dkt": 0.5,
+    "windowScale": 0.5,
+    "binning": "altLinear",
+    "ratio": 0.7507723764194482,
+    "ratioAnalytic": 0.7503327319644253,
+    "ratioControl": 1.0004396444550234,
+    "absDevFrom1": 0.24922762358055184
+   },
+   {
+    "dkt": 0.5,
+    "windowScale": 1,
+    "binning": "canonLog",
+    "ratio": 0.6072148971430875,
+    "ratioAnalytic": 0.606775060748103,
+    "ratioControl": 1.0004398363949838,
+    "absDevFrom1": 0.3927851028569125
+   },
+   {
+    "dkt": 0.5,
+    "windowScale": 1,
+    "binning": "altLinear",
+    "ratio": 0.549792485086636,
+    "ratioAnalytic": 0.5493849200143858,
+    "ratioControl": 1.0004075650722501,
+    "absDevFrom1": 0.45020751491336397
+   },
+   {
+    "dkt": 0.5,
+    "windowScale": 2,
+    "binning": "canonLog",
+    "ratio": 0.4051739312823797,
+    "ratioAnalytic": 0.4045204189849518,
+    "ratioControl": 1.000653512297428,
+    "absDevFrom1": 0.5948260687176203
+   },
+   {
+    "dkt": 0.5,
+    "windowScale": 2,
+    "binning": "altLinear",
+    "ratio": 0.27601453988878405,
+    "ratioAnalytic": 0.2751962845274835,
+    "ratioControl": 1.0008182553613005,
+    "absDevFrom1": 0.7239854601112159
+   },
+   {
+    "dkt": 0.75,
+    "windowScale": 0.5,
+    "binning": "canonLog",
+    "ratio": 1.154536037333324,
+    "ratioAnalytic": 1.154033986467178,
+    "ratioControl": 1.0005020508661462,
+    "absDevFrom1": 0.154536037333324
+   },
+   {
+    "dkt": 0.75,
+    "windowScale": 0.5,
+    "binning": "altLinear",
+    "ratio": 1.1259387424016605,
+    "ratioAnalytic": 1.125499097946638,
+    "ratioControl": 1.0004396444550234,
+    "absDevFrom1": 0.12593874240166048
+   },
+   {
+    "dkt": 0.75,
+    "windowScale": 1,
+    "binning": "canonLog",
+    "ratio": 0.910602427517139,
+    "ratioAnalytic": 0.9101625911221544,
+    "ratioControl": 1.0004398363949838,
+    "absDevFrom1": 0.08939757248286095
+   },
+   {
+    "dkt": 0.75,
+    "windowScale": 1,
+    "binning": "altLinear",
+    "ratio": 0.8244849450938286,
+    "ratioAnalytic": 0.8240773800215789,
+    "ratioControl": 1.0004075650722501,
+    "absDevFrom1": 0.17551505490617136
+   },
+   {
+    "dkt": 0.75,
+    "windowScale": 2,
+    "binning": "canonLog",
+    "ratio": 0.6074341407748557,
+    "ratioAnalytic": 0.6067806284774276,
+    "ratioControl": 1.000653512297428,
+    "absDevFrom1": 0.3925658592251443
+   },
+   {
+    "dkt": 0.75,
+    "windowScale": 2,
+    "binning": "altLinear",
+    "ratio": 0.41361268215252606,
+    "ratioAnalytic": 0.4127944267912255,
+    "ratioControl": 1.0008182553613005,
+    "absDevFrom1": 0.5863873178474739
+   },
+   {
+    "dkt": 0.9242,
+    "windowScale": 0.5,
+    "binning": "canonLog",
+    "ratio": 1.4225796645901003,
+    "ratioAnalytic": 1.422077613723955,
+    "ratioControl": 1.0005020508661462,
+    "absDevFrom1": 0.4225796645901003
+   },
+   {
+    "dkt": 0.9242,
+    "windowScale": 0.5,
+    "binning": "altLinear",
+    "ratio": 1.387354666218067,
+    "ratioAnalytic": 1.3869150217630437,
+    "ratioControl": 1.0004396444550234,
+    "absDevFrom1": 0.3873546662180669
+   },
+   {
+    "dkt": 0.9242,
+    "windowScale": 1,
+    "binning": "canonLog",
+    "ratio": 1.122002858681778,
+    "ratioAnalytic": 1.1215630222867934,
+    "ratioControl": 1.0004398363949838,
+    "absDevFrom1": 0.12200285868177807
+   },
+   {
+    "dkt": 0.9242,
+    "windowScale": 1,
+    "binning": "altLinear",
+    "ratio": 1.0158906512268413,
+    "ratioAnalytic": 1.0154830861545907,
+    "ratioControl": 1.0004075650722501,
+    "absDevFrom1": 0.0158906512268413
+   },
+   {
+    "dkt": 0.9242,
+    "windowScale": 2,
+    "binning": "canonLog",
+    "ratio": 0.748369054749213,
+    "ratioAnalytic": 0.7477155424517848,
+    "ratioControl": 1.000653512297428,
+    "absDevFrom1": 0.251630945250787
+   },
+   {
+    "dkt": 0.9242,
+    "windowScale": 2,
+    "binning": "altLinear",
+    "ratio": 0.5094910676819012,
+    "ratioAnalytic": 0.5086728123206009,
+    "ratioControl": 1.0008182553613005,
+    "absDevFrom1": 0.4905089323180988
+   },
+   {
+    "dkt": 1.25,
+    "windowScale": 0.5,
+    "binning": "canonLog",
+    "ratio": 1.9238920283114425,
+    "ratioAnalytic": 1.9233899774452967,
+    "ratioControl": 1.0005020508661462,
+    "absDevFrom1": 0.9238920283114425
+   },
+   {
+    "dkt": 1.25,
+    "windowScale": 0.5,
+    "binning": "altLinear",
+    "ratio": 1.8762714743660853,
+    "ratioAnalytic": 1.875831829911063,
+    "ratioControl": 1.0004396444550234,
+    "absDevFrom1": 0.8762714743660853
+   },
+   {
+    "dkt": 1.25,
+    "windowScale": 1,
+    "binning": "canonLog",
+    "ratio": 1.5173774882652424,
+    "ratioAnalytic": 1.5169376518702578,
+    "ratioControl": 1.0004398363949838,
+    "absDevFrom1": 0.5173774882652424
+   },
+   {
+    "dkt": 1.25,
+    "windowScale": 1,
+    "binning": "altLinear",
+    "ratio": 1.3738698651082144,
+    "ratioAnalytic": 1.3734623000359643,
+    "ratioControl": 1.0004075650722501,
+    "absDevFrom1": 0.3738698651082144
+   },
+   {
+    "dkt": 1.25,
+    "windowScale": 2,
+    "binning": "canonLog",
+    "ratio": 1.0119545597598074,
+    "ratioAnalytic": 1.0113010474623796,
+    "ratioControl": 1.000653512297428,
+    "absDevFrom1": 0.011954559759807415
+   },
+   {
+    "dkt": 1.25,
+    "windowScale": 2,
+    "binning": "altLinear",
+    "ratio": 0.6888089666800093,
+    "ratioAnalytic": 0.687990711318709,
+    "ratioControl": 1.0008182553613005,
+    "absDevFrom1": 0.31119103331999065
+   },
+   {
+    "dkt": 1.5,
+    "windowScale": 0.5,
+    "binning": "canonLog",
+    "ratio": 2.308570023800502,
+    "ratioAnalytic": 2.308067972934356,
+    "ratioControl": 1.0005020508661462,
+    "absDevFrom1": 1.308570023800502
+   },
+   {
+    "dkt": 1.5,
+    "windowScale": 0.5,
+    "binning": "altLinear",
+    "ratio": 2.251437840348298,
+    "ratioAnalytic": 2.250998195893276,
+    "ratioControl": 1.0004396444550234,
+    "absDevFrom1": 1.2514378403482982
+   },
+   {
+    "dkt": 1.5,
+    "windowScale": 1,
+    "binning": "canonLog",
+    "ratio": 1.8207650186392934,
+    "ratioAnalytic": 1.8203251822443087,
+    "ratioControl": 1.0004398363949838,
+    "absDevFrom1": 0.8207650186392934
+   },
+   {
+    "dkt": 1.5,
+    "windowScale": 1,
+    "binning": "altLinear",
+    "ratio": 1.6485623251154076,
+    "ratioAnalytic": 1.6481547600431579,
+    "ratioControl": 1.0004075650722501,
+    "absDevFrom1": 0.6485623251154076
+   },
+   {
+    "dkt": 1.5,
+    "windowScale": 2,
+    "binning": "canonLog",
+    "ratio": 1.2142147692522836,
+    "ratioAnalytic": 1.2135612569548553,
+    "ratioControl": 1.000653512297428,
+    "absDevFrom1": 0.21421476925228355
+   },
+   {
+    "dkt": 1.5,
+    "windowScale": 2,
+    "binning": "altLinear",
+    "ratio": 0.8264071089437511,
+    "ratioAnalytic": 0.825588853582451,
+    "ratioControl": 1.0008182553613005,
+    "absDevFrom1": 0.17359289105624887
+   }
+  ],
+  "result": "DESCRIPTIVE(窓なし)"
+ },
+ "pw3": {
+  "rule": {
+   "role": "主窓(構造)",
+   "verbatim": "PW3(構造窓): 掃引全構成で**プローブ依存が消えない**こと — |比 − 1| > 数値床(床は正準構成の収束誤差から事前宣言)。「0.92 という値は係数選択の反映・プローブ依存自体は一般的」の分離を機械実証する。",
+   "window": "30 構成すべてで |比 − 1| > 床",
+   "floorRule": "床 := 正準構成(PW1)の 24 窓における |比_実測 − 比_解析| の最大値(dt=0.016 における比の離散化収束誤差。安全係数を掛けない素の数値床)",
+   "scope": "判定対象はモデル自身の光速則(E8R 指数形)で読む 30 構成。反比例対照は「プローブ依存が消える反実仮想」であり構成上 ≡ 1 になるので判定対象に入れない(記述としては全構成で収載する)",
+   "honestLimitation": "PW3 は**構成レベルの比**(1構成 = 24 部分窓の算術平均)についての窓である。部分窓レベルでは ρ(a)=2Dκ·a^{−1} が a* = 2Dκ で 1 を横切るため、a* が観測範囲に入る構成では「比が 1 に一致する時期」が必ず存在する(論文2 第V節が既に述べている)。本 JSON は a* と部分窓レベルの min|比−1| も記述として収載し、この限定を隠さない"
+  },
+  "floor": 0.003649382955597913,
+  "nCells": 30,
+  "nPass": 30,
+  "minAbsDevFrom1": 0.011954559759807415,
+  "worstCell": {
+   "dkt": 1.25,
+   "windowScale": 2,
+   "binning": "canonLog",
+   "ratio": 1.0119545597598074,
+   "absDevFrom1": 0.011954559759807415,
+   "marginFactor": 3.275775632554514,
+   "pass": true
+  },
+  "minMarginFactor": 3.275775632554514,
+  "perCell": [
+   {
+    "dkt": 0.5,
+    "windowScale": 0.5,
+    "binning": "canonLog",
+    "ratio": 0.7698580418442643,
+    "absDevFrom1": 0.23014195815573568,
+    "marginFactor": 63.063252323988934,
+    "pass": true
+   },
+   {
+    "dkt": 0.5,
+    "windowScale": 0.5,
+    "binning": "altLinear",
+    "ratio": 0.7507723764194482,
+    "absDevFrom1": 0.24922762358055184,
+    "marginFactor": 68.29308587586104,
+    "pass": true
+   },
+   {
+    "dkt": 0.5,
+    "windowScale": 1,
+    "binning": "canonLog",
+    "ratio": 0.6072148971430875,
+    "absDevFrom1": 0.3927851028569125,
+    "marginFactor": 107.6305522429226,
+    "pass": true
+   },
+   {
+    "dkt": 0.5,
+    "windowScale": 1,
+    "binning": "altLinear",
+    "ratio": 0.549792485086636,
+    "absDevFrom1": 0.45020751491336397,
+    "marginFactor": 123.36537995355498,
+    "pass": true
+   },
+   {
+    "dkt": 0.5,
+    "windowScale": 2,
+    "binning": "canonLog",
+    "ratio": 0.4051739312823797,
+    "absDevFrom1": 0.5948260687176203,
+    "marginFactor": 162.9936008237218,
+    "pass": true
+   },
+   {
+    "dkt": 0.5,
+    "windowScale": 2,
+    "binning": "altLinear",
+    "ratio": 0.27601453988878405,
+    "absDevFrom1": 0.7239854601112159,
+    "marginFactor": 198.38571860502333,
+    "pass": true
+   },
+   {
+    "dkt": 0.75,
+    "windowScale": 0.5,
+    "binning": "canonLog",
+    "ratio": 1.154536037333324,
+    "absDevFrom1": 0.154536037333324,
+    "marginFactor": 42.34579906070858,
+    "pass": true
+   },
+   {
+    "dkt": 0.75,
+    "windowScale": 0.5,
+    "binning": "altLinear",
+    "ratio": 1.1259387424016605,
+    "absDevFrom1": 0.12593874240166048,
+    "marginFactor": 34.50959900179255,
+    "pass": true
+   },
+   {
+    "dkt": 0.75,
+    "windowScale": 1,
+    "binning": "canonLog",
+    "ratio": 0.910602427517139,
+    "absDevFrom1": 0.08939757248286095,
+    "marginFactor": 24.496626846390832,
+    "pass": true
+   },
+   {
+    "dkt": 0.75,
+    "windowScale": 1,
+    "binning": "altLinear",
+    "ratio": 0.8244849450938286,
+    "absDevFrom1": 0.17551505490617136,
+    "marginFactor": 48.09444693573275,
+    "pass": true
+   },
+   {
+    "dkt": 0.75,
+    "windowScale": 2,
+    "binning": "canonLog",
+    "ratio": 0.6074341407748557,
+    "absDevFrom1": 0.3925658592251443,
+    "marginFactor": 107.57047533829635,
+    "pass": true
+   },
+   {
+    "dkt": 0.75,
+    "windowScale": 2,
+    "binning": "altLinear",
+    "ratio": 0.41361268215252606,
+    "absDevFrom1": 0.5863873178474739,
+    "marginFactor": 160.68122336900663,
+    "pass": true
+   },
+   {
+    "dkt": 0.9242,
+    "windowScale": 0.5,
+    "binning": "canonLog",
+    "ratio": 1.4225796645901003,
+    "absDevFrom1": 0.4225796645901003,
+    "marginFactor": 115.79482606556567,
+    "pass": true
+   },
+   {
+    "dkt": 0.9242,
+    "windowScale": 0.5,
+    "binning": "altLinear",
+    "ratio": 1.387354666218067,
+    "absDevFrom1": 0.3873546662180669,
+    "marginFactor": 106.14250982454182,
+    "pass": true
+   },
+   {
+    "dkt": 0.9242,
+    "windowScale": 1,
+    "binning": "canonLog",
+    "ratio": 1.122002858681778,
+    "absDevFrom1": 0.12200285868177807,
+    "marginFactor": 33.43109236991249,
+    "pass": true
+   },
+   {
+    "dkt": 0.9242,
+    "windowScale": 1,
+    "binning": "altLinear",
+    "ratio": 1.0158906512268413,
+    "absDevFrom1": 0.0158906512268413,
+    "marginFactor": 4.354339191086013,
+    "pass": true
+   },
+   {
+    "dkt": 0.9242,
+    "windowScale": 2,
+    "binning": "canonLog",
+    "ratio": 0.748369054749213,
+    "absDevFrom1": 0.251630945250787,
+    "marginFactor": 68.95164150005186,
+    "pass": true
+   },
+   {
+    "dkt": 0.9242,
+    "windowScale": 2,
+    "binning": "altLinear",
+    "ratio": 0.5094910676819012,
+    "absDevFrom1": 0.4905089323180988,
+    "marginFactor": 134.4087310885503,
+    "pass": true
+   },
+   {
+    "dkt": 1.25,
+    "windowScale": 0.5,
+    "binning": "canonLog",
+    "ratio": 1.9238920283114425,
+    "absDevFrom1": 0.9238920283114425,
+    "marginFactor": 253.16390183010336,
+    "pass": true
+   },
+   {
+    "dkt": 1.25,
+    "windowScale": 0.5,
+    "binning": "altLinear",
+    "ratio": 1.8762714743660853,
+    "absDevFrom1": 0.8762714743660853,
+    "marginFactor": 240.11496875709977,
+    "pass": true
+   },
+   {
+    "dkt": 1.25,
+    "windowScale": 1,
+    "binning": "canonLog",
+    "ratio": 1.5173774882652424,
+    "absDevFrom1": 0.5173774882652424,
+    "marginFactor": 141.77122394667282,
+    "pass": true
+   },
+   {
+    "dkt": 1.25,
+    "windowScale": 1,
+    "binning": "altLinear",
+    "ratio": 1.3738698651082144,
+    "absDevFrom1": 0.3738698651082144,
+    "marginFactor": 102.44741909991185,
+    "pass": true
+   },
+   {
+    "dkt": 1.25,
+    "windowScale": 2,
+    "binning": "canonLog",
+    "ratio": 1.0119545597598074,
+    "absDevFrom1": 0.011954559759807415,
+    "marginFactor": 3.275775632554514,
+    "pass": true
+   },
+   {
+    "dkt": 1.25,
+    "windowScale": 2,
+    "binning": "altLinear",
+    "ratio": 0.6888089666800093,
+    "absDevFrom1": 0.31119103331999065,
+    "marginFactor": 85.27223289697348,
+    "pass": true
+   },
+   {
+    "dkt": 1.5,
+    "windowScale": 0.5,
+    "binning": "canonLog",
+    "ratio": 2.308570023800502,
+    "absDevFrom1": 1.308570023800502,
+    "marginFactor": 358.57295321480086,
+    "pass": true
+   },
+   {
+    "dkt": 1.5,
+    "windowScale": 0.5,
+    "binning": "altLinear",
+    "ratio": 2.251437840348298,
+    "absDevFrom1": 1.2514378403482982,
+    "marginFactor": 342.91765363475355,
+    "pass": true
+   },
+   {
+    "dkt": 1.5,
+    "windowScale": 1,
+    "binning": "canonLog",
+    "ratio": 1.8207650186392934,
+    "absDevFrom1": 0.8207650186392934,
+    "marginFactor": 224.90514934320444,
+    "pass": true
+   },
+   {
+    "dkt": 1.5,
+    "windowScale": 1,
+    "binning": "altLinear",
+    "ratio": 1.6485623251154076,
+    "absDevFrom1": 0.6485623251154076,
+    "marginFactor": 177.71835211773424,
+    "pass": true
+   },
+   {
+    "dkt": 1.5,
+    "windowScale": 2,
+    "binning": "canonLog",
+    "ratio": 1.2142147692522836,
+    "absDevFrom1": 0.21421476925228355,
+    "marginFactor": 58.69890111798002,
+    "pass": true
+   },
+   {
+    "dkt": 1.5,
+    "windowScale": 2,
+    "binning": "altLinear",
+    "ratio": 0.8264071089437511,
+    "absDevFrom1": 0.17359289105624887,
+    "marginFactor": 47.56773766095685,
+    "pass": true
+   }
+  ],
+  "result": "PASS",
+  "fails": [],
+  "control": {
+   "maxAbsDevFrom1": 0.000818255361300535,
+   "withinFloor": true,
+   "note": "反比例対照(c_loc ∝ 1/W_B)は構成上 ≡ d_P = 1。全構成でその |比−1| が数値床以下に収まるなら「プローブ依存が消える反実仮想が実装できている」ことの機械確認になる。判定対象ではない(PW3.scope)"
+  },
+  "subWindowHonesty": {
+   "cellsWhereCrossingInRange": 16,
+   "minPerWindowAbsDevFrom1": 0.0019374902245202774,
+   "note": "部分窓レベルでは a*=2Dκ で比が 1 を横切るので、a* が観測範囲に入る構成には「比が 1 に一致する時期」が存在する。PW3 は構成レベルの集約比についての窓であり、この事実を隠さない(PRE_REGISTERED.PW3.honestLimitation)"
+  }
+ },
+ "pw4": {
+  "rule": {
+   "role": "窓(決定性)",
+   "verbatim": "PW4(決定性): 別プロセス2回 SHA 一致。",
+   "window": "全体を2回実行(別プロセス・別ブラウザ起動)し、raw(実測部)の正準化 JSON の SHA-256 が一致すること",
+   "canonicalization": "raw を再帰キー整列した JSON の SHA-256。走行時間は meta.timings にのみ置き raw には入れないので、除外すべき揮発値は対象内に存在しない"
+  },
+  "canonicalization": "raw を再帰キー整列した JSON の SHA-256。走行時間は meta.timings にのみ置き raw には入れないので、除外すべき揮発値は対象内に存在しない",
+  "sha256": "58fa092cb2fd9932c9e60415ebb32f7f80e2aa3335c87261a6708f8e9250c0eb",
+  "bytes": 27718,
+  "reference": "p2sens-run1.json",
+  "referenceSha256": "58fa092cb2fd9932c9e60415ebb32f7f80e2aa3335c87261a6708f8e9250c0eb",
+  "identical": true,
+  "note": "2回目は別プロセス・別ブラウザ起動で全節を再実行したもの(同一スクリプト・同一構成)"
+ },
+ "determinism": {
+  "rule": {
+   "role": "窓(決定性)",
+   "verbatim": "PW4(決定性): 別プロセス2回 SHA 一致。",
+   "window": "全体を2回実行(別プロセス・別ブラウザ起動)し、raw(実測部)の正準化 JSON の SHA-256 が一致すること",
+   "canonicalization": "raw を再帰キー整列した JSON の SHA-256。走行時間は meta.timings にのみ置き raw には入れないので、除外すべき揮発値は対象内に存在しない"
+  },
+  "canonicalization": "raw を再帰キー整列した JSON の SHA-256。走行時間は meta.timings にのみ置き raw には入れないので、除外すべき揮発値は対象内に存在しない",
+  "sha256": "58fa092cb2fd9932c9e60415ebb32f7f80e2aa3335c87261a6708f8e9250c0eb",
+  "bytes": 27718,
+  "reference": "p2sens-run1.json",
+  "referenceSha256": "58fa092cb2fd9932c9e60415ebb32f7f80e2aa3335c87261a6708f8e9250c0eb",
+  "identical": true,
+  "note": "2回目は別プロセス・別ブラウザ起動で全節を再実行したもの(同一スクリプト・同一構成)"
+ },
+ "paperSync": {
+  "expectedTable": [
+   {
+    "dkt": 0.5,
+    "cells": [
+     "0.770",
+     "0.751",
+     "0.607",
+     "0.550",
+     "0.405",
+     "0.276"
+    ]
+   },
+   {
+    "dkt": 0.75,
+    "cells": [
+     "1.155",
+     "1.126",
+     "0.911",
+     "0.824",
+     "0.607",
+     "0.414"
+    ]
+   },
+   {
+    "dkt": 0.9242,
+    "cells": [
+     "1.423",
+     "1.387",
+     "1.122",
+     "1.016",
+     "0.748",
+     "0.509"
+    ]
+   },
+   {
+    "dkt": 1.25,
+    "cells": [
+     "1.924",
+     "1.876",
+     "1.517",
+     "1.374",
+     "1.012",
+     "0.689"
+    ]
+   },
+   {
+    "dkt": 1.5,
+    "cells": [
+     "2.309",
+     "2.251",
+     "1.821",
+     "1.649",
+     "1.214",
+     "0.826"
+    ]
+   }
+  ],
+  "literals": {
+   "floor": "3.6\\times10^{-3}",
+   "minAbsDev": "1.2\\times10^{-2}",
+   "binningShiftPct": "9.5",
+   "windowFactor": "1.90",
+   "proportionalitySpread": "1.2\\times10^{-3}"
+  },
+  "files": [
+   {
+    "path": "paper/dfm-paper2.tex",
+    "lang": "en",
+    "present": true,
+    "sha256": "b87d0fee347eef3aab08b9631a625b90c766ec9c0a9fb88448f4ccb6ac82006a",
+    "tableRowsChecked": 5,
+    "tableValuesChecked": 30,
+    "tableMismatches": [],
+    "literalsChecked": 5,
+    "literalsMissing": [],
+    "ok": true
+   },
+   {
+    "path": "paper/dfm-paper2-ja.tex",
+    "lang": "ja",
+    "present": true,
+    "sha256": "48d6424787f583233ba617667498b24be94d39e65aa16d285b265fe17f667d3a",
+    "tableRowsChecked": 5,
+    "tableValuesChecked": 30,
+    "tableMismatches": [],
+    "literalsChecked": 5,
+    "literalsMissing": [],
+    "ok": true
+   }
+  ],
+  "rounding": "表の値は小数第3位(toFixed(3))で転記する。本文リテラルは指数表記 (有効数字2桁)・百分率(小数第1位)・倍率(小数第2位)で転記する",
+  "result": "PASS",
+  "note": "論文2 本文・小表の数値が本 JSON の出力と一致することの機械照合。実測数値の手書きを構造的に禁じる(第131便の事故の再発防止と同じ規律)"
+ },
+ "summary": {
+  "PW1": "PASS",
+  "PW2": "DESCRIPTIVE(窓なし)",
+  "PW3": "PASS",
+  "PW4": "PASS",
+  "paperSync": "PASS",
+  "headline": {
+   "canonicalBitIdentical": true,
+   "numericFloor": 0.003649382955597913,
+   "minAbsDevFrom1": 0.011954559759807415,
+   "minMarginFactor": 3.275775632554514,
+   "ratioProportionalToDktMaxSpread": 0.0012222835533999277,
+   "binningRelShiftAtCanonical": 0.09457391898235101,
+   "windowFactorAtCanonical": 1.9009065855439773
+  },
+  "reading": "比は(同じ観測窓・同じビニングの中では)Dκ に比例する — したがって「0.92」という値そのものは Dκ=0.9242 という**選択**と「a=2 で読む」という**選択**の積である。一方、|比−1| は 30 構成すべてで数値床を上回る — プローブ依存という**構造**は係数・観測窓・ビニングの選び方に依らず残る。この2つが分離できたことが本ハーネスの結果である"
+ },
+ "manifest": {
+  "schema": "dfm-experiment-manifest",
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-08-22T09:02:47.772Z",
+  "experiment": {
+   "id": "p2sens",
+   "wave": 167,
+   "title": "論文2 プローブ依存比 H_w/H_geo の感度分析(減衰係数×観測窓×推定量定義)",
+   "script": "tests/exp-p2sens.mjs",
+   "scriptSha256": "e43c39008364f4c247b85f342166b898ff44261cc541614cdd0f70fc02602f76",
+   "scriptBytes": 46989,
+   "helperSha256": "502979b3027a7a79bc4b2df5e1bc0fbb86e3bbc252af85b6f2266e101666103a",
+   "command": "node tests/exp-p2sens.mjs"
+  },
+  "provenance": {
+   "git": {
+    "commit": "7c2ae5eee28b0febb84b20b5eee2600995c2bff4",
+    "describe": "7c2ae5e-dirty",
+    "dirty": true,
+    "dirtyFiles": {
+     "count": 11,
+     "sample": [
+      "paper/README.md",
+      "paper/dfm-paper-ja.tex",
+      "paper/dfm-paper.tex",
+      "paper/dfm-paper2-ja.tex",
+      "paper/dfm-paper2.tex",
+      "tests/out/error-budget.json",
+      "tests/out/qa-results.json",
+      "tools/gen-error-budget.mjs"
+     ]
+    }
+   },
+   "target": {
+    "path": "beta/index.html",
+    "sha256": "bfc165dc580f8db563eb81dbf1f3a43feb035f26b0417aa86be47e701bae0f80",
+    "bytes": 1749919,
+    "appVersion": "1.41"
+   },
+   "presets": {
+    "mode": "dynamic",
+    "note": null,
+    "declaration": "内蔵プリセットを読まず、論文2 正本(tools/gen-figures2.mjs p2fig6 / HP.verify.v29)の構成を逐語転記した宣言値から validatePreset → HP.sim.build する",
+    "declaredIn": "tests/exp-p2sens.mjs の CFG(測定系)と SWEEP(掃引軸)",
+    "configSha256": "5ac8f237e877187a8fd6e5eeb68e86b03570e30c7182cc557b92aec0ac937047",
+    "configCanonicalization": "宣言済み構成(configs)を再帰キー整列した JSON の SHA-256"
+   }
+  },
+  "numerics": {
+   "seed": 1,
+   "dt": 0.016,
+   "timeScale": 1,
+   "substeps": "not-applicable",
+   "steps": {
+    "canonical": 6868,
+    "perCell": "ceil(ln(a_end)/H0/dt)+1(a_end = 3^s)",
+    "maxCell": 13734
+   },
+   "window": {
+    "canonical": "a: 1→3 を ln a 等間隔で 24 分割(論文2 fig6 と同一)",
+    "sweep": "観測範囲 a: 1→3^s(s ∈ {0.5,1,2})を 24 分割。分割は canonLog(ln a 等間隔)/ altLinear(a 等間隔)の2種"
+   },
+   "warmup": "not-applicable"
+  },
+  "environment": {
+   "node": "v22.22.2",
+   "platform": "linux/x64",
+   "playwright": "playwright@1.61.1",
+   "browser": "Playwright Chromium 141.0.7390.37",
+   "date": "2026-08-22T09:02:47.809Z",
+   "tz": "UTC"
+  },
+  "classification": {
+   "note": "較正自由度はゼロである(fit=[])。Dκ は掃引する**入力**であって当てはめていない。解析値は論文2 式(6) の窓平均で、実測とは独立に閉じた式から計算される",
+   "input": [
+    "CFG(H0・K_t・c0・dt・d_P・粒子の初期条件 — 論文2 正本 p2fig6/V29 からの逐語転記)",
+    "SWEEP.dkt(掃引する減衰係数。0.9242 は論文2 の較正値)",
+    "SWEEP.windowScale(観測範囲の倍率)",
+    "SWEEP.binning(推定量定義)",
+    "paper/figures/p2fig6.json(PW1 の照合参照 — 読み取り専用)"
+   ],
+   "fit": [],
+   "derived": [
+    "raw.sweep[].ratio(24 部分窓の H_w/H_geo の算術平均)",
+    "raw.sweep[].ratioAnalytic(式(6) の窓平均)",
+    "raw.sweep[].ratioControl(反比例対照)",
+    "raw.numericFloor.value(正準構成の収束誤差)",
+    "raw.structure.proportionality / binningEffect / windowEffect"
+   ],
+   "holdOut": []
+  },
+  "judgement": {
+   "pointers": [
+    "pw1.result",
+    "pw1.maxRelDiffVsCommitted",
+    "raw.numericFloor.value",
+    "pw3.result",
+    "pw3.minAbsDevFrom1",
+    "pw3.perCell",
+    "pw4.sha256",
+    "paperSync.result"
+   ],
+   "note": "判定の実体は上記の位置にある(manifest は位置ポインタだけを持つ)。窓の逐語は preRegistered.PW1〜PW4 にある",
+   "externalReferences": "not-applicable"
+  },
+  "health": {
+   "nan": {
+    "instrumented": true,
+    "flagsFound": 31,
+    "anyTrue": false,
+    "truePaths": [],
+    "numericNaNInPayload": 0,
+    "note": "結果ペイロード内の nan/hasNaN フラグを走査して集計した値(再測定はしていない)。numericNaNInPayload は JSON 化後に NaN として残った数値の件数(JSON.stringify では null になるため通常 0)"
+   },
+   "clamps": {
+    "aggregate": "not-instrumented",
+    "lastBuild": {
+     "clampVN": 0,
+     "clampSN": 0,
+     "clampHN": 0,
+     "clampAN": 0,
+     "clampRN": 0,
+     "angOvfN": 0,
+     "n": 1
+    },
+    "lastBuildTotal": 0,
+    "note": "エンジンのクランプ計数は sim.build() ごとに 0 へリセットされるため、ここに記録できるのは**この実行で最後に build した構成**の計数だけである(全構成を横断した集計は未計装)。lastBuildTotal>0 なら少なくとも最終構成で安全クランプが発動している(保存則主張の域外)"
+   },
+   "conservation": {
+    "status": "instrumented",
+    "quantity": "固有速度 w(箱の膨張下で保存されるべき量。論文2 V27/V28)",
+    "canonicalDrift": 0.000483616915767926,
+    "maxDriftOverSweep": 0.00143508093952327,
+    "tolerance": 0.001,
+    "withinTolerance": false,
+    "note": "正準構成の w 保存ずれは committed 正本 p2fig6.json の maxWDrift と同一値になる(PW1 の bit 一致の一部)。観測窓 ×2 は走行が長いぶんずれが増えるので構成別に記録する"
+   }
+  },
+  "regeneration": {
+   "canonicalization": "再生成時のペイロード照合は `manifest` キーを除外して行う(manifest は実行ごとに日時・環境・git 状態が変わる非測定メタである)。除外後の全キーは同一スクリプト・同一対象・同一 seed/步数で bit 一致することを要求する",
+   "payloadKeysExcluded": [
+    "manifest",
+    "meta.timings",
+    "meta.date",
+    "paperSync"
+   ],
+   "note": "再実行の照合対象は raw(実測部)である。meta.timings / meta.date は非測定メタ、paperSync は論文 tex の内容に依存するため raw に含めない(PW4 の対象は raw のみ)"
+  }
+ }
+}

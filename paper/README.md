@@ -1,9 +1,9 @@
 # paper/ — arXiv 向け第1論文(software / computational toy model paper)
 
-- **現行稿 = v0.11**(2026-08-22・第161便)/ **version of record = v0.9**
+- **現行稿 = v0.12**(2026-08-22・第167便)/ **version of record = v0.9**
   (2026-07-20 確定・第143便の組版/書誌パスを含む)。現行稿は記録版の
   **post-record editorial revision** であり、数値・claims・式・窓は v0.9 から
-  1つも動いていない(表記の正準化〔K_t → κ〕・副題・組版・文言のみ)。Zenodo への再登録は
+  1つも動いていない(表記の正準化〔K_t → κ〕・タイトルと副題・組版・文言のみ)。Zenodo への再登録は
   投稿時作業(`dfm-paper.tex` 冒頭 TODO(release))。
   版表記はここと `dfm-paper.tex` 冒頭の "CURRENT VERSION"/"VERSION OF RECORD" 行の
   2箇所だけで、常に一致させる(第143便で v0.8/v0.9/README v0.7 の三重表記を解消)。
@@ -16,7 +16,11 @@
   静的・単一支配源・test-particle 較正という限定を明記(P1-1)、序論(§I B)に主張の
   3階層(実装が基準値を再現/モデル拡張が述べた領域で較正/物理機構が独立に検証)を
   分離する段落と E12 導入動機の丁寧化(P1-2)、要旨に平面上で 1/d² を措定する理由の
-  1文(M-4))。
+  1文(M-4)→ **v0.12 第167便 タイトル短縮**〔主張・数値は不変〕: 主題を
+  *Determinacy-Field Mechanics: An Executable Machian Toy Universe* へ短縮し、
+  旧題が含んでいた要素(調整可能な frame dragging・逆二乗重力・spin-as-heat・
+  GPS/光偏向/Shapiro の弱場較正・「One Calibration, Not Evidence」)は
+  **1つも落とさず副題へ再配置**した(組版・メタデータのみ))。
 - **対象の分離**: 本論文が記述するのは提出タグ `paper-v1`(release v1.27.0 系)で
   あって、リポジトリの HEAD ではない。現行アプリは **v1.41.0**(リリース済み —
   beta v1.41-b1 から昇格)で、プリセット・エンジンオプション・ゲート件数はすでに
@@ -28,11 +32,13 @@
 - 入力正本: `docs/DERIVATIONS.md` / `docs/PHYSICS.md` v1.9 /
   `docs/THEORY_SYNTHESIS.md` v1.7+ / `index.html` **v1.27**(実験の物理エンジンは
   v1.20–1.21 の E12/E8R 改訂以降不変)。
-- タイトル(4-19 確定 → 第153便で副題を追加): *Determinacy-Field Mechanics: A Machian
-  Toy Universe with Tunable Frame Dragging, Inverse-Square Gravity, and Spin-as-Heat
-  Analogies: Reproducing the GPS Clock Offset, Solar-Limb Deflection and Shapiro Delay
-  as Consequences of One Calibration, Not as Evidence*
-  (Zenodo v1 レコード 21454189 の表題は主題のみ — bibitem は投稿時の再登録まで主題で引用)
+- タイトル(4-19 確定 → 第153便で副題を追加 → **第167便で主題を短縮**):
+  主題 *Determinacy-Field Mechanics: An Executable Machian Toy Universe* /
+  副題 *Tunable Frame Dragging, Inverse-Square Gravity, and Spin-as-Heat Analogies;
+  the GPS Clock Offset, Solar-Limb Deflection and Shapiro Delay as Consequences of
+  One Calibration, Not as Evidence*
+  (Zenodo v1 レコード 21454189 の表題は旧主題のみ — bibitem は投稿時の再登録まで
+  当該レコードの実表題で引用する。論文2・3 の `\bibitem{DFM1}` は変更しない)
 - 投稿先候補: American Journal of Physics / European Journal of Physics(第1)、
   Foundations of Physics / SciPost Physics Core(第2)。
   arXiv カテゴリ: physics.ed-ph(主)+ gr-qc(クロスリスト)。
@@ -124,7 +130,19 @@ grep で機械確認する:
 
 # 第2論文「箱宇宙」(dfm-paper2.tex / dfm-paper2-ja.tex)
 
-- 現行稿 **v0.10**(2026-08-22 第161便 — 外部レビュー第4巡の文言・書誌対応。
+- 現行稿 **v0.11**(2026-08-22 第167便 — 改題+感度分析。**数値・ゲート・図は不変**):
+  タイトルを *The Box Universe: Probe-Dependent Expansion Estimates in a Relational
+  Toy Model* へ変更(旧副題「意図的に限定したハッブルテンション類似」が担っていた限定は
+  要旨の免責2文と第VI節に既に在り、そこは不変)。要旨・序論は新題に整合させ、
+  **推定量バイアスを先導・ハッブルテンションを動機と比較として後置**する順序へ調整
+  (文の順序と接続のみ。節構成・数値・ゲート対象文言は不変)。第V節に新設 C
+  「Sensitivity of the ratio to the assumed decay law」— 小表(5係数×3観測窓×2ビニング
+  = 30構成の比)+2段落で、「0.92 という値は係数選択の反映」と「プローブ依存自体は
+  構成に依らず残る」を分離。出典は新ハーネス `tests/exp-p2sens.mjs`(committed 出力
+  `tests/out/p2sens-results.json`)で、**図の新設はなく `tools/gen-figures2.mjs` と
+  その22ゲートは無変更**。本文・小表の全数値は同 JSON からの機械転記であり、
+  ハーネス自身の `paperSync` ブロックが en/ja 両ファイルを読んで照合する(手書き数値ゼロ)。
+  v0.10 は 2026-08-22 第161便(外部レビュー第4巡の文言・書誌対応。
   数値・ゲート・図は不変): ハッブルテンション記述を Planck/SH0ES の2値対立から
   「JWST 期の複数の距離梯子解析に幅がある」記述へ(P1-3。Freedman et al. 2024 を
   新規 bibitem として追加し、既収載の Riess et al. 2024 と併せて引用 — 両者に
@@ -173,6 +191,31 @@ boxredshift・rotorSolo は beta 先行)。各図の `.json` に生成パラメ�
 
 **投稿直前に必ず提出コミットで全図を再生成し、図 JSON と論文のコミット参照を
 一致させること**(第1論文と同じ規律)。
+
+## 感度分析(第V節C — 第167便・外部レビュー第4巡 P1-5)
+
+```sh
+node tests/exp-p2sens.mjs                                  # 既定(対象 beta/index.html)
+P2S_OUT=/tmp/run1.json node tests/exp-p2sens.mjs           # 1回目(決定性照合用)
+P2S_DET_REF=/tmp/run1.json node tests/exp-p2sens.mjs       # 2回目 → raw の SHA-256 を照合
+```
+
+`tools/gen-figures2.mjs` p2fig6 の測定系・推定式を**逐語転記**して再実装し、
+減衰係数 Dκ ∈ {0.5, 0.75, 0.9242, 1.25, 1.5} × 観測範囲 a: 1→3^s(s ∈ {0.5, 1, 2})×
+ビニング {ln a 等間隔(正本)/ a 等間隔(代替)} の **30構成**を実測して
+`tests/out/p2sens-results.json` に記録する。事前登録窓(実測前固定・JSON に逐語収載):
+
+| 窓 | 内容 | 実測(第167便) |
+|---|---|---|
+| PW1 | 正準構成が committed `figures/p2fig6.json`(Dκ=0.9242 系列24行)を論文2 既存ゲートと同じ許容(相対 1e-2)で再現 | **PASS**(144/144 フィールド **bit 一致**・最大相対差 0) |
+| PW2 | 30構成の比を表収載(窓なし・記述) | 収載(本文小表) |
+| PW3 | 全30構成で \|比−1\| > 数値床(床 = 正準構成の比の収束誤差 3.6e-3) | **PASS**(30/30・最小 1.20e-2 = 床の3.3倍) |
+| PW4 | 別プロセス2回実行の raw SHA-256 一致 | **PASS** |
+
+**図は新設せず、`tools/gen-figures2.mjs` と `figures/p2fig*.json`・`p2figs-gates.json` は
+1 bit も変更しない**(本ハーネスはそれらを読み取り専用で参照するだけ)。本文・小表の数値は
+同 JSON からの機械転記で、ハーネスの `paperSync` ブロックが `dfm-paper2.tex` /
+`dfm-paper2-ja.tex` を読んで全項目を照合する(不一致があれば `paperSync.result` が FAIL)。
 
 ---
 
@@ -269,17 +312,28 @@ sha256sum paper/data/jovian-satellites.csv   # 本文の12桁と先頭一致す�
 
 # 頁数(ローカルビルド実測)
 
+論文1・論文2(en/ja の4ファイル)は 2026-08-22(**第167便**)に、論文3の2ファイルは
 2026-08-22(第161便)にこのリポジトリ内でビルドした実測値。arXiv の Comments 欄・
-投稿フォームの頁数はここを正とする。括弧内は第156便(v0.10 / v0.9 / v1.1 世代)の実測値。
+投稿フォームの頁数はここを正とする。括弧内は直前の実測値(論文1・2 は第161便、
+論文3 は第156便)。
 
 | 原稿 | 版 | エンジン | 頁数 |
 |---|---|---|---|
-| `dfm-paper.tex` | v0.11(記録版 v0.9) | pdflatex ×2 | 18(前 17) |
-| `dfm-paper-ja.tex` | v1.2-ja | lualatex ×2 | 21(前 21) |
-| `dfm-paper2.tex` | v0.10 | pdflatex ×2 | 10(前 10) |
-| `dfm-paper2-ja.tex` | v0.10-ja | lualatex ×2 | 11(前 11) |
+| `dfm-paper.tex` | v0.12(記録版 v0.9) | pdflatex ×2 | 18(前 18) |
+| `dfm-paper-ja.tex` | v1.3-ja | lualatex ×2 | 21(前 21) |
+| `dfm-paper2.tex` | v0.11 | pdflatex ×2 | 11(前 10) |
+| `dfm-paper2-ja.tex` | v0.11-ja | lualatex ×2 | 12(前 11) |
 | `dfm-paper3.tex` | v1.2 | pdflatex ×2 | 21(前 20) |
 | `dfm-paper3-ja.tex` | v1.2-ja | lualatex ×2 | 27(前 25) |
+
+**overfull 差分(第167便)**: 論文1・2 の4ファイルとも overfull 件数・内容は第161便と
+**同数・同内容**である(`dfm-paper` 1件〔4.60pt〕/ `dfm-paper-ja` 5件〔5.94/3.25/4.00/
+2.04/0.85pt〕/ `dfm-paper2` 0件 / `dfm-paper2-ja` 0件)。改題は表題ブロックの行数を
+変えていない(論文1英語版は主題1行+副題を `\normalsize` で3行・日本語版は主題2行→1行と
+副題2行→3行の入れ替え)。論文2 の増頁(en 10→11・ja 11→12)は新設した感度分析の
+小節(小表+段落)によるもので、日本語版では要旨に足した1文が第4頁を 14.2pt 溢れさせたため
+同文を1行短く言い換えて解消した(内容は英語版と等価)。論文3 の2ファイルは本便で触れて
+いない(下の第161便の記録がそのまま有効)。
 
 **overfull 差分(第161便)**: 6ファイルとも overfull 件数は第156便と**同数・同内容**である(`dfm-paper` 1件 / `dfm-paper2` 0件 / `dfm-paper3` 1件 /
 `dfm-paper-ja` 5件 / `dfm-paper2-ja` 0件 / `dfm-paper3-ja` 0件)。第161便で新規に

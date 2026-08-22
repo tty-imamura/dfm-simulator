@@ -1,11 +1,11 @@
 % =====================================================================
 % Determinacy-Field Mechanics -- arXiv draft
-% CURRENT VERSION: v0.11 (2026-08-22, wave 161).
+% CURRENT VERSION: v0.12 (2026-08-22, wave 167).
 % VERSION OF RECORD: v0.9 (2026-07-20) = repository tag paper-v1
 % (release v1.27.0 series), Zenodo v1 doi:10.5281/zenodo.21454189.
 % The present manuscript is a POST-RECORD EDITORIAL REVISION of that
 % record: no number, claim, equation or window has moved since v0.9 --
-% only notation canonicalization (K_t written as kappa), the extended
+% only notation canonicalization (K_t written as kappa), the title and
 % subtitle, and typesetting/citation work.  Re-depositing the revision
 % on Zenodo is a submission-time action (TODO(release) below).
 % The single version statement for this manuscript is the two lines
@@ -105,9 +105,21 @@
 %       (c) M-4.  The Abstract states in one sentence why the model
 %           posits the 1/d^2 force on a plane, and points at the
 %           existing broken-Gauss-law discussion in the body.
+% v0.12 (wave 167, 2026-08-22): title shortened.  The main title is now
+%       "Determinacy-Field Mechanics: An Executable Machian Toy
+%       Universe"; everything the old single-sentence title carried --
+%       tunable frame dragging, inverse-square gravity, spin-as-heat
+%       analogies, and the three weak-field benchmarks read as
+%       consequences of one calibration and not as evidence -- is
+%       relocated to the subtitle, so no element of it is dropped.  This
+%       is a typesetting/metadata change: no number, equation, figure
+%       datum, window or claim moved, so the VERSION OF RECORD stays
+%       v0.9 and this remains a post-record editorial revision.  The
+%       Reproducibility paragraph that enumerates what differs from the
+%       deposited version is synchronized in the same wave.
 % TODO(release): re-deposit this post-record revision on Zenodo (a new
 %       version under concept DOI 10.5281/zenodo.21454189) at submission
-%       time, together with the extended subtitle.
+%       time, together with the shortened title and its subtitle.
 % Input canon: docs/DERIVATIONS.md, docs/PHYSICS.md v1.6,
 %              docs/THEORY_SYNTHESIS.md v1.7, index.html v1.23.
 % Target: American Journal of Physics / European Journal of Physics
@@ -121,11 +133,11 @@
 \usepackage{bm}
 \usepackage{hyperref}
 \hypersetup{
-  pdftitle={Determinacy-Field Mechanics: A Machian Toy Universe with
-    Tunable Frame Dragging, Inverse-Square Gravity, and
-    Spin-as-Heat Analogies: Reproducing the GPS Clock Offset,
-    Solar-Limb Deflection and Shapiro Delay as Consequences of One
-    Calibration, Not as Evidence},
+  pdftitle={Determinacy-Field Mechanics: An Executable Machian Toy
+    Universe. Tunable Frame Dragging, Inverse-Square Gravity, and
+    Spin-as-Heat Analogies; the GPS Clock Offset, Solar-Limb
+    Deflection and Shapiro Delay as Consequences of One Calibration,
+    Not as Evidence},
   pdfauthor={Tetsuya Imamura},
   pdfsubject={Educational toy model; Machian mechanics; frame dragging}}
 
@@ -144,19 +156,26 @@
 
 % wave 153: \texorpdfstring keeps the PDF bookmark/PDF-string expansion
 % free of the line breaks in the title (hyperref warnings), as in paper 3.
-\title{\texorpdfstring{Determinacy-Field Mechanics: A Machian Toy
-Universe with Tunable Frame Dragging, Inverse-Square Gravity, and
-Spin-as-Heat Analogies:\\
-Reproducing the GPS Clock Offset, Solar-Limb Deflection and Shapiro
-Delay as Consequences of One Calibration, Not as Evidence}%
-{Determinacy-Field Mechanics: A Machian Toy Universe with Tunable Frame Dragging, Inverse-Square Gravity, and Spin-as-Heat Analogies: Reproducing the GPS Clock Offset, Solar-Limb Deflection and Shapiro Delay as Consequences of One Calibration, Not as Evidence}}
+% wave 167: the main title is now a short noun phrase naming the object
+% ("an executable Machian toy universe").  Nothing the old one-sentence
+% title carried is dropped -- the mechanism list and the three weak-field
+% benchmarks, together with the "one calibration, not evidence" reading,
+% move to the subtitle line, set smaller so that the title block does not
+% grow.  Metadata/typesetting only; no claim or number is affected.
+\title{\texorpdfstring{Determinacy-Field Mechanics: An Executable
+Machian Toy Universe\\
+{\normalsize Tunable Frame Dragging, Inverse-Square Gravity, and
+Spin-as-Heat Analogies; the GPS Clock Offset, Solar-Limb Deflection
+and Shapiro Delay as Consequences of One Calibration, Not as
+Evidence}}%
+{Determinacy-Field Mechanics: An Executable Machian Toy Universe. Tunable Frame Dragging, Inverse-Square Gravity, and Spin-as-Heat Analogies; the GPS Clock Offset, Solar-Limb Deflection and Shapiro Delay as Consequences of One Calibration, Not as Evidence}}
 
 \author{Tetsuya Imamura}
 % Affiliation confirmed 2026-07-18 (author's decision).
 \affiliation{Independent Researcher, Tokyo, Japan}
 
 \date{July 20, 2026 (v0.9, version of record); revised August 21, 2026
-  (v0.10); revised August 22, 2026 (v0.11)}
+  (v0.10); revised August 22, 2026 (v0.11 and v0.12)}
 
 \begin{abstract}
 We present Determinacy-Field Mechanics (DFM), an educational toy model in
@@ -1702,8 +1721,9 @@ Zenodo as
 tied to one immutable commit.
 The present text is a post-record editorial revision of that record: it
 changes no number and no claim, and differs from the deposited version
-only in notation canonicalization, the extended subtitle, and
-typesetting; the revision is re-deposited at submission time.
+only in notation canonicalization, the shortened title with its
+subtitle, and typesetting; the revision is re-deposited at submission
+time.
 That tag, and not the head of the repository, is what this paper
 describes: development has continued past it, and the simulator a
 reader downloads today is a later build (v1.41.0, since promoted to the

@@ -62,6 +62,22 @@ tests/out/*
 #   IW2 主窓(経路間 amp 相対差 ≤10%)/ IW3 記述(数値床宣言)/ IW4 決定性。§F の用量反応グリッドを
 #   再走行して obscal-results.json とビット一致することを機械証明した版)
 !tests/out/isog-results.json
+# 第167便: 論文2 プローブ依存比 H_w/H_geo の感度分析(外部レビュー第4巡 P1-5)の実測正本
+#   — 事前登録窓 PW1 正準構成が committed figures/p2fig6.json を bit 一致で再現 / PW2 5係数×3観測窓×
+#   2ビニング=30構成の比を記述収載 / PW3 全構成で |比−1| > 数値床(プローブ依存は消えない)/
+#   PW4 決定性。論文2 第V節C の小表・本文数値はこの JSON からの機械転記で、QA ゲート
+#   p2sens.papersync が dfm-paper2.tex / dfm-paper2-ja.tex を読んで全項目をその場照合する
+!tests/out/p2sens-results.json
+# 第168便: コア外殻第7実験(🐚 q₅₀ 掃引の 0.025 刻み精細化と精細アンカーによる 2項複合予測の再照合
+#   — 事前登録窓 EW1 格子整合 / EW2 主窓 / EW3 決定性。掃引格子はアームごとに coreshell6 実測 q₅₀ を
+#   中心とする21点(0.025 刻み)で、格子・採点定義は掃引前に、予測は env×2 掃引前に SHA 封印する。
+#   **盲検の前向き検証ではなく分解能向上フォロー**である旨を preRegistered.honestFraming に明記)
+!tests/out/coreshell7-results.json
+# 第169便: kf1 系3主張(🪨 水星近点・🌘 地球月2量・💿 土星環近点ドリフト)の dt 収束・測定窓感度の
+#   実測正本(事前登録窓 KW1 転記照合(基線再測が kf1c/kf1d とビット一致)/ KW2 記述(dt×{0.5,2}・
+#   窓×{0.5,2}・数値床併記)/ KW3 決定性)。error budget v2 の dtConvergence / windowSensitivity
+#   成分の供給元 — tools/gen-error-budget.mjs が SRC_FILES から機械読取するのでコミット対象にする
+!tests/out/kf1sens-results.json
 # 第166便: 誤差予算(error budget)の機械集計台帳 — 較正・ホールドアウト主張ごとの
 #   {claim・出典 JSON の SHA-256・主観測量・事前登録窓・不確かさ成分(数値床/dt 収束/窓感度/
 #   ソース差/シード散らばり)} を上の白リスト済み結果 JSON **からのみ**集計した出力
