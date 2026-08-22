@@ -633,8 +633,18 @@
         <p class="note" id="aiKeyNote">キーはこの端末内でのみ使われ、送信先は選択・設定したAPIエンドポイントだけです(OpenAI互換では入力したベースURLへ送信されます — URLは必ず確認してください)。保存チェックOFFなら端末にも残りません(タブを閉じると消えます)。ブラウザへのキー入力にはリスクが伴うため、利用上限を設定した専用キーを推奨します。</p></details>
       </div>
       <div class="group"><h3 id="aiGenHead">新しいシミュレーションを生成</h3>
+        <!-- 第170便(統括裁定): 生成モード。既定=実天体カタログ — LLM は数値を一切出さず
+             カタログIDを選ぶだけで、定数と配置・初速はアプリ内の決定的計算が担う。
+             自由生成(従来の SYSTEM_PROMPT 経路)は実験系のために残す -->
+        <div class="prow"><label id="aiModeLabel">生成モード</label>
+          <select id="aiGenMode" style="flex:1;min-width:0">
+            <option value="catalog" selected>実天体カタログ(推奨)</option>
+            <option value="freeform">自由生成(実験系)</option>
+          </select></div>
+        <details id="aiModeDetails"><summary id="aiModeNoteSum" class="note" style="cursor:pointer">生成モード</summary>
+        <p class="note" id="aiModeNote"></p></details>
         <!-- 第26便(原仮定者指示): ベースのサンプル選択(任意)— 参考サンプルをAI生成に利用 -->
-        <div class="prow"><label id="aiBaseLabel">ベースのサンプル(任意)</label>
+        <div class="prow" id="aiBaseRow"><label id="aiBaseLabel">ベースのサンプル(任意)</label>
           <!-- 第33便: min-width:0 が無いと長いプリセット名(🛰️弱場GR較正…等)の内容最小幅で
                flexアイテムが縮まず、.prow/.group がタブ幅からはみ出して横スクロールしていた
                (#presetSelect と同じ既知パターン。行28参照) -->
@@ -785,6 +795,9 @@ ja: {
   grpCommon:"共通設定",
   tgFlipY:"上下反転",
   tgFlipYDesc:"画面の上下だけを鏡像反転する表示専用のトグル(共通設定・永続)。見た目の公転・自転が逆回転になるので、回転方向の確認・対比に使う。物理座標・保存データ・一様重力 g_y の向き(+y)は一切変わらない — 描画とポインタ操作が対で反転するだけ。",
+  // 第171便(原仮定者報告「粒子が多いサンプルで fps が低い・操作レスポンスを良くしたい」)
+  tgDragPause:"ドラッグ中は計算を止める",
+  tgDragPauseDesc:"画面のドラッグ・ピンチ・ホイール操作をしている間だけ物理計算を一時停止し、その1フレームぶんの計算時間をまるごと操作の追従に回す(既定 ON・共通設定・永続)。粒子の多いサンプルほど効く。▶/⏸ のポーズ状態とは別の内部的な抑制なので、指を離せば元の再生状態へそのまま戻る(ボタン表示は変わらない)。物理の式・結果は一切変わらない — 止まっている間ステップを進めないだけ。OFF にすると操作中も計算を続けるが、ドラッグの追従は1フレームぶん(重いサンプルでは数百ms)遅れる。",
   grpCommonDesc:"サンプルに依らないアプリ全体の設定(描画品質・文字サイズ・スケール換算)。物理には影響しない。",
   grpSpacetime:"時空", grpSpinHeat:"スピン・熱", grpDrag:"引きずり・測地線", grpLabBox:"実験箱",
   grpActive:"このサンプルの主役", grpAdvanced:"詳細設定(全パラメータ)",
@@ -936,6 +949,13 @@ ja: {
   aiKeyNote:"キーはこの端末内でのみ使われ、送信先は選択・設定したAPIエンドポイントだけです(OpenAI互換では入力したベースURLへ送信されます — URLは必ず確認してください)。保存チェックOFFなら端末にも残りません(タブを閉じると消えます)。ブラウザへのキー入力にはリスクが伴うため、利用上限を設定した専用キーを推奨します。",
   aiKeyNoteSum:"キーの保存",   // 第36便 B4(原仮定者指示): 折畳み見出し
   aiGenHead:"新しいシミュレーションを生成", btnGenerate:"生成する", aiListHead:"生成済みプリセット",
+  // 第170便: 生成モード(既定=実天体カタログ)
+  aiModeLabel:"生成モード", aiModeCatalog:"実天体カタログ(推奨)", aiModeFree:"自由生成(実験系)",
+  aiModeNoteSum:"生成モード",
+  aiModeNote:"「実天体カタログ」ではAIは数値を一切作りません — 要望を読んでカタログ上の天体IDを選ぶだけで、質量・半径・自転・軌道長半径・離心率はこのアプリに内蔵した検証済み定数、位置と初速はケプラーの決定的計算(近点配置+接線速度)で決まります。だから「木星と衛星」は🟠木星とガリレオ衛星(実単位)と同じ定数・同じ規約で生成されます。カタログに無い天体を頼まれた場合は、それらしい数値を作らずに「カタログ外」と答えます。「自由生成」は従来どおりAIが自由にプリセットを書く実験モードで、実在天体の精度は保証されません。",
+  aiModeCatalogList:(l)=>"カタログに入っている系: "+l,
+  astroOutOfCatalog:(r,l)=>"カタログ外の要求です"+(r?"("+r+")":"")+"。実在天体の数値をAIに作らせない方針のため、この系は生成しません。カタログに入っている系: "+l+"。実験系を作りたい場合は生成モードを「自由生成」にしてください。",
+  astroBuilt:(s,n)=>"実天体カタログから生成: "+s+"("+n+"天体)",
   aiBaseLabel:"ベースのサンプル(任意)", aiBaseNone:"なし(要望だけで生成)",   // 第26便
   aiBaseNote:"ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの lightSweep や ⚫のコアv2 core:{}・📡の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信されます。",
   aiBaseNoteSum:"ベースのサンプル",   // 第36便 B4(原仮定者指示): 折畳み見出し
@@ -944,6 +964,8 @@ ja: {
   aiPreviewSum:"送信内容を確認(実際に送るテキスト)",
   aiPreviewNote:"APIへ送信されるのはここに表示された内容+システムプロンプト。キーと共に選択AI事業者へ送られる。",
   aiPreviewSys:(n,head)=>"システムプロンプト: "+n+"文字(先頭200字): "+head+"…",
+  // 第170便: カタログモードでは自由生成の仕様(SYSTEM_PROMPT)は送らない。両方の字数を明示する
+  aiPreviewSysAstro:(a,n,head)=>"実天体カタログモード: 送るシステムプロンプトはカタログ仕様 "+a+"文字のみです(自由生成の仕様 "+n+"文字は送りません)。カタログ仕様 先頭200字: "+head+"…",
   // 第102便: 外部AIチャット経路(APIキー不要のプロンプトコピー)
   // 第103便: 独立グループ化(aiExtTitle)+手順のみ折畳み+短縮版(仕様書リンク参照)
   aiExtTitle:"外部AIチャットで生成(APIキー不要)",
@@ -960,7 +982,9 @@ ja: {
   keySet:"キーを設定しました", keySetSaved:"キーを設定しました(この端末に保存)", keyCleared:"キーを消去しました",
   noKey:"APIキーを設定してください", noPrompt:"作りたいシミュレーションの説明を入力してください",
   generating:(m)=>"生成中("+m+")…", retrying:"検証エラーを修正して再試行中…",
-  fallback:(m)=>"上位モデル("+m+")にフォールバック中…",
+  // 第170便: 連鎖の向きは選択モデル依存(sonnet-5→opus-5 / haiku-4-5→sonnet-5)なので、
+  // 向きに依存しない表現にしておく(モデル名は m で必ず示す)
+  fallback:(m)=>"別のモデル("+m+")にフォールバック中…",
   added:(n)=>"追加しました: "+n, autofix:(w)=>"\n(自動修正: "+w+")",
   genFailed:(e)=>"生成に失敗しました: "+e,
   errNet:"ネットワークに接続できません", errKey:"APIキーが無効です",
@@ -1266,6 +1290,8 @@ en: {
   grpCommon:"General",
   tgFlipY:"Flip vertically",
   tgFlipYDesc:"Display-only toggle that mirrors the screen vertically (General, persisted). Apparent orbits and spins reverse, which is useful to check rotation directions. Physics coordinates, saved data and the direction of uniform gravity g_y (+y) are untouched — only rendering and pointer input flip, as a pair.",
+  tgDragPause:"Pause physics while dragging",
+  tgDragPauseDesc:"While you drag, pinch or wheel-zoom the view, physics stepping is paused so that the whole frame budget goes into following your finger or mouse (default ON, General, persisted). The heavier the sample, the more it helps. This is an internal suppression, separate from the ▶/⏸ pause state: release the pointer and playback resumes exactly as before, and the button never changes. The physics equations and results are untouched — steps simply are not taken while it is held. Turn it OFF to keep computing during input, at the cost of one physics frame (hundreds of ms on heavy samples) of lag in the drag.",
   grpCommonDesc:"App-wide settings that don't depend on the sample (render quality, text size, scale-converted display). Does not affect the physics.",
   grpSpacetime:"Spacetime", grpSpinHeat:"Spin & Heat", grpDrag:"Dragging & Geodesics", grpLabBox:"Lab Box",
   grpActive:"Key settings of this sample", grpAdvanced:"Advanced (all parameters)",
@@ -1412,6 +1438,13 @@ en: {
   aiKeyNote:"Your key is used only on this device and sent only to the API endpoint you select or configure (with the OpenAI-compatible option it is sent to the base URL you enter — always verify that URL). With the checkbox OFF it is kept in memory only (cleared when the tab closes). Entering API keys in a browser carries risk; use a dedicated key with a spending limit.",
   aiKeyNoteSum:"Key storage",   // 第36便 B4
   aiGenHead:"Generate a new simulation", btnGenerate:"Generate", aiListHead:"Generated presets",
+  // Wave 170: generation mode (default = the real-body catalogue)
+  aiModeLabel:"Generation mode", aiModeCatalog:"Real-body catalogue (recommended)", aiModeFree:"Free generation (experimental systems)",
+  aiModeNoteSum:"Generation mode",
+  aiModeNote:"In \"Real-body catalogue\" mode the AI invents NO numbers: it only reads your request and picks catalogue body IDs. The masses, radii, spins, semi-major axes and eccentricities come from verified constants built into this app, and the positions and initial speeds come from a deterministic Kepler construction (perihelion placement plus tangential speed). That is why \"Jupiter and its moons\" is generated with exactly the constants and conventions of 🟠 Jupiter & the Galilean Moons (Real Units). If you ask for a body that is not in the catalogue, the app says so instead of inventing plausible-looking numbers. \"Free generation\" is the previous mode, where the AI writes the preset freely — real-body accuracy is not guaranteed there.",
+  aiModeCatalogList:(l)=>"Systems in the catalogue: "+l,
+  astroOutOfCatalog:(r,l)=>"That request is outside the catalogue"+(r?" ("+r+")":"")+". Since the AI is not allowed to invent numbers for real bodies, this system is not generated. Systems in the catalogue: "+l+". To build an experimental system, switch the generation mode to \"Free generation\".",
+  astroBuilt:(s,n)=>"Built from the real-body catalogue: "+s+" ("+n+" bodies)",
   aiBaseLabel:"Base sample (optional)", aiBaseNone:"None (generate from the request only)",
   aiBaseNote:"Pick a base to have the AI modify that sample's JSON to your request \u2014 reference structures (\ud83d\udd76\ufe0f dark-rotor lightSweep, \u26ab core:{} (Core v2), \ud83d\udce1 zonal, etc.) carry over. The selected base JSON (including custom presets) is sent to the currently selected AI provider on generation.",
   aiBaseNoteSum:"Base sample",   // Wave 36 B4
@@ -1420,6 +1453,8 @@ en: {
   aiPreviewSum:"Preview exactly what will be sent",
   aiPreviewNote:"What is sent to the API is the text shown here plus the system prompt. It is sent, together with your key, to the AI provider you selected.",
   aiPreviewSys:(n,head)=>"System prompt: "+n+" chars (first 200): "+head+"…",
+  // Wave 170: in catalogue mode the free-generation spec (SYSTEM_PROMPT) is NOT sent
+  aiPreviewSysAstro:(a,n,head)=>"Real-body catalogue mode: the only system prompt sent is the catalogue spec ("+a+" chars); the free-generation spec ("+n+" chars) is not sent. Catalogue spec, first 200: "+head+"…",
   // 第102便: external AI chat path (copy prompt, no API key)
   // 第103便: own group (aiExtTitle) + collapsed steps only + short version (spec by link)
   aiExtTitle:"Generate via an external AI chat (no API key)",
@@ -1436,7 +1471,7 @@ en: {
   keySet:"Key set", keySetSaved:"Key set (saved on this device)", keyCleared:"Key cleared",
   noKey:"Please set an API key first", noPrompt:"Describe the simulation you want to create",
   generating:(m)=>"Generating ("+m+")…", retrying:"Fixing validation errors, retrying…",
-  fallback:(m)=>"Falling back to a stronger model ("+m+")…",
+  fallback:(m)=>"Falling back to another model ("+m+")…",   // Wave 170: the direction depends on the selected model (sonnet-5→opus-5 / haiku-4-5→sonnet-5), so the wording stays direction-neutral
   added:(n)=>"Added: "+n, autofix:(w)=>"\n(auto-corrected: "+w+")",
   genFailed:(e)=>"Generation failed: "+e,
   errNet:"Network unreachable", errKey:"Invalid API key",
@@ -11390,7 +11425,10 @@ function applyCamFollow(){
 function panCam(dxPx,dyPx){
   const z=zoom(), fy=flipY?-1:1;   // 第119便: 上下反転中はドラッグの上下も反転(指に画面が付いてくる)
   const S=selSimRef(), i=camFollowIdx();
-  if(camFollowMode!=="none" && i>=0 && i<S.n){ camFollowOffX-=dxPx/z; camFollowOffY-=dyPx/z*fy; }
+  if(camFollowMode!=="none" && i>=0 && i<S.n){ camFollowOffX-=dxPx/z; camFollowOffY-=dyPx/z*fy;
+    // 第171便: 追従中も camX/camY をこの場で確定させる(即時反映パス camPreview() が読むため)。
+    // 描画直前の applyCamFollow() が同じ式で上書きするので、描画結果は従来と厳密に同一
+    camX=S.x[i]+camFollowOffX; camY=S.y[i]+camFollowOffY; }
   else { camX-=dxPx/z; camY-=dyPx/z*fy; }
 }
 // 第37便 A3(原仮定者指示): 光線の基準波長λ0(nm)。表示設定のみ(セーブ対象外・物理不変) —
@@ -11524,6 +11562,88 @@ if(window.ResizeObserver) new ResizeObserver(resizeCanvas).observe($("#canvasWra
 function w2sX(wx){ return cw/2+(wx-camX)*zoom(); }
 function w2sY(wy){ return ch/2+(wy-camY)*zoom()*(flipY?-1:1); }   // 第118便: 上下反転(表示専用)
 function zoom(){ return Math.min(cw,ch)/2/camScale; }
+
+// ===== 第171便: 操作レスポンスの分離(入力→カメラ→描画を物理ステップから切り離す)=====
+// 背景(原仮定者報告): PCブラウザ(Windows Chrome)で粒子の多いサンプルの fps が低く、
+// 画面ドラッグの追従が重い。物理コアの Web Worker 化は行わない(QA が HP.sim を同期駆動する
+// API・決定性・perf 判定体系を壊すリスクが大きい — 統括裁定)。本節が変えるのは
+// **「いつ・何回 step を呼ぶか」と「入力に対していつ画面を塗り直すか」だけ**である。
+// 物理の数学・sim.step() の中身・力計算・積分器・決定性は 1bit も変わらない。
+//
+//  ① フレーム予算 FRAME_BUDGET_MS: 1フレーム(rAF)内で物理ステップに充てる時間の上限。
+//     stepBudget() が返した k 步を回している途中で超過したら、そのフレームはそこで打ち切る
+//     (最低1步は必ず実行するので進行は止まらない)。捨てた分は stepAcc へ戻さない —
+//     遅れは「シミュレーション速度の低下」として現れ、入力と描画は死なない。
+//     ※ tests/perf.mjs は S.step(0.016) を直接駆動する(rAF ループを一切通らない)ため、
+//        この機構は perf の測定・判定式に一切影響しない。
+//  ② カメラ即時反映 camPreview(): ドラッグ/ホイールの入力イベントハンドラの中で、直前
+//     フレームの描画結果(スナップショット)をキャンバス変換(translate/scale)により
+//     即時再合成する。体感遅延が「物理1フレームの所要時間」から切り離される。
+//     次の rAF の正規描画がそのまま上書きするので、見えているのは常に高々1フレーム分の代用。
+//  ③ ドラッグ中の物理抑制 dragPause(既定 ON・共通設定で切替可): カメラ操作中は step を
+//     呼ばない。**ユーザーのポーズ(running)とは別の内部抑制**であり、▶/⏸ ボタンの表示・
+//     HP.running() は一切変えない(内部状態は HP.physSuppressed() でのみ読める)。
+const FRAME_BUDGET_MS = 12;           // ① 物理ステップの1フレーム予算(ms)
+const CAM_GESTURE_MS  = 140;          // ③ ホイール等の単発操作を「操作中」とみなす保持時間(ms)
+let frameBudgetMs = FRAME_BUDGET_MS;  // QA・否定対照から差し替え可(既定は上の定数)
+let camDragging=false, camGestureUntil=0;
+let dragPauseOn=true;                 // ③ 既定 ON
+try{ dragPauseOn = localStorage.getItem("hp_drag_pause")!=="0"; }catch(_){}
+function setDragPause(v){ dragPauseOn=!!v;
+  try{ localStorage.setItem("hp_drag_pause",dragPauseOn?"1":"0"); }catch(_){} }
+function setFrameBudget(ms){ const v=+ms; frameBudgetMs=(isFinite(v)&&v>=0)? v : FRAME_BUDGET_MS; }
+function camGestureActive(){ return camDragging || performance.now()<camGestureUntil; }
+// 内部抑制の判定(running とは独立 — UI のポーズ表示には触れない)
+function physSuppressed(){ return dragPauseOn && camGestureActive(); }
+// ② スナップショット(直前フレームの描画結果)。カメラ操作の開始時と、操作中の各描画後に
+// だけ取るので、非操作時の追加コストはゼロ。
+let camSnapCv=null, camSnapCtx=null, camSnap=null;
+// 計測(QA・記述用。判定には使わない値も含む)
+let inputStats={previews:0, snapshots:0, budgetTrims:0, lastWanted:0, lastRun:0,
+                lastPreviewMs:0, lastPhysMs:0, suppressedFrames:0};
+function captureCamSnapshot(){
+  if(ab){ camSnap=null; return; }   // A/B分割ビューは半面ごとに変換が異なるので即時合成の対象外
+  if(!cv.width||!cv.height) return;
+  if(!camSnapCv){ camSnapCv=document.createElement("canvas"); camSnapCtx=camSnapCv.getContext("2d"); }
+  if(camSnapCv.width!==cv.width||camSnapCv.height!==cv.height){
+    camSnapCv.width=cv.width; camSnapCv.height=cv.height; }
+  camSnapCtx.setTransform(1,0,0,1,0,0);
+  camSnapCtx.clearRect(0,0,camSnapCv.width,camSnapCv.height);
+  camSnapCtx.drawImage(cv,0,0);
+  camSnap={x:camX, y:camY, scale:camScale, cw, ch, dpr, flipY};
+  inputStats.snapshots++;
+}
+// 入力イベントの中から同期に呼ぶ。直前フレームの絵をカメラ差分ぶんだけ平行移動・拡大縮小して
+// 即座に塗り直す。スナップショットの画素 (sx0,sy0) は
+//   sx1 = cw/2 + (x0−camX)·z1 + (sx0−cw/2)·z1/z0 ,  sy1 = ch/2 + (y0−camY)·z1·fy + (sy0−ch/2)·z1/z0
+// へ写る(w2sX/w2sY の逆写像→順写像の合成)。戻り値: 実際に合成したら true。
+function camPreview(){
+  const s=camSnap;
+  if(!s || ab) return false;
+  if(s.cw!==cw || s.ch!==ch || s.dpr!==dpr || s.flipY!==flipY) return false;
+  if(s.x===camX && s.y===camY && s.scale===camScale) return false;
+  const t0=performance.now();
+  const z0=Math.min(s.cw,s.ch)/2/s.scale, z1=zoom(), k=z1/z0, fy=flipY?-1:1;
+  const tx=cw/2+(s.x-camX)*z1, ty=ch/2+(s.y-camY)*z1*fy;
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.fillStyle="#05070f"; ctx.fillRect(0,0,cw,ch);
+  ctx.setTransform(dpr*k,0,0,dpr*k, dpr*tx, dpr*ty);
+  ctx.drawImage(camSnapCv, -s.cw/2, -s.ch/2, s.cw, s.ch);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  inputStats.previews++; inputStats.lastPreviewMs=performance.now()-t0;
+  return true;
+}
+// カメラ操作の3つの入口。パン・ピンチ・ホイールは必ずここを通す —
+// カメラ値は入力ハンドラ内で確定済み(panCam/camScale 代入。物理ステップを一切介さない)で、
+// camGestureMoved() がその値で画面をその場で合成する。
+function camGestureBegin(){ camDragging=true; camGestureUntil=performance.now()+CAM_GESTURE_MS;
+  captureCamSnapshot(); }
+function camGestureEnd(){ camDragging=false; camGestureUntil=performance.now()+CAM_GESTURE_MS; }
+function camGestureMoved(){
+  camGestureUntil=performance.now()+CAM_GESTURE_MS;
+  requestRender();   // 次の rAF で正規の全量描画に置き換わる
+  camPreview();      // それを待たずに、この入力イベントの中で即時反映する
+}
 
 // 温度→色(青→白→橙→赤)
 // 第36便 D(台帳4-51): 観測温度 T_obs の唯一の入口。表示系(色・温度ヒストグラム・スペクトル・
@@ -13319,7 +13439,11 @@ function loop(now){
     if(fpsEMA<45){ lowFpsMs+=dtms; if(lowFpsMs>3000){ autoQ++; lowFpsMs=0; resizeCanvas(); } }
     else lowFpsMs=0;
   }
-  if(running){
+  // 第171便 ③: ドラッグ中の物理抑制(既定 ON)。running(ユーザーのポーズ状態)は一切
+  // 変えない — ▶/⏸ の表示・HP.running() は従来どおりで、ここでは step を呼ばないだけ
+  const suppressed = running && physSuppressed();
+  if(suppressed) inputStats.suppressedFrames++;
+  if(running && !suppressed){
     // v1.27(公開前レビュー P0-1): 実行した分だけ stepAcc から差し引く(旧実装は要求全量を
     // 差し引いてから 24 へクランプしており、高倍率時に超過分を黙って破棄 → 表示倍率と
     // 座標時間が不一致だった)。繰越は1フレーム分(24)までクランプし、復帰不能な
@@ -13327,8 +13451,20 @@ function loop(now){
     const b=stepBudget(stepAcc, SUBSTEPS*effTimeMul());   // v1.19: 時間倍率×プルダウン倍率(第97便: 0.01〜100 へクランプ)
     stepAcc=b.acc;
     const k=b.k;
-    for(let s2=0;s2<k;s2++) sim.step(DT);
-    if(ab) for(let s2=0;s2<k;s2++) ab.simB.step(DT);  // Bも同じ座標時間だけ進める
+    // 第171便 ①: フレーム予算。k 步の途中で frameBudgetMs を超えたらそのフレームは打ち切る
+    // (最低1步は必ず実行 = 進行は止めない)。捨てた分は stepAcc へ戻さないので、遅れは
+    // 「シミュレーション速度の低下」として現れ、入力・描画は死なない。step() の中身・引数・
+    // 呼び出し順は不変 — 変わるのは1フレームあたりの呼び出し回数だけ
+    const tPhys0=performance.now();
+    let kRun=k;
+    for(let s2=0;s2<k;s2++){
+      sim.step(DT);
+      if(s2+1<k && performance.now()-tPhys0>frameBudgetMs){ kRun=s2+1; break; }
+    }
+    if(ab) for(let s2=0;s2<kRun;s2++) ab.simB.step(DT);  // Bも同じ座標時間だけ進める
+    inputStats.lastWanted=k; inputStats.lastRun=kRun;
+    inputStats.lastPhysMs=performance.now()-tPhys0;
+    if(kRun<k) inputStats.budgetTrims++;
     // 第44便 44B(台帳4-68c): 融合で粒子が消えると index と粒子の対応が変わるので、線の軌跡
     // (index で引く配列)を捨てて引き直す。fusion 無しのプリセットでは判定 1 回だけで素通りする
     if(sim.fusion && sim.n!==fusLastN){ fusLastN=sim.n; trailBuf=[]; trailBufB=[]; }
@@ -13350,6 +13486,9 @@ function loop(now){
     renderCount++;
     if(ab) renderAB(); else render();
     needsRender=false;
+    // 第171便 ②: カメラ操作中だけ、直前フレームの絵をスナップショットへ退避する
+    // (非操作時はコピーしない = 通常再生の描画コストは従来と厳密に同じ)
+    if(camGestureActive()) captureCamSnapshot();
   }
   // 第142便: 間引きは実行中の負荷制御専用。停止中の状態変化直後は syncHud() を
   // 呼び出し側(loadPreset・loadSave・⏮初めから・チェックポイント復元)が同期的に叩く
@@ -15446,6 +15585,16 @@ function buildParamRows(){
     cb.addEventListener("change",()=>{ setFlipY(cb.checked); requestRender(); });
     row.appendChild(lab); row.appendChild(cb); common.appendChild(row);
   }
+  // 第171便: ドラッグ中の物理抑制(既定 ON・hp_drag_pause 永続)。表示専用ではないが
+  // 物理の式・結果は不変 — 「操作中はステップを進めない」だけの負荷制御トグル
+  {
+    const row=document.createElement("div"); row.className="prow";
+    const lab=document.createElement("label"); lab.textContent=T("tgDragPause"); lab.style.flex="1";
+    tapDesc(row,lab,"tgDragPauseDesc");
+    const cb=document.createElement("input"); cb.type="checkbox"; cb.id="dragPauseCb"; cb.checked=dragPauseOn;
+    cb.addEventListener("change",()=>{ setDragPause(cb.checked); });
+    row.appendChild(lab); row.appendChild(cb); common.appendChild(row);
+  }
   // 第79便(原仮定者指示): 「グラフ」カテゴリ(グラフウィンドウ表示の切替)を「表示」の上に新設
   {
     const gg=document.createElement("div"); gg.className="group";
@@ -15916,10 +16065,388 @@ function getSystemPrompt(){
   return SYSTEM_PROMPT;
 }
 
+/* ===== 第170便(統括裁定 2026-08-22b §3a): 実天体カタログ + 決定的配置 ==================
+ * 原仮定者報告「AI追加時にサンプルの挙動が安定しない。太陽系の惑星は jupiterGalilean のような
+ * 精度で生成できるように」への対策。原因は **LLM に物理数値の生成まで任せていること** なので、
+ * 「**LLM は数値を発明しない**」原則へ転換する:
+ *   ① 実天体の定数は本カタログ(アプリ内蔵)にだけ置く。
+ *   ② LLM の役割は **意図の解釈のみ** — 自然文 → カタログ ID を選ぶ JSON(スキーマ検証つき)。
+ *   ③ 位置・初速は下の **決定的関数** が計算する(近点配置+接線速度 — tests/exp-jupiter.mjs の
+ *      bodyOf と同じ流儀)。ゆえに「木星と衛星」は 🟠jupiterGalilean と同一定数・同一規約になる。
+ *
+ * **値の出典は本リポジトリにコミット済みの検証済み定数のみ**(この環境は外部取得を持たないので、
+ * 出典のない数値は捏造になる):
+ *   - 本ファイルの実較正プリセット宣言 solarInner / mercuryReal / mercuryRealKF1 /
+ *     earthMoonReal / earthMoonRealKF1 / jupiterGalilean / saturnRingReal / saturnRingRealKF1 /
+ *     saturnZonalD68 の bodies・physics・camera・scaleExp(各エントリの src で明記)
+ *   - paper/data/jovian-satellites.csv(木星系の a/e/m/R/spin の出典表)
+ * **リポジトリに無い天体の定数は追加しない。** カタログ外の要求は「カタログ外」として明示的に
+ * 案内する(黙って不正確な系を出さない)。
+ *
+ * a/e は出典プリセットでは初期条件へ畳み込まれている(x=a(1−e) 等)ため、カタログには
+ * 宣言値として持ち、下の決定的関数が出典プリセットの初期条件を再現することを QA が機械固定する
+ * (再現許容 reproTol は出典プリセットのリテラル丸め幅 — 実測して宣言した値)。
+ * QA: ai.catalog-integrity / ai.placement-determinism / ai.schema-validation。
+ * ==================================================================================== */
+// 実較正プリセット群で共通の規約(値は各出典プリセットの physics 宣言からのビット写し)
+const ASTRO_COMMON = { kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+  cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+  geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, stateCarry:"double" };
+const astroPh=(o)=>Object.assign({}, ASTRO_COMMON, o);
+
+const ASTRO_CATALOG = {
+  // ---- 太陽系内惑星(出典: solarInner プリセット)----
+  solarInner:{
+    src:"solarInner", emoji:"🌞",
+    name:{ja:"太陽系 — 内惑星(実単位)", en:"The Solar System — inner planets (real units)"},
+    scaleTier:"planetary", scaleExp:{L:8,T:4,M:27},
+    unit:{ja:"1単位=10⁸m/10⁴s/10²⁷kg", en:"1 unit = 1e8 m / 1e4 s / 1e27 kg"},
+    camera:{scale:1700}, world:{boundary:"none", size:0},
+    overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true},
+    place:"circular", phase0:0, phaseStep:180, ringsAfterSats:true, reproTol:2e-7,
+    center:{id:"sun", name:{ja:"太陽",en:"Sun"}, m:1988.5, radius:6.96, spin:0.029031, pinned:true, pnSource:true},
+    sats:[
+      {id:"mercury", name:{ja:"水星",en:"Mercury"}, m:0.00033011, radius:0.0244, spin:0.0124,  a:579.09,  e:0},
+      {id:"venus",   name:{ja:"金星",en:"Venus"},   m:0.0048675,  radius:0.0605, spin:-0.002992, a:1082.08, e:0},
+      {id:"earth",   name:{ja:"地球",en:"Earth"},   m:0.0059724,  radius:0.0637, spin:0.729212, a:1495.98, e:0},
+      {id:"mars",    name:{ja:"火星",en:"Mars"},    m:0.00064171, radius:0.0339, spin:0.708822, a:2279.39, e:0}],
+    rings:{ id:"belt", name:{ja:"小惑星帯",en:"asteroid belt"},
+      bands:[{type:"ring", rMul:5, n:100, cx:0,cy:0, rIn:3300, rOut:4600, mMin:0.000001, mMax:0.000001,
+        spinMin:0, spinMax:0, vMode:"kepler", aroundMass:1988.5, omega:0, vNoise:0.02, direction:1, pinned:false}] },
+    variants:{ kf1:{ src:"solarInner", name:{ja:"実較正の雛形規約(kFrame=1)",en:"the real-calibration template (kFrame=1)"},
+      physics:astroPh({G:6.674, D0:0.006, kFrame:1, q:5.1, softening:0.05, timeScale:30, dispMag:10}) } },
+    defVariant:"kf1" },
+
+  // ---- 水星の近日点移動(出典: mercuryReal / mercuryRealKF1)----
+  mercury:{
+    src:"mercuryReal", emoji:"☄️",
+    name:{ja:"水星(実単位)— 近日点移動", en:"Mercury (real units) — perihelion advance"},
+    scaleTier:"planetary", scaleExp:{L:8,T:4,M:27},
+    unit:{ja:"1単位=10⁸m/10⁴s/10²⁷kg", en:"1 unit = 1e8 m / 1e4 s / 1e27 kg"},
+    camera:{scale:800}, world:{boundary:"none", size:0},
+    overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true},
+    place:"kepler-peri", phase0:0, phaseStep:90, reproTol:1e-6,
+    center:{id:"sun", name:{ja:"太陽",en:"Sun"}, m:1988.5, radius:6.95, spin:0.029031, pinned:true, pnSource:true},
+    sats:[{id:"mercury", name:{ja:"水星",en:"Mercury"}, m:0.00033011, radius:0.0244, spin:0.0124, a:579.09, e:0.20563}],
+    variants:{
+      kf0:{ src:"mercuryReal",    name:{ja:"空間引きずりOFF(kFrame=0)",en:"frame dragging off (kFrame=0)"},
+        physics:astroPh({G:6.674, D0:0.1,   kFrame:0, q:3,    softening:0.05, timeScale:100, dispMag:10}) },
+      kf1:{ src:"mercuryRealKF1", name:{ja:"共通補正つき(kFrame=1・q=6.16)",en:"with the shared correction (kFrame=1, q=6.16)"},
+        physics:astroPh({G:6.674, D0:0.006, kFrame:1, q:6.16, softening:0.05, timeScale:100, dispMag:10}) } },
+    defVariant:"kf1" },
+
+  // ---- 地球と月(出典: earthMoonReal / earthMoonRealKF1)----
+  earthMoon:{
+    src:"earthMoonReal", emoji:"🌙",
+    name:{ja:"地球と月(実単位)", en:"The Earth and the Moon (real units)"},
+    scaleTier:"planetary", scaleExp:{L:6,T:2,M:25},
+    unit:{ja:"1単位=10⁶m/10²s/10²⁵kg", en:"1 unit = 1e6 m / 1e2 s / 1e25 kg"},
+    camera:{scale:450}, world:{boundary:"none", size:0},
+    overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true},
+    place:"barycentric-peri", reproTol:1e-5,
+    center:{id:"earth", name:{ja:"地球",en:"Earth"}, m:0.59724, radius:6.38, spin:0.0072921, pinned:false, pnSource:true},
+    sats:[{id:"moon", name:{ja:"月",en:"Moon"}, m:0.007346, radius:1.74, spin:0.00026617, a:384.748, e:0.0549}],
+    variants:{
+      kf0:{ src:"earthMoonReal",    name:{ja:"空間引きずりOFF(kFrame=0)",en:"frame dragging off (kFrame=0)"},
+        physics:astroPh({G:6.674, D0:0.1,   kFrame:0, q:3,    softening:0.1, timeScale:100, dispMag:10}), velCalib:1 },
+      kf1:{ src:"earthMoonRealKF1", name:{ja:"共通補正つき(kFrame=1・q=8.25・初速較正 0.9968)",en:"with the shared correction (kFrame=1, q=8.25, speed calibration 0.9968)"},
+        physics:astroPh({G:6.674, D0:0.006, kFrame:1, q:8.25, softening:0.1, timeScale:100, dispMag:10}), velCalib:0.9968 } },
+    defVariant:"kf1" },
+
+  // ---- 木星とガリレオ衛星(出典: jupiterGalilean + paper/data/jovian-satellites.csv)----
+  jupiter:{
+    src:"jupiterGalilean", srcData:"paper/data/jovian-satellites.csv", emoji:"🟠",
+    name:{ja:"木星とガリレオ衛星(実単位)", en:"Jupiter and the Galilean moons (real units)"},
+    scaleTier:"planetary", scaleExp:{L:7,T:3,M:26},
+    unit:{ja:"1単位=10⁷m/10³s/10²⁶kg", en:"1 unit = 1e7 m / 1e3 s / 1e26 kg"},
+    camera:{scale:220}, world:{boundary:"none", size:0},
+    overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true},
+    place:"kepler-peri", phase0:0, phaseStep:90, reproTol:1e-8,
+    center:{id:"jupiter", name:{ja:"木星",en:"Jupiter"}, m:18.98, radius:7.1492, spin:0.175851814, pinned:true, pnSource:true},
+    sats:[
+      {id:"io",       name:{ja:"イオ",en:"Io"},           m:0.000893, radius:0.18216, spin:0.0411059240,  a:42.18,  e:0.0041},
+      {id:"europa",   name:{ja:"エウロパ",en:"Europa"},   m:0.000480, radius:0.15608, spin:0.0204782725,  a:67.11,  e:0.009},
+      {id:"ganymede", name:{ja:"ガニメデ",en:"Ganymede"}, m:0.001480, radius:0.26341, spin:0.0101644438,  a:107.04, e:0.0013},
+      {id:"callisto", name:{ja:"カリスト",en:"Callisto"}, m:0.001076, radius:0.24103, spin:0.00435747966, a:188.27, e:0.0074}],
+    variants:{
+      kf1:{ src:"jupiterGalilean", name:{ja:"実較正の雛形規約(kFrame=1・q=12.30)",en:"the real-calibration template (kFrame=1, q=12.30)"},
+        physics:astroPh({G:6.674, D0:0.006, kFrame:1, q:12.30, softening:0.05, timeScale:30, dispMag:3}) },
+      kf0:{ src:"jupiterGalilean.abBody", name:{ja:"空間引きずりOFF(kFrame=0 — A/B の対照側)",en:"frame dragging off (kFrame=0 — the A/B control side)"},
+        physics:astroPh({G:6.674, D0:0.006, kFrame:0, q:12.30, softening:0.05, timeScale:30, dispMag:3}) } },
+    defVariant:"kf1" },
+
+  // ---- 土星の衛星と環(出典: saturnRingReal / saturnRingRealKF1)----
+  saturnMoons:{
+    src:"saturnRingReal", emoji:"💍",
+    name:{ja:"土星の環と主要衛星(実単位)", en:"Saturn's rings and major moons (real units)"},
+    scaleTier:"planetary", scaleExp:{L:6,T:2,M:25},
+    unit:{ja:"1単位=10⁶m/10²s/10²⁵kg", en:"1 unit = 1e6 m / 1e2 s / 1e25 kg"},
+    camera:{scale:1300}, world:{boundary:"none", size:0},
+    overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:true},
+    // reproTol=3e-4 の支配点はテティスの y: 出典 saturnRingReal の literal は 255.2 だが、
+    // 同じ literal の x=−147.3=294.6·cos120° と整合する幾何値は 294.6·sin120°=255.1311 で、
+    // 差 0.069(相対 2.70e-4)が残る。第170便の裁定(統括 2026-08-22)により、**出典プリセットの
+    // literal は本便では変更せず**、決定的関数側は幾何整合値のままとして、このずれを宣言として
+    // 残す(literal の修正は別便のキュー)。他の残差は出典 literal の4〜5桁丸め相応。
+    place:"circular", phase0:0, phaseStep:60, ringsAfterSats:false, reproTol:3e-4,
+    center:{id:"saturn", name:{ja:"土星",en:"Saturn"}, m:56.834, radius:60.3, spin:0.016528, pinned:true, pnSource:true},
+    sats:[
+      {id:"mimas",     name:{ja:"ミマス",en:"Mimas"},         m:0.00000375, radius:0.198,  spin:0,        a:185.5},
+      {id:"enceladus", name:{ja:"エンケラドス",en:"Enceladus"},m:0.0000108, radius:0.252,  spin:0,        a:238.0},
+      {id:"tethys",    name:{ja:"テティス",en:"Tethys"},      m:0.0000617,  radius:0.531,  spin:0,        a:294.6},
+      {id:"dione",     name:{ja:"ディオネ",en:"Dione"},       m:0.0001095,  radius:0.5615, spin:0,        a:377.4},
+      {id:"rhea",      name:{ja:"レア",en:"Rhea"},            m:0.0002306,  radius:0.7635, spin:0,        a:527.2},
+      {id:"titan",     name:{ja:"タイタン",en:"Titan"},       m:0.013452,   radius:2.5747, spin:0.000456, a:1222.0}],
+    rings:{ id:"rings", name:{ja:"C環/B環/A環",en:"the C, B and A rings"},
+      bands:[
+        {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:74.658, rOut:92.0, mMin:0.00001, mMax:0.00001,
+         spinMin:0, spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false},
+        {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:92.0, rOut:117.58, mMin:0.00001, mMax:0.00001,
+         spinMin:0, spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false},
+        {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:122.17, rOut:136.775, mMin:0.00001, mMax:0.00001,
+         spinMin:0, spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false}] },
+    variants:{
+      kf0:{ src:"saturnRingReal",    name:{ja:"空間引きずりOFF(kFrame=0)",en:"frame dragging off (kFrame=0)"},
+        physics:astroPh({G:6.674, D0:0.1,   kFrame:0, q:3,    softening:0.05, timeScale:10, dispMag:1}) },
+      kf1:{ src:"saturnRingRealKF1", name:{ja:"共通補正つき(kFrame=1・q=21.8)",en:"with the shared correction (kFrame=1, q=21.8)"},
+        physics:astroPh({G:6.674, D0:0.006, kFrame:1, q:21.8, softening:0.05, timeScale:10, dispMag:1}) } },
+    defVariant:"kf1" },
+
+  // ---- 土星の帯状重力(扁平)と環のテスト粒子(出典: saturnZonalD68)----
+  saturnZonal:{
+    src:"saturnZonalD68", emoji:"📡",
+    name:{ja:"土星の近点移動(実単位・扁平重力)", en:"Saturn's apsidal precession (real units, zonal gravity)"},
+    scaleTier:"planetary", scaleExp:{L:6,T:2,M:25},
+    unit:{ja:"1単位=10⁶m/10²s/10²⁵kg", en:"1 unit = 1e6 m / 1e2 s / 1e25 kg"},
+    camera:{scale:160}, world:{boundary:"none", size:0},
+    overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true},
+    place:"zonal-circ", ecc:0.05, phase0:0, phaseStep:0, reproTol:5e-7,
+    center:{id:"saturn", name:{ja:"土星",en:"Saturn"}, m:56.834, radius:60.3, spin:0.016528, pinned:true, pnSource:true,
+      zonal:{refR:60.330, calib:1.000302283, J:{2:0.016290573, 4:-0.000935314, 6:0.000086340,
+        8:-0.000014624, 10:0.000004672, 12:-0.000000997}}},
+    sats:[
+      {id:"d68",       name:{ja:"D68 リングレット",en:"the D68 ringlet"},   m:0.000001, radius:0.1, spin:0, a:67.627},
+      {id:"cInner",    name:{ja:"C環内縁",en:"the C-ring inner edge"},      m:0.000001, radius:0.1, spin:0, a:74.658},
+      {id:"r82",       name:{ja:"C環中間(82)",en:"mid C ring (82)"},        m:0.000001, radius:0.1, spin:0, a:82},
+      {id:"bInner",    name:{ja:"B環内縁",en:"the B-ring inner edge"},      m:0.000001, radius:0.1, spin:0, a:92},
+      {id:"r101",      name:{ja:"B環中間(101)",en:"mid B ring (101)"},      m:0.000001, radius:0.1, spin:0, a:101},
+      {id:"r110",      name:{ja:"B環中間(110)",en:"mid B ring (110)"},      m:0.000001, radius:0.1, spin:0, a:110},
+      {id:"bOuter",    name:{ja:"B環外縁",en:"the B-ring outer edge"},      m:0.000001, radius:0.1, spin:0, a:117.58},
+      {id:"aInner",    name:{ja:"A環内縁",en:"the A-ring inner edge"},      m:0.000001, radius:0.1, spin:0, a:122.17},
+      {id:"r129",      name:{ja:"A環中間(129)",en:"mid A ring (129)"},      m:0.000001, radius:0.1, spin:0, a:129},
+      {id:"aOuter",    name:{ja:"A環外縁",en:"the A-ring outer edge"},      m:0.000001, radius:0.1, spin:0, a:136.775}],
+    variants:{ zonal:{ src:"saturnZonalD68", name:{ja:"D68 精密較正(C=1.000302283)",en:"the D68 precision calibration (C=1.000302283)"},
+      physics:astroPh({G:6.674, D0:0.1, kFrame:0, q:3, softening:0.05, timeScale:3, dispMag:1}) } },
+    defVariant:"zonal" }
+};
+
+// --- 決定的な三角関数(位相は 90°/60° 刻みの宣言的規則。90°の倍数は誤差ゼロで返す)---
+function astroCos(deg){ const d=((deg%360)+360)%360;
+  if(d===0) return 1; if(d===90) return 0; if(d===180) return -1; if(d===270) return 0;
+  return Math.cos(d*Math.PI/180); }
+function astroSin(deg){ const d=((deg%360)+360)%360;
+  if(d===0) return 0; if(d===90) return 1; if(d===180) return 0; if(d===270) return -1;
+  return Math.sin(d*Math.PI/180); }
+// 近点距離と近点での接線速度(実ケプラー。f は出典プリセットが宣言する初速較正係数)
+function astroKeplerPeri(GM, a, e, f){ const rp=a*(1-Math.abs(e||0));
+  return {r:rp, v:(f||1)*Math.sqrt(GM*(1+Math.abs(e||0))/rp)}; }
+// 帯状重力込みの局所円速度 v_c(r)=√[(μ/r)(1+C·Σ(2k+1)A_{2k}(R_S/r)^{2k})](📡と同一の式)
+function astroZonalCirc(mu, r, z){
+  let s=0;
+  for(const l of [2,4,6,8,10,12]){ const v=(z.J && +z.J[l])||0; if(!v) continue;
+    s += (l+1)*(-v*ZONAL_P0[l])*Math.pow(z.refR/r, l); }
+  return Math.sqrt((mu/r)*(1+(z.calib||1)*s));
+}
+const astroSystemIds=()=>Object.keys(ASTRO_CATALOG);
+function astroBodyIds(sys){
+  const s=ASTRO_CATALOG[sys]; if(!s) return [];
+  const ids=s.sats.map(b=>b.id); if(s.rings) ids.push(s.rings.id); return ids;
+}
+const astroName=(o)=>(LANG==="en"? (o.en||o.ja) : (o.ja||o.en));
+function astroCatalogSummary(){ return astroSystemIds().map(k=>astroName(ASTRO_CATALOG[k].name)).join(" / "); }
+
+// --- 決定的プリセット構築(同じ spec からは常にビット同一の結果。乱数・時刻に一切触れない)---
+function buildAstroPreset(spec){
+  const sys=ASTRO_CATALOG[spec.system];
+  const vr=sys.variants[spec.variant || sys.defVariant];
+  const ph=Object.assign({}, vr.physics);
+  const c=sys.center, GM=ph.G*c.m, f=vr.velCalib;
+  const pick=(spec.bodies && spec.bodies.length)? spec.bodies : null;
+  const sats=sys.sats.map((s,i)=>({s,i})).filter(({s})=> !pick || pick.indexOf(s.id)>=0);
+  const wantRings=!!sys.rings && (!pick || pick.indexOf(sys.rings.id)>=0);
+  const mkCenter=()=>{ const b={type:"single", m:c.m, radius:c.radius, x:0,y:0, vx:0,vy:0, spin:c.spin, pinned:!!c.pinned};
+    if(c.pnSource) b.pnSource=true;
+    if(c.zonal) b.zonal={refR:c.zonal.refR, calib:c.zonal.calib, J:Object.assign({}, c.zonal.J)};
+    return b; };
+  const bodies=[];
+  if(sys.place==="barycentric-peri"){
+    // 重心系の二体(🌙🌘 と同じ流儀): 全運動量0で相対近点距離・相対速度を質量比で配分する
+    const s=sats.length? sats[0].s : sys.sats[0];
+    const MT=c.m+s.m, k=astroKeplerPeri(ph.G*MT, s.a, s.e, f);
+    bodies.push(Object.assign(mkCenter(), {x:-k.r*s.m/MT, y:0, vx:0, vy:-k.v*s.m/MT}));
+    if(sats.length) bodies.push({type:"single", m:s.m, radius:s.radius, x:k.r*c.m/MT, y:0,
+      vx:0, vy:k.v*c.m/MT, spin:s.spin, pinned:false});
+  } else {
+    bodies.push(mkCenter());
+    if(wantRings && sys.ringsAfterSats===false)
+      for(const band of sys.rings.bands) bodies.push(Object.assign({}, band));
+    for(const {s,i} of sats){
+      // 位相は宣言的規則(カタログ順 × phaseStep)。部分選択でも各天体の位相は不変
+      const th=sys.phase0 + i*sys.phaseStep, cs=astroCos(th), sn=astroSin(th);
+      let r, v;
+      if(sys.place==="kepler-peri"){ const k=astroKeplerPeri(GM, s.a, s.e, f); r=k.r; v=k.v; }
+      else if(sys.place==="zonal-circ"){ const e=sys.ecc||0; r=s.a*(1-e);
+        v=(f||1)*astroZonalCirc(GM, r, c.zonal)*Math.sqrt(1+e); }
+      else { r=s.a; v=(f||1)*Math.sqrt(GM/r); }   // circular
+      bodies.push({type:"single", m:s.m, radius:s.radius, x:r*cs, y:r*sn,
+        vx:-v*sn, vy:v*cs, spin:s.spin, pinned:false});
+    }
+    if(wantRings && sys.ringsAfterSats!==false)
+      for(const band of sys.rings.bands) bodies.push(Object.assign({}, band));
+  }
+  const nm=sats.map(({s})=>astroName(s.name)).concat(wantRings? [astroName(sys.rings.name)] : []);
+  const en=(LANG==="en");
+  const name=(typeof spec.name==="string" && spec.name.trim())? spec.name.trim().slice(0,30)
+    : astroName(sys.name).slice(0,30);
+  const prov=en
+    ? "Built deterministically from the real-body catalogue. Constants: "+sys.src+" preset"
+      +(sys.srcData? " + "+sys.srcData : "")+" (variant: "+astroName(vr.name)+", source "+vr.src+"). "
+      +"Units: "+astroName(sys.unit)+". Bodies: "+astroName(c.name)+(nm.length? " + "+nm.join(", ") : "")+". "
+      +"Placement: perihelion alignment with the real tangential Kepler speed — the AI chose only the catalogue IDs and invented no numbers."
+    : "実天体カタログから決定的に生成。定数の出典: "+sys.src+" プリセット"
+      +(sys.srcData? " + "+sys.srcData : "")+"(変種: "+astroName(vr.name)+"・出典 "+vr.src+")。"
+      +"単位規約: "+astroName(sys.unit)+"。天体: "+astroName(c.name)+(nm.length? " + "+nm.join("・") : "")+"。"
+      +"配置は近点整列・初速は実ケプラー接線速度 — AIが選んだのはカタログIDだけで、数値は1つも作っていない。";
+  const desc=(typeof spec.description==="string" && spec.description.trim())
+    ? spec.description.trim()+"\n"+prov : prov;
+  return { name, emoji:sys.emoji, description:desc,
+    scaleTier:sys.scaleTier, scaleExp:{L:sys.scaleExp.L, T:sys.scaleExp.T, M:sys.scaleExp.M},
+    camera:{scale:sys.camera.scale}, world:{boundary:sys.world.boundary, size:sys.world.size},
+    physics:ph, bodies, overlays:Object.assign({}, sys.overlays) };
+}
+
+// --- LLM 応答(意図 JSON)のスキーマ検証。数値は1つも受け付けない ---
+const ASTRO_SPEC_KEYS=["system","bodies","variant","name","description","reason"];
+function validateAstroSpec(obj){
+  const errors=[];
+  if(!obj || typeof obj!=="object" || Array.isArray(obj))
+    return {ok:false, errors:["ルートがオブジェクトではありません"]};
+  for(const k of Object.keys(obj)) if(ASTRO_SPEC_KEYS.indexOf(k)<0) errors.push("未知のキー: "+k);
+  // 「LLM は数値を発明しない」の機械強制 — 応答のどこにも数値を許さない
+  const noNum=(v,at)=>{
+    if(typeof v==="number") errors.push(at+" に数値は書けません(カタログIDのみ)");
+    else if(Array.isArray(v)) v.forEach((e,i)=>noNum(e, at+"["+i+"]"));
+    else if(v && typeof v==="object") for(const k of Object.keys(v)) noNum(v[k], at+"."+k);
+  };
+  noNum(obj, "出力");
+  if(!("system" in obj)) errors.push("system が必要です(カタログ外なら system:null)");
+  else if(obj.system===null){
+    if(errors.length) return {ok:false, errors};
+    return {ok:true, outOfCatalog:true, spec:null,
+      reason:(typeof obj.reason==="string")? obj.reason.slice(0,200) : ""};
+  }
+  const sys=(typeof obj.system==="string")? ASTRO_CATALOG[obj.system] : null;
+  if(!sys) errors.push("system がカタログにありません: "+JSON.stringify(obj.system));
+  const spec={system:obj.system};
+  if(obj.variant!==undefined){
+    if(typeof obj.variant!=="string") errors.push("variant は文字列");
+    else if(sys && !sys.variants[obj.variant]) errors.push("variant がカタログにありません: "+obj.variant);
+    else spec.variant=obj.variant;
+  }
+  if(obj.bodies!==undefined){
+    if(!Array.isArray(obj.bodies) || obj.bodies.length===0) errors.push("bodies は1件以上の配列");
+    else{
+      const ok=sys? astroBodyIds(obj.system) : [];
+      const bad=obj.bodies.filter(b=>typeof b!=="string" || ok.indexOf(b)<0);
+      if(bad.length) errors.push("bodies にカタログ外のIDがあります: "+bad.map(b=>JSON.stringify(b)).join(","));
+      else spec.bodies=obj.bodies.slice();
+    }
+  }
+  for(const k of ["name","description"]){
+    if(obj[k]===undefined) continue;
+    if(typeof obj[k]!=="string") errors.push(k+" は文字列");
+    else spec[k]=obj[k];
+  }
+  if(errors.length) return {ok:false, errors};
+  return {ok:true, outOfCatalog:false, spec};
+}
+
+// --- カタログ仕様プロンプト(カタログから決定的に組み立てる = 手書き台帳の陳腐化を構造的に防ぐ)---
+function buildAstroSpecPrompt(){
+  const en=(LANG==="en");
+  const lines=[];
+  for(const k of astroSystemIds()){
+    const s=ASTRO_CATALOG[k];
+    lines.push("- "+k+": "+astroName(s.name)
+      +(en? "  |  centre=" : "  |  中心=")+s.center.id
+      +(en? "  |  bodies=" : "  |  天体=")+astroBodyIds(k).join(", ")
+      +(en? "  |  variants=" : "  |  変種=")+Object.keys(s.variants).map(v=>v+": "+astroName(s.variants[v].name)).join(" / ")
+      +(en? "  (default " : "(既定 ")+s.defVariant+")");
+  }
+  const cat=lines.join("\n");
+  if(en) return `You are the REAL-BODY CATALOGUE SELECTOR of the browser app "Virtual Physics Lab". Read the user's request, pick the one catalogue system that matches, and output exactly one JSON object.
+
+# ABSOLUTE RULES
+1. **Never output a number.** Masses, radii, semi-major axes, eccentricities, speeds, spins and times are computed by the app from verified constants in its catalogue. No value anywhere in your JSON may be a number; a JSON containing any number is rejected.
+2. You may only use IDs that appear in the catalogue below. If the request names a body that is NOT in the catalogue (Martian moons, Pluto, exoplanets, a made-up star system, …), you MUST answer {"system":null,"reason":"<one sentence>"} — never substitute a different system that merely looks similar.
+3. Output the JSON only. No prose, no code fences.
+
+# SCHEMA
+{"system":"<system id>", "bodies":["<body id>", …] (optional; omit for every body), "variant":"<variant id>" (optional; omit for the default), "name":"<= 30 chars" (optional), "description":"<= 200 chars" (optional)}
+Out of catalogue: {"system":null, "reason":"<why, one sentence>"}
+
+# CATALOGUE
+${cat}
+
+# NOTES
+- "bodies" selects a subset; each body keeps the position it has in the full system.
+- Variants change only the committed physics conventions (frame dragging on/off etc.), never the bodies' constants.
+- Write "name"/"description" in English.
+
+# EXAMPLES
+Request: "Jupiter and its moons" -> {"system":"jupiter"}
+Request: "Just Io and Europa around Jupiter, with frame dragging off" -> {"system":"jupiter","bodies":["io","europa"],"variant":"kf0"}
+Request: "The planets of the solar system" -> {"system":"solarInner"}
+Request: "Saturn's rings" -> {"system":"saturnMoons"}
+Request: "Pluto and Charon" -> {"system":null,"reason":"Pluto and Charon are not in the catalogue."}`;
+  return `あなたは、ブラウザで動く『仮想物理ラボ』の**実天体カタログ選択器**です。ユーザーの要望を読み、下のカタログから合致する系を1つ選び、JSONを1つだけ出力します。
+
+# 絶対ルール
+1. **数値を1つも出力してはいけません。** 質量・半径・軌道長半径・離心率・速度・自転・時間はすべて、アプリがカタログの検証済み定数から計算します。JSON のどの値も数値であってはならず、数値を含む JSON は拒否されます。
+2. 使ってよいのは下のカタログに載っている ID だけです。カタログに無い天体(火星の衛星・冥王星・系外惑星・架空の星系など)を求められたら、必ず {"system":null,"reason":"<1文>"} と答えてください。似ているだけの別の系で代用してはいけません。
+3. 出力は JSON 1個のみ。説明文もコードフェンスも付けないでください。
+
+# スキーマ
+{"system":"<系ID>", "bodies":["<天体ID>", …](任意・省略すると全天体), "variant":"<変種ID>"(任意・省略すると既定), "name":"<30字以内>"(任意), "description":"<200字以内>"(任意)}
+カタログ外: {"system":null, "reason":"<カタログ外である理由 1文>"}
+
+# カタログ
+${cat}
+
+# 補足
+- bodies は部分選択です。選んでも各天体の位置は系全体のときと同じになります。
+- variant が変えるのはコミット済みの物理規約(空間引きずりの ON/OFF など)だけで、天体の定数は変わりません。
+
+# 例
+要望「木星と衛星」→ {"system":"jupiter"}
+要望「木星のイオとエウロパだけ、空間引きずりなしで」→ {"system":"jupiter","bodies":["io","europa"],"variant":"kf0"}
+要望「太陽系の惑星」→ {"system":"solarInner"}
+要望「土星の環」→ {"system":"saturnMoons"}
+要望「冥王星とカロン」→ {"system":null,"reason":"冥王星とカロンはカタログにありません。"}`;
+}
+let _astroPromptCache={lang:null, text:""};
+function getAstroSystemPrompt(){
+  if(_astroPromptCache.lang!==LANG) _astroPromptCache={lang:LANG, text:buildAstroSpecPrompt()};
+  return _astroPromptCache.text;
+}
+function aiGenMode(){ const s=$("#aiGenMode"); return (s && s.value==="freeform")? "freeform" : "catalog"; }
+
 // ===== AIプロバイダ抽象化(v1.10): Claude / OpenAI互換 / Gemini、モデルIDは自由入力 =====
 const AI_PROVIDERS={
-  anthropic:{ models:["claude-haiku-4-5","claude-sonnet-5","claude-opus-5"],   // 第25便: Opus 5(同価格の置き換え上位)
-    defModel:"claude-haiku-4-5", keyPh:"sk-ant-..." },
+  // 第170便(原仮定者許可): 実行時 LLM の既定を Haiku 4.5 → Sonnet 5 へ引き上げ
+  // (第25便: Opus 5 は同価格の置き換え上位)。候補の並びも既定を先頭に合わせる
+  anthropic:{ models:["claude-sonnet-5","claude-haiku-4-5","claude-opus-5"],
+    defModel:"claude-sonnet-5", keyPh:"sk-ant-..." },
   openai:{ models:["gpt-5-mini","gpt-5","gpt-4.1-mini"],
     defModel:"gpt-5-mini", keyPh:"sk-...", defBase:"https://api.openai.com/v1" },
   gemini:{ models:["gemini-2.5-flash","gemini-2.5-pro"],
@@ -15956,8 +16483,10 @@ async function fetchJSON(url, headers, body){
   return resp.json();
 }
 // 3プロバイダ共通の呼び出し: system+messages(user/assistant)→ 応答テキスト
-async function callLLM(cfg, model, messages){
-  const sys=getSystemPrompt();
+// 第170便: sysOverride — 実天体カタログ経路は自由生成の仕様(SYSTEM_PROMPT)ではなく
+// カタログ仕様プロンプトを送る。省略時は従来どおり getSystemPrompt()
+async function callLLM(cfg, model, messages, sysOverride){
+  const sys=(typeof sysOverride==="string" && sysOverride)? sysOverride : getSystemPrompt();
   if(cfg.provider==="anthropic"){
     const body={ model, max_tokens:4000, system:sys, messages };
     if(model.indexOf("sonnet")>=0 || model.indexOf("opus")>=0) body.thinking={type:"disabled"};
@@ -16048,9 +16577,19 @@ function buildExternalPromptShort(){
   const req=raw || T("aiExtReqPh");
   return T("aiExtHeadShort")(AI_SPEC_URL)+"\n\n"+T("aiExtReqHead")+"\n"+aiUserContent(req);
 }
-// 段構え: 選択モデル → 検証NG時リトライ1回 → 上位モデルフォールバック
-// (フォールバック連鎖は Anthropic のみ: haiku→sonnet-5、sonnet→opus-5〔第25便: Opus 4.8 と同価格の後継〕。他プロバイダは
-//  モデル階層をアプリが仮定できないためリトライまで。HANDOFF_RUNTIME_LLM.md v1.10)
+// 段構え: 選択モデル → 検証NG時リトライ1回 → 別モデルへフォールバック
+// (フォールバック連鎖は Anthropic のみ。他プロバイダはモデル階層をアプリが仮定できないため
+//  リトライまで。HANDOFF_RUNTIME_LLM.md v1.10)
+// 第170便(統括再裁定): 既定を Sonnet 5 へ引き上げたうえで、**上位エスカレーションを採る** —
+//   sonnet-5 → opus-5 / haiku-4-5 → sonnet-5(既定を明示的に下げた利用者の段構えは維持)/
+//   opus-5 は最上位なのでフォールバック先なし。
+//   理由(統括): 本便の目的は挙動の安定化=品質優先であり、フォールバックは**検証失敗時のみ**
+//   発火するのでコスト影響は限定的。降格(sonnet-5→haiku-4-5)の案は破棄した。
+function aiFallbackModel(model){
+  if(model.indexOf("sonnet")>=0) return "claude-opus-5";
+  if(model.indexOf("haiku")>=0)  return "claude-sonnet-5";
+  return null;
+}
 async function generatePreset(userText, onStage){
   const cfg=aiCfg();
   const attempt=async (mdl, messages)=>{
@@ -16074,8 +16613,7 @@ async function generatePreset(userText, onStage){
   r=await attempt(cfg.model, retryMsgs);
   if(r.preset) return r;
   if(cfg.provider==="anthropic"){
-    const fb=(cfg.model.indexOf("haiku")>=0)?"claude-sonnet-5":
-             (cfg.model.indexOf("sonnet")>=0)?"claude-opus-5":null;
+    const fb=aiFallbackModel(cfg.model);
     if(fb){
       onStage(T("fallback")(fb));
       r=await attempt(fb, baseMsgs);
@@ -16083,6 +16621,41 @@ async function generatePreset(userText, onStage){
     }
   }
   throw new Error(T("genFailed")(r.fail));
+}
+
+// 第170便: 実天体カタログ経路 — LLM は意図(カタログID)だけを返し、数値は1つも返さない。
+// 段構えは自由生成と同じ(選択モデル → スキーマNGでリトライ1回 → 別モデル1回)。
+// カタログ外は明示的に {outOfCatalog:true} を返す(黙って別の系を出さない)。
+async function generateAstroPreset(userText, onStage){
+  const cfg=aiCfg();
+  const sysPrompt=getAstroSystemPrompt();
+  const attempt=async (mdl, messages)=>{
+    const text=await callLLM(cfg, mdl, messages, sysPrompt);
+    let obj;
+    try{ obj=JSON.parse(extractJSON(text)); }catch(e){ return {fail:"JSON parse error", raw:text}; }
+    const v=validateAstroSpec(obj);
+    if(!v.ok) return {fail:v.errors.join(" / "), raw:text};
+    return {v};
+  };
+  const userContent=aiUserContent(userText);
+  const baseMsgs=[{role:"user",content:userContent}];
+  onStage(T("generating")(cfg.model));
+  let r=await attempt(cfg.model, baseMsgs);
+  if(!r.v){
+    onStage(T("retrying"));
+    r=await attempt(cfg.model, [{role:"user",content:userContent},
+      {role:"assistant",content:r.raw}, {role:"user",content:T("retryFixMsg")(r.fail)}]);
+  }
+  if(!r.v && cfg.provider==="anthropic"){
+    const fb=aiFallbackModel(cfg.model);
+    if(fb){ onStage(T("fallback")(fb)); r=await attempt(fb, baseMsgs); }
+  }
+  if(!r.v) throw new Error(T("genFailed")(r.fail));
+  if(r.v.outOfCatalog) return {outOfCatalog:true, reason:r.v.reason};
+  const built=buildAstroPreset(r.v.spec);
+  const vp=validatePreset(built);   // 決定的構築の結果も既存の検証を必ず通す
+  if(!vp.ok) throw new Error(T("genFailed")(vp.errors.join(" / ")));
+  return {preset:vp.preset, warnings:vp.warnings, spec:r.v.spec};
 }
 
 function setAiStatus(msg, cls){ const el=$("#aiStatus"); el.className=cls||""; el.textContent="";
@@ -16130,8 +16703,28 @@ function updateAiPreview(){
   const wrap=$("#aiPreviewWrap");
   if(!wrap || !wrap.open) return;
   $("#aiPreviewBody").value=aiUserContent($("#aiPrompt").value);
-  $("#aiPreviewSysNote").textContent=T("aiPreviewSys")(SYSTEM_PROMPT.length, SYSTEM_PROMPT.slice(0,200));
+  // 第170便: カタログモードでは送るシステムプロンプトがカタログ仕様に替わるので、その旨と字数を示す
+  // (自由生成の仕様の字数も併記 — 何を送っていないかまで確認できるようにする)
+  if(aiGenMode()==="catalog"){
+    const ap=getAstroSystemPrompt();
+    $("#aiPreviewSysNote").textContent=T("aiPreviewSysAstro")(ap.length, SYSTEM_PROMPT.length, ap.slice(0,200));
+  } else {
+    $("#aiPreviewSysNote").textContent=T("aiPreviewSys")(SYSTEM_PROMPT.length, SYSTEM_PROMPT.slice(0,200));
+  }
 }
+// 第170便: 生成モードの切替 — ベース選択(自由生成専用の文脈注入)はカタログモードでは
+// 使わないので、行をロック表示(disabled+lockedRow)にする。説明の details は畳んだまま
+// 残す(ai.help-collapsed の対象なので消さない)。
+// 利用者操作による切替のときだけ選択を「なし」へ戻す(初期化では値に触れない)
+function applyAiGenMode(resetBase){
+  const cat=(aiGenMode()==="catalog");
+  const row=$("#aiBaseRow"), sel=$("#aiBasePreset");
+  if(row) row.classList.toggle("lockedRow",cat);
+  if(sel) sel.disabled=cat;
+  if(cat && resetBase && sel && sel.value){ sel.value=""; }
+  updateAiPreview();
+}
+$("#aiGenMode").addEventListener("change",()=>applyAiGenMode(true));
 $("#aiPreviewWrap").addEventListener("toggle",updateAiPreview);
 $("#aiPrompt").addEventListener("input",updateAiPreview);
 $("#aiBasePreset").addEventListener("change",updateAiPreview);
@@ -16153,7 +16746,14 @@ $("#btnGenerate").addEventListener("click",async ()=>{
   if(!text){ setAiStatus(T("noPrompt"),"err"); return; }
   const btn=$("#btnGenerate"); btn.disabled=true;
   try{
-    const r=await generatePreset(text, (m)=>setAiStatus(m,"busy"));
+    // 第170便: 既定は実天体カタログ経路(LLM は数値を作らない)。自由生成は従来経路
+    const r=(aiGenMode()==="catalog")
+      ? await generateAstroPreset(text, (m)=>setAiStatus(m,"busy"))
+      : await generatePreset(text, (m)=>setAiStatus(m,"busy"));
+    if(r.outOfCatalog){   // 黙って不正確な系を出さず、カタログ内容を案内して止める
+      setAiStatus(T("astroOutOfCatalog")(r.reason, astroCatalogSummary()),"err");
+      btn.disabled=false; return;
+    }
     r.preset.id="custom_"+Date.now();
     const arr=getCustomPresets(); arr.push(r.preset); setCustomPresets(arr);
     rebuildPresetSelect(r.preset.id);
@@ -16239,6 +16839,13 @@ function applyLang(){
   $("#keyPersistLabel").textContent=T("keyPersistLabel"); $("#btnKeySave").textContent=T("btnKeySave");
   $("#aiKeyNote").textContent=T("aiKeyNote"); $("#aiGenHead").textContent=T("aiGenHead");
   $("#aiKeyNoteSum").textContent=T("aiKeyNoteSum");   // 第36便 B4
+  // 第170便: 生成モード(存在ガード付き — root 未適用でも落ちない)
+  { const ml=$("#aiModeLabel"); if(ml) ml.textContent=T("aiModeLabel");
+    const ms=$("#aiGenMode");
+    if(ms){ ms.options[0].textContent=T("aiModeCatalog"); ms.options[1].textContent=T("aiModeFree"); }
+    const mn=$("#aiModeNote");
+    if(mn) mn.textContent=T("aiModeNote")+" "+T("aiModeCatalogList")(astroCatalogSummary());
+    const msum=$("#aiModeNoteSum"); if(msum) msum.textContent=T("aiModeNoteSum"); }
   $("#aiBaseLabel").textContent=T("aiBaseLabel"); $("#aiBaseNote").textContent=T("aiBaseNote");   // 第26便
   $("#aiBaseNoteSum").textContent=T("aiBaseNoteSum");   // 第36便 B4
   rebuildAiBaseSelect();   // 第26便: 言語切替でベース候補名も更新
@@ -16246,6 +16853,7 @@ function applyLang(){
   $("#btnGenerate").textContent=T("btnGenerate"); $("#aiListHead").textContent=T("aiListHead");
   $("#aiPrompt").placeholder=T("aiPromptPh");
   $("#aiPreviewSum").textContent=T("aiPreviewSum"); $("#aiPreviewNote").textContent=T("aiPreviewNote");   // 第32便 W4
+  applyAiGenMode(false);   // 第170便: モードに応じた表示反映(値には触れない)
   // 第102便: 外部AIチャット経路のラベル(root 未適用でも落ちないよう存在ガード)
   // 第103便: 独立グループの見出し+短縮版ボタンを追加
   const exT=$("#aiExtTitle"); if(exT) exT.textContent=T("aiExtTitle");
@@ -16635,10 +17243,14 @@ document.addEventListener("keydown",(e)=>{ if(e.key==="Escape" && $("#aboutPanel
 (function(){
   let touches=new Map(), lastDist=0, moved=false, downX=0, downY=0;
   const pos=(t)=>({x:t.clientX,y:t.clientY});
+  // 第171便: カメラ操作は camGestureBegin/Moved/End を通す — カメラ値はこのハンドラ内で
+  // 確定し(物理ステップを一切介さない)、camGestureMoved() がその場で画面を再合成する。
+  // requestRender() も従来どおり呼ぶので、次の rAF の正規描画が即時合成を上書きする
   cv.addEventListener("touchstart",(e)=>{ e.preventDefault();
     for(const t of e.changedTouches) touches.set(t.identifier,pos(t));
     if(touches.size===1){ moved=false; const p=[...touches.values()][0]; downX=p.x; downY=p.y; }
     if(touches.size===2){ const a=[...touches.values()]; lastDist=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y); }
+    camGestureBegin();
   },{passive:false});
   cv.addEventListener("touchmove",(e)=>{ e.preventDefault();
     for(const t of e.changedTouches){ if(touches.has(t.identifier)){
@@ -16646,30 +17258,31 @@ document.addEventListener("keydown",(e)=>{ if(e.key==="Escape" && $("#aboutPanel
       if(touches.size===1){
         panCam(cur.x-prev.x, cur.y-prev.y);   // 第81便: 追従中はオフセットへ積む
         if(Math.abs(cur.x-downX)+Math.abs(cur.y-downY)>8) moved=true;
-        requestRender();
+        camGestureMoved();
       }
       touches.set(t.identifier,cur);
     }}
     if(touches.size===2){ const a=[...touches.values()];
       const d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);
       if(lastDist>0) camScale=clamp(camScale*lastDist/d,20,3000);
-      lastDist=d; moved=true; requestRender(); }
+      lastDist=d; moved=true; camGestureMoved(); }
   },{passive:false});
   cv.addEventListener("touchend",(e)=>{ e.preventDefault();
     for(const t of e.changedTouches) touches.delete(t.identifier);
     if(touches.size<2) lastDist=0;
-    if(touches.size===0 && !moved) tapSelect(downX,downY);
+    if(touches.size===0){ camGestureEnd(); if(!moved) tapSelect(downX,downY); }
   },{passive:false});
   // マウス
   let mdown=false,mx=0,my=0,mmoved=false;
-  cv.addEventListener("mousedown",e=>{mdown=true;mx=e.clientX;my=e.clientY;mmoved=false;});
+  cv.addEventListener("mousedown",e=>{mdown=true;mx=e.clientX;my=e.clientY;mmoved=false; camGestureBegin();});
   window.addEventListener("mousemove",e=>{ if(!mdown)return;
     panCam(e.clientX-mx, e.clientY-my);   // 第81便: 追従中はオフセットへ積む
     if(Math.abs(e.clientX-mx)+Math.abs(e.clientY-my)>4)mmoved=true; mx=e.clientX;my=e.clientY;
-    requestRender(); });
-  window.addEventListener("mouseup",e=>{ if(mdown&&!mmoved) tapSelect(e.clientX,e.clientY); mdown=false; });
+    camGestureMoved(); });
+  window.addEventListener("mouseup",e=>{ if(mdown){ camGestureEnd(); if(!mmoved) tapSelect(e.clientX,e.clientY); } mdown=false; });
   cv.addEventListener("wheel",e=>{ e.preventDefault();
-    camScale=clamp(camScale*(e.deltaY>0?1.1:0.9),20,3000); requestRender(); },{passive:false});
+    if(!camGestureActive()) captureCamSnapshot();   // 変更**前**の絵を基準に即時合成する
+    camScale=clamp(camScale*(e.deltaY>0?1.1:0.9),20,3000); camGestureMoved(); },{passive:false});
   function tapSelect(px,py){
     const rect=cv.getBoundingClientRect();
     const cx=px-rect.left, cy=py-rect.top;
@@ -17730,6 +18343,11 @@ function zonalApsidal(mu, refR, J, a, calib){
 }
 window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extractJSON,
   verify:VERIFY, traceRay, getSystemPrompt, aiCfg, T:(k)=>T(k), lang:()=>LANG,
+  // 第170便: 実天体カタログ(AI追加の安定化)— QA ai.catalog-integrity /
+  // ai.placement-determinism / ai.schema-validation が読む公開フック
+  ASTRO_CATALOG, buildAstroPreset, validateAstroSpec, buildAstroSpecPrompt,
+  getAstroSystemPrompt, astroBodyIds, astroCatalogSummary, aiGenMode, aiFallbackModel,
+  AI_PROVIDERS,
   // 第45便 45A(台帳4-48): 光線源/1PN源の偏向角しきい値(QA ray.alpha-threshold の機能判定子も兼ねる)
   RAY_ALPHA_MIN, rayMassMin, rayHeavy, pnMassMin, pnSource, rayKeyOf,
   // 第82便 A(光学輸送): 透過率の 1 本の式・基準波長・核の台係数・直近の光学的深さ統計。
@@ -17823,6 +18441,14 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // v1.26: 物理対応ロック(4-12)のQA用
   setPhysLock, physLock:()=>physLock, physLockCalc, physLockSatisfied,
   stepBudget,  // v1.27: ステップ会計の純関数(P0-1 修正。QA time.step-accounting 用)
+  // 第171便: 操作レスポンスの分離(QA ui.input-responsive 用の機械検査口)。
+  // camPreview/captureCamSnapshot は「即時反映パス」の本体そのものを公開する(重複実装しない)
+  camPreview, captureCamSnapshot, camGestureActive, physSuppressed,
+  camSnapState:()=>(camSnap? {...camSnap} : null),
+  frameBudget:()=>frameBudgetMs, frameBudgetDefault:()=>FRAME_BUDGET_MS, setFrameBudget,
+  dragPause:()=>dragPauseOn, setDragPause,
+  camGestureMs:()=>CAM_GESTURE_MS,
+  inputStats:()=>({...inputStats}),
   zonal:{P0:ZONAL_P0, coeffs:zonalA, apsidal:zonalApsidal},  // 第11次裁定: E13 帯状重力のQA用
   qState:()=>({mode:qualityMode, level:qLevel(), dprCap:Q_DPR[qLevel()],
     fieldRes:Q_FRES[qLevel()], rayFactor:Q_RAY[qLevel()], trailEvery:Q_TREC[qLevel()]}),

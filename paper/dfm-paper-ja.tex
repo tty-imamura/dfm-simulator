@@ -1,6 +1,13 @@
 % =====================================================================
 % 決定力場モデル -- 日本語版
-% 現行版: v1.2-ja(2026-08-22・第161便)。初出は v1.0-ja(2026-07-20)。
+% 現行版: v1.3-ja(2026-08-22・第167便)。初出は v1.0-ja(2026-07-20)。
+% v1.3-ja(第167便): 英語版 v0.12(表題の短縮)に等価に追随した。主題を
+%   「決定力場モデル:実行可能なマッハ的トイ宇宙」へ短縮し、旧題が担っていた要素
+%   —— 調整可能なフレーム引きずり・逆二乗重力・スピン=熱アナロジー・3つの弱場
+%   ベンチマークを「証拠ではなく単一較正の帰結」として読むこと —— は1つも落とさず
+%   すべて副題へ再配置した。組版・メタデータの変更であり、数値・数式・図・窓・主張は
+%   1つも動いていない(記録版は英語版 v0.9 のまま)。表題ブロックの行数は
+%   第161便で詰めた高さを保つよう調整してある(主題 2行→1行・副題 2行→3行)。
 % v1.2-ja(第161便): 英語版 v0.11(外部レビュー第4巡)に等価に追随した。文言のみで、
 %   数値・数式・図・窓・主張は1つも動いていない(記録版は英語版 v0.9 のまま)。
 %   (a) P1-1: 要旨の E12 の記述に、本文(第IV節D)が既に述べている限定
@@ -20,11 +27,11 @@
 % v1.1-ja(第156便): 図5のパネル見出しを旧表記 K_t から正準表記 κ へ変換したのに
 %   合わせてキャプションの橋渡し文を更新し、版表記・日付を英語版 v0.10 に合わせた。
 %   数値・数式・主張は不変。記録版(version of record)は英語版 v0.9 のままである。
-% 英語版 dfm-paper.tex v0.11(記録版 = v0.9 = リポジトリタグ paper-v1,
+% 英語版 dfm-paper.tex v0.12(記録版 = v0.9 = リポジトリタグ paper-v1,
 % doi:10.5281/zenodo.21454189)の日本語全訳。国内発表・国内読者向け。
 % 学術的な正本(version of record)は英語版であり、本訳と英語版に
 % 相違がある場合は英語版が優先する。
-% 数値・数式・主張・参考文献は英語版 v0.11 と同一。
+% 数値・数式・主張・参考文献は英語版 v0.12 と同一。
 % Build: lualatex dfm-paper-ja.tex (2回) — luatexja / HaranoAji フォント
 % =====================================================================
 \documentclass[a4paper,10pt,twocolumn]{ltjsarticle}
@@ -42,7 +49,7 @@
 \hypersetup{
   colorlinks=true, linkcolor=blue!50!black, citecolor=blue!50!black,
   urlcolor=blue!60!black,
-  pdftitle={決定力場モデル:調整可能なフレーム引きずり・逆二乗重力・スピン=熱アナロジーを備えたマッハ的トイ宇宙 --- GPS 時計オフセット・太陽縁での光の偏向・シャピロ遅延を、証拠としてではなく単一較正の帰結として再現する},
+  pdftitle={決定力場モデル:実行可能なマッハ的トイ宇宙 --- 調整可能なフレーム引きずり・逆二乗重力・スピン=熱アナロジー/GPS 時計オフセット・太陽縁での光の偏向・シャピロ遅延を、証拠としてではなく単一較正の帰結として再現する},
   pdfauthor={今村哲矢 (Tetsuya Imamura)},
   pdfsubject={教育用トイモデル;マッハ的力学;フレーム引きずり}}
 
@@ -63,25 +70,27 @@
 
 \twocolumn[{%
 \begin{center}
-{\LARGE\bfseries 決定力場モデル:調整可能なフレーム引きずり・\\[2pt]
-逆二乗重力・スピン=熱アナロジーを備えたマッハ的トイ宇宙\par}
+% 第167便: 主題を短縮し(2行→1行)、旧題の要素はすべて副題(2行→3行)へ再配置した。
+% 表題ブロックの行数は変わらないので、第161便で詰めた高さをそのまま保つ。
+{\LARGE\bfseries 決定力場モデル:実行可能なマッハ的トイ宇宙\par}
 \vspace{4pt}
-{\large\bfseries --- GPS 時計オフセット・太陽縁での光の偏向・シャピロ遅延を,\\[2pt]
+{\large\bfseries --- 調整可能なフレーム引きずり・逆二乗重力・スピン=熱アナロジー/\\[2pt]
+GPS 時計オフセット・太陽縁での光の偏向・シャピロ遅延を,\\[2pt]
 証拠としてではなく単一較正の帰結として再現する\par}
 \vspace{6pt}
 % 第161便: 要旨に2点を足すため、表題ブロックの高さを詰めた(英語併記を \small へ、
 % 空きを 12pt→8pt / 10pt→6pt、要旨枠を 0.92→0.95\textwidth)。文言・数値は不変。
 % 詰めないと \twocolumn[...] が1頁に収まらず Overfull \vbox が3件出る。
-{\small (Determinacy-Field Mechanics: A Machian Toy Universe with
-Tunable Frame Dragging,\\ Inverse-Square Gravity, and Spin-as-Heat
-Analogies: Reproducing the GPS Clock Offset,\\ Solar-Limb Deflection and
-Shapiro Delay as Consequences of One Calibration, Not as Evidence)\par}
+{\small (Determinacy-Field Mechanics: An Executable Machian Toy
+Universe.\\ Tunable Frame Dragging, Inverse-Square Gravity, and
+Spin-as-Heat Analogies;\\ the GPS Clock Offset, Solar-Limb Deflection and
+Shapiro Delay\\ as Consequences of One Calibration, Not as Evidence)\par}
 \vspace{8pt}
 {\large 今村哲矢(Tetsuya Imamura)\par}
 \vspace{2pt}
 {\small 独立研究者(Independent Researcher, Tokyo, Japan)\par}
 \vspace{4pt}
-{\small 2026年7月20日(v1.0-ja)/ 2026年8月21日・22日 改訂(v1.2-ja)\par}
+{\small 2026年7月20日(v1.0-ja)/ 2026年8月21日・22日 改訂(v1.3-ja)\par}
 \vspace{6pt}
 \end{center}
 \begin{center}

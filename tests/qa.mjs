@@ -8774,6 +8774,218 @@ if (!FAST) {
   }
 }
 
+// ---- 7s2b) 第170便(統括裁定 2026-08-22b §3a): AI追加の安定化 — 実天体カタログ ----
+// ----   「LLM は数値を発明しない」原則の機械固定。3ゲート:
+// ----   ① ai.catalog-integrity  : カタログの数値が**コミット済みの出典**とビット一致
+// ----      (アプリ内の実較正プリセット宣言は DOM から機械比較・木星系は paper/data/
+// ----       jovian-satellites.csv とも値比較)。捏造・転記ミス・出典側の変更漏れを検出する。
+// ----   ② ai.placement-determinism: 決定的配置関数が(a)同一 spec で2回ビット同一
+// ----      (b)出典プリセットの初期条件を**カタログ宣言の再現許容 reproTol 内**で再現
+// ----      (jupiterGalilean は 1e-8 = 出典リテラルの9桁丸め幅)(c)部分選択でも各天体の
+// ----      初期条件がビット不変 (d)全系 validatePreset 合格。
+// ----   ③ ai.schema-validation : 不正 JSON・カタログ外 ID・欠落フィールド・数値混入の
+// ----      否定対照が全て拒否され、正例が全て受理されること。
+// ----   LLM の実呼び出しは CI に置かない(既存 AI 機能の QA 流儀と同じ — 送信直前の
+// ----   組み立てと検証だけを機械固定する)。第170便 未適用の root 等は自動 SKIP。
+{
+  const hasAstro = await page.evaluate(() => !!window.HP && !!HP.ASTRO_CATALOG && !!HP.buildAstroPreset);
+  if (hasAstro) {
+    // --- ① ai.catalog-integrity ---
+    const integ = await page.evaluate(() => {
+      const C = HP.ASTRO_CATALOG, bad = [];
+      let checked = 0;
+      const P = {}; for (const p of HP.allPresets()) P[p.id] = p;
+      const eq = (a, b, w) => { checked++; if (!Object.is(a, b)) bad.push(`${w}: ${a} != ${b}`); };
+      for (const sysId of Object.keys(C)) {
+        const s = C[sysId], src = P[s.src];
+        if (!src) { bad.push(`${sysId}: 出典プリセット ${s.src} が見つからない`); continue; }
+        eq(s.camera.scale, src.camera.scale, sysId + '.camera.scale');
+        eq(s.world.boundary, src.world.boundary, sysId + '.world.boundary');
+        eq(s.world.size, src.world.size, sysId + '.world.size');
+        eq(s.scaleTier, src.scaleTier, sysId + '.scaleTier');
+        for (const k of ['L', 'T', 'M']) eq(s.scaleExp[k], src.scaleExp && src.scaleExp[k], `${sysId}.scaleExp.${k}`);
+        for (const k of Object.keys(s.overlays)) eq(s.overlays[k], src.overlays[k], `${sysId}.overlays.${k}`);
+        const c0 = src.bodies[0];
+        eq(s.center.m, c0.m, sysId + '.center.m'); eq(s.center.radius, c0.radius, sysId + '.center.radius');
+        eq(s.center.spin, c0.spin, sysId + '.center.spin');
+        eq(!!s.center.pinned, !!c0.pinned, sysId + '.center.pinned');
+        eq(!!s.center.pnSource, !!c0.pnSource, sysId + '.center.pnSource');
+        if (s.center.zonal) {
+          eq(s.center.zonal.refR, c0.zonal.refR, sysId + '.zonal.refR');
+          eq(s.center.zonal.calib, c0.zonal.calib, sysId + '.zonal.calib');
+          for (const l of [2, 4, 6, 8, 10, 12]) eq(s.center.zonal.J[l], c0.zonal.J[l], `${sysId}.zonal.J${l}`);
+        }
+        // 衛星・環は出典プリセットの並び順に1対1対応する
+        const singles = src.bodies.filter(b => b.type === 'single').slice(1);
+        s.sats.forEach((b, i) => {
+          const o = singles[i];
+          if (!o) { bad.push(`${sysId}.${b.id}: 出典に対応天体なし`); return; }
+          eq(b.m, o.m, `${sysId}.${b.id}.m`); eq(b.radius, o.radius, `${sysId}.${b.id}.radius`);
+          eq(b.spin, o.spin, `${sysId}.${b.id}.spin`);
+        });
+        if (s.sats.length !== singles.length) bad.push(`${sysId}: 衛星数 ${s.sats.length} != 出典 ${singles.length}`);
+        if (s.rings) {
+          const rs = src.bodies.filter(b => b.type === 'ring');
+          if (s.rings.bands.length !== rs.length) bad.push(`${sysId}: 環の帯数 ${s.rings.bands.length} != 出典 ${rs.length}`);
+          s.rings.bands.forEach((b, i) => {
+            const o = rs[i]; if (!o) return;
+            for (const k of Object.keys(b)) eq(b[k], o[k], `${sysId}.rings[${i}].${k}`);
+          });
+        }
+        // physics は変種ごとに出典プリセット(必要なら abBody パッチ適用)とキー集合ごとビット一致
+        for (const vId of Object.keys(s.variants)) {
+          const vr = s.variants[vId], parts = vr.src.split('.'), sp = P[parts[0]];
+          if (!sp) { bad.push(`${sysId}/${vId}: 出典 ${vr.src} が見つからない`); continue; }
+          let ref = Object.assign({}, sp.physics);
+          if (parts[1] === 'abBody') ref = Object.assign(ref, sp.abBody.physicsPatch);
+          const kb = Object.keys(vr.physics).sort().join(','), kr = Object.keys(ref).sort().join(',');
+          if (kb !== kr) bad.push(`${sysId}/${vId} physics キー集合が出典と不一致`);
+          for (const k of Object.keys(ref)) eq(vr.physics[k], ref[k], `${sysId}/${vId}.physics.${k}`);
+        }
+      }
+      return { bad, checked, nSys: Object.keys(C).length, jupiter: C.jupiter };
+    });
+    // 木星系は出典表 paper/data/jovian-satellites.csv とも値比較する(CSV は fs 側で読む)
+    const csvBad = [];
+    let csvChecked = 0;
+    {
+      const csvPath = path.join(ROOT, 'paper', 'data', 'jovian-satellites.csv');
+      if (!fs.existsSync(csvPath)) csvBad.push('paper/data/jovian-satellites.csv が無い');
+      else {
+        const rows = {};
+        for (const line of fs.readFileSync(csvPath, 'utf8').split('\n').slice(1)) {
+          const m = line.match(/^([A-Za-z]+),([a-z_0-9]+),(-?[\d.eE+-]+),/);
+          if (m) rows[m[1] + '.' + m[2]] = Number(m[3]);
+        }
+        const J = integ.jupiter, EN = { io: 'Io', europa: 'Europa', ganymede: 'Ganymede', callisto: 'Callisto' };
+        const pairs = [['Jupiter.mass', J.center.m], ['Jupiter.radius', J.center.radius], ['Jupiter.spin', J.center.spin]];
+        for (const s of J.sats) {
+          const N = EN[s.id];
+          pairs.push([N + '.mass', s.m], [N + '.radius', s.radius], [N + '.spin', s.spin],
+            [N + '.semi_major_axis', s.a], [N + '.eccentricity', s.e]);
+        }
+        for (const [k, v] of pairs) { csvChecked++; if (!Object.is(rows[k], v)) csvBad.push(`CSV ${k}: ${rows[k]} != ${v}`); }
+      }
+    }
+    add('ai.catalog-integrity', integ.bad.length === 0 && csvBad.length === 0,
+      `系=${integ.nSys}件 プリセット照合=${integ.checked}項目 CSV照合=${csvChecked}項目 不一致=` +
+      `${integ.bad.length + csvBad.length}${integ.bad.length || csvBad.length ? ' [' + integ.bad.concat(csvBad).slice(0, 6).join(' / ') + ']' : ''}`);
+
+    // --- ② ai.placement-determinism ---
+    const det = await page.evaluate(() => {
+      const C = HP.ASTRO_CATALOG, bad = [];
+      const P = {}; for (const p of HP.allPresets()) P[p.id] = p;
+      let worstAll = 0, worstAllAt = '', jupWorst = 0, cases = 0;
+      for (const sysId of Object.keys(C)) {
+        const s = C[sysId];
+        for (const vId of Object.keys(s.variants)) {
+          cases++;
+          const spec = { system: sysId, variant: vId };
+          const a = HP.buildAstroPreset(spec), b = HP.buildAstroPreset(spec);
+          if (JSON.stringify(a) !== JSON.stringify(b)) bad.push(`${sysId}/${vId}: 2回の構築が不一致(非決定的)`);
+          const vp = HP.validatePreset(a);
+          if (!vp.ok) bad.push(`${sysId}/${vId}: validatePreset NG ${vp.errors.join('|')}`);
+          // 出典プリセットの初期条件の再現(宣言許容 reproTol 内)
+          const src = P[s.variants[vId].src.split('.')[0]];
+          let worst = 0, at = '';
+          const n = Math.min(src.bodies.length, a.bodies.length);
+          if (src.bodies.length !== a.bodies.length) bad.push(`${sysId}/${vId}: 天体数 ${a.bodies.length} != 出典 ${src.bodies.length}`);
+          for (let i = 0; i < n; i++) {
+            if (a.bodies[i].type !== 'single') continue;
+            for (const k of ['x', 'y', 'vx', 'vy', 'm', 'radius', 'spin']) {
+              const u = a.bodies[i][k], v = src.bodies[i][k];
+              if (typeof u !== 'number' || typeof v !== 'number') continue;
+              const sc = Math.max(Math.abs(u), Math.abs(v));
+              const rel = sc > 0 ? Math.abs(u - v) / sc : Math.abs(u - v);
+              if (rel > worst) { worst = rel; at = `body${i}.${k}`; }
+            }
+          }
+          if (!(worst <= s.reproTol)) bad.push(`${sysId}/${vId}: 再現 ${worst.toExponential(2)} > 宣言許容 ${s.reproTol}(${at})`);
+          if (worst > worstAll) { worstAll = worst; worstAllAt = `${sysId}/${vId} ${at}`; }
+          if (sysId === 'jupiter') jupWorst = Math.max(jupWorst, worst);
+        }
+      }
+      // 部分選択でも各天体の初期条件はビット不変(位相はカタログ順で決まる宣言的規則)
+      const full = HP.buildAstroPreset({ system: 'jupiter' });
+      const sub = HP.buildAstroPreset({ system: 'jupiter', bodies: ['io', 'europa'] });
+      const one = HP.buildAstroPreset({ system: 'jupiter', bodies: ['ganymede'] });
+      const same = (x, y, w) => { for (const k of ['x', 'y', 'vx', 'vy', 'm', 'radius', 'spin'])
+        if (!Object.is(x[k], y[k])) bad.push(`${w}.${k}: ${x[k]} != ${y[k]}`); };
+      if (sub.bodies.length !== 3) bad.push(`部分選択(io,europa)の天体数=${sub.bodies.length}(期待3)`);
+      else { same(sub.bodies[1], full.bodies[1], 'subset.io'); same(sub.bodies[2], full.bodies[2], 'subset.europa'); }
+      if (one.bodies.length !== 2) bad.push(`部分選択(ganymede)の天体数=${one.bodies.length}(期待2)`);
+      else same(one.bodies[1], full.bodies[3], 'subset.ganymede');
+      return { bad, worstAll, worstAllAt, jupWorst, cases };
+    });
+    add('ai.placement-determinism', det.bad.length === 0 && det.jupWorst <= 1e-8,
+      `系×変種=${det.cases}件 2回構築ビット一致・全系 validatePreset 合格・` +
+      `出典プリセット再現 最大 ${det.worstAll.toExponential(2)}(${det.worstAllAt})・` +
+      `jupiterGalilean 再現 ${det.jupWorst.toExponential(2)}(≤1e-8)・部分選択でビット不変` +
+      `${det.bad.length ? ' NG=[' + det.bad.slice(0, 6).join(' / ') + ']' : ''}`);
+
+    // --- ③ ai.schema-validation ---
+    const sch = await page.evaluate(() => {
+      const V = HP.validateAstroSpec, bad = [];
+      const neg = [
+        ['非オブジェクト(文字列)', 'jupiter'],
+        ['配列', [{ system: 'jupiter' }]],
+        ['null', null],
+        ['system 欠落', { bodies: ['io'] }],
+        ['カタログ外 system', { system: 'plutoCharon' }],
+        ['system が数値', { system: 1 }],
+        ['カタログ外 body', { system: 'jupiter', bodies: ['io', 'amalthea'] }],
+        ['他系の body', { system: 'jupiter', bodies: ['titan'] }],
+        ['カタログ外 variant', { system: 'jupiter', variant: 'kf9' }],
+        ['bodies が空配列', { system: 'jupiter', bodies: [] }],
+        ['bodies が配列でない', { system: 'jupiter', bodies: 'io' }],
+        ['数値の混入(トップレベル)', { system: 'jupiter', m: 18.98 }],
+        ['数値の混入(bodies 内)', { system: 'jupiter', bodies: [42] }],
+        ['数値の混入(入れ子)', { system: 'jupiter', description: 'x', name: 'y', reason: 'z', bodies: ['io'], variant: 'kf1', extra: { a: 1 } }],
+        ['未知のキー', { system: 'jupiter', physics: 'x' }],
+        ['name が数値', { system: 'jupiter', name: 12 }],
+      ];
+      for (const [w, o] of neg) { const r = V(o); if (r.ok) bad.push('拒否されるべきが受理: ' + w); }
+      const pos = [
+        ['最小(系のみ)', { system: 'jupiter' }, s => s.spec.system === 'jupiter' && !s.spec.bodies],
+        ['部分選択+変種', { system: 'jupiter', bodies: ['io', 'europa'], variant: 'kf0' },
+          s => s.spec.bodies.length === 2 && s.spec.variant === 'kf0'],
+        ['環を含む選択', { system: 'saturnMoons', bodies: ['titan', 'rings'] }, s => s.spec.bodies.length === 2],
+        ['名前と説明つき', { system: 'solarInner', name: '内惑星', description: '説明' },
+          s => s.spec.name === '内惑星' && s.spec.description === '説明'],
+        ['カタログ外の明示', { system: null, reason: '冥王星はカタログにありません' },
+          s => s.outOfCatalog === true && s.reason.length > 0],
+      ];
+      for (const [w, o, chk] of pos) {
+        const r = V(o);
+        if (!r.ok) bad.push(`受理されるべきが拒否: ${w}(${r.errors.join('|')})`);
+        else if (!chk(r)) bad.push('受理後の正規化が期待と違う: ' + w);
+      }
+      // カタログ仕様プロンプトに「数値を出すな」「カタログID」の指示と全系IDが載っている
+      const pr = HP.getAstroSystemPrompt();
+      const idsOk = Object.keys(HP.ASTRO_CATALOG).every(k => pr.includes(k));
+      const ruleOk = /数値を1つも出力してはいけません|Never output a number/.test(pr)
+        && /"system":null/.test(pr);
+      if (!idsOk) bad.push('カタログ仕様プロンプトに全系IDが載っていない');
+      if (!ruleOk) bad.push('カタログ仕様プロンプトに数値禁止/カタログ外規定が無い');
+      return { bad, nNeg: neg.length, nPos: pos.length, promptLen: pr.length,
+        mode: HP.aiGenMode(), defModel: HP.AI_PROVIDERS.anthropic.defModel,
+        fb: HP.aiFallbackModel(HP.AI_PROVIDERS.anthropic.defModel),
+        fbHaiku: HP.aiFallbackModel('claude-haiku-4-5'), fbOpus: HP.aiFallbackModel('claude-opus-5') };
+    });
+    // 既定モデル(第170便で Sonnet 5 へ引き上げ)と、検証失敗時の**上位エスカレーション**先
+    // (統括再裁定: sonnet-5 → opus-5)も同じゲートで機械固定する
+    add('ai.schema-validation', sch.bad.length === 0 && sch.mode === 'catalog'
+      && sch.defModel === 'claude-sonnet-5' && sch.fb === 'claude-opus-5'
+      && sch.fbHaiku === 'claude-sonnet-5' && sch.fbOpus === null,
+      `否定対照=${sch.nNeg}件 全て拒否・正例=${sch.nPos}件 全て受理・カタログ仕様=${sch.promptLen}字・` +
+      `既定モード=${sch.mode}・既定モデル=${sch.defModel}→フォールバック=${sch.fb}` +
+      `(haiku-4-5→${sch.fbHaiku}・opus-5→${sch.fbOpus}=連鎖なし)` +
+      `${sch.bad.length ? ' NG=[' + sch.bad.slice(0, 6).join(' / ') + ']' : ''}`);
+  } else {
+    console.log('SKIP ai.catalog-integrity / ai.placement-determinism / ai.schema-validation(対象に実天体カタログなし — 第170便 未適用の root 等)');
+  }
+}
+
 // ---- 7s3) 第110便: ①physLock UI改良 — ロック中は導出値 Kt の行をグレーアウト(disabled+
 // ----   lockedRow)・別プリセット読込でロック自動解除(持ち越しによる意図しない Kt 上書きの
 // ----   防止)・ロック状態のセーブ保存/読込復元(キー無しの旧セーブ=解除)②λPN 連続化 —
@@ -15539,6 +15751,9 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     { json: 'coreshell6-results.json', harness: 'tests/exp-coreshell6.mjs' },
     { json: 'qexact-results.json', harness: 'tests/exp-qexact.mjs' },
     { json: 'isog-results.json', harness: 'tests/exp-isog.mjs' },
+    { json: 'p2sens-results.json', harness: 'tests/exp-p2sens.mjs' },
+    { json: 'coreshell7-results.json', harness: 'tests/exp-coreshell7.mjs' },
+    { json: 'kf1sens-results.json', harness: 'tests/exp-kf1sens.mjs' },
   ];
   const SENTINELS = ['not-applicable', 'not-instrumented', 'unavailable'];
   const isHex = (v, n) => typeof v === 'string' && new RegExp(`^[0-9a-f]{${n}}$`).test(v);
@@ -15781,6 +15996,198 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       ` / 台帳の主成分の計装=${sum.coreComponentsInstrumented ?? '?'}/${sum.coreComponentsTotal ?? '?'}` +
       `(主張=${sum.claimCount ?? '?'}行・新規シミュレーション ${doc && doc.provenance ? doc.provenance.newSimulations : '?'} 件 —` +
       ` 数値はすべてコミット済み結果 JSON からの機械集計で、生成器に実測値の数値リテラルは無い)`);
+  }
+}
+
+// ---- 87b) 第167便(論文2 感度分析): p2sens.papersync — 論文2 本文・小表の転記数値が
+// ----      tests/out/p2sens-results.json の paperSync ブロック(expectedTable 30値+本文リテラル5種)と
+// ----      一致することの**その場再照合**。実測数値の手書き・将来の tex 編集による乖離を機械検出する。
+// ----      DOM 不要のファイル読みゲート(QA_FAST でも判定・root/beta 共通)。
+{
+  const P2S = path.join(ROOT, 'tests', 'out', 'p2sens-results.json');
+  let problems = [];
+  let checked = 0;
+  try {
+    const doc = JSON.parse(fs.readFileSync(P2S, 'utf8'));
+    const ps = doc.paperSync;
+    if (!ps || ps.result !== 'PASS') problems.push(`paperSync.result=${ps ? ps.result : '欠落'}`);
+    for (const f of (ps && ps.files) || []) {
+      const tex = fs.readFileSync(path.join(ROOT, f.path), 'utf8');
+      const m = tex.match(/% BEGIN p2sens-table([\s\S]*?)% END p2sens-table/);
+      const block = m ? m[1] : '';
+      if (!m) problems.push(`${f.path}: p2sens-table ブロック欠落`);
+      for (const row of (ps.expectedTable || [])) {
+        for (const cell of row.cells) {
+          checked++;
+          if (block && !block.includes(cell)) problems.push(`${f.path}: 表値 ${cell}(Dκ=${row.dkt})欠落`);
+        }
+      }
+      for (const [k, lit] of Object.entries(ps.literals || {})) {
+        checked++;
+        if (!tex.includes(lit)) problems.push(`${f.path}: 本文リテラル ${k}=${lit} 欠落`);
+      }
+    }
+  } catch (e) { problems.push(`読取失敗: ${e.message}`); }
+  add('p2sens.papersync', problems.length === 0,
+    `論文2 en/ja の p2sens 転記(表30値+リテラル5種 — 検査 ${checked} 項目)が ` +
+    `tests/out/p2sens-results.json の paperSync ブロックとその場一致すること` +
+    (problems.length ? ` / 不備=[${problems.slice(0, 5).join(' | ')}]` : ''));
+}
+
+// ---- 87) 第171便(原仮定者報告「粒子が多いサンプルで fps が低い・操作レスポンスを良くしたい」):
+// ----     ui.input-responsive — 「操作レスポンスの分離」機構の**構造検査**。
+// ----     タイミング閾値の E2E ゲートは置かない(ヘッドレスCIの実機代表性が低い — perf.mjs の
+// ----     描画ゲート不採用〔第25次裁定〕と同じ理由)。実測レイテンシ・描画間隔は detail と
+// ----     結果JSONに**記述として**残すだけで、合否には一切使わない。判定するのは次の3点:
+// ----       (a) カメラ即時反映パス: 合成 mousedown+mousemove を**同期ディスパッチ**した
+// ----           その場で、①カメラ状態が動き ②sim.t が 1step も進まず ③rAF の正規描画も
+// ----           挟まらず ④キャンバスの画素が実際に変わる(= 入力イベントの中で再合成された)
+// ----       (b) フレーム予算: 定数宣言 FRAME_BUDGET_MS が在り、予算 0 では要求 k>1 に対し
+// ----           実行 1 步へ適応的に切り詰め、予算∞では一度も切り詰めない(対照)
+// ----       (c) ドラッグ中抑制: 既定 ON・共通設定チェックボックスで切替可・抑制中も
+// ----           running と ▶/⏸ の表示は不変(ユーザーのポーズとは別の内部抑制)。
+// ----           **否定対照**: 抑制を OFF にすると (c) の「ドラッグ中は t が凍る」検査が
+// ----           成立しない(= ドラッグ中も t が進む)ことをその場で実測する
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const constDecl = /const FRAME_BUDGET_MS = (\d+);/.exec(html);
+  const hasPreview = /function camPreview\(\)/.test(html);
+  if (constDecl && hasPreview) {
+    const ip = await browser.newPage();
+    const ipErr = [];
+    ip.on('pageerror', (e) => ipErr.push(String(e)));
+    await ip.goto(INDEX, { waitUntil: 'load' });
+    await ip.waitForFunction(() => !!(window.HP && HP.sim));
+    const r = await ip.evaluate(async () => {
+      const sleep = (ms) => new Promise((s) => setTimeout(s, ms));
+      const need = ['camPreview', 'captureCamSnapshot', 'camGestureActive', 'physSuppressed',
+        'camState', 'frameBudget', 'frameBudgetDefault', 'setFrameBudget',
+        'dragPause', 'setDragPause', 'inputStats'];
+      const out = { api: need.filter((k) => typeof HP[k] !== 'function') };
+      out.budget = HP.frameBudget(); out.budgetDefault = HP.frameBudgetDefault();
+      out.dragDefault = HP.dragPause();
+      const cbEl = document.querySelector('#dragPauseCb');
+      out.cb = { exists: !!cbEl, checked: !!(cbEl && cbEl.checked) };
+      const cvEl = document.getElementById('cv');
+      const gx = cvEl.getContext('2d');
+      // 画素の指紋(全画素は重いので約1/1024 間隔で拾う)
+      const px = () => { const d = gx.getImageData(0, 0, cvEl.width, cvEl.height).data;
+        let h = 2166136261; for (let i = 0; i < d.length; i += 4093) h = ((h ^ d[i]) * 16777619) >>> 0; return h; };
+      const rc = cvEl.getBoundingClientRect();
+      const cx = Math.round(rc.left + rc.width / 2), cy = Math.round(rc.top + rc.height / 2);
+      const down = (x, y) => cvEl.dispatchEvent(new MouseEvent('mousedown', { clientX: x, clientY: y, bubbles: true }));
+      const move = (x, y) => window.dispatchEvent(new MouseEvent('mousemove', { clientX: x, clientY: y, bubbles: true }));
+      const up = (x, y) => window.dispatchEvent(new MouseEvent('mouseup', { clientX: x, clientY: y, bubbles: true }));
+      // 粒子の多い代表サンプル(381体)で、実行中(rAF が回っている)状態を作る
+      HP.loadPreset('galaxyDB', false);
+      HP.setRunning(true);
+      await sleep(500);
+
+      // ---- (a) カメラ即時反映パス ----
+      const h0 = px();
+      const s0 = HP.inputStats(), c0 = HP.camState(), t0 = HP.sim.t, rn0 = HP.stats().renderCount;
+      const w0 = performance.now();
+      down(cx, cy); move(cx + 80, cy + 50);          // ← ここは完全に同期(間に rAF は入れない)
+      const w1 = performance.now();
+      const s1 = HP.inputStats(), c1 = HP.camState(), t1 = HP.sim.t, rn1 = HP.stats().renderCount;
+      const h1 = px();
+      out.a = { dx: c1.x - c0.x, dy: c1.y - c0.y,
+        camMoved: Math.abs(c1.x - c0.x) > 1e-9 && Math.abs(c1.y - c0.y) > 1e-9,
+        noStep: t1 === t0, noFullRender: rn1 === rn0,
+        previews: s1.previews - s0.previews, pixelsChanged: h0 !== h1,
+        syncMs: +(w1 - w0).toFixed(2), previewMs: +s1.lastPreviewMs.toFixed(2) };
+
+      // ---- (c1) 抑制 ON(既定): ドラッグ中は座標時間が凍る・UI のポーズ表示は不変 ----
+      const btn = document.querySelector('#btnPlay');
+      const label0 = btn.textContent, cls0 = btn.classList.contains('playing');
+      const tA = HP.sim.t; const rA = HP.stats().renderCount;
+      await sleep(600);
+      const tB = HP.sim.t; const rB = HP.stats().renderCount;
+      out.c = { frozen: +(tB - tA).toFixed(9), runningDuringDrag: HP.running(),
+        suppressed: HP.physSuppressed(), labelSame: btn.textContent === label0 && btn.classList.contains('playing') === cls0,
+        rendersWhileDragging: rB - rA };
+      up(cx + 80, cy + 50);
+      await sleep(600);
+      out.c.resumed = +(HP.sim.t - tB).toFixed(6);
+
+      // ---- (c2) 否定対照: 抑制 OFF ではドラッグ中も座標時間が進む(= 上の検査が成立しない)----
+      HP.setDragPause(false);
+      out.c.offFlag = HP.dragPause();
+      down(cx, cy); move(cx + 20, cy + 20);
+      const tC = HP.sim.t; const rC = HP.stats().renderCount;
+      await sleep(600);
+      const tD = HP.sim.t; const rD = HP.stats().renderCount;
+      out.c.ctrlAdvanced = +(tD - tC).toFixed(6);
+      out.c.ctrlSuppressed = HP.physSuppressed();
+      out.c.ctrlRendersWhileDragging = rD - rC;
+      up(cx + 20, cy + 20);
+      HP.setDragPause(true);
+      out.c.restored = HP.dragPause();
+      // チェックボックスからの切替も効く(UI 経路の確認)
+      cbEl.checked = false; cbEl.dispatchEvent(new Event('change'));
+      out.cb.toggledOff = HP.dragPause() === false;
+      cbEl.checked = true; cbEl.dispatchEvent(new Event('change'));
+      out.cb.toggledOn = HP.dragPause() === true;
+
+      // ---- (b) フレーム予算の適応 ----
+      await sleep(300);   // ジェスチャ保持時間(CAM_GESTURE_MS)を抜けてから測る
+      HP.setFrameBudget(0);
+      const p0 = HP.inputStats(); await sleep(600); const p1 = HP.inputStats();
+      out.b = { trims0: p1.budgetTrims - p0.budgetTrims, wanted0: p1.lastWanted, run0: p1.lastRun };
+      HP.setFrameBudget(1e9);
+      const q0 = HP.inputStats(); await sleep(600); const q1 = HP.inputStats();
+      out.b.trimsInf = q1.budgetTrims - q0.budgetTrims;
+      out.b.wantedInf = q1.lastWanted; out.b.runInf = q1.lastRun;
+      HP.setFrameBudget(HP.frameBudgetDefault());
+      out.b.restored = HP.frameBudget();
+      const d0 = HP.inputStats(); await sleep(600); const d1 = HP.inputStats();
+      out.b.trimsDefault = d1.budgetTrims - d0.budgetTrims;
+      out.b.wantedDefault = d1.lastWanted; out.b.runDefault = d1.lastRun;
+      out.b.physMs = +d1.lastPhysMs.toFixed(2);
+      HP.setRunning(false);
+      return out;
+    });
+    await ip.close();
+    const chk = {
+      api: r.api.length === 0,
+      // (a) 入力イベントの中でカメラが動き・物理は1步も進まず・正規描画も挟まらず・画素が変わる
+      camImmediate: r.a.camMoved && r.a.noStep && r.a.noFullRender
+        && r.a.previews >= 1 && r.a.pixelsChanged,
+      // (b) 予算定数の宣言+適応(予算0で k>1 → 1步へ切詰め / 予算∞では一度も切詰めない)
+      budgetConst: +constDecl[1] > 0 && r.budget === +constDecl[1] && r.budgetDefault === +constDecl[1],
+      budgetAdaptive: r.b.wanted0 > 1 && r.b.run0 === 1 && r.b.trims0 >= 1,
+      budgetControl: r.b.trimsInf === 0 && r.b.runInf === r.b.wantedInf && r.b.wantedInf > 1,
+      budgetRestored: r.b.restored === r.budgetDefault,
+      // (c) 抑制の既定 ON・切替可・ポーズ表示との非干渉
+      dragDefaultOn: r.dragDefault === true && r.cb.exists && r.cb.checked === true,
+      dragToggle: r.cb.toggledOff === true && r.cb.toggledOn === true && r.c.offFlag === false && r.c.restored === true,
+      dragFreezes: r.c.frozen === 0 && r.c.suppressed === true && r.c.rendersWhileDragging > 0,
+      pauseUiIntact: r.c.runningDuringDrag === true && r.c.labelSame === true,
+      dragResumes: r.c.resumed > 0,
+      // 否定対照: 抑制 OFF では「ドラッグ中は凍る」が成立しない
+      negControl: r.c.ctrlAdvanced > 0 && r.c.ctrlSuppressed === false,
+      noPageErrors: ipErr.length === 0 };
+    const ng = Object.keys(chk).filter((k) => !chk[k]);
+    add('ui.input-responsive', ng.length === 0,
+      `(a)即時反映: 合成 mousedown+mousemove の同期ディスパッチ内で カメラ移動=` +
+      `(${r.a.dx.toFixed(3)},${r.a.dy.toFixed(3)})・sim.t 不変=${r.a.noStep}・正規描画なし=${r.a.noFullRender}・` +
+      `即時合成回数=${r.a.previews}・画素変化=${r.a.pixelsChanged}` +
+      `【記述のみ・判定せず: 入力→画面の同期所要 ${r.a.syncMs}ms(うち合成 ${r.a.previewMs}ms)】 / ` +
+      `(b)予算: 宣言 FRAME_BUDGET_MS=${constDecl[1]}ms(実行時 ${r.budget}ms)・` +
+      `予算0 → 要求${r.b.wanted0}步/実行${r.b.run0}步・切詰め${r.b.trims0}回、` +
+      `予算∞ → 要求${r.b.wantedInf}步/実行${r.b.runInf}步・切詰め${r.b.trimsInf}回(対照)、` +
+      `既定復帰=${r.b.restored}ms【記述のみ: 既定予算での切詰め${r.b.trimsDefault}回・` +
+      `直近フレームの物理 ${r.b.physMs}ms(ヘッドレス実測 — 実機値ではない)】 / ` +
+      `(c)抑制: 既定ON=${r.dragDefault}・チェックボックス=${r.cb.exists}(既定${r.cb.checked})で切替可=` +
+      `${r.cb.toggledOff && r.cb.toggledOn}・ドラッグ中Δt=${r.c.frozen}(0)・その間の描画=` +
+      `${r.c.rendersWhileDragging}回(>0 = 描画は死んでいない)・running=${r.c.runningDuringDrag}・` +
+      `▶/⏸表示不変=${r.c.labelSame}・離した後Δt=${r.c.resumed}(>0) / ` +
+      `否定対照(抑制OFF): ドラッグ中Δt=${r.c.ctrlAdvanced}(>0 = 凍結検査が成立しない)・` +
+      `physSuppressed=${r.c.ctrlSuppressed}・その間の描画=${r.c.ctrlRendersWhileDragging}回` +
+      (ipErr.length ? ` / pageErrors=[${ipErr.slice(0, 2).join(' | ')}]` : '') +
+      (ng.length ? ` / NG=${ng.join(',')}` : ''));
+  } else {
+    console.log('SKIP ui.input-responsive(対象に第171便の操作レスポンス分離なし — root 等)');
   }
 }
 

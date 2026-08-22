@@ -1,4 +1,18 @@
 // 第166便 error budget(誤差予算)の形式化 — 既存の結果 JSON からの機械集計
+// 第169便 v2 拡張(schemaVersion 1.0 → 1.1・**後方互換の追加のみ**)
+// ============================================================================================
+// v2(第169便)で足したもの — 行構成(5主張)・既存キー・既存の判定窓は一切変えていない:
+//   ① 🪨 水星 / 🌘 地球月 / 💿 土星環 の主成分 dtConvergence・windowSensitivity を、
+//      第169便 tests/exp-kf1sens.mjs の実測(dt×{0.5,2}・測定窓×{0.5,2})で**実データ化**した。
+//      v1 ではこの6マスが "not-instrumented"(単一 dt・単一窓でしか走っていない)だった。
+//      → 主成分の計装は 8/25 から 14/25 へ増える(数え上げは summary が機械集計する)。
+//   ② 4主張(🪨🌘💿🟠)へ追加成分 `qFormSensitivity` を新設した。第164便 tests/exp-qexact.mjs の
+//      「qLock 則 q* を厳密一致式 q_exact へ置換した再走行」から、観測量の相対差を機械読取する。
+//      🪨 と 💿(a=80)の行にはさらに **q_exact 走行値の現行 claims 窓に対する余裕(margin)** を
+//      機械計算して収載し、結論フィールド `qExactStillWithinWindow` を持たせる。
+//      窓の数値は claims(対象 HTML から機械読み取りした qexact JSON の claimWindows)から読む —
+//      本ファイルにはハードコードしない。
+//   ③ qLock 径方向監査の行は v1 のまま(変更なし)。
 // ============================================================================================
 // 目的: 外部レビュー(2026-08-22 Grok「a more formal error budget would strengthen the claims」)
 //   への恒久対応。較正・ホールドアウト主張ごとに「主観測量はいくつで、その不確かさは
@@ -28,7 +42,16 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 export const SCHEMA = 'dfm-error-budget';
-export const SCHEMA_VERSION = '1.0';
+export const SCHEMA_VERSION = '1.1';
+// スキーマの版歴(後方互換の追加のみ — 行構成・既存キー・既存の判定窓は不変)
+export const SCHEMA_HISTORY = [
+  { version: '1.0', wave: 166, change: '初版 — 5主張 × 主成分5件の台帳を新設' },
+  { version: '1.1', wave: 169,
+    change: '🪨🌘💿 の dtConvergence / windowSensitivity を第169便 exp-kf1sens の実測で実データ化' +
+      '(センチネル → instrumented)。🪨🌘💿🟠 へ追加成分 qFormSensitivity を新設し、' +
+      '🪨 と 💿(a=80)には q_exact 走行値の現行 claims 窓に対する余裕と結論 ' +
+      'qExactStillWithinWindow を機械計算で収載。行構成・既存キー・窓の数値は不変' },
+];
 
 // 明示値のセンチネル(tests/manifest.mjs の語彙をそのまま踏襲 — 語彙外の逃げ口上を作らない)
 export const NOT_APPLICABLE = 'not-applicable';
@@ -59,6 +82,9 @@ const SRC_FILES = {
   jup365: 'tests/out/jup365-results.json',
   jupseeds: 'tests/out/jupseeds-results.json',
   qlockradial: 'tests/out/qlockradial-results.json',
+  // v2(第169便)で追加した出典 — いずれも既存の実測正本(本台帳は1 bit も書き換えない)
+  qexact: 'tests/out/qexact-results.json',
+  kf1sens: 'tests/out/kf1sens-results.json',
 };
 
 const OUT_REL = 'tests/out/error-budget.json';
@@ -113,6 +139,125 @@ const srcRef = (src, keys) => keys.map((k) => ({
   file: src[k].file, sha256: src[k].sha256, bytes: src[k].bytes,
   experimentId: src[k].experimentId, wave: src[k].wave,
 }));
+
+// =============================================================================================
+// v2(第169便)の共通部品 — 第169便 exp-kf1sens / 第164便 exp-qexact からの機械読取
+// =============================================================================================
+
+// ---- 感度軸(dt / 窓)の成分を kf1sens-results.json から組み立てる --------------------------
+// 数値は 1 つも書かない。系キー・軸キーだけを渡し、行も床も出典 JSON の構造をそのまま畳む。
+const AXIS_LABEL = { dt: '步幅 dt', window: '測定窓' };
+function sensComponent(src, sysKey, axisKey) {
+  const ks = src.kf1sens.json;
+  const s = (ks.systems || {})[sysKey];
+  if (!s || !s.KW2 || !s.KW2[axisKey]) {
+    return notInstrumented(
+      `第169便 exp-kf1sens の出力に systems.${sysKey}.KW2.${axisKey} が無い(出典 JSON の構造が想定と違う)`,
+      { pointer: ptr('kf1sens', `systems.${sysKey}.KW2.${axisKey}`) });
+  }
+  const ax = s.KW2[axisKey];
+  const pk = s.primaryObservableKey;
+  // 床の要約(「数値床併記」— 測れた床は値を、測っていない床は固定語彙のステータスを載せる)
+  const floorRow = (v) => {
+    const f = v.floors || {};
+    const pick = (k) => {
+      const b = f[k];
+      if (!b) return UNAVAILABLE;
+      return b.status === INSTRUMENTED
+        ? (b.value === undefined ? INSTRUMENTED : b.value)
+        : b.status;
+    };
+    return { tag: v.tag, periodResolutionFloorRel: pick('periodResolutionFloorRel'),
+      apsidalUlpFloor: pick('apsidalUlpFloor'),
+      lsqSampleCount: (f.apsidalLsq && f.apsidalLsq.nSamples) !== undefined
+        ? f.apsidalLsq.nSamples : NOT_APPLICABLE,
+      integrationSteps: v.steps };
+  };
+  return instrumented({
+    note: `${AXIS_LABEL[axisKey]}を正本設定から振り直して同一構成を測り直したときの観測量の動き` +
+      '(第169便 exp-kf1sens.mjs — 物理キー・較正値・判定窓はすべて不変で、動かしたのは測定器側の設定だけ)',
+    pointer: ptr('kf1sens', `systems.${sysKey}.KW2.${axisKey}`),
+    preRegisteredRule: ks.preRegistered.KW2.verbatim,
+    axisApplication: ks.preRegistered.KW2.axisApplication[axisKey],
+    observableKeys: s.observableKeys,
+    primaryObservableKey: pk,
+    observableUnits: s.observableUnits,
+    baseline: ax.baseline,
+    rows: ax.variants.map((v) => ({ tag: v.tag, dt: v.dt, dtFactor: v.dtFactor,
+      window: v.window, windowFactor: v.windowFactor, steps: v.steps,
+      observables: v.observables, relToBaseline: v.relToBaseline })),
+    maxAbsRelDiff: ax.maxAbsRelDiff,
+    maxAbsRelDiffPrimary: ax.maxAbsRelDiff[pk],
+    maxAbsRelDiffOverall: ax.maxAbsRelDiffOverall,
+    numericalFloors: { rule: ks.preRegistered.KW2.floorRule, rows: ax.variants.map(floorRow) },
+    baselineTranscription: {
+      note: '正本設定での基線再測が kf1c/kf1d の対応値とビット一致するか(KW1 — 感度の基準点が' +
+        '既存の実測正本と同一実体であることの機械証拠)',
+      rule: ks.preRegistered.KW1.verbatim,
+      allIdentical: s.KW1.allIdentical,
+      nFieldsCompared: s.KW1.pairs.reduce((a, p) => a + p.rows.length, 0) + s.KW1.derivedChecks.length,
+      pointer: ptr('kf1sens', `systems.${sysKey}.KW1`),
+      targetAllSame: ks.kw1Summary.targetAllSame,
+    },
+    determinism: { result: ks.kw3.result, identical: ks.kw3.identical, sha256: ks.kw3.sha256,
+      pointer: ptr('kf1sens', 'kw3') },
+  });
+}
+
+// ---- 窓に対する余裕(margin)の機械計算 ------------------------------------------------------
+// 窓 {min,max} と実測値から、余裕・窓内かどうかを機械で出す。窓の数値は呼び出し側が
+// 出典 JSON(claims の機械読み取り)から渡す — 本ファイルには窓の数値リテラルを置かない。
+function marginAgainstWindow(value, win, useAbs) {
+  if (typeof value !== 'number' || !Number.isFinite(value) || !win
+    || typeof win.min !== 'number' || typeof win.max !== 'number') {
+    return { status: UNAVAILABLE, note: '値または窓が数値として取得できない', value, window: win || UNAVAILABLE };
+  }
+  const v = useAbs ? Math.abs(value) : value;
+  const width = win.max - win.min;
+  const toMin = v - win.min, toMax = win.max - v;
+  return {
+    status: INSTRUMENTED,
+    comparedValue: v, rawValue: value, usedAbsoluteValue: useAbs === true, window: win,
+    within: v >= win.min && v <= win.max,
+    distanceToMin: toMin, distanceToMax: toMax,
+    relMarginToMin: win.min === 0 ? UNAVAILABLE : toMin / Math.abs(win.min),
+    relMarginToMax: win.max === 0 ? UNAVAILABLE : toMax / Math.abs(win.max),
+    nearestEdge: Math.abs(toMin) <= Math.abs(toMax) ? 'min' : 'max',
+    distanceToNearestEdge: Math.min(Math.abs(toMin), Math.abs(toMax)),
+    fractionOfWindowWidth: width === 0 ? UNAVAILABLE : toMin / width,
+    marginInWindowWidths: width === 0 ? UNAVAILABLE : Math.min(Math.abs(toMin), Math.abs(toMax)) / width,
+  };
+}
+
+// ---- q 規約の感度成分(q* → q_exact 置換)を qexact-results.json から組み立てる ---------------
+// margin: { window, valueQExact, valueQStar, useAbs, label } を渡した行だけ窓余裕を機械計算する。
+function qFormComponent(src, sysKey, extra) {
+  const qx = src.qexact.json;
+  const s = (qx.systems || {})[sysKey];
+  if (!s) {
+    return notInstrumented(
+      `第164便 exp-qexact の出力に systems.${sysKey} が無い(出典 JSON の構造が想定と違う)`,
+      { pointer: ptr('qexact', `systems.${sysKey}`) });
+  }
+  return instrumented({
+    note: 'qLock 則 q*(遠方近似)を厳密一致式 q_exact へ**q だけ**置換して同一構成を再走行した' +
+      'ときの観測量の動き(第164便 exp-qexact.mjs — 他のパラメータ・判定窓はすべて不変・再フィットなし)。' +
+      '「規約の選択」という系統誤差の成分である',
+    pointer: ptr('qexact', `systems.${sysKey}`),
+    preRegisteredRule: qx.preRegistered.QW2.verbatim,
+    qForms: { qStar: s.q.qStar, qExact: s.q.qExact,
+      finiteRadiusCorrection: s.q.finiteRadiusCorrection,
+      formula: s.q.note, pointer: ptr('qexact', `systems.${sysKey}.q`) },
+    relDiffToQStar: s.QW2,
+    windowVerdictUnderQExact: { pass: s.QW1.pass, baselinePass: s.QW1.baselinePass,
+      windowSource: s.window.source, pointer: ptr('qexact', `systems.${sysKey}.QW1`) },
+    baselineTranscription: { note: '基線(q*)再測が kf1c/kf1d/jupiter の対応値とビット一致するか',
+      bitCheck: s.baselineBitCheck, targetAllSame: qx.targetConsistency.allSame },
+    determinism: { result: qx.qw3.result, identical: qx.qw3.identical, sha256: qx.qw3.sha256,
+      pointer: ptr('qexact', 'qw3') },
+    ...(extra || {}),
+  });
+}
 
 // =============================================================================================
 // 主張1: ☄️🪨 水星近点 — 引きずり歳差の較正値と事前登録窓
@@ -189,12 +334,8 @@ function claimMercury(src) {
         '本ハーネスは1步あたりの引きずり増分と速度 1 ulp の比(数値床)を記録していない。' +
         '記録しているのは軌道要素のドリフト(eDrift・amp)と NaN フラグだけである',
         { nanFlags: arms.map((a) => ({ arm: a.arm, nan: a.nan })), healthPointer: ptr('kf1c', 'manifest.health') }),
-      dtConvergence: notInstrumented(
-        '両ハーネスとも単一の dt で走っており、dt を半分にした収束点を持たない(dt 掃引は未計装)',
-        { dtKf1c: kf1c.manifest.numerics.dt, dtKf1d: kf1d.manifest.numerics.dt, distinctDtValues: new Set([kf1c.manifest.numerics.dt, kf1d.manifest.numerics.dt]).size }),
-      windowSensitivity: notInstrumented(
-        '測定窓は1種類だけで、長窓との比較を取っていない(窓を変えたときの感度は未計装)',
-        { window: kf1c.manifest.numerics.window, windowPointer: ptr('kf1c', 'manifest.numerics.window') }),
+      dtConvergence: sensComponent(src, 'mercury', 'dt'),
+      windowSensitivity: sensComponent(src, 'mercury', 'window'),
       sourceSpread: notInstrumented(
         '比較先は 1PN 解析値の単一ソースで、複数の観測ソースを突き合わせていない(ソース差は未計装)',
         { externalReferences: kf1c.manifest.judgement.externalReferences }),
@@ -230,6 +371,32 @@ function claimMercury(src) {
           { name: 'kf1c: derivation.A3 = 最小 q アームの drag', ok: mq.derivation.A3 === arms[0].drag },
         ],
       }),
+      qFormSensitivity: (() => {
+        const qx = src.qexact.json;
+        const s = qx.systems.mercury;
+        // 窓の数値は claims の機械読み取り(qexact が実行時に対象 HTML から読んだもの)から取る。
+        const claimWin = qx.claimWindows.mercuryDrag;
+        const win = claimWin ? claimWin.expected : null;
+        const mQExact = marginAgainstWindow(s.QW1.observable, win, true);
+        const mQStar = marginAgainstWindow(s.dragQStar, win, true);
+        return qFormComponent(src, 'mercury', {
+          windowReconfirmation: {
+            note: 'q_exact 走行値の**現行 claims 窓に対する余裕**の機械計算(窓の数値は動かしていない —' +
+              'qexact が実行時に対象 HTML の claims から読み取った expected をそのまま使う)',
+            windowSource: claimWin === null ? UNAVAILABLE : {
+              presetId: claimWin.presetId, claimId: claimWin.claimId, metric: claimWin.metric,
+              expected: claimWin.expected, pointer: ptr('qexact', 'claimWindows.mercuryDrag.expected'),
+            },
+            windowMatchesSystemBlock: claimWin !== null && s.window.expected
+              && s.window.expected.min === claimWin.expected.min
+              && s.window.expected.max === claimWin.expected.max,
+            atQExact: mQExact,
+            atQStarBaseline: mQStar,
+            qExactStillWithinWindow: mQExact.status === INSTRUMENTED ? mQExact.within : UNAVAILABLE,
+            alsoPassKf1cD1AtQExact: s.QW1.alsoPassKf1cD1,
+          },
+        });
+      })(),
     }),
     verdictPointer: ptr('kf1c', 'tests.joint'),
   };
@@ -304,12 +471,8 @@ function claimEarthMoon(src) {
       numericalFloor: notInstrumented(
         '周期・Δϖ の分解能床(通過時刻の量子化・1 ulp 比)を記録していない',
         { nanFlags: arms.map((a) => ({ arm: a.arm, nan: a.nan })), healthPointer: ptr('kf1c', 'manifest.health') }),
-      dtConvergence: notInstrumented(
-        '単一 dt の走行で、dt 掃引の収束点を持たない',
-        { dtKf1c: kf1c.manifest.numerics.dt, dtKf1d: kf1d.manifest.numerics.dt, distinctDtValues: new Set([kf1c.manifest.numerics.dt, kf1d.manifest.numerics.dt]).size }),
-      windowSensitivity: notInstrumented(
-        '測定窓は1種類だけで、長窓との比較を取っていない',
-        { window: kf1c.manifest.numerics.window, windowPointer: ptr('kf1c', 'manifest.numerics.window') }),
+      dtConvergence: sensComponent(src, 'earthMoon', 'dt'),
+      windowSensitivity: sensComponent(src, 'earthMoon', 'window'),
       sourceSpread: notInstrumented(
         '恒星月・近点回転とも単一の観測アンカーで、複数ソースの突き合わせをしていない',
         { externalReferences: kf1c.manifest.judgement.externalReferences }),
@@ -341,6 +504,22 @@ function claimEarthMoon(src) {
         period: { kf1c: P === null ? UNAVAILABLE : P.Tavg, kf1d: qc.emQstar.Tavg,
           relDiff: P === null ? UNAVAILABLE : relDiff(qc.emQstar.Tavg, P.Tavg) },
       }),
+      qFormSensitivity: (() => {
+        const s = src.qexact.json.systems.earthMoon;
+        const win = s.window ? s.window.expected : null;   // 出典: exp-kf1c §D2(qexact JSON が転記)
+        const mQExact = marginAgainstWindow(s.ratioQExact, win, false);
+        const mQStar = marginAgainstWindow(s.ratioQStar, win, false);
+        return qFormComponent(src, 'earthMoon', {
+          windowReconfirmation: {
+            note: '🌘 の窓は claims ではなく tests/exp-kf1c.mjs §D2 の Δϖ比 帯である' +
+              '(qexact JSON の systems.earthMoon.window.expected を機械読取 — 窓は動かしていない)',
+            windowSource: s.window ? { source: s.window.source, expected: s.window.expected,
+              pointer: ptr('qexact', 'systems.earthMoon.window.expected') } : UNAVAILABLE,
+            atQExact: mQExact, atQStarBaseline: mQStar,
+            qExactStillWithinWindow: mQExact.status === INSTRUMENTED ? mQExact.within : UNAVAILABLE,
+          },
+        });
+      })(),
     }),
     verdictPointer: ptr('kf1c', 'tests.joint'),
   };
@@ -396,12 +575,8 @@ function claimSaturnRing(src) {
       numericalFloor: notInstrumented(
         '環プローブの1步あたり引きずり増分と 1 ulp の比を記録していない(NaN フラグのみ)',
         { nan: { kF0: ring.kF0.nan, q3: ring.q3.nan, qStarRun: ring.qStarRun.nan } }),
-      dtConvergence: notInstrumented(
-        '単一 dt の走行で、dt 掃引の収束点を持たない',
-        { dt: kf1d.manifest.numerics.dt, distinctDtValues: new Set([kf1d.manifest.numerics.dt]).size }),
-      windowSensitivity: notInstrumented(
-        '測定窓は1種類だけで、長窓との比較を取っていない',
-        { window: kf1d.manifest.numerics.window, windowPointer: ptr('kf1d', 'manifest.numerics.window') }),
+      dtConvergence: sensComponent(src, 'saturnRing', 'dt'),
+      windowSensitivity: sensComponent(src, 'saturnRing', 'window'),
       sourceSpread: notInstrumented(
         '環の軌道要素は内蔵プリセット由来の単一ソースで、別ソースとの突き合わせをしていない'),
       seedSpread: notInstrumented(
@@ -428,6 +603,37 @@ function claimSaturnRing(src) {
         holdOut: kf1d.manifest.classification.holdOut,
         pointer: ptr('kf1d', 'manifest.classification'),
       }),
+      qFormSensitivity: (() => {
+        const qx = src.qexact.json;
+        const s = qx.systems.saturnRing;
+        const claimWin = qx.claimWindows.ringApsidal;
+        const win = claimWin ? claimWin.expected : null;
+        const primaryA = s.QW1.probeA;
+        const primaryRow = (s.rows || []).find((r) => r.a === primaryA) || null;
+        const mQExact = marginAgainstWindow(s.QW1.observable, win, true);
+        const mQStar = marginAgainstWindow(primaryRow === null ? null : primaryRow.driftQStar, win, true);
+        return qFormComponent(src, 'saturnRing', {
+          windowReconfirmation: {
+            note: 'q_exact 走行値の**現行 claims 窓に対する余裕**の機械計算(窓の数値は動かしていない —' +
+              'qexact が実行時に対象 HTML の claims から読み取った expected をそのまま使う)。' +
+              '窓の適用先プローブは qexact の referentEvidence が機械同定したもの',
+            primaryProbeA: primaryA,
+            primaryProbeEvidence: s.window.referentEvidence,
+            windowSource: claimWin === null ? UNAVAILABLE : {
+              presetId: claimWin.presetId, claimId: claimWin.claimId, metric: claimWin.metric,
+              expected: claimWin.expected, pointer: ptr('qexact', 'claimWindows.ringApsidal.expected'),
+            },
+            windowMatchesSystemBlock: claimWin !== null && s.window.expected
+              && s.window.expected.min === claimWin.expected.min
+              && s.window.expected.max === claimWin.expected.max,
+            atQExact: mQExact,
+            atQStarBaseline: mQStar,
+            qExactStillWithinWindow: mQExact.status === INSTRUMENTED ? mQExact.within : UNAVAILABLE,
+            allProbesUnderQExact: (s.rows || []).map((r) => ({ a: r.a, absQExact: r.absQExact,
+              inWindow: r.inWindow, baselineInWindow: r.baselineInWindow, relDiff: r.relDiff })),
+          },
+        });
+      })(),
     }),
     verdictPointer: ptr('kf1d', 'tests.ring'),
   };
@@ -595,6 +801,26 @@ function claimJupiter(src) {
         sensitivity: SEN.determinism === undefined ? UNAVAILABLE
           : { bitIdentical: SEN.determinism.bitIdentical, maxAbsDiff: SEN.determinism.maxAbsDiff },
       }),
+      qFormSensitivity: (() => {
+        const s = src.qexact.json.systems.jupiter;
+        return qFormComponent(src, 'jupiter', {
+          windowReconfirmation: {
+            note: '🟠 の事前登録窓 JW2 は {min,max} の帯ではなく条件(NaN なし・|Δa|/a<2%・周期 ±1%)' +
+              'なので、帯に対する余裕という量が定義できない。条件に対する合否と、条件の各項の余裕に' +
+              '当たる最大値をそのまま収載する',
+            windowMargin: notApplicable(
+              'JW2 は帯ではなく条件なので min/max に対する余裕が定義できない',
+              { window: s.window.source }),
+            qExactStillWithinWindow: s.QW1.pass,
+            maxAbsPeriodDevPercentAtQExact: s.QW1.maxAbsDevPercent,
+            maxASpreadPercentAtQExact: s.QW1.maxASpreadPercent,
+            nanAtQExact: s.QW1.nan,
+            baselinePass: s.QW1.baselinePass,
+            declared2dpPass: s.QW1.declared2dpPass,
+            perMoon: s.QW1.rows,
+          },
+        });
+      })(),
     }),
     verdictPointer: ptr('jupiter', 'windows'),
   };
@@ -745,6 +971,9 @@ export function buildErrorBudget(root) {
         '"not-instrumented" は概念はあるが計装していない、"not-applicable" はその概念が当該主張に無い、の意である',
       componentKeys: COMPONENT_KEYS,
       requiredClaimFields: REQUIRED_CLAIM_FIELDS,
+      schemaHistory: SCHEMA_HISTORY,
+      extensionRule: '版を上げる拡張は**後方互換の追加のみ**とする(主張の行構成・既存キー・' +
+        '既存の判定窓・較正値は動かさない)。成分は主成分5件を固定順で置いたうえで追加成分を後ろへ連結する',
       sources: Object.keys(SRC_FILES).map((k) => ({
         key: k, file: src[k].file, sha256: src[k].sha256, bytes: src[k].bytes,
         experimentId: src[k].experimentId, wave: src[k].wave,

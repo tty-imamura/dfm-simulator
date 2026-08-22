@@ -1,0 +1,2723 @@
+{
+  "target": "index.html",
+  "wave": 169,
+  "title": "kf1 系3主張(🪨 水星近点・🌘 地球月2量・💿 土星環近点ドリフト)の dt 収束・測定窓感度の実測",
+  "preRegistered": {
+    "fixedBy": "統括(ハンドオフ 2026-08-22b §3b)",
+    "fixedBefore": "実測",
+    "designPrinciples": {
+      "twoKnobsOnly": "動かすのは **dt と測定窓の2軸だけ**。物理キー・較正値(D₀=0.006・f=0.9968)・ソフトニング・seed・体の初期条件・判定窓の数値はいずれも不変で、再フィットはゼロである。",
+      "windowsUnchanged": "既存の判定窓・較正値は一切変更しない。本便は窓を新設も再設定もしない。",
+      "noExistingFileTouched": "既存プリセット・既存結果 JSON・既存ハーネスは一切変更しない。本便は新規ファイル(tests/exp-kf1sens.mjs → tests/out/kf1sens-results.json)だけで完結する。",
+      "failIsData": "PASS/FAIL とも実測値をそのまま収載する(FAIL でも書き換えない)。"
+    },
+    "KW1": {
+      "role": "窓(転記照合)",
+      "verbatim": "KW1(転記照合): 基線再測(dt・窓とも正本設定)が kf1c/kf1d の対応値と**ビット一致**。",
+      "canonicalSettings": {
+        "mercury": "dt=0.016・8 公転(出典: tests/exp-kf1c.mjs runRL の dt と mkMerc の orbits:8 / tests/exp-kf1d.mjs §A も同一)",
+        "earthMoon": "dt=0.016・8 公転(出典: tests/exp-kf1c.mjs runRL の dt と mkEM の orbits:8)",
+        "saturnRing": "dt=0.016・6 × T(a=80)(出典: tests/exp-kf1d.mjs §B の run())"
+      },
+      "comparisonRule": "Object.is による厳密一致(±0 の別も区別する)。対象は両者に共通して存在する数値フィールドのみ(本便が追加した床の記録フィールドは照合対象外)。"
+    },
+    "KW2": {
+      "role": "記述(窓なし — 判定に使わない)",
+      "verbatim": "KW2(記述 — 窓なし): 3主張 × {dt/2(実行時間が許せば dt×2 も)・測定窓 ×0.5/×2(各ハーネスの窓定義に即して適用 — 適用不能な軸は not-applicable と宣言)} の観測量を収載し、基線との相対差を dtConvergence / windowSensitivity 成分として宣言(数値床併記)。",
+      "window": "なし(記述のみ — 合否は付けない)",
+      "axisApplication": {
+        "dt": "各ハーネスの dt(正本 0.016)へ係数を掛ける。步数は steps=ceil(公転数·T/dt) の定義式どおり自動で増減する(定義式は転記元のまま)。",
+        "window": "各ハーネスの窓定義そのものへ係数を掛ける — 🪨🌘 は「公転数」(正本 8)、💿 は「内縁 a=80 の公転数」(正本 6)。窓を変えると LSQ 標本の間引き幅 SAMPLE=max(1,floor(steps/4000)) も定義式どおり変わる(転記元の定義をそのまま使う)。"
+      },
+      "floorRule": "相対差の読み方を支えるため、測れる床は機械計算して併記し、測っていない床は not-instrumented と明示する。周期の分解能床は dt/(t_last−t_first)(公転通過時刻を補間せず步境界で拾う定義から出る量子化幅)。近点回転(RL 角の全步 LSQ)については、1步あたりの引きずり増分と速度 1 ulp の比を本ハーネス族は記録していない(kf1c/kf1d の health 宣言と同じ)。"
+    },
+    "KW3": {
+      "role": "窓(決定性)",
+      "verbatim": "KW3(決定性): 別プロセス2回実行の正規化 JSON SHA-256 一致(coreshell5 方式)。",
+      "canonicalization": "対象は out.systems(実測部)のみ。日時・環境・経過時間などの揮発キーはmeta / manifest 側にしか置かないので、対象内に除外すべき揮発値は存在しない"
+    },
+    "invariants": {
+      "verbatim": "既存プリセット・既存結果 JSON は不変(新規ファイルのみ)。基線再測が既存 JSON の対応値とビット一致するかも照合して収載(転記の機械証拠)。"
+    }
+  },
+  "targetConsistency": {
+    "target": "index.html",
+    "sha256Now": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+    "inputs": [
+      {
+        "path": "tests/out/kf1c-results.json",
+        "targetPath": "beta/index.html",
+        "targetSha256": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+        "sameAsNow": true
+      },
+      {
+        "path": "tests/out/kf1d-results.json",
+        "targetPath": "beta/index.html",
+        "targetSha256": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+        "sameAsNow": true
+      }
+    ],
+    "allSame": true,
+    "note": "入力 JSON の実測を出した対象 HTML の SHA-256 が、本便が実測する対象と同一実体かの照合。一致していれば「基線再測が既存 JSON とビット一致するか」が転記の正しさの証拠として機能する"
+  },
+  "provenanceInputs": [
+    {
+      "path": "tests/out/kf1c-results.json",
+      "sha256": "60c88b15fbc050284e89de1124d8a93247275289afb42bbc1daa5c5fc2e2a44c",
+      "bytes": 13965,
+      "wave": 122,
+      "targetPath": "beta/index.html",
+      "targetSha256": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+      "appVersion": "1.41",
+      "gitCommit": "fbaef3a4884f3499ba1d63612d4847fcae09200d",
+      "role": "第122便の実測正本(🪨 q スキャン §A・🌘 較正保存 §C・統合判定 §D の窓の出典)",
+      "mutated": false
+    },
+    {
+      "path": "tests/out/kf1d-results.json",
+      "sha256": "5ae1aefa605eaddbccb582d4e3b314a8a979ff9db28fe9eabcee417880f4763c",
+      "bytes": 10722,
+      "wave": 123,
+      "targetPath": "beta/index.html",
+      "targetSha256": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+      "appVersion": "1.41",
+      "gitCommit": "fbaef3a4884f3499ba1d63612d4847fcae09200d",
+      "role": "第123便の実測正本(qLock 則 q* の算出値・🪨🌘 の q* 走行 §A・💿 環系 §B の基線)",
+      "mutated": false
+    }
+  ],
+  "axes": [
+    {
+      "tag": "baseline",
+      "axis": "baseline",
+      "dtFactor": 1,
+      "winFactor": 1,
+      "isBaseline": true
+    },
+    {
+      "tag": "dt/2",
+      "axis": "dt",
+      "dtFactor": 0.5,
+      "winFactor": 1
+    },
+    {
+      "tag": "dt×2",
+      "axis": "dt",
+      "dtFactor": 2,
+      "winFactor": 1,
+      "optional": true
+    },
+    {
+      "tag": "窓×0.5",
+      "axis": "window",
+      "dtFactor": 1,
+      "winFactor": 0.5
+    },
+    {
+      "tag": "窓×2",
+      "axis": "window",
+      "dtFactor": 1,
+      "winFactor": 2
+    }
+  ],
+  "systems": {
+    "mercury": {
+      "emoji": "☄️🪨",
+      "label": "水星(実単位・kFrame=1)mercuryRealKF1 系",
+      "errorBudgetClaimId": "mercury-perihelion",
+      "harness": "tests/exp-kf1c.mjs §A の runRL/mkMerc(= tests/exp-kf1d.mjs §A の 🪨 構成)を逐語転記(dt を引数化した1点だけが差分)",
+      "config": {
+        "physics": {
+          "G": 6.674,
+          "D0": 0.006,
+          "kFrame": 1,
+          "q": 3,
+          "kRep": 0,
+          "muF": 0,
+          "gammaN": 0,
+          "kappaS": 0,
+          "Kt": 134851663.17051244,
+          "cLight": 30000,
+          "bM": 1,
+          "etaRad": 0,
+          "pRad": 4,
+          "gravityX": 0,
+          "gravityY": 0,
+          "massFloor": 0.000001,
+          "geoPN": 2,
+          "lambdaPN": 1,
+          "pnAlpha": 1.5,
+          "radiusScale": 1,
+          "softening": 0.05,
+          "timeScale": 1,
+          "stateCarry": "double"
+        },
+        "M": 1988.5,
+        "m2": 0.00033011,
+        "a": 579.09,
+        "e": 0.20563,
+        "rM": 6.95,
+        "r2": 0.0244,
+        "spinM": 0.029031,
+        "spin2": 0.0124,
+        "pin": true,
+        "orbitsCanonical": 8,
+        "dtCanonical": 0.016,
+        "seed": 1,
+        "qStar": 6.157793376601058,
+        "qStarSource": "tests/exp-kf1d.mjs §A qCalc(30000, 6.95, 6.674, 1988.5, 460.012)",
+        "q5": 5,
+        "q5Source": "tests/exp-kf1c.mjs §D1 の窓判定アーム(q=5)"
+      },
+      "primaryObservable": "引きずり歳差 Δϖ_drag = Δϖ(kF1,q) − Δϖ(kF0) [rad/公転]",
+      "primaryObservableKey": "dragQStar",
+      "observableKeys": [
+        "dragQStar",
+        "dragQ5",
+        "dPomKF0",
+        "dPomQStar",
+        "dPomQ5",
+        "TavgQStar",
+        "TavgKF0"
+      ],
+      "observableUnits": {
+        "dragQStar": "rad/公転",
+        "dragQ5": "rad/公転",
+        "dPomKF0": "rad/公転",
+        "dPomQStar": "rad/公転",
+        "dPomQ5": "rad/公転",
+        "TavgQStar": "時間単位(内部)",
+        "TavgKF0": "時間単位(内部)"
+      },
+      "claimWindowForScale": {
+        "source": "プリセット claims mercuryRealKF1.drag-precession(対象 HTML から機械読み取り)",
+        "expected": {
+          "min": 5e-10,
+          "max": 6.2e-10
+        },
+        "note": "本便は窓判定をしない(KW2 は窓なし)。感度の大きさを窓幅と対比して読むための機械記録である"
+      },
+      "KW1": {
+        "rule": "KW1(転記照合): 基線再測(dt・窓とも正本設定)が kf1c/kf1d の対応値と**ビット一致**。",
+        "pairs": [
+          {
+            "pair": "kf1c tests.mercuryQscan.kF0 vs 基線 kF0",
+            "rows": [
+              {
+                "field": "dPomPerOrbit",
+                "mine": 4.3473328880056836e-7,
+                "reference": 4.3473328880056836e-7,
+                "identical": true,
+                "relDiff": 0
+              },
+              {
+                "field": "TK",
+                "mine": 760.0515825722043,
+                "reference": 760.0515825722043,
+                "identical": true,
+                "relDiff": 0
+              },
+              {
+                "field": "Tavg",
+                "mine": 760.0506666666666,
+                "reference": 760.0506666666666,
+                "identical": true,
+                "relDiff": 0
+              },
+              {
+                "field": "e0",
+                "mine": 0.20563002103919548,
+                "reference": 0.20563002103919548,
+                "identical": true,
+                "relDiff": 0
+              },
+              {
+                "field": "eDrift",
+                "mine": -5.458013295212005e-7,
+                "reference": -5.458013295212005e-7,
+                "identical": true,
+                "relDiff": 0
+              },
+              {
+                "field": "amp",
+                "mine": 0.4112603902975091,
+                "reference": 0.4112603902975091,
+                "identical": true,
+                "relDiff": 0
+              }
+            ]
+          },
+          {
+            "pair": "kf1c tests.mercuryQscan.scan['5'] vs 基線 q=5",
+            "rows": [
+              {
+                "field": "dPomPerOrbit",
+                "mine": 3.819193755483683e-7,
+                "reference": 3.819193755483683e-7,
+                "identical": true,
+                "relDiff": 0
+              },
+              {
+                "field": "TK",
+                "mine": 760.0515825722043,
+                "reference": 760.0515825722043,
+                "identical": true,
+                "relDiff": 0
+              },
+              {
+                "field": "Tavg",
+                "mine": 760.0506666666666,
+                "reference": 760.0506666666666,
+                "identical": true,
+                "relDiff": 0
+              },
+              {
+                "field": "e0",
+                "mine": 0.20563002103919548,
+                "reference": 0.20563002103919548,
+                "identical": true,
+                "relDiff": 0
+              },
+              {
+                "field": "eDrift",
+                "mine": -5.457811566855764e-7,
+                "reference": -5.457811566855764e-7,
+                "identical": true,
+                "relDiff": 0
+              },
+              {
+                "field": "amp",
+                "mine": 0.4112603946154048,
+                "reference": 0.4112603946154048,
+                "identical": true,
+                "relDiff": 0
+              }
+            ]
+          },
+          {
+            "pair": "kf1d tests.qcalc.mercKF0 vs 基線 kF0",
+            "rows": [
+              {
+                "field": "dPomPerOrbit",
+                "mine": 4.3473328880056836e-7,
+                "reference": 4.3473328880056836e-7,
+                "identical": true,
+                "relDiff": 0
+              },
+              {
+                "field": "Tavg",
+                "mine": 760.0506666666666,
+                "reference": 760.0506666666666,
+                "identical": true,
+                "relDiff": 0
+              }
+            ]
+          },
+          {
+            "pair": "kf1d tests.qcalc.mercQstar vs 基線 q=q*",
+            "rows": [
+              {
+                "field": "dPomPerOrbit",
+                "mine": 4.341728345934815e-7,
+                "reference": 4.341728345934815e-7,
+                "identical": true,
+                "relDiff": 0
+              },
+              {
+                "field": "Tavg",
+                "mine": 760.0506666666666,
+                "reference": 760.0506666666666,
+                "identical": true,
+                "relDiff": 0
+              }
+            ]
+          }
+        ],
+        "derivedChecks": [
+          {
+            "name": "kf1d tests.qcalc.qMerc = 本便の q*(算出式の一致)",
+            "mine": 6.157793376601058,
+            "reference": 6.157793376601058,
+            "identical": true
+          },
+          {
+            "name": "kf1d tests.qcalc.dragMerc = 基線 drag(q*)",
+            "mine": -5.604542070868556e-10,
+            "reference": -5.604542070868556e-10,
+            "identical": true
+          },
+          {
+            "name": "kf1c tests.joint.dragQ5 = 基線 drag(q=5)",
+            "mine": -5.281391325220005e-8,
+            "reference": -5.281391325220005e-8,
+            "identical": true
+          }
+        ],
+        "allIdentical": true
+      },
+      "KW2": {
+        "all": [
+          {
+            "tag": "baseline",
+            "axis": "baseline",
+            "isBaseline": true,
+            "dt": 0.016,
+            "dtFactor": 1,
+            "window": {
+              "orbits": 8,
+              "unit": "公転"
+            },
+            "windowFactor": 1,
+            "steps": 380026,
+            "observables": {
+              "dragQStar": -5.604542070868556e-10,
+              "dragQ5": -5.281391325220005e-8,
+              "dPomKF0": 4.3473328880056836e-7,
+              "dPomQStar": 4.341728345934815e-7,
+              "dPomQ5": 3.819193755483683e-7,
+              "TavgQStar": 760.0506666666666,
+              "TavgKF0": 760.0506666666666
+            },
+            "relToBaseline": {
+              "dragQStar": 0,
+              "dragQ5": 0,
+              "dPomKF0": 0,
+              "dPomQStar": 0,
+              "dPomQ5": 0,
+              "TavgQStar": 0,
+              "TavgKF0": 0
+            },
+            "floors": {
+              "periodResolutionFloorRel": {
+                "status": "instrumented",
+                "value": 0.0000035085380272894086,
+                "definition": "dt/(t_last−t_first) — 公転通過時刻を補間せず步境界で拾う定義から出る量子化幅(第162便 exp-jupseeds.mjs の分解能床と同じ定義)",
+                "nRev": 7,
+                "span": 4560.304
+              },
+              "apsidalLsq": {
+                "status": "instrumented",
+                "nSamples": 4001,
+                "sampleStrideSteps": 95,
+                "sampleDt": 1.52,
+                "note": "RL 角の全步 LSQ は SAMPLE=max(1,floor(steps/4000)) で間引いた標本で組む(転記元の定義そのまま)。窓・dt を変えると標本数と間引き幅もこの定義式どおり動く"
+              },
+              "apsidalUlpFloor": {
+                "status": "not-instrumented",
+                "note": "1步あたりの引きずり増分と速度 1 ulp の比(丸め床)は本ハーネス族が記録していない(tests/exp-kf1c.mjs・exp-kf1d.mjs の manifest.health の宣言と同じ)。記録しているのは e ドリフト・振幅・NaN フラグである",
+                "eDrift": -5.458011379244621e-7,
+                "amp": 0.4112603903356677,
+                "nan": false,
+                "collapsed": null
+              }
+            }
+          },
+          {
+            "tag": "dt/2",
+            "axis": "dt",
+            "isBaseline": false,
+            "dt": 0.008,
+            "dtFactor": 0.5,
+            "window": {
+              "orbits": 8,
+              "unit": "公転"
+            },
+            "windowFactor": 1,
+            "steps": 760052,
+            "observables": {
+              "dragQStar": -5.601067076388664e-10,
+              "dragQ5": -5.281345706801765e-8,
+              "dPomKF0": 4.438303084497361e-7,
+              "dPomQStar": 4.432702017420972e-7,
+              "dPomQ5": 3.9101685138171844e-7,
+              "TavgQStar": 760.052,
+              "TavgKF0": 760.052
+            },
+            "relToBaseline": {
+              "dragQStar": 0.0006200318306030087,
+              "dragQ5": 0.000008637575864254088,
+              "dPomKF0": 0.020925518895197687,
+              "dPomQStar": 0.020953331078701946,
+              "dPomQ5": 0.02382040926907092,
+              "TavgQStar": 0.0000017542690137029402,
+              "TavgKF0": 0.0000017542690137029402
+            },
+            "floors": {
+              "periodResolutionFloorRel": {
+                "status": "instrumented",
+                "value": 0.0000017542659361903308,
+                "definition": "dt/(t_last−t_first) — 公転通過時刻を補間せず步境界で拾う定義から出る量子化幅(第162便 exp-jupseeds.mjs の分解能床と同じ定義)",
+                "nRev": 7,
+                "span": 4560.312
+              },
+              "apsidalLsq": {
+                "status": "instrumented",
+                "nSamples": 4001,
+                "sampleStrideSteps": 190,
+                "sampleDt": 1.52,
+                "note": "RL 角の全步 LSQ は SAMPLE=max(1,floor(steps/4000)) で間引いた標本で組む(転記元の定義そのまま)。窓・dt を変えると標本数と間引き幅もこの定義式どおり動く"
+              },
+              "apsidalUlpFloor": {
+                "status": "not-instrumented",
+                "note": "1步あたりの引きずり増分と速度 1 ulp の比(丸め床)は本ハーネス族が記録していない(tests/exp-kf1c.mjs・exp-kf1d.mjs の manifest.health の宣言と同じ)。記録しているのは e ドリフト・振幅・NaN フラグである",
+                "eDrift": -2.7282778816695163e-7,
+                "amp": 0.4112603415639589,
+                "nan": false,
+                "collapsed": null
+              }
+            }
+          },
+          {
+            "tag": "dt×2",
+            "axis": "dt",
+            "isBaseline": false,
+            "dt": 0.032,
+            "dtFactor": 2,
+            "window": {
+              "orbits": 8,
+              "unit": "公転"
+            },
+            "windowFactor": 1,
+            "steps": 190013,
+            "observables": {
+              "dragQStar": -5.607823677736366e-10,
+              "dragQ5": -5.281452337973848e-8,
+              "dPomKF0": 4.752410470445316e-7,
+              "dPomQStar": 4.7468026467675795e-7,
+              "dPomQ5": 4.224265236647931e-7,
+              "TavgQStar": 760.0533333333333,
+              "TavgKF0": 760.0533333333333
+            },
+            "relToBaseline": {
+              "dragQStar": -0.0005855263153196871,
+              "dragQ5": -0.000011552401646794771,
+              "dPomKF0": 0.09317841372517012,
+              "dPomQStar": 0.09329793772381863,
+              "dPomQ5": 0.1060620400791757,
+              "TavgQStar": 0.0000035085380272563024,
+              "TavgKF0": 0.0000035085380272563024
+            },
+            "floors": {
+              "periodResolutionFloorRel": {
+                "status": "instrumented",
+                "value": 0.0000070170514349870195,
+                "definition": "dt/(t_last−t_first) — 公転通過時刻を補間せず步境界で拾う定義から出る量子化幅(第162便 exp-jupseeds.mjs の分解能床と同じ定義)",
+                "nRev": 7,
+                "span": 4560.32
+              },
+              "apsidalLsq": {
+                "status": "instrumented",
+                "nSamples": 4043,
+                "sampleStrideSteps": 47,
+                "sampleDt": 1.504,
+                "note": "RL 角の全步 LSQ は SAMPLE=max(1,floor(steps/4000)) で間引いた標本で組む(転記元の定義そのまま)。窓・dt を変えると標本数と間引き幅もこの定義式どおり動く"
+              },
+              "apsidalUlpFloor": {
+                "status": "not-instrumented",
+                "note": "1步あたりの引きずり増分と速度 1 ulp の比(丸め床)は本ハーネス族が記録していない(tests/exp-kf1c.mjs・exp-kf1d.mjs の manifest.health の宣言と同じ)。記録しているのは e ドリフト・振幅・NaN フラグである",
+                "eDrift": -0.000003280472732958284,
+                "amp": 0.4112605847238612,
+                "nan": false,
+                "collapsed": null
+              }
+            }
+          },
+          {
+            "tag": "窓×0.5",
+            "axis": "window",
+            "isBaseline": false,
+            "dt": 0.016,
+            "dtFactor": 1,
+            "window": {
+              "orbits": 4,
+              "unit": "公転"
+            },
+            "windowFactor": 0.5,
+            "steps": 190013,
+            "observables": {
+              "dragQStar": -5.406294173749906e-10,
+              "dragQ5": -5.0832542828675515e-8,
+              "dPomKF0": 6.114030877197231e-7,
+              "dPomQStar": 6.108624583023481e-7,
+              "dPomQ5": 5.605705448910476e-7,
+              "TavgQStar": 760.048,
+              "TavgKF0": 760.048
+            },
+            "relToBaseline": {
+              "dragQStar": 0.03537271994961157,
+              "dragQ5": 0.037516069185462186,
+              "dPomKF0": 0.4063866362904661,
+              "dPomQStar": 0.40695688359752424,
+              "dPomQ5": 0.46777194554784757,
+              "TavgQStar": -0.0000035085380272563024,
+              "TavgKF0": -0.0000035085380272563024
+            },
+            "floors": {
+              "periodResolutionFloorRel": {
+                "status": "instrumented",
+                "value": 0.000010525651011515063,
+                "definition": "dt/(t_last−t_first) — 公転通過時刻を補間せず步境界で拾う定義から出る量子化幅(第162便 exp-jupseeds.mjs の分解能床と同じ定義)",
+                "nRev": 3,
+                "span": 1520.096
+              },
+              "apsidalLsq": {
+                "status": "instrumented",
+                "nSamples": 4043,
+                "sampleStrideSteps": 47,
+                "sampleDt": 0.752,
+                "note": "RL 角の全步 LSQ は SAMPLE=max(1,floor(steps/4000)) で間引いた標本で組む(転記元の定義そのまま)。窓・dt を変えると標本数と間引き幅もこの定義式どおり動く"
+              },
+              "apsidalUlpFloor": {
+                "status": "not-instrumented",
+                "note": "1步あたりの引きずり増分と速度 1 ulp の比(丸め床)は本ハーネス族が記録していない(tests/exp-kf1c.mjs・exp-kf1d.mjs の manifest.health の宣言と同じ)。記録しているのは e ドリフト・振幅・NaN フラグである",
+                "eDrift": -8.198963893646383e-7,
+                "amp": 0.41126038977493856,
+                "nan": false,
+                "collapsed": null
+              }
+            }
+          },
+          {
+            "tag": "窓×2",
+            "axis": "window",
+            "isBaseline": false,
+            "dt": 0.016,
+            "dtFactor": 1,
+            "window": {
+              "orbits": 16,
+              "unit": "公転"
+            },
+            "windowFactor": 2,
+            "steps": 760052,
+            "observables": {
+              "dragQStar": -5.654001805984893e-10,
+              "dragQ5": -5.330870429964241e-8,
+              "dPomKF0": 4.0978360022971093e-7,
+              "dPomQStar": 4.0921820004911244e-7,
+              "dPomQ5": 3.564748959300685e-7,
+              "TavgQStar": 760.0514285714287,
+              "TavgKF0": 760.0514285714287
+            },
+            "relToBaseline": {
+              "dragQStar": -0.008824937789907948,
+              "dragQ5": -0.00936857386574636,
+              "dPomKF0": -0.05739079388121799,
+              "dPomQStar": -0.057476268794509525,
+              "dPomQ5": -0.06662264668234243,
+              "TavgQStar": 0.000001002439436551258,
+              "TavgKF0": 0.000001002439436551258
+            },
+            "floors": {
+              "periodResolutionFloorRel": {
+                "status": "instrumented",
+                "value": 0.0000015036576472268791,
+                "definition": "dt/(t_last−t_first) — 公転通過時刻を補間せず步境界で拾う定義から出る量子化幅(第162便 exp-jupseeds.mjs の分解能床と同じ定義)",
+                "nRev": 15,
+                "span": 10640.720000000001
+              },
+              "apsidalLsq": {
+                "status": "instrumented",
+                "nSamples": 4001,
+                "sampleStrideSteps": 190,
+                "sampleDt": 3.04,
+                "note": "RL 角の全步 LSQ は SAMPLE=max(1,floor(steps/4000)) で間引いた標本で組む(転記元の定義そのまま)。窓・dt を変えると標本数と間引き幅もこの定義式どおり動く"
+              },
+              "apsidalUlpFloor": {
+                "status": "not-instrumented",
+                "note": "1步あたりの引きずり増分と速度 1 ulp の比(丸め床)は本ハーネス族が記録していない(tests/exp-kf1c.mjs・exp-kf1d.mjs の manifest.health の宣言と同じ)。記録しているのは e ドリフト・振幅・NaN フラグである",
+                "eDrift": -0.0000010915716053550018,
+                "amp": 0.4112603914546339,
+                "nan": false,
+                "collapsed": null
+              }
+            }
+          }
+        ],
+        "dt": {
+          "applicable": true,
+          "baseline": {
+            "tag": "baseline",
+            "dt": 0.016,
+            "window": {
+              "orbits": 8,
+              "unit": "公転"
+            },
+            "observables": {
+              "dragQStar": -5.604542070868556e-10,
+              "dragQ5": -5.281391325220005e-8,
+              "dPomKF0": 4.3473328880056836e-7,
+              "dPomQStar": 4.341728345934815e-7,
+              "dPomQ5": 3.819193755483683e-7,
+              "TavgQStar": 760.0506666666666,
+              "TavgKF0": 760.0506666666666
+            }
+          },
+          "variants": [
+            {
+              "tag": "dt/2",
+              "axis": "dt",
+              "isBaseline": false,
+              "dt": 0.008,
+              "dtFactor": 0.5,
+              "window": {
+                "orbits": 8,
+                "unit": "公転"
+              },
+              "windowFactor": 1,
+              "steps": 760052,
+              "observables": {
+                "dragQStar": -5.601067076388664e-10,
+                "dragQ5": -5.281345706801765e-8,
+                "dPomKF0": 4.438303084497361e-7,
+                "dPomQStar": 4.432702017420972e-7,
+                "dPomQ5": 3.9101685138171844e-7,
+                "TavgQStar": 760.052,
+                "TavgKF0": 760.052
+              },
+              "relToBaseline": {
+                "dragQStar": 0.0006200318306030087,
+                "dragQ5": 0.000008637575864254088,
+                "dPomKF0": 0.020925518895197687,
+                "dPomQStar": 0.020953331078701946,
+                "dPomQ5": 0.02382040926907092,
+                "TavgQStar": 0.0000017542690137029402,
+                "TavgKF0": 0.0000017542690137029402
+              },
+              "floors": {
+                "periodResolutionFloorRel": {
+                  "status": "instrumented",
+                  "value": 0.0000017542659361903308,
+                  "definition": "dt/(t_last−t_first) — 公転通過時刻を補間せず步境界で拾う定義から出る量子化幅(第162便 exp-jupseeds.mjs の分解能床と同じ定義)",
+                  "nRev": 7,
+                  "span": 4560.312
+                },
+                "apsidalLsq": {
+                  "status": "instrumented",
+                  "nSamples": 4001,
+                  "sampleStrideSteps": 190,
+                  "sampleDt": 1.52,
+                  "note": "RL 角の全步 LSQ は SAMPLE=max(1,floor(steps/4000)) で間引いた標本で組む(転記元の定義そのまま)。窓・dt を変えると標本数と間引き幅もこの定義式どおり動く"
+                },
+                "apsidalUlpFloor": {
+                  "status": "not-instrumented",
+                  "note": "1步あたりの引きずり増分と速度 1 ulp の比(丸め床)は本ハーネス族が記録していない(tests/exp-kf1c.mjs・exp-kf1d.mjs の manifest.health の宣言と同じ)。記録しているのは e ドリフト・振幅・NaN フラグである",
+                  "eDrift": -2.7282778816695163e-7,
+                  "amp": 0.4112603415639589,
+                  "nan": false,
+                  "collapsed": null
+                }
+              }
+            },
+            {
+              "tag": "dt×2",
+              "axis": "dt",
+              "isBaseline": false,
+              "dt": 0.032,
+              "dtFactor": 2,
+              "window": {
+                "orbits": 8,
+                "unit": "公転"
+              },
+              "windowFactor": 1,
+              "steps": 190013,
+              "observables": {
+                "dragQStar": -5.607823677736366e-10,
+                "dragQ5": -5.281452337973848e-8,
+                "dPomKF0": 4.752410470445316e-7,
+                "dPomQStar": 4.7468026467675795e-7,
+                "dPomQ5": 4.224265236647931e-7,
+                "TavgQStar": 760.0533333333333,
+                "TavgKF0": 760.0533333333333
+              },
+              "relToBaseline": {
+                "dragQStar": -0.0005855263153196871,
+                "dragQ5": -0.000011552401646794771,
+                "dPomKF0": 0.09317841372517012,
+                "dPomQStar": 0.09329793772381863,
+                "dPomQ5": 0.1060620400791757,
+                "TavgQStar": 0.0000035085380272563024,
+                "TavgKF0": 0.0000035085380272563024
+              },
+              "floors": {
+                "periodResolutionFloorRel": {
+                  "status": "instrumented",
+                  "value": 0.0000070170514349870195,
+                  "definition": "dt/(t_last−t_first) — 公転通過時刻を補間せず步境界で拾う定義から出る量子化幅(第162便 exp-jupseeds.mjs の分解能床と同じ定義)",
+                  "nRev": 7,
+                  "span": 4560.32
+                },
+                "apsidalLsq": {
+                  "status": "instrumented",
+                  "nSamples": 4043,
+                  "sampleStrideSteps": 47,
+                  "sampleDt": 1.504,
+                  "note": "RL 角の全步 LSQ は SAMPLE=max(1,floor(steps/4000)) で間引いた標本で組む(転記元の定義そのまま)。窓・dt を変えると標本数と間引き幅もこの定義式どおり動く"
+                },
+                "apsidalUlpFloor": {
+                  "status": "not-instrumented",
+                  "note": "1步あたりの引きずり増分と速度 1 ulp の比(丸め床)は本ハーネス族が記録していない(tests/exp-kf1c.mjs・exp-kf1d.mjs の manifest.health の宣言と同じ)。記録しているのは e ドリフト・振幅・NaN フラグである",
+                  "eDrift": -0.000003280472732958284,
+                  "amp": 0.4112605847238612,
+                  "nan": false,
+                  "collapsed": null
+                }
+              }
+            }
+          ],
+          "maxAbsRelDiff": {
+            "dragQStar": 0.0006200318306030087,
+            "dragQ5": 0.000011552401646794771,
+            "dPomKF0": 0.09317841372517012,
+            "dPomQStar": 0.09329793772381863,
+            "dPomQ5": 0.1060620400791757,
+            "TavgQStar": 0.0000035085380272563024,
+            "TavgKF0": 0.0000035085380272563024
+          },
+          "maxAbsRelDiffOverall": 0.1060620400791757
+        },
+        "window": {
+          "applicable": true,
+          "baseline": {
+            "tag": "baseline",
+            "dt": 0.016,
+            "window": {
+              "orbits": 8,
+              "unit": "公転"
+            },
+            "observables": {
+              "dragQStar": -5.604542070868556e-10,
+              "dragQ5": -5.281391325220005e-8,
+              "dPomKF0": 4.3473328880056836e-7,
+              "dPomQStar": 4.341728345934815e-7,
+              "dPomQ5": 3.819193755483683e-7,
+              "TavgQStar": 760.0506666666666,
+              "TavgKF0": 760.0506666666666
+            }
+          },
+          "variants": [
+            {
+              "tag": "窓×0.5",
+              "axis": "window",
+              "isBaseline": false,
+              "dt": 0.016,
+              "dtFactor": 1,
+              "window": {
+                "orbits": 4,
+                "unit": "公転"
+              },
+              "windowFactor": 0.5,
+              "steps": 190013,
+              "observables": {
+                "dragQStar": -5.406294173749906e-10,
+                "dragQ5": -5.0832542828675515e-8,
+                "dPomKF0": 6.114030877197231e-7,
+                "dPomQStar": 6.108624583023481e-7,
+                "dPomQ5": 5.605705448910476e-7,
+                "TavgQStar": 760.048,
+                "TavgKF0": 760.048
+              },
+              "relToBaseline": {
+                "dragQStar": 0.03537271994961157,
+                "dragQ5": 0.037516069185462186,
+                "dPomKF0": 0.4063866362904661,
+                "dPomQStar": 0.40695688359752424,
+                "dPomQ5": 0.46777194554784757,
+                "TavgQStar": -0.0000035085380272563024,
+                "TavgKF0": -0.0000035085380272563024
+              },
+              "floors": {
+                "periodResolutionFloorRel": {
+                  "status": "instrumented",
+                  "value": 0.000010525651011515063,
+                  "definition": "dt/(t_last−t_first) — 公転通過時刻を補間せず步境界で拾う定義から出る量子化幅(第162便 exp-jupseeds.mjs の分解能床と同じ定義)",
+                  "nRev": 3,
+                  "span": 1520.096
+                },
+                "apsidalLsq": {
+                  "status": "instrumented",
+                  "nSamples": 4043,
+                  "sampleStrideSteps": 47,
+                  "sampleDt": 0.752,
+                  "note": "RL 角の全步 LSQ は SAMPLE=max(1,floor(steps/4000)) で間引いた標本で組む(転記元の定義そのまま)。窓・dt を変えると標本数と間引き幅もこの定義式どおり動く"
+                },
+                "apsidalUlpFloor": {
+                  "status": "not-instrumented",
+                  "note": "1步あたりの引きずり増分と速度 1 ulp の比(丸め床)は本ハーネス族が記録していない(tests/exp-kf1c.mjs・exp-kf1d.mjs の manifest.health の宣言と同じ)。記録しているのは e ドリフト・振幅・NaN フラグである",
+                  "eDrift": -8.198963893646383e-7,
+                  "amp": 0.41126038977493856,
+                  "nan": false,
+                  "collapsed": null
+                }
+              }
+            },
+            {
+              "tag": "窓×2",
+              "axis": "window",
+              "isBaseline": false,
+              "dt": 0.016,
+              "dtFactor": 1,
+              "window": {
+                "orbits": 16,
+                "unit": "公転"
+              },
+              "windowFactor": 2,
+              "steps": 760052,
+              "observables": {
+                "dragQStar": -5.654001805984893e-10,
+                "dragQ5": -5.330870429964241e-8,
+                "dPomKF0": 4.0978360022971093e-7,
+                "dPomQStar": 4.0921820004911244e-7,
+                "dPomQ5": 3.564748959300685e-7,
+                "TavgQStar": 760.0514285714287,
+                "TavgKF0": 760.0514285714287
+              },
+              "relToBaseline": {
+                "dragQStar": -0.008824937789907948,
+                "dragQ5": -0.00936857386574636,
+                "dPomKF0": -0.05739079388121799,
+                "dPomQStar": -0.057476268794509525,
+                "dPomQ5": -0.06662264668234243,
+                "TavgQStar": 0.000001002439436551258,
+                "TavgKF0": 0.000001002439436551258
+              },
+              "floors": {
+                "periodResolutionFloorRel": {
+                  "status": "instrumented",
+                  "value": 0.0000015036576472268791,
+                  "definition": "dt/(t_last−t_first) — 公転通過時刻を補間せず步境界で拾う定義から出る量子化幅(第162便 exp-jupseeds.mjs の分解能床と同じ定義)",
+                  "nRev": 15,
+                  "span": 10640.720000000001
+                },
+                "apsidalLsq": {
+                  "status": "instrumented",
+                  "nSamples": 4001,
+                  "sampleStrideSteps": 190,
+                  "sampleDt": 3.04,
+                  "note": "RL 角の全步 LSQ は SAMPLE=max(1,floor(steps/4000)) で間引いた標本で組む(転記元の定義そのまま)。窓・dt を変えると標本数と間引き幅もこの定義式どおり動く"
+                },
+                "apsidalUlpFloor": {
+                  "status": "not-instrumented",
+                  "note": "1步あたりの引きずり増分と速度 1 ulp の比(丸め床)は本ハーネス族が記録していない(tests/exp-kf1c.mjs・exp-kf1d.mjs の manifest.health の宣言と同じ)。記録しているのは e ドリフト・振幅・NaN フラグである",
+                  "eDrift": -0.0000010915716053550018,
+                  "amp": 0.4112603914546339,
+                  "nan": false,
+                  "collapsed": null
+                }
+              }
+            }
+          ],
+          "maxAbsRelDiff": {
+            "dragQStar": 0.03537271994961157,
+            "dragQ5": 0.037516069185462186,
+            "dPomKF0": 0.4063866362904661,
+            "dPomQStar": 0.40695688359752424,
+            "dPomQ5": 0.46777194554784757,
+            "TavgQStar": 0.0000035085380272563024,
+            "TavgKF0": 0.0000035085380272563024
+          },
+          "maxAbsRelDiffOverall": 0.46777194554784757
+        }
+      }
+    },
+    "earthMoon": {
+      "emoji": "🌙🌘",
+      "label": "地球と月(実単位・kFrame=1)earthMoonRealKF1 系",
+      "errorBudgetClaimId": "earth-moon-two-observables",
+      "harness": "tests/exp-kf1c.mjs §C の runRL/mkEM(§D2 の主アーム q=5)を逐語転記(dt を引数化した1点だけが差分)",
+      "config": {
+        "physics": {
+          "G": 6.674,
+          "D0": 0.006,
+          "kFrame": 1,
+          "q": 3,
+          "kRep": 0,
+          "muF": 0,
+          "gammaN": 0,
+          "kappaS": 0,
+          "Kt": 134851663.17051244,
+          "cLight": 30000,
+          "bM": 1,
+          "etaRad": 0,
+          "pRad": 4,
+          "gravityX": 0,
+          "gravityY": 0,
+          "massFloor": 0.000001,
+          "geoPN": 2,
+          "lambdaPN": 1,
+          "pnAlpha": 1.5,
+          "radiusScale": 1,
+          "softening": 0.1,
+          "timeScale": 1,
+          "stateCarry": "double"
+        },
+        "M": 0.59724,
+        "m2": 0.007346,
+        "a": 384.748,
+        "e": 0.0549,
+        "rM": 6.38,
+        "r2": 1.74,
+        "spinM": 0.0072921,
+        "spin2": 0.00026617,
+        "f": 0.9968,
+        "orbitsCanonical": 8,
+        "dtCanonical": 0.016,
+        "seed": 1,
+        "q": 5,
+        "qSource": "tests/exp-kf1c.mjs §C/§D2 の主アーム(q=5)"
+      },
+      "primaryObservable": "2量 — ① 近点回転比 Δϖ/0.05311(目標 1.0)② 平均周期 Tavg(恒星月)",
+      "primaryObservableKey": "ratioToObserved",
+      "observableKeys": [
+        "dPomPerOrbit",
+        "ratioToObserved",
+        "Tavg",
+        "periodDays",
+        "periodRelDevFromKepler"
+      ],
+      "observableUnits": {
+        "dPomPerOrbit": "rad/公転",
+        "ratioToObserved": "無次元(測定/観測)",
+        "Tavg": "時間単位(内部)",
+        "periodDays": "日",
+        "periodRelDevFromKepler": "無次元(相対)"
+      },
+      "externalReference": {
+        "dPomPerOrbit": 0.05311,
+        "siderealMonthDaysObserved": 27.3217,
+        "note": "出典は tests/exp-kf1c.mjs §C/§D2(🌘 の近点回転 0.05311 rad/公転(8.85 年)・恒星月 27.3217 日)"
+      },
+      "claimWindowForScale": {
+        "source": "tests/exp-kf1c.mjs §D2(Δϖ比 0.85〜1.15)",
+        "expected": {
+          "min": 0.85,
+          "max": 1.15
+        },
+        "note": "本便は窓判定をしない(KW2 は窓なし)。感度の大きさを窓幅と対比して読むための転記である"
+      },
+      "KW1": {
+        "rule": "KW1(転記照合): 基線再測(dt・窓とも正本設定)が kf1c/kf1d の対応値と**ビット一致**。",
+        "pairs": [
+          {
+            "pair": "kf1c tests.earthMoonCal.q5 vs 基線 q=5",
+            "rows": [
+              {
+                "field": "dPomPerOrbit",
+                "mine": 0.053064973305042715,
+                "reference": 0.053064973305042715,
+                "identical": true,
+                "relDiff": 0
+              },
+              {
+                "field": "TK",
+                "mine": 23605.99335250854,
+                "reference": 23605.99335250854,
+                "identical": true,
+                "relDiff": 0
+              },
+              {
+                "field": "Tavg",
+                "mine": 23613.957333333336,
+                "reference": 23613.957333333336,
+                "identical": true,
+                "relDiff": 0
+              },
+              {
+                "field": "e0",
+                "mine": 0.048159442187259094,
+                "reference": 0.048159442187259094,
+                "identical": true,
+                "relDiff": 0
+              },
+              {
+                "field": "eDrift",
+                "mine": 0.002821355289396192,
+                "reference": 0.002821355289396192,
+                "identical": true,
+                "relDiff": 0
+              },
+              {
+                "field": "amp",
+                "mine": 0.11047584113669288,
+                "reference": 0.11047584113669288,
+                "identical": true,
+                "relDiff": 0
+              }
+            ]
+          }
+        ],
+        "derivedChecks": [
+          {
+            "name": "kf1c tests.joint.ratio = 基線 Δϖ比",
+            "mine": 0.999152199304137,
+            "reference": 0.999152199304137,
+            "identical": true
+          }
+        ],
+        "allIdentical": true
+      },
+      "KW2": {
+        "all": [
+          {
+            "tag": "baseline",
+            "axis": "baseline",
+            "isBaseline": true,
+            "dt": 0.016,
+            "dtFactor": 1,
+            "window": {
+              "orbits": 8,
+              "unit": "公転"
+            },
+            "windowFactor": 1,
+            "steps": 11802997,
+            "observables": {
+              "dPomPerOrbit": 0.053064973305042715,
+              "ratioToObserved": 0.999152199304137,
+              "Tavg": 23613.957333333336,
+              "periodDays": 27.33096913580247,
+              "periodRelDevFromKepler": 0.00033737113731540627
+            },
+            "relToBaseline": {
+              "dPomPerOrbit": 0,
+              "ratioToObserved": 0,
+              "Tavg": 0,
+              "periodDays": 0,
+              "periodRelDevFromKepler": 0
+            },
+            "floors": {
+              "periodResolutionFloorRel": {
+                "status": "instrumented",
+                "value": 1.1292756351780201e-7,
+                "definition": "dt/(t_last−t_first) — 公転通過時刻を補間せず步境界で拾う定義から出る量子化幅",
+                "nRev": 7,
+                "span": 141683.744
+              },
+              "apsidalLsq": {
+                "status": "instrumented",
+                "nSamples": 4002,
+                "sampleStrideSteps": 2950,
+                "sampleDt": 47.2,
+                "note": "RL 角の全步 LSQ は SAMPLE=max(1,floor(steps/4000)) で間引いた標本で組む(転記元の定義)"
+              },
+              "apsidalUlpFloor": {
+                "status": "not-instrumented",
+                "note": "1步あたりの引きずり増分と速度 1 ulp の比(丸め床)は本ハーネス族が記録していない(tests/exp-kf1c.mjs の manifest.health の宣言と同じ)",
+                "eDrift": 0.002821355289396192,
+                "amp": 0.11047584113669288,
+                "nan": false,
+                "collapsed": null
+              }
+            }
+          },
+          {
+            "tag": "dt/2",
+            "axis": "dt",
+            "isBaseline": false,
+            "dt": 0.008,
+            "dtFactor": 0.5,
+            "window": {
+              "orbits": 8,
+              "unit": "公転"
+            },
+            "windowFactor": 1,
+            "steps": 23605994,
+            "observables": {
+              "dPomPerOrbit": 0.05306172659838192,
+              "ratioToObserved": 0.9990910675650898,
+              "Tavg": 23614.029333333336,
+              "periodDays": 27.331052469135805,
+              "periodRelDevFromKepler": 0.00034042121018990637
+            },
+            "relToBaseline": {
+              "dPomPerOrbit": -0.0000611836105548216,
+              "ratioToObserved": -0.00006118361055480814,
+              "Tavg": 0.000003049044214985584,
+              "periodDays": 0.000003049044215081872,
+              "periodRelDevFromKepler": 0.009040704841471386
+            },
+            "floors": {
+              "periodResolutionFloorRel": {
+                "status": "instrumented",
+                "value": 5.64636095988588e-8,
+                "definition": "dt/(t_last−t_first) — 公転通過時刻を補間せず步境界で拾う定義から出る量子化幅",
+                "nRev": 7,
+                "span": 141684.176
+              },
+              "apsidalLsq": {
+                "status": "instrumented",
+                "nSamples": 4001,
+                "sampleStrideSteps": 5901,
+                "sampleDt": 47.208,
+                "note": "RL 角の全步 LSQ は SAMPLE=max(1,floor(steps/4000)) で間引いた標本で組む(転記元の定義)"
+              },
+              "apsidalUlpFloor": {
+                "status": "not-instrumented",
+                "note": "1步あたりの引きずり増分と速度 1 ulp の比(丸め床)は本ハーネス族が記録していない(tests/exp-kf1c.mjs の manifest.health の宣言と同じ)",
+                "eDrift": 0.002830745817973261,
+                "amp": 0.11047610879623998,
+                "nan": false,
+                "collapsed": null
+              }
+            }
+          },
+          {
+            "tag": "dt×2",
+            "axis": "dt",
+            "isBaseline": false,
+            "dt": 0.032,
+            "dtFactor": 2,
+            "window": {
+              "orbits": 8,
+              "unit": "公転"
+            },
+            "windowFactor": 1,
+            "steps": 5901499,
+            "observables": {
+              "dPomPerOrbit": 0.05306257746096971,
+              "ratioToObserved": 0.9991070883255454,
+              "Tavg": 23613.941333333332,
+              "periodDays": 27.33095061728395,
+              "periodRelDevFromKepler": 0.00033669334334315815
+            },
+            "relToBaseline": {
+              "dPomPerOrbit": -0.000045149256162418105,
+              "ratioToObserved": -0.000045149256162403685,
+              "Tavg": -6.775653812448503e-7,
+              "periodDays": -6.775653811437481e-7,
+              "periodRelDevFromKepler": -0.002009045520733005
+            },
+            "floors": {
+              "periodResolutionFloorRel": {
+                "status": "instrumented",
+                "value": 2.2585528006732296e-7,
+                "definition": "dt/(t_last−t_first) — 公転通過時刻を補間せず步境界で拾う定義から出る量子化幅",
+                "nRev": 7,
+                "span": 141683.648
+              },
+              "apsidalLsq": {
+                "status": "instrumented",
+                "nSamples": 4002,
+                "sampleStrideSteps": 1475,
+                "sampleDt": 47.2,
+                "note": "RL 角の全步 LSQ は SAMPLE=max(1,floor(steps/4000)) で間引いた標本で組む(転記元の定義)"
+              },
+              "apsidalUlpFloor": {
+                "status": "not-instrumented",
+                "note": "1步あたりの引きずり増分と速度 1 ulp の比(丸め床)は本ハーネス族が記録していない(tests/exp-kf1c.mjs の manifest.health の宣言と同じ)",
+                "eDrift": 0.0028203162534767706,
+                "amp": 0.11047592499402088,
+                "nan": false,
+                "collapsed": null
+              }
+            }
+          },
+          {
+            "tag": "窓×0.5",
+            "axis": "window",
+            "isBaseline": false,
+            "dt": 0.016,
+            "dtFactor": 1,
+            "window": {
+              "orbits": 4,
+              "unit": "公転"
+            },
+            "windowFactor": 0.5,
+            "steps": 5901499,
+            "observables": {
+              "dPomPerOrbit": 0.06152241692015585,
+              "ratioToObserved": 1.158396100925548,
+              "Tavg": 23614.000000000004,
+              "periodDays": 27.331018518518523,
+              "periodRelDevFromKepler": 0.00033917858790775973
+            },
+            "relToBaseline": {
+              "dPomPerOrbit": 0.15937902326824374,
+              "ratioToObserved": 0.15937902326824366,
+              "Tavg": 0.0000018068410163448129,
+              "periodDays": 0.0000018068410164266578,
+              "periodRelDevFromKepler": 0.005357454721041192
+            },
+            "floors": {
+              "periodResolutionFloorRel": {
+                "status": "instrumented",
+                "value": 3.387820784280511e-7,
+                "definition": "dt/(t_last−t_first) — 公転通過時刻を補間せず步境界で拾う定義から出る量子化幅",
+                "nRev": 3,
+                "span": 47228.00000000001
+              },
+              "apsidalLsq": {
+                "status": "instrumented",
+                "nSamples": 4002,
+                "sampleStrideSteps": 1475,
+                "sampleDt": 23.6,
+                "note": "RL 角の全步 LSQ は SAMPLE=max(1,floor(steps/4000)) で間引いた標本で組む(転記元の定義)"
+              },
+              "apsidalUlpFloor": {
+                "status": "not-instrumented",
+                "note": "1步あたりの引きずり増分と速度 1 ulp の比(丸め床)は本ハーネス族が記録していない(tests/exp-kf1c.mjs の manifest.health の宣言と同じ)",
+                "eDrift": 0.0007227789392728057,
+                "amp": 0.1072990404424619,
+                "nan": false,
+                "collapsed": null
+              }
+            }
+          },
+          {
+            "tag": "窓×2",
+            "axis": "window",
+            "isBaseline": false,
+            "dt": 0.016,
+            "dtFactor": 1,
+            "window": {
+              "orbits": 16,
+              "unit": "公転"
+            },
+            "windowFactor": 2,
+            "steps": 23605994,
+            "observables": {
+              "dPomPerOrbit": 0.048453937760393986,
+              "ratioToObserved": 0.9123317220936544,
+              "Tavg": 23613.864,
+              "periodDays": 27.330861111111115,
+              "periodRelDevFromKepler": 0.0003334173391447294
+            },
+            "relToBaseline": {
+              "dPomPerOrbit": -0.08689414612803632,
+              "ratioToObserved": -0.08689414612803635,
+              "Tavg": -0.00000395246472315799,
+              "periodDays": -0.000003952464722970229,
+              "periodRelDevFromKepler": -0.011719432201992062
+            },
+            "floors": {
+              "periodResolutionFloorRel": {
+                "status": "instrumented",
+                "value": 4.8397718512190246e-8,
+                "definition": "dt/(t_last−t_first) — 公転通過時刻を補間せず步境界で拾う定義から出る量子化幅",
+                "nRev": 15,
+                "span": 330594.096
+              },
+              "apsidalLsq": {
+                "status": "instrumented",
+                "nSamples": 4001,
+                "sampleStrideSteps": 5901,
+                "sampleDt": 94.416,
+                "note": "RL 角の全步 LSQ は SAMPLE=max(1,floor(steps/4000)) で間引いた標本で組む(転記元の定義)"
+              },
+              "apsidalUlpFloor": {
+                "status": "not-instrumented",
+                "note": "1步あたりの引きずり増分と速度 1 ulp の比(丸め床)は本ハーネス族が記録していない(tests/exp-kf1c.mjs の manifest.health の宣言と同じ)",
+                "eDrift": 0.010397415993661625,
+                "amp": 0.12301991908876267,
+                "nan": false,
+                "collapsed": null
+              }
+            }
+          }
+        ],
+        "dt": {
+          "applicable": true,
+          "baseline": {
+            "tag": "baseline",
+            "dt": 0.016,
+            "window": {
+              "orbits": 8,
+              "unit": "公転"
+            },
+            "observables": {
+              "dPomPerOrbit": 0.053064973305042715,
+              "ratioToObserved": 0.999152199304137,
+              "Tavg": 23613.957333333336,
+              "periodDays": 27.33096913580247,
+              "periodRelDevFromKepler": 0.00033737113731540627
+            }
+          },
+          "variants": [
+            {
+              "tag": "dt/2",
+              "axis": "dt",
+              "isBaseline": false,
+              "dt": 0.008,
+              "dtFactor": 0.5,
+              "window": {
+                "orbits": 8,
+                "unit": "公転"
+              },
+              "windowFactor": 1,
+              "steps": 23605994,
+              "observables": {
+                "dPomPerOrbit": 0.05306172659838192,
+                "ratioToObserved": 0.9990910675650898,
+                "Tavg": 23614.029333333336,
+                "periodDays": 27.331052469135805,
+                "periodRelDevFromKepler": 0.00034042121018990637
+              },
+              "relToBaseline": {
+                "dPomPerOrbit": -0.0000611836105548216,
+                "ratioToObserved": -0.00006118361055480814,
+                "Tavg": 0.000003049044214985584,
+                "periodDays": 0.000003049044215081872,
+                "periodRelDevFromKepler": 0.009040704841471386
+              },
+              "floors": {
+                "periodResolutionFloorRel": {
+                  "status": "instrumented",
+                  "value": 5.64636095988588e-8,
+                  "definition": "dt/(t_last−t_first) — 公転通過時刻を補間せず步境界で拾う定義から出る量子化幅",
+                  "nRev": 7,
+                  "span": 141684.176
+                },
+                "apsidalLsq": {
+                  "status": "instrumented",
+                  "nSamples": 4001,
+                  "sampleStrideSteps": 5901,
+                  "sampleDt": 47.208,
+                  "note": "RL 角の全步 LSQ は SAMPLE=max(1,floor(steps/4000)) で間引いた標本で組む(転記元の定義)"
+                },
+                "apsidalUlpFloor": {
+                  "status": "not-instrumented",
+                  "note": "1步あたりの引きずり増分と速度 1 ulp の比(丸め床)は本ハーネス族が記録していない(tests/exp-kf1c.mjs の manifest.health の宣言と同じ)",
+                  "eDrift": 0.002830745817973261,
+                  "amp": 0.11047610879623998,
+                  "nan": false,
+                  "collapsed": null
+                }
+              }
+            },
+            {
+              "tag": "dt×2",
+              "axis": "dt",
+              "isBaseline": false,
+              "dt": 0.032,
+              "dtFactor": 2,
+              "window": {
+                "orbits": 8,
+                "unit": "公転"
+              },
+              "windowFactor": 1,
+              "steps": 5901499,
+              "observables": {
+                "dPomPerOrbit": 0.05306257746096971,
+                "ratioToObserved": 0.9991070883255454,
+                "Tavg": 23613.941333333332,
+                "periodDays": 27.33095061728395,
+                "periodRelDevFromKepler": 0.00033669334334315815
+              },
+              "relToBaseline": {
+                "dPomPerOrbit": -0.000045149256162418105,
+                "ratioToObserved": -0.000045149256162403685,
+                "Tavg": -6.775653812448503e-7,
+                "periodDays": -6.775653811437481e-7,
+                "periodRelDevFromKepler": -0.002009045520733005
+              },
+              "floors": {
+                "periodResolutionFloorRel": {
+                  "status": "instrumented",
+                  "value": 2.2585528006732296e-7,
+                  "definition": "dt/(t_last−t_first) — 公転通過時刻を補間せず步境界で拾う定義から出る量子化幅",
+                  "nRev": 7,
+                  "span": 141683.648
+                },
+                "apsidalLsq": {
+                  "status": "instrumented",
+                  "nSamples": 4002,
+                  "sampleStrideSteps": 1475,
+                  "sampleDt": 47.2,
+                  "note": "RL 角の全步 LSQ は SAMPLE=max(1,floor(steps/4000)) で間引いた標本で組む(転記元の定義)"
+                },
+                "apsidalUlpFloor": {
+                  "status": "not-instrumented",
+                  "note": "1步あたりの引きずり増分と速度 1 ulp の比(丸め床)は本ハーネス族が記録していない(tests/exp-kf1c.mjs の manifest.health の宣言と同じ)",
+                  "eDrift": 0.0028203162534767706,
+                  "amp": 0.11047592499402088,
+                  "nan": false,
+                  "collapsed": null
+                }
+              }
+            }
+          ],
+          "maxAbsRelDiff": {
+            "dPomPerOrbit": 0.0000611836105548216,
+            "ratioToObserved": 0.00006118361055480814,
+            "Tavg": 0.000003049044214985584,
+            "periodDays": 0.000003049044215081872,
+            "periodRelDevFromKepler": 0.009040704841471386
+          },
+          "maxAbsRelDiffOverall": 0.009040704841471386
+        },
+        "window": {
+          "applicable": true,
+          "baseline": {
+            "tag": "baseline",
+            "dt": 0.016,
+            "window": {
+              "orbits": 8,
+              "unit": "公転"
+            },
+            "observables": {
+              "dPomPerOrbit": 0.053064973305042715,
+              "ratioToObserved": 0.999152199304137,
+              "Tavg": 23613.957333333336,
+              "periodDays": 27.33096913580247,
+              "periodRelDevFromKepler": 0.00033737113731540627
+            }
+          },
+          "variants": [
+            {
+              "tag": "窓×0.5",
+              "axis": "window",
+              "isBaseline": false,
+              "dt": 0.016,
+              "dtFactor": 1,
+              "window": {
+                "orbits": 4,
+                "unit": "公転"
+              },
+              "windowFactor": 0.5,
+              "steps": 5901499,
+              "observables": {
+                "dPomPerOrbit": 0.06152241692015585,
+                "ratioToObserved": 1.158396100925548,
+                "Tavg": 23614.000000000004,
+                "periodDays": 27.331018518518523,
+                "periodRelDevFromKepler": 0.00033917858790775973
+              },
+              "relToBaseline": {
+                "dPomPerOrbit": 0.15937902326824374,
+                "ratioToObserved": 0.15937902326824366,
+                "Tavg": 0.0000018068410163448129,
+                "periodDays": 0.0000018068410164266578,
+                "periodRelDevFromKepler": 0.005357454721041192
+              },
+              "floors": {
+                "periodResolutionFloorRel": {
+                  "status": "instrumented",
+                  "value": 3.387820784280511e-7,
+                  "definition": "dt/(t_last−t_first) — 公転通過時刻を補間せず步境界で拾う定義から出る量子化幅",
+                  "nRev": 3,
+                  "span": 47228.00000000001
+                },
+                "apsidalLsq": {
+                  "status": "instrumented",
+                  "nSamples": 4002,
+                  "sampleStrideSteps": 1475,
+                  "sampleDt": 23.6,
+                  "note": "RL 角の全步 LSQ は SAMPLE=max(1,floor(steps/4000)) で間引いた標本で組む(転記元の定義)"
+                },
+                "apsidalUlpFloor": {
+                  "status": "not-instrumented",
+                  "note": "1步あたりの引きずり増分と速度 1 ulp の比(丸め床)は本ハーネス族が記録していない(tests/exp-kf1c.mjs の manifest.health の宣言と同じ)",
+                  "eDrift": 0.0007227789392728057,
+                  "amp": 0.1072990404424619,
+                  "nan": false,
+                  "collapsed": null
+                }
+              }
+            },
+            {
+              "tag": "窓×2",
+              "axis": "window",
+              "isBaseline": false,
+              "dt": 0.016,
+              "dtFactor": 1,
+              "window": {
+                "orbits": 16,
+                "unit": "公転"
+              },
+              "windowFactor": 2,
+              "steps": 23605994,
+              "observables": {
+                "dPomPerOrbit": 0.048453937760393986,
+                "ratioToObserved": 0.9123317220936544,
+                "Tavg": 23613.864,
+                "periodDays": 27.330861111111115,
+                "periodRelDevFromKepler": 0.0003334173391447294
+              },
+              "relToBaseline": {
+                "dPomPerOrbit": -0.08689414612803632,
+                "ratioToObserved": -0.08689414612803635,
+                "Tavg": -0.00000395246472315799,
+                "periodDays": -0.000003952464722970229,
+                "periodRelDevFromKepler": -0.011719432201992062
+              },
+              "floors": {
+                "periodResolutionFloorRel": {
+                  "status": "instrumented",
+                  "value": 4.8397718512190246e-8,
+                  "definition": "dt/(t_last−t_first) — 公転通過時刻を補間せず步境界で拾う定義から出る量子化幅",
+                  "nRev": 15,
+                  "span": 330594.096
+                },
+                "apsidalLsq": {
+                  "status": "instrumented",
+                  "nSamples": 4001,
+                  "sampleStrideSteps": 5901,
+                  "sampleDt": 94.416,
+                  "note": "RL 角の全步 LSQ は SAMPLE=max(1,floor(steps/4000)) で間引いた標本で組む(転記元の定義)"
+                },
+                "apsidalUlpFloor": {
+                  "status": "not-instrumented",
+                  "note": "1步あたりの引きずり増分と速度 1 ulp の比(丸め床)は本ハーネス族が記録していない(tests/exp-kf1c.mjs の manifest.health の宣言と同じ)",
+                  "eDrift": 0.010397415993661625,
+                  "amp": 0.12301991908876267,
+                  "nan": false,
+                  "collapsed": null
+                }
+              }
+            }
+          ],
+          "maxAbsRelDiff": {
+            "dPomPerOrbit": 0.15937902326824374,
+            "ratioToObserved": 0.15937902326824366,
+            "Tavg": 0.00000395246472315799,
+            "periodDays": 0.000003952464722970229,
+            "periodRelDevFromKepler": 0.011719432201992062
+          },
+          "maxAbsRelDiffOverall": 0.15937902326824374
+        }
+      }
+    },
+    "saturnRing": {
+      "emoji": "💿🛰️",
+      "label": "土星の環(実単位・kFrame=1)saturnRingRealKF1 系",
+      "errorBudgetClaimId": "saturn-ring-apsidal",
+      "harness": "tests/exp-kf1d.mjs §B の run()(プローブ a=80/105/130/1221.9・e=0.1・6×T(a=80))を逐語転記(dt と公転数係数を引数化した2点だけが差分)",
+      "config": {
+        "physics": {
+          "G": 6.674,
+          "D0": 0.006,
+          "kFrame": 1,
+          "q": 3,
+          "kRep": 0,
+          "muF": 0,
+          "gammaN": 0,
+          "kappaS": 0,
+          "Kt": 134851663.17051244,
+          "cLight": 30000,
+          "bM": 1,
+          "etaRad": 0,
+          "pRad": 4,
+          "gravityX": 0,
+          "gravityY": 0,
+          "massFloor": 0.000001,
+          "geoPN": 2,
+          "lambdaPN": 1,
+          "pnAlpha": 1.5,
+          "radiusScale": 1,
+          "softening": 0.05,
+          "timeScale": 1,
+          "stateCarry": "double"
+        },
+        "M": 56.834,
+        "radius": 60.3,
+        "spin": 0.016528,
+        "probeRadii": [
+          80,
+          105,
+          130,
+          1221.9
+        ],
+        "probeMass": 0.00001,
+        "e": 0.1,
+        "orbitsCanonical": 6,
+        "orbitsUnit": "× T(a=80)",
+        "dtCanonical": 0.016,
+        "seed": 1,
+        "softening": 0.05,
+        "qStar": 21.843180708151756,
+        "qStarSource": "tests/exp-kf1d.mjs §B qCalc(30000, 60.3, 6.674, 56.834, 105)"
+      },
+      "primaryObservable": "環偏心テスト粒子(a=80・C環相当)の近点ドリフト Δϖ(kF1,q*) − Δϖ(kF0) [rad/公転]",
+      "primaryObservableKey": "drift_a80",
+      "primaryProbeA": 80,
+      "primaryProbeEvidence": "第164便 exp-qexact.mjs systems.saturnRing.window.referentEvidence がclaims 説明文の「q=3 で 0.23 rad/公転」と一致するプローブとして a=80 を機械同定している",
+      "observableKeys": [
+        "drift_a80",
+        "drift_a105",
+        "drift_a130",
+        "drift_a1221.9",
+        "dPomQStar_a80",
+        "dPomQStar_a105",
+        "dPomQStar_a130",
+        "dPomQStar_a1221.9",
+        "dPomKF0_a80",
+        "dPomKF0_a105",
+        "dPomKF0_a130",
+        "dPomKF0_a1221.9"
+      ],
+      "observableUnits": {
+        "drift_a80": "rad/公転",
+        "drift_a105": "rad/公転",
+        "drift_a130": "rad/公転",
+        "drift_a1221.9": "rad/公転",
+        "dPomQStar_a80": "rad/公転",
+        "dPomQStar_a105": "rad/公転",
+        "dPomQStar_a130": "rad/公転",
+        "dPomQStar_a1221.9": "rad/公転",
+        "dPomKF0_a80": "rad/公転",
+        "dPomKF0_a105": "rad/公転",
+        "dPomKF0_a130": "rad/公転",
+        "dPomKF0_a1221.9": "rad/公転"
+      },
+      "claimWindowForScale": {
+        "source": "プリセット claims saturnRingRealKF1.ring-apsidal-drift(対象 HTML から機械読み取り)",
+        "expected": {
+          "min": 0.00001,
+          "max": 0.00003
+        },
+        "note": "本便は窓判定をしない(KW2 は窓なし)。感度の大きさを窓幅と対比して読むための機械記録である"
+      },
+      "KW1": {
+        "rule": "KW1(転記照合): 基線再測(dt・窓とも正本設定)が kf1c/kf1d の対応値と**ビット一致**。",
+        "pairs": [
+          {
+            "pair": "kf1d tests.ring.kF0 vs 基線 kF0",
+            "rows": [
+              {
+                "field": "a=80 dPomPerOrbit",
+                "mine": -0.000029098834814640032,
+                "reference": -0.000029098834814640032,
+                "identical": true,
+                "relDiff": 0
+              },
+              {
+                "field": "a=105 dPomPerOrbit",
+                "mine": 0.00003416109442726234,
+                "reference": 0.00003416109442726234,
+                "identical": true,
+                "relDiff": 0
+              },
+              {
+                "field": "a=130 dPomPerOrbit",
+                "mine": 0.0001573735225612262,
+                "reference": 0.0001573735225612262,
+                "identical": true,
+                "relDiff": 0
+              },
+              {
+                "field": "a=1221.9 dPomPerOrbit",
+                "mine": 0.00017418524247156904,
+                "reference": 0.00017418524247156904,
+                "identical": true,
+                "relDiff": 0
+              }
+            ]
+          },
+          {
+            "pair": "kf1d tests.ring.qStarRun vs 基線 q=q*",
+            "rows": [
+              {
+                "field": "a=80 dPomPerOrbit",
+                "mine": -0.000008219458586844384,
+                "reference": -0.000008219458586844384,
+                "identical": true,
+                "relDiff": 0
+              },
+              {
+                "field": "a=105 dPomPerOrbit",
+                "mine": -0.000005556736807792791,
+                "reference": -0.000005556736807792791,
+                "identical": true,
+                "relDiff": 0
+              },
+              {
+                "field": "a=130 dPomPerOrbit",
+                "mine": 0.000138394625384674,
+                "reference": 0.000138394625384674,
+                "identical": true,
+                "relDiff": 0
+              },
+              {
+                "field": "a=1221.9 dPomPerOrbit",
+                "mine": 0.00019369025493057505,
+                "reference": 0.00019369025493057505,
+                "identical": true,
+                "relDiff": 0
+              }
+            ]
+          }
+        ],
+        "derivedChecks": [
+          {
+            "name": "kf1d tests.ring.qStar = 本便の q*(算出式の一致)",
+            "mine": 21.843180708151756,
+            "reference": 21.843180708151756,
+            "identical": true
+          }
+        ],
+        "allIdentical": true
+      },
+      "KW2": {
+        "all": [
+          {
+            "tag": "baseline",
+            "axis": "baseline",
+            "isBaseline": true,
+            "dt": 0.016,
+            "dtFactor": 1,
+            "window": {
+              "orbitsOfInnerProbe": 6,
+              "unit": "× T(a=80)"
+            },
+            "windowFactor": 1,
+            "steps": 86567,
+            "observables": {
+              "drift_a80": 0.00002087937622779565,
+              "dPomQStar_a80": -0.000008219458586844384,
+              "dPomKF0_a80": -0.000029098834814640032,
+              "drift_a105": -0.00003971783123505513,
+              "dPomQStar_a105": -0.000005556736807792791,
+              "dPomKF0_a105": 0.00003416109442726234,
+              "drift_a130": -0.000018978897176552214,
+              "dPomQStar_a130": 0.000138394625384674,
+              "dPomKF0_a130": 0.0001573735225612262,
+              "drift_a1221.9": 0.000019505012459006005,
+              "dPomQStar_a1221.9": 0.00019369025493057505,
+              "dPomKF0_a1221.9": 0.00017418524247156904
+            },
+            "relToBaseline": {
+              "drift_a80": 0,
+              "drift_a105": 0,
+              "drift_a130": 0,
+              "drift_a1221.9": 0,
+              "dPomQStar_a80": 0,
+              "dPomQStar_a105": 0,
+              "dPomQStar_a130": 0,
+              "dPomQStar_a1221.9": 0,
+              "dPomKF0_a80": 0,
+              "dPomKF0_a105": 0,
+              "dPomKF0_a130": 0,
+              "dPomKF0_a1221.9": 0
+            },
+            "floors": {
+              "periodResolutionFloorRel": {
+                "status": "not-applicable",
+                "note": "環系ハーネスは公転通過時刻を拾わない(観測量は近点移動だけで、周期は測定していない)。周期の分解能床という概念自体が本ハーネスに存在しない"
+              },
+              "apsidalIntegrationSpan": {
+                "status": "instrumented",
+                "steps": 86567,
+                "tTotal": 1385.0720000000001,
+                "TK1": 230.8434924779187,
+                "note": "近点移動は Δϖ_unwrapped/(steps·dt)×T_i の全步平均で、標本の間引きはしていない(転記元の定義そのまま)。窓・dt を変えると steps がこの定義式どおり動く"
+              },
+              "apsidalUlpFloor": {
+                "status": "not-instrumented",
+                "note": "1步あたりの引きずり増分と速度 1 ulp の比(丸め床)は本ハーネスが記録していない(tests/exp-kf1d.mjs の manifest.health の宣言と同じ)。記録しているのは NaN フラグである",
+                "nanKF0": false,
+                "nanQStar": false
+              }
+            }
+          },
+          {
+            "tag": "dt/2",
+            "axis": "dt",
+            "isBaseline": false,
+            "dt": 0.008,
+            "dtFactor": 0.5,
+            "window": {
+              "orbitsOfInnerProbe": 6,
+              "unit": "× T(a=80)"
+            },
+            "windowFactor": 1,
+            "steps": 173133,
+            "observables": {
+              "drift_a80": 0.00002088124981181517,
+              "dPomQStar_a80": -0.000007988276475514363,
+              "dPomKF0_a80": -0.000028869526287329534,
+              "drift_a105": -0.00003970801154766005,
+              "dPomQStar_a105": -0.000006197560378052579,
+              "dPomKF0_a105": 0.000033510451169607475,
+              "drift_a130": -0.000018924541895089128,
+              "dPomQStar_a130": 0.000064992956653135,
+              "dPomKF0_a130": 0.00008391749854822412,
+              "drift_a1221.9": 0.00001950240352885328,
+              "dPomQStar_a1221.9": 0.00012397322094863733,
+              "dPomKF0_a1221.9": 0.00010447081741978405
+            },
+            "relToBaseline": {
+              "drift_a80": 0.00008973371613594166,
+              "drift_a105": 0.0002472362435140528,
+              "drift_a130": 0.0028639852441078775,
+              "drift_a1221.9": -0.00013375690777989087,
+              "dPomQStar_a80": 0.0281261969857769,
+              "dPomQStar_a105": -0.11532372189395299,
+              "dPomQStar_a130": -0.5303794748352099,
+              "dPomQStar_a1221.9": -0.35994084476230664,
+              "dPomKF0_a80": 0.007880333654979546,
+              "dPomKF0_a105": -0.01904632356086402,
+              "dPomKF0_a130": -0.46676227879708293,
+              "dPomKF0_a1221.9": -0.40023152399471473
+            },
+            "floors": {
+              "periodResolutionFloorRel": {
+                "status": "not-applicable",
+                "note": "環系ハーネスは公転通過時刻を拾わない(観測量は近点移動だけで、周期は測定していない)。周期の分解能床という概念自体が本ハーネスに存在しない"
+              },
+              "apsidalIntegrationSpan": {
+                "status": "instrumented",
+                "steps": 173133,
+                "tTotal": 1385.064,
+                "TK1": 230.8434924779187,
+                "note": "近点移動は Δϖ_unwrapped/(steps·dt)×T_i の全步平均で、標本の間引きはしていない(転記元の定義そのまま)。窓・dt を変えると steps がこの定義式どおり動く"
+              },
+              "apsidalUlpFloor": {
+                "status": "not-instrumented",
+                "note": "1步あたりの引きずり増分と速度 1 ulp の比(丸め床)は本ハーネスが記録していない(tests/exp-kf1d.mjs の manifest.health の宣言と同じ)。記録しているのは NaN フラグである",
+                "nanKF0": false,
+                "nanQStar": false
+              }
+            }
+          },
+          {
+            "tag": "dt×2",
+            "axis": "dt",
+            "isBaseline": false,
+            "dt": 0.032,
+            "dtFactor": 2,
+            "window": {
+              "orbitsOfInnerProbe": 6,
+              "unit": "× T(a=80)"
+            },
+            "windowFactor": 1,
+            "steps": 43284,
+            "observables": {
+              "drift_a80": 0.000020875541077318413,
+              "dPomQStar_a80": -0.000009143504225243778,
+              "dPomKF0_a80": -0.000030019045302562193,
+              "drift_a105": -0.000039737298673168875,
+              "dPomQStar_a105": -0.000004475133506980574,
+              "dPomKF0_a105": 0.0000352621651661883,
+              "drift_a130": -0.00001908797743361884,
+              "dPomQStar_a130": 0.00028525054835751117,
+              "dPomKF0_a130": 0.00030433852579113,
+              "drift_a1221.9": 0.000019506318215067875,
+              "dPomQStar_a1221.9": 0.0003331126109234199,
+              "dPomKF0_a1221.9": 0.00031360629270835204
+            },
+            "relToBaseline": {
+              "drift_a80": -0.00018368127646127354,
+              "drift_a105": -0.0004901435327254516,
+              "drift_a130": -0.005747449709638087,
+              "drift_a1221.9": 0.00006694464126150885,
+              "dPomQStar_a80": -0.11242171593617752,
+              "dPomQStar_a105": 0.19464720720538212,
+              "dPomQStar_a130": 1.0611389175312598,
+              "dPomQStar_a1221.9": 0.7198212219960082,
+              "dPomKF0_a80": -0.03162361976979196,
+              "dPomKF0_a105": 0.03223171732013491,
+              "dPomKF0_a130": 0.933861051326007,
+              "dPomKF0_a1221.9": 0.8004182688412289
+            },
+            "floors": {
+              "periodResolutionFloorRel": {
+                "status": "not-applicable",
+                "note": "環系ハーネスは公転通過時刻を拾わない(観測量は近点移動だけで、周期は測定していない)。周期の分解能床という概念自体が本ハーネスに存在しない"
+              },
+              "apsidalIntegrationSpan": {
+                "status": "instrumented",
+                "steps": 43284,
+                "tTotal": 1385.088,
+                "TK1": 230.8434924779187,
+                "note": "近点移動は Δϖ_unwrapped/(steps·dt)×T_i の全步平均で、標本の間引きはしていない(転記元の定義そのまま)。窓・dt を変えると steps がこの定義式どおり動く"
+              },
+              "apsidalUlpFloor": {
+                "status": "not-instrumented",
+                "note": "1步あたりの引きずり増分と速度 1 ulp の比(丸め床)は本ハーネスが記録していない(tests/exp-kf1d.mjs の manifest.health の宣言と同じ)。記録しているのは NaN フラグである",
+                "nanKF0": false,
+                "nanQStar": false
+              }
+            }
+          },
+          {
+            "tag": "窓×0.5",
+            "axis": "window",
+            "isBaseline": false,
+            "dt": 0.016,
+            "dtFactor": 1,
+            "window": {
+              "orbitsOfInnerProbe": 3,
+              "unit": "× T(a=80)"
+            },
+            "windowFactor": 0.5,
+            "steps": 43284,
+            "observables": {
+              "drift_a80": 0.00002319193421272446,
+              "dPomQStar_a80": -0.000008296969954054587,
+              "dPomKF0_a80": -0.000031488904166779046,
+              "drift_a105": -0.000016141910420965325,
+              "dPomQStar_a105": -0.000008466792925976431,
+              "dPomKF0_a105": 0.000007675117494988894,
+              "drift_a130": -0.00006642654880904082,
+              "dPomQStar_a130": 0.0014563315444831378,
+              "dPomKF0_a130": 0.0015227580932921786,
+              "drift_a1221.9": 0.00007355469882561603,
+              "dPomQStar_a1221.9": 0.00018827042092377954,
+              "dPomKF0_a1221.9": 0.0001147157220981635
+            },
+            "relToBaseline": {
+              "drift_a80": 0.11075800156568952,
+              "drift_a105": 0.5935853011350125,
+              "drift_a130": -2.500021533975566,
+              "drift_a1221.9": 2.7710664876634716,
+              "dPomQStar_a80": -0.00943022784180256,
+              "dPomQStar_a105": -0.5236987496155234,
+              "dPomQStar_a130": 9.523035417272887,
+              "dPomQStar_a1221.9": -0.027981965374242256,
+              "dPomKF0_a80": -0.08213625622344634,
+              "dPomKF0_a105": -0.7753257726759554,
+              "dPomKF0_a130": 8.67607554631529,
+              "dPomKF0_a1221.9": -0.3414153778447236
+            },
+            "floors": {
+              "periodResolutionFloorRel": {
+                "status": "not-applicable",
+                "note": "環系ハーネスは公転通過時刻を拾わない(観測量は近点移動だけで、周期は測定していない)。周期の分解能床という概念自体が本ハーネスに存在しない"
+              },
+              "apsidalIntegrationSpan": {
+                "status": "instrumented",
+                "steps": 43284,
+                "tTotal": 692.544,
+                "TK1": 230.8434924779187,
+                "note": "近点移動は Δϖ_unwrapped/(steps·dt)×T_i の全步平均で、標本の間引きはしていない(転記元の定義そのまま)。窓・dt を変えると steps がこの定義式どおり動く"
+              },
+              "apsidalUlpFloor": {
+                "status": "not-instrumented",
+                "note": "1步あたりの引きずり増分と速度 1 ulp の比(丸め床)は本ハーネスが記録していない(tests/exp-kf1d.mjs の manifest.health の宣言と同じ)。記録しているのは NaN フラグである",
+                "nanKF0": false,
+                "nanQStar": false
+              }
+            }
+          },
+          {
+            "tag": "窓×2",
+            "axis": "window",
+            "isBaseline": false,
+            "dt": 0.016,
+            "dtFactor": 1,
+            "window": {
+              "orbitsOfInnerProbe": 12,
+              "unit": "× T(a=80)"
+            },
+            "windowFactor": 2,
+            "steps": 173133,
+            "observables": {
+              "drift_a80": 0.000016465705164960874,
+              "dPomQStar_a80": -0.000007420187949406809,
+              "dPomKF0_a80": -0.00002388589311436768,
+              "drift_a105": -0.000041061535926937816,
+              "dPomQStar_a105": -0.00000390254259356656,
+              "dPomKF0_a105": 0.00003715899333337126,
+              "drift_a130": 0.0000027605963602650788,
+              "dPomQStar_a130": 0.00020783262070585222,
+              "dPomKF0_a130": 0.00020507202434558714,
+              "drift_a1221.9": -0.0000508191156393204,
+              "dPomQStar_a1221.9": 0.0001769347755374502,
+              "dPomKF0_a1221.9": 0.0002277538911767706
+            },
+            "relToBaseline": {
+              "drift_a80": -0.21138902880437016,
+              "drift_a105": -0.033831270492350664,
+              "drift_a130": 1.1454560997187815,
+              "drift_a1221.9": -3.6054387684256928,
+              "dPomQStar_a80": 0.09724127556489473,
+              "dPomQStar_a105": 0.2976916617512606,
+              "dPomQStar_a130": 0.5017391038717887,
+              "dPomQStar_a1221.9": -0.08650656895015484,
+              "dPomKF0_a80": 0.17914606318358997,
+              "dPomKF0_a105": 0.08775769501449099,
+              "dPomKF0_a130": 0.3030910219716523,
+              "dPomKF0_a1221.9": 0.30753838812691126
+            },
+            "floors": {
+              "periodResolutionFloorRel": {
+                "status": "not-applicable",
+                "note": "環系ハーネスは公転通過時刻を拾わない(観測量は近点移動だけで、周期は測定していない)。周期の分解能床という概念自体が本ハーネスに存在しない"
+              },
+              "apsidalIntegrationSpan": {
+                "status": "instrumented",
+                "steps": 173133,
+                "tTotal": 2770.128,
+                "TK1": 230.8434924779187,
+                "note": "近点移動は Δϖ_unwrapped/(steps·dt)×T_i の全步平均で、標本の間引きはしていない(転記元の定義そのまま)。窓・dt を変えると steps がこの定義式どおり動く"
+              },
+              "apsidalUlpFloor": {
+                "status": "not-instrumented",
+                "note": "1步あたりの引きずり増分と速度 1 ulp の比(丸め床)は本ハーネスが記録していない(tests/exp-kf1d.mjs の manifest.health の宣言と同じ)。記録しているのは NaN フラグである",
+                "nanKF0": false,
+                "nanQStar": false
+              }
+            }
+          }
+        ],
+        "dt": {
+          "applicable": true,
+          "baseline": {
+            "tag": "baseline",
+            "dt": 0.016,
+            "window": {
+              "orbitsOfInnerProbe": 6,
+              "unit": "× T(a=80)"
+            },
+            "observables": {
+              "drift_a80": 0.00002087937622779565,
+              "dPomQStar_a80": -0.000008219458586844384,
+              "dPomKF0_a80": -0.000029098834814640032,
+              "drift_a105": -0.00003971783123505513,
+              "dPomQStar_a105": -0.000005556736807792791,
+              "dPomKF0_a105": 0.00003416109442726234,
+              "drift_a130": -0.000018978897176552214,
+              "dPomQStar_a130": 0.000138394625384674,
+              "dPomKF0_a130": 0.0001573735225612262,
+              "drift_a1221.9": 0.000019505012459006005,
+              "dPomQStar_a1221.9": 0.00019369025493057505,
+              "dPomKF0_a1221.9": 0.00017418524247156904
+            }
+          },
+          "variants": [
+            {
+              "tag": "dt/2",
+              "axis": "dt",
+              "isBaseline": false,
+              "dt": 0.008,
+              "dtFactor": 0.5,
+              "window": {
+                "orbitsOfInnerProbe": 6,
+                "unit": "× T(a=80)"
+              },
+              "windowFactor": 1,
+              "steps": 173133,
+              "observables": {
+                "drift_a80": 0.00002088124981181517,
+                "dPomQStar_a80": -0.000007988276475514363,
+                "dPomKF0_a80": -0.000028869526287329534,
+                "drift_a105": -0.00003970801154766005,
+                "dPomQStar_a105": -0.000006197560378052579,
+                "dPomKF0_a105": 0.000033510451169607475,
+                "drift_a130": -0.000018924541895089128,
+                "dPomQStar_a130": 0.000064992956653135,
+                "dPomKF0_a130": 0.00008391749854822412,
+                "drift_a1221.9": 0.00001950240352885328,
+                "dPomQStar_a1221.9": 0.00012397322094863733,
+                "dPomKF0_a1221.9": 0.00010447081741978405
+              },
+              "relToBaseline": {
+                "drift_a80": 0.00008973371613594166,
+                "drift_a105": 0.0002472362435140528,
+                "drift_a130": 0.0028639852441078775,
+                "drift_a1221.9": -0.00013375690777989087,
+                "dPomQStar_a80": 0.0281261969857769,
+                "dPomQStar_a105": -0.11532372189395299,
+                "dPomQStar_a130": -0.5303794748352099,
+                "dPomQStar_a1221.9": -0.35994084476230664,
+                "dPomKF0_a80": 0.007880333654979546,
+                "dPomKF0_a105": -0.01904632356086402,
+                "dPomKF0_a130": -0.46676227879708293,
+                "dPomKF0_a1221.9": -0.40023152399471473
+              },
+              "floors": {
+                "periodResolutionFloorRel": {
+                  "status": "not-applicable",
+                  "note": "環系ハーネスは公転通過時刻を拾わない(観測量は近点移動だけで、周期は測定していない)。周期の分解能床という概念自体が本ハーネスに存在しない"
+                },
+                "apsidalIntegrationSpan": {
+                  "status": "instrumented",
+                  "steps": 173133,
+                  "tTotal": 1385.064,
+                  "TK1": 230.8434924779187,
+                  "note": "近点移動は Δϖ_unwrapped/(steps·dt)×T_i の全步平均で、標本の間引きはしていない(転記元の定義そのまま)。窓・dt を変えると steps がこの定義式どおり動く"
+                },
+                "apsidalUlpFloor": {
+                  "status": "not-instrumented",
+                  "note": "1步あたりの引きずり増分と速度 1 ulp の比(丸め床)は本ハーネスが記録していない(tests/exp-kf1d.mjs の manifest.health の宣言と同じ)。記録しているのは NaN フラグである",
+                  "nanKF0": false,
+                  "nanQStar": false
+                }
+              }
+            },
+            {
+              "tag": "dt×2",
+              "axis": "dt",
+              "isBaseline": false,
+              "dt": 0.032,
+              "dtFactor": 2,
+              "window": {
+                "orbitsOfInnerProbe": 6,
+                "unit": "× T(a=80)"
+              },
+              "windowFactor": 1,
+              "steps": 43284,
+              "observables": {
+                "drift_a80": 0.000020875541077318413,
+                "dPomQStar_a80": -0.000009143504225243778,
+                "dPomKF0_a80": -0.000030019045302562193,
+                "drift_a105": -0.000039737298673168875,
+                "dPomQStar_a105": -0.000004475133506980574,
+                "dPomKF0_a105": 0.0000352621651661883,
+                "drift_a130": -0.00001908797743361884,
+                "dPomQStar_a130": 0.00028525054835751117,
+                "dPomKF0_a130": 0.00030433852579113,
+                "drift_a1221.9": 0.000019506318215067875,
+                "dPomQStar_a1221.9": 0.0003331126109234199,
+                "dPomKF0_a1221.9": 0.00031360629270835204
+              },
+              "relToBaseline": {
+                "drift_a80": -0.00018368127646127354,
+                "drift_a105": -0.0004901435327254516,
+                "drift_a130": -0.005747449709638087,
+                "drift_a1221.9": 0.00006694464126150885,
+                "dPomQStar_a80": -0.11242171593617752,
+                "dPomQStar_a105": 0.19464720720538212,
+                "dPomQStar_a130": 1.0611389175312598,
+                "dPomQStar_a1221.9": 0.7198212219960082,
+                "dPomKF0_a80": -0.03162361976979196,
+                "dPomKF0_a105": 0.03223171732013491,
+                "dPomKF0_a130": 0.933861051326007,
+                "dPomKF0_a1221.9": 0.8004182688412289
+              },
+              "floors": {
+                "periodResolutionFloorRel": {
+                  "status": "not-applicable",
+                  "note": "環系ハーネスは公転通過時刻を拾わない(観測量は近点移動だけで、周期は測定していない)。周期の分解能床という概念自体が本ハーネスに存在しない"
+                },
+                "apsidalIntegrationSpan": {
+                  "status": "instrumented",
+                  "steps": 43284,
+                  "tTotal": 1385.088,
+                  "TK1": 230.8434924779187,
+                  "note": "近点移動は Δϖ_unwrapped/(steps·dt)×T_i の全步平均で、標本の間引きはしていない(転記元の定義そのまま)。窓・dt を変えると steps がこの定義式どおり動く"
+                },
+                "apsidalUlpFloor": {
+                  "status": "not-instrumented",
+                  "note": "1步あたりの引きずり増分と速度 1 ulp の比(丸め床)は本ハーネスが記録していない(tests/exp-kf1d.mjs の manifest.health の宣言と同じ)。記録しているのは NaN フラグである",
+                  "nanKF0": false,
+                  "nanQStar": false
+                }
+              }
+            }
+          ],
+          "maxAbsRelDiff": {
+            "drift_a80": 0.00018368127646127354,
+            "drift_a105": 0.0004901435327254516,
+            "drift_a130": 0.005747449709638087,
+            "drift_a1221.9": 0.00013375690777989087,
+            "dPomQStar_a80": 0.11242171593617752,
+            "dPomQStar_a105": 0.19464720720538212,
+            "dPomQStar_a130": 1.0611389175312598,
+            "dPomQStar_a1221.9": 0.7198212219960082,
+            "dPomKF0_a80": 0.03162361976979196,
+            "dPomKF0_a105": 0.03223171732013491,
+            "dPomKF0_a130": 0.933861051326007,
+            "dPomKF0_a1221.9": 0.8004182688412289
+          },
+          "maxAbsRelDiffOverall": 1.0611389175312598
+        },
+        "window": {
+          "applicable": true,
+          "baseline": {
+            "tag": "baseline",
+            "dt": 0.016,
+            "window": {
+              "orbitsOfInnerProbe": 6,
+              "unit": "× T(a=80)"
+            },
+            "observables": {
+              "drift_a80": 0.00002087937622779565,
+              "dPomQStar_a80": -0.000008219458586844384,
+              "dPomKF0_a80": -0.000029098834814640032,
+              "drift_a105": -0.00003971783123505513,
+              "dPomQStar_a105": -0.000005556736807792791,
+              "dPomKF0_a105": 0.00003416109442726234,
+              "drift_a130": -0.000018978897176552214,
+              "dPomQStar_a130": 0.000138394625384674,
+              "dPomKF0_a130": 0.0001573735225612262,
+              "drift_a1221.9": 0.000019505012459006005,
+              "dPomQStar_a1221.9": 0.00019369025493057505,
+              "dPomKF0_a1221.9": 0.00017418524247156904
+            }
+          },
+          "variants": [
+            {
+              "tag": "窓×0.5",
+              "axis": "window",
+              "isBaseline": false,
+              "dt": 0.016,
+              "dtFactor": 1,
+              "window": {
+                "orbitsOfInnerProbe": 3,
+                "unit": "× T(a=80)"
+              },
+              "windowFactor": 0.5,
+              "steps": 43284,
+              "observables": {
+                "drift_a80": 0.00002319193421272446,
+                "dPomQStar_a80": -0.000008296969954054587,
+                "dPomKF0_a80": -0.000031488904166779046,
+                "drift_a105": -0.000016141910420965325,
+                "dPomQStar_a105": -0.000008466792925976431,
+                "dPomKF0_a105": 0.000007675117494988894,
+                "drift_a130": -0.00006642654880904082,
+                "dPomQStar_a130": 0.0014563315444831378,
+                "dPomKF0_a130": 0.0015227580932921786,
+                "drift_a1221.9": 0.00007355469882561603,
+                "dPomQStar_a1221.9": 0.00018827042092377954,
+                "dPomKF0_a1221.9": 0.0001147157220981635
+              },
+              "relToBaseline": {
+                "drift_a80": 0.11075800156568952,
+                "drift_a105": 0.5935853011350125,
+                "drift_a130": -2.500021533975566,
+                "drift_a1221.9": 2.7710664876634716,
+                "dPomQStar_a80": -0.00943022784180256,
+                "dPomQStar_a105": -0.5236987496155234,
+                "dPomQStar_a130": 9.523035417272887,
+                "dPomQStar_a1221.9": -0.027981965374242256,
+                "dPomKF0_a80": -0.08213625622344634,
+                "dPomKF0_a105": -0.7753257726759554,
+                "dPomKF0_a130": 8.67607554631529,
+                "dPomKF0_a1221.9": -0.3414153778447236
+              },
+              "floors": {
+                "periodResolutionFloorRel": {
+                  "status": "not-applicable",
+                  "note": "環系ハーネスは公転通過時刻を拾わない(観測量は近点移動だけで、周期は測定していない)。周期の分解能床という概念自体が本ハーネスに存在しない"
+                },
+                "apsidalIntegrationSpan": {
+                  "status": "instrumented",
+                  "steps": 43284,
+                  "tTotal": 692.544,
+                  "TK1": 230.8434924779187,
+                  "note": "近点移動は Δϖ_unwrapped/(steps·dt)×T_i の全步平均で、標本の間引きはしていない(転記元の定義そのまま)。窓・dt を変えると steps がこの定義式どおり動く"
+                },
+                "apsidalUlpFloor": {
+                  "status": "not-instrumented",
+                  "note": "1步あたりの引きずり増分と速度 1 ulp の比(丸め床)は本ハーネスが記録していない(tests/exp-kf1d.mjs の manifest.health の宣言と同じ)。記録しているのは NaN フラグである",
+                  "nanKF0": false,
+                  "nanQStar": false
+                }
+              }
+            },
+            {
+              "tag": "窓×2",
+              "axis": "window",
+              "isBaseline": false,
+              "dt": 0.016,
+              "dtFactor": 1,
+              "window": {
+                "orbitsOfInnerProbe": 12,
+                "unit": "× T(a=80)"
+              },
+              "windowFactor": 2,
+              "steps": 173133,
+              "observables": {
+                "drift_a80": 0.000016465705164960874,
+                "dPomQStar_a80": -0.000007420187949406809,
+                "dPomKF0_a80": -0.00002388589311436768,
+                "drift_a105": -0.000041061535926937816,
+                "dPomQStar_a105": -0.00000390254259356656,
+                "dPomKF0_a105": 0.00003715899333337126,
+                "drift_a130": 0.0000027605963602650788,
+                "dPomQStar_a130": 0.00020783262070585222,
+                "dPomKF0_a130": 0.00020507202434558714,
+                "drift_a1221.9": -0.0000508191156393204,
+                "dPomQStar_a1221.9": 0.0001769347755374502,
+                "dPomKF0_a1221.9": 0.0002277538911767706
+              },
+              "relToBaseline": {
+                "drift_a80": -0.21138902880437016,
+                "drift_a105": -0.033831270492350664,
+                "drift_a130": 1.1454560997187815,
+                "drift_a1221.9": -3.6054387684256928,
+                "dPomQStar_a80": 0.09724127556489473,
+                "dPomQStar_a105": 0.2976916617512606,
+                "dPomQStar_a130": 0.5017391038717887,
+                "dPomQStar_a1221.9": -0.08650656895015484,
+                "dPomKF0_a80": 0.17914606318358997,
+                "dPomKF0_a105": 0.08775769501449099,
+                "dPomKF0_a130": 0.3030910219716523,
+                "dPomKF0_a1221.9": 0.30753838812691126
+              },
+              "floors": {
+                "periodResolutionFloorRel": {
+                  "status": "not-applicable",
+                  "note": "環系ハーネスは公転通過時刻を拾わない(観測量は近点移動だけで、周期は測定していない)。周期の分解能床という概念自体が本ハーネスに存在しない"
+                },
+                "apsidalIntegrationSpan": {
+                  "status": "instrumented",
+                  "steps": 173133,
+                  "tTotal": 2770.128,
+                  "TK1": 230.8434924779187,
+                  "note": "近点移動は Δϖ_unwrapped/(steps·dt)×T_i の全步平均で、標本の間引きはしていない(転記元の定義そのまま)。窓・dt を変えると steps がこの定義式どおり動く"
+                },
+                "apsidalUlpFloor": {
+                  "status": "not-instrumented",
+                  "note": "1步あたりの引きずり増分と速度 1 ulp の比(丸め床)は本ハーネスが記録していない(tests/exp-kf1d.mjs の manifest.health の宣言と同じ)。記録しているのは NaN フラグである",
+                  "nanKF0": false,
+                  "nanQStar": false
+                }
+              }
+            }
+          ],
+          "maxAbsRelDiff": {
+            "drift_a80": 0.21138902880437016,
+            "drift_a105": 0.5935853011350125,
+            "drift_a130": 2.500021533975566,
+            "drift_a1221.9": 3.6054387684256928,
+            "dPomQStar_a80": 0.09724127556489473,
+            "dPomQStar_a105": 0.5236987496155234,
+            "dPomQStar_a130": 9.523035417272887,
+            "dPomQStar_a1221.9": 0.08650656895015484,
+            "dPomKF0_a80": 0.17914606318358997,
+            "dPomKF0_a105": 0.7753257726759554,
+            "dPomKF0_a130": 8.67607554631529,
+            "dPomKF0_a1221.9": 0.3414153778447236
+          },
+          "maxAbsRelDiffOverall": 9.523035417272887
+        }
+      }
+    }
+  },
+  "meta": {
+    "stage": "complete",
+    "elapsedSec": 104.784,
+    "generatedAt": "2026-08-22T08:50:58.371Z"
+  },
+  "claimWindows": {
+    "mercuryDrag": {
+      "presetId": "mercuryRealKF1",
+      "claimId": "mercuryRealKF1.drag-precession",
+      "metric": "dragPrecessionRadPerOrbitAbs",
+      "expected": {
+        "min": 5e-10,
+        "max": 6.2e-10
+      },
+      "presetQ": 6.16,
+      "presetD0": 0.006,
+      "qLock": true
+    },
+    "ringApsidal": {
+      "presetId": "saturnRingRealKF1",
+      "claimId": "saturnRingRealKF1.ring-apsidal-drift",
+      "metric": "ringApsidalDriftRadPerOrbit",
+      "expected": {
+        "min": 0.00001,
+        "max": 0.00003
+      },
+      "presetQ": 21.8,
+      "presetD0": 0.006,
+      "qLock": true
+    }
+  },
+  "kw1Summary": {
+    "rule": {
+      "role": "窓(転記照合)",
+      "verbatim": "KW1(転記照合): 基線再測(dt・窓とも正本設定)が kf1c/kf1d の対応値と**ビット一致**。",
+      "canonicalSettings": {
+        "mercury": "dt=0.016・8 公転(出典: tests/exp-kf1c.mjs runRL の dt と mkMerc の orbits:8 / tests/exp-kf1d.mjs §A も同一)",
+        "earthMoon": "dt=0.016・8 公転(出典: tests/exp-kf1c.mjs runRL の dt と mkEM の orbits:8)",
+        "saturnRing": "dt=0.016・6 × T(a=80)(出典: tests/exp-kf1d.mjs §B の run())"
+      },
+      "comparisonRule": "Object.is による厳密一致(±0 の別も区別する)。対象は両者に共通して存在する数値フィールドのみ(本便が追加した床の記録フィールドは照合対象外)。"
+    },
+    "targetAllSame": true,
+    "perSystem": {
+      "mercury": {
+        "allIdentical": true,
+        "nFieldsCompared": 19
+      },
+      "earthMoon": {
+        "allIdentical": true,
+        "nFieldsCompared": 7
+      },
+      "saturnRing": {
+        "allIdentical": true,
+        "nFieldsCompared": 9
+      }
+    },
+    "allIdentical": true,
+    "result": "PASS"
+  },
+  "kw2Summary": {
+    "rule": {
+      "role": "記述(窓なし — 判定に使わない)",
+      "verbatim": "KW2(記述 — 窓なし): 3主張 × {dt/2(実行時間が許せば dt×2 も)・測定窓 ×0.5/×2(各ハーネスの窓定義に即して適用 — 適用不能な軸は not-applicable と宣言)} の観測量を収載し、基線との相対差を dtConvergence / windowSensitivity 成分として宣言(数値床併記)。",
+      "window": "なし(記述のみ — 合否は付けない)",
+      "axisApplication": {
+        "dt": "各ハーネスの dt(正本 0.016)へ係数を掛ける。步数は steps=ceil(公転数·T/dt) の定義式どおり自動で増減する(定義式は転記元のまま)。",
+        "window": "各ハーネスの窓定義そのものへ係数を掛ける — 🪨🌘 は「公転数」(正本 8)、💿 は「内縁 a=80 の公転数」(正本 6)。窓を変えると LSQ 標本の間引き幅 SAMPLE=max(1,floor(steps/4000)) も定義式どおり変わる(転記元の定義をそのまま使う)。"
+      },
+      "floorRule": "相対差の読み方を支えるため、測れる床は機械計算して併記し、測っていない床は not-instrumented と明示する。周期の分解能床は dt/(t_last−t_first)(公転通過時刻を補間せず步境界で拾う定義から出る量子化幅)。近点回転(RL 角の全步 LSQ)については、1步あたりの引きずり増分と速度 1 ulp の比を本ハーネス族は記録していない(kf1c/kf1d の health 宣言と同じ)。"
+    },
+    "note": "窓なしの記述である(合否は付けない)。台帳(tools/gen-error-budget.mjs)の dtConvergence / windowSensitivity 成分は、ここの systems.*.KW2.dt / systems.*.KW2.window を機械読取する",
+    "perSystem": {
+      "mercury": {
+        "primaryObservableKey": "dragQStar",
+        "dtAxisMaxAbsRelDiffPrimary": 0.0006200318306030087,
+        "windowAxisMaxAbsRelDiffPrimary": 0.03537271994961157,
+        "dtAxisMaxAbsRelDiffOverall": 0.1060620400791757,
+        "windowAxisMaxAbsRelDiffOverall": 0.46777194554784757,
+        "dtVariantTags": [
+          "dt/2",
+          "dt×2"
+        ],
+        "windowVariantTags": [
+          "窓×0.5",
+          "窓×2"
+        ]
+      },
+      "earthMoon": {
+        "primaryObservableKey": "ratioToObserved",
+        "dtAxisMaxAbsRelDiffPrimary": 0.00006118361055480814,
+        "windowAxisMaxAbsRelDiffPrimary": 0.15937902326824366,
+        "dtAxisMaxAbsRelDiffOverall": 0.009040704841471386,
+        "windowAxisMaxAbsRelDiffOverall": 0.15937902326824374,
+        "dtVariantTags": [
+          "dt/2",
+          "dt×2"
+        ],
+        "windowVariantTags": [
+          "窓×0.5",
+          "窓×2"
+        ]
+      },
+      "saturnRing": {
+        "primaryObservableKey": "drift_a80",
+        "dtAxisMaxAbsRelDiffPrimary": 0.00018368127646127354,
+        "windowAxisMaxAbsRelDiffPrimary": 0.21138902880437016,
+        "dtAxisMaxAbsRelDiffOverall": 1.0611389175312598,
+        "windowAxisMaxAbsRelDiffOverall": 9.523035417272887,
+        "dtVariantTags": [
+          "dt/2",
+          "dt×2"
+        ],
+        "windowVariantTags": [
+          "窓×0.5",
+          "窓×2"
+        ]
+      }
+    },
+    "axesApplied": [
+      "baseline",
+      "dt/2",
+      "dt×2",
+      "窓×0.5",
+      "窓×2"
+    ],
+    "axesSkipped": [],
+    "notApplicableAxes": [
+      {
+        "system": "saturnRing",
+        "axis": "period(周期の観測量そのもの)",
+        "status": "not-applicable",
+        "note": "環系ハーネスは周期を測定していないため、周期に対する dt/窓感度という概念が無い"
+      }
+    ]
+  },
+  "determinism": {
+    "rule": {
+      "role": "窓(決定性)",
+      "verbatim": "KW3(決定性): 別プロセス2回実行の正規化 JSON SHA-256 一致(coreshell5 方式)。",
+      "canonicalization": "対象は out.systems(実測部)のみ。日時・環境・経過時間などの揮発キーはmeta / manifest 側にしか置かないので、対象内に除外すべき揮発値は存在しない"
+    },
+    "canonicalization": "out.systems(実測部)のみを対象に、キーを再帰整列した JSON の SHA-256。日時・経過時間・環境などの揮発キーは meta / manifest 側にしか置いていないので、対象内に除外すべき揮発値は存在しない",
+    "sha256": "0dcb6d842378588b949873d9b8d887765ff55d8a973dac38ea793d56185ee92b",
+    "bytes": 50498,
+    "reference": "kf1sens-run1.json",
+    "identical": true,
+    "referenceSha256": "0dcb6d842378588b949873d9b8d887765ff55d8a973dac38ea793d56185ee92b",
+    "note": "2回目は別プロセス・別ブラウザ起動で全節を再実行したもの(同一スクリプト・同一 seed・同一窓)"
+  },
+  "kw3": {
+    "rule": {
+      "role": "窓(決定性)",
+      "verbatim": "KW3(決定性): 別プロセス2回実行の正規化 JSON SHA-256 一致(coreshell5 方式)。",
+      "canonicalization": "対象は out.systems(実測部)のみ。日時・環境・経過時間などの揮発キーはmeta / manifest 側にしか置かないので、対象内に除外すべき揮発値は存在しない"
+    },
+    "sha256": "0dcb6d842378588b949873d9b8d887765ff55d8a973dac38ea793d56185ee92b",
+    "reference": "kf1sens-run1.json",
+    "identical": true,
+    "result": "PASS"
+  },
+  "manifest": {
+    "schema": "dfm-experiment-manifest",
+    "schemaVersion": "1.0",
+    "generatedAt": "2026-08-22T08:50:58.376Z",
+    "experiment": {
+      "id": "kf1sens",
+      "wave": 169,
+      "title": "kf1 系3主張の dt 収束・測定窓感度の実測(error budget の dtConvergence / windowSensitivity 成分の供給)",
+      "script": "tests/exp-kf1sens.mjs",
+      "scriptSha256": "bbbf16e3e55ff4a1d97861b35d7899e413d12e448027dc22957ce3ad8cd04259",
+      "scriptBytes": 50298,
+      "helperSha256": "502979b3027a7a79bc4b2df5e1bc0fbb86e3bbc252af85b6f2266e101666103a",
+      "command": "node tests/exp-kf1sens.mjs(KFS_OUT / KFS_DET_REF で決定性の2回実行)"
+    },
+    "provenance": {
+      "git": {
+        "commit": "7c2ae5eee28b0febb84b20b5eee2600995c2bff4",
+        "describe": "7c2ae5e-dirty",
+        "dirty": true,
+        "dirtyFiles": {
+          "count": 22,
+          "sample": [
+            "paper/README.md",
+            "paper/dfm-paper-ja.tex",
+            "paper/dfm-paper.tex",
+            "paper/dfm-paper2-ja.tex",
+            "paper/dfm-paper2.tex",
+            "paper/figures/p2fig1.json",
+            "paper/figures/p2fig1.pdf",
+            "paper/figures/p2fig2.json"
+          ]
+        }
+      },
+      "target": {
+        "path": "index.html",
+        "sha256": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+        "bytes": 1665860,
+        "appVersion": "1.41"
+      },
+      "presets": {
+        "mode": "mixed",
+        "note": "Kt=134851663.17051244 は c₀²/G(physLock 条件)の値である。dt と公転数以外のキーは既存ハーネスと 1 つも違わない(その2つも正本値のとき転記元と同一挙動になる)",
+        "ids": [
+          "mercuryRealKF1",
+          "saturnRingRealKF1",
+          "earthMoonRealKF1"
+        ],
+        "hashes": {
+          "mercuryRealKF1": "5f8c6b0e34807dcb364c916a8a8343b06a9d6a684d906c3c2139dbe390665bd6",
+          "saturnRingRealKF1": "698ba4e59e2c66bbee452a004c9202cbe32391c1ad91587def5cc8a6fb41a9b7",
+          "earthMoonRealKF1": "8eda5b04937ea4e754f1c4f9f674320b6761b67d0f2f85aa16ac66792074b4d0"
+        },
+        "canonicalization": "HP.allPresets() の当該プリセットを再帰キー整列した JSON の SHA-256",
+        "modifiedAtRuntime": "なし(プリセットは読み取り専用)",
+        "declaration": "走行構成はすべて動的構成(内蔵プリセットを読まず、既存ハーネスの宣言値を逐語転記して build する)。内蔵プリセットは**claims 窓の機械読み取り**(感度の大きさを対比して読むための記録)にだけ使い、走行には使わない",
+        "declaredIn": "🪨🌘 = exp-kf1c mkMerc/mkEM の逐語転記 / 💿 = exp-kf1d §B の逐語転記",
+        "configSha256": "1fb6618ff1f8141f6818336ffb3fdc5f22f6a17e7324cd431e4ce29f52c613f1",
+        "configCanonicalization": "宣言済み構成(configs)を再帰キー整列した JSON の SHA-256"
+      }
+    },
+    "numerics": {
+      "seed": 1,
+      "dt": {
+        "canonical": 0.016,
+        "sweptFactors": [
+          1,
+          0.5,
+          2,
+          1,
+          1
+        ],
+        "note": "正本 dt=0.016 に係数を掛けて掃引する(掃引点は実測前に固定した AXES)"
+      },
+      "timeScale": 1,
+      "substeps": "not-applicable",
+      "steps": {
+        "mercuryEarthMoon": "ceil(公転数·T_K/dt)(転記元の定義式そのまま)",
+        "ring": "ceil(公転数·T(a=80)/dt)(同上)"
+      },
+      "window": {
+        "mercury": "正本 8 公転 × {0.5, 1, 2}",
+        "earthMoon": "正本 8 公転 × {0.5, 1, 2}",
+        "ring": "正本 6 × T(a=80) × {0.5, 1, 2}",
+        "note": "窓係数の掃引点は実測前に固定した AXES(preRegistered.KW2.axisApplication)"
+      },
+      "warmup": "not-applicable",
+      "lsqSampling": "🪨🌘 は ≤4000 標本(SAMPLE=max(1,floor(steps/4000))— 転記元と同一定義)。💿 は間引きなしの全步平均(同上)。標本数・間引き幅は systems.*.KW2.all[].floors に収載",
+      "precision": "stateCarry:\"double\"(全系 — 転記元と同一)"
+    },
+    "environment": {
+      "node": "v22.22.2",
+      "platform": "linux/x64",
+      "playwright": "playwright@1.61.1",
+      "browser": "Playwright Chromium 141.0.7390.37",
+      "date": "2026-08-22T08:50:58.423Z",
+      "tz": "UTC"
+    },
+    "classification": {
+      "note": "**本便は較正を一切行わない**(fit=[])。動かすノブは dt と測定窓の2つだけで、どちらも物理ではなく測定器側の設定である。判定窓の新設・再設定も行っていない",
+      "input": [
+        "🪨🌘💿 の実単位の質量・半径・自転・軌道要素(観測由来の外部入力 — 転記元と同一)",
+        "D₀=0.006(既存の共有較正値をそのまま使用 — 本便での再フィットはゼロ)",
+        "初速較正係数 f=0.9968(🌘 の既存値をそのまま使用)",
+        "seed=1・体の初期条件(いずれも転記元と同一)",
+        "正本 dt=0.016 と各系の正本測定窓(8 公転 / 6×T(a=80))",
+        "感度軸の掃引係数 dt×{0.5,1,2}・窓×{0.5,1,2}(実測前に固定)"
+      ],
+      "fit": [],
+      "derived": [
+        "q* = 3 + ln(1.25·c₀²R/(GM))/ln((R+a)/R)(既知量だけから計算 — 🪨💿)",
+        "引きずり歳差 Δϖ(kF1)−Δϖ(kF0)(🪨💿)",
+        "近点回転比 Δϖ/0.05311(🌘)",
+        "平均周期 Tavg とその日換算(🌘)",
+        "基線との相対差(dt 軸・窓軸 — KW2)",
+        "周期の分解能床 dt/(t_last−t_first)(🪨🌘)"
+      ],
+      "holdOut": []
+    },
+    "judgement": {
+      "pointers": [
+        "preRegistered.KW1",
+        "preRegistered.KW2",
+        "preRegistered.KW3",
+        "kw1Summary",
+        "kw2Summary",
+        "kw3",
+        "determinism",
+        "systems.mercury.KW1",
+        "systems.earthMoon.KW1",
+        "systems.saturnRing.KW1",
+        "systems.mercury.KW2",
+        "systems.earthMoon.KW2",
+        "systems.saturnRing.KW2",
+        "claimWindows",
+        "targetConsistency"
+      ],
+      "note": "窓は実測前に固定してあり実測後に動かしていない(preRegistered)。KW1 は転記照合の窓(基線再測が kf1c/kf1d とビット一致するか)、KW2 は**窓なしの記述**、KW3 は決定性の窓である。既存の判定窓・較正値には一切触れていない(claimWindowForScale は対比のための機械記録であって判定には使っていない)",
+      "externalReferences": [
+        "🪨 水星の 1PN 解析値 5.02e-7 rad/公転(kf1c §D1 の窓の分母)",
+        "🌘 の近点回転 0.05311 rad/公転(8.85 年)・恒星月 27.3217 日",
+        "プリセット claims の事前登録窓(🪨 drag-precession・💿 ring-apsidal-drift — 対象 HTML から機械読み取り)"
+      ]
+    },
+    "health": {
+      "nan": {
+        "instrumented": true,
+        "flagsFound": 18,
+        "anyTrue": false,
+        "truePaths": [],
+        "numericNaNInPayload": 0,
+        "note": "結果ペイロード内の nan/hasNaN フラグを走査して集計した値(再測定はしていない)。numericNaNInPayload は JSON 化後に NaN として残った数値の件数(JSON.stringify では null になるため通常 0)"
+      },
+      "clamps": {
+        "aggregate": "not-instrumented",
+        "lastBuild": {
+          "clampVN": 0,
+          "clampSN": 0,
+          "clampHN": 0,
+          "clampAN": 0,
+          "clampRN": 0,
+          "angOvfN": 0,
+          "n": 5
+        },
+        "lastBuildTotal": 0,
+        "note": "エンジンのクランプ計数は sim.build() ごとに 0 へリセットされるため、ここに記録できるのは**この実行で最後に build した構成**の計数だけである(全構成を横断した集計は未計装)。lastBuildTotal>0 なら少なくとも最終構成で安全クランプが発動している(保存則主張の域外)"
+      },
+      "conservation": {
+        "status": "not-instrumented",
+        "note": "本ハーネス族は保存量残差を記録していない(記録しているのは e ドリフト・振幅・NaN フラグ・崩壊フラグという軌道要素側の健全性である — 転記元 kf1c/kf1d の宣言と同じ)"
+      },
+      "numericalFloor": {
+        "status": "instrumented",
+        "note": "周期の分解能床 dt/(t_last−t_first) は機械算出して systems.*.KW2.all[].floors に収載。近点回転側の 1 ulp 丸め床は未計装(同ブロック内で not-instrumented と明示)"
+      }
+    },
+    "regeneration": {
+      "canonicalization": "再生成時のペイロード照合は `manifest` キーを除外して行う(manifest は実行ごとに日時・環境・git 状態が変わる非測定メタである)。除外後の全キーは同一スクリプト・同一対象・同一 seed/步数で bit 一致することを要求する",
+      "payloadKeysExcluded": [
+        "manifest",
+        "meta"
+      ],
+      "note": "meta(日時・経過時間)は非測定メタなので照合対象外。決定性の照合対象は out.systems のみ"
+    }
+  }
+}
