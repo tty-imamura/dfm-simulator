@@ -78,6 +78,11 @@ tests/out/*
 #   窓×{0.5,2}・数値床併記)/ KW3 決定性)。error budget v2 の dtConvergence / windowSensitivity
 #   成分の供給元 — tools/gen-error-budget.mjs が SRC_FILES から機械読取するのでコミット対象にする
 !tests/out/kf1sens-results.json
+# 第174便: コア外殻第8実験(🐚 平均場2項振幅の 4点最小二乗による解き直し — 事前登録窓 FW1 主窓
+#   (4点振幅+精細アンカーの2項複合予測 vs coreshell7 env×2 実測 |差| ≤ 0.10)/ FW2 整合(部分集合
+#   {1.5,2.0} の振幅が第158便 ZW2 収載値と bit 一致)/ FW3 決定性。**hold-out は存在せず新規掃引なし**
+#   である旨を preRegistered.honestFraming に明記)
+!tests/out/coreshell8-results.json
 # 第166便: 誤差予算(error budget)の機械集計台帳 — 較正・ホールドアウト主張ごとの
 #   {claim・出典 JSON の SHA-256・主観測量・事前登録窓・不確かさ成分(数値床/dt 収束/窓感度/
 #   ソース差/シード散らばり)} を上の白リスト済み結果 JSON **からのみ**集計した出力

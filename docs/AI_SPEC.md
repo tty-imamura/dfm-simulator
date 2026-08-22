@@ -17,7 +17,153 @@ SYSTEM_PROMPT と逐語一致で、QA(prompt.spec-sync)が機械的に同期検�
 > 土星の環と主要衛星・土星の帯状重力)を作りたいときはカタログモードを使うこと。本仕様
 > (自由生成)は実在天体の数値精度を保証しない。
 
+> **第176便(v1.42-b1 beta)以降の追記**: AI タブにはさらに第3のモード「**観測採取(カタログ外)**」が
+> ある。カタログに無い実在天体を、**出典つきの観測転写**(ObservationRecord)から決定的に構築する
+> 経路である。ここでも原則は同じで、**AI は数値を発明しない** — AI の役は「観測値の転写器」だけで、
+> 単位換算・スケール指数・配置・初速・qLock の q・共有補正 D₀ はアプリの決定的関数が計算する。
+> 詳細は下の「付録: 観測採取(ObservationRecord)経路」を参照。
+
 ---
+
+## 付録: 観測採取(ObservationRecord)経路〔第176便〕
+
+カタログに無い実在天体(冥王星とカロン、火星の衛星、系外惑星系など)を扱うための第3の経路。
+**アプリ内蔵カタログの6系はこの経路を通らない**(カタログ一致系はカタログ経路が優先。生成物も
+第170便から1ビットも変わっていない — QA `ai.catalog-integrity` / `ai.placement-determinism`)。
+
+### 1. ObservationRecord スキーマ
+
+観測量1つにつき1オブジェクトの**配列**を渡す。
+
+```json
+{"body":"<天体名>","quantity":"<下表のいずれか>","value":<数値>,"unit":"<SI単位>",
+ "source":"<出典(刊行物・アーカイブ)>","url":"<実際に読んだページ>","retrieved":"YYYY-MM-DD","note":"<任意>"}
+```
+
+| quantity | 単位(SI 固定) | 役割 |
+|---|---|---|
+| `mass` | `kg` | **必須**(全天体) |
+| `radius` | `m` | 中心は必須(qLock の R)/ 衛星は任意 |
+| `rotation_period` | `s` | 自転周期(`spin` があれば省略可) |
+| `spin` | `rad/s` | 自転角速度(`rotation_period` の代わり) |
+| `semi_major_axis` | `m` | 衛星は**必須**(これを持たない天体=中心) |
+| `eccentricity` | `1`(無次元) | 任意(欠けたら e=0 の円軌道化を宣言) |
+| `orbital_period` | `s` | 衛星は**必須**。**自己診断の照合先のみで、配置には使わない** |
+
+- 中心天体は「`semi_major_axis` を持たない天体」で、**ちょうど1つ**・かつ最重量でなければならない。
+- 衛星は `semi_major_axis` の昇順に並べ替えられる(位相は 90°(4天体以下)/60°(5天体以上)刻み)。
+
+### 2. 拒否条件(**作らない** — 黙って埋めない)
+
+構築を**拒否**する: ルートが配列でない/空配列/`url` が空・非 http(s)/`retrieved` が欠落または
+`YYYY-MM(-DD)` 形式でない/`source` が空/`value` が数値でない(数値なし文字列・`null`・NaN)/
+`unit` が上表の SI 単位でない(`km`・`d`・`deg` 等)/`invented`・`estimated`・`guessed` 等の
+発明・推測フラグが真/上表以外のキー/同じ `body`+`quantity` の重複行/`eccentricity` が 0≤e<1 の外/
+質量または軌道長半径が欠ける天体がある/中心の半径が無い/衛星の `orbital_period` が無い/
+中心が0個または2個以上/中心より重い衛星がある/天体が1つしかない。
+
+**許容するが宣言する(黙って行わない)**: 中心の自転の出典が無い → `spin=0` と宣言 /
+衛星の離心率の出典が無い → `e=0`(円軌道化)と宣言 / 衛星の半径の出典が無い →
+描画半径 `radiusScale·√m` への降格を宣言 / 2次元赤道面理想化・中心 `pinned` は常に宣言。
+宣言は description と `parameterAudit` の両方に載る。
+
+### 3. アプリが決める量(**AI は触れない**)
+
+| 量 | 決め方(宣言的規約) |
+|---|---|
+| スケール指数 L/T/M | `L=floor(log10 R_中心[m])`、**`T=L−4`・`M=L+19`**(規約 `L−T=4` で c₀=3×10⁴、`M+2T−3L=11` で G=6.674 が保たれる唯一の1径数族)。値域に収まらないときだけ L を ±1、±2…とずらす |
+| 単位換算 | SI 値 ÷ 10^L(長さ)・÷ 10^M(質量)・× 10^T(角速度)。換算後は**有効9桁へ正規化**(出典桁より十分深い — 2進変換の桁ノイズだけを落とす) |
+| 配置・初速 | カタログ経路と**同一の関数**(近点整列+実ケプラー接線速度。二体は重心系 `barycentric-peri`、多衛星は `kepler-peri`)。初速較正 f=1.000 |
+| `q` | qLock の**厳密一致式** `q_exact = q* + 3·ln(a/(R+a))/ln((R+a)/R)`(第172便の運用規約)を**最内衛星の a で1回だけ**評価した直値(小数4桁)。多天体系では実行時 qLock を掛けない(a_ref が一意に決まらない — 🟠🌞 と同じ既存裁定) |
+| `D₀` | **0.006**(🌘 で決まった共有値の流用。**本系でのフィットはゼロ**) |
+| `camera.scale` | 最外衛星の遠点距離 × 1.2 を**有効2桁へ切り捨て** |
+| `dispMag` | 中心天体の描画半径が `camera.scale` の 3〜15% 帯の幾何中央へ最も近くなる刻み(1/3×10^k) |
+| `timeScale` | 最内衛星の1公転が実時間で約5秒(60fps)になる刻み(1/3×10^k) |
+| メタ | `fidelity:"real"` / `sampleClass:"calibration"` / `notClaim:["solar_cal"]` / `abBody`(kFrame=0 対照)/ `parameterAudit` / 出典表つき provenance を機械付与 |
+
+### 4. 自己診断(生成直後・自動)
+
+構築直後に**複製状態で 400 步の試走**を行い、NaN が出ないこと、および各衛星の推定周期
+(接触要素=比エネルギーから求めた長半径のケプラー周期)が**転写した観測周期の ±1%** に
+**t=0 と試走終端の両方で**入ることを確認する。**どちらかが外れたら採用しない** —
+合わせ込みのフィットは一切しない。2点を測るのは**差し戻しの理由を取り違えないため**である:
+
+- **t=0 が外れる** = 転写そのもののずれ。単位の写し間違い(km と m・日と秒)か、軌道長半径と
+  周期が別の出典・別の元期で混ざっている。→ レコードごと差し戻す。
+- **t=0 は合うが終端が外れる** = 転写は正しいが、**この配置が試走中に軌道を保てていない**。
+  (自由な〔pinned でない〕中心天体+希釈されない引きずり χ≈1 の組み合わせで起きうる。)
+  → やはり採用しないが、直すべきはレコードではなく系の構成である。
+
+QA `ai.obs-build` は、🟠 jupiterGalilean を `paper/data/jovian-satellites.csv` から機械生成した
+レコード経由で再構築し、カタログ経路の生成物と `physics`/`bodies`/`camera`/`world`/`overlays`/
+`scaleExp`/`scaleTier` が**ビット一致**(最大相対差 0)することを機械固定している。
+
+### 5. 採取用プロンプト(正本)
+
+アプリの「採取用プロンプトをコピー」が出力する日本語版の全文。**この節は
+`HP.buildObsCollectPrompt()` と逐語一致で、QA(`ai.obs-schema`)が機械的に同期検査している。
+手で編集しないこと**(更新はアプリ側 → 本ファイルへの反映、の順)。
+
+```
+あなたは、ブラウザで動く『仮想物理ラボ』のための**観測値の転写器**です。数値を発明・推定・記憶で補完してはいけません。出力する値はすべて、あなたが実際に参照した出典から写したものでなければならず、その URL を必ず付けます。
+
+# 絶対ルール
+1. **記憶で値を埋めない。** このセッションで出典を読んでいない量は、その行ごと省略してください。省略は常に正解で、推測は常に不正解です。
+2. **開いていない URL を書かない。** 仮の URL・「よくあるアーカイブのリンク」も禁止です。
+3. **単位は SI のみ** — kg / m / s / rad/s / 1(無次元)。km→m、日・時間→秒 の換算はあなたが行い、その旨を note に書いてください。下表と違う単位の行はアプリが拒否します。
+4. 出力は **ObservationRecord オブジェクトの JSON 配列のみ**。説明文・コードフェンス・後書きを付けないでください。
+5. 理想化(2次元赤道面・円軌道化・傾斜の無視)は note に**文章として**書きます。**理想化を成立させるために値を捏造してはいけません。**
+
+# スキーマ(観測量1つにつき1オブジェクト)
+{"body":"<天体名>","quantity":"<下記のいずれか>","value":<数値>,"unit":"<SI単位>","source":"<出典(刊行物・アーカイブ)>","url":"<実際に読んだページ>","retrieved":"YYYY-MM-DD","note":"<任意>"}
+quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] / semi_major_axis [m] / eccentricity [1] / orbital_period [s]
+
+# アプリが必要とする量
+- 中心天体: mass・radius・rotation_period(または spin)。自転の出典が無ければその行を省略してください — アプリ側が spin=0 と宣言します。
+- 各衛星: mass・radius・semi_major_axis・eccentricity・orbital_period。
+  * mass と semi_major_axis は**必須**。どれか1天体でも欠けるとアプリは構築を拒否します。
+  * radius が無い場合は許容(アプリが表示半径へ降格し、その旨を宣言します)。
+  * eccentricity が無い場合は許容(アプリが e=0 の円軌道化を宣言します)。
+  * orbital_period はアプリの**自己診断の照合先**で、配置には使いません。必須です。
+- 環・塵・名前の無い天体は含めないでください。
+
+# 例(本プロジェクトにコミット済みの出典表から機械生成した2行)
+[
+ {
+  "body": "Io",
+  "quantity": "mass",
+  "value": 8.93e+22,
+  "unit": "kg",
+  "source": "dfm-simulator source table (jovian-satellites.csv)",
+  "url": "https://tty-imamura.github.io/dfm-simulator/paper/data/jovian-satellites.csv",
+  "retrieved": "2026-08",
+  "note": "Transcribed from the committed source table; the primary catalogue reference is still to be pinned."
+ },
+ {
+  "body": "Io",
+  "quantity": "semi_major_axis",
+  "value": 421800000,
+  "unit": "m",
+  "source": "dfm-simulator source table (jovian-satellites.csv)",
+  "url": "https://tty-imamura.github.io/dfm-simulator/paper/data/jovian-satellites.csv",
+  "retrieved": "2026-08",
+  "note": "= 421800 km. Inclination 0.04 deg is deliberately ignored: the run is two-dimensional and equatorial."
+ }
+]
+
+# あなたの仕事
+利用者が指定した系のレコードを転写してください。出力は JSON 配列のみです。
+```
+
+### 6. 次便へ送るもの(本便の範囲外)
+
+- **アプリ内 LLM による採取**(APIキー経路で ObservationRecord を直接取らせる導線)は**次便**。
+  本便は外部チャット AI へのプロンプト配布+貼り付け検証までで、アプリからの取得は行わない。
+- **`paper/data/*.csv` への昇格口**(採取したレコードを出典表としてリポジトリへ commit する経路)も
+  **次便**。本便で作った系はカスタムプリセット(端末内)に留まる。
+
+---
+
 
 あなたは「仮想物理シミュレータ」のプリセット生成器です。ユーザーの要望を読み、下記仕様のシミュレーション設定をJSONで1つだけ出力します。
 
