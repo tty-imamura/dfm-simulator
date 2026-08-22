@@ -6230,7 +6230,7 @@ if (!FAST) {
     const dayA = ea.A.sid / 864, dayB = ea.B.sid / 864, dayC = ea.C.sid / 8.64;
     const ratio = Math.abs(ea.C.dpomRL) / Math.abs(ea.A.dpomRL);
     const declOk = ea.A.decl.kF === 0 && ea.A.decl.n === 2
-      && ea.B.decl.kF === 1 && ea.B.decl.D0 === 0.006 && Math.abs(ea.B.decl.q - 8.25) < 0.1
+      && ea.B.decl.kF === 1 && ea.B.decl.D0 === 0.006 && Math.abs(ea.B.decl.q - 8.2358) < 0.1   // 第172便: q_exact 規約(許容 0.1 は不変)
       && ea.C.decl.kF === 0 && ea.C.decl.geo === 0 && ea.C.decl.n === 3 && ea.C.decl.pin0 === 1;
     const longOk = !ea.Bl || (apsBl > 15 && apsBl < 26 && ea.Bl.eMax > 0.12 && ea.Bl.eMax < 0.22);
     add('behavior.emAudit',
@@ -6423,7 +6423,7 @@ if (!FAST) {
 
 // ---- 8c5) 第138便: behavior.jupiter — 木星ガリレオ衛星 hold-out サンプル 🟠jupiterGalilean ----
 // ----   「規則を一切再フィットしない事後外挿テスト」という位置づけを機械固定する。
-// ----   ①宣言(ファミリー jupiter・fidelity・スケール指数 {7,3,26}・q=12.30 直値・D₀=0.006・
+// ----   ①宣言(ファミリー jupiter・fidelity・スケール指数 {7,3,26}・q_exact=12.0586 直値・D₀=0.006・
 // ----     kFrame=1・geoPN=2・κ=G/c₀²・木星 pinned・parameterAudit.fitted が共有 D₀ の1件だけ)
 // ----   ②claims の役割分担(input_check ×2・retrospective_check〔参照点=イオ〕・
 // ----     held_out ×3〔エウロパ/ガニメデ/カリスト = 規則形成に不関与〕・negative_control〔kF0〕)
@@ -6501,6 +6501,9 @@ if (!FAST) {
           fam: P.familyId, famRole: P.familyRole,
           mJ: P.bodies[0].m, rJ: P.bodies[0].radius, spinJ: P.bodies[0].spin,
           pin: P.bodies[0].pinned, pnS: P.bodies[0].pnSource,
+          // 第172便: qLock の運用規約が遠方近似形 q* → 厳密一致式 q_exact へ移った世代かを、
+          // **実行時規則の実装そのもの**から判別する(root 等の旧世代は q* のまま凍結)
+          qexactGen: (typeof qLockCalc === 'function') && /qStar/.test(String(qLockCalc)),
           fitted: pa && Array.isArray(pa.fitted) ? pa.fitted : null,
           fittedEn: paEn && Array.isArray(paEn.fitted) ? paEn.fitted : null,
           obsIn: pa && Array.isArray(pa.observedInputs) ? pa.observedInputs.length : -1,
@@ -6549,7 +6552,10 @@ if (!FAST) {
       syncNote = '実測 JSON なし(tests/out/jupiter-results.json — node tests/exp-jupiter.mjs で生成)';
     }
     const d = jp.decl;
-    const declOk = d.n === 5 && Math.abs(d.q - 12.30) < 1e-9 && d.D0 === 0.006 && d.kF === 1
+    // 第172便: q_exact 規約の採用でプリセット直値が 12.30(遠方近似形 q*)→ 12.0586(厳密一致式)へ。
+    // 判定の厳しさ(1e-9 の直値一致)は不変 — 世代ごとにその世代の規約値へ厳密一致を要求する
+    const qDecl = d.qexactGen ? 12.0586 : 12.30;
+    const declOk = d.n === 5 && Math.abs(d.q - qDecl) < 1e-9 && d.D0 === 0.006 && d.kF === 1
       && d.geo === 2 && d.G === 6.674 && d.c === 30000
       && Math.abs(d.kap - d.G / (d.c * d.c)) < 1e-18
       && d.mf === 1e-6 && d.sc === 'double'
@@ -6581,7 +6587,7 @@ if (!FAST) {
       + `|Δa|/a=${jp.kf1.spread.map((v) => (v * 100).toPrecision(3) + '%').join('/')}(窓 <2%)/ `
       + `kFrame=0 対照 ずれ ${jp.kf0.dev.map((v) => (v * 100).toFixed(4) + '%').join('/')} / `
       + `q=3 対照(幾何減衰を外す)イオ ${(jp.q3.dev[0] * 100).toFixed(4)}%(>0.5%)/ `
-      + `宣言=${declOk}(指数 L${d.L}/T${d.T}/M${d.M}・q=${d.q} 直値・D₀=${d.D0}・kF=${d.kF}・κ=G/c₀²・木星 pinned)/ `
+      + `宣言=${declOk}(指数 L${d.L}/T${d.T}/M${d.M}・q=${d.q} 直値[規約 ${d.qexactGen ? 'q_exact' : 'q*'}=${qDecl}]・D₀=${d.D0}・kF=${d.kF}・κ=G/c₀²・木星 pinned)/ `
       + `hold-out の正直さ=${fitOk}(fitted=共有 D₀ の1件のみ)・role 分担=${roleOk}`
       + `(held_out ${jp.roles.filter((r) => r === 'held_out').length} 件・fit_target 0 件)/ `
       + `claims↔実測JSON 同期=${syncOk}(${sync.length}件)${syncNote ? ' ' + syncNote : ''} / 事前登録窓=${winOk} ${winNote}`);
@@ -8983,6 +8989,218 @@ if (!FAST) {
       `${sch.bad.length ? ' NG=[' + sch.bad.slice(0, 6).join(' / ') + ']' : ''}`);
   } else {
     console.log('SKIP ai.catalog-integrity / ai.placement-determinism / ai.schema-validation(対象に実天体カタログなし — 第170便 未適用の root 等)');
+  }
+}
+
+// ---- 7s2c) 第176便(統括裁定 2026-08-22c §3b・レビュー第5巡 P1-2): ObservationRecord 経路 ----
+// ----   カタログ外の実在天体を「出典つき観測転写」から決定的に構築する経路の機械固定。2ゲート:
+// ----   ① ai.obs-schema : 検証の否定対照群(URL 空・単位 km・質量欠落・数値なし文字列・
+// ----      retrieved 欠落/形式不正・source 空・発明フラグ・未知キー・中心が2つ・重複行・
+// ----      e≥1・負の a・公転周期欠落・中心半径欠落・中心より重い衛星・非配列)が**全て拒否**され、
+// ----      正例(paper/data/jovian-satellites.csv から機械生成した Jupiter+Io+Europa レコード)が
+// ----      受理されること。採取用プロンプトに「記憶で埋めない/URL 必須/SI 単位のみ」の指示と
+// ----      少数ショットが載っていること。
+// ----   ② ai.obs-build : **🟠jupiterGalilean を同じ CSV から機械生成したレコード経由で再構築し、
+// ----      カタログ経路の生成物(validatePreset 正規化後)と physics/bodies/camera/world/
+// ----      overlays/scaleExp/scaleTier がビット一致**すること(数値差の最大 0 ≤1e-8)。自己診断
+// ----      (各衛星の推定周期が観測周期の ±1%)が PASS すること。診断の否定対照(周期を故意に
+// ----      ずらしたレコード)が拒否されること。2回構築がビット一致(決定性)。
+// ----   レコードの数値は**この場で CSV から機械生成**する(qa.mjs に観測値の数値リテラルは無い)。
+// ----   第176便 未適用の root 等は自動 SKIP。
+{
+  const hasObs = await page.evaluate(() => !!window.HP && !!HP.buildAstroFromRecords && !!HP.validateObservationRecords);
+  if (hasObs) {
+    // --- CSV → ObservationRecord 配列(SI 単位へ機械換算。手書きの数値リテラルは1つも無い)---
+    const OBS_URL = await page.evaluate(() => HP.OBS_SAMPLE_URL);
+    const csvRows = [];
+    {
+      const csvPath = path.join(ROOT, 'paper', 'data', 'jovian-satellites.csv');
+      for (const line of fs.readFileSync(csvPath, 'utf8').split('\n').slice(1)) {
+        const m = line.match(/^([A-Za-z]+),([a-z_0-9]+),(-?[\d.eE+-]+),([^,]*),([^,]*),([^,]*),/);
+        if (m) csvRows.push({ body: m[1], quantity: m[2], value: Number(m[3]), unit: m[4], source: m[5], retrieved: m[6] });
+      }
+    }
+    const SI_MUL = { '1e26 kg': 1e26, '1e7 m': 1e7, '1': 1, h: 3600, d: 86400 };
+    const csvGet = (b, q) => csvRows.find(r => r.body === b && r.quantity === q);
+    const mkRec = (body, quantity, row, unit, note) => ({
+      body, quantity, value: row.value * SI_MUL[row.unit], unit,
+      source: 'dfm-simulator source table (jovian-satellites.csv) / ' + row.source,
+      url: OBS_URL, retrieved: row.retrieved,
+      note: note || 'Machine-generated from the committed source table; 2D equatorial idealization (inclination declared and ignored).',
+    });
+    const jovianRecords = (moons) => {
+      const out = [mkRec('Jupiter', 'mass', csvGet('Jupiter', 'mass'), 'kg'),
+        mkRec('Jupiter', 'radius', csvGet('Jupiter', 'radius'), 'm'),
+        mkRec('Jupiter', 'rotation_period', csvGet('Jupiter', 'rotation_period'), 's')];
+      for (const b of moons) {
+        const P = csvGet(b, 'sidereal_orbital_period');
+        out.push(mkRec(b, 'mass', csvGet(b, 'mass'), 'kg'),
+          mkRec(b, 'radius', csvGet(b, 'radius'), 'm'),
+          mkRec(b, 'semi_major_axis', csvGet(b, 'semi_major_axis'), 'm'),
+          mkRec(b, 'eccentricity', csvGet(b, 'eccentricity'), '1'),
+          mkRec(b, 'orbital_period', P, 's'),
+          mkRec(b, 'rotation_period', P, 's', 'Synchronous rotation assumed (declared, not observed) — the source table says so.'));
+      }
+      return out;
+    };
+    const ALL = jovianRecords(['Io', 'Europa', 'Ganymede', 'Callisto']);
+    const POS = jovianRecords(['Io', 'Europa']);
+    const clone = (a) => JSON.parse(JSON.stringify(a));
+    const drop = (a, body, q) => clone(a).filter(r => !(r.body === body && r.quantity === q));
+    const patch = (a, body, q, f) => { const c = clone(a); const r = c.find(x => x.body === body && x.quantity === q); f(r); return c; };
+    // --- ① ai.obs-schema: 否定対照群(16件)+正例 ---
+    const NEG = [
+      ['ルートが配列でない', { records: POS }],
+      ['空配列', []],
+      ['url が空文字', patch(POS, 'Io', 'mass', r => { r.url = ''; })],
+      ['url が URL でない', patch(POS, 'Io', 'mass', r => { r.url = 'NASA fact sheet'; })],
+      ['単位が km(SI でない)', patch(POS, 'Io', 'semi_major_axis', r => { r.unit = 'km'; r.value /= 1000; })],
+      ['単位が日(SI でない)', patch(POS, 'Io', 'orbital_period', r => { r.unit = 'd'; r.value /= 86400; })],
+      ['value が数値なし文字列', patch(POS, 'Io', 'mass', r => { r.value = String(r.value); })],
+      ['value が null', patch(POS, 'Io', 'mass', r => { r.value = null; })],
+      ['retrieved 欠落', patch(POS, 'Io', 'radius', r => { delete r.retrieved; })],
+      ['retrieved の形式不正', patch(POS, 'Io', 'radius', r => { r.retrieved = '2026'; })],
+      ['source が空', patch(POS, 'Europa', 'mass', r => { r.source = '  '; })],
+      ['発明フラグ invented:true', patch(POS, 'Europa', 'radius', r => { r.invented = true; })],
+      ['未知のキー(confidence)', patch(POS, 'Europa', 'radius', r => { r.confidence = 0.9; })],
+      ['質量欠落(Io)', drop(POS, 'Io', 'mass')],
+      ['公転周期欠落(Europa — 自己診断の照合先)', drop(POS, 'Europa', 'orbital_period')],
+      ['中心半径欠落(qLock の R が無い)', drop(POS, 'Jupiter', 'radius')],
+      ['軌道長半径を持たない天体が2つ', drop(POS, 'Io', 'semi_major_axis')],
+      ['同じ body/quantity の重複行', clone(POS).concat([clone(POS).find(r => r.body === 'Io' && r.quantity === 'mass')])],
+      ['離心率が 1 以上', patch(POS, 'Io', 'eccentricity', r => { r.value = 1.5; })],
+      ['軌道長半径が負', patch(POS, 'Io', 'semi_major_axis', r => { r.value = -r.value; })],
+      ['中心より重い衛星', patch(POS, 'Io', 'mass', r => { r.value *= 1e8; })],
+      ['天体が1つだけ', clone(POS).filter(r => r.body === 'Jupiter')],
+    ];
+    const sch = await page.evaluate(({ NEG, POS }) => {
+      const V = HP.validateObservationRecords, bad = [];
+      for (const [w, o] of NEG) { const r = V(o); if (r.ok) bad.push('拒否されるべきが受理: ' + w); }
+      const ok = V(POS);
+      if (!ok.ok) bad.push('受理されるべきが拒否: 正例(' + ok.errors.join('|') + ')');
+      else {
+        if (ok.sys.center.id !== 'jupiter') bad.push('正例の中心が jupiter でない: ' + ok.sys.center.id);
+        if (ok.sys.sats.length !== 2) bad.push('正例の衛星数=' + ok.sys.sats.length + '(期待2)');
+        if (ok.sys.sats[0].id !== 'io' || ok.sys.sats[1].id !== 'europa') bad.push('正例の衛星が a 昇順でない');
+        if (ok.sys.table.length !== POS.length) bad.push('出典表の行数が入力と違う');
+        if (ok.sys.table.some(t => !/^https?:\/\//.test(t.url))) bad.push('出典表に URL の無い行がある');
+      }
+      // 採取用プロンプト: 「記憶で埋めない」「URL 必須」「SI 単位のみ」「JSON 配列のみ」+少数ショット
+      const pr = HP.buildObsCollectPrompt();
+      const ruleOk = /記憶で値を埋めない|Never fill a value from memory/.test(pr)
+        && /開いていない URL を書かない|Never write a URL you did not open/.test(pr)
+        && /単位は SI のみ|SI units only/.test(pr)
+        && pr.includes(HP.OBS_SAMPLE_URL) && pr.includes('semi_major_axis');
+      if (!ruleOk) bad.push('採取用プロンプトに転写器規約(記憶禁止/URL必須/SI単位/少数ショット)が揃っていない');
+      for (const q of Object.keys(HP.OBS_UNITS)) if (!pr.includes(q)) bad.push('採取用プロンプトに quantity ' + q + ' が無い');
+      return { bad, nNeg: NEG.length, nPos: POS.length, promptLen: pr.length, prompt: pr };
+    }, { NEG, POS });
+    // 採取プロンプトの**正本**は docs/AI_SPEC.md(§5)— アプリ側と逐語一致していること
+    // (prompt.spec-sync と同じ流儀。手書き台帳の陳腐化を構造的に防ぐ)
+    let specSync = false, specLen = 0;
+    {
+      const specPath = path.join(ROOT, 'docs', 'AI_SPEC.md');
+      if (fs.existsSync(specPath)) {
+        const spec = fs.readFileSync(specPath, 'utf8'); specLen = spec.length;
+        specSync = !!sch.prompt && spec.includes(sch.prompt);
+        if (!specSync) sch.bad.push('docs/AI_SPEC.md が採取用プロンプトを逐語収載していない');
+        for (const w of ['ObservationRecord', 'semi_major_axis', 'orbital_period', 'radiusScale·√m', 'q_exact', 'D₀'])
+          if (!spec.includes(w)) sch.bad.push('docs/AI_SPEC.md に「' + w + '」の記載が無い');
+      } else sch.bad.push('docs/AI_SPEC.md が無い');
+    }
+    add('ai.obs-schema', sch.bad.length === 0,
+      `否定対照=${sch.nNeg}件 全て拒否・正例=${sch.nPos}レコード(CSVから機械生成)受理・` +
+      `採取用プロンプト=${sch.promptLen}字(転写器規約+少数ショット)・` +
+      `docs/AI_SPEC.md(${specLen}字)が採取用プロンプトを逐語収載=${specSync}` +
+      `${sch.bad.length ? ' NG=[' + sch.bad.slice(0, 6).join(' / ') + ']' : ''}`);
+
+    // --- ② ai.obs-build: 🟠jupiterGalilean をレコード経由で再構築 → カタログ経路とビット一致 ---
+    const NEG_DIAG = [
+      ['イオの公転周期を +5% ずらす', patch(ALL, 'Io', 'orbital_period', r => { r.value *= 1.05; })],
+      ['公転周期を日のまま秒として書く(単位写し間違い)', clone(ALL).map(r => (r.quantity === 'orbital_period' ? Object.assign({}, r, { value: r.value / 86400 }) : r))],
+    ];
+    const bld = await page.evaluate(({ ALL, NEG_DIAG }) => {
+      const bad = [];
+      const r1 = HP.buildAstroFromRecords(ALL);
+      if (!r1.ok) return { bad: ['レコード経由の構築が失敗: ' + r1.stage + ' ' + (r1.errors || []).join('|')] };
+      const r2 = HP.buildAstroFromRecords(ALL);
+      if (JSON.stringify(r1.preset) !== JSON.stringify(r2.preset)) bad.push('2回の構築が不一致(非決定的)');
+      // カタログ経路の生成物(同じ validatePreset 正規化を通す)
+      const catV = HP.validatePreset(HP.buildAstroPreset({ system: 'jupiter' }));
+      if (!catV.ok) return { bad: ['カタログ経路の validatePreset が NG'] };
+      const cat = catV.preset, obs = r1.preset;
+      // ビット一致を要求するキー(物理・幾何・スケール・カメラ・世界・オーバーレイ・分類)
+      const SAME = ['physics', 'bodies', 'camera', 'world', 'overlays', 'scaleExp', 'scaleTier'];
+      for (const k of SAME) if (JSON.stringify(obs[k]) !== JSON.stringify(cat[k])) bad.push('ビット不一致: ' + k);
+      // 数値差の実測(最大相対差 — 宣言許容 1e-8)
+      let worst = 0, worstAt = '';
+      obs.bodies.forEach((b, i) => {
+        const c = cat.bodies[i]; if (!c) { bad.push('天体数が違う'); return; }
+        for (const k of ['m', 'radius', 'x', 'y', 'vx', 'vy', 'spin']) {
+          const u = b[k], v = c[k];
+          if (typeof u !== 'number' || typeof v !== 'number') continue;
+          const sc = Math.max(Math.abs(u), Math.abs(v));
+          const rel = sc > 0 ? Math.abs(u - v) / sc : Math.abs(u - v);
+          if (rel > worst) { worst = rel; worstAt = 'body' + i + '.' + k; }
+        }
+      });
+      for (const k of ['q', 'D0', 'kFrame', 'G', 'cLight', 'softening', 'timeScale', 'dispMag', 'kappaT']) {
+        const u = obs.physics[k], v = cat.physics[k];
+        const sc = Math.max(Math.abs(u), Math.abs(v));
+        const rel = sc > 0 ? Math.abs(u - v) / sc : Math.abs(u - v);
+        if (rel > worst) { worst = rel; worstAt = 'physics.' + k; }
+      }
+      if (!(worst <= 1e-8)) bad.push('数値の最大相対差 ' + worst.toExponential(2) + ' > 1e-8(' + worstAt + ')');
+      // 宣言差(観測経路だけが持つ提示・メタ)は列挙して固定する
+      const declared = ['name', 'emoji', 'description'];
+      const extra = Object.keys(obs).filter(k => !(k in cat)).sort();
+      const EXPECT_EXTRA = ['abBody', 'fidelity', 'notClaim', 'parameterAudit', 'sampleClass'];
+      if (extra.join(',') !== EXPECT_EXTRA.join(',')) bad.push('観測経路の追加キーが宣言と違う: [' + extra.join(',') + ']');
+      const otherDiff = Object.keys(cat).filter(k => SAME.indexOf(k) < 0 && declared.indexOf(k) < 0
+        && JSON.stringify(obs[k]) !== JSON.stringify(cat[k]));
+      if (otherDiff.length) bad.push('宣言していない差: [' + otherDiff.join(',') + ']');
+      // メタの機械付与
+      if (obs.fidelity !== 'real') bad.push('fidelity:"real" が付いていない');
+      if (obs.sampleClass !== 'calibration') bad.push('sampleClass:"calibration" が付いていない');
+      if (!(Array.isArray(obs.notClaim) && obs.notClaim.indexOf('solar_cal') >= 0)) bad.push('notClaim に solar_cal が無い');
+      if (!obs.abBody || obs.abBody.physicsPatch.kFrame !== 0) bad.push('kFrame=0 対照が abBody に付いていない');
+      if (!obs.parameterAudit || !obs.parameterAudit.fitted || obs.parameterAudit.fitted.length !== 1)
+        bad.push('parameterAudit.fitted が共有 D₀ の1件でない');
+      if (!/D₀=0\.006/.test((obs.parameterAudit.fitted || []).join(''))) bad.push('parameterAudit.fitted が共有 D₀ を宣言していない');
+      // description に出典表(URL つき)が全レコードぶん載っていること
+      const urls = obs.description.split(HP.OBS_SAMPLE_URL).length - 1;
+      if (urls !== ALL.length) bad.push('description の出典表が ' + urls + '行(期待 ' + ALL.length + '行)');
+      // 自己診断(t=0 と試走終端の両方で周期 ±1%)
+      const worstRel = Math.max.apply(null, r1.diag.rows.map(x => Math.abs(x.rel)));
+      const worstRel0 = Math.max.apply(null, r1.diag.rows.map(x => Math.abs(x.rel0)));
+      if (!(worstRel <= HP.OBS_DIAG_TOL)) bad.push('自己診断(試走終端)の最大ずれ ' + worstRel);
+      if (!(worstRel0 <= HP.OBS_DIAG_TOL)) bad.push('自己診断(t=0)の最大ずれ ' + worstRel0);
+      if (r1.diag.rows.length !== 4) bad.push('自己診断の対象が4衛星でない');
+      // 診断の否定対照
+      const negOut = [];
+      for (const [w, recs] of NEG_DIAG) {
+        const rr = HP.buildAstroFromRecords(recs);
+        if (rr.ok) bad.push('診断で拒否されるべきが採用: ' + w);
+        else negOut.push(w + '→' + rr.stage);
+      }
+      return { bad, worst, worstAt, worstRel, worstRel0, negOut, extra,
+        rows: r1.diag.rows.map(x => x.name + ' t0 ' + (x.rel0 * 100).toFixed(4) + '%→' + (x.rel * 100).toFixed(4) + '%'),
+        steps: r1.diag.steps, meta: r1.meta, catalogUntouched: JSON.stringify(HP.validatePreset(HP.buildAstroPreset({ system: 'jupiter' })).preset) === JSON.stringify(cat) };
+    }, { ALL, NEG_DIAG });
+    add('ai.obs-build', bld.bad.length === 0 && bld.catalogUntouched,
+      bld.meta ? `🟠jupiterGalilean を CSV 由来レコード(${ALL.length}行)から再構築 → カタログ経路と ` +
+        `physics/bodies/camera/world/overlays/scaleExp/scaleTier がビット一致(最大相対差 ` +
+        `${bld.worst.toExponential(2)}${bld.worstAt ? '(' + bld.worstAt + ')' : ''} ≤1e-8)・` +
+        `規約から決定: L/T/M=${bld.meta.scale.L}/${bld.meta.scale.T}/${bld.meta.scale.M}(L−T=4・M+2T−3L=11)・` +
+        `q_exact=${bld.meta.q}(a_ref=${bld.meta.aRef})・camera.scale=${bld.meta.camScale}・` +
+        `timeScale=${bld.meta.timeScale}・dispMag=${bld.meta.dispMag} / 自己診断(${bld.steps}步): ` +
+        `${bld.rows.join('・')}(t=0 最大 ${(bld.worstRel0 * 100).toFixed(4)}%・終端 最大 ${(bld.worstRel * 100).toFixed(4)}% — いずれも ≤1%)/ 診断の否定対照: ` +
+        `${bld.negOut.join('・')} / 宣言差=name,emoji,description+追加メタ[${bld.extra.join(',')}]・` +
+        `2回構築ビット一致・カタログ経路の生成物は不変` +
+        `${bld.bad.length ? ' NG=[' + bld.bad.slice(0, 6).join(' / ') + ']' : ''}`
+        : 'NG=[' + bld.bad.join(' / ') + ']');
+  } else {
+    console.log('SKIP ai.obs-schema / ai.obs-build(対象に ObservationRecord 経路なし — 第176便 未適用の root 等)');
   }
 }
 
@@ -13142,7 +13360,9 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
           ok: Math.abs(+m[1] - p.universeBox.H0) < 1e-9 });
       }
       if (p.qLock) {
-        const m = (sum + ' ' + pass).match(/q\*=(?:[^=]{0,60}?=)?([0-9]+\.[0-9]+)/);
+        // 第172便: 運用規約が q*(遠方近似形)→ q_exact(厳密一致式)へ移ったので、説明文側の
+        // 表記 "q_exact=…" も同じ厳しさで拾う(許容 0.01・カバレッジ要求 ≥2件はいずれも不変)
+        const m = (sum + ' ' + pass).match(/q(?:\*|_exact)=(?:[^=]{0,60}?=)?([0-9]+\.[0-9]+)/);
         if (m) {
           HP.loadPreset(p.id, false);
           const qEff = HP.sim.params.q;
@@ -14647,23 +14867,23 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   if (has123) {
     const r = await page.evaluate(() => {
       const out = {};
-      // ① qLock: 🌘 読込で q が自動算出値(≈8.25)になり、q 行が編集不可
+      // ① qLock: 🌘 読込で q が自動算出値(第172便の q_exact 規約で ≈8.2358)になり、q 行が編集不可
       HP.loadPreset('earthMoonRealKF1', false);
-      out.qEM = Math.abs(HP.sim.params.q - 8.25) < 0.1;
+      out.qEM = Math.abs(HP.sim.params.q - 8.2358) < 0.1;
       buildParamRows();
       const qRow = [...document.querySelectorAll('input[type=range]')]
         .find((el) => el.disabled && el.max === '40');
       out.qDisabled = !!qRow;
-      // ② 💿: 共通補正 D₀=0.006+qLock(q*≈21.8)・ワンタップ q=3
+      // ② 💿: 共通補正 D₀=0.006+qLock(第172便の q_exact 規約で ≈20.1・宣言直値は 20.4932)・ワンタップ q=3
       HP.loadPreset('saturnRingRealKF1', false);
-      out.qRing = HP.sim.params.q > 20 && HP.sim.params.q < 24 && HP.sim.params.D0 === 0.006;   // a_ref=環中央値(シード依存で ±1 程度)
+      out.qRing = HP.sim.params.q > 18.5 && HP.sim.params.q < 22.5 && HP.sim.params.D0 === 0.006;   // a_ref=環中央値(シード依存で ±1 程度)。帯幅4は第123便のまま — 規約移行ぶんだけ平行移動
       const sk = HP.allPresets().find((p) => p.id === 'saturnRingRealKF1');
       const sr = HP.allPresets().find((p) => p.id === 'saturnRingReal');
       out.oneTaps = sk.abBody.physicsPatch.q === 3 && sk.qLock === true
         && sr.abBody.physicsPatch.q === 3 && sr.abBody.physicsPatch.kFrame === 1;
-      // ③ 🪨: q*≈6.16
+      // ③ 🪨: q_exact≈6.1471
       HP.loadPreset('mercuryRealKF1', false);
-      out.qMerc = Math.abs(HP.sim.params.q - 6.16) < 0.1;
+      out.qMerc = Math.abs(HP.sim.params.q - 6.1471) < 0.1;
       // ④ A/B: 決定力マップの半面描画+線の軌跡の上限半減廃止(ソース検査)
       out.abField = (typeof drawFieldInto === 'function')
         && String(drawWorldInto).includes('drawFieldInto');
@@ -14677,7 +14897,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       const btn = document.querySelector('#btnAbBody');
       out.abBtn = !!btn;
       if (btn) { btn.click();
-        out.abQ = !!(ab && Math.abs(ab.simB.params.q - 8.25) < 0.1 && ab.simB.params.kFrame === 1);
+        out.abQ = !!(ab && Math.abs(ab.simB.params.q - 8.2358) < 0.1 && ab.simB.params.kFrame === 1);
         abStop(); }
       HP.loadPreset('saturn', false);
       return out;
@@ -14709,7 +14929,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       setQLock(false); buildParamRows();
       out.qEditable = HP.sim.params.q === HP.sim.params.q;   // 破壊検査は避け状態のみ
       setQLock(true);
-      out.qReapplied = Math.abs(HP.sim.params.q - 8.25) < 0.1;
+      out.qReapplied = Math.abs(HP.sim.params.q - 8.2358) < 0.1;
       // ③ 並び順(再構築後の行で隣接判定): kFrame は geoPN の次 / 相似変換連動は 光速 c₀ の直前
       rows = [...document.querySelectorAll('#paramRows .prow')];
       const nextProw = (el) => { let n = el.nextElementSibling;
@@ -15754,6 +15974,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     { json: 'p2sens-results.json', harness: 'tests/exp-p2sens.mjs' },
     { json: 'coreshell7-results.json', harness: 'tests/exp-coreshell7.mjs' },
     { json: 'kf1sens-results.json', harness: 'tests/exp-kf1sens.mjs' },
+    { json: 'coreshell8-results.json', harness: 'tests/exp-coreshell8.mjs' },
   ];
   const SENTINELS = ['not-applicable', 'not-instrumented', 'unavailable'];
   const isHex = (v, n) => typeof v === 'string' && new RegExp(`^[0-9a-f]{${n}}$`).test(v);
@@ -16130,14 +16351,20 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       out.cb.toggledOn = HP.dragPause() === true;
 
       // ---- (b) フレーム予算の適応 ----
+      // 第175便: 会計が繰越化されたので lastWanted は「新規要求 lastNew + 繰越 pending」。
+      // 「予算0 → 実行1步」の検査はそのまま維持し(弱体化させない)、**繰越の存在**
+      // (予算0で pending>0 かつ要求に繰越が載る / 予算∞で pending が 0 に落ちる)を追加する
       await sleep(300);   // ジェスチャ保持時間(CAM_GESTURE_MS)を抜けてから測る
       HP.setFrameBudget(0);
       const p0 = HP.inputStats(); await sleep(600); const p1 = HP.inputStats();
-      out.b = { trims0: p1.budgetTrims - p0.budgetTrims, wanted0: p1.lastWanted, run0: p1.lastRun };
+      out.b = { trims0: p1.budgetTrims - p0.budgetTrims, wanted0: p1.lastWanted, run0: p1.lastRun,
+        new0: p1.lastNew, pend0: p1.pending, cancel0: p1.cancelled - p0.cancelled };
       HP.setFrameBudget(1e9);
       const q0 = HP.inputStats(); await sleep(600); const q1 = HP.inputStats();
       out.b.trimsInf = q1.budgetTrims - q0.budgetTrims;
       out.b.wantedInf = q1.lastWanted; out.b.runInf = q1.lastRun;
+      out.b.newInf = q1.lastNew; out.b.pendInf = q1.pending;
+      out.b.cancelInf = q1.cancelled - q0.cancelled;
       HP.setFrameBudget(HP.frameBudgetDefault());
       out.b.restored = HP.frameBudget();
       const d0 = HP.inputStats(); await sleep(600); const d1 = HP.inputStats();
@@ -16158,6 +16385,9 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       budgetAdaptive: r.b.wanted0 > 1 && r.b.run0 === 1 && r.b.trims0 >= 1,
       budgetControl: r.b.trimsInf === 0 && r.b.runInf === r.b.wantedInf && r.b.wantedInf > 1,
       budgetRestored: r.b.restored === r.budgetDefault,
+      // 第175便: 繰越の存在(予算0では未実行分が pending に載り、要求 = 新規+繰越 になる /
+      // 予算∞では繰越が残らない)。会計そのものの網羅検査は ui.step-accounting が行う
+      budgetCarry: r.b.pend0 > 0 && r.b.wanted0 > r.b.new0 && r.b.pendInf === 0,
       // (c) 抑制の既定 ON・切替可・ポーズ表示との非干渉
       dragDefaultOn: r.dragDefault === true && r.cb.exists && r.cb.checked === true,
       dragToggle: r.cb.toggledOff === true && r.cb.toggledOn === true && r.c.offFlag === false && r.c.restored === true,
@@ -16174,8 +16404,9 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       `即時合成回数=${r.a.previews}・画素変化=${r.a.pixelsChanged}` +
       `【記述のみ・判定せず: 入力→画面の同期所要 ${r.a.syncMs}ms(うち合成 ${r.a.previewMs}ms)】 / ` +
       `(b)予算: 宣言 FRAME_BUDGET_MS=${constDecl[1]}ms(実行時 ${r.budget}ms)・` +
-      `予算0 → 要求${r.b.wanted0}步/実行${r.b.run0}步・切詰め${r.b.trims0}回、` +
-      `予算∞ → 要求${r.b.wantedInf}步/実行${r.b.runInf}步・切詰め${r.b.trimsInf}回(対照)、` +
+      `予算0 → 要求${r.b.wanted0}步(新規${r.b.new0}+繰越${r.b.pend0})/実行${r.b.run0}步・切詰め${r.b.trims0}回、` +
+      `予算∞ → 要求${r.b.wantedInf}步(新規${r.b.newInf}+繰越${r.b.pendInf})/実行${r.b.runInf}步・` +
+      `切詰め${r.b.trimsInf}回(対照)、` +
       `既定復帰=${r.b.restored}ms【記述のみ: 既定予算での切詰め${r.b.trimsDefault}回・` +
       `直近フレームの物理 ${r.b.physMs}ms(ヘッドレス実測 — 実機値ではない)】 / ` +
       `(c)抑制: 既定ON=${r.dragDefault}・チェックボックス=${r.cb.exists}(既定${r.cb.checked})で切替可=` +
@@ -16188,6 +16419,180 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       (ng.length ? ` / NG=${ng.join(',')}` : ''));
   } else {
     console.log('SKIP ui.input-responsive(対象に第171便の操作レスポンス分離なし — root 等)');
+  }
+}
+
+// ---- 88) 第175便(レビュー第5巡 P0・統括裁定): ui.step-accounting — step 会計の**繰越化**の機械検査。
+// ----     背景: 第171便のフレーム予算は打ち切った未実行ステップを捨てていたため、1步が重い環境
+// ----     (Windows・💿saturnRingRealKF1 = 要求 20步/フレーム)で「実行1步」が恒常化し、
+// ----     他環境比 20:1 の歩数量子化が起きていた。本ゲートが判定するのは次の6点:
+// ----       (1) 会計の不変式 requested = executed + pending + cancelled が**常時**成立する
+// ----           (既定予算・予算0・予算∞・世代切替直後・繰越無効化中の全局面でサンプリング)
+// ----       (2) 繰越が効く: 予算0(過負荷の合成)で未実行分が pending に載り、次フレームの
+// ----           要求が「新規 k + 繰越」になる。第171便の「予算0 → 実行1步」は不変のまま
+// ----       (3) 繰越上限: pending ≤ STEP_CARRY_CAP_FRAMES × 新規要求 k を一度も超えない
+// ----           (バックログ有界 = 追いつきフリーズの再発防止)。超過分は cancelled へ**明示計上**
+// ----       (4) 世代破棄: pending>0 の状態でプリセットを切り替えると、旧 pending が全量
+// ----           cancelled へ移り pending=0・世代番号が +1 される(前の宇宙の遅れを持ち越さない)
+// ----       (5) 予算∞の対照: 繰越は残らず(pending=0)、実行=要求・破棄ゼロ
+// ----       (6) **否定対照**: 繰越を無効化(HP.setStepCarry(false) = 第171便の挙動)すると
+// ----           予算0でも pending が一度も立たず、不足がすべて cancelled になる
+// ----           (= (2)(3) の検査が成立しない)ことをその場で実測する
+// ----     診断1行(HUD)と簡易ベンチ(複製 sim・描画なし)の存在・非侵襲も併せて検査する。
+// ----     タイミング閾値は一切判定しない(ヘッドレスの実機代表性が低い — 第171便と同じ方針)
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const capDecl = /const STEP_CARRY_CAP_FRAMES = (\d+);/.exec(html);
+  const hasCarry = /let pendingSteps=0, stepReq=0, stepExec=0, stepCancel=0/.test(html);
+  if (capDecl && hasCarry) {
+    const sa = await browser.newPage();
+    const saErr = [];
+    sa.on('pageerror', (e) => saErr.push(String(e)));
+    await sa.goto(INDEX, { waitUntil: 'load' });
+    await sa.waitForFunction(() => !!(window.HP && HP.sim));
+    const r = await sa.evaluate(async () => {
+      const sleep = (ms) => new Promise((s) => setTimeout(s, ms));
+      const need = ['inputStats', 'frameBudget', 'frameBudgetDefault', 'setFrameBudget',
+        'stepCarry', 'setStepCarry', 'stepGenNow', 'stepGenBump',
+        'stepDiag', 'setStepDiag', 'stepDiagText', 'runStepBench', 'lastBench'];
+      const out = { api: need.filter((k) => typeof HP[k] !== 'function') };
+      const inv = (s) => s.requested - (s.executed + s.pending + s.cancelled);
+      // 💿saturnRingRealKF1: レビューが特定した当の構成(時間倍率10 = 要求 20步/フレーム)。
+      // 1步が重いので既定予算でも打ち切りが起き、繰越の挙動をそのまま観測できる
+      HP.loadPreset('saturnRingRealKF1', false);
+      HP.setRunning(true);
+      await sleep(400);
+
+      // ---- (1) 既定予算での不変式(20点サンプリング)----
+      let wD = 0;
+      for (let i = 0; i < 20; i++) { await sleep(40);
+        const d = inv(HP.inputStats()); if (Math.abs(d) > Math.abs(wD)) wD = d; }
+      const d0 = HP.inputStats();
+      out.def = { inv: wD, requested: d0.requested, executed: d0.executed,
+        pending: d0.pending, cancelled: d0.cancelled, lastNew: d0.lastNew,
+        lastWanted: d0.lastWanted, lastRun: d0.lastRun, capFrames: d0.carryCapFrames };
+
+      // ---- (2)(3) 予算0(過負荷の合成): 繰越が効く・バックログは新規要求 k 以内 ----
+      HP.setFrameBudget(0);
+      await sleep(300);
+      let maxPend = 0, maxOver = 0, w0 = 0, run1 = 0, runN = 0;
+      for (let i = 0; i < 25; i++) { await sleep(30); const s = HP.inputStats();
+        if (s.pending > maxPend) maxPend = s.pending;
+        const over = s.pending - s.carryCapFrames * s.lastNew;
+        if (over > maxOver) maxOver = over;
+        const d = inv(s); if (Math.abs(d) > Math.abs(w0)) w0 = d;
+        if (s.lastRun === 1) run1++; runN++; }
+      const c0 = HP.inputStats();
+      out.b0 = { inv: w0, maxPend, maxOver, cap: c0.carryCapFrames * c0.lastNew,
+        lastNew: c0.lastNew, lastWanted: c0.lastWanted, lastRun: c0.lastRun,
+        oneStep: run1, samples: runN, carriedIntoRequest: c0.lastWanted > c0.lastNew };
+      { const a = HP.inputStats(); await sleep(400); const b = HP.inputStats();
+        out.b0.cancelGrew = b.cancelled - a.cancelled;      // 破棄は黙って消えず必ず数字に残る
+        out.b0.execRate = b.executed - a.executed; }
+
+      // ---- (4) 世代破棄: pending>0 のままプリセットを切り替える(同一タスク内で前後を読む)----
+      const g0 = HP.inputStats();
+      HP.loadPreset('galaxyDB', false);
+      const g1 = HP.inputStats();
+      out.gen = { pendBefore: g0.pending, pendAfter: g1.pending,
+        genBefore: g0.gen, genAfter: g1.gen, reason: g1.genReason,
+        cancelDelta: g1.cancelled - g0.cancelled, inv: inv(g1) };
+
+      // ---- (5) 予算∞の対照: 繰越は残らず、実行=要求・破棄ゼロ ----
+      HP.loadPreset('saturnRingRealKF1', false);
+      HP.setRunning(true);
+      HP.setFrameBudget(1e9);
+      await sleep(600);                                     // 溜まっていた繰越を消化しきる
+      const i0 = HP.inputStats(); await sleep(500); const i1 = HP.inputStats();
+      out.bInf = { pending: i1.pending, lastRun: i1.lastRun, lastWanted: i1.lastWanted,
+        reqDelta: i1.requested - i0.requested, execDelta: i1.executed - i0.executed,
+        cancelDelta: i1.cancelled - i0.cancelled, inv: inv(i1) };
+
+      // ---- (6) 否定対照: 繰越を無効化(= 第171便の挙動)すると予算0でも pending が立たない ----
+      HP.setFrameBudget(0); await sleep(300);
+      HP.setStepCarry(false);
+      await sleep(400);
+      let maxPendOff = 0, wOff = 0;
+      for (let i = 0; i < 15; i++) { await sleep(30); const s = HP.inputStats();
+        if (s.pending > maxPendOff) maxPendOff = s.pending;
+        const d = inv(s); if (Math.abs(d) > Math.abs(wOff)) wOff = d; }
+      const n0 = HP.inputStats(); await sleep(400); const n1 = HP.inputStats();
+      out.neg = { flag: HP.stepCarry(), maxPend: maxPendOff, inv: wOff,
+        reqDelta: n1.requested - n0.requested, execDelta: n1.executed - n0.executed,
+        cancelDelta: n1.cancelled - n0.cancelled,
+        lastWanted: n1.lastWanted, lastNew: n1.lastNew };
+      HP.setStepCarry(true); out.neg.restored = HP.stepCarry();
+      HP.setFrameBudget(HP.frameBudgetDefault());
+      out.budgetRestored = HP.frameBudget() === HP.frameBudgetDefault();
+
+      // ---- 診断1行(HUD)と簡易ベンチ(複製 sim・描画なし。本走行を汚さない)----
+      await sleep(400);
+      HP.setStepDiag(true);
+      out.diag = { on: HP.stepDiag(), text: HP.stepDiagText() };
+      HP.setStepDiag(false); out.diag.offOk = HP.stepDiag() === false;
+      const tB = HP.sim.t, nB = HP.sim.n, xB = HP.sim.x[0];
+      const bench = HP.runStepBench(60);                    // 同一タスク内 = rAF は割り込まない
+      out.bench = bench ? { steps: bench.steps, msPerStep: bench.msPerStep, n: bench.n,
+        stepsPerBudget: bench.stepsPerBudget, preset: bench.preset,
+        pristine: HP.sim.t === tB && HP.sim.n === nB && HP.sim.x[0] === xB } : null;
+
+      // ---- 停止(世代更新)後も不変式が成立し、繰越は残らない ----
+      HP.setRunning(false);
+      const z = HP.inputStats();
+      out.stopped = { pending: z.pending, inv: inv(z), gen: z.gen, reason: z.genReason };
+      return out;
+    });
+    await sa.close();
+    const chk = {
+      api: r.api.length === 0,
+      capDecl: +capDecl[1] >= 1 && r.def.capFrames === +capDecl[1],
+      // (1) 不変式 requested = executed + pending + cancelled が全局面で成立
+      invariant: r.def.inv === 0 && r.b0.inv === 0 && r.gen.inv === 0 && r.bInf.inv === 0
+        && r.neg.inv === 0 && r.stopped.inv === 0,
+      // (2) 繰越が効く(第171便の「予算0 → 実行1步」は維持したまま、未実行分が繰越へ)
+      carryWorks: r.b0.maxPend > 0 && r.b0.carriedIntoRequest === true && r.b0.lastRun === 1,
+      // (3) バックログ上限 = STEP_CARRY_CAP_FRAMES × 新規要求 k(一度も超えない)+ 超過分は明示破棄
+      backlogCapped: r.b0.maxOver <= 0 && r.b0.maxPend <= r.b0.cap && r.b0.cancelGrew > 0,
+      // (4) 世代破棄: 旧 pending が全量 cancelled へ移り、pending=0・世代 +1
+      genDiscard: r.gen.pendBefore > 0 && r.gen.pendAfter === 0
+        && r.gen.cancelDelta === r.gen.pendBefore && r.gen.genAfter === r.gen.genBefore + 1,
+      // (5) 予算∞の対照: 繰越なし・実行=要求・破棄ゼロ
+      budgetInf: r.bInf.pending === 0 && r.bInf.cancelDelta === 0
+        && r.bInf.execDelta === r.bInf.reqDelta && r.bInf.lastRun === r.bInf.lastWanted,
+      // (6) 否定対照: 繰越を無効化すると pending が立たず、不足は全部 cancelled(検査が成立しない)
+      negControl: r.neg.flag === false && r.neg.maxPend === 0 && r.neg.cancelDelta > 0
+        && r.neg.reqDelta === r.neg.execDelta + r.neg.cancelDelta
+        && r.neg.lastWanted === r.neg.lastNew && r.neg.restored === true,
+      budgetRestored: r.budgetRestored === true,
+      // 診断1行(ja/en とも同じ骨格)とベンチ(複製で走り本走行を汚さない)
+      diagLine: r.diag.on === true && r.diag.offOk === true
+        && /step \d+→\d+ \(\+\d+ pend\)/.test(r.diag.text),
+      bench: !!r.bench && r.bench.steps === 60 && r.bench.msPerStep > 0
+        && r.bench.stepsPerBudget >= 1 && r.bench.pristine === true,
+      stopClean: r.stopped.pending === 0 && r.stopped.reason === 'pause',
+      noPageErrors: saErr.length === 0 };
+    const ng = Object.keys(chk).filter((k) => !chk[k]);
+    add('ui.step-accounting', ng.length === 0,
+      `不変式 requested=executed+pending+cancelled の最大ズレ: 既定${r.def.inv}・予算0 ${r.b0.inv}・` +
+      `世代切替後${r.gen.inv}・予算∞ ${r.bInf.inv}・繰越OFF ${r.neg.inv}・停止後${r.stopped.inv}(全0) / ` +
+      `既定予算(💿 要求${r.def.lastNew}步/フレーム): 累計 要求${r.def.requested}=実行${r.def.executed}` +
+      `+繰越${r.def.pending}+破棄${r.def.cancelled} / ` +
+      `予算0: 要求${r.b0.lastWanted}步(新規${r.b0.lastNew}+繰越)→実行${r.b0.lastRun}步` +
+      `(実行1步 ${r.b0.oneStep}/${r.b0.samples} 標本)・繰越最大${r.b0.maxPend}≤上限${r.b0.cap}` +
+      `(超過${r.b0.maxOver}≤0)・0.4秒あたり破棄${r.b0.cancelGrew}步/実行${r.b0.execRate}步 / ` +
+      `世代破棄: プリセット切替で繰越${r.gen.pendBefore}步 → 破棄へ全量計上(Δ破棄=${r.gen.cancelDelta})・` +
+      `繰越=${r.gen.pendAfter}・世代${r.gen.genBefore}→${r.gen.genAfter}(${r.gen.reason}) / ` +
+      `予算∞(対照): 要求${r.bInf.reqDelta}=実行${r.bInf.execDelta}・破棄${r.bInf.cancelDelta}・` +
+      `繰越${r.bInf.pending} / 否定対照(繰越OFF=第171便の挙動): 繰越最大${r.neg.maxPend}(0 = ` +
+      `繰越検査が成立しない)・要求${r.neg.reqDelta}=実行${r.neg.execDelta}+破棄${r.neg.cancelDelta}・` +
+      `要求は新規のみ(${r.neg.lastWanted}=${r.neg.lastNew}) / ` +
+      `診断1行「${r.diag.text}」 / ベンチ(複製${r.bench ? r.bench.n : '-'}体・描画なし${r.bench ? r.bench.steps : '-'}步): ` +
+      `${r.bench ? r.bench.msPerStep.toFixed(3) : '-'}ms/步・予算内${r.bench ? r.bench.stepsPerBudget : '-'}步・` +
+      `本走行 不変=${r.bench ? r.bench.pristine : '-'}【記述のみ・判定せず: ヘッドレス実測 — 実機値ではない】` +
+      (saErr.length ? ` / pageErrors=[${saErr.slice(0, 2).join(' | ')}]` : '') +
+      (ng.length ? ` / NG=${ng.join(',')}` : ''));
+  } else {
+    console.log('SKIP ui.step-accounting(対象に第175便の繰越会計なし — root 等)');
   }
 }
 

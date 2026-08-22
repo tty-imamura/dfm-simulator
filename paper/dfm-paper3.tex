@@ -1,6 +1,6 @@
 % =====================================================================
 % Determinacy-Field Mechanics, Paper 3 -- FULL DRAFT
-% CURRENT VERSION: v1.2 (2026-08-22, wave 161).  The single version
+% CURRENT VERSION: v1.3 (2026-08-22, wave 173).  The single version
 %   statement for this manuscript is this line plus \date below; it is
 %   repeated in paper/README.md and nowhere else.  First full draft:
 %   v1.0-draft (2026-08-18).
@@ -127,6 +127,55 @@
 %       paragraph in Sec. IV C declining, for now, to adjudicate
 %       whether the 8.85-yr two-body agreement is coincidence or
 %       structure.
+% 2026-08-22 (wave 173) -- v1.3.  The exact-agreement convention
+%   q_exact of Eq. (eq:qexact), recorded in wave 141 as an alternative
+%   that was NOT adopted, HAS SINCE BEEN ADOPTED as the application's
+%   operating convention (adjudicated 2026-08-22, development line
+%   v1.42-b1).  This revision records that fact.  It does NOT
+%   re-interpret or re-write a single measurement: every number in this
+%   manuscript was taken under Eq. (eq:qlock) with the rounded q*
+%   literals (6.16 / 8.25 / 21.8, and 12.30 for the Jovian hold-out),
+%   the pre-registered windows W1-W5 and JW1-JW5 stand exactly as they
+%   were judged, and the state of record this paper pins is unchanged
+%   (tag v1.41.0, which declares the q* literals).  Changes:
+%   (a) Sec. VI C, the paragraph formerly headed "The convention that
+%       was not adopted", is rewritten as the history it now is: the
+%       samples first declared the rounded q* outputs; wave 164 re-ran
+%       the four calibrated systems with q -- and only q -- replaced by
+%       the q_exact literal and found every headline observable still
+%       inside its own previously registered window (harness
+%       tests/exp-qexact.mjs, committed result
+%       tests/out/qexact-results.json); on that evidence the convention
+%       was adopted.  What the adoption changes is exactly one thing:
+%       the bare ratio at the declared reference orbit moves from
+%       (a/(R+a))^3 to unity.  It changes nothing about what the rule
+%       fails to preserve (q_exact > 3, so the ratio still falls as
+%       d^(3-q_exact) and vanishes at infinity).
+%   (b) A note after Table \ref{tab:qlock} states which literals are
+%       declared where -- the q* literals for everything measured here
+%       and for the pinned tag, the q_exact literals (6.1471 / 8.2358 /
+%       20.4932 / 12.0586) in the application's current line -- and
+%       records the re-measured observables at the adopted literals
+%       (all inside the windows they were already registered against).
+%   (c) The Jovian hold-out (Sec. VI F) carries a note that its
+%       operating literal is now 12.0586 while the hold-out itself is
+%       left at the 12.30 it was pre-registered and run at, together
+%       with the machine check that the same JW2 window is satisfied at
+%       12.0586 to the same recorded digits.
+%   (d) Sec. V B states the one quantity that the convention moves by
+%       more than its last digits -- the Saturn entrainment ratio,
+%       exponential in q: x45 at the surface under q*, x114 under
+%       q_exact, whose crossing of unity then sits exactly at the
+%       declared reference orbit a=105 (h=44.7).  The measured
+%       sequence quoted in the text remains the q* one.
+%   (e) Cost 2 and Negative claim 4 are brought into line with the same
+%       distinction; Table \ref{tab:finrad}'s caption no longer says
+%       "was not adopted"; exp-qexact.mjs is added to the harness table
+%       and to the verification map (recorded only, no CI gate on its
+%       values -- manifest.coverage checks the file's integrity).
+%   No figure, figure datum or regression gate changed: p3fig1-p3fig4
+%   and the 28 gates of figures/p3figs-gates.json redraw and pass
+%   unchanged, because they read the same committed result files.
 % Pillars (chronological by wave):
 %   P1  43''/century reproduced by direct dynamics (waves 113-115:
 %       real-c convention, stateCarry:"double"; ratio 1.002).
@@ -145,7 +194,8 @@
 % Companion papers: Paper 1 (foundations), Paper 2 (box universe),
 %   Paper 4 (emergence across scales, dfm-paper4.tex).
 % Measurement harnesses of record: tests/exp-obscal.mjs, exp-kf1.mjs,
-%   exp-kf1b.mjs, exp-kf1c.mjs, exp-kf1d.mjs; app samples: mercuryReal,
+%   exp-kf1b.mjs, exp-kf1c.mjs, exp-kf1d.mjs, exp-qexact.mjs (wave 164,
+%   convention robustness); app samples: mercuryReal,
 %   earthMoonReal, saturnRingReal, mercuryRealKF1, earthMoonRealKF1,
 %   saturnRingRealKF1 (docs/PHYSICS.md sec. 5, v1.40 / CHANGELOG v1.40.0).
 % Build:  pdflatex dfm-paper3.tex  (RevTeX 4.2, as Papers 1-2)
@@ -184,7 +234,7 @@ by Honest Calibration, Not Mechanism Claims}%
 % wave 161: the revision list is compressed onto one line -- spelling out
 % a fourth "revised ..." clause overran the title block by 7.9 pt.
 \date{2026-08-18 (draft v1.0); revised 2026-08-19, 2026-08-21 and
-  2026-08-22 (draft v1.2)}
+  2026-08-22 (draft v1.3)}
 
 \begin{abstract}
 % wave 143 (P1-4): abstract compressed by about 30%.  The headline
@@ -1314,8 +1364,10 @@ in-application sample claims.
   exact ratio, at the reference orbit, of the bare spin term at the
   rule-derived exponent to the Lense--Thirring rate. The rightmost
   column is the alternative convention $q_{\mathrm{exact}}$ of
-  Eq.~(\ref{eq:qexact}), which forces that ratio to unity and was
-  \emph{not} adopted. Computed from the declared $R$, $M$ and $a$ of
+  Eq.~(\ref{eq:qexact}), which forces that ratio to unity: every
+  measurement of this paper was made under $q^{*}$, and the
+  application adopted $q_{\mathrm{exact}}$ afterwards
+  (Sec.~\ref{sec:qlock}). Computed from the declared $R$, $M$ and $a$ of
   each sample with $G=6.674$, $c_0=3\times10^{4}$; the Jovian row is the
   hold-out of Sec.~\ref{sec:jupiter}.}
 \label{tab:finrad}
@@ -1338,13 +1390,15 @@ reference orbit $\chi=0.2149$, so the effective ratio there is $0.203$
 rather than $0.949$ (Sec.~\ref{sec:mm}).
 Second, the samples declare $q$ as a rounded literal rather than as the
 unrounded output of Eq.~(\ref{eq:qlock})---$8.25$ against
-$q^{*}=8.2487$ for the Earth--Moon system---and that rounding is the
+$q^{*}=8.2487$ for the Earth--Moon system, at the literals under which
+this paper measures---and that rounding is the
 whole of the difference between the analytic $0.9492$ of
 Table~\ref{tab:finrad} and the $0.9440$ measured from the engine's own
 field in Sec.~\ref{sec:mm}: evaluating Eq.~(\ref{eq:finrad}) at the
 declared $q=8.25$ instead of at $q^{*}$ reproduces $0.9440$.
 
-\paragraph*{The convention that was not adopted.}
+\paragraph*{The alternative convention, and its adoption after these
+  measurements.}
 Forcing Eq.~(\ref{eq:finrad}) to unity is equally available in closed
 form, and equally a convention rather than a derivation:
 \begin{equation}
@@ -1353,18 +1407,56 @@ form, and equally a convention rather than a derivation:
   \label{eq:qexact}
 \end{equation}
 giving the right-hand column of Table~\ref{tab:finrad}.
-We do not adopt it.
-The reason is bookkeeping honesty rather than physics: the calibrated
-state of record---the shared $D_0=0.006$, the measurements of
-\texttt{tests/exp-kf1d.mjs}, and the Jovian hold-out of
+Everything measured in this paper was measured under
+Eq.~(\ref{eq:qlock}), and is reported as such.
+The reason the exact-agreement form was not adopted when those
+measurements were made is bookkeeping honesty rather than physics: the
+calibrated state of record---the shared $D_0=0.006$, the measurements
+of \texttt{tests/exp-kf1d.mjs}, and the Jovian hold-out of
 Sec.~\ref{sec:jupiter}, which was pre-registered and run at
 $q=12.30$---was established with Eq.~(\ref{eq:qlock}), and switching
-conventions would require re-measuring all of it.
-The correction that the present revision makes is the smaller and more
-truthful one: keep the world line that was actually measured, and state
-precisely what its rule declares.
-Nothing in the paper's numbers depends on the choice, because
-Sec.~\ref{sec:jupsens} measures the outcome under
+conventions would have required re-measuring all of it.
+
+% wave 173: the adoption, in the order it happened.  The robustness
+% result is transcribed from the committed result file
+% tests/out/qexact-results.json (qw1Summary.allPass = true over
+% systems mercury / earthMoon / saturnRing / jupiter, each judged
+% against the window named in preRegistered.QW1.perSystem); the
+% adopted literals are the application's own declaration
+% (docs/PHYSICS.md sec. 5 and CHANGELOG, line v1.42-b1) and equal the
+% rounded systems.*.q.qExact of that same result file.
+That re-measurement has since been carried out, and the convention has
+since been adopted---in the application, not retroactively in this
+manuscript.
+The sequence is worth stating in order, because it is an instance of
+the discipline the rest of the paper asks for.
+The samples first declared the rounded outputs of Eq.~(\ref{eq:qlock}),
+and every number reported here was measured with them.
+A separate harness then re-ran the four calibrated systems with $q$,
+and only $q$, replaced by the corresponding $q_{\mathrm{exact}}$
+literal---the shared $D_0=0.006$, the Earth--Moon initial-speed factor,
+the softening, the seed, the step size, the pre-registered windows and
+every initial condition left untouched---and found each system's
+headline observable still inside the window it had already been
+registered against, with no window re-stated for the purpose (harness
+\texttt{tests/exp-qexact.mjs}, recorded in
+\texttt{tests/out/qexact-results.json}; four systems, all inside).
+On that evidence the exact-agreement form was adopted as the
+application's operating convention on 2026-08-22, in the development
+line \texttt{v1.42-b1}: the runtime rule and the declaring samples now
+return $q_{\mathrm{exact}}$, while the distant-limit $q^{*}$ is kept
+for what it is---the asymptotic form, and the object of the derivation
+above---and is no longer what the application declares.
+What the adoption changes is exactly one thing: the bare ratio at the
+declared reference orbit moves from $(a/(R+a))^{3}$ to unity.
+It changes nothing about what the rule fails to preserve, because
+$q_{\mathrm{exact}}>3$ as well, so the ratio to the Lense--Thirring
+rate still falls as $d^{3-q_{\mathrm{exact}}}$ and still vanishes at
+infinity; and it changes nothing in this manuscript, whose state of
+record is the tag \texttt{v1.41.0} (Sec.~\ref{sec:avail}).
+That the two conventions cannot be told apart by the measurements is a
+result of the paper rather than a convenience of the choice:
+Sec.~\ref{sec:jupsens} measures the Jovian outcome under
 $q_{\mathrm{exact}}$ as well and finds it indistinguishable from the
 outcome under $q^{*}$.
 
@@ -1399,6 +1491,47 @@ Galaxy & $150$ & $3.89$ & not applied (declared $q=2$ kept) \\
 \end{tabular}
 \end{ruledtabular}
 \end{table}
+
+% wave 173: which literals are declared where.  Transcribed values and
+% their sources:
+%   q_exact literals 6.1471 / 8.2358 / 20.4932 / 12.0586 --
+%     docs/PHYSICS.md sec. 5 (wave 172) and CHANGELOG line v1.42-b1;
+%     equal to the rounded systems.*.q.qExact of
+%     tests/out/qexact-results.json (6.147102 / 8.235803 / 20.493156 /
+%     12.058551).
+%   re-measured observables and their windows -- docs/PHYSICS.md sec. 5,
+%     table of the wave-172 re-runs at the adopted rounded literals.
+%     The Mercury and Saturn figures agree to the digits quoted with
+%     tests/out/qexact-results.json systems.mercury.QW1.observable
+%     (-5.842106e-10) and systems.saturnRing.QW1.observable
+%     (1.5867217e-5, probe a=80).
+A note belongs with Table~\ref{tab:qlock} on which literals are
+declared where.
+The table lists the rounded outputs of Eq.~(\ref{eq:qlock}); those are
+the literals under which every measurement in this paper was taken, and
+they are what the tag this paper pins declares (Sec.~\ref{sec:avail}).
+The application's current development line declares the
+$q_{\mathrm{exact}}$ literals instead---$6.1471$, $8.2358$, $20.4932$,
+and $12.0586$ for the Jovian system of Sec.~\ref{sec:jupiter}---for the
+reason given above.
+Re-running each system at those literals leaves every headline
+observable inside the window it had already been registered against and
+moves the recorded values only slightly: the Mercury drag from
+$-5.6045\times10^{-10}$ to $-5.8421\times10^{-10}$\,rad/orbit (window
+$5.0$--$6.2\times10^{-10}$), the Earth--Moon $\Delta\varpi$ ratio from
+$0.999146$ to $0.999175$ (window $0.85$--$1.15$), the ring's apsidal
+drift at the $a=80$ probe from $2.0879\times10^{-5}$ to
+$1.5867\times10^{-5}$\,rad/orbit (window $1$--$3\times10^{-5}$), and
+the Jovian period deviations and orbit retention not at all, to the
+digits recorded in Sec.~\ref{sec:jupiter}.
+One quantity is genuinely convention-dependent rather than
+digit-shifted---the ring's entrainment ratio, which depends on $q$
+exponentially---and it is stated where it belongs
+(Sec.~\ref{sec:mm}).
+Two samples deliberately keep the $q^{*}$ literal even in the current
+line: the radial-audit pair behind Fig.~\ref{fig:profile}, whose whole
+subject is the finite-radius factor that the distant-limit form leaves
+at the reference orbit.
 
 Three consequences deserve separate statement.
 
@@ -1438,6 +1571,30 @@ above the surface, crosses unity in the mid-ring region, and falls off
 rapidly outward: at a surface height $h=0.5$ the ratio is $\times45$,
 at $h\approx45$ it is $\times1$, and at Titan's distance it is far
 below unity.
+% wave 173: this ratio is the single quantity the change of convention
+% moves by more than its last digits.  Transcribed from the
+% application's own claim record (beta/index.html, claim
+% saturnRingRealKF1.surface-entrainment: 44.52 at the distant-limit
+% literal q=21.8, 114.115 at the adopted q_exact literal 20.4932, both
+% analytic, same expression and same inputs as exp-kf1d sec. B; the
+% declared acceptance window was re-stated once for this claim, from
+% {40,50} to {105,125}) and docs/PHYSICS.md sec. 5.  The sequence in
+% the sentence above is left as measured, at the exponent under which
+% this paper's Saturn measurements were made.
+Those three figures are the measured ones, at the exponent under which
+this paper's Saturn measurements were made, and they are also the one
+place where the choice of convention discussed in
+Sec.~\ref{sec:qlock} matters beyond a last digit, because the ratio
+depends on $q$ exponentially.
+Recomputed from the same expression and the same inputs at the
+$q_{\mathrm{exact}}$ literal $20.4932$ that the application now
+declares, the surface figure is $\times114$ rather than $\times45$,
+and the crossing of unity is no longer approximate: it sits exactly at
+the declared reference orbit $a=105$---a height $h=44.7$, mid-ring---%
+which is the convention's own definition appearing directly in the
+profile.
+Neither version is a measurement of nature, for the reason the rest of
+this subsection gives.
 % NOTE (wave 140, updated wave 141): the three Saturn ratios above are
 % quoted from the sample's own observation card and from
 % tests/out/kf1d-results.json (which IS committed -- the earlier note
@@ -1768,6 +1925,28 @@ orbit as the reference, giving $q^{*}=12.3017$, declared as $q=12.3$;
 the runtime qLock recomputation is not applied, because a multi-body
 system has no unique reference orbit---the same declaration the solar
 sample already carries.
+% wave 173: the operating literal moved; the hold-out did not.  Figures
+% transcribed from tests/out/qexact-results.json, systems.jupiter:
+%   q.qExact = 12.058551153315456 (declared literal 12.0586)
+%   QW1.pass = true, window = windowsPreRegistered.JW2 verbatim
+%   QW1.maxAbsDevPercent  = 0.051377604726754456
+%   QW1.maxASpreadPercent = 0.14210101337957878
+%   runs.qExact.nan = false; baselineBitCheck.jw1Identical = true and
+%   .jw2Identical = true (the q* re-run reproduces the committed
+%   jupiter-results.json bit for bit, which is what makes the
+%   comparison a transcription rather than a new baseline).
+The application's operating literal for this system is now
+$12.0586$---the $q_{\mathrm{exact}}$ value of Eq.~(\ref{eq:qexact}),
+adopted after this hold-out had been run (Sec.~\ref{sec:qlock})---and
+the hold-out is deliberately left at the literal it was pre-registered
+and measured at.
+That substitution was checked rather than assumed: re-running the
+identical configuration at $12.0586$ satisfies the same JW2 window
+mechanically, with no NaN, all four orbits retained
+($\max|\Delta a|/a=0.1421\%$) and all four periods within $0.0514\%$ of
+the observed values---the digits of the state of record, unchanged
+(\texttt{tests/exp-qexact.mjs}, recorded in
+\texttt{tests/out/qexact-results.json}).
 No per-moon knob exists: the count of fitted parameters for this
 system is zero.
 The idealization is declared with it: the run is two-dimensional and
@@ -2017,9 +2196,10 @@ $2.4\times10^{-2}$ times $\Omega_{LT}$---the period deviations are again
 identical to the recorded digits and the drag differential moves by at
 most $0.7\%$ (largest at $q=8$).
 In particular the $q_{\mathrm{exact}}$ convention of
-Eq.~(\ref{eq:qexact}) is indistinguishable from the adopted one, which
-is why Sec.~\ref{sec:qlock} can decline to switch conventions without
-that decision touching any number.
+Eq.~(\ref{eq:qexact}) is indistinguishable from the one this paper's
+measurements were taken under, which is why that convention could
+first be declined and later adopted (Sec.~\ref{sec:qlock}) without
+either decision touching a number recorded here.
 
 Third---and this is the qualification---the insensitivity is itself the
 reason the Jovian result is weaker than it looks, and it is consistent
@@ -2237,12 +2417,14 @@ The solar-system profile was designed so that the effective falloff
 index of Eq.~(\ref{eq:neff}) equals $3$, matching the
 Lense--Thirring $\Omega\propto r^{-3}$, throughout the
 central-dominated region.
-The qLock exponents are $6.16$, $8.25$ and $21.8$.
+The qLock exponents are $6.16$, $8.25$ and $21.8$---and $6.1471$,
+$8.2358$ and $20.4932$ under the convention the application has since
+adopted (Sec.~\ref{sec:qlock}), which is no nearer to $3$.
 The spin term therefore no longer obeys the Lense--Thirring distance
 law at any radius.
 It is worth being exact about what replaces it, because the natural way
 to soften this cost---``except at the reference orbit, where the rule
-forces agreement''---is not true.
+forces agreement''---is not true of Eq.~(\ref{eq:qlock}).
 Equation~(\ref{eq:qlock}) normalizes the amplitude at one declared
 orbit, so at the reference orbit itself the bare spin term stands at the
 finite-radius factor $(a/(R+a))^{3}$ of Eq.~(\ref{eq:finrad})---$0.956$,
@@ -2258,6 +2440,11 @@ What it pays is the radial profile of the dragging term,
 everywhere---outside the reference orbit the ratio to the
 Lense--Thirring rate falls as $d^{3-q^{*}}$ and vanishes at
 infinity---plus a computable offset at the reference orbit itself.
+The exact-agreement convention adopted afterwards
+(Sec.~\ref{sec:qlock}) does remove that offset, and forces the
+agreement at the reference orbit that the sentence above denies; it
+removes nothing else, because its exponent exceeds $3$ too, so the
+cost this section names is paid in full under either convention.
 The non-dragging reality-calibration samples keep $q=3$, so the two
 regimes remain separated and inspectable, but no reading of the
 combined result can claim both.
@@ -2342,13 +2529,19 @@ which is $0.956$, $0.949$, $0.256$ and $0.625$ for the Mercury,
 Earth--Moon, Saturn and Jovian reference orbits, and $0.203$ for the
 Earth--Moon system once the background dilution $\chi$ is included.
 Second, the alternative convention $q_{\mathrm{exact}}$ of
-Eq.~(\ref{eq:qexact}) ($6.147$, $8.236$, $20.493$, $12.059$) would force
-that factor to unity and is equally available; it was not adopted,
-for the bookkeeping reason given in Sec.~\ref{sec:qlock}, and the
-measured outcome is indistinguishable under the two
+Eq.~(\ref{eq:qexact}) ($6.147$, $8.236$, $20.493$, $12.059$) forces
+that factor to unity and is equally available; the measurements
+reported here were made under Eq.~(\ref{eq:qlock}), for the bookkeeping
+reason given in Sec.~\ref{sec:qlock}, and the application adopted
+$q_{\mathrm{exact}}$ as its operating convention afterwards---which
+changes the bare ratio at the reference orbit and nothing the rule
+preserves, the ratio still falling as $d^{3-q}$ outside it.
+The measured outcome is indistinguishable under the two
 (Sec.~\ref{sec:jupsens}).
-That a second convention exists, and that the model cannot tell them
-apart, is part of the claim's limit and not a footnote to it.
+That a second convention exists, that the model cannot tell them apart,
+and that the choice between them was therefore settled by bookkeeping
+rather than by evidence, is part of the claim's limit and not a
+footnote to it.
 
 \subsection{Negative claim 5: two dimensions, no Lorentz invariance, no
   causal propagation}
@@ -2431,6 +2624,12 @@ Harness & Scope & Result file \\
 \texttt{exp-\allowbreak jup365.mjs} &
   source dependence of the Galilean hold-out (wave 162) &
   \texttt{jup365-\allowbreak results.json} \\
+% wave 173: the robustness harness behind the convention change of
+% Sec. \ref{sec:qlock} belongs in the map like any other.
+\texttt{exp-\allowbreak qexact.mjs} &
+  convention robustness: the four calibrated systems re-run at
+  $q_{\mathrm{exact}}$ (wave 164) &
+  \texttt{qexact-\allowbreak results.json} \\
 \bottomrule
 \end{tabularx}}
 \end{center}
@@ -2520,6 +2719,13 @@ sensitivity (wave 141) &
 source dependence UW1--UW4 (wave 162) &
   \texttt{exp-jup365} / \texttt{jup365-\allowbreak results.json} &
   none: recorded only, no CI gate \\
+% wave 173: like the wave-162 variant, the convention-robustness run is
+% recorded rather than gated; manifest.coverage checks only that the
+% result file declares its provenance and regeneration recipe.
+convention robustness QW1--QW3 (wave 164) &
+  \texttt{exp-qexact} / \texttt{qexact-\allowbreak results.json} &
+  none: recorded only (\texttt{manifest.\allowbreak coverage} pins the
+  file's provenance) \\
 sample claim consistency & sample declarations &
   \texttt{claims.sync} \\
 figures redraw unchanged & committed result files &
