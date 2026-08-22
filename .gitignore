@@ -41,6 +41,34 @@ tests/out/*
 #   — **解析専用**(シミュレーション再実行なし)。入力は第152便・第154便の実測正本だけで、両者を
 #   1 bit も書き換えない。窓は置かない(既発行の XW/YW 窓の付け替え・再判定もしていない)
 !tests/out/coreshell-theory-results.json
+# 第162便: 木星 hold-out の JUP365 変種(観測ソース依存性 — 事前登録窓 UW1 両ソースの周期差 ≤1% /
+#   UW2 既存初期条件の基線再測が fact-sheet ±1% かつ JUP365 ±2% / UW3 JUP365 周期からケプラー逆算した
+#   a' の再フィットなし変種が JUP365 ±1% / UW4 hold-out 結論の両ソース一致)の実測正本
+!tests/out/jup365-results.json
+# 第162便: 木星 hold-out の複数シード(初期位相配置の統計 — 事前登録窓 SW1 全8配置で JW2 相当保持 /
+#   SW2 全8配置・全衛星で周期 ±1% / SW3 配置間ばらつきの記述)の実測正本
+!tests/out/jupseeds-results.json
+# 第163便: コア外殻第6実験(第158便 ZW2 が分離した 🐚 の平均場2項振幅から立つ q₅₀ 予測の**前向き検証**
+#   — 事前登録窓 BW1 🐚 env×1/×2 の q₅₀ 予測と掃引実測の照合 / BW2 決定性 / BW3 旧式・1項アンカー式の
+#   併記とアンカー ±0.05 摂動の感度)の実測正本
+#   — 掃引格子はアームごとに 2項複合予測を中心とする21点(0.05 刻み)で、予測・採点定義・掃引格子は
+#   掃引前にこの JSON へ書き出され、正準化 SHA-256 で事後改変が無いことを機械照合する
+!tests/out/coreshell6-results.json
+# 第164便: q_exact 変種の頑健性(qLock 則の厳密一致式へ q だけ置換した実較正4系の再走行 —
+#   事前登録窓 QW1 主窓 / QW2 記述 / QW3 決定性。基線再測が kf1c/kf1d/jupiter の実測正本と
+#   ビット一致することを機械証明した版。較正なし fit=[])
+!tests/out/qexact-results.json
+# 第165便: iso-g 対照(同一ループ利得 g を3経路で構成して amp を比べる — 事前登録窓 IW1 構成可能性 /
+#   IW2 主窓(経路間 amp 相対差 ≤10%)/ IW3 記述(数値床宣言)/ IW4 決定性。§F の用量反応グリッドを
+#   再走行して obscal-results.json とビット一致することを機械証明した版)
+!tests/out/isog-results.json
+# 第166便: 誤差予算(error budget)の機械集計台帳 — 較正・ホールドアウト主張ごとの
+#   {claim・出典 JSON の SHA-256・主観測量・事前登録窓・不確かさ成分(数値床/dt 収束/窓感度/
+#   ソース差/シード散らばり)} を上の白リスト済み結果 JSON **からのみ**集計した出力
+#   (tools/gen-error-budget.mjs・新規シミュレーションなし・手書き数値ゼロ)。
+#   QA ゲート errorbudget.presence / errorbudget.consistency が、スキーマ・5主張の全行・
+#   再集計一致・出典 SHA-256 の現物照合を機械検査するため、コミット対象にする
+!tests/out/error-budget.json
 # 第19便: ダークローター探索実験の実測生データ(裁定記録 REVIEW_20260723_DARK_ROTOR_* が参照)
 !tests/out/darkrotor-results.json
 !tests/out/exp-4-67.json

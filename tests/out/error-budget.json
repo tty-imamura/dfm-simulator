@@ -1,0 +1,1922 @@
+{
+ "schema": "dfm-error-budget",
+ "schemaVersion": "1.0",
+ "title": "較正・ホールドアウト主張の誤差予算(error budget)",
+ "purpose": "外部レビュー指摘「a more formal error budget would strengthen the claims」への恒久対応。主張ごとに主観測量・事前登録窓・不確かさ成分を1枚の機械可読な台帳へ集約する",
+ "provenance": {
+  "rule": "数値はすべてコミット済みの結果 JSON からの機械読取・機械集計であり、本台帳の生成器に実測値の数値リテラルは無い",
+  "newSimulations": 0,
+  "sentinelVocabulary": [
+   "not-applicable",
+   "not-instrumented",
+   "unavailable"
+  ],
+  "sentinelNote": "取得できない成分は捏造せず tests/manifest.mjs の固定語彙で書く。\"not-instrumented\" は概念はあるが計装していない、\"not-applicable\" はその概念が当該主張に無い、の意である",
+  "componentKeys": [
+   "numericalFloor",
+   "dtConvergence",
+   "windowSensitivity",
+   "sourceSpread",
+   "seedSpread"
+  ],
+  "requiredClaimFields": [
+   "id",
+   "claim",
+   "sourceJsons",
+   "value",
+   "window",
+   "components",
+   "verdictPointer"
+  ],
+  "sources": [
+   {
+    "key": "kf1c",
+    "file": "tests/out/kf1c-results.json",
+    "sha256": "60c88b15fbc050284e89de1124d8a93247275289afb42bbc1daa5c5fc2e2a44c",
+    "bytes": 13965,
+    "experimentId": "kf1c",
+    "wave": 122
+   },
+   {
+    "key": "kf1d",
+    "file": "tests/out/kf1d-results.json",
+    "sha256": "5ae1aefa605eaddbccb582d4e3b314a8a979ff9db28fe9eabcee417880f4763c",
+    "bytes": 10722,
+    "experimentId": "kf1d",
+    "wave": 123
+   },
+   {
+    "key": "jupiter",
+    "file": "tests/out/jupiter-results.json",
+    "sha256": "634e993c684893b7df4eead55e5069a7bba319f52049c9915d775dc43ed08fdf",
+    "bytes": 63163,
+    "experimentId": "jupiter",
+    "wave": 138
+   },
+   {
+    "key": "jup365",
+    "file": "tests/out/jup365-results.json",
+    "sha256": "471feba51dbd5caa6d9de4fc003bafbe152a7788a4fc9092c1fc43eba3d93c92",
+    "bytes": 48776,
+    "experimentId": "jup365",
+    "wave": 162
+   },
+   {
+    "key": "jupseeds",
+    "file": "tests/out/jupseeds-results.json",
+    "sha256": "ed245a8dd0c714dcfa604d7500868b740056e8b8089923e850dfcfba8170b00c",
+    "bytes": 70796,
+    "experimentId": "jupseeds",
+    "wave": 162
+   },
+   {
+    "key": "qlockradial",
+    "file": "tests/out/qlockradial-results.json",
+    "sha256": "15b48868f7d16c82729f50ab7781a551f2fe5c3d30315807b28e66e70f40028d",
+    "bytes": 57391,
+    "experimentId": "qlockradial",
+    "wave": 136
+   }
+  ]
+ },
+ "claims": [
+  {
+   "id": "mercury-perihelion",
+   "claim": {
+    "ja": "☄️🪨 水星: 共通補正(D₀ 共有・幾何抑制指数 q)を掛けた近点移動の引きずり成分が、1PN 解析値の 1/8 という事前登録の上限を下回る。",
+    "en": "Mercury perihelion: the frame-dragging component of the apsidal advance under the shared correction stays below the pre-registered ceiling of one eighth of the 1PN value."
+   },
+   "sourceJsons": [
+    {
+     "file": "tests/out/kf1c-results.json",
+     "sha256": "60c88b15fbc050284e89de1124d8a93247275289afb42bbc1daa5c5fc2e2a44c",
+     "bytes": 13965,
+     "experimentId": "kf1c",
+     "wave": 122
+    },
+    {
+     "file": "tests/out/kf1d-results.json",
+     "sha256": "5ae1aefa605eaddbccb582d4e3b314a8a979ff9db28fe9eabcee417880f4763c",
+     "bytes": 10722,
+     "experimentId": "kf1d",
+     "wave": 123
+    }
+   ],
+   "value": {
+    "quantity": "引きずり歳差 Δϖ_drag = Δϖ(kF1) − Δϖ(kF0)",
+    "unit": "rad/公転",
+    "primary": -5.604542070868556e-10,
+    "primaryPointer": "tests/out/kf1d-results.json#tests.qcalc.dragMerc",
+    "atQ": 6.157793376601058,
+    "atQPointer": "tests/out/kf1d-results.json#tests.qcalc.qMerc",
+    "windowArm": {
+     "status": "instrumented",
+     "arm": "5",
+     "q": 5,
+     "drag": -5.281391325220005e-8,
+     "pointer": "tests/out/kf1c-results.json#tests.joint.dragQ5"
+    },
+    "comparators": {
+     "ltPerOrbit": 6.474343711205743e-11,
+     "ltPointer": "tests/out/kf1d-results.json#tests.qcalc.ltPerOrbit",
+     "dragOverLT": -8.65654083388909,
+     "externalReferences": [
+      "Lense–Thirring 解析値 Ω_LT=2GJ/(c²a³)(J=0.4MR²s の一様球近似)",
+      "☄️/🪨 水星の 1PN 解析値 5.02e-7 rad/公転",
+      "🌘 の近点回転 0.05311 rad/公転"
+     ]
+    }
+   },
+   "window": {
+    "registered": "統合判定 D) の窓は tests.joint に構造ごと入っている — 🪨 側は |引きずり| < 5.02e-7/8 (1PN の 1/8・第121便の採用水準)、🌘 側は Δϖ比 0.85〜1.15(第120便の窓依存 ±15% と同水準)。残差・合否(ok1/ok2/pass)も同ポインタにある",
+    "registeredPointer": "tests/out/kf1c-results.json#manifest.judgement.note",
+    "thresholdAbs": 6.275e-8,
+    "thresholdPointer": "tests/out/kf1c-results.json#tests.mercuryQscan.derivation.eps",
+    "thresholdNote": "窓のしきい値は出典 JSON 内の derivation.eps(1PN 解析値の 1/8)をそのまま読んだ値である",
+    "measuredAbs": 5.281391325220005e-8,
+    "marginOfThreshold": 0.8416559880828693,
+    "marginOfThresholdAtQStar": 0.008931541148794511,
+    "verdict": {
+     "ok": true,
+     "jointPass": true
+    }
+   },
+   "components": {
+    "numericalFloor": {
+     "status": "not-instrumented",
+     "note": "本ハーネスは1步あたりの引きずり増分と速度 1 ulp の比(数値床)を記録していない。記録しているのは軌道要素のドリフト(eDrift・amp)と NaN フラグだけである",
+     "evidence": {
+      "nanFlags": [
+       {
+        "arm": "3",
+        "nan": false
+       },
+       {
+        "arm": "3.5",
+        "nan": false
+       },
+       {
+        "arm": "4",
+        "nan": false
+       },
+       {
+        "arm": "4.5",
+        "nan": false
+       },
+       {
+        "arm": "5",
+        "nan": false
+       },
+       {
+        "arm": "6",
+        "nan": false
+       }
+      ],
+      "healthPointer": "tests/out/kf1c-results.json#manifest.health"
+     }
+    },
+    "dtConvergence": {
+     "status": "not-instrumented",
+     "note": "両ハーネスとも単一の dt で走っており、dt を半分にした収束点を持たない(dt 掃引は未計装)",
+     "evidence": {
+      "dtKf1c": 0.016,
+      "dtKf1d": 0.016,
+      "distinctDtValues": 1
+     }
+    },
+    "windowSensitivity": {
+     "status": "not-instrumented",
+     "note": "測定窓は1種類だけで、長窓との比較を取っていない(窓を変えたときの感度は未計装)",
+     "evidence": {
+      "window": {
+       "mercury": "8 公転",
+       "earthMoon": "8 公転"
+      },
+      "windowPointer": "tests/out/kf1c-results.json#manifest.numerics.window"
+     }
+    },
+    "sourceSpread": {
+     "status": "not-instrumented",
+     "note": "比較先は 1PN 解析値の単一ソースで、複数の観測ソースを突き合わせていない(ソース差は未計装)",
+     "evidence": {
+      "externalReferences": [
+       "☄️/🪨 水星の 1PN 解析値 5.02e-7 rad/公転",
+       "🌘 の近点回転 0.05311 rad/公転(8.85 年)・恒星月 27.3217 日"
+      ]
+     }
+    },
+    "seedSpread": {
+     "status": "not-instrumented",
+     "note": "単一 seed の1走行で、初期位相を振った統計を取っていない(シード散らばりは未計装)",
+     "evidence": {
+      "seed": 1,
+      "seedPointer": "tests/out/kf1c-results.json#manifest.numerics.seed"
+     }
+    },
+    "qArmSpread": {
+     "status": "instrumented",
+     "note": "幾何抑制指数 q を掃引したときの引きずり歳差の動き(q は当てはめではなく算出値なので、これは感度記録であって自由度ではない)",
+     "pointer": "tests/out/kf1c-results.json#tests.mercuryQscan.scan",
+     "arms": [
+      {
+       "arm": "3",
+       "q": 3,
+       "dPomPerOrbit": -0.00007246316206509668,
+       "drag": -0.00007289789535389726,
+       "periodRelDev": 0.000009320544321982162,
+       "nan": false
+      },
+      {
+       "arm": "3.5",
+       "q": 3.5,
+       "dPomPerOrbit": -0.000013446260322844708,
+       "drag": -0.000013880993611645277,
+       "periodRelDev": 0.00000230347672344671,
+       "nan": false
+      },
+      {
+       "arm": "4",
+       "q": 4,
+       "dPomPerOrbit": -0.0000018787976249382361,
+       "drag": -0.0000023135309137388043,
+       "periodRelDev": -0.000001205057075970594,
+       "nan": false
+      },
+      {
+       "arm": "4.5",
+       "q": 4.5,
+       "dPomPerOrbit": 7.673751634789992e-8,
+       "drag": -3.5799577245266845e-7,
+       "periodRelDev": -0.000001205057075970594,
+       "nan": false
+      },
+      {
+       "arm": "5",
+       "q": 5,
+       "dPomPerOrbit": 3.819193755483683e-7,
+       "drag": -5.281391325220005e-8,
+       "periodRelDev": -0.000001205057075970594,
+       "nan": false
+      },
+      {
+       "arm": "6",
+       "q": 6,
+       "dPomPerOrbit": 4.336847395067718e-7,
+       "drag": -1.0485492937965576e-9,
+       "periodRelDev": -0.000001205057075970594,
+       "nan": false
+      }
+     ],
+     "dragSpread": {
+      "n": 6,
+      "min": -0.00007289789535389726,
+      "max": -1.0485492937965576e-9,
+      "mean": -0.000014917379685713335,
+      "absSpread": 0.00007289684680460346,
+      "relSpread": 4.886705865267892
+     },
+     "periodRelDevSpread": {
+      "n": 6,
+      "min": -0.000001205057075970594,
+      "max": 0.000009320544321982162,
+      "mean": 0.000001133965456924416,
+      "absSpread": 0.000010525601397952756,
+      "relSpread": 9.282118193000949
+     },
+     "derivedQStar": 4.591481226068141
+    },
+    "spinDoseSensitivity": {
+     "status": "instrumented",
+     "note": "自転角速度を 0 / 実値 / ×100 / ×10⁴ と振ったときの Δϖ の動き(族ごとに集計)",
+     "pointer": "tests/out/kf1c-results.json#tests.mercurySpin2",
+     "doses": [
+      0,
+      0.0124,
+      1.24,
+      124
+     ],
+     "families": [
+      {
+       "family": "q3",
+       "rows": [
+        {
+         "arm": "q3_s0",
+         "dPomPerOrbit": -0.00007246316206509668
+        },
+        {
+         "arm": "q3_real",
+         "dPomPerOrbit": -0.00007246316206509668
+        },
+        {
+         "arm": "q3_x100",
+         "dPomPerOrbit": -0.00007246316206509668
+        },
+        {
+         "arm": "q3_x1e4",
+         "dPomPerOrbit": -0.00007246316206509668
+        }
+       ],
+       "n": 4,
+       "min": -0.00007246316206509668,
+       "max": -0.00007246316206509668,
+       "mean": -0.00007246316206509668,
+       "absSpread": 0,
+       "relSpread": 0
+      },
+      {
+       "family": "q5",
+       "rows": [
+        {
+         "arm": "q5_s0",
+         "dPomPerOrbit": 3.819193755483683e-7
+        },
+        {
+         "arm": "q5_real",
+         "dPomPerOrbit": 3.819193755483683e-7
+        },
+        {
+         "arm": "q5_x100",
+         "dPomPerOrbit": 3.819193755483683e-7
+        },
+        {
+         "arm": "q5_x1e4",
+         "dPomPerOrbit": 3.819193755483683e-7
+        }
+       ],
+       "n": 4,
+       "min": 3.819193755483683e-7,
+       "max": 3.819193755483683e-7,
+       "mean": 3.819193755483683e-7,
+       "absSpread": 0,
+       "relSpread": 0
+      }
+     ],
+     "maxRelSpread": 0
+    },
+    "crossHarnessAgreement": {
+     "status": "instrumented",
+     "note": "第122便 kf1c と第123便 kf1d が別スクリプトで測った同一構成 kF0 基線の一致(便をまたいだ再現性)",
+     "pairs": [
+      {
+       "label": "kF0 基線 Δϖ/公転",
+       "a": 4.3473328880056836e-7,
+       "b": 4.3473328880056836e-7,
+       "absDiff": 0,
+       "bitIdentical": true
+      },
+      {
+       "label": "kF0 基線 平均周期 Tavg",
+       "a": 760.0506666666666,
+       "b": 760.0506666666666,
+       "absDiff": 0,
+       "bitIdentical": true
+      }
+     ],
+     "allBitIdentical": true
+    },
+    "internalConsistency": {
+     "status": "instrumented",
+     "note": "台帳が使う「引きずり = kF1 − kF0」の定義が、出典 JSON が自分で収載している差分値と厳密一致するかの機械照合",
+     "checks": [
+      {
+       "name": "kf1c: joint.dragQ5 = scan[q] − kF0",
+       "ok": true
+      },
+      {
+       "name": "kf1d: qcalc.dragMerc = mercQstar − mercKF0",
+       "ok": true
+      },
+      {
+       "name": "kf1c: derivation.A3 = 最小 q アームの drag",
+       "ok": true
+      }
+     ]
+    }
+   },
+   "verdictPointer": "tests/out/kf1c-results.json#tests.joint"
+  },
+  {
+   "id": "earth-moon-two-observables",
+   "claim": {
+    "ja": "🌙🌘 地球月: 同一の共通補正のまま、恒星月(平均周期)と近点回転(Δϖ/公転)の2量を同時に満たす。",
+    "en": "Earth-Moon: with the same shared correction, both the sidereal month and the apsidal advance per orbit are matched simultaneously."
+   },
+   "sourceJsons": [
+    {
+     "file": "tests/out/kf1c-results.json",
+     "sha256": "60c88b15fbc050284e89de1124d8a93247275289afb42bbc1daa5c5fc2e2a44c",
+     "bytes": 13965,
+     "experimentId": "kf1c",
+     "wave": 122
+    },
+    {
+     "file": "tests/out/kf1d-results.json",
+     "sha256": "5ae1aefa605eaddbccb582d4e3b314a8a979ff9db28fe9eabcee417880f4763c",
+     "bytes": 10722,
+     "experimentId": "kf1d",
+     "wave": 123
+    }
+   ],
+   "value": {
+    "quantity": "2量同時 — ① 近点回転 Δϖ/公転(観測比)② 平均周期 Tavg のケプラー基準からの相対偏差",
+    "primaryArm": "q5",
+    "apsidal": {
+     "unit": "rad/公転",
+     "measured": 0.053064973305042715,
+     "ratioToObserved": 0.999152199304137,
+     "ratioPointer": "tests/out/kf1c-results.json#tests.joint.ratio",
+     "impliedObservedAnchor": 0.05311,
+     "impliedObservedAnchorNote": "観測アンカーは JSON に直接の数値キーが無いため、測定値 ÷ 収載比 で逆算した含意値である(手打ちの転記ではない)"
+    },
+    "siderealMonth": {
+     "unit": "時間単位(内部)",
+     "Tavg": 23613.957333333336,
+     "TKepler": 23605.99335250854,
+     "relDev": 0.00033737113731540627,
+     "relDevPercent": 0.033737113731540626,
+     "pointer": "tests/out/kf1c-results.json#tests.earthMoonCal"
+    },
+    "externalReferences": [
+     "☄️/🪨 水星の 1PN 解析値 5.02e-7 rad/公転",
+     "🌘 の近点回転 0.05311 rad/公転(8.85 年)・恒星月 27.3217 日"
+    ]
+   },
+   "window": {
+    "registered": "統合判定 D) の窓は tests.joint に構造ごと入っている — 🪨 側は |引きずり| < 5.02e-7/8 (1PN の 1/8・第121便の採用水準)、🌘 側は Δϖ比 0.85〜1.15(第120便の窓依存 ±15% と同水準)。残差・合否(ok1/ok2/pass)も同ポインタにある",
+    "registeredPointer": "tests/out/kf1c-results.json#manifest.judgement.note",
+    "thresholdNote": "窓は「Δϖ 比が 1 の周りの帯に入ること」で、帯幅の数値は上の registered 本文にある(JSON に独立した数値キーとして存在しないため台帳へは転記しない)",
+    "measuredRatio": 0.999152199304137,
+    "deviationFromUnity": 0.000847800695862988,
+    "verdict": {
+     "ok": true,
+     "jointPass": true
+    }
+   },
+   "components": {
+    "numericalFloor": {
+     "status": "not-instrumented",
+     "note": "周期・Δϖ の分解能床(通過時刻の量子化・1 ulp 比)を記録していない",
+     "evidence": {
+      "nanFlags": [
+       {
+        "arm": "q3",
+        "nan": false
+       },
+       {
+        "arm": "q4.5",
+        "nan": false
+       },
+       {
+        "arm": "q5",
+        "nan": false
+       },
+       {
+        "arm": "q6",
+        "nan": false
+       }
+      ],
+      "healthPointer": "tests/out/kf1c-results.json#manifest.health"
+     }
+    },
+    "dtConvergence": {
+     "status": "not-instrumented",
+     "note": "単一 dt の走行で、dt 掃引の収束点を持たない",
+     "evidence": {
+      "dtKf1c": 0.016,
+      "dtKf1d": 0.016,
+      "distinctDtValues": 1
+     }
+    },
+    "windowSensitivity": {
+     "status": "not-instrumented",
+     "note": "測定窓は1種類だけで、長窓との比較を取っていない",
+     "evidence": {
+      "window": {
+       "mercury": "8 公転",
+       "earthMoon": "8 公転"
+      },
+      "windowPointer": "tests/out/kf1c-results.json#manifest.numerics.window"
+     }
+    },
+    "sourceSpread": {
+     "status": "not-instrumented",
+     "note": "恒星月・近点回転とも単一の観測アンカーで、複数ソースの突き合わせをしていない",
+     "evidence": {
+      "externalReferences": [
+       "☄️/🪨 水星の 1PN 解析値 5.02e-7 rad/公転",
+       "🌘 の近点回転 0.05311 rad/公転(8.85 年)・恒星月 27.3217 日"
+      ]
+     }
+    },
+    "seedSpread": {
+     "status": "not-instrumented",
+     "note": "単一 seed の1走行で、初期位相を振った統計を取っていない",
+     "evidence": {
+      "seed": 1,
+      "seedPointer": "tests/out/kf1c-results.json#manifest.numerics.seed"
+     }
+    },
+    "qArmSpread": {
+     "status": "instrumented",
+     "note": "幾何抑制指数 q を振ったときの2量の動き(q は算出値であり当てはめ自由度ではない)",
+     "pointer": "tests/out/kf1c-results.json#tests.earthMoonCal",
+     "arms": [
+      {
+       "arm": "q3",
+       "q": 3,
+       "dPomPerOrbit": 0.05245427012198973,
+       "Tavg": 23615.72266666667,
+       "TK": 23605.99335250854,
+       "periodRelDev": 0.00041215440557152577,
+       "nan": false
+      },
+      {
+       "arm": "q4.5",
+       "q": 4.5,
+       "dPomPerOrbit": 0.05306464378798851,
+       "Tavg": 23613.98933333333,
+       "TK": 23605.99335250854,
+       "periodRelDev": 0.0003387267252594402,
+       "nan": false
+      },
+      {
+       "arm": "q5",
+       "q": 5,
+       "dPomPerOrbit": 0.053064973305042715,
+       "Tavg": 23613.957333333336,
+       "TK": 23605.99335250854,
+       "periodRelDev": 0.00033737113731540627,
+       "nan": false
+      },
+      {
+       "arm": "q6",
+       "q": 6,
+       "dPomPerOrbit": 0.05306408398553556,
+       "Tavg": 23613.97066666667,
+       "TK": 23605.99335250854,
+       "periodRelDev": 0.00033793596562561303,
+       "nan": false
+      }
+     ],
+     "apsidalSpread": {
+      "n": 4,
+      "min": 0.05245427012198973,
+      "max": 0.053064973305042715,
+      "mean": 0.05291199280013913,
+      "absSpread": 0.0006107031830529866,
+      "relSpread": 0.01154186698958314
+     },
+     "periodRelDevSpread": {
+      "n": 4,
+      "min": 0.00033737113731540627,
+      "max": 0.00041215440557152577,
+      "mean": 0.00035654705844299635,
+      "absSpread": 0.0000747832682561195,
+      "relSpread": 0.20974305210282815
+     }
+    },
+    "spinDoseSensitivity": {
+     "status": "instrumented",
+     "note": "自転角速度 0 / ×100 の対照を主アームと比べたときの Δϖ の動き",
+     "pointer": "tests/out/kf1c-results.json#tests.earthMoonCal",
+     "doses": [
+      0,
+      0.026617
+     ],
+     "rows": [
+      {
+       "arm": "q5spin_s0",
+       "dPomPerOrbit": 0.05306366674017477,
+       "relToPrimary": -0.000024621982949710715
+      },
+      {
+       "arm": "q5spin_x100",
+       "dPomPerOrbit": 0.05306365237970878,
+       "relToPrimary": -0.000024892603381523786
+      }
+     ],
+     "maxRelToPrimary": 0.000024892603381523786
+    },
+    "qStarArmComparison": {
+     "status": "instrumented",
+     "note": "第123便 kf1d が q を算出則で決め直した走行(q*)と、第122便 kf1c の主アームとの差(同一系・別スクリプト・別 q — q の決め方を変えても観測量がどれだけ動かないかの記録)",
+     "qStar": 8.24865373270011,
+     "qStarPointer": "tests/out/kf1d-results.json#tests.qcalc.qEM",
+     "apsidal": {
+      "kf1c": 0.053064973305042715,
+      "kf1d": 0.053064654839394244,
+      "relDiff": -0.000006001428600361879
+     },
+     "period": {
+      "kf1c": 23613.957333333336,
+      "kf1d": 23613.992,
+      "relDiff": 0.0000014680583255683272
+     }
+    }
+   },
+   "verdictPointer": "tests/out/kf1c-results.json#tests.joint"
+  },
+  {
+   "id": "saturn-ring-apsidal",
+   "claim": {
+    "ja": "💿🛰️ 土星環: 🪨🌘 から導いた q* 算出則を再フィットなしで環系へ当てると、環プローブの近点ドリフトが kF0 基線並みに小さく留まる(q=3 対照では桁違いに大きい)。",
+    "en": "Saturn ring: applying the q* rule derived from Mercury/Moon without any refit keeps the ring probes' apsidal drift at baseline level, whereas the q=3 control is orders of magnitude larger."
+   },
+   "sourceJsons": [
+    {
+     "file": "tests/out/kf1d-results.json",
+     "sha256": "5ae1aefa605eaddbccb582d4e3b314a8a979ff9db28fe9eabcee417880f4763c",
+     "bytes": 10722,
+     "experimentId": "kf1d",
+     "wave": 123
+    }
+   ],
+   "value": {
+    "quantity": "環プローブの引きずり歳差 Δϖ_drag = Δϖ(kF1, q*) − Δϖ(kF0)",
+    "unit": "rad/公転",
+    "qStar": 21.843180708151756,
+    "qStarPointer": "tests/out/kf1d-results.json#tests.ring.qStar",
+    "rows": [
+     {
+      "a": 80,
+      "kF0": -0.000029098834814640032,
+      "qStarRun": -0.000008219458586844384,
+      "q3": 0.23313201466975406,
+      "dragQStar": 0.00002087937622779565,
+      "dragQ3": 0.2331611135045687,
+      "suppression": 0.00008954913584844639
+     },
+     {
+      "a": 105,
+      "kF0": 0.00003416109442726234,
+      "qStarRun": -0.000005556736807792791,
+      "q3": 0.13136826771313348,
+      "dragQStar": -0.00003971783123505513,
+      "dragQ3": 0.13133410661870623,
+      "suppression": 0.0003024182541581931
+     },
+     {
+      "a": 130,
+      "kF0": 0.0001573735225612262,
+      "qStarRun": 0.000138394625384674,
+      "q3": 0.061842053836879456,
+      "dragQStar": -0.000018978897176552214,
+      "dragQ3": 0.06168468031431823,
+      "suppression": 0.0003076760239308047
+     },
+     {
+      "a": 1221.9,
+      "kF0": 0.00017418524247156904,
+      "qStarRun": 0.00019369025493057505,
+      "q3": -0.2667244048783669,
+      "dragQStar": 0.000019505012459006005,
+      "dragQ3": -0.2668985901208385,
+      "suppression": 0.00007308023789175919
+     }
+    ],
+    "rowsPointer": "tests/out/kf1d-results.json#tests.ring",
+    "maxAbsDragQStar": 0.00003971783123505513,
+    "maxAbsDragQ3Control": 0.2668985901208385,
+    "maxSuppression": 0.0003076760239308047,
+    "nan": {
+     "kF0": false,
+     "q3": false,
+     "qStarRun": false
+    }
+   },
+   "window": {
+    "status": "not-applicable",
+    "note": "本ハーネスは合否窓を持たない検証ハーネスである(出典 JSON の manifest が自らそう宣言している)。事前登録窓が無いこと自体を誤差予算の1行として明示する",
+    "evidence": {
+     "declaration": "合否窓を持たない検証ハーネスである(QA 非連動)。🪨 は引きずり歳差を LT 級目安 tests.qcalc.ltPerOrbit および 1PN=5.0e-7 rad/公転 と、💿 は随伴プロファイル比 ω_drag/ω_LT と突き合わせて読む。外部解析値も残差も上記ポインタの中にある",
+     "declarationPointer": "tests/out/kf1d-results.json#manifest.judgement.note",
+     "holdOut": [
+      "💿 環系と 🌌 銀河スケールへの q* 適用(算出則は 🪨🌘 から導いたもので、💿🌌 のデータには一度も当てはめていない — 値域と効き方の事後外挿テストである)"
+     ],
+     "fitCount": 0
+    }
+   },
+   "components": {
+    "numericalFloor": {
+     "status": "not-instrumented",
+     "note": "環プローブの1步あたり引きずり増分と 1 ulp の比を記録していない(NaN フラグのみ)",
+     "evidence": {
+      "nan": {
+       "kF0": false,
+       "q3": false,
+       "qStarRun": false
+      }
+     }
+    },
+    "dtConvergence": {
+     "status": "not-instrumented",
+     "note": "単一 dt の走行で、dt 掃引の収束点を持たない",
+     "evidence": {
+      "dt": 0.016,
+      "distinctDtValues": 1
+     }
+    },
+    "windowSensitivity": {
+     "status": "not-instrumented",
+     "note": "測定窓は1種類だけで、長窓との比較を取っていない",
+     "evidence": {
+      "window": {
+       "mercuryEarthMoon": "8 公転",
+       "ring": "6 × 内縁(a=80)公転",
+       "galaxy": "3000 步(t=48)"
+      },
+      "windowPointer": "tests/out/kf1d-results.json#manifest.numerics.window"
+     }
+    },
+    "sourceSpread": {
+     "status": "not-instrumented",
+     "note": "環の軌道要素は内蔵プリセット由来の単一ソースで、別ソースとの突き合わせをしていない"
+    },
+    "seedSpread": {
+     "status": "not-instrumented",
+     "note": "初期位相を振った統計を取っていない",
+     "evidence": {
+      "seed": {
+       "dynamicSections": 1,
+       "galaxy": "内蔵 🌌galaxy のプリセット定義値",
+       "note": "A)B) は build に seed:1 を渡す。C) は loadPreset がプリセット定義の seed を使う"
+      },
+      "seedPointer": "tests/out/kf1d-results.json#manifest.numerics.seed"
+     }
+    },
+    "qArmSpread": {
+     "status": "instrumented",
+     "note": "同一半径での q* アームと q=3 対照アームの比較(抑制比 = |drag(q*)| / |drag(q=3)|)",
+     "pointer": "tests/out/kf1d-results.json#tests.ring",
+     "rows": [
+      {
+       "a": 80,
+       "dragQStar": 0.00002087937622779565,
+       "dragQ3": 0.2331611135045687,
+       "suppression": 0.00008954913584844639
+      },
+      {
+       "a": 105,
+       "dragQStar": -0.00003971783123505513,
+       "dragQ3": 0.13133410661870623,
+       "suppression": 0.0003024182541581931
+      },
+      {
+       "a": 130,
+       "dragQStar": -0.000018978897176552214,
+       "dragQ3": 0.06168468031431823,
+       "suppression": 0.0003076760239308047
+      },
+      {
+       "a": 1221.9,
+       "dragQStar": 0.000019505012459006005,
+       "dragQ3": -0.2668985901208385,
+       "suppression": 0.00007308023789175919
+      }
+     ],
+     "dragQStarSpread": {
+      "n": 4,
+      "min": -0.00003971783123505513,
+      "max": 0.00002087937622779565,
+      "mean": -0.000004578084931201423,
+      "absSpread": 0.00006059720746285078,
+      "relSpread": 13.236365941980965
+     }
+    },
+    "radialProfile": {
+     "status": "instrumented",
+     "note": "随伴プロファイル ω_drag/ω_LT の高度依存(記述のみ — 窓なし)",
+     "pointer": "tests/out/kf1d-results.json#tests.ring.profile",
+     "rows": [
+      {
+       "hSurf": 0.5,
+       "omDrag": 4.0134615927229026e-9,
+       "omLT": 9.015422688484696e-11,
+       "ratio": 44.5177306866516
+      },
+      {
+       "hSurf": 5,
+       "omDrag": 1.8088521612776213e-9,
+       "omLT": 7.277082314266707e-11,
+       "ratio": 24.856832493585646
+      },
+      {
+       "hSurf": 20,
+       "omDrag": 1.5387977866080952e-10,
+       "omLT": 3.913363548782954e-11,
+       "ratio": 3.9321615981389137
+      },
+      {
+       "hSurf": 45,
+       "omDrag": 4.3119848582249924e-12,
+       "omLT": 1.7354484494298368e-11,
+       "ratio": 0.24846516527999718
+      },
+      {
+       "hSurf": 70,
+       "omDrag": 1.999293759378327e-13,
+       "omLT": 9.159327420823067e-12,
+       "ratio": 0.021827953817144672
+      },
+      {
+       "hSurf": 170,
+       "omDrag": 1.9943525146491677e-17,
+       "omLT": 1.6588801764497261e-12,
+       "ratio": 0.000012022281916210531
+      },
+      {
+       "hSurf": 1160,
+       "omDrag": 1.6990983201787232e-31,
+       "omLT": 1.1150568178011902e-14,
+       "ratio": 1.523777347533931e-17
+      }
+     ],
+     "ratioSpread": {
+      "n": 7,
+      "min": 1.523777347533931e-17,
+      "max": 44.5177306866516,
+      "mean": 10.511004274250748,
+      "absSpread": 44.5177306866516,
+      "relSpread": 4.235345122607225
+     },
+     "unityCrossing": {
+      "status": "instrumented",
+      "bracketLow": 20,
+      "bracketHigh": 45,
+      "ratioLow": 3.9321615981389137,
+      "ratioHigh": 0.24846516527999718
+     }
+    },
+    "holdOutHonesty": {
+     "status": "instrumented",
+     "note": "環系は q* 算出則の事後外挿先であり、この系のデータへ当てはめた自由度はゼロである",
+     "fit": [],
+     "fitCount": 0,
+     "holdOut": [
+      "💿 環系と 🌌 銀河スケールへの q* 適用(算出則は 🪨🌘 から導いたもので、💿🌌 のデータには一度も当てはめていない — 値域と効き方の事後外挿テストである)"
+     ],
+     "pointer": "tests/out/kf1d-results.json#manifest.classification"
+    }
+   },
+   "verdictPointer": "tests/out/kf1d-results.json#tests.ring"
+  },
+  {
+   "id": "jupiter-holdout",
+   "claim": {
+    "ja": "🟠 木星ガリレオ衛星: 既存の共有ノブだけで(衛星別の当てはめゼロで)4衛星の恒星公転周期が観測と ±1% 以内に収まり、軌道も保持される事後外挿テスト。",
+    "en": "Jupiter Galilean hold-out: with no per-moon fitting, all four sidereal periods land within 1% of the observed values and the orbits are retained."
+   },
+   "sourceJsons": [
+    {
+     "file": "tests/out/jupiter-results.json",
+     "sha256": "634e993c684893b7df4eead55e5069a7bba319f52049c9915d775dc43ed08fdf",
+     "bytes": 63163,
+     "experimentId": "jupiter",
+     "wave": 138
+    },
+    {
+     "file": "tests/out/jup365-results.json",
+     "sha256": "471feba51dbd5caa6d9de4fc003bafbe152a7788a4fc9092c1fc43eba3d93c92",
+     "bytes": 48776,
+     "experimentId": "jup365",
+     "wave": 162
+    },
+    {
+     "file": "tests/out/jupseeds-results.json",
+     "sha256": "ed245a8dd0c714dcfa604d7500868b740056e8b8089923e850dfcfba8170b00c",
+     "bytes": 70796,
+     "experimentId": "jupseeds",
+     "wave": 162
+    }
+   ],
+   "value": {
+    "quantity": "4衛星の恒星公転周期の観測偏差と軌道保持(kF1 主測定)",
+    "unit": "%",
+    "maxAbsPeriodDevPercentKF1": 0.051377604726754456,
+    "maxAbsPeriodDevPercentKF0": 0.06805283432753662,
+    "maxASpreadPercentKF1": 0.1421009296470758,
+    "rows": [
+     {
+      "name": "Io",
+      "periodDays": 1.770046940728711,
+      "devPercent": 0.051377604726754456,
+      "aSpreadPercent": 0.011414622084803943,
+      "ok": true
+     },
+     {
+      "name": "Europa",
+      "periodDays": 3.552373582108728,
+      "devPercent": 0.03358269006079606,
+      "aSpreadPercent": 0.07043850707273094,
+      "ok": true
+     },
+     {
+      "name": "Ganymede",
+      "periodDays": 7.1562997813661795,
+      "devPercent": 0.024414961580121464,
+      "aSpreadPercent": 0.07205490787404271,
+      "ok": true
+     },
+     {
+      "name": "Callisto",
+      "periodDays": 16.690657627601382,
+      "devPercent": 0.009830582600423021,
+      "aSpreadPercent": 0.1421009296470758,
+      "ok": true
+     }
+    ],
+    "rowsPointer": "tests/out/jupiter-results.json#windows.JW2.rows",
+    "holdOutHonesty": {
+     "perMoonFits": 0,
+     "velocityCalibFactor": 1,
+     "sharedFits": [
+      "D₀=0.006(🪨🌘💿 と共通 — 本便での再調整ゼロ)"
+     ],
+     "sharedFitCount": 1,
+     "derived": [
+      "q=12.3(qLock 則を参照軌道=イオで1回だけ評価した q*=12.3017 の直値宣言)",
+      "κ=G/c₀²=7.4155555…×10⁻⁹"
+     ]
+    },
+    "nan": false
+   },
+   "window": {
+    "registered": {
+     "JW1": "kF0 転写 — 4衛星の恒星公転周期が観測値と ±1%",
+     "JW2": "kF1(D₀=0.006・q(イオ)=12.30)— ≥20 イオ公転の窓で 4衛星とも軌道保持(NaN なし・|Δa|/a<2%)+周期 ±1% 維持",
+     "JW3": "hold-out の正直さ — 衛星別 fit ゼロ(parameterAudit.fitted は共有 D₀ 以外空)",
+     "JW4": "引きずり差分(kF1−kF0)を各衛星で記録(窓なし・数値床は宣言)。フレーム ω の符号=自転と同方向",
+     "JW5": "q=3 対照を記録(窓なし)",
+     "note": "ラプラス共鳴の再現は要求しない(記録のみ)。窓は実測前に固定してあり、実測後に動かしていない。"
+    },
+    "registeredPointer": "tests/out/jupiter-results.json#windowsPreRegistered",
+    "verdicts": [
+     {
+      "id": "JW1",
+      "pass": true,
+      "recordOnly": false
+     },
+     {
+      "id": "JW2",
+      "pass": true,
+      "recordOnly": false
+     },
+     {
+      "id": "JW3",
+      "pass": true,
+      "recordOnly": false
+     },
+     {
+      "id": "JW4",
+      "pass": null,
+      "recordOnly": true
+     },
+     {
+      "id": "JW5",
+      "pass": null,
+      "recordOnly": true
+     }
+    ],
+    "passCount": 3,
+    "failCount": 0,
+    "recordOnlyCount": 2,
+    "variantWindows": {
+     "jup365": [
+      {
+       "id": "UW1",
+       "pass": true,
+       "statement": "UW1(データのみ): 両ソースの周期相対差 |P_JUP365−P_facts|/P_facts を衛星別に記録 — 窓: 4衛星とも ≤1%。"
+      },
+      {
+       "id": "UW2",
+       "pass": true,
+       "statement": "UW2(基線再測): 既存初期条件(fact-sheet a・D₀=0.006・q=12.30 不変)の kF0/kF1 走行(kF0=kFrame0 転写・kF1=kFrame1 保持、それぞれ exp-jupiter JW1/JW2 と同一手順)が fact-sheet 目標 ±1% かつ JUP365 目標 ±2%(ソース差 ≤1% と転写窓 ±1% の合成上界として事前宣言)。保持 |Δa|/a<2%・NaN なし・≥20 イオ公転。"
+      },
+      {
+       "id": "UW3",
+       "pass": true,
+       "statement": "UW3(変種本体): 各衛星の a を JUP365 周期からケプラー逆算 a'=(GM·(P/2π)²)^(1/3)(P は時間単位=日×86.4。e/m/R/spin/D₀/q は**再フィットなしで不変**)した kF1 走行 — 測定周期が JUP365 目標 ±1%・保持窓は UW2 と同一。"
+      },
+      {
+       "id": "UW4",
+       "pass": true,
+       "statement": "UW4(結論安定性): ホールドアウト結論(4衛星保持+周期整合)が両ソースで同判定になるかを記録(PASS/FAIL の一致表)。"
+      },
+      {
+       "id": "determinism",
+       "pass": true,
+       "statement": "決定性: 全体2回実行(別プロセス)で、揮発キー(タイムスタンプ等)を除いた正規化 JSON の SHA-256 一致(coreshell5 の方式を踏襲)。"
+      }
+     ],
+     "jupseeds": [
+      {
+       "id": "SW1",
+       "pass": true,
+       "statement": "SW1: 全8配置で JW2 相当保持(NaN なし・|Δa|/a<2%・≥20 イオ公転・N_STEP=2000・kF1)。"
+      },
+      {
+       "id": "SW2",
+       "pass": true,
+       "statement": "SW2: 全8配置・全衛星で測定周期が fact-sheet 目標 ±1%。"
+      },
+      {
+       "id": "SW3",
+       "pass": null,
+       "statement": "SW3(記述 — 窓なし): 配置間の測定周期ばらつき (max−min)/mean を衛星別に記録(数値床の宣言コメント付き)。"
+      },
+      {
+       "id": "determinism",
+       "pass": true,
+       "statement": "決定性: 2回実行 SHA 一致。"
+      }
+     ]
+    }
+   },
+   "components": {
+    "numericalFloor": {
+     "status": "instrumented",
+     "note": "全系の1步あたり引きずり増分 |Δv| と速度の 1 ulp の比(2步走らせて1步あたりに直した値)。",
+     "pointer": "tests/out/jupiter-results.json#moons[].numericalFloor",
+     "rows": [
+      {
+       "name": "Io",
+       "dvPerStep": 5.79419837658863e-8,
+       "dvOverUlp": 260947496.49715286,
+       "resolved": true,
+       "spinChannelDvOverUlp": 44529.03897503952,
+       "spinChannelResolved": true
+      },
+      {
+       "name": "Europa",
+       "dvPerStep": 1.8653705852077788e-7,
+       "dvOverUlp": 840088227.2449636,
+       "resolved": true,
+       "spinChannelDvOverUlp": 523.144448049858,
+       "spinChannelResolved": true
+      },
+      {
+       "name": "Ganymede",
+       "dvPerStep": 2.0021999831034278e-7,
+       "dvOverUlp": 901710709.7825811,
+       "resolved": true,
+       "spinChannelDvOverUlp": 3.95703125,
+       "spinChannelResolved": true
+      },
+      {
+       "name": "Callisto",
+       "dvPerStep": 2.0861286048242599e-7,
+       "dvOverUlp": 1879017601.4666939,
+       "resolved": true,
+       "spinChannelDvOverUlp": 0.0234375,
+       "spinChannelResolved": false
+      }
+     ],
+     "minDvOverUlp": 260947496.49715286,
+     "minSpinChannelDvOverUlp": 0.0234375,
+     "allResolved": true,
+     "allSpinChannelResolved": false
+    },
+    "dtConvergence": {
+     "status": "instrumented",
+     "note": "步幅を半分(2000→4000 步/イオ公転)にした dt 掃引1点",
+     "pointer": "tests/out/jupiter-results.json#convergence.rows",
+     "rows": [
+      {
+       "name": "Io",
+       "periodRelDiff": 0,
+       "dragRelDiff": -0.23200196878787147,
+       "aSpreadMain": 0.00011414622084803943,
+       "aSpreadFine": 0.00010163822164014328
+      },
+      {
+       "name": "Europa",
+       "periodRelDiff": -0.000015570988135094055,
+       "dragRelDiff": 0.012516466071811236,
+       "aSpreadMain": 0.0007043850707273095,
+       "aSpreadFine": 0.0006896192537079732
+      },
+      {
+       "name": "Ganymede",
+       "periodRelDiff": 0.000020611756946120607,
+       "dragRelDiff": 0.23303831655267185,
+       "aSpreadMain": 0.0007205490787404272,
+       "aSpreadFine": 0.0007198298764129351
+      },
+      {
+       "name": "Callisto",
+       "periodRelDiff": 0.000026512540431733456,
+       "dragRelDiff": -0.02365723203801445,
+       "aSpreadMain": 0.0014210092964707579,
+       "aSpreadFine": 0.0014228415469947082
+      }
+     ],
+     "periodConverged": true,
+     "maxAbsPeriodRelDiff": 0.000026512540431733456,
+     "maxAbsDragRelDiff": 0.23303831655267185
+    },
+    "windowSensitivity": {
+     "status": "instrumented",
+     "note": "主測定窓と長窓で同一構成を測り直したときの周期偏差・軌道保持の動き",
+     "pointer": "tests/out/jupiter-results.json#moons[].long",
+     "mainOrbits": 20,
+     "longOrbits": 60,
+     "rows": [
+      {
+       "name": "Io",
+       "mainDevPercent": 0.051377604726754456,
+       "longDevPercent": 0.048833925635127784,
+       "devDeltaPP": -0.0025436790916266716,
+       "mainASpreadPercent": 0.00027061072802620086,
+       "longASpread": 0.00014458542810529213,
+       "mainASpread": 0.00011414622084803943,
+       "longNRev": 60,
+       "mainNRev": 19
+      },
+      {
+       "name": "Europa",
+       "mainDevPercent": 0.03358269006079606,
+       "longDevPercent": 0.0384780726381484,
+       "devDeltaPP": 0.004895382577352336,
+       "mainASpreadPercent": 0.0010494554783669527,
+       "longASpread": 0.000798648600060523,
+       "mainASpread": 0.0007043850707273095,
+       "longNRev": 29,
+       "mainNRev": 9
+      },
+      {
+       "name": "Ganymede",
+       "mainDevPercent": 0.024414961580121464,
+       "longDevPercent": 0.025366505701596154,
+       "devDeltaPP": 0.00095154412147469,
+       "mainASpreadPercent": 0.0006730115332706431,
+       "longASpread": 0.0007205423437596082,
+       "mainASpread": 0.0007205490787404272,
+       "longNRev": 14,
+       "mainNRev": 4
+      },
+      {
+       "name": "Callisto",
+       "mainDevPercent": 0.009830582600423021,
+       "longDevPercent": 0.013012400212653041,
+       "devDeltaPP": 0.00318181761223002,
+       "mainASpreadPercent": 0.0007546099179815037,
+       "longASpread": 0.0014210005292181428,
+       "mainASpread": 0.0014210092964707579,
+       "longNRev": 6,
+       "mainNRev": 2
+      }
+     ],
+     "maxAbsMainDevPercent": 0.051377604726754456,
+     "maxAbsLongDevPercent": 0.048833925635127784,
+     "maxAbsDevDeltaPP": 0.004895382577352336
+    },
+    "sourceSpread": {
+     "status": "instrumented",
+     "note": "観測ソース依存性(fact sheet 系 vs JPL JUP365)— 第162便 exp-jup365 の事前登録窓 UW1〜UW4",
+     "pointer": "tests/out/jup365-results.json#windows",
+     "attribution": {
+      "factSheet": "NASA の惑星衛星 fact sheet 系(NASA GSFC / NSSDCA)の恒星公転周期(第143便で再帰属済み)。本便は第138便 MOONS[].Pobs からの転記である。",
+      "jup365": "JPL Planetary Satellite Mean Elements(JUP365)の平均要素周期。外部レビュー(2026-08-22)が引用した値からの**二次転写**である。",
+      "factSheetVerified": "TODO(ref-verify): アーカイブ URL と fact sheet の版の確定は投稿時(第138便からの継承)。",
+      "jup365Verified": "TODO(ref-verify): 本環境は egress 遮断のため JPL の原表を参照できていない。原表(URL・版・取得日)の確定と桁の照合は投稿時に行う。原表と食い違いが見つかった場合は本 JSON を破棄して再実測する(値の書き換えはしない)。"
+     },
+     "periodDiff": {
+      "rows": [
+       {
+        "name": "Io",
+        "periodFactSheet": 1.769138,
+        "periodJup365": 1.762732,
+        "absRelDiffPercent": 0.3620972473600213,
+        "ok": true
+       },
+       {
+        "name": "Europa",
+        "periodFactSheet": 3.551181,
+        "periodJup365": 3.525463,
+        "absRelDiffPercent": 0.7242097769727973,
+        "ok": true
+       },
+       {
+        "name": "Ganymede",
+        "periodFactSheet": 7.154553,
+        "periodJup365": 7.155588,
+        "absRelDiffPercent": 0.014466312570469422,
+        "ok": true
+       },
+       {
+        "name": "Callisto",
+        "periodFactSheet": 16.689017,
+        "periodJup365": 16.69044,
+        "absRelDiffPercent": 0.008526565704852862,
+        "ok": true
+       }
+      ],
+      "maxAbsRelDiffPercent": 0.7242097769727973,
+      "pass": true
+     },
+     "baselineRemeasure": {
+      "pass": true,
+      "kF0Pass": true,
+      "kF1Pass": true,
+      "maxAbsDevFactSheetPercent": 0.051377604726754456,
+      "maxAbsDevJup365Percent": 0.7633205087878681
+     },
+     "variant": {
+      "pass": true,
+      "refitCount": 0,
+      "maxAbsDevJup365Percent": 0.011321659845853205,
+      "maxAbsDevFactSheetPercent": 0.7210792480023098,
+      "maxASpreadPercent": 0.14251081475946092
+     },
+     "conclusionStability": {
+      "factSheetConclusion": "PASS",
+      "jup365Conclusion": "PASS",
+      "overallAgreement": true,
+      "pass": true
+     },
+     "crossWaveBitIdentical": true
+    },
+    "seedSpread": {
+     "status": "instrumented",
+     "note": "SW3(記述 — 窓なし): 配置間の測定周期ばらつき (max−min)/mean を衛星別に記録(数値床の宣言コメント付き)。",
+     "pointer": "tests/out/jupseeds-results.json#windows.SW3",
+     "floorDeclaration": "公転通過時刻は補間せず步境界で拾う(第138便と同一)。通過時刻の量子化は dt なので、平均周期 Tavg=(t_last−t_first)/(nRev−1) の相対分解能床は dt/(t_last−t_first) である。床を下回るばらつきは「配置差が無い」ことの証拠ではなく、測定器で分解できないという意味である。",
+     "nSeeds": 8,
+     "seeds": [
+      "0123",
+      "1230",
+      "2301",
+      "3012",
+      "0321",
+      "3210",
+      "1032",
+      "2103"
+     ],
+     "rows": [
+      {
+       "name": "Io",
+       "spreadPercent": 0,
+       "resolutionFloorPercentMax": 0.002777777777777778,
+       "spreadOverFloor": 0,
+       "aboveFloor": false
+      },
+      {
+       "name": "Europa",
+       "spreadPercent": 0.009343029321545694,
+       "resolutionFloorPercentMax": 0.0031144886009717198,
+       "spreadOverFloor": 2.999859854561892,
+       "aboveFloor": true
+      },
+      {
+       "name": "Ganymede",
+       "spreadPercent": 0,
+       "resolutionFloorPercentMax": 0.004122351389232419,
+       "spreadOverFloor": 0,
+       "aboveFloor": false
+      },
+      {
+       "name": "Callisto",
+       "spreadPercent": 0,
+       "resolutionFloorPercentMax": 0.005302508086324832,
+       "spreadOverFloor": 0,
+       "aboveFloor": false
+      }
+     ],
+     "maxSpreadPercent": 0.009343029321545694,
+     "anyAboveFloor": true,
+     "retentionPass": true,
+     "periodPass": true,
+     "maxAbsDevPercentOverall": 0.051377604726754456,
+     "rotationFamilies": {
+      "nFamilies": 2,
+      "allFamiliesBitIdentical": true
+     },
+     "crossWaveBitIdentical": true
+    },
+    "parameterSensitivity": {
+     "status": "instrumented",
+     "note": "第141便の付帯記録。既存の事前登録窓 JW1〜JW5 と主測定は一切変更していない(本節を足す前後で他の全キーの値はビット不変)。ここは「参照軌道 a の選定・指数 q・共有背景 D₀ を動かすと何がどれだけ動くか」の感度記録であって、事前登録した判定ではない。",
+     "pointer": "tests/out/jupiter-results.json#sensitivity",
+     "aRef": {
+      "statement": "参照軌道 a を ±20% 振ると q* がどれだけ動き、4衛星の保持・周期がどうなるか",
+      "factors": [
+       0.8,
+       1,
+       1.2
+      ],
+      "maxAbsDqStar": 1.000343551743553,
+      "maxAbsDevPercent": 0.051377604726754456,
+      "allSameCondition": true,
+      "anyNaN": false
+     },
+     "d0": {
+      "statement": "共有背景 D₀ の ×0.5 / ×2 感度(D₀=0.006 は 🪨🌘💿 と共通の値で、本系では再フィットしない)",
+      "factors": [
+       0.5,
+       1,
+       2
+      ],
+      "maxAbsDevPercent": 0.051377604726754456,
+      "allSameCondition": true,
+      "anyNaN": false
+     },
+     "qControls": {
+      "statement": "高q対照(q=8/10/14)と厳密一致式 q_exact の対照。qLock 宣言値 12.30 との比較用",
+      "qs": [
+       8,
+       10,
+       14,
+       12.06
+      ],
+      "qDeclared": 12.3,
+      "qStar": 12.301733261350822,
+      "qExact": 12.06,
+      "qExactMaxAbsDevPercent": 0.051377604726754456,
+      "maxAbsDevPercent": 0.051377604726754456,
+      "allSameCondition": true,
+      "anyNaN": false
+     }
+    },
+    "determinism": {
+     "status": "instrumented",
+     "note": "同一構成の再実行が bit 一致するか(3つの出典 JSON がそれぞれ自前で収載している決定性記録)",
+     "jupiter": {
+      "bitIdentical": true,
+      "maxAbsDiff": 0,
+      "nFin": 16
+     },
+     "jup365": {
+      "identical": true,
+      "sha256": "dddb47f31edc9b4bf95b5849527a00e7b80b53ea961b285b74de946624a88c5f"
+     },
+     "jupseeds": {
+      "identical": true,
+      "sha256": "819e6a6c6fa933838f0fcf3d12bf87c2a255e32af15cb403daba56cc7d8cf4d1"
+     },
+     "sensitivity": {
+      "bitIdentical": true,
+      "maxAbsDiff": 0
+     }
+    }
+   },
+   "verdictPointer": "tests/out/jupiter-results.json#windows"
+  },
+  {
+   "id": "qlock-radial-audit",
+   "claim": {
+    "ja": "qLock 径方向監査: 事前登録窓 W1〜W5 を半径方向に振って qLock 則を試験した監査。合格した窓と落ちた窓の**両方**を収載する(落ちた窓は論文3 の stress test 記述の定量的裏付け)。",
+    "en": "qLock radial audit: a pre-registered five-window stress test across radii; both the windows that pass and those that fail are reported."
+   },
+   "sourceJsons": [
+    {
+     "file": "tests/out/qlockradial-results.json",
+     "sha256": "15b48868f7d16c82729f50ab7781a551f2fe5c3d30315807b28e66e70f40028d",
+     "bytes": 57391,
+     "experimentId": "qlockradial",
+     "wave": 136
+    }
+   ],
+   "value": {
+    "quantity": "事前登録窓 W1〜W5 の合否タリーと参照軌道の近点回転周期",
+    "verdicts": [
+     {
+      "id": "W1",
+      "pass": true,
+      "statement": "kF0 対照(全プローブ)— Δϖ がソフトニング解析値 −3πε²/(a²(1−e²)²) と ±5% で一致"
+     },
+     {
+      "id": "W2",
+      "pass": false,
+      "statement": "参照点(月軌道プローブ・qLock 版)— 近点回転周期 8.85年 ±15%(8公転窓)"
+     },
+     {
+      "id": "W3",
+      "pass": false,
+      "statement": "引きずり差分 Δϖ_drag の符号 — 全プローブで順行(自転と同方向 = 正)"
+     },
+     {
+      "id": "W4",
+      "pass": true,
+      "statement": "最外プローブ(r≈2a)の |Δϖ_drag| が参照点値の 1/8 未満(r⁻³ なら 1/8)"
+     },
+     {
+      "id": "W5",
+      "pass": false,
+      "statement": "q=3 対照との外側域(r≥参照半径)log–log 傾き差(q3 − qLock)が 3〜8"
+     }
+    ],
+    "passCount": 2,
+    "failCount": 3,
+    "total": 5,
+    "referenceApsidal": {
+     "unit": "年",
+     "apsidalYears": -127736279310.0731,
+     "targetYears": 8.85,
+     "tol": 0.15,
+     "dragAtRef": -3.4014592764598436e-12,
+     "resolvedAtRef": true,
+     "apsidalYearsQ3Control": -617.7400639406462,
+     "dragAtRefQ3Control": -0.0007033536880027591,
+     "pointer": "tests/out/qlockradial-results.json#windows.W2"
+    },
+    "radialFalloff": {
+     "note": "Ω_LT は r⁻³(rad/時間)、Δϖ_LT/公転は T∝r^{3/2} を掛けて r^{−3/2}。DFM は χ(r)·(R/(R+r))^q なので、外側域では約 −(1+q) 乗(rad/時間)へ落ちる。",
+     "pointer": "tests/out/qlockradial-results.json#slopes",
+     "omegaQLockOuter": -8.994100125962735,
+     "omegaQ3Outer": -3.8066850768400884,
+     "dpomQLockOuter": -4.877541250009739,
+     "dpomQ3Outer": -2.1605216919582193,
+     "omegaLTReference": -3,
+     "dpomLTReference": -1.5,
+     "w5DiffByDpomOuter": 2.7170195580515197,
+     "w5DiffByOmegaOuter": 5.187415049122647,
+     "w5DiffByAsymptoticBand": 5.247056088667327,
+     "passByOmega": true,
+     "passByAsymptotic": true
+    }
+   },
+   "window": {
+    "registered": {
+     "W1": "kF0 対照(全プローブ)— Δϖ がソフトニング解析値 −3πε²/(a²(1−e²)²) と ±5% で一致",
+     "W2": "参照点(月軌道プローブ・qLock 版)— 近点回転周期 8.85年 ±15%(8公転窓)",
+     "W3": "引きずり差分 Δϖ_drag の符号 — 全プローブで順行(自転と同方向 = 正)",
+     "W4": "最外プローブ(r≈2a)の |Δϖ_drag| が参照点値の 1/8 未満(r⁻³ なら 1/8)",
+     "W5": "q=3 対照との外側域(r≥参照半径)log–log 傾き差(q3 − qLock)が 3〜8"
+    },
+    "registeredPointer": "tests/out/qlockradial-results.json#windowsPreRegistered",
+    "verdicts": [
+     {
+      "id": "W1",
+      "pass": true,
+      "statement": "kF0 対照(全プローブ)— Δϖ がソフトニング解析値 −3πε²/(a²(1−e²)²) と ±5% で一致"
+     },
+     {
+      "id": "W2",
+      "pass": false,
+      "statement": "参照点(月軌道プローブ・qLock 版)— 近点回転周期 8.85年 ±15%(8公転窓)"
+     },
+     {
+      "id": "W3",
+      "pass": false,
+      "statement": "引きずり差分 Δϖ_drag の符号 — 全プローブで順行(自転と同方向 = 正)"
+     },
+     {
+      "id": "W4",
+      "pass": true,
+      "statement": "最外プローブ(r≈2a)の |Δϖ_drag| が参照点値の 1/8 未満(r⁻³ なら 1/8)"
+     },
+     {
+      "id": "W5",
+      "pass": false,
+      "statement": "q=3 対照との外側域(r≥参照半径)log–log 傾き差(q3 − qLock)が 3〜8"
+     }
+    ],
+    "failedWindows": [
+     "W2",
+     "W3",
+     "W5"
+    ],
+    "failNote": "落ちた窓は隠さずそのまま収載する。W2/W3/W5 の FAIL は「qLock 則が径方向に外挿できていない」ことの定量記録であって、較正済み主張(W1/W4)の反証ではない"
+   },
+   "components": {
+    "numericalFloor": {
+     "status": "instrumented",
+     "note": "各半径での1步あたり引きずり増分と 1 ulp の比(resolved=false の半径では引きずりが測定器で分解できていない)",
+     "pointer": "tests/out/qlockradial-results.json#convergence",
+     "rows": [
+      {
+       "r": 9.57,
+       "duPerStepOverUlp": 13093661442.101906,
+       "resolved": true
+      },
+      {
+       "r": 16.560511301374795,
+       "duPerStepOverUlp": 1396803601.9454672,
+       "resolved": true
+      },
+      {
+       "r": 28.65731813615072,
+       "duPerStepOverUlp": 87484222.67890157,
+       "resolved": true
+      },
+      {
+       "r": 49.59036999590564,
+       "duPerStepOverUlp": 3590956.6875809757,
+       "resolved": true
+      },
+      {
+       "r": 85.81419882513616,
+       "duPerStepOverUlp": 107119.12914921039,
+       "resolved": true
+      },
+      {
+       "r": 148.49812011098132,
+       "duPerStepOverUlp": 2523.366939839665,
+       "resolved": true
+      },
+      {
+       "r": 256.9701981536905,
+       "duPerStepOverUlp": 50.0823931613572,
+       "resolved": true
+      },
+      {
+       "r": 363.6253,
+       "duPerStepOverUlp": 3.925229616850208,
+       "resolved": true
+      },
+      {
+       "r": 444.676893483878,
+       "duPerStepOverUlp": 0.8814992120521814,
+       "resolved": false
+      },
+      {
+       "r": 769.496,
+       "duPerStepOverUlp": 0.014315965825254717,
+       "resolved": false
+      }
+     ],
+     "resolvedCount": 8,
+     "total": 10,
+     "minDuPerStepOverUlp": 0.014315965825254717,
+     "resolvedAtReference": true,
+     "resolvedAtOuter": false,
+     "w5OuterResolvedQLock": false
+    },
+    "dtConvergence": {
+     "status": "instrumented",
+     "note": "步幅を細かくした走行(fine)と主走行(main)の引きずり歳差の相対差",
+     "pointer": "tests/out/qlockradial-results.json#convergence",
+     "rows": [
+      {
+       "r": 9.57,
+       "dragMain": -0.002638682436668125,
+       "dragFine": -0.0026389281934368,
+       "dtRelDiff": -0.00009313616722489471,
+       "resolved": true
+      },
+      {
+       "r": 16.560511301374795,
+       "dragMain": -0.00047552990492147964,
+       "dragFine": -0.0004755718709706312,
+       "dtRelDiff": -0.00008825112514956189,
+       "resolved": true
+      },
+      {
+       "r": 28.65731813615072,
+       "dragMain": -0.00004192595779887361,
+       "dragFine": -0.00004192967457126092,
+       "dtRelDiff": -0.00008865086410532078,
+       "resolved": true
+      },
+      {
+       "r": 49.59036999590564,
+       "dragMain": -0.0000021576326661877355,
+       "dragFine": -0.0000021578131608832802,
+       "dtRelDiff": -0.00008365404286522981,
+       "resolved": true
+      },
+      {
+       "r": 85.81419882513616,
+       "dragMain": -7.497326380277486e-8,
+       "dragFine": -7.497915839561957e-8,
+       "dtRelDiff": -0.0000786225988535293,
+       "resolved": true
+      },
+      {
+       "r": 148.49812011098132,
+       "dragMain": -1.9613339173667156e-9,
+       "dragFine": -1.961550553322377e-9,
+       "dtRelDiff": -0.00011045337754230609,
+       "resolved": true
+      },
+      {
+       "r": 256.9701981536905,
+       "dragMain": -4.187455272125235e-11,
+       "dragFine": -4.1825810731227866e-11,
+       "dtRelDiff": 0.0011640002544970089,
+       "resolved": true
+      },
+      {
+       "r": 363.6253,
+       "dragMain": -3.4014592764598436e-12,
+       "dragFine": -3.5516541540859007e-12,
+       "dtRelDiff": -0.044156012293163856,
+       "resolved": true
+      },
+      {
+       "r": 444.676893483878,
+       "dragMain": -9.984106640395507e-13,
+       "dragFine": -7.573763012621161e-13,
+       "dtRelDiff": 0.24141805717720816,
+       "resolved": false
+      },
+      {
+       "r": 769.496,
+       "dragMain": -8.229843943916709e-14,
+       "dragFine": -8.447751131707582e-14,
+       "dtRelDiff": -0.026477681627480237,
+       "resolved": false
+      }
+     ],
+     "maxAbsRelDiffAll": 0.24141805717720816,
+     "maxAbsRelDiffResolved": 0.044156012293163856,
+     "note2": "分解できていない半径(resolved=false)を含む全半径の最大値と、分解済み半径だけの最大値を分けて載せる"
+    },
+    "windowSensitivity": {
+     "status": "instrumented",
+     "note": "主測定窓と長窓で同一半径を測り直したときの引きずり歳差の相対差",
+     "pointer": "tests/out/qlockradial-results.json#convergence",
+     "mainOrbits": 8,
+     "longOrbits": 64,
+     "rows": [
+      {
+       "r": 9.57,
+       "dragMain": -0.002638682436668125,
+       "dragLong": -0.0026386831354855336,
+       "windowRelDiff": -2.648357372386912e-7,
+       "spread": 0.00009313616722489471,
+       "resolved": true
+      },
+      {
+       "r": 16.560511301374795,
+       "dragMain": -0.00047552990492147964,
+       "dragLong": -0.0004755282760448343,
+       "windowRelDiff": 0.0000034253926587361937,
+       "spread": 0.00009167683183744483,
+       "resolved": true
+      },
+      {
+       "r": 28.65731813615072,
+       "dragMain": -0.00004192595779887361,
+       "dragLong": -0.00004192603452086858,
+       "windowRelDiff": -0.000001829940184934988,
+       "spread": 0.00008865086410532078,
+       "resolved": true
+      },
+      {
+       "r": 49.59036999590564,
+       "dragMain": -0.0000021576326661877355,
+       "dragLong": -0.000002157636271721684,
+       "windowRelDiff": -0.0000016710601415904543,
+       "spread": 0.00008365404286522981,
+       "resolved": true
+      },
+      {
+       "r": 85.81419882513616,
+       "dragMain": -7.497326380277486e-8,
+       "dragLong": -7.497355792356812e-8,
+       "windowRelDiff": -0.000003923009061369311,
+       "spread": 0.0000786225988535293,
+       "resolved": true
+      },
+      {
+       "r": 148.49812011098132,
+       "dragMain": -1.9613339173667156e-9,
+       "dragLong": -1.9613612554702847e-9,
+       "windowRelDiff": -0.0000139385258813132,
+       "spread": 0.00011045337754230609,
+       "resolved": true
+      },
+      {
+       "r": 256.9701981536905,
+       "dragMain": -4.187455272125235e-11,
+       "dragLong": -4.18303983980425e-11,
+       "windowRelDiff": 0.0010544428618444195,
+       "spread": 0.0011653567300273404,
+       "resolved": true
+      },
+      {
+       "r": 363.6253,
+       "dragMain": -3.4014592764598436e-12,
+       "dragLong": -3.376205849722931e-12,
+       "windowRelDiff": 0.007424291953656934,
+       "spread": 0.05196611586268291,
+       "resolved": true
+      },
+      {
+       "r": 444.676893483878,
+       "dragMain": -9.984106640395507e-13,
+       "dragLong": -1.014666296947006e-12,
+       "windowRelDiff": -0.016281509696306096,
+       "spread": 0.3397122345340535,
+       "resolved": false
+      },
+      {
+       "r": 769.496,
+       "dragMain": -8.229843943916709e-14,
+       "dragLong": 5.491755054182201e-16,
+       "windowRelDiff": 1.0066729759295636,
+       "spread": null,
+       "resolved": false
+      }
+     ],
+     "maxAbsRelDiffAll": 1.0066729759295636,
+     "maxAbsRelDiffResolved": 0.007424291953656934,
+     "maxSpreadResolved": 0.05196611586268291
+    },
+    "sourceSpread": {
+     "status": "not-instrumented",
+     "note": "比較先は LT 解析値とソフトニング解析値で、複数の観測ソースを突き合わせる構造ではない(ソース差は未計装)",
+     "evidence": {
+      "externalReferences": [
+       "ソフトニング歳差の解析値 −3πε²/(a²(1−e²)²)(W1 の照合先)",
+       "月の近点回転周期 8.85 年(W2 の照合先)",
+       "Lense–Thirring 角速度 Ω_LT(内側飽和・ω 比の照合先)",
+       "一様球近似の自転角運動量 J=(2/5)MR²Ω(近似であることを config.JspinNote で宣言済み)"
+      ]
+     }
+    },
+    "seedSpread": {
+     "status": "not-instrumented",
+     "note": "各半径 1 プローブの決定論的走行で、初期位相を振った統計を取っていない",
+     "evidence": {
+      "seed": "not-applicable",
+      "seedPointer": "tests/out/qlockradial-results.json#manifest.numerics.seed"
+     }
+    },
+    "q3Control": {
+     "status": "instrumented",
+     "note": "q=3(抑制なし)対照との比較 — 同じ半径で引きずり歳差が何桁違うか",
+     "pointer": "tests/out/qlockradial-results.json#convergence",
+     "rows": [
+      {
+       "r": 9.57,
+       "dragQLockMain": -0.002638682436668125,
+       "dragQ3Main": 0.02251138032971591,
+       "ratio": 0.11721548825617593
+      },
+      {
+       "r": 16.560511301374795,
+       "dragQLockMain": -0.00047552990492147964,
+       "dragQ3Main": -0.004094981978438611,
+       "ratio": 0.11612502995746907
+      },
+      {
+       "r": 28.65731813615072,
+       "dragQLockMain": -0.00004192595779887361,
+       "dragQ3Main": -0.015316945950605376,
+       "ratio": 0.0027372269859851895
+      },
+      {
+       "r": 49.59036999590564,
+       "dragQLockMain": -0.0000021576326661877355,
+       "dragQ3Main": -0.013528031723302041,
+       "ratio": 0.00015949346588766585
+      },
+      {
+       "r": 85.81419882513616,
+       "dragQLockMain": -7.497326380277486e-8,
+       "dragQ3Main": -0.00795272945757211,
+       "ratio": 0.00000942736254298074
+      },
+      {
+       "r": 148.49812011098132,
+       "dragQLockMain": -1.9613339173667156e-9,
+       "dragQ3Main": -0.0036448717733361434,
+       "ratio": 5.381077961959443e-7
+      },
+      {
+       "r": 256.9701981536905,
+       "dragQLockMain": -4.187455272125235e-11,
+       "dragQ3Main": -0.0013921033535927974,
+       "ratio": 3.008006022913513e-8
+      },
+      {
+       "r": 363.6253,
+       "dragQLockMain": -3.4014592764598436e-12,
+       "dragQ3Main": -0.0007033536880027591,
+       "ratio": 4.836058066488023e-9
+      },
+      {
+       "r": 444.676893483878,
+       "dragQLockMain": -9.984106640395507e-13,
+       "dragQ3Main": -0.00046361320336446544,
+       "ratio": 2.153542342612402e-9
+      },
+      {
+       "r": 769.496,
+       "dragQLockMain": -8.229843943916709e-14,
+       "dragQ3Main": -0.0001399248384044825,
+       "ratio": 5.881617615399058e-10
+      }
+     ],
+     "kF0RatioCoarseWorst": 391.8117851453627
+    },
+    "innerSaturation": {
+     "status": "instrumented",
+     "note": "χ=w/(D₀+w) は内側で 1 へ飽和し、ω_DFM は s·(R/(R+r))^q の有限値に留まる。Ω_LT は r⁻³ で発散するので、比 ω_DFM/Ω_LT は内側で巨大になる — LT 発散と DFM 飽和の差。",
+     "pointer": "tests/out/qlockradial-results.json#innerSaturation",
+     "chiInnermost": 0.9122859783850039,
+     "chiOutermost": 0.11454070179856353,
+     "ratioInnermost": 2889600.9167943927,
+     "ratioRef": 0.20288739140464648,
+     "ratioOutermost": 0.002277923082211108,
+     "crossingRadius": 276.643135431719
+    }
+   },
+   "verdictPointer": "tests/out/qlockradial-results.json#windows"
+  }
+ ],
+ "summary": {
+  "claimCount": 5,
+  "claimIds": [
+   "mercury-perihelion",
+   "earth-moon-two-observables",
+   "saturn-ring-apsidal",
+   "jupiter-holdout",
+   "qlock-radial-audit"
+  ],
+  "coreComponentsInstrumented": 8,
+  "coreComponentsTotal": 25,
+  "perClaim": [
+   {
+    "id": "mercury-perihelion",
+    "coreInstrumented": 0,
+    "coreTotal": 5,
+    "coreSentinels": [
+     "numericalFloor=not-instrumented",
+     "dtConvergence=not-instrumented",
+     "windowSensitivity=not-instrumented",
+     "sourceSpread=not-instrumented",
+     "seedSpread=not-instrumented"
+    ],
+    "extraComponents": [
+     "qArmSpread",
+     "spinDoseSensitivity",
+     "crossHarnessAgreement",
+     "internalConsistency"
+    ]
+   },
+   {
+    "id": "earth-moon-two-observables",
+    "coreInstrumented": 0,
+    "coreTotal": 5,
+    "coreSentinels": [
+     "numericalFloor=not-instrumented",
+     "dtConvergence=not-instrumented",
+     "windowSensitivity=not-instrumented",
+     "sourceSpread=not-instrumented",
+     "seedSpread=not-instrumented"
+    ],
+    "extraComponents": [
+     "qArmSpread",
+     "spinDoseSensitivity",
+     "qStarArmComparison"
+    ]
+   },
+   {
+    "id": "saturn-ring-apsidal",
+    "coreInstrumented": 0,
+    "coreTotal": 5,
+    "coreSentinels": [
+     "numericalFloor=not-instrumented",
+     "dtConvergence=not-instrumented",
+     "windowSensitivity=not-instrumented",
+     "sourceSpread=not-instrumented",
+     "seedSpread=not-instrumented"
+    ],
+    "extraComponents": [
+     "qArmSpread",
+     "radialProfile",
+     "holdOutHonesty"
+    ]
+   },
+   {
+    "id": "jupiter-holdout",
+    "coreInstrumented": 5,
+    "coreTotal": 5,
+    "coreSentinels": [],
+    "extraComponents": [
+     "parameterSensitivity",
+     "determinism"
+    ]
+   },
+   {
+    "id": "qlock-radial-audit",
+    "coreInstrumented": 3,
+    "coreTotal": 5,
+    "coreSentinels": [
+     "sourceSpread=not-instrumented",
+     "seedSpread=not-instrumented"
+    ],
+    "extraComponents": [
+     "q3Control",
+     "innerSaturation"
+    ]
+   }
+  ]
+ },
+ "generated": {
+  "at": "2026-08-22T02:28:40.839Z",
+  "node": "v22.22.2",
+  "platform": "linux/x64",
+  "commit": "dd37d74b5a0f4eeac5a84a6d3a905b40803b3070",
+  "command": "node tools/gen-error-budget.mjs",
+  "generator": {
+   "path": "tools/gen-error-budget.mjs",
+   "sha256": "a1144202af728ac1ed7dc6180a5f603081a7f2c103351ae0f1b24a78f31758ff",
+   "bytes": 49788
+  },
+  "note": "本ブロックは実行のたびに変わる非測定メタである。errorbudget.consistency ゲートは `generated` キーを除外して照合する"
+ }
+}

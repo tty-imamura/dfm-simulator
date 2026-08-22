@@ -1,8 +1,21 @@
 % =====================================================================
 % The Box Universe
-% CURRENT VERSION: v0.9 (2026-08-21, wave 156).  The single version
+% CURRENT VERSION: v0.10 (2026-08-22, wave 161).  The single version
 %   statement for this manuscript is this line plus \date below; it is
 %   repeated in paper/README.md and nowhere else.
+% v0.10 (2026-08-22, wave 161), fourth external review round.  Wording
+%   and bibliography only -- no number, gate, figure or claim changed:
+%   - P1-3.  The Hubble-tension passage of Sec. VI no longer reads as a
+%     two-value Planck-versus-SH0ES standoff: two sentences state that
+%     the JWST-era landscape spans a range of ladder analyses, citing
+%     Freedman et al. (2024) alongside the Riess et al. (2024) entry
+%     that was already here.  The 0.923 / 0.921 ratios and the D*kappa
+%     calibration are untouched.
+%   - M-2.  The Introduction repeats once that this paper proposes no
+%     resolution, and the Conclusion states once that the a -> infinity
+%     behaviour (the probe ratio falling to zero) has no application to
+%     the real universe.  Both are additional emphasis in wording that
+%     does not duplicate the existing disclaimers or negative claims.
 % v0.9 (2026-08-21, wave 156), third external review round.  Wording and
 %   metadata only -- no number, gate, figure or claim changed:
 %   - Code and data availability restated in the PRESENT tense.  The
@@ -77,7 +90,8 @@ with a Deliberately Bounded Hubble-Tension Analogue}%
 \author{Tetsuya Imamura}
 \affiliation{Independent Researcher, Tokyo, Japan}
 
-\date{2026-07-31 (draft v0.8); revised 2026-08-21 (draft v0.9)}
+\date{2026-07-31 (draft v0.8); revised 2026-08-21 (draft v0.9);
+  revised 2026-08-22 (draft v0.10)}
 
 \begin{abstract}
 We extend Determinacy-Field Mechanics (DFM), a two-dimensional
@@ -136,6 +150,16 @@ can be machine-verified.
 Our position is unchanged from the companion paper: DFM is an
 educational \emph{computational thought experiment}, not a proposal
 about nature (Sec.~\ref{sec:negative}).
+% wave 161 (M-2): one further sentence of emphasis, worded so as not to
+% duplicate negative claims 3 and 6 or the abstract's disclaimer.
+One consequence of that position should be said in advance rather than
+left to the negative claims at the end: this paper offers no candidate
+resolution of the Hubble tension, and the reader will not find one
+here.
+What it offers is a mechanism that makes one \emph{failure mode} of
+rate estimation---an estimator inheriting the decay law it assumes---
+small enough to hold in the hand, and that is a different kind of
+object from a proposed explanation of a real discrepancy.
 The interest of the box universe is that it makes textbook
 distinctions---kinematic expansion versus dynamic expansion,
 coordinate recession versus measured redshift, probe versus
@@ -638,6 +662,23 @@ JWST-crossvalidated ladder value $73.2\pm0.9$~\cite{Riess2024} gives
 $0.921$, and the wider landscape of methods spans a range of such
 ratios~\cite{DiValentino2021}---the comparison ratio depends on which
 pair of determinations one adopts.
+% wave 161 (P1-3): the passage must not read as a settled two-value
+% standoff.  Freedman et al. (2024) added; Riess et al. (2024) was
+% already in the bibliography and is cited again here.
+% TODO(ref-verify): neither DOI nor the arXiv identifier could be
+% resolved in this environment (no external network egress).
+It is worth saying plainly that the present observational situation is
+not a two-value standoff between Planck and SH0ES.
+Several JWST-era analyses of the distance ladder now span a range: a
+combined determination from three independent methods gives
+$H_0=69.96\pm1.05\,(\mathrm{stat})\pm1.12\,(\mathrm{sys})
+\,\mathrm{km\,s^{-1}\,Mpc^{-1}}$~\cite{Freedman2024}, while the
+Cepheid-anchored ladder cross-checked with JWST distances remains near
+$73$~\cite{Riess2024}, and the interval between them is the subject of
+active disagreement rather than a settled gap.
+Nothing below depends on where inside that range one lands: the
+analogy is to the \emph{existence} of probe-dependent estimates, not to
+any particular pair of numbers.
 In the box universe, choosing $D\kappa=\tfrac{2}{3}\ln 4\approx 0.9242$
 (the value that makes $R$ of Eq.~(\ref{eq:R}) fall to exactly $1/4$
 at $a=4$) makes the probe ratio at $a=2$ equal $D\kappa\approx0.92$
@@ -714,6 +755,20 @@ Every central claim is asserted by an automated gate
 (Sec.~\ref{sec:repro}), and the model runs in a browser, so each
 claim can be re-derived, re-measured, or broken by any reader with
 the repository and a laptop.
+
+% wave 161 (M-2): the late-time limit is flagged once more at the point
+% a reader is most likely to extrapolate from it.  Sec. V C already
+% states the same restriction; this is emphasis, in different wording.
+One boundary is worth restating at the close, because it is the one a
+reader is most likely to carry away in the wrong direction.
+The late-time behaviour of the two probes---the ratio
+$\rho(a)=2D\kappa/a$ falling to zero as $a\to\infty$, so that the two
+estimators diverge without limit---has \emph{no} application to the
+real universe.
+It is an artifact of the exponential light-speed law this toy writes
+into its axioms, evaluated far outside the regime in which a single box
+summarizes anything, and it should not be read as a toy prediction that
+observational estimates of $H_0$ must eventually separate.
 
 Future work is confined to two items: an optional light probe
 $H_{\mathrm{light}}$ alongside the two probes of Sec.~\ref{sec:v29},
@@ -983,6 +1038,18 @@ distance measurements: selection of supernova subsample explains
 differences in JWST estimates of local $H_0$,''
 Astrophys. J. \textbf{977}, 120 (2024),
 doi:10.3847/1538-4357/ad8c21.
+% wave 161 (P1-3): kept as the existing entry -- it is the second of the
+% two JWST-era references the review asked for, so no duplicate was
+% added.  TODO(ref-verify): the DOI above could not be resolved in this
+% environment (no external network egress); recheck at submission.
+% wave 161 (P1-3): JWST-era ladder determination, cited in Sec. VI.
+% TODO(ref-verify): this environment has no external network egress, so
+% neither the arXiv identifier nor the journal record could be resolved
+% here; check both, and update to the published record, at submission.
+\bibitem{Freedman2024} W. L. Freedman \emph{et al.}, ``Status report on
+the Chicago-Carnegie Hubble Program (CCHP): measurement of the Hubble
+constant using the Hubble and James Webb Space Telescopes,''
+arXiv:2408.06153 (2024).
 \bibitem{DiValentino2021} E. Di Valentino \emph{et al.}, ``In the
 realm of the Hubble tension---a review of solutions,''
 Class. Quantum Grav. \textbf{38}, 153001 (2021),

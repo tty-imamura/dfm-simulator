@@ -1,0 +1,1535 @@
+{
+  "target": "index.html",
+  "wave": 164,
+  "title": "q_exact 変種の頑健性(qLock 則の厳密一致式へ q だけ置換した実較正4系の再走行)",
+  "preRegistered": {
+    "fixedBy": "統括(ハンドオフ 2026-08-22a §3b)",
+    "fixedBefore": "実測",
+    "designPrinciples": {
+      "oneKnobOnly": "**q だけ**を q_exact 直値へ置換する。他の全パラメータは不変 — D₀=0.006(共有較正値)・初速較正係数 f=0.9968(🌘)・ソフトニング・seed・窓・步幅・体の初期条件のいずれも再フィットしない。",
+      "windowsReused": "判定窓は**既存の事前登録窓をそのまま流用する**。窓の新設・再設定は行わない。",
+      "noExistingFileTouched": "既存プリセット・既存結果 JSON・既存ハーネスは一切変更しない。本便は新規ファイル(tests/exp-qexact.mjs → tests/out/qexact-results.json)だけで完結する。",
+      "failIsData": "PASS/FAIL とも実測値をそのまま収載する(FAIL でも書き換えない)。FAIL は「その系で遠方近似 a≫R が効いていない」ことの定量記録である。"
+    },
+    "QW1": {
+      "role": "主窓",
+      "verbatim": "QW1(主窓): 各系の主較正観測量が q_exact 直値走行でも**既存窓の数値をそのまま流用した同一窓**に入る(窓の新設・再設定なし)。",
+      "perSystem": {
+        "mercury": "|Δϖ_drag| = |Δϖ(kF1,q)−Δϖ(kF0)| が 5.0×10⁻¹⁰ 〜 6.2×10⁻¹⁰ rad/公転(出典: プリセット mercuryRealKF1 の claims「mercuryRealKF1.drag-precession」expected {min:5.0e-10, max:6.2e-10} — 実行時に対象 HTML から読み取る)。併記窓: |Δϖ_drag| < 5.02e-7/8 = 6.275×10⁻⁸(出典: tests/exp-kf1c.mjs §D1)",
+        "earthMoon": "Δϖ比 = Δϖ/0.05311 が 0.85 〜 1.15(出典: tests/exp-kf1c.mjs §D2 — 「第120便の窓依存 ±15% と同水準」)",
+        "saturnRing": "環偏心テスト粒子の近点移動 |Δϖ(kF1,q)−Δϖ(kF0)| が 1×10⁻⁵ 〜 3×10⁻⁵ rad/公転(出典: プリセット saturnRingRealKF1 の claims「saturnRingRealKF1.ring-apsidal-drift」expected {min:1e-5, max:3e-5} — 実行時に対象 HTML から読み取る)。窓の**適用先プローブ**は claims 説明文が対にしている「q=3 で 0.23 rad/公転」に一致するものとする(kf1d §B の4プローブのうち a=80 だけが 0.23 — 同定の機械証拠は systems.saturnRing.window.referentEvidence)。窓の数値は流用のまま動かさない。4プローブ全部へ当てた場合の判定も参考として併記する(基線 q* での成否も併記 — a=105 は基線でも窓外なので、その窓は元からそのプローブについてのものではない)",
+        "jupiter": "JW2 と同一条件 — NaN なし・4衛星とも |Δa|/a<2% かつ 恒星公転周期が観測値と ±1%(出典: tests/exp-jupiter.mjs windowsPreRegistered.JW2・窓は 20 イオ公転)"
+      }
+    },
+    "QW2": {
+      "role": "記述(窓なし — 判定に使わない)",
+      "verbatim": "QW2(記述 — 窓なし): q* 走行(基線再測)との観測量相対差を記録。",
+      "window": "なし(記述のみ)"
+    },
+    "QW3": {
+      "role": "窓(決定性)",
+      "verbatim": "QW3(決定性): 全体2回実行(別プロセス)で揮発キー除外の正規化 JSON SHA-256 一致(coreshell5 方式)。",
+      "canonicalization": "対象は out.systems(実測部)のみ。日時・環境・経過時間などの揮発キーはmeta / manifest 側にしか置かないので、対象内に除外すべき揮発値は存在しない"
+    },
+    "invariants": {
+      "verbatim": "既存プリセット・既存結果 JSON は不変(新規ファイルのみ)。基線再測が既存 JSON の対応値とビット一致するかも照合して収載(転記の機械証拠)。"
+    },
+    "transcriptionGate": {
+      "rule": "各系の q* 直値から q_exact を式で再計算し、第141便系列の参照値と転記照合する。丸め4桁を超える差(= 参照値の表記桁の 1/2 単位を超える差)があれば**実測せず停止**して報告する。",
+      "references": {
+        "mercury": 6.147,
+        "earthMoon": 8.236,
+        "saturnRing": 20.49,
+        "jupiter": 12.06
+      },
+      "referenceSource": "ハンドオフ 2026-08-22a §3b が転記した第141便系列の参照値(☄️🪨 水星 6.147・🌙🌘 地球月 8.236・💿🛰️ 土星 20.49・🟠 木星 12.06)"
+    }
+  },
+  "targetConsistency": {
+    "target": "index.html",
+    "sha256Now": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+    "inputs": [
+      {
+        "path": "tests/out/kf1c-results.json",
+        "targetPath": "beta/index.html",
+        "targetSha256": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+        "sameAsNow": true
+      },
+      {
+        "path": "tests/out/kf1d-results.json",
+        "targetPath": "beta/index.html",
+        "targetSha256": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+        "sameAsNow": true
+      },
+      {
+        "path": "tests/out/jupiter-results.json",
+        "targetPath": "beta/index.html",
+        "targetSha256": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+        "sameAsNow": true
+      }
+    ],
+    "allSame": true,
+    "note": "入力 JSON の実測を出した対象 HTML の SHA-256 が、本便が実測する対象と同一実体かの照合。一致していれば「基線再測が既存 JSON とビット一致するか」が転記の正しさの証拠として機能する。一致していない場合、ビット不一致は転記ミスではなく対象差の可能性があるので、相対差も併せて読む"
+  },
+  "provenanceInputs": [
+    {
+      "path": "tests/out/kf1c-results.json",
+      "sha256": "60c88b15fbc050284e89de1124d8a93247275289afb42bbc1daa5c5fc2e2a44c",
+      "bytes": 13965,
+      "wave": 122,
+      "targetPath": "beta/index.html",
+      "targetSha256": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+      "appVersion": "1.41",
+      "gitCommit": "fbaef3a4884f3499ba1d63612d4847fcae09200d",
+      "role": "第122便の実測正本(🪨 水星 q スキャン・🌘 地球月 較正保存・統合判定 §D の窓の出典)",
+      "mutated": false
+    },
+    {
+      "path": "tests/out/kf1d-results.json",
+      "sha256": "5ae1aefa605eaddbccb582d4e3b314a8a979ff9db28fe9eabcee417880f4763c",
+      "bytes": 10722,
+      "wave": 123,
+      "targetPath": "beta/index.html",
+      "targetSha256": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+      "appVersion": "1.41",
+      "gitCommit": "fbaef3a4884f3499ba1d63612d4847fcae09200d",
+      "role": "第123便の実測正本(qLock 則 q* の算出値・🪨🌘 の q* 走行・💿 環系 §B の基線)",
+      "mutated": false
+    },
+    {
+      "path": "tests/out/jupiter-results.json",
+      "sha256": "634e993c684893b7df4eead55e5069a7bba319f52049c9915d775dc43ed08fdf",
+      "bytes": 63163,
+      "wave": 138,
+      "targetPath": "beta/index.html",
+      "targetSha256": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+      "appVersion": "1.41",
+      "gitCommit": "fbaef3a4884f3499ba1d63612d4847fcae09200d",
+      "role": "第138便の実測正本(🟠 の事前登録窓 JW1/JW2 と第141便 §H の q_exact 対照)",
+      "mutated": false
+    }
+  ],
+  "transcription": {
+    "rule": "各系の q* 直値から q_exact を式で再計算し、第141便系列の参照値と転記照合する。丸め4桁を超える差(= 参照値の表記桁の 1/2 単位を超える差)があれば**実測せず停止**して報告する。",
+    "rows": {
+      "mercury": {
+        "inputs": {
+          "c": 30000,
+          "R": 6.95,
+          "G": 6.674,
+          "M": 1988.5,
+          "aRef": 460.012,
+          "source": "tests/exp-kf1d.mjs §A qCalc(30000, 6.95, 6.674, 1988.5, 460.012)(参照軌道=近日点距離)",
+          "presetDeclaredQ": 6.16,
+          "presetId": "mercuryRealKF1"
+        },
+        "qStar": 6.157793376601058,
+        "qExact": 6.147101550842838,
+        "finiteRadiusCorrection": -0.010691825758219586,
+        "lnRatio": 4.207506224331763,
+        "reference": 6.147,
+        "diffFromReference": 0.00010155084283791638,
+        "tolerance": 0.0005,
+        "match": true,
+        "qExactRounded": 6.147,
+        "note": "q* は既存ハーネスの宣言式・宣言入力から再計算した値(プリセット直値は presetDeclaredQ に併記)。q_exact = q* + 3·ln(a/(R+a))/ln((R+a)/R)"
+      },
+      "earthMoon": {
+        "inputs": {
+          "c": 30000,
+          "R": 6.38,
+          "G": 6.674,
+          "M": 0.59724,
+          "aRef": 363.63,
+          "source": "tests/exp-kf1d.mjs §A qCalc(30000, 6.38, 6.674, 0.59724, 363.63)(参照軌道=近地点距離)",
+          "presetDeclaredQ": 8.25,
+          "presetId": "earthMoonRealKF1"
+        },
+        "qStar": 8.24865373270011,
+        "qExact": 8.235802785842496,
+        "finiteRadiusCorrection": -0.01285094685761301,
+        "lnRatio": 4.0603619349433755,
+        "reference": 8.236,
+        "diffFromReference": -0.00019721415750417748,
+        "tolerance": 0.0005,
+        "match": true,
+        "qExactRounded": 8.236,
+        "note": "q* は既存ハーネスの宣言式・宣言入力から再計算した値(プリセット直値は presetDeclaredQ に併記)。q_exact = q* + 3·ln(a/(R+a))/ln((R+a)/R)"
+      },
+      "saturnRing": {
+        "inputs": {
+          "c": 30000,
+          "R": 60.3,
+          "G": 6.674,
+          "M": 56.834,
+          "aRef": 105,
+          "source": "tests/exp-kf1d.mjs §B qCalc(30000, 60.3, 6.674, 56.834, 105)(参照=環中央値≈B環)",
+          "presetDeclaredQ": 21.8,
+          "presetId": "saturnRingRealKF1"
+        },
+        "qStar": 21.843180708151756,
+        "qExact": 20.493156316241464,
+        "finiteRadiusCorrection": -1.350024391910292,
+        "lnRatio": 1.008429901093839,
+        "reference": 20.49,
+        "diffFromReference": 0.0031563162414656176,
+        "tolerance": 0.005,
+        "match": true,
+        "qExactRounded": 20.49,
+        "note": "q* は既存ハーネスの宣言式・宣言入力から再計算した値(プリセット直値は presetDeclaredQ に併記)。q_exact = q* + 3·ln(a/(R+a))/ln((R+a)/R)"
+      },
+      "jupiter": {
+        "inputs": {
+          "c": 30000,
+          "R": 7.1492,
+          "G": 6.674,
+          "M": 18.98,
+          "aRef": 42.18,
+          "source": "tests/exp-jupiter.mjs Q_STAR(参照軌道=イオ a=42.18・R=RJ=7.1492・GM=6.674×18.98)",
+          "presetDeclaredQ": 12.3,
+          "presetId": "(内蔵プリセットなし — ハーネス直値 Q_LOCK=12.30)"
+        },
+        "qStar": 12.301733261350822,
+        "qExact": 12.058551153315456,
+        "finiteRadiusCorrection": -0.24318210803536644,
+        "lnRatio": 1.9315157354680779,
+        "reference": 12.06,
+        "diffFromReference": -0.0014488466845445913,
+        "tolerance": 0.005,
+        "match": true,
+        "qExactRounded": 12.06,
+        "note": "q* は既存ハーネスの宣言式・宣言入力から再計算した値(プリセット直値は presetDeclaredQ に併記)。q_exact = q* + 3·ln(a/(R+a))/ln((R+a)/R)"
+      }
+    },
+    "allMatch": true
+  },
+  "systems": {
+    "mercury": {
+      "emoji": "☄️🪨",
+      "label": "水星(実単位・kFrame=1)mercuryRealKF1 系",
+      "harness": "tests/exp-kf1c.mjs §A の runRL/mkMerc(= tests/exp-kf1d.mjs §A の 🪨 構成)を逐語転記",
+      "config": {
+        "physics": {
+          "G": 6.674,
+          "D0": 0.006,
+          "kFrame": 1,
+          "q": 3,
+          "kRep": 0,
+          "muF": 0,
+          "gammaN": 0,
+          "kappaS": 0,
+          "Kt": 134851663.17051244,
+          "cLight": 30000,
+          "bM": 1,
+          "etaRad": 0,
+          "pRad": 4,
+          "gravityX": 0,
+          "gravityY": 0,
+          "massFloor": 0.000001,
+          "geoPN": 2,
+          "lambdaPN": 1,
+          "pnAlpha": 1.5,
+          "radiusScale": 1,
+          "softening": 0.05,
+          "timeScale": 1,
+          "stateCarry": "double"
+        },
+        "M": 1988.5,
+        "m2": 0.00033011,
+        "a": 579.09,
+        "e": 0.20563,
+        "rM": 6.95,
+        "r2": 0.0244,
+        "spinM": 0.029031,
+        "spin2": 0.0124,
+        "pin": true,
+        "orbits": 8,
+        "dt": 0.016,
+        "seed": 1
+      },
+      "q": {
+        "inputs": {
+          "c": 30000,
+          "R": 6.95,
+          "G": 6.674,
+          "M": 1988.5,
+          "aRef": 460.012,
+          "source": "tests/exp-kf1d.mjs §A qCalc(30000, 6.95, 6.674, 1988.5, 460.012)(参照軌道=近日点距離)",
+          "presetDeclaredQ": 6.16,
+          "presetId": "mercuryRealKF1"
+        },
+        "qStar": 6.157793376601058,
+        "qExact": 6.147101550842838,
+        "finiteRadiusCorrection": -0.010691825758219586,
+        "lnRatio": 4.207506224331763,
+        "reference": 6.147,
+        "diffFromReference": 0.00010155084283791638,
+        "tolerance": 0.0005,
+        "match": true,
+        "qExactRounded": 6.147,
+        "note": "q* は既存ハーネスの宣言式・宣言入力から再計算した値(プリセット直値は presetDeclaredQ に併記)。q_exact = q* + 3·ln(a/(R+a))/ln((R+a)/R)"
+      },
+      "primaryObservable": "引きずり歳差 Δϖ_drag = Δϖ(kF1,q) − Δϖ(kF0) [rad/公転]",
+      "window": {
+        "source": "プリセット claims mercuryRealKF1.drag-precession(対象 HTML から機械読み取り)",
+        "expected": {
+          "min": 5e-10,
+          "max": 6.2e-10
+        },
+        "alsoDeclared": {
+          "source": "tests/exp-kf1c.mjs §D1",
+          "ruleAbsLessThan": 6.275e-8
+        }
+      },
+      "runs": {
+        "kF0": {
+          "dPomPerOrbit": 4.3473328880056836e-7,
+          "TK": 760.0515825722043,
+          "Tavg": 760.0506666666666,
+          "e0": 0.20563002103919548,
+          "eDrift": -5.458013295212005e-7,
+          "amp": 0.4112603902975091,
+          "collapsed": null,
+          "nan": false,
+          "qEff": null
+        },
+        "qStar": {
+          "dPomPerOrbit": 4.341728345934815e-7,
+          "TK": 760.0515825722043,
+          "Tavg": 760.0506666666666,
+          "e0": 0.20563002103919548,
+          "eDrift": -5.458011379244621e-7,
+          "amp": 0.4112603903356677,
+          "collapsed": null,
+          "nan": false,
+          "qEff": null
+        },
+        "qExact": {
+          "dPomPerOrbit": 4.34149078156231e-7,
+          "TK": 760.0515825722043,
+          "Tavg": 760.0506666666666,
+          "e0": 0.20563002103919548,
+          "eDrift": -5.458010643444311e-7,
+          "amp": 0.4112603903376276,
+          "collapsed": null,
+          "nan": false,
+          "qEff": null
+        }
+      },
+      "dragQStar": -5.604542070868556e-10,
+      "dragQExact": -5.842106443373753e-10,
+      "baselineBitCheck": {
+        "reference": "tests/out/kf1d-results.json tests.qcalc.mercKF0 / mercQstar / dragMerc",
+        "qStarSameAsReference": true,
+        "kF0Identical": true,
+        "qStarRunIdentical": true,
+        "dragIdentical": true,
+        "kF0RelDiff": 0,
+        "qStarRunRelDiff": 0
+      },
+      "QW1": {
+        "observable": -5.842106443373753e-10,
+        "abs": 5.842106443373753e-10,
+        "window": {
+          "min": 5e-10,
+          "max": 6.2e-10
+        },
+        "pass": true,
+        "alsoPassKf1cD1": true,
+        "baselinePass": true
+      },
+      "QW2": {
+        "qStarValue": -5.604542070868556e-10,
+        "qExactValue": -5.842106443373753e-10,
+        "relDiff": -0.0423878292822558,
+        "precessionRelDiff": -0.00005471654455941021,
+        "periodRelDiff": 0
+      }
+    },
+    "earthMoon": {
+      "emoji": "🌙🌘",
+      "label": "地球と月(実単位・kFrame=1)earthMoonRealKF1 系",
+      "harness": "tests/exp-kf1c.mjs §C の runRL/mkEM(= tests/exp-kf1d.mjs §A の 🌘 構成)を逐語転記",
+      "config": {
+        "physics": {
+          "G": 6.674,
+          "D0": 0.006,
+          "kFrame": 1,
+          "q": 3,
+          "kRep": 0,
+          "muF": 0,
+          "gammaN": 0,
+          "kappaS": 0,
+          "Kt": 134851663.17051244,
+          "cLight": 30000,
+          "bM": 1,
+          "etaRad": 0,
+          "pRad": 4,
+          "gravityX": 0,
+          "gravityY": 0,
+          "massFloor": 0.000001,
+          "geoPN": 2,
+          "lambdaPN": 1,
+          "pnAlpha": 1.5,
+          "radiusScale": 1,
+          "softening": 0.1,
+          "timeScale": 1,
+          "stateCarry": "double"
+        },
+        "M": 0.59724,
+        "m2": 0.007346,
+        "a": 384.748,
+        "e": 0.0549,
+        "rM": 6.38,
+        "r2": 1.74,
+        "spinM": 0.0072921,
+        "spin2": 0.00026617,
+        "f": 0.9968,
+        "orbits": 8,
+        "dt": 0.016,
+        "seed": 1
+      },
+      "q": {
+        "inputs": {
+          "c": 30000,
+          "R": 6.38,
+          "G": 6.674,
+          "M": 0.59724,
+          "aRef": 363.63,
+          "source": "tests/exp-kf1d.mjs §A qCalc(30000, 6.38, 6.674, 0.59724, 363.63)(参照軌道=近地点距離)",
+          "presetDeclaredQ": 8.25,
+          "presetId": "earthMoonRealKF1"
+        },
+        "qStar": 8.24865373270011,
+        "qExact": 8.235802785842496,
+        "finiteRadiusCorrection": -0.01285094685761301,
+        "lnRatio": 4.0603619349433755,
+        "reference": 8.236,
+        "diffFromReference": -0.00019721415750417748,
+        "tolerance": 0.0005,
+        "match": true,
+        "qExactRounded": 8.236,
+        "note": "q* は既存ハーネスの宣言式・宣言入力から再計算した値(プリセット直値は presetDeclaredQ に併記)。q_exact = q* + 3·ln(a/(R+a))/ln((R+a)/R)"
+      },
+      "primaryObservable": "近点回転比 Δϖ/0.05311(目標 1.0)",
+      "externalReference": {
+        "dPomPerOrbit": 0.05311,
+        "note": "🌘 の近点回転 0.05311 rad/公転(8.85 年)"
+      },
+      "window": {
+        "source": "tests/exp-kf1c.mjs §D2",
+        "expected": {
+          "min": 0.85,
+          "max": 1.15
+        }
+      },
+      "runs": {
+        "qStar": {
+          "dPomPerOrbit": 0.053064654839394244,
+          "TK": 23605.99335250854,
+          "Tavg": 23613.992,
+          "e0": 0.048159442187259094,
+          "eDrift": 0.002822227406600493,
+          "amp": 0.11047698040133669,
+          "collapsed": null,
+          "nan": false,
+          "qEff": null
+        },
+        "qExact": {
+          "dPomPerOrbit": 0.05306707682373204,
+          "TK": 23605.99335250854,
+          "Tavg": 23613.97066666667,
+          "e0": 0.048159442187259094,
+          "eDrift": 0.002821543362567361,
+          "amp": 0.11047630529875023,
+          "collapsed": null,
+          "nan": false,
+          "qEff": null
+        }
+      },
+      "ratioQStar": 0.999146202963552,
+      "ratioQExact": 0.9991918061331584,
+      "periodDaysQStar": 27.331009259259258,
+      "periodDaysQExact": 27.330984567901243,
+      "siderealMonthObs": 27.3217,
+      "baselineBitCheck": {
+        "reference": "tests/out/kf1d-results.json tests.qcalc.emQstar",
+        "qStarSameAsReference": true,
+        "qStarRunIdentical": true,
+        "qStarRunRelDiff": 0
+      },
+      "QW1": {
+        "observable": 0.9991918061331584,
+        "window": {
+          "min": 0.85,
+          "max": 1.15
+        },
+        "pass": true,
+        "baselinePass": true
+      },
+      "QW2": {
+        "qStarValue": 0.999146202963552,
+        "qExactValue": 0.9991918061331584,
+        "relDiff": 0.000045642138729118214,
+        "periodRelDiff": -9.034191815748827e-7
+      }
+    },
+    "saturnRing": {
+      "emoji": "💿🛰️",
+      "label": "土星の環(実単位・kFrame=1)saturnRingRealKF1 系",
+      "harness": "tests/exp-kf1d.mjs §B の run()(プローブ a=80/105/130/1221.9・e=0.1・6×T(a=80))を逐語転記",
+      "config": {
+        "physics": {
+          "G": 6.674,
+          "D0": 0.006,
+          "kFrame": 1,
+          "q": 3,
+          "kRep": 0,
+          "muF": 0,
+          "gammaN": 0,
+          "kappaS": 0,
+          "Kt": 134851663.17051244,
+          "cLight": 30000,
+          "bM": 1,
+          "etaRad": 0,
+          "pRad": 4,
+          "gravityX": 0,
+          "gravityY": 0,
+          "massFloor": 0.000001,
+          "geoPN": 2,
+          "lambdaPN": 1,
+          "pnAlpha": 1.5,
+          "radiusScale": 1,
+          "softening": 0.05,
+          "timeScale": 1,
+          "stateCarry": "double"
+        },
+        "M": 56.834,
+        "radius": 60.3,
+        "spin": 0.016528,
+        "probeRadii": [
+          80,
+          105,
+          130,
+          1221.9
+        ],
+        "probeMass": 0.00001,
+        "e": 0.1,
+        "orbits": "6 × T(a=80)",
+        "dt": 0.016,
+        "seed": 1,
+        "softening": 0.05
+      },
+      "q": {
+        "inputs": {
+          "c": 30000,
+          "R": 60.3,
+          "G": 6.674,
+          "M": 56.834,
+          "aRef": 105,
+          "source": "tests/exp-kf1d.mjs §B qCalc(30000, 60.3, 6.674, 56.834, 105)(参照=環中央値≈B環)",
+          "presetDeclaredQ": 21.8,
+          "presetId": "saturnRingRealKF1"
+        },
+        "qStar": 21.843180708151756,
+        "qExact": 20.493156316241464,
+        "finiteRadiusCorrection": -1.350024391910292,
+        "lnRatio": 1.008429901093839,
+        "reference": 20.49,
+        "diffFromReference": 0.0031563162414656176,
+        "tolerance": 0.005,
+        "match": true,
+        "qExactRounded": 20.49,
+        "note": "q* は既存ハーネスの宣言式・宣言入力から再計算した値(プリセット直値は presetDeclaredQ に併記)。q_exact = q* + 3·ln(a/(R+a))/ln((R+a)/R)"
+      },
+      "primaryObservable": "環偏心テスト粒子(a=80・C環相当)の近点移動 Δϖ_drift = Δϖ(kF1,q) − Δϖ(kF0) [rad/公転]",
+      "window": {
+        "source": "プリセット claims saturnRingRealKF1.ring-apsidal-drift(対象 HTML から機械読み取り)",
+        "expected": {
+          "min": 0.00001,
+          "max": 0.00003
+        },
+        "referentEvidence": {
+          "rule": "claims の説明文が対にしている「q=3 で 0.23 rad/公転」に一致するプローブを窓の適用先とする",
+          "q3DriftPerProbe": [
+            {
+              "a": 80,
+              "driftQ3": 0.2331611135045687
+            },
+            {
+              "a": 105,
+              "driftQ3": 0.13133410661870623
+            },
+            {
+              "a": 130,
+              "driftQ3": 0.06168468031431823
+            },
+            {
+              "a": 1221.9,
+              "driftQ3": -0.2668985901208385
+            }
+          ],
+          "matchesDescription": [
+            80
+          ],
+          "chosen": 80,
+          "source": "index.html / beta/index.html の saturnRingRealKF1 claims 説明文 + tests/out/kf1d-results.json tests.ring.q3"
+        }
+      },
+      "runs": {
+        "kF0": {
+          "res": [
+            {
+              "a": 80,
+              "dPomPerOrbit": -0.000029098834814640032
+            },
+            {
+              "a": 105,
+              "dPomPerOrbit": 0.00003416109442726234
+            },
+            {
+              "a": 130,
+              "dPomPerOrbit": 0.0001573735225612262
+            },
+            {
+              "a": 1221.9,
+              "dPomPerOrbit": 0.00017418524247156904
+            }
+          ],
+          "nan": false
+        },
+        "qStar": {
+          "res": [
+            {
+              "a": 80,
+              "dPomPerOrbit": -0.000008219458586844384
+            },
+            {
+              "a": 105,
+              "dPomPerOrbit": -0.000005556736807792791
+            },
+            {
+              "a": 130,
+              "dPomPerOrbit": 0.000138394625384674
+            },
+            {
+              "a": 1221.9,
+              "dPomPerOrbit": 0.00019369025493057505
+            }
+          ],
+          "nan": false
+        },
+        "qExact": {
+          "res": [
+            {
+              "a": 80,
+              "dPomPerOrbit": -0.000013231617905442427
+            },
+            {
+              "a": 105,
+              "dPomPerOrbit": -0.000005941673809571834
+            },
+            {
+              "a": 130,
+              "dPomPerOrbit": 0.0001383597176029425
+            },
+            {
+              "a": 1221.9,
+              "dPomPerOrbit": 0.00019368991487701636
+            }
+          ],
+          "nan": false
+        }
+      },
+      "baselineBitCheck": {
+        "reference": "tests/out/kf1d-results.json tests.ring.kF0 / tests.ring.qStarRun / tests.ring.qStar",
+        "qStarSameAsReference": true,
+        "kF0Identical": true,
+        "qStarRunIdentical": true,
+        "perProbeRelDiff": [
+          {
+            "a": 80,
+            "kF0RelDiff": -0.7175330682756734,
+            "qStarRelDiff": 0
+          },
+          {
+            "a": 105,
+            "kF0RelDiff": -1.1626627279059953,
+            "qStarRelDiff": 0
+          },
+          {
+            "a": 130,
+            "kF0RelDiff": -0.12059777825185602,
+            "qStarRelDiff": 0
+          },
+          {
+            "a": 1221.9,
+            "kF0RelDiff": 0.11197855904577936,
+            "qStarRelDiff": 0
+          }
+        ]
+      },
+      "rows": [
+        {
+          "a": 80,
+          "driftQStar": 0.00002087937622779565,
+          "driftQExact": 0.000015867216909197603,
+          "absQExact": 0.000015867216909197603,
+          "driftQ3": 0.2331611135045687,
+          "inWindow": true,
+          "baselineInWindow": true,
+          "relDiff": -0.24005311575954144
+        },
+        {
+          "a": 105,
+          "driftQStar": -0.00003971783123505513,
+          "driftQExact": -0.00004010276823683418,
+          "absQExact": 0.00004010276823683418,
+          "driftQ3": 0.13133410661870623,
+          "inWindow": false,
+          "baselineInWindow": false,
+          "relDiff": -0.009691793076538835
+        },
+        {
+          "a": 130,
+          "driftQStar": -0.000018978897176552214,
+          "driftQExact": -0.00001901380495828372,
+          "absQExact": 0.00001901380495828372,
+          "driftQ3": 0.06168468031431823,
+          "inWindow": true,
+          "baselineInWindow": true,
+          "relDiff": -0.001839294528379295
+        },
+        {
+          "a": 1221.9,
+          "driftQStar": 0.000019505012459006005,
+          "driftQExact": 0.000019504672405447316,
+          "absQExact": 0.000019504672405447316,
+          "driftQ3": -0.2668985901208385,
+          "inWindow": true,
+          "baselineInWindow": true,
+          "relDiff": -0.00001743416259816443
+        }
+      ],
+      "QW1": {
+        "observable": 0.000015867216909197603,
+        "abs": 0.000015867216909197603,
+        "probeA": 80,
+        "window": {
+          "min": 0.00001,
+          "max": 0.00003
+        },
+        "pass": true,
+        "baselinePass": true,
+        "allProbesVariant": {
+          "role": "参考(判定に使わない — 窓の適用先は referentEvidence で同定済み)",
+          "pass": false,
+          "baselinePass": false,
+          "perProbe": [
+            {
+              "a": 80,
+              "abs": 0.000015867216909197603,
+              "ok": true,
+              "baselineOk": true
+            },
+            {
+              "a": 105,
+              "abs": 0.00004010276823683418,
+              "ok": false,
+              "baselineOk": false
+            },
+            {
+              "a": 130,
+              "abs": 0.00001901380495828372,
+              "ok": true,
+              "baselineOk": true
+            },
+            {
+              "a": 1221.9,
+              "abs": 0.000019504672405447316,
+              "ok": true,
+              "baselineOk": true
+            }
+          ],
+          "note": "a=105 プローブは基線 q* でも |Δϖ|=3.97×10⁻⁵ で窓外である(窓が元からこのプローブについてのものではなかったことの機械証拠)。全プローブへ当てた判定はこの限界の上で読むこと"
+        }
+      },
+      "QW2": {
+        "perProbe": [
+          {
+            "a": 80,
+            "qStarValue": 0.00002087937622779565,
+            "qExactValue": 0.000015867216909197603,
+            "relDiff": -0.24005311575954144
+          },
+          {
+            "a": 105,
+            "qStarValue": -0.00003971783123505513,
+            "qExactValue": -0.00004010276823683418,
+            "relDiff": -0.009691793076538835
+          },
+          {
+            "a": 130,
+            "qStarValue": -0.000018978897176552214,
+            "qExactValue": -0.00001901380495828372,
+            "relDiff": -0.001839294528379295
+          },
+          {
+            "a": 1221.9,
+            "qStarValue": 0.000019505012459006005,
+            "qExactValue": 0.000019504672405447316,
+            "relDiff": -0.00001743416259816443
+          }
+        ],
+        "maxAbsRelDiff": 0.24005311575954144
+      }
+    },
+    "jupiter": {
+      "emoji": "🟠",
+      "label": "木星ガリレオ衛星 hold-out(exp-jupiter.mjs 構成)",
+      "harness": "tests/exp-jupiter.mjs の HARNESS build/run(2000 步/イオ公転 × 20 公転)を逐語転記",
+      "config": {
+        "physics": {
+          "G": 6.674,
+          "D0": 0.006,
+          "kFrame": 1,
+          "q": 12.3,
+          "kRep": 0,
+          "muF": 0,
+          "gammaN": 0,
+          "kappaS": 0,
+          "kappaT": 7.415555555555556e-9,
+          "cLight": 30000,
+          "bM": 1,
+          "etaRad": 0,
+          "pRad": 4,
+          "gravityX": 0,
+          "gravityY": 0,
+          "massFloor": 0.000001,
+          "geoPN": 2,
+          "lambdaPN": 1,
+          "pnAlpha": 1.5,
+          "radiusScale": 1,
+          "softening": 0.05,
+          "timeScale": 1,
+          "stateCarry": "double"
+        },
+        "mJupiter": 18.98,
+        "rJupiter": 7.1492,
+        "spinJupiter": 0.175851814,
+        "GM": 126.67252,
+        "moons": [
+          {
+            "name": "Io",
+            "ja": "イオ",
+            "a": 42.18,
+            "e": 0.0041,
+            "m": 0.000893,
+            "R": 0.18216,
+            "spin": 0.041105924,
+            "Pobs": 1.769138,
+            "phase": 0
+          },
+          {
+            "name": "Europa",
+            "ja": "エウロパ",
+            "a": 67.11,
+            "e": 0.009,
+            "m": 0.00048,
+            "R": 0.15608,
+            "spin": 0.0204782725,
+            "Pobs": 3.551181,
+            "phase": 1
+          },
+          {
+            "name": "Ganymede",
+            "ja": "ガニメデ",
+            "a": 107.04,
+            "e": 0.0013,
+            "m": 0.00148,
+            "R": 0.26341,
+            "spin": 0.0101644438,
+            "Pobs": 7.154553,
+            "phase": 2
+          },
+          {
+            "name": "Callisto",
+            "ja": "カリスト",
+            "a": 188.27,
+            "e": 0.0074,
+            "m": 0.001076,
+            "R": 0.24103,
+            "spin": 0.00435747966,
+            "Pobs": 16.689017,
+            "phase": 3
+          }
+        ],
+        "stepsPerOrbit": 2000,
+        "orbits": 20,
+        "T_IO_units": 152.93205567896064,
+        "pinned": true,
+        "seed": 1
+      },
+      "q": {
+        "inputs": {
+          "c": 30000,
+          "R": 7.1492,
+          "G": 6.674,
+          "M": 18.98,
+          "aRef": 42.18,
+          "source": "tests/exp-jupiter.mjs Q_STAR(参照軌道=イオ a=42.18・R=RJ=7.1492・GM=6.674×18.98)",
+          "presetDeclaredQ": 12.3,
+          "presetId": "(内蔵プリセットなし — ハーネス直値 Q_LOCK=12.30)"
+        },
+        "qStar": 12.301733261350822,
+        "qExact": 12.058551153315456,
+        "finiteRadiusCorrection": -0.24318210803536644,
+        "lnRatio": 1.9315157354680779,
+        "reference": 12.06,
+        "diffFromReference": -0.0014488466845445913,
+        "tolerance": 0.005,
+        "match": true,
+        "qExactRounded": 12.06,
+        "note": "q* は既存ハーネスの宣言式・宣言入力から再計算した値(プリセット直値は presetDeclaredQ に併記)。q_exact = q* + 3·ln(a/(R+a))/ln((R+a)/R)"
+      },
+      "qDeclaredInHarness": 12.3,
+      "qExactDeclared2dp": 12.06,
+      "primaryObservable": "JW2 条件(NaN なし・4衛星とも |Δa|/a<2% かつ 周期が観測値と ±1%)",
+      "window": {
+        "source": "tests/exp-jupiter.mjs windowsPreRegistered.JW2",
+        "verbatim": "kF1(D₀=0.006・q(イオ)=12.30)— ≥20 イオ公転の窓で 4衛星とも軌道保持(NaN なし・|Δa|/a<2%)+周期 ±1% 維持"
+      },
+      "JW1Baseline": {
+        "rows": [
+          {
+            "name": "Io",
+            "periodDays": 1.7703419485521656,
+            "obs": 1.769138,
+            "devPercent": 0.06805283432753662,
+            "ok": true
+          },
+          {
+            "name": "Europa",
+            "periodDays": 3.552262954174932,
+            "obs": 3.551181,
+            "devPercent": 0.030467446602466808,
+            "ok": true
+          },
+          {
+            "name": "Ganymede",
+            "periodDays": 7.154234726601996,
+            "obs": 7.154553,
+            "devPercent": -0.004448543438062558,
+            "ok": true
+          },
+          {
+            "name": "Callisto",
+            "periodDays": 16.684462463308833,
+            "obs": 16.689017,
+            "devPercent": -0.027290622875908443,
+            "ok": true
+          }
+        ],
+        "pass": true
+      },
+      "runs": {
+        "qStar": {
+          "nan": false,
+          "rows": [
+            {
+              "name": "Io",
+              "periodDays": 1.770046940728711,
+              "obs": 1.769138,
+              "devPercent": 0.051377604726754456,
+              "aSpread": 0.00011414622084803943,
+              "aSpreadPercent": 0.011414622084803943,
+              "dragPe": -0.013766199590359626,
+              "periodShift": -0.00016663889351773082,
+              "ok": true
+            },
+            {
+              "name": "Europa",
+              "periodDays": 3.552373582108728,
+              "obs": 3.551181,
+              "devPercent": 0.03358269006079606,
+              "aSpread": 0.0007043850707273095,
+              "aSpreadPercent": 0.07043850707273096,
+              "dragPe": -0.0746129560409227,
+              "periodShift": 0.00003114294612275805,
+              "ok": true
+            },
+            {
+              "name": "Ganymede",
+              "periodDays": 7.1562997813661795,
+              "obs": 7.154553,
+              "devPercent": 0.024414961580121464,
+              "aSpread": 0.0007205490787404272,
+              "aSpreadPercent": 0.07205490787404271,
+              "dragPe": -0.18435198763323077,
+              "periodShift": 0.0002886478908086443,
+              "ok": true
+            },
+            {
+              "name": "Callisto",
+              "periodDays": 16.690657627601382,
+              "obs": 16.689017,
+              "devPercent": 0.009830582600423021,
+              "aSpread": 0.0014210092964707579,
+              "aSpreadPercent": 0.1421009296470758,
+              "dragPe": -0.040930541384795294,
+              "periodShift": 0.0003713133884997591,
+              "ok": true
+            }
+          ],
+          "pass": true,
+          "maxAbsDevPercent": 0.051377604726754456,
+          "maxASpreadPercent": 0.1421009296470758
+        },
+        "qExact": {
+          "nan": false,
+          "rows": [
+            {
+              "name": "Io",
+              "periodDays": 1.770046940728711,
+              "obs": 1.769138,
+              "devPercent": 0.051377604726754456,
+              "aSpread": 0.00011414628262757542,
+              "aSpreadPercent": 0.011414628262757543,
+              "dragPe": -0.013766228336487192,
+              "periodShift": -0.00016663889351773082,
+              "ok": true
+            },
+            {
+              "name": "Europa",
+              "periodDays": 3.552373582108728,
+              "obs": 3.551181,
+              "devPercent": 0.03358269006079606,
+              "aSpread": 0.0007043854261860235,
+              "aSpreadPercent": 0.07043854261860236,
+              "dragPe": -0.07461295384376683,
+              "periodShift": 0.00003114294612275805,
+              "ok": true
+            },
+            {
+              "name": "Ganymede",
+              "periodDays": 7.1562997813661795,
+              "obs": 7.154553,
+              "devPercent": 0.024414961580121464,
+              "aSpread": 0.0007205490171561,
+              "aSpreadPercent": 0.07205490171561,
+              "dragPe": -0.18435189158383802,
+              "periodShift": 0.0002886478908086443,
+              "ok": true
+            },
+            {
+              "name": "Callisto",
+              "periodDays": 16.690657627601382,
+              "obs": 16.689017,
+              "devPercent": 0.009830582600423021,
+              "aSpread": 0.0014210101337957877,
+              "aSpreadPercent": 0.14210101337957878,
+              "dragPe": -0.04093060608939103,
+              "periodShift": 0.0003713133884997591,
+              "ok": true
+            }
+          ],
+          "pass": true,
+          "maxAbsDevPercent": 0.051377604726754456,
+          "maxASpreadPercent": 0.14210101337957878
+        },
+        "qExactDecl2dp": {
+          "nan": false,
+          "rows": [
+            {
+              "name": "Io",
+              "periodDays": 1.770046940728711,
+              "obs": 1.769138,
+              "devPercent": 0.051377604726754456,
+              "aSpread": 0.00011414630206002443,
+              "aSpreadPercent": 0.011414630206002443,
+              "dragPe": -0.013766229161305238,
+              "periodShift": -0.00016663889351773082,
+              "ok": true
+            },
+            {
+              "name": "Europa",
+              "periodDays": 3.552373582108728,
+              "obs": 3.551181,
+              "devPercent": 0.03358269006079606,
+              "aSpread": 0.0007043851377974199,
+              "aSpreadPercent": 0.070438513779742,
+              "dragPe": -0.07461295518419266,
+              "periodShift": 0.00003114294612275805,
+              "ok": true
+            },
+            {
+              "name": "Ganymede",
+              "periodDays": 7.1562997813661795,
+              "obs": 7.154553,
+              "devPercent": 0.024414961580121464,
+              "aSpread": 0.0007205488998033157,
+              "aSpreadPercent": 0.07205488998033158,
+              "dragPe": -0.18435187888926008,
+              "periodShift": 0.0002886478908086443,
+              "ok": true
+            },
+            {
+              "name": "Callisto",
+              "periodDays": 16.690657627601382,
+              "obs": 16.689017,
+              "devPercent": 0.009830582600423021,
+              "aSpread": 0.0014210101095154155,
+              "aSpreadPercent": 0.14210101095154154,
+              "dragPe": -0.0409305898452132,
+              "periodShift": 0.0003713133884997591,
+              "ok": true
+            }
+          ],
+          "pass": true,
+          "maxAbsDevPercent": 0.051377604726754456,
+          "maxASpreadPercent": 0.14210101095154154
+        }
+      },
+      "baselineBitCheck": {
+        "reference": "tests/out/jupiter-results.json windows.JW1.rows / windows.JW2.rows / sensitivity.qControls(isQExact)",
+        "qStarSameAsReference": true,
+        "jw1Identical": true,
+        "jw2Identical": true,
+        "qExactDeclIdentical": true,
+        "referenceQExactQ": 12.06,
+        "qExactDeclSameAsReferenceQ": true,
+        "jw1RelDiff": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "jw2RelDiff": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "QW1": {
+        "pass": true,
+        "nan": false,
+        "maxAbsDevPercent": 0.051377604726754456,
+        "maxASpreadPercent": 0.14210101337957878,
+        "rows": [
+          {
+            "name": "Io",
+            "devPercent": 0.051377604726754456,
+            "aSpreadPercent": 0.011414628262757543,
+            "ok": true
+          },
+          {
+            "name": "Europa",
+            "devPercent": 0.03358269006079606,
+            "aSpreadPercent": 0.07043854261860236,
+            "ok": true
+          },
+          {
+            "name": "Ganymede",
+            "devPercent": 0.024414961580121464,
+            "aSpreadPercent": 0.07205490171561,
+            "ok": true
+          },
+          {
+            "name": "Callisto",
+            "devPercent": 0.009830582600423021,
+            "aSpreadPercent": 0.14210101337957878,
+            "ok": true
+          }
+        ],
+        "baselinePass": true,
+        "declared2dpPass": true
+      },
+      "QW2": {
+        "perMoon": [
+          {
+            "name": "Io",
+            "periodQStar": 1.770046940728711,
+            "periodQExact": 1.770046940728711,
+            "periodRelDiff": 0,
+            "aSpreadQStar": 0.00011414622084803943,
+            "aSpreadQExact": 0.00011414628262757542,
+            "aSpreadRelDiff": 5.412315495778586e-7,
+            "dragQStar": -0.013766199590359626,
+            "dragQExact": -0.013766228336487192,
+            "dragRelDiff": -0.0000020881672808947743
+          },
+          {
+            "name": "Europa",
+            "periodQStar": 3.552373582108728,
+            "periodQExact": 3.552373582108728,
+            "periodRelDiff": 0,
+            "aSpreadQStar": 0.0007043850707273095,
+            "aSpreadQExact": 0.0007043854261860235,
+            "aSpreadRelDiff": 5.046369220274016e-7,
+            "dragQStar": -0.0746129560409227,
+            "dragQExact": -0.07461295384376683,
+            "dragRelDiff": 2.9447377379089324e-8
+          },
+          {
+            "name": "Ganymede",
+            "periodQStar": 7.1562997813661795,
+            "periodQExact": 7.1562997813661795,
+            "periodRelDiff": 0,
+            "aSpreadQStar": 0.0007205490787404272,
+            "aSpreadQExact": 0.0007205490171561,
+            "aSpreadRelDiff": -8.546860852387539e-8,
+            "dragQStar": -0.18435198763323077,
+            "dragQExact": -0.18435189158383802,
+            "dragRelDiff": 5.210108878021423e-7
+          },
+          {
+            "name": "Callisto",
+            "periodQStar": 16.690657627601382,
+            "periodQExact": 16.690657627601382,
+            "periodRelDiff": 0,
+            "aSpreadQStar": 0.0014210092964707579,
+            "aSpreadQExact": 0.0014210101337957877,
+            "aSpreadRelDiff": 5.892466938828278e-7,
+            "dragQStar": -0.040930541384795294,
+            "dragQExact": -0.04093060608939103,
+            "dragRelDiff": -0.0000015808389908315985
+          }
+        ],
+        "maxAbsPeriodRelDiff": 0
+      }
+    }
+  },
+  "meta": {
+    "stage": "complete",
+    "elapsedSec": 48.823,
+    "generatedAt": "2026-08-22T01:13:20.117Z"
+  },
+  "claimWindows": {
+    "mercuryDrag": {
+      "presetId": "mercuryRealKF1",
+      "claimId": "mercuryRealKF1.drag-precession",
+      "metric": "dragPrecessionRadPerOrbitAbs",
+      "expected": {
+        "min": 5e-10,
+        "max": 6.2e-10
+      },
+      "presetQ": 6.16,
+      "presetD0": 0.006,
+      "qLock": true
+    },
+    "ringApsidal": {
+      "presetId": "saturnRingRealKF1",
+      "claimId": "saturnRingRealKF1.ring-apsidal-drift",
+      "metric": "ringApsidalDriftRadPerOrbit",
+      "expected": {
+        "min": 0.00001,
+        "max": 0.00003
+      },
+      "presetQ": 21.8,
+      "presetD0": 0.006,
+      "qLock": true
+    }
+  },
+  "qw1Summary": {
+    "rule": {
+      "role": "主窓",
+      "verbatim": "QW1(主窓): 各系の主較正観測量が q_exact 直値走行でも**既存窓の数値をそのまま流用した同一窓**に入る(窓の新設・再設定なし)。",
+      "perSystem": {
+        "mercury": "|Δϖ_drag| = |Δϖ(kF1,q)−Δϖ(kF0)| が 5.0×10⁻¹⁰ 〜 6.2×10⁻¹⁰ rad/公転(出典: プリセット mercuryRealKF1 の claims「mercuryRealKF1.drag-precession」expected {min:5.0e-10, max:6.2e-10} — 実行時に対象 HTML から読み取る)。併記窓: |Δϖ_drag| < 5.02e-7/8 = 6.275×10⁻⁸(出典: tests/exp-kf1c.mjs §D1)",
+        "earthMoon": "Δϖ比 = Δϖ/0.05311 が 0.85 〜 1.15(出典: tests/exp-kf1c.mjs §D2 — 「第120便の窓依存 ±15% と同水準」)",
+        "saturnRing": "環偏心テスト粒子の近点移動 |Δϖ(kF1,q)−Δϖ(kF0)| が 1×10⁻⁵ 〜 3×10⁻⁵ rad/公転(出典: プリセット saturnRingRealKF1 の claims「saturnRingRealKF1.ring-apsidal-drift」expected {min:1e-5, max:3e-5} — 実行時に対象 HTML から読み取る)。窓の**適用先プローブ**は claims 説明文が対にしている「q=3 で 0.23 rad/公転」に一致するものとする(kf1d §B の4プローブのうち a=80 だけが 0.23 — 同定の機械証拠は systems.saturnRing.window.referentEvidence)。窓の数値は流用のまま動かさない。4プローブ全部へ当てた場合の判定も参考として併記する(基線 q* での成否も併記 — a=105 は基線でも窓外なので、その窓は元からそのプローブについてのものではない)",
+        "jupiter": "JW2 と同一条件 — NaN なし・4衛星とも |Δa|/a<2% かつ 恒星公転周期が観測値と ±1%(出典: tests/exp-jupiter.mjs windowsPreRegistered.JW2・窓は 20 イオ公転)"
+      }
+    },
+    "perSystem": {
+      "mercury": {
+        "pass": true,
+        "baselinePass": true
+      },
+      "earthMoon": {
+        "pass": true,
+        "baselinePass": true
+      },
+      "saturnRing": {
+        "pass": true,
+        "baselinePass": true
+      },
+      "jupiter": {
+        "pass": true,
+        "baselinePass": true
+      }
+    },
+    "allPass": true,
+    "allBaselinePass": true
+  },
+  "baselineBitSummary": {
+    "note": "基線再測(q* 走行・kF0)が既存 JSON の対応値とビット一致するかの総括。一致していれば本便の転記(構成・測定器)が既存ハーネスと同一であることの機械証拠になる",
+    "targetAllSame": true,
+    "mercury": {
+      "reference": "tests/out/kf1d-results.json tests.qcalc.mercKF0 / mercQstar / dragMerc",
+      "qStarSameAsReference": true,
+      "kF0Identical": true,
+      "qStarRunIdentical": true,
+      "dragIdentical": true,
+      "kF0RelDiff": 0,
+      "qStarRunRelDiff": 0
+    },
+    "earthMoon": {
+      "reference": "tests/out/kf1d-results.json tests.qcalc.emQstar",
+      "qStarSameAsReference": true,
+      "qStarRunIdentical": true,
+      "qStarRunRelDiff": 0
+    },
+    "saturnRing": {
+      "reference": "tests/out/kf1d-results.json tests.ring.kF0 / tests.ring.qStarRun / tests.ring.qStar",
+      "qStarSameAsReference": true,
+      "kF0Identical": true,
+      "qStarRunIdentical": true,
+      "perProbeRelDiff": [
+        {
+          "a": 80,
+          "kF0RelDiff": -0.7175330682756734,
+          "qStarRelDiff": 0
+        },
+        {
+          "a": 105,
+          "kF0RelDiff": -1.1626627279059953,
+          "qStarRelDiff": 0
+        },
+        {
+          "a": 130,
+          "kF0RelDiff": -0.12059777825185602,
+          "qStarRelDiff": 0
+        },
+        {
+          "a": 1221.9,
+          "kF0RelDiff": 0.11197855904577936,
+          "qStarRelDiff": 0
+        }
+      ]
+    },
+    "jupiter": {
+      "reference": "tests/out/jupiter-results.json windows.JW1.rows / windows.JW2.rows / sensitivity.qControls(isQExact)",
+      "qStarSameAsReference": true,
+      "jw1Identical": true,
+      "jw2Identical": true,
+      "qExactDeclIdentical": true,
+      "referenceQExactQ": 12.06,
+      "qExactDeclSameAsReferenceQ": true,
+      "jw1RelDiff": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "jw2RelDiff": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "determinism": {
+    "rule": {
+      "role": "窓(決定性)",
+      "verbatim": "QW3(決定性): 全体2回実行(別プロセス)で揮発キー除外の正規化 JSON SHA-256 一致(coreshell5 方式)。",
+      "canonicalization": "対象は out.systems(実測部)のみ。日時・環境・経過時間などの揮発キーはmeta / manifest 側にしか置かないので、対象内に除外すべき揮発値は存在しない"
+    },
+    "canonicalization": "out.systems(実測部)のみを対象に、キーを再帰整列した JSON の SHA-256。日時・経過時間・環境などの揮発キーは meta / manifest 側にしか置いていないので、対象内に除外すべき揮発値は存在しない",
+    "sha256": "e069897ea96014753ef592d04da1eb00a07cd0eafe80841a527868bea1289052",
+    "bytes": 18252,
+    "reference": "qexact-run1.json",
+    "identical": true,
+    "referenceSha256": "e069897ea96014753ef592d04da1eb00a07cd0eafe80841a527868bea1289052",
+    "note": "2回目は別プロセス・別ブラウザ起動で全節を再実行したもの(同一スクリプト・同一 seed・同一窓)"
+  },
+  "qw3": {
+    "rule": {
+      "role": "窓(決定性)",
+      "verbatim": "QW3(決定性): 全体2回実行(別プロセス)で揮発キー除外の正規化 JSON SHA-256 一致(coreshell5 方式)。",
+      "canonicalization": "対象は out.systems(実測部)のみ。日時・環境・経過時間などの揮発キーはmeta / manifest 側にしか置かないので、対象内に除外すべき揮発値は存在しない"
+    },
+    "sha256": "e069897ea96014753ef592d04da1eb00a07cd0eafe80841a527868bea1289052",
+    "reference": "qexact-run1.json",
+    "identical": true,
+    "result": "PASS"
+  },
+  "manifest": {
+    "schema": "dfm-experiment-manifest",
+    "schemaVersion": "1.0",
+    "generatedAt": "2026-08-22T01:13:20.123Z",
+    "experiment": {
+      "id": "qexact",
+      "wave": 164,
+      "title": "q_exact 変種の頑健性(qLock 則の厳密一致式へ q だけ置換した実較正4系の再走行)",
+      "script": "tests/exp-qexact.mjs",
+      "scriptSha256": "7707b987bc495561f8a0c4df9a66b967d8e4ab523ccfad48236c6deecce37fb6",
+      "scriptBytes": 58575,
+      "helperSha256": "502979b3027a7a79bc4b2df5e1bc0fbb86e3bbc252af85b6f2266e101666103a",
+      "command": "node tests/exp-qexact.mjs(QEX_OUT / QEX_DET_REF で決定性の2回実行)"
+    },
+    "provenance": {
+      "git": {
+        "commit": "dd37d74b5a0f4eeac5a84a6d3a905b40803b3070",
+        "describe": "dd37d74-dirty",
+        "dirty": true,
+        "dirtyFiles": {
+          "count": 12,
+          "sample": [
+            "paper/README.md",
+            "paper/dfm-paper-ja.tex",
+            "paper/dfm-paper.tex",
+            "paper/dfm-paper2-ja.tex",
+            "paper/dfm-paper2.tex",
+            "paper/dfm-paper3-ja.tex",
+            "paper/dfm-paper3.tex",
+            "paper/data/"
+          ]
+        }
+      },
+      "target": {
+        "path": "index.html",
+        "sha256": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+        "bytes": 1665860,
+        "appVersion": "1.41"
+      },
+      "presets": {
+        "mode": "mixed",
+        "note": "Kt=134851663.17051244 は c₀²/G(physLock 条件)の値である。q 以外のキーは既存ハーネスと 1 つも違わない",
+        "ids": [
+          "mercuryRealKF1",
+          "saturnRingRealKF1",
+          "earthMoonRealKF1"
+        ],
+        "hashes": {
+          "mercuryRealKF1": "5f8c6b0e34807dcb364c916a8a8343b06a9d6a684d906c3c2139dbe390665bd6",
+          "saturnRingRealKF1": "698ba4e59e2c66bbee452a004c9202cbe32391c1ad91587def5cc8a6fb41a9b7",
+          "earthMoonRealKF1": "8eda5b04937ea4e754f1c4f9f674320b6761b67d0f2f85aa16ac66792074b4d0"
+        },
+        "canonicalization": "HP.allPresets() の当該プリセットを再帰キー整列した JSON の SHA-256",
+        "modifiedAtRuntime": "なし(プリセットは読み取り専用)",
+        "declaration": "走行構成はすべて動的構成(内蔵プリセットを読まず、既存ハーネスの宣言値を逐語転記して build する)。内蔵プリセットは**事前登録窓(claims.expected)の機械読み取り**にだけ使い、走行には使わない",
+        "declaredIn": "🪨🌘 = exp-kf1c mkMerc/mkEM の逐語転記 / 💿 = exp-kf1d §B の逐語転記 / 🟠 = exp-jupiter HARNESS の逐語転記",
+        "configSha256": "4ac4a1c3632e38b465ee4a03591af97db63b245254635d9fc948b5143a59b609",
+        "configCanonicalization": "宣言済み構成(configs)を再帰キー整列した JSON の SHA-256"
+      }
+    },
+    "numerics": {
+      "seed": 1,
+      "dt": {
+        "mercuryEarthMoonRing": 0.016,
+        "jupiter": "T_IO/2000(= 2000 步/イオ公転)"
+      },
+      "timeScale": 1,
+      "substeps": "not-applicable",
+      "steps": {
+        "mercuryEarthMoon": "ceil(8·T_K/0.016)",
+        "ring": "ceil(6·T(a=80)/0.016)",
+        "jupiter": "round(20 × 2000) = 40000"
+      },
+      "window": {
+        "mercury": "8 公転",
+        "earthMoon": "8 公転",
+        "ring": "6 × 内縁(a=80)公転",
+        "jupiter": "20 イオ公転"
+      },
+      "warmup": "not-applicable",
+      "lsqSampling": "🪨🌘 は ≤4000 標本・🟠 は ≤8000 標本(いずれも転記元と同一)",
+      "precision": "stateCarry:\"double\"(全系 — 転記元と同一)"
+    },
+    "environment": {
+      "node": "v22.22.2",
+      "platform": "linux/x64",
+      "playwright": "playwright@1.61.1",
+      "browser": "Playwright Chromium 141.0.7390.37",
+      "date": "2026-08-22T01:13:20.181Z",
+      "tz": "UTC"
+    },
+    "classification": {
+      "note": "**本便は較正を一切行わない**(fit=[])。動かすノブは q ただ1つで、その値は当てはめではなく既知量からの算出値(厳密一致式)である。判定窓も既存の事前登録窓をそのまま流用しており、本便で新設した窓は1つもない",
+      "input": [
+        "🪨🌘💿🟠 の実単位の質量・半径・自転・軌道要素(観測由来の外部入力 — 転記元と同一)",
+        "D₀=0.006(既存の共有較正値をそのまま使用 — 本便での再フィットはゼロ)",
+        "初速較正係数 f=0.9968(🌘 の既存値をそのまま使用)",
+        "dt・seed・窓・步数(いずれも転記元と同一)",
+        "第141便系列の参照 q_exact 値 6.147 / 8.236 / 20.49 / 12.06(転記照合の照合先)"
+      ],
+      "fit": [],
+      "derived": [
+        "q* = 3 + ln(1.25·c₀²R/(GM))/ln((R+a)/R)(既知量だけから計算)",
+        "q_exact = q* + 3·ln(a/(R+a))/ln((R+a)/R)(同上 — 本便で置換する唯一の量)",
+        "引きずり歳差 Δϖ(kF1)−Δϖ(kF0)(🪨💿)",
+        "近点回転比 Δϖ/0.05311(🌘)",
+        "JW2 条件(|Δa|/a・周期ずれ — 🟠)",
+        "q* 走行との相対差(QW2)"
+      ],
+      "holdOut": []
+    },
+    "judgement": {
+      "pointers": [
+        "preRegistered.QW1",
+        "preRegistered.QW2",
+        "preRegistered.QW3",
+        "transcription",
+        "qw1Summary",
+        "baselineBitSummary",
+        "qw3",
+        "systems.mercury.QW1",
+        "systems.earthMoon.QW1",
+        "systems.saturnRing.QW1",
+        "systems.jupiter.QW1",
+        "systems.mercury.QW2",
+        "systems.earthMoon.QW2",
+        "systems.saturnRing.QW2",
+        "systems.jupiter.QW2",
+        "claimWindows",
+        "targetConsistency"
+      ],
+      "note": "窓は実測前に固定してあり実測後に動かしていない(preRegistered)。窓の数値の出典は各 systems.*.window.source にある(🪨💿 は対象 HTML の claims から機械読み取り・🌘 は exp-kf1c §D2・🟠 は exp-jupiter の JW2)。基線再測のビット照合は baselineBitSummary にある",
+      "externalReferences": [
+        "🪨 水星の 1PN 解析値 5.02e-7 rad/公転(kf1c §D1 の窓の分母)",
+        "🌘 の近点回転 0.05311 rad/公転(8.85 年)・恒星月 27.3217 日",
+        "🟠 4衛星の恒星公転周期(NASA の惑星衛星 fact sheet 系 — exp-jupiter.mjs の帰属に従う)",
+        "第141便系列の参照 q_exact 値 6.147 / 8.236 / 20.49 / 12.06"
+      ]
+    },
+    "health": {
+      "nan": {
+        "instrumented": true,
+        "flagsFound": 12,
+        "anyTrue": false,
+        "truePaths": [],
+        "numericNaNInPayload": 0,
+        "note": "結果ペイロード内の nan/hasNaN フラグを走査して集計した値(再測定はしていない)。numericNaNInPayload は JSON 化後に NaN として残った数値の件数(JSON.stringify では null になるため通常 0)"
+      },
+      "clamps": {
+        "aggregate": "not-instrumented",
+        "lastBuild": {
+          "clampVN": 0,
+          "clampSN": 0,
+          "clampHN": 0,
+          "clampAN": 0,
+          "clampRN": 0,
+          "angOvfN": 0,
+          "n": 5
+        },
+        "lastBuildTotal": 0,
+        "note": "エンジンのクランプ計数は sim.build() ごとに 0 へリセットされるため、ここに記録できるのは**この実行で最後に build した構成**の計数だけである(全構成を横断した集計は未計装)。lastBuildTotal>0 なら少なくとも最終構成で安全クランプが発動している(保存則主張の域外)"
+      },
+      "conservation": {
+        "status": "not-instrumented",
+        "note": "本ハーネスは保存量残差を記録していない(記録しているのは軌道要素のドリフト・振幅・NaN フラグ)"
+      }
+    },
+    "regeneration": {
+      "canonicalization": "再生成時のペイロード照合は `manifest` キーを除外して行う(manifest は実行ごとに日時・環境・git 状態が変わる非測定メタである)。除外後の全キーは同一スクリプト・同一対象・同一 seed/步数で bit 一致することを要求する",
+      "payloadKeysExcluded": [
+        "manifest",
+        "meta"
+      ],
+      "note": "meta(日時・経過時間)は非測定メタなので照合対象外。決定性の照合対象は out.systems のみ"
+    }
+  }
+}

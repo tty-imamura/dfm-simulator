@@ -1,9 +1,9 @@
 # paper/ — arXiv 向け第1論文(software / computational toy model paper)
 
-- **現行稿 = v0.10**(2026-08-21・第156便)/ **version of record = v0.9**
+- **現行稿 = v0.11**(2026-08-22・第161便)/ **version of record = v0.9**
   (2026-07-20 確定・第143便の組版/書誌パスを含む)。現行稿は記録版の
   **post-record editorial revision** であり、数値・claims・式・窓は v0.9 から
-  1つも動いていない(表記の正準化〔K_t → κ〕・副題・組版のみ)。Zenodo への再登録は
+  1つも動いていない(表記の正準化〔K_t → κ〕・副題・組版・文言のみ)。Zenodo への再登録は
   投稿時作業(`dfm-paper.tex` 冒頭 TODO(release))。
   版表記はここと `dfm-paper.tex` 冒頭の "CURRENT VERSION"/"VERSION OF RECORD" 行の
   2箇所だけで、常に一致させる(第143便で v0.8/v0.9/README v0.7 の三重表記を解消)。
@@ -11,7 +11,12 @@
   v0.3 英文校閲 → v0.4 E12 節 → v0.5 第6次査読=論文・コード一致回復 →
   v0.6 タイトル変更(4-19)→ v0.7 公開前整合 → v0.8 標準資料引用 →
   v0.9 提出版タグ+Zenodo DOI 確定 → 第143便 組版・書誌のみ〔主張・数値は不変〕→
-  v0.10 第156便 図5見出しの κ 変換とメタデータ統一〔主張・数値は不変〕)。
+  v0.10 第156便 図5見出しの κ 変換とメタデータ統一〔主張・数値は不変〕→
+  v0.11 第161便 外部レビュー第4巡の文言対応〔主張・数値は不変〕: 要旨の E12 に
+  静的・単一支配源・test-particle 較正という限定を明記(P1-1)、序論(§I B)に主張の
+  3階層(実装が基準値を再現/モデル拡張が述べた領域で較正/物理機構が独立に検証)を
+  分離する段落と E12 導入動機の丁寧化(P1-2)、要旨に平面上で 1/d² を措定する理由の
+  1文(M-4))。
 - **対象の分離**: 本論文が記述するのは提出タグ `paper-v1`(release v1.27.0 系)で
   あって、リポジトリの HEAD ではない。現行アプリは **v1.41.0**(リリース済み —
   beta v1.41-b1 から昇格)で、プリセット・エンジンオプション・ゲート件数はすでに
@@ -119,8 +124,14 @@ grep で機械確認する:
 
 # 第2論文「箱宇宙」(dfm-paper2.tex / dfm-paper2-ja.tex)
 
-- 現行稿 **v0.9**(2026-08-21 第156便 — Code and data availability の現在形化・
-  要旨の免責圧縮・所属統一。数値・ゲート・図は不変)。v0.8 は 2026-07-31 第51便
+- 現行稿 **v0.10**(2026-08-22 第161便 — 外部レビュー第4巡の文言・書誌対応。
+  数値・ゲート・図は不変): ハッブルテンション記述を Planck/SH0ES の2値対立から
+  「JWST 期の複数の距離梯子解析に幅がある」記述へ(P1-3。Freedman et al. 2024 を
+  新規 bibitem として追加し、既収載の Riess et al. 2024 と併せて引用 — 両者に
+  TODO(ref-verify))、序論に「解決提案ではない」再強調1文・結論部に a→∞ でプローブ比が
+  0 へ収束する挙動は実宇宙に適用できない旨の強調1文(M-2)。
+  v0.9 は 2026-08-21 第156便(Code and data availability の現在形化・要旨の免責圧縮・
+  所属統一。数値・ゲート・図は不変)。v0.8 は 2026-07-31 第51便
   (外部査読対応の Major revision)、図8点の機械生成と組み込みは v0.4(第46便 46F)。
   改稿履歴は `dfm-paper2.tex` 冒頭コメント。
 - 執筆指示書は内部開発文書 HANDOFF_PAPER2_WRITE.md v1.1(唯一の正本・非公開管理)。
@@ -170,7 +181,7 @@ boxredshift・rotorSolo は beta 先行)。各図の `.json` に生成パラメ�
 - **番号再編(2026-08-16 裁定)**: 論文3のテーマを**現実較正**とし、執筆中だった
   「スケール横断の創発」ドラフト(旧 dfm-paper3)は**内容不変のまま論文4へ繰り下げ**
   (`dfm-paper4.tex` / `dfm-paper4-ja.tex` v0.3)。
-- **dfm-paper3.tex / dfm-paper3-ja.tex(現行稿 v1.1 / v1.1-ja — 2026-08-21 第156便。
+- **dfm-paper3.tex / dfm-paper3-ja.tex(現行稿 v1.2 / v1.2-ja — 2026-08-22 第161便。
   初出の全文稿は v1.0-draft)**: 現実較正テーマの全文稿。
   柱は ①43″/世紀の力学直接再現(比1.002)②kF1 安定性の単位系依存 ③運動引きずりによる
   月の近点回転 8.85年の較正再現 ④共通補正 (D₀=0.006) の qLock 導出規則への純化 — 全章を
@@ -182,8 +193,19 @@ boxredshift・rotorSolo は beta 先行)。各図の `.json` に生成パラメ�
   非零 LT 比も保存しない(比は d^(3−q*) で消える)。第141便の「遠方近似の LT 級
   振幅規約」という表現は漸近命題として偽なので撤回した(数値・窓は一切不変)。
   木星 hold-out も「規則が選ぶ強減衰クラス(q≳8)の検証」へ範囲を狭めて記述する。
+  **第161便(v1.2)で外部レビュー第4巡に対応**(実測値の手書きはゼロ — 本文へ新規に
+  入る数値はすべてコミット済み結果 JSON からの機械転記であり、JSON と機械照合済み):
+  木星入力表を `paper/data/jovian-satellites.csv` として恒久保存し、本文から sha256 の
+  先頭12桁付きで参照(P0-1)/ 第162便の JUP365 ソース依存性(UW1〜UW4)を第VI節Fに
+  短い段落+小表として収載(P0-2。**比較対象は fact-sheet 系のまま不変**)/ 要旨に
+  半径方向監査の 2 PASS・3 FAIL を明記(P1-6)/ 木星の高q対照を「q=3 と飽和した
+  高qクラス(q=8〜14 で鈍感)を区別するストレステスト」と表現(P1-7)/ 本文未引用の
+  `\bibitem{DFM4}` を削除(P1-8。削除理由はコメントで保持)/ M-3 の小追記3点
+  (単位系ロックの直感的解説・qLock 遠方減衰の定量注記・8.85年一致を「偶然か構造か」
+  現時点では判定しない旨)。
   計測正本: tests/exp-obscal.mjs・exp-kf1.mjs・exp-kf1b.mjs・
-  exp-kf1c.mjs・exp-kf1d.mjs・exp-qlockradial.mjs・exp-jupiter.mjs / docs/PHYSICS.md §5。
+  exp-kf1c.mjs・exp-kf1d.mjs・exp-qlockradial.mjs・exp-jupiter.mjs・
+  **exp-jup365.mjs**(第162便) / docs/PHYSICS.md §5。
 - ビルドは第1・2論文と同じ(英語版 pdflatex ×2 / 日本語版 lualatex ×2)。
   CI は `.github/workflows/paper3.yml`(第140便)が paper2 と同格のゲートを張る:
   図再生成+**回帰整合ゲート(regression/consistency gates)** → コミット済み JSON との
@@ -216,19 +238,57 @@ FIG=3,4 node tools/gen-figures3.mjs  # 個別再生成
 
 ---
 
+# `paper/data/` — 論文が引く観測入力の恒久保存(第161便 P0-1 で新設)
+
+論文が比較対象として引く観測値のうち、**転記元がリダイレクトしうるウェブ資料**の
+ものを、機械可読な転記記録としてリポジトリ内に保存する場所。出典そのものではなく
+**転記の記録**である(値は必ずハーネスの宣言値と1桁も違わないこと)。
+
+| ファイル | 内容 | sha256(先頭12桁) |
+|---|---|---|
+| `jovian-satellites.csv` | 木星 hold-out(論文3 第VI節F)の観測入力36行。木星の質量・半径・自転周期、ガリレオ衛星4個の軌道長半径・離心率・質量・半径・同期自転・恒星公転周期、2次元理想化が捨てる軌道傾斜、および JUP365 比較周期4件 | `81bcb3807281` |
+
+- 列: `body, quantity, value, unit, source, retrieved, note`(純 CSV — コメント行なし)。
+- `unit` は**ハーネスの宣言単位**(`1e7 m` / `1e26 kg` / `rad/(1e3 s)` / `d` / `deg` / `1`)。
+  SI 換算は `note` に併記する。
+- `source` は論文3の bibitem キー(`NASAFact` / `NASASats`)。導出値は `derived`
+  (同期自転など — 観測値ではないことを `note` で明示)。
+- JUP365 の4行は `JUP365-secondary`。**原表未検証の二次転写**であり、
+  取得日 2026-08-22・TODO(ref-verify)・「原表と食い違えば行を破棄して再実測する
+  (値の書き換えはしない)」旨・JPL が mean elements を精密暦計算向けとしていない旨を
+  `note` に明記してある。
+- 本文からの参照は sha256 の先頭12桁付きで行う(論文3 第VI節F とデータ可用性の節)。
+  **ファイルを1バイトでも変更したら sha256 を再計算し、英日の本文・コメントの12桁を
+  必ず同時に更新すること**(本文2箇所+コメント2箇所 × 英日 = 計8箇所)。
+
+```sh
+sha256sum paper/data/jovian-satellites.csv   # 本文の12桁と先頭一致すること
+```
+
+---
+
 # 頁数(ローカルビルド実測)
 
-2026-08-21(第156便)にこのリポジトリ内でビルドした実測値。arXiv の Comments 欄・
-投稿フォームの頁数はここを正とする。
+2026-08-22(第161便)にこのリポジトリ内でビルドした実測値。arXiv の Comments 欄・
+投稿フォームの頁数はここを正とする。括弧内は第156便(v0.10 / v0.9 / v1.1 世代)の実測値。
 
 | 原稿 | 版 | エンジン | 頁数 |
 |---|---|---|---|
-| `dfm-paper.tex` | v0.10(記録版 v0.9) | pdflatex ×2 | 17 |
-| `dfm-paper-ja.tex` | v1.1-ja | lualatex ×2 | 21 |
-| `dfm-paper2.tex` | v0.9 | pdflatex ×2 | 10 |
-| `dfm-paper2-ja.tex` | v0.9-ja | lualatex ×2 | 11 |
-| `dfm-paper3.tex` | v1.1 | pdflatex ×2 | 20 |
-| `dfm-paper3-ja.tex` | v1.1-ja | lualatex ×2 | 25 |
+| `dfm-paper.tex` | v0.11(記録版 v0.9) | pdflatex ×2 | 18(前 17) |
+| `dfm-paper-ja.tex` | v1.2-ja | lualatex ×2 | 21(前 21) |
+| `dfm-paper2.tex` | v0.10 | pdflatex ×2 | 10(前 10) |
+| `dfm-paper2-ja.tex` | v0.10-ja | lualatex ×2 | 11(前 11) |
+| `dfm-paper3.tex` | v1.2 | pdflatex ×2 | 21(前 20) |
+| `dfm-paper3-ja.tex` | v1.2-ja | lualatex ×2 | 27(前 25) |
+
+**overfull 差分(第161便)**: 6ファイルとも overfull 件数は第156便と**同数・同内容**である(`dfm-paper` 1件 / `dfm-paper2` 0件 / `dfm-paper3` 1件 /
+`dfm-paper-ja` 5件 / `dfm-paper2-ja` 0件 / `dfm-paper3-ja` 0件)。第161便で新規に
+出た2件は同便中に解消済み: ①論文3英語版で `\date` に4つめの "revised ..." 節を
+足すと表題ブロックが 7.9pt 溢れたため、改訂日を1行にまとめた ②論文1日本語版で
+要旨に2点を足すと `\twocolumn[...]` が1頁に収まらず Overfull \vbox が3件
+(32.8pt ×2・16.0pt)出たため、表題ブロックの英語併記を `\small` へ・空きを
+12pt→8pt / 10pt→6pt へ・要旨枠を 0.92→0.95`\textwidth` へ詰めた(文言・数値は不変。
+日本語版の要旨追記は英語版より簡潔な言い回しにしてあり、内容は等価)。
 
 **注記**: ローカル TeX Live での実測であり、CI(`paper1.yml` / `paper2.yml` /
 `paper3.yml` が入れる TeX Live)とは **±1頁の差がありうる**(パッケージ版差による

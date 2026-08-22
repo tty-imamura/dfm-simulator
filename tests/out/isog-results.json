@@ -1,0 +1,1765 @@
+{
+  "target": "index.html",
+  "wave": 165,
+  "title": "iso-g 対照(同一ループ利得 g を別経路で構成したときの amp 一致性)",
+  "preRegistered": {
+    "fixedBy": "統括(ハンドオフ 2026-08-22a §3b)",
+    "fixedBefore": "実測",
+    "targetsG": {
+      "verbatim": "目標 g 3点: {4.1×10⁻³, 8.9×10⁻³, 5.0×10⁻²}。各 g を (i) k_sat 経路(D₀=0.006 基準値固定・k_sat 可変) (ii) D₀ 経路(k_sat=1 固定・D₀ 可変) (iii) 混合経路(k_sat=0.5 固定・D₀ 可変)の3経路で構成。",
+      "values": [
+        0.0041,
+        0.0089,
+        0.05
+      ],
+      "provenance": "4.1e-3 = obscal §F の安定側最大 g(D₀ 経路 D₀=2)・8.9e-3 = 不安定側最小 g(k_sat 経路 kSat=0.05・D₀=0.1)・5.0e-2 = §F の D₀=0.3 点の g(境界より上の対照)",
+      "routes": {
+        "kSat": {
+          "knob": "kSat",
+          "fixed": {
+            "D0": 0.006
+          },
+          "note": "事前登録どおり D₀=0.006 を固定値として用いる"
+        },
+        "D0": {
+          "knob": "D0",
+          "fixed": {
+            "kSat": 1
+          }
+        },
+        "mixed": {
+          "knob": "D0",
+          "fixed": {
+            "kSat": 0.5
+          }
+        }
+      }
+    },
+    "IW1": {
+      "role": "窓(構成可能性)",
+      "verbatim": "IW1(構成可能性): 全 3g × 3経路で g 合わせが二分法収束(|Δg|/g ≤ 1e-6)。",
+      "tolerance": 0.000001,
+      "failRule": "万一収束しない点があれば IW1 のその点を FAIL のまま収載する(窓・目標値の変更禁止)"
+    },
+    "IW2": {
+      "role": "主窓",
+      "verbatim": "IW2(主窓): 同一 g の経路間 amp 相対差 (max−min)/max ≤ 10% なら「g は当該点で組織化変数として成立」、超えれば経路依存の定量記録(FAIL は論文3 route-dependent 記述の定量的裏付けとしてそのまま収載 — どちらも価値がある)。g 3点それぞれで判定。",
+      "tolerance": 0.1,
+      "statistic": "(max(amp) − min(amp)) / max(amp)(同一 g の3経路にわたって)"
+    },
+    "IW3": {
+      "role": "記述(窓なし — 判定に使わない)",
+      "verbatim": "IW3(記述 — 窓なし): 各 iso-g 点の dt/2 収束差・初期位相 90° ずらし対照を記録(数値床宣言付き)。",
+      "window": "なし(記述のみ)",
+      "floorDeclaration": "初期位相 90° ずらしは構成の厳密な回転対称操作((x,y)→(−y,x)・(vx,vy)→(−vy,vx) — 倍精度で誤差ゼロの四半回転)であり、外力場も境界も等方(gravityX=gravityY=0・boundary:\"none\")なので、解析的には amp が 1 bit も変わらないはずの対照である。したがってそこで出た |Δamp| が**この測定の数値床**(和の順序・平方根・カオス的増幅による下限)である。dt/2 の差は数値床と離散化誤差の合計であって、床を下回る差には意味がない"
+    },
+    "IW4": {
+      "role": "窓(決定性)",
+      "verbatim": "IW4(決定性): 2回実行 SHA 一致。",
+      "canonicalization": "対象は out.transcription / out.isog / out.supplementary(実測部)のみ。揮発値(日時・経過時間・環境)は meta / manifest 側にしか置かない"
+    },
+    "invariants": {
+      "verbatim": "既存ファイル(exp-obscal.mjs・obscal-results.json 等)は一切変更しない。amp 定義・走行窓・地球月構成・数値床は §F から転記のまま(再定義禁止)。",
+      "transcriptionCheck": "§F の既存グリッド点(k_sat=1/0.5/0.25/0.1/0.05 @ D₀=0.1 と D₀=0.1/0.3/1/2/5 @ k_sat=1)を再走行し、obscal-results.json の χ_sat/χ_M/g/amp とビット一致することを確認してから本測定に入る"
+    },
+    "knownInconsistencyInBrief": {
+      "what": "事前登録の注記は「k_sat 経路は χ_M≈0.94 がほぼ固定のため、g=4.1e-3 には χ_sat≈4.4e-3 が要る」と述べているが、χ_M≈0.94 は **D₀=0.1**(§F の基準背景値)での値である。事前登録が固定した D₀=0.006 では χ_M=0.9962 で、g=4.1e-3 に必要な χ_sat は ≈4.12e-3 になる。",
+      "handling": "**窓は動かさない** — 事前登録の文言どおり k_sat 経路は D₀=0.006 固定で構成し、それをIW1/IW2 の判定対象とする。注記の前提だった D₀=0.1 での k_sat 経路は、判定に使わない**補助経路**(out.supplementary)として同じ手順で併走させ、統括がどちらの解釈でも読めるようにする。",
+      "feasibility": "D₀=0.006 でも 3 目標とも χ_sat≤1 の範囲で構成可能である(必要 kSat は 1.3×10⁻³ / 2.8×10⁻³ / 1.7×10⁻² 程度 — 実測値は out.isog に入る)"
+    }
+  },
+  "targetConsistency": {
+    "target": "index.html",
+    "sha256Now": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+    "inputs": [
+      {
+        "path": "tests/out/obscal-results.json",
+        "targetPath": "beta/index.html",
+        "targetSha256": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+        "sameAsNow": true
+      }
+    ],
+    "allSame": true,
+    "note": "入力 JSON の実測を出した対象 HTML と本便の対象が同一実体かの照合。一致していれば転記照合のビット一致が「転記が正しいこと」の証拠として機能する"
+  },
+  "provenanceInputs": [
+    {
+      "path": "tests/out/obscal-results.json",
+      "sha256": "3ac9ba57f46c406f6eeb42f37c19f9217d5eaabe98b35227dbff7682311b0565",
+      "bytes": 20962,
+      "targetPath": "beta/index.html",
+      "targetSha256": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+      "appVersion": "1.41",
+      "gitCommit": "fbaef3a4884f3499ba1d63612d4847fcae09200d",
+      "role": "第111〜116便の実測正本(§F の地球月構成・amp 定義・走行窓・用量反応グリッドの出典。転記の正しさは本便のグリッド再走行との bit 照合で機械証明する)",
+      "mutated": false
+    }
+  ],
+  "transcription": {
+    "source": "tests/exp-obscal.mjs §F(第116便)+ tests/out/obscal-results.json tests.kframeStability.dose",
+    "amplitudeDefinition": "amp = (r_max − r_min) / ((r_max + r_min)/2)(相対距離の走行窓内 min/max)",
+    "windowDefinition": "dt=0.016・steps = ceil(2.1·T_K/dt)(固定步数・早期打ち切りなし)",
+    "chiDefinition": "χ_sat = (m2/a)/(D₀+m2/a)・χ_M = (M/a)/(D₀+M/a)・g = χ_sat·χ_M(a は長半径。§F の宣言式そのまま — エンジン内部の w は瞬時距離 r で決まるので一致しない。両者の差は engineChi に記録する)",
+    "constants": {
+      "M0": 5.9724,
+      "m20": 0.07346,
+      "a": 3.844,
+      "e": 0.0549,
+      "note": "M0=地球・m20=月・a=3.844(実 3.844e8 m)・e=0.0549。kSat 経路は m2←kSat·m20 と M←M0+(1−kSat)·m20 で GM 合計を厳密保存する(= 周期 T_K と步数が全点で同一)"
+    },
+    "physics": {
+      "G": 0.006674,
+      "cLight": 30000,
+      "Kt": 1000000000,
+      "q": 3,
+      "D0": 0.1,
+      "kFrame": 1,
+      "geoPN": 2,
+      "lambdaPN": 1,
+      "pnAlpha": 1.5,
+      "kRep": 0,
+      "muF": 0,
+      "gammaN": 0,
+      "kappaS": 0,
+      "bM": 1,
+      "etaRad": 0,
+      "pRad": 4,
+      "gravityX": 0,
+      "gravityY": 0,
+      "radiusScale": 0.2,
+      "softening": 0.1,
+      "timeScale": 1,
+      "stateCarry": "double"
+    },
+    "rows": [
+      {
+        "route": "kSat",
+        "kSat": 1,
+        "D0": 0.1,
+        "chi": 0.16044205652382823,
+        "chiM": 0.939529322929776,
+        "gain": 0.1507400167352932,
+        "amp": 1.9958660002828283,
+        "nan": false,
+        "reference": {
+          "chi": 0.16044205652382823,
+          "chiM": 0.939529322929776,
+          "gain": 0.1507400167352932,
+          "amp": 1.9958660002828283,
+          "nan": false
+        },
+        "bitIdentical": true,
+        "ampRelDiff": 0
+      },
+      {
+        "route": "kSat",
+        "kSat": 0.5,
+        "D0": 0.1,
+        "chi": 0.08721772374326217,
+        "chiM": 0.9398767191207361,
+        "gain": 0.08197390804099598,
+        "amp": 1.9947245530270874,
+        "nan": false,
+        "reference": {
+          "chi": 0.08721772374326217,
+          "chiM": 0.9398767191207361,
+          "gain": 0.08197390804099598,
+          "amp": 1.9947245530270874,
+          "nan": false
+        },
+        "bitIdentical": true,
+        "ampRelDiff": 0
+      },
+      {
+        "route": "kSat",
+        "kSat": 0.25,
+        "D0": 0.1,
+        "chi": 0.04559730860427296,
+        "chiM": 0.9400489246938697,
+        "gain": 0.04286370092238133,
+        "amp": 1.5110325990700422,
+        "nan": false,
+        "reference": {
+          "chi": 0.04559730860427296,
+          "chiM": 0.9400489246938697,
+          "gain": 0.04286370092238133,
+          "amp": 1.5110325990700422,
+          "nan": false
+        },
+        "bitIdentical": true,
+        "ampRelDiff": 0
+      },
+      {
+        "route": "kSat",
+        "kSat": 0.1,
+        "D0": 0.1,
+        "chi": 0.01875194641425822,
+        "chiM": 0.9401517753468285,
+        "gain": 0.01762967571257346,
+        "amp": 1.04139078937112,
+        "nan": false,
+        "reference": {
+          "chi": 0.01875194641425822,
+          "chiM": 0.9401517753468285,
+          "gain": 0.01762967571257346,
+          "amp": 1.04139078937112,
+          "nan": false
+        },
+        "bitIdentical": true,
+        "ampRelDiff": 0
+      },
+      {
+        "route": "kSat",
+        "kSat": 0.05,
+        "D0": 0.1,
+        "chi": 0.009464714113066356,
+        "chiM": 0.9401859805212315,
+        "gain": 0.008898591518746429,
+        "amp": 1.0405672438902978,
+        "nan": false,
+        "reference": {
+          "chi": 0.009464714113066356,
+          "chiM": 0.9401859805212315,
+          "gain": 0.008898591518746429,
+          "amp": 1.0405672438902978,
+          "nan": false
+        },
+        "bitIdentical": true,
+        "ampRelDiff": 0
+      },
+      {
+        "route": "D0",
+        "kSat": 1,
+        "D0": 0.1,
+        "chi": 0.16044205652382823,
+        "chiM": 0.939529322929776,
+        "gain": 0.1507400167352932,
+        "amp": 1.9958660002828283,
+        "nan": false,
+        "reference": {
+          "chi": 0.16044205652382823,
+          "chiM": 0.939529322929776,
+          "gain": 0.1507400167352932,
+          "amp": 1.9958660002828283,
+          "nan": false
+        },
+        "bitIdentical": true,
+        "ampRelDiff": 0
+      },
+      {
+        "route": "D0",
+        "kSat": 1,
+        "D0": 0.3,
+        "chi": 0.05988619503366866,
+        "chiM": 0.8381609969686763,
+        "gain": 0.05019427293408032,
+        "amp": 0.8704880461807737,
+        "nan": false,
+        "reference": {
+          "chi": 0.05988619503366866,
+          "chiM": 0.8381609969686763,
+          "gain": 0.05019427293408032,
+          "amp": 0.8704880461807737,
+          "nan": false
+        },
+        "bitIdentical": true,
+        "ampRelDiff": 0
+      },
+      {
+        "route": "D0",
+        "kSat": 1,
+        "D0": 1,
+        "chi": 0.018751946414258217,
+        "chiM": 0.6084104152235035,
+        "gain": 0.011408879504147729,
+        "amp": 0.2187941459450699,
+        "nan": false,
+        "reference": {
+          "chi": 0.018751946414258217,
+          "chiM": 0.6084104152235035,
+          "gain": 0.011408879504147729,
+          "amp": 0.2187941459450699,
+          "nan": false
+        },
+        "bitIdentical": true,
+        "ampRelDiff": 0
+      },
+      {
+        "route": "D0",
+        "kSat": 1,
+        "D0": 2,
+        "chi": 0.009464714113066356,
+        "chiM": 0.43720535269831046,
+        "gain": 0.004138023671991853,
+        "amp": 0.1528908191456784,
+        "nan": false,
+        "reference": {
+          "chi": 0.009464714113066356,
+          "chiM": 0.43720535269831046,
+          "gain": 0.004138023671991853,
+          "amp": 0.1528908191456784,
+          "nan": false
+        },
+        "bitIdentical": true,
+        "ampRelDiff": 0
+      },
+      {
+        "route": "D0",
+        "kSat": 1,
+        "D0": 5,
+        "chi": 0.0038075078290778328,
+        "chiM": 0.2370714977532907,
+        "gain": 0.0009026515837468621,
+        "amp": 0.12506025842651156,
+        "nan": false,
+        "reference": {
+          "chi": 0.0038075078290778328,
+          "chiM": 0.2370714977532907,
+          "gain": 0.0009026515837468621,
+          "amp": 0.12506025842651156,
+          "nan": false
+        },
+        "bitIdentical": true,
+        "ampRelDiff": 0
+      }
+    ],
+    "allBitIdentical": true,
+    "gStarReference": {
+      "maxStable": 0.004138023671991853,
+      "minUnstable": 0.008898591518746429
+    }
+  },
+  "isog": {
+    "targetsG": [
+      0.0041,
+      0.0089,
+      0.05
+    ],
+    "routes": [
+      {
+        "id": "kSat",
+        "label": "k_sat 経路(D₀=0.006 固定・k_sat 可変)",
+        "knob": "kSat",
+        "fixedD0": 0.006,
+        "fixedKSat": null
+      },
+      {
+        "id": "D0",
+        "label": "D₀ 経路(k_sat=1 固定・D₀ 可変)",
+        "knob": "D0",
+        "fixedD0": null,
+        "fixedKSat": 1
+      },
+      {
+        "id": "mixed",
+        "label": "混合経路(k_sat=0.5 固定・D₀ 可変)",
+        "knob": "D0",
+        "fixedD0": null,
+        "fixedKSat": 0.5
+      }
+    ],
+    "searchIntervals": {
+      "kSat": {
+        "lo": 1e-9,
+        "hi": 1,
+        "rationale": "質量補正係数 kSat は 0<kSat≤1(月の質量を増やさない範囲)。下限 1e-9 は g→0 側を確実に挟むための実用下限"
+      },
+      "D0": {
+        "lo": 0.000001,
+        "hi": 1000000,
+        "rationale": "背景決定力 D₀>0。1e-6 では χ→1(g→1)・1e6 では g→0 で、目標 3 点を確実に挟む"
+      }
+    },
+    "maxIter": 200,
+    "points": [
+      {
+        "gTarget": 0.0041,
+        "route": "kSat",
+        "routeLabel": "k_sat 経路(D₀=0.006 固定・k_sat 可変)",
+        "knob": "kSat",
+        "searchInterval": {
+          "lo": 1e-9,
+          "hi": 1,
+          "rationale": "質量補正係数 kSat は 0<kSat≤1(月の質量を増やさない範囲)。下限 1e-9 は g→0 側を確実に挟むための実用下限"
+        },
+        "bracketed": true,
+        "increasing": true,
+        "gAtLo": 3.1729459973758517e-9,
+        "gAtHi": 0.7581265397106003,
+        "iterations": 22,
+        "converged": true,
+        "maxIter": 200,
+        "knobValue": 0.0012975158987646267,
+        "kSat": 0.0012975158987646267,
+        "D0": 0.006,
+        "m2": 0.00009531551792324947,
+        "M": 6.045764684482077,
+        "chiSat": 0.004115644862193088,
+        "chiM": 0.9961995961331098,
+        "gAchieved": 0.004100003749544063,
+        "gRelErr": 9.145229420462678e-7,
+        "engineChi": {
+          "wSat": 0.002751530846580863,
+          "wM": 1.663510799407959,
+          "chiSat": 0.314405661685562,
+          "chiM": 0.9964061328611186,
+          "gain": 0.31327572950975197,
+          "note": "エンジンの重み S.sumW は瞬時距離 r(=近点 rp)で決まるため、§F の宣言式(a=長半径)とは一致しない。判定に使うのは宣言式のほう(記述のみの併記)"
+        },
+        "iw1": {
+          "pass": true,
+          "tolerance": 0.000001,
+          "relErr": 9.145229420462678e-7
+        },
+        "run": {
+          "amp": 1.9990315531174867,
+          "nan": false,
+          "rmin": 0.15215188792567805,
+          "rmax": 628.2845364757491,
+          "TK": 235.7397358434899,
+          "dt": 0.016,
+          "steps": 30941
+        },
+        "consistency": {
+          "chiSame": true,
+          "chiMSame": true,
+          "gainSame": true
+        },
+        "iw3": {
+          "dtHalf": {
+            "dt": 0.008,
+            "steps": 61882,
+            "amp": 1.9999731203239717,
+            "nan": false,
+            "ampDiff": 0.0009415672064849723,
+            "ampRelDiff": 0.0004710116781381224
+          },
+          "phase90": {
+            "amp": 1.9990315531174867,
+            "nan": false,
+            "ampDiff": 0,
+            "ampRelDiff": 0
+          }
+        }
+      },
+      {
+        "gTarget": 0.0041,
+        "route": "D0",
+        "routeLabel": "D₀ 経路(k_sat=1 固定・D₀ 可変)",
+        "knob": "D0",
+        "searchInterval": {
+          "lo": 0.000001,
+          "hi": 1000000,
+          "rationale": "背景決定力 D₀>0。1e-6 では χ→1(g→1)・1e6 では g→0 で、目標 3 点を確実に挟む"
+        },
+        "bracketed": true,
+        "increasing": false,
+        "gAtLo": 0.999947031347354,
+        "gAtHi": 2.9691515810189555e-14,
+        "iterations": 24,
+        "converged": true,
+        "maxIter": 200,
+        "knobValue": 2.011914912158649,
+        "kSat": 1,
+        "D0": 2.011914912158649,
+        "m2": 0.07346,
+        "M": 5.9724,
+        "chiSat": 0.00940918982095487,
+        "chiM": 0.4357443783175839,
+        "gAchieved": 0.004100001569004118,
+        "gRelErr": 3.8268393112243136e-7,
+        "engineChi": {
+          "wSat": 0.020212745293974876,
+          "wM": 1.643324375152588,
+          "chiSat": 0.009946592291998322,
+          "chiM": 0.44958051880685584,
+          "gain": 0.004471794122996879,
+          "note": "エンジンの重み S.sumW は瞬時距離 r(=近点 rp)で決まるため、§F の宣言式(a=長半径)とは一致しない。判定に使うのは宣言式のほう(記述のみの併記)"
+        },
+        "iw1": {
+          "pass": true,
+          "tolerance": 0.000001,
+          "relErr": 3.8268393112243136e-7
+        },
+        "run": {
+          "amp": 0.15263409650039397,
+          "nan": false,
+          "rmin": 3.630587981476699,
+          "rmax": 4.230524913589729,
+          "TK": 235.7397358434899,
+          "dt": 0.016,
+          "steps": 30941
+        },
+        "consistency": {
+          "chiSame": true,
+          "chiMSame": true,
+          "gainSame": true
+        },
+        "iw3": {
+          "dtHalf": {
+            "dt": 0.008,
+            "steps": 61882,
+            "amp": 0.15258881844868982,
+            "nan": false,
+            "ampDiff": -0.00004527805170415067,
+            "ampRelDiff": -0.0002966444113228217
+          },
+          "phase90": {
+            "amp": 0.15263409650039397,
+            "nan": false,
+            "ampDiff": 0,
+            "ampRelDiff": 0
+          }
+        }
+      },
+      {
+        "gTarget": 0.0041,
+        "route": "mixed",
+        "routeLabel": "混合経路(k_sat=0.5 固定・D₀ 可変)",
+        "knob": "D0",
+        "searchInterval": {
+          "lo": 0.000001,
+          "hi": 1000000,
+          "rationale": "背景決定力 D₀>0。1e-6 では χ→1(g→1)・1e6 では g→0 で、目標 3 点を確実に挟む"
+        },
+        "bracketed": true,
+        "increasing": false,
+        "gAtLo": 0.9998947157308489,
+        "gAtHi": 1.4937058669922223e-14,
+        "iterations": 23,
+        "converged": true,
+        "maxIter": 200,
+        "knobValue": 1.2743451635752914,
+        "kSat": 0.5,
+        "D0": 1.2743451635752914,
+        "m2": 0.03673,
+        "M": 6.009130000000001,
+        "chiSat": 0.0074422840908141205,
+        "chiM": 0.5509065104062107,
+        "gAchieved": 0.0041000027579220655,
+        "gRelErr": 6.726639183417158e-7,
+        "engineChi": {
+          "wSat": 0.010106372646987438,
+          "wM": 1.653430700302124,
+          "chiSat": 0.007868239759914535,
+          "chiM": 0.5647395077956529,
+          "gain": 0.00444350584923232,
+          "note": "エンジンの重み S.sumW は瞬時距離 r(=近点 rp)で決まるため、§F の宣言式(a=長半径)とは一致しない。判定に使うのは宣言式のほう(記述のみの併記)"
+        },
+        "iw1": {
+          "pass": true,
+          "tolerance": 0.000001,
+          "relErr": 6.726639183417158e-7
+        },
+        "run": {
+          "amp": 0.15027922071408004,
+          "nan": false,
+          "rmin": 3.629738296192723,
+          "rmax": 4.21952919723723,
+          "TK": 235.73973584348988,
+          "dt": 0.016,
+          "steps": 30941
+        },
+        "consistency": {
+          "chiSame": true,
+          "chiMSame": true,
+          "gainSame": true
+        },
+        "iw3": {
+          "dtHalf": {
+            "dt": 0.008,
+            "steps": 61882,
+            "amp": 0.15023863822311867,
+            "nan": false,
+            "ampDiff": -0.000040582490961366124,
+            "ampRelDiff": -0.000270047254494199
+          },
+          "phase90": {
+            "amp": 0.15027922071408004,
+            "nan": false,
+            "ampDiff": 0,
+            "ampRelDiff": 0
+          }
+        }
+      },
+      {
+        "gTarget": 0.0089,
+        "route": "kSat",
+        "routeLabel": "k_sat 経路(D₀=0.006 固定・k_sat 可変)",
+        "knob": "kSat",
+        "searchInterval": {
+          "lo": 1e-9,
+          "hi": 1,
+          "rationale": "質量補正係数 kSat は 0<kSat≤1(月の質量を増やさない範囲)。下限 1e-9 は g→0 側を確実に挟むための実用下限"
+        },
+        "bracketed": true,
+        "increasing": true,
+        "gAtLo": 3.1729459973758517e-9,
+        "gAtHi": 0.7581265397106003,
+        "iterations": 24,
+        "converged": true,
+        "maxIter": 200,
+        "knobValue": 0.002830249515192165,
+        "kSat": 0.002830249515192165,
+        "D0": 0.006,
+        "m2": 0.00020791012938601642,
+        "M": 6.0456520898706145,
+        "chiSat": 0.008933952057656116,
+        "chiM": 0.9961995256231385,
+        "gAchieved": 0.008899998801776885,
+        "gRelErr": 1.3463181061563446e-7,
+        "engineChi": {
+          "wSat": 0.002751530846580863,
+          "wM": 1.6634798049926758,
+          "chiSat": 0.314405661685562,
+          "chiM": 0.9964060661398498,
+          "gain": 0.3132757085322073,
+          "note": "エンジンの重み S.sumW は瞬時距離 r(=近点 rp)で決まるため、§F の宣言式(a=長半径)とは一致しない。判定に使うのは宣言式のほう(記述のみの併記)"
+        },
+        "iw1": {
+          "pass": true,
+          "tolerance": 0.000001,
+          "relErr": 1.3463181061563446e-7
+        },
+        "run": {
+          "amp": 1.9986613501025574,
+          "nan": false,
+          "rmin": 0.18602176303337506,
+          "rmax": 555.6628626653703,
+          "TK": 235.7397358434899,
+          "dt": 0.016,
+          "steps": 30941
+        },
+        "consistency": {
+          "chiSame": true,
+          "chiMSame": true,
+          "gainSame": true
+        },
+        "iw3": {
+          "dtHalf": {
+            "dt": 0.008,
+            "steps": 61882,
+            "amp": 1.9999722599791978,
+            "nan": false,
+            "ampDiff": 0.0013109098766403982,
+            "ampRelDiff": 0.0006558939445009404
+          },
+          "phase90": {
+            "amp": 1.9986613501025574,
+            "nan": false,
+            "ampDiff": 0,
+            "ampRelDiff": 0
+          }
+        }
+      },
+      {
+        "gTarget": 0.0089,
+        "route": "D0",
+        "routeLabel": "D₀ 経路(k_sat=1 固定・D₀ 可変)",
+        "knob": "D0",
+        "searchInterval": {
+          "lo": 0.000001,
+          "hi": 1000000,
+          "rationale": "背景決定力 D₀>0。1e-6 では χ→1(g→1)・1e6 では g→0 で、目標 3 点を確実に挟む"
+        },
+        "bracketed": true,
+        "increasing": false,
+        "gAtLo": 0.999947031347354,
+        "gAtHi": 2.9691515810189555e-14,
+        "iterations": 24,
+        "converged": true,
+        "maxIter": 200,
+        "knobValue": 1.1947261292880882,
+        "kSat": 1,
+        "D0": 1.1947261292880882,
+        "m2": 0.07346,
+        "M": 5.9724,
+        "chiSat": 0.015743720718901375,
+        "chiM": 0.5653044137239202,
+        "gAchieved": 0.008899994810831676,
+        "gRelErr": 5.830526206971306e-7,
+        "engineChi": {
+          "wSat": 0.020212745293974876,
+          "wM": 1.643324375152588,
+          "chiSat": 0.01663684133979829,
+          "chiM": 0.579032815864725,
+          "gain": 0.009633277088078068,
+          "note": "エンジンの重み S.sumW は瞬時距離 r(=近点 rp)で決まるため、§F の宣言式(a=長半径)とは一致しない。判定に使うのは宣言式のほう(記述のみの併記)"
+        },
+        "iw1": {
+          "pass": true,
+          "tolerance": 0.000001,
+          "relErr": 5.830526206971306e-7
+        },
+        "run": {
+          "amp": 0.19455356055447892,
+          "nan": false,
+          "rmin": 3.629330106517308,
+          "rmax": 4.41151791250657,
+          "TK": 235.7397358434899,
+          "dt": 0.016,
+          "steps": 30941
+        },
+        "consistency": {
+          "chiSame": true,
+          "chiMSame": true,
+          "gainSame": true
+        },
+        "iw3": {
+          "dtHalf": {
+            "dt": 0.008,
+            "steps": 61882,
+            "amp": 0.1945563737985144,
+            "nan": false,
+            "ampDiff": 0.0000028132440354766697,
+            "ampRelDiff": 0.00001445999768634465
+          },
+          "phase90": {
+            "amp": 0.19455356055447892,
+            "nan": false,
+            "ampDiff": 0,
+            "ampRelDiff": 0
+          }
+        }
+      },
+      {
+        "gTarget": 0.0089,
+        "route": "mixed",
+        "routeLabel": "混合経路(k_sat=0.5 固定・D₀ 可変)",
+        "knob": "D0",
+        "searchInterval": {
+          "lo": 0.000001,
+          "hi": 1000000,
+          "rationale": "背景決定力 D₀>0。1e-6 では χ→1(g→1)・1e6 では g→0 で、目標 3 点を確実に挟む"
+        },
+        "bracketed": true,
+        "increasing": false,
+        "gAtLo": 0.9998947157308489,
+        "gAtHi": 1.4937058669922223e-14,
+        "iterations": 24,
+        "converged": true,
+        "maxIter": 200,
+        "knobValue": 0.7241653995033985,
+        "kSat": 0.5,
+        "D0": 0.7241653995033985,
+        "m2": 0.03673,
+        "M": 6.009130000000001,
+        "chiSat": 0.013022874825359361,
+        "chiM": 0.6834131453619116,
+        "gAchieved": 0.008900003846053295,
+        "gRelErr": 4.321408196951286e-7,
+        "engineChi": {
+          "wSat": 0.010106372646987438,
+          "wM": 1.653430700302124,
+          "chiSat": 0.013763803853428748,
+          "chiM": 0.6954211863139277,
+          "gain": 0.00957164080394363,
+          "note": "エンジンの重み S.sumW は瞬時距離 r(=近点 rp)で決まるため、§F の宣言式(a=長半径)とは一致しない。判定に使うのは宣言式のほう(記述のみの併記)"
+        },
+        "iw1": {
+          "pass": true,
+          "tolerance": 0.000001,
+          "relErr": 4.321408196951286e-7
+        },
+        "run": {
+          "amp": 0.20045831463540068,
+          "nan": false,
+          "rmin": 3.6310202436647603,
+          "rmax": 4.4399686602218225,
+          "TK": 235.73973584348988,
+          "dt": 0.016,
+          "steps": 30941
+        },
+        "consistency": {
+          "chiSame": true,
+          "chiMSame": true,
+          "gainSame": true
+        },
+        "iw3": {
+          "dtHalf": {
+            "dt": 0.008,
+            "steps": 61882,
+            "amp": 0.20047836713056677,
+            "nan": false,
+            "ampDiff": 0.000020052495166095197,
+            "ampRelDiff": 0.0001000332423355399
+          },
+          "phase90": {
+            "amp": 0.20045831463540068,
+            "nan": false,
+            "ampDiff": 0,
+            "ampRelDiff": 0
+          }
+        }
+      },
+      {
+        "gTarget": 0.05,
+        "route": "kSat",
+        "routeLabel": "k_sat 経路(D₀=0.006 固定・k_sat 可変)",
+        "knob": "kSat",
+        "searchInterval": {
+          "lo": 1e-9,
+          "hi": 1,
+          "rationale": "質量補正係数 kSat は 0<kSat≤1(月の質量を増やさない範囲)。下限 1e-9 は g→0 側を確実に挟むための実用下限"
+        },
+        "bracketed": true,
+        "increasing": true,
+        "gAtLo": 3.1729459973758517e-9,
+        "gAtHi": 0.7581265397106003,
+        "iterations": 17,
+        "converged": true,
+        "maxIter": 200,
+        "knobValue": 0.01659096018085738,
+        "kSat": 0.01659096018085738,
+        "D0": 0.006,
+        "m2": 0.0012187719348857832,
+        "M": 6.044641228065115,
+        "chiSat": 0.05019080762912564,
+        "chiM": 0.9961988924753099,
+        "gAchieved": 0.05000002697257629,
+        "gRelErr": 5.394515258105859e-7,
+        "engineChi": {
+          "wSat": 0.002751530846580863,
+          "wM": 1.6632016897201538,
+          "chiSat": 0.314405661685562,
+          "chiM": 0.996405467333905,
+          "gain": 0.31327552026422806,
+          "note": "エンジンの重み S.sumW は瞬時距離 r(=近点 rp)で決まるため、§F の宣言式(a=長半径)とは一致しない。判定に使うのは宣言式のほう(記述のみの併記)"
+        },
+        "iw1": {
+          "pass": true,
+          "tolerance": 0.000001,
+          "relErr": 5.394515258105859e-7
+        },
+        "run": {
+          "amp": 1.9991340118458982,
+          "nan": false,
+          "rmin": 0.18249510359196983,
+          "rmax": 842.7625393175323,
+          "TK": 235.7397358434899,
+          "dt": 0.016,
+          "steps": 30941
+        },
+        "consistency": {
+          "chiSame": true,
+          "chiMSame": true,
+          "gainSame": true
+        },
+        "iw3": {
+          "dtHalf": {
+            "dt": 0.008,
+            "steps": 61882,
+            "amp": 1.9999689782080772,
+            "nan": false,
+            "ampDiff": 0.000834966362178946,
+            "ampRelDiff": 0.0004176640271393861
+          },
+          "phase90": {
+            "amp": 1.9991340118458982,
+            "nan": false,
+            "ampDiff": 0,
+            "ampRelDiff": 0
+          }
+        }
+      },
+      {
+        "gTarget": 0.05,
+        "route": "D0",
+        "routeLabel": "D₀ 経路(k_sat=1 固定・D₀ 可変)",
+        "knob": "D0",
+        "searchInterval": {
+          "lo": 0.000001,
+          "hi": 1000000,
+          "rationale": "背景決定力 D₀>0。1e-6 では χ→1(g→1)・1e6 では g→0 で、目標 3 点を確実に挟む"
+        },
+        "bracketed": true,
+        "increasing": false,
+        "gAtLo": 0.999947031347354,
+        "gAtHi": 2.9691515810189555e-14,
+        "iterations": 24,
+        "converged": true,
+        "maxIter": 200,
+        "knobValue": 0.30105744934063733,
+        "kSat": 1,
+        "D0": 0.30105744934063733,
+        "m2": 0.07346,
+        "M": 5.9724,
+        "chiSat": 0.05968840304108928,
+        "chiM": 0.8376831363037939,
+        "gAchieved": 0.049999968660424575,
+        "gRelErr": 6.267915085567122e-7,
+        "engineChi": {
+          "wSat": 0.020212745293974876,
+          "wM": 1.643324375152588,
+          "chiSat": 0.06291509648743882,
+          "chiM": 0.8451654682489621,
+          "gain": 0.05317366698273486,
+          "note": "エンジンの重み S.sumW は瞬時距離 r(=近点 rp)で決まるため、§F の宣言式(a=長半径)とは一致しない。判定に使うのは宣言式のほう(記述のみの併記)"
+        },
+        "iw1": {
+          "pass": true,
+          "tolerance": 0.000001,
+          "relErr": 6.267915085567122e-7
+        },
+        "run": {
+          "amp": 0.8658710184289471,
+          "nan": false,
+          "rmin": 3.6329639880274036,
+          "rmax": 9.180266418958011,
+          "TK": 235.7397358434899,
+          "dt": 0.016,
+          "steps": 30941
+        },
+        "consistency": {
+          "chiSame": true,
+          "chiMSame": true,
+          "gainSame": true
+        },
+        "iw3": {
+          "dtHalf": {
+            "dt": 0.008,
+            "steps": 61882,
+            "amp": 0.8660680252322166,
+            "nan": false,
+            "ampDiff": 0.00019700680326950604,
+            "ampRelDiff": 0.00022752442231754877
+          },
+          "phase90": {
+            "amp": 0.8658710184289471,
+            "nan": false,
+            "ampDiff": 0,
+            "ampRelDiff": 0
+          }
+        }
+      },
+      {
+        "gTarget": 0.05,
+        "route": "mixed",
+        "routeLabel": "混合経路(k_sat=0.5 固定・D₀ 可変)",
+        "knob": "D0",
+        "searchInterval": {
+          "lo": 0.000001,
+          "hi": 1000000,
+          "rationale": "背景決定力 D₀>0。1e-6 では χ→1(g→1)・1e6 では g→0 で、目標 3 点を確実に挟む"
+        },
+        "bracketed": true,
+        "increasing": false,
+        "gAtLo": 0.9998947157308489,
+        "gAtHi": 1.4937058669922223e-14,
+        "iterations": 24,
+        "converged": true,
+        "maxIter": 200,
+        "knobValue": 0.16345715670221583,
+        "kSat": 0.5,
+        "D0": 0.16345715670221583,
+        "m2": 0.03673,
+        "M": 6.009130000000001,
+        "chiSat": 0.05522815698938886,
+        "chiM": 0.9053358700998313,
+        "gAchieved": 0.05000003156199845,
+        "gRelErr": 6.312399689067938e-7,
+        "engineChi": {
+          "wSat": 0.010106372646987438,
+          "wM": 1.653430700302124,
+          "chiSat": 0.058228665232162906,
+          "chiM": 0.9100345373149658,
+          "gain": 0.052990096423019405,
+          "note": "エンジンの重み S.sumW は瞬時距離 r(=近点 rp)で決まるため、§F の宣言式(a=長半径)とは一致しない。判定に使うのは宣言式のほう(記述のみの併記)"
+        },
+        "iw1": {
+          "pass": true,
+          "tolerance": 0.000001,
+          "relErr": 6.312399689067938e-7
+        },
+        "run": {
+          "amp": 1.3163954213072142,
+          "nan": false,
+          "rmin": 3.63296403105222,
+          "rmax": 17.624728759708834,
+          "TK": 235.73973584348988,
+          "dt": 0.016,
+          "steps": 30941
+        },
+        "consistency": {
+          "chiSame": true,
+          "chiMSame": true,
+          "gainSame": true
+        },
+        "iw3": {
+          "dtHalf": {
+            "dt": 0.008,
+            "steps": 61882,
+            "amp": 1.3165865751432884,
+            "nan": false,
+            "ampDiff": 0.00019115383607415382,
+            "ampRelDiff": 0.00014521004325906972
+          },
+          "phase90": {
+            "amp": 1.3163954213072142,
+            "nan": false,
+            "ampDiff": 0,
+            "ampRelDiff": 0
+          }
+        }
+      }
+    ],
+    "iw1": {
+      "rule": {
+        "role": "窓(構成可能性)",
+        "verbatim": "IW1(構成可能性): 全 3g × 3経路で g 合わせが二分法収束(|Δg|/g ≤ 1e-6)。",
+        "tolerance": 0.000001,
+        "failRule": "万一収束しない点があれば IW1 のその点を FAIL のまま収載する(窓・目標値の変更禁止)"
+      },
+      "rows": [
+        {
+          "gTarget": 0.0041,
+          "route": "kSat",
+          "knobValue": 0.0012975158987646267,
+          "gAchieved": 0.004100003749544063,
+          "relErr": 9.145229420462678e-7,
+          "iterations": 22,
+          "converged": true,
+          "pass": true
+        },
+        {
+          "gTarget": 0.0041,
+          "route": "D0",
+          "knobValue": 2.011914912158649,
+          "gAchieved": 0.004100001569004118,
+          "relErr": 3.8268393112243136e-7,
+          "iterations": 24,
+          "converged": true,
+          "pass": true
+        },
+        {
+          "gTarget": 0.0041,
+          "route": "mixed",
+          "knobValue": 1.2743451635752914,
+          "gAchieved": 0.0041000027579220655,
+          "relErr": 6.726639183417158e-7,
+          "iterations": 23,
+          "converged": true,
+          "pass": true
+        },
+        {
+          "gTarget": 0.0089,
+          "route": "kSat",
+          "knobValue": 0.002830249515192165,
+          "gAchieved": 0.008899998801776885,
+          "relErr": 1.3463181061563446e-7,
+          "iterations": 24,
+          "converged": true,
+          "pass": true
+        },
+        {
+          "gTarget": 0.0089,
+          "route": "D0",
+          "knobValue": 1.1947261292880882,
+          "gAchieved": 0.008899994810831676,
+          "relErr": 5.830526206971306e-7,
+          "iterations": 24,
+          "converged": true,
+          "pass": true
+        },
+        {
+          "gTarget": 0.0089,
+          "route": "mixed",
+          "knobValue": 0.7241653995033985,
+          "gAchieved": 0.008900003846053295,
+          "relErr": 4.321408196951286e-7,
+          "iterations": 24,
+          "converged": true,
+          "pass": true
+        },
+        {
+          "gTarget": 0.05,
+          "route": "kSat",
+          "knobValue": 0.01659096018085738,
+          "gAchieved": 0.05000002697257629,
+          "relErr": 5.394515258105859e-7,
+          "iterations": 17,
+          "converged": true,
+          "pass": true
+        },
+        {
+          "gTarget": 0.05,
+          "route": "D0",
+          "knobValue": 0.30105744934063733,
+          "gAchieved": 0.049999968660424575,
+          "relErr": 6.267915085567122e-7,
+          "iterations": 24,
+          "converged": true,
+          "pass": true
+        },
+        {
+          "gTarget": 0.05,
+          "route": "mixed",
+          "knobValue": 0.16345715670221583,
+          "gAchieved": 0.05000003156199845,
+          "relErr": 6.312399689067938e-7,
+          "iterations": 24,
+          "converged": true,
+          "pass": true
+        }
+      ],
+      "pass": true,
+      "nPoints": 9
+    },
+    "iw2": {
+      "rule": {
+        "role": "主窓",
+        "verbatim": "IW2(主窓): 同一 g の経路間 amp 相対差 (max−min)/max ≤ 10% なら「g は当該点で組織化変数として成立」、超えれば経路依存の定量記録(FAIL は論文3 route-dependent 記述の定量的裏付けとしてそのまま収載 — どちらも価値がある)。g 3点それぞれで判定。",
+        "tolerance": 0.1,
+        "statistic": "(max(amp) − min(amp)) / max(amp)(同一 g の3経路にわたって)"
+      },
+      "byG": [
+        {
+          "gTarget": 0.0041,
+          "rows": [
+            {
+              "route": "kSat",
+              "knob": "kSat",
+              "knobValue": 0.0012975158987646267,
+              "kSat": 0.0012975158987646267,
+              "D0": 0.006,
+              "gAchieved": 0.004100003749544063,
+              "amp": 1.9990315531174867,
+              "nan": false
+            },
+            {
+              "route": "D0",
+              "knob": "D0",
+              "knobValue": 2.011914912158649,
+              "kSat": 1,
+              "D0": 2.011914912158649,
+              "gAchieved": 0.004100001569004118,
+              "amp": 0.15263409650039397,
+              "nan": false
+            },
+            {
+              "route": "mixed",
+              "knob": "D0",
+              "knobValue": 1.2743451635752914,
+              "kSat": 0.5,
+              "D0": 1.2743451635752914,
+              "gAchieved": 0.0041000027579220655,
+              "amp": 0.15027922071408004,
+              "nan": false
+            }
+          ],
+          "ampMax": 1.9990315531174867,
+          "ampMin": 0.15027922071408004,
+          "relSpread": 0.9248239876555626,
+          "tolerance": 0.1,
+          "pass": false,
+          "numericalFloorRelSpread": 0,
+          "aboveFloor": true,
+          "verdict": "経路依存(経路間 amp 相対差 >10%)— 論文3 route-dependent 記述の定量的裏付け",
+          "variantWithSupplementaryKSat": {
+            "role": "参考(判定に使わない)",
+            "amps": [
+              0.15263409650039397,
+              0.15027922071408004,
+              1.0401250818976755
+            ],
+            "ampMax": 1.0401250818976755,
+            "ampMin": 0.15027922071408004,
+            "relSpread": 0.8555181263008288,
+            "pass": false
+          }
+        },
+        {
+          "gTarget": 0.0089,
+          "rows": [
+            {
+              "route": "kSat",
+              "knob": "kSat",
+              "knobValue": 0.002830249515192165,
+              "kSat": 0.002830249515192165,
+              "D0": 0.006,
+              "gAchieved": 0.008899998801776885,
+              "amp": 1.9986613501025574,
+              "nan": false
+            },
+            {
+              "route": "D0",
+              "knob": "D0",
+              "knobValue": 1.1947261292880882,
+              "kSat": 1,
+              "D0": 1.1947261292880882,
+              "gAchieved": 0.008899994810831676,
+              "amp": 0.19455356055447892,
+              "nan": false
+            },
+            {
+              "route": "mixed",
+              "knob": "D0",
+              "knobValue": 0.7241653995033985,
+              "kSat": 0.5,
+              "D0": 0.7241653995033985,
+              "gAchieved": 0.008900003846053295,
+              "amp": 0.20045831463540068,
+              "nan": false
+            }
+          ],
+          "ampMax": 1.9986613501025574,
+          "ampMin": 0.19455356055447892,
+          "relSpread": 0.9026580663380038,
+          "tolerance": 0.1,
+          "pass": false,
+          "numericalFloorRelSpread": 0,
+          "aboveFloor": true,
+          "verdict": "経路依存(経路間 amp 相対差 >10%)— 論文3 route-dependent 記述の定量的裏付け",
+          "variantWithSupplementaryKSat": {
+            "role": "参考(判定に使わない)",
+            "amps": [
+              0.19455356055447892,
+              0.20045831463540068,
+              1.0405673092571326
+            ],
+            "ampMax": 1.0405673092571326,
+            "ampMin": 0.19455356055447892,
+            "relSpread": 0.8130312582149328,
+            "pass": false
+          }
+        },
+        {
+          "gTarget": 0.05,
+          "rows": [
+            {
+              "route": "kSat",
+              "knob": "kSat",
+              "knobValue": 0.01659096018085738,
+              "kSat": 0.01659096018085738,
+              "D0": 0.006,
+              "gAchieved": 0.05000002697257629,
+              "amp": 1.9991340118458982,
+              "nan": false
+            },
+            {
+              "route": "D0",
+              "knob": "D0",
+              "knobValue": 0.30105744934063733,
+              "kSat": 1,
+              "D0": 0.30105744934063733,
+              "gAchieved": 0.049999968660424575,
+              "amp": 0.8658710184289471,
+              "nan": false
+            },
+            {
+              "route": "mixed",
+              "knob": "D0",
+              "knobValue": 0.16345715670221583,
+              "kSat": 0.5,
+              "D0": 0.16345715670221583,
+              "gAchieved": 0.05000003156199845,
+              "amp": 1.3163954213072142,
+              "nan": false
+            }
+          ],
+          "ampMax": 1.9991340118458982,
+          "ampMin": 0.8658710184289471,
+          "relSpread": 0.5668769510707059,
+          "tolerance": 0.1,
+          "pass": false,
+          "numericalFloorRelSpread": 0,
+          "aboveFloor": true,
+          "verdict": "経路依存(経路間 amp 相対差 >10%)— 論文3 route-dependent 記述の定量的裏付け",
+          "variantWithSupplementaryKSat": {
+            "role": "参考(判定に使わない)",
+            "amps": [
+              0.8658710184289471,
+              1.3163954213072142,
+              1.571814719570852
+            ],
+            "ampMax": 1.571814719570852,
+            "ampMin": 0.8658710184289471,
+            "relSpread": 0.44912653657719065,
+            "pass": false
+          }
+        }
+      ],
+      "allPass": false
+    },
+    "iw3": {
+      "rule": {
+        "role": "記述(窓なし — 判定に使わない)",
+        "verbatim": "IW3(記述 — 窓なし): 各 iso-g 点の dt/2 収束差・初期位相 90° ずらし対照を記録(数値床宣言付き)。",
+        "window": "なし(記述のみ)",
+        "floorDeclaration": "初期位相 90° ずらしは構成の厳密な回転対称操作((x,y)→(−y,x)・(vx,vy)→(−vy,vx) — 倍精度で誤差ゼロの四半回転)であり、外力場も境界も等方(gravityX=gravityY=0・boundary:\"none\")なので、解析的には amp が 1 bit も変わらないはずの対照である。したがってそこで出た |Δamp| が**この測定の数値床**(和の順序・平方根・カオス的増幅による下限)である。dt/2 の差は数値床と離散化誤差の合計であって、床を下回る差には意味がない"
+      },
+      "rows": [
+        {
+          "gTarget": 0.0041,
+          "route": "kSat",
+          "amp": 1.9990315531174867,
+          "dtHalfRelDiff": 0.0004710116781381224,
+          "phase90RelDiff": 0,
+          "dtHalfSteps": 61882
+        },
+        {
+          "gTarget": 0.0041,
+          "route": "D0",
+          "amp": 0.15263409650039397,
+          "dtHalfRelDiff": -0.0002966444113228217,
+          "phase90RelDiff": 0,
+          "dtHalfSteps": 61882
+        },
+        {
+          "gTarget": 0.0041,
+          "route": "mixed",
+          "amp": 0.15027922071408004,
+          "dtHalfRelDiff": -0.000270047254494199,
+          "phase90RelDiff": 0,
+          "dtHalfSteps": 61882
+        },
+        {
+          "gTarget": 0.0089,
+          "route": "kSat",
+          "amp": 1.9986613501025574,
+          "dtHalfRelDiff": 0.0006558939445009404,
+          "phase90RelDiff": 0,
+          "dtHalfSteps": 61882
+        },
+        {
+          "gTarget": 0.0089,
+          "route": "D0",
+          "amp": 0.19455356055447892,
+          "dtHalfRelDiff": 0.00001445999768634465,
+          "phase90RelDiff": 0,
+          "dtHalfSteps": 61882
+        },
+        {
+          "gTarget": 0.0089,
+          "route": "mixed",
+          "amp": 0.20045831463540068,
+          "dtHalfRelDiff": 0.0001000332423355399,
+          "phase90RelDiff": 0,
+          "dtHalfSteps": 61882
+        },
+        {
+          "gTarget": 0.05,
+          "route": "kSat",
+          "amp": 1.9991340118458982,
+          "dtHalfRelDiff": 0.0004176640271393861,
+          "phase90RelDiff": 0,
+          "dtHalfSteps": 61882
+        },
+        {
+          "gTarget": 0.05,
+          "route": "D0",
+          "amp": 0.8658710184289471,
+          "dtHalfRelDiff": 0.00022752442231754877,
+          "phase90RelDiff": 0,
+          "dtHalfSteps": 61882
+        },
+        {
+          "gTarget": 0.05,
+          "route": "mixed",
+          "amp": 1.3163954213072142,
+          "dtHalfRelDiff": 0.00014521004325906972,
+          "phase90RelDiff": 0,
+          "dtHalfSteps": 61882
+        }
+      ],
+      "numericalFloor": {
+        "declaration": "初期位相 90° ずらしは構成の厳密な回転対称操作((x,y)→(−y,x)・(vx,vy)→(−vy,vx) — 倍精度で誤差ゼロの四半回転)であり、外力場も境界も等方(gravityX=gravityY=0・boundary:\"none\")なので、解析的には amp が 1 bit も変わらないはずの対照である。したがってそこで出た |Δamp| が**この測定の数値床**(和の順序・平方根・カオス的増幅による下限)である。dt/2 の差は数値床と離散化誤差の合計であって、床を下回る差には意味がない",
+        "maxAbsPhase90RelDiff": 0,
+        "maxAbsDtHalfRelDiff": 0.0006558939445009404
+      }
+    }
+  },
+  "supplementary": {
+    "role": "判定に使わない記述(事前登録注記の前提だった D₀=0.1 の k_sat 経路)",
+    "note": "**窓は動かさない** — 事前登録の文言どおり k_sat 経路は D₀=0.006 固定で構成し、それをIW1/IW2 の判定対象とする。注記の前提だった D₀=0.1 での k_sat 経路は、判定に使わない**補助経路**(out.supplementary)として同じ手順で併走させ、統括がどちらの解釈でも読めるようにする。",
+    "points": [
+      {
+        "gTarget": 0.0041,
+        "route": "kSat@D0=0.1",
+        "routeLabel": "k_sat 経路(D₀=0.1 固定・k_sat 可変)— 補助",
+        "knob": "kSat",
+        "searchInterval": {
+          "lo": 1e-9,
+          "hi": 1,
+          "rationale": "質量補正係数 kSat は 0<kSat≤1(月の質量を増やさない範囲)。下限 1e-9 は g→0 側を確実に挟むための実用下限"
+        },
+        "bracketed": true,
+        "increasing": true,
+        "gAtLo": 1.7967890727732033e-10,
+        "gAtHi": 0.1507400167352932,
+        "iterations": 21,
+        "converged": true,
+        "maxIter": 200,
+        "knobValue": 0.022918797217987372,
+        "kSat": 0.022918797217987372,
+        "D0": 0.1,
+        "m2": 0.0016836148436333524,
+        "M": 6.0441763851563675,
+        "chiSat": 0.004360751865409332,
+        "chiM": 0.9402044905482366,
+        "gAchieved": 0.004099998486024454,
+        "gRelErr": 3.6926232841278233e-7,
+        "engineChi": {
+          "wSat": 0.002751530846580863,
+          "wM": 1.6630738973617554,
+          "chiSat": 0.026778490051785172,
+          "chiM": 0.9432808799735286,
+          "gain": 0.025259637660410297,
+          "note": "エンジンの重み S.sumW は瞬時距離 r(=近点 rp)で決まるため、§F の宣言式(a=長半径)とは一致しない。判定に使うのは宣言式のほう(記述のみの併記)"
+        },
+        "iw1": {
+          "pass": true,
+          "tolerance": 0.000001,
+          "relErr": 3.6926232841278233e-7
+        },
+        "run": {
+          "amp": 1.0401250818976755,
+          "nan": false,
+          "rmin": 3.632964029976858,
+          "rmax": 11.506358652437799,
+          "TK": 235.73973584348988,
+          "dt": 0.016,
+          "steps": 30941
+        },
+        "consistency": {
+          "chiSame": true,
+          "chiMSame": true,
+          "gainSame": true
+        },
+        "iw3": {
+          "dtHalf": {
+            "dt": 0.008,
+            "steps": 61882,
+            "amp": 1.0403528681795269,
+            "nan": false,
+            "ampDiff": 0.00022778628185138317,
+            "ampRelDiff": 0.00021899893177823593
+          },
+          "phase90": {
+            "amp": 1.0401250818976755,
+            "nan": false,
+            "ampDiff": 0,
+            "ampRelDiff": 0
+          }
+        }
+      },
+      {
+        "gTarget": 0.0089,
+        "route": "kSat@D0=0.1",
+        "routeLabel": "k_sat 経路(D₀=0.1 固定・k_sat 可変)— 補助",
+        "knob": "kSat",
+        "searchInterval": {
+          "lo": 1e-9,
+          "hi": 1,
+          "rationale": "質量補正係数 kSat は 0<kSat≤1(月の質量を増やさない範囲)。下限 1e-9 は g→0 側を確実に挟むための実用下限"
+        },
+        "bracketed": true,
+        "increasing": true,
+        "gAtLo": 1.7967890727732033e-10,
+        "gAtHi": 0.1507400167352932,
+        "iterations": 23,
+        "converged": true,
+        "maxIter": 200,
+        "knobValue": 0.0500080106561192,
+        "kSat": 0.0500080106561192,
+        "D0": 0.1,
+        "m2": 0.0036735884627985163,
+        "M": 6.042186411537202,
+        "chiSat": 0.009466216130167472,
+        "chiM": 0.9401859750442453,
+        "gAchieved": 0.008900003642321066,
+        "gRelErr": 4.092495580093052e-7,
+        "engineChi": {
+          "wSat": 0.002751530846580863,
+          "wM": 1.662526249885559,
+          "chiSat": 0.026778490051785172,
+          "chiM": 0.9432632563591645,
+          "gain": 0.025259165726628372,
+          "note": "エンジンの重み S.sumW は瞬時距離 r(=近点 rp)で決まるため、§F の宣言式(a=長半径)とは一致しない。判定に使うのは宣言式のほう(記述のみの併記)"
+        },
+        "iw1": {
+          "pass": true,
+          "tolerance": 0.000001,
+          "relErr": 4.092495580093052e-7
+        },
+        "run": {
+          "amp": 1.0405673092571326,
+          "nan": false,
+          "rmin": 3.6329640302342137,
+          "rmax": 11.513336758917717,
+          "TK": 235.7397358434899,
+          "dt": 0.016,
+          "steps": 30941
+        },
+        "consistency": {
+          "chiSame": true,
+          "chiMSame": true,
+          "gainSame": true
+        },
+        "iw3": {
+          "dtHalf": {
+            "dt": 0.008,
+            "steps": 61882,
+            "amp": 1.0407991500668925,
+            "nan": false,
+            "ampDiff": 0.00023184080975990895,
+            "ampRelDiff": 0.00022280231917481963
+          },
+          "phase90": {
+            "amp": 1.0405673092571326,
+            "nan": false,
+            "ampDiff": 0,
+            "ampRelDiff": 0
+          }
+        }
+      },
+      {
+        "gTarget": 0.05,
+        "route": "kSat@D0=0.1",
+        "routeLabel": "k_sat 経路(D₀=0.1 固定・k_sat 可変)— 補助",
+        "knob": "kSat",
+        "searchInterval": {
+          "lo": 1e-9,
+          "hi": 1,
+          "rationale": "質量補正係数 kSat は 0<kSat≤1(月の質量を増やさない範囲)。下限 1e-9 は g→0 側を確実に挟むための実用下限"
+        },
+        "bracketed": true,
+        "increasing": true,
+        "gAtLo": 1.7967890727732033e-10,
+        "gAtHi": 0.1507400167352932,
+        "iterations": 23,
+        "converged": true,
+        "maxIter": 200,
+        "knobValue": 0.29397037149361643,
+        "kSat": 0.29397037149361643,
+        "D0": 0.1,
+        "m2": 0.021595063489921063,
+        "M": 6.024264936510079,
+        "chiSat": 0.0531904582885579,
+        "chiM": 0.9400187084504795,
+        "gAchieved": 0.0500000259022993,
+        "gRelErr": 5.180459859699393e-7,
+        "engineChi": {
+          "wSat": 0.005941948387771845,
+          "wM": 1.6575950384140015,
+          "chiSat": 0.056086833196827286,
+          "chiM": 0.9431040724317037,
+          "gain": 0.05289572079772548,
+          "note": "エンジンの重み S.sumW は瞬時距離 r(=近点 rp)で決まるため、§F の宣言式(a=長半径)とは一致しない。判定に使うのは宣言式のほう(記述のみの併記)"
+        },
+        "iw1": {
+          "pass": true,
+          "tolerance": 0.000001,
+          "relErr": 5.180459859699393e-7
+        },
+        "run": {
+          "amp": 1.571814719570852,
+          "nan": false,
+          "rmin": 3.632964031052237,
+          "rmax": 30.30527903429654,
+          "TK": 235.7397358434899,
+          "dt": 0.016,
+          "steps": 30941
+        },
+        "consistency": {
+          "chiSame": true,
+          "chiMSame": true,
+          "gainSame": true
+        },
+        "iw3": {
+          "dtHalf": {
+            "dt": 0.008,
+            "steps": 61882,
+            "amp": 1.5718773399312223,
+            "nan": false,
+            "ampDiff": 0.00006262036037019136,
+            "ampRelDiff": 0.000039839530442398186
+          },
+          "phase90": {
+            "amp": 1.571814719570852,
+            "nan": false,
+            "ampDiff": 0,
+            "ampRelDiff": 0
+          }
+        }
+      }
+    ]
+  },
+  "meta": {
+    "stage": "complete",
+    "elapsedSec": 3.636,
+    "generatedAt": "2026-08-22T01:18:20.381Z"
+  },
+  "determinism": {
+    "rule": {
+      "role": "窓(決定性)",
+      "verbatim": "IW4(決定性): 2回実行 SHA 一致。",
+      "canonicalization": "対象は out.transcription / out.isog / out.supplementary(実測部)のみ。揮発値(日時・経過時間・環境)は meta / manifest 側にしか置かない"
+    },
+    "canonicalization": "transcription / isog / supplementary(実測部)を対象に、キーを再帰整列した JSON の SHA-256。日時・経過時間・環境は meta / manifest 側にしか置いていないので、対象内に除外すべき揮発値は存在しない",
+    "sha256": "dae7aa1ae0c56acf6c20bb87dde0852f506c200a69cd8de5cb6815200cf9c948",
+    "bytes": 27843,
+    "reference": "isog-run1.json",
+    "identical": true,
+    "referenceSha256": "dae7aa1ae0c56acf6c20bb87dde0852f506c200a69cd8de5cb6815200cf9c948",
+    "note": "2回目は別プロセス・別ブラウザ起動で全節を再実行したもの(同一スクリプト・同一 seed・同一窓)"
+  },
+  "iw4": {
+    "rule": {
+      "role": "窓(決定性)",
+      "verbatim": "IW4(決定性): 2回実行 SHA 一致。",
+      "canonicalization": "対象は out.transcription / out.isog / out.supplementary(実測部)のみ。揮発値(日時・経過時間・環境)は meta / manifest 側にしか置かない"
+    },
+    "sha256": "dae7aa1ae0c56acf6c20bb87dde0852f506c200a69cd8de5cb6815200cf9c948",
+    "reference": "isog-run1.json",
+    "identical": true,
+    "result": "PASS"
+  },
+  "manifest": {
+    "schema": "dfm-experiment-manifest",
+    "schemaVersion": "1.0",
+    "generatedAt": "2026-08-22T01:18:20.385Z",
+    "experiment": {
+      "id": "isog",
+      "wave": 165,
+      "title": "iso-g 対照(ループ利得 g の経路依存性 — 同一 g を3経路で構成して amp を比べる)",
+      "script": "tests/exp-isog.mjs",
+      "scriptSha256": "3794026aa951d6271776d7dceb7a1fe2ac25e685bae2bf334de745fb57377daf",
+      "scriptBytes": 35737,
+      "helperSha256": "502979b3027a7a79bc4b2df5e1bc0fbb86e3bbc252af85b6f2266e101666103a",
+      "command": "node tests/exp-isog.mjs(ISOG_OUT / ISOG_DET_REF で決定性の2回実行)"
+    },
+    "provenance": {
+      "git": {
+        "commit": "dd37d74b5a0f4eeac5a84a6d3a905b40803b3070",
+        "describe": "dd37d74-dirty",
+        "dirty": true,
+        "dirtyFiles": {
+          "count": 27,
+          "sample": [
+            "paper/README.md",
+            "paper/dfm-paper-ja.tex",
+            "paper/dfm-paper.tex",
+            "paper/dfm-paper2-ja.tex",
+            "paper/dfm-paper2.tex",
+            "paper/dfm-paper3-ja.tex",
+            "paper/dfm-paper3.tex",
+            "paper/figures/p2fig1.json"
+          ]
+        }
+      },
+      "target": {
+        "path": "index.html",
+        "sha256": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+        "bytes": 1665860,
+        "appVersion": "1.41"
+      },
+      "presets": {
+        "mode": "dynamic",
+        "note": "§F は physLock を要求しない構成である(Kt=1e9 は c₀²/G ではない — 🪐実c+実G では Kt が値域外になるためロック外運用。転記元 exp-obscal.mjs §E の宣言に従う)",
+        "declaration": "動的構成(内蔵プリセットを読まず、§F の宣言値から HP.sim.build する)。本便が §F から変えたのは **ノブ(kSat / D₀)の値だけ**で、構成・amp 定義・窓・dt・seed は同一",
+        "declaredIn": "basePhys + EM_CONST(いずれも tests/exp-obscal.mjs §F からの逐語転記)",
+        "configSha256": "e3cc90266db01621eac180fc2e23576a9a960594790bc2590ad0fd83831c6e25",
+        "configCanonicalization": "宣言済み構成(configs)を再帰キー整列した JSON の SHA-256"
+      }
+    },
+    "numerics": {
+      "seed": 1,
+      "dt": 0.016,
+      "timeScale": 1,
+      "substeps": "not-applicable",
+      "steps": "steps = ceil(2.1·T_K/dt)(§F と同一。GM 合計が全点で保存されるので T_K・步数は全点同一)",
+      "window": {
+        "orbits": 2.1,
+        "terminationRule": "早期打ち切りなし(§F の規約をそのまま踏襲 — 崩壊しても固定步数を走り切る。不安定側でも走行時間は伸びない)"
+      },
+      "warmup": "not-applicable",
+      "convergence": "IW3 として dt/2(=0.008・步数2倍)を全 iso-g 点で併走させ、amp の相対差を記録",
+      "precision": "stateCarry:\"double\"(§F と同一)",
+      "solver": "目標 g への合わせ込みは**対数空間の二分法**(区間・反復上限は isog.searchIntervals / isog.maxIter に宣言・収束判定は |Δg|/g ≤ 1e-6)。乱数・初期値依存を持たない決定的手続きである"
+    },
+    "environment": {
+      "node": "v22.22.2",
+      "platform": "linux/x64",
+      "playwright": "playwright@1.61.1",
+      "browser": "Playwright Chromium 141.0.7390.37",
+      "date": "2026-08-22T01:18:20.436Z",
+      "tz": "UTC"
+    },
+    "classification": {
+      "note": "**本便は較正を一切行わない**(fit=[])。二分法は「宣言済みの g 定義式を目標値に等しくするノブ値」を解く決定的な求解であって、観測量への当てはめではない",
+      "input": [
+        "§F の地球月構成(M=5.9724・m2=0.07346・a=3.844・e=0.0549・実G/実c の 🪐 アンカー)",
+        "§F の物理キー宣言(kFrame=1・q=3・geoPN=2・λPN=1・α=1.5・ε=0.1・radiusScale=0.2)",
+        "dt=0.016・seed=1・2.1 公転窓(いずれも §F から不変)",
+        "目標 g 3点 {4.1e-3, 8.9e-3, 5.0e-2}(§F の実測 gStar と D₀=0.3 点から統括が事前登録)"
+      ],
+      "fit": [],
+      "derived": [
+        "χ_sat・χ_M・g=χ_sat·χ_M(§F の宣言式)",
+        "各経路で目標 g を実現するノブ値(対数二分法の解 — 当てはめではなく方程式の求解)",
+        "amp=(r_max−r_min)/r̄",
+        "経路間 amp 相対差 (max−min)/max(IW2)",
+        "dt/2 収束差・90° 位相ずらし対照の |Δamp|(IW3 — 数値床の宣言つき)"
+      ],
+      "holdOut": []
+    },
+    "judgement": {
+      "pointers": [
+        "preRegistered.IW1",
+        "preRegistered.IW2",
+        "preRegistered.IW3",
+        "preRegistered.IW4",
+        "transcription.allBitIdentical",
+        "isog.iw1",
+        "isog.iw2",
+        "isog.iw3",
+        "iw4",
+        "supplementary",
+        "targetConsistency",
+        "preRegistered.knownInconsistencyInBrief"
+      ],
+      "note": "窓は実測前に固定してあり実測後に動かしていない(preRegistered)。IW2 の FAIL は「g が組織化変数として成立しない」ことの実測であって、窓や目標値を動かして回避していない。数値床(90° 位相ずらし対照)は isog.iw3.numericalFloor にあり、IW2 の相対差が床の上にあるかも aboveFloor に機械記録してある",
+      "externalReferences": [
+        "第116便 exp-obscal.mjs §F の安定境界(安定側最大 g=4.138e-3・不安定側最小 g=8.899e-3 — tests/out/obscal-results.json tests.kframeStability.gStar)",
+        "🌘 の実離心率 0.0549(目標楕円 2e≈11% が「安定」側の amp 目安)"
+      ]
+    },
+    "health": {
+      "nan": {
+        "instrumented": true,
+        "flagsFound": 65,
+        "anyTrue": false,
+        "truePaths": [],
+        "numericNaNInPayload": 0,
+        "note": "結果ペイロード内の nan/hasNaN フラグを走査して集計した値(再測定はしていない)。numericNaNInPayload は JSON 化後に NaN として残った数値の件数(JSON.stringify では null になるため通常 0)"
+      },
+      "clamps": {
+        "aggregate": "not-instrumented",
+        "lastBuild": {
+          "clampVN": 0,
+          "clampSN": 0,
+          "clampHN": 0,
+          "clampAN": 0,
+          "clampRN": 0,
+          "angOvfN": 0,
+          "n": 2
+        },
+        "lastBuildTotal": 0,
+        "note": "エンジンのクランプ計数は sim.build() ごとに 0 へリセットされるため、ここに記録できるのは**この実行で最後に build した構成**の計数だけである(全構成を横断した集計は未計装)。lastBuildTotal>0 なら少なくとも最終構成で安全クランプが発動している(保存則主張の域外)"
+      },
+      "conservation": {
+        "status": "not-instrumented",
+        "note": "本ハーネスは保存量残差を記録していない(記録しているのは相対距離の min/max と NaN フラグ)。§F も同様であり、転記元から計装を増やしていない"
+      }
+    },
+    "regeneration": {
+      "canonicalization": "再生成時のペイロード照合は `manifest` キーを除外して行う(manifest は実行ごとに日時・環境・git 状態が変わる非測定メタである)。除外後の全キーは同一スクリプト・同一対象・同一 seed/步数で bit 一致することを要求する",
+      "payloadKeysExcluded": [
+        "manifest",
+        "meta"
+      ],
+      "note": "meta(日時・経過時間)は非測定メタなので照合対象外"
+    }
+  }
+}

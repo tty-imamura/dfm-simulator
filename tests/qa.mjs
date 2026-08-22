@@ -15534,6 +15534,11 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     { json: 'coreshell4-results.json', harness: 'tests/exp-coreshell4.mjs' },
     { json: 'coreshell-theory-results.json', harness: 'tests/exp-coreshell-theory.mjs' },
     { json: 'coreshell5-results.json', harness: 'tests/exp-coreshell5.mjs' },
+    { json: 'jup365-results.json', harness: 'tests/exp-jup365.mjs' },
+    { json: 'jupseeds-results.json', harness: 'tests/exp-jupseeds.mjs' },
+    { json: 'coreshell6-results.json', harness: 'tests/exp-coreshell6.mjs' },
+    { json: 'qexact-results.json', harness: 'tests/exp-qexact.mjs' },
+    { json: 'isog-results.json', harness: 'tests/exp-isog.mjs' },
   ];
   const SENTINELS = ['not-applicable', 'not-instrumented', 'unavailable'];
   const isHex = (v, n) => typeof v === 'string' && new RegExp(`^[0-9a-f]{${n}}$`).test(v);
@@ -15642,6 +15647,141 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     ` 第145便より前の便の記録で当時のハーネスに manifest の概念が無く、遡って再生成すると数値が` +
     ` 変わりうる(履歴の書き換え)ため、過去の記録は不変のまま残す` +
     ` / 第131便の事故(説明値 0.06%/2.2% の出所が辿れず再現不能)と同根の再発防止`);
+}
+
+// ---- 87) 第166便(誤差予算): errorbudget.presence / errorbudget.consistency ----
+// ----   外部レビュー指摘「a more formal error budget would strengthen the claims」への恒久対応。
+// ----   tools/gen-error-budget.mjs が、較正・ホールドアウト主張ごとの
+// ----     {claim, sourceJsons(file+SHA-256), value, window, components, verdictPointer}
+// ----   を **コミット済みの結果 JSON からのみ**機械集計して tests/out/error-budget.json を吐く。
+// ----   本ゲートはその台帳を2方向から縛る:
+// ----     ① presence  … 台帳が在り、スキーマ必須フィールドが揃い、5主張が全行あり、
+// ----                    5つの主成分(数値床・dt 収束・窓感度・ソース差・シード散らばり)が
+// ----                    **全主張に明示値で**在る(未計装は tests/manifest.mjs と同じ固定語彙のみ)
+// ----     ② consistency … 生成器を import して**この場で再集計**し、コミット済み台帳と
+// ----                    揮発キーを除いて完全一致するか。出典 JSON の SHA-256 も現ファイルと照合する。
+// ----                    → 台帳の数値を手で書き換える・出典 JSON が動いたのに再生成しない、の両方が落ちる。
+// ----   DOM 不要 = 追加の走行コストはファイル読みのみ(coverage ゲートと同様 QA_FAST でも判定する)----
+{
+  const EB_REL = 'tests/out/error-budget.json';
+  const EB_PATH = path.join(OUT_DIR, 'error-budget.json');
+  let mod = null, modErr = null;
+  try { mod = await import('../tools/gen-error-budget.mjs'); } catch (e) { modErr = String(e && e.message || e); }
+  let doc = null, docErr = null;
+  try { doc = JSON.parse(fs.readFileSync(EB_PATH, 'utf8')); } catch (e) { docErr = String(e && e.message || e); }
+  // キー順に依存しない正規化(第145便 manifest.mjs と同じ再帰キー整列)
+  const canon = (o) => {
+    if (Array.isArray(o)) return o.map(canon);
+    if (o && typeof o === 'object') { const r = {}; for (const k of Object.keys(o).sort()) r[k] = canon(o[k]); return r; }
+    return o;
+  };
+  // 最初の不一致箇所を返す(FAIL 時に「どこが動いたか」を1行で言えるようにする)
+  const firstDiff = (a, b, p) => {
+    if (a === b) return null;
+    const ta = Array.isArray(a) ? 'array' : (a === null ? 'null' : typeof a);
+    const tb = Array.isArray(b) ? 'array' : (b === null ? 'null' : typeof b);
+    if (ta !== tb) return `${p || '(root)'}: 型 ${ta}≠${tb}`;
+    if (ta === 'array') {
+      if (a.length !== b.length) return `${p}: 要素数 ${a.length}≠${b.length}`;
+      for (let i = 0; i < a.length; i++) { const d = firstDiff(a[i], b[i], `${p}[${i}]`); if (d) return d; }
+      return null;
+    }
+    if (ta === 'object') {
+      const ka = Object.keys(a).sort(), kb = Object.keys(b).sort();
+      const only = ka.filter((k) => !kb.includes(k)).concat(kb.filter((k) => !ka.includes(k)));
+      if (only.length) return `${p || '(root)'}: キー差 [${only.slice(0, 4).join(' ')}]`;
+      for (const k of ka) { const d = firstDiff(a[k], b[k], p ? `${p}.${k}` : k); if (d) return d; }
+      return null;
+    }
+    return `${p}: 値 ${JSON.stringify(a)}≠${JSON.stringify(b)}`;
+  };
+
+  // ---- ① presence: 存在+スキーマ+5主張の全行+成分の明示値 ----
+  {
+    const problems = [];
+    let checked = 0;
+    const req = (cond, label) => { checked++; if (!cond) problems.push(label); };
+    if (!mod) problems.push(`生成器 tools/gen-error-budget.mjs を import できない(${modErr})`);
+    else if (!doc) problems.push(`${EB_REL} を読めない(${docErr})— \`node tools/gen-error-budget.mjs\` で生成する`);
+    else {
+      const OK_STATUS = ['instrumented', ...mod.SENTINELS];
+      const isHex64 = (v) => typeof v === 'string' && /^[0-9a-f]{64}$/.test(v);
+      req(doc.schema === mod.SCHEMA, `schema(=${mod.SCHEMA} であること)`);
+      req(typeof doc.schemaVersion === 'string' && /^\d+\.\d+$/.test(doc.schemaVersion), 'schemaVersion');
+      req(doc.provenance && typeof doc.provenance === 'object', 'provenance');
+      req(Array.isArray(doc.provenance && doc.provenance.sources) && doc.provenance.sources.length > 0, 'provenance.sources');
+      req(doc[mod.VOLATILE_KEY] && typeof doc[mod.VOLATILE_KEY] === 'object', `${mod.VOLATILE_KEY}(揮発ブロック)`);
+      req(Array.isArray(doc.claims), 'claims(配列)');
+      const ids = Array.isArray(doc.claims) ? doc.claims.map((c) => c && c.id) : [];
+      req(mod.CLAIM_IDS.every((id) => ids.includes(id)) && ids.length === mod.CLAIM_IDS.length,
+        `claims の5主張全行(期待=[${mod.CLAIM_IDS.join(' ')}] / 実際=[${ids.join(' ')}])`);
+      for (const c of (Array.isArray(doc.claims) ? doc.claims : [])) {
+        const tag = (c && c.id) || '(id なし)';
+        for (const f of mod.REQUIRED_CLAIM_FIELDS) req(c && c[f] !== undefined && c[f] !== null, `${tag}.${f}`);
+        if (!c) continue;
+        req(c.claim && typeof c.claim.ja === 'string' && typeof c.claim.en === 'string', `${tag}.claim(ja/en)`);
+        req(Array.isArray(c.sourceJsons) && c.sourceJsons.length > 0 &&
+          c.sourceJsons.every((s) => typeof s.file === 'string' && s.file.startsWith('tests/out/') && isHex64(s.sha256)),
+          `${tag}.sourceJsons(file+SHA-256)`);
+        req(c.value && typeof c.value === 'object' && Object.keys(c.value).length > 0, `${tag}.value`);
+        req(c.window && typeof c.window === 'object' && Object.keys(c.window).length > 0, `${tag}.window`);
+        req(typeof c.verdictPointer === 'string' && c.verdictPointer.includes('#'), `${tag}.verdictPointer`);
+        // 5つの主成分は**全主張に必ず**在り、status は固定語彙のみ(空欄・null・逃げ口上を残さない)
+        for (const k of mod.COMPONENT_KEYS) {
+          const v = c.components && c.components[k];
+          checked++;
+          if (!v || typeof v !== 'object') { problems.push(`${tag}.components.${k}(欠落)`); continue; }
+          if (!OK_STATUS.includes(v.status)) problems.push(`${tag}.components.${k}.status=${JSON.stringify(v.status)}(許される語彙は ${OK_STATUS.join('/')} のみ)`);
+          if (mod.SENTINELS.includes(v.status) && !(typeof v.note === 'string' && v.note.trim() !== ''))
+            problems.push(`${tag}.components.${k}(未計装なら理由の note を書くこと)`);
+        }
+      }
+    }
+    const nClaims = (doc && Array.isArray(doc.claims)) ? doc.claims.length : 0;
+    const nComp = (doc && Array.isArray(doc.claims) && mod)
+      ? doc.claims.reduce((a, c) => a + Object.keys((c && c.components) || {}).length, 0) : 0;
+    add('errorbudget.presence', problems.length === 0,
+      `${EB_REL}: 主張=${nClaims}行(必須=${mod ? mod.CLAIM_IDS.length : '?'}行)・成分=${nComp}件` +
+      `(うち主成分は全主張で ${mod ? mod.COMPONENT_KEYS.join('/') : '?'} の5件必須)・検査=${checked}件` +
+      (problems.length ? ` / 不備=[${problems.slice(0, 12).join(' | ')}${problems.length > 12 ? ' …他' + (problems.length - 12) + '件' : ''}]` : '') +
+      ` / 未計装成分は tests/manifest.mjs と同じ固定語彙(${mod ? mod.SENTINELS.join('/') : '?'})でのみ書ける` +
+      ` — 「測っていない」ことも誤差予算の1行として明示させ、空欄で誤魔化す逃げ口上を塞ぐ`);
+  }
+
+  // ---- ② consistency: この場で再集計して台帳と完全一致するか+出典 SHA-256 の現物照合 ----
+  {
+    const problems = [];
+    let rebuilt = null, rebuildErr = null;
+    if (!mod) problems.push(`生成器を import できない(${modErr})`);
+    else if (!doc) problems.push(`${EB_REL} を読めない(${docErr})`);
+    else {
+      try { rebuilt = mod.buildErrorBudget(ROOT); } catch (e) { rebuildErr = String(e && e.message || e); }
+      if (!rebuilt) problems.push(`再集計に失敗(${rebuildErr})`);
+      else {
+        const committed = { ...doc }; delete committed[mod.VOLATILE_KEY];
+        const d = firstDiff(canon(rebuilt), canon(committed), '');
+        if (d) problems.push(`再集計と不一致 → ${d}(台帳を手で書き換えたか、出典 JSON が動いたのに再生成していない)`);
+      }
+      // 出典 JSON の SHA-256 が**現物**と一致するか(台帳が古い出典を指したまま固まるのを防ぐ)
+      for (const s of (doc.provenance && doc.provenance.sources) || []) {
+        const p = path.join(ROOT, s.file);
+        if (!fs.existsSync(p)) { problems.push(`${s.file}: 出典ファイルなし`); continue; }
+        const buf = fs.readFileSync(p);
+        const h = crypto.createHash('sha256').update(buf).digest('hex');
+        if (h !== s.sha256) problems.push(`${s.file}: SHA-256 不一致(台帳 ${String(s.sha256).slice(0, 12)}… vs 現物 ${h.slice(0, 12)}…)`);
+        else if (buf.length !== s.bytes) problems.push(`${s.file}: bytes 不一致(台帳 ${s.bytes} vs 現物 ${buf.length})`);
+      }
+    }
+    const nSrc = (doc && doc.provenance && doc.provenance.sources) ? doc.provenance.sources.length : 0;
+    const sum = (doc && doc.summary) || {};
+    add('errorbudget.consistency', problems.length === 0,
+      `生成器 tools/gen-error-budget.mjs を import してこの場で再集計 → コミット済み ${EB_REL} と` +
+      `「\`${mod ? mod.VOLATILE_KEY : 'generated'}\` キーを除いて」完全一致すること・出典 ${nSrc} 件の SHA-256 が現物と一致すること` +
+      (problems.length ? ` / 不備=[${problems.slice(0, 6).join(' | ')}]` : '') +
+      ` / 台帳の主成分の計装=${sum.coreComponentsInstrumented ?? '?'}/${sum.coreComponentsTotal ?? '?'}` +
+      `(主張=${sum.claimCount ?? '?'}行・新規シミュレーション ${doc && doc.provenance ? doc.provenance.newSimulations : '?'} 件 —` +
+      ` 数値はすべてコミット済み結果 JSON からの機械集計で、生成器に実測値の数値リテラルは無い)`);
+  }
 }
 
 add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '));
