@@ -1,6 +1,6 @@
 % =====================================================================
 % Determinacy-Field Mechanics, Paper 3 -- FULL DRAFT
-% CURRENT VERSION: v1.1 (2026-08-21, wave 156).  The single version
+% CURRENT VERSION: v1.2 (2026-08-22, wave 161).  The single version
 %   statement for this manuscript is this line plus \date below; it is
 %   repeated in paper/README.md and nowhere else.  First full draft:
 %   v1.0-draft (2026-08-18).
@@ -96,6 +96,37 @@
 %       equatorial sidereal solar rotation period; the NASA fact-sheet
 %       bibitems carry a transcription-date note; the JUP365 difference
 %       is stated as a fixed choice of comparison source.
+% 2026-08-22 (wave 161), fourth external review round -- v1.2.  No
+%   measured number was invented or moved by hand; every new figure in
+%   the text is transcribed mechanically from a committed result file,
+%   and the transcription is cross-checked against the JSON.
+%   (a) P0-1.  The Jovian observational inputs are now archived in the
+%       repository as paper/data/jovian-satellites.csv (machine-readable:
+%       body, quantity, value, unit, source, retrieved, note), so the
+%       hold-out's inputs survive the NASA fact-sheet URL redirect.  The
+%       file's sha256 prefix is quoted in Sec. VI F and in the
+%       code-and-data availability section.
+%   (b) P0-2.  The JUP365 source-dependence variant of wave 162 is
+%       written up in Sec. VI F (short paragraph plus Table
+%       \ref{tab:jup365}), transcribed from
+%       tests/out/jup365-results.json.  The comparison target of this
+%       paper is UNCHANGED: it remains the fact-sheet series.
+%   (c) P1-6.  The Abstract now states the radial audit's score
+%       (2 PASS / 3 FAIL) so that the Abstract cannot read as a
+%       selective presentation of the two windows that passed.
+%   (d) P1-7.  The Jovian high-q wording is tightened once more: the
+%       run is described as a STRESS TEST that separates q=3 from the
+%       saturated high-q class (insensitive over q = 8-14), not as a
+%       verification of the qLock closed form.
+%   (e) P1-8.  The \bibitem{DFM4} entry was removed (never cited in
+%       this manuscript); see the note at the end of the bibliography.
+%   (f) M-3.  Three short additions that make no new claim: an
+%       intuitive statement of why the unit-system lock is needed at
+%       all (Sec. III A); a quantitative note on how fast the
+%       qLock/Lense-Thirring ratio dies outward (Sec. V B); and a
+%       paragraph in Sec. IV C declining, for now, to adjudicate
+%       whether the 8.85-yr two-body agreement is coincidence or
+%       structure.
 % Pillars (chronological by wave):
 %   P1  43''/century reproduced by direct dynamics (waves 113-115:
 %       real-c convention, stateCarry:"double"; ratio 1.002).
@@ -150,8 +181,10 @@ by Honest Calibration, Not Mechanism Claims}%
 \author{Tetsuya Imamura}
 \affiliation{Independent Researcher, Tokyo, Japan}
 
-\date{2026-08-18 (draft v1.0); revised 2026-08-19 (wave 141);
-  revised 2026-08-21 (draft v1.1)}
+% wave 161: the revision list is compressed onto one line -- spelling out
+% a fourth "revised ..." clause overran the title block by 7.9 pt.
+\date{2026-08-18 (draft v1.0); revised 2026-08-19, 2026-08-21 and
+  2026-08-22 (draft v1.2)}
 
 \begin{abstract}
 % wave 143 (P1-4): abstract compressed by about 30%.  The headline
@@ -191,6 +224,14 @@ reference orbit it sets the spin-term amplitude to the Lense--Thirring
 amplitude times the bare geometric ratio $(a/(R+a))^{3}$, and it
 preserves neither the Lense--Thirring $r^{-3}$ law nor a nonzero
 Lense--Thirring ratio at infinity.
+% wave 161 (P1-6): the Abstract states the radial audit's score, so that
+% it cannot be read as a selective presentation of the two windows that
+% passed.  The score itself is unchanged (Table \ref{tab:w15}).
+The radial audit of that rule's entrainment profile was run against
+five acceptance windows fixed in writing beforehand and scores
+$2$~PASS~/~$3$~FAIL---W1 and W4 hold; W2, W3 and W5 fail---and all five
+are reported here, with the post-specified analyses attached to two of
+the failures kept in a separate column.
 Applied without refitting to the Jovian system---one evaluation at Io's
 orbit, so that Io carries the reference and Europa, Ganymede and
 Callisto are held out, and no per-moon parameter exists---it keeps all
@@ -198,9 +239,13 @@ four Galilean moons within $0.051\%$ of their observed sidereal periods
 over $20$ Io revolutions, whereas the $q=3$ control moves two of the
 four outside the pre-registered $\pm1\%$; those periods are transcribed
 rather than predicted, and the outcome is unchanged across the whole
-strongly attenuated family $q\gtrsim8$, so what survives the test is
-that class of exponents rather than the particular value the rule
-returns.
+strongly attenuated family $q\gtrsim8$ (measured to be insensitive over
+$q=8$--$14$), so the run is a \emph{stress test} that separates $q=3$
+from that saturated high-$q$ class rather than a verification of the
+closed form, and what survives it is the class rather than the
+particular value the rule returns.
+A source-dependence variant confirms that this conclusion does not
+depend on which tabulation of the Galilean periods is adopted.
 The failures that produced the conventions are reported as results, and
 a calibrated match is not claimed to license more than it does:
 agreement of a number is not identification of a mechanism.
@@ -363,6 +408,31 @@ dimensionless invariant of the sample is real}---both $GM/(c^{2}a)$
 and $v/c$---so the model's ``exaggeration factor'' relative to nature
 is unity rather than the $10^{6}$ that the earlier $c_0=30$
 visualization convention carried.
+
+% wave 161 (M-3a): an intuitive statement of why the unit-system lock is
+% required.  No new claim: it only makes explicit the reason the
+% preceding two paragraphs and Table \ref{tab:scales} already encode.
+\paragraph*{Why the lock is needed at all.}
+The declaration looks like bookkeeping, and it is worth saying plainly
+why it is not.
+A toy simulation can always be \emph{relabelled} until one chosen
+observable comes out at the observed number: $L$, $T$ and $M$ are three
+free multipliers, and three multipliers will fit almost any single
+target.
+What they cannot do is fit a second target for free.
+Once the exponents are declared, the dimensionless combinations that
+the dynamics actually reads---$GM/(c^{2}a)$ for the relativistic
+corrections, $v/c$ for the kinematic ones---are fixed along with them,
+and nothing is left over to place those combinations where one would
+like.
+Demanding the real $G$ \emph{and} the real $c$ at the same time is
+exactly the demand that these invariants take their real values, which
+is what separates ``the orbit looks right on the screen'' from ``the
+small parameter of the problem is the small parameter nature has''.
+Without both locks the model would still return a number in arcseconds
+per century, but it would return it at an exaggeration factor of
+$10^{6}$---that is, from a regime in which the post-Newtonian expansion
+under test is not the expansion Mercury is in.
 
 % wave 143 (P0-3): squeezed so the row of real-unit values fits the
 % column (it previously overran it by 16 pt).
@@ -1046,6 +1116,30 @@ things, so a reader who took the lunar agreement as evidence about
 frame dragging of the Lense--Thirring kind would be crossing between
 them.
 
+% wave 161 (M-3c): the coincidence-or-structure question is recorded as
+% open and explicitly NOT adjudicated.  No new claim: the calibration
+% reading stated above stands unchanged either way.
+\paragraph*{Coincidence or structure: not adjudicated here.}
+A reader may reasonably ask which of two things this agreement is: a
+numerical coincidence---two knobs, two observables, and enough freedom
+to land on both---or a structural fact about how motion dragging
+distributes precession in a two-body system with these mass and
+distance ratios.
+We do not decide it here, and the refusal is deliberate rather than an
+oversight.
+Deciding it would require a measurement this paper does not contain:
+the dependence of the reproduced cycle on the mass ratio, on the
+distance ratio and on $D_0$, mapped widely enough to show whether
+$8.85$ years sits on a broad plateau (structure) or is reached only by
+tuning (coincidence).
+What does not move with the answer is the epistemic status, and that is
+already fixed: the agreement is a calibration, it is produced through a
+mechanism that is not the mechanism operating in the sky, and neither
+reading would convert it into evidence about the real lunar apsidal
+cycle.
+The question is therefore recorded as open, with the weaker statement
+above standing in the meantime.
+
 This is reported as a section, not a footnote, because its position in
 the paper is the point.
 
@@ -1178,6 +1272,19 @@ It preserves neither the Lense--Thirring $r^{-3}$ law nor a nonzero
 Lense--Thirring ratio at infinity: since $q^{*}>3$, the ratio
 $\omega_{q^{*}}(d)/\Omega_{LT}(d)$ vanishes as $d^{3-q^{*}}$ as
 $d\to\infty$.
+% wave 161 (M-3b): a quantitative note on that decay.  The factors are
+% evaluations of 10^(3-q*) and 2^(3-q*) at the q* values already in
+% Table \ref{tab:finrad}; no new measurement is involved.
+That decay is fast enough to deserve a number rather than a limit
+statement.
+One decade outside the declared reference orbit the ratio is down by
+$10^{3-q^{*}}$: a factor $5.6\times10^{-6}$ at the Earth--Moon exponent
+$q^{*}=8.249$ and $5.0\times10^{-10}$ at the Jovian $q^{*}=12.302$;
+even moving out by a factor of two costs $2.6\times10^{-2}$ and
+$1.6\times10^{-3}$ respectively.
+The normalization is thus local to the orbit at which it is declared in
+a strong sense, and no far-field statement of any kind may be read out
+of it.
 An earlier revision of this paper described the rule as fixing the spin
 term's \emph{far-field} amplitude at the Lense--Thirring scale; that is
 an asymptotic claim the algebra does not support, and it is withdrawn
@@ -1589,8 +1696,14 @@ And what the outcome discriminates is not the closed form of
 Eq.~(\ref{eq:qlock}) nor the particular value $q^{*}=12.30$ it returns,
 but the \emph{class} of strongly attenuated exponents that the rule
 lands in: Sec.~\ref{sec:jupsens} measures the same result, to every
-recorded digit, for every $q$ in $[8,14]$, so the test separates that
-class from the unattenuated $q=3$ and says nothing finer.
+recorded digit, for every $q$ in $[8,14]$.
+% wave 161 (P1-7): named as a stress test rather than as a verification
+% of the closed form.  The measurement is unchanged.
+The run is therefore a \emph{stress test} that separates the
+unattenuated $q=3$ from the saturated high-$q$ class over which the
+outcome is insensitive, and not a verification of the qLock closed form
+or of the value it returns; it says nothing finer than that
+separation.
 
 The design is stated before the numbers, because it is what makes the
 test a hold-out.
@@ -1603,6 +1716,31 @@ The periods compared against throughout this section
 ($1.769138$, $3.551181$, $7.154553$ and $16.689017$\,d) are the
 \emph{sidereal} orbital periods carried by the NASA planetary
 satellite fact sheet series~\cite{NASASats}.
+% wave 161 (P0-1): the Jovian inputs are archived in the repository so
+% that the hold-out survives the fact-sheet URL redirect noted in
+% \cite{NASASats}.  sha256 of paper/data/jovian-satellites.csv:
+% 81bcb3807281b2e2ab6b8ad0525b86f62c954f97fee202da76865fe5c2f1437d
+% (the text quotes the first twelve hex digits).  TODO(ref-verify): the
+% JUP365 rows of that file are a second-hand transcription; pin the
+% primary table at submission.
+Because those sheets are living web pages---the address cited there now
+redirects to the NSSDC index---the values actually used are archived
+inside this repository as
+\texttt{paper/\allowbreak data/\allowbreak jovian-\allowbreak
+satellites.csv} (sha256 prefix \texttt{81bcb3807281}), a
+machine-readable table with columns
+\texttt{body}, \texttt{quantity}, \texttt{value}, \texttt{unit},
+\texttt{source}, \texttt{retrieved} and \texttt{note}.
+It carries Jupiter's mass, radius and rotation period; each moon's
+semi-major axis, eccentricity, mass, radius, synchronous spin and
+sidereal period; the orbital inclinations that the two-dimensional
+idealization discards; and the four \textsc{jup365} periods used by the
+source-dependence variant below.
+The file is a transcription record rather than a new source: every
+fact-sheet row reproduces, digit for digit, the value declared in
+\texttt{tests/exp-jupiter.mjs}, each derived row says so, and the
+\textsc{jup365} rows carry an explicit note that the primary table
+could not be consulted here.
 An external review of wave 143 points out that the periods obtainable
 from the current JPL \textsc{jup365} mean-element table can differ
 from these by as much as ${\approx}0.7\%$; that comparison could not
@@ -1614,8 +1752,11 @@ JW2 are unaffected---both are statements about the values the harness
 actually declares---but the \emph{meaning} of a period comparison is
 tied to the source one declares, which is why the attribution above is
 stated exactly.
-Re-running the hold-out against the \textsc{jup365} values is recorded
-as a future variant, not performed here.
+% wave 161 (P0-2): that future variant has since been run (wave 162);
+% the sentence that deferred it is replaced by a pointer, and the
+% measurement is written up at the end of this subsection.
+That variant has since been run, and it is reported below rather than
+deferred; it does not change the comparison target.
 The comparison target is therefore \emph{fixed}, throughout this paper,
 to the fact-sheet values transcribed in the harness: every period
 deviation quoted below is a deviation from that transcription and from
@@ -1692,6 +1833,77 @@ is recorded only: the measured period ratios are $2.0069$ and $2.0145$
 against the observed $2.0073$ and $2.0147$, but the initial phases are
 placed $90^{\circ}$ apart rather than at the resonant equilibrium, so
 the resonant angle is not librating and no claim is made about it.
+
+% wave 161 (P0-2): the source-dependence variant of wave 162.  EVERY
+% number in this paragraph and in Table \ref{tab:jup365} is transcribed
+% mechanically from tests/out/jup365-results.json (windows UW1-UW4);
+% none was typed from memory or recomputed by hand.  The comparison
+% target of this paper is NOT changed by it.
+\paragraph*{How much depends on the source: the \textsc{jup365}
+variant.}
+Which tabulation one compares against is a choice, and wave 162
+measured what the choice is worth (harness
+\texttt{tests/exp-jup365.mjs}, recorded in
+\texttt{tests/out/\allowbreak jup365-\allowbreak results.json}, with
+windows UW1--UW4 fixed before the run).
+Table~\ref{tab:jup365} puts the two tabulations side by side.
+They differ by $-0.3621\%$ for Io, $-0.7242\%$ for Europa,
+$+0.0145\%$ for Ganymede and $+0.0085\%$ for Callisto: the two inner
+moons carry essentially all of it.
+Re-measuring the baseline---the same initial conditions as above, with
+nothing refitted---leaves all four periods within $0.0514\%$ of the
+fact-sheet targets and within $0.7633\%$ of the \textsc{jup365}
+targets, inside the pre-declared $\pm1\%$ and $\pm2\%$ bands
+respectively.
+The variant run then replaces each moon's semi-major axis by the Kepler
+inversion $a'=\bigl(GM(P/2\pi)^{2}\bigr)^{1/3}$ of its \textsc{jup365}
+period and changes nothing else---$e$, $m$, $R$, the spins, $D_0$ and
+$q$ are all left as they were, so the count of fitted parameters is
+again zero---and it lands all four periods within $0.0113\%$ of the
+\textsc{jup365} targets while retaining every orbit
+($|\Delta a|/a\leq0.1425\%$, no NaN).
+The hold-out conclusion is accordingly the same under either source:
+all four moons pass against the fact-sheet targets and all four pass
+against the \textsc{jup365} targets, with per-moon agreement complete
+(UW4).
+Two cautions belong with this.
+JPL states that mean elements of this kind are not intended for precise
+ephemeris computation, so neither tabulation is being used here as an
+epoch-accurate ephemeris; and the \textsc{jup365} values are a
+second-hand transcription that this environment could not check against
+the primary table, so the final confirmation against epoch-fixed data
+(Horizons or equivalent) is submission-time work.
+Neither caution moves the comparison target of this paper, which
+remains the fact-sheet series throughout: the variant is a control on
+source dependence, not a change of reference.
+
+\begin{table}[t]
+\caption{Source dependence of the Galilean hold-out (wave 162; harness
+  \texttt{tests/exp-jup365.mjs}, recorded in
+  \texttt{tests/out/jup365-results.json} under \texttt{windows.UW1} and
+  \texttt{windows.UW3}). ``fact sheet'' is the comparison target used
+  throughout this paper~\cite{NASASats}; \textsc{jup365} is the control
+  source, a second-hand transcription of the JPL planetary-satellite
+  mean elements. $\Delta$ is
+  $(P_{\textsc{jup365}}-P_{\mathrm{fact}})/P_{\mathrm{fact}}$. The last
+  column is the variant run's measured period against its own
+  \textsc{jup365} target, with the semi-major axis replaced by the
+  Kepler inversion of that period and nothing else changed; Io's entry
+  is $-2\times10^{-14}\%$, i.e.\ zero at this precision. All entries
+  are transcribed from the result file.}
+\label{tab:jup365}
+\begin{ruledtabular}
+\begin{tabular}{lrrrr}
+moon & fact sheet & \textsc{jup365} & $\Delta$ & variant \\
+ & (d) & (d) & (\%) & dev.\ (\%) \\
+\colrule
+Io       & $1.769138$  & $1.762732$ & $-0.3621$ & $0.0000$ \\
+Europa   & $3.551181$  & $3.525463$ & $-0.7242$ & $+0.0032$ \\
+Ganymede & $7.154553$  & $7.155588$ & $+0.0145$ & $+0.0113$ \\
+Callisto & $16.689017$ & $16.69044$ & $+0.0085$ & $-0.0054$ \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
 
 What this test licenses is again narrow, and narrower than it first
 looks.
@@ -2182,7 +2394,9 @@ integrator-level numerical floor and is not the figure of record.
 \subsection{Harnesses and result files}
 \label{sec:harnesses}
 
-Every number in this paper comes from one of seven headless
+% wave 161: eight harnesses (exp-jup365.mjs added by wave 162 for the
+% source-dependence variant of Sec. \ref{sec:jupiter}).
+Every number in this paper comes from one of eight headless
 measurement harnesses in the public repository, each run by a single
 command
 (\texttt{QA\_TARGET=... node tests/exp-*.mjs}) against the same
@@ -2214,6 +2428,9 @@ Harness & Scope & Result file \\
 \texttt{exp-\allowbreak jupiter.mjs} &
   Galilean hold-out; \S H sensitivity (wave 141) &
   \texttt{jupiter-\allowbreak results.json} \\
+\texttt{exp-\allowbreak jup365.mjs} &
+  source dependence of the Galilean hold-out (wave 162) &
+  \texttt{jup365-\allowbreak results.json} \\
 \bottomrule
 \end{tabularx}}
 \end{center}
@@ -2298,6 +2515,11 @@ Galilean hold-out JW1--JW5 &
 sensitivity (wave 141) &
   \texttt{exp-jupiter} \S H / \texttt{jupiter-\allowbreak results.json} &
   \texttt{p3fig4.\allowbreak aref-sensitivity} etc. \\
+% wave 161: the wave-162 variant is recorded, not gated -- stated as
+% such rather than left out of the map.
+source dependence UW1--UW4 (wave 162) &
+  \texttt{exp-jup365} / \texttt{jup365-\allowbreak results.json} &
+  none: recorded only, no CI gate \\
 sample claim consistency & sample declarations &
   \texttt{claims.sync} \\
 figures redraw unchanged & committed result files &
@@ -2351,6 +2573,22 @@ concept DOI
 record v1.41.0 being archived as
 \href{https://doi.org/10.5281/zenodo.22025091}
 {doi:10.5281/zenodo.22025091}.
+% wave 161 (P0-1): the observational inputs of the Jovian hold-out are
+% archived in-repository, because the fact-sheet address they were
+% transcribed from now redirects (see \cite{NASASats}).
+% sha256(paper/data/jovian-satellites.csv) =
+% 81bcb3807281b2e2ab6b8ad0525b86f62c954f97fee202da76865fe5c2f1437d
+The observational inputs of the Jovian hold-out are archived with the
+manuscript as
+\texttt{paper/\allowbreak data/\allowbreak jovian-\allowbreak
+satellites.csv} (sha256 prefix \texttt{81bcb3807281}), a
+machine-readable transcription record with columns \texttt{body},
+\texttt{quantity}, \texttt{value}, \texttt{unit}, \texttt{source},
+\texttt{retrieved}, \texttt{note}; it exists because the NASA
+fact-sheet address the values came from now redirects to an index page
+(Sec.~\ref{sec:jupiter} and \cite{NASASats}), and it marks the
+\textsc{jup365} control rows as an unverified second-hand
+transcription.
 The environment is Node.js~$\geq$22 with a Playwright-driven Chromium
 for the harnesses and TeX~Live for the manuscript;
 \texttt{npm ci \&\& npm test} reproduces the verification suite and
@@ -2404,10 +2642,13 @@ doi:10.5281/zenodo.21454189.
 \bibitem{DFM2} T. Imamura, \emph{The Box Universe: Expansion, Time,
 and Light in a Relational Toy Model, with a Deliberately Bounded
 Hubble-Tension Analogue}, companion paper (2026).
-\bibitem{DFM4} T. Imamura, \emph{Emergence Across Scales in
-Determinacy-Field Mechanics: A Graded Standard-Test Methodology from
-Microspin Thermalization to Self-Forming Dark Rotors}, companion
-paper (2026).
+% wave 161 (P1-8): the \bibitem{DFM4} entry was REMOVED here.  It was
+% never cited anywhere in this manuscript, and an uncited entry for a
+% paper that is still an unpublished draft cannot be checked by a
+% reader.  Paper 4 (dfm-paper4.tex, "Emergence Across Scales in
+% Determinacy-Field Mechanics") is unaffected as a document; the
+% citation is to be restored here if and when Paper 4 is public AND
+% this manuscript actually cites it.
 
 % --- Primary sources for the observed values quoted in this paper. ---
 % Entries marked TODO(ref-verify) are real publications whose exact
@@ -2498,13 +2739,19 @@ D.~R.~Williams, \emph{NASA Planetary Fact Sheets} (NASA Goddard Space
 Flight Center / NSSDCA),
 \href{https://nssdc.gsfc.nasa.gov/planetary/factsheet/}
 {https://nssdc.gsfc.nasa.gov/planetary/factsheet/}
-(Mercury, Earth, Moon, Saturn and Saturnian-satellite sheets; the
-Saturn sheet also tabulates the C/B/A ring edge radii and the Cassini
-division). Values transcribed as of 2026-08; the address above now
-redirects to the NSSDC index page for these sheets.
+(Mercury, Earth, Moon, Jupiter, Saturn and Saturnian-satellite sheets;
+the Saturn sheet also tabulates the C/B/A ring edge radii and the
+Cassini division). Values transcribed as of 2026-08; the address above
+now redirects to the NSSDC index page for these sheets.
 % TODO(ref-verify): pin an archival snapshot (Web archive / DOI of the
 % sheet revision) at submission time.  The URL is deliberately NOT
 % replaced here: it is the address the values were transcribed from.
+% wave 161: "Jupiter" added to the enumeration above, because
+% paper/data/jovian-satellites.csv attributes the Jovian primary's
+% mass, radius and rotation period to this sheet family.  The
+% attribution is asserted at the level of the series and is part of the
+% TODO(ref-verify) above; this environment had no external network
+% egress, so the individual sheet could not be opened here.
 
 \bibitem{NASASats}
 D.~R.~Williams, \emph{Jovian Satellite Fact Sheet}, NASA planetary

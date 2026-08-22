@@ -1,6 +1,6 @@
 % =====================================================================
 % Determinacy-Field Mechanics -- arXiv draft
-% CURRENT VERSION: v0.10 (2026-08-21, wave 156).
+% CURRENT VERSION: v0.11 (2026-08-22, wave 161).
 % VERSION OF RECORD: v0.9 (2026-07-20) = repository tag paper-v1
 % (release v1.27.0 series), Zenodo v1 doi:10.5281/zenodo.21454189.
 % The present manuscript is a POST-RECORD EDITORIAL REVISION of that
@@ -86,6 +86,25 @@
 %       this revision stated in Reproducibility.  No claim, number,
 %       equation or figure datum changed, so the VERSION OF RECORD stays
 %       v0.9.
+% v0.11 (wave 161, 2026-08-22): fourth external review round.  Wording
+%       only -- no number, equation, figure datum, window or claim
+%       moved, so the VERSION OF RECORD stays v0.9.
+%       (a) P1-1.  The Abstract's E12 sentence now carries the same
+%           limiting clause the body already states (Sec. IV D): the
+%           option is calibrated in the static, single-dominant-source,
+%           test-particle domain, and its per-source form omits the
+%           multi-source cross terms.
+%       (b) P1-2.  Sec. I B now separates three levels of claim that a
+%           reader can otherwise run together -- an implementation
+%           reproducing a reference value, a model extension calibrated
+%           on a stated domain, and a physical mechanism independently
+%           verified -- and says which level E12 occupies (the second).
+%           The motivation for introducing E12 at all (the honest
+%           failure of the base dynamics on Mercury) is stated in one
+%           more sentence in Sec. IV D.
+%       (c) M-4.  The Abstract states in one sentence why the model
+%           posits the 1/d^2 force on a plane, and points at the
+%           existing broken-Gauss-law discussion in the body.
 % TODO(release): re-deposit this post-record revision on Zenodo (a new
 %       version under concept DOI 10.5281/zenodo.21454189) at submission
 %       time, together with the extended subtitle.
@@ -137,7 +156,7 @@ Delay as Consequences of One Calibration, Not as Evidence}%
 \affiliation{Independent Researcher, Tokyo, Japan}
 
 \date{July 20, 2026 (v0.9, version of record); revised August 21, 2026
-  (v0.10)}
+  (v0.10); revised August 22, 2026 (v0.11)}
 
 \begin{abstract}
 We present Determinacy-Field Mechanics (DFM), an educational toy model in
@@ -157,6 +176,17 @@ The model is specified by axioms A1--A13 and update rules E1$'$--E11 on a
 two-dimensional Euclidean background, and is implemented as a
 self-contained single-file HTML simulator whose principal claims are
 machine-verified by an embedded test suite.
+% wave 161 (M-4): why the plane carries a 1/d^2 force at all.  The
+% statement is the one already made in the body (Sec. II B and
+% contribution C2); nothing new is claimed here.
+The plane is idealized in one respect that should be said at the
+outset: the field is \emph{posited} to fall off as $w \propto m/d$, so
+that the force is inverse-square as in three dimensions, rather than
+the $1/d$ that a Gauss-law-consistent field on a plane would give.
+The choice keeps Kepler orbits and $1/d^2$ forces in the picture a
+student sees, at the price of the flux reading of the law and of the
+shell theorem, and the body states that price where the axioms
+introduce it.
 A one-parameter background determinacy $\Dz$ interpolates continuously
 between Newtonian absolute space ($\Dz \to \infty$) and a fully
 relational, Machian space ($\Dz \to 0$), turning Newton's bucket into
@@ -179,6 +209,13 @@ same line element that drives the clocks to the matter action,
 recovers the full 1PN advance ($\beta = \gamma = 1$; $+42.98''$/century
 for Mercury) with no additional free coefficient, machine-checked
 against the analytic formula (V18--V20).
+% wave 161 (P1-1): the Abstract now carries the same limiting clause the
+% body already states in Sec. IV D, in the same vocabulary.
+That recovery is stated with its domain rather than without one: E12 is
+calibrated in the \emph{static}, \emph{single-dominant-source},
+\emph{test-particle} regime, and the per-source form actually
+implemented omits the multi-source cross terms of the total-potential
+expression, which the two forms share only when one source dominates.
 We state explicitly what the model does not claim: it is not a
 description of the real universe; it does not remove the need for dark
 matter; it has neither Lorentz invariance nor causal propagation; and
@@ -264,6 +301,31 @@ proposition} rather than a theorem.
 
 \subsection{Contributions}
 \label{sec:contributions}
+
+% wave 161 (P1-2): the three levels of claim are separated explicitly,
+% so that E12 cannot be read at the third level.  No claim is added or
+% withdrawn; this states the scope the paper already operates under.
+Three levels of claim run through this paper, and English does not
+separate them by itself, so we separate them before the list:
+(i)~\emph{an implementation reproduces a reference value}---the code,
+run as described, returns the number an established formula returns;
+(ii)~\emph{a model extension is calibrated on a stated domain}---a rule
+added to the model agrees with observation inside a domain declared
+along with it, the agreement being a consequence of the calibration
+rather than independent support for it; and
+(iii)~\emph{a physical mechanism is independently verified}---the
+model's mechanism is shown to be the mechanism operating in nature.
+No claim in this paper is of the third kind.
+The three benchmark agreements of Sec.~\ref{sec:corr} are of the first
+and second kinds, which is what C3 and the abstract mean by
+``a consequence of that single calibration, not evidence for the
+model''; and the geodesic option E12 is of the second kind, not the
+third.
+E12 is a labeled extension whose 1PN agreement follows from the single
+calibration $\Kt = G/c^2$ within the static, single-dominant-source,
+test-particle domain stated in Sec.~\ref{sec:e12}; recovering
+$42.98''$/century there is not evidence that the model's
+clock-and-light sector is how gravity works.
 
 The paper's contributions, stated with their intended scope:
 
@@ -992,6 +1054,21 @@ magnitude.
 
 \subsection{Geodesic option E12: recovering the static 1PN sector}
 \label{sec:e12}
+
+% wave 161 (P1-2): the motivation for E12 -- the honest failure that
+% produced it -- stated before the derivation, in one short paragraph.
+The option exists because of a failure, and the failure is worth
+stating before the construction.
+The base dynamics E1$'$--E11 does \emph{not} reproduce the static 1PN
+perihelion advance of Mercury; that is negative claim~5
+(Sec.~\ref{sec:negative}), and it is reported as a result rather than
+repaired quietly.
+Instead of absorbing the discrepancy into a fitted coefficient, we
+asked a narrower question: whether the line element the model already
+uses for clocks and light, taken seriously as a matter action, supplies
+the missing term by itself.
+It does, in the static sector, and the domain in which it does is
+declared with it below.
 
 The clock rule E7R defines a line element
 \begin{equation}

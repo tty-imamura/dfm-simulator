@@ -1,0 +1,1280 @@
+{
+  "meta": {
+    "exp": "jup365",
+    "wave": 162,
+    "target": "beta/index.html",
+    "date": "2026-08-22T00:41:58.400Z",
+    "title": "木星ガリレオ衛星 hold-out の JUP365 変種(観測ソース依存性の定量化)",
+    "basedOn": "第138便 tests/exp-jupiter.mjs(規約・初期条件・測定手順・窓の流儀)/ 第158便 tests/exp-coreshell5.mjs(決定性 SHA 照合の方式)",
+    "outPath": "tests/out/jup365-results.json",
+    "detRef": "jup365-run1.json",
+    "stage": "complete",
+    "elapsedSec": 2.132
+  },
+  "preRegistered": {
+    "UW1": "UW1(データのみ): 両ソースの周期相対差 |P_JUP365−P_facts|/P_facts を衛星別に記録 — 窓: 4衛星とも ≤1%。",
+    "UW2": "UW2(基線再測): 既存初期条件(fact-sheet a・D₀=0.006・q=12.30 不変)の kF0/kF1 走行(kF0=kFrame0 転写・kF1=kFrame1 保持、それぞれ exp-jupiter JW1/JW2 と同一手順)が fact-sheet 目標 ±1% かつ JUP365 目標 ±2%(ソース差 ≤1% と転写窓 ±1% の合成上界として事前宣言)。保持 |Δa|/a<2%・NaN なし・≥20 イオ公転。",
+    "UW3": "UW3(変種本体): 各衛星の a を JUP365 周期からケプラー逆算 a'=(GM·(P/2π)²)^(1/3)(P は時間単位=日×86.4。e/m/R/spin/D₀/q は**再フィットなしで不変**)した kF1 走行 — 測定周期が JUP365 目標 ±1%・保持窓は UW2 と同一。",
+    "UW4": "UW4(結論安定性): ホールドアウト結論(4衛星保持+周期整合)が両ソースで同判定になるかを記録(PASS/FAIL の一致表)。",
+    "determinism": "決定性: 全体2回実行(別プロセス)で、揮発キー(タイムスタンプ等)を除いた正規化 JSON の SHA-256 一致(coreshell5 の方式を踏襲)。",
+    "note": "窓は統括が実測前に固定した(ハンドオフ 2026-08-22a §3b)。本ハーネスは窓を1文字も動かさず、PASS/FAIL とも実測値をそのまま収載する。"
+  },
+  "sources": {
+    "factSheet": {
+      "role": "比較対象(第138便 hold-out の照合先 — 不変)",
+      "attribution": "NASA の惑星衛星 fact sheet 系(NASA GSFC / NSSDCA)の恒星公転周期(第143便で再帰属済み)。本便は第138便 MOONS[].Pobs からの転記である。",
+      "periodsDays": {
+        "Io": 1.769138,
+        "Europa": 3.551181,
+        "Ganymede": 7.154553,
+        "Callisto": 16.689017
+      },
+      "verified": "TODO(ref-verify): アーカイブ URL と fact sheet の版の確定は投稿時(第138便からの継承)。"
+    },
+    "jup365": {
+      "role": "本便が新規に持ち込む対照ソース",
+      "attribution": "JPL Planetary Satellite Mean Elements(JUP365)の平均要素周期。外部レビュー(2026-08-22)が引用した値からの**二次転写**である。",
+      "periodsDays": {
+        "Io": 1.762732,
+        "Europa": 3.525463,
+        "Ganymede": 7.155588,
+        "Callisto": 16.69044
+      },
+      "verified": "TODO(ref-verify): 本環境は egress 遮断のため JPL の原表を参照できていない。原表(URL・版・取得日)の確定と桁の照合は投稿時に行う。原表と食い違いが見つかった場合は本 JSON を破棄して再実測する(値の書き換えはしない)。"
+    }
+  },
+  "config": {
+    "units": "1単位=10⁷m/10³s/10²⁶kg",
+    "unitRule": "L−T=4(c₀=3×10⁴)・M+2T−3L=11(G=6.674)",
+    "physics": {
+      "G": 6.674,
+      "D0": 0.006,
+      "kFrame": 1,
+      "q": 12.3,
+      "kRep": 0,
+      "muF": 0,
+      "gammaN": 0,
+      "kappaS": 0,
+      "kappaT": 7.415555555555556e-9,
+      "cLight": 30000,
+      "bM": 1,
+      "etaRad": 0,
+      "pRad": 4,
+      "gravityX": 0,
+      "gravityY": 0,
+      "massFloor": 0.000001,
+      "geoPN": 2,
+      "lambdaPN": 1,
+      "pnAlpha": 1.5,
+      "radiusScale": 1,
+      "softening": 0.05,
+      "timeScale": 1,
+      "stateCarry": "double"
+    },
+    "mJupiter": 18.98,
+    "rJupiter": 7.1492,
+    "spinJupiter": 0.175851814,
+    "rotationHours": 9.925,
+    "GM": 126.67252,
+    "day": 86.4,
+    "pinned": true,
+    "idealization": "2D 赤道面理想化(軌道傾斜 0.04°/0.47°/0.20°/0.19° を無視する — 第138便の宣言を踏襲)",
+    "moons": [
+      {
+        "name": "Io",
+        "ja": "イオ",
+        "a": 42.18,
+        "e": 0.0041,
+        "m": 0.000893,
+        "R": 0.18216,
+        "spin": 0.041105924,
+        "Pobs": 1.769138,
+        "P365": 1.762732,
+        "phase": 0
+      },
+      {
+        "name": "Europa",
+        "ja": "エウロパ",
+        "a": 67.11,
+        "e": 0.009,
+        "m": 0.00048,
+        "R": 0.15608,
+        "spin": 0.0204782725,
+        "Pobs": 3.551181,
+        "P365": 3.525463,
+        "phase": 1
+      },
+      {
+        "name": "Ganymede",
+        "ja": "ガニメデ",
+        "a": 107.04,
+        "e": 0.0013,
+        "m": 0.00148,
+        "R": 0.26341,
+        "spin": 0.0101644438,
+        "Pobs": 7.154553,
+        "P365": 7.155588,
+        "phase": 2
+      },
+      {
+        "name": "Callisto",
+        "ja": "カリスト",
+        "a": 188.27,
+        "e": 0.0074,
+        "m": 0.001076,
+        "R": 0.24103,
+        "spin": 0.00435747966,
+        "Pobs": 16.689017,
+        "P365": 16.69044,
+        "phase": 3
+      }
+    ],
+    "qDeclared": 12.3,
+    "qStarAtFactsIo": 12.301733261350822,
+    "qLockRuntime": false,
+    "qNote": "q=12.30 は qLock 則 q*=3+ln(1.25c₀²R/GM)/ln((R+a)/R) を参照軌道=イオ(fact-sheet a=42.18)で1回だけ評価した直値宣言(第138便)。**本便では変種側でも再評価しない**(再フィット禁止)。",
+    "D0Shared": 0.006,
+    "D0Note": "D₀=0.006 は 🪨🌘💿 と共通の既存値。本便での再フィットはゼロ。",
+    "stepsPerOrbit": 2000,
+    "orbits": 20,
+    "semiMajorAxes": [
+      {
+        "name": "Io",
+        "aFactSheet": 42.18,
+        "aJup365": 42.063710388175046,
+        "relDiff": -0.0027569846331189085
+      },
+      {
+        "name": "Europa",
+        "aFactSheet": 67.11,
+        "aJup365": 66.77196549326612,
+        "relDiff": -0.005037021408640707
+      },
+      {
+        "name": "Ganymede",
+        "aFactSheet": 107.04,
+        "aJup365": 107.04020633846444,
+        "relDiff": 0.000001927676237301057
+      },
+      {
+        "name": "Callisto",
+        "aFactSheet": 188.27,
+        "aJup365": 188.26167142933136,
+        "relDiff": -0.00004423737541114914
+      }
+    ],
+    "keplerInverse": "a' = (GM·(P/2π)²)^(1/3)(P は時間単位 = 日×86.4)— 決定論的変換であり当てはめではない",
+    "timeBase": {
+      "factsIoKeplerUnits": 152.93205567896064,
+      "factsIoKeplerDays": 1.770046940728711,
+      "jup365IoKeplerUnits": 152.30004479999997,
+      "jup365IoKeplerDays": 1.7627319999999995,
+      "note": "各アームの dt はそのアームのイオのケプラー周期 / N_STEP で取る(窓「≥20 イオ公転」を両アームで同じ意味にするため)"
+    },
+    "comparator": "窓の ±X% は第138便 JW1/JW2 と同一の厳格比較 |dev| < X/100 で判定する"
+  },
+  "raw": {
+    "armDefinition": {
+      "baseline": "基線(fact-sheet a・既存初期条件そのまま)— UW2",
+      "variant": "変種(JUP365 周期からケプラー逆算した a'。e/m/R/spin/D₀/q は不変)— UW3"
+    },
+    "baseline": {
+      "kF0": {
+        "nan": false,
+        "steps": 40000,
+        "dt": 0.07646602783948032,
+        "rows": [
+          {
+            "name": "Io",
+            "ja": "イオ",
+            "aDeclared": 42.18,
+            "periodDays": 1.7703419485521656,
+            "nRev": 19,
+            "revSpanUnits": 2753.2357983883285,
+            "devVsFactSheet": 0.0006805283432753662,
+            "devVsJup365": 0.004317133036766618,
+            "aMin": 42.179685688758134,
+            "aMax": 42.189471646175626,
+            "aMean": 42.182909153186614,
+            "aSpread": 0.00023198868010630385,
+            "eMin": 0.002735907374635559,
+            "eMax": 0.007489693886181393,
+            "rMin": 41.93477849788457,
+            "rMax": 42.43211465690804,
+            "periodResolutionFloorRel": 0.00002777314891962451
+          },
+          {
+            "name": "Europa",
+            "ja": "エウロパ",
+            "aDeclared": 67.11,
+            "periodDays": 3.552262954174932,
+            "nRev": 9,
+            "revSpanUnits": 2455.3241539257133,
+            "devVsFactSheet": 0.0003046744660246681,
+            "devVsJup365": 0.007601825398517059,
+            "aMin": 67.09018855242601,
+            "aMax": 67.13590860240814,
+            "aMean": 67.1090322593254,
+            "aSpread": 0.0006812801264284278,
+            "eMin": 0.005991247160369573,
+            "eMax": 0.009668036324511487,
+            "rMin": 66.50367767454414,
+            "rMax": 67.70836167501078,
+            "periodResolutionFloorRel": 0.00003114294612270321
+          },
+          {
+            "name": "Ganymede",
+            "ja": "ガニメデ",
+            "aDeclared": 107.04,
+            "periodDays": 7.154234726601996,
+            "nRev": 4,
+            "revSpanUnits": 1854.3776411352374,
+            "devVsFactSheet": -0.00004448543438062558,
+            "devVsJup365": -0.00018912120122116516,
+            "aMin": 107.02694431688919,
+            "aMax": 107.05798241919832,
+            "aMean": 107.04102149067612,
+            "aSpread": 0.0002899645563625633,
+            "eMin": 0.00020526633977661603,
+            "eMax": 0.0015801486648281387,
+            "rMin": 106.8907288198194,
+            "rMax": 107.1771218349152,
+            "periodResolutionFloorRel": 0.00004123541297266092
+          },
+          {
+            "name": "Callisto",
+            "ja": "カリスト",
+            "aDeclared": 188.27,
+            "periodDays": 16.684462463308833,
+            "nRev": 2,
+            "revSpanUnits": 1441.5375568298832,
+            "devVsFactSheet": -0.00027290622875908443,
+            "devVsJup365": -0.0003581413486501983,
+            "aMin": 188.2330559473312,
+            "aMax": 188.2756439566108,
+            "aMean": 188.26250033964953,
+            "aSpread": 0.0002262161035934593,
+            "eMin": 0.006630244544323336,
+            "eMax": 0.007705862382399393,
+            "rMin": 186.83975747381416,
+            "rMax": 189.58332649485652,
+            "periodResolutionFloorRel": 0.00005304476978569913
+          }
+        ],
+        "fin": [
+          41.98598187734006,
+          -0.8637098738373552,
+          0.03161605647453545,
+          1.7403173996723125,
+          14.48941465027094,
+          65.28004835095248,
+          -1.3475988643213934,
+          0.2914636035186921,
+          -101.36410826094402,
+          34.34749880138445,
+          -0.3489559803173091,
+          -1.0305065085434193,
+          130.98873080944878,
+          -133.6815707024971,
+          0.5921920149838521,
+          0.5745731430001133
+        ]
+      },
+      "kF1": {
+        "nan": false,
+        "steps": 40000,
+        "dt": 0.07646602783948032,
+        "rows": [
+          {
+            "name": "Io",
+            "ja": "イオ",
+            "aDeclared": 42.18,
+            "periodDays": 1.770046940728711,
+            "nRev": 19,
+            "revSpanUnits": 2752.7770022212917,
+            "devVsFactSheet": 0.0005137760472675446,
+            "devVsJup365": 0.004149774740976442,
+            "aMin": 42.179035234196945,
+            "aMax": 42.18385003212788,
+            "aMean": 42.18096661599745,
+            "aSpread": 0.00011414622084803943,
+            "eMin": 0.0028141992374306206,
+            "eMax": 0.00618701521321197,
+            "rMin": 41.98580081717133,
+            "rMax": 42.374863193505206,
+            "periodResolutionFloorRel": 0.00002777777777777778
+          },
+          {
+            "name": "Europa",
+            "ja": "エウロパ",
+            "aDeclared": 67.11,
+            "periodDays": 3.552373582108728,
+            "nRev": 9,
+            "revSpanUnits": 2455.400619953553,
+            "devVsFactSheet": 0.0003358269006079606,
+            "devVsJup365": 0.007633205087878681,
+            "aMin": 67.10273742718407,
+            "aMax": 67.1500151191006,
+            "aMean": 67.1190998805777,
+            "aSpread": 0.0007043850707273095,
+            "eMin": 0.00838043815681878,
+            "eMax": 0.01188215603976652,
+            "rMin": 66.38083628787246,
+            "rMax": 67.85599103842327,
+            "periodResolutionFloorRel": 0.00003114197626981408
+          },
+          {
+            "name": "Ganymede",
+            "ja": "ガニメデ",
+            "aDeclared": 107.04,
+            "periodDays": 7.1562997813661795,
+            "nRev": 4,
+            "revSpanUnits": 1854.9129033301137,
+            "devVsFactSheet": 0.00024414961580121464,
+            "devVsJup365": 0.0000994721001517096,
+            "aMin": 107.03369277461138,
+            "aMax": 107.11083721407597,
+            "aMean": 107.06340725526132,
+            "aSpread": 0.0007205490787404272,
+            "eMin": 0.00110862029237656,
+            "eMax": 0.0025212049022527183,
+            "rMin": 106.84872726174264,
+            "rMax": 107.25891994786188,
+            "periodResolutionFloorRel": 0.00004122351389232418
+          },
+          {
+            "name": "Callisto",
+            "ja": "カリスト",
+            "aDeclared": 188.27,
+            "periodDays": 16.690657627601382,
+            "nRev": 2,
+            "revSpanUnits": 1442.0728190247594,
+            "devVsFactSheet": 0.00009830582600423021,
+            "devVsJup365": 0.000013039057171759794,
+            "aMin": 188.20459322305345,
+            "aMax": 188.47218411637985,
+            "aMean": 188.31044525253486,
+            "aSpread": 0.0014210092964707579,
+            "eMin": 0.006836769599793632,
+            "eMax": 0.008338356868291527,
+            "rMin": 186.86896578150757,
+            "rMax": 189.68221393748755,
+            "periodResolutionFloorRel": 0.000053025080863248316
+          }
+        ],
+        "fin": [
+          42.003618543721934,
+          -0.0025114468489093877,
+          -0.0005962293410142157,
+          1.7402111734839663,
+          14.575803471284548,
+          64.78596022915316,
+          -1.3554020476669364,
+          0.3011248536439988,
+          -100.89363950584854,
+          35.21879155137945,
+          -0.3586241795457208,
+          -1.028941421531534,
+          130.428985078888,
+          -134.39039021253285,
+          0.5947071750108602,
+          0.5712270440246074
+        ]
+      }
+    },
+    "variant": {
+      "kF0": {
+        "nan": false,
+        "steps": 40000,
+        "dt": 0.07615002239999999,
+        "rows": [
+          {
+            "name": "Io",
+            "ja": "イオ",
+            "aDeclared": 42.063710388175046,
+            "periodDays": 1.7630257886666665,
+            "nRev": 19,
+            "revSpanUnits": 2741.8577065343998,
+            "devVsFactSheet": -0.003454909302345932,
+            "devVsJup365": 0.0001666666666666483,
+            "aMin": 42.06338189460167,
+            "aMax": 42.07404553289602,
+            "aMean": 42.06676249310325,
+            "aSpread": 0.0002534932013392222,
+            "eMin": 0.0027358472234871147,
+            "eMax": 0.007160836792800074,
+            "rMin": 41.831668740181044,
+            "rMax": 42.30282648279522,
+            "periodResolutionFloorRel": 0.000027773148919624506
+          },
+          {
+            "name": "Europa",
+            "ja": "エウロパ",
+            "aDeclared": 66.77196549326612,
+            "periodDays": 3.5250722817777773,
+            "nRev": 10,
+            "revSpanUnits": 2741.0962063104,
+            "devVsFactSheet": -0.007352122638137226,
+            "devVsJup365": -0.00011082749194146757,
+            "aMin": 66.75024746655251,
+            "aMax": 66.79696999116996,
+            "aMean": 66.76996164062065,
+            "aSpread": 0.0006997536537302172,
+            "eMin": 0.005688883328063413,
+            "eMax": 0.009672056420797964,
+            "rMin": 66.16868132837469,
+            "rMax": 67.36686551190063,
+            "periodResolutionFloorRel": 0.0000277808645405045
+          },
+          {
+            "name": "Ganymede",
+            "ja": "ガニメデ",
+            "aDeclared": 107.04020633846444,
+            "periodDays": 7.154341610666664,
+            "nRev": 4,
+            "revSpanUnits": 1854.4053454847995,
+            "devVsFactSheet": -0.00002954612724725969,
+            "devVsJup365": -0.00017418405494218359,
+            "aMin": 107.02677916729353,
+            "aMax": 107.05761284922103,
+            "aMean": 107.04146647387014,
+            "aSpread": 0.00028805362018308043,
+            "eMin": 0.0004840954882520467,
+            "eMax": 0.0015775556227669847,
+            "rMin": 106.88986290521272,
+            "rMax": 107.17820163696032,
+            "periodResolutionFloorRel": 0.000041064388961892255
+          },
+          {
+            "name": "Callisto",
+            "ja": "カリスト",
+            "aDeclared": 188.26167142933136,
+            "periodDays": 16.683377013999998,
+            "nRev": 2,
+            "revSpanUnits": 1441.4437740095998,
+            "devVsFactSheet": -0.0003379459676985386,
+            "devVsJup365": -0.0004231755424063399,
+            "aMin": 188.22479567476321,
+            "aMax": 188.2675052342587,
+            "aMean": 188.25412428969895,
+            "aSpread": 0.00022687183962967684,
+            "eMin": 0.00663202098622856,
+            "eMax": 0.007704485848113231,
+            "rMin": 186.83143340590027,
+            "rMax": 189.5747627359468,
+            "periodResolutionFloorRel": 0.00005282899255111205
+          }
+        ],
+        "fin": [
+          41.89170772658446,
+          -0.8945956142039556,
+          0.032912300599999986,
+          1.7417844229723016,
+          -0.2229492611147041,
+          66.4127578215992,
+          -1.3846836992792066,
+          -0.008810388976377901,
+          -96.09467152000015,
+          47.13113634662994,
+          -0.47859625376062337,
+          -0.977005027028394,
+          123.42616643558662,
+          -140.61989051380422,
+          0.6227971093977526,
+          0.5415931633752933
+        ]
+      },
+      "kF1": {
+        "nan": false,
+        "steps": 40000,
+        "dt": 0.07615002239999999,
+        "rows": [
+          {
+            "name": "Io",
+            "ja": "イオ",
+            "aDeclared": 42.063710388175046,
+            "periodDays": 1.7627319999999995,
+            "nRev": 19,
+            "revSpanUnits": 2741.4008063999995,
+            "devVsFactSheet": -0.0036209724736004922,
+            "devVsJup365": -2.220446049250313e-16,
+            "aMin": 42.06274225126818,
+            "aMax": 42.06785233453701,
+            "aMean": 42.06466968757562,
+            "aSpread": 0.00012148159742555229,
+            "eMin": 0.002814051891666152,
+            "eMax": 0.006115777690305762,
+            "rMin": 41.87300298514317,
+            "rMax": 42.25491993587645,
+            "periodResolutionFloorRel": 0.00002777777777777778
+          },
+          {
+            "name": "Europa",
+            "ja": "エウロパ",
+            "aDeclared": 66.77196549326612,
+            "periodDays": 3.5255741707499992,
+            "nRev": 9,
+            "revSpanUnits": 2436.8768668223997,
+            "devVsFactSheet": -0.007210792480023098,
+            "devVsJup365": 0.000031533659550442295,
+            "aMin": 66.76466508971855,
+            "aMax": 66.81596615399576,
+            "aMean": 66.78099660688747,
+            "aSpread": 0.0007681985427561087,
+            "eMin": 0.008382945005106123,
+            "eMax": 0.012055952945891252,
+            "rMin": 66.02462305590878,
+            "rMax": 67.5289769153622,
+            "periodResolutionFloorRel": 0.000031249023468016625
+          },
+          {
+            "name": "Ganymede",
+            "ja": "ガニメデ",
+            "aDeclared": 107.04020633846444,
+            "periodDays": 7.15639813133333,
+            "nRev": 4,
+            "revSpanUnits": 1854.9383956415995,
+            "devVsFactSheet": 0.00025789610243021066,
+            "devVsJup365": 0.00011321659845853205,
+            "aMin": 107.03351473372952,
+            "aMax": 107.11384493153516,
+            "aMean": 107.06354100191174,
+            "aSpread": 0.0007503039508491726,
+            "eMin": 0.0011052491210950131,
+            "eMax": 0.002517500598825131,
+            "rMin": 106.85458793868787,
+            "rMax": 107.25169569727134,
+            "periodResolutionFloorRel": 0.00004105258836569646
+          },
+          {
+            "name": "Callisto",
+            "ja": "カリスト",
+            "aDeclared": 188.26167142933136,
+            "periodDays": 16.689546575999994,
+            "nRev": 2,
+            "revSpanUnits": 1441.9768241663996,
+            "devVsFactSheet": 0.000031732006744000785,
+            "devVsJup365": -0.000053529086111892,
+            "aMin": 188.19549485165754,
+            "aMax": 188.46384597519742,
+            "aMean": 188.30228708804532,
+            "aSpread": 0.0014251081475946093,
+            "eMin": 0.006843339894995838,
+            "eMax": 0.008327907314158662,
+            "rMin": 186.86074324567707,
+            "rMax": 189.67374861905225,
+            "periodResolutionFloorRel": 0.000052809463455851294
+          }
+        ],
+        "fin": [
+          41.89165638069781,
+          -0.003690111527065165,
+          -0.0005636877271248601,
+          1.7424546162559162,
+          0.12957409628361777,
+          66.0238579920173,
+          -1.3929208287502353,
+          0.0017955577395701234,
+          -95.55125805205569,
+          47.886333980261256,
+          -0.487592764680991,
+          -0.9743199648842067,
+          122.83591461963361,
+          -141.28568266947332,
+          0.6251091081803123,
+          0.5381390303762597
+        ]
+      }
+    },
+    "periodShiftKF1minusKF0": {
+      "baseline": [
+        {
+          "name": "Io",
+          "rel": -0.00016663889351773082
+        },
+        {
+          "name": "Europa",
+          "rel": 0.00003114294612275805
+        },
+        {
+          "name": "Ganymede",
+          "rel": 0.0002886478908086443
+        },
+        {
+          "name": "Callisto",
+          "rel": 0.0003713133884997591
+        }
+      ],
+      "variant": [
+        {
+          "name": "Io",
+          "rel": -0.00016663889351796525
+        },
+        {
+          "name": "Europa",
+          "rel": 0.00014237693077009315
+        },
+        {
+          "name": "Ganymede",
+          "rel": 0.0002874507227331624
+        },
+        {
+          "name": "Callisto",
+          "rel": 0.00036980294785767713
+        }
+      ],
+      "note": "記述のみ(窓なし)。kF1−kF0 の周期シフト — 第138便 JW4 の periodShiftTotal と同じ量。"
+    }
+  },
+  "windows": {
+    "UW1": {
+      "statement": "UW1(データのみ): 両ソースの周期相対差 |P_JUP365−P_facts|/P_facts を衛星別に記録 — 窓: 4衛星とも ≤1%。",
+      "comparator": "|P_JUP365−P_facts|/P_facts ≤ 0.01(逐語の「≤1%」をそのまま)",
+      "measurementType": "データのみ(シミュレーション不要 — 両ソースの転写値の差)",
+      "rows": [
+        {
+          "name": "Io",
+          "ja": "イオ",
+          "periodFactSheet": 1.769138,
+          "periodJup365": 1.762732,
+          "diffDays": -0.006406000000000134,
+          "relDiff": -0.003620972473600213,
+          "absRelDiff": 0.003620972473600213,
+          "absRelDiffPercent": 0.3620972473600213,
+          "ok": true
+        },
+        {
+          "name": "Europa",
+          "ja": "エウロパ",
+          "periodFactSheet": 3.551181,
+          "periodJup365": 3.525463,
+          "diffDays": -0.02571800000000035,
+          "relDiff": -0.007242097769727973,
+          "absRelDiff": 0.007242097769727973,
+          "absRelDiffPercent": 0.7242097769727973,
+          "ok": true
+        },
+        {
+          "name": "Ganymede",
+          "ja": "ガニメデ",
+          "periodFactSheet": 7.154553,
+          "periodJup365": 7.155588,
+          "diffDays": 0.0010349999999998971,
+          "relDiff": 0.00014466312570469422,
+          "absRelDiff": 0.00014466312570469422,
+          "absRelDiffPercent": 0.014466312570469422,
+          "ok": true
+        },
+        {
+          "name": "Callisto",
+          "ja": "カリスト",
+          "periodFactSheet": 16.689017,
+          "periodJup365": 16.69044,
+          "diffDays": 0.001422999999999064,
+          "relDiff": 0.00008526565704852861,
+          "absRelDiff": 0.00008526565704852861,
+          "absRelDiffPercent": 0.008526565704852862,
+          "ok": true
+        }
+      ],
+      "maxAbsRelDiffPercent": 0.7242097769727973,
+      "pass": true
+    },
+    "UW2": {
+      "statement": "UW2(基線再測): 既存初期条件(fact-sheet a・D₀=0.006・q=12.30 不変)の kF0/kF1 走行(kF0=kFrame0 転写・kF1=kFrame1 保持、それぞれ exp-jupiter JW1/JW2 と同一手順)が fact-sheet 目標 ±1% かつ JUP365 目標 ±2%(ソース差 ≤1% と転写窓 ±1% の合成上界として事前宣言)。保持 |Δa|/a<2%・NaN なし・≥20 イオ公転。",
+      "comparator": "fact-sheet 目標 |dev|<0.01 かつ JUP365 目標 |dev|<0.02・保持 |Δa|/a<0.02・NaN なし",
+      "windowIoOrbits": 20,
+      "stepsPerOrbit": 2000,
+      "kF0": {
+        "label": "kF0(kFrame=0 転写 — exp-jupiter JW1 と同一手順)",
+        "nan": false,
+        "rows": [
+          {
+            "name": "Io",
+            "periodDays": 1.7703419485521656,
+            "devFactSheetPercent": 0.06805283432753662,
+            "devJup365Percent": 0.43171330367666183,
+            "aSpread": 0.00023198868010630385,
+            "aSpreadPercent": 0.023198868010630386,
+            "nRev": 19,
+            "okFactSheet": true,
+            "okJup365": true,
+            "okRetention": true,
+            "ok": true
+          },
+          {
+            "name": "Europa",
+            "periodDays": 3.552262954174932,
+            "devFactSheetPercent": 0.030467446602466808,
+            "devJup365Percent": 0.7601825398517059,
+            "aSpread": 0.0006812801264284278,
+            "aSpreadPercent": 0.06812801264284278,
+            "nRev": 9,
+            "okFactSheet": true,
+            "okJup365": true,
+            "okRetention": true,
+            "ok": true
+          },
+          {
+            "name": "Ganymede",
+            "periodDays": 7.154234726601996,
+            "devFactSheetPercent": -0.004448543438062558,
+            "devJup365Percent": -0.018912120122116516,
+            "aSpread": 0.0002899645563625633,
+            "aSpreadPercent": 0.02899645563625633,
+            "nRev": 4,
+            "okFactSheet": true,
+            "okJup365": true,
+            "okRetention": true,
+            "ok": true
+          },
+          {
+            "name": "Callisto",
+            "periodDays": 16.684462463308833,
+            "devFactSheetPercent": -0.027290622875908443,
+            "devJup365Percent": -0.03581413486501983,
+            "aSpread": 0.0002262161035934593,
+            "aSpreadPercent": 0.022621610359345932,
+            "nRev": 2,
+            "okFactSheet": true,
+            "okJup365": true,
+            "okRetention": true,
+            "ok": true
+          }
+        ],
+        "windowIoOrbitsIntegrated": 20,
+        "okWindowIoOrbits": true,
+        "ioRevolutionsCompleted": 19,
+        "pass": true
+      },
+      "kF1": {
+        "label": "kF1(kFrame=1 保持 — exp-jupiter JW2 と同一手順)",
+        "nan": false,
+        "rows": [
+          {
+            "name": "Io",
+            "periodDays": 1.770046940728711,
+            "devFactSheetPercent": 0.051377604726754456,
+            "devJup365Percent": 0.4149774740976442,
+            "aSpread": 0.00011414622084803943,
+            "aSpreadPercent": 0.011414622084803943,
+            "nRev": 19,
+            "okFactSheet": true,
+            "okJup365": true,
+            "okRetention": true,
+            "ok": true
+          },
+          {
+            "name": "Europa",
+            "periodDays": 3.552373582108728,
+            "devFactSheetPercent": 0.03358269006079606,
+            "devJup365Percent": 0.7633205087878681,
+            "aSpread": 0.0007043850707273095,
+            "aSpreadPercent": 0.07043850707273094,
+            "nRev": 9,
+            "okFactSheet": true,
+            "okJup365": true,
+            "okRetention": true,
+            "ok": true
+          },
+          {
+            "name": "Ganymede",
+            "periodDays": 7.1562997813661795,
+            "devFactSheetPercent": 0.024414961580121464,
+            "devJup365Percent": 0.00994721001517096,
+            "aSpread": 0.0007205490787404272,
+            "aSpreadPercent": 0.07205490787404271,
+            "nRev": 4,
+            "okFactSheet": true,
+            "okJup365": true,
+            "okRetention": true,
+            "ok": true
+          },
+          {
+            "name": "Callisto",
+            "periodDays": 16.690657627601382,
+            "devFactSheetPercent": 0.009830582600423021,
+            "devJup365Percent": 0.0013039057171759794,
+            "aSpread": 0.0014210092964707579,
+            "aSpreadPercent": 0.1421009296470758,
+            "nRev": 2,
+            "okFactSheet": true,
+            "okJup365": true,
+            "okRetention": true,
+            "ok": true
+          }
+        ],
+        "windowIoOrbitsIntegrated": 20,
+        "okWindowIoOrbits": true,
+        "ioRevolutionsCompleted": 19,
+        "pass": true
+      },
+      "pass": true
+    },
+    "UW3": {
+      "statement": "UW3(変種本体): 各衛星の a を JUP365 周期からケプラー逆算 a'=(GM·(P/2π)²)^(1/3)(P は時間単位=日×86.4。e/m/R/spin/D₀/q は**再フィットなしで不変**)した kF1 走行 — 測定周期が JUP365 目標 ±1%・保持窓は UW2 と同一。",
+      "windowIoOrbitsIntegrated": 20,
+      "okWindowIoOrbits": true,
+      "ioRevolutionsCompleted": 19,
+      "windowNote": "「≥20 イオ公転」は積分窓の長さの条件(UW2 と同一の読み)。実測の公転通過回数が 19 になるのは力学周期がケプラー基準よりわずかに長く 20 回目の通過が窓の外へ落ちるためで、正常である。",
+      "comparator": "JUP365 目標 |dev|<0.01・保持 |Δa|/a<0.02・NaN なし(保持窓は UW2 と同一)",
+      "keplerInverse": "a' = (GM·(P/2π)²)^(1/3)(P は時間単位 = 日×86.4)— 決定論的変換であり当てはめではない",
+      "refitCount": 0,
+      "refitNote": "e/m/R/spin/D₀/q は1つも動かしていない。動いたのは a だけで、それも JUP365 周期からのケプラー逆算である(当てはめ自由度ゼロ)。",
+      "nan": false,
+      "rows": [
+        {
+          "name": "Io",
+          "aVariant": 42.063710388175046,
+          "periodDays": 1.7627319999999995,
+          "targetJup365": 1.762732,
+          "devJup365Percent": -2.220446049250313e-14,
+          "devFactSheetPercent": -0.3620972473600492,
+          "aSpread": 0.00012148159742555229,
+          "aSpreadPercent": 0.01214815974255523,
+          "nRev": 19,
+          "okPeriod": true,
+          "okRetention": true,
+          "ok": true
+        },
+        {
+          "name": "Europa",
+          "aVariant": 66.77196549326612,
+          "periodDays": 3.5255741707499992,
+          "targetJup365": 3.525463,
+          "devJup365Percent": 0.0031533659550442295,
+          "devFactSheetPercent": -0.7210792480023098,
+          "aSpread": 0.0007681985427561087,
+          "aSpreadPercent": 0.07681985427561087,
+          "nRev": 9,
+          "okPeriod": true,
+          "okRetention": true,
+          "ok": true
+        },
+        {
+          "name": "Ganymede",
+          "aVariant": 107.04020633846444,
+          "periodDays": 7.15639813133333,
+          "targetJup365": 7.155588,
+          "devJup365Percent": 0.011321659845853205,
+          "devFactSheetPercent": 0.025789610243021066,
+          "aSpread": 0.0007503039508491726,
+          "aSpreadPercent": 0.07503039508491727,
+          "nRev": 4,
+          "okPeriod": true,
+          "okRetention": true,
+          "ok": true
+        },
+        {
+          "name": "Callisto",
+          "aVariant": 188.26167142933136,
+          "periodDays": 16.689546575999994,
+          "targetJup365": 16.69044,
+          "devJup365Percent": -0.0053529086111892,
+          "devFactSheetPercent": 0.0031732006744000785,
+          "aSpread": 0.0014251081475946093,
+          "aSpreadPercent": 0.14251081475946092,
+          "nRev": 2,
+          "okPeriod": true,
+          "okRetention": true,
+          "ok": true
+        }
+      ],
+      "pass": true
+    },
+    "UW4": {
+      "statement": "UW4(結論安定性): ホールドアウト結論(4衛星保持+周期整合)が両ソースで同判定になるかを記録(PASS/FAIL の一致表)。",
+      "definition": "hold-out の結論 = 4衛星とも「保持(NaN なし・|Δa|/a<2%)+周期整合(そのソースの目標と ±1%)」。fact-sheet 版は基線 kF1(= 第138便 JW2 と同じ判定)、JUP365 版は変種 kF1(= UW3 の判定)で評価する。",
+      "factSheetConclusion": "PASS",
+      "jup365Conclusion": "PASS",
+      "rowsFactSheet": [
+        {
+          "name": "Io",
+          "periodDays": 1.770046940728711,
+          "devPercent": 0.051377604726754456,
+          "aSpreadPercent": 0.011414622084803943,
+          "retained": true,
+          "periodOk": true,
+          "verdict": "PASS"
+        },
+        {
+          "name": "Europa",
+          "periodDays": 3.552373582108728,
+          "devPercent": 0.03358269006079606,
+          "aSpreadPercent": 0.07043850707273094,
+          "retained": true,
+          "periodOk": true,
+          "verdict": "PASS"
+        },
+        {
+          "name": "Ganymede",
+          "periodDays": 7.1562997813661795,
+          "devPercent": 0.024414961580121464,
+          "aSpreadPercent": 0.07205490787404271,
+          "retained": true,
+          "periodOk": true,
+          "verdict": "PASS"
+        },
+        {
+          "name": "Callisto",
+          "periodDays": 16.690657627601382,
+          "devPercent": 0.009830582600423021,
+          "aSpreadPercent": 0.1421009296470758,
+          "retained": true,
+          "periodOk": true,
+          "verdict": "PASS"
+        }
+      ],
+      "rowsJup365": [
+        {
+          "name": "Io",
+          "periodDays": 1.7627319999999995,
+          "devPercent": -2.220446049250313e-14,
+          "aSpreadPercent": 0.01214815974255523,
+          "retained": true,
+          "periodOk": true,
+          "verdict": "PASS"
+        },
+        {
+          "name": "Europa",
+          "periodDays": 3.5255741707499992,
+          "devPercent": 0.0031533659550442295,
+          "aSpreadPercent": 0.07681985427561087,
+          "retained": true,
+          "periodOk": true,
+          "verdict": "PASS"
+        },
+        {
+          "name": "Ganymede",
+          "periodDays": 7.15639813133333,
+          "devPercent": 0.011321659845853205,
+          "aSpreadPercent": 0.07503039508491727,
+          "retained": true,
+          "periodOk": true,
+          "verdict": "PASS"
+        },
+        {
+          "name": "Callisto",
+          "periodDays": 16.689546575999994,
+          "devPercent": -0.0053529086111892,
+          "aSpreadPercent": 0.14251081475946092,
+          "retained": true,
+          "periodOk": true,
+          "verdict": "PASS"
+        }
+      ],
+      "agreementTable": [
+        {
+          "name": "Io",
+          "factSheet": "PASS",
+          "jup365": "PASS",
+          "agree": true
+        },
+        {
+          "name": "Europa",
+          "factSheet": "PASS",
+          "jup365": "PASS",
+          "agree": true
+        },
+        {
+          "name": "Ganymede",
+          "factSheet": "PASS",
+          "jup365": "PASS",
+          "agree": true
+        },
+        {
+          "name": "Callisto",
+          "factSheet": "PASS",
+          "jup365": "PASS",
+          "agree": true
+        }
+      ],
+      "perMoonAgreement": true,
+      "overallAgreement": true,
+      "pass": true,
+      "passNote": "本窓の判定は「両ソースで同判定か」(結論の安定性)であって、結論そのものの PASS/FAILではない。結論そのものは factSheetConclusion / jup365Conclusion に別立てで収載している。"
+    },
+    "determinism": {
+      "statement": "決定性: 全体2回実行(別プロセス)で、揮発キー(タイムスタンプ等)を除いた正規化 JSON の SHA-256 一致(coreshell5 の方式を踏襲)。",
+      "sha256": "dddb47f31edc9b4bf95b5849527a00e7b80b53ea961b285b74de946624a88c5f",
+      "reference": "jup365-run1.json",
+      "identical": true,
+      "pass": true,
+      "result": "PASS"
+    }
+  },
+  "crossWaveCheck": {
+    "scope": "第138便 exp-jupiter の JW1(kF0)・JW2(kF1)の周期と、本便の基線再測の対応値",
+    "note": "本便の基線は第138便と同一の初期条件・同一 dt・同一窓なので、原理的にはビット一致するはずである(測定コードは簡約したが、周期・|Δa|/a の算出式は転記のまま)。窓ではなく付帯記録。",
+    "kF0": [
+      {
+        "name": "Io",
+        "period": {
+          "mine": 1.7703419485521656,
+          "ref": 1.7703419485521656,
+          "relDiff": 0,
+          "bitIdentical": true
+        }
+      },
+      {
+        "name": "Europa",
+        "period": {
+          "mine": 3.552262954174932,
+          "ref": 3.552262954174932,
+          "relDiff": 0,
+          "bitIdentical": true
+        }
+      },
+      {
+        "name": "Ganymede",
+        "period": {
+          "mine": 7.154234726601996,
+          "ref": 7.154234726601996,
+          "relDiff": 0,
+          "bitIdentical": true
+        }
+      },
+      {
+        "name": "Callisto",
+        "period": {
+          "mine": 16.684462463308833,
+          "ref": 16.684462463308833,
+          "relDiff": 0,
+          "bitIdentical": true
+        }
+      }
+    ],
+    "kF1": [
+      {
+        "name": "Io",
+        "period": {
+          "mine": 1.770046940728711,
+          "ref": 1.770046940728711,
+          "relDiff": 0,
+          "bitIdentical": true
+        },
+        "aSpread": {
+          "mine": 0.00011414622084803943,
+          "ref": 0.00011414622084803943,
+          "relDiff": 0,
+          "bitIdentical": true
+        }
+      },
+      {
+        "name": "Europa",
+        "period": {
+          "mine": 3.552373582108728,
+          "ref": 3.552373582108728,
+          "relDiff": 0,
+          "bitIdentical": true
+        },
+        "aSpread": {
+          "mine": 0.0007043850707273095,
+          "ref": 0.0007043850707273095,
+          "relDiff": 0,
+          "bitIdentical": true
+        }
+      },
+      {
+        "name": "Ganymede",
+        "period": {
+          "mine": 7.1562997813661795,
+          "ref": 7.1562997813661795,
+          "relDiff": 0,
+          "bitIdentical": true
+        },
+        "aSpread": {
+          "mine": 0.0007205490787404272,
+          "ref": 0.0007205490787404272,
+          "relDiff": 0,
+          "bitIdentical": true
+        }
+      },
+      {
+        "name": "Callisto",
+        "period": {
+          "mine": 16.690657627601382,
+          "ref": 16.690657627601382,
+          "relDiff": 0,
+          "bitIdentical": true
+        },
+        "aSpread": {
+          "mine": 0.0014210092964707579,
+          "ref": 0.0014210092964707579,
+          "relDiff": 0,
+          "bitIdentical": true
+        }
+      }
+    ],
+    "targetConsistency": {
+      "targetShaNow": "bfc165dc580f8db563eb81dbf1f3a43feb035f26b0417aa86be47e701bae0f80",
+      "targetShaOfReference": "efda285a3a361222df20337aabf876071e81839a14babdf2336910580b1729c4",
+      "same": false
+    },
+    "allBitIdentical": true
+  },
+  "determinism": {
+    "canonicalization": "config / preRegistered / sources / raw / windows.UW1〜UW4 を対象にキーを再帰整列した JSON の SHA-256。揮発キー(meta.date・走行時間・manifest・crossWaveCheck〔外部 JSON 依存〕)と windows.determinism〔自己参照〕は対象外である",
+    "sha256": "dddb47f31edc9b4bf95b5849527a00e7b80b53ea961b285b74de946624a88c5f",
+    "bytes": 21720,
+    "reference": "jup365-run1.json",
+    "referenceSha256": "dddb47f31edc9b4bf95b5849527a00e7b80b53ea961b285b74de946624a88c5f",
+    "identical": true,
+    "note": "2回目は別プロセス・別ブラウザ起動で全節を再実行したもの(同一スクリプト・同一窓・同一步数)"
+  },
+  "manifest": {
+    "schema": "dfm-experiment-manifest",
+    "schemaVersion": "1.0",
+    "generatedAt": "2026-08-22T00:41:59.236Z",
+    "experiment": {
+      "id": "jup365",
+      "wave": 162,
+      "title": "木星ガリレオ衛星 hold-out の JUP365 変種(観測ソース依存性の定量化)",
+      "script": "tests/exp-jup365.mjs",
+      "scriptSha256": "f00932f7472baca37fc21f8bb98006f953d970309bedfb51f8245881485f5f34",
+      "scriptBytes": 41389,
+      "helperSha256": "502979b3027a7a79bc4b2df5e1bc0fbb86e3bbc252af85b6f2266e101666103a",
+      "command": "node tests/exp-jup365.mjs"
+    },
+    "provenance": {
+      "git": {
+        "commit": "dd37d74b5a0f4eeac5a84a6d3a905b40803b3070",
+        "describe": "dd37d74",
+        "dirty": true,
+        "dirtyFiles": {
+          "count": 1,
+          "sample": [
+            "tests/exp-jup365.mjs"
+          ]
+        }
+      },
+      "target": {
+        "path": "beta/index.html",
+        "sha256": "bfc165dc580f8db563eb81dbf1f3a43feb035f26b0417aa86be47e701bae0f80",
+        "bytes": 1749919,
+        "appVersion": "1.41"
+      },
+      "presets": {
+        "mode": "dynamic",
+        "note": "実行時 qLock は掛けない(多天体系では a_ref が一意でないため — 🌞solarInner 第131便の既存裁定)。q は第138便が参照軌道=イオで1回だけ評価した q* の直値宣言で、本便では変種側でも再評価していない",
+        "declaration": "動的構成(内蔵プリセットを読まず、観測値からの宣言値で HP.sim.build する)",
+        "declaredIn": "PHYS / MOONS / MJ / RJ / SPIN_J(ハーネス冒頭の宣言値 — 第138便からの転記)",
+        "configSha256": "d5bd35b7c63d372778f9c8cfb183afee6558ef8a84ad2ace8bd0d3fda4f4aa2f",
+        "configCanonicalization": "宣言済み構成(configs)を再帰キー整列した JSON の SHA-256"
+      }
+    },
+    "numerics": {
+      "seed": "not-applicable",
+      "dt": "dt = T_Io(そのアーム)/ 2000(基線 7.646603e-2 / 変種 7.615002e-2 時間単位)",
+      "timeScale": 1,
+      "substeps": "not-applicable",
+      "steps": "2000 步/イオ公転 × 20 公転 = 40000 步 × 4走行(基線 kF0/kF1・変種 kF0/kF1)",
+      "window": "20 イオ公転(事前登録窓 UW2/UW3 の「≥20 イオ公転」)",
+      "warmup": "not-applicable",
+      "unitRule": "1単位=10⁷m/10³s/10²⁶kg(L−T=4 → c₀=3×10⁴・M+2T−3L=11 → G=6.674)",
+      "numericalFloor": "周期の測定分解能床(dt/公転通過スパン)を raw.*.rows[].periodResolutionFloorRel に収載"
+    },
+    "environment": {
+      "node": "v22.22.2",
+      "platform": "linux/x64",
+      "playwright": "playwright@1.61.1",
+      "browser": "Playwright Chromium 141.0.7390.37",
+      "date": "2026-08-22T00:41:59.278Z",
+      "tz": "UTC"
+    },
+    "classification": {
+      "note": "本便が新規に持ち込む自由度はゼロである。a の差し替えは観測周期からのケプラー逆算であって当てはめではなく、e/m/R/spin/D₀/q は1つも動かしていない",
+      "input": [
+        "fact-sheet 系の恒星公転周期4値と衛星の実 a/e/m/R/spin(第138便 MOONS からの転記 — 観測由来の外部入力)",
+        "JPL JUP365 平均要素周期4値(外部レビュー 2026-08-22 からの二次転写。TODO(ref-verify) — 本環境は egress 遮断で原表未検証。sources.jup365.verified を参照)",
+        "木星の実質量・実半径・実自転(9.925h)",
+        "D₀=0.006(🪨🌘💿 と共通の既存値 — 本便での再フィットはゼロ)",
+        "q=12.30(第138便が参照軌道=イオで1回評価した直値宣言 — 本便では再評価しない)",
+        "dt・步数・窓 UW1〜UW4(実測前に統括が固定)"
+      ],
+      "fit": [],
+      "derived": [
+        "変種の軌道長半径 a'=(GM·(P_JUP365/2π)²)^(1/3)(決定論的なケプラー逆算 — 当てはめではない)",
+        "衛星別の測定周期・|Δa|/a・離心率の帯(raw.baseline / raw.variant)",
+        "両ソース目標に対する残差と窓判定(windows.UW1〜UW4)",
+        "kF1−kF0 の周期シフト(raw.periodShiftKF1minusKF0 — 記述のみ)",
+        "第138便実測正本との付帯照合(crossWaveCheck)",
+        "決定性ハッシュ(determinism)"
+      ],
+      "holdOut": [
+        "JUP365 周期に対する4衛星の周期整合と軌道保持(既存の較正世界線〔共有 D₀・qLock 則〕を**一切再フィットせずに**別ソースの観測へ当てた先。衛星別 fit ゼロ)",
+        "hold-out 結論のソース依存性そのもの(UW4 — どちらのソースを採っても同判定かは事前に分からない)"
+      ]
+    },
+    "judgement": {
+      "pointers": [
+        "preRegistered",
+        "sources",
+        "windows.UW1",
+        "windows.UW2",
+        "windows.UW3",
+        "windows.UW4",
+        "windows.determinism",
+        "raw.baseline",
+        "raw.variant",
+        "raw.periodShiftKF1minusKF0",
+        "crossWaveCheck",
+        "determinism",
+        "config.semiMajorAxes"
+      ],
+      "note": "許容窓は preRegistered(統括が実測前に固定・実測後に動かしていない)、判定と実測値・残差は windows.UW1〜UW4 に構造ごと入っている。UW4 の pass は「両ソースで同判定か」であって結論そのものの PASS/FAIL ではない(結論は UW4.factSheetConclusion / jup365Conclusion)",
+      "externalReferences": [
+        "NASA 惑星衛星 fact sheet 系の恒星公転周期(sources.factSheet — UW1/UW2 の照合先)",
+        "JPL Planetary Satellite Mean Elements JUP365 の平均要素周期(sources.jup365 — UW1/UW2/UW3 の照合先。TODO(ref-verify): 原表未検証の二次転写)",
+        "第138便 tests/out/jupiter-results.json(crossWaveCheck の照合先 — provenance に sha256)"
+      ]
+    },
+    "health": {
+      "nan": {
+        "instrumented": true,
+        "flagsFound": 7,
+        "anyTrue": false,
+        "truePaths": [],
+        "numericNaNInPayload": 0,
+        "note": "結果ペイロード内の nan/hasNaN フラグを走査して集計した値(再測定はしていない)。numericNaNInPayload は JSON 化後に NaN として残った数値の件数(JSON.stringify では null になるため通常 0)"
+      },
+      "clamps": {
+        "aggregate": "not-instrumented",
+        "lastBuild": {
+          "clampVN": 0,
+          "clampSN": 0,
+          "clampHN": 0,
+          "clampAN": 0,
+          "clampRN": 0,
+          "angOvfN": 0,
+          "n": 5
+        },
+        "lastBuildTotal": 0,
+        "note": "エンジンのクランプ計数は sim.build() ごとに 0 へリセットされるため、ここに記録できるのは**この実行で最後に build した構成**の計数だけである(全構成を横断した集計は未計装)。lastBuildTotal>0 なら少なくとも最終構成で安全クランプが発動している(保存則主張の域外)"
+      },
+      "conservation": {
+        "status": "partially-instrumented",
+        "quantity": "軌道長半径の広がり |Δa|/a(aSpread)と NaN 監視・2回実行の SHA 一致",
+        "pointers": [
+          "windows.UW2.kF1.rows[].aSpread",
+          "windows.UW3.rows[].aSpread",
+          "raw.baseline.kF1.nan",
+          "raw.variant.kF1.nan",
+          "determinism.identical"
+        ],
+        "note": "木星を pinned にしているため運動量は原理的に閉じない構成である(第138便と同一)。保存量残差そのものは記録していない(not-instrumented)が、軌道保持 |Δa|/a と2回実行の SHA 一致を数値健全性の指標として持つ"
+      }
+    },
+    "regeneration": {
+      "canonicalization": "再生成時のペイロード照合は `manifest` キーを除外して行う(manifest は実行ごとに日時・環境・git 状態が変わる非測定メタである)。除外後の全キーは同一スクリプト・同一対象・同一 seed/步数で bit 一致することを要求する",
+      "payloadKeysExcluded": [
+        "manifest",
+        "meta.date",
+        "meta.elapsedSec",
+        "crossWaveCheck",
+        "determinism"
+      ],
+      "note": "決定性照合の対象は config / preRegistered / sources / raw / windows である(determinism.canonicalization を参照)。crossWaveCheck は外部 JSON の存在に依存するため対象外"
+    }
+  }
+}
