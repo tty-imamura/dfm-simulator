@@ -83,6 +83,20 @@ tests/out/*
 #   {1.5,2.0} の振幅が第158便 ZW2 収載値と bit 一致)/ FW3 決定性。**hold-out は存在せず新規掃引なし**
 #   である旨を preRegistered.honestFraming に明記)
 !tests/out/coreshell8-results.json
+# 第179便: コア外殻第9実験(🐚 残差の構造対処 — t=0+ 解析値 vs 窓平均引きずりの系統。採点窓と同一の
+#   3000步走行中に Ω_drag を時間分解記録し窓平均から振幅を解き直す。事前登録窓 GW1 記述(時間プロファイル
+#   と t0/窓平均比)/ GW2 主窓(|予測−1.5300| ≤ 0.05 かつ 第174便 0.040928 より改善)/ XCHECK 転記照合 /
+#   GW3 決定性。GW2 は窓平均 Ω̄ の符号反転により A_c<0 となり予測が立たず INCONCLUSIVE で収載)
+!tests/out/coreshell9-results.json
+# 第180便: q_exact 世代「採用直値」regime の実測正本(プリセット・ハーネスが実際に載せている
+#   4桁丸め直値 6.1471 / 8.2358 / 20.4932 / 12.0586 での実較正4系の走行 — 事前登録窓 RW1 主窓
+#   (既存窓の流用)/ RW2 直値同定(ROUND4(q_exact) と対象 HTML のプリセット宣言値の照合・
+#   走行前ゲート)/ RW3 基線 bit 照合(kF0・q* 走行・全桁 q_exact 走行が kf1c/kf1d/jupiter/qexact
+#   の実測正本とビット一致)/ RW4 記述(4桁丸めに由来する系統誤差)/ RW5 否定対照(採用直値を
+#   +1% ずらすと直値同定が外れ観測量も動く)/ RW6 決定性)。error budget v3 の regime 層
+#   (qExact 世代)の供給元 — tools/gen-error-budget.mjs が SRC_FILES から機械読取するので
+#   コミット対象にする
+!tests/out/qexact-regime-results.json
 # 第166便: 誤差予算(error budget)の機械集計台帳 — 較正・ホールドアウト主張ごとの
 #   {claim・出典 JSON の SHA-256・主観測量・事前登録窓・不確かさ成分(数値床/dt 収束/窓感度/
 #   ソース差/シード散らばり)} を上の白リスト済み結果 JSON **からのみ**集計した出力

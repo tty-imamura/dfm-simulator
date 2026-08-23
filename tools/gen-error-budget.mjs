@@ -1,5 +1,25 @@
 // 第166便 error budget(誤差予算)の形式化 — 既存の結果 JSON からの機械集計
 // 第169便 v2 拡張(schemaVersion 1.0 → 1.1・**後方互換の追加のみ**)
+// 第180便 v3 拡張(schemaVersion 1.1 → 1.2・**後方互換の追加のみ**)
+// ============================================================================================
+// v3(第180便)で足したもの — 行構成(5主張)・既存キー・既存の判定窓は一切変えていない:
+//   ① 各主張へ追加成分 `regimeLayer` を新設した。**q の世代(regime)ごとに主観測量と窓判定を
+//      層別する**台帳の層である:
+//        ・qStar 世代 … 第123便 qLock 則の遠方近似形 q*(既存成分。台帳の value / window /
+//          components.qFormSensitivity がこの世代の記録なので、regimeLayer は値の再掲ではなく
+//          **既存キーへのポインタ**と q* での窓判定だけを持つ)
+//        ・qExact 世代 … 第172便で採用した厳密一致式 q_exact。運用上プリセット・ハーネスへ
+//          載っているのはその **4桁丸め直値**(6.1471 / 8.2358 / 20.4932 / 12.0586)なので、
+//          全桁 q_exact と採用直値の**両方**を層に持ち、丸めに由来する系統誤差を機械計算する。
+//      数値はすべて第180便 tests/exp-qexact-regime.mjs の出力
+//      tests/out/qexact-regime-results.json から機械読取する(本ファイルに実測値の literal は無い)。
+//   ② 台帳ルートへ `regimes` ブロック(世代の定義・世代別の窓判定タリー・否定対照の総括)を新設した。
+//   ③ 否定対照を2件、明示的に台帳へ載せた:
+//        ・ハーネス側 … 採用直値を +1% ずらした対照走行(RW5)。直値同定が全系で外れ、全系で
+//          主観測量が動くことをハーネスが自己確認している。台帳はその結論を機械読取する。
+//        ・生成器側 … 出典 JSON が欠落・構造不正なら**明示エラーで停止**する(センチネルで
+//          誤魔化さない)。regime 層の入力が無いまま台帳が「それらしく」生成されることを塞ぐ。
+//   ④ 主成分5件・既存の追加成分・既存の判定窓・較正値は 1 つも動かしていない。
 // ============================================================================================
 // v2(第169便)で足したもの — 行構成(5主張)・既存キー・既存の判定窓は一切変えていない:
 //   ① 🪨 水星 / 🌘 地球月 / 💿 土星環 の主成分 dtConvergence・windowSensitivity を、
@@ -42,7 +62,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 export const SCHEMA = 'dfm-error-budget';
-export const SCHEMA_VERSION = '1.1';
+export const SCHEMA_VERSION = '1.2';
 // スキーマの版歴(後方互換の追加のみ — 行構成・既存キー・既存の判定窓は不変)
 export const SCHEMA_HISTORY = [
   { version: '1.0', wave: 166, change: '初版 — 5主張 × 主成分5件の台帳を新設' },
@@ -51,6 +71,12 @@ export const SCHEMA_HISTORY = [
       '(センチネル → instrumented)。🪨🌘💿🟠 へ追加成分 qFormSensitivity を新設し、' +
       '🪨 と 💿(a=80)には q_exact 走行値の現行 claims 窓に対する余裕と結論 ' +
       'qExactStillWithinWindow を機械計算で収載。行構成・既存キー・窓の数値は不変' },
+  { version: '1.2', wave: 180,
+    change: '全主張へ追加成分 regimeLayer(q の世代 qStar / qExact の層別)を新設し、qExact 世代は' +
+      '第180便 exp-qexact-regime の実測(採用直値=4桁丸め直値での走行・全桁 q_exact との相対差・' +
+      '基線 bit 照合・否定対照)から機械読取。台帳ルートへ regimes ブロックを新設。' +
+      '出典 JSON の欠落・構造不正は明示エラーで停止する(生成器側の否定対照)。' +
+      '行構成・既存キー・既存の判定窓・較正値は不変' },
 ];
 
 // 明示値のセンチネル(tests/manifest.mjs の語彙をそのまま踏襲 — 語彙外の逃げ口上を作らない)
@@ -85,10 +111,32 @@ const SRC_FILES = {
   // v2(第169便)で追加した出典 — いずれも既存の実測正本(本台帳は1 bit も書き換えない)
   qexact: 'tests/out/qexact-results.json',
   kf1sens: 'tests/out/kf1sens-results.json',
+  // v3(第180便)で追加した出典 — regime 層(qExact 世代 = 採用直値)の供給元
+  qexactRegime: 'tests/out/qexact-regime-results.json',
+};
+// 出典が欠けているときのエラー文へ入れる再生成コマンド(メタ情報 — 実測値ではない)
+const SRC_HARNESS = {
+  kf1c: 'node tests/exp-kf1c.mjs', kf1d: 'node tests/exp-kf1d.mjs',
+  jupiter: 'node tests/exp-jupiter.mjs', jup365: 'node tests/exp-jup365.mjs',
+  jupseeds: 'node tests/exp-jupseeds.mjs', qlockradial: 'node tests/exp-qlockradial.mjs',
+  qexact: 'node tests/exp-qexact.mjs', kf1sens: 'node tests/exp-kf1sens.mjs',
+  qexactRegime: 'node tests/exp-qexact-regime.mjs',
 };
 
 const OUT_REL = 'tests/out/error-budget.json';
 const PCT = 100;   // メタ定数: 比 → % の単位換算のみに使う(実測値ではない)
+
+// ---- v3: regime(q の世代)層の定義 ----------------------------------------------------------
+// 世代 ID(順序固定 = 決定的出力のため)
+export const REGIME_IDS = ['qStar', 'qExact'];
+// 主張 → exp-qexact-regime.mjs の系キー。useAbs は「窓が絶対値に対する帯かどうか」の構造情報で、
+// 実測値ではない(第164便 exp-qexact.mjs の窓の当て方と同一)。
+export const REGIME_SYSTEMS = {
+  'mercury-perihelion': { key: 'mercury', useAbs: true },
+  'earth-moon-two-observables': { key: 'earthMoon', useAbs: false },
+  'saturn-ring-apsidal': { key: 'saturnRing', useAbs: true },
+  'jupiter-holdout': { key: 'jupiter', useAbs: NOT_APPLICABLE },
+};
 
 // ---- 小道具 ---------------------------------------------------------------------------------
 const sha256 = (buf) => crypto.createHash('sha256').update(buf).digest('hex');
@@ -118,13 +166,47 @@ const components = (five, extras) => {
   return out;
 };
 
+// ---- v3 否定対照(生成器側): 出典が欠けている・構造が違うなら**明示エラーで停止**する ----------
+// センチネルで誤魔化して「それらしい台帳」を吐かせない。台帳は数値を捏造しないという原則の機械化。
+export class ErrorBudgetSourceError extends Error {
+  constructor(msg) { super(msg); this.name = 'ErrorBudgetSourceError'; }
+}
+const srcMissing = (key, rel) => new ErrorBudgetSourceError(
+  `error-budget v${SCHEMA_VERSION}: 出典 JSON ${rel} が無い(key=${key})。` +
+  `台帳は数値を捏造しないので生成を中止する — \`${SRC_HARNESS[key] || '(対応ハーネス不明)'}\` を実行して` +
+  '実測正本を作り直すこと');
+// regime 層の入力は構造まで検査する(キーが欠けたまま「層はあるが中身は空」を作らせない)
+const REGIME_REQUIRED_BLOCKS = ['systems', 'qTable', 'rw1Summary', 'rw3Summary', 'rw4Summary', 'rw5Summary', 'rw6'];
+function assertRegimeShape(json, rel) {
+  const missing = REGIME_REQUIRED_BLOCKS.filter((k) => json[k] === undefined || json[k] === null);
+  if (missing.length) {
+    throw new ErrorBudgetSourceError(
+      `error-budget v${SCHEMA_VERSION}: ${rel} に必須ブロックが無い [${missing.join(' ')}]。` +
+      'regime 層の入力として使えないので生成を中止する(停止した実行 = stage:"stopped-at-…" の JSON も同じく弾く)');
+  }
+  const need = Object.values(REGIME_SYSTEMS).map((v) => v.key);
+  const absent = need.filter((k) => !json.systems[k]);
+  if (absent.length) {
+    throw new ErrorBudgetSourceError(
+      `error-budget v${SCHEMA_VERSION}: ${rel} に regime 層の対象系が無い [${absent.join(' ')}]` +
+      `(期待=[${need.join(' ')}])。生成を中止する`);
+  }
+}
+
 // ---- 出典の読み込み(file + SHA-256 + bytes で実体を固定)--------------------------------------
 function readSources(root) {
   const src = {};
   for (const [key, rel] of Object.entries(SRC_FILES)) {
     const abs = path.join(root, rel);
+    if (!fs.existsSync(abs)) throw srcMissing(key, rel);
     const bytes = fs.readFileSync(abs);
-    const json = JSON.parse(bytes.toString('utf8'));
+    let json;
+    try { json = JSON.parse(bytes.toString('utf8')); }
+    catch (e) {
+      throw new ErrorBudgetSourceError(
+        `error-budget v${SCHEMA_VERSION}: 出典 JSON ${rel} を解析できない(${String(e && e.message || e)})。生成を中止する`);
+    }
+    if (key === 'qexactRegime') assertRegimeShape(json, rel);
     const m = json.manifest || {};
     src[key] = {
       key, file: rel, sha256: sha256(bytes), bytes: bytes.length, json,
@@ -256,6 +338,137 @@ function qFormComponent(src, sysKey, extra) {
     determinism: { result: qx.qw3.result, identical: qx.qw3.identical, sha256: qx.qw3.sha256,
       pointer: ptr('qexact', 'qw3') },
     ...(extra || {}),
+  });
+}
+
+// ---- v3: regime(q の世代)層を qexact-regime-results.json から組み立てる ----------------------
+// 系ごとに形の違う「主観測量のスカラ要約」を1か所で吸収する(数値は 1 つも書かない — キー選択だけ)。
+function regimeObservables(s, sysKey) {
+  if (sysKey === 'mercury') {
+    return { unit: 'rad/公転', quantity: s.primaryObservable,
+      qStar: s.dragQStar, qExactFull: s.dragQExact, qAdopted: s.dragQAdopted, negativeControl: s.dragQNegativeControl };
+  }
+  if (sysKey === 'earthMoon') {
+    return { unit: '比(目標 1.0)', quantity: s.primaryObservable,
+      qStar: s.ratioQStar, qExactFull: s.ratioQExact, qAdopted: s.ratioQAdopted, negativeControl: s.ratioQNegativeControl };
+  }
+  if (sysKey === 'saturnRing') {
+    const r = (s.rows || []).find((x) => x.a === s.RW1.probeA) || null;
+    return { unit: 'rad/公転', quantity: s.primaryObservable, probeA: s.RW1.probeA,
+      qStar: r === null ? UNAVAILABLE : r.driftQStar,
+      qExactFull: r === null ? UNAVAILABLE : r.driftQExact,
+      qAdopted: r === null ? UNAVAILABLE : r.driftQAdopted,
+      negativeControl: r === null ? UNAVAILABLE : r.driftQNegativeControl };
+  }
+  // 🟠 は帯ではなく条件窓(JW2)なので、条件の各項の最大値をスカラ要約として層に載せる
+  return { unit: '%(周期の観測偏差の最大 |値|)', quantity: '4衛星の恒星公転周期の観測偏差の最大絶対値(JW2 条件の主項)',
+    qStar: s.runs.qStar.maxAbsDevPercent, qExactFull: s.runs.qExact.maxAbsDevPercent,
+    qAdopted: s.runs.qAdopted.maxAbsDevPercent, negativeControl: s.runs.qNegativeControl.maxAbsDevPercent };
+}
+
+function regimeComponent(src, claimId) {
+  const conf = REGIME_SYSTEMS[claimId];
+  if (!conf) {
+    return notApplicable(
+      'この主張は q の世代(qStar / qExact)で層別できる単一系の較正主張ではないため、regime 層を持たない' +
+      '(qLock 径方向監査は q* 則そのものを半径方向に試験した監査で、採用直値の走行という概念が無い)',
+      { regimeIds: REGIME_IDS, claimsWithRegime: Object.keys(REGIME_SYSTEMS) });
+  }
+  const rg = src.qexactRegime.json;
+  const key = conf.key;
+  const s = rg.systems[key];
+  const q = s.q;
+  const obs = regimeObservables(s, key);
+  const win = (s.window && s.window.expected !== undefined) ? s.window.expected : null;
+  const useAbs = conf.useAbs === true;
+  const bandAvailable = win !== null && typeof win.min === 'number' && typeof win.max === 'number';
+
+  return instrumented({
+    note: 'q の世代(regime)で層別した誤差予算の層。qStar 世代は第123便 qLock 則の遠方近似形、' +
+      'qExact 世代は第172便で採用した厳密一致式 — ただし**運用上プリセット・ハーネスへ載っているのは' +
+      'その4桁丸め直値**なので、全桁 q_exact と採用直値の両方を層に持ち、丸めに由来する系統誤差を' +
+      '機械計算する(第180便 exp-qexact-regime.mjs の実測)',
+    pointer: ptr('qexactRegime', `systems.${key}`),
+    systemKey: key,
+    regimeIds: REGIME_IDS,
+    preRegisteredRules: { RW1: rg.preRegistered.RW1.verbatim, RW2: rg.preRegistered.RW2.verbatim,
+      RW3: rg.preRegistered.RW3.verbatim, RW4: rg.preRegistered.RW4.verbatim,
+      RW5: rg.preRegistered.RW5.verbatim, RW6: rg.preRegistered.RW6.verbatim },
+    observable: { quantity: obs.quantity, unit: obs.unit,
+      ...(obs.probeA === undefined ? {} : { probeA: obs.probeA }) },
+    generations: {
+      qStar: {
+        id: REGIME_IDS[0],
+        note: '第123便 qLock 則の遠方近似形 q*。第172便以降は運用規約としては N/A だが、台帳の既存行' +
+          '(value / window / components.qFormSensitivity)はこの世代の記録なので、ここでは値の再掲では' +
+          'なく既存キーへのポインタと q* での窓判定だけを持つ',
+        q: q.qStar,
+        qPointer: ptr('qexactRegime', `systems.${key}.q.qStar`),
+        value: obs.qStar,
+        windowVerdict: s.RW1.qStarPass,
+        ledgerPointers: { value: `claims[id=${claimId}].value`, window: `claims[id=${claimId}].window`,
+          component: `claims[id=${claimId}].components.qFormSensitivity` },
+      },
+      qExact: {
+        id: REGIME_IDS[1],
+        note: '第172便で採用した厳密一致式 q_exact。全桁値は literal で持てないため、プリセット・' +
+          'ハーネスへ載るのは4桁丸めの**採用直値**である。採用直値は exp-qexact-regime が ' +
+          'ROUND(q_exact) と対象 HTML のプリセット宣言値の両方に照合してから走らせている(RW2)',
+        qFullPrecision: q.qExact,
+        qAdoptedLiteral: q.qAdopted,
+        roundingDigits: q.roundingDigits,
+        roundingDeltaQ: q.roundingDelta,
+        relRoundingDeltaQ: q.relRoundingDelta,
+        adoptedLiteralIdentification: rg.adoptedLiteralIdentification.rows[key],
+        valueAtFullPrecision: obs.qExactFull,
+        valueAtAdoptedLiteral: obs.qAdopted,
+        relDiffAdoptedToFullPrecision: s.RW4.relDiffToQExact,
+        // 🟠 の RW4 は条件窓なので q* 比を持たない → スカラ要約から機械計算する(手打ちはしない)
+        relDiffAdoptedToQStar: typeof s.RW4.relDiffToQStar === 'number'
+          ? s.RW4.relDiffToQStar : relDiff(obs.qAdopted, obs.qStar),
+        windowVerdict: { atAdoptedLiteral: s.RW1.pass, atFullPrecision: s.RW1.qExactPass,
+          windowSource: s.window.source,
+          window: bandAvailable ? win
+            : notApplicable('この系の事前登録窓は {min,max} の帯ではなく条件(JW2)である',
+              { verbatim: s.window.verbatim }) },
+        margin: bandAvailable
+          ? marginAgainstWindow(obs.qAdopted, win, useAbs)
+          : notApplicable('帯ではなく条件窓なので min/max に対する余裕が定義できない',
+            { windowSource: s.window.source,
+              conditionMaxima: { maxAbsPeriodDevPercent: s.RW1.maxAbsDevPercent,
+                maxASpreadPercent: s.RW1.maxASpreadPercent, nan: s.RW1.nan } }),
+        pointer: ptr('qexactRegime', `systems.${key}.RW1`),
+      },
+    },
+    roundingSystematic: {
+      note: '「規約の**実装**(4桁丸め)」に由来する系統誤差。第164便 QW2 が測った「規約の**選択**' +
+        '(q* → q_exact)」とは別成分であり、components.qFormSensitivity と重複しない',
+      relDiffToFullPrecision: s.RW4.relDiffToQExact,
+      detail: s.RW4,
+      pointer: ptr('qexactRegime', `systems.${key}.RW4`),
+    },
+    baselineTranscription: {
+      note: '基線再測(kF0・q* 走行・全桁 q_exact 走行)が kf1c/kf1d/jupiter/qexact の実測正本と' +
+        'ビット一致するか(RW3 — regime 層の測定器が既存ハーネスと同一実体であることの機械証拠)',
+      rule: rg.preRegistered.RW3.verbatim,
+      allIdentical: s.baselineBitCheck.allIdentical,
+      detail: s.baselineBitCheck,
+      targetAllSame: rg.targetConsistency.allSame,
+      targetNote: rg.targetConsistency.note,
+      pointer: ptr('qexactRegime', `systems.${key}.baselineBitCheck`),
+    },
+    negativeControl: {
+      note: '否定対照 — 採用直値を意図的にずらした走行では直値同定が外れ、主観測量も動く' +
+        '(ずらしても何も変わらないなら、この層は何も測っていないことになる)',
+      rule: rg.preRegistered.RW5.verbatim,
+      factor: rg.rw5Summary.factor,
+      qNegativeControl: q.qNegativeControl,
+      value: obs.negativeControl,
+      detail: s.RW5,
+      pointer: ptr('qexactRegime', `systems.${key}.RW5`),
+    },
+    determinism: { result: rg.rw6.result, identical: rg.rw6.identical, sha256: rg.rw6.sha256,
+      pointer: ptr('qexactRegime', 'rw6') },
   });
 }
 
@@ -397,6 +610,7 @@ function claimMercury(src) {
           },
         });
       })(),
+      regimeLayer: regimeComponent(src, CLAIM_IDS[0]),   // v3(第180便)
     }),
     verdictPointer: ptr('kf1c', 'tests.joint'),
   };
@@ -520,6 +734,7 @@ function claimEarthMoon(src) {
           },
         });
       })(),
+      regimeLayer: regimeComponent(src, CLAIM_IDS[1]),   // v3(第180便)
     }),
     verdictPointer: ptr('kf1c', 'tests.joint'),
   };
@@ -634,6 +849,7 @@ function claimSaturnRing(src) {
           },
         });
       })(),
+      regimeLayer: regimeComponent(src, CLAIM_IDS[2]),   // v3(第180便)
     }),
     verdictPointer: ptr('kf1d', 'tests.ring'),
   };
@@ -821,6 +1037,7 @@ function claimJupiter(src) {
           },
         });
       })(),
+      regimeLayer: regimeComponent(src, CLAIM_IDS[3]),   // v3(第180便)
     }),
     verdictPointer: ptr('jupiter', 'windows'),
   };
@@ -932,6 +1149,7 @@ function claimQlockRadial(src) {
         ratioInnermost: qr.innerSaturation.ratioInnermost, ratioRef: qr.innerSaturation.ratioRef,
         ratioOutermost: qr.innerSaturation.ratioOutermost, crossingRadius: qr.innerSaturation.crossingRadius,
       }),
+      regimeLayer: regimeComponent(src, CLAIM_IDS[4]),   // v3(第180便 — 本行は該当なしを明示する)
     }),
     verdictPointer: ptr('qlockradial', 'windows'),
   };
@@ -940,8 +1158,30 @@ function claimQlockRadial(src) {
 // =============================================================================================
 // 台帳の組み立て(決定的 — 揮発値は一切入らない)
 // =============================================================================================
+// v3(第180便): 「空欄を残さない」原則の機械強制 — undefined と非有限数(NaN/±Infinity)は
+// JSON 化で null に化けて**再集計との照合をすり抜ける**ので、組み立て段階で明示エラーにする。
+// null は許す(relTo/relDiff が「相対値を作れない」ことを表す明示値として既存キーに存在する)。
+function assertNoHoles(doc) {
+  const holes = [];
+  const walk = (o, p) => {
+    if (Array.isArray(o)) { o.forEach((v, i) => walk(v, `${p}[${i}]`)); return; }
+    if (o && typeof o === 'object') { for (const k of Object.keys(o)) walk(o[k], p ? `${p}.${k}` : k); return; }
+    if (o === undefined) holes.push(`${p} = undefined`);
+    else if (typeof o === 'number' && !Number.isFinite(o)) holes.push(`${p} = ${o}`);
+  };
+  walk(doc, '');
+  if (holes.length) {
+    throw new ErrorBudgetSourceError(
+      `error-budget v${SCHEMA_VERSION}: 台帳に空欄(undefined)または非有限数が ${holes.length} 件ある ` +
+      `[${holes.slice(0, 6).join(' | ')}]。JSON 化で null に化けて照合をすり抜けるので生成を中止する` +
+      '(出典 JSON のキー名が想定と違うか、その系にその量が存在しない — センチネルで明示すること)');
+  }
+  return doc;
+}
+
 export function buildErrorBudget(root) {
   const src = readSources(root);
+  const rg = src.qexactRegime.json;   // v3(第180便): regime 層の出典
   const claims = [claimMercury(src), claimEarthMoon(src), claimSaturnRing(src), claimJupiter(src), claimQlockRadial(src)];
 
   // 成分の充足状況の機械集計(「測っていない」件数もそのまま数える)
@@ -957,7 +1197,7 @@ export function buildErrorBudget(root) {
     };
   });
 
-  return {
+  return assertNoHoles({
     schema: SCHEMA,
     schemaVersion: SCHEMA_VERSION,
     title: '較正・ホールドアウト主張の誤差予算(error budget)',
@@ -978,6 +1218,74 @@ export function buildErrorBudget(root) {
         key: k, file: src[k].file, sha256: src[k].sha256, bytes: src[k].bytes,
         experimentId: src[k].experimentId, wave: src[k].wave,
       })),
+      // v3(第180便): 否定対照 — 「この台帳は本当に何かを縛っているのか」を機械で示す2件
+      negativeControls: [
+        {
+          id: 'harness-perturbed-adopted-literal',
+          where: 'ハーネス側(tests/exp-qexact-regime.mjs RW5)',
+          statement: rg.preRegistered.RW5.verbatim,
+          factor: rg.rw5Summary.factor,
+          identityAllFail: rg.rw5Summary.identityAllFail,
+          allObservablesMoved: rg.rw5Summary.allMoved,
+          windowFailCount: rg.rw5Summary.windowFailCount,
+          windowFailSystems: rg.rw5Summary.windowFailSystems,
+          pass: rg.rw5Summary.pass,
+          rows: rg.rw5Summary.rows,
+          pointer: ptr('qexactRegime', 'rw5Summary'),
+        },
+        {
+          id: 'generator-missing-or-malformed-source',
+          where: '生成器側(tools/gen-error-budget.mjs readSources / assertRegimeShape)',
+          statement: '出典 JSON が欠落・解析不能・regime 層の必須ブロック欠落のいずれかなら、' +
+            'センチネルで誤魔化さず ErrorBudgetSourceError を投げて生成を中止する。' +
+            '「入力が無いのに台帳だけが出来ている」状態を作らせない',
+          errorType: 'ErrorBudgetSourceError',
+          requiredRegimeBlocks: REGIME_REQUIRED_BLOCKS,
+          requiredRegimeSystems: Object.values(REGIME_SYSTEMS).map((v) => v.key),
+          verification: '出典を退避して `node tools/gen-error-budget.mjs` を実行すると、' +
+            '当該ファイル名と再生成コマンドを名指しした ErrorBudgetSourceError で停止する',
+        },
+      ],
+    },
+    regimes: {
+      note: 'q の世代(regime)の定義と世代別の窓判定タリー。各主張行の components.regimeLayer が実体で、' +
+        'ここはその横断要約である(数値はすべて出典 JSON からの機械読取)',
+      ids: REGIME_IDS,
+      definitions: {
+        qStar: { label: 'qLock 則の遠方近似形 q*(第123便)',
+          formula: 'q* = 3 + ln(1.25·c₀²R/(GM))/ln((R+a)/R)',
+          operatingStatus: '第172便以降 運用規約としては N/A(台帳の既存行はこの世代の記録)' },
+        qExact: { label: '厳密一致式 q_exact(第172便で採用)— 運用上は4桁丸めの採用直値',
+          formula: 'q_exact = q* + 3·ln(a/(R+a))/ln((R+a)/R)',
+          operatingStatus: '現行の運用規約。プリセット・ハーネスには ROUND(q_exact) の直値が載る',
+          adoptedLiteralRule: rg.preRegistered.RW2.verbatim },
+      },
+      claimsWithRegime: Object.keys(REGIME_SYSTEMS),
+      claimsWithoutRegime: CLAIM_IDS.filter((id) => !REGIME_SYSTEMS[id]),
+      perClaim: CLAIM_IDS.filter((id) => REGIME_SYSTEMS[id]).map((id) => {
+        const key = REGIME_SYSTEMS[id].key, s = rg.systems[key];
+        return { id, systemKey: key,
+          qStar: s.q.qStar, qExactFullPrecision: s.q.qExact, qAdoptedLiteral: s.q.qAdopted,
+          relRoundingDeltaQ: s.q.relRoundingDelta,
+          adoptedLiteralMatchesTarget: rg.adoptedLiteralIdentification.rows[key].ok,
+          windowPassAtQStar: s.RW1.qStarPass,
+          windowPassAtQExactFullPrecision: s.RW1.qExactPass,
+          windowPassAtAdoptedLiteral: s.RW1.pass,
+          relDiffAdoptedToFullPrecision: s.RW4.relDiffToQExact,
+          baselineBitIdentical: s.baselineBitCheck.allIdentical };
+      }),
+      adoptedLiteralIdentification: { allMatch: rg.adoptedLiteralIdentification.allMatch,
+        rule: rg.adoptedLiteralIdentification.rule.verbatim,
+        pointer: ptr('qexactRegime', 'adoptedLiteralIdentification') },
+      windowVerdicts: { allPassAtAdoptedLiteral: rg.rw1Summary.allPass,
+        perSystem: rg.rw1Summary.perSystem, pointer: ptr('qexactRegime', 'rw1Summary') },
+      roundingSystematic: { note: rg.rw4Summary.note,
+        maxAbsRelDiffToFullPrecision: rg.rw4Summary.maxAbsRelDiffToQExact,
+        perSystem: rg.rw4Summary.perSystem, pointer: ptr('qexactRegime', 'rw4Summary') },
+      baselineTranscription: { allIdentical: rg.rw3Summary.allIdentical,
+        targetAllSame: rg.rw3Summary.targetAllSame, pointer: ptr('qexactRegime', 'rw3Summary') },
+      determinism: { result: rg.rw6.result, identical: rg.rw6.identical, sha256: rg.rw6.sha256,
+        pointer: ptr('qexactRegime', 'rw6') },
     },
     claims,
     summary: {
@@ -986,8 +1294,21 @@ export function buildErrorBudget(root) {
       coreComponentsInstrumented: tally.reduce((a, t) => a + t.coreInstrumented, 0),
       coreComponentsTotal: tally.reduce((a, t) => a + t.coreTotal, 0),
       perClaim: tally,
+      // v3(第180便): regime 層の充足状況(既存キーは1つも変えていない — 追加のみ)
+      regimeLayer: {
+        generations: REGIME_IDS,
+        instrumented: claims.filter((c) => c.components.regimeLayer.status === INSTRUMENTED).length,
+        notApplicable: claims.filter((c) => c.components.regimeLayer.status === NOT_APPLICABLE).length,
+        total: claims.length,
+        adoptedLiteralAllMatchTarget: rg.adoptedLiteralIdentification.allMatch,
+        allWindowsPassAtAdoptedLiteral: rg.rw1Summary.allPass,
+        baselineBitAllIdentical: rg.rw3Summary.allIdentical,
+        maxAbsRoundingRelDiff: rg.rw4Summary.maxAbsRelDiffToQExact,
+        negativeControlPass: rg.rw5Summary.pass,
+        determinism: rg.rw6.result,
+      },
     },
-  };
+  });
 }
 
 // ---- 揮発ブロック(照合時は除外する)----------------------------------------------------------
@@ -1030,6 +1351,15 @@ export function renderTable(budget) {
   out.push(`主張=${budget.summary.claimCount}行 / 主成分の計装=${budget.summary.coreComponentsInstrumented}/${budget.summary.coreComponentsTotal}` +
     `(未計装は "${NOT_INSTRUMENTED}" / 該当なしは "${NOT_APPLICABLE}" として台帳に明示)`);
   out.push(`出典=${budget.provenance.sources.length}件(すべて SHA-256 で固定・新規シミュレーション ${budget.provenance.newSimulations} 件)`);
+  const rl = budget.summary.regimeLayer;
+  const nc = budget.provenance.negativeControls[0];
+  out.push(`regime 層(v3)= 世代 [${rl.generations.join(' / ')}]・計装 ${rl.instrumented}/${rl.total} 主張` +
+    `(該当なし ${rl.notApplicable} 主張)/ 採用直値が対象 HTML の宣言と一致=${rl.adoptedLiteralAllMatchTarget}` +
+    ` / 採用直値での主窓 全系 PASS=${rl.allWindowsPassAtAdoptedLiteral} / 基線 bit 一致=${rl.baselineBitAllIdentical}`);
+  out.push(`  4桁丸めの系統誤差(最大 |相対差|)= ${fmt(rl.maxAbsRoundingRelDiff)}` +
+    ` / 否定対照 ${rl.negativeControlPass ? 'PASS' : 'FAIL'}` +
+    `(×${nc.factor} 摂動で主窓を外れた系 ${nc.windowFailCount}件[${nc.windowFailSystems.join(' ')}])` +
+    ` / 決定性 ${rl.determinism}`);
   return out.join('\n');
 }
 

@@ -8003,10 +8003,15 @@ if (!FAST) {
       wrap.open = true; wrap.dispatchEvent(new Event('toggle'));
       sel.value = '';
       prompt.value = 'テスト要望QAプレビュー'; prompt.dispatchEvent(new Event('input'));
-      const plain = body.value === HP.aiUserContent('テスト要望QAプレビュー');
+      // 第178便: プレビューは**実際に送る本文**(aiSendContent — 少数ショット例を必ず1つ含む)。
+      // 未選択でも例(現在のサンプル)が入るので、素通し検査は「送信本文と完全一致」で行う
+      const send = (t) => (HP.aiSendContent ? HP.aiSendContent(t) : HP.aiUserContent(t));   // root は旧経路
+      const plain = body.value === send('テスト要望QAプレビュー') && body.value.includes('テスト要望QAプレビュー');
       sel.value = 'darkrotor'; sel.dispatchEvent(new Event('change'));
-      const withBase = body.value === HP.aiUserContent('テスト要望QAプレビュー') && body.value.includes('lightSweep');
-      const sysNoteOk = document.querySelector('#aiPreviewSysNote').textContent.includes(String(HP.SYSTEM_PROMPT.length));
+      const withBase = body.value === send('テスト要望QAプレビュー') && body.value.includes('lightSweep');
+      // システムプロンプトは「自由生成の仕様+共通節(出力の使い分け・内蔵一覧)」— 字数はその合計
+      const sysNoteOk = document.querySelector('#aiPreviewSysNote').textContent.includes(String(HP.getSystemPrompt().length))
+        && HP.getSystemPrompt().includes(HP.SYSTEM_PROMPT);
       wrap.open = false; wrap.dispatchEvent(new Event('toggle'));
       sel.value = '';
       return { plain, withBase, sysNoteOk };
@@ -8058,8 +8063,15 @@ if (!FAST) {
       const spm = betaHtml.match(/const SYSTEM_PROMPT = `([\s\S]*?)`;/);
       const specPath = path.join(ROOT, 'docs', 'AI_SPEC.md');
       const spec = fs.existsSync(specPath) ? fs.readFileSync(specPath, 'utf8') : '';
-      add('prompt.spec-sync', !!spm && spec.length > 0 && spec.includes(spm[1]),
-        `docs/AI_SPEC.md(${spec.length}字)が beta SYSTEM_PROMPT(${spm ? spm[1].length : 0}字)を逐語収載=${!!spm && spec.includes(spm[1])}`);
+      // 第178便: 一本化した単一プロンプトの共通節(出力の使い分け)も**ja/en 両方を逐語収載**する
+      // ことを同じゲートで機械固定する(短縮版のリンク先が古くなる事故の防止 — 検査を1つ増やす)
+      const cl = await page.evaluate(() => (window.HP && HP.buildRecordsClause)
+        ? { ja: HP.buildRecordsClause('ja'), en: HP.buildRecordsClause('en') } : null);
+      const clJa = !cl || spec.includes(cl.ja), clEn = !cl || spec.includes(cl.en);
+      add('prompt.spec-sync', !!spm && spec.length > 0 && spec.includes(spm[1]) && clJa && clEn,
+        `docs/AI_SPEC.md(${spec.length}字)が beta SYSTEM_PROMPT(${spm ? spm[1].length : 0}字)を逐語収載=${!!spm && spec.includes(spm[1])} / `
+        + (cl ? `出力の使い分け節を逐語収載 ja=${clJa}(${cl.ja.length}字)・en=${clEn}(${cl.en.length}字)`
+              : '出力の使い分け節=SKIP(対象に第178便の共通節なし)'));
     }
 
     // prompt.intent-map: 第102便 102A — 要望→設定の対応表と意図分解ルール(8.)が載っている。
@@ -8974,17 +8986,23 @@ if (!FAST) {
       if (!idsOk) bad.push('カタログ仕様プロンプトに全系IDが載っていない');
       if (!ruleOk) bad.push('カタログ仕様プロンプトに数値禁止/カタログ外規定が無い');
       return { bad, nNeg: neg.length, nPos: pos.length, promptLen: pr.length,
-        mode: HP.aiGenMode(), defModel: HP.AI_PROVIDERS.anthropic.defModel,
+        mode: HP.aiGenMode(),
+        modeUiGone: !document.querySelector('#aiGenMode') && !document.querySelector('#aiModeLabel')
+          && !document.querySelector('#aiObsGroup') && !document.querySelector('#aiObsRecords'),
+        defModel: HP.AI_PROVIDERS.anthropic.defModel,
         fb: HP.aiFallbackModel(HP.AI_PROVIDERS.anthropic.defModel),
         fbHaiku: HP.aiFallbackModel('claude-haiku-4-5'), fbOpus: HP.aiFallbackModel('claude-opus-5') };
     });
     // 既定モデル(第170便で Sonnet 5 へ引き上げ)と、検証失敗時の**上位エスカレーション**先
     // (統括再裁定: sonnet-5 → opus-5)も同じゲートで機械固定する
-    add('ai.schema-validation', sch.bad.length === 0 && sch.mode === 'catalog'
+    // 第178便: 生成モードは撤去された(自由生成へ一本化)。モード前提の検査は
+    // 「モードが unified で、モード選択UIの残骸が無い」等価検査へ差し替える(弱体化なし —
+    // カタログ検証器そのものの否定対照/正例は1件も減らしていない)
+    add('ai.schema-validation', sch.bad.length === 0 && sch.mode === 'unified' && sch.modeUiGone
       && sch.defModel === 'claude-sonnet-5' && sch.fb === 'claude-opus-5'
       && sch.fbHaiku === 'claude-sonnet-5' && sch.fbOpus === null,
       `否定対照=${sch.nNeg}件 全て拒否・正例=${sch.nPos}件 全て受理・カタログ仕様=${sch.promptLen}字・` +
-      `既定モード=${sch.mode}・既定モデル=${sch.defModel}→フォールバック=${sch.fb}` +
+      `生成モード=${sch.mode}(モード選択UI撤去=${sch.modeUiGone})・既定モデル=${sch.defModel}→フォールバック=${sch.fb}` +
       `(haiku-4-5→${sch.fbHaiku}・opus-5→${sch.fbOpus}=連鎖なし)` +
       `${sch.bad.length ? ' NG=[' + sch.bad.slice(0, 6).join(' / ') + ']' : ''}`);
   } else {
@@ -9201,6 +9219,274 @@ if (!FAST) {
         : 'NG=[' + bld.bad.join(' / ') + ']');
   } else {
     console.log('SKIP ai.obs-schema / ai.obs-build(対象に ObservationRecord 経路なし — 第176便 未適用の root 等)');
+  }
+}
+
+// ---- 7s2d) 第178便(原仮定者の設計指針 2026-08-23): AI生成の自由生成一本化+取込堅牢化 ----
+// ----   5ゲート。第176便 未適用の root 等は自動 SKIP(機能検出)。
+// ----   ① ai.ui-unified      : モード選択・観測採取グループの撤去/貼付欄1つ/コピー1系統/
+// ----                          アプリ内生成ボタンが常時有効(マスク無し)を DOM で機械固定。
+// ----   ② ai.unified-prompt  : 単一プロンプトの構造(仕様・出力の使い分け・内蔵一覧・少数ショット例)。
+// ----                          例の埋込がベース切替に追随し、未選択でも例が必ず1つ入ること。
+// ----   ③ ai.paste-shape     : 形状自動判別の3分岐(records/preset/不正)+プリセット
+// ----                          インポート欄へのレコード誤投が案内で差し戻されること。
+// ----   ④ ai.stabilize       : 整形パスの決定性・変更点列挙・κ再導出・ケプラー再導出の宣言・
+// ----                          束縛楕円は不変・自己診断の否定対照・内蔵73本が無変更で全PASS。
+// ----   ⑤ ai.intake-normalize: スマート引用符/全角記号/BOM の**警告つき受理**と数値ビット不変、
+// ----                          負の rotation_period の受理(合成テスト値)、解析エラーの位置診断。
+{
+  const hasUni = await page.evaluate(() => !!window.HP && !!HP.buildUnifiedPrompt && !!HP.aiIntakeText
+    && !!HP.stabilizePreset && !!HP.detectPasteShape);
+  if (hasUni) {
+    // --- ① ai.ui-unified ---
+    const ui = await page.evaluate(() => {
+      document.querySelector('#tabs button[data-tab=ai]').click();
+      const gone = ['#aiGenMode', '#aiModeLabel', '#aiModeNote', '#aiModeDetails', '#aiObsGroup',
+        '#aiObsRecords', '#btnObsPromptCopy', '#btnObsCheck', '#btnObsBuild']
+        .filter((q) => !!document.querySelector(q));
+      const pasteBoxes = [...document.querySelectorAll('#page-ai textarea')]
+        .map((t) => t.id).filter((id) => id !== 'aiPrompt' && id !== 'aiPreviewBody');
+      const copyBtns = [...document.querySelectorAll('#page-ai button')]
+        .map((b) => b.id).filter((id) => /Copy|copy/.test(id));
+      const gen = document.querySelector('#btnGenerate');
+      const sel = document.querySelector('#aiBasePreset');
+      const r = { gone, pasteBoxes, copyBtns, genEnabled: !gen.disabled,
+        promptEnabled: !document.querySelector('#aiPrompt').disabled,
+        baseEnabled: !sel.disabled && !document.querySelector('#aiBaseRow').classList.contains('lockedRow'),
+        kepler: !!document.querySelector('#aiKeplerFix') && document.querySelector('#aiKeplerFix').checked,
+        mode: HP.aiGenMode() };
+      document.querySelector('#btnPanelClose').click();
+      return r;
+    });
+    const uiOk = ui.gone.length === 0 && ui.pasteBoxes.length === 1 && ui.pasteBoxes[0] === 'aiPasteArea'
+      && ui.copyBtns.length === 2 && ui.genEnabled && ui.promptEnabled && ui.baseEnabled
+      && ui.kepler && ui.mode === 'unified';
+    add('ai.ui-unified', uiOk,
+      `モードUIの残骸=${ui.gone.length}件${ui.gone.length ? '[' + ui.gone.join(',') + ']' : ''}・`
+      + `貼付欄=${JSON.stringify(ui.pasteBoxes)}(1つ)・コピー=${JSON.stringify(ui.copyBtns)}(1系統2ボタン)・`
+      + `生成ボタン常時有効=${ui.genEnabled}・要望欄有効=${ui.promptEnabled}・ベース選択有効=${ui.baseEnabled}・`
+      + `ケプラー再導出 既定ON=${ui.kepler}・aiGenMode=${ui.mode}`);
+
+    // --- ② ai.unified-prompt ---
+    const up = await page.evaluate(() => {
+      const prompt = document.querySelector('#aiPrompt'), sel = document.querySelector('#aiBasePreset');
+      const bad = [];
+      HP.loadPreset('galaxy', false);
+      prompt.value = 'QA一本化プロンプト検査'; sel.value = '';
+      const full = HP.buildUnifiedPrompt(false), sh = HP.buildUnifiedPrompt(true);
+      const cl = HP.buildRecordsClause('ja'), bl = HP.buildBuiltinListClause('ja');
+      // 骨格: full は仕様全文+共通節、short は仕様をURL参照にしただけで共通節は同じ
+      if (!full.includes(HP.SYSTEM_PROMPT)) bad.push('full に仕様全文が無い');
+      if (sh.includes(HP.SYSTEM_PROMPT)) bad.push('short に仕様全文が入っている');
+      if (!sh.includes(HP.AI_SPEC_URL)) bad.push('short に仕様書URLが無い');
+      for (const [n, t] of [['full', full], ['short', sh]]) {
+        if (!t.includes(cl)) bad.push(n + ' に出力の使い分け節が逐語で無い');
+        if (!t.includes(bl)) bad.push(n + ' に内蔵実天体一覧が無い');
+        if (!t.includes('記憶で埋めては')) bad.push(n + ' に「数値を記憶で埋めない」規律が無い');
+        if (!t.includes('出力A')) bad.push(n + ' に records 優先の出力Aが無い');
+        if (!t.includes('QA一本化プロンプト検査')) bad.push(n + ' に要望が入っていない');
+        if (t.includes('undefined')) bad.push(n + ' に undefined が混入');
+      }
+      // 内蔵実天体一覧が全カタログ系を挙げている
+      for (const k of Object.keys(HP.ASTRO_CATALOG)) {
+        const nm = HP.ASTRO_CATALOG[k].name.ja;
+        if (!bl.includes(nm)) bad.push('内蔵一覧に ' + k + ' が無い');
+      }
+      // 少数ショット例: 未選択でも必ず1つ入り、ベース切替に追随する
+      const exCur = HP.aiExampleForPrompt();
+      const curOk = !!exCur && exCur.base === false && full.includes(exCur.json);
+      if (!curOk) bad.push('未選択時に現在のサンプルの例が入っていない');
+      sel.value = 'darkrotor';
+      const exBase = HP.aiExampleForPrompt();
+      const f2 = HP.buildUnifiedPrompt(false), s2 = HP.buildUnifiedPrompt(true);
+      const follow = !!exBase && exBase.base === true && exBase.json !== exCur.json
+        && f2.includes(exBase.json) && s2.includes(exBase.json) && !full.includes(exBase.json);
+      if (!follow) bad.push('ベース切替に例が追随しない');
+      // 短縮版は「仕様全文ぶんだけ短い」— リンク参照にした意味がそのまま長さに出る
+      // (例の大きさに依らない不変量。full の半分未満は ai.external-prompt が別途固定する)
+      if (!(f2.length - s2.length > HP.SYSTEM_PROMPT.length * 0.9)) bad.push('短縮版が仕様全文ぶん短くない');
+      // アプリ内生成の送信本文も同じ例を運ぶ
+      if (!HP.aiSendContent('x').includes('lightSweep')) bad.push('送信本文に例が入らない');
+      sel.value = 'echo';
+      const f3 = HP.buildUnifiedPrompt(false);
+      if (!f3.includes('"integrator":"leapfrog"')) bad.push('ベース切替(echo)で最上位キーが例に入らない');
+      sel.value = ''; prompt.value = '';
+      return { bad, lenFull: f2.length, lenShort: s2.length, exLen: exCur ? exCur.json.length : 0 };
+    });
+    add('ai.unified-prompt', up.bad.length === 0,
+      `単一プロンプト: full=${up.lenFull}字 / short=${up.lenShort}字(差=${up.lenFull - up.lenShort}字 ≒ 仕様全文ぶん)・仕様/出力の使い分け/`
+      + `内蔵一覧/記憶禁止規律を両方が同一本文で運ぶ・少数ショット例=${up.exLen}字(未選択は現在の`
+      + `サンプル・ベース切替に追随)${up.bad.length ? ' NG=[' + up.bad.slice(0, 6).join(' / ') + ']' : ''}`);
+
+    // --- ③ ai.paste-shape ---
+    const shp = await page.evaluate(() => {
+      const bad = [], preset = { name: 'QA形状', description: 'd', camera: { scale: 200 },
+        world: { boundary: 'none', size: 0 }, physics: {},
+        bodies: [{ type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] };
+      const recs = [{ body: 'A', quantity: 'mass', value: 1e22, unit: 'kg', source: 's',
+        url: 'https://example.invalid/x', retrieved: '2026-08' }];
+      const cases = [['プリセット単体', preset, 'preset'], ['プリセット配列', [preset], 'preset'],
+        ['封筒 {customPresets}', { customPresets: [preset] }, 'preset'],
+        ['レコード配列', recs, 'records'],
+        ['散文だけ', { note: 'これは説明です' }, 'unknown'],
+        ['数値配列', [1, 2, 3], 'unknown'], ['文字列', 'hello', 'unknown']];
+      for (const [w, v, exp] of cases) {
+        const got = HP.detectPasteShape(v);
+        if (got !== exp) bad.push(w + ': ' + got + '(期待 ' + exp + ')');
+      }
+      // 取込の3分岐(テキストから): preset は保存可能・records は検証まで到達・不正は位置診断つきで拒否
+      const keep = localStorage.getItem('hp_custom_presets');
+      localStorage.setItem('hp_custom_presets', '[]');
+      const rp = HP.aiIntakeText(JSON.stringify(preset), { kepler: true });
+      if (!(rp.ok && rp.kind === 'preset')) bad.push('プリセット取込が失敗: ' + (rp.errors || []).join('|'));
+      const rr = HP.aiIntakeText(JSON.stringify(recs), { kepler: true });
+      if (rr.kind !== 'records') bad.push('レコードが records 経路へ行かない');
+      if (rr.ok) bad.push('不完全なレコード配列が受理された(中心1天体のみ)');
+      const ru = HP.aiIntakeText('これは説明文だけの返答です', {});
+      if (ru.ok || ru.kind !== 'parse') bad.push('JSONの無い返答が拒否されない');
+      const rb = HP.aiIntakeText('{"a":1,,}', {});
+      const posOk = !rb.ok && /行/.test((rb.errors || []).join('')) && /列/.test((rb.errors || []).join(''));
+      if (!posOk) bad.push('解析エラーに行・列の位置診断が無い');
+      // プリセットインポート欄へのレコード誤投 = 案内して差し戻す(取り込まない)
+      const before = JSON.parse(localStorage.getItem('hp_custom_presets') || '[]').length;
+      document.querySelector('#ioArea').value = JSON.stringify(recs);
+      document.querySelector('#btnImport').click();
+      const after = JSON.parse(localStorage.getItem('hp_custom_presets') || '[]').length;
+      const guide = document.querySelector('#notice') ? document.querySelector('#notice').textContent : '';
+      if (after !== before) bad.push('レコード配列がプリセットとして取り込まれた');
+      if (keep === null) localStorage.removeItem('hp_custom_presets'); else localStorage.setItem('hp_custom_presets', keep);
+      return { bad, nCases: cases.length, guide: guide.slice(0, 60) };
+    });
+    add('ai.paste-shape', shp.bad.length === 0,
+      `形状判別=${shp.nCases}ケース全一致(records/preset/unknown)・取込3分岐(保存/検証/位置診断つき拒否)・`
+      + `プリセット欄へのレコード誤投は取り込まず案内「${shp.guide}」`
+      + `${shp.bad.length ? ' NG=[' + shp.bad.slice(0, 6).join(' / ') + ']' : ''}`);
+
+    // --- ④ ai.stabilize ---
+    const stb = await page.evaluate(() => {
+      const bad = [];
+      const mk = (phys, bodies, cam) => ({ name: 'QA整形', description: 'd', camera: { scale: cam },
+        world: { boundary: 'none', size: 0 }, physics: phys, bodies });
+      const sgl = (m, x, vy, pinned) => ({ type: 'single', m, x, y: 0, vx: 0, vy, spin: 0, pinned: !!pinned });
+      // (a) 決定性: 同一入力2回でビット一致
+      const brokeSrc = () => mk({ G: 1, softening: 2, timeScale: 1 }, [sgl(1000, 0, 0, true), sgl(1, 100, 9.487)], 300);
+      const s1 = HP.stabilizePreset(brokeSrc(), { kepler: true });
+      const s2 = HP.stabilizePreset(brokeSrc(), { kepler: true });
+      if (!s1.ok || !s2.ok) bad.push('壊れた円軌道の整形が失敗');
+      if (JSON.stringify(s1.preset) !== JSON.stringify(s2.preset)) bad.push('2回の整形が不一致(非決定的)');
+      // (b) 変更点の列挙: ケプラー再導出が宣言されている(脱出速度 3×v_circ → 円へ)
+      const kepDeclared = s1.changes.some((c) => /ケプラー|円軌道|Kepler|circular/.test(c));
+      if (!kepDeclared) bad.push('ケプラー再導出が変更点に列挙されていない');
+      const vFixed = s1.preset.bodies[1].vy;
+      if (!(Math.abs(vFixed / Math.sqrt(1 * 1001 / 100) - 1) < 1e-6)) bad.push('再導出後の速度がケプラー速度でない: ' + vFixed);
+      // (c) OFF 指定では触らない(オプションであることの機械固定)
+      const off = HP.stabilizePreset(brokeSrc(), { kepler: false });
+      if (off.preset.bodies[1].vy !== 9.487) bad.push('kepler:false でも速度が変わった');
+      if (!off.notes.some((n) => /OFF/.test(n))) bad.push('kepler OFF が宣言されていない');
+      // (d) 束縛楕円(v/v_circ=1.2<√2)は1ビットも触らない
+      const ell = HP.stabilizePreset(mk({ G: 1, softening: 2, timeScale: 1 },
+        [sgl(1000, 0, 0, true), sgl(1, 100, 3.7968)], 300), { kepler: true });
+      if (ell.preset.bodies[1].vy !== 3.7968) bad.push('束縛楕円の速度が書き換えられた');
+      if (!ell.notes.some((n) => /楕円|ellipse/.test(n))) bad.push('束縛楕円を触らない旨が宣言されていない');
+      // (e) κ ロック: 実較正宣言のサンプルは κ=G/c₀² へ再導出して宣言、トイは変えない
+      const realP = mk({ G: 6.674, cLight: 30000, kappaT: 0.5, softening: 0.05, timeScale: 1 },
+        [sgl(1000, 0, 0, true), sgl(1, 100, 2.5824)], 300);
+      realP.fidelity = 'real'; realP.scaleExp = { L: 8, T: 4, M: 27 };
+      const rk = HP.stabilizePreset(realP, { kepler: true });
+      const kExp = 6.674 / (30000 * 30000);
+      if (!(Math.abs(rk.preset.physics.kappaT / kExp - 1) < 1e-12)) bad.push('κ が G/c₀² へ再導出されていない');
+      if (!rk.changes.some((c) => /κ/.test(c))) bad.push('κ 再導出が変更点に列挙されていない');
+      const toy = HP.stabilizePreset(mk({ G: 1, cLight: 30, kappaT: 0.016666666666666666, softening: 2, timeScale: 1 },
+        [sgl(1000, 0, 0, true), sgl(1, 100, 3.1639)], 300), { kepler: true });
+      if (toy.preset.physics.kappaT !== 0.016666666666666666) bad.push('トイ設定の κ が黙って変えられた');
+      // (f) scaleExp 規約違反は警告+提案のみ(自動変更しない)
+      const se = mk({ G: 1, softening: 2, timeScale: 1 }, [sgl(100, 0, 0, true), sgl(1, 100, 1.005)], 300);
+      se.scaleExp = { L: 8, T: 2, M: 27 };
+      const rs = HP.stabilizePreset(se, { kepler: true });
+      if (JSON.stringify(rs.preset.scaleExp) !== JSON.stringify({ L: 8, T: 2, M: 27 })) bad.push('scaleExp が自動変更された');
+      if (!rs.notes.some((n) => /L−T=4/.test(n))) bad.push('scaleExp 逸脱の警告・提案が無い');
+      // (g) 自己診断の否定対照: 全粒子が試走で画面外へ脱出する合成プリセットは差し戻される
+      const esc = HP.stabilizePreset(mk({ G: 0, softening: 2, timeScale: 1 }, [
+        { type: 'single', m: 1, x: 0, y: 0, vx: 50, vy: 0, spin: 0, pinned: false },
+        { type: 'single', m: 1, x: 0, y: 10, vx: -50, vy: 0, spin: 0, pinned: false },
+        { type: 'single', m: 1, x: 0, y: -10, vx: 0, vy: 50, spin: 0, pinned: false }], 20), { kepler: true });
+      if (esc.ok || esc.stage !== 'diagnosis') bad.push('全粒子脱出が差し戻されない');
+      // (h) 内蔵プリセットは全て無変更で自己診断 PASS(手入れ済みを書き換えない担保)
+      const chg = [], fail = [];
+      for (const p of HP.allPresets()) {
+        const r = HP.stabilizePreset(JSON.parse(JSON.stringify(p)), { kepler: true });
+        if (!r.ok) fail.push(p.id + ':' + r.stage);
+        else if (r.changes.length) chg.push(p.id + ':' + r.changes[0].slice(0, 40));
+      }
+      if (fail.length) bad.push('内蔵プリセットが自己診断で落ちた: ' + fail.slice(0, 3).join(','));
+      if (chg.length) bad.push('内蔵プリセットが整形で変更された: ' + chg.slice(0, 3).join(','));
+      return { bad, nBuiltin: HP.allPresets().length, changes: s1.changes.length,
+        escErr: (esc.errors || [])[0] || '', steps: s1.diag ? s1.diag.steps : 0 };
+    });
+    add('ai.stabilize', stb.bad.length === 0,
+      `決定性(同一入力2回ビット一致)・変更点列挙=${stb.changes}件・κ=G/c₀² 再導出(実較正宣言のみ)・`
+      + `ケプラー再導出は脱出速度/落ち込みだけ(束縛楕円 v/v_circ<√2 は不変)・scaleExp は警告のみ・`
+      + `自己診断${stb.steps}步の否定対照「${String(stb.escErr).slice(0, 40)}」・`
+      + `内蔵${stb.nBuiltin}本は変更0件で全PASS${stb.bad.length ? ' NG=[' + stb.bad.slice(0, 6).join(' / ') + ']' : ''}`);
+
+    // --- ⑤ ai.intake-normalize ---
+    const nrm = await page.evaluate(() => {
+      const bad = [];
+      const preset = { name: 'QA正規化', description: '全角の説明(かっこ)【全角括弧】・全角コロンは説明文にも出る',
+        camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+        physics: { G: 1.2345678901234, timeScale: 2.5 },
+        bodies: [{ type: 'single', m: 12.3456789, x: 1.5, y: -2.5, vx: 0.125, vy: -0.25, spin: 0.5, pinned: false }] };
+      const plain = HP.aiIntakeText(JSON.stringify(preset), { kepler: true });
+      if (!plain.ok) bad.push('素のJSONが取り込めない');
+      if (plain.corrected) bad.push('素のJSONが「補正」扱いになった');
+      // スマート引用符ケース: 警告つき受理・数値はビット不変
+      const smart = HP.aiIntakeText(JSON.stringify(preset).replace(/"/g, '“'), { kepler: true });
+      if (!smart.ok) bad.push('スマート引用符が受理されない: ' + (smart.errors || []).join('|'));
+      if (!smart.corrected || !(smart.fixes || []).length) bad.push('補正の警告が出ていない');
+      if (JSON.stringify(smart.preset.bodies) !== JSON.stringify(plain.preset.bodies)) bad.push('スマート引用符で数値が変わった');
+      if (smart.preset.physics.G !== plain.preset.physics.G) bad.push('スマート引用符で G が変わった');
+      // 全角の構造記号(文字列の外だけ ASCII 化 — 説明文の全角は1文字も変えない)
+      const fw = JSON.stringify(preset).replace(/:/g, '：').replace(/,/g, '，');
+      const rfw = HP.aiIntakeText(fw, { kepler: true });
+      if (!rfw.ok) bad.push('全角の構造記号が受理されない: ' + (rfw.errors || []).join('|'));
+      if (rfw.ok && rfw.preset.description !== preset.description) bad.push('説明文の全角が書き換えられた: ' + rfw.preset.description);
+      // BOM・ゼロ幅
+      const zw = HP.aiIntakeText('﻿' + JSON.stringify(preset).replace('{', '{​'), { kepler: true });
+      if (!zw.ok) bad.push('BOM/ゼロ幅が受理されない');
+      // 負の rotation_period(合成テスト値 — 逆行自転)を受理し、spin の符号へ反映する
+      const R = (body, quantity, value, unit) => ({ body, quantity, value, unit, source: 'QA synthetic',
+        url: 'https://example.invalid/qa', retrieved: '2026-08' });
+      const mkRecs = (rot) => [R('QAcen', 'mass', 1.0e22, 'kg'), R('QAcen', 'radius', 1.0e6, 'm'),
+        R('QAcen', 'rotation_period', rot, 's'),
+        R('QAsat', 'mass', 1.0e21, 'kg'), R('QAsat', 'radius', 5.0e5, 'm'),
+        R('QAsat', 'semi_major_axis', 2.0e7, 'm'), R('QAsat', 'eccentricity', 0, '1'),
+        R('QAsat', 'orbital_period', 2 * Math.PI * Math.sqrt(Math.pow(2.0e7, 3) / (6.674e-11 * 1.1e22)), 's')];
+      const neg = HP.validateObservationRecords(mkRecs(-5.5e5));
+      const pos = HP.validateObservationRecords(mkRecs(5.5e5));
+      if (!neg.ok) bad.push('負の rotation_period が拒否された: ' + neg.errors.join('|'));
+      if (!pos.ok) bad.push('正の rotation_period が拒否された: ' + pos.errors.join('|'));
+      if (neg.ok && pos.ok) {
+        if (!(neg.sys.center.spinSI < 0)) bad.push('負の自転周期が spin の符号に反映されていない');
+        if (Math.abs(neg.sys.center.spinSI + pos.sys.center.spinSI) > 1e-18) bad.push('逆行/順行で spin の絶対値が違う');
+        if (!neg.notes.some((n) => /逆行/.test(n))) bad.push('逆行自転が宣言されていない');
+      }
+      // 質量・半径・軌道長半径・公転周期の負値は従来どおり拒否(緩めていないことの否定対照)
+      const negOthers = [['mass', 'QAsat'], ['radius', 'QAcen'], ['semi_major_axis', 'QAsat'], ['orbital_period', 'QAsat']];
+      for (const [q, b] of negOthers) {
+        const arr = mkRecs(-5.5e5).map((r) => (r.body === b && r.quantity === q ? Object.assign({}, r, { value: -Math.abs(r.value) }) : r));
+        if (HP.validateObservationRecords(arr).ok) bad.push('負の ' + q + ' が受理された(拒否のはず)');
+      }
+      // rotation_period=0 は拒否(除算不能)
+      if (HP.validateObservationRecords(mkRecs(0)).ok) bad.push('rotation_period=0 が受理された');
+      return { bad, fixes: (smart.fixes || []).join('・'), spinNeg: neg.ok ? neg.sys.center.spinSI : null };
+    });
+    add('ai.intake-normalize', nrm.bad.length === 0,
+      `スマート引用符=警告つき受理(補正内訳「${nrm.fixes}」)・数値ビット不変・全角の構造記号は`
+      + `文字列の外だけ ASCII 化(説明文は不変)・BOM/ゼロ幅除去・負の rotation_period 受理`
+      + `(spin=${nrm.spinNeg}・逆行を宣言)/ 質量・半径・軌道長半径・公転周期の負値と自転周期0は拒否`
+      + `${nrm.bad.length ? ' NG=[' + nrm.bad.slice(0, 6).join(' / ') + ']' : ''}`);
+  } else {
+    console.log('SKIP ai.ui-unified / ai.unified-prompt / ai.paste-shape / ai.stabilize / ai.intake-normalize(第178便 未適用の root 等)');
   }
 }
 
@@ -15975,6 +16261,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     { json: 'coreshell7-results.json', harness: 'tests/exp-coreshell7.mjs' },
     { json: 'kf1sens-results.json', harness: 'tests/exp-kf1sens.mjs' },
     { json: 'coreshell8-results.json', harness: 'tests/exp-coreshell8.mjs' },
+    { json: 'coreshell9-results.json', harness: 'tests/exp-coreshell9.mjs' },
+    { json: 'qexact-regime-results.json', harness: 'tests/exp-qexact-regime.mjs' },
   ];
   const SENTINELS = ['not-applicable', 'not-instrumented', 'unavailable'];
   const isHex = (v, n) => typeof v === 'string' && new RegExp(`^[0-9a-f]{${n}}$`).test(v);
@@ -16593,6 +16881,124 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       (ng.length ? ` / NG=${ng.join(',')}` : ''));
   } else {
     console.log('SKIP ui.step-accounting(対象に第175便の繰越会計なし — root 等)');
+  }
+}
+
+// ---- 89) 第177便(レビュー第5巡 P1-1・統括裁定「進める」): kernel.bitident ----
+// ----     対ループカーネル特別化(S._core の①全対ループを module 直下の独立関数へ切り出し、
+// ----     軌道系のフラグ組では死枝を持たない特別化カーネルを通す改修)が、**1步の値を
+// ----     1 bit も変えていない**ことの機械証明。背景は第175便と同じ「Windows 実機で 1步の
+// ----     コストが予算級(💿saturnRingRealKF1 が時間経過倍率=1 でも歩数 44%)」で、原因の
+// ----     最有力候補が「V8 が ~1400 行の単一関数を最適化しない」(第39便 39B の系譜)。
+// ----     高速化そのものは窓ではない(実機の V8 で改善幅が違いうる)ため、本ゲートが判定
+// ----     するのは**等価性と経路選択**だけである:
+// ----       (1) 全状態ビット一致: 代表プリセット群について「generic 強制」と「通常経路」を
+// ----           同一步数だけ走らせ、sim の**全 TypedArray をバイト列で・全数値を文字列で**
+// ----           照合する(位置・速度・質量・スピン・半径・温度・コア・固有時・帳簿・
+// ----           クランプ計数・光子ログ等 — 観測専用の _kKind/_pkC だけ除外)。步数は
+// ----           {1,10,100,1000}(QA_FAST では 1000 を省略)。
+// ----       (2) 経路選択: 特別化対象の宇宙で**実際に特別化カーネルが選ばれている**こと
+// ----           (💿🟠🌞 = pn / 🌌galaxyDB・⏪echo = plain)。そうでない宇宙(🥚selfRotor・
+// ----           ⚫bhCore・🌌galaxy・♨️convection)は generic を通ること。
+// ----       (3) 開発フックは既定 OFF(kernelForceGeneric()===false)で、強制時は必ず generic。
+// ----       (4) **否定対照(比較器の非空性)**: 照合器に 1 ulp だけずらした状態を食わせると
+// ----           必ず差分を返すこと(= (1) の PASS が「何も見ていない」ことによる PASS では
+// ----           ないことをその場で実測する)。
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const hasKernel = /function pairCoreGeneric\(C\)\{/.test(html) &&
+    /function pairCorePlain\(C\)\{/.test(html) && /function pairCorePN\(C\)\{/.test(html);
+  if (hasKernel) {
+    const kp = await browser.newPage();
+    const kErr = [];
+    kp.on('pageerror', (e) => kErr.push(String(e)));
+    await kp.goto(INDEX, { waitUntil: 'load' });
+    await kp.waitForFunction(() => !!(window.HP && HP.sim));
+    const EXPECT = {
+      saturnRingRealKF1: 'pn', jupiterGalilean: 'pn', solarInner: 'pn', mercury: 'pn',
+      galaxyDB: 'plain', echo: 'plain',
+      selfRotor: 'generic', bhCore: 'generic', galaxy: 'generic', convection: 'generic',
+    };
+    const KSTEPS = FAST ? [1, 10, 100] : [1, 10, 100, 1000];
+    const r = await kp.evaluate(({ EXPECT, KSTEPS }) => {
+      // sim の全状態を「型ごとに可逆な文字列」へ落とす(TypedArray はバイト16進 = ビット厳密)
+      const collect = (o, pre, out, depth) => {
+        if (depth > 3) return;
+        for (const k of Object.keys(o)) {
+          if (k === '_pkC' || k === '_kKind') continue;   // 観測専用(物理状態ではない)
+          const v = o[k];
+          if (v === null || v === undefined) { out[pre + k] = String(v); continue; }
+          const t = typeof v;
+          if (t === 'number') { out[pre + k] = Object.is(v, -0) ? '-0' : String(v); continue; }
+          if (t === 'boolean' || t === 'string') { out[pre + k] = t + ':' + v; continue; }
+          if (t === 'function') continue;
+          if (ArrayBuffer.isView(v) && v.BYTES_PER_ELEMENT) {
+            const u = new Uint8Array(v.buffer, v.byteOffset, v.byteLength);
+            let h = ''; for (let q = 0; q < u.length; q++) { const x = u[q].toString(16); h += x.length < 2 ? '0' + x : x; }
+            out[pre + k] = 'b' + u.length + ':' + h; continue;
+          }
+          if (t === 'object') collect(v, pre + k + '.', out, depth + 1);
+        }
+      };
+      const snap = (S) => { const o = {}; collect(S, '', o, 0); return o; };
+      const cmp = (a, b) => {
+        const ka = Object.keys(a), kb = Object.keys(b), d = [];
+        if (ka.length !== kb.length) d.push('KEYS:' + ka.length + '/' + kb.length);
+        for (const k of ka) { if (!(k in b)) { d.push('MISSING:' + k); continue; } if (a[k] !== b[k]) d.push(k); }
+        return d;
+      };
+      const run = (id, steps, force) => {
+        HP.setKernelForceGeneric(!!force);
+        HP.loadPreset(id, false);
+        for (let k = 0; k < steps; k++) HP.sim.step(0.016);
+        const kind = HP.kernelInfo().kind;
+        const s = snap(HP.sim);
+        HP.setKernelForceGeneric(false);
+        return { kind, s };
+      };
+      const out = { defOff: HP.kernelForceGeneric() === false, rows: [], neg: null, minKeys: 1e9 };
+      for (const id of Object.keys(EXPECT)) {
+        for (const st of KSTEPS) {
+          const g = run(id, st, true), a = run(id, st, false);
+          const d = cmp(g.s, a.s);
+          out.minKeys = Math.min(out.minKeys, Object.keys(a.s).length);
+          out.rows.push({ id, st, diff: d.length, first: d.slice(0, 4),
+            kind: a.kind, forcedKind: g.kind, want: EXPECT[id] });
+        }
+      }
+      // 否定対照: 照合器に 1 ulp ずらした状態を食わせる(比較器が空回りしていないことの実測)
+      HP.loadPreset('saturnRingRealKF1', false);
+      for (let k = 0; k < 10; k++) HP.sim.step(0.016);
+      const s0 = snap(HP.sim);
+      const x0 = HP.sim.x[1];
+      HP.sim.x[1] = Math.fround(x0 + Math.abs(x0) * 1.2e-7);   // Float32 の 1 ulp 相当
+      const s1 = snap(HP.sim);
+      const changed = HP.sim.x[1] !== x0;
+      HP.sim.x[1] = x0;
+      out.neg = { changed, detected: cmp(s0, s1).length };
+      return out;
+    }, { EXPECT, KSTEPS });
+    const bad = r.rows.filter((o) => o.diff !== 0);
+    const wrongKind = r.rows.filter((o) => o.kind !== o.want || o.forcedKind !== 'generic');
+    const negOK = r.neg.changed && r.neg.detected === 1;
+    const ok = bad.length === 0 && wrongKind.length === 0 && negOK && r.defOff &&
+      r.minKeys > 100 && kErr.length === 0;
+    const specN = new Set(r.rows.filter((o) => o.want !== 'generic').map((o) => o.id)).size;
+    const genN = new Set(r.rows.filter((o) => o.want === 'generic').map((o) => o.id)).size;
+    add('kernel.bitident', ok,
+      `全状態ビット一致: ${r.rows.length - bad.length}/${r.rows.length} 照合PASS` +
+      `(${specN + genN}系 × 步数[${KSTEPS.join(',')}] — 特別化${specN}系/generic${genN}系・` +
+      `照合キー最小${r.minKeys}本: 全TypedArrayのバイト列+全数値) / ` +
+      `経路選択: ${r.rows.length - wrongKind.length}/${r.rows.length} 期待どおり` +
+      `(${Object.entries(EXPECT).map(([k, v]) => k + '=' + v).join(' ')}・強制時は全系 generic) / ` +
+      `開発フック既定OFF=${r.defOff} / 否定対照(1 ulp 改変を照合器が検出)=${r.neg.detected}件` +
+      `(改変成立=${r.neg.changed})` +
+      (bad.length ? ` / NG差分=[${bad.slice(0, 3).map((o) => o.id + '@' + o.st + ':' + o.first.join('|')).join(' ')}]` : '') +
+      (wrongKind.length ? ` / NG経路=[${wrongKind.slice(0, 3).map((o) => o.id + '=' + o.kind).join(' ')}]` : '') +
+      (kErr.length ? ` / pageErrors=[${kErr.slice(0, 2).join(' | ')}]` : ''));
+    await kp.close();
+  } else {
+    console.log('SKIP kernel.bitident(対象に第177便のカーネル特別化なし — root 等)');
   }
 }
 

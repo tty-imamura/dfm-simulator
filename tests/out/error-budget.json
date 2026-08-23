@@ -1,6 +1,6 @@
 {
  "schema": "dfm-error-budget",
- "schemaVersion": "1.1",
+ "schemaVersion": "1.2",
  "title": "較正・ホールドアウト主張の誤差予算(error budget)",
  "purpose": "外部レビュー指摘「a more formal error budget would strengthen the claims」への恒久対応。主張ごとに主観測量・事前登録窓・不確かさ成分を1枚の機械可読な台帳へ集約する",
  "provenance": {
@@ -38,6 +38,11 @@
     "version": "1.1",
     "wave": 169,
     "change": "🪨🌘💿 の dtConvergence / windowSensitivity を第169便 exp-kf1sens の実測で実データ化(センチネル → instrumented)。🪨🌘💿🟠 へ追加成分 qFormSensitivity を新設し、🪨 と 💿(a=80)には q_exact 走行値の現行 claims 窓に対する余裕と結論 qExactStillWithinWindow を機械計算で収載。行構成・既存キー・窓の数値は不変"
+   },
+   {
+    "version": "1.2",
+    "wave": 180,
+    "change": "全主張へ追加成分 regimeLayer(q の世代 qStar / qExact の層別)を新設し、qExact 世代は第180便 exp-qexact-regime の実測(採用直値=4桁丸め直値での走行・全桁 q_exact との相対差・基線 bit 照合・否定対照)から機械読取。台帳ルートへ regimes ブロックを新設。出典 JSON の欠落・構造不正は明示エラーで停止する(生成器側の否定対照)。行構成・既存キー・既存の判定窓・較正値は不変"
    }
   ],
   "extensionRule": "版を上げる拡張は**後方互換の追加のみ**とする(主張の行構成・既存キー・既存の判定窓・較正値は動かさない)。成分は主成分5件を固定順で置いたうえで追加成分を後ろへ連結する",
@@ -105,8 +110,252 @@
     "bytes": 117377,
     "experimentId": "kf1sens",
     "wave": 169
+   },
+   {
+    "key": "qexactRegime",
+    "file": "tests/out/qexact-regime-results.json",
+    "sha256": "eec45aae8dc8b3e23fb51f41d3618d038f5dcda061d3979e685fb8dfc7d34b21",
+    "bytes": 73649,
+    "experimentId": "qexact-regime",
+    "wave": 180
+   }
+  ],
+  "negativeControls": [
+   {
+    "id": "harness-perturbed-adopted-literal",
+    "where": "ハーネス側(tests/exp-qexact-regime.mjs RW5)",
+    "statement": "RW5(否定対照): 採用直値を +1% ずらした対照走行では、(a) RW2 の直値同定が必ず FAIL し、(b) 全系で主較正観測量が基準走行から動く(相対差 ≠ 0)。対照で RW1 主窓を外れる系の件数も併記する(0 件なら「その窓は q の 1% 摂動を分解できない」という所見そのものとして収載する — 記述であって合否には使わない)。",
+    "factor": 1.01,
+    "identityAllFail": true,
+    "allObservablesMoved": true,
+    "windowFailCount": 1,
+    "windowFailSystems": [
+     "mercury"
+    ],
+    "pass": true,
+    "rows": [
+     {
+      "system": "mercury",
+      "qAdopted": 6.1471,
+      "qNegativeControl": 6.208571,
+      "identityWouldMatch": false,
+      "moved": true,
+      "relDiffToAdopted": 0.2158949365572981,
+      "inWindow": false
+     },
+     {
+      "system": "earthMoon",
+      "qAdopted": 8.2358,
+      "qNegativeControl": 8.318157999999999,
+      "identityWouldMatch": false,
+      "moved": true,
+      "relDiffToAdopted": -0.000012165071642157065,
+      "inWindow": true
+     },
+     {
+      "system": "saturnRing",
+      "qAdopted": 20.4932,
+      "qNegativeControl": 20.698132,
+      "identityWouldMatch": false,
+      "moved": true,
+      "relDiffToAdopted": 0.06961878263400414,
+      "inWindow": true
+     },
+     {
+      "system": "jupiter",
+      "qAdopted": 12.0586,
+      "qNegativeControl": 12.179186,
+      "identityWouldMatch": false,
+      "moved": true,
+      "relDiffToAdopted": 0,
+      "inWindow": true
+     }
+    ],
+    "pointer": "tests/out/qexact-regime-results.json#rw5Summary"
+   },
+   {
+    "id": "generator-missing-or-malformed-source",
+    "where": "生成器側(tools/gen-error-budget.mjs readSources / assertRegimeShape)",
+    "statement": "出典 JSON が欠落・解析不能・regime 層の必須ブロック欠落のいずれかなら、センチネルで誤魔化さず ErrorBudgetSourceError を投げて生成を中止する。「入力が無いのに台帳だけが出来ている」状態を作らせない",
+    "errorType": "ErrorBudgetSourceError",
+    "requiredRegimeBlocks": [
+     "systems",
+     "qTable",
+     "rw1Summary",
+     "rw3Summary",
+     "rw4Summary",
+     "rw5Summary",
+     "rw6"
+    ],
+    "requiredRegimeSystems": [
+     "mercury",
+     "earthMoon",
+     "saturnRing",
+     "jupiter"
+    ],
+    "verification": "出典を退避して `node tools/gen-error-budget.mjs` を実行すると、当該ファイル名と再生成コマンドを名指しした ErrorBudgetSourceError で停止する"
    }
   ]
+ },
+ "regimes": {
+  "note": "q の世代(regime)の定義と世代別の窓判定タリー。各主張行の components.regimeLayer が実体で、ここはその横断要約である(数値はすべて出典 JSON からの機械読取)",
+  "ids": [
+   "qStar",
+   "qExact"
+  ],
+  "definitions": {
+   "qStar": {
+    "label": "qLock 則の遠方近似形 q*(第123便)",
+    "formula": "q* = 3 + ln(1.25·c₀²R/(GM))/ln((R+a)/R)",
+    "operatingStatus": "第172便以降 運用規約としては N/A(台帳の既存行はこの世代の記録)"
+   },
+   "qExact": {
+    "label": "厳密一致式 q_exact(第172便で採用)— 運用上は4桁丸めの採用直値",
+    "formula": "q_exact = q* + 3·ln(a/(R+a))/ln((R+a)/R)",
+    "operatingStatus": "現行の運用規約。プリセット・ハーネスには ROUND(q_exact) の直値が載る",
+    "adoptedLiteralRule": "RW2(直値同定): 本便が走らせる q が、(a) ROUND4(q_exact) と厳密一致し、かつ (b) 対象 HTML のプリセットが宣言している q とビット一致する。不一致なら**実測せず停止**して報告する(手打ち転記・対象世代の取り違えを塞ぐ)。"
+   }
+  },
+  "claimsWithRegime": [
+   "mercury-perihelion",
+   "earth-moon-two-observables",
+   "saturn-ring-apsidal",
+   "jupiter-holdout"
+  ],
+  "claimsWithoutRegime": [
+   "qlock-radial-audit"
+  ],
+  "perClaim": [
+   {
+    "id": "mercury-perihelion",
+    "systemKey": "mercury",
+    "qStar": 6.157793376601058,
+    "qExactFullPrecision": 6.147101550842838,
+    "qAdoptedLiteral": 6.1471,
+    "relRoundingDeltaQ": -2.5228846885355213e-7,
+    "adoptedLiteralMatchesTarget": true,
+    "windowPassAtQStar": true,
+    "windowPassAtQExactFullPrecision": true,
+    "windowPassAtAdoptedLiteral": true,
+    "relDiffAdoptedToFullPrecision": -0.0000038004051642501976,
+    "baselineBitIdentical": true
+   },
+   {
+    "id": "earth-moon-two-observables",
+    "systemKey": "earthMoon",
+    "qStar": 8.24865373270011,
+    "qExactFullPrecision": 8.235802785842496,
+    "qAdoptedLiteral": 8.2358,
+    "relRoundingDeltaQ": -3.3825998139752436e-7,
+    "adoptedLiteralMatchesTarget": true,
+    "windowPassAtQStar": true,
+    "windowPassAtQExactFullPrecision": true,
+    "windowPassAtAdoptedLiteral": true,
+    "relDiffAdoptedToFullPrecision": -0.00001688272296615362,
+    "baselineBitIdentical": true
+   },
+   {
+    "id": "saturn-ring-apsidal",
+    "systemKey": "saturnRing",
+    "qStar": 21.843180708151756,
+    "qExactFullPrecision": 20.493156316241464,
+    "qAdoptedLiteral": 20.4932,
+    "relRoundingDeltaQ": 0.000002131626669092546,
+    "adoptedLiteralMatchesTarget": true,
+    "windowPassAtQStar": true,
+    "windowPassAtQExactFullPrecision": true,
+    "windowPassAtAdoptedLiteral": true,
+    "relDiffAdoptedToFullPrecision": 0.00001596209949598456,
+    "baselineBitIdentical": true
+   },
+   {
+    "id": "jupiter-holdout",
+    "systemKey": "jupiter",
+    "qStar": 12.301733261350822,
+    "qExactFullPrecision": 12.058551153315456,
+    "qAdoptedLiteral": 12.0586,
+    "relRoundingDeltaQ": 0.000004050792165928756,
+    "adoptedLiteralMatchesTarget": true,
+    "windowPassAtQStar": true,
+    "windowPassAtQExactFullPrecision": true,
+    "windowPassAtAdoptedLiteral": true,
+    "relDiffAdoptedToFullPrecision": 0,
+    "baselineBitIdentical": true
+   }
+  ],
+  "adoptedLiteralIdentification": {
+   "allMatch": true,
+   "rule": "RW2(直値同定): 本便が走らせる q が、(a) ROUND4(q_exact) と厳密一致し、かつ (b) 対象 HTML のプリセットが宣言している q とビット一致する。不一致なら**実測せず停止**して報告する(手打ち転記・対象世代の取り違えを塞ぐ)。",
+   "pointer": "tests/out/qexact-regime-results.json#adoptedLiteralIdentification"
+  },
+  "windowVerdicts": {
+   "allPassAtAdoptedLiteral": true,
+   "perSystem": {
+    "mercury": {
+     "pass": true,
+     "qExactPass": true,
+     "qStarPass": true
+    },
+    "earthMoon": {
+     "pass": true,
+     "qExactPass": true,
+     "qStarPass": true
+    },
+    "saturnRing": {
+     "pass": true,
+     "qExactPass": true,
+     "qStarPass": true
+    },
+    "jupiter": {
+     "pass": true,
+     "qExactPass": true,
+     "qStarPass": true
+    }
+   },
+   "pointer": "tests/out/qexact-regime-results.json#rw1Summary"
+  },
+  "roundingSystematic": {
+   "note": "「規約の実装(4桁丸め)」に由来する系統誤差。第164便 QW2 の「規約の選択(q*→q_exact)」とは別成分",
+   "maxAbsRelDiffToFullPrecision": 0.00001688272296615362,
+   "perSystem": {
+    "mercury": {
+     "qAdopted": 6.1471,
+     "qExact": 6.147101550842838,
+     "relRoundingDeltaQ": -2.5228846885355213e-7,
+     "relDiffToQExact": -0.0000038004051642501976
+    },
+    "earthMoon": {
+     "qAdopted": 8.2358,
+     "qExact": 8.235802785842496,
+     "relRoundingDeltaQ": -3.3825998139752436e-7,
+     "relDiffToQExact": -0.00001688272296615362
+    },
+    "saturnRing": {
+     "qAdopted": 20.4932,
+     "qExact": 20.493156316241464,
+     "relRoundingDeltaQ": 0.000002131626669092546,
+     "relDiffToQExact": 0.00001596209949598456
+    },
+    "jupiter": {
+     "qAdopted": 12.0586,
+     "qExact": 12.058551153315456,
+     "relRoundingDeltaQ": 0.000004050792165928756,
+     "relDiffToQExact": 0
+    }
+   },
+   "pointer": "tests/out/qexact-regime-results.json#rw4Summary"
+  },
+  "baselineTranscription": {
+   "allIdentical": true,
+   "targetAllSame": false,
+   "pointer": "tests/out/qexact-regime-results.json#rw3Summary"
+  },
+  "determinism": {
+   "result": "PASS",
+   "identical": true,
+   "sha256": "22b2f904de7e726b419eae22d15a5af10329ecf1de9c5baa6cc47bbfc937e504",
+   "pointer": "tests/out/qexact-regime-results.json#rw6"
+  }
  },
  "claims": [
   {
@@ -793,6 +1042,151 @@
       "qExactStillWithinWindow": true,
       "alsoPassKf1cD1AtQExact": true
      }
+    },
+    "regimeLayer": {
+     "status": "instrumented",
+     "note": "q の世代(regime)で層別した誤差予算の層。qStar 世代は第123便 qLock 則の遠方近似形、qExact 世代は第172便で採用した厳密一致式 — ただし**運用上プリセット・ハーネスへ載っているのはその4桁丸め直値**なので、全桁 q_exact と採用直値の両方を層に持ち、丸めに由来する系統誤差を機械計算する(第180便 exp-qexact-regime.mjs の実測)",
+     "pointer": "tests/out/qexact-regime-results.json#systems.mercury",
+     "systemKey": "mercury",
+     "regimeIds": [
+      "qStar",
+      "qExact"
+     ],
+     "preRegisteredRules": {
+      "RW1": "RW1(主窓): 各系の主較正観測量が**採用直値 q**(プリセットが宣言している4桁丸め値)での走行でも、既存窓の数値をそのまま流用した同一窓に入る(窓の新設・再設定なし)。",
+      "RW2": "RW2(直値同定): 本便が走らせる q が、(a) ROUND4(q_exact) と厳密一致し、かつ (b) 対象 HTML のプリセットが宣言している q とビット一致する。不一致なら**実測せず停止**して報告する(手打ち転記・対象世代の取り違えを塞ぐ)。",
+      "RW3": "RW3(基線 bit 照合): 同条件の基準走行(kF0 基線・q* 走行・全桁 q_exact 走行)の結果が、既存の実測正本(kf1c/kf1d/jupiter-results.json)および第164便 qexact-results.json の対応値と**ビット一致**する。測定器の転記が既存ハーネスと同一実体であることの機械証拠である。",
+      "RW4": "RW4(記述 — 窓なし): 採用直値走行と全桁 q_exact 走行の観測量相対差を記録する。これは「規約の**実装**(4桁丸め)」に由来する系統誤差であり、第164便 QW2 の「規約の**選択**(q* → q_exact)」とは別成分である。",
+      "RW5": "RW5(否定対照): 採用直値を +1% ずらした対照走行では、(a) RW2 の直値同定が必ず FAIL し、(b) 全系で主較正観測量が基準走行から動く(相対差 ≠ 0)。対照で RW1 主窓を外れる系の件数も併記する(0 件なら「その窓は q の 1% 摂動を分解できない」という所見そのものとして収載する — 記述であって合否には使わない)。",
+      "RW6": "RW6(決定性): 全体2回実行(別プロセス)で揮発キー除外の正規化 JSON SHA-256 一致。"
+     },
+     "observable": {
+      "quantity": "引きずり歳差 Δϖ_drag = Δϖ(kF1,q) − Δϖ(kF0) [rad/公転]",
+      "unit": "rad/公転"
+     },
+     "generations": {
+      "qStar": {
+       "id": "qStar",
+       "note": "第123便 qLock 則の遠方近似形 q*。第172便以降は運用規約としては N/A だが、台帳の既存行(value / window / components.qFormSensitivity)はこの世代の記録なので、ここでは値の再掲ではなく既存キーへのポインタと q* での窓判定だけを持つ",
+       "q": 6.157793376601058,
+       "qPointer": "tests/out/qexact-regime-results.json#systems.mercury.q.qStar",
+       "value": -5.604542070868556e-10,
+       "windowVerdict": true,
+       "ledgerPointers": {
+        "value": "claims[id=mercury-perihelion].value",
+        "window": "claims[id=mercury-perihelion].window",
+        "component": "claims[id=mercury-perihelion].components.qFormSensitivity"
+       }
+      },
+      "qExact": {
+       "id": "qExact",
+       "note": "第172便で採用した厳密一致式 q_exact。全桁値は literal で持てないため、プリセット・ハーネスへ載るのは4桁丸めの**採用直値**である。採用直値は exp-qexact-regime が ROUND(q_exact) と対象 HTML のプリセット宣言値の両方に照合してから走らせている(RW2)",
+       "qFullPrecision": 6.147101550842838,
+       "qAdoptedLiteral": 6.1471,
+       "roundingDigits": 4,
+       "roundingDeltaQ": -0.0000015508428381494355,
+       "relRoundingDeltaQ": -2.5228846885355213e-7,
+       "adoptedLiteralIdentification": {
+        "presetId": "mercuryRealKF1",
+        "qAdoptedFromFormula": 6.1471,
+        "qDeclaredInTarget": 6.1471,
+        "matchesRound": true,
+        "matchesDeclared": true,
+        "diffFromDeclared": 0,
+        "ok": true
+       },
+       "valueAtFullPrecision": -5.842106443373753e-10,
+       "valueAtAdoptedLiteral": -5.84212864574525e-10,
+       "relDiffAdoptedToFullPrecision": -0.0000038004051642501976,
+       "relDiffAdoptedToQStar": -0.04239179077834535,
+       "windowVerdict": {
+        "atAdoptedLiteral": true,
+        "atFullPrecision": true,
+        "windowSource": "プリセット claims mercuryRealKF1.drag-precession(対象 HTML から機械読み取り)",
+        "window": {
+         "min": 5e-10,
+         "max": 6.2e-10
+        }
+       },
+       "margin": {
+        "status": "instrumented",
+        "comparedValue": 5.84212864574525e-10,
+        "rawValue": -5.84212864574525e-10,
+        "usedAbsoluteValue": true,
+        "window": {
+         "min": 5e-10,
+         "max": 6.2e-10
+        },
+        "within": true,
+        "distanceToMin": 8.421286457452497e-11,
+        "distanceToMax": 3.5787135425475025e-11,
+        "relMarginToMin": 0.16842572914904994,
+        "relMarginToMax": 0.057721186170121,
+        "nearestEdge": "max",
+        "distanceToNearestEdge": 3.5787135425475025e-11,
+        "fractionOfWindowWidth": 0.7017738714543748,
+        "marginInWindowWidths": 0.2982261285456252
+       },
+       "pointer": "tests/out/qexact-regime-results.json#systems.mercury.RW1"
+      }
+     },
+     "roundingSystematic": {
+      "note": "「規約の**実装**(4桁丸め)」に由来する系統誤差。第164便 QW2 が測った「規約の**選択**(q* → q_exact)」とは別成分であり、components.qFormSensitivity と重複しない",
+      "relDiffToFullPrecision": -0.0000038004051642501976,
+      "detail": {
+       "qExactValue": -5.842106443373753e-10,
+       "qAdoptedValue": -5.84212864574525e-10,
+       "relDiffToQExact": -0.0000038004051642501976,
+       "relDiffToQStar": -0.04239179077834535,
+       "precessionRelDiffToQExact": -5.113997153186933e-9,
+       "periodRelDiffToQExact": 0
+      },
+      "pointer": "tests/out/qexact-regime-results.json#systems.mercury.RW4"
+     },
+     "baselineTranscription": {
+      "note": "基線再測(kF0・q* 走行・全桁 q_exact 走行)が kf1c/kf1d/jupiter/qexact の実測正本とビット一致するか(RW3 — regime 層の測定器が既存ハーネスと同一実体であることの機械証拠)",
+      "rule": "RW3(基線 bit 照合): 同条件の基準走行(kF0 基線・q* 走行・全桁 q_exact 走行)の結果が、既存の実測正本(kf1c/kf1d/jupiter-results.json)および第164便 qexact-results.json の対応値と**ビット一致**する。測定器の転記が既存ハーネスと同一実体であることの機械証拠である。",
+      "allIdentical": true,
+      "detail": {
+       "reference": "tests/out/kf1d-results.json tests.qcalc.mercKF0 / mercQstar / dragMerc + tests/out/qexact-results.json systems.mercury.runs.qExact / dragQExact",
+       "qStarSameAsReference": true,
+       "qExactSameAsReference": true,
+       "kF0Identical": true,
+       "qStarRunIdentical": true,
+       "dragIdentical": true,
+       "qExactRunIdentical": true,
+       "qExactDragIdentical": true,
+       "kF0RelDiff": 0,
+       "qStarRunRelDiff": 0,
+       "qExactRunRelDiff": 0,
+       "allIdentical": true
+      },
+      "targetAllSame": false,
+      "targetNote": "入力 JSON の実測を出した対象 HTML の SHA-256 と、本便が実測する対象の照合。本便の既定対象は**採用直値を宣言している** beta/index.html なので、q* 世代の root で測られた既存正本とは対象 SHA が一致しない(allSame=false が既定)。それでも RW3 のビット一致が成立していれば、測定器の転記と物理カーネルが同一実体であることの証拠になる",
+      "pointer": "tests/out/qexact-regime-results.json#systems.mercury.baselineBitCheck"
+     },
+     "negativeControl": {
+      "note": "否定対照 — 採用直値を意図的にずらした走行では直値同定が外れ、主観測量も動く(ずらしても何も変わらないなら、この層は何も測っていないことになる)",
+      "rule": "RW5(否定対照): 採用直値を +1% ずらした対照走行では、(a) RW2 の直値同定が必ず FAIL し、(b) 全系で主較正観測量が基準走行から動く(相対差 ≠ 0)。対照で RW1 主窓を外れる系の件数も併記する(0 件なら「その窓は q の 1% 摂動を分解できない」という所見そのものとして収載する — 記述であって合否には使わない)。",
+      "factor": 1.01,
+      "qNegativeControl": 6.208571,
+      "value": -4.5808426524125054e-10,
+      "detail": {
+       "qNegativeControl": 6.208571,
+       "observable": -4.5808426524125054e-10,
+       "abs": 4.5808426524125054e-10,
+       "relDiffToAdopted": 0.2158949365572981,
+       "moved": true,
+       "inWindow": false
+      },
+      "pointer": "tests/out/qexact-regime-results.json#systems.mercury.RW5"
+     },
+     "determinism": {
+      "result": "PASS",
+      "identical": true,
+      "sha256": "22b2f904de7e726b419eae22d15a5af10329ecf1de9c5baa6cc47bbfc937e504",
+      "pointer": "tests/out/qexact-regime-results.json#rw6"
+     }
     }
    },
    "verdictPointer": "tests/out/kf1c-results.json#tests.joint"
@@ -1346,6 +1740,146 @@
        "marginInWindowWidths": 0.49715400987850705
       },
       "qExactStillWithinWindow": true
+     }
+    },
+    "regimeLayer": {
+     "status": "instrumented",
+     "note": "q の世代(regime)で層別した誤差予算の層。qStar 世代は第123便 qLock 則の遠方近似形、qExact 世代は第172便で採用した厳密一致式 — ただし**運用上プリセット・ハーネスへ載っているのはその4桁丸め直値**なので、全桁 q_exact と採用直値の両方を層に持ち、丸めに由来する系統誤差を機械計算する(第180便 exp-qexact-regime.mjs の実測)",
+     "pointer": "tests/out/qexact-regime-results.json#systems.earthMoon",
+     "systemKey": "earthMoon",
+     "regimeIds": [
+      "qStar",
+      "qExact"
+     ],
+     "preRegisteredRules": {
+      "RW1": "RW1(主窓): 各系の主較正観測量が**採用直値 q**(プリセットが宣言している4桁丸め値)での走行でも、既存窓の数値をそのまま流用した同一窓に入る(窓の新設・再設定なし)。",
+      "RW2": "RW2(直値同定): 本便が走らせる q が、(a) ROUND4(q_exact) と厳密一致し、かつ (b) 対象 HTML のプリセットが宣言している q とビット一致する。不一致なら**実測せず停止**して報告する(手打ち転記・対象世代の取り違えを塞ぐ)。",
+      "RW3": "RW3(基線 bit 照合): 同条件の基準走行(kF0 基線・q* 走行・全桁 q_exact 走行)の結果が、既存の実測正本(kf1c/kf1d/jupiter-results.json)および第164便 qexact-results.json の対応値と**ビット一致**する。測定器の転記が既存ハーネスと同一実体であることの機械証拠である。",
+      "RW4": "RW4(記述 — 窓なし): 採用直値走行と全桁 q_exact 走行の観測量相対差を記録する。これは「規約の**実装**(4桁丸め)」に由来する系統誤差であり、第164便 QW2 の「規約の**選択**(q* → q_exact)」とは別成分である。",
+      "RW5": "RW5(否定対照): 採用直値を +1% ずらした対照走行では、(a) RW2 の直値同定が必ず FAIL し、(b) 全系で主較正観測量が基準走行から動く(相対差 ≠ 0)。対照で RW1 主窓を外れる系の件数も併記する(0 件なら「その窓は q の 1% 摂動を分解できない」という所見そのものとして収載する — 記述であって合否には使わない)。",
+      "RW6": "RW6(決定性): 全体2回実行(別プロセス)で揮発キー除外の正規化 JSON SHA-256 一致。"
+     },
+     "observable": {
+      "quantity": "近点回転比 Δϖ/0.05311(目標 1.0)",
+      "unit": "比(目標 1.0)"
+     },
+     "generations": {
+      "qStar": {
+       "id": "qStar",
+       "note": "第123便 qLock 則の遠方近似形 q*。第172便以降は運用規約としては N/A だが、台帳の既存行(value / window / components.qFormSensitivity)はこの世代の記録なので、ここでは値の再掲ではなく既存キーへのポインタと q* での窓判定だけを持つ",
+       "q": 8.24865373270011,
+       "qPointer": "tests/out/qexact-regime-results.json#systems.earthMoon.q.qStar",
+       "value": 0.999146202963552,
+       "windowVerdict": true,
+       "ledgerPointers": {
+        "value": "claims[id=earth-moon-two-observables].value",
+        "window": "claims[id=earth-moon-two-observables].window",
+        "component": "claims[id=earth-moon-two-observables].components.qFormSensitivity"
+       }
+      },
+      "qExact": {
+       "id": "qExact",
+       "note": "第172便で採用した厳密一致式 q_exact。全桁値は literal で持てないため、プリセット・ハーネスへ載るのは4桁丸めの**採用直値**である。採用直値は exp-qexact-regime が ROUND(q_exact) と対象 HTML のプリセット宣言値の両方に照合してから走らせている(RW2)",
+       "qFullPrecision": 8.235802785842496,
+       "qAdoptedLiteral": 8.2358,
+       "roundingDigits": 4,
+       "roundingDeltaQ": -0.0000027858424971327622,
+       "relRoundingDeltaQ": -3.3825998139752436e-7,
+       "adoptedLiteralIdentification": {
+        "presetId": "earthMoonRealKF1",
+        "qAdoptedFromFormula": 8.2358,
+        "qDeclaredInTarget": 8.2358,
+        "matchesRound": true,
+        "matchesDeclared": true,
+        "diffFromDeclared": 0,
+        "ok": true
+       },
+       "valueAtFullPrecision": 0.9991918061331584,
+       "valueAtAdoptedLiteral": 0.9991749370547054,
+       "relDiffAdoptedToFullPrecision": -0.00001688272296615362,
+       "relDiffAdoptedToQStar": 0.00002875864519938085,
+       "windowVerdict": {
+        "atAdoptedLiteral": true,
+        "atFullPrecision": true,
+        "windowSource": "tests/exp-kf1c.mjs §D2",
+        "window": {
+         "min": 0.85,
+         "max": 1.15
+        }
+       },
+       "margin": {
+        "status": "instrumented",
+        "comparedValue": 0.9991749370547054,
+        "rawValue": 0.9991749370547054,
+        "usedAbsoluteValue": false,
+        "window": {
+         "min": 0.85,
+         "max": 1.15
+        },
+        "within": true,
+        "distanceToMin": 0.14917493705470541,
+        "distanceToMax": 0.15082506294529452,
+        "relMarginToMin": 0.17549992594671227,
+        "relMarginToMax": 0.1311522286480822,
+        "nearestEdge": "min",
+        "distanceToNearestEdge": 0.14917493705470541,
+        "fractionOfWindowWidth": 0.4972497901823515,
+        "marginInWindowWidths": 0.4972497901823515
+       },
+       "pointer": "tests/out/qexact-regime-results.json#systems.earthMoon.RW1"
+      }
+     },
+     "roundingSystematic": {
+      "note": "「規約の**実装**(4桁丸め)」に由来する系統誤差。第164便 QW2 が測った「規約の**選択**(q* → q_exact)」とは別成分であり、components.qFormSensitivity と重複しない",
+      "relDiffToFullPrecision": -0.00001688272296615362,
+      "detail": {
+       "qExactValue": 0.9991918061331584,
+       "qAdoptedValue": 0.9991749370547054,
+       "relDiffToQExact": -0.00001688272296615362,
+       "relDiffToQStar": 0.00002875864519938085,
+       "periodRelDiffToQExact": 5.64637498534637e-7
+      },
+      "pointer": "tests/out/qexact-regime-results.json#systems.earthMoon.RW4"
+     },
+     "baselineTranscription": {
+      "note": "基線再測(kF0・q* 走行・全桁 q_exact 走行)が kf1c/kf1d/jupiter/qexact の実測正本とビット一致するか(RW3 — regime 層の測定器が既存ハーネスと同一実体であることの機械証拠)",
+      "rule": "RW3(基線 bit 照合): 同条件の基準走行(kF0 基線・q* 走行・全桁 q_exact 走行)の結果が、既存の実測正本(kf1c/kf1d/jupiter-results.json)および第164便 qexact-results.json の対応値と**ビット一致**する。測定器の転記が既存ハーネスと同一実体であることの機械証拠である。",
+      "allIdentical": true,
+      "detail": {
+       "reference": "tests/out/kf1d-results.json tests.qcalc.emQstar + tests/out/qexact-results.json systems.earthMoon",
+       "qStarSameAsReference": true,
+       "qExactSameAsReference": true,
+       "qStarRunIdentical": true,
+       "qExactRunIdentical": true,
+       "qExactRatioIdentical": true,
+       "qStarRunRelDiff": 0,
+       "qExactRunRelDiff": 0,
+       "allIdentical": true
+      },
+      "targetAllSame": false,
+      "targetNote": "入力 JSON の実測を出した対象 HTML の SHA-256 と、本便が実測する対象の照合。本便の既定対象は**採用直値を宣言している** beta/index.html なので、q* 世代の root で測られた既存正本とは対象 SHA が一致しない(allSame=false が既定)。それでも RW3 のビット一致が成立していれば、測定器の転記と物理カーネルが同一実体であることの証拠になる",
+      "pointer": "tests/out/qexact-regime-results.json#systems.earthMoon.baselineBitCheck"
+     },
+     "negativeControl": {
+      "note": "否定対照 — 採用直値を意図的にずらした走行では直値同定が外れ、主観測量も動く(ずらしても何も変わらないなら、この層は何も測っていないことになる)",
+      "rule": "RW5(否定対照): 採用直値を +1% ずらした対照走行では、(a) RW2 の直値同定が必ず FAIL し、(b) 全系で主較正観測量が基準走行から動く(相対差 ≠ 0)。対照で RW1 主窓を外れる系の件数も併記する(0 件なら「その窓は q の 1% 摂動を分解できない」という所見そのものとして収載する — 記述であって合否には使わない)。",
+      "factor": 1.01,
+      "qNegativeControl": 8.318157999999999,
+      "value": 0.9991627820200131,
+      "detail": {
+       "qNegativeControl": 8.318157999999999,
+       "observable": 0.9991627820200131,
+       "relDiffToAdopted": -0.000012165071642157065,
+       "moved": true,
+       "inWindow": true
+      },
+      "pointer": "tests/out/qexact-regime-results.json#systems.earthMoon.RW5"
+     },
+     "determinism": {
+      "result": "PASS",
+      "identical": true,
+      "sha256": "22b2f904de7e726b419eae22d15a5af10329ecf1de9c5baa6cc47bbfc937e504",
+      "pointer": "tests/out/qexact-regime-results.json#rw6"
      }
     }
    },
@@ -2141,6 +2675,219 @@
        }
       ]
      }
+    },
+    "regimeLayer": {
+     "status": "instrumented",
+     "note": "q の世代(regime)で層別した誤差予算の層。qStar 世代は第123便 qLock 則の遠方近似形、qExact 世代は第172便で採用した厳密一致式 — ただし**運用上プリセット・ハーネスへ載っているのはその4桁丸め直値**なので、全桁 q_exact と採用直値の両方を層に持ち、丸めに由来する系統誤差を機械計算する(第180便 exp-qexact-regime.mjs の実測)",
+     "pointer": "tests/out/qexact-regime-results.json#systems.saturnRing",
+     "systemKey": "saturnRing",
+     "regimeIds": [
+      "qStar",
+      "qExact"
+     ],
+     "preRegisteredRules": {
+      "RW1": "RW1(主窓): 各系の主較正観測量が**採用直値 q**(プリセットが宣言している4桁丸め値)での走行でも、既存窓の数値をそのまま流用した同一窓に入る(窓の新設・再設定なし)。",
+      "RW2": "RW2(直値同定): 本便が走らせる q が、(a) ROUND4(q_exact) と厳密一致し、かつ (b) 対象 HTML のプリセットが宣言している q とビット一致する。不一致なら**実測せず停止**して報告する(手打ち転記・対象世代の取り違えを塞ぐ)。",
+      "RW3": "RW3(基線 bit 照合): 同条件の基準走行(kF0 基線・q* 走行・全桁 q_exact 走行)の結果が、既存の実測正本(kf1c/kf1d/jupiter-results.json)および第164便 qexact-results.json の対応値と**ビット一致**する。測定器の転記が既存ハーネスと同一実体であることの機械証拠である。",
+      "RW4": "RW4(記述 — 窓なし): 採用直値走行と全桁 q_exact 走行の観測量相対差を記録する。これは「規約の**実装**(4桁丸め)」に由来する系統誤差であり、第164便 QW2 の「規約の**選択**(q* → q_exact)」とは別成分である。",
+      "RW5": "RW5(否定対照): 採用直値を +1% ずらした対照走行では、(a) RW2 の直値同定が必ず FAIL し、(b) 全系で主較正観測量が基準走行から動く(相対差 ≠ 0)。対照で RW1 主窓を外れる系の件数も併記する(0 件なら「その窓は q の 1% 摂動を分解できない」という所見そのものとして収載する — 記述であって合否には使わない)。",
+      "RW6": "RW6(決定性): 全体2回実行(別プロセス)で揮発キー除外の正規化 JSON SHA-256 一致。"
+     },
+     "observable": {
+      "quantity": "環偏心テスト粒子(a=80・C環相当)の近点移動 Δϖ_drift = Δϖ(kF1,q) − Δϖ(kF0) [rad/公転]",
+      "unit": "rad/公転",
+      "probeA": 80
+     },
+     "generations": {
+      "qStar": {
+       "id": "qStar",
+       "note": "第123便 qLock 則の遠方近似形 q*。第172便以降は運用規約としては N/A だが、台帳の既存行(value / window / components.qFormSensitivity)はこの世代の記録なので、ここでは値の再掲ではなく既存キーへのポインタと q* での窓判定だけを持つ",
+       "q": 21.843180708151756,
+       "qPointer": "tests/out/qexact-regime-results.json#systems.saturnRing.q.qStar",
+       "value": 0.00002087937622779565,
+       "windowVerdict": true,
+       "ledgerPointers": {
+        "value": "claims[id=saturn-ring-apsidal].value",
+        "window": "claims[id=saturn-ring-apsidal].window",
+        "component": "claims[id=saturn-ring-apsidal].components.qFormSensitivity"
+       }
+      },
+      "qExact": {
+       "id": "qExact",
+       "note": "第172便で採用した厳密一致式 q_exact。全桁値は literal で持てないため、プリセット・ハーネスへ載るのは4桁丸めの**採用直値**である。採用直値は exp-qexact-regime が ROUND(q_exact) と対象 HTML のプリセット宣言値の両方に照合してから走らせている(RW2)",
+       "qFullPrecision": 20.493156316241464,
+       "qAdoptedLiteral": 20.4932,
+       "roundingDigits": 4,
+       "roundingDeltaQ": 0.00004368375853758266,
+       "relRoundingDeltaQ": 0.000002131626669092546,
+       "adoptedLiteralIdentification": {
+        "presetId": "saturnRingRealKF1",
+        "qAdoptedFromFormula": 20.4932,
+        "qDeclaredInTarget": 20.4932,
+        "matchesRound": true,
+        "matchesDeclared": true,
+        "diffFromDeclared": 0,
+        "ok": true
+       },
+       "valueAtFullPrecision": 0.000015867216909197603,
+       "valueAtAdoptedLiteral": 0.000015867470183292632,
+       "relDiffAdoptedToFullPrecision": 0.00001596209949598456,
+       "relDiffAdoptedToQStar": -0.24004098541176352,
+       "windowVerdict": {
+        "atAdoptedLiteral": true,
+        "atFullPrecision": true,
+        "windowSource": "プリセット claims saturnRingRealKF1.ring-apsidal-drift(対象 HTML から機械読み取り)",
+        "window": {
+         "min": 0.00001,
+         "max": 0.00003
+        }
+       },
+       "margin": {
+        "status": "instrumented",
+        "comparedValue": 0.000015867470183292632,
+        "rawValue": 0.000015867470183292632,
+        "usedAbsoluteValue": true,
+        "window": {
+         "min": 0.00001,
+         "max": 0.00003
+        },
+        "within": true,
+        "distanceToMin": 0.000005867470183292631,
+        "distanceToMax": 0.000014132529816707369,
+        "relMarginToMin": 0.5867470183292631,
+        "relMarginToMax": 0.47108432722357896,
+        "nearestEdge": "min",
+        "distanceToNearestEdge": 0.000005867470183292631,
+        "fractionOfWindowWidth": 0.2933735091646316,
+        "marginInWindowWidths": 0.2933735091646316
+       },
+       "pointer": "tests/out/qexact-regime-results.json#systems.saturnRing.RW1"
+      }
+     },
+     "roundingSystematic": {
+      "note": "「規約の**実装**(4桁丸め)」に由来する系統誤差。第164便 QW2 が測った「規約の**選択**(q* → q_exact)」とは別成分であり、components.qFormSensitivity と重複しない",
+      "relDiffToFullPrecision": 0.00001596209949598456,
+      "detail": {
+       "qExactValue": 0.000015867216909197603,
+       "qAdoptedValue": 0.000015867470183292632,
+       "relDiffToQExact": 0.00001596209949598456,
+       "relDiffToQStar": -0.24004098541176352,
+       "perProbe": [
+        {
+         "a": 80,
+         "qExactValue": 0.000015867216909197603,
+         "qAdoptedValue": 0.000015867470183292632,
+         "relDiffToQExact": 0.00001596209949598456
+        },
+        {
+         "a": 105,
+         "qExactValue": -0.00004010276823683418,
+         "qAdoptedValue": -0.00004010275053880827,
+         "relDiffToQExact": 4.413168138816979e-7
+        },
+        {
+         "a": 130,
+         "qExactValue": -0.00001901380495828372,
+         "qAdoptedValue": -0.00001901380010107867,
+         "relDiffToQExact": 2.5545676219122504e-7
+        },
+        {
+         "a": 1221.9,
+         "qExactValue": 0.000019504672405447316,
+         "qAdoptedValue": 0.00001950465217108734,
+         "relDiffToQExact": -0.0000010374109114406419
+        }
+       ],
+       "maxAbsRelDiffToQExact": 0.00001596209949598456
+      },
+      "pointer": "tests/out/qexact-regime-results.json#systems.saturnRing.RW4"
+     },
+     "baselineTranscription": {
+      "note": "基線再測(kF0・q* 走行・全桁 q_exact 走行)が kf1c/kf1d/jupiter/qexact の実測正本とビット一致するか(RW3 — regime 層の測定器が既存ハーネスと同一実体であることの機械証拠)",
+      "rule": "RW3(基線 bit 照合): 同条件の基準走行(kF0 基線・q* 走行・全桁 q_exact 走行)の結果が、既存の実測正本(kf1c/kf1d/jupiter-results.json)および第164便 qexact-results.json の対応値と**ビット一致**する。測定器の転記が既存ハーネスと同一実体であることの機械証拠である。",
+      "allIdentical": true,
+      "detail": {
+       "reference": "tests/out/kf1d-results.json tests.ring.kF0 / qStarRun / qStar + tests/out/qexact-results.json systems.saturnRing.runs.qExact",
+       "qStarSameAsReference": true,
+       "qExactSameAsReference": true,
+       "kF0Identical": true,
+       "qStarRunIdentical": true,
+       "qExactRunIdentical": true,
+       "perProbeRelDiff": [
+        {
+         "a": 80,
+         "kF0RelDiff": 0.7175330682756734,
+         "qStarRelDiff": 0
+        },
+        {
+         "a": 105,
+         "kF0RelDiff": -1.1626627279059953,
+         "qStarRelDiff": 0
+        },
+        {
+         "a": 130,
+         "kF0RelDiff": -0.120597778251856,
+         "qStarRelDiff": 0
+        },
+        {
+         "a": 1221.9,
+         "kF0RelDiff": 0.11197855904577945,
+         "qStarRelDiff": 0
+        }
+       ],
+       "allIdentical": true
+      },
+      "targetAllSame": false,
+      "targetNote": "入力 JSON の実測を出した対象 HTML の SHA-256 と、本便が実測する対象の照合。本便の既定対象は**採用直値を宣言している** beta/index.html なので、q* 世代の root で測られた既存正本とは対象 SHA が一致しない(allSame=false が既定)。それでも RW3 のビット一致が成立していれば、測定器の転記と物理カーネルが同一実体であることの証拠になる",
+      "pointer": "tests/out/qexact-regime-results.json#systems.saturnRing.baselineBitCheck"
+     },
+     "negativeControl": {
+      "note": "否定対照 — 採用直値を意図的にずらした走行では直値同定が外れ、主観測量も動く(ずらしても何も変わらないなら、この層は何も測っていないことになる)",
+      "rule": "RW5(否定対照): 採用直値を +1% ずらした対照走行では、(a) RW2 の直値同定が必ず FAIL し、(b) 全系で主較正観測量が基準走行から動く(相対差 ≠ 0)。対照で RW1 主窓を外れる系の件数も併記する(0 件なら「その窓は q の 1% 摂動を分解できない」という所見そのものとして収載する — 記述であって合否には使わない)。",
+      "factor": 1.01,
+      "qNegativeControl": 20.698132,
+      "value": 0.000016972144140934824,
+      "detail": {
+       "qNegativeControl": 20.698132,
+       "observable": 0.000016972144140934824,
+       "relDiffToAdopted": 0.06961878263400414,
+       "moved": true,
+       "inWindow": true,
+       "perProbe": [
+        {
+         "a": 80,
+         "value": 0.000016972144140934824,
+         "inWindow": true,
+         "relDiff": 0.06961878263400414
+        },
+        {
+         "a": 105,
+         "value": -0.00004001136099473167,
+         "inWindow": false,
+         "relDiff": 0.0022788846861802737
+        },
+        {
+         "a": 130,
+         "value": -0.000019004985516223245,
+         "inWindow": true,
+         "relDiff": 0.00046358880437182037
+        },
+        {
+         "a": 1221.9,
+         "value": 0.00001950478060079537,
+         "inWindow": true,
+         "relDiff": 0.000006584567974038739
+        }
+       ]
+      },
+      "pointer": "tests/out/qexact-regime-results.json#systems.saturnRing.RW5"
+     },
+     "determinism": {
+      "result": "PASS",
+      "identical": true,
+      "sha256": "22b2f904de7e726b419eae22d15a5af10329ecf1de9c5baa6cc47bbfc937e504",
+      "pointer": "tests/out/qexact-regime-results.json#rw6"
+     }
     }
    },
    "verdictPointer": "tests/out/kf1d-results.json#tests.ring"
@@ -2787,6 +3534,235 @@
        }
       ]
      }
+    },
+    "regimeLayer": {
+     "status": "instrumented",
+     "note": "q の世代(regime)で層別した誤差予算の層。qStar 世代は第123便 qLock 則の遠方近似形、qExact 世代は第172便で採用した厳密一致式 — ただし**運用上プリセット・ハーネスへ載っているのはその4桁丸め直値**なので、全桁 q_exact と採用直値の両方を層に持ち、丸めに由来する系統誤差を機械計算する(第180便 exp-qexact-regime.mjs の実測)",
+     "pointer": "tests/out/qexact-regime-results.json#systems.jupiter",
+     "systemKey": "jupiter",
+     "regimeIds": [
+      "qStar",
+      "qExact"
+     ],
+     "preRegisteredRules": {
+      "RW1": "RW1(主窓): 各系の主較正観測量が**採用直値 q**(プリセットが宣言している4桁丸め値)での走行でも、既存窓の数値をそのまま流用した同一窓に入る(窓の新設・再設定なし)。",
+      "RW2": "RW2(直値同定): 本便が走らせる q が、(a) ROUND4(q_exact) と厳密一致し、かつ (b) 対象 HTML のプリセットが宣言している q とビット一致する。不一致なら**実測せず停止**して報告する(手打ち転記・対象世代の取り違えを塞ぐ)。",
+      "RW3": "RW3(基線 bit 照合): 同条件の基準走行(kF0 基線・q* 走行・全桁 q_exact 走行)の結果が、既存の実測正本(kf1c/kf1d/jupiter-results.json)および第164便 qexact-results.json の対応値と**ビット一致**する。測定器の転記が既存ハーネスと同一実体であることの機械証拠である。",
+      "RW4": "RW4(記述 — 窓なし): 採用直値走行と全桁 q_exact 走行の観測量相対差を記録する。これは「規約の**実装**(4桁丸め)」に由来する系統誤差であり、第164便 QW2 の「規約の**選択**(q* → q_exact)」とは別成分である。",
+      "RW5": "RW5(否定対照): 採用直値を +1% ずらした対照走行では、(a) RW2 の直値同定が必ず FAIL し、(b) 全系で主較正観測量が基準走行から動く(相対差 ≠ 0)。対照で RW1 主窓を外れる系の件数も併記する(0 件なら「その窓は q の 1% 摂動を分解できない」という所見そのものとして収載する — 記述であって合否には使わない)。",
+      "RW6": "RW6(決定性): 全体2回実行(別プロセス)で揮発キー除外の正規化 JSON SHA-256 一致。"
+     },
+     "observable": {
+      "quantity": "4衛星の恒星公転周期の観測偏差の最大絶対値(JW2 条件の主項)",
+      "unit": "%(周期の観測偏差の最大 |値|)"
+     },
+     "generations": {
+      "qStar": {
+       "id": "qStar",
+       "note": "第123便 qLock 則の遠方近似形 q*。第172便以降は運用規約としては N/A だが、台帳の既存行(value / window / components.qFormSensitivity)はこの世代の記録なので、ここでは値の再掲ではなく既存キーへのポインタと q* での窓判定だけを持つ",
+       "q": 12.301733261350822,
+       "qPointer": "tests/out/qexact-regime-results.json#systems.jupiter.q.qStar",
+       "value": 0.051377604726754456,
+       "windowVerdict": true,
+       "ledgerPointers": {
+        "value": "claims[id=jupiter-holdout].value",
+        "window": "claims[id=jupiter-holdout].window",
+        "component": "claims[id=jupiter-holdout].components.qFormSensitivity"
+       }
+      },
+      "qExact": {
+       "id": "qExact",
+       "note": "第172便で採用した厳密一致式 q_exact。全桁値は literal で持てないため、プリセット・ハーネスへ載るのは4桁丸めの**採用直値**である。採用直値は exp-qexact-regime が ROUND(q_exact) と対象 HTML のプリセット宣言値の両方に照合してから走らせている(RW2)",
+       "qFullPrecision": 12.058551153315456,
+       "qAdoptedLiteral": 12.0586,
+       "roundingDigits": 4,
+       "roundingDeltaQ": 0.00004884668454430141,
+       "relRoundingDeltaQ": 0.000004050792165928756,
+       "adoptedLiteralIdentification": {
+        "presetId": "jupiterGalilean",
+        "qAdoptedFromFormula": 12.0586,
+        "qDeclaredInTarget": 12.0586,
+        "matchesRound": true,
+        "matchesDeclared": true,
+        "diffFromDeclared": 0,
+        "ok": true
+       },
+       "valueAtFullPrecision": 0.051377604726754456,
+       "valueAtAdoptedLiteral": 0.051377604726754456,
+       "relDiffAdoptedToFullPrecision": 0,
+       "relDiffAdoptedToQStar": 0,
+       "windowVerdict": {
+        "atAdoptedLiteral": true,
+        "atFullPrecision": true,
+        "windowSource": "tests/exp-jupiter.mjs windowsPreRegistered.JW2",
+        "window": {
+         "status": "not-applicable",
+         "note": "この系の事前登録窓は {min,max} の帯ではなく条件(JW2)である",
+         "evidence": {
+          "verbatim": "kF1(D₀=0.006・q(イオ)=12.30)— ≥20 イオ公転の窓で 4衛星とも軌道保持(NaN なし・|Δa|/a<2%)+周期 ±1% 維持"
+         }
+        }
+       },
+       "margin": {
+        "status": "not-applicable",
+        "note": "帯ではなく条件窓なので min/max に対する余裕が定義できない",
+        "evidence": {
+         "windowSource": "tests/exp-jupiter.mjs windowsPreRegistered.JW2",
+         "conditionMaxima": {
+          "maxAbsPeriodDevPercent": 0.051377604726754456,
+          "maxASpreadPercent": 0.14210099967247833,
+          "nan": false
+         }
+        }
+       },
+       "pointer": "tests/out/qexact-regime-results.json#systems.jupiter.RW1"
+      }
+     },
+     "roundingSystematic": {
+      "note": "「規約の**実装**(4桁丸め)」に由来する系統誤差。第164便 QW2 が測った「規約の**選択**(q* → q_exact)」とは別成分であり、components.qFormSensitivity と重複しない",
+      "relDiffToFullPrecision": 0,
+      "detail": {
+       "perMoon": [
+        {
+         "name": "Io",
+         "periodQExact": 1.770046940728711,
+         "periodQAdopted": 1.770046940728711,
+         "periodRelDiffToQExact": 0,
+         "aSpreadQExact": 0.00011414628262757542,
+         "aSpreadQAdopted": 0.00011414627783176053,
+         "aSpreadRelDiffToQExact": -4.2014639329337656e-8,
+         "dragQExact": -0.013766228336487192,
+         "dragQAdopted": -0.013766228501223228,
+         "dragRelDiffToQExact": -1.1966679002412074e-8
+        },
+        {
+         "name": "Europa",
+         "periodQExact": 3.552373582108728,
+         "periodQAdopted": 3.552373582108728,
+         "periodRelDiffToQExact": 0,
+         "aSpreadQExact": 0.0007043854261860235,
+         "aSpreadQAdopted": 0.0007043851886425629,
+         "aSpreadRelDiffToQExact": -3.3723505876935885e-7,
+         "dragQExact": -0.07461295384376683,
+         "dragQAdopted": -0.07461295508459047,
+         "dragRelDiffToQExact": -1.6630136918052197e-8
+        },
+        {
+         "name": "Ganymede",
+         "periodQExact": 7.1562997813661795,
+         "periodQAdopted": 7.1562997813661795,
+         "periodRelDiffToQExact": 0,
+         "aSpreadQExact": 0.0007205490171561,
+         "aSpreadQAdopted": 0.000720548978805736,
+         "aSpreadRelDiffToQExact": -5.3223810033007676e-8,
+         "dragQExact": -0.18435189158383802,
+         "dragQAdopted": -0.18435189179204273,
+         "dragRelDiffToQExact": -1.129387399766639e-9
+        },
+        {
+         "name": "Callisto",
+         "periodQExact": 16.690657627601382,
+         "periodQAdopted": 16.690657627601382,
+         "periodRelDiffToQExact": 0,
+         "aSpreadQExact": 0.0014210101337957877,
+         "aSpreadQAdopted": 0.0014210099967247834,
+         "aSpreadRelDiffToQExact": -9.64602581125789e-8,
+         "dragQExact": -0.04093060608939103,
+         "dragQAdopted": -0.040930578812302214,
+         "dragRelDiffToQExact": 6.664227926960762e-7
+        }
+       ],
+       "maxAbsPeriodRelDiffToQExact": 0,
+       "relDiffToQExact": 0
+      },
+      "pointer": "tests/out/qexact-regime-results.json#systems.jupiter.RW4"
+     },
+     "baselineTranscription": {
+      "note": "基線再測(kF0・q* 走行・全桁 q_exact 走行)が kf1c/kf1d/jupiter/qexact の実測正本とビット一致するか(RW3 — regime 層の測定器が既存ハーネスと同一実体であることの機械証拠)",
+      "rule": "RW3(基線 bit 照合): 同条件の基準走行(kF0 基線・q* 走行・全桁 q_exact 走行)の結果が、既存の実測正本(kf1c/kf1d/jupiter-results.json)および第164便 qexact-results.json の対応値と**ビット一致**する。測定器の転記が既存ハーネスと同一実体であることの機械証拠である。",
+      "allIdentical": true,
+      "detail": {
+       "reference": "tests/out/jupiter-results.json windows.JW1.rows / windows.JW2.rows + tests/out/qexact-results.json systems.jupiter.runs.qExact",
+       "qStarSameAsReference": true,
+       "qExactSameAsReference": true,
+       "jw1Identical": true,
+       "jw2Identical": true,
+       "qExactRunIdentical": true,
+       "jw1RelDiff": [
+        0,
+        0,
+        0,
+        0
+       ],
+       "jw2RelDiff": [
+        0,
+        0,
+        0,
+        0
+       ],
+       "allIdentical": true
+      },
+      "targetAllSame": false,
+      "targetNote": "入力 JSON の実測を出した対象 HTML の SHA-256 と、本便が実測する対象の照合。本便の既定対象は**採用直値を宣言している** beta/index.html なので、q* 世代の root で測られた既存正本とは対象 SHA が一致しない(allSame=false が既定)。それでも RW3 のビット一致が成立していれば、測定器の転記と物理カーネルが同一実体であることの証拠になる",
+      "pointer": "tests/out/qexact-regime-results.json#systems.jupiter.baselineBitCheck"
+     },
+     "negativeControl": {
+      "note": "否定対照 — 採用直値を意図的にずらした走行では直値同定が外れ、主観測量も動く(ずらしても何も変わらないなら、この層は何も測っていないことになる)",
+      "rule": "RW5(否定対照): 採用直値を +1% ずらした対照走行では、(a) RW2 の直値同定が必ず FAIL し、(b) 全系で主較正観測量が基準走行から動く(相対差 ≠ 0)。対照で RW1 主窓を外れる系の件数も併記する(0 件なら「その窓は q の 1% 摂動を分解できない」という所見そのものとして収載する — 記述であって合否には使わない)。",
+      "factor": 1.01,
+      "qNegativeControl": 12.179186,
+      "value": 0.051377604726754456,
+      "detail": {
+       "qNegativeControl": 12.179186,
+       "pass": true,
+       "maxAbsDevPercent": 0.051377604726754456,
+       "maxASpreadPercent": 0.14210105437257936,
+       "relDiffToAdopted": 0,
+       "moved": true,
+       "inWindow": true,
+       "perMoon": [
+        {
+         "name": "Io",
+         "devPercent": 0.051377604726754456,
+         "aSpreadPercent": 0.011414621000370386,
+         "dragQNegativeControl": -0.013766209533155688,
+         "dragRelDiffToAdopted": 0.0000013778695841474525,
+         "ok": true
+        },
+        {
+         "name": "Europa",
+         "devPercent": 0.03358269006079606,
+         "aSpreadPercent": 0.07043853050674508,
+         "dragQNegativeControl": -0.07461295651228884,
+         "dragRelDiffToAdopted": -1.9134724989378677e-8,
+         "ok": true
+        },
+        {
+         "name": "Ganymede",
+         "devPercent": 0.024414961580121464,
+         "aSpreadPercent": 0.0720548921597047,
+         "dragQNegativeControl": -0.18435192200162634,
+         "dragRelDiffToAdopted": -1.6386912723693225e-7,
+         "ok": true
+        },
+        {
+         "name": "Callisto",
+         "devPercent": 0.009830582600423021,
+         "aSpreadPercent": 0.14210105437257936,
+         "dragQNegativeControl": -0.040930575087684246,
+         "dragRelDiffToAdopted": 9.099841918422616e-8,
+         "ok": true
+        }
+       ]
+      },
+      "pointer": "tests/out/qexact-regime-results.json#systems.jupiter.RW5"
+     },
+     "determinism": {
+      "result": "PASS",
+      "identical": true,
+      "sha256": "22b2f904de7e726b419eae22d15a5af10329ecf1de9c5baa6cc47bbfc937e504",
+      "pointer": "tests/out/qexact-regime-results.json#rw6"
+     }
     }
    },
    "verdictPointer": "tests/out/jupiter-results.json#windows"
@@ -3242,6 +4218,22 @@
      "ratioRef": 0.20288739140464648,
      "ratioOutermost": 0.002277923082211108,
      "crossingRadius": 276.643135431719
+    },
+    "regimeLayer": {
+     "status": "not-applicable",
+     "note": "この主張は q の世代(qStar / qExact)で層別できる単一系の較正主張ではないため、regime 層を持たない(qLock 径方向監査は q* 則そのものを半径方向に試験した監査で、採用直値の走行という概念が無い)",
+     "evidence": {
+      "regimeIds": [
+       "qStar",
+       "qExact"
+      ],
+      "claimsWithRegime": [
+       "mercury-perihelion",
+       "earth-moon-two-observables",
+       "saturn-ring-apsidal",
+       "jupiter-holdout"
+      ]
+     }
     }
    },
    "verdictPointer": "tests/out/qlockradial-results.json#windows"
@@ -3273,7 +4265,8 @@
      "spinDoseSensitivity",
      "crossHarnessAgreement",
      "internalConsistency",
-     "qFormSensitivity"
+     "qFormSensitivity",
+     "regimeLayer"
     ]
    },
    {
@@ -3289,7 +4282,8 @@
      "qArmSpread",
      "spinDoseSensitivity",
      "qStarArmComparison",
-     "qFormSensitivity"
+     "qFormSensitivity",
+     "regimeLayer"
     ]
    },
    {
@@ -3305,7 +4299,8 @@
      "qArmSpread",
      "radialProfile",
      "holdOutHonesty",
-     "qFormSensitivity"
+     "qFormSensitivity",
+     "regimeLayer"
     ]
    },
    {
@@ -3316,7 +4311,8 @@
     "extraComponents": [
      "parameterSensitivity",
      "determinism",
-     "qFormSensitivity"
+     "qFormSensitivity",
+     "regimeLayer"
     ]
    },
    {
@@ -3329,21 +4325,37 @@
     ],
     "extraComponents": [
      "q3Control",
-     "innerSaturation"
+     "innerSaturation",
+     "regimeLayer"
     ]
    }
-  ]
+  ],
+  "regimeLayer": {
+   "generations": [
+    "qStar",
+    "qExact"
+   ],
+   "instrumented": 4,
+   "notApplicable": 1,
+   "total": 5,
+   "adoptedLiteralAllMatchTarget": true,
+   "allWindowsPassAtAdoptedLiteral": true,
+   "baselineBitAllIdentical": true,
+   "maxAbsRoundingRelDiff": 0.00001688272296615362,
+   "negativeControlPass": true,
+   "determinism": "PASS"
+  }
  },
  "generated": {
-  "at": "2026-08-22T08:54:41.432Z",
+  "at": "2026-08-23T04:51:21.952Z",
   "node": "v22.22.2",
   "platform": "linux/x64",
-  "commit": "7c2ae5eee28b0febb84b20b5eee2600995c2bff4",
+  "commit": "00731516b88ca56525f0b8ab3f07c83bfc886b5a",
   "command": "node tools/gen-error-budget.mjs",
   "generator": {
    "path": "tools/gen-error-budget.mjs",
-   "sha256": "e2744d96bd50b00482ce6ba5011f9f054ebcd4b32862c7816d3526847feff2f7",
-   "bytes": 63731
+   "sha256": "af0f1768e0b21b868f2f60959f563d8ae023425382994518f8996c3793357d90",
+   "bytes": 85562
   },
   "note": "本ブロックは実行のたびに変わる非測定メタである。errorbudget.consistency ゲートは `generated` キーを除外して照合する"
  }
