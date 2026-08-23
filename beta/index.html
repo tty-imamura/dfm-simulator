@@ -648,7 +648,7 @@
           <select id="aiBasePreset" style="flex:1;min-width:0"></select></div>
         <!-- 第36便 B4(原仮定者指示): 説明文を既定closedのdetailsへ折畳み(要点は見出しのみ表示) -->
         <details id="aiBaseDetails"><summary id="aiBaseNoteSum" class="note" style="cursor:pointer">ベースのサンプル</summary>
-        <p class="note" id="aiBaseNote">ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの lightSweep や ⚫のコアv2 core:{}・📡の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信され、コピーするプロンプトにも**少数ショット例**として埋め込まれます(未選択のときは現在読み込んでいるサンプルを例に使います — 例の質が生成JSONの質をいちばん左右します)。実在の天体を作りたいときも、ここで近いスケールのサンプルを選んでください。</p></details>
+        <p class="note" id="aiBaseNote">ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの lightSweep や ⚫のコアv2 core:{}・📡の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信され、コピーするプロンプトにも**少数ショット例**として埋め込まれます(未選択のときは 🟠木星とガリレオ衛星(実単位)を例に使います — 例の質が生成JSONの質をいちばん左右します)。実在の天体を作りたいときも、ここで近いスケールのサンプルを選んでください。</p></details>
         <!-- 第103便(原仮定者指示): 第74便のスケール雛形挿入UIは撤去(分かりにくいため。
              スケールの誘導は SYSTEM_PROMPT の「要望→設定の対応」とベースサンプル選択が担う) -->
         <textarea id="aiPrompt" placeholder="例: 3つの恒星が絡み合う三体問題。まわりに塵の環も欲しい"></textarea>
@@ -1018,7 +1018,7 @@ ja: {
   stabEscape:(c)=>"試走で全粒子が画面外へ脱出しました(全天体が camera.scale×"+c+"より外)— 採用しません",
   stabRejected:"自己診断に通らなかったので取り込みません(理由は下記)",
   aiBaseLabel:"ベースのサンプル(任意)", aiBaseNone:"なし(要望だけで生成)",   // 第26便
-  aiBaseNote:"ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの lightSweep や ⚫のコアv2 core:{}・📡の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信され、コピーするプロンプトにも**少数ショット例**として埋め込まれます(未選択のときは現在読み込んでいるサンプルを例に使います — 例の質が生成JSONの質をいちばん左右します)。実在の天体を作りたいときも、ここで近いスケールのサンプルを選んでください。",
+  aiBaseNote:"ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの lightSweep や ⚫のコアv2 core:{}・📡の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信され、コピーするプロンプトにも**少数ショット例**として埋め込まれます(未選択のときは 🟠木星とガリレオ衛星(実単位)を例に使います — 例の質が生成JSONの質をいちばん左右します)。実在の天体を作りたいときも、ここで近いスケールのサンプルを選んでください。",
   aiBaseNoteSum:"ベースのサンプル",   // 第36便 B4(原仮定者指示): 折畳み見出し
   aiPromptPh:"例: 3つの恒星が絡み合う三体問題。まわりに塵の環も欲しい",
   // 第32便 W4(台帳4-58): 送信内容の事前確認
@@ -1040,8 +1040,7 @@ ja: {
   aiExtBuiltinHead:"# 内蔵の実天体サンプル(これに合致する要望は生成しない)",
   aiExtBuiltinNote:"要望がこの一覧の系に合致する場合は、JSONを作らず「アプリのサンプル一覧にある『<名前>』をお使いください」と1行で案内してください(内蔵サンプルのほうが検証済みで正確です)。",
   aiExtExBase:"# 例(利用者が選んだベースのサンプル — この流儀・桁・キー構成に合わせること)\n要望と無関係な構成・数値は維持し、ベースに存在しないキーを発明せず、要望の実現に必要な項目だけを変更してください(seed があれば維持)。",
-  aiExtExCur:"# 例(いま読み込まれているサンプル — 出力の流儀・桁・キー構成の手本)\nこれは手本であって土台ではありません。要望に合わせて構成は自由に変えて構いませんが、キーの綴り・単位の桁感・記法はこの例に合わせてください。",
-  aiExtExSkip:"# 例\n(ベースのサンプルが大きすぎるため省略しました。仕様書の例に従ってください)",
+  aiExtExCur:"# 例(🟠木星とガリレオ衛星(実単位)— 出力の流儀・桁・キー構成の手本)\nこれは手本であって土台ではありません。要望に合わせて構成は自由に変えて構いませんが、キーの綴り・単位の桁感・記法はこの例に合わせてください。",   // 第181便: 暗黙の例は精度の高い固定サンプル
   retryFixMsg:(f)=>"あなたの出力に検証エラーがあります: "+f+"。同じ要望に対し、エラーを修正した完全なJSONを出力してください。",
   apiKeyPh:"APIキー",
   keySet:"キーを設定しました", keySetSaved:"キーを設定しました(この端末に保存)", keyCleared:"キーを消去しました",
@@ -1530,7 +1529,7 @@ en: {
   astroOutOfCatalog:(r,l)=>"That request is outside the catalogue"+(r?" ("+r+")":"")+". Since the AI is not allowed to invent numbers for real bodies, this system is not generated. Systems in the catalogue: "+l,
   astroBuilt:(s,n)=>"Built from the real-body catalogue: "+s+" ("+n+" bodies)",
   aiBaseLabel:"Base sample (optional)", aiBaseNone:"None (generate from the request only)",
-  aiBaseNote:"Pick a base to have the AI modify that sample's JSON to your request \u2014 reference structures (\ud83d\udd76\ufe0f dark-rotor lightSweep, \u26ab core:{} (Core v2), \ud83d\udce1 zonal, etc.) carry over. The selected base JSON (including custom presets) is sent to the currently selected AI provider on generation, and is embedded in the copied prompt as the FEW-SHOT EXAMPLE (with nothing selected, the sample currently loaded is used instead \u2014 the quality of that example is what drives the quality of the generated JSON most). Pick the sample closest in scale when you want a real astronomical system too.",
+  aiBaseNote:"Pick a base to have the AI modify that sample's JSON to your request \u2014 reference structures (\ud83d\udd76\ufe0f dark-rotor lightSweep, \u26ab core:{} (Core v2), \ud83d\udce1 zonal, etc.) carry over. The selected base JSON (including custom presets) is sent to the currently selected AI provider on generation, and is embedded in the copied prompt as the FEW-SHOT EXAMPLE (with nothing selected, the built-in \ud83d\udfe0 Jupiter and the Galilean moons (real units) sample is used instead \u2014 the quality of that example is what drives the quality of the generated JSON most). Pick the sample closest in scale when you want a real astronomical system too.",
   aiBaseNoteSum:"Base sample",   // Wave 36 B4
   aiPromptPh:"e.g. A chaotic three-star system with a ring of dust around it",
   // 第32便 W4(4-58): preview exactly what will be sent
@@ -1552,8 +1551,7 @@ en: {
   aiExtBuiltinHead:"# BUILT-IN REAL-BODY SAMPLES (do not generate these)",
   aiExtBuiltinNote:"If the request matches a system in this list, do NOT write any JSON: answer in one line, \"please use the built-in sample <name> from the app's sample list\" (the built-in samples are verified and more accurate).",
   aiExtExBase:"# EXAMPLE (the base sample the user selected \u2014 match this style, magnitude and key set)\nKeep the structure and values the request does not ask to change, do not invent keys that are absent from the base, change only what the request requires, and keep the seed if present.",
-  aiExtExCur:"# EXAMPLE (the sample currently loaded \u2014 a model for the style, magnitudes and key set)\nThis is a model, not a base. You may restructure freely for the request, but match the key spelling, the magnitude conventions and the notation of this example.",
-  aiExtExSkip:"# EXAMPLE\n(omitted \u2014 the base sample is too large; follow the examples in the specification)",
+  aiExtExCur:"# EXAMPLE (\ud83d\udfe0 Jupiter and the Galilean moons, real units \u2014 a model for the style, magnitudes and key set)\nThis is a model, not a base. You may restructure freely for the request, but match the key spelling, the magnitude conventions and the notation of this example.",   // Wave 181: the implicit example is a fixed, high-accuracy sample
   // Wave 178: one paste box (shape auto-detection) + the deterministic stabilization pass
   aiPastePh:"Paste the AI's reply here as it is (a preset JSON or an array of ObservationRecords)",
   aiKeplerLabel:"Re-derive circular orbits at Kepler speed",
@@ -17067,7 +17065,10 @@ const OBS_R_BAND=[0.03,0.15];   // 中心天体の描画半径が camera.scale �
 const OBS_LADDER_TS=[0.001,0.003,0.01,0.03,0.1,0.3,1,3,10,30,100,300,1000];
 const OBS_LADDER_DM=[1,3,10,30,100,300,1000];
 function obsSig(x){ return (isFinite(x) && x!==0)? Number(x.toPrecision(OBS_SIG)) : x; }
-function obsBodyId(name){ return String(name).toLowerCase().replace(/[^a-z0-9]+/g,"").slice(0,24); }
+// 第181便(実機の失敗①: body 名が和名の「冥王星」「カロン」で識別子が空になり全行が拒否された):
+// 識別子は **Unicode の文字・数字**(\p{L}\p{N})を残す。ASCII 名(a-z0-9 ⊂ \p{L}\p{N})の結果は
+// 1文字も変わらない — 和名・キリル文字・ギリシャ文字などの非 ASCII 表記だけが救われる。
+function obsBodyId(name){ return String(name).toLowerCase().replace(/[^\p{L}\p{N}]+/gu,"").slice(0,24); }
 // 規約 L−T=4(c₀=3×10⁴)と M+2T−3L=11(G=6.674)を**必ず**満たす1径数族 → T=L−4・M=L+19
 function obsScaleFromL(L){ return {L:L, T:L-4, M:L+19}; }
 function obsLadder(list,target){
@@ -17236,6 +17237,46 @@ function obsRangeCheck(preset){
   if(!(preset.camera.scale>=20 && preset.camera.scale<=3000)) bad.push("camera.scale="+preset.camera.scale+" が値域 20〜3000 の外");
   return bad;
 }
+/* ---- 第181便(統括裁定 2026-08-23): 超軽量衛星の**テスト粒子降格**(下限側のみ・宣言必須)----
+ * 実機の失敗②: 火星系のように中心と衛星の質量比が ~1e7 を超える系は、規約 L−T=4・M+2T−3L=11 の
+ * **1径数族**(obsScaleFromL)ではどの L でも構築できない — L を上げれば衛星が m の下限(1e-6)を
+ * 割り、下げれば中心の半径が上限(100)を突き抜ける。構造的に到達不能な穴なので、**下限側だけ**を
+ * 救済する: 障害が「衛星(非中心)の m<1e-6・radius<0.01」に限られるとき、その衛星を値域下限へ
+ * 引き上げて採用し、既存の「宣言する理想化・降格」枠(spin=0 降格と同じ導線)で宣言する。
+ * **緩めない境界**: 中心天体の逸脱 / 上限側(m>20000・radius>100)/ 座標±5000 / 速度±50 /
+ * spin±20 / camera.scale 20〜3000 は従来どおり差し戻す。衛星1体(barycentric-peri = 二体重心系)は
+ * 衛星質量が配置(重心配分)と力学に直接効くので**対象外**。降格後も自己診断 ±1% は一切変えずに
+ * 掛かるので、力学が壊れる降格は採用されない。 */
+const OBS_M_MIN=1e-6, OBS_R_MIN=0.01;   // obsRangeCheck の下限と同値(QA ai.obs-demote が同値性を機械固定)
+function obsDemoteSats(sys, preset){
+  if(sys.place!=="kepler-peri") return null;               // 衛星2体以上(中心 pinned)のときだけ
+  const n=sys.sats.length;
+  if(preset.bodies.length!==n+1) return null;              // 中心1+衛星n の対応が崩れていたら手を出さない
+  const lows=[];
+  for(let i=0;i<preset.bodies.length;i++){
+    const b=preset.bodies[i];
+    // 下限側**以外**の逸脱が1つでもあれば救済しない(上限側・座標・速度・spin)
+    if(!(b.m>0) || !(b.m<=20000)) return null;
+    if(b.radius!==undefined && !(b.radius<=100)) return null;
+    if(!(Math.abs(b.x)<=5000 && Math.abs(b.y)<=5000)) return null;
+    if(!(Math.abs(b.vx)<=50 && Math.abs(b.vy)<=50)) return null;
+    if(!(Math.abs(b.spin)<=20)) return null;
+    const mLow=(b.m<OBS_M_MIN), rLow=(b.radius!==undefined && b.radius<OBS_R_MIN);
+    if(i===0){ if(mLow||rLow) return null; }                // 中心天体の逸脱は救済しない
+    else if(mLow||rLow) lows.push({sat:i-1, mLow, rLow});
+  }
+  if(!lows.length) return null;                            // 下限側の障害が無い = 降格の出番ではない
+  if(!(preset.camera.scale>=20 && preset.camera.scale<=3000)) return null;   // camera 域は緩めない
+  const sys2=Object.assign({}, sys, {sats:sys.sats.map(s=>Object.assign({}, s))});
+  const demoted=[];
+  for(const lo of lows){
+    const s=sys2.sats[lo.sat];
+    demoted.push({id:s.id, sat:lo.sat, mLow:lo.mLow, rLow:lo.rLow, mWas:s.m, radiusWas:s.radius});
+    if(lo.mLow) s.m=OBS_M_MIN;
+    if(lo.rLow) s.radius=OBS_R_MIN;
+  }
+  return {sys:sys2, demoted};
+}
 // --- ③ 自己診断: 複製状態で短い試走 → NaN なし・各衛星の推定周期が観測周期の ±1% ---
 // 推定周期は試走終端の接触要素(比エネルギー → 長半径)から出す。フィットは一切しない —
 // 外れたら**採用しない**(単位の写し間違い・桁ずれの典型なので差し戻す)
@@ -17285,17 +17326,44 @@ function buildAstroFromRecords(input, opts){
   if(!v.ok) return {ok:false, stage:"schema", errors:v.errors, notes:v.notes};
   const rec=v.sys;
   const L0=Math.floor(Math.log10(rec.center.q.radius));
-  let built=null, firstErr=[];
+  let built=null, firstErr=[], rescue=null;
   for(const dL of [0,1,-1,2,-2,3,-3]){
     const mk=obsMakeSys(rec, obsScaleFromL(L0+dL));
     if(!mk.ok){ if(!firstErr.length) firstErr=mk.errors; continue; }
     const p=buildAstroPreset({system:"__observation__"}, mk.sys);
     const bad=obsRangeCheck(p);
-    if(bad.length){ if(!firstErr.length) firstErr=bad; continue; }
-    built={preset:p, sys:mk.sys, meta:mk.meta}; break;
+    if(!bad.length){ built={preset:p, sys:mk.sys, meta:mk.meta, demoted:[]}; break; }
+    if(!firstErr.length) firstErr=bad;
+    // 第181便: テスト粒子降格の評価は**各 L 候補の中で**行う(全滅後の一発救済ではない)。ただし
+    // 採用は探索を最後まで回してから — **降格なしで通る L があれば必ずそちらを優先**するので、
+    // 既存系の選定結果(最良 L)は1ビットも変わらない。降格候補は宣言順(dL の並び)の最初の1つ。
+    if(!rescue){
+      const dm=obsDemoteSats(mk.sys, p);
+      if(dm){
+        const p2=buildAstroPreset({system:"__observation__"}, dm.sys);
+        if(!obsRangeCheck(p2).length) rescue={preset:p2, sys:dm.sys, meta:mk.meta, demoted:dm.demoted};
+      }
+    }
   }
+  if(!built && rescue) built=rescue;
   if(!built) return {ok:false, stage:"scale", notes:v.notes,
     errors:["どのスケール指数(L="+(L0-3)+"〜"+(L0+3)+")でも値域に収まりませんでした: "+firstErr.slice(0,4).join(" / ")]};
+  // ---- 第181便: 降格の宣言(黙って行わない — spin=0 降格と同じ枠へ載せる)----
+  if(built.demoted.length){
+    const cName=rec.center.name, cM=rec.center.q.mass;
+    for(const d of built.demoted){
+      const s=rec.sats[d.sat], nm=s.name;
+      const mS=obsNum(obsSig(s.q.mass)), ratio=(s.q.mass/cM).toExponential(1);
+      const rJa=d.rLow? "。半径 "+obsNum(obsSig(s.q.radius))+" m も値域下限 0.01 へ引き上げ(表示半径と引きずり場の下限 — 力学は質量が支配)" : "";
+      const rEn=d.rLow? ". Its radius "+obsNum(obsSig(s.q.radius))+" m is also raised to the range floor 0.01 (the floor for the drawn radius and the drag field; the dynamics are governed by mass)" : "";
+      const ja=nm+": 質量 "+mS+" kg は中心("+cName+")の "+ratio+" 倍 — テスト粒子近似"
+        +"(m を値域下限 1e-6 に置く。軌道は中心質量が支配し、力学への影響は診断許容 ±1% に対して無視できる)"+rJa;
+      const en=nm+": its mass "+mS+" kg is "+ratio+" of the centre ("+cName+") — a test-particle approximation"
+        +" (m is placed at the range floor 1e-6; the orbit is governed by the central mass and the dynamical effect is negligible against the ±1% diagnostic tolerance)"+rEn;
+      rec.ideal.ja.push(ja); rec.ideal.en.push(en);
+      v.notes.push(ja);
+    }
+  }
   const en=(LANG==="en"), M=built.meta, sc=M.scale, sys=built.sys, p=built.preset;
   const twoBody=(sys.place==="barycentric-peri");
   const targets=rec.sats.map((s,i)=>({ id:s.id, name:s.name, index:i+1, twoBody,
@@ -17362,7 +17430,7 @@ function buildAstroFromRecords(input, opts){
   const vp=validatePreset(p);
   if(!vp.ok) return {ok:false, stage:"validate", errors:vp.errors, notes:v.notes, meta:M, table:rec.table};
   return {ok:true, preset:vp.preset, warnings:vp.warnings, notes:v.notes, diag, meta:M, table:rec.table,
-    ideal:rec.ideal};
+    ideal:rec.ideal, demoted:built.demoted};
 }
 
 // --- ⑤ 採取用プロンプト(外部チャットAI向け — アプリはAPIキーを使わない)---
@@ -17471,6 +17539,7 @@ quantity [unit]: ${q}
 - Every satellite needs mass, semi_major_axis and orbital_period (radius, eccentricity and rotation are optional — the app declares its defaults when they are missing).
 - SI units only (km, days, degrees are rejected): convert yourself and say so in "note".
 - RETROGRADE rotation is written as a NEGATIVE rotation_period (the app carries the sign into the spin). Negative mass, radius, semi_major_axis or orbital_period are rejected.
+- The "body" name may stay exactly as your source writes it — a Japanese or other non-Latin name is fine, do NOT translate it into English (the app builds the identifier from the Unicode name as it is).
 - Do not include rings, dust or unnamed bodies.
 
 # OUTPUT B: a preset JSON
@@ -17490,6 +17559,7 @@ quantity [単位]: ${q}
 - 各衛星には mass・semi_major_axis・orbital_period が必須(radius・eccentricity・自転は任意 — 無ければアプリが宣言つきで既定化します)。
 - 単位は SI のみ(km・日・度は拒否されます)。換算はあなたが行い、その旨を note に書いてください。
 - **逆行自転は rotation_period を負の値**で書きます(符号はアプリが spin へ反映します)。質量・半径・軌道長半径・公転周期の負値は拒否されます。
+- **body(天体名)は出典の表記のままでよい**(和名可・英名へ翻訳しない — アプリは Unicode の名前をそのまま識別子にします)。
 - 環・塵・名前の無い天体は含めないでください。
 
 # 出力B: プリセット JSON
@@ -17732,7 +17802,7 @@ function aiIntakeValue(v, opts){
     if(!r.ok) return {ok:false, kind, stage:r.stage, errors:r.errors||[], notes:r.notes,
       table:r.table, diag:r.diag, meta:r.meta};
     return {ok:true, kind, preset:r.preset, notes:r.notes, table:r.table, diag:r.diag,
-      meta:r.meta, warnings:r.warnings};
+      meta:r.meta, warnings:r.warnings, ideal:r.ideal, demoted:r.demoted};   // 第181便: 宣言(理想化・降格)も取込結果へ通す
   }
   if(kind==="preset"){
     const one=pickSinglePreset(v);
@@ -17874,20 +17944,23 @@ function aiUserContent(userText){
 // 内容 = 依頼ヘッダ+システムプロンプト(EN上書き込み)+要望(ベースサンプル文脈込み)。
 // APIキーをアプリへ入れない生成経路 — 返答JSONはセーブタブのインポートで取り込む
 // (コードフェンス・前後説明文は doImportText が寛容に除去する)
-// 第178便: 少数ショット例 — 選択中のベースサンプル。未選択なら**現在読み込んでいるサンプル**を
-// 手本に使う(原仮定者の指針「例となるサンプルで生成JSONの質が大きく変わる」)。
-// 上限は**暗黙の例(未選択時)にだけ**掛ける — 利用者が明示的に選んだベースは大きくても丸ごと運ぶ
-// (土台改変の文脈そのものなので削れない)。暗黙の例だけを抑えることで、短縮版が「短縮版」で
-// なくなるのを防ぐ(決定的な規則)
-const AI_EXAMPLE_MAX=6000;
+// 第178便: 少数ショット例 — 選択中のベースサンプル(明示選択の最優先は不変)。
+// 第181便(原仮定者指示 2026-08-23「ベースのサンプル指定がない限り、例は精度が高いサンプルを
+// 使用する」): 未選択時の**暗黙の例は 🟠jupiterGalilean を丸ごと**に固定する。「現在読み込んで
+// いるサンプル」の流用は撤去 — 実機検証では gclock 等が混入し、意図と違う例が配られていた
+// (実機の失敗③)。例が固定されて長さが予測可能になったため、暗黙の例に掛けていた 6000 字上限は
+// 撤廃する(間引き・改変もしない — 丸ごと運ぶ)。短縮版の不変量「仕様全文ぶん短い」は
+// 例の大きさに依らないので維持される(QA ai.unified-prompt が機械固定)。
+const AI_EXAMPLE_DEFAULT_ID="jupiterGalilean";
 function aiExampleForPrompt(){
   const sel=$("#aiBasePreset"), bid=sel? sel.value : "";
-  const b=bid? allPresets().find(q=>String(q.id)===String(bid)) : null;
-  const p=b || currentPreset;
+  const all=allPresets();
+  const b=bid? all.find(q=>String(q.id)===String(bid)) : null;
+  const p=b || all.find(q=>String(q.id)===AI_EXAMPLE_DEFAULT_ID) || currentPreset;
   if(!p) return null;
   let j="";
   try{ j=JSON.stringify(presetForAIBase(p)); }catch(e){ return null; }
-  return {base:!!b, id:p.id, json:((!b && j.length>AI_EXAMPLE_MAX)? null : j), len:j.length};
+  return {base:!!b, id:p.id, json:j, len:j.length};
 }
 // 実際に送る/配る本文(例+要望)。ベース選択時は従来の「土台改変」文脈(aiUserContent)、
 // 未選択時は現在のサンプルを手本として同梱する — どちらの経路でも例が必ず1つ入る
@@ -17896,7 +17969,8 @@ function aiSendContent(userText){
   if(bid) return aiUserContent(userText);
   const ex=aiExampleForPrompt();
   if(!ex) return userText;
-  const head=(ex.json!==null)? (T("aiExtExCur")+"\n"+ex.json) : T("aiExtExSkip");
+  // 第181便: 暗黙の例は固定サンプルを**丸ごと**運ぶ(省略分岐 aiExtExSkip は発生しない)
+  const head=T("aiExtExCur")+"\n"+ex.json;
   return head+"\n\n"+T("aiExtReqHead")+"\n"+userText;
 }
 // 第178便: 単一プロンプト。full(仕様全文同梱)と short(仕様はURL参照)は**同じ骨格**で、
@@ -19749,6 +19823,8 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // ai.obs-build が読む公開フック
   validateObservationRecords, buildAstroFromRecords, buildObsCollectPrompt, astroObsSelfCheck,
   OBS_UNITS, OBS_KEYS, OBS_DIAG_STEPS, OBS_DIAG_TOL, OBS_SAMPLE_URL,
+  // 第181便: 識別子生成(和名対応)・値域検査・テスト粒子降格 — QA ai.obs-demote / ai.obs-schema が読む
+  obsBodyId, obsRangeCheck, obsDemoteSats, obsScaleFromL, OBS_M_MIN, OBS_R_MIN,
   // 第45便 45A(台帳4-48): 光線源/1PN源の偏向角しきい値(QA ray.alpha-threshold の機能判定子も兼ねる)
   RAY_ALPHA_MIN, rayMassMin, rayHeavy, pnMassMin, pnSource, rayKeyOf,
   // 第82便 A(光学輸送): 透過率の 1 本の式・基準波長・核の台係数・直近の光学的深さ統計。
@@ -19794,7 +19870,8 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   buildUnifiedPrompt, buildRecordsClause, buildBuiltinListClause, aiSendContent, aiExampleForPrompt,
   normalizeIntakeText, parseIntake, jsonPosInfo, detectPasteShape, pickSinglePreset,
   stabilizePreset, stabSelfCheck, aiIntakeText, aiIntakeValue,
-  STAB_ESCAPE_MUL, STAB_DIVERGE_MUL, AI_EXAMPLE_MAX,
+  STAB_ESCAPE_MUL, STAB_DIVERGE_MUL,
+  AI_EXAMPLE_DEFAULT_ID, presetForAIBase,   // 第181便: 暗黙の少数ショット例の固定先(AI_EXAMPLE_MAX は撤廃)
   scaleEffNow,  // 第104便: ベースのスケール(タグ一括設定)のQA用 — 実効4指数の読み口(表示専用)
   claimProv, PROV_CLASSES,  // 第105便B EXT-02: 主張の出所分類のQA用(表示専用)
   claimRole, ROLE_CLASSES,  // 第133便 P0: 主張の役割分類のQA用(宣言専用 — 表示のみ)
