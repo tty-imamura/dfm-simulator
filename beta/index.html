@@ -633,18 +633,13 @@
         <p class="note" id="aiKeyNote">キーはこの端末内でのみ使われ、送信先は選択・設定したAPIエンドポイントだけです(OpenAI互換では入力したベースURLへ送信されます — URLは必ず確認してください)。保存チェックOFFなら端末にも残りません(タブを閉じると消えます)。ブラウザへのキー入力にはリスクが伴うため、利用上限を設定した専用キーを推奨します。</p></details>
       </div>
       <div class="group"><h3 id="aiGenHead">新しいシミュレーションを生成</h3>
-        <!-- 第170便(統括裁定): 生成モード。既定=実天体カタログ — LLM は数値を一切出さず
-             カタログIDを選ぶだけで、定数と配置・初速はアプリ内の決定的計算が担う。
-             自由生成(従来の SYSTEM_PROMPT 経路)は実験系のために残す -->
-        <div class="prow"><label id="aiModeLabel">生成モード</label>
-          <select id="aiGenMode" style="flex:1;min-width:0">
-            <option value="catalog" selected>実天体カタログ(推奨)</option>
-            <option value="freeform">自由生成(実験系)</option>
-            <!-- 第176便: 第3モード — カタログ外の実在天体を「出典つき観測転写」から決定的に構築する -->
-            <option value="observation">観測採取(カタログ外)</option>
-          </select></div>
-        <details id="aiModeDetails"><summary id="aiModeNoteSum" class="note" style="cursor:pointer">生成モード</summary>
-        <p class="note" id="aiModeNote"></p></details>
+        <!-- 第178便(原仮定者の設計指針 2026-08-23): **生成モードの分岐を撤去し自由生成へ一本化**。
+             実天体はプリセットとして既に存在するので、「ベースのサンプル」指定で足りる
+             (実機で「短縮版をコピー」がモードに連動せず、観測採取モードでも旧プリセット用
+             プロンプトが配られた事故の構造的解消 — 配るプロンプトは1系統だけになった)。
+             第170/176便のカタログ・観測レコード機構は**内部資産として温存**する
+             (ASTRO_CATALOG・buildAstroPreset・buildAstroFromRecords・検証器 — 貼付欄の
+             形状自動判別とプロンプトの内蔵一覧がそのまま使う) -->
         <!-- 第26便(原仮定者指示): ベースのサンプル選択(任意)— 参考サンプルをAI生成に利用 -->
         <div class="prow" id="aiBaseRow"><label id="aiBaseLabel">ベースのサンプル(任意)</label>
           <!-- 第33便: min-width:0 が無いと長いプリセット名(🛰️弱場GR較正…等)の内容最小幅で
@@ -653,7 +648,7 @@
           <select id="aiBasePreset" style="flex:1;min-width:0"></select></div>
         <!-- 第36便 B4(原仮定者指示): 説明文を既定closedのdetailsへ折畳み(要点は見出しのみ表示) -->
         <details id="aiBaseDetails"><summary id="aiBaseNoteSum" class="note" style="cursor:pointer">ベースのサンプル</summary>
-        <p class="note" id="aiBaseNote">ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの lightSweep や ⚫のコアv2 core:{}・📡の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信されます。</p></details>
+        <p class="note" id="aiBaseNote">ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの lightSweep や ⚫のコアv2 core:{}・📡の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信され、コピーするプロンプトにも**少数ショット例**として埋め込まれます(未選択のときは現在読み込んでいるサンプルを例に使います — 例の質が生成JSONの質をいちばん左右します)。実在の天体を作りたいときも、ここで近いスケールのサンプルを選んでください。</p></details>
         <!-- 第103便(原仮定者指示): 第74便のスケール雛形挿入UIは撤去(分かりにくいため。
              スケールの誘導は SYSTEM_PROMPT の「要望→設定の対応」とベースサンプル選択が担う) -->
         <textarea id="aiPrompt" placeholder="例: 3つの恒星が絡み合う三体問題。まわりに塵の環も欲しい"></textarea>
@@ -665,28 +660,23 @@
         <p class="note" id="aiPreviewSysNote"></p></details>
         <div id="aiStatus"></div>
       </div>
-      <!-- 第102便: 外部AIチャット経路 — APIキー不要。生成用プロンプトをコピーし、
-           返答JSONはセーブタブのインポート欄で取り込む(フェンス・説明文は自動除去)。
+      <!-- 第102便: 外部AIチャット経路 — APIキー不要。生成用プロンプトをコピーし、返答をここへ貼る。
            第103便(原仮定者指示): details ごと畳まれて気付きにくい → 独立グループへ昇格し、
-           ボタンは常時表示・手順説明だけを details に畳む。短縮版(仕様書リンク参照)も追加 -->
+           ボタンは常時表示・手順説明だけを details に畳む。短縮版(仕様書リンク参照)も追加。
+           第178便: **貼付先をこのグループの1欄に統一**(実機で観測レコードがセーブタブの
+           プリセットインポート欄へ投入され「追加0件/不正9件」になった事故の解消)。
+           貼り付けた内容の形(観測レコード配列 / プリセットJSON)はアプリが自動判別する -->
       <div class="group"><h3 id="aiExtTitle">外部AIチャットで生成(APIキー不要)</h3>
         <div class="rowBtns"><button class="btn primary" id="btnExtCopy">生成用プロンプトをコピー</button>
           <button class="btn" id="btnExtCopyShort">短縮版をコピー</button></div>
         <details id="aiExtWrap"><summary id="aiExtSum" class="note" style="cursor:pointer">手順</summary>
         <p class="note" id="aiExtNote"></p></details>
-      </div>
-      <!-- 第176便(統括裁定 §3b): 観測採取(カタログ外)— APIキー不要。外部チャットAIには
-           「観測値の転写器」の役だけを与え(採取用プロンプト)、返ってきた ObservationRecord 配列を
-           ここで検証 → 出典表プレビュー → 決定的構築 → 自己診断(周期 ±1%)→ 保存する。
-           生成モードが「観測採取」のときだけ表示する -->
-      <div class="group" id="aiObsGroup" style="display:none"><h3 id="aiObsTitle">観測採取(カタログ外)</h3>
-        <div class="rowBtns"><button class="btn" id="btnObsPromptCopy">採取用プロンプトをコピー</button></div>
-        <details id="aiObsWrap"><summary id="aiObsSum" class="note" style="cursor:pointer">手順</summary>
-        <p class="note" id="aiObsNote"></p></details>
-        <textarea id="aiObsRecords" placeholder="[{&quot;body&quot;:&quot;Pluto&quot;,&quot;quantity&quot;:&quot;mass&quot;,&quot;value&quot;:1.303e22,&quot;unit&quot;:&quot;kg&quot;,&quot;source&quot;:&quot;…&quot;,&quot;url&quot;:&quot;https://…&quot;,&quot;retrieved&quot;:&quot;2026-08-22&quot;}, …]"></textarea>
-        <div class="rowBtns"><button class="btn" id="btnObsCheck">検証する</button>
-          <button class="btn primary" id="btnObsBuild">構築して保存</button></div>
-        <div id="aiObsReport"></div>
+        <textarea id="aiPasteArea" placeholder="AIの返答をそのままここへ貼り付け(プリセットJSON / 観測レコード配列のどちらでも可)"></textarea>
+        <div class="prow"><label id="aiKeplerLabel" style="flex:1">円軌道はケプラー速度で再導出する</label>
+          <input type="checkbox" id="aiKeplerFix" checked></div>
+        <div class="rowBtns"><button class="btn primary" id="btnAiPaste">貼り付けた内容を取り込む</button>
+          <button class="btn" id="btnAiPasteCheck">検証のみ</button></div>
+        <div id="aiPasteReport"></div>
       </div>
       <div class="group"><h3 id="aiListHead">生成済みプリセット</h3><div id="customList"></div></div>
     </div>
@@ -975,18 +965,8 @@ ja: {
   aiKeyNoteSum:"キーの保存",   // 第36便 B4(原仮定者指示): 折畳み見出し
   aiGenHead:"新しいシミュレーションを生成", btnGenerate:"生成する", aiListHead:"生成済みプリセット",
   // 第170便: 生成モード(既定=実天体カタログ)
-  aiModeLabel:"生成モード", aiModeCatalog:"実天体カタログ(推奨)", aiModeFree:"自由生成(実験系)",
-  aiModeNoteSum:"生成モード",
-  aiModeNote:"「実天体カタログ」ではAIは数値を一切作りません — 要望を読んでカタログ上の天体IDを選ぶだけで、質量・半径・自転・軌道長半径・離心率はこのアプリに内蔵した検証済み定数、位置と初速はケプラーの決定的計算(近点配置+接線速度)で決まります。だから「木星と衛星」は🟠木星とガリレオ衛星(実単位)と同じ定数・同じ規約で生成されます。カタログに無い天体を頼まれた場合は、それらしい数値を作らずに「カタログ外」と答えます。「自由生成」は従来どおりAIが自由にプリセットを書く実験モードで、実在天体の精度は保証されません。",
-  aiModeCatalogList:(l)=>"カタログに入っている系: "+l,
-  // 第176便: 第3モード「観測採取(カタログ外)」— 出典つき観測転写からの決定的構築
-  aiModeObs:"観測採取(カタログ外)",
-  aiObsTitle:"観測採取(カタログ外・APIキー不要)",
-  aiObsSum:"手順",
-  aiObsNote:"①「採取用プロンプトをコピー」を押し、Claude・ChatGPT・Gemini などのAIチャットへ貼り付けて、作りたい系(例: 冥王星とカロン)を指定します ②AIは**観測値の転写器**として振る舞い、出典URLと取得日つきの ObservationRecord 配列だけを返します(記憶で埋めた値・出典の無い値・SI以外の単位はアプリが拒否します) ③返ってきたJSONをこの欄へ貼り付け、「検証する」で単位・出典・必須量を機械検査します ④「構築して保存」で、単位換算・スケール指数・配置・初速・qLock の q・共有補正 D₀ をアプリの決定的関数が計算し、生成直後に自己診断(複製状態で短い試走 → 各衛星の推定周期が観測周期の ±1%)を行います。**外れたら採用しません** — 合わせ込みのフィットはせず、単位の写し間違いを疑って差し戻します。カタログに載っている6系はカタログモードのほうが正確です(そちらが優先)。",
-  aiObsPh:"ObservationRecord の JSON 配列をここへ貼り付け",
-  btnObsPromptCopy:"採取用プロンプトをコピー",
-  btnObsCheck:"検証する", btnObsBuild:"構築して保存",
+  // 第178便: 生成モード(第170/176便)の分岐は撤去 — 自由生成へ一本化。モード関連のラベルは
+  // 役目を終えたので削除し、貼付欄1本の導線に置き換える(カタログ・レコードの機構自体は温存)
   obsHeadTable:"出典表(そのまま description に収載されます)",
   obsHeadNotes:"宣言する理想化・降格",
   obsHeadDiag:(n)=>"自己診断("+n+"步の試走・許容 ±1%)",
@@ -999,29 +979,69 @@ ja: {
   obsBuildNg:"構築しませんでした",
   obsScaleRow:(u,c,d,t)=>u+" / camera.scale="+c+" / dispMag="+d+" / timeScale="+t,
   obsDiagRow:(n,e,o,r)=>n+": 推定周期 "+e+" / 観測 "+o+" (単位時間) → "+r,
-  astroOutOfCatalog:(r,l)=>"カタログ外の要求です"+(r?"("+r+")":"")+"。実在天体の数値をAIに作らせない方針のため、この系は生成しません。カタログに入っている系: "+l+"。実験系を作りたい場合は生成モードを「自由生成」にしてください。",
+  astroOutOfCatalog:(r,l)=>"カタログ外の要求です"+(r?"("+r+")":"")+"。実在天体の数値をAIに作らせない方針のため、この系は生成しません。カタログに入っている系: "+l,
   astroBuilt:(s,n)=>"実天体カタログから生成: "+s+"("+n+"天体)",
+  // ---- 第178便: 貼付欄1本(形状自動判別)+整形・安定化パス ----
+  aiPastePh:"AIの返答をそのままここへ貼り付け(プリセットJSON / 観測レコード配列のどちらでも可)",
+  aiKeplerLabel:"円軌道はケプラー速度で再導出する",
+  btnAiPaste:"貼り付けた内容を取り込む", btnAiPasteCheck:"検証のみ",
+  pasteEmpty:"AIの返答をこの欄へ貼り付けてください",
+  pasteParseNg:(e)=>"JSON として読めません — "+e,
+  pasteUnknown:"貼り付けた内容が、プリセットJSONでも観測レコード配列でもありません(先頭に説明文やコードフェンスが付いていても構いませんが、JSON本体が必要です)",
+  pasteCorrected:(f)=>"補正して読み込みました("+f+")— 数値は1つも書き換えていません",
+  pasteKindRecords:(nb,nr)=>"観測レコード配列と判定("+nb+"天体・"+nr+"行)",
+  pasteKindPreset:"プリセットJSONと判定",
+  pasteCheckOk:"検証 OK — 「貼り付けた内容を取り込む」で保存できます",
+  pasteSavedOk:(n)=>"取り込みました: "+n,
+  importIsRecords:"これは観測レコード(ObservationRecord 配列)です — AI追加タブの貼付欄へ貼り付けてください(プリセットのインポート欄では取り込めません)",
+  importCorrected:"(スマート引用符・全角記号などを補正して読み込みました)",
+  stabHeadChanges:"整形・安定化で変更した点(この一覧が全部です)",
+  stabHeadNotes:"触らなかった点・注意",
+  stabHeadDiag:(n)=>"自己診断("+n+"步の試走)",
+  stabNoChange:"変更点なし(そのまま取り込みました)",
+  stabKappa:(o,n)=>"κ(kappaT)を物理対応ロック κ=G/c₀² へ再導出: "+o+" → "+n,
+  stabKappaToy:(o,n)=>"κ="+o+" は G/c₀²="+n+" と一致しません(トイ設定として尊重し、変更していません)",
+  stabScaleExp:(l,t,m)=>"scaleExp が規約(L−T=4・M+2T−3L=11)から外れています: L="+l+"・T="+t+"・M="+m+" → 提案 T="+(l-4)+"・M="+(l+19)+"(自動では変更しません)",
+  stabKepFix:(n,r,o,k)=>n+": 距離 "+r+" の円軌道として速度を再導出 "+o+" → "+k,
+  stabKepSkipReal:"実較正の宣言(fidelity:\"real\"・scaleExp)があるサンプルなので、ケプラー再導出は行いません",
+  stabKepSkipShape:"中心+周回体の配置と判定できないので、ケプラー再導出は行いません",
+  stabKepSkipField:"一様重力場・G=0 の系なので、ケプラー再導出は行いません",
+  stabKepSkipCenter:"支配的な中心天体(次に重い天体の20倍以上)が無いので、ケプラー再導出は行いません",
+  stabKepSkipEcc:(n)=>n+": 速度に動径成分があり楕円・自由運動の可能性があるので触りません",
+  stabKepSkipBound:(n,r)=>n+": 束縛楕円の帯(v/v_circ="+r+" < √2)なので作者の意図とみなし触りません",
+  stabKepOff:"ケプラー再導出はOFFです(チェックボックス)",
+  stabCam:(o,n)=>"camera.scale を配置の広がりに合わせて調整: "+o+" → "+n,
+  stabSoft:(o,n)=>"softening を最内軌道に合わせて調整: "+o+" → "+n,
+  stabTime:(o,n,s)=>"timeScale を調整(最内公転が実時間で約"+s+"秒に): "+o+" → "+n,
+  stabNaN:(n)=>n+"步の試走で NaN が出ました — 採用しません",
+  stabDiverge:(r,c)=>"試走で位置が発散しました(最大距離 "+r+" > camera.scale×"+c+")— 採用しません",
+  stabEscape:(c)=>"試走で全粒子が画面外へ脱出しました(全天体が camera.scale×"+c+"より外)— 採用しません",
+  stabRejected:"自己診断に通らなかったので取り込みません(理由は下記)",
   aiBaseLabel:"ベースのサンプル(任意)", aiBaseNone:"なし(要望だけで生成)",   // 第26便
-  aiBaseNote:"ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの lightSweep や ⚫のコアv2 core:{}・📡の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信されます。",
+  aiBaseNote:"ベースを選ぶと、そのサンプルのJSONを土台に要望どおり改変して生成します(🕶️ダークローターの lightSweep や ⚫のコアv2 core:{}・📡の zonal など、参考サンプルの構成をそのまま引き継げます)。選択したベースのJSON(カスタムプリセット含む)は、生成時に選択中のAIプロバイダへ送信され、コピーするプロンプトにも**少数ショット例**として埋め込まれます(未選択のときは現在読み込んでいるサンプルを例に使います — 例の質が生成JSONの質をいちばん左右します)。実在の天体を作りたいときも、ここで近いスケールのサンプルを選んでください。",
   aiBaseNoteSum:"ベースのサンプル",   // 第36便 B4(原仮定者指示): 折畳み見出し
   aiPromptPh:"例: 3つの恒星が絡み合う三体問題。まわりに塵の環も欲しい",
   // 第32便 W4(台帳4-58): 送信内容の事前確認
   aiPreviewSum:"送信内容を確認(実際に送るテキスト)",
   aiPreviewNote:"APIへ送信されるのはここに表示された内容+システムプロンプト。キーと共に選択AI事業者へ送られる。",
   aiPreviewSys:(n,head)=>"システムプロンプト: "+n+"文字(先頭200字): "+head+"…",
-  // 第170便: カタログモードでは自由生成の仕様(SYSTEM_PROMPT)は送らない。両方の字数を明示する
-  aiPreviewSysAstro:(a,n,head)=>"実天体カタログモード: 送るシステムプロンプトはカタログ仕様 "+a+"文字のみです(自由生成の仕様 "+n+"文字は送りません)。カタログ仕様 先頭200字: "+head+"…",
   // 第102便: 外部AIチャット経路(APIキー不要のプロンプトコピー)
   // 第103便: 独立グループ化(aiExtTitle)+手順のみ折畳み+短縮版(仕様書リンク参照)
   aiExtTitle:"外部AIチャットで生成(APIキー不要)",
   aiExtSum:"手順",
-  aiExtNote:"①上の「新しいシミュレーションを生成」でベースのサンプル・要望を書き、「生成用プロンプトをコピー」を押す ②Claude・ChatGPT・Gemini などのAIチャットへ貼り付けて送信 ③返ってきたJSONをコピーし、セーブタブの「インポート」欄へ貼り付けて取り込む(```コードフェンスや前後の説明文・複数案・末尾カンマ・スマート引用符“”は自動で処理されます)。APIキーをアプリへ入れずにAI生成を使えます。「短縮版をコピー」は仕様書を公開URLへのリンク参照にした短いプロンプトで、Web閲覧(ブラウジング)ができるAIチャット向けです。",
+  aiExtNote:"①上の「新しいシミュレーションを生成」でベースのサンプル(=少数ショット例)と要望を書き、「生成用プロンプトをコピー」を押す ②Claude・ChatGPT・Gemini などのAIチャットへ貼り付けて送信 ③返ってきた答えを**そのまま下の貼付欄へ**貼り付けて「取り込む」を押す(```コードフェンスや前後の説明文・複数案・末尾カンマ・スマート引用符“”・全角記号は自動で処理されます)。返答がプリセットJSONでも観測レコード配列でも、アプリが形を自動判別して適切な経路で取り込みます。APIキーをアプリへ入れずにAI生成を使えます。「短縮版をコピー」は仕様書を公開URLへのリンク参照にした短いプロンプトで、Web閲覧(ブラウジング)ができるAIチャット向けです — 中身の骨格は「生成用プロンプト」と同じです。",
   btnExtCopy:"生成用プロンプトをコピー",
   btnExtCopyShort:"短縮版をコピー",
-  aiExtHead:"あなたはこれから、ブラウザで動く『仮想物理ラボ』のシミュレーション設定JSONを作ります。下記の仕様に従い、最後の要望に合うプリセットJSONを1つだけ出力してください。",
-  aiExtHeadShort:(u)=>"あなたはこれから、ブラウザで動く『仮想物理ラボ』のシミュレーション設定JSONを作ります。まず仕様書 "+u+" を読んでください(取得できない場合は、その旨だけを答えて中断してください)。その仕様に従い、下の要望に合うプリセットJSONを1つだけ出力してください。",
+  aiExtHead:"あなたはこれから、ブラウザで動く『仮想物理ラボ』へ読み込ませるデータを作ります。下記の仕様に従い、最後の要望に合う出力を1つだけ返してください(出力の選び方は「# 出力の使い分け」に従うこと)。",
+  aiExtHeadShort:(u)=>"あなたはこれから、ブラウザで動く『仮想物理ラボ』へ読み込ませるデータを作ります。まず仕様書 "+u+" を読んでください(取得できない場合は、その旨だけを答えて中断してください)。その仕様と下記に従い、最後の要望に合う出力を1つだけ返してください(出力の選び方は「# 出力の使い分け」に従うこと)。",
   aiExtReqHead:"# 要望",
   aiExtReqPh:"(ここに作りたいシミュレーションの説明を書く)",
+  // 第178便: 単一プロンプトの共通節(内蔵実天体プリセットの一覧・少数ショット例の位置づけ)
+  aiExtBuiltinHead:"# 内蔵の実天体サンプル(これに合致する要望は生成しない)",
+  aiExtBuiltinNote:"要望がこの一覧の系に合致する場合は、JSONを作らず「アプリのサンプル一覧にある『<名前>』をお使いください」と1行で案内してください(内蔵サンプルのほうが検証済みで正確です)。",
+  aiExtExBase:"# 例(利用者が選んだベースのサンプル — この流儀・桁・キー構成に合わせること)\n要望と無関係な構成・数値は維持し、ベースに存在しないキーを発明せず、要望の実現に必要な項目だけを変更してください(seed があれば維持)。",
+  aiExtExCur:"# 例(いま読み込まれているサンプル — 出力の流儀・桁・キー構成の手本)\nこれは手本であって土台ではありません。要望に合わせて構成は自由に変えて構いませんが、キーの綴り・単位の桁感・記法はこの例に合わせてください。",
+  aiExtExSkip:"# 例\n(ベースのサンプルが大きすぎるため省略しました。仕様書の例に従ってください)",
   retryFixMsg:(f)=>"あなたの出力に検証エラーがあります: "+f+"。同じ要望に対し、エラーを修正した完全なJSONを出力してください。",
   apiKeyPh:"APIキー",
   keySet:"キーを設定しました", keySetSaved:"キーを設定しました(この端末に保存)", keyCleared:"キーを消去しました",
@@ -1493,19 +1513,8 @@ en: {
   aiKeyNote:"Your key is used only on this device and sent only to the API endpoint you select or configure (with the OpenAI-compatible option it is sent to the base URL you enter — always verify that URL). With the checkbox OFF it is kept in memory only (cleared when the tab closes). Entering API keys in a browser carries risk; use a dedicated key with a spending limit.",
   aiKeyNoteSum:"Key storage",   // 第36便 B4
   aiGenHead:"Generate a new simulation", btnGenerate:"Generate", aiListHead:"Generated presets",
-  // Wave 170: generation mode (default = the real-body catalogue)
-  aiModeLabel:"Generation mode", aiModeCatalog:"Real-body catalogue (recommended)", aiModeFree:"Free generation (experimental systems)",
-  aiModeNoteSum:"Generation mode",
-  aiModeNote:"In \"Real-body catalogue\" mode the AI invents NO numbers: it only reads your request and picks catalogue body IDs. The masses, radii, spins, semi-major axes and eccentricities come from verified constants built into this app, and the positions and initial speeds come from a deterministic Kepler construction (perihelion placement plus tangential speed). That is why \"Jupiter and its moons\" is generated with exactly the constants and conventions of 🟠 Jupiter & the Galilean Moons (Real Units). If you ask for a body that is not in the catalogue, the app says so instead of inventing plausible-looking numbers. \"Free generation\" is the previous mode, where the AI writes the preset freely — real-body accuracy is not guaranteed there.",
-  aiModeCatalogList:(l)=>"Systems in the catalogue: "+l,
-  // Wave 176: third mode "Observation transcription (outside the catalogue)"
-  aiModeObs:"Observation transcription (outside the catalogue)",
-  aiObsTitle:"Observation transcription (outside the catalogue, no API key)",
-  aiObsSum:"How to use",
-  aiObsNote:"1) Press \"Copy collection prompt\", paste it into an AI chat (Claude, ChatGPT, Gemini, \u2026) and name the system you want (e.g. Pluto and Charon). 2) The AI acts as a TRANSCRIBER OF OBSERVATIONS and returns nothing but an array of ObservationRecords, each carrying a source URL and a retrieval date (values filled from memory, values without a source, and non-SI units are rejected by the app). 3) Paste the JSON here and press \"Validate\" to machine-check units, sources and the mandatory quantities. 4) \"Build and save\" lets the app\u2019s deterministic functions compute the unit conversion, the scale exponents, the placement, the initial speeds, the qLock falloff q and the shared correction D\u2080, then runs a self-check immediately (a short trial run on a duplicate state; every satellite\u2019s estimated period must land within \u00b11% of the transcribed observed period). If it misses, the system is NOT adopted \u2014 nothing is fitted to make it land; the records are sent back for a unit-transcription check. For the six systems already in the catalogue, the catalogue mode is more accurate and takes precedence.",
-  aiObsPh:"Paste the ObservationRecord JSON array here",
-  btnObsPromptCopy:"Copy collection prompt",
-  btnObsCheck:"Validate", btnObsBuild:"Build and save",
+  // Wave 178: the generation-mode split (waves 170/176) is retired — the AI tab has one
+  // free-generation path; the catalogue / ObservationRecord machinery is kept as an internal asset
   obsHeadTable:"Source table (carried verbatim into the description)",
   obsHeadNotes:"Declared idealizations and degradations",
   obsHeadDiag:(n)=>"Self-check ("+n+"-step trial run, tolerance \u00b11%)",
@@ -1518,29 +1527,69 @@ en: {
   obsBuildNg:"Not built",
   obsScaleRow:(u,c,d,t)=>u+" / camera.scale="+c+" / dispMag="+d+" / timeScale="+t,
   obsDiagRow:(n,e,o,r)=>n+": estimated period "+e+" / observed "+o+" (time units) \u2192 "+r,
-  astroOutOfCatalog:(r,l)=>"That request is outside the catalogue"+(r?" ("+r+")":"")+". Since the AI is not allowed to invent numbers for real bodies, this system is not generated. Systems in the catalogue: "+l+". To build an experimental system, switch the generation mode to \"Free generation\".",
+  astroOutOfCatalog:(r,l)=>"That request is outside the catalogue"+(r?" ("+r+")":"")+". Since the AI is not allowed to invent numbers for real bodies, this system is not generated. Systems in the catalogue: "+l,
   astroBuilt:(s,n)=>"Built from the real-body catalogue: "+s+" ("+n+" bodies)",
   aiBaseLabel:"Base sample (optional)", aiBaseNone:"None (generate from the request only)",
-  aiBaseNote:"Pick a base to have the AI modify that sample's JSON to your request \u2014 reference structures (\ud83d\udd76\ufe0f dark-rotor lightSweep, \u26ab core:{} (Core v2), \ud83d\udce1 zonal, etc.) carry over. The selected base JSON (including custom presets) is sent to the currently selected AI provider on generation.",
+  aiBaseNote:"Pick a base to have the AI modify that sample's JSON to your request \u2014 reference structures (\ud83d\udd76\ufe0f dark-rotor lightSweep, \u26ab core:{} (Core v2), \ud83d\udce1 zonal, etc.) carry over. The selected base JSON (including custom presets) is sent to the currently selected AI provider on generation, and is embedded in the copied prompt as the FEW-SHOT EXAMPLE (with nothing selected, the sample currently loaded is used instead \u2014 the quality of that example is what drives the quality of the generated JSON most). Pick the sample closest in scale when you want a real astronomical system too.",
   aiBaseNoteSum:"Base sample",   // Wave 36 B4
   aiPromptPh:"e.g. A chaotic three-star system with a ring of dust around it",
   // 第32便 W4(4-58): preview exactly what will be sent
   aiPreviewSum:"Preview exactly what will be sent",
   aiPreviewNote:"What is sent to the API is the text shown here plus the system prompt. It is sent, together with your key, to the AI provider you selected.",
   aiPreviewSys:(n,head)=>"System prompt: "+n+" chars (first 200): "+head+"…",
-  // Wave 170: in catalogue mode the free-generation spec (SYSTEM_PROMPT) is NOT sent
-  aiPreviewSysAstro:(a,n,head)=>"Real-body catalogue mode: the only system prompt sent is the catalogue spec ("+a+" chars); the free-generation spec ("+n+" chars) is not sent. Catalogue spec, first 200: "+head+"…",
   // 第102便: external AI chat path (copy prompt, no API key)
   // 第103便: own group (aiExtTitle) + collapsed steps only + short version (spec by link)
   aiExtTitle:"Generate via an external AI chat (no API key)",
   aiExtSum:"How to use",
-  aiExtNote:"1) Write your base sample / request in \"Generate a new simulation\" above, then press \"Copy generation prompt\". 2) Paste it into an AI chat (Claude, ChatGPT, Gemini, …) and send. 3) Copy the JSON from the reply and paste it into the Import box on the Saves tab (```code fences, surrounding text, multiple candidates, trailing commas and smart quotes are handled automatically). Lets you use AI generation without entering an API key into the app. \"Copy short version\" replaces the inline specification with a link to the published spec — for AI chats that can browse the web.",
+  aiExtNote:"1) Write your base sample (= the few-shot example) and your request in \"Generate a new simulation\" above, then press \"Copy generation prompt\". 2) Paste it into an AI chat (Claude, ChatGPT, Gemini, …) and send. 3) Paste the reply AS IT IS into the box below and press \"Import what you pasted\" (```code fences, surrounding text, multiple candidates, trailing commas, smart quotes and full-width punctuation are handled automatically). Whether the reply is a preset JSON or an array of ObservationRecords, the app detects the shape and takes the matching path. Lets you use AI generation without entering an API key into the app. \"Copy short version\" replaces the inline specification with a link to the published spec — for AI chats that can browse the web; its skeleton is identical to the full prompt.",
   btnExtCopy:"Copy generation prompt",
   btnExtCopyShort:"Copy short version",
-  aiExtHead:"You are about to write a simulation preset JSON for the browser app \"Virtual Physics Lab\". Follow the specification below and output exactly one preset JSON that fulfils the request at the end.",
-  aiExtHeadShort:(u)=>"You are about to write a simulation preset JSON for the browser app \"Virtual Physics Lab\". First read the specification at "+u+" (if you cannot fetch it, just say so and stop). Then follow that specification and output exactly one preset JSON for the request below. Write the \"name\" and \"description\" fields in English.",
+  aiExtHead:"You are about to produce data to be loaded into the browser app \"Virtual Physics Lab\". Follow the specification below and return exactly ONE output that fulfils the request at the end (choose which kind of output per \"# WHICH OUTPUT TO RETURN\").",
+  aiExtHeadShort:(u)=>"You are about to produce data to be loaded into the browser app \"Virtual Physics Lab\". First read the specification at "+u+" (if you cannot fetch it, just say so and stop). Then follow that specification and the rules below, and return exactly ONE output for the request at the end (choose which kind of output per \"# WHICH OUTPUT TO RETURN\"). Write the \"name\" and \"description\" fields in English.",
   aiExtReqHead:"# Request",
   aiExtReqPh:"(describe the simulation you want here)",
+  // Wave 178: shared sections of the single prompt (built-in real-body list, few-shot example)
+  aiExtBuiltinHead:"# BUILT-IN REAL-BODY SAMPLES (do not generate these)",
+  aiExtBuiltinNote:"If the request matches a system in this list, do NOT write any JSON: answer in one line, \"please use the built-in sample <name> from the app's sample list\" (the built-in samples are verified and more accurate).",
+  aiExtExBase:"# EXAMPLE (the base sample the user selected \u2014 match this style, magnitude and key set)\nKeep the structure and values the request does not ask to change, do not invent keys that are absent from the base, change only what the request requires, and keep the seed if present.",
+  aiExtExCur:"# EXAMPLE (the sample currently loaded \u2014 a model for the style, magnitudes and key set)\nThis is a model, not a base. You may restructure freely for the request, but match the key spelling, the magnitude conventions and the notation of this example.",
+  aiExtExSkip:"# EXAMPLE\n(omitted \u2014 the base sample is too large; follow the examples in the specification)",
+  // Wave 178: one paste box (shape auto-detection) + the deterministic stabilization pass
+  aiPastePh:"Paste the AI's reply here as it is (a preset JSON or an array of ObservationRecords)",
+  aiKeplerLabel:"Re-derive circular orbits at Kepler speed",
+  btnAiPaste:"Import what you pasted", btnAiPasteCheck:"Validate only",
+  pasteEmpty:"Paste the AI's reply into this box",
+  pasteParseNg:(e)=>"Not readable as JSON \u2014 "+e,
+  pasteUnknown:"What you pasted is neither a preset JSON nor an array of ObservationRecords (surrounding prose and code fences are fine, but the JSON body itself must be there)",
+  pasteCorrected:(f)=>"Read after correction ("+f+") \u2014 not one number was altered",
+  pasteKindRecords:(nb,nr)=>"Detected as an ObservationRecord array ("+nb+" bodies, "+nr+" rows)",
+  pasteKindPreset:"Detected as a preset JSON",
+  pasteCheckOk:"Valid \u2014 press \"Import what you pasted\" to save it",
+  pasteSavedOk:(n)=>"Imported: "+n,
+  importIsRecords:"These are observation records (an ObservationRecord array) \u2014 paste them into the box on the AI tab; the preset import box cannot take them",
+  importCorrected:"(smart quotes / full-width punctuation were corrected on read)",
+  stabHeadChanges:"What the stabilization pass changed (this list is exhaustive)",
+  stabHeadNotes:"What it did NOT touch, and why",
+  stabHeadDiag:(n)=>"Self-check ("+n+"-step trial run)",
+  stabNoChange:"No changes (imported as it was)",
+  stabKappa:(o,n)=>"\u03ba (kappaT) re-derived to the correspondence lock \u03ba=G/c\u2080\u00b2: "+o+" \u2192 "+n,
+  stabKappaToy:(o,n)=>"\u03ba="+o+" does not match G/c\u2080\u00b2="+n+" (respected as a toy setting; not changed)",
+  stabScaleExp:(l,t,m)=>"scaleExp departs from the convention (L\u2212T=4, M+2T\u22123L=11): L="+l+", T="+t+", M="+m+" \u2192 suggested T="+(l-4)+", M="+(l+19)+" (not changed automatically)",
+  stabKepFix:(n,r,o,k)=>n+": speed re-derived as a circular orbit at r="+r+": "+o+" \u2192 "+k,
+  stabKepSkipReal:"The sample declares a real calibration (fidelity:\"real\" / scaleExp), so no Kepler re-derivation is done",
+  stabKepSkipShape:"The layout cannot be read as centre + orbiters, so no Kepler re-derivation is done",
+  stabKepSkipField:"Uniform gravity or G=0, so no Kepler re-derivation is done",
+  stabKepSkipCenter:"No dominant central body (\u226520\u00d7 the next heaviest), so no Kepler re-derivation is done",
+  stabKepSkipEcc:(n)=>n+": the velocity has a radial component (possibly elliptical or free motion) \u2014 left untouched",
+  stabKepSkipBound:(n,r)=>n+": inside the bound-ellipse band (v/v_circ="+r+" < \u221a2) \u2014 taken as the author's intent, left untouched",
+  stabKepOff:"Kepler re-derivation is OFF (checkbox)",
+  stabCam:(o,n)=>"camera.scale adjusted to the extent of the layout: "+o+" \u2192 "+n,
+  stabSoft:(o,n)=>"softening adjusted to the innermost orbit: "+o+" \u2192 "+n,
+  stabTime:(o,n,s)=>"timeScale adjusted (innermost orbit \u2248"+s+" s of wall time): "+o+" \u2192 "+n,
+  stabNaN:(n)=>"NaN appeared during the "+n+"-step trial run \u2014 not adopted",
+  stabDiverge:(r,c)=>"Positions diverged during the trial run (max distance "+r+" > camera.scale\u00d7"+c+") \u2014 not adopted",
+  stabEscape:(c)=>"Every particle left the frame during the trial run (all beyond camera.scale\u00d7"+c+") \u2014 not adopted",
+  stabRejected:"Not imported \u2014 it did not pass the self-check (reasons below)",
   retryFixMsg:(f)=>"Your output failed validation: "+f+". For the same request, output a complete corrected JSON.",
   apiKeyPh:"API key",
   keySet:"Key set", keySetSaved:"Key set (saved on this device)", keyCleared:"Key cleared",
@@ -6791,7 +6840,7 @@ const BUILTIN_PRESETS = [
     {type:"single", m:0.0000108, radius:0.252, x:119.0,y:206.1, vx:-1.0933,vy:0.6312, spin:0, pinned:false},
     {type:"single", m:0.0000617, radius:0.531, x:-147.3,y:255.1311, vx:-0.9825,vy:-0.5673, spin:0, pinned:false},   // 第172便: テティスの y を転記ずれの訂正で 255.2→255.1311(=294.6·sin120°。同じ literal の x=−147.3=294.6·cos120° と同一の幾何規則に戻すだけで、再較正ではない — 第170便 ai.placement-determinism が検出したずれ)
     {type:"single", m:0.0001095, radius:0.5615, x:-377.4,y:0, vx:0,vy:-1.0025, spin:0, pinned:false},
-    {type:"single", m:0.0002306, radius:0.7635, x:-263.6,y:-456.5, vx:0.7347,vy:-0.4242, spin:0, pinned:false},
+    {type:"single", m:0.0002306, radius:0.7635, x:-263.6,y:-456.5, vx:0.7347,vy:-0.42411098, spin:0, pinned:false},   // 第180便: レアの vy を転記ずれの訂正で −0.4242→−0.42411098(=√(GM/527.2)·cos240° の 8 桁丸め。同じ literal の x=−263.6=527.2·cos240° と同一の幾何・ケプラー規則に戻すだけで、再較正ではない — 第172便のテティス y 訂正(255.1311)と同種で、第170便 ai.placement-determinism の支配点だったもの)
     {type:"single", m:0.013452, radius:2.5747, x:611.0,y:-1058.2, vx:0.4825,vy:0.2786, spin:0.000456, pinned:false}
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:true} },
@@ -6911,7 +6960,7 @@ const BUILTIN_PRESETS = [
     {type:"single", m:0.0000108, radius:0.252, x:119.0,y:206.1, vx:-1.0933,vy:0.6312, spin:0, pinned:false},
     {type:"single", m:0.0000617, radius:0.531, x:-147.3,y:255.1311, vx:-0.9825,vy:-0.5673, spin:0, pinned:false},   // 第172便: テティスの y を転記ずれの訂正で 255.2→255.1311(=294.6·sin120°。同じ literal の x=−147.3=294.6·cos120° と同一の幾何規則に戻すだけで、再較正ではない — 第170便 ai.placement-determinism が検出したずれ)
     {type:"single", m:0.0001095, radius:0.5615, x:-377.4,y:0, vx:0,vy:-1.0025, spin:0, pinned:false},
-    {type:"single", m:0.0002306, radius:0.7635, x:-263.6,y:-456.5, vx:0.7347,vy:-0.4242, spin:0, pinned:false},
+    {type:"single", m:0.0002306, radius:0.7635, x:-263.6,y:-456.5, vx:0.7347,vy:-0.42411098, spin:0, pinned:false},   // 第180便: レアの vy を転記ずれの訂正で −0.4242→−0.42411098(=√(GM/527.2)·cos240° の 8 桁丸め。同じ literal の x=−263.6=527.2·cos240° と同一の幾何・ケプラー規則に戻すだけで、再較正ではない — 第172便のテティス y 訂正(255.1311)と同種で、第170便 ai.placement-determinism の支配点だったもの)
     {type:"single", m:0.013452, radius:2.5747, x:611.0,y:-1058.2, vx:0.4825,vy:0.2786, spin:0.000456, pinned:false}
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:true} },
@@ -8798,10 +8847,231 @@ function phaseEnergy(s){
   }
   return U;
 }
+// ============================================================================================
+// 第177便 P1-1(レビュー第5巡 / 原仮定者裁定「進める」)+ 第177b便(perf 回帰の補正):
+//   対ループの**特別化だけ**の切り出し
+// --------------------------------------------------------------------------------------------
+// 背景: 原仮定者の Windows Chrome 実機で 💿saturnRingRealKF1 が「時間経過倍率=1 でも歩数 44%」
+//   = **1步のコスト自体が予算級**。最有力原因は V8 が ~1400 行の単一関数 S._core を最適化
+//   しないこと(第39便 39B で「null↔TypedArray の型変化」を潰すためダミー TypedArray を置いた
+//   のと同じ、V8 の都合に合わせて**式を変えずに形だけ変える**系譜)。
+// 方針(**1步の浮動小数演算の集合と順序は 1 つも変えない**):
+//   ① 軌道系のフラグ組(kRep=0・muF=0・γN=0・κS=0・ηRad=0・tint なし・phase なし・
+//      コアv2 なし・箱なし・機構スペクトル OFF)だけを、**その死枝を 1 つも持たない**同一式の
+//      特別化カーネルへ回す(PN なし=pairCorePlain / E12 測地線 1PN あり=pairCorePN。
+//      geoPN=2 の ∇u ヤコビアン集積は pairCorePN 内の独立ブロックで、コア差動枝を持たない)。
+//      走査順(i, j=i+1)・括弧・加算順・Float32/Float64 の読み書き位置・Math.pow/Math.sqrt の
+//      呼び方は切り出し前の逐語コピーである。
+//   ② **特別化条件を満たさない宇宙(kKind=0 = generic)は従来どおり S._core 内のインライン
+//      対ループを通る**(root index.html の同区間の逐語コピー)。第177便は generic まで ctx
+//      (約85プロパティ)への書き込み+関数呼び出し経由へ移したため、1步あたりの固定
+//      オーバーヘッドが乗り、3体×120000步の perf.starSeed で beta/root の絶対 ms が
+//      +13〜19% の実回帰として顕在化した(4走行で再現)。第177b便でインライン復元。
+//   ③ カーネル選択は S._core の入口で 1 回だけ(= サブステップにつき 1 回)。**対ループの
+//      内側にはフラグ判定を 1 つも増やさない**。ctx への書き込みも kKind≠0 のときだけ行う。
+// S.radE / S.angOvfN / S.clampAN を触る枝(輻射・角オーバーフロー・加速度クランプ)は特別化の
+//   対象外フラグ組にしか現れないため、インライン generic が従来どおり S.radE 等を直接更新する。
+// 開発フック: kernelForceGeneric(既定 OFF)を立てると常に kKind=0 = インライン generic を通る。
+//   QA kernel.bitident が「generic 強制」と「通常経路」の**全状態ビット一致**を機械照合する
+//   ための口で、判定式・既定挙動・外部 API には一切影響しない。
+// 特別化の**非**対象(= インライン generic を通る)例: ♨️convection・🌌galaxy・🥚selfRotor・
+//   ⚫bhCore・💧gas・🌟starSeed など、斥力・摩擦・拡散・内部温度・相変化・コアv2・箱を使う宇宙。
+// ============================================================================================
+let kernelForceGeneric=false;   // 第177便: 開発フック(既定 OFF)。QA kernel.bitident 専用
+function setKernelForceGeneric(v){ kernelForceGeneric=!!v; }
+// 特別化カーネル(pairCorePlain / pairCorePN)が読むフィールドだけを持つ形状固定の ctx。
+// generic はインライン(S._core 内)のままなので generic 専用フィールドは持たない(第177b便)。
+function newPairCtx(){ return { n:null, m:null, x:null, y:null, vx:null, vy:null, spin:null, R:null,
+    pinned:null, ax:null, ay:null, sumW:null, uAx:null, uAy:null, pairD:null,
+    eps:null, eps2:null, G:null, q:null, ckF:null, ccF:null, Imom:null, kickDt:null,
+    invC2:null, pnA:null, pnK:null, pnOv:null, geo2:null, g2on:null, kFrame:null,
+    dPxx:null, dPxy:null, dPyx:null, dPyy:null, dWxA:null, dWyA:null,
+    kHasU:null, kUPx:null, kUPy:null }; }
+
+// ---- 特別化①(kKind=1): 軌道系・PN なし ----
+function pairCorePlain(C){
+  const n=C.n, m=C.m, x=C.x, y=C.y, vx=C.vx, vy=C.vy,
+        spin=C.spin, R=C.R, pinned=C.pinned, ax=C.ax, ay=C.ay, sumW=C.sumW,
+        uAx=C.uAx, uAy=C.uAy, pairD=C.pairD,
+        eps2=C.eps2, G=C.G, q=C.q, ckF=C.ckF, ccF=C.ccF;
+  let pk=0;
+  for(let i=0;i<n;i++){
+    const mi=m[i], Ri=R[i], si=spin[i];
+    const xi=x[i], yi=y[i];
+    for(let j=i+1;j<n;j++,pk++){
+      const dx=xi-x[j], dy=yi-y[j];
+      const d2=dx*dx+dy*dy, d=Math.sqrt(d2);
+      pairD[pk]=d;                          // E6′反作用パスで再利用
+      const mj=m[j], Rj=R[j], sj=spin[j];
+      // E1′ 決定力 w = m/√(d²+ε²)(v1.5: Plummer型)
+      const invW=1/Math.sqrt(d2+eps2);
+      // E4 重力(ソフトニング付き逆二乗)。invd3=invW³
+      const invd3=invW*invW*invW;
+      const fg=G*invd3;
+      ax[i]-=fg*mj*dx; ay[i]-=fg*mj*dy;
+      ax[j]+=fg*mi*dx; ay[j]+=fg*mi*dy;
+      const wj=mj*invW, wi=mi*invW;
+      sumW[i]+=wj; sumW[j]+=wi;
+      // E2/E3 フレーム速度への寄与(並進 + スピン回転 ẑ×(r−r_j)=(−dy,dx))
+      // コアv2 差動の枝は持たない(hasCoreV2=false が特別化の前提)
+      let omj=0, omi=0;
+      if(sj!==0){ const tt=Rj/(Rj+d); omj = (q===2)? sj*tt*tt : sj*Math.pow(tt,q); }
+      if(si!==0){ const tt=Ri/(Ri+d); omi = (q===2)? si*tt*tt : si*Math.pow(tt,q); }
+      uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));
+      uAx[j]+=wi*(vx[i]+omi*(dy));  uAy[j]+=wi*(vy[i]+omi*(-dx));
+      // E9 接触(重なり)— 法線ばねのみ。muF=0・γn=0 が特別化の前提なので、非保存インパルス
+      // (γn 減衰・接線摩擦・A12′ 帳簿)の枝は持たない
+      const sumR=Ri+Rj;
+      if(d<sumR && d>1e-9){
+        const nxv=dx/d, nyv=dy/d;           // n̂ (j→i)
+        const invMi=pinned[i]?0:1/mi, invMj=pinned[j]?0:1/mj;
+        const msum=mi+mj;
+        const muM=(Math.abs(msum)>1e-9)? mi*mj/msum : 0;   // 第12便: 負質量実験時の0除算保護
+        let Fs=ckF*(sumR-d)*muM;   // 第96便: contactK(既定40)
+        const maxInv=Math.max(invMi,invMj);
+        if(maxInv>0 && Fs*maxInv>ccF) Fs=ccF/maxInv;   // 第96便: contactCap(既定8)
+        ax[i]+=Fs*nxv*invMi; ay[i]+=Fs*nyv*invMi;
+        ax[j]-=Fs*nxv*invMj; ay[j]-=Fs*nyv*invMj;
+      }
+    }
+  }
+}
+
+// ---- 特別化②(kKind=2): 軌道系・E12 測地線 1PN あり(geoPN=2 では ∇u 集積も持つ)----
+function pairCorePN(C){
+  const n=C.n, m=C.m, x=C.x, y=C.y, vx=C.vx, vy=C.vy,
+        spin=C.spin, R=C.R, pinned=C.pinned, ax=C.ax, ay=C.ay, sumW=C.sumW,
+        uAx=C.uAx, uAy=C.uAy, pairD=C.pairD,
+        eps2=C.eps2, G=C.G, q=C.q, ckF=C.ckF, ccF=C.ccF;
+  const Imom=C.Imom, invC2=C.invC2, pnA=C.pnA, pnK=C.pnK, pnOv=C.pnOv, eps=C.eps,
+        geo2=C.geo2, g2on=C.g2on, kFrame=C.kFrame, kickDt=C.kickDt,
+        kHasU=C.kHasU, kUPx=C.kUPx, kUPy=C.kUPy,
+        dPxx=C.dPxx, dPxy=C.dPxy, dPyx=C.dPyx, dPyy=C.dPyy, dWxA=C.dWxA, dWyA=C.dWyA;
+  let pk=0;
+  for(let i=0;i<n;i++){
+    const mi=m[i], Ri=R[i], si=spin[i];
+    const xi=x[i], yi=y[i];
+    for(let j=i+1;j<n;j++,pk++){
+      const dx=xi-x[j], dy=yi-y[j];
+      const d2=dx*dx+dy*dy, d=Math.sqrt(d2);
+      pairD[pk]=d;                          // E6′反作用パスで再利用
+      const mj=m[j], Rj=R[j], sj=spin[j];
+      // E1′ 決定力 w = m/√(d²+ε²)(v1.5: Plummer型)
+      const invW=1/Math.sqrt(d2+eps2);
+      // E4 重力(ソフトニング付き逆二乗)。invd3=invW³
+      const invd3=invW*invW*invW;
+      const fg=G*invd3;
+      ax[i]-=fg*mj*dx; ay[i]-=fg*mj*dy;
+      ax[j]+=fg*mi*dx; ay[j]+=fg*mi*dy;
+      const wj=mj*invW, wi=mi*invW;
+      sumW[i]+=wj; sumW[j]+=wi;
+      // E12 測地線1PN補正(generic と 1 文字も違わない式。geo は選択側で真と確定済み)
+      if(invC2>0){
+        const cA=1+2*pnA, cB=pnA-0.5;
+        if((pnOv[j]||mj>=pnK*Math.max(Rj,eps)) && !pinned[i]){
+          const Uj=G*mj*invW, gux=-fg*mj*dx, guy=-fg*mj*dy;
+          const wxi=(geo2&&kHasU[i])? vx[i]-kFrame*kUPx[i] : vx[i],
+                wyi=(geo2&&kHasU[i])? vy[i]-kFrame*kUPy[i] : vy[i];
+          const v2i=wxi*wxi+wyi*wyi, dU=gux*wxi+guy*wyi;
+          const pnx=invC2*((cB*v2i-cA*Uj)*gux - cA*dU*wxi),
+                pny=invC2*((cB*v2i-cA*Uj)*guy - cA*dU*wyi);
+          ax[i]+=pnx; ay[i]+=pny;
+          if(geo2 && !pinned[j]){   // 第69便 P4b: 反作用返し(§18.4)
+            ax[j]-=pnx*mi/mj; ay[j]-=pny*mi/mj;
+            const IJ=Imom[i]+Imom[j];
+            if(Math.abs(IJ)>1e-9){
+              const dsn=mi*(dx*pny-dy*pnx)/IJ;
+              spin[i]-=dsn*kickDt; spin[j]-=dsn*kickDt;
+            }
+          }
+        }
+        if((pnOv[i]||mi>=pnK*Math.max(Ri,eps)) && !pinned[j]){
+          const Ui=G*mi*invW, gux=fg*mi*dx, guy=fg*mi*dy;   // j から見た ∇U(符号反転)
+          const wxj=(geo2&&kHasU[j])? vx[j]-kFrame*kUPx[j] : vx[j],
+                wyj=(geo2&&kHasU[j])? vy[j]-kFrame*kUPy[j] : vy[j];
+          const v2j=wxj*wxj+wyj*wyj, dU=gux*wxj+guy*wyj;
+          const pnx=invC2*((cB*v2j-cA*Ui)*gux - cA*dU*wxj),
+                pny=invC2*((cB*v2j-cA*Ui)*guy - cA*dU*wyj);
+          ax[j]+=pnx; ay[j]+=pny;
+          if(geo2 && !pinned[i]){   // 第69便 P4b: 対反作用(上と対称 — 自由源 i へ)
+            ax[i]-=pnx*mj/mi; ay[i]-=pny*mj/mi;
+            const IJ=Imom[i]+Imom[j];
+            if(Math.abs(IJ)>1e-9){
+              const dsn=mj*(dy*pnx-dx*pny)/IJ;
+              spin[i]-=dsn*kickDt; spin[j]-=dsn*kickDt;
+            }
+          }
+        }
+      }
+      // E2/E3 フレーム速度への寄与(並進 + スピン回転 ẑ×(r−r_j)=(−dy,dx))
+      // コアv2 差動の枝は持たない(hasCoreV2=false が特別化の前提)
+      let omj=0, omi=0;
+      if(sj!==0){ const tt=Rj/(Rj+d); omj = (q===2)? sj*tt*tt : sj*Math.pow(tt,q); }
+      if(si!==0){ const tt=Ri/(Ri+d); omi = (q===2)? si*tt*tt : si*Math.pow(tt,q); }
+      uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));
+      uAx[j]+=wi*(vx[i]+omi*(dy));  uAy[j]+=wi*(vy[i]+omi*(-dx));
+      // ===== geoPN=2(E12v2)の ∇u 勾配集積 — コアv1/v2 差動枝を持たない同一式 =====
+      if(g2on){
+        const idd=(d>1e-9)? 1/d : 0;
+        let domj=0, domi=0;   // ∂ω/∂d(基底のみ)
+        // 第177便(統括裁定 2026-08-23「案1 承認」): **完全同一値の再計算除去**。
+        // 旧: o0=(q===2)? sj*tt*tt : sj*Math.pow(tt,q)(tt=Rj/(Rj+d))を ∂ω/∂d のために
+        // もう一度作っていたが、これは直上の ω ブロックが作った omj と**同一入力・同一式**である
+        // (本カーネルは hasCoreV2=false が前提なのでコア差動の加算項が無く、omj は基底 ω そのもの)。
+        // したがって omj を使い回しても残る演算の被演算子・加算順・丸めは一切変わらず、**値は
+        // 1 bit も変わらない**(generic は旧実装の忠実な参照経路として逐語のまま — 触っていない。
+        // 等価性の最終裁定者は QA kernel.bitident: generic 強制との一致に加え、改修前 HTML との
+        // 全状態ビット一致を步数 {1,10,100,1000} で機械照合する)。
+        // 効果: 対あたりの Math.pow が 4 回 → 2 回。q が非整数の実単位系(💿 q=20.125…・
+        // 🌞 q=5.1・🟠 q=12.0586)では pow が 1步の約半分を占めていたため、ここが本丸である。
+        if(sj!==0){ domj-=q*omj/(Rj+d); }
+        if(si!==0){ domi-=q*omi/(Ri+d); }
+        { // i 側(源 j): r−r_j=(dx,dy)、c=(vx_j−ω_j·dy, vy_j+ω_j·dx)
+          const gwx=-mj*dx*invd3, gwy=-mj*dy*invd3;
+          const cxv=vx[j]+omj*(-dy), cyv=vy[j]+omj*(dx);
+          const nx=dx*idd, ny=dy*idd;
+          dPxx[i]+=gwx*cxv + wj*(-dy*domj*nx);
+          dPxy[i]+=gwy*cxv + wj*(-omj - dy*domj*ny);
+          dPyx[i]+=gwx*cyv + wj*( omj + dx*domj*nx);
+          dPyy[i]+=gwy*cyv + wj*( dx*domj*ny);
+          dWxA[i]+=gwx; dWyA[i]+=gwy;
+        }
+        { // j 側(源 i): r−r_i=(−dx,−dy)、c=(vx_i+ω_i·dy, vy_i−ω_i·dx)
+          const gwx=mi*dx*invd3, gwy=mi*dy*invd3;
+          const cxv=vx[i]+omi*(dy), cyv=vy[i]+omi*(-dx);
+          const nx=-dx*idd, ny=-dy*idd;
+          dPxx[j]+=gwx*cxv + wi*( dy*domi*nx);
+          dPxy[j]+=gwy*cxv + wi*(-omi + dy*domi*ny);
+          dPyx[j]+=gwx*cyv + wi*( omi - dx*domi*nx);
+          dPyy[j]+=gwy*cyv + wi*(-dx*domi*ny);
+          dWxA[j]+=gwx; dWyA[j]+=gwy;
+        }
+      }
+      // E9 接触(重なり)— 法線ばねのみ。muF=0・γn=0 が特別化の前提なので、非保存インパルス
+      // (γn 減衰・接線摩擦・A12′ 帳簿)の枝は持たない
+      const sumR=Ri+Rj;
+      if(d<sumR && d>1e-9){
+        const nxv=dx/d, nyv=dy/d;           // n̂ (j→i)
+        const invMi=pinned[i]?0:1/mi, invMj=pinned[j]?0:1/mj;
+        const msum=mi+mj;
+        const muM=(Math.abs(msum)>1e-9)? mi*mj/msum : 0;   // 第12便: 負質量実験時の0除算保護
+        let Fs=ckF*(sumR-d)*muM;   // 第96便: contactK(既定40)
+        const maxInv=Math.max(invMi,invMj);
+        if(maxInv>0 && Fs*maxInv>ccF) Fs=ccF/maxInv;   // 第96便: contactCap(既定8)
+        ax[i]+=Fs*nxv*invMi; ay[i]+=Fs*nyv*invMi;
+        ax[j]-=Fs*nxv*invMj; ay[j]-=Fs*nyv*invMj;
+      }
+    }
+  }
+}
+
 function makeSim(){
   const S = {
     n:0, t:0, params:Object.assign({},DEFAULT_PHYSICS),
     world:{boundary:"none",size:0}, rays:null, overlays:{},
+    // 第177便 P1-1: 対ループカーネルの引数コンテナ(形を固定するため S の生成時に宣言する)と
+    // 直近サブステップで選ばれたカーネル種別(0=generic / 1=plain / 2=pn — 観測専用)
+    _pkC:null, _kKind:0,
     m:null,x:null,y:null,vx:null,vy:null,spin:null,R:null, rotA:null,
     // 第81便: コアv1(比率仕様 coreMR/coreSR/coreRR)は廃止 — コアは v2(J_core 主変数の
     // 独立サブシステム)の1本になった。旧セーブ/旧プリセット JSON は読込時に移行式で v2 へ
@@ -10081,6 +10351,29 @@ function makeSim(){
       }
     }
     // ===== ① 全対ループ: E1決定力・E3フレーム・E4重力・E5′斥力・E9接触・E10′拡散 =====
+    // 第177便 P1-1 / 第177b便(補正): カーネル選択はサブステップにつき 1 回だけ行う。
+    // **特別化条件を満たさない宇宙(kKind=0)は従来どおり下のインライン対ループを通る**
+    // (root index.html の同区間の逐語コピー — インデントを含め 1 文字も変えていない)。
+    // ctx(C)への書き込みと小関数呼び出しは kKind≠0 のときだけ。設計と根拠はカーネル定義側の
+    // 見出しコメントを参照。軌道系のフラグ組(kRep=0・muF=0・γN=0・κS=0・ηRad=0・tint なし・
+    // phase なし・コアv2 なし・箱なし・機構スペクトル OFF)だけが特別化カーネルへ入る。
+    // kernelForceGeneric は QA kernel.bitident 用の開発フック(既定 OFF・判定へ無影響)
+    const kKind=(!kernelForceGeneric && kRep===0 && muF===0 && gammaN===0 && kappaS===0 &&
+                 etaRad===0 && !tint && !pc && !hasCoreV2 && !msOn && !B)? (geo?2:1) : 0;
+    S._kKind=kKind;
+    if(kKind!==0){
+      // 特別化カーネルが読む分だけを ctx へ書く(generic 専用フィールドは持たない)。
+      const C=S._pkC || (S._pkC=newPairCtx());
+      C.n=n; C.m=m; C.x=x; C.y=y; C.vx=vx;
+      C.vy=vy; C.spin=spin; C.R=R; C.pinned=pinned; C.ax=ax;
+      C.ay=ay; C.sumW=sumW; C.uAx=uAx; C.uAy=uAy; C.pairD=pairD;
+      C.eps=eps; C.eps2=eps2; C.G=G; C.q=q; C.ckF=ckF;
+      C.ccF=ccF; C.Imom=Imom; C.kickDt=kickDt; C.invC2=invC2; C.pnA=pnA;
+      C.pnK=pnK; C.pnOv=pnOv; C.geo2=geo2; C.g2on=g2on; C.kFrame=kFrame;
+      C.dPxx=dPxx; C.dPxy=dPxy; C.dPyx=dPyx; C.dPyy=dPyy; C.dWxA=dWxA;
+      C.dWyA=dWyA; C.kHasU=S.hasU; C.kUPx=S.uPx; C.kUPy=S.uPy;
+      if(kKind===1) pairCorePlain(C); else pairCorePN(C);
+    } else {
     let pk=0; // 対インデックス(pairD 書き込み位置)
     for(let i=0;i<n;i++){
       const mi=m[i], Ri=R[i], si=spin[i];
@@ -10446,6 +10739,8 @@ function makeSim(){
           }
         }
       }
+    }
+    // ---- ここまで root index.html の対ループ逐語コピー(QA kernel.bitident が機械照合)----
     }
     // ===== 第59便 59A(angK×bondN 併用 — 原仮定者指示「併用設計: 進める」)=====
     // 明示リンクの無い結合予算モードでは、対ループで記録した幾何近傍(angNbr — 井戸帯内・
@@ -16140,7 +16435,7 @@ function sanitizeLLMJSON(s){
           .replace(/(:\s*)(?:NaN|-?Infinity)\b/g,"$1 0");
 }
 function doImportText(text){
-  let d;
+  let d, corrected=false;
   try{ d=JSON.parse(text); }
   catch(e){
     // 第102便: 外部AIチャットの返答をそのまま貼れるよう、コードフェンス・前後説明文を除去して再試行。
@@ -16151,13 +16446,18 @@ function doImportText(text){
     //   最上位 {…}/[…] を列挙(複数JSONは最初に解釈できたもの) ③各候補は素のparse →
     //   サニタイズ(末尾カンマ除去・NaN/Infinity→null)の順に試す。正規のJSONは従来どおり素通し
     // 103A2: 先にスマート引用符等を正規化(釣り合い走査の文字列判定が " 前提のため入口で行う)
-    const cands=importCandidates(normalizeLLMText(text));
+    // 第178便: 正規化を normalizeIntakeText へ一本化(スマート一重引用符・全角の構造記号も対象。
+    // 全角→ASCII は**文字列リテラルの外だけ** — 説明文の全角は1文字も書き換えない)
+    const cands=importCandidates(normalizeIntakeText(text));
     for(const c of cands){
-      try{ d=JSON.parse(c); break; }catch(e1){}
-      try{ d=JSON.parse(sanitizeLLMJSON(c)); break; }catch(e2){}
+      try{ d=JSON.parse(c); corrected=true; break; }catch(e1){}
+      try{ d=JSON.parse(sanitizeLLMJSON(c)); corrected=true; break; }catch(e2){}
     }
-    if(d===undefined){ notify(T("importFailed"),3000); return; }
+    if(d===undefined){ notify(T("importFailed")+" / "+jsonPosInfo(normalizeIntakeText(text), e),6000); return; }
   }
+  // 第178便(実機の失敗②): レコード配列がプリセットのインポート欄へ来たら、**貼付先を案内して
+  // 差し戻す**(旧挙動は「追加0件/不正9件/name(文字列)が必要です」で原因が分からなかった)
+  if(detectPasteShape(d)==="records"){ notify(T("importIsRecords"),8000); return; }
   const co=coerceImport(d);
   if(!co){ notify(T("importFailed"),3000); return; }
   // v1.19(旧: ID重複でリネーム): パラメータが全く同じデータは取り込まない。
@@ -16245,7 +16545,8 @@ function doImportText(text){
   if(migFrom!==null){ noteMigration(migFrom); migNote=true; }
   else if(impMig){ noteMigration(impMig.fromSchema); migNote=true; }
   if(migNote) msg+=" / "+T("migratedNote");
-  notify(msg, (bad>0||migNote)?6000:3000);
+  if(corrected) msg+=" "+T("importCorrected");   // 第178便: 記号の補正で読めた場合は必ず告げる
+  notify(msg, (bad>0||migNote||corrected)?6000:3000);
 }
 $("#btnImport").addEventListener("click",()=>doImportText($("#ioArea").value));
 // v1.17: ファイルから読込 — 選択したJSONをテキストボックスへ反映してからインポート
@@ -16342,10 +16643,14 @@ function extractJSON(text){
   return t;
 }
 // UI言語が英語のときは name/description を英語で書かせる(few-shot は形式見本として共通)
+// 第178便: 一本化に伴い、**出力の使い分け(records 優先)と内蔵実天体一覧の共通節を常に付ける**。
+// アプリ内生成・生成用プロンプト・短縮版の3経路が同じ本文を配ることを構造で保証する
+// (buildRecordsClause / buildBuiltinListClause は下の AI セクションで定義)
 function getSystemPrompt(){
+  const tail="\n\n"+buildRecordsClause()+"\n\n"+buildBuiltinListClause();
   if(LANG==="en") return SYSTEM_PROMPT +
-    "\n\n# Language override\nWrite the \"name\" (max 30 chars) and \"description\" (max 200 chars) fields in English. All other rules are unchanged.";
-  return SYSTEM_PROMPT;
+    "\n\n# Language override\nWrite the \"name\" (max 30 chars) and \"description\" (max 200 chars) fields in English. All other rules are unchanged." + tail;
+  return SYSTEM_PROMPT + tail;
 }
 
 /* ===== 第170便(統括裁定 2026-08-22b §3a): 実天体カタログ + 決定的配置 ==================
@@ -16469,10 +16774,13 @@ const ASTRO_CATALOG = {
     // 第170便の reproTol=3e-4 の支配点はテティスの y だった(出典 saturnRingReal の literal 255.2 が
     // 同じ literal の x=−147.3=294.6·cos120° と整合する幾何値 294.6·sin120°=255.1311 から 0.069 ずれ、
     // 相対 2.70e-4)。**第172便でその転記ずれを出典プリセット側で訂正した**(255.2→255.1311 —
-    // 再較正ではなく、x と同一の幾何規則へ戻しただけ)。以後の支配点はレアの vy(literal −0.4242 vs
-    // 幾何値 −0.42411098 = 相対 2.10e-4)で、これは出典 literal の4桁丸め相応。許容は実測に合わせて
-    // **縮める方向にのみ** 3e-4 → 2.5e-4 へ更新する(緩めていない)。
-    place:"circular", phase0:0, phaseStep:60, ringsAfterSats:false, reproTol:2.5e-4,
+    // 再較正ではなく、x と同一の幾何規則へ戻しただけ)。次の支配点はレアの vy(literal −0.4242 vs
+    // 幾何値 −0.42411098 = 相対 2.10e-4)で、これも出典 literal の4桁丸め相応だった。
+    // **第180便でその転記ずれも出典プリセット側で訂正した**(−0.4242→−0.42411098 — 再較正ではなく、
+    // x=−263.6=527.2·cos240° と同一の幾何・ケプラー規則へ戻しただけ)。以後の支配点はテティスの
+    // vx(literal −0.9825 vs 幾何値 −0.98267854 = 相対 1.82e-4)。許容は実測に合わせて
+    // **縮める方向にのみ** 3e-4 → 2.5e-4(第172便)→ 2e-4(第180便)へ更新する(緩めていない)。
+    place:"circular", phase0:0, phaseStep:60, ringsAfterSats:false, reproTol:2e-4,
     center:{id:"saturn", name:{ja:"土星",en:"Saturn"}, m:56.834, radius:60.3, spin:0.016528, pinned:true, pnSource:true},
     sats:[
       {id:"mimas",     name:{ja:"ミマス",en:"Mimas"},         m:0.00000375, radius:0.198,  spin:0,        a:185.5},
@@ -16796,6 +17104,10 @@ function validateObservationRecords(input){
     if(r.note!==undefined && typeof r.note!=="string"){ E(at+": note は文字列です"); return; }
     if(q==="eccentricity"){ if(!(r.value>=0 && r.value<1)){ E(at+" ("+r.body+"): eccentricity は 0≤e<1(束縛軌道)"); return; } }
     else if(q==="spin"){ /* 逆行(負)・静止(0)を許す */ }
+    // 第178便(実機の失敗④: 冥王星のように逆行自転する天体): rotation_period の**負値を受理**する。
+    // 符号はそのまま spin=2π/P の符号として決定的に反映される(0 だけは不可 — 除算不能)。
+    // 質量・半径・軌道長半径・公転周期の負値は従来どおり拒否(単位取り違えの典型なので緩めない)
+    else if(q==="rotation_period"){ if(r.value===0){ E(at+" ("+r.body+"/"+q+"): 0 は不可です(自転なしは spin:0 で書いてください)"); return; } }
     else if(!(r.value>0)){ E(at+" ("+r.body+"/"+q+"): 正の値が必要です(0・負値は単位取り違えの典型)"); return; }
     const bid=obsBodyId(r.body);
     if(!bid){ E(at+": body 名から識別子を作れません("+JSON.stringify(r.body)+")"); return; }
@@ -16829,11 +17141,18 @@ function validateObservationRecords(input){
     c.spinSI=0; idealJa.push(c.name+" の自転が出典に無いため spin=0 と宣言"); idealEn.push("no rotation source for "+c.name+" — spin is declared as 0");
     notes.push(c.name+": 自転周期・自転角速度とも出典に無いので spin=0 として宣言します");
   } else c.spinSI=(c.q.spin!==undefined)? c.q.spin : (2*Math.PI/c.q.rotation_period);
+  // 第178便: 逆行自転(負の自転周期・負の spin)は宣言する — 黙って符号を落とさない
+  if(c.spinSI<0){ idealJa.push(c.name+" は逆行自転(負の自転周期)— spin の符号へそのまま反映");
+    idealEn.push(c.name+" rotates retrograde (negative rotation period) — the sign is carried into spin");
+    notes.push(c.name+": 逆行自転(spin<0)として構築します"); }
   for(const s of sats){
     if(s.q.rotation_period===undefined && s.q.spin===undefined){
       s.spinSI=0; idealJa.push(s.name+" の自転が出典に無いため spin=0 と宣言"); idealEn.push("no rotation source for "+s.name+" — spin is declared as 0");
       notes.push(s.name+": 自転が出典に無いので spin=0 として宣言します");
     } else s.spinSI=(s.q.spin!==undefined)? s.q.spin : (2*Math.PI/s.q.rotation_period);
+    if(s.spinSI<0){ idealJa.push(s.name+" は逆行自転(負の自転周期)— spin の符号へそのまま反映");
+      idealEn.push(s.name+" rotates retrograde (negative rotation period) — the sign is carried into spin");
+      notes.push(s.name+": 逆行自転(spin<0)として構築します"); }
     if(s.q.eccentricity===undefined){
       idealJa.push(s.name+" の離心率が出典に無いため e=0(円軌道化)と宣言"); idealEn.push("no eccentricity source for "+s.name+" — circularized (e=0), declared");
       notes.push(s.name+": 離心率が出典に無いので e=0(円軌道化)として宣言します");
@@ -17112,8 +17431,327 @@ ${JSON.stringify(shot, null, 1)}
 利用者が指定した系のレコードを転写してください。出力は JSON 配列のみです。`;
 }
 
-function aiGenMode(){ const s=$("#aiGenMode"); const v=s? s.value : "";
-  return (v==="freeform"||v==="observation")? v : "catalog"; }
+/* ===== 第178便(原仮定者の設計指針 2026-08-23): AI生成の自由生成一本化+取込堅牢化 ==========
+ * 実機で起きた4つの失敗(①コピーするプロンプトが生成モードに連動しない ②観測採取モードで
+ * 貼付先が不明でレコード配列がプリセットインポート欄へ行き「追加0件/不正9件」③スマート引用符で
+ * JSON.parse 失敗 ④冥王星の rotation_period が負値)を、**分岐を無くす**ことで構造的に断つ:
+ *   ① **生成モードの分岐を廃止**し自由生成へ一本化。配るプロンプトは1系統だけになる
+ *      (「短縮版」も骨格は同じ — 仕様を全文同梱するかURL参照にするかの違いだけ)。
+ *   ② 貼付欄は AIタブの1つだけ。**形状はアプリが自動判別**する(レコード配列 / プリセットJSON)。
+ *      セーブタブのプリセットインポート欄へレコードが来たら、案内して差し戻す。
+ *   ③ 取込は JSON.parse 失敗時にだけ**記号の正規化**(スマート引用符・全角の構造記号・BOM/
+ *      ゼロ幅)をかけて再試行し、成功したら「補正して読み込みました」と告げる。**数値は触らない。**
+ *   ④ 逆行自転(負の rotation_period)を受理し、spin の符号へ決定的に反映する。
+ * さらに、観測値の有無に関わらず挙動を安定させるため、プリセットJSONは**整形・安定化パス**を
+ * 通してから採用する(変更点は必ず明示列挙 — 黙って書き換えない)。
+ * 第170/176便のカタログ・観測レコード機構は**内部資産として温存**する(削除しない)。
+ * QA: ai.unified-prompt / ai.paste-shape / ai.stabilize / ai.intake-normalize / ai.ui-unified。
+ * ==================================================================================== */
+// 生成モードは廃止 — 恒久的に "unified"(QA ai.schema-validation / ai.ui-unified が読む)
+function aiGenMode(){ return "unified"; }
+
+// --- 単一プロンプトの共通節①: 出力の使い分け(records 優先 → preset → 内蔵案内)---
+// **アプリ内生成・生成用プロンプト・短縮版の3経路とも同じ本文**を配る(取り違えの構造的解消)。
+// 正本は docs/AI_SPEC.md — QA prompt.spec-sync が逐語同期を機械固定する
+function buildRecordsClause(lang){
+  const en=((lang||LANG)==="en");
+  const q=Object.keys(OBS_UNITS).map(k=>k+" ["+OBS_UNITS[k]+"]").join(" / ");
+  if(en) return `# WHICH OUTPUT TO RETURN (decide in this order)
+1. The request matches one of "# BUILT-IN REAL-BODY SAMPLES" -> generate NOTHING; answer in one line naming that sample.
+2. The request is a REAL astronomical system AND you can copy its mass, radius, semi-major axis, eccentricity, orbital period and rotation period from web sources you actually consulted in this session -> return OUTPUT A (an array of ObservationRecords). PREFER THIS.
+3. Anything else (invented systems, toy models, phenomenon experiments, real bodies whose sources you cannot open) -> return OUTPUT B (a preset JSON).
+
+**In either output, never fill a number from memory.** Every row of OUTPUT A needs the source "url" you actually opened and the "retrieved" date; omit any row you cannot source (omitting is always correct, guessing never is). The numbers of OUTPUT B follow the style (magnitudes, key set) of "# EXAMPLE" and claim no real-body accuracy. Return exactly ONE JSON — no prose, no code fences, no alternative candidates.
+
+# OUTPUT A: an array of ObservationRecords
+One object per measured quantity. The unit conversion, the scale exponents, the placement, the initial speeds, the qLock falloff q and the shared correction D0 are computed by the app's deterministic functions — you never touch them.
+{"body":"<name>","quantity":"<one of below>","value":<number>,"unit":"<SI unit>","source":"<publication or archive>","url":"<the page you actually read>","retrieved":"YYYY-MM-DD","note":"<optional>"}
+quantity [unit]: ${q}
+- The central body (the one WITHOUT semi_major_axis) must be exactly one and the heaviest; it needs mass and radius.
+- Every satellite needs mass, semi_major_axis and orbital_period (radius, eccentricity and rotation are optional — the app declares its defaults when they are missing).
+- SI units only (km, days, degrees are rejected): convert yourself and say so in "note".
+- RETROGRADE rotation is written as a NEGATIVE rotation_period (the app carries the sign into the spin). Negative mass, radius, semi_major_axis or orbital_period are rejected.
+- Do not include rings, dust or unnamed bodies.
+
+# OUTPUT B: a preset JSON
+Exactly one preset that follows the specification above. Even when approximating a real system, match the magnitudes and the scale conventions of "# EXAMPLE".`;
+  return `# 出力の使い分け(この順で判断する)
+1. 要望が「# 内蔵の実天体サンプル」の一覧に合致する → **何も生成せず**、そのサンプル名を1行で案内する。
+2. 要望が**実在の天体・実在の系**で、質量・半径・軌道長半径・離心率・公転周期・自転周期を**このセッションで実際に参照したウェブ出典から写せる** → **出力A(観測レコード配列)を優先する**。
+3. それ以外(架空の系・トイモデル・現象の実験系・出典を開けない実在天体) → **出力B(プリセットJSON)**。
+
+**どちらの出力でも、数値を記憶で埋めてはいけません。** 出力Aは行ごとに、実際に開いた出典の url と取得日 retrieved が必須です — 出典を持てない行は書かずに省略してください(省略は常に正解・推測は常に不正解)。出力Bの数値は「# 例」の流儀(桁・キー構成)に合わせて構成し、実在天体の精度は主張しないでください。出力は JSON を1つだけ(説明文・コードフェンス・複数案を付けない)。
+
+# 出力A: 観測レコード(ObservationRecord)配列
+観測量1つにつき1オブジェクトの JSON 配列。単位換算・スケール指数・配置・初速・qLock の q・共有補正 D₀ は**アプリの決定的関数**が計算します(あなたは触りません)。
+{"body":"<天体名>","quantity":"<下記のいずれか>","value":<数値>,"unit":"<SI単位>","source":"<出典(刊行物・アーカイブ)>","url":"<実際に読んだページ>","retrieved":"YYYY-MM-DD","note":"<任意>"}
+quantity [単位]: ${q}
+- 中心天体(semi_major_axis を**持たない**天体)はちょうど1つ・かつ最重量。中心には mass と radius が必須。
+- 各衛星には mass・semi_major_axis・orbital_period が必須(radius・eccentricity・自転は任意 — 無ければアプリが宣言つきで既定化します)。
+- 単位は SI のみ(km・日・度は拒否されます)。換算はあなたが行い、その旨を note に書いてください。
+- **逆行自転は rotation_period を負の値**で書きます(符号はアプリが spin へ反映します)。質量・半径・軌道長半径・公転周期の負値は拒否されます。
+- 環・塵・名前の無い天体は含めないでください。
+
+# 出力B: プリセット JSON
+上の仕様どおりのプリセットを1つだけ出力します。実在の系を近似する場合も、桁とスケール規約は「# 例」に合わせてください。`;
+}
+// --- 単一プロンプトの共通節②: 内蔵の実天体サンプル一覧(合致する要望は生成させない)---
+function TL(lang,key){ const d=I18N[(lang==="en")?"en":"ja"]; return (key in d)? d[key] : I18N.ja[key]; }
+function buildBuiltinListClause(lang){
+  const lg=(lang||LANG);
+  return TL(lg,"aiExtBuiltinHead")+"\n"+astroCatalogSummary()+"\n"+TL(lg,"aiExtBuiltinNote");
+}
+
+/* ---- 取込の正規化(第178便 ③)------------------------------------------------------------
+ * **JSON.parse に失敗したときだけ**通す救済経路。全角の構造記号の ASCII 化は**文字列リテラルの
+ * 外だけ**に限る(description の全角括弧・全角コロンは1文字も書き換えない)。数値は一切触らない。
+ * スマート二重引用符 “ ” は区切り記号として使われるため、従来どおり全体を " へ寄せる
+ * (normalizeLLMText — 第103便 A2 の実データ由来の措置)。 */
+const INTAKE_OUTSIDE={ "：":":", "，":",", "｛":"{", "｝":"}", "［":"[", "］":"]",
+  "【":"[", "】":"]", "（":"(", "）":")",
+  "‘":"'", "’":"'", "‚":"'", "‛":"'", "＇":"'" };
+function normalizeIntakeText(text){
+  const t=normalizeLLMText(text);
+  let out="", inStr=false, esc=false;
+  for(let i=0;i<t.length;i++){
+    const ch=t[i];
+    if(inStr){ out+=ch; if(esc) esc=false; else if(ch==="\\") esc=true; else if(ch==="\"") inStr=false; continue; }
+    if(ch==="\""){ inStr=true; out+=ch; continue; }
+    out+=(INTAKE_OUTSIDE[ch]!==undefined? INTAKE_OUTSIDE[ch] : ch);
+  }
+  return out;
+}
+// 何を補正したかを利用者へ告げるための列挙(内容の書き換えではないことを明示するため)
+function intakeFixSummary(orig){
+  const en=(LANG==="en"), f=[], s=String(orig);
+  if(/[“”„‟＂]/.test(s)) f.push(en? "smart double quotes" : "スマート二重引用符");
+  if(/[‘’‚‛＇]/.test(s)) f.push(en? "smart single quotes" : "スマート一重引用符");
+  if(/[：，｛｝［］【】（）]/.test(s)) f.push(en? "full-width punctuation" : "全角の構造記号");
+  if(/[​‌‍﻿]/.test(s)) f.push(en? "BOM / zero-width characters" : "BOM・ゼロ幅文字");
+  if(/,\s*[}\]]/.test(s)) f.push(en? "trailing commas" : "末尾カンマ");
+  if(/```/.test(s)) f.push(en? "code fences" : "コードフェンス");
+  return f;
+}
+// 解析エラーの位置(行・列)と不正文字を出す — 「どこが悪いのか分からない」を無くす
+function jsonPosInfo(text, err){
+  const en=(LANG==="en"), msg=String((err&&err.message)||err||"");
+  const m=msg.match(/position (\d+)/);
+  if(!m) return msg.slice(0,160);
+  const t=String(text), pos=Math.max(0, Math.min(Number(m[1]), t.length-1));
+  let line=1, col=1;
+  for(let i=0;i<pos;i++){ if(t[i]==="\n"){ line++; col=1; } else col++; }
+  const ch=t[pos]||"";
+  const code=ch? ("U+"+ch.codePointAt(0).toString(16).toUpperCase()) : "";
+  const snip=t.slice(Math.max(0,pos-24), Math.min(t.length,pos+24)).replace(/\s+/g," ");
+  return en? ("line "+line+", column "+col+": unexpected "+JSON.stringify(ch)+" ("+code+") — …"+snip+"…")
+           : (line+"行 "+col+"列目の "+JSON.stringify(ch)+"("+code+")が不正です — …"+snip+"…");
+}
+// 貼り付けテキスト → JSON 値。①素の parse ②記号の正規化で再試行 ③候補ラダー(複数JSON・散文混じり)
+function parseIntake(raw){
+  const text=String(raw==null? "" : raw).trim();
+  const t0=text.replace(/^```[a-zA-Z]*\s*/,"").replace(/```\s*$/,"").trim();
+  let e0=null;
+  try{ return {ok:true, value:JSON.parse(t0), corrected:false, fixes:[]}; }catch(e){ e0=e; }
+  const t1=normalizeIntakeText(t0);
+  const fixes=intakeFixSummary(text);
+  let e1=null;
+  try{ return {ok:true, value:JSON.parse(t1), corrected:true, fixes}; }catch(e){ e1=e; }
+  for(const c of importCandidates(t1)){
+    try{ return {ok:true, value:JSON.parse(c), corrected:true, fixes}; }catch(e2){}
+    try{ return {ok:true, value:JSON.parse(sanitizeLLMJSON(c)), corrected:true, fixes}; }catch(e3){}
+  }
+  return {ok:false, error:jsonPosInfo(t1, e1||e0), fixes};
+}
+// 形状の自動判別(第178便 ②): 観測レコード配列 / プリセットJSON / どちらでもない
+function detectPasteShape(v){
+  const isObj=(o)=>o && typeof o==="object" && !Array.isArray(o);
+  if(Array.isArray(v) && v.length){
+    const rec=v.filter(r=>isObj(r) && typeof r.quantity==="string" && ("value" in r)).length;
+    if(rec*2>=v.length) return "records";
+  }
+  const isP=(o)=>isObj(o) && (Array.isArray(o.bodies) || isObj(o.physics) || isObj(o.camera));
+  if(isP(v)) return "preset";
+  if(isObj(v) && (Array.isArray(v.customPresets) || Array.isArray(v.saves))) return "preset";
+  if(Array.isArray(v) && v.length && v.every(isP)) return "preset";
+  return "unknown";
+}
+// 封筒(配列・{customPresets:[…]}・バックアップ全体)から**1つ目のプリセット**を取り出す
+function pickSinglePreset(v){
+  if(Array.isArray(v)) return v.length? v[0] : null;
+  if(v && Array.isArray(v.customPresets)) return v.customPresets.length? v.customPresets[0] : null;
+  return v || null;
+}
+
+/* ---- 整形・安定化パス(第178便 ④)--------------------------------------------------------
+ * 決定的な後処理。**変更点は必ず列挙して見せる**(黙って書き換えない)。順序も固定:
+ *   ① κ=G/c₀²(物理対応ロック)の整合 — 実較正を宣言したサンプルだけ再導出して宣言
+ *   ② scaleExp の規約検査(L−T=4・M+2T−3L=11)— 逸脱は**警告と提案のみ**(自動では直さない)
+ *   ③ 円軌道と判る配置の速度をケプラー再導出(既定ON・宣言表示・判定できなければ触らない)
+ *   ④ camera.scale / softening / timeScale の妥当域クランプ
+ *   ⑤ 複製状態で短い自己診断(NaN・発散・全粒子脱出)— 不合格は理由付きで差し戻す
+ * ------------------------------------------------------------------------------------- */
+const STAB_ESCAPE_MUL=5;     // 全天体がこの倍率より外(=完全に画面外)→ 「全粒子脱出」
+const STAB_DIVERGE_MUL=50;   // どれか1つでもこの倍率を超えたら「発散」
+const STAB_WALL_SEC=5;       // timeScale 規約: 最内公転が実時間で約5秒(60fps)
+const STAB_WALL_BAND=[0.2,600];  // この帯の外(1公転が一瞬 / 10分以上)だけ直す
+const STAB_CAM_BAND=[0.1,20];    // camera.scale が配置の広がりのこの帯の外だけ直す
+function stabSteps(n){ return (n>300)? 60 : (n>120? 120 : 240); }
+function stabExtent(p){
+  let e=0; const upd=(v)=>{ if(isFinite(v)&&v>e) e=v; };
+  for(const b of (p.bodies||[])){
+    const cx=isFinite(b.cx)? b.cx : 0, cy=isFinite(b.cy)? b.cy : 0, c=Math.hypot(cx,cy);
+    if(b.type==="single") upd(Math.hypot(b.x||0,b.y||0)+(b.radius||0));
+    else if(b.type==="ring") upd(c+Math.max(b.rOut||0,b.rIn||0));
+    else if(b.type==="disk") upd(c+(b.radius||0));
+    else if(b.type==="box") upd(c+Math.hypot((b.w||0)/2,(b.h||0)/2));
+  }
+  if(p.world && p.world.boundary!=="none" && p.world.size>0) upd(p.world.size);
+  return e;
+}
+// 「中心+周回体」と判定できる配置か(single のみを見る。実較正宣言のサンプルには触らない)
+function stabCenterOf(p){
+  if(p.fidelity==="real" || p.scaleExp) return {ok:false, why:"real"};
+  const ph=p.physics||{};
+  if(!(ph.G>0) || ph.gravityX || ph.gravityY) return {ok:false, why:"field"};
+  const singles=(p.bodies||[]).map((b,i)=>({b,i})).filter(x=>x.b.type==="single" && isFinite(x.b.m));
+  if(singles.length<2 || singles.length>24) return {ok:false, why:"shape"};
+  const sorted=singles.slice().sort((a,b)=>b.b.m-a.b.m);
+  if(!(sorted[0].b.m>=20*Math.abs(sorted[1].b.m))) return {ok:false, why:"center"};
+  return {ok:true, center:sorted[0].b, ci:sorted[0].i,
+    sats:sorted.slice(1).map(x=>x.b), sats_i:sorted.slice(1).map(x=>x.i)};
+}
+const stabBodyLabel=(i,b)=>"bodies["+i+"](m="+b.m+")";
+const STAB_KEP_LOW=0.3;      // v/v_circ がこれ未満 = 中心へ落ち込む配置(円へ落とす)
+function stabKeplerFix(p, changes, notes){
+  const c=stabCenterOf(p);
+  if(!c.ok){ notes.push(T(c.why==="real"? "stabKepSkipReal" : c.why==="field"? "stabKepSkipField"
+    : c.why==="center"? "stabKepSkipCenter" : "stabKepSkipShape")); return; }
+  const G=p.physics.G, b0=c.center;
+  c.sats.forEach((s,j)=>{
+    const lab=stabBodyLabel(c.sats_i[j], s);
+    const dx=s.x-b0.x, dy=s.y-b0.y, r=Math.hypot(dx,dy);
+    if(!(r>0)) return;
+    const dvx=s.vx-b0.vx, dvy=s.vy-b0.vy, sp=Math.hypot(dvx,dvy);
+    if(!(sp>0)) return;                                    // 静止(自由落下の実験)は触らない
+    const vr=Math.abs((dvx*dx+dvy*dy)/r);
+    if(vr/sp>0.1){ notes.push(T("stabKepSkipEcc")(lab)); return; }   // 動径成分あり=楕円の途中
+    const vk=Math.sqrt(G*(b0.m+s.m)/r), ratio=sp/vk;
+    // 束縛楕円の接線速度は必ず 0<v/v_circ<√2(近点 √(1+e)・遠点 √(1−e))。**この帯の中は
+    // 作者の意図した楕円**とみなして1ビットも触らない。外(脱出速度以上・中心へ落ち込む)だけ
+    // 円軌道へ落とす — 「速度が桁で違う」AI生成の典型的な壊れ方だけを決定的に直す
+    if(!(ratio<STAB_KEP_LOW || ratio>=Math.SQRT2)){ notes.push(T("stabKepSkipBound")(lab, ratio.toPrecision(3))); return; }
+    const k=vk/sp;
+    s.vx=b0.vx+dvx*k; s.vy=b0.vy+dvy*k;
+    changes.push(T("stabKepFix")(lab, r.toPrecision(4), sp.toPrecision(4), vk.toPrecision(4)));
+  });
+}
+function stabSelfCheck(preset){
+  const v=validatePreset(preset);
+  if(!v.ok) return {ok:false, errors:v.errors.slice(0,6), steps:0};
+  const S=makeSim(); S.build(v.preset);
+  const n=stabSteps(S.n);
+  for(let k=0;k<n;k++) S.step(DT);
+  // 基準長は「カメラ半視野」と「初期配置の広がり」の大きいほう — カメラ追従の展示系
+  // (🔆太陽+地球+月 のように camera.scale が配置よりずっと小さい)を誤判定しないため
+  const errs=[], cs=Math.max(v.preset.camera.scale, stabExtent(v.preset));
+  if(S.hasNaN()) errs.push(T("stabNaN")(n));
+  let maxR=0, out=0;
+  for(let i=0;i<S.n;i++){ const r=Math.hypot(S.x[i],S.y[i]); if(r>maxR) maxR=r; if(r>STAB_ESCAPE_MUL*cs) out++; }
+  const bounded=(v.preset.world && v.preset.world.boundary!=="none");
+  if(isFinite(maxR) && maxR>STAB_DIVERGE_MUL*cs) errs.push(T("stabDiverge")(maxR.toPrecision(4), STAB_DIVERGE_MUL));
+  else if(!bounded && S.n>=3 && out===S.n) errs.push(T("stabEscape")(STAB_ESCAPE_MUL));
+  return {ok:errs.length===0, errors:errs, steps:n, n:S.n, maxR, escaped:out};
+}
+function stabilizePreset(input, opts){
+  const o=opts||{}, changes=[], notes=[];
+  const v0=validatePreset(input);
+  if(!v0.ok) return {ok:false, stage:"validate", errors:v0.errors, changes, notes};
+  const p=JSON.parse(JSON.stringify(v0.preset));
+  const ph=p.physics;
+  // ① κ=G/c₀²(物理対応ロック)
+  { const kd=(ph.cLight>0)? ph.G/(ph.cLight*ph.cLight) : 0;
+    const sc=Math.max(Math.abs(kd), Math.abs(ph.kappaT));
+    const rel=(sc>0)? Math.abs(ph.kappaT-kd)/sc : 0;
+    const real=(p.fidelity==="real") || !!p.scaleExp;
+    if(rel>1e-9){
+      if(real && kd>=CLAMPS.kappaT[0] && kd<=CLAMPS.kappaT[1]){
+        changes.push(T("stabKappa")(String(ph.kappaT), String(kd))); ph.kappaT=kd;
+      } else notes.push(T("stabKappaToy")(String(ph.kappaT), kd.toPrecision(6)));
+    } }
+  // ② スケール指数の規約検査(提案のみ — 自動では直さない)
+  if(p.scaleExp && isFinite(p.scaleExp.L) && isFinite(p.scaleExp.T) && isFinite(p.scaleExp.M)){
+    const sL=p.scaleExp.L, sT=p.scaleExp.T, sM=p.scaleExp.M;
+    if(sL-sT!==4 || sM+2*sT-3*sL!==11) notes.push(T("stabScaleExp")(sL,sT,sM));
+  }
+  // ③ ケプラー再導出(既定ON)
+  if(o.kepler===false) notes.push(T("stabKepOff")); else stabKeplerFix(p, changes, notes);
+  // ④ 妥当域クランプ — **明らかに壊れている場合だけ**直す(作者の構図・演出は尊重する)。
+  //    実較正の宣言があるサンプル(fidelity:"real"・scaleExp)は構図も規約なので一切触らない
+  const realDecl=(p.fidelity==="real") || !!p.scaleExp;
+  const ext=stabExtent(p);
+  if(!realDecl && ext>0){
+    const cs=p.camera.scale;
+    if(!(cs>=ext*STAB_CAM_BAND[0] && cs<=ext*STAB_CAM_BAND[1])){
+      const nc=clamp(Math.round(ext*1.2), 20, 3000);
+      if(nc!==cs){ changes.push(T("stabCam")(String(cs), String(nc))); p.camera.scale=nc; }
+    }
+  }
+  if(!realDecl){ const c=stabCenterOf(p);
+    if(c.ok){
+      const b0=c.center;
+      let rMin=Infinity, sMin=null;
+      for(const s of c.sats){ const r=Math.hypot(s.x-b0.x, s.y-b0.y); if(r>0 && r<rMin){ rMin=r; sMin=s; } }
+      if(isFinite(rMin) && sMin){
+        if(ph.softening>0.5*rMin){   // ソフトニングが軌道半径に匹敵 = 軌道が潰れる
+          const ns=clamp(Number((0.2*rMin).toPrecision(2)), CLAMPS.softening[0], CLAMPS.softening[1]);
+          if(ns!==ph.softening){ changes.push(T("stabSoft")(String(ph.softening), String(ns))); ph.softening=ns; }
+        }
+        const Pin=2*Math.PI*Math.sqrt(rMin*rMin*rMin/(ph.G*(b0.m+sMin.m)));
+        const wall=Pin/(Math.max(ph.timeScale,1e-9)*60*DT);
+        if(isFinite(wall) && (wall<STAB_WALL_BAND[0] || wall>STAB_WALL_BAND[1])){
+          const nt=obsLadder(OBS_LADDER_TS, Pin/(STAB_WALL_SEC*60*DT));
+          if(nt!==ph.timeScale){ changes.push(T("stabTime")(String(ph.timeScale), String(nt), STAB_WALL_SEC)); ph.timeScale=nt; }
+        }
+      }
+    } }
+  // ⑤ 自己診断(複製状態での短い試走)
+  const v1=validatePreset(p);
+  if(!v1.ok) return {ok:false, stage:"validate", errors:v1.errors, changes, notes};
+  const diag=stabSelfCheck(v1.preset);
+  if(!diag.ok) return {ok:false, stage:"diagnosis", errors:diag.errors, changes, notes, diag, preset:v1.preset};
+  return {ok:true, preset:v1.preset, changes, notes, diag, warnings:v1.warnings};
+}
+
+/* ---- 貼付欄の入口(形状自動判別 → 経路分岐)------------------------------------------ */
+function aiIntakeValue(v, opts){
+  const kind=detectPasteShape(v);
+  if(kind==="records"){
+    let r;
+    try{ r=buildAstroFromRecords(v); }
+    catch(e){ return {ok:false, kind, stage:"build", errors:[String(e.message||e)]}; }
+    if(!r.ok) return {ok:false, kind, stage:r.stage, errors:r.errors||[], notes:r.notes,
+      table:r.table, diag:r.diag, meta:r.meta};
+    return {ok:true, kind, preset:r.preset, notes:r.notes, table:r.table, diag:r.diag,
+      meta:r.meta, warnings:r.warnings};
+  }
+  if(kind==="preset"){
+    const one=pickSinglePreset(v);
+    if(!one || typeof one!=="object") return {ok:false, kind:"unknown", stage:"shape", errors:[T("pasteUnknown")]};
+    const st=stabilizePreset(one, opts);
+    return Object.assign({kind}, st);
+  }
+  return {ok:false, kind:"unknown", stage:"shape", errors:[T("pasteUnknown")]};
+}
+function aiIntakeText(text, opts){
+  const raw=String(text==null? "" : text).trim();
+  if(!raw) return {ok:false, kind:"empty", stage:"input", errors:[T("pasteEmpty")]};
+  const pr=parseIntake(raw);
+  if(!pr.ok) return {ok:false, kind:"parse", stage:"parse", errors:[T("pasteParseNg")(pr.error)],
+    error:pr.error, fixes:pr.fixes};
+  const r=aiIntakeValue(pr.value, opts);
+  r.corrected=!!pr.corrected; r.fixes=pr.fixes||[];
+  return r;
+}
 
 // ===== AIプロバイダ抽象化(v1.10): Claude / OpenAI互換 / Gemini、モデルIDは自由入力 =====
 const AI_PROVIDERS={
@@ -17236,21 +17874,49 @@ function aiUserContent(userText){
 // 内容 = 依頼ヘッダ+システムプロンプト(EN上書き込み)+要望(ベースサンプル文脈込み)。
 // APIキーをアプリへ入れない生成経路 — 返答JSONはセーブタブのインポートで取り込む
 // (コードフェンス・前後説明文は doImportText が寛容に除去する)
-function buildExternalPrompt(){
-  const raw=$("#aiPrompt").value.trim();
-  const req=raw || T("aiExtReqPh");
-  return T("aiExtHead")+"\n\n"+getSystemPrompt()+"\n\n"+T("aiExtReqHead")+"\n"+aiUserContent(req);
+// 第178便: 少数ショット例 — 選択中のベースサンプル。未選択なら**現在読み込んでいるサンプル**を
+// 手本に使う(原仮定者の指針「例となるサンプルで生成JSONの質が大きく変わる」)。
+// 上限は**暗黙の例(未選択時)にだけ**掛ける — 利用者が明示的に選んだベースは大きくても丸ごと運ぶ
+// (土台改変の文脈そのものなので削れない)。暗黙の例だけを抑えることで、短縮版が「短縮版」で
+// なくなるのを防ぐ(決定的な規則)
+const AI_EXAMPLE_MAX=6000;
+function aiExampleForPrompt(){
+  const sel=$("#aiBasePreset"), bid=sel? sel.value : "";
+  const b=bid? allPresets().find(q=>String(q.id)===String(bid)) : null;
+  const p=b || currentPreset;
+  if(!p) return null;
+  let j="";
+  try{ j=JSON.stringify(presetForAIBase(p)); }catch(e){ return null; }
+  return {base:!!b, id:p.id, json:((!b && j.length>AI_EXAMPLE_MAX)? null : j), len:j.length};
 }
+// 実際に送る/配る本文(例+要望)。ベース選択時は従来の「土台改変」文脈(aiUserContent)、
+// 未選択時は現在のサンプルを手本として同梱する — どちらの経路でも例が必ず1つ入る
+function aiSendContent(userText){
+  const sel=$("#aiBasePreset"), bid=sel? sel.value : "";
+  if(bid) return aiUserContent(userText);
+  const ex=aiExampleForPrompt();
+  if(!ex) return userText;
+  const head=(ex.json!==null)? (T("aiExtExCur")+"\n"+ex.json) : T("aiExtExSkip");
+  return head+"\n\n"+T("aiExtReqHead")+"\n"+userText;
+}
+// 第178便: 単一プロンプト。full(仕様全文同梱)と short(仕様はURL参照)は**同じ骨格**で、
+// 違いは仕様本体をテキストで運ぶかリンクで運ぶかだけ(モード分岐は存在しない)
+function buildUnifiedPrompt(short){
+  const el=$("#aiPrompt"), raw=el? el.value.trim() : "";
+  const req=raw || T("aiExtReqPh");
+  const parts=[ short? T("aiExtHeadShort")(AI_SPEC_URL) : T("aiExtHead") ];
+  if(short){ parts.push(buildRecordsClause()); parts.push(buildBuiltinListClause()); }
+  else parts.push(getSystemPrompt());   // 仕様全文+共通節(出力の使い分け・内蔵一覧)
+  parts.push(aiSendContent(req));
+  return parts.join("\n\n");
+}
+function buildExternalPrompt(){ return buildUnifiedPrompt(false); }
 // 第103便(原仮定者指示「プロンプトの文字数を減らす為、リンクを参照する方法を検討」):
 // 短縮版 — 仕様全文(SYSTEM_PROMPT)を同梱せず、公開URL(docs/AI_SPEC.md — QA prompt.spec-sync が
 // SYSTEM_PROMPT との逐語一致を機械固定)へのリンク参照にする。Web閲覧できるAIチャット向け。
 // ベースサンプルのJSONは要望の一部なので短縮版でも同梱する(リンクでは渡せない動的文脈)
 const AI_SPEC_URL="https://tty-imamura.github.io/dfm-simulator/docs/AI_SPEC.md";
-function buildExternalPromptShort(){
-  const raw=$("#aiPrompt").value.trim();
-  const req=raw || T("aiExtReqPh");
-  return T("aiExtHeadShort")(AI_SPEC_URL)+"\n\n"+T("aiExtReqHead")+"\n"+aiUserContent(req);
-}
+function buildExternalPromptShort(){ return buildUnifiedPrompt(true); }
 // 段構え: 選択モデル → 検証NG時リトライ1回 → 別モデルへフォールバック
 // (フォールバック連鎖は Anthropic のみ。他プロバイダはモデル階層をアプリが仮定できないため
 //  リトライまで。HANDOFF_RUNTIME_LLM.md v1.10)
@@ -17264,17 +17930,17 @@ function aiFallbackModel(model){
   if(model.indexOf("haiku")>=0)  return "claude-sonnet-5";
   return null;
 }
-async function generatePreset(userText, onStage){
+// 第178便: 応答は**貼付欄と同じ取込経路**(形状自動判別 → レコード構築 / 整形・安定化パス)へ
+// 通す。アプリ内生成と外部チャット経路で結果が変わらないことを構造で保証する
+async function generatePreset(userText, onStage, opts){
   const cfg=aiCfg();
   const attempt=async (mdl, messages)=>{
     const text=await callLLM(cfg, mdl, messages);
-    let obj;
-    try{ obj=JSON.parse(extractJSON(text)); }catch(e){ return {fail:"JSON parse error", raw:text}; }
-    const v=validatePreset(obj);
-    if(!v.ok) return {fail:v.errors.join(" / "), raw:text};
-    return {preset:v.preset, warnings:v.warnings};
+    const r=aiIntakeText(text, opts);
+    if(!r.ok) return {fail:(r.errors||[]).join(" / ").slice(0,300), raw:text};
+    return {preset:r.preset, warnings:r.warnings||[], intake:r};
   };
-  const userContent=aiUserContent(userText);   // 第26便: ベースサンプル選択を反映
+  const userContent=aiSendContent(userText);   // 第26便/第178便: 少数ショット例を必ず1つ含む
   const baseMsgs=[{role:"user",content:userContent}];
   onStage(T("generating")(cfg.model));
   let r=await attempt(cfg.model, baseMsgs);
@@ -17298,6 +17964,10 @@ async function generatePreset(userText, onStage){
 }
 
 // 第170便: 実天体カタログ経路 — LLM は意図(カタログID)だけを返し、数値は1つも返さない。
+// 第178便: 生成モードの廃止により**この経路はUIから呼ばれない**が、カタログ機構ごと
+// **内部資産として温存**する(削除しない — 原仮定者の設計指針。カタログ本体は単一プロンプトの
+// 「内蔵の実天体サンプル一覧」と QA ai.catalog-integrity / ai.placement-determinism /
+// ai.schema-validation が引き続き使う)。将来モードなしで再利用する場合の入口でもある。
 // 段構えは自由生成と同じ(選択モデル → スキーマNGでリトライ1回 → 別モデル1回)。
 // カタログ外は明示的に {outOfCatalog:true} を返す(黙って別の系を出さない)。
 async function generateAstroPreset(userText, onStage){
@@ -17373,42 +18043,15 @@ $("#keyPersist").addEventListener("change",e=>{
   }
 });
 // 第32便 W4(台帳4-58): 送信内容の事前確認 — 開いている間だけ要望/ベース選択の変更に追従
+// 第178便: モード分岐は無い — 送るのは常に「仕様全文+共通節(出力の使い分け・内蔵一覧)」+
+// 「例+要望」。プレビューは実際に送る本文(aiSendContent)をそのまま映す
 function updateAiPreview(){
   const wrap=$("#aiPreviewWrap");
   if(!wrap || !wrap.open) return;
-  $("#aiPreviewBody").value=aiUserContent($("#aiPrompt").value);
-  // 第170便: カタログモードでは送るシステムプロンプトがカタログ仕様に替わるので、その旨と字数を示す
-  // (自由生成の仕様の字数も併記 — 何を送っていないかまで確認できるようにする)
-  const md=aiGenMode();
-  if(md==="observation"){
-    // 第176便: 観測採取モードは API を一切呼ばない(採取は外部チャット・構築はアプリ内の決定的関数)
-    $("#aiPreviewBody").value="";
-    $("#aiPreviewSysNote").textContent=T("aiObsTitle");
-  } else if(md==="catalog"){
-    const ap=getAstroSystemPrompt();
-    $("#aiPreviewSysNote").textContent=T("aiPreviewSysAstro")(ap.length, SYSTEM_PROMPT.length, ap.slice(0,200));
-  } else {
-    $("#aiPreviewSysNote").textContent=T("aiPreviewSys")(SYSTEM_PROMPT.length, SYSTEM_PROMPT.slice(0,200));
-  }
+  $("#aiPreviewBody").value=aiSendContent($("#aiPrompt").value);
+  const sp=getSystemPrompt();
+  $("#aiPreviewSysNote").textContent=T("aiPreviewSys")(sp.length, sp.slice(0,200));
 }
-// 第170便: 生成モードの切替 — ベース選択(自由生成専用の文脈注入)はカタログモードでは
-// 使わないので、行をロック表示(disabled+lockedRow)にする。説明の details は畳んだまま
-// 残す(ai.help-collapsed の対象なので消さない)。
-// 利用者操作による切替のときだけ選択を「なし」へ戻す(初期化では値に触れない)
-// 第176便: 「観測採取」モードでは API 呼び出しを使わない(要望欄・生成ボタンをロックし、
-// 観測採取グループだけを開く)。ベース選択はカタログ同様ロックする
-function applyAiGenMode(resetBase){
-  const md=aiGenMode(), cat=(md==="catalog"), obs=(md==="observation"), lock=(cat||obs);
-  const row=$("#aiBaseRow"), sel=$("#aiBasePreset");
-  if(row) row.classList.toggle("lockedRow",lock);
-  if(sel) sel.disabled=lock;
-  if(lock && resetBase && sel && sel.value){ sel.value=""; }
-  const og=$("#aiObsGroup"); if(og) og.style.display=obs? "" : "none";
-  const gb=$("#btnGenerate"); if(gb) gb.disabled=obs;
-  const pr=$("#aiPrompt"); if(pr) pr.disabled=obs;
-  updateAiPreview();
-}
-$("#aiGenMode").addEventListener("change",()=>applyAiGenMode(true));
 $("#aiPreviewWrap").addEventListener("toggle",updateAiPreview);
 $("#aiPrompt").addEventListener("input",updateAiPreview);
 $("#aiBasePreset").addEventListener("change",updateAiPreview);
@@ -17416,11 +18059,11 @@ $("#aiBasePreset").addEventListener("change",updateAiPreview);
 // #ioArea へフォールバック表示 — セーブタブで全文を選択コピーできる)
 $("#btnExtCopy").addEventListener("click",()=>copyJSON(buildExternalPrompt()));
 $("#btnExtCopyShort").addEventListener("click",()=>copyJSON(buildExternalPromptShort()));   // 第103便: 短縮版
-// ---- 第176便: 観測採取(カタログ外)の UI 導線 ----
-// 出典表・理想化宣言・自己診断の結果は、すべて DOM 生成(textContent)で描く
-function obsReportClear(){ const h=$("#aiObsReport"); if(h) h.textContent=""; }
+// ---- 第178便: 貼付欄1本の UI 導線(第176便の観測採取UIを吸収)----
+// 出典表・理想化宣言・変更点・自己診断の結果は、すべて DOM 生成(textContent)で描く
+function obsReportClear(){ const h=$("#aiPasteReport"); if(h) h.textContent=""; }
 function obsReportBlock(head, lines, cls){
-  const h=$("#aiObsReport"); if(!h) return;
+  const h=$("#aiPasteReport"); if(!h) return;
   const t=document.createElement("p"); t.className="note"; t.style.fontWeight="600"; t.textContent=head;
   h.appendChild(t);
   for(const s of lines){
@@ -17429,23 +18072,13 @@ function obsReportBlock(head, lines, cls){
     d.textContent=s; h.appendChild(d);
   }
 }
-function obsParseRecords(){
-  const el=$("#aiObsRecords"); const raw=(el? el.value : "").trim();
-  if(!raw) return {ok:false, msg:T("obsNoRecords")};
-  // 外部チャットが付ける ``` フェンス・前後の説明文は既存のインポート経路と同じ流儀で寛容に外す
-  let t=raw.replace(/^```[a-zA-Z]*\s*/,"").replace(/```\s*$/,"").trim();
-  const f=t.indexOf("["), l=t.lastIndexOf("]");
-  if(f>=0 && l>f) t=t.slice(f,l+1);
-  try{ return {ok:true, arr:JSON.parse(t)}; }
-  catch(e){ return {ok:false, msg:T("obsParseNg")(String(e.message||e).slice(0,120))}; }
-}
 function obsShowTable(table, notes){
-  obsReportBlock(T("obsHeadTable"), table.map(r=>"・"+r.body+" / "+r.quantity+" = "+obsNum(r.value)+" "+r.unit
+  if(table && table.length) obsReportBlock(T("obsHeadTable"), table.map(r=>"・"+r.body+" / "+r.quantity+" = "+obsNum(r.value)+" "+r.unit
     +" — "+r.source+" <"+r.url+"> ("+r.retrieved+")"));
   if(notes && notes.length) obsReportBlock(T("obsHeadNotes"), notes.map(s=>"・"+s));
 }
 function obsShowDiag(res){
-  if(!res || !res.diag) return;
+  if(!res || !res.diag || !res.diag.rows) return;
   const pc=(x)=>isFinite(x)? ((x>=0?"+":"")+(x*100).toFixed(3)+"%") : "NaN";
   obsReportBlock(T("obsHeadDiag")(res.diag.steps), res.diag.rows.map(r=>T("obsDiagRow")(
     r.name, isFinite(r.pEst)? r.pEst.toPrecision(6) : "NaN", r.pObs.toPrecision(6),
@@ -17455,42 +18088,54 @@ function obsShowDiag(res){
     [T("obsScaleRow")(LANG==="en"? res.meta.unitEn : res.meta.unitJa, res.meta.camScale, res.meta.dispMag, res.meta.timeScale),
      "q_exact="+res.meta.q+" (a_ref="+res.meta.aRef+")"]);
 }
-$("#btnObsPromptCopy").addEventListener("click",()=>copyJSON(buildObsCollectPrompt()));
-$("#btnObsCheck").addEventListener("click",()=>{
+// 整形・安定化パスの結果表示(変更点は**必ず全部**出す — 黙って書き換えないことの担保)
+function stabShowReport(r){
+  if(r.changes) obsReportBlock(T("stabHeadChanges"), r.changes.length? r.changes.map(s=>"・"+s) : [T("stabNoChange")]);
+  if(r.notes && r.notes.length) obsReportBlock(T("stabHeadNotes"), r.notes.map(s=>"・"+s));
+  if(r.diag && r.diag.steps) obsReportBlock(T("stabHeadDiag")(r.diag.steps),
+    [(LANG==="en"? "bodies=" : "粒子数=")+r.diag.n+" / max r="+(isFinite(r.diag.maxR)? r.diag.maxR.toPrecision(4) : "NaN")
+      +" / "+(LANG==="en"? "escaped=" : "脱出=")+r.diag.escaped+" / "+(r.diag.ok? "PASS" : "FAIL")]);
+}
+function aiKeplerOn(){ const c=$("#aiKeplerFix"); return !c || c.checked; }
+function aiPasteOpts(){ return {kepler:aiKeplerOn()}; }
+// 貼り付け内容を取り込む(save=false なら検証のみ — 保存しない)
+function aiPasteRun(save){
   obsReportClear();
-  const pr=obsParseRecords();
-  if(!pr.ok){ setAiStatus(pr.msg,"err"); return; }
-  const v=validateObservationRecords(pr.arr);
-  if(!v.ok){ obsReportBlock(T("obsSchemaNg"), v.errors.map(s=>"× "+s)); setAiStatus(T("obsSchemaNg"),"err"); return; }
-  obsShowTable(v.sys.table, v.notes);
-  setAiStatus(T("obsSchemaOk")(v.sys.sats.length+1, v.sys.table.length),"ok");
-});
-$("#btnObsBuild").addEventListener("click",()=>{
-  obsReportClear();
-  const pr=obsParseRecords();
-  if(!pr.ok){ setAiStatus(pr.msg,"err"); return; }
-  let r;
-  try{ r=buildAstroFromRecords(pr.arr); }
-  catch(e){ setAiStatus(String(e.message||e),"err"); return; }
-  if(r.table) obsShowTable(r.table, r.notes);
+  const el=$("#aiPasteArea");
+  const r=aiIntakeText(el? el.value : "", aiPasteOpts());
+  if(r.corrected && r.fixes && r.fixes.length) obsReportBlock(T("pasteCorrected")(r.fixes.join("・")), []);
+  if(r.kind==="records") obsShowTable(r.table, r.notes);
+  if(r.kind==="preset") stabShowReport(r);
   if(!r.ok){
-    obsReportBlock(T("obsBuildNg"), (r.errors||[]).map(s=>"× "+s));
+    obsReportBlock(r.stage==="diagnosis"? T("stabRejected") : T("obsBuildNg"), (r.errors||[]).map(s=>"× "+s));
     obsShowDiag(r);
-    setAiStatus(T("obsBuildNg")+"("+r.stage+")","err"); return;
+    setAiStatus((r.errors&&r.errors[0])? String(r.errors[0]).slice(0,160) : T("obsBuildNg"),"err");
+    return null;
   }
-  obsShowDiag(r);
-  r.preset.id="custom_"+Date.now();
-  const arr=getCustomPresets(); arr.push(r.preset); setCustomPresets(arr);
-  rebuildPresetSelect(r.preset.id);
-  loadPreset(r.preset.id,false);
-  renderCustomList();
-  setAiStatus(T("obsBuiltOk")(r.preset.name, r.meta.q, r.meta.timeScale)
+  if(r.kind==="records"){
+    obsShowDiag(r);
+    setAiStatus(T("pasteKindRecords")((r.meta? 1+r.diag.rows.length : 0), r.table? r.table.length : 0),"ok");
+  } else setAiStatus(T("pasteKindPreset"),"ok");
+  if(!save){ setAiStatus(T("pasteCheckOk"),"ok"); return r; }
+  aiAdoptPreset(r.preset);
+  setAiStatus(T("pasteSavedOk")(r.preset.name)
     +((r.warnings&&r.warnings.length)? T("autofix")(r.warnings.join("、")) : ""),"ok");
-});
+  return r;
+}
+// 生成物の採用(AI生成・貼付の共通経路)— 保存 → 一覧再構築 → 読み込み
+function aiAdoptPreset(preset){
+  preset.id="custom_"+Date.now();
+  const arr=getCustomPresets(); arr.push(preset); setCustomPresets(arr);
+  rebuildPresetSelect(preset.id);
+  loadPreset(preset.id,false);
+  renderCustomList();
+}
+$("#btnAiPaste").addEventListener("click",()=>aiPasteRun(true));
+$("#btnAiPasteCheck").addEventListener("click",()=>aiPasteRun(false));
 // 第103便(原仮定者指示): テキスト入力はフォーカスで全選択 — 貼り付け上書き・全文コピーの
 // 手数を減らす(インポート欄・AI要望欄・保存名など)。iOS Safari 対策で選択は次tickに行う
 for(const tid of ["ioArea","aiPrompt","aiPreviewBody","saveName","saveComment","aiModelIn","aiBaseUrl","apiKey",
-  "aiObsRecords"]){   // 第176便: 観測レコード貼付欄も同じ流儀(貼り付け上書きの手数を減らす)
+  "aiPasteArea"]){   // 第178便: AIの返答貼付欄も同じ流儀(貼り付け上書きの手数を減らす)
   const tf=document.getElementById(tid); if(!tf) continue;
   tf.addEventListener("focus",()=>{ setTimeout(()=>{ try{ tf.select(); }catch(_){} },0); });
 }
@@ -17501,20 +18146,17 @@ $("#btnGenerate").addEventListener("click",async ()=>{
   const text=$("#aiPrompt").value.trim();
   if(!text){ setAiStatus(T("noPrompt"),"err"); return; }
   const btn=$("#btnGenerate"); btn.disabled=true;
+  obsReportClear();
   try{
-    // 第170便: 既定は実天体カタログ経路(LLM は数値を作らない)。自由生成は従来経路
-    const r=(aiGenMode()==="catalog")
-      ? await generateAstroPreset(text, (m)=>setAiStatus(m,"busy"))
-      : await generatePreset(text, (m)=>setAiStatus(m,"busy"));
-    if(r.outOfCatalog){   // 黙って不正確な系を出さず、カタログ内容を案内して止める
-      setAiStatus(T("astroOutOfCatalog")(r.reason, astroCatalogSummary()),"err");
-      btn.disabled=false; return;
+    // 第178便: 経路は1本(自由生成)。応答は貼付欄と同じ取込経路(形状自動判別+整形・安定化)へ
+    const r=await generatePreset(text, (m)=>setAiStatus(m,"busy"), aiPasteOpts());
+    const it=r.intake;
+    if(it){
+      if(it.kind==="records") obsShowTable(it.table, it.notes);
+      else stabShowReport(it);
+      obsShowDiag(it);
     }
-    r.preset.id="custom_"+Date.now();
-    const arr=getCustomPresets(); arr.push(r.preset); setCustomPresets(arr);
-    rebuildPresetSelect(r.preset.id);
-    loadPreset(r.preset.id,false);
-    renderCustomList();
+    aiAdoptPreset(r.preset);
     setAiStatus(T("added")(r.preset.name)+(r.warnings.length?T("autofix")(r.warnings.join("、")):""),"ok");
   }catch(e){ setAiStatus(String(e.message||e),"err"); }
   btn.disabled=false;
@@ -17595,14 +18237,7 @@ function applyLang(){
   $("#keyPersistLabel").textContent=T("keyPersistLabel"); $("#btnKeySave").textContent=T("btnKeySave");
   $("#aiKeyNote").textContent=T("aiKeyNote"); $("#aiGenHead").textContent=T("aiGenHead");
   $("#aiKeyNoteSum").textContent=T("aiKeyNoteSum");   // 第36便 B4
-  // 第170便: 生成モード(存在ガード付き — root 未適用でも落ちない)
-  { const ml=$("#aiModeLabel"); if(ml) ml.textContent=T("aiModeLabel");
-    const ms=$("#aiGenMode");
-    if(ms){ ms.options[0].textContent=T("aiModeCatalog"); ms.options[1].textContent=T("aiModeFree");
-      if(ms.options[2]) ms.options[2].textContent=T("aiModeObs"); }   // 第176便: 観測採取
-    const mn=$("#aiModeNote");
-    if(mn) mn.textContent=T("aiModeNote")+" "+T("aiModeCatalogList")(astroCatalogSummary());
-    const msum=$("#aiModeNoteSum"); if(msum) msum.textContent=T("aiModeNoteSum"); }
+  // 第178便: 生成モードのラベル群は撤去(モード自体が無くなった)
   $("#aiBaseLabel").textContent=T("aiBaseLabel"); $("#aiBaseNote").textContent=T("aiBaseNote");   // 第26便
   $("#aiBaseNoteSum").textContent=T("aiBaseNoteSum");   // 第36便 B4
   rebuildAiBaseSelect();   // 第26便: 言語切替でベース候補名も更新
@@ -17610,7 +18245,6 @@ function applyLang(){
   $("#btnGenerate").textContent=T("btnGenerate"); $("#aiListHead").textContent=T("aiListHead");
   $("#aiPrompt").placeholder=T("aiPromptPh");
   $("#aiPreviewSum").textContent=T("aiPreviewSum"); $("#aiPreviewNote").textContent=T("aiPreviewNote");   // 第32便 W4
-  applyAiGenMode(false);   // 第170便: モードに応じた表示反映(値には触れない)
   // 第102便: 外部AIチャット経路のラベル(root 未適用でも落ちないよう存在ガード)
   // 第103便: 独立グループの見出し+短縮版ボタンを追加
   const exT=$("#aiExtTitle"); if(exT) exT.textContent=T("aiExtTitle");
@@ -17618,14 +18252,11 @@ function applyLang(){
   const exN=$("#aiExtNote"); if(exN) exN.textContent=T("aiExtNote");
   const exB=$("#btnExtCopy"); if(exB) exB.textContent=T("btnExtCopy");
   const exB2=$("#btnExtCopyShort"); if(exB2) exB2.textContent=T("btnExtCopyShort");
-  // 第176便: 観測採取(カタログ外)のラベル(root 未適用でも落ちないよう存在ガード)
-  { const oT=$("#aiObsTitle"); if(oT) oT.textContent=T("aiObsTitle");
-    const oS=$("#aiObsSum"); if(oS) oS.textContent=T("aiObsSum");
-    const oN=$("#aiObsNote"); if(oN) oN.textContent=T("aiObsNote");
-    const oP=$("#aiObsRecords"); if(oP) oP.placeholder=T("aiObsPh");
-    const oB0=$("#btnObsPromptCopy"); if(oB0) oB0.textContent=T("btnObsPromptCopy");
-    const oB1=$("#btnObsCheck"); if(oB1) oB1.textContent=T("btnObsCheck");
-    const oB2=$("#btnObsBuild"); if(oB2) oB2.textContent=T("btnObsBuild");
+  // 第178便: 貼付欄1本のラベル(root 未適用でも落ちないよう存在ガード)
+  { const oP=$("#aiPasteArea"); if(oP) oP.placeholder=T("aiPastePh");
+    const kl=$("#aiKeplerLabel"); if(kl) kl.textContent=T("aiKeplerLabel");
+    const pb=$("#btnAiPaste"); if(pb) pb.textContent=T("btnAiPaste");
+    const pc=$("#btnAiPasteCheck"); if(pc) pc.textContent=T("btnAiPasteCheck");
     obsReportClear(); }
   updateAiPreview();
   rebuildPresetSelect(currentPreset?currentPreset.id:undefined);
@@ -19158,6 +19789,12 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   ovMin, aiUserContent,  // 第26便: グラフ最小化/AIベースサンプルのQA用
   buildExternalPrompt, doImportText,  // 第102便: 外部AIチャット経路(プロンプト組立・寛容インポート)のQA用
   buildExternalPromptShort, importCandidates, AI_SPEC_URL,  // 第103便: 短縮版プロンプト・候補抽出のQA用
+  // 第178便: 自由生成一本化+取込堅牢化 — QA ai.unified-prompt / ai.paste-shape /
+  // ai.stabilize / ai.intake-normalize / ai.ui-unified が読む公開フック
+  buildUnifiedPrompt, buildRecordsClause, buildBuiltinListClause, aiSendContent, aiExampleForPrompt,
+  normalizeIntakeText, parseIntake, jsonPosInfo, detectPasteShape, pickSinglePreset,
+  stabilizePreset, stabSelfCheck, aiIntakeText, aiIntakeValue,
+  STAB_ESCAPE_MUL, STAB_DIVERGE_MUL, AI_EXAMPLE_MAX,
   scaleEffNow,  // 第104便: ベースのスケール(タグ一括設定)のQA用 — 実効4指数の読み口(表示専用)
   claimProv, PROV_CLASSES,  // 第105便B EXT-02: 主張の出所分類のQA用(表示専用)
   claimRole, ROLE_CLASSES,  // 第133便 P0: 主張の役割分類のQA用(宣言専用 — 表示のみ)
@@ -19227,6 +19864,12 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   stepCarry:()=>stepCarryOn, setStepCarry,     // 否定対照(繰越の無効化)専用の切替
   stepGenNow:()=>stepGen, stepGenBump,
   stepDiag:()=>stepDiagOn, setStepDiag, stepDiagText,
+  // 第177便 P1-1: 対ループカーネルの開発フック(既定 OFF・判定へ無影響)と観測口。
+  // setKernelForceGeneric(true) で全宇宙が generic を通る = QA kernel.bitident の対照側。
+  // kernelInfo() は直近サブステップで実際に選ばれたカーネル種別を返す(観測専用)。
+  setKernelForceGeneric, kernelForceGeneric:()=>kernelForceGeneric,
+  kernelInfo:()=>({kind:["generic","plain","pn"][sim._kKind]||"generic",
+                   code:sim._kKind, forced:kernelForceGeneric}),
   runStepBench, lastBench:()=>(lastBench? {...lastBench} : null), benchSteps:()=>BENCH_STEPS,
   drawThinSat:()=>DRAW_THIN_SAT, backingCap:()=>({maxPx:MAX_BACKING_PX, minDpr:MIN_BACKING_DPR,
     dpr, px:cv.width*cv.height, cssW:cw, cssH:ch}),
