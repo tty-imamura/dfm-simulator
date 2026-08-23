@@ -8042,19 +8042,35 @@ if (!FAST) {
       const t3 = HP.buildExternalPrompt();
       const emptyOk = t3.includes(HP.SYSTEM_PROMPT) && !t3.includes('undefined');
       // 第103便: 短縮版 — 仕様全文を含まず、公開仕様書URLへのリンク参照+要望のみ
-      let shortOk = true;
+      // 第181便: 暗黙の少数ショット例を 🟠jupiterGalilean **丸ごと**(17k字級)に固定したため、
+      //   「短縮版 < full の半分」は**算術的に成立しなくなった** — 例は仕様書リンクでは渡せない
+      //   動的文脈なので短縮版にも丸ごと入る(full−short の差は原理的に仕様全文ぶんだけ)。
+      //   短縮版の意味は「仕様全文をリンクへ逃がしたぶん短い」ことなので、第181便の固定例を持つ
+      //   対象ではその不変量で固定し、**検査を2つ増やす**(仕様全文を1文字も含まない・出力の
+      //   使い分け節を逐語で運ぶ)。固定例を持たない対象(root)は従来の半分則のまま検査する。
+      let shortOk = true, lenFull = 0, lenShort = 0, shortRule = '';
       if (HP.buildExternalPromptShort) {
         prompt.value = 'QA短縮プロンプト検査'; sel.value = '';
+        const t1s = HP.buildExternalPrompt();
         const t4 = HP.buildExternalPromptShort();
+        lenFull = t1s.length; lenShort = t4.length;
+        const fixedEx = !!HP.AI_EXAMPLE_DEFAULT_ID;
+        shortRule = fixedEx ? '仕様全文ぶん短い(第181便)' : 'full の半分未満(従来)';
         shortOk = t4.includes(HP.AI_SPEC_URL) && t4.includes('QA短縮プロンプト検査')
-          && !t4.includes('# 出力ルール') && t4.length < t1.length / 2;
+          && !t4.includes('# 出力ルール')
+          && (fixedEx
+            ? (t1s.length - t4.length > HP.SYSTEM_PROMPT.length * 0.9
+              && !t4.includes(HP.SYSTEM_PROMPT)
+              && (!HP.buildRecordsClause || t4.includes(HP.buildRecordsClause())))
+            : t4.length < t1s.length / 2);
         prompt.value = '';
       }
       sel.value = '';
-      return { plain, withBase, emptyOk, shortOk };
+      return { plain, withBase, emptyOk, shortOk, lenFull, lenShort, shortRule };
     });
     add('ai.external-prompt', r.plain && r.withBase && r.emptyOk && r.shortOk,
-      `素通し=${r.plain} ベース文脈=${r.withBase} 空要望プレースホルダ=${r.emptyOk} 短縮版=${r.shortOk}`);
+      `素通し=${r.plain} ベース文脈=${r.withBase} 空要望プレースホルダ=${r.emptyOk} `
+      + `短縮版=${r.shortOk}(full=${r.lenFull}字 / short=${r.lenShort}字・差=${r.lenFull - r.lenShort}字・規則=${r.shortRule})`);
 
     // 第103便: prompt.spec-sync — 公開仕様書 docs/AI_SPEC.md が beta の SYSTEM_PROMPT を
     // 逐語収載している(短縮版プロンプトのリンク先が古くなる事故の機械固定 — ChatGPT提案§27)
@@ -9217,8 +9233,217 @@ if (!FAST) {
         `2回構築ビット一致・カタログ経路の生成物は不変` +
         `${bld.bad.length ? ' NG=[' + bld.bad.slice(0, 6).join(' / ') + ']' : ''}`
         : 'NG=[' + bld.bad.join(' / ') + ']');
+
+    // ================= 第181便(統括裁定 2026-08-23): 実機失敗3系統の機械固定 =================
+    // 合成フィクスチャの数値は**架空の系の丸い発明値**で、実在天体の観測値は1つも置かない
+    // (実在天体はカタログと paper/data/jovian-satellites.csv 由来の既存経路だけが持つ)。
+    // 公転周期は a と質量から**その場でケプラー則で機械算出**する(手書きの周期リテラルも無い)。
+    const G_SI = 6.674e-11;   // 規約 L−T=4・M+2T−3L=11 の1径数族が保つ実 G(SI)
+    const mkSyn = (body, quantity, value, unit, note) => ({ body, quantity, value, unit,
+      source: 'QA synthetic table (fictional bodies — this repository stores no new real-body values)',
+      url: 'https://example.invalid/qa/wave181-synthetic', retrieved: '2026-08',
+      note: note || 'Synthetic QA fixture: invented round numbers for a fictional system.' });
+    const kepP = (a, M) => 2 * Math.PI * Math.sqrt(Math.pow(a, 3) / (G_SI * M));
+
+    // --- ③ ai.obs-name-unicode(実機の失敗①: 和名 body で識別子が空 → 全行拒否)---
+    // 二体(barycentric-peri)・**和名**・逆行自転つきの合成系。実機で失敗した「冥王星とカロン」の
+    // 構造(和名 body+スマート引用符)をそのまま再現するが、数値は架空。
+    const JPC = { name: '架空母星', m: 1.3e22, r: 1.2e6, rot: -5.5e5 };
+    const JPS = { name: '架空衛星', m: 1.6e21, r: 6.0e5, a: 1.96e7 };
+    const JP_RECS = [
+      mkSyn(JPC.name, 'mass', JPC.m, 'kg'), mkSyn(JPC.name, 'radius', JPC.r, 'm'),
+      mkSyn(JPC.name, 'rotation_period', JPC.rot, 's', '逆行自転(負の自転周期)の合成値'),
+      mkSyn(JPS.name, 'mass', JPS.m, 'kg'), mkSyn(JPS.name, 'radius', JPS.r, 'm'),
+      mkSyn(JPS.name, 'semi_major_axis', JPS.a, 'm'), mkSyn(JPS.name, 'eccentricity', 0, '1'),
+      mkSyn(JPS.name, 'orbital_period', kepP(JPS.a, JPC.m + JPS.m), 's', 'a と質量からケプラー則で機械算出(二体は重心系)')];
+    const uni = await page.evaluate(({ JP_RECS, POS, JPC, JPS }) => {
+      const bad = [];
+      const legacy = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '').slice(0, 24);   // 第180便までの実装
+      // (a) ASCII 名の識別子は**1文字も変わらない**(a-z0-9 ⊂ \p{L}\p{N} — 回帰なしの機械固定)
+      const ascii = ['Io', 'Europa', 'Ganymede', 'Callisto', 'Jupiter', 'Saturn', 'Pluto', 'Charon',
+        'Mars', 'Phobos', 'Deimos', 'Saturn V', 'A-1', '  Titan  ', '2001 XY-3', 'S/2004 S 24',
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'];
+      for (const s of ascii) if (HP.obsBodyId(s) !== legacy(s))
+        bad.push('ASCII 名の識別子が変わった: ' + JSON.stringify(s) + ' → ' + HP.obsBodyId(s) + '(旧 ' + legacy(s) + ')');
+      // (b) 非 ASCII 名から識別子が作れる(旧実装では空 → 「識別子を作れません」で全行拒否)
+      const nonAscii = ['冥王星', 'カロン', '火星', 'フォボス', 'ダイモス', 'Плутон', 'Χάρων', '한글별'];
+      for (const s of nonAscii) {
+        if (legacy(s) !== '') bad.push('否定対照が成立しない(旧実装でも空でない): ' + s);
+        if (!HP.obsBodyId(s)) bad.push('非 ASCII 名から識別子が作れない: ' + s);
+      }
+      // (c) 別名は別 id・前後空白で揺れない・24字切詰
+      if (HP.obsBodyId('冥王星') === HP.obsBodyId('カロン')) bad.push('別の和名が同じ識別子になる');
+      if (HP.obsBodyId('冥王星') !== HP.obsBodyId(' 冥王星 ')) bad.push('前後空白で識別子が変わる');
+      if (HP.obsBodyId('あ'.repeat(40)).length !== 24) bad.push('24字切詰が効いていない');
+      // (d) 記号だけの名前は従来どおり空 = 行ごと拒否(緩めていないことの否定対照)
+      for (const s of ['---', '   ', '***', '・', '()', '"']) if (HP.obsBodyId(s) !== '')
+        bad.push('記号だけの名前が識別子になった: ' + JSON.stringify(s));
+      // (e) 一連の経路: 和名+**スマート引用符**の貼付テキストがそのまま通る(実機の失敗①の再現)
+      const raw = JSON.stringify(JP_RECS);
+      const smart = raw.replace(/"/g, '“');
+      const ir = HP.aiIntakeText(smart, { kepler: true });
+      if (!ir.ok) bad.push('和名+スマート引用符のレコードが拒否された: ' + ir.stage + ' ' + (ir.errors || []).join('|'));
+      let ids = '', diag = '', pName = '';
+      if (ir.ok) {
+        if (ir.kind !== 'records') bad.push('records 経路へ行かない: ' + ir.kind);
+        if (!ir.corrected) bad.push('スマート引用符の補正が告知されない');
+        if (!(ir.fixes || []).some((f) => /スマート二重引用符|smart double quotes/.test(f))) bad.push('補正内容の列挙にスマート二重引用符が無い');
+        if (ir.preset.bodies.length !== 2) bad.push('天体数が2でない: ' + ir.preset.bodies.length);
+        if (!(ir.preset.bodies[0].spin < 0)) bad.push('逆行自転の符号が落ちている: ' + ir.preset.bodies[0].spin);
+        if (!(ir.notes || []).some((n) => /逆行自転/.test(n))) bad.push('逆行自転が宣言されていない');
+        if (!ir.preset.description.includes(JPC.name) || !ir.preset.description.includes(JPS.name))
+          bad.push('出典表に和名が載っていない');
+        const worst = Math.max.apply(null, ir.diag.rows.map((x) => Math.abs(x.rel)));
+        const worst0 = Math.max.apply(null, ir.diag.rows.map((x) => Math.abs(x.rel0)));
+        if (!(worst <= HP.OBS_DIAG_TOL && worst0 <= HP.OBS_DIAG_TOL)) bad.push('和名合成系の自己診断が ±1% を外れた');
+        diag = ir.diag.rows.map((x) => x.name + ' t0 ' + (x.rel0 * 100).toFixed(4) + '%→' + (x.rel * 100).toFixed(4) + '%').join('・');
+        pName = ir.preset.name;
+        const v = HP.validateObservationRecords(JP_RECS);
+        ids = v.ok ? (v.sys.center.id + '/' + v.sys.sats.map((s) => s.id).join(',')) : 'NG';
+        if (!v.ok || !v.sys.center.id || !v.sys.sats[0].id) bad.push('和名から識別子が作れていない');
+        if (v.ok && v.sys.center.id === v.sys.sats[0].id) bad.push('中心と衛星の識別子が衝突した');
+      }
+      // (f) 否定対照: body が記号だけの行は従来どおり「識別子を作れません」で拒否
+      const symRecs = JSON.parse(JSON.stringify(JP_RECS)).map((r) => Object.assign({}, r, { body: r.body === JPC.name ? '---' : r.body }));
+      const vs = HP.validateObservationRecords(symRecs);
+      if (vs.ok) bad.push('記号だけの body 名が受理された');
+      else if (!vs.errors.some((e) => /識別子を作れません/.test(e))) bad.push('記号だけの body 名の拒否理由が識別子エラーでない: ' + vs.errors[0]);
+      // (g) ASCII 既存挙動の不変: 正例(木星系)の識別子は従来どおり
+      const vp = HP.validateObservationRecords(POS);
+      if (!vp.ok || vp.sys.center.id !== 'jupiter' || vp.sys.sats[0].id !== 'io') bad.push('ASCII 正例の識別子が変わった');
+      // (h) プロンプト・仕様書に「body は出典の表記のままでよい」規約が載っている
+      for (const lg of ['ja', 'en']) {
+        const cl = HP.buildRecordsClause(lg);
+        const okc = (lg === 'ja') ? /出典の表記のままでよい/.test(cl) && /英名へ翻訳しない/.test(cl)
+          : /may stay exactly as your source writes it/.test(cl) && /do NOT translate it into English/.test(cl);
+        if (!okc) bad.push(lg + ' の records 節に body 名の表記規約が無い');
+      }
+      return { bad, ids, diag, pName, nAscii: ascii.length, nNon: nonAscii.length };
+    }, { JP_RECS, POS, JPC, JPS });
+    add('ai.obs-name-unicode', uni.bad.length === 0,
+      `obsBodyId: ASCII ${uni.nAscii}件は第180便実装とビット一致(回帰なし)・非 ASCII ${uni.nNon}件`
+      + `(和名/キリル/ギリシャ/ハングル)が旧実装では全て空 → 新実装で識別子化 / `
+      + `和名+スマート引用符の合成レコード(架空値・周期はケプラー則で機械算出)を貼付経路へ: `
+      + `受理=true・識別子=${uni.ids}・逆行自転を宣言・自己診断 ${uni.diag} / `
+      + `否定対照: 記号だけの body 名は従来どおり「識別子を作れません」で拒否・ASCII 正例(jupiter/io)不変`
+      + `${uni.bad.length ? ' NG=[' + uni.bad.slice(0, 6).join(' / ') + ']' : ''}`);
+
+    // --- ④ ai.obs-demote(実機の失敗②: 超軽量衛星がどのスケール指数でも下限を割る)---
+    // 中心と衛星の質量比 ~1e7・半径比 ~4e2 の合成系(火星+Phobos/Deimos と**同じ構造**・値は架空)。
+    const DMC = { name: 'Qa Prime', m: 5.0e23, r: 3.0e6, rot: 9.0e4 };
+    const DM1 = { name: 'Qa Prime I', m: 5.0e16, r: 8.0e3, a: 9.0e6 };
+    const DM2 = { name: 'Qa Prime II', m: 8.0e15, r: 5.0e3, a: 2.2e7 };
+    const dmCenter = [mkSyn(DMC.name, 'mass', DMC.m, 'kg'), mkSyn(DMC.name, 'radius', DMC.r, 'm'),
+      mkSyn(DMC.name, 'rotation_period', DMC.rot, 's')];
+    const dmSat = (s, M) => [mkSyn(s.name, 'mass', s.m, 'kg'), mkSyn(s.name, 'radius', s.r, 'm'),
+      mkSyn(s.name, 'semi_major_axis', s.a, 'm'), mkSyn(s.name, 'eccentricity', 0, '1'),
+      mkSyn(s.name, 'orbital_period', kepP(s.a, M), 's', 'a と中心質量からケプラー則で機械算出')];
+    const DM_RECS = dmCenter.concat(dmSat(DM1, DMC.m), dmSat(DM2, DMC.m));
+    const DM_ONE = dmCenter.concat(dmSat(DM1, DMC.m + DM1.m));   // 衛星1体 = 二体重心系(降格の対象外)
+    const DM_OFF = DM_RECS.map((r) => (r.body === DM1.name && r.quantity === 'orbital_period')
+      ? Object.assign({}, r, { value: r.value * 1.05 }) : r);     // 降格後も自己診断は変えない
+    const dmo = await page.evaluate(({ DM_RECS, DM_ONE, DM_OFF, ALL }) => {
+      const bad = [];
+      // (a) 定数と検査器の同値性(下限ちょうどは通る・下限未満は落ちる)
+      if (HP.OBS_M_MIN !== 1e-6) bad.push('OBS_M_MIN が 1e-6 でない: ' + HP.OBS_M_MIN);
+      if (HP.OBS_R_MIN !== 0.01) bad.push('OBS_R_MIN が 0.01 でない: ' + HP.OBS_R_MIN);
+      const P0 = () => ({ bodies: [{ m: 1, radius: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0 },
+        { m: HP.OBS_M_MIN, radius: HP.OBS_R_MIN, x: 50, y: 0, vx: 0, vy: 0, spin: 0 }], camera: { scale: 100 } });
+      if (HP.obsRangeCheck(P0()).length) bad.push('値域下限ちょうどが obsRangeCheck に落ちる');
+      const pm = P0(); pm.bodies[1].m = HP.OBS_M_MIN * 0.99;
+      if (!HP.obsRangeCheck(pm).length) bad.push('m の下限未満が obsRangeCheck を通る(定数と検査器の食い違い)');
+      const pr = P0(); pr.bodies[1].radius = HP.OBS_R_MIN * 0.99;
+      if (!HP.obsRangeCheck(pr).length) bad.push('radius の下限未満が obsRangeCheck を通る');
+      // (b) obsDemoteSats の境界(緩めていない側は全て null = 差し戻し)
+      const B = (m, radius, o) => Object.assign({ m, radius, x: 50, y: 0, vx: 0, vy: 0, spin: 0 }, o || {});
+      const mk = (place, nSat, bodies, cam) => ({ sys: { place, sats: [] },
+        preset: { bodies, camera: { scale: cam === undefined ? 100 : cam } }, nSat });
+      const sysOf = (place, n) => ({ place, sats: Array.from({ length: n }, () => ({ m: 1e-9, radius: 0.001, a: 50, e: 0, spin: 0, id: 'x', name: 'x' })) });
+      const lowSat = () => [B(1, 1, { x: 0 }), B(1e-9, 0.001), B(2e-9, 0.002, { x: 60 })];
+      const NEGD = [
+        ['二体重心系(衛星1体)は対象外', 'barycentric-peri', [B(1, 1, { x: 0 }), B(1e-9, 0.001)], 100],
+        ['中心の m 下限割れは救済しない', 'kepler-peri', [B(1e-9, 1, { x: 0 }), B(1e-9, 0.001), B(1e-9, 0.002, { x: 60 })], 100],
+        ['中心の radius 下限割れは救済しない', 'kepler-peri', [B(1, 0.001, { x: 0 }), B(1e-9, 0.001), B(1e-9, 0.002, { x: 60 })], 100],
+        ['衛星の上限側 m>20000 は救済しない', 'kepler-peri', [B(1, 1, { x: 0 }), B(30000, 0.5), B(1e-9, 0.002, { x: 60 })], 100],
+        ['衛星の上限側 radius>100 は救済しない', 'kepler-peri', [B(1, 1, { x: 0 }), B(1e-9, 500), B(1e-9, 0.002, { x: 60 })], 100],
+        ['座標 ±5000 超は救済しない', 'kepler-peri', [B(1, 1, { x: 0 }), B(1e-9, 0.001, { x: 9000 }), B(1e-9, 0.002, { x: 60 })], 100],
+        ['速度 ±50 超は救済しない', 'kepler-peri', [B(1, 1, { x: 0 }), B(1e-9, 0.001, { vy: 80 }), B(1e-9, 0.002, { x: 60 })], 100],
+        ['spin ±20 超は救済しない', 'kepler-peri', [B(1, 1, { x: 0 }), B(1e-9, 0.001, { spin: 40 }), B(1e-9, 0.002, { x: 60 })], 100],
+        ['camera.scale 域外は救済しない', 'kepler-peri', lowSat(), 10],
+        ['camera.scale 上限超も救済しない', 'kepler-peri', lowSat(), 4000],
+        ['下限側の障害が無ければ降格しない', 'kepler-peri', [B(1, 1, { x: 0 }), B(0.5, 0.5), B(0.5, 0.5, { x: 60 })], 100],
+      ];
+      for (const [w, place, bodies, cam] of NEGD) {
+        const r = HP.obsDemoteSats(sysOf(place, bodies.length - 1), { bodies, camera: { scale: cam } });
+        if (r !== null) bad.push('降格すべきでない構成が降格した: ' + w);
+      }
+      // 正例: 衛星の下限側だけ → 降格し、元の sys は書き換えない
+      const sysP = sysOf('kepler-peri', 2), before = JSON.stringify(sysP);
+      const rd = HP.obsDemoteSats(sysP, { bodies: lowSat(), camera: { scale: 100 } });
+      if (!rd) bad.push('衛星の下限側だけの構成が降格されない');
+      else {
+        if (rd.demoted.length !== 2) bad.push('降格対象が2件でない: ' + rd.demoted.length);
+        if (!(rd.sys.sats[0].m === HP.OBS_M_MIN && rd.sys.sats[0].radius === HP.OBS_R_MIN)) bad.push('降格後の値が下限に置かれていない');
+        if (JSON.stringify(sysP) !== before) bad.push('降格が元の系定義を破壊的に書き換えた');
+      }
+      // (c) 一連の経路: 合成系(質量比 ~1e7)が降格つきで構築され、宣言され、自己診断を通る
+      const r1 = HP.buildAstroFromRecords(DM_RECS);
+      let info = null;
+      if (!r1.ok) bad.push('降格が要る合成系の構築が失敗: ' + r1.stage + ' ' + (r1.errors || []).join('|'));
+      else {
+        const dm = r1.demoted || [];
+        if (dm.length !== 2) bad.push('降格が2衛星に効いていない: ' + dm.length);
+        for (let i = 1; i <= 2; i++) {
+          if (r1.preset.bodies[i].m !== HP.OBS_M_MIN) bad.push('body' + i + '.m が下限に置かれていない: ' + r1.preset.bodies[i].m);
+          if (r1.preset.bodies[i].radius !== HP.OBS_R_MIN) bad.push('body' + i + '.radius が下限に置かれていない: ' + r1.preset.bodies[i].radius);
+        }
+        if (r1.preset.bodies[0].m === HP.OBS_M_MIN) bad.push('中心天体まで降格された');
+        // 宣言: description・parameterAudit・notes の3箇所に実質量(SI)と中心比つきで載る
+        const decl = r1.preset.description;
+        if (!/テスト粒子近似/.test(decl)) bad.push('description に降格の宣言が無い');
+        if (!/5\.000000e\+16 kg/.test(decl)) bad.push('宣言に実質量(SI)が入っていない');
+        if (!/1\.0e-7 倍/.test(decl)) bad.push('宣言に中心比が入っていない');
+        if (!/値域下限 0\.01 へ引き上げ/.test(decl)) bad.push('半径の降格が宣言されていない');
+        if (!(r1.notes || []).some((n) => /テスト粒子近似/.test(n))) bad.push('notes に降格の宣言が無い');
+        if (!(r1.preset.parameterAudit.fixedConventions || []).some((s) => /テスト粒子近似|test-particle/.test(s)))
+          bad.push('parameterAudit に降格の宣言が無い');
+        // 自己診断は一切変えない — 降格後の構築物も ±1% で診断されて通ること
+        const w = Math.max.apply(null, r1.diag.rows.map((x) => Math.abs(x.rel)));
+        const w0 = Math.max.apply(null, r1.diag.rows.map((x) => Math.abs(x.rel0)));
+        if (!(w <= HP.OBS_DIAG_TOL && w0 <= HP.OBS_DIAG_TOL)) bad.push('降格後の自己診断が ±1% を外れた');
+        // 決定性
+        const r2 = HP.buildAstroFromRecords(DM_RECS);
+        if (JSON.stringify(r1.preset) !== JSON.stringify(r2.preset)) bad.push('降格経路が非決定的');
+        info = { scale: r1.meta.scale, q: r1.meta.q, cam: r1.meta.camScale,
+          rows: r1.diag.rows.map((x) => x.name + ' t0 ' + (x.rel0 * 100).toFixed(4) + '%→' + (x.rel * 100).toFixed(4) + '%'),
+          decl: (decl.split('\n').find((l) => /宣言する理想化/.test(l)) || '').slice(0, 200) };
+      }
+      // (d) 否定対照: 衛星1体(二体重心系)は降格せず従来どおり差し戻す
+      const rOne = HP.buildAstroFromRecords(DM_ONE);
+      if (rOne.ok) bad.push('衛星1体の系が降格で救済された(barycentric-peri は対象外のはず)');
+      else if (rOne.stage !== 'scale') bad.push('衛星1体の差し戻し段階が scale でない: ' + rOne.stage);
+      // (e) 否定対照: 降格後も周期の写し間違い(+5%)は自己診断で拒否される
+      const rOff = HP.buildAstroFromRecords(DM_OFF);
+      if (rOff.ok) bad.push('周期を +5% ずらしたレコードが降格経路で採用された');
+      else if (rOff.stage !== 'diagnosis') bad.push('+5% ずれの差し戻し段階が diagnosis でない: ' + rOff.stage);
+      // (f) 降格なしで通る系(木星系)では降格が1件も起きない = 最良 L の選好は不変
+      const rJ = HP.buildAstroFromRecords(ALL);
+      if (!rJ.ok) bad.push('木星系(降格不要)の構築が失敗した');
+      else if ((rJ.demoted || []).length !== 0) bad.push('降格不要の系で降格が発火した: ' + rJ.demoted.length);
+      return { bad, nNeg: NEGD.length, info,
+        oneStage: rOne.ok ? 'ok' : rOne.stage, offStage: rOff.ok ? 'ok' : rOff.stage };
+    }, { DM_RECS, DM_ONE, DM_OFF, ALL });
+    add('ai.obs-demote', dmo.bad.length === 0,
+      dmo.info ? `合成系(中心/衛星の質量比 ~1e7・半径比 ~4e2・値は架空)を構築: `
+        + `L/T/M=${dmo.info.scale.L}/${dmo.info.scale.T}/${dmo.info.scale.M}・q_exact=${dmo.info.q}・camera=${dmo.info.cam} / `
+        + `衛星2体を m→1e-6・radius→0.01 のテスト粒子へ降格し、実質量(SI)と中心比つきで `
+        + `description/parameterAudit/notes の3箇所に宣言 / 降格後の自己診断(${dmo.info.rows.join('・')})は ±1% 内 / `
+        + `境界の否定対照=${dmo.nNeg}件(二体重心系・中心の逸脱・上限側 m/radius・座標・速度・spin・camera 域)全て差し戻し / `
+        + `衛星1体の系=${dmo.oneStage} で差し戻し・周期+5%ずれ=${dmo.offStage} で差し戻し・木星系は降格0件(最良 L の選好は不変)`
+        + `${dmo.bad.length ? ' NG=[' + dmo.bad.slice(0, 6).join(' / ') + ']' : ''}`
+        : 'NG=[' + dmo.bad.join(' / ') + ']');
   } else {
-    console.log('SKIP ai.obs-schema / ai.obs-build(対象に ObservationRecord 経路なし — 第176便 未適用の root 等)');
+    console.log('SKIP ai.obs-schema / ai.obs-build / ai.obs-name-unicode / ai.obs-demote(対象に ObservationRecord 経路なし — 第176便 未適用の root 等)');
   }
 }
 
@@ -9295,7 +9520,28 @@ if (!FAST) {
       // 少数ショット例: 未選択でも必ず1つ入り、ベース切替に追随する
       const exCur = HP.aiExampleForPrompt();
       const curOk = !!exCur && exCur.base === false && full.includes(exCur.json);
-      if (!curOk) bad.push('未選択時に現在のサンプルの例が入っていない');
+      if (!curOk) bad.push('未選択時の暗黙の例がプロンプトに入っていない');
+      // 第181便(原仮定者指示「ベースのサンプル指定がない限り、例は精度が高いサンプルを使用する」):
+      //   未選択時の暗黙の例は **🟠jupiterGalilean を丸ごと**。読み込み中のサンプルに依存しない
+      //   (実機の失敗③: 検証時に gclock が混入していた)。間引き・改変・字数上限は無い。
+      if (HP.AI_EXAMPLE_DEFAULT_ID !== 'jupiterGalilean') bad.push('暗黙の例の既定 ID が jupiterGalilean でない: ' + HP.AI_EXAMPLE_DEFAULT_ID);
+      if (HP.AI_EXAMPLE_MAX !== undefined) bad.push('暗黙の例の字数上限 AI_EXAMPLE_MAX が残っている');
+      if (!exCur || exCur.id !== 'jupiterGalilean') bad.push('未選択時の暗黙の例が jupiterGalilean でない: ' + (exCur && exCur.id));
+      if (!exCur || exCur.json === null) bad.push('暗黙の例が省略された(字数上限が残っている)');
+      const jup = HP.allPresets().find((p) => String(p.id) === 'jupiterGalilean');
+      const jupJson = jup ? JSON.stringify(HP.presetForAIBase(jup)) : null;
+      if (!jup) bad.push('内蔵サンプル jupiterGalilean が見つからない');
+      else if (!exCur || exCur.json !== jupJson) bad.push('暗黙の例が jupiterGalilean 丸ごとでない(間引き・改変がある)');
+      // 読み込み中のサンプルを変えても暗黙の例が1ビットも変わらないこと(gclock 混入の再発防止)
+      HP.loadPreset('gclock', false);
+      const exAfter = HP.aiExampleForPrompt();
+      const fullAfter = HP.buildUnifiedPrompt(false);
+      if (!exAfter || exAfter.json !== exCur.json) bad.push('暗黙の例が読み込み中のサンプルに依存している(gclock で変わった)');
+      if (!fullAfter.includes(jupJson)) bad.push('gclock 読込後のプロンプトに固定例が入っていない');
+      if (HP.currentPreset().id === 'jupiterGalilean') bad.push('否定対照が成立しない(読み込み中のサンプルが偶然 jupiterGalilean)');
+      // 否定対照: 6000字上限が残っていれば固定例(17k字級)は省略されていたはず = 上限撤廃の実効確認
+      if (!(exCur.len > 6000)) bad.push('固定例が 6000 字以下 — 上限撤廃の否定対照が成立しない');
+      HP.loadPreset('galaxy', false);
       sel.value = 'darkrotor';
       const exBase = HP.aiExampleForPrompt();
       const f2 = HP.buildUnifiedPrompt(false), s2 = HP.buildUnifiedPrompt(true);
@@ -9311,12 +9557,16 @@ if (!FAST) {
       const f3 = HP.buildUnifiedPrompt(false);
       if (!f3.includes('"integrator":"leapfrog"')) bad.push('ベース切替(echo)で最上位キーが例に入らない');
       sel.value = ''; prompt.value = '';
-      return { bad, lenFull: f2.length, lenShort: s2.length, exLen: exCur ? exCur.json.length : 0 };
+      const fD = HP.buildUnifiedPrompt(false), sD = HP.buildUnifiedPrompt(true);
+      return { bad, lenFull: f2.length, lenShort: s2.length, exLen: exCur ? exCur.json.length : 0,
+        exId: exCur ? exCur.id : null, defFull: fD.length, defShort: sD.length, specLen: HP.SYSTEM_PROMPT.length };
     });
     add('ai.unified-prompt', up.bad.length === 0,
-      `単一プロンプト: full=${up.lenFull}字 / short=${up.lenShort}字(差=${up.lenFull - up.lenShort}字 ≒ 仕様全文ぶん)・仕様/出力の使い分け/`
-      + `内蔵一覧/記憶禁止規律を両方が同一本文で運ぶ・少数ショット例=${up.exLen}字(未選択は現在の`
-      + `サンプル・ベース切替に追随)${up.bad.length ? ' NG=[' + up.bad.slice(0, 6).join(' / ') + ']' : ''}`);
+      `単一プロンプト: full=${up.lenFull}字 / short=${up.lenShort}字(差=${up.lenFull - up.lenShort}字 ≒ 仕様全文 ${up.specLen}字ぶん)・仕様/出力の使い分け/`
+      + `内蔵一覧/記憶禁止規律を両方が同一本文で運ぶ・少数ショット例=${up.exLen}字(未選択の暗黙の例は`
+      + `🟠${up.exId} を丸ごと固定=読み込み中のサンプルに非依存・ベース切替に追随)・`
+      + `暗黙の例での実測長: full=${up.defFull}字 / short=${up.defShort}字(差=${up.defFull - up.defShort}字)`
+      + `${up.bad.length ? ' NG=[' + up.bad.slice(0, 6).join(' / ') + ']' : ''}`);
 
     // --- ③ ai.paste-shape ---
     const shp = await page.evaluate(() => {

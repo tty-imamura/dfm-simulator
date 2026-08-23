@@ -25,8 +25,9 @@ the branching itself, so the branching is gone:
   *few-shot example* + *request*. The short version differs only in that the specification is a
   link to this page rather than inline text.
 - **One example.** The prompt always embeds one preset JSON as a few-shot example: the selected
-  "base sample", or — when none is selected — the sample currently loaded. Example quality is
-  what drives output quality, so there is never a prompt without one.
+  "base sample", or — when none is selected — the built-in 🟠 "Jupiter and the Galilean moons
+  (real units)" sample, whole and unabridged (wave 181; it used to be whatever sample happened to
+  be loaded). Example quality is what drives output quality, so there is never a prompt without one.
 - **One paste box.** The AI tab has a single box. The app decides whether you pasted an
   ObservationRecord array or a preset JSON, and takes the matching path. Records pasted into the
   Saves-tab preset import box are turned back with a pointer to the right box.
@@ -51,6 +52,7 @@ quantity [unit]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] / s
 - Every satellite needs mass, semi_major_axis and orbital_period (radius, eccentricity and rotation are optional — the app declares its defaults when they are missing).
 - SI units only (km, days, degrees are rejected): convert yourself and say so in "note".
 - RETROGRADE rotation is written as a NEGATIVE rotation_period (the app carries the sign into the spin). Negative mass, radius, semi_major_axis or orbital_period are rejected.
+- The "body" name may stay exactly as your source writes it — a Japanese or other non-Latin name is fine, do NOT translate it into English (the app builds the identifier from the Unicode name as it is).
 - Do not include rings, dust or unnamed bodies.
 
 # OUTPUT B: a preset JSON
@@ -223,7 +225,8 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
   インポート欄へ入る」という失敗を生んだ。原因は分岐そのものなので、分岐を無くした。
 - 配るプロンプトは**1系統**。アプリ内生成・生成用プロンプト・短縮版とも
   「仕様+出力の使い分け+内蔵実天体一覧+**少数ショット例**+要望」の同じ骨格を運ぶ。
-- 少数ショット例は**必ず1つ入る**(選択中のベースのサンプル、未選択なら現在のサンプル)。
+- 少数ショット例は**必ず1つ入る**(選択中のベースのサンプル、未選択なら 🟠「木星とガリレオ衛星
+  (実単位)」を**丸ごと** — 第181便で固定。間引き・改変・字数上限は無い)。
 - 貼付欄は AIタブの**1つだけ**。レコード配列かプリセットJSONかは**アプリが自動判別**する。
 - 実在天体は「モード」ではなく**プリセットとして存在する**。一覧に合致する要望には
   そのサンプル名を案内し、数値を作らせない。内蔵の実天体サンプル: 太陽系 — 内惑星(実単位) / 水星(実単位)— 近日点移動 / 地球と月(実単位) / 木星とガリレオ衛星(実単位) / 土星の環と主要衛星(実単位) / 土星の近点移動(実単位・扁平重力)
@@ -246,6 +249,7 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 - 各衛星には mass・semi_major_axis・orbital_period が必須(radius・eccentricity・自転は任意 — 無ければアプリが宣言つきで既定化します)。
 - 単位は SI のみ(km・日・度は拒否されます)。換算はあなたが行い、その旨を note に書いてください。
 - **逆行自転は rotation_period を負の値**で書きます(符号はアプリが spin へ反映します)。質量・半径・軌道長半径・公転周期の負値は拒否されます。
+- **body(天体名)は出典の表記のままでよい**(和名可・英名へ翻訳しない — アプリは Unicode の名前をそのまま識別子にします)。
 - 環・塵・名前の無い天体は含めないでください。
 
 # 出力B: プリセット JSON
@@ -275,6 +279,9 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 
 - 中心天体は「`semi_major_axis` を持たない天体」で、**ちょうど1つ**・かつ最重量でなければならない。
 - 衛星は `semi_major_axis` の昇順に並べ替えられる(位相は 90°(4天体以下)/60°(5天体以上)刻み)。
+- `body` は**出典の表記のままでよい**(第181便)。同一天体の同定に使う識別子は
+  「小文字化 → Unicode の文字・数字(`\p{L}\p{N}`)以外を除去 → 24字切詰」で作るので、
+  和名(例:「冥王星」)・キリル文字・ギリシャ文字の表記でも空にならない。英名へ翻訳する必要はない。
 
 ### 6.4.2 拒否条件(**作らない** — 黙って埋めない)
 
@@ -291,6 +298,17 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 衛星の離心率の出典が無い → `e=0`(円軌道化)と宣言 / 衛星の半径の出典が無い →
 描画半径 `radiusScale·√m` への降格を宣言 / 2次元赤道面理想化・中心 `pinned` は常に宣言。
 宣言は description と `parameterAudit` の両方に載る。
+
+**超軽量衛星のテスト粒子降格(第181便)**: 規約 `L−T=4`・`M+2T−3L=11` は**1径数族**なので、
+中心と衛星の質量比が ~1e7 を超える系(火星と Phobos/Deimos 型)は**どの `L` でも**衛星が
+`m` の下限を割る — `L` を上げれば衛星が沈み、下げれば中心の半径が上限を突き抜ける。
+この構造的な穴に限り、障害が**衛星(非中心)の `m<1e-6`・`radius<0.01` という下限側だけ**の
+ときに、その衛星を値域下限へ引き上げて採用し、実質量(SI)と中心比を添えて宣言する。
+**緩めない境界**: 中心天体の逸脱・上限側(`m>20000`・`radius>100`)・座標 ±5000・速度 ±50・
+`spin` ±20・`camera.scale` 20〜3000 は従来どおり差し戻す。衛星が1体だけの二体重心系
+(`barycentric-peri`)は衛星質量が配置に直接効くので**対象外**。スケール探索の順序・範囲
+(`dL=[0,1,-1,2,-2,3,-3]`)は不変で、**降格なしで通る `L` があれば必ずそちらを優先**する。
+降格後の構築物にも自己診断 ±1% がそのまま掛かるので、力学が壊れる降格は採用されない。
 
 ### 6.4.3 アプリが決める量(**AI は触れない**)
 
