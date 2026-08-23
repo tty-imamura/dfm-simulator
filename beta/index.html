@@ -8848,429 +8848,45 @@ function phaseEnergy(s){
   return U;
 }
 // ============================================================================================
-// 第177便 P1-1(レビュー第5巡 / 原仮定者裁定「進める」): 対ループカーネルの切り出しと特別化
+// 第177便 P1-1(レビュー第5巡 / 原仮定者裁定「進める」)+ 第177b便(perf 回帰の補正):
+//   対ループの**特別化だけ**の切り出し
 // --------------------------------------------------------------------------------------------
 // 背景: 原仮定者の Windows Chrome 実機で 💿saturnRingRealKF1 が「時間経過倍率=1 でも歩数 44%」
 //   = **1步のコスト自体が予算級**。最有力原因は V8 が ~1400 行の単一関数 S._core を最適化
 //   しないこと(第39便 39B で「null↔TypedArray の型変化」を潰すためダミー TypedArray を置いた
 //   のと同じ、V8 の都合に合わせて**式を変えずに形だけ変える**系譜)。
 // 方針(**1步の浮動小数演算の集合と順序は 1 つも変えない**):
-//   ① O(N²) の全対ループ①だけを、型が安定した引数(TypedArray・数値・真偽値)しか取らない
-//      module 直下の独立関数へ移す。走査順(i, j=i+1)・括弧・加算順・Float32/Float64 の
-//      読み書き位置・Math.pow/Math.sqrt の呼び方は移設前の逐語コピーである。
-//   ② 軌道系のフラグ組(kRep=0・muF=0・γN=0・κS=0・ηRad=0・tint なし・phase なし・
-//      コアv2 なし・箱なし・機構スペクトル OFF)では、**その死枝を 1 つも持たない**同一式の
-//      特別化カーネルを呼ぶ(PN なし=pairCorePlain / E12 測地線 1PN あり=pairCorePN。
+//   ① 軌道系のフラグ組(kRep=0・muF=0・γN=0・κS=0・ηRad=0・tint なし・phase なし・
+//      コアv2 なし・箱なし・機構スペクトル OFF)だけを、**その死枝を 1 つも持たない**同一式の
+//      特別化カーネルへ回す(PN なし=pairCorePlain / E12 測地線 1PN あり=pairCorePN。
 //      geoPN=2 の ∇u ヤコビアン集積は pairCorePN 内の独立ブロックで、コア差動枝を持たない)。
+//      走査順(i, j=i+1)・括弧・加算順・Float32/Float64 の読み書き位置・Math.pow/Math.sqrt の
+//      呼び方は切り出し前の逐語コピーである。
+//   ② **特別化条件を満たさない宇宙(kKind=0 = generic)は従来どおり S._core 内のインライン
+//      対ループを通る**(root index.html の同区間の逐語コピー)。第177便は generic まで ctx
+//      (約85プロパティ)への書き込み+関数呼び出し経由へ移したため、1步あたりの固定
+//      オーバーヘッドが乗り、3体×120000步の perf.starSeed で beta/root の絶対 ms が
+//      +13〜19% の実回帰として顕在化した(4走行で再現)。第177b便でインライン復元。
 //   ③ カーネル選択は S._core の入口で 1 回だけ(= サブステップにつき 1 回)。**対ループの
-//      内側にはフラグ判定を 1 つも増やさない**。該当しない宇宙は従来どおり generic を通る。
-// S.radE / S.angOvfN / S.clampAN はカーネル内でローカルへ集積し、末尾で 1 度だけ書き戻す
-//   (Float64 の += が同じ順に走るだけなので値は 1 bit も変わらない)。
-// 開発フック: kernelForceGeneric(既定 OFF)を立てると常に generic を通る。QA kernel.bitident が
-//   「generic 強制」と「通常経路」の**全状態ビット一致**を機械照合するための口で、判定式・
-//   既定挙動・外部 API には一切影響しない。
-// 特別化の**非**対象(= generic を通る)例: ♨️convection・🌌galaxy・🥚selfRotor・⚫bhCore・
-//   💧gas など、斥力・摩擦・拡散・内部温度・相変化・コアv2・箱を使う宇宙。
+//      内側にはフラグ判定を 1 つも増やさない**。ctx への書き込みも kKind≠0 のときだけ行う。
+// S.radE / S.angOvfN / S.clampAN を触る枝(輻射・角オーバーフロー・加速度クランプ)は特別化の
+//   対象外フラグ組にしか現れないため、インライン generic が従来どおり S.radE 等を直接更新する。
+// 開発フック: kernelForceGeneric(既定 OFF)を立てると常に kKind=0 = インライン generic を通る。
+//   QA kernel.bitident が「generic 強制」と「通常経路」の**全状態ビット一致**を機械照合する
+//   ための口で、判定式・既定挙動・外部 API には一切影響しない。
+// 特別化の**非**対象(= インライン generic を通る)例: ♨️convection・🌌galaxy・🥚selfRotor・
+//   ⚫bhCore・💧gas・🌟starSeed など、斥力・摩擦・拡散・内部温度・相変化・コアv2・箱を使う宇宙。
 // ============================================================================================
 let kernelForceGeneric=false;   // 第177便: 開発フック(既定 OFF)。QA kernel.bitident 専用
 function setKernelForceGeneric(v){ kernelForceGeneric=!!v; }
+// 特別化カーネル(pairCorePlain / pairCorePN)が読むフィールドだけを持つ形状固定の ctx。
+// generic はインライン(S._core 内)のままなので generic 専用フィールドは持たない(第177b便)。
 function newPairCtx(){ return { n:null, m:null, x:null, y:null, vx:null, vy:null, spin:null, R:null,
-    pinned:null, ax:null, ay:null, sumW:null, uAx:null, uAy:null, ds:null, pairD:null,
-    Imom:null, eps:null, eps2:null, G:null, q:null, kRep:null, muF:null, gammaN:null,
-    kappaS:null, kickDt:null, dt:null, geo:null, invC2:null, pnA:null, pnK:null, pnOv:null,
-    geo2:null, g2on:null, kFrame:null, dPxx:null, dPxy:null, dPyx:null, dPyy:null, dWxA:null,
-    dWyA:null, hasCoreV2:null, cRcV:null, cMd:null, cOmV:null, cMF:null, kHasU:null, kUPx:null,
-    kUPy:null, msOn:null, MS:null, msIdt:null, tint:null, Tint:null, dQi:null, arep:null,
-    arepD:null, duT:null, urep:null, ue1:null, ue2:null, ui1:null, ui2:null, cHeat:null,
-    pc:null, pcBondK:null, pcRange:null, pcBDamp:null, pcCs:null, pcCg:null, pcBondN:null, pcCondN:null,
-    pcAngKN:null, coordN:null, coordAcc:null, shPrev:null, angNbr:null, angNbrN:null, ckF:null, ccF:null,
-    doPre:null, doPost:null, radE:null, angOvfN:null, clampAN:null }; }
-
-// ---- generic: 現行 _core の①をそのまま持つ(全機能・全フラグ)----
-function pairCoreGeneric(C){
-  const n=C.n, m=C.m, x=C.x, y=C.y, vx=C.vx, vy=C.vy,
-        spin=C.spin, R=C.R, pinned=C.pinned, ax=C.ax, ay=C.ay, sumW=C.sumW,
-        uAx=C.uAx, uAy=C.uAy, ds=C.ds, pairD=C.pairD, Imom=C.Imom, eps=C.eps,
-        eps2=C.eps2, G=C.G, q=C.q, kRep=C.kRep, muF=C.muF, gammaN=C.gammaN,
-        kappaS=C.kappaS, kickDt=C.kickDt, dt=C.dt, geo=C.geo, invC2=C.invC2, pnA=C.pnA,
-        pnK=C.pnK, pnOv=C.pnOv, geo2=C.geo2, g2on=C.g2on, kFrame=C.kFrame, dPxx=C.dPxx,
-        dPxy=C.dPxy, dPyx=C.dPyx, dPyy=C.dPyy, dWxA=C.dWxA, dWyA=C.dWyA, hasCoreV2=C.hasCoreV2,
-        cRcV=C.cRcV, cMd=C.cMd, cOmV=C.cOmV, cMF=C.cMF, kHasU=C.kHasU, kUPx=C.kUPx,
-        kUPy=C.kUPy, msOn=C.msOn, MS=C.MS, msIdt=C.msIdt, tint=C.tint, Tint=C.Tint,
-        dQi=C.dQi, arep=C.arep, arepD=C.arepD, duT=C.duT, urep=C.urep, ue1=C.ue1,
-        ue2=C.ue2, ui1=C.ui1, ui2=C.ui2, cHeat=C.cHeat, pc=C.pc, pcBondK=C.pcBondK,
-        pcRange=C.pcRange, pcBDamp=C.pcBDamp, pcCs=C.pcCs, pcCg=C.pcCg, pcBondN=C.pcBondN, pcCondN=C.pcCondN,
-        pcAngKN=C.pcAngKN, coordN=C.coordN, coordAcc=C.coordAcc, shPrev=C.shPrev, angNbr=C.angNbr, angNbrN=C.angNbrN,
-        ckF=C.ckF, ccF=C.ccF, doPre=C.doPre, doPost=C.doPost;
-  let radE=C.radE, angOvfN=C.angOvfN, clampAN=C.clampAN;
-  let pk=0; // 対インデックス(pairD 書き込み位置)
-  for(let i=0;i<n;i++){
-    const mi=m[i], Ri=R[i], si=spin[i];
-    const xi=x[i], yi=y[i];
-    for(let j=i+1;j<n;j++,pk++){
-      const dx=xi-x[j], dy=yi-y[j];
-      const d2=dx*dx+dy*dy, d=Math.sqrt(d2);
-      pairD[pk]=d;                          // E6′反作用パスで再利用
-      const mj=m[j], Rj=R[j], sj=spin[j];
-      // E1′ 決定力 w = m/√(d²+ε²)(v1.5: Plummer型。E4 = G∇W が厳密成立、L5解消)
-      const invW=1/Math.sqrt(d2+eps2);
-      // E4 重力(ソフトニング付き逆二乗)。v1.24: invd3=invW³(同一式のまま √ を対ごとに1回節約)
-      const invd3=invW*invW*invW;
-      const fg=G*invd3;
-      ax[i]-=fg*mj*dx; ay[i]-=fg*mj*dy;
-      ax[j]+=fg*mi*dx; ay[j]+=fg*mi*dy;
-      if(msOn){ MS.gx[i]-=fg*mj*dx; MS.gy[i]-=fg*mj*dy; MS.gx[j]+=fg*mi*dx; MS.gy[j]+=fg*mi*dy; }   // 65A: 重力チャネル
-      const wj=mj*invW, wi=mi*invW;
-      sumW[i]+=wj; sumW[j]+=wi;
-      // E12 測地線1PN補正(v1.20・v2.0第1段階): a₁ₚₙ = (λ/c²)[((α−½)v² − (1+2α)U)∇U − (1+2α)(∇U·v)v]
-      // U=Gm/√(d²+ε²)、∇U は E4 のニュートン加速度と同一ベクトル。α=1.5 で E7R 完全計量
-      // (等方1PN: a = −μn/r² + μ/(c²r²)[(4μ/r−v²)n + 4ṙv])、α=0.5 で時間率のみの統制。
-      // 源は偏向角基準 m ≥ (α_min/4)·(c²/G)·max(R,ε) を満たす大質量のみ(第45便 45A・台帳4-48。
-      // pnMassMin と同式 — 定数 pnK=(α_min/4)·c²/G は対ループ外で1回だけ作ってある)・
-      // 速度は u=0 の絶対値(第1段階の主張域)。E6′ は②で排他。
-      if(geo && invC2>0){
-        const cA=1+2*pnA, cB=pnA-0.5;
-        if((pnOv[j]||mj>=pnK*Math.max(Rj,eps)) && !pinned[i]){
-          const Uj=G*mj*invW, gux=-fg*mj*dx, guy=-fg*mj*dy;
-          // 第69便 P4b: geoPN=2 は特異速度 w=v−kF·u で評価(§18.1 の v→w 置換)。u は直前サブ
-          // ステップの粒子追跡値(uPx/uPy — E6′ と同じ帳面)で、geoPN=1・kFrame=0・初回
-          // (hasU=0)のいずれでも w=v が厳密に成り立つ(bit 等価の要)
-          const wxi=(geo2&&kHasU[i])? vx[i]-kFrame*kUPx[i] : vx[i],
-                wyi=(geo2&&kHasU[i])? vy[i]-kFrame*kUPy[i] : vy[i];
-          const v2i=wxi*wxi+wyi*wyi, dU=gux*wxi+guy*wyi;
-          // 第65便 65A: 値を束ねてから加算(式・値は 1 bit も不変 — 測地線チャネルへも同じ値を積むため)
-          const pnx=invC2*((cB*v2i-cA*Uj)*gux - cA*dU*wxi),
-                pny=invC2*((cB*v2i-cA*Uj)*guy - cA*dU*wyi);
-          ax[i]+=pnx; ay[i]+=pny;
-          if(msOn){ MS.px[i]+=pnx; MS.py[i]+=pny; }
-          // 第69便 P4b(帳簿=反作用返し・§18.4): geoPN=2 では ∇U_j 因子の対反作用を自由源 j へ
-          // 返す(運動量が対で閉じる)。残余トルクは E6′③ と同じ等角加速度でスピンへ移譲し
-          // L も対で閉じる。pinned 源は E4 と同じ外部拘束の扱い(=第1段階と同じ開放系)
-          if(geo2 && !pinned[j]){
-            ax[j]-=pnx*mi/mj; ay[j]-=pny*mi/mj;
-            const IJ=Imom[i]+Imom[j];
-            if(Math.abs(IJ)>1e-9){
-              const dsn=mi*(dx*pny-dy*pnx)/IJ;
-              spin[i]-=dsn*kickDt; spin[j]-=dsn*kickDt;
-            }
-          }
-        }
-        if((pnOv[i]||mi>=pnK*Math.max(Ri,eps)) && !pinned[j]){
-          const Ui=G*mi*invW, gux=fg*mi*dx, guy=fg*mi*dy;   // j から見た ∇U(符号反転)
-          const wxj=(geo2&&kHasU[j])? vx[j]-kFrame*kUPx[j] : vx[j],
-                wyj=(geo2&&kHasU[j])? vy[j]-kFrame*kUPy[j] : vy[j];
-          const v2j=wxj*wxj+wyj*wyj, dU=gux*wxj+guy*wyj;
-          const pnx=invC2*((cB*v2j-cA*Ui)*gux - cA*dU*wxj),
-                pny=invC2*((cB*v2j-cA*Ui)*guy - cA*dU*wyj);
-          ax[j]+=pnx; ay[j]+=pny;
-          if(msOn){ MS.px[j]+=pnx; MS.py[j]+=pny; }
-          if(geo2 && !pinned[i]){   // 第69便 P4b: 対反作用(上と対称 — 自由源 i へ)
-            ax[i]-=pnx*mj/mi; ay[i]-=pny*mj/mi;
-            const IJ=Imom[i]+Imom[j];
-            if(Math.abs(IJ)>1e-9){
-              const dsn=mj*(dy*pnx-dx*pny)/IJ;
-              spin[i]-=dsn*kickDt; spin[j]-=dsn*kickDt;
-            }
-          }
-        }
-      }
-      // E2/E3 フレーム速度への寄与(並進 + スピン回転 ẑ×(r−r_j)=(−dy,dx))
-      let omj=0, omi=0;
-      if(sj!==0){ const tt=Rj/(Rj+d); omj = (q===2)? sj*tt*tt : sj*Math.pow(tt,q); }
-      if(si!==0){ const tt=Ri/(Ri+d); omi = (q===2)? si*tt*tt : si*Math.pow(tt,q); }
-      // 第81便: コアv1(比率仕様 coreMR/coreSR/coreRR)の分岐は廃止 — コア差動は
-      // コアv2(J_core 主変数)の1本だけになった(移行式はインポート側 legacyCoreToV2 が担う)
-      // 第77便(コアv2): 独立コア(differential)の差動が A8 と同型で外へ届く —
-      // ω += (Mc/m)·(Ω_c−s)·f(RcV,d)。coreOmV は substep 冒頭に一括算出(J/I)。
-      // v2 粒子ゼロの宇宙はこの分岐を 1 命令も通らない(hasCoreV2 ローカルゲート)
-      // 第80便: md≥2 = differential(2)/active(3)/cavity(4) が同じ 1 本の式を通る。
-      // cavity は coreMF=−voidFraction(負の重み)なので、旧 coreMR<0 と同じ符号反転になる
-      if(hasCoreV2){
-        if(cMd[j]>=2 && cRcV[j]>0){ const dOm=cOmV[j]-sj;
-          if(dOm!==0){ const tt=cRcV[j]/(cRcV[j]+d); omj += cMF[j]*dOm*((q===2)? tt*tt : Math.pow(tt,q)); } }
-        if(cMd[i]>=2 && cRcV[i]>0){ const dOm=cOmV[i]-si;
-          if(dOm!==0){ const tt=cRcV[i]/(cRcV[i]+d); omi += cMF[i]*dOm*((q===2)? tt*tt : Math.pow(tt,q)); } }
-      }
-      uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));
-      uAx[j]+=wi*(vx[i]+omi*(dy));  uAy[j]+=wi*(vy[i]+omi*(-dx));
-      // ===== 第69便 P4b(E12v2): geoPN=2 の ∇u 用勾配集積(g2on のときだけ走る)=====
-      // u=P/W の分子 P_a=Σ_j w_j·c_j,a(c_j=v_j+ω_j(d)·ẑ×(r−r_j))と分母 W の空間勾配を
-      // 対ごとに解析で積む: ∂w_j/∂r=−m_j·(r−r_j)·invW³(E1′ Plummer 型の厳密微分)、
-      // ∂ω/∂d=−q·ω/(R+d)(基底+コア差動は −q·ω_c/(Rc+d) — ②③のフレーム式と同じ核)。
-      // 0/1 経路はこの分岐を素通り(値・型とも不変)
-      if(g2on){
-        const idd=(d>1e-9)? 1/d : 0;
-        let domj=0, domi=0;   // ∂ω/∂d(基底+コア差動)
-        if(sj!==0){ const tt=Rj/(Rj+d), o0=(q===2)? sj*tt*tt : sj*Math.pow(tt,q); domj-=q*o0/(Rj+d); }
-        if(si!==0){ const tt=Ri/(Ri+d), o0=(q===2)? si*tt*tt : si*Math.pow(tt,q); domi-=q*o0/(Ri+d); }
-        // 第81便: コアv1 の勾配分岐は廃止(上の A8 と同じ理由)
-        // 第77便(コアv2): 独立コアの差動勾配(A8 v2 分岐と同じ核。第80便: md≥2 の4モード共通)
-        if(hasCoreV2){
-          if(cMd[j]>=2 && cRcV[j]>0){ const dOm=cOmV[j]-sj;
-            if(dOm!==0){ const tt=cRcV[j]/(cRcV[j]+d), oc=cMF[j]*dOm*((q===2)? tt*tt : Math.pow(tt,q)); domj-=q*oc/(cRcV[j]+d); } }
-          if(cMd[i]>=2 && cRcV[i]>0){ const dOm=cOmV[i]-si;
-            if(dOm!==0){ const tt=cRcV[i]/(cRcV[i]+d), oc=cMF[i]*dOm*((q===2)? tt*tt : Math.pow(tt,q)); domi-=q*oc/(cRcV[i]+d); } }
-        }
-        { // i 側(源 j): r−r_j=(dx,dy)、c=(vx_j−ω_j·dy, vy_j+ω_j·dx)
-          const gwx=-mj*dx*invd3, gwy=-mj*dy*invd3;
-          const cxv=vx[j]+omj*(-dy), cyv=vy[j]+omj*(dx);
-          const nx=dx*idd, ny=dy*idd;
-          dPxx[i]+=gwx*cxv + wj*(-dy*domj*nx);
-          dPxy[i]+=gwy*cxv + wj*(-omj - dy*domj*ny);
-          dPyx[i]+=gwx*cyv + wj*( omj + dx*domj*nx);
-          dPyy[i]+=gwy*cyv + wj*( dx*domj*ny);
-          dWxA[i]+=gwx; dWyA[i]+=gwy;
-        }
-        { // j 側(源 i): r−r_i=(−dx,−dy)、c=(vx_i+ω_i·dy, vy_i−ω_i·dx)
-          const gwx=mi*dx*invd3, gwy=mi*dy*invd3;
-          const cxv=vx[i]+omi*(dy), cyv=vy[i]+omi*(-dx);
-          const nx=-dx*idd, ny=-dy*idd;
-          dPxx[j]+=gwx*cxv + wi*( dy*domi*nx);
-          dPxy[j]+=gwy*cxv + wi*(-omi + dy*domi*ny);
-          dPyx[j]+=gwx*cyv + wi*( omi - dx*domi*nx);
-          dPyy[j]+=gwy*cyv + wi*(-dx*domi*ny);
-          dWxA[j]+=gwx; dWyA[j]+=gwy;
-        }
-      }
-      // E5′ スピン斥力(対称化・中心力): F = kRep·μ·(ω_i²+ω_j²)·(r_i−r_j)
-      // 第36便 D(台帳4-51 / E5′ 改訂): thermal:"tint" では圧力の源をスピンから内部温度へ移す。
-      //   F = kRep·μ·√(T_int,i·T_int,j)·(g_i²+g_j²)·(r_i−r_j)、g_a=(R_a/(R_a+d))^q
-      // 距離依存 g² は現行と同一(現行の ω_a² = s_a²·g_a² の s_a² を対の √(T_i·T_j) で置き換えた形)。
-      // √ の積形なので符号は現れず常に斥力(裁定どおり)— 片方が絶対零度なら対の斥力は消える
-      if(tint){
-        if(kRep>0 && Math.abs(mi+mj)>1e-9){
-          const Ti=Tint[i], Tj=Tint[j];
-          // 第37便 C2(台帳4-71): 力は「両方とも非零温」のときだけ(従来どおり)だが、U_rep の
-          // 温度係数 a は「相手が非零温」なら片方が絶対零度でも積む — T_i=0 の粒子を温める過程で
-          // 生まれる斥力ポテンシャルの支払いを取りこぼさないため(a_i·√T_i は T_i=0 で 0 になる)
-          if(Ti>0 || Tj>0){
-            const ti2=Ri/(Ri+d), tj2=Rj/(Rj+d);
-            if(Ti>0 && Tj>0){
-              const gi=(q===2)? ti2*ti2 : Math.pow(ti2,q), gj=(q===2)? tj2*tj2 : Math.pow(tj2,q);
-              const f=kRep*(mi*mj/(mi+mj))*Math.sqrt(Ti*Tj)*(gi*gi+gj*gj);
-              ax[i]+=f/mi*dx; ay[i]+=f/mi*dy;
-              ax[j]-=f/mj*dx; ay[j]-=f/mj*dy;
-              if(msOn){ MS.rx[i]+=f/mi*dx; MS.ry[i]+=f/mi*dy; MS.rx[j]-=f/mj*dx; MS.ry[j]-=f/mj*dy; }   // 65A: 熱斥力チャネル
-            }
-            if(urep){
-              const A=kRep*(mi*mj/(mi+mj))
-                     *(urepPhi(Ri,ti2,ue1,ue2,ui1,ui2)+urepPhi(Rj,tj2,ue1,ue2,ui1,ui2));
-              if(Tj>0) arep[i]+=A*Math.sqrt(Tj);
-              if(Ti>0) arep[j]+=A*Math.sqrt(Ti);
-              // 中点補正の材料(下の②を参照): Σ_j A_ij·δ√T_j(δ は直前サブステップの変化量)
-              arepD[i]+=A*duT[j]; arepD[j]+=A*duT[i];
-            }
-          }
-        }
-      } else if(kRep>0 && (omi!==0||omj!==0) && Math.abs(mi+mj)>1e-9){   // 第12便: 負質量実験時の0除算保護
-        const f=kRep*(mi*mj/(mi+mj))*(omi*omi+omj*omj);
-        ax[i]+=f/mi*dx; ay[i]+=f/mi*dy;
-        ax[j]-=f/mj*dx; ay[j]-=f/mj*dy;
-        if(msOn){ MS.rx[i]+=f/mi*dx; MS.ry[i]+=f/mi*dy; MS.rx[j]-=f/mj*dx; MS.ry[j]-=f/mj*dy; }   // 65A: 熱斥力チャネル(spin モード)
-      }
-      // E9 接触(重なり)
-      const sumR=Ri+Rj;
-      if(d<sumR && d>1e-9){
-        const nxv=dx/d, nyv=dy/d;           // n̂ (j→i)
-        const invMi=pinned[i]?0:1/mi, invMj=pinned[j]?0:1/mj;
-        const K=invMi+invMj;
-        // 法線ばね(換算質量スケール+「軽い側の加速度≤8」の対称な力上限。
-        // 上限を両側独立に掛けると作用反作用が破れ、めり込んだ粒子が
-        // 重い天体を押し続ける「ロケット」になるため、必ず力で対称にキャップする)
-        const msum=mi+mj;
-        const muM=(Math.abs(msum)>1e-9)? mi*mj/msum : 0;   // 第12便: 負質量実験時の0除算保護
-        let Fs=ckF*(sumR-d)*muM;   // 第96便: contactK(既定40 — 従来と同値)
-        const maxInv=Math.max(invMi,invMj);
-        if(maxInv>0 && Fs*maxInv>ccF) Fs=ccF/maxInv;   // 第96便: contactCap(既定8)
-        ax[i]+=Fs*nxv*invMi; ay[i]+=Fs*nyv*invMi;
-        ax[j]-=Fs*nxv*invMj; ay[j]-=Fs*nyv*invMj;
-        if(msOn){ MS.cx[i]+=Fs*nxv*invMi; MS.cy[i]+=Fs*nyv*invMi; MS.cx[j]-=Fs*nxv*invMj; MS.cy[j]-=Fs*nyv*invMj; }   // 65A: 接触チャネル(法線ばね)
-        // 第35便: 法線ばね(上)は保存力なので毎回の力評価に含めるが、γn 減衰と接線摩擦は
-        // 速度・スピンを直接書き換える非保存インパルスなので 1サブステップ1回だけ適用する
-        // (leapfrog で2回適用すると散逸レートが semi の2倍になってしまう)
-        if(K>0 && doPre){
-          // 第36便 D(台帳4-51 / A9′): tint モードでは γn 減衰と接線摩擦で失われた運動エネルギーを
-          // radE(=外へ逃げた分)ではなく接触対の内部温度 T_int へ積む。dEd はその合計(spin モードでは未使用)
-          let dEd=0;
-          const rvx=vx[i]-vx[j], rvy=vy[i]-vy[j];
-          const vn=rvx*nxv+rvy*nyv;
-          if(vn<0){ // 接近時のみ法線減衰(非弾性)。散逸分は衝突閃光として放射(A12)
-            const jn=-gammaN*vn/K;
-            vx[i]+=jn*nxv*invMi; vy[i]+=jn*nyv*invMi;
-            vx[j]-=jn*nxv*invMj; vy[j]-=jn*nyv*invMj;
-            if(msOn){ MS.cx[i]+=jn*nxv*invMi*msIdt; MS.cy[i]+=jn*nyv*invMi*msIdt;
-                      MS.cx[j]-=jn*nxv*invMj*msIdt; MS.cy[j]-=jn*nyv*invMj*msIdt; }   // 65A: 接触(γn インパルス→Δv/dt)
-            const eN=0.5*(1/K)*vn*vn*(1-(1-gammaN)*(1-gammaN));
-            if(tint) dEd+=eN; else radE+=eN;
-          }
-          // 接線摩擦: 速度→スピン変換(A9 の本体。v1.1: 作用線を一致させ L 厳密保存)
-          const txv=-nyv, tyv=nxv;          // t̂ = ẑ×n̂
-          const Li=Ri*d/sumR, Lj=Rj*d/sumR; // 実効腕 R̃(R̃_i+R̃_j=d)
-          const vs=(vx[i]-vx[j])*txv+(vy[i]-vy[j])*tyv - spin[i]*Li - spin[j]*Lj;
-          const jt=muF*vs/(3*K);            // Δv_s = −muF·v_s(muF≤1 で無条件安定)
-          // v1.5(A12′): すべり散逸の帳簿。変更されるDOF(接線速度成分+スピン)のみの運動エネルギー差を厳密計上
-          const vti0=vx[i]*txv+vy[i]*tyv, vtj0=vx[j]*txv+vy[j]*tyv;
-          const Ii9=Imom[i], Ij9=Imom[j];   // 第39便 39B: =0.5*mi*Ri*Ri / 0.5*mj*Rj*Rj の事前計算
-          const si0=spin[i], sj0=spin[j];
-          vx[i]-=jt*invMi*txv; vy[i]-=jt*invMi*tyv;
-          vx[j]+=jt*invMj*txv; vy[j]+=jt*invMj*tyv;
-          if(msOn){ MS.cx[i]-=jt*invMi*txv*msIdt; MS.cy[i]-=jt*invMi*tyv*msIdt;
-                    MS.cx[j]+=jt*invMj*txv*msIdt; MS.cy[j]+=jt*invMj*tyv*msIdt; }   // 65A: 接触(摩擦インパルス→Δv/dt)
-          if(!pinned[i]) spin[i]+=Li*jt/Ii9;             // ds = +R̃·j_t/I, I=½mR²
-          if(!pinned[j]) spin[j]+=Lj*jt/Ij9;
-          const vti1=vx[i]*txv+vy[i]*tyv, vtj1=vx[j]*txv+vy[j]*tyv;
-          const dE9=0.5*mi*(vti0*vti0-vti1*vti1)+0.5*mj*(vtj0*vtj0-vtj1*vtj1)
-                   +0.5*Ii9*(si0*si0-spin[i]*spin[i])+0.5*Ij9*(sj0*sj0-spin[j]*spin[j]);
-          if(dE9>0){ if(tint) dEd+=dE9; else radE+=dE9; }   // 解析的に dE9≥0(μ_f≤1)。丸め起因の負値は捨てる
-          // 第36便 D(A9′ の換算則): ΔE_diss を質量比で2粒子へ分配し ΔT_int=ΔE_i/(C·m_i) を加える。
-          // 質量比分配 ⇒ 両者の ΔT_int は等しく ΔE/(C·(m_i+m_j))(C·m_iΔT_i+C·m_jΔT_j=ΔE で第一法則が閉じる)。
-          // pinned は外部拘束=無限熱容量のリザーバとして扱い、その持ち分は温度を上げずに radE 帳簿へ回す
-          // (現行の pinned が E9/E10′/E11 の対象外である扱いと整合 — 📏の熱浴・♨️のヒーターが一定温度に保たれる)
-          // 第37便 C2(台帳4-71): 配分則(質量比)は不変。ΔE→ΔT_int の換算だけが
-          // 「C·m で割る」から「熱量関数 C·m·T+a·√T を解く」へ変わる(②でまとめて適用)
-          if(tint && dEd>0 && Math.abs(mi+mj)>1e-9){
-            const si2=dEd*mi/(mi+mj), sj2=dEd*mj/(mi+mj);
-            if(pinned[i]) radE+=si2; else dQi[i]+=si2;
-            if(pinned[j]) radE+=sj2; else dQi[j]+=sj2;
-          }
-        }
-      }
-      // ===== E14″ 創発相変化: 結合予算の引力と減衰(53A→56A→60 で創発一本化)=====
-      // phaseChange プリセット(pc 非 null)のみ。平衡距離 r0=R_i+R_j(接触距離)の外側
-      // r0 < d < cut=bondRange·r0 の帯に引力 F = K_att·μ·(d−r0)·(cut−d)/(cut−r0) が働く
-      // (d=r0 と d=cut で 0 = 力は連続。重なり d<r0 は従来どおり E9 の法線ばねが受け持つ
-      //  ので、r0 が力の釣り合う平衡点になる)。
-      // K_att = bondK·√(share_i·share_j)、share = min(S_max, bondN/max(c,0.5))(56A 結合予算):
-      // 結合数が減ると残りの結合力が増し(予算の集中)、結合相手は幾何のみで決まる
-      // (毎サブステップ再計算 — 液相では容易に入れ替わる)。温度は kRep(E5′)を通じてのみ
-      // 斥力として働き、固相(c≈4-6)/液相(少数の強い結合)/気相(c→0)がこの競合から創発。
-      // 潜熱は指定しない — 井戸から抜けるエネルギーがそのまま実効潜熱(第60便)。
-      // 減衰(60A)は同じ帯で相対法線速度を毎サブステップ cD 倍削るインパルス(gammaN と同形式・
-      // 接近/離反の両向き)。cD = bondDamp·(√(share_i·share_j)/S_max)·W — **減衰も結合の濃さ
-      // から創発**する(固体の結合振動は強く減衰・気体の掠め接触はほぼ素通り。旧 visc
-      // 〔液相粘性の相率合成〕は第60便で廃止)。失われた運動エネルギーは E9 と同じ換算則
-      // (質量比分配)で dQi へ積む(A9′ — pinned の持ち分は radE へ)。
-      // 力上限も E9 と同じ「軽い側の加速度≤8」の対称キャップ(非対称な「ロケット」の防止)
-      if(pc && d<pcRange*sumR && Math.abs(mi+mj)>1e-9){
-        const muM=mi*mj/(mi+mj);
-        // 対の井戸形状 w(d): 帯内で U(d)/(−K_att·μ)、重なり d≤r0 では井戸底 A²/6 の定数
-        // (力 0・束縛は満深)
-        const cutW=pcRange*sumR, AW=cutW-sumR;
-        const u0=(d>sumR)? d-sumR : 0;
-        const wD=(AW*(AW*AW-u0*u0)/2 - (AW*AW*AW-u0*u0*u0)/3)/AW;
-        const wN=wD/(AW*AW/6);   // 正規化井戸深さ W ∈[0,1](接触で1・帯端で0)
-        // 滑らかな配位数の積算(56A — 予算・伝導・角度のすべてが読む)
-        if(doPre){ coordAcc[i]+=wN; coordAcc[j]+=wN; }
-        // 第59便 59A: 幾何近傍の記録(両パス — 角ポテンシャルは毎回の力評価に使う通常の力。
-        // 走査順 i<j 昇順により、中心 c の近傍リストは常に「相手 index 昇順」で決定論。
-        // あふれ(>PC_ANG_MAX)は捨てて angOvfN に計数する — 監査 phaseEnergy も同じ収集則)
-        if(pcAngKN>0){
-          const nI=angNbrN[i]; if(nI<PC_ANG_MAX){ angNbr[i*PC_ANG_MAX+nI]=j; angNbrN[i]=nI+1; } else angOvfN++;
-          const nJ=angNbrN[j]; if(nJ<PC_ANG_MAX){ angNbr[j*PC_ANG_MAX+nJ]=i; angNbrN[j]=nJ+1; } else angOvfN++;
-        }
-        const shI=Math.min(PC_SHARE_MAX, pcBondN/Math.max(coordN[i],0.5)),
-              shJ=Math.min(PC_SHARE_MAX, pcBondN/Math.max(coordN[j],0.5));
-        const shG=Math.sqrt(shI*shJ);
-        const Katt=pcBondK*shG;
-        // 60A: 創発減衰 — 結合の濃さ(予算重み×井戸深さ)に比例。bondDamp∈[0,1]・shG/S_max≤1・
-        // W≤1 なので cD≤bondDamp が保たれ、インパルスの無条件安定は従来のまま
-        const cD=pcBDamp*(shG/PC_SHARE_MAX)*wN;
-        // 再配分の熱交換(56A — 帳簿の恒久対策): share が変わると井戸深さ K·μ·w が力の仕事なしに
-        // 変わる(結合数減 → 残り強化 = U が深くなる)。その ΔU を熱と等価交換する —
-        // ΔQ = (K_now − K_prev)·μ·w を dQi へ(強化=発熱・弱化=吸熱。結合の組み替えは
-        // 熱浴とエネルギーをやり取りする)。d の変化分は力の仕事が受け持つ(交差項 O(dt·ċ))
-        if(doPre){
-          const dK=Katt - pcBondK*Math.sqrt(shPrev[i]*shPrev[j]);
-          if(dK!==0){
-            const qR=dK*muM*wD;
-            const qi3=qR*mi/(mi+mj), qj3=qR*mj/(mi+mj);
-            if(pinned[i]) radE+=qi3; else dQi[i]+=qi3;
-            if(pinned[j]) radE+=qj3; else dQi[j]+=qj3;
-          }
-        }
-        if((Katt>0 || cD>0) && d>sumR){
-          const nxv=dx/d, nyv=dy/d;
-          const invMi=pinned[i]?0:1/mi, invMj=pinned[j]?0:1/mj;
-          const K=invMi+invMj;
-          if(Katt>0){
-            const cut=pcRange*sumR;
-            let Fa=Katt*muM*(d-sumR)*(cut-d)/(cut-sumR);
-            const maxInv=Math.max(invMi,invMj);
-            if(maxInv>0 && Fa*maxInv>8){ Fa=8/maxInv; clampAN++; }   // 第53便 53B: 発動帳簿
-            ax[i]-=Fa*nxv*invMi; ay[i]-=Fa*nyv*invMi;
-            ax[j]+=Fa*nxv*invMj; ay[j]+=Fa*nyv*invMj;
-            if(msOn){ MS.bx[i]-=Fa*nxv*invMi; MS.by[i]-=Fa*nyv*invMi; MS.bx[j]+=Fa*nxv*invMj; MS.by[j]+=Fa*nyv*invMj; }   // 65A: 結合チャネル(井戸引力)
-          }
-          // 減衰は速度を直接書き換える非保存インパルスなので 1サブステップ1回だけ(E9 と同じ)
-          if(cD>0 && K>0 && doPre){
-            const vn=(vx[i]-vx[j])*nxv+(vy[i]-vy[j])*nyv;
-            if(vn!==0){
-              const jn=-cD*vn/K;
-              vx[i]+=jn*nxv*invMi; vy[i]+=jn*nyv*invMi;
-              vx[j]-=jn*nxv*invMj; vy[j]-=jn*nyv*invMj;
-              if(msOn){ MS.bx[i]+=jn*nxv*invMi*msIdt; MS.by[i]+=jn*nyv*invMi*msIdt;
-                        MS.bx[j]-=jn*nxv*invMj*msIdt; MS.by[j]-=jn*nyv*invMj*msIdt; }   // 65A: 結合(創発減衰→Δv/dt)
-              const eN=0.5*(1/K)*vn*vn*(1-(1-cD)*(1-cD));
-              if(eN>0){
-                const si2=eN*mi/(mi+mj), sj2=eN*mj/(mi+mj);
-                if(pinned[i]) radE+=si2; else dQi[i]+=si2;
-                if(pinned[j]) radE+=sj2; else dQi[j]+=sj2;
-              }
-            }
-          }
-        }
-      }
-      // E10′ スピン拡散(I 重み: 対ごとに I_i·ds_i = −I_j·ds_j で L 厳密保存)
-      // 第36便 D(台帳4-51 / E10′ 改訂): thermal:"tint" では κs が拡散するのは T_int で、スピンには
-      // 一切触れない。熱容量重み(C·m)で対称化するので C_i·dT_i = −C_j·dT_j = 熱エネルギー厳密保存、
-      // かつ角運動量は「そもそも動かさない」ので自明に厳密保存する(台帳4-50「冷たいのに熱伝導」の解消)。
-      // C は両辺の共通因子として相殺するため、伝導レートは cHeat に依存しない
-      // 第39便 39B(台帳4-76): 遠方対を「除算の前」に落とす。g=sumR/(sumR+d)>0 なので
-      // gg>1e-4 ⟺ g>0.01 ⟺ d<99·sumR。d<100·sumR はその上位集合なので、下の gg>1e-4 を
-      // 通る対の集合は一切変わらない(落ちるのは元々 gg≤1e-4 で何もしない対だけ)= 値は不変。
-      // 環系(sumR≈0.5・対距離≈100)で除算1回/対を大半の対から抜ける
-      if(kappaS>0 && d<100*sumR){
-        const g=(sumR/(sumR+d)); const gg=g*g;
-        if(gg>1e-4){
-          if(tint){
-            // 第37便 C2(台帳4-71): 伝導は「温度の拡散レート」ではなく「熱流」で積む。
-            //   Q̇ = C·κs·(T_j−T_i)·g²·μ_ij   (μ=m_im_j/(m_i+m_j))
-            // これは第36便の ΔT_i=κs(T_j−T_i)g²·m_j/(m_i+m_j)·dt に C·m_i を掛けた量そのもので、
-            // Q̇_i=−Q̇_j = 熱エネルギーの厳密保存は変わらない。U_rep が無ければ(a=0)②の
-            // 厳密解が T+Q/(C·m) に退化するので、第36便の式と1文字も違わない値になる。
-            // doPost 限定なのは leapfrog で1サブステップに2回積まないため(E9 は doPre 側)
-            const mS=mi+mj;
-            if(doPost && Math.abs(mS)>1e-9){   // 第12便: 負質量実験時の0除算保護
-              let qf=cHeat*kappaS*(Tint[j]-Tint[i])*gg*(mi*mj/mS)*dt;
-              // 第59便 59B(創発熱伝導・第60便で一本化): 相率ではなく滑らかな配位数 B
-              // (coordN — 前サブステップ値)から粒子ごとの伝導率倍率を導出する:
-              //   c_a = condG + (condS−condG)·B_a/(B_a+condN)
-              // 孤立(B→0)= condG・密な結合網(B≫condN)→ condS へ飽和。対の合成は調和平均
-              // 2c_ic_j/(c_i+c_j)(直列合成)。Q̇_i=−Q̇_j の対称形は変えないので熱は厳密保存の
-              // まま。condN=0(または pc なし)では qf は 1 bit も変わらない(素の κs)
-              if(pc && pcCondN>0){
-                const Bi=coordN[i], Bj=coordN[j];
-                const ci=pcCg+(pcCs-pcCg)*Bi/(Bi+pcCondN),
-                      cj=pcCg+(pcCs-pcCg)*Bj/(Bj+pcCondN);
-                const sc=ci+cj;
-                qf = (sc>1e-12)? qf*(2*ci*cj/sc) : 0; }
-              dQi[i]+=qf;
-              dQi[j]-=qf;
-            }
-          } else {
-          const Ii=Imom[i], Ij=Imom[j], IJ=Ii+Ij;   // 第39便 39B: I の事前計算を参照
-          if(Math.abs(IJ)>1e-9){   // 第12便: 負質量実験時の0除算保護
-            const c=kappaS*(sj-si)*gg/IJ;
-            ds[i]+=c*Ij;
-            ds[j]-=c*Ii;
-          }
-          }
-        }
-      }
-    }
-  }
-  C.radE=radE; C.angOvfN=angOvfN; C.clampAN=clampAN;
-}
+    pinned:null, ax:null, ay:null, sumW:null, uAx:null, uAy:null, pairD:null,
+    eps:null, eps2:null, G:null, q:null, ckF:null, ccF:null, Imom:null, kickDt:null,
+    invC2:null, pnA:null, pnK:null, pnOv:null, geo2:null, g2on:null, kFrame:null,
+    dPxx:null, dPxy:null, dPyx:null, dPyy:null, dWxA:null, dWyA:null,
+    kHasU:null, kUPx:null, kUPy:null }; }
 
 // ---- 特別化①(kKind=1): 軌道系・PN なし ----
 function pairCorePlain(C){
@@ -10735,39 +10351,397 @@ function makeSim(){
       }
     }
     // ===== ① 全対ループ: E1決定力・E3フレーム・E4重力・E5′斥力・E9接触・E10′拡散 =====
-    // 第177便 P1-1: 本体は module 直下のカーネル(pairCoreGeneric / pairCorePlain / pairCorePN)へ
-    // 切り出した。**式・走査順・加算順・Math.pow/sqrt の呼び方は 1 文字も変えていない**(根拠と
-    // 設計はカーネル定義側の見出しコメントを参照)。渡すのは型が安定した引数だけで、対ループの
-    // 内側は S.xxx を 1 度も読まない(第77便のゼロコスト原則と同じ流儀)。
-    const C=S._pkC || (S._pkC=newPairCtx());
-    C.n=n; C.m=m; C.x=x; C.y=y; C.vx=vx;
-    C.vy=vy; C.spin=spin; C.R=R; C.pinned=pinned; C.ax=ax;
-    C.ay=ay; C.sumW=sumW; C.uAx=uAx; C.uAy=uAy; C.ds=ds;
-    C.pairD=pairD; C.Imom=Imom; C.eps=eps; C.eps2=eps2; C.G=G;
-    C.q=q; C.kRep=kRep; C.muF=muF; C.gammaN=gammaN; C.kappaS=kappaS;
-    C.kickDt=kickDt; C.dt=dt; C.geo=geo; C.invC2=invC2; C.pnA=pnA;
-    C.pnK=pnK; C.pnOv=pnOv; C.geo2=geo2; C.g2on=g2on; C.kFrame=kFrame;
-    C.dPxx=dPxx; C.dPxy=dPxy; C.dPyx=dPyx; C.dPyy=dPyy; C.dWxA=dWxA;
-    C.dWyA=dWyA; C.hasCoreV2=hasCoreV2; C.cRcV=S.RcV; C.cMd=S.coreMd; C.cOmV=S.coreOmV;
-    C.cMF=S.coreMF; C.kHasU=S.hasU; C.kUPx=S.uPx; C.kUPy=S.uPy; C.msOn=msOn;
-    C.MS=MS; C.msIdt=msIdt; C.tint=tint; C.Tint=Tint; C.dQi=dQi;
-    C.arep=arep; C.arepD=arepD; C.duT=duT; C.urep=urep; C.ue1=ue1;
-    C.ue2=ue2; C.ui1=ui1; C.ui2=ui2; C.cHeat=cHeat; C.pc=pc;
-    C.pcBondK=pcBondK; C.pcRange=pcRange; C.pcBDamp=pcBDamp; C.pcCs=pcCs; C.pcCg=pcCg;
-    C.pcBondN=pcBondN; C.pcCondN=pcCondN; C.pcAngKN=pcAngKN; C.coordN=coordN; C.coordAcc=coordAcc;
-    C.shPrev=shPrev; C.angNbr=angNbr; C.angNbrN=angNbrN; C.ckF=ckF; C.ccF=ccF;
-    C.doPre=doPre; C.doPost=doPost; C.radE=S.radE; C.angOvfN=S.angOvfN; C.clampAN=S.clampAN;
-    // カーネル選択(サブステップにつき 1 回 — 対ループの内側では判定しない)。
-    // 軌道系のフラグ組(kRep=0・muF=0・γN=0・κS=0・ηRad=0・tint なし・phase なし・コアv2 なし・
-    // 箱なし・機構スペクトル OFF)だけが特別化カーネルへ入る。それ以外はすべて generic。
+    // 第177便 P1-1 / 第177b便(補正): カーネル選択はサブステップにつき 1 回だけ行う。
+    // **特別化条件を満たさない宇宙(kKind=0)は従来どおり下のインライン対ループを通る**
+    // (root index.html の同区間の逐語コピー — インデントを含め 1 文字も変えていない)。
+    // ctx(C)への書き込みと小関数呼び出しは kKind≠0 のときだけ。設計と根拠はカーネル定義側の
+    // 見出しコメントを参照。軌道系のフラグ組(kRep=0・muF=0・γN=0・κS=0・ηRad=0・tint なし・
+    // phase なし・コアv2 なし・箱なし・機構スペクトル OFF)だけが特別化カーネルへ入る。
     // kernelForceGeneric は QA kernel.bitident 用の開発フック(既定 OFF・判定へ無影響)
     const kKind=(!kernelForceGeneric && kRep===0 && muF===0 && gammaN===0 && kappaS===0 &&
                  etaRad===0 && !tint && !pc && !hasCoreV2 && !msOn && !B)? (geo?2:1) : 0;
     S._kKind=kKind;
-    if(kKind===1) pairCorePlain(C);
-    else if(kKind===2) pairCorePN(C);
-    else pairCoreGeneric(C);
-    S.radE=C.radE; S.angOvfN=C.angOvfN; S.clampAN=C.clampAN;
+    if(kKind!==0){
+      // 特別化カーネルが読む分だけを ctx へ書く(generic 専用フィールドは持たない)。
+      const C=S._pkC || (S._pkC=newPairCtx());
+      C.n=n; C.m=m; C.x=x; C.y=y; C.vx=vx;
+      C.vy=vy; C.spin=spin; C.R=R; C.pinned=pinned; C.ax=ax;
+      C.ay=ay; C.sumW=sumW; C.uAx=uAx; C.uAy=uAy; C.pairD=pairD;
+      C.eps=eps; C.eps2=eps2; C.G=G; C.q=q; C.ckF=ckF;
+      C.ccF=ccF; C.Imom=Imom; C.kickDt=kickDt; C.invC2=invC2; C.pnA=pnA;
+      C.pnK=pnK; C.pnOv=pnOv; C.geo2=geo2; C.g2on=g2on; C.kFrame=kFrame;
+      C.dPxx=dPxx; C.dPxy=dPxy; C.dPyx=dPyx; C.dPyy=dPyy; C.dWxA=dWxA;
+      C.dWyA=dWyA; C.kHasU=S.hasU; C.kUPx=S.uPx; C.kUPy=S.uPy;
+      if(kKind===1) pairCorePlain(C); else pairCorePN(C);
+    } else {
+    let pk=0; // 対インデックス(pairD 書き込み位置)
+    for(let i=0;i<n;i++){
+      const mi=m[i], Ri=R[i], si=spin[i];
+      const xi=x[i], yi=y[i];
+      for(let j=i+1;j<n;j++,pk++){
+        const dx=xi-x[j], dy=yi-y[j];
+        const d2=dx*dx+dy*dy, d=Math.sqrt(d2);
+        pairD[pk]=d;                          // E6′反作用パスで再利用
+        const mj=m[j], Rj=R[j], sj=spin[j];
+        // E1′ 決定力 w = m/√(d²+ε²)(v1.5: Plummer型。E4 = G∇W が厳密成立、L5解消)
+        const invW=1/Math.sqrt(d2+eps2);
+        // E4 重力(ソフトニング付き逆二乗)。v1.24: invd3=invW³(同一式のまま √ を対ごとに1回節約)
+        const invd3=invW*invW*invW;
+        const fg=G*invd3;
+        ax[i]-=fg*mj*dx; ay[i]-=fg*mj*dy;
+        ax[j]+=fg*mi*dx; ay[j]+=fg*mi*dy;
+        if(msOn){ MS.gx[i]-=fg*mj*dx; MS.gy[i]-=fg*mj*dy; MS.gx[j]+=fg*mi*dx; MS.gy[j]+=fg*mi*dy; }   // 65A: 重力チャネル
+        const wj=mj*invW, wi=mi*invW;
+        sumW[i]+=wj; sumW[j]+=wi;
+        // E12 測地線1PN補正(v1.20・v2.0第1段階): a₁ₚₙ = (λ/c²)[((α−½)v² − (1+2α)U)∇U − (1+2α)(∇U·v)v]
+        // U=Gm/√(d²+ε²)、∇U は E4 のニュートン加速度と同一ベクトル。α=1.5 で E7R 完全計量
+        // (等方1PN: a = −μn/r² + μ/(c²r²)[(4μ/r−v²)n + 4ṙv])、α=0.5 で時間率のみの統制。
+        // 源は偏向角基準 m ≥ (α_min/4)·(c²/G)·max(R,ε) を満たす大質量のみ(第45便 45A・台帳4-48。
+        // pnMassMin と同式 — 定数 pnK=(α_min/4)·c²/G は対ループ外で1回だけ作ってある)・
+        // 速度は u=0 の絶対値(第1段階の主張域)。E6′ は②で排他。
+        if(geo && invC2>0){
+          const cA=1+2*pnA, cB=pnA-0.5;
+          if((pnOv[j]||mj>=pnK*Math.max(Rj,eps)) && !pinned[i]){
+            const Uj=G*mj*invW, gux=-fg*mj*dx, guy=-fg*mj*dy;
+            // 第69便 P4b: geoPN=2 は特異速度 w=v−kF·u で評価(§18.1 の v→w 置換)。u は直前サブ
+            // ステップの粒子追跡値(uPx/uPy — E6′ と同じ帳面)で、geoPN=1・kFrame=0・初回
+            // (hasU=0)のいずれでも w=v が厳密に成り立つ(bit 等価の要)
+            const wxi=(geo2&&S.hasU[i])? vx[i]-kFrame*S.uPx[i] : vx[i],
+                  wyi=(geo2&&S.hasU[i])? vy[i]-kFrame*S.uPy[i] : vy[i];
+            const v2i=wxi*wxi+wyi*wyi, dU=gux*wxi+guy*wyi;
+            // 第65便 65A: 値を束ねてから加算(式・値は 1 bit も不変 — 測地線チャネルへも同じ値を積むため)
+            const pnx=invC2*((cB*v2i-cA*Uj)*gux - cA*dU*wxi),
+                  pny=invC2*((cB*v2i-cA*Uj)*guy - cA*dU*wyi);
+            ax[i]+=pnx; ay[i]+=pny;
+            if(msOn){ MS.px[i]+=pnx; MS.py[i]+=pny; }
+            // 第69便 P4b(帳簿=反作用返し・§18.4): geoPN=2 では ∇U_j 因子の対反作用を自由源 j へ
+            // 返す(運動量が対で閉じる)。残余トルクは E6′③ と同じ等角加速度でスピンへ移譲し
+            // L も対で閉じる。pinned 源は E4 と同じ外部拘束の扱い(=第1段階と同じ開放系)
+            if(geo2 && !pinned[j]){
+              ax[j]-=pnx*mi/mj; ay[j]-=pny*mi/mj;
+              const IJ=Imom[i]+Imom[j];
+              if(Math.abs(IJ)>1e-9){
+                const dsn=mi*(dx*pny-dy*pnx)/IJ;
+                spin[i]-=dsn*kickDt; spin[j]-=dsn*kickDt;
+              }
+            }
+          }
+          if((pnOv[i]||mi>=pnK*Math.max(Ri,eps)) && !pinned[j]){
+            const Ui=G*mi*invW, gux=fg*mi*dx, guy=fg*mi*dy;   // j から見た ∇U(符号反転)
+            const wxj=(geo2&&S.hasU[j])? vx[j]-kFrame*S.uPx[j] : vx[j],
+                  wyj=(geo2&&S.hasU[j])? vy[j]-kFrame*S.uPy[j] : vy[j];
+            const v2j=wxj*wxj+wyj*wyj, dU=gux*wxj+guy*wyj;
+            const pnx=invC2*((cB*v2j-cA*Ui)*gux - cA*dU*wxj),
+                  pny=invC2*((cB*v2j-cA*Ui)*guy - cA*dU*wyj);
+            ax[j]+=pnx; ay[j]+=pny;
+            if(msOn){ MS.px[j]+=pnx; MS.py[j]+=pny; }
+            if(geo2 && !pinned[i]){   // 第69便 P4b: 対反作用(上と対称 — 自由源 i へ)
+              ax[i]-=pnx*mj/mi; ay[i]-=pny*mj/mi;
+              const IJ=Imom[i]+Imom[j];
+              if(Math.abs(IJ)>1e-9){
+                const dsn=mj*(dy*pnx-dx*pny)/IJ;
+                spin[i]-=dsn*kickDt; spin[j]-=dsn*kickDt;
+              }
+            }
+          }
+        }
+        // E2/E3 フレーム速度への寄与(並進 + スピン回転 ẑ×(r−r_j)=(−dy,dx))
+        let omj=0, omi=0;
+        if(sj!==0){ const tt=Rj/(Rj+d); omj = (q===2)? sj*tt*tt : sj*Math.pow(tt,q); }
+        if(si!==0){ const tt=Ri/(Ri+d); omi = (q===2)? si*tt*tt : si*Math.pow(tt,q); }
+        // 第81便: コアv1(比率仕様 coreMR/coreSR/coreRR)の分岐は廃止 — コア差動は
+        // コアv2(J_core 主変数)の1本だけになった(移行式はインポート側 legacyCoreToV2 が担う)
+        // 第77便(コアv2): 独立コア(differential)の差動が A8 と同型で外へ届く —
+        // ω += (Mc/m)·(Ω_c−s)·f(RcV,d)。coreOmV は substep 冒頭に一括算出(J/I)。
+        // v2 粒子ゼロの宇宙はこの分岐を 1 命令も通らない(hasCoreV2 ローカルゲート)
+        // 第80便: md≥2 = differential(2)/active(3)/cavity(4) が同じ 1 本の式を通る。
+        // cavity は coreMF=−voidFraction(負の重み)なので、旧 coreMR<0 と同じ符号反転になる
+        if(hasCoreV2){
+          if(S.coreMd[j]>=2 && S.RcV[j]>0){ const dOm=S.coreOmV[j]-sj;
+            if(dOm!==0){ const tt=S.RcV[j]/(S.RcV[j]+d); omj += S.coreMF[j]*dOm*((q===2)? tt*tt : Math.pow(tt,q)); } }
+          if(S.coreMd[i]>=2 && S.RcV[i]>0){ const dOm=S.coreOmV[i]-si;
+            if(dOm!==0){ const tt=S.RcV[i]/(S.RcV[i]+d); omi += S.coreMF[i]*dOm*((q===2)? tt*tt : Math.pow(tt,q)); } }
+        }
+        uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));
+        uAx[j]+=wi*(vx[i]+omi*(dy));  uAy[j]+=wi*(vy[i]+omi*(-dx));
+        // ===== 第69便 P4b(E12v2): geoPN=2 の ∇u 用勾配集積(g2on のときだけ走る)=====
+        // u=P/W の分子 P_a=Σ_j w_j·c_j,a(c_j=v_j+ω_j(d)·ẑ×(r−r_j))と分母 W の空間勾配を
+        // 対ごとに解析で積む: ∂w_j/∂r=−m_j·(r−r_j)·invW³(E1′ Plummer 型の厳密微分)、
+        // ∂ω/∂d=−q·ω/(R+d)(基底+コア差動は −q·ω_c/(Rc+d) — ②③のフレーム式と同じ核)。
+        // 0/1 経路はこの分岐を素通り(値・型とも不変)
+        if(g2on){
+          const idd=(d>1e-9)? 1/d : 0;
+          let domj=0, domi=0;   // ∂ω/∂d(基底+コア差動)
+          if(sj!==0){ const tt=Rj/(Rj+d), o0=(q===2)? sj*tt*tt : sj*Math.pow(tt,q); domj-=q*o0/(Rj+d); }
+          if(si!==0){ const tt=Ri/(Ri+d), o0=(q===2)? si*tt*tt : si*Math.pow(tt,q); domi-=q*o0/(Ri+d); }
+          // 第81便: コアv1 の勾配分岐は廃止(上の A8 と同じ理由)
+          // 第77便(コアv2): 独立コアの差動勾配(A8 v2 分岐と同じ核。第80便: md≥2 の4モード共通)
+          if(hasCoreV2){
+            if(S.coreMd[j]>=2 && S.RcV[j]>0){ const dOm=S.coreOmV[j]-sj;
+              if(dOm!==0){ const tt=S.RcV[j]/(S.RcV[j]+d), oc=S.coreMF[j]*dOm*((q===2)? tt*tt : Math.pow(tt,q)); domj-=q*oc/(S.RcV[j]+d); } }
+            if(S.coreMd[i]>=2 && S.RcV[i]>0){ const dOm=S.coreOmV[i]-si;
+              if(dOm!==0){ const tt=S.RcV[i]/(S.RcV[i]+d), oc=S.coreMF[i]*dOm*((q===2)? tt*tt : Math.pow(tt,q)); domi-=q*oc/(S.RcV[i]+d); } }
+          }
+          { // i 側(源 j): r−r_j=(dx,dy)、c=(vx_j−ω_j·dy, vy_j+ω_j·dx)
+            const gwx=-mj*dx*invd3, gwy=-mj*dy*invd3;
+            const cxv=vx[j]+omj*(-dy), cyv=vy[j]+omj*(dx);
+            const nx=dx*idd, ny=dy*idd;
+            dPxx[i]+=gwx*cxv + wj*(-dy*domj*nx);
+            dPxy[i]+=gwy*cxv + wj*(-omj - dy*domj*ny);
+            dPyx[i]+=gwx*cyv + wj*( omj + dx*domj*nx);
+            dPyy[i]+=gwy*cyv + wj*( dx*domj*ny);
+            dWxA[i]+=gwx; dWyA[i]+=gwy;
+          }
+          { // j 側(源 i): r−r_i=(−dx,−dy)、c=(vx_i+ω_i·dy, vy_i−ω_i·dx)
+            const gwx=mi*dx*invd3, gwy=mi*dy*invd3;
+            const cxv=vx[i]+omi*(dy), cyv=vy[i]+omi*(-dx);
+            const nx=-dx*idd, ny=-dy*idd;
+            dPxx[j]+=gwx*cxv + wi*( dy*domi*nx);
+            dPxy[j]+=gwy*cxv + wi*(-omi + dy*domi*ny);
+            dPyx[j]+=gwx*cyv + wi*( omi - dx*domi*nx);
+            dPyy[j]+=gwy*cyv + wi*(-dx*domi*ny);
+            dWxA[j]+=gwx; dWyA[j]+=gwy;
+          }
+        }
+        // E5′ スピン斥力(対称化・中心力): F = kRep·μ·(ω_i²+ω_j²)·(r_i−r_j)
+        // 第36便 D(台帳4-51 / E5′ 改訂): thermal:"tint" では圧力の源をスピンから内部温度へ移す。
+        //   F = kRep·μ·√(T_int,i·T_int,j)·(g_i²+g_j²)·(r_i−r_j)、g_a=(R_a/(R_a+d))^q
+        // 距離依存 g² は現行と同一(現行の ω_a² = s_a²·g_a² の s_a² を対の √(T_i·T_j) で置き換えた形)。
+        // √ の積形なので符号は現れず常に斥力(裁定どおり)— 片方が絶対零度なら対の斥力は消える
+        if(tint){
+          if(kRep>0 && Math.abs(mi+mj)>1e-9){
+            const Ti=Tint[i], Tj=Tint[j];
+            // 第37便 C2(台帳4-71): 力は「両方とも非零温」のときだけ(従来どおり)だが、U_rep の
+            // 温度係数 a は「相手が非零温」なら片方が絶対零度でも積む — T_i=0 の粒子を温める過程で
+            // 生まれる斥力ポテンシャルの支払いを取りこぼさないため(a_i·√T_i は T_i=0 で 0 になる)
+            if(Ti>0 || Tj>0){
+              const ti2=Ri/(Ri+d), tj2=Rj/(Rj+d);
+              if(Ti>0 && Tj>0){
+                const gi=(q===2)? ti2*ti2 : Math.pow(ti2,q), gj=(q===2)? tj2*tj2 : Math.pow(tj2,q);
+                const f=kRep*(mi*mj/(mi+mj))*Math.sqrt(Ti*Tj)*(gi*gi+gj*gj);
+                ax[i]+=f/mi*dx; ay[i]+=f/mi*dy;
+                ax[j]-=f/mj*dx; ay[j]-=f/mj*dy;
+                if(msOn){ MS.rx[i]+=f/mi*dx; MS.ry[i]+=f/mi*dy; MS.rx[j]-=f/mj*dx; MS.ry[j]-=f/mj*dy; }   // 65A: 熱斥力チャネル
+              }
+              if(urep){
+                const A=kRep*(mi*mj/(mi+mj))
+                       *(urepPhi(Ri,ti2,ue1,ue2,ui1,ui2)+urepPhi(Rj,tj2,ue1,ue2,ui1,ui2));
+                if(Tj>0) arep[i]+=A*Math.sqrt(Tj);
+                if(Ti>0) arep[j]+=A*Math.sqrt(Ti);
+                // 中点補正の材料(下の②を参照): Σ_j A_ij·δ√T_j(δ は直前サブステップの変化量)
+                arepD[i]+=A*duT[j]; arepD[j]+=A*duT[i];
+              }
+            }
+          }
+        } else if(kRep>0 && (omi!==0||omj!==0) && Math.abs(mi+mj)>1e-9){   // 第12便: 負質量実験時の0除算保護
+          const f=kRep*(mi*mj/(mi+mj))*(omi*omi+omj*omj);
+          ax[i]+=f/mi*dx; ay[i]+=f/mi*dy;
+          ax[j]-=f/mj*dx; ay[j]-=f/mj*dy;
+          if(msOn){ MS.rx[i]+=f/mi*dx; MS.ry[i]+=f/mi*dy; MS.rx[j]-=f/mj*dx; MS.ry[j]-=f/mj*dy; }   // 65A: 熱斥力チャネル(spin モード)
+        }
+        // E9 接触(重なり)
+        const sumR=Ri+Rj;
+        if(d<sumR && d>1e-9){
+          const nxv=dx/d, nyv=dy/d;           // n̂ (j→i)
+          const invMi=pinned[i]?0:1/mi, invMj=pinned[j]?0:1/mj;
+          const K=invMi+invMj;
+          // 法線ばね(換算質量スケール+「軽い側の加速度≤8」の対称な力上限。
+          // 上限を両側独立に掛けると作用反作用が破れ、めり込んだ粒子が
+          // 重い天体を押し続ける「ロケット」になるため、必ず力で対称にキャップする)
+          const msum=mi+mj;
+          const muM=(Math.abs(msum)>1e-9)? mi*mj/msum : 0;   // 第12便: 負質量実験時の0除算保護
+          let Fs=ckF*(sumR-d)*muM;   // 第96便: contactK(既定40 — 従来と同値)
+          const maxInv=Math.max(invMi,invMj);
+          if(maxInv>0 && Fs*maxInv>ccF) Fs=ccF/maxInv;   // 第96便: contactCap(既定8)
+          ax[i]+=Fs*nxv*invMi; ay[i]+=Fs*nyv*invMi;
+          ax[j]-=Fs*nxv*invMj; ay[j]-=Fs*nyv*invMj;
+          if(msOn){ MS.cx[i]+=Fs*nxv*invMi; MS.cy[i]+=Fs*nyv*invMi; MS.cx[j]-=Fs*nxv*invMj; MS.cy[j]-=Fs*nyv*invMj; }   // 65A: 接触チャネル(法線ばね)
+          // 第35便: 法線ばね(上)は保存力なので毎回の力評価に含めるが、γn 減衰と接線摩擦は
+          // 速度・スピンを直接書き換える非保存インパルスなので 1サブステップ1回だけ適用する
+          // (leapfrog で2回適用すると散逸レートが semi の2倍になってしまう)
+          if(K>0 && doPre){
+            // 第36便 D(台帳4-51 / A9′): tint モードでは γn 減衰と接線摩擦で失われた運動エネルギーを
+            // radE(=外へ逃げた分)ではなく接触対の内部温度 T_int へ積む。dEd はその合計(spin モードでは未使用)
+            let dEd=0;
+            const rvx=vx[i]-vx[j], rvy=vy[i]-vy[j];
+            const vn=rvx*nxv+rvy*nyv;
+            if(vn<0){ // 接近時のみ法線減衰(非弾性)。散逸分は衝突閃光として放射(A12)
+              const jn=-gammaN*vn/K;
+              vx[i]+=jn*nxv*invMi; vy[i]+=jn*nyv*invMi;
+              vx[j]-=jn*nxv*invMj; vy[j]-=jn*nyv*invMj;
+              if(msOn){ MS.cx[i]+=jn*nxv*invMi*msIdt; MS.cy[i]+=jn*nyv*invMi*msIdt;
+                        MS.cx[j]-=jn*nxv*invMj*msIdt; MS.cy[j]-=jn*nyv*invMj*msIdt; }   // 65A: 接触(γn インパルス→Δv/dt)
+              const eN=0.5*(1/K)*vn*vn*(1-(1-gammaN)*(1-gammaN));
+              if(tint) dEd+=eN; else S.radE+=eN;
+            }
+            // 接線摩擦: 速度→スピン変換(A9 の本体。v1.1: 作用線を一致させ L 厳密保存)
+            const txv=-nyv, tyv=nxv;          // t̂ = ẑ×n̂
+            const Li=Ri*d/sumR, Lj=Rj*d/sumR; // 実効腕 R̃(R̃_i+R̃_j=d)
+            const vs=(vx[i]-vx[j])*txv+(vy[i]-vy[j])*tyv - spin[i]*Li - spin[j]*Lj;
+            const jt=muF*vs/(3*K);            // Δv_s = −muF·v_s(muF≤1 で無条件安定)
+            // v1.5(A12′): すべり散逸の帳簿。変更されるDOF(接線速度成分+スピン)のみの運動エネルギー差を厳密計上
+            const vti0=vx[i]*txv+vy[i]*tyv, vtj0=vx[j]*txv+vy[j]*tyv;
+            const Ii9=Imom[i], Ij9=Imom[j];   // 第39便 39B: =0.5*mi*Ri*Ri / 0.5*mj*Rj*Rj の事前計算
+            const si0=spin[i], sj0=spin[j];
+            vx[i]-=jt*invMi*txv; vy[i]-=jt*invMi*tyv;
+            vx[j]+=jt*invMj*txv; vy[j]+=jt*invMj*tyv;
+            if(msOn){ MS.cx[i]-=jt*invMi*txv*msIdt; MS.cy[i]-=jt*invMi*tyv*msIdt;
+                      MS.cx[j]+=jt*invMj*txv*msIdt; MS.cy[j]+=jt*invMj*tyv*msIdt; }   // 65A: 接触(摩擦インパルス→Δv/dt)
+            if(!pinned[i]) spin[i]+=Li*jt/Ii9;             // ds = +R̃·j_t/I, I=½mR²
+            if(!pinned[j]) spin[j]+=Lj*jt/Ij9;
+            const vti1=vx[i]*txv+vy[i]*tyv, vtj1=vx[j]*txv+vy[j]*tyv;
+            const dE9=0.5*mi*(vti0*vti0-vti1*vti1)+0.5*mj*(vtj0*vtj0-vtj1*vtj1)
+                     +0.5*Ii9*(si0*si0-spin[i]*spin[i])+0.5*Ij9*(sj0*sj0-spin[j]*spin[j]);
+            if(dE9>0){ if(tint) dEd+=dE9; else S.radE+=dE9; }   // 解析的に dE9≥0(μ_f≤1)。丸め起因の負値は捨てる
+            // 第36便 D(A9′ の換算則): ΔE_diss を質量比で2粒子へ分配し ΔT_int=ΔE_i/(C·m_i) を加える。
+            // 質量比分配 ⇒ 両者の ΔT_int は等しく ΔE/(C·(m_i+m_j))(C·m_iΔT_i+C·m_jΔT_j=ΔE で第一法則が閉じる)。
+            // pinned は外部拘束=無限熱容量のリザーバとして扱い、その持ち分は温度を上げずに radE 帳簿へ回す
+            // (現行の pinned が E9/E10′/E11 の対象外である扱いと整合 — 📏の熱浴・♨️のヒーターが一定温度に保たれる)
+            // 第37便 C2(台帳4-71): 配分則(質量比)は不変。ΔE→ΔT_int の換算だけが
+            // 「C·m で割る」から「熱量関数 C·m·T+a·√T を解く」へ変わる(②でまとめて適用)
+            if(tint && dEd>0 && Math.abs(mi+mj)>1e-9){
+              const si2=dEd*mi/(mi+mj), sj2=dEd*mj/(mi+mj);
+              if(pinned[i]) S.radE+=si2; else dQi[i]+=si2;
+              if(pinned[j]) S.radE+=sj2; else dQi[j]+=sj2;
+            }
+          }
+        }
+        // ===== E14″ 創発相変化: 結合予算の引力と減衰(53A→56A→60 で創発一本化)=====
+        // phaseChange プリセット(pc 非 null)のみ。平衡距離 r0=R_i+R_j(接触距離)の外側
+        // r0 < d < cut=bondRange·r0 の帯に引力 F = K_att·μ·(d−r0)·(cut−d)/(cut−r0) が働く
+        // (d=r0 と d=cut で 0 = 力は連続。重なり d<r0 は従来どおり E9 の法線ばねが受け持つ
+        //  ので、r0 が力の釣り合う平衡点になる)。
+        // K_att = bondK·√(share_i·share_j)、share = min(S_max, bondN/max(c,0.5))(56A 結合予算):
+        // 結合数が減ると残りの結合力が増し(予算の集中)、結合相手は幾何のみで決まる
+        // (毎サブステップ再計算 — 液相では容易に入れ替わる)。温度は kRep(E5′)を通じてのみ
+        // 斥力として働き、固相(c≈4-6)/液相(少数の強い結合)/気相(c→0)がこの競合から創発。
+        // 潜熱は指定しない — 井戸から抜けるエネルギーがそのまま実効潜熱(第60便)。
+        // 減衰(60A)は同じ帯で相対法線速度を毎サブステップ cD 倍削るインパルス(gammaN と同形式・
+        // 接近/離反の両向き)。cD = bondDamp·(√(share_i·share_j)/S_max)·W — **減衰も結合の濃さ
+        // から創発**する(固体の結合振動は強く減衰・気体の掠め接触はほぼ素通り。旧 visc
+        // 〔液相粘性の相率合成〕は第60便で廃止)。失われた運動エネルギーは E9 と同じ換算則
+        // (質量比分配)で dQi へ積む(A9′ — pinned の持ち分は radE へ)。
+        // 力上限も E9 と同じ「軽い側の加速度≤8」の対称キャップ(非対称な「ロケット」の防止)
+        if(pc && d<pcRange*sumR && Math.abs(mi+mj)>1e-9){
+          const muM=mi*mj/(mi+mj);
+          // 対の井戸形状 w(d): 帯内で U(d)/(−K_att·μ)、重なり d≤r0 では井戸底 A²/6 の定数
+          // (力 0・束縛は満深)
+          const cutW=pcRange*sumR, AW=cutW-sumR;
+          const u0=(d>sumR)? d-sumR : 0;
+          const wD=(AW*(AW*AW-u0*u0)/2 - (AW*AW*AW-u0*u0*u0)/3)/AW;
+          const wN=wD/(AW*AW/6);   // 正規化井戸深さ W ∈[0,1](接触で1・帯端で0)
+          // 滑らかな配位数の積算(56A — 予算・伝導・角度のすべてが読む)
+          if(doPre){ coordAcc[i]+=wN; coordAcc[j]+=wN; }
+          // 第59便 59A: 幾何近傍の記録(両パス — 角ポテンシャルは毎回の力評価に使う通常の力。
+          // 走査順 i<j 昇順により、中心 c の近傍リストは常に「相手 index 昇順」で決定論。
+          // あふれ(>PC_ANG_MAX)は捨てて angOvfN に計数する — 監査 phaseEnergy も同じ収集則)
+          if(pcAngKN>0){
+            const nI=angNbrN[i]; if(nI<PC_ANG_MAX){ angNbr[i*PC_ANG_MAX+nI]=j; angNbrN[i]=nI+1; } else S.angOvfN++;
+            const nJ=angNbrN[j]; if(nJ<PC_ANG_MAX){ angNbr[j*PC_ANG_MAX+nJ]=i; angNbrN[j]=nJ+1; } else S.angOvfN++;
+          }
+          const shI=Math.min(PC_SHARE_MAX, pcBondN/Math.max(coordN[i],0.5)),
+                shJ=Math.min(PC_SHARE_MAX, pcBondN/Math.max(coordN[j],0.5));
+          const shG=Math.sqrt(shI*shJ);
+          const Katt=pcBondK*shG;
+          // 60A: 創発減衰 — 結合の濃さ(予算重み×井戸深さ)に比例。bondDamp∈[0,1]・shG/S_max≤1・
+          // W≤1 なので cD≤bondDamp が保たれ、インパルスの無条件安定は従来のまま
+          const cD=pcBDamp*(shG/PC_SHARE_MAX)*wN;
+          // 再配分の熱交換(56A — 帳簿の恒久対策): share が変わると井戸深さ K·μ·w が力の仕事なしに
+          // 変わる(結合数減 → 残り強化 = U が深くなる)。その ΔU を熱と等価交換する —
+          // ΔQ = (K_now − K_prev)·μ·w を dQi へ(強化=発熱・弱化=吸熱。結合の組み替えは
+          // 熱浴とエネルギーをやり取りする)。d の変化分は力の仕事が受け持つ(交差項 O(dt·ċ))
+          if(doPre){
+            const dK=Katt - pcBondK*Math.sqrt(shPrev[i]*shPrev[j]);
+            if(dK!==0){
+              const qR=dK*muM*wD;
+              const qi3=qR*mi/(mi+mj), qj3=qR*mj/(mi+mj);
+              if(pinned[i]) S.radE+=qi3; else dQi[i]+=qi3;
+              if(pinned[j]) S.radE+=qj3; else dQi[j]+=qj3;
+            }
+          }
+          if((Katt>0 || cD>0) && d>sumR){
+            const nxv=dx/d, nyv=dy/d;
+            const invMi=pinned[i]?0:1/mi, invMj=pinned[j]?0:1/mj;
+            const K=invMi+invMj;
+            if(Katt>0){
+              const cut=pcRange*sumR;
+              let Fa=Katt*muM*(d-sumR)*(cut-d)/(cut-sumR);
+              const maxInv=Math.max(invMi,invMj);
+              if(maxInv>0 && Fa*maxInv>8){ Fa=8/maxInv; S.clampAN++; }   // 第53便 53B: 発動帳簿
+              ax[i]-=Fa*nxv*invMi; ay[i]-=Fa*nyv*invMi;
+              ax[j]+=Fa*nxv*invMj; ay[j]+=Fa*nyv*invMj;
+              if(msOn){ MS.bx[i]-=Fa*nxv*invMi; MS.by[i]-=Fa*nyv*invMi; MS.bx[j]+=Fa*nxv*invMj; MS.by[j]+=Fa*nyv*invMj; }   // 65A: 結合チャネル(井戸引力)
+            }
+            // 減衰は速度を直接書き換える非保存インパルスなので 1サブステップ1回だけ(E9 と同じ)
+            if(cD>0 && K>0 && doPre){
+              const vn=(vx[i]-vx[j])*nxv+(vy[i]-vy[j])*nyv;
+              if(vn!==0){
+                const jn=-cD*vn/K;
+                vx[i]+=jn*nxv*invMi; vy[i]+=jn*nyv*invMi;
+                vx[j]-=jn*nxv*invMj; vy[j]-=jn*nyv*invMj;
+                if(msOn){ MS.bx[i]+=jn*nxv*invMi*msIdt; MS.by[i]+=jn*nyv*invMi*msIdt;
+                          MS.bx[j]-=jn*nxv*invMj*msIdt; MS.by[j]-=jn*nyv*invMj*msIdt; }   // 65A: 結合(創発減衰→Δv/dt)
+                const eN=0.5*(1/K)*vn*vn*(1-(1-cD)*(1-cD));
+                if(eN>0){
+                  const si2=eN*mi/(mi+mj), sj2=eN*mj/(mi+mj);
+                  if(pinned[i]) S.radE+=si2; else dQi[i]+=si2;
+                  if(pinned[j]) S.radE+=sj2; else dQi[j]+=sj2;
+                }
+              }
+            }
+          }
+        }
+        // E10′ スピン拡散(I 重み: 対ごとに I_i·ds_i = −I_j·ds_j で L 厳密保存)
+        // 第36便 D(台帳4-51 / E10′ 改訂): thermal:"tint" では κs が拡散するのは T_int で、スピンには
+        // 一切触れない。熱容量重み(C·m)で対称化するので C_i·dT_i = −C_j·dT_j = 熱エネルギー厳密保存、
+        // かつ角運動量は「そもそも動かさない」ので自明に厳密保存する(台帳4-50「冷たいのに熱伝導」の解消)。
+        // C は両辺の共通因子として相殺するため、伝導レートは cHeat に依存しない
+        // 第39便 39B(台帳4-76): 遠方対を「除算の前」に落とす。g=sumR/(sumR+d)>0 なので
+        // gg>1e-4 ⟺ g>0.01 ⟺ d<99·sumR。d<100·sumR はその上位集合なので、下の gg>1e-4 を
+        // 通る対の集合は一切変わらない(落ちるのは元々 gg≤1e-4 で何もしない対だけ)= 値は不変。
+        // 環系(sumR≈0.5・対距離≈100)で除算1回/対を大半の対から抜ける
+        if(kappaS>0 && d<100*sumR){
+          const g=(sumR/(sumR+d)); const gg=g*g;
+          if(gg>1e-4){
+            if(tint){
+              // 第37便 C2(台帳4-71): 伝導は「温度の拡散レート」ではなく「熱流」で積む。
+              //   Q̇ = C·κs·(T_j−T_i)·g²·μ_ij   (μ=m_im_j/(m_i+m_j))
+              // これは第36便の ΔT_i=κs(T_j−T_i)g²·m_j/(m_i+m_j)·dt に C·m_i を掛けた量そのもので、
+              // Q̇_i=−Q̇_j = 熱エネルギーの厳密保存は変わらない。U_rep が無ければ(a=0)②の
+              // 厳密解が T+Q/(C·m) に退化するので、第36便の式と1文字も違わない値になる。
+              // doPost 限定なのは leapfrog で1サブステップに2回積まないため(E9 は doPre 側)
+              const mS=mi+mj;
+              if(doPost && Math.abs(mS)>1e-9){   // 第12便: 負質量実験時の0除算保護
+                let qf=cHeat*kappaS*(Tint[j]-Tint[i])*gg*(mi*mj/mS)*dt;
+                // 第59便 59B(創発熱伝導・第60便で一本化): 相率ではなく滑らかな配位数 B
+                // (coordN — 前サブステップ値)から粒子ごとの伝導率倍率を導出する:
+                //   c_a = condG + (condS−condG)·B_a/(B_a+condN)
+                // 孤立(B→0)= condG・密な結合網(B≫condN)→ condS へ飽和。対の合成は調和平均
+                // 2c_ic_j/(c_i+c_j)(直列合成)。Q̇_i=−Q̇_j の対称形は変えないので熱は厳密保存の
+                // まま。condN=0(または pc なし)では qf は 1 bit も変わらない(素の κs)
+                if(pc && pcCondN>0){
+                  const Bi=coordN[i], Bj=coordN[j];
+                  const ci=pcCg+(pcCs-pcCg)*Bi/(Bi+pcCondN),
+                        cj=pcCg+(pcCs-pcCg)*Bj/(Bj+pcCondN);
+                  const sc=ci+cj;
+                  qf = (sc>1e-12)? qf*(2*ci*cj/sc) : 0; }
+                dQi[i]+=qf;
+                dQi[j]-=qf;
+              }
+            } else {
+            const Ii=Imom[i], Ij=Imom[j], IJ=Ii+Ij;   // 第39便 39B: I の事前計算を参照
+            if(Math.abs(IJ)>1e-9){   // 第12便: 負質量実験時の0除算保護
+              const c=kappaS*(sj-si)*gg/IJ;
+              ds[i]+=c*Ij;
+              ds[j]-=c*Ii;
+            }
+            }
+          }
+        }
+      }
+    }
+    // ---- ここまで root index.html の対ループ逐語コピー(QA kernel.bitident が機械照合)----
+    }
     // ===== 第59便 59A(angK×bondN 併用 — 原仮定者指示「併用設計: 進める」)=====
     // 明示リンクの無い結合予算モードでは、対ループで記録した幾何近傍(angNbr — 井戸帯内・
     // 相手 index 昇順・最大 PC_ANG_MAX)の対 (j,k) へ **符号付き線形 g** の角ポテンシャル

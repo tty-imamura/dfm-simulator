@@ -88,22 +88,41 @@
   正例5件は1件も減らしていない)、`ai.payload-preview` は実際に送る本文(`aiSendContent`)との一致へ、
   `prompt.spec-sync` は**出力の使い分け節の ja/en 逐語収載も検査**する(検査を増やした)。
 
-第177便(2026-08-23): **対ループカーネル特別化 — 型安定な小関数分離+PN 経路の pow 重複除去**
-(Windows 実機「時間経過倍率=1で歩数44%」報告への1步コスト対処 — 第171便応答性・第175便 step 会計に
-続く第3段)。**beta のみ**の変更で、**数値はビット不変**(QA `kernel.bitident` 新設 — generic 強制 vs
-通常経路 A・改修前 HTML B の 18系×{1,10,100,1000}步=**72/72 全ビット一致**を機械照合)。
+第177便(2026-08-23)+ **第177b便(同日・perf 回帰の補正)**: **対ループカーネル特別化 —
+軌道系だけを型安定な小関数へ+PN 経路の pow 重複除去**(Windows 実機「時間経過倍率=1で歩数44%」
+報告への1步コスト対処 — 第171便応答性・第175便 step 会計に続く第3段)。**beta のみ**の変更で、
+**数値はビット不変**(第177便: 改修前 HTML との 18系×{1,10,100,1000}步=**72/72 全ビット一致**。
+QA `kernel.bitident` として「generic 強制 vs 通常経路」10系×步数の全状態照合+否定対照を常設。
+第177b便: 第177便版 HTML との 18系×{1,10,200}步=**54/54 全ビット一致**を再照合し、
+`kernel.bitident` へ「インライン generic ≡ root `index.html` 原文の**文字列完全一致**(367行)」を
+追加した — ゲートは 1 件も弱めていない)。
 
-- **① 対ループの小関数分離**: `S._core` の全対ループを型安定な TypedArray 引数の小関数へ分離 —
-  `pairCoreGeneric`(逐語コピー・参照経路)/ `pairCorePlain`(PN なし)/ `pairCorePN`
-  (E12 1PN・∇u Jacobian 内蔵)。特別化条件は kRep=muF=γN=κS=ηRad=0・tint/phase/コアv2/箱なし
-  (内蔵73プリセット中33本が該当)。対ループコンテキストは `S._pkC`(`newPairCtx`)。
+- **① 特別化カーネルの分離**: 軌道系のフラグ組だけを、死枝を 1 つも持たない型安定な小関数へ回す —
+  `pairCorePlain`(PN なし)/ `pairCorePN`(E12 1PN・∇u Jacobian 内蔵)。特別化条件は
+  kRep=muF=γN=κS=ηRad=0・tint/phase/コアv2/箱なし(内蔵73プリセット中33本が該当)。
+  対ループコンテキストは `S._pkC`(`newPairCtx` — 特別化カーネルが読むフィールドだけを持つ)。
+- **①′ generic はインライン原文のまま**(第177b便で復元): **特別化条件を満たさない宇宙
+  (kKind=0)は従来どおり `S._core` 内のインライン対ループを通る**(root `index.html` の同区間の
+  逐語コピー — インデントを含め 1 文字も変えていない。`kernel.bitident` が root 原文との
+  **文字列完全一致**もその場で照合する)。第177便は generic まで ctx(約85プロパティ)への
+  書き込み+関数呼び出し経由へ移したため、1步あたりの固定オーバーヘッドが乗り、3体×120000步の
+  微小サンプル `perf.starSeed` で **beta/root の絶対 ms が +13〜19% の実回帰**として顕在化した
+  (PR #200 の CI perf で 21/22 PASS・starSeed のみ FAIL。CI 初回 root=194.5ms beta=231.4ms /
+  CI 再トス root=191.2ms beta=216.4ms / ローカル初回 root=203.3ms beta=237.8ms — 4走行すべてで
+  beta が遅い)。第177b便で generic をインライン復元し、ctx 書き込みと関数呼び出しは kKind≠0 の
+  ときだけ行う形へ移した。
 - **② pow 重複除去**(統括承認): `pairCorePN` の g2on 分岐で o0≡omj のため
   `domj -= q*omj/(Rj+d)` へ簡約(`Math.pow` 4→2回/対 — 数式同値でビット不変を bitident B が照合)。
-- **実測効果**: 💿 −27.7%・🌞 −29.7%・generic 系 −14〜44%。効くのは geoPN≥2 かつ kFrame>0 の
-  8系(💿 の1步の重さの正体は死枝ではなく geoPN=2 の生き演算(≈80%)+pow(≈47%))。
-- **③ 診断フック**: `HP.setKernelForceGeneric(bool)`(特別化の強制無効化)/ `HP.kernelInfo()`
-  (現在どの経路が選ばれているかの報告)。Windows 実機の改善判定は第175便の
-  `HP.runStepBench(200)` と `HP.kernelInfo()` の1回実行で付く。
+- **実測効果**: 特別化(geoPN≥2 かつ kFrame>0 の8系)で 💿 −27.7%・🌞 −29.7%(💿 の1步の重さの
+  正体は死枝ではなく geoPN=2 の生き演算(≈80%)+pow(≈47%))。第177便で報告した「generic 系
+  −14〜44%」は**特別化前の一時測定であり、①′ のインライン復元後の姿ではない**(generic は原文の
+  ままなので root と同等 = 変化なしが期待値)。第177b便の3経路A/B実測(同一ブラウザ・
+  root / 第177b後 beta / 第177便 beta): starSeed 1.013 / 1.146(対 root)、frictionHeat
+  1.037 / 1.080、galaxyDB 0.986 / 1.006。`node tests/perf.mjs` フル実行は **22/22 PASS**
+  (starSeed 初回トス 0.991 — root=211.7ms beta=209.9ms)。
+- **③ 診断フック**: `HP.setKernelForceGeneric(bool)`(特別化の強制無効化 = 常にインライン
+  generic)/ `HP.kernelInfo()`(現在どの経路が選ばれているかの報告)。Windows 実機の改善判定は
+  第175便の `HP.runStepBench(200)` と `HP.kernelInfo()` の1回実行で付く。
 
 第176便(2026-08-22): **ObservationRecord 経路 — カタログ外天体の「出典つき観測転写+決定的構築」**
 (レビュー第5巡 P1-2・統括裁定 2026-08-22c §3b)。**beta のみ**の変更で、ルート版 `index.html` は

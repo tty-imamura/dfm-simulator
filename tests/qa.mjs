@@ -16884,15 +16884,17 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   }
 }
 
-// ---- 89) 第177便(レビュー第5巡 P1-1・統括裁定「進める」): kernel.bitident ----
-// ----     対ループカーネル特別化(S._core の①全対ループを module 直下の独立関数へ切り出し、
-// ----     軌道系のフラグ組では死枝を持たない特別化カーネルを通す改修)が、**1步の値を
+// ---- 89) 第177便(レビュー第5巡 P1-1・統括裁定「進める」)/ 第177b便(補正): kernel.bitident ----
+// ----     対ループカーネル特別化(軌道系のフラグ組だけを、死枝を持たない特別化カーネル
+// ----     pairCorePlain / pairCorePN へ通す改修。第177b便で **generic は S._core 内の
+// ----     インライン対ループ = root 原文のまま**へ戻した)が、**1步の値を
 // ----     1 bit も変えていない**ことの機械証明。背景は第175便と同じ「Windows 実機で 1步の
 // ----     コストが予算級(💿saturnRingRealKF1 が時間経過倍率=1 でも歩数 44%)」で、原因の
 // ----     最有力候補が「V8 が ~1400 行の単一関数を最適化しない」(第39便 39B の系譜)。
 // ----     高速化そのものは窓ではない(実機の V8 で改善幅が違いうる)ため、本ゲートが判定
 // ----     するのは**等価性と経路選択**だけである:
-// ----       (1) 全状態ビット一致: 代表プリセット群について「generic 強制」と「通常経路」を
+// ----       (1) 全状態ビット一致: 代表プリセット群について「generic 強制(= インライン原文)」
+// ----           と「通常経路」を
 // ----           同一步数だけ走らせ、sim の**全 TypedArray をバイト列で・全数値を文字列で**
 // ----           照合する(位置・速度・質量・スピン・半径・温度・コア・固有時・帳簿・
 // ----           クランプ計数・光子ログ等 — 観測専用の _kKind/_pkC だけ除外)。步数は
@@ -16904,11 +16906,30 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
 // ----       (4) **否定対照(比較器の非空性)**: 照合器に 1 ulp だけずらした状態を食わせると
 // ----           必ず差分を返すこと(= (1) の PASS が「何も見ていない」ことによる PASS では
 // ----           ないことをその場で実測する)。
+// ----       (5) **逐語一致(第177b便で追加)**: kKind=0 の経路が root index.html の①全対ループ
+// ----           と**文字列完全一致**であること(= 「generic 強制」側が原文そのものであること
+// ----           の静的証明。第177便の pairCoreGeneric 削除に伴う照合対象の再配線)。
 {
   const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
-  const hasKernel = /function pairCoreGeneric\(C\)\{/.test(html) &&
+  // 第177b便: generic はインライン(S._core 内)へ戻したので pairCoreGeneric は存在しない。
+  // 特徴検出は「特別化カーネル2本+開発フック」で行う(root 等の未昇格側は従来どおり SKIP)。
+  const hasKernel = /function setKernelForceGeneric\(v\)\{/.test(html) &&
     /function pairCorePlain\(C\)\{/.test(html) && /function pairCorePN\(C\)\{/.test(html);
   if (hasKernel) {
+    // (5) **逐語一致**: kKind=0(generic)は S._core 内のインライン対ループ = root 原文である
+    //     ことを、beta の「① 全対ループ」区間と root index.html の同区間の**文字列完全一致**
+    //     で機械照合する(第177便の pairCoreGeneric コピーが消えた分、照合対象をここへ再配線
+    //     した — 逐語性の証明が「関数への逐語コピー」から「原文そのものの残置」へ強まる)。
+    const cutRegion = (s, a, e) => { const i = s.indexOf(a); if (i < 0) return null;
+      const j = s.indexOf(e, i); return j < 0 ? null : s.slice(i, j); };
+    const LOOP_A = 'let pk=0; // 対インデックス';
+    const LOOP_E = '// ---- ここまで root index.html の対ループ逐語コピー';
+    const LOOP_E0 = '// ===== 第59便 59A(angK×bondN 併用';
+    const betaLoop = cutRegion(html, LOOP_A, LOOP_E);
+    const rootSrc = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+    const rootLoop = cutRegion(rootSrc, LOOP_A, LOOP_E) || cutRegion(rootSrc, LOOP_A, LOOP_E0);
+    const verbatimOK = !!betaLoop && !!rootLoop && betaLoop === rootLoop &&
+      betaLoop.split('\n').length > 300 && !/function pairCoreGeneric\(/.test(html);
     const kp = await browser.newPage();
     const kErr = [];
     kp.on('pageerror', (e) => kErr.push(String(e)));
@@ -16982,7 +17003,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     const wrongKind = r.rows.filter((o) => o.kind !== o.want || o.forcedKind !== 'generic');
     const negOK = r.neg.changed && r.neg.detected === 1;
     const ok = bad.length === 0 && wrongKind.length === 0 && negOK && r.defOff &&
-      r.minKeys > 100 && kErr.length === 0;
+      r.minKeys > 100 && kErr.length === 0 && verbatimOK;
     const specN = new Set(r.rows.filter((o) => o.want !== 'generic').map((o) => o.id)).size;
     const genN = new Set(r.rows.filter((o) => o.want === 'generic').map((o) => o.id)).size;
     add('kernel.bitident', ok,
@@ -16992,7 +17013,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       `経路選択: ${r.rows.length - wrongKind.length}/${r.rows.length} 期待どおり` +
       `(${Object.entries(EXPECT).map(([k, v]) => k + '=' + v).join(' ')}・強制時は全系 generic) / ` +
       `開発フック既定OFF=${r.defOff} / 否定対照(1 ulp 改変を照合器が検出)=${r.neg.detected}件` +
-      `(改変成立=${r.neg.changed})` +
+      `(改変成立=${r.neg.changed}) / generic逐語一致(インライン対ループ ≡ root index.html 原文` +
+      `${betaLoop ? ' ' + betaLoop.split('\n').length + '行' : ''})=${verbatimOK}` +
       (bad.length ? ` / NG差分=[${bad.slice(0, 3).map((o) => o.id + '@' + o.st + ':' + o.first.join('|')).join(' ')}]` : '') +
       (wrongKind.length ? ` / NG経路=[${wrongKind.slice(0, 3).map((o) => o.id + '=' + o.kind).join(' ')}]` : '') +
       (kErr.length ? ` / pageErrors=[${kErr.slice(0, 2).join(' | ')}]` : ''));
