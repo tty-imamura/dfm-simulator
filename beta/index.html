@@ -300,7 +300,10 @@
   .spin{display:inline-block;width:14px;height:14px;border:2px solid var(--dim);
     border-top-color:var(--acc);border-radius:50%;animation:sp 1s linear infinite;vertical-align:-2px;}
   @keyframes sp{to{transform:rotate(360deg)}}
-  #helpBody{font-size:calc(12.5px*var(--uz,1));line-height:1.75;}
+  /* 第187便(原仮定者指示 2026-08-24): 長い URL・ファイル名が説明タブを左右スクロールさせる
+     問題の修正 — 分割可能点の無い長語も折り返す(overflow-wrap:anywhere は子要素へ継承される。
+     表示専用 — 物理・保存に無関係) */
+  #helpBody{font-size:calc(12.5px*var(--uz,1));line-height:1.75;overflow-wrap:anywhere;}
   #helpBody h4{margin:12px 0 4px;font-size:calc(13px*var(--uz,1));color:var(--acc);}
   #helpBody p{margin:4px 0;}
   /* 第35便 W4(台帳4-54): サンプル分類バッジ — #dirtyBadge/#physLockBadge と同じダークテーマの
@@ -6850,6 +6853,243 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
+// ===== 第186便: 天王星・海王星の実較正サンプル2件(第184便の残り2件 — 原仮定者実機採取)=====
+// 出典: paper/data/solar-observations.csv(2026-08-24 実機採取レコードの転写 — 💠 の衛星系と 🌊 は
+// Grok レコード〔NSSDC アーカイブ版〕、💠 の環半径は ChatGPT の実在系近似・出力B〔第185便の新節に
+// 従った生成・NTRS "Passage to a Ringed World" Appendix D〕からの転写)。
+{ id:"uranusReal", name:"天王星の環と主要5衛星(実単位)", emoji:"💠", group:"現実との照合",
+  familyId:"uranus", familyRole:"primary",
+  scaleTier:"planetary",
+  scaleExp:{L:6, T:2, M:25},   // 1単位=10⁶m/10²s/10²⁵kg(規約 L−T=4・M+2T−3L=11 — 🥔❄️🌘💿 と同族)
+  sampleClass:"calibration",
+  fidelity:"real",   // 衛星5体は質量・半径・軌道長半径・離心率・周期・同期自転まで転写。環は実半径帯+テスト質量(宣言)
+  notClaim:["solar_cal"],
+  obsCard:[
+    {q:"公転周期(ミランダ/アリエル・kFrame=1・周回実測)", model:"1.41450 / 2.52000 日(+0.072% / −0.015%)", obs:"1.413479 / 2.520379 日"},
+    {q:"公転周期(ウンブリエル/チタニア/オベロン・転写診断)", model:"+0.016% / +0.012% / +0.023%(接触要素推定)", obs:"4.144176 / 8.705867 / 13.463234 日"},
+    {q:"環11帯(88粒)の半径保持(2ミランダ公転窓)", model:"kFrame=1 で最大 0.0169 単位(0.040%)/ kFrame=0 対照では 0.968 単位(2.29%)— 記録のみ(機構帰属せず)", obs:"—"},
+    {q:"天王星の自転", model:"−17.24時間(逆行)を転写", obs:"NSSDC(磁場座標系)"}],
+  failureFirst:{
+    fail:"環の質量には出典が無い — 環粒子は 1粒 1e-6 のテスト質量であり、実在の環の質量・光学的深さ・羊飼い衛星による狭帯化は再現しない(宣言)。実機採取の第1便(第184便前)は出力Bのトイ生成で κ とスケール指数が規約外だった(ChatGPT M=24・Grok は ring キー発明で取込失敗)— 第185便のプロンプト改修(実在系の近似〔出力B〕+自己チェック)を経た再採取で、環半径・衛星とも転写の生成に到達した。もう1つの正直な記録: 環の半径保持は kFrame=0 対照のほうが**悪い**(2.29% 対 0.040%)— 直感と逆向きの実測であり、機構の帰属は本便では行わない(記録のみ)。",
+    pass:"衛星5体(ミランダ〜オベロン)は Grok レコード(NSSDC アーカイブ版・全量 URL つき)からの決定的構築で、転写診断は最大 +0.071%(ミランダ — a と P の出典間張力)・周回実測はミランダ +0.072%・アリエル −0.015%。環11帯は実半径(NTRS)への Kepler 配置で 2ミランダ公転窓を 0.040% で保持する。フィットはゼロ(D₀=0.006 共有値・q=13.792 は q_exact をミランダ軌道で1回評価した直値・初速較正 1.000)。"},
+  descStruct:{
+    summary:"天王星(実質量 8.6811×10²⁵kg・実半径 25,559km・実自転 −17.24時間〔逆行・磁場座標系〕)と主要5衛星(ミランダ/アリエル/ウンブリエル/チタニア/オベロン — 実質量 0.66/12.9/12.2/34.2/28.8×10²⁰kg・実軌道長半径 129.90/190.90/266.00/436.30/583.50×10³km・実離心率・同期自転)+実半径の環11帯(1986U2R・6・5・4・α・β・η・γ・δ・λ・ε — 半径 37〜51.2×10⁶m・各8粒のテスト質量 1e-6)を、1単位=10⁶m/10²s/10²⁵kg で置いた観測転写サンプル(第186便)。働いているのは重力(E4)と空間引きずり(A8/E6′)+測地線1PN(E12)。出典は paper/data/solar-observations.csv(衛星系=NSSDC アーカイブ版・環半径=NTRS \"Passage to a Ringed World\" Appendix D — 2026-08-24 実機採取)。環の質量は出典が無いためテスト質量で置き、その旨を宣言する。天王星は pinned(展示系の外部拘束)。規約は実較正の雛形そのまま(kFrame=1・D₀=0.006・geoPN=2・κ=G/c₀²)・q=13.792 は q_exact をミランダ軌道 a=129.9 で1回評価した直値。2D 理想化の画面平面は**天王星の赤道面**(自転軸の98°横倒しごと取る — 衛星・環とも赤道面系なので内部整合)。",
+    observe:"周回実測(2ミランダ公転窓)はミランダ 1.41450 日(観測 1.413479 日・+0.072%)・アリエル 2.52000 日(観測 2.520379 日・−0.015%)。外側3衛星は窓内で1周しないため転写診断(接触要素推定)で照合し、ウンブリエル +0.016%・チタニア +0.012%・オベロン +0.023%。**環11帯(88粒)の半径保持は最大 0.0169 単位(0.040%)**で、狭帯(幅2km級)も崩れない。kFrame=0 の対照では環のスプレッドが最大 0.968 単位(2.29%)まで大きくなる — 直感と逆向きの差であり、機構の帰属は行わず記録のみとする(引きずりが環を保つという主張はしない — 🪐 の逆例)。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.uranusReal)。",
+    control:"ワンタップ対照A/B: B側 kFrame=0(空間引きずり OFF)— 衛星周期はほぼ不変(ミランダ +0.091% 対 +0.072%)で、差が出るのは環のスプレッドだけである。timeScale=30 は timeScale 規約(最内公転≈5秒)を**最内環帯 1986U2R で評価**した値(衛星基準の規約値 300 では環が1秒1公転で潰れる — 原仮定者実機確認)。粒子表示倍率 dispMag=1 も実機確認による(既定則の3では中心の描画半径 76.7 単位が環 37〜51 を覆う)。トレイルを点けると環と衛星の周期差が見える。JSON の環バンドの mMin/mMax を実測質量に置き換える出典が得られたら降格を解除できる(キュー)。"},
+  en:{name:"Uranus's Rings and Five Major Moons (Real Units)",
+    obsCard:[
+      {q:"Orbital periods (Miranda/Ariel, kFrame=1, measured revolutions)", model:"1.41450 / 2.52000 d (+0.072% / −0.015%)", obs:"1.413479 / 2.520379 d"},
+      {q:"Orbital periods (Umbriel/Titania/Oberon, transcription check)", model:"+0.016% / +0.012% / +0.023% (osculating estimate)", obs:"4.144176 / 8.705867 / 13.463234 d"},
+      {q:"Ring retention, 11 bands / 88 grains (two Miranda orbits)", model:"max 0.0169 units (0.040%) at kFrame=1; 0.968 units (2.29%) in the kFrame=0 control — recorded only (no mechanism attributed)", obs:"—"},
+      {q:"Uranus's rotation", model:"−17.24 h (retrograde) transcribed", obs:"NSSDC (magnetic coordinates)"}],
+    failureFirst:{
+      fail:"The ring masses have no source — ring grains are 1e-6 test masses, and the real rings' mass, optical depth and shepherd-moon confinement are NOT reproduced (declared). The first device collection (before wave 184) produced OUTPUT-B toys with off-convention κ and scale exponents (ChatGPT M=24; Grok failed intake by inventing ring keys) — after the wave-185 prompt overhaul (the real-system approximation and self-check sections) the re-collection reached a transcription-grade build for both rings and moons. One more honest record: ring retention is WORSE in the kFrame=0 control (2.29% vs 0.040%) — opposite to intuition; no mechanism is attributed in this wave (recorded only).",
+      pass:"The five moons (Miranda through Oberon) are built deterministically from the Grok records (archived NSSDC, every row with a URL): transcription check at most +0.071% (Miranda — an a-vs-P source tension), measured revolutions +0.072% (Miranda) and −0.015% (Ariel). The 11 ring bands sit at the real radii (NTRS) on Kepler speeds and hold to 0.040% over two Miranda orbits. Zero fits (shared D₀=0.006; q=13.792 is q_exact evaluated once at Miranda's orbit; speed calibration 1.000)."},
+    descStruct:{
+      summary:"Uranus (real mass 8.6811×10²⁵ kg, real radius 25,559 km, real −17.24-hour retrograde rotation in magnetic coordinates) with its five major moons (Miranda/Ariel/Umbriel/Titania/Oberon — real masses 0.66/12.9/12.2/34.2/28.8 ×10²⁰ kg, real semi-major axes 129.90/190.90/266.00/436.30/583.50 ×10³ km, real eccentricities, synchronous rotations) and eleven rings at their real radii (1986U2R, 6, 5, 4, α, β, η, γ, δ, λ, ε — 37–51.2 ×10⁶ m; 8 grains each at the 1e-6 test mass), placed with 1 unit = 10⁶ m / 10² s / 10²⁵ kg (wave 186). Only gravity (E4), frame dragging (A8/E6′) and the geodesic 1PN term (E12) act. Sources: paper/data/solar-observations.csv (moons = archived NSSDC; ring radii = NTRS \"Passage to a Ringed World\" Appendix D — device-collected 2026-08-24). The ring masses have no source, so test masses are used and declared. Uranus is pinned (an exhibit constraint). The conventions are the real-calibration template (kFrame=1, D₀=0.006, geoPN=2, κ=G/c₀²); q=13.792 is q_exact evaluated once at Miranda's orbit a=129.9. The 2D plane is URANUS'S EQUATORIAL PLANE (taken with its 98° axial tilt — internally consistent, since both the moons and the rings are equatorial systems).",
+      observe:"Measured revolutions (two-Miranda-orbit window): Miranda 1.41450 d (observed 1.413479 d, +0.072%), Ariel 2.52000 d (observed 2.520379 d, −0.015%). The outer three moons do not complete a revolution inside the window, so they are checked by the osculating-element transcription estimate: Umbriel +0.016%, Titania +0.012%, Oberon +0.023%. THE ELEVEN RING BANDS (88 grains) HOLD THEIR RADII TO AT MOST 0.0169 UNITS (0.040%) — even the 2-km-wide bands stay narrow. In the kFrame=0 control the ring spread grows to 0.968 units (2.29%) — a difference in the direction OPPOSITE to intuition; it is recorded without attributing a mechanism (no claim that dragging keeps rings — the converse of 🪐's lesson). Zero NaN; two runs are bit-identical (QA behavior.uranusReal).",
+      control:"One-tap A/B: side B is kFrame=0 — the moon periods barely move (Miranda +0.091% vs +0.072%); the only visible difference is the ring spread. timeScale=30 is the timeScale rule (innermost orbit ≈ 5 s) EVALUATED AT THE INNERMOST RING BAND 1986U2R (the satellite-based 300 makes the rings orbit once per second and smear — device-confirmed). The display magnification dispMag=1 is also device-confirmed (the default rule's 3 would draw Uranus at 76.7 units, covering the 37–51-unit rings). Switch trails on to see the period gradient across rings and moons. If a sourced ring mass ever becomes available, replace the bands' mMin/mMax to lift the test-mass demotion (queued)."},
+    parameterAudit:{
+      observedInputs:["real G=6.674","real c₀=3×10⁴","Uranus's real mass, radius and retrograde rotation (−17.24 h)",
+        "the real semi-major axes, eccentricities, masses, radii and synchronous rotations of the five major moons (archived NSSDC)",
+        "the observed periods 1.413479/2.520379/4.144176/8.705867/13.463234 d (compared against, NOT fitted to)",
+        "the real ring radii of the 11 bands (NTRS \"Passage to a Ringed World\" Appendix D)",
+        "the real Kepler speeds (calibration factor 1.000 — no multiplier)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10⁶ m / 10² s / 10²⁵ kg)","kFrame=1 (the real-calibration template)",
+        "kRep=muF=γN=κ_S=0 / geoPN=2, λ_PN=1, pnα=1.5 / stateCarry:\"double\"",
+        "ring grains at the 1e-6 test mass (no mass source — declared)","Uranus is pinned (an exhibit constraint)",
+        "2D in Uranus's equatorial plane (the 98° axial tilt is taken with it — declared)",
+        "initial phases spread per the deterministic placement (no resonance angles set)"],
+      fitted:["D₀=0.006 (the shared value fixed on 🌘, used as is — zero fits in this system; speed calibration 1.000)"],
+      derived:["q=13.792 (the qLock exact-agreement form q_exact evaluated once at Miranda's orbit a=129.9)","κ=G/c₀²=7.4156×10⁻⁹",
+        "camera.scale=700 (derived); timeScale=30 = the ladder rule evaluated at the innermost ring band (declared deviation from the satellite-based 300); dispMag=1 (device-confirmed, display only)"],
+      numerical:["softening ε=0.05","time multiplier timeScale=30","display magnification dispMag=1 (display only)"]}},
+  abBody:{ label:{ja:"kFrame=0(空間引きずり OFF — A/B の対照側)", en:"kFrame=0 (frame dragging off — the A/B control side)"},
+    physicsPatch:{kFrame:0} },
+  claims:[
+    { id:"uranusReal.miranda-period", kind:"fixed-seed", prov:"simulated", role:"input_check",
+      metric:"mirandaPeriodDays",
+      chain:{ax:["A4","A6"], eq:["E4"],
+        note:"観測入力(実軌道長半径・実中心質量・実 G)+実ケプラー初速の転写がミランダの観測周期を写せていることの検証(周回実測)。+0.072% は a と P の出典間張力で、フィットで消していない。",
+        noteEn:"A check that the transcription reproduces Miranda's observed period (measured revolution). The +0.072% is an a-vs-P source tension, not fitted away."},
+      roleNote:"観測入力の検証 — 較正ノブはゼロ。",
+      roleNoteEn:"Input check — zero calibration knobs.",
+      expected:{min:1.405, max:1.425},
+      descPattern:"ミランダ (\\d+\\.\\d+) 日", testId:"behavior.uranusReal" },
+    { id:"uranusReal.ariel-period", kind:"fixed-seed", prov:"simulated", role:"input_check",
+      metric:"arielPeriodDays",
+      chain:{ax:["A4","A6"], eq:["E4"],
+        note:"同・アリエル(−0.015%)。",
+        noteEn:"Ditto for Ariel (−0.015%)."},
+      roleNote:"観測入力の検証 — 較正ノブはゼロ。",
+      roleNoteEn:"Input check — zero calibration knobs.",
+      expected:{min:2.510, max:2.530},
+      descPattern:"アリエル (\\d+\\.\\d+) 日", testId:"behavior.uranusReal" },
+    { id:"uranusReal.ring-retention", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+      metric:"ringWorstSpreadUnits",
+      chain:{ax:["A4","A5"], eq:["E4","E6′"],
+        note:"実半径の環11帯(テスト質量)が雛形規約(kFrame=1)の2ミランダ公転窓で半径を保つことの定量。kFrame=0 対照のスプレッド増(3.31%)は記録のみ — 機構の帰属はしない。",
+        noteEn:"Quantifies that the 11 real-radius ring bands (test masses) hold their radii over a two-Miranda-orbit window under the template (kFrame=1). The larger spread of the kFrame=0 control (3.31%) is recorded only — no mechanism is attributed."},
+      roleNote:"回顧的確認 — 較正ノブはゼロ。環の質量は出典なしのテスト質量である(宣言)。",
+      roleNoteEn:"Retrospective check — zero calibration knobs. Ring masses are unsourced test masses (declared).",
+      expected:{min:0.001, max:0.1},
+      descPattern:"半径保持は最大 (\\d+\\.\\d+) 単位", testId:"behavior.uranusReal",
+      control:{patch:{kFrame:0}, expected:{min:0.5, max:3},
+        descPattern:"環のスプレッドが最大 (\\d+\\.\\d+) 単位"} }
+  ],
+  parameterAudit:{
+    observedInputs:["実 G=6.674","実 c₀=3×10⁴","天王星の実質量・実半径・逆行自転(−17.24時間)",
+      "主要5衛星の実軌道長半径・実離心率・実質量・実半径・同期自転(NSSDC アーカイブ版)",
+      "観測周期 1.413479/2.520379/4.144176/8.705867/13.463234 日(**照合先であって fit の対象ではない**)",
+      "環11帯の実半径(NTRS \"Passage to a Ringed World\" Appendix D)",
+      "実ケプラー初速(較正係数 1.000 — 掛け算なし)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁶m/10²s/10²⁵kg)","kFrame=1(実較正の雛形規約)",
+      "kRep=muF=γN=κ_S=0 / geoPN=2・λ_PN=1・pnα=1.5 / stateCarry:\"double\"",
+      "環粒はテスト質量 1e-6(質量出典なし — 宣言)","天王星 pinned(展示系の外部拘束)",
+      "2D は天王星の赤道面(98° の横倒しごと — 宣言)",
+      "初期位相は決定的配置の刻み(共鳴角は初期条件に入れない)"],
+    fitted:["D₀=0.006(🌘 で決めた共有値の流用 — 本系でのフィットはゼロ。初速較正 1.000)"],
+    derived:["q=13.792(qLock 厳密一致式 q_exact をミランダ軌道 a=129.9 で1回評価した直値)","κ=G/c₀²=7.4156×10⁻⁹",
+      "camera.scale=700(規約から算出)・timeScale=30=規約を最内環帯で評価(衛星基準300からの宣言つき逸脱)・dispMag=1(実機確認 — 表示専用)"],
+    numerical:["ソフトニング ε=0.05","時間倍率 timeScale=30","粒子表示倍率 dispMag=1(表示専用)"]},
+  activeParams:["kFrame","q","D0"],
+  camera:{scale:700}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.006, kFrame:1, q:13.792, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:30, dispMag:1,
+    stateCarry:"double"},
+  bodies:[ // 並び: 0=天王星(pinned), 1〜5=ミランダ/アリエル/ウンブリエル/チタニア/オベロン,
+           // 6〜16=環11帯(1986U2R/6/5/4/α/β/η/γ/δ/λ/ε — 各8粒のテスト質量)。
+           // 衛星は観測転写経路の決定的配置のビット写し(近点整列・位相60°刻み・実ケプラー初速)。
+           // 環半径は ChatGPT 実在系近似(出力B)からの転写(NTRS Appendix D — 実半径・幅)
+    {type:"single", m:8.6811, radius:25.559, x:0, y:0, vx:0, vy:0, spin:-0.0101237196, pinned:true, pnSource:true},
+    {type:"single", m:6.6e-6, radius:0.2357, x:129.73113, y:0, vx:0, vy:0.668714111964143, spin:0.00514489796, pinned:false},
+    {type:"single", m:0.000129, radius:0.5789, x:95.33546000000003, y:165.1258604829504, vx:-0.4776714688398854, vy:0.27578375111891185, spin:0.00288536177, pinned:false},
+    {type:"single", m:0.000122, radius:0.5847, x:-132.48129999999995, y:229.46434265277472, vx:-0.40575515966553904, vy:-0.23426285065797842, spin:0.00175480125, pinned:false},
+    {type:"single", m:0.000342, radius:0.7889, x:-435.82007000000004, y:0, vx:0, vy:-0.3648090455843085, spin:0.000835322343, pinned:false},
+    {type:"single", m:0.000288, radius:0.7614, x:-291.3415500000003, y:-504.61836695586834, vx:0.2732742397962087, vy:-0.15777495590893162, spin:0.000540152924, pinned:false},
+    {type:"ring", n:8, cx:0, cy:0, rIn:37, rOut:39.5, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false},
+    {type:"ring", n:8, cx:0, cy:0, rIn:41.836, rOut:41.838, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false},
+    {type:"ring", n:8, cx:0, cy:0, rIn:42.234, rOut:42.236, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false},
+    {type:"ring", n:8, cx:0, cy:0, rIn:42.57, rOut:42.572, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false},
+    {type:"ring", n:8, cx:0, cy:0, rIn:44.713, rOut:44.723, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false},
+    {type:"ring", n:8, cx:0, cy:0, rIn:45.656, rOut:45.666, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false},
+    {type:"ring", n:8, cx:0, cy:0, rIn:47.1755, rOut:47.1765, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false},
+    {type:"ring", n:8, cx:0, cy:0, rIn:47.6245, rOut:47.6275, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false},
+    {type:"ring", n:8, cx:0, cy:0, rIn:48.3, rOut:48.306, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false},
+    {type:"ring", n:8, cx:0, cy:0, rIn:50.023, rOut:50.025, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false},
+    {type:"ring", n:8, cx:0, cy:0, rIn:51.104, rOut:51.194, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+{ id:"neptuneReal", name:"海王星とトリトン(実単位)— 逆行衛星の二体", emoji:"🌊", group:"現実との照合",
+  familyId:"neptune", familyRole:"primary",
+  scaleTier:"planetary",
+  scaleExp:{L:7, T:3, M:26},   // 1単位=10⁷m/10³s/10²⁶kg(規約 L−T=4・M+2T−3L=11 — 🟠 と同族)
+  sampleClass:"calibration",
+  fidelity:"real",   // 質量・半径・自転・軌道長半径・離心率・周期がすべて出典表(NSSDC アーカイブ)の転写
+  notClaim:["solar_cal"],
+  obsCard:[
+    {q:"公転周期(kFrame=0 対照)", model:"5.87741 日(+0.009%)", obs:"5.876854 日"},
+    {q:"公転周期(kFrame=1・E6′-R)", model:"5.88370 日(+0.117%)— 引きずり項が観測可能量を作る第3例(❄️ +0.246% に続く)", obs:"同上"},
+    {q:"トリトンの自転", model:"−0.0123743 rad/10³s(逆行・同期)を転写", obs:"NSSDC(逆行軌道と同期)"},
+    {q:"半径振れ幅", model:"kFrame=1 で 0.139%・kFrame=0 で 0.020%(e=0.000016 転写)", obs:"e=0.000016(転写)"}],
+  failureFirst:{
+    fail:"実在のトリトンは**逆行公転**(軌道傾斜 157°)だが、観測レコード規約は軌道の向きを持たないため順行に置かれる — 実在の「海王星の自転と逆向きに回る衛星」の引きずり幾何は**再現していない**(宣言。相対幾何は『トリトンの負の自転(逆行軌道と同期)』として部分的に写るだけである)。逆行公転の直接表現には inclination 量の拡張が要る(キュー)。もう1つの記録: ChatGPT の採取レコードは海王星の自転行を欠いており(spin=0 宣言化 — 実機指摘「自転が小さかった」)、完全な Grok レコード(自転 16.11時間つき)を採用した。",
+    pass:"転写そのもの(kFrame=0)は観測周期 5.876854 日を +0.009% で写し、e=0.000016 の転写どおり半径振れ幅 0.020% の円軌道を保つ。雛形規約 kFrame=1 では +0.117% の周期超過 — χ=W/(D₀+W)=0.83 の近接系で E6′ 運動引きずりが観測可能量を作る第3例(❄️ +0.246%・🌇 +0.002% と合わせ、χ が大きいほど超過が大きい系列)。自由中心の反作用則は frameReaction:\"pairReduced\"(E6′-R — 第184便の標準)。フィットはゼロ。"},
+  descStruct:{
+    summary:"海王星(実質量 1.02409×10²⁶kg・実半径 24,764km・実自転 16.11時間)とトリトン(実質量 2.14×10²²kg・実半径 1,353.4km・実軌道長半径 354.76×10³km・実離心率 0.000016・逆行軌道と同期の自転)を、1単位=10⁷m/10³s/10²⁶kg で置いた**二体重心系**の観測転写サンプル(第186便)。働いているのは重力(E4)と空間引きずり(A8/E6′)+測地線1PN(E12)。出典は paper/data/solar-observations.csv(NSSDC アーカイブ版 — 2026-08-24 実機採取の Grok レコード)。両天体とも自由(pinned なし)・反作用則は frameReaction:\"pairReduced\"(E6′-R — 自由中心の標準・第184便)。**実在のトリトンは逆行公転(軌道傾斜 157°)**だが、レコード規約は軌道の向きを持たないため順行に置かれ、相対幾何は『トリトンの自転 −0.0123743 rad/10³s(逆行・同期)』として部分的に写る — 逆行公転そのものは再現していない(宣言・inclination 拡張はキュー)。q=10.1893 は q_exact を a=35.476 で1回評価した直値。",
+    observe:"kFrame=0 の対照では 5.87741 日(観測 5.876854 日・+0.009%)と観測周期をそのまま写し、転写離心率どおり半径振れ幅 0.020% の円軌道を保つ。雛形規約の kFrame=1 では実測 5.88370 日(+0.117%)・半径振れ幅 0.139% — **χ=W/(D₀+W)=0.83 の近接系で E6′ の運動引きずりが公転周期を押し上げる第3例**である(❄️ 冥王星カロン χ≈0.92 で +0.246%・🌇 太陽金星 χ≈1.0 だが遠距離で +0.002% — χ と軌道の近さの両方が効く系列として記録)。診断許容 ±1% 内なのでフィットで消さずに宣言する(Failure First)。重心変位は kFrame=1 で 1.5公転あたり最大 0.34 単位(a の 1.0%)・kFrame=0 では機械ゼロ(PN 項の運動量非対称 — 観測量は相対座標で測る)。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.neptuneReal)。",
+    control:"ワンタップ対照A/B: B側 kFrame=0 — 周期 +0.117%→+0.009% の差がそのまま E6′ 引きずり項の寄与である(同一初期条件・同一步幅)。トリトンの負の自転は引きずり源としては −0.0124 rad/10³s と小さく、differential には効かない(支配は運動引きずり)。timeScale=100 で画面1秒≈33.3時間。粒子表示は実半径のまま(dispMag=1 — トリトンは 0.135 単位の点。トレイルで軌道を見る)。"},
+  en:{name:"Neptune and Triton (Real Units) — the retrograde-moon two-body",
+    obsCard:[
+      {q:"Orbital period (kFrame=0 control)", model:"5.87741 d (+0.009%)", obs:"5.876854 d"},
+      {q:"Orbital period (kFrame=1, E6′-R)", model:"5.88370 d (+0.117%) — the third real transcription where the dragging term is observable (after ❄️'s +0.246%)", obs:"same"},
+      {q:"Triton's rotation", model:"−0.0123743 rad per 10³ s (retrograde, synchronous) transcribed", obs:"NSSDC (synchronous with the retrograde orbit)"},
+      {q:"Radius wobble", model:"0.139% at kFrame=1, 0.020% at kFrame=0 (e=0.000016 transcribed)", obs:"e=0.000016 (transcribed)"}],
+    failureFirst:{
+      fail:"The real Triton orbits RETROGRADE (inclination 157°), but the observation-record contract carries no orbit direction, so it is placed prograde — the real dragging geometry of a moon circling against Neptune's spin is NOT reproduced (declared; the relative geometry survives only partially, as Triton's negative rotation, synchronous with the retrograde orbit). Expressing the retrograde orbit itself needs the queued inclination extension. One more record: the ChatGPT collection lacked Neptune's rotation row (declared to spin=0 — the device finding 'Neptune's spin was too small'), so the complete Grok record set (with the 16.11-hour rotation) was adopted.",
+      pass:"The transcription itself (kFrame=0) reproduces the observed 5.876854 d to +0.009% and keeps the transcribed e=0.000016 circle to a 0.020% wobble. Under the template's kFrame=1 the period is lifted by +0.117% — the third real system where E6′ motion dragging is observable, at χ=W/(D₀+W)=0.83 (with ❄️ at χ≈0.92/+0.246% and 🌇 at χ≈1.0 but wide/+0.002%, a series where both χ and orbital closeness matter). The free-centre reaction rule is frameReaction:\"pairReduced\" (E6′-R — the wave-184 standard). Zero fits."},
+    descStruct:{
+      summary:"Neptune (real mass 1.02409×10²⁶ kg, real radius 24,764 km, real 16.11-hour rotation) and Triton (real mass 2.14×10²² kg, real radius 1,353.4 km, real semi-major axis 354.76×10³ km, real eccentricity 0.000016, rotation synchronous with its retrograde orbit), placed with 1 unit = 10⁷ m / 10³ s / 10²⁶ kg as a TWO-BODY BARYCENTRIC transcription (wave 186). Only gravity (E4), frame dragging (A8/E6′) and the geodesic 1PN term (E12) act. Sources: paper/data/solar-observations.csv (archived NSSDC — the Grok record set collected on device 2026-08-24). Both bodies are free (not pinned); the reaction rule is frameReaction:\"pairReduced\" (E6′-R — the free-centre standard, wave 184). THE REAL TRITON ORBITS RETROGRADE (inclination 157°), but the record contract has no orbit direction, so it is placed prograde; the relative geometry survives partially as Triton's rotation of −0.0123743 rad per 10³ s (retrograde, synchronous) — the retrograde orbit itself is not reproduced (declared; the inclination extension is queued). q=10.1893 is q_exact evaluated once at a=35.476.",
+      observe:"The kFrame=0 control reproduces the observed period as 5.87741 d (observed 5.876854 d, +0.009%) and keeps the transcribed eccentricity's 0.020% wobble. Under the template's kFrame=1 the measured period is 5.88370 d (+0.117%) with a 0.139% wobble — THE THIRD REAL SYSTEM WHERE E6′ MOTION DRAGGING LIFTS THE PERIOD, at χ=W/(D₀+W)=0.83 (❄️ Pluto–Charon: χ≈0.92, +0.246%; 🌇 Sun–Venus: χ≈1.0 but wide, +0.002% — recorded as a series where both χ and closeness matter). It sits inside the ±1% diagnostic tolerance and is declared, not fitted away (Failure First). The barycentre moves by up to 0.34 units (1.0% of a) per 1.5 orbits at kFrame=1 and is machine-zero at kFrame=0 (the PN terms are not momentum-symmetric — observations are taken in relative coordinates). Zero NaN; two runs are bit-identical (QA behavior.neptuneReal).",
+      control:"One-tap A/B: side B is kFrame=0 — the +0.117%→+0.009% period difference IS the E6′ dragging contribution (same initial condition, same step). Triton's negative rotation is tiny as a dragging source (−0.0124 rad per 10³ s) and does not drive the differential — motion dragging dominates. With timeScale=100 one on-screen second ≈ 33.3 hours. Bodies are drawn at real radii (dispMag=1 — Triton is a 0.135-unit dot; use trails)."},
+    parameterAudit:{
+      observedInputs:["real G=6.674","real c₀=3×10⁴","Neptune's real mass, radius and rotation (16.11 h)",
+        "Triton's real mass, radius, semi-major axis 354.76×10³ km and eccentricity 0.000016",
+        "Triton's rotation, synchronous with the retrograde orbit (transcribed with the negative sign)",
+        "the observed period 5.876854 d (compared against, NOT fitted to — paper/data/solar-observations.csv, archived NSSDC)",
+        "the real Kepler speed (calibration factor 1.000 — no multiplier)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10⁷ m / 10³ s / 10²⁶ kg)","kFrame=1 (the real-calibration template)",
+        "frameReaction:\"pairReduced\" (E6′-R — the free-centre reaction rule, wave 184)",
+        "kRep=muF=γN=κ_S=0 / geoPN=2, λ_PN=1, pnα=1.5 / stateCarry:\"double\"",
+        "two-body barycentric (both bodies free), perihelion-aligned",
+        "2D — the retrograde orbit (inclination 157°) is NOT reproduced; the orbit is placed prograde and declared"],
+      fitted:["D₀=0.006 (the shared value fixed on 🌘, used as is — zero fits in this system; speed calibration 1.000)"],
+      derived:["q=10.1893 (the qLock exact-agreement form q_exact evaluated once at a=35.476)","κ=G/c₀²=7.4156×10⁻⁹",
+        "camera.scale=42, timeScale=100, dispMag=1 (derived from the stated rules)"],
+      numerical:["softening ε=0.05","time multiplier timeScale=100","display magnification dispMag=1 (display only)"]}},
+  abBody:{ label:{ja:"kFrame=0(空間引きずり OFF — A/B の対照側)", en:"kFrame=0 (frame dragging off — the A/B control side)"},
+    physicsPatch:{kFrame:0} },
+  claims:[
+    { id:"neptuneReal.period-kf0", kind:"fixed-seed", prov:"simulated", role:"input_check",
+      metric:"tritonPeriodKF0Days",
+      chain:{ax:["A4","A6"], eq:["E4"],
+        note:"観測入力(実軌道長半径・実質量2つ・実 G)+実ケプラー初速の転写が観測周期 5.876854 日を写せていることの検証(kFrame=0)。",
+        noteEn:"A check that the transcription (real a, both real masses, real G, real Kepler speed) reproduces the observed 5.876854 d at kFrame=0."},
+      roleNote:"観測入力の検証 — 較正ノブはゼロ。",
+      roleNoteEn:"Input check — zero calibration knobs.",
+      expected:{min:5.86, max:5.89},
+      descPattern:"kFrame=0 の対照では (\\d+\\.\\d+) 日", testId:"behavior.neptuneReal" },
+    { id:"neptuneReal.drag-period-kf1", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+      metric:"tritonPeriodKF1Days",
+      chain:{ax:["A4","A5"], eq:["E4","E6′"],
+        note:"雛形規約 kFrame=1 の運動引きずりが公転周期を +0.117% 押し上げることの定量(χ=0.83)。フィットで消さずに宣言する — ❄️(χ≈0.92・+0.246%)に続く第3例で、χ 依存の系列を作る。",
+        noteEn:"Quantifies the +0.117% period lift by the template's kFrame=1 motion dragging (χ=0.83). Declared, not fitted away — the third case after ❄️ (χ≈0.92, +0.246%), building a χ-dependent series."},
+      roleNote:"回顧的確認 — 較正ノブはゼロ。観測との不一致(+0.117%)を含めてそのまま宣言する項目である。",
+      roleNoteEn:"Retrospective check — zero calibration knobs. The item declares the disagreement (+0.117%) as is.",
+      expected:{min:5.87, max:5.90},
+      descPattern:"kFrame=1 では実測 (\\d+\\.\\d+) 日", testId:"behavior.neptuneReal" },
+    { id:"neptuneReal.retrograde-spin", kind:"semantic", prov:"definition", role:"input_check",
+      metric:"tritonSpinTranscribed",
+      chain:{ax:["A8"], eq:["E6′"],
+        note:"トリトンの自転が「逆行軌道と同期」の負符号のまま転写されていることの機械固定(spin=−0.0123743 rad/10³s)。逆行公転そのものは規約が向きを持たないため再現していない — その宣言が説明文にあることも本 claim の一部である。",
+        noteEn:"Machine-fixes that Triton's rotation is transcribed with its negative sign (spin=−0.0123743 rad per 10³ s, synchronous with the retrograde orbit). The retrograde orbit itself is not reproduced — the declaration of that fact in the text is part of this claim."},
+      roleNote:"観測入力の検証(符号込みの写し)— 較正ノブではない。",
+      roleNoteEn:"Input check (a transcription including its sign) — not a calibration knob.",
+      expected:{min:0.0120, max:0.0128},
+      descPattern:"トリトンの自転 −(\\d+\\.\\d+) rad", testId:"behavior.neptuneReal" }
+  ],
+  parameterAudit:{
+    observedInputs:["実 G=6.674","実 c₀=3×10⁴","海王星の実質量・実半径・実自転(16.11時間)",
+      "トリトンの実質量・実半径・実軌道長半径 354.76×10³km・実離心率 0.000016",
+      "トリトンの自転(逆行軌道と同期 — 負符号のまま転写)",
+      "観測周期 5.876854 日(**照合先であって fit の対象ではない** — paper/data/solar-observations.csv・NSSDC アーカイブ)",
+      "実ケプラー初速(較正係数 1.000 — 掛け算なし)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁷m/10³s/10²⁶kg)","kFrame=1(実較正の雛形規約)",
+      "frameReaction:\"pairReduced\"(E6′-R — 自由中心の反作用則・第184便)",
+      "kRep=muF=γN=κ_S=0 / geoPN=2・λ_PN=1・pnα=1.5 / stateCarry:\"double\"",
+      "二体重心系(両天体とも自由)・近点整列",
+      "2D・逆行公転(傾斜157°)は再現しない — 順行配置を宣言(inclination 拡張はキュー)"],
+    fitted:["D₀=0.006(🌘 で決めた共有値の流用 — 本系でのフィットはゼロ。初速較正 1.000)"],
+    derived:["q=10.1893(qLock 厳密一致式 q_exact を a=35.476 で1回評価した直値)","κ=G/c₀²=7.4156×10⁻⁹",
+      "camera.scale=42・timeScale=100・dispMag=1(規約から決定的に算出)"],
+    numerical:["ソフトニング ε=0.05","時間倍率 timeScale=100","粒子表示倍率 dispMag=1(表示専用)"]},
+  activeParams:["kFrame","q","D0"],
+  camera:{scale:42}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.006, kFrame:1, q:10.1893, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:100, dispMag:1,
+    stateCarry:"double", frameReaction:"pairReduced"},
+  bodies:[ // 並び: 0=海王星(自由), 1=トリトン。観測転写経路の決定的配置のビット写し
+           // (1単位=10⁷m/10³s/10²⁶kg): 海王星 1.02409e26kg/2.4764e7m/自転16.11h、
+           //  トリトン 2.14e22kg/1.3534e6m/a=3.5476e8m・e=0.000016・自転は逆行軌道と同期(負符号)。
+           //  初速は接線方向の実ケプラー速度(重心系配分・較正係数 1.000)
+    {type:"single", m:1.02409, radius:2.4764, x:-0.007411610742685766, y:0, vx:0, vy:-9.171324623187153e-5, spin:0.108338253, pinned:false, pnSource:true},
+    {type:"single", m:0.000214, radius:0.13534, x:35.468020773257315, y:0, vx:0, vy:0.4388907398766229, spin:-0.0123743166, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
 { id:"saturn", name:"土星の環(実験)", emoji:"🪐", group:"天体の物語",
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
@@ -7747,7 +7987,8 @@ function chainNote(ch){
 // 宣言から導出できない項目は「—」になる(手書きの補完はしない)。物理・保存 JSON・AI 仕様に無関係。
 const AUDIT_FAMILY=["mercuryReal","mercuryRealKF1","earthMoonReal","earthMoonRealKF1",
   "saturnRingReal","saturnRingRealKF1","saturnZonalD68","solarInner","jupiterGalilean",
-  "venusReal","marsMoonsReal","plutoCharonReal"];   // 第184便: 太陽系実較正3件を追加
+  "venusReal","marsMoonsReal","plutoCharonReal",   // 第184便: 太陽系実較正3件を追加
+  "uranusReal","neptuneReal"];   // 第186便: 天王星・海王星を追加
 // 測定ハーネス名 → コミット済み結果ファイル名の対応(名前だけの小さな宣言表)。
 // **どのサンプルがどれを使うかは書かない** — それはサンプル宣言のテキストから走査して決める。
 const AUDIT_RESULT_FILES={"exp-obscal":"obscal-results.json", "exp-kf1":"kf1-results.json",
@@ -18832,7 +19073,13 @@ function renderCustomList(){
   arr.slice().reverse().forEach((c)=>{
     const d=document.createElement("div"); d.className="saveItem";
     const n=document.createElement("div"); n.className="name"; n.textContent="🤖 "+(c.emoji||"")+" "+c.name;
-    const cm=document.createElement("div"); cm.className="comment"; cm.textContent=c.description||"";
+    // 第187便(原仮定者指示 2026-08-24): description は長文になった(実在系近似の出典表 URL 等)
+    // ため一覧では表示しない。代わりに保存一覧の savedAt と同じ流儀で**生成時刻**を表示する。
+    // 時刻は id("custom_"+Date.now()〔+"_"+n〕)から導出する — 新キーを追加しないので
+    // 保存 JSON・エクスポート・インポートは 1 bit も不変で、既存の生成済みデータにも遡って効く
+    const cm=document.createElement("div"); cm.className="meta";
+    const ts=Number(String(c.id||"").split("_")[1]);
+    cm.textContent=(isFinite(ts)&&ts>0)? new Date(ts).toLocaleString(LANG==="en"?"en-US":"ja-JP") : "";
     const btns=document.createElement("div"); btns.className="rowBtns";
     const bo=document.createElement("button"); bo.className="btn primary"; bo.textContent=T("btnOpen");
     bo.addEventListener("click",()=>{ loadPreset(c.id,false); notify(T("loadedAs")(c.name)); });
