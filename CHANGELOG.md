@@ -8,8 +8,14 @@
 
 第184〜189便(2026-08-24)。太陽系の実較正サンプル拡充(5件完集)と、その過程で見つかった
 観測転写経路の構造欠陥の修正、生成用プロンプトの改修、生成済み一覧・説明タブの UI 改善、
-inclination 量の拡張(逆行公転の直接表現)、および埋込・EN 節のさらなる縮約。
+inclination 量の拡張(逆行公転の直接表現)、埋込・EN 節のさらなる縮約、および CI の
+Node20 非推奨警告の解消。
 
+- **第190便: GitHub Actions の Node20 非推奨警告を解消**(キュー)— SHA 固定していた v4 系
+  actions(内部 runs.using が node20)を node24 世代の最新安定版へ更新
+  (checkout v6.1.0 / setup-node v6.5.0 / upload-artifact v6.0.0 — 全4ワークフロー14箇所)。
+  SHA は git ls-remote と shallow clone の HEAD の両方で照合し、各 action.yml の
+  runs.using: node24 を確認。アプリ・QA 本体は不変(ゲートは CI green+警告 annotation 0 件)。
 - **第189便: obsCard 埋込縮約+EN 節圧縮**(キュー2件)— ①AI_BASE_DROP_BLOCKS に
   "obsCard"(観測照合カード — 表示・監査専用)を追加。埋込用複製からのみ除去され、本体・保存・
   監査ビュー・A/B は 1 bit も不変(QA ai.unified-prompt が 🟠 本体の obsCard 温存を否定対照つきで
