@@ -17357,9 +17357,13 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
 // ----       (4) **否定対照(比較器の非空性)**: 照合器に 1 ulp だけずらした状態を食わせると
 // ----           必ず差分を返すこと(= (1) の PASS が「何も見ていない」ことによる PASS では
 // ----           ないことをその場で実測する)。
-// ----       (5) **逐語一致(第177b便で追加)**: kKind=0 の経路が root index.html の①全対ループ
-// ----           と**文字列完全一致**であること(= 「generic 強制」側が原文そのものであること
-// ----           の静的証明。第177便の pairCoreGeneric 削除に伴う照合対象の再配線)。
+// ----       (5) **逐語一致(第177b便で追加・第183便で照合先を凍結参照へ)**: kKind=0 の経路が
+// ----           **特別化前の原文**(= 昇格直前の root v1.41.0 の①全対ループ。凍結参照
+// ----           tests/fixtures/pairloop-v1.41.txt)と**文字列完全一致**であること
+// ----           (= 「generic 強制」側が原文そのものであることの静的証明。第177便の
+// ----           pairCoreGeneric 削除に伴う照合対象の再配線 → 第183便の v1.42.0 昇格で
+// ----           root ≡ beta になり「root index.html を読む」照合が自己参照になったため、
+// ----           照合先を凍結参照へ付け替えた。root/beta の両対象で同じ原文と照合される)。
 {
   const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   // 第177b便: generic はインライン(S._core 内)へ戻したので pairCoreGeneric は存在しない。
@@ -17367,18 +17371,24 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   const hasKernel = /function setKernelForceGeneric\(v\)\{/.test(html) &&
     /function pairCorePlain\(C\)\{/.test(html) && /function pairCorePN\(C\)\{/.test(html);
   if (hasKernel) {
-    // (5) **逐語一致**: kKind=0(generic)は S._core 内のインライン対ループ = root 原文である
-    //     ことを、beta の「① 全対ループ」区間と root index.html の同区間の**文字列完全一致**
-    //     で機械照合する(第177便の pairCoreGeneric コピーが消えた分、照合対象をここへ再配線
+    // (5) **逐語一致**: kKind=0(generic)は S._core 内のインライン対ループ = 特別化前の原文で
+    //     あることを、対象の「① 全対ループ」区間と**原文の凍結参照**の**文字列完全一致**で
+    //     機械照合する(第177便の pairCoreGeneric コピーが消えた分、照合対象をここへ再配線
     //     した — 逐語性の証明が「関数への逐語コピー」から「原文そのものの残置」へ強まる)。
+    //     第183便(v1.42.0 昇格): 昇格で root ≡ beta になり、従来の照合先「root index.html の
+    //     同区間」は**自己参照**になって空回りする。照合先を**昇格直前の root(v1.41.0 =
+    //     特別化前の原文)の対ループを収めた凍結参照 tests/fixtures/pairloop-v1.41.txt** へ
+    //     付け替えた(**検査対象の変更のみ** — 照合の中身・行数下限・pairCoreGeneric 不在の
+    //     検査・(1)〜(4) はいずれも不変。以後は root/beta の**両対象**が同じ原文と突き合わされる
+    //     ので、昇格後も逐語性の証明が生き続ける。対ループを意図的に変える便は、この凍結参照を
+    //     同じ便で更新して差分を明示すること)。
     const cutRegion = (s, a, e) => { const i = s.indexOf(a); if (i < 0) return null;
       const j = s.indexOf(e, i); return j < 0 ? null : s.slice(i, j); };
     const LOOP_A = 'let pk=0; // 対インデックス';
     const LOOP_E = '// ---- ここまで root index.html の対ループ逐語コピー';
-    const LOOP_E0 = '// ===== 第59便 59A(angK×bondN 併用';
     const betaLoop = cutRegion(html, LOOP_A, LOOP_E);
-    const rootSrc = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
-    const rootLoop = cutRegion(rootSrc, LOOP_A, LOOP_E) || cutRegion(rootSrc, LOOP_A, LOOP_E0);
+    const refPath = path.join(ROOT, 'tests', 'fixtures', 'pairloop-v1.41.txt');
+    const rootLoop = fs.existsSync(refPath) ? fs.readFileSync(refPath, 'utf8') : null;
     const verbatimOK = !!betaLoop && !!rootLoop && betaLoop === rootLoop &&
       betaLoop.split('\n').length > 300 && !/function pairCoreGeneric\(/.test(html);
     const kp = await browser.newPage();
@@ -17464,7 +17474,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       `経路選択: ${r.rows.length - wrongKind.length}/${r.rows.length} 期待どおり` +
       `(${Object.entries(EXPECT).map(([k, v]) => k + '=' + v).join(' ')}・強制時は全系 generic) / ` +
       `開発フック既定OFF=${r.defOff} / 否定対照(1 ulp 改変を照合器が検出)=${r.neg.detected}件` +
-      `(改変成立=${r.neg.changed}) / generic逐語一致(インライン対ループ ≡ root index.html 原文` +
+      `(改変成立=${r.neg.changed}) / generic逐語一致(インライン対ループ ≡ 凍結参照 ` +
+      `tests/fixtures/pairloop-v1.41.txt = 特別化前の root v1.41.0 原文` +
       `${betaLoop ? ' ' + betaLoop.split('\n').length + '行' : ''})=${verbatimOK}` +
       (bad.length ? ` / NG差分=[${bad.slice(0, 3).map((o) => o.id + '@' + o.st + ':' + o.first.join('|')).join(' ')}]` : '') +
       (wrongKind.length ? ` / NG経路=[${wrongKind.slice(0, 3).map((o) => o.id + '=' + o.kind).join(' ')}]` : '') +

@@ -2156,10 +2156,10 @@ const DEFAULT_PHYSICS = { G:1, D0:2, kFrame:1, q:2, kRep:1, muF:0.5, gammaN:0.4,
   radiusScale:1, softening:2, timeScale:1,   // 第26便: radiusScale 既定 1.2→1(内蔵は明示値を維持)
   dispMag:1 };   // 第118便(原仮定者指示): 粒子表示倍率(描画半径のみ×dispMag — 表示専用・力学不変)
 // v1.7: kLens は廃止(E8R で屈折率は n=e^{2W/Kt} に統一。旧セーブの kLens は受理して無視)
-const APP_VERSION = "1.41";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
+const APP_VERSION = "1.42";            // エクスポートの appVersion に記録(package.json と QA で同期検査)
 // 第36便 B1(原仮定者指示): タイトル下に表示するbeta配信時のビルド番号。beta/sw.js の
 // CACHE 接尾辞と同期させる(QA: version.beta-label)。ルート昇格後は使わない("v"+APP_VERSION 表示に戻る)
-const BETA_BUILD = "v1.42-b1";   // 第144便: v1.41.0 昇格に伴い次期プレビュー線へ
+const BETA_BUILD = "v1.43-b1";   // 第183便: v1.42.0 昇格に伴い次期プレビュー線へ
 const DT = 0.016, SUBSTEPS = 2;          // dt/substeps はアプリ管理(LLMへは非公開)
 // 第71便 P0 → 第72便(ChatGPT Release レビュー P2: マジックナンバーの定数化):
 // E6′③反作用の1サブステップ上限(速度のみ)。較正実測(第71便): 正常域最大は 🕶️ の
