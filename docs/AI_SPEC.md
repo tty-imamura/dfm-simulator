@@ -59,7 +59,7 @@ quantity [unit]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] / s
 - The "body" name may stay exactly as your source writes it — a Japanese or other non-Latin name is fine, do NOT translate it into English.
 - **The "body" string must be byte-for-byte identical on every row of the same object.** If sources spell it differently, unify and record the original spelling in "note".
 - Rotation: prefer rotation_period; use spin ONLY when the source states an angular velocity directly. Never both for one body.
-- The same body+quantity pair appears on exactly one row. No rings, dust or unnamed bodies.
+- The same body+quantity pair appears on exactly one row. Rings, dust and unnamed bodies do not belong in OUTPUT A (rings and discs are OUTPUT B's REAL-SYSTEM APPROXIMATION). When you return OUTPUT A for a system that has rings, DECLARE in a note that the rings are not included — never drop them silently.
 
 ## SOURCE QUALITY (OUTPUT A)
 Prefer, in order: public agencies and primary archives (NASA fact sheets, JPL Horizons, IAU) and peer-reviewed papers with a DOI; official mission archives; well-curated compilations that cite primary sources (use the primary URL they cite). Avoid Wikipedia alone, blogs and educational pages without a primary citation. If sources disagree by more than 1% on mass, semi_major_axis or orbital_period, omit the quantity or take the most recent peer-reviewed value and note the discrepancy.
@@ -432,7 +432,7 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 - **同一天体の body 文字列は全行で完全一致**させてください。出典間で表記が割れていて統一した場合は、元の表記を note に記録します(黙って翻訳・別名解決をしない)。
 - **自転は rotation_period を優先**します。spin は出典が角速度を直接示す場合だけ使い、**同一天体に両方を出さない**でください。
 - 同じ body+quantity の組は1行だけです。
-- 環・塵・名前の無い天体は含めないでください。
+- 環・塵・名前の無い天体は出力Aに含めません(環・円盤は出力Bの「実在系の近似」の担当です)。**環を持つ系を出力Aで返すときは、環は含めていない旨を note に1行で宣言**してください — 黙って落とさない。
 
 ## 出典の品質(出力A)
 1. 公的機関・一次アーカイブ(NASA ファクトシート・JPL Horizons・IAU)・DOI つき査読論文。
@@ -696,7 +696,7 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   * eccentricity が無い場合は許容(アプリが e=0 の円軌道化を宣言します)。
   * inclination(rad)は任意: π/2 超はアプリが**逆行公転**として構築します(向きのみ — 傾斜そのものは無視して宣言)。
   * orbital_period はアプリの**自己診断の照合先**で、配置には使いません。必須です。
-- 環・塵・名前の無い天体は含めないでください。
+- 環・塵・名前の無い天体は含めないでください(環・円盤は生成プロンプト側の「実在系の近似〔出力B〕」が扱います)。対象の系に環がある場合は、環を含めていない旨を note に宣言してください — 黙って落とさない。
 
 # 例(本プロジェクトにコミット済みの出典表から機械生成した2行)
 [
