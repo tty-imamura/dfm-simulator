@@ -1,0 +1,63 @@
+# 第191便: 論文4(天体再現 — v0.4 で再構成)・論文5(ミクロの相変移 — 分割で新設)の
+# ビルドを CI ゲート化(paper1.yml のひな型 — ビルドのみ)。
+# paper/ の変更時のみ実行(重い TeX インストールを常時走らせない)。
+#
+# **図の再生成ゲートを張らない理由**(paper1.yml と同型): 両論文はドラフト(v0.x)で
+#   図はプレースホルダ。実測数値の正本はコミット済みプリセット宣言・出典表 CSV・QA
+#   (behavior.* / ai.obs-*)側にあり、そちらは QA ワークフローが毎 push 検査している。
+name: paper45
+on:
+  push:
+    paths:
+      - "paper/**"
+      - ".github/workflows/paper45.yml"
+  pull_request:
+    paths:
+      - "paper/**"
+      - ".github/workflows/paper45.yml"
+
+jobs:
+  paper45:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - name: Install TeX Live
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            texlive-latex-base texlive-latex-recommended texlive-publishers \
+            texlive-fonts-recommended texlive-lang-japanese texlive-luatex
+      - name: Build Paper 4 English (pdflatex x2, halt on error)
+        working-directory: paper
+        run: |
+          pdflatex -interaction=nonstopmode -halt-on-error dfm-paper4.tex
+          pdflatex -interaction=nonstopmode -halt-on-error dfm-paper4.tex
+          ! grep -i "undefined references\|undefined citations" dfm-paper4.log
+      - name: Build Paper 4 Japanese (lualatex x2, halt on error)
+        working-directory: paper
+        run: |
+          lualatex -interaction=nonstopmode -halt-on-error dfm-paper4-ja.tex
+          lualatex -interaction=nonstopmode -halt-on-error dfm-paper4-ja.tex
+          ! grep -i "undefined references\|undefined citations" dfm-paper4-ja.log
+      - name: Build Paper 5 English (pdflatex x2, halt on error)
+        working-directory: paper
+        run: |
+          pdflatex -interaction=nonstopmode -halt-on-error dfm-paper5.tex
+          pdflatex -interaction=nonstopmode -halt-on-error dfm-paper5.tex
+          ! grep -i "undefined references\|undefined citations" dfm-paper5.log
+      - name: Build Paper 5 Japanese (lualatex x2, halt on error)
+        working-directory: paper
+        run: |
+          lualatex -interaction=nonstopmode -halt-on-error dfm-paper5-ja.tex
+          lualatex -interaction=nonstopmode -halt-on-error dfm-paper5-ja.tex
+          ! grep -i "undefined references\|undefined citations" dfm-paper5-ja.log
+      - name: Upload PDFs
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: paper45-pdfs
+          path: |
+            paper/dfm-paper4.pdf
+            paper/dfm-paper4-ja.pdf
+            paper/dfm-paper5.pdf
+            paper/dfm-paper5-ja.pdf
