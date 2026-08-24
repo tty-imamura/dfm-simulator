@@ -6299,6 +6299,7 @@ if (!FAST) {
         }
         return { nan: S.hasNaN(), steps,
           wob: rmin.map((_, i) => (rmax[i] - rmin[i]) / (rsum[i] / steps)), tRev,
+          dir: ang.map((a) => Math.sign(a)),   // 第188便: 積算角の符号 = 公転の向き(+1 順行/−1 逆行)
           ringWorst: rrDev.length ? Math.max.apply(null, rrDev) : null };
       };
       const detTwice = (preset) => {
@@ -6351,12 +6352,13 @@ if (!FAST) {
         && tM !== null && tM > 1.405 && tM < 1.425 && Math.abs(tM / 1.413479 - 1) < 0.002
         && tA !== null && tA > 2.510 && tA < 2.530 && Math.abs(tA / 2.520379 - 1) < 0.002
         && u.kf1.ringWorst !== null && u.kf1.ringWorst > 0.001 && u.kf1.ringWorst < 0.1
-        && u.kf0.ringWorst > 0.5 && u.kf0.ringWorst < 3,
+        && u.kf0.ringWorst > 0.5 && u.kf0.ringWorst < 3
+        && u.kf1.dir.every((x) => x === 1),
         `宣言=${declOk}(fidelity=real・L6/T2/M25・κ=G/c₀²・環11帯=テスト質量1e-6・ts=30/dm=1〔宣言つき調整〕・pinned) / ` +
         `kFrame=1(2ミランダ公転窓): ミランダ ${tM === null ? '—' : tM.toFixed(5) + '日'}(観測 1.413479・宣言 1.41450)・` +
         `アリエル ${tA === null ? '—' : tA.toFixed(5) + '日'}(観測 2.520379・宣言 2.52000) / ` +
         `環88粒の半径保持: kF1 最大 ${u.kf1.ringWorst.toFixed(4)}単位(宣言 0.0169)/ kF0 対照 ${u.kf0.ringWorst.toFixed(3)}単位(宣言 0.968 — 記録のみ・機構帰属せず) / ` +
-        `決定性=${u.det} / ${u.kf1.steps}步×2本`);
+        `5衛星の積算角は全て正(順行 — 第188便 逆行転写の順行対照) / 決定性=${u.det} / ${u.kf1.steps}步×2本`);
     }
     { // 🌊
       const n = un.neptune, d = n.decl;
@@ -6368,8 +6370,10 @@ if (!FAST) {
         declOk && !n.kf1.nan && !n.kf0.nan && n.det
         && t0 !== null && t0 > 5.86 && t0 < 5.89 && Math.abs(t0 / 5.876854 - 1) < 0.001
         && t1 !== null && t1 > 5.87 && t1 < 5.90
-        && n.kf1.wob[0] > 0.0005 && n.kf1.wob[0] < 0.003 && n.kf0.wob[0] < 0.0005,
+        && n.kf1.wob[0] > 0.0005 && n.kf1.wob[0] < 0.003 && n.kf0.wob[0] < 0.0005
+        && n.kf1.dir[0] === -1 && n.kf0.dir[0] === -1,
         `宣言=${declOk}(fidelity=real・L7/T3/M26・κ=G/c₀²・E6′-R pairReduced・両天体自由・トリトン自転は負符号転写) / ` +
+        `公転の向き: 積算角符号 kF1 ${n.kf1.dir[0]}・kF0 ${n.kf0.dir[0]}(逆行 direction=−1 — 第188便 inclination 転写) / ` +
         `kFrame=0 対照: ${t0 === null ? '—' : t0.toFixed(5) + '日'}(観測 5.876854・宣言 5.87741) / ` +
         `kFrame=1: ${t1 === null ? '—' : t1.toFixed(5) + '日'}(宣言 5.88370 — E6′ 運動引きずり +0.117%〔χ=0.83・第3例〕を宣言どおり実測) / ` +
         `振れ幅 kF1 ${(n.kf1.wob[0] * 100).toPrecision(3)}% / kF0 ${(n.kf0.wob[0] * 100).toPrecision(3)}% / ` +
@@ -9607,7 +9611,8 @@ if (!FAST) {
         && pr.includes(HP.OBS_SAMPLE_URL) && pr.includes('semi_major_axis');
       if (!ruleOk) bad.push('採取用プロンプトに転写器規約(記憶禁止/URL必須/SI単位/少数ショット)が揃っていない');
       for (const q of Object.keys(HP.OBS_UNITS)) if (!pr.includes(q)) bad.push('採取用プロンプトに quantity ' + q + ' が無い');
-      return { bad, nNeg: NEG.length, nPos: POS.length, promptLen: pr.length, prompt: pr };
+      return { bad, nNeg: NEG.length, nPos: POS.length, promptLen: pr.length, prompt: pr,
+        hasInc: !!(HP.OBS_UNITS && HP.OBS_UNITS.inclination === 'rad') };   // 第188便世代の検出
     }, { NEG, POS });
     // 採取プロンプトの**正本**は docs/AI_SPEC.md(§5)— アプリ側と逐語一致していること
     // (prompt.spec-sync と同じ流儀。手書き台帳の陳腐化を構造的に防ぐ)
@@ -9616,8 +9621,14 @@ if (!FAST) {
       const specPath = path.join(ROOT, 'docs', 'AI_SPEC.md');
       if (fs.existsSync(specPath)) {
         const spec = fs.readFileSync(specPath, 'utf8'); specLen = spec.length;
-        specSync = !!sch.prompt && spec.includes(sch.prompt);
-        if (!specSync) sch.bad.push('docs/AI_SPEC.md が採取用プロンプトを逐語収載していない');
+        // 逐語収載の正本は**現行世代(beta)の採取プロンプト**。旧世代の対象(第188便の
+        // inclination 量が無い root 等)では文面が世代違いで一致しないのが正しい状態なので、
+        // 逐語検査は現行世代の対象でだけ行う(prompt.spec-sync の clOnBeta と同じ流儀。
+        // 構造検査〔転写器規約・quantity 網羅〕は上で全対象に実施済み)
+        if (sch.hasInc) {
+          specSync = !!sch.prompt && spec.includes(sch.prompt);
+          if (!specSync) sch.bad.push('docs/AI_SPEC.md が採取用プロンプトを逐語収載していない');
+        } else specSync = 'skip(旧世代の対象 — 正本は現行世代の採取プロンプト)';
         for (const w of ['ObservationRecord', 'semi_major_axis', 'orbital_period', 'radiusScale·√m', 'q_exact', 'D₀'])
           if (!spec.includes(w)) sch.bad.push('docs/AI_SPEC.md に「' + w + '」の記載が無い');
       } else sch.bad.push('docs/AI_SPEC.md が無い');
@@ -10012,8 +10023,104 @@ if (!FAST) {
         + `${fcr.bad.length ? ' NG=[' + fcr.bad.slice(0, 6).join(' / ') + ']' : ''}`
         : 'NG=[' + fcr.bad.join(' / ') + ']');
     }
+
+    // --- ⑥ ai.obs-inclination(第188便: 逆行公転の直接表現 — inclination 量の拡張)---
+    // 世代検出: OBS_UNITS の inclination 登録で判定(旧世代 root には量自体が無いのが正しい状態)。
+    // 合成二体(中心/衛星の質量比 ~5e3 = 海王星トリトン級・値は架空)。機械固定する6点:
+    // (a) i>π/2 の二体重心系が逆行(相対角運動量<0)で構築され、宣言が3箇所に載り、自己診断 ±1% を通る
+    // (b) i≤π/2 は記録のみ(順行のまま)で、配置は inclination 無しと**ビット同一**(dir=1 乗算の恒等性)
+    // (c) i>π/2 と基準の差は接線速度の符号だけ(vy は符号反転のビット同一・x/y/vx/spin/m 不変)
+    // (d) 否定対照4種(中心への inclination / i<0 / i>π / 単位 deg)は全て差し戻し
+    // (e) 中心 pinned の多衛星系(kepler-peri)でも衛星ごとに向きが独立(逆行+順行の混在)
+    // (f) ja/en の records 節に逆行転写の規約(π/2 超・rad 換算例)が載っている
+    const has188inc = await page.evaluate(() => !!HP.OBS_UNITS && HP.OBS_UNITS.inclination === 'rad');
+    if (!has188inc) {
+      console.log('SKIP ai.obs-inclination(対象に第188便の inclination 量なし — root 等)');
+    } else {
+    const IC = { name: 'Qa Nep', m: 1.0e26, r: 2.5e7, rot: 6.0e4 };
+    const IS = { name: 'Qa Nep I', m: 2.0e22, r: 1.4e6, a: 3.5e8 };
+    const IC_BASE = [mkSyn(IC.name, 'mass', IC.m, 'kg'), mkSyn(IC.name, 'radius', IC.r, 'm'),
+      mkSyn(IC.name, 'rotation_period', IC.rot, 's'),
+      mkSyn(IS.name, 'mass', IS.m, 'kg'), mkSyn(IS.name, 'radius', IS.r, 'm'),
+      mkSyn(IS.name, 'semi_major_axis', IS.a, 'm'), mkSyn(IS.name, 'eccentricity', 0, '1'),
+      mkSyn(IS.name, 'orbital_period', kepP(IS.a, IC.m + IS.m), 's', 'a と中心+衛星質量からケプラー則で機械算出(二体重心系)')];
+    const mkInc = (v, unit) => mkSyn(IS.name, 'inclination', v, unit || 'rad', '合成値(架空の系 — 向きの検査用)');
+    const IC_RETRO = IC_BASE.concat([mkInc(2.8)]);
+    const IC_PRO = IC_BASE.concat([mkInc(0.5)]);
+    const IC_NEG = [
+      ['中心への inclination', IC_BASE.concat([mkSyn(IC.name, 'inclination', 0.5, 'rad')]), 'inclination は使えません'],
+      ['負の傾斜 i<0', IC_BASE.concat([mkInc(-0.1)]), 'inclination は 0〜π rad'],
+      ['範囲外 i>π', IC_BASE.concat([mkInc(3.5)]), 'inclination は 0〜π rad'],
+      ['単位 deg のままの転写', IC_BASE.concat([mkInc(160.4, 'deg')]), 'unit は SI の "rad" のみ'],
+    ];
+    const DM_INC = clone(DM_RECS).concat([
+      mkSyn(DM1.name, 'inclination', 2.9, 'rad', '合成値(逆行 — 向きの検査用)'),
+      mkSyn(DM2.name, 'inclination', 0.3, 'rad', '合成値(順行 — 記録のみの検査用)')]);
+    const icr = await page.evaluate(({ IC_RETRO, IC_PRO, IC_BASE, IC_NEG, DM_INC }) => {
+      const bad = [];
+      const L = (p, i, j) => { const b = p.bodies;   // 相対角運動量(単位質量・中心 i まわり)
+        return (b[j].x - b[i].x) * (b[j].vy - b[i].vy) - (b[j].y - b[i].y) * (b[j].vx - b[i].vx); };
+      // (a) 逆行の正例
+      const rR = HP.buildAstroFromRecords(IC_RETRO);
+      if (!rR.ok) return { bad: ['逆行二体の構築が失敗: ' + rR.stage + ' ' + (rR.errors || []).join('|')] };
+      const pR = rR.preset, LR = L(pR, 0, 1);
+      if (!(LR < 0)) bad.push('i=2.8 rad(>π/2)の相対角運動量が負でない: ' + LR);
+      if (!(rR.notes || []).some((n) => n.includes('逆行公転(direction=−1)として構築します'))) bad.push('notes に逆行公転の宣言が無い');
+      if (!pR.description.includes('direction=−1')) bad.push('description に逆行の宣言が無い');
+      if (!(pR.parameterAudit.fixedConventions || []).some((c) => c.includes('direction=−1'))) bad.push('parameterAudit に逆行の宣言が無い');
+      const wR = Math.max.apply(null, rR.diag.rows.map((x) => Math.max(Math.abs(x.rel), Math.abs(x.rel0))));
+      if (!(wR <= HP.OBS_DIAG_TOL)) bad.push('逆行構築の自己診断が ±1% を外れた');
+      const rR2 = HP.buildAstroFromRecords(IC_RETRO);
+      if (JSON.stringify(rR.preset) !== JSON.stringify(rR2.preset)) bad.push('逆行経路が非決定的');
+      // (b) i≤π/2 は記録のみ — 基準(inclination 無し)とビット同一
+      const rP = HP.buildAstroFromRecords(IC_PRO), rB = HP.buildAstroFromRecords(IC_BASE);
+      if (!rP.ok || !rB.ok) bad.push('順行・基準の構築が失敗');
+      else {
+        if (JSON.stringify(rP.preset.bodies) !== JSON.stringify(rB.preset.bodies))
+          bad.push('i=0.5 rad(≤π/2)が配置を変えた(dir=1 乗算が恒等でない)');
+        if (!(L(rP.preset, 0, 1) > 0)) bad.push('順行版の相対角運動量が正でない');
+        if (!(rP.notes || []).some((n) => n.includes('2D 理想化で無視します(順行のまま — 宣言)'))) bad.push('notes に i≤π/2 の記録宣言が無い');
+      }
+      // (c) 逆行と基準の差は接線速度の符号だけ
+      if (rB.ok) for (let i = 0; i < 2; i++) {
+        const a = pR.bodies[i], b = rB.preset.bodies[i];
+        if (!(Object.is(a.x, b.x) && Object.is(a.y, b.y) && Object.is(a.vx, b.vx) && Object.is(a.spin, b.spin) && Object.is(a.m, b.m)))
+          bad.push('body' + i + ' の vy 以外が逆行化で変わった');
+        if (!Object.is(a.vy, -b.vy)) bad.push('body' + i + ' の vy が符号反転のビット同一でない');
+      }
+      // (d) 否定対照
+      for (const [w, recs, msg] of IC_NEG) {
+        const v = HP.validateObservationRecords(recs);
+        if (v.ok) bad.push('拒否されるべきが受理: ' + w);
+        else if (!v.errors.join('|').includes(msg)) bad.push('拒否理由が違う(' + w + '): ' + v.errors[0]);
+      }
+      // (e) 中心 pinned の多衛星系: 衛星ごとに向きが独立
+      const rM = HP.buildAstroFromRecords(DM_INC);
+      if (!rM.ok) bad.push('多衛星系(逆行+順行の混在)の構築が失敗: ' + rM.stage + ' ' + (rM.errors || []).join('|'));
+      else {
+        if (!(L(rM.preset, 0, 1) < 0)) bad.push('多衛星系の衛星1(i=2.9 rad)が逆行でない');
+        if (!(L(rM.preset, 0, 2) > 0)) bad.push('多衛星系の衛星2(i=0.3 rad)が順行でない');
+      }
+      // (f) プロンプト規約(ja/en)
+      for (const lg of ['ja', 'en']) {
+        const cl = HP.buildRecordsClause(lg);
+        const okc = (lg === 'ja') ? cl.includes('逆行公転は inclination を π/2 超') && cl.includes('2.746188 rad')
+          : cl.includes('A RETROGRADE ORBIT is transcribed as inclination greater than π/2') && cl.includes('2.746188 rad');
+        if (!okc) bad.push(lg + ' の records 節に逆行転写の規約が無い');
+      }
+      return { bad, LR, LP: rP.ok ? L(rP.preset, 0, 1) : null,
+        diag: rR.diag.rows.map((x) => x.name + ' t0 ' + (x.rel0 * 100).toFixed(4) + '%→' + (x.rel * 100).toFixed(4) + '%').join('・') };
+    }, { IC_RETRO, IC_PRO, IC_BASE, IC_NEG, DM_INC });
+    add('ai.obs-inclination', icr.bad.length === 0,
+      `合成二体(質量比 ~5e3・値は架空)+i=2.8 rad(>π/2): 相対角運動量 ${Number.isFinite(icr.LR) ? icr.LR.toPrecision(3) : '—'}(<0 = 逆行)・`
+      + `direction=−1 を description/parameterAudit/notes の3箇所に宣言・自己診断 ${icr.diag || '—'}(±1%内)・決定的 / `
+      + `i=0.5 rad(≤π/2)は記録のみ: 配置は基準とビット同一・角運動量 ${Number.isFinite(icr.LP) ? icr.LP.toPrecision(3) : '—'}(>0 = 順行のまま) / `
+      + `逆行と基準の差は vy の符号反転のみ(ビット同一) / 否定対照4種(中心への傾斜・i<0・i>π・単位 deg)全て差し戻し / `
+      + `多衛星系(中心 pinned・kepler-peri)で逆行+順行が独立に混在 / ja/en プロンプトに転写規約`
+      + `${icr.bad.length ? ' NG=[' + icr.bad.slice(0, 8).join(' / ') + ']' : ''}`);
+    }
   } else {
-    console.log('SKIP ai.obs-schema / ai.obs-build / ai.obs-name-unicode / ai.obs-demote / ai.obs-freecenter(対象に ObservationRecord 経路なし — 第176便 未適用の root 等)');
+    console.log('SKIP ai.obs-schema / ai.obs-build / ai.obs-name-unicode / ai.obs-demote / ai.obs-freecenter / ai.obs-inclination(対象に ObservationRecord 経路なし — 第176便 未適用の root 等)');
   }
 }
 
@@ -10184,8 +10291,15 @@ if (!FAST) {
           if (!(Array.isArray(embObj.bodies) && embObj.bodies.length === 5)) bad.push('埋込例の bodies が丸ごとでない');
           if (!embObj.physics || embObj.physics.q !== 12.0586) bad.push('埋込例の physics が丸ごとでない');
           if (!(Array.isArray(embObj.claims) && embObj.claims.length === 7)) bad.push('埋込例の claims が丸ごとでない');
-          for (const k of ['failureFirst', 'descStruct', 'parameterAudit'])
+          const w189 = HP.AI_BASE_DROP_BLOCKS.indexOf('obsCard') >= 0;   // 第189便: obsCard の埋込縮約
+          for (const k of (w189 ? ['failureFirst', 'descStruct', 'parameterAudit', 'obsCard'] : ['failureFirst', 'descStruct', 'parameterAudit']))
             if (k in embObj) bad.push('埋込例に表示専用ブロック ' + k + ' が残っている');
+          if (w189) {
+            if (!Array.isArray(jup.obsCard) || !jup.obsCard.length) bad.push('否定対照が成立しない(🟠 本体に obsCard が無い)');
+            const again2 = HP.allPresets().find((p) => String(p.id) === 'jupiterGalilean');
+            if (!again2 || !Array.isArray(again2.obsCard) || !again2.obsCard.length)
+              bad.push('obsCard が本体から消えている(埋込縮約の副作用が漏れている)');
+          }
           if (typeof embObj.description !== 'string' || !embObj.description.trim())
             bad.push('埋込例の description が空(必須キーの置換に失敗)');
           else if (embObj.description.length > 3000)
@@ -10222,7 +10336,7 @@ if (!FAST) {
       + `記憶禁止規律を両方が同一本文で運ぶ・内蔵一覧の節と案内契約は全経路で0件(第182便で撤去・カタログ資産は温存)・`
       + `埋込用複製の注記4キー=0個(本体は不変・validator PASS)・少数ショット例=${up.exLen}字(未選択の暗黙の例は`
       + `🟠${up.exId} の本体構造を丸ごと固定〔第182便: 表示専用の注記4キー除去/第185便: failureFirst・descStruct・`
-      + `parameterAudit 除去+description を summary へ置換〕=読み込み中のサンプルに非依存・ベース切替に追随)・`
+      + `parameterAudit 除去+description を summary へ置換/第189便: obsCard 除去〕=読み込み中のサンプルに非依存・ベース切替に追随)・`
       + `暗黙の例での実測長: full=${up.defFull}字 / short=${up.defShort}字(差=${up.defFull - up.defShort}字)`
       + `${up.bad.length ? ' NG=[' + up.bad.slice(0, 6).join(' / ') + ']' : ''}`);
 

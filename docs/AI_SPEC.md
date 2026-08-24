@@ -42,43 +42,37 @@ the branching itself, so the branching is gone:
 # WHICH OUTPUT TO RETURN (decide in this order)
 1. The request is a REAL astronomical system AND you can copy the MANDATORY quantities from web sources you actually consulted in this session -> return OUTPUT A (an array of ObservationRecords). PREFER THIS.
    Mandatory: the central body's mass and radius; each satellite's mass, semi_major_axis and orbital_period. Nothing else enters this decision.
-   The optional quantities (a satellite's radius, its eccentricity, any rotation) are added ONLY when you have a source for them; their absence never sends the request to OUTPUT B.
+   Optional quantities (a satellite's radius, eccentricity, inclination, any rotation) are added ONLY when you have a source; their absence never sends the request to OUTPUT B.
 2. Anything else (invented systems, toy models, phenomenon experiments, real bodies whose sources you cannot open) -> return OUTPUT B (a preset JSON).
 
-**In either output, never fill a number from memory.** Every row of OUTPUT A needs the source "url" you actually opened and the "retrieved" date; omit any row you cannot source (omitting is always correct, guessing never is). The numbers of OUTPUT B follow the style (magnitudes, key set) of "# EXAMPLE" and claim no real-body accuracy. Return exactly ONE JSON — no prose, no code fences, no alternative candidates, and never answer with a sentence pointing at some other sample instead of JSON.
+**In either output, never fill a number from memory.** Every OUTPUT A row needs the source "url" you actually opened and the "retrieved" date; omit any row you cannot source (omitting is always correct, guessing never is). OUTPUT B numbers follow the style of "# EXAMPLE" and claim no real-body accuracy. Return exactly ONE JSON — no prose, no code fences, no alternative candidates, never a sentence pointing at some other sample instead of JSON.
 
 # OUTPUT A: an array of ObservationRecords
-One object per measured quantity. The unit conversion, the scale exponents, the placement, the initial speeds, the qLock falloff q and the shared correction D0 are computed by the app's deterministic functions — you never touch them.
+One object per measured quantity. Unit conversion, scale exponents, placement, initial speeds, the qLock falloff q and the shared correction D0 are computed by the app's deterministic functions — you never touch them.
 {"body":"<name>","quantity":"<one of below>","value":<number>,"unit":"<SI unit>","source":"<publication or archive>","url":"<the page you actually read>","retrieved":"YYYY-MM-DD","note":"<optional>"}
-quantity [unit]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] / semi_major_axis [m] / eccentricity [1] / orbital_period [s]
+quantity [unit]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] / semi_major_axis [m] / eccentricity [1] / orbital_period [s] / inclination [rad]
 - The central body (the one WITHOUT semi_major_axis) must be exactly one and the heaviest; it needs mass and radius.
-- Every satellite needs mass, semi_major_axis and orbital_period. radius, eccentricity and rotation are OPTIONAL — add them only when a source gives them; the app declares its defaults when they are missing.
+- Every satellite needs mass, semi_major_axis and orbital_period; the other quantities are OPTIONAL (the app declares its defaults when they are missing).
 - SI units only (km, days, degrees are rejected): convert yourself and say so in "note".
 - RETROGRADE rotation is written as a NEGATIVE rotation_period (the app carries the sign into the spin). Negative mass, radius, semi_major_axis or orbital_period are rejected.
-- The "body" name may stay exactly as your source writes it — a Japanese or other non-Latin name is fine, do NOT translate it into English (the app builds the identifier from the Unicode name as it is).
-- **The "body" string must be byte-for-byte identical on every row of the same object.** If you had to unify a spelling that differs between sources, record the original spelling in "note". Never translate or resolve an alias silently.
-- Rotation: prefer rotation_period. Use spin ONLY when the source states an angular velocity directly. Never emit both for the same body.
-- The same body+quantity pair appears on exactly one row.
-- Do not include rings, dust or unnamed bodies.
+- A RETROGRADE ORBIT is transcribed as inclination greater than π/2 (in rad; e.g. Triton's 157.345 deg = 2.746188 rad). Only the direction (direction=−1) enters the 2D placement; the tilt itself — and any inclination at or below π/2 — is recorded, ignored and declared. Satellites only; on the central body it is rejected.
+- The "body" name may stay exactly as your source writes it — a Japanese or other non-Latin name is fine, do NOT translate it into English.
+- **The "body" string must be byte-for-byte identical on every row of the same object.** If sources spell it differently, unify and record the original spelling in "note".
+- Rotation: prefer rotation_period; use spin ONLY when the source states an angular velocity directly. Never both for one body.
+- The same body+quantity pair appears on exactly one row. No rings, dust or unnamed bodies.
 
 ## SOURCE QUALITY (OUTPUT A)
-1. Public agencies and primary archives (NASA fact sheets, JPL Horizons, IAU) and peer-reviewed papers with a DOI.
-2. Official mission archives (Cassini, Galileo, New Horizons, …).
-3. Well-curated compilations that cite primary sources — prefer the primary URL they cite.
-Avoid Wikipedia alone, blog posts and educational pages without a primary citation.
-If sources disagree by more than 1% on mass, semi_major_axis or orbital_period, either omit that quantity or take the most recent peer-reviewed value and record the discrepancy in "note".
+Prefer, in order: public agencies and primary archives (NASA fact sheets, JPL Horizons, IAU) and peer-reviewed papers with a DOI; official mission archives; well-curated compilations that cite primary sources (use the primary URL they cite). Avoid Wikipedia alone, blogs and educational pages without a primary citation. If sources disagree by more than 1% on mass, semi_major_axis or orbital_period, omit the quantity or take the most recent peer-reviewed value and note the discrepancy.
 
 ## SELF-CHECK BEFORE YOU OUTPUT (OUTPUT A)
 1. Exactly one body without semi_major_axis, and it is the heaviest.
 2. At least one satellite, each with all three mandatory quantities.
 3. No duplicated body+quantity pair.
-4. Kepler consistency: P^2/a^3 ~= 4*pi^2/(G*M_central), within the precision of the sources. If the transcribed values break this by more than a few percent, re-check the units and the source epoch. **Never invent a value to force consistency — omit the inconsistent quantity instead.**
+4. Kepler consistency: P^2/a^3 ~= 4*pi^2/(G*M_central) within source precision — on a mismatch re-check units and epoch. **Never invent a value to force consistency — omit the inconsistent quantity instead.**
 5. Every row carries source, the direct url you actually opened, and retrieved.
 
 ## INCOMPLETE DATA (OUTPUT A)
-- If mass, semi_major_axis or orbital_period of a satellite is not in the sources you opened, omit that body entirely. Do not invent it.
-- If only radius or eccentricity is missing, omit those rows; the app declares its defaults.
-- Never invent a value "because it is approximately known" — the app's self-check rejects invented numbers that do not match real dynamics.
+Missing mass, semi_major_axis or orbital_period -> omit that body entirely. Missing radius or eccentricity -> omit those rows only (the app declares its defaults). Never invent a value "because it is approximately known" — the app's self-check rejects numbers that do not match real dynamics.
 
 ## EXAMPLE (machine-generated from this project's own committed source table)
 [
@@ -139,24 +133,22 @@ Exactly one preset that follows the specification above. Even when approximating
 
 ## PHYSICAL CONSISTENCY (OUTPUT B)
 - Match the magnitude style, the key density and the value ranges of "# EXAMPLE".
-- For a phenomenon (convection, frame dragging, a rotor, a lens, …) the accuracy is much higher when the user selects the closest built-in sample as the "base sample". If no base was given you may note that in one short sentence at the end of "description" — never add prose outside the JSON.
-- Keep the particle count modest: prefer under 200 unless the phenomenon needs more (the hard cap is 600).
-- For a thermal experiment, set the heaters and coolers explicitly as pinned particles (high spin = heater, spin 0 = cooler) and use gravityY for the uniform field.
-- Never claim real-body accuracy in "description" — an approximated real system is a toy model, not a quantitative reproduction.
-- Circular-orbit initial speed: v = sqrt(G*M/r) (M = the central mass, r = the orbital radius).
-- **A moving centre drags its disc**: when a single body has vx,vy and you put a ring/disk around it, give the ring/disk the SAME bulkVx,bulkVy.
-  WRONG: {"type":"single","m":800,"x":0,"y":0,"vx":2,"vy":0,…} + {"type":"disk",…,"vMode":"kepler","aroundMass":800} (no bulkVx) -> the core flies away and leaves the disc behind.
-  RIGHT: the same disk with "bulkVx":2,"bulkVy":0.
+- For a phenomenon (convection, frame dragging, a rotor, a lens, …) accuracy is much higher with the closest built-in sample as the "base sample"; if none was given you may say so in one short sentence at the end of "description" — never add prose outside the JSON.
+- Keep the particle count modest: prefer under 200 (hard cap 600).
+- Thermal experiments: heaters and coolers are pinned particles (high spin = heater, spin 0 = cooler); gravityY gives the uniform field.
+- Never claim real-body accuracy in "description" — an approximated real system is a toy model.
+- Circular-orbit initial speed: v = sqrt(G*M/r).
+- **A moving centre drags its disc**: a ring/disk around a moving single body needs the SAME bulkVx,bulkVy (without them the core flies away and leaves the disc behind).
 
 ## REAL-SYSTEM APPROXIMATION (OUTPUT B)
 For a real system that OUTPUT A cannot express (planetary rings, discs, continuous distributions):
-- Keep the transcription discipline: take the central body's mass/radius/rotation and the feature radii (ring edges, orbital radii) from sources you actually opened, cite them in "description", and claim no accuracy beyond that.
-- Declare per-sample real units as "scaleExp":{"L":<L>,"T":<L-4>,"M":<L+19>}. The convention L-T=4 and M+2T-3L=11 is what keeps the real constants (G=6.674, c0=3e4) — any other T or M is flagged by the importer. Pick L so the central body's radius lands between 0.01 and 100 units.
+- Keep the transcription discipline: the central mass/radius/rotation and the feature radii (ring edges, orbital radii) come from sources you actually opened, cited in "description"; claim no accuracy beyond that.
+- Declare per-sample real units as "scaleExp":{"L":<L>,"T":<L-4>,"M":<L+19>}. The convention L-T=4 and M+2T-3L=11 keeps the real constants (G=6.674, c0=3e4) — any other T or M is flagged by the importer. Pick L so the central radius lands between 0.01 and 100 units.
 - With scaleExp declared, use "G":6.674, "cLight":30000 and "kappaT":7.415555555555556e-9 (=G/c0^2) — not the toy defaults of "# EXAMPLE".
-- Ring features become "ring" groups (vMode:"kepler", aroundMass = the central body's m in the SAME units) at the real radii; masses you cannot source stay tiny (1e-6 per particle) and "description" says so.
+- Ring features become "ring" groups (vMode:"kepler", aroundMass = the central body's m in the SAME units) at the real radii; unsourced masses stay tiny (1e-6 per particle) and "description" says so.
 
 ## SELF-CHECK BEFORE YOU OUTPUT (OUTPUT B)
-1. Every body carries EXACTLY the keys of its type from the specification — for "ring" that is n, cx, cy, rIn, rOut, mMin, mMax, spinMin, spinMax, vMode, aroundMass, omega, vNoise, direction, pinned. Never invent keys: r, dr or a flat m on a ring are rejected by the importer.
+1. Every body carries EXACTLY the keys of its type — for "ring" that is n, cx, cy, rIn, rOut, mMin, mMax, spinMin, spinMax, vMode, aroundMass, omega, vNoise, direction, pinned. Never invent keys: r, dr or a flat m on a ring are rejected by the importer.
 2. Every vMode:"kepler" group declares aroundMass equal to the central body's m (same units).
 3. If you declared scaleExp: T=L-4 and M=L+19 hold, and kappaT is 7.415555555555556e-9.
 4. Exactly one JSON object, keys from the specification only, no prose around it.
@@ -173,11 +165,10 @@ For a real system that OUTPUT A cannot express (planetary rings, discs, continuo
 | cosmic | 1e23 | 1e17 | 1e42 | 6 |
 
 # COMMON FAILURES TO AVOID (both outputs)
-- Leaving km or days unconverted (convert to m and s yourself and say so in "note").
-- Translating a Japanese body name into English (keep the source spelling).
-- Inventing a mass that does not fit the scale (leave it to the app's declared demotion path, or omit the body).
+- km or days left unconverted; a Japanese body name translated into English.
+- An invented mass that does not fit the scale (use the app's declared demotion path, or omit the body).
 - Prose plus JSON, several candidates, or code fences.
-- Filling radius or eccentricity from memory when the source did not give them.
+- radius or eccentricity filled from memory when the source did not give them.
 ```
 
 ### 1.2 What wave 182 changed (2026-08-23)
@@ -423,7 +414,7 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 # 出力の使い分け(この順で判断する)
 1. 要望が**実在の天体・実在の系**で、**必須量**を**このセッションで実際に参照したウェブ出典から写せる** → **出力A(観測レコード配列)を優先する**。
    必須量 = 中心天体の mass・radius / 各衛星の mass・semi_major_axis・orbital_period。判定に入るのはこれだけです。
-   任意量(衛星の radius・離心率・自転)は**出典がある場合だけ**足します。無くても出力Bへ落とさないでください。
+   任意量(衛星の radius・離心率・軌道傾斜 inclination・自転)は**出典がある場合だけ**足します。無くても出力Bへ落とさないでください。
 2. それ以外(架空の系・トイモデル・現象の実験系・出典を開けない実在天体) → **出力B(プリセットJSON)**。
 
 **どちらの出力でも、数値を記憶で埋めてはいけません。** 出力Aは行ごとに、実際に開いた出典の url と取得日 retrieved が必須です — 出典を持てない行は書かずに省略してください(省略は常に正解・推測は常に不正解)。出力Bの数値は「# 例」の流儀(桁・キー構成)に合わせて構成し、実在天体の精度は主張しないでください。出力は JSON を1つだけ(説明文・コードフェンス・複数案を付けない。JSON の代わりに「別のサンプルを使ってください」等の案内文を返さない)。
@@ -431,11 +422,12 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 # 出力A: 観測レコード(ObservationRecord)配列
 観測量1つにつき1オブジェクトの JSON 配列。単位換算・スケール指数・配置・初速・qLock の q・共有補正 D₀ は**アプリの決定的関数**が計算します(あなたは触りません)。
 {"body":"<天体名>","quantity":"<下記のいずれか>","value":<数値>,"unit":"<SI単位>","source":"<出典(刊行物・アーカイブ)>","url":"<実際に読んだページ>","retrieved":"YYYY-MM-DD","note":"<任意>"}
-quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] / semi_major_axis [m] / eccentricity [1] / orbital_period [s]
+quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] / semi_major_axis [m] / eccentricity [1] / orbital_period [s] / inclination [rad]
 - 中心天体(semi_major_axis を**持たない**天体)はちょうど1つ・かつ最重量。中心には mass と radius が必須。
-- 各衛星には mass・semi_major_axis・orbital_period が必須。radius・eccentricity・自転は**任意** — 出典があるときだけ書きます(無ければアプリが宣言つきで既定化します)。
+- 各衛星には mass・semi_major_axis・orbital_period が必須。radius・eccentricity・inclination・自転は**任意** — 出典があるときだけ書きます(無ければアプリが宣言つきで既定化します)。
 - 単位は SI のみ(km・日・度は拒否されます)。換算はあなたが行い、その旨を note に書いてください。
 - **逆行自転は rotation_period を負の値**で書きます(符号はアプリが spin へ反映します)。質量・半径・軌道長半径・公転周期の負値は拒否されます。
+- **逆行公転は inclination を π/2 超(rad)**で書きます(度は rad へ換算し note に明記 — 例: トリトンの 157.345° = 2.746188 rad)。アプリは**向きだけ**を 2D 配置へ転写し(direction=−1)、傾斜そのものは無視して宣言します。π/2 以下の傾斜は記録されますが無視されます(宣言)。inclination は衛星専用で、中心天体に書くと拒否されます。
 - **body(天体名)は出典の表記のままでよい**(和名可・英名へ翻訳しない — アプリは Unicode の名前をそのまま識別子にします)。
 - **同一天体の body 文字列は全行で完全一致**させてください。出典間で表記が割れていて統一した場合は、元の表記を note に記録します(黙って翻訳・別名解決をしない)。
 - **自転は rotation_period を優先**します。spin は出典が角速度を直接示す場合だけ使い、**同一天体に両方を出さない**でください。
@@ -694,14 +686,15 @@ QA `ai.obs-build` は、🟠 jupiterGalilean を `paper/data/jovian-satellites.c
 
 # スキーマ(観測量1つにつき1オブジェクト)
 {"body":"<天体名>","quantity":"<下記のいずれか>","value":<数値>,"unit":"<SI単位>","source":"<出典(刊行物・アーカイブ)>","url":"<実際に読んだページ>","retrieved":"YYYY-MM-DD","note":"<任意>"}
-quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] / semi_major_axis [m] / eccentricity [1] / orbital_period [s]
+quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] / semi_major_axis [m] / eccentricity [1] / orbital_period [s] / inclination [rad]
 
 # アプリが必要とする量
 - 中心天体: mass・radius・rotation_period(または spin)。自転の出典が無ければその行を省略してください — アプリ側が spin=0 と宣言します。
-- 各衛星: mass・radius・semi_major_axis・eccentricity・orbital_period。
+- 各衛星: mass・radius・semi_major_axis・eccentricity・orbital_period・inclination。
   * mass と semi_major_axis は**必須**。どれか1天体でも欠けるとアプリは構築を拒否します。
   * radius が無い場合は許容(アプリが表示半径へ降格し、その旨を宣言します)。
   * eccentricity が無い場合は許容(アプリが e=0 の円軌道化を宣言します)。
+  * inclination(rad)は任意: π/2 超はアプリが**逆行公転**として構築します(向きのみ — 傾斜そのものは無視して宣言)。
   * orbital_period はアプリの**自己診断の照合先**で、配置には使いません。必須です。
 - 環・塵・名前の無い天体は含めないでください。
 
