@@ -1,0 +1,393 @@
+% =====================================================================
+% Determinacy-Field Mechanics, Paper 5 -- DRAFT (v0.1, 2026-08-24)
+% v0.1 (第191便): Created by the adopted Paper 4/5 split (原仮定者裁定 2026-08-24
+%   「論文4/5分割: 採用」). This paper takes over the MICRO sector of the former
+%   Paper 4 draft (dfm-paper4.tex v0.3, "Emergence across scales"):
+%   - Sec. "Micro scale: thermalization of the internal-spin temperature" is moved
+%     here VERBATIM (prose and measured numbers unchanged; harnesses exp-4-90/91/93).
+%   - The emergence standard (E0--E3 grading + six standard tests) is restated in
+%     full so this paper stands alone; it was introduced in the former joint draft
+%     and is shared verbatim with Paper 4.
+%   - The hidden-mass ladder (formerly a Paper-4 macro bullet) moves here per the
+%     split line "Paper 4 = gravity/dragging/morphology (macro), Paper 5 =
+%     spin/heat/optics (micro)".
+%   New sections (core v2 transitions, dimming classes D0--D6, dimming/disappearance
+%   design-constraint experiments) are PLANNED skeletons: no measured numbers are
+%   claimed there yet, and nothing in them is a claim about real stars.
+% Status: draft skeleton with the micro chapter in full prose.
+% Companion papers: Paper 1 (foundations), Paper 2 (box universe),
+%   Paper 3 (reality calibration), Paper 4 (celestial reproduction).
+% =====================================================================
+\documentclass[aps,reprint,amsmath,amssymb,nofootinbib,superscriptaddress,floatfix]{revtex4-2}
+
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{booktabs}
+
+\begin{document}
+
+\title{Micro-Scale Phase Transitions in Determinacy-Field Mechanics:\\
+Internal-Spin Thermodynamics, Core Transitions,\\
+and the Optics of Dark Bodies}
+
+% TODO(author): author block as in Papers 1--2.
+\author{...}
+\date{2026-08-24 (draft v0.1)}
+
+\begin{abstract}
+% --- What we claim (skeleton bullets; final prose TODO) ---
+% 1. The micro sector of the DFM toy universe -- the internal-spin temperature
+%    T_int, its conduction channel, and the spin-driven dimming lS_eff -- is
+%    tested with the same graded standard (E0--E3, six standard tests) used
+%    across this paper series.
+% 2. Micro thermalization (measured, moved from the former Paper-4 draft):
+%    inter-group thermalization is a genuine consequence of the conduction
+%    channel (frozen exactly when all thermal channels are off), with decay rate
+%    lambda ~ lambda_0 (kappa_s/0.15)^{1.006} (n/120)^{1.084}, and an equilibrium
+%    temperature predicted by the C*m-weighted ledger.
+% 3. Planned: core v2 phase transitions (contraction -> lS_eff saturation,
+%    power-ball and cavity states), the dimming ladder D0--D6 as declared optical
+%    classes, and design-constraint experiments for deep-dimming and
+%    disappearance-like light curves (no identification with any real star).
+% 4. The hidden-mass ladder: the model-internal separation of "dark" (optical)
+%    from "heavy" (dynamical).
+% --- What we do NOT claim ---
+%    no real thermodynamics; no identification of any real variable or vanished
+%    star; no real dark matter; no 3D extrapolation.
+TODO abstract.
+\end{abstract}
+
+\maketitle
+
+% =====================================================================
+\section{Introduction}
+
+Determinacy-Field Mechanics (DFM) is a two-dimensional relational toy
+universe in which a single scalar field -- the determinacy $W$ sourced by
+all matter -- supplies the local inertial frame, gravity, clock rates,
+and optics \cite{paper1}. It is an educational \emph{computational
+thought experiment}: it is not proposed as a description of the real
+universe, and none of the phenomena below are claims about real
+astrophysical objects (Sec.~\ref{sec:negative}). Paper 1 established the
+foundations; Paper 2 confined the model to a finite box universe; Paper 3
+calibrated its weak-field sector against real ephemerides under an
+explicit ``calibration agreement is not mechanism identification''
+philosophy; and Paper 4 pursues celestial reproduction on the macro side
+(gravity, dragging, morphology) \cite{paper2,paper3,paper4}.
+
+This paper collects the \emph{micro} side of the same programme: the
+thermodynamics of the internal-spin temperature, the phase-transition
+behaviour of the core model, and the optics of dark bodies (the dimming
+ladder). The split line between Papers 4 and 5, adopted 2026-08-24, is
+mechanism-based: Paper 4 = gravity, dragging and morphology (macro);
+Paper 5 = spin, heat and optics (micro). The one measured chapter below
+(Sec.~\ref{sec:micro}) is moved verbatim from the former joint draft;
+the remaining chapters are declared plans whose gates are stated in
+advance (Sec.~\ref{sec:standard}).
+
+% =====================================================================
+\section{A standard for emergence}
+\label{sec:standard}
+% [第93便: 本文起こし第1弾 — 方法論章。数値・定義はアプリ docs/PHYSICS.md と
+%  ハーネス exp-4-84..93 の実測に一致させてある。査読向け英文推敲は次版]
+
+The word ``emergence'' carries a burden of proof that a single striking
+simulation cannot discharge. A fixed random seed, a particular particle
+count, and a hand-tuned time window can make almost any dynamical system
+produce one beautiful movie. The methodological core of this paper is
+therefore a fixed standard, applied identically on every scale we study:
+each claimed phenomenon must declare its order parameters in advance,
+pass a battery of six standard tests, and carry an explicit grade.
+
+\subsection{Grading}
+
+We grade each phenomenon on a four-level scale, declared per sample and
+never auto-assigned:
+
+\begin{itemize}
+\item \textbf{E0} -- a configured display: the pattern is placed in the
+  initial conditions or enforced by an external element (pinned bodies,
+  rails, baths).
+\item \textbf{E1} -- a driven effect: the pattern appears while an
+  external element does work on the system.
+\item \textbf{E2} -- emergence in a closed system: the pattern forms from
+  the declared local rules alone, with momentum and angular momentum
+  closing on the ledger, but robustness has not been established.
+\item \textbf{E3} -- robust emergence: E2, plus reproduction across seeds
+  and particle counts and recovery from perturbations, established by the
+  standard tests below.
+\end{itemize}
+
+The grade is metadata attached to the sample and shown in its user
+interface; the measurement harnesses that justify it are cited next to
+the grade. Nothing in the engine reads the grade -- it is a claim, not a
+mechanism.
+
+\subsection{The six standard tests}
+
+\begin{enumerate}
+\item \emph{Knockout control.} Remove one candidate mechanism (a fusion
+  rule, a conduction coefficient, a core seed) and re-run under identical
+  conditions. If the phenomenon survives, the mechanism was not its
+  cause; if every candidate can be removed without effect, the
+  phenomenon was configured, not emergent.
+\item \emph{Dose response.} Vary the strength of the claimed driver
+  monotonically and require the declared order parameter to respond
+  monotonically. Non-monotonic responses are reported as such (an
+  example: the fusion-threshold sweep of the meso chapter of Paper~4).
+\item \emph{Multi-seed.} Re-run under a fixed set of random seeds
+  (sixteen in this paper) and report the full range of the order
+  parameter, not its best value. Controls run under the same seeds.
+\item \emph{Particle-count scaling.} Repeat at several particle counts
+  (three to four octaves here) to exclude discrete artefacts of one
+  resolution. Where the count is entangled with a physical quantity --
+  in our meso-scale sample $n$ is also the total mass -- the entanglement
+  is stated rather than hidden.
+\item \emph{Perturbation recovery.} Disturb the formed state -- with the
+  application's own momentum-conserving injector where possible -- and
+  measure whether the order parameters return. A pattern that never
+  recovers is a relic of the initial conditions, not an attractor.
+\item \emph{Time window.} State the window in which the claim holds and
+  what happens outside it. Timescales that grow with system size or
+  coupling (both occur below) are reported as part of the result.
+\end{enumerate}
+
+Two reporting rules bind all six tests. First, order parameters are
+declared before testing; switching the judged quantity after a failed
+run is recorded in the harness header when it happens (it happened twice
+across this paper pair -- in the micro study below, Sec.~\ref{sec:micro},
+and in the meso study of Paper~4 -- and both
+switches are documented with the failed first attempt). Second, negative
+and partial results are published in the same format as positive ones:
+each sample's user interface carries a ``what did not hold'' list, and
+this paper reproduces those lists verbatim in
+Sec.~\ref{sec:negative}.
+
+Every test in this section runs headless from a version-controlled
+harness (Sec.~\ref{sec:repro}); the numbers quoted in
+Sec.~\ref{sec:micro} are the outputs of those
+harnesses, not of interactive runs.
+
+% =====================================================================
+\section{Micro scale: thermalization of the internal-spin temperature}
+\label{sec:micro}
+% System: two-box gas (cold T_int=0.01 left, hot 6.25 right; 120+120 grains,
+%   identical masses/speeds; G=0, kFrame=0). Order parameter: R(t) =
+%   DeltaT(t)/DeltaT(0) between the two populations; primary judged quantity is
+%   the decay rate lambda (least-squares slope of ln R).
+% Measured (tests/exp-4-90.mjs, exp-4-91.mjs; 2026-08-08):
+%   - knockout (kappa_s = mu_F = gamma_n = 0): R = 1.0000, lambda = 0 (frozen).
+%   - single knockout kappa_s = 0: lambda ~ 0 -- inter-group transport is
+%     carried (almost) entirely by conduction; collisions only dissipate
+%     within groups.
+%   - dose response: kappa_s in {0.05, 0.15, 0.45} -> lambda monotone,
+%     nearly proportional.
+%   - multi-seed 16: lambda = 2.45e-5 .. 4.20e-5 per step (spread ratio 1.71).
+%   - n scaling 60/120/240 per side: lambda monotone increasing.
+%   - scaling fit: lambda ~ lambda_0 (kappa_s/0.15)^{1.006} (n/120)^{1.084},
+%     lambda_0 = 3.28e-5 per step.
+%   - time window: equilibration to R=0.1 extrapolates to ~6.8e4 steps --
+%     the conduction timescale is LONG; this is itself a time-window result
+%     (the first version of the harness judged t_eq inside a 3000-step window
+%     and failed; the switch of order parameter to lambda is recorded in the
+%     harness header).
+%   - perturbation recovery (5): temperature re-split -> lambda2/lambda1 =
+%     0.96/1.15/1.20; velocity kick via the app's official injector ->
+%     lambda3/lambda1 = 1.10/1.32/1.32 (all within [0.5, 2]).
+%   - equilibrium-temperature prediction (tests/exp-4-93.mjs): landed 2026-08-08;
+%     numbers now in prose below.
+% Figures: R(t) curves; lambda vs kappa_s and vs n (log-log with slopes) -- TODO.
+% [第100便: 本文起こし — 数値は tests/out/exp-4-90/91/93.json の実測そのまま。
+%  本サンプルは G=0 の分子系なので第96〜97便の c₀=30 再パラメータ化の影響を受けない
+%  (力学 bit 不変) — 旧実測値がそのまま正である]
+
+\subsection{System and order parameter}
+
+The microscopic testbed is deliberately minimal: a closed box of
+$120+120$ identical grains, prepared as a cold population on the left
+($T_{\mathrm{int}}=0.01$) and a hot one on the right ($T_{\mathrm{int}}=6.25$),
+with gravity and frame dragging off ($G=0$, $k_{\mathrm{frame}}=0$).
+Temperature is the internal state variable $T_{\mathrm{int}}$ of the A9$''$
+revision (heat energy $E=C\,m\,T_{\mathrm{int}}$), so ``thermalization''
+here means transport of $T_{\mathrm{int}}$ by the conduction channel
+E10$'$ and by collisions -- not equipartition of translational motion.
+The declared order parameter is the inter-group contrast
+$R(t)=\Delta T(t)/\Delta T(0)$ between the two populations; the judged
+quantity is its decay rate $\lambda$, the least-squares slope of
+$\ln R(t)$.
+
+That choice of judged quantity is itself a documented switch. The first
+version of the harness judged the equilibration time $t_{\mathrm{eq}}$
+inside a 3000-step window and \emph{failed in every condition}: the
+conduction timescale of this system is long -- extrapolating the
+measured decay to $R=0.1$ gives ${\sim}6.8\times10^{4}$ steps. Rather
+than widening the window until the test passed, we replaced the judged
+quantity by the rate $\lambda$, recorded the failed first attempt in the
+harness header (\texttt{tests/exp-4-90.mjs}), and kept the timescale
+itself as the time-window result of the battery (test~6).
+
+\subsection{The six tests}
+
+\emph{Knockout (test 1).} With all thermal channels off
+($\kappa_s=\mu_F=\gamma_n=0$) the contrast is frozen exactly:
+$R=1.0000$, $\lambda=0$ over three seeds. With \emph{only} conduction
+removed ($\kappa_s=0$, collisions on) the rate collapses to the noise
+scale ($|\lambda| \lesssim 2\times10^{-6}$ per step, sign not even
+stable): inter-group transport is carried essentially entirely by the
+conduction channel, while collisions merely dissipate within each
+group. The phenomenon has exactly one load-bearing mechanism, and
+removing it stops the clock.
+
+\emph{Dose response (test 2).} Sweeping $\kappa_s \in \{0.05, 0.15,
+0.45\}$ moves $\lambda$ monotonically and nearly proportionally; the
+global fit below gives an exponent $1.006$.
+
+\emph{Multi-seed (test 3).} Sixteen seeds give $\lambda = 2.45\times
+10^{-5}$--$4.20\times10^{-5}$ per step (spread ratio 1.71, median
+$3.28\times10^{-5}$); no seed fails to relax and no seed relaxes
+without the channel.
+
+\emph{Particle-count scaling (test 4).} At $n=60/120/240$ per side the
+rate increases monotonically. Jointly with the dose sweep the rates
+collapse onto
+\begin{equation}
+\lambda \;\approx\; \lambda_0
+\left(\frac{\kappa_s}{0.15}\right)^{1.006}
+\left(\frac{n}{120}\right)^{1.084},
+\qquad \lambda_0 = 3.28\times10^{-5}\ \text{per step},
+\label{eq:microfit}
+\end{equation}
+i.e.\ proportional to the conduction coefficient and to the grain
+density within a few percent (\texttt{tests/exp-4-91.mjs}).
+
+\emph{Perturbation recovery (test 5).} After equilibration has begun we
+disturb the state twice: (a) re-splitting the temperatures re-starts a
+relaxation with rate ratios $\lambda_2/\lambda_1 = 0.96/1.15/1.20$
+across seeds, and (b) a velocity kick through the application's own
+momentum-conserving injector gives $\lambda_3/\lambda_1 =
+1.10/1.32/1.32$. All ratios sit inside the declared acceptance band
+$[0.5, 2]$: the relaxation is not a one-shot property of the prepared
+initial state but a rate the mechanism re-establishes after arbitrary
+interruptions.
+
+\emph{Time window (test 6).} The honest number is the one that broke
+the first harness: full equilibration takes ${\sim}7\times10^{4}$ steps
+at the default coupling. We report the rate, and we report that the
+timescale is long.
+
+\subsection{A ledger-level prediction}
+
+The battery above establishes robustness; it does not yet show the
+sector is \emph{quantitative} inside the model. For that we use the
+conduction-only configuration ($\mu_F=\gamma_n=k_{\mathrm{rep}}=0$),
+in which the heat $Q=\sum C\,m\,T_{\mathrm{int}}$ should be exactly
+conserved and the equilibrium temperature should be the
+$C\,m$-weighted mean
+\begin{equation}
+T_{\mathrm{eq}} \;=\; \frac{\sum_i C_i m_i T_{0,i}}{\sum_i C_i m_i}.
+\label{eq:teq}
+\end{equation}
+Measured (\texttt{tests/exp-4-93.mjs}, two seeds each): with equal
+masses the prediction is $T_{\mathrm{eq}}=3.13$ and both populations
+approach it monotonically from either side while $Q$ drifts by
+${\sim}10^{-6}$ (relative). The discriminating case is unequal masses
+(left grains at $m=2$): the naive arithmetic mean would remain $3.13$,
+but the ledger predicts $T_{\mathrm{eq}}=2.09$ -- and the measured
+populations bracket and approach $2.09$, again with $Q$ conserved to
+${\sim}10^{-6}$. The prediction is non-trivial (it distinguishes
+mass-weighted from naive averaging) and it is derived from the same
+bookkeeping that the conservation monitor displays in the application.
+In the default, dissipative configuration the same ledger acquires a
+collision-dissipation term; the clean statement is deliberately made in
+the configuration where the channel under test is the only one open.
+
+With the six tests and the ledger prediction, the microscopic sector
+carries the full battery of Sec.~\ref{sec:standard}. What it
+establishes is modest and precise: in this toy universe, inter-group
+thermalization is a genuine, robust consequence of one declared channel,
+with a rate law [Eq.~(\ref{eq:microfit})] and an equilibrium point
+[Eq.~(\ref{eq:teq})] that survive seeds, densities, and perturbations.
+
+% =====================================================================
+\section{Core v2 phase transitions (planned)}
+\label{sec:corev2}
+% PLANNED chapter -- no measured numbers claimed yet.
+% Content per the adopted split: the core-v2 state variables (M_c, R_c, J_core)
+% under contraction; the saturation of the effective dimming
+% lS_eff = min(1, |s| R / c_surf) as the transition marker; the "power-ball"
+% and cavity regimes; which order parameters are declared BEFORE measuring.
+% Gates: the six standard tests of Sec. II, plus conservation ledgers and
+% dt/softening convergence, as in the micro chapter.
+TODO.
+
+% =====================================================================
+\section{The dimming ladder: declared optical classes D0--D6 (planned)}
+\label{sec:dimming}
+% PLANNED chapter. D0--D6 are DECLARED classes of the toy universe's dimming
+% mechanism (from "bright" to "optically dark while dynamically heavy"),
+% not a taxonomy of real objects. The chapter's deliverable is the class
+% definitions, their machine-checkable signatures, and negative controls
+% (dimming decouples from dynamics bit-exactly -- established in the meso
+% chapter of Paper 4).
+TODO.
+
+% =====================================================================
+\section{Design-constraint experiments: deep dimming and disappearance (planned)}
+\label{sec:constraints}
+% PLANNED chapter. Two design-constraint experiments ask what parameter regions
+% of the declared optical classes could produce (i) deep, irregular dimming
+% light curves and (ii) disappearance-like light curves, INSIDE the toy
+% universe. These are design constraints on the model's own classes -- explicitly
+% NOT identifications of any real variable star or any real vanished source,
+% and they are independent of the macro programme of Paper 4 (they gate nothing
+% there and are gated by nothing there).
+TODO.
+
+% =====================================================================
+\section{The hidden-mass ladder}
+\label{sec:ladder}
+% Moved here from the former Paper-4 macro skeleton per the split line
+% (optics/bookkeeping = micro side):
+% - Hidden-mass ladder: true mass / luminosity proxy / Newtonian dynamical
+%   mass v^2 r / G / frame-drag excess; kFrame=0 control. "Dark" and "heavy"
+%   are separated model-internally.
+TODO.
+
+% =====================================================================
+\section{Limitations and negative claims}
+\label{sec:negative}
+% Fixed list (kept in spirit from Papers 1--4):
+%  1. 2D only; no quantitative extrapolation to 3D.
+%  2. No Lorentz invariance; absolute simultaneity; no causal field propagation.
+%  3. Dimming is model-specific (not radiative transfer).
+%  4. The thermal sector is an analogy; no quantitative correspondence to real
+%     thermodynamics (the energy bookkeeping of Sec. III is model-internal).
+%  5. The dimming classes D0--D6 are declared classes of the toy universe;
+%     no identification with any real variable star or vanished source.
+%  6. Dark rotor != dark matter identification (see Paper 4).
+%  7. No astrophysical abundance or formation-rate claims.
+TODO.
+
+% =====================================================================
+\section{Reproducibility}
+\label{sec:repro}
+% Manifest table: phenomenon -> preset id -> harness -> seed set -> window ->
+% commit -> result JSON. Harnesses for the measured chapter: exp-4-90 (micro
+% standard tests), exp-4-91 (micro perturbation recovery + scaling fit),
+% exp-4-93 (equilibrium-temperature prediction). Planned chapters will declare
+% their harnesses before measuring, in the same format.
+TODO.
+
+% =====================================================================
+\section*{Acknowledgments}
+TODO.
+
+% =====================================================================
+\begin{thebibliography}{9}
+\bibitem{paper1} TODO: Paper 1 reference.
+\bibitem{paper2} TODO: Paper 2 reference.
+\bibitem{paper3} TODO: Paper 3 reference.
+\bibitem{paper4} TODO: Paper 4 reference (celestial reproduction).
+\end{thebibliography}
+
+\end{document}

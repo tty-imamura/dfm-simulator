@@ -1,5 +1,19 @@
 % =====================================================================
-% Determinacy-Field Mechanics, Paper 4 -- DRAFT (v0.3, 2026-08-16)
+% Determinacy-Field Mechanics, Paper 4 -- DRAFT (v0.4, 2026-08-24)
+% v0.4 (第191便): Paper 4/5 split (原仮定者裁定 2026-08-24 「論文4/5分割: 採用」) --
+%   theme re-scoped from "Emergence across scales" to CELESTIAL REPRODUCTION
+%   (macro: gravity / dragging / morphology). Changes:
+%   - The micro chapter (internal-spin thermalization; exp-4-90/91/93) and the
+%     hidden-mass ladder move VERBATIM to the new Paper 5 (dfm-paper5.tex).
+%   - NEW Sec. "Solar-system real calibration" (measured): the zero-fit
+%     transcription family (venusReal / marsMoonsReal / plutoCharonReal /
+%     uranusReal / neptuneReal + the jupiterGalilean hold-out), the free-centre
+%     reaction-rule discovery (E6'-R), and the frame-dragging excess series
+%     chi = W/(D0+W): +0.002% / +0.117% / +0.246%, with its measured
+%     direction-independence (wave 188).
+%   - NEW Sec. "A staged programme toward galaxy morphology (plan)": eight target
+%     classes x (observation build with a declared analytic halo vs DFM build
+%     with dark rotors), with pre-declared shared gates. Plan only.
 % v0.3 (第122便): Renumbered Paper 3 -> Paper 4 (原仮定者裁定 2026-08-16 —
 %   Paper 3 is reassigned to the reality-calibration theme, dfm-paper3.tex;
 %   this emergence-across-scales draft moves to Paper 4 unchanged in content).
@@ -7,8 +21,10 @@
 %   landed harness records (exp-4-90/91/93 for micro; the wave-97 re-measured
 %   exp-4-85 + selfRotor sweep records for meso, with an explicit generation
 %   note for the pre-rescaling exp-4-89/92 robustness sweeps).
-% Theme: "Emergence across scales" -- adopted 2026-08-08.
-% Fallback scope (pre-agreed): drop Sec. IV (micro) -> meso+macro only.
+% Theme (v0.3): "Emergence across scales" -- adopted 2026-08-08; re-scoped to
+%   celestial reproduction by the v0.4 split above.
+% Fallback scope (pre-agreed, v0.3): drop Sec. IV (micro) -> meso+macro only.
+%   [superseded by the v0.4 split -- the micro chapter now lives in Paper 5]
 % Status: section skeleton with measured numbers from the harnesses
 %   tests/exp-4-84/85/89/90/91/92/93.mjs (result JSONs recorded per run).
 %   All figures are placeholders; prose is bullet-level and NOT final.
@@ -23,36 +39,41 @@
 
 \begin{document}
 
-\title{Emergence Across Scales in Determinacy-Field Mechanics:\\
-A Graded Standard-Test Methodology from Microspin Thermalization\\
-to Self-Forming Dark Rotors}
+\title{Celestial Reproduction in Determinacy-Field Mechanics:\\
+Zero-Fit Solar-System Transcriptions, Self-Forming Dark Rotors,\\
+and a Graded Standard-Test Programme toward Galaxy Morphology}
 
 % TODO(author): author block as in Papers 1--2.
 \author{...}
-\date{2026-08-11 (draft v0.2)}
+\date{2026-08-24 (draft v0.4)}
 
 \begin{abstract}
 % --- What we claim (skeleton bullets; final prose TODO) ---
-% 1. In a single relational toy universe (DFM, Paper 1) we test "emergent-looking"
-%    phenomena on three scales -- micro (internal-spin temperature), meso
-%    (self-forming compact bodies), macro (galactic-scale signatures) -- with ONE
-%    shared methodology: an emergence grading E0--E3 and six standard tests
-%    (knockout, dose response, multi-seed, particle-count scaling, perturbation
-%    recovery, time window).
-% 2. Micro: inter-group thermalization is a genuine consequence of the conduction
-%    channel (frozen exactly when all thermal channels are off), with decay rate
-%    lambda ~ lambda_0 (kappa_s/0.15)^{1.006} (n/120)^{1.084}, and an equilibrium
-%    temperature predicted by the C*m-weighted ledger.
-% 3. Meso: a heavy, dark, co-rotating centre forms from a uniform cloud without
-%    being placed in the initial conditions; robust over 16 seeds, 4 particle
-%    counts, perturbations, and a factor-4 range of dt; softening sensitivity is
-%    reported honestly (mass fraction shifts at 2x softening).
-% 4. Macro (application): the model-internal separation of "dark" (optical) from
-%    "heavy" (dynamical) via the hidden-mass ladder, and the m=2 disk signature
-%    with its quadrupole contamination controls.
-% --- What we do NOT claim (fixed list, Sec. IX) ---
-%    no real dark matter / black holes / galactic spiral arms / real
-%    thermodynamics; no 3D extrapolation; no cosmological abundances.
+% 1. In a single relational toy universe (DFM, Paper 1), calibrated ONCE against
+%    real ephemerides (Paper 3) and never refit, we pursue celestial reproduction
+%    on the macro side (gravity, dragging, morphology) with one shared
+%    methodology: an emergence grading E0--E3 and six standard tests.
+% 2. Solar-system real calibration (measured): a family of zero-fit observation
+%    transcriptions (Sun--Venus, Mars' moons, Pluto--Charon, Uranus' rings and
+%    moons, Neptune--Triton; Jupiter's Galilean moons as the Paper-3 hold-out)
+%    reproduces observed periods at the 1e-4..1e-3 level at kFrame=0, exposes a
+%    free-centre reaction-rule hole (fixed as E6'-R, with a new drift-
+%    extrapolation self-check), and yields a declared frame-dragging excess
+%    series chi = W/(D0+W): +0.002% (wide) / +0.117% (chi=0.83) / +0.246%
+%    (chi~0.92, close) -- measured to be independent of orbit direction.
+% 3. Meso: a heavy, dark, co-rotating centre (the toy universe's own dark-body
+%    candidate) forms from a uniform cloud without being placed; robust over
+%    16 seeds, 4 particle counts, perturbations, and a factor-4 range of dt;
+%    softening sensitivity is reported honestly.
+% 4. Macro (application): the m=2 disk signature with its quadrupole
+%    contamination controls; and a staged PLAN with pre-declared gates from
+%    binaries to barred spirals (observation builds with a declared analytic
+%    halo vs DFM builds with dark rotors).
+% --- What we do NOT claim (fixed list) ---
+%    no real dark matter / black holes / galactic spiral arms; calibration
+%    agreement is not mechanism identification; no 3D extrapolation; no
+%    cosmological abundances. (The micro sector -- spin thermodynamics and the
+%    optics of dark bodies -- is Paper 5.)
 TODO abstract.
 \end{abstract}
 
@@ -71,30 +92,42 @@ universe, and none of the phenomena below are claims about real
 astrophysical objects (Sec.~\ref{sec:negative}). Paper 1 established the
 foundations and their weak-field benchmarks; Paper 2 confined the model
 to a finite ``box universe'' and studied expansion, time, and light
-\cite{paper2}.
+\cite{paper2}; Paper 3 calibrated the weak-field sector against real
+ephemerides under an explicit ``calibration agreement is not mechanism
+identification'' philosophy \cite{paper3}.
 
-This paper asks a question that spans scales rather than sectors:
-\emph{when a toy universe with only simple local rules produces
-structure that looks emergent -- thermal equilibration among grains, a
-heavy dark rotating centre grown from a uniform cloud, galactic-looking
-disk signatures -- how do we tell robust emergence from a fixed-seed
-accident?} Our answer is methodological before it is physical. We fix a
-grading scheme (E0--E3) and a battery of six standard tests
-(Sec.~\ref{sec:standard}), and we apply the same battery on three
-scales: microscopic thermalization of an internal-spin temperature
-(Sec.~\ref{sec:micro}), meso-scale self-formation of a compact dark
-rotor (Sec.~\ref{sec:meso}), and macro-scale disk signatures treated
-strictly as an application (Sec.~\ref{sec:macro}).
+This paper asks the macro question of the series: \emph{can a toy
+universe that was calibrated once against real ephemerides (Paper 3)
+reproduce celestial systems from transcribed observations -- with zero
+per-system fits -- and how far up the ladder of structure can that reach
+under pre-declared gates?} Our answer is methodological before it is
+physical. We fix a grading scheme (E0--E3) and a battery of six standard
+tests (Sec.~\ref{sec:standard}); we anchor the paper in a family of
+zero-fit solar-system transcriptions whose disagreements are declared
+rather than fitted away (Sec.~\ref{sec:solar}); we keep the meso-scale
+self-formation of a compact dark rotor -- the toy universe's own
+dark-body candidate -- under the same battery (Sec.~\ref{sec:meso}); we
+treat macro-scale disk signatures strictly as an application
+(Sec.~\ref{sec:macro}); and we state, as a plan with gates declared
+before any measurement, the staged programme from binaries to barred
+spirals (Sec.~\ref{sec:plan}). The micro sector of the former joint
+draft -- internal-spin thermodynamics and the optics of dark bodies --
+now lives in Paper~5 \cite{paper5}; the split line is mechanism-based:
+Paper 4 = gravity, dragging and morphology (macro); Paper 5 = spin, heat
+and optics (micro).
 
 The guiding principle throughout is that \emph{a single beautiful run is
 the weakest form of evidence}. Accordingly, the results below include
-their own failures: an order parameter that had to be replaced after its
-first version proved unmeasurable, a mass fraction that is honestly
-sensitive to the softening length, an alignment timescale that outgrows
-its measurement window as the particle count rises, and a heat ledger
-that is only conserved once a work channel is identified and switched
-off. We consider these records part of the result: they are what
-distinguishes a laboratory from a gallery.
+their own failures: an orbit that the legacy reaction rule destroys
+within a single revolution (and the self-check that now catches that
+class of failure before adoption), ring masses that have no source and
+are therefore carried as declared test particles, a dragging excess of
+order $10^{-3}$ that the observations do not show and that we declare
+rather than fit away, a mass fraction that is honestly sensitive to the
+softening length, and an alignment timescale that outgrows its
+measurement window as the particle count rises. We consider these
+records part of the result: they are what distinguishes a laboratory
+from a gallery.
 
 % =====================================================================
 \section{Model additions relevant to structure formation}
@@ -177,7 +210,8 @@ mechanism.
 Two reporting rules bind all six tests. First, order parameters are
 declared before testing; switching the judged quantity after a failed
 run is recorded in the harness header when it happens (it happened twice
-in this study -- Secs.~\ref{sec:micro} and \ref{sec:meso} -- and both
+across this paper pair -- in the meso study below, Sec.~\ref{sec:meso},
+and in the micro study of Paper~5 -- and both
 switches are documented with the failed first attempt). Second, negative
 and partial results are published in the same format as positive ones:
 each sample's user interface carries a ``what did not hold'' list, and
@@ -186,148 +220,106 @@ Sec.~\ref{sec:negative}.
 
 Every test in this section runs headless from a version-controlled
 harness (Sec.~\ref{sec:repro}); the numbers quoted in
-Secs.~\ref{sec:micro}--\ref{sec:robust} are the outputs of those
-harnesses, not of interactive runs.
+Secs.~\ref{sec:solar}--\ref{sec:robust} are the outputs of those
+harnesses and of the machine-checked QA gates named in the text, not of
+interactive runs.
 
 % =====================================================================
-\section{Micro scale: thermalization of the internal-spin temperature}
-\label{sec:micro}
-% System: two-box gas (cold T_int=0.01 left, hot 6.25 right; 120+120 grains,
-%   identical masses/speeds; G=0, kFrame=0). Order parameter: R(t) =
-%   DeltaT(t)/DeltaT(0) between the two populations; primary judged quantity is
-%   the decay rate lambda (least-squares slope of ln R).
-% Measured (tests/exp-4-90.mjs, exp-4-91.mjs; 2026-08-08):
-%   - knockout (kappa_s = mu_F = gamma_n = 0): R = 1.0000, lambda = 0 (frozen).
-%   - single knockout kappa_s = 0: lambda ~ 0 -- inter-group transport is
-%     carried (almost) entirely by conduction; collisions only dissipate
-%     within groups.
-%   - dose response: kappa_s in {0.05, 0.15, 0.45} -> lambda monotone,
-%     nearly proportional.
-%   - multi-seed 16: lambda = 2.45e-5 .. 4.20e-5 per step (spread ratio 1.71).
-%   - n scaling 60/120/240 per side: lambda monotone increasing.
-%   - scaling fit: lambda ~ lambda_0 (kappa_s/0.15)^{1.006} (n/120)^{1.084},
-%     lambda_0 = 3.28e-5 per step.
-%   - time window: equilibration to R=0.1 extrapolates to ~6.8e4 steps --
-%     the conduction timescale is LONG; this is itself a time-window result
-%     (the first version of the harness judged t_eq inside a 3000-step window
-%     and failed; the switch of order parameter to lambda is recorded in the
-%     harness header).
-%   - perturbation recovery (5): temperature re-split -> lambda2/lambda1 =
-%     0.96/1.15/1.20; velocity kick via the app's official injector ->
-%     lambda3/lambda1 = 1.10/1.32/1.32 (all within [0.5, 2]).
-%   - equilibrium-temperature prediction (tests/exp-4-93.mjs): landed 2026-08-08;
-%     numbers now in prose below.
-% Figures: R(t) curves; lambda vs kappa_s and vs n (log-log with slopes) -- TODO.
-% [第100便: 本文起こし — 数値は tests/out/exp-4-90/91/93.json の実測そのまま。
-%  本サンプルは G=0 の分子系なので第96〜97便の c₀=30 再パラメータ化の影響を受けない
-%  (力学 bit 不変) — 旧実測値がそのまま正である]
+\section{Solar-system real calibration: zero-fit transcriptions}
+\label{sec:solar}
+% [第191便: measured section. Every number below is a committed value: the
+%  built-in presets venusReal / marsMoonsReal / plutoCharonReal / uranusReal /
+%  neptuneReal (beta/index.html), their source table
+%  paper/data/solar-observations.csv (archived URLs per row), and the QA gates
+%  behavior.venusReal / .marsMoonsReal / .plutoCharonReal / .uranusReal /
+%  .neptuneReal and ai.obs-* (transcription path). Prose is first-pass.]
 
-\subsection{System and order parameter}
+\subsection{The transcription contract}
 
-The microscopic testbed is deliberately minimal: a closed box of
-$120+120$ identical grains, prepared as a cold population on the left
-($T_{\mathrm{int}}=0.01$) and a hot one on the right ($T_{\mathrm{int}}=6.25$),
-with gravity and frame dragging off ($G=0$, $k_{\mathrm{frame}}=0$).
-Temperature is the internal state variable $T_{\mathrm{int}}$ of the A9$''$
-revision (heat energy $E=C\,m\,T_{\mathrm{int}}$), so ``thermalization''
-here means transport of $T_{\mathrm{int}}$ by the conduction channel
-E10$'$ and by collisions -- not equipartition of translational motion.
-The declared order parameter is the inter-group contrast
-$R(t)=\Delta T(t)/\Delta T(0)$ between the two populations; the judged
-quantity is its decay rate $\lambda$, the least-squares slope of
-$\ln R(t)$.
+Before any galaxy is attempted, the calibrated sector must survive
+contact with systems it was never fitted to. The application carries a
+deterministic transcription path: a table of observation records (each
+row a single measured quantity with its source and the URL actually
+consulted) is converted -- by declared, deterministic functions and by
+nothing else -- into a running two-dimensional system. Per-sample real
+units are declared as scale exponents constrained to the one-parameter
+family $L-T=4$, $M+2T-3L=11$, which preserves the real constants
+($G$, $c_0$, $\kappa=G/c_0^2$); the qLock falloff $q$ is the exact-form
+value $q_{\mathrm{exact}}$ evaluated once at a declared reference orbit;
+the shared correction $D_0=0.006$ is reused from the lunar calibration
+of Paper 3 \emph{with zero per-system refits}; and initial speeds are
+the real Kepler speeds with calibration factor exactly $1.000$. Each
+build must pass its own self-diagnosis (a 400-step trial comparing
+estimated against transcribed periods at $\pm1\%$) or it is rejected.
+Idealizations -- two-dimensional equatorial placement, circularization
+where no eccentricity is sourced, test-particle demotion where masses
+fall below the value floor -- are declared per sample, never silent.
 
-That choice of judged quantity is itself a documented switch. The first
-version of the harness judged the equilibration time $t_{\mathrm{eq}}$
-inside a 3000-step window and \emph{failed in every condition}: the
-conduction timescale of this system is long -- extrapolating the
-measured decay to $R=0.1$ gives ${\sim}6.8\times10^{4}$ steps. Rather
-than widening the window until the test passed, we replaced the judged
-quantity by the rate $\lambda$, recorded the failed first attempt in the
-harness header (\texttt{tests/exp-4-90.mjs}), and kept the timescale
-itself as the time-window result of the battery (test~6).
+\subsection{The family, and what it measured}
 
-\subsection{The six tests}
+Six systems are carried as built-in, machine-checked samples: the
+Jupiter--Galilean system (the hold-out of Paper 3), Sun--Venus, Mars
+with Phobos and Deimos (a declared test-particle transcription),
+Pluto--Charon (a barycentric pair whose barycentre lies outside the
+primary), Uranus with its main rings and five major moons, and
+Neptune--Triton (a retrograde-moon pair). Three measured results
+deserve statement here.
 
-\emph{Knockout (test 1).} With all thermal channels off
-($\kappa_s=\mu_F=\gamma_n=0$) the contrast is frozen exactly:
-$R=1.0000$, $\lambda=0$ over three seeds. With \emph{only} conduction
-removed ($\kappa_s=0$, collisions on) the rate collapses to the noise
-scale ($|\lambda| \lesssim 2\times10^{-6}$ per step, sign not even
-stable): inter-group transport is carried essentially entirely by the
-conduction channel, while collisions merely dissipate within each
-group. The phenomenon has exactly one load-bearing mechanism, and
-removing it stops the clock.
+\emph{A structural discovery.} Free-centre two-body transcriptions run
+under the engine's legacy reaction rule -- which presumes a pinned
+dominant body as the reaction reservoir -- are destroyed within a
+single orbit when $\chi = W/(D_0+W) \rightarrow 1$ (the Sun--Venus
+transcription showed a 45\% radius wobble and no completed revolution).
+The fix is structural, not a fit: barycentric pairs are built under the
+pair-reduced reaction rule E6$'$-R, and the self-diagnosis gained a
+drift-extrapolation check (two-body only) that projects the trial-window
+period drift over one orbit and rejects the legacy build at a projected
+$1.47\%$ -- a negative control that is itself part of the QA suite.
+With the rule fixed, the Venus year lands at 224.706~d against the
+observed 224.701~d ($+0.0020\%$).
 
-\emph{Dose response (test 2).} Sweeping $\kappa_s \in \{0.05, 0.15,
-0.45\}$ moves $\lambda$ monotonically and nearly proportionally; the
-global fit below gives an exponent $1.006$.
+\emph{A declared dragging excess, and its $\chi$ series.} At
+$k_{\mathrm{frame}}=0$ the transcriptions reproduce the observed
+periods at the $10^{-4}$--$10^{-3}$ level (Neptune--Triton: 5.87741~d
+against the observed 5.876854~d, $+0.009\%$). Under the template
+convention $k_{\mathrm{frame}}=1$ the motion-dragging term E6$'$ lifts
+the periods by an amount the observations do not show, and we declare
+it instead of absorbing it: $+0.002\%$ for Sun--Venus ($\chi\approx1.0$
+but wide), $+0.117\%$ for Neptune--Triton ($\chi=0.83$),
+$+0.246\%$ for Pluto--Charon ($\chi\approx0.92$, close) -- a series in
+which both $\chi$ and orbital closeness matter. This series is the
+measured base of the ``dragging versus observation'' tension that the
+galactic programme (Sec.~\ref{sec:plan}) must confront honestly.
 
-\emph{Multi-seed (test 3).} Sixteen seeds give $\lambda = 2.45\times
-10^{-5}$--$4.20\times10^{-5}$ per step (spread ratio 1.71, median
-$3.28\times10^{-5}$); no seed fails to relax and no seed relaxes
-without the channel.
+\emph{Direction independence.} The Neptune--Triton pair is built
+retrograde, as observed: an orbital inclination above $\pi/2$
+(Triton: $157.345^{\circ} = 2.746188$~rad, transcribed from the source
+table) is carried deterministically as the orbit direction, flipping
+only the tangential speeds -- the out-of-plane tilt is ignored and
+declared. The measured periods and radius wobbles of the retrograde
+build are identical, at measurement precision, to the prograde build at
+both $k_{\mathrm{frame}}$ settings: in this system the dragging excess
+does not depend on the orbit direction. We record this without
+attributing a mechanism.
 
-\emph{Particle-count scaling (test 4).} At $n=60/120/240$ per side the
-rate increases monotonically. Jointly with the dose sweep the rates
-collapse onto
-\begin{equation}
-\lambda \;\approx\; \lambda_0
-\left(\frac{\kappa_s}{0.15}\right)^{1.006}
-\left(\frac{n}{120}\right)^{1.084},
-\qquad \lambda_0 = 3.28\times10^{-5}\ \text{per step},
-\label{eq:microfit}
-\end{equation}
-i.e.\ proportional to the conduction coefficient and to the grain
-density within a few percent (\texttt{tests/exp-4-91.mjs}).
+Two honest gaps remain declared rather than patched: the Uranian ring
+masses have no committed source, so the ring particles are carried as
+declared test masses at the value floor (their radial structure is
+still transcribed and retained to $0.0169$ units at
+$k_{\mathrm{frame}}=1$ over the measured window, against $0.968$ units
+in the $k_{\mathrm{frame}}=0$ control -- recorded, unattributed); and
+the transcription path is two-dimensional by construction, so
+inclinations enter only as the orbit direction.
 
-\emph{Perturbation recovery (test 5).} After equilibration has begun we
-disturb the state twice: (a) re-splitting the temperatures re-starts a
-relaxation with rate ratios $\lambda_2/\lambda_1 = 0.96/1.15/1.20$
-across seeds, and (b) a velocity kick through the application's own
-momentum-conserving injector gives $\lambda_3/\lambda_1 =
-1.10/1.32/1.32$. All ratios sit inside the declared acceptance band
-$[0.5, 2]$: the relaxation is not a one-shot property of the prepared
-initial state but a rate the mechanism re-establishes after arbitrary
-interruptions.
+\subsection{What this section claims}
 
-\emph{Time window (test 6).} The honest number is the one that broke
-the first harness: full equilibration takes ${\sim}7\times10^{4}$ steps
-at the default coupling. We report the rate, and we report that the
-timescale is long.
-
-\subsection{A ledger-level prediction}
-
-The battery above establishes robustness; it does not yet show the
-sector is \emph{quantitative} inside the model. For that we use the
-conduction-only configuration ($\mu_F=\gamma_n=k_{\mathrm{rep}}=0$),
-in which the heat $Q=\sum C\,m\,T_{\mathrm{int}}$ should be exactly
-conserved and the equilibrium temperature should be the
-$C\,m$-weighted mean
-\begin{equation}
-T_{\mathrm{eq}} \;=\; \frac{\sum_i C_i m_i T_{0,i}}{\sum_i C_i m_i}.
-\label{eq:teq}
-\end{equation}
-Measured (\texttt{tests/exp-4-93.mjs}, two seeds each): with equal
-masses the prediction is $T_{\mathrm{eq}}=3.13$ and both populations
-approach it monotonically from either side while $Q$ drifts by
-${\sim}10^{-6}$ (relative). The discriminating case is unequal masses
-(left grains at $m=2$): the naive arithmetic mean would remain $3.13$,
-but the ledger predicts $T_{\mathrm{eq}}=2.09$ -- and the measured
-populations bracket and approach $2.09$, again with $Q$ conserved to
-${\sim}10^{-6}$. The prediction is non-trivial (it distinguishes
-mass-weighted from naive averaging) and it is derived from the same
-bookkeeping that the conservation monitor displays in the application.
-In the default, dissipative configuration the same ledger acquires a
-collision-dissipation term; the clean statement is deliberately made in
-the configuration where the channel under test is the only one open.
-
-With the six tests and the ledger prediction, the microscopic sector
-carries the full battery of Sec.~\ref{sec:standard}. What it
-establishes is modest and precise: in this toy universe, inter-group
-thermalization is a genuine, robust consequence of one declared channel,
-with a rate law [Eq.~(\ref{eq:microfit})] and an equilibrium point
-[Eq.~(\ref{eq:teq})] that survive seeds, densities, and perturbations.
+The claim is deliberately narrow: a weak-field sector calibrated once,
+plus a deterministic transcription contract, reproduces solar-system
+periods at the $10^{-4}$--$10^{-3}$ level with zero per-system fits,
+and its residual disagreements are declared, sized, and traced to a
+named term. Calibration agreement is not mechanism identification
+(Paper 3); nothing here claims the real solar system contains the
+model's dragging term.
 
 % =====================================================================
 \section{Meso scale: the self-forming dark rotor}
@@ -523,18 +515,58 @@ grading of Sec.~\ref{sec:standard} this is E3: robust emergence --
 sky (Sec.~\ref{sec:negative}).
 
 % =====================================================================
-\section{Macro scale: hidden mass and disk signatures (application)}
+\section{Macro scale: disk signatures (application)}
 \label{sec:macro}
 % Deliberately framed as APPLICATION, not headline result.
-% - Hidden-mass ladder: true mass / luminosity proxy / Newtonian dynamical
-%   mass v^2 r / G / frame-drag excess; kFrame=0 control. "Dark" and "heavy"
-%   are separated model-internally.
+% (v0.4: the hidden-mass ladder moved to Paper 5 per the split line --
+%  optics/bookkeeping is the micro side.)
 % - m=2 disk signature: spin dose response 0->1->2->3 on top of the
 %   quadrupole contamination of the two-rotor placement (spin-0 control keeps
 %   a weak m=2); multipole-controlled variants listed as future work (EXT-15).
 % - Wording rule: "what toy-model signature a self-formed/defined rotor
 %   imprints on a surrounding disk" -- never "explains galaxies".
 TODO.
+
+% =====================================================================
+\section{A staged programme toward galaxy morphology (plan)}
+\label{sec:plan}
+% [第191便: PLAN section -- no results are claimed here; every gate is declared
+%  before any measurement, in the spirit of Sec. II.]
+
+This section is a plan, stated with its gates before any measurement,
+and it claims no results. Eight target classes are staged in order of
+increasing structure: an ordinary-star binary, a binary pulsar, a
+black-hole binary, a globular cluster (with a dwarf-spheroidal
+discriminating insert), an elliptical, a lenticular, a spiral, and a
+barred spiral. Each class is built twice from transcribed observations:
+an \emph{observation-reproduction build}, which includes a declared
+analytic dark-halo term wherever the standard analysis of that class
+requires one (with the halo knockout as its control; the binaries serve
+as negative controls, since no halo is expected at that scale), and a
+\emph{DFM build}, which replaces the halo by the toy universe's own
+dark rotors (Sec.~\ref{sec:meso}) and is graded by the same standard.
+
+All stages share one gate battery, fixed in advance: zero NaN and zero
+clamping; conservation ledgers closed; convergence under halving of the
+timestep and of the softening length; multi-seed reproduction;
+perturbation recovery; declared time windows; knockout controls (halo,
+rotor, and $k_{\mathrm{frame}}$); monotone dose responses where a driver
+is claimed; held-out data judged only after the build is frozen; and a
+four-value claim label on every published number. Three non-goals are
+declared now: black-hole binaries stop before merger and no waveform
+matching is attempted; the binary pulsar's orbital decay enters the
+observation build only as an external bookkeeping term, never as an
+engine axiom; and bar or arm responses driven by paired rotors are
+labelled forced-$m{=}2$ controls, not spontaneous formation. The shared
+correction $D_0$ is never refit per galaxy.
+
+Three prerequisites precede stage one: a generalized observation schema
+for equal-mass binaries (free centres under E6$'$-R -- the reaction rule
+whose necessity Sec.~\ref{sec:solar} established), an analytic halo kit
+for the observation builds, and an error/held-out declaration extending
+the per-sample parameter audit. The dragging-excess series of
+Sec.~\ref{sec:solar} is carried forward as the standing tension every
+stage must report against its own observations.
 
 % =====================================================================
 \section{Numerical robustness summary}
@@ -558,8 +590,13 @@ TODO.
 %  7. Dark rotor != dark matter identification.
 %  8. DFM black-hole analogue != GR black hole.
 %  9. No astrophysical abundance or formation-rate claims.
-% 10. Thermal sector is an analogy; no quantitative correspondence to real
-%     thermodynamics (the energy bookkeeping of Sec. IV is model-internal).
+% 10. Transcriptions are 2D and equatorial: an inclination above pi/2 is
+%     carried as the retrograde orbit direction ONLY; tilts, third-body
+%     perturbations and epochs are idealized as declared per sample.
+% 11. Calibration agreement is not mechanism identification (Paper 3); the
+%     dragging-excess series is declared, not evidence for dragging in the
+%     real solar system.
+% (The thermal-analogy limitation moved to Paper 5 with the micro sector.)
 TODO.
 
 % =====================================================================
@@ -570,9 +607,12 @@ TODO.
 % (QA_TARGET=... node tests/exp-4-XX.mjs); the app itself is a single HTML
 % file with 396+ machine-checked QA gates.
 % Harness list for this paper: exp-4-84 (knockout/dose), exp-4-85 (multi-seed/
-% n-scaling/perturbation/time-window), exp-4-89 (dt/softening), exp-4-90
-% (micro standard tests), exp-4-91 (micro perturbation recovery + scaling fit),
-% exp-4-92 (n=720), exp-4-93 (equilibrium-temperature prediction).
+% n-scaling/perturbation/time-window), exp-4-89 (dt/softening), exp-4-92
+% (n=720). Solar-calibration section: the transcription path QA (ai.obs-*),
+% the per-sample QA gates behavior.venusReal / .marsMoonsReal /
+% .plutoCharonReal / .uranusReal / .neptuneReal, and the committed source
+% table paper/data/solar-observations.csv (archived URL per row).
+% (exp-4-90/91/93 -- the micro harnesses -- are cited from Paper 5.)
 TODO.
 
 % =====================================================================
@@ -584,6 +624,8 @@ TODO.
 \begin{thebibliography}{9}
 \bibitem{paper1} TODO: Paper 1 reference.
 \bibitem{paper2} TODO: Paper 2 reference.
+\bibitem{paper3} TODO: Paper 3 reference (reality calibration).
+\bibitem{paper5} TODO: Paper 5 reference (micro-scale phase transitions).
 \end{thebibliography}
 
 \end{document}
