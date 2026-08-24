@@ -22,7 +22,10 @@
 //
 // 既定対象を beta/index.html にしてある理由(重要):
 //   採用直値 6.1471 / 8.2358 / 20.4932 / 12.0586 を**宣言している**のは第172便以降の
-//   beta/index.html だけである(root index.html は凍結された q* 世代 — 6.16 / 8.25 / 21.8 / 12.30)。
+//   beta/index.html である。本便の起草時点(第180便)の root index.html は凍結された q* 世代
+//   (6.16 / 8.25 / 21.8 / 12.30)だったが、v1.42.0 Release 昇格(第182〜183便)で root も
+//   採用直値世代になった(第183便申し送りの記述更新 — 判定・数値は不変)。既定対象は従来どおり
+//   beta のまま: 実測正本は開発線 beta で更新し、root は Release 昇格でのみ変わる。
 //   本便は「採用直値を手で打たない」ため、走らせる q を **対象 HTML のプリセット宣言から機械読取**
 //   した値と ROUND4(q_exact) の**両方に対して**厳密一致照合してから走らせる(RW2)。
 //   なお基線再測(kF0・q* 走行)は既存実測正本 kf1c/kf1d/jupiter とビット一致することを RW3 で
@@ -170,9 +173,9 @@ const targetConsistency = {
     targetSha256: e.targetSha256, sameAsNow: e.targetSha256 === TARGET_SHA_NOW })),
   allSame: provenanceInputs.every((e) => e.targetSha256 === TARGET_SHA_NOW),
   note: '入力 JSON の実測を出した対象 HTML の SHA-256 と、本便が実測する対象の照合。' +
-    '本便の既定対象は**採用直値を宣言している** beta/index.html なので、q* 世代の root で' +
-    '測られた既存正本とは対象 SHA が一致しない(allSame=false が既定)。それでも RW3 の' +
-    'ビット一致が成立していれば、測定器の転記と物理カーネルが同一実体であることの証拠になる',
+    '本便の既定対象は beta/index.html なので、既存正本(当時の root — 起草時点は q* 世代。' +
+    'v1.42.0 以降は root も採用直値世代)とは対象 SHA が一致しない(allSame=false が既定)。' +
+    'それでも RW3 のビット一致が成立していれば、測定器の転記と物理カーネルが同一実体であることの証拠になる',
 };
 
 // ==================== qLock 則と厳密一致式(exp-qexact.mjs から逐語転記)====================
