@@ -6354,7 +6354,7 @@ if (!FAST) {
         && u.kf1.ringWorst !== null && u.kf1.ringWorst > 0.001 && u.kf1.ringWorst < 0.1
         && u.kf0.ringWorst > 0.5 && u.kf0.ringWorst < 3
         && u.kf1.dir.every((x) => x === 1),
-        `宣言=${declOk}(fidelity=real・L6/T2/M25・κ=G/c₀²・環11帯=テスト質量1e-6・ts=30/dm=1〔宣言つき調整〕・pinned) / ` +
+        `宣言=${declOk}(fidelity=real・L6/T2/M25・κ=G/c₀²・環11帯=下限質量1e-6〔出典つき実質量は下限未満 — 第192便宣言〕・ts=30/dm=1〔宣言つき調整〕・pinned) / ` +
         `kFrame=1(2ミランダ公転窓): ミランダ ${tM === null ? '—' : tM.toFixed(5) + '日'}(観測 1.413479・宣言 1.41450)・` +
         `アリエル ${tA === null ? '—' : tA.toFixed(5) + '日'}(観測 2.520379・宣言 2.52000) / ` +
         `環88粒の半径保持: kF1 最大 ${u.kf1.ringWorst.toFixed(4)}単位(宣言 0.0169)/ kF0 対照 ${u.kf0.ringWorst.toFixed(3)}単位(宣言 0.968 — 記録のみ・機構帰属せず) / ` +
@@ -8960,6 +8960,59 @@ if (!FAST) {
       console.log('SKIP claims.mainline(対象に role/parameterAudit なし — 第133便 未適用の root 等)');
     }
 
+    // ---- 第193便(原仮定者裁定 2026-08-25「MAIN 拡張: C(二層化)」): claims.obs-family ----
+    // MAIN(主力較正8 — フィットを持つ較正の正本)は**不変**のまま、観測転写ファミリー6本を
+    // 第二の凍結リスト OBS_FAMILY として機械固定する。リストの定義そのものが「ゼロフィット」:
+    // 各 preset の parameterAudit.fitted は「共有値の流用宣言」1件だけ(新規フィットなし)。
+    // 否定対照: 実フィット2ノブ(D₀ と f=0.9968)を宣言する 🌘KF1 は流用述語を通らない。
+    const hasObsFam = await page.evaluate(() => Array.isArray(window.HP && HP.OBS_FAMILY) && !!HP.ROLE_CLASSES);
+    if (hasObsFam) {
+      const of = await page.evaluate(() => {
+        const EXP = ['jupiterGalilean', 'venusReal', 'marsMoonsReal', 'plutoCharonReal', 'uranusReal', 'neptuneReal'];
+        const PA_KEYS = ['observedInputs', 'fixedConventions', 'fitted', 'derived', 'numerical'];
+        const bad = [], rows = [];
+        if (JSON.stringify(HP.OBS_FAMILY) !== JSON.stringify(EXP)) bad.push('OBS_FAMILY が期待6本と一致しない: ' + JSON.stringify(HP.OBS_FAMILY));
+        const reuse = (t) => /流用|そのまま使用/.test(String(t)) && /ゼロ/.test(String(t));
+        for (const id of EXP) {
+          const p = HP.allPresets().find((q) => q.id === id);
+          if (!p) { rows.push(id + '=なし'); bad.push(id + ' が無い'); continue; }
+          const cl = Array.isArray(p.claims) ? p.claims : [];
+          const roleOk = cl.length > 0 && cl.every((c) => HP.ROLE_CLASSES.indexOf(c.role) >= 0);
+          const pa = p.parameterAudit;
+          const paOk = !!pa && typeof pa === 'object' && !Array.isArray(pa) && Array.isArray(pa.fitted)
+            && Object.keys(pa).every((k) => PA_KEYS.indexOf(k) >= 0)
+            && Object.keys(pa).every((k) => Array.isArray(pa[k]) && pa[k].every((t) => typeof t === 'string' && t.trim()));
+          const fitOk = paOk && pa.fitted.length === 1 && reuse(pa.fitted[0]);
+          const paEn = p.en && p.en.parameterAudit;
+          const enOk = !!paEn && PA_KEYS.every((k) => (Array.isArray(pa[k]) ? pa[k].length : 0)
+            === (Array.isArray(paEn[k]) ? paEn[k].length : 0));
+          if (!roleOk) bad.push(id + ': claims/role が不備');
+          if (!paOk) bad.push(id + ': parameterAudit の型が不備');
+          if (!fitOk) bad.push(id + ': fitted が「共有値の流用宣言1件」でない');
+          if (!enOk) bad.push(id + ': en 版 parameterAudit の件数が ja と不一致');
+          if (p.fidelity !== 'real') bad.push(id + ': fidelity が real でない');
+          rows.push(id + '=' + cl.length + '件');
+        }
+        const em = HP.allPresets().find((q) => q.id === 'earthMoonRealKF1');
+        const emFit = em && em.parameterAudit && em.parameterAudit.fitted;
+        if (!(Array.isArray(emFit) && !(emFit.length === 1 && reuse(emFit[0]))))
+          bad.push('否定対照が成立しない(🌘KF1 の実フィット宣言が流用述語を通った)');
+        const MAIN = ['mercuryReal', 'mercuryRealKF1', 'earthMoonReal', 'earthMoonRealKF1',
+          'saturnRingReal', 'saturnRingRealKF1', 'solarInner', 'saturnZonalD68'];
+        if (EXP.some((id) => MAIN.indexOf(id) >= 0)) bad.push('OBS_FAMILY と MAIN が交わっている(二層が崩れた)');
+        return { bad, rows };
+      });
+      add('claims.obs-family', of.bad.length === 0,
+        `二層化(C案 — 原仮定者裁定 2026-08-25): MAIN=8(較正の正本)は不変のまま、観測転写ファミリー`
+        + `6本を第二の凍結リストとして機械固定(${of.rows.join('・')}) / `
+        + `定義=全て fidelity:"real"・claims/role/parameterAudit 完備・fitted は共有値の流用宣言1件のみ`
+        + `(新規フィット0)・en 件数一致・MAIN と交わらない / `
+        + `否定対照: 実フィット2ノブ(D₀・f=0.9968)の 🌘KF1 は流用述語を通らない`
+        + `${of.bad.length ? ' NG=[' + of.bad.slice(0, 6).join(' / ') + ']' : ''}`);
+    } else {
+      console.log('SKIP claims.obs-family(対象に OBS_FAMILY なし — 第193便 未適用の root 等)');
+    }
+
     // ---- 第133便 P0/P1: claims.role-audit(role・parameterAudit の型検査つきパススルー)----
     // どちらも**宣言専用**(表示のみ)なので、validatePreset は正しい宣言を往復保全し、
     // 不正な宣言は警告つきで落とすこと・AI 仕様(SYSTEM_PROMPT)には載っていないことを固定する。
@@ -10204,6 +10257,14 @@ if (!FAST) {
           || !clEn2.includes('SELF-CHECK BEFORE YOU OUTPUT (OUTPUT B)')
           || !clEn2.includes('rIn, rOut') || !clEn2.includes('7.415555555555556e-9'))
           bad.push('en 節に出力Bの実在系規約/自己チェックが無い');
+        // 第194便(原仮定者指摘の確認): 出力Aの環除外は「黙って落とす」を禁じ、宣言つき省略+
+        // 出力Bへの導線を明文化していること(実機の Grok 天王星「環なし」事例の恒久対策)
+        if (HP.OBS_FAMILY !== undefined) {
+          if (!cl.includes('黙って落とさない') || !cl.includes('実在系の近似」の担当'))
+            bad.push('ja 節に環の宣言つき省略規約(第194便)が無い');
+          if (!clEn2.includes('never drop them silently'))
+            bad.push('en 節に環の宣言つき省略規約(第194便)が無い');
+        }
       }
       // 第182便(原仮定者指示「内蔵の実天体サンプル項目を撤去」に伴う**検査対象の変更**):
       //   旧: 「内蔵一覧の節が全カタログ系を挙げている」— 節そのものが撤去されたので検査不能。
