@@ -148,6 +148,19 @@ Exactly one preset that follows the specification above. Even when approximating
   WRONG: {"type":"single","m":800,"x":0,"y":0,"vx":2,"vy":0,…} + {"type":"disk",…,"vMode":"kepler","aroundMass":800} (no bulkVx) -> the core flies away and leaves the disc behind.
   RIGHT: the same disk with "bulkVx":2,"bulkVy":0.
 
+## REAL-SYSTEM APPROXIMATION (OUTPUT B)
+For a real system that OUTPUT A cannot express (planetary rings, discs, continuous distributions):
+- Keep the transcription discipline: take the central body's mass/radius/rotation and the feature radii (ring edges, orbital radii) from sources you actually opened, cite them in "description", and claim no accuracy beyond that.
+- Declare per-sample real units as "scaleExp":{"L":<L>,"T":<L-4>,"M":<L+19>}. The convention L-T=4 and M+2T-3L=11 is what keeps the real constants (G=6.674, c0=3e4) — any other T or M is flagged by the importer. Pick L so the central body's radius lands between 0.01 and 100 units.
+- With scaleExp declared, use "G":6.674, "cLight":30000 and "kappaT":7.415555555555556e-9 (=G/c0^2) — not the toy defaults of "# EXAMPLE".
+- Ring features become "ring" groups (vMode:"kepler", aroundMass = the central body's m in the SAME units) at the real radii; masses you cannot source stay tiny (1e-6 per particle) and "description" says so.
+
+## SELF-CHECK BEFORE YOU OUTPUT (OUTPUT B)
+1. Every body carries EXACTLY the keys of its type from the specification — for "ring" that is n, cx, cy, rIn, rOut, mMin, mMax, spinMin, spinMax, vMode, aroundMass, omega, vNoise, direction, pinned. Never invent keys: r, dr or a flat m on a ring are rejected by the importer.
+2. Every vMode:"kepler" group declares aroundMass equal to the central body's m (same units).
+3. If you declared scaleExp: T=L-4 and M=L+19 hold, and kappaT is 7.415555555555556e-9.
+4. Exactly one JSON object, keys from the specification only, no prose around it.
+
 ## scaleTier REFERENCE (machine-transcribed from the app's own defaults)
 | scaleTier | 1 length unit [m] | 1 time unit [s] | 1 mass unit [kg] | c display exponent |
 |---|---|---|---|---|
@@ -515,6 +528,19 @@ mass・semi_major_axis・orbital_period について複数出典が 1% を超え
 - **移動する中心の従属体**: vx,vy を持つ single の周りに ring/disk を置くときは、必ず**同じ値**を bulkVx,bulkVy に与えてください。
   失敗例: {"type":"single","m":800,"x":0,"y":0,"vx":2,"vy":0,…} + {"type":"disk",…,"vMode":"kepler","aroundMass":800}(bulkVx なし)→ 核だけが飛んで円盤が取り残される。
   正しい例: 同じ disk に "bulkVx":2,"bulkVy":0 を足す。
+
+## 実在系の近似(出力B)
+出力Aで表せない実在系(惑星の環・円盤・連続分布)を出力Bで近似するときの規約です:
+- 転写の規律は出力Aと同じに保ちます: 中心天体の質量・半径・自転と、特徴半径(環の内外縁・軌道半径)は**実際に開いた出典**から写し、description に出典を記し、それ以上の精度は主張しません。
+- サンプル別の実単位を "scaleExp":{"L":<L>,"T":<L−4>,"M":<L+19>} で宣言します。規約 T=L−4・M=L+19(L−T=4・M+2T−3L=11)が実定数(G=6.674・c₀=3×10⁴)を保つ唯一の組で、他の T・M はインポート時に警告されます。L は中心天体の半径が 0.01〜100 単位に入る桁を選びます。
+- scaleExp を宣言したら "G":6.674・"cLight":30000・"kappaT":7.415555555555556e-9(=G/c₀²)を使います(「# 例」のトイ既定値ではありません)。
+- 環は実半径の "ring" 群(vMode:"kepler"・aroundMass=**同じ単位系での**中心質量)にします。出典の無い環の質量は微小値(1粒 1e-6)に置き、その旨を description に書きます。
+
+## 出力前の自己チェック(出力B)
+1. 各 body のキーが仕様の型どおり**過不足なく**揃っている — ring は n, cx, cy, rIn, rOut, mMin, mMax, spinMin, spinMax, vMode, aroundMass, omega, vNoise, direction, pinned。キーを発明しない(ring に r・dr・単独の m を書くとインポートで拒否されます)。
+2. vMode:"kepler" の群はすべて aroundMass に中心天体の m(同じ単位系)を宣言している。
+3. scaleExp を宣言した場合、T=L−4・M=L+19 が成立し、kappaT が 7.415555555555556e-9 になっている。
+4. 出力は JSON オブジェクト1つだけ・キーは仕様にあるものだけ・前後に散文を付けない。
 
 ## scaleTier の代表値(アプリの既定値定数から機械転記)
 | scaleTier | 1距離単位 [m] | 1時間単位 [s] | 1質量単位 [kg] | 光速表示指数 |

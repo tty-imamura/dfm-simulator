@@ -6124,6 +6124,323 @@ if (!FAST) {
   }
 }
 
+// ---- 8c3) 第184便: 太陽系実較正3件(🌇 太陽と金星 / 🥔 火星とフォボス・ダイモス / ❄️ 冥王星とカロン)----
+// ----   観測転写経路(buildAstroFromRecords)で生成した初期条件のビット写しプリセット。固定するのは
+// ----   ①宣言整合(fidelity/scaleExp 族/κ=G/c₀²/D₀/反作用則/降格値)②公転周期の観測照合
+// ----   (説明文の宣言値と観測値の両方に対して)③半径振れ幅=転写離心率の 2e ④kFrame=0 対照
+// ----   ⑤🌇 の legacy 反作用の否定対照(1公転内破壊 — E6′-R 標準化の根拠)⑥決定性(2回ビット同一)。
+// ----   窓は説明文の宣言と同じ(金星 1.05公転・火星 2ダイモス公転・冥王星 1.5公転)。
+{
+  const hasTrio = await page.evaluate(() =>
+    ['venusReal', 'marsMoonsReal', 'plutoCharonReal'].every((id) => HP.allPresets().some((q) => q.id === id)));
+  if (hasTrio) {
+    const tr = await page.evaluate(() => {
+      const P = (id) => HP.allPresets().find((q) => q.id === id);
+      const run = (preset, patch, orbitsU, mutate) => {
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(preset)));
+        if (!v.ok) return { err: v.errors.join('|') };
+        const pr = v.preset;
+        pr.physics = Object.assign({}, pr.physics, patch || {});
+        if (mutate) mutate(pr);
+        const S = HP.sim; S.build(pr);
+        const nB = pr.bodies.length, n = nB - 1;
+        const dt = 0.016, steps = Math.round(orbitsU / dt);
+        const rmin = [], rmax = [], rsum = [], ang = [], px = [], py = [], tRev = [];
+        for (let i = 0; i < n; i++) { rmin.push(Infinity); rmax.push(-Infinity); rsum.push(0); ang.push(0); px.push(0); py.push(0); tRev.push(null); }
+        for (let k = 0; k < steps; k++) {
+          S.step(dt);
+          for (let i = 0; i < n; i++) {
+            const dx = S.x[i + 1] - S.x[0], dy = S.y[i + 1] - S.y[0], rr = Math.hypot(dx, dy);
+            if (rr < rmin[i]) rmin[i] = rr; if (rr > rmax[i]) rmax[i] = rr; rsum[i] += rr;
+            if (k === 0) { px[i] = dx; py[i] = dy; } else {
+              ang[i] += Math.atan2(px[i] * dy - py[i] * dx, px[i] * dx + py[i] * dy); px[i] = dx; py[i] = dy;
+              if (tRev[i] === null && Math.abs(ang[i]) >= 2 * Math.PI) tRev[i] = (k + 1) * dt; }
+          }
+        }
+        return { nan: S.hasNaN(), steps, wob: rmin.map((_, i) => (rmax[i] - rmin[i]) / (rsum[i] / steps)), tRev };
+      };
+      const detTwice = (preset) => {   // 決定性: 同一構成2回・400步で全状態ビット同一
+        const one = () => {
+          const v = HP.validatePreset(JSON.parse(JSON.stringify(preset)));
+          const S = HP.sim; S.build(v.preset);
+          for (let k = 0; k < 400; k++) S.step(0.016);
+          const o = [];
+          for (let i = 0; i < v.preset.bodies.length; i++) o.push(S.x[i], S.y[i], S.vx[i], S.vy[i]);
+          return o;
+        };
+        const a = one(), b = one();
+        return a.length === b.length && a.every((x, i) => Object.is(x, b[i]));
+      };
+      const declOf = (p) => ({ fid: p.fidelity, L: p.scaleExp && p.scaleExp.L, T: p.scaleExp && p.scaleExp.T,
+        M: p.scaleExp && p.scaleExp.M, G: p.physics.G, c: p.physics.cLight, kap: p.physics.kappaT,
+        kF: p.physics.kFrame, D0: p.physics.D0, fr: p.physics.frameReaction, sc: p.physics.stateCarry });
+      const out = {};
+      { // 🌇 venusReal — 1.05公転(P_obs=1941.41664 単位)
+        const p = P('venusReal'), W = 1.05 * 1941.41664;
+        out.venus = { decl: declOf(p), pin0: p.bodies[0].pinned, pin1: p.bodies[1].pinned,
+          kf1: run(p, {}, W), kf0: run(p, { kFrame: 0 }, W),
+          legacy: run(p, {}, W, (pr) => { delete pr.physics.frameReaction; }),
+          det: detTwice(p) };
+      }
+      { // 🥔 marsMoonsReal — 2ダイモス公転(P_obs=1091.232 単位)
+        const p = P('marsMoonsReal'), W = 2 * 1091.232;
+        out.mars = { decl: declOf(p), pin0: p.bodies[0].pinned,
+          m1: p.bodies[1].m, m2: p.bodies[2].m, r2: p.bodies[2].radius,
+          kf1: run(p, {}, W), kf0: run(p, { kFrame: 0 }, W), det: detTwice(p) };
+      }
+      { // ❄️ plutoCharonReal — 1.5公転(P_obs=5518.5408 単位)
+        const p = P('plutoCharonReal'), W = 1.5 * 5518.5408;
+        out.pluto = { decl: declOf(p), pin0: p.bodies[0].pinned, pin1: p.bodies[1].pinned,
+          bary: Math.abs(p.bodies[0].x) / p.bodies[0].radius,
+          kf1: run(p, {}, W), kf0: run(p, { kFrame: 0 }, W), det: detTwice(p) };
+      }
+      HP.loadPreset('saturn', false);
+      return out;
+    });
+    const kOk = (d) => Math.abs(d.kap - d.G / (d.c * d.c)) < 1e-18;
+    const day = (u, eT) => u === null ? null : u * Math.pow(10, eT) / 86400;
+    { // 🌇 金星
+      const v = tr.venus, d = v.decl;
+      const declOk = d.fid === 'real' && d.L === 8 && d.T === 4 && d.M === 27 && d.G === 6.674 && d.c === 30000
+        && kOk(d) && d.kF === 1 && d.D0 === 0.006 && d.fr === 'pairReduced' && d.sc === 'double'
+        && v.pin0 === false && v.pin1 === false;
+      const t1 = day(v.kf1.tRev[0], 4), t0 = day(v.kf0.tRev[0], 4);
+      add('behavior.venusReal',
+        declOk && !v.kf1.nan && !v.kf0.nan && !v.legacy.nan && v.det
+        && t1 !== null && t1 > 224.70 && t1 < 224.71 && Math.abs(t1 / 224.701 - 1) < 0.001
+        && t0 !== null && t0 > 224.695 && t0 < 224.705
+        && v.kf1.wob[0] > 0.013 && v.kf1.wob[0] < 0.015
+        && v.legacy.tRev[0] === null && v.legacy.wob[0] > 0.30,
+        `宣言=${declOk}(fidelity=real・L8/T4/M27・κ=G/c₀²・kF=1・D₀=0.006・E6′-R pairReduced・自由中心) / ` +
+        `kFrame=1: 公転周期 ${t1 === null ? '周回不能' : t1.toFixed(5) + '日'}(観測 224.701・宣言 224.706)・振れ幅 ${(v.kf1.wob[0] * 100).toPrecision(3)}%(=2e) / ` +
+        `kFrame=0 対照: ${t0 === null ? '周回不能' : t0.toFixed(5) + '日'} / ` +
+        `legacy 否定対照: 振れ幅 ${(v.legacy.wob[0] * 100).toPrecision(3)}%(>30%)・周回${v.legacy.tRev[0] === null ? '不能' : '完了(NG)'} — 1公転内破壊を機械固定 / ` +
+        `決定性(2回400步ビット同一)=${v.det} / ${v.kf1.steps}步×3本`);
+    }
+    { // 🥔 火星
+      const m = tr.mars, d = m.decl;
+      const declOk = d.fid === 'real' && d.L === 6 && d.T === 2 && d.M === 25 && d.G === 6.674 && d.c === 30000
+        && kOk(d) && d.kF === 1 && d.D0 === 0.006 && d.fr === undefined && d.sc === 'double'
+        && m.pin0 === true && m.m1 === 1e-6 && m.m2 === 1e-6 && m.r2 === 0.01;
+      const p1 = day(m.kf1.tRev[0], 2), p2 = day(m.kf1.tRev[1], 2);
+      const q1 = day(m.kf0.tRev[0], 2), q2 = day(m.kf0.tRev[1], 2);
+      const dragDiff = (p1 !== null && q1 !== null && p2 !== null && q2 !== null)
+        ? Math.max(Math.abs(p1 / q1 - 1), Math.abs(p2 / q2 - 1)) : 1;
+      add('behavior.marsMoonsReal',
+        declOk && !m.kf1.nan && !m.kf0.nan && m.det
+        && p1 !== null && p1 > 0.3188 && p1 < 0.3193
+        && p2 !== null && p2 > 1.2620 && p2 < 1.2640
+        && m.kf1.wob[0] > 0.028 && m.kf1.wob[0] < 0.032 && m.kf1.wob[1] < 0.002
+        && dragDiff < 2.5e-5,
+        `宣言=${declOk}(fidelity=real・L6/T2/M25・κ=G/c₀²・火星 pinned・降格 m=1e-6×2/ダイモス radius=0.01) / ` +
+        `kFrame=1: フォボス ${p1 === null ? '—' : p1.toFixed(5) + '日'}(観測 0.31891・宣言 0.31909)・` +
+        `ダイモス ${p2 === null ? '—' : p2.toFixed(5) + '日'}(観測 1.263・宣言 1.26296) / ` +
+        `振れ幅 ${(m.kf1.wob[0] * 100).toPrecision(3)}%(=2e)/${(m.kf1.wob[1] * 100).toPrecision(3)}% / ` +
+        `kFrame=0 対照との周期差 最大 ${(dragDiff * 100).toExponential(2)}%(<0.0025% — 実スケールで引きずり不可視) / ` +
+        `決定性=${m.det} / ${m.kf1.steps}步×2本`);
+    }
+    { // ❄️ 冥王星カロン
+      const c = tr.pluto, d = c.decl;
+      const declOk = d.fid === 'real' && d.L === 6 && d.T === 2 && d.M === 25 && d.G === 6.674 && d.c === 30000
+        && kOk(d) && d.kF === 1 && d.D0 === 0.006 && d.fr === 'pairReduced' && d.sc === 'double'
+        && c.pin0 === false && c.pin1 === false && c.bary > 1.7 && c.bary < 1.9;
+      const t1 = day(c.kf1.tRev[0], 2), t0 = day(c.kf0.tRev[0], 2);
+      add('behavior.plutoCharonReal',
+        declOk && !c.kf1.nan && !c.kf0.nan && c.det
+        && t0 !== null && t0 > 6.386 && t0 < 6.389
+        && t1 !== null && t1 > 6.400 && t1 < 6.406
+        && c.kf1.wob[0] > 0.002 && c.kf1.wob[0] < 0.003 && c.kf0.wob[0] < 1e-4,
+        `宣言=${declOk}(fidelity=real・L6/T2/M25・κ=G/c₀²・E6′-R pairReduced・両天体自由・重心 ${c.bary.toFixed(4)} 冥王星半径=表面の外) / ` +
+        `kFrame=0 対照: ${t0 === null ? '—' : t0.toFixed(5) + '日'}(観測 6.3872・宣言 6.3874) / ` +
+        `kFrame=1: ${t1 === null ? '—' : t1.toFixed(5) + '日'}(宣言 6.40293 — E6′ 運動引きずりの +0.246% を宣言どおり実測) / ` +
+        `振れ幅 kF1 ${(c.kf1.wob[0] * 100).toPrecision(3)}% / kF0 ${(c.kf0.wob[0] * 100).toPrecision(3)}%(e=0 転写) / ` +
+        `決定性=${c.det} / ${c.kf1.steps}步×2本`);
+    }
+  } else {
+    console.log('SKIP behavior.venusReal / behavior.marsMoonsReal / behavior.plutoCharonReal(対象に第184便の3サンプルなし — root 等)');
+  }
+}
+
+// ---- 8c4) 第186便: 天王星・海王星の実較正2件(💠 環と主要5衛星 / 🌊 海王星とトリトン)----
+// ----   第184便の残り2件(原仮定者の実機採取レコードからの転写)。固定するのは
+// ----   ①宣言整合(fidelity/scaleExp 族/κ/反作用則/環のテスト質量/timeScale・dispMag の宣言つき調整)
+// ----   ②衛星の公転周期の観測照合 ③環11帯の半径保持(kFrame=1)とその kFrame=0 対照
+// ----   ④🌊 の kFrame=1 引きずり超過(第3例)とトリトンの負符号自転 ⑤決定性。
+// ----   窓は説明文の宣言と同じ(💠 2ミランダ公転・🌊 1.5トリトン公転)。
+{
+  const hasUN = await page.evaluate(() =>
+    ['uranusReal', 'neptuneReal'].every((id) => HP.allPresets().some((q) => q.id === id)));
+  if (hasUN) {
+    const un = await page.evaluate(() => {
+      const P = (id) => HP.allPresets().find((q) => q.id === id);
+      const run = (preset, patch, orbitsU, nSat) => {
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(preset)));
+        if (!v.ok) return { err: v.errors.join('|') };
+        const pr = v.preset; pr.physics = Object.assign({}, pr.physics, patch || {});
+        const S = HP.sim; S.build(pr);
+        const N = S.n, dt = 0.016, steps = Math.round(orbitsU / dt);
+        const rmin = [], rmax = [], rsum = [], ang = [], px = [], py = [], tRev = [];
+        for (let i = 0; i < nSat; i++) { rmin.push(Infinity); rmax.push(-Infinity); rsum.push(0); ang.push(0); px.push(0); py.push(0); tRev.push(null); }
+        const rr0 = [], rrDev = [];
+        for (let i = nSat + 1; i < N; i++) { rr0.push(Math.hypot(S.x[i] - S.x[0], S.y[i] - S.y[0])); rrDev.push(0); }
+        for (let k = 0; k < steps; k++) {
+          S.step(dt);
+          for (let i = 0; i < nSat; i++) {
+            const dx = S.x[i + 1] - S.x[0], dy = S.y[i + 1] - S.y[0], r = Math.hypot(dx, dy);
+            if (r < rmin[i]) rmin[i] = r; if (r > rmax[i]) rmax[i] = r; rsum[i] += r;
+            if (k === 0) { px[i] = dx; py[i] = dy; } else {
+              ang[i] += Math.atan2(px[i] * dy - py[i] * dx, px[i] * dx + py[i] * dy); px[i] = dx; py[i] = dy;
+              if (tRev[i] === null && Math.abs(ang[i]) >= 2 * Math.PI) tRev[i] = (k + 1) * dt; }
+          }
+          if ((k & 63) === 0 || k === steps - 1) for (let i = nSat + 1; i < N; i++) {
+            const j = i - nSat - 1, r = Math.hypot(S.x[i] - S.x[0], S.y[i] - S.y[0]);
+            const d = Math.abs(r - rr0[j]); if (d > rrDev[j]) rrDev[j] = d;
+          }
+        }
+        return { nan: S.hasNaN(), steps,
+          wob: rmin.map((_, i) => (rmax[i] - rmin[i]) / (rsum[i] / steps)), tRev,
+          ringWorst: rrDev.length ? Math.max.apply(null, rrDev) : null };
+      };
+      const detTwice = (preset) => {
+        const one = () => {
+          const v = HP.validatePreset(JSON.parse(JSON.stringify(preset)));
+          const S = HP.sim; S.build(v.preset);
+          for (let k = 0; k < 400; k++) S.step(0.016);
+          const o = []; for (let i = 0; i < S.n; i++) o.push(S.x[i], S.y[i], S.vx[i], S.vy[i]);
+          return o;
+        };
+        const a = one(), b = one();
+        return a.length === b.length && a.every((x, i) => Object.is(x, b[i]));
+      };
+      const out = {};
+      { // 💠 天王星 — 2ミランダ公転(P_obs=1221.245856 単位)
+        const p = P('uranusReal');
+        out.uranus = {
+          decl: { fid: p.fidelity, L: p.scaleExp.L, T: p.scaleExp.T, M: p.scaleExp.M,
+            G: p.physics.G, c: p.physics.cLight, kap: p.physics.kappaT, kF: p.physics.kFrame,
+            D0: p.physics.D0, fr: p.physics.frameReaction, ts: p.physics.timeScale,
+            dm: p.physics.dispMag, pin0: p.bodies[0].pinned,
+            nRingBands: p.bodies.filter((b) => b.type === 'ring').length,
+            ringTestMass: p.bodies.filter((b) => b.type === 'ring').every((b) => b.mMin === 1e-6 && b.mMax === 1e-6) },
+          kf1: run(p, {}, 2 * 1221.245856, 5), kf0: run(p, { kFrame: 0 }, 2 * 1221.245856, 5),
+          det: detTwice(p) };
+      }
+      { // 🌊 海王星 — 1.5トリトン公転(P_obs=507.7601856 単位)
+        const p = P('neptuneReal');
+        out.neptune = {
+          decl: { fid: p.fidelity, L: p.scaleExp.L, T: p.scaleExp.T, M: p.scaleExp.M,
+            G: p.physics.G, c: p.physics.cLight, kap: p.physics.kappaT, kF: p.physics.kFrame,
+            D0: p.physics.D0, fr: p.physics.frameReaction, pin0: p.bodies[0].pinned,
+            pin1: p.bodies[1].pinned, spin1: p.bodies[1].spin },
+          kf1: run(p, {}, 1.5 * 507.7601856, 1), kf0: run(p, { kFrame: 0 }, 1.5 * 507.7601856, 1),
+          det: detTwice(p) };
+      }
+      HP.loadPreset('saturn', false);
+      return out;
+    });
+    const kOk = (d) => Math.abs(d.kap - d.G / (d.c * d.c)) < 1e-18;
+    const day = (u, eT) => u === null ? null : u * Math.pow(10, eT) / 86400;
+    { // 💠
+      const u = un.uranus, d = u.decl;
+      const declOk = d.fid === 'real' && d.L === 6 && d.T === 2 && d.M === 25 && d.G === 6.674 && d.c === 30000
+        && kOk(d) && d.kF === 1 && d.D0 === 0.006 && d.fr === undefined && d.ts === 30 && d.dm === 1
+        && d.pin0 === true && d.nRingBands === 11 && d.ringTestMass;
+      const tM = day(u.kf1.tRev[0], 2), tA = day(u.kf1.tRev[1], 2);
+      add('behavior.uranusReal',
+        declOk && !u.kf1.nan && !u.kf0.nan && u.det
+        && tM !== null && tM > 1.405 && tM < 1.425 && Math.abs(tM / 1.413479 - 1) < 0.002
+        && tA !== null && tA > 2.510 && tA < 2.530 && Math.abs(tA / 2.520379 - 1) < 0.002
+        && u.kf1.ringWorst !== null && u.kf1.ringWorst > 0.001 && u.kf1.ringWorst < 0.1
+        && u.kf0.ringWorst > 0.5 && u.kf0.ringWorst < 3,
+        `宣言=${declOk}(fidelity=real・L6/T2/M25・κ=G/c₀²・環11帯=テスト質量1e-6・ts=30/dm=1〔宣言つき調整〕・pinned) / ` +
+        `kFrame=1(2ミランダ公転窓): ミランダ ${tM === null ? '—' : tM.toFixed(5) + '日'}(観測 1.413479・宣言 1.41450)・` +
+        `アリエル ${tA === null ? '—' : tA.toFixed(5) + '日'}(観測 2.520379・宣言 2.52000) / ` +
+        `環88粒の半径保持: kF1 最大 ${u.kf1.ringWorst.toFixed(4)}単位(宣言 0.0169)/ kF0 対照 ${u.kf0.ringWorst.toFixed(3)}単位(宣言 0.968 — 記録のみ・機構帰属せず) / ` +
+        `決定性=${u.det} / ${u.kf1.steps}步×2本`);
+    }
+    { // 🌊
+      const n = un.neptune, d = n.decl;
+      const declOk = d.fid === 'real' && d.L === 7 && d.T === 3 && d.M === 26 && d.G === 6.674 && d.c === 30000
+        && kOk(d) && d.kF === 1 && d.D0 === 0.006 && d.fr === 'pairReduced'
+        && d.pin0 === false && d.pin1 === false && d.spin1 < 0;
+      const t1 = day(n.kf1.tRev[0], 3), t0 = day(n.kf0.tRev[0], 3);
+      add('behavior.neptuneReal',
+        declOk && !n.kf1.nan && !n.kf0.nan && n.det
+        && t0 !== null && t0 > 5.86 && t0 < 5.89 && Math.abs(t0 / 5.876854 - 1) < 0.001
+        && t1 !== null && t1 > 5.87 && t1 < 5.90
+        && n.kf1.wob[0] > 0.0005 && n.kf1.wob[0] < 0.003 && n.kf0.wob[0] < 0.0005,
+        `宣言=${declOk}(fidelity=real・L7/T3/M26・κ=G/c₀²・E6′-R pairReduced・両天体自由・トリトン自転は負符号転写) / ` +
+        `kFrame=0 対照: ${t0 === null ? '—' : t0.toFixed(5) + '日'}(観測 5.876854・宣言 5.87741) / ` +
+        `kFrame=1: ${t1 === null ? '—' : t1.toFixed(5) + '日'}(宣言 5.88370 — E6′ 運動引きずり +0.117%〔χ=0.83・第3例〕を宣言どおり実測) / ` +
+        `振れ幅 kF1 ${(n.kf1.wob[0] * 100).toPrecision(3)}% / kF0 ${(n.kf0.wob[0] * 100).toPrecision(3)}% / ` +
+        `決定性=${n.det} / ${n.kf1.steps}步×2本`);
+    }
+  } else {
+    console.log('SKIP behavior.uranusReal / behavior.neptuneReal(対象に第186便の2サンプルなし — root 等)');
+  }
+}
+
+// ---- 8c5) 第187便(原仮定者指示 2026-08-24): 生成済み一覧の生成時刻表示+説明タブの折り返し ----
+// ----   ①生成済みプリセットの一覧は description を表示せず、id("custom_"+Date.now())から導出した
+// ----     生成時刻を保存一覧の savedAt と同じ流儀で表示する(新キー追加なし — 既存データ遡及)。
+// ----   ②説明タブ #helpBody は overflow-wrap:anywhere で、長い URL・ファイル名でも横スクロール
+// ----     しない(否定対照: overflow-wrap を normal に戻した合成要素でははみ出す = 検出器が実効)。
+{
+  const hasW187 = await page.evaluate(() => {
+    const el = document.querySelector('#helpBody');
+    return !!el && getComputedStyle(el).overflowWrap === 'anywhere';
+  });
+  if (hasW187) {
+    const r = await page.evaluate(() => {
+      const out = {};
+      // ① 生成済み一覧
+      const keep = localStorage.getItem('hp_custom_presets');
+      const TS = 1724457600000;
+      const longDesc = 'QA合成の長い説明文 https://example.invalid/very/long/url/' + 'x'.repeat(120);
+      const fix = { id: 'custom_' + TS, name: 'QA生成時刻検査', emoji: '🧪', description: longDesc,
+        camera: { scale: 200 }, world: { boundary: 'none', size: 0 }, physics: {},
+        bodies: [{ type: 'single', m: 1, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] };
+      localStorage.setItem('hp_custom_presets', JSON.stringify([fix]));
+      document.querySelector('#tabs button[data-tab=ai]').click();   // タブ表示で renderCustomList が走る
+      const item = document.querySelector('#customList .saveItem');
+      const metaEl = item ? item.querySelector('.meta') : null;
+      const lg = (typeof HP.lang === 'function') ? HP.lang() : 'ja';
+      const expect = new Date(TS).toLocaleString(lg === 'en' ? 'en-US' : 'ja-JP');
+      out.metaShown = !!metaEl && metaEl.textContent === expect;
+      out.descHidden = !!item && !item.textContent.includes('QA合成の長い説明文');
+      out.nameShown = !!item && item.textContent.includes('QA生成時刻検査');
+      // 復元
+      if (keep === null) localStorage.removeItem('hp_custom_presets');
+      else localStorage.setItem('hp_custom_presets', keep);
+      document.querySelector('#tabs button[data-tab=ai]').click();
+      // ② 説明タブの折り返し
+      document.querySelector('#tabs button[data-tab=help]').click();
+      const hb = document.querySelector('#helpBody');
+      out.wrap = getComputedStyle(hb).overflowWrap === 'anywhere';
+      out.visible = hb.clientWidth > 100;
+      const t = document.createElement('div');
+      t.textContent = 'https://example.invalid/' + 'M'.repeat(400) + '_veryLongFileName_' + 'x'.repeat(200);
+      hb.appendChild(t);
+      out.noHScroll = t.scrollWidth <= hb.clientWidth + 1 && hb.scrollWidth <= hb.clientWidth + 1;
+      t.remove();
+      const t2 = document.createElement('div'); t2.style.overflowWrap = 'normal';
+      t2.textContent = 'y'.repeat(600);
+      hb.appendChild(t2);
+      out.negCtl = t2.scrollWidth > hb.clientWidth + 1;
+      t2.remove();
+      document.querySelector('#btnPanelClose').click();
+      return out;
+    });
+    add('ui.customlist-time',
+      r.metaShown && r.descHidden && r.nameShown && r.wrap && r.visible && r.noHScroll && r.negCtl,
+      `生成済み一覧: 生成時刻表示(id 由来・savedAt と同形式)=${r.metaShown}・description 非表示=${r.descHidden}・` +
+      `名前表示=${r.nameShown} / 説明タブ: overflow-wrap:anywhere=${r.wrap}(表示幅>100px=${r.visible})・` +
+      `長い URL/ファイル名でも横はみ出しなし=${r.noHScroll}・否定対照(normal に戻すとはみ出す)=${r.negCtl}`);
+  } else {
+    console.log('SKIP ui.customlist-time(対象に第187便の折り返し・時刻表示なし — root 等)');
+  }
+}
+
 // ---- 8c3) 第135便(外部レビュー P0-1・原仮定者裁定「進める」): behavior.emAudit ----
 // ----   論文3 の中心命題「数値一致 ≠ 機構同定」を実験結果として示す3条件比較サンプル群
 // ----   ⭕emAuditNewton(A: 二体ニュートン)/ 🧲emAuditDFM(B: 二体DFM較正 — 🌘 と bit 一致)/
@@ -8083,10 +8400,15 @@ if (!FAST) {
       // ことを同じゲートで機械固定する(短縮版のリンク先が古くなる事故の防止 — 検査を1つ増やす)
       const cl = await page.evaluate(() => (window.HP && HP.buildRecordsClause)
         ? { ja: HP.buildRecordsClause('ja'), en: HP.buildRecordsClause('en') } : null);
-      const clJa = !cl || spec.includes(cl.ja), clEn = !cl || spec.includes(cl.en);
+      // 第185便: 共通節の逐語収載は **beta が正本**(SYSTEM_PROMPT の検査が betaHtml 固定なのと
+      // 同じ理屈)。beta 線の開発中は root(前リリース)の共通節が AI_SPEC と食い違うのが正しい
+      // 状態なので、節の照合は beta 対象のときだけ行う(root 対象では SKIP 扱い=true)
+      const clOnBeta = TARGET.startsWith('beta/');
+      const clJa = !cl || !clOnBeta || spec.includes(cl.ja), clEn = !cl || !clOnBeta || spec.includes(cl.en);
       add('prompt.spec-sync', !!spm && spec.length > 0 && spec.includes(spm[1]) && clJa && clEn,
         `docs/AI_SPEC.md(${spec.length}字)が beta SYSTEM_PROMPT(${spm ? spm[1].length : 0}字)を逐語収載=${!!spm && spec.includes(spm[1])} / `
-        + (cl ? `出力の使い分け節を逐語収載 ja=${clJa}(${cl.ja.length}字)・en=${clEn}(${cl.en.length}字)`
+        + (cl ? (clOnBeta ? `出力の使い分け節を逐語収載 ja=${clJa}(${cl.ja.length}字)・en=${clEn}(${cl.en.length}字)`
+                          : '出力の使い分け節=SKIP(beta が正本 — root 対象では照合しない・第185便)')
               : '出力の使い分け節=SKIP(対象に第178便の共通節なし)'));
     }
 
@@ -8598,6 +8920,9 @@ if (!FAST) {
         // behavior.emAudit と claims.prov-coverage / claims.kind / claims.sync が別枠で固定する。
         const MAIN = ['mercuryReal', 'mercuryRealKF1', 'earthMoonReal', 'earthMoonRealKF1',
           'saturnRingReal', 'saturnRingRealKF1', 'solarInner', 'saturnZonalD68'];
+        // 第184便の 🌇🥔❄️ は 🟠 と同じ扱いで MAIN(凍結の主力8)へは足さない —
+        // claims/role/parameterAudit は claims.prov-coverage / claims.kind / claims.sync と
+        // behavior.venusReal / behavior.marsMoonsReal / behavior.plutoCharonReal が別枠で固定する
         const PA_KEYS = ['observedInputs', 'fixedConventions', 'fitted', 'derived', 'numerical'];
         const rows = [];
         for (const id of MAIN) {
@@ -9597,8 +9922,98 @@ if (!FAST) {
         + `衛星1体の系=${dmo.oneStage} で差し戻し・周期+5%ずれ=${dmo.offStage} で差し戻し・木星系は降格0件(最良 L の選好は不変)`
         + `${dmo.bad.length ? ' NG=[' + dmo.bad.slice(0, 6).join(' / ') + ']' : ''}`
         : 'NG=[' + dmo.bad.join(' / ') + ']');
+
+    // --- ⑤ ai.obs-freecenter(第184便: 自由中心二体の反作用則 E6′-R+ドリフト外挿検査)---
+    // 世代検出: 同便で入った 🌇venusReal の存在で判定(旧世代 root では pairReduced 標準化も
+    // ドリフト外挿検査も無いのが正しい状態なので検査しない)
+    const has184obs = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'venusReal'));
+    if (!has184obs) {
+      console.log('SKIP ai.obs-freecenter(対象に第184便の自由中心反作用則なし — root 等)');
+    } else {
+    // 中心/衛星の質量比 ~4e5(恒星+内惑星級)の合成系(値は架空 — 実在天体の新規値は置かない)。
+    // 機械固定する4点: (a) 二体重心系(衛星1体)は frameReaction:"pairReduced" で構築される
+    // (中心は自由 = pinned:false)。(b) その kFrame=1 が1公転窓で軌道を保ち、周回時間が転写周期
+    // ±1% に入る。(c) legacy へ戻すと自己診断のドリフト外挿検査(二体限定・第184便)が差し戻し、
+    // 短窓の直接実測でも軌道が壊れる(χ=W/(D₀+W)→1 の自由中心では legacy 反作用が
+    // 1公転内破壊を起こす — pinned 中心が反作用を吸収する従来設計の裏返し)。
+    // (d) 中心 pinned の多衛星系(合成 DM_RECS)には frameReaction を付けない(1 bit 不変)。
+    const FC = { name: 'Qa Sol', m: 2.0e30, r: 7.0e8, rot: 2.2e6 };
+    const FS = { name: 'Qa Sol b', m: 5.0e24, r: 6.0e6, a: 1.1e11 };
+    const FC_RECS = [mkSyn(FC.name, 'mass', FC.m, 'kg'), mkSyn(FC.name, 'radius', FC.r, 'm'),
+      mkSyn(FC.name, 'rotation_period', FC.rot, 's'),
+      mkSyn(FS.name, 'mass', FS.m, 'kg'), mkSyn(FS.name, 'radius', FS.r, 'm'),
+      mkSyn(FS.name, 'semi_major_axis', FS.a, 'm'), mkSyn(FS.name, 'eccentricity', 0, '1'),
+      mkSyn(FS.name, 'orbital_period', kepP(FS.a, FC.m + FS.m), 's', 'a と中心+衛星質量からケプラー則で機械算出(二体重心系)')];
+    const fcr = await page.evaluate(({ FC_RECS, DM_RECS }) => {
+      const bad = [];
+      const r1 = HP.buildAstroFromRecords(FC_RECS);
+      if (!r1.ok) return { bad: ['自由中心二体の構築が失敗: ' + r1.stage + ' ' + (r1.errors || []).join('|')] };
+      const p = r1.preset;
+      // (a) 反作用則と自由中心
+      if (p.physics.frameReaction !== 'pairReduced') bad.push('二体重心系に frameReaction:"pairReduced" が付いていない: ' + p.physics.frameReaction);
+      if (p.bodies[0].pinned !== false) bad.push('中心が自由(pinned:false)でない');
+      if (!/pairReduced/.test(p.description)) bad.push('description に反作用則の宣言が無い');
+      if (!(p.parameterAudit.fixedConventions || []).some((s) => /pairReduced/.test(s))) bad.push('parameterAudit に反作用則の宣言が無い');
+      // (b) 1公転窓の直接実測(kFrame=1 のまま)
+      const pObsU = r1.diag.rows[0].pObs;
+      const runWin = (preset, orbits) => {
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(preset)));
+        if (!v.ok) return { err: v.errors.join('|') };
+        const S = HP.sim; S.build(v.preset);
+        const dt = 0.016, steps = Math.round(orbits * pObsU / dt);
+        let rmin = Infinity, rmax = -Infinity, rsum = 0, ang = 0, px = 0, py = 0, tRev = null;
+        for (let k = 0; k < steps; k++) {
+          S.step(dt);
+          const dx = S.x[1] - S.x[0], dy = S.y[1] - S.y[0], rr = Math.hypot(dx, dy);
+          if (rr < rmin) rmin = rr; if (rr > rmax) rmax = rr; rsum += rr;
+          if (k === 0) { px = dx; py = dy; } else {
+            ang += Math.atan2(px * dy - py * dx, px * dx + py * dy); px = dx; py = dy;
+            if (tRev === null && Math.abs(ang) >= 2 * Math.PI) tRev = (k + 1) * dt; }
+        }
+        return { nan: S.hasNaN(), wob: (rmax - rmin) / (rsum / steps), tRev, steps };
+      };
+      const w1 = runWin(p, 1.05);
+      if (w1.err) bad.push('1公転窓の構築が失敗: ' + w1.err);
+      else {
+        if (w1.nan) bad.push('1公転窓で NaN');
+        if (!(w1.wob < 0.02)) bad.push('1公転窓の半径振れ幅が 2% 超: ' + (w1.wob * 100).toPrecision(3) + '%');
+        if (!(w1.tRev !== null && Math.abs(w1.tRev / pObsU - 1) <= 0.01)) bad.push('周回時間が転写周期 ±1% を外れた: ' + (w1.tRev === null ? '周回不能' : (100 * (w1.tRev / pObsU - 1)).toFixed(3) + '%'));
+      }
+      // (c) legacy 否定対照: ドリフト外挿検査の差し戻し+短窓の直接破壊
+      const legacy = JSON.parse(JSON.stringify(p)); delete legacy.physics.frameReaction;
+      const targets = [{ id: 'b', name: FC_RECS[3].body, index: 1, twoBody: true, pObs: pObsU }];
+      const dl = HP.astroObsSelfCheck(legacy, targets);
+      if (dl.ok) bad.push('legacy 反作用がドリフト外挿検査を通過してしまった');
+      else if (!dl.errors.some((e) => /ドリフト/.test(e))) bad.push('差し戻し理由がドリフト外挿でない: ' + dl.errors.join('|'));
+      const dp = HP.astroObsSelfCheck(JSON.parse(JSON.stringify(p)), targets);
+      if (!dp.ok) bad.push('pairReduced がドリフト外挿検査に落ちた: ' + dp.errors.join('|'));
+      const wl = runWin(legacy, 0.35);
+      if (!wl.err && !(wl.wob > 0.05)) bad.push('legacy の短窓(0.35公転)が壊れていない(振れ幅 ' + (wl.wob * 100).toPrecision(3) + '% ≤ 5%)');
+      // (d) 中心 pinned の多衛星系は不変
+      const rm = HP.buildAstroFromRecords(DM_RECS);
+      if (!rm.ok) bad.push('多衛星合成系の再構築が失敗');
+      else {
+        if (rm.preset.physics.frameReaction !== undefined) bad.push('pinned 中心の多衛星系に frameReaction が付いた');
+        if (rm.preset.bodies[0].pinned !== true) bad.push('多衛星系の中心が pinned でない');
+      }
+      HP.loadPreset('saturn', false);   // 直接 HP.sim を使ったので本編 sim を既定サンプルへ戻す
+      return { bad, fr: p.physics.frameReaction,
+        diag: r1.diag.rows.map((x) => x.name + ' t0 ' + (x.rel0 * 100).toFixed(4) + '%→' + (x.rel * 100).toFixed(4) + '%').join('・'),
+        w1: w1.err ? null : { wob: w1.wob, revDev: w1.tRev === null ? null : w1.tRev / pObsU - 1, steps: w1.steps },
+        legacyMsg: (dl.errors || [])[0], legacyWob: wl.err ? null : wl.wob };
+    }, { FC_RECS, DM_RECS });
+    add('ai.obs-freecenter', fcr.bad.length === 0,
+      fcr.w1 ? `合成二体(中心/衛星の質量比 4e5・値は架空)を frameReaction:"${fcr.fr}"(E6′-R)で構築・`
+        + `中心は自由 / 自己診断: ${fcr.diag} / 1公転窓(${fcr.w1.steps}步): 振れ幅 ${(fcr.w1.wob * 100).toPrecision(3)}%(<2%)・`
+        + `周回時間の転写周期比 ${fcr.w1.revDev === null ? '周回不能' : (fcr.w1.revDev * 100).toFixed(4) + '%'}(±1%内) / `
+        + `legacy 否定対照: ドリフト外挿で差し戻し(「${String(fcr.legacyMsg).slice(0, 60)}…」)・`
+        + `短窓0.35公転の直接実測でも振れ幅 ${fcr.legacyWob === null ? '—' : (fcr.legacyWob * 100).toPrecision(3) + '%'}(>5%)で破壊を確認 / `
+        + `pinned 中心の多衛星系は frameReaction なしのまま(1 bit 不変)`
+        + `${fcr.bad.length ? ' NG=[' + fcr.bad.slice(0, 6).join(' / ') + ']' : ''}`
+        : 'NG=[' + fcr.bad.join(' / ') + ']');
+    }
   } else {
-    console.log('SKIP ai.obs-schema / ai.obs-build / ai.obs-name-unicode / ai.obs-demote(対象に ObservationRecord 経路なし — 第176便 未適用の root 等)');
+    console.log('SKIP ai.obs-schema / ai.obs-build / ai.obs-name-unicode / ai.obs-demote / ai.obs-freecenter(対象に ObservationRecord 経路なし — 第176便 未適用の root 等)');
   }
 }
 
@@ -9665,6 +10080,23 @@ if (!FAST) {
         if (!t.includes('出力A')) bad.push(n + ' に records 優先の出力Aが無い');
         if (!t.includes('QA一本化プロンプト検査')) bad.push(n + ' に要望が入っていない');
         if (t.includes('undefined')) bad.push(n + ' に undefined が混入');
+      }
+      // 第185便: 出力Bの実在系規約+自己チェック(天王星の環の実機失敗2件への恒久対策 —
+      // Grok: ring への r/dr/m キー発明で取込失敗 / ChatGPT: scaleExp M=24(規約外)+トイ κ)。
+      // 世代検出は同便で入った HP.AI_BASE_DROP_BLOCKS(埋込縮約)で行う — 旧世代 root では
+      // この節が無いのが正しい状態なので検査しない(w182 の rays.spread 検出と同じ流儀)
+      const w185 = HP.AI_BASE_DROP_BLOCKS !== undefined;
+      if (w185) {
+        if (!cl.includes('実在系の近似(出力B)')) bad.push('出力Bの実在系規約の節が無い');
+        if (!cl.includes('出力前の自己チェック(出力B)')) bad.push('出力Bの自己チェック節が無い');
+        if (!cl.includes('rIn, rOut')) bad.push('ring の必須キー列が無い');
+        if (!cl.includes('T=L−4・M=L+19')) bad.push('scaleExp 規約(実在系の出力B)が無い');
+        if (!cl.includes('7.415555555555556e-9')) bad.push('κ=G/c₀² の実値が無い');
+        const clEn2 = HP.buildRecordsClause('en');
+        if (!clEn2.includes('REAL-SYSTEM APPROXIMATION (OUTPUT B)')
+          || !clEn2.includes('SELF-CHECK BEFORE YOU OUTPUT (OUTPUT B)')
+          || !clEn2.includes('rIn, rOut') || !clEn2.includes('7.415555555555556e-9'))
+          bad.push('en 節に出力Bの実在系規約/自己チェックが無い');
       }
       // 第182便(原仮定者指示「内蔵の実天体サンプル項目を撤去」に伴う**検査対象の変更**):
       //   旧: 「内蔵一覧の節が全カタログ系を挙げている」— 節そのものが撤去されたので検査不能。
@@ -9739,8 +10171,32 @@ if (!FAST) {
       if (!exAfter || exAfter.json !== exCur.json) bad.push('暗黙の例が読み込み中のサンプルに依存している(gclock で変わった)');
       if (!fullAfter.includes(jupJson)) bad.push('gclock 読込後のプロンプトに固定例が入っていない');
       if (HP.currentPreset().id === 'jupiterGalilean') bad.push('否定対照が成立しない(読み込み中のサンプルが偶然 jupiterGalilean)');
-      // 否定対照: 6000字上限が残っていれば固定例(17k字級)は省略されていたはず = 上限撤廃の実効確認
-      if (!(exCur.len > 6000)) bad.push('固定例が 6000 字以下 — 上限撤廃の否定対照が成立しない');
+      // 第185便(原仮定者指示 — 文字数削減): 埋込は本体構造(bodies/physics/claims)を丸ごと
+      // 運ぶが、表示専用の宣言ブロック(failureFirst/descStruct/parameterAudit)は落とし、
+      // description は summary へ置換する。「間引かれていない」ことの検査は字数ではなく
+      // **構造**で行う(旧: exCur.len>6000 の字数否定対照は縮約後に意味を失うため置換):
+      // 🟠 の bodies 5体・physics(q=12.0586)・claims 7件が全て入っていること。
+      // 旧世代 root(縮約未適用)では従来の字数否定対照をそのまま使う。
+      if (HP.AI_BASE_DROP_BLOCKS !== undefined) {
+        let embObj = null;
+        try { embObj = JSON.parse(jupJson); } catch (e) { bad.push('埋込例が JSON として読めない'); }
+        if (embObj) {
+          if (!(Array.isArray(embObj.bodies) && embObj.bodies.length === 5)) bad.push('埋込例の bodies が丸ごとでない');
+          if (!embObj.physics || embObj.physics.q !== 12.0586) bad.push('埋込例の physics が丸ごとでない');
+          if (!(Array.isArray(embObj.claims) && embObj.claims.length === 7)) bad.push('埋込例の claims が丸ごとでない');
+          for (const k of ['failureFirst', 'descStruct', 'parameterAudit'])
+            if (k in embObj) bad.push('埋込例に表示専用ブロック ' + k + ' が残っている');
+          if (typeof embObj.description !== 'string' || !embObj.description.trim())
+            bad.push('埋込例の description が空(必須キーの置換に失敗)');
+          else if (embObj.description.length > 3000)
+            bad.push('埋込例の description が summary 置換になっていない(' + embObj.description.length + '字)');
+          const vv2 = HP.validatePreset(JSON.parse(jupJson));
+          if (!vv2.ok) bad.push('縮約した埋込例が validator を通らない: ' + vv2.errors.slice(0, 2).join('|'));
+        }
+      } else {
+        // 否定対照(旧世代): 6000字上限が残っていれば固定例(17k字級)は省略されていたはず
+        if (!(exCur.len > 6000)) bad.push('固定例が 6000 字以下 — 上限撤廃の否定対照が成立しない');
+      }
       HP.loadPreset('galaxy', false);
       sel.value = 'darkrotor';
       const exBase = HP.aiExampleForPrompt();
@@ -9765,7 +10221,8 @@ if (!FAST) {
       `単一プロンプト: full=${up.lenFull}字 / short=${up.lenShort}字(差=${up.lenFull - up.lenShort}字 ≒ 仕様全文 ${up.specLen}字ぶん)・仕様/出力の使い分け/`
       + `記憶禁止規律を両方が同一本文で運ぶ・内蔵一覧の節と案内契約は全経路で0件(第182便で撤去・カタログ資産は温存)・`
       + `埋込用複製の注記4キー=0個(本体は不変・validator PASS)・少数ショット例=${up.exLen}字(未選択の暗黙の例は`
-      + `🟠${up.exId} を丸ごと固定〔表示専用の注記のみ除去〕=読み込み中のサンプルに非依存・ベース切替に追随)・`
+      + `🟠${up.exId} の本体構造を丸ごと固定〔第182便: 表示専用の注記4キー除去/第185便: failureFirst・descStruct・`
+      + `parameterAudit 除去+description を summary へ置換〕=読み込み中のサンプルに非依存・ベース切替に追随)・`
       + `暗黙の例での実測長: full=${up.defFull}字 / short=${up.defShort}字(差=${up.defFull - up.defShort}字)`
       + `${up.bad.length ? ' NG=[' + up.bad.slice(0, 6).join(' / ') + ']' : ''}`);
 
@@ -16204,7 +16661,22 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     // — 判定は「宣言集合が期待リストと厳密一致」のままで、弱体化はゼロ
     const gen148 = await page.evaluate(() =>
       HP.allPresets().some((p) => p.id === 'grcalGps'));
-    const want = gen148 ? 'earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+    // 第184便: 太陽系実較正3件(🌇🥔❄️)を追加 — 期待件数は 14→17 へ強化追随
+    // (判定は「宣言集合が期待リストと厳密一致」のままで、弱体化はゼロ)
+    const gen184 = await page.evaluate(() =>
+      HP.allPresets().some((p) => p.id === 'venusReal'));
+    // 第186便: 天王星・海王星(💠🌊)を追加 — 17→19 へ強化追随
+    const gen186 = await page.evaluate(() =>
+      HP.allPresets().some((p) => p.id === 'uranusReal'));
+    const want = gen186 ? 'earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+        + 'jupiterGalilean,marsMoonsReal,mercuryReal,mercuryRealKF1,neptuneReal,plutoCharonReal,'
+        + 'qLockRadialAudit,qLockRadialAuditQ3,saturnRingReal,saturnRingRealKF1,saturnZonalD68,'
+        + 'solarInner,uranusReal,venusReal'
+      : gen184 ? 'earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+        + 'jupiterGalilean,marsMoonsReal,mercuryReal,mercuryRealKF1,plutoCharonReal,'
+        + 'qLockRadialAudit,qLockRadialAuditQ3,saturnRingReal,saturnRingRealKF1,saturnZonalD68,'
+        + 'solarInner,venusReal'
+      : gen148 ? 'earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
         + 'jupiterGalilean,mercuryReal,mercuryRealKF1,qLockRadialAudit,qLockRadialAuditQ3,'
         + 'saturnRingReal,saturnRingRealKF1,saturnZonalD68,solarInner'
       : gen138 ? 'earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
