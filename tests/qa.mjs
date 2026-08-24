@@ -8090,13 +8090,168 @@ if (!FAST) {
               : '出力の使い分け節=SKIP(対象に第178便の共通節なし)'));
     }
 
-    // prompt.intent-map: 第102便 102A — 要望→設定の対応表と意図分解ルール(8.)が載っている。
+    // prompt.intent-map: 第102便 102A — 要望→設定の対応表と意図分解ルール(意図分解の項)が載っている。
     // 第104便: スケールタグと表示換算の節+few-shot 全5例の scaleTier 宣言も検査
-    const mapOk = await page.evaluate(() =>
-      HP.SYSTEM_PROMPT.includes('要望→設定の対応') && /\n8\. 出力の前に/.test(HP.SYSTEM_PROMPT)
-      && HP.SYSTEM_PROMPT.includes('スケールタグと表示換算')
-      && (HP.SYSTEM_PROMPT.match(/"scaleTier":"/g) || []).length >= 5);
-    add('prompt.intent-map', mapOk, '対応表+意図分解ルール+スケールタグ節+few-shot scaleTier×5');
+    // 第182便(外部レビュー第6巡 P1-6): 「出力ルール」の採番が 8 で重複していたのを 9 へ一意化したので、
+    //   意図分解の項番の検査を 8→9 へ**追随**させ、あわせて**採番が重複していない**ことを
+    //   新たに機械固定する(検査は増やす方向のみ — 従来の3項目はそのまま残す)。
+    const mapR = await page.evaluate(() => {
+      const sp = HP.SYSTEM_PROMPT;
+      // 第182便の採番一意化(8番の重複 → 1〜9)は beta 世代のみ。旧世代(root 等)は従来どおり
+      // 「8. 出力の前に」で検査する(世代検出は同便で追加した rays.spread の記載で行う)
+      const w182 = sp.includes('rays.spread:0〜1');
+      const sec = (sp.split('\n# 出力ルール\n')[1] || '').split('\n# ')[0];
+      const nums = [...sec.matchAll(/^(\d+)\. /gm)].map((m) => Number(m[1]));
+      return { w182, map: sp.includes('要望→設定の対応'),
+        intent: (w182 ? /\n9\. 出力の前に/ : /\n8\. 出力の前に/).test(sp),
+        scale: sp.includes('スケールタグと表示換算'),
+        shots: (sp.match(/"scaleTier":"/g) || []).length,
+        nums, dup: nums.length !== new Set(nums).size };
+    });
+    const mapDupOk = mapR.w182 ? (!mapR.dup && mapR.nums.length >= 9) : true;   // 旧世代の採番は検査しない(従来どおり)
+    add('prompt.intent-map', mapR.map && mapR.intent && mapR.scale && mapR.shots >= 5 && mapDupOk,
+      `対応表=${mapR.map}+意図分解ルール(${mapR.w182 ? 9 : 8}.)=${mapR.intent}+スケールタグ節=${mapR.scale}+few-shot scaleTier×${mapR.shots} / `
+      + `出力ルールの採番=[${mapR.nums.join(',')}](重複=${mapR.dup}・一意化の検査=${mapR.w182 ? '有効(第182便世代)' : 'SKIP(旧世代)'})`);
+
+    // ---- 第182便 新設2ゲート(機能検出。第178/182便 未適用の root 等は自動 SKIP)----
+    const has182 = await page.evaluate(() => !!(window.HP && HP.buildUnifiedPrompt && HP.AI_SCHEMA_LIMITS));
+    if (!has182) console.log('SKIP prompt.no-contract-conflict / prompt.schema-sync(対象に第182便の単一プロンプト・値域正本なし — 未適用の root 等)');
+    if (has182) {
+    // ---- 第182便 新設①: prompt.no-contract-conflict(外部レビュー第6巡の提案)----
+    // 「内蔵一覧に合致したら生成せずサンプル名を1行で案内する」契約は、同じ節の
+    // 「JSON を1つだけ返す」取込契約と正面から矛盾していた(実機で案内文が JSON parse error に
+    // なる Release blocker)。第182便で内蔵一覧の節ごと撤去したので、**矛盾句が 0 件**である
+    // ことを ja/en × full/short の4本すべてで機械固定する。否定対照つき(矛盾句を注入した
+    // 合成文が必ず検出されることを同じ検出器で確認する — 検出器が空振りしていないことの証明)。
+    {
+      const nc = await page.evaluate(() => {
+        // 既知の矛盾句(日英)。1つでも本文に現れたら FAIL
+        const PAT = [
+          ['生成せず', /生成せず|何も生成しない|生成しないでください/],
+          ['サンプル名の案内', /サンプル一覧にある|お使いください/],
+          ['内蔵一覧の見出し', /内蔵の実天体サンプル/],
+          ['generate NOTHING', /generate NOTHING|do NOT write any JSON/i],
+          ['built-in list', /BUILT-IN REAL-BODY SAMPLES|please use the built-in sample/i],
+          ['旧モード語彙', /生成モード|観測採取モード|カタログモード/]
+        ];
+        const scan = (t) => PAT.filter(([, re]) => re.test(t)).map(([n]) => n);
+        const prompt = document.querySelector('#aiPrompt'), sel = document.querySelector('#aiBasePreset');
+        const keep = prompt.value; prompt.value = 'QA矛盾句検査'; sel.value = '';
+        const hits = {}, lens = {};
+        const langs = ['ja', 'en'];
+        const save = (typeof HP.lang === 'function') ? HP.lang() : 'ja';
+        for (const lg of langs) {
+          HP.setLang(lg);
+          for (const [n, t] of [['full', HP.buildUnifiedPrompt(false)], ['short', HP.buildUnifiedPrompt(true)]]) {
+            hits[lg + '/' + n] = scan(t); lens[lg + '/' + n] = t.length;
+          }
+        }
+        HP.setLang(save);
+        prompt.value = keep;
+        // 否定対照: 撤去前の文面(合成)を同じ検出器に掛けると必ず検出される
+        const inj = [
+          '# 内蔵の実天体サンプル(これに合致する要望は生成しない)\n木星とガリレオ衛星(実単位)',
+          '要望が一覧に合致する場合は、JSONを作らず「アプリのサンプル一覧にある『木星』をお使いください」と1行で案内してください。',
+          '1. The request matches one of "# BUILT-IN REAL-BODY SAMPLES" -> generate NOTHING; answer in one line naming that sample.'
+        ].map((t) => scan(t).length);
+        return { hits, lens, inj };
+      });
+      const conflicted = Object.keys(nc.hits).filter((k) => nc.hits[k].length);
+      const negOk = nc.inj.every((n) => n > 0);
+      add('prompt.no-contract-conflict', conflicted.length === 0 && negOk,
+        `矛盾句 0件: ${Object.keys(nc.hits).map((k) => k + '=' + nc.hits[k].length + '件(' + nc.lens[k] + '字)').join(' / ')}`
+        + ` / 否定対照(撤去前の文面3種を同じ検出器へ)=[${nc.inj.join(',')}]件検出=${negOk}`
+        + (conflicted.length ? ' NG=[' + conflicted.map((k) => k + ':' + nc.hits[k].join('・')).join(' / ') + ']' : ''));
+    }
+
+    // ---- 第182便 新設②: prompt.schema-sync(外部レビュー第6巡 P1-6 の恒久措置)----
+    // プロンプト/AI_SPEC に書かれた値域が、実装(validatePreset の clamp)と一致していることを
+    // 機械照合する。①実装ソースの clamp リテラル ②正本定数 AI_SCHEMA_LIMITS ③SYSTEM_PROMPT の
+    // 記述 ④docs/AI_SPEC.md の記述 の4者一致。否定対照つき。
+    {
+      const betaHtml2 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+      const specPath2 = path.join(ROOT, 'docs', 'AI_SPEC.md');
+      const spec2 = fs.existsSync(specPath2) ? fs.readFileSync(specPath2, 'utf8') : '';
+      // ① 実装から値域を機械抽出(validatePreset の clamp リテラル)
+      const impl = {};
+      let m2 = betaHtml2.match(/\[\s*"radius"\s*,\s*([\d.eE+-]+)\s*,\s*([\d.eE+-]+)\s*\]\s*,\s*\[\s*"rMul"\s*,\s*([\d.eE+-]+)\s*,\s*([\d.eE+-]+)\s*\]/);
+      if (m2) { impl.radius = [+m2[1], +m2[2]]; impl.rMulSingleRing = [+m2[3], +m2[4]]; }
+      const rmuls = [...betaHtml2.matchAll(/wc\(b\.rMul\s*,\s*([\d.]+)\s*,\s*(\d+)\s*,\s*"rMul"\)/g)].map((x) => [+x[1], +x[2]]);
+      const rmHi = rmuls.map((x) => x[1]);
+      if (rmHi.length) impl.rMulDiskBoxGrid = [Math.min(...rmuls.map((x) => x[0])), Math.min(...rmHi)];
+      if (rmHi.length && impl.rMulSingleRing) impl.rMulSingleRing = [impl.rMulSingleRing[0], Math.max(impl.rMulSingleRing[1], Math.max(...rmHi))];
+      const rm3 = betaHtml2.match(/p\.rays\s*=\s*\{\s*n:\s*clamp\(Math\.round\(p\.rays\.n\)\s*,\s*(\d+)\s*,\s*(\d+)\)\s*,\s*spread:\s*clamp\(p\.rays\.spread\s*,\s*([\d.]+)\s*,\s*([\d.]+)\)/);
+      if (rm3) { impl.raysN = [+rm3[1], +rm3[2]]; impl.raysSpread = [+rm3[3], +rm3[4]]; }
+      const m4 = betaHtml2.match(/MASS=\(v,k\)=>wc\(v,\s*([\d.eE+-]+)\s*,\s*MASS_CAP/);
+      const mcap = betaHtml2.match(/const MASS_CAP=(\d+)/);
+      if (m4 && mcap) impl.mass = [+m4[1], +mcap[1]];
+      const m5 = betaHtml2.match(/const CO=\(v,k\)=>wc\(v,\s*(-?\d+)\s*,\s*(\d+)/);
+      if (m5) impl.coord = [+m5[1], +m5[2]];
+      const m6 = betaHtml2.match(/LEN=\(v,k\)=>wc\(v,\s*(\d+)\s*,\s*(\d+)/);
+      if (m6) impl.len = [+m6[1], +m6[2]];
+      const m7 = betaHtml2.match(/VEL=\(v,k\)=>wc\(v,\s*(-?\d+)\s*,\s*(\d+)/);
+      if (m7) impl.vel = [+m7[1], +m7[2]];
+      const m8 = betaHtml2.match(/SPN=\(v,k\)=>wc\(v,\s*(-?\d+)\s*,\s*(\d+)/);
+      if (m8) impl.spin = [+m8[1], +m8[2]];
+      const m9 = betaHtml2.match(/const N_CAP = (\d+)/);
+      if (m9) impl.nCap = +m9[1];
+      // ② 正本定数
+      const canon = await page.evaluate(() => (window.HP && HP.AI_SCHEMA_LIMITS) || null);
+      const eq = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+      const drift = [];
+      if (!canon) drift.push('AI_SCHEMA_LIMITS が無い');
+      else for (const k of Object.keys(canon)) {
+        if (impl[k] === undefined) { drift.push(k + ': 実装から抽出できない'); continue; }
+        if (!eq(impl[k], canon[k])) drift.push(k + ': 実装=' + JSON.stringify(impl[k]) + ' ≠ 正本=' + JSON.stringify(canon[k]));
+      }
+      // ③④ プロンプト本文・AI_SPEC の記述(正本の数値がそのまま書かれていること)
+      const sp2 = await page.evaluate(() => (window.HP && HP.SYSTEM_PROMPT) || '');
+      const PHR = [
+        ['radius:0.01〜100', 'radius 値域'],
+        ['rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid)', 'rMul の型別値域'],
+        ['rays.n:0〜64(整数), rays.spread:0〜1', 'rays={n,spread}'],
+        ['質量:1e-6〜20000', '質量値域'],
+        ['座標・長さ:±5000', '座標値域'],
+        ['粒子総数は最大600', '粒子総数上限']
+      ];
+      const missPrompt = PHR.filter(([t]) => !sp2.includes(t)).map(([, n]) => n);
+      const missSpec = spec2 ? PHR.filter(([t]) => !spec2.includes(t)).map(([, n]) => n) : [];
+      // 否定対照: 存在しない値域文言(ドリフト前の旧記述)は検出されない=検査が空振りでない
+      const negPhr = ['radius(半径の明示指定 0.5〜500', 'radius:0.5〜500'];
+      const stale = negPhr.filter((t) => sp2.includes(t) || (spec2 && spec2.includes(t)));
+      // 第182便(統括裁定 2026-08-23 追修正): scaleTier 代表値表は SCALE_ANCHORS の指数からの
+      //   **計算転記**で、どのセルも JS の数値リテラルとして読める十進表記であること
+      //   ("1e-2.5" のような不正な形が出ない)。整数指数は "1e<n>"・非整数指数は有効3桁の
+      //   指数表記。値そのものが 10^指数 と一致することも機械照合する(手書き数値の混入検出)。
+      const tier = await page.evaluate(() => {
+        if (!HP.scaleTierTable || !HP.SCALE_ANCHORS || !HP.SCALE_TIERS) return null;
+        const rows = HP.scaleTierTable(false).split('\n').slice(2);
+        const out = [];
+        rows.forEach((line, i) => {
+          const c = line.split('|').map((x) => x.trim()).filter((x) => x !== '');
+          const t = HP.SCALE_TIERS[i], a = HP.SCALE_ANCHORS[t];
+          if (!a || c[0] !== t) { out.push({ t: t || ('行' + i), bad: '行の対応が崩れている: ' + line }); return; }
+          [['L', c[1], a.expL], ['T', c[2], a.expT], ['M', c[3], a.expM]].forEach(([k, txt, e]) => {
+            const v = Number(txt);
+            if (!Number.isFinite(v)) out.push({ t, bad: k + ' が数値リテラルとして読めない: ' + JSON.stringify(txt) });
+            else if (Math.abs(v / Math.pow(10, e) - 1) > 5e-3) out.push({ t, bad: k + ' の値が 10^' + e + ' と一致しない: ' + txt });
+          });
+        });
+        return { bad: out, beaker: (rows.find((l) => l.indexOf('| beaker |') === 0) || '').trim() };
+      });
+      const tierBad = tier ? tier.bad : [{ bad: 'scaleTierTable が無い' }];
+      add('prompt.schema-sync', drift.length === 0 && missPrompt.length === 0 && missSpec.length === 0 && stale.length === 0
+        && tierBad.length === 0 && (!spec2 || spec2.includes(tier && tier.beaker ? tier.beaker : '\u0000')),
+        `実装⇄正本 ${canon ? Object.keys(canon).length : 0}項目一致=${drift.length === 0} / `
+        + `SYSTEM_PROMPT 記載=${missPrompt.length === 0} / docs/AI_SPEC.md 記載=${spec2 ? (missSpec.length === 0) : 'SKIP'} / `
+        + `旧記述(0.5〜500)の残骸=${stale.length}件 / `
+        + `scaleTier 表の十進表記(指数からの計算転記)=不正 ${tierBad.length} 件〔beaker 行: ${tier ? tier.beaker : 'SKIP'}〕`
+        + (tierBad.length ? ' 表NG=[' + tierBad.map((x) => x.t + ':' + x.bad).slice(0, 4).join(' / ') + ']' : '')
+        + (drift.length ? ' ドリフト=[' + drift.join(' / ') + ']' : '')
+        + (missPrompt.length ? ' プロンプト欠落=[' + missPrompt.join(',') + ']' : '')
+        + (missSpec.length ? ' AI_SPEC欠落=[' + missSpec.join(',') + ']' : ''));
+    }
+    }
 
     // import.fenced-json: ```json フェンス+前後説明文つきの単独プリセットを取り込める。
     // 正規JSONは従来どおり素通し・JSONの無いテキストは従来どおり失敗。
@@ -8804,7 +8959,7 @@ if (!FAST) {
       console.log('SKIP ui.preset-id(対象にプリセットID行なし — 第106便 未適用の root 等)');
     }
   } else {
-    console.log('SKIP ai.external-prompt / prompt.intent-map / prompt.spec-sync / import.fenced-json / save.copy-with-preset(対象に外部AIチャット経路なし — 第102便 未適用の root 等)');
+    console.log('SKIP ai.external-prompt / prompt.intent-map / prompt.spec-sync / prompt.no-contract-conflict / prompt.schema-sync / import.fenced-json / save.copy-with-preset(対象に外部AIチャット経路なし — 第102便 未適用の root 等)');
   }
 }
 
@@ -9499,23 +9654,68 @@ if (!FAST) {
       HP.loadPreset('galaxy', false);
       prompt.value = 'QA一本化プロンプト検査'; sel.value = '';
       const full = HP.buildUnifiedPrompt(false), sh = HP.buildUnifiedPrompt(true);
-      const cl = HP.buildRecordsClause('ja'), bl = HP.buildBuiltinListClause('ja');
+      const cl = HP.buildRecordsClause('ja');
       // 骨格: full は仕様全文+共通節、short は仕様をURL参照にしただけで共通節は同じ
       if (!full.includes(HP.SYSTEM_PROMPT)) bad.push('full に仕様全文が無い');
       if (sh.includes(HP.SYSTEM_PROMPT)) bad.push('short に仕様全文が入っている');
       if (!sh.includes(HP.AI_SPEC_URL)) bad.push('short に仕様書URLが無い');
       for (const [n, t] of [['full', full], ['short', sh]]) {
         if (!t.includes(cl)) bad.push(n + ' に出力の使い分け節が逐語で無い');
-        if (!t.includes(bl)) bad.push(n + ' に内蔵実天体一覧が無い');
         if (!t.includes('記憶で埋めては')) bad.push(n + ' に「数値を記憶で埋めない」規律が無い');
         if (!t.includes('出力A')) bad.push(n + ' に records 優先の出力Aが無い');
         if (!t.includes('QA一本化プロンプト検査')) bad.push(n + ' に要望が入っていない');
         if (t.includes('undefined')) bad.push(n + ' に undefined が混入');
       }
-      // 内蔵実天体一覧が全カタログ系を挙げている
-      for (const k of Object.keys(HP.ASTRO_CATALOG)) {
-        const nm = HP.ASTRO_CATALOG[k].name.ja;
-        if (!bl.includes(nm)) bad.push('内蔵一覧に ' + k + ' が無い');
+      // 第182便(原仮定者指示「内蔵の実天体サンプル項目を撤去」に伴う**検査対象の変更**):
+      //   旧: 「内蔵一覧の節が全カタログ系を挙げている」— 節そのものが撤去されたので検査不能。
+      //   新: 「内蔵一覧の節と案内契約がどの経路にも残っていない」+「撤去してもカタログ資産は
+      //        温存されている」を検査する(弱体化ではなく対象の入れ替え。矛盾句の網羅検査は
+      //        新設ゲート prompt.no-contract-conflict が ja/en・full/short の4通りで別途行う)。
+      if (HP.buildBuiltinListClause !== undefined) bad.push('buildBuiltinListClause が残っている(撤去されていない)');
+      for (const [n, t] of [['full', full], ['short', sh]]) {
+        if (t.includes('内蔵の実天体サンプル')) bad.push(n + ' に内蔵一覧の見出しが残っている');
+        if (/生成せず|何も生成しない|お使いください/.test(t)) bad.push(n + ' に「生成せず案内する」契約の残骸がある');
+      }
+      // 内部資産(カタログ・決定的構築)は温存されていること — 撤去は「プロンプトから外す」だけ
+      if (!HP.ASTRO_CATALOG || Object.keys(HP.ASTRO_CATALOG).length < 6) bad.push('ASTRO_CATALOG が温存されていない');
+      if (typeof HP.astroCatalogSummary !== 'function' || !HP.astroCatalogSummary().length) bad.push('astroCatalogSummary が温存されていない');
+      // 第182便(原仮定者指示): 埋込用複製から note/noteEn/roleNote/roleNoteEn を機械的に落とす。
+      //   プリセット本体は不変で、落とした JSON は validator を通ること(2点とも機械固定)。
+      {
+        const src = HP.allPresets().find((q2) => String(q2.id) === 'grcalGps') || HP.allPresets()[0];
+        const rawN = (JSON.stringify(src).match(/"(note|noteEn|roleNote|roleNoteEn)":/g) || []).length;
+        const emb = HP.presetForAIBase(src);
+        const embN = (JSON.stringify(emb).match(/"(note|noteEn|roleNote|roleNoteEn)":/g) || []).length;
+        if (embN !== 0) bad.push('埋込用複製に注記キーが ' + embN + ' 個残っている');
+        if (rawN === 0) bad.push('否定対照が成立しない(元プリセットに注記キーが元から無い: ' + src.id + ')');
+        const vv = HP.validatePreset(JSON.parse(JSON.stringify(emb)));
+        if (!vv.ok) bad.push('注記を落とした JSON が validator を通らない: ' + (vv.errors || []).slice(0, 2).join('|'));
+        // プリセット本体(アプリ内データ)は 1 bit も変わっていない
+        const again = HP.allPresets().find((q2) => String(q2.id) === src.id);
+        if ((JSON.stringify(again).match(/"(note|noteEn|roleNote|roleNoteEn)":/g) || []).length !== rawN)
+          bad.push('プリセット本体から注記キーが消えている(埋込用複製の外へ副作用が漏れている)');
+      }
+      // 第182便(レビュー第6巡 採用分): 共通節が OUTPUT A/B の強化条項を運んでいる
+      for (const [k, w] of [['出典の品質', '出典品質の階層'], ['ケプラー整合', 'ケプラー自己チェック'],
+        ['不完全なデータ', '不完全データの扱い'], ['物理の一貫性', '出力Bの物理一貫性ガイド'],
+        ['bulkVx', 'bulkVx/bulkVy 連動'], ['v = √(G·M/r)', '円軌道初速'],
+        ['scaleTier の代表値', 'scaleTier 代表値表'], ['よくある失敗', 'ネガティブ例'],
+        ['全行で完全一致', 'P1-3 body 表記の統一'], ['rotation_period を優先', 'P1-5 自転の選択'],
+        ['判定に入るのはこれだけ', 'P1-2 ルート判定は必須項目だけ']])
+        if (!cl.includes(k)) bad.push('共通節に ' + w + ' が無い');
+      // 出力A の少数ショット例: コミット済み出典表由来の定数から実行時生成され、検証器を通ること
+      {
+        const rows = HP.obsExampleRows();
+        if (!Array.isArray(rows) || rows.length < 4) bad.push('出力Aの少数ショット例が生成されない');
+        else {
+          const ov = HP.validateObservationRecords(rows);
+          if (!ov.ok) bad.push('出力Aの例が ObservationRecord 検証を通らない: ' + (ov.errors || []).slice(0, 2).join('|'));
+          if (!cl.includes(JSON.stringify(rows, null, 1))) bad.push('共通節に出力Aの例が逐語で入っていない');
+          const bodies = [...new Set(rows.map((r2) => r2.body))];
+          if (bodies.length !== 2) bad.push('出力Aの例が中心1+衛星1の形になっていない');
+          for (const r2 of rows) if (!/^https?:\/\//.test(r2.url) || !r2.source || !r2.retrieved)
+            bad.push('出力Aの例の行に source/url/retrieved が揃っていない');
+        }
       }
       // 少数ショット例: 未選択でも必ず1つ入り、ベース切替に追随する
       const exCur = HP.aiExampleForPrompt();
@@ -9531,7 +9731,7 @@ if (!FAST) {
       const jup = HP.allPresets().find((p) => String(p.id) === 'jupiterGalilean');
       const jupJson = jup ? JSON.stringify(HP.presetForAIBase(jup)) : null;
       if (!jup) bad.push('内蔵サンプル jupiterGalilean が見つからない');
-      else if (!exCur || exCur.json !== jupJson) bad.push('暗黙の例が jupiterGalilean 丸ごとでない(間引き・改変がある)');
+      else if (!exCur || exCur.json !== jupJson) bad.push('暗黙の例が jupiterGalilean 丸ごとでない(間引き・改変がある)');   // 第182便: 表示専用の注記4キーの除去は presetForAIBase の両側に等しく効くので不変量は保たれる
       // 読み込み中のサンプルを変えても暗黙の例が1ビットも変わらないこと(gclock 混入の再発防止)
       HP.loadPreset('gclock', false);
       const exAfter = HP.aiExampleForPrompt();
@@ -9563,8 +9763,9 @@ if (!FAST) {
     });
     add('ai.unified-prompt', up.bad.length === 0,
       `単一プロンプト: full=${up.lenFull}字 / short=${up.lenShort}字(差=${up.lenFull - up.lenShort}字 ≒ 仕様全文 ${up.specLen}字ぶん)・仕様/出力の使い分け/`
-      + `内蔵一覧/記憶禁止規律を両方が同一本文で運ぶ・少数ショット例=${up.exLen}字(未選択の暗黙の例は`
-      + `🟠${up.exId} を丸ごと固定=読み込み中のサンプルに非依存・ベース切替に追随)・`
+      + `記憶禁止規律を両方が同一本文で運ぶ・内蔵一覧の節と案内契約は全経路で0件(第182便で撤去・カタログ資産は温存)・`
+      + `埋込用複製の注記4キー=0個(本体は不変・validator PASS)・少数ショット例=${up.exLen}字(未選択の暗黙の例は`
+      + `🟠${up.exId} を丸ごと固定〔表示専用の注記のみ除去〕=読み込み中のサンプルに非依存・ベース切替に追随)・`
       + `暗黙の例での実測長: full=${up.defFull}字 / short=${up.defShort}字(差=${up.defFull - up.defShort}字)`
       + `${up.bad.length ? ' NG=[' + up.bad.slice(0, 6).join(' / ') + ']' : ''}`);
 

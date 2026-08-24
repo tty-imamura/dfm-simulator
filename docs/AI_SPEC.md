@@ -21,9 +21,9 @@ import box, which answered "added 0 / invalid 9 / name (string) required". Both 
 the branching itself, so the branching is gone:
 
 - **One prompt.** In-app generation, "Copy generation prompt" and "Copy short version" all carry
-  the same skeleton: *specification* + *decision clause* + *built-in real-body list* +
-  *few-shot example* + *request*. The short version differs only in that the specification is a
-  link to this page rather than inline text.
+  the same skeleton: *specification* + *decision clause* + *few-shot example* + *request*. The
+  short version differs only in that the specification is a link to this page rather than inline
+  text. (Wave 182 removed the *built-in real-body list* section from every path — see §1.2.)
 - **One example.** The prompt always embeds one preset JSON as a few-shot example: the selected
   "base sample", or — when none is selected — the built-in 🟠 "Jupiter and the Galilean moons
   (real units)" sample, whole and unabridged (wave 181; it used to be whatever sample happened to
@@ -31,37 +31,175 @@ the branching itself, so the branching is gone:
 - **One paste box.** The AI tab has a single box. The app decides whether you pasted an
   ObservationRecord array or a preset JSON, and takes the matching path. Records pasted into the
   Saves-tab preset import box are turned back with a pointer to the right box.
-- **Real bodies are presets, not a mode.** The verified real systems ship as built-in samples;
-  a request that matches one is answered by naming that sample instead of generating numbers.
+- **Real bodies are presets, not a mode.** The verified real systems ship as built-in samples,
+  and the "base sample" selector is how you reach them. Since wave 182 the prompt no longer
+  *forbids* generating something close to a built-in system: a request with unusual conditions
+  gets a real answer instead of a redirect.
 
 ### 1.1 The decision clause (verbatim — English)
 
 ```
 # WHICH OUTPUT TO RETURN (decide in this order)
-1. The request matches one of "# BUILT-IN REAL-BODY SAMPLES" -> generate NOTHING; answer in one line naming that sample.
-2. The request is a REAL astronomical system AND you can copy its mass, radius, semi-major axis, eccentricity, orbital period and rotation period from web sources you actually consulted in this session -> return OUTPUT A (an array of ObservationRecords). PREFER THIS.
-3. Anything else (invented systems, toy models, phenomenon experiments, real bodies whose sources you cannot open) -> return OUTPUT B (a preset JSON).
+1. The request is a REAL astronomical system AND you can copy the MANDATORY quantities from web sources you actually consulted in this session -> return OUTPUT A (an array of ObservationRecords). PREFER THIS.
+   Mandatory: the central body's mass and radius; each satellite's mass, semi_major_axis and orbital_period. Nothing else enters this decision.
+   The optional quantities (a satellite's radius, its eccentricity, any rotation) are added ONLY when you have a source for them; their absence never sends the request to OUTPUT B.
+2. Anything else (invented systems, toy models, phenomenon experiments, real bodies whose sources you cannot open) -> return OUTPUT B (a preset JSON).
 
-**In either output, never fill a number from memory.** Every row of OUTPUT A needs the source "url" you actually opened and the "retrieved" date; omit any row you cannot source (omitting is always correct, guessing never is). The numbers of OUTPUT B follow the style (magnitudes, key set) of "# EXAMPLE" and claim no real-body accuracy. Return exactly ONE JSON — no prose, no code fences, no alternative candidates.
+**In either output, never fill a number from memory.** Every row of OUTPUT A needs the source "url" you actually opened and the "retrieved" date; omit any row you cannot source (omitting is always correct, guessing never is). The numbers of OUTPUT B follow the style (magnitudes, key set) of "# EXAMPLE" and claim no real-body accuracy. Return exactly ONE JSON — no prose, no code fences, no alternative candidates, and never answer with a sentence pointing at some other sample instead of JSON.
 
 # OUTPUT A: an array of ObservationRecords
 One object per measured quantity. The unit conversion, the scale exponents, the placement, the initial speeds, the qLock falloff q and the shared correction D0 are computed by the app's deterministic functions — you never touch them.
 {"body":"<name>","quantity":"<one of below>","value":<number>,"unit":"<SI unit>","source":"<publication or archive>","url":"<the page you actually read>","retrieved":"YYYY-MM-DD","note":"<optional>"}
 quantity [unit]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] / semi_major_axis [m] / eccentricity [1] / orbital_period [s]
 - The central body (the one WITHOUT semi_major_axis) must be exactly one and the heaviest; it needs mass and radius.
-- Every satellite needs mass, semi_major_axis and orbital_period (radius, eccentricity and rotation are optional — the app declares its defaults when they are missing).
+- Every satellite needs mass, semi_major_axis and orbital_period. radius, eccentricity and rotation are OPTIONAL — add them only when a source gives them; the app declares its defaults when they are missing.
 - SI units only (km, days, degrees are rejected): convert yourself and say so in "note".
 - RETROGRADE rotation is written as a NEGATIVE rotation_period (the app carries the sign into the spin). Negative mass, radius, semi_major_axis or orbital_period are rejected.
 - The "body" name may stay exactly as your source writes it — a Japanese or other non-Latin name is fine, do NOT translate it into English (the app builds the identifier from the Unicode name as it is).
+- **The "body" string must be byte-for-byte identical on every row of the same object.** If you had to unify a spelling that differs between sources, record the original spelling in "note". Never translate or resolve an alias silently.
+- Rotation: prefer rotation_period. Use spin ONLY when the source states an angular velocity directly. Never emit both for the same body.
+- The same body+quantity pair appears on exactly one row.
 - Do not include rings, dust or unnamed bodies.
+
+## SOURCE QUALITY (OUTPUT A)
+1. Public agencies and primary archives (NASA fact sheets, JPL Horizons, IAU) and peer-reviewed papers with a DOI.
+2. Official mission archives (Cassini, Galileo, New Horizons, …).
+3. Well-curated compilations that cite primary sources — prefer the primary URL they cite.
+Avoid Wikipedia alone, blog posts and educational pages without a primary citation.
+If sources disagree by more than 1% on mass, semi_major_axis or orbital_period, either omit that quantity or take the most recent peer-reviewed value and record the discrepancy in "note".
+
+## SELF-CHECK BEFORE YOU OUTPUT (OUTPUT A)
+1. Exactly one body without semi_major_axis, and it is the heaviest.
+2. At least one satellite, each with all three mandatory quantities.
+3. No duplicated body+quantity pair.
+4. Kepler consistency: P^2/a^3 ~= 4*pi^2/(G*M_central), within the precision of the sources. If the transcribed values break this by more than a few percent, re-check the units and the source epoch. **Never invent a value to force consistency — omit the inconsistent quantity instead.**
+5. Every row carries source, the direct url you actually opened, and retrieved.
+
+## INCOMPLETE DATA (OUTPUT A)
+- If mass, semi_major_axis or orbital_period of a satellite is not in the sources you opened, omit that body entirely. Do not invent it.
+- If only radius or eccentricity is missing, omit those rows; the app declares its defaults.
+- Never invent a value "because it is approximately known" — the app's self-check rejects invented numbers that do not match real dynamics.
+
+## EXAMPLE (machine-generated from this project's own committed source table)
+[
+ {
+  "body": "Jupiter",
+  "quantity": "mass",
+  "value": 1.898e+27,
+  "unit": "kg",
+  "source": "dfm-simulator committed source table (paper/data/jovian-satellites.csv)",
+  "url": "https://tty-imamura.github.io/dfm-simulator/paper/data/jovian-satellites.csv",
+  "retrieved": "2026-08",
+  "note": "Transcribed from the committed source table (1e26 kg column converted to kg)."
+ },
+ {
+  "body": "Jupiter",
+  "quantity": "radius",
+  "value": 71492000,
+  "unit": "m",
+  "source": "dfm-simulator committed source table (paper/data/jovian-satellites.csv)",
+  "url": "https://tty-imamura.github.io/dfm-simulator/paper/data/jovian-satellites.csv",
+  "retrieved": "2026-08",
+  "note": "Equatorial radius; 1e7 m column converted to m."
+ },
+ {
+  "body": "Io",
+  "quantity": "mass",
+  "value": 8.93e+22,
+  "unit": "kg",
+  "source": "dfm-simulator committed source table (paper/data/jovian-satellites.csv)",
+  "url": "https://tty-imamura.github.io/dfm-simulator/paper/data/jovian-satellites.csv",
+  "retrieved": "2026-08",
+  "note": "Same table, same body string as every other Io row."
+ },
+ {
+  "body": "Io",
+  "quantity": "semi_major_axis",
+  "value": 421800000,
+  "unit": "m",
+  "source": "dfm-simulator committed source table (paper/data/jovian-satellites.csv)",
+  "url": "https://tty-imamura.github.io/dfm-simulator/paper/data/jovian-satellites.csv",
+  "retrieved": "2026-08",
+  "note": "km converted to m. Inclination is deliberately ignored: the run is 2D and equatorial."
+ },
+ {
+  "body": "Io",
+  "quantity": "orbital_period",
+  "value": 152932,
+  "unit": "s",
+  "source": "dfm-simulator committed source table (paper/data/jovian-satellites.csv)",
+  "url": "https://tty-imamura.github.io/dfm-simulator/paper/data/jovian-satellites.csv",
+  "retrieved": "2026-08",
+  "note": "Derived from the two transcribed values above by Kepler's third law P=2*pi*sqrt(a^3/(G*M)) - not recalled from memory."
+ }
+]
 
 # OUTPUT B: a preset JSON
 Exactly one preset that follows the specification above. Even when approximating a real system, match the magnitudes and the scale conventions of "# EXAMPLE".
+
+## PHYSICAL CONSISTENCY (OUTPUT B)
+- Match the magnitude style, the key density and the value ranges of "# EXAMPLE".
+- For a phenomenon (convection, frame dragging, a rotor, a lens, …) the accuracy is much higher when the user selects the closest built-in sample as the "base sample". If no base was given you may note that in one short sentence at the end of "description" — never add prose outside the JSON.
+- Keep the particle count modest: prefer under 200 unless the phenomenon needs more (the hard cap is 600).
+- For a thermal experiment, set the heaters and coolers explicitly as pinned particles (high spin = heater, spin 0 = cooler) and use gravityY for the uniform field.
+- Never claim real-body accuracy in "description" — an approximated real system is a toy model, not a quantitative reproduction.
+- Circular-orbit initial speed: v = sqrt(G*M/r) (M = the central mass, r = the orbital radius).
+- **A moving centre drags its disc**: when a single body has vx,vy and you put a ring/disk around it, give the ring/disk the SAME bulkVx,bulkVy.
+  WRONG: {"type":"single","m":800,"x":0,"y":0,"vx":2,"vy":0,…} + {"type":"disk",…,"vMode":"kepler","aroundMass":800} (no bulkVx) -> the core flies away and leaves the disc behind.
+  RIGHT: the same disk with "bulkVx":2,"bulkVy":0.
+
+## scaleTier REFERENCE (machine-transcribed from the app's own defaults)
+| scaleTier | 1 length unit [m] | 1 time unit [s] | 1 mass unit [kg] | c display exponent |
+|---|---|---|---|---|
+| molecular | 1e-10 | 1e-13 | 1e-26 | 3 |
+| beaker | 3.16e-3 | 3.16e-3 | 3.16e-3 | 0 |
+| everyday | 1e0 | 1e0 | 1e0 | 0 |
+| planetary | 1e8 | 1e4 | 1e24 | 4 |
+| stellar | 1e11 | 1e7 | 1e30 | 4 |
+| galactic | 1e19 | 1e14 | 1e34 | 5 |
+| cosmic | 1e23 | 1e17 | 1e42 | 6 |
+
+# COMMON FAILURES TO AVOID (both outputs)
+- Leaving km or days unconverted (convert to m and s yourself and say so in "note").
+- Translating a Japanese body name into English (keep the source spelling).
+- Inventing a mass that does not fit the scale (leave it to the app's declared demotion path, or omit the body).
+- Prose plus JSON, several candidates, or code fences.
+- Filling radius or eccentricity from memory when the source did not give them.
 ```
 
-### 1.2 The built-in real-body samples referenced by the clause
+### 1.2 What wave 182 changed (2026-08-23)
 
-太陽系 — 内惑星(実単位) / 水星(実単位)— 近日点移動 / 地球と月(実単位) / 木星とガリレオ衛星(実単位) / 土星の環と主要衛星(実単位) / 土星の近点移動(実単位・扁平重力)
+**The "built-in real-body samples" section was removed from every prompt path** (full, short, and
+in-app), together with the instruction "if the request matches this list, generate nothing and name
+that sample in one line".
+
+Why: that instruction contradicted the intake contract in the same clause ("return exactly ONE
+JSON"). A model that followed it correctly produced a one-line sentence, and the app — which only
+accepts a preset JSON or an ObservationRecord array — answered *"cannot be read as JSON"*. It also
+blocked legitimate requests for a system that merely *resembles* a built-in one under unusual
+conditions. Removing the section makes the contradiction structurally impossible; QA
+`prompt.no-contract-conflict` keeps it out (ja/en x full/short, with a negative control).
+
+The catalogue itself is untouched: `ASTRO_CATALOG`, `buildAstroPreset`, `buildAstroFromRecords`
+and the validators remain as internal assets. Only the prompt stopped mentioning them.
+
+**In-app generation cannot transcribe sources.** The in-app "Generate" button calls an LLM API
+with no web access, so it cannot open the "url" that OUTPUT A requires. For a real astronomical
+body the two working routes are (1) pick the closest built-in sample as the *base sample*, or
+(2) copy the prompt into an AI chat that can browse the web and paste the reply back. The AI tab
+states this permanently next to the Generate button (wave 182).
+
+**Embedded copies drop display-only notes.** When a preset is embedded in a prompt (as the
+few-shot example or as the selected base), the keys `note`, `noteEn`, `roleNote` and `roleNoteEn`
+are stripped from the *copy* to save characters. The stored preset, the in-app data and every
+save/export are unchanged, and the stripped JSON still passes the validator.
+
+**Schema drift fixed.** `radius` is 0.01–100 everywhere (a second description still said
+0.5–500); `rMul` is now documented per body type (single/ring 0.2–40, disk/box/grid 0.2–20);
+`rays` is documented as `{n, spread}` with spread 0–1; the duplicated "8." in the output rules is
+renumbered to 1–9; and the examples' `cLight`=60 is explained against the default of 30. The
+canonical ranges live in `AI_SCHEMA_LIMITS`, and QA `prompt.schema-sync` machine-compares the
+implementation's clamps, that constant, `SYSTEM_PROMPT` and this file.
 
 ---
 
@@ -147,7 +285,7 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 - 放射冷却: etaRad>0 にすると温度の高い粒子ほど速く冷えて暗くなる(急峻さはpRad)。加熱・冷却・重力を組み合わせると対流・蒸発・凝集が作れる。
 - 空間は質量に引きずられる(kFrame: 0=通常のニュートン力学, 1=完全な相対空間)。背景決定力D0が大きいほど空間が安定する。
 - 一様重力場: physics.gravityY>0 で画面全体に一様な下向きの外力場がかかる(gravityXは横方向)。地上の実験室・対流・落下のデモに使う。時計や光を歪めないので、画面外に遠方大質量を置く旧手法より安定する。目安は0.02〜0.1。
-- rays を指定すると左端から光線が飛び、質量の近くで曲がる(曲がりの強さと時間の遅れは同じ κ(kappaT)で決まり、κ が大きいほど強い)。超大質量(2000〜3000)をpinnedで置き κ を 0.017〜0.025 に上げると、近くを通る光が捕まって周回する=ブラックホールの光学類似(光子捕捉)。ただし中心のスピンは0〜0.5に抑える(スピンが大きいと空間の引きずりが光を外へ流し、捕捉が消える)。
+- rays={"n":本数(0〜64の整数),"spread":広がり(0〜1)} を指定すると左端から光線が飛び、質量の近くで曲がる(曲がりの強さと時間の遅れは同じ κ(kappaT)で決まり、κ が大きいほど強い)。超大質量(2000〜3000)をpinnedで置き κ を 0.017〜0.025 に上げると、近くを通る光が捕まって周回する=ブラックホールの光学類似(光子捕捉)。ただし中心のスピンは0〜0.5に抑える(スピンが大きいと空間の引きずりが光を外へ流し、捕捉が消える)。
 - overlays: rotationCurve=回転曲線グラフ, tempHistogram=左右の平均温度グラフ, field=決定力マップ(レンズ系で推奨), spectrum=放射スペクトル。
 - 原点は画面中央。camera.scale は画面短辺の半分に相当するワールド長。
 
@@ -171,22 +309,23 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
 6. name は30字以内、description は200字程度の日本語(上限は9000字。超えると切り詰められる)。emoji は絵文字1文字。
-7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1, q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100, massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64
+7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1, q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
 8. κ 正準化(第124〜125便): 時空係数の正準キーは physics.kappaT(κ=1/Kt・G/c² と同次元)。旧 Kt キーも後方互換で受理する(kappaT と併記時は kappaT 優先)。アプリの「時空」カテゴリでは κ を編集し、セーブ・プリセット・few-shot とも kappaT で記す。第128便で内部エンジンも κ 正準(ψ=W·κ)になり、Kt は境界で受理する後方互換の入力キーだけになった。
-8. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
+9. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 
 # ジェネレータ(bodiesの要素。typeごとに全フィールド必須)
-- single: {type,m,x,y,vx,vy,spin,pinned} — 粒子1個。pinned:true で力を受けず固定。
-- ring: {type,n,cx,cy,rIn,rOut,mMin,mMax,spinMin,spinMax,vMode,aroundMass,omega,vNoise,direction,pinned} — 半径rIn〜rOutの環にn個。vMode: "kepler"(aroundMassの周りを公転)|"omega"(v=omega×r)|"none"。direction: 1=反時計,-1=時計。
-- disk: {type,n,cx,cy,radius,mMin,mMax,spinMin,spinMax,vMode,aroundMass,vScale,direction} — 半径radiusの円盤にn個。vMode: "kepler"(vScaleは倍率,通常1)|"rigid"(vScale=角速度)|"flat"(vScale=一定速さ)|"random"(vScale=速さ)|"none"。
-- box: {type,n,cx,cy,w,h,mMin,mMax,spinMin,spinMax,vScale} — 幅w高さhの矩形にn個、ランダム方向に速さ〜vScale。
+- single: {type,m,x,y,vx,vy,spin,pinned} — 粒子1個。pinned:true で力を受けず固定。省略可の rMul(半径倍率 0.2〜40・既定1。R=radiusScale·rMul·√|m|)。
+- ring: {type,n,cx,cy,rIn,rOut,mMin,mMax,spinMin,spinMax,vMode,aroundMass,omega,vNoise,direction,pinned} — 半径rIn〜rOutの環にn個。vMode: "kepler"(aroundMassの周りを公転)|"omega"(v=omega×r)|"none"。direction: 1=反時計,-1=時計。省略可の rMul(0.2〜40)。
+- disk: {type,n,cx,cy,radius,mMin,mMax,spinMin,spinMax,vMode,aroundMass,vScale,direction} — 半径radiusの円盤にn個。vMode: "kepler"(vScaleは倍率,通常1)|"rigid"(vScale=角速度)|"flat"(vScale=一定速さ)|"random"(vScale=速さ)|"none"。省略可の rMul(0.2〜20)。
+- box: {type,n,cx,cy,w,h,mMin,mMax,spinMin,spinMax,vScale} — 幅w高さhの矩形にn個、ランダム方向に速さ〜vScale。省略可の rMul(0.2〜20)。
 - ring/disk/box には省略可の bulkVx,bulkVy(母集団の並進速度)を指定できる。移動する天体(vx,vyを持つ single)の周りに円盤・環を置くときは、必ず同じ値を bulkVx,bulkVy に与えて核と一体で動かすこと。
 - single には省略可の zonal(扁平中心天体の帯状重力補正 E13)を指定できる: {"refR":基準半径,"calib":1,"J":{"2":0.0163,"4":-0.0009}}。偶数次 J2〜J12 のみ・|J|≤0.1・refR:1〜5000・calib:0〜2。中心の大質量 pinned 粒子に付けると周回粒子の楕円軌道の近点が前進する(内側ほど速い差動近点移動 — 画面左上に実測/解析の近点移動が表示される)。土星なら J2≈0.0163。要望が扁平天体・歳差・近点移動のときだけ使う高度な属性で、通常のプリセットでは指定しない。
 - single/ring/disk には省略可の core(コアv2 — 中心コアの独立サブシステム)を指定できる: {"mode":"rigid"|"differential"|"active"|"cavity","massFrac":0.01〜0.6,"radius":0.2〜200,"omega":−50〜50,"Kcs":0〜10,"pump":0〜5,"contract":0〜0.2,"sourceRate":0〜100,"voidFraction":0.01〜1}。m は総質量のままで、massFrac=Mc/m・radius=コア半径 R_c(絶対値)・omega=初期コア角速度 Ω_c(角運動量 J=½·Mc·R_c²·Ω として保持され、以後 J が主変数)。差動分だけが ω += (Mc/m)·(Ω_c−s)·(R_c/(R_c+d))^q として追加の空間引きずりに効く。mode: rigid=殻と剛体回転(差動なし)・differential=独立回転・active=differential+sourceRate で内部エネルギー注入・cavity=空洞(massFrac の代わりに voidFraction。引きずりの符号が反転)。Kcs はコア⇄殻のトルク結合(緩和率)・contract は収縮率(J 保存で Ω 上昇)・pump はパワーボール係数。要望がコア/深部回転・空洞天体・2層天体・ダークローターのときだけ使う高度な属性。
-- single には省略可の radius(半径の明示指定 0.5〜500。未指定は radiusScale·√|m|)・lightSweep(減光 0〜1 — 高速スピンコアが自星の光を外に出さない: 観測温度が0になり見掛けは冷たい。放射冷却も(1−lS)倍)を指定できる。要望がダークマター/ダークローター・見えない天体・拡がった天体のときだけ使う高度な属性で、通常のプリセットでは指定しない。disk/ring にも群共通の lightSweep(数値か "auto")を指定できる(恒星集団の減光実験用)。
+- single には省略可の radius(半径の明示指定 0.01〜100。未指定は radiusScale·rMul·√|m|)・lightSweep(減光 0〜1 — 高速スピンコアが自星の光を外に出さない: 観測温度が0になり見掛けは冷たい。放射冷却も(1−lS)倍)を指定できる。要望がダークマター/ダークローター・見えない天体・拡がった天体のときだけ使う高度な属性で、通常のプリセットでは指定しない。disk/ring にも群共通の lightSweep(数値か "auto")を指定できる(恒星集団の減光実験用)。
 - single には省略可の railOmega(±2・pinned時のみ): 円レール駆動の角速度。railCx/railCy でレール中心を指定(既定は原点)。
 
 # 例
+(下の5例は既定 cLight=30 ではなく cLight=60 を使っている。誇張ドメインで光の曲がり・時計差を見やすくするための意図的な選択で、値域 1〜1e6 の内側なのでそのまま検証を通る。要望に光・レンズ・時計が関わらないなら既定の 30 のままでよい。)
 例1 要望「連星と、その周りを回る惑星たち」
 {"name":"連星系の惑星たち","emoji":"⭐","scaleTier":"stellar","description":"2つの恒星が共通重心を回り、その外側を小さな惑星たちが公転する。連星の複雑な重力場で軌道が乱される様子が見どころ。","camera":{"scale":320},"world":{"boundary":"none","size":0},"physics":{"G":1,"D0":2,"kFrame":1,"q":2,"kRep":1,"muF":0.5,"gammaN":0.4,"kappaS":0.05,"kappaT":0.016666666666666666,"cLight":60,"bM":1,"etaRad":0,"pRad":4,"gravityX":0,"gravityY":0,"geoPN":0,"lambdaPN":1,"pnAlpha":1.5,"radiusScale":1,"softening":2,"timeScale":4},"bodies":[{"type":"single","rMul":1.2,"m":500,"x":-60,"y":0,"vx":0,"vy":-1.44,"spin":0.5,"pinned":false},{"type":"single","rMul":1.2,"m":500,"x":60,"y":0,"vx":0,"vy":1.44,"spin":0.5,"pinned":false},{"type":"ring","rMul":1.2,"n":220,"cx":0,"cy":0,"rIn":180,"rOut":290,"mMin":0.05,"mMax":0.3,"spinMin":0,"spinMax":0,"vMode":"kepler","aroundMass":1000,"omega":0,"vNoise":0.05,"direction":1,"pinned":false}],"overlays":{"rotationCurve":false,"tempHistogram":false,"field":false}}
 (連星の公転速度: 半径60・相手質量500 → v≈√(1×500÷(60×2))≈1.44 を互いに逆向きに与える)
@@ -224,36 +363,176 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
   実機で「コピーしたプロンプトがモードに連動しない」「貼付先が分からずレコードがプリセット
   インポート欄へ入る」という失敗を生んだ。原因は分岐そのものなので、分岐を無くした。
 - 配るプロンプトは**1系統**。アプリ内生成・生成用プロンプト・短縮版とも
-  「仕様+出力の使い分け+内蔵実天体一覧+**少数ショット例**+要望」の同じ骨格を運ぶ。
+  「仕様+出力の使い分け+**少数ショット例**+要望」の同じ骨格を運ぶ
+  (内蔵実天体一覧の節は**第182便で全経路から撤去** — §6.2b)。
 - 少数ショット例は**必ず1つ入る**(選択中のベースのサンプル、未選択なら 🟠「木星とガリレオ衛星
   (実単位)」を**丸ごと** — 第181便で固定。間引き・改変・字数上限は無い)。
 - 貼付欄は AIタブの**1つだけ**。レコード配列かプリセットJSONかは**アプリが自動判別**する。
-- 実在天体は「モード」ではなく**プリセットとして存在する**。一覧に合致する要望には
-  そのサンプル名を案内し、数値を作らせない。内蔵の実天体サンプル: 太陽系 — 内惑星(実単位) / 水星(実単位)— 近日点移動 / 地球と月(実単位) / 木星とガリレオ衛星(実単位) / 土星の環と主要衛星(実単位) / 土星の近点移動(実単位・扁平重力)
+- 実在天体は「モード」ではなく**プリセットとして存在する**。到達手段は「ベースのサンプル」選択で、
+  第182便以降は**内蔵に近い系の生成を禁じない**(特殊な条件の要望に答えが返る)。
+
+## 6.2b 第182便の変更(2026-08-23)
+
+- **内蔵の実天体サンプル一覧の節を、全経路(フル・短縮・アプリ内)から撤去した。**
+  「一覧に合致したら何も生成せず、サンプル名を1行で案内する」という指示は、同じ節の
+  「JSON を1つだけ返す」という取込契約と正面から矛盾していた。指示に忠実なモデルほど
+  1行の案内文を返し、アプリは「JSON として読めません」と拒否する — 実機で確認された
+  Release blocker である。加えて「内蔵に似ているが条件が特殊な系」という正当な要望まで
+  塞いでいた。節ごと撤去したので矛盾は**構造的に消滅**する。
+  再混入は QA `prompt.no-contract-conflict`(ja/en × フル/短縮・否定対照つき)が止める。
+  カタログ本体(`ASTRO_CATALOG` / `buildAstroPreset` / `buildAstroFromRecords` / 検証器)は
+  **内部資産として温存**する — プロンプトから外しただけで、削除はしていない。
+- **アプリ内生成は出典を転写できない。** アプリ内の「生成する」はウェブ閲覧を持たない
+  LLM API を呼ぶので、出力A が必須とする「実際に開いた url」を持てない。実在天体を作る
+  手段は ①近い内蔵サンプルを**ベースのサンプル**に選ぶ ②ウェブ閲覧できるAIチャットへ
+  プロンプトを貼って生成し、返答を貼付欄へ — の2つである。AIタブは「生成する」の直下に
+  この導線を**常設**で表示する。
+- **埋込用の複製から表示専用の注記を落とす。** プロンプトへ埋め込むプリセット
+  (少数ショット例・選択したベース)からは `note` / `noteEn` / `roleNote` / `roleNoteEn` を
+  機械的に除去する(文字数削減)。**プリセット本体・アプリ内データ・保存は不変**で、
+  除去後の JSON もそのまま validator を通る。
+- **出力A・出力Bの節を強化した**(外部レビュー第6巡の採用分): ルート判定は必須項目だけ・
+  同一天体の body 文字列の完全一致・自転は `rotation_period` 優先・出典品質の階層・
+  出力前のケプラー自己チェック・不完全データの扱い・出力A の少数ショット例(コミット済みの
+  出典表由来の定数から**実行時に機械生成**)・出力B の物理一貫性ガイド・bulkVx/bulkVy 連動の
+  失敗例・円軌道初速 v=√(G·M/r)・scaleTier 代表値表(アプリの既定値定数から機械転記)・
+  よくある失敗のネガティブ例。
+- **スキーマのドリフトを修正した**: `radius` の値域を正本 0.01〜100 へ統一(別記述の
+  0.5〜500 を修正)/ `rMul` を body 型別に明記(single・ring 0.2〜40 / disk・box・grid
+  0.2〜20)/ `rays` を `{n, spread}`(spread 0〜1)で明記 / 「出力ルール」の採番の重複
+  (8番が2つ)を一意化 / 例の `cLight`=60 が既定 30 と違う意図を明示。
+  値域の四者一致(実装の clamp ⇄ 正本定数 `AI_SCHEMA_LIMITS` ⇄ SYSTEM_PROMPT ⇄ 本ファイル)は
+  新設 QA `prompt.schema-sync` が機械照合する。
 
 ## 6.3 出力の使い分け(逐語 — アプリと同一)
 
 ```
 # 出力の使い分け(この順で判断する)
-1. 要望が「# 内蔵の実天体サンプル」の一覧に合致する → **何も生成せず**、そのサンプル名を1行で案内する。
-2. 要望が**実在の天体・実在の系**で、質量・半径・軌道長半径・離心率・公転周期・自転周期を**このセッションで実際に参照したウェブ出典から写せる** → **出力A(観測レコード配列)を優先する**。
-3. それ以外(架空の系・トイモデル・現象の実験系・出典を開けない実在天体) → **出力B(プリセットJSON)**。
+1. 要望が**実在の天体・実在の系**で、**必須量**を**このセッションで実際に参照したウェブ出典から写せる** → **出力A(観測レコード配列)を優先する**。
+   必須量 = 中心天体の mass・radius / 各衛星の mass・semi_major_axis・orbital_period。判定に入るのはこれだけです。
+   任意量(衛星の radius・離心率・自転)は**出典がある場合だけ**足します。無くても出力Bへ落とさないでください。
+2. それ以外(架空の系・トイモデル・現象の実験系・出典を開けない実在天体) → **出力B(プリセットJSON)**。
 
-**どちらの出力でも、数値を記憶で埋めてはいけません。** 出力Aは行ごとに、実際に開いた出典の url と取得日 retrieved が必須です — 出典を持てない行は書かずに省略してください(省略は常に正解・推測は常に不正解)。出力Bの数値は「# 例」の流儀(桁・キー構成)に合わせて構成し、実在天体の精度は主張しないでください。出力は JSON を1つだけ(説明文・コードフェンス・複数案を付けない)。
+**どちらの出力でも、数値を記憶で埋めてはいけません。** 出力Aは行ごとに、実際に開いた出典の url と取得日 retrieved が必須です — 出典を持てない行は書かずに省略してください(省略は常に正解・推測は常に不正解)。出力Bの数値は「# 例」の流儀(桁・キー構成)に合わせて構成し、実在天体の精度は主張しないでください。出力は JSON を1つだけ(説明文・コードフェンス・複数案を付けない。JSON の代わりに「別のサンプルを使ってください」等の案内文を返さない)。
 
 # 出力A: 観測レコード(ObservationRecord)配列
 観測量1つにつき1オブジェクトの JSON 配列。単位換算・スケール指数・配置・初速・qLock の q・共有補正 D₀ は**アプリの決定的関数**が計算します(あなたは触りません)。
 {"body":"<天体名>","quantity":"<下記のいずれか>","value":<数値>,"unit":"<SI単位>","source":"<出典(刊行物・アーカイブ)>","url":"<実際に読んだページ>","retrieved":"YYYY-MM-DD","note":"<任意>"}
 quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] / semi_major_axis [m] / eccentricity [1] / orbital_period [s]
 - 中心天体(semi_major_axis を**持たない**天体)はちょうど1つ・かつ最重量。中心には mass と radius が必須。
-- 各衛星には mass・semi_major_axis・orbital_period が必須(radius・eccentricity・自転は任意 — 無ければアプリが宣言つきで既定化します)。
+- 各衛星には mass・semi_major_axis・orbital_period が必須。radius・eccentricity・自転は**任意** — 出典があるときだけ書きます(無ければアプリが宣言つきで既定化します)。
 - 単位は SI のみ(km・日・度は拒否されます)。換算はあなたが行い、その旨を note に書いてください。
 - **逆行自転は rotation_period を負の値**で書きます(符号はアプリが spin へ反映します)。質量・半径・軌道長半径・公転周期の負値は拒否されます。
 - **body(天体名)は出典の表記のままでよい**(和名可・英名へ翻訳しない — アプリは Unicode の名前をそのまま識別子にします)。
+- **同一天体の body 文字列は全行で完全一致**させてください。出典間で表記が割れていて統一した場合は、元の表記を note に記録します(黙って翻訳・別名解決をしない)。
+- **自転は rotation_period を優先**します。spin は出典が角速度を直接示す場合だけ使い、**同一天体に両方を出さない**でください。
+- 同じ body+quantity の組は1行だけです。
 - 環・塵・名前の無い天体は含めないでください。
+
+## 出典の品質(出力A)
+1. 公的機関・一次アーカイブ(NASA ファクトシート・JPL Horizons・IAU)・DOI つき査読論文。
+2. 探査計画の公式アーカイブ(Cassini・Galileo・New Horizons など)。
+3. 一次出典を引用している信頼できる二次資料 — 引用されている一次側の URL を優先します。
+Wikipedia 単独・ブログ・一次引用の無い教育サイトは避けてください。
+mass・semi_major_axis・orbital_period について複数出典が 1% を超えて食い違うときは、その量を省略するか、最新の査読値を採って相違を note に記録します。
+
+## 出力前の自己チェック(出力A)
+1. semi_major_axis を持たない天体がちょうど1つで、かつ最重量。
+2. 衛星が1つ以上あり、必須3量が揃っている。
+3. body+quantity の重複が無い。
+4. ケプラー整合: P²/a³ ≈ 4π²/(G·M中心)(出典の精度の範囲で)。転写値がこれを数%を超えて破るときは、単位と出典の元期を確認してください。**辻褄合わせに値を発明しない — 不整合な量は省略します。**
+5. 全行に source・実際に開いた url・retrieved がある。
+
+## 不完全なデータ(出力A)
+- 開いた出典から衛星の mass・semi_major_axis・orbital_period のいずれかを得られない場合、**その天体ごと省略**します(発明しない)。
+- radius・eccentricity だけが無い場合は、その行だけ省略します(アプリが既定を宣言します)。
+- 「およそ既知だから」で値を発明しないでください — アプリの自己診断が、実際の力学に合わない発明値を弾きます。
+
+## 例(本プロジェクトにコミット済みの出典表から機械生成)
+[
+ {
+  "body": "Jupiter",
+  "quantity": "mass",
+  "value": 1.898e+27,
+  "unit": "kg",
+  "source": "dfm-simulator committed source table (paper/data/jovian-satellites.csv)",
+  "url": "https://tty-imamura.github.io/dfm-simulator/paper/data/jovian-satellites.csv",
+  "retrieved": "2026-08",
+  "note": "Transcribed from the committed source table (1e26 kg column converted to kg)."
+ },
+ {
+  "body": "Jupiter",
+  "quantity": "radius",
+  "value": 71492000,
+  "unit": "m",
+  "source": "dfm-simulator committed source table (paper/data/jovian-satellites.csv)",
+  "url": "https://tty-imamura.github.io/dfm-simulator/paper/data/jovian-satellites.csv",
+  "retrieved": "2026-08",
+  "note": "Equatorial radius; 1e7 m column converted to m."
+ },
+ {
+  "body": "Io",
+  "quantity": "mass",
+  "value": 8.93e+22,
+  "unit": "kg",
+  "source": "dfm-simulator committed source table (paper/data/jovian-satellites.csv)",
+  "url": "https://tty-imamura.github.io/dfm-simulator/paper/data/jovian-satellites.csv",
+  "retrieved": "2026-08",
+  "note": "Same table, same body string as every other Io row."
+ },
+ {
+  "body": "Io",
+  "quantity": "semi_major_axis",
+  "value": 421800000,
+  "unit": "m",
+  "source": "dfm-simulator committed source table (paper/data/jovian-satellites.csv)",
+  "url": "https://tty-imamura.github.io/dfm-simulator/paper/data/jovian-satellites.csv",
+  "retrieved": "2026-08",
+  "note": "km converted to m. Inclination is deliberately ignored: the run is 2D and equatorial."
+ },
+ {
+  "body": "Io",
+  "quantity": "orbital_period",
+  "value": 152932,
+  "unit": "s",
+  "source": "dfm-simulator committed source table (paper/data/jovian-satellites.csv)",
+  "url": "https://tty-imamura.github.io/dfm-simulator/paper/data/jovian-satellites.csv",
+  "retrieved": "2026-08",
+  "note": "Derived from the two transcribed values above by Kepler's third law P=2*pi*sqrt(a^3/(G*M)) - not recalled from memory."
+ }
+]
 
 # 出力B: プリセット JSON
 上の仕様どおりのプリセットを1つだけ出力します。実在の系を近似する場合も、桁とスケール規約は「# 例」に合わせてください。
+
+## 物理の一貫性(出力B)
+- 「# 例」の桁感・キー密度・値域に合わせてください。
+- 現象系(対流・空間引きずり・ローター・レンズなど)は、利用者が近い内蔵サンプルを「ベースのサンプル」に選ぶと精度が大きく上がります。ベース未指定のときは、その旨を description の末尾に短く1文だけ書いてかまいません — **JSON の外に文章を足さないでください**。
+- 粒子総数は控えめに。現象が要求しない限り 200 未満を推奨します(上限は600)。
+- 熱の実験では、ヒーター(pinned・高スピン)と冷却板(pinned・スピン0)を明示的に置き、一様場は gravityY で作ります。
+- description で実在天体の精度を主張しないでください(近似した実在系はトイモデルであって定量再現ではありません)。
+- 円軌道の初速: v = √(G·M/r)(M=中心質量・r=軌道半径)。
+- **移動する中心の従属体**: vx,vy を持つ single の周りに ring/disk を置くときは、必ず**同じ値**を bulkVx,bulkVy に与えてください。
+  失敗例: {"type":"single","m":800,"x":0,"y":0,"vx":2,"vy":0,…} + {"type":"disk",…,"vMode":"kepler","aroundMass":800}(bulkVx なし)→ 核だけが飛んで円盤が取り残される。
+  正しい例: 同じ disk に "bulkVx":2,"bulkVy":0 を足す。
+
+## scaleTier の代表値(アプリの既定値定数から機械転記)
+| scaleTier | 1距離単位 [m] | 1時間単位 [s] | 1質量単位 [kg] | 光速表示指数 |
+|---|---|---|---|---|
+| molecular | 1e-10 | 1e-13 | 1e-26 | 3 |
+| beaker | 3.16e-3 | 3.16e-3 | 3.16e-3 | 0 |
+| everyday | 1e0 | 1e0 | 1e0 | 0 |
+| planetary | 1e8 | 1e4 | 1e24 | 4 |
+| stellar | 1e11 | 1e7 | 1e30 | 4 |
+| galactic | 1e19 | 1e14 | 1e34 | 5 |
+| cosmic | 1e23 | 1e17 | 1e42 | 6 |
+
+# よくある失敗(どちらの出力でも)
+- km・日のまま出す(m・s へ自分で換算し、その旨を note に書く)。
+- 和名を英名へ翻訳する(出典の表記のまま書く)。
+- スケールに収まらない質量を発明する(アプリの宣言つき降格経路に任せるか、その天体を省略する)。
+- 散文+JSON・複数案・コードフェンス。
+- 出典に無い radius・eccentricity を記憶から補う。
 ```
 
 ## 6.4 ObservationRecord 経路(第176便・第178便で負の自転周期を追加)
