@@ -28,8 +28,12 @@ jobs:
       QA_TARGET: ${{ matrix.target }}
     steps:
       # P2: サプライチェーン対策 — actions をコミット SHA で固定(タグは移動しうるため)
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      # 第190便: Node20 世代の v4 系 SHA(内部 runs.using が node20)がランナーの非推奨警告を
+      # 出していたため、node24 世代の最新安定版(checkout v6.1.0 / setup-node v6.5.0 /
+      # upload-artifact v6.0.0)の SHA へ更新。SHA は git ls-remote と shallow clone の HEAD の
+      # 両方で照合し、各 action.yml の runs.using: node24 を確認済み
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
           node-version: 24  # 第41便 41A(台帳4-84): actions の Node 20 非推奨警告に対応(QA は Node 24 で CI 実測確認)
       - name: Install Playwright
@@ -40,7 +44,7 @@ jobs:
         run: npm test
       - name: Upload machine-readable results
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: qa-results-${{ matrix.name }}
           path: tests/out/qa-results.json
@@ -52,8 +56,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
           node-version: 24  # 第41便 41A(台帳4-84): actions の Node 20 非推奨警告に対応(QA は Node 24 で CI 実測確認)
       - name: Install Playwright
@@ -64,7 +68,7 @@ jobs:
         run: node tests/perf.mjs
       - name: Upload perf results
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: perf-results
           path: tests/out/perf-results.json
