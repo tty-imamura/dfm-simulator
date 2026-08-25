@@ -1043,7 +1043,7 @@ ja: {
   btnExtCopy:"生成用プロンプトをコピー",
   btnExtCopyShort:"短縮版をコピー",
   aiExtHead:"あなたはこれから、ブラウザで動く『仮想物理ラボ』へ読み込ませるデータを作ります。下記の仕様に従い、最後の要望に合う出力を1つだけ返してください(出力の選び方は「# 出力の使い分け」に従うこと)。",
-  aiExtHeadShort:(u)=>"あなたはこれから、ブラウザで動く『仮想物理ラボ』へ読み込ませるデータを作ります。まず仕様書 "+u+" を読んでください(取得できない場合は、その旨だけを答えて中断してください)。その仕様と下記に従い、最後の要望に合う出力を1つだけ返してください(出力の選び方は「# 出力の使い分け」に従うこと)。",
+  aiExtHeadShort:(u)=>"あなたはこれから、ブラウザで動く『仮想物理ラボ』へ読み込ませるデータを作ります。まず仕様書 "+u+" を読んでください(取得できない場合は、同じ内容がリポジトリ https://github.com/tty-imamura/dfm-simulator/blob/main/docs/AI_SPEC.md にあります。どちらも読めなければ、その旨だけを答えて中断してください)。その仕様と下記に従い、最後の要望に合う出力を1つだけ返してください(出力の選び方は「# 出力の使い分け」に従うこと)。",
   aiExtReqHead:"# 要望",
   aiExtReqPh:"(ここに作りたいシミュレーションの説明を書く)",
   // 第178便: 単一プロンプトの共通節(少数ショット例の位置づけ)
@@ -1558,7 +1558,7 @@ en: {
   btnExtCopy:"Copy generation prompt",
   btnExtCopyShort:"Copy short version",
   aiExtHead:"You are about to produce data to be loaded into the browser app \"Virtual Physics Lab\". Follow the specification below and return exactly ONE output that fulfils the request at the end (choose which kind of output per \"# WHICH OUTPUT TO RETURN\").",
-  aiExtHeadShort:(u)=>"You are about to produce data to be loaded into the browser app \"Virtual Physics Lab\". First read the specification at "+u+" (if you cannot fetch it, just say so and stop). Then follow that specification and the rules below, and return exactly ONE output for the request at the end (choose which kind of output per \"# WHICH OUTPUT TO RETURN\"). Write the \"name\" and \"description\" fields in English.",
+  aiExtHeadShort:(u)=>"You are about to produce data to be loaded into the browser app \"Virtual Physics Lab\". First read the specification at "+u+" (if you cannot fetch it, the same file is in the repository at https://github.com/tty-imamura/dfm-simulator/blob/main/docs/AI_SPEC.md; if neither is readable, just say so and stop). Then follow that specification and the rules below, and return exactly ONE output for the request at the end (choose which kind of output per \"# WHICH OUTPUT TO RETURN\"). Write the \"name\" and \"description\" fields in English.",
   aiExtReqHead:"# Request",
   aiExtReqPh:"(describe the simulation you want here)",
   // Wave 178: shared sections of the single prompt (few-shot example)
@@ -2174,6 +2174,12 @@ const REACTION_DV_CAP = 16, REACTION_DV_CAP2 = REACTION_DV_CAP * REACTION_DV_CAP
 //            インパルス J_ij=μ_ij(φ_ij d_i−φ_ji d_j)。巨大質量比でも反作用が m_i/m_j 倍に
 //            増幅されないため、支配天体を pinned:false にできる(PHYSICS.md E6′-R)
 const FRAME_REACTION_KEY = "frameReaction", FRAME_REACTIONS = ["legacy","pairReduced"];
+// 第197便(M0): physics.halo — 解析的ダークハロー外部項(観測再現版専用)。オブジェクト値の
+// opt-in キーで、省略時はプリセット署名・挙動とも 1 bit 不変(frameReaction と同じ流儀)。
+// **公理ではない**: gravityX/Y と同じ「W に寄与しない宣言的外力」で、時計・光・引きずり・D₀ に
+// 一切触れない。運動量・角運動量の交換は場リザーバへ帳簿記録する。粒子化せず解析加速度
+// a(r)=−G·M_enc(r)/r² r̂ を使う(600粒の離散雑音を持ち込まない — M0 設計)。
+const HALO_MODELS=["uniform","nfw","burkert"];
 // 第114便(原仮定者裁定「速度キャリーの倍精度化: 採用」): stateCarry — 状態更新の数値表現の選択。
 // "double" で ①加速度累積 ax/ay を Float64 ②速度キックを補償和(Kahan キャリー)にする。
 // 1PN/重力 = 2.55e-8(実水星深度)が Float32 の相対 ulp(6e-8)未満で系統的に丸め落ちる
@@ -6867,32 +6873,32 @@ const BUILTIN_PRESETS = [
   obsCard:[
     {q:"公転周期(ミランダ/アリエル・kFrame=1・周回実測)", model:"1.41450 / 2.52000 日(+0.072% / −0.015%)", obs:"1.413479 / 2.520379 日"},
     {q:"公転周期(ウンブリエル/チタニア/オベロン・転写診断)", model:"+0.016% / +0.012% / +0.023%(接触要素推定)", obs:"4.144176 / 8.705867 / 13.463234 日"},
-    {q:"環11帯(88粒)の半径保持(2ミランダ公転窓)", model:"kFrame=1 で最大 0.0169 単位(0.040%)/ kFrame=0 対照では 0.968 単位(2.29%)— 記録のみ(機構帰属せず)", obs:"—"},
-    {q:"天王星の自転", model:"−17.24時間(逆行)を転写", obs:"NSSDC(磁場座標系)"},
+    {q:"環11帯(88粒)の半径保持(2ミランダ公転窓)", model:"kFrame=1 で最大 0.0164 単位(0.039%)/ kFrame=0 対照では 0.968 単位(2.29%)— 記録のみ(機構帰属せず)", obs:"—"},
+    {q:"天王星の自転(第196便: 面内符号+)", model:"17.24時間・面内符号は正(環・衛星と共回転 — NSSDC の負符号は 98° 軸傾斜による黄道基準ラベルとして note 記録)", obs:"NSSDC −17.24 h(磁場座標系)"},
     {q:"環の質量(第192便)", model:"出典つきモデル推定は最大の ε(CSG 6.989×10¹⁵kg)でも粒あたり ~10⁻¹⁰ 単位と値域下限 1e-6 の約1万分の1 → 全帯を下限へ引き上げ(宣言・力学はビット不変)", obs:"French et al. (2024) の SSG–CSG モデル依存幅(統計誤差ではない)・6環は未確立"}],
   failureFirst:{
-    fail:"環の質量は出典つきになった(第192便: French et al. (2024) Icarus 411, 115957 の掩蔽自己重力モデル — 6/5/4/α/β/ε は SSG–CSG のモデル依存幅・δ は SSG のみ・ζ/η/γ/λ/ν/μ は未確立)が、最大の ε(CSG 6.989×10¹⁵kg)でも粒あたり ~10⁻¹⁰ 単位と値域下限 1e-6 を約4桁割るため、**全帯を下限への引き上げとして宣言**する(mMin/mMax は 1e-6 のまま — 力学・実測はテスト質量時代とビット同一)。実在の環の質量比・光学的深さ・羊飼い衛星による狭帯化は引き続き再現しない(宣言)。実機採取の第1便(第184便前)は出力Bのトイ生成で κ とスケール指数が規約外だった(ChatGPT M=24・Grok は ring キー発明で取込失敗)— 第185便のプロンプト改修(実在系の近似〔出力B〕+自己チェック)を経た再採取で、環半径・衛星とも転写の生成に到達した。もう1つの正直な記録: 環の半径保持は kFrame=0 対照のほうが**悪い**(2.29% 対 0.040%)— 直感と逆向きの実測であり、機構の帰属は本便では行わない(記録のみ)。",
-    pass:"衛星5体(ミランダ〜オベロン)は Grok レコード(NSSDC アーカイブ版・全量 URL つき)からの決定的構築で、転写診断は最大 +0.071%(ミランダ — a と P の出典間張力)・周回実測はミランダ +0.072%・アリエル −0.015%。環11帯は実半径(NTRS)への Kepler 配置で 2ミランダ公転窓を 0.040% で保持する。フィットはゼロ(D₀=0.006 共有値・q=13.792 は q_exact をミランダ軌道で1回評価した直値・初速較正 1.000)。"},
+    fail:"環の質量は出典つきになった(第192便: French et al. (2024) Icarus 411, 115957 の掩蔽自己重力モデル — 6/5/4/α/β/ε は SSG–CSG のモデル依存幅・δ は SSG のみ・ζ/η/γ/λ/ν/μ は未確立)が、最大の ε(CSG 6.989×10¹⁵kg)でも粒あたり ~10⁻¹⁰ 単位と値域下限 1e-6 を約4桁割るため、**全帯を下限への引き上げとして宣言**する(mMin/mMax は 1e-6 のまま — 力学・実測はテスト質量時代とビット同一)。実在の環の質量比・光学的深さ・羊飼い衛星による狭帯化は引き続き再現しない(宣言)。実機採取の第1便(第184便前)は出力Bのトイ生成で κ とスケール指数が規約外だった(ChatGPT M=24・Grok は ring キー発明で取込失敗)— 第185便のプロンプト改修(実在系の近似〔出力B〕+自己チェック)を経た再採取で、環半径・衛星とも転写の生成に到達した。もう1つの正直な記録: 環の半径保持は kFrame=0 対照のほうが**悪い**(2.29% 対 0.039%)— 直感と逆向きの実測であり、機構の帰属は本便では行わない(記録のみ)。さらに第196便の記録: 当初は NSSDC の負符号をそのまま面内符号に写したため**中心自転だけが環・衛星と逆回り**だった(実機で指摘された Grok 生成と同型の不整合が内蔵にもあった)— 面内符号+へ整合し再実測(変化は環保持 0.0169→0.0164 単位のみ・周期は表示桁で不変)。",
+    pass:"衛星5体(ミランダ〜オベロン)は Grok レコード(NSSDC アーカイブ版・全量 URL つき)からの決定的構築で、転写診断は最大 +0.071%(ミランダ — a と P の出典間張力)・周回実測はミランダ +0.072%・アリエル −0.015%。環11帯は実半径(NTRS)への Kepler 配置で 2ミランダ公転窓を 0.039% で保持する。フィットはゼロ(D₀=0.006 共有値・q=13.792 は q_exact をミランダ軌道で1回評価した直値・初速較正 1.000)。"},
   descStruct:{
-    summary:"天王星(実質量 8.6811×10²⁵kg・実半径 25,559km・実自転 −17.24時間〔逆行・磁場座標系〕)と主要5衛星(ミランダ/アリエル/ウンブリエル/チタニア/オベロン — 実質量 0.66/12.9/12.2/34.2/28.8×10²⁰kg・実軌道長半径 129.90/190.90/266.00/436.30/583.50×10³km・実離心率・同期自転)+実半径の環11帯(1986U2R・6・5・4・α・β・η・γ・δ・λ・ε — 半径 37〜51.2×10⁶m・各8粒 1e-6〔値域下限 — 出典つき実質量は下限未満・第192便宣言〕)を、1単位=10⁶m/10²s/10²⁵kg で置いた観測転写サンプル(第186便・第192便で環質量を出典つき化)。働いているのは重力(E4)と空間引きずり(A8/E6′)+測地線1PN(E12)。出典は paper/data/solar-observations.csv(衛星系=NSSDC アーカイブ版・環半径=NTRS \"Passage to a Ringed World\" Appendix D — 2026-08-24 実機採取・環質量=French et al. (2024) Icarus 411, 115957〔arXiv 2401.04634 — 2026-08-25 実機採取〕)。環の質量は出典表のモデル推定(例: ε 3.27〜6.989×10¹⁵kg — SSG–CSG のモデル依存幅であって統計誤差ではない・6環は未確立)が粒あたり ~10⁻¹⁰ 単位と**値域下限 1e-6 未満**のため、下限への引き上げとして宣言する(第192便 — 力学は不変)。天王星は pinned(展示系の外部拘束)。規約は実較正の雛形そのまま(kFrame=1・D₀=0.006・geoPN=2・κ=G/c₀²)・q=13.792 は q_exact をミランダ軌道 a=129.9 で1回評価した直値。2D 理想化の画面平面は**天王星の赤道面**(自転軸の98°横倒しごと取る — 衛星・環とも赤道面系なので内部整合)。",
-    observe:"周回実測(2ミランダ公転窓)はミランダ 1.41450 日(観測 1.413479 日・+0.072%)・アリエル 2.52000 日(観測 2.520379 日・−0.015%)。外側3衛星は窓内で1周しないため転写診断(接触要素推定)で照合し、ウンブリエル +0.016%・チタニア +0.012%・オベロン +0.023%。**環11帯(88粒)の半径保持は最大 0.0169 単位(0.040%)**で、狭帯(幅2km級)も崩れない。kFrame=0 の対照では環のスプレッドが最大 0.968 単位(2.29%)まで大きくなる — 直感と逆向きの差であり、機構の帰属は行わず記録のみとする(引きずりが環を保つという主張はしない — 🪐 の逆例)。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.uranusReal)。",
+    summary:"天王星(実質量 8.6811×10²⁵kg・実半径 25,559km・実自転 17.24時間〔面内符号+ — NSSDC の −17.24h(磁場座標系)は 98° 軸傾斜による黄道基準の逆行ラベルで、赤道面内では環・衛星と同回り。第196便宣言〕)と主要5衛星(ミランダ/アリエル/ウンブリエル/チタニア/オベロン — 実質量 0.66/12.9/12.2/34.2/28.8×10²⁰kg・実軌道長半径 129.90/190.90/266.00/436.30/583.50×10³km・実離心率・同期自転)+実半径の環11帯(1986U2R・6・5・4・α・β・η・γ・δ・λ・ε — 半径 37〜51.2×10⁶m・各8粒 1e-6〔値域下限 — 出典つき実質量は下限未満・第192便宣言〕)を、1単位=10⁶m/10²s/10²⁵kg で置いた観測転写サンプル(第186便・第192便で環質量を出典つき化)。働いているのは重力(E4)と空間引きずり(A8/E6′)+測地線1PN(E12)。出典は paper/data/solar-observations.csv(衛星系=NSSDC アーカイブ版・環半径=NTRS \"Passage to a Ringed World\" Appendix D — 2026-08-24 実機採取・環質量=French et al. (2024) Icarus 411, 115957〔arXiv 2401.04634 — 2026-08-25 実機採取〕)。環の質量は出典表のモデル推定(例: ε 3.27〜6.989×10¹⁵kg — SSG–CSG のモデル依存幅であって統計誤差ではない・6環は未確立)が粒あたり ~10⁻¹⁰ 単位と**値域下限 1e-6 未満**のため、下限への引き上げとして宣言する(第192便 — 力学は不変)。天王星は pinned(展示系の外部拘束)。規約は実較正の雛形そのまま(kFrame=1・D₀=0.006・geoPN=2・κ=G/c₀²)・q=13.792 は q_exact をミランダ軌道 a=129.9 で1回評価した直値。2D 理想化の画面平面は**天王星の赤道面**(自転軸の98°横倒しごと取る — 衛星・環とも赤道面系なので内部整合)。",
+    observe:"周回実測(2ミランダ公転窓)はミランダ 1.41450 日(観測 1.413479 日・+0.072%)・アリエル 2.52000 日(観測 2.520379 日・−0.015%)。外側3衛星は窓内で1周しないため転写診断(接触要素推定)で照合し、ウンブリエル +0.016%・チタニア +0.012%・オベロン +0.023%。**環11帯(88粒)の半径保持は最大 0.0164 単位(0.039%)**で、狭帯(幅2km級)も崩れない。kFrame=0 の対照では環のスプレッドが最大 0.968 単位(2.29%)まで大きくなる — 直感と逆向きの差であり、機構の帰属は行わず記録のみとする(引きずりが環を保つという主張はしない — 🪐 の逆例)。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.uranusReal)。",
     control:"ワンタップ対照A/B: B側 kFrame=0(空間引きずり OFF)— 衛星周期はほぼ不変(ミランダ +0.091% 対 +0.072%)で、差が出るのは環のスプレッドだけである。timeScale=30 は timeScale 規約(最内公転≈5秒)を**最内環帯 1986U2R で評価**した値(衛星基準の規約値 300 では環が1秒1公転で潰れる — 原仮定者実機確認)。粒子表示倍率 dispMag=1 も実機確認による(既定則の3では中心の描画半径 76.7 単位が環 37〜51 を覆う)。トレイルを点けると環と衛星の周期差が見える。環質量の出典(French et al. 2024)は第192便で得られたが、換算すると粒あたり ~10⁻¹⁰ 単位と値域下限 1e-6 を約4桁割る — 「降格解除」は値域上あり得ず、**実質量併記の下限引き上げ宣言**が正しい着地である(mMin/mMax は 1e-6 のまま・力学ビット不変)。"},
   en:{name:"Uranus's Rings and Five Major Moons (Real Units)",
     obsCard:[
       {q:"Orbital periods (Miranda/Ariel, kFrame=1, measured revolutions)", model:"1.41450 / 2.52000 d (+0.072% / −0.015%)", obs:"1.413479 / 2.520379 d"},
       {q:"Orbital periods (Umbriel/Titania/Oberon, transcription check)", model:"+0.016% / +0.012% / +0.023% (osculating estimate)", obs:"4.144176 / 8.705867 / 13.463234 d"},
-      {q:"Ring retention, 11 bands / 88 grains (two Miranda orbits)", model:"max 0.0169 units (0.040%) at kFrame=1; 0.968 units (2.29%) in the kFrame=0 control — recorded only (no mechanism attributed)", obs:"—"},
-      {q:"Uranus's rotation", model:"−17.24 h (retrograde) transcribed", obs:"NSSDC (magnetic coordinates)"},
+      {q:"Ring retention, 11 bands / 88 grains (two Miranda orbits)", model:"max 0.0164 units (0.039%) at kFrame=1; 0.968 units (2.29%) in the kFrame=0 control — recorded only (no mechanism attributed)", obs:"—"},
+      {q:"Uranus's rotation (wave 196: in-plane sign +)", model:"17.24 h with a POSITIVE in-plane sign (co-rotating with the rings and moons — NSSDC's negative sign is the ecliptic-frame label from the 98° obliquity, recorded in a note)", obs:"NSSDC −17.24 h (magnetic coordinates)"},
       {q:"Ring masses (wave 192)", model:"even the largest sourced model estimate (ε, CSG 6.989×10¹⁵ kg) converts to ~10⁻¹⁰ units per grain — about 10⁴ below the value floor 1e-6, so every band is carried at the floor (declared; dynamics bit-identical)", obs:"French et al. (2024) SSG–CSG model-dependent ranges (not statistical errors); six rings not established"}],
     failureFirst:{
-      fail:"The ring masses now HAVE a source (wave 192: the occultation self-gravity models of French et al. (2024), Icarus 411, 115957 — SSG–CSG model-dependent ranges for 6/5/4/α/β/ε, SSG only for δ, not established for ζ/η/γ/λ/ν/μ), but even the largest (ε, CSG 6.989×10¹⁵ kg) converts to ~10⁻¹⁰ units per grain, about four orders below the value floor 1e-6 — so every band is DECLARED as raised to the floor (mMin/mMax stay 1e-6; dynamics and measurements are bit-identical to the test-mass build). The real rings' mass ratio, optical depth and shepherd-moon confinement remain unreproduced (declared). The first device collection (before wave 184) produced OUTPUT-B toys with off-convention κ and scale exponents (ChatGPT M=24; Grok failed intake by inventing ring keys) — after the wave-185 prompt overhaul (the real-system approximation and self-check sections) the re-collection reached a transcription-grade build for both rings and moons. One more honest record: ring retention is WORSE in the kFrame=0 control (2.29% vs 0.040%) — opposite to intuition; no mechanism is attributed in this wave (recorded only).",
-      pass:"The five moons (Miranda through Oberon) are built deterministically from the Grok records (archived NSSDC, every row with a URL): transcription check at most +0.071% (Miranda — an a-vs-P source tension), measured revolutions +0.072% (Miranda) and −0.015% (Ariel). The 11 ring bands sit at the real radii (NTRS) on Kepler speeds and hold to 0.040% over two Miranda orbits. Zero fits (shared D₀=0.006; q=13.792 is q_exact evaluated once at Miranda's orbit; speed calibration 1.000)."},
+      fail:"The ring masses now HAVE a source (wave 192: the occultation self-gravity models of French et al. (2024), Icarus 411, 115957 — SSG–CSG model-dependent ranges for 6/5/4/α/β/ε, SSG only for δ, not established for ζ/η/γ/λ/ν/μ), but even the largest (ε, CSG 6.989×10¹⁵ kg) converts to ~10⁻¹⁰ units per grain, about four orders below the value floor 1e-6 — so every band is DECLARED as raised to the floor (mMin/mMax stay 1e-6; dynamics and measurements are bit-identical to the test-mass build). The real rings' mass ratio, optical depth and shepherd-moon confinement remain unreproduced (declared). The first device collection (before wave 184) produced OUTPUT-B toys with off-convention κ and scale exponents (ChatGPT M=24; Grok failed intake by inventing ring keys) — after the wave-185 prompt overhaul (the real-system approximation and self-check sections) the re-collection reached a transcription-grade build for both rings and moons. One more honest record: ring retention is WORSE in the kFrame=0 control (2.29% vs 0.039%) — opposite to intuition; no mechanism is attributed in this wave (recorded only). And a wave-196 record: the NSSDC negative sign was initially carried straight into the in-plane spin, leaving THE CENTRAL SPIN COUNTER-ROTATING against its own rings and moons (the same inconsistency the device check flagged in a Grok generation) — the sign was aligned to the in-plane convention (+) and re-measured (only the ring retention moved, 0.0169→0.0164 units; the periods are unchanged at the displayed precision).",
+      pass:"The five moons (Miranda through Oberon) are built deterministically from the Grok records (archived NSSDC, every row with a URL): transcription check at most +0.071% (Miranda — an a-vs-P source tension), measured revolutions +0.072% (Miranda) and −0.015% (Ariel). The 11 ring bands sit at the real radii (NTRS) on Kepler speeds and hold to 0.039% over two Miranda orbits. Zero fits (shared D₀=0.006; q=13.792 is q_exact evaluated once at Miranda's orbit; speed calibration 1.000)."},
     descStruct:{
-      summary:"Uranus (real mass 8.6811×10²⁵ kg, real radius 25,559 km, real −17.24-hour retrograde rotation in magnetic coordinates) with its five major moons (Miranda/Ariel/Umbriel/Titania/Oberon — real masses 0.66/12.9/12.2/34.2/28.8 ×10²⁰ kg, real semi-major axes 129.90/190.90/266.00/436.30/583.50 ×10³ km, real eccentricities, synchronous rotations) and eleven rings at their real radii (1986U2R, 6, 5, 4, α, β, η, γ, δ, λ, ε — 37–51.2 ×10⁶ m; 8 grains each at 1e-6, the value floor — the sourced masses sit below it, declared in wave 192), placed with 1 unit = 10⁶ m / 10² s / 10²⁵ kg (wave 186; ring masses sourced in wave 192). Only gravity (E4), frame dragging (A8/E6′) and the geodesic 1PN term (E12) act. Sources: paper/data/solar-observations.csv (moons = archived NSSDC; ring radii = NTRS \"Passage to a Ringed World\" Appendix D — device-collected 2026-08-24). The ring masses are model estimates in the source table (French et al. (2024), Icarus 411, 115957 [arXiv 2401.04634] — e.g. ε 3.27–6.989×10¹⁵ kg, an SSG–CSG model-dependent range, not a statistical error; six rings not established); they convert to ~10⁻¹⁰ units per grain, BELOW the value floor 1e-6, so the floor is used and the raise is declared (wave 192 — dynamics unchanged). Uranus is pinned (an exhibit constraint). The conventions are the real-calibration template (kFrame=1, D₀=0.006, geoPN=2, κ=G/c₀²); q=13.792 is q_exact evaluated once at Miranda's orbit a=129.9. The 2D plane is URANUS'S EQUATORIAL PLANE (taken with its 98° axial tilt — internally consistent, since both the moons and the rings are equatorial systems).",
-      observe:"Measured revolutions (two-Miranda-orbit window): Miranda 1.41450 d (observed 1.413479 d, +0.072%), Ariel 2.52000 d (observed 2.520379 d, −0.015%). The outer three moons do not complete a revolution inside the window, so they are checked by the osculating-element transcription estimate: Umbriel +0.016%, Titania +0.012%, Oberon +0.023%. THE ELEVEN RING BANDS (88 grains) HOLD THEIR RADII TO AT MOST 0.0169 UNITS (0.040%) — even the 2-km-wide bands stay narrow. In the kFrame=0 control the ring spread grows to 0.968 units (2.29%) — a difference in the direction OPPOSITE to intuition; it is recorded without attributing a mechanism (no claim that dragging keeps rings — the converse of 🪐's lesson). Zero NaN; two runs are bit-identical (QA behavior.uranusReal).",
+      summary:"Uranus (real mass 8.6811×10²⁵ kg, real radius 25,559 km, real 17.24-hour rotation with a POSITIVE in-plane sign — NSSDC's −17.24 h, magnetic coordinates, is the ecliptic-frame retrograde label from the 98° obliquity; in the equatorial plane the rotation co-rotates with the rings and moons, declared in wave 196) with its five major moons (Miranda/Ariel/Umbriel/Titania/Oberon — real masses 0.66/12.9/12.2/34.2/28.8 ×10²⁰ kg, real semi-major axes 129.90/190.90/266.00/436.30/583.50 ×10³ km, real eccentricities, synchronous rotations) and eleven rings at their real radii (1986U2R, 6, 5, 4, α, β, η, γ, δ, λ, ε — 37–51.2 ×10⁶ m; 8 grains each at 1e-6, the value floor — the sourced masses sit below it, declared in wave 192), placed with 1 unit = 10⁶ m / 10² s / 10²⁵ kg (wave 186; ring masses sourced in wave 192). Only gravity (E4), frame dragging (A8/E6′) and the geodesic 1PN term (E12) act. Sources: paper/data/solar-observations.csv (moons = archived NSSDC; ring radii = NTRS \"Passage to a Ringed World\" Appendix D — device-collected 2026-08-24). The ring masses are model estimates in the source table (French et al. (2024), Icarus 411, 115957 [arXiv 2401.04634] — e.g. ε 3.27–6.989×10¹⁵ kg, an SSG–CSG model-dependent range, not a statistical error; six rings not established); they convert to ~10⁻¹⁰ units per grain, BELOW the value floor 1e-6, so the floor is used and the raise is declared (wave 192 — dynamics unchanged). Uranus is pinned (an exhibit constraint). The conventions are the real-calibration template (kFrame=1, D₀=0.006, geoPN=2, κ=G/c₀²); q=13.792 is q_exact evaluated once at Miranda's orbit a=129.9. The 2D plane is URANUS'S EQUATORIAL PLANE (taken with its 98° axial tilt — internally consistent, since both the moons and the rings are equatorial systems).",
+      observe:"Measured revolutions (two-Miranda-orbit window): Miranda 1.41450 d (observed 1.413479 d, +0.072%), Ariel 2.52000 d (observed 2.520379 d, −0.015%). The outer three moons do not complete a revolution inside the window, so they are checked by the osculating-element transcription estimate: Umbriel +0.016%, Titania +0.012%, Oberon +0.023%. THE ELEVEN RING BANDS (88 grains) HOLD THEIR RADII TO AT MOST 0.0164 UNITS (0.039%) — even the 2-km-wide bands stay narrow. In the kFrame=0 control the ring spread grows to 0.968 units (2.29%) — a difference in the direction OPPOSITE to intuition; it is recorded without attributing a mechanism (no claim that dragging keeps rings — the converse of 🪐's lesson). Zero NaN; two runs are bit-identical (QA behavior.uranusReal).",
       control:"One-tap A/B: side B is kFrame=0 — the moon periods barely move (Miranda +0.091% vs +0.072%); the only visible difference is the ring spread. timeScale=30 is the timeScale rule (innermost orbit ≈ 5 s) EVALUATED AT THE INNERMOST RING BAND 1986U2R (the satellite-based 300 makes the rings orbit once per second and smear — device-confirmed). The display magnification dispMag=1 is also device-confirmed (the default rule's 3 would draw Uranus at 76.7 units, covering the 37–51-unit rings). Switch trails on to see the period gradient across rings and moons. Sourced ring masses arrived in wave 192 (French et al. 2024), but they convert to ~10⁻¹⁰ units per grain — about four orders below the value floor 1e-6, so \"lifting the demotion\" is impossible in-range; the honest landing is the declared floor-raise with the real SI values quoted (mMin/mMax stay 1e-6; dynamics bit-identical)."},
     parameterAudit:{
-      observedInputs:["real G=6.674","real c₀=3×10⁴","Uranus's real mass, radius and retrograde rotation (−17.24 h)",
+      observedInputs:["real G=6.674","real c₀=3×10⁴","Uranus's real mass, radius and 17.24-hour rotation (in-plane sign +, wave 196 — NSSDC's negative sign is the ecliptic-frame obliquity label)",
         "the real semi-major axes, eccentricities, masses, radii and synchronous rotations of the five major moons (archived NSSDC)",
         "the observed periods 1.413479/2.520379/4.144176/8.705867/13.463234 d (compared against, NOT fitted to)",
         "the real ring radii of the 11 bands (NTRS \"Passage to a Ringed World\" Appendix D)",
@@ -6902,6 +6908,7 @@ const BUILTIN_PRESETS = [
         "kRep=muF=γN=κ_S=0 / geoPN=2, λ_PN=1, pnα=1.5 / stateCarry:\"double\"",
         "ring grains at the value floor 1e-6 (the sourced masses convert to ~10⁻¹⁰ units per grain, below the floor — the raise is declared, wave 192)","Uranus is pinned (an exhibit constraint)",
         "2D in Uranus's equatorial plane (the 98° axial tilt is taken with it — declared)",
+        "the central spin sign is the in-plane sense (positive in the equatorial frame — a tilt-only retrograde label does not flip it; wave 196)",
         "initial phases spread per the deterministic placement (no resonance angles set)"],
       fitted:["D₀=0.006 (the shared value fixed on 🌘, used as is — zero fits in this system; speed calibration 1.000)"],
       derived:["q=13.792 (the qLock exact-agreement form q_exact evaluated once at Miranda's orbit a=129.9)","κ=G/c₀²=7.4156×10⁻⁹",
@@ -6941,7 +6948,7 @@ const BUILTIN_PRESETS = [
         descPattern:"環のスプレッドが最大 (\\d+\\.\\d+) 単位"} }
   ],
   parameterAudit:{
-    observedInputs:["実 G=6.674","実 c₀=3×10⁴","天王星の実質量・実半径・逆行自転(−17.24時間)",
+    observedInputs:["実 G=6.674","実 c₀=3×10⁴","天王星の実質量・実半径・実自転 17.24時間(面内符号+ — NSSDC の負符号は 98° 軸傾斜による黄道基準ラベル・第196便)",
       "主要5衛星の実軌道長半径・実離心率・実質量・実半径・同期自転(NSSDC アーカイブ版)",
       "観測周期 1.413479/2.520379/4.144176/8.705867/13.463234 日(**照合先であって fit の対象ではない**)",
       "環11帯の実半径(NTRS \"Passage to a Ringed World\" Appendix D)",
@@ -6951,6 +6958,7 @@ const BUILTIN_PRESETS = [
       "kRep=muF=γN=κ_S=0 / geoPN=2・λ_PN=1・pnα=1.5 / stateCarry:\"double\"",
       "環粒は値域下限 1e-6(出典つき実質量は粒あたり ~10⁻¹⁰ 単位と下限未満 — 引き上げを宣言・第192便)","天王星 pinned(展示系の外部拘束)",
       "2D は天王星の赤道面(98° の横倒しごと — 宣言)",
+      "中心自転の符号は面内の向き(赤道面基準で+ — 軸傾斜だけの逆行ラベルは符号にしない・第196便)",
       "初期位相は決定的配置の刻み(共鳴角は初期条件に入れない)"],
     fitted:["D₀=0.006(🌘 で決めた共有値の流用 — 本系でのフィットはゼロ。初速較正 1.000)"],
     derived:["q=13.792(qLock 厳密一致式 q_exact をミランダ軌道 a=129.9 で1回評価した直値)","κ=G/c₀²=7.4156×10⁻⁹",
@@ -6968,7 +6976,7 @@ const BUILTIN_PRESETS = [
            //  mMin/mMax は下限 1e-6 のまま「引き上げ」を宣言(力学ビット不変)。
            // 衛星は観測転写経路の決定的配置のビット写し(近点整列・位相60°刻み・実ケプラー初速)。
            // 環半径は ChatGPT 実在系近似(出力B)からの転写(NTRS Appendix D — 実半径・幅)
-    {type:"single", m:8.6811, radius:25.559, x:0, y:0, vx:0, vy:0, spin:-0.0101237196, pinned:true, pnSource:true},
+    {type:"single", m:8.6811, radius:25.559, x:0, y:0, vx:0, vy:0, spin:0.0101237196, pinned:true, pnSource:true},   // 第196便: 面内符号+(NSSDC −17.24h は軸姿勢ラベル — 環・衛星と共回転)
     {type:"single", m:6.6e-6, radius:0.2357, x:129.73113, y:0, vx:0, vy:0.668714111964143, spin:0.00514489796, pinned:false},
     {type:"single", m:0.000129, radius:0.5789, x:95.33546000000003, y:165.1258604829504, vx:-0.4776714688398854, vy:0.27578375111891185, spin:0.00288536177, pinned:false},
     {type:"single", m:0.000122, radius:0.5847, x:-132.48129999999995, y:229.46434265277472, vx:-0.40575515966553904, vy:-0.23426285065797842, spin:0.00175480125, pinned:false},
@@ -8174,6 +8182,25 @@ const DESC_SECT_CAPS={summary:3000, observe:13000, control:1500};   // observe �
 // 割れていると「m=20000 の中心を回すケプラー円盤」の初速だけが黙って半分になるため。
 // 内蔵の aroundMass 最大は 2500 なので既存プリセットは 1 bit も変わらない(緩める方向のみ)。
 const MASS_CAP=20000;
+// 第197便(M0): physics.halo の検証。null=なし(A/B の physicsPatch:{halo:null} 用)。
+// 返り値: {ok:true, halo:正規化済み|null} / {ok:false, err:文言}
+function validateHalo(h){
+  if(h===null) return {ok:true, halo:null};
+  if(!h || typeof h!=="object" || Array.isArray(h)) return {ok:false, err:"physics.halo はオブジェクト(model と cx/cy+モデル別パラメータ)か null"};
+  if(HALO_MODELS.indexOf(h.model)<0) return {ok:false, err:'physics.halo.model は "uniform"/"nfw"/"burkert" のみ'};
+  const out={model:h.model};
+  const num=(k,lo,hi)=>{ const v=h[k]; if(!isNum(v)) return null; return clamp(v,lo,hi); };
+  out.cx=(h.cx===undefined)?0:num("cx",-5000,5000); out.cy=(h.cy===undefined)?0:num("cy",-5000,5000);
+  if(out.cx===null||out.cy===null) return {ok:false, err:"physics.halo.cx/cy は数値"};
+  if(h.model==="uniform"){
+    out.M=num("M",1e-6,1e9); out.R=num("R",0.01,1e5);
+    if(out.M===null||out.R===null) return {ok:false, err:"physics.halo(uniform)は M(総質量・単位系)と R(半径)が必要"};
+  } else {
+    out.rho0=num("rho0",1e-12,1e9); out.rs=num("rs",0.01,1e5);
+    if(out.rho0===null||out.rs===null) return {ok:false, err:"physics.halo("+h.model+")は rho0 と rs が必要"};
+  }
+  return {ok:true, halo:out};
+}
 function validatePreset(obj){
   const errors=[], warnings=[];
   // 第86便(外部レビュー P0-3): 旧コアキー(コアv1)から コアv2 へ**実際に移行したか**の機械可読フラグ。
@@ -8224,6 +8251,14 @@ function validatePreset(obj){
       if(k===FRAME_REACTION_KEY){
         if(FRAME_REACTIONS.indexOf(p.physics[k])<0) warnings.push('physics.frameReaction は "legacy"/"pairReduced" のみ — 既定(legacy)に修正');
         else if(p.physics[k]!=="legacy") ph[k]=p.physics[k];
+        continue;
+      }
+      // 第197便(M0): halo — オブジェクト値の opt-in キー(省略時は ph へ入れない=署名不変)。
+      // null はキーごと落とす(physicsPatch:{halo:null} の A/B 側と同じ「なし」正規化)
+      if(k==="halo"){
+        const hv=validateHalo(p.physics[k]);
+        if(!hv.ok){ bad(hv.err); continue; }
+        if(hv.halo!==null) ph[k]=hv.halo;
         continue;
       }
       // 第114便: stateCarry も同じ流儀(非数値キー・既定は ph へ入れない=署名不変)
@@ -9052,6 +9087,13 @@ function validatePreset(obj){
             if(k==="Kt"){ if(!isNum(A.physicsPatch.kappaT) && isNum(A.physicsPatch[k]))
               physicsPatch.kappaT=ktToKappa(A.physicsPatch[k]);
               continue; }
+            // 第197便(M0): halo — B側でハローを付け外しできる(null=ノックアウト対照)
+            if(k==="halo"){
+              const hv=validateHalo(A.physicsPatch[k]);
+              if(!hv.ok){ warnings.push("abBody.physicsPatch.halo が不正 — 無視します("+hv.err+")"); continue; }
+              physicsPatch.halo=hv.halo;   // null も有効値(=なし)としてそのまま運ぶ
+              continue;
+            }
             if(!(k in CLAMPS)){ warnings.push("abBody.physicsPatch の未知キー "+k+" を無視"); continue; }
             if(!isNum(A.physicsPatch[k])){ warnings.push("abBody.physicsPatch."+k+" が数値でないため無視"); continue; }
             physicsPatch[k]=clamp(A.physicsPatch[k],CLAMPS[k][0],CLAMPS[k][1]);
@@ -10868,6 +10910,18 @@ function makeSim(){
     const reqX=pairR?S._pr.reqX:__DF64, reqY=pairR?S._pr.reqY:__DF64;
     let anyReq=false;
     if(pairR){ reqX.fill(0,0,n); reqY.fill(0,0,n); }
+    // ===== 第197便(M0): 解析ハロー外部項の前計算 =====
+    // haloOn=false の既定経路は分岐1つで 1 bit も変えない(gX/gY と同じ外部場の流儀)。
+    // M_enc: uniform = M·min(1,(r/R)³) / NFW = 4πρ₀rs³·[ln(1+x)−x/(1+x)] /
+    //        Burkert = 2πρ₀rs³·[½ln(1+x²)+ln(1+x)−atan x](x=r/rs)
+    const hl=p.halo, haloOn=!!(hl && G>0);
+    let hCx=0,hCy=0,hMode=0,hM=0,hR3=0,hRs=0,hC=0;
+    if(haloOn){
+      hCx=hl.cx||0; hCy=hl.cy||0;
+      if(hl.model==="uniform"){ hMode=1; hM=hl.M; hR3=hl.R*hl.R*hl.R; }
+      else if(hl.model==="nfw"){ hMode=2; hRs=hl.rs; hC=4*Math.PI*hl.rho0*hl.rs*hl.rs*hl.rs; }
+      else { hMode=3; hRs=hl.rs; hC=2*Math.PI*hl.rho0*hl.rs*hl.rs*hl.rs; }
+    }
     // ===== 第69便 P4b(E12v2): geoPN=2 — v−u 統一測地線則(DERIVATIONS §18)=====
     //   dv/dt = kF·[∂u/∂t + (u·∇)u + (∇×u)ẑ×w] + ∇U + a₁ₚₙ(w)、 w = v − kF·u
     // geo2 が立つのは geoPN=2 のときだけで、**0/1 の経路は 1 bit も変えない**(裁定=段階導入)。
@@ -11560,6 +11614,27 @@ function makeSim(){
         S.resPx-=m[i]*gX*dt; S.resPy-=m[i]*gY*dt;
         S.resL-=m[i]*(x[i]*gY-y[i]*gX)*dt;
         if(msOn){ MS.gx[i]+=gX; MS.gy[i]+=gY; }   // 65A: 重力チャネル(一様外場 — 加速度そのもの)
+      }
+      // 第197便(M0): 解析ハロー外部項 — a(r)=−G·M_enc(r)/r² r̂(中心 hCx/hCy)。
+      // gravityX/Y と同じ「W に寄与しない外力」: 時計・光・引きずりを歪めず、運動量・
+      // 角運動量の交換は場リザーバへ記録する。r→0 で M_enc→0 なので特異点はない
+      if(haloOn){
+        const hdx=x[i]-hCx, hdy=y[i]-hCy, hr2=hdx*hdx+hdy*hdy, hr=Math.sqrt(hr2);
+        if(hr>1e-9){
+          let Me;
+          if(hMode===1){ Me=(hr*hr*hr<hR3)? hM*(hr*hr*hr)/hR3 : hM; }
+          else { const xr=hr/hRs;
+            Me=(hMode===2)? hC*(Math.log(1+xr)-xr/(1+xr))
+                          : hC*(0.5*Math.log(1+xr*xr)+Math.log(1+xr)-Math.atan(xr)); }
+          const aH=-G*Me/(hr2*hr), hax=aH*hdx, hay=aH*hdy;
+          if(carV){
+            const addX=hax*dt+carVx[i], v0x=vx[i]; vx[i]=v0x+addX; carVx[i]=addX-(vx[i]-v0x);
+            const addY=hay*dt+carVy[i], v0y=vy[i]; vy[i]=v0y+addY; carVy[i]=addY-(vy[i]-v0y);
+          } else { vx[i]+=hax*dt; vy[i]+=hay*dt; }
+          S.resPx-=m[i]*hax*dt; S.resPy-=m[i]*hay*dt;
+          S.resL-=m[i]*(x[i]*hay-y[i]*hax)*dt;
+          if(msOn){ MS.gx[i]+=hax; MS.gy[i]+=hay; }
+        }
       }
       // E6′ 輸送項(自分自身は除外して評価。1サブステップの引きずり量は0.8に制限)
       // v1.20: geoPN=1(E12測地線モード)では物質への E6′ を無効化 — 作用由来の式に
@@ -18126,7 +18201,7 @@ function buildObsCollectPrompt(){
 quantity [unit]: ${q}
 
 # WHAT THE APP NEEDS
-- The central body: mass, radius, and rotation_period (or spin). If no rotation source exists, omit those rows — the app will declare spin=0 itself.
+- The central body: mass, radius, and rotation_period (or spin). If no rotation source exists, omit those rows — the app will declare spin=0 itself. The rotation sign is the IN-PLANE sense of the declared 2D plane (for a planet-centred system, the body's equatorial plane — a "retrograde" label that comes only from an axial tilt above 90 deg goes in a note, not in the sign).
 - Each satellite: mass, radius, semi_major_axis, eccentricity, orbital_period, inclination.
   * mass and semi_major_axis are MANDATORY — if either is missing for any body, the app refuses to build.
   * radius missing: allowed (the app degrades to a display radius and declares it).
@@ -18154,7 +18229,7 @@ Transcribe the records for the system the user names. Output the JSON array only
 quantity [単位]: ${q}
 
 # アプリが必要とする量
-- 中心天体: mass・radius・rotation_period(または spin)。自転の出典が無ければその行を省略してください — アプリ側が spin=0 と宣言します。
+- 中心天体: mass・radius・rotation_period(または spin)。自転の出典が無ければその行を省略してください — アプリ側が spin=0 と宣言します。自転の符号は**宣言する2D平面での面内の向き**です(惑星中心系では中心天体の赤道面 — 軸傾斜が90°を超えるだけの「逆行」ラベルは符号にせず note に記します)。
 - 各衛星: mass・radius・semi_major_axis・eccentricity・orbital_period・inclination。
   * mass と semi_major_axis は**必須**。どれか1天体でも欠けるとアプリは構築を拒否します。
   * radius が無い場合は許容(アプリが表示半径へ降格し、その旨を宣言します)。
@@ -18275,7 +18350,7 @@ quantity [unit]: ${q}
 - The central body (the one WITHOUT semi_major_axis) must be exactly one and the heaviest; it needs mass and radius.
 - Every satellite needs mass, semi_major_axis and orbital_period; the other quantities are OPTIONAL (the app declares its defaults when they are missing).
 - SI units only (km, days, degrees are rejected): convert yourself and say so in "note".
-- RETROGRADE rotation is written as a NEGATIVE rotation_period (the app carries the sign into the spin). Negative mass, radius, semi_major_axis or orbital_period are rejected.
+- RETROGRADE rotation is written as a NEGATIVE rotation_period (the app carries the sign into the spin). Negative mass, radius, semi_major_axis or orbital_period are rejected. The sign is the IN-PLANE sense of the declared 2D plane: in a planet-centred build (plane = the central body's equatorial plane), a "retrograde" label that comes only from an axial tilt above 90 deg (Uranus, Pluto) is POSITIVE in-plane, co-rotating with the rings and moons — record the label in a note, not in the sign. A rotation genuinely retrograde with respect to the orbital plane (Venus, in a star-centred build) stays negative.
 - A RETROGRADE ORBIT is transcribed as inclination greater than π/2 (in rad; e.g. Triton's 157.345 deg = 2.746188 rad). Only the direction (direction=−1) enters the 2D placement; the tilt itself — and any inclination at or below π/2 — is recorded, ignored and declared. Satellites only; on the central body it is rejected.
 - The "body" name may stay exactly as your source writes it — a Japanese or other non-Latin name is fine, do NOT translate it into English.
 - **The "body" string must be byte-for-byte identical on every row of the same object.** If sources spell it differently, unify and record the original spelling in "note".
@@ -18316,6 +18391,8 @@ For a real system that OUTPUT A cannot express (planetary rings, discs, continuo
 - Declare per-sample real units as "scaleExp":{"L":<L>,"T":<L-4>,"M":<L+19>}. The convention L-T=4 and M+2T-3L=11 keeps the real constants (G=6.674, c0=3e4) — any other T or M is flagged by the importer. Pick L so the central radius lands between 0.01 and 100 units.
 - With scaleExp declared, use "G":6.674, "cLight":30000 and "kappaT":7.415555555555556e-9 (=G/c0^2) — not the toy defaults of "# EXAMPLE".
 - Ring features become "ring" groups (vMode:"kepler", aroundMass = the central body's m in the SAME units) at the real radii; unsourced masses stay tiny (1e-6 per particle) and "description" says so.
+- Rings and discs must CO-ROTATE with the transcribed central spin: direction = the sign of the centre's spin (direction:-1 when spin<0). A counter-rotating ring is a transcription error unless your source explicitly says the ring is retrograde.
+- Display conventions for real-radius systems: camera.scale ~= 1.2 x the outermost feature radius; evaluate the timeScale rule (innermost orbit ~= 5 s) at the INNERMOST feature; set dispMag to 1 (the default 3 draws a large centre over its rings; display-only).
 
 ## SELF-CHECK BEFORE YOU OUTPUT (OUTPUT B)
 1. Every body carries EXACTLY the keys of its type — for "ring" that is n, cx, cy, rIn, rOut, mMin, mMax, spinMin, spinMax, vMode, aroundMass, omega, vNoise, direction, pinned. Never invent keys: r, dr or a flat m on a ring are rejected by the importer.
@@ -18346,7 +18423,7 @@ quantity [単位]: ${q}
 - 中心天体(semi_major_axis を**持たない**天体)はちょうど1つ・かつ最重量。中心には mass と radius が必須。
 - 各衛星には mass・semi_major_axis・orbital_period が必須。radius・eccentricity・inclination・自転は**任意** — 出典があるときだけ書きます(無ければアプリが宣言つきで既定化します)。
 - 単位は SI のみ(km・日・度は拒否されます)。換算はあなたが行い、その旨を note に書いてください。
-- **逆行自転は rotation_period を負の値**で書きます(符号はアプリが spin へ反映します)。質量・半径・軌道長半径・公転周期の負値は拒否されます。
+- **逆行自転は rotation_period を負の値**で書きます(符号はアプリが spin へ反映します)。質量・半径・軌道長半径・公転周期の負値は拒否されます。**符号は宣言する2D平面での面内の向き**です — 惑星中心系(2D平面=中心天体の赤道面)では、軸傾斜が 90° を超えるだけの「逆行」ラベル(天王星・冥王星など)は面内では**正**で、環・衛星と同じ回り: ラベルは符号にせず note に記します。恒星中心系(2D平面=公転面)で公転面に対して本当に逆行する自転(金星など)は負のままです。
 - **逆行公転は inclination を π/2 超(rad)**で書きます(度は rad へ換算し note に明記 — 例: トリトンの 157.345° = 2.746188 rad)。アプリは**向きだけ**を 2D 配置へ転写し(direction=−1)、傾斜そのものは無視して宣言します。π/2 以下の傾斜は記録されますが無視されます(宣言)。inclination は衛星専用で、中心天体に書くと拒否されます。
 - **body(天体名)は出典の表記のままでよい**(和名可・英名へ翻訳しない — アプリは Unicode の名前をそのまま識別子にします)。
 - **同一天体の body 文字列は全行で完全一致**させてください。出典間で表記が割れていて統一した場合は、元の表記を note に記録します(黙って翻訳・別名解決をしない)。
@@ -18396,6 +18473,8 @@ ${ex}
 - サンプル別の実単位を "scaleExp":{"L":<L>,"T":<L−4>,"M":<L+19>} で宣言します。規約 T=L−4・M=L+19(L−T=4・M+2T−3L=11)が実定数(G=6.674・c₀=3×10⁴)を保つ唯一の組で、他の T・M はインポート時に警告されます。L は中心天体の半径が 0.01〜100 単位に入る桁を選びます。
 - scaleExp を宣言したら "G":6.674・"cLight":30000・"kappaT":7.415555555555556e-9(=G/c₀²)を使います(「# 例」のトイ既定値ではありません)。
 - 環は実半径の "ring" 群(vMode:"kepler"・aroundMass=**同じ単位系での**中心質量)にします。出典の無い環の質量は微小値(1粒 1e-6)に置き、その旨を description に書きます。
+- **環・円盤は転写した中心の spin と同じ向きに回します**: direction = spin の符号(spin<0 なら direction:-1)。出典が明示的に逆行環と言わない限り、逆向きの環は転写ミスです。
+- 実半径系の表示規約: **camera.scale ≈ 最外の特徴半径×1.2**・timeScale は規約(最内公転≈5秒)を**最内の特徴**で評価・**dispMag は 1**(既定の 3 は大きな中心の描画が環を覆います — 表示専用)。
 
 ## 出力前の自己チェック(出力B)
 1. 各 body のキーが仕様の型どおり**過不足なく**揃っている — ring は n, cx, cy, rIn, rOut, mMin, mMax, spinMin, spinMax, vMode, aroundMass, omega, vNoise, direction, pinned。キーを発明しない(ring に r・dr・単独の m を書くとインポートで拒否されます)。
@@ -20769,6 +20848,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   claimProv, PROV_CLASSES,  // 第105便B EXT-02: 主張の出所分類のQA用(表示専用)
   claimRole, ROLE_CLASSES,  // 第133便 P0: 主張の役割分類のQA用(宣言専用 — 表示のみ)
   OBS_FAMILY,   // 第193便: 観測転写ファミリーの凍結リスト(C案二層化 — QA claims.obs-family 用)
+  HALO_MODELS, validateHalo,   // 第197便(M0): 解析ハローキットの世代検出・QA 用
   grSI, GR_SI_INPUTS,  // 第148便: 弱場GR較正の式レベル出力(SI)— 表示・QA 専用の純関数
   // 第132便: EXT-06 較正台帳(自動算出)と EXT-02 第2段 主張の連鎖のQA用フック。
   // どちらも表示専用の純関数 — 呼んでも sim・プリセットを1バイトも書き換えない

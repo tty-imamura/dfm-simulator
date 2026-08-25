@@ -54,7 +54,7 @@ quantity [unit]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] / s
 - The central body (the one WITHOUT semi_major_axis) must be exactly one and the heaviest; it needs mass and radius.
 - Every satellite needs mass, semi_major_axis and orbital_period; the other quantities are OPTIONAL (the app declares its defaults when they are missing).
 - SI units only (km, days, degrees are rejected): convert yourself and say so in "note".
-- RETROGRADE rotation is written as a NEGATIVE rotation_period (the app carries the sign into the spin). Negative mass, radius, semi_major_axis or orbital_period are rejected.
+- RETROGRADE rotation is written as a NEGATIVE rotation_period (the app carries the sign into the spin). Negative mass, radius, semi_major_axis or orbital_period are rejected. The sign is the IN-PLANE sense of the declared 2D plane: in a planet-centred build (plane = the central body's equatorial plane), a "retrograde" label that comes only from an axial tilt above 90 deg (Uranus, Pluto) is POSITIVE in-plane, co-rotating with the rings and moons — record the label in a note, not in the sign. A rotation genuinely retrograde with respect to the orbital plane (Venus, in a star-centred build) stays negative.
 - A RETROGRADE ORBIT is transcribed as inclination greater than π/2 (in rad; e.g. Triton's 157.345 deg = 2.746188 rad). Only the direction (direction=−1) enters the 2D placement; the tilt itself — and any inclination at or below π/2 — is recorded, ignored and declared. Satellites only; on the central body it is rejected.
 - The "body" name may stay exactly as your source writes it — a Japanese or other non-Latin name is fine, do NOT translate it into English.
 - **The "body" string must be byte-for-byte identical on every row of the same object.** If sources spell it differently, unify and record the original spelling in "note".
@@ -146,6 +146,8 @@ For a real system that OUTPUT A cannot express (planetary rings, discs, continuo
 - Declare per-sample real units as "scaleExp":{"L":<L>,"T":<L-4>,"M":<L+19>}. The convention L-T=4 and M+2T-3L=11 keeps the real constants (G=6.674, c0=3e4) — any other T or M is flagged by the importer. Pick L so the central radius lands between 0.01 and 100 units.
 - With scaleExp declared, use "G":6.674, "cLight":30000 and "kappaT":7.415555555555556e-9 (=G/c0^2) — not the toy defaults of "# EXAMPLE".
 - Ring features become "ring" groups (vMode:"kepler", aroundMass = the central body's m in the SAME units) at the real radii; unsourced masses stay tiny (1e-6 per particle) and "description" says so.
+- Rings and discs must CO-ROTATE with the transcribed central spin: direction = the sign of the centre's spin (direction:-1 when spin<0). A counter-rotating ring is a transcription error unless your source explicitly says the ring is retrograde.
+- Display conventions for real-radius systems: camera.scale ~= 1.2 x the outermost feature radius; evaluate the timeScale rule (innermost orbit ~= 5 s) at the INNERMOST feature; set dispMag to 1 (the default 3 draws a large centre over its rings; display-only).
 
 ## SELF-CHECK BEFORE YOU OUTPUT (OUTPUT B)
 1. Every body carries EXACTLY the keys of its type — for "ring" that is n, cx, cy, rIn, rOut, mMin, mMax, spinMin, spinMax, vMode, aroundMass, omega, vNoise, direction, pinned. Never invent keys: r, dr or a flat m on a ring are rejected by the importer.
@@ -426,7 +428,7 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 - 中心天体(semi_major_axis を**持たない**天体)はちょうど1つ・かつ最重量。中心には mass と radius が必須。
 - 各衛星には mass・semi_major_axis・orbital_period が必須。radius・eccentricity・inclination・自転は**任意** — 出典があるときだけ書きます(無ければアプリが宣言つきで既定化します)。
 - 単位は SI のみ(km・日・度は拒否されます)。換算はあなたが行い、その旨を note に書いてください。
-- **逆行自転は rotation_period を負の値**で書きます(符号はアプリが spin へ反映します)。質量・半径・軌道長半径・公転周期の負値は拒否されます。
+- **逆行自転は rotation_period を負の値**で書きます(符号はアプリが spin へ反映します)。質量・半径・軌道長半径・公転周期の負値は拒否されます。**符号は宣言する2D平面での面内の向き**です — 惑星中心系(2D平面=中心天体の赤道面)では、軸傾斜が 90° を超えるだけの「逆行」ラベル(天王星・冥王星など)は面内では**正**で、環・衛星と同じ回り: ラベルは符号にせず note に記します。恒星中心系(2D平面=公転面)で公転面に対して本当に逆行する自転(金星など)は負のままです。
 - **逆行公転は inclination を π/2 超(rad)**で書きます(度は rad へ換算し note に明記 — 例: トリトンの 157.345° = 2.746188 rad)。アプリは**向きだけ**を 2D 配置へ転写し(direction=−1)、傾斜そのものは無視して宣言します。π/2 以下の傾斜は記録されますが無視されます(宣言)。inclination は衛星専用で、中心天体に書くと拒否されます。
 - **body(天体名)は出典の表記のままでよい**(和名可・英名へ翻訳しない — アプリは Unicode の名前をそのまま識別子にします)。
 - **同一天体の body 文字列は全行で完全一致**させてください。出典間で表記が割れていて統一した場合は、元の表記を note に記録します(黙って翻訳・別名解決をしない)。
@@ -527,6 +529,8 @@ mass・semi_major_axis・orbital_period について複数出典が 1% を超え
 - サンプル別の実単位を "scaleExp":{"L":<L>,"T":<L−4>,"M":<L+19>} で宣言します。規約 T=L−4・M=L+19(L−T=4・M+2T−3L=11)が実定数(G=6.674・c₀=3×10⁴)を保つ唯一の組で、他の T・M はインポート時に警告されます。L は中心天体の半径が 0.01〜100 単位に入る桁を選びます。
 - scaleExp を宣言したら "G":6.674・"cLight":30000・"kappaT":7.415555555555556e-9(=G/c₀²)を使います(「# 例」のトイ既定値ではありません)。
 - 環は実半径の "ring" 群(vMode:"kepler"・aroundMass=**同じ単位系での**中心質量)にします。出典の無い環の質量は微小値(1粒 1e-6)に置き、その旨を description に書きます。
+- **環・円盤は転写した中心の spin と同じ向きに回します**: direction = spin の符号(spin<0 なら direction:-1)。出典が明示的に逆行環と言わない限り、逆向きの環は転写ミスです。
+- 実半径系の表示規約: **camera.scale ≈ 最外の特徴半径×1.2**・timeScale は規約(最内公転≈5秒)を**最内の特徴**で評価・**dispMag は 1**(既定の 3 は大きな中心の描画が環を覆います — 表示専用)。
 
 ## 出力前の自己チェック(出力B)
 1. 各 body のキーが仕様の型どおり**過不足なく**揃っている — ring は n, cx, cy, rIn, rOut, mMin, mMax, spinMin, spinMax, vMode, aroundMass, omega, vNoise, direction, pinned。キーを発明しない(ring に r・dr・単独の m を書くとインポートで拒否されます)。
@@ -689,7 +693,7 @@ QA `ai.obs-build` は、🟠 jupiterGalilean を `paper/data/jovian-satellites.c
 quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] / semi_major_axis [m] / eccentricity [1] / orbital_period [s] / inclination [rad]
 
 # アプリが必要とする量
-- 中心天体: mass・radius・rotation_period(または spin)。自転の出典が無ければその行を省略してください — アプリ側が spin=0 と宣言します。
+- 中心天体: mass・radius・rotation_period(または spin)。自転の出典が無ければその行を省略してください — アプリ側が spin=0 と宣言します。自転の符号は**宣言する2D平面での面内の向き**です(惑星中心系では中心天体の赤道面 — 軸傾斜が90°を超えるだけの「逆行」ラベルは符号にせず note に記します)。
 - 各衛星: mass・radius・semi_major_axis・eccentricity・orbital_period・inclination。
   * mass と semi_major_axis は**必須**。どれか1天体でも欠けるとアプリは構築を拒否します。
   * radius が無い場合は許容(アプリが表示半径へ降格し、その旨を宣言します)。
@@ -725,3 +729,28 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 # あなたの仕事
 利用者が指定した系のレコードを転写してください。出力は JSON 配列のみです。
 ```
+
+## 7. 天体再現ゲート表テンプレ(第197便 M0)
+
+天体再現計画(連星〜棒渦巻 — 論文4)の各段階サンプルは、**測る前に**次のゲート一式を宣言して
+従う。観測再現版(宣言的解析ハロー `physics.halo` つき — uniform/nfw/burkert)と DFM 版
+(ハローなし・ダークローター)は同じ表で対で評価する:
+
+| ゲート | 合格条件(宣言してから測る) |
+|---|---|
+| 健全性 | NaN 0・クランプ 0 |
+| 保存則 | 帳簿(P/L+リザーバ)が閉じる |
+| 収束 | dt 半減・軟化長半減で秩序変数が窓内 |
+| 多seed | 宣言 seed 集合で全数再現(範囲を報告 — 最良値だけを出さない) |
+| 摂動回復 | 正式 injector の摂動から秩序変数が復帰 |
+| 時間窓 | 窓を宣言し、窓外の挙動も報告 |
+| ノックアウト | ハロー / ローター / kFrame の3系統(観測版はハロー抜きが対照) |
+| 用量反応 | 駆動を主張する係数は単調応答を要求 |
+| 保留データ | parameterAudit.heldOut に宣言し、凍結後にのみ判定 |
+| 主張ラベル | 公表値に4値ラベル(fixed / derived / fit / held_out) |
+
+- `parameterAudit.heldOut`(第197便で許容キー化)は「構築後に照合する保留観測量」の宣言枠。
+  fit にも derived にも入れない値はここに置き、凍結前に見ない。
+- `physics.halo` は観測再現版専用の外部項(公理ではない — docs/PHYSICS.md の該当節参照)。
+  生成 AI はこのキーを使わない。
+
