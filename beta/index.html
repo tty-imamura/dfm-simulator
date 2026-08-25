@@ -7241,6 +7241,115 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
+{ id:"alphaCenABDFM", name:"αケンタウリAB(DFM版)— kF1 質量較正", emoji:"✴️", group:"現実との照合",
+  familyId:"alphaCen", familyRole:"variant",
+  scaleTier:"stellar",
+  scaleExp:{L:10, T:6, M:29},   // ✨ と同じ単位系(1単位=10¹⁰m/10⁶s/10²⁹kg)
+  sampleClass:"calibration",
+  fidelity:"real",   // 幾何(遠点分離・遠点速度・自転・半径)は ✨ と同じ転写。質量だけが宣言つき1ノブ較正
+  notClaim:["solar_cal"],
+  obsCard:[
+    {q:"公転周期(kFrame=1・質量×1.827)", model:"2周目 79.769 年(+0.009%)— 3周 [79.811, 79.769, 79.750]", obs:"79.762 ± 0.019 年(Akeson et al. 2021 Table 8)"},
+    {q:"実測離心率(1周目の半径比振れ幅)", model:"0.51677(−0.52%)", obs:"e=0.51947 ± 0.00015(転写)"},
+    {q:"DFM 質量(条件つき較正 — 実在値の主張ではない)", model:"質量スケール f=1.827: A 1.9710 M☉(3.9193×10³⁰kg)・B 1.6611 M☉(3.3031×10³⁰kg)", obs:"—(kFrame=1 の計算式で観測周期に合わせた1ノブ fit)"},
+    {q:"軌道の形", model:"歳差するロゼット(kF1 は閉軌道を作らない)・radial 範囲は 〜0.07%/周で緩やかに収縮(宣言)", obs:"—(準安定の宣言)"},
+    {q:"静止完全解放の否定対照", model:"速度ゼロからの解放は f=1〜2.5 の全てで破綻(radial 落下→スイングバイ離散)", obs:"—(探索の実測記録)"}],
+  failureFirst:{
+    fail:"観測版 ✨ の実測どおり、kFrame=1 は転写質量のままでは対等質量連星の軌道を保てない(接触要素周期が永年成長し ±1% 契約を破る — 観測安定則の適用理由)。また速度ゼロの静止解放は質量を何倍にしても軌道にならない(radial 落下 → 近点通過のスイングバイで離散 — f=1〜2.5・分離 529.6/697.1 の全 10 構成で実測)。E6′ の自転引きずりだけでは、この恒星スケールで落下を旋回に変える角運動量を作れない。",
+    pass:"**「質量は軌道から計算式で算出される量 — 計算式が変われば質量が変わる」(原仮定者・2026-08-25 第8報)の実装第1号**。観測軌道の遠点状態(分離 529.61 単位・f=1 の実ケプラー遠点速度)をそのまま初期状態に取り、kFrame=1 の DFM 式で観測周期 79.762 年を再現する質量を1ノブ較正すると **質量スケール f=1.827** — このとき実測離心率 0.51677(転写比 −0.52%)・近点 168.7(観測版比 +0.7%)も**合わせていないのに** ±1% で観測の軌道形に一致する(P・e・近点の3観測量が同じ f を指す)。DFM 質量は A 1.9710 M☉・B 1.6611 M☉(ニュートン式推定の 1.827 倍)— 実在の質量の主張ではなく、**計算式に条件づけられた較正値**である。"},
+  descStruct:{
+    summary:"観測版 ✨(kFrame=0 — 観測安定則)の**対になる DFM 版**(第203便)。転写幾何は ✨ と同一 — 遠点分離 529.61 単位(=a(1+e)・Akeson et al. 2021 の a=23.299 AU・e=0.51947)・遠点接線速度は転写質量での実ケプラー値・両星の自転と半径も転写値。そのうえで **kFrame=1(空間引きずり ON — DFM の計算式)で観測周期 79.762 年を再現する質量を1ノブ較正**: 質量スケール f=1.827 → A 1.9710 M☉(3.9193×10³⁰kg)・B 1.6611 M☉(3.3031×10³⁰kg)。「質量は軌道から計算式で算出される量なので、計算式が変われば質量も変わる」(原仮定者第8報)— ニュートン式が M_total 3.95×10³⁰kg を出すのと同じ軌道から、DFM 式は ×1.827 を出す。**実在の質量の主張ではない**(計算式に条件づけられた較正値 — fidelity は幾何の転写と較正手順の宣言について)。働いているのは重力(E4)と空間引きずり(A8/E6′)+測地線1PN(E12)。q=4.6111・D₀=0.006 は ✨ の値をそのまま流用。",
+    observe:"実測(3.2公転窓): 周回時間 [79.811, 79.769, 79.750] 年 — **2周目 79.769 年は観測 79.762 年の +0.009%**(fit 対象)。合わせていない側: 1周目の実測離心率 0.51677(転写 0.51947 の −0.52%)・近点 168.7 単位(観測版の 167.5 の +0.7%)— **P に合わせた f=1.827 が e と近点も ±1% で当てる**(P・e・近点が同じ f に収束することが本サンプルの発見)。軌道は歳差するロゼットで、radial 範囲は1周あたり 〜0.07% ずつ緩やかに収縮する(kF1 に厳密な閉軌道・定常はない — 宣言)。否定対照: 速度ゼロの静止解放は f=1〜2.5 の全構成で破綻(radial 落下→スイングバイ離散)。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.alphaCenAB)。",
+    control:"ワンタップ対照A/B: B側 kFrame=0(観測版の計算式側)— **同じ初期状態・同じ×1.827 質量**では引力が過剰になり、軌道は深い楕円へ落ち込む(推定近点 〜80 単位)。×1.827 は kFrame=1 専用の較正であることの機械対照。観測版 ✨ と本サンプルの対で「同じ観測・違う計算式・違う質量」の二層が見える。timeScale=1000 で画面1秒≈11.6 日・dispMag=300(表示専用)・トレイルで軌道を見る。"},
+  en:{name:"Alpha Centauri AB (DFM build) — the kF1 mass calibration",
+    obsCard:[
+      {q:"Orbital period (kFrame=1, masses ×1.827)", model:"2nd revolution 79.769 yr (+0.009%) — three revolutions [79.811, 79.769, 79.750]", obs:"79.762 ± 0.019 yr (Akeson et al. 2021 Table 8)"},
+      {q:"Measured eccentricity (radius-ratio wobble, 1st revolution)", model:"0.51677 (−0.52%)", obs:"e=0.51947 ± 0.00015 (transcribed)"},
+      {q:"DFM masses (a conditional calibration — NOT a claim about the real masses)", model:"mass scale f=1.827: A 1.9710 M☉ (3.9193×10³⁰ kg), B 1.6611 M☉ (3.3031×10³⁰ kg)", obs:"— (a one-knob fit of the kFrame=1 formula to the observed period)"},
+      {q:"Orbit shape", model:"a precessing rosette (kF1 admits no closed orbit); the radial range contracts slowly, ~0.07% per revolution (declared)", obs:"— (declared quasi-stability)"},
+      {q:"Negative control: release from full rest", model:"released at zero velocity, every f from 1 to 2.5 fails (radial infall → slingshot escape)", obs:"— (measured record of the search)"}],
+    failureFirst:{
+      fail:"As measured on the observation build ✨, kFrame=1 cannot hold this near-equal-mass binary at the transcribed masses (the osculating period grows secularly beyond the ±1% contract — the very reason for the observation-stability rule). Release from full rest also fails at EVERY mass factor (radial infall, then a slingshot at the close pass — measured for f=1–2.5 at separations 529.6 and 697.1): spin dragging alone cannot supply the angular momentum to turn infall into orbit at this stellar scale.",
+      pass:"THE FIRST IMPLEMENTATION of the adjudicator's principle (8th device report, 2026-08-25): masses are quantities COMPUTED FROM ORBITS BY A FORMULA — change the formula and the masses change. Taking the observed orbit's apoapsis state as the initial condition (separation 529.61 units, the real Kepler apoapsis speed at the transcribed masses) and calibrating ONE knob — the mass scale — so that the kFrame=1 DFM formula reproduces the observed 79.762-yr period gives f=1.827. At that f the measured eccentricity 0.51677 (−0.52%) and perihelion 168.7 (+0.7%) ALSO land within ±1% of the observed shape, though neither was fitted: P, e and the perihelion all point to the same f. The DFM masses are A 1.9710 M☉ and B 1.6611 M☉ (1.827× the Newtonian inference) — not a claim about the real masses, but a calibration conditioned on the formula."},
+    descStruct:{
+      summary:"The DFM COUNTERPART (wave 203) of the observation build ✨ (kFrame=0 under the observation-stability rule). The transcribed geometry is identical to ✨ — apoapsis separation 529.61 units (=a(1+e), from Akeson et al. 2021's a=23.299 AU, e=0.51947), the real Kepler apoapsis speed at the transcribed masses, and both stars' rotations and radii. On top of that, ONE knob — the mass scale — is calibrated so that kFrame=1 (frame dragging ON, the DFM formula) reproduces the observed 79.762-yr period: f=1.827, giving A 1.9710 M☉ (3.9193×10³⁰ kg) and B 1.6611 M☉ (3.3031×10³⁰ kg). Masses are quantities computed from orbits by a formula — the same orbit that yields M_total 3.95×10³⁰ kg under the Newtonian formula yields ×1.827 under the DFM one. NOT a claim about the real masses (a calibration conditioned on the formula; fidelity refers to the transcribed geometry and the declared procedure). Only gravity (E4), frame dragging (A8/E6′) and the geodesic 1PN term (E12) act. q=4.6111 and D₀=0.006 are reused from ✨ as is.",
+      observe:"Measured over a 3.2-orbit window: revolution times [79.811, 79.769, 79.750] yr — the 2nd revolution, 79.769 yr, is +0.009% of the observed 79.762 (the fit target). The unfitted side: the 1st-revolution eccentricity 0.51677 (−0.52% of the transcribed 0.51947) and the perihelion 168.7 units (+0.7% of the observation build's 167.5) — the f=1.827 fitted to P ALSO lands e and the perihelion within ±1% (the convergence of P, e and perihelion on one f is this sample's finding). The orbit is a precessing rosette whose radial range contracts slowly, ~0.07% per revolution (kF1 admits no strictly closed or stationary orbit — declared). Negative control: release from zero velocity fails at every configuration tried (radial infall → slingshot). Zero NaN; two runs are bit-identical (QA behavior.alphaCenAB).",
+      control:"One-tap A/B: side B is kFrame=0 (the observation build's formula) — at the SAME initial state and the SAME ×1.827 masses, gravity is now excessive and the orbit plunges into a deep ellipse (estimated perihelion ~80 units): the ×1.827 calibration belongs to kFrame=1 only. Together with ✨ the pair shows one observation, two formulas, two mass ledgers. With timeScale=1000 one on-screen second ≈ 11.6 days; dispMag=300 (display only); use trails."},
+    parameterAudit:{
+      observedInputs:["real G=6.674","real c₀=3×10⁴",
+        "the transcribed geometry of ✨: apoapsis separation a(1+e)=529.61 units and the real Kepler apoapsis speed at the transcribed masses",
+        "both stars' rotations (15.9 d / 36.23 d) and radii (1.2175 / 0.8591 R☉), transcribed as in ✨",
+        "the observed period 79.762 yr (THE FIT TARGET of the one-knob mass calibration)",
+        "e=0.51947 and the perihelion (compared against, NOT fitted — they land within ±1% on their own)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10¹⁰ m / 10⁶ s / 10²⁹ kg — same as ✨)",
+        "kFrame=1 (the DFM formula — the point of this build; the observation build ✨ adopts kFrame=0 under the observation-stability rule)",
+        "frameReaction:\"pairReduced\" (E6′-R), kRep=muF=γN=κ_S=0 / geoPN=2, λ_PN=1, pnα=1.5 / stateCarry:\"double\"",
+        "initial state = the apoapsis of the observed orbit (two-body barycentric, both free)",
+        "the DFM masses are declared as a CONDITIONAL calibration, not real-mass claims"],
+      fitted:["mass scale f=1.827 (ONE knob: both masses ×f, fitted to the observed period 79.762 yr under kFrame=1 — the only fit in this sample; D₀=0.006 and q=4.6111 are reused from ✨ as is)"],
+      derived:["A 1.9710 M☉ = 3.9193×10³⁰ kg and B 1.6611 M☉ = 3.3031×10³⁰ kg (= transcribed masses × f)",
+        "κ=G/c₀²=7.4156×10⁻⁹","camera.scale=630, timeScale=1000, dispMag=300 (reused from ✨)"],
+      numerical:["softening ε=0.05","time multiplier timeScale=1000","display magnification dispMag=300 (display only)"]}},
+  abBody:{ label:{ja:"kFrame=0(観測版の計算式側 — ×1.827 質量では深い楕円へ)", en:"kFrame=0 (the observation build's formula — the ×1.827 masses plunge)"},
+    physicsPatch:{kFrame:0} },
+  claims:[
+    { id:"alphaCenABDFM.period-fit", kind:"fixed-seed", prov:"simulated", role:"fit_target",
+      metric:"dfmPeriodYears",
+      chain:{ax:["A4","A5"], eq:["E4","E6′"],
+        note:"1ノブ較正の fit 対象: kFrame=1 の DFM 式で質量スケール f=1.827 のとき、2周目の周回時間が観測周期 79.762 年を +0.009% で再現する(fit したのは f — 周期はその照合先)。",
+        noteEn:"The fit target of the one-knob calibration: at mass scale f=1.827 under kFrame=1, the 2nd revolution reproduces the observed 79.762 yr to +0.009% (f is what was fitted; the period is what it was fitted to)."},
+      roleNote:"fit 対象の宣言 — 本サンプル唯一の較正ノブ(質量スケール f)の照合先。",
+      roleNoteEn:"The declared fit target — what the sample's single knob (the mass scale f) was calibrated against.",
+      expected:{min:79.5, max:80.0},
+      descPattern:"2周目 (\\d+\\.\\d+) 年", testId:"behavior.alphaCenAB" },
+    { id:"alphaCenABDFM.shape-unfitted", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+      metric:"dfmEccMeasured",
+      chain:{ax:["A4","A5"], eq:["E4","E6′"],
+        note:"合わせていない側の検証: P に合わせた f=1.827 が、離心率 0.51677(転写比 −0.52%)と近点(+0.7%)も ±1% で当てる — P・e・近点の3観測量が同じ f に収束することが本サンプルの発見。",
+        noteEn:"The unfitted side: the f=1.827 fitted to P also lands the eccentricity 0.51677 (−0.52%) and the perihelion (+0.7%) within ±1% — the convergence of P, e and perihelion on one f is this sample's finding."},
+      roleNote:"回顧的確認 — e と近点は fit の対象ではない(照合のみ)。",
+      roleNoteEn:"Retrospective check — e and the perihelion were compared, never fitted.",
+      expected:{min:0.50, max:0.53},
+      descPattern:"実測離心率 (0\\.\\d+)", testId:"behavior.alphaCenAB" },
+    { id:"alphaCenABDFM.mass-factor", kind:"semantic", prov:"definition", role:"fit_target",
+      metric:"dfmMassFactor",
+      chain:{ax:["A4","A5"], eq:["E4","E6′"],
+        note:"「質量は軌道から計算式で算出される量 — 計算式が変われば質量が変わる」(原仮定者第8報)の機械固定: 質量スケール f=1.827(DFM 質量 = ニュートン式推定 ×1.827)が説明文と physics(bodies の m)の両方に一致して宣言されていること。実在質量の主張ではない(条件つき較正)。",
+        noteEn:"Machine-fixes the adjudicator's principle (8th report): the mass scale f=1.827 (DFM masses = the Newtonian inference ×1.827) is declared consistently in the text and in the bodies' m. Not a real-mass claim (a conditional calibration)."},
+      roleNote:"fit 値そのものの宣言(1ノブ)— QA が bodies の質量比と照合する。",
+      roleNoteEn:"The declared fit value itself (one knob) — QA checks it against the bodies' masses.",
+      expected:{min:1.82, max:1.84},
+      descPattern:"質量スケール f=(\\d+\\.\\d+)", testId:"behavior.alphaCenAB" }
+  ],
+  parameterAudit:{
+    observedInputs:["実 G=6.674","実 c₀=3×10⁴",
+      "✨ と同じ転写幾何: 遠点分離 a(1+e)=529.61 単位・転写質量での実ケプラー遠点速度",
+      "両星の自転(15.9 日/36.23 日)と半径(1.2175/0.8591 R☉)— ✨ と同じ転写",
+      "観測周期 79.762 年(**1ノブ質量較正の fit 対象**)",
+      "e=0.51947 と近点(照合先であって fit の対象ではない — 合わせずに ±1% で一致する)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10¹⁰m/10⁶s/10²⁹kg — ✨ と同一)",
+      "kFrame=1(DFM の計算式 — 本サンプルの主題。観測版 ✨ は観測安定則で kFrame=0)",
+      "frameReaction:\"pairReduced\"(E6′-R)・kRep=muF=γN=κ_S=0 / geoPN=2・λ_PN=1・pnα=1.5 / stateCarry:\"double\"",
+      "初期状態=観測軌道の遠点(二体重心系・両星自由)",
+      "DFM 質量は**条件つき較正値**として宣言(実在質量の主張ではない)"],
+    fitted:["質量スケール f=1.827(1ノブ: 両星の質量 ×f を kFrame=1 で観測周期 79.762 年に合わせた — 本サンプル唯一の fit。D₀=0.006・q=4.6111 は ✨ の値の流用)"],
+    derived:["A 1.9710 M☉=3.9193×10³⁰kg・B 1.6611 M☉=3.3031×10³⁰kg(=転写質量×f)",
+      "κ=G/c₀²=7.4156×10⁻⁹","camera.scale=630・timeScale=1000・dispMag=300(✨ の流用)"],
+    numerical:["ソフトニング ε=0.05","時間倍率 timeScale=1000","粒子表示倍率 dispMag=300(表示専用)"]},
+  activeParams:["kFrame","q","D0"],
+  camera:{scale:630}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.006, kFrame:1, q:4.6111, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1000, dispMag:300,
+    stateCarry:"double", frameReaction:"pairReduced"},
+  bodies:[ // 並び: 0=A・1=B。✨ の観測軌道の**遠点状態**(分離 529.6083511176・f=1 の実ケプラー
+           // 遠点速度 0.48926813239425804 を質量比で配分)に、質量だけ ×1.827(第203便の1ノブ較正)。
+           // 幾何・速度・自転・半径は転写値のビット写し — 質量以外に手を入れない
+    {type:"single", m:39.192690725999995, radius:0.084738, x:-242.21323583305931, y:0, vx:0, vy:0.22376387624389307, spin:4.57371397, pinned:false, pnSource:true},
+    {type:"single", m:33.031140534, radius:0.05979336, x:287.3951152845407, y:0, vx:0, vy:-0.26550425615036494, spin:2.00723302, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
 { id:"saturn", name:"土星の環(実験)", emoji:"🪐", group:"天体の物語",
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
@@ -15555,6 +15664,12 @@ function abStart(key, valB, bodyPatch){
     // 第120便: physicsPatch(B側パラメータ — ワンタップ誇張対照)。CLAMPS 適用
     if(bodyPatch.physicsPatch){
       for(const k of Object.keys(bodyPatch.physicsPatch)){
+        // 第202便(実機第8報「B側がハローOFFになっていない」の根因修正): halo はオブジェクト
+        // キーで CLAMPS に無く、下の数値ループが黙ってスキップしていた — 検証器(第197便)は
+        // physicsPatch.halo を受理するのに、実行時の B 側適用が無い。validateHalo を通して適用する
+        // (null=ノックアウトも有効値としてそのまま運ぶ — step() 側は halo なしとして扱う)
+        if(k==="halo"){ const hv=validateHalo(bodyPatch.physicsPatch[k]);
+          if(hv.ok) ab.simB.params.halo=hv.halo; continue; }
         if(!(k in CLAMPS)) continue;
         ab.simB.params[k]=clamp(bodyPatch.physicsPatch[k],CLAMPS[k][0],CLAMPS[k][1]);
       }
@@ -15693,6 +15808,9 @@ $("#btnReset").addEventListener("click",()=>{
       applyBodyPatch(ab.simB, ab.bodyPatch.targets, ab.bodyPatch.patch);
       if(ab.bodyPatch.physicsPatch){   // 第120便: physicsPatch レシピも⏮のたびに再適用
         for(const k of Object.keys(ab.bodyPatch.physicsPatch)){
+          // 第202便: halo レシピも⏮のたびに再適用(abStart と同じ扱い — null=ノックアウト有効)
+          if(k==="halo"){ const hv=validateHalo(ab.bodyPatch.physicsPatch[k]);
+            if(hv.ok) ab.simB.params.halo=hv.halo; continue; }
           if(k in CLAMPS) ab.simB.params[k]=clamp(ab.bodyPatch.physicsPatch[k],CLAMPS[k][0],CLAMPS[k][1]);
         }
         if(!isNum(ab.bodyPatch.physicsPatch.kappaT) && isNum(ab.bodyPatch.physicsPatch.Kt))

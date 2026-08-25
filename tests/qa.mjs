@@ -6474,8 +6474,49 @@ if (!FAST) {
         eq.same = pick(vb.preset) === pick(r1.preset);
         if (!eq.same) eq.diff = { builtin: pick(vb.preset).slice(0, 400), records: pick(r1.preset).slice(0, 400) };
       }
+      // 第203便: ✴️ DFM 版 — 「質量は計算式で算出される量」の1ノブ較正(f=1.827)の機械固定。
+      // (a) 宣言: kFrame=1・A/B は kFrame=0(観測版の計算式側)・質量が ✨ のちょうど ×1.827・
+      //     parameterAudit.fitted に f=1.827 の1ノブ宣言 (b) 実測: 2.2公転で2周目の周回時間が
+      //     観測 79.762 年 ±0.5%・1周目実測離心率 0.51677±0.02(合わせていない側の一致)(c) 決定性
+      let dfm = null;
+      {
+        const pd = HP.allPresets().find((q) => q.id === 'alphaCenABDFM');
+        if (!pd) dfm = { missing: true };
+        else {
+          const massOk = Math.abs(pd.bodies[0].m / p.bodies[0].m - 1.827) < 1e-9
+            && Math.abs(pd.bodies[1].m / p.bodies[1].m - 1.827) < 1e-9;
+          const declOk = pd.physics.kFrame === 1 && pd.abBody && pd.abBody.physicsPatch
+            && pd.abBody.physicsPatch.kFrame === 0 && pd.fidelity === 'real'
+            && pd.familyId === 'alphaCen' && pd.familyRole === 'variant'
+            && Array.isArray(pd.parameterAudit.fitted) && pd.parameterAudit.fitted.length === 1
+            && /f=1\.827/.test(pd.parameterAudit.fitted[0])
+            && /実在(の)?質量の主張ではない|条件つき較正/.test(pd.descStruct.summary);
+          const vd = HP.validatePreset(JSON.parse(JSON.stringify(pd)));
+          const S = HP.sim; S.build(vd.preset);
+          const dt = 0.016, steps = Math.round(2.2 * P_OBS / dt);
+          let ang = 0, px = 0, py = 0, rmin = Infinity, rmax = -Infinity;
+          const revs = []; let nextRev = 2 * Math.PI, e1 = null;
+          for (let k = 0; k < steps; k++) {
+            S.step(dt);
+            const dx = S.x[1] - S.x[0], dy = S.y[1] - S.y[0], rr = Math.hypot(dx, dy);
+            if (rr < rmin) rmin = rr; if (rr > rmax) rmax = rr;
+            if (k === 0) { px = dx; py = dy; } else {
+              ang += Math.atan2(px * dy - py * dx, px * dx + py * dy); px = dx; py = dy;
+              while (Math.abs(ang) >= nextRev) { revs.push((k + 1) * dt); nextRev += 2 * Math.PI;
+                if (e1 === null) { e1 = (rmax - rmin) / (rmax + rmin); } } }
+          }
+          const p2 = revs.length >= 2 ? revs[1] - revs[0] : null;
+          const one = () => { const vv = HP.validatePreset(JSON.parse(JSON.stringify(pd)));
+            const s2 = HP.sim; s2.build(vv.preset);
+            for (let k = 0; k < 400; k++) s2.step(0.016);
+            const o = []; for (let i = 0; i < s2.n; i++) o.push(s2.x[i], s2.y[i], s2.vx[i], s2.vy[i]); return o; };
+          const da = one(), db = one();
+          dfm = { massOk, declOk, p2, e1, nan: S.hasNaN(),
+            det: da.length === db.length && da.every((x2, i) => Object.is(x2, db[i])) };
+        }
+      }
       HP.loadPreset('saturn', false);
-      return { d, kf0, kf1, det, eq, P_OBS };
+      return { d, kf0, kf1, det, eq, dfm, P_OBS };
     }, { csvRows });
     const d = ac.d, kOk = Math.abs(d.kap - d.G / (d.c * d.c)) < 1e-18;
     const declOk = d.fid === 'real' && d.L === 10 && d.T === 6 && d.M === 29 && d.G === 6.674 && d.c === 30000
@@ -6484,18 +6525,26 @@ if (!FAST) {
       && d.spin0 > 0 && d.spin1 > 0 && d.ruleDecl;
     const yr = (u) => u === null ? null : u * 1e6 / 3.15576e7;
     const t0 = yr(ac.kf0.tRev);
+    const dm = ac.dfm || { missing: true };
+    const dfmOk = !dm.missing && dm.massOk && dm.declOk && !dm.nan && dm.det
+      && dm.p2 !== null && Math.abs(dm.p2 / ac.P_OBS - 1) < 0.005
+      && dm.e1 !== null && Math.abs(dm.e1 - 0.51677) < 0.02;
     add('behavior.alphaCenAB', csvRows.length === 9
       && declOk && !ac.kf0.nan && !ac.kf1.nan && ac.det
       && t0 !== null && Math.abs(t0 / 79.762 - 1) < 0.001
       && Math.abs(ac.kf0.ecc - 0.51947) < 0.02 && ac.kf0.maxAbs < 5000
       && ac.kf1.growth > 1.0
-      && ac.eq.ok && ac.eq.stab === 'obs-stability' && ac.eq.same === true,
+      && ac.eq.ok && ac.eq.stab === 'obs-stability' && ac.eq.same === true
+      && dfmOk,
       `宣言=${declOk}(fidelity=real・L10/T6/M29・κ=G/c₀²・**kFrame=0(観測安定則 2026-08-25 裁定の採用側)**・`
       + `A/B 測定側 kFrame=1・両星自由・E6′-R・ts=1000/dm=300・裁定引用あり) / `
       + `kF0(採用側・1.05公転): ${t0 === null ? '—' : t0.toFixed(4) + '年'}(観測 79.762・宣言 79.7647)・`
       + `実測離心率 ${ac.kf0.ecc.toFixed(5)}(転写 0.51947)・座標最大 ${ac.kf0.maxAbs.toFixed(0)}(±5000 内) / `
       + `kF1(測定側・6%窓): 接触要素周期 +${(ac.kf1.growth * 100).toFixed(0)}%(宣言 +248% — 永年不安定を宣言どおり実測) / `
       + `経路等価: CSV ${csvRows.length}行 → buildAstroFromRecords が観測安定則発動(${ac.eq.stab})+内蔵とビット一致=${ac.eq.same} / `
+      + `✴️ DFM版(第203便): 質量=✨×1.827(ビット照合 ${dm.massOk})・宣言(kF1・A/B=kF0・fitted 1ノブ・条件つき較正)=${dm.declOk} / `
+      + `kF1+f=1.827 の2周目 ${dm.p2 === null ? '—' : yr(dm.p2).toFixed(3) + '年'}(観測 79.762 ±0.5%・宣言 79.769)・`
+      + `1周目 e=${dm.e1 === null ? '—' : dm.e1.toFixed(5)}(宣言 0.51677 — 合わせていない側の一致)・決定性=${dm.det} / `
       + `決定性=${ac.det} / ${ac.kf0.steps}+${ac.kf1.steps}步`);
   } else {
     console.log('SKIP behavior.alphaCenAB(対象に第199便の ✨ なし — root 等)');
@@ -6629,6 +6678,40 @@ if (!FAST) {
         const vNo = HP.curveVBarAt(0, 0, 60);
         if (!(vNo < 0.01)) bad.push('halo なし構成の v_bar が 0 でない(合成の混入): ' + vNo);
       }
+      // (h) 第202便(実機第8報「B側がハローOFFになっていない」の根因回帰): physicsPatch.halo の
+      //     **実行時適用**。(d) の検証器受理だけでは足りない — abStart の数値ループが halo
+      //     (オブジェクトキー・CLAMPS 外)をスキップし、B 側にハローが残っていた。実機と同じ経路
+      //     (貼付取込 → ワンタップA/B ボタン → ⏮初めから)で、①B 側 params.halo=null・A 側は保持
+      //     ②800步で A は円軌道維持・B は直進離脱 ③⏮初めから の再適用でも B 側の削除が保持、
+      //     を機械固定する(プリセット切替が A/B を解除する既存挙動で後始末)
+      if (document.querySelector('#aiPasteArea')) {
+        const keep = localStorage.getItem('hp_custom_presets');
+        const h = HALOS[1];
+        const p = mkP(h); p.name = 'QAハローAB'; p.bodies[0].vy = Math.sqrt(Menc(h, 60) / 60);
+        p.abBody = { label: { ja: 'ハローOFF(直進対照)', en: 'halo off' }, physicsPatch: { halo: null } };
+        document.querySelector('#aiPasteArea').value = JSON.stringify(p);
+        document.querySelector('#btnAiPaste').click();
+        const btn = document.querySelector('#btnAbBody');
+        if (!btn) bad.push('貼付プリセットにワンタップA/B ボタンが出ない(第200便回帰)');
+        else {
+          btn.click();
+          const ab = HP.ab();
+          if (!ab) bad.push('A/B が開始されない');
+          else {
+            if (ab.simB.params.halo !== null) bad.push('B側の halo が消えていない(第202便回帰): ' + JSON.stringify(ab.simB.params.halo).slice(0, 40));
+            if (!HP.sim.params.halo) bad.push('A側の halo まで消えた');
+            for (let k = 0; k < 800; k++) { HP.sim.step(0.016); ab.simB.step(0.016); }
+            const rA = Math.hypot(HP.sim.x[0], HP.sim.y[0]), rB = Math.hypot(ab.simB.x[0], ab.simB.y[0]);
+            if (!(Math.abs(rA - 60) < 2)) bad.push('A側の円軌道が崩れた: r=' + rA.toFixed(1));
+            if (!(rB > 100)) bad.push('B側が直進離脱しない(ハローが効いたまま): r=' + rB.toFixed(1));
+            document.querySelector('#btnReset').click();
+            const ab2 = HP.ab();
+            if (!(ab2 && ab2.simB.params.halo === null)) bad.push('⏮初めから の再適用で B側の halo 削除が失われた');
+          }
+        }
+        if (keep === null) localStorage.removeItem('hp_custom_presets');
+        else localStorage.setItem('hp_custom_presets', keep);
+      }
       HP.loadPreset('saturn', false);
       return { bad, rows };
     });
@@ -6637,7 +6720,9 @@ if (!FAST) {
       + `(独立再計算の v=√(G·M_enc/r) に対し周期 ±1%・振れ幅<0.5%)/ 運動量帳簿が閉じる(場リザーバ交換) / `
       + `ノックアウト(halo なし)で周回消失 / physicsPatch:{halo:null} 受理(A/B ノックアウト対照) / `
       + `決定性ビット同一 / 否定対照5種差し戻し / 回転曲線 v_bar へのハロー合成が独立解析一致 ±1%`
-      + `(第201便 — ハロー単独線も同値・halo なしの基準線は不変)`
+      + `(第201便 — ハロー単独線も同値・halo なしの基準線は不変) / `
+      + `A/B の**実行時**ノックアウト(第202便 — 貼付→ボタン→⏮ の実機経路で B側 halo=null・`
+      + `直進離脱・⏮再適用も保持)`
       + `${hk.bad.length ? ' NG=[' + hk.bad.slice(0, 6).join(' / ') + ']' : ''}`);
   }
 }
@@ -17244,7 +17329,14 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     // 第199便: αケンタウリAB(✨ — 恒星スケールのスケール換算込み実較正)を追加 — 19→20 へ強化追随
     const gen199 = await page.evaluate(() =>
       HP.allPresets().some((p) => p.id === 'alphaCenAB'));
-    const want = gen199 ? 'alphaCenAB,earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+    // 第203便: ✴️ DFM版(転写幾何+宣言つき1ノブ質量較正 — 🌘KF1 と同型の「fit を持つ実較正」)を追加 — 20→21
+    const gen203 = await page.evaluate(() =>
+      HP.allPresets().some((p) => p.id === 'alphaCenABDFM'));
+    const want = gen203 ? 'alphaCenAB,alphaCenABDFM,earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+        + 'jupiterGalilean,marsMoonsReal,mercuryReal,mercuryRealKF1,neptuneReal,plutoCharonReal,'
+        + 'qLockRadialAudit,qLockRadialAuditQ3,saturnRingReal,saturnRingRealKF1,saturnZonalD68,'
+        + 'solarInner,uranusReal,venusReal'
+      : gen199 ? 'alphaCenAB,earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
         + 'jupiterGalilean,marsMoonsReal,mercuryReal,mercuryRealKF1,neptuneReal,plutoCharonReal,'
         + 'qLockRadialAudit,qLockRadialAuditQ3,saturnRingReal,saturnRingRealKF1,saturnZonalD68,'
         + 'solarInner,uranusReal,venusReal'
