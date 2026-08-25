@@ -6420,6 +6420,7 @@ if (!FAST) {
         D0: p.physics.D0, fr: p.physics.frameReaction, ts: p.physics.timeScale, dm: p.physics.dispMag,
         pin0: p.bodies[0].pinned, pin1: p.bodies[1].pinned, spin0: p.bodies[0].spin, spin1: p.bodies[1].spin,
         abKF: p.abBody && p.abBody.physicsPatch && p.abBody.physicsPatch.kFrame,
+        fam: p.familyRole,   // 第204便: ✴️ を仲間のメインへ — 観測版は variant
         ruleDecl: /観測安定則(.|\n)*2026-08-25/.test(p.descStruct.summary + p.failureFirst.pass) };
       const run = (patch, frac) => {
         const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
@@ -6487,31 +6488,35 @@ if (!FAST) {
             && Math.abs(pd.bodies[1].m / p.bodies[1].m - 1.827) < 1e-9;
           const declOk = pd.physics.kFrame === 1 && pd.abBody && pd.abBody.physicsPatch
             && pd.abBody.physicsPatch.kFrame === 0 && pd.fidelity === 'real'
-            && pd.familyId === 'alphaCen' && pd.familyRole === 'variant'
+            && pd.familyId === 'alphaCen' && pd.familyRole === 'primary'   // 第204便: DFM版が仲間のメイン
             && Array.isArray(pd.parameterAudit.fitted) && pd.parameterAudit.fitted.length === 1
             && /f=1\.827/.test(pd.parameterAudit.fitted[0])
-            && /実在(の)?質量の主張ではない|条件つき較正/.test(pd.descStruct.summary);
+            && /実在(の)?質量の主張ではない|条件つき較正/.test(pd.descStruct.summary)
+            && /±40/.test(pd.descStruct.observe);   // 第205便: スピン飽和の宣言があること
           const vd = HP.validatePreset(JSON.parse(JSON.stringify(pd)));
           const S = HP.sim; S.build(vd.preset);
           const dt = 0.016, steps = Math.round(2.2 * P_OBS / dt);
           let ang = 0, px = 0, py = 0, rmin = Infinity, rmax = -Infinity;
+          let s0min = Infinity, s0max = -Infinity;   // 第205便: スピン飽和(±40)の実測固定
           const revs = []; let nextRev = 2 * Math.PI, e1 = null;
           for (let k = 0; k < steps; k++) {
             S.step(dt);
             const dx = S.x[1] - S.x[0], dy = S.y[1] - S.y[0], rr = Math.hypot(dx, dy);
             if (rr < rmin) rmin = rr; if (rr > rmax) rmax = rr;
+            if (S.spin[0] < s0min) s0min = S.spin[0]; if (S.spin[0] > s0max) s0max = S.spin[0];
             if (k === 0) { px = dx; py = dy; } else {
               ang += Math.atan2(px * dy - py * dx, px * dx + py * dy); px = dx; py = dy;
               while (Math.abs(ang) >= nextRev) { revs.push((k + 1) * dt); nextRev += 2 * Math.PI;
                 if (e1 === null) { e1 = (rmax - rmin) / (rmax + rmin); } } }
           }
           const p2 = revs.length >= 2 ? revs[1] - revs[0] : null;
+          const angSign = Math.sign(ang);   // 第204便: ✨ と同回り(数学正)であること
           const one = () => { const vv = HP.validatePreset(JSON.parse(JSON.stringify(pd)));
             const s2 = HP.sim; s2.build(vv.preset);
             for (let k = 0; k < 400; k++) s2.step(0.016);
             const o = []; for (let i = 0; i < s2.n; i++) o.push(s2.x[i], s2.y[i], s2.vx[i], s2.vy[i]); return o; };
           const da = one(), db = one();
-          dfm = { massOk, declOk, p2, e1, nan: S.hasNaN(),
+          dfm = { massOk, declOk, p2, e1, nan: S.hasNaN(), angSign, s0min, s0max,
             det: da.length === db.length && da.every((x2, i) => Object.is(x2, db[i])) };
         }
       }
@@ -6528,7 +6533,10 @@ if (!FAST) {
     const dm = ac.dfm || { missing: true };
     const dfmOk = !dm.missing && dm.massOk && dm.declOk && !dm.nan && dm.det
       && dm.p2 !== null && Math.abs(dm.p2 / ac.P_OBS - 1) < 0.005
-      && dm.e1 !== null && Math.abs(dm.e1 - 0.51677) < 0.02;
+      && dm.e1 !== null && Math.abs(dm.e1 - 0.51677) < 0.02
+      && dm.angSign === 1                      // 第204便: 公転の向きが ✨ と同回り(数学正)
+      && dm.s0min === -40 && dm.s0max === 40   // 第205便: スピン飽和(±40)が宣言どおり実測されること
+      && ac.d.fam === 'variant';               // 第204便: 観測版 ✨ は variant(DFM版がメイン)
     add('behavior.alphaCenAB', csvRows.length === 9
       && declOk && !ac.kf0.nan && !ac.kf1.nan && ac.det
       && t0 !== null && Math.abs(t0 / 79.762 - 1) < 0.001
@@ -6542,9 +6550,11 @@ if (!FAST) {
       + `実測離心率 ${ac.kf0.ecc.toFixed(5)}(転写 0.51947)・座標最大 ${ac.kf0.maxAbs.toFixed(0)}(±5000 内) / `
       + `kF1(測定側・6%窓): 接触要素周期 +${(ac.kf1.growth * 100).toFixed(0)}%(宣言 +248% — 永年不安定を宣言どおり実測) / `
       + `経路等価: CSV ${csvRows.length}行 → buildAstroFromRecords が観測安定則発動(${ac.eq.stab})+内蔵とビット一致=${ac.eq.same} / `
-      + `✴️ DFM版(第203便): 質量=✨×1.827(ビット照合 ${dm.massOk})・宣言(kF1・A/B=kF0・fitted 1ノブ・条件つき較正)=${dm.declOk} / `
+      + `✴️ DFM版(第203〜205便): 質量=✨×1.827(ビット照合 ${dm.massOk})・宣言(kF1・A/B=kF0・fitted 1ノブ・条件つき較正・スピン飽和宣言)=${dm.declOk}・`
+      + `familyRole: ✴️=primary/✨=variant(第204便) / `
       + `kF1+f=1.827 の2周目 ${dm.p2 === null ? '—' : yr(dm.p2).toFixed(3) + '年'}(観測 79.762 ±0.5%・宣言 79.769)・`
-      + `1周目 e=${dm.e1 === null ? '—' : dm.e1.toFixed(5)}(宣言 0.51677 — 合わせていない側の一致)・決定性=${dm.det} / `
+      + `1周目 e=${dm.e1 === null ? '—' : dm.e1.toFixed(5)}(宣言 0.51677)・向き=✨と同回り(angSign=${dm.angSign} — 第204便)・`
+      + `スピン飽和 [${dm.s0min},${dm.s0max}](宣言 ±40 — 第205便の機械固定)・決定性=${dm.det} / `
       + `決定性=${ac.det} / ${ac.kf0.steps}+${ac.kf1.steps}步`);
   } else {
     console.log('SKIP behavior.alphaCenAB(対象に第199便の ✨ なし — root 等)');
