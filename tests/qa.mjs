@@ -6385,6 +6385,123 @@ if (!FAST) {
   }
 }
 
+// ---- 第199便(M1): behavior.alphaCenAB — 恒星連星の観測転写+観測安定則の機械固定 ----
+// (a) 宣言検査: fidelity=real・L10/T6/M29・κ=G/c₀²・**kFrame=0(観測安定則の採用側)**・
+//     abBody の測定側 kFrame=1・両星自由・E6′-R・説明文に裁定 2026-08-25 の引用
+// (b) kF0(採用側): 1.05公転を完走 — 実測周期 79.76 年(観測 79.762 ±0.1%)・
+//     半径比振れ幅=転写離心率 0.51947(±0.02)・座標が ±5000 に収まる・NaN ゼロ
+// (c) kF1(A/B 測定側): 接触要素周期が6%公転窓で +100% 超に成長(宣言 +248% — 永年不安定の実測)
+// (d) 決定性: 同一構成2回実行がビット同一
+// (e) 経路等価: コミット済み出典表(paper/data/solar-observations.csv)の Alpha Centauri 行から
+//     buildAstroFromRecords で再構築すると、①観測安定則が発動し(stabilized.rule)②物理・天体・
+//     カメラ・スケール宣言が内蔵 ✨ とビット一致する(CSV ↔ 内蔵の照合 — 実在値の新規リテラルは
+//     本テストに置かない: 数値はすべて CSV からの読込)
+{
+  const hasAC = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'alphaCenAB'));
+  if (hasAC) {
+    const csvText = fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8');
+    const csvRows = csvText.split('\n').filter((l) => l.startsWith('Alpha Centauri')).map((line) => {
+      const cols = []; let cur = '', inQ = false;
+      for (const ch of line) {
+        if (inQ) { if (ch === '"') inQ = false; else cur += ch; }
+        else if (ch === '"') inQ = true;
+        else if (ch === ',') { cols.push(cur); cur = ''; }
+        else cur += ch;
+      }
+      cols.push(cur);
+      return { body: cols[0], quantity: cols[1], value: Number(cols[2]), unit: cols[3],
+        source: cols[4], url: cols[5], retrieved: cols[6], note: cols[7] };
+    });
+    const ac = await page.evaluate(({ csvRows }) => {
+      const P_OBS = 2517.0973;   // 転写周期 2.5170973e9 s / 10⁶(CSV row Alpha Centauri B, orbital_period)
+      const p = HP.allPresets().find((q) => q.id === 'alphaCenAB');
+      const d = { fid: p.fidelity, L: p.scaleExp.L, T: p.scaleExp.T, M: p.scaleExp.M,
+        G: p.physics.G, c: p.physics.cLight, kap: p.physics.kappaT, kF: p.physics.kFrame,
+        D0: p.physics.D0, fr: p.physics.frameReaction, ts: p.physics.timeScale, dm: p.physics.dispMag,
+        pin0: p.bodies[0].pinned, pin1: p.bodies[1].pinned, spin0: p.bodies[0].spin, spin1: p.bodies[1].spin,
+        abKF: p.abBody && p.abBody.physicsPatch && p.abBody.physicsPatch.kFrame,
+        ruleDecl: /観測安定則(.|\n)*2026-08-25/.test(p.descStruct.summary + p.failureFirst.pass) };
+      const run = (patch, frac) => {
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+        const pr = v.preset; pr.physics = Object.assign({}, pr.physics, patch || {});
+        const S = HP.sim; S.build(pr);
+        const dt = 0.016, steps = Math.round(frac * P_OBS / dt);
+        const mu = pr.physics.G * (pr.bodies[0].m + pr.bodies[1].m);
+        const est = () => { const dx = S.x[1] - S.x[0], dy = S.y[1] - S.y[0], dvx = S.vx[1] - S.vx[0], dvy = S.vy[1] - S.vy[0];
+          const rr = Math.hypot(dx, dy), vv2 = dvx * dvx + dvy * dvy, eps = vv2 / 2 - mu / rr;
+          const aO = (eps < 0) ? -mu / (2 * eps) : NaN; return (aO > 0) ? 2 * Math.PI * Math.sqrt(aO * aO * aO / mu) : NaN; };
+        let rmin = Infinity, rmax = -Infinity, ang = 0, px = 0, py = 0, tRev = null, maxAbs = 0;
+        const p0 = est();
+        for (let k = 0; k < steps; k++) {
+          S.step(dt);
+          const dx = S.x[1] - S.x[0], dy = S.y[1] - S.y[0], rr = Math.hypot(dx, dy);
+          if (rr < rmin) rmin = rr; if (rr > rmax) rmax = rr;
+          const m0 = Math.max(Math.abs(S.x[0]), Math.abs(S.y[0]), Math.abs(S.x[1]), Math.abs(S.y[1]));
+          if (m0 > maxAbs) maxAbs = m0;
+          if (k === 0) { px = dx; py = dy; } else {
+            ang += Math.atan2(px * dy - py * dx, px * dx + py * dy); px = dx; py = dy;
+            if (tRev === null && Math.abs(ang) >= 2 * Math.PI) tRev = (k + 1) * dt; }
+        }
+        return { nan: S.hasNaN(), steps, tRev, maxAbs, growth: est() / p0 - 1,
+          ecc: (rmax - rmin) / (rmax + rmin) };
+      };
+      const kf0 = run({}, 1.05), kf1 = run({ kFrame: 1 }, 0.06);
+      const detTwice = () => {
+        const one = () => {
+          const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+          const S = HP.sim; S.build(v.preset);
+          for (let k = 0; k < 400; k++) S.step(0.016);
+          const o = []; for (let i = 0; i < S.n; i++) o.push(S.x[i], S.y[i], S.vx[i], S.vy[i]);
+          return o;
+        };
+        const a = one(), b = one();
+        return a.length === b.length && a.every((x, i) => Object.is(x, b[i]));
+      };
+      const det = detTwice();
+      // (e) 経路等価: CSV 行 → buildAstroFromRecords → 内蔵とビット照合
+      const r1 = HP.buildAstroFromRecords(csvRows);
+      const eq = { ok: r1.ok, stage: r1.stage, errors: (r1.errors || []).slice(0, 2),
+        stab: r1.ok ? (r1.stabilized && r1.stabilized.rule) : null, same: null };
+      if (r1.ok) {
+        const vb = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+        // キー順に依存しない正規化 stringify(内蔵リテラルと機械構築でオブジェクトのキー順が違う)
+        const canon = (x) => Array.isArray(x) ? '[' + x.map(canon).join(',') + ']'
+          : (x && typeof x === 'object')
+            ? '{' + Object.keys(x).sort().map((k) => JSON.stringify(k) + ':' + canon(x[k])).join(',') + '}'
+            : JSON.stringify(x);
+        const pick = (q) => canon({ physics: q.physics, bodies: q.bodies,
+          camera: q.camera, world: q.world, scaleExp: q.scaleExp });
+        eq.same = pick(vb.preset) === pick(r1.preset);
+        if (!eq.same) eq.diff = { builtin: pick(vb.preset).slice(0, 400), records: pick(r1.preset).slice(0, 400) };
+      }
+      HP.loadPreset('saturn', false);
+      return { d, kf0, kf1, det, eq, P_OBS };
+    }, { csvRows });
+    const d = ac.d, kOk = Math.abs(d.kap - d.G / (d.c * d.c)) < 1e-18;
+    const declOk = d.fid === 'real' && d.L === 10 && d.T === 6 && d.M === 29 && d.G === 6.674 && d.c === 30000
+      && kOk && d.kF === 0 && d.abKF === 1 && d.D0 === 0.006 && d.fr === 'pairReduced'
+      && d.ts === 1000 && d.dm === 300 && d.pin0 === false && d.pin1 === false
+      && d.spin0 > 0 && d.spin1 > 0 && d.ruleDecl;
+    const yr = (u) => u === null ? null : u * 1e6 / 3.15576e7;
+    const t0 = yr(ac.kf0.tRev);
+    add('behavior.alphaCenAB', csvRows.length === 9
+      && declOk && !ac.kf0.nan && !ac.kf1.nan && ac.det
+      && t0 !== null && Math.abs(t0 / 79.762 - 1) < 0.001
+      && Math.abs(ac.kf0.ecc - 0.51947) < 0.02 && ac.kf0.maxAbs < 5000
+      && ac.kf1.growth > 1.0
+      && ac.eq.ok && ac.eq.stab === 'obs-stability' && ac.eq.same === true,
+      `宣言=${declOk}(fidelity=real・L10/T6/M29・κ=G/c₀²・**kFrame=0(観測安定則 2026-08-25 裁定の採用側)**・`
+      + `A/B 測定側 kFrame=1・両星自由・E6′-R・ts=1000/dm=300・裁定引用あり) / `
+      + `kF0(採用側・1.05公転): ${t0 === null ? '—' : t0.toFixed(4) + '年'}(観測 79.762・宣言 79.7647)・`
+      + `実測離心率 ${ac.kf0.ecc.toFixed(5)}(転写 0.51947)・座標最大 ${ac.kf0.maxAbs.toFixed(0)}(±5000 内) / `
+      + `kF1(測定側・6%窓): 接触要素周期 +${(ac.kf1.growth * 100).toFixed(0)}%(宣言 +248% — 永年不安定を宣言どおり実測) / `
+      + `経路等価: CSV ${csvRows.length}行 → buildAstroFromRecords が観測安定則発動(${ac.eq.stab})+内蔵とビット一致=${ac.eq.same} / `
+      + `決定性=${ac.det} / ${ac.kf0.steps}+${ac.kf1.steps}步`);
+  } else {
+    console.log('SKIP behavior.alphaCenAB(対象に第199便の ✨ なし — root 等)');
+  }
+}
+
 // ---- 第197便(M0): behavior.halokit — 解析ハロー外部項の機械固定 ----
 // (a) 円軌道の解析一致(uniform/NFW/Burkert): v=√(G·M_enc(r)/r) の**独立再計算**と周回実測が
 //     ±1% で一致・振れ幅<0.5% (b) 運動量帳簿が閉じる(外部場は交換としてリザーバへ)
@@ -9087,10 +9204,10 @@ if (!FAST) {
     const hasObsFam = await page.evaluate(() => Array.isArray(window.HP && HP.OBS_FAMILY) && !!HP.ROLE_CLASSES);
     if (hasObsFam) {
       const of = await page.evaluate(() => {
-        const EXP = ['jupiterGalilean', 'venusReal', 'marsMoonsReal', 'plutoCharonReal', 'uranusReal', 'neptuneReal'];
+        const EXP = ['jupiterGalilean', 'venusReal', 'marsMoonsReal', 'plutoCharonReal', 'uranusReal', 'neptuneReal', 'alphaCenAB'];   // 第199便: 恒星スケール第1号 ✨ を追加(6→7本)
         const PA_KEYS = ['observedInputs', 'fixedConventions', 'fitted', 'derived', 'numerical', 'heldOut'];   // 第197便(M0): heldOut(保留データ宣言枠)を許容キーに追加
         const bad = [], rows = [];
-        if (JSON.stringify(HP.OBS_FAMILY) !== JSON.stringify(EXP)) bad.push('OBS_FAMILY が期待6本と一致しない: ' + JSON.stringify(HP.OBS_FAMILY));
+        if (JSON.stringify(HP.OBS_FAMILY) !== JSON.stringify(EXP)) bad.push('OBS_FAMILY が期待7本と一致しない: ' + JSON.stringify(HP.OBS_FAMILY));
         const reuse = (t) => /流用|そのまま使用/.test(String(t)) && /ゼロ/.test(String(t));
         for (const id of EXP) {
           const p = HP.allPresets().find((q) => q.id === id);
@@ -9123,7 +9240,7 @@ if (!FAST) {
       });
       add('claims.obs-family', of.bad.length === 0,
         `二層化(C案 — 原仮定者裁定 2026-08-25): MAIN=8(較正の正本)は不変のまま、観測転写ファミリー`
-        + `6本を第二の凍結リストとして機械固定(${of.rows.join('・')}) / `
+        + `7本を第二の凍結リストとして機械固定(第199便 ✨ を追加。${of.rows.join('・')}) / `
         + `定義=全て fidelity:"real"・claims/role/parameterAudit 完備・fitted は共有値の流用宣言1件のみ`
         + `(新規フィット0)・en 件数一致・MAIN と交わらない / `
         + `否定対照: 実フィット2ノブ(D₀・f=0.9968)の 🌘KF1 は流用述語を通らない`
@@ -10292,10 +10409,11 @@ if (!FAST) {
       + `${icr.bad.length ? ' NG=[' + icr.bad.slice(0, 8).join(' / ') + ']' : ''}`);
     }
 
-    // --- ⑦ ai.obs-binary(第197便 M0: 一般化スキーマ確認 — 対等質量連星が既存契約で通る)---
+    // --- ⑦ ai.obs-binary(第197便 M0: 一般化スキーマ確認 → 第199便 M1: 観測安定則)---
     // 現行契約(中心=最重量・a なし/衛星=a と周期)+E6′-R で、質量比 0.818 の合成連星
     // (α Cen 級の構造・値は架空)が二体重心系として構築・1公転を ±1% で完走することの機械固定。
-    // M0 の「一般化観測スキーマ」の第一歩: 新スキーマを発明する前に、既存契約の適用範囲を確定する
+    // 第199便: 観測安定則(2026-08-25 裁定)の実装により、(b) は「kF1 差し戻しで全体失敗」から
+    // 「kF1 差し戻し→kFrame=0 へ宣言つきフォールバックで成功」へ期待を更新(+転写ミスの否定対照)
     const hasM0 = await page.evaluate(() => Array.isArray(window.HP && HP.HALO_MODELS));
     if (!hasM0) {
       console.log('SKIP ai.obs-binary(対象に第197便の M0 なし — root 等)');
@@ -10316,15 +10434,30 @@ if (!FAST) {
         if (v0.sys.center.name !== 'Qa Cen A') bad.push('中心が重い方でない: ' + v0.sys.center.name);
         if (v0.sys.sats.length !== 1) bad.push('衛星数が1でない');
       }
-      // (b) 現行テンプレ(kFrame=1)での全構築は**自己診断が正しく差し戻す**(M0 の実測の発見:
-      //     対等質量・近接の連星では E6′ 運動引きずきが永年的に周期を押し上げ ±1% 契約を破る。
-      //     分離 1e11〜1e12 m の実測はしご: 400步ドリフト 27.7%→0.026%・1公転換算は常に >1%)
+      // (b) 第199便(観測安定則 — 2026-08-25 裁定)で期待を更新: kF1 雛形は自己診断が永年不安定
+      //     として差し戻し(M0 の実測: 400步ドリフト 27.7%)、構築は **kFrame=0 へ宣言つきに
+      //     フォールバックして成功**する。転写ミス(初期状態ずれ)は今までどおり差し戻す(否定対照)
       const r1 = HP.buildAstroFromRecords(BIN_RECS);
-      if (r1.ok) bad.push('kF1 テンプレの連星構築が通ってしまった(永年ドリフトの検出漏れ)');
+      if (!r1.ok) bad.push('観測安定則のフォールバックが働かず構築が失敗: ' + ((r1.errors || [])[0] || r1.stage));
       else {
-        if (r1.stage !== 'diagnosis') bad.push('差し戻し段階が diagnosis でない: ' + r1.stage);
-        const msg = (r1.errors || []).join('|');
-        if (!(/軌道を保てていません|ドリフト/.test(msg))) bad.push('差し戻し理由がドリフト検査でない: ' + msg.slice(0, 80));
+        if (!(r1.stabilized && r1.stabilized.rule === 'obs-stability' && r1.stabilized.from === 1 && r1.stabilized.to === 0))
+          bad.push('stabilized の記録が無い/不正: ' + JSON.stringify(r1.stabilized));
+        if (r1.preset.physics.kFrame !== 0) bad.push('採用側が kFrame=0 でない: ' + r1.preset.physics.kFrame);
+        if (!(r1.preset.abBody && r1.preset.abBody.physicsPatch && r1.preset.abBody.physicsPatch.kFrame === 1))
+          bad.push('A/B が kFrame=1 の測定側になっていない');
+        const kf1msg = (r1.stabilized && r1.stabilized.errorsKF1 || []).join('|');
+        if (!(/軌道を保てていません|ドリフト/.test(kf1msg))) bad.push('kF1 差し戻し理由がドリフト検査でない: ' + kf1msg.slice(0, 80));
+        if (!/観測安定則/.test(r1.preset.description)) bad.push('説明文に観測安定則の宣言が無い');
+        const fc = (r1.preset.parameterAudit && r1.preset.parameterAudit.fixedConventions || []).join('|');
+        if (!/kFrame=0(.|\n)*2026-08-25/.test(fc)) bad.push('parameterAudit に kFrame=0(裁定 2026-08-25)の規約宣言が無い');
+      }
+      // (b′) 否定対照: 転写ミス(周期を 5% ずらす)は安定則の対象外 — 従来どおり差し戻される
+      const RECS_BAD = BIN_RECS.map((t) => t.quantity === 'orbital_period' ? Object.assign({}, t, { value: t.value * 1.05 }) : t);
+      const r2 = HP.buildAstroFromRecords(RECS_BAD);
+      if (r2.ok) bad.push('転写ミス(周期+5%)の構築が通ってしまった');
+      else {
+        if (!(r2.errors || []).some((e) => e.includes('初期状態の推定周期'))) bad.push('転写ミスの差し戻し理由が初期状態検査でない');
+        if ((r2.errors || []).some((e) => e.includes('観測安定則'))) bad.push('転写ミスに観測安定則が発動してしまった');
       }
       // (c) 直接実測(手組みレプリカ・a=100 単位): kF0 は1公転を保ち、kF1 は発散する
       const mA = 220, mB = 180, a = 100, e = 0.3, G = 6.674, MT = mA + mB, mu = G * MT;
@@ -10367,13 +10500,14 @@ if (!FAST) {
       return { bad, kf0dev, kf0ecc, kf1growth };
     }, { BIN_RECS });
     add('ai.obs-binary', bin.bad.length === 0,
-      `対等質量連星(質量比 0.818・α Cen 級構造・値は架空)の M0 確定: ①スキーマは構造的に受理`
-      + `(中心=重い方・二体重心・E6′-R) ②現行テンプレ(kFrame=1)の構築は自己診断が**正しく差し戻す**`
-      + ` — 対等質量・近接では E6′ 運動引きずりの永年周期成長が ±1% 契約を破る(直接実測: kF1 の`
+      `対等質量連星(質量比 0.818・α Cen 級構造・値は架空)の M0→M1 確定: ①スキーマは構造的に受理`
+      + `(中心=重い方・二体重心・E6′-R) ②**観測安定則(2026-08-25 裁定)**: kF1 雛形は自己診断が`
+      + `永年不安定として差し戻し、構築は kFrame=0 へ**宣言つきにフォールバックして成功**する`
+      + `(stabilized 記録・A/B は kFrame=1 の測定側・裁定引用の規約宣言。直接実測: kF1 の`
       + `接触要素周期が 2000步で ${bin.kf1growth === null ? '—' : '+' + (bin.kf1growth * 100).toFixed(1) + '%'}) `
       + `③kF0 は1公転を保つ(周期偏差 ${bin.kf0dev === null ? '—' : (bin.kf0dev * 100).toFixed(3) + '%'}・`
       + `実測離心率 ${bin.kf0ecc === null ? '—' : bin.kf0ecc.toFixed(4)}〔転写 e=0.3〕)`
-      + ` — 連星観測版の kFrame 扱い(テンプレ適用方針)は M1 の裁定事項として申し送り`
+      + ` ④否定対照: 転写ミス(周期+5%)は安定則の対象外 — 初期状態検査が従来どおり差し戻す`
       + `${bin.bad.length ? ' NG=[' + bin.bad.slice(0, 6).join(' / ') + ']' : ''}`);
     }
   } else {
@@ -10474,6 +10608,13 @@ if (!FAST) {
             bad.push('ja 節に第195便の規約(面内符号/環の共回転/表示規約)が無い');
           if (!clEn2.includes('IN-PLANE sense') || !clEn2.includes('CO-ROTATE with the transcribed central spin') || !clEn2.includes('set dispMag to 1'))
             bad.push('en 節に第195便の規約(面内符号/環の共回転/表示規約)が無い');
+          // 第198便(実機第8巡: Grok の L=7 環ビルドが camera 下限 20 を割り極小表示):
+          // L 選択規約が「中心半径 0.01〜100」だけでなく「camera.scale の有効範囲 20〜3000」も
+          // 条件にしていること(環だけの系への恒久対策)
+          if (!cl.includes('有効範囲 20〜3000') || !cl.includes('L を 1 下げます'))
+            bad.push('ja 節に第198便の L 選択規約(camera 有効範囲)が無い');
+          if (!clEn2.includes('valid range 20-3000') || !clEn2.includes('next smaller L'))
+            bad.push('en 節に第198便の L 選択規約(camera 有効範囲)が無い');
         }
       }
       // 第182便(原仮定者指示「内蔵の実天体サンプル項目を撤去」に伴う**検査対象の変更**):
@@ -17053,7 +17194,14 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     // 第186便: 天王星・海王星(💠🌊)を追加 — 17→19 へ強化追随
     const gen186 = await page.evaluate(() =>
       HP.allPresets().some((p) => p.id === 'uranusReal'));
-    const want = gen186 ? 'earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+    // 第199便: αケンタウリAB(✨ — 恒星スケールのスケール換算込み実較正)を追加 — 19→20 へ強化追随
+    const gen199 = await page.evaluate(() =>
+      HP.allPresets().some((p) => p.id === 'alphaCenAB'));
+    const want = gen199 ? 'alphaCenAB,earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+        + 'jupiterGalilean,marsMoonsReal,mercuryReal,mercuryRealKF1,neptuneReal,plutoCharonReal,'
+        + 'qLockRadialAudit,qLockRadialAuditQ3,saturnRingReal,saturnRingRealKF1,saturnZonalD68,'
+        + 'solarInner,uranusReal,venusReal'
+      : gen186 ? 'earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
         + 'jupiterGalilean,marsMoonsReal,mercuryReal,mercuryRealKF1,neptuneReal,plutoCharonReal,'
         + 'qLockRadialAudit,qLockRadialAuditQ3,saturnRingReal,saturnRingRealKF1,saturnZonalD68,'
         + 'solarInner,uranusReal,venusReal'
