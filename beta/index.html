@@ -9225,7 +9225,15 @@ function validatePreset(obj){
         }
       }
       let targets=[];
-      const hasBodyPart=(A.targets!==undefined || A.patch!==undefined);
+      // 第200便(実機第7報「A/B ボタンが無い」の根因修正): 検証の冪等性。本検証は physics
+      // レシピだけの abBody を {label, targets:[], patch:{}, physicsPatch} へ正規化して返すが、
+      // その出力を**再検証**すると targets:[] が「1件以上必要」に落ち、abBody が丸ごと消えていた
+      // (貼付経路 stabilizePreset は検証を2回通す — 内蔵の1回検証では出るボタンが貼付だけ消える)。
+      // 空 targets+空 patch の組は「粒子側の指定なし」と同義に扱い、正規化出力を往復保全する。
+      // 中身のある片割れ(targets だけ・patch だけ等)の従来の差し戻しは 1 bit 変えない。
+      const emptyT=Array.isArray(A.targets) && A.targets.length===0;
+      const emptyP=!!A.patch && typeof A.patch==="object" && !Array.isArray(A.patch) && !Object.keys(A.patch).length;
+      const hasBodyPart=(A.targets!==undefined || A.patch!==undefined) && !(emptyT && emptyP);
       if(hasBodyPart && (!Array.isArray(A.targets) || !A.targets.length || !A.targets.every(isNum))){
         warnings.push("abBody.targets は数値配列(1件以上)が必要 — 無視します"); ok=false;
       } else if(hasBodyPart) targets=A.targets.map(v=>clamp(Math.round(v),0,N_CAP-1));   // photonEmit.body と同じ域
@@ -13348,16 +13356,32 @@ function ovDrawToggle(key,slot){
 // v_bar(r)=√(r·|a_r(r)|) を返す。a_r は E4 と同一のPlummer型
 // a=ΣG·m_j(r_j−r)/(|r_j−r|²+ε²)^{3/2} を全粒子について評価した動径成分(内向き正)の平均。
 // 正味が外向き(負)なら 0(縮退: 中心1質点だけの系では √(G·M·r²/(r²+ε²)^{3/2}) と厳密一致 — QA curve.vbar-degenerate)。
-function curveVBarAt(cx,cy,r){
+// 第201便(M1 便乗): 表示側のハロー包含質量 M_enc(r)。式は step() の前計算(hMode/hC)と
+// 同一(uniform: M·min(1,(r/R)³) / NFW: 4πρ₀rs³[ln(1+x)−x/(1+x)] / Burkert:
+// 2πρ₀rs³[½ln(1+x²)+ln(1+x)−atan x])。表示専用 — 物理には一切影響しない
+function haloMencOf(hl,r){
+  if(hl.model==="uniform"){ const R3=hl.R*hl.R*hl.R, r3=r*r*r; return (r3<R3)? hl.M*r3/R3 : hl.M; }
+  const x=r/hl.rs, c3=hl.rho0*hl.rs*hl.rs*hl.rs;
+  if(hl.model==="nfw") return 4*Math.PI*c3*(Math.log(1+x)-x/(1+x));
+  return 2*Math.PI*c3*(0.5*Math.log(1+x*x)+Math.log(1+x)-Math.atan(x));
+}
+// 第201便: haloOnly=true でハロー項だけの基準線(寄与の分離表示用)。既定(粒子+ハロー合成)の
+// 粒子項は従来と 1 bit 同一 — halo の無いサンプルの v_bar は変わらない
+function curveVBarAt(cx,cy,r,haloOnly){
   const G=sim.params.G, eps2=sim.params.softening*sim.params.softening;
+  const hl=sim.params.halo||null;
   let accSum=0;
   for(let a2=0;a2<8;a2++){
     const th=(a2/8)*Math.PI*2, px=cx+r*Math.cos(th), py=cy+r*Math.sin(th);
     let axp=0, ayp=0;
-    for(let j=0;j<sim.n;j++){
+    if(!haloOnly) for(let j=0;j<sim.n;j++){
       const dx=sim.x[j]-px, dy=sim.y[j]-py, d2=dx*dx+dy*dy;
       const fg=G*sim.m[j]/Math.pow(d2+eps2,1.5);
       axp+=fg*dx; ayp+=fg*dy;
+    }
+    if(hl){   // 第201便: 解析ハローの加速度を合成 — a=−G·M_enc(d)/d²·r̂(step() と同じ式)
+      const hdx=hl.cx-px, hdy=hl.cy-py, hr=Math.hypot(hdx,hdy);
+      if(hr>1e-9){ const aH=G*haloMencOf(hl,hr)/(hr*hr); axp+=aH*hdx/hr; ayp+=aH*hdy/hr; }
     }
     accSum+=-(axp*Math.cos(th)+ayp*Math.sin(th));   // 内向き成分 = -(a・r̂)
   }
@@ -13379,13 +13403,15 @@ function drawRotationCurve(slot=0){
       const vt=Math.abs((-dy*sim.vx[i]+dx*sim.vy[i])/r);
       sums[bi]+=vt; cnts[bi]++;
     }
-    const meas=[], vbar=[];
+    const meas=[], vbar=[], vhalo=[];
+    const hasHalo=!!sim.params.halo;   // 第201便: ハロー単独線(寄与の分離表示)はハローがある時だけ
     for(let b2=0;b2<BINS;b2++){
       meas.push(cnts[b2]>2?sums[b2]/cnts[b2]:null);
       const r=(b2+0.5)/BINS*camScale;
       vbar.push(curveVBarAt(cxm,cym,r));
+      if(hasHalo) vhalo.push(curveVBarAt(cxm,cym,r,true));
     }
-    curveData={meas,vbar};
+    curveData={meas,vbar,vhalo:hasHalo?vhalo:null};
   }
   // v1.17: 文字サイズ設定に合わせてグラフごと拡大し、下端余白 18+10·uz で情報行と重ねない
   const uz=uiFontScale, W=150,H=92,X=0,Y=0;
@@ -13397,9 +13423,15 @@ function drawRotationCurve(slot=0){
   let vmax=0.01;
   curveData.meas.forEach(v=>{if(v&&v>vmax)vmax=v;});
   curveData.vbar.forEach(v=>{if(v>vmax)vmax=v;});
+  if(curveData.vhalo) curveData.vhalo.forEach(v=>{if(v>vmax)vmax=v;});
   const px=(b2)=>X+8+(b2/(curveData.meas.length-1))*(W-16), py=(v)=>Y+H-8-(v/vmax)*(H-26);
   ctx.strokeStyle="#8b93c8"; ctx.setLineDash([3,3]); ctx.beginPath();
   curveData.vbar.forEach((v,b2)=>{ b2?ctx.lineTo(px(b2),py(v)):ctx.moveTo(px(b2),py(v)); }); ctx.stroke();
+  if(curveData.vhalo){   // 第201便: ハロー単独の寄与線(橙の破線 — v_bar は粒子+ハローの合成)
+    ctx.strokeStyle="#e0a05a"; ctx.setLineDash([2,2]); ctx.beginPath();
+    curveData.vhalo.forEach((v,b2)=>{ b2?ctx.lineTo(px(b2),py(v)):ctx.moveTo(px(b2),py(v)); }); ctx.stroke();
+    ctx.fillStyle="#e0a05a"; ctx.fillText("halo",X+W-32,Y+11); ctx.fillStyle="#8b93c8";
+  }
   ctx.setLineDash([]); ctx.strokeStyle="#5b8cff"; ctx.lineWidth=1.6; ctx.beginPath();
   let started=false;
   curveData.meas.forEach((v,b2)=>{ if(v==null)return; started?ctx.lineTo(px(b2),py(v)):ctx.moveTo(px(b2),py(v)); started=true; });

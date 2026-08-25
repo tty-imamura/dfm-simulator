@@ -6608,6 +6608,27 @@ if (!FAST) {
         const vv = HP.validatePreset(mkP(h));
         if (vv.ok) bad.push('拒否されるべき halo が受理: ' + w);
       }
+      // (g) 第201便(M1 便乗): 回転曲線の基準線 v_bar へのハロー寄与合成。表示側 M_enc(r) が
+      //     step() と同式であることの**独立解析一致**(このテスト冒頭の Menc は独立再計算)+
+      //     ハロー単独線(haloOnly)も同値+ハロー無し構成では v_bar が実質ゼロ(合成のノックアウト —
+      //     halo の無い既存サンプルの基準線は 1 bit 不変)
+      if (typeof HP.curveVBarAt === 'function') {
+        const h = HALOS[1];   // nfw rho0=0.02 rs=40
+        const p = mkP(h); p.bodies[0].vy = 0.3;
+        const vv = HP.validatePreset(p); const S = HP.sim; S.build(vv.preset);
+        let worst = 0, worstHO = 0;
+        for (const r of [30, 60, 90]) {
+          const vAn = Math.sqrt(1 * Menc(h, r) / r);   // G=1・粒子は m=1e-6 で無視できる
+          worst = Math.max(worst, Math.abs(HP.curveVBarAt(0, 0, r) / vAn - 1));
+          worstHO = Math.max(worstHO, Math.abs(HP.curveVBarAt(0, 0, r, true) / vAn - 1));
+        }
+        if (!(worst < 0.01)) bad.push('v_bar のハロー合成が解析値 ±1% を外れた: ' + (worst * 100).toFixed(2) + '%');
+        if (!(worstHO < 0.01)) bad.push('ハロー単独線(haloOnly)が解析値 ±1% を外れた: ' + (worstHO * 100).toFixed(2) + '%');
+        const p0 = mkP(undefined); p0.bodies[0].vy = 0.3;
+        const v0 = HP.validatePreset(p0); S.build(v0.preset);
+        const vNo = HP.curveVBarAt(0, 0, 60);
+        if (!(vNo < 0.01)) bad.push('halo なし構成の v_bar が 0 でない(合成の混入): ' + vNo);
+      }
       HP.loadPreset('saturn', false);
       return { bad, rows };
     });
@@ -6615,7 +6636,8 @@ if (!FAST) {
       `解析ハロー外部項(M0 — 観測再現版専用・公理ではない): 円軌道の解析一致 ${hk.rows.join(' / ')}`
       + `(独立再計算の v=√(G·M_enc/r) に対し周期 ±1%・振れ幅<0.5%)/ 運動量帳簿が閉じる(場リザーバ交換) / `
       + `ノックアウト(halo なし)で周回消失 / physicsPatch:{halo:null} 受理(A/B ノックアウト対照) / `
-      + `決定性ビット同一 / 否定対照5種差し戻し`
+      + `決定性ビット同一 / 否定対照5種差し戻し / 回転曲線 v_bar へのハロー合成が独立解析一致 ±1%`
+      + `(第201便 — ハロー単独線も同値・halo なしの基準線は不変)`
       + `${hk.bad.length ? ' NG=[' + hk.bad.slice(0, 6).join(' / ') + ']' : ''}`);
   }
 }
@@ -10854,6 +10876,29 @@ if (!FAST) {
       }
       if (fail.length) bad.push('内蔵プリセットが自己診断で落ちた: ' + fail.slice(0, 3).join(','));
       if (chg.length) bad.push('内蔵プリセットが整形で変更された: ' + chg.slice(0, 3).join(','));
+      // (i) 第200便(実機第7報「A/B ボタンが無い」の根因回帰): physics レシピのみの abBody の
+      //     **検証冪等性** — 正規化出力(targets:[]・patch:{}+physicsPatch)の再検証で abBody が
+      //     消えない(貼付経路 stabilizePreset は検証を2回通すため、旧実装ではワンタップA/B が
+      //     貼付プリセットだけ失われていた)。否定対照: 中身のある不正(targets だけ・空 patch)は
+      //     従来どおり丸ごと無視。世代検出は第197便 M0 マーカー(修正は beta 系のみ — root は旧世代)
+      if (Array.isArray(HP.HALO_MODELS)) {
+        const abP = mk({ G: 1, softening: 0.05, timeScale: 1 },
+          [sgl(1000, 0, 0, true), sgl(1, 100, 3.16386)], 300);
+        abP.abBody = { label: { ja: 'ハローOFF(直進対照)', en: 'halo off' }, physicsPatch: { kFrame: 0 } };
+        const ab1 = HP.validatePreset(JSON.parse(JSON.stringify(abP)));
+        const ab2 = ab1.ok ? HP.validatePreset(JSON.parse(JSON.stringify(ab1.preset))) : { ok: false };
+        if (!(ab1.ok && ab1.preset.abBody && ab2.ok && ab2.preset.abBody))
+          bad.push('abBody(physics レシピ)が検証の往復で消えた(第200便回帰)');
+        else if (JSON.stringify(ab1.preset.abBody) !== JSON.stringify(ab2.preset.abBody))
+          bad.push('abBody の再検証が非冪等: ' + JSON.stringify(ab2.preset.abBody).slice(0, 60));
+        const abS = HP.stabilizePreset(JSON.parse(JSON.stringify(abP)), { kepler: true });
+        if (!(abS.ok && abS.preset.abBody && abS.preset.abBody.physicsPatch))
+          bad.push('貼付整形経路(2回検証)で abBody が落ちた(第200便回帰)');
+        const abBad = JSON.parse(JSON.stringify(abP));
+        abBad.abBody = { label: { ja: 'x' }, targets: [0], patch: {} };
+        const ab3 = HP.validatePreset(abBad);
+        if (ab3.ok && ab3.preset.abBody) bad.push('不正 abBody(targets あり・patch 空)が通ってしまった');
+      }
       return { bad, nBuiltin: HP.allPresets().length, changes: s1.changes.length,
         escErr: (esc.errors || [])[0] || '', steps: s1.diag ? s1.diag.steps : 0 };
     });
@@ -10861,7 +10906,9 @@ if (!FAST) {
       `決定性(同一入力2回ビット一致)・変更点列挙=${stb.changes}件・κ=G/c₀² 再導出(実較正宣言のみ)・`
       + `ケプラー再導出は脱出速度/落ち込みだけ(束縛楕円 v/v_circ<√2 は不変)・scaleExp は警告のみ・`
       + `自己診断${stb.steps}步の否定対照「${String(stb.escErr).slice(0, 40)}」・`
-      + `内蔵${stb.nBuiltin}本は変更0件で全PASS${stb.bad.length ? ' NG=[' + stb.bad.slice(0, 6).join(' / ') + ']' : ''}`);
+      + `内蔵${stb.nBuiltin}本は変更0件で全PASS・abBody(physics レシピ)は検証往復・貼付整形で不変`
+      + `(第200便回帰 — 不正 abBody の無視は従来どおり)`
+      + `${stb.bad.length ? ' NG=[' + stb.bad.slice(0, 6).join(' / ') + ']' : ''}`);
 
     // --- ⑤ ai.intake-normalize ---
     const nrm = await page.evaluate(() => {
