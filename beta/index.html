@@ -7118,6 +7118,129 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
+{ id:"alphaCenAB", name:"αケンタウリAB(実単位)— 恒星連星の二体", emoji:"✨", group:"現実との照合",
+  familyId:"alphaCen", familyRole:"primary",
+  scaleTier:"stellar",
+  scaleExp:{L:10, T:6, M:29},   // 1単位=10¹⁰m/10⁶s/10²⁹kg(規約 L−T=4・M+2T−3L=11)
+  sampleClass:"calibration",
+  fidelity:"real",   // 両星の質量・半径・自転と相対軌道の a・e・P がすべて出典表(Akeson et al. 2021 ほか)の転写
+  notClaim:["solar_cal"],
+  obsCard:[
+    {q:"公転周期(kFrame=0 採用側)", model:"79.7647 年(+0.0034%)", obs:"79.762 ± 0.019 年(Akeson et al. 2021 Table 8)"},
+    {q:"実測離心率(1公転の半径比振れ幅)", model:"0.51947(転写値と表示桁一致)", obs:"e=0.51947 ± 0.00015(転写)"},
+    {q:"観測安定則(2026-08-25 裁定・適用第1号)", model:"kFrame=1 雛形は自己診断が差し戻し(400步 +0.3395% ドリフト・1公転換算 133.54%)→ kFrame=0 で採用", obs:"観測値(a・e・P)自体が引きずり無しの軌道解の計算式で算出されている"},
+    {q:"A/B 測定側(kFrame=1)", model:"接触要素周期が6%公転窓で +248% まで成長(χ: 近点 A 0.947/B 0.955・遠点 0.851/0.871 — 両星が同時に高 χ)", obs:"—(測定側の宣言 — 対等質量極限)"},
+    {q:"自転(両星)", model:"A 15.9 日・B 36.23 日を spin へ転写", obs:"Bhattacharyya et al. 2026(CUTE 2024)/ DeWarf et al. 2010"}],
+  failureFirst:{
+    fail:"実較正の雛形規約 kFrame=1 は、この対等質量・高離心率の連星では**1公転を保てない** — E6′ 運動引きずりが接触要素周期を永年的に押し上げ(自己診断 400步で +0.3395%・1公転換算 133.54%、A/B 測定側の実測では6%公転窓で +248%)、±1% の転写契約を大きく破る。質量比 0.8428(B/A)の系では「反作用を吸収する支配的中心」が存在せず、E6′-R(pairReduced)でも永年成長が残る — χ は近点で A 0.947/B 0.955・遠点でも 0.851/0.871 と、**両星が同時に ❄️ 級の高 χ を持つ**(第197便の合成連星実測〔χ 系列の対等質量極限〕が実在の連星で成立することの確認)。",
+    pass:"**観測安定則(2026-08-25 裁定)**:「観測値再現版は、観測値で安定する計算式を採用する。観測値自体が計算式で算出されている為」。転写した a・e・P は Akeson et al. (2021) の軌道解 — 引きずりを含まないケプラー的計算式 — の出力なので、その値を写す観測版は kFrame=0 を採用し、空間引きずり(kFrame=1)は捨てずに **A/B の測定側**として保持する(既定の対照側と役割が入れ替わる第1号)。kFrame=0 は1公転を完走して実測 79.7647 年(観測比 +0.0034%)・実測離心率 0.51947(転写どおり)。フィットはゼロ。"},
+  descStruct:{
+    summary:"αケンタウリ A(実質量 2.1451938×10³⁰kg=1.0788 M☉・実半径 8.4738×10⁸m・実自転 15.9 日)と B(実質量 1.8079442×10³⁰kg=0.9092 M☉・実半径 5.979336×10⁸m・実自転 36.23 日)を、1単位=10¹⁰m/10⁶s/10²⁹kg で置いた**恒星連星の二体重心系**(第199便 — M1 着手・太陽系外/恒星スケールの実較正第1号)。相対軌道は a=23.299 AU(3.4854808×10¹²m)・e=0.51947・P=79.762 年(Akeson et al. 2021 Table 8 — paper/data/solar-observations.csv。半長軸は同論文の角半長軸 17.4930″ と視差 750.81 mas からの導出値・AU→m は IAU 定義の厳密換算)。働いているのは重力(E4)+測地線1PN(E12)で、**観測安定則(2026-08-25 裁定)の適用第1号**として kFrame=0 — 観測値を算出した計算式の側 — で採用(空間引きずりは A/B 測定側)。両星とも自由(pinned なし)・反作用則 frameReaction:\"pairReduced\"(E6′-R)。q=4.6111 は q_exact を a=348.54808 で1回評価した直値。フィットはゼロ(D₀=0.006 は共有値の流用)。",
+    observe:"kFrame=0(採用側)は1公転を完走して実測 79.7647 年(観測 79.762 年・+0.0034%)、1公転の半径比振れ幅から出る実測離心率 0.51947 は転写した e=0.51947 と表示桁で一致する(近点 1.675×10¹²m・遠点 5.296×10¹²m)。A/B の測定側 kFrame=1 では E6′ 運動引きずりが接触要素周期を永年的に押し上げ、自己診断 400步(0.3%公転)で +0.3395% — 1公転換算 133.54% — と診断され、実測でも6%公転窓で +248% まで成長する。χ=W/(D₀+W) は近点で A 0.947/B 0.955・遠点で 0.851/0.871 — 質量比 0.8428 の対等質量系では**両星が同時に高 χ** を持ち、「反作用を吸収する支配的中心」が無い(第197便の合成連星〔値は架空〕で見つけた χ 系列の対等質量極限が、実在の連星で最初に成立した例)。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.alphaCenAB)。",
+    control:"ワンタップ対照A/B: B側 kFrame=1(**測定側**)— 観測安定則により既定の対照の向きが他の実較正系と逆で、押すと引きずり項の永年成長そのものが見える(接触要素周期が伸び続け軌道が開いていく)。timeScale=1000 で画面1秒≈11.6 日。表示は dispMag=300(恒星は 0.085/0.060 単位の点 — 表示専用)・トレイルで軌道を見る。camera.scale=630 は遠点 529.6 単位×1.2 の規約値。"},
+  en:{name:"Alpha Centauri AB (Real Units) — the stellar binary two-body",
+    obsCard:[
+      {q:"Orbital period (kFrame=0, adopted)", model:"79.7647 yr (+0.0034%)", obs:"79.762 ± 0.019 yr (Akeson et al. 2021 Table 8)"},
+      {q:"Measured eccentricity (radius-ratio wobble over one orbit)", model:"0.51947 (matches the transcription to the shown digits)", obs:"e=0.51947 ± 0.00015 (transcribed)"},
+      {q:"Observation-stability rule (adjudicated 2026-08-25, first application)", model:"the kFrame=1 template is returned by the self-check (+0.3395% drift in 400 steps, 133.54% per orbit) → adopted at kFrame=0", obs:"the observed a, e, P are themselves computed from a drag-free orbit solution"},
+      {q:"A/B measurement side (kFrame=1)", model:"the osculating period grows to +248% within a 6%-orbit window (χ: 0.947/0.955 at perihelion, 0.851/0.871 at apoapsis — both stars carry high χ at once)", obs:"— (declared as the measurement side; the equal-mass limit)"},
+      {q:"Rotations (both stars)", model:"A 15.9 d and B 36.23 d transcribed into spin", obs:"Bhattacharyya et al. 2026 (CUTE 2024) / DeWarf et al. 2010"}],
+    failureFirst:{
+      fail:"The real-calibration template kFrame=1 CANNOT HOLD ONE ORBIT of this near-equal-mass, high-eccentricity binary: E6′ motion dragging lifts the osculating period secularly (+0.3395% in the 400-step self-check, 133.54% per orbit; measured on the A/B side, +248% within a 6%-orbit window), far beyond the ±1% transcription contract. At mass ratio 0.8428 (B/A) there is no dominant centre to absorb the reaction, so the secular growth survives even E6′-R (pairReduced) — χ is 0.947/0.955 at perihelion and 0.851/0.871 at apoapsis: BOTH stars sit at ❄️-grade χ at once (the equal-mass limit of the χ series, found on the wave-197 synthetic binary, confirmed here on a real one).",
+      pass:"THE OBSERVATION-STABILITY RULE (adjudicated 2026-08-25): a reproduction of observed values adopts the formula that is stable at those values, because the observed values were themselves computed from that formula. The transcribed a, e, P are the output of the Akeson et al. (2021) orbit solution — a drag-free Keplerian computation — so the observation build adopts kFrame=0 and keeps frame dragging as the A/B MEASUREMENT side rather than discarding it (the first sample where the default A/B roles swap). kFrame=0 completes the orbit at 79.7647 yr (+0.0034% vs observed) with a measured eccentricity of 0.51947, exactly as transcribed. Zero fits."},
+    descStruct:{
+      summary:"Alpha Centauri A (real mass 2.1451938×10³⁰ kg = 1.0788 M☉, real radius 8.4738×10⁸ m, real 15.9-day rotation) and B (real mass 1.8079442×10³⁰ kg = 0.9092 M☉, real radius 5.979336×10⁸ m, real 36.23-day rotation), placed with 1 unit = 10¹⁰ m / 10⁶ s / 10²⁹ kg as a TWO-BODY BARYCENTRIC stellar binary (wave 199 — the start of M1; the first extrasolar, stellar-scale real calibration). The relative orbit is a=23.299 AU (3.4854808×10¹² m), e=0.51947, P=79.762 yr (Akeson et al. 2021 Table 8 — paper/data/solar-observations.csv; the semi-major axis is derived in the record from the paper's angular 17.4930″ and parallax 750.81 mas, and AU→m is the IAU exact conversion). Only gravity (E4) and the geodesic 1PN term (E12) act: as the FIRST APPLICATION of the observation-stability rule (adjudicated 2026-08-25) the build adopts kFrame=0 — the side of the formula the observed values were computed from — and keeps frame dragging as the A/B measurement side. Both stars are free (not pinned); frameReaction:\"pairReduced\" (E6′-R). q=4.6111 is q_exact evaluated once at a=348.54808. Zero fits (D₀=0.006 is the shared value, reused).",
+      observe:"The adopted kFrame=0 build completes one orbit at a measured 79.7647 yr (observed 79.762 yr, +0.0034%), and the radius-ratio wobble over the orbit gives a measured eccentricity of 0.51947 — matching the transcribed e=0.51947 to the shown digits (perihelion 1.675×10¹² m, apoapsis 5.296×10¹² m). On the A/B measurement side (kFrame=1), E6′ motion dragging lifts the osculating period secularly: the 400-step self-check (0.3% of the orbit) reads +0.3395% — 133.54% per orbit — and the direct measurement grows to +248% within a 6%-orbit window. χ=W/(D₀+W) is 0.947 (A) / 0.955 (B) at perihelion and 0.851/0.871 at apoapsis: at mass ratio 0.8428 BOTH stars carry high χ at once, so no dominant centre absorbs the reaction (the equal-mass limit of the χ series, found on the wave-197 synthetic binary, holding here on a real one for the first time). Zero NaN; two runs are bit-identical (QA behavior.alphaCenAB).",
+      control:"One-tap A/B: side B is kFrame=1 (the MEASUREMENT side) — under the observation-stability rule the default A/B direction is reversed relative to the other real calibrations, and pressing it shows the secular growth of the dragging term itself (the osculating period keeps stretching and the orbit opens up). With timeScale=1000 one on-screen second ≈ 11.6 days. Display uses dispMag=300 (the stars are 0.085/0.060-unit dots — display only); use trails. camera.scale=630 is the convention value, 1.2 × the 529.6-unit apoapsis."},
+    parameterAudit:{
+      observedInputs:["real G=6.674","real c₀=3×10⁴",
+        "A's real mass 1.0788 M☉, radius 1.2175 R☉ and 15.9-day rotation (M☉/R☉ converted with this repo's committed solar values 1.9885×10³⁰ kg / 6.96×10⁸ m)",
+        "B's real mass 0.9092 M☉, radius 0.8591 R☉ and 36.23-day rotation",
+        "the relative orbit a=23.299 AU (derived in the record from 17.4930″ and parallax 750.81 mas), e=0.51947",
+        "the observed period 79.762 yr (compared against, NOT fitted to — paper/data/solar-observations.csv)",
+        "the real Kepler speed (calibration factor 1.000 — no multiplier)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10¹⁰ m / 10⁶ s / 10²⁹ kg)",
+        "kFrame=0 (the observation-stability rule, adjudicated 2026-08-25: a reproduction of observed values adopts the formula that is stable at those values — the observed values were themselves computed from that formula; the kFrame=1 template is returned by the self-check as secularly unstable, and frame dragging moves to the A/B measurement side)",
+        "frameReaction:\"pairReduced\" (E6′-R — the free-centre reaction rule, wave 184)",
+        "kRep=muF=γN=κ_S=0 / geoPN=2, λ_PN=1, pnα=1.5 / stateCarry:\"double\"",
+        "two-body barycentric (both stars free), perihelion-aligned",
+        "AU→m 1.495978707×10¹¹ (IAU exact) and yr→s 3.15576×10⁷ (Julian year) as unit conversions, not observations"],
+      fitted:["D₀=0.006 (the shared value fixed on 🌘, used as is — zero fits in this system; speed calibration 1.000)"],
+      derived:["q=4.6111 (the qLock exact-agreement form q_exact evaluated once at a=348.54808)","κ=G/c₀²=7.4156×10⁻⁹",
+        "camera.scale=630, timeScale=1000, dispMag=300 (derived from the stated rules)"],
+      numerical:["softening ε=0.05","time multiplier timeScale=1000","display magnification dispMag=300 (display only)"]}},
+  abBody:{ label:{ja:"kFrame=1(空間引きずり ON — A/B の測定側・観測安定則)", en:"kFrame=1 (frame dragging on — the A/B measurement side under the observation-stability rule)"},
+    physicsPatch:{kFrame:1} },
+  claims:[
+    { id:"alphaCenAB.period-kf0", kind:"fixed-seed", prov:"simulated", role:"input_check",
+      metric:"abPeriodKF0Years",
+      chain:{ax:["A4","A6"], eq:["E4"],
+        note:"観測入力(実 a・両星の実質量・実 G)+実ケプラー初速の転写が観測周期 79.762 年を写せていることの検証(kFrame=0 採用側・1公転完走)。",
+        noteEn:"A check that the transcription (real a, both real masses, real G, real Kepler speed) reproduces the observed 79.762 yr at the adopted kFrame=0, completing one full orbit."},
+      roleNote:"観測入力の検証 — 較正ノブはゼロ。",
+      roleNoteEn:"Input check — zero calibration knobs.",
+      expected:{min:79.4, max:80.1},
+      descPattern:"1公転を完走して実測 (\\d+\\.\\d+) 年", testId:"behavior.alphaCenAB" },
+    { id:"alphaCenAB.ecc-transcribed", kind:"fixed-seed", prov:"simulated", role:"input_check",
+      metric:"abEccMeasured",
+      chain:{ax:["A4"], eq:["E4"],
+        note:"転写した離心率 e=0.51947 が1公転の半径比振れ幅としてそのまま実測されることの検証(高離心率軌道の転写第1号 — これまでの実較正系は e≦0.007)。",
+        noteEn:"A check that the transcribed e=0.51947 is measured back as the radius-ratio wobble over one orbit (the first high-eccentricity transcription — previous real calibrations had e≤0.007)."},
+      roleNote:"観測入力の検証(軌道形の写し)— 較正ノブではない。",
+      roleNoteEn:"Input check (a transcription of the orbit shape) — not a calibration knob.",
+      expected:{min:0.50, max:0.54},
+      descPattern:"実測離心率 (0\\.\\d+)", testId:"behavior.alphaCenAB" },
+    { id:"alphaCenAB.obs-stability", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+      metric:"kf1DriftProjPct",
+      chain:{ax:["A4","A5"], eq:["E4","E6′"],
+        note:"観測安定則(2026-08-25 裁定)適用の機械固定: kFrame=1 雛形は自己診断がドリフト外挿(1公転換算 133.54%)で差し戻し、構築は kFrame=0 へ宣言つきフォールバックする。physics.kFrame=0・abBody の測定側 kFrame=1・説明文の裁定引用を QA が検査する。",
+        noteEn:"Machine-fixes the first application of the observation-stability rule (adjudicated 2026-08-25): the kFrame=1 template is returned by the drift-extrapolation self-check (133.54% per orbit) and the build falls back to kFrame=0 with a declaration. QA checks physics.kFrame=0, the kFrame=1 measurement side in abBody, and the adjudication citation in the text."},
+      roleNote:"回顧的確認 — 差し戻しの実測値(1公転換算ドリフト)を宣言どおり検査する。較正ノブではない。",
+      roleNoteEn:"Retrospective check — verifies the declared drift projection that triggered the fallback. Not a calibration knob.",
+      expected:{min:50, max:250},
+      descPattern:"1公転換算 (\\d+\\.\\d+)%", testId:"behavior.alphaCenAB" },
+    { id:"alphaCenAB.drag-secular-kf1", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+      metric:"kf1WindowGrowthPct",
+      chain:{ax:["A4","A5"], eq:["E4","E6′"],
+        note:"A/B 測定側(kFrame=1)の永年成長の定量: 接触要素周期が6%公転窓で +248% まで成長する — χ 系列(🌇 +0.002%・🌊 +0.117%・❄️ +0.246%)の対等質量極限が実在の連星で成立する第1例。フィットで消さずに測定側として宣言する。",
+        noteEn:"Quantifies the secular growth on the A/B measurement side (kFrame=1): the osculating period grows to +248% within a 6%-orbit window — the first real binary where the equal-mass limit of the χ series (🌇 +0.002%, 🌊 +0.117%, ❄️ +0.246%) holds. Declared as the measurement side, not fitted away."},
+      roleNote:"回顧的確認 — 較正ノブはゼロ。観測との不一致(永年成長)を含めてそのまま宣言する項目である。",
+      roleNoteEn:"Retrospective check — zero calibration knobs. The item declares the disagreement (the secular growth) as is.",
+      expected:{min:100, max:400},
+      descPattern:"6%公転窓で \\+(\\d+)% まで成長", testId:"behavior.alphaCenAB" }
+  ],
+  parameterAudit:{
+    observedInputs:["実 G=6.674","実 c₀=3×10⁴",
+      "A の実質量 1.0788 M☉・実半径 1.2175 R☉・実自転 15.9 日(M☉/R☉ の換算は本リポジトリのコミット済み太陽値 1.9885×10³⁰kg/6.96×10⁸m)",
+      "B の実質量 0.9092 M☉・実半径 0.8591 R☉・実自転 36.23 日",
+      "相対軌道 a=23.299 AU(レコード内で角半長軸 17.4930″ と視差 750.81 mas から導出)・e=0.51947",
+      "観測周期 79.762 年(**照合先であって fit の対象ではない** — paper/data/solar-observations.csv)",
+      "実ケプラー初速(較正係数 1.000 — 掛け算なし)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10¹⁰m/10⁶s/10²⁹kg)",
+      "kFrame=0(観測安定則 — 2026-08-25 裁定「観測値再現版は、観測値で安定する計算式を採用する。観測値自体が計算式で算出されている為」。kFrame=1 雛形は自己診断が永年不安定として差し戻し、引きずりは A/B の測定側へ)",
+      "frameReaction:\"pairReduced\"(E6′-R — 自由中心の反作用則・第184便)",
+      "kRep=muF=γN=κ_S=0 / geoPN=2・λ_PN=1・pnα=1.5 / stateCarry:\"double\"",
+      "二体重心系(両星とも自由)・近点整列",
+      "AU→m 1.495978707×10¹¹(IAU 定義の厳密値)・年→秒 3.15576×10⁷(ユリウス年)は単位換算であって観測ではない"],
+    fitted:["D₀=0.006(🌘 で決めた共有値の流用 — 本系でのフィットはゼロ。初速較正 1.000)"],
+    derived:["q=4.6111(qLock 厳密一致式 q_exact を a=348.54808 で1回評価した直値)","κ=G/c₀²=7.4156×10⁻⁹",
+      "camera.scale=630・timeScale=1000・dispMag=300(規約から決定的に算出)"],
+    numerical:["ソフトニング ε=0.05","時間倍率 timeScale=1000","粒子表示倍率 dispMag=300(表示専用)"]},
+  activeParams:["kFrame","q","D0"],
+  camera:{scale:630}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.006, kFrame:0, q:4.6111, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1000, dispMag:300,
+    stateCarry:"double", frameReaction:"pairReduced"},
+  bodies:[ // 並び: 0=A(自由)・1=B。観測転写経路の決定的配置のビット写し(観測安定則 kFrame=0 採用)
+           // (1単位=10¹⁰m/10⁶s/10²⁹kg): A 2.1451938e30kg/8.4738e8m/自転15.9日、
+           //  B 1.8079442e30kg/5.979336e8m/a=3.4854808e12m・e=0.51947・自転36.23日。
+           //  初速は近点の実ケプラー接線速度(重心系配分・較正係数 1.000)
+    {type:"single", m:21.451938, radius:0.084738, x:-76.59955524943567, y:0, vx:0, vy:-0.7075572743352302, spin:4.57371397, pinned:false, pnSource:true},
+    {type:"single", m:18.079442, radius:0.05979336, x:90.88825363296436, y:0, vx:0, vy:0.8395433211095978, spin:2.00723302, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
 { id:"saturn", name:"土星の環(実験)", emoji:"🪐", group:"天体の物語",
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
@@ -8023,7 +8146,7 @@ const AUDIT_FAMILY=["mercuryReal","mercuryRealKF1","earthMoonReal","earthMoonRea
 // 「ゼロフィットの観測転写」6本を第二の凍結リストとして持ち、QA claims.obs-family が
 // 「6本・全て fidelity:"real"・fitted が共有値の流用宣言1件のみ(新規フィット0)・
 // claims/role/parameterAudit 完備」を機械固定する(宣言専用 — 物理・保存 JSON 不変)。
-const OBS_FAMILY=["jupiterGalilean","venusReal","marsMoonsReal","plutoCharonReal","uranusReal","neptuneReal"];
+const OBS_FAMILY=["jupiterGalilean","venusReal","marsMoonsReal","plutoCharonReal","uranusReal","neptuneReal","alphaCenAB"];   // 第199便: 恒星スケール第1号を追加
 // 測定ハーネス名 → コミット済み結果ファイル名の対応(名前だけの小さな宣言表)。
 // **どのサンプルがどれを使うかは書かない** — それはサンプル宣言のテキストから走査して決める。
 const AUDIT_RESULT_FILES={"exp-obscal":"obscal-results.json", "exp-kf1":"kf1-results.json",
@@ -17839,8 +17962,17 @@ function validateObservationRecords(input){
     E(s.name+": 公転周期(orbital_period)がありません — 自己診断の照合先が無いので構築しません(配置には使いません)");
   if(errors.length) return {ok:false, errors, notes};
   // ---- 理想化の宣言(黙って行わない)----
-  const idealJa=["2次元・赤道面への理想化(軌道傾斜と第三体摂動は無視)","中心天体は pinned(展示系の外部拘束 — 中心の反跳を差分に混ぜない)"];
-  const idealEn=["a 2D equatorial idealization (inclinations and third-body perturbations ignored)","the central body is pinned (an exhibit constraint: its recoil is kept out of the differential)"];
+  // 第199便: pinned 宣言を実装(obsMakeSys の pinned:(nS>=2))と一致させる — 二体重心系は
+  // 中心も自由なので「中心天体は pinned」を宣言しない(第184便からの残置不整合の修正)
+  const idealJa=["2次元・赤道面への理想化(軌道傾斜と第三体摂動は無視)"];
+  const idealEn=["a 2D equatorial idealization (inclinations and third-body perturbations ignored)"];
+  if(sats.length>=2){
+    idealJa.push("中心天体は pinned(展示系の外部拘束 — 中心の反跳を差分に混ぜない)");
+    idealEn.push("the central body is pinned (an exhibit constraint: its recoil is kept out of the differential)");
+  } else {
+    idealJa.push("二体重心系 — 中心も自由(pinned なし)");
+    idealEn.push("a two-body barycentric system — the centre is also free (not pinned)");
+  }
   if(c.q.rotation_period===undefined && c.q.spin===undefined){
     c.spinSI=0; idealJa.push(c.name+" の自転が出典に無いため spin=0 と宣言"); idealEn.push("no rotation source for "+c.name+" — spin is declared as 0");
     notes.push(c.name+": 自転周期・自転角速度とも出典に無いので spin=0 として宣言します");
@@ -18168,13 +18300,54 @@ function buildAstroFromRecords(input, opts){
     numerical:["ソフトニング ε=0.05","時間経過倍率 timeScale="+M.timeScale,"粒子表示倍率 dispMag="+M.dispMag+"(表示専用)",
       "自己診断: "+OBS_DIAG_STEPS+"步の試走・周期許容 ±1%"]};
   // ---- 自己診断(生成直後・自動)。落ちたら採用しない ----
-  const diag=astroObsSelfCheck(p, targets, o.steps);
+  let pAdopt=p, diag=astroObsSelfCheck(p, targets, o.steps), stabilized=null;
+  if(!diag.ok){
+    // 第199便: 観測安定則(2026-08-25 裁定 —「観測値再現版は、観測値で安定する計算式を採用する。
+    // 観測値自体が計算式で算出されている為」)。差し戻しが**永年不安定クラスのみ**(初期状態は
+    // 転写どおり合致するが、試走で軌道を保てない/ドリフト外挿が許容超過)のとき**に限り**、
+    // kFrame=0(=観測値を算出した計算式の側)で宣言つきに再構築して再診断する。転写ミス
+    // (初期状態の推定周期ずれ・NaN・検証不通過)は従来どおり差し戻す。kFrame=1 を通る系は
+    // 今までどおり kFrame=1 のまま — この則が既存ビルドへ与える変化は 1 bit も無い。
+    // 引きずり(kFrame=1)は消えない: A/B の測定側へ移る(既定の対照側と役割が入れ替わる)。
+    const secularOnly = diag.errors.length>0
+      && diag.errors.every(e=>/軌道を保てていません|ドリフトしています/.test(e))
+      && !diag.errors.some(e=>/初期状態の推定周期|NaN|検証に通りません/.test(e));
+    if(secularOnly){
+      const p2=JSON.parse(JSON.stringify(p));
+      p2.physics.kFrame=0;
+      p2.abBody={ label:{ja:"空間引きずりON(kFrame=1 — A/B の測定側)",
+        en:"frame dragging on (kFrame=1 — the A/B measurement side)"}, physicsPatch:{kFrame:1} };
+      const fc=p2.parameterAudit && p2.parameterAudit.fixedConventions;
+      if(Array.isArray(fc)){
+        const i=fc.findIndex(s=>/^kFrame=1/.test(s));
+        if(i>=0) fc[i]=en
+          ? "kFrame=0 (the observation-stability rule, adjudicated 2026-08-25: a reproduction of OBSERVED values adopts the formula that is stable at those values — the observed values were themselves computed from that formula. The kFrame=1 template was returned by the self-check as secularly unstable; frame dragging moves to the A/B measurement side)"
+          : "kFrame=0(観測安定則 — 2026-08-25 裁定「観測値再現版は、観測値で安定する計算式を採用する。観測値自体が計算式で算出されている為」。kFrame=1 雛形は自己診断が永年不安定として差し戻し、引きずりは A/B の測定側へ)";
+      }
+      const why=diag.errors[0]||"";
+      p2.description+= en
+        ? "\nOBSERVATION-STABILITY RULE (adjudicated 2026-08-25): the kFrame=1 template was returned by the self-check as SECULARLY UNSTABLE (the transcribed initial state matches, but the estimated period drifts beyond the ±1% contract during the trial run), so this system is adopted with kFrame=0 — the side of the formula the observed values were computed from. Frame dragging (kFrame=1) is kept as the A/B measurement side, not discarded. Self-check verdict on the template: "+why
+        : "\n観測安定則(2026-08-25 裁定): kFrame=1 雛形は自己診断が**永年不安定**(転写した初期状態は合致するが、試走中に推定周期が ±1% 契約を超えてドリフト)として差し戻したため、本系は kFrame=0 — **観測値を算出した計算式の側** — で採用した。空間引きずり(kFrame=1)は捨てず A/B の測定側として保持する。雛形への診断所見: "+why;
+      const diag2=astroObsSelfCheck(p2, targets, o.steps);
+      if(diag2.ok){
+        stabilized={from:1, to:0, rule:"obs-stability", adjudicated:"2026-08-25", errorsKF1:diag.errors.slice()};
+        v.notes.push(en
+          ? "observation-stability rule applied: kFrame=1 → 0 (the template failed the self-check as secularly unstable; dragging moved to the A/B measurement side)"
+          : "観測安定則を適用: kFrame=1 → 0(雛形が自己診断で永年不安定 — 引きずりは A/B の測定側へ)");
+        pAdopt=p2; diag=diag2;
+      } else {
+        diag={ok:false, errors:diag.errors.concat(
+          ["観測安定則(kFrame=0)での再構築も自己診断を通りませんでした: "+diag2.errors.slice(0,2).join(" / ")]),
+          rows:diag.rows, steps:diag.steps};
+      }
+    }
+  }
   if(!diag.ok) return {ok:false, stage:"diagnosis", errors:diag.errors, notes:v.notes,
-    diag, meta:M, table:rec.table, preset:p};
-  const vp=validatePreset(p);
+    diag, meta:M, table:rec.table, preset:pAdopt};
+  const vp=validatePreset(pAdopt);
   if(!vp.ok) return {ok:false, stage:"validate", errors:vp.errors, notes:v.notes, meta:M, table:rec.table};
   return {ok:true, preset:vp.preset, warnings:vp.warnings, notes:v.notes, diag, meta:M, table:rec.table,
-    ideal:rec.ideal, demoted:built.demoted};
+    ideal:rec.ideal, demoted:built.demoted, stabilized};
 }
 
 // --- ⑤ 採取用プロンプト(外部チャットAI向け — アプリはAPIキーを使わない)---
@@ -18388,11 +18561,11 @@ Exactly one preset that follows the specification above. Even when approximating
 ## REAL-SYSTEM APPROXIMATION (OUTPUT B)
 For a real system that OUTPUT A cannot express (planetary rings, discs, continuous distributions):
 - Keep the transcription discipline: the central mass/radius/rotation and the feature radii (ring edges, orbital radii) come from sources you actually opened, cited in "description"; claim no accuracy beyond that.
-- Declare per-sample real units as "scaleExp":{"L":<L>,"T":<L-4>,"M":<L+19>}. The convention L-T=4 and M+2T-3L=11 keeps the real constants (G=6.674, c0=3e4) — any other T or M is flagged by the importer. Pick L so the central radius lands between 0.01 and 100 units.
+- Declare per-sample real units as "scaleExp":{"L":<L>,"T":<L-4>,"M":<L+19>}. The convention L-T=4 and M+2T-3L=11 keeps the real constants (G=6.674, c0=3e4) — any other T or M is flagged by the importer. Pick L so the central radius lands between 0.01 and 100 units AND camera.scale (~1.2 x the outermost feature radius) lands inside its valid range 20-3000. Picking L from the central radius alone tends to overshoot by one for ring-only systems — when 1.2 x the outermost radius falls below 20, use the next smaller L (every radius and mass just shifts a digit; the physics is identical).
 - With scaleExp declared, use "G":6.674, "cLight":30000 and "kappaT":7.415555555555556e-9 (=G/c0^2) — not the toy defaults of "# EXAMPLE".
 - Ring features become "ring" groups (vMode:"kepler", aroundMass = the central body's m in the SAME units) at the real radii; unsourced masses stay tiny (1e-6 per particle) and "description" says so.
 - Rings and discs must CO-ROTATE with the transcribed central spin: direction = the sign of the centre's spin (direction:-1 when spin<0). A counter-rotating ring is a transcription error unless your source explicitly says the ring is retrograde.
-- Display conventions for real-radius systems: camera.scale ~= 1.2 x the outermost feature radius; evaluate the timeScale rule (innermost orbit ~= 5 s) at the INNERMOST feature; set dispMag to 1 (the default 3 draws a large centre over its rings; display-only).
+- Display conventions for real-radius systems: camera.scale ~= 1.2 x the outermost feature radius (below 20 the importer clamps it up to 20 and the system renders tiny — the L rule above keeps it in range); evaluate the timeScale rule (innermost orbit ~= 5 s) at the INNERMOST feature; set dispMag to 1 (the default 3 draws a large centre over its rings; display-only).
 
 ## SELF-CHECK BEFORE YOU OUTPUT (OUTPUT B)
 1. Every body carries EXACTLY the keys of its type — for "ring" that is n, cx, cy, rIn, rOut, mMin, mMax, spinMin, spinMax, vMode, aroundMass, omega, vNoise, direction, pinned. Never invent keys: r, dr or a flat m on a ring are rejected by the importer.
@@ -18470,11 +18643,11 @@ ${ex}
 ## 実在系の近似(出力B)
 出力Aで表せない実在系(惑星の環・円盤・連続分布)を出力Bで近似するときの規約です:
 - 転写の規律は出力Aと同じに保ちます: 中心天体の質量・半径・自転と、特徴半径(環の内外縁・軌道半径)は**実際に開いた出典**から写し、description に出典を記し、それ以上の精度は主張しません。
-- サンプル別の実単位を "scaleExp":{"L":<L>,"T":<L−4>,"M":<L+19>} で宣言します。規約 T=L−4・M=L+19(L−T=4・M+2T−3L=11)が実定数(G=6.674・c₀=3×10⁴)を保つ唯一の組で、他の T・M はインポート時に警告されます。L は中心天体の半径が 0.01〜100 単位に入る桁を選びます。
+- サンプル別の実単位を "scaleExp":{"L":<L>,"T":<L−4>,"M":<L+19>} で宣言します。規約 T=L−4・M=L+19(L−T=4・M+2T−3L=11)が実定数(G=6.674・c₀=3×10⁴)を保つ唯一の組で、他の T・M はインポート時に警告されます。L は、中心天体の半径が 0.01〜100 単位に入り、**かつ camera.scale(≈最外の特徴半径×1.2)が有効範囲 20〜3000 に入る**桁を選びます。環だけの系を中心半径だけで選ぶと L が 1 大きくなりがちです — ×1.2 が 20 を割るなら L を 1 下げます(全半径・全質量の数値が桁送りされるだけで物理は同じです)。
 - scaleExp を宣言したら "G":6.674・"cLight":30000・"kappaT":7.415555555555556e-9(=G/c₀²)を使います(「# 例」のトイ既定値ではありません)。
 - 環は実半径の "ring" 群(vMode:"kepler"・aroundMass=**同じ単位系での**中心質量)にします。出典の無い環の質量は微小値(1粒 1e-6)に置き、その旨を description に書きます。
 - **環・円盤は転写した中心の spin と同じ向きに回します**: direction = spin の符号(spin<0 なら direction:-1)。出典が明示的に逆行環と言わない限り、逆向きの環は転写ミスです。
-- 実半径系の表示規約: **camera.scale ≈ 最外の特徴半径×1.2**・timeScale は規約(最内公転≈5秒)を**最内の特徴**で評価・**dispMag は 1**(既定の 3 は大きな中心の描画が環を覆います — 表示専用)。
+- 実半径系の表示規約: **camera.scale ≈ 最外の特徴半径×1.2**(20 未満はインポート時に 20 へ切り上げられ、系が極小に表示されます — 上の L 選択で範囲内に収めます)・timeScale は規約(最内公転≈5秒)を**最内の特徴**で評価・**dispMag は 1**(既定の 3 は大きな中心の描画が環を覆います — 表示専用)。
 
 ## 出力前の自己チェック(出力B)
 1. 各 body のキーが仕様の型どおり**過不足なく**揃っている — ring は n, cx, cy, rIn, rOut, mMin, mMax, spinMin, spinMax, vMode, aroundMass, omega, vNoise, direction, pinned。キーを発明しない(ring に r・dr・単独の m を書くとインポートで拒否されます)。

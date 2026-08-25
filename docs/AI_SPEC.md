@@ -143,11 +143,11 @@ Exactly one preset that follows the specification above. Even when approximating
 ## REAL-SYSTEM APPROXIMATION (OUTPUT B)
 For a real system that OUTPUT A cannot express (planetary rings, discs, continuous distributions):
 - Keep the transcription discipline: the central mass/radius/rotation and the feature radii (ring edges, orbital radii) come from sources you actually opened, cited in "description"; claim no accuracy beyond that.
-- Declare per-sample real units as "scaleExp":{"L":<L>,"T":<L-4>,"M":<L+19>}. The convention L-T=4 and M+2T-3L=11 keeps the real constants (G=6.674, c0=3e4) — any other T or M is flagged by the importer. Pick L so the central radius lands between 0.01 and 100 units.
+- Declare per-sample real units as "scaleExp":{"L":<L>,"T":<L-4>,"M":<L+19>}. The convention L-T=4 and M+2T-3L=11 keeps the real constants (G=6.674, c0=3e4) — any other T or M is flagged by the importer. Pick L so the central radius lands between 0.01 and 100 units AND camera.scale (~1.2 x the outermost feature radius) lands inside its valid range 20-3000. Picking L from the central radius alone tends to overshoot by one for ring-only systems — when 1.2 x the outermost radius falls below 20, use the next smaller L (every radius and mass just shifts a digit; the physics is identical).
 - With scaleExp declared, use "G":6.674, "cLight":30000 and "kappaT":7.415555555555556e-9 (=G/c0^2) — not the toy defaults of "# EXAMPLE".
 - Ring features become "ring" groups (vMode:"kepler", aroundMass = the central body's m in the SAME units) at the real radii; unsourced masses stay tiny (1e-6 per particle) and "description" says so.
 - Rings and discs must CO-ROTATE with the transcribed central spin: direction = the sign of the centre's spin (direction:-1 when spin<0). A counter-rotating ring is a transcription error unless your source explicitly says the ring is retrograde.
-- Display conventions for real-radius systems: camera.scale ~= 1.2 x the outermost feature radius; evaluate the timeScale rule (innermost orbit ~= 5 s) at the INNERMOST feature; set dispMag to 1 (the default 3 draws a large centre over its rings; display-only).
+- Display conventions for real-radius systems: camera.scale ~= 1.2 x the outermost feature radius (below 20 the importer clamps it up to 20 and the system renders tiny — the L rule above keeps it in range); evaluate the timeScale rule (innermost orbit ~= 5 s) at the INNERMOST feature; set dispMag to 1 (the default 3 draws a large centre over its rings; display-only).
 
 ## SELF-CHECK BEFORE YOU OUTPUT (OUTPUT B)
 1. Every body carries EXACTLY the keys of its type — for "ring" that is n, cx, cy, rIn, rOut, mMin, mMax, spinMin, spinMax, vMode, aroundMass, omega, vNoise, direction, pinned. Never invent keys: r, dr or a flat m on a ring are rejected by the importer.
@@ -526,11 +526,11 @@ mass・semi_major_axis・orbital_period について複数出典が 1% を超え
 ## 実在系の近似(出力B)
 出力Aで表せない実在系(惑星の環・円盤・連続分布)を出力Bで近似するときの規約です:
 - 転写の規律は出力Aと同じに保ちます: 中心天体の質量・半径・自転と、特徴半径(環の内外縁・軌道半径)は**実際に開いた出典**から写し、description に出典を記し、それ以上の精度は主張しません。
-- サンプル別の実単位を "scaleExp":{"L":<L>,"T":<L−4>,"M":<L+19>} で宣言します。規約 T=L−4・M=L+19(L−T=4・M+2T−3L=11)が実定数(G=6.674・c₀=3×10⁴)を保つ唯一の組で、他の T・M はインポート時に警告されます。L は中心天体の半径が 0.01〜100 単位に入る桁を選びます。
+- サンプル別の実単位を "scaleExp":{"L":<L>,"T":<L−4>,"M":<L+19>} で宣言します。規約 T=L−4・M=L+19(L−T=4・M+2T−3L=11)が実定数(G=6.674・c₀=3×10⁴)を保つ唯一の組で、他の T・M はインポート時に警告されます。L は、中心天体の半径が 0.01〜100 単位に入り、**かつ camera.scale(≈最外の特徴半径×1.2)が有効範囲 20〜3000 に入る**桁を選びます。環だけの系を中心半径だけで選ぶと L が 1 大きくなりがちです — ×1.2 が 20 を割るなら L を 1 下げます(全半径・全質量の数値が桁送りされるだけで物理は同じです)。
 - scaleExp を宣言したら "G":6.674・"cLight":30000・"kappaT":7.415555555555556e-9(=G/c₀²)を使います(「# 例」のトイ既定値ではありません)。
 - 環は実半径の "ring" 群(vMode:"kepler"・aroundMass=**同じ単位系での**中心質量)にします。出典の無い環の質量は微小値(1粒 1e-6)に置き、その旨を description に書きます。
 - **環・円盤は転写した中心の spin と同じ向きに回します**: direction = spin の符号(spin<0 なら direction:-1)。出典が明示的に逆行環と言わない限り、逆向きの環は転写ミスです。
-- 実半径系の表示規約: **camera.scale ≈ 最外の特徴半径×1.2**・timeScale は規約(最内公転≈5秒)を**最内の特徴**で評価・**dispMag は 1**(既定の 3 は大きな中心の描画が環を覆います — 表示専用)。
+- 実半径系の表示規約: **camera.scale ≈ 最外の特徴半径×1.2**(20 未満はインポート時に 20 へ切り上げられ、系が極小に表示されます — 上の L 選択で範囲内に収めます)・timeScale は規約(最内公転≈5秒)を**最内の特徴**で評価・**dispMag は 1**(既定の 3 は大きな中心の描画が環を覆います — 表示専用)。
 
 ## 出力前の自己チェック(出力B)
 1. 各 body のキーが仕様の型どおり**過不足なく**揃っている — ring は n, cx, cy, rIn, rOut, mMin, mMax, spinMin, spinMax, vMode, aroundMass, omega, vNoise, direction, pinned。キーを発明しない(ring に r・dr・単独の m を書くとインポートで拒否されます)。
@@ -753,4 +753,8 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   fit にも derived にも入れない値はここに置き、凍結前に見ない。
 - `physics.halo` は観測再現版専用の外部項(公理ではない — docs/PHYSICS.md の該当節参照)。
   生成 AI はこのキーを使わない。
+- **観測安定則(第199便 M1 — 2026-08-25 裁定)**: 観測値再現版は、観測値で安定する計算式を
+  採用する(観測値自体が計算式で算出されている為)。kFrame=1 雛形が自己診断で永年不安定と
+  差し戻される系に限り kFrame=0 で採用し、引きずりは A/B の**測定側**として保持する
+  (適用第1号: ✨ αケンタウリAB。転写ミスは従来どおり差し戻し — docs/PHYSICS.md の該当節参照)。
 
