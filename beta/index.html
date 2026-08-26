@@ -9839,6 +9839,102 @@ function newPairCtx(){ return { n:null, m:null, x:null, y:null, vx:null, vy:null
     kHasU:null, kUPx:null, kUPy:null }; }
 
 // ---- 特別化①(kKind=1): 軌道系・PN なし ----
+// ---- 第208便: S._core からの追加切り出し2件(第177便と同じ「式を変えずに形だけ変える」系譜)----
+// 背景: 第208便で S._core へ coupleSink の受け先切替(~20文)を追加したところ、CI(Chromium 149)
+// で beta の1步コストが全サンプル一様に ~1.5倍化(perf 20/22 FAIL・QA beta 25→40分。root 不変・
+// ローカル旧 Chromium では不変・結果はビット同一)。第177便の記録どおり S._core は V8 の
+// 最適化サイズ上限の際にあり、追加分が閾値を跨いだと判断。対処は同便の方針を踏襲 —
+// **1步の浮動小数演算の集合と順序は 1 つも変えず**、自己完結ブロックを関数へ切り出して
+// S._core 本体を第207便時点より小さくする。
+// ① コアv2 状態更新パス(第77便 — 収縮・パワーボール・τ_cs。hasCoreV2 && doPost のときだけ
+//    呼ばれる。設計コメントは切り出し前の逐語 — 第78便の K_cs 再定義・帳簿の説明を含む)
+function coreV2UpdatePass(S, m, spin, pinned, ax, ay, R, dt){
+  for(let i=0;i<S.n;i++){
+    const md=S.coreMd[i]; if(md===0 || md===4) continue;
+    if(md===3){   // active: E_int += sourceRate·dt(帳簿と等量)
+      const dE=S.coreSrc[i]*dt;
+      if(dE>0){ S.coreEint[i]+=dE; S.coreSrcE+=dE; }
+    }
+    const Mc=S.coreMF[i]*Math.abs(m[i]); if(!(Mc>1e-9)) continue;
+    if(md===1){   // rigid: 軸固定 — pump は殻スピンを減速(実物のパワーボールと同じ)
+      if(S.corePump[i]>0 && !pinned[i] && spin[i]!==0){
+        const aosc=Math.hypot(ax[i],ay[i]);
+        if(aosc>0){
+          const Ish=0.5*Math.abs(m[i])*R[i]*R[i];
+          if(Ish>1e-12){
+            let dJ=S.corePump[i]*Mc*S.RcV[i]*aosc*dt;
+            const lim=Math.abs(Ish*spin[i])*0.25; if(dJ>lim) dJ=lim;
+            const sgn=(spin[i]>0)?1:-1;
+            spin[i]-=sgn*dJ/Ish;
+            S.resL+=sgn*dJ;                       // J はリザーバへ(T7)
+            S.radE+=Math.abs(dJ*spin[i]);         // 減速の散逸(近似 τ·ω)
+          }
+        }
+      }
+      continue;
+    }
+    // differential(第208便: I_c は共通の有効慣性 I*_c=ζ·½·Mc·Rc² — coreOmV と同じ式)
+    let Rci=S.RcV[i];
+    let Ic=0.5*Mc*Rci*Rci*S.coreIS[i]; if(!(Ic>1e-12)) continue;
+    // ① 収縮(J 保存 → Ω 自動上昇。E_rot 増は重力圧縮の解放分として coreWork へ)
+    if(S.coreCtr[i]>0){
+      const E0=(S.coreJ[i]*S.coreJ[i])/(2*Ic);
+      Rci*=Math.exp(-S.coreCtr[i]*dt);
+      const rmin=0.02*R[i]; if(Rci<rmin) Rci=rmin;
+      S.RcV[i]=Rci; Ic=0.5*Mc*Rci*Rci*S.coreIS[i];
+      if(Ic>1e-12) S.coreWork+=(S.coreJ[i]*S.coreJ[i])/(2*Ic)-E0;
+    }
+    if(!(Ic>1e-12)) continue;
+    let Om=S.coreJ[i]/Ic;
+    // ② パワーボール(軸自由 → 加速。種スピン必須 — Ω_c=0 では立ち上がらない)
+    if(S.corePump[i]>0 && !pinned[i] && Om!==0){
+      const aosc=Math.hypot(ax[i],ay[i]);
+      if(aosc>0){
+        let dJ=S.corePump[i]*Mc*Rci*aosc*dt;
+        const lim=Math.abs(S.coreJ[i])*0.25; if(dJ>lim) dJ=lim;
+        const sgn=(Om>0)?1:-1;
+        S.coreJ[i]+=sgn*dJ;
+        S.resL-=sgn*dJ;                           // 反作用 J はリザーバ(=「手首」)へ
+        S.coreWork+=Math.abs(dJ*Om);              // 外部仕事の帳簿
+        Om=S.coreJ[i]/Ic;
+      }
+    }
+    // ③ τ_cs 結合(コア⇄殻の J 交換 — 等量反対符号で保存。解析的指数緩和で安定)。
+    // 第78便: **K_cs を緩和率[1/時間]として再定義**する — τ_cs = −μ·K_cs·(Ω_c−Ω_s)
+    // (μ=換算慣性 I_c·I_s/(I_c+I_s))。第77便は f=1−e^{−K_cs·dt/μ} だったため、時定数が
+    // μ に比例し、恒星・BH 質量級(μ~10⁴)では K_cs=10 でも 6000步で 5% しか緩和しなかった
+    // (=DFM版BH の「コア→外殻」が実質不動)。μ を τ に掛ける形へ移すと **時定数 1/K_cs が
+    // 質量によらず一定**になり、ノブとして意味を持つ。J の等量交換・散逸帳簿は不変で、
+    // 保存則(T7)にも影響しない。K_cs を使う既存プリセットは無い(🌱は pump/contract のみ)
+    // 第78便: **pinned でも τ_cs を効かせる**(pump は従来どおり pinned で無効 — 加速度が
+    // 外部規定で「揺すり」の意味を持たないため)。pinned は「位置・速度を外部が規定」する
+    // 印であって自転を凍結する意味ではなく、コア⇄殻の J 交換は天体内部の話。totals() は
+    // I_s·spin と J_core の両方を含むので、等量交換で総 L は保存したまま(T7 不変)。
+    // 重い中心天体を自由にすると E6′③反作用の上限が大量発動して系が乱れる(exp-4-79 の
+    // 実測: 自由中心で clampR=30300・外縁増強が 1.2646→0.59 へ崩れる)ため、DFM版BH は
+    // 既存の 🎡🍳 と同じ pinned 中心で組む — その構成で自走を見るには本緩和が必要
+    if(S.coreKcs[i]>0){
+      const Ish=0.5*Math.abs(m[i])*R[i]*R[i];
+      const dOm=Om-spin[i];
+      if(dOm!==0 && Ish>1e-12){
+        const mu=Ic*Ish/(Ic+Ish);
+        const f=1-Math.exp(-S.coreKcs[i]*dt);
+        const dJ=mu*dOm*f;
+        S.coreJ[i]-=dJ; spin[i]+=dJ/Ish;
+        S.radE+=Math.abs(dJ*dOm)*0.5;             // 相対回転の散逸(近似)
+      }
+    }
+  }
+}
+// ② coupleSink≠"spin" の accS 一括適用(第208便 — 呼ばれるのは宣言したサンプルだけ。
+//    既定経路は S._core 内の従来の1行のまま = 1 bit 不変。意味論は COUPLE_SINK_KEY の
+//    見出しコメントを参照 — "core"=質量コアの J_core へ・それ以外はリザーバ帳簿へ)
+function applyCoupleSinkAlt(S, n, vx, vy, accVx, accVy, accS, Imom, cplSink){
+  for(let i=0;i<n;i++){ vx[i]+=accVx[i]; vy[i]+=accVy[i];
+    if(accS[i]!==0){ const dJc=Imom[i]*accS[i];
+      if(cplSink===1 && (S.coreMd[i]===2||S.coreMd[i]===3)) S.coreJ[i]+=dJc;
+      else S.resL+=dJc; } }
+}
 function pairCorePlain(C){
   const n=C.n, m=C.m, x=C.x, y=C.y, vx=C.vx, vy=C.vy,
         spin=C.spin, R=C.R, pinned=C.pinned, ax=C.ax, ay=C.ay, sumW=C.sumW,
@@ -12091,84 +12187,9 @@ function makeSim(){
     //   注入は外部からなので coreSrcE に等量を積む(fusU/coreWork と同格の明示帳簿)。
     //   ④ cavity(md=4)= 空洞。質量0・慣性0なので J も E_int も動かず、力学パスは素通りする
     //   (光学・A8 引きずりへの寄与だけが coreMF=−voidFraction の重みで効く)
-    if(hasCoreV2 && doPost){
-      for(let i=0;i<S.n;i++){
-        const md=S.coreMd[i]; if(md===0 || md===4) continue;
-        if(md===3){   // active: E_int += sourceRate·dt(帳簿と等量)
-          const dE=S.coreSrc[i]*dt;
-          if(dE>0){ S.coreEint[i]+=dE; S.coreSrcE+=dE; }
-        }
-        const Mc=S.coreMF[i]*Math.abs(m[i]); if(!(Mc>1e-9)) continue;
-        if(md===1){   // rigid: 軸固定 — pump は殻スピンを減速(実物のパワーボールと同じ)
-          if(S.corePump[i]>0 && !pinned[i] && spin[i]!==0){
-            const aosc=Math.hypot(ax[i],ay[i]);
-            if(aosc>0){
-              const Ish=0.5*Math.abs(m[i])*R[i]*R[i];
-              if(Ish>1e-12){
-                let dJ=S.corePump[i]*Mc*S.RcV[i]*aosc*dt;
-                const lim=Math.abs(Ish*spin[i])*0.25; if(dJ>lim) dJ=lim;
-                const sgn=(spin[i]>0)?1:-1;
-                spin[i]-=sgn*dJ/Ish;
-                S.resL+=sgn*dJ;                       // J はリザーバへ(T7)
-                S.radE+=Math.abs(dJ*spin[i]);         // 減速の散逸(近似 τ·ω)
-              }
-            }
-          }
-          continue;
-        }
-        // differential(第208便: I_c は共通の有効慣性 I*_c=ζ·½·Mc·Rc² — coreOmV と同じ式)
-        let Rci=S.RcV[i];
-        let Ic=0.5*Mc*Rci*Rci*S.coreIS[i]; if(!(Ic>1e-12)) continue;
-        // ① 収縮(J 保存 → Ω 自動上昇。E_rot 増は重力圧縮の解放分として coreWork へ)
-        if(S.coreCtr[i]>0){
-          const E0=(S.coreJ[i]*S.coreJ[i])/(2*Ic);
-          Rci*=Math.exp(-S.coreCtr[i]*dt);
-          const rmin=0.02*R[i]; if(Rci<rmin) Rci=rmin;
-          S.RcV[i]=Rci; Ic=0.5*Mc*Rci*Rci*S.coreIS[i];
-          if(Ic>1e-12) S.coreWork+=(S.coreJ[i]*S.coreJ[i])/(2*Ic)-E0;
-        }
-        if(!(Ic>1e-12)) continue;
-        let Om=S.coreJ[i]/Ic;
-        // ② パワーボール(軸自由 → 加速。種スピン必須 — Ω_c=0 では立ち上がらない)
-        if(S.corePump[i]>0 && !pinned[i] && Om!==0){
-          const aosc=Math.hypot(ax[i],ay[i]);
-          if(aosc>0){
-            let dJ=S.corePump[i]*Mc*Rci*aosc*dt;
-            const lim=Math.abs(S.coreJ[i])*0.25; if(dJ>lim) dJ=lim;
-            const sgn=(Om>0)?1:-1;
-            S.coreJ[i]+=sgn*dJ;
-            S.resL-=sgn*dJ;                           // 反作用 J はリザーバ(=「手首」)へ
-            S.coreWork+=Math.abs(dJ*Om);              // 外部仕事の帳簿
-            Om=S.coreJ[i]/Ic;
-          }
-        }
-        // ③ τ_cs 結合(コア⇄殻の J 交換 — 等量反対符号で保存。解析的指数緩和で安定)。
-        // 第78便: **K_cs を緩和率[1/時間]として再定義**する — τ_cs = −μ·K_cs·(Ω_c−Ω_s)
-        // (μ=換算慣性 I_c·I_s/(I_c+I_s))。第77便は f=1−e^{−K_cs·dt/μ} だったため、時定数が
-        // μ に比例し、恒星・BH 質量級(μ~10⁴)では K_cs=10 でも 6000步で 5% しか緩和しなかった
-        // (=DFM版BH の「コア→外殻」が実質不動)。μ を τ に掛ける形へ移すと **時定数 1/K_cs が
-        // 質量によらず一定**になり、ノブとして意味を持つ。J の等量交換・散逸帳簿は不変で、
-        // 保存則(T7)にも影響しない。K_cs を使う既存プリセットは無い(🌱は pump/contract のみ)
-        // 第78便: **pinned でも τ_cs を効かせる**(pump は従来どおり pinned で無効 — 加速度が
-        // 外部規定で「揺すり」の意味を持たないため)。pinned は「位置・速度を外部が規定」する
-        // 印であって自転を凍結する意味ではなく、コア⇄殻の J 交換は天体内部の話。totals() は
-        // I_s·spin と J_core の両方を含むので、等量交換で総 L は保存したまま(T7 不変)。
-        // 重い中心天体を自由にすると E6′③反作用の上限が大量発動して系が乱れる(exp-4-79 の
-        // 実測: 自由中心で clampR=30300・外縁増強が 1.2646→0.59 へ崩れる)ため、DFM版BH は
-        // 既存の 🎡🍳 と同じ pinned 中心で組む — その構成で自走を見るには本緩和が必要
-        if(S.coreKcs[i]>0){
-          const Ish=0.5*Math.abs(m[i])*R[i]*R[i];
-          const dOm=Om-spin[i];
-          if(dOm!==0 && Ish>1e-12){
-            const mu=Ic*Ish/(Ic+Ish);
-            const f=1-Math.exp(-S.coreKcs[i]*dt);
-            const dJ=mu*dOm*f;
-            S.coreJ[i]-=dJ; spin[i]+=dJ/Ish;
-            S.radE+=Math.abs(dJ*dOm)*0.5;             // 相対回転の散逸(近似)
-          }
-        }
-      }
-    }
+    // 第208便: 本体は coreV2UpdatePass(S._core の外)へ逐語切り出し — 式・順序は 1 つも
+    // 変えていない(V8 最適化サイズ対策 — pairCorePlain 直前の見出しコメントを参照)
+    if(hasCoreV2 && doPost) coreV2UpdatePass(S, m, spin, pinned, ax, ay, R, dt);
     // ===== ③ E6′ 反作用対ループ: φ_ij 分配・残余トルクのスピン移譲・リザーバ帳簿 =====
     // 第35便: anyDp は doPost の中でしか立たないので、leapfrog パスAでは自動的に素通りする
     // 第40便 40A(台帳4-81): 対ごとの反作用(vx/vy/spin への減算)は Float32 の状態配列へ
@@ -12256,15 +12277,10 @@ function makeSim(){
         }
       }
       // 第208便: coupleSink — 残余トルク(accS)の受け先を宣言で切替える。既定(0)は従来の
-      // 1行そのまま(=1 bit 不変)。"core"(1)は質量コア(differential/active)を持つ粒子の
-      // ΔJ=I_shell·Δs を J_core へ送り(殻スピンは不変)、コアが無い側はリザーバ帳簿へ。
-      // "reservoir"(2)は全量をリザーバ帳簿 resL へ(第205便裁定事項(b)の実装)。
-      // どの受け先でも ΔL は行き先が変わるだけで総角運動量は閉じる(totals() は J_core と resL を含む)
+      // 1行そのまま(=1 bit 不変)。宣言時のみ applyCoupleSinkAlt(S._core の外)が
+      // J_core / リザーバ帳簿へ送る(意味論は COUPLE_SINK_KEY の見出しコメントを参照)
       if(cplSink===0){ for(let i=0;i<n;i++){ vx[i]+=accVx[i]; vy[i]+=accVy[i]; spin[i]+=accS[i]; } }
-      else for(let i=0;i<n;i++){ vx[i]+=accVx[i]; vy[i]+=accVy[i];
-        if(accS[i]!==0){ const dJc=Imom[i]*accS[i];
-          if(cplSink===1 && (S.coreMd[i]===2||S.coreMd[i]===3)) S.coreJ[i]+=dJc;
-          else S.resL+=dJc; } }
+      else applyCoupleSinkAlt(S, n, vx, vy, accVx, accVy, accS, Imom, cplSink);
       // 背景 D₀+W_B 分は無限慣性リザーバへ移譲(帳簿記録)。UniverseBox は規定運動の
       // 外部コントローラなので、その持ち分の反作用は D₀ と同じくリザーバが引き受ける
       if(bgW>0){
@@ -12359,15 +12375,10 @@ function makeSim(){
         }
       }
       // 第208便: coupleSink — 残余トルク(accS)の受け先を宣言で切替える。既定(0)は従来の
-      // 1行そのまま(=1 bit 不変)。"core"(1)は質量コア(differential/active)を持つ粒子の
-      // ΔJ=I_shell·Δs を J_core へ送り(殻スピンは不変)、コアが無い側はリザーバ帳簿へ。
-      // "reservoir"(2)は全量をリザーバ帳簿 resL へ(第205便裁定事項(b)の実装)。
-      // どの受け先でも ΔL は行き先が変わるだけで総角運動量は閉じる(totals() は J_core と resL を含む)
+      // 1行そのまま(=1 bit 不変)。宣言時のみ applyCoupleSinkAlt(S._core の外)が
+      // J_core / リザーバ帳簿へ送る(意味論は COUPLE_SINK_KEY の見出しコメントを参照)
       if(cplSink===0){ for(let i=0;i<n;i++){ vx[i]+=accVx[i]; vy[i]+=accVy[i]; spin[i]+=accS[i]; } }
-      else for(let i=0;i<n;i++){ vx[i]+=accVx[i]; vy[i]+=accVy[i];
-        if(accS[i]!==0){ const dJc=Imom[i]*accS[i];
-          if(cplSink===1 && (S.coreMd[i]===2||S.coreMd[i]===3)) S.coreJ[i]+=dJc;
-          else S.resL+=dJc; } }
+      else applyCoupleSinkAlt(S, n, vx, vy, accVx, accVy, accS, Imom, cplSink);
       // 65A(診断層): pairReduced の引きずりチャネルは「最終的に適用した Δv」を記録する
       // (要求 d_i は速度へ入らないため — 物理状態は読まない/書かないの流儀は不変)
       if(msOn) for(let i=0;i<n;i++){ MS.dxv[i]+=accVx[i]*msIdt; MS.dyv[i]+=accVy[i]*msIdt; }
