@@ -2174,6 +2174,15 @@ const REACTION_DV_CAP = 16, REACTION_DV_CAP2 = REACTION_DV_CAP * REACTION_DV_CAP
 //            インパルス J_ij=μ_ij(φ_ij d_i−φ_ji d_j)。巨大質量比でも反作用が m_i/m_j 倍に
 //            増幅されないため、支配天体を pinned:false にできる(PHYSICS.md E6′-R)
 const FRAME_REACTION_KEY = "frameReaction", FRAME_REACTIONS = ["legacy","pairReduced"];
+// 第208便: physics.coupleSink — E6′ 反作用の残余トルク(偶力 n_ij)の受け先の選択(opt-in)。
+// "spin" = 既定(殻スピンへ等角加速度で移譲 — 省略時は 1 bit 不変)/
+// "core" = 質量コア(differential/active)を持つ粒子は ΔJ=I_shell·Δs を J_core へ送る
+//          (殻スピンは不変。コアを持たない粒子・rigid/cavity はリザーバ帳簿 resL へ)/
+// "reservoir" = 全量をリザーバ帳簿 resL へ(第205便裁定事項(b)「偶力のリザーバ帳簿化」の実装)。
+// いずれも ΔL の行き先を変えるだけで総角運動量は閉じる(totals() は J_core と resL を含む)。
+// 線運動量側の反作用(φ 分配・対称インパルス)には一切触れない。適用は accS の一括適用点
+// (O(N²) の外)なので、対ループ本体は 1 文字も変わらない。
+const COUPLE_SINK_KEY = "coupleSink", COUPLE_SINKS = ["spin","core","reservoir"];
 // 第197便(M0): physics.halo — 解析的ダークハロー外部項(観測再現版専用)。オブジェクト値の
 // opt-in キーで、省略時はプリセット署名・挙動とも 1 bit 不変(frameReaction と同じ流儀)。
 // **公理ではない**: gravityX/Y と同じ「W に寄与しない宣言的外力」で、時計・光・引きずり・D₀ に
@@ -7249,36 +7258,38 @@ const BUILTIN_PRESETS = [
   fidelity:"real",   // 幾何(遠点分離・遠点速度・自転・半径)は ✨ と同じ転写。質量だけが宣言つき1ノブ較正
   notClaim:["solar_cal"],
   obsCard:[
-    {q:"公転周期(kFrame=1・質量×1.827)", model:"2周目 79.769 年(+0.009%)— 3周 [79.811, 79.769, 79.750]", obs:"79.762 ± 0.019 年(Akeson et al. 2021 Table 8)"},
+    {q:"公転周期(kFrame=1・質量×1.827)", model:"2周目 79.771 年(+0.011%)— 3周 [79.812, 79.771, 79.751]", obs:"79.762 ± 0.019 年(Akeson et al. 2021 Table 8)"},
     {q:"実測離心率(1周目の半径比振れ幅)", model:"0.51677(−0.52%)", obs:"e=0.51947 ± 0.00015(転写)"},
+    {q:"外殻の半径と自転(第208便 — 役割反転)", model:"半径 0.084738/0.05979336・自転 15.9日/36.23日 — ライブ状態が全窓ビットで保持(ドリフト 0)", obs:"A 1.2175 R☉・15.9日/B 0.8591 R☉・36.23日(転写)"},
     {q:"DFM 質量(条件つき較正 — 実在値の主張ではない)", model:"質量スケール f=1.827: A 1.9710 M☉(3.9193×10³⁰kg)・B 1.6611 M☉(3.3031×10³⁰kg)", obs:"—(kFrame=1 の計算式で観測周期に合わせた1ノブ fit)"},
-    {q:"軌道の形", model:"歳差するロゼット(kF1 は閉軌道を作らない)・radial 範囲は 〜0.07%/周で緩やかに収縮(宣言)", obs:"—(準安定の宣言)"},
-    {q:"二層構造(第207便 — 裁定 2026-08-26 採用)", model:"外殻=DFM 結合殻(R_shell=5・fitted)/光学自転はコア Ω が転写値を保持(Kcs=0)。殻スピンドリフト A +3.9%・B +8.9%・clampSN=0 — 飽和を構造で解消", obs:"—(二層はトイ近似 — 恒星内部構造の再現ではない。光学半径 0.0847/0.0598 は宣言で担保)"}],
+    {q:"軌道の形", model:"歳差するロゼット(kF1 は閉軌道を作らない)・radial 範囲は 〜0.06%/周で緩やかに収縮(宣言)", obs:"—(準安定の宣言)"},
+    {q:"隠れコア(第208便 — 偶力の受け皿)", model:"E6′-R 偶力は coupleSink:core で J_core へ。コア Ω ドリフト A +3.9%/B +8.9%・clampSN=0", obs:"—(観測値を表さない内部自由度 — トイ近似・恒星核の再現ではない)"}],
   failureFirst:{
-    fail:"観測版 ✨ の実測どおり、kFrame=1 は転写質量のままでは対等質量連星の軌道を保てない(接触要素周期が永年成長し ±1% 契約を破る — 観測安定則の適用理由)。第205便の発見: kFrame=1 では E6′-R 反作用の**偶力成分 r×J が両星のスピンへ等分配**され、**点状のままでは**慣性モーメント(I≈0.11 単位 vs 軌道角運動量 ~6×10³)が ~10⁻⁵ しかなく、スピンが安全上限 ±40 で飽和往復していた(clampSN ~4.8×10⁵/2.2公転 — コアだけの分離では半減止まり)。第207便(裁定 2026-08-26)はこれを**二層再解釈**で解消: body.radius を DFM 結合殻(R_shell=5・fitted)として解放し(慣性 ~3.5×10³ 倍)、**光学半径と光学自転はコアが担う**。QA は「コアを外し殻を転写半径へ戻すと再び ±40 飽和する」ことを否定対照として機械固定する。",
+    fail:"観測版 ✨ の実測どおり、kFrame=1 は転写質量のままでは対等質量連星の軌道を保てない(接触要素周期が永年成長し ±1% 契約を破る — 観測安定則の適用理由)。第205便の発見: kFrame=1 では E6′-R 反作用の**偶力成分 r×J が両星のスピンへ等分配**され、光学半径の点状恒星では慣性モーメント(I≈0.11 単位 vs 軌道角運動量 ~6×10³)が ~10⁻⁵ しかなく、スピンが安全上限 ±40 で飽和往復していた(clampSN ~4.8×10⁵/2.2公転)。第207便は結合殻の拡大(R_shell=5)で飽和を解消したが、**殻半径が観測値の約59倍**になり光学半径は宣言だけが持っていた。第208便(役割反転 — 原仮定者指示「外殻の半径やスピンも観測値に合わせたい」)が完成形: **偶力の受け先を宣言キー coupleSink:\"core\" で隠れコアの J_core へ移し**、外殻は転写の光学半径・光学自転をライブ状態で保つ(実測: 殻スピンは3.2公転で**ビット不変**・clampSN=0)。QA は「coupleSink を外すと同じ光学半径のまま再び ±40 飽和する」ことを否定対照として機械固定する。",
     pass:"**「質量は軌道から計算式で算出される量 — 計算式が変われば質量が変わる」(原仮定者・2026-08-25 第8報)の実装第1号**。観測軌道の遠点状態(分離 529.61 単位・f=1 の実ケプラー遠点速度)をそのまま初期状態に取り、kFrame=1 の DFM 式で観測周期 79.762 年を再現する質量を1ノブ較正すると **質量スケール f=1.827** — このとき実測離心率 0.51677(転写比 −0.52%)・近点 168.7(観測版比 +0.7%)も**合わせていないのに** ±1% で観測の軌道形に一致する(P・e・近点の3観測量が同じ f を指す)。DFM 質量は A 1.9710 M☉・B 1.6611 M☉(ニュートン式推定の 1.827 倍)— 実在の質量の主張ではなく、**計算式に条件づけられた較正値**である。"},
   descStruct:{
-    summary:"観測版 ✨(kFrame=0 — 観測安定則)の**対になる DFM 版**(第203便)。転写幾何は ✨ と同一 — 遠点分離 529.61 単位(=a(1+e)・Akeson et al. 2021 の a=23.299 AU・e=0.51947)・遠点接線速度は転写質量での実ケプラー値・両星の自転と半径も転写値。そのうえで **kFrame=1(空間引きずり ON — DFM の計算式)で観測周期 79.762 年を再現する質量を1ノブ較正**: 質量スケール f=1.827 → A 1.9710 M☉(3.9193×10³⁰kg)・B 1.6611 M☉(3.3031×10³⁰kg)。「質量は軌道から計算式で算出される量なので、計算式が変われば質量も変わる」(原仮定者第8報)— ニュートン式が M_total 3.95×10³⁰kg を出すのと同じ軌道から、DFM 式は ×1.827 を出す。**実在の質量の主張ではない**(計算式に条件づけられた較正値 — fidelity は幾何の転写と較正手順の宣言について)。**二層構造(第207便 — 裁定 2026-08-26 採用)**: ①外殻(body.radius=5・fitted)は **DFM 結合殻半径であって光学半径ではない**(E6′-R 偶力の受け皿)②**光学半径(A 0.084738・B 0.05979336 — 転写値)と光学自転はコアが担う**(コア Ω=転写 spin・Kcs=0 で全窓不変。コア半径のライブ値 0.2 は validator 下限の規約値)③**二層はトイモデルの近似であって恒星内部構造の再現ではない**(コロナ・対流層・核の主張をしない)。働いているのは重力(E4)と空間引きずり(A8/E6′)+測地線1PN(E12)。q=4.6111・D₀=0.006 は ✨ の値をそのまま流用。",
-    observe:"実測(3.2公転窓・二層): 周回時間 [79.824, 79.780, 79.760] 年 — **2周目 79.780 年は観測 79.762 年の +0.023%**(fit 対象)。合わせていない側: 1周目の実測離心率 0.51675(転写 0.51947 の −0.52%)・近点 168.7 単位(観測版の 167.5 の +0.7%)— **P に合わせた f=1.827 が e と近点も ±1% で当てる**(P・e・近点が同じ f に収束することが本サンプルの発見 — 単層で見つけ二層でも保持)。軌道は歳差するロゼットで、radial 範囲は1周あたり 〜0.06% ずつ緩やかに収縮する(kF1 に厳密な閉軌道・定常はない — 宣言)。公転の向きは ✨ と同回り(第204便 — 向き非依存を実測)。二層の実測(第207便): **殻スピンのドリフトは A +3.9%・B +8.9%**(転写値の ±20% 窓内・クランプ非接触)・**clampSN=0**・**コア Ω は転写自転を全窓で不変に保持**(Kcs=0)。R_shell 掃引(3〜8)では殻ドリフトと P のずれがトレードオフし(R=3: +0.008%/24%・R=8: +0.12%/3.4%)、採用点 R=5 は両者の均衡(massFrac 0.2/0.5/0.8 は全量不感 — 規約 0.5)。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.alphaCenAB)。",
-    control:"ワンタップ対照A/B: B側 kFrame=0(観測版の計算式側)— **同じ初期状態・同じ×1.827 質量**では引力が過剰になり、軌道は深い楕円へ落ち込む(推定近点 〜80 単位)。×1.827 は kFrame=1 専用の較正であることの機械対照。kFrame=0 側では反作用が無く殻スピンも転写値のまま — 殻ドリフト(第207便で ±9% 内)が kF1 の引きずり反作用起因であることの対照でもある。もう1つの否定対照(QA が機械固定): **コアを外し殻を転写半径へ戻す(=第205便の点状構成)と再び ±40 飽和**する。観測版 ✨ と本サンプルの対で「同じ観測・違う計算式・違う質量」の二層が見える。timeScale=1000 で画面1秒≈11.6 日・dispMag=5(表示専用 — 描画は結合殻の5倍で、光学半径の描画ではない)・トレイルで軌道を見る。"},
+    summary:"観測版 ✨(kFrame=0 — 観測安定則)の**対になる DFM 版**(第203便)。転写幾何は ✨ と同一 — 遠点分離 529.61 単位(=a(1+e)・Akeson et al. 2021 の a=23.299 AU・e=0.51947)・遠点接線速度は転写質量での実ケプラー値・両星の自転と半径も転写値。そのうえで **kFrame=1(空間引きずり ON — DFM の計算式)で観測周期 79.762 年を再現する質量を1ノブ較正**: 質量スケール f=1.827 → A 1.9710 M☉(3.9193×10³⁰kg)・B 1.6611 M☉(3.3031×10³⁰kg)。「質量は軌道から計算式で算出される量なので、計算式が変われば質量も変わる」(原仮定者第8報)— ニュートン式が M_total 3.95×10³⁰kg を出すのと同じ軌道から、DFM 式は ×1.827 を出す。**実在の質量の主張ではない**(計算式に条件づけられた較正値 — fidelity は幾何の転写と較正手順の宣言について)。**二層構造(第207便採用 → 第208便完成 — 役割反転)**: ①**外殻(body.radius・body.spin)は転写の光学半径・光学自転そのもの**(A 0.084738・15.9日/B 0.05979336・36.23日 — 実行時も全窓ビットで保持)②E6′-R の偶力(第205便の飽和源)は宣言キー **coupleSink:\"core\" が隠れコアの J_core へ送る**(有効慣性 ζ=27853.1〔inertiaScale〕 — 第207便採用の結合殻容量 ½mR²|R=5 を幾何を変えずコアへ等価移送した導出値。コア半径=殻の半分・massFrac=0.5 は規約・Kcs=0)③**二層はトイモデルの近似で、隠れコアは偶力の受け皿であって恒星内部構造(核・対流層)の再現ではない**(コア Ω は観測値を表さない)。働いているのは重力(E4)と空間引きずり(A8/E6′)+測地線1PN(E12)。q=4.6111・D₀=0.006 は ✨ の値をそのまま流用。",
+    observe:"実測(3.2公転窓・役割反転後): 周回時間 [79.812, 79.771, 79.751] 年 — **2周目 79.771 年は観測 79.762 年の +0.011%**(fit 対象)。合わせていない側: 1周目の実測離心率 0.51677(転写 0.51947 の −0.52%)・近点 168.7 単位(観測版の 167.5 の +0.7%)— **P に合わせた f=1.827 が e と近点も ±1% で当てる**(P・e・近点が同じ f に収束することが本サンプルの発見 — 役割反転後も再フィットなしで保持)。軌道は歳差するロゼットで、radial 範囲は1周あたり 〜0.06% ずつ緩やかに収縮する(kF1 に厳密な閉軌道・定常はない — 宣言)。公転の向きは ✨ と同回り(第204便 — 向き非依存を実測)。役割反転の実測(第208便): **殻スピンのドリフトは A +0.0%・B +0.0%**(3.2公転の min=max が転写値のビット値 — 観測自転 15.9日/36.23日 を実行時も保持)・**clampSN=0**・偶力を受けた**コア Ω のドリフトは A +3.9%・B +8.9%**(観測対象外の内部自由度 — 第207便の殻ドリフトがコアへ移った姿)・角運動量帳簿(総L+リザーバ)の相対残差 1.1×10⁻¹⁰。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.alphaCenAB)。",
+    control:"ワンタップ対照A/B: B側 kFrame=0(観測版の計算式側)— **同じ初期状態・同じ×1.827 質量**では引力が過剰になり、軌道は深い楕円へ落ち込む(推定近点 〜80 単位)。×1.827 は kFrame=1 専用の較正であることの機械対照。もう1つの否定対照(QA が機械固定): **coupleSink を外す(既定 \"spin\")と、同じ光学半径のまま再び ±40 飽和**する(0.3公転で clampSN ~5.4×10⁴)— 解消の原因が「巨大半径」ではなく**偶力の受け先の付け替え**であることの直接証明。コアを外しても(coupleSink:\"core\" のまま)受け皿はリザーバ帳簿へフォールバックし殻は不変(保存的)。観測版 ✨ と本サンプルの対で「同じ観測・違う計算式・違う質量」の二層が見える。timeScale=1000 で画面1秒≈11.6 日・dispMag=300(表示専用 — ✨ と同じ規約)・トレイルで軌道を見る。"},
   en:{name:"Alpha Centauri AB (DFM build) — the kF1 mass calibration",
     obsCard:[
-      {q:"Orbital period (kFrame=1, masses ×1.827)", model:"2nd revolution 79.769 yr (+0.009%) — three revolutions [79.811, 79.769, 79.750]", obs:"79.762 ± 0.019 yr (Akeson et al. 2021 Table 8)"},
+      {q:"Orbital period (kFrame=1, masses ×1.827)", model:"2nd revolution 79.771 yr (+0.011%) — three revolutions [79.812, 79.771, 79.751]", obs:"79.762 ± 0.019 yr (Akeson et al. 2021 Table 8)"},
       {q:"Measured eccentricity (radius-ratio wobble, 1st revolution)", model:"0.51677 (−0.52%)", obs:"e=0.51947 ± 0.00015 (transcribed)"},
+      {q:"Shell radius and rotation (wave 208 — role reversal)", model:"radii 0.084738/0.05979336, rotations 15.9 d/36.23 d — held bit-exactly by the live state (drift 0)", obs:"A 1.2175 R☉, 15.9 d / B 0.8591 R☉, 36.23 d (transcribed)"},
       {q:"DFM masses (a conditional calibration — NOT a claim about the real masses)", model:"mass scale f=1.827: A 1.9710 M☉ (3.9193×10³⁰ kg), B 1.6611 M☉ (3.3031×10³⁰ kg)", obs:"— (a one-knob fit of the kFrame=1 formula to the observed period)"},
-      {q:"Orbit shape", model:"a precessing rosette (kF1 admits no closed orbit); the radial range contracts slowly, ~0.07% per revolution (declared)", obs:"— (declared quasi-stability)"},
-      {q:"Two-layer structure (wave 207 — adjudicated 2026-08-26)", model:"DFM coupling shell R_shell=5 (fitted); optical rotation held on core Ω (Kcs=0). Shell drift A +3.9%/B +8.9%, clampSN=0", obs:"— (a toy approximation, not stellar interiors; the optical radii 0.0847/0.0598 are carried by declaration)"}],
+      {q:"Orbit shape", model:"a precessing rosette (kF1 admits no closed orbit); the radial range contracts slowly, ~0.06% per revolution (declared)", obs:"— (declared quasi-stability)"},
+      {q:"Hidden core (wave 208 — the couple's receptacle)", model:"the E6′-R couple goes to J_core via coupleSink:core. Core Ω drift A +3.9%/B +8.9%, clampSN=0", obs:"— (an internal DOF representing no observable — a toy, not a stellar core)"}],
     failureFirst:{
-      fail:"As measured on the observation build ✨, kFrame=1 cannot hold this near-equal-mass binary at the transcribed masses (the osculating period grows secularly beyond the ±1% contract — the very reason for the observation-stability rule). The wave-205 finding: under kFrame=1 the COUPLE COMPONENT r×J of the E6′-R reaction is split equally into both stars' spins, and POINT-LIKE stars (moment of inertia I≈0.11 units vs orbital angular momentum ~6×10³ — a reservoir of only ~10⁻⁵) saturated and oscillated at the ±40 safety cap (clampSN ~4.8×10⁵ per 2.2 orbits; a core alone only halved it). Wave 207 (adjudicated 2026-08-26) resolves this by the TWO-LAYER REINTERPRETATION: body.radius is released as the DFM coupling shell (R_shell=5, fitted — ~3.5×10³× the inertia), while THE OPTICAL RADIUS AND OPTICAL ROTATION ARE CARRIED BY THE CORE. QA machine-fixes the negative control: removing the core and restoring the transcribed radius saturates at ±40 again.",
+      fail:"As measured on the observation build ✨, kFrame=1 cannot hold this near-equal-mass binary at the transcribed masses (the osculating period grows secularly beyond the ±1% contract — the very reason for the observation-stability rule). The wave-205 finding: under kFrame=1 the COUPLE COMPONENT r×J of the E6′-R reaction is split equally into both stars' spins, and at the optical radii the point-like stars (moment of inertia I≈0.11 units vs orbital angular momentum ~6×10³ — a reservoir of only ~10⁻⁵) saturated and oscillated at the ±40 safety cap (clampSN ~4.8×10⁵ per 2.2 orbits). Wave 207 resolved the saturation by inflating the coupling shell (R_shell=5), but that made the shell ~59× the observed radius, with the optical radius carried by declaration only. Wave 208 (the role reversal — the adjudicator's instruction to match the shell's radius and spin to the observations) completes it: the declaration key coupleSink:\"core\" SENDS THE COUPLE INTO THE HIDDEN CORE'S J_core, and the shell holds the transcribed optical radius and rotation in its live state (measured: shell spins bit-invariant over 3.2 orbits, clampSN=0). QA machine-fixes the negative control: removing coupleSink re-saturates at ±40 at the same optical radii.",
       pass:"THE FIRST IMPLEMENTATION of the adjudicator's principle (8th device report, 2026-08-25): masses are quantities COMPUTED FROM ORBITS BY A FORMULA — change the formula and the masses change. Taking the observed orbit's apoapsis state as the initial condition (separation 529.61 units, the real Kepler apoapsis speed at the transcribed masses) and calibrating ONE knob — the mass scale — so that the kFrame=1 DFM formula reproduces the observed 79.762-yr period gives f=1.827. At that f the measured eccentricity 0.51677 (−0.52%) and perihelion 168.7 (+0.7%) ALSO land within ±1% of the observed shape, though neither was fitted: P, e and the perihelion all point to the same f. The DFM masses are A 1.9710 M☉ and B 1.6611 M☉ (1.827× the Newtonian inference) — not a claim about the real masses, but a calibration conditioned on the formula."},
     descStruct:{
-      summary:"The DFM COUNTERPART (wave 203) of the observation build ✨ (kFrame=0 under the observation-stability rule). The transcribed geometry is identical to ✨ — apoapsis separation 529.61 units (=a(1+e), from Akeson et al. 2021's a=23.299 AU, e=0.51947), the real Kepler apoapsis speed at the transcribed masses, and both stars' rotations and radii. On top of that, ONE knob — the mass scale — is calibrated so that kFrame=1 (frame dragging ON, the DFM formula) reproduces the observed 79.762-yr period: f=1.827, giving A 1.9710 M☉ (3.9193×10³⁰ kg) and B 1.6611 M☉ (3.3031×10³⁰ kg). Masses are quantities computed from orbits by a formula — the same orbit that yields M_total 3.95×10³⁰ kg under the Newtonian formula yields ×1.827 under the DFM one. NOT a claim about the real masses (a calibration conditioned on the formula; fidelity refers to the transcribed geometry and the declared procedure). THE TWO-LAYER STRUCTURE (wave 207 — adjudicated 2026-08-26): (1) the shell (body.radius=5, fitted) is the DFM COUPLING RADIUS, not the optical radius (the receptacle of the E6′-R couple); (2) THE OPTICAL RADII (A 0.084738, B 0.05979336 — transcribed) AND THE OPTICAL ROTATIONS ARE CARRIED BY THE CORES (core Ω = the transcribed spins, invariant at Kcs=0; the live core radius 0.2 is the validator-floor convention value); (3) the two layers are a TOY APPROXIMATION, not a reconstruction of stellar interiors (no claim of coronae, convection zones or fusion cores). Only gravity (E4), frame dragging (A8/E6′) and the geodesic 1PN term (E12) act. q=4.6111 and D₀=0.006 are reused from ✨ as is.",
-      observe:"Measured over a 3.2-orbit window (two-layer): revolution times [79.824, 79.780, 79.760] yr — the 2nd revolution, 79.780 yr, is +0.023% of the observed 79.762 (the fit target). The unfitted side: the 1st-revolution eccentricity 0.51675 (−0.52% of the transcribed 0.51947) and the perihelion 168.7 units (+0.7% of the observation build's 167.5) — the f=1.827 fitted to P ALSO lands e and the perihelion within ±1% (the convergence of P, e and perihelion on one f is this sample's finding — found single-layer, retained two-layer). The orbit is a precessing rosette whose radial range contracts slowly, ~0.06% per revolution (kF1 admits no strictly closed or stationary orbit — declared), and runs the same way round as ✨ (wave 204 — direction-independent, measured). The two-layer measurements (wave 207): SHELL-SPIN DRIFT A +3.9% / B +8.9% (inside the ±20% window, never touching the clamp), clampSN=0, and THE CORE Ω HOLDS THE TRANSCRIBED ROTATION INVARIANT over the whole window (Kcs=0). The R_shell sweep (3–8) trades shell drift against the P shift (R=3: +0.008%/24%; R=8: +0.12%/3.4%); the adopted R=5 balances the two (massFrac 0.2/0.5/0.8 leaves every measured quantity unchanged — convention 0.5). Zero NaN; two runs are bit-identical (QA behavior.alphaCenAB).",
-      control:"One-tap A/B: side B is kFrame=0 (the observation build's formula) — at the SAME initial state and the SAME ×1.827 masses, gravity is now excessive and the orbit plunges into a deep ellipse (estimated perihelion ~80 units): the ×1.827 calibration belongs to kFrame=1 only. On the kFrame=0 side there is no reaction and the shell spins also keep their transcribed values — a control showing the shell drift (within ±9% in wave 207) is driven by the kF1 dragging reaction. A second negative control (machine-fixed by QA): REMOVING THE CORE AND RESTORING THE TRANSCRIBED RADIUS (= the wave-205 point-like build) SATURATES AT ±40 AGAIN. Together with ✨ the pair shows one observation, two formulas, two mass ledgers. With timeScale=1000 one on-screen second ≈ 11.6 days; dispMag=5 (display only — the drawn disc is 5× the coupling shell, not the optical radius); use trails."},
+      summary:"The DFM COUNTERPART (wave 203) of the observation build ✨ (kFrame=0 under the observation-stability rule). The transcribed geometry is identical to ✨ — apoapsis separation 529.61 units (=a(1+e), from Akeson et al. 2021's a=23.299 AU, e=0.51947), the real Kepler apoapsis speed at the transcribed masses, and both stars' rotations and radii. On top of that, ONE knob — the mass scale — is calibrated so that kFrame=1 (frame dragging ON, the DFM formula) reproduces the observed 79.762-yr period: f=1.827, giving A 1.9710 M☉ (3.9193×10³⁰ kg) and B 1.6611 M☉ (3.3031×10³⁰ kg). Masses are quantities computed from orbits by a formula — the same orbit that yields M_total 3.95×10³⁰ kg under the Newtonian formula yields ×1.827 under the DFM one. NOT a claim about the real masses (a calibration conditioned on the formula; fidelity refers to the transcribed geometry and the declared procedure). THE TWO-LAYER STRUCTURE (adopted wave 207, completed wave 208 — role reversal): (1) THE SHELL (body.radius, body.spin) IS the transcribed optical radius and rotation itself (A 0.084738, 15.9 d / B 0.05979336, 36.23 d — held bit-exactly at runtime); (2) the E6′-R couple (the wave-205 saturation source) is sent into the hidden core's J_core by the declaration key coupleSink:\"core\" (effective inertia ζ=27853.1 [inertiaScale] — the wave-207 coupling-shell capacity ½mR²|R=5 transferred to the core without changing the geometry; core radius = half the shell, massFrac=0.5, Kcs=0 — all conventions); (3) the two layers are a TOY APPROXIMATION — the hidden core is the couple's receptacle, not a reconstruction of stellar interiors (the core Ω represents no observable). Only gravity (E4), frame dragging (A8/E6′) and the geodesic 1PN term (E12) act. q=4.6111 and D₀=0.006 are reused from ✨ as is.",
+      observe:"Measured over a 3.2-orbit window (after the role reversal): revolution times [79.812, 79.771, 79.751] yr — the 2nd revolution, 79.771 yr, is +0.011% of the observed 79.762 (the fit target). The unfitted side: the 1st-revolution eccentricity 0.51677 (−0.52% of the transcribed 0.51947) and the perihelion 168.7 units (+0.7% of the observation build's 167.5) — the f=1.827 fitted to P ALSO lands e and the perihelion within ±1% (the convergence of P, e and perihelion on one f is this sample's finding — retained through the role reversal with NO refit). The orbit is a precessing rosette whose radial range contracts slowly, ~0.06% per revolution (kF1 admits no strictly closed or stationary orbit — declared), and runs the same way round as ✨ (wave 204). The role-reversal measurements (wave 208): SHELL-SPIN DRIFT A +0.0% / B +0.0% (min=max at the transcribed bit value over 3.2 orbits — the observed rotations 15.9 d/36.23 d held at runtime), clampSN=0, the CORE Ω that receives the couple drifts A +3.9% / B +8.9% (an internal, unobserved DOF — the wave-207 shell drift moved into the core), and the angular-momentum ledger (total L + reservoir) closes to a relative residual of 1.1×10⁻¹⁰. Zero NaN; two runs are bit-identical (QA behavior.alphaCenAB).",
+      control:"One-tap A/B: side B is kFrame=0 (the observation build's formula) — at the SAME initial state and the SAME ×1.827 masses, gravity is now excessive and the orbit plunges into a deep ellipse (estimated perihelion ~80 units): the ×1.827 calibration belongs to kFrame=1 only. A second negative control (machine-fixed by QA): REMOVING coupleSink (default \"spin\") RE-SATURATES AT ±40 at the same optical radii (clampSN ~5.4×10⁴ in 0.3 orbits) — direct proof that the resolution comes from re-routing the couple, not from an inflated radius. Removing the cores instead (coupleSink:\"core\" kept) falls back conservatively to the reservoir ledger and the shells stay frozen. Together with ✨ the pair shows one observation, two formulas, two mass ledgers. With timeScale=1000 one on-screen second ≈ 11.6 days; dispMag=300 (display only — the same convention as ✨); use trails."},
     parameterAudit:{
       observedInputs:["real G=6.674","real c₀=3×10⁴",
         "the transcribed geometry of ✨: apoapsis separation a(1+e)=529.61 units and the real Kepler apoapsis speed at the transcribed masses",
-        "both stars' rotations (15.9 d / 36.23 d) and radii (1.2175 / 0.8591 R☉), transcribed as in ✨",
+        "both stars' optical radii (1.2175 / 0.8591 R☉) and rotations (15.9 d / 36.23 d) — HELD BIT-EXACTLY BY THE LIVE STATE (body.radius, body.spin — wave 208)",
         "the observed period 79.762 yr (THE FIT TARGET of the one-knob mass calibration)",
         "e=0.51947 and the perihelion (compared against, NOT fitted — they land within ±1% on their own)"],
       fixedConventions:["per-sample scale exponents (1 unit = 10¹⁰ m / 10⁶ s / 10²⁹ kg — same as ✨)",
@@ -7286,23 +7297,23 @@ const BUILTIN_PRESETS = [
         "frameReaction:\"pairReduced\" (E6′-R), kRep=muF=γN=κ_S=0 / geoPN=2, λ_PN=1, pnα=1.5 / stateCarry:\"double\"",
         "initial state = the apoapsis of the observed orbit (two-body barycentric, both free)",
         "the DFM masses are declared as a CONDITIONAL calibration, not real-mass claims",
-        "the two-layer convention (wave 207): shell = DFM coupling radius (not the optical radius); the optical radii and rotations are carried by the cores; the two layers are a toy approximation, not stellar interiors",
-        "core: mode=\"differential\", Kcs=0 (core Ω = the transcribed rotation, held exactly), massFrac=0.5 (0.2/0.5/0.8 leave every measured quantity unchanged — a neutral convention), core.radius=0.2 (the validator-floor convention value)",
-        "B's shell radius = A's R_shell × the transcribed radius ratio (similar — not tuned independently)"],
+        "the two-layer convention (wave 208 — role reversal): shell = THE optical radius and rotation (transcribed, held at runtime); hidden core = the E6′-R couple's receptacle (represents no observable); the two layers are a toy approximation, not stellar interiors",
+        "coupleSink:\"core\" (the declared sink of the E6′-R couple — omitting it, i.e. \"spin\", is the pre-existing behaviour, bit-invariant)",
+        "core: mode=\"differential\", Kcs=0 (nothing returns to the shell), radius = half the shell, massFrac=0.5 (0.2/0.5/0.8 leave every measured quantity unchanged — a neutral convention), Ω(t=0) = the transcribed rotation"],
       fitted:["mass scale f=1.827 (both masses ×f, fitted to the observed period 79.762 yr under kFrame=1; D₀=0.006 and q=4.6111 are reused from ✨ as is)",
-        "coupling-shell radius R_shell=5 (A's, fitted — adjudicated 2026-08-26; the 3–8 sweep trades shell-spin drift against the P shift, and the adopted point balances the two: drift ≤9%, P +0.023%)"],
+        "core effective inertia ζ=27853.10245466657 (inertiaScale — the wave-207 fitted coupling-shell capacity I=½mR²|R_shell=5 transferred to the core without changing the geometry, ζ=8·R²_207/R²_opt; the fitted ledger entry carries over the 2026-08-26 adjudication of R_shell)"],
       derived:["A 1.9710 M☉ = 3.9193×10³⁰ kg and B 1.6611 M☉ = 3.3031×10³⁰ kg (= transcribed masses × f)",
-        "κ=G/c₀²=7.4156×10⁻⁹","shell inertia I=½mR²: A 490, B 206 (~3.5×10³× the point-like value — the couple's receptacle)",
-        "camera.scale=630, timeScale=1000, dispMag=5 (derived from the stated rules; display only)"],
-      numerical:["softening ε=0.05","time multiplier timeScale=1000","display magnification dispMag=5 (display only)"]}},
+        "κ=G/c₀²=7.4156×10⁻⁹","core effective inertia I*=ζ·½·Mc·Rc²: A 489.9, B 205.6 (= the wave-207 shell capacities — the couple's receptacle)",
+        "camera.scale=630, timeScale=1000, dispMag=300 (derived from the stated rules; display only)"],
+      numerical:["softening ε=0.05","time multiplier timeScale=1000","display magnification dispMag=300 (display only)"]}},
   abBody:{ label:{ja:"kFrame=0(観測版の計算式側 — ×1.827 質量では深い楕円へ)", en:"kFrame=0 (the observation build's formula — the ×1.827 masses plunge)"},
     physicsPatch:{kFrame:0} },
   claims:[
     { id:"alphaCenABDFM.period-fit", kind:"fixed-seed", prov:"simulated", role:"fit_target",
       metric:"dfmPeriodYears",
       chain:{ax:["A4","A5"], eq:["E4","E6′"],
-        note:"質量較正の fit 対象: kFrame=1 の DFM 式で質量スケール f=1.827(+二層 R_shell=5)のとき、2周目の周回時間が観測周期 79.762 年を +0.023% で再現する(fit したのは f と R_shell — 周期はその照合先)。",
-        noteEn:"The fit target of the mass calibration: at mass scale f=1.827 (with the two-layer R_shell=5) under kFrame=1, the 2nd revolution reproduces the observed 79.762 yr to +0.023% (f and R_shell are what was fitted; the period is what they were fitted against)."},
+        note:"質量較正の fit 対象: kFrame=1 の DFM 式で質量スケール f=1.827(外殻=観測値・偶力は隠れコアへ — 第208便)のとき、2周目の周回時間が観測周期 79.762 年を +0.011% で再現する(fit したのは f と ζ — 周期はその照合先)。",
+        noteEn:"The fit target of the mass calibration: at mass scale f=1.827 (observed-value shell, couple sunk into the hidden core — wave 208) under kFrame=1, the 2nd revolution reproduces the observed 79.762 yr to +0.011% (f and ζ are what was fitted; the period is what they were fitted against)."},
       roleNote:"fit 対象の宣言 — 本サンプル唯一の較正ノブ(質量スケール f)の照合先。",
       roleNoteEn:"The declared fit target — what the sample's single knob (the mass scale f) was calibrated against.",
       expected:{min:79.5, max:80.0},
@@ -7310,8 +7321,8 @@ const BUILTIN_PRESETS = [
     { id:"alphaCenABDFM.shape-unfitted", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
       metric:"dfmEccMeasured",
       chain:{ax:["A4","A5"], eq:["E4","E6′"],
-        note:"合わせていない側の検証: P に合わせた f=1.827 が、離心率 0.51675(転写比 −0.52%)と近点(+0.7%)も ±1% で当てる — P・e・近点の3観測量が同じ f に収束することが本サンプルの発見(単層で見つけ二層でも保持)。",
-        noteEn:"The unfitted side: the f=1.827 fitted to P also lands the eccentricity 0.51675 (−0.52%) and the perihelion (+0.7%) within ±1% — the convergence of P, e and perihelion on one f is this sample's finding (found single-layer, retained two-layer)."},
+        note:"合わせていない側の検証: P に合わせた f=1.827 が、離心率 0.51677(転写比 −0.52%)と近点(+0.7%)も ±1% で当てる — P・e・近点の3観測量が同じ f に収束することが本サンプルの発見(単層で見つけ役割反転後も保持)。",
+        noteEn:"The unfitted side: the f=1.827 fitted to P also lands the eccentricity 0.51677 (−0.52%) and the perihelion (+0.7%) within ±1% — the convergence of P, e and perihelion on one f is this sample's finding (found single-layer, retained through the role reversal)."},
       roleNote:"回顧的確認 — e と近点は fit の対象ではない(照合のみ)。",
       roleNoteEn:"Retrospective check — e and the perihelion were compared, never fitted.",
       expected:{min:0.50, max:0.53},
@@ -7325,20 +7336,20 @@ const BUILTIN_PRESETS = [
       roleNoteEn:"The declared fit value itself (one knob) — QA checks it against the bodies' masses.",
       expected:{min:1.82, max:1.84},
       descPattern:"質量スケール f=(\\d+\\.\\d+)", testId:"behavior.alphaCenAB" },
-    { id:"alphaCenABDFM.shell-spin", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+    { id:"alphaCenABDFM.optical-shell", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
       metric:"shellSpinDriftAPct",
       chain:{ax:["A4","A5","A8"], eq:["E4","E6′"],
-        note:"二層(第207便 — 裁定 2026-08-26)の機械固定: E6′-R 偶力を結合殻(R_shell=5・慣性 ~3.5×10³ 倍)が受け、殻スピンのドリフトが A +3.9%・B +8.9% に収まり(第205便の ±40 飽和が解消・clampSN=0)、光学自転はコア Ω が転写値を全窓不変に保持する(Kcs=0)。否定対照: コアを外し殻を転写半径へ戻すと再び飽和。",
-        noteEn:"Machine-fixes the two-layer build (wave 207, adjudicated 2026-08-26): the E6′-R couple lands on the coupling shell (R_shell=5, ~3.5×10³× the inertia), the shell-spin drift stays at A +3.9% / B +8.9% (the wave-205 ±40 saturation resolved, clampSN=0), and the optical rotation is held invariant on the core Ω (Kcs=0). Negative control: removing the core and restoring the transcribed radius saturates again."},
-      roleNote:"回顧的確認 — 二層が偶力を受けて光学自転を保つことの実測。較正ノブは R_shell(fitted 欄)で、本 claim はその帰結の照合。",
-      roleNoteEn:"Retrospective check — measures that the two layers absorb the couple and preserve the optical rotation. The knob is R_shell (in fitted); this claim verifies the consequence.",
-      expected:{min:2, max:6},
+        note:"役割反転(第208便)の機械固定: 外殻の半径・自転は転写の光学観測値そのもので、E6′-R 偶力を coupleSink:\"core\" が隠れコアの J_core へ送るため、**殻スピンのドリフトは A +0.0%・B +0.0%(3.2公転で全窓ビット不変)**・clampSN=0。偶力を受けたコア Ω は A +3.9%・B +8.9% ドリフトする(観測対象外の内部自由度)。否定対照: coupleSink を外す(既定 spin)と同じ光学半径のまま再び ±40 飽和。",
+        noteEn:"Machine-fixes the role reversal (wave 208): the shell's radius and rotation ARE the transcribed optical observables, and coupleSink:\"core\" sends the E6′-R couple into the hidden core's J_core, so the SHELL-SPIN DRIFT IS A +0.0% / B +0.0% (bit-invariant over 3.2 orbits) with clampSN=0. The core Ω that receives the couple drifts A +3.9% / B +8.9% (an internal, unobserved degree of freedom). Negative control: removing coupleSink (default spin) re-saturates at ±40 at the same optical radii."},
+      roleNote:"回顧的確認 — 外殻が観測値を実行時も保つことの実測。受け皿の容量 ζ は fitted 欄(第207便容量の等価移送)で、本 claim はその帰結の照合。",
+      roleNoteEn:"Retrospective check — measures that the shell holds the observed values at runtime. The receptacle capacity ζ is in fitted (the wave-207 capacity transferred); this claim verifies the consequence.",
+      expected:{min:0, max:0.5},
       descPattern:"殻スピンのドリフトは A \\+(\\d+\\.\\d+)%", testId:"behavior.alphaCenAB" }
   ],
   parameterAudit:{
     observedInputs:["実 G=6.674","実 c₀=3×10⁴",
       "✨ と同じ転写幾何: 遠点分離 a(1+e)=529.61 単位・転写質量での実ケプラー遠点速度",
-      "両星の自転(15.9 日/36.23 日)と半径(1.2175/0.8591 R☉)— ✨ と同じ転写",
+      "両星の光学半径(1.2175/0.8591 R☉)と自転(15.9 日/36.23 日)— **ライブ状態(body.radius・body.spin)がビットで保持**(第208便)",
       "観測周期 79.762 年(**1ノブ質量較正の fit 対象**)",
       "e=0.51947 と近点(照合先であって fit の対象ではない — 合わせずに ±1% で一致する)"],
     fixedConventions:["サンプル別スケール指数(1単位=10¹⁰m/10⁶s/10²⁹kg — ✨ と同一)",
@@ -7346,35 +7357,35 @@ const BUILTIN_PRESETS = [
       "frameReaction:\"pairReduced\"(E6′-R)・kRep=muF=γN=κ_S=0 / geoPN=2・λ_PN=1・pnα=1.5 / stateCarry:\"double\"",
       "初期状態=観測軌道の遠点(二体重心系・両星自由)",
       "DFM 質量は**条件つき較正値**として宣言(実在質量の主張ではない)",
-      "二層規約(第207便): 外殻=DFM 結合殻(光学半径ではない)・光学半径と光学自転はコアが担う・二層はトイ近似(恒星内部構造の再現ではない)",
-      "コア: mode=\"differential\"・Kcs=0(コアΩ=転写自転を厳密保持)・massFrac=0.5(0.2/0.5/0.8 で全実測量不感 — 中立規約)・core.radius=0.2(validator 下限の規約値)",
-      "B の殻半径は A の R_shell × 転写半径比(相似 — 独立に振らない)"],
+      "二層規約(第208便 — 役割反転): 外殻=**光学半径・光学自転そのもの**(転写値・実行時も保持)/隠れコア=E6′-R 偶力の受け皿(観測値を表さない内部自由度)・二層はトイ近似(恒星内部構造の再現ではない)",
+      "coupleSink:\"core\"(E6′-R 偶力の受け先の宣言キー — 省略時 \"spin\" は現行挙動で 1 bit 不変)",
+      "コア: mode=\"differential\"・Kcs=0(殻へ戻さない)・radius=殻の半分・massFrac=0.5(0.2/0.5/0.8 で全実測量不感 — 中立規約)・Ω(t=0)=転写自転"],
     fitted:["質量スケール f=1.827(両星の質量 ×f を kFrame=1 で観測周期 79.762 年に合わせた fit。D₀=0.006・q=4.6111 は ✨ の値の流用)",
-      "結合殻半径 R_shell=5(A 基準・fitted — 裁定 2026-08-26。掃引 3〜8 で殻スピンのドリフトと P のずれがトレードオフし、採用点は両者の均衡: ドリフト ≤9%・P +0.023%)"],
+      "コア有効慣性 ζ=27853.10245466657(inertiaScale — 第207便で振って当てた結合殻容量 I=½mR²|R_shell=5 を、幾何を変えずコアへ等価移送した導出値 ζ=8·R²_207/R²_opt。fitted 区分は R_shell の裁定 2026-08-26 を継承)"],
     derived:["A 1.9710 M☉=3.9193×10³⁰kg・B 1.6611 M☉=3.3031×10³⁰kg(=転写質量×f)",
-      "κ=G/c₀²=7.4156×10⁻⁹","殻慣性 I=½mR²: A 490・B 206(点状比 ~3.5×10³ 倍 — 偶力の受け皿)",
-      "camera.scale=630・timeScale=1000・dispMag=5(規約から決定的に算出・表示専用)"],
-    numerical:["ソフトニング ε=0.05","時間倍率 timeScale=1000","粒子表示倍率 dispMag=5(表示専用)"]},
+      "κ=G/c₀²=7.4156×10⁻⁹","コア有効慣性 I*=ζ·½·Mc·Rc²: A 489.9・B 205.6(=第207便の殻容量そのまま — 偶力の受け皿)",
+      "camera.scale=630・timeScale=1000・dispMag=300(規約から決定的に算出・表示専用)"],
+    numerical:["ソフトニング ε=0.05","時間倍率 timeScale=1000","粒子表示倍率 dispMag=300(表示専用)"]},
   activeParams:["kFrame","q","D0"],
   camera:{scale:630}, world:{boundary:"none",size:0},
   physics:{G:6.674, D0:0.006, kFrame:1, q:4.6111, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
     cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
-    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1000, dispMag:5,
-    stateCarry:"double", frameReaction:"pairReduced"},
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1000, dispMag:300,
+    stateCarry:"double", frameReaction:"pairReduced", coupleSink:"core"},
   bodies:[ // 並び: 0=A・1=B。✨ の観測軌道の**遠点状態**(分離 529.6083511176・f=1 の実ケプラー
            // 遠点速度 0.48926813239425804 を質量比で配分)に、質量 ×1.827(第203便の1ノブ較正)。
            // 第204便: 公転の向きは ✨ と同回り(数学正)— 向き非依存を実測済み。
-           // 第207便(裁定 2026-08-26「二層再解釈: 採用」): body.radius は **DFM 結合殻半径**
-           // (光学半径ではない — 偶力の受け皿・fitted R_shell=5〔A基準・B は転写半径比で相似〕)。
-           // **光学自転はコア Ω が担い転写値を保持**(mode:"differential"・Kcs=0 — 殻と非結合)。
-           // core.radius は validator 下限 0.2 の規約値(転写光学半径 0.084738/0.05979336 は
-           // 宣言で担保 — コア半径のライブ値に光学半径の主張は載せない)。massFrac=0.5 は
-           // 中立規約(0.2/0.5/0.8 で全実測量が不感 — 掃引実測)。B の殻 3.528131416837782 =
-           // 5×0.05979336/0.084738(転写半径比の相似)
-    {type:"single", m:39.192690725999995, radius:5, x:-242.21323583305931, y:0, vx:0, vy:-0.22376387624389307, spin:4.57371397, pinned:false, pnSource:true,
-      core:{mode:"differential", massFrac:0.5, radius:0.2, omega:4.57371397, Kcs:0}},
-    {type:"single", m:33.031140534, radius:3.528131416837782, x:287.3951152845407, y:0, vx:0, vy:0.26550425615036494, spin:2.00723302, pinned:false,
-      core:{mode:"differential", massFrac:0.5, radius:0.2, omega:2.00723302, Kcs:0}}
+           // 第208便(役割反転 — 原仮定者指示「外殻も観測値に合わせる」): body.radius・body.spin は
+           // **✨ と同じ転写光学値**(半径 0.084738/0.05979336・自転 15.9日/36.23日)。E6′-R の
+           // 偶力は physics.coupleSink:"core" で**隠れコアの J_core へ**送られ、殻スピンは実行時も
+           // 転写値を保つ(第205便の飽和は受け先の付け替えで解消)。コアは偶力の受け皿となる
+           // 内部自由度で観測値を表さない: radius=殻の半分(規約)・massFrac=0.5(規約)・Kcs=0・
+           // **inertiaScale ζ=27853.10245466657**(第207便採用の結合殻容量 I=½mR²|R=5 を
+           // 幾何を変えずコアへ等価移送した導出値 ζ=8·R²_207/R²_opt — 有効慣性 A 489.9/B 205.6)
+    {type:"single", m:39.192690725999995, radius:0.084738, x:-242.21323583305931, y:0, vx:0, vy:-0.22376387624389307, spin:4.57371397, pinned:false, pnSource:true,
+      core:{mode:"differential", massFrac:0.5, radius:0.042369, omega:4.57371397, Kcs:0, inertiaScale:27853.10245466657}},
+    {type:"single", m:33.031140534, radius:0.05979336, x:287.3951152845407, y:0, vx:0, vy:0.26550425615036494, spin:2.00723302, pinned:false,
+      core:{mode:"differential", massFrac:0.5, radius:0.02989668, omega:2.00723302, Kcs:0, inertiaScale:27853.10245466657}}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -8513,6 +8524,12 @@ function validatePreset(obj){
         else if(p.physics[k]!=="legacy") ph[k]=p.physics[k];
         continue;
       }
+      // 第208便: coupleSink も同じ流儀(非数値キー・既定 "spin" は ph へ入れない=署名不変)
+      if(k===COUPLE_SINK_KEY){
+        if(COUPLE_SINKS.indexOf(p.physics[k])<0) warnings.push('physics.coupleSink は "spin"/"core"/"reservoir" のみ — 既定(spin)に修正');
+        else if(p.physics[k]!=="spin") ph[k]=p.physics[k];
+        continue;
+      }
       // 第197便(M0): halo — オブジェクト値の opt-in キー(省略時は ph へ入れない=署名不変)。
       // null はキーごと落とす(physicsPatch:{halo:null} の A/B 側と同じ「なし」正規化)
       if(k==="halo"){
@@ -8602,12 +8619,21 @@ function validatePreset(obj){
       // [キー, 下限, 上限, 必須]。cavity は質量0(massFrac 不要・下限0)で voidFraction が必須。
       // 逆に cavity 以外では voidFraction は 0 が正常値なので下限を 0 にする(round-trip した
       // JSON が「値域に修正」の警告を出さないための対称化)
-      for(const [k,lo,hi,req] of [["massFrac",cav?0:0.01,0.6,cav?0:1],["radius",0.2,200,1],
+      for(const [k,lo,hi,req] of [["massFrac",cav?0:0.01,0.6,cav?0:1],["radius",0.01,200,1],
           ["omega",-50,50,0],["Kcs",0,10,0],["pump",0,5,0],["contract",0,0.2,0],
           ["sourceRate",0,100,0],["internalEnergy",0,1e9,0],["voidFraction",cav?0.01:0,1,cav?1:0]]){
         if(c[k]===undefined){ if(req){ warnings.push(at+".core."+k+" が必要 — core を無視します"); return null; } oc[k]=0; continue; }
         if(!isNum(c[k])){ bad(at+".core."+k+" が数値ではありません"); return false; }
         oc[k]=wc(c[k],lo,hi,"core."+k);
+      }
+      // 第208便: inertiaScale — コアの有効慣性倍率 ζ(I*_c = ζ·½·Mc·Rc²)。幾何半径と角運動量
+      // 容量を分離する opt-in キー(省略時はキー自体を持たず ζ=1 = 1 bit 不変)。cavity は
+      // 慣性 0 なので無効。※第208便で core.radius の下限を 0.2→0.01 へ引き下げ(単体 radius の
+      // 下限と同値化 — 既存プリセットは全て ≥0.2 なので切り上げは発生しない)
+      if(c.inertiaScale!==undefined){
+        if(cav) warnings.push(at+".core.inertiaScale は cavity では無効 — 無視します");
+        else if(!isNum(c.inertiaScale)){ bad(at+".core.inertiaScale が数値ではありません"); return false; }
+        else oc.inertiaScale=wc(c.inertiaScale,1e-3,1e6,"core.inertiaScale");
       }
       return oc;
     };
@@ -9813,6 +9839,102 @@ function newPairCtx(){ return { n:null, m:null, x:null, y:null, vx:null, vy:null
     kHasU:null, kUPx:null, kUPy:null }; }
 
 // ---- 特別化①(kKind=1): 軌道系・PN なし ----
+// ---- 第208便: S._core からの追加切り出し2件(第177便と同じ「式を変えずに形だけ変える」系譜)----
+// 背景: 第208便で S._core へ coupleSink の受け先切替(~20文)を追加したところ、CI(Chromium 149)
+// で beta の1步コストが全サンプル一様に ~1.5倍化(perf 20/22 FAIL・QA beta 25→40分。root 不変・
+// ローカル旧 Chromium では不変・結果はビット同一)。第177便の記録どおり S._core は V8 の
+// 最適化サイズ上限の際にあり、追加分が閾値を跨いだと判断。対処は同便の方針を踏襲 —
+// **1步の浮動小数演算の集合と順序は 1 つも変えず**、自己完結ブロックを関数へ切り出して
+// S._core 本体を第207便時点より小さくする。
+// ① コアv2 状態更新パス(第77便 — 収縮・パワーボール・τ_cs。hasCoreV2 && doPost のときだけ
+//    呼ばれる。設計コメントは切り出し前の逐語 — 第78便の K_cs 再定義・帳簿の説明を含む)
+function coreV2UpdatePass(S, m, spin, pinned, ax, ay, R, dt){
+  for(let i=0;i<S.n;i++){
+    const md=S.coreMd[i]; if(md===0 || md===4) continue;
+    if(md===3){   // active: E_int += sourceRate·dt(帳簿と等量)
+      const dE=S.coreSrc[i]*dt;
+      if(dE>0){ S.coreEint[i]+=dE; S.coreSrcE+=dE; }
+    }
+    const Mc=S.coreMF[i]*Math.abs(m[i]); if(!(Mc>1e-9)) continue;
+    if(md===1){   // rigid: 軸固定 — pump は殻スピンを減速(実物のパワーボールと同じ)
+      if(S.corePump[i]>0 && !pinned[i] && spin[i]!==0){
+        const aosc=Math.hypot(ax[i],ay[i]);
+        if(aosc>0){
+          const Ish=0.5*Math.abs(m[i])*R[i]*R[i];
+          if(Ish>1e-12){
+            let dJ=S.corePump[i]*Mc*S.RcV[i]*aosc*dt;
+            const lim=Math.abs(Ish*spin[i])*0.25; if(dJ>lim) dJ=lim;
+            const sgn=(spin[i]>0)?1:-1;
+            spin[i]-=sgn*dJ/Ish;
+            S.resL+=sgn*dJ;                       // J はリザーバへ(T7)
+            S.radE+=Math.abs(dJ*spin[i]);         // 減速の散逸(近似 τ·ω)
+          }
+        }
+      }
+      continue;
+    }
+    // differential(第208便: I_c は共通の有効慣性 I*_c=ζ·½·Mc·Rc² — coreOmV と同じ式)
+    let Rci=S.RcV[i];
+    let Ic=0.5*Mc*Rci*Rci*S.coreIS[i]; if(!(Ic>1e-12)) continue;
+    // ① 収縮(J 保存 → Ω 自動上昇。E_rot 増は重力圧縮の解放分として coreWork へ)
+    if(S.coreCtr[i]>0){
+      const E0=(S.coreJ[i]*S.coreJ[i])/(2*Ic);
+      Rci*=Math.exp(-S.coreCtr[i]*dt);
+      const rmin=0.02*R[i]; if(Rci<rmin) Rci=rmin;
+      S.RcV[i]=Rci; Ic=0.5*Mc*Rci*Rci*S.coreIS[i];
+      if(Ic>1e-12) S.coreWork+=(S.coreJ[i]*S.coreJ[i])/(2*Ic)-E0;
+    }
+    if(!(Ic>1e-12)) continue;
+    let Om=S.coreJ[i]/Ic;
+    // ② パワーボール(軸自由 → 加速。種スピン必須 — Ω_c=0 では立ち上がらない)
+    if(S.corePump[i]>0 && !pinned[i] && Om!==0){
+      const aosc=Math.hypot(ax[i],ay[i]);
+      if(aosc>0){
+        let dJ=S.corePump[i]*Mc*Rci*aosc*dt;
+        const lim=Math.abs(S.coreJ[i])*0.25; if(dJ>lim) dJ=lim;
+        const sgn=(Om>0)?1:-1;
+        S.coreJ[i]+=sgn*dJ;
+        S.resL-=sgn*dJ;                           // 反作用 J はリザーバ(=「手首」)へ
+        S.coreWork+=Math.abs(dJ*Om);              // 外部仕事の帳簿
+        Om=S.coreJ[i]/Ic;
+      }
+    }
+    // ③ τ_cs 結合(コア⇄殻の J 交換 — 等量反対符号で保存。解析的指数緩和で安定)。
+    // 第78便: **K_cs を緩和率[1/時間]として再定義**する — τ_cs = −μ·K_cs·(Ω_c−Ω_s)
+    // (μ=換算慣性 I_c·I_s/(I_c+I_s))。第77便は f=1−e^{−K_cs·dt/μ} だったため、時定数が
+    // μ に比例し、恒星・BH 質量級(μ~10⁴)では K_cs=10 でも 6000步で 5% しか緩和しなかった
+    // (=DFM版BH の「コア→外殻」が実質不動)。μ を τ に掛ける形へ移すと **時定数 1/K_cs が
+    // 質量によらず一定**になり、ノブとして意味を持つ。J の等量交換・散逸帳簿は不変で、
+    // 保存則(T7)にも影響しない。K_cs を使う既存プリセットは無い(🌱は pump/contract のみ)
+    // 第78便: **pinned でも τ_cs を効かせる**(pump は従来どおり pinned で無効 — 加速度が
+    // 外部規定で「揺すり」の意味を持たないため)。pinned は「位置・速度を外部が規定」する
+    // 印であって自転を凍結する意味ではなく、コア⇄殻の J 交換は天体内部の話。totals() は
+    // I_s·spin と J_core の両方を含むので、等量交換で総 L は保存したまま(T7 不変)。
+    // 重い中心天体を自由にすると E6′③反作用の上限が大量発動して系が乱れる(exp-4-79 の
+    // 実測: 自由中心で clampR=30300・外縁増強が 1.2646→0.59 へ崩れる)ため、DFM版BH は
+    // 既存の 🎡🍳 と同じ pinned 中心で組む — その構成で自走を見るには本緩和が必要
+    if(S.coreKcs[i]>0){
+      const Ish=0.5*Math.abs(m[i])*R[i]*R[i];
+      const dOm=Om-spin[i];
+      if(dOm!==0 && Ish>1e-12){
+        const mu=Ic*Ish/(Ic+Ish);
+        const f=1-Math.exp(-S.coreKcs[i]*dt);
+        const dJ=mu*dOm*f;
+        S.coreJ[i]-=dJ; spin[i]+=dJ/Ish;
+        S.radE+=Math.abs(dJ*dOm)*0.5;             // 相対回転の散逸(近似)
+      }
+    }
+  }
+}
+// ② coupleSink≠"spin" の accS 一括適用(第208便 — 呼ばれるのは宣言したサンプルだけ。
+//    既定経路は S._core 内の従来の1行のまま = 1 bit 不変。意味論は COUPLE_SINK_KEY の
+//    見出しコメントを参照 — "core"=質量コアの J_core へ・それ以外はリザーバ帳簿へ)
+function applyCoupleSinkAlt(S, n, vx, vy, accVx, accVy, accS, Imom, cplSink){
+  for(let i=0;i<n;i++){ vx[i]+=accVx[i]; vy[i]+=accVy[i];
+    if(accS[i]!==0){ const dJc=Imom[i]*accS[i];
+      if(cplSink===1 && (S.coreMd[i]===2||S.coreMd[i]===3)) S.coreJ[i]+=dJc;
+      else S.resL+=dJc; } }
+}
 function pairCorePlain(C){
   const n=C.n, m=C.m, x=C.x, y=C.y, vx=C.vx, vy=C.vy,
         spin=C.spin, R=C.R, pinned=C.pinned, ax=C.ax, ay=C.ay, sumW=C.sumW,
@@ -10151,6 +10273,8 @@ function makeSim(){
     // RcV は updateRadii に触らせない(収縮 contract が動的に縮めるため)
     S.coreMd=new Uint8Array(n); S.coreMF=F(); S.RcV=F(); S.coreJ=new Float64Array(n);
     S.coreKcs=F(); S.corePump=F(); S.coreCtr=F(); S.coreOmV=F(); S.hasCoreV2=false;
+    // 第208便: coreIS=コアの有効慣性倍率 ζ(既定1。I*_c=ζ·½·Mc·Rc² — 全 I_c 計算が共通で乗じる)
+    S.coreIS=new Float64Array(n); S.coreIS.fill(1);
     // 第80便(コアv2 残段): coreEint=コア内部エネルギー(Float64 — 帳簿 coreSrcE と突き合わせる)・
     // coreSrc=sourceRate(active のみ)・coreOm0=cavity の規定 Ω(空洞は慣性0で J を持てないため、
     // Ω は状態変数ではなく規定値。differential 系は coreOmV=J/I を毎サブステップ再計算する)。
@@ -10397,17 +10521,19 @@ function makeSim(){
         const c=o.core;
         if(c.mode==="cavity"){
           S.coreMd[i]=4; S.coreMF[i]=-(c.voidFraction||0); S.RcV[i]=c.radius;
-          S.coreJ[i]=0; S.coreOm0[i]=c.omega||0;
+          S.coreJ[i]=0; S.coreOm0[i]=c.omega||0; S.coreIS[i]=1;
         } else {
           const Mc=c.massFrac*Math.abs(o.m||0);
+          // 第208便: inertiaScale(ζ・省略時1)— J 初期化と全 I_c 計算が同じ ζ を共有する
+          const iS=(c.inertiaScale===undefined)?1:c.inertiaScale;
           S.coreMd[i]=(c.mode==="rigid")?1:((c.mode==="active")?3:2);
-          S.coreMF[i]=c.massFrac; S.RcV[i]=c.radius;
-          S.coreJ[i]=0.5*Mc*c.radius*c.radius*(c.omega||0); S.coreOm0[i]=0;
+          S.coreMF[i]=c.massFrac; S.RcV[i]=c.radius; S.coreIS[i]=iS;
+          S.coreJ[i]=0.5*Mc*c.radius*c.radius*iS*(c.omega||0); S.coreOm0[i]=0;
         }
         S.coreKcs[i]=c.Kcs||0; S.corePump[i]=c.pump||0; S.coreCtr[i]=c.contract||0;
         S.coreSrc[i]=c.sourceRate||0; S.coreEint[i]=c.internalEnergy||0;
         S.hasCoreV2=true;
-      } else { S.coreMd[i]=0; S.coreMF[i]=0; S.RcV[i]=0; S.coreJ[i]=0;
+      } else { S.coreMd[i]=0; S.coreMF[i]=0; S.RcV[i]=0; S.coreJ[i]=0; S.coreIS[i]=1;
         S.coreKcs[i]=0; S.corePump[i]=0; S.coreCtr[i]=0;
         S.coreSrc[i]=0; S.coreEint[i]=0; S.coreOm0[i]=0; }
       S.railH[i]=o.railH||0;
@@ -10777,9 +10903,10 @@ function makeSim(){
             S.coreJ[i]=Jc; S.coreEint[i]=Ec; S.coreOm0[i]=0;
             S.coreKcs[i]=S.coreKcs[src]; S.corePump[i]=S.corePump[src];
             S.coreCtr[i]=S.coreCtr[src]; S.coreSrc[i]=S.coreSrc[src];
+            S.coreIS[i]=S.coreIS[src];   // 第208便: ζ は他の係数と同じ継承元(重い側/持つ側)
           } else {   // 双方 cavity: 空洞は融合で消える(質量0・J0 なので帳簿の出入りは無い)
             S.coreMd[i]=0; S.coreMF[i]=0; S.RcV[i]=0; S.coreJ[i]=0; S.coreEint[i]=0;
-            S.coreKcs[i]=0; S.corePump[i]=0; S.coreCtr[i]=0; S.coreSrc[i]=0; S.coreOm0[i]=0;
+            S.coreKcs[i]=0; S.corePump[i]=0; S.coreCtr[i]=0; S.coreSrc[i]=0; S.coreOm0[i]=0; S.coreIS[i]=1;
           }
         }
         // (obsT/coreOT は第61便で廃止 — 質量重み合成も不要に)
@@ -10849,7 +10976,7 @@ function makeSim(){
     const mv=(a)=>{ if(!a) return; for(let t=0;t<k;t++){ const s0=keep[t]; if(s0!==t) a[t]=a[s0]; } };
     for(const key of ["m","x","y","vx","vy","spin","R","rotA","mEff","rotAc",
       "coreMd","coreMF","RcV","coreJ","coreKcs","corePump","coreCtr",   // 第77便(コアv2)
-      "coreEint","coreSrc","coreOm0",   // 第80便(コアv2 残段): E_int・sourceRate・cavity 規定Ω
+      "coreEint","coreSrc","coreOm0","coreIS",   // 第80便(コアv2 残段)/第208便: 有効慣性倍率 ζ
       "lSw","radOv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
@@ -10885,7 +11012,7 @@ function makeSim(){
     const nc=Math.max(need, cap+Math.max(8, cap>>1));
     for(const key of ["m","x","y","vx","vy","spin","R","rotA","mEff","rotAc",
       "coreMd","coreMF","RcV","coreJ","coreKcs","corePump","coreCtr",   // 第77便(コアv2)
-      "coreEint","coreSrc","coreOm0",   // 第80便(コアv2 残段): E_int・sourceRate・cavity 規定Ω
+      "coreEint","coreSrc","coreOm0","coreIS",   // 第80便(コアv2 残段)/第208便: 有効慣性倍率 ζ
       "lSw","radOv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
@@ -10895,8 +11022,8 @@ function makeSim(){
       const b=new a.constructor(nc); b.set(a); S[key]=b;
     }
     for(let i=cap;i<nc;i++){ S.rMulv[i]=1; S.coreMd[i]=0; S.coreMF[i]=0; S.coreJ[i]=0;
-      S.coreEint[i]=0; S.coreSrc[i]=0; S.coreOm0[i]=0;
-      S.linId[i]=-1; S.linN[i]=0; }   // alloc と同じ既定値(+コアv2・第80便/第100便: 系譜は分裂時に発行)
+      S.coreEint[i]=0; S.coreSrc[i]=0; S.coreOm0[i]=0; S.coreIS[i]=1;
+      S.linId[i]=-1; S.linN[i]=0; }   // alloc と同じ既定値(+コアv2・第80便/第100便/第208便: ζ=1)
     S.pairD=new Float32Array(Math.max(1,nc*(nc-1)/2));
     S.railIdx=null; S.periDet=null;     // index 依存のキャッシュは作り直させる
     S._fusDead=null; S._fusInto=null; S._ts=null;
@@ -11035,10 +11162,10 @@ function makeSim(){
         S.coreJ[j]=S.coreJ[i]-J1c; S.coreJ[i]=J1c;
         S.coreEint[j]=S.coreEint[i]-E1c; S.coreEint[i]=E1c;
         S.coreKcs[j]=S.coreKcs[i]; S.corePump[j]=S.corePump[i]; S.coreCtr[j]=S.coreCtr[i];
-        S.coreSrc[j]=S.coreSrc[i]; S.coreOm0[j]=S.coreOm0[i];
+        S.coreSrc[j]=S.coreSrc[i]; S.coreOm0[j]=S.coreOm0[i]; S.coreIS[j]=S.coreIS[i];   // 第208便: ζ は両片が親を継ぐ
       } else {
         S.coreMd[j]=0; S.coreMF[j]=0; S.RcV[j]=0; S.coreJ[j]=0; S.coreKcs[j]=0; S.corePump[j]=0; S.coreCtr[j]=0;
-        S.coreEint[j]=0; S.coreSrc[j]=0; S.coreOm0[j]=0;
+        S.coreEint[j]=0; S.coreSrc[j]=0; S.coreOm0[j]=0; S.coreIS[j]=1;
       }
       // 材質係数は両片が親を引き継ぐ(分裂は同じ材質の2片に割れる)
       S.lSw[j]=S.lSw[i]; S.lSwAuto[j]=S.lSwAuto[i]; S.tau[j]=S.tau[i];
@@ -11106,7 +11233,7 @@ function makeSim(){
         const md=S.coreMd[i];
         if(md===4) S.coreOmV[i]=S.coreOm0[i];
         else if(md>=2){
-          const Ic=0.5*S.coreMF[i]*Math.abs(m[i])*S.RcV[i]*S.RcV[i];
+          const Ic=0.5*S.coreMF[i]*Math.abs(m[i])*S.RcV[i]*S.RcV[i]*S.coreIS[i];
           S.coreOmV[i]=(Ic>1e-12)? S.coreJ[i]/Ic : 0;
         } else S.coreOmV[i]=0;
       }
@@ -11174,6 +11301,9 @@ function makeSim(){
     // ③′(legacy ③の直後)で対単位の対称インパルスとして配る。geoPN=2 の輸送3項要求も同じ
     // req へ流す(③′経路は共有)。配列は使う宇宙でだけ遅延確保する(39B/P4b と同型のゼロコスト)
     const pairR=(p[FRAME_REACTION_KEY]==="pairReduced") && kFrame>0;
+    // 第208便: coupleSink — E6′ 残余トルクの受け先(0="spin"=既定・1="core"・2="reservoir")。
+    // 0 の既定経路は accS の一括適用が従来の1行のままなので 1 bit も変わらない
+    const cplSink=(p[COUPLE_SINK_KEY]==="core")?1:((p[COUPLE_SINK_KEY]==="reservoir")?2:0);
     if(pairR && (!S._pr || S._pr.nAl!==n)) S._pr={nAl:n, reqX:new Float64Array(n), reqY:new Float64Array(n), hasR:new Uint8Array(n)};
     const reqX=pairR?S._pr.reqX:__DF64, reqY=pairR?S._pr.reqY:__DF64;
     let anyReq=false;
@@ -12057,84 +12187,9 @@ function makeSim(){
     //   注入は外部からなので coreSrcE に等量を積む(fusU/coreWork と同格の明示帳簿)。
     //   ④ cavity(md=4)= 空洞。質量0・慣性0なので J も E_int も動かず、力学パスは素通りする
     //   (光学・A8 引きずりへの寄与だけが coreMF=−voidFraction の重みで効く)
-    if(hasCoreV2 && doPost){
-      for(let i=0;i<S.n;i++){
-        const md=S.coreMd[i]; if(md===0 || md===4) continue;
-        if(md===3){   // active: E_int += sourceRate·dt(帳簿と等量)
-          const dE=S.coreSrc[i]*dt;
-          if(dE>0){ S.coreEint[i]+=dE; S.coreSrcE+=dE; }
-        }
-        const Mc=S.coreMF[i]*Math.abs(m[i]); if(!(Mc>1e-9)) continue;
-        if(md===1){   // rigid: 軸固定 — pump は殻スピンを減速(実物のパワーボールと同じ)
-          if(S.corePump[i]>0 && !pinned[i] && spin[i]!==0){
-            const aosc=Math.hypot(ax[i],ay[i]);
-            if(aosc>0){
-              const Ish=0.5*Math.abs(m[i])*R[i]*R[i];
-              if(Ish>1e-12){
-                let dJ=S.corePump[i]*Mc*S.RcV[i]*aosc*dt;
-                const lim=Math.abs(Ish*spin[i])*0.25; if(dJ>lim) dJ=lim;
-                const sgn=(spin[i]>0)?1:-1;
-                spin[i]-=sgn*dJ/Ish;
-                S.resL+=sgn*dJ;                       // J はリザーバへ(T7)
-                S.radE+=Math.abs(dJ*spin[i]);         // 減速の散逸(近似 τ·ω)
-              }
-            }
-          }
-          continue;
-        }
-        // differential
-        let Rci=S.RcV[i];
-        let Ic=0.5*Mc*Rci*Rci; if(!(Ic>1e-12)) continue;
-        // ① 収縮(J 保存 → Ω 自動上昇。E_rot 増は重力圧縮の解放分として coreWork へ)
-        if(S.coreCtr[i]>0){
-          const E0=(S.coreJ[i]*S.coreJ[i])/(2*Ic);
-          Rci*=Math.exp(-S.coreCtr[i]*dt);
-          const rmin=0.02*R[i]; if(Rci<rmin) Rci=rmin;
-          S.RcV[i]=Rci; Ic=0.5*Mc*Rci*Rci;
-          if(Ic>1e-12) S.coreWork+=(S.coreJ[i]*S.coreJ[i])/(2*Ic)-E0;
-        }
-        if(!(Ic>1e-12)) continue;
-        let Om=S.coreJ[i]/Ic;
-        // ② パワーボール(軸自由 → 加速。種スピン必須 — Ω_c=0 では立ち上がらない)
-        if(S.corePump[i]>0 && !pinned[i] && Om!==0){
-          const aosc=Math.hypot(ax[i],ay[i]);
-          if(aosc>0){
-            let dJ=S.corePump[i]*Mc*Rci*aosc*dt;
-            const lim=Math.abs(S.coreJ[i])*0.25; if(dJ>lim) dJ=lim;
-            const sgn=(Om>0)?1:-1;
-            S.coreJ[i]+=sgn*dJ;
-            S.resL-=sgn*dJ;                           // 反作用 J はリザーバ(=「手首」)へ
-            S.coreWork+=Math.abs(dJ*Om);              // 外部仕事の帳簿
-            Om=S.coreJ[i]/Ic;
-          }
-        }
-        // ③ τ_cs 結合(コア⇄殻の J 交換 — 等量反対符号で保存。解析的指数緩和で安定)。
-        // 第78便: **K_cs を緩和率[1/時間]として再定義**する — τ_cs = −μ·K_cs·(Ω_c−Ω_s)
-        // (μ=換算慣性 I_c·I_s/(I_c+I_s))。第77便は f=1−e^{−K_cs·dt/μ} だったため、時定数が
-        // μ に比例し、恒星・BH 質量級(μ~10⁴)では K_cs=10 でも 6000步で 5% しか緩和しなかった
-        // (=DFM版BH の「コア→外殻」が実質不動)。μ を τ に掛ける形へ移すと **時定数 1/K_cs が
-        // 質量によらず一定**になり、ノブとして意味を持つ。J の等量交換・散逸帳簿は不変で、
-        // 保存則(T7)にも影響しない。K_cs を使う既存プリセットは無い(🌱は pump/contract のみ)
-        // 第78便: **pinned でも τ_cs を効かせる**(pump は従来どおり pinned で無効 — 加速度が
-        // 外部規定で「揺すり」の意味を持たないため)。pinned は「位置・速度を外部が規定」する
-        // 印であって自転を凍結する意味ではなく、コア⇄殻の J 交換は天体内部の話。totals() は
-        // I_s·spin と J_core の両方を含むので、等量交換で総 L は保存したまま(T7 不変)。
-        // 重い中心天体を自由にすると E6′③反作用の上限が大量発動して系が乱れる(exp-4-79 の
-        // 実測: 自由中心で clampR=30300・外縁増強が 1.2646→0.59 へ崩れる)ため、DFM版BH は
-        // 既存の 🎡🍳 と同じ pinned 中心で組む — その構成で自走を見るには本緩和が必要
-        if(S.coreKcs[i]>0){
-          const Ish=0.5*Math.abs(m[i])*R[i]*R[i];
-          const dOm=Om-spin[i];
-          if(dOm!==0 && Ish>1e-12){
-            const mu=Ic*Ish/(Ic+Ish);
-            const f=1-Math.exp(-S.coreKcs[i]*dt);
-            const dJ=mu*dOm*f;
-            S.coreJ[i]-=dJ; spin[i]+=dJ/Ish;
-            S.radE+=Math.abs(dJ*dOm)*0.5;             // 相対回転の散逸(近似)
-          }
-        }
-      }
-    }
+    // 第208便: 本体は coreV2UpdatePass(S._core の外)へ逐語切り出し — 式・順序は 1 つも
+    // 変えていない(V8 最適化サイズ対策 — pairCorePlain 直前の見出しコメントを参照)
+    if(hasCoreV2 && doPost) coreV2UpdatePass(S, m, spin, pinned, ax, ay, R, dt);
     // ===== ③ E6′ 反作用対ループ: φ_ij 分配・残余トルクのスピン移譲・リザーバ帳簿 =====
     // 第35便: anyDp は doPost の中でしか立たないので、leapfrog パスAでは自動的に素通りする
     // 第40便 40A(台帳4-81): 対ごとの反作用(vx/vy/spin への減算)は Float32 の状態配列へ
@@ -12221,7 +12276,11 @@ function makeSim(){
           accVx[i]*=sc; accVy[i]*=sc; S.clampRN++;
         }
       }
-      for(let i=0;i<n;i++){ vx[i]+=accVx[i]; vy[i]+=accVy[i]; spin[i]+=accS[i]; }
+      // 第208便: coupleSink — 残余トルク(accS)の受け先を宣言で切替える。既定(0)は従来の
+      // 1行そのまま(=1 bit 不変)。宣言時のみ applyCoupleSinkAlt(S._core の外)が
+      // J_core / リザーバ帳簿へ送る(意味論は COUPLE_SINK_KEY の見出しコメントを参照)
+      if(cplSink===0){ for(let i=0;i<n;i++){ vx[i]+=accVx[i]; vy[i]+=accVy[i]; spin[i]+=accS[i]; } }
+      else applyCoupleSinkAlt(S, n, vx, vy, accVx, accVy, accS, Imom, cplSink);
       // 背景 D₀+W_B 分は無限慣性リザーバへ移譲(帳簿記録)。UniverseBox は規定運動の
       // 外部コントローラなので、その持ち分の反作用は D₀ と同じくリザーバが引き受ける
       if(bgW>0){
@@ -12315,7 +12374,11 @@ function makeSim(){
           accVx[i]*=sc; accVy[i]*=sc; S.clampRN++;
         }
       }
-      for(let i=0;i<n;i++){ vx[i]+=accVx[i]; vy[i]+=accVy[i]; spin[i]+=accS[i]; }
+      // 第208便: coupleSink — 残余トルク(accS)の受け先を宣言で切替える。既定(0)は従来の
+      // 1行そのまま(=1 bit 不変)。宣言時のみ applyCoupleSinkAlt(S._core の外)が
+      // J_core / リザーバ帳簿へ送る(意味論は COUPLE_SINK_KEY の見出しコメントを参照)
+      if(cplSink===0){ for(let i=0;i<n;i++){ vx[i]+=accVx[i]; vy[i]+=accVy[i]; spin[i]+=accS[i]; } }
+      else applyCoupleSinkAlt(S, n, vx, vy, accVx, accVy, accS, Imom, cplSink);
       // 65A(診断層): pairReduced の引きずりチャネルは「最終的に適用した Δv」を記録する
       // (要求 d_i は速度へ入らないため — 物理状態は読まない/書かないの流儀は不変)
       if(msOn) for(let i=0;i<n;i++){ MS.dxv[i]+=accVx[i]*msIdt; MS.dyv[i]+=accVy[i]*msIdt; }
@@ -14294,7 +14357,7 @@ function render(){
       const rc=Math.max(3,Math.min(sim.RcV[i]*z,rr*0.92));
       const cav=(sim.coreMd[i]===4), omc=coreOmegaOf(sim,i);
       if(!cav && sim.lSw[i]!==0){   // 第61便: coreOT 廃止 — 減光時のみ観測温度色
-        const Tc=(1-sim.lSw[i])*0.5*Math.abs(sim.coreMF[i]*sim.m[i])*sim.RcV[i]*sim.RcV[i]*omc*omc;
+        const Tc=(1-sim.lSw[i])*0.5*Math.abs(sim.coreMF[i]*sim.m[i])*sim.RcV[i]*sim.RcV[i]*sim.coreIS[i]*omc*omc;
         ctx.globalAlpha=0.8;
         ctx.fillStyle=tempColor(Math.min(1,Math.sqrt(Math.max(0,Tc)/Math.max(1e-4,tempP90EMA))));
       } else ctx.fillStyle=cav? "rgba(3,4,10,0.85)" : "rgba(10,12,24,0.55)";
@@ -14360,7 +14423,7 @@ function render(){
     const hasCore=(sim.coreMd[i]!==0);
     const mcTxt=hasCore? ` Mc/m=${fmt(sim.coreMF[i])}` : "";
     const scTxt=hasCore? ` Ωc=${fmt(omcH)}` : "";
-    const coreTTxt=hasCore? ` Tc=${fmt((1-sim.lSw[i])*0.5*Math.abs(sim.coreMF[i]*sim.m[i])*sim.RcV[i]*sim.RcV[i]*omcH*omcH)}` : "";
+    const coreTTxt=hasCore? ` Tc=${fmt((1-sim.lSw[i])*0.5*Math.abs(sim.coreMF[i]*sim.m[i])*sim.RcV[i]*sim.RcV[i]*sim.coreIS[i]*omcH*omcH)}` : "";
     const fObl=(sim.params.G>0&&sim.m[i]>0)? 1.25*sim.spin[i]*sim.spin[i]*sim.R[i]*sim.R[i]*sim.R[i]/(sim.params.G*sim.m[i]) : NaN;
     const fTxt=isFinite(fObl)? ` f=${fmt(Math.min(fObl,9999))}` : "";
     // 第94便(原仮定者指示): 粒子のスケール換算値は画面下詳細に表示(パネル内副表示は廃止)。
@@ -14685,7 +14748,7 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
       const rc=Math.max(3,Math.min(S.RcV[i]*z,rr*0.92));
       const cav=(S.coreMd[i]===4), omc=coreOmegaOf(S,i);
       if(!cav && S.lSw[i]!==0){   // 第22便→第61便: coreOT 廃止 — 減光時のみ観測温度色
-        const Tc=(1-S.lSw[i])*0.5*Math.abs(S.coreMF[i]*S.m[i])*S.RcV[i]*S.RcV[i]*omc*omc;
+        const Tc=(1-S.lSw[i])*0.5*Math.abs(S.coreMF[i]*S.m[i])*S.RcV[i]*S.RcV[i]*S.coreIS[i]*omc*omc;
         ctx.globalAlpha=0.8;
         ctx.fillStyle=tempColor(Math.min(1,Math.sqrt(Math.max(0,Tc)/Math.max(1e-4,tempP90EMA))));
       } else ctx.fillStyle=cav? "rgba(3,4,10,0.85)" : "rgba(10,12,24,0.55)";
@@ -15566,7 +15629,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
     for(const k of ["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy",
       "mEff","rotAc",                          // 第81便: コアv1(coreMR/coreSR/Rc)は廃止
       "coreMd","coreMF","RcV","coreJ","coreKcs","corePump","coreCtr",   // 第77便(コアv2)
-      "coreEint","coreSrc","coreOm0",   // 第80便(コアv2 残段): E_int・sourceRate・cavity 規定Ω
+      "coreEint","coreSrc","coreOm0","coreIS",   // 第80便(コアv2 残段)/第208便: 有効慣性倍率 ζ
       "lSw","radOv",                           // 観測系(第22便 — obsT/coreOT は第61便で廃止)
       "rMulv","lSwAuto",                       // 第36便 C1/C2: 半径倍率・掻出の自動算出フラグ
       // 第45便 45B: 転写長は「A 側の生存粒子数 sim.n」に固定する(分裂で確保長が A 側だけ
@@ -15768,7 +15831,7 @@ let ckSnap=null;
 const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU","pinned",
   "mEff","rotAc","lSw","radOv","rMulv","lSwAuto",   // 第81便: コアv1 配列は廃止
   "coreMd","coreMF","RcV","coreJ","coreKcs","corePump","coreCtr",
-  "coreEint","coreSrc","coreOm0",   // 第80便(コアv2 残段): E_int・sourceRate・cavity 規定Ω
+  "coreEint","coreSrc","coreOm0","coreIS",   // 第80便(コアv2 残段)/第208便: 有効慣性倍率 ζ
   "railR","railAng","railOmega","railCx","railCy","railH",
   "Tint","coordN","coordAcc","shPrev","_phNbrPrev","_phNbrPrevN","_phProf"];
 const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wallKE","pinHeat","coreWork","coreSrcE",
@@ -17599,7 +17662,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 - box: {type,n,cx,cy,w,h,mMin,mMax,spinMin,spinMax,vScale} — 幅w高さhの矩形にn個、ランダム方向に速さ〜vScale。省略可の rMul(0.2〜20)。
 - ring/disk/box には省略可の bulkVx,bulkVy(母集団の並進速度)を指定できる。移動する天体(vx,vyを持つ single)の周りに円盤・環を置くときは、必ず同じ値を bulkVx,bulkVy に与えて核と一体で動かすこと。
 - single には省略可の zonal(扁平中心天体の帯状重力補正 E13)を指定できる: {"refR":基準半径,"calib":1,"J":{"2":0.0163,"4":-0.0009}}。偶数次 J2〜J12 のみ・|J|≤0.1・refR:1〜5000・calib:0〜2。中心の大質量 pinned 粒子に付けると周回粒子の楕円軌道の近点が前進する(内側ほど速い差動近点移動 — 画面左上に実測/解析の近点移動が表示される)。土星なら J2≈0.0163。要望が扁平天体・歳差・近点移動のときだけ使う高度な属性で、通常のプリセットでは指定しない。
-- single/ring/disk には省略可の core(コアv2 — 中心コアの独立サブシステム)を指定できる: {"mode":"rigid"|"differential"|"active"|"cavity","massFrac":0.01〜0.6,"radius":0.2〜200,"omega":−50〜50,"Kcs":0〜10,"pump":0〜5,"contract":0〜0.2,"sourceRate":0〜100,"voidFraction":0.01〜1}。m は総質量のままで、massFrac=Mc/m・radius=コア半径 R_c(絶対値)・omega=初期コア角速度 Ω_c(角運動量 J=½·Mc·R_c²·Ω として保持され、以後 J が主変数)。差動分だけが ω += (Mc/m)·(Ω_c−s)·(R_c/(R_c+d))^q として追加の空間引きずりに効く。mode: rigid=殻と剛体回転(差動なし)・differential=独立回転・active=differential+sourceRate で内部エネルギー注入・cavity=空洞(massFrac の代わりに voidFraction。引きずりの符号が反転)。Kcs はコア⇄殻のトルク結合(緩和率)・contract は収縮率(J 保存で Ω 上昇)・pump はパワーボール係数。要望がコア/深部回転・空洞天体・2層天体・ダークローターのときだけ使う高度な属性。
+- single/ring/disk には省略可の core(コアv2 — 中心コアの独立サブシステム)を指定できる: {"mode":"rigid"|"differential"|"active"|"cavity","massFrac":0.01〜0.6,"radius":0.01〜200,"omega":−50〜50,"Kcs":0〜10,"pump":0〜5,"contract":0〜0.2,"sourceRate":0〜100,"voidFraction":0.01〜1}。m は総質量のままで、massFrac=Mc/m・radius=コア半径 R_c(絶対値)・omega=初期コア角速度 Ω_c(角運動量 J=½·Mc·R_c²·Ω として保持され、以後 J が主変数)。差動分だけが ω += (Mc/m)·(Ω_c−s)·(R_c/(R_c+d))^q として追加の空間引きずりに効く。mode: rigid=殻と剛体回転(差動なし)・differential=独立回転・active=differential+sourceRate で内部エネルギー注入・cavity=空洞(massFrac の代わりに voidFraction。引きずりの符号が反転)。Kcs はコア⇄殻のトルク結合(緩和率)・contract は収縮率(J 保存で Ω 上昇)・pump はパワーボール係数。要望がコア/深部回転・空洞天体・2層天体・ダークローターのときだけ使う高度な属性。
 - single には省略可の radius(半径の明示指定 0.01〜100。未指定は radiusScale·rMul·√|m|)・lightSweep(減光 0〜1 — 高速スピンコアが自星の光を外に出さない: 観測温度が0になり見掛けは冷たい。放射冷却も(1−lS)倍)を指定できる。要望がダークマター/ダークローター・見えない天体・拡がった天体のときだけ使う高度な属性で、通常のプリセットでは指定しない。disk/ring にも群共通の lightSweep(数値か "auto")を指定できる(恒星集団の減光実験用)。
 - single には省略可の railOmega(±2・pinned時のみ): 円レール駆動の角速度。railCx/railCy でレール中心を指定(既定は原点)。
 
@@ -20107,7 +20170,7 @@ function coreOmegaOf(S,i){
   if(!md) return 0;
   if(md===1) return S.spin[i];
   if(md===4) return S.coreOm0[i];
-  const Ic=0.5*S.coreMF[i]*Math.abs(S.mEff[i])*S.RcV[i]*S.RcV[i];
+  const Ic=0.5*S.coreMF[i]*Math.abs(S.mEff[i])*S.RcV[i]*S.RcV[i]*S.coreIS[i];
   return (Ic>1e-12)? S.coreJ[i]/Ic : 0;
 }
 // 第80便C: コアv2(第77便)の内部 mode 値 → 表示名の名前解決テーブル。coreMd は Uint8Array で
@@ -20156,7 +20219,7 @@ function updateBodyEdit(){
     // 「重み」で質量ではない)。Ω_c は物理と同じ定義で出す — rigid は殻と剛体回転(Ω_c≡Ω_s)・
     // differential/active は J_core/I_c・cavity は規定値 coreOm0(J を持てないため)
     const Mc=(md===4)? 0 : mf*mAbs;
-    const Ic=(md===4)? 0 : ((Rci>0)? 0.5*Mc*Rci*Rci : 0);
+    const Ic=(md===4)? 0 : ((Rci>0)? 0.5*Mc*Rci*Rci*S.coreIS[i] : 0);
     const Omc=(md===1)? S.spin[i] : ((md===4)? S.coreOm0[i] : ((Ic>1e-12)? S.coreJ[i]/Ic : 0));
     const Oms=S.spin[i];                       // Ω_s = 殻スピン
     $("#beCvMode").value=coreModeName(md);
@@ -21219,11 +21282,11 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
     // 第80便: cavity は質量0・慣性0(負質量はどこにも無い)。Ω は規定値・J と E_int は 0 のまま
     if(md===4) return { mode:"cavity", massFrac:0, voidFraction:-S.coreMF[i], mass:0, Rc:S.RcV[i],
       J:0, omega:S.coreOm0[i], Eint:S.coreEint[i], sourceRate:0, Kcs:0, pump:0, contract:0 };
-    const Mc=S.coreMF[i]*Math.abs(S.m[i]), Ic=0.5*Mc*S.RcV[i]*S.RcV[i];
+    const Mc=S.coreMF[i]*Math.abs(S.m[i]), Ic=0.5*Mc*S.RcV[i]*S.RcV[i]*S.coreIS[i];   // 第208便: 有効慣性 I*_c
     return { mode:(md===1?"rigid":(md===3?"active":"differential")), massFrac:S.coreMF[i],
       voidFraction:0, mass:Mc, Rc:S.RcV[i],
       J:S.coreJ[i], omega:(Ic>1e-12)? S.coreJ[i]/Ic : 0, Eint:S.coreEint[i],
-      sourceRate:S.coreSrc[i], Kcs:S.coreKcs[i],
+      sourceRate:S.coreSrc[i], Kcs:S.coreKcs[i], inertiaScale:S.coreIS[i],
       pump:S.corePump[i], contract:S.coreCtr[i] }; },
   // 第81便: カメラ天体追従(表示専用)のQA用フック — 物理・保存には一切影響しない
   camState:()=>({x:camX, y:camY, scale:camScale, mode:camFollowMode, idx:camFollowIdx(),

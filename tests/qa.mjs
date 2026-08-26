@@ -6475,42 +6475,50 @@ if (!FAST) {
         eq.same = pick(vb.preset) === pick(r1.preset);
         if (!eq.same) eq.diff = { builtin: pick(vb.preset).slice(0, 400), records: pick(r1.preset).slice(0, 400) };
       }
-      // 第203〜207便: ✴️ DFM 版 — 質量較正(f=1.827)+**二層構造**(第207便 — 裁定 2026-08-26)の機械固定。
-      // (a) 宣言: kFrame=1・A/B=kFrame=0・質量=✨×1.827・fitted 2件(f と R_shell)・二層の三句・
-      //     両星に core(differential・Kcs=0・Ω=転写 spin)・殻半径 5 / 5×転写半径比
-      // (b) 実測: 2周目 P ±0.5%・1周目 e 0.51675±0.02・向き ✨ と同回り・**殻スピンが転写値の
-      //     ±20% 内でクランプ非接触・clampSN=0・コア Ω が転写自転を保持**(第205便の飽和の解消)
-      // (c) 否定対照: コアを外し殻を転写半径へ戻す(=点状構成)と再び ±40 飽和・clampSN>0
-      // (d) 決定性
+      // 第203〜208便: ✴️ DFM 版 — 質量較正(f=1.827)+**役割反転二層**(第208便 — 外殻=観測値・
+      // 偶力は隠れコアへ)の機械固定。
+      // (a) 宣言: kFrame=1・A/B=kFrame=0・質量=✨×1.827・**外殻=転写光学半径(ビット)**・
+      //     coupleSink:"core"・fitted 2件(f と ζ)・三句(殻=光学値/偶力は隠れコア/トイ近似)・
+      //     core(differential・Kcs=0・radius=殻の半分・inertiaScale=ζ・Ω=転写 spin)
+      // (b) 実測: 2周目 P ±0.5%・1周目 e 0.51677±0.02・向き ✨ と同回り・**殻スピンが全窓で転写値を
+      //     ビット保持(min=max)・clampSN=0**・コア Ω ドリフト ≤20%(偶力の受け皿側 — 観測対象外)・
+      //     角運動量帳簿(総L+リザーバ)の相対残差 <1e-8
+      // (c) 否定対照: coupleSink を外す(既定 "spin")と同じ光学半径のまま再び ±40 飽和・clampSN>0
+      // (d) 決定性(spin・coreJ 込み)
       let dfm = null;
       {
         const pd = HP.allPresets().find((q) => q.id === 'alphaCenABDFM');
         if (!pd) dfm = { missing: true };
         else {
-          const SPA = 4.57371397, SPB = 2.00723302;
+          const SPA = 4.57371397, SPB = 2.00723302, ZETA = 27853.10245466657;
           const massOk = Math.abs(pd.bodies[0].m / p.bodies[0].m - 1.827) < 1e-9
             && Math.abs(pd.bodies[1].m / p.bodies[1].m - 1.827) < 1e-9;
           const c0 = pd.bodies[0].core, c1 = pd.bodies[1].core;
           const coreOk = !!c0 && !!c1 && c0.mode === 'differential' && c1.mode === 'differential'
             && c0.Kcs === 0 && c1.Kcs === 0 && c0.omega === SPA && c1.omega === SPB
-            && pd.bodies[0].radius === 5
-            && Math.abs(pd.bodies[1].radius - 5 * 0.05979336 / 0.084738) < 1e-12;
+            && c0.inertiaScale === ZETA && c1.inertiaScale === ZETA          // 第208便: ζ の等価移送
+            && c0.radius === 0.042369 && c1.radius === 0.02989668            // コア半径=殻の半分(規約)
+            && pd.bodies[0].radius === 0.084738 && pd.bodies[1].radius === 0.05979336   // 外殻=転写光学半径
+            && pd.physics.coupleSink === 'core' && pd.physics.dispMag === 300;
           const declOk = pd.physics.kFrame === 1 && pd.abBody && pd.abBody.physicsPatch
             && pd.abBody.physicsPatch.kFrame === 0 && pd.fidelity === 'real'
             && pd.familyId === 'alphaCen' && pd.familyRole === 'primary'   // 第204便: DFM版が仲間のメイン
             && Array.isArray(pd.parameterAudit.fitted) && pd.parameterAudit.fitted.length === 2
-            && /f=1\.827/.test(pd.parameterAudit.fitted[0]) && /R_shell=5/.test(pd.parameterAudit.fitted[1])
+            && /f=1\.827/.test(pd.parameterAudit.fitted[0]) && /ζ=27853\.10245466657/.test(pd.parameterAudit.fitted[1])
             && /実在(の)?質量の主張ではない|条件つき較正/.test(pd.descStruct.summary)
-            && /光学半径ではない/.test(pd.descStruct.summary)               // 三句①: 殻は結合半径
-            && /光学半径.*光学自転はコアが担う|光学自転はコアが担う/.test(pd.descStruct.summary)   // 三句②
-            && /トイ(モデルの)?近似|恒星内部構造の再現ではない/.test(pd.descStruct.summary)       // 三句③
+            && /光学半径・光学自転そのもの/.test(pd.descStruct.summary)      // 三句①: 外殻=観測値
+            && /coupleSink|隠れコアの J_core/.test(pd.descStruct.summary)    // 三句②: 偶力は隠れコアへ
+            && /トイ(モデルの)?近似/.test(pd.descStruct.summary)             // 三句③: 恒星内部構造の再現ではない
+            && /恒星内部構造/.test(pd.descStruct.summary)
             && coreOk;
           const vd = HP.validatePreset(JSON.parse(JSON.stringify(pd)));
           const S = HP.sim; S.build(vd.preset);
           const clamp0 = S.clampSN || 0;
+          const T0 = S.totals(); const L0 = T0.L + S.resL + S.radL;
           const dt = 0.016, steps = Math.round(2.2 * P_OBS / dt);
           let ang = 0, px = 0, py = 0, rmin = Infinity, rmax = -Infinity;
           let s0min = Infinity, s0max = -Infinity, s1min = Infinity, s1max = -Infinity;
+          let o0min = Infinity, o0max = -Infinity, o1min = Infinity, o1max = -Infinity;
           const revs = []; let nextRev = 2 * Math.PI, e1 = null;
           for (let k = 0; k < steps; k++) {
             S.step(dt);
@@ -6518,6 +6526,8 @@ if (!FAST) {
             if (rr < rmin) rmin = rr; if (rr > rmax) rmax = rr;
             if (S.spin[0] < s0min) s0min = S.spin[0]; if (S.spin[0] > s0max) s0max = S.spin[0];
             if (S.spin[1] < s1min) s1min = S.spin[1]; if (S.spin[1] > s1max) s1max = S.spin[1];
+            if (S.coreOmV[0] < o0min) o0min = S.coreOmV[0]; if (S.coreOmV[0] > o0max) o0max = S.coreOmV[0];
+            if (S.coreOmV[1] < o1min) o1min = S.coreOmV[1]; if (S.coreOmV[1] > o1max) o1max = S.coreOmV[1];
             if (k === 0) { px = dx; py = dy; } else {
               ang += Math.atan2(px * dy - py * dx, px * dx + py * dy); px = dx; py = dy;
               while (Math.abs(ang) >= nextRev) { revs.push((k + 1) * dt); nextRev += 2 * Math.PI;
@@ -6526,16 +6536,19 @@ if (!FAST) {
           const p2 = revs.length >= 2 ? revs[1] - revs[0] : null;
           const angSign = Math.sign(ang);   // 第204便: ✨ と同回り(数学正)であること
           const clampD = (S.clampSN || 0) - clamp0;
+          // 第208便: 殻スピンは全窓でビット保持(min=max=Float32(転写値))— 観測自転のライブ保持
+          const shellHold = s0min === s0max && s1min === s1max
+            && Math.abs(s0max / SPA - 1) < 1e-6 && Math.abs(s1max / SPB - 1) < 1e-6;
           const driftA = Math.max(Math.abs(s0max - SPA), Math.abs(s0min - SPA)) / SPA;
           const driftB = Math.max(Math.abs(s1max - SPB), Math.abs(s1min - SPB)) / SPB;
-          // コア Ω の保持(Kcs=0 — Float32 格納の転写値のまま全窓不変)
-          const omHold = S.coreOmV
-            ? Math.abs(S.coreOmV[0] / SPA - 1) < 1e-6 && Math.abs(S.coreOmV[1] / SPB - 1) < 1e-6
-            : null;
-          // (c) 否定対照: コアなし+転写半径(=第205便の点状構成)は再び飽和する
+          // コア Ω(偶力の受け皿 — 第207便の殻ドリフトがコアへ移る): 転写値の ±20% 内
+          const coreDriftA = Math.max(Math.abs(o0max - SPA), Math.abs(o0min - SPA)) / SPA;
+          const coreDriftB = Math.max(Math.abs(o1max - SPB), Math.abs(o1min - SPB)) / SPB;
+          const T1 = S.totals(); const L1 = T1.L + S.resL + S.radL;
+          const lRel = Math.abs(L1 - L0) / Math.max(Math.abs(L0), 1e-9);   // T7 恒等式(coreJ 込み)
+          // (c) 否定対照: coupleSink を外す(既定 "spin")— 同じ光学半径のまま再び飽和する
           const p0 = JSON.parse(JSON.stringify(pd));
-          delete p0.bodies[0].core; delete p0.bodies[1].core;
-          p0.bodies[0].radius = 0.084738; p0.bodies[1].radius = 0.05979336;
+          delete p0.physics.coupleSink;
           const v0 = HP.validatePreset(p0); const S0 = HP.sim; S0.build(v0.preset);
           const nc0 = S0.clampSN || 0;
           let n0max = -Infinity, n0min = Infinity;
@@ -6545,9 +6558,10 @@ if (!FAST) {
           const one = () => { const vv = HP.validatePreset(JSON.parse(JSON.stringify(pd)));
             const s2 = HP.sim; s2.build(vv.preset);
             for (let k = 0; k < 400; k++) s2.step(0.016);
-            const o = []; for (let i = 0; i < s2.n; i++) o.push(s2.x[i], s2.y[i], s2.vx[i], s2.vy[i], s2.spin[i]); return o; };
+            const o = []; for (let i = 0; i < s2.n; i++) o.push(s2.x[i], s2.y[i], s2.vx[i], s2.vy[i], s2.spin[i], s2.coreJ[i]); return o; };
           const da = one(), db = one();
-          dfm = { massOk, declOk, p2, e1, nan: S.hasNaN(), angSign, driftA, driftB, clampD, omHold, negSat,
+          dfm = { massOk, declOk, p2, e1, nan: S.hasNaN(), angSign, shellHold, driftA, driftB,
+            coreDriftA, coreDriftB, clampD, lRel, negSat,
             det: da.length === db.length && da.every((x2, i) => Object.is(x2, db[i])) };
         }
       }
@@ -6564,12 +6578,13 @@ if (!FAST) {
     const dm = ac.dfm || { missing: true };
     const dfmOk = !dm.missing && dm.massOk && dm.declOk && !dm.nan && dm.det
       && dm.p2 !== null && Math.abs(dm.p2 / ac.P_OBS - 1) < 0.005
-      && dm.e1 !== null && Math.abs(dm.e1 - 0.51675) < 0.02
+      && dm.e1 !== null && Math.abs(dm.e1 - 0.51677) < 0.02
       && dm.angSign === 1                      // 第204便: 公転の向きが ✨ と同回り(数学正)
-      && dm.driftA <= 0.2 && dm.driftB <= 0.2  // 第207便: 殻スピンが転写値の ±20% 内(実測 A +3.9%・B +8.9%)
-      && dm.clampD === 0                       // 第207便: クランプ非接触(第205便の飽和 ~4.8×10⁵ の解消)
-      && dm.omHold === true                    // 第207便: コア Ω=転写値を全窓保持(Kcs=0)
-      && dm.negSat === true                    // 第207便: 否定対照 — コア除去+転写半径で再び ±40 飽和
+      && dm.shellHold === true                 // 第208便: 殻スピン=観測自転を全窓ビット保持(min=max=転写値)
+      && dm.coreDriftA <= 0.2 && dm.coreDriftB <= 0.2   // 第208便: 偶力を受けたコア Ω は ±20% 内(実測 A +3.9%・B +8.9%)
+      && dm.clampD === 0                       // 第208便: クランプ非接触(第205便の飽和 ~4.8×10⁵ の解消)
+      && dm.lRel < 1e-8                        // 第208便: 角運動量帳簿(総L+リザーバ・coreJ 込み)が閉じる
+      && dm.negSat === true                    // 第208便: 否定対照 — coupleSink 除去で同じ光学半径のまま再飽和
       && ac.d.fam === 'variant';               // 第204便: 観測版 ✨ は variant(DFM版がメイン)
     add('behavior.alphaCenAB', csvRows.length === 9
       && declOk && !ac.kf0.nan && !ac.kf1.nan && ac.det
@@ -6584,12 +6599,13 @@ if (!FAST) {
       + `実測離心率 ${ac.kf0.ecc.toFixed(5)}(転写 0.51947)・座標最大 ${ac.kf0.maxAbs.toFixed(0)}(±5000 内) / `
       + `kF1(測定側・6%窓): 接触要素周期 +${(ac.kf1.growth * 100).toFixed(0)}%(宣言 +248% — 永年不安定を宣言どおり実測) / `
       + `経路等価: CSV ${csvRows.length}行 → buildAstroFromRecords が観測安定則発動(${ac.eq.stab})+内蔵とビット一致=${ac.eq.same} / `
-      + `✴️ DFM版(第203〜207便): 質量=✨×1.827(ビット照合 ${dm.massOk})・宣言(kF1・A/B=kF0・fitted 2ノブ f/R_shell・条件つき較正・二層の三句・core 規約)=${dm.declOk}・`
+      + `✴️ DFM版(第203〜208便): 質量=✨×1.827(ビット照合 ${dm.massOk})・宣言(kF1・A/B=kF0・外殻=転写光学半径ビット・coupleSink:core・fitted 2ノブ f/ζ・三句)=${dm.declOk}・`
       + `familyRole: ✴️=primary/✨=variant(第204便) / `
-      + `kF1+二層(R_shell=5)の2周目 ${dm.p2 === null ? '—' : yr(dm.p2).toFixed(3) + '年'}(観測 79.762 ±0.5%・宣言 79.780)・`
-      + `1周目 e=${dm.e1 === null ? '—' : dm.e1.toFixed(5)}(宣言 0.51675)・向き=✨と同回り(angSign=${dm.angSign} — 第204便)・`
-      + `殻スピンドリフト A ${(dm.driftA * 100).toFixed(1)}%/B ${(dm.driftB * 100).toFixed(1)}%(±20% 内)・clampSN Δ=${dm.clampD}(非接触 — 第205便の飽和の解消)・`
-      + `コアΩ保持=${dm.omHold}(Kcs=0・転写値)・否定対照(コア除去→再飽和)=${dm.negSat}・決定性=${dm.det} / `
+      + `kF1+役割反転二層の2周目 ${dm.p2 === null ? '—' : yr(dm.p2).toFixed(3) + '年'}(観測 79.762 ±0.5%・宣言 79.771)・`
+      + `1周目 e=${dm.e1 === null ? '—' : dm.e1.toFixed(5)}(宣言 0.51677)・向き=✨と同回り(angSign=${dm.angSign} — 第204便)・`
+      + `殻スピン=観測自転をビット保持(${dm.shellHold} — ドリフト A ${(dm.driftA * 100).toFixed(2)}%/B ${(dm.driftB * 100).toFixed(2)}%)・`
+      + `コアΩドリフト A ${(dm.coreDriftA * 100).toFixed(1)}%/B ${(dm.coreDriftB * 100).toFixed(1)}%(受け皿側 ±20% 内)・clampSN Δ=${dm.clampD}・`
+      + `帳簿残差 ${dm.lRel === undefined ? '—' : dm.lRel.toExponential(1)}(<1e-8)・否定対照(coupleSink除去→再飽和)=${dm.negSat}・決定性=${dm.det} / `
       + `決定性=${ac.det} / ${ac.kf0.steps}+${ac.kf1.steps}步`);
   } else {
     console.log('SKIP behavior.alphaCenAB(対象に第199便の ✨ なし — root 等)');
