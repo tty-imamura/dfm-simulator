@@ -4862,6 +4862,78 @@ if (!FAST) {
     }
   }
 
+  // ---- 第210便: core.tilt-sink — 歳差自由度(軸傾き)の機械固定 ----
+  // (a) 静的 tilt: z 射影 — コア Ω_z が Ω·cosθ になる(0°/60°/90° の用量)
+  // (b) coupleSink:"tilt": 偶力が J_z を容量 ±|J| 内で動かし、溢れはリザーバへ(保存的・clampTN 計数)。
+  //     点状慣性の容量(~0.08)は即時到達 = 第206便 §4「歳差経路は単独では主砲にならない」の機械確認。
+  //     殻スピンは全窓ビット凍結のまま・L 帳簿(coreJ+resL 込み)は閉じる
+  {
+    const hasTilt = await page.evaluate(() => {
+      const v = HP.validatePreset({ name: 't', description: 'd', camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+        physics: { G: 1, D0: 0.1, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 0.02, cLight: 60,
+          bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1, pnAlpha: 1.5,
+          radiusScale: 1, softening: 1, timeScale: 1 },
+        bodies: [{ type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 0.1, pinned: false,
+          core: { mode: 'differential', massFrac: 0.3, radius: 1, omega: 4, Kcs: 0, tilt: 60 } }] });
+      return v.ok && v.preset.bodies[0].core && v.preset.bodies[0].core.tilt === 60;
+    });
+    if (!hasTilt) {
+      console.log('SKIP core.tilt-sink(対象に第210便 tilt 未適用 — root 等)');
+    } else {
+      const r = await page.evaluate(() => {
+        const P_OBS = 2517.0973, SPA = 4.57371397, SPB = 2.00723302;
+        // (a) 静的 tilt の z 射影(⚫ の中心コア Ω=20 — Kcs=0 に固定して射影だけを見る)
+        const pb = HP.allPresets().find((q) => q.id === 'bhCore');
+        const proj = [0, 60, 90].map((deg) => {
+          const p = JSON.parse(JSON.stringify(pb));
+          p.bodies[0].core.Kcs = 0;
+          if (deg > 0) p.bodies[0].core.tilt = deg;
+          const v = HP.validatePreset(p);
+          if (!v.ok) return { err: v.errors[0] };
+          const S = HP.sim; S.build(v.preset); S.step(0.016);
+          return { om: S.coreOmV[0], warn: v.warnings.length };
+        });
+        // (b) 偶力→軸傾き経路(✴️ を coupleSink:"tilt"+点状コア慣性へ — 容量 ~0.08/0.015)
+        const pd = HP.allPresets().find((q) => q.id === 'alphaCenABDFM');
+        const p2 = JSON.parse(JSON.stringify(pd));
+        p2.physics.coupleSink = 'tilt';
+        delete p2.bodies[0].core.inertiaScale; delete p2.bodies[1].core.inertiaScale;
+        const v2 = HP.validatePreset(p2);
+        const S = HP.sim; S.build(v2.preset);
+        const cap = [S.coreJm[0], S.coreJm[1]];
+        const T0 = S.totals(); const L0 = T0.L + S.resL + S.radL;
+        const dt = 0.016, steps = Math.round(0.1 * P_OBS / dt);
+        let s0min = Infinity, s0max = -Infinity, s1min = Infinity, s1max = -Infinity, jAbsMax = 0;
+        for (let k = 0; k < steps; k++) {
+          S.step(dt);
+          if (S.spin[0] < s0min) s0min = S.spin[0]; if (S.spin[0] > s0max) s0max = S.spin[0];
+          if (S.spin[1] < s1min) s1min = S.spin[1]; if (S.spin[1] > s1max) s1max = S.spin[1];
+          const a0 = Math.abs(S.coreJ[0]) - cap[0], a1 = Math.abs(S.coreJ[1]) - cap[1];
+          if (a0 > jAbsMax) jAbsMax = a0; if (a1 > jAbsMax) jAbsMax = a1;
+        }
+        const T1 = S.totals(); const L1 = T1.L + S.resL + S.radL;
+        return { proj,
+          cap, jOver: jAbsMax,   // |J_z|−|J| の最大(≤0 = 容量内)
+          shellHold: s0min === s0max && s1min === s1max
+            && Math.abs(s0max / SPA - 1) < 1e-6 && Math.abs(s1max / SPB - 1) < 1e-6,
+          clampTN: S.clampTN || 0, clampSN: S.clampSN || 0,
+          lRel: Math.abs(L1 - L0) / Math.max(Math.abs(L0), 1e-9), nan: S.hasNaN() };
+      });
+      await page.evaluate(() => HP.loadPreset('saturn', false));
+      // 90° の cos は倍精度で 6.1e-17(厳密0ではない)— z 射影 Ω は ~1e-15 に落ちる。窓 1e-9
+      const pOk = !r.proj.some((p) => p.err || p.warn) && Math.abs(r.proj[0].om - 20) < 1e-6
+        && Math.abs(r.proj[1].om - 10) < 1e-6 && Math.abs(r.proj[2].om) < 1e-9;
+      add('core.tilt-sink',
+        pOk && r.shellHold && r.clampTN > 0 && r.clampSN === 0 && r.jOver <= 1e-12
+        && r.lRel < 1e-8 && !r.nan,
+        `静的 tilt の z 射影: コアΩ ${r.proj.map((p) => p.om.toFixed(3)).join('/')}(20·cosθ — 0°/60°/90°) / ` +
+        `偶力→軸傾き(coupleSink:"tilt"・点状慣性): 容量 |J|=[${r.cap.map((c) => c.toFixed(4)).join(', ')}]・` +
+        `|J_z|−|J| 最大 ${r.jOver.toExponential(1)}(≤0=容量内)・clampTN=${r.clampTN}(>0 — 容量到達・溢れはリザーバへ)・` +
+        `殻スピンはビット凍結=${r.shellHold}・clampSN=${r.clampSN}(=0)・L帳簿残差 ${r.lRel.toExponential(1)}(<1e-8) — ` +
+        `第206便 §4「点状慣性の歳差経路は単独では主砲にならない」の機械確認(保存的に成立)`);
+    }
+  }
+
   // ---- 8a2b4c) 第77便: 🌱starSeed — 圧縮スピンアップ+パワーボール ----
   // 差動種A: Ω 1.5→約162(比107.9・窓80〜140)・減光0.14→0.999(≥0.98)。rigid種B: 同じ揺すりで
   // 減速(spin 3→2.61・比0.8〜0.95)。帳簿込み総 L 保存(<1e-3)。対照(pump/contract 0)は不変

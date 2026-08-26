@@ -2179,10 +2179,14 @@ const FRAME_REACTION_KEY = "frameReaction", FRAME_REACTIONS = ["legacy","pairRed
 // "core" = 質量コア(differential/active)を持つ粒子は ΔJ=I_shell·Δs を J_core へ送る
 //          (殻スピンは不変。コアを持たない粒子・rigid/cavity はリザーバ帳簿 resL へ)/
 // "reservoir" = 全量をリザーバ帳簿 resL へ(第205便裁定事項(b)「偶力のリザーバ帳簿化」の実装)。
+// "tilt"(第210便 — 歳差自由度の探索)= 質量コアを持つ粒子の受取分を**コア回転軸の傾き**へ流す:
+//   J_z を容量 ±|J|(=I*·|ω₀| — build 時に coreJm へ確定)内で動かし(パワーボールの2Dアナログ —
+//   |J| は不変で z 射影 J_z=|J|cosθ だけが変わる)、容量を超えた分はリザーバ帳簿へ(clampTN 計数)。
+//   コアが無い側・容量 0(ω₀=0)は全量リザーバへ。
 // いずれも ΔL の行き先を変えるだけで総角運動量は閉じる(totals() は J_core と resL を含む)。
 // 線運動量側の反作用(φ 分配・対称インパルス)には一切触れない。適用は accS の一括適用点
 // (O(N²) の外)なので、対ループ本体は 1 文字も変わらない。
-const COUPLE_SINK_KEY = "coupleSink", COUPLE_SINKS = ["spin","core","reservoir"];
+const COUPLE_SINK_KEY = "coupleSink", COUPLE_SINKS = ["spin","core","reservoir","tilt"];
 // 第209便: physics.cmGauge — 孤立系の重心ゲージ(opt-in。省略時は現行 1 bit 不変)。
 // "barycentric" は pairReduced ③′ の反作用集積(対称インパルス+背景 D₀+W_B 持ち分)から
 // **自由粒子の共通加速度 Σm·Δv/Σm だけ**を除き、その運動量・角運動量を帳簿へ戻す。
@@ -8539,7 +8543,7 @@ function validatePreset(obj){
       }
       // 第208便: coupleSink も同じ流儀(非数値キー・既定 "spin" は ph へ入れない=署名不変)
       if(k===COUPLE_SINK_KEY){
-        if(COUPLE_SINKS.indexOf(p.physics[k])<0) warnings.push('physics.coupleSink は "spin"/"core"/"reservoir" のみ — 既定(spin)に修正');
+        if(COUPLE_SINKS.indexOf(p.physics[k])<0) warnings.push('physics.coupleSink は "spin"/"core"/"reservoir"/"tilt" のみ — 既定(spin)に修正');
         else if(p.physics[k]!=="spin") ph[k]=p.physics[k];
         continue;
       }
@@ -8654,6 +8658,16 @@ function validatePreset(obj){
         if(cav) warnings.push(at+".core.inertiaScale は cavity では無効 — 無視します");
         else if(!isNum(c.inertiaScale)){ bad(at+".core.inertiaScale が数値ではありません"); return false; }
         else oc.inertiaScale=wc(c.inertiaScale,1e-3,1e6,"core.inertiaScale");
+      }
+      // 第210便: tilt — コア回転軸の傾き θ[度・0〜180](opt-in。省略時はキーを持たず 1 bit 不変)。
+      // 2D エンジンが見るのは z 射影 J_z=|J|cosθ だけ(面内引きずり・スポーク表示・帳簿とも)。
+      // cavity は無効。Kcs/pump/contract(J_z を動かす既存機構)との併用は探索段では不可 —
+      // |J| 容量の帳簿が定義できないため tilt を無視する
+      if(c.tilt!==undefined){
+        if(cav) warnings.push(at+".core.tilt は cavity では無効 — 無視します");
+        else if(!isNum(c.tilt)){ bad(at+".core.tilt が数値ではありません"); return false; }
+        else if(oc.Kcs>0||oc.pump>0||oc.contract>0) warnings.push(at+".core.tilt は Kcs/pump/contract と併用不可 — 無視します");
+        else oc.tilt=wc(c.tilt,0,180,"core.tilt");
       }
       return oc;
     };
@@ -9953,6 +9967,13 @@ function applyCoupleSinkAlt(S, n, vx, vy, accVx, accVy, accS, Imom, cplSink){
   for(let i=0;i<n;i++){ vx[i]+=accVx[i]; vy[i]+=accVy[i];
     if(accS[i]!==0){ const dJc=Imom[i]*accS[i];
       if(cplSink===1 && (S.coreMd[i]===2||S.coreMd[i]===3)) S.coreJ[i]+=dJc;
+      else if(cplSink===3 && (S.coreMd[i]===2||S.coreMd[i]===3) && S.coreJm[i]>0){
+        // 第210便: 軸傾き経路 — J_z を容量 ±|J| 内で動かし、溢れはリザーバへ(保存的・clampTN 計数)
+        let nj=S.coreJ[i]+dJc;
+        if(nj>S.coreJm[i]){ S.resL+=nj-S.coreJm[i]; nj=S.coreJm[i]; S.clampTN++; }
+        else if(nj<-S.coreJm[i]){ S.resL+=nj+S.coreJm[i]; nj=-S.coreJm[i]; S.clampTN++; }
+        S.coreJ[i]=nj;
+      }
       else S.resL+=dJc; } }
 }
 // ③ cmGauge:"barycentric" の共通加速度除去(第209便 — 呼ばれるのは宣言したサンプルだけ。
@@ -10315,6 +10336,8 @@ function makeSim(){
     S.coreKcs=F(); S.corePump=F(); S.coreCtr=F(); S.coreOmV=F(); S.hasCoreV2=false;
     // 第208便: coreIS=コアの有効慣性倍率 ζ(既定1。I*_c=ζ·½·Mc·Rc² — 全 I_c 計算が共通で乗じる)
     S.coreIS=new Float64Array(n); S.coreIS.fill(1);
+    // 第210便: coreJm=|J| 容量(=I*·|ω₀| — coupleSink:"tilt" の軸傾き経路の上限。既定0)
+    S.coreJm=new Float64Array(n);
     // 第80便(コアv2 残段): coreEint=コア内部エネルギー(Float64 — 帳簿 coreSrcE と突き合わせる)・
     // coreSrc=sourceRate(active のみ)・coreOm0=cavity の規定 Ω(空洞は慣性0で J を持てないため、
     // Ω は状態変数ではなく規定値。differential 系は coreOmV=J/I を毎サブステップ再計算する)。
@@ -10561,19 +10584,21 @@ function makeSim(){
         const c=o.core;
         if(c.mode==="cavity"){
           S.coreMd[i]=4; S.coreMF[i]=-(c.voidFraction||0); S.RcV[i]=c.radius;
-          S.coreJ[i]=0; S.coreOm0[i]=c.omega||0; S.coreIS[i]=1;
+          S.coreJ[i]=0; S.coreOm0[i]=c.omega||0; S.coreIS[i]=1; S.coreJm[i]=0;
         } else {
           const Mc=c.massFrac*Math.abs(o.m||0);
-          // 第208便: inertiaScale(ζ・省略時1)— J 初期化と全 I_c 計算が同じ ζ を共有する
+          // 第208便: inertiaScale(ζ・省略時1)/第210便: tilt(軸傾き θ — 初期 J_z=|J|·cosθ。省略時 ct=1)
           const iS=(c.inertiaScale===undefined)?1:c.inertiaScale;
+          const ct=(c.tilt===undefined)?1:Math.cos(c.tilt*Math.PI/180);
           S.coreMd[i]=(c.mode==="rigid")?1:((c.mode==="active")?3:2);
           S.coreMF[i]=c.massFrac; S.RcV[i]=c.radius; S.coreIS[i]=iS;
-          S.coreJ[i]=0.5*Mc*c.radius*c.radius*iS*(c.omega||0); S.coreOm0[i]=0;
+          S.coreJ[i]=0.5*Mc*c.radius*c.radius*iS*(c.omega||0)*ct; S.coreOm0[i]=0;
+          S.coreJm[i]=Math.abs(0.5*Mc*c.radius*c.radius*iS*(c.omega||0));
         }
         S.coreKcs[i]=c.Kcs||0; S.corePump[i]=c.pump||0; S.coreCtr[i]=c.contract||0;
         S.coreSrc[i]=c.sourceRate||0; S.coreEint[i]=c.internalEnergy||0;
         S.hasCoreV2=true;
-      } else { S.coreMd[i]=0; S.coreMF[i]=0; S.RcV[i]=0; S.coreJ[i]=0; S.coreIS[i]=1;
+      } else { S.coreMd[i]=0; S.coreMF[i]=0; S.RcV[i]=0; S.coreJ[i]=0; S.coreIS[i]=1; S.coreJm[i]=0;
         S.coreKcs[i]=0; S.corePump[i]=0; S.coreCtr[i]=0;
         S.coreSrc[i]=0; S.coreEint[i]=0; S.coreOm0[i]=0; }
       S.railH[i]=o.railH||0;
@@ -10735,6 +10760,8 @@ function makeSim(){
     // 第72便: 実装と食い違っていた本コメントの旧案 0.8/Δs を現行仕様へ同期〔ChatGPT Release
     // レビュー P1〕)の発動回数。超過分はリザーバ帳簿へ(_core ③末尾)
     S.clampRN=0;
+    // 第210便: clampTN = coupleSink:"tilt" の容量 ±|J| 到達回数(溢れはリザーバへ — 保存的)
+    S.clampTN=0;
     S.curveBins=null; S.tempLR=[0,0]; S.histT=[];
   };
   S.updateRadii = function(){ // R_i = radiusScale·rMul_i·√|m| (PHYSICS.md §2 + 第36便 C1)
@@ -10944,9 +10971,10 @@ function makeSim(){
             S.coreKcs[i]=S.coreKcs[src]; S.corePump[i]=S.corePump[src];
             S.coreCtr[i]=S.coreCtr[src]; S.coreSrc[i]=S.coreSrc[src];
             S.coreIS[i]=S.coreIS[src];   // 第208便: ζ は他の係数と同じ継承元(重い側/持つ側)
+            S.coreJm[i]=(hi2?S.coreJm[i]:0)+(hj2?S.coreJm[j]:0);   // 第210便: |J| 容量は和で継承
           } else {   // 双方 cavity: 空洞は融合で消える(質量0・J0 なので帳簿の出入りは無い)
             S.coreMd[i]=0; S.coreMF[i]=0; S.RcV[i]=0; S.coreJ[i]=0; S.coreEint[i]=0;
-            S.coreKcs[i]=0; S.corePump[i]=0; S.coreCtr[i]=0; S.coreSrc[i]=0; S.coreOm0[i]=0; S.coreIS[i]=1;
+            S.coreKcs[i]=0; S.corePump[i]=0; S.coreCtr[i]=0; S.coreSrc[i]=0; S.coreOm0[i]=0; S.coreIS[i]=1; S.coreJm[i]=0;
           }
         }
         // (obsT/coreOT は第61便で廃止 — 質量重み合成も不要に)
@@ -11016,7 +11044,7 @@ function makeSim(){
     const mv=(a)=>{ if(!a) return; for(let t=0;t<k;t++){ const s0=keep[t]; if(s0!==t) a[t]=a[s0]; } };
     for(const key of ["m","x","y","vx","vy","spin","R","rotA","mEff","rotAc",
       "coreMd","coreMF","RcV","coreJ","coreKcs","corePump","coreCtr",   // 第77便(コアv2)
-      "coreEint","coreSrc","coreOm0","coreIS",   // 第80便(コアv2 残段)/第208便: 有効慣性倍率 ζ
+      "coreEint","coreSrc","coreOm0","coreIS","coreJm",   // 第80便/第208便 ζ/第210便 |J| 容量
       "lSw","radOv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
@@ -11052,7 +11080,7 @@ function makeSim(){
     const nc=Math.max(need, cap+Math.max(8, cap>>1));
     for(const key of ["m","x","y","vx","vy","spin","R","rotA","mEff","rotAc",
       "coreMd","coreMF","RcV","coreJ","coreKcs","corePump","coreCtr",   // 第77便(コアv2)
-      "coreEint","coreSrc","coreOm0","coreIS",   // 第80便(コアv2 残段)/第208便: 有効慣性倍率 ζ
+      "coreEint","coreSrc","coreOm0","coreIS","coreJm",   // 第80便/第208便 ζ/第210便 |J| 容量
       "lSw","radOv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
@@ -11203,9 +11231,10 @@ function makeSim(){
         S.coreEint[j]=S.coreEint[i]-E1c; S.coreEint[i]=E1c;
         S.coreKcs[j]=S.coreKcs[i]; S.corePump[j]=S.corePump[i]; S.coreCtr[j]=S.coreCtr[i];
         S.coreSrc[j]=S.coreSrc[i]; S.coreOm0[j]=S.coreOm0[i]; S.coreIS[j]=S.coreIS[i];   // 第208便: ζ は両片が親を継ぐ
+        const Jm1=S.coreJm[i]*f1; S.coreJm[j]=S.coreJm[i]-Jm1; S.coreJm[i]=Jm1;   // 第210便: 容量も質量比例
       } else {
         S.coreMd[j]=0; S.coreMF[j]=0; S.RcV[j]=0; S.coreJ[j]=0; S.coreKcs[j]=0; S.corePump[j]=0; S.coreCtr[j]=0;
-        S.coreEint[j]=0; S.coreSrc[j]=0; S.coreOm0[j]=0; S.coreIS[j]=1;
+        S.coreEint[j]=0; S.coreSrc[j]=0; S.coreOm0[j]=0; S.coreIS[j]=1; S.coreJm[j]=0;
       }
       // 材質係数は両片が親を引き継ぐ(分裂は同じ材質の2片に割れる)
       S.lSw[j]=S.lSw[i]; S.lSwAuto[j]=S.lSwAuto[i]; S.tau[j]=S.tau[i];
@@ -11343,7 +11372,7 @@ function makeSim(){
     const pairR=(p[FRAME_REACTION_KEY]==="pairReduced") && kFrame>0;
     // 第208便: coupleSink — E6′ 残余トルクの受け先(0="spin"=既定・1="core"・2="reservoir")。
     // 0 の既定経路は accS の一括適用が従来の1行のままなので 1 bit も変わらない
-    const cplSink=(p[COUPLE_SINK_KEY]==="core")?1:((p[COUPLE_SINK_KEY]==="reservoir")?2:0);
+    const cplSink=(p[COUPLE_SINK_KEY]==="core")?1:((p[COUPLE_SINK_KEY]==="reservoir")?2:((p[COUPLE_SINK_KEY]==="tilt")?3:0));
     // 第209便: cmGauge(0=既定・素通り/1="barycentric")— 適用本体は cmGaugeSubtract(S._core の外)
     const cmg=(p[CM_GAUGE_KEY]==="barycentric")?1:0;
     if(pairR && (!S._pr || S._pr.nAl!==n)) S._pr={nAl:n, reqX:new Float64Array(n), reqY:new Float64Array(n), hasR:new Uint8Array(n)};
@@ -15673,7 +15702,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
     for(const k of ["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy",
       "mEff","rotAc",                          // 第81便: コアv1(coreMR/coreSR/Rc)は廃止
       "coreMd","coreMF","RcV","coreJ","coreKcs","corePump","coreCtr",   // 第77便(コアv2)
-      "coreEint","coreSrc","coreOm0","coreIS",   // 第80便(コアv2 残段)/第208便: 有効慣性倍率 ζ
+      "coreEint","coreSrc","coreOm0","coreIS","coreJm",   // 第80便/第208便 ζ/第210便 |J| 容量
       "lSw","radOv",                           // 観測系(第22便 — obsT/coreOT は第61便で廃止)
       "rMulv","lSwAuto",                       // 第36便 C1/C2: 半径倍率・掻出の自動算出フラグ
       // 第45便 45B: 転写長は「A 側の生存粒子数 sim.n」に固定する(分裂で確保長が A 側だけ
@@ -15875,11 +15904,11 @@ let ckSnap=null;
 const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU","pinned",
   "mEff","rotAc","lSw","radOv","rMulv","lSwAuto",   // 第81便: コアv1 配列は廃止
   "coreMd","coreMF","RcV","coreJ","coreKcs","corePump","coreCtr",
-  "coreEint","coreSrc","coreOm0","coreIS",   // 第80便(コアv2 残段)/第208便: 有効慣性倍率 ζ
+  "coreEint","coreSrc","coreOm0","coreIS","coreJm",   // 第80便/第208便 ζ/第210便 |J| 容量
   "railR","railAng","railOmega","railCx","railCy","railH",
   "Tint","coordN","coordAcc","shPrev","_phNbrPrev","_phNbrPrevN","_phProf"];
 const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wallKE","pinHeat","coreWork","coreSrcE",
-  "clampVN","clampSN","clampHN","clampAN","clampRN","angOvfN","_phAcc","_phNbrInit",
+  "clampVN","clampSN","clampHN","clampAN","clampRN","clampTN","angOvfN","_phAcc","_phNbrInit",
   "fusN","fusU","fusPx","fusPy","fusL","fisN","aEffRef","_bhLastA","_bhLastT","_bhAcc"];
 function ckInvalidate(){ ckSnap=null; $("#btnCkLoad").disabled=true; }
 // 第63便(原仮定者指示): チェックポイントを A/B 比較の B 側にも対応 — A/B 中の保存は
@@ -16163,6 +16192,7 @@ function applyCLink(S,k){
   for(let i=0;i<S.n;i++){
     S.vx[i]*=k; S.vy[i]*=k; S.spin[i]*=k;
     if(S.coreJ) S.coreJ[i]*=k;
+    if(S.coreJm) S.coreJm[i]*=Math.abs(k);   // 第210便: |J| 容量も同倍率(符号なし)
     if(S.coreOm0) S.coreOm0[i]*=k;
     if(S.coreSrc) S.coreSrc[i]*=k*k*k;
     if(S.coreEint) S.coreEint[i]*=k*k;
@@ -21331,6 +21361,8 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
       voidFraction:0, mass:Mc, Rc:S.RcV[i],
       J:S.coreJ[i], omega:(Ic>1e-12)? S.coreJ[i]/Ic : 0, Eint:S.coreEint[i],
       sourceRate:S.coreSrc[i], Kcs:S.coreKcs[i], inertiaScale:S.coreIS[i],
+      // 第210便: |J| 容量と傾き(J_z=|J|cosθ の逆算 — Jm=0 は「傾き自由度なし」)
+      Jmag:S.coreJm[i], tiltDeg:(S.coreJm[i]>0)? Math.acos(Math.max(-1,Math.min(1,S.coreJ[i]/S.coreJm[i])))*180/Math.PI : null,
       pump:S.corePump[i], contract:S.coreCtr[i] }; },
   // 第81便: カメラ天体追従(表示専用)のQA用フック — 物理・保存には一切影響しない
   camState:()=>({x:camX, y:camY, scale:camScale, mode:camFollowMode, idx:camFollowIdx(),
