@@ -732,10 +732,10 @@ if (want(8)) {
     `kF=1 は全内側帯で kF=0 を上回る(r=${kFrame1[cmp[0]].rMid.toFixed(1)}: ${kFrame1[cmp[0]].mean.toFixed(3)} vs ${kFrame0[cmp[0]].mean.toFixed(3)} / `
     + `r=${kFrame1[cmp[1]].rMid.toFixed(1)}: ${kFrame1[cmp[1]].mean.toFixed(3)} vs ${kFrame0[cmp[1]].mean.toFixed(3)})`);
   gate('p2fig8.outerboost', outerBoost.mean > 1.04 && !perSeed.some(s => s.nan),
-    `外縁増強(kF1/kF0, r∈[156,286]) = ${outerBoost.mean.toFixed(3)} ± ${outerBoost.sd.toFixed(3)}(本文 1.329±0.008・8seed — 第216便 rMul 撤去後)`);
+    `外縁増強(kF1/kF0, r∈[156,286]) = ${outerBoost.mean.toFixed(3)} ± ${outerBoost.sd.toFixed(3)}(本文 1.321±0.011・8seed — 第218便 除外恒久原理化後)`);
   gate('p2fig8.profile', innermostUsableBand.mean > outermostUsableBand.mean,
-    `帯別増強比は内側ほど大: ${innermostUsableBand.mean.toFixed(2)}(r=${innermostUsableBand.rMid.toFixed(0)}・本文 1.34)→ `
-    + `${outermostUsableBand.mean.toFixed(2)}(r=${outermostUsableBand.rMid.toFixed(0)}・本文 1.16)。`
+    `帯別増強比は内側ほど大: ${innermostUsableBand.mean.toFixed(2)}(r=${innermostUsableBand.rMid.toFixed(0)}・本文 1.32)→ `
+    + `${outermostUsableBand.mean.toFixed(2)}(r=${outermostUsableBand.rMid.toFixed(0)}・本文 1.14)。`
     + `全帯 ${enhancementByBand.map(e => e.mean === null ? 'n/a' : e.mean.toFixed(2)).join('/')}`);
 
   // ---- 第143便(P0-1): キャプション・ゲート(既存20件に追加する1件 — 計21→22件)----

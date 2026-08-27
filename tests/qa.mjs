@@ -4995,23 +4995,24 @@ if (!FAST) {
     }
   }
 
-  // ---- 第213便→第216便: preset.rmul-audit — rMul 使用状況の機械固定 ----
+  // ---- 第213便→第216便→第218便: preset.rmul-audit — rMul 使用状況+除外原理の機械固定 ----
   // 対象ゲート: rMul:1 の整理は第213便(v1.43 世代)なので、同世代の機能(第212便 applyCoreEdit —
   // 同一リリース線で常に同伴)で feature-detect し、前世代 root では SKIP する
-  // 経緯: 第213便の調査で「明示半径(radius>0)つき single の rMul も死にノブではない」
-  // (群生成の大質量除外半径 noteBig が radius ではなく rs·rMul·√m を読む — 第36便 C1)と判明し
-  // 一旦温存 → 第16報の原仮定者裁定「サンプルの意図に影響しなければ初期配置の変化を許容」で
-  // **第216便が11ノブを全廃**(実測 gen-w216a: 意図違反ゼロ — 粒の天体内部湧き0・変化は
-  // galaxy×4/darkrotor/bhCore の6件のみ・massLadder は bit 不変。noteBig の式・m≥40 は不変)。
+  // 経緯: 第213便=rMul:1 の36箇所削除(noteBig がレガシー式 rs·rMul·√m を読むため radius 併記
+  // single の rMul は温存)→ 第216便=同 11ノブ全廃(原仮定者裁定 — 式・m≥40 は不変)→
+  // **第218便=除外の恒久原理へ再設計**(第17報 — 「座標を指定して配置された粒子=除外対象・
+  // 除外半径=実半径・2パス先取り」。しきい値 m≥40 とレガシー式は廃止 — S.exclMode="placed")。
   // 本テストは (a) lint: 内蔵に rMul:1 の書き出しと「radius 併記 single の rMul」が再導入されない
-  // こと、(b) noteBig 経路の生存(galaxy 中心へ rMul:1.2 を**足すと**初期配置が変わる否定対照 —
-  // lint の存在理由そのもの)を機械固定する
+  // こと、(b) 新原理の生存対照2本: ①radius が除外半径を駆動(galaxy 中心の radius 15→40 で
+  // 初期配置が変わる)②radius なし single では rMul が除外半径を駆動(merger 核の rMul 1.2→2.5 で
+  // 初期配置が変わる — lint が radius 併記に限る理由)を機械固定する
   {
     const has213 = await page.evaluate(() => typeof (HP.sim && HP.sim.applyCoreEdit) === 'function');
+    const has218 = await page.evaluate(() => { HP.loadPreset('galaxy', false); return HP.sim.exclMode === 'placed'; });
     if (!has213) {
       console.log('SKIP preset.rmul-audit(対象に第213便の rMul 整理なし — root 等)');
     } else {
-    const r = await page.evaluate(() => {
+    const r = await page.evaluate((has218in) => {
       const ones = [], radSingles = [];
       for (const p of HP.allPresets())
         (p.bodies || []).forEach((b, bi) => {
@@ -5019,24 +5020,39 @@ if (!FAST) {
           if ((b.type === 'single' || b.type === undefined) && b.rMul !== undefined
               && typeof b.radius === 'number' && b.radius > 0) radSingles.push(p.id + '#' + bi);
         });
-      const p0 = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'galaxy')));
-      const p1 = JSON.parse(JSON.stringify(p0));
-      p1.bodies[0].rMul = 1.2;   // 明示半径つき中心(radius:15・第216便で rMul 撤去済み)へ足し戻す
       const S = HP.sim;
       const snap = (pp) => { const v = HP.validatePreset(pp); S.build(v.preset);
         const o = []; for (let i = 0; i < S.n; i++) o.push(S.x[i], S.y[i]); return o; };
-      const a = snap(p0), b = snap(p1);
-      const differs = !(a.length === b.length && a.every((x, i) => Object.is(x, b[i])));
+      const same = (a, b) => a.length === b.length && a.every((x, i) => Object.is(x, b[i]));
+      let ctlRadius, ctlRmul;
+      if (has218in) {
+        // ①galaxy 中心(radius:15)の radius を 40 へ — 実半径が除外を駆動する対照
+        const g0 = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'galaxy')));
+        const g1 = JSON.parse(JSON.stringify(g0)); g1.bodies[0].radius = 40;
+        ctlRadius = !same(snap(g0), snap(g1));
+        // ②merger 核(radius なし・rMul:1.2)の rMul を 2.5 へ — 従来写像側の rMul が除外を駆動
+        const m0 = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'merger')));
+        const m1 = JSON.parse(JSON.stringify(m0)); m1.bodies[0].rMul = 2.5;
+        ctlRmul = !same(snap(m0), snap(m1));
+      } else {
+        // 第216便世代(exclMode なし): 旧対照 — galaxy 中心へ rMul:1.2 を足すと変わる
+        const p0 = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'galaxy')));
+        const p1 = JSON.parse(JSON.stringify(p0)); p1.bodies[0].rMul = 1.2;
+        ctlRadius = !same(snap(p0), snap(p1)); ctlRmul = true;
+      }
       HP.loadPreset('saturn', false);
-      return { ones, radSingles, differs };
-    });
+      return { ones, radSingles, ctlRadius, ctlRmul };
+    }, has218);
     add('preset.rmul-audit',
-      r.ones.length === 0 && r.radSingles.length === 0 && r.differs === true,
+      r.ones.length === 0 && r.radSingles.length === 0 && r.ctlRadius === true && r.ctlRmul === true,
       `lint: rMul:1 書き出し=${r.ones.length}件・radius 併記 single の rMul=${r.radSingles.length}件` +
       `(いずれも0 — 第213便/第216便で削除・再導入防止)` +
       `${(r.ones.length || r.radSingles.length) ? ' NG=[' + r.ones.concat(r.radSingles).slice(0, 6).join(' ') + ']' : ''} / ` +
-      `否定対照: galaxy 中心(radius:15)へ rMul:1.2 を足すと初期配置が変わる=${r.differs}` +
-      `(noteBig の除外半径が rs·rMul·√m を読む — 貼付互換のため式は維持・lint が内蔵側を守る)`);
+      (has218
+        ? `生存対照(第218便原理): galaxy 中心 radius 15→40 で配置が変わる=${r.ctlRadius}・` +
+          `merger 核(radius なし)rMul 1.2→2.5 で配置が変わる=${r.ctlRmul}` +
+          `(除外=配置粒子の実半径 — radius 併記では rMul が除外にも効かないので lint で禁止できる)`
+        : `否定対照(第216便世代): galaxy 中心へ rMul:1.2 を足すと配置が変わる=${r.ctlRadius}`));
     }
   }
 
@@ -5555,8 +5571,13 @@ if (!FAST) {
   // 中心 lSw>0.95・アーク帯 lS̄>0.85(暗黒帯)。対照は kRep=0(圧力オフ)で脱出≤3(実測0)。
   // ※ガスのスピンを0にするだけでは対照にならない — 中心・アークの回転が E6′残余トルクで
   //   スピンを再注入し圧力が再点火する(実測32体脱出 — 説明文に明記済み)
+  // 第218便: 除外の恒久原理化(アーク22体の除外が実半径8基準)で初期配置が変わり、
+  //   固定seed の実測 0.610→0.762 — 窓を 0.65〜0.88 へ再較正(16seed 幅 0.556〜0.762 は
+  //   multiseed の窓 0.45〜0.9 が受け持つ)。旧世代(root 等)は exclMode で判別し旧窓を当てる
   {
     const hasBip = await page.evaluate(() => HP.allPresets().some(p => p.id === 'nebulaBipolar'));
+    const has218nb = hasBip && await page.evaluate(() => { HP.loadPreset('nebulaBipolar', false); return HP.sim.exclMode === 'placed'; });
+    const NBW = has218nb ? [0.65, 0.88] : [0.5, 0.72];
     if (hasBip) {
       const r = await page.evaluate(() => {
         HP.loadPreset('nebulaBipolar', false);
@@ -5577,9 +5598,9 @@ if (!FAST) {
         return res;
       });
       add('claim.nebulabipolar-polar',
-        !r.bad && r.esc >= 30 && r.esc <= 55 && r.frac >= 0.5 && r.frac <= 0.72
+        !r.bad && r.esc >= 30 && r.esc <= 55 && r.frac >= NBW[0] && r.frac <= NBW[1]
         && r.lSwC > 0.95 && r.lSwArc > 0.85 && r.ctrlEsc <= 3,
-        `脱出=${r.esc}(30〜55) 極方向比=${r.frac.toFixed(3)}(窓0.5〜0.72・等方1/3・実測0.610) / ` +
+        `脱出=${r.esc}(30〜55) 極方向比=${r.frac.toFixed(3)}(窓${NBW[0]}〜${NBW[1]}・等方1/3・実測${has218nb ? '0.762(第218便)' : '0.610'}) / ` +
         `中心lSw=${r.lSwC.toFixed(2)}(>0.95) アーク帯lS̄=${r.lSwArc.toFixed(3)}(>0.85) / ` +
         `スピン0対照 脱出=${r.ctrlEsc}(≤3 — 圧力が唯一の駆動源)`);
     } else {
@@ -12501,11 +12522,16 @@ if (hasEchoFlipAt) {
     // 第216便: rMul 撤去 = 🌌🕶️ の初期配置が変わる意図的な変更(🕶️ は BH 初速再解込み)。
     // 中心 body の rMul 宣言有無で世代判別し、撤去後の対象だけ再採取基準(gen-w216d)を当てる。
     // 他4件(🪐/counterring/freebox/echo)は第216便で 1 ビットも変わっていない(全数回帰照合済み)
+    // 第218便: 除外原理の再設計(配置粒子=除外・実半径・2パス — S.exclMode="placed")で
+    // 🌌 の初期配置が再度変わる(除外 50→16)= 意図的な変更 → 再採取(gen-w216d 再実行)。
+    // 🕶️ は環 rIn=70 が全除外圏の外で **bit 不変**(基準は第216便のまま — 実測確認済み)
     const has216zc = await page.evaluate(() =>
       HP.allPresets().find((q) => q.id === 'galaxy').bodies[0].rMul === undefined);
+    const has218zc = await page.evaluate(() => { HP.loadPreset('galaxy', false); return HP.sim.exclMode === 'placed'; });
     const ZC = hasC30zc ? {
-      galaxy: [has216zc ? 'd208837773145e61e53642c40d6477f1bde3a1836c09b24fadffbc284a43c814'
-        : galRolled ? '6c56d8c7023a08b73162d08827202c7ebe24e31bdd41bc1206a351a667566f9d' : 'b08e5869a4f02c427bbc4194af947bf5505526a5b0b37edfd43327bc456ea1a3', 381],   // 第216便: rMul 撤去世代は再採取 / 第108便A: 巻き戻し世代(G=0.8)は再採取ハッシュ・変換世代(root v1.39 = G=0.2)は96便実測のまま
+      galaxy: [has218zc ? '7b0e10ec63c90c86fa9a72d92787381baf375392fa274737dabf40455136f471'
+        : has216zc ? 'd208837773145e61e53642c40d6477f1bde3a1836c09b24fadffbc284a43c814'
+        : galRolled ? '6c56d8c7023a08b73162d08827202c7ebe24e31bdd41bc1206a351a667566f9d' : 'b08e5869a4f02c427bbc4194af947bf5505526a5b0b37edfd43327bc456ea1a3', 381],   // 第218便/第216便: 各世代で再採取 / 第108便A: 巻き戻し世代(G=0.8)は再採取ハッシュ・変換世代(root v1.39 = G=0.2)は96便実測のまま
       saturn: hasSat240
         ? ['5a4e97ec425c03b30803e3f8bc4dc419b66f57d1c1a62cd0d5a6df8e7e480085', 241]
         : ['d77783f2c321a6c84a457492d869a5d68a35061c82d957d0597a5864e3938fbb', 301],
@@ -12706,9 +12732,12 @@ if (hasEchoFlipAt) {
       const galRolledMb = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'galaxy').physics.G === 0.8);
       // 第216便: rMul 撤去世代(🌌 中心の rMul 宣言なし)は再採取基準(gen-w216d — tint.zero-cost と同値。
       // 🌌 は thermal=spin で Tint 連結なしのため両テストのハッシュは同一)
+      // 第218便: 除外原理再設計世代(S.exclMode="placed")はさらに再採取
       const has216mb = await page.evaluate(() =>
         HP.allPresets().find((q) => q.id === 'galaxy').bodies[0].rMul === undefined);
-      MB.galaxy = has216mb ? 'd208837773145e61e53642c40d6477f1bde3a1836c09b24fadffbc284a43c814'
+      const has218mb = await page.evaluate(() => { HP.loadPreset('galaxy', false); return HP.sim.exclMode === 'placed'; });
+      MB.galaxy = has218mb ? '7b0e10ec63c90c86fa9a72d92787381baf375392fa274737dabf40455136f471'
+        : has216mb ? 'd208837773145e61e53642c40d6477f1bde3a1836c09b24fadffbc284a43c814'
         : galRolledMb ? '6c56d8c7023a08b73162d08827202c7ebe24e31bdd41bc1206a351a667566f9d' : 'b08e5869a4f02c427bbc4194af947bf5505526a5b0b37edfd43327bc456ea1a3';   // 第108便A: 巻き戻し世代(G=0.8)は再採取・変換世代(root)は96便実測のまま
     }
     const run = (pid, mon, kF) => page.evaluate(({ pid, mon, kF }) => {
@@ -14716,17 +14745,23 @@ if (hasSwAutoCb) {
     const r = await w5cGetUnit('agnjet');
     const d = r.jetDef, c = r.jetCtrl;
     const ratio = c.frac > 0 ? d.frac / c.frac : Infinity;
-    // 実測(beta 2026-07-27・内蔵プリセットそのもの。1000步ごと・内縁起源 37 粒子中):
+    // 実測(beta 2026-07-27・旧配置。1000步ごと・内縁起源 37 粒子中):
     //   步数        1000  2000  3000  4000  5000  6000
     //   既定 kRep=2  —    0.895 0.815 0.839 0.758 0.758(極/赤道 4000步で 26/0)
     //   対照 kRep=0  —    0.583 0.526 0.542 0.560 0.560
-    //   全ガスで測っても 4000步 0.689(等方の 2.07 倍)/ 対照 0.483
-    // 閾値: 極方向割合 ≥ 2/3(=等方 1/3 の2倍。実測 0.839 = 1.26倍の余裕。窓 2000〜6000步 の
-    //       最小 0.758 でも 1.14倍上)/ 対照比 ≥ 1.25(実測 1.55)/ 脱出数 ≥ 20(実測 31)
+    // 第218便再実測(除外の恒久原理化 — ガス帯がエンジン表面直上 r≈19 から始まる配置。
+    //   内縁起源 75 粒子中・gen-w218d):
+    //   步数        2000   3000   4000   5000   6000
+    //   既定 kRep=2  0.786  0.688  0.652  0.623  0.614(極/赤道 4000步で 43/9・脱出66)
+    //   対照 kRep=0  0.600  0.455  0.415  0.411  0.426(比 1.31〜1.57)
+    // 閾値: 極方向割合 ≥ 0.52(旧 2/3 — 旧実測 0.839÷1.26 と同じマージン則で 0.652÷1.26≈0.52。
+    //       窓 2000〜6000步の最小 0.614 でも 1.18倍上。等方 1/3 の 1.56 倍)/
+    //       対照比 ≥ 1.25(実測 1.57)/ 脱出数 ≥ 20(実測 66)。旧配置の root は 0.839 で
+    //       新閾値も大きく上回るため世代分岐は不要(検査の意味は不変・弱化は宣言済み再較正)
     add('behavior.agnjet',
-      !d.nan && !c.nan && d.tot >= 20 && d.frac >= 2 / 3 && ratio >= 1.25,
+      !d.nan && !c.nan && d.tot >= 20 && d.frac >= 0.52 && ratio >= 1.25,
       `4000步・内縁(初期|x|≤80)起源で r>300 へ出たガス: 既定(kRep=2) ${d.tot}個中 極方向(±y±30°)=${d.pol} ` +
-      `赤道方向(±x±30°)=${d.eq} → 割合=${d.frac.toFixed(3)}(等方=1/3 の ${(d.frac * 3).toFixed(2)}倍・閾値 2/3) / ` +
+      `赤道方向(±x±30°)=${d.eq} → 割合=${d.frac.toFixed(3)}(等方=1/3 の ${(d.frac * 3).toFixed(2)}倍・閾値 0.52〔第218便再較正〕) / ` +
       `対照(kRep=0) ${c.tot}個中 極=${c.pol} 赤道=${c.eq} → 割合=${c.frac.toFixed(3)}(比=${ratio.toFixed(2)}倍 ≥1.25)`);
   } else {
     console.log('SKIP behavior.agnjet(QA_FAST=1 または対象に 🌋agnjet なし — 第37便 D2 未適用の root 等)');
@@ -15628,8 +15663,10 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       const inRange = (x, e) => !!e && Number.isFinite(x) && x >= e.min && x <= e.max;
       const out = {};
 
-      // agnjet.polar-fraction: ja "…84%が±y…"(既定 kRep=2)/ "…実測54% —…"(対照 kRep=0)。
-      // behavior.agnjet の実閾値: 既定 frac≥2/3・対照比(既定/対照)≥1.25 と矛盾しないか
+      // agnjet.polar-fraction: ja "…65%が±y…"(既定 kRep=2)/ "…実測42% —…"(対照 kRep=0)。
+      // behavior.agnjet の実閾値: 既定 frac≥0.52(第218便再較正 — 旧 2/3)・対照比≥1.25 と
+      // 矛盾しないか。旧世代(root: 窓下限0.75・対照上限0.58)も 0.75≥0.52・0.75/0.58=1.29≥1.25
+      // で同じ定数を満たすため世代分岐は不要
       {
         const agn = get('agnjet');
         const c = findClaim(agn, 'agnjet.polar-fraction');
@@ -15642,7 +15679,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
           found: !!c, descMatch: !!mDef && !!mCtl, defVal, ctlVal,
           defInRange: !!c && inRange(defVal, c.expected),
           ctlInRange: !!c && !!c.control && inRange(ctlVal, c.control.expected),
-          thresholdOk: !!c && c.expected.min >= 2 / 3
+          thresholdOk: !!c && c.expected.min >= 0.52
             && !!c.control && (c.expected.min / c.control.expected.max) >= 1.25,
         };
       }

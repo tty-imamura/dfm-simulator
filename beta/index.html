@@ -4031,32 +4031,32 @@ const BUILTIN_PRESETS = [
   // 24 body 定義のうち **22体(赤道ダークアーク)が pinned** で、ローブを立てている「赤道を塞ぐ幾何」
   // そのものが外部から固定されている ⇒ **閉鎖系ではない**。E水準の定義により E2/E3 には該当せず、
   // **E1(外部駆動下の自己組織化)** が正しい着地である(昇格ありきにしない)。
-  // その上で E1 の中身の頑健性を実測した: ③多seed16(極方向比の最小0.537 = 等方の1.61倍)・
+  // その上で E1 の中身の頑健性を実測した: ③多seed16(第218便再実測: 最小0.556 = 等方の1.67倍)・
   // ④ガス数30/60/120(中央0.750/0.677/0.653)・⑤摂動回復(速さRMS100%まで無摂動と同水準)・
   // ⑥時間窓(2500〜3250步で脱出開始・4000步以降ほぼ横ばい)。tests/exp-4-88.mjs
   emergence:"E1",
   descStruct:{
     summary:"惑星状星雲や双極星雲の「暗い帯+明るい2つのローブ」を、ダークローター部品で組んだ思考実験。中心に重殻ダークローター(殻はゆっくり・コアは高速 — 2層減光〔第75便拡張〕で真っ暗)、赤道(±x)を挟む±50°に重殻ダークアーク22個(暗黒トーラスの2D断面)、内側に高スピン=高温のガス60個。ガスは熱の斥力(E5′)で押し合うが、赤道はアークに塞がれている — 抵抗の少ない極方向(±y)だけが出口になり、上下2つの光るローブになる(🌋と同じ「圧力+幾何」の機構を星雲の構成で)。実在の惑星状星雲・双極流の再現主張ではない(Negative Claims)。",
-    observe:"実測(seed固定・6000步): 系外(r>200)へ達したガス37体のうち±y30°以内が0.62(等方なら1/3 — 1.9倍の集中)。中心は減光1.00・アーク帯は平均0.94で真っ暗(c₀=30 で飽和側 — v1.38〔c₀=40〕は0.92。脱出数・極方向比など力学量は全て v1.38 と一致) — 「暗い帯に挟まれた明るいローブ」の明暗が立つ。アークは pinned(外部固定)なので閉鎖系ではない(バッジ参照)。熱圧を切った対照(kRep=0)では脱出が0体になり、ローブは立たない — 圧力が唯一の駆動源であることの機械対照。※創発の標準試験(第84便B・詳細はdocs/PHYSICS.md「創発水準(E0〜E3)と標準試験」): このサンプルはまず構成で水準が決まる — 24体の定義のうち22体(赤道ダークアーク)がpinnedで、ローブを立てている「赤道を塞ぐ幾何」そのものが外から固定されている。したがって閉鎖系ではなく、E水準は**E1(外部駆動下の自己組織化)**であって、閉鎖系を要件とするE2/E3には定義上該当しない — 昇格しないことがこのサンプルの正しい着地である。そのうえで、E1の中身(局所則から秩序が立つこと)がどれだけ頑健かを4試験で実測した。【多seed16】20260804〜20260819の16seedで極方向比は0.537〜0.833(中央0.675)に分布し、16seedを通した極方向比の最小は0.537 — 等方の1/3に対して最小でも1.61倍(中央2.02倍)の集中が残る。脱出は34〜46体/60、中心の減光は16seedすべてで1.000、アーク帯の平均減光も0.944でほぼ一定(c₀=30 飽和側 — v1.38 は0.918)。圧力オフ対照の脱出は16seedで最大1体(16seed中15seedは厳密に0)。※上の固定seed窓0.5〜0.72は内蔵seed1本のドリフト検出用であって、seedを通した再現幅(0.537〜0.833)はそれより広い — 固定seed窓を再現性の主張として読んではいけない。【粒子数スケーリング】ガスn=30/60/120で極方向比の中央値は0.750/0.677/0.653、脱出率は0.57〜0.77でほぼ一定、圧力オフ対照はどのnでも脱出0 — 特定の粒子数の離散模様ではない。ただしnはガスの総質量でもあり半径30の円盤への充填密度でもあるので、粒子数だけを独立に振れる設計ではない(アークの幾何と中心質量はnによらず不変なので、「幾何が絞っているか」という問いの側は分離できている)。【摂動回復】3000步(脱出が始まった直後)でガスだけに等方の速度ノイズを入れ、注入より後にr>200を跨いだ粒子だけの極方向比を測った。速さRMSの25%/50%/100%では0.818/0.787/0.776(中央値)で、無摂動の0.714〜0.826と同水準 — 方位をかき混ぜても幾何が絞り直す。200%で0.647・400%で0.526まで薄まる(等方1/3へ近づく)が、400%でもまだ1.58倍の集中が残る。【時間窓】脱出は2500〜3250步で始まり3500〜3750步で10体に達し、極方向比は4000步以降ほぼ横ばい — validT 96(6000步)は立ち上がりが終わった側にある。なおpinnedを含む系なので帳簿込みの角運動量は閉じない(|ΔL|/L_scaleは最大1.7e-2)— これも「閉鎖系ではない」ことの機械的な現れである。実測ハーネス: tests/exp-4-88.mjs。",
+    observe:"実測(seed固定・6000步): 系外(r>200)へ達したガス42体のうち±y30°以内が0.76(等方なら1/3 — 2.3倍の集中。第218便: アーク22体の除外が実半径8基準になった配置での実測 — 旧配置では37体・0.62)。中心は減光1.00・アーク帯は平均0.94で真っ暗(c₀=30 で飽和側 — v1.38〔c₀=40〕は0.92。脱出数・極方向比など力学量は全て v1.38 と一致) — 「暗い帯に挟まれた明るいローブ」の明暗が立つ。アークは pinned(外部固定)なので閉鎖系ではない(バッジ参照)。熱圧を切った対照(kRep=0)では脱出が0体になり、ローブは立たない — 圧力が唯一の駆動源であることの機械対照。※創発の標準試験(第84便B・詳細はdocs/PHYSICS.md「創発水準(E0〜E3)と標準試験」): このサンプルはまず構成で水準が決まる — 24体の定義のうち22体(赤道ダークアーク)がpinnedで、ローブを立てている「赤道を塞ぐ幾何」そのものが外から固定されている。したがって閉鎖系ではなく、E水準は**E1(外部駆動下の自己組織化)**であって、閉鎖系を要件とするE2/E3には定義上該当しない — 昇格しないことがこのサンプルの正しい着地である。そのうえで、E1の中身(局所則から秩序が立つこと)がどれだけ頑健かを4試験で実測した。【多seed16】20260804〜20260819の16seedで極方向比は0.556〜0.762(中央0.652)に分布し、16seedを通した極方向比の最小は0.556 — 等方の1/3に対して最小でも1.67倍(中央1.96倍)の集中が残る(第218便の配置で再実測 — 第84便B 当時は 0.537〜0.833)。脱出は37〜50体/60、中心の減光は16seedすべてで1.000、アーク帯の平均減光も0.944でほぼ一定(c₀=30 飽和側 — v1.38 は0.918)。圧力オフ対照の脱出は16seedで最大0体(全16seedで厳密に0)。※上の固定seed窓0.65〜0.88は内蔵seed1本のドリフト検出用であって、seedを通した再現幅(0.556〜0.762)はそれより広い — 固定seed窓を再現性の主張として読んではいけない。【粒子数スケーリング】(以下④〜⑥は第84便B当時の配置での実測 — 第218便の再実測は多seed16のみ)ガスn=30/60/120で極方向比の中央値は0.750/0.677/0.653、脱出率は0.57〜0.77でほぼ一定、圧力オフ対照はどのnでも脱出0 — 特定の粒子数の離散模様ではない。ただしnはガスの総質量でもあり半径30の円盤への充填密度でもあるので、粒子数だけを独立に振れる設計ではない(アークの幾何と中心質量はnによらず不変なので、「幾何が絞っているか」という問いの側は分離できている)。【摂動回復】3000步(脱出が始まった直後)でガスだけに等方の速度ノイズを入れ、注入より後にr>200を跨いだ粒子だけの極方向比を測った。速さRMSの25%/50%/100%では0.818/0.787/0.776(中央値)で、無摂動の0.714〜0.826と同水準 — 方位をかき混ぜても幾何が絞り直す。200%で0.647・400%で0.526まで薄まる(等方1/3へ近づく)が、400%でもまだ1.58倍の集中が残る。【時間窓】脱出は2500〜3250步で始まり3500〜3750步で10体に達し、極方向比は4000步以降ほぼ横ばい — validT 96(6000步)は立ち上がりが終わった側にある。なおpinnedを含む系なので帳簿込みの角運動量は閉じない(|ΔL|/L_scaleは最大1.7e-2)— これも「閉鎖系ではない」ことの機械的な現れである。実測ハーネス: tests/exp-4-88.mjs。",
     control:"おすすめA/B: A/B比較で kRep=0 にすると圧力が消え、脱出は0体になってローブが立たない。なお「ガスのスピンを0にする」だけでは対照にならない — 中心とアークの回転が E6′残余トルクでガスへスピンを再注入し、圧力が再点火する。圧力を確実に切る対照は kRep=0 である。中心天体・アークを粒子タップすると「コア内訳(v2)」で Ω_c と2層減光の内訳が読める。"},
   en:{name:"Bipolar Nebula — Dark Torus and Polar Lobes", descStruct:{
     summary:"The 'dark band + two bright lobes' of planetary and bipolar nebulae, assembled from dark-rotor parts: a heavy-shell dark rotor at the center (slow shell, fast core — pitch dark via the Wave-75 two-layer dimming), 22 heavy-shell dark arcs within ±50° of the equator (±x; the 2D cross-section of a dark torus), and 60 high-spin (=hot) gas particles inside. The gas pushes outward with thermal repulsion (E5′), but the equator is blocked by the arcs — the only low-resistance exit is the polar direction (±y), so two glowing lobes rise (the same 'pressure + geometry' mechanism as 🌋, in nebula form). Not a claim to reproduce real planetary nebulae or bipolar outflows (Negative Claims). ",
-    observe:"Measured (fixed seed, 6000 steps): of the 37 gas particles that reach beyond r>200, a fraction 0.62 lies within 30° of ±y (isotropic would be 1/3 — a 1.9× concentration). The center is dimmed at 1.00 and the arc band averages 0.94 (saturated under c₀=30 — v1.38 at c₀=40 measured 0.92; every dynamical quantity, escape count and polar fraction included, matches v1.38) — bright lobes framed by a dark band. The arcs are pinned (externally held), so the system is not closed (see badges). In the pressure-off control (kRep=0) zero particles escape and no lobes form — a machine control showing pressure is the only driver. Standard emergence tests (Wave 84B; see docs/PHYSICS.md \u00a7Emergence levels and the standard tests): the level of this sample is settled by its construction first \u2014 22 of the 24 body definitions (the equatorial dark arcs) are pinned, so the very geometry that blocks the equator and raises the lobes is held in place from outside. It is therefore not a closed system, and its emergence level is E1 (self-organisation under external drive); by definition it does not qualify for E2 or E3, which require a closed system. Not being promoted is the correct landing for this sample. What was then measured is how robust the E1 content \u2014 order arising from local rules \u2014 actually is. [Many seeds, 16] Over seeds 20260804\u201320260819 the polar fraction spans 0.537\u20130.833 (median 0.675), so the smallest across the sixteen is 0.537 \u2014 still a concentration of 1.61\u00d7 over the isotropic 1/3 (median 2.02\u00d7). Escapes run 34\u201346 of 60, the centre dims to 1.000 in every one of the sixteen, and the arc band averages 0.944 throughout (saturated under c₀=30 — v1.38 measured 0.918). The pressure-off control escapes at most 1 particle across the sixteen seeds (exactly 0 in 15 of them). Note that the fixed-seed window of 0.5\u20130.72 above is a drift check on the built-in seed alone: the spread across seeds (0.537\u20130.833) is wider than that, so the fixed-seed window must not be read as a reproducibility claim. [Particle-count scaling] At gas n=30/60/120 the median polar fraction is 0.750/0.677/0.653 and the escape rate stays at 0.57\u20130.77, with the pressure-off control escaping 0 at every n \u2014 not a discrete artefact of one particle count. Note, though, that n is also the gas's total mass and its packing density inside a radius-30 disk, so particle count cannot be varied independently here (the arc geometry and the central mass do stay fixed with n, which is what isolates the question of whether the geometry does the collimating). [Perturbation recovery] At step 3000, just after escapes begin, isotropic velocity noise was injected into the gas alone, and the polar fraction was measured over only those particles that crossed r>200 after the injection. At 25%/50%/100% of the speed RMS it comes out at 0.818/0.787/0.776 (medians), the same level as the unperturbed 0.714\u20130.826 \u2014 stir the directions and the geometry re-collimates them. At 200% it thins to 0.647 and at 400% to 0.526 (drifting towards the isotropic 1/3), yet even at 400% a concentration of 1.58\u00d7 remains. [Time window] Escapes begin between steps 2500 and 3250, reach ten particles by steps 3500\u20133750, and the polar fraction is essentially flat from step 4000 on \u2014 validT 96 (6000 steps) sits past the rise. Because the system contains pinned bodies, its ledger-inclusive angular momentum does not close (|\u0394L|/L_scale up to 1.7e-2), which is itself a machine-readable sign that this is not a closed system. Measurement harness: tests/exp-4-88.mjs. ",
+    observe:"Measured (fixed seed, 6000 steps): of the 42 gas particles that reach beyond r>200, a fraction 0.76 lies within 30° of ±y (isotropic would be 1/3 — a 2.3× concentration; wave 218: measured on the layout whose arc exclusion is the actual radius 8 — the old layout gave 37 particles at 0.62). The center is dimmed at 1.00 and the arc band averages 0.94 (saturated under c₀=30 — v1.38 at c₀=40 measured 0.92; every dynamical quantity, escape count and polar fraction included, matches v1.38) — bright lobes framed by a dark band. The arcs are pinned (externally held), so the system is not closed (see badges). In the pressure-off control (kRep=0) zero particles escape and no lobes form — a machine control showing pressure is the only driver. Standard emergence tests (Wave 84B; see docs/PHYSICS.md \u00a7Emergence levels and the standard tests): the level of this sample is settled by its construction first \u2014 22 of the 24 body definitions (the equatorial dark arcs) are pinned, so the very geometry that blocks the equator and raises the lobes is held in place from outside. It is therefore not a closed system, and its emergence level is E1 (self-organisation under external drive); by definition it does not qualify for E2 or E3, which require a closed system. Not being promoted is the correct landing for this sample. What was then measured is how robust the E1 content \u2014 order arising from local rules \u2014 actually is. [Many seeds, 16] Over seeds 20260804\u201320260819 the polar fraction spans 0.556\u20130.762 (median 0.652), so the smallest across the sixteen is 0.556 \u2014 still a concentration of 1.67\u00d7 over the isotropic 1/3 (median 1.96\u00d7; re-measured on the wave-218 layout \u2014 wave 84B read 0.537\u20130.833). Escapes run 37\u201350 of 60, the centre dims to 1.000 in every one of the sixteen, and the arc band averages 0.944 throughout (saturated under c₀=30 — v1.38 measured 0.918). The pressure-off control escapes at most 0 particles across the sixteen seeds (exactly 0 in all of them). Note that the fixed-seed window of 0.65\u20130.88 above is a drift check on the built-in seed alone: the spread across seeds (0.556\u20130.762) is wider than that, so the fixed-seed window must not be read as a reproducibility claim. [Particle-count scaling] (the tests below were measured on the wave-84B layout \u2014 wave 218 re-measured the 16-seed sweep only) At gas n=30/60/120 the median polar fraction is 0.750/0.677/0.653 and the escape rate stays at 0.57\u20130.77, with the pressure-off control escaping 0 at every n \u2014 not a discrete artefact of one particle count. Note, though, that n is also the gas's total mass and its packing density inside a radius-30 disk, so particle count cannot be varied independently here (the arc geometry and the central mass do stay fixed with n, which is what isolates the question of whether the geometry does the collimating). [Perturbation recovery] At step 3000, just after escapes begin, isotropic velocity noise was injected into the gas alone, and the polar fraction was measured over only those particles that crossed r>200 after the injection. At 25%/50%/100% of the speed RMS it comes out at 0.818/0.787/0.776 (medians), the same level as the unperturbed 0.714\u20130.826 \u2014 stir the directions and the geometry re-collimates them. At 200% it thins to 0.647 and at 400% to 0.526 (drifting towards the isotropic 1/3), yet even at 400% a concentration of 1.58\u00d7 remains. [Time window] Escapes begin between steps 2500 and 3250, reach ten particles by steps 3500\u20133750, and the polar fraction is essentially flat from step 4000 on \u2014 validT 96 (6000 steps) sits past the rise. Because the system contains pinned bodies, its ledger-inclusive angular momentum does not close (|\u0394L|/L_scale up to 1.7e-2), which is itself a machine-readable sign that this is not a closed system. Measurement harness: tests/exp-4-88.mjs. ",
     control:"Suggested A/B: start an A/B comparison with kRep=0 and the pressure vanishes — zero particles escape and no lobes form. Note that merely zeroing the gas spins is not a control: the rotation of the center and the arcs re-injects spin into the gas through the E6′ residual torque, and the pressure re-ignites. The reliable pressure-off control is kRep=0. Tap the center or an arc to read its Core (v2) breakdown \u2014 \u03a9_c and the two-layer dimming split."}},
   activeParams:["kRep","cLight","kFrame"],
   validT:96,   // 実測窓(6000步=t≈96)と一致
   claims:[
     { id:"nebulaBipolar.polar-fraction", kind:"fixed-seed", prov:"simulated", metric:"polarFraction",
-      expected:{min:0.5, max:0.72},   // 第81便実測0.622(コアv2 移行後。第75便 v1 は0.610)
+      expected:{min:0.65, max:0.88},   // 第218便実測0.762(アーク22体の除外が実半径8基準に。第81便0.622・第75便v1 0.610)
       descPattern:"±y30°以内が(\\d+\\.\\d+)",
       control:{patch:{kRep:0}, expected:{min:0, max:3},   // 実測0(kRep=0 の圧力オフ — agnjet と同書式)
         descPattern:"対照\\(kRep=0\\)では脱出が(\\d+)体"},
       testId:"claim.nebulabipolar-polar" },
     // 第84便B(創発の標準試験の展開): 多seed 頑健性。判定量は「seed 集合を通した極方向比の
-    // **最小値**」。16seed 実測 0.537〜0.833(中央0.675)を内側に含む窓を取る。上の固定seed
-    // claim の窓 0.5〜0.72 は内蔵 seed 1本のドリフト検出用で、seed 幅はこちらの窓が受け持つ
+    // **最小値**」。16seed 実測 0.556〜0.762(中央0.652 — 第218便再実測。第84便B 当時は 0.537〜0.833)を内側に含む窓を取る。上の固定seed
+    // claim の窓 0.65〜0.88 は内蔵 seed 1本のドリフト検出用で、seed 幅はこちらの窓が受け持つ
     { id:"nebulaBipolar.multi-seed-min-polar-fraction", kind:"multi-seed", prov:"simulated", metric:"polarFractionMinOverSeeds",
-      expected:{min:0.45, max:0.90},   // 実測 0.537〜0.833(16seed・6000步。等方は 1/3=0.333)
+      expected:{min:0.45, max:0.90},   // 第218便実測 0.556〜0.762(16seed・6000步。等方は 1/3=0.333 — 窓は不変)
       descPattern:"16seedを通した極方向比の最小は(\\d+\\.\\d+)",
       control:{patch:{kRep:0}, expected:{min:0, max:3},   // 実測 最大1体(15/16 seed で厳密に0)
         descPattern:"圧力オフ対照の脱出は16seedで最大(\\d+)体"},
@@ -8301,12 +8301,12 @@ const BUILTIN_PRESETS = [
   notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
   descStruct:{
     summary:"中心の超大質量天体(m=2000・減光=auto → 観測温度0で見掛けは真っ暗な「エンジン」)と、x軸方向に長く薄く伸びた冷たいガスの帯。ガスは自己重力で内側へ落ち、内縁で押し合い擦れ合って摩擦加熱される(E9′ → 内部温度T_int)。温まったガスは熱の斥力=圧力(E5′)で押し返すが、赤道方向(±x)へ抜けるには帯の全長を押しのけねばならない — 抵抗の少ない極方向(±y)だけが出口になり、上下2本の噴出流になる。",
-    observe:"実測: 内縁から出て系外(r>300)へ達したガスの84%が±y方向±30°以内に入る(等方なら1/3 — 2.5倍の集中。4000步で極24本・赤道0本)。色=温度で、内縁が赤熱し噴流が冷えながら伸びるのが見える。要因分離のため空間引きずりkFrameと自発放射は切ってある(中心のスピンは減光=自光の抑制にだけ効く)。※これは圧力と幾何だけで双極性が出るという2Dのアナロジーであり、実在のAGN・磁気流体ジェット・相対論的ジェットの再現主張ではない(Negative Claims 1/2)。",
-    control:"おすすめA/B: 熱の斥力kRepを0にすると押し返す圧力が消え、噴出は等方寄りに戻る(実測54% — それでも等方の1/3よりなお高く、幾何と重力の寄与が残る)。"},
+    observe:"実測: 内縁から出て系外(r>300)へ達したガスの65%が±y方向±30°以内に入る(等方なら1/3 — 1.95倍の集中。4000步で極43本・赤道9本。第218便: 群生成の除外が実半径基準になり、ガス帯がエンジン表面直上〔r≈19〕から始まる配置での実測 — 旧配置〔質量由来の除外44.7が内縁〕では84%だった)。色=温度で、内縁が赤熱し噴流が冷えながら伸びるのが見える。要因分離のため空間引きずりkFrameと自発放射は切ってある(中心のスピンは減光=自光の抑制にだけ効く)。※これは圧力と幾何だけで双極性が出るという2Dのアナロジーであり、実在のAGN・磁気流体ジェット・相対論的ジェットの再現主張ではない(Negative Claims 1/2)。",
+    control:"おすすめA/B: 熱の斥力kRepを0にすると押し返す圧力が消え、噴出は等方寄りに戻る(実測42% — それでも等方の1/3よりなお高く、幾何と重力の寄与が残る)。"},
   en:{name:"An AGN Analogue — Inner Disk and Bipolar Jets", descStruct:{
     summary:"A supermassive body at the center (m=2000, dimming=auto → observed temperature 0, so the 'engine' itself looks pitch dark) and a cold gas band stretched long and thin along the x axis. The gas falls inward under self-gravity and is heated by friction where it crowds together at the inner edge (E9′ → internal temperature T_int). The warmed gas pushes back with thermal repulsion = pressure (E5′), but escaping along the equator (±x) means shoving the whole length of the band aside — so the only low-resistance exit is the polar direction (±y), and the outflow collimates into two jets. ",
-    observe:"Measured: 84% of the gas that leaves the inner region and reaches r>300 lies within 30° of the ±y axis (isotropic would be 1/3 — a 2.5× concentration; at 4000 steps, 24 polar vs 0 equatorial). Color = temperature: watch the inner edge glow and the jets cool as they stretch. Frame dragging and spontaneous radiation are switched off to isolate the factors (the central spin only feeds the dimming channel). Note: this is a 2D analogy showing that pressure plus geometry alone produce bipolarity — not a claim to reproduce real AGN, MHD jets or relativistic jets (Negative Claims 1/2). ",
-    control:"Suggested A/B: set the thermal repulsion kRep to 0 and the pushing pressure disappears, and the outflow returns toward isotropy (measured 54% — still well above the isotropic 1/3, so geometry and gravity keep contributing)."}},
+    observe:"Measured: 65% of the gas that leaves the inner region and reaches r>300 lies within 30° of the ±y axis (isotropic would be 1/3 — a 1.95× concentration; at 4000 steps, 43 polar vs 9 equatorial. Wave 218: the placement exclusion is now the actual radius, so the gas band starts right above the engine surface at r≈19 — on the old layout, whose inner edge sat at the legacy mass-derived 44.7, this read 84%). Color = temperature: watch the inner edge glow and the jets cool as they stretch. Frame dragging and spontaneous radiation are switched off to isolate the factors (the central spin only feeds the dimming channel). Note: this is a 2D analogy showing that pressure plus geometry alone produce bipolarity — not a claim to reproduce real AGN, MHD jets or relativistic jets (Negative Claims 1/2). ",
+    control:"Suggested A/B: set the thermal repulsion kRep to 0 and the pushing pressure disappears, and the outflow returns toward isotropy (measured 42% — still well above the isotropic 1/3, so geometry and gravity keep contributing)."}},
   activeParams:["kRep","muF","gammaN","cHeat"],
   thermal:"tint",
   validT:64,   // 第39便 39E(台帳4-75 E2): 説明文の実測窓(4000步=t≈64)と一致
@@ -8317,9 +8317,9 @@ const BUILTIN_PRESETS = [
   // 第42便 42A(台帳4-78 A案): descPattern を追記(claims.sync による汎用照合へ移行)
   claims:[
     { id:"agnjet.polar-fraction", kind:"fixed-seed", prov:"simulated", metric:"polarFraction",
-      expected:{min:0.75, max:0.92},   // 実測0.839(4000步)
+      expected:{min:0.58, max:0.75},   // 第218便実測0.6515(4000步 — 除外の恒久原理化で内縁がエンジン表面直上〔r≈19〕に。旧配置〔レガシー除外44.7〕実測0.839)
       descPattern:"(\\d+(?:\\.\\d+)?)%が±y", descScale:0.01,
-      control:{patch:{kRep:0}, expected:{min:0.45, max:0.58},   // 実測0.542(kRep=0)
+      control:{patch:{kRep:0}, expected:{min:0.33, max:0.46},   // 第218便実測0.4151(kRep=0。旧配置0.542)
         descPattern:"実測(\\d+(?:\\.\\d+)?)%", descScale:0.01},
       testId:"behavior.agnjet" }
   ],
@@ -8328,8 +8328,11 @@ const BUILTIN_PRESETS = [
     cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:3, timeScale:2},
   bodies:[
-    // 中心の「エンジン」(自由・減光 auto。半径18 は見た目の指定 — 質量由来の 44.7 は
-    // ガス配置の除外半径として効く = 円盤の内縁が自然にできる)
+    // 中心の「エンジン」(自由・減光 auto。半径18 は見た目の指定 — 第218便: 除外の恒久原理化で
+    // ガス配置の除外も実半径 18+1 になった。旧世代は質量由来のレガシー式 √2000=44.7 が暗黙の
+    // 内縁を作っていたが、以後の内縁は「エンジン表面のすぐ外」— 実測を再宣言済み。
+    // 明示 |x|=45 ギャップの2帯構成も実測したが集中が弱く不採用〔gen-w218c: frac 0.550・
+    // 対照比 1.25 — 本観測量は配置ドローに敏感で、旧宣言 0.84 は広い空洞側の1ドロー〕)
     {type:"single", m:2000, x:0,y:0, vx:0,vy:0, spin:2, radius:18, lightSweep:"auto", pinned:false, tInt:0},
     // 冷たいガスの帯(x方向に長く・y方向に薄く)
     {type:"box", rMul:4, n:340, cx:0,cy:0, w:560,h:14, mMin:0.05,mMax:0.05,
@@ -10713,18 +10716,29 @@ function makeSim(){
     }
     const G = phys.G;
     const push=(o)=>P.push(o);
-    // 大質量天体(m≥40)の内部に他の粒子を生成しない(深い初期重なりは不安定の原因)
+    // 第218便(原仮定者指示 2026-08-27 第17報): 群生成の除外対象を恒久原理へ再設計。
+    // 問題の本質は「粒子が意図せず重なって生成される」ことなので、
+    //   ①対象 = **座標を指定して配置された粒子(single)全数**(旧: m≥40 のしきい値 —
+    //     33.33≤m<40 帯の連星などが漏れる地雷だった。しきい値そのものを廃止)
+    //   ②除外半径 = **その粒子の実半径**(radius 指定があれば rs·radius、なければ従来写像
+    //     rs·rMul·√|m| — 旧: 明示半径を無視して常にレガシー式を読む第36便 C1 同期だった)
+    //   ③登録は群配置の前に全 single を**2パスで先取り**(旧: 定義順の1パス — 群の後に
+    //     定義された single を守れなかった。実測 gen-w218a: 該当8プリセット)
+    // マージン +1(サンプル粒の許容)は従来どおり。single 同士は対象外(双方とも
+    // 著者の明示座標 = 意図的な配置。除外は乱数配置される群メンバーだけに掛かる)
     const bigs=[];
-    // 第36便 C1: 除外半径も実効倍率 radiusScale·rMul で評価する(旧 radiusScale 値を rMul へ
-    // 焼き込んだプリセットで初期配置が 1 ビットも動かないための必須同期 — 乗算順序も旧式と同一)
-    // 第216便(原仮定者裁定): 内蔵プリセットは radius 併記 single の rMul を全廃(11ノブ)。
-    //   式・しきい値 m≥40 は不変(貼付互換 — radius+rMul 併記の貼付は従来どおりの除外半径)。
-    //   しきい値 33.33 案は不採用: 33.33≤m<40 帯に ✴️主星 39.19・💫伴星 37.86 が実在し、
-    //   二体系ゆえ今は無害でも将来の群追加で配置が動く地雷になる。除外半径の縮小は実測で
-    //   意図違反ゼロ(粒の天体内部湧き 0・最悪ギャップ darkrotor +4.6 で接触圏外 — gen-w216a)
-    const noteBig=(o)=>{ if(o.m>=40) bigs.push({x:o.x,y:o.y,R:phys.radiusScale*(o.rMul===undefined?1:o.rMul)*Math.sqrt(o.m)}); };
+    for(const b of preset.bodies){
+      if(b.type==="single"){
+        const rMul=(b.rMul===undefined)?1:b.rMul;
+        const R=(typeof b.radius==="number" && b.radius>0)
+          ? phys.radiusScale*b.radius
+          : phys.radiusScale*rMul*Math.sqrt(Math.abs(b.m));
+        bigs.push({x:b.x,y:b.y,R});
+      }
+    }
     const insideBig=(x,y)=>{ for(const b of bigs){ const dx=x-b.x,dy=y-b.y;
       if(dx*dx+dy*dy<(b.R+1)*(b.R+1)) return true; } return false; };
+    S.exclMode="placed";   // 第218便: 世代判定子(QA の凍結基準の分岐が読む — 表示・物理には不使用)
     // 第35便(台帳4-61): 壁粒子群 = bodies 定義順で最初の ring 群(measureBox の計測対象)
     let wallI0=-1, wallI1=-1;
     for(const b of preset.bodies){
@@ -10748,7 +10762,7 @@ function makeSim(){
           o.railCx=rcx; o.railCy=rcy;
           o.vx=-b.railOmega*o.railR*Math.sin(o.railAng); o.vy=b.railOmega*o.railR*Math.cos(o.railAng);
         }
-        push(o); noteBig(o);
+        push(o);   // 第218便: 除外登録は build 冒頭の2パス先取りへ移動(noteBig 廃止)
       } else if(b.type==="ring"){
         const rI0=P.length;   // 第35便: この ring 群の先頭インデックス(hubble 初速と壁タグに使用)
         const rM=(b.rMul===undefined?1:b.rMul);   // 第36便 C1: 群共通の半径倍率(既定1)
