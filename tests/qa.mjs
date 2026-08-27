@@ -4996,6 +4996,8 @@ if (!FAST) {
   }
 
   // ---- 第213便: preset.rmul-audit — rMul 使用状況調査の機械固定 ----
+  // 対象ゲート: rMul:1 の整理は第213便(v1.43 世代)なので、同世代の機能(第212便 applyCoreEdit —
+  // 同一リリース線で常に同伴)で feature-detect し、前世代 root では SKIP する
   // 調査結論(2026-08-27): ①群(ring/disk/box/grid)と明示半径なし single の rMul は実効半径
   // R=rs·rMul·√|m| を決める生きたノブ。②**明示半径(radius>0)つき single の rMul も死にノブでは
   // ない** — 群生成の大質量除外半径(noteBig: m≥40 の周囲に粒子を置かない)が radius ではなく
@@ -5004,6 +5006,10 @@ if (!FAST) {
   // 全経路で undefined と等価(削除済み)。本テストは (a) 内蔵に rMul:1 が再導入されないこと
   // (lint)と (b) ②の生存(galaxy の rMul 除去で初期配置が変わる否定対照)を機械固定する
   {
+    const has213 = await page.evaluate(() => typeof (HP.sim && HP.sim.applyCoreEdit) === 'function');
+    if (!has213) {
+      console.log('SKIP preset.rmul-audit(対象に第213便の rMul 整理なし — root 等)');
+    } else {
     const r = await page.evaluate(() => {
       const ones = [];
       for (const p of HP.allPresets())
@@ -5024,6 +5030,7 @@ if (!FAST) {
       `${r.ones.length ? ' NG=[' + r.ones.slice(0, 6).join(' ') + ']' : ''} / ` +
       `否定対照: galaxy 中心(radius:15)の rMul:1.2 を外すと初期配置が変わる=${r.differs}` +
       `(noteBig の除外半径が rs·rMul·√m を読む — 明示半径つきでも rMul は死にノブではない)`);
+    }
   }
 
   // ---- 8a2b4c) 第77便: 🌱starSeed — 圧縮スピンアップ+パワーボール ----
