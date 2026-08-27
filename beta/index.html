@@ -533,6 +533,20 @@
         <div class="beRow"><label id="beLcvOm" style="min-width:34px">Ωc/Ωs/Δ</label><input type="text" id="beCvOm" readonly tabindex="-1" inputmode="text" autocomplete="off"></div>
         <div class="beRow"><label id="beLcvJ" style="min-width:34px">Jc/Ic/Kc</label><input type="text" id="beCvJ" readonly tabindex="-1" inputmode="text" autocomplete="off"></div>
         <div class="beRow"><label id="beLcvLs" style="min-width:34px">殻/コア/合成</label><input type="text" id="beCvLs" readonly tabindex="-1" inputmode="text" autocomplete="off"></div>
+        <!-- 第212便(原仮定者指示「coreの数値も編集可能にする。有効によるフィールド追加や、
+             無効によるフィールド無視も可能」): コアv2 の実行時編集。「コア有効」ON でコアを付与・
+             OFF で除去(=フィールド無視)。数値は build と同じ式で即時再構成(S.applyCoreEdit)。
+             cavity は有効/無効の切替のみ(数値編集の対象外)。Ω0 は軸まわりの全回転率・θ は
+             z 射影の宣言(第210便)— 表示は現状態からの正準分解(Ω0=|J|/I*・θ=acos(J/|J|)) -->
+        <div class="beRow"><label id="beLcvOn" class="tappable" style="flex:1">コア有効</label><input type="checkbox" id="beCvOn"></div>
+        <div id="beCvEdit">
+          <div class="beRow"><label id="beLcvEmf" style="min-width:44px">質量比</label><input type="text" id="beCvMF" inputmode="decimal" autocomplete="off">
+            <label id="beLcvEr" style="min-width:44px">半径Rc</label><input type="text" id="beCvR" inputmode="decimal" autocomplete="off"></div>
+          <div class="beRow"><label id="beLcvEo" style="min-width:44px">Ω0</label><input type="text" id="beCvOm0" inputmode="text" autocomplete="off">
+            <label id="beLcvEk" style="min-width:44px">Kcs</label><input type="text" id="beCvKcs" inputmode="decimal" autocomplete="off"></div>
+          <div class="beRow"><label id="beLcvEt" style="min-width:44px">傾きθ°</label><input type="text" id="beCvTilt" inputmode="decimal" autocomplete="off">
+            <label id="beLcvEz" style="min-width:44px">ζ</label><input type="text" id="beCvIS" inputmode="text" autocomplete="off"></div>
+        </div>
       </details>
       <!-- 第100便 EXT-10: 形成系譜 — 融合で育った粒子の吸収履歴(読み取り専用・融合が起きた粒子のみ表示) -->
       <details id="beLineage" style="display:none">
@@ -927,6 +941,14 @@ ja: {
   beLswAuto:"自動",   // 第37便 A2(原仮定者指示): 掻出autoの可視化チェックボックス
   // 第80便C: コアv2(第77便)の読み取り専用内訳ブロックのラベル
   beCoreTitle:"コア内訳(v2)", beCoreMode:"種別", beCoreOm:"Ωc/Ωs/Δ", beCoreJ:"Jc/Ic/Kc", beCoreLs:"殻/コア/合成",
+  // 第212便: コアv2 の実行時編集(有効チェック+数値欄)
+  beCoreOn:"コア有効", beCoreEmf:"質量比", beCoreEr:"半径Rc", beCoreEo:"Ω0", beCoreEk:"Kcs",
+  beCoreEt:"傾きθ°", beCoreEz:"ζ",
+  beDce:"コアv2 の実行時編集(第212便 — 実験用)。「コア有効」ONでコアを付与(既定: differential・質量比0.3・"
+    +"Rc=R/2・Ω0=殻スピン)、OFFで除去(無効=フィールド無視)。数値は build と同じ式 J=½·Mc·Rc²·ζ·Ω0·cosθ・"
+    +"容量|J|=|½·Mc·Rc²·ζ·Ω0| で即時再構成する。m や spin の直接編集と同じ実験扱いで、帳簿(T7)は編集時点から"
+    +"再出発。cavity は有効/無効の切替のみ(数値編集の対象外)。傾きθは z 射影の宣言(第210便)— 90°でコアは"
+    +"エッジオン(横棒)に描かれる。貼付/保存 JSON の検証器の値域・併用不可則(tilt×Kcs等)は貼付時に適用される。",
   beLinTitle:"形成系譜",
   beLinSum:(n,tree,ev,ge)=>`直接吸収 ${n} 回・系譜 ${ge?"≥":""}${tree} 粒(記録 ${ev} 件)`,
   beLinRow:(t,dm,m,ls)=>`t=${t}: +${dm} → m=${m}・減光=${ls}`,
@@ -1481,6 +1503,15 @@ en: {
   beLswAuto:"auto",   // 第37便 A2(原仮定者指示): sweep auto checkbox
   // 第80便C: read-only core-v2 (wave 77) breakdown block labels
   beCoreTitle:"Core (v2)", beCoreMode:"type", beCoreOm:"Ωc/Ωs/Δ", beCoreJ:"Jc/Ic/Kc", beCoreLs:"shell/core/mix",
+  // 第212便: runtime core editing (enable checkbox + numeric fields)
+  beCoreOn:"core on", beCoreEmf:"massFrac", beCoreEr:"radius Rc", beCoreEo:"Ω0", beCoreEk:"Kcs",
+  beCoreEt:"tilt θ°", beCoreEz:"ζ",
+  beDce:"Runtime core-v2 editing (wave 212 — experimental). 'core on' attaches a core (default: differential, "
+    +"massFrac 0.3, Rc=R/2, Ω0=shell spin); off removes it (disabled = the field is ignored). Numbers rebuild "
+    +"instantly with the build-time formula J=1/2 Mc Rc^2 ζ Ω0 cosθ, capacity |J|=|1/2 Mc Rc^2 ζ Ω0|. Edits are "
+    +"experimental like direct m/spin edits — the ledgers (T7) restart from the edit. Cavity cores only toggle "
+    +"on/off. Tilt θ is the declared z-projection (wave 210) — at 90° the core is drawn edge-on (a bar). The "
+    +"validator's ranges and exclusions (tilt×Kcs etc.) apply when pasting/saving JSON.",
   beLinTitle:"Formation lineage",
   beLinSum:(n,tree,ev,ge)=>`absorbed ${n}× directly · lineage ${ge?"≥":""}${tree} grains (${ev} events logged)`,
   beLinRow:(t,dm,m,ls)=>`t=${t}: +${dm} → m=${m}, dimming=${ls}`,
@@ -3855,9 +3886,9 @@ const BUILTIN_PRESETS = [
     radiusScale:1, softening:4, timeScale:4},
   bodies:[
     // 中心の高スピンコア(自由・単層・減光は auto。vx/vy は総運動量ゼロ化の補正)
-    {type:"single", rMul:1, m:2000, x:0,y:0, vx:1.65e-06, vy:-7e-07, spin:1, radius:45, lightSweep:"auto", pinned:false},
+    {type:"single", m:2000, x:0,y:0, vx:1.65e-06, vy:-7e-07, spin:1, radius:45, lightSweep:"auto", pinned:false},
     // テスト粒子リング(自由・kepler 初速・引きずりの可視化用。m は光線に効かない 0.05)
-    {type:"ring", rMul:1, n:24, cx:0,cy:0, rIn:200, rOut:200, mMin:0.05,mMax:0.05,
+    {type:"ring", n:24, cx:0,cy:0, rIn:200, rOut:200, mMin:0.05,mMax:0.05,
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2000, omega:0, vNoise:0, direction:1, pinned:false}
   ],
   rays:{n:20, spread:0.6},
@@ -3914,7 +3945,7 @@ const BUILTIN_PRESETS = [
     // 第83便: pinned の宣言漏れを補完した(build は未指定を偽として読む〔`pinned:b.pinned?1:0`〕ので
     // 挙動は bit 不変)。validatePreset は ring の pinned を必須にしている — レール駆動・壁タグ・
     // balanceFrame の分岐を持つ挙動キーなので、検査側が正しくプリセット側の宣言漏れだった
-    {type:"ring", rMul:1, n:44, cx:0,cy:0, rIn:62, rOut:150, mMin:0.5,mMax:1.2,
+    {type:"ring", n:44, cx:0,cy:0, rIn:62, rOut:150, mMin:0.5,mMax:1.2,
      spinMin:0.4,spinMax:0.9, vMode:"kepler", aroundMass:250, omega:0, vNoise:0.05,
      direction:1, pinned:false, lightSweep:"auto"}
   ],
@@ -3979,7 +4010,7 @@ const BUILTIN_PRESETS = [
      core:{mode:"differential", massFrac:0.4, radius:1.1502173707608487, omega:16, Kcs:0}, lightSweep:"auto"},
     // 低スピン放射エンベロープ(散光成分・粒子54..97)
     // 第83便: pinned の宣言漏れを補完(🌑nebulaRotor と同文脈・挙動 bit 不変)
-    {type:"ring", rMul:1, n:44, cx:0,cy:0, rIn:62, rOut:150, mMin:0.5,mMax:1.2,
+    {type:"ring", n:44, cx:0,cy:0, rIn:62, rOut:150, mMin:0.5,mMax:1.2,
      spinMin:0.4,spinMax:0.9, vMode:"kepler", aroundMass:1134, omega:0, vNoise:0.05,
      direction:1, pinned:false, lightSweep:"auto"}
   ],
@@ -4036,33 +4067,33 @@ const BUILTIN_PRESETS = [
     // 中心の重殻ダークローター(自由・粒子0)。第81便: コアv1(0.3/15/0.25)→ コアv2 へ
     // 素直に移行(R_c=0.25×20=5・Ω_c=15×初期spin0.6=9)。アークは pinned で殻スピンが
     // 一定なので v1 と厳密に同じ差動、中心だけが「Ω_c 追従→独立」の差を受ける
-    {type:"single", rMul:1, m:600, x:0,y:0, vx:0,vy:0, spin:0.6, pinned:false,
+    {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.6, pinned:false,
      radius:20, core:{mode:"differential", massFrac:0.3, radius:5, omega:9, Kcs:0}, lightSweep:"auto"},
     // 赤道ダークアーク(pinned・粒子1..22 — ±x を挟む±50°・10°刻み・r=60)
-    {type:"single", rMul:1, m:40, x:38.6,y:-46, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:46,y:-38.6, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:52,y:-30, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:56.4,y:-20.5, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:59.1,y:-10.4, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:60,y:0, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:59.1,y:10.4, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:56.4,y:20.5, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:52,y:30, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:46,y:38.6, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:38.6,y:46, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:-38.6,y:46, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:-46,y:38.6, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:-52,y:30, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:-56.4,y:20.5, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:-59.1,y:10.4, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:-60,y:0, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:-59.1,y:-10.4, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:-56.4,y:-20.5, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:-52,y:-30, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:-46,y:-38.6, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
-    {type:"single", rMul:1, m:40, x:-38.6,y:-46, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", m:40, x:38.6,y:-46, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", m:40, x:46,y:-38.6, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", m:40, x:52,y:-30, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", m:40, x:56.4,y:-20.5, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", m:40, x:59.1,y:-10.4, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", m:40, x:60,y:0, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", m:40, x:59.1,y:10.4, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", m:40, x:56.4,y:20.5, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", m:40, x:52,y:30, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", m:40, x:46,y:38.6, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", m:40, x:38.6,y:46, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", m:40, x:-38.6,y:46, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", m:40, x:-46,y:38.6, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", m:40, x:-52,y:30, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", m:40, x:-56.4,y:20.5, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", m:40, x:-59.1,y:10.4, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", m:40, x:-60,y:0, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", m:40, x:-59.1,y:-10.4, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", m:40, x:-56.4,y:-20.5, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", m:40, x:-52,y:-30, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", m:40, x:-46,y:-38.6, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
+    {type:"single", m:40, x:-38.6,y:-46, vx:0,vy:0, spin:0.5, pinned:true, radius:8, core:{mode:"differential", massFrac:0.3, radius:2, omega:7.5, Kcs:0}, lightSweep:"auto"},
     // 高温ガス(高スピン=熱・粒子23..82)
-    {type:"disk", rMul:1, n:60, cx:0,cy:0, radius:30, mMin:0.4,mMax:0.8,
+    {type:"disk", n:60, cx:0,cy:0, radius:30, mMin:0.4,mMax:0.8,
      spinMin:4,spinMax:6, vMode:"random", vScale:0.8, direction:1, bulkVx:0, bulkVy:0}
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled",monitor:false} },
@@ -4427,7 +4458,7 @@ const BUILTIN_PRESETS = [
     geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2},
   bodies:[
     // 一様円盤 180粒(全て同質量・spin=0・自由)。層構造・中心天体・ハローはどれも置いていない
-    {type:"disk", rMul:1, n:180, cx:0,cy:0, radius:100, mMin:1,mMax:1,
+    {type:"disk", n:180, cx:0,cy:0, radius:100, mMin:1,mMax:1,
      spinMin:0,spinMax:0, tInt:0.5, vMode:"rigid", aroundMass:0, vScale:0.008, direction:1,
      lightSweep:"auto",
      core:{mode:"differential", massFrac:0.05, radius:0.2, omega:2, Kcs:0}}
@@ -4552,7 +4583,7 @@ const BUILTIN_PRESETS = [
     // 前景の冷たい暗黒雲(右)— spin=0 なので自分では光らず(T=0)、吸収だけをする。
     // 1粒 m=1 は光線源のしきい値 m≥(α_min/4)·Kt·max(R,ε)=20 を大きく下回るので光を曲げない
     // (= 純粋な吸収体。レンズ効果と混ざらない)
-    {type:"disk", n:110, cx:70, cy:0, radius:120, rMul:1, mMin:1, mMax:1,
+    {type:"disk", n:110, cx:70, cy:0, radius:120, mMin:1, mMax:1,
      spinMin:0, spinMax:0, vMode:"random", aroundMass:0, vScale:0, direction:1, bulkVx:0, bulkVy:0.06}
   ],
   rays:{n:24, spread:0.75},
@@ -7151,28 +7182,30 @@ const BUILTIN_PRESETS = [
     {q:"公転周期(kFrame=0 採用側)", model:"79.7647 年(+0.0034%)", obs:"79.762 ± 0.019 年(Akeson et al. 2021 Table 8)"},
     {q:"実測離心率(1公転の半径比振れ幅)", model:"0.51947(転写値と表示桁一致)", obs:"e=0.51947 ± 0.00015(転写)"},
     {q:"観測安定則(2026-08-25 裁定・適用第1号)", model:"kFrame=1 雛形は自己診断が差し戻し(400步 +0.3395% ドリフト・1公転換算 133.54%)→ kFrame=0 で採用", obs:"観測値(a・e・P)自体が引きずり無しの軌道解の計算式で算出されている"},
-    {q:"A/B 測定側(kFrame=1)", model:"接触要素周期が6%公転窓で +400% まで成長(χ: 近点 A 0.947/B 0.955・遠点 0.851/0.871 — 両星が同時に高 χ)", obs:"—(測定側の宣言 — 対等質量極限)"},
+    {q:"A/B 測定側(kFrame=1)", model:"遠点発 0.56公転窓で接触要素周期が −13.0% 縮み近点に届かない(半径 457〜530・転写近点 167.5)+重心 7.0 単位歩行", obs:"—(測定側の宣言 — 対等質量極限)"},
+    {q:"初期位相(第211便 — 遠点整列)", model:"恒星二体は遠点整列で採用(✴️ と初期位相統一)。自己診断は感度最大の近点位相の複製で実施", obs:"—(配置規約の宣言 — 観測値ではない)"},
     {q:"自転(両星)", model:"A 15.9 日・B 36.23 日を spin へ転写", obs:"Bhattacharyya et al. 2026(CUTE 2024)/ DeWarf et al. 2010"}],
   failureFirst:{
-    fail:"実較正の雛形規約 kFrame=1 は、この対等質量・高離心率の連星では**1公転を保てない** — E6′ 運動引きずりが接触要素周期を永年的に押し上げ(自己診断 400步で +0.3395%・1公転換算 133.54%、A/B 測定側の実測では6%公転窓で +248%)、±1% の転写契約を大きく破る。質量比 0.8428(B/A)の系では「反作用を吸収する支配的中心」が存在せず、E6′-R(pairReduced)でも永年成長が残る — χ は近点で A 0.947/B 0.955・遠点でも 0.851/0.871 と、**両星が同時に ❄️ 級の高 χ を持つ**(第197便の合成連星実測〔χ 系列の対等質量極限〕が実在の連星で成立することの確認)。",
+    fail:"実較正の雛形規約 kFrame=1 は、この対等質量・高離心率の連星では**1公転を保てない** — E6′ 運動引きずりが転写軌道を ±1% 契約の外へ押し出す(近点位相の自己診断 400步で +0.3395%・1公転換算 133.54%。遠点発の A/B 測定側の実測では 0.56公転窓で接触要素周期が −13.0% 縮み、軌道は近点に届かず〔半径範囲 457〜530 単位・転写近点 167.5〕重心も 7.0 単位歩く)。質量比 0.8428(B/A)の系では「反作用を吸収する支配的中心」が存在せず、E6′-R(pairReduced)でも永年成長が残る — χ は近点で A 0.947/B 0.955・遠点でも 0.851/0.871 と、**両星が同時に ❄️ 級の高 χ を持つ**(第197便の合成連星実測〔χ 系列の対等質量極限〕が実在の連星で成立することの確認)。",
     pass:"**観測安定則(2026-08-25 裁定)**:「観測値再現版は、観測値で安定する計算式を採用する。観測値自体が計算式で算出されている為」。転写した a・e・P は Akeson et al. (2021) の軌道解 — 引きずりを含まないケプラー的計算式 — の出力なので、その値を写す観測版は kFrame=0 を採用し、空間引きずり(kFrame=1)は捨てずに **A/B の測定側**として保持する(既定の対照側と役割が入れ替わる第1号)。kFrame=0 は1公転を完走して実測 79.7647 年(観測比 +0.0034%)・実測離心率 0.51947(転写どおり)。フィットはゼロ。"},
   descStruct:{
-    summary:"αケンタウリ A(実質量 2.1451938×10³⁰kg=1.0788 M☉・実半径 8.4738×10⁸m・実自転 15.9 日)と B(実質量 1.8079442×10³⁰kg=0.9092 M☉・実半径 5.979336×10⁸m・実自転 36.23 日)を、1単位=10¹⁰m/10⁶s/10²⁹kg で置いた**恒星連星の二体重心系**(第199便 — M1 着手・太陽系外/恒星スケールの実較正第1号)。相対軌道は a=23.299 AU(3.4854808×10¹²m)・e=0.51947・P=79.762 年(Akeson et al. 2021 Table 8 — paper/data/solar-observations.csv。半長軸は同論文の角半長軸 17.4930″ と視差 750.81 mas からの導出値・AU→m は IAU 定義の厳密換算)。働いているのは重力(E4)+測地線1PN(E12)で、**観測安定則(2026-08-25 裁定)の適用第1号**として kFrame=0 — 観測値を算出した計算式の側 — で採用(空間引きずりは A/B 測定側)。両星とも自由(pinned なし)・反作用則 frameReaction:\"pairReduced\"(E6′-R)。q=4.6111 は q_exact を a=348.54808 で1回評価した直値。フィットはゼロ(D₀=0.006 は共有値の流用)。",
-    observe:"kFrame=0(採用側)は1公転を完走して実測 79.7647 年(観測 79.762 年・+0.0034%)、1公転の半径比振れ幅から出る実測離心率 0.51947 は転写した e=0.51947 と表示桁で一致する(近点 1.675×10¹²m・遠点 5.296×10¹²m)。A/B の測定側 kFrame=1 では E6′ 運動引きずりが接触要素周期を永年的に押し上げ、自己診断 400步(0.3%公転)で +0.3395% — 1公転換算 133.54% — と診断され、実測でも6%公転窓で +248% まで成長する。χ=W/(D₀+W) は近点で A 0.947/B 0.955・遠点で 0.851/0.871 — 質量比 0.8428 の対等質量系では**両星が同時に高 χ** を持ち、「反作用を吸収する支配的中心」が無い(第197便の合成連星〔値は架空〕で見つけた χ 系列の対等質量極限が、実在の連星で最初に成立した例)。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.alphaCenAB)。",
+    summary:"αケンタウリ A(実質量 2.1451938×10³⁰kg=1.0788 M☉・実半径 8.4738×10⁸m・実自転 15.9 日)と B(実質量 1.8079442×10³⁰kg=0.9092 M☉・実半径 5.979336×10⁸m・実自転 36.23 日)を、1単位=10¹⁰m/10⁶s/10²⁹kg で置いた**恒星連星の二体重心系**(第199便 — M1 着手・太陽系外/恒星スケールの実較正第1号)。相対軌道は a=23.299 AU(3.4854808×10¹²m)・e=0.51947・P=79.762 年(Akeson et al. 2021 Table 8 — paper/data/solar-observations.csv。半長軸は同論文の角半長軸 17.4930″ と視差 750.81 mas からの導出値・AU→m は IAU 定義の厳密換算)。働いているのは重力(E4)+測地線1PN(E12)で、**観測安定則(2026-08-25 裁定)の適用第1号**として kFrame=0 — 観測値を算出した計算式の側 — で採用(空間引きずりは A/B 測定側)。両星とも自由(pinned なし)・反作用則 frameReaction:\"pairReduced\"(E6′-R)。初期位相は**遠点整列**(第211便 — 恒星二体の規約: DFM 版 ✴️ と初期位相を統一。自己診断は感度最大の近点位相の複製で実施)。q=4.6111 は q_exact を a=348.54808 で1回評価した直値。フィットはゼロ(D₀=0.006 は共有値の流用)。",
+    observe:"kFrame=0(採用側)は1公転を完走して実測 79.7647 年(観測 79.762 年・+0.0034%)、1公転の半径比振れ幅から出る実測離心率 0.51947 は転写した e=0.51947 と表示桁で一致する(近点 1.675×10¹²m・遠点 5.296×10¹²m)。A/B の測定側 kFrame=1 では E6′ 運動引きずりが転写軌道を保てない: 近点位相の自己診断 400步(0.3%公転)で +0.3395% — 1公転換算 133.54% — と診断され、遠点発 0.56公転窓で接触要素周期が −13.0% 縮んで軌道は近点に届かない(半径範囲 457〜530 単位・転写近点 167.5。cmGauge 無宣言の測定側は重心も 7.0 単位歩く — 第209便の機構)。初期位相は**遠点整列**(第211便 — 恒星二体の規約。✴️ DFM 版と初期位相を統一し、自己診断だけを感度最大の近点位相の複製で行う)。χ=W/(D₀+W) は近点で A 0.947/B 0.955・遠点で 0.851/0.871 — 質量比 0.8428 の対等質量系では**両星が同時に高 χ** を持ち、「反作用を吸収する支配的中心」が無い(第197便の合成連星〔値は架空〕で見つけた χ 系列の対等質量極限が、実在の連星で最初に成立した例)。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.alphaCenAB)。",
     control:"ワンタップ対照A/B: B側 kFrame=1(**測定側**)— 観測安定則により既定の対照の向きが他の実較正系と逆で、押すと引きずり項の永年成長そのものが見える(接触要素周期が伸び続け軌道が開いていく)。timeScale=1000 で画面1秒≈11.6 日。表示は dispMag=300(恒星は 0.085/0.060 単位の点 — 表示専用)・トレイルで軌道を見る。camera.scale=630 は遠点 529.6 単位×1.2 の規約値。"},
   en:{name:"Alpha Centauri AB (Real Units) — the stellar binary two-body",
     obsCard:[
       {q:"Orbital period (kFrame=0, adopted)", model:"79.7647 yr (+0.0034%)", obs:"79.762 ± 0.019 yr (Akeson et al. 2021 Table 8)"},
       {q:"Measured eccentricity (radius-ratio wobble over one orbit)", model:"0.51947 (matches the transcription to the shown digits)", obs:"e=0.51947 ± 0.00015 (transcribed)"},
       {q:"Observation-stability rule (adjudicated 2026-08-25, first application)", model:"the kFrame=1 template is returned by the self-check (+0.3395% drift in 400 steps, 133.54% per orbit) → adopted at kFrame=0", obs:"the observed a, e, P are themselves computed from a drag-free orbit solution"},
-      {q:"A/B measurement side (kFrame=1)", model:"the osculating period grows to +400% within a 6%-orbit window (χ: 0.947/0.955 at perihelion, 0.851/0.871 at apoapsis — both stars carry high χ at once)", obs:"— (declared as the measurement side; the equal-mass limit)"},
+      {q:"A/B measurement side (kFrame=1)", model:"from aphelion the osculating period shrinks −13.0% in a 0.56-orbit window and never reaches perihelion (radius 457–530 vs 167.5); the CM walks 7.0 units", obs:"— (declared as the measurement side; the equal-mass limit)"},
+      {q:"Initial phase (wave 211 — aphelion alignment)", model:"stellar two-bodies adopt aphelion alignment (phase unified with ✴️); the self-check probes the perihelion phase", obs:"— (a placement convention, not an observation)"},
       {q:"Rotations (both stars)", model:"A 15.9 d and B 36.23 d transcribed into spin", obs:"Bhattacharyya et al. 2026 (CUTE 2024) / DeWarf et al. 2010"}],
     failureFirst:{
-      fail:"The real-calibration template kFrame=1 CANNOT HOLD ONE ORBIT of this near-equal-mass, high-eccentricity binary: E6′ motion dragging lifts the osculating period secularly (+0.3395% in the 400-step self-check, 133.54% per orbit; measured on the A/B side, +248% within a 6%-orbit window), far beyond the ±1% transcription contract. At mass ratio 0.8428 (B/A) there is no dominant centre to absorb the reaction, so the secular growth survives even E6′-R (pairReduced) — χ is 0.947/0.955 at perihelion and 0.851/0.871 at apoapsis: BOTH stars sit at ❄️-grade χ at once (the equal-mass limit of the χ series, found on the wave-197 synthetic binary, confirmed here on a real one).",
+      fail:"The real-calibration template kFrame=1 CANNOT HOLD ONE ORBIT of this near-equal-mass, high-eccentricity binary: E6′ motion dragging pushes the transcribed orbit out of the ±1% contract (+0.3395% in the 400-step perihelion-phase self-check, 133.54% per orbit; measured on the A/B side from aphelion, the osculating period shrinks −13.0% within a 0.56-orbit window and the orbit never reaches perihelion — radius range 457–530 units vs the transcribed 167.5 — while the barycentre walks 7.0 units). At mass ratio 0.8428 (B/A) there is no dominant centre to absorb the reaction, so the secular growth survives even E6′-R (pairReduced) — χ is 0.947/0.955 at perihelion and 0.851/0.871 at apoapsis: BOTH stars sit at ❄️-grade χ at once (the equal-mass limit of the χ series, found on the wave-197 synthetic binary, confirmed here on a real one).",
       pass:"THE OBSERVATION-STABILITY RULE (adjudicated 2026-08-25): a reproduction of observed values adopts the formula that is stable at those values, because the observed values were themselves computed from that formula. The transcribed a, e, P are the output of the Akeson et al. (2021) orbit solution — a drag-free Keplerian computation — so the observation build adopts kFrame=0 and keeps frame dragging as the A/B MEASUREMENT side rather than discarding it (the first sample where the default A/B roles swap). kFrame=0 completes the orbit at 79.7647 yr (+0.0034% vs observed) with a measured eccentricity of 0.51947, exactly as transcribed. Zero fits."},
     descStruct:{
-      summary:"Alpha Centauri A (real mass 2.1451938×10³⁰ kg = 1.0788 M☉, real radius 8.4738×10⁸ m, real 15.9-day rotation) and B (real mass 1.8079442×10³⁰ kg = 0.9092 M☉, real radius 5.979336×10⁸ m, real 36.23-day rotation), placed with 1 unit = 10¹⁰ m / 10⁶ s / 10²⁹ kg as a TWO-BODY BARYCENTRIC stellar binary (wave 199 — the start of M1; the first extrasolar, stellar-scale real calibration). The relative orbit is a=23.299 AU (3.4854808×10¹² m), e=0.51947, P=79.762 yr (Akeson et al. 2021 Table 8 — paper/data/solar-observations.csv; the semi-major axis is derived in the record from the paper's angular 17.4930″ and parallax 750.81 mas, and AU→m is the IAU exact conversion). Only gravity (E4) and the geodesic 1PN term (E12) act: as the FIRST APPLICATION of the observation-stability rule (adjudicated 2026-08-25) the build adopts kFrame=0 — the side of the formula the observed values were computed from — and keeps frame dragging as the A/B measurement side. Both stars are free (not pinned); frameReaction:\"pairReduced\" (E6′-R). q=4.6111 is q_exact evaluated once at a=348.54808. Zero fits (D₀=0.006 is the shared value, reused).",
-      observe:"The adopted kFrame=0 build completes one orbit at a measured 79.7647 yr (observed 79.762 yr, +0.0034%), and the radius-ratio wobble over the orbit gives a measured eccentricity of 0.51947 — matching the transcribed e=0.51947 to the shown digits (perihelion 1.675×10¹² m, apoapsis 5.296×10¹² m). On the A/B measurement side (kFrame=1), E6′ motion dragging lifts the osculating period secularly: the 400-step self-check (0.3% of the orbit) reads +0.3395% — 133.54% per orbit — and the direct measurement grows to +248% within a 6%-orbit window. χ=W/(D₀+W) is 0.947 (A) / 0.955 (B) at perihelion and 0.851/0.871 at apoapsis: at mass ratio 0.8428 BOTH stars carry high χ at once, so no dominant centre absorbs the reaction (the equal-mass limit of the χ series, found on the wave-197 synthetic binary, holding here on a real one for the first time). Zero NaN; two runs are bit-identical (QA behavior.alphaCenAB).",
+      summary:"Alpha Centauri A (real mass 2.1451938×10³⁰ kg = 1.0788 M☉, real radius 8.4738×10⁸ m, real 15.9-day rotation) and B (real mass 1.8079442×10³⁰ kg = 0.9092 M☉, real radius 5.979336×10⁸ m, real 36.23-day rotation), placed with 1 unit = 10¹⁰ m / 10⁶ s / 10²⁹ kg as a TWO-BODY BARYCENTRIC stellar binary (wave 199 — the start of M1; the first extrasolar, stellar-scale real calibration). The relative orbit is a=23.299 AU (3.4854808×10¹² m), e=0.51947, P=79.762 yr (Akeson et al. 2021 Table 8 — paper/data/solar-observations.csv; the semi-major axis is derived in the record from the paper's angular 17.4930″ and parallax 750.81 mas, and AU→m is the IAU exact conversion). Only gravity (E4) and the geodesic 1PN term (E12) act: as the FIRST APPLICATION of the observation-stability rule (adjudicated 2026-08-25) the build adopts kFrame=0 — the side of the formula the observed values were computed from — and keeps frame dragging as the A/B measurement side. Both stars are free (not pinned); frameReaction:\"pairReduced\" (E6′-R). The initial phase is APHELION-ALIGNED (wave 211 — the stellar two-body convention: unified with the DFM build ✴️; the self-check probes the maximum-sensitivity perihelion phase). q=4.6111 is q_exact evaluated once at a=348.54808. Zero fits (D₀=0.006 is the shared value, reused).",
+      observe:"The adopted kFrame=0 build completes one orbit at a measured 79.7647 yr (observed 79.762 yr, +0.0034%), and the radius-ratio wobble over the orbit gives a measured eccentricity of 0.51947 — matching the transcribed e=0.51947 to the shown digits (perihelion 1.675×10¹² m, apoapsis 5.296×10¹² m). On the A/B measurement side (kFrame=1), E6′ motion dragging cannot hold the transcribed orbit: the 400-step perihelion-phase self-check (0.3% of the orbit) reads +0.3395% — 133.54% per orbit — and from the aphelion start the osculating period shrinks −13.0% within a 0.56-orbit window with the orbit never reaching perihelion (radius range 457–530 units vs the transcribed perihelion 167.5; without a declared cmGauge the measurement side's barycentre also walks 7.0 units — the wave-209 mechanism). The initial phase is APHELION-ALIGNED (wave 211 — the stellar two-body convention: the phase is unified with the DFM build ✴️, and only the self-check probes the maximum-sensitivity perihelion phase). χ=W/(D₀+W) is 0.947 (A) / 0.955 (B) at perihelion and 0.851/0.871 at apoapsis: at mass ratio 0.8428 BOTH stars carry high χ at once, so no dominant centre absorbs the reaction (the equal-mass limit of the χ series, found on the wave-197 synthetic binary, holding here on a real one for the first time). Zero NaN; two runs are bit-identical (QA behavior.alphaCenAB).",
       control:"One-tap A/B: side B is kFrame=1 (the MEASUREMENT side) — under the observation-stability rule the default A/B direction is reversed relative to the other real calibrations, and pressing it shows the secular growth of the dragging term itself (the osculating period keeps stretching and the orbit opens up). With timeScale=1000 one on-screen second ≈ 11.6 days. Display uses dispMag=300 (the stars are 0.085/0.060-unit dots — display only); use trails. camera.scale=630 is the convention value, 1.2 × the 529.6-unit apoapsis."},
     parameterAudit:{
       observedInputs:["real G=6.674","real c₀=3×10⁴",
@@ -7185,7 +7218,7 @@ const BUILTIN_PRESETS = [
         "kFrame=0 (the observation-stability rule, adjudicated 2026-08-25: a reproduction of observed values adopts the formula that is stable at those values — the observed values were themselves computed from that formula; the kFrame=1 template is returned by the self-check as secularly unstable, and frame dragging moves to the A/B measurement side)",
         "frameReaction:\"pairReduced\" (E6′-R — the free-centre reaction rule, wave 184)",
         "kRep=muF=γN=κ_S=0 / geoPN=2, λ_PN=1, pnα=1.5 / stateCarry:\"double\"",
-        "two-body barycentric (both stars free), perihelion-aligned",
+        "two-body barycentric (both stars free), APHELION-aligned (wave 211 — the stellar two-body convention: phase unified with the DFM build ✴️; the self-check probes the maximum-sensitivity perihelion phase)",
         "AU→m 1.495978707×10¹¹ (IAU exact) and yr→s 3.15576×10⁷ (Julian year) as unit conversions, not observations"],
       fitted:["D₀=0.006 (the shared value fixed on 🌘, used as is — zero fits in this system; speed calibration 1.000)"],
       derived:["q=4.6111 (the qLock exact-agreement form q_exact evaluated once at a=348.54808)","κ=G/c₀²=7.4156×10⁻⁹",
@@ -7222,14 +7255,14 @@ const BUILTIN_PRESETS = [
       expected:{min:50, max:250},
       descPattern:"1公転換算 (\\d+\\.\\d+)%", testId:"behavior.alphaCenAB" },
     { id:"alphaCenAB.drag-secular-kf1", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
-      metric:"kf1WindowGrowthPct",
+      metric:"kf1PeriodShiftPct",
       chain:{ax:["A4","A5"], eq:["E4","E6′"],
-        note:"A/B 測定側(kFrame=1)の永年成長の定量: 接触要素周期が6%公転窓で +400% まで成長する(第209便: QA 推定器の実測へ同期 — 旧 +248% は第199便生成時の別推定器の値) — χ 系列(🌇 +0.002%・🌊 +0.117%・❄️ +0.246%)の対等質量極限が実在の連星で成立する第1例。フィットで消さずに測定側として宣言する。",
-        noteEn:"Quantifies the secular growth on the A/B measurement side (kFrame=1): the osculating period grows to +400% within a 6%-orbit window (wave 209: synced to the QA estimator; the old +248% came from the wave-199 generation-time estimator) — the first real binary where the equal-mass limit of the χ series (🌇 +0.002%, 🌊 +0.117%, ❄️ +0.246%) holds. Declared as the measurement side, not fitted away."},
-      roleNote:"回顧的確認 — 較正ノブはゼロ。観測との不一致(永年成長)を含めてそのまま宣言する項目である。",
-      roleNoteEn:"Retrospective check — zero calibration knobs. The item declares the disagreement (the secular growth) as is.",
-      expected:{min:100, max:500},
-      descPattern:"6%公転窓で \\+(\\d+)% まで成長", testId:"behavior.alphaCenAB" }
+        note:"A/B 測定側(kFrame=1)が転写軌道を保てないことの定量(第211便: 遠点整列の採用状態からの実測へ更新 — 旧宣言〔近点発 6%窓 +400%〕は初期位相の変更に伴い置換): 遠点発 0.56公転窓で接触要素周期が −13.0% 縮み、軌道は近点に届かない(半径範囲 457〜530・転写近点 167.5)。近点位相の永年成長そのものは自己診断(1公転換算 133.54% — alphaCenAB.obs-stability)が引き続き機械固定する。フィットで消さずに測定側として宣言する。",
+        noteEn:"Quantifies that the A/B measurement side (kFrame=1) cannot hold the transcribed orbit (wave 211: re-measured from the aphelion-aligned adopted state — the old declaration, +400% in a perihelion-start 6% window, is replaced with the phase change): from aphelion the osculating period shrinks −13.0% within a 0.56-orbit window and the orbit never reaches perihelion (radius range 457–530 vs the transcribed 167.5). The perihelion-phase secular growth itself stays machine-fixed by the self-check (133.54% per orbit — alphaCenAB.obs-stability). Declared as the measurement side, not fitted away."},
+      roleNote:"回顧的確認 — 較正ノブはゼロ。観測との不一致(転写契約の破れ)を含めてそのまま宣言する項目である。",
+      roleNoteEn:"Retrospective check — zero calibration knobs. The item declares the disagreement (the broken transcription contract) as is.",
+      expected:{min:5, max:50},
+      descPattern:"0\\.56公転窓で接触要素周期が −(\\d+\\.\\d+)%", testId:"behavior.alphaCenAB" }
   ],
   parameterAudit:{
     observedInputs:["実 G=6.674","実 c₀=3×10⁴",
@@ -7242,7 +7275,7 @@ const BUILTIN_PRESETS = [
       "kFrame=0(観測安定則 — 2026-08-25 裁定「観測値再現版は、観測値で安定する計算式を採用する。観測値自体が計算式で算出されている為」。kFrame=1 雛形は自己診断が永年不安定として差し戻し、引きずりは A/B の測定側へ)",
       "frameReaction:\"pairReduced\"(E6′-R — 自由中心の反作用則・第184便)",
       "kRep=muF=γN=κ_S=0 / geoPN=2・λ_PN=1・pnα=1.5 / stateCarry:\"double\"",
-      "二体重心系(両星とも自由)・近点整列",
+      "二体重心系(両星とも自由)・**遠点整列**(第211便 — 恒星二体の規約: ✴️ DFM 版と初期位相を統一。自己診断は感度最大の近点位相の複製で実施)",
       "AU→m 1.495978707×10¹¹(IAU 定義の厳密値)・年→秒 3.15576×10⁷(ユリウス年)は単位換算であって観測ではない"],
     fitted:["D₀=0.006(🌘 で決めた共有値の流用 — 本系でのフィットはゼロ。初速較正 1.000)"],
     derived:["q=4.6111(qLock 厳密一致式 q_exact を a=348.54808 で1回評価した直値)","κ=G/c₀²=7.4156×10⁻⁹",
@@ -7257,9 +7290,12 @@ const BUILTIN_PRESETS = [
   bodies:[ // 並び: 0=A(自由)・1=B。観測転写経路の決定的配置のビット写し(観測安定則 kFrame=0 採用)
            // (1単位=10¹⁰m/10⁶s/10²⁹kg): A 2.1451938e30kg/8.4738e8m/自転15.9日、
            //  B 1.8079442e30kg/5.979336e8m/a=3.4854808e12m・e=0.51947・自転36.23日。
-           //  初速は近点の実ケプラー接線速度(重心系配分・較正係数 1.000)
-    {type:"single", m:21.451938, radius:0.084738, x:-76.59955524943567, y:0, vx:0, vy:-0.7075572743352302, spin:4.57371397, pinned:false, pnSource:true},
-    {type:"single", m:18.079442, radius:0.05979336, x:90.88825363296436, y:0, vx:0, vy:0.8395433211095978, spin:2.00723302, pinned:false}
+           // 第211便(遠点整列 — 恒星二体の規約): 初速は**遠点**の実ケプラー接線速度
+           //  (barycentric-apo・重心系配分・較正係数 1.000)。✴️ DFM 版と初期位相を統一 —
+           //  同じ遠点状態(構築経路の丸め 1ulp の範囲で一致)に質量だけ ×1.827 が ✴️。
+           //  自己診断は近点位相の複製で実施(感度規約 — buildAstroFromRecords 第211便)
+    {type:"single", m:21.451938, radius:0.084738, x:-242.21323583305934, y:0, vx:0, vy:-0.22376387624389305, spin:4.57371397, pinned:false, pnSource:true},
+    {type:"single", m:18.079442, radius:0.05979336, x:287.3951152845407, y:0, vx:0, vy:0.26550425615036494, spin:2.00723302, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -7275,7 +7311,7 @@ const BUILTIN_PRESETS = [
     {q:"実測離心率(1周目の半径比振れ幅)", model:"0.51674(−0.53%)", obs:"e=0.51947 ± 0.00015(転写)"},
     {q:"外殻の半径と自転(第208便 — 役割反転)", model:"半径 0.084738/0.05979336・自転 15.9日/36.23日 — ライブ状態が全窓ビットで保持(ドリフト 0)", obs:"A 1.2175 R☉・15.9日/B 0.8591 R☉・36.23日(転写)"},
     {q:"DFM 質量(条件つき較正 — 実在値の主張ではない)", model:"質量スケール f=1.827: A 1.9710 M☉(3.9193×10³⁰kg)・B 1.6611 M☉(3.3031×10³⁰kg)", obs:"—(kFrame=1 の計算式で観測周期に合わせた1ノブ fit)"},
-    {q:"軌道の形", model:"歳差するロゼット(kF1 は閉軌道を作らない)・radial 範囲は 〜0.03%/周で緩やかに収縮(宣言)", obs:"—(準安定の宣言)"},
+    {q:"軌道の形(第211便 — 歳差の定量)", model:"歳差するロゼット — 近点移動 +4.27°/周(順行・実測)。geoPN=0 でも +4.64°/周 → kF1 引きずり項自身の帰結・radial 〜0.03%/周収縮", obs:"—(準安定の宣言。1PN 解析値 2.3×10⁻⁶°/周は無関係)"},
     {q:"隠れコア(第208便 — 偶力の受け皿)", model:"E6′-R 偶力は coupleSink:core で J_core へ。コア Ω ドリフト A +3.8%/B +8.7%・clampSN=0", obs:"—(観測値を表さない内部自由度 — トイ近似・恒星核の再現ではない)"},
     {q:"重心(第209便 — cmGauge:barycentric)", model:"2.2公転の重心移動 4×10⁻⁵ 単位(✨ と同桁)・粒子+リザーバ P 残差 1×10⁻¹⁴", obs:"—(D₀ 開放系の共通成分は除く宣言 — 観測照合は相対座標)"}],
   failureFirst:{
@@ -7283,7 +7319,7 @@ const BUILTIN_PRESETS = [
     pass:"**「質量は軌道から計算式で算出される量 — 計算式が変われば質量が変わる」(原仮定者・2026-08-25 第8報)の実装第1号**。観測軌道の遠点状態(分離 529.61 単位・f=1 の実ケプラー遠点速度)をそのまま初期状態に取り、kFrame=1 の DFM 式で観測周期 79.762 年を再現する質量を1ノブ較正すると **質量スケール f=1.827** — このとき実測離心率 0.51677(転写比 −0.52%)・近点 168.7(観測版比 +0.7%)も**合わせていないのに** ±1% で観測の軌道形に一致する(P・e・近点の3観測量が同じ f を指す)。DFM 質量は A 1.9710 M☉・B 1.6611 M☉(ニュートン式推定の 1.827 倍)— 実在の質量の主張ではなく、**計算式に条件づけられた較正値**である。"},
   descStruct:{
     summary:"観測版 ✨(kFrame=0 — 観測安定則)の**対になる DFM 版**(第203便)。転写幾何は ✨ と同一 — 遠点分離 529.61 単位(=a(1+e)・Akeson et al. 2021 の a=23.299 AU・e=0.51947)・遠点接線速度は転写質量での実ケプラー値・両星の自転と半径も転写値。そのうえで **kFrame=1(空間引きずり ON — DFM の計算式)で観測周期 79.762 年を再現する質量を1ノブ較正**: 質量スケール f=1.827 → A 1.9710 M☉(3.9193×10³⁰kg)・B 1.6611 M☉(3.3031×10³⁰kg)。「質量は軌道から計算式で算出される量なので、計算式が変われば質量も変わる」(原仮定者第8報)— ニュートン式が M_total 3.95×10³⁰kg を出すのと同じ軌道から、DFM 式は ×1.827 を出す。**実在の質量の主張ではない**(計算式に条件づけられた較正値 — fidelity は幾何の転写と較正手順の宣言について)。**二層構造(第207便採用 → 第208便完成 — 役割反転)**: ①**外殻(body.radius・body.spin)は転写の光学半径・光学自転そのもの**(A 0.084738・15.9日/B 0.05979336・36.23日 — 実行時も全窓ビットで保持)②E6′-R の偶力(第205便の飽和源)は宣言キー **coupleSink:\"core\" が隠れコアの J_core へ送る**(有効慣性 ζ=27853.1〔inertiaScale〕 — 第207便採用の結合殻容量 ½mR²|R=5 を幾何を変えずコアへ等価移送した導出値。コア半径=殻の半分・massFrac=0.5 は規約・Kcs=0)③**二層はトイモデルの近似で、隠れコアは偶力の受け皿であって恒星内部構造(核・対流層)の再現ではない**(コア Ω は観測値を表さない)。働いているのは重力(E4)と空間引きずり(A8/E6′)+測地線1PN(E12)。q=4.6111・D₀=0.006 は ✨ の値をそのまま流用。**重心ゲージ(第209便)**: D₀>0 の系は宣言どおり開放系で、kFrame=1 の自由二体は背景持ち分の共通成分で**重心が歩く**(実測 1公転 14 単位 ≈ a の 2.7% — ✨ と並べた画面で系全体が移動して見える)。孤立連星の較正として **cmGauge:\"barycentric\"** を宣言し、相対キック(D₀ の差動成分を含む)を残して共通加速度だけを除く — 相対軌道の較正は保たれ、重心は ✨ と同桁の機械ゼロに止まる(観測照合は相対座標という前提の機械化。較正ノブではない)。",
-    observe:"実測(3.2公転窓・重心ゲージ込み): 周回時間 [79.815, 79.777, 79.767] 年 — **2周目 79.777 年は観測 79.762 年の +0.019%**(fit 対象)。合わせていない側: 1周目の実測離心率 0.51674(転写 0.51947 の −0.53%)・近点 168.7 単位(観測版の 167.5 の +0.7%)— **P に合わせた f=1.827 が e と近点も ±1% で当てる**(P・e・近点が同じ f に収束することが本サンプルの発見 — 役割反転・重心ゲージ後も再フィットなしで保持)。軌道は歳差するロゼットで、radial 範囲は1周あたり 〜0.03% ずつ緩やかに収縮する(kF1 に厳密な閉軌道・定常はない — 宣言)。公転の向きは ✨ と同回り(第204便)。役割反転の実測(第208便): **殻スピンのドリフトは A +0.0%・B +0.0%**(3.2公転の min=max が転写値のビット値 — 観測自転 15.9日/36.23日 を実行時も保持)・**clampSN=0**・偶力を受けた**コア Ω のドリフトは A +3.8%・B +8.7%**(観測対象外の内部自由度)・角運動量帳簿(総L+リザーバ)の相対残差 1.3×10⁻¹⁰。重心ゲージの実測(第209便): **2.2公転の重心移動 4.2×10⁻⁵ 単位**(✨ の 8.2×10⁻⁵ と同桁の機械ゼロ)・粒子+リザーバの線運動量残差 1.2×10⁻¹⁴。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.alphaCenAB)。",
+    observe:"実測(3.2公転窓・重心ゲージ込み): 周回時間 [79.815, 79.777, 79.767] 年 — **2周目 79.777 年は観測 79.762 年の +0.019%**(fit 対象)。合わせていない側: 1周目の実測離心率 0.51674(転写 0.51947 の −0.53%)・近点 168.7 単位(観測版の 167.5 の +0.7%)— **P に合わせた f=1.827 が e と近点も ±1% で当てる**(P・e・近点が同じ f に収束することが本サンプルの発見 — 役割反転・重心ゲージ後も再フィットなしで保持)。軌道は歳差するロゼットで、**近点移動 +4.27°/周**(順行 — 近点通過方向の実測。第211便の定量: 近点発3近点で [4.270, 4.265]°/周・遠点発2.2公転窓で 4.270°/周)。この歳差(=系全体の見かけの回転)は座標系・表示の不具合ではなく **kF1 空間引きずり項自身の帰結**である — 測地線1PN を切った対照(geoPN=0)でも +4.64°/周 残り、1PN の解析近点移動 Δϖ=6πGM/(c²a(1−e²))=2.3×10⁻⁶ °/周は6桁小さく寄与しない。radial 範囲は1周あたり 〜0.03% ずつ緩やかに収縮する(kF1 に厳密な閉軌道・定常はない — 宣言)。公転の向きは ✨ と同回り(第204便)。役割反転の実測(第208便): **殻スピンのドリフトは A +0.0%・B +0.0%**(3.2公転の min=max が転写値のビット値 — 観測自転 15.9日/36.23日 を実行時も保持)・**clampSN=0**・偶力を受けた**コア Ω のドリフトは A +3.8%・B +8.7%**(観測対象外の内部自由度)・角運動量帳簿(総L+リザーバ)の相対残差 1.3×10⁻¹⁰。重心ゲージの実測(第209便): **2.2公転の重心移動 4.2×10⁻⁵ 単位**(✨ の 8.2×10⁻⁵ と同桁の機械ゼロ)・粒子+リザーバの線運動量残差 1.2×10⁻¹⁴。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.alphaCenAB)。",
     control:"ワンタップ対照A/B: B側 kFrame=0(観測版の計算式側)— **同じ初期状態・同じ×1.827 質量**では引力が過剰になり、軌道は深い楕円へ落ち込む(推定近点 〜80 単位)。×1.827 は kFrame=1 専用の較正であることの機械対照。もう1つの否定対照(QA が機械固定): **coupleSink を外す(既定 \"spin\")と、同じ光学半径のまま再び ±40 飽和**する(0.3公転で clampSN ~5.4×10⁴)— 解消の原因が「巨大半径」ではなく**偶力の受け先の付け替え**であることの直接証明。第3の否定対照(QA が機械固定): **cmGauge を外すと重心が歩き出す**(0.5公転で 7.1 単位・1公転で 14-15 単位 — D₀ 開放系の共通成分が原因である直接証明。粒子+リザーバの P は歩行中も 10⁻¹⁴ で閉じる)。コアを外しても(coupleSink:\"core\" のまま)受け皿はリザーバ帳簿へフォールバックし殻は不変(保存的)。観測版 ✨ と本サンプルの対で「同じ観測・違う計算式・違う質量」の二層が見える。timeScale=1000 で画面1秒≈11.6 日・dispMag=300(表示専用 — ✨ と同じ規約)・トレイルで軌道を見る。"},
   en:{name:"Alpha Centauri AB (DFM build) — the kF1 mass calibration",
     obsCard:[
@@ -7291,7 +7327,7 @@ const BUILTIN_PRESETS = [
       {q:"Measured eccentricity (radius-ratio wobble, 1st revolution)", model:"0.51674 (−0.53%)", obs:"e=0.51947 ± 0.00015 (transcribed)"},
       {q:"Shell radius and rotation (wave 208 — role reversal)", model:"radii 0.084738/0.05979336, rotations 15.9 d/36.23 d — held bit-exactly by the live state (drift 0)", obs:"A 1.2175 R☉, 15.9 d / B 0.8591 R☉, 36.23 d (transcribed)"},
       {q:"DFM masses (a conditional calibration — NOT a claim about the real masses)", model:"mass scale f=1.827: A 1.9710 M☉ (3.9193×10³⁰ kg), B 1.6611 M☉ (3.3031×10³⁰ kg)", obs:"— (a one-knob fit of the kFrame=1 formula to the observed period)"},
-      {q:"Orbit shape", model:"a precessing rosette (kF1 admits no closed orbit); the radial range contracts slowly, ~0.03% per revolution (declared)", obs:"— (declared quasi-stability)"},
+      {q:"Orbit shape (wave 211 — precession quantified)", model:"precessing rosette — perihelion advance +4.27°/rev prograde (+4.64° at geoPN=0 — kF1's own effect); contracts ~0.03%/rev", obs:"— (declared quasi-stability; the analytic 1PN 2.3×10⁻⁶°/rev is irrelevant)"},
       {q:"Hidden core (wave 208 — the couple's receptacle)", model:"the E6′-R couple goes to J_core via coupleSink:core. Core Ω drift A +3.8%/B +8.7%, clampSN=0", obs:"— (an internal DOF representing no observable — a toy, not a stellar core)"},
       {q:"Barycentre (wave 209 — cmGauge:barycentric)", model:"CM shift 4×10⁻⁵ units over 2.2 orbits (same order as ✨); particle+reservoir P residual 1×10⁻¹⁴", obs:"— (the D₀ common mode is removed by declaration; comparison is in relative coordinates)"}],
     failureFirst:{
@@ -7299,7 +7335,7 @@ const BUILTIN_PRESETS = [
       pass:"THE FIRST IMPLEMENTATION of the adjudicator's principle (8th device report, 2026-08-25): masses are quantities COMPUTED FROM ORBITS BY A FORMULA — change the formula and the masses change. Taking the observed orbit's apoapsis state as the initial condition (separation 529.61 units, the real Kepler apoapsis speed at the transcribed masses) and calibrating ONE knob — the mass scale — so that the kFrame=1 DFM formula reproduces the observed 79.762-yr period gives f=1.827. At that f the measured eccentricity 0.51677 (−0.52%) and perihelion 168.7 (+0.7%) ALSO land within ±1% of the observed shape, though neither was fitted: P, e and the perihelion all point to the same f. The DFM masses are A 1.9710 M☉ and B 1.6611 M☉ (1.827× the Newtonian inference) — not a claim about the real masses, but a calibration conditioned on the formula."},
     descStruct:{
       summary:"The DFM COUNTERPART (wave 203) of the observation build ✨ (kFrame=0 under the observation-stability rule). The transcribed geometry is identical to ✨ — apoapsis separation 529.61 units (=a(1+e), from Akeson et al. 2021's a=23.299 AU, e=0.51947), the real Kepler apoapsis speed at the transcribed masses, and both stars' rotations and radii. On top of that, ONE knob — the mass scale — is calibrated so that kFrame=1 (frame dragging ON, the DFM formula) reproduces the observed 79.762-yr period: f=1.827, giving A 1.9710 M☉ (3.9193×10³⁰ kg) and B 1.6611 M☉ (3.3031×10³⁰ kg). Masses are quantities computed from orbits by a formula — the same orbit that yields M_total 3.95×10³⁰ kg under the Newtonian formula yields ×1.827 under the DFM one. NOT a claim about the real masses (a calibration conditioned on the formula; fidelity refers to the transcribed geometry and the declared procedure). THE TWO-LAYER STRUCTURE (adopted wave 207, completed wave 208 — role reversal): (1) THE SHELL (body.radius, body.spin) IS the transcribed optical radius and rotation itself (A 0.084738, 15.9 d / B 0.05979336, 36.23 d — held bit-exactly at runtime); (2) the E6′-R couple (the wave-205 saturation source) is sent into the hidden core's J_core by the declaration key coupleSink:\"core\" (effective inertia ζ=27853.1 [inertiaScale] — the wave-207 coupling-shell capacity ½mR²|R=5 transferred to the core without changing the geometry; core radius = half the shell, massFrac=0.5, Kcs=0 — all conventions); (3) the two layers are a TOY APPROXIMATION — the hidden core is the couple's receptacle, not a reconstruction of stellar interiors (the core Ω represents no observable). Only gravity (E4), frame dragging (A8/E6′) and the geodesic 1PN term (E12) act. q=4.6111 and D₀=0.006 are reused from ✨ as is. THE BARYCENTRIC GAUGE (wave 209): a D₀>0 system is an open system by declaration, and under kFrame=1 the free binary's barycentre WALKS on the background's common mode (measured: 14 units ≈ 2.7% of a per orbit — the whole system visibly drifts next to ✨). The declaration cmGauge:\"barycentric\" removes only the common-mode acceleration, keeping every relative kick (including the D₀ differential part) — the relative calibration is preserved and the barycentre stays at machine zero like ✨ (mechanising the premise that observables are compared in relative coordinates; not a calibration knob).",
-      observe:"Measured over a 3.2-orbit window (with the barycentric gauge): revolution times [79.815, 79.777, 79.767] yr — the 2nd revolution, 79.777 yr, is +0.019% of the observed 79.762 (the fit target). The unfitted side: the 1st-revolution eccentricity 0.51674 (−0.53% of the transcribed 0.51947) and the perihelion 168.7 units (+0.7% of the observation build's 167.5) — the f=1.827 fitted to P ALSO lands e and the perihelion within ±1% (the convergence of P, e and perihelion on one f is this sample's finding — retained with NO refit through both the role reversal and the gauge). The orbit is a precessing rosette whose radial range contracts slowly, ~0.03% per revolution (kF1 admits no strictly closed or stationary orbit — declared), and runs the same way round as ✨ (wave 204). The role-reversal measurements (wave 208): SHELL-SPIN DRIFT A +0.0% / B +0.0% (min=max at the transcribed bit value — the observed rotations 15.9 d/36.23 d held at runtime), clampSN=0, the CORE Ω that receives the couple drifts A +3.8% / B +8.7% (an internal, unobserved DOF), and the angular-momentum ledger closes to 1.3×10⁻¹⁰. The gauge measurements (wave 209): CM SHIFT 4.2×10⁻⁵ UNITS over 2.2 orbits (the same order as ✨'s 8.2×10⁻⁵ — machine zero) and a particle+reservoir momentum residual of 1.2×10⁻¹⁴. Zero NaN; two runs are bit-identical (QA behavior.alphaCenAB).",
+      observe:"Measured over a 3.2-orbit window (with the barycentric gauge): revolution times [79.815, 79.777, 79.767] yr — the 2nd revolution, 79.777 yr, is +0.019% of the observed 79.762 (the fit target). The unfitted side: the 1st-revolution eccentricity 0.51674 (−0.53% of the transcribed 0.51947) and the perihelion 168.7 units (+0.7% of the observation build's 167.5) — the f=1.827 fitted to P ALSO lands e and the perihelion within ±1% (the convergence of P, e and perihelion on one f is this sample's finding — retained with NO refit through both the role reversal and the gauge). The orbit is a precessing rosette with a PERIHELION ADVANCE OF +4.27°/rev prograde (measured from the perihelion-passage directions — wave 211: [4.270, 4.265]°/rev over three perihelia from a perihelion start, 4.270°/rev in the 2.2-orbit window from aphelion). This precession (the apparent whole-system rotation) is no frame or display artefact but THE CONSEQUENCE OF THE kF1 DRAGGING TERM ITSELF — the geoPN=0 control still precesses at +4.64°/rev, and the analytic 1PN advance Δϖ=6πGM/(c²a(1−e²))=2.3×10⁻⁶ °/rev is six orders too small to contribute. The radial range contracts slowly, ~0.03% per revolution (kF1 admits no strictly closed or stationary orbit — declared), and the orbit runs the same way round as ✨ (wave 204). The role-reversal measurements (wave 208): SHELL-SPIN DRIFT A +0.0% / B +0.0% (min=max at the transcribed bit value — the observed rotations 15.9 d/36.23 d held at runtime), clampSN=0, the CORE Ω that receives the couple drifts A +3.8% / B +8.7% (an internal, unobserved DOF), and the angular-momentum ledger closes to 1.3×10⁻¹⁰. The gauge measurements (wave 209): CM SHIFT 4.2×10⁻⁵ UNITS over 2.2 orbits (the same order as ✨'s 8.2×10⁻⁵ — machine zero) and a particle+reservoir momentum residual of 1.2×10⁻¹⁴. Zero NaN; two runs are bit-identical (QA behavior.alphaCenAB).",
       control:"One-tap A/B: side B is kFrame=0 (the observation build's formula) — at the SAME initial state and the SAME ×1.827 masses, gravity is now excessive and the orbit plunges into a deep ellipse (estimated perihelion ~80 units): the ×1.827 calibration belongs to kFrame=1 only. A second negative control (machine-fixed by QA): REMOVING coupleSink (default \"spin\") RE-SATURATES AT ±40 at the same optical radii (clampSN ~5.4×10⁴ in 0.3 orbits) — direct proof that the resolution comes from re-routing the couple, not from an inflated radius. A third negative control (machine-fixed by QA): REMOVING cmGauge SETS THE BARYCENTRE WALKING again (7.1 units in half an orbit, 14–15 per orbit — direct proof the walk is the D₀ open system's common mode; the particle+reservoir momentum stays closed to 10⁻¹⁴ even while walking). Removing the cores instead (coupleSink:\"core\" kept) falls back conservatively to the reservoir ledger and the shells stay frozen. Together with ✨ the pair shows one observation, two formulas, two mass ledgers. With timeScale=1000 one on-screen second ≈ 11.6 days; dispMag=300 (display only — the same convention as ✨); use trails."},
     parameterAudit:{
       observedInputs:["real G=6.674","real c₀=3×10⁴",
@@ -7360,7 +7396,16 @@ const BUILTIN_PRESETS = [
       roleNote:"回顧的確認 — 外殻が観測値を実行時も保つことの実測。受け皿の容量 ζ は fitted 欄(第207便容量の等価移送)で、本 claim はその帰結の照合。",
       roleNoteEn:"Retrospective check — measures that the shell holds the observed values at runtime. The receptacle capacity ζ is in fitted (the wave-207 capacity transferred); this claim verifies the consequence.",
       expected:{min:0, max:0.5},
-      descPattern:"殻スピンのドリフトは A \\+(\\d+\\.\\d+)%", testId:"behavior.alphaCenAB" }
+      descPattern:"殻スピンのドリフトは A \\+(\\d+\\.\\d+)%", testId:"behavior.alphaCenAB" },
+    { id:"alphaCenABDFM.perihelion-advance", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+      metric:"dfmPeriAdvanceDeg",
+      chain:{ax:["A4","A5","A8"], eq:["E4","E6′"],
+        note:"第211便(原仮定者の実機確認質問「系全体の回転は近点移動で正しいのか」への機械回答): ✴️ のロゼット歳差は近点移動 +4.27°/周(順行)で、測地線1PN を切った対照(geoPN=0)でも +4.64°/周 — 1PN(解析値 2.3×10⁻⁶ °/周)ではなく kF1 空間引きずり項自身の帰結である。系全体の回転は正しい(座標系・表示の不具合ではない)。QA は遠点発2.2公転窓の近点通過方向から実測する。",
+        noteEn:"Wave 211 (the machine answer to the adjudicator's device question — is the whole-system rotation correct as perihelion advance?): the rosette precession is +4.27°/rev prograde, and +4.64°/rev even at geoPN=0 — the consequence of the kF1 dragging term itself, not the 1PN term (analytic 2.3×10⁻⁶ °/rev). The rotation is correct (no frame or display artefact). QA measures it from the perihelion-passage directions over the 2.2-orbit window from aphelion."},
+      roleNote:"回顧的確認 — 較正ノブはゼロ。歳差は fit で消さずそのまま宣言する。",
+      roleNoteEn:"Retrospective check — zero calibration knobs. The precession is declared, not fitted away.",
+      expected:{min:3.5, max:5.0},
+      descPattern:"近点移動 \\+(\\d+\\.\\d+)°/周", testId:"behavior.alphaCenAB" }
   ],
   parameterAudit:{
     observedInputs:["実 G=6.674","実 c₀=3×10⁴",
@@ -7996,7 +8041,7 @@ const BUILTIN_PRESETS = [
   bodies:[
     // 中心の「エンジン」(自由・減光 auto。半径18 は見た目の指定 — 質量由来の 44.7 は
     // ガス配置の除外半径として効く = 円盤の内縁が自然にできる)
-    {type:"single", rMul:1, m:2000, x:0,y:0, vx:0,vy:0, spin:2, radius:18, lightSweep:"auto", pinned:false, tInt:0},
+    {type:"single", m:2000, x:0,y:0, vx:0,vy:0, spin:2, radius:18, lightSweep:"auto", pinned:false, tInt:0},
     // 冷たいガスの帯(x方向に長く・y方向に薄く)
     {type:"box", rMul:4, n:340, cx:0,cy:0, w:560,h:14, mMin:0.05,mMax:0.05,
      spinMin:0,spinMax:0, tInt:0.01, vScale:0.05}
@@ -8139,9 +8184,9 @@ const BUILTIN_PRESETS = [
     radiusScale:1, softening:3, timeScale:2},
   bodies:[
     // 中心核(固定・R=√600≈24.5)。pinned は融合の対象外なので「燃料」はガス200粒だけ
-    {type:"single", rMul:1, m:600, x:0,y:0, vx:0,vy:0, spin:0, pinned:true, tInt:2},
+    {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0, pinned:true, tInt:2},
     // ガス球(自由・サブケプラー初速 0.6倍 → 落ち込みながら回る。tInt=2 は kRep=0 なので力に効かない)
-    {type:"disk", rMul:1, n:200, cx:0,cy:0, radius:200, mMin:1,mMax:1,
+    {type:"disk", n:200, cx:0,cy:0, radius:200, mMin:1,mMax:1,
      spinMin:0,spinMax:0, tInt:2, vMode:"kepler", aroundMass:600, vScale:0.6, direction:1}
   ],
   // 温度ヒストグラム(左右の平均温度)は球対称の星では意味を持たないので出さない(🌪️spinup と同じ)
@@ -8182,13 +8227,13 @@ const BUILTIN_PRESETS = [
     radiusScale:1, softening:3, timeScale:2},
   bodies:[
     // 親天体(固定・揺すりの源になる楕円軌道の中心)
-    {type:"single", rMul:1, m:400, x:0,y:0, vx:0,vy:0, spin:0, pinned:true, radius:10},
+    {type:"single", m:400, x:0,y:0, vx:0,vy:0, spin:0, pinned:true, radius:10},
     // 種A(右): 差動コア=軸自由 — 圧縮+パワーボールで育ち、暗くなる
-    {type:"single", rMul:1, m:40, x:120,y:0, vx:0,vy:1.2, spin:0.3, pinned:false,
+    {type:"single", m:40, x:120,y:0, vx:0,vy:1.2, spin:0.3, pinned:false,
      radius:6, lightSweep:"auto",
      core:{mode:"differential", massFrac:0.3, radius:3, omega:1.5, pump:2.5, contract:0.02}},
     // 種B(左): 剛体コア=軸固定 — 同じ揺すりで減速する対照
-    {type:"single", rMul:1, m:40, x:-120,y:0, vx:0,vy:-1.2, spin:3, pinned:false,
+    {type:"single", m:40, x:-120,y:0, vx:0,vy:-1.2, spin:3, pinned:false,
      radius:6, lightSweep:"auto",
      core:{mode:"rigid", massFrac:0.3, radius:3, pump:2.5}}
   ],
@@ -10790,6 +10835,31 @@ function makeSim(){
   S.lSwEff = function(i){ return (i>=0 && i<S.n)? S.lSw[i] : 0; };
   // 第36便 C2: lSwAuto の有無を再計算(粒子編集パネルで auto を付け外ししたときに呼ぶ)
   S.syncLSwAuto = function(){ let f=false; for(let i=0;i<S.n;i++) if(S.lSwAuto[i]){ f=true; break; } S.hasLSwAuto=f; return f; };
+  // 第212便(原仮定者指示「coreの数値も編集可能にする。有効によるフィールド追加や、無効による
+  // フィールド無視も可能」): コアv2 を実行時に付け外し・数値編集する唯一の入口(編集パネル用)。
+  // cfg=null で除去(build の「コアなし」初期化と同値)。cfg={mode,massFrac,radius,omega,Kcs,
+  // inertiaScale,tilt} で build のコア初期化式の鏡写し(J=½·Mc·Rc²·ζ·ω·cosθ・容量 Jm=|½·Mc·Rc²·ζ·ω|)。
+  // 値域クランプは検証器 vCore と同値。m/spin の直接編集と同じ実験用途 — 帳簿(T7)は編集時点から
+  // 再出発する。cavity(coreMd=4)の数値編集は対象外(呼び出し側が除去/新規のみに使う)
+  S.applyCoreEdit = function(i, cfg){
+    if(!(i>=0 && i<S.n)) return;
+    if(!cfg){
+      S.coreMd[i]=0; S.coreMF[i]=0; S.RcV[i]=0; S.coreJ[i]=0; S.coreIS[i]=1; S.coreJm[i]=0;
+      S.coreKcs[i]=0; S.corePump[i]=0; S.coreCtr[i]=0; S.coreSrc[i]=0; S.coreEint[i]=0; S.coreOm0[i]=0;
+    } else {
+      const mF=clamp(cfg.massFrac, 0.01, 0.6), Rc=clamp(cfg.radius, 0.01, 200);
+      const om=clamp(cfg.omega, -50, 50), ks=clamp(cfg.Kcs, 0, 10);
+      const iS=clamp(cfg.inertiaScale, 1e-3, 1e6), th=clamp(cfg.tilt, 0, 180);
+      const Mc=mF*Math.abs(S.m[i]), ct=Math.cos(th*Math.PI/180);
+      S.coreMd[i]=(cfg.mode==="rigid")?1:((cfg.mode==="active")?3:2);
+      S.coreMF[i]=mF; S.RcV[i]=Rc; S.coreIS[i]=iS;
+      S.coreJ[i]=0.5*Mc*Rc*Rc*iS*om*ct; S.coreJm[i]=Math.abs(0.5*Mc*Rc*Rc*iS*om);
+      S.coreKcs[i]=ks; S.coreOm0[i]=0;
+    }
+    let any=false; for(let k=0;k<S.n;k++) if(S.coreMd[k]!==0){ any=true; break; }
+    S.hasCoreV2=any;
+    return S.coreMd[i];
+  };
   // 第35便(台帳4-62): 積分器の入口。既定("semi")は _core を1回呼ぶだけで現行と厳密等価
   // (ゼロコスト経路 — QA integrator.default-unchanged が位置ハッシュの bit 一致で保証)。
   // "leapfrog" は KDK(kick–drift–kick): パスA=力評価+半キック+ドリフト、
@@ -14429,18 +14499,24 @@ function render(){
     if(sim.coreMd[i]!==0 && rr>=7){
       const rc=Math.max(3,Math.min(sim.RcV[i]*z,rr*0.92));
       const cav=(sim.coreMd[i]===4), omc=coreOmegaOf(sim,i);
+      // 第212便(原仮定者指示「⚫ core.tilt:90 は目視での確認が難しい」): 軸傾きの目視 —
+      // z 射影率 |J_z|/|J| を短軸比にした楕円で描く(表示専用・短軸は画面 y 方向の宣言的規約)。
+      // 非傾斜コアは |J_z|=|J| で真円(従来と同一見た目)。tilt:90 はエッジオンの横棒に見える
+      const sq=(!cav && sim.coreJm[i]>0)? Math.min(1, Math.abs(sim.coreJ[i])/sim.coreJm[i]) : 1;
       if(!cav && sim.lSw[i]!==0){   // 第61便: coreOT 廃止 — 減光時のみ観測温度色
         const Tc=(1-sim.lSw[i])*0.5*Math.abs(sim.coreMF[i]*sim.m[i])*sim.RcV[i]*sim.RcV[i]*sim.coreIS[i]*omc*omc;
         ctx.globalAlpha=0.8;
         ctx.fillStyle=tempColor(Math.min(1,Math.sqrt(Math.max(0,Tc)/Math.max(1e-4,tempP90EMA))));
       } else ctx.fillStyle=cav? "rgba(3,4,10,0.85)" : "rgba(10,12,24,0.55)";
-      ctx.beginPath(); ctx.arc(sx,sy,rc,0,7); ctx.fill(); ctx.globalAlpha=1;
+      ctx.beginPath();
+      if(sq<0.999999) ctx.ellipse(sx,sy,rc,Math.max(rc*sq,1.2),0,0,7); else ctx.arc(sx,sy,rc,0,7);
+      ctx.fill(); ctx.globalAlpha=1;
       if(Math.abs(omc)>1e-4){
         const a0=sim.rotAc[i], fy=flipY?-1:1;   // 第119便: コアスポークも鏡像
         ctx.strokeStyle="rgba(255,255,255,0.5)"; ctx.lineWidth=Math.max(1,rc*0.12);
         for(let k3=0;k3<3;k3++){ const a=a0+k3*2.0944;
-          ctx.beginPath(); ctx.moveTo(sx+Math.cos(a)*rc*0.25, sy+fy*Math.sin(a)*rc*0.25);
-          ctx.lineTo(sx+Math.cos(a)*rc*0.88, sy+fy*Math.sin(a)*rc*0.88); ctx.stroke(); }
+          ctx.beginPath(); ctx.moveTo(sx+Math.cos(a)*rc*0.25, sy+fy*Math.sin(a)*rc*0.25*sq);
+          ctx.lineTo(sx+Math.cos(a)*rc*0.88, sy+fy*Math.sin(a)*rc*0.88*sq); ctx.stroke(); }
         ctx.lineWidth=1;
       }
     }
@@ -14825,13 +14901,17 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
         ctx.globalAlpha=0.8;
         ctx.fillStyle=tempColor(Math.min(1,Math.sqrt(Math.max(0,Tc)/Math.max(1e-4,tempP90EMA))));
       } else ctx.fillStyle=cav? "rgba(3,4,10,0.85)" : "rgba(10,12,24,0.55)";
-      ctx.beginPath(); ctx.arc(px,py,rc,0,7); ctx.fill(); ctx.globalAlpha=1;
+      // 第212便: 軸傾きの目視(メインビューと同じ z 射影楕円 — 表示専用)
+      const sq=(!cav && S.coreJm[i]>0)? Math.min(1, Math.abs(S.coreJ[i])/S.coreJm[i]) : 1;
+      ctx.beginPath();
+      if(sq<0.999999) ctx.ellipse(px,py,rc,Math.max(rc*sq,1.2),0,0,7); else ctx.arc(px,py,rc,0,7);
+      ctx.fill(); ctx.globalAlpha=1;
       if(Math.abs(omc)>1e-4){
         const a0=S.rotAc[i], fy=flipY?-1:1;   // 第119便: A/B側コアスポークも鏡像
         ctx.strokeStyle="rgba(255,255,255,0.5)"; ctx.lineWidth=Math.max(1,rc*0.12);
         for(let k3=0;k3<3;k3++){ const a=a0+k3*2.0944;
-          ctx.beginPath(); ctx.moveTo(px+Math.cos(a)*rc*0.25, py+fy*Math.sin(a)*rc*0.25);
-          ctx.lineTo(px+Math.cos(a)*rc*0.88, py+fy*Math.sin(a)*rc*0.88); ctx.stroke(); }
+          ctx.beginPath(); ctx.moveTo(px+Math.cos(a)*rc*0.25, py+fy*Math.sin(a)*rc*0.25*sq);
+          ctx.lineTo(px+Math.cos(a)*rc*0.88, py+fy*Math.sin(a)*rc*0.88*sq); ctx.stroke(); }
         ctx.lineWidth=1;
       }
     }
@@ -17971,6 +18051,10 @@ function astroSin(deg){ const d=((deg%360)+360)%360;
 // 近点距離と近点での接線速度(実ケプラー。f は出典プリセットが宣言する初速較正係数)
 function astroKeplerPeri(GM, a, e, f){ const rp=a*(1-Math.abs(e||0));
   return {r:rp, v:(f||1)*Math.sqrt(GM*(1+Math.abs(e||0))/rp)}; }
+// 遠点距離と遠点での接線速度(第211便: 恒星二体の採用位相 — ✴️ との初期位相統一。
+// 自己診断は従来どおり近点位相の複製で行う〔感度最大の位相 — buildAstroFromRecords 参照〕)
+function astroKeplerApo(GM, a, e, f){ const ra=a*(1+Math.abs(e||0));
+  return {r:ra, v:(f||1)*Math.sqrt(GM*(1-Math.abs(e||0))/ra)}; }
 // 帯状重力込みの局所円速度 v_c(r)=√[(μ/r)(1+C·Σ(2k+1)A_{2k}(R_S/r)^{2k})](📡と同一の式)
 function astroZonalCirc(mu, r, z){
   let s=0;
@@ -18003,12 +18087,16 @@ function buildAstroPreset(spec, sysOverride){
     if(c.zonal) b.zonal={refR:c.zonal.refR, calib:c.zonal.calib, J:Object.assign({}, c.zonal.J)};
     return b; };
   const bodies=[];
-  if(sys.place==="barycentric-peri"){
+  if(sys.place==="barycentric-peri" || sys.place==="barycentric-apo"){
     // 重心系の二体(🌙🌘 と同じ流儀): 全運動量0で相対近点距離・相対速度を質量比で配分する
     // 第188便: dir=−1(逆行公転 — inclination>π/2 の転写)は接線速度の符号だけを反転する。
     // 既定 dir=1 の乗算は浮動小数で恒等なので、既存系は 1 bit も変わらない
+    // 第211便: barycentric-apo(恒星二体)は近点関数を遠点関数に置き換えるだけ — 配分式は共有。
+    // 従来の barycentric-peri 経路は 1 bit も変わらない
     const s=sats.length? sats[0].s : sys.sats[0];
-    const MT=c.m+s.m, k=astroKeplerPeri(ph.G*MT, s.a, s.e, f), dir=(s.dir===-1? -1 : 1);
+    const MT=c.m+s.m, dir=(s.dir===-1? -1 : 1);
+    const k=(sys.place==="barycentric-apo")? astroKeplerApo(ph.G*MT, s.a, s.e, f)
+      : astroKeplerPeri(ph.G*MT, s.a, s.e, f);
     bodies.push(Object.assign(mkCenter(), {x:-k.r*s.m/MT, y:0, vx:0, vy:-k.v*s.m/MT*dir}));
     if(sats.length) bodies.push({type:"single", m:s.m, radius:s.radius, x:k.r*c.m/MT, y:0,
       vx:0, vy:k.v*c.m/MT*dir, spin:s.spin, pinned:false});
@@ -18381,7 +18469,12 @@ function obsMakeSys(rec, sc){
     scaleTier:tier, scaleExp:{L:sc.L, T:sc.T, M:sc.M}, unit:{ja:unitJa, en:unitEn},
     camera:{scale:camScale}, world:{boundary:"none", size:0},
     overlays:{rotationCurve:false, tempHistogram:false, field:false, trail:true},
-    place:(nS===1? "barycentric-peri" : "kepler-peri"), phase0:0, phaseStep:(nS<=4? 90 : 60),
+    // 第211便: 恒星ティアの二体(連星)は**遠点整列**で採用する(✴️ DFM版との初期位相統一 —
+    // 原仮定者指示 2026-08-27「alphaCenAB側を遠点に揃えても良い」)。惑星系の二体(冥王星カロン・
+    // 太陽−金星等)は従来どおり近点整列で 1 bit も変わらない。自己診断は遠点採用でも**近点位相の
+    // 複製**で行う(感度規約 — 永年不安定は近点通過で顕在化するため。buildAstroFromRecords 参照)
+    place:(nS===1? (tier==="stellar"? "barycentric-apo" : "barycentric-peri") : "kepler-peri"),
+    phase0:0, phaseStep:(nS<=4? 90 : 60),
     center, sats,
     variants:{ kf1:{ src:"observation-records",
       name:{ja:"実較正の雛形規約(kFrame=1・q_exact="+q+")", en:"the real-calibration template (kFrame=1, q_exact="+q+")"},
@@ -18554,7 +18647,8 @@ function buildAstroFromRecords(input, opts){
     }
   }
   const en=(LANG==="en"), M=built.meta, sc=M.scale, sys=built.sys, p=built.preset;
-  const twoBody=(sys.place==="barycentric-peri");
+  const twoBody=(sys.place==="barycentric-peri" || sys.place==="barycentric-apo");
+  const apoAdopt=(sys.place==="barycentric-apo");   // 第211便: 恒星二体は遠点整列で採用(診断は近点複製)
   const targets=rec.sats.map((s,i)=>({ id:s.id, name:s.name, index:i+1, twoBody,
     pObs:s.q.orbital_period/Math.pow(10,sc.T) }));
   // ---- 出典表つき provenance(description は AI が書いた文ではなく、レコードの機械転写)----
@@ -18564,13 +18658,13 @@ function buildAstroFromRecords(input, opts){
   const satNames=rec.sats.map(s=>s.name).join(en? ", " : "・");
   const prov=en
     ? "Built deterministically from SOURCED OBSERVATION RECORDS (wave 176 transcription path). No number here was invented by an AI: every value is transcribed from the source table below, and the unit conversion, the scale exponents, the placement, the initial speeds, the qLock falloff q and the shared correction D₀ are all computed by the app's deterministic functions.\n"
-      +"Units: "+M.unitEn+". Centre: "+rec.center.name+"; satellites: "+satNames+". Placement: perihelion alignment with the real tangential Kepler speed, phases "+sys.phaseStep+"° apart"+(twoBody? " (two-body barycentric; frameReaction:\"pairReduced\" — the E6′-R free-centre reaction rule, wave 184)" : "")+".\n"
+      +"Units: "+M.unitEn+". Centre: "+rec.center.name+"; satellites: "+satNames+". Placement: "+(apoAdopt? "APHELION alignment (the stellar two-body convention, wave 211 — the initial phase is unified with the DFM builds; the self-check still probes the PERIHELION phase, where secular instability is most visible)" : "perihelion alignment")+" with the real tangential Kepler speed, phases "+sys.phaseStep+"° apart"+(twoBody? " (two-body barycentric; frameReaction:\"pairReduced\" — the E6′-R free-centre reaction rule, wave 184)" : "")+".\n"
       +"Derived by rule: q_exact="+M.q+" (the qLock finite-reference normalization evaluated ONCE at the innermost orbit a="+M.aRef+"; the distant-limit q*="+M.qStar.toFixed(4)+" is N/A as the operating convention), D₀=0.006 (the shared value fixed on 🌘 — ZERO fits in this system), camera.scale="+M.camScale+", timeScale="+M.timeScale+", dispMag="+M.dispMag+" (display only).\n"
       +"Declared idealizations: "+rec.ideal.en.join("; ")+".\n"
       +"Self-check (a short "+OBS_DIAG_STEPS+"-step trial run on a duplicate state): each satellite's estimated period is compared against the transcribed observed period; the system is NOT adopted unless every one lands within ±1%. Nothing is fitted to make it land.\n"
       +"SOURCE TABLE\n"+rows.join("\n")
     : "**出典つき観測レコード**から決定的に生成(第176便の観測採取経路)。ここに AI が作った数値は1つも無い — 各値は下の出典表からの転写で、単位換算・スケール指数・配置・初速・qLock の q・共有補正 D₀ はすべてアプリの決定的関数が計算した。\n"
-      +"単位規約: "+M.unitJa+"。中心: "+rec.center.name+"、衛星: "+satNames+"。配置は近点整列・初速は実ケプラー接線速度・位相は "+sys.phaseStep+"° 刻み"+(twoBody? "(二体は重心系・反作用則 frameReaction:\"pairReduced\"〔E6′-R・自由中心の標準 — 第184便〕)" : "")+"。\n"
+      +"単位規約: "+M.unitJa+"。中心: "+rec.center.name+"、衛星: "+satNames+"。配置は"+(apoAdopt? "**遠点整列**(恒星二体の規約 — 第211便。DFM 版と初期位相を統一する。自己診断は永年不安定が最も見える**近点位相の複製**で行う)" : "近点整列")+"・初速は実ケプラー接線速度・位相は "+sys.phaseStep+"° 刻み"+(twoBody? "(二体は重心系・反作用則 frameReaction:\"pairReduced\"〔E6′-R・自由中心の標準 — 第184便〕)" : "")+"。\n"
       +"規則からの導出: q_exact="+M.q+"(qLock 有限参照正規化規約を最内軌道 a="+M.aRef+" で1回だけ評価した直値。遠方近似形 q*="+M.qStar.toFixed(4)+" は運用規約としては N/A)、D₀=0.006(🌘 で決めた共有値の流用 — **本系でのフィットはゼロ**)、camera.scale="+M.camScale+"、timeScale="+M.timeScale+"、dispMag="+M.dispMag+"(表示専用)。\n"
       +"宣言する理想化: "+rec.ideal.ja.join("・")+"。\n"
       +"自己診断(複製状態で "+OBS_DIAG_STEPS+" 步の試走): 各衛星の推定周期を転写した観測周期と照合し、**全衛星が ±1% に入らなければ採用しない**。合わせ込みのフィットは一切しない。\n"
@@ -18592,6 +18686,7 @@ function buildAstroFromRecords(input, opts){
       "speed calibration f=1.000 (the real Kepler speed itself — no multiplier)",
       "initial phases "+sys.phaseStep+"° apart (resonance angles are NOT set as initial conditions)"]
       .concat(twoBody? ['frameReaction:"pairReduced" (E6′-R — the free-centre reaction rule; wave 184)'] : [])
+      .concat(apoAdopt? ["stellar two-body adopted at APHELION (wave 211 — the initial phase unified with the DFM builds); the self-check probes the perihelion phase (maximum sensitivity)"] : [])
       .concat(rec.ideal.en.map(s=>s.slice(0,80))),
     fitted:["D₀=0.006 (the shared value fixed on 🌘, used as is — ZERO fits in this system)"],
     derived:["q="+M.q+" (qLock exact-agreement form q_exact, evaluated ONCE at the innermost orbit a="+M.aRef+")",
@@ -18607,6 +18702,7 @@ function buildAstroFromRecords(input, opts){
       "初速較正 f=1.000(実ケプラー速度そのもの — 掛け算なし)",
       "初期位相は "+sys.phaseStep+"° 刻みの理想化配置(共鳴角は初期条件に入れない)"]
       .concat(twoBody? ['frameReaction:"pairReduced"(E6′-R — 自由中心の反作用則・第184便)'] : [])
+      .concat(apoAdopt? ["恒星二体は**遠点整列**で採用(第211便 — DFM 版と初期位相を統一)。自己診断は近点位相の複製(感度最大)で実施"] : [])
       .concat(rec.ideal.ja.map(s=>s.slice(0,80))),
     fitted:["D₀=0.006(🌘 で決まった共有値の流用 — 本系でのゼロフィット)"],
     derived:["q="+M.q+"(qLock 則の厳密一致式 q_exact を最内軌道 a="+M.aRef+" で1回評価した直値)",
@@ -18615,7 +18711,19 @@ function buildAstroFromRecords(input, opts){
     numerical:["ソフトニング ε=0.05","時間経過倍率 timeScale="+M.timeScale,"粒子表示倍率 dispMag="+M.dispMag+"(表示専用)",
       "自己診断: "+OBS_DIAG_STEPS+"步の試走・周期許容 ±1%"]};
   // ---- 自己診断(生成直後・自動)。落ちたら採用しない ----
-  let pAdopt=p, diag=astroObsSelfCheck(p, targets, o.steps), stabilized=null;
+  // 第211便: 遠点整列で採用する恒星二体は、診断だけを**近点位相の複製**で行う(感度規約)。
+  // 永年不安定(kF1 の接触要素ドリフト)は近点通過で顕在化するため、遠点発の短い試走窓では
+  // 検出できない(実測: ✨ 遠点発 6%公転窓の成長 −0.0016 — 近点発では +0.3395%/400步)。
+  // 診断状態は同じ系定義の place を barycentric-peri に替えた bodies 差し替えで作る —
+  // 物理・宣言は採用側のまま。近点整列の系では従来どおり採用状態そのものを診断する(不変)。
+  const diagProbe=(pp)=>{
+    if(!apoAdopt) return astroObsSelfCheck(pp, targets, o.steps);
+    const sPeri=Object.assign({}, built.sys, {place:"barycentric-peri"});
+    const pb=buildAstroPreset({system:"__observation__"}, sPeri);
+    const probe=JSON.parse(JSON.stringify(pp)); probe.bodies=pb.bodies;
+    return astroObsSelfCheck(probe, targets, o.steps);
+  };
+  let pAdopt=p, diag=diagProbe(p), stabilized=null;
   if(!diag.ok){
     // 第199便: 観測安定則(2026-08-25 裁定 —「観測値再現版は、観測値で安定する計算式を採用する。
     // 観測値自体が計算式で算出されている為」)。差し戻しが**永年不安定クラスのみ**(初期状態は
@@ -18643,7 +18751,7 @@ function buildAstroFromRecords(input, opts){
       p2.description+= en
         ? "\nOBSERVATION-STABILITY RULE (adjudicated 2026-08-25): the kFrame=1 template was returned by the self-check as SECULARLY UNSTABLE (the transcribed initial state matches, but the estimated period drifts beyond the ±1% contract during the trial run), so this system is adopted with kFrame=0 — the side of the formula the observed values were computed from. Frame dragging (kFrame=1) is kept as the A/B measurement side, not discarded. Self-check verdict on the template: "+why
         : "\n観測安定則(2026-08-25 裁定): kFrame=1 雛形は自己診断が**永年不安定**(転写した初期状態は合致するが、試走中に推定周期が ±1% 契約を超えてドリフト)として差し戻したため、本系は kFrame=0 — **観測値を算出した計算式の側** — で採用した。空間引きずり(kFrame=1)は捨てず A/B の測定側として保持する。雛形への診断所見: "+why;
-      const diag2=astroObsSelfCheck(p2, targets, o.steps);
+      const diag2=diagProbe(p2);
       if(diag2.ok){
         stabilized={from:1, to:0, rule:"obs-stability", adjudicated:"2026-08-25", errorsKF1:diag.errors.slice()};
         v.notes.push(en
@@ -19759,6 +19867,11 @@ function applyLang(){
   // 第80便C: コアv2内訳ブロックのラベル
   $("#beLcvTitle").textContent=T("beCoreTitle"); $("#beLcvMode").textContent=T("beCoreMode");
   $("#beLcvOm").textContent=T("beCoreOm"); $("#beLcvJ").textContent=T("beCoreJ"); $("#beLcvLs").textContent=T("beCoreLs");
+  // 第212便: コアv2 実行時編集のラベル
+  $("#beLcvOn").textContent=T("beCoreOn"); $("#beLcvEmf").textContent=T("beCoreEmf");
+  $("#beLcvEr").textContent=T("beCoreEr"); $("#beLcvEo").textContent=T("beCoreEo");
+  $("#beLcvEk").textContent=T("beCoreEk"); $("#beLcvEt").textContent=T("beCoreEt");
+  $("#beLcvEz").textContent=T("beCoreEz");
   $("#beLinTitle").textContent=T("beLinTitle");   // 第100便 EXT-10: 形成系譜
   $("#beNote").textContent=T("beNote");                          // v1.17: 粒子編集パネル
   $("#aiProvHead").textContent=T("aiProvHead"); $("#aiProvLabel").textContent=T("aiProvLabel");
@@ -20286,8 +20399,22 @@ function updateBodyEdit(){
   // 値は現在の確定状態(S.step() 完了後)からその場で再計算するだけで、物理配列へは一切書き込まない。
   const md=S.coreMd[i];
   const cv=$("#beCoreV2");
+  // 第212便: コアの無い粒子でもブロックは表示する(「コア有効」ONで付与できる — 有効による
+  // フィールド追加/無効によるフィールド無視)。読み取り専用の内訳行はコアがあるときだけ・
+  // 数値編集行は cavity 以外のコアだけ表示。編集欄は現状態の正準分解(Ω0=|J|/I*・θ=acos(J/|J|)
+  // — S.applyCoreEdit と同じ式系)を表示する
+  cv.style.display="block";
+  $("#beCvOn").checked=(md!==0);
+  for(const eid of ["#beCvMode","#beCvOm","#beCvJ","#beCvLs"]) $(eid).parentElement.style.display=md? "" : "none";
+  $("#beCvEdit").style.display=(md && md!==4)? "" : "none";
+  if(md && md!==4){
+    const IcE=(S.RcV[i]>0)? 0.5*S.coreMF[i]*Math.abs(S.m[i])*S.RcV[i]*S.RcV[i]*S.coreIS[i] : 0;
+    $("#beCvMF").value=fmt(S.coreMF[i]); $("#beCvR").value=fmt(S.RcV[i]);
+    $("#beCvOm0").value=fmt((IcE>1e-12)? S.coreJm[i]/IcE : 0); $("#beCvKcs").value=fmt(S.coreKcs[i]);
+    $("#beCvTilt").value=fmt((S.coreJm[i]>0)? Math.acos(Math.max(-1,Math.min(1,S.coreJ[i]/S.coreJm[i])))*180/Math.PI : 0);
+    $("#beCvIS").value=fmt(S.coreIS[i]);
+  }
   if(md){
-    cv.style.display="block";
     const p=S.params, Ri=S.R[i], Rci=S.RcV[i], mf=S.coreMF[i], mAbs=Math.abs(S.mEff[i]);
     // 第80便統合: cavity(md===4)は質量も慣性も厳密に0(coreMF=−voidFraction は光学・引きずりの
     // 「重み」で質量ではない)。Ω_c は物理と同じ定義で出す — rigid は殻と剛体回転(Ω_c≡Ω_s)・
@@ -20325,8 +20452,6 @@ function updateBodyEdit(){
     }
     $("#beCvLs").value=(lsS!==null)? `${fmt(lsS)}/${fmt(lsC)}/${fmt(lsMix)}` : `—/—/${fmt(lsMix)}`;
     $("#beCvLs").title=$("#beCvLs").value;   // 第92便: 見切れ対策の補助(全文ツールチップ)
-  } else {
-    cv.style.display="none";
   }
   // 第100便 EXT-10: 形成系譜 — 吸収イベント(S.linLog・安定ID)から選択粒子の履歴を表示。
   // 読み取り専用の表示層(物理配列へは一切書かない)。running 中は既存の毎フレーム更新経路で追随。
@@ -20403,6 +20528,41 @@ $("#bePin").addEventListener("change",()=>{
   if(!$("#bePin").checked) S.railOmega[selIdx]=0;  // 固定解除でレール駆動も解除
   setParamsDirty(true); requestRender();
 });
+// 第212便(原仮定者指示): コアv2 の実行時編集 — 「コア有効」チェックと数値欄。
+// すべて S.applyCoreEdit(build 初期化式の鏡写し・vCore と同値のクランプ)経由の単一入口。
+// 数値欄は現状態の正準分解(Ω0=|J|/I*・θ=acos(J/|J|))を編集し、変更のたびに全欄から再構成する。
+// cavity(coreMd=4)の数値編集は対象外(有効/無効の切替のみ — updateBodyEdit が編集行を隠す)
+function beCoreApplyFromFields(){
+  const S=selSimRef();
+  if(selIdx<0||selIdx>=S.n){ updateBodyEdit(); return; }
+  const i=selIdx, md=S.coreMd[i];
+  if(md===0 || md===4){ updateBodyEdit(); return; }
+  const num=(id,dflt)=>{ const v=parseFloat($(id).value.replace(/[,、\s]/g,"").replace(/[−ー–—－]/g,"-"));
+    return isFinite(v)? v : dflt; };   // v1.24: 全角マイナス等も受理(beBind と同じ流儀)
+  const IcE=(S.RcV[i]>0)? 0.5*S.coreMF[i]*Math.abs(S.m[i])*S.RcV[i]*S.RcV[i]*S.coreIS[i] : 0;
+  const om0Cur=(IcE>1e-12)? S.coreJm[i]/IcE : 0;
+  const thCur=(S.coreJm[i]>0)? Math.acos(Math.max(-1,Math.min(1,S.coreJ[i]/S.coreJm[i])))*180/Math.PI : 0;
+  S.applyCoreEdit(i,{ mode:(md===1)?"rigid":((md===3)?"active":"differential"),
+    massFrac:num("#beCvMF",S.coreMF[i]), radius:num("#beCvR",S.RcV[i]),
+    omega:num("#beCvOm0",om0Cur), Kcs:num("#beCvKcs",S.coreKcs[i]),
+    inertiaScale:num("#beCvIS",S.coreIS[i]), tilt:num("#beCvTilt",thCur) });
+  setParamsDirty(true); requestRender(); updateBodyEdit();
+}
+for(const id of ["#beCvMF","#beCvR","#beCvOm0","#beCvKcs","#beCvTilt","#beCvIS"])
+  $(id).addEventListener("change",beCoreApplyFromFields);
+$("#beCvOn").addEventListener("change",()=>{
+  const S=selSimRef();
+  if(selIdx<0||selIdx>=S.n){ updateBodyEdit(); return; }
+  const i=selIdx;
+  if($("#beCvOn").checked){
+    // 付与の既定: differential・質量比0.3・Rc=R/2・Ω0=殻スピン・Kcs=0・ζ=1・θ=0(説明 beDce に宣言)
+    if(S.coreMd[i]===0)
+      S.applyCoreEdit(i,{ mode:"differential", massFrac:0.3,
+        radius:Math.max(0.01,Math.min(200,S.R[i]/2)),
+        omega:Math.max(-50,Math.min(50,S.spin[i])), Kcs:0, inertiaScale:1, tilt:0 });
+  } else S.applyCoreEdit(i,null);
+  setParamsDirty(true); requestRender(); updateBodyEdit();
+});
 // 第26便(原仮定者指示): ✕(選択解除)→ 最小化トグルへ変更。選択解除は粒子の再タップ/空白タップで可能
 let beMin=false;
 function applyBeMin(){ $("#bodyEdit").classList.toggle("min",beMin); $("#beClose").textContent=beMin?"＋":"−";
@@ -20413,7 +20573,9 @@ let beDescShown=null;
 {
   const BE_DESC={beLm:"beDm",beLs:"beDs",beLr:"beDr",   // 第81便: beLmc/beLsc/beLrr は廃止
     beLsw:"beDsw",beLswAuto:"beDsw",beLvx:"beDv",beLvy:"beDv",beLp:"beDp",
-    beLcvTitle:"beDcv"};   // 第80便C: コアv2内訳ブロックの説明
+    beLcvTitle:"beDcv",   // 第80便C: コアv2内訳ブロックの説明
+    beLcvOn:"beDce",beLcvEmf:"beDce",beLcvEr:"beDce",beLcvEo:"beDce",
+    beLcvEk:"beDce",beLcvEt:"beDce",beLcvEz:"beDce"};   // 第212便: コア編集の説明
   for(const id of Object.keys(BE_DESC)){
     const el=document.getElementById(id); if(!el) continue;
     el.classList.add("tappable");

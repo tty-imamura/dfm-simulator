@@ -4934,6 +4934,98 @@ if (!FAST) {
     }
   }
 
+  // ---- 第212便: core.edit-ui — コアv2 の実行時編集(有効/無効+数値)と tilt 目視の機械固定 ----
+  // (a) S.applyCoreEdit が build のコア初期化式の鏡写しであること(同一入力で coreJ/coreJm ビット一致)
+  // (b) 無効化(cfg=null)でコア除去+hasCoreV2 再計算・再付与で復帰(有効=フィールド追加/無効=無視)
+  // (c) クランプが検証器 vCore と同値(massFrac 0.01〜0.6・radius 0.01〜200)
+  // (d) tilt:90 の描画入力 |J_z|/|J| が ~0(エッジオン楕円=横棒の機械固定 — 描画は表示専用)
+  // (e) 編集パネルの DOM(コア有効チェック+数値6欄)が存在する
+  {
+    const hasEdit = await page.evaluate(() => typeof (HP.sim && HP.sim.applyCoreEdit) === 'function'
+      && !!document.getElementById('beCvOn'));
+    if (!hasEdit) {
+      console.log('SKIP core.edit-ui(対象に第212便 コア編集 UI 未適用 — root 等)');
+    } else {
+      const r = await page.evaluate(() => {
+        const pb = HP.allPresets().find((q) => q.id === 'bhCore');
+        const p = JSON.parse(JSON.stringify(pb));
+        p.bodies[0].core.Kcs = 0; p.bodies[0].core.tilt = 90;
+        const v = HP.validatePreset(p);
+        const S = HP.sim; S.build(v.preset);
+        const jBuild = S.coreJ[0], jmBuild = S.coreJm[0];   // build 経路の正
+        const sqTilt90 = (jmBuild > 0) ? Math.abs(jBuild) / jmBuild : 1;   // (d) 描画入力
+        // (b) 無効化 → 除去+hasCoreV2 再計算(⚫ のコアは中心1つだけ)
+        S.applyCoreEdit(0, null);
+        const off = { md: S.coreMd[0], j: S.coreJ[0], jm: S.coreJm[0], has: S.hasCoreV2 };
+        // (a) 再付与(同一数値)→ build とビット一致
+        S.applyCoreEdit(0, { mode: 'differential', massFrac: 0.3, radius: 7.5, omega: 20,
+          Kcs: 0, inertiaScale: 1, tilt: 90 });
+        const on = { md: S.coreMd[0], j: S.coreJ[0], jm: S.coreJm[0], has: S.hasCoreV2,
+          mf: S.coreMF[0], rc: S.RcV[0], is: S.coreIS[0], kcs: S.coreKcs[0] };
+        // (c) クランプ(vCore と同値)
+        S.applyCoreEdit(0, { mode: 'differential', massFrac: 5, radius: 0.001, omega: 999,
+          Kcs: -3, inertiaScale: 1e9, tilt: 720 });
+        const cl = { mf: S.coreMF[0], rc: S.RcV[0], kcs: S.coreKcs[0], is: S.coreIS[0],
+          om: (S.RcV[0] > 0) ? S.coreJm[0] / (0.5 * S.coreMF[0] * Math.abs(S.m[0]) * S.RcV[0] * S.RcV[0] * S.coreIS[0]) : 0 };
+        // コアの無い粒子への付与(UI 既定と同型)→ 除去で復帰
+        S.applyCoreEdit(1, { mode: 'differential', massFrac: 0.3,
+          radius: Math.max(0.01, Math.min(200, S.R[1] / 2)),
+          omega: Math.max(-50, Math.min(50, S.spin[1])), Kcs: 0, inertiaScale: 1, tilt: 0 });
+        const add1 = { md: S.coreMd[1], has: S.hasCoreV2 };
+        S.applyCoreEdit(1, null);
+        const dom = ['beCvOn', 'beCvEdit', 'beCvMF', 'beCvR', 'beCvOm0', 'beCvKcs', 'beCvTilt', 'beCvIS']
+          .every((id) => !!document.getElementById(id));
+        return { jBuild, jmBuild, sqTilt90, off, on, cl, add1, md1After: S.coreMd[1], dom };
+      });
+      await page.evaluate(() => HP.loadPreset('saturn', false));
+      add('core.edit-ui',
+        r.dom
+        && r.off.md === 0 && r.off.j === 0 && r.off.jm === 0 && r.off.has === false
+        && r.on.md === 2 && Object.is(r.on.j, r.jBuild) && Object.is(r.on.jm, r.jmBuild)
+        && r.on.has === true && r.on.mf === Math.fround(0.3) && r.on.rc === 7.5 && r.on.is === 1 && r.on.kcs === 0
+        && r.cl.mf === Math.fround(0.6) && r.cl.rc === Math.fround(0.01) && r.cl.kcs === 0 && r.cl.is === 1e6
+        && Math.abs(r.cl.om / 50 - 1) < 1e-5
+        && r.sqTilt90 < 1e-9
+        && r.add1.md === 2 && r.add1.has === true && r.md1After === 0,
+        `applyCoreEdit=build 鏡写し: J/|J| ビット一致=${Object.is(r.on.j, r.jBuild)}/${Object.is(r.on.jm, r.jmBuild)} / ` +
+        `無効化: coreMd=0・J=0・hasCoreV2=${r.off.has}(false)→再付与で復帰(有効=フィールド追加/無効=無視) / ` +
+        `クランプ(vCore 同値): massFrac ${r.cl.mf}(0.6)・radius ${r.cl.rc}(0.01)・Kcs ${r.cl.kcs}(0)・ζ ${r.cl.is}(1e6)・Ω ${r.cl.om.toFixed(1)}(50) / ` +
+        `tilt:90 の描画入力 |J_z|/|J|=${r.sqTilt90.toExponential(1)}(<1e-9 — エッジオン楕円=横棒) / ` +
+        `コア無し粒子への付与→除去=OK / 編集 DOM 8要素=${r.dom}`);
+    }
+  }
+
+  // ---- 第213便: preset.rmul-audit — rMul 使用状況調査の機械固定 ----
+  // 調査結論(2026-08-27): ①群(ring/disk/box/grid)と明示半径なし single の rMul は実効半径
+  // R=rs·rMul·√|m| を決める生きたノブ。②**明示半径(radius>0)つき single の rMul も死にノブでは
+  // ない** — 群生成の大質量除外半径(noteBig: m≥40 の周囲に粒子を置かない)が radius ではなく
+  // rs·rMul·√m を読む(第36便 C1 の旧式同期 — 意図的)ため、galaxy/⚫ 等では rMul を外すと
+  // 乱数消費が変わり初期配置がビットで変わる。③既定値 rMul:1 の書き出しだけが真に冗長 —
+  // 全経路で undefined と等価(削除済み)。本テストは (a) 内蔵に rMul:1 が再導入されないこと
+  // (lint)と (b) ②の生存(galaxy の rMul 除去で初期配置が変わる否定対照)を機械固定する
+  {
+    const r = await page.evaluate(() => {
+      const ones = [];
+      for (const p of HP.allPresets())
+        (p.bodies || []).forEach((b, bi) => { if (b.rMul === 1) ones.push(p.id + '#' + bi); });
+      const p0 = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'galaxy')));
+      const p1 = JSON.parse(JSON.stringify(p0));
+      delete p1.bodies[0].rMul;   // 明示半径つき中心(radius:15, rMul:1.2)の rMul を外す
+      const S = HP.sim;
+      const snap = (pp) => { const v = HP.validatePreset(pp); S.build(v.preset);
+        const o = []; for (let i = 0; i < S.n; i++) o.push(S.x[i], S.y[i]); return o; };
+      const a = snap(p0), b = snap(p1);
+      const differs = !(a.length === b.length && a.every((x, i) => Object.is(x, b[i])));
+      HP.loadPreset('saturn', false);
+      return { ones, differs };
+    });
+    add('preset.rmul-audit', r.ones.length === 0 && r.differs === true,
+      `既定値 rMul:1 の書き出し=${r.ones.length}件(0 — 冗長宣言は第213便で削除・lint で再導入防止)` +
+      `${r.ones.length ? ' NG=[' + r.ones.slice(0, 6).join(' ') + ']' : ''} / ` +
+      `否定対照: galaxy 中心(radius:15)の rMul:1.2 を外すと初期配置が変わる=${r.differs}` +
+      `(noteBig の除外半径が rs·rMul·√m を読む — 明示半径つきでも rMul は死にノブではない)`);
+  }
+
   // ---- 8a2b4c) 第77便: 🌱starSeed — 圧縮スピンアップ+パワーボール ----
   // 差動種A: Ω 1.5→約162(比107.9・窓80〜140)・減光0.14→0.999(≥0.98)。rigid種B: 同じ揺すりで
   // 減速(spin 3→2.61・比0.8〜0.95)。帳簿込み総 L 保存(<1e-3)。対照(pump/contract 0)は不変
@@ -6462,7 +6554,10 @@ if (!FAST) {
 //     abBody の測定側 kFrame=1・両星自由・E6′-R・説明文に裁定 2026-08-25 の引用
 // (b) kF0(採用側): 1.05公転を完走 — 実測周期 79.76 年(観測 79.762 ±0.1%)・
 //     半径比振れ幅=転写離心率 0.51947(±0.02)・座標が ±5000 に収まる・NaN ゼロ
-// (c) kF1(A/B 測定側): 接触要素周期が6%公転窓で +100% 超に成長(宣言 +400% — 永年不安定の実測。第209便同期)
+//     (第211便: 初期位相は遠点整列 — 恒星二体の規約。kF0 の実測値は位相に依らず同一表示桁)
+// (c) kF1(A/B 測定側): 第211便 — 遠点発 0.56公転窓で接触要素周期が −13.0% 縮み(growth<−0.05)、
+//     軌道は近点に届かない(rmin>400 — 転写近点 167.5)。近点位相の永年成長(+400%/6%窓)は
+//     初期位相の変更で置換 — 近点感度そのものは自己診断(133.54%/公転)が経路(e)で担う
 // (d) 決定性: 同一構成2回実行がビット同一
 // (e) 経路等価: コミット済み出典表(paper/data/solar-observations.csv)の Alpha Centauri 行から
 //     buildAstroFromRecords で再構築すると、①観測安定則が発動し(stabilized.rule)②物理・天体・
@@ -6525,9 +6620,9 @@ if (!FAST) {
         const T1 = S.totals();
         const pRel = Math.hypot(T1.px + S.resPx - ep0x, T1.py + S.resPy - ep0y) / Math.max(pScale, 1e-9);
         return { nan: S.hasNaN(), steps, tRev, maxAbs, comMax, pRel, growth: est() / p0 - 1,
-          ecc: (rmax - rmin) / (rmax + rmin) };
+          rmin, ecc: (rmax - rmin) / (rmax + rmin) };
       };
-      const kf0 = run({}, 1.05), kf1 = run({ kFrame: 1 }, 0.06);
+      const kf0 = run({}, 1.05), kf1 = run({ kFrame: 1 }, 0.56);   // 第211便: kF1 は遠点発 0.56公転窓
       const detTwice = () => {
         const one = () => {
           const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
@@ -6607,9 +6702,13 @@ if (!FAST) {
           let s0min = Infinity, s0max = -Infinity, s1min = Infinity, s1max = -Infinity;
           let o0min = Infinity, o0max = -Infinity, o1min = Infinity, o1max = -Infinity;
           const revs = []; let nextRev = 2 * Math.PI, e1 = null;
+          // 第211便: 近点移動の実測 — 相対距離の局所最小(近点通過)ごとの相対ベクトル方向を記録
+          let prevR = null, prev2R = null, prevAng = null; const periAngs = [];
           for (let k = 0; k < steps; k++) {
             S.step(dt);
             const dx = S.x[1] - S.x[0], dy = S.y[1] - S.y[0], rr = Math.hypot(dx, dy);
+            if (prevR !== null && prev2R !== null && prevR < prev2R && prevR < rr) periAngs.push(prevAng);
+            prev2R = prevR; prevR = rr; prevAng = Math.atan2(dy, dx);
             if (rr < rmin) rmin = rr; if (rr > rmax) rmax = rr;
             if (S.spin[0] < s0min) s0min = S.spin[0]; if (S.spin[0] > s0max) s0max = S.spin[0];
             if (S.spin[1] < s1min) s1min = S.spin[1]; if (S.spin[1] > s1max) s1max = S.spin[1];
@@ -6623,6 +6722,14 @@ if (!FAST) {
           }
           const p2 = revs.length >= 2 ? revs[1] - revs[0] : null;
           const angSign = Math.sign(ang);   // 第204便: ✨ と同回り(数学正)であること
+          // 第211便: 遠点発2.2公転窓は近点を2回通過 → 近点方向の回転量 Δϖ(順行なら正)
+          let dPeri = null;
+          if (periAngs.length >= 2) {
+            let dd = periAngs[1] - periAngs[0];
+            while (dd > Math.PI) dd -= 2 * Math.PI;
+            while (dd < -Math.PI) dd += 2 * Math.PI;
+            dPeri = dd * 180 / Math.PI;
+          }
           const clampD = (S.clampSN || 0) - clamp0;
           // 第208便: 殻スピンは全窓でビット保持(min=max=Float32(転写値))— 観測自転のライブ保持
           const shellHold = s0min === s0max && s1min === s1max
@@ -6659,7 +6766,7 @@ if (!FAST) {
             for (let k = 0; k < 400; k++) s2.step(0.016);
             const o = []; for (let i = 0; i < s2.n; i++) o.push(s2.x[i], s2.y[i], s2.vx[i], s2.vy[i], s2.spin[i], s2.coreJ[i]); return o; };
           const da = one(), db = one();
-          dfm = { massOk, declOk, p2, e1, nan: S.hasNaN(), angSign, shellHold, driftA, driftB,
+          dfm = { massOk, declOk, p2, e1, nan: S.hasNaN(), angSign, dPeri, shellHold, driftA, driftB,
             coreDriftA, coreDriftB, clampD, lRel, comMax, pRel, negSat, negWalk, negWalkMax,
             det: da.length === db.length && da.every((x2, i) => Object.is(x2, db[i])) };
         }
@@ -6679,6 +6786,7 @@ if (!FAST) {
       && dm.p2 !== null && Math.abs(dm.p2 / ac.P_OBS - 1) < 0.005
       && dm.e1 !== null && Math.abs(dm.e1 - 0.51674) < 0.02
       && dm.angSign === 1                      // 第204便: 公転の向きが ✨ と同回り(数学正)
+      && dm.dPeri !== null && dm.dPeri >= 3.5 && dm.dPeri <= 5.0   // 第211便: 近点移動 +4.27°/周(順行 — claim 窓と同値)
       && dm.shellHold === true                 // 第208便: 殻スピン=観測自転を全窓ビット保持(min=max=転写値)
       && dm.coreDriftA <= 0.2 && dm.coreDriftB <= 0.2   // 第208便: 偶力を受けたコア Ω は ±20% 内(実測 A +3.8%・B +8.7%)
       && dm.clampD === 0                       // 第208便: クランプ非接触(第205便の飽和 ~4.8×10⁵ の解消)
@@ -6693,19 +6801,20 @@ if (!FAST) {
       && t0 !== null && Math.abs(t0 / 79.762 - 1) < 0.001
       && Math.abs(ac.kf0.ecc - 0.51947) < 0.02 && ac.kf0.maxAbs < 5000
       && ac.kf0.comMax < 1e-3 && ac.kf0.pRel < 1e-8   // 第209便: ✨ kF0 の重心は機械ゼロ(対照)
-      && ac.kf1.growth > 1.0
+      && ac.kf1.growth < -0.05 && ac.kf1.rmin > 400   // 第211便: 遠点発 kF1 は周期 −13% 縮み・近点に届かない(転写近点 167.5)
       && ac.eq.ok && ac.eq.stab === 'obs-stability' && ac.eq.same === true
       && dfmOk,
       `宣言=${declOk}(fidelity=real・L10/T6/M29・κ=G/c₀²・**kFrame=0(観測安定則 2026-08-25 裁定の採用側)**・`
       + `A/B 測定側 kFrame=1・両星自由・E6′-R・ts=1000/dm=300・裁定引用あり) / `
       + `kF0(採用側・1.05公転): ${t0 === null ? '—' : t0.toFixed(4) + '年'}(観測 79.762・宣言 79.7647)・`
       + `実測離心率 ${ac.kf0.ecc.toFixed(5)}(転写 0.51947)・座標最大 ${ac.kf0.maxAbs.toFixed(0)}(±5000 内)・重心 ${ac.kf0.comMax.toExponential(1)}(<1e-3) / `
-      + `kF1(測定側・6%窓): 接触要素周期 +${(ac.kf1.growth * 100).toFixed(0)}%(宣言 +400% — 永年不安定を宣言どおり実測) / `
+      + `kF1(測定側・遠点発 0.56公転窓 — 第211便): 接触要素周期 ${(ac.kf1.growth * 100).toFixed(1)}%(宣言 −13.0%)・rmin=${ac.kf1.rmin.toFixed(0)}(>400 — 近点 167.5 に届かない) / `
       + `経路等価: CSV ${csvRows.length}行 → buildAstroFromRecords が観測安定則発動(${ac.eq.stab})+内蔵とビット一致=${ac.eq.same} / `
       + `✴️ DFM版(第203〜208便): 質量=✨×1.827(ビット照合 ${dm.massOk})・宣言(kF1・A/B=kF0・外殻=転写光学半径ビット・coupleSink:core・fitted 2ノブ f/ζ・三句)=${dm.declOk}・`
       + `familyRole: ✴️=primary/✨=variant(第204便) / `
       + `kF1+役割反転二層+重心ゲージの2周目 ${dm.p2 === null ? '—' : yr(dm.p2).toFixed(3) + '年'}(観測 79.762 ±0.5%・宣言 79.777)・`
       + `1周目 e=${dm.e1 === null ? '—' : dm.e1.toFixed(5)}(宣言 0.51674)・向き=✨と同回り(angSign=${dm.angSign} — 第204便)・`
+      + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(3) + '°/周'}(宣言 +4.27 — 第211便・claim 窓 3.5〜5.0)・`
       + `殻スピン=観測自転をビット保持(${dm.shellHold} — ドリフト A ${(dm.driftA * 100).toFixed(2)}%/B ${(dm.driftB * 100).toFixed(2)}%)・`
       + `コアΩドリフト A ${(dm.coreDriftA * 100).toFixed(1)}%/B ${(dm.coreDriftB * 100).toFixed(1)}%(受け皿側 ±20% 内)・clampSN Δ=${dm.clampD}・`
       + `帳簿残差 L ${dm.lRel === undefined ? '—' : dm.lRel.toExponential(1)}/P ${dm.pRel === undefined ? '—' : dm.pRel.toExponential(1)}(<1e-8)・`
