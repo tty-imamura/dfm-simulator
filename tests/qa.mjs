@@ -4995,41 +4995,48 @@ if (!FAST) {
     }
   }
 
-  // ---- 第213便: preset.rmul-audit — rMul 使用状況調査の機械固定 ----
+  // ---- 第213便→第216便: preset.rmul-audit — rMul 使用状況の機械固定 ----
   // 対象ゲート: rMul:1 の整理は第213便(v1.43 世代)なので、同世代の機能(第212便 applyCoreEdit —
   // 同一リリース線で常に同伴)で feature-detect し、前世代 root では SKIP する
-  // 調査結論(2026-08-27): ①群(ring/disk/box/grid)と明示半径なし single の rMul は実効半径
-  // R=rs·rMul·√|m| を決める生きたノブ。②**明示半径(radius>0)つき single の rMul も死にノブでは
-  // ない** — 群生成の大質量除外半径(noteBig: m≥40 の周囲に粒子を置かない)が radius ではなく
-  // rs·rMul·√m を読む(第36便 C1 の旧式同期 — 意図的)ため、galaxy/⚫ 等では rMul を外すと
-  // 乱数消費が変わり初期配置がビットで変わる。③既定値 rMul:1 の書き出しだけが真に冗長 —
-  // 全経路で undefined と等価(削除済み)。本テストは (a) 内蔵に rMul:1 が再導入されないこと
-  // (lint)と (b) ②の生存(galaxy の rMul 除去で初期配置が変わる否定対照)を機械固定する
+  // 経緯: 第213便の調査で「明示半径(radius>0)つき single の rMul も死にノブではない」
+  // (群生成の大質量除外半径 noteBig が radius ではなく rs·rMul·√m を読む — 第36便 C1)と判明し
+  // 一旦温存 → 第16報の原仮定者裁定「サンプルの意図に影響しなければ初期配置の変化を許容」で
+  // **第216便が11ノブを全廃**(実測 gen-w216a: 意図違反ゼロ — 粒の天体内部湧き0・変化は
+  // galaxy×4/darkrotor/bhCore の6件のみ・massLadder は bit 不変。noteBig の式・m≥40 は不変)。
+  // 本テストは (a) lint: 内蔵に rMul:1 の書き出しと「radius 併記 single の rMul」が再導入されない
+  // こと、(b) noteBig 経路の生存(galaxy 中心へ rMul:1.2 を**足すと**初期配置が変わる否定対照 —
+  // lint の存在理由そのもの)を機械固定する
   {
     const has213 = await page.evaluate(() => typeof (HP.sim && HP.sim.applyCoreEdit) === 'function');
     if (!has213) {
       console.log('SKIP preset.rmul-audit(対象に第213便の rMul 整理なし — root 等)');
     } else {
     const r = await page.evaluate(() => {
-      const ones = [];
+      const ones = [], radSingles = [];
       for (const p of HP.allPresets())
-        (p.bodies || []).forEach((b, bi) => { if (b.rMul === 1) ones.push(p.id + '#' + bi); });
+        (p.bodies || []).forEach((b, bi) => {
+          if (b.rMul === 1) ones.push(p.id + '#' + bi);
+          if ((b.type === 'single' || b.type === undefined) && b.rMul !== undefined
+              && typeof b.radius === 'number' && b.radius > 0) radSingles.push(p.id + '#' + bi);
+        });
       const p0 = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'galaxy')));
       const p1 = JSON.parse(JSON.stringify(p0));
-      delete p1.bodies[0].rMul;   // 明示半径つき中心(radius:15, rMul:1.2)の rMul を外す
+      p1.bodies[0].rMul = 1.2;   // 明示半径つき中心(radius:15・第216便で rMul 撤去済み)へ足し戻す
       const S = HP.sim;
       const snap = (pp) => { const v = HP.validatePreset(pp); S.build(v.preset);
         const o = []; for (let i = 0; i < S.n; i++) o.push(S.x[i], S.y[i]); return o; };
       const a = snap(p0), b = snap(p1);
       const differs = !(a.length === b.length && a.every((x, i) => Object.is(x, b[i])));
       HP.loadPreset('saturn', false);
-      return { ones, differs };
+      return { ones, radSingles, differs };
     });
-    add('preset.rmul-audit', r.ones.length === 0 && r.differs === true,
-      `既定値 rMul:1 の書き出し=${r.ones.length}件(0 — 冗長宣言は第213便で削除・lint で再導入防止)` +
-      `${r.ones.length ? ' NG=[' + r.ones.slice(0, 6).join(' ') + ']' : ''} / ` +
-      `否定対照: galaxy 中心(radius:15)の rMul:1.2 を外すと初期配置が変わる=${r.differs}` +
-      `(noteBig の除外半径が rs·rMul·√m を読む — 明示半径つきでも rMul は死にノブではない)`);
+    add('preset.rmul-audit',
+      r.ones.length === 0 && r.radSingles.length === 0 && r.differs === true,
+      `lint: rMul:1 書き出し=${r.ones.length}件・radius 併記 single の rMul=${r.radSingles.length}件` +
+      `(いずれも0 — 第213便/第216便で削除・再導入防止)` +
+      `${(r.ones.length || r.radSingles.length) ? ' NG=[' + r.ones.concat(r.radSingles).slice(0, 6).join(' ') + ']' : ''} / ` +
+      `否定対照: galaxy 中心(radius:15)へ rMul:1.2 を足すと初期配置が変わる=${r.differs}` +
+      `(noteBig の除外半径が rs·rMul·√m を読む — 貼付互換のため式は維持・lint が内蔵側を守る)`);
     }
   }
 
@@ -8509,6 +8516,14 @@ if (!FAST) {
     // 外縁>2.9・r90<260・偏差<10%・BHスピン・恒星保持・重心移動<0.5(実測0.341 — v5 の0.041より
     // 1桁大きいが、ハロー質量が 1/5 になり BH の反跳が効くようになったため。閾値は据置)・
     // t=0 総運動量<0.01 は据置(v6 は 9.35e-6 で v5 の 0.0037 より3桁良い)。
+    // ---- 第216便(rMul 撤去)再較正 ----
+    // rMul:2 撤去で noteBig 除外半径が 89.4→44.7(BH)・24.5→12.2(ローター×2)へ縮み、
+    // リングの内帯 70〜90 に恒星が入る配置になった(裁定済みの意図された変化 — 宣言 rIn:70 に
+    // むしろ忠実)。BH 初速の総運動量ゼロ化を再解(t=0 |P| 12.1→3.0e-7)した上での実測:
+    // 重心移動 0.690(gen-w216d)— 深い内帯の恒星ほど E6′ の帳簿が非対称に効くため v6 実測
+    // 0.341 の約2倍。役割(有界性の検出)は不変なので、従来と同等マージン(実測×1.45)で
+    // **<0.5 → <1.0** へ再較正(旧レイアウトの root は 0.341 のままなので世代分岐は不要)。
+    // 他ゲートは全て新配置でも旧閾値内(v_φ 3.124・r90 239.3・偏差3.34%・平均1.772・max 3.762)
     if (!FAST) {
       if (drFree) {
         // 第35便 W5c: 計算部分は W5C_UNITS.darkrotorMidNew へ移し、ワーカーで実行する
@@ -8518,13 +8533,13 @@ if (!FAST) {
         add('behavior.darkrotor', !st.nan
           && st.r90 < 260 && st.outer > 2.9 && st.haloIn === st.NH && st.haloDev < 0.10
           && st.haloSpin < spinLim && st.maxSpin < maxSpinLim && Math.abs(st.bhSpin - 0.12) < 0.02
-          && st.keepPct >= 95 && st.comMove < 0.5 && st.pTot0 < 0.01,
+          && st.keepPct >= 95 && st.comMove < 1.0 && st.pTot0 < 0.01,
           `外縁v_φ=${st.outer.toFixed(3)}(>2.9・BH基準156〜286のn=${st.nOuter}) r90=${st.r90.toFixed(1)}(<260: 円盤非破壊) ` +
           `ローター残存=${st.haloIn}/${st.NH}(=NH) ローター半径偏差=${(st.haloDev * 100).toFixed(2)}%(<10%) ` +
           `ローター平均|spin|=${st.haloSpin.toFixed(3)}(<${spinLim}: 初期${drV6 ? '2.0' : '0.52'}=設計値) ` +
           `全粒子max|spin|=${st.maxSpin.toFixed(3)}(<${maxSpinLim}: 恒星のE6′汲み上げ検出。下限はローター自身の2.0) ` +
           `BHスピン=${st.bhSpin.toFixed(5)}(|Δ|<0.02 — 自由なので「不変」ではなく有界) ` +
-          `恒星保持=${st.keep}/${st.tot}(${st.keepPct.toFixed(1)}%≥95) 重心移動=${st.comMove.toFixed(3)}(<0.5) ` +
+          `恒星保持=${st.keep}/${st.tot}(${st.keepPct.toFixed(1)}%≥95) 重心移動=${st.comMove.toFixed(3)}(<1.0 — 第216便 実測0.690×1.45) ` +
           `t=0総運動量=${st.pTot0.toExponential(2)}(<0.01) NaN=${st.nan} ` +
           `/ 第39便 39A v6 実測=3.230/238.5/1.74%/1.769/3.258(3000步時点の瞬時値。走行中最大は4.640)` +
           `/0.12593/100%/0.341/9.35e-6 ` +
@@ -12396,9 +12411,17 @@ if (hasEchoFlipAt) {
     // (root=v1.33 以前)には旧基準を当てる。検査している不変条件(数値指定の掻出は auto 経路に
     // 入らず lightSweep が動かない・走行が bit 決定論)は変わっていない
     // 第97便: 🕶️は c₀=30 のみの一律規約へ巻き戻し(力学は 40A 基準と bit 一致に復帰)
-    const DR_BASE = hasE6Acc
-      ? '187585513e1d5c0a041b0aa000751099175cbf45c7828bcc550dec530cdf9af2'   // 40A(倍精度化後)実測
-      : 'b9fc553c3fe6569ef48a34a9719abdadc4e046a76f2016471d706d34ee3e836c';  // 39A v6・倍精度化前
+    // 第216便: rMul 撤去(noteBig 除外半径 89.4→44.7 等)で初期配置が変わり、BH 初速の
+    // 総運動量ゼロ化も再解 = **意図的な変更**。基準を撤去後の実測へ貼り直し(gen-w216d・
+    // 同一ページ2回一致=決定論確認済み)。旧レイアウトの対象(root 等)は 🕶️ 中心の rMul 宣言
+    // 有無で世代判別して従来基準を当てる
+    const has216dr = await page.evaluate(() =>
+      HP.allPresets().find((q) => q.id === 'darkrotor').bodies[0].rMul === undefined);
+    const DR_BASE = has216dr
+      ? 'f51708746e0f8745db0d029dce9b9755ff5725438c0fdf8479df6ed44495c556'   // 第216便(rMul 撤去+BH 初速再解)実測
+      : hasE6Acc
+        ? '187585513e1d5c0a041b0aa000751099175cbf45c7828bcc550dec530cdf9af2'   // 40A(倍精度化後)実測
+        : 'b9fc553c3fe6569ef48a34a9719abdadc4e046a76f2016471d706d34ee3e836c';  // 39A v6・倍精度化前
     add('sweep.numeric-unchanged',
       dr.n === 383 && drHash === DR_BASE && dr.auto === false &&
       dr.lS0[0] === 1 && dr.lS0[1] === 1 && dr.lS1[0] === 1 && dr.lS1[1] === 1,
@@ -12475,12 +12498,19 @@ if (hasEchoFlipAt) {
     const hasC30zc = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'galaxy').physics.cLight === 30);
     // 第108便A: 🌌 は c₀=30 のまま力学のみ巻き戻し(G 0.2→0.8)— 世代は G 値で判定
     const galRolled = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'galaxy').physics.G === 0.8);
+    // 第216便: rMul 撤去 = 🌌🕶️ の初期配置が変わる意図的な変更(🕶️ は BH 初速再解込み)。
+    // 中心 body の rMul 宣言有無で世代判別し、撤去後の対象だけ再採取基準(gen-w216d)を当てる。
+    // 他4件(🪐/counterring/freebox/echo)は第216便で 1 ビットも変わっていない(全数回帰照合済み)
+    const has216zc = await page.evaluate(() =>
+      HP.allPresets().find((q) => q.id === 'galaxy').bodies[0].rMul === undefined);
     const ZC = hasC30zc ? {
-      galaxy: [galRolled ? '6c56d8c7023a08b73162d08827202c7ebe24e31bdd41bc1206a351a667566f9d' : 'b08e5869a4f02c427bbc4194af947bf5505526a5b0b37edfd43327bc456ea1a3', 381],   // 第108便A: 巻き戻し世代(G=0.8)は再採取ハッシュ・変換世代(root v1.39 = G=0.2)は96便実測のまま
+      galaxy: [has216zc ? 'd208837773145e61e53642c40d6477f1bde3a1836c09b24fadffbc284a43c814'
+        : galRolled ? '6c56d8c7023a08b73162d08827202c7ebe24e31bdd41bc1206a351a667566f9d' : 'b08e5869a4f02c427bbc4194af947bf5505526a5b0b37edfd43327bc456ea1a3', 381],   // 第216便: rMul 撤去世代は再採取 / 第108便A: 巻き戻し世代(G=0.8)は再採取ハッシュ・変換世代(root v1.39 = G=0.2)は96便実測のまま
       saturn: hasSat240
         ? ['5a4e97ec425c03b30803e3f8bc4dc419b66f57d1c1a62cd0d5a6df8e7e480085', 241]
         : ['d77783f2c321a6c84a457492d869a5d68a35061c82d957d0597a5864e3938fbb', 301],
-      darkrotor: ['187585513e1d5c0a041b0aa000751099175cbf45c7828bcc550dec530cdf9af2', 383],
+      darkrotor: [has216zc ? 'f51708746e0f8745db0d029dce9b9755ff5725438c0fdf8479df6ed44495c556'
+        : '187585513e1d5c0a041b0aa000751099175cbf45c7828bcc550dec530cdf9af2', 383],   // 第216便: rMul 撤去+BH 初速再解世代は再採取
       counterring: ['29fb3cab287f4fd0301b3843575b3acf24709e687574a4135f6df135dd687f11', 201],
       freebox: ['a9fbb51894a298af70dc7350e61f9e8fce32e10abddd2ecdafa989312260bc7d', 72],
       echo: ['9e09d365c44a32ebd423d933eab9ea494bfb9a69a46eebd316aaf1bde1dac4d7', 31],
@@ -12674,7 +12704,12 @@ if (hasEchoFlipAt) {
     if (hasC30mb) {
       MB.mercury = 'd1d8ded061f300eaea678e1a1176fa097b38a202b79397d6bae67787bc75bc77';
       const galRolledMb = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'galaxy').physics.G === 0.8);
-      MB.galaxy = galRolledMb ? '6c56d8c7023a08b73162d08827202c7ebe24e31bdd41bc1206a351a667566f9d' : 'b08e5869a4f02c427bbc4194af947bf5505526a5b0b37edfd43327bc456ea1a3';   // 第108便A: 巻き戻し世代(G=0.8)は再採取・変換世代(root)は96便実測のまま
+      // 第216便: rMul 撤去世代(🌌 中心の rMul 宣言なし)は再採取基準(gen-w216d — tint.zero-cost と同値。
+      // 🌌 は thermal=spin で Tint 連結なしのため両テストのハッシュは同一)
+      const has216mb = await page.evaluate(() =>
+        HP.allPresets().find((q) => q.id === 'galaxy').bodies[0].rMul === undefined);
+      MB.galaxy = has216mb ? 'd208837773145e61e53642c40d6477f1bde3a1836c09b24fadffbc284a43c814'
+        : galRolledMb ? '6c56d8c7023a08b73162d08827202c7ebe24e31bdd41bc1206a351a667566f9d' : 'b08e5869a4f02c427bbc4194af947bf5505526a5b0b37edfd43327bc456ea1a3';   // 第108便A: 巻き戻し世代(G=0.8)は再採取・変換世代(root)は96便実測のまま
     }
     const run = (pid, mon, kF) => page.evaluate(({ pid, mon, kF }) => {
       HP.loadPreset(pid, false);
