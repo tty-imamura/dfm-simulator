@@ -2005,8 +2005,21 @@ e=0.01 で −0.15%)、**解析式の一次・低離心率近似の誤差であ�
   galaxy/galaxyStd/galaxyGeo2/galaxyDB(除外 60→50)・darkrotor(89.4→44.7 と 24.5→12.2×2)・
   bhCore(60→50)の6件のみ。massLadder は環が r=180 固定で除外域に触れず **bit 不変**。
   意図違反ゼロ(群粒子の天体内部湧き 0件・最悪ギャップ darkrotor +4.6 で接触圏外)。
-  QA preset.rmul-audit が lint(rMul:1 と radius 併記 single の rMul の再導入防止)と
-  noteBig 経路の生存対照(galaxy 中心へ rMul:1.2 を足すと配置が変わる)を機械固定する。
+  **除外規則の恒久原理化(第218便 — 原仮定者指示 2026-08-27 第17報「恒久的な解決には、
+  粒子が意図せず重なって生成される事が問題であり、避ける必要が有る。例えば、座標を指定して
+  配置された粒子を noteBig とするなどの方法を検討する」)**: 群生成の除外を
+  「**座標を指定して配置された粒子(single)全数**・除外半径=**その粒子の実半径**
+  (radius 指定があれば rs·radius、なければ従来写像 rs·rMul·√|m|)・登録は群配置前に
+  **2パスで先取り**(定義順に依存しない)」へ再設計した。しきい値 m≥40 とレガシー式
+  (radius を無視して rs·rMul·√m を読む第36便 C1 同期)は廃止。マージン +1 は従来どおり。
+  single 同士は対象外(双方とも著者の明示座標=意図的な配置 — 除外は乱数配置される群
+  メンバーだけに掛かる)。帰結(実測 gen-w218a/b): 現行内蔵に「群粒子が single の実半径内に
+  湧く」事例は再設計の前後ともゼロ。初期配置が変わるのは galaxy 系×4・bhCore(除外 50→16 —
+  実半径基準へ)・nebulaBipolar・agnjet(m<40 の small single が新たに保護対象)の**7件のみ**。
+  darkrotor は環 rIn=70 が全除外圏の外で bit 不変。世代判定子は build が立てる
+  S.exclMode="placed"。QA preset.rmul-audit が lint(rMul:1 と radius 併記 single の rMul の
+  再導入防止)と新原理の生存対照2本(galaxy 中心の radius 15→40 で配置が変わる/
+  radius なしの merger 核の rMul 1.2→2.5 で配置が変わる)を機械固定する。
 - **lightSweep:"auto"(掻出の自動算出・v1.33 第36便)**: 数値(0〜1・独立指定=現行)に加え
   文字列 "auto" を受理。毎サブステップ **lS_eff = min(1, |s|·R/c_surf)**・
   c_surf = c₀·e^{−2ψ_surf}(表面フレーム速度と局所光速の比 — トイ設定を式に置換する
