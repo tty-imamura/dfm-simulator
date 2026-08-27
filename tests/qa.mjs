@@ -6833,6 +6833,223 @@ if (!FAST) {
   }
 }
 
+// ---- 第214便: behavior.siriusAB — 白色矮星連星の観測転写+DFM 質量較正(第2号)の機械固定 ----
+// (a) 宣言: fidelity=real・L10/T6/M29・kFrame=0(観測安定則 第2号)・遠点整列・spin=0×2・
+//     B 半径=0.01(半径限定の二体降格 — 第214便)・abBody 測定側 kF1
+// (b) kF0(採用側・1.05公転): 実測 50.1306 年(観測 50.1284 ±0.1%)・e 0.59142±0.02・重心/P 機械ゼロ
+// (c) kF1(測定側・遠点発 0.56公転): growth<−0.05・rmin>300(転写近点 120.9 に届かない)
+// (d) 経路等価: CSV 7行 → buildAstroFromRecords → 観測安定則発動+**二体クロージャ確認 note**+
+//     内蔵 🌟 とビット一致(クロージャ則の機械固定 — 外挿発火系が採用される第1号)
+// (e) 💫 DFM: 質量=🌟×1.8702・2周目 ±0.5%(宣言 50.1290)・e1 0.58875±0.02・spin残余<1e-3
+//     (宣言0の保持 — 1PN 反作用偶力のみ)・clampΔ=0・帳簿閉・重心機械ゼロ・近点移動 2.0〜3.2°/周・
+//     否定対照(coupleSink除去→0から±40飽和/cmGauge除去→歩行)・決定性
+{
+  const hasSi = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'siriusAB'));
+  if (hasSi) {
+    const csvText = fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8');
+    const csvRows = csvText.split('\n').filter((l) => l.startsWith('Sirius')).map((line) => {
+      const cols = []; let cur = '', inQ = false;
+      for (const ch of line) {
+        if (inQ) { if (ch === '"') inQ = false; else cur += ch; }
+        else if (ch === '"') inQ = true;
+        else if (ch === ',') { cols.push(cur); cur = ''; }
+        else cur += ch;
+      }
+      cols.push(cur);
+      return { body: cols[0], quantity: cols[1], value: Number(cols[2]), unit: cols[3],
+        source: cols[4], url: cols[5], retrieved: cols[6], note: cols[7] };
+    });
+    const si = await page.evaluate(({ csvRows }) => {
+      const P_OBS = 1581.932;   // 転写周期 1.581932e9 s / 10⁶
+      const p = HP.allPresets().find((q) => q.id === 'siriusAB');
+      const d = { fid: p.fidelity, L: p.scaleExp.L, T: p.scaleExp.T, M: p.scaleExp.M,
+        G: p.physics.G, c: p.physics.cLight, kap: p.physics.kappaT, kF: p.physics.kFrame,
+        D0: p.physics.D0, fr: p.physics.frameReaction, ts: p.physics.timeScale, dm: p.physics.dispMag,
+        pin0: p.bodies[0].pinned, pin1: p.bodies[1].pinned, spin0: p.bodies[0].spin, spin1: p.bodies[1].spin,
+        rB: p.bodies[1].radius,   // 第214便: 半径限定の二体降格(下限 0.01)
+        abKF: p.abBody && p.abBody.physicsPatch && p.abBody.physicsPatch.kFrame,
+        fam: p.familyRole,
+        ruleDecl: /観測安定則(.|\n)*適用第2号/.test(p.descStruct.summary + p.failureFirst.pass)
+          && /二体クロージャ確認/.test(p.descStruct.summary + p.failureFirst.pass) };
+      const run = (patch, frac) => {
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+        const pr = v.preset; pr.physics = Object.assign({}, pr.physics, patch || {});
+        const S = HP.sim; S.build(pr);
+        const dt = 0.016, steps = Math.round(frac * P_OBS / dt);
+        const mu = pr.physics.G * (pr.bodies[0].m + pr.bodies[1].m);
+        const est = () => { const dx = S.x[1] - S.x[0], dy = S.y[1] - S.y[0], dvx = S.vx[1] - S.vx[0], dvy = S.vy[1] - S.vy[0];
+          const rr = Math.hypot(dx, dy), vv2 = dvx * dvx + dvy * dvy, eps = vv2 / 2 - mu / rr;
+          const aO = (eps < 0) ? -mu / (2 * eps) : NaN; return (aO > 0) ? 2 * Math.PI * Math.sqrt(aO * aO * aO / mu) : NaN; };
+        const mt = S.m[0] + S.m[1];
+        const com = () => ({ x: (S.m[0] * S.x[0] + S.m[1] * S.x[1]) / mt, y: (S.m[0] * S.y[0] + S.m[1] * S.y[1]) / mt });
+        const c0 = com(); const T0 = S.totals();
+        const ep0x = T0.px + S.resPx, ep0y = T0.py + S.resPy;
+        const pScale = S.m[0] * Math.hypot(S.vx[0], S.vy[0]) + S.m[1] * Math.hypot(S.vx[1], S.vy[1]);
+        let rmin = Infinity, rmax = -Infinity, ang = 0, px = 0, py = 0, tRev = null, comMax = 0;
+        const p0 = est();
+        for (let k = 0; k < steps; k++) {
+          S.step(dt);
+          const dx = S.x[1] - S.x[0], dy = S.y[1] - S.y[0], rr = Math.hypot(dx, dy);
+          if (rr < rmin) rmin = rr; if (rr > rmax) rmax = rr;
+          const cc = com(); const cd = Math.hypot(cc.x - c0.x, cc.y - c0.y); if (cd > comMax) comMax = cd;
+          if (k === 0) { px = dx; py = dy; } else {
+            ang += Math.atan2(px * dy - py * dx, px * dx + py * dy); px = dx; py = dy;
+            if (tRev === null && Math.abs(ang) >= 2 * Math.PI) tRev = (k + 1) * dt; }
+        }
+        const T1 = S.totals();
+        const pRel = Math.hypot(T1.px + S.resPx - ep0x, T1.py + S.resPy - ep0y) / Math.max(pScale, 1e-9);
+        return { nan: S.hasNaN(), steps, tRev, rmin, comMax, pRel, growth: est() / p0 - 1,
+          ecc: (rmax - rmin) / (rmax + rmin) };
+      };
+      const kf0 = run({}, 1.05), kf1 = run({ kFrame: 1 }, 0.56);
+      // (d) 経路等価: CSV → buildAstroFromRecords → 内蔵 🌟 とビット照合+クロージャ note
+      const r1 = HP.buildAstroFromRecords(csvRows);
+      const eq = { ok: r1.ok, stage: r1.stage, errors: (r1.errors || []).slice(0, 2),
+        stab: r1.ok ? (r1.stabilized && r1.stabilized.rule) : null,
+        closure: r1.ok && (r1.notes || []).some((t) => /二体クロージャ確認を適用/.test(t)),
+        demR: r1.ok && Array.isArray(r1.demoted) && r1.demoted.length === 1
+          && r1.demoted[0].rLow === true && r1.demoted[0].mLow === false,   // 半径限定の二体降格
+        same: null };
+      if (r1.ok) {
+        const vb = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+        const canon = (x) => Array.isArray(x) ? '[' + x.map(canon).join(',') + ']'
+          : (x && typeof x === 'object')
+            ? '{' + Object.keys(x).sort().map((k) => JSON.stringify(k) + ':' + canon(x[k])).join(',') + '}'
+            : JSON.stringify(x);
+        const pick = (q) => canon({ physics: q.physics, bodies: q.bodies,
+          camera: q.camera, world: q.world, scaleExp: q.scaleExp });
+        eq.same = pick(vb.preset) === pick(r1.preset);
+        if (!eq.same) eq.diff = { builtin: pick(vb.preset).slice(0, 300), records: pick(r1.preset).slice(0, 300) };
+      }
+      // (e) 💫 DFM 版
+      let dfm = null;
+      {
+        const pd = HP.allPresets().find((q) => q.id === 'siriusABDFM');
+        if (!pd) dfm = { missing: true };
+        else {
+          const F = 1.8702;
+          const massOk = Math.abs(pd.bodies[0].m / p.bodies[0].m - F) < 1e-9
+            && Math.abs(pd.bodies[1].m / p.bodies[1].m - F) < 1e-9;
+          const declOk = pd.physics.kFrame === 1 && pd.abBody && pd.abBody.physicsPatch
+            && pd.abBody.physicsPatch.kFrame === 0 && pd.fidelity === 'real'
+            && pd.familyId === 'sirius' && pd.familyRole === 'primary' && p.familyRole === 'variant'
+            && pd.physics.coupleSink === 'reservoir' && pd.physics.cmGauge === 'barycentric'
+            && pd.bodies[0].spin === 0 && pd.bodies[1].spin === 0 && pd.bodies[1].radius === 0.01
+            && Array.isArray(pd.parameterAudit.fitted) && pd.parameterAudit.fitted.length === 1
+            && /f=1\.8702/.test(pd.parameterAudit.fitted[0])
+            && /実在(の)?質量の主張ではない|条件つき較正/.test(pd.descStruct.summary)
+            && /coupleSink|リザーバ帳簿へ直接記帳/.test(pd.descStruct.summary)
+            && /第69便|測地線1PN の反作用偶力|1PN 反作用偶力/.test(pd.descStruct.summary);
+          const vd = HP.validatePreset(JSON.parse(JSON.stringify(pd)));
+          const S = HP.sim; S.build(vd.preset);
+          const clamp0 = S.clampSN || 0;
+          const T0 = S.totals(); const L0 = T0.L + S.resL + S.radL;
+          const mtD = S.m[0] + S.m[1];
+          const comD = () => ({ x: (S.m[0] * S.x[0] + S.m[1] * S.x[1]) / mtD, y: (S.m[0] * S.y[0] + S.m[1] * S.y[1]) / mtD });
+          const c0D = comD(); const ep0x = T0.px + S.resPx, ep0y = T0.py + S.resPy;
+          const pScaleD = S.m[0] * Math.hypot(S.vx[0], S.vy[0]) + S.m[1] * Math.hypot(S.vx[1], S.vy[1]);
+          let comMax = 0, sMax = 0;
+          const dt = 0.016, steps = Math.round(3.2 * P_OBS / dt);
+          let ang = 0, px = 0, py = 0, rmin = Infinity, rmax = -Infinity;
+          const revs = []; let nextRev = 2 * Math.PI, e1 = null;
+          let prevR = null, prev2R = null, prevAng = null; const periAngs = [];
+          for (let k = 0; k < steps; k++) {
+            S.step(dt);
+            const dx = S.x[1] - S.x[0], dy = S.y[1] - S.y[0], rr = Math.hypot(dx, dy);
+            if (prevR !== null && prev2R !== null && prevR < prev2R && prevR < rr) periAngs.push(prevAng);
+            prev2R = prevR; prevR = rr; prevAng = Math.atan2(dy, dx);
+            if (rr < rmin) rmin = rr; if (rr > rmax) rmax = rr;
+            const sm = Math.max(Math.abs(S.spin[0]), Math.abs(S.spin[1])); if (sm > sMax) sMax = sm;
+            const ccD = comD(); const cdD = Math.hypot(ccD.x - c0D.x, ccD.y - c0D.y); if (cdD > comMax) comMax = cdD;
+            if (k === 0) { px = dx; py = dy; } else {
+              ang += Math.atan2(px * dy - py * dx, px * dx + py * dy); px = dx; py = dy;
+              while (Math.abs(ang) >= nextRev) { revs.push((k + 1) * dt); nextRev += 2 * Math.PI;
+                if (e1 === null) { e1 = (rmax - rmin) / (rmax + rmin); } } }
+          }
+          const p2 = revs.length >= 2 ? revs[1] - revs[0] : null;
+          const angSign = Math.sign(ang);
+          let dPeri = null;
+          if (periAngs.length >= 2) {
+            let dd = periAngs[1] - periAngs[0];
+            while (dd > Math.PI) dd -= 2 * Math.PI;
+            while (dd < -Math.PI) dd += 2 * Math.PI;
+            dPeri = dd * 180 / Math.PI;
+          }
+          const clampD = (S.clampSN || 0) - clamp0;
+          const T1 = S.totals(); const L1 = T1.L + S.resL + S.radL;
+          const lRel = Math.abs(L1 - L0) / Math.max(Math.abs(L0), 1e-9);
+          const pRel = Math.hypot(T1.px + S.resPx - ep0x, T1.py + S.resPy - ep0y) / Math.max(pScaleD, 1e-9);
+          // 否定対照①: coupleSink 除去 → spin=0 から ±40 飽和まで育つ(転写自転の無い系の受け皿必須性)
+          const p0n = JSON.parse(JSON.stringify(pd));
+          delete p0n.physics.coupleSink;
+          const v0 = HP.validatePreset(p0n); const S0 = HP.sim; S0.build(v0.preset);
+          const nc0 = S0.clampSN || 0;
+          let n0max = 0;
+          for (let k = 0; k < Math.round(0.3 * P_OBS / dt); k++) { S0.step(dt);
+            const m2 = Math.max(Math.abs(S0.spin[0]), Math.abs(S0.spin[1])); if (m2 > n0max) n0max = m2; }
+          const negSat = n0max === 40 && ((S0.clampSN || 0) - nc0) > 0;
+          // 否定対照②: cmGauge 除去 → 重心が歩く
+          const p1g = JSON.parse(JSON.stringify(pd));
+          delete p1g.physics.cmGauge;
+          const v1g = HP.validatePreset(p1g); const S1 = HP.sim; S1.build(v1g.preset);
+          const mt1 = S1.m[0] + S1.m[1];
+          const com1 = () => ({ x: (S1.m[0] * S1.x[0] + S1.m[1] * S1.x[1]) / mt1, y: (S1.m[0] * S1.y[0] + S1.m[1] * S1.y[1]) / mt1 });
+          const c01 = com1(); let negWalkMax = 0;
+          for (let k = 0; k < Math.round(0.5 * P_OBS / dt); k++) { S1.step(dt);
+            const cc = com1(); const cd = Math.hypot(cc.x - c01.x, cc.y - c01.y); if (cd > negWalkMax) negWalkMax = cd; }
+          const negWalk = negWalkMax > 1;
+          const one = () => { const vv = HP.validatePreset(JSON.parse(JSON.stringify(pd)));
+            const s2 = HP.sim; s2.build(vv.preset);
+            for (let k = 0; k < 400; k++) s2.step(0.016);
+            const o = []; for (let i = 0; i < s2.n; i++) o.push(s2.x[i], s2.y[i], s2.vx[i], s2.vy[i], s2.spin[i]); return o; };
+          const da = one(), db = one();
+          dfm = { massOk, declOk, p2, e1, rmin, nan: S.hasNaN(), angSign, dPeri, sMax,
+            clampD, lRel, comMax, pRel, negSat, negWalk, negWalkMax, n0max,
+            det: da.length === db.length && da.every((x2, i) => Object.is(x2, db[i])) };
+        }
+      }
+      HP.loadPreset('saturn', false);
+      return { d, kf0, kf1, eq, dfm, P_OBS };
+    }, { csvRows });
+    const d = si.d, kOk = Math.abs(d.kap - d.G / (d.c * d.c)) < 1e-18;
+    const declOk = d.fid === 'real' && d.L === 10 && d.T === 6 && d.M === 29 && d.G === 6.674 && d.c === 30000
+      && kOk && d.kF === 0 && d.abKF === 1 && d.D0 === 0.006 && d.fr === 'pairReduced'
+      && d.ts === 300 && d.dm === 300 && d.pin0 === false && d.pin1 === false
+      && d.spin0 === 0 && d.spin1 === 0 && d.rB === 0.01 && d.ruleDecl && d.fam === 'variant';
+    const yr = (u) => u === null ? null : u * 1e6 / 3.15576e7;
+    const t0 = yr(si.kf0.tRev);
+    const dm = si.dfm || { missing: true };
+    const dfmOk = !dm.missing && dm.massOk && dm.declOk && !dm.nan && dm.det
+      && dm.p2 !== null && Math.abs(dm.p2 / si.P_OBS - 1) < 0.005
+      && dm.e1 !== null && Math.abs(dm.e1 - 0.58875) < 0.02
+      && dm.angSign === 1
+      && dm.dPeri !== null && dm.dPeri >= 2.0 && dm.dPeri <= 3.2   // 近点移動 +2.60°/周(claim 窓と同値)
+      && dm.sMax < 1e-3                          // spin=0 宣言の保持(残余=1PN 反作用偶力 2.6e-4 のみ)
+      && dm.clampD === 0 && dm.lRel < 1e-8 && dm.pRel < 1e-8 && dm.comMax < 0.01
+      && dm.negSat === true && dm.negWalk === true;
+    add('behavior.siriusAB', csvRows.length === 7
+      && declOk && !si.kf0.nan && !si.kf1.nan
+      && t0 !== null && Math.abs(t0 / 50.1284 - 1) < 0.001
+      && Math.abs(si.kf0.ecc - 0.59142) < 0.02
+      && si.kf0.comMax < 1e-3 && si.kf0.pRel < 1e-8
+      && si.kf1.growth < -0.05 && si.kf1.rmin > 300
+      && si.eq.ok && si.eq.stab === 'obs-stability' && si.eq.closure === true
+      && si.eq.demR === true && si.eq.same === true
+      && dfmOk,
+      `宣言=${declOk}(fidelity=real・L10/T6/M29・κ=G/c₀²・kFrame=0〔観測安定則 第2号〕・spin=0×2・B半径=0.01〔半径限定二体降格〕・A/B 測定側 kF1) / `
+      + `kF0(採用側・1.05公転): ${t0 === null ? '—' : t0.toFixed(4) + '年'}(観測 50.1284・宣言 50.1306)・実測離心率 ${si.kf0.ecc.toFixed(5)}(転写 0.59142)・重心 ${si.kf0.comMax.toExponential(1)} / `
+      + `kF1(測定側・遠点発 0.56公転): 接触要素周期 ${(si.kf1.growth * 100).toFixed(1)}%(宣言 −19.0%)・rmin=${si.kf1.rmin.toFixed(0)}(>300 — 転写近点 120.9 に届かない) / `
+      + `経路等価: CSV ${csvRows.length}行 → 観測安定則発動(${si.eq.stab})+二体クロージャ確認 note=${si.eq.closure}+半径限定降格=${si.eq.demR}+内蔵とビット一致=${si.eq.same} / `
+      + `💫 DFM版: 質量=🌟×1.8702(ビット照合 ${dm.massOk})・宣言(kF1・coupleSink:reservoir・cmGauge・fitted 1ノブ f)=${dm.declOk}・`
+      + `2周目 ${dm.p2 === null ? '—' : yr(dm.p2).toFixed(4) + '年'}(宣言 50.1290 ±0.5%)・e1=${dm.e1 === null ? '—' : dm.e1.toFixed(5)}(宣言 0.58875)・近点 ${dm.rmin === undefined ? '—' : dm.rmin.toFixed(2)}・`
+      + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(3) + '°/周'}(宣言 +2.60)・spin残余 ${dm.sMax === undefined ? '—' : dm.sMax.toExponential(1)}(<1e-3 — 宣言0の保持・1PN 反作用偶力のみ)・`
+      + `clampSN Δ=${dm.clampD}・帳簿 L ${dm.lRel === undefined ? '—' : dm.lRel.toExponential(1)}/P ${dm.pRel === undefined ? '—' : dm.pRel.toExponential(1)}・重心 ${dm.comMax === undefined ? '—' : dm.comMax.toExponential(1)}・`
+      + `否定対照(coupleSink除去→0から±40飽和)=${dm.negSat}・(cmGauge除去→歩行 ${dm.negWalkMax === undefined ? '—' : dm.negWalkMax.toFixed(1)}単位)=${dm.negWalk}・決定性=${dm.det}`);
+  } else {
+    console.log('SKIP behavior.siriusAB(対象に第214便の 🌟 なし — root 等)');
+  }
+}
+
 // ---- 第197便(M0): behavior.halokit — 解析ハロー外部項の機械固定 ----
 // (a) 円軌道の解析一致(uniform/NFW/Burkert): v=√(G·M_enc(r)/r) の**独立再計算**と周回実測が
 //     ±1% で一致・振れ幅<0.5% (b) 運動量帳簿が閉じる(外部場は交換としてリザーバへ)
@@ -9593,7 +9810,7 @@ if (!FAST) {
     const hasObsFam = await page.evaluate(() => Array.isArray(window.HP && HP.OBS_FAMILY) && !!HP.ROLE_CLASSES);
     if (hasObsFam) {
       const of = await page.evaluate(() => {
-        const EXP = ['jupiterGalilean', 'venusReal', 'marsMoonsReal', 'plutoCharonReal', 'uranusReal', 'neptuneReal', 'alphaCenAB'];   // 第199便: 恒星スケール第1号 ✨ を追加(6→7本)
+        const EXP = ['jupiterGalilean', 'venusReal', 'marsMoonsReal', 'plutoCharonReal', 'uranusReal', 'neptuneReal', 'alphaCenAB', 'siriusAB'];   // 第199便: ✨(6→7本)/第214便: 🌟 Sirius AB(7→8本)
         const PA_KEYS = ['observedInputs', 'fixedConventions', 'fitted', 'derived', 'numerical', 'heldOut'];   // 第197便(M0): heldOut(保留データ宣言枠)を許容キーに追加
         const bad = [], rows = [];
         if (JSON.stringify(HP.OBS_FAMILY) !== JSON.stringify(EXP)) bad.push('OBS_FAMILY が期待7本と一致しない: ' + JSON.stringify(HP.OBS_FAMILY));
@@ -9629,7 +9846,7 @@ if (!FAST) {
       });
       add('claims.obs-family', of.bad.length === 0,
         `二層化(C案 — 原仮定者裁定 2026-08-25): MAIN=8(較正の正本)は不変のまま、観測転写ファミリー`
-        + `7本を第二の凍結リストとして機械固定(第199便 ✨ を追加。${of.rows.join('・')}) / `
+        + `8本を第二の凍結リストとして機械固定(第199便 ✨・第214便 🌟 を追加。${of.rows.join('・')}) / `
         + `定義=全て fidelity:"real"・claims/role/parameterAudit 完備・fitted は共有値の流用宣言1件のみ`
         + `(新規フィット0)・en 件数一致・MAIN と交わらない / `
         + `否定対照: 実フィット2ノブ(D₀・f=0.9968)の 🌘KF1 は流用述語を通らない`
@@ -10530,7 +10747,7 @@ if (!FAST) {
       const sysOf = (place, n) => ({ place, sats: Array.from({ length: n }, () => ({ m: 1e-9, radius: 0.001, a: 50, e: 0, spin: 0, id: 'x', name: 'x' })) });
       const lowSat = () => [B(1, 1, { x: 0 }), B(1e-9, 0.001), B(2e-9, 0.002, { x: 60 })];
       const NEGD = [
-        ['二体重心系(衛星1体)は対象外', 'barycentric-peri', [B(1, 1, { x: 0 }), B(1e-9, 0.001)], 100],
+        ['二体重心系の質量下限割れは対象外(第214便: 半径のみ救済)', 'barycentric-peri', [B(1, 1, { x: 0 }), B(1e-9, 0.001)], 100],
         ['中心の m 下限割れは救済しない', 'kepler-peri', [B(1e-9, 1, { x: 0 }), B(1e-9, 0.001), B(1e-9, 0.002, { x: 60 })], 100],
         ['中心の radius 下限割れは救済しない', 'kepler-peri', [B(1, 0.001, { x: 0 }), B(1e-9, 0.001), B(1e-9, 0.002, { x: 60 })], 100],
         ['衛星の上限側 m>20000 は救済しない', 'kepler-peri', [B(1, 1, { x: 0 }), B(30000, 0.5), B(1e-9, 0.002, { x: 60 })], 100],
@@ -10554,6 +10771,24 @@ if (!FAST) {
         if (rd.demoted.length !== 2) bad.push('降格対象が2件でない: ' + rd.demoted.length);
         if (!(rd.sys.sats[0].m === HP.OBS_M_MIN && rd.sys.sats[0].radius === HP.OBS_R_MIN)) bad.push('降格後の値が下限に置かれていない');
         if (JSON.stringify(sysP) !== before) bad.push('降格が元の系定義を破壊的に書き換えた');
+      }
+      // 第214便(Sirius B 型): 二体重心系の**半径だけ**の下限障害は救済する(質量は転写のまま)。
+      // 二体の衛星質量は配置(重心配分)に直接効くため質量降格は従来どおり対象外(上の NEGD)。
+      // 世代ゲート: 半径限定救済は第214便(🌟 同梱)の機能 — 前世代 root では掛けない
+      if (HP.allPresets().some((q) => q.id === 'siriusAB')) {
+        const sys2 = sysOf('barycentric-apo', 1);
+        sys2.sats[0].m = 1; sys2.sats[0].radius = 0.001;
+        const r2b = HP.obsDemoteSats(sys2, { bodies: [B(1, 1, { x: 0 }), B(1, 0.001)], camera: { scale: 100 } });
+        if (!r2b) bad.push('二体の半径限定下限が救済されない(第214便)');
+        else {
+          if (!(r2b.demoted.length === 1 && r2b.demoted[0].rLow === true && r2b.demoted[0].mLow === false))
+            bad.push('二体の半径限定降格の記録が不正: ' + JSON.stringify(r2b.demoted));
+          if (r2b.sys.sats[0].m !== 1) bad.push('二体の半径限定降格が質量まで触った');
+          if (r2b.sys.sats[0].radius !== HP.OBS_R_MIN) bad.push('二体の半径が下限に置かれていない');
+        }
+        const r2p = HP.obsDemoteSats(Object.assign(sysOf('barycentric-peri', 1), { sats: [{ m: 1, radius: 0.001, a: 50, e: 0, spin: 0, id: 'x', name: 'x' }] }),
+          { bodies: [B(1, 1, { x: 0 }), B(1, 0.001)], camera: { scale: 100 } });
+        if (!r2p) bad.push('二体(peri)の半径限定下限が救済されない(第214便 — apo と同値)');
       }
       // (c) 一連の経路: 合成系(質量比 ~1e7)が降格つきで構築され、宣言され、自己診断を通る
       const r1 = HP.buildAstroFromRecords(DM_RECS);
@@ -17614,7 +17849,14 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     // 第203便: ✴️ DFM版(転写幾何+宣言つき1ノブ質量較正 — 🌘KF1 と同型の「fit を持つ実較正」)を追加 — 20→21
     const gen203 = await page.evaluate(() =>
       HP.allPresets().some((p) => p.id === 'alphaCenABDFM'));
-    const want = gen203 ? 'alphaCenAB,alphaCenABDFM,earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+    // 第214便: 🌟💫 Sirius AB(観測版+DFM版 — 白色矮星連星)を追加 — 21→23
+    const gen214 = await page.evaluate(() =>
+      HP.allPresets().some((p) => p.id === 'siriusAB'));
+    const want = gen214 ? 'alphaCenAB,alphaCenABDFM,earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+        + 'jupiterGalilean,marsMoonsReal,mercuryReal,mercuryRealKF1,neptuneReal,plutoCharonReal,'
+        + 'qLockRadialAudit,qLockRadialAuditQ3,saturnRingReal,saturnRingRealKF1,saturnZonalD68,'
+        + 'siriusAB,siriusABDFM,solarInner,uranusReal,venusReal'
+      : gen203 ? 'alphaCenAB,alphaCenABDFM,earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
         + 'jupiterGalilean,marsMoonsReal,mercuryReal,mercuryRealKF1,neptuneReal,plutoCharonReal,'
         + 'qLockRadialAudit,qLockRadialAuditQ3,saturnRingReal,saturnRingRealKF1,saturnZonalD68,'
         + 'solarInner,uranusReal,venusReal'

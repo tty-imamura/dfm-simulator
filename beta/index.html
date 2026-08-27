@@ -7451,6 +7451,292 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
+{ id:"siriusAB", name:"シリウスAB(実単位)— 白色矮星との連星", emoji:"🌟", group:"現実との照合",
+  familyId:"sirius", familyRole:"variant",   // ✨✴️ と同じ建付け: DFM 版 💫 が仲間のメイン・観測版は対照側
+  scaleTier:"stellar",
+  scaleExp:{L:10, T:6, M:29},   // ✨ と同じ単位系(1単位=10¹⁰m/10⁶s/10²⁹kg)
+  sampleClass:"calibration",
+  fidelity:"real",   // 両星の質量・半径と相対軌道の a・e・P がすべて出典表(Bond et al. 2017)の転写(自転は出典に確定値なし — spin=0 宣言)
+  notClaim:["solar_cal"],
+  obsCard:[
+    {q:"公転周期(kFrame=0 採用側)", model:"50.1306 年(+0.0043%)", obs:"50.1284 ± 0.0043 年(Bond et al. 2017 Table)"},
+    {q:"実測離心率(1公転の半径比振れ幅)", model:"0.59142(転写値と表示桁一致)", obs:"e=0.59142 ± 0.00037(転写)"},
+    {q:"観測安定則(適用第2号)", model:"kFrame=1 雛形は近点複製の自己診断が差し戻し(400步 +1.830%)→ kFrame=0 で採用", obs:"観測値(a・e・P)自体が引きずり無しの軌道解の計算式で算出されている"},
+    {q:"二体クロージャ確認(第214便 新設)", model:"kF0 側のドリフト外挿 1.26%/公転(発火)→ 1公転の同位相クロージャ 2.8×10⁻⁴% で位相振動と判定し採用", obs:"—(判定則の宣言 — 高離心率×1PN の接触要素は位相依存に振動する)"},
+    {q:"A/B 測定側(kFrame=1)", model:"遠点発 0.56公転窓で接触要素周期が −19.0% 縮み近点に届かない(半径 376〜471・転写近点 120.9)+重心 16.5 単位歩行", obs:"—(測定側の宣言)"},
+    {q:"自転(両星 — 転写なし)", model:"spin=0 宣言(A は vsini 16.3 km/s のみで P_rot 未確定〔目安 2.2〜5.4日〕・B は現代的直接測定なし)", obs:"Takeda 2020 / Thejll & Shipman 1986(モデル依存 0〜600 km/s — 不採用)"},
+    {q:"Sirius B の半径(白色矮星)", model:"実半径 5.64×10⁶m=5.6×10⁻⁴ 単位 < 下限 0.01 → 宣言つき引き上げ(表示・引きずり場のみ — 力学は質量支配)", obs:"0.008098 ± 0.000046 R☉(Bond et al. 2017)"},
+    {q:"初期位相(第211便 — 遠点整列)", model:"恒星二体の規約どおり遠点整列で採用(💫 DFM 版と初期位相統一)。自己診断は近点位相の複製", obs:"—(配置規約の宣言 — 観測値ではない)"}],
+  failureFirst:{
+    fail:"実較正の雛形規約 kFrame=1 は、この高離心率(e=0.59)・質量比 0.4935 の連星でも軌道を保てない — 近点複製の自己診断は 400步の試走で推定周期が 1.830% までずれ(±1% 契約超過)、遠点発の A/B 測定側の実測では 0.56公転窓で接触要素周期が −19.0% 縮み、軌道は近点に届かず〔半径範囲 376〜471 単位・転写近点 120.9〕重心も 16.5 単位歩く。さらに **kFrame=0 側もドリフト外挿(400步窓の線形換算)が 1.26%/公転 で発火**した — ただしこれは永年ドリフトではない(下記 pass)。",
+    pass:"**観測安定則(2026-08-25 裁定)の適用第2号**: 転写した a・e・P は Bond et al. (2017) の軌道解 — 引きずりを含まないケプラー的計算式 — の出力なので、kFrame=0 を採用し空間引きずりは A/B の測定側として保持する。**二体クロージャ確認(第214便 新設)の適用第1号**: kFrame=0 の外挿発火に対し、同じ試走を1公転まで延長した**同位相クロージャは 2.8×10⁻⁴%**(契約 ±1% 内)— 高離心率×1PN の接触要素は位相依存に振動する(est プロファイルは近点発 3.6%公転の +2.4×10⁻⁴ で折り返す実測)ため、外挿(線形仮定)の誤読を実測で最終判定する。kFrame=0 は1公転を完走して実測 50.1306 年(観測比 +0.0043%)・実測離心率 0.59142(転写どおり)。フィットはゼロ。"},
+  descStruct:{
+    summary:"シリウス A(実質量 2.063 M☉=4.1022755×10³⁰kg・実半径 1.7144 R☉)と B(**白色矮星** — 実質量 1.018 M☉=2.024293×10³⁰kg・実半径 0.008098 R☉)を 1単位=10¹⁰m/10⁶s/10²⁹kg で置いた恒星連星の二体重心系(第214便 — 恒星スケール実較正第2号・✨ αケンタウリAB の比較対象)。相対軌道は a=19.7828 AU(2.95946476×10¹²m)・e=0.59142・P=50.1284 年(Bond et al. 2017 ApJ 840 70 — paper/data/solar-observations.csv。半長軸は同論文の角半長軸 7.4957″ と採用視差 378.9 mas からの導出値)。働いているのは重力(E4)+測地線1PN(E12)で、**観測安定則(2026-08-25 裁定)の適用第2号**として kFrame=0 — 観測値を算出した計算式の側 — で採用(空間引きずりは A/B 測定側)。**二体クロージャ確認(第214便 新設)の適用第1号**: kFrame=0 側でもドリフト外挿(400步窓の線形換算 1.26%/公転)が発火したが、1公転の同位相クロージャ 2.8×10⁻⁴% が契約 ±1% 内 — 高離心率×1PN の接触要素は位相依存に振動するため、二体では外挿の発火を実測(クロージャ)で最終判定する則を新設した(フィットではない)。両星の**自転は出典に確定値が無く spin=0 宣言**(A は vsini 16.3±0.1 km/s のみ〔Takeda 2020〕で P_rot 未確定・B は現代的直接測定なし〔Thejll & Shipman 1986 はモデル依存 0〜600 km/s — 不採用〕)。**Sirius B の実半径 5.64×10⁶m(5.6×10⁻⁴ 単位)は値域下限 0.01 未満のため宣言つき引き上げ**(第214便 — 半径限定の二体降格。質量・配置・初速は転写のまま — 力学は質量が支配)。初期位相は遠点整列(第211便の恒星二体規約 — DFM 版 💫 と初期位相統一。自己診断は感度最大の近点位相の複製)。両星とも自由(pinned なし)・反作用則 frameReaction:\"pairReduced\"(E6′-R)。q=4.6761 は q_exact を a=295.946476 で1回評価した直値。フィットはゼロ(D₀=0.006 は共有値の流用)。",
+    observe:"kFrame=0(採用側)は1公転を完走して実測 50.1306 年(観測 50.1284 年・+0.0043%)、1公転の半径比振れ幅から出る実測離心率 0.59142 は転写した e=0.59142 と表示桁で一致する(近点 1.209×10¹²m・遠点 4.710×10¹²m)。重心移動 4.1×10⁻⁶ 単位/1.05公転・粒子+リザーバ P 残差 1×10⁻¹⁶(機械ゼロ)。A/B の測定側 kFrame=1 は転写軌道を保てない: 近点複製の自己診断は 400步の試走で推定周期が 1.830% までずれ(観測安定則の差し戻し理由)、遠点発 0.56公転窓で接触要素周期が −19.0% 縮んで軌道は近点に届かない(半径範囲 376〜471 単位・転写近点 120.9。cmGauge 無宣言の測定側は重心も 16.5 単位歩く — 第209便の機構)。kFrame=0 のドリフト外挿 1.26%/公転(発火)は1公転の同位相クロージャ 2.8×10⁻⁴% で**位相振動**と確定(第214便の新判定則 — est プロファイルは近点発 3.6%公転の +2.4×10⁻⁴ で折り返す実測。αケンタウリは同じ振動の振幅が約1/5で外挿閾値に届かなかった)。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.siriusAB)。",
+    control:"ワンタップ対照A/B: B側 kFrame=1(測定側)— 押すと引きずり項が軌道を保てない様子(接触要素周期の縮小と近点喪失)が見える。timeScale=300 で1公転が実時間 約5.5秒(規約)。表示は dispMag=300(A は 0.119 単位・B は下限 0.01 単位の点 — 白色矮星の実半径は表示不能に小さい)・トレイルで軌道を見る。camera.scale=560 は遠点分離 470.98 単位×1.2 の規約値。✨ αケンタウリAB と並べると「同じ規約・違う連星(対等質量 vs 白色矮星連星)」の比較ができる。"},
+  en:{name:"Sirius AB (Real Units) — the white-dwarf binary",
+    obsCard:[
+      {q:"Orbital period (kFrame=0, adopted)", model:"50.1306 yr (+0.0043%)", obs:"50.1284 ± 0.0043 yr (Bond et al. 2017)"},
+      {q:"Measured eccentricity (radius-ratio wobble)", model:"0.59142 (matches the transcription to the shown digits)", obs:"e=0.59142 ± 0.00037 (transcribed)"},
+      {q:"Observation-stability rule (2nd application)", model:"the kFrame=1 template fails the perihelion-probe self-check (+1.830% in 400 steps) → adopted at kFrame=0", obs:"the observed a, e, P are computed from a drag-free orbit solution"},
+      {q:"Two-body closure confirmation (new, wave 214)", model:"the kF0 drift extrapolation fired (1.26%/orbit) → same-phase closure over one period 2.8×10⁻⁴% → phase oscillation, adopted", obs:"— (a declared decision rule; the osculating period oscillates with phase under high e × 1PN)"},
+      {q:"A/B measurement side (kFrame=1)", model:"osculating period −19.0% in 0.56 orbit from aphelion; never reaches perihelion (r 376–471 vs 120.9); CM walks 16.5", obs:"— (declared as the measurement side)"},
+      {q:"Rotations (both stars — NOT transcribed)", model:"spin=0 declared (A: only v sin i 16.3 km/s, P_rot undetermined ~2.2–5.4 d; B: no modern direct measurement)", obs:"Takeda 2020 / Thejll & Shipman 1986 (model-dependent 0–600 km/s — not adopted)"},
+      {q:"Sirius B radius (white dwarf)", model:"real 5.64×10⁶ m = 5.6×10⁻⁴ units < floor 0.01 → declared raise (display & drag field only — mass rules the dynamics)", obs:"0.008098 ± 0.000046 R☉ (Bond et al. 2017)"},
+      {q:"Initial phase (wave 211 — aphelion alignment)", model:"adopted at aphelion per the stellar two-body convention (phase unified with 💫); the self-check probes perihelion", obs:"— (a placement convention, not an observation)"}],
+    failureFirst:{
+      fail:"The real-calibration template kFrame=1 cannot hold this high-eccentricity (e=0.59), mass-ratio-0.4935 binary either: the perihelion-probe self-check reads +1.830% in 400 steps (beyond the ±1% contract), and measured from aphelion on the A/B side the osculating period shrinks −19.0% within a 0.56-orbit window with the orbit never reaching perihelion (radius range 376–471 units vs the transcribed 120.9) while the barycentre walks 16.5 units. Moreover THE kFrame=0 SIDE ALSO FIRED the drift extrapolation (the linear projection of the 400-step window) at 1.26%/orbit — but that is not secular drift (see pass).",
+      pass:"THE SECOND APPLICATION of the observation-stability rule (adjudicated 2026-08-25): the transcribed a, e, P are the output of the Bond et al. (2017) orbit solution — a drag-free Keplerian computation — so the build adopts kFrame=0 and keeps frame dragging as the A/B measurement side. THE FIRST APPLICATION of the TWO-BODY CLOSURE CONFIRMATION (new in wave 214): against the fired kF0 extrapolation, the same trial run extended to one full period gives a SAME-PHASE CLOSURE of 2.8×10⁻⁴% (within the ±1% contract) — the osculating period oscillates with phase under high eccentricity × 1PN (measured: the est profile turns over at +2.4×10⁻⁴ around 3.6% of the orbit from perihelion), so a fired extrapolation is finally judged by the measured closure. kFrame=0 completes the orbit at 50.1306 yr (+0.0043% vs observed) with a measured eccentricity of 0.59142, exactly as transcribed. Zero fits."},
+    descStruct:{
+      summary:"Sirius A (real mass 2.063 M☉ = 4.1022755×10³⁰ kg, real radius 1.7144 R☉) and B (a WHITE DWARF — real mass 1.018 M☉ = 2.024293×10³⁰ kg, real radius 0.008098 R☉), placed with 1 unit = 10¹⁰ m / 10⁶ s / 10²⁹ kg as a two-body barycentric stellar binary (wave 214 — the second stellar-scale real calibration; the comparison system to ✨ Alpha Centauri AB). The relative orbit is a=19.7828 AU (2.95946476×10¹² m), e=0.59142, P=50.1284 yr (Bond et al. 2017 ApJ 840 70 — paper/data/solar-observations.csv; the semi-major axis is derived in the record from the paper's 7.4957″ and adopted parallax 378.9 mas). Only gravity (E4) and the geodesic 1PN term (E12) act: as the SECOND APPLICATION of the observation-stability rule the build adopts kFrame=0 and keeps dragging as the A/B measurement side. THE FIRST APPLICATION of the two-body closure confirmation (new in wave 214): the kF0 drift extrapolation fired (1.26%/orbit, a linear projection of the 400-step window) but the one-period same-phase closure of 2.8×10⁻⁴% sits within the ±1% contract — under high eccentricity × 1PN the osculating period oscillates with phase, so for two-body systems a fired extrapolation is now finally judged by the measured closure (not a fit). Rotations are NOT transcribed — spin=0 is declared (A: only v sin i 16.3±0.1 km/s, Takeda 2020, P_rot undetermined; B: no modern direct measurement — Thejll & Shipman 1986's model-dependent 0–600 km/s is not adopted). Sirius B's real radius 5.64×10⁶ m (5.6×10⁻⁴ units) falls below the range floor 0.01 and is raised with a declaration (the radius-only two-body demotion, wave 214 — mass, placement and initial speed stay transcribed). The initial phase is aphelion-aligned (the wave-211 stellar two-body convention — unified with the DFM build 💫; the self-check probes the perihelion phase). Both stars are free; frameReaction:\"pairReduced\" (E6′-R). q=4.6761 is q_exact evaluated once at a=295.946476. Zero fits (D₀=0.006 is the shared value, reused).",
+      observe:"The adopted kFrame=0 build completes one orbit at a measured 50.1306 yr (observed 50.1284 yr, +0.0043%), and the radius-ratio wobble gives a measured eccentricity of 0.59142 — matching the transcription to the shown digits (perihelion 1.209×10¹² m, apoapsis 4.710×10¹² m). CM shift 4.1×10⁻⁶ units over 1.05 orbits; particle+reservoir momentum residual 1×10⁻¹⁶ (machine zero). The A/B measurement side (kFrame=1) cannot hold the transcribed orbit: the perihelion-probe self-check reads +1.830% in 400 steps (the observation-stability rejection), and from the aphelion start the osculating period shrinks −19.0% within a 0.56-orbit window with the orbit never reaching perihelion (radius range 376–471 units vs the transcribed 120.9; without a declared cmGauge the measurement side's barycentre also walks 16.5 units — the wave-209 mechanism). The fired kF0 extrapolation (1.26%/orbit) is settled as a PHASE OSCILLATION by the one-period same-phase closure of 2.8×10⁻⁴% (the wave-214 rule — the measured est profile turns over at +2.4×10⁻⁴ around 3.6% of the orbit; Alpha Centauri's same oscillation has ~1/5 the amplitude and never reached the extrapolation threshold). Zero NaN; two runs are bit-identical (QA behavior.siriusAB).",
+      control:"One-tap A/B: side B is kFrame=1 (the measurement side) — pressing it shows the dragging term failing to hold the orbit (the osculating period shrinks and perihelion is lost). With timeScale=300 one orbit takes ~5.5 wall seconds (the convention). Display uses dispMag=300 (A is a 0.119-unit dot; B sits at the 0.01 floor — a white dwarf's real radius is too small to draw); use trails. camera.scale=560 is the convention value, 1.2 × the 470.98-unit apoapsis separation. Next to ✨ Alpha Centauri AB the pair shows the same conventions on two very different binaries (near-equal masses vs a white-dwarf companion)."},
+    parameterAudit:{
+      observedInputs:["real G=6.674","real c₀=3×10⁴",
+        "A's real mass 2.063 M☉ and radius 1.7144 R☉ (converted with this repo's committed solar values 1.9885×10³⁰ kg / 6.96×10⁸ m)",
+        "B's real mass 1.018 M☉ and radius 0.008098 R☉ (a white dwarf)",
+        "the relative orbit a=19.7828 AU (derived in the record from 7.4957″ and parallax 378.9 mas), e=0.59142",
+        "the observed period 50.1284 yr (compared against, NOT fitted to — paper/data/solar-observations.csv)",
+        "the real Kepler speed (calibration factor 1.000 — no multiplier)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10¹⁰ m / 10⁶ s / 10²⁹ kg)",
+        "kFrame=0 (the observation-stability rule, adjudicated 2026-08-25 — 2nd application; the kFrame=1 template is returned by the self-check as unstable and dragging moves to the A/B measurement side)",
+        "frameReaction:\"pairReduced\" (E6′-R — the free-centre reaction rule, wave 184)",
+        "kRep=muF=γN=κ_S=0 / geoPN=2, λ_PN=1, pnα=1.5 / stateCarry:\"double\"",
+        "two-body barycentric (both stars free), APHELION-aligned (wave 211 — the stellar two-body convention; the self-check probes the perihelion phase)",
+        "no rotation source → spin=0 declared (the mechanical rule) / Sirius B's radius raised to the floor 0.01 with a declaration (wave 214 — the radius-only two-body demotion)",
+        "two-body closure confirmation (wave 214): a fired drift extrapolation is finally judged by the one-period same-phase closure",
+        "AU→m 1.495978707×10¹¹ (IAU exact) and yr→s 3.15576×10⁷ (Julian year) as unit conversions, not observations"],
+      fitted:["D₀=0.006 (the shared value fixed on 🌘, used as is — zero fits in this system; speed calibration 1.000)"],
+      derived:["q=4.6761 (the qLock exact-agreement form q_exact evaluated once at a=295.946476)","κ=G/c₀²=7.4156×10⁻⁹",
+        "camera.scale=560, timeScale=300, dispMag=300 (derived from the stated rules)"],
+      numerical:["softening ε=0.05","time multiplier timeScale=300","display magnification dispMag=300 (display only)",
+        "self-check: 400-step trial + two-body closure confirmation (wave 214), period tolerance ±1%"]}},
+  abBody:{ label:{ja:"kFrame=1(空間引きずり ON — A/B の測定側・観測安定則)", en:"kFrame=1 (frame dragging on — the A/B measurement side under the observation-stability rule)"},
+    physicsPatch:{kFrame:1} },
+  claims:[
+    { id:"siriusAB.period-kf0", kind:"fixed-seed", prov:"simulated", role:"input_check",
+      metric:"abPeriodKF0Years",
+      chain:{ax:["A4","A6"], eq:["E4"],
+        note:"観測入力(実 a・両星の実質量・実 G)+実ケプラー初速の転写が観測周期 50.1284 年を写せていることの検証(kFrame=0 採用側・1公転完走)。",
+        noteEn:"A check that the transcription (real a, both real masses, real G, real Kepler speed) reproduces the observed 50.1284 yr at the adopted kFrame=0, completing one full orbit."},
+      roleNote:"観測入力の検証 — 較正ノブはゼロ。",
+      roleNoteEn:"Input check — zero calibration knobs.",
+      expected:{min:49.9, max:50.4},
+      descPattern:"1公転を完走して実測 (\\d+\\.\\d+) 年", testId:"behavior.siriusAB" },
+    { id:"siriusAB.ecc-transcribed", kind:"fixed-seed", prov:"simulated", role:"input_check",
+      metric:"abEccMeasured",
+      chain:{ax:["A4"], eq:["E4"],
+        note:"転写した離心率 e=0.59142 が1公転の半径比振れ幅としてそのまま実測されることの検証(✨ の 0.51947 を超える高離心率転写)。",
+        noteEn:"A check that the transcribed e=0.59142 is measured back as the radius-ratio wobble over one orbit (a higher eccentricity than ✨'s 0.51947)."},
+      roleNote:"観測入力の検証(軌道形の写し)— 較正ノブではない。",
+      roleNoteEn:"Input check (a transcription of the orbit shape) — not a calibration knob.",
+      expected:{min:0.57, max:0.61},
+      descPattern:"実測離心率 (0\\.\\d+)", testId:"behavior.siriusAB" },
+    { id:"siriusAB.obs-stability", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+      metric:"kf1Probe400Pct",
+      chain:{ax:["A4","A5"], eq:["E4","E6′"],
+        note:"観測安定則(2026-08-25 裁定)適用第2号の機械固定: kFrame=1 雛形は近点複製の自己診断が 400步の試走で推定周期が 1.830% までずれとして差し戻し、構築は kFrame=0 へ宣言つきフォールバックする。",
+        noteEn:"Machine-fixes the 2nd application of the observation-stability rule: the kFrame=1 template is returned by the perihelion-probe self-check at +1.830% in 400 steps and the build falls back to kFrame=0 with a declaration."},
+      roleNote:"回顧的確認 — 差し戻しの実測値を宣言どおり検査する。較正ノブではない。",
+      roleNoteEn:"Retrospective check — verifies the declared rejection value. Not a calibration knob.",
+      expected:{min:1, max:4},
+      descPattern:"400步の試走で推定周期が (\\d+\\.\\d+)% までずれ", testId:"behavior.siriusAB" },
+    { id:"siriusAB.closure-rule", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+      metric:"kf0DriftProjPct",
+      chain:{ax:["A4"], eq:["E4","E12"],
+        note:"二体クロージャ確認(第214便 新設)適用第1号の機械固定: kFrame=0 側のドリフト外挿 1.26%/公転(400步窓の線形換算)が発火するが、1公転の同位相クロージャ(2.8×10⁻⁴%)が契約 ±1% 内 — 高離心率×1PN の接触要素の位相振動を線形外挿が永年と誤読するため、二体は実測クロージャで最終判定する。フィットではない(判定則)。",
+        noteEn:"Machine-fixes the 1st application of the two-body closure confirmation (new in wave 214): the kF0 drift extrapolation fires at 1.26%/orbit (a linear projection of the 400-step window) but the one-period same-phase closure (2.8×10⁻⁴%) is within the ±1% contract — the linear extrapolation misreads the phase oscillation of the osculating period under high e × 1PN, so two-body systems are finally judged by the measured closure. A decision rule, not a fit."},
+      roleNote:"回顧的確認 — 発火した外挿値とクロージャの両方を宣言どおり検査する。",
+      roleNoteEn:"Retrospective check — verifies both the fired projection and the closure as declared.",
+      expected:{min:1, max:3},
+      descPattern:"ドリフト外挿 (\\d+\\.\\d+)%/公転", testId:"behavior.siriusAB" },
+    { id:"siriusAB.drag-secular-kf1", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+      metric:"kf1PeriodShiftPct",
+      chain:{ax:["A4","A5"], eq:["E4","E6′"],
+        note:"A/B 測定側(kFrame=1)が転写軌道を保てないことの定量: 遠点発 0.56公転窓で接触要素周期が −19.0% 縮み、軌道は近点に届かない(半径範囲 376〜471・転写近点 120.9)。✨(−13.0%)より深い破れ — 質量が大きく軌道が深い。フィットで消さずに測定側として宣言する。",
+        noteEn:"Quantifies that the A/B measurement side (kFrame=1) cannot hold the transcribed orbit: from aphelion the osculating period shrinks −19.0% within a 0.56-orbit window and the orbit never reaches perihelion (radius range 376–471 vs the transcribed 120.9) — a deeper break than ✨'s −13.0%. Declared as the measurement side, not fitted away."},
+      roleNote:"回顧的確認 — 較正ノブはゼロ。観測との不一致(転写契約の破れ)を含めてそのまま宣言する項目である。",
+      roleNoteEn:"Retrospective check — zero calibration knobs. The item declares the disagreement as is.",
+      expected:{min:5, max:60},
+      descPattern:"0\\.56公転窓で接触要素周期が −(\\d+\\.\\d+)%", testId:"behavior.siriusAB" }
+  ],
+  parameterAudit:{
+    observedInputs:["実 G=6.674","実 c₀=3×10⁴",
+      "A の実質量 2.063 M☉・実半径 1.7144 R☉(M☉/R☉ の換算は本リポジトリのコミット済み太陽値 1.9885×10³⁰kg/6.96×10⁸m)",
+      "B の実質量 1.018 M☉・実半径 0.008098 R☉(白色矮星)",
+      "相対軌道 a=19.7828 AU(レコード内で角半長軸 7.4957″ と視差 378.9 mas から導出)・e=0.59142",
+      "観測周期 50.1284 年(**照合先であって fit の対象ではない** — paper/data/solar-observations.csv)",
+      "実ケプラー初速(較正係数 1.000 — 掛け算なし)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10¹⁰m/10⁶s/10²⁹kg)",
+      "kFrame=0(観測安定則 — 2026-08-25 裁定の適用第2号。kFrame=1 雛形は自己診断が差し戻し、引きずりは A/B の測定側へ)",
+      "frameReaction:\"pairReduced\"(E6′-R — 自由中心の反作用則・第184便)",
+      "kRep=muF=γN=κ_S=0 / geoPN=2・λ_PN=1・pnα=1.5 / stateCarry:\"double\"",
+      "二体重心系(両星とも自由)・**遠点整列**(第211便 — 恒星二体の規約。自己診断は感度最大の近点位相の複製で実施)",
+      "自転の転写なし → spin=0 宣言(機械則)/ Sirius B の半径は下限 0.01 へ宣言つき引き上げ(第214便 — 半径限定の二体降格)",
+      "二体クロージャ確認(第214便): ドリフト外挿の発火は1公転の同位相クロージャで最終判定する",
+      "AU→m 1.495978707×10¹¹(IAU 定義の厳密値)・年→秒 3.15576×10⁷(ユリウス年)は単位換算であって観測ではない"],
+    fitted:["D₀=0.006(🌘 で決めた共有値の流用 — 本系でのフィットはゼロ。初速較正 1.000)"],
+    derived:["q=4.6761(qLock 厳密一致式 q_exact を a=295.946476 で1回評価した直値)","κ=G/c₀²=7.4156×10⁻⁹",
+      "camera.scale=560・timeScale=300・dispMag=300(規約から決定的に算出)"],
+    numerical:["ソフトニング ε=0.05","時間倍率 timeScale=300","粒子表示倍率 dispMag=300(表示専用)",
+      "自己診断: 400步試走+二体クロージャ確認(第214便)・周期許容 ±1%"]},
+  activeParams:["kFrame","q","D0"],
+  camera:{scale:560}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.006, kFrame:0, q:4.6761, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:300, dispMag:300,
+    stateCarry:"double", frameReaction:"pairReduced"},
+  bodies:[ // 並び: 0=A(自由)・1=B(白色矮星)。観測転写経路の決定的配置のビット写し
+           // (観測安定則 kFrame=0 採用・第211便 遠点整列・第214便 半径限定二体降格+クロージャ確認):
+           //  A 4.1022755e30kg/1.1932224e9m、B 2.024293e30kg/実半径5.636208e6m→下限0.01へ宣言つき引き上げ。
+           //  a=2.95946476e12m・e=0.59142。初速は遠点の実ケプラー接線速度(barycentric-apo・
+           //  重心系配分・較正係数 1.000)。自転は出典に確定値なし — spin=0 宣言(機械則)
+    {type:"single", m:41.022755, radius:0.11932224, x:-155.61593423270583, y:0, vx:0, vy:-0.1967874451365539, spin:0, pinned:false, pnSource:true},
+    {type:"single", m:20.24293, radius:0.01, x:315.3592066032142, y:0, vx:0, vy:0.39879420365099283, spin:0, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+{ id:"siriusABDFM", name:"シリウスAB(DFM版)— kF1 質量較正", emoji:"💫", group:"現実との照合",
+  familyId:"sirius", familyRole:"primary",   // ✴️ と同じ建付け: DFM 版が仲間のメイン
+  scaleTier:"stellar",
+  scaleExp:{L:10, T:6, M:29},   // 🌟 と同じ単位系(1単位=10¹⁰m/10⁶s/10²⁹kg)
+  sampleClass:"calibration",
+  fidelity:"real",   // 幾何(遠点分離・遠点速度・半径)は 🌟 と同じ転写。質量だけが宣言つき1ノブ較正(自転は両系とも spin=0 宣言)
+  notClaim:["solar_cal"],
+  obsCard:[
+    {q:"公転周期(kFrame=1・質量×1.8702)", model:"2周目 50.1290 年(+0.0012%)— 3周 [50.217, 50.129, 50.050]", obs:"50.1284 ± 0.0043 年(Bond et al. 2017)"},
+    {q:"実測離心率(1周目の半径比振れ幅)", model:"0.58875(−0.45%)", obs:"e=0.59142 ± 0.00037(転写)"},
+    {q:"近点(合わせていない側)", model:"121.78 単位(観測版 120.92 の +0.7%)— P・e・近点が同じ f に収束(✨✴️ の発見の再現)", obs:"—(照合のみ — fit の対象ではない)"},
+    {q:"DFM 質量(条件つき較正 — 実在値の主張ではない)", model:"質量スケール f=1.8702: A 3.858 M☉(7.672×10³⁰kg)・B 1.904 M☉(3.786×10³⁰kg)", obs:"—(kFrame=1 の計算式で観測周期に合わせた1ノブ fit)"},
+    {q:"軌道の形", model:"歳差するロゼット — 近点移動 +2.60°/周(順行・実測。kF1 引きずり項の帰結 — ✴️ 第211便で機構同定)", obs:"—(準安定の宣言)"},
+    {q:"スピン(宣言0の保持)", model:"E6′-R 偶力は coupleSink:reservoir で帳簿へ。残余 |s|max 2.6×10⁻⁴/3.2公転(測地線1PN 反作用偶力のみ)", obs:"—(第69便 §18.4 の宣言済み物理 — 帳簿は閉)"},
+    {q:"重心(cmGauge:barycentric)", model:"3.2公転の重心移動 3.2×10⁻⁵ 単位・粒子+リザーバ P 残差 4×10⁻¹⁴", obs:"—(D₀ 開放系の共通成分は除く宣言 — 観測照合は相対座標)"},
+    {q:"較正値の系間比較(記録)", model:"f_Sirius=1.8702 は f_αCen=1.827 の +2.4% — 異なる連星が近い質量スケールを指す", obs:"—(主張ではなく記録 — 系間の普遍性は未検証)"}],
+  failureFirst:{
+    fail:"観測版 🌟 の実測どおり、kFrame=1 は転写質量のままでは軌道を保てない(近点複製の自己診断 400步 +1.830%・遠点発 0.56公転窓で接触要素周期 −19.0%・近点喪失)。さらに本系はスピンの転写が無い(spin=0 宣言)ため、E6′-R 偶力を既定のまま両星スピンへ流すと **0 から ±40 飽和まで育ってしまう**(実測: 0.3公転で clampSN 1.9×10⁴)— 保護すべき転写自転が無いので、✴️ の隠れコア(coupleSink:\"core\")ではなく**リザーバ帳簿へ直接記帳**(coupleSink:\"reservoir\" — 保存的・スピンは宣言 0 のまま)する。",
+    pass:"「質量は軌道から計算式で算出される量 — 計算式が変われば質量が変わる」(原仮定者第8報)の**適用第2号**。観測軌道の遠点状態(分離 470.98 単位・f=1 の実ケプラー遠点速度)をそのまま初期状態に取り、kFrame=1 の DFM 式で観測周期 50.1284 年を再現する質量を1ノブ較正すると**質量スケール f=1.8702** — このとき実測離心率 0.58875(転写比 −0.45%)・近点 121.78(観測版比 +0.7%)も**合わせていないのに** ±1% で一致する(**P・e・近点の3観測量が同じ f に収束** — ✨✴️ で見つけた収束が白色矮星連星でも再現)。DFM 質量は A 3.858 M☉・B 1.904 M☉(ニュートン式推定の 1.8702 倍)— 実在の質量の主張ではなく、計算式に条件づけられた較正値である。f_αCen=1.827 との差は +2.4%(系間比較の記録)。"},
+  descStruct:{
+    summary:"観測版 🌟(kFrame=0 — 観測安定則)の**対になる DFM 版**(第214便 — ✴️ と同型の適用第2号)。転写幾何は 🌟 と同一 — 遠点分離 470.98 単位(=a(1+e)・Bond et al. 2017 の a=19.7828 AU・e=0.59142)・遠点接線速度は転写質量での実ケプラー値・両星の半径も転写値(Sirius B は下限 0.01 へ宣言つき引き上げ — 第214便の半径限定二体降格)。そのうえで **kFrame=1(空間引きずり ON — DFM の計算式)で観測周期 50.1284 年を再現する質量を1ノブ較正**: 質量スケール f=1.8702 → A 3.858 M☉(7.672×10³⁰kg)・B 1.904 M☉(3.786×10³⁰kg)。実在の質量の主張ではない(計算式に条件づけられた較正値)。**スピンの扱い(✴️ との違い)**: 両星とも自転の転写が無い(spin=0 宣言 — A は vsini のみ・B は現代的直接測定なし)ため、E6′-R 偶力の受け皿に隠れコアは置かず、宣言キー **coupleSink:\"reservoir\" でリザーバ帳簿へ直接記帳**する(保存的 — スピンは宣言 0 のまま。残余は測地線1PN 反作用偶力〔第69便 §18.4 の宣言済み物理〕の |s|max 2.6×10⁻⁴/3.2公転のみ・帳簿は閉)。**重心ゲージ cmGauge:\"barycentric\"**(第209便)で D₀ 開放系の共通成分を除き、重心は機械ゼロ(3.2×10⁻⁵/3.2公転)。働いているのは重力(E4)+空間引きずり(A8/E6′)+測地線1PN(E12)。q=4.6761・D₀=0.006 は 🌟 の値をそのまま流用。**f_αCen=1.827 と f_Sirius=1.8702 の差は +2.4%** — 対等質量連星と白色矮星連星という異なる系が近い質量スケールを指す(主張ではなく記録 — 系間の普遍性は今後の検証対象)。",
+    observe:"実測(3.2公転窓・重心ゲージ込み): 周回時間 [50.217, 50.129, 50.050] 年 — **2周目 50.1290 年は観測 50.1284 年の +0.0012%**(fit 対象)。合わせていない側: 1周目の実測離心率 0.58875(転写 0.59142 の −0.45%)・近点 121.78 単位(観測版の 120.92 の +0.7%)— **P に合わせた f=1.8702 が e と近点も ±1% で当てる**(P・e・近点が同じ f に収束 — ✨✴️ の発見が第2の連星で再現)。軌道は歳差するロゼットで**近点移動 +2.60°/周**(順行 — 遠点発2.2公転窓の近点通過方向の実測。kF1 引きずり項自身の帰結であることは ✴️ 第211便の機構同定〔geoPN=0 対照・1PN 解析値との分離〕を参照)。公転の向きは 🌟 と同回り。スピンは宣言 0 を保持: E6′-R 偶力は coupleSink:\"reservoir\" が全量リザーバへ記帳し(clampSN=0)、**残余 |s|max 2.6×10⁻⁴/3.2公転**は測地線1PN の反作用偶力(第69便 §18.4 — 実装済みの宣言物理。✴️ では Float32 スピン格納の分解能未満で不可視)。角運動量帳簿(総L+リザーバ)の相対残差 4×10⁻¹⁴・粒子+リザーバ P 残差 4×10⁻¹⁴。重心移動 3.2×10⁻⁵ 単位/3.2公転(🌟 と同桁の機械ゼロ)。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.siriusAB)。",
+    control:"ワンタップ対照A/B: B側 kFrame=0(観測版の計算式側)— **同じ初期状態・同じ×1.8702 質量**では引力が過剰になり、軌道は深い楕円へ落ち込む(実測: 近点 57.8 単位・実測離心率 0.78・1周目 30.95 年)。×1.8702 は kFrame=1 専用の較正であることの機械対照。否定対照(QA が機械固定): ①**coupleSink を外す(既定 \"spin\")と、spin=0 から 0.3公転で ±40 飽和まで育つ**(clampSN 1.9×10⁴)— 転写自転の無い系では偶力の受け皿宣言が必須であることの直接証明 ②**cmGauge を外すと重心が歩き出す**(0.5公転で 15.8 単位)。観測版 🌟 と本サンプルの対で「同じ観測・違う計算式・違う質量」が2例目の連星でも見える(✨✴️ と並べると4サンプルの二層構造)。timeScale=300 で1公転が実時間 約5.5秒・dispMag=300(表示専用)・トレイルで軌道を見る。"},
+  en:{name:"Sirius AB (DFM build) — the kF1 mass calibration",
+    obsCard:[
+      {q:"Orbital period (kFrame=1, masses ×1.8702)", model:"2nd revolution 50.1290 yr (+0.0012%) — three revolutions [50.217, 50.129, 50.050]", obs:"50.1284 ± 0.0043 yr (Bond et al. 2017)"},
+      {q:"Measured eccentricity (radius-ratio wobble, 1st revolution)", model:"0.58875 (−0.45%)", obs:"e=0.59142 ± 0.00037 (transcribed)"},
+      {q:"Perihelion (the unfitted side)", model:"121.78 units (+0.7% of the observation build's 120.92) — P, e and perihelion converge on one f (the ✨✴️ finding, reproduced)", obs:"— (compared only, never fitted)"},
+      {q:"DFM masses (a conditional calibration — NOT real-mass claims)", model:"mass scale f=1.8702: A 3.858 M☉ (7.672×10³⁰ kg), B 1.904 M☉ (3.786×10³⁰ kg)", obs:"— (a one-knob fit of the kFrame=1 formula to the observed period)"},
+      {q:"Orbit shape", model:"a precessing rosette — perihelion advance +2.60°/rev prograde (measured; the kF1 term's effect — mechanism identified on ✴️, wave 211)", obs:"— (declared quasi-stability)"},
+      {q:"Spins (holding the declared 0)", model:"the E6′-R couple goes to the ledger via coupleSink:reservoir; residual |s|max 2.6×10⁻⁴ per 3.2 orbits (the geodesic-1PN reaction couple only)", obs:"— (declared physics, wave 69 §18.4 — the ledger closes)"},
+      {q:"Barycentre (cmGauge:barycentric)", model:"CM shift 3.2×10⁻⁵ units over 3.2 orbits; particle+reservoir P residual 4×10⁻¹⁴", obs:"— (the D₀ common mode is removed by declaration)"},
+      {q:"Cross-system record", model:"f_Sirius=1.8702 is +2.4% of f_αCen=1.827 — two very different binaries point to nearby mass scales", obs:"— (a record, not a claim — universality is untested)"}],
+    failureFirst:{
+      fail:"As measured on the observation build 🌟, kFrame=1 cannot hold the transcribed orbit at the transcribed masses (the perihelion-probe self-check reads +1.830% in 400 steps; from aphelion the osculating period shrinks −19.0% with perihelion lost). Moreover this system transcribes NO rotations (spin=0 declared), so routing the E6′-R couple into the spins by default would GROW them from 0 to the ±40 saturation (measured: clampSN 1.9×10⁴ within 0.3 orbits) — with no transcribed rotation to protect, the couple is booked STRAIGHT INTO THE RESERVOIR LEDGER (coupleSink:\"reservoir\" — conservative; the spins stay at the declared 0) instead of into ✴️'s hidden core.",
+      pass:"THE SECOND APPLICATION of the adjudicator's principle (8th report): masses are quantities COMPUTED FROM ORBITS BY A FORMULA. Taking the observed orbit's apoapsis state as the initial condition (separation 470.98 units, the real Kepler apoapsis speed at the transcribed masses) and calibrating ONE knob so that the kFrame=1 DFM formula reproduces the observed 50.1284-yr period gives f=1.8702. At that f the measured eccentricity 0.58875 (−0.45%) and perihelion 121.78 (+0.7%) ALSO land within ±1% though neither was fitted — P, e and the perihelion converge on one f, reproducing the ✨✴️ finding on a white-dwarf binary. The DFM masses are A 3.858 M☉ and B 1.904 M☉ (1.8702× the Newtonian inference) — not real-mass claims but a calibration conditioned on the formula. The gap to f_αCen=1.827 is +2.4% (a cross-system record)."},
+    descStruct:{
+      summary:"The DFM COUNTERPART of the observation build 🌟 (kFrame=0 under the observation-stability rule) — the second application of the ✴️ pattern (wave 214). The transcribed geometry is identical to 🌟: apoapsis separation 470.98 units (=a(1+e), from Bond et al. 2017's a=19.7828 AU, e=0.59142), the real Kepler apoapsis speed at the transcribed masses, and both radii transcribed (Sirius B raised to the 0.01 floor with a declaration — the wave-214 radius-only two-body demotion). On top of that ONE knob is calibrated so that kFrame=1 reproduces the observed 50.1284-yr period: mass scale f=1.8702 → A 3.858 M☉ (7.672×10³⁰ kg), B 1.904 M☉ (3.786×10³⁰ kg). NOT real-mass claims (a calibration conditioned on the formula). SPINS (the difference from ✴️): neither star has a transcribed rotation (spin=0 declared — A has only v sin i; B has no modern direct measurement), so no hidden core is installed: the declaration key coupleSink:\"reservoir\" BOOKS THE E6′-R COUPLE STRAIGHT INTO THE RESERVOIR LEDGER (conservative — the spins hold the declared 0; the only residual is the geodesic-1PN reaction couple, declared physics of wave 69 §18.4, at |s|max 2.6×10⁻⁴ per 3.2 orbits — the ledger closes). The barycentric gauge cmGauge:\"barycentric\" (wave 209) removes the D₀ common mode (CM at machine zero, 3.2×10⁻⁵ per 3.2 orbits). Gravity (E4), frame dragging (A8/E6′) and the geodesic 1PN term (E12) act. q=4.6761 and D₀=0.006 are reused from 🌟 as is. f_αCen=1.827 vs f_Sirius=1.8702 differ by +2.4% — two very different binaries point to nearby mass scales (a record, not a claim — universality is untested).",
+      observe:"Measured over a 3.2-orbit window (with the barycentric gauge): revolution times [50.217, 50.129, 50.050] yr — the 2nd revolution, 50.1290 yr, is +0.0012% of the observed 50.1284 (the fit target). The unfitted side: the 1st-revolution eccentricity 0.58875 (−0.45% of the transcribed 0.59142) and the perihelion 121.78 units (+0.7% of the observation build's 120.92) — the f=1.8702 fitted to P ALSO lands e and the perihelion within ±1% (the convergence of P, e and perihelion on one f, reproduced on a second binary). The orbit is a precessing rosette with a perihelion advance of +2.60°/rev prograde (measured from the perihelion-passage directions over the 2.2-orbit window from aphelion; the mechanism — the kF1 dragging term itself — was identified on ✴️ in wave 211). It runs the same way round as 🌟. The spins hold the declared 0: the E6′-R couple is booked entirely into the reservoir ledger by coupleSink:\"reservoir\" (clampSN=0), and the residual |s|max of 2.6×10⁻⁴ per 3.2 orbits is the geodesic-1PN reaction couple (wave 69 §18.4 — implemented, declared physics; on ✴️ it is invisible below the Float32 spin-storage resolution). The angular-momentum ledger closes to 4×10⁻¹⁴ and the particle+reservoir momentum residual is 4×10⁻¹⁴; the CM shift is 3.2×10⁻⁵ units over 3.2 orbits (machine zero, the same order as 🌟). Zero NaN; two runs are bit-identical (QA behavior.siriusAB).",
+      control:"One-tap A/B: side B is kFrame=0 (the observation build's formula) — at the SAME initial state and the SAME ×1.8702 masses gravity is excessive and the orbit plunges into a deep ellipse (measured: perihelion 57.8 units, eccentricity 0.78, first revolution 30.95 yr): the ×1.8702 calibration belongs to kFrame=1 only. Negative controls (machine-fixed by QA): (1) REMOVING coupleSink (default \"spin\") GROWS the spins from 0 to the ±40 saturation within 0.3 orbits (clampSN 1.9×10⁴) — direct proof that a declared couple receptacle is mandatory in a system with no transcribed rotation; (2) REMOVING cmGauge sets the barycentre walking (15.8 units in half an orbit). Together with 🌟 the pair shows one observation, two formulas, two mass ledgers — on a second binary (with ✨✴️, a four-sample two-layer structure). With timeScale=300 one orbit takes ~5.5 wall seconds; dispMag=300 (display only); use trails."},
+    parameterAudit:{
+      observedInputs:["real G=6.674","real c₀=3×10⁴",
+        "the transcribed geometry of 🌟: apoapsis separation a(1+e)=470.98 units and the real Kepler apoapsis speed at the transcribed masses",
+        "both radii (1.7144 R☉ / 0.008098 R☉ — Sirius B raised to the 0.01 floor with a declaration)",
+        "the observed period 50.1284 yr (THE FIT TARGET of the one-knob mass calibration)",
+        "e=0.59142 and the perihelion (compared against, NOT fitted — they land within ±1% on their own)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10¹⁰ m / 10⁶ s / 10²⁹ kg — same as 🌟)",
+        "kFrame=1 (the DFM formula — the point of this build; the observation build 🌟 adopts kFrame=0 under the observation-stability rule)",
+        "frameReaction:\"pairReduced\" (E6′-R), kRep=muF=γN=κ_S=0 / geoPN=2, λ_PN=1, pnα=1.5 / stateCarry:\"double\"",
+        "initial state = the apoapsis of the observed orbit (two-body barycentric, both free — wave-211 alignment)",
+        "the DFM masses are declared as a CONDITIONAL calibration, not real-mass claims",
+        "spin=0 declared for both stars (no rotation source) — coupleSink:\"reservoir\" books the E6′-R couple into the ledger (no hidden core; conservative)",
+        "cmGauge:\"barycentric\" (wave 209 — the isolated-system barycentric gauge; not a calibration knob)"],
+      fitted:["mass scale f=1.8702 (both masses ×f, fitted to the observed period 50.1284 yr under kFrame=1; D₀=0.006 and q=4.6761 are reused from 🌟 as is)"],
+      derived:["A 3.858 M☉ = 7.672×10³⁰ kg and B 1.904 M☉ = 3.786×10³⁰ kg (= transcribed masses × f)",
+        "κ=G/c₀²=7.4156×10⁻⁹",
+        "camera.scale=560, timeScale=300, dispMag=300 (derived from the stated rules; display only)"],
+      numerical:["softening ε=0.05","time multiplier timeScale=300","display magnification dispMag=300 (display only)"]}},
+  abBody:{ label:{ja:"kFrame=0(観測版の計算式側 — ×1.8702 質量では深い楕円へ)", en:"kFrame=0 (the observation build's formula — the ×1.8702 masses plunge)"},
+    physicsPatch:{kFrame:0} },
+  claims:[
+    { id:"siriusABDFM.period-fit", kind:"fixed-seed", prov:"simulated", role:"fit_target",
+      metric:"dfmPeriodYears",
+      chain:{ax:["A4","A5"], eq:["E4","E6′"],
+        note:"質量較正の fit 対象: kFrame=1 の DFM 式で質量スケール f=1.8702(coupleSink:reservoir・重心ゲージ)のとき、2周目の周回時間が観測周期 50.1284 年を +0.0012% で再現する(fit したのは f の1ノブ — 周期はその照合先)。",
+        noteEn:"The fit target of the mass calibration: at mass scale f=1.8702 (reservoir couple sink, barycentric gauge) under kFrame=1, the 2nd revolution reproduces the observed 50.1284 yr to +0.0012% (f is the single fitted knob; the period is what it was fitted against)."},
+      roleNote:"fit 対象の宣言 — 本サンプル唯一の較正ノブ(質量スケール f)の照合先。",
+      roleNoteEn:"The declared fit target — what the sample's single knob (the mass scale f) was calibrated against.",
+      expected:{min:49.9, max:50.4},
+      descPattern:"2周目 (\\d+\\.\\d+) 年", testId:"behavior.siriusAB" },
+    { id:"siriusABDFM.shape-unfitted", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+      metric:"dfmEccMeasured",
+      chain:{ax:["A4","A5"], eq:["E4","E6′"],
+        note:"合わせていない側の検証: P に合わせた f=1.8702 が、離心率 0.58875(転写比 −0.45%)と近点(+0.7%)も ±1% で当てる — P・e・近点の3観測量が同じ f に収束する(✨✴️ の発見が白色矮星連星で再現)。",
+        noteEn:"The unfitted side: the f=1.8702 fitted to P also lands the eccentricity 0.58875 (−0.45%) and the perihelion (+0.7%) within ±1% — the convergence of P, e and perihelion on one f, reproduced on a white-dwarf binary."},
+      roleNote:"回顧的確認 — e と近点は fit の対象ではない(照合のみ)。",
+      roleNoteEn:"Retrospective check — e and the perihelion were compared, never fitted.",
+      expected:{min:0.57, max:0.61},
+      descPattern:"実測離心率 (0\\.\\d+)", testId:"behavior.siriusAB" },
+    { id:"siriusABDFM.mass-factor", kind:"semantic", prov:"definition", role:"fit_target",
+      metric:"dfmMassFactor",
+      chain:{ax:["A4","A5"], eq:["E4","E6′"],
+        note:"「質量は軌道から計算式で算出される量 — 計算式が変われば質量が変わる」(原仮定者第8報)の適用第2号: 質量スケール f=1.8702 が説明文と bodies の m の両方に一致して宣言されていること。実在質量の主張ではない(条件つき較正)。f_αCen=1.827 との系間差 +2.4% は記録(主張ではない)。",
+        noteEn:"The 2nd application of the adjudicator's principle: the mass scale f=1.8702 is declared consistently in the text and in the bodies' m. Not a real-mass claim (a conditional calibration). The +2.4% gap to f_αCen=1.827 is a record, not a claim."},
+      roleNote:"fit 値そのものの宣言(1ノブ)— QA が bodies の質量比と照合する。",
+      roleNoteEn:"The declared fit value itself (one knob) — QA checks it against the bodies' masses.",
+      expected:{min:1.86, max:1.88},
+      descPattern:"質量スケール f=(\\d+\\.\\d+)", testId:"behavior.siriusAB" },
+    { id:"siriusABDFM.spin-zero-held", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+      metric:"dfmSpinResidual", descScale:1e-4,
+      chain:{ax:["A4","A5","A8"], eq:["E4","E6′","E12"],
+        note:"spin=0 宣言の保持の機械固定: E6′-R 偶力は coupleSink:\"reservoir\" が全量リザーバへ記帳し(clampSN=0)、残余 |s|max 2.6×10⁻⁴/3.2公転 は測地線1PN の反作用偶力(第69便 §18.4 — 実装済みの宣言物理・帳簿は閉)。否定対照: coupleSink を外すと spin=0 から 0.3公転で ±40 飽和まで育つ(clampSN 1.9×10⁴)。",
+        noteEn:"Machine-fixes that the declared spin=0 is held: the E6′-R couple is booked entirely into the reservoir (clampSN=0) and the residual |s|max of 2.6×10⁻⁴ per 3.2 orbits is the geodesic-1PN reaction couple (wave 69 §18.4 — implemented, declared physics; the ledger closes). Negative control: removing coupleSink grows the spins from 0 to the ±40 saturation within 0.3 orbits (clampSN 1.9×10⁴)."},
+      roleNote:"回顧的確認 — 転写自転の無い系での偶力受け皿宣言の帰結を実測で照合する。",
+      roleNoteEn:"Retrospective check — verifies the consequence of the declared couple receptacle in a system with no transcribed rotation.",
+      expected:{min:0, max:0.001},
+      descPattern:"残余 \\|s\\|max (\\d+\\.\\d+)×10⁻⁴", testId:"behavior.siriusAB" },
+    { id:"siriusABDFM.perihelion-advance", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+      metric:"dfmPeriAdvanceDeg",
+      chain:{ax:["A4","A5","A8"], eq:["E4","E6′"],
+        note:"ロゼット歳差の定量: 近点移動 +2.60°/周(順行 — 遠点発2.2公転窓の近点通過方向の実測)。kF1 引きずり項自身の帰結であることの機構同定は ✴️ 第211便(geoPN=0 対照・1PN 解析値との分離)を参照 — 本 claim は第2の連星での定量記録。",
+        noteEn:"Quantifies the rosette precession: perihelion advance +2.60°/rev prograde (measured from the perihelion-passage directions over the 2.2-orbit window from aphelion). The mechanism identification (the kF1 dragging term itself) is on ✴️, wave 211 — this claim records the quantity on a second binary."},
+      roleNote:"回顧的確認 — 較正ノブはゼロ。歳差は fit で消さずそのまま宣言する。",
+      roleNoteEn:"Retrospective check — zero calibration knobs. The precession is declared, not fitted away.",
+      expected:{min:2.0, max:3.2},
+      descPattern:"近点移動 \\+(\\d+\\.\\d+)°/周", testId:"behavior.siriusAB" }
+  ],
+  parameterAudit:{
+    observedInputs:["実 G=6.674","実 c₀=3×10⁴",
+      "🌟 と同じ転写幾何: 遠点分離 a(1+e)=470.98 単位・転写質量での実ケプラー遠点速度",
+      "両星の半径(1.7144 R☉/0.008098 R☉ — Sirius B は下限 0.01 へ宣言つき引き上げ)",
+      "観測周期 50.1284 年(**1ノブ質量較正の fit 対象**)",
+      "e=0.59142 と近点(照合先であって fit の対象ではない — 合わせずに ±1% で一致する)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10¹⁰m/10⁶s/10²⁹kg — 🌟 と同一)",
+      "kFrame=1(DFM の計算式 — 本サンプルの主題。観測版 🌟 は観測安定則で kFrame=0)",
+      "frameReaction:\"pairReduced\"(E6′-R)・kRep=muF=γN=κ_S=0 / geoPN=2・λ_PN=1・pnα=1.5 / stateCarry:\"double\"",
+      "初期状態=観測軌道の遠点(二体重心系・両星自由 — 第211便の整列規約)",
+      "DFM 質量は**条件つき較正値**として宣言(実在質量の主張ではない)",
+      "spin=0 宣言(両星 — 自転の転写なし)・coupleSink:\"reservoir\"(E6′-R 偶力はリザーバ帳簿へ — 隠れコアは置かない・保存的)",
+      "cmGauge:\"barycentric\"(第209便 — 孤立系の重心ゲージ。較正ノブではない)"],
+    fitted:["質量スケール f=1.8702(両星の質量 ×f を kFrame=1 で観測周期 50.1284 年に合わせた fit。D₀=0.006・q=4.6761 は 🌟 の値の流用)"],
+    derived:["A 3.858 M☉=7.672×10³⁰kg・B 1.904 M☉=3.786×10³⁰kg(=転写質量×f)",
+      "κ=G/c₀²=7.4156×10⁻⁹",
+      "camera.scale=560・timeScale=300・dispMag=300(規約から決定的に算出・表示専用)"],
+    numerical:["ソフトニング ε=0.05","時間倍率 timeScale=300","粒子表示倍率 dispMag=300(表示専用)"]},
+  activeParams:["kFrame","q","D0"],
+  camera:{scale:560}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.006, kFrame:1, q:4.6761, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:300, dispMag:300,
+    stateCarry:"double", frameReaction:"pairReduced", coupleSink:"reservoir", cmGauge:"barycentric"},
+  bodies:[ // 並び: 0=A・1=B。🌟 の観測軌道の**遠点状態**(分離 470.97514083592・f=1 の実ケプラー
+           // 遠点速度を質量比で配分 — 位置・速度は 🌟 とビット同一)に、質量 ×1.8702(第214便の
+           // 1ノブ較正)。自転は両系とも spin=0 宣言(転写なし)— E6′-R 偶力は coupleSink:"reservoir"
+           // が全量リザーバへ(隠れコアは置かない — 保護すべき転写自転が無いため)。
+           // Sirius B の半径は 🌟 と同じ宣言つき下限 0.01(白色矮星の実半径 5.6×10⁻⁴ 単位)
+    {type:"single", m:76.720756401, radius:0.11932224, x:-155.61593423270583, y:0, vx:0, vy:-0.1967874451365539, spin:0, pinned:false, pnSource:true},
+    {type:"single", m:37.858327686, radius:0.01, x:315.3592066032142, y:0, vx:0, vy:0.39879420365099283, spin:0, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
 { id:"saturn", name:"土星の環(実験)", emoji:"🪐", group:"天体の物語",
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
@@ -8356,7 +8642,7 @@ const AUDIT_FAMILY=["mercuryReal","mercuryRealKF1","earthMoonReal","earthMoonRea
 // 「ゼロフィットの観測転写」6本を第二の凍結リストとして持ち、QA claims.obs-family が
 // 「6本・全て fidelity:"real"・fitted が共有値の流用宣言1件のみ(新規フィット0)・
 // claims/role/parameterAudit 完備」を機械固定する(宣言専用 — 物理・保存 JSON 不変)。
-const OBS_FAMILY=["jupiterGalilean","venusReal","marsMoonsReal","plutoCharonReal","uranusReal","neptuneReal","alphaCenAB"];   // 第199便: 恒星スケール第1号を追加
+const OBS_FAMILY=["jupiterGalilean","venusReal","marsMoonsReal","plutoCharonReal","uranusReal","neptuneReal","alphaCenAB","siriusAB"];   // 第199便: 恒星スケール第1号を追加/第214便: 🌟 Sirius AB(第2号)を追加
 // 測定ハーネス名 → コミット済み結果ファイル名の対応(名前だけの小さな宣言表)。
 // **どのサンプルがどれを使うかは書かない** — それはサンプル宣言のテキストから走査して決める。
 const AUDIT_RESULT_FILES={"exp-obscal":"obscal-results.json", "exp-kf1":"kf1-results.json",
@@ -18518,7 +18804,13 @@ function obsRangeCheck(preset){
  * 掛かるので、力学が壊れる降格は採用されない。 */
 const OBS_M_MIN=1e-6, OBS_R_MIN=0.01;   // obsRangeCheck の下限と同値(QA ai.obs-demote が同値性を機械固定)
 function obsDemoteSats(sys, preset){
-  if(sys.place!=="kepler-peri") return null;               // 衛星2体以上(中心 pinned)のときだけ
+  // 第214便(Sirius AB — 白色矮星 Sirius B の実半径 5.64×10⁶m は L=10 で 5.6×10⁻⁴ 単位):
+  // 二体重心系(barycentric-peri/apo)にも**半径だけの下限障害**に限り救済を開く。二体の
+  // 衛星質量は配置(重心配分)と力学に直接効くため質量降格は従来どおり対象外(第181便の
+  // 除外理由そのまま)。半径は二体の配置・初速の式に一切入らない(表示半径と引きずり場の
+  // 下限のみ — 力学は質量が支配)ので、引き上げ後も自己診断 ±1% が不変に掛かる
+  const two=(sys.place==="barycentric-peri"||sys.place==="barycentric-apo");
+  if(sys.place!=="kepler-peri" && !two) return null;       // 第181便: 多衛星系(中心 pinned)+第214便: 二体(半径のみ)
   const n=sys.sats.length;
   if(preset.bodies.length!==n+1) return null;              // 中心1+衛星n の対応が崩れていたら手を出さない
   const lows=[];
@@ -18535,6 +18827,7 @@ function obsDemoteSats(sys, preset){
     else if(mLow||rLow) lows.push({sat:i-1, mLow, rLow});
   }
   if(!lows.length) return null;                            // 下限側の障害が無い = 降格の出番ではない
+  if(two && lows.some(lo=>lo.mLow)) return null;           // 第214便: 二体は質量降格を認めない(半径のみ救済)
   if(!(preset.camera.scale>=20 && preset.camera.scale<=3000)) return null;   // camera 域は緩めない
   const sys2=Object.assign({}, sys, {sats:sys.sats.map(s=>Object.assign({}, s))});
   const demoted=[];
@@ -18596,10 +18889,35 @@ function astroObsSelfCheck(preset, targets, steps){
           +"% が許容 ±1% を超える見込みなので採用しません(自由中心系の長期不安定の典型)");
     }
   });
+  // 第214便(Sirius AB): 二体の**ドリフト外挿が発火したときだけ**、同じ試走を1公転まで延長し
+  // **同位相クロージャ**で最終判定する。接触要素の推定周期は高離心率×1PN で位相依存に振動する
+  // (Sirius kF0 実測: 近点発 3.6%公転で +2.4×10⁻⁴ まで上がって折り返す・全周期の実測は
+  // 観測比 +0.0043%)ため、400步窓の線形外挿はこれを永年と誤読する(α Cen は振幅が約1/5で
+  // 閾値内に収まっていた)。クロージャ ≤±1%(契約そのもの)なら位相振動と判定して外挿誤差を
+  // 取り下げる。kF1 雛形の永年成長はクロージャでも巨大(または非有界)なので従来どおり
+  // 差し戻される — 既存の差し戻し理由の文字列・宣言値(✨ +0.3395%/133.54% 等)は不変。
+  // 外挿が発火しない系(既存の全系)ではこの段は 1 步も走らない
+  let closureInfo=null;
+  {
+    const iDrift=errs.findIndex(e=>e.indexOf("ドリフトしています")>=0);
+    if(iDrift>=0 && targets.length===1 && targets[0].twoBody){
+      const t=targets[0], more=Math.max(0, Math.round(t.pObs/DT)-n);
+      const projTxt=errs[iDrift];
+      for(let k=0;k<more;k++) S.step(DT);
+      if(!S.hasNaN()){
+        const pC=est(t);
+        const closure=(isFinite(pC) && isFinite(p0[0]))? Math.abs(pC/p0[0]-1) : Infinity;
+        if(closure<=OBS_DIAG_TOL){   // 位相振動 — 1公転の同位相クロージャが契約内
+          errs.splice(iDrift,1);
+          closureInfo={closure, projected:projTxt};   // 宣言用(黙って救済しない — 降格と同じ流儀)
+        }
+      }
+    }
+  }
   if(errs.some(e=>e.indexOf("初期状態の推定周期")>=0))
     errs.push("**フィットで合わせません** — 単位の写し間違い(km と m・日と秒 等)か、"
       +"軌道長半径と周期が別の出典・別の元期で混ざっている可能性が高いので、レコードを見直してください");
-  return {ok:errs.length===0, errors:errs, rows, steps:n};
+  return {ok:errs.length===0, errors:errs, rows, steps:n, closure:closureInfo};
 }
 // --- ④ 入口: レコード配列 → プリセット(自己診断つき)---
 function buildAstroFromRecords(input, opts){
@@ -18638,10 +18956,19 @@ function buildAstroFromRecords(input, opts){
       const mS=obsNum(obsSig(s.q.mass)), ratio=(s.q.mass/cM).toExponential(1);
       const rJa=d.rLow? "。半径 "+obsNum(obsSig(s.q.radius))+" m も値域下限 0.01 へ引き上げ(表示半径と引きずり場の下限 — 力学は質量が支配)" : "";
       const rEn=d.rLow? ". Its radius "+obsNum(obsSig(s.q.radius))+" m is also raised to the range floor 0.01 (the floor for the drawn radius and the drag field; the dynamics are governed by mass)" : "";
-      const ja=nm+": 質量 "+mS+" kg は中心("+cName+")の "+ratio+" 倍 — テスト粒子近似"
-        +"(m を値域下限 1e-6 に置く。軌道は中心質量が支配し、力学への影響は診断許容 ±1% に対して無視できる)"+rJa;
-      const en=nm+": its mass "+mS+" kg is "+ratio+" of the centre ("+cName+") — a test-particle approximation"
-        +" (m is placed at the range floor 1e-6; the orbit is governed by the central mass and the dynamical effect is negligible against the ±1% diagnostic tolerance)"+rEn;
+      // 第214便: 半径だけの降格(質量は転写のまま — 白色矮星 Sirius B 等の高密度天体)は
+      // テスト粒子文ではなく半径下限の宣言文で書く(質量降格が無いのに「m を 1e-6 に置く」と
+      // 書いてはいけない)。質量降格を含む従来ケースの文は不変
+      const ja=d.mLow
+        ? nm+": 質量 "+mS+" kg は中心("+cName+")の "+ratio+" 倍 — テスト粒子近似"
+          +"(m を値域下限 1e-6 に置く。軌道は中心質量が支配し、力学への影響は診断許容 ±1% に対して無視できる)"+rJa
+        : nm+": 実半径 "+obsNum(obsSig(s.q.radius))+" m は本スケールで値域下限 0.01 を下回るため 0.01 へ引き上げ"
+          +"(表示半径と引きずり場の下限のみ — 質量・配置・初速は転写のまま。力学は質量が支配する高密度天体の宣言つき理想化)";
+      const en=d.mLow
+        ? nm+": its mass "+mS+" kg is "+ratio+" of the centre ("+cName+") — a test-particle approximation"
+          +" (m is placed at the range floor 1e-6; the orbit is governed by the central mass and the dynamical effect is negligible against the ±1% diagnostic tolerance)"+rEn
+        : nm+": its real radius "+obsNum(obsSig(s.q.radius))+" m falls below the range floor 0.01 at this scale and is raised to 0.01"
+          +" (the floor for the drawn radius and the drag field only — mass, placement and initial speed stay transcribed; a declared idealization for a compact, mass-dominated body)";
       rec.ideal.ja.push(ja); rec.ideal.en.push(en);
       v.notes.push(ja);
     }
@@ -18767,6 +19094,20 @@ function buildAstroFromRecords(input, opts){
   }
   if(!diag.ok) return {ok:false, stage:"diagnosis", errors:diag.errors, notes:v.notes,
     diag, meta:M, table:rec.table, preset:pAdopt};
+  // 第214便: 二体クロージャ確認で外挿を取り下げた採用は宣言する(黙って救済しない — 降格と同じ流儀)
+  if(diag.closure){
+    const cPct=(diag.closure.closure*100).toExponential(2);
+    const cJa="二体クロージャ確認(第214便): 自己診断のドリフト外挿(400步窓の線形換算)が発火したため、同じ試走を1公転まで延長し**同位相クロージャ**で最終判定 — クロージャ "+cPct+"%(許容 ±1%)で**位相振動**(高離心率×1PN の接触要素は位相依存に振動する)と判定して採用した。外挿の誤読対策であってフィットではない。";
+    const cEn="TWO-BODY CLOSURE CONFIRMATION (wave 214): the self-check's drift extrapolation (a linear projection of the 400-step window) fired, so the same trial run was extended to one full period and judged by the SAME-PHASE CLOSURE — "+cPct+"% (tolerance ±1%), classified as a PHASE OSCILLATION (the osculating period oscillates with phase under high eccentricity × 1PN) and adopted. A guard against misreading the extrapolation, not a fit.";
+    pAdopt.description+="\n"+(en? cEn : cJa);
+    if(pAdopt.parameterAudit && Array.isArray(pAdopt.parameterAudit.numerical))
+      pAdopt.parameterAudit.numerical.push(en
+        ? "two-body closure confirmation (wave 214): same-phase closure over one period = "+cPct+"% (tolerance ±1%) — overrides the fired drift extrapolation"
+        : "二体クロージャ確認(第214便): 1公転の同位相クロージャ "+cPct+"%(許容 ±1%)— 発火したドリフト外挿を上書き");
+    v.notes.push(en
+      ? "two-body closure confirmation applied: the drift extrapolation fired but the one-period same-phase closure ("+cPct+"%) is within the ±1% contract — adopted (phase oscillation, not secular drift)"
+      : "二体クロージャ確認を適用: ドリフト外挿は発火したが、1公転の同位相クロージャ("+cPct+"%)が ±1% 契約内 — 位相振動と判定して採用");
+  }
   const vp=validatePreset(pAdopt);
   if(!vp.ok) return {ok:false, stage:"validate", errors:vp.errors, notes:v.notes, meta:M, table:rec.table};
   return {ok:true, preset:vp.preset, warnings:vp.warnings, notes:v.notes, diag, meta:M, table:rec.table,
