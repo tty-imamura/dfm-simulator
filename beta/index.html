@@ -1160,8 +1160,9 @@ ja: {
     "熱の実験室":"熱平衡・スピン圧・熱伝導・放射冷却・対流・三態の創発など、熱まわりの統制実験。",
     "空間と時間":"重力による時計の遅れ・弱場GR較正とその焦点版(GPS/光偏向/シャピロ)・水星の近日点前進・自由落下など、時空係数まわりの統制実験。",
     "光の物語":"重力レンズと光子捕捉・回る星のレンズ・連星重力レンズ・暗黒雲の赤化など、光の見え方が主題。",
-    "天体の物語":"物語・トイ系。実単位で現実へ較正したサンプルは「現実との照合」へ移してある。",
-    "現実との照合":"スケール換算込みで数値を現実の対応対象へ較正したサンプルと、その較正を監査する対照群。",
+    "天体の物語":"物語・トイ系。実単位で現実へ較正したサンプルは「現実との照合・太陽系/太陽系外」へ移してある。",
+    "現実との照合・太陽系":"スケール換算込みで数値を現実の太陽系天体へ較正したサンプルと、その較正を監査する対照群。",
+    "現実との照合・太陽系外":"太陽系の外の実在系(恒星連星・中性子星連星)へ較正したサンプル。観測値再現版(観測安定則)と DFM 版(kF1 質量較正)の対で構成する(第220便で「現実との照合」から分割 — 今後の現実較正の増加に備えた区分)。",
     "銀河の物語":"銀河の回転曲線・銀河合体・自己重力雲の崩壊など、銀河スケールの構造が主題。",
     "ローターの物語":"ダークローター(高スピンで自光を掻き出す天体)を中心に据えた系 — 暗い中心の銀河・ローター星雲・自己形成・星の種など、スピンが作る暗さと構造が主題。実在のダークマターについての主張ではない。",
     "箱宇宙":"箱そのものを宇宙に見立てた系(並進・回転・膨張・呼吸・光の赤方偏移)。正本は docs/BOX_UNIVERSE.md。",
@@ -1713,8 +1714,9 @@ en: {
     "熱の実験室":"Controlled experiments around heat: thermal equilibrium, spin pressure, conduction, radiative cooling, convection, emergent states of matter.",
     "空間と時間":"Controlled experiments around the spacetime coefficient: gravitational clock delay, the weak-field GR calibration and its focused versions (GPS / light bending / Shapiro), Mercury's perihelion advance, free fall.",
     "光の物語":"The subject is how light appears: gravitational lensing and photon capture, the lens of a spinning star, binary lensing, reddening by a dark cloud.",
-    "天体の物語":"Narrative / toy systems. Samples calibrated to reality in real units live under \"Reality Checks\".",
-    "現実との照合":"Samples whose numbers are calibrated — unit conversion included — against their real-world counterparts, plus the controls that audit that calibration.",
+    "天体の物語":"Narrative / toy systems. Samples calibrated to reality in real units live under \"Reality Checks — Solar System / Beyond the Solar System\".",
+    "現実との照合・太陽系":"Samples whose numbers are calibrated — unit conversion included — against real solar-system counterparts, plus the controls that audit that calibration.",
+    "現実との照合・太陽系外":"Samples calibrated against real systems beyond the solar system (stellar binaries and the double neutron-star binary). Built as pairs: an observation build (the observation-stability rule) and a DFM build (the kF1 mass calibration). Split out of \"Reality Checks\" in wave 220, anticipating more reality calibrations.",
     "銀河の物語":"The subject is structure on galactic scales: rotation curves, galaxy mergers, collapse of self-gravitating clouds.",
     "ローターの物語":"Systems built around dark rotors (bodies whose high spin sweeps out their own light): galaxies with a dark centre, rotor nebulae, self-assembly from seeds, star seeds — the subject is the darkness and the structure that spin produces. Not a claim about real dark matter.",
     "箱宇宙":"Systems in which the box itself stands for a universe (translation, rotation, expansion, breathing, redshift of light). The reference document is docs/BOX_UNIVERSE.md.",
@@ -1894,7 +1896,7 @@ en: {
   // 第149便(原仮定者裁定): グループ名を「現実較正」→「現実との照合」(en: Reality Calibration →
   // Reality Checks)へ改称。分類チップ(sampleClass calibration)と現実準拠チップ「📏 現実較正」は不変
   // 第151便(原仮定者指示): 新グループ「ローターの物語」(en: Rotor Stories)を銀河の物語の直後へ新設
-  groups:{"空間と時間":"Space & Time","箱宇宙":"Box Universe","銀河の物語":"Galaxy Stories","ローターの物語":"Rotor Stories","光の物語":"Light Stories","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","現実との照合":"Reality Checks","法則の実験室":"Law Lab","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
+  groups:{"空間と時間":"Space & Time","箱宇宙":"Box Universe","銀河の物語":"Galaxy Stories","ローターの物語":"Rotor Stories","光の物語":"Light Stories","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","現実との照合・太陽系":"Reality Checks — Solar System","現実との照合・太陽系外":"Reality Checks — Beyond the Solar System","法則の実験室":"Law Lab","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
   params:{G:"Gravity G", D0:"Background determinacy D₀", kFrame:"Frame dragging kFrame",
     q:"Drag falloff q", kRep:"Spin repulsion kRep", muF:"Friction→spin muF",
     gammaN:"Collision damping γn", kappaS:"Spin diffusion κs", kappaT:"Spacetime κ (time & light)",
@@ -5081,6 +5083,9 @@ const BUILTIN_PRESETS = [
 // 第147便(原仮定者指示): この区間の観測較正・監査系14本(☄️🪨🌙🌘💍💿📡🌞🟠⭕🧲🔆📶📐)は
 // 天体の物語から別グループへ移した(表示・分類専用 — 配列順・物理・claims は bit 不変)。
 // 第149便(原仮定者裁定): そのグループ名を group:"現実との照合" とする(旧名「現実較正」)。
+// 第220便(第19報 原仮定者指示): そのグループを「現実との照合・太陽系」と「現実との照合・太陽系外」
+// の2つへ分割(表示・分類専用 — 配列順・物理・claims・ファミリー id は不変。太陽系側=☄️🪨🌞🌙🌘
+// ⭕🧲🔆📶📐💍💿📡🟠🌇🥔❄️💠🌊 の19本・太陽系外側=✨✴️🌟💫+📻⚡ の6本)。
 // 天体の物語には物語・トイ系(🌍🌕⭐♾️💥🌋🌪️☀️ 等)が残る(🌱starSeed は第151便で
 // 新グループ「ローターの物語」へ移動 — 配列上の位置はこの区間のまま)。
 // 第149便(原仮定者裁定): グループを跨いでいたファミリーを分割し、天体の物語側は自前の
@@ -5198,7 +5203,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"earthMoonReal", name:"地球と月(実単位)— 恒星月 27.32日", emoji:"🌙", group:"現実との照合",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
+{ id:"earthMoonReal", name:"地球と月(実単位)— 恒星月 27.32日", emoji:"🌙", group:"現実との照合・太陽系",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
   familyId:"earthmoon", familyRole:"variant",   // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)(kFrame=0 対照)
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 第118便(原仮定者指示): サンプル別スケール指数 — 1単位=10⁶m/10²s/10²⁵kg。
@@ -5288,7 +5293,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"earthMoonRealKF1", name:"地球と月(実単位・kFrame=1)— 近点回転 8.85年の較正再現", emoji:"🌘", group:"現実との照合",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
+{ id:"earthMoonRealKF1", name:"地球と月(実単位・kFrame=1)— 近点回転 8.85年の較正再現", emoji:"🌘", group:"現実との照合・太陽系",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
   familyId:"earthmoon", familyRole:"primary",   // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)(天体の現実較正の雛形)
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 🌙 と同一の指数系(1単位=10⁶m/10²s/10²⁵kg)
@@ -5406,7 +5411,7 @@ const BUILTIN_PRESETS = [
 //      同時に離心率が単調に汲み上げられる(0.055→0.169)— 実際の月(0.026〜0.077 有界)と合わない。
 //   ③ C は窓にも dt にも依存しない定常な永年率(118公転 8.754年 / 236公転 8.752年)で、
 //      離心率も有界(0.011〜0.055)。**数値一致の頑健さ**が A/B/C を判別する。
-{ id:"emAuditNewton", name:"地球と月・機構判別A(二体ニュートン)— 閉じた楕円", emoji:"⭕", group:"現実との照合",
+{ id:"emAuditNewton", name:"地球と月・機構判別A(二体ニュートン)— 閉じた楕円", emoji:"⭕", group:"現実との照合・太陽系",
   familyId:"emAudit", familyRole:"variant",
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 🌙🌘 と同一の指数系(1単位=10⁶m/10²s/10²⁵kg)
@@ -5498,7 +5503,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"emAuditDFM", name:"地球と月・機構判別B(二体DFM較正)— 8.85年を別機構で", emoji:"🧲", group:"現実との照合",
+{ id:"emAuditDFM", name:"地球と月・機構判別B(二体DFM較正)— 8.85年を別機構で", emoji:"🧲", group:"現実との照合・太陽系",
   familyId:"emAudit", familyRole:"variant",   // 第137便(統括裁定): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 🌙🌘 と同一の指数系
@@ -5603,7 +5608,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"emAuditSolar", name:"地球と月・機構判別C(太陽+地球+月の三体)— 較正なしの太陽摂動", emoji:"🔆", group:"現実との照合",
+{ id:"emAuditSolar", name:"地球と月・機構判別C(太陽+地球+月の三体)— 較正なしの太陽摂動", emoji:"🔆", group:"現実との照合・太陽系",
   familyId:"emAudit", familyRole:"primary",   // 第137便(統括裁定): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)
   scaleTier:"planetary",
   scaleExp:{L:8, T:4, M:27},   // ☄️🪨🌞 と同一の指数系(1単位=10⁸m/10⁴s/10²⁷kg — 太陽を座標 ±1500 に収める)
@@ -5755,7 +5760,7 @@ const BUILTIN_PRESETS = [
 //     −3.402×10⁻¹² rad/公転 = 周期 1.28×10¹¹年。同じ参照点で地球を自由にしてプローブ質量を
 //     月質量まで上げると +5.233×10⁻² rad/公転 = 8.253年が戻る — 8.85年の駆動源は自転ではなく
 //     **地球の重心運動**である。
-{ id:"qLockRadialAudit", name:"qLock 半径方向監査 — 参照点は LT 級・その外では r⁻³ を捨てる", emoji:"📶", group:"現実との照合",
+{ id:"qLockRadialAudit", name:"qLock 半径方向監査 — 参照点は LT 級・その外では r⁻³ を捨てる", emoji:"📶", group:"現実との照合・太陽系",
   familyId:"qlockAudit", familyRole:"primary",
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 🌙🌘 と同一の指数系(1単位=10⁶m/10²s/10²⁵kg)
@@ -5916,7 +5921,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"qLockRadialAuditQ3", name:"qLock 半径方向監査・対照(q=3)— r⁻³ 則そのものの物差し", emoji:"📐", group:"現実との照合",
+{ id:"qLockRadialAuditQ3", name:"qLock 半径方向監査・対照(q=3)— r⁻³ 則そのものの物差し", emoji:"📐", group:"現実との照合・太陽系",
   familyId:"qlockAudit", familyRole:"variant",
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 📶 と同一の指数系
@@ -6078,7 +6083,7 @@ const BUILTIN_PRESETS = [
 // 第116便(原仮定者裁定「プリセット同梱: 進める。今後のサンプルの雛形とする」): 観測較正
 // プロファイルの内蔵第1号=実不変量の水星。物理構成(実G値・実c値・Kt=c₀²/G・pnSource・
 // stateCarry:"double"・q=3・D0=0.1)が今後の観測較正サンプルの雛形(PHYSICS §5)
-{ id:"mercuryReal", name:"水星(実単位)— 43″/世紀", emoji:"☄️", group:"現実との照合",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
+{ id:"mercuryReal", name:"水星(実単位)— 43″/世紀", emoji:"☄️", group:"現実との照合・太陽系",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
   familyId:"mercury", familyRole:"variant",   // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)(kFrame=0 対照)
   scaleTier:"planetary",   // 第120便(原仮定者指示): スケールタグは距離スケール指数(L=8)対応の「惑星」
   scaleExp:{L:8, T:4, M:27},   // 第118便(原仮定者指示): サンプル別スケール指数 — 1単位=10⁸m/10⁴s/10²⁷kg。
@@ -6180,7 +6185,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"mercuryRealKF1", name:"水星(実単位・kFrame=1)— 共通補正で 43″/世紀成立", emoji:"🪨", group:"現実との照合",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
+{ id:"mercuryRealKF1", name:"水星(実単位・kFrame=1)— 共通補正で 43″/世紀成立", emoji:"🪨", group:"現実との照合・太陽系",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
   familyId:"mercury", familyRole:"primary",   // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)(天体の現実較正の雛形)
   scaleTier:"planetary",
   scaleExp:{L:8, T:4, M:27},   // ☄️ と同一の指数系
@@ -6291,7 +6296,7 @@ const BUILTIN_PRESETS = [
 //    初速の較正係数は **1.000(実ケプラー速度そのまま)** — 旧版の ×1.12/1.09/1.07/1.055 は
 //    トイ設定(太陽半径40=実の5.7倍・自転0.5=実の17倍・q=2・D₀=2・c₀=30)が作っていた
 //    人工物で、実単位では不要になることを f 掃引で実測(第131便 — QA behavior.solarInner が再固定)。
-{ id:"solarInner", name:"太陽系 — 内惑星(実単位)", emoji:"🌞", group:"現実との照合",
+{ id:"solarInner", name:"太陽系 — 内惑星(実単位)", emoji:"🌞", group:"現実との照合・太陽系",
   familyId:"mercury", familyRole:"variant",   // 第137便(統括裁定): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)
   scaleTier:"planetary",
   scaleExp:{L:8, T:4, M:27},   // 第131便: ☄️mercuryReal・🪨mercuryRealKF1 と同一の指数系
@@ -6411,7 +6416,7 @@ const BUILTIN_PRESETS = [
 // 現行の実較正3系(☄️🪨 水星・🌙🌘 地球月・💿📡 土星)は、共通補正 D₀=0.006 と qLock 則そのものの
 // 形成に関与した**回顧的確認**である。木星系はその規則を**再フィットせずに初めて外挿する系**で、
 // 事前登録窓 JW1〜JW5 は実測前に固定し、実測後に動かしていない(PASS でも FAIL でも実測を記録)。
-{ id:"jupiterGalilean", name:"木星とガリレオ衛星(実単位)— 規則を再フィットしない hold-out", emoji:"🟠", group:"現実との照合",
+{ id:"jupiterGalilean", name:"木星とガリレオ衛星(実単位)— 規則を再フィットしない hold-out", emoji:"🟠", group:"現実との照合・太陽系",
   familyId:"jupiter", familyRole:"primary",
   scaleTier:"planetary",
   scaleExp:{L:7, T:3, M:26},   // 1単位=10⁷m/10³s/10²⁶kg。規約 L−T=4 で c₀=3×10⁴、M+2T−3L=11 で G=6.674
@@ -6590,7 +6595,7 @@ const BUILTIN_PRESETS = [
 //          観測レコードから転写。一次出典の再固定はキュー)
 // 併せて本便は、二体重心系(自由中心)の反作用則を frameReaction:"pairReduced"(E6′-R)へ
 // 固定した(発見の経緯は 🌇 の failureFirst を参照。経路側 QA: ai.obs-freecenter)。
-{ id:"venusReal", name:"太陽と金星(実単位)— 自由中心の二体転写", emoji:"🌇", group:"現実との照合",
+{ id:"venusReal", name:"太陽と金星(実単位)— 自由中心の二体転写", emoji:"🌇", group:"現実との照合・太陽系",
   familyId:"mercury", familyRole:"variant",   // 太陽中心ファミリー(表示専用)
   scaleTier:"planetary",
   scaleExp:{L:8, T:4, M:27},   // 1単位=10⁸m/10⁴s/10²⁷kg(規約 L−T=4・M+2T−3L=11 — 🌞☄️🪨 と同族)
@@ -6698,7 +6703,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"marsMoonsReal", name:"火星とフォボス・ダイモス(実単位)— テスト粒子転写", emoji:"🥔", group:"現実との照合",
+{ id:"marsMoonsReal", name:"火星とフォボス・ダイモス(実単位)— テスト粒子転写", emoji:"🥔", group:"現実との照合・太陽系",
   familyId:"mars", familyRole:"primary",
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 1単位=10⁶m/10²s/10²⁵kg(規約 L−T=4・M+2T−3L=11 — 🌘💿 と同族)
@@ -6806,7 +6811,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"plutoCharonReal", name:"冥王星とカロン(実単位)— 重心が外にある二体", emoji:"❄️", group:"現実との照合",
+{ id:"plutoCharonReal", name:"冥王星とカロン(実単位)— 重心が外にある二体", emoji:"❄️", group:"現実との照合・太陽系",
   familyId:"pluto", familyRole:"primary",
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 1単位=10⁶m/10²s/10²⁵kg(規約 L−T=4・M+2T−3L=11 — 🥔🌘💿 と同族)
@@ -6919,7 +6924,7 @@ const BUILTIN_PRESETS = [
 // 出典: paper/data/solar-observations.csv(2026-08-24 実機採取レコードの転写 — 💠 の衛星系と 🌊 は
 // Grok レコード〔NSSDC アーカイブ版〕、💠 の環半径は ChatGPT の実在系近似・出力B〔第185便の新節に
 // 従った生成・NTRS "Passage to a Ringed World" Appendix D〕からの転写)。
-{ id:"uranusReal", name:"天王星の環と主要5衛星(実単位)", emoji:"💠", group:"現実との照合",
+{ id:"uranusReal", name:"天王星の環と主要5衛星(実単位)", emoji:"💠", group:"現実との照合・太陽系",
   familyId:"uranus", familyRole:"primary",
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 1単位=10⁶m/10²s/10²⁵kg(規約 L−T=4・M+2T−3L=11 — 🥔❄️🌘💿 と同族)
@@ -7052,7 +7057,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"neptuneReal", name:"海王星とトリトン(実単位)— 逆行衛星の二体", emoji:"🌊", group:"現実との照合",
+{ id:"neptuneReal", name:"海王星とトリトン(実単位)— 逆行衛星の二体", emoji:"🌊", group:"現実との照合・太陽系",
   familyId:"neptune", familyRole:"primary",
   scaleTier:"planetary",
   scaleExp:{L:7, T:3, M:26},   // 1単位=10⁷m/10³s/10²⁶kg(規約 L−T=4・M+2T−3L=11 — 🟠 と同族)
@@ -7174,7 +7179,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"alphaCenAB", name:"αケンタウリAB(実単位)— 恒星連星の二体", emoji:"✨", group:"現実との照合",
+{ id:"alphaCenAB", name:"αケンタウリAB(実単位)— 恒星連星の二体", emoji:"✨", group:"現実との照合・太陽系外",
   familyId:"alphaCen", familyRole:"variant",   // 第204便(原仮定者指示): ✴️ DFM版を仲間のメインへ — 観測版は対照側の variant に
   scaleTier:"stellar",
   scaleExp:{L:10, T:6, M:29},   // 1単位=10¹⁰m/10⁶s/10²⁹kg(規約 L−T=4・M+2T−3L=11)
@@ -7302,7 +7307,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"alphaCenABDFM", name:"αケンタウリAB(DFM版)— kF1 質量較正", emoji:"✴️", group:"現実との照合",
+{ id:"alphaCenABDFM", name:"αケンタウリAB(DFM版)— kF1 質量較正", emoji:"✴️", group:"現実との照合・太陽系外",
   familyId:"alphaCen", familyRole:"primary",   // 第204便(原仮定者指示): DFM版を仲間のメインへ
   scaleTier:"stellar",
   scaleExp:{L:10, T:6, M:29},   // ✨ と同じ単位系(1単位=10¹⁰m/10⁶s/10²⁹kg)
@@ -7454,7 +7459,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"siriusAB", name:"シリウスAB(実単位)— 白色矮星との連星", emoji:"🌟", group:"現実との照合",
+{ id:"siriusAB", name:"シリウスAB(実単位)— 白色矮星との連星", emoji:"🌟", group:"現実との照合・太陽系外",
   familyId:"sirius", familyRole:"variant",   // ✨✴️ と同じ建付け: DFM 版 💫 が仲間のメイン・観測版は対照側
   scaleTier:"stellar",
   scaleExp:{L:10, T:6, M:29},   // ✨ と同じ単位系(1単位=10¹⁰m/10⁶s/10²⁹kg)
@@ -7599,7 +7604,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"siriusABDFM", name:"シリウスAB(DFM版)— kF1 質量較正", emoji:"💫", group:"現実との照合",
+{ id:"siriusABDFM", name:"シリウスAB(DFM版)— kF1 質量較正", emoji:"💫", group:"現実との照合・太陽系外",
   familyId:"sirius", familyRole:"primary",   // ✴️ と同じ建付け: DFM 版が仲間のメイン
   scaleTier:"stellar",
   scaleExp:{L:10, T:6, M:29},   // 🌟 と同じ単位系(1単位=10¹⁰m/10⁶s/10²⁹kg)
@@ -7740,6 +7745,299 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
+// ===== 第220便(第19報 原仮定者指示): 二重パルサー PSR J0737−3039A/B — 観測値再現版 📻 と DFM 版 ⚡ =====
+// 観測レコード(2026-08-27 取得・paper/data/solar-observations.csv の PSR 行)からの手組み転写。
+// **新1径数族(相対論的連星族)**: 規約 L−T=5(c₀=3×10³)・M+2T−3L=11(G=6.674)→ T=L−5・M=L+21。
+// 従来族 L−T=4(obsScaleFromL)にはこの系は構造的に収まらない — 遠点相対速度 572.4 km/s(全 L で
+// 57.24 単位)が速度値域 ±50 を超え、質量も L≤7 で 2×10⁴ 単位を超える。観測採取経路
+// buildAstroFromRecords はどの L でも stage="scale" で差し戻す(QA behavior.psrDoubleAB (d) が機械固定。
+// ビルダーの L−T=5 族拡張は開発キュー)。L6/T1/M27 では全転写量が値域に収まり降格も不要
+// (半径 0.01175 は下限 0.01 の直上)。自転は**測定があるのに転写できない**初のケース: spin 単位
+// (rad/10s)で A=2767.998768・B=22.654675 — B ですら値域 ±20 の外(spin=0 宣言・出典は記録)。
+{ id:"psrDoubleAB", name:"二重パルサー J0737−3039A/B(実単位)— 2.45時間の中性子星連星", emoji:"📻", group:"現実との照合・太陽系外",
+  familyId:"psr", familyRole:"variant",   // ✨✴️🌟💫 と同じ建付け: DFM 版 ⚡ が仲間のメイン・観測版は対照側
+  scaleTier:"planetary",   // 第120便規則: 距離指数 L=6 の最近傍アンカー(表示分類のみ — 系は恒星質量)
+  scaleExp:{L:6, T:1, M:27},   // 第220便: 新1径数族(1単位=10⁶m/10¹s/10²⁷kg・c₀=3×10³・G=6.674)
+  sampleClass:"calibration",
+  fidelity:"real",   // 質量・a・e・P・自転がタイミング観測の転写(自転は値域外で spin=0 宣言・半径は EOS proxy の宣言つき代理値)
+  notClaim:["solar_cal"],
+  obsCard:[
+    {q:"公転周期(kFrame=0 採用側)", model:"8835.04 秒(+0.0057%)", obs:"8834.534723278 s = 0.1022515592972 日(Hu et al. 2022)"},
+    {q:"実測離心率(1公転の半径比振れ幅)", model:"0.087765(−0.014%)", obs:"eT=0.087777036(転写)"},
+    {q:"観測安定則(適用第3号)", model:"kF1 雛形は近点複製の自己診断が 400步でドリフト +0.1304% → 1公転換算 18.00% の外挿発火で差し戻し → kFrame=0 で採用", obs:"転写した a は Kepler 等価の相対軌道半長軸としてレコード内で導出された値(タイミング解の post-Keplerian 記述とは別建て)"},
+    {q:"単位族(第220便 新設)", model:"相対論的連星族 L−T=5(L6/T1/M27・c₀=3×10³)— 全転写量が値域内・降格なし", obs:"従来族 L−T=4 は構造的に不可(遠点速度 572.4 km/s=57.24 単位が ±50 超・質量>2×10⁴)— buildAstroFromRecords が stage=scale で差し戻す(QA 機械固定)"},
+    {q:"近点前進(1PN — 合わせない照合)", model:"実測 +7.6×10⁻⁴ °/公転(30公転 LRL 回帰・数値床 |≤4×10⁻⁵|)= 約2.7°/年相当", obs:"転写量からの 1PN 解析値 6πGM/(c²a(1−e²))=4.72×10⁻³ °/公転(≈16.9°/年相当)— 実測は約1/6(宣言する不足)"},
+    {q:"自転(両星 — 測定はあるが転写不能)", model:"spin=0 宣言(spin 単位で A 2768.0・B 22.65 — いずれも値域 ±20 の外)", obs:"A: ν=44.054068642001 Hz(Hu et al. 2022)/ B: P=2.77346074724 s(MNRAS 368 283)"},
+    {q:"半径(EOS proxy — 直接観測なし)", model:"0.01175 単位(11.75 km)を宣言つき代理値として採用(下限 0.01 の直上 — 降格不要)", obs:"R₁.₄=11.75 +0.86/−0.81 km(Dietrich et al. 2020 — A/B 固有の直接半径測定は存在しない: radius_observed=null)"},
+    {q:"スピン駆動(1PN 反作用偶力)", model:"spin=0 から ±30.40 の有界振動(30公転で上限不変・clampSN=0。kF0 ではスピンは引きずり源にならず力学へ不干渉)— 初期位相は遠点整列(第211便・⚡ と統一)", obs:"—(第69便 §18.4 の宣言済み物理 — 点状中性子星の慣性 I≈0.18 単位に対し偶力が大きい)"}],
+  failureFirst:{
+    fail:"実較正の雛形規約 kFrame=1 は二重パルサーの軌道を保てない — 近点複製の自己診断は 400步でドリフト +0.1304%(1公転換算 18.00% — 許容 ±1% 超の外挿発火)、遠点発の実測では 0.56公転で接触要素周期が +157% に成長し、軌道は遠点の外へ膨張して近点に戻らない(半径 956→1949 単位)。さらに**そもそも従来の実較正単位族 L−T=4 にこの系は収まらない**: 遠点相対速度 572.4 km/s は族の速度値域 ±50 単位を超え(族内で速度はスケール不変)、質量も 2×10⁴ 単位を超える — 観測採取経路 buildAstroFromRecords はどの L でも stage=scale で差し戻す(第181便の質量比の穴と同型の構造的な穴)。加えて自転は**測定があるのに転写できない**(spin 単位で B ですら 22.65 — 値域 ±20 の外)。",
+    pass:"**単位族を1つ増やす**(第220便): 規約 L−T=5(c₀=3×10³)・M+2T−3L=11(G=6.674)の相対論的連星族 L6/T1/M27 に置くと全転写量が値域に収まる(遠点速度 5.72 単位・質量 2661/2483・半径 0.01175 は下限直上で降格も不要)。観測安定則(2026-08-25 裁定)の**適用第3号**として kFrame=0 で採用: 1公転を完走して実測 8835.04 秒(観測 8834.53 秒比 +0.0057%)・実測離心率 0.087765(転写比 −0.014%)。kF0 側の自己診断はドリフト 9.9×10⁻⁷(ノイズ床 10⁻⁵ 未満 — 外挿の対象外・クロージャ段も不要)で、30公転でも周期は一定(2周目以降 8834.72 秒)。フィットはゼロ(D₀=0.006 は共有値の流用)。**合わせていない照合で残る不足も宣言する**: 転写量からの 1PN 解析近点前進 4.72×10⁻³ °/公転(≈16.9°/年相当)に対し実測 +7.6×10⁻⁴ °/公転(約1/6)— 統一則(geoPN=2)の対等質量・強速度域では 1PN 歳差が不足する(水星の弱場テスト粒子域では 42.98″/世紀を再現している項の、二体対等質量域への外挿で生じる不足。機構の切り分けは開発キュー)。"},
+  descStruct:{
+    summary:"**二重パルサー PSR J0737−3039A/B** — 世界で唯一の「両方がパルサー」の中性子星連星(公転周期 2.454 時間・実単位)を、A(実質量 1.338186 M☉=2.660982861×10³⁰kg)と B(1.248866 M☉=2.483370041×10³⁰kg)の二体重心系として置いた観測転写(第220便 — 恒星スケール実較正第3号)。相対軌道は a=8.788366×10⁸m・e=0.087777036・P=8834.534723278 s(Hu et al. 2022 A&A 667 A149 — paper/data/solar-observations.csv。a は総質量と P からの Kepler 等価値で、投影半長軸 c(xA+xB)/sin i ≈8.788×10⁸m と整合)。**単位系は本便新設の相対論的連星族**(1単位=10⁶m/10¹s/10²⁷kg — 規約 L−T=5・c₀=3×10³・G=6.674): 従来族 L−T=4 では遠点相対速度 572.4 km/s(57.24 単位)が速度値域 ±50 を構造的に超えるため、観測採取経路はこの系を stage=scale で差し戻す(QA が機械固定 — ビルダーの族拡張はキュー)。働いているのは重力(E4)+測地線1PN(E12)で、**観測安定則(2026-08-25 裁定)の適用第3号**として kFrame=0 — 転写値を算出した計算式の側 — で採用(空間引きずりは A/B 測定側)。**自転は測定があるのに転写できない**初のケース: A ω=276.7998768 rad/s・B 2.2654675 rad/s は spin 単位(rad/10s)で 2768.0/22.65 となりいずれも値域 ±20 の外 — spin=0 を宣言し出典を記録する(半径も同様に A/B 固有の直接測定が無く、EOS/マルチメッセンジャー代理値 R₁.₄=11.75 km を**宣言つき proxy**として置く — 観測半径の主張ではない)。**1PN 反作用偶力のスピン駆動**(第69便 §18.4 の宣言済み物理): 点状中性子星の慣性モーメント(I≈0.18 単位)に対して偶力が大きく、spin=0 から ±30.40 の**有界振動**で駆動される(30公転で上限不変・clampSN=0。kFrame=0 ではスピンは引きずり源にならず力学へ不干渉 — スポークの回転として見えるだけ)。q=3.1789 は q_exact を a=878.8366(c₀=3×10³)で1回評価した直値。フィットはゼロ(D₀=0.006 は共有値の流用)。",
+    observe:"kFrame=0(採用側)は1公転を完走して実測 8835.04 秒(観測 8834.534723278 秒・+0.0057%)、1公転の半径比振れ幅から出る実測離心率 0.087765 は転写した e=0.087777036 と −0.014% で一致する(近点 8.017×10⁸m・遠点 9.560×10⁸m)。30公転を回しても周期は一定(2周目以降 8834.72 秒・±0.0021%)・重心移動 1.6×10⁻⁵ 単位/1.05公転・粒子+リザーバ P 残差 7×10⁻¹⁷(機械ゼロ)・帳簿 L 相対残差 5×10⁻¹⁰/30公転。kF0 の近点複製自己診断はドリフト 9.9×10⁻⁷(ノイズ床未満 — 外挿発火なし)。A/B の測定側 kFrame=1 は転写軌道を保てない: 近点複製の自己診断が 400步でドリフト +0.1304% → 1公転換算 18.00% の外挿発火で差し戻され(観測安定則)、遠点発の実測でも 0.56公転で接触要素周期が +157% に成長・軌道は遠点の外へ膨張して近点に戻らず(半径 956→1949)・スピンは ±40 飽和(clampSN 5.0×10⁴)・重心は 0.20 単位歩く。**近点前進(合わせない照合)**: 30公転の LRL(離心率ベクトル)回帰で実測 +7.6×10⁻⁴ °/公転(順行。近点通過方向の回帰では +8.1×10⁻⁴ — geoPN=0 対照の数値床は |≤4×10⁻⁵|)。転写量からの 1PN 解析値 4.72×10⁻³ °/公転(観測される 16.9°/年級の近点前進に相当)の**約1/6しか出ない** — 対等質量・v/c≈2×10⁻³ の強速度域での統一則の不足として宣言する(fit で埋めない)。スピンは 1PN 反作用偶力で ±30.40 の有界振動(30公転で上限不変・clampSN=0)。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.psrDoubleAB)。",
+    control:"ワンタップ対照A/B: B側 kFrame=1(測定側)— 押すと引きずり項が軌道を保てない様子(接触要素周期の成長と遠点外への膨張)が見える。timeScale=300 で1公転が実時間 約3.1秒(規約)。表示は dispMag=1000(それでも中性子星の実半径 11.75 km は点 — camera.scale=1100 の約1%)・トレイルで軌道を見る。✨🌟 と並べると「同じ規約・違う族(恒星連星 L−T=4 vs 相対論的連星 L−T=5)」の比較ができる。"},
+  en:{name:"Double Pulsar J0737−3039A/B (Real Units) — the 2.45-hour neutron-star binary",
+    obsCard:[
+      {q:"Orbital period (kFrame=0, adopted)", model:"8835.04 s (+0.0057%)", obs:"8834.534723278 s = 0.1022515592972 d (Hu et al. 2022)"},
+      {q:"Measured eccentricity (radius-ratio wobble)", model:"0.087765 (−0.014%)", obs:"eT=0.087777036 (transcribed)"},
+      {q:"Observation-stability rule (3rd application)", model:"the kFrame=1 template fires the drift extrapolation (+0.1304% in 400 steps → 18.00%/orbit) and is returned → adopted at kFrame=0", obs:"the transcribed a is the Kepler-equivalent relative semi-major axis derived in the record (kept separate from the post-Keplerian timing description)"},
+      {q:"Scale family (new in wave 220)", model:"the relativistic-binary family L−T=5 (L6/T1/M27, c₀=3×10³) — every transcribed value fits, no demotion", obs:"the legacy family L−T=4 is structurally impossible (apoapsis speed 572.4 km/s = 57.24 units > ±50; masses > 2×10⁴) — buildAstroFromRecords returns stage=scale (machine-fixed by QA)"},
+      {q:"Periastron advance (1PN — compared, never fitted)", model:"measured +7.6×10⁻⁴ °/orbit (30-orbit LRL regression; numerical floor |≤4×10⁻⁵|) ≈ 2.7°/yr", obs:"the 1PN analytic value from the transcribed quantities, 6πGM/(c²a(1−e²))=4.72×10⁻³ °/orbit (≈16.9°/yr) — the measurement is about 1/6 (a declared shortfall)"},
+      {q:"Rotations (both stars — measured yet NOT transcribable)", model:"spin=0 declared (in spin units A 2768.0, B 22.65 — both outside the ±20 range)", obs:"A: ν=44.054068642001 Hz (Hu et al. 2022) / B: P=2.77346074724 s (MNRAS 368 283)"},
+      {q:"Radii (EOS proxy — no direct observation)", model:"0.01175 units (11.75 km) adopted as a declared proxy (just above the 0.01 floor — no demotion)", obs:"R₁.₄=11.75 +0.86/−0.81 km (Dietrich et al. 2020 — no direct radius measurement of A/B exists: radius_observed=null)"},
+      {q:"Spin drive (the 1PN reaction couple)", model:"a bounded oscillation from spin=0 to ±30.40 (cap unchanged over 30 orbits, clampSN=0; at kF0 the spins source no dragging and stay dynamically inert) — initial phase aphelion-aligned (wave 211, unified with ⚡)", obs:"— (declared physics, wave 69 §18.4 — the couple is large against a point neutron star's inertia I≈0.18)"}],
+    failureFirst:{
+      fail:"The real-calibration template kFrame=1 cannot hold the double pulsar: the perihelion-probe self-check drifts +0.1304% in 400 steps (a fired extrapolation of 18.00%/orbit — beyond the ±1% contract), and measured from aphelion the osculating period grows +157% within 0.56 orbit while the orbit inflates outward and never returns to periastron (radius 956→1949 units). Moreover THE SYSTEM DOES NOT FIT THE LEGACY SCALE FAMILY L−T=4 AT ALL: the apoapsis relative speed of 572.4 km/s exceeds the family's ±50-unit velocity range at every L (velocities are scale-invariant within the family), and the masses exceed 2×10⁴ units — buildAstroFromRecords returns stage=scale at every L (a structural hole of the same kind as the wave-181 mass-ratio hole). On top of that the rotations are MEASURED YET NOT TRANSCRIBABLE (in spin units even B is 22.65 — outside the ±20 range).",
+      pass:"ADD ONE SCALE FAMILY (wave 220): under the relativistic-binary family L−T=5 (c₀=3×10³) with M+2T−3L=11 (G=6.674), i.e. L6/T1/M27, every transcribed value fits (apoapsis speed 5.72 units, masses 2661/2483, radii 0.01175 just above the floor — no demotion). As the THIRD APPLICATION of the observation-stability rule the build adopts kFrame=0: one full orbit measures 8835.04 s (+0.0057% of the observed 8834.53 s) with a measured eccentricity of 0.087765 (−0.014%). The kF0 self-check drifts only 9.9×10⁻⁷ (below the noise floor — no extrapolation, no closure stage needed), and the period stays constant over 30 orbits (8834.72 s from the 2nd revolution on). Zero fits (D₀=0.006 is the shared value, reused). THE UNFITTED SHORTFALL IS DECLARED TOO: against the 1PN analytic periastron advance from the transcribed quantities, 4.72×10⁻³ °/orbit (≈16.9°/yr), the measurement gives +7.6×10⁻⁴ °/orbit — about 1/6. The same term reproduces Mercury's 42.98″/century in the weak-field test-particle regime; the shortfall arises in its extrapolation to a comparable-mass two-body at v/c≈2×10⁻³ (mechanism isolation is queued; nothing is fitted to hide it)."},
+    descStruct:{
+      summary:"THE DOUBLE PULSAR PSR J0737−3039A/B — the only known binary in which both neutron stars are pulsars (orbital period 2.454 hours, real units), placed as a two-body barycentric system of A (real mass 1.338186 M☉ = 2.660982861×10³⁰ kg) and B (1.248866 M☉ = 2.483370041×10³⁰ kg) — the third stellar-scale real calibration (wave 220). The relative orbit is a=8.788366×10⁸ m, e=0.087777036, P=8834.534723278 s (Hu et al. 2022 A&A 667 A149 — paper/data/solar-observations.csv; a is the Kepler-equivalent value derived from the total mass and P, consistent with the projected semi-major axes via c(xA+xB)/sin i ≈8.788×10⁸ m). THE SCALE FAMILY IS NEW IN THIS WAVE — the relativistic-binary family (1 unit = 10⁶ m / 10¹ s / 10²⁷ kg; conventions L−T=5, c₀=3×10³, G=6.674): under the legacy family L−T=4 the apoapsis relative speed of 572.4 km/s (57.24 units) structurally exceeds the ±50 velocity range, so the transcription path returns this system at stage=scale (machine-fixed by QA; extending the builder to the new family is queued). Gravity (E4) and the geodesic 1PN term (E12) act: as the THIRD APPLICATION of the observation-stability rule the build adopts kFrame=0 — the side of the formula that produced the transcribed values — and keeps frame dragging as the A/B measurement side. THE ROTATIONS ARE MEASURED YET NOT TRANSCRIBABLE — a first: A's ω=276.7998768 rad/s and B's 2.2654675 rad/s become 2768.0 and 22.65 in spin units (rad per 10 s), both outside the ±20 range — spin=0 is declared with the sources recorded (likewise no direct radius measurement of A/B exists, so the EOS/multimessenger proxy R₁.₄=11.75 km is placed as a DECLARED PROXY — not a claim of an observed radius). THE 1PN REACTION COUPLE DRIVES THE SPINS (declared physics, wave 69 §18.4): against a point neutron star's moment of inertia (I≈0.18 units) the couple is large, and the spins oscillate boundedly from 0 to ±30.40 (cap unchanged over 30 orbits, clampSN=0; at kFrame=0 spins source no dragging and stay dynamically inert — visible only as rotating spokes). q=3.1789 is q_exact evaluated once at a=878.8366 (c₀=3×10³). Zero fits (D₀=0.006 is the shared value, reused).",
+      observe:"The adopted kFrame=0 build completes one orbit at a measured 8835.04 s (observed 8834.534723278 s, +0.0057%), and the radius-ratio wobble gives a measured eccentricity of 0.087765 — −0.014% of the transcribed e (periastron 8.017×10⁸ m, apastron 9.560×10⁸ m). Over 30 orbits the period holds constant (8834.72 s from the 2nd revolution, ±0.0021%); CM shift 1.6×10⁻⁵ units per 1.05 orbits; particle+reservoir momentum residual 7×10⁻¹⁷ (machine zero); angular-momentum ledger 5×10⁻¹⁰ over 30 orbits. The kF0 perihelion-probe self-check drifts 9.9×10⁻⁷ (below the noise floor — no extrapolation fires). The A/B measurement side kFrame=1 cannot hold the transcribed orbit: the probe fires at +0.1304% per 400 steps (18.00%/orbit — the observation-stability rejection), and from aphelion the osculating period grows +157% within 0.56 orbit while the orbit inflates outward, never returning to periastron (radius 956→1949), the spins saturate at ±40 (clampSN 5.0×10⁴) and the CM walks 0.20 units. PERIASTRON ADVANCE (compared, never fitted): the 30-orbit LRL (eccentricity-vector) regression measures +7.6×10⁻⁴ °/orbit prograde (the periastron-passage regression gives +8.1×10⁻⁴; the geoPN=0 numerical floor is |≤4×10⁻⁵|). That is about 1/6 of the 1PN analytic value from the transcribed quantities, 4.72×10⁻³ °/orbit (the 16.9°/yr-class advance actually observed for this system) — declared as the unified law's shortfall in the comparable-mass, v/c≈2×10⁻³ regime (not fitted away). The spins oscillate boundedly at ±30.40 under the 1PN reaction couple (cap unchanged over 30 orbits, clampSN=0). Zero NaN; two runs are bit-identical (QA behavior.psrDoubleAB).",
+      control:"One-tap A/B: side B is kFrame=1 (the measurement side) — pressing it shows the dragging term failing to hold the orbit (the osculating period grows and the orbit inflates past apoapsis). With timeScale=300 one orbit takes ~3.1 wall seconds (the convention). Display uses dispMag=1000 (even so the 11.75-km neutron stars are dots — about 1% of camera.scale=1100); use trails. Next to ✨🌟 the pair shows the same conventions on two scale families (stellar binaries at L−T=4 vs the relativistic binary at L−T=5)."},
+    parameterAudit:{
+      observedInputs:["real G=6.674","real c₀=3×10³ (the L−T=5 relativistic-binary family, new in wave 220)",
+        "A's real mass 1.338186 M☉ and B's 1.248866 M☉ (converted with this repo's committed solar mass 1.9885×10³⁰ kg)",
+        "the relative orbit a=8.788366×10⁸ m (Kepler-equivalent, derived in the record) and e=0.087777036",
+        "the observed period 8834.534723278 s (compared against, NOT fitted to — paper/data/solar-observations.csv)",
+        "both measured rotations (A ν=44.054 Hz / B P=2.7735 s) — used only for the transcribability declaration (outside the spin range at this family)",
+        "the real Kepler apoapsis speed (calibration factor 1.000 — no multiplier)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10⁶ m / 10¹ s / 10²⁷ kg — the L−T=5 family, wave 220)",
+        "kFrame=0 (the observation-stability rule, 3rd application; the kFrame=1 template fires the drift extrapolation and dragging moves to the A/B measurement side)",
+        "frameReaction:\"pairReduced\" (E6′-R), kRep=muF=γN=κ_S=0 / geoPN=2, λ_PN=1, pnα=1.5 / stateCarry:\"double\"",
+        "two-body barycentric (both stars free), APHELION-aligned (wave 211); the self-check probes the perihelion phase",
+        "spin=0 declared (measured yet outside the ±20 spin range at this family — sources recorded); both stars declared pnSource (both also exceed the automatic threshold ≈337 units)",
+        "radii = the EOS proxy 11.75 km as a declared stand-in (no direct A/B radius observation exists — radius_observed=null)"],
+      fitted:["D₀=0.006 (the shared value fixed on 🌘, used as is — zero fits in this system; speed calibration 1.000)"],
+      derived:["q=3.1789 (q_exact evaluated once at a=878.8366 with c₀=3×10³)","κ=G/c₀²=7.4156×10⁻⁷",
+        "camera.scale=1100, timeScale=300, dispMag=1000 (derived from the stated rules)",
+        "the 1PN analytic periastron advance 4.72×10⁻³ °/orbit (a derivation from transcribed quantities, used as the comparison target of the declared shortfall)"],
+      numerical:["softening ε=0.05","time multiplier timeScale=300","display magnification dispMag=1000 (display only)",
+        "self-check: 400-step trial + drift extrapolation, period tolerance ±1%"]}},
+  abBody:{ label:{ja:"kFrame=1(空間引きずり ON — A/B の測定側・観測安定則)", en:"kFrame=1 (frame dragging on — the A/B measurement side under the observation-stability rule)"},
+    physicsPatch:{kFrame:1} },
+  claims:[
+    { id:"psrDoubleAB.period-kf0", kind:"fixed-seed", prov:"simulated", role:"input_check",
+      metric:"abPeriodKF0Secs",
+      chain:{ax:["A4","A6"], eq:["E4"],
+        note:"観測入力(実 a・両星の実質量・実 G)+実ケプラー初速の転写が観測周期 8834.534723278 s を写せていることの検証(kFrame=0 採用側・1公転完走)。",
+        noteEn:"A check that the transcription (real a, both real masses, real G, real Kepler speed) reproduces the observed 8834.534723278 s at the adopted kFrame=0, completing one full orbit."},
+      roleNote:"観測入力の検証 — 較正ノブはゼロ。",
+      roleNoteEn:"Input check — zero calibration knobs.",
+      expected:{min:8790, max:8880},
+      descPattern:"1公転を完走して実測 (\\d+\\.\\d+) 秒", testId:"behavior.psrDoubleAB" },
+    { id:"psrDoubleAB.ecc-transcribed", kind:"fixed-seed", prov:"simulated", role:"input_check",
+      metric:"abEccMeasured",
+      chain:{ax:["A4"], eq:["E4"],
+        note:"転写した離心率 e=0.087777036 が1公転の半径比振れ幅としてそのまま実測されることの検証(低離心率側の転写 — ✨0.51947・🌟0.59142 と対照的な系)。",
+        noteEn:"A check that the transcribed e=0.087777036 is measured back as the radius-ratio wobble over one orbit (a low-eccentricity transcription, in contrast to ✨ 0.51947 and 🌟 0.59142)."},
+      roleNote:"観測入力の検証(軌道形の写し)— 較正ノブではない。",
+      roleNoteEn:"Input check (a transcription of the orbit shape) — not a calibration knob.",
+      expected:{min:0.085, max:0.091},
+      descPattern:"実測離心率 (0\\.\\d+)", testId:"behavior.psrDoubleAB" },
+    { id:"psrDoubleAB.obs-stability", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+      metric:"kf1ProbeProjPct",
+      chain:{ax:["A4","A5"], eq:["E4","E6′"],
+        note:"観測安定則(2026-08-25 裁定)適用第3号の機械固定: kFrame=1 雛形は近点複製の自己診断が 400步でドリフト +0.1304% → 1公転換算 18.00% の外挿発火で差し戻され、構築は kFrame=0 へ宣言つきフォールバックする。",
+        noteEn:"Machine-fixes the 3rd application of the observation-stability rule: the kFrame=1 template fires the drift extrapolation (+0.1304% per 400 steps → 18.00%/orbit) and the build falls back to kFrame=0 with a declaration."},
+      roleNote:"回顧的確認 — 差し戻しの実測値を宣言どおり検査する。較正ノブではない。",
+      roleNoteEn:"Retrospective check — verifies the declared rejection value. Not a calibration knob.",
+      expected:{min:5, max:40},
+      descPattern:"1公転換算 (\\d+\\.\\d+)%", testId:"behavior.psrDoubleAB" },
+    { id:"psrDoubleAB.pn-advance-shortfall", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+      metric:"pnAdvanceDegPerOrbit", descScale:1e-4,
+      chain:{ax:["A4","A7′"], eq:["E4","E12"],
+        note:"合わせない照合の宣言: 30公転 LRL 回帰の実測 +7.6×10⁻⁴ °/公転 は、転写量からの 1PN 解析値 4.72×10⁻³ °/公転(≈16.9°/年相当)の約1/6 — 統一則(geoPN=2)の対等質量・強速度域での不足を fit で埋めずに宣言する(数値床は geoPN=0 対照で |≤4×10⁻⁵|)。",
+        noteEn:"Declares the unfitted comparison: the 30-orbit LRL regression measures +7.6×10⁻⁴ °/orbit — about 1/6 of the 1PN analytic 4.72×10⁻³ °/orbit (≈16.9°/yr) from the transcribed quantities. The shortfall of the unified law in the comparable-mass strong-velocity regime is declared, not fitted away (numerical floor |≤4×10⁻⁵| by the geoPN=0 control)."},
+      roleNote:"回顧的確認 — 不足の側の実測を宣言どおり検査する(較正ノブはゼロ)。",
+      roleNoteEn:"Retrospective check — verifies the measured shortfall as declared (zero calibration knobs).",
+      expected:{min:0.0004, max:0.0012},
+      descPattern:"実測 \\+(\\d+\\.\\d+)×10⁻⁴ °/公転", testId:"behavior.psrDoubleAB" },
+    { id:"psrDoubleAB.spin-oscillation", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+      metric:"pnSpinOscMax",
+      chain:{ax:["A4","A8"], eq:["E4","E12"],
+        note:"1PN 反作用偶力(第69便 §18.4 — 宣言済み物理)のスピン駆動の機械固定: spin=0 宣言から ±30.40 の有界振動(30公転で上限不変・clampSN=0)。kFrame=0 ではスピンは引きずり源にならず力学へ不干渉。",
+        noteEn:"Machine-fixes the spin drive of the 1PN reaction couple (declared physics, wave 69 §18.4): a bounded oscillation from the declared spin=0 to ±30.40 (cap unchanged over 30 orbits, clampSN=0). At kFrame=0 the spins source no dragging and stay dynamically inert."},
+      roleNote:"回顧的確認 — 宣言済み物理の帰結の実測。較正ノブではない。",
+      roleNoteEn:"Retrospective check — measures the consequence of declared physics. Not a calibration knob.",
+      expected:{min:20, max:40},
+      descPattern:"±(\\d+\\.\\d+) の有界振動", testId:"behavior.psrDoubleAB" }
+  ],
+  parameterAudit:{
+    observedInputs:["実 G=6.674","実 c₀=3×10³(第220便 新設の L−T=5 相対論的連星族)",
+      "A の実質量 1.338186 M☉・B の 1.248866 M☉(M☉ 換算は本リポジトリのコミット済み太陽質量 1.9885×10³⁰kg)",
+      "相対軌道 a=8.788366×10⁸m(レコード内で総質量と P から導出された Kepler 等価値)・e=0.087777036",
+      "観測周期 8834.534723278 s(**照合先であって fit の対象ではない** — paper/data/solar-observations.csv)",
+      "両星の自転測定値(A ν=44.054 Hz / B P=2.7735 s)— 転写可否宣言のみに使用(本族の spin 値域外)",
+      "実ケプラー遠点速度(較正係数 1.000 — 掛け算なし)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁶m/10¹s/10²⁷kg — 第220便の L−T=5 族)",
+      "kFrame=0(観測安定則 — 適用第3号。kFrame=1 雛形はドリフト外挿の発火で差し戻し、引きずりは A/B の測定側へ)",
+      "frameReaction:\"pairReduced\"(E6′-R)・kRep=muF=γN=κ_S=0 / geoPN=2・λ_PN=1・pnα=1.5 / stateCarry:\"double\"",
+      "二体重心系(両星とも自由)・**遠点整列**(第211便)。自己診断は近点位相の複製",
+      "spin=0 宣言(測定はあるが本族の spin 値域 ±20 の外 — 出典は記録)・両星 pnSource 宣言(自動閾値 ≈337 単位も両星が超える)",
+      "半径=EOS proxy 11.75 km の宣言つき代理値(A/B 固有の直接半径観測は存在しない — radius_observed=null)"],
+    fitted:["D₀=0.006(🌘 で決めた共有値の流用 — 本系でのフィットはゼロ。初速較正 1.000)"],
+    derived:["q=3.1789(qLock 厳密一致式 q_exact を a=878.8366・c₀=3×10³ で1回評価した直値)","κ=G/c₀²=7.4156×10⁻⁷",
+      "camera.scale=1100・timeScale=300・dispMag=1000(規約から決定的に算出)",
+      "1PN 解析近点前進 4.72×10⁻³ °/公転(転写量からの導出 — 宣言する不足の照合先)"],
+    numerical:["ソフトニング ε=0.05","時間倍率 timeScale=300","粒子表示倍率 dispMag=1000(表示専用)",
+      "自己診断: 400步試走+ドリフト外挿・周期許容 ±1%"]},
+  activeParams:["kFrame","q","D0"],
+  camera:{scale:1100}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.006, kFrame:0, q:3.1789, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-7,
+    cLight:3000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:300, dispMag:1000,
+    stateCarry:"double", frameReaction:"pairReduced"},
+  bodies:[ // 並び: 0=A(自由)・1=B。手組み転写の決定的配置(第220便 — L−T=5 族・遠点整列):
+           //  A 2.660982861e30kg・B 2.483370041e30kg(M☉×1.9885e30)・半径は EOS proxy 1.175e4m。
+           //  a=8.788366e8m・e=0.087777036。初速は遠点の実ケプラー接線速度(重心系配分・較正係数 1.000)。
+           //  自転は測定があるが spin 値域 ±20 の外 — spin=0 宣言(出典は obsCard/CSV に記録)。
+           //  pnSource は両星宣言(自動閾値 ≈337 単位も両星が超える — 明示は文書化)
+    {type:"single", m:2660.982861, radius:0.01175, x:-461.48618600827865, y:0, vx:0, vy:-2.7630939482399564, spin:0, pinned:false, pnSource:true},
+    {type:"single", m:2483.370041, radius:0.01175, x:494.49208586803894, y:0, vx:0, vy:2.960712869290568, spin:0, pinned:false, pnSource:true}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+{ id:"psrDoubleABDFM", name:"二重パルサー J0737−3039A/B(DFM版)— kF1 質量較正", emoji:"⚡", group:"現実との照合・太陽系外",
+  familyId:"psr", familyRole:"primary",   // ✴️💫 と同じ建付け: DFM 版が仲間のメイン
+  scaleTier:"planetary",
+  scaleExp:{L:6, T:1, M:27},   // 📻 と同じ単位系(1単位=10⁶m/10¹s/10²⁷kg — L−T=5 族)
+  sampleClass:"calibration",
+  fidelity:"real",   // 幾何(遠点分離・遠点速度・半径 proxy)は 📻 と同じ転写。質量だけが宣言つき1ノブ較正
+  notClaim:["solar_cal"],
+  obsCard:[
+    {q:"公転周期(kFrame=1・質量×1.9959)", model:"2周目 8834.72 秒(+0.0021%)— 周回時間 [8844.8, 8834.7, 8825.1] 秒", obs:"8834.534723278 s(Hu et al. 2022)"},
+    {q:"実測離心率(1周目の半径比振れ幅)", model:"0.087075(−0.80%)", obs:"e=0.087777036(転写)"},
+    {q:"近点(合わせていない側)", model:"802.83 単位(観測版 801.72 の +0.14%)— P・e・近点が同じ f に収束(✨✴️🌟💫 の発見の3例目)", obs:"—(照合のみ — fit の対象ではない)"},
+    {q:"DFM 質量(条件つき較正 — 実在値の主張ではない)", model:"質量スケール f=1.9959: A 2.6709 M☉(5.3111×10³⁰kg)・B 2.4926 M☉(4.9566×10³⁰kg)", obs:"—(kFrame=1 の計算式で観測周期に合わせた1ノブ fit)"},
+    {q:"軌道の形", model:"歳差するロゼット — 近点移動 +0.102°/周(順行・4近点回帰)+ 周期 −0.11%/周の単調収縮(kF1 に閉軌道なし — 準安定の宣言)", obs:"—(準安定の宣言)"},
+    {q:"スピン(保持できない — 宣言)", model:"1PN 反作用偶力が spin=0 から ±40 飽和まで駆動(clampSN 2.8×10⁵/4.3公転)— 受け皿宣言でも吸収できない(直接書込の宣言済み物理)。帳簿 L 残差 5.0×10⁻⁶(クランプの捨て分)", obs:"—(第69便 §18.4。spin→引きずり場は (R/(R+d))^q≈10⁻¹⁵ で軌道へ実質戻らない — 宣言)"},
+    {q:"重心(cmGauge:barycentric)", model:"4.3公転の重心移動 1.5×10⁻⁴ 単位・粒子+リザーバ P 残差 1.2×10⁻¹⁴", obs:"—(D₀ 開放系の共通成分は除く宣言 — 観測照合は相対座標)"},
+    {q:"較正値の系間比較(記録)", model:"f_αCen=1.827 / f_Sirius=1.8702 / f_PSR=1.9959 — 3例目で単調に増える(コンパクト度順)", obs:"—(主張ではなく記録 — 系間の普遍性は未検証)"}],
+  failureFirst:{
+    fail:"観測版 📻 の実測どおり、kFrame=1 は転写質量のままでは軌道を保てない(近点複製プローブの外挿発火 18.00%/公転・遠点発 0.56公転で接触要素周期 +157% の膨張)。さらに本系では **1PN 反作用偶力が受け皿宣言でも吸収できない**: coupleSink:\"reservoir\"(💫 と同じ宣言)を置いても、点状中性子星の慣性モーメント(I≈0.18 単位)に対して偶力が桁で勝り、spin=0 は ±40 飽和まで駆動される(clampSN 2.8×10⁵/4.3公転)。✴️ の隠れコアも受け皿にならない — 1PN 反作用偶力は E6′-R 偶力と違い受け先宣言を経由せずスピンへ直接書き込まれる宣言済み物理である(第69便 §18.4)。クランプの捨て分は帳簿 L 残差 5.0×10⁻⁶/4.3公転として現れる(🌟💫 の 10⁻¹⁴ 級との差 — 宣言)。",
+    pass:"「質量は軌道から計算式で算出される量 — 計算式が変われば質量が変わる」(原仮定者第8報)の**適用第3号**。観測軌道の遠点状態(分離 955.98 単位・f=1 の実ケプラー遠点速度)をそのまま初期状態に取り、kFrame=1 の DFM 式で観測周期を再現する質量を1ノブ較正すると**質量スケール f=1.9959** — 2周目 8834.72 秒(観測比 +0.0021%)。このとき実測離心率 0.087075(転写比 −0.80%)・近点 802.83(観測版比 +0.14%)も**合わせていないのに** ±1% で一致する(**P・e・近点の3観測量が同じ f に収束** — ✨✴️🌟💫 の発見が中性子星連星でも再現・3例目)。スピン飽和の軌道への逆結合は (R/(R+d))^q≈10⁻¹⁵ で無視できる(実測: 上記 P・e・近点の成立がその証拠)。DFM 質量は A 2.6709 M☉・B 2.4926 M☉(ニュートン式推定の 1.9959 倍)— 実在の質量の主張ではなく、計算式に条件づけられた較正値である。f 系列 1.827/1.8702/1.9959 は3例で単調に増える(記録 — 普遍性は未検証)。"},
+  descStruct:{
+    summary:"**まず見えるもの: 楕円軌道がゆっくり回り続ける(ロゼット模様)。これは故障ではなく、近点移動 +0.102°/周(順行)— kFrame=1 の空間引きずり項自身の帰結である**(機構同定は ✴️ 第211便を参照)。観測版 📻(kFrame=0 — 観測安定則)の**対になる DFM 版**(第220便 — ✴️💫 と同型の適用第3号)。転写幾何は 📻 と同一 — 遠点分離 955.98 単位(=a(1+e)・Hu et al. 2022 の a=8.788366×10⁸m・e=0.087777036)・遠点接線速度は転写質量での実ケプラー値・半径は EOS proxy 0.01175(宣言つき代理値)。そのうえで **kFrame=1(空間引きずり ON — DFM の計算式)で観測周期 8834.534723278 s を再現する質量を1ノブ較正**: 質量スケール f=1.9959 → A 2.6709 M☉(5.3111×10³⁰kg)・B 2.4926 M☉(4.9566×10³⁰kg)。実在の質量の主張ではない(計算式に条件づけられた較正値)。**スピンの扱い(💫 との違い — 保持できないことの宣言)**: coupleSink:\"reservoir\" は E6′-R 偶力を帳簿へ送るが、**1PN 反作用偶力(第69便 §18.4 — 受け先宣言を経由しない直接書込の宣言済み物理)が点状中性子星の慣性(I≈0.18 単位)に桁で勝ち、spin=0 は ±40 飽和まで駆動される**(clampSN 2.8×10⁵/4.3公転・帳簿 L 残差 5.0×10⁻⁶ — クランプの捨て分の宣言)。spin→引きずり場の逆結合は (R/(R+d))^q≈10⁻¹⁵ で軌道へ実質戻らない(宣言 — P・e・近点の成立が実測の証拠)。**重心ゲージ cmGauge:\"barycentric\"**(第209便)で D₀ 開放系の共通成分を除き、重心は機械ゼロ(1.5×10⁻⁴/4.3公転)。働いているのは重力(E4)+空間引きずり(A8/E6′)+測地線1PN(E12)。q=3.1789・D₀=0.006 は 📻 の値をそのまま流用。**f 系列 f_αCen=1.827 / f_Sirius=1.8702 / f_PSR=1.9959** — 3例目で単調に増える(コンパクト度順の記録であって普遍性の主張ではない)。",
+    observe:"実測(4.3公転窓・重心ゲージ込み): 周回時間 [8844.8, 8834.7, 8825.1] 秒 — **2周目 8834.72 秒は観測 8834.534723278 秒の +0.0021%**(fit 対象)。合わせていない側: 1周目の実測離心率 0.087075(転写 0.087777036 の −0.80%)・近点 802.83 単位(観測版の 801.72 の +0.14%)— **P に合わせた f=1.9959 が e と近点も ±1% で当てる**(P・e・近点が同じ f に収束 — 3例目)。軌道は歳差するロゼットで**近点移動 +0.102°/周**(順行 — 4近点の通過方向回帰。kF1 引きずり項自身の帰結であることは ✴️ 第211便の機構同定を参照)、周期は −0.11%/周で単調に収縮する(kF1 に厳密な閉軌道・定常はない — 宣言)。公転の向きは 📻 と同回り。スピンは保持できない: 1PN 反作用偶力が spin=0 から ±40 飽和まで駆動し(clampSN 2.8×10⁵/4.3公転)、クランプの捨て分が**帳簿 L 残差 5.0×10⁻⁶**/4.3公転として現れる(🌟💫 の 10⁻¹⁴ 級と異なる — 宣言。粒子+リザーバ P 残差は 1.2×10⁻¹⁴ で閉)。重心移動 1.5×10⁻⁴ 単位/4.3公転(機械ゼロ)。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.psrDoubleAB)。",
+    control:"ワンタップ対照A/B: B側 kFrame=0(観測版の計算式側)— **同じ初期状態・同じ×1.9959 質量**では引力が過剰になり、軌道は深い楕円へ落ち込む(実測: 近点 283.2 単位・実測離心率 0.543・1周目 3701.9 秒)。×1.9959 は kFrame=1 専用の較正であることの機械対照。否定対照(QA が機械固定): **cmGauge を外すと重心が歩き出す**(0.5公転で 0.171 単位)。coupleSink を外す対照は本系では判別しない(受け皿があってもなくても 1PN 偶力で飽和する — 上記の宣言そのものが 💫 との差である)。観測版 📻 と本サンプルの対で「同じ観測・違う計算式・違う質量」が3例目の連星でも見える。timeScale=300 で1公転が実時間 約3.1秒・dispMag=1000(表示専用)・トレイルで軌道を見る。"},
+  en:{name:"Double Pulsar J0737−3039A/B (DFM build) — the kF1 mass calibration",
+    obsCard:[
+      {q:"Orbital period (kFrame=1, masses ×1.9959)", model:"2nd revolution 8834.72 s (+0.0021%) — revolution times [8844.8, 8834.7, 8825.1] s", obs:"8834.534723278 s (Hu et al. 2022)"},
+      {q:"Measured eccentricity (radius-ratio wobble, 1st revolution)", model:"0.087075 (−0.80%)", obs:"e=0.087777036 (transcribed)"},
+      {q:"Periastron (the unfitted side)", model:"802.83 units (+0.14% of the observation build's 801.72) — P, e and periastron converge on one f (3rd reproduction of the ✨✴️🌟💫 finding)", obs:"— (compared only, never fitted)"},
+      {q:"DFM masses (a conditional calibration — NOT real-mass claims)", model:"mass scale f=1.9959: A 2.6709 M☉ (5.3111×10³⁰ kg), B 2.4926 M☉ (4.9566×10³⁰ kg)", obs:"— (a one-knob fit of the kFrame=1 formula to the observed period)"},
+      {q:"Orbit shape", model:"a precessing rosette — periastron advance +0.102°/rev prograde (4-periastron regression) with a monotonic period contraction of −0.11%/rev (no closed orbit under kF1 — declared quasi-stability)", obs:"— (declared quasi-stability)"},
+      {q:"Spins (cannot be held — declared)", model:"the 1PN reaction couple drives spin=0 to the ±40 saturation (clampSN 2.8×10⁵ per 4.3 orbits) — no declared receptacle absorbs it (directly-written declared physics). Ledger L residual 5.0×10⁻⁶ (the clamp's discard)", obs:"— (wave 69 §18.4; the spin→dragging back-coupling is (R/(R+d))^q≈10⁻¹⁵ — declared negligible for the orbit)"},
+      {q:"Barycentre (cmGauge:barycentric)", model:"CM shift 1.5×10⁻⁴ units over 4.3 orbits; particle+reservoir P residual 1.2×10⁻¹⁴", obs:"— (the D₀ common mode is removed by declaration)"},
+      {q:"Cross-system record", model:"f_αCen=1.827 / f_Sirius=1.8702 / f_PSR=1.9959 — monotonically increasing across three binaries (by compactness)", obs:"— (a record, not a claim — universality is untested)"}],
+    failureFirst:{
+      fail:"As measured on the observation build 📻, kFrame=1 cannot hold the transcribed orbit at the transcribed masses (the perihelion-probe extrapolation fires at 18.00%/orbit; from aphelion the osculating period inflates +157% within 0.56 orbit). Moreover in this system THE 1PN REACTION COUPLE CANNOT BE ABSORBED BY ANY DECLARED RECEPTACLE: even with coupleSink:\"reservoir\" (the same declaration as 💫) the couple out-scales a point neutron star's moment of inertia (I≈0.18 units) and drives spin=0 to the ±40 saturation (clampSN 2.8×10⁵ per 4.3 orbits). ✴️'s hidden core does not receive it either — unlike the E6′-R couple, the 1PN reaction couple is declared physics written STRAIGHT INTO THE SPINS, bypassing the sink declaration (wave 69 §18.4). The clamp's discard shows up as an angular-momentum ledger residual of 5.0×10⁻⁶ per 4.3 orbits (declared — unlike the 10⁻¹⁴-class ledgers of 🌟💫).",
+      pass:"THE THIRD APPLICATION of the adjudicator's principle (8th report): masses are quantities COMPUTED FROM ORBITS BY A FORMULA. Taking the observed orbit's apoapsis state as the initial condition (separation 955.98 units, the real Kepler apoapsis speed at the transcribed masses) and calibrating ONE knob so that the kFrame=1 DFM formula reproduces the observed period gives f=1.9959 — the 2nd revolution lands at 8834.72 s (+0.0021%). At that f the measured eccentricity 0.087075 (−0.80%) and periastron 802.83 (+0.14%) ALSO land within ±1% though neither was fitted — P, e and the periastron converge on one f, reproduced on a neutron-star binary (3rd case). The spin saturation's back-coupling to the orbit is negligible at (R/(R+d))^q≈10⁻¹⁵ (measured: the P/e/periastron agreement above is the evidence). The DFM masses are A 2.6709 M☉ and B 2.4926 M☉ (1.9959× the Newtonian inference) — not real-mass claims but a calibration conditioned on the formula. The f series 1.827 / 1.8702 / 1.9959 increases monotonically across three binaries (a record — universality untested)."},
+    descStruct:{
+      summary:"WHAT YOU SEE FIRST: the ellipse keeps slowly rotating (a rosette pattern). This is not a glitch — it is a PERIASTRON ADVANCE OF +0.102°/rev (prograde), the consequence of the kFrame=1 frame-dragging term itself (mechanism identified on ✴️, wave 211). The DFM COUNTERPART of the observation build 📻 (kFrame=0 under the observation-stability rule) — the third application of the ✴️💫 pattern (wave 220). The transcribed geometry is identical to 📻: apoapsis separation 955.98 units (=a(1+e), from Hu et al. 2022's a=8.788366×10⁸ m, e=0.087777036), the real Kepler apoapsis speed at the transcribed masses, radii = the declared EOS proxy 0.01175. On top of that ONE knob is calibrated so that kFrame=1 reproduces the observed 8834.534723278 s: mass scale f=1.9959 → A 2.6709 M☉ (5.3111×10³⁰ kg), B 2.4926 M☉ (4.9566×10³⁰ kg). NOT real-mass claims (a calibration conditioned on the formula). SPINS (the difference from 💫 — declaring that they CANNOT be held): coupleSink:\"reservoir\" books the E6′-R couple into the ledger, but THE 1PN REACTION COUPLE (wave 69 §18.4 — declared physics written straight into the spins, bypassing the sink declaration) out-scales a point neutron star's inertia (I≈0.18 units) and drives spin=0 to the ±40 saturation (clampSN 2.8×10⁵ per 4.3 orbits; ledger L residual 5.0×10⁻⁶ — the clamp's discard, declared). The spin→dragging back-coupling is (R/(R+d))^q≈10⁻¹⁵ and effectively never returns to the orbit (declared — the P/e/periastron agreement is the measured evidence). The barycentric gauge cmGauge:\"barycentric\" (wave 209) removes the D₀ common mode (CM at machine zero, 1.5×10⁻⁴ per 4.3 orbits). Gravity (E4), frame dragging (A8/E6′) and the geodesic 1PN term (E12) act. q=3.1789 and D₀=0.006 are reused from 📻 as is. THE f SERIES f_αCen=1.827 / f_Sirius=1.8702 / f_PSR=1.9959 increases monotonically across three binaries (a record ordered by compactness — not a universality claim).",
+      observe:"Measured over a 4.3-orbit window (with the barycentric gauge): revolution times [8844.8, 8834.7, 8825.1] s — the 2nd revolution, 8834.72 s, is +0.0021% of the observed 8834.534723278 (the fit target). The unfitted side: the 1st-revolution eccentricity 0.087075 (−0.80% of the transcribed 0.087777036) and the periastron 802.83 units (+0.14% of the observation build's 801.72) — the f=1.9959 fitted to P ALSO lands e and the periastron within ±1% (the convergence of P, e and periastron on one f — 3rd case). The orbit is a precessing rosette with a periastron advance of +0.102°/rev (prograde — regression over 4 periastron passages; the mechanism — the kF1 dragging term itself — was identified on ✴️ in wave 211), and the period contracts monotonically at −0.11%/rev (kF1 admits no strictly closed or stationary orbit — declared). It runs the same way round as 📻. The spins cannot be held: the 1PN reaction couple drives spin=0 to the ±40 saturation (clampSN 2.8×10⁵ per 4.3 orbits), and the clamp's discard shows up as an ANGULAR-MOMENTUM LEDGER RESIDUAL OF 5.0×10⁻⁶ per 4.3 orbits (unlike the 10⁻¹⁴-class ledgers of 🌟💫 — declared; the particle+reservoir momentum still closes at 1.2×10⁻¹⁴). CM shift 1.5×10⁻⁴ units per 4.3 orbits (machine zero). Zero NaN; two runs are bit-identical (QA behavior.psrDoubleAB).",
+      control:"One-tap A/B: side B is kFrame=0 (the observation build's formula) — at the SAME initial state and the SAME ×1.9959 masses gravity is excessive and the orbit plunges into a deep ellipse (measured: periastron 283.2 units, eccentricity 0.543, first revolution 3701.9 s): the ×1.9959 calibration belongs to kFrame=1 only. Negative control (machine-fixed by QA): REMOVING cmGauge sets the barycentre walking (0.171 units in half an orbit). A coupleSink-removal control does not discriminate in this system (the spins saturate with or without a receptacle under the 1PN couple — that declaration itself is the difference from 💫). Together with 📻 the pair shows one observation, two formulas, two mass ledgers — on a third binary. With timeScale=300 one orbit takes ~3.1 wall seconds; dispMag=1000 (display only); use trails."},
+    parameterAudit:{
+      observedInputs:["real G=6.674","real c₀=3×10³ (the L−T=5 relativistic-binary family)",
+        "the transcribed geometry of 📻: apoapsis separation a(1+e)=955.98 units and the real Kepler apoapsis speed at the transcribed masses",
+        "radii = the declared EOS proxy 11.75 km (no direct A/B radius observation exists)",
+        "the observed period 8834.534723278 s (THE FIT TARGET of the one-knob mass calibration)",
+        "e=0.087777036 and the periastron (compared against, NOT fitted — they land within ±1% on their own)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10⁶ m / 10¹ s / 10²⁷ kg — same as 📻)",
+        "kFrame=1 (the DFM formula — the point of this build; the observation build 📻 adopts kFrame=0 under the observation-stability rule)",
+        "frameReaction:\"pairReduced\" (E6′-R), kRep=muF=γN=κ_S=0 / geoPN=2, λ_PN=1, pnα=1.5 / stateCarry:\"double\"",
+        "initial state = the apoapsis of the observed orbit (two-body barycentric, both free — wave-211 alignment)",
+        "the DFM masses are declared as a CONDITIONAL calibration, not real-mass claims",
+        "spin=0 declared (measured yet outside the spin range) — coupleSink:\"reservoir\" books the E6′-R couple; the 1PN reaction couple saturates the spins regardless (declared, with the clamp discard carried in the ledger residual)",
+        "cmGauge:\"barycentric\" (wave 209 — the isolated-system barycentric gauge; not a calibration knob)"],
+      fitted:["mass scale f=1.9959 (both masses ×f, fitted to the observed period 8834.534723278 s under kFrame=1; D₀=0.006 and q=3.1789 are reused from 📻 as is)"],
+      derived:["A 2.6709 M☉ = 5.3111×10³⁰ kg and B 2.4926 M☉ = 4.9566×10³⁰ kg (= transcribed masses × f)",
+        "κ=G/c₀²=7.4156×10⁻⁷",
+        "camera.scale=1100, timeScale=300, dispMag=1000 (derived from the stated rules; display only)"],
+      numerical:["softening ε=0.05","time multiplier timeScale=300","display magnification dispMag=1000 (display only)"]}},
+  abBody:{ label:{ja:"kFrame=0(観測版の計算式側 — ×1.9959 質量では深い楕円へ)", en:"kFrame=0 (the observation build's formula — the ×1.9959 masses plunge)"},
+    physicsPatch:{kFrame:0} },
+  claims:[
+    { id:"psrDoubleABDFM.period-fit", kind:"fixed-seed", prov:"simulated", role:"fit_target",
+      metric:"dfmPeriodSecs",
+      chain:{ax:["A4","A5"], eq:["E4","E6′"],
+        note:"質量較正の fit 対象: kFrame=1 の DFM 式で質量スケール f=1.9959(coupleSink:reservoir・重心ゲージ)のとき、2周目の周回時間が観測周期 8834.534723278 s を +0.0021% で再現する(fit したのは f の1ノブ — 周期はその照合先)。",
+        noteEn:"The fit target of the mass calibration: at mass scale f=1.9959 (reservoir couple sink, barycentric gauge) under kFrame=1, the 2nd revolution reproduces the observed 8834.534723278 s to +0.0021% (f is the single fitted knob; the period is what it was fitted against)."},
+      roleNote:"fit 対象の宣言 — 本サンプル唯一の較正ノブ(質量スケール f)の照合先。",
+      roleNoteEn:"The declared fit target — what the sample's single knob (the mass scale f) was calibrated against.",
+      expected:{min:8790, max:8880},
+      descPattern:"2周目 (\\d+\\.\\d+) 秒", testId:"behavior.psrDoubleAB" },
+    { id:"psrDoubleABDFM.mass-factor", kind:"semantic", prov:"definition", role:"fit_target",
+      metric:"dfmMassFactor",
+      chain:{ax:["A4","A5"], eq:["E4","E6′"],
+        note:"「質量は軌道から計算式で算出される量 — 計算式が変われば質量が変わる」(原仮定者第8報)の適用第3号: 質量スケール f=1.9959 が説明文と bodies の m の両方に一致して宣言されていること。実在質量の主張ではない(条件つき較正)。f 系列 1.827/1.8702/1.9959 の単調増は記録(主張ではない)。",
+        noteEn:"The 3rd application of the adjudicator's principle: the mass scale f=1.9959 is declared consistently in the text and in the bodies' m. Not a real-mass claim (a conditional calibration). The monotonic f series 1.827/1.8702/1.9959 is a record, not a claim."},
+      roleNote:"fit 値そのものの宣言(1ノブ)— QA が bodies の質量比と照合する。",
+      roleNoteEn:"The declared fit value itself (one knob) — QA checks it against the bodies' masses.",
+      expected:{min:1.99, max:2.0},
+      descPattern:"質量スケール f=(\\d+\\.\\d+)", testId:"behavior.psrDoubleAB" },
+    { id:"psrDoubleABDFM.shape-unfitted", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+      metric:"dfmEccMeasured",
+      chain:{ax:["A4","A5"], eq:["E4","E6′"],
+        note:"合わせていない側の検証: P に合わせた f=1.9959 が、離心率 0.087075(転写比 −0.80%)と近点(+0.14%)も ±1% で当てる — P・e・近点の3観測量が同じ f に収束する(✨✴️🌟💫 の発見が中性子星連星で再現・3例目)。",
+        noteEn:"The unfitted side: the f=1.9959 fitted to P also lands the eccentricity 0.087075 (−0.80%) and the periastron (+0.14%) within ±1% — the convergence of P, e and periastron on one f, reproduced on a neutron-star binary (3rd case)."},
+      roleNote:"回顧的確認 — e と近点は fit の対象ではない(照合のみ)。",
+      roleNoteEn:"Retrospective check — e and the periastron were compared, never fitted.",
+      expected:{min:0.085, max:0.0905},
+      descPattern:"実測離心率 (0\\.\\d+)", testId:"behavior.psrDoubleAB" },
+    { id:"psrDoubleABDFM.periastron-advance", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+      metric:"dfmPeriAdvanceDeg",
+      chain:{ax:["A4","A5","A8"], eq:["E4","E6′"],
+        note:"ロゼット歳差の定量: 近点移動 +0.102°/周(順行 — 4近点の通過方向回帰)。kF1 引きずり項自身の帰結であることの機構同定は ✴️ 第211便を参照 — 本 claim は第3の連星での定量記録(照合: 転写量からの 1PN 解析値 4.72×10⁻³ °/公転の約22倍 — fit で消さず宣言する)。",
+        noteEn:"Quantifies the rosette precession: periastron advance +0.102°/rev prograde (regression over 4 periastron passages). The mechanism identification (the kF1 dragging term itself) is on ✴️, wave 211 — this claim records the quantity on a third binary (about 22× the 1PN analytic 4.72×10⁻³ °/orbit from the transcribed quantities; declared, not fitted away)."},
+      roleNote:"回顧的確認 — 較正ノブはゼロ。歳差は fit で消さずそのまま宣言する。",
+      roleNoteEn:"Retrospective check — zero calibration knobs. The precession is declared, not fitted away.",
+      expected:{min:0.05, max:0.2},
+      descPattern:"近点移動 \\+(0\\.\\d+)°/周", testId:"behavior.psrDoubleAB" },
+    { id:"psrDoubleABDFM.spin-saturation", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+      metric:"dfmClampLedgerRel", descScale:1e-6,
+      chain:{ax:["A4","A5","A8"], eq:["E4","E6′","E12"],
+        note:"スピンが保持できないことの機械固定: 1PN 反作用偶力(第69便 §18.4 — 受け先宣言を経由しない直接書込)が spin=0 を ±40 飽和まで駆動し(clampSN 2.8×10⁵/4.3公転)、クランプの捨て分が帳簿 L 残差 5.0×10⁻⁶/4.3公転 として現れる(宣言 — 隠さない)。粒子+リザーバ P 残差は 1.2×10⁻¹⁴ で閉じたまま。",
+        noteEn:"Machine-fixes that the spins cannot be held: the 1PN reaction couple (wave 69 §18.4 — written directly, bypassing the sink declaration) drives spin=0 to the ±40 saturation (clampSN 2.8×10⁵ per 4.3 orbits), and the clamp's discard appears as the angular-momentum ledger residual of 5.0×10⁻⁶ per 4.3 orbits (declared, not hidden). The particle+reservoir momentum still closes at 1.2×10⁻¹⁴."},
+      roleNote:"回顧的確認 — 宣言済み物理の帰結(飽和と帳簿残差)を宣言どおり検査する。",
+      roleNoteEn:"Retrospective check — verifies the declared consequence (saturation and ledger residual).",
+      expected:{min:0, max:0.0001},
+      descPattern:"帳簿 L 残差 (\\d+\\.\\d+)×10⁻⁶", testId:"behavior.psrDoubleAB" }
+  ],
+  parameterAudit:{
+    observedInputs:["実 G=6.674","実 c₀=3×10³(L−T=5 相対論的連星族)",
+      "📻 と同じ転写幾何: 遠点分離 a(1+e)=955.98 単位・転写質量での実ケプラー遠点速度",
+      "半径=宣言つき EOS proxy 11.75 km(A/B 固有の直接半径観測は存在しない)",
+      "観測周期 8834.534723278 s(**1ノブ質量較正の fit 対象**)",
+      "e=0.087777036 と近点(照合先であって fit の対象ではない — 合わせずに ±1% で一致する)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁶m/10¹s/10²⁷kg — 📻 と同一)",
+      "kFrame=1(DFM の計算式 — 本サンプルの主題。観測版 📻 は観測安定則で kFrame=0)",
+      "frameReaction:\"pairReduced\"(E6′-R)・kRep=muF=γN=κ_S=0 / geoPN=2・λ_PN=1・pnα=1.5 / stateCarry:\"double\"",
+      "初期状態=観測軌道の遠点(二体重心系・両星自由 — 第211便の整列規約)",
+      "DFM 質量は**条件つき較正値**として宣言(実在質量の主張ではない)",
+      "spin=0 宣言(測定はあるが値域外)・coupleSink:\"reservoir\"(E6′-R 偶力は帳簿へ)— 1PN 反作用偶力はそれでも飽和させる(宣言 — クランプ捨て分は帳簿残差で記録)",
+      "cmGauge:\"barycentric\"(第209便 — 孤立系の重心ゲージ。較正ノブではない)"],
+    fitted:["質量スケール f=1.9959(両星の質量 ×f を kFrame=1 で観測周期 8834.534723278 s に合わせた fit。D₀=0.006・q=3.1789 は 📻 の値の流用)"],
+    derived:["A 2.6709 M☉=5.3111×10³⁰kg・B 2.4926 M☉=4.9566×10³⁰kg(=転写質量×f)",
+      "κ=G/c₀²=7.4156×10⁻⁷",
+      "camera.scale=1100・timeScale=300・dispMag=1000(規約から決定的に算出・表示専用)"],
+    numerical:["ソフトニング ε=0.05","時間倍率 timeScale=300","粒子表示倍率 dispMag=1000(表示専用)"]},
+  activeParams:["kFrame","q","D0"],
+  camera:{scale:1100}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.006, kFrame:1, q:3.1789, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-7,
+    cLight:3000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:300, dispMag:1000,
+    stateCarry:"double", frameReaction:"pairReduced", coupleSink:"reservoir", cmGauge:"barycentric"},
+  bodies:[ // 並び: 0=A・1=B。📻 の観測軌道の**遠点状態**(分離 955.9782718763176・f=1 の実ケプラー
+           // 遠点速度を質量比で配分 — 位置・速度は 📻 とビット同一)に、質量 ×1.9959(第220便の
+           // 1ノブ較正)。spin=0 宣言(測定はあるが値域外)— 1PN 反作用偶力は受け皿宣言でも
+           // 飽和させる(±40・クランプ捨て分は帳簿残差 5.0×10⁻⁶ で記録 — 宣言)。
+           // 半径は 📻 と同じ宣言つき EOS proxy 0.01175
+    {type:"single", m:5311.0556922699, radius:0.01175, x:-461.48618600827865, y:0, vx:0, vy:-2.7630939482399564, spin:0, pinned:false, pnSource:true},
+    {type:"single", m:4956.5582648319005, radius:0.01175, x:494.49208586803894, y:0, vx:0, vy:2.960712869290568, spin:0, pinned:false, pnSource:true}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
 { id:"saturn", name:"土星の環(実験)", emoji:"🪐", group:"天体の物語",
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
@@ -7854,7 +8152,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false} },
 
-{ id:"saturnZonalD68", name:"土星の近点移動(実単位・D68精密較正)", emoji:"📡", group:"現実との照合",
+{ id:"saturnZonalD68", name:"土星の近点移動(実単位・D68精密較正)", emoji:"📡", group:"現実との照合・太陽系",
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   scaleExp:{L:6, T:2, M:25},   // 第131便(原仮定者指示): 💍💿 と同じ惑星(e6)指数系へ実単位化
                                // 1単位=10⁶m/10²s/10²⁵kg(実G=6.674・実c=3×10⁴〔eC=L−T=4〕)
@@ -7978,7 +8276,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"saturnRingReal", name:"土星の環(実単位)— 見えないのが正しい", emoji:"💍", group:"現実との照合",
+{ id:"saturnRingReal", name:"土星の環(実単位)— 見えないのが正しい", emoji:"💍", group:"現実との照合・太陽系",
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 第121便(原仮定者指示): スケールを惑星(e6)へ — 1単位=10⁶m/10²s/10²⁵kg(実G=6.674・実c=3e4 は不変)
                                // この指数系でも実G=6.674・実c=3×10⁴(eC=L−T=4)— 第117便の「無次元深度のみ実」
@@ -8080,7 +8378,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:true} },
 
-{ id:"saturnRingRealKF1", name:"土星の環(実単位・kFrame=1)— 表面随伴と自動算出q", emoji:"💿", group:"現実との照合",
+{ id:"saturnRingRealKF1", name:"土星の環(実単位・kFrame=1)— 表面随伴と自動算出q", emoji:"💿", group:"現実との照合・太陽系",
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 第121便: 💍と同じ惑星(e6)指数系
   sampleClass:"calibration",
@@ -8648,7 +8946,7 @@ const AUDIT_FAMILY=["mercuryReal","mercuryRealKF1","earthMoonReal","earthMoonRea
 // 「ゼロフィットの観測転写」6本を第二の凍結リストとして持ち、QA claims.obs-family が
 // 「6本・全て fidelity:"real"・fitted が共有値の流用宣言1件のみ(新規フィット0)・
 // claims/role/parameterAudit 完備」を機械固定する(宣言専用 — 物理・保存 JSON 不変)。
-const OBS_FAMILY=["jupiterGalilean","venusReal","marsMoonsReal","plutoCharonReal","uranusReal","neptuneReal","alphaCenAB","siriusAB"];   // 第199便: 恒星スケール第1号を追加/第214便: 🌟 Sirius AB(第2号)を追加
+const OBS_FAMILY=["jupiterGalilean","venusReal","marsMoonsReal","plutoCharonReal","uranusReal","neptuneReal","alphaCenAB","siriusAB","psrDoubleAB"];   // 第199便: 恒星スケール第1号を追加/第214便: 🌟 Sirius AB(第2号)/第220便: 📻 二重パルサー(第3号)を追加
 // 測定ハーネス名 → コミット済み結果ファイル名の対応(名前だけの小さな宣言表)。
 // **どのサンプルがどれを使うかは書かない** — それはサンプル宣言のテキストから走査して決める。
 const AUDIT_RESULT_FILES={"exp-obscal":"obscal-results.json", "exp-kf1":"kf1-results.json",
@@ -15582,7 +15880,9 @@ function allPresets(){ return BUILTIN_PRESETS.concat(getCustomPresets()); }
 //   (天体の物語)・🌠merger(銀河の物語)は familyId を除いて単独サンプルにした。これで
 //   **グループを跨ぐファミリーは0件**になる(QA groups.family-invariant で機械固定)。
 //   表示・分類専用 — physics・claims・BUILTIN_PRESETS の配列順は bit 不変
-const GROUP_ORDER=["熱の実験室","空間と時間","光の物語","天体の物語","現実との照合","銀河の物語","ローターの物語","箱宇宙"];
+// 第220便(第19報 原仮定者指示): 「現実との照合」を**太陽系/太陽系外**の2グループへ分割
+// (表示・分類専用 — 配列順・物理・claims は不変。今後の現実較正の増加に備えた区分)
+const GROUP_ORDER=["熱の実験室","空間と時間","光の物語","天体の物語","現実との照合・太陽系","現実との照合・太陽系外","銀河の物語","ローターの物語","箱宇宙"];
 function orderedGroups(){
   const seen=[];
   BUILTIN_PRESETS.forEach(p=>{ const g=p.group||"内蔵"; if(!seen.includes(g)) seen.push(g); });
