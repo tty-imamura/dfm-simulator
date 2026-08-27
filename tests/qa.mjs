@@ -4529,7 +4529,13 @@ if (!FAST) {
         res.badC = builtins.filter(p => {
           const c = (p.physics || {}).cLight;
           if (c === 30) return false;
-          const a = HP.SCALE_ANCHORS && HP.SCALE_ANCHORS[p.scaleTier];
+          // 第220便: サンプル別スケール指数(第118便)を宣言するサンプルは、ティアアンカーではなく
+          // **自分の指数**で実c判定する(📻⚡ の相対論的連星族 L−T=5 → c₀=3×10³ が実c 3×10⁸ m/s)。
+          // 判定の強さは不変 — 実cの厳密一致(±1%)要求のまま換算指数の出所を正しくしただけ。
+          // 既存の実c系(すべて L−T=4)はアンカー指数でも自分の指数でも同値
+          const a = (p.scaleExp && typeof p.scaleExp.L === 'number' && typeof p.scaleExp.T === 'number')
+            ? { expL: p.scaleExp.L, expT: p.scaleExp.T }
+            : (HP.SCALE_ANCHORS && HP.SCALE_ANCHORS[p.scaleTier]);
           if (a && typeof c === 'number' && c > 0
               && Math.abs(c * Math.pow(10, a.expL - a.expT) / 3e8 - 1) < 0.01) return false;
           return true;
