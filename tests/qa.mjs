@@ -15813,6 +15813,12 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       const res = {};
       // 第97便: 追従モードは hp_camfollow へ永続 — テストは「未設定ユーザー」状態から始める
       try { localStorage.removeItem('hp_camfollow'); } catch (_) {}
+      // 第217便: "com"(重心追従)世代の判定子 — 挙動プローブ(旧世代の setCamFollow は
+      // 未知値を 'none' へクランプするので、DOM の選択肢リストとは独立に判定できる)
+      HP.setCamFollow('com');
+      res.hasCom = HP.camState().mode === 'com';
+      HP.setCamFollow('none');
+      try { localStorage.removeItem('hp_camfollow'); } catch (_) {}
       const per97cam = !!HP.sim.onCompact;   // 第97便機能(永続+融合引き継ぎ)の判定子
       // ① コントロールの存在 — 第95便で「表示」→「共通設定」カテゴリへ移動(旧ビルドは表示内)
       const per95cam = typeof HP.selConvLines === 'function';
@@ -15891,7 +15897,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       res.presetFollow = c3.mode === 'preset' && c3.presetIdx === 1 && c3.idx === 1
         && c4.x === HP.sim.x[1] && c4.y === HP.sim.y[1]
         && HP.sim.x[1] !== 80   // 実際に動いている対象を追えている
-        && [...document.getElementById('camFollowSel').options].map((o) => o.value).join(',') === 'none,preset,sel';
+        && [...document.getElementById('camFollowSel').options].map((o) => o.value).join(',')
+          === (res.hasCom ? 'none,preset,sel,com' : 'none,preset,sel');   // 第217便: com 選択肢は世代判定
       // ⑧ 第97便: 融合の index 写像で追従先が合体粒子へ引き継がれる(_compact が onCompact に
       //    渡す nm と同形の写像でフックを単体検査 — 粒子1が粒子0へ融合: nm=[0,0])
       if (per97cam) {
@@ -15928,6 +15935,66 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       `follow なしプリセットへ戻すと「なし」=${r.afterNoFollowPreset}`);
   } else {
     console.log('SKIP camera.follow-ui(対象にカメラ追従なし — root 等。第81便)');
+  }
+}
+
+// ---- 第217便: camera.follow-com — カメラ重心追従(表示専用)。①"com" で camX/camY が
+// ----   全粒子の質量重心に一致(蓄積順まで同式の機械照合)②パンは重心からのオフセットとして
+// ----   生きる ③物理は 1 bit も変わらない(follow なし同一走行との全状態一致)④hp_camfollow
+// ----   へ永続し、読込時の復元ホワイトリストが "com" を受理する。旧世代(root 等)は SKIP ----
+{
+  const hasCom = await page.evaluate(() => {
+    if (!(window.HP && HP.camState && HP.setCamFollow)) return false;
+    HP.setCamFollow('com');
+    const ok = HP.camState().mode === 'com';
+    HP.setCamFollow('none');
+    try { localStorage.removeItem('hp_camfollow'); } catch (_) {}
+    return ok;
+  });
+  if (hasCom) {
+    const r = await page.evaluate(() => {
+      const res = {};
+      const com = (S) => { let M = 0, cx = 0, cy = 0;
+        for (let i = 0; i < S.n; i++) { const m = S.m[i]; M += m; cx += m * S.x[i]; cy += m * S.y[i]; }
+        return [cx / M, cy / M]; };
+      const snap = (S) => { const o = []; for (let i = 0; i < S.n; i++) o.push(S.x[i], S.y[i], S.vx[i], S.vy[i], S.spin[i]); return o; };
+      // ③ 物理不変: follow なしで同一走行 → 全状態を基準として控える
+      HP.loadPreset('binary', false);
+      HP.setCamFollow('none');
+      HP.tick(6);
+      const ref = snap(HP.sim);
+      // ① "com" で重心一致(同じ步数の再走行)
+      HP.loadPreset('binary', false);
+      HP.setCamFollow('com');
+      res.stored = localStorage.getItem('hp_camfollow') === 'com';
+      HP.tick(6);
+      const S = HP.sim;
+      const c1 = HP.camState(), g1 = com(S);
+      res.followsCom = c1.mode === 'com' && Math.abs(c1.x - g1[0]) < 1e-12 && Math.abs(c1.y - g1[1]) < 1e-12;
+      // ③ 全状態一致(表示専用の証明)
+      const now = snap(S);
+      res.physBitIdent = now.length === ref.length && now.every((v, i) => Object.is(v, ref[i]));
+      // ② パン → オフセットとして生きる
+      HP.panCam(24, -18);
+      HP.tick(3);
+      const c2 = HP.camState(), g2 = com(S);
+      res.panOffset = c2.offX !== 0 && c2.offY !== 0
+        && Math.abs(c2.x - (g2[0] + c2.offX)) < 1e-12 && Math.abs(c2.y - (g2[1] + c2.offY)) < 1e-12;
+      // ④ 復元ホワイトリスト: hp_camfollow="com" のままプリセットを読み込むと "com" で立ち上がる
+      HP.setCamFollow('com');   // オフセットを畳む(保存値も 'com' に確定)
+      HP.loadPreset('binary', false);
+      res.restored = HP.camState().mode === 'com';
+      HP.setCamFollow('none');
+      try { localStorage.removeItem('hp_camfollow'); } catch (_) {}
+      HP.loadPreset('saturn', false);
+      return res;
+    });
+    add('camera.follow-com',
+      r.followsCom && r.physBitIdent && r.panOffset && r.stored && r.restored,
+      `"com" で camX/camY=質量重心=${r.followsCom} / 物理不変(follow なし同一走行と全状態一致)=${r.physBitIdent} / ` +
+      `パン=重心からのオフセット=${r.panOffset} / 永続化=${r.stored}・読込復元=${r.restored}(表示専用 — 第217便)`);
+  } else {
+    console.log('SKIP camera.follow-com(対象に重心追従なし — root 等。第217便)');
   }
 }
 

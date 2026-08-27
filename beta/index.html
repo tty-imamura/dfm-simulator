@@ -1315,10 +1315,11 @@ ja: {
   bdgScaleTip:"7段階スケール分類(分子/ビーカー/日常/惑星/恒星/銀河/宇宙全体 — 第98便)。UI の分類と表示換算の目安専用 — 物理エンジンはスケールで切り替わらない(同じ公理・同じ法則のまま、質量・距離・速度で支配機構が入れ替わるのが本モデルの主題)",
   // 第81便(原仮定者指示): カメラの天体追従(描画層のみ・物理不変)
   camFollowLabel:"カメラ追従",
-  camFollowDesc:"選んだ天体を画面の中央に置き続ける。追従中も1本指ドラッグ(PCはマウスドラッグ)でずらせて、そのずれは「追従対象からのオフセット」として保たれる — 対象が動いても画面の構図は崩れない。「選択粒子」は粒子が非選択でも設定でき、非選択の間は「なし」と同じ挙動で、粒子を選んだ瞬間から追従する(第95便)。この設定は他の共通設定と同様に保存され、「初めから」やサンプル切替でも解除されない。追従先の粒子が融合したら合体後の粒子へ引き継ぎ、消滅しても設定は解除しない(対象が現れるまで「なし」と同じ挙動で待つ — 第97便)。表示だけの機能で、物理・保存データには一切影響しない(A/B比較中は選択中の宇宙の対象を追う)。",
+  camFollowDesc:"選んだ天体を画面の中央に置き続ける。追従中も1本指ドラッグ(PCはマウスドラッグ)でずらせて、そのずれは「追従対象からのオフセット」として保たれる — 対象が動いても画面の構図は崩れない。「選択粒子」は粒子が非選択でも設定でき、非選択の間は「なし」と同じ挙動で、粒子を選んだ瞬間から追従する(第95便)。「重心(全体)」は全粒子の質量重心を中央に置き続ける(第217便)— 自由な二体・連星などで系全体がゆっくり歩いても軌道の形だけを見られる(D₀ 開放系の重心歩行は宣言済みの物理で、これはそれを消さずに視点だけ重ねる表示機能)。この設定は他の共通設定と同様に保存され、「初めから」やサンプル切替でも解除されない。追従先の粒子が融合したら合体後の粒子へ引き継ぎ、消滅しても設定は解除しない(対象が現れるまで「なし」と同じ挙動で待つ — 第97便)。表示だけの機能で、物理・保存データには一切影響しない(A/B比較中は選択中の宇宙の対象を追う)。",
   camFollowOptNone:"なし",
   camFollowOptPreset:(i)=>`天体#${i}(既定)`,
   camFollowOptSel:"選択粒子",
+  camFollowOptCom:"重心(全体)",
   camFollowNoSel:"追従する粒子を先にタップで選んでください",
   camFollowReleased:"追従先が消えたのでカメラ追従を解除しました",
   scaleDispLabel:"スケール換算表示",
@@ -1862,10 +1863,11 @@ en: {
   scaleName_galactic:"Galactic", scaleName_cosmic:"Cosmic",
   bdgScaleTip:"Seven-tier scale classification (molecular / beaker / everyday / planetary / stellar / galactic / cosmic — wave 98). Used only for browsing and unit-conversion hints — the physics engine never switches on scale (the whole point of this model is that the same axioms let different mechanisms dominate as mass, distance and speed change)",
   camFollowLabel:"Camera follow",
-  camFollowDesc:"Keeps the chosen body centred on screen. You can still drag (one finger, or the mouse on a PC) while following: the shift is kept as an offset from the followed body, so the framing survives as the target moves. \"Selected particle\" can be set even with nothing selected — it then behaves like \"None\" and starts following the moment you select a particle (wave 95). The setting is saved like the other general settings and survives both \"restart\" and sample switches. If the followed particle merges, the follow carries over to the merged body; if it disappears, the setting is kept and simply waits, behaving like \"None\" (wave 97). Display only — physics and saved data are untouched (during an A/B comparison it follows the target in the selected universe).",
+  camFollowDesc:"Keeps the chosen body centred on screen. You can still drag (one finger, or the mouse on a PC) while following: the shift is kept as an offset from the followed body, so the framing survives as the target moves. \"Selected particle\" can be set even with nothing selected — it then behaves like \"None\" and starts following the moment you select a particle (wave 95). \"Barycenter (all)\" keeps the mass-weighted centre of all particles on screen (wave 217) — useful for free two-body systems and binaries whose whole system slowly walks (the D₀ open-system barycentre walk is declared physics; this only moves the viewpoint, it does not cancel it). The setting is saved like the other general settings and survives both \"restart\" and sample switches. If the followed particle merges, the follow carries over to the merged body; if it disappears, the setting is kept and simply waits, behaving like \"None\" (wave 97). Display only — physics and saved data are untouched (during an A/B comparison it follows the target in the selected universe).",
   camFollowOptNone:"None",
   camFollowOptPreset:(i)=>`Body #${i} (default)`,
   camFollowOptSel:"Selected particle",
+  camFollowOptCom:"Barycenter (all)",
   camFollowNoSel:"Tap a particle first to choose what to follow",
   camFollowReleased:"The followed body is gone — camera follow turned off",
   scaleDispLabel:"Scale-converted display",
@@ -6605,7 +6607,7 @@ const BUILTIN_PRESETS = [
     pass:"反作用則を E6′-R(frameReaction:\"pairReduced\" — 第80便の換算質量対称インパルス)へ固定すると、同じ初期条件のまま公転周期 224.706 日(観測比 +0.0020%)・振れ幅 1.40%(=2e)で1公転を完走する。フィットはゼロ(初速較正 1.000・D₀=0.006 は共有値の流用)。この実測を受けて、観測転写経路の二体重心系を pairReduced 標準へ固定し、自己診断へドリフト外挿検査(二体限定)を追加した(QA ai.obs-freecenter)。"},
   descStruct:{
     summary:"太陽(実質量 1.9885×10³⁰kg・実半径 6.96×10⁸m・実自転 25.05日)と金星(実質量 4.8675×10²⁴kg・実半径 6,052km・実自転 −243.025日〔逆行〕・実軌道長半径 1.08208×10¹¹m・実離心率 0.007)を、1単位=10⁸m/10⁴s/10²⁷kg のスケール指数で置いた**自由中心の二体転写**サンプル(第184便)。定数はコミット済み 🌞solarInner の宣言値からのビット写しで、新しい観測値の転写は行っていない。配置は近点整列の重心系(太陽も自由 — pinned なし)・初速は実ケプラー接線速度(較正係数 1.000)。規約は実較正の雛形(kFrame=1・D₀=0.006・kRep=muF=γN=κ_S=0・geoPN=2・κ=G/c₀²・stateCarry:\"double\")に、**自由中心の反作用則 frameReaction:\"pairReduced\"(E6′-R・第80便)**を加えた構成 — この1行が本サンプルの主題である。q=5.626 は qLock 厳密一致式 q_exact を a=1082.08 で1回評価した直値宣言。",
-    observe:"実測公転周期は 224.706 日(観測 224.701 日・+0.0020%)、kFrame=0 の対照では 224.7000 日(−0.0004%)。半径振れ幅は 1.40% で転写離心率 e=0.007 の 2e そのもの — 引きずりは軌道形を変えない。**Failure First の主題**: 反作用則を既定の legacy に戻すと1公転窓で半径振れ幅 45%・周回不能まで破壊される(0.35公転でも 29%)。χ=W/(D₀+W)=0.9967 と引きずりが薄まらない系で、legacy 反作用が前提とする「反作用を吸収する pinned 中心」が無いためである(第80便 A の設計の裏返し)。400步自己診断は公転の 0.3% しか進まず、この破壊を推定周期ドリフト −0.0014%→+0.0034% としてしか見られない — 第184便はこの実測を受けて、観測転写経路の二体重心系を pairReduced 標準へ固定し、自己診断へドリフト外挿検査(二体限定)を追加した。E6′-R でも重心は1公転で最大 5.2 単位(a の 0.48%)変位する(kFrame=0 では機械ゼロ)— PN 項(geoPN=2)の運動量非対称が残るためで、観測量は相対座標で測る。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.venusReal)。",
+    observe:"実測公転周期は 224.706 日(観測 224.701 日・+0.0020%)、kFrame=0 の対照では 224.7000 日(−0.0004%)。半径振れ幅は 1.40% で転写離心率 e=0.007 の 2e そのもの — 引きずりは軌道形を変えない。**Failure First の主題**: 反作用則を既定の legacy に戻すと1公転窓で半径振れ幅 45%・周回不能まで破壊される(0.35公転でも 29%)。χ=W/(D₀+W)=0.9967 と引きずりが薄まらない系で、legacy 反作用が前提とする「反作用を吸収する pinned 中心」が無いためである(第80便 A の設計の裏返し)。400步自己診断は公転の 0.3% しか進まず、この破壊を推定周期ドリフト −0.0014%→+0.0034% としてしか見られない — 第184便はこの実測を受けて、観測転写経路の二体重心系を pairReduced 標準へ固定し、自己診断へドリフト外挿検査(二体限定)を追加した。E6′-R でも重心は1公転で最大 5.2 単位(a の 0.48%)変位する(kFrame=0 では機械ゼロ)— 主因は kFrame=1 の引きずり経路(D₀ 開放系 — 粒子側の運動量変化が D₀ リザーバへ帳簿される共通成分)であって 1PN ではない: geoPN=0 でも 5.19 単位残る(第217便実測 — ✴️ の重心歩行と同じ機構同定〔第209便〕。旧文の「PN 項の運動量非対称」帰属を訂正)。観測量は相対座標で測る。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.venusReal)。",
     control:"ワンタップ対照A/B: B側 kFrame=0(空間引きずり OFF)— 実スケールでは周期差 +0.0025% と検出限界近傍で、画面はほぼ変わらない(実スケールの引きずりは軌道条件に効かない — 🌞 と同じ結論の二体版)。金星の自転は逆行(spin<0)のまま転写してある(引きずり源としては −0.0030 rad/10⁴s と微小)。JSON の physics.frameReaction を削除(=legacy)すると上の1公転内破壊が再現できる。半径が実値なので天体は点 — 粒子表示倍率 dispMag=10(表示専用)。timeScale=300 で画面1秒≈2.1日。"},
   en:{name:"The Sun and Venus (Real Units) — a free-centre two-body transcription",
     obsCard:[
@@ -6618,7 +6620,7 @@ const BUILTIN_PRESETS = [
       pass:"Fixing the reaction rule to E6′-R (frameReaction:\"pairReduced\" — the wave-80 reduced-mass symmetric impulse) lets the same initial condition complete the orbit at 224.706 d (+0.0020% against observation) with a 1.40% wobble (=2e). Zero fits (speed calibration 1.000; D₀=0.006 is the shared value). On this measurement, wave 184 fixed the records path to pairReduced for two-body barycentric builds and added a drift-extrapolation check to the self-diagnosis (QA ai.obs-freecenter)."},
     descStruct:{
       summary:"The Sun (real mass 1.9885×10³⁰ kg, real radius 6.96×10⁸ m, real 25.05-day rotation) and Venus (real mass 4.8675×10²⁴ kg, real radius 6,052 km, real −243.025-day retrograde rotation, real semi-major axis 1.08208×10¹¹ m, real eccentricity 0.007), placed with scale exponents of 1 unit = 10⁸ m / 10⁴ s / 10²⁷ kg as a FREE-CENTRE TWO-BODY transcription (wave 184). Every constant is a bit-copy of the committed 🌞 solarInner declaration — no new observation is transcribed. Placement: perihelion-aligned barycentric (the Sun is free — not pinned), initial speed = the real Kepler tangential speed (calibration factor 1.000). The conventions are the real-calibration template (kFrame=1, D₀=0.006, kRep=muF=γN=κ_S=0, geoPN=2, κ=G/c₀², stateCarry:\"double\") plus the FREE-CENTRE REACTION RULE frameReaction:\"pairReduced\" (E6′-R, wave 80) — that one line is what this sample is about. q=5.626 is the qLock exact-agreement form q_exact evaluated once at a=1082.08, declared as a literal.",
-      observe:"The measured orbital period is 224.706 d (observed 224.701 d, +0.0020%); the kFrame=0 control gives 224.7000 d (−0.0004%). The radius wobble is 1.40% — exactly 2e of the transcribed eccentricity: the dragging does not deform the orbit. THE FAILURE-FIRST SUBJECT: putting the reaction rule back to legacy destroys the orbit within one orbit window (45% wobble, no completed revolution; 29% even at 0.35 orbit). With χ=W/(D₀+W)=0.9967 the dragging is undiluted, and the pinned centre that the legacy reaction presumes as its reservoir is absent (the flip side of the wave-80 A design). The 400-step self-check covers only 0.3% of the orbit and sees the destruction only as a period-estimate drift of −0.0014%→+0.0034% — on this measurement wave 184 fixed the records path to pairReduced for two-body barycentric builds and added a drift-extrapolation check (two-body only) to the self-diagnosis. Even under E6′-R the barycentre moves by up to 5.2 units (0.48% of a) per orbit (machine-zero at kFrame=0) — the PN terms (geoPN=2) are not momentum-symmetric, so observations are taken in relative coordinates. Zero NaN; two runs of the same build are bit-identical (QA behavior.venusReal).",
+      observe:"The measured orbital period is 224.706 d (observed 224.701 d, +0.0020%); the kFrame=0 control gives 224.7000 d (−0.0004%). The radius wobble is 1.40% — exactly 2e of the transcribed eccentricity: the dragging does not deform the orbit. THE FAILURE-FIRST SUBJECT: putting the reaction rule back to legacy destroys the orbit within one orbit window (45% wobble, no completed revolution; 29% even at 0.35 orbit). With χ=W/(D₀+W)=0.9967 the dragging is undiluted, and the pinned centre that the legacy reaction presumes as its reservoir is absent (the flip side of the wave-80 A design). The 400-step self-check covers only 0.3% of the orbit and sees the destruction only as a period-estimate drift of −0.0014%→+0.0034% — on this measurement wave 184 fixed the records path to pairReduced for two-body barycentric builds and added a drift-extrapolation check (two-body only) to the self-diagnosis. Even under E6′-R the barycentre moves by up to 5.2 units (0.48% of a) per orbit (machine-zero at kFrame=0) — the dominant cause is the kFrame=1 dragging channel (the D₀ open system: the particles' momentum change is booked to the D₀ reservoir), not the PN terms: with geoPN=0 the walk persists at 5.19 units (wave-217 measurement — the same mechanism identified for the binary's barycentre walk in wave 209; this corrects the earlier attribution to PN momentum asymmetry). Observations are taken in relative coordinates. Zero NaN; two runs of the same build are bit-identical (QA behavior.venusReal).",
       control:"One-tap A/B: side B is kFrame=0 (frame dragging off) — at real scale the period difference is +0.0025%, near the detection floor, and the screen barely changes (real-scale dragging does not touch the orbital condition — the two-body version of 🌞's conclusion). Venus's rotation is transcribed retrograde (spin<0; as a dragging source it is a mere −0.0030 rad per 10⁴ s). Deleting physics.frameReaction (=legacy) reproduces the one-orbit destruction described above. At real radii the bodies are dots — display magnification dispMag=10 (display only). With timeScale=300 one on-screen second ≈ 2.1 days."},
     parameterAudit:{
       observedInputs:["real G=6.674","real c₀=3×10⁴","the Sun's real mass, radius and rotation (25.05 d) — bit-copied from the committed 🌞 solarInner declaration",
@@ -13233,7 +13235,8 @@ try{ flipY = localStorage.getItem("hp_flip_y")==="1"; }catch(_){}
 function setFlipY(v){ flipY=!!v; try{ localStorage.setItem("hp_flip_y",flipY?"1":"0"); }catch(_){} }
 // 第81便: カメラの天体追従(描画層のみ — 物理・sim.params・セーブには一切書かない。表示スケール
 // 指数と同じ「表示専用」の流儀)。camFollowMode は "none"(既定)/"preset"(プリセットの
-// camera.follow が指す天体)/"sel"(いま選択中の粒子)。追従中のパン操作は camX/camY を直接
+// camera.follow が指す天体)/"sel"(いま選択中の粒子)/"com"(全粒子の質量重心 — 第217便)。
+// 追従中のパン操作は camX/camY を直接
 // 動かすのではなく「追従対象からのオフセット」camFollowOff へ積むので、対象が動いてもユーザーの
 // ずらしはそのまま生き続ける。対象が消滅(融合等で index が範囲外)したら自動で "none" へ戻す
 let camFollowMode="none", camFollowPreset=-1, camFollowOffX=0, camFollowOffY=0;
@@ -13242,8 +13245,26 @@ function camFollowIdx(){
   if(camFollowMode==="sel") return selIdx;
   return -1;
 }
+// 第217便: 追従アンカーの単一入口 — 粒子(preset/sel)は従来どおり・"com" は質量重心。
+// 重心は D₀ 開放系の歩行(宣言済み物理 — 🌇 ✴️ 等)を視点で追う表示専用機能で、
+// 物理には 1 命令も入れない(applyCamFollow/panCam だけが読む)。質量和が退化(≤0)した
+// 場合は単純平均へフォールバック(負質量は現行スキーマでは生成不可 — 防御のみ)
+function camFollowAnchor(){
+  const S=selSimRef();   // A/B比較中は選択された宇宙の対象を追う
+  if(camFollowMode==="com"){
+    if(!S || S.n<=0) return null;
+    let M=0,cx=0,cy=0;
+    for(let i=0;i<S.n;i++){ const m=S.m[i]; M+=m; cx+=m*S.x[i]; cy+=m*S.y[i]; }
+    if(M>0) return [cx/M, cy/M];
+    cx=0; cy=0;
+    for(let i=0;i<S.n;i++){ cx+=S.x[i]; cy+=S.y[i]; }
+    return [cx/S.n, cy/S.n];
+  }
+  const i=camFollowIdx();
+  return (i>=0 && i<S.n)? [S.x[i],S.y[i]] : null;
+}
 function setCamFollowMode(mode){
-  camFollowMode=(mode==="preset"||mode==="sel")?mode:"none";
+  camFollowMode=(mode==="preset"||mode==="sel"||mode==="com")?mode:"none";
   camFollowOffX=0; camFollowOffY=0;   // モード切替でオフセットは畳む(対象が画面中央へ来る)
   try{ localStorage.setItem("hp_camfollow",camFollowMode); }catch(_){}   // 第97便: 共通設定として永続
   requestRender();
@@ -13251,24 +13272,23 @@ function setCamFollowMode(mode){
 // 毎フレーム描画の直前に1回だけ呼ぶ(物理ループには 1 命令も入れない)
 function applyCamFollow(){
   if(camFollowMode==="none") return;
-  const S=selSimRef();   // A/B比較中は選択された宇宙の対象を追う
-  const i=camFollowIdx();
   // 第97便(原仮定者指示): 対象粒子が消滅しても設定は解除しない — 「なし」と同じ挙動で待つ
   // (旧: 「天体#N」の対象消滅で自動解除+通知。融合による消滅は onCompact が合体先へ引き継ぐので
   //  ここへ来るのは index が完全に範囲外へ落ちた場合のみ)
-  if(i<0||i>=S.n) return;
-  camX=S.x[i]+camFollowOffX; camY=S.y[i]+camFollowOffY;
+  const a=camFollowAnchor();
+  if(!a) return;
+  camX=a[0]+camFollowOffX; camY=a[1]+camFollowOffY;
 }
 // パン(1本指ドラッグ/マウスドラッグ)の単一の入口 — 追従中はオフセット側へ積む。
 // 第96便(原仮定者指示): 「選択粒子」設定中でも追従先が無い(非選択)間は「なし」と同じく
 // カメラを直接動かす — 旧実装はオフセットへ積むだけで画面が動かずドラッグ不能だった
 function panCam(dxPx,dyPx){
   const z=zoom(), fy=flipY?-1:1;   // 第119便: 上下反転中はドラッグの上下も反転(指に画面が付いてくる)
-  const S=selSimRef(), i=camFollowIdx();
-  if(camFollowMode!=="none" && i>=0 && i<S.n){ camFollowOffX-=dxPx/z; camFollowOffY-=dyPx/z*fy;
+  const a=(camFollowMode!=="none")? camFollowAnchor() : null;
+  if(a){ camFollowOffX-=dxPx/z; camFollowOffY-=dyPx/z*fy;
     // 第171便: 追従中も camX/camY をこの場で確定させる(即時反映パス camPreview() が読むため)。
     // 描画直前の applyCamFollow() が同じ式で上書きするので、描画結果は従来と厳密に同一
-    camX=S.x[i]+camFollowOffX; camY=S.y[i]+camFollowOffY; }
+    camX=a[0]+camFollowOffX; camY=a[1]+camFollowOffY; }
   else { camX-=dxPx/z; camY-=dyPx/z*fy; }
 }
 // 第37便 A3(原仮定者指示): 光線の基準波長λ0(nm)。表示設定のみ(セーブ対象外・物理不変) —
@@ -16030,7 +16050,7 @@ function loadPreset(id, keepPhysics){
   // 第97便(原仮定者指示): 追従モードは共通設定として永続 — ⏮・プリセット切替で解除しない。
   // 一度も触っていないユーザーだけサンプル既定(camera.follow があれば ON)に従う
   { let st=null; try{ st=localStorage.getItem("hp_camfollow"); }catch(_){}
-    camFollowMode=(st==="sel"||st==="preset"||st==="none")? st : ((camFollowPreset>=0)? "preset" : "none"); }
+    camFollowMode=(st==="sel"||st==="preset"||st==="none"||st==="com")? st : ((camFollowPreset>=0)? "preset" : "none"); }   // 第217便: "com" も受理
   camFollowOffX=0; camFollowOffY=0;
   scaleExpL=scaleExpT=scaleExpM=null;   // 第74便→94便: サンプルのスケールタグ既定へ戻す(表示専用)/ 第130便: eC は上書き自体を廃止
   paramSnapA=paramSnapB=null;   // v1.22: 発散Undoのスナップショットはプリセット単位
@@ -17604,7 +17624,7 @@ function buildParamRows(){
   }
   // 第81便(原仮定者指示): カメラ追従 — 選んだ天体を画面中央に置き続ける。描画層のみで
   // camX/camY だけを毎フレーム動かす(sim.params・物理状態・保存 JSON には一切書かない)。
-  // 選択肢: なし / 天体#N(プリセットの camera.follow が指す既定) / 選択粒子。
+  // 選択肢: なし / 天体#N(プリセットの camera.follow が指す既定) / 選択粒子 / 重心(全体 — 第217便)。
   // プリセットに follow が無ければ「天体#N」の選択肢自体を出さない
   {
     const row=document.createElement("div"); row.className="prow";
@@ -17614,6 +17634,7 @@ function buildParamRows(){
     const opts=[["none",T("camFollowOptNone")]];
     if(camFollowPreset>=0) opts.push(["preset",T("camFollowOptPreset")(camFollowPreset)]);
     opts.push(["sel",T("camFollowOptSel")]);
+    opts.push(["com",T("camFollowOptCom")]);   // 第217便: 質量重心の追従(表示専用)
     for(const [v,name] of opts){
       const o=document.createElement("option"); o.value=v; o.textContent=name; sel.appendChild(o);
     }
