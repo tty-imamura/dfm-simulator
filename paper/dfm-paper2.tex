@@ -940,7 +940,7 @@ clamp ledger (0 activations) & conservation & \texttt{clamp.ledger-zero} \\
 arrow of time ($1.3{\times}10^{-3}$ vs $10.8$) & fixed-seed & \texttt{echo.*} \\
 darkness orthogonality; sweep & fixed-seed & App.~\ref{app:dark} \\
 observer flux ($0.04/0.12$ vs $0.28$) & fixed-seed & \texttt{ray.observer-flux} \\
-outer boost $1.331\pm0.008$ & multi-seed & seeds statistics \\
+outer boost $1.329\pm0.008$ & multi-seed & seeds statistics \\
 figures (22 gates) & mixed & {\footnotesize\texttt{p2figs-\allowbreak
 gates.json}} \\
 \end{tabularx}}
@@ -989,8 +989,8 @@ author's responsibility.
 
 The companion paper showed that DFM's rotating cores enhance outer
 rotation curves through frame dragging (measured outer boost
-$1.331\pm0.008$ over eight seeds on the figure target used
-throughout this paper, beta build v1.41-b1; the $\pm$ is the
+$1.329\pm0.008$ over eight seeds on the figure target used
+throughout this paper, beta build v1.43-b1; the $\pm$ is the
 between-realization standard deviation across seeds, not a model
 uncertainty).
 This appendix assembles the model's \emph{darkness} mechanisms and
@@ -1071,8 +1071,8 @@ Inside the model, a heavy, fast-spinning, optically dark core
 (i)~sources $W$ and hence gravity; (ii)~is dark by two independent
 mechanisms; and (iii)~contributes to outer rotation-curve enhancement
 through dragging, with the radius-resolved profile showing the boost
-concentrated inward ($v/v_{\mathrm{bar}}$ enhancement from $1.58$ at
-$r\approx121$ to $1.16$ at $r\approx251$, eight-seed statistics;
+concentrated inward ($v/v_{\mathrm{bar}}$ enhancement from $1.34$ at
+$r\approx56$ to $1.16$ at $r\approx251$, eight-seed statistics;
 Fig.~\ref{fig:curve}).
 It therefore meets, \emph{inside the model}, a deliberately limited
 checklist---suppressed self-emission, removal of external rays, a
@@ -1102,14 +1102,20 @@ to audit.
   baseline $v_{\mathrm{bar}}(r)$ computed from the actual mass
   distribution, with dragging on ($k_F=1$) and off ($k_F=0$).
   (b)~The ratio of the two, i.e.\ the enhancement attributable to
-  dragging: $1.58$ at $r\approx121$ falling to $1.16$ at
+  dragging: $1.34$ at $r\approx56$ falling to $1.16$ at
   $r\approx251$. The band-averaged outer boost over the gate's window
-  $r\in[156,286]$ is $1.331\pm0.008$ on the beta target used here,
-  build v1.41-b1. \emph{History:} an intermediate engine generation
+  $r\in[156,286]$ is $1.329\pm0.008$ on the beta target used here,
+  build v1.43-b1. \emph{History:} an intermediate engine generation
   (regenerated at build v1.39-b1) gave $1.074\pm0.006$ with a
   $1.43\to1.04$ profile; the engine rollback recorded in the
-  changelog restored the present values, and the figure data,
-  caption, and gates were resynchronized in wave 143. The
+  changelog restored the values, and the figure data,
+  caption, and gates were resynchronized in wave 143. On the
+  v1.41-b1 target the innermost populated band sat at $r\approx121$
+  with enhancement $1.58$ and the outer boost measured
+  $1.331\pm0.008$; in wave 216 the removal of a redundant per-body
+  radius multiplier shrank the group builder's big-body exclusion
+  radius from $60$ to $50$, populating a new innermost band at
+  $r\approx56$, and the figure was resynchronized again. The
   qualitative profile --- inner bands boosted more than outer ---
   is unchanged throughout.}
   \label{fig:curve}
