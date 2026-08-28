@@ -270,6 +270,8 @@ const w5cHasCosmicweb = await page.evaluate(() => HP.allPresets().some(p => p.id
 const w5cHasSpinup = await page.evaluate(() => HP.allPresets().some(p => p.id === 'spinup'));
 // 第46便 46S(台帳4-68c 再挑戦): ☀️starcore(恒星の内部 — 融合を熱源とする)の有無(beta 先行 — root には無い)
 const hasStarcore = await page.evaluate(() => HP.allPresets().some(p => p.id === 'starcore'));
+// 第221便②: ⛲accretionJet(降着とジェット)の有無(beta 先行 — root には無い)
+const w5cHasAccJet = await page.evaluate(() => HP.allPresets().some(p => p.id === 'accretionJet'));
 
 // bands(behavior.darkrotorLong の環帯定義。元コード2875行と同一)
 const w5cBands = [[80, 120], [120, 160], [160, 200], [200, 240]];
@@ -859,6 +861,50 @@ const W5C_UNITS = {
     };
     const def = run(undefined), ctrl = run(0);
     return { jetDef: def, jetCtrl: ctrl };
+  }) },
+  // 第221便②: ⛲accretionJet の降着・スピンアップ・ジェットを1ユニットで測る。
+  // 既定 + 対照3本(kRep=0 / 融合オフ / 円盤の回転オフ)を 6000步(t≈96 = validT)走らせ、
+  //   ① 主星(index 0 — 融合の生存側は常に index 0)の質量比 m/m₀
+  //   ② コア角速度 Ω_core=J_core/I*_c(I*_c=ζ·½·M_c·R_c²)の初期比
+  //   ③ 内縁起源(初期 |x|≤45 のガス)のうち r>150 へ出たものの方位分布(±y/±x から30°以内)
+  // を返す。安定ID(linId)で追跡するので融合による index 詰めの影響を受けない。
+  // 決定性は 1000步 の再走行でビット同一を見る(全量の二度走りはコストが見合わないため)。
+  // 重い(≈200粒×6000步×4本)ので !FAST のユニット(🌋agnjet と同じ扱い)
+  accretionJet: { enabled: !FAST && w5cHasAccJet, weight: 96, run: (pg) => pg.evaluate(() => {
+    const s = HP.sim;
+    const XIN = 45, RESC = 150, STEPS = 6000;
+    const run = (patch, steps) => {
+      const p = JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'accretionJet')));
+      if (patch) patch(p);
+      const v = HP.validatePreset(p);
+      s.build(v.preset);
+      const m00 = s.m[0];
+      const Ic = () => 0.5 * s.coreMF[0] * Math.abs(s.m[0]) * s.RcV[0] * s.RcV[0] * s.coreIS[0];
+      const J00 = s.coreJ[0], om00 = J00 / Ic();
+      const x0 = Array.from(s.x);
+      const inner = new Set();
+      for (let i = 2; i < s.n; i++) if (Math.abs(x0[i]) <= XIN) inner.add(s.linId[i]);
+      let nAcc = 0, prevM = s.m[0];
+      for (let k = 0; k < steps; k++) { s.step(0.016); if (s.m[0] > prevM + 1e-9) { nAcc++; prevM = s.m[0]; } }
+      let pol = 0, eq = 0, tot = 0;
+      for (let i = 1; i < s.n; i++) {
+        if (!inner.has(s.linId[i])) continue;
+        const r = Math.hypot(s.x[i], s.y[i]); if (r < RESC) continue;
+        tot++; if (Math.abs(s.y[i]) / r > 0.8660254) pol++; if (Math.abs(s.x[i]) / r > 0.8660254) eq++;
+      }
+      const st = []; for (let i = 0; i < Math.min(s.n, 6); i++) st.push(s.x[i], s.y[i], s.vx[i], s.vy[i], s.spin[i], s.coreJ[i]);
+      return { warn: (v.warnings || []).length, nInner: inner.size, n: s.n, nAcc,
+        m0: s.m[0], mR: s.m[0] / m00, J0: s.coreJ[0], om0: s.coreJ[0] / Ic(), omR: (s.coreJ[0] / Ic()) / om00,
+        sp0: s.spin[0], Tp: s.Tint[0], tot, pol, eq, frac: tot ? pol / tot : 0,
+        ledger: [s.resPx, s.resPy, s.resL], clampV: s.clampVN || 0, clampR: s.clampRN || 0,
+        clampS: s.clampSN || 0, fusN: s.fusN, nan: s.hasNaN(), st: JSON.stringify(st) };
+    };
+    const def = run(null, STEPS);
+    const ctrlK = run(p => { p.physics.kRep = 0; }, STEPS);
+    const ctrlF = run(p => { delete p.fusion; }, STEPS);
+    const ctrlR = run(p => { for (const b of p.bodies) if (b.type === 'box') b.bulkVy = 0; }, STEPS);
+    const d1 = run(null, 1000), d2 = run(null, 1000);
+    return { def, ctrlK, ctrlF, ctrlR, det: d1.st === d2.st };
   }) },
   // 第39便 39A(台帳4-74): 🌪️spinup の収縮とスピン加速。6000步(= 収縮が底に達した直後。
   // 底は5000步で最小値の1.05倍以内に入り、以後24000步まで平坦)。240粒子×6000步と軽い。
@@ -15074,6 +15120,82 @@ if (hasSwAutoCb) {
       `対照(kRep=0) ${c.tot}個中 極=${c.pol} 赤道=${c.eq} → 割合=${c.frac.toFixed(3)}(比=${ratio.toFixed(2)}倍 ≥1.25)`);
   } else {
     console.log('SKIP behavior.agnjet(QA_FAST=1 または対象に 🌋agnjet なし — 第37便 D2 未適用の root 等)');
+  }
+}
+
+// ---- 7z13a2) 第221便②: behavior.accretionJet — ⛲降着とジェット(概念導入トイ)。
+// ----   1画面で3つの量を機械固定する。①降着: 主星への融合で質量が育つ(対照=融合オフで厳密に不変)
+// ----   ②スピンアップ: 回る円盤の角運動量が接触摩擦→τ_cs 結合でコアへ入り Ω_core が上がる
+// ----      (対照=円盤の回転オフで倍率がゼロ近傍)③ジェット: 内縁起源のガスの脱出が極方向に偏り
+// ----      赤道方向はゼロ(対照=kRep=0 で脱出そのものが0体)。加えて宣言(claims の窓)との整合・
+// ----      決定性・帳簿ゼロ・NaN/クランプなしを見る。
+// ----   実測(beta 2026-08-27・内蔵プリセットそのもの・seed 20260827・6000步=t≈96・dt=0.016):
+// ----     既定      : 降着20回・m ×1.1650(40→46.60)・Ω_core ×9.550(0.0200→0.1910)・殻スピン0.1913
+// ----                 脱出5体(極3・赤道0)= 極方向割合 0.600・T_p 34.2・粒子 212→116・融合96回
+// ----     kRep=0    : 脱出**0体**・m ×1.8625(降着56回)・Ω_core ×22.58
+// ----     融合オフ  : m ×1.0000(厳密)・脱出0体
+// ----     回転オフ  : Ω_core 倍率 −1.273(|·|=1.27)・m ×1.1425・脱出5体
+// ----   **閾値の根拠と限界(そのまま記録)**: これらは「内蔵の固定 seed・固定刻み幅に対する
+// ----     回帰検出」の閾値であって seed 頑健でも dt 収束でもない(🌪️spinup と同じ位置づけ)。
+// ----     3seed(20260827/28/29)の実測は 降着20/19/26回・m ×1.1650/1.1500/1.2100・
+// ----     Ω倍率 9.55/4.77/7.71・極方向割合 0.600/0.667/0.200 で、極方向割合は seed で 1/3 を割る。
+// ----     dt を半分(0.008・同じ t=96)にすると降着は 20→2回・m ×1.1650→×1.0225 に落ちる
+// ----     (接触斥力の障壁をどれだけ深く跨げるかが数値解像度に依存する)。この2点は説明文にも
+// ----     PHYSICS.md §6 にも明記してあり、本ゲートは「この固定構成の軌道が変わっていないこと」を見る。
+// ----   閾値: 質量比 ≥1.08(実測1.1650・3seed 最小1.1500)/ Ω倍率 ≥3.0(実測9.550・3seed 最小4.77)/
+// ----     脱出 ≥3体(実測5)・極方向 ≥2本(実測3)・赤道方向 ≤1本(実測0)・極方向割合 ≥0.45(実測0.600)/
+// ----     対照 kRep=0 の脱出=0体(厳密)/ 対照 融合オフの質量比=1(厳密)/ 対照 回転オフの |Ω倍率| ≤3.0
+// ----     (実測1.27)。重いので !FAST(root には本サンプルが無いので SKIP)----
+{
+  if (!FAST && w5cHasAccJet) {
+    const r = await w5cGetUnit('accretionJet');
+    const d = r.def, cK = r.ctrlK, cF = r.ctrlF, cR = r.ctrlR;
+    // 宣言(claims)との整合 — 窓が実測を含んでいること(claims.sync は説明文との照合なので別枠)
+    const cl = await page.evaluate(() => {
+      const p = HP.allPresets().find((q) => q.id === 'accretionJet');
+      const o = {};
+      for (const c of p.claims) o[c.id] = { min: c.expected.min, max: c.expected.max,
+        cmin: c.control ? c.control.expected.min : null, cmax: c.control ? c.control.expected.max : null };
+      return { w: o, n: p.claims.length, ids: p.claims.map((c) => c.id).join(','),
+        validT: p.validT, tid: p.claims.every((c) => c.testId === 'behavior.accretionJet') };
+    });
+    const inW = (v, w) => !!w && v >= w.min && v <= w.max;
+    const inC = (v, w) => !!w && v >= w.cmin && v <= w.cmax;
+    const wM = cl.w['accretionJet.primary-mass-growth'];
+    const wS = cl.w['accretionJet.core-spinup'];
+    const wJ = cl.w['accretionJet.polar-fraction'];
+    const wP = cl.w['accretionJet.pressure-off-control'];
+    const declOk = inW(d.mR, wM) && inC(cF.mR, wM) && inW(d.omR, wS) && inC(Math.abs(cR.omR), wS)
+      && inW(d.frac, wJ) && inW(cK.tot, wP) && cl.tid && cl.n === 4 && cl.validT === 96;
+    const ledgerZero = d.ledger[0] === 0 && d.ledger[1] === 0 && d.ledger[2] === 0;
+    const clean = !d.nan && !cK.nan && !cF.nan && !cR.nan && d.warn === 0
+      && d.clampV === 0 && d.clampR === 0 && d.clampS === 0;
+    add('behavior.accretionJet',
+      clean && ledgerZero && r.det && declOk
+      && d.mR >= 1.08 && cF.mR === 1 && d.omR >= 3.0 && Math.abs(cR.omR) <= 3.0
+      && d.tot >= 3 && d.pol >= 2 && d.eq <= 1 && d.frac >= 0.45 && cK.tot === 0,
+      `6000步(t≈96・seed 20260827 固定で決定論=${r.det}) ` +
+      `/ ①降着: 主星への融合 ${d.nAcc}回・質量 ${d.m0.toFixed(2)}(×${d.mR.toFixed(4)} ≥1.08` +
+      `・宣言窓 ${wM.min}〜${wM.max})・粒子 212→${d.n}(融合${d.fusN}回) ` +
+      `対照(融合オフ) ×${cF.mR.toFixed(4)}(=1 厳密・宣言窓 ${wM.cmin}〜${wM.cmax}) ` +
+      `/ ②スピンアップ: Ω_core ×${d.omR.toFixed(3)}(≥3.0・宣言窓 ${wS.min}〜${wS.max}` +
+      `・J_core=${d.J0.toFixed(3)}・殻スピン=${d.sp0.toFixed(4)}) ` +
+      `対照(円盤の回転オフ) ×${cR.omR.toFixed(3)}(|·|≤3.0・宣言窓 ${wS.cmin}〜${wS.cmax}` +
+      ` — 回っている円盤が唯一の角運動量供給源) ` +
+      `/ ③ジェット: 内縁起源(初期|x|≤45)${d.nInner}体のうち r>150 へ出たのは ${d.tot}体(≥3)・` +
+      `極方向(±y±30°)=${d.pol}(≥2)・赤道方向(±x±30°)=${d.eq}(≤1)→ 割合=${d.frac.toFixed(3)}` +
+      `(等方=1/3 の ${(d.frac * 3).toFixed(2)}倍・≥0.45・宣言窓 ${wJ.min}〜${wJ.max}) ` +
+      `対照(kRep=0) 脱出=${cK.tot}体(=0 厳密・宣言窓 ${wP.min}〜${wP.max}) — かわりに全部落ちて ` +
+      `質量 ×${cK.mR.toFixed(4)}(降着${cK.nAcc}回・T_p ${cK.Tp.toFixed(1)}) = 圧力は噴出の駆動源であり ` +
+      `同時に降着の調節弁 / 保存則: 帳簿[resPx,resPy,resL]=[${d.ledger.join(',')}]` +
+      `(全ゼロ=${ledgerZero}: pinned ゼロ・balanceFrame 重心系の閉鎖系) ` +
+      `NaN=${d.nan} クランプ[V,R,S]=[${d.clampV},${d.clampR},${d.clampS}] validatePreset 警告=${d.warn}件 ` +
+      `/ 宣言整合=${declOk}(claims ${cl.n}件[${cl.ids}]・testId 一致=${cl.tid}・validT=${cl.validT}) ` +
+      `/ 第221便②の較正実測 = 20回/1.1650/9.550/5体(極3・赤道0)/0.600。**seed 頑健でも dt 収束でも` +
+      `ない**(3seed 1.1500〜1.2100・4.77〜9.55・0.200〜0.667 / dt半分で ×1.0225・降着2回)— ` +
+      `上のコメントの「閾値の根拠と限界」を参照`);
+  } else {
+    console.log('SKIP behavior.accretionJet(QA_FAST=1 または対象に ⛲accretionJet なし — 第221便② 未適用の root 等)');
   }
 }
 

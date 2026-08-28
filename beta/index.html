@@ -8681,6 +8681,114 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"} },
 
+// 第221便②(統括裁定 2026-08-27「降着とジェットを1サンプルで」): ⛲accretionJet —
+// 質量降着とジェットの**概念導入**(トイ)。既存機構だけで組んである(物理コアの変更はゼロ):
+//   ・降着 = 融合(fusion:{dFrac:0.7} + thermal:"tint" — ☀️starcore/🥚selfRotor と同じ機構)。
+//     主星は pinned:false なので融合の対象になり、触れたガスを飲んで質量が増える。
+//   ・スピンアップ = 回っている円盤が運ぶ角運動量が接触摩擦(A9/E9)で殻スピンへ入り、
+//     コア⇄殻の τ_cs 結合(core.Kcs=0.5・第78便の再定義)で J_core へ伝わる。コアv2 は
+//     mode:"differential"(軸自由)で pump=0・contract=0 = 育つ源は殻からの流入だけ。
+//   ・ジェット = 🌋agnjet の機構の再利用(内縁の摩擦加熱 E9′→T_int → 熱の斥力 E5′ が押し返す
+//     → 赤道は帯に塞がれ ±y だけが出口)。帯は x 方向に薄く長い2群(バルク速度 ±0.5 で回転)。
+// 配置(すべて自由・pinned ゼロ・balanceFrame barycentric = 閉鎖系):
+//   主星 m=40・R=4(コンパクト)/ 伴星 m=15・x=200・円軌道初速 vy=1.28 /
+//   円盤 = 帯2群(cx=±70・120×12・90粒ずつ・m=0.3・bulkVy=±0.5)/ 伴星からの流れ 30粒(cx=165)
+// 実測(seed 20260827 固定・6000步=t≈96・dt=0.016。実測ハーネスはセッション内スクラッチ
+// (_scratch-*.mjs は .gitignore 対象)で、同じ量は QA behavior.accretionJet が毎回その場で測る):
+//   既定      : 降着20回・m 40→46.60(×1.1650)・Ω_core 0.0200→0.1910(×9.550)・
+//               殻スピン 0→0.1913・T_p 34.2・粒子 212→116・融合96回・NaN/クランプ 0・帳簿 [0,0,0]
+//   脱出(内縁起源 初期|x|≤45・r>150): 5体中 極方向(±y±30°)3体=60.0%・赤道方向(±x±30°)**0体**
+//               (r>60/80/100/120 のどの半径で数えても赤道は0本)
+//   対照 kRep=0 : 脱出**0体**・そのぶん全部落ちて m ×1.8625(降着56回)・T_p 140.3
+//   対照 融合なし: m ×1.0000(厳密)・脱出0体
+//   対照 円盤の回転なし(帯の bulkVy=0): Ω_core 倍率 −1.273(|·|=1.27 = ゼロ近傍・符号も定まらない)
+// **限界の正直な記録**(説明文にも書いてある): 本サンプルは固定 seed・固定刻み幅の有限時間デモ。
+//   ・3seed(20260827/28/29)で 降着20/19/26回・m ×1.1650/1.1500/1.2100・Ω倍率 9.55/4.77/7.71・
+//     極方向割合 0.600/0.667/0.200 — 極方向割合は seed 頑健ではない(赤道0本は3seed中2seedで成立)。
+//   ・dt を半分(0.008・同じ t=96)にすると降着は 20→2回・m ×1.1650→×1.0225 に落ちる。接触斥力の
+//     障壁をどれだけ深く跨げるかが数値解像度に依存するため。降着量は dt 収束していない。
+//   よって claims/QA は「この固定構成の回帰検出」として置く(🌪️spinup の閾値と同じ位置づけ)。
+{ id:"accretionJet", name:"降着とジェット — コンパクト連星の類似", emoji:"⛲", group:"天体の物語",
+  scaleTier:"stellar",
+  sampleClass:"composite",
+  notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
+  descStruct:{
+    summary:"回転するコンパクトな主星(m=40・半径4・コアv2 差動)と伴星(m=15・x=200)、そして伴星から流れ出して主星を取り巻く冷たいガス(210粒)。ガスの帯はx軸方向に薄く長い2群で、真横から見た降着円盤の2Dアナロジーとして置いてある(バルク速度±0.5で回っている)。ガスは自己重力で内側へ落ち、主星に触れたものは融合して飲み込まれ(降着)、主星の質量が増える。円盤の回転が運んでくる角運動量は接触摩擦(A9/E9)で主星の殻スピンへ入り、コア⇄殻のτ_cs結合(K_cs=0.5)を通って中心コアのJ_coreへ伝わる — コアは軸の自由な差動コアで、汲み上げ(pump)も収縮(contract)も切ってあるので、育つ源は殻からの流入だけ。落ちきれなかったガスは内縁で摩擦加熱され(E9′→内部温度T_int)、熱の斥力=圧力(E5′)で押し返されるが、赤道方向(±x)へ抜けるには帯の全長を押しのけねばならない — 抵抗の少ない極方向(±y)だけが出口になる。",
+    observe:"実測(seed 20260827固定・6000步=t≈96): ①降着 — 主星への融合が20回起き、主星の質量は初期の1.165倍(40→46.60)へ育つ。融合を切った対照では主星の質量は1.000倍のまま(厳密に不変)。②スピンアップ — コア角速度Ω_coreは0.0200から0.1910へ、初期の9.55倍になる(J_core 0.270→2.579・I_coreは融合しても一定なので比はそのままJの比。殻スピンも0→0.191)。円盤の回転を切った対照(帯のバルク速度=0)では倍率の絶対値が1.27にとどまり符号も定まらない — 回っている円盤が運んでくる角運動量が唯一の供給源で、これは降着×回転(パルサーのリサイクリング)の類似。③ジェット — 内縁起源(初期|x|≤45)のガスのうち系外(r>150)へ出たのは5体で、そのうち60.0%が±y方向±30°以内に入る(等方なら1/3 — 1.80倍の集中)。赤道方向(±x±30°)への脱出は0体で、r>60・80・100・120のどの半径で数えても赤道は0本のまま=帯が完全に塞いでいる。熱の斥力kRepを0にすると脱出は0体になり、そのぶんガスは落ちるだけになって主星の質量は1.86倍まで暴走する — 圧力は噴出の唯一の駆動源であると同時に降着の調節弁でもある。色=温度で、内縁が赤熱し噴流が冷えながら伸びるのが見える。※限界の正直な記録: 本サンプルは固定seed・固定刻み幅の有限時間デモである。3seed(20260827/28/29)では降着20/19/26回・質量比1.165/1.150/1.210・Ω倍率9.55/4.77/7.71・極方向割合0.600/0.667/0.200で、極方向割合はseed頑健ではない。刻み幅を半分(dt=0.008・同じt=96)にすると降着は20→2回・質量比1.165→1.023まで落ちる — 接触斥力の障壁をどれだけ深く跨げるかが数値解像度に依存するためで、降着量はdt収束していない。QAはこの固定構成の回帰検出として機能する。要因分離のため空間引きずりkFrameと自発放射etaRadは切ってある。pinnedはゼロでbalanceFrameは重心系なので系は閉じており、リザーバ帳簿[resPx,resPy,resL]は全ゼロ・NaNもクランプも0のまま。※これは降着とジェットという2つの概念を1画面に置いたトイ構成であり、実在の降着円盤・X線連星・相対論的ジェット・エディントン限界の再現主張ではない(Negative Claims 1/2)。",
+    control:"おすすめA/B: 熱の斥力kRepを0にすると押し返す圧力が消えて噴出が完全に止まり(脱出0体)、ガスは落ちるだけになって主星は1.86倍まで太る。muFを0にすると内縁の摩擦加熱が止まり、Gを下げると降着そのものが起きにくくなる。"},
+  en:{name:"Accretion and Jet — a compact-binary analogue", descStruct:{
+    summary:"A rotating compact primary (m=40, radius 4, Core v2 differential), a companion (m=15 at x=200), and cold gas streaming off the companion to wrap around the primary (210 grains). The gas band is two groups stretched thin and long along the x axis, placed as a 2D analogue of an accretion disk seen edge-on (rotating, bulk velocity ±0.5). The gas falls inward under self-gravity, and whatever touches the primary fuses into it — accretion — so the primary's mass grows. The angular momentum the rotating disk carries in enters the primary's shell spin through contact friction (A9/E9) and reaches the central core's J_core through the core–shell τ_cs coupling (K_cs=0.5); the core is a free-axis differential core with the powerball pump and the contraction both switched off, so its only source is the inflow from the shell. Gas that fails to fall in is heated by friction at the inner edge (E9′ → internal temperature T_int) and pushed back by thermal repulsion = pressure (E5′), but escaping along the equator (±x) means shoving the whole length of the band aside — so the only low-resistance exit is the polar direction (±y). ",
+    observe:"Measured (fixed seed 20260827, 6000 steps = t≈96): (1) Accretion — 20 fusions onto the primary, whose mass grows to 1.165× its initial value (40→46.60). With fusion switched off the primary's mass stays at 1.000× (exactly unchanged). (2) Spin-up — the core angular velocity Ω_core goes from 0.0200 to 0.1910, a factor of 9.55 (J_core 0.270→2.579; I_core is unchanged by fusion here, so the ratio is just the ratio of J. The shell spin likewise goes 0→0.191). In the control with the disk rotation switched off (band bulk velocity = 0) the magnitude of the ratio stays at 1.27 and even its sign is undetermined — the angular momentum carried in by the rotating disk is the only supply, an analogue of accretion × rotation (pulsar recycling). (3) Jet — of the gas originating at the inner edge (initial |x|≤45), 5 grains reach r>150, and 60.0% of them lie within 30° of the ±y axis (isotropic would be 1/3 — a 1.80× concentration). Escapes within 30° of the equator (±x) number 0, and the equatorial count stays at 0 whichever radius you count at (r>60, 80, 100, 120): the band blocks it completely. Set the thermal repulsion kRep to 0 and the escapes drop to 0, while the gas simply falls in and the primary's mass runs away to 1.86× — pressure is at once the only driver of the outflow and the throttle on the accretion. Colour = temperature: watch the inner edge glow and the jets cool as they stretch. An honest record of the limits: this is a finite-time demonstration at one fixed seed and one fixed step size. Over three seeds (20260827/28/29) the accretion count is 20/19/26, the mass ratio 1.165/1.150/1.210, the Ω factor 9.55/4.77/7.71 and the polar fraction 0.600/0.667/0.200 — the polar fraction is not seed-robust. Halving the step (dt=0.008 over the same t=96) drops the accretion from 20 to 2 events and the mass ratio from 1.165 to 1.023: how deeply a grain can cross the contact-repulsion barrier depends on the numerical resolution, so the accreted amount is not converged in dt. The QA gate therefore works as a regression check on this fixed configuration. Frame dragging and spontaneous radiation are switched off to isolate the factors. Nothing is pinned and balanceFrame is barycentric, so the system is closed: the reservoir ledgers [resPx, resPy, resL] stay at zero and there is no NaN and no clamping. Note: this is a toy that puts the two concepts of accretion and a jet on one screen — not a claim to reproduce real accretion disks, X-ray binaries, relativistic jets or the Eddington limit (Negative Claims 1/2). ",
+    control:"Suggested A/B: set the thermal repulsion kRep to 0 and the pushing pressure disappears — the outflow stops completely (0 escapes) and the gas merely falls in, fattening the primary to 1.86×. Set muF to 0 to stop the frictional heating at the inner edge, or lower G to make accretion itself harder."}},
+  activeParams:["kRep","muF","gammaN","G"],
+  thermal:"tint",
+  fusion:{dFrac:0.7},        // 融合(上限 1/√2 の直下 — 🥚selfRotor と同値)
+  balanceFrame:"barycentric",// 第80便 A: 生成時1回の重心系変換(pinned ゼロの閉鎖系)
+  validT:96,                 // 実測窓(6000步=t≈96)と一致
+  claims:[
+    { id:"accretionJet.primary-mass-growth", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+      metric:"primaryMassRatio",
+      chain:{ax:["A6","A13"], eq:["E4","E9"],
+        note:"自己重力(A6/E4)で落ちてきたガスが接触(E9)を経て融合し、主星の質量が増える量。融合則は質量・運動量・角運動量を厳密に保存する(A13)ので、増えた分は必ずガスから来ている。",
+        noteEn:"How much the primary's mass grows as gas that fell in under self-gravity (A6/E4) makes contact (E9) and fuses. The fusion rule conserves mass, momentum and angular momentum exactly (A13), so every bit of the growth comes from the gas."},
+      roleNote:"回顧的確認 — 固定seedの回帰窓。較正ノブは使っていないが、降着量はseed(1.150〜1.210)と刻み幅(dt半分で1.023)に依存する。",
+      roleNoteEn:"Retrospective check — a regression window at a fixed seed. No calibration knob is spent, but the accreted amount depends on the seed (1.150–1.210) and on the step size (1.023 at half the step).",
+      expected:{min:1.05, max:1.35},   // 実測1.1650(3seed 1.150〜1.210)
+      descPattern:"主星の質量は初期の(\\d+\\.\\d+)倍", testId:"behavior.accretionJet",
+      control:{patch:{fusion:null}, expected:{min:0.999, max:1.001},
+        descPattern:"対照では主星の質量は(\\d+\\.\\d+)倍のまま"} },   // 融合オフ: 厳密に1.000
+    { id:"accretionJet.core-spinup", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+      metric:"coreOmegaRatio",
+      chain:{ax:["A9","A13"], eq:["E9"],
+        note:"回っている円盤の角運動量が接触摩擦(A9/E9: 並進運動→スピン)で殻へ入り、コア⇄殻の τ_cs 結合で J_core へ移る。交換は等量反対符号なので総角運動量は保存する(A13/T7)。",
+        noteEn:"The angular momentum of the rotating disk enters the shell through contact friction (A9/E9: translation → spin) and moves on to J_core through the core–shell τ_cs coupling. The exchange is equal and opposite, so the total angular momentum is conserved (A13/T7)."},
+      roleNote:"回顧的確認 — 固定seedの回帰窓。窓は3seedの実測幅(4.77〜9.55)を内側に含む。",
+      roleNoteEn:"Retrospective check — a regression window at a fixed seed, wide enough to contain the three-seed spread (4.77–9.55).",
+      expected:{min:3.0, max:16.0},   // 実測9.550(3seed 9.55/4.77/7.71)
+      descPattern:"初期の(\\d+\\.\\d+)倍になる", testId:"behavior.accretionJet",
+      control:{patch:{bulkVy:0}, expected:{min:0, max:3.0},
+        descPattern:"倍率の絶対値が(\\d+\\.\\d+)にとどまり"} },   // 円盤の回転オフ: |−1.273|
+    { id:"accretionJet.polar-fraction", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
+      metric:"polarFraction",
+      chain:{ax:["A9","A10"], eq:["E9","E5′"],
+        note:"内縁で摩擦加熱(A9/E9′)されたガスを熱の斥力=圧力(A10/E5′)が押し返すとき、赤道は帯に塞がれているので極方向だけが出口になる — 圧力と幾何だけで双極性が出ることの定量(🌋agnjet と同じ測り方)。",
+        noteEn:"When thermal repulsion = pressure (A10/E5′) pushes back gas heated by friction at the inner edge (A9/E9′), the equator is blocked by the band and only the poles are an exit — the quantification that pressure plus geometry alone produce bipolarity."},
+      roleNote:"回顧的確認 — 固定seedの回帰窓。脱出5体の小標本で、極方向割合はseed頑健ではない(3seed 0.200〜0.667)。頑健なのは赤道0本のほう。",
+      roleNoteEn:"Retrospective check — a regression window at a fixed seed. The sample is only 5 escapes and the polar fraction is not seed-robust (0.200–0.667 over three seeds); what is robust is the zero equatorial count.",
+      expected:{min:0.45, max:1.0}, descScale:0.01,   // 実測0.600(等方1/3の1.80倍)
+      descPattern:"そのうち(\\d+(?:\\.\\d+)?)%が±y", testId:"behavior.accretionJet" },
+    { id:"accretionJet.pressure-off-control", kind:"fixed-seed", prov:"simulated", role:"negative_control",
+      metric:"escapeCountNoPressure",
+      chain:{ax:["A10"], eq:["E5′"],
+        note:"熱の斥力を切った対照(kRep=0)では系外へ出るガスが厳密に0体になることの定量。噴出の駆動源が圧力(E5′)以外の何か(初速・重力散乱・回転)ではないことの機械固定であり、同時に降着が1.86倍まで暴走する=圧力が降着の調節弁でもあることの数字でもある。",
+        noteEn:"Quantifies that with thermal repulsion off (kRep=0) exactly zero grains leave the system — machine-fixing that the outflow is driven by pressure (E5′) and not by initial velocities, gravitational scattering or rotation. It is also the number showing accretion then runs away to 1.86×."},
+      roleNote:"陰性対照 — 圧力を切ったときに噴出が残らないことを固定する。較正ノブは1つも使っていない。",
+      roleNoteEn:"Negative control — it fixes that no outflow survives when pressure is switched off. No calibration knob is spent.",
+      expected:{min:0, max:0},
+      descPattern:"kRepを0にすると脱出は(\\d+)体になり", testId:"behavior.accretionJet" }
+  ],
+  camera:{scale:260}, world:{boundary:"none",size:0}, seed:20260827,
+  physics:{G:6, D0:2, kFrame:0, q:2, kRep:2, muF:0.6, gammaN:0.05, kappaS:0.05, kappaT:0.016666666666666666,
+    cLight:30/* 第97便: c₀のみ一律規約の30 */, bM:1, etaRad:0, pRad:2, cHeat:0.2, gravityX:0, gravityY:0,
+    geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2},
+  bodies:[
+    // コンパクト主星(自由・融合の対象。半径4は見た目の指定 = ガス配置の除外も実半径基準で 4+1)
+    // コアv2: 差動(軸自由)・pump/contract なし → J_core が育つ源は τ_cs 経由の殻からの流入だけ
+    {type:"single", m:40, x:0,y:0, vx:0,vy:0, spin:0, radius:4, pinned:false, tInt:0, lightSweep:"auto",
+     core:{mode:"differential", massFrac:0.3, radius:1.5, omega:0.02, Kcs:0.5}},
+    // 伴星(自由・円軌道初速 vy=√(G(m₁+m₂)/a)=1.28。窓 t≈96 は公転周期のごく一部)
+    {type:"single", m:15, x:200,y:0, vx:0,vy:1.28, spin:0, radius:5, pinned:false, tInt:0},
+    // 降着円盤(真横から見た2Dアナロジー): x方向に薄く長い帯を左右2群に割り、バルク速度 ±0.5 で回す
+    {type:"box", rMul:1.1, n:90, cx:70,cy:0, w:120,h:12, mMin:0.3,mMax:0.3,
+     spinMin:0,spinMax:0, tInt:0.01, vScale:0.05, bulkVy:0.5},
+    {type:"box", rMul:1.1, n:90, cx:-70,cy:0, w:120,h:12, mMin:0.3,mMax:0.3,
+     spinMin:0,spinMax:0, tInt:0.01, vScale:0.05, bulkVy:-0.5},
+    // 伴星から流れ出したガス(円盤の外縁と伴星のあいだ)
+    {type:"box", rMul:1.1, n:30, cx:165,cy:0, w:40,h:8, mMin:0.3,mMax:0.3,
+     spinMin:0,spinMax:0, tInt:0.01, vScale:0.05, bulkVy:0.5}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled",monitor:true} },
+
 // 第39便 39A(台帳4-74・第38便 38C の実験2 = 台帳4-68c を土台に): 収縮とスピン加速。
 // 外部駆動が一切ない完全閉鎖系(kFrame=0・箱なし・ピンなし・一様重力なし)で、自己重力だけで
 // 縮む雲の内側半質量(コア)が ω ∝ 1/R² に沿って速く回るところを見せる。
