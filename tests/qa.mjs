@@ -270,6 +270,8 @@ const w5cHasCosmicweb = await page.evaluate(() => HP.allPresets().some(p => p.id
 const w5cHasSpinup = await page.evaluate(() => HP.allPresets().some(p => p.id === 'spinup'));
 // 第46便 46S(台帳4-68c 再挑戦): ☀️starcore(恒星の内部 — 融合を熱源とする)の有無(beta 先行 — root には無い)
 const hasStarcore = await page.evaluate(() => HP.allPresets().some(p => p.id === 'starcore'));
+// 第221便②: ⛲accretionJet(降着とジェット)の有無(beta 先行 — root には無い)
+const w5cHasAccJet = await page.evaluate(() => HP.allPresets().some(p => p.id === 'accretionJet'));
 
 // bands(behavior.darkrotorLong の環帯定義。元コード2875行と同一)
 const w5cBands = [[80, 120], [120, 160], [160, 200], [200, 240]];
@@ -859,6 +861,50 @@ const W5C_UNITS = {
     };
     const def = run(undefined), ctrl = run(0);
     return { jetDef: def, jetCtrl: ctrl };
+  }) },
+  // 第221便②: ⛲accretionJet の降着・スピンアップ・ジェットを1ユニットで測る。
+  // 既定 + 対照3本(kRep=0 / 融合オフ / 円盤の回転オフ)を 6000步(t≈96 = validT)走らせ、
+  //   ① 主星(index 0 — 融合の生存側は常に index 0)の質量比 m/m₀
+  //   ② コア角速度 Ω_core=J_core/I*_c(I*_c=ζ·½·M_c·R_c²)の初期比
+  //   ③ 内縁起源(初期 |x|≤45 のガス)のうち r>150 へ出たものの方位分布(±y/±x から30°以内)
+  // を返す。安定ID(linId)で追跡するので融合による index 詰めの影響を受けない。
+  // 決定性は 1000步 の再走行でビット同一を見る(全量の二度走りはコストが見合わないため)。
+  // 重い(≈200粒×6000步×4本)ので !FAST のユニット(🌋agnjet と同じ扱い)
+  accretionJet: { enabled: !FAST && w5cHasAccJet, weight: 96, run: (pg) => pg.evaluate(() => {
+    const s = HP.sim;
+    const XIN = 45, RESC = 150, STEPS = 6000;
+    const run = (patch, steps) => {
+      const p = JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'accretionJet')));
+      if (patch) patch(p);
+      const v = HP.validatePreset(p);
+      s.build(v.preset);
+      const m00 = s.m[0];
+      const Ic = () => 0.5 * s.coreMF[0] * Math.abs(s.m[0]) * s.RcV[0] * s.RcV[0] * s.coreIS[0];
+      const J00 = s.coreJ[0], om00 = J00 / Ic();
+      const x0 = Array.from(s.x);
+      const inner = new Set();
+      for (let i = 2; i < s.n; i++) if (Math.abs(x0[i]) <= XIN) inner.add(s.linId[i]);
+      let nAcc = 0, prevM = s.m[0];
+      for (let k = 0; k < steps; k++) { s.step(0.016); if (s.m[0] > prevM + 1e-9) { nAcc++; prevM = s.m[0]; } }
+      let pol = 0, eq = 0, tot = 0;
+      for (let i = 1; i < s.n; i++) {
+        if (!inner.has(s.linId[i])) continue;
+        const r = Math.hypot(s.x[i], s.y[i]); if (r < RESC) continue;
+        tot++; if (Math.abs(s.y[i]) / r > 0.8660254) pol++; if (Math.abs(s.x[i]) / r > 0.8660254) eq++;
+      }
+      const st = []; for (let i = 0; i < Math.min(s.n, 6); i++) st.push(s.x[i], s.y[i], s.vx[i], s.vy[i], s.spin[i], s.coreJ[i]);
+      return { warn: (v.warnings || []).length, nInner: inner.size, n: s.n, nAcc,
+        m0: s.m[0], mR: s.m[0] / m00, J0: s.coreJ[0], om0: s.coreJ[0] / Ic(), omR: (s.coreJ[0] / Ic()) / om00,
+        sp0: s.spin[0], Tp: s.Tint[0], tot, pol, eq, frac: tot ? pol / tot : 0,
+        ledger: [s.resPx, s.resPy, s.resL], clampV: s.clampVN || 0, clampR: s.clampRN || 0,
+        clampS: s.clampSN || 0, fusN: s.fusN, nan: s.hasNaN(), st: JSON.stringify(st) };
+    };
+    const def = run(null, STEPS);
+    const ctrlK = run(p => { p.physics.kRep = 0; }, STEPS);
+    const ctrlF = run(p => { delete p.fusion; }, STEPS);
+    const ctrlR = run(p => { for (const b of p.bodies) if (b.type === 'box') b.bulkVy = 0; }, STEPS);
+    const d1 = run(null, 1000), d2 = run(null, 1000);
+    return { def, ctrlK, ctrlF, ctrlR, det: d1.st === d2.st };
   }) },
   // 第39便 39A(台帳4-74): 🌪️spinup の収縮とスピン加速。6000步(= 収縮が底に達した直後。
   // 底は5000步で最小値の1.05倍以内に入り、以後24000步まで平坦)。240粒子×6000步と軽い。
@@ -6964,11 +7010,28 @@ if (!FAST) {
           const F = 1.8702;
           const massOk = Math.abs(pd.bodies[0].m / p.bodies[0].m - F) < 1e-9
             && Math.abs(pd.bodies[1].m / p.bodies[1].m - F) < 1e-9;
+          // 第221便(第20報): 💫 は二層構造へ移行(coupleSink:"core"・A 殻自転=vsini/R 代理値・
+          // コアv2)。世代ゲート w221 で新旧両宣言を厳密判定する(root=第214便 reservoir 構成)
+          const w221 = pd.physics.coupleSink === 'core';
+          const SPIN_A = 13.6604877682484, ZETA = 14047.117021074499;
+          const spinDecl = w221
+            ? (Math.abs(pd.bodies[0].spin - SPIN_A) < 1e-12 && pd.bodies[1].spin === 0
+              && pd.bodies[0].core && pd.bodies[0].core.mode === 'differential'
+              && pd.bodies[0].core.massFrac === 0.5 && pd.bodies[0].core.radius === 0.05966112
+              && Math.abs(pd.bodies[0].core.omega - SPIN_A) < 1e-12
+              && pd.bodies[0].core.Kcs === 0 && pd.bodies[0].core.inertiaScale === ZETA
+              && pd.bodies[1].core && pd.bodies[1].core.mode === 'differential'
+              && pd.bodies[1].core.radius === 0.01 && pd.bodies[1].core.omega === 0
+              && pd.bodies[1].core.inertiaScale === ZETA
+              && /vsini\/R|vsini/.test(pd.descStruct.summary)
+              && /二層構造/.test(pd.descStruct.summary))
+            : (pd.physics.coupleSink === 'reservoir'
+              && pd.bodies[0].spin === 0 && pd.bodies[1].spin === 0);
           const declOk = pd.physics.kFrame === 1 && pd.abBody && pd.abBody.physicsPatch
             && pd.abBody.physicsPatch.kFrame === 0 && pd.fidelity === 'real'
             && pd.familyId === 'sirius' && pd.familyRole === 'primary' && p.familyRole === 'variant'
-            && pd.physics.coupleSink === 'reservoir' && pd.physics.cmGauge === 'barycentric'
-            && pd.bodies[0].spin === 0 && pd.bodies[1].spin === 0 && pd.bodies[1].radius === 0.01
+            && spinDecl && pd.physics.cmGauge === 'barycentric'
+            && pd.bodies[1].radius === 0.01
             && Array.isArray(pd.parameterAudit.fitted) && pd.parameterAudit.fitted.length === 1
             && /f=1\.8702/.test(pd.parameterAudit.fitted[0])
             && /実在(の)?質量の主張ではない|条件つき較正/.test(pd.descStruct.summary)
@@ -6983,6 +7046,9 @@ if (!FAST) {
           const c0D = comD(); const ep0x = T0.px + S.resPx, ep0y = T0.py + S.resPy;
           const pScaleD = S.m[0] * Math.hypot(S.vx[0], S.vy[0]) + S.m[1] * Math.hypot(S.vx[1], S.vy[1]);
           let comMax = 0, sMax = 0;
+          // 第221便: 二層構造の実測 — A 殻自転の bit 保持(min=max)・B 残余・コア Ω ドリフト
+          let s0min = Infinity, s0max = -Infinity, om0max = -Infinity;
+          const om00 = (S.coreOmV && w221) ? S.coreOmV[0] : 0;
           const dt = 0.016, steps = Math.round(3.2 * P_OBS / dt);
           let ang = 0, px = 0, py = 0, rmin = Infinity, rmax = -Infinity;
           const revs = []; let nextRev = 2 * Math.PI, e1 = null;
@@ -6993,7 +7059,12 @@ if (!FAST) {
             if (prevR !== null && prev2R !== null && prevR < prev2R && prevR < rr) periAngs.push(prevAng);
             prev2R = prevR; prevR = rr; prevAng = Math.atan2(dy, dx);
             if (rr < rmin) rmin = rr; if (rr > rmax) rmax = rr;
-            const sm = Math.max(Math.abs(S.spin[0]), Math.abs(S.spin[1])); if (sm > sMax) sMax = sm;
+            // w221: sMax は B の残余 |spin₁| のみ(A の保持は s0min=s0max の bit 検査で見る)。
+            // 旧世代は従来どおり両殻の |spin| 最大
+            const sm = w221 ? Math.abs(S.spin[1]) : Math.max(Math.abs(S.spin[0]), Math.abs(S.spin[1]));
+            if (sm > sMax) sMax = sm;
+            if (S.spin[0] < s0min) s0min = S.spin[0]; if (S.spin[0] > s0max) s0max = S.spin[0];
+            if (w221 && S.coreOmV && S.coreOmV[0] > om0max) om0max = S.coreOmV[0];
             const ccD = comD(); const cdD = Math.hypot(ccD.x - c0D.x, ccD.y - c0D.y); if (cdD > comMax) comMax = cdD;
             if (k === 0) { px = dx; py = dy; } else {
               ang += Math.atan2(px * dy - py * dx, px * dx + py * dy); px = dx; py = dy;
@@ -7039,6 +7110,9 @@ if (!FAST) {
           const da = one(), db = one();
           dfm = { massOk, declOk, p2, e1, rmin, nan: S.hasNaN(), angSign, dPeri, sMax,
             clampD, lRel, comMax, pRel, negSat, negWalk, negWalkMax, n0max,
+            w221, s0hold: s0min === s0max,   // 第221便: A 殻自転の全窓 bit 保持
+            // コア Ω ドリフトは**宣言値 SPIN_A 基準**(coreOmV は初回 step 前 0 のため t=0 読みは使わない)
+            omDriftA: w221 ? (om0max / SPIN_A - 1) * 100 : null,
             det: da.length === db.length && da.every((x2, i) => Object.is(x2, db[i])) };
         }
       }
@@ -7057,8 +7131,10 @@ if (!FAST) {
       && dm.p2 !== null && Math.abs(dm.p2 / si.P_OBS - 1) < 0.005
       && dm.e1 !== null && Math.abs(dm.e1 - 0.58875) < 0.02
       && dm.angSign === 1
-      && dm.dPeri !== null && dm.dPeri >= 2.0 && dm.dPeri <= 3.2   // 近点移動 +2.60°/周(claim 窓と同値)
-      && dm.sMax < 1e-3                          // spin=0 宣言の保持(残余=1PN 反作用偶力 2.6e-4 のみ)
+      && dm.dPeri !== null && dm.dPeri >= 2.0 && dm.dPeri <= 3.2   // 近点移動 +2.59〜2.60°/周(claim 窓と同値)
+      && dm.sMax < 1e-3   // 殻残余=1PN 反作用偶力 2.6e-4 のみ(第221便 w221 は B 側・旧世代は両殻)
+      && (!dm.w221 || (dm.s0hold === true                          // 第221便: A 殻自転 13.66 の全窓 bit 保持
+        && dm.omDriftA !== null && dm.omDriftA >= 0 && dm.omDriftA <= 5))   // コア Ω ドリフト(claim 窓と同値)
       && dm.clampD === 0 && dm.lRel < 1e-8 && dm.pRel < 1e-8 && dm.comMax < 0.01
       && dm.negSat === true && dm.negWalk === true;
     add('behavior.siriusAB', csvRows.length === 7
@@ -7074,9 +7150,10 @@ if (!FAST) {
       + `kF0(採用側・1.05公転): ${t0 === null ? '—' : t0.toFixed(4) + '年'}(観測 50.1284・宣言 50.1306)・実測離心率 ${si.kf0.ecc.toFixed(5)}(転写 0.59142)・重心 ${si.kf0.comMax.toExponential(1)} / `
       + `kF1(測定側・遠点発 0.56公転): 接触要素周期 ${(si.kf1.growth * 100).toFixed(1)}%(宣言 −19.0%)・rmin=${si.kf1.rmin.toFixed(0)}(>300 — 転写近点 120.9 に届かない) / `
       + `経路等価: CSV ${csvRows.length}行 → 観測安定則発動(${si.eq.stab})+二体クロージャ確認 note=${si.eq.closure}+半径限定降格=${si.eq.demR}+内蔵とビット一致=${si.eq.same} / `
-      + `💫 DFM版: 質量=🌟×1.8702(ビット照合 ${dm.massOk})・宣言(kF1・coupleSink:reservoir・cmGauge・fitted 1ノブ f)=${dm.declOk}・`
-      + `2周目 ${dm.p2 === null ? '—' : yr(dm.p2).toFixed(4) + '年'}(宣言 50.1290 ±0.5%)・e1=${dm.e1 === null ? '—' : dm.e1.toFixed(5)}(宣言 0.58875)・近点 ${dm.rmin === undefined ? '—' : dm.rmin.toFixed(2)}・`
-      + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(3) + '°/周'}(宣言 +2.60)・spin残余 ${dm.sMax === undefined ? '—' : dm.sMax.toExponential(1)}(<1e-3 — 宣言0の保持・1PN 反作用偶力のみ)・`
+      + `💫 DFM版: 質量=🌟×1.8702(ビット照合 ${dm.massOk})・宣言(kF1・${dm.w221 ? 'coupleSink:core+二層〔第221便〕' : 'coupleSink:reservoir'}・cmGauge・fitted 1ノブ f)=${dm.declOk}・`
+      + `2周目 ${dm.p2 === null ? '—' : yr(dm.p2).toFixed(4) + '年'}(宣言 ${dm.w221 ? '50.1292' : '50.1290'} ±0.5%)・e1=${dm.e1 === null ? '—' : dm.e1.toFixed(5)}(宣言 0.58875)・近点 ${dm.rmin === undefined ? '—' : dm.rmin.toFixed(2)}・`
+      + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(3) + '°/周'}(宣言 +2.59〜2.60)・spin残余 ${dm.sMax === undefined ? '—' : dm.sMax.toExponential(1)}(<1e-3 — 1PN 反作用偶力のみ)・`
+      + (dm.w221 ? `A殻自転13.66 bit保持=${dm.s0hold}・コアΩドリフトA ${dm.omDriftA === null ? '—' : '+' + dm.omDriftA.toFixed(2) + '%'}(宣言 +1.2・窓0〜5)・` : '')
       + `clampSN Δ=${dm.clampD}・帳簿 L ${dm.lRel === undefined ? '—' : dm.lRel.toExponential(1)}/P ${dm.pRel === undefined ? '—' : dm.pRel.toExponential(1)}・重心 ${dm.comMax === undefined ? '—' : dm.comMax.toExponential(1)}・`
       + `否定対照(coupleSink除去→0から±40飽和)=${dm.negSat}・(cmGauge除去→歩行 ${dm.negWalkMax === undefined ? '—' : dm.negWalkMax.toFixed(1)}単位)=${dm.negWalk}・決定性=${dm.det}`);
   } else {
@@ -7196,15 +7273,25 @@ if (!FAST) {
           const F = 1.9959;
           const massOk = Math.abs(pd.bodies[0].m / p.bodies[0].m - F) < 1e-9
             && Math.abs(pd.bodies[1].m / p.bodies[1].m - F) < 1e-9;
+          // 第221便(第20報): コアv2 有効 — B の観測自転 ω=22.654675 をコア Ω として転写
+          // (殻値域 ±20 の外・コア Ω 値域 ±50 内)。A は ±50 も超えるため受け皿(Ω₀=0)
+          const OM_B = 22.654675;
           const declOk = pd.physics.kFrame === 1 && pd.abBody && pd.abBody.physicsPatch
             && pd.abBody.physicsPatch.kFrame === 0 && pd.fidelity === 'real'
             && pd.familyId === 'psr' && pd.familyRole === 'primary' && p.familyRole === 'variant'
-            && pd.physics.coupleSink === 'reservoir' && pd.physics.cmGauge === 'barycentric'
+            && pd.physics.coupleSink === 'core' && pd.physics.cmGauge === 'barycentric'
             && pd.bodies[0].spin === 0 && pd.bodies[1].spin === 0
+            && pd.bodies[0].core && pd.bodies[0].core.mode === 'differential'
+            && pd.bodies[0].core.omega === 0 && pd.bodies[0].core.radius === 0.01
+            && pd.bodies[0].core.massFrac === 0.5 && pd.bodies[0].core.inertiaScale === 1000000
+            && pd.bodies[1].core && pd.bodies[1].core.mode === 'differential'
+            && pd.bodies[1].core.omega === OM_B && pd.bodies[1].core.radius === 0.01
+            && pd.bodies[1].core.massFrac === 0.5 && pd.bodies[1].core.inertiaScale === 1000000
             && Array.isArray(pd.parameterAudit.fitted) && pd.parameterAudit.fitted.length === 1
             && /f=1\.9959/.test(pd.parameterAudit.fitted[0])
             && /実在(の)?質量の主張ではない|条件つき較正/.test(pd.descStruct.summary)
             && /±40 飽和/.test(pd.descStruct.summary)
+            && /コア Ω として転写/.test(pd.descStruct.summary)
             && /第69便|1PN 反作用偶力/.test(pd.descStruct.summary);
           const vd = HP.validatePreset(JSON.parse(JSON.stringify(pd)));
           const S = HP.sim; S.build(vd.preset);
@@ -7215,6 +7302,8 @@ if (!FAST) {
           const c0D = comD(); const ep0x = T0.px + S.resPx, ep0y = T0.py + S.resPy;
           const pScaleD = S.m[0] * Math.hypot(S.vx[0], S.vy[0]) + S.m[1] * Math.hypot(S.vx[1], S.vy[1]);
           let comMax = 0, sMax = 0;
+          let omBmax = -Infinity;   // 第221便: B コア Ω(観測自転の転写)の保持を実測
+          const omB0 = S.coreOmV ? S.coreOmV[1] : NaN;
           const dt = 0.016, steps = Math.round(4.3 * P_OBS / dt);
           let ang = 0, px = 0, py = 0, rmin = Infinity, rmax = -Infinity;
           const revs = []; let nextRev = 2 * Math.PI, e1 = null, rmin1 = null;
@@ -7226,6 +7315,7 @@ if (!FAST) {
             prev2R = prevR; prevR = rr; prevAng = Math.atan2(dy, dx); prevT = (k + 1) * dt;
             if (rr < rmin) rmin = rr; if (rr > rmax) rmax = rr;
             const sm = Math.max(Math.abs(S.spin[0]), Math.abs(S.spin[1])); if (sm > sMax) sMax = sm;
+            if (S.coreOmV && S.coreOmV[1] > omBmax) omBmax = S.coreOmV[1];
             const ccD = comD(); const cdD = Math.hypot(ccD.x - c0D.x, ccD.y - c0D.y); if (cdD > comMax) comMax = cdD;
             if (k === 0) { px = dx; py = dy; } else {
               ang += Math.atan2(px * dy - py * dx, px * dx + py * dy); px = dx; py = dy;
@@ -7277,6 +7367,8 @@ if (!FAST) {
           const da = one(), db = one();
           dfm = { massOk, declOk, p2, e1, rmin1, nan: S.hasNaN(), angSign, dPeri, sMax,
             clampD, lRel, comMax, pRel, negWalk, negWalkMax, negPlunge, rmin2, tRev2,
+            // 第221便: B コア Ω 保持(%)— **宣言値 OM_B 基準**(coreOmV は初回 step 前 0)
+            omDriftB: (omBmax / OM_B - 1) * 100,
             det: da.length === db.length && da.every((x2, i) => Object.is(x2, db[i])) };
         }
       }
@@ -7297,7 +7389,8 @@ if (!FAST) {
       && dm.rmin1 !== null && Math.abs(dm.rmin1 / 802.83 - 1) < 0.01
       && dm.angSign === 1
       && dm.dPeri !== null && dm.dPeri >= 0.05 && dm.dPeri <= 0.2   // 近点移動 +0.102°/周(claim 窓と同値)
-      && dm.sMax === 40 && dm.clampD > 0                 // スピンは保持できない宣言(±40 飽和)
+      && dm.sMax === 40 && dm.clampD > 0                 // 殻スピンは保持できない宣言(±40 飽和)
+      && dm.omDriftB !== null && dm.omDriftB >= 0 && dm.omDriftB <= 2   // B コア Ω 保持(claim 窓と同値・宣言 +0.39%)
       && dm.lRel < 1e-4 && dm.pRel < 1e-8 && dm.comMax < 0.01
       && dm.negWalk === true && dm.negPlunge === true;
     add('behavior.psrDoubleAB', csvRows.length === 9
@@ -7316,9 +7409,9 @@ if (!FAST) {
       + `kF1(測定側・遠点発 0.56公転): 接触要素周期 +${(ps.kf1.growth * 100).toFixed(1)}%(宣言 +157%・膨張 — 🌟 の縮小と逆向き)・rmax=${ps.kf1.rmax.toFixed(0)}(>1500)・±40 飽和 / `
       + `近点複製プローブ: kF1 外挿 ${(ps.pr1.proj * 100).toFixed(2)}%/公転(宣言 18.00 — 発火・差し戻し)・kF0 ドリフト ${ps.pr0.drift.toExponential(1)}(<1e-5 — ノイズ床未満) / `
       + `構造的な穴: CSV ${csvRows.length}行 → buildAstroFromRecords=${ps.hole.ok}(stage=${ps.hole.stage}・値域言及=${ps.hole.mentions} — 現行族 L−T=4 では構築不能・族拡張はキュー) / `
-      + `⚡ DFM版: 質量=📻×1.9959(ビット照合 ${dm.massOk})・宣言(kF1・coupleSink:reservoir・cmGauge・fitted 1ノブ f・±40 飽和宣言)=${dm.declOk}・`
-      + `2周目 ${dm.p2 === null ? '—' : (dm.p2 * 10).toFixed(2) + ' s'}(宣言 8834.72 ±0.5%)・e1=${dm.e1 === null ? '—' : dm.e1.toFixed(6)}(宣言 0.087075)・近点 ${dm.rmin1 === null || dm.rmin1 === undefined ? '—' : dm.rmin1.toFixed(2)}(宣言 802.83 ±1%)・`
-      + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(4) + '°/周'}(宣言 +0.102)・スピン飽和 |s|max=${dm.sMax === undefined ? '—' : dm.sMax}(=40・clampSN Δ=${dm.clampD} — 保持できない宣言)・`
+      + `⚡ DFM版: 質量=📻×1.9959(ビット照合 ${dm.massOk})・宣言(kF1・coupleSink:core+二層〔第221便〕・cmGauge・fitted 1ノブ f・±40 飽和宣言・BコアΩ=22.654675 転写)=${dm.declOk}・`
+      + `2周目 ${dm.p2 === null ? '—' : (dm.p2 * 10).toFixed(2) + ' s'}(宣言 8834.88 ±0.5%)・e1=${dm.e1 === null ? '—' : dm.e1.toFixed(6)}(宣言 0.087076)・近点 ${dm.rmin1 === null || dm.rmin1 === undefined ? '—' : dm.rmin1.toFixed(2)}(宣言 802.83 ±1%)・`
+      + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(4) + '°/周'}(宣言 +0.102)・BコアΩ保持 ${dm.omDriftB === null || dm.omDriftB === undefined ? '—' : '+' + dm.omDriftB.toFixed(2) + '%'}(宣言 +0.39・窓0〜2)・殻スピン飽和 |s|max=${dm.sMax === undefined ? '—' : dm.sMax}(=40・clampSN Δ=${dm.clampD} — 保持できない宣言)・`
       + `帳簿 L ${dm.lRel === undefined ? '—' : dm.lRel.toExponential(1)}(<1e-4 — クランプ捨て分の宣言)/P ${dm.pRel === undefined ? '—' : dm.pRel.toExponential(1)}・重心 ${dm.comMax === undefined ? '—' : dm.comMax.toExponential(1)}・`
       + `否定対照(cmGauge除去→歩行 ${dm.negWalkMax === undefined ? '—' : dm.negWalkMax.toFixed(3)}単位)=${dm.negWalk}・(kF0×1.9959→深い楕円 rmin=${dm.rmin2 === undefined ? '—' : dm.rmin2.toFixed(0)}・1周目 ${dm.tRev2 === null || dm.tRev2 === undefined ? '—' : (dm.tRev2 * 10).toFixed(0) + ' s'})=${dm.negPlunge}・決定性=${dm.det}`);
   } else {
@@ -15027,6 +15120,82 @@ if (hasSwAutoCb) {
       `対照(kRep=0) ${c.tot}個中 極=${c.pol} 赤道=${c.eq} → 割合=${c.frac.toFixed(3)}(比=${ratio.toFixed(2)}倍 ≥1.25)`);
   } else {
     console.log('SKIP behavior.agnjet(QA_FAST=1 または対象に 🌋agnjet なし — 第37便 D2 未適用の root 等)');
+  }
+}
+
+// ---- 7z13a2) 第221便②: behavior.accretionJet — ⛲降着とジェット(概念導入トイ)。
+// ----   1画面で3つの量を機械固定する。①降着: 主星への融合で質量が育つ(対照=融合オフで厳密に不変)
+// ----   ②スピンアップ: 回る円盤の角運動量が接触摩擦→τ_cs 結合でコアへ入り Ω_core が上がる
+// ----      (対照=円盤の回転オフで倍率がゼロ近傍)③ジェット: 内縁起源のガスの脱出が極方向に偏り
+// ----      赤道方向はゼロ(対照=kRep=0 で脱出そのものが0体)。加えて宣言(claims の窓)との整合・
+// ----      決定性・帳簿ゼロ・NaN/クランプなしを見る。
+// ----   実測(beta 2026-08-27・内蔵プリセットそのもの・seed 20260827・6000步=t≈96・dt=0.016):
+// ----     既定      : 降着20回・m ×1.1650(40→46.60)・Ω_core ×9.550(0.0200→0.1910)・殻スピン0.1913
+// ----                 脱出5体(極3・赤道0)= 極方向割合 0.600・T_p 34.2・粒子 212→116・融合96回
+// ----     kRep=0    : 脱出**0体**・m ×1.8625(降着56回)・Ω_core ×22.58
+// ----     融合オフ  : m ×1.0000(厳密)・脱出0体
+// ----     回転オフ  : Ω_core 倍率 −1.273(|·|=1.27)・m ×1.1425・脱出5体
+// ----   **閾値の根拠と限界(そのまま記録)**: これらは「内蔵の固定 seed・固定刻み幅に対する
+// ----     回帰検出」の閾値であって seed 頑健でも dt 収束でもない(🌪️spinup と同じ位置づけ)。
+// ----     3seed(20260827/28/29)の実測は 降着20/19/26回・m ×1.1650/1.1500/1.2100・
+// ----     Ω倍率 9.55/4.77/7.71・極方向割合 0.600/0.667/0.200 で、極方向割合は seed で 1/3 を割る。
+// ----     dt を半分(0.008・同じ t=96)にすると降着は 20→2回・m ×1.1650→×1.0225 に落ちる
+// ----     (接触斥力の障壁をどれだけ深く跨げるかが数値解像度に依存する)。この2点は説明文にも
+// ----     PHYSICS.md §6 にも明記してあり、本ゲートは「この固定構成の軌道が変わっていないこと」を見る。
+// ----   閾値: 質量比 ≥1.08(実測1.1650・3seed 最小1.1500)/ Ω倍率 ≥3.0(実測9.550・3seed 最小4.77)/
+// ----     脱出 ≥3体(実測5)・極方向 ≥2本(実測3)・赤道方向 ≤1本(実測0)・極方向割合 ≥0.45(実測0.600)/
+// ----     対照 kRep=0 の脱出=0体(厳密)/ 対照 融合オフの質量比=1(厳密)/ 対照 回転オフの |Ω倍率| ≤3.0
+// ----     (実測1.27)。重いので !FAST(root には本サンプルが無いので SKIP)----
+{
+  if (!FAST && w5cHasAccJet) {
+    const r = await w5cGetUnit('accretionJet');
+    const d = r.def, cK = r.ctrlK, cF = r.ctrlF, cR = r.ctrlR;
+    // 宣言(claims)との整合 — 窓が実測を含んでいること(claims.sync は説明文との照合なので別枠)
+    const cl = await page.evaluate(() => {
+      const p = HP.allPresets().find((q) => q.id === 'accretionJet');
+      const o = {};
+      for (const c of p.claims) o[c.id] = { min: c.expected.min, max: c.expected.max,
+        cmin: c.control ? c.control.expected.min : null, cmax: c.control ? c.control.expected.max : null };
+      return { w: o, n: p.claims.length, ids: p.claims.map((c) => c.id).join(','),
+        validT: p.validT, tid: p.claims.every((c) => c.testId === 'behavior.accretionJet') };
+    });
+    const inW = (v, w) => !!w && v >= w.min && v <= w.max;
+    const inC = (v, w) => !!w && v >= w.cmin && v <= w.cmax;
+    const wM = cl.w['accretionJet.primary-mass-growth'];
+    const wS = cl.w['accretionJet.core-spinup'];
+    const wJ = cl.w['accretionJet.polar-fraction'];
+    const wP = cl.w['accretionJet.pressure-off-control'];
+    const declOk = inW(d.mR, wM) && inC(cF.mR, wM) && inW(d.omR, wS) && inC(Math.abs(cR.omR), wS)
+      && inW(d.frac, wJ) && inW(cK.tot, wP) && cl.tid && cl.n === 4 && cl.validT === 96;
+    const ledgerZero = d.ledger[0] === 0 && d.ledger[1] === 0 && d.ledger[2] === 0;
+    const clean = !d.nan && !cK.nan && !cF.nan && !cR.nan && d.warn === 0
+      && d.clampV === 0 && d.clampR === 0 && d.clampS === 0;
+    add('behavior.accretionJet',
+      clean && ledgerZero && r.det && declOk
+      && d.mR >= 1.08 && cF.mR === 1 && d.omR >= 3.0 && Math.abs(cR.omR) <= 3.0
+      && d.tot >= 3 && d.pol >= 2 && d.eq <= 1 && d.frac >= 0.45 && cK.tot === 0,
+      `6000步(t≈96・seed 20260827 固定で決定論=${r.det}) ` +
+      `/ ①降着: 主星への融合 ${d.nAcc}回・質量 ${d.m0.toFixed(2)}(×${d.mR.toFixed(4)} ≥1.08` +
+      `・宣言窓 ${wM.min}〜${wM.max})・粒子 212→${d.n}(融合${d.fusN}回) ` +
+      `対照(融合オフ) ×${cF.mR.toFixed(4)}(=1 厳密・宣言窓 ${wM.cmin}〜${wM.cmax}) ` +
+      `/ ②スピンアップ: Ω_core ×${d.omR.toFixed(3)}(≥3.0・宣言窓 ${wS.min}〜${wS.max}` +
+      `・J_core=${d.J0.toFixed(3)}・殻スピン=${d.sp0.toFixed(4)}) ` +
+      `対照(円盤の回転オフ) ×${cR.omR.toFixed(3)}(|·|≤3.0・宣言窓 ${wS.cmin}〜${wS.cmax}` +
+      ` — 回っている円盤が唯一の角運動量供給源) ` +
+      `/ ③ジェット: 内縁起源(初期|x|≤45)${d.nInner}体のうち r>150 へ出たのは ${d.tot}体(≥3)・` +
+      `極方向(±y±30°)=${d.pol}(≥2)・赤道方向(±x±30°)=${d.eq}(≤1)→ 割合=${d.frac.toFixed(3)}` +
+      `(等方=1/3 の ${(d.frac * 3).toFixed(2)}倍・≥0.45・宣言窓 ${wJ.min}〜${wJ.max}) ` +
+      `対照(kRep=0) 脱出=${cK.tot}体(=0 厳密・宣言窓 ${wP.min}〜${wP.max}) — かわりに全部落ちて ` +
+      `質量 ×${cK.mR.toFixed(4)}(降着${cK.nAcc}回・T_p ${cK.Tp.toFixed(1)}) = 圧力は噴出の駆動源であり ` +
+      `同時に降着の調節弁 / 保存則: 帳簿[resPx,resPy,resL]=[${d.ledger.join(',')}]` +
+      `(全ゼロ=${ledgerZero}: pinned ゼロ・balanceFrame 重心系の閉鎖系) ` +
+      `NaN=${d.nan} クランプ[V,R,S]=[${d.clampV},${d.clampR},${d.clampS}] validatePreset 警告=${d.warn}件 ` +
+      `/ 宣言整合=${declOk}(claims ${cl.n}件[${cl.ids}]・testId 一致=${cl.tid}・validT=${cl.validT}) ` +
+      `/ 第221便②の較正実測 = 20回/1.1650/9.550/5体(極3・赤道0)/0.600。**seed 頑健でも dt 収束でも` +
+      `ない**(3seed 1.1500〜1.2100・4.77〜9.55・0.200〜0.667 / dt半分で ×1.0225・降着2回)— ` +
+      `上のコメントの「閾値の根拠と限界」を参照`);
+  } else {
+    console.log('SKIP behavior.accretionJet(QA_FAST=1 または対象に ⛲accretionJet なし — 第221便② 未適用の root 等)');
   }
 }
 
