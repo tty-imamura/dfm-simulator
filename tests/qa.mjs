@@ -6676,9 +6676,10 @@ if (!FAST) {
         abKF: p.abBody && p.abBody.physicsPatch && p.abBody.physicsPatch.kFrame,
         fam: p.familyRole,   // 第204便: ✴️ を仲間のメインへ — 観測版は variant
         ruleDecl: /観測安定則(.|\n)*2026-08-25/.test(p.descStruct.summary + p.failureFirst.pass) };
-      const run = (patch, frac) => {
+      const run = (patch, frac, delSink) => {
         const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
         const pr = v.preset; pr.physics = Object.assign({}, pr.physics, patch || {});
+        if (delSink) delete pr.physics.coupleSink;   // 第223便: 否定対照(記帳宣言を外す)
         const S = HP.sim; S.build(pr);
         const dt = 0.016, steps = Math.round(frac * P_OBS / dt);
         const mu = pr.physics.G * (pr.bodies[0].m + pr.bodies[1].m);
@@ -6951,9 +6952,10 @@ if (!FAST) {
         fam: p.familyRole,
         ruleDecl: /観測安定則(.|\n)*適用第2号/.test(p.descStruct.summary + p.failureFirst.pass)
           && /二体クロージャ確認/.test(p.descStruct.summary + p.failureFirst.pass) };
-      const run = (patch, frac) => {
+      const run = (patch, frac, delSink) => {
         const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
         const pr = v.preset; pr.physics = Object.assign({}, pr.physics, patch || {});
+        if (delSink) delete pr.physics.coupleSink;   // 第223便: 否定対照(記帳宣言を外す)
         const S = HP.sim; S.build(pr);
         const dt = 0.016, steps = Math.round(frac * P_OBS / dt);
         const mu = pr.physics.G * (pr.bodies[0].m + pr.bodies[1].m);
@@ -7193,7 +7195,7 @@ if (!FAST) {
       return { body: cols[0], quantity: cols[1], value: Number(cols[2]), unit: cols[3],
         source: cols[4], url: cols[5], retrieved: cols[6], note: cols[7] };
     });
-    const ps = await page.evaluate(({ csvRows }) => {
+    const ps = await page.evaluate(({ csvRows, FAST }) => {
       const P_OBS = 883.4534723278;   // 転写周期 8834.534723278 s / 10¹
       const p = HP.allPresets().find((q) => q.id === 'psrDoubleAB');
       const d = { fid: p.fidelity, L: p.scaleExp.L, T: p.scaleExp.T, M: p.scaleExp.M,
@@ -7204,13 +7206,15 @@ if (!FAST) {
         pn0: p.bodies[0].pnSource === true, pn1: p.bodies[1].pnSource === true,
         abKF: p.abBody && p.abBody.physicsPatch && p.abBody.physicsPatch.kFrame,
         fam: p.familyRole,
+        sink: p.physics.coupleSink,   // 第223便: 1PN 偶力の resL 記帳宣言
         ruleDecl: /観測安定則(.|\n)*適用第3号/.test(p.descStruct.summary + p.failureFirst.pass)
           && /相対論的連星族|L−T=5/.test(p.descStruct.summary + p.failureFirst.pass)
           && /spin=0 を宣言|spin=0 宣言/.test(p.descStruct.summary + p.failureFirst.fail)
           && /proxy/.test(p.descStruct.summary) };
-      const run = (patch, frac) => {
+      const run = (patch, frac, delSink) => {
         const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
         const pr = v.preset; pr.physics = Object.assign({}, pr.physics, patch || {});
+        if (delSink) delete pr.physics.coupleSink;   // 第223便: 否定対照(記帳宣言を外す)
         const S = HP.sim; S.build(pr);
         const dt = 0.016, steps = Math.round(frac * P_OBS / dt);
         const mu = pr.physics.G * (pr.bodies[0].m + pr.bodies[1].m);
@@ -7239,7 +7243,8 @@ if (!FAST) {
         const pRel = Math.hypot(T1.px + S.resPx - ep0x, T1.py + S.resPy - ep0y) / Math.max(pScale, 1e-9);
         return { nan: S.hasNaN(), steps, tRev, rmin, rmax, comMax, pRel, sMax,
           clampD: (S.clampSN || 0) - clamp0,
-          growth: est() / p0 - 1, ecc: (rmax - rmin) / (rmax + rmin) };
+          growth: est() / p0 - 1, ecc: (rmax - rmin) / (rmax + rmin),
+          endState: [S.x[0], S.y[0], S.vx[0], S.vy[0], S.x[1], S.y[1], S.vx[1], S.vy[1]] };
       };
       // 近点複製プローブ(400步 — 自己診断規約の再現)
       const probe = (kF) => {
@@ -7260,6 +7265,10 @@ if (!FAST) {
         return { drift: est() / p0 - 1, proj: Math.abs(est() / p0 - 1) * (P_OBS / (400 * 0.016)), nan: S.hasNaN() };
       };
       const kf0 = run({}, 1.05), kf1 = run({ kFrame: 1 }, 0.56);
+      // 第223便: 否定対照 — coupleSink 除去で 1PN 偶力が殻へ戻り ±30.40 の有界振動が再現。
+      // 軌道は記帳の有無でビット不変(kF0 ではスピンは力学に不干渉)
+      const kf0ns = run({}, 1.05, true);
+      const orbitBitEq = kf0.endState.every((x, i) => Object.is(x, kf0ns.endState[i]));
       const pr0 = probe(0), pr1 = probe(1);
       // (d) 第222便: 族拡張後の経路等価 — CSV 9行 → buildAstroFromRecords が相対論的連星族
       //     L−T=5(c₀=3×10³)を選定し、値域外スピンの spin=0 宣言つき降格+観測安定則発動+
@@ -7404,23 +7413,48 @@ if (!FAST) {
             for (let k = 0; k < 400; k++) s2.step(0.016);
             const o = []; for (let i = 0; i < s2.n; i++) o.push(s2.x[i], s2.y[i], s2.vx[i], s2.vy[i], s2.spin[i]); return o; };
           const da = one(), db = one();
+          // 第223便: 周期短縮の対照行列+dt/2 収束(フルゲートのみ — QA_FAST では省略)。
+          // 各対照の短縮率(3.3公転・2周期比)が本番と同窓に入り(=不変)、dt 半減で率が
+          // ほぼ半減する(離散化仕事 — 連続極限で消える)ことを機械固定する
+          let ctrl = null;
+          if (!FAST) {
+            const decOf = (patch, ddt, noGauge) => {
+              const pdc = JSON.parse(JSON.stringify(pd));
+              pdc.physics = Object.assign({}, pdc.physics, patch || {});
+              if (noGauge) delete pdc.physics.cmGauge;
+              const vc = HP.validatePreset(pdc); const Sd = HP.sim; Sd.build(vc.preset);
+              const stepsC = Math.round(3.3 * P_OBS / ddt);
+              let angC = 0, pxC = 0, pyC = 0; const revsC = []; let nextC = 2 * Math.PI;
+              for (let k = 0; k < stepsC; k++) { Sd.step(ddt);
+                const dx = Sd.x[1] - Sd.x[0], dy = Sd.y[1] - Sd.y[0];
+                if (k === 0) { pxC = dx; pyC = dy; } else {
+                  angC += Math.atan2(pxC * dy - pyC * dx, pxC * dx + pyC * dy); pxC = dx; pyC = dy;
+                  while (Math.abs(angC) >= nextC) { revsC.push((k + 1) * ddt); nextC += 2 * Math.PI; } } }
+              if (revsC.length < 3) return null;
+              return (1 - (revsC[2] - revsC[1]) / (revsC[1] - revsC[0])) * 100;
+            };
+            ctrl = { geo0: decOf({ geoPN: 0 }, 0.016), d00: decOf({ D0: 0 }, 0.016),
+              sinkRes: decOf({ coupleSink: 'reservoir' }, 0.016), noGauge: decOf({}, 0.016, true),
+              dtHalf: decOf({}, 0.008) };
+          }
           dfm = { massOk, declOk, p2, e1, rmin1, nan: S.hasNaN(), angSign, dPeri, sMax,
             clampD, lRel, comMax, pRel, negWalk, negWalkMax, negPlunge, rmin2, tRev2,
-            decPct, decPct2, decB, negSink, negSinkClampD,
+            decPct, decPct2, decB, negSink, negSinkClampD, ctrl,
             // 第221便: B コア Ω 保持(%)— **宣言値 OM_B 基準**(coreOmV は初回 step 前 0)
             omDriftB: (omBmax / OM_B - 1) * 100,
             det: da.length === db.length && da.every((x2, i) => Object.is(x2, db[i])) };
         }
       }
       HP.loadPreset('saturn', false);
-      return { d, kf0, kf1, pr0, pr1, hole, dfm, P_OBS };
-    }, { csvRows });
+      return { d, kf0, kf1, kf0ns: { sMax: kf0ns.sMax, clampD: kf0ns.clampD }, orbitBitEq, pr0, pr1, hole, dfm, P_OBS };
+    }, { csvRows, FAST });
     const d = ps.d, kOk = Math.abs(d.kap - d.G / (d.c * d.c)) < 1e-18;
     const declOk = d.fid === 'real' && d.L === 6 && d.T === 1 && d.M === 27 && d.G === 6.674 && d.c === 3000
       && kOk && d.kF === 0 && d.abKF === 1 && d.D0 === 0.006 && d.fr === 'pairReduced'
       && d.ts === 300 && d.dm === 1000 && d.pin0 === false && d.pin1 === false
       && d.spin0 === 0 && d.spin1 === 0 && d.r0 === 0.01175 && d.r1 === 0.01175
-      && d.pn0 && d.pn1 && d.ruleDecl && d.fam === 'variant';
+      && d.pn0 && d.pn1 && d.ruleDecl && d.fam === 'variant'
+      && d.sink === 'reservoir';   // 第223便: 1PN 偶力の resL 記帳宣言
     const t0s = ps.kf0.tRev === null ? null : ps.kf0.tRev * 10;   // 単位時間 → 秒
     const dm = ps.dfm || { missing: true };
     const dfmOk = !dm.missing && dm.massOk && dm.declOk && !dm.nan && dm.det
@@ -7436,14 +7470,23 @@ if (!FAST) {
       && dm.decPct2 !== null && dm.decPct2 >= 0.05 && dm.decPct2 <= 0.2 // 単調(次の周回でも同窓)
       && dm.decB !== null && Math.abs(dm.decB) < 0.02    // 対照: kF0×f では周期短縮が消滅(kF1 引きずり項が駆動の証明)
       && dm.negSink === true                             // 否定対照③: coupleSink 除去で ±40 飽和が再現(ルーティングが保持の駆動因)
-      && dm.negWalk === true && dm.negPlunge === true;
+      && dm.negWalk === true && dm.negPlunge === true
+      // 第223便: 対照行列(短縮率が geoPN=0/D₀=0/受け皿/ゲージで不変 — 各 0.09〜0.13%/公転かつ
+      // 本番との差 ≤0.01pp)+ dt/2 で率がほぼ半減(比 0.35〜0.65 — 離散化仕事の線形符号)。
+      // フルゲートのみ(QA_FAST では ctrl=null で判定対象外)
+      && (dm.ctrl === null || (
+        [dm.ctrl.geo0, dm.ctrl.d00, dm.ctrl.sinkRes, dm.ctrl.noGauge].every((x) =>
+          x !== null && x >= 0.09 && x <= 0.13 && Math.abs(x - dm.decPct) <= 0.01)
+        && dm.ctrl.dtHalf !== null && dm.ctrl.dtHalf / dm.decPct >= 0.35 && dm.ctrl.dtHalf / dm.decPct <= 0.65));
     add('behavior.psrDoubleAB', csvRows.length === 9
       && declOk && !ps.kf0.nan && !ps.kf1.nan && !ps.pr0.nan && !ps.pr1.nan
       && t0s !== null && Math.abs(t0s / 8834.534723278 - 1) < 0.001
       && Math.abs(ps.kf0.ecc - 0.087777036) < 0.005
       && ps.kf0.comMax < 1e-3 && ps.kf0.pRel < 1e-8
-      && ps.kf0.sMax >= 20 && ps.kf0.sMax <= 40 && ps.kf0.clampD === 0   // 1PN 反作用偶力の有界振動
-      && ps.kf1.growth > 0.5 && ps.kf1.rmax > 1500 && ps.kf1.sMax === 40   // 測定側は膨張+飽和
+      && ps.kf0.sMax === 0 && ps.kf0.clampD === 0   // 第223便: 記帳化 — 殻 spin=0 は全窓保持
+      && ps.kf0ns.sMax >= 20 && ps.kf0ns.sMax <= 40 && ps.kf0ns.clampD === 0   // 否定対照: 宣言を外すと有界振動が再現
+      && ps.orbitBitEq === true                      // 記帳の有無で kF0 軌道はビット不変(スピンは力学に不干渉)
+      && ps.kf1.growth > 0.5 && ps.kf1.rmax > 1500 && ps.kf1.sMax === 0   // 測定側は膨張(飽和は記帳化で解消)
       && ps.pr1.proj >= 0.05 && ps.pr1.proj <= 0.4   // kF1 雛形のドリフト外挿発火(宣言 18.00%/公転)
       && Math.abs(ps.pr0.drift) < 1e-5               // kF0 はノイズ床未満(外挿の対象外)
       && ps.hole.ok === true && ps.hole.stab === 'obs-stability'   // 第222便: 族拡張 — 観測安定則込みで構築成功
@@ -7452,8 +7495,8 @@ if (!FAST) {
       && ps.hole.spinDecl === 2 && ps.hole.same === true   // 値域外スピン2件の宣言つき降格+📻 とビット一致
       && dfmOk,
       `宣言=${declOk}(fidelity=real・**L6/T1/M27=第220便 L−T=5 相対論的連星族(c₀=3×10³)**・κ=G/c₀²・kFrame=0〔観測安定則 第3号〕・spin=0×2〔測定はあるが値域外〕・半径=EOS proxy 0.01175×2・pnSource 両宣言・A/B 測定側 kF1) / `
-      + `kF0(採用側・1.05公転): ${t0s === null ? '—' : t0s.toFixed(2) + ' s'}(観測 8834.53・宣言 8835.04)・実測離心率 ${ps.kf0.ecc.toFixed(6)}(転写 0.087777)・重心 ${ps.kf0.comMax.toExponential(1)}・スピン有界振動 |s|max=${ps.kf0.sMax.toFixed(2)}(20〜40・clampSN Δ=${ps.kf0.clampD}) / `
-      + `kF1(測定側・遠点発 0.56公転): 接触要素周期 +${(ps.kf1.growth * 100).toFixed(1)}%(宣言 +157%・膨張 — 🌟 の縮小と逆向き)・rmax=${ps.kf1.rmax.toFixed(0)}(>1500)・±40 飽和 / `
+      + `kF0(採用側・1.05公転): ${t0s === null ? '—' : t0s.toFixed(2) + ' s'}(観測 8834.53・宣言 8835.04)・実測離心率 ${ps.kf0.ecc.toFixed(6)}(転写 0.087777)・重心 ${ps.kf0.comMax.toExponential(1)}・殻 spin=0 保持 |s|max=${ps.kf0.sMax}(=0 — 第223便 resL 記帳)・否定対照(宣言除去→有界振動 |s|max=${ps.kf0ns.sMax.toFixed(2)}〔20〜40〕・軌道ビット不変=${ps.orbitBitEq}) / `
+      + `kF1(測定側・遠点発 0.56公転): 接触要素周期 +${(ps.kf1.growth * 100).toFixed(1)}%(宣言 +157%・膨張 — 🌟 の縮小と逆向き)・rmax=${ps.kf1.rmax.toFixed(0)}(>1500)・殻 |s|max=${ps.kf1.sMax}(=0 — 記帳化で飽和解消) / `
       + `近点複製プローブ: kF1 外挿 ${(ps.pr1.proj * 100).toFixed(2)}%/公転(宣言 18.00 — 発火・差し戻し)・kF0 ドリフト ${ps.pr0.drift.toExponential(1)}(<1e-5 — ノイズ床未満) / `
       + `経路等価(第222便 族拡張): CSV ${csvRows.length}行 → buildAstroFromRecords=${ps.hole.ok}(相対論的連星族 rel=${ps.hole.scale ? ps.hole.scale.rel : '—'}・L${ps.hole.scale ? ps.hole.scale.L : '—'}/T${ps.hole.scale ? ps.hole.scale.T : '—'}/M${ps.hole.scale ? ps.hole.scale.M : '—'}・q=${ps.hole.q}・観測安定則=${ps.hole.stab}・値域外スピン宣言 ${ps.hole.spinDecl}件・内蔵 📻 とビット一致=${ps.hole.same}) / `
       + `⚡ DFM版: 質量=📻×1.9959(ビット照合 ${dm.massOk})・宣言(kF1・coupleSink:core+二層〔第221便〕・cmGauge・fitted 1ノブ f・BコアΩ=22.654675 転写)=${dm.declOk}・`
@@ -7462,9 +7505,160 @@ if (!FAST) {
       + `殻スピン保持 |s|max=${dm.sMax === undefined ? '—' : dm.sMax}(=0・clampSN Δ=${dm.clampD} — 第222便 1PN 偶力ルーティング)・`
       + `周期短縮 ΔP/P=−${dm.decPct === null || dm.decPct === undefined ? '—' : dm.decPct.toFixed(3)}/−${dm.decPct2 === null || dm.decPct2 === undefined ? '—' : dm.decPct2.toFixed(3)}%/公転(宣言 −0.110・窓0.05〜0.2)・kF0対照 ΔP/P=${dm.decB === null || dm.decB === undefined ? '—' : dm.decB.toFixed(4)}%(<0.02 — 消滅)・`
       + `帳簿 L ${dm.lRel === undefined ? '—' : dm.lRel.toExponential(1)}(<1e-8 — 機械ゼロ・宣言 4.4e-16)/P ${dm.pRel === undefined ? '—' : dm.pRel.toExponential(1)}・重心 ${dm.comMax === undefined ? '—' : dm.comMax.toExponential(1)}・`
+      + (dm.ctrl ? `対照行列(第223便): geoPN0=${dm.ctrl.geo0 === null ? '—' : dm.ctrl.geo0.toFixed(4)}/D₀0=${dm.ctrl.d00 === null ? '—' : dm.ctrl.d00.toFixed(4)}/受け皿=${dm.ctrl.sinkRes === null ? '—' : dm.ctrl.sinkRes.toFixed(4)}/ゲージ=${dm.ctrl.noGauge === null ? '—' : dm.ctrl.noGauge.toFixed(4)}%(0.09〜0.13・本番差≤0.01pp)・dt/2 短縮率比=${dm.ctrl.dtHalf === null ? '—' : (dm.ctrl.dtHalf / dm.decPct).toFixed(3)}(0.35〜0.65 — 離散化仕事)・` : '対照行列: QA_FAST では省略(フルゲートで機械固定)・')
       + `否定対照(coupleSink除去→±40 飽和再現 clampSN Δ=${dm.negSinkClampD === undefined ? '—' : dm.negSinkClampD})=${dm.negSink}・(cmGauge除去→歩行 ${dm.negWalkMax === undefined ? '—' : dm.negWalkMax.toFixed(3)}単位)=${dm.negWalk}・(kF0×1.9959→深い楕円 rmin=${dm.rmin2 === undefined ? '—' : dm.rmin2.toFixed(0)}・1周目 ${dm.tRev2 === null || dm.tRev2 === undefined ? '—' : (dm.tRev2 * 10).toFixed(0) + ' s'})=${dm.negPlunge}・決定性=${dm.det}`);
   } else {
     console.log('SKIP behavior.psrDoubleAB(対象に第220便の 📻 なし — root 等)');
+  }
+}
+
+// ---- 第223便: behavior.gw150914 — GW150914(合体連星族 L−T=7・換算整合則)の機械固定 ----
+// (a) 宣言: fidelity=real・L4/T−3/M29・c₀=30・κ=G/c₀²・kFrame=0+geoPN=0(換算整合則 — 転写した
+//     a・P はニュートン換算派生値)・spin=0×2(上限値のみ)・半径=Schwarzschild 換算 proxy・
+//     coupleSink reservoir・cmGauge・pnSource 両宣言・🎻 質量=🎐×1.9892(ビット照合)・
+//     familyRole(🎻 primary/🎐 variant)・スナップショット宣言(合体・チャープは再現しない)
+// (b) 🎐 kF0+geoPN=0(3.3公転): 周期 0.18168 s(基準 ±0.2%)・e 0.0800±0.001・重心/P/L 機械ゼロ・
+//     殻 spin=0・決定性
+// (c) 換算整合則の対照: geoPN=2 → 1周目 +30〜55% で膨張/kF1 測定側 → 2.5公転で周回なし・rmax>800
+// (d) 🎻 DFM: 2周目 ±0.5%・e1 0.070〜0.082(hold-out 初不成立の回帰窓)・近点移動 +0.03〜0.15°/周・
+//     短縮 0.3〜0.8%/公転(規約刻み)+dt/2 比 0.35〜0.65(離散化仕事 — フルゲートのみ)・
+//     kF0×f 深い楕円・ゲージ除去歩行・帳簿・決定性
+{
+  const hasGw = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'gw150914'));
+  if (hasGw) {
+    const gwCsv = fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8')
+      .split('\n').filter((l) => l.startsWith('GW150914')).length;
+    const gw = await page.evaluate(({ FAST }) => {
+      const P_OBS = 181.818;   // 基準周期 0.181818 s / 10⁻³
+      const p = HP.allPresets().find((q) => q.id === 'gw150914');
+      const pd = HP.allPresets().find((q) => q.id === 'gw150914DFM');
+      const F = 1.9892;
+      const d = { fid: p.fidelity && pd.fidelity, L: p.scaleExp.L, T: p.scaleExp.T, M: p.scaleExp.M,
+        sameExp: JSON.stringify(p.scaleExp) === JSON.stringify(pd.scaleExp),
+        G: p.physics.G, c: p.physics.cLight, cD: pd.physics.cLight, kap: p.physics.kappaT,
+        kF: p.physics.kFrame, kFD: pd.physics.kFrame, geo: p.physics.geoPN, geoD: pd.physics.geoPN,
+        D0: p.physics.D0, fr: p.physics.frameReaction, sink: p.physics.coupleSink, sinkD: pd.physics.coupleSink,
+        gauge: p.physics.cmGauge, gaugeD: pd.physics.cmGauge, ts: p.physics.timeScale, dm: p.physics.dispMag,
+        r0: p.bodies[0].radius, r1: p.bodies[1].radius, rD0: pd.bodies[0].radius, rD1: pd.bodies[1].radius,
+        spinAll: p.bodies[0].spin === 0 && p.bodies[1].spin === 0 && pd.bodies[0].spin === 0 && pd.bodies[1].spin === 0,
+        pnAll: [p, pd].every((q) => q.bodies.every((b) => b.pnSource === true)),
+        posEq: p.bodies[0].x === pd.bodies[0].x && p.bodies[1].x === pd.bodies[1].x
+          && p.bodies[0].vy === pd.bodies[0].vy && p.bodies[1].vy === pd.bodies[1].vy,
+        massOk: Math.abs(pd.bodies[0].m / p.bodies[0].m - F) < 1e-9 && Math.abs(pd.bodies[1].m / p.bodies[1].m - F) < 1e-9,
+        abKF: p.abBody.physicsPatch.kFrame, abKFD: pd.abBody.physicsPatch.kFrame,
+        famO: p.familyRole, famD: pd.familyRole,
+        ruleDecl: /換算整合則/.test(p.descStruct.summary) && /ニュートン換算/.test(p.descStruct.summary)
+          && /スナップショット|基準状態/.test(p.descStruct.summary) && /Schwarzschild 換算/.test(p.descStruct.summary)
+          && /spin=0 宣言/.test(p.descStruct.summary) && /合体/.test(p.descStruct.summary),
+        ruleDeclD: /hold-out/.test(pd.descStruct.summary) && /±1% に入らない|初の不成立/.test(pd.descStruct.summary)
+          && /離散化仕事/.test(pd.descStruct.summary) && /f=1\.9892/.test(pd.descStruct.summary)
+          && /合体へ向かう周期短縮を持たない|DFM は合体/.test(pd.descStruct.summary + pd.descStruct.observe) };
+      const kOk = Math.abs(d.kap - d.G / (d.c * d.c)) < 1e-15;
+      const run = (base, patch, frac, dt, delGauge) => {
+        const pp = JSON.parse(JSON.stringify(base));
+        pp.physics = Object.assign({}, pp.physics, patch || {});
+        if (delGauge) delete pp.physics.cmGauge;
+        const v = HP.validatePreset(pp); const S = HP.sim; S.build(v.preset);
+        const DT = dt || 0.016, steps = Math.round(frac * P_OBS / DT);
+        const mt = S.m[0] + S.m[1], mu = v.preset.physics.G * mt;
+        const est = () => { const dx = S.x[1] - S.x[0], dy = S.y[1] - S.y[0], dvx = S.vx[1] - S.vx[0], dvy = S.vy[1] - S.vy[0];
+          const rr = Math.hypot(dx, dy), vv2 = dvx * dvx + dvy * dvy, eps = vv2 / 2 - mu / rr;
+          const aO = (eps < 0) ? -mu / (2 * eps) : NaN; return (aO > 0) ? 2 * Math.PI * Math.sqrt(aO * aO * aO / mu) : NaN; };
+        const com = () => ({ x: (S.m[0] * S.x[0] + S.m[1] * S.x[1]) / mt, y: (S.m[0] * S.y[0] + S.m[1] * S.y[1]) / mt });
+        const c0m = com(); let comMax = 0, sMax = 0;
+        const T0 = S.totals(); const L0 = T0.L + S.resL + S.radL;
+        const ep0x = T0.px + S.resPx, ep0y = T0.py + S.resPy;
+        const pScale = S.m[0] * Math.hypot(S.vx[0], S.vy[0]) + S.m[1] * Math.hypot(S.vx[1], S.vy[1]);
+        let rmin = Infinity, rmax = -Infinity, ang = 0, px = 0, py = 0;
+        const revs = []; let nextRev = 2 * Math.PI; let e1 = null, rmin1 = null;
+        let prevR = null, prev2R = null, prevT = null; const peri = [];
+        const p0 = est();
+        for (let k = 0; k < steps; k++) { S.step(DT);
+          const dx = S.x[1] - S.x[0], dy = S.y[1] - S.y[0], rr = Math.hypot(dx, dy);
+          if (prevR !== null && prev2R !== null && prevR < prev2R && prevR < rr) peri.push([prevT, Math.atan2(dy, dx)]);
+          prev2R = prevR; prevR = rr; prevT = (k + 1) * DT;
+          if (rr < rmin) rmin = rr; if (rr > rmax) rmax = rr;
+          const sm = Math.max(Math.abs(S.spin[0]), Math.abs(S.spin[1])); if (sm > sMax) sMax = sm;
+          const cc = com(); const cd = Math.hypot(cc.x - c0m.x, cc.y - c0m.y); if (cd > comMax) comMax = cd;
+          if (k === 0) { px = dx; py = dy; } else {
+            ang += Math.atan2(px * dy - py * dx, px * dx + py * dy); px = dx; py = dy;
+            while (Math.abs(ang) >= nextRev) { revs.push((k + 1) * DT); nextRev += 2 * Math.PI;
+              if (e1 === null) { e1 = (rmax - rmin) / (rmax + rmin); rmin1 = rmin; } } } }
+        const T1 = S.totals(); const L1 = T1.L + S.resL + S.radL;
+        const per = []; for (let i = 1; i < revs.length; i++) per.push(revs[i] - revs[i - 1]);
+        const dec = []; for (let i = 1; i < per.length; i++) dec.push((1 - per[i] / per[i - 1]) * 100);
+        let dPeri = null;
+        if (peri.length >= 2) { let dd = peri[1][1] - peri[0][1];
+          while (dd > Math.PI) dd -= 2 * Math.PI; while (dd < -Math.PI) dd += 2 * Math.PI; dPeri = dd * 180 / Math.PI; }
+        const st = []; for (let i = 0; i < 2; i++) st.push(S.x[i], S.y[i], S.vx[i], S.vy[i], S.spin[i]);
+        return { nan: S.hasNaN(), rev1: revs[0] || null, p2: per[0] || null, dec1: dec[0] === undefined ? null : dec[0],
+          e1, rmin1, rmin, rmax, sMax, comMax, growth: est() / p0 - 1,
+          lRel: Math.abs(L1 - L0) / Math.max(Math.abs(L0), 1e-9),
+          pRel: Math.hypot(T1.px + S.resPx - ep0x, T1.py + S.resPy - ep0y) / Math.max(pScale, 1e-9),
+          dPeri, state: st };
+      };
+      const obs = run(p, null, 3.3, 0.016);   // 3周回 → 2周目短縮率が取れる窓
+      const obs2 = run(p, null, 3.3, 0.016);
+      const obsDet = JSON.stringify(obs.state) === JSON.stringify(obs2.state);
+      const geo2 = run(p, { geoPN: 2 }, 1.6, 0.016);
+      const kf1 = run(p, { kFrame: 1 }, 2.5, 0.016);
+      const dfm = run(pd, null, 3.4, 0.016);
+      const dfm2 = run(pd, null, 3.4, 0.016);
+      const dfmDet = JSON.stringify(dfm.state) === JSON.stringify(dfm2.state);
+      const kf0f = run(pd, { kFrame: 0 }, 1.2, 0.016);
+      const noG = run(pd, null, 0.6, 0.016, true);
+      const dtHalf = FAST ? null : run(pd, null, 3.4, 0.008);
+      for (const o of [obs, geo2, kf1, dfm, kf0f, noG, dtHalf]) if (o) delete o.state;
+      return { d, kOk, obs, obsDet, geo2, kf1, dfm, dfmDet, kf0f, noG, dtHalf, P_OBS };
+    }, { FAST });
+    const d = gw.d;
+    const declOk = d.fid === 'real' && d.L === 4 && d.T === -3 && d.M === 29 && d.sameExp
+      && d.G === 6.674 && d.c === 30 && d.cD === 30 && gw.kOk
+      && d.kF === 0 && d.kFD === 1 && d.geo === 0 && d.geoD === 0   // 換算整合則: geoPN=0 は両版共通
+      && d.D0 === 0.006 && d.fr === 'pairReduced' && d.sink === 'reservoir' && d.sinkD === 'reservoir'
+      && d.gauge === 'barycentric' && d.gaugeD === 'barycentric' && d.ts === 30 && d.dm === 1
+      && d.r0 === 10.218554 && d.r1 === 8.8600181 && d.rD0 === d.r0 && d.rD1 === d.r1
+      && d.spinAll && d.pnAll && d.posEq && d.massOk
+      && d.abKF === 1 && d.abKFD === 0 && d.famO === 'variant' && d.famD === 'primary'
+      && d.ruleDecl && d.ruleDeclD;
+    const o = gw.obs, dm = gw.dfm;
+    const obsOk = !o.nan && gw.obsDet
+      && o.rev1 !== null && Math.abs(o.rev1 / gw.P_OBS - 1) < 0.002
+      && o.p2 !== null && Math.abs(o.p2 / gw.P_OBS - 1) < 0.002
+      && o.dec1 !== null && Math.abs(o.dec1) < 0.02          // kF0+geoPN=0 に周期短縮はない
+      && o.e1 !== null && Math.abs(o.e1 - 0.08) < 0.001
+      && o.sMax === 0 && o.comMax < 0.01 && o.pRel < 1e-8 && o.lRel < 1e-8;
+    const ctrlOk = !gw.geo2.nan && gw.geo2.rev1 !== null
+      && gw.geo2.rev1 / gw.P_OBS - 1 >= 0.30 && gw.geo2.rev1 / gw.P_OBS - 1 <= 0.55   // 換算整合則: geoPN=2 は +42.1%
+      && !gw.kf1.nan && gw.kf1.rev1 === null && gw.kf1.rmax > 800 && gw.kf1.growth > 3;   // kF1 測定側は周回不能
+    const dfmOk = !dm.nan && gw.dfmDet
+      && dm.p2 !== null && Math.abs(dm.p2 / gw.P_OBS - 1) < 0.005
+      && dm.e1 !== null && dm.e1 >= 0.070 && dm.e1 <= 0.082   // hold-out 初不成立(−4.6%)の回帰窓
+      && dm.rmin1 !== null && Math.abs(dm.rmin1 / 178.71 - 1) < 0.01
+      && dm.dPeri !== null && dm.dPeri >= 0.03 && dm.dPeri <= 0.15
+      && dm.dec1 !== null && dm.dec1 >= 0.3 && dm.dec1 <= 0.8   // 規約刻み dt=0.016 での回帰窓
+      && dm.sMax === 0 && dm.comMax < 0.01 && dm.pRel < 1e-8 && dm.lRel < 1e-8
+      && !gw.kf0f.nan && gw.kf0f.rmin < 100 && gw.kf0f.rev1 !== null && gw.kf0f.rev1 < 0.5 * gw.P_OBS
+      && !gw.noG.nan && gw.noG.comMax > 0.01
+      && (gw.dtHalf === null || (gw.dtHalf.dec1 !== null
+        && gw.dtHalf.dec1 / dm.dec1 >= 0.35 && gw.dtHalf.dec1 / dm.dec1 <= 0.65));   // 離散化仕事の線形符号
+    add('behavior.gw150914', gwCsv === 7 && declOk && obsOk && ctrlOk && dfmOk,
+      `宣言=${declOk}(fidelity=real・**L4/T−3/M29=第223便 L−T=7 合体連星族(c₀=30)**・κ=G/c₀²・`
+      + `**kF0+geoPN=0(換算整合則 — 転写した a・P はニュートン換算派生値)**・spin=0×2〔上限値のみ〕・`
+      + `半径=Schwarzschild 換算 proxy・coupleSink reservoir・cmGauge・🎻=🎐×1.9892 ビット照合・スナップショット宣言) / `
+      + `🎐 kF0+geoPN=0(3.3公転): 1周目 ${o.rev1 === null ? '—' : (o.rev1 / 1000).toFixed(6) + ' s'}(基準 0.181818 ±0.2%)・`
+      + `2周目短縮 ${o.dec1 === null ? '—' : o.dec1.toFixed(4)}%(<0.02 — 短縮なし)・実測離心率 ${o.e1 === null ? '—' : o.e1.toFixed(6)}(転写 0.08)・`
+      + `重心 ${o.comMax.toExponential(1)}・帳簿 L ${o.lRel.toExponential(1)}/P ${o.pRel.toExponential(1)}・決定性=${gw.obsDet} / `
+      + `換算整合則対照: geoPN=2 → 1周目 +${gw.geo2.rev1 === null ? '—' : ((gw.geo2.rev1 / gw.P_OBS - 1) * 100).toFixed(1)}%(窓 30〜55 — 衝突)・`
+      + `kF1 測定側 → 周回なし・rmax=${gw.kf1.rmax.toFixed(0)}(>800)・接触要素周期 +${(gw.kf1.growth * 100).toFixed(0)}% / `
+      + `🎻 DFM(f=1.9892): 2周目 ${dm.p2 === null ? '—' : (dm.p2 / 1000).toFixed(6) + ' s'}(基準 ±0.5%)・`
+      + `e1=${dm.e1 === null ? '—' : dm.e1.toFixed(6)}(**hold-out 初不成立 −4.6% — 窓 0.070〜0.082**)・近点 ${dm.rmin1 === null ? '—' : dm.rmin1.toFixed(2)}(宣言 178.71 ±1%)・`
+      + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(4) + '°/周'}(宣言 +0.079)・短縮 ΔP/P=−${dm.dec1 === null ? '—' : dm.dec1.toFixed(3)}%/公転(宣言 −0.528・規約刻み)・`
+      + (gw.dtHalf ? `dt/2 短縮率比=${gw.dtHalf.dec1 === null ? '—' : (gw.dtHalf.dec1 / dm.dec1).toFixed(3)}(0.35〜0.65 — 離散化仕事・合体の再現ではない)・` : `dt/2: QA_FAST では省略(フルゲートで機械固定)・`)
+      + `否定対照(kF0×f→深い楕円 rmin=${gw.kf0f.rmin.toFixed(1)}・1周目 ${gw.kf0f.rev1 === null ? '—' : (gw.kf0f.rev1 / 1000).toFixed(4) + ' s'})・(ゲージ除去→歩行 ${gw.noG.comMax.toFixed(3)})・`
+      + `帳簿 L ${dm.lRel.toExponential(1)}/P ${dm.pRel.toExponential(1)}・決定性=${gw.dfmDet} / CSV ${gwCsv}行`);
+  } else {
+    console.log('SKIP behavior.gw150914(対象に第223便の 🎐 なし — root 等)');
   }
 }
 
@@ -10251,6 +10445,8 @@ if (!FAST) {
         const EXP = ['jupiterGalilean', 'venusReal', 'marsMoonsReal', 'plutoCharonReal', 'uranusReal', 'neptuneReal', 'alphaCenAB', 'siriusAB'];   // 第199便: ✨(6→7本)/第214便: 🌟 Sirius AB(7→8本)
         // 第220便: 📻 二重パルサー(8→9本)。世代ゲート — 📻 同梱の対象だけ期待リストを伸ばす
         if (HP.allPresets().some((q) => q.id === 'psrDoubleAB')) EXP.push('psrDoubleAB');
+        // 第223便: 🎐 GW150914(9→10本)。同じ世代ゲート
+        if (HP.allPresets().some((q) => q.id === 'gw150914')) EXP.push('gw150914');
         const PA_KEYS = ['observedInputs', 'fixedConventions', 'fitted', 'derived', 'numerical', 'heldOut'];   // 第197便(M0): heldOut(保留データ宣言枠)を許容キーに追加
         const bad = [], rows = [];
         if (JSON.stringify(HP.OBS_FAMILY) !== JSON.stringify(EXP)) bad.push('OBS_FAMILY が期待7本と一致しない: ' + JSON.stringify(HP.OBS_FAMILY));
@@ -18474,7 +18670,15 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     // 第220便: 📻⚡ 二重パルサー PSR J0737−3039A/B(観測版+DFM版 — 中性子星連星)を追加 — 23→25
     const gen220 = await page.evaluate(() =>
       HP.allPresets().some((p) => p.id === 'psrDoubleAB'));
-    const want = gen220 ? 'alphaCenAB,alphaCenABDFM,earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+    // 第223便: 🎐🎻 GW150914(観測版+DFM版 — 連星ブラックホールの基準状態)を追加 — 25→27
+    const gen223 = await page.evaluate(() =>
+      HP.allPresets().some((p) => p.id === 'gw150914'));
+    const want = gen223 ? 'alphaCenAB,alphaCenABDFM,earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+        + 'gw150914,gw150914DFM,'
+        + 'jupiterGalilean,marsMoonsReal,mercuryReal,mercuryRealKF1,neptuneReal,plutoCharonReal,'
+        + 'psrDoubleAB,psrDoubleABDFM,qLockRadialAudit,qLockRadialAuditQ3,saturnRingReal,saturnRingRealKF1,saturnZonalD68,'
+        + 'siriusAB,siriusABDFM,solarInner,uranusReal,venusReal'
+      : gen220 ? 'alphaCenAB,alphaCenABDFM,earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
         + 'jupiterGalilean,marsMoonsReal,mercuryReal,mercuryRealKF1,neptuneReal,plutoCharonReal,'
         + 'psrDoubleAB,psrDoubleABDFM,qLockRadialAudit,qLockRadialAuditQ3,saturnRingReal,saturnRingRealKF1,saturnZonalD68,'
         + 'siriusAB,siriusABDFM,solarInner,uranusReal,venusReal'
