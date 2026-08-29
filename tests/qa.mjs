@@ -7517,7 +7517,7 @@ if (!FAST) {
 //     a・P はニュートン換算派生値)・spin=0×2(上限値のみ)・半径=Schwarzschild 換算 proxy・
 //     coupleSink reservoir・cmGauge・pnSource 両宣言・🎻 質量=🎐×1.9892(ビット照合)・
 //     familyRole(🎻 primary/🎐 variant)・スナップショット宣言(合体・チャープは再現しない)
-// (b) 🎐 kF0+geoPN=0(2.2公転): 周期 0.18168 s(基準 ±0.2%)・e 0.0800±0.001・重心/P/L 機械ゼロ・
+// (b) 🎐 kF0+geoPN=0(3.3公転): 周期 0.18168 s(基準 ±0.2%)・e 0.0800±0.001・重心/P/L 機械ゼロ・
 //     殻 spin=0・決定性
 // (c) 換算整合則の対照: geoPN=2 → 1周目 +30〜55% で膨張/kF1 測定側 → 2.5公転で周回なし・rmax>800
 // (d) 🎻 DFM: 2周目 ±0.5%・e1 0.070〜0.082(hold-out 初不成立の回帰窓)・近点移動 +0.03〜0.15°/周・
@@ -7597,8 +7597,8 @@ if (!FAST) {
           pRel: Math.hypot(T1.px + S.resPx - ep0x, T1.py + S.resPy - ep0y) / Math.max(pScale, 1e-9),
           dPeri, state: st };
       };
-      const obs = run(p, null, 2.2, 0.016);
-      const obs2 = run(p, null, 2.2, 0.016);
+      const obs = run(p, null, 3.3, 0.016);   // 3周回 → 2周目短縮率が取れる窓
+      const obs2 = run(p, null, 3.3, 0.016);
       const obsDet = JSON.stringify(obs.state) === JSON.stringify(obs2.state);
       const geo2 = run(p, { geoPN: 2 }, 1.6, 0.016);
       const kf1 = run(p, { kFrame: 1 }, 2.5, 0.016);
@@ -7646,7 +7646,7 @@ if (!FAST) {
       `宣言=${declOk}(fidelity=real・**L4/T−3/M29=第223便 L−T=7 合体連星族(c₀=30)**・κ=G/c₀²・`
       + `**kF0+geoPN=0(換算整合則 — 転写した a・P はニュートン換算派生値)**・spin=0×2〔上限値のみ〕・`
       + `半径=Schwarzschild 換算 proxy・coupleSink reservoir・cmGauge・🎻=🎐×1.9892 ビット照合・スナップショット宣言) / `
-      + `🎐 kF0+geoPN=0(2.2公転): 1周目 ${o.rev1 === null ? '—' : (o.rev1 / 1000).toFixed(6) + ' s'}(基準 0.181818 ±0.2%)・`
+      + `🎐 kF0+geoPN=0(3.3公転): 1周目 ${o.rev1 === null ? '—' : (o.rev1 / 1000).toFixed(6) + ' s'}(基準 0.181818 ±0.2%)・`
       + `2周目短縮 ${o.dec1 === null ? '—' : o.dec1.toFixed(4)}%(<0.02 — 短縮なし)・実測離心率 ${o.e1 === null ? '—' : o.e1.toFixed(6)}(転写 0.08)・`
       + `重心 ${o.comMax.toExponential(1)}・帳簿 L ${o.lRel.toExponential(1)}/P ${o.pRel.toExponential(1)}・決定性=${gw.obsDet} / `
       + `換算整合則対照: geoPN=2 → 1周目 +${gw.geo2.rev1 === null ? '—' : ((gw.geo2.rev1 / gw.P_OBS - 1) * 100).toFixed(1)}%(窓 30〜55 — 衝突)・`
