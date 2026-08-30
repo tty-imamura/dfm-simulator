@@ -7391,6 +7391,13 @@ if (!FAST) {
           const T1 = S.totals(); const L1 = T1.L + S.resL + S.radL;
           const lRel = Math.abs(L1 - L0) / Math.max(Math.abs(L0), 1e-9);
           const pRel = Math.hypot(T1.px + S.resPx - ep0x, T1.py + S.resPy - ep0y) / Math.max(pScaleD, 1e-9);
+          // Release review: core phase is the only pulse-like clock currently carried by the DFM build.
+          // B is measurable; A remains an unrepresented observation because its 2768 rad/unit exceeds core Ω ±50.
+          const pulseTurnsB = S.rotAc[1] / (2 * Math.PI);
+          const pulseMeanSecB = pulseTurnsB > 0 ? S.t * 10 / pulseTurnsB : null;
+          const pulseEndSecB = S.coreOmV[1] > 0 ? 2 * Math.PI * 10 / S.coreOmV[1] : null;
+          const pulseEndErrorPctB = pulseEndSecB === null ? null
+            : (pulseEndSecB / 2.77346074724 - 1) * 100;
           // 否定対照①: cmGauge 除去 → 重心が歩く
           const p1g = JSON.parse(JSON.stringify(pd));
           delete p1g.physics.cmGauge;
@@ -7462,6 +7469,8 @@ if (!FAST) {
             decPct, decPct2, decB, negSink, negSinkClampD, ctrl,
             // 第221便: B コア Ω 保持(%)— **宣言値 OM_B 基準**(coreOmV は初回 step 前 0)
             omDriftB: (omBmax / OM_B - 1) * 100,
+            pulseARepresented: pd.bodies[0].core.omega !== 0,
+            pulseTurnsB, pulseMeanSecB, pulseEndSecB, pulseEndErrorPctB,
             det: da.length === db.length && da.every((x2, i) => Object.is(x2, db[i])) };
         }
       }
@@ -7485,6 +7494,10 @@ if (!FAST) {
       && dm.dPeri !== null && dm.dPeri >= 0.05 && dm.dPeri <= 0.2   // 近点移動 +0.103°/周(claim 窓と同値)
       && dm.sMax === 0 && dm.clampD === 0                // 第222便: 殻スピンは全窓ビット保持(1PN 偶力の受け先ルーティング)
       && dm.omDriftB !== null && dm.omDriftB >= 0 && dm.omDriftB <= 2   // B コア Ω 保持(claim 窓と同値・宣言 +0.40%)
+      // パルス時計の現状を機械固定: A は未実装、B は初期値の転写だが4.3公転で約−0.4%短周期化する。
+      && dm.pulseARepresented === false && dm.pulseTurnsB > 10000
+      && dm.pulseMeanSecB > 2.75 && dm.pulseMeanSecB < 2.79
+      && dm.pulseEndErrorPctB < -0.2 && dm.pulseEndErrorPctB > -0.6
       && dm.lRel < 1e-8 && dm.pRel < 1e-8 && dm.comMax < 0.01   // 第222便: 帳簿 L も機械ゼロへ復帰(宣言 4.4×10⁻¹⁶)
       && dm.decPct !== null && dm.decPct >= 0.05 && dm.decPct <= 0.2    // 第222便: 周期短縮 ΔP/P(claim 窓と同値・宣言 −0.110%/公転)
       && dm.decPct2 !== null && dm.decPct2 >= 0.05 && dm.decPct2 <= 0.2 // 単調(次の周回でも同窓)
@@ -7522,6 +7535,7 @@ if (!FAST) {
       + `⚡ DFM版: 質量=📻×χ-law 粒子別 f_A=1.99585/f_B=1.99600(台帳込みビット照合 ${dm.massOk})・宣言(kF1・coupleSink:core+二層〔第221便〕・massFrac=(f−1)/f〔第224便〕・cmGauge・fitted 1ノブ C・BコアΩ=22.654675 転写)=${dm.declOk}・`
       + `2周目 ${dm.p2 === null ? '—' : (dm.p2 * 10).toFixed(2) + ' s'}(宣言 8834.6 ±0.5%)・e1=${dm.e1 === null ? '—' : dm.e1.toFixed(6)}(宣言 0.087089)・近点 ${dm.rmin1 === null || dm.rmin1 === undefined ? '—' : dm.rmin1.toFixed(2)}(宣言 802.81 ±1%)・`
       + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(4) + '°/周'}(宣言 +0.103)・BコアΩ保持 ${dm.omDriftB === null || dm.omDriftB === undefined ? '—' : '+' + dm.omDriftB.toFixed(2) + '%'}(宣言 +0.40・窓0〜2)・`
+      + `パルス時計: A実装=${dm.pulseARepresented}・B ${dm.pulseTurnsB === undefined ? '—' : dm.pulseTurnsB.toFixed(0)}回転・平均 ${dm.pulseMeanSecB === undefined ? '—' : dm.pulseMeanSecB.toFixed(6)} s・末尾 ${dm.pulseEndSecB === undefined ? '—' : dm.pulseEndSecB.toFixed(6)} s(${dm.pulseEndErrorPctB === undefined ? '—' : dm.pulseEndErrorPctB.toFixed(3)}%)・`
       + `殻スピン保持 |s|max=${dm.sMax === undefined ? '—' : dm.sMax}(=0・clampSN Δ=${dm.clampD} — 第222便 1PN 偶力ルーティング)・`
       + `周期短縮 ΔP/P=−${dm.decPct === null || dm.decPct === undefined ? '—' : dm.decPct.toFixed(3)}/−${dm.decPct2 === null || dm.decPct2 === undefined ? '—' : dm.decPct2.toFixed(3)}%/公転(宣言 −0.110・窓0.05〜0.2)・kF0対照 ΔP/P=${dm.decB === null || dm.decB === undefined ? '—' : dm.decB.toFixed(4)}%(<0.02 — 消滅)・`
       + `帳簿 L ${dm.lRel === undefined ? '—' : dm.lRel.toExponential(1)}(<1e-8 — 機械ゼロ・宣言 2.0e-14)/P ${dm.pRel === undefined ? '—' : dm.pRel.toExponential(1)}・重心 ${dm.comMax === undefined ? '—' : dm.comMax.toExponential(1)}・`
@@ -7630,7 +7644,8 @@ if (!FAST) {
           e1, rmin1, rmin, rmax, sMax, comMax, growth: est() / p0 - 1,
           lRel: Math.abs(L1 - L0) / Math.max(Math.abs(L0), 1e-9),
           pRel: Math.hypot(T1.px + S.resPx - ep0x, T1.py + S.resPy - ep0y) / Math.max(pScale, 1e-9),
-          dPeri, state: st };
+          dPeri, state: st, bodyCount: S.n, fusionEnabled: S.fusion !== null, fusionCount: S.fusN,
+          contactRadius: S.R[0] + S.R[1] };
       };
       const obs = run(p, null, 3.3, 0.016);   // 3周回 → 2周目短縮率が取れる窓
       const obs2 = run(p, null, 3.3, 0.016);
@@ -7646,8 +7661,13 @@ if (!FAST) {
       // 加速収縮 → rmin 0.94 → 弾き出し — 実測棄却の機械固定。2周回に 1.4 P_OBS 必要なので 1.6 窓)
       const sinkCore = run(pd, { coupleSink: 'core' }, 1.6, 0.016);
       const dtHalf = FAST ? null : run(pd, null, 3.4, 0.008);
-      for (const o of [obs, geo2, kf1, dfm, kf0f, noG, sinkCore, dtHalf]) if (o) delete o.state;
-      return { d, kOk, obs, obsDet, geo2, kf1, dfm, dfmDet, kf0f, noG, sinkCore, dtHalf, P_OBS };
+      // Release review: 4 physical seconds = 4000 model-time units in L4/T−3/M29.
+      // This is a limitation regression: no first contact, no fusion and two bodies remain at both step sizes.
+      const fourS = FAST ? null : run(pd, null, 4000 / P_OBS, 0.016);
+      const fourSHalf = FAST ? null : run(pd, null, 4000 / P_OBS, 0.008);
+      for (const o of [obs, geo2, kf1, dfm, kf0f, noG, sinkCore, dtHalf, fourS, fourSHalf]) if (o) delete o.state;
+      return { d, kOk, obs, obsDet, geo2, kf1, dfm, dfmDet, kf0f, noG, sinkCore, dtHalf,
+        fourS, fourSHalf, P_OBS };
     }, { FAST });
     const d = gw.d;
     const declOk = d.fid === 'real' && d.L === 4 && d.T === -3 && d.M === 29 && d.sameExp
@@ -7682,7 +7702,10 @@ if (!FAST) {
       && !gw.sinkCore.nan && gw.sinkCore.p2 !== null
       && gw.sinkCore.p2 / dm.p2 >= 0.4 && gw.sinkCore.p2 / dm.p2 <= 0.7
       && (gw.dtHalf === null || (gw.dtHalf.dec1 !== null
-        && gw.dtHalf.dec1 / dm.dec1 >= 0.35 && gw.dtHalf.dec1 / dm.dec1 <= 0.65));   // 離散化仕事の線形符号
+        && gw.dtHalf.dec1 / dm.dec1 >= 0.35 && gw.dtHalf.dec1 / dm.dec1 <= 0.65))   // 離散化仕事の線形符号
+      && (gw.fourS === null || ([gw.fourS, gw.fourSHalf].every((x) => !x.nan
+        && x.bodyCount === 2 && x.fusionEnabled === false && x.fusionCount === 0
+        && x.rmin > x.contactRadius * 5)));   // 4秒後も接触・合体しないという現状の機械固定
     add('behavior.gw150914', gwCsv === 7 && declOk && obsOk && ctrlOk && dfmOk,
       `宣言=${declOk}(fidelity=real・**L4/T−3/M29=第223便 L−T=7 合体連星族(c₀=30)**・κ=G/c₀²・`
       + `**kF0+geoPN=0(換算整合則 — 転写した a・P はニュートン換算派生値)**・spin=0×2〔上限値のみ〕・`
@@ -7696,6 +7719,7 @@ if (!FAST) {
       + `e1=${dm.e1 === null ? '—' : dm.e1.toFixed(6)}(**hold-out 初不成立 −4.6%・粒子別でも不変 — 窓 0.070〜0.082**)・近点 ${dm.rmin1 === null ? '—' : dm.rmin1.toFixed(2)}(宣言 178.70 ±1%)・`
       + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(4) + '°/周'}(宣言 +0.096)・短縮 ΔP/P=−${dm.dec1 === null ? '—' : dm.dec1.toFixed(3)}%/公転(宣言 −0.537・規約刻み)・`
       + (gw.dtHalf ? `dt/2 短縮率比=${gw.dtHalf.dec1 === null ? '—' : (gw.dtHalf.dec1 / dm.dec1).toFixed(3)}(0.35〜0.65 — 離散化仕事・合体の再現ではない)・` : `dt/2: QA_FAST では省略(フルゲートで機械固定)・`)
+      + (gw.fourS ? `4秒窓: dt=.016/.008 の最小分離 ${gw.fourS.rmin.toFixed(2)}/${gw.fourSHalf.rmin.toFixed(2)}(接触 ${gw.fourS.contactRadius.toFixed(2)})・2体のまま・fusion無効・` : `4秒窓: QA_FAST では省略・`)
       + `否定対照(kF0×f→深い楕円 rmin=${gw.kf0f.rmin.toFixed(1)}・1周目 ${gw.kf0f.rev1 === null ? '—' : (gw.kf0f.rev1 / 1000).toFixed(4) + ' s'})・(ゲージ除去→歩行 ${gw.noG.comMax.toFixed(3)})・(sink=core→P 比 ${gw.sinkCore.p2 === null || dm.p2 === null ? '—' : (gw.sinkCore.p2 / dm.p2).toFixed(3)}〔0.4〜0.7 — 受け皿裁定・第224便〕)・`
       + `帳簿 L ${dm.lRel.toExponential(1)}/P ${dm.pRel.toExponential(1)}・決定性=${gw.dfmDet} / CSV ${gwCsv}行`);
   } else {
@@ -7769,7 +7793,7 @@ if (!FAST) {
     const pr = cl.pairs;
     const fmt = (id) => { const r = pr[id] || {}; return `${id}: 台帳=${r.decl} 法則一致=${r.lawEq} 固定点残差=${r.fp === undefined ? '—' : r.fp.toExponential(1)} 質量=${r.massEq} 再配分=${r.redis} 殻=${r.shell === undefined ? '—' : r.shell.toExponential(1)} 比=${r.ratio === undefined ? '—' : r.ratio.toFixed(6)}`; };
     add('behavior.chi-law', cl.allOk && cl.vOk && cl.vBad,
-      `χ-law v1(第224便 — f_i=C·g_i・g は E6′-R 局所場分率の自己無撞着解・fit は C 1ノブ): `
+      `χ-law v1(第224便 — f_i=C·g_i・g_i=2χ_i・χ は E6′-R 局所場分率の自己無撞着解・fit は C 1ノブ): `
       + `4連星の massCalibration 台帳×chiMassFactors 再計算×bodies が三者ビット一致+固定点性の代入検査+`
       + `殻質量=観測質量+重心再配分の再計算一致 / ${fmt('alphaCenABDFM')} / ${fmt('siriusABDFM')} / `
       + `${fmt('psrDoubleABDFM')} / ${fmt('gw150914DFM')} / validator 受理(警告0)=${cl.vOk}・不正形無視=${cl.vBad}`);
