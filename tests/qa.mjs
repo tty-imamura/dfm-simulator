@@ -4986,6 +4986,49 @@ if (!FAST) {
     }
   }
 
+  // ---- 第226便提案: core.tilt-energy-audit — 2D射影と固定|J|回転子を混同しない診断 ----
+  {
+    const hasAudit = await page.evaluate(() => typeof HP.coreTiltProxyAudit === 'function');
+    if (!hasAudit) {
+      console.log('SKIP core.tilt-energy-audit(監査口未適用)');
+    } else {
+      const r = await page.evaluate(() => {
+        const pb = HP.allPresets().find((q) => q.id === 'bhCore');
+        const rows = [0, 60, 90].map((deg) => {
+          const p = JSON.parse(JSON.stringify(pb));
+          p.bodies = [p.bodies[0]];
+          delete p.balanceFrame;
+          p.bodies[0].core.Kcs = 0;
+          p.bodies[0].core.tilt = deg;
+          const v = HP.validatePreset(p);
+          if (!v.ok) return {err:v.errors[0]};
+          HP.sim.build(v.preset);
+          return HP.coreTiltProxyAudit(HP.sim, 0);
+        });
+        const pk = JSON.parse(JSON.stringify(pb));
+        pk.bodies = [pk.bodies[0]];
+        delete pk.balanceFrame;
+        pk.bodies[0].core.tilt = 60;
+        const vk = HP.validatePreset(pk);
+        return {rows, kcsTiltDropped:vk.ok && vk.preset.bodies[0].core.tilt === undefined,
+          kcsWarn:vk.warnings.some((s) => s.includes('コア軸の引きずりは未実装'))};
+      });
+      const [a,b,c] = r.rows;
+      add('core.tilt-energy-audit',
+        !r.rows.some((x) => x.err) && r.kcsTiltDropped && r.kcsWarn
+        && a.proxyOnly && Math.abs(b.eFixedMagnitude / a.eFixedMagnitude - 1) < 1e-12
+        && Math.abs(c.eFixedMagnitude / a.eFixedMagnitude - 1) < 1e-12
+        && Math.abs(b.eProjected / a.eProjected - 0.25) < 1e-12
+        && Math.abs(c.eProjected / a.eProjected) < 1e-12
+        && Math.abs(b.deltaJFromAligned / b.Jmag - 1) < 1e-12
+        && Math.abs(c.deltaJFromAligned / c.Jmag - Math.SQRT2) < 1e-12,
+        `固定|J|エネルギー比 0/60/90°=${r.rows.map((x) => (x.eFixedMagnitude/a.eFixedMagnitude).toFixed(3)).join('/')} (=1)・` +
+        `射影エネルギー比=${r.rows.map((x) => (x.eProjected/a.eProjected).toFixed(3)).join('/')} (=1/.25/0)・` +
+        `角力積/|J|=${b.deltaJFromAligned/b.Jmag}/${c.deltaJFromAligned/c.Jmag} (=1/√2)・` +
+        `tilt×Kcs は破棄=${r.kcsTiltDropped}・軸引きずり未実装警告=${r.kcsWarn}`);
+    }
+  }
+
   // ---- 第212便: core.edit-ui — コアv2 の実行時編集(有効/無効+数値)と tilt 目視の機械固定 ----
   // (a) S.applyCoreEdit が build のコア初期化式の鏡写しであること(同一入力で coreJ/coreJm ビット一致)
   // (b) 無効化(cfg=null)でコア除去+hasCoreV2 再計算・再付与で復帰(有効=フィールド追加/無効=無視)
@@ -7391,13 +7434,23 @@ if (!FAST) {
           const T1 = S.totals(); const L1 = T1.L + S.resL + S.radL;
           const lRel = Math.abs(L1 - L0) / Math.max(Math.abs(L0), 1e-9);
           const pRel = Math.hypot(T1.px + S.resPx - ep0x, T1.py + S.resPy - ep0y) / Math.max(pScaleD, 1e-9);
-          // Release review: core phase is the only pulse-like clock currently carried by the DFM build.
-          // B is measurable; A remains an unrepresented observation because its 2768 rad/unit exceeds core Ω ±50.
+          // Release review(第225便): 力学コア位相の時計 — B は測れるが A の 2768 rad/unit は ±50 の外。
+          // 第226便でこれとは別に運動学パルス時計チャネル(pulseOm/pulsePh — 力学不干渉)が載った。
           const pulseTurnsB = S.rotAc[1] / (2 * Math.PI);
           const pulseMeanSecB = pulseTurnsB > 0 ? S.t * 10 / pulseTurnsB : null;
           const pulseEndSecB = S.coreOmV[1] > 0 ? 2 * Math.PI * 10 / S.coreOmV[1] : null;
           const pulseEndErrorPctB = pulseEndSecB === null ? null
             : (pulseEndSecB / 2.77346074724 - 1) * 100;
+          // 第226便(第25報裁定GO): 運動学パルス時計チャネル — 宣言 Ω の解析積分位相。
+          // A(22.699379 ms)が初めて表現される(力学外)。位相は ω·t の恒等(誤差は fp 加算のみ)
+          const pulseChan = {
+            omA: S.pulseOm[0], omB: S.pulseOm[1],
+            phRelErrA: Math.abs(S.pulsePh[0] / (S.pulseOm[0] * S.t) - 1),
+            phRelErrB: Math.abs(S.pulsePh[1] / (S.pulseOm[1] * S.t) - 1),
+            turnsA: S.pulsePh[0] / (2 * Math.PI),
+            meanSecA: S.t * 10 / (S.pulsePh[0] / (2 * Math.PI)),
+            meanSecB: S.t * 10 / (S.pulsePh[1] / (2 * Math.PI)),
+          };
           // 否定対照①: cmGauge 除去 → 重心が歩く
           const p1g = JSON.parse(JSON.stringify(pd));
           delete p1g.physics.cmGauge;
@@ -7435,11 +7488,16 @@ if (!FAST) {
             const sm3 = Math.max(Math.abs(S3.spin[0]), Math.abs(S3.spin[1])); if (sm3 > n3max) n3max = sm3; }
           const negSinkClampD = (S3.clampSN || 0) - nc3;
           const negSink = n3max === 40 && negSinkClampD > 0;
-          const one = () => { const vv = HP.validatePreset(JSON.parse(JSON.stringify(pd)));
+          const one = (strip) => { const pp = JSON.parse(JSON.stringify(pd));
+            if (strip) for (const bb of pp.bodies) delete bb.pulse;   // 第226便: pulse 除去対照
+            const vv = HP.validatePreset(pp);
             const s2 = HP.sim; s2.build(vv.preset);
             for (let k = 0; k < 400; k++) s2.step(0.016);
             const o = []; for (let i = 0; i < s2.n; i++) o.push(s2.x[i], s2.y[i], s2.vx[i], s2.vy[i], s2.spin[i]); return o; };
           const da = one(), db = one();
+          // 第226便 否定対照: pulse 宣言を除去しても軌道はビット不変(チャネルは力学不干渉)
+          const dnp = one(true);
+          const pulseDynInv = da.length === dnp.length && da.every((x2, i) => Object.is(x2, dnp[i]));
           // 第223便: 周期短縮の対照行列+dt/2 収束(フルゲートのみ — QA_FAST では省略)。
           // 各対照の短縮率(3.3公転・2周期比)が本番と同窓に入り(=不変)、dt 半減で率が
           // ほぼ半減する(離散化仕事 — 連続極限で消える)ことを機械固定する
@@ -7471,6 +7529,9 @@ if (!FAST) {
             omDriftB: (omBmax / OM_B - 1) * 100,
             pulseARepresented: pd.bodies[0].core.omega !== 0,
             pulseTurnsB, pulseMeanSecB, pulseEndSecB, pulseEndErrorPctB,
+            pulseChan, pulseDynInv,   // 第226便: 運動学パルス時計チャネル
+            pulseDeclA: !!(pd.bodies[0].pulse && pd.bodies[0].pulse.omega === 2767.998768 && pd.bodies[0].pulse.source === 'observed'),
+            pulseDeclB: !!(pd.bodies[1].pulse && pd.bodies[1].pulse.omega === 22.654675 && pd.bodies[1].pulse.source === 'observed'),
             det: da.length === db.length && da.every((x2, i) => Object.is(x2, db[i])) };
         }
       }
@@ -7494,10 +7555,17 @@ if (!FAST) {
       && dm.dPeri !== null && dm.dPeri >= 0.05 && dm.dPeri <= 0.2   // 近点移動 +0.103°/周(claim 窓と同値)
       && dm.sMax === 0 && dm.clampD === 0                // 第222便: 殻スピンは全窓ビット保持(1PN 偶力の受け先ルーティング)
       && dm.omDriftB !== null && dm.omDriftB >= 0 && dm.omDriftB <= 2   // B コア Ω 保持(claim 窓と同値・宣言 +0.40%)
-      // パルス時計の現状を機械固定: A は未実装、B は初期値の転写だが4.3公転で約−0.4%短周期化する。
+      // 力学コア時計の現状(第225便): A の 2768 は力学に載らない、B は初期値の転写で −0.4%/4.3公転。
       && dm.pulseARepresented === false && dm.pulseTurnsB > 10000
       && dm.pulseMeanSecB > 2.75 && dm.pulseMeanSecB < 2.79
       && dm.pulseEndErrorPctB < -0.2 && dm.pulseEndErrorPctB > -0.6
+      // 第226便: 運動学パルス時計チャネル(裁定GO)— 宣言(観測転写)・位相恒等(解析積分)・
+      // A 22.699379 ms / B 2.773461 s・力学不干渉(pulse 除去で軌道ビット不変)
+      && dm.pulseDeclA === true && dm.pulseDeclB === true && dm.pulseDynInv === true
+      && dm.pulseChan && dm.pulseChan.phRelErrA < 1e-9 && dm.pulseChan.phRelErrB < 1e-9
+      && dm.pulseChan.turnsA > 1e6
+      && dm.pulseChan.meanSecA > 0.02269937 && dm.pulseChan.meanSecA < 0.02269939
+      && dm.pulseChan.meanSecB > 2.7734607 && dm.pulseChan.meanSecB < 2.7734609
       && dm.lRel < 1e-8 && dm.pRel < 1e-8 && dm.comMax < 0.01   // 第222便: 帳簿 L も機械ゼロへ復帰(宣言 4.4×10⁻¹⁶)
       && dm.decPct !== null && dm.decPct >= 0.05 && dm.decPct <= 0.2    // 第222便: 周期短縮 ΔP/P(claim 窓と同値・宣言 −0.110%/公転)
       && dm.decPct2 !== null && dm.decPct2 >= 0.05 && dm.decPct2 <= 0.2 // 単調(次の周回でも同窓)
@@ -7535,7 +7603,8 @@ if (!FAST) {
       + `⚡ DFM版: 質量=📻×χ-law 粒子別 f_A=1.99585/f_B=1.99600(台帳込みビット照合 ${dm.massOk})・宣言(kF1・coupleSink:core+二層〔第221便〕・massFrac=(f−1)/f〔第224便〕・cmGauge・fitted 1ノブ C・BコアΩ=22.654675 転写)=${dm.declOk}・`
       + `2周目 ${dm.p2 === null ? '—' : (dm.p2 * 10).toFixed(2) + ' s'}(宣言 8834.6 ±0.5%)・e1=${dm.e1 === null ? '—' : dm.e1.toFixed(6)}(宣言 0.087089)・近点 ${dm.rmin1 === null || dm.rmin1 === undefined ? '—' : dm.rmin1.toFixed(2)}(宣言 802.81 ±1%)・`
       + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(4) + '°/周'}(宣言 +0.103)・BコアΩ保持 ${dm.omDriftB === null || dm.omDriftB === undefined ? '—' : '+' + dm.omDriftB.toFixed(2) + '%'}(宣言 +0.40・窓0〜2)・`
-      + `パルス時計: A実装=${dm.pulseARepresented}・B ${dm.pulseTurnsB === undefined ? '—' : dm.pulseTurnsB.toFixed(0)}回転・平均 ${dm.pulseMeanSecB === undefined ? '—' : dm.pulseMeanSecB.toFixed(6)} s・末尾 ${dm.pulseEndSecB === undefined ? '—' : dm.pulseEndSecB.toFixed(6)} s(${dm.pulseEndErrorPctB === undefined ? '—' : dm.pulseEndErrorPctB.toFixed(3)}%)・`
+      + `力学コア時計: A力学転写=${dm.pulseARepresented}(=false)・B ${dm.pulseTurnsB === undefined ? '—' : dm.pulseTurnsB.toFixed(0)}回転・平均 ${dm.pulseMeanSecB === undefined ? '—' : dm.pulseMeanSecB.toFixed(6)} s・末尾 ${dm.pulseEndSecB === undefined ? '—' : dm.pulseEndSecB.toFixed(6)} s(${dm.pulseEndErrorPctB === undefined ? '—' : dm.pulseEndErrorPctB.toFixed(3)}%)・`
+      + `パルス時計チャネル(第226便): 宣言A/B=${dm.pulseDeclA}/${dm.pulseDeclB}・A ${dm.pulseChan ? dm.pulseChan.turnsA.toExponential(3) : '—'}回転・平均 ${dm.pulseChan ? (dm.pulseChan.meanSecA * 1000).toFixed(6) : '—'} ms/B ${dm.pulseChan ? dm.pulseChan.meanSecB.toFixed(7) : '—'} s・位相恒等 ${dm.pulseChan ? dm.pulseChan.phRelErrA.toExponential(1) : '—'}/${dm.pulseChan ? dm.pulseChan.phRelErrB.toExponential(1) : '—'}(<1e-9)・力学不干渉=${dm.pulseDynInv}・`
       + `殻スピン保持 |s|max=${dm.sMax === undefined ? '—' : dm.sMax}(=0・clampSN Δ=${dm.clampD} — 第222便 1PN 偶力ルーティング)・`
       + `周期短縮 ΔP/P=−${dm.decPct === null || dm.decPct === undefined ? '—' : dm.decPct.toFixed(3)}/−${dm.decPct2 === null || dm.decPct2 === undefined ? '—' : dm.decPct2.toFixed(3)}%/公転(宣言 −0.110・窓0.05〜0.2)・kF0対照 ΔP/P=${dm.decB === null || dm.decB === undefined ? '—' : dm.decB.toFixed(4)}%(<0.02 — 消滅)・`
       + `帳簿 L ${dm.lRel === undefined ? '—' : dm.lRel.toExponential(1)}(<1e-8 — 機械ゼロ・宣言 2.0e-14)/P ${dm.pRel === undefined ? '—' : dm.pRel.toExponential(1)}・重心 ${dm.comMax === undefined ? '—' : dm.comMax.toExponential(1)}・`
