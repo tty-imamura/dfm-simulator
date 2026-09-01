@@ -7945,6 +7945,144 @@ if (!FAST) {
   }
 }
 
+// ---- 第228便(第27報 裁定GO): gen.profile — 観測プロファイル生成器の機械固定 ----
+// (a) Plummer: 中央値=a(投影半質量の解析恒等・N標本ゆらぎ内)・(b) King: 全点 r≤rt・CDF 単調
+// (c) Sérsic n=1(=exponential): 中央値≈Re・(d) seed 決定性(同構成2回ビット一致)
+// (e) 不正 profile は警告つき削除 → 一様(r=R√u)へフォールバック
+{
+  const hasGen = await page.evaluate(() => {
+    const v = HP.validatePreset({ id:'g', name:'g', emoji:'x', group:'g', description:'d',
+      physics:{ G:1, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.001, cLight:300,
+        etaRad:0, geoPN:0, radiusScale:1, softening:0.5, timeScale:1, dispMag:1 },
+      camera:{scale:20}, world:{boundary:'none', size:0},
+      bodies:[{ type:'disk', n:10, cx:0, cy:0, radius:100, profile:'king', kingRc:1, kingRt:50,
+        mMin:0.01, mMax:0.01, spinMin:0, spinMax:0, vMode:'none', vScale:0, direction:1 }] });
+    return v.ok && v.preset.bodies[0].profile === 'king';
+  });
+  if (!hasGen) {
+    console.log('SKIP gen.profile(生成器未適用 — root 等)');
+  } else {
+    const g = await page.evaluate(() => {
+      const mk = (extra) => ({ id:'g', name:'g', emoji:'x', group:'g', description:'d',
+        physics:{ G:1, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.001, cLight:300,
+          etaRad:0, geoPN:0, radiusScale:1, softening:0.5, timeScale:1, dispMag:1 },
+        camera:{scale:20}, world:{boundary:'none', size:0},
+        bodies:[Object.assign({ type:'disk', n:600, cx:0, cy:0, radius:500, mMin:0.01, mMax:0.01,
+          spinMin:0, spinMax:0, vMode:'none', vScale:0, direction:1 }, extra)] });
+      const gen = (extra) => { const v = HP.validatePreset(mk(extra));
+        if (!v.ok) return { err: v.errors };
+        const S = HP.sim; S.build(v.preset);
+        const rs = []; for (let i = 0; i < S.n; i++) rs.push(Math.hypot(S.x[i], S.y[i]));
+        rs.sort((a, b) => a - b);
+        return { med: rs[(S.n / 2) | 0], max: rs[S.n - 1], warn: v.warnings.length }; };
+      const pl = gen({ profile:'plummer', plummerScale:12.3 });
+      const ki = gen({ profile:'king', kingRc:1.82, kingRt:419 });
+      const ex = gen({ profile:'exponential', sersicRe:16.3 });
+      const k2 = gen({ profile:'king', kingRc:1.82, kingRt:419 });
+      const bad = gen({ profile:'foo' });
+      return { pl, ki, ex, det: Object.is(ki.med, k2.med) && Object.is(ki.max, k2.max), bad };
+    });
+    add('gen.profile',
+      Math.abs(g.pl.med / 12.3 - 1) < 0.12 && g.pl.warn === 0
+      && g.ki.max <= 419 && g.ki.med > 10 && g.ki.med < 150 && g.ki.warn === 0
+      && Math.abs(g.ex.med / 16.3 - 1) < 0.12 && g.ex.warn === 0
+      && g.det === true
+      && g.bad.warn >= 1 && g.bad.med > 250,
+      `Plummer 中央値 ${g.pl.med.toFixed(2)}(=a 12.3 ±12% — 投影半質量の解析恒等)・King 中央値 ${g.ki.med.toFixed(1)}(≤rt=${g.ki.max.toFixed(1)})・`
+      + `指数 n=1 中央値 ${g.ex.med.toFixed(2)}(=Re 16.3 ±12%)・seed 決定性=${g.det}・不正 profile→警告+一様(中央値 ${g.bad.med.toFixed(0)} ≈354=R/√2)`);
+  }
+}
+
+// ---- 第228便: behavior.tuc47 — 47 Tuc 観測転写(🍇/🫐)の機械固定 ----
+// 形の転写(Plummer a=投影半光)・緩和収縮の記録・束縛率・同一配置 kF1/kF0 σ 比が
+// ゆらぎ内(有意増分なし — 正直の宣言)・決定性・NaN 0
+{
+  const hasTuc = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'tuc47'));
+  if (hasTuc) {
+    const tc = await page.evaluate(() => {
+      const run = (id, kfPatch) => {
+        const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));
+        if (kfPatch !== undefined) pd.physics.kFrame = kfPatch;
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+        const rhl = () => { const rs = []; for (let i = 0; i < S.n; i++) rs.push(Math.hypot(S.x[i], S.y[i]));
+          rs.sort((a, b) => a - b); return rs[(S.n / 2) | 0]; };
+        const sig = () => { let sx = 0, sy = 0, sxx = 0, syy = 0;
+          for (let i = 0; i < S.n; i++) { sx += S.vx[i]; sy += S.vy[i]; sxx += S.vx[i] ** 2; syy += S.vy[i] ** 2; }
+          const n = S.n; return Math.sqrt(((sxx / n - (sx / n) ** 2) + (syy / n - (sy / n) ** 2)) / 2); };
+        const r0 = rhl();
+        for (let k = 0; k < 3125; k++) S.step(0.016);
+        let bound = 0;
+        for (let i = 0; i < S.n; i++) { const r = Math.hypot(S.x[i], S.y[i]);
+          if (S.vx[i] ** 2 + S.vy[i] ** 2 < 2 * 6.674 * 17.7 / Math.max(r, 1)) bound++; }
+        const o = []; for (let i = 0; i < 40; i++) o.push(S.x[i], S.y[i], S.vx[i], S.vy[i]);
+        return { r0, r1: rhl(), s1: sig(), bound: bound / S.n, nan: S.hasNaN(), o };
+      };
+      const a = run('tuc47');
+      const a2 = run('tuc47');
+      const b = run('tuc47', 1);       // 同一配置 kF1(σ 比の対)
+      const c = run('tuc47DFM');
+      return { a, b, c, det: a.o.every((x, i) => Object.is(x, a2.o[i])),
+        ratio: b.s1 / a.s1 };
+    });
+    add('behavior.tuc47',
+      tc.a.r0 > 12 && tc.a.r0 < 14                       // 生成直後の投影半光(a=12.34 の統計値 13.02)
+      && tc.a.r1 > 9 && tc.a.r1 < 12.5                   // 緩和収縮(記録 10.45)
+      && tc.a.s1 > 1.5 && tc.a.s1 < 2.0
+      && tc.a.bound >= 0.85 && !tc.a.nan
+      && tc.c.r1 > 9 && tc.c.r1 < 12.5 && tc.c.bound >= 0.85 && !tc.c.nan
+      && tc.ratio > 0.85 && tc.ratio < 1.15              // 同一配置 σ 比はゆらぎ内(有意増分なしの機械固定)
+      && tc.det === true,
+      `🍇 kF0: 半光 ${tc.a.r0.toFixed(2)}→${tc.a.r1.toFixed(2)}(緩和収縮の記録)・σ ${tc.a.s1.toFixed(3)}・束縛 ${(tc.a.bound * 100).toFixed(1)}% / `
+      + `🫐 kF1: 半光→${tc.c.r1.toFixed(2)}・束縛 ${(tc.c.bound * 100).toFixed(1)}% / `
+      + `同一配置 kF1/kF0 σ 比 ${tc.ratio.toFixed(3)}(0.85〜1.15 — ゆらぎ内・有意増分なしの正直宣言)・決定性=${tc.det}・NaN=${tc.a.nan}`);
+  } else {
+    console.log('SKIP behavior.tuc47(対象に第228便の 🍇 なし — root 等)');
+  }
+}
+
+// ---- 第228便: behavior.ngc3198 — NGC 3198(🌃/🛞)の機械固定 ----
+// 観測版: NFW(自前2ノブ fit の宣言)で外縁保持/ハロー除去で外縁が空(教科書対照)/
+// DFM 版: halo 無し+kF1 は外縁を保てない(「届かない」の正直宣言の機械固定)・決定性・NaN 0
+{
+  const hasNgc = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'ngc3198'));
+  if (hasNgc) {
+    const ng = await page.evaluate(() => {
+      const run = (id, noHalo) => {
+        const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));
+        if (noHalo) pd.physics.halo = null;
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+        for (let k = 0; k < 2500; k++) S.step(0.016);
+        let sV = 0, n = 0, rmax = 0, center = false;
+        for (let i = 0; i < S.n; i++) { const r = Math.hypot(S.x[i], S.y[i]);
+          if (Math.abs(S.m[i]) > 50) { center = true; continue; }
+          if (r > rmax) rmax = r;
+          if (r >= 60 && r < 130) { const tx = -S.y[i] / r, ty = S.x[i] / r; sV += S.vx[i] * tx + S.vy[i] * ty; n++; } }
+        return { vt: n ? sV / n : null, nOuter: n, rmax, center, nan: S.hasNaN() };
+      };
+      const obs = run('ngc3198', false);
+      const noH = run('ngc3198', true);
+      const dfm = run('ngc3198DFM', false);
+      const fitDecl = (() => { const pd = HP.allPresets().find((q) => q.id === 'ngc3198');
+        return pd.physics.halo && pd.physics.halo.model === 'nfw'
+          && Math.abs(pd.physics.halo.rho0 - 2.685e-3) < 1e-6 && Math.abs(pd.physics.halo.rs - 61.31) < 0.01
+          && /自前2ノブ|rms 8\.2/.test(pd.parameterAudit.fitted[0]); })();
+      return { obs, noH, dfm, fitDecl };
+    });
+    add('behavior.ngc3198',
+      ng.fitDecl === true
+      && ng.obs.vt !== null && ng.obs.vt > 10 && ng.obs.vt < 14.5   // 外縁帯 12.8(128 km/s)
+      && ng.obs.nOuter >= 10 && ng.obs.rmax < 200 && !ng.obs.nan
+      && (ng.noH.nOuter === 0 || ng.noH.rmax > 300)                 // ハロー除去 → 外縁が空/飛散
+      && ng.dfm.rmax > 300 && ng.dfm.center === true && !ng.dfm.nan // DFM は現構成で保てない(宣言の機械固定)
+      && !ng.noH.nan,
+      `🌃(NFW=自前2ノブ fit 宣言=${ng.fitDecl}): 外縁帯 vt ${ng.obs.vt === null ? '—' : ng.obs.vt.toFixed(2)}(10〜14.5 — 実測 12.8=128 km/s)・粒 ${ng.obs.nOuter}・最遠 ${ng.obs.rmax.toFixed(0)}(<200) / `
+      + `ハロー除去対照: 外縁 ${ng.noH.nOuter} 粒・最遠 ${ng.noH.rmax.toFixed(0)}(飛散 — バリオン+ニュートンでは保てない) / `
+      + `🛞 DFM(halo無し+kF1): 最遠 ${ng.dfm.rmax.toFixed(0)}(>300 — **現構成では支えない**の正直宣言を機械固定)・中心核残存=${ng.dfm.center}・NaN=${ng.dfm.nan}`);
+  } else {
+    console.log('SKIP behavior.ngc3198(対象に第228便の 🌃 なし — root 等)');
+  }
+}
+
 // ---- 第224便(第23報): behavior.chi-law — 連星4 DFM の粒子別質量スケール較正則の機械固定 ----
 // (a) massCalibration 台帳(law/fitDt/C/baseMass/factorByBody)が4本すべてに宣言され、
 //     f_i = C×g_i が HP.chiMassFactors の再計算とビット一致
