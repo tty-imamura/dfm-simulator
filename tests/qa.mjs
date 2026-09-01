@@ -8256,6 +8256,67 @@ if (!FAST) {
   }
 }
 
+// ---- 第231便(第28報): behavior.supernovaObs — 超新星の観測転写(🥀 前駆星/🦀 残骸)----
+// 🥀: Joyce 一組整合の転写値+静止ビット保持。🦀: 膨張速度の転写(1506 km/s)・殻 KE=1.04e50 erg
+// (SN 1054 モデル帯と同桁・正準 1e51 の1桁下)・年齢算術・自由膨張・gas 宣言・決定性
+{
+  const hasSN = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'crabRemnant'));
+  if (hasSN) {
+    const fs = await import('node:fs');
+    const csvOK = (() => { try {
+      const t = fs.readFileSync(new URL('../paper/data/supernova-observations.csv', import.meta.url), 'utf8');
+      const lines = t.trim().split('\n');
+      return lines.length === 18 && /3\.38558552784e-02/.test(t) && /Joyce/.test(t) && /MJD 61206/.test(t);
+    } catch (e) { return false; } })();
+    const sn = await page.evaluate(() => {
+      const get = (id) => JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));
+      const build = (pd) => { const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset); return S; };
+      // 🥀 前駆星
+      const P = build(get('supernovaProg'));
+      for (let k = 0; k < 500; k++) P.step(0.016);
+      const prog = { still: P.x[0] === 0 && P.y[0] === 0 && P.vx[0] === 0 && P.vy[0] === 0,
+        spinOK: Math.abs(P.spin[0] - 0.00553071981492008) < 1e-6,
+        rOK: Math.abs(P.R[0] - 53.1515) < 1e-3,
+        mfOK: Math.abs(P.coreMF[0] - 0.07887323943661971) < 1e-6, nan: P.hasNaN() };
+      // 🦀 残骸
+      const S = build(get('crabRemnant'));
+      const meanR = () => { let s = 0, n = 0; for (let i = 0; i < S.n; i++) { if (S.m[i] > 1e-5) continue;
+        s += Math.hypot(S.x[i], S.y[i]); n++; } return s / n; };
+      const vr = () => { let s = 0, n = 0; for (let i = 0; i < S.n; i++) { if (S.m[i] > 1e-5) continue;
+        const r0 = Math.hypot(S.x[i], S.y[i]); s += (S.x[i] * S.vx[i] + S.y[i] * S.vy[i]) / r0; n++; } return s / n; };
+      let ke0 = 0, gas = 0; for (let i = 0; i < S.n; i++) { if (S.m[i] <= 1e-5) ke0 += 0.5 * S.m[i] * (S.vx[i] ** 2 + S.vy[i] ** 2);
+        if (S.shellGas[i]) gas++; }
+      const r0 = meanR(), v0 = vr();
+      for (let k = 0; k < 1000; k++) S.step(0.016);
+      const crab = { r0, v0, r1: meanR(), v1: vr(), ke0, gas,
+        pDisp: Math.hypot(S.x[72], S.y[72]), ageU: r0 / v0,
+        gOK: S.params.G === 6.674, nan: S.hasNaN() };
+      const A = build(get('crabRemnant')); for (let k = 0; k < 300; k++) A.step(0.016);
+      const sig = []; for (let i = 0; i < 20; i++) sig.push(A.x[i]);
+      const B = build(get('crabRemnant')); for (let k = 0; k < 300; k++) B.step(0.016);
+      const det = sig.every((x, i) => Object.is(x, B.x[i]));
+      return { prog, crab, det };
+    });
+    add('behavior.supernovaObs',
+      csvOK === true
+      && sn.prog.still && sn.prog.spinOK && sn.prog.rOK && sn.prog.mfOK && !sn.prog.nan
+      && sn.crab.gOK
+      && sn.crab.v0 > 15.0 && sn.crab.v0 < 15.15                    // 転写膨張速度(実測 15.06=1506 km/s)
+      && Math.abs(sn.crab.v1 - sn.crab.v0) < 0.02                    // 純自由膨張(減速なし)
+      && sn.crab.r1 > 750 && sn.crab.r1 < 790                        // 1000步で 768
+      && sn.crab.ke0 > 0.0104 && sn.crab.ke0 < 0.0105                // 殻 KE=0.010446 単位=1.04e50 erg(較正照合)
+      && sn.crab.ageU > 34.5 && sn.crab.ageU < 35.6                  // r/v=35.0 単位=1109 年(実 972 年の算術整合)
+      && sn.crab.gas === 72 && sn.crab.pDisp < 0.01 && !sn.crab.nan
+      && sn.det === true,
+      `CSV(18行・P=33.8558552784・Joyce・MJD 61206)=${csvOK} / `
+      + `🥀: 静止ビット保持=${sn.prog.still}・転写(Ω/R/massFrac)=${sn.prog.spinOK && sn.prog.rOK && sn.prog.mfOK} / `
+      + `🦀: 膨張 v ${sn.crab.v0.toFixed(3)}(=1506 km/s 転写)→${sn.crab.v1.toFixed(3)}(純自由膨張)・KE₀ ${sn.crab.ke0.toFixed(6)} 単位=1.04e50 erg(SN1054 モデル帯と同桁・正準 1e51 の1桁下)・`
+      + `r/v=${sn.crab.ageU.toFixed(1)} 単位=1109 年(実 972 年)・gas 環 ${sn.crab.gas}・パルサー変位 ${sn.crab.pDisp.toExponential(1)}・決定性=${sn.det}`);
+  } else {
+    console.log('SKIP behavior.supernovaObs(対象に第231便の 🦀 なし — root 等)');
+  }
+}
+
 // ---- 第224便(第23報): behavior.chi-law — 連星4 DFM の粒子別質量スケール較正則の機械固定 ----
 // (a) massCalibration 台帳(law/fitDt/C/baseMass/factorByBody)が4本すべてに宣言され、
 //     f_i = C×g_i が HP.chiMassFactors の再計算とビット一致
