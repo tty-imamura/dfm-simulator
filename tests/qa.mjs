@@ -5029,6 +5029,98 @@ if (!FAST) {
     }
   }
 
+  // ---- 第227便(第26報): behavior.core-axis3d — コア軸の3次元化(シンプル3段)の機械固定 ----
+  // (a) ジャイロ歳差: 殻スピン Ω_s がコア軸の方位だけを回す(dJ⊥/dt=Ω_s ẑ×J⊥ — 3レビュー一致形)。
+  //     J_z ビット不変・|J| 相対 <1e-10・方位=Ω_s·t(<1e-5)・radE 増分 0(仕事0)・θ 保存
+  // (b) 減光の tilt 耐性: コア減光はベクトル差ノルム — 殻 spin=0 の孤立ローターで lS_eff が
+  //     tilt 0/30/60/90° で不変(<1e-6 相対。旧実装は cosθ で落ち 90° で消えていた)
+  // (c) 融合のベクトル和: 整列対 |J|′=和・60°+120° 対は θ′=90° で実面内成分・反平行対は |J|′=0
+  //     (旧スカラー容量和の「隠れ容量だけが残る」非保存の解消)+コア回転 KE 欠損の熱記帳
+  //     (T_int 差が解析値 ΔE/(C·m) と一致)
+  {
+    const has3d = await page.evaluate(() => { const S = HP.sim; return S && S.coreJx !== undefined; });
+    if (!has3d) {
+      console.log('SKIP behavior.core-axis3d(コア軸3成分未適用 — root 等)');
+    } else {
+      const r3 = await page.evaluate(() => {
+        const rotor = (tilt, shellSpin) => ({
+          id:'t', name:'t', emoji:'x', group:'g', description:'d',
+          physics:{ G:1, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02, cLight:30,
+            etaRad:0, geoPN:0, radiusScale:1, softening:0.05, timeScale:1, dispMag:1 },
+          camera:{scale:20}, world:{boundary:'none', size:0},
+          bodies:[{ type:'single', m:10, x:0, y:0, vx:0, vy:0, spin:shellSpin, pinned:false, radius:2,
+            lightSweep:'auto',
+            core:{ mode:'differential', massFrac:0.3, radius:1, omega:8, Kcs:0, tilt } }],
+        });
+        // (a) 歳差
+        const v = HP.validatePreset(rotor(60, 0.2));
+        const S = HP.sim; S.build(v.preset);
+        const jz0 = S.coreJ[0], jm0 = S.coreJm[0], az0 = Math.atan2(S.coreJy[0], S.coreJx[0]), rE0 = S.radE;
+        for (let k = 0; k < 5000; k++) S.step(0.01);
+        const jmag = Math.hypot(S.coreJx[0], S.coreJy[0], S.coreJ[0]);
+        let dAz = Math.atan2(S.coreJy[0], S.coreJx[0]) - az0 - (0.2 * S.t) % (2 * Math.PI);
+        while (dAz > Math.PI) dAz -= 2 * Math.PI; while (dAz < -Math.PI) dAz += 2 * Math.PI;
+        const prec = { jzBit: Object.is(S.coreJ[0], jz0), jmRel: Math.abs(jmag / jm0 - 1),
+          azErr: Math.abs(dAz), radEd: S.radE - rE0,
+          thetaDeg: Math.acos(S.coreJ[0] / jmag) * 180 / Math.PI };
+        // (b) 減光 tilt 表(殻 spin=0)
+        const ls = [];
+        for (const t of [0, 30, 60, 90]) {
+          const v2 = HP.validatePreset(rotor(t, 0)); const S2 = HP.sim; S2.build(v2.preset);
+          S2.step(0.01); ls.push(S2.lSw[0]);
+        }
+        const lsSpread = (Math.max(...ls) - Math.min(...ls)) / Math.max(...ls);
+        // (c) 融合
+        const fuse2 = (t1, t2, om2) => {
+          const pd = { id:'f', name:'f', emoji:'x', group:'g', description:'d', thermal:'tint',
+            fusion:{ dFrac: 0.7 },
+            physics:{ G:0.001, D0:0, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.001,
+              cLight:300, etaRad:0, geoPN:0, radiusScale:1, softening:0.05, timeScale:1, dispMag:1 },
+            camera:{scale:20}, world:{boundary:'none', size:0},
+            bodies:[
+              { type:'single', m:10, x:-0.5, y:0, vx:0.02, vy:0, spin:0, pinned:false, radius:1, tInt:0,
+                core:{ mode:'differential', massFrac:0.3, radius:0.5, omega:8, Kcs:0, tilt:t1 } },
+              { type:'single', m:10, x:0.5, y:0, vx:-0.02, vy:0, spin:0, pinned:false, radius:1, tInt:0,
+                core:{ mode:'differential', massFrac:0.3, radius:0.5, omega:om2, Kcs:0, tilt:t2 } }],
+          };
+          const v2 = HP.validatePreset(pd); const S2 = HP.sim; S2.build(v2.preset);
+          const Ic = 0.5 * 3 * 0.25;
+          const E0 = (S2.coreJ[0] ** 2 + S2.coreJx[0] ** 2 + S2.coreJy[0] ** 2) / (2 * Ic)
+            + (S2.coreJ[1] ** 2 + S2.coreJx[1] ** 2 + S2.coreJy[1] ** 2) / (2 * Ic);
+          const cm = v2.preset.physics.cHeat !== undefined ? v2.preset.physics.cHeat : null;
+          for (let k = 0; k < 400 && S2.n > 1; k++) S2.step(0.05);
+          if (S2.n !== 1) return { err: 'no-fuse' };
+          const IcN = 0.5 * 6 * (S2.RcV[0] ** 2);
+          const EN = (S2.coreJm[0] ** 2) / (2 * IcN);
+          return { jm: S2.coreJm[0], jz: S2.coreJ[0], jx: S2.coreJx[0],
+            theta: S2.coreJm[0] > 1e-15 ? Math.acos(Math.max(-1, Math.min(1, S2.coreJ[0] / S2.coreJm[0]))) * 180 / Math.PI : null,
+            E0, EN, tint: S2.Tint[0], cHeat: S2.params.cHeat, m: S2.m[0] };
+        };
+        const fa = fuse2(0, 0, 8), fm = fuse2(60, 120, 8), fo = fuse2(0, 0, -8);
+        return { prec, ls, lsSpread, fa, fm, fo };
+      });
+      const fa = r3.fa, fm = r3.fm, fo = r3.fo;
+      // 融合熱の解析照合: Tint = (ΔKE_shell+ΔE_core+対ポテンシャル分)/(C·m) — コア分の差だけを
+      // 対で比較する(fa/fm/fo は同一軌道条件なので Tint 差 = コアKE欠損差/(C·m))
+      const cm = fa.cHeat * fa.m;
+      const dT_fm = (fm.tint - fa.tint) * cm, dT_fo = (fo.tint - fa.tint) * cm;
+      const dE_fm = (fa.EN - fm.EN), dE_fo = (fa.EN - fo.EN);   // E0 は共通 24
+      add('behavior.core-axis3d',
+        r3.prec.jzBit && r3.prec.jmRel < 1e-10 && r3.prec.azErr < 1e-5
+        && r3.prec.radEd === 0 && Math.abs(r3.prec.thetaDeg - 60) < 1e-9
+        && r3.lsSpread < 1e-6
+        && !fa.err && !fm.err && !fo.err
+        && Math.abs(fa.jm - 6) < 1e-12 && fa.theta === 0
+        && Math.abs(fm.theta - 90) < 1e-9 && Math.abs(fm.jx - 5.196152422706632) < 1e-9
+        && fo.jm === 0 && fo.jz === 0 && fo.jx === 0
+        && Math.abs(dT_fm - dE_fm) < 1e-4 && Math.abs(dT_fo - dE_fo) < 1e-4,   // Tint は Float32(丸め ~2e-5)
+        `歳差(5000步): J_z bit=${r3.prec.jzBit}・|J| ${r3.prec.jmRel.toExponential(1)}・方位誤差 ${r3.prec.azErr.toExponential(1)}(=Ω_s·t)・radE増 ${r3.prec.radEd}(仕事0)・θ=${r3.prec.thetaDeg.toFixed(6)}°(=60 保存) / `
+        + `減光 tilt 0/30/60/90°: [${r3.ls.map((x) => x.toFixed(6)).join(', ')}](広がり ${r3.lsSpread.toExponential(1)} <1e-6 — 傾いても消えない) / `
+        + `融合: 整列 |J|′=${fa.jm}(=6)・60+120° θ′=${fm.theta.toFixed(2)}°(=90 — 実面内 Jx=${fm.jx.toFixed(6)})・反平行 |J|′=${fo.jm}(=0 — 隠れ容量の解消)・`
+        + `コアKE欠損の熱記帳: ΔT·Cm−ΔE = ${(dT_fm - dE_fm).toExponential(1)}/${(dT_fo - dE_fo).toExponential(1)}(<1e-4 — Tint Float32 丸め)`);
+    }
+  }
+
   // ---- 第212便: core.edit-ui — コアv2 の実行時編集(有効/無効+数値)と tilt 目視の機械固定 ----
   // (a) S.applyCoreEdit が build のコア初期化式の鏡写しであること(同一入力で coreJ/coreJm ビット一致)
   // (b) 無効化(cfg=null)でコア除去+hasCoreV2 再計算・再付与で復帰(有効=フィールド追加/無効=無視)
@@ -6905,8 +6997,17 @@ if (!FAST) {
             for (let k = 0; k < 400; k++) s2.step(0.016);
             const o = []; for (let i = 0; i < s2.n; i++) o.push(s2.x[i], s2.y[i], s2.vx[i], s2.vy[i], s2.spin[i], s2.coreJ[i]); return o; };
           const da = one(), db = one();
+          // 第227便(第26報): 測光相殺 — lightSweep=massFrac=(f−1)/f の宣言(数値・tilt 不変)。
+          // (1−l)·f=1 の恒等で T_obs=観測質量側の T になる(flux 則の監査値 — auto からの導出ではない)
+          const w227 = typeof pd.bodies[0].lightSweep === 'number';
+          const dimOff = !w227 ? null : {
+            lsEqMfA: Object.is(pd.bodies[0].lightSweep, pd.bodies[0].core.massFrac),
+            lsEqMfB: Object.is(pd.bodies[1].lightSweep, pd.bodies[1].core.massFrac),
+            invA: Math.abs((1 - pd.bodies[0].lightSweep) * pd.massCalibration.factorByBody[0] - 1),
+            invB: Math.abs((1 - pd.bodies[1].lightSweep) * pd.massCalibration.factorByBody[1] - 1),
+          };
           dfm = { massOk, declOk, p2, e1, nan: S.hasNaN(), angSign, dPeri, shellHold, driftA, driftB,
-            coreDriftA, coreDriftB, clampD, lRel, comMax, pRel, negSat, negWalk, negWalkMax,
+            coreDriftA, coreDriftB, clampD, lRel, comMax, pRel, negSat, negWalk, negWalkMax, dimOff,
             det: da.length === db.length && da.every((x2, i) => Object.is(x2, db[i])) };
         }
       }
@@ -6934,6 +7035,10 @@ if (!FAST) {
       && dm.pRel < 1e-8                        // 第209便: 粒子+リザーバの線運動量が閉じる(実測 1×10⁻¹⁴)
       && dm.negSat === true                    // 第208便: 否定対照 — coupleSink 除去で同じ光学半径のまま再飽和
       && dm.negWalk === true                   // 第209便: 否定対照 — cmGauge 除去で重心が歩く(0.5公転 >1 単位)
+      // 第227便: 測光相殺 lightSweep=massFrac(ビット同一)+(1−l)·f=1(<1e-7 — リテラル丸めのみ)。
+      // 力学不変は det(lightSweep は光学専用)と第227便事前実測(除去対照ビット一致)で担保
+      && (dm.dimOff === null || (dm.dimOff.lsEqMfA && dm.dimOff.lsEqMfB
+        && dm.dimOff.invA < 1e-7 && dm.dimOff.invB < 1e-7))
       && ac.d.fam === 'variant';               // 第204便: 観測版 ✨ は variant(DFM版がメイン)
     add('behavior.alphaCenAB', csvRows.length === 9
       && declOk && !ac.kf0.nan && !ac.kf1.nan && ac.det
@@ -6958,7 +7063,9 @@ if (!FAST) {
       + `コアΩドリフト A ${(dm.coreDriftA * 100).toFixed(1)}%/B ${(dm.coreDriftB * 100).toFixed(1)}%(受け皿側 ±20% 内)・clampSN Δ=${dm.clampD}・`
       + `帳簿残差 L ${dm.lRel === undefined ? '—' : dm.lRel.toExponential(1)}/P ${dm.pRel === undefined ? '—' : dm.pRel.toExponential(1)}(<1e-8)・`
       + `重心 comMax=${dm.comMax === undefined ? '—' : dm.comMax.toExponential(1)}(<0.01 — cmGauge 第209便)・`
-      + `否定対照(coupleSink除去→再飽和)=${dm.negSat}・(cmGauge除去→歩行 ${dm.negWalkMax === undefined ? '—' : dm.negWalkMax.toFixed(1)}単位)=${dm.negWalk}・決定性=${dm.det} / `
+      + `否定対照(coupleSink除去→再飽和)=${dm.negSat}・(cmGauge除去→歩行 ${dm.negWalkMax === undefined ? '—' : dm.negWalkMax.toFixed(1)}単位)=${dm.negWalk}・`
+      + (dm.dimOff ? `測光相殺(第227便): lSw=massFrac=${dm.dimOff.lsEqMfA}/${dm.dimOff.lsEqMfB}・(1−l)·f−1=${dm.dimOff.invA.toExponential(1)}/${dm.dimOff.invB.toExponential(1)}(<1e-7 — T_obs=観測質量側・tilt 不変)・` : '')
+      + `決定性=${dm.det} / `
       + `決定性=${ac.det} / ${ac.kf0.steps}+${ac.kf1.steps}步`);
   } else {
     console.log('SKIP behavior.alphaCenAB(対象に第199便の ✨ なし — root 等)');
@@ -7169,8 +7276,16 @@ if (!FAST) {
             for (let k = 0; k < 400; k++) s2.step(0.016);
             const o = []; for (let i = 0; i < s2.n; i++) o.push(s2.x[i], s2.y[i], s2.vx[i], s2.vy[i], s2.spin[i]); return o; };
           const da = one(), db = one();
+          // 第227便: 測光相殺 lightSweep=massFrac(✴️ と同じ宣言 — B は殻 spin=0 で T_obs 恒等0)
+          const w227 = typeof pd.bodies[0].lightSweep === 'number';
+          const dimOff = !w227 ? null : {
+            lsEqMfA: Object.is(pd.bodies[0].lightSweep, pd.bodies[0].core.massFrac),
+            lsEqMfB: Object.is(pd.bodies[1].lightSweep, pd.bodies[1].core.massFrac),
+            invA: Math.abs((1 - pd.bodies[0].lightSweep) * pd.massCalibration.factorByBody[0] - 1),
+            invB: Math.abs((1 - pd.bodies[1].lightSweep) * pd.massCalibration.factorByBody[1] - 1),
+          };
           dfm = { massOk, declOk, p2, e1, rmin, nan: S.hasNaN(), angSign, dPeri, sMax,
-            clampD, lRel, comMax, pRel, negSat, negWalk, negWalkMax, n0max,
+            clampD, lRel, comMax, pRel, negSat, negWalk, negWalkMax, n0max, dimOff,
             w221, s0hold: s0min === s0max,   // 第221便: A 殻自転の全窓 bit 保持
             // コア Ω ドリフトは**宣言値 SPIN_A 基準**(coreOmV は初回 step 前 0 のため t=0 読みは使わない)
             omDriftA: w221 ? (om0max / SPIN_A - 1) * 100 : null,
@@ -7197,7 +7312,10 @@ if (!FAST) {
       && (!dm.w221 || (dm.s0hold === true                          // 第221便: A 殻自転 13.66 の全窓 bit 保持
         && dm.omDriftA !== null && dm.omDriftA >= 0 && dm.omDriftA <= 5))   // コア Ω ドリフト(claim 窓と同値)
       && dm.clampD === 0 && dm.lRel < 1e-8 && dm.pRel < 1e-8 && dm.comMax < 0.01
-      && dm.negSat === true && dm.negWalk === true;
+      && dm.negSat === true && dm.negWalk === true
+      // 第227便: 測光相殺 lightSweep=massFrac(ビット同一)+(1−l)·f=1(<1e-7)
+      && (dm.dimOff === null || (dm.dimOff.lsEqMfA && dm.dimOff.lsEqMfB
+        && dm.dimOff.invA < 1e-7 && dm.dimOff.invB < 1e-7));
     add('behavior.siriusAB', csvRows.length === 7
       && declOk && !si.kf0.nan && !si.kf1.nan
       && t0 !== null && Math.abs(t0 / 50.1284 - 1) < 0.001
@@ -7216,7 +7334,9 @@ if (!FAST) {
       + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(3) + '°/周'}(宣言 +2.55)・spin残余 ${dm.sMax === undefined ? '—' : dm.sMax.toExponential(1)}(<1e-3 — 1PN 反作用偶力のみ)・`
       + (dm.w221 ? `A殻自転13.66 bit保持=${dm.s0hold}・コアΩドリフトA ${dm.omDriftA === null ? '—' : '+' + dm.omDriftA.toFixed(2) + '%'}(宣言 +1.2・窓0〜5)・` : '')
       + `clampSN Δ=${dm.clampD}・帳簿 L ${dm.lRel === undefined ? '—' : dm.lRel.toExponential(1)}/P ${dm.pRel === undefined ? '—' : dm.pRel.toExponential(1)}・重心 ${dm.comMax === undefined ? '—' : dm.comMax.toExponential(1)}・`
-      + `否定対照(coupleSink除去→0から±40飽和)=${dm.negSat}・(cmGauge除去→歩行 ${dm.negWalkMax === undefined ? '—' : dm.negWalkMax.toFixed(1)}単位)=${dm.negWalk}・決定性=${dm.det}`);
+      + `否定対照(coupleSink除去→0から±40飽和)=${dm.negSat}・(cmGauge除去→歩行 ${dm.negWalkMax === undefined ? '—' : dm.negWalkMax.toFixed(1)}単位)=${dm.negWalk}・`
+      + (dm.dimOff ? `測光相殺(第227便): lSw=massFrac=${dm.dimOff.lsEqMfA}/${dm.dimOff.lsEqMfB}・(1−l)·f−1=${dm.dimOff.invA.toExponential(1)}/${dm.dimOff.invB.toExponential(1)}(<1e-7 — T_obs=観測質量側)・` : '')
+      + `決定性=${dm.det}`);
   } else {
     console.log('SKIP behavior.siriusAB(対象に第214便の 🌟 なし — root 等)');
   }
@@ -7734,9 +7854,29 @@ if (!FAST) {
       // This is a limitation regression: no first contact, no fusion and two bodies remain at both step sizes.
       const fourS = FAST ? null : run(pd, null, 4000 / P_OBS, 0.016);
       const fourSHalf = FAST ? null : run(pd, null, 4000 / P_OBS, 0.008);
+      // 第227便(第26報 裁定GO): petersGW オーバーレイ — 外部物理 opt-in(既定 OFF)。
+      // Peters 円軌道束の抗力+fusion(tint 門番)で実系の合体を対照再現する。
+      // 受入窓は質量スケール別: 観測質量(🎐 kF0+geoPN0)3〜5 s/DFM 質量(🎻 kF1)0.3〜0.8 s
+      // (t_merge∝1/f³ — f≈2 で約1/8。事前実測 4.116 s/0.540 s)。帳簿 L は radL 込みで機械ゼロ
+      const petersOf = (id) => {
+        if (FAST) return null;
+        const pp = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));
+        pp.physics = Object.assign({}, pp.physics, { petersGW: true });
+        pp.thermal = 'tint'; pp.fusion = { dFrac: 0.7 };
+        const v2 = HP.validatePreset(pp);
+        if (!v2.ok) return { err: true };
+        const S2 = HP.sim; S2.build(v2.preset);
+        const L0 = S2.totals().L + S2.resL + S2.radL;
+        let tM = null;
+        while (S2.t < 8000) { S2.step(0.016); if (S2.n === 1) { tM = S2.t; break; } }
+        const L1 = S2.totals().L + S2.resL + S2.radL;
+        return { tMerge: tM, fusN: S2.fusN, radE: S2.radE, nan: S2.hasNaN(),
+          lRel: Math.abs(L1 - L0) / Math.max(Math.abs(L0), 1e-9) };
+      };
+      const petersObs = petersOf('gw150914'), petersDfm = petersOf('gw150914DFM');
       for (const o of [obs, geo2, kf1, dfm, kf0f, noG, sinkCore, dtHalf, fourS, fourSHalf]) if (o) delete o.state;
       return { d, kOk, obs, obsDet, geo2, kf1, dfm, dfmDet, kf0f, noG, sinkCore, dtHalf,
-        fourS, fourSHalf, P_OBS };
+        fourS, fourSHalf, petersObs, petersDfm, P_OBS };
     }, { FAST });
     const d = gw.d;
     const declOk = d.fid === 'real' && d.L === 4 && d.T === -3 && d.M === 29 && d.sameExp
@@ -7772,6 +7912,14 @@ if (!FAST) {
       && gw.sinkCore.p2 / dm.p2 >= 0.4 && gw.sinkCore.p2 / dm.p2 <= 0.7
       && (gw.dtHalf === null || (gw.dtHalf.dec1 !== null
         && gw.dtHalf.dec1 / dm.dec1 >= 0.35 && gw.dtHalf.dec1 / dm.dec1 <= 0.65))   // 離散化仕事の線形符号
+      // 第227便: petersGW 合体窓(フルゲートのみ)— 観測質量 3〜5 s・DFM 質量 0.3〜0.8 s・
+      // 合体成立(fusN≥1)・NaN 0・帳簿 L(radL 込み)相対 <1e-9
+      && (gw.petersObs === null || (!gw.petersObs.err && !gw.petersDfm.err
+        && gw.petersObs.tMerge !== null && gw.petersObs.tMerge >= 3000 && gw.petersObs.tMerge <= 5000
+        && gw.petersDfm.tMerge !== null && gw.petersDfm.tMerge >= 300 && gw.petersDfm.tMerge <= 800
+        && gw.petersObs.fusN >= 1 && gw.petersDfm.fusN >= 1
+        && !gw.petersObs.nan && !gw.petersDfm.nan
+        && gw.petersObs.lRel < 1e-9 && gw.petersDfm.lRel < 1e-9))
       && (gw.fourS === null || ([gw.fourS, gw.fourSHalf].every((x) => !x.nan
         && x.bodyCount === 2 && x.fusionEnabled === false && x.fusionCount === 0
         && x.rmin > x.contactRadius * 5)));   // 4秒後も接触・合体しないという現状の機械固定
@@ -7789,6 +7937,7 @@ if (!FAST) {
       + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(4) + '°/周'}(宣言 +0.096)・短縮 ΔP/P=−${dm.dec1 === null ? '—' : dm.dec1.toFixed(3)}%/公転(宣言 −0.537・規約刻み)・`
       + (gw.dtHalf ? `dt/2 短縮率比=${gw.dtHalf.dec1 === null ? '—' : (gw.dtHalf.dec1 / dm.dec1).toFixed(3)}(0.35〜0.65 — 離散化仕事・合体の再現ではない)・` : `dt/2: QA_FAST では省略(フルゲートで機械固定)・`)
       + (gw.fourS ? `4秒窓: dt=.016/.008 の最小分離 ${gw.fourS.rmin.toFixed(2)}/${gw.fourSHalf.rmin.toFixed(2)}(接触 ${gw.fourS.contactRadius.toFixed(2)})・2体のまま・fusion無効・` : `4秒窓: QA_FAST では省略・`)
+      + (gw.petersObs ? `petersGW(第227便 — 外部物理opt-in): 観測質量 ${gw.petersObs.tMerge === null ? '—' : (gw.petersObs.tMerge / 1000).toFixed(3) + ' s'}(窓3〜5)・DFM ${gw.petersDfm.tMerge === null ? '—' : (gw.petersDfm.tMerge / 1000).toFixed(3) + ' s'}(窓0.3〜0.8 — t∝1/f³)・帳簿L ${gw.petersObs.lRel.toExponential(1)}/${gw.petersDfm.lRel.toExponential(1)}・` : `petersGW: QA_FAST では省略・`)
       + `否定対照(kF0×f→深い楕円 rmin=${gw.kf0f.rmin.toFixed(1)}・1周目 ${gw.kf0f.rev1 === null ? '—' : (gw.kf0f.rev1 / 1000).toFixed(4) + ' s'})・(ゲージ除去→歩行 ${gw.noG.comMax.toFixed(3)})・(sink=core→P 比 ${gw.sinkCore.p2 === null || dm.p2 === null ? '—' : (gw.sinkCore.p2 / dm.p2).toFixed(3)}〔0.4〜0.7 — 受け皿裁定・第224便〕)・`
       + `帳簿 L ${dm.lRel.toExponential(1)}/P ${dm.pRel.toExponential(1)}・決定性=${gw.dfmDet} / CSV ${gwCsv}行`);
   } else {
