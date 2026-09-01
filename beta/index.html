@@ -8513,7 +8513,7 @@ const BUILTIN_PRESETS = [
     derived:["交差時間 r_h/σ₀≈10 単位(3.2×10⁵ 年)"],
     numerical:["ソフトニング 0.5(0.16 pc)","dt 規約 0.016","seed 10447 固定"]},
   activeParams:["kFrame","G","softening"],
-  rngSeed:10447,
+  seed:2509719581,   // 第230便: 実効 seed の明示(旧 rngSeed は無効キー — 従来の ID 由来 seed と同値・ビット同一を実測)
   camera:{scale:60}, world:{boundary:"none",size:0},
   physics:{G:6.674, D0:0.006, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
     cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
@@ -8523,39 +8523,43 @@ const BUILTIN_PRESETS = [
       mMin:0.07375, mMax:0.07375, spinMin:0, spinMax:0, vMode:"random", vScale:3.0374, direction:1, rMul:0.4}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false} },
 
-{ id:"tuc47DFM", name:"球状星団 47 Tuc(DFM版)— kF1 の σ 増分を測る", emoji:"🫐", group:"現実との照合・太陽系外",
+{ id:"tuc47DFM", name:"球状星団 47 Tuc(DFM版)— χ-law 平均場の質量 hold-out", emoji:"🫐", group:"現実との照合・太陽系外",
   familyId:"tuc47", familyRole:"primary",
   scaleTier:"stellar",
   scaleExp:{L:16, T:12, M:35},
   sampleClass:"principle",
   notClaim:["cal","dm"],
   obsCard:[
-    {q:"kF1 の σ 増分(fit なしの実測)", model:"**同一配置の kF1/kF0 σ 比は 0.95〜1.06(2実現)— 実現ゆらぎの内側で有意な増分は検出されない**(N=240・5交差の記録)", obs:"—(検出には N・窓の拡大が要る — 較正段の課題として記録)"},
-    {q:"束縛と形(kF1)", model:"束縛率 94%・半光半径 12.4→10.0(kF0 と同型の緩和収縮)・NaN 0 — kF1 でも星団は保たれる", obs:"—"},
-    {q:"粒子別 χ-law を掛けない(規約)", model:"星団の全粒に f を掛けると暗い核が数百できる — 見えない質量は将来の中心1個に集約する(第27報添付レビュー一致の規約)", obs:"—"}],
+    {q:"質量較正(連星契約の星団側 — 第28報)", model:"平均場 χ̄=0.99670(自己無撞着・全対 W)→ **f=C·2χ̄=1.99340(C=1 ゼロフィット)** を全恒星粒に一様適用・lightSweep=(f−1)/f=0.4983 で見掛け質量=観測側", obs:"—(f は法則の出力・fit ノブは C=1 のまま動かさない)"},
+    {q:"σ hold-out(正直な結果)", model:"**不成立** — 5交差で σ 2.446(24.5 km/s)= 観測 σ₀ 12.4 km/s の **×1.97**。質量2倍の分散上昇が支配的(kF0 対照 2.748 — 引きずりは σ を上げない)", obs:"σ₀=12.4 km/s(CSV — N-body fit 中心値)"},
+    {q:"kF1/kF0 が画面で分かれる(f=2 で初めて)", model:"半光 12.59(kF1)vs 9.02(kF0)— 引きずりは崩壊を緩める。f=1 ではゆらぎ内だった対が、質量2倍で機械的に分離", obs:"—"},
+    {q:"中心 IMBH(設計判断: 置かない)", model:"3σ 上限 578 M☉=0.0115 単位はマクロ粒(0.147)の 0.078 倍 — N=240 の解像度では力学粒子として置けない(排他帯が配置のビット同一も壊す)。宣言のみ", obs:"IMBH は検出ではなく 3σ 上限 578 M☉"}],
   descStruct:{
-    summary:"**🍇 の対になる DFM 版**(第228便)。粒子・配置・速度規約・単位は 🍇 と同一のまま **kFrame=1(空間引きずり ON)** に切り替え、fit ノブゼロで σ と束縛の増分を実測する。実測: **同一配置の kF1/kF0 σ 比は 0.95〜1.06(2実現)— 実現ゆらぎの内側で、有意な引きずり増分は本構成(N=240・5交差)では検出されない**(記録 — 検出には N・窓の拡大が要る)。束縛率 94%(kF0 93%)・緩和収縮は kF0 と同型。**星団の全粒子に χ-law の f を掛けない**(暗い核が数百できる — 連星の局所場分率の法則を星団へ外挿しない。見えない質量を置くなら将来版で中心1個に集約する — 第27報添付レビュー一致の規約)。v1 は記録のみで観測 σ(r) 16点(CSV)との較正は行わない(宣言)。",
-    observe:"実測(5交差時間・kF1): σ 1.27→1.75・束縛率 94%・半光 12.4→10.0・NaN 0。同一配置比較(kFrame だけを切替): σ 比 0.95(🍇 配置)/1.06(🫐 配置)— ゆらぎ内。QA behavior.tuc47 が対で機械固定。",
-    control:"🍇(kF0 — 重力 E4 のみ)と対で見る(こちらは E4+空間引きずり A8/E6′)。"},
-  en:{ name:"47 Tuc (DFM build) — measuring the kF1 σ boost", descStruct:{
-    summary:"THE DFM COUNTERPART of 🍇 (wave 228). Identical particles, placement, velocity convention and units — only kFrame switches to 1 (frame dragging ON), with ZERO fit knobs, to measure the σ and binding increments. Measured: the SAME-PLACEMENT kF1/kF0 σ ratio is 0.95–1.06 across two realizations — INSIDE REALIZATION SCATTER, no significant dragging boost is detected at N=240 over 5 crossings (recorded; detection needs larger N and windows). Bound 94% (vs 93%); the relaxation contraction matches kF0. THE PER-BODY χ-LAW IS NOT APPLIED TO CLUSTER PARTICLES (it would create hundreds of dark cores — the binary local-field law is not extrapolated to clusters; any unseen mass belongs to a single future central object — the reviews' shared rule). v1 records only; no calibration against the CSV's 16-point σ(r) yet (declared).",
-    observe:"Measured (5 crossings, kF1): σ 1.27→1.75; bound 94%; half-light 12.4→10.0; zero NaN. Same-placement comparison (only kFrame toggled): σ ratios 0.95/1.06 — inside scatter. QA behavior.tuc47 fixes the pair.",
-    control:"View as a pair with 🍇 (kF0)."}},
+    summary:"**🍇 の対になる DFM 版 — 連星4本で閉じた χ-law の質量補正(f≈2)を星団に適用する hold-out**(第230便・第28報)。粒子・配置は 🍇 と**ビット同一**(seed 2509719581 を共有 — 第230便で無効キー rngSeed を修正)。**平均場 χ̄=W/(D₀+W) の全対実測は 0.99670(飽和)— 連星と同じ極限で f=C·2χ̄=1.99340(C=1・ゼロフィット)**を全恒星粒に一様に掛け、lightSweep=(f−1)/f を宣言して見掛け質量を観測側に戻す(測光相殺 — 第227便の flux 則)。粒子別の暗い核は作らない・不足分を中心1個に積まない(点質量散乱で σ が壊れる — レビュー実測)。中心 IMBH は**設計判断で置かない**(3σ 上限 578 M☉ はマクロ粒の 0.078 倍 — N=240 の解像度未満)。働くのは重力(E4)+空間引きずり(A8/E6′)。**結果(正直な記録): σ hold-out は不成立** — 5交差で σ 24.5 km/s = 観測 12.4 km/s の ×1.97(質量2倍の分散上昇が支配的)。**いっぽう f=2 で kF1/kF0 が初めて画面で分かれる**: 引きずりは崩壊を緩め、半光 12.59 vs 9.02。χ-law の適用域が近接連星に限る可能性の記録(🎻 の e 不成立と同じ流儀 — fit で隠さない)。",
+    observe:"実測(5交差・dt=0.016): **kF1(採用構成)**: σ 1.157→**2.446**(24.5 km/s — 観測 σ₀ 12.4 の ×1.97・hold-out 不成立の機械固定)・半光 13.02→12.59・束縛 94%(実行時総質量で判定)・NaN 0。**kF0 対照(同一 f)**: σ→2.748・半光→**9.02**(強い崩壊)— σ比 kF1/kF0=0.89 で、引きずりは σ を上げず崩壊を緩める側に効く(f=1 ではゆらぎ内で見えなかった対が f=2 で分離)。生成 t=0 は 🍇 と全粒ビット同一(QA が機械固定)。massCalibration 台帳と mMin=0.07375×f・lightSweep=(f−1)/f の整合も QA 照合。",
+    control:"🍇(kF0・f=1 — 重力 E4 のみの観測転写)と対で見る。kFrame を 0 に切ると同じ f=2 の崩壊対照(半光 9.0)。"},
+  en:{ name:"47 Tuc (DFM build) — the mean-field χ-law mass hold-out", descStruct:{
+    summary:"THE DFM COUNTERPART of 🍇 — the mass correction the four binaries closed (f≈2, χ-law) applied to a cluster as a HOLD-OUT (wave 230, report 28). Particles and placement are BIT-IDENTICAL to 🍇 (shared seed 2509719581 — wave 230 fixed the dead rngSeed key). The all-pairs MEAN-FIELD χ̄=W/(D₀+W) measures 0.99670 (saturated) — the same limit as the binaries — so f=C·2χ̄=1.99340 (C=1, zero fit) is applied uniformly to every stellar particle, with lightSweep=(f−1)/f declared to return the apparent mass to the observed side (the wave-227 flux rule). No per-particle dark cores; the excess is NOT piled onto one center (point-mass scattering breaks σ — measured in review). The central IMBH is BY DESIGN NOT PLACED (the 3σ upper limit 578 M☉ is 0.078 of one macro particle — below the N=240 resolution). Gravity (E4) + frame dragging (A8/E6′) act. RESULT (honest record): the σ hold-out FAILS — σ reads 24.5 km/s vs the observed 12.4 (×1.97; the doubled-mass dispersion rise dominates). YET f=2 makes kF1/kF0 visibly split for the first time: dragging softens the collapse (half-light 12.59 vs 9.02). A record that the χ-law's domain may be near binaries — not hidden by fitting (the same honesty as 🎻's e).",
+    observe:"Measured (5 crossings, dt=0.016): kF1 (the adopted build): σ 1.157→2.446 (24.5 km/s — ×1.97 of the observed 12.4; the failed hold-out machine-fixed); half-light 13.02→12.59; bound 94% (runtime total mass); zero NaN. kF0 control (same f): σ→2.748, half-light→9.02 (strong collapse) — ratio 0.89: dragging does not raise σ, it softens the collapse (a pair invisible at f=1 splits at f=2). t=0 is bit-identical to 🍇 for every particle (QA-fixed). The massCalibration ledger, mMin=0.07375×f and lightSweep=(f−1)/f are QA-checked for consistency.",
+    control:"Pair with 🍇 (kF0, f=1). Switching kFrame to 0 gives the same-f collapse control (half-light 9.0)."}},
   parameterAudit:{
     observedInputs:["🍇 と同一(CSV 転写)"],
-    fixedConventions:["🍇 と同一+kFrame=1(E6′-R)。χ-law は星団粒子へ掛けない(宣言)"],
-    fitted:["なし(fit ノブゼロ — σ 比 1.074 は実測の記録)"],
-    derived:["同一配置 kF1/kF0 σ 比 0.95〜1.06(2実現 — ゆらぎ内・有意増分なし)"],
-    numerical:["🍇 と同一"]},
+    fixedConventions:["🍇 と同一の配置(seed 2509719581 共有 — t=0 ビット同一)+kFrame=1(E6′-R)。f は全恒星粒に一様・中心 IMBH は置かない(578 M☉ 上限=解像度未満の設計判断)・粒子別核なし"],
+    fitted:["なし(C=1 のゼロフィット — σ hold-out ×1.97 不成立は正直な記録)"],
+    derived:["平均場 chiMean=0.9967006765347696(自己無撞着・全対 W)","f=C·2χ̄=1.9934013530695391(C=1)— mMin=0.07375×f=0.1470133497888785","lightSweep=(f−1)/f=0.498344877482826(測光相殺 — 見掛け質量=観測側)","σ hold-out: 実測 2.446(24.5 km/s)vs 観測 1.24(12.4 km/s)— ×1.97 不成立","kF1/kF0 の分離(f=2): 半光 12.59 vs 9.02・σ 2.446 vs 2.748"],
+    numerical:["🍇 と同一(dt=0.016・5交差=3125步)"]},
+  massCalibration:{law:"chi-law-v1-meanfield", C:1, meanChi:0.9967006765347696, factorUniform:1.9934013530695391},   // 第230便: 平均場台帳(QA が bodies の m と三者一致を照合)
   activeParams:["kFrame","G","softening"],
-  rngSeed:10447,
+  seed:2509719581,   // 第230便: 🍇 と同一配置(実効 seed 共有 — t=0 ビット同一を QA 機械固定)
   camera:{scale:60}, world:{boundary:"none",size:0},
   physics:{G:6.674, D0:0.006, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
     cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:0.5, timeScale:50, dispMag:1, frameReaction:"pairReduced"},
   bodies:[
     {type:"disk", n:240, cx:0, cy:0, radius:419, profile:"plummer", plummerScale:12.34,
-      mMin:0.07375, mMax:0.07375, spinMin:0, spinMax:0, vMode:"random", vScale:3.0374, direction:1, rMul:0.4}],
+      mMin:0.1470133497888785, mMax:0.1470133497888785,   // 0.07375×f(f=1.9934013530695391 — 平均場 χ-law・C=1)
+      lightSweep:0.498344877482826,                        // (f−1)/f — 測光相殺(第227便 flux 則)
+      spinMin:0, spinMax:0, vMode:"random", vScale:3.0374, direction:1, rMul:0.4}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false} },
 
 { id:"ngc3198", name:"渦巻銀河 NGC 3198(観測転写)— 指数円盤+NFW 対照", emoji:"🌃", group:"現実との照合・太陽系外",
@@ -8585,7 +8589,7 @@ const BUILTIN_PRESETS = [
     derived:["外縁1回転 ≈ 38 単位(1.2×10⁹ 年)"],
     numerical:["ソフトニング 1(0.32 kpc)","dt 規約 0.016","seed 31980 固定"]},
   activeParams:["kFrame","G","softening"],
-  rngSeed:31980,
+  seed:1573711561,   // 第230便: 実効 seed の明示(旧 rngSeed は無効キー — ID 由来 seed と同値・ビット同一を実測)
   camera:{scale:25}, world:{boundary:"none",size:0},
   physics:{G:6.674, D0:0.006, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
     cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
@@ -8598,42 +8602,50 @@ const BUILTIN_PRESETS = [
       mMin:2.875, mMax:2.875, spinMin:0, spinMax:0, vMode:"flat", vScale:15.01, direction:1, rMul:0.2}],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false} },
 
-{ id:"ngc3198DFM", name:"NGC 3198(DFM版)— ハロー無しの引きずりは外縁を支えるか", emoji:"🛞", group:"現実との照合・太陽系外",
+{ id:"ngc3198DFM", name:"NGC 3198(DFM版)— 恒星質量×2+自由中心核の hold-out", emoji:"🛞", group:"現実との照合・太陽系外",
   familyId:"ngc3198", familyRole:"primary",
   scaleTier:"galactic",
   scaleExp:{L:19, T:15, M:38},
   sampleClass:"principle",
   notClaim:["dm","cal"],
   obsCard:[
-    {q:"問い: ハロー無し+kF1 は外縁を支えるか", model:"**現構成では支えない**(実測 — 外縁は飛散・最遠 532 単位。kF0 同構成対照 523 も飛散)。届かないことを宣言して機械固定する(🎻 の e と同じ流儀)", obs:"V_flat=150.1 km/s(観測版 🌃 は NFW で保持)"},
-    {q:"構成(fit ノブゼロ)", model:"バリオン円盤は 🌃 と同一・halo 無し・中心に暗い回転核(m=100 単位=5×10⁹ M☉・lightSweep=1・差動コア Ω=20・Kcs=0.02 — ⚫ の縮小)を1個", obs:"—(中心質量は fit していない — 既知バリオン級の宣言値)"},
-    {q:"既知の増強比との整合", model:"🎡 の kF1/kF0=1.26・⚫ の 1.52 — 桁の増強では 150 km/s に届かない(バリオンのみのニュートン外縁 ≈60 km/s)。v2 以降の課題として記録", obs:"—"}],
+    {q:"質量較正(連星契約の銀河側 — 第28報)", model:"平均場 χ̄=0.99987(飽和)→恒星円盤に f=C·2χ̄=1.99973(C=1)を一様適用・lightSweep=(f−1)/f", obs:"—(f は法則の出力・fit ノブは C=1)"},
+    {q:"HI は f 非適用(宣言)", model:"HI は 21cm 転写の質量 — 恒星の補正則を外挿しない。shell:\"gas\" 宣言(第229便)", obs:"M_HI=1.09×10¹⁰ M☉(CSV — He 込み ×1.33)"},
+    {q:"外縁 hold-out(正直な結果)", model:"**f=2 でも届かない** — 中心核相対の外縁帯 vt 4.92(49 km/s)・最遠 604 単位(kF0 対照 515)", obs:"V_flat=150.1 km/s(SPARC)"},
+    {q:"中心核(⚫ の縮小 — 自由化)", model:"m=100 単位(宣言値・fit しない)Ω=20・Kcs=0.02。pinned を外し重心系・測定は中心核相対(反跳 43 単位)", obs:"—(SPARC はバルジ無し — 中心核は DFM 仮説)"},
+    {q:"配置と初期場の宣言", model:"seed は 🌃 と共有(排他帯・重心系変換で完全同一ではない)。vMode=flat は f=2 の平衡解ではない(動径緩和大)", obs:"—"}],
   descStruct:{
-    summary:"**🌃 の対になる DFM 版 — 「観測版が NFW で支えていた外縁を、ハロー無しの DFM 引きずりが支えるか」を測る実験**(第228便)。バリオン円盤(星+HI)は 🌃 と同一・halo は置かず・kFrame=1・中心に暗い回転核(m=100 単位=5×10⁹ M☉ の宣言値・lightSweep=1・差動コア — ⚫ bhCore の縮小)を1個置く。fit ノブはゼロ。**結果(実測): 現構成では支えない** — 外縁は飛散し(最遠 532 単位・kF0 同構成対照 523 と同型)、平坦回転は保てない。既知の増強比(🎡 1.26・⚫ 1.52)とバリオンのみの外縁 ≈60 km/s から、桁の増強では 150 km/s に届かない、という算術とも整合する。**届かないことを宣言して機械固定する**(🎻 の hold-out e 不成立と同じ正直の流儀)— 中心質量を暗黒質量のように太らせて「合わせる」ことはしない(それは NFW の再発明であって DFM の主張ではない)。",
-    observe:"実測(t=40・dt=0.016・kF1・halo 無し): 外縁は飛散(最遠 532 単位・kF0 同構成 523 — 引きずりの有無で崩壊は変わらない)・中心核は残る・NaN 0。QA behavior.ngc3198 が「観測版=保持/DFM 版=飛散」の対を機械固定。",
-    control:"🌃(NFW あり・重力 E4+外力)と対で見る(こちらは E4+空間引きずり A8/E6′ — ハロー無し)。回転曲線オーバーレイで外縁の空洞化が見える。"},
-  en:{ name:"NGC 3198 (DFM build) — can dragging hold the outer disk without a halo?", descStruct:{
-    summary:"THE DFM COUNTERPART of 🌃 — AN EXPERIMENT: can DFM frame dragging, with NO halo, hold the outer disk the observation build supports with an NFW? Baryon disks identical to 🌃; no halo; kFrame=1; one dark rotating core at the centre (a declared m=100 units = 5×10⁹ M☉, lightSweep=1, differential core — a shrunken ⚫ bhCore). Zero fit knobs. RESULT (measured): IN THIS CONFIGURATION IT DOES NOT — the outer disk scatters (farthest 532 units; the kF0 control 523 — dragging does not change the collapse), so the flat curve is not held. Consistent with the arithmetic: known enhancement ratios (🎡 1.26, ⚫ 1.52) on a baryon-only outer speed of ≈60 km/s cannot reach 150. THE SHORTFALL IS DECLARED AND MACHINE-FIXED (the same honesty as 🎻's failed hold-out e) — the central mass is NOT inflated to \"make it fit\" (that would reinvent the NFW, not test DFM).",
-    observe:"Measured (t=40, dt=0.016, kF1, no halo): the outer disk scatters — farthest 532 units (kF0 control 523); the central core survives; zero NaN. QA behavior.ngc3198 machine-fixes the held-vs-scattered pair.",
-    control:"View as a pair with 🌃 (NFW). The rotation-curve overlay shows the outer band emptying."}},
+    summary:"**🌃 の対になる DFM 版 — 連星の質量補正(χ-law f≈2)を先に適用してから「ハロー無しの引きずりが外縁を支えるか」を測り直す hold-out**(第230便・第28報 — 第228便の f=1 版を置換)。**平均場 χ̄=0.99987(飽和)→ 恒星円盤に f=1.99973(C=1・ゼロフィット)を一様適用**し lightSweep=(f−1)/f で見掛けを観測側へ。**HI(21cm 転写)には掛けない**(恒星の補正則を外挿しない — 宣言)・HI は shell:\"gas\" 宣言(第229便)。中心は暗い回転核 m=100 単位(5×10⁹ M☉ の宣言値・⚫ の縮小)を **pinned を外して重心系に置き**、測定は中心核相対。fit ノブはゼロ(C=1)。働くのは重力(E4)+空間引きずり(A8/E6′)。**結果(正直な記録): f=2 でも届かない** — 外縁帯 vt 49 km/s(観測 150)・最遠 604 単位へ飛散(kF0 対照 515 — 引きずりの寄与は符号こそ正だが桁が足りない)。vMode=flat の初期速度場は f=2 の自己重力平衡解ではないため動径緩和が大きい(次段=平衡初期化の課題として宣言)。中心質量は太らせない(NFW の再発明はしない)。",
+    observe:"実測(t=40・dt=0.016・kF1・halo 無し・中心核相対): 外縁帯(60〜130 単位)vt **4.92**(49 km/s — 観測 150 の 1/3・hold-out 不成立の機械固定)・最遠 **604** 単位(kF0 同構成対照 515)・中心核は残存し反跳で 43 単位歩く(自由中心の記録)・NaN 0・決定性ビット同一。massCalibration 台帳・mMin=1.9×f・lightSweep=(f−1)/f・HI 非適用の整合を QA 照合。",
+    control:"🌃(NFW あり・重力 E4+外力)と対で見る。kFrame=0 で引きずりを切る対照(最遠 515)。回転曲線オーバーレイで外縁の空洞化が見える。"},
+  en:{ name:"NGC 3198 (DFM build) — stellar mass ×2 + free central rotor, a hold-out", descStruct:{
+    summary:"THE DFM COUNTERPART of 🌃 — the binaries' mass correction (χ-law f≈2) applied FIRST, then re-asking whether dragging holds the outer disk without a halo (wave 230; replaces the f=1 build of wave 228). Mean-field χ̄=0.99987 (saturated) → f=1.99973 (C=1, zero fit) applied uniformly to the STELLAR disk, with lightSweep=(f−1)/f returning the appearance to the observed side. THE HI IS NOT SCALED (a 21 cm transcription — the stellar correction law is not extrapolated; declared), and carries shell:\"gas\" (wave 229). The dark central rotor m=100 units (a declared 5×10⁹ M☉ — a shrunken ⚫) is now FREE (pinned removed, barycentric frame), and all measurements are rotor-relative. Zero fit knobs (C=1). Gravity (E4) + frame dragging (A8/E6′) act. RESULT (honest record): EVEN AT f=2 IT DOES NOT REACH — outer-band vt 49 km/s (observed 150); farthest 604 units (kF0 control 515). The vMode:flat initial field is not the f=2 self-gravitating equilibrium, so radial relaxation is large (declared as the next step: equilibrium initialization). The central mass is NOT inflated (no NFW reinvention).",
+    observe:"Measured (t=40, dt=0.016, kF1, no halo, rotor-relative): outer-band (60–130) vt 4.92 (49 km/s — a third of the observed 150; the failed hold-out machine-fixed); farthest 604 (kF0 control 515); the rotor survives and recoils 43 units (free-center record); zero NaN; bit-identical reruns. The massCalibration ledger, mMin=1.9×f, lightSweep=(f−1)/f and the unscaled HI are QA-checked.",
+    control:"Pair with 🌃 (NFW). kFrame=0 removes dragging (farthest 515). The rotation-curve overlay shows the outer band emptying."}},
   parameterAudit:{
     observedInputs:["🌃 と同一(バリオン転写)"],
-    fixedConventions:["🌃 と同一+kFrame=1・halo 無し・中心核 m=100 単位(5×10⁹ M☉ — 宣言値・fit しない)・コア Ω=20・Kcs=0.02(⚫ の型)"],
-    fitted:["なし(fit ノブゼロ — 「届かない」が v1 の結果)"],
-    derived:["kF1 でも外縁は飛散(最遠 532 vs kF0 523)— 増強比の算術(🎡1.26・⚫1.52 × 外縁 60 km/s ≪ 150)と整合"],
-    numerical:["🌃 と同一"]},
+    fixedConventions:["seed 1573711561 を 🌃 と共有(中心核の排他帯・重心系変換で完全同一にはならない — 宣言)+kFrame=1・halo 無し・中心核 m=100 単位(宣言値・fit しない)Ω=20・Kcs=0.02・pinned なし+balanceFrame・HI は f 非適用+shell:\"gas\""],
+    fitted:["なし(C=1 のゼロフィット — 外縁 49 vs 150 km/s 不成立は正直な記録)"],
+    derived:["平均場 chiMean=0.9998660398257284(自己無撞着・全対 W)","恒星 f=C·2χ̄=1.9997320796514568(C=1)— mMin=1.9×f=3.7994909513377677","lightSweep=(f−1)/f=0.49993301093899795(測光相殺)","外縁 hold-out: vt 4.92(49 km/s)vs 観測 15.01(150 km/s)— 不成立・最遠 604(kF0 515)","中心核の反跳 43 単位(自由中心の記録)"],
+    numerical:["🌃 と同一(dt=0.016・t=40=2500步)"]},
+  massCalibration:{law:"chi-law-v1-meanfield", C:1, meanChi:0.9998660398257284, factorUniform:1.9997320796514568},   // 第230便: 平均場台帳(恒星のみ — QA 照合)
   activeParams:["kFrame","G","softening"],
-  rngSeed:31980,
-  camera:{scale:25}, world:{boundary:"none",size:0},
+  seed:1573711561,   // 第230便: 🌃 と実効 seed 共有(配置の完全同一は中心核の排他帯で不成立 — 宣言)
+  balanceFrame:"barycentric",   // 第230便: 自由中心核の重心系(⚫ の型)
+  camera:{scale:25, follow:300}, world:{boundary:"none",size:0},
   physics:{G:6.674, D0:0.006, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
     cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:1, timeScale:20, dispMag:1, frameReaction:"pairReduced"},
   bodies:[
     {type:"disk", n:200, cx:0, cy:0, radius:60, profile:"exponential", sersicRe:16.26,
-      mMin:1.9, mMax:1.9, spinMin:0, spinMax:0, vMode:"flat", vScale:15.01, direction:1, rMul:0.2},
+      mMin:3.7994909513377677, mMax:3.7994909513377677,   // 1.9×f(恒星 f=1.9997320796514568 — 平均場 χ-law・C=1)
+      lightSweep:0.49993301093899795,                      // (f−1)/f — 測光相殺
+      spinMin:0, spinMax:0, vMode:"flat", vScale:15.01, direction:1, rMul:0.2},
     {type:"disk", n:100, cx:0, cy:0, radius:130, profile:"exponential", sersicRe:31,
-      mMin:2.875, mMax:2.875, spinMin:0, spinMax:0, vMode:"flat", vScale:15.01, direction:1, rMul:0.2},
-    {type:"single", m:100, x:0, y:0, vx:0, vy:0, spin:0, pinned:true, radius:2, lightSweep:1,
+      mMin:2.875, mMax:2.875,   // HI は f 非適用(21cm 転写 — 恒星補正則を外挿しない宣言)
+      shell:"gas",              // 第229便宣言 — 気体の殻(コヒーレント回転なし)
+      spinMin:0, spinMax:0, vMode:"flat", vScale:15.01, direction:1, rMul:0.2},
+    {type:"single", m:100, x:0, y:0, vx:0, vy:0, spin:0, pinned:false, radius:2, lightSweep:1,
       core:{mode:"differential", massFrac:0.5, radius:1, omega:20, Kcs:0.02, inertiaScale:100}}],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false} },
 
@@ -10350,6 +10362,12 @@ function validatePreset(obj){
           else if(isNum(b.lightSweep)) oD.lightSweep=wc(b.lightSweep,0,1,"lightSweep");
           else warnings.push(at+'.lightSweep は数値(0〜1)か "auto" — 削除します');
         }
+        // 第230便: 群共通の殻の相(第229便 shell の disk 拡張 — HI ガス円盤の宣言用。
+        // disk 行は core を持たないため意味論は相フラグ+表示のみ。省略=solid で 1 bit 不変)
+        if(b.shell!==undefined){
+          if(b.shell==="solid"||b.shell==="gas") oD.shell=b.shell;
+          else warnings.push(at+'.shell は "solid"|"gas" のみ — 削除します');
+        }
         // 第228便(第27報 裁定GO): 観測プロファイル生成器 — 投影面密度の逆関数サンプリング。
         // profile 省略・"uniform" は現行の一様円盤(r=R√u)とビット一致(キーも付けない=署名不変)
         if(b.profile!==undefined){
@@ -11081,11 +11099,16 @@ function validatePreset(obj){
       if(arr2(mc.baseMass)) o.baseMass=[mc.baseMass[0], mc.baseMass[1]];
       if(arr2(mc.factorByBody) && mc.factorByBody.every((x)=>x>1 && x<=3))
         o.factorByBody=[mc.factorByBody[0], mc.factorByBody[1]];
+      // 第230便: 平均場形(集団系 — 一様 f=C·2χ̄。meanChi=全対 W の自己無撞着平均・factorUniform=f)
+      if(isNum(mc.meanChi) && mc.meanChi>0 && mc.meanChi<=1) o.meanChi=mc.meanChi;
+      if(isNum(mc.factorUniform) && mc.factorUniform>1 && mc.factorUniform<=3) o.factorUniform=mc.factorUniform;
       for(const k of Object.keys(mc))
-        if(["law","fitDt","C","baseMass","factorByBody"].indexOf(k)<0)
+        if(["law","fitDt","C","baseMass","factorByBody","meanChi","factorUniform"].indexOf(k)<0)
           warnings.push("massCalibration の未知キー("+String(k).slice(0,20)+")— 無視");
       if(o.law && o.baseMass && o.factorByBody) p.massCalibration=o;
-      else { warnings.push("massCalibration は law/baseMass/factorByBody が必須 — 無視します"); delete p.massCalibration; }
+      else if(o.law && /-meanfield$/.test(o.law) && o.meanChi!==undefined && o.factorUniform!==undefined)
+        p.massCalibration=o;   // 第230便: 平均場形は meanChi+factorUniform が台帳の本体
+      else { warnings.push("massCalibration は law/baseMass/factorByBody(または -meanfield 形の meanChi/factorUniform)が必須 — 無視します"); delete p.massCalibration; }
     }
   }
   const ov={rotationCurve:false,tempHistogram:false,field:false,spectrum:false,trail:false,monitor:false,boxGraph:false,phaseGraph:false,mechSpectrum:false,emergence:false}; // v1.12: trail/monitor を正式化(第6次裁定 7.5)。boxGraph は第32便(W2)。phaseGraph は第53便 53B(E14)。mechSpectrum は第65便 65A(機構スペクトル診断)。emergence は第82便B(創発モニタ)
@@ -12042,6 +12065,7 @@ function makeSim(){
             vx:vX+(b.bulkVx||0), vy:vY+(b.bulkVy||0),   // v1.18: 母集団の並進速度
             spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:0, railOmega:0, rMul:rM, tInt:tI, lightSweep:lS,
             };
+          if(b.shell) o.shell=b.shell;   // 第230便: 群共通の殻の相(shellGas フラグへ)
           if(cCore) o.core=cCore;   // 第80便: 群コア(付けない構成ではキーごと存在しない = 形も従来どおり)
           push(o);
         }
