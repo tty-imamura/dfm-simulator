@@ -4169,6 +4169,36 @@ const BUILTIN_PRESETS = [
      bulkVx:0, bulkVy:0}
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:true} },
+// 第229便: ⚫ の横倒し変種 — 第210便の「tilt×Kcs は併用不可」の tilt 側を実サンプル化
+{ id:"bhCoreTilt", name:"DFM版ブラックホール(横倒し)— エッジオンの暗い中心", emoji:"🪩", group:"ローターの物語",
+  scaleTier:"galactic", sampleClass:"principle", notClaim:["toy"],
+  descStruct:{
+    summary:"⚫ bhCore の**軸を横倒し(tilt=90°)にした変種**(第229便 — 3天体雛形③)。構成は ⚫ と同一(自由な中心 m=2500+降着円盤+恒星ディスク)で、コアだけ Kcs=0・tilt=90 に替える(第210便の併用不可則に従い自走〔Kcs〕は捨て、z 射影だけを見る)。tilt=90 では **J_z=0 — 「回っているのに引きずらない」**: コアの角運動量 |J| は面内(J_x)にあり、2D の空間引きずり(A8/E6′)は z 射影しか使わないため、外縁の回転曲線は重力(E4)のケプラー則側に落ちる。それでも**減光は消えない** — 第227便のベクトル差ノルム化 |Ω_c−Ω_s ẑ| の帰結で、横倒しでも中心は真っ暗のまま(旧 cosθ 実装なら 90° で見えてしまった)。スポーク描画はエッジオンの横棒。実在のブラックホール(地平面・ジェット)の再現ではない。",
+    observe:"実測(1500步): 外縁帯(150〜280)の平均接線速度 vt=3.2659 — ⚫ 基準(同窓 3.2441)と同水準で、コアの z 引きずりを失っても外縁はケプラー則+殻スピンで保たれる。**J_z=2.6×10⁻¹¹(機械ゼロ)**・|J| ドリフト 9.7×10⁻¹⁶(1500步 — 歳差は仕事0)・**減光 1.000 のまま**(tilt 90° でも効く — 第227便の機械固定と同じ帰結)・NaN 0。⚫ 対照では Kcs 自走で J_z が 4.2×10⁵→2.7×10⁵ へ移る(JmRel −0.352)— 「自走する ⚫/射影だけの 🪩」の対。QA behavior.templates229 が機械固定。",
+    control:"おすすめA/B: core.tilt を 90↔0 に振ると「引きずらない横倒し」↔「⚫ 型の z 引きずり」(Kcs=0 のまま)。kFrame=0 で引きずり自体を切る対照。"},
+  en:{name:"DFM Black Hole, Tipped Over — an Edge-On Dark Center", descStruct:{
+    summary:"⚫ bhCore with its AXIS TIPPED TO 90° (wave 229, template 3). The configuration equals ⚫ (free center m=2500 + accretion disk + stellar disk); only the core changes to Kcs=0, tilt=90 (per the wave-210 exclusion rule the self-drive is dropped, keeping just the z-projection). At tilt=90, J_z=0 — SPINNING YET NOT DRAGGING: the core's |J| lies in-plane (J_x), and 2D frame dragging (A8/E6′) only reads the z-projection, so the outer rotation curve falls back to the Keplerian side of gravity (E4). The DIMMING, though, SURVIVES — a consequence of the wave-227 vector-norm form |Ω_c−Ω_s ẑ|: the center stays pitch dark even edge-on (the old cosθ form would have lit it up at 90°). The spokes draw as an edge-on bar. Not a model of real black holes (horizons, jets).",
+    observe:"Measured (1500 steps): outer-band (150–280) mean tangential speed vt=3.2659 — on par with the ⚫ baseline (3.2441 in the same window): losing the core's z-drag leaves the outskirts held by gravity plus shell spin. J_z=2.6e-11 (machine zero); |J| drift 9.7e-16 over 1500 steps (work-free precession); DIMMING STAYS 1.000 (effective even at 90° — the same consequence wave 227 machine-fixed); zero NaN. In the ⚫ control the Kcs self-drive moves J_z from 4.2e5 to 2.7e5 (JmRel −0.352) — the pair \"self-driving ⚫ / projection-only 🪩\". QA behavior.templates229 machine-fixes these.",
+    control:"Suggested A/B: sweep core.tilt 90↔0 for \"tipped, not dragging\" ↔ \"⚫-style z-drag\" (keeping Kcs=0); kFrame=0 removes dragging altogether."}},
+  activeParams:["kFrame","kRep","D0"],
+  balanceFrame:"barycentric",
+  camera:{scale:400, follow:0}, world:{boundary:"none",size:0}, seed:20260805,
+  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:1, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:3, timeScale:3,
+    frameReaction:"pairReduced"},
+  bodies:[
+    // ⚫ と同一の中心 — コアだけ Kcs=0・tilt=90(横倒し。shell 宣言は solid=既定を明示)
+    {type:"single", m:2500, x:0,y:0, vx:0,vy:0, spin:0.15, pinned:false, radius:15,
+     lightSweep:"auto", shell:"solid",
+     core:{mode:"differential", massFrac:0.3, radius:7.5, omega:20, Kcs:0, tilt:90}},
+    {type:"box", rMul:2, n:120, cx:0,cy:0, w:200, h:16, mMin:0.05,mMax:0.05,
+     spinMin:2.4, spinMax:3.6, vScale:0.05},
+    {type:"disk", rMul:1.2, n:200, cx:0,cy:0, radius:260, mMin:0.16,mMax:0.5,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2500, vScale:1.05, direction:1,
+     bulkVx:0, bulkVy:0}
+  ],
+  overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:true} },
 // 第81便 B: 🪜massLadder — 隠れ質量ラダー(第74便 exp-4-70 E3 の採択残のサンプル化)。
 // 「光度から推定される質量」と「軌道から読む力学質量」が、この宇宙の法則の内側で分離する。
 // 減光 auto の重い中心核は T_obs=0(完全減光=光度質量0)のまま、外縁リングの v²r/G は
@@ -9458,6 +9488,81 @@ const BUILTIN_PRESETS = [
   ],
   // 温度ヒストグラム(左右の平均温度)は球対称の星では意味を持たないので出さない(🌪️spinup と同じ)
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
+// 第229便(第27報): 3天体雛形 — 恒星 🌻・パルサー灯台 🏮・超新星見立て 🎇(+⚫ の横倒し変種 🪩)。
+// 共通の文法: 殻=光学(shell:"solid"|"gas" 宣言)・コア=エンジン・融合=熱源・減光=見た目・傾き=z射影。
+// 新しい法則は足さない — 既存 primitive の合成(3層化設計の第2段。第1段= shell 宣言は検証器)
+{ id:"starDFM", name:"恒星の二層雛形 — 光球の殻+差動コア", emoji:"🌻", group:"天体の物語",
+  scaleTier:"stellar", sampleClass:"composite", notClaim:["toy"],
+  descStruct:{
+    summary:"☀️(融合を熱源とする恒星)に**二層の核**を与えた恒星雛形(第229便 — 第27報の3天体雛形①)。層0=差動コア(質量比0.3・Ω=0.5・傾き7° — 太陽の自転軸傾斜に相当する宣言値)・層1=光球の殻(shell:\"solid\" 宣言・遅い自転 0.08・lightSweep=0 で明るいまま)・層2=☀️ と同一のガス200粒(融合の燃料)。働いているのは重力(E4)+接触ばね(E9)+放射(E11)で、kFrame=0 なのでコアは力学に一切入らない — **☀️ と全チェックポイントでビット同一**(同一 seed)。コアの意味はここでは「軸を持つ器」: 殻スピン 0.08 が第227便のジャイロ歳差でコア軸の方位を回す(dJ⊥/dt=Ω_s ẑ×J⊥ — 仕事0)。実在の恒星内部(対流層・輻射層)の再現ではない(トイ近似の宣言)。",
+    observe:"実測(6000步=t96・☀️ と同一 seed): 位置ハッシュ・粒子数(114)・radE(2532.9)が**☀️ とビット同一** — コア・殻スピン・傾きは kFrame=0 の力学に1bitも入らない(番号の付いた器)。いっぽうコア軸の方位は殻スピンに引かれて**歳差**する: 6000步で 80°(=0.08×96 rad−360° — 解析値と桁一致・スポーク描画で見える)。傾き7°は不変・|J| も不変(仕事0の歳差)。QA behavior.templates229 が「ビット同一+方位窓」を機械固定。",
+    control:"おすすめA/B: core.tilt を 0↔60 に振ってもビット同一のまま(z射影は描画と減光のみ)。kFrame=1 にすると空間引きずり(A8/E6′)が入り ☀️ から分岐する — その先の用量反応は 🎇 が担当。"},
+  en:{name:"Two-Layer Star Template — Photosphere Shell + Differential Core", descStruct:{
+    summary:"The star template (wave 229): ☀️ (fusion-heated star) given a TWO-LAYER nucleus. Layer 0 = a differential core (massFrac 0.3, Ω=0.5, tilt 7° — a declared value corresponding to the Sun's axial tilt); layer 1 = the photosphere shell (declared shell:\"solid\", slow spin 0.08, lightSweep=0 so it stays bright); layer 2 = the same 200 gas grains as ☀️ (fusion fuel). Gravity (E4), contact springs (E9) and radiation (E11) act; with kFrame=0 the core never enters the dynamics — BIT-IDENTICAL to ☀️ at every checkpoint (same seed). What the core adds here is an axis: the shell spin 0.08 precesses the core's azimuth via the wave-227 gyro term (work-free). Not a model of real stellar interiors (declared toy approximation).",
+    observe:"Measured (6000 steps = t96, same seed as ☀️): position hash, particle count (114) and radE (2532.9) are BIT-IDENTICAL to ☀️ — core, shell spin and tilt never enter kFrame=0 dynamics. The core axis azimuth, though, PRECESSES under the shell spin: 80° in 6000 steps (=0.08×96 rad −360°, matching the analytic value; visible in the spoke drawing). Tilt 7° and |J| are unchanged (work-free precession). QA behavior.templates229 machine-fixes the bit identity and the azimuth window.",
+    control:"Suggested A/B: sweeping core.tilt 0↔60 stays bit-identical (the z-projection only affects drawing and dimming). Setting kFrame=1 brings in frame dragging (A8/E6′) and the run departs from ☀️ — that dose-response belongs to 🎇."}},
+  activeParams:["kFrame","G","etaRad"],
+  thermal:"tint", fusion:{dFrac:0.35}, validT:192,
+  camera:{scale:320}, world:{boundary:"circle",size:300}, seed:20260730,
+  physics:{G:4, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+    cLight:30, bM:1, etaRad:0.0016, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
+    pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2},
+  bodies:[
+    // 層0+1: 二層の核(☀️ の pinned 核+差動コア。kF0 なのでコアは力学不干渉 — QA が機械固定)
+    {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.08, pinned:true, tInt:2, lightSweep:0,
+     shell:"solid", core:{mode:"differential", massFrac:0.3, radius:12, omega:0.5, Kcs:0, tilt:7}},
+    // 層2: ☀️ と同一のガス球(同一 seed で配置もビット同一)
+    {type:"disk", n:200, cx:0,cy:0, radius:200, mMin:1,mMax:1,
+     spinMin:0,spinMax:0, tInt:2, vMode:"kepler", aroundMass:600, vScale:0.6, direction:1}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
+{ id:"pulsarSolo", name:"パルサー灯台(単体)— 傾いた軸と運動学の時計", emoji:"🏮", group:"天体の物語",
+  scaleTier:"stellar", sampleClass:"principle", notClaim:["toy"],
+  descStruct:{
+    summary:"パルサーを**1体の灯台**として置く雛形(第229便 — 3天体雛形②)。連星較正 ⚡(J0737−3039)から較正部分を外し、原理だけを残す: 殻= spin 0(観測自転 22.65/単位は殻値域 ±20 の外 — ⚡ と同じ宣言つき降格)・shell:\"solid\"・**時計は第226便の運動学パルスチャネル** pulse:{omega:22.654675, source:\"observed\"}(J0737−3039B の観測転写 — パルス=コアスピン随伴の発光スペクトル・力学不干渉)・コアにも同じ Ω を転写(コア値域 ±50 内)・**軸の傾き45°**(灯台の斜め — 描画は楕円スポーク)。減光は宣言値 lightSweep=0.85(トイの暗さ — auto では 0.008 しか出ない単体構成)。重力(E4)・空間引きずり(A8/E6′)は相手がいないため静止のまま。TOA・パルスプロファイルの再現は主張しない。",
+    observe:"実測(1000步): ①**静止の保持** — 位置・速度・殻スピンは全窓ビット0のまま(単体+kFrame=1 でも E6′ は相手が要る)。②**時計の恒等** — パルス位相 φ=ω·t が比 1.000000000(9桁)で成立し、**傾き45°でも割れない**(位相は運動学積分で、力学 Ω_z=|Ω|cos45° の射影を経由しない — 第226便チャネルの設計どおり)。③Jz/|J|=cos45°=0.707107(z射影の宣言どおり)・lightSweep 0.85 保持。QA behavior.templates229 が機械固定。",
+    control:"おすすめA/B: core.tilt 45↔0 でスポーク描画が楕円↔円に変わる(時計・力学は不変)。pulse を外すと時計が消える(軌道は1bitも変わらない — 第226便の除去対照と同じ)。"},
+  en:{name:"Pulsar Lighthouse (Solo) — Tilted Axis, Kinematic Clock", descStruct:{
+    summary:"A pulsar as a SINGLE lighthouse (wave 229, template 2). The calibration part of the binary ⚡ (J0737−3039) is removed, keeping the principles: shell spin 0 (the observed 22.65/unit is outside the shell range ±20 — the same declared demotion as ⚡); shell:\"solid\"; the CLOCK is the wave-226 kinematic pulse channel pulse:{omega:22.654675, source:\"observed\"} (transcribed from J0737−3039B — the pulse is an emission spectrum riding the core spin, never entering dynamics); the same Ω transcribed onto the core (within the core range ±50); AXIS TILT 45° (the lighthouse slant — drawn as elliptical spokes). Dimming is the declared toy value lightSweep=0.85 (auto yields only 0.008 in this solo configuration). Gravity (E4) and frame dragging (A8/E6′) have no partner, so it rests. No claim to reproduce TOAs or pulse profiles.",
+    observe:"Measured (1000 steps): (1) REST HOLDS — position, velocity and shell spin stay bit-zero in every window. (2) CLOCK IDENTITY — the pulse phase φ=ω·t holds to ratio 1.000000000 (9 digits), UNBROKEN by the 45° tilt (the phase is a kinematic integral and never passes through the dynamical z-projection Ω_z=|Ω|cos45° — exactly the wave-226 channel design). (3) Jz/|J|=cos45°=0.707107 as declared; lightSweep stays 0.85. QA behavior.templates229 machine-fixes all three.",
+    control:"Suggested A/B: core.tilt 45↔0 switches the spokes ellipse↔circle (clock and dynamics unchanged). Removing pulse removes the clock (orbits unchanged to the bit — same as the wave-226 removal control)."}},
+  activeParams:["kFrame","G","softening"],
+  camera:{scale:2}, world:{boundary:"none",size:0}, seed:20260901,
+  physics:{G:1, D0:0.006, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0,
+    kappaT:0.0011111111111111111, cLight:3000, bM:1, etaRad:0, pRad:2, gravityX:0, gravityY:0,
+    geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:1, timeScale:10, coupleSink:"core"},
+  bodies:[
+    // 殻=光学(spin0 の宣言つき降格)・コア=時計の器(Ω 転写・tilt45)・pulse=表示専用の位相時計
+    {type:"single", m:2.5, x:0,y:0, vx:0,vy:0, spin:0, pinned:false, radius:0.02,
+     shell:"solid", lightSweep:0.85, pulse:{omega:22.654675, source:"observed"},
+     core:{mode:"differential", massFrac:0.5, radius:0.01, omega:22.654675, Kcs:0, tilt:45}}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
+{ id:"supernovaCore", name:"超新星の見立て — 速すぎるコアが外殻を吹き飛ばす", emoji:"🎇", group:"天体の物語",
+  scaleTier:"stellar", sampleClass:"principle", notClaim:["toy"],
+  descStruct:{
+    summary:"「コアのスピンが速すぎると外殻が吹き飛ぶ」という本モデルの計算上の知見を**超新星爆発の見立て**として1サンプルにする(第229便 — 第27報④)。☀️ と同一のガス200粒(赤色巨星のエンベロープ役)+同一の中心核に、**高速の差動コア(Ω=40・Kcs=0)**を入れ kFrame=1 にする — コアの角運動量が空間引きずり(A8/E6′)の源になり、エンベロープを直接掃き出す(⚫ bhCore の「コアが主因」と同じ機構)。働くのは重力(E4)+引きずり(A8/E6′)+接触ばね(E9)+融合の熱源+放射(E11)。**実在の超新星機構(ニュートリノ加熱・衝撃波・⁵⁶Ni・光度曲線)はモデル化しない** — 回転駆動の殻放出という遠い類推(磁気回転駆動超新星の方向)であり、sampleClass=principle のトイ実験。中心核は ☀️ と同じ位置固定の外部拘束(温度一定のリザーバ)。残るのは裸の二層核=「中性子星として残るコア」の見立て(パルス時計は観測転写が無いため付けない — source:\"observed\" 規約)。",
+    observe:"実測(6000步=t96・用量反応): コア Ω=0/10/20/40 で脱出速度超えのエンベロープ粒は **9.3%→42.2%→60.0%→66.1%**(単調増)・放射エネルギー radE は **3242→56490(17倍の増光)** — 引きずりが注いだ運動エネルギーが融合・接触経由で熱と光になる(見立ての「爆発の明るさ」)。否定対照: **kFrame=0(引きずり無し)では Ω=40 でも 17.7%**(重力落ち込み系のまま)— 機構が A8/E6′ であることの直接証明。コア Ω は Kcs=0 なので全窓 40 のまま(帳簿はクランプ宣言込み)・決定性ビット同一・NaN 0。QA behavior.supernova が用量反応の両端と否定対照を機械固定。",
+    control:"おすすめA/B: kFrame=0(吹き飛ばない対照 — 実測 17.7%)、core.omega=0(静かな星 — ☀️ と同じ落ち込み・9.3%)。dFrac を 0 にすると熱源が消え、増光の融合経路が切れる。"},
+  en:{name:"A Supernova Analogy — a Too-Fast Core Blows Off the Envelope", descStruct:{
+    summary:"The model's computational finding that A CORE SPINNING TOO FAST BLOWS OFF THE SHELL, staged as a SUPERNOVA ANALOGY (wave 229). The same 200 gas grains as ☀️ (playing a red giant's envelope) and the same central nucleus, now with a FAST DIFFERENTIAL CORE (Ω=40, Kcs=0) and kFrame=1 — the core's angular momentum sources frame dragging (A8/E6′) and sweeps the envelope out directly (the same mechanism as ⚫ bhCore's core-dominant driving). Gravity (E4), dragging (A8/E6′), contact springs (E9), fusion heating and radiation (E11) act. REAL SUPERNOVA MECHANISMS (neutrino heating, shock revival, 56Ni, light curves) ARE NOT MODELLED — this is a distant analogy of rotation-driven envelope ejection (in the direction of magnetorotational supernovae), a principle-class toy. The nucleus is pinned as in ☀️ (an external constraint, constant-temperature reservoir). What remains is the bare two-layer nucleus — the analogy's neutron-star remnant (no pulse clock: nothing observed to transcribe, per the source:\"observed\" rule).",
+    observe:"Measured (6000 steps = t96, dose-response): with core Ω=0/10/20/40 the envelope fraction above escape speed reads 9.3% → 42.2% → 60.0% → 66.1% (monotone), and radE rises 3242 → 56490 (a 17× brightening) — the kinetic energy injected by dragging becomes heat and light through fusion and contacts (the analogy's explosion luminosity). Negative control: with kFrame=0 even Ω=40 gives 17.7% (an ordinary infall system) — direct proof the mechanism is A8/E6′. Core Ω stays 40 in every window (Kcs=0; the ledger includes the clamp declaration); bit-identical reruns; zero NaN. QA behavior.supernova machine-fixes both ends of the dose and the control.",
+    control:"Suggested A/B: kFrame=0 (the no-blow-off control — measured 17.7%) or core.omega=0 (a quiet star — the same infall as ☀️, 9.3%). Setting dFrac to 0 removes the heat source and cuts the brightening path."}},
+  activeParams:["kFrame","G","etaRad"],
+  thermal:"tint", fusion:{dFrac:0.35}, validT:96,
+  camera:{scale:320}, world:{boundary:"circle",size:300}, seed:20260730,
+  physics:{G:4, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+    cLight:30, bM:1, etaRad:0.0016, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
+    pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2},
+  bodies:[
+    // 崩壊済みの高速コア(Ω=40・Kcs=0 — 引きずりの源)+光球殻。中心は ☀️ と同じ外部拘束
+    {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.1, pinned:true, tInt:2,
+     shell:"solid", core:{mode:"differential", massFrac:0.5, radius:12, omega:40, Kcs:0}},
+    // 赤色巨星のエンベロープ役(☀️ と同一のガス球・同一 seed)
+    {type:"disk", n:200, cx:0,cy:0, radius:200, mMin:1,mMax:1,
+     spinMin:0,spinMax:0, tInt:2, vMode:"kepler", aroundMass:600, vScale:0.6, direction:1}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
 // 第77便: 🌱starSeed — 星の種ローター(コアv2 の実演)。裁定(2026-08-05): コアのスピン加速の
 // 主要因=自己重力圧縮(contract — J保存で Ω=J/I 上昇・核融合は密度増の副産物)。さらに加速する
 // 副機構としてパワーボール原理(ジャイロ器具の2Dアナログ — 殻の振動加速度が「手首の揺すり」。
@@ -10121,6 +10226,19 @@ function validatePreset(obj){
           if(!pl||typeof pl!=="object"||Array.isArray(pl)||!isNum(pl.omega)||pl.source!=="observed")
             warnings.push(at+'.pulse は {omega:数値, source:"observed"} — 削除します');
           else o.pulse={omega:wc(pl.omega,0,1e6,"pulse.omega"), source:"observed"};
+        }
+        // 第229便(第27報): shell — 殻(層1)の相の宣言。"solid"(既定 — 省略と厳密等価)|"gas"。
+        // 気体の殻はコヒーレントな剛体回転を保持しない(接触・圧力で粒が入れ替わる)ため、
+        // コア⇄殻の等量 J 交換(Kcs)は受け皿を失う — 検証器が Kcs を 0 に落とす(警告つき)。
+        // 新しい粒子種・法則は足さず、既存ノブの既定変更と表示だけで表現する(3層化設計の第1段)
+        if(b.shell!==undefined){
+          if(b.shell==="solid"||b.shell==="gas"){
+            o.shell=b.shell;
+            if(b.shell==="gas" && o.core && o.core.mode!=="cavity" && o.core.Kcs>0){
+              warnings.push(at+'.shell:"gas" の殻はコヒーレント回転を保持しない — core.Kcs を 0 に修正');
+              o.core.Kcs=0;
+            }
+          } else warnings.push(at+'.shell は "solid"|"gas" のみ — 削除します');
         }
         // E13(第11次裁定 保留分の実施): AI生成・インポートへ zonal を開放。
         // 偶数次 J2〜J12 のみ受理し、|J|≤0.1・refR 1〜5000・calib 0〜2 にクランプする
@@ -11746,6 +11864,7 @@ function makeSim(){
     // (rad/モデル時間単位・観測転写)・pulsePh=累積位相(Float64 — rotAc と同じ精度根拠)。
     // 表示・診断専用で物理はこの2配列を 1 bit も読まない(コア Ω のクランプ・緩和とも独立)
     S.pulseOm=new Float64Array(n); S.pulsePh=new Float64Array(n); S.hasPulse=false;
+    S.shellGas=new Uint8Array(n);   // 第229便: shell:"gas" 宣言(意味論は検証器の Kcs=0 強制+表示)
     S.lSw=F();S.radOv=F();    // 観測系(第22便 — obsT/coreOT は第61便で廃止)
     // 第77便(コアv2): 独立コア(opt-in。第80便で disk/ring 群にも開放)。J_core が主変数
     // (Float64 — 帳簿精度)。coreMd: 0=コアなし・1=rigid(軸固定)・
@@ -12022,6 +12141,7 @@ function makeSim(){
       // 第226便: パルス時計チャネル(single の pulse:{omega,source:"observed"} — 未指定=0 で従来と厳密等価)
       if(o.pulse){ S.pulseOm[i]=o.pulse.omega; S.pulsePh[i]=0; S.hasPulse=true; }
       else { S.pulseOm[i]=0; S.pulsePh[i]=0; }
+      S.shellGas[i]=(o.shell==="gas")?1:0;   // 第229便: 殻の相
       // 第77便(コアv2): 独立コア。J_core=½·Mc·Rc²·omega で初期化(以後 J が主変数)
       // 第80便: mode を4種へ拡張。cavity は質量0・慣性0なので J を持たず、Ω は規定値 coreOm0。
       // 引きずり重みは coreMF=−voidFraction(旧コアv1 の coreMR<0 と同じ符号反転を「重み」で表す)
@@ -12577,7 +12697,7 @@ function makeSim(){
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
       "Tint","dQi","arep","arepD","duT","echoX0","echoY0",
-      "linId","linN","pulseOm","pulsePh"]) mv(S[key]);   // 第100便 EXT-10: 形成系譜 / 第226便: パルス時計
+      "linId","linN","pulseOm","pulsePh","shellGas"]) mv(S[key]);   // 第100便 EXT-10: 形成系譜 / 第226便: パルス時計
     // 旧 index → 新 index の写像(消えた粒子は融合先へ写す)
     const nm=new Int32Array(n).fill(-1);
     for(let t=0;t<k;t++) nm[keep[t]]=t;
@@ -12613,7 +12733,7 @@ function makeSim(){
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
       "Tint","dQi","arep","arepD","duT","echoX0","echoY0",
-      "linId","linN","pulseOm","pulsePh"]){   // 第100便 EXT-10: 形成系譜 / 第226便: パルス時計
+      "linId","linN","pulseOm","pulsePh","shellGas"]){   // 第100便 EXT-10: 形成系譜 / 第226便: パルス時計
       const a=S[key]; if(!a) continue;
       const b=new a.constructor(nc); b.set(a); S[key]=b;
     }
@@ -12771,6 +12891,7 @@ function makeSim(){
       S.lSw[j]=S.lSw[i]; S.lSwAuto[j]=S.lSwAuto[i]; S.tau[j]=S.tau[i];
       S.rotA[j]=S.rotA[i]; S.rotAc[j]=S.rotAc[i]; S.hasU[j]=S.hasU[i]; S.pinned[j]=0;
       S.pulseOm[j]=0; S.pulsePh[j]=0;   // 第226便: 分裂片は時計を持たない(観測転写の帰属が未定義)
+      S.shellGas[j]=S.shellGas[i];   // 第229便: 分裂片は親の相を引き継ぐ
       for(const k2 of [i,j]){
         S.railR[k2]=0; S.railAng[k2]=0; S.railOmega[k2]=0; S.railCx[k2]=0; S.railCy[k2]=0; S.railH[k2]=0;
         S.accVx[k2]=0; S.accVy[k2]=0; S.accS[k2]=0;
@@ -17287,7 +17408,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
       // 伸びていても RangeError にならない。fission の無い宇宙では sim[k].length===sim.n なので
       // subarray は配列そのものと等しく、従来と 1 ビットも変わらない)
       "railR","railAng","railOmega","railCx","railCy",
-      "pulseOm","pulsePh"]) simB[k].set(sim[k].subarray(0,sim.n));   // 第226便: パルス時計
+      "pulseOm","pulsePh","shellGas"]) simB[k].set(sim[k].subarray(0,sim.n));   // 第226便: パルス時計
     simB.hasCoreV2=sim.hasCoreV2; simB.hasLSwAuto=sim.hasLSwAuto; simB._rsUsed=sim._rsUsed;
     simB.hasPulse=sim.hasPulse;   // 第226便
     simB.hasCoreTilt=sim.hasCoreTilt;   // 第227便
@@ -17484,7 +17605,7 @@ function applyPhaseEdits(S,o){
 let ckSnap=null;
 const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU","pinned",
   "mEff","rotAc","lSw","radOv","rMulv","lSwAuto",   // 第81便: コアv1 配列は廃止
-  "pulseOm","pulsePh",   // 第226便: パルス時計チャネル(表示診断層も巻き戻しで整合)
+  "pulseOm","pulsePh","shellGas",   // 第226便: パルス時計チャネル / 第229便: 殻の相
   "coreMd","coreMF","RcV","coreJ","coreKcs","corePump","coreCtr",
   "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内
   "railR","railAng","railOmega","railCx","railCy","railH",
@@ -22048,7 +22169,7 @@ function updateBodyEdit(){
     const Ic=(md===4)? 0 : ((Rci>0)? 0.5*Mc*Rci*Rci*S.coreIS[i] : 0);
     const Omc=(md===1)? S.spin[i] : ((md===4)? S.coreOm0[i] : ((Ic>1e-12)? S.coreJ[i]/Ic : 0));
     const Oms=S.spin[i];                       // Ω_s = 殻スピン
-    $("#beCvMode").value=coreModeName(md);
+    $("#beCvMode").value=coreModeName(md)+(S.shellGas[i]? "・殻=気体" : "");   // 第229便
     $("#beCvOm").value=`${fmt(Omc)}/${fmt(Oms)}/${fmt(Omc-Oms)}`;
     $("#beCvJ").value=`${fmt(S.coreJ[i])}/${fmt(Ic)}/${fmt(S.coreKcs[i])}`;
     // 第92便(原仮定者指示): 見切れ対策の補助 — 全文をツールチップ(title)にも載せる

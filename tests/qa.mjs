@@ -8083,6 +8083,141 @@ if (!FAST) {
   }
 }
 
+// ---- 第229便(第27報): shell.decl — 殻の相の宣言(3層化 第1段)の機械固定 ----
+// gas → core.Kcs を 0 に強制(警告つき)/不正値 → 警告+削除/solid=省略とビット同一
+{
+  const hasShell = await page.evaluate(() => { const S = HP.sim; return S.shellGas !== undefined; });
+  if (hasShell) {
+    const sd = await page.evaluate(() => {
+      const base = () => JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'starcore')));
+      const p1 = base(); p1.bodies[0].shell = 'gas';
+      p1.bodies[0].core = { mode: 'differential', massFrac: 0.3, radius: 12, omega: 5, Kcs: 0.5 };
+      const v1 = HP.validatePreset(p1);
+      const gas = { ok: v1.ok, kcs: v1.preset.bodies[0].core.Kcs, shell: v1.preset.bodies[0].shell,
+        warned: (v1.warnings || []).some((w) => w.indexOf('shell') >= 0) };
+      const p2 = base(); p2.bodies[0].shell = 'liquid';
+      const v2 = HP.validatePreset(p2);
+      const bad = { warned: (v2.warnings || []).some((w) => w.indexOf('shell') >= 0),
+        dropped: v2.preset.bodies[0].shell === undefined };
+      const runO = (pd) => { const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+        for (let k = 0; k < 400; k++) S.step(0.016);
+        const o = []; for (let i = 0; i < 30; i++) o.push(S.x[i], S.y[i], S.vx[i], S.vy[i]); return o; };
+      const a = runO(base()); const p3 = base(); p3.bodies[0].shell = 'solid'; const b = runO(p3);
+      return { gas, bad, solidEq: a.every((x, i) => Object.is(x, b[i])) };
+    });
+    add('shell.decl',
+      sd.gas.ok && sd.gas.kcs === 0 && sd.gas.shell === 'gas' && sd.gas.warned === true
+      && sd.bad.warned === true && sd.bad.dropped === true
+      && sd.solidEq === true,
+      `gas: Kcs 0.5→${sd.gas.kcs}(強制・警告=${sd.gas.warned})・宣言保持=${sd.gas.shell === 'gas'} / `
+      + `不正値: 警告=${sd.bad.warned}・削除=${sd.bad.dropped} / solid=省略とビット同一=${sd.solidEq}`);
+  } else {
+    console.log('SKIP shell.decl(shell 宣言未適用 — root 等)');
+  }
+}
+
+// ---- 第229便: behavior.templates229 — 3天体雛形(🌻/🏮/🪩)の機械固定 ----
+// 🌻: kF0 力学ビット同一(☀️ と同一 seed)+ジャイロ方位歳差の解析窓/🏮: 静止保持+
+// 傾き45°でも位相恒等(運動学時計)/🪩: tilt90 で Jz 機械ゼロ・|J| 保存・減光1.000 のまま
+{
+  const hasT = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'starDFM'));
+  if (hasT) {
+    const tp = await page.evaluate(() => {
+      const build = (id) => { const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset); return S; };
+      // 🌻 vs ☀️(同一 seed): 6000步のビット同一+方位
+      const runStar = (id) => { const S = build(id);
+        for (let k = 0; k < 6000; k++) S.step(0.016);
+        const o = []; for (let i = 0; i < S.n; i++) o.push(S.x[i], S.y[i]);
+        return { n: S.n, radE: S.radE, o,
+          az: Math.atan2(S.coreJy ? S.coreJy[0] : 0, S.coreJx ? S.coreJx[0] : 1) * 180 / Math.PI,
+          nan: S.hasNaN() }; };
+      const sp = runStar('starcore'); const sd = runStar('starDFM');
+      const star = { nEq: sp.n === sd.n, bitEq: sp.n === sd.n && sd.o.every((x, i) => Object.is(x, sp.o[i])),
+        radEEq: Object.is(sp.radE, sd.radE), az: sd.az, nan: sd.nan };
+      // 🏮: 1000步 — 静止・位相恒等・z 射影
+      const P = build('pulsarSolo');
+      for (let k = 0; k < 1000; k++) P.step(0.016);
+      const pul = { still: P.x[0] === 0 && P.y[0] === 0 && P.vx[0] === 0 && P.vy[0] === 0 && P.spin[0] === 0,
+        phRel: Math.abs(P.pulsePh[0] / (22.654675 * P.t) - 1),
+        zProj: Math.abs(P.coreJ[0] / P.coreJm[0] - Math.SQRT1_2),
+        lSw: P.lSw[0], nan: P.hasNaN() };
+      // 🪩 vs ⚫: 1500步 — Jz・|J|・減光・外縁 vt
+      const runBH = (id) => { const S = build(id);
+        const J0 = Math.hypot(S.coreJx[0], S.coreJy[0], S.coreJ[0]);
+        for (let k = 0; k < 1500; k++) S.step(0.016);
+        let sV = 0, n = 0;
+        for (let i = 0; i < S.n; i++) { const r = Math.hypot(S.x[i] - S.x[0], S.y[i] - S.y[0]);
+          if (r >= 150 && r <= 280 && S.m[i] >= 0.16 && S.m[i] <= 0.5) {
+            const tx = -(S.y[i] - S.y[0]) / r, ty = (S.x[i] - S.x[0]) / r;
+            sV += (S.vx[i] - S.vx[0]) * tx + (S.vy[i] - S.vy[0]) * ty; n++; } }
+        return { vt: n ? sV / n : 0, Jz: S.coreJ[0],
+          JmRel: Math.abs(Math.hypot(S.coreJx[0], S.coreJy[0], S.coreJ[0]) - J0) / J0,
+          lSw: S.lSw[0], nan: S.hasNaN() }; };
+      const bt = runBH('bhCoreTilt'); const bb = runBH('bhCore');
+      return { star, pul, bt, bb };
+    });
+    add('behavior.templates229',
+      tp.star.bitEq === true && tp.star.radEEq === true && !tp.star.nan       // 🌻 = ☀️(kF0 力学不干渉)
+      && tp.star.az > 75 && tp.star.az < 85                                    // 方位歳差(解析 80.0°)
+      && tp.pul.still === true && tp.pul.phRel < 1e-9                          // 🏮 静止+位相恒等
+      && tp.pul.zProj < 1e-5 && Math.abs(tp.pul.lSw - 0.85) < 1e-6 && !tp.pul.nan
+      && Math.abs(tp.bt.Jz) < 1e-8 && tp.bt.JmRel < 1e-12                      // 🪩 tilt90: Jz 機械ゼロ・|J| 保存
+      && tp.bt.lSw > 0.999                                                     // 横倒しでも減光 1.000(第227便)
+      && tp.bt.vt > 3.0 && tp.bt.vt < 3.5 && tp.bb.vt > 3.0 && tp.bb.vt < 3.5  // 外縁 vt は ⚫ と同水準
+      && Math.abs(tp.bb.Jz) > 1e5 && !tp.bt.nan,                               // ⚫ 対照は Kcs 自走で Jz 有限
+      `🌻: ☀️ とビット同一=${tp.star.bitEq}(radE同値=${tp.star.radEEq})・方位歳差 ${tp.star.az.toFixed(1)}°(75〜85 — 解析 80.0°) / `
+      + `🏮: 静止=${tp.pul.still}・位相恒等 |φ/(ωt)−1|=${tp.pul.phRel.toExponential(1)}(<1e-9 — 傾き45°でも割れない)・Jz/|J|=cos45°±${tp.pul.zProj.toExponential(1)} / `
+      + `🪩: Jz=${tp.bt.Jz.toExponential(1)}(機械ゼロ)・|J|ドリフト ${tp.bt.JmRel.toExponential(1)}・減光 ${tp.bt.lSw.toFixed(3)}(横倒しでも効く)・vt ${tp.bt.vt.toFixed(3)}(⚫ ${tp.bb.vt.toFixed(3)})`);
+  } else {
+    console.log('SKIP behavior.templates229(対象に第229便の 🌻 なし — root 等)');
+  }
+}
+
+// ---- 第229便: behavior.supernova — 超新星見立て(🎇)の用量反応の機械固定 ----
+// コア Ω の用量反応(0→40 で脱出率が単調増)+kF0 否定対照(引きずりが機構)+決定性+NaN 0
+{
+  const hasSN = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'supernovaCore'));
+  if (hasSN) {
+    const sn = await page.evaluate(() => {
+      const run = (omPatch, kfPatch, steps) => {
+        const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'supernovaCore')));
+        if (omPatch !== undefined) pd.bodies[0].core.omega = omPatch;
+        if (kfPatch !== undefined) pd.physics.kFrame = kfPatch;
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+        for (let k = 0; k < steps; k++) S.step(0.016);
+        let ci = 0; for (let i = 0; i < S.n; i++) if (S.m[i] > S.m[ci]) ci = i;
+        let nGas = 0, esc = 0;
+        for (let i = 0; i < S.n; i++) { if (i === ci) continue; nGas++;
+          const r = Math.hypot(S.x[i] - S.x[ci], S.y[i] - S.y[ci]);
+          if (S.vx[i] ** 2 + S.vy[i] ** 2 > 2 * S.params.G * S.m[ci] / Math.max(r, 1)) esc++; }
+        const o = []; for (let i = 0; i < Math.min(30, S.n); i++) o.push(S.x[i], S.y[i]);
+        const IcE = 0.5 * 0.5 * 600 * 144;
+        return { esc: esc / nGas, radE: S.radE, coreOm: S.coreJ[ci] / IcE, o, nan: S.hasNaN() };
+      };
+      const hot = run(undefined, undefined, 6000);   // 既定 Ω=40・kF1
+      const hot2 = run(undefined, undefined, 6000);  // 決定性
+      const quiet = run(0, undefined, 6000);         // Ω=0(静かな星)
+      const kf0 = run(undefined, 0, 6000);           // 引きずり無し
+      return { hot, quiet, kf0, det: hot.o.every((x, i) => Object.is(x, hot2.o[i])) && Object.is(hot.radE, hot2.radE) };
+    });
+    add('behavior.supernova',
+      sn.hot.esc > 0.55 && sn.hot.esc < 0.78            // 実測 66.1% — 外殻の大半が吹き飛ぶ
+      && sn.quiet.esc < 0.25                             // Ω=0 は落ち込み系(実測 9.3%)
+      && sn.kf0.esc < 0.30                               // kF0 否定対照(実測 17.7% — 機構は A8/E6′)
+      && sn.hot.esc > sn.quiet.esc + 0.3                 // 用量反応の幅
+      && sn.hot.radE > 5 * sn.quiet.radE                 // 増光(実測 17倍)
+      && Math.abs(sn.hot.coreOm - 40) < 1e-9             // Kcs=0 — コア Ω は保持
+      && sn.det === true && !sn.hot.nan && !sn.quiet.nan && !sn.kf0.nan,
+      `🎇 Ω=40+kF1: 脱出率 ${(sn.hot.esc * 100).toFixed(1)}%(55〜78 — 実測 66.1)・radE ${sn.hot.radE.toFixed(0)} / `
+      + `Ω=0: ${(sn.quiet.esc * 100).toFixed(1)}%(<25)・radE ${sn.quiet.radE.toFixed(0)}(増光 ${(sn.hot.radE / sn.quiet.radE).toFixed(1)}倍) / `
+      + `kF0 否定対照: ${(sn.kf0.esc * 100).toFixed(1)}%(<30 — 吹き飛ばしの機構は空間引きずり) / `
+      + `コア Ω 保持=${Math.abs(sn.hot.coreOm - 40) < 1e-9}・決定性=${sn.det}・NaN=${sn.hot.nan}`);
+  } else {
+    console.log('SKIP behavior.supernova(対象に第229便の 🎇 なし — root 等)');
+  }
+}
+
 // ---- 第224便(第23報): behavior.chi-law — 連星4 DFM の粒子別質量スケール較正則の機械固定 ----
 // (a) massCalibration 台帳(law/fitDt/C/baseMass/factorByBody)が4本すべてに宣言され、
 //     f_i = C×g_i が HP.chiMassFactors の再計算とビット一致
