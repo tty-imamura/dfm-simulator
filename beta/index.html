@@ -9529,7 +9529,7 @@ const BUILTIN_PRESETS = [
   activeParams:["kFrame","G","softening"],
   camera:{scale:2}, world:{boundary:"none",size:0}, seed:20260901,
   physics:{G:1, D0:0.006, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0,
-    kappaT:0.0011111111111111111, cLight:3000, bM:1, etaRad:0, pRad:2, gravityX:0, gravityY:0,
+    kappaT:0.0011111111111111111, cLight:30/* 正典 c₀(第97便規則)。時計は運動学チャネルで c 非依存・減光は宣言値 */, bM:1, etaRad:0, pRad:2, gravityX:0, gravityY:0,
     geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:1, timeScale:10, coupleSink:"core"},
   bodies:[
     // 殻=光学(spin0 の宣言つき降格)・コア=時計の器(Ω 転写・tilt45)・pulse=表示専用の位相時計
