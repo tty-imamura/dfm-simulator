@@ -8449,6 +8449,164 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
+
+// ===== 第228便(第27報 原仮定者裁定GO): 星団・銀河の観測版+DFM版(生成器の第一適用)=====
+// 観測レコードは paper/data/cluster-galaxy-observations.csv(第226便)。定義の罠(King の
+// Spitzer/Harris r_c・Webb/King r_t の混用で半光半径が5倍化 — 実測)を避け、47 Tuc は
+// **投影半光半径 4.00 pc の直接転写 = Plummer a** を第1基準にする(King 生成器自体は汎用実装
+// 済み — QA gen.profile)。v1 は「形の転写+実測の記録」であり fidelity:"real"(較正級)への
+// 昇格は較正が閉じてから(宣言)。
+{ id:"tuc47", name:"球状星団 47 Tuc(観測転写)— Plummer 形の第一号", emoji:"🍇", group:"現実との照合・太陽系外",
+  familyId:"tuc47", familyRole:"variant",
+  scaleTier:"stellar",
+  scaleExp:{L:16, T:12, M:35},   // 第228便: 星団族(1単位=10¹⁶m≈0.324pc/10¹²s/10³⁵kg — 標準規約 L−T=4・c₀=3×10⁴)
+  sampleClass:"principle",
+  notClaim:["cal","dm"],
+  obsCard:[
+    {q:"投影半光半径(転写の照合)", model:"生成直後 13.0 単位(4.22 pc — Plummer a=12.34 の逆関数サンプリング・N=240 の標本ゆらぎ込み)。5交差で 10.5 へ緩和収縮", obs:"4.00 pc(Baumgardt V2 — 投影半光。3D 半質量 6.24 pc とは別定義)"},
+    {q:"速度スケール(規約転写 — fit ではない)", model:"等方・速さ一様 [0, √6σ₀)(⟨v²⟩=2σ₀² — 2成分分散の転写規約。マクスウェルではない)", obs:"σ₀=12.4 km/s(N-body fit の中心値 — モデル依存を CSV note に宣言)"},
+    {q:"束縛と緩和(5交差時間)", model:"束縛率 93%・σ 1.16→1.77・半光 13.0→10.5 — N=240 の 2D 自己重力は緩和収縮する(記録)・NaN 0", obs:"—(2D 面内 σ は 3D 視線 σ と同一視しない — 宣言)"},
+    {q:"総質量・粒子数の縮約", model:"M=17.7 単位(8.90×10⁵ M☉)を N=240 粒へ等分(m=0.0737)— 実星数 1.9×10⁶ の縮約規約", obs:"M=(8.90±0.05)×10⁵ M☉(N-body fit)・推定星数はモデル依存(CSV)"},
+    {q:"回転・IMBH(v1 で置かないもの)", model:"A_rot=5.84 km/s の一様回転と中心 IMBH は v1 では置かない(宣言)", obs:"回転検出あり(v/σ₀=0.47)・IMBH は 3σ 上限 578 M☉(検出ではない)"}],
+  descStruct:{
+    summary:"**球状星団の現実転写・第一号**(第228便 — 第27報裁定GO)。paper/data/cluster-galaxy-observations.csv(第226便・Baumgardt V2 系)の 47 Tuc を、**投影面密度の逆関数サンプリング生成器**(第228便新設)で置く。プロファイルは **Plummer a=4.00 pc の直接転写**(投影半光半径 — CSV の第1基準)。King 生成器も実装済みだが、CSV が警告する定義の罠(Spitzer r_c=0.59 pc × Webb r_t=135.78 pc を King 1962 式に混用すると半光半径が5倍化する — 実測)を避け、v1 は Plummer を採る。**速度は規約転写**: 等方・速さ一様 [0, √6σ₀)(⟨v²⟩=2σ₀² — 2成分の観測分散への転写規約。fit ノブではない)。単位は星団族 L16/T12/M35(1単位=0.324 pc・c₀=3×10⁴ の標準規約 L−T=4・G=6.674)。**v1 の主張は「形の転写と実測の記録」だけ**: 2D 力学の面内 σ を 3D の視線 σ と同一視しない・N=240 の 2D 自己重力は5交差で緩和収縮する(半光 13.0→10.5 — 記録)・回転(v/σ₀=0.47)と IMBH(上限 578 M☉)は置かない・fidelity:\"real\"(較正級)への昇格は較正が閉じてから(すべて宣言)。DFM 版 🫐 が対になる。",
+    observe:"実測(5交差時間 t=50・dt=0.016・seed 固定): 投影半光半径 13.0→10.5 単位(緩和収縮 — N=240 の 2D 自己重力の記録)・面内 σ(1成分相当)1.16→1.77・**束縛率 93%**・NaN 0。同構成2回はビット同一(QA behavior.tuc47)。生成器の統計(QA gen.profile): Plummer の中央値=a・King の CDF 単調性・Sérsic n=1 の半光=Re・seed 決定性。",
+    control:"働いているのは重力(E4)だけ(kFrame=0 — 観測安定則の流儀)。DFM 版 🫐 と切り替えて空間引きずり(A8/E6′)の効果を見る(同一配置の σ 比は実現ゆらぎ内 — 実測)。"},
+  en:{ name:"Globular Cluster 47 Tuc (transcription) — first Plummer shape", descStruct:{
+    summary:"FIRST REAL-CLUSTER TRANSCRIPTION (wave 228 — adjudicated GO). 47 Tuc from paper/data/cluster-galaxy-observations.csv (Baumgardt V2 line), placed by the new inverse-CDF surface-density generators. Profile: PLUMMER WITH a = THE PROJECTED HALF-LIGHT RADIUS 4.00 pc transcribed directly. The King generator exists too, but v1 avoids the definition trap the CSV warns about (mixing Spitzer r_c with the Webb r_t in King's 1962 formula inflates the half-light radius fivefold — measured). VELOCITIES ARE A DECLARED CONVENTION, not a fit: isotropic, uniform speeds in [0, √6σ₀) so ⟨v²⟩=2σ₀² transcribes the two-component dispersion. Units: cluster family L16/T12/M35 (1 unit=0.324 pc; the standard L−T=4 convention, c₀=3×10⁴, G=6.674). v1 CLAIMS ONLY THE SHAPE TRANSCRIPTION AND MEASURED RECORDS: the in-plane 2D σ is never equated with the 3D line-of-sight σ; the N=240 2D self-gravity relaxes and contracts over 5 crossings (half-light 13.0→10.5 — recorded); rotation and the IMBH are not placed; promotion to fidelity:\"real\" waits until a calibration closes (all declared). The DFM build 🫐 is the counterpart.",
+    observe:"Measured (5 crossings, t=50, dt=0.016, fixed seed): projected half-light 13.0→10.5 units (relaxation contraction — the recorded N=240 2D self-gravity behaviour); in-plane σ 1.16→1.77; BOUND FRACTION 93%; zero NaN; bit-identical rebuilds (QA behavior.tuc47). Generator statistics are machine-fixed by QA gen.profile.",
+    control:"kFrame stays 0. Switch to the DFM build 🫐 — the same-placement σ ratio sits inside realization scatter (measured)."}},
+  parameterAudit:{
+    observedInputs:["投影半光半径 4.00 pc → Plummer a=12.34 単位(直接転写)","σ₀=12.4 km/s → 1.24 単位(速度規約の入力)","総質量 8.90×10⁵ M☉ → 17.7 単位","潮汐半径 135.78 pc → 生成円盤の外縁 419 単位(Webb 定義 — King の r_t とは混用しない)"],
+    fixedConventions:["星団族 L16/T12/M35(標準規約 L−T=4・c₀=3×10⁴・G=6.674・κ=G/c₀²)","速度規約: 等方・速さ一様 [0,√6σ₀)(⟨v²⟩=2σ₀²)","N=240 への縮約(等質量 m=0.0737)","kFrame=0・回転/IMBH は v1 で置かない(宣言)"],
+    fitted:["なし(v1 は形の転写 — fit ノブゼロ)"],
+    derived:["交差時間 r_h/σ₀≈10 単位(3.2×10⁵ 年)"],
+    numerical:["ソフトニング 0.5(0.16 pc)","dt 規約 0.016","seed 10447 固定"]},
+  activeParams:["kFrame","G","softening"],
+  rngSeed:10447,
+  camera:{scale:60}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.006, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:0.5, timeScale:50, dispMag:1, frameReaction:"pairReduced"},
+  bodies:[
+    {type:"disk", n:240, cx:0, cy:0, radius:419, profile:"plummer", plummerScale:12.34,
+      mMin:0.07375, mMax:0.07375, spinMin:0, spinMax:0, vMode:"random", vScale:3.0374, direction:1, rMul:0.4}],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false} },
+
+{ id:"tuc47DFM", name:"球状星団 47 Tuc(DFM版)— kF1 の σ 増分を測る", emoji:"🫐", group:"現実との照合・太陽系外",
+  familyId:"tuc47", familyRole:"primary",
+  scaleTier:"stellar",
+  scaleExp:{L:16, T:12, M:35},
+  sampleClass:"principle",
+  notClaim:["cal","dm"],
+  obsCard:[
+    {q:"kF1 の σ 増分(fit なしの実測)", model:"**同一配置の kF1/kF0 σ 比は 0.95〜1.06(2実現)— 実現ゆらぎの内側で有意な増分は検出されない**(N=240・5交差の記録)", obs:"—(検出には N・窓の拡大が要る — 較正段の課題として記録)"},
+    {q:"束縛と形(kF1)", model:"束縛率 94%・半光半径 12.4→10.0(kF0 と同型の緩和収縮)・NaN 0 — kF1 でも星団は保たれる", obs:"—"},
+    {q:"粒子別 χ-law を掛けない(規約)", model:"星団の全粒に f を掛けると暗い核が数百できる — 見えない質量は将来の中心1個に集約する(第27報添付レビュー一致の規約)", obs:"—"}],
+  descStruct:{
+    summary:"**🍇 の対になる DFM 版**(第228便)。粒子・配置・速度規約・単位は 🍇 と同一のまま **kFrame=1(空間引きずり ON)** に切り替え、fit ノブゼロで σ と束縛の増分を実測する。実測: **同一配置の kF1/kF0 σ 比は 0.95〜1.06(2実現)— 実現ゆらぎの内側で、有意な引きずり増分は本構成(N=240・5交差)では検出されない**(記録 — 検出には N・窓の拡大が要る)。束縛率 94%(kF0 93%)・緩和収縮は kF0 と同型。**星団の全粒子に χ-law の f を掛けない**(暗い核が数百できる — 連星の局所場分率の法則を星団へ外挿しない。見えない質量を置くなら将来版で中心1個に集約する — 第27報添付レビュー一致の規約)。v1 は記録のみで観測 σ(r) 16点(CSV)との較正は行わない(宣言)。",
+    observe:"実測(5交差時間・kF1): σ 1.27→1.75・束縛率 94%・半光 12.4→10.0・NaN 0。同一配置比較(kFrame だけを切替): σ 比 0.95(🍇 配置)/1.06(🫐 配置)— ゆらぎ内。QA behavior.tuc47 が対で機械固定。",
+    control:"🍇(kF0 — 重力 E4 のみ)と対で見る(こちらは E4+空間引きずり A8/E6′)。"},
+  en:{ name:"47 Tuc (DFM build) — measuring the kF1 σ boost", descStruct:{
+    summary:"THE DFM COUNTERPART of 🍇 (wave 228). Identical particles, placement, velocity convention and units — only kFrame switches to 1 (frame dragging ON), with ZERO fit knobs, to measure the σ and binding increments. Measured: the SAME-PLACEMENT kF1/kF0 σ ratio is 0.95–1.06 across two realizations — INSIDE REALIZATION SCATTER, no significant dragging boost is detected at N=240 over 5 crossings (recorded; detection needs larger N and windows). Bound 94% (vs 93%); the relaxation contraction matches kF0. THE PER-BODY χ-LAW IS NOT APPLIED TO CLUSTER PARTICLES (it would create hundreds of dark cores — the binary local-field law is not extrapolated to clusters; any unseen mass belongs to a single future central object — the reviews' shared rule). v1 records only; no calibration against the CSV's 16-point σ(r) yet (declared).",
+    observe:"Measured (5 crossings, kF1): σ 1.27→1.75; bound 94%; half-light 12.4→10.0; zero NaN. Same-placement comparison (only kFrame toggled): σ ratios 0.95/1.06 — inside scatter. QA behavior.tuc47 fixes the pair.",
+    control:"View as a pair with 🍇 (kF0)."}},
+  parameterAudit:{
+    observedInputs:["🍇 と同一(CSV 転写)"],
+    fixedConventions:["🍇 と同一+kFrame=1(E6′-R)。χ-law は星団粒子へ掛けない(宣言)"],
+    fitted:["なし(fit ノブゼロ — σ 比 1.074 は実測の記録)"],
+    derived:["同一配置 kF1/kF0 σ 比 0.95〜1.06(2実現 — ゆらぎ内・有意増分なし)"],
+    numerical:["🍇 と同一"]},
+  activeParams:["kFrame","G","softening"],
+  rngSeed:10447,
+  camera:{scale:60}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.006, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:0.5, timeScale:50, dispMag:1, frameReaction:"pairReduced"},
+  bodies:[
+    {type:"disk", n:240, cx:0, cy:0, radius:419, profile:"plummer", plummerScale:12.34,
+      mMin:0.07375, mMax:0.07375, spinMin:0, spinMax:0, vMode:"random", vScale:3.0374, direction:1, rMul:0.4}],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false} },
+
+{ id:"ngc3198", name:"渦巻銀河 NGC 3198(観測転写)— 指数円盤+NFW 対照", emoji:"🌃", group:"現実との照合・太陽系外",
+  familyId:"ngc3198", familyRole:"variant",
+  scaleTier:"galactic",
+  scaleExp:{L:19, T:15, M:38},   // 第228便: 銀河族(1単位=10¹⁹m≈0.324kpc/10¹⁵s/10³⁸kg — 標準規約 L−T=4)
+  sampleClass:"principle",
+  notClaim:["dm","cal"],
+  obsCard:[
+    {q:"外縁の回転(NFW あり・約1回転)", model:"外縁帯(19〜42 kpc)の平均接線速度 12.8 単位(128 km/s)— 初期転写 150 km/s から −15% の緩和で保持(最遠 98 単位)", obs:"V_flat=150.1 km/s(SPARC — 43点の回転曲線は hold-out)"},
+    {q:"NFW は自前 fit(転写ではない — 宣言)", model:"ρ₀=3.97×10⁶ M☉/kpc³・r_s=19.9 kpc(SPARC 43点への2ノブ最小二乗 — rms 8.2 km/s)。CSV は既存 halo fit 値を意図的に転写しない", obs:"—(観測レコードと halo 仮定を混ぜない規約の維持)"},
+    {q:"否定対照: ハローを外す", model:"外縁帯は空(0粒)・最遠 586 単位へ飛散。バリオン+ニュートンだけでは平坦回転を保てない(教科書どおりの機械固定)", obs:"—"},
+    {q:"星円盤・HI(転写)", model:"星: 指数 R_d=3.14 kpc(n=1 — SPARC が宣言する指数円盤の言い換え)m計380単位・HI: 指数近似 計287単位(×1.33 He込み)", obs:"L[3.6]=3.83×10¹⁰ L☉(Υ=0.5)・M_HI=1.09×10¹⁰ M☉・バルジ無し(SPARC L_bul=0)"},
+    {q:"内側の立ち上がり(v1 で転写しないもの)", model:"vMode=flat は全域 V_flat の近似 — 内側 6 kpc の立ち上がり(24→146 km/s)は転写しない(宣言)", obs:"SPARC 内側は Hα 優勢の hybrid(CSV)"}],
+  descStruct:{
+    summary:"**渦巻銀河の現実転写・第一号**(第228便)。CSV(第226便・SPARC 系)の NGC 3198 を銀河族 L19/T15/M38(1単位=0.324 kpc・標準規約 L−T=4)で置く。**星円盤=指数 R_d=3.14 kpc の逆関数サンプリング**(SPARC が「Sérsic fit ではなく指数円盤」と宣言する n=1)・**HI=指数近似**(He 込み ×1.33)・バルジ無し(L_bul=0)。速度は vMode=flat(V_flat=150.1 km/s)— 内側 6 kpc の立ち上がりは転写しない(宣言)。**外部ポテンシャルは NFW**(第197便の解析ハロー)— ただし CSV は既存 halo fit 値を意図的に転写しないので、**ρ₀・r_s は SPARC 43点への自前2ノブ fit**(rms 8.2 km/s)と宣言する。実測(約1回転): 外縁帯の平均接線速度 128 km/s で保持(最遠 98 単位)・**ハローを外すと外縁は空になる**(最遠 586 単位へ飛散 — バリオン+ニュートンでは平坦回転を保てない、の機械固定)。DFM 版 🛞 が「ハロー無しで DFM の引きずりが支えるか」の対になる。",
+    observe:"実測(t=40≈外縁1回転・dt=0.016): NFW あり — 外縁帯(60〜130 単位)の平均接線速度 12.8(初期 15.01 から −15% の緩和)・最遠 98 単位・NaN 0。ハロー無し対照 — 外縁帯は空(0粒)・最遠 586 単位へ飛散。同構成ビット同一(QA behavior.ngc3198)。",
+    control:"働いているのは重力(E4)+解析 NFW(外力)。回転曲線オーバーレイ(橙破線=ハロー寄与)で NFW の受け持ちを見る。DFM 版 🛞(E4+空間引きずり A8/E6′)と対。"},
+  en:{ name:"Spiral Galaxy NGC 3198 (transcription) — exponential disks + NFW control", descStruct:{
+    summary:"FIRST REAL-GALAXY TRANSCRIPTION (wave 228). NGC 3198 from the wave-226 CSV (SPARC line), in the galaxy family L19/T15/M38 (1 unit=0.324 kpc, standard L−T=4). STELLAR DISK = inverse-CDF exponential R_d=3.14 kpc (the n=1 SPARC declares as an exponential disk, not a Sérsic fit); HI = an exponential approximation (×1.33 He); no bulge (L_bul=0). Velocities: vMode=flat at V_flat=150.1 km/s — the inner 6-kpc rise is NOT transcribed (declared). The external potential is an analytic NFW — but since the CSV deliberately never transcribes published halo fits, ρ₀ and r_s are OUR OWN 2-knob least-squares fit to the 43 SPARC points (rms 8.2 km/s), declared as such. Measured (~1 outer rotation): the outer-band mean tangential speed holds at 128 km/s (farthest 98 units); REMOVING THE HALO EMPTIES THE OUTER BAND (farthest 586 units — baryons+Newton cannot hold a flat curve, machine-fixed). The DFM build 🛞 asks the counterpart question: can DFM dragging hold it WITHOUT a halo?",
+    observe:"Measured (t=40, dt=0.016): with NFW — outer-band (60–130 units) mean tangential speed 12.8 (−15% relaxation from 15.01); farthest 98 units; zero NaN. No-halo control — the outer band empties (farthest 586). Bit-identical rebuilds (QA behavior.ngc3198).",
+    control:"The rotation-curve overlay (orange dashed = halo share) shows what the NFW carries. Pair with 🛞."}},
+  parameterAudit:{
+    observedInputs:["R_d=3.14 kpc → 指数円盤(=9.69 単位・R_e=1.678R_d=16.26)","M★=1.91×10¹⁰ M☉(Υ_disk=0.5 規約)→ 380 単位","M_HI×1.33=1.45×10¹⁰ M☉ → 287.5 単位","V_flat=150.1 km/s → 15.01 単位","距離 13.8 Mpc・i=73°(SPARC V_obs は deprojected — sin i で再補正しない)"],
+    fixedConventions:["銀河族 L19/T15/M38(標準規約 L−T=4・c₀=3×10⁴)","vMode=flat(内側の立ち上がりは転写しない — 宣言)","HI は指数近似(表形式 CDF は次段)","星 n=200・HI n=100 への縮約"],
+    fitted:["NFW ρ₀=2.685×10⁻³ 単位(3.97×10⁶ M☉/kpc³)・r_s=61.31 単位(19.9 kpc)— SPARC 43点への自前2ノブ最小二乗(rms 8.2 km/s)。CSV の「halo fit 値は転写しない」規約は維持(これは転写ではなく宣言つきの自前 fit)"],
+    derived:["外縁1回転 ≈ 38 単位(1.2×10⁹ 年)"],
+    numerical:["ソフトニング 1(0.32 kpc)","dt 規約 0.016","seed 31980 固定"]},
+  activeParams:["kFrame","G","softening"],
+  rngSeed:31980,
+  camera:{scale:25}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.006, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:1, timeScale:20, dispMag:1, frameReaction:"pairReduced",
+    halo:{model:"nfw", rho0:2.685e-3, rs:61.31, cx:0, cy:0}},
+  bodies:[
+    {type:"disk", n:200, cx:0, cy:0, radius:60, profile:"exponential", sersicRe:16.26,
+      mMin:1.9, mMax:1.9, spinMin:0, spinMax:0, vMode:"flat", vScale:15.01, direction:1, rMul:0.2},
+    {type:"disk", n:100, cx:0, cy:0, radius:130, profile:"exponential", sersicRe:31,
+      mMin:2.875, mMax:2.875, spinMin:0, spinMax:0, vMode:"flat", vScale:15.01, direction:1, rMul:0.2}],
+  overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false} },
+
+{ id:"ngc3198DFM", name:"NGC 3198(DFM版)— ハロー無しの引きずりは外縁を支えるか", emoji:"🛞", group:"現実との照合・太陽系外",
+  familyId:"ngc3198", familyRole:"primary",
+  scaleTier:"galactic",
+  scaleExp:{L:19, T:15, M:38},
+  sampleClass:"principle",
+  notClaim:["dm","cal"],
+  obsCard:[
+    {q:"問い: ハロー無し+kF1 は外縁を支えるか", model:"**現構成では支えない**(実測 — 外縁は飛散・最遠 532 単位。kF0 同構成対照 523 も飛散)。届かないことを宣言して機械固定する(🎻 の e と同じ流儀)", obs:"V_flat=150.1 km/s(観測版 🌃 は NFW で保持)"},
+    {q:"構成(fit ノブゼロ)", model:"バリオン円盤は 🌃 と同一・halo 無し・中心に暗い回転核(m=100 単位=5×10⁹ M☉・lightSweep=1・差動コア Ω=20・Kcs=0.02 — ⚫ の縮小)を1個", obs:"—(中心質量は fit していない — 既知バリオン級の宣言値)"},
+    {q:"既知の増強比との整合", model:"🎡 の kF1/kF0=1.26・⚫ の 1.52 — 桁の増強では 150 km/s に届かない(バリオンのみのニュートン外縁 ≈60 km/s)。v2 以降の課題として記録", obs:"—"}],
+  descStruct:{
+    summary:"**🌃 の対になる DFM 版 — 「観測版が NFW で支えていた外縁を、ハロー無しの DFM 引きずりが支えるか」を測る実験**(第228便)。バリオン円盤(星+HI)は 🌃 と同一・halo は置かず・kFrame=1・中心に暗い回転核(m=100 単位=5×10⁹ M☉ の宣言値・lightSweep=1・差動コア — ⚫ bhCore の縮小)を1個置く。fit ノブはゼロ。**結果(実測): 現構成では支えない** — 外縁は飛散し(最遠 532 単位・kF0 同構成対照 523 と同型)、平坦回転は保てない。既知の増強比(🎡 1.26・⚫ 1.52)とバリオンのみの外縁 ≈60 km/s から、桁の増強では 150 km/s に届かない、という算術とも整合する。**届かないことを宣言して機械固定する**(🎻 の hold-out e 不成立と同じ正直の流儀)— 中心質量を暗黒質量のように太らせて「合わせる」ことはしない(それは NFW の再発明であって DFM の主張ではない)。",
+    observe:"実測(t=40・dt=0.016・kF1・halo 無し): 外縁は飛散(最遠 532 単位・kF0 同構成 523 — 引きずりの有無で崩壊は変わらない)・中心核は残る・NaN 0。QA behavior.ngc3198 が「観測版=保持/DFM 版=飛散」の対を機械固定。",
+    control:"🌃(NFW あり・重力 E4+外力)と対で見る(こちらは E4+空間引きずり A8/E6′ — ハロー無し)。回転曲線オーバーレイで外縁の空洞化が見える。"},
+  en:{ name:"NGC 3198 (DFM build) — can dragging hold the outer disk without a halo?", descStruct:{
+    summary:"THE DFM COUNTERPART of 🌃 — AN EXPERIMENT: can DFM frame dragging, with NO halo, hold the outer disk the observation build supports with an NFW? Baryon disks identical to 🌃; no halo; kFrame=1; one dark rotating core at the centre (a declared m=100 units = 5×10⁹ M☉, lightSweep=1, differential core — a shrunken ⚫ bhCore). Zero fit knobs. RESULT (measured): IN THIS CONFIGURATION IT DOES NOT — the outer disk scatters (farthest 532 units; the kF0 control 523 — dragging does not change the collapse), so the flat curve is not held. Consistent with the arithmetic: known enhancement ratios (🎡 1.26, ⚫ 1.52) on a baryon-only outer speed of ≈60 km/s cannot reach 150. THE SHORTFALL IS DECLARED AND MACHINE-FIXED (the same honesty as 🎻's failed hold-out e) — the central mass is NOT inflated to \"make it fit\" (that would reinvent the NFW, not test DFM).",
+    observe:"Measured (t=40, dt=0.016, kF1, no halo): the outer disk scatters — farthest 532 units (kF0 control 523); the central core survives; zero NaN. QA behavior.ngc3198 machine-fixes the held-vs-scattered pair.",
+    control:"View as a pair with 🌃 (NFW). The rotation-curve overlay shows the outer band emptying."}},
+  parameterAudit:{
+    observedInputs:["🌃 と同一(バリオン転写)"],
+    fixedConventions:["🌃 と同一+kFrame=1・halo 無し・中心核 m=100 単位(5×10⁹ M☉ — 宣言値・fit しない)・コア Ω=20・Kcs=0.02(⚫ の型)"],
+    fitted:["なし(fit ノブゼロ — 「届かない」が v1 の結果)"],
+    derived:["kF1 でも外縁は飛散(最遠 532 vs kF0 523)— 増強比の算術(🎡1.26・⚫1.52 × 外縁 60 km/s ≪ 150)と整合"],
+    numerical:["🌃 と同一"]},
+  activeParams:["kFrame","G","softening"],
+  rngSeed:31980,
+  camera:{scale:25}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.006, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:1, timeScale:20, dispMag:1, frameReaction:"pairReduced"},
+  bodies:[
+    {type:"disk", n:200, cx:0, cy:0, radius:60, profile:"exponential", sersicRe:16.26,
+      mMin:1.9, mMax:1.9, spinMin:0, spinMax:0, vMode:"flat", vScale:15.01, direction:1, rMul:0.2},
+    {type:"disk", n:100, cx:0, cy:0, radius:130, profile:"exponential", sersicRe:31,
+      mMin:2.875, mMax:2.875, spinMin:0, spinMax:0, vMode:"flat", vScale:15.01, direction:1, rMul:0.2},
+    {type:"single", m:100, x:0, y:0, vx:0, vy:0, spin:0, pinned:true, radius:2, lightSweep:1,
+      core:{mode:"differential", massFrac:0.5, radius:1, omega:20, Kcs:0.02, inertiaScale:100}}],
+  overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false} },
+
 { id:"saturn", name:"土星の環(実験)", emoji:"🪐", group:"天体の物語",
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
@@ -10073,6 +10231,27 @@ function validatePreset(obj){
           if(b.lightSweep==="auto") oD.lightSweep="auto";
           else if(isNum(b.lightSweep)) oD.lightSweep=wc(b.lightSweep,0,1,"lightSweep");
           else warnings.push(at+'.lightSweep は数値(0〜1)か "auto" — 削除します');
+        }
+        // 第228便(第27報 裁定GO): 観測プロファイル生成器 — 投影面密度の逆関数サンプリング。
+        // profile 省略・"uniform" は現行の一様円盤(r=R√u)とビット一致(キーも付けない=署名不変)
+        if(b.profile!==undefined){
+          const PROFS=["uniform","plummer","king","sersic","exponential"];
+          if(PROFS.indexOf(b.profile)<0) warnings.push(at+'.profile は uniform/plummer/king/sersic/exponential のみ — 削除します');
+          else if(b.profile!=="uniform"){
+            oD.profile=b.profile;
+            if(b.profile==="plummer"){
+              if(!isNum(b.plummerScale)){ bad(at+".plummerScale(数値)が必要"); return; }
+              oD.plummerScale=wc(b.plummerScale,1e-3,5000,"plummerScale");
+            } else if(b.profile==="king"){
+              if(!isNum(b.kingRc)||!isNum(b.kingRt)){ bad(at+".kingRc/kingRt(数値)が必要"); return; }
+              oD.kingRc=wc(b.kingRc,1e-3,5000,"kingRc"); oD.kingRt=wc(b.kingRt,1e-2,5000,"kingRt");
+              if(!(oD.kingRt>oD.kingRc)){ bad(at+".kingRt は kingRc より大きい必要があります"); return; }
+            } else {
+              if(!isNum(b.sersicRe)){ bad(at+".sersicRe(数値)が必要"); return; }
+              oD.sersicRe=wc(b.sersicRe,1e-3,5000,"sersicRe");
+              if(b.profile==="sersic") oD.sersicN=isNum(b.sersicN)? wc(b.sersicN,0.3,10,"sersicN") : 1;
+            }
+          }
         }
         // 第80便(コアv2): 群共通の core:{}(ring と同じ — single と同じ意味論・クランプ)
         // 第81便: 旧キー(コアv1)だけの群は代表値(平均質量・平均スピン)で v2 へ移行する
@@ -11725,10 +11904,11 @@ function makeSim(){
         const tI=(b.tInt===undefined?0:b.tInt);   // 第36便 D: 群共通の内部温度初期値(既定0)
         const lS=b.lightSweep;   // 第70便: 群共通の減光(未指定=undefined → P.forEach で 0)
         const cCore=b.core;   // 第80便: 群共通のコアv2(未指定=undefined → o に core キーを付けない)
+        const invR=makeProfileInv(b);   // 第228便: null=現行一様(r=R√u — ビット不変)
         for(let i=0;i<b.n;i++){
           let ang,r,x,y,tries=0;
           do{
-            ang=rng()*Math.PI*2; r=b.radius*Math.sqrt(rng());
+            ang=rng()*Math.PI*2; r=invR? invR(rng()) : b.radius*Math.sqrt(rng());
             x=b.cx+r*Math.cos(ang); y=b.cy+r*Math.sin(ang);
           }while(insideBig(x,y) && ++tries<30);
           const tx=-Math.sin(ang), ty=Math.cos(ang);
@@ -22883,6 +23063,78 @@ function zonalApsidal(mu, refR, J, a, calib){
 // fit ノブは正規化 C 1個のみ(2周目 P を観測周期へ)— f_A/f_B 比は法則導出でありフィットしない。
 // 4連星のゼロフィット精度は |C−1| = 0.52%(✴️)/0.71%(💫)/0.09%(⚡)/0.44%(🎻)(第224便実測)。
 // エンジン・状態には不干渉。QA が massCalibration 台帳との一致を機械検査する(behavior.chi-law)
+// ===== 第228便(第27報 原仮定者裁定GO): 観測プロファイル生成器(King/Plummer/Sérsic)=====
+// disk の初期配置を**投影面密度 Σ(R)** の逆関数サンプリングで置く。2D エンジンなので
+// 「3D 密度を投影した面密度」からのサンプリングが観測照合の正しい側(3D をサンプルして
+// z を捨てる置き方より中心の尖りが正しい — 第27報添付レビュー一致)。profile 省略時は
+// この経路を 1 命令も通らない(現行 r=R√u とビット一致)。CDF は build 時 256 点の
+// 台形則+線形補間(数百粒の配置生成には十分 — 宣言)。速度は現行 vMode のまま
+// (位置生成と速度生成を混ぜない — 「見た目が合う」と「力学平衡」を混同しないため)
+function profileInterpInv(tab, u){
+  const t=Math.min(Math.max(u,0),0.999999);
+  let lo=0, hi=tab.length-1;
+  while(hi-lo>1){ const md=(lo+hi)>>1; if(tab[md].u<t) lo=md; else hi=md; }
+  const a=tab[lo], b=tab[hi], du=b.u-a.u;
+  return a.r+((du>0)? (t-a.u)/du : 0)*(b.r-a.r);
+}
+function kingProjCdf(rc, rt, N){
+  // King 1962 近似密度 n(r)∝[1/√(1+(r/rc)²)−1/√(1+(rt/rc)²)]²(lowered-isothermal DF の
+  // 自己無撞着ソルバではない — 経験式の宣言)を数値投影 Σ(R)=2∫_R^{rt} n·r dr/√(r²−R²)
+  // (端点特異は r=R+(rt−R)z² の変数変換で回避)し、面積分の累積を正規化する
+  const W=1/Math.sqrt(1+(rt/rc)*(rt/rc));
+  const n3=(r)=>{ if(r>=rt) return 0;
+    const q=1/Math.sqrt(1+(r/rc)*(r/rc)); const d=q-W; return d*d; };
+  const sig=new Float64Array(N), tab=new Array(N);
+  for(let i=0;i<N;i++){
+    const R=rt*(i/(N-1)); let s2=0; const M=24;
+    for(let k=0;k<M;k++){
+      const z=(k+0.5)/M, r=R+(rt-R)*z*z, dr=(rt-R)*2*z/M;
+      const den=Math.sqrt(Math.max(r*r-R*R,0));
+      if(den>0) s2+=n3(r)*r/den*dr;
+    }
+    sig[i]=2*s2;
+  }
+  let acc=0;
+  for(let i=0;i<N;i++){
+    if(i>0){ const R0=rt*((i-1)/(N-1)), R1=rt*(i/(N-1));
+      acc+=0.5*(sig[i-1]*R0+sig[i]*R1)*(R1-R0); }   // 2π は正規化で約分
+    tab[i]={u:acc, r:rt*(i/(N-1))};
+  }
+  const tot=tab[N-1].u||1;
+  for(let i=0;i<N;i++) tab[i].u/=tot;
+  return tab;
+}
+function sersicSurfCdf(n, Re, Rmax, N){
+  const bn=2*n-1/3+4/(405*n)+46/(25515*n*n);   // Ciotti–Bertin 近似(n=1 は指数円盤と同値)
+  const I=(R)=>Math.exp(-bn*(Math.pow(R/Re,1/n)-1));
+  const tab=new Array(N); let acc=0;
+  for(let i=0;i<N;i++){
+    const r=Rmax*(i/(N-1));
+    if(i>0){ const r0=Rmax*((i-1)/(N-1)); acc+=0.5*(I(r0)*r0+I(r)*r)*(r-r0); }
+    tab[i]={u:acc, r};
+  }
+  const tot=tab[N-1].u||1;
+  for(let i=0;i<N;i++) tab[i].u/=tot;
+  return tab;
+}
+function makeProfileInv(b){
+  const prof=b.profile;
+  if(!prof || prof==="uniform") return null;   // 現行経路(R√u)へ — 1 bit 不変
+  const Rcap=b.radius;
+  if(prof==="plummer"){
+    const a=b.plummerScale;
+    // 投影 Plummer: M(<R)/M=R²/(R²+a²)の解析逆関数。b.radius をハード上限に切断
+    // (切断質量分率 1−fMax は宣言つき打ち切り — 無限遠の尾は置かない)
+    const fMax=(Rcap*Rcap)/(Rcap*Rcap+a*a);
+    return (u)=>{ const v=Math.min(u,0.999999)*fMax; return a*Math.sqrt(v/Math.max(1e-300,1-v)); };
+  }
+  if(prof==="king"){
+    const tab=kingProjCdf(b.kingRc, Math.min(b.kingRt, Rcap), 256);
+    return (u)=>profileInterpInv(tab,u);
+  }
+  const tab=sersicSurfCdf((b.profile==="exponential")?1:(b.sersicN||1), b.sersicRe, Rcap, 256);
+  return (u)=>profileInterpInv(tab,u);
+}
 function chiMassFactors(mA, mB, sep, D0, eps, C){
   const d=Math.hypot(sep, eps||0);
   const chi=(w)=>w/((D0||0)+w);
