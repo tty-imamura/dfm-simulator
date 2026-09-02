@@ -9745,26 +9745,29 @@ const BUILTIN_PRESETS = [
      core:{mode:"differential", massFrac:0.5, radius:0.6, omega:22.654675, Kcs:0, tilt:45}}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
-{ id:"supernovaCore", name:"超新星の見立て — 速すぎるコアが外殻を吹き飛ばす", emoji:"🎇", group:"天体の物語",
+{ id:"supernovaCore", name:"超新星の見立て — 速すぎるコアが回転エネルギーを支払って外殻を吹き飛ばす", emoji:"🎇", group:"天体の物語",
   scaleTier:"stellar", sampleClass:"principle", notClaim:["toy"],
   descStruct:{
-    summary:"「コアのスピンが速すぎると外殻が吹き飛ぶ」という本モデルの計算上の知見を**超新星爆発の見立て**として1サンプルにする(第229便 — 第27報④)。☀️ と同一のガス200粒(赤色巨星のエンベロープ役)+同一の中心核に、**高速の差動コア(Ω=40・Kcs=0)**を入れ kFrame=1 にする — コアの角運動量が空間引きずり(A8/E6′)の源になり、エンベロープを直接掃き出す(⚫ bhCore の「コアが主因」と同じ機構 — **規定された高速コア場による運動学的注入**であって、コアの回転エネルギーを支払う経路はまだ無い〔Kcs=0 で J は減らない〕。保存的な爆発 spinBurst は次段の宣言)。働くのは重力(E4)+引きずり(A8/E6′)+接触ばね(E9)+融合の熱源+放射(E11)。**実在の超新星機構(ニュートリノ加熱・衝撃波・⁵⁶Ni・光度曲線)はモデル化しない** — 回転駆動の殻放出という遠い類推(磁気回転駆動超新星の方向)であり、sampleClass=principle のトイ実験。中心核は ☀️ と同じ位置固定の外部拘束(温度一定のリザーバ)。残るのは裸の二層核=「中性子星として残るコア」の見立て(パルス時計は観測転写が無いため付けない — source:\"observed\" 規約)。",
-    observe:"実測(6000步=t96・用量反応): コア Ω=0/10/20/40 で脱出速度超えのエンベロープ粒は **9.3%→42.2%→60.0%→66.1%**(単調増)・放射エネルギー radE は **3242→56490(17倍の増光)** — 引きずりが注いだ運動エネルギーが融合・接触経由で熱と光になる(見立ての「爆発の明るさ」)。否定対照: **kFrame=0(引きずり無し)では Ω=40 でも 17.7%**(重力落ち込み系のまま)— 機構が A8/E6′ であることの直接証明。コア Ω は Kcs=0 なので全窓 40 のまま(帳簿はクランプ宣言込み)・決定性ビット同一・NaN 0。QA behavior.supernova が用量反応の両端と否定対照を機械固定。",
-    control:"おすすめA/B: kFrame=0(吹き飛ばない対照 — 実測 17.7%)、core.omega=0(静かな星 — ☀️ と同じ落ち込み・9.3%)。dFrac を 0 にすると熱源が消え、増光の融合経路が切れる。"},
-  en:{name:"A Supernova Analogy — a Too-Fast Core Blows Off the Envelope", descStruct:{
-    summary:"The model's computational finding that A CORE SPINNING TOO FAST BLOWS OFF THE SHELL, staged as a SUPERNOVA ANALOGY (wave 229). The same 200 gas grains as ☀️ (playing a red giant's envelope) and the same central nucleus, now with a FAST DIFFERENTIAL CORE (Ω=40, Kcs=0) and kFrame=1 — the core's angular momentum sources frame dragging (A8/E6′) and sweeps the envelope out directly (the same mechanism as ⚫ bhCore's core-dominant driving). Gravity (E4), dragging (A8/E6′), contact springs (E9), fusion heating and radiation (E11) act. REAL SUPERNOVA MECHANISMS (neutrino heating, shock revival, 56Ni, light curves) ARE NOT MODELLED — this is a distant analogy of rotation-driven envelope ejection (in the direction of magnetorotational supernovae), a principle-class toy. The nucleus is pinned as in ☀️ (an external constraint, constant-temperature reservoir). What remains is the bare two-layer nucleus — the analogy's neutron-star remnant (no pulse clock: nothing observed to transcribe, per the source:\"observed\" rule).",
-    observe:"Measured (6000 steps = t96, dose-response): with core Ω=0/10/20/40 the envelope fraction above escape speed reads 9.3% → 42.2% → 60.0% → 66.1% (monotone), and radE rises 3242 → 56490 (a 17× brightening) — the kinetic energy injected by dragging becomes heat and light through fusion and contacts (the analogy's explosion luminosity). Negative control: with kFrame=0 even Ω=40 gives 17.7% (an ordinary infall system) — direct proof the mechanism is A8/E6′. Core Ω stays 40 in every window (Kcs=0; the ledger includes the clamp declaration); bit-identical reruns; zero NaN. QA behavior.supernova machine-fixes both ends of the dose and the control.",
-    control:"Suggested A/B: kFrame=0 (the no-blow-off control — measured 17.7%) or core.omega=0 (a quiet star — the same infall as ☀️, 9.3%). Setting dFrac to 0 removes the heat source and cuts the brightening path."}},
+    summary:"「コアのスピンが速すぎると外殻が吹き飛ぶ」という本モデルの計算上の知見を**超新星爆発の見立て**として1サンプルにする(第229便 — 第27報④・**第234便で保存的な爆発 spinBurst へ改訂**〔第29報③〕)。☀️ と同一のガス200粒(赤色巨星のエンベロープ役)+同一の中心核(台帳 f=2: 殻 300+コア 300・massFrac 0.5)に**高速の差動コア(Ω=40・Kcs=0)**を入れ kFrame=1 にする。第234便からコアは**回転エネルギーを実際に支払う**: core.burst{rate:1, frac:1e-4} が各步コア J_z を目標 (1−frac)J₀ へ時定数 1/rate で減らし、ΔJ をガス重心まわりの**剛体回転モード**へ(Σm(r−r_cm)=0 なので P=0 のまま L=ΔJ)、残りの回転 E を P・L を射影除去した**動径モード**へ 2次方程式の外向き解で厳密に注入する(丸め残差だけ burstRes 帳簿 — burstE/K/L は HUD「爆発E」)。放出比 frac=10⁻⁴ は E_rot=J²/2I_c=1.73×10⁷ に対しガスの束縛 ~5×10³ という桁差の帰結(frac 2.5×10⁻⁴ でも全粒が即時脱出する)。中心は**自由**(pairReduced+重心系 — 中性子星キックが測れる)・境界なし・coupleSink:\"reservoir\"。並走機構=空間引きずり(A8/E6′ — Kcs=0 なので J は減らず、こちらは運動学的注入)。働くのは重力(E4)+引きずり+接触ばね(E9)+融合の熱源+放射(E11)。**実在の超新星機構(ニュートリノ加熱・衝撃波・⁵⁶Ni・光度曲線・磁場)はモデル化しない** — 回転駆動の殻放出という遠い類推(磁気回転駆動超新星の方向)の principle トイ。残るのは裸の二層核=「中性子星として残るコア」の見立て(パルス時計は観測転写が無いため付けない — source:\"observed\" 規約)。",
+    observe:"実測(6000步=t96): 脱出速度超えのエンベロープ粒 **99.5%**(dt/2 99.0・seed 別 99.5/98.9 — 収束)・平均相対速度 8.13(7.85〜8.67)・**放出回転 E=注入 KE=3455.83**(残差 1.3×10⁻³=相対 4×10⁻⁷ — Float32 速度の丸め)・**移送 L=86.4=J₀−J₁(ビット一致)**・総角運動量の相対ドリフト 4×10⁻⁷・|ΔP|/Σm|v| 3×10⁻⁷・**安全クランプ 全 0**・決定性ビット同一・NaN 0。用量反応: frac 5×10⁻⁵/10⁻⁴/2×10⁻⁴ → 56.8/99.5/100%。対照: kFrame=0(burst だけ・引きずり無し)64.6%・core.omega=0(放出 E=0)16.4%・burst なし(第229便の運動学的引きずりだけ・自由中心)74.5%(旧 pinned 版 66.1%)。**中性子星キック(中心速度)0.98 は dt/2 で 1.70・seed で 1.15/1.31 と収束しない**(非対称落ち込みのカオス — 記録のみ・主張しない)。QA behavior.supernova が帳簿閉性(ΔE_core=ΔK_gas+残差)・保存(ΔJ_core+ΔL_gas=0・総 L・P)・用量・3対照・dt/2・seed を機械固定。",
+    control:"おすすめA/B: core.burst.frac=5e-5(半分だけ吹き飛ぶ 56.8%)・kFrame=0(burst だけ 64.6%)・core.omega=0(静かな星 16.4%)。core.burst を外すと第229便の運動学的注入(74.5%)に戻る。"},
+  en:{name:"A Supernova Analogy — a Too-Fast Core Pays Its Rotational Energy to Blow Off the Envelope", descStruct:{
+    summary:"The model's computational finding that A CORE SPINNING TOO FAST BLOWS OFF THE SHELL, staged as a SUPERNOVA ANALOGY (wave 229; REVISED IN WAVE 234 INTO A CONSERVATIVE EXPLOSION, spinBurst). The same 200 gas grains as ☀️ (playing a red giant's envelope) and the same central nucleus (ledger f=2: shell 300 + core 300, massFrac 0.5), with a FAST DIFFERENTIAL CORE (Ω=40, Kcs=0) and kFrame=1. From wave 234 the core ACTUALLY PAYS ITS ROTATIONAL ENERGY: core.burst{rate:1, frac:1e-4} lowers the core J_z each step toward (1−frac)J₀ with time constant 1/rate, hands ΔJ to the gas as a RIGID-ROTATION MODE about the gas barycentre (Σm(r−r_cm)=0, so P stays 0 while L=ΔJ), and injects the remaining rotational energy exactly into a RADIAL MODE with the P and L modes projected out (the outward root of a quadratic; only the rounding residual is booked to burstRes — burstE/K/L show in the HUD as 爆発E). frac=1e-4 follows from the scale gap: E_rot=J²/2I_c=1.73e7 against an envelope binding of ~5e3 (even frac 2.5e-4 ejects every grain at once). The centre is FREE (pairReduced, barycentric — a neutron-star kick can be measured), no boundary, coupleSink reservoir. Frame dragging (A8/E6′) runs alongside (Kcs=0, so it does not reduce J — that part is kinematic injection). Gravity (E4), dragging, contact springs (E9), fusion heating and radiation (E11) act. REAL SUPERNOVA MECHANISMS (neutrino heating, shock revival, 56Ni, light curves, magnetic fields) ARE NOT MODELLED — a distant analogy of rotation-driven envelope ejection (toward magnetorotational supernovae), a principle-class toy. What remains is the bare two-layer nucleus — the analogy's neutron-star remnant (no pulse clock: nothing observed to transcribe).",
+    observe:"Measured (6000 steps = t96): envelope grains above escape speed 99.5% (dt/2 99.0, other seeds 99.5/98.9 — converged); mean relative speed 8.13 (7.85–8.67); RELEASED ROTATIONAL ENERGY = INJECTED KE = 3455.83 (residual 1.3e-3 = 4e-7 relative — Float32 velocity rounding); TRANSFERRED L = 86.4 = J₀−J₁ to the bit; total angular momentum drifts 4e-7 relative, |ΔP|/Σm|v| 3e-7; ALL SAFETY CLAMPS 0; bit-identical reruns; zero NaN. Dose: frac 5e-5/1e-4/2e-4 → 56.8/99.5/100%. Controls: kFrame=0 (burst alone, no dragging) 64.6%; core.omega=0 (no energy to release) 16.4%; no burst (wave-229 kinematic dragging only, free centre) 74.5% (the old pinned build gave 66.1%). THE NEUTRON-STAR KICK (centre speed) 0.98 DOES NOT CONVERGE (1.70 at dt/2, 1.15/1.31 across seeds — the chaos of asymmetric infall; recorded, not claimed). QA behavior.supernova machine-fixes the ledger closure (ΔE_core=ΔK_gas+residual), conservation (ΔJ_core+ΔL_gas=0, total L and P), the dose, the three controls, dt/2 and seeds.",
+    control:"Suggested A/B: core.burst.frac=5e-5 (only half blows off, 56.8%), kFrame=0 (burst alone, 64.6%), core.omega=0 (a quiet star, 16.4%). Removing core.burst returns to the wave-229 kinematic injection (74.5%)."}},
   activeParams:["kFrame","G","etaRad"],
   thermal:"tint", fusion:{dFrac:0.35}, validT:96,
-  camera:{scale:320}, world:{boundary:"circle",size:300}, seed:20260730,
+  massCalibration:{law:"chi-law-v1-transfer", C:1, factorUniform:2},   // 第234便: 台帳 f=2(殻 300+コア 300)
+  balanceFrame:"barycentric",   // 第234便: 中心自由(pairReduced)— 反跳=中性子星キックを測る
+  camera:{scale:320}, world:{boundary:"none",size:0}, seed:20260730,
   physics:{G:4, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
     cLight:30, bM:1, etaRad:0.0016, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
-    pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2},
+    pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2, frameReaction:"pairReduced", coupleSink:"reservoir"},
   bodies:[
-    // 崩壊済みの高速コア(Ω=40・Kcs=0 — 引きずりの源)+光球殻。中心は ☀️ と同じ外部拘束
-    {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.1, pinned:true, tInt:2,
-     shell:"solid", core:{mode:"differential", massFrac:0.5, radius:12, omega:40, Kcs:0}},
+    // 崩壊済みの高速コア(Ω=40・Kcs=0 — 引きずりの源)+光球殻。第234便: 中心自由・burst{rate 1, frac 1e-4}
+    // = コア J_z の 10⁻⁴ を回転 E ごとガスへ保存的に移送(E_rot 1.73×10⁷ ≫ 束縛 5×10³ の桁差)
+    {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.1, pinned:false, tInt:2, lightSweep:0,
+     shell:"solid", core:{mode:"differential", massFrac:0.5, radius:12, omega:40, Kcs:0, burst:{rate:1, frac:0.0001}}},
     // 赤色巨星のエンベロープ役(☀️ と同一のガス球・同一 seed)
     {type:"disk", n:200, cx:0,cy:0, radius:200, mMin:1,mMax:1,
      spinMin:0,spinMax:0, tInt:2, vMode:"kepler", aroundMass:600, vScale:0.6, direction:1}
@@ -10309,6 +10312,22 @@ function validatePreset(obj){
         if(cav) warnings.push(at+".core.Kalign は cavity では無効 — 無視します");
         else if(!isNum(c.Kalign)){ bad(at+".core.Kalign が数値ではありません"); return false; }
         else oc.Kalign=wc(c.Kalign,0,10,"core.Kalign");
+      }
+      // 第234便(第29報③「超新星は赤色巨星のコアが中性子星まで成長しスピンで外殻を吹き飛ばす」): burst —
+      // 保存的スピン放出 spinBurst。{rate:放出率[1/時間], frac:放出する |J| の総比率(0〜1・既定1)}。
+      // 各步 コア J を残り放出量·(1−e^{−rate·dt}) だけ減らし(目標 (1−frac)J₀ へ時定数 1/rate で接近)、その ΔJ をガス(自由粒子)の重心まわり剛体回転モードへ
+      // (P=0 のまま L を渡す)、回転 E の残り ΔE_core−ΔK_tan を P・L を射影除去した動径モードへ渡す
+      // (丸め残差だけ burstRes 帳簿)。コアの回転エネルギーを実際に支払う爆発。opt-in(省略=1 bit 不変)
+      if(c.burst!==undefined){
+        if(cav) warnings.push(at+".core.burst は cavity では無効 — 無視します");
+        else if(!c.burst || typeof c.burst!=="object" || Array.isArray(c.burst)){ bad(at+".core.burst はオブジェクト {rate, frac} が必要です"); return false; }
+        else if(!isNum(c.burst.rate)){ bad(at+".core.burst.rate が数値ではありません"); return false; }
+        else {
+          const b={rate:wc(c.burst.rate,0,10,"core.burst.rate")};
+          b.frac=(c.burst.frac===undefined)?1:(isNum(c.burst.frac)? wc(c.burst.frac,0,1,"core.burst.frac") : 1);
+          for(const k of Object.keys(c.burst)) if(k!=="rate" && k!=="frac") warnings.push(at+".core.burst の未知キー("+String(k).slice(0,20)+")— 無視");
+          oc.burst=b;
+        }
       }
       return oc;
     };
@@ -11688,6 +11707,54 @@ function coreV2UpdatePass(S, m, spin, pinned, ax, ay, R, dt){
         S.radE+=Math.abs(dJ*dOm)*0.5;             // 相対回転の散逸(近似)
       }
     }
+    // 第234便(第29報③): spinBurst — 保存的スピン放出。コア J_z を率 rate で減らし(総比率 frac まで)、
+    // ΔJ をガス(自由粒子・自身以外)の重心まわり剛体回転モードへ(Σm(r−r_cm)=0 なので P は 0 のまま L=ΔJ)、
+    // 回転 E の残り ΔE−ΔK_tan を「動径−質量平均」モード w_k=u_k−ū へ(P=0・L=0 が恒等的に成り立つ)。
+    // 2次方程式の解 a で KE を厳密に合わせ、丸め残差(と解なしの分)だけ burstRes に記帳する。
+    // 帳簿: burstE=Σ放出回転E・burstK=Σ注入KE・burstL=Σ移送L(コア ΔJ と等量反対)。未宣言は分岐に入らず 1 bit 不変
+    if(S.coreBR[i]>0 && S.coreJ[i]!==0 && S.coreBJr[i]<S.coreBF[i]*S.coreBJ0[i]){
+      const J0=S.coreJ[i], sg=(J0>0)?1:-1;
+      // 率は「まだ放出できる残り」rem に掛かる(目標 J₁=(1−frac)J₀ への時定数 1/rate の指数接近)。
+      // 残りが基準 |J| の 1e−9 を切ったら打ち切り(以後は分岐に入らない)
+      let rem=S.coreBF[i]*S.coreBJ0[i]-S.coreBJr[i];
+      let dJ=rem*(1-Math.exp(-S.coreBR[i]*dt));
+      if(rem<1e-9*S.coreBJ0[i]){ dJ=rem; S.coreBJr[i]=S.coreBF[i]*S.coreBJ0[i]; }
+      if(dJ>Math.abs(J0)) dJ=Math.abs(J0);
+      if(dJ>0){
+        const J1=J0-sg*dJ, dE=(J0*J0-J1*J1)/(2*Ic);
+        const n=S.n, x=S.x, y=S.y, vx=S.vx, vy=S.vy;
+        let Mg=0, cx=0, cy=0;
+        for(let k=0;k<n;k++){ if(k===i||pinned[k]) continue; Mg+=m[k]; cx+=m[k]*x[k]; cy+=m[k]*y[k]; }
+        if(Mg>0){
+          cx/=Mg; cy/=Mg;
+          let Ig=0, K0=0;
+          for(let k=0;k<n;k++){ if(k===i||pinned[k]) continue; const dx=x[k]-cx, dy=y[k]-cy;
+            Ig+=m[k]*(dx*dx+dy*dy); K0+=0.5*m[k]*(vx[k]*vx[k]+vy[k]*vy[k]); }
+          // ① 剛体回転モード(L=ΔJ・P=0)
+          if(Ig>0){ const w=sg*dJ/Ig;
+            for(let k=0;k<n;k++){ if(k===i||pinned[k]) continue; const dx=x[k]-cx, dy=y[k]-cy; vx[k]-=w*dy; vy[k]+=w*dx; } }
+          let K1=0; for(let k=0;k<n;k++){ if(k===i||pinned[k]) continue; K1+=0.5*m[k]*(vx[k]*vx[k]+vy[k]*vy[k]); }
+          const dEr=dE-(K1-K0);
+          // ② 動径−質量平均モード(P=0・L=0): A a²+B a−ΔE_r=0 の外向き解
+          let ubx=0, uby=0;
+          for(let k=0;k<n;k++){ if(k===i||pinned[k]) continue; const dx=x[k]-cx, dy=y[k]-cy, r=Math.hypot(dx,dy);
+            if(r>0){ ubx+=m[k]*dx/r; uby+=m[k]*dy/r; } }
+          ubx/=Mg; uby/=Mg;
+          let A=0, B=0;
+          for(let k=0;k<n;k++){ if(k===i||pinned[k]) continue; const dx=x[k]-cx, dy=y[k]-cy, r=Math.hypot(dx,dy);
+            const wx=(r>0? dx/r:0)-ubx, wy=(r>0? dy/r:0)-uby;
+            A+=0.5*m[k]*(wx*wx+wy*wy); B+=m[k]*(vx[k]*wx+vy[k]*wy); }
+          const disc=B*B+4*A*dEr;
+          if(A>0 && disc>=0){ const a=(-B+Math.sqrt(disc))/(2*A);
+            for(let k=0;k<n;k++){ if(k===i||pinned[k]) continue; const dx=x[k]-cx, dy=y[k]-cy, r=Math.hypot(dx,dy);
+              vx[k]+=a*((r>0? dx/r:0)-ubx); vy[k]+=a*((r>0? dy/r:0)-uby); } }
+          let K2=0; for(let k=0;k<n;k++){ if(k===i||pinned[k]) continue; K2+=0.5*m[k]*(vx[k]*vx[k]+vy[k]*vy[k]); }
+          S.coreJ[i]=J1; if(S.coreBJr[i]<S.coreBF[i]*S.coreBJ0[i]) S.coreBJr[i]+=dJ;
+          S.burstE+=dE; S.burstK+=K2-K0; S.burstL+=sg*dJ; S.burstRes+=dE-(K2-K0);
+          Om=S.coreJ[i]/Ic;
+        }
+      }
+    }
     // 第227便(第26報 — ジャイロ効果): 殻スピン Ω_s がコア軸の**方位だけ**を歳差させる
     // (dJ⊥/dt = Ω_s ẑ×J⊥ — Gemini 案 τ_gyro=Ω_s×J_c の面内成分 = Grok 段1。3レビュー一致形)。
     // |J|・J_z・θ は全て不変 = 理想垂直トルクの仕事 0(第226便 coreTiltProxyAudit と整合 —
@@ -12127,6 +12194,8 @@ function makeSim(){
     S.coreMd=new Uint8Array(n); S.coreMF=F(); S.RcV=F(); S.coreJ=new Float64Array(n);
     S.coreKcs=F(); S.corePump=F(); S.coreCtr=F(); S.coreOmV=F(); S.hasCoreV2=false;
     S.coreKal=F();   // 第232便: 整列引きずり率(Kalign — 省略 0)
+    // 第234便: spinBurst — 放出率・総比率・基準 |J|(build 時)・放出済み |J|(累積)。省略 0 = 分岐に入らない
+    S.coreBR=F(); S.coreBF=F(); S.coreBJ0=new Float64Array(n); S.coreBJr=new Float64Array(n);
     // 第208便: coreIS=コアの有効慣性倍率 ζ(既定1。I*_c=ζ·½·Mc·Rc² — 全 I_c 計算が共通で乗じる)
     S.coreIS=new Float64Array(n); S.coreIS.fill(1);
     // 第210便: coreJm=|J| 容量(=I*·|ω₀| — coupleSink:"tilt" の軸傾き経路の上限。既定0)
@@ -12424,10 +12493,13 @@ function makeSim(){
         }
         S.coreKcs[i]=c.Kcs||0; S.corePump[i]=c.pump||0; S.coreCtr[i]=c.contract||0;
         S.coreKal[i]=c.Kalign||0;   // 第232便
+        // 第234便: burst 宣言 → 率・比率・基準 |J|(z 成分の絶対値 — 放出は J_z から)。未宣言は 0
+        if(c.burst){ S.coreBR[i]=c.burst.rate; S.coreBF[i]=c.burst.frac; S.coreBJ0[i]=Math.abs(S.coreJ[i]); S.coreBJr[i]=0; }
+        else { S.coreBR[i]=0; S.coreBF[i]=0; S.coreBJ0[i]=0; S.coreBJr[i]=0; }
         S.coreSrc[i]=c.sourceRate||0; S.coreEint[i]=c.internalEnergy||0;
         S.hasCoreV2=true;
       } else { S.coreMd[i]=0; S.coreMF[i]=0; S.RcV[i]=0; S.coreJ[i]=0; S.coreIS[i]=1; S.coreJm[i]=0;
-        S.coreKcs[i]=0; S.corePump[i]=0; S.coreCtr[i]=0; S.coreKal[i]=0;
+        S.coreKcs[i]=0; S.corePump[i]=0; S.coreCtr[i]=0; S.coreKal[i]=0; S.coreBR[i]=0; S.coreBF[i]=0; S.coreBJ0[i]=0; S.coreBJr[i]=0;
         S.coreSrc[i]=0; S.coreEint[i]=0; S.coreOm0[i]=0; }
       S.railH[i]=o.railH||0;
       if(o.railOmega||o.railH){ S.railR[i]=o.railR; S.railAng[i]=o.railAng; S.railCx[i]=o.railCx; S.railCy[i]=o.railCy; }
@@ -12572,6 +12644,7 @@ function makeSim(){
     S.wallEin=0; S.wallEout=0; S.wallKE=0;   // 第37便 C1(台帳4-70): 壁帳簿もリセット
     S.pinHeat=0;   // 第47便 47A(台帳4-86): pinned 熱浴の帳簿もリセット
     S.coreWork=0;  // 第77便(コアv2): パワーボール仕事+収縮の回転エネルギー増(外部仕事の明示帳簿)
+    S.burstE=0; S.burstK=0; S.burstL=0; S.burstRes=0;   // 第234便: spinBurst 帳簿(放出回転E・注入KE・移送L・残差)
     S.alignE=0;    // 第232便: 整列で隠れ成分(J⊥)から z 機関へ現れた回転エネルギーの累積(帳簿)
     // 第80便(コアv2): coreSrcE = active コアの sourceRate による**外部注入エネルギーの累積**
     // (fusU/coreWork と同格のリザーバ帳簿)。恒等式は Σ_i E_int,i − Σ_i E_int,i(t=0) = coreSrcE。
@@ -12951,7 +13024,7 @@ function makeSim(){
     const k=keep.length;
     const mv=(a)=>{ if(!a) return; for(let t=0;t<k;t++){ const s0=keep[t]; if(s0!==t) a[t]=a[s0]; } };
     for(const key of ["m","x","y","vx","vy","spin","R","rotA","mEff","rotAc",
-      "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","corePump","coreCtr",   // 第77便(コアv2)
+      "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","corePump","coreCtr",   // 第77便(コアv2)
       "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内
       "lSw","radOv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
@@ -12987,7 +13060,7 @@ function makeSim(){
     if(need<=cap) return cap;
     const nc=Math.max(need, cap+Math.max(8, cap>>1));
     for(const key of ["m","x","y","vx","vy","spin","R","rotA","mEff","rotAc",
-      "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","corePump","coreCtr",   // 第77便(コアv2)
+      "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","corePump","coreCtr",   // 第77便(コアv2)
       "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内
       "lSw","radOv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
@@ -13138,12 +13211,16 @@ function makeSim(){
         S.coreJ[j]=S.coreJ[i]-J1c; S.coreJ[i]=J1c;
         S.coreEint[j]=S.coreEint[i]-E1c; S.coreEint[i]=E1c;
         S.coreKcs[j]=S.coreKcs[i]; S.corePump[j]=S.corePump[i]; S.coreCtr[j]=S.coreCtr[i]; S.coreKal[j]=S.coreKal[i];
+        S.coreBR[j]=S.coreBR[i]; S.coreBF[j]=S.coreBF[i];   // 第234便: 率・比率は両片が継ぐ・基準/放出済み |J| は質量比例
+        const BJ01=S.coreBJ0[i]*f1; S.coreBJ0[j]=S.coreBJ0[i]-BJ01; S.coreBJ0[i]=BJ01;
+        const BJr1=S.coreBJr[i]*f1; S.coreBJr[j]=S.coreBJr[i]-BJr1; S.coreBJr[i]=BJr1;
         S.coreSrc[j]=S.coreSrc[i]; S.coreOm0[j]=S.coreOm0[i]; S.coreIS[j]=S.coreIS[i];   // 第208便: ζ は両片が親を継ぐ
         const Jm1=S.coreJm[i]*f1; S.coreJm[j]=S.coreJm[i]-Jm1; S.coreJm[i]=Jm1;   // 第210便: 容量も質量比例
         const Jx1=S.coreJx[i]*f1; S.coreJx[j]=S.coreJx[i]-Jx1; S.coreJx[i]=Jx1;   // 第227便: 面内成分も質量比例
         const Jy1=S.coreJy[i]*f1; S.coreJy[j]=S.coreJy[i]-Jy1; S.coreJy[i]=Jy1;
       } else {
         S.coreMd[j]=0; S.coreMF[j]=0; S.RcV[j]=0; S.coreJ[j]=0; S.coreKcs[j]=0; S.corePump[j]=0; S.coreCtr[j]=0; S.coreKal[j]=0;
+        S.coreBR[j]=0; S.coreBF[j]=0; S.coreBJ0[j]=0; S.coreBJr[j]=0;   // 第234便
         S.coreEint[j]=0; S.coreSrc[j]=0; S.coreOm0[j]=0; S.coreIS[j]=1; S.coreJm[j]=0;
         S.coreJx[j]=0; S.coreJy[j]=0;   // 第227便
       }
@@ -16964,6 +17041,7 @@ function syncHud(){
     // 第77便(コアv2): パワーボール仕事+収縮の回転エネルギー増(外部仕事の明示 — 発動時のみ)
     if(sim.coreWork) txt+=`\nコア仕事W=${fmt(sim.coreWork)}`;
     if(sim.alignE) txt+=`\n整列E=${fmt(sim.alignE)}`;   // 第232便
+    if(sim.burstE) txt+=`\n爆発E=${fmt(sim.burstE)}(注入KE ${fmt(sim.burstK)}・残差 ${fmt(sim.burstRes)})`;   // 第234便
     if(sim.coreSrcE) txt+=`\nコア注入E=${fmt(sim.coreSrcE)}`;   // 第80便: active コアの外部注入(累積)
     // 第50便 50E(台帳4-89): 安全クランプの帳簿 — 発動があったときだけ1行追記
     // (保存則主張の構成では厳密0で不可視のまま。発動していたら保存則の主張域外であることの明示)
@@ -17666,7 +17744,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   if(simB.m.length>=sim.n){
     for(const k of ["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy",
       "mEff","rotAc",                          // 第81便: コアv1(coreMR/coreSR/Rc)は廃止
-      "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","corePump","coreCtr",   // 第77便(コアv2)
+      "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","corePump","coreCtr",   // 第77便(コアv2)
       "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内
       "lSw","radOv",                           // 観測系(第22便 — obsT/coreOT は第61便で廃止)
       "rMulv","lSwAuto",                       // 第36便 C1/C2: 半径倍率・掻出の自動算出フラグ
@@ -17709,6 +17787,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   // 第80便(コアv2): コアの外部仕事・外部注入の帳簿も複製する(coreEint 配列は上で転写済みなので、
   // 帳簿を 0 のままにすると B 側だけ Σ(E_int−E_int0)=coreSrcE の恒等式が破れる)
   simB.coreWork=sim.coreWork; simB.coreSrcE=sim.coreSrcE; simB.alignE=sim.alignE;   // 第232便
+  simB.burstE=sim.burstE; simB.burstK=sim.burstK; simB.burstL=sim.burstL; simB.burstRes=sim.burstRes;   // 第234便
   // 第35便(台帳4-62): 積分器と echo の状態も転写(build 済みなので echoX0/Y0 は同一配置。
   // 反転済みフラグ・RMS だけは現在値を引き継ぐ — A/B を反転後に開始しても再反転しない)
   simB.integrator=sim.integrator; simB.echoFlipAt=sim.echoFlipAt;
@@ -17872,11 +17951,11 @@ let ckSnap=null;
 const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU","pinned",
   "mEff","rotAc","lSw","radOv","rMulv","lSwAuto",   // 第81便: コアv1 配列は廃止
   "pulseOm","pulsePh","shellGas",   // 第226便: パルス時計チャネル / 第229便: 殻の相
-  "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","corePump","coreCtr",
+  "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","corePump","coreCtr",
   "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内
   "railR","railAng","railOmega","railCx","railCy","railH",
   "Tint","coordN","coordAcc","shPrev","_phNbrPrev","_phNbrPrevN","_phProf"];
-const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wallKE","pinHeat","coreWork","coreSrcE","alignE",
+const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wallKE","pinHeat","coreWork","coreSrcE","alignE","burstE","burstK","burstL","burstRes",
   "clampVN","clampSN","clampHN","clampAN","clampRN","clampTN","angOvfN","_phAcc","_phNbrInit",
   "fusN","fusU","fusPx","fusPy","fusL","fisN","aEffRef","_bhLastA","_bhLastT","_bhAcc"];
 function ckInvalidate(){ ckSnap=null; $("#btnCkLoad").disabled=true; }

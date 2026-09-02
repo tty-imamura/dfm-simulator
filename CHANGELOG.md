@@ -6,6 +6,13 @@
 
 ## v1.44-b1(開発中 — beta)
 
+- **第234便(2026-09-02・第29報③)**: **spinBurst — コアが回転エネルギーを支払う保存的な超新星**。
+  `core.burst{rate,frac}`: コア J_z を目標 (1−frac)J₀ へ時定数 1/rate で減らし、ΔJ をガス重心まわりの
+  剛体回転モード(P=0・L=ΔJ)へ、残りの回転 E を P・L 射影除去した動径モードへ厳密注入(残差のみ burstRes
+  帳簿・HUD 爆発E)。**🎇 改訂**: 中心自由+重心系+pairReduced+reservoir・境界なし・burst{1, 1e-4}
+  (E_rot 1.73×10⁷ ≫ 束縛 5×10³)— 脱出 99.5%(dt/2・seed 収束)・burstE=burstK=3455.83(相対残差 4e-7)・
+  移送 L=J₀−J₁ ビット一致・クランプ 0。用量 frac 5e-5 → 56.8%・対照 kF0 64.6%/Ω0 16.4%/burst なし 74.5%。
+  NS キックは収束せず記録のみ。QA behavior.supernova 改訂(帳簿閉性・保存・用量・3対照・dt/2・seed)。
 - **第233便(2026-09-02・第29報)**: **DFM版恒星の構造 v1 — 質量台帳 f=2・引きずり外縁 R_drag・測光の殻質量
   分岐**。①純関数 dfmStarMassLedger(殻=観測値・コア=(f−1)m_obs)/dfmCoreDragRatio(D(r)=ω_c r/√(GM/r))/
   dfmCoreDragRadius(D=β の外側解 — Ω で伸びる)を HP 公開。**β_solid=0.014884 を 🍊 で較正**(唯一の値・他は
