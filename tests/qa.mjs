@@ -8364,6 +8364,99 @@ if (!FAST) {
   }
 }
 
+// ---- 第233便(第29報): behavior.dfm-star-structure — DFM版恒星の構造 v1 の純関数(質量台帳 f=2・
+// 引きずり強度 D(r)・引きずり外縁 R_drag=D(r)=β の外側解)の機械固定。力学状態は一切変えない ----
+{
+  const hasFn = await page.evaluate(() => typeof HP.dfmCoreDragRadius === 'function' && typeof HP.dfmStarMassLedger === 'function');
+  if (hasFn) {
+    const ss = await page.evaluate(() => {
+      const base = { mass: 600, coreMassFrac: 0.5, coreRadius: 5, coreOmega: 0.5, shellOmega: 0.08, G: 4, q: 2, beta: HP.DFM_BETA_SOLID };
+      const rd = (o) => HP.dfmCoreDragRadius(Object.assign({}, base, o || {}));
+      const L = HP.dfmStarMassLedger(300), LP = HP.dfmStarMassLedger(352.959), LB = HP.dfmStarMassLedger(-1), L1 = HP.dfmStarMassLedger(300, 1);
+      return { beta: HP.DFM_BETA_SOLID, ratioRef: HP.dfmCoreDragRatio(Object.assign({ r: 25 }, base)),
+        rd05: rd(), rd1: rd({ coreOmega: 1 }), rd2: rd({ coreOmega: 2 }), rd10: rd({ coreOmega: 10 }), rd40: rd({ coreOmega: 40 }),
+        rdM2: rd({ mass: 1200 }), rdQ15: rd({ q: 1.5 }), rdOs: rd({ coreOmega: 0.08 }),
+        prog: HP.dfmCoreDragRadius({ mass: 705.918, coreMassFrac: 0.5, coreRadius: 10.6303, coreOmega: 0.1953545025834873, shellOmega: 0.00553071981492008, G: 6.674, q: 2, beta: HP.DFM_BETA_SOLID }),
+        L, LP, LB, L1 };
+    });
+    add('behavior.dfm-star-structure',
+      ss.L && ss.L.totalMass === 600 && ss.L.shellMass === 300 && ss.L.coreMass === 300 && ss.L.coreMassFrac === 0.5   // 台帳 f=2
+      && ss.LP && Math.abs(ss.LP.totalMass - 705.918) < 1e-9 && ss.LP.coreMassFrac === 0.5                             // 🌹 の台帳
+      && ss.LB === null && ss.L1 && ss.L1.coreMass === 0 && ss.L1.coreMassFrac === 0                                   // 不正入力 null・f=1 はコアなし
+      && Math.abs(ss.ratioRef - ss.beta) < 1e-15                                                                       // β_solid=D(R_ref=25) の定義
+      && Math.abs(ss.rd05 - 25) < 1e-6                                                                                // 較正点の再現
+      && ss.rd1 > 228 && ss.rd1 < 228.2 && ss.rd2 > 1063 && ss.rd2 < 1063.4                                          // Ω で伸びる(Ω=1 → 228.07・2 → 1063.2)
+      && ss.rd10 > 28800 && ss.rd10 < 29000 && ss.rd40 > 468000 && ss.rd40 < 468600                                  // 🍂 の診断値(q=2 遠方 ∝Ω²)
+      && ss.rd05 < ss.rd1 && ss.rd1 < ss.rd2 && ss.rd2 < ss.rd10 && ss.rd10 < ss.rd40                                 // 単調
+      && ss.rdM2 === null && ss.rdQ15 === null && ss.rdOs === null                                                     // 重いほど届かない・q≤1.5 は無限遠・Ω_c=Ω_s は引きずりゼロ
+      && Math.abs(ss.prog - 53.1515) < 1e-3,                                                                          // 🌹: Ω_core の逆算が光球半径を再現
+      `台帳 f=2: 300 → total ${ss.L.totalMass}・shell ${ss.L.shellMass}・core ${ss.L.coreMass}(massFrac ${ss.L.coreMassFrac})/ 🌹 352.959 → ${ss.LP.totalMass.toFixed(3)} / `
+      + `β_solid ${ss.beta.toExponential(6)}=D(25) / R_drag Ω=0.5/1/2/10/40 → ${ss.rd05.toFixed(3)}/${ss.rd1.toFixed(2)}/${ss.rd2.toFixed(1)}/${ss.rd10.toFixed(0)}/${ss.rd40.toFixed(0)}(Ω で伸びる)・`
+      + `M×2=${ss.rdM2}・q=1.5=${ss.rdQ15}・Ω_c=Ω_s=${ss.rdOs} / 🌹 R_drag ${ss.prog.toFixed(4)}(光球 53.1515 の逆算)`);
+  } else {
+    console.log('SKIP behavior.dfm-star-structure(純関数なし — root 等)');
+  }
+}
+
+// ---- 第233便(第29報): behavior.starStructure — 🍊 starMass2DFM(f=2 契約・kF1)・🍂 redGiantDFM(コア Ω 用量で
+// 包絡流出)・🌹 supernovaProgDFM(🥀 の DFM 対)の実測窓+測光の殻質量分岐(✴️ は 1 bit 不変)----
+{
+  const hasSS = await page.evaluate(() => !!HP.allPresets().find((q) => q.id === 'redGiantDFM') && typeof HP.obsTemp === 'function');
+  if (hasSS) {
+    const st = await page.evaluate(() => {
+      const get = (id) => JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));
+      const runStar = (kf, om, steps) => {
+        const pd = get('starMass2DFM'); if (kf !== undefined) pd.physics.kFrame = kf; if (om !== undefined) pd.bodies[0].core.omega = om;
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+        for (let k = 0; k < steps; k++) S.step(0.016);
+        let tS = 0, tc = 0; for (let i = 0; i < S.n; i++) if (!S.pinned[i]) { tS += S.Tint[i]; tc++; }
+        return { warn: (v.warnings || []).length, mc: v.preset.massCalibration, fus: 200 - (S.n - 1), radE: S.radE, tMean: tS / tc, clampSN: S.clampSN, nan: S.hasNaN(), mf: S.coreMF[0], lSw: S.lSw[0] };
+      };
+      const star = runStar(undefined, undefined, 6000), starK0 = runStar(0, undefined, 6000), starOm2 = runStar(undefined, 2, 6000);
+      const runRG = (om, kf, steps) => {
+        const pd = get('redGiantDFM'); if (om !== undefined) pd.bodies[0].core.omega = om; if (kf !== undefined) pd.physics.kFrame = kf;
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+        let ci = 0; for (let i = 0; i < S.n; i++) if (S.m[i] > S.m[ci]) ci = i;
+        const stat = () => { let esc = 0, n = 0, rs = 0, rmax = 0; for (let i = 0; i < S.n; i++) { if (i === ci) continue; n++;
+            const r = Math.hypot(S.x[i] - S.x[ci], S.y[i] - S.y[ci]); rs += r; if (r > rmax) rmax = r;
+            const v2 = (S.vx[i] - S.vx[ci]) ** 2 + (S.vy[i] - S.vy[ci]) ** 2; if (v2 > 2 * S.params.G * S.m[ci] / Math.max(r, 1)) esc++; }
+          return { esc: esc / n, rMean: rs / n, rmax, n }; };
+        const s0 = stat(); for (let k = 0; k < steps; k++) S.step(0.016); const s1 = stat();
+        return { warn: (v.warnings || []).length, s0, s1, cDisp: Math.hypot(S.x[ci], S.y[ci]), clampSN: S.clampSN, nan: S.hasNaN(), n: S.n };
+      };
+      const rg = runRG(undefined, undefined, 3000), rg0 = runRG(0, undefined, 3000), rg40 = runRG(40, undefined, 3000), rgK0 = runRG(20, 0, 3000);
+      const pd = get('supernovaProgDFM'); const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+      const Tp = HP.obsTemp(S, 0), TpShell = 0.5 * (S.m[0] * (1 - S.coreMF[0])) * S.R[0] * S.R[0] * S.spin[0] * S.spin[0];   // 殻質量(Float32 の m)で同じ式
+      for (let k = 0; k < 500; k++) S.step(0.016);
+      const prog = { warn: (v.warnings || []).length, still: S.x[0] === 0 && S.vx[0] === 0, m: S.m[0], mf: S.coreMF[0], R: S.R[0], nan: S.hasNaN(), Tp, TpShell };
+      const pa = get('alphaCenABDFM'); const va = HP.validatePreset(pa); S.build(va.preset);
+      const Told = 0.5 * S.m[0] * S.R[0] * S.R[0] * S.spin[0] * S.spin[0] * (1 - S.lSw[0]);
+      const ac = { eq: Object.is(HP.obsTemp(S, 0), Told), lSw: S.lSw[0], mf: S.coreMF[0] };
+      return { star, starK0, starOm2, rg, rg0, rg40, rgK0, prog, ac };
+    });
+    const s = st.star, r = st.rg;
+    add('behavior.starStructure',
+      s.warn === 0 && s.mc && s.mc.law === 'chi-law-v1-transfer' && s.mc.factorUniform === 2 && s.mf === 0.5 && s.lSw === 0   // 台帳宣言が検証器を通る
+      && s.fus === st.starK0.fus && s.fus > 80 && s.fus < 95                        // 融合 87=kF0 と同数
+      && s.radE > 2100 && s.radE < 2180 && st.starK0.radE > 2500 && st.starK0.radE < 2560   // radE 2137.8(kF0 2532.9)
+      && s.tMean > 4.5 && s.tMean < 5.1 && st.starOm2.fus < s.fus && st.starOm2.tMean < s.tMean   // Ω=2 で燃えにくい
+      && s.clampSN === 0 && !s.nan
+      && r.warn === 0 && r.s1.esc > 0.40 && r.s1.esc < 0.53                          // 🍂 Ω=10: 流出 46.5%
+      && st.rg0.s1.esc > 0.22 && st.rg0.s1.esc < 0.32 && st.rg40.s1.esc > 0.58 && st.rg40.s1.esc < 0.70   // 用量 Ω=0 27%・Ω=40 64%
+      && st.rg0.s1.esc < r.s1.esc && r.s1.esc < st.rg40.s1.esc && st.rgK0.s1.esc < st.rg0.s1.esc         // 単調・kF0 対照 18.5% が最小
+      && r.s1.rMean < r.s0.rMean * 0.6 && r.s1.rmax < 300 && r.cDisp < 15           // 束縛半径は縮む(139→62)・境界内・反跳有界
+      && r.clampSN === 0 && !r.nan && r.n === 201                                   // 融合なし=粒数保存
+      && st.prog.warn === 0 && st.prog.still && Math.abs(st.prog.m - 705.918) < 1e-3 && st.prog.mf === 0.5 && Math.abs(st.prog.R - 53.1515) < 1e-3 && !st.prog.nan   // Float32 格納
+      && Object.is(st.prog.Tp, st.prog.TpShell)                                     // 測光の殻質量分岐(lSw=0 & コアあり)
+      && st.ac.eq === true && st.ac.lSw === st.ac.mf,                               // ✴️(lSw=massFrac)は従来式と 1 bit 不変
+      `🍊: 融合 ${s.fus}(kF0 ${st.starK0.fus})・radE ${s.radE.toFixed(1)}(kF0 ${st.starK0.radE.toFixed(1)})・T_mean ${s.tMean.toFixed(3)}(Ω=2: 融合 ${st.starOm2.fus}・${st.starOm2.tMean.toFixed(3)})・clampSN ${s.clampSN}・台帳 ${s.mc && s.mc.law} f=${s.mc && s.mc.factorUniform} / `
+      + `🍂: 流出 Ω=0/10/40 → ${(st.rg0.s1.esc * 100).toFixed(1)}/${(r.s1.esc * 100).toFixed(1)}/${(st.rg40.s1.esc * 100).toFixed(1)}%(kF0 ${(st.rgK0.s1.esc * 100).toFixed(1)}%)・平均 r ${r.s0.rMean.toFixed(1)}→${r.s1.rMean.toFixed(1)}(縮む)・最遠 ${r.s1.rmax.toFixed(0)}・反跳 ${r.cDisp.toFixed(2)}・clampSN ${r.clampSN} / `
+      + `🌹: 静止=${st.prog.still}・m ${st.prog.m}・massFrac ${st.prog.mf}・T_obs=殻質量 ${Object.is(st.prog.Tp, st.prog.TpShell)} / ✴️ 測光 1bit 不変=${st.ac.eq}`);
+  } else {
+    console.log('SKIP behavior.starStructure(対象に第233便の 🍂 なし — root 等)');
+  }
+}
+
 // ---- 第224便(第23報): behavior.chi-law — 連星4 DFM の粒子別質量スケール較正則の機械固定 ----
 // (a) massCalibration 台帳(law/fitDt/C/baseMass/factorByBody)が4本すべてに宣言され、
 //     f_i = C×g_i が HP.chiMassFactors の再計算とビット一致
