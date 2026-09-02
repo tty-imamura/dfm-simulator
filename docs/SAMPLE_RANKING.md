@@ -14,7 +14,7 @@
 7. 🏮 pulsarSolo(軸と時計) 8. 🎇 supernovaCore(コアが殻を動かす)
 9. 🍇 tuc47(形の転写) 10. 🌃 ngc3198(平坦回転と NFW 対照)
 
-## ランク表(95サンプル)
+## ランク表(98サンプル)
 
 ### 空間と時間
 | ID | Rank | 一言 |
@@ -107,6 +107,8 @@
 | starDFM | B | 力学ビット同一 — ☀️ の変種と明示(独立の恒星に数えない) |
 | pulsarSolo | A | 灯台・軸・時計を整理(スケール調整は第232便) |
 | supernovaCore | S | 速いコアと外殻放出が明快・用量反応 |
+| starMass2DFM | B | f=2 台帳と β_solid 較正の基準天体 — 🌻 との差は radE のみ(第233便) |
+| redGiantDFM | A | コア Ω 用量で包絡が流出・白色矮星が残る(第233便) |
 
 ### 現実との照合・太陽系
 | ID | Rank | 一言 |
@@ -138,6 +140,7 @@
 | alphaCenABDFM | B | ロゼットは S 級・説明が過密(短文化はキュー) |
 | siriusAB | A | 白色矮星との観測対が明快 |
 | siriusABDFM | B | 半径下限・自転代理・較正が同居 |
+| supernovaProgDFM | B | 🥀 の DFM 対 — 台帳と R_drag 逆算の宣言(第233便) |
 | psrDoubleAB | B | 重要だが説明が長い |
 | psrDoubleABDFM | C | 4主題が競合(短文化の第一候補) |
 | gw150914 | A | 二体基準として明快 |

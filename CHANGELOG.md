@@ -6,6 +6,15 @@
 
 ## v1.44-b1(開発中 — beta)
 
+- **第233便(2026-09-02・第29報)**: **DFM版恒星の構造 v1 — 質量台帳 f=2・引きずり外縁 R_drag・測光の殻質量
+  分岐**。①純関数 dfmStarMassLedger(殻=観測値・コア=(f−1)m_obs)/dfmCoreDragRatio(D(r)=ω_c r/√(GM/r))/
+  dfmCoreDragRadius(D=β の外側解 — Ω で伸びる)を HP 公開。**β_solid=0.014884 を 🍊 で較正**(唯一の値・他は
+  hold-out)。②obsTemp: コアあり&lightSweep=0 で殻質量(連星の lSw=massFrac は 1 bit 不変)。③massCalibration に
+  -transfer 形(規約転写)。④**🍊 starMass2DFM**(🌻 の f=2 契約版・kF1 — 融合 87=kF0・radE 2137.8)・
+  **🍂 redGiantDFM**(自由重コア+ガス包絡・コア Ω 用量 — 流出 27→64%・束縛半径は縮む・白色矮星の雛形)・
+  **🌹 supernovaProgDFM**(🥀 の DFM 対 — m×2・コア Ω=0.1953545 は R_drag=光球半径の逆算)。⑤🥀 の 1.4 M☉ は
+  別天体マーカーの宣言・🎇 は運動学的注入の宣言(spinBurst は第234便)。QA behavior.dfm-star-structure・
+  behavior.starStructure 新設。
 - **第232便(2026-09-02・第28報)**: **Kalign(傾いた軸がトルクで逆らいつつ外殻に引き摺られる)+表示修正**。
   ①`core.Kalign`: 殻スピン倍率の整列率で傾いた J を |J| 保存のまま殻の回転軸へ回す(第227便の
   歳差と共存=螺旋で立ち上がる)。z 角運動量は殻スピンから等量反対・殻の失う KE は radE・隠れ成分から

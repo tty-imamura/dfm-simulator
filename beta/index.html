@@ -8665,11 +8665,11 @@ const BUILTIN_PRESETS = [
     {q:"二層核(コア=残存質量の見立て)", model:"massFrac=0.0789(=1.4 M☉/17.75 — かにパルサー fiducial の器)・Rc=R/2 規約・Ω=0", obs:"—(前駆星コアの直接観測なし — 宣言のみ)"},
     {q:"転写しないもの(宣言)", model:"光度(距離 197pc 系 — Joyce 168.1pc と混用不可)・質量放出 3.1×10⁻⁶ M☉/yr・脈動・爆発", obs:"CSV に note 込みで収載(較正には距離を選んでから)"}],
   descStruct:{
-    summary:"**超新星前駆星の観測転写 — ベテルギウス(α Ori)**(第231便・第28報)。🎇(見立て — 高速コアが外殻を吹き飛ばす原理)の**観測対の「前」側**。CSV(supernova-observations.csv)の **Joyce et al. (2020) 一組整合セット**(質量 17.75 M☉ 中央値・光球半径 764 R☉・距離 168.1 pc — 同一モデル解)を恒星族 L10/T6/M29 で置く。自転は P_rot/sin i=36 年の **sin i=1 代理値**(💫 A と同じ宣言規約)。二層核はコア質量比 0.0789=**1.4 M☉(かにパルサーの fiducial)を核の器として宣言**する見立て — 前駆星の中心に将来の中性子星質量が置かれている、という物語の転写(観測ではない — 宣言)。働くのは重力(E4)のみ(単体・kFrame=0)。光度は距離 197 pc 系の値で Joyce 距離と混用できないため転写しない(CSV note の警告を継承)。爆発・脈動・質量放出はモデル化しない。",
+    summary:"**超新星前駆星の観測転写 — ベテルギウス(α Ori)**(第231便・第28報)。🎇(見立て — 高速コアが外殻を吹き飛ばす原理)の**観測対の「前」側**。CSV(supernova-observations.csv)の **Joyce et al. (2020) 一組整合セット**(質量 17.75 M☉ 中央値・光球半径 764 R☉・距離 168.1 pc — 同一モデル解)を恒星族 L10/T6/M29 で置く。自転は P_rot/sin i=36 年の **sin i=1 代理値**(💫 A と同じ宣言規約)。二層核はコア質量比 0.0789=**1.4 M☉(別天体であるかにパルサーの fiducial)を比較マーカーとして置く宣言** — ベテルギウスの将来コア質量の観測・予測でも、🥀→🦀 の同一個体進化でもない(第233便で明記)。DFM 版の重いコア(f=2)は対の 🌹 supernovaProgDFM が担う。働くのは重力(E4)のみ(単体・kFrame=0)。光度は距離 197 pc 系の値で Joyce 距離と混用できないため転写しない(CSV note の警告を継承)。爆発・脈動・質量放出はモデル化しない。",
     observe:"実測(500步): 単体静止をビット保持(x=vx=0)・半径 53.15・自転 5.531×10⁻³・コア質量比 0.0789 が転写どおり格納・NaN 0。動く絵ではなく**観測状態の台帳**(🎐 GW150914 基準状態と同じ役割)— 🎇 の初期条件(コア Ω を上げると何が起きるか)と 🦀(爆発後)への橋。QA behavior.supernovaObs が転写値を機械固定。",
     control:"🎇(原理 — コア Ω 用量反応)・🦀(爆発後 — かに星雲)と3点で読む。コア Ω を編集して回すと 🎇 の筋書きをこの転写質量で試せる(その時点で principle 実験になる — 宣言)。"},
   en:{ name:"Supernova Progenitor — Betelgeuse (transcribed)", descStruct:{
-    summary:"THE OBSERVED 'BEFORE' STATE of a supernova — Betelgeuse (α Ori), wave 231. The observation-side counterpart of 🎇 (the analogy where a fast core blows off the envelope). The Joyce et al. (2020) SELF-CONSISTENT SET from the CSV (median mass 17.75 Msun, photospheric radius 764 Rsun, distance 168.1 pc — one model solution) is placed in the stellar family L10/T6/M29. Rotation is the sin i=1 PROXY of P_rot/sin i=36 yr (the same declared convention as 💫 A). The two-layer nucleus declares core massFrac 0.0789 = 1.4 Msun — THE CRAB-PULSAR FIDUCIAL AS THE CORE'S RESERVOIR: a transcription of the story that the future neutron-star mass sits at the progenitor's centre (a declaration, not an observation). Only gravity (E4) acts (solo body, kFrame=0). The luminosity is NOT transcribed (it rides the 197 pc distance and cannot be mixed with the Joyce 168.1 pc — the CSV note's warning inherited). No explosion, pulsation or mass loss is modelled.",
+    summary:"THE OBSERVED 'BEFORE' STATE of a supernova — Betelgeuse (α Ori), wave 231. The observation-side counterpart of 🎇 (the analogy where a fast core blows off the envelope). The Joyce et al. (2020) SELF-CONSISTENT SET from the CSV (median mass 17.75 Msun, photospheric radius 764 Rsun, distance 168.1 pc — one model solution) is placed in the stellar family L10/T6/M29. Rotation is the sin i=1 PROXY of P_rot/sin i=36 yr (the same declared convention as 💫 A). The two-layer nucleus declares core massFrac 0.0789 = 1.4 Msun — the fiducial of a DIFFERENT object (the Crab pulsar) placed as a comparison marker: neither an observation/prediction of Betelgeuse's future core nor a 🥀→🦀 same-object evolution (made explicit in wave 233). The DFM heavy core (f=2) lives in the counterpart 🌹 supernovaProgDFM. Only gravity (E4) acts (solo body, kFrame=0). The luminosity is NOT transcribed (it rides the 197 pc distance and cannot be mixed with the Joyce 168.1 pc — the CSV note's warning inherited). No explosion, pulsation or mass loss is modelled.",
     observe:"Measured (500 steps): rest held to the bit (x=vx=0); radius 53.15, spin 5.531e-3 and core massFrac 0.0789 stored as transcribed; zero NaN. Not a moving picture but a LEDGER OF THE OBSERVED STATE (the same role as 🎐 for GW150914) — a bridge to 🎇 (what happens when the core Ω rises) and 🦀 (after the explosion). QA behavior.supernovaObs machine-fixes the transcription.",
     control:"Read as a triptych with 🎇 (principle) and 🦀 (after). Editing the core Ω onto this transcribed mass runs the 🎇 story here (which then becomes a principle experiment — declared)."}},
   parameterAudit:{
@@ -8689,6 +8689,44 @@ const BUILTIN_PRESETS = [
     {type:"single", m:352.959, x:0,y:0, vx:0,vy:0, spin:0.00553071981492008, pinned:false,
      radius:53.1515, shell:"solid", lightSweep:0,
      core:{mode:"differential", massFrac:0.07887323943661971, radius:26.57575, omega:0, Kcs:0}}],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
+
+{ id:"supernovaProgDFM", name:"超新星前駆星(DFM版)— 質量台帳 f=2・光球半径=コアの引きずり外縁", emoji:"🌹", group:"現実との照合・太陽系外",
+  scaleTier:"stellar",
+  scaleExp:{L:10, T:6, M:29},
+  sampleClass:"principle",
+  notClaim:["cal","toy"],
+  obsCard:[
+    {q:"質量台帳 f=2", model:"705.918 単位=殻 352.959(観測転写)+コア 352.959(massFrac 0.5)", obs:"M_obs=17.75 M☉(Joyce 一組)— DFM 総質量 35.5 M☉ は実在主張ではない"},
+    {q:"光球半径=R_drag", model:"53.1515 単位(転写値そのまま)— コア Ω=0.19535 を R_drag=R から逆算(β_solid)", obs:"R=764 R☉(3σ・モデル依存)— 半径の仮定を式にした派生値"},
+    {q:"コア半径・自転", model:"Rc=R/5=10.6303・殻 Ω=5.531×10⁻³(sin i=1 代理)・Kcs=0・kFrame=1", obs:"—(前駆星コアの直接観測なし — 宣言のみ)"},
+    {q:"較正の性質", model:"f=2 は連星契約の規約転写(chi-law-v1-transfer・C=1)・β_solid は 🍊 で較正(hold-out)", obs:"—"}],
+  descStruct:{
+    summary:"**🥀 の DFM 対 — 質量台帳 f=2 の超新星前駆星**(第233便 — 第29報①③)。🥀 の転写幾何(光球 53.15・自転 sin i=1 代理・単体静止)はそのままに、**総質量を 705.918=2×352.959** とし、殻=観測値 352.959・コア=余り 352.959(massFrac 0.5・Rc=R/5)に置く(dfmStarMassLedger — 連星契約 f≈2 の規約転写・massCalibration law:\"chi-law-v1-transfer\")。**コア Ω=0.1953545 は「恒星の半径=コアの引きずりの影響範囲」の仮定から逆算**した派生値: β_solid(🍊 で較正)を用い、引きずり強度 D(r)=ω_c r/√(GM/r)(A8 の差動コア項)が β を切る外縁 R_drag が光球半径 53.1515 に一致する Ω を求めた(観測値ではない — β の hold-out 第1号)。1.4 M☉ の器は 🥀 の比較マーカーで、こちらのコアは DFM の重いコア。kFrame=1(単体なので力学は静止のまま — 引きずりの相手がいない・働くのは重力 E4 のみ)。測光は殻質量分岐(lightSweep=0 & コアあり → T_obs は殻質量 352.959 で)。超新星(コアが中性子星まで成長しスピンで外殻を吹き飛ばす)は第234便 spinBurst の宣言。",
+    observe:"実測(500步): 単体静止をビット保持(x=vx=0)・m 705.918・massFrac 0.5・R 53.1515・警告 0・NaN 0。R_drag 診断=53.1515(定義により再現 — 予測ではない)。T_obs は殻質量 352.959 で計算される(🥀 も同じ分岐で 352.959×(1−0.0789))。QA behavior.starStructure が機械固定。",
+    control:"🥀(観測転写)・🎇(原理)・🦀(爆発後)と読む。core.omega を上げると R_drag 診断が Ω² で伸びる(赤色巨星化の診断 — 🍂 と同じ式)。"},
+  en:{ name:"Supernova Progenitor (DFM) — Mass Ledger f=2, Photosphere = the Core's Drag Edge", descStruct:{
+    summary:"THE DFM COUNTERPART OF 🥀 — a supernova progenitor under the mass ledger f=2 (wave 233). The 🥀 transcription geometry (photosphere 53.15, sin i=1 spin proxy, solo body at rest) is kept, but the TOTAL MASS IS 705.918 = 2×352.959: shell = the observed 352.959, core = the remainder 352.959 (massFrac 0.5, Rc=R/5) — dfmStarMassLedger, the binary contract f≈2 transferred by convention (massCalibration law chi-law-v1-transfer). THE CORE Ω=0.1953545 IS DERIVED FROM THE ASSUMPTION 'STELLAR RADIUS = THE REACH OF THE CORE'S DRAGGING': with β_solid (calibrated on 🍊), the Ω at which the drag edge R_drag — where D(r)=ω_c r/√(GM/r) (the A8 differential-core term) crosses β — equals the photospheric radius 53.1515 (not an observation — the first hold-out of β). The 1.4 Msun vessel is 🥀's comparison marker; this core is the DFM heavy core. kFrame=1 (a solo body, so the dynamics stay at rest — nothing to drag; only gravity E4 acts). Photometry uses the shell-mass branch (lightSweep=0 with a core → T_obs from the shell mass 352.959). The supernova itself (the core growing to a neutron star and blowing off the envelope by spin) is declared for wave 234 (spinBurst).",
+    observe:"Measured (500 steps): rest held to the bit (x=vx=0); m 705.918, massFrac 0.5, R 53.1515; zero warnings, zero NaN. R_drag diagnostic = 53.1515 (reproduced by definition — not a prediction). T_obs is computed from the shell mass 352.959 (🥀 takes the same branch: 352.959×(1−0.0789)). QA behavior.starStructure machine-fixes it.",
+    control:"Read with 🥀 (transcription), 🎇 (principle) and 🦀 (after). Raising core.omega stretches the R_drag diagnostic as Ω² (the red-giant diagnostic — the same formula as 🍂)."}},
+  parameterAudit:{
+    observedInputs:["Joyce et al. (2020) 一組: M=17.75 M☉(範囲中央)・R=764 R☉(🥀 と同一の転写)","Kervella et al. (2018): P_rot/sin i=36 年(代理 sin i=1)"],
+    fixedConventions:["恒星族 L10/T6/M29・単体・kFrame=1(相手なし)","f=2 規約転写(chi-law-v1-transfer・C=1)・殻=観測値・コア=余り(massFrac 0.5)・Rc=R/5・Kcs=0・lightSweep=0"],
+    fitted:["なし(β_solid は 🍊 で較正 — 本サンプルでは hold-out)"],
+    derived:["m=705.918(=2×352.959)・shell 352.959・core 352.959(dfmStarMassLedger)","Ω_core=0.1953545025834873(R_drag=53.1515 の逆算 — dfmCoreDragRadius・β_solid・G=6.674・q=2)"],
+    numerical:["dt=0.016・静止系(数値誤差の入り口なし)"]},
+  activeParams:["G","kFrame","softening"],
+  massCalibration:{law:"chi-law-v1-transfer", C:1, factorUniform:2},
+  seed:20260901,
+  camera:{scale:150}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.006, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0,
+    kappaT:7.415555555555556e-9, cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
+    geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:1, timeScale:100, coupleSink:"reservoir"},
+  bodies:[
+    // 殻=観測値(転写半径・sin i=1 代理自転)/コア=余り(f=2)・Ω は R_drag=R の逆算値
+    {type:"single", m:705.918, x:0,y:0, vx:0,vy:0, spin:0.00553071981492008, pinned:false,
+     radius:53.1515, shell:"solid", lightSweep:0,
+     core:{mode:"differential", massFrac:0.5, radius:10.6303, omega:0.1953545025834873, Kcs:0}}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
 
 { id:"crabRemnant", name:"超新星残骸 SN 1054 — かに星雲とパルサー(観測転写)", emoji:"🦀", group:"現実との照合・太陽系外",
@@ -9613,6 +9651,75 @@ const BUILTIN_PRESETS = [
      spinMin:0,spinMax:0, tInt:2, vMode:"kepler", aroundMass:600, vScale:0.6, direction:1}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
+// 第233便(第29報): DFM版恒星の構造 v1 — 質量台帳 f=2(殻=観測値・コアが重い)・引きずり外縁 R_drag(D(r)=β の
+// 外側解 — Ω で伸びる)・測光の殻質量分岐。🍊=🌻 の f=2 契約版(基準天体 — β_solid をここで較正)・
+// 🍂=赤色巨星→白色矮星(コア Ω 用量で包絡が流出)・🌹=🥀 の DFM 対(§現実との照合)。純関数 dfmStarMassLedger/
+// dfmCoreDragRatio/dfmCoreDragRadius(HP 公開)は力学状態を一切変えない(S.R は動的に変えない — 診断値)
+{ id:"starMass2DFM", name:"恒星の質量台帳 f=2 — 殻は観測値・コアが重い(DFM版)", emoji:"🍊", group:"天体の物語",
+  scaleTier:"stellar", sampleClass:"composite", notClaim:["toy"],
+  descStruct:{
+    summary:"**DFM版恒星の質量台帳 f=2**(第233便 — 第29報①)。連星較正 ✴️💫⚡🎻 で4例とも f≈2 に収束した「DFM の計算式では恒星質量が観測換算の約2倍」を恒星単体へ**規約転写**する(massCalibration law:\"chi-law-v1-transfer\"・C=1・f=2 — 単体では χ が飽和しないため法則導出ではなく契約の転写と宣言)。台帳: **殻=観測値 300・コア=余り 300・総質量 600=☀️🌻 の m と同じ**(massFrac=(f−1)/f=0.5・dfmStarMassLedger)。ほぼ減光しない恒星(lightSweep=0)なので外殻が観測値でコアが重い。コア半径 R/5=5(規約上限)・Ω=0.5・傾き 7°・Kcs=0・kFrame=1 で引きずり(A8/E6′)が入り 🌻(kF0)から分岐する。働くのは重力(E4)+引きずり+接触ばね(E9)+融合の熱源+放射(E11)。**引きずり外縁 R_drag**: 無次元強度 D(r)=ω_c(r)·r/√(GM/r)(ω_c は A8 の差動コア項そのもの)が β を切る外側半径を「コアの引きずりの影響範囲」と定義し、**本サンプルを基準天体として β_solid=0.014884 を R_ref=25(≈殻半径 24.5)で較正**(唯一の値 — 他天体では hold-out)。R_drag は Ω で伸びる(Ω=0.5→25・1→228・2→1063 — q=2 の遠方で ∝Ω²)。半径 S.R は動的に変えず診断値に留める(parameterAudit.derived)。実在の恒星内部の再現ではない。",
+    observe:"実測(6000步=t96・☀️ と同一 seed): 融合 **87 回=kF0(☀️🌻)と同数**・radE **2137.8(kF0 2532.9 — 引きずりが落ち込みを緩め放射が 16% 減る)**・平均 T_int 4.81・clampSN 0(coupleSink:\"reservoir\" で反作用は帳簿へ)・NaN 0。コア Ω=2 では融合 83・T_int 3.67(引きずりが強いほど燃えにくい — 🎇 の手前の用量域)。R_drag 診断 25.000(較正点 — 定義の再現であって予測ではない)。QA behavior.starStructure(挙動)・behavior.dfm-star-structure(純関数)が機械固定。",
+    control:"おすすめA/B: kFrame=0 で 🌻 と同じ落ち込み(融合 87・radE 2533)、core.omega=2 で燃えにくい星(融合 83)。core.omega を上げると R_drag 診断が Ω² で伸びる — 🍂(赤色巨星)への橋。"},
+  en:{name:"Stellar Mass Ledger f=2 — Shell Is the Observed Value, the Core Is Heavy (DFM)", descStruct:{
+    summary:"THE DFM STELLAR MASS LEDGER f=2 (wave 233). The binary calibrations ✴️💫⚡🎻 all converged on f≈2 (\"under the DFM formula a star's mass is about twice the observed conversion\"); here that contract is TRANSFERRED BY CONVENTION to a single star (massCalibration law chi-law-v1-transfer, C=1, f=2 — declared a transfer, not a law derivation, since χ does not saturate for a solo star). Ledger: shell = observed 300, core = the remainder 300, total 600 = the same m as ☀️🌻 (massFrac=(f−1)/f=0.5, dfmStarMassLedger). A star that hardly dims (lightSweep=0), so the envelope is the observed value and the core is heavy. Core radius R/5=5 (the convention's cap), Ω=0.5, tilt 7°, Kcs=0; kFrame=1 brings in frame dragging (A8/E6′) and the run departs from 🌻 (kF0). Gravity (E4), dragging, contact springs (E9), fusion heating and radiation (E11) act. THE DRAG OUTER EDGE R_drag: the dimensionless strength D(r)=ω_c(r)·r/√(GM/r) (ω_c is exactly the A8 differential-core term) crossing β defines the reach of the core's dragging; THIS SAMPLE IS THE REFERENCE BODY that calibrates β_solid=0.014884 at R_ref=25 (≈ the shell radius 24.5) — the only fitted value; every other body is a hold-out. R_drag grows with Ω (Ω=0.5→25, 1→228, 2→1063 — ∝Ω² far out for q=2). S.R is never changed dynamically; R_drag stays a diagnostic (parameterAudit.derived). Not a model of real stellar interiors.",
+    observe:"Measured (6000 steps = t96, same seed as ☀️): 87 fusions = THE SAME COUNT AS kF0 (☀️🌻); radE 2137.8 (kF0 2532.9 — dragging softens the infall and the radiation drops 16%); mean T_int 4.81; clampSN 0 (coupleSink reservoir books the reaction); zero NaN. With core Ω=2: 83 fusions, T_int 3.67 (stronger dragging burns less — the dose range just below 🎇). R_drag diagnostic 25.000 (the calibration point — a reproduction of the definition, not a prediction). QA behavior.starStructure and behavior.dfm-star-structure machine-fix these.",
+    control:"Suggested A/B: kFrame=0 gives the same infall as 🌻 (87 fusions, radE 2533); core.omega=2 gives a star that burns less (83 fusions). Raising core.omega stretches the R_drag diagnostic as Ω² — the bridge to 🍂 (red giant)."}},
+  parameterAudit:{
+    observedInputs:["なし(トイ恒星 — ☀️🌻 の m=600 を『観測換算 300 の 2 倍』と読む台帳)"],
+    fixedConventions:["f=2 規約転写(chi-law-v1-transfer・C=1)・殻=観測値・コア=余り(massFrac 0.5)","Rc=R/5=5(上限規約)・Ω=0.5・tilt 7°・Kcs=0・lightSweep=0・kFrame=1・pairReduced・coupleSink reservoir"],
+    fitted:["β_solid=0.014884052256495006(R_drag=R_ref=25 で較正 — 唯一のノブ・本サンプルが基準天体)"],
+    derived:["台帳: total 600・shell 300・core 300・coreMassFrac 0.5(dfmStarMassLedger)","R_drag(Ω=0.5)=25.000(較正点)・Ω=1 → 228.07・Ω=2 → 1063.2(dfmCoreDragRadius・q=2 遠方 ∝Ω²)"],
+    numerical:["dt=0.016・6000步・seed 20260730(☀️ と同一)"]},
+  activeParams:["kFrame","G","etaRad"],
+  thermal:"tint", fusion:{dFrac:0.35}, validT:96,
+  massCalibration:{law:"chi-law-v1-transfer", C:1, factorUniform:2},   // 第233便: 規約転写台帳(宣言専用)
+  camera:{scale:320}, world:{boundary:"circle",size:300}, seed:20260730,
+  physics:{G:4, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+    cLight:30, bM:1, etaRad:0.0016, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
+    pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2, frameReaction:"pairReduced", coupleSink:"reservoir"},
+  bodies:[
+    // 二層核: 殻 300(観測値・光球・lightSweep 0)+重いコア 300(Rc=R/5・Ω=0.5・tilt 7°)。kF1 で引きずりが入る
+    {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.08, pinned:true, tInt:2, lightSweep:0,
+     shell:"solid", core:{mode:"differential", massFrac:0.5, radius:5, omega:0.5, Kcs:0, tilt:7}},
+    // ☀️ と同一のガス球(同一 seed)
+    {type:"disk", n:200, cx:0,cy:0, radius:200, mMin:1,mMax:1,
+     spinMin:0,spinMax:0, tInt:2, vMode:"kepler", aroundMass:600, vScale:0.6, direction:1}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
+{ id:"redGiantDFM", name:"赤色巨星から白色矮星へ — コアのスピン用量で外殻ガスが流出する(DFM版)", emoji:"🍂", group:"天体の物語",
+  scaleTier:"stellar", sampleClass:"principle", notClaim:["toy"],
+  descStruct:{
+    summary:"**DFM版赤色巨星→白色矮星の見立て**(第233便 — 第29報②)。仮定: 赤色巨星はコアのスピン増で膨らみ、外殻ガス層が流出して残ったコアが白色矮星になる。構成は ☀️ 型: **自由な中心天体**(m=600 — 台帳 f=2: 殻 300+コア 300・massFrac 0.5・Rc=5)+ガス包絡 200 粒(☀️ と同一 seed)・**融合なし**(流出率を熱源と混ぜない)・kFrame=1・pairReduced+重心系(中心も自由 — 反跳を記録)・coupleSink:\"reservoir\"。コア **Ω=10 を用量ノブ**にして引きずり(A8/E6′)で包絡を掃き出す(働くのは重力 E4+引きずり+接触ばね E9+放射 E11)。**「膨らんで見える」は流出するガスの描画と R_drag 診断**(β_solid で Ω=10 → 2.9×10⁴・Ω=40 → 4.7×10⁵ — 🍊 の較正値の外挿=hold-out)**であって、束縛半径の増加ではない**(実測は縮む — 残った粒の平均 r 139→62)。流出後に残る中心天体=白色矮星の雛形(同じ粒子・質量台帳は連続 — 昇格処理なし)。実在の赤色巨星・白色矮星(対流・質量放出・縮退圧)の再現ではない。",
+    observe:"実測(3000步=t48・用量反応): 脱出速度超えの包絡粒 **Ω=0/5/10/20/40 → 27.0/35.5/46.5/54.5/64.0%**(単調増)・kFrame=0(Ω20)18.5%(引きずりを切ると流出しない対照)・Ω=10 で残った粒の平均 r **138.8→62.2(縮む)**・最遠 251(境界 300 内)・中心変位 5.98(有界の反跳)・clampSN 0・NaN 0。Ω=0 の 27% は ☀️ 型の初期サブケプラー配置に固有の背景流出。QA behavior.starStructure が窓を機械固定。",
+    control:"おすすめA/B: core.omega=0(静かな星 — 背景 27%)・40(激しい流出 64% — 🎇 の手前)・kFrame=0(流出しない対照 18.5%)。R_drag 診断は Ω² で伸びる。"},
+  en:{name:"Red Giant to White Dwarf — the Core-Spin Dose Drives the Envelope Off (DFM)", descStruct:{
+    summary:"THE DFM RED GIANT → WHITE DWARF ANALOGY (wave 233). Assumption: a red giant swells as its core spins up; the gas envelope streams away and the core that remains is the white dwarf. The build is ☀️-type: a FREE central body (m=600 — ledger f=2: shell 300 + core 300, massFrac 0.5, Rc=5) plus a 200-grain gas envelope (same seed as ☀️), NO fusion (so the outflow rate is not mixed with a heat source), kFrame=1, pairReduced in the barycentric frame (the centre is free — its recoil is recorded), coupleSink reservoir. The core Ω=10 IS THE DOSE KNOB: frame dragging (A8/E6′) sweeps the envelope out (gravity E4, dragging, contact springs E9 and radiation E11 act). 'LOOKING SWOLLEN' IS THE DRAWING OF THE OUTFLOWING GAS PLUS THE R_drag DIAGNOSTIC (with β_solid: Ω=10 → 2.9e4, Ω=40 → 4.7e5 — an extrapolation of the 🍊 calibration, i.e. a hold-out), NOT A GROWTH OF THE BOUND RADIUS (measured: it shrinks — mean r of the remaining grains 139→62). The central body left after the outflow is the white-dwarf template (the same particle; the mass ledger is continuous — no promotion step). Not a model of real red giants or white dwarfs (convection, mass loss, degeneracy pressure).",
+    observe:"Measured (3000 steps = t48, dose-response): envelope grains above escape speed at Ω=0/5/10/20/40 → 27.0/35.5/46.5/54.5/64.0% (monotone); kFrame=0 (Ω20) 18.5% (switch the dragging off and nothing streams away — the control); at Ω=10 the mean r of the remaining grains goes 138.8→62.2 (it shrinks); farthest 251 (inside the 300 boundary); centre displacement 5.98 (a bounded recoil); clampSN 0; zero NaN. The 27% at Ω=0 is the background outflow inherent in the ☀️-type sub-Keplerian start. QA behavior.starStructure machine-fixes the windows.",
+    control:"Suggested A/B: core.omega=0 (a quiet star — the 27% background), 40 (violent outflow 64% — just below 🎇), kFrame=0 (the no-outflow control 18.5%). The R_drag diagnostic stretches as Ω²."}},
+  parameterAudit:{
+    observedInputs:["なし(トイ恒星 — 台帳 f=2 の読み替え)"],
+    fixedConventions:["中心自由(pinned なし・balanceFrame barycentric・pairReduced)・融合なし・coupleSink reservoir","台帳 f=2(殻 300+コア 300・massFrac 0.5・Rc=5・Kcs=0・lightSweep 0)・コア Ω=10(用量ノブ)"],
+    fitted:["なし(β_solid は 🍊 で較正 — 本サンプルの R_drag は外挿=hold-out)"],
+    derived:["R_drag(β_solid): Ω=10 → 28899・Ω=40 → 468305(診断 — 束縛半径ではない)","流出率 Ω=0/5/10/20/40 → 27.0/35.5/46.5/54.5/64.0%(3000步)・kF0(Ω20)18.5%"],
+    numerical:["dt=0.016・3000步・seed 20260730(☀️ と同一)"]},
+  activeParams:["kFrame","G"],
+  thermal:"tint", validT:48,
+  massCalibration:{law:"chi-law-v1-transfer", C:1, factorUniform:2},
+  balanceFrame:"barycentric",
+  camera:{scale:320}, world:{boundary:"circle",size:300}, seed:20260730,
+  physics:{G:4, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+    cLight:30, bM:1, etaRad:0.0016, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
+    pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2, frameReaction:"pairReduced", coupleSink:"reservoir"},
+  bodies:[
+    // 自由な二層核(流出後に残る=白色矮星の雛形)。コア Ω=10 が用量ノブ(引きずりの源)
+    {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.08, pinned:false, tInt:2, lightSweep:0,
+     shell:"solid", core:{mode:"differential", massFrac:0.5, radius:5, omega:10, Kcs:0}},
+    // ガス包絡(☀️ と同一のガス球・同一 seed — 融合なしなので粒数は保存)
+    {type:"disk", n:200, cx:0,cy:0, radius:200, mMin:1,mMax:1,
+     spinMin:0,spinMax:0, tInt:2, vMode:"kepler", aroundMass:600, vScale:0.6, direction:1}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
 { id:"pulsarSolo", name:"パルサー灯台(単体)— 傾いた軸と運動学の時計", emoji:"🏮", group:"天体の物語",
   scaleTier:"stellar", sampleClass:"principle", notClaim:["toy"],
   scaleExp:{L:4, T:1, M:27},   // 第232便(第28報「見た目が小さすぎる」): 距離スケール指数を調整 — 1単位=10⁴m/10s/10²⁷kg で
@@ -9641,7 +9748,7 @@ const BUILTIN_PRESETS = [
 { id:"supernovaCore", name:"超新星の見立て — 速すぎるコアが外殻を吹き飛ばす", emoji:"🎇", group:"天体の物語",
   scaleTier:"stellar", sampleClass:"principle", notClaim:["toy"],
   descStruct:{
-    summary:"「コアのスピンが速すぎると外殻が吹き飛ぶ」という本モデルの計算上の知見を**超新星爆発の見立て**として1サンプルにする(第229便 — 第27報④)。☀️ と同一のガス200粒(赤色巨星のエンベロープ役)+同一の中心核に、**高速の差動コア(Ω=40・Kcs=0)**を入れ kFrame=1 にする — コアの角運動量が空間引きずり(A8/E6′)の源になり、エンベロープを直接掃き出す(⚫ bhCore の「コアが主因」と同じ機構)。働くのは重力(E4)+引きずり(A8/E6′)+接触ばね(E9)+融合の熱源+放射(E11)。**実在の超新星機構(ニュートリノ加熱・衝撃波・⁵⁶Ni・光度曲線)はモデル化しない** — 回転駆動の殻放出という遠い類推(磁気回転駆動超新星の方向)であり、sampleClass=principle のトイ実験。中心核は ☀️ と同じ位置固定の外部拘束(温度一定のリザーバ)。残るのは裸の二層核=「中性子星として残るコア」の見立て(パルス時計は観測転写が無いため付けない — source:\"observed\" 規約)。",
+    summary:"「コアのスピンが速すぎると外殻が吹き飛ぶ」という本モデルの計算上の知見を**超新星爆発の見立て**として1サンプルにする(第229便 — 第27報④)。☀️ と同一のガス200粒(赤色巨星のエンベロープ役)+同一の中心核に、**高速の差動コア(Ω=40・Kcs=0)**を入れ kFrame=1 にする — コアの角運動量が空間引きずり(A8/E6′)の源になり、エンベロープを直接掃き出す(⚫ bhCore の「コアが主因」と同じ機構 — **規定された高速コア場による運動学的注入**であって、コアの回転エネルギーを支払う経路はまだ無い〔Kcs=0 で J は減らない〕。保存的な爆発 spinBurst は次段の宣言)。働くのは重力(E4)+引きずり(A8/E6′)+接触ばね(E9)+融合の熱源+放射(E11)。**実在の超新星機構(ニュートリノ加熱・衝撃波・⁵⁶Ni・光度曲線)はモデル化しない** — 回転駆動の殻放出という遠い類推(磁気回転駆動超新星の方向)であり、sampleClass=principle のトイ実験。中心核は ☀️ と同じ位置固定の外部拘束(温度一定のリザーバ)。残るのは裸の二層核=「中性子星として残るコア」の見立て(パルス時計は観測転写が無いため付けない — source:\"observed\" 規約)。",
     observe:"実測(6000步=t96・用量反応): コア Ω=0/10/20/40 で脱出速度超えのエンベロープ粒は **9.3%→42.2%→60.0%→66.1%**(単調増)・放射エネルギー radE は **3242→56490(17倍の増光)** — 引きずりが注いだ運動エネルギーが融合・接触経由で熱と光になる(見立ての「爆発の明るさ」)。否定対照: **kFrame=0(引きずり無し)では Ω=40 でも 17.7%**(重力落ち込み系のまま)— 機構が A8/E6′ であることの直接証明。コア Ω は Kcs=0 なので全窓 40 のまま(帳簿はクランプ宣言込み)・決定性ビット同一・NaN 0。QA behavior.supernova が用量反応の両端と否定対照を機械固定。",
     control:"おすすめA/B: kFrame=0(吹き飛ばない対照 — 実測 17.7%)、core.omega=0(静かな星 — ☀️ と同じ落ち込み・9.3%)。dFrac を 0 にすると熱源が消え、増光の融合経路が切れる。"},
   en:{name:"A Supernova Analogy — a Too-Fast Core Blows Off the Envelope", descStruct:{
@@ -11210,7 +11317,9 @@ function validatePreset(obj){
       if(o.law && o.baseMass && o.factorByBody) p.massCalibration=o;
       else if(o.law && /-meanfield$/.test(o.law) && o.meanChi!==undefined && o.factorUniform!==undefined)
         p.massCalibration=o;   // 第230便: 平均場形は meanChi+factorUniform が台帳の本体
-      else { warnings.push("massCalibration は law/baseMass/factorByBody(または -meanfield 形の meanChi/factorUniform)が必須 — 無視します"); delete p.massCalibration; }
+      else if(o.law && /-transfer$/.test(o.law) && o.factorUniform!==undefined)
+        p.massCalibration=o;   // 第233便: 規約転写形(恒星単体 — 連星契約 f≈2 を一様に転写。χ は単体で飽和しないため法則導出ではない宣言)
+      else { warnings.push("massCalibration は law/baseMass/factorByBody(または -meanfield 形の meanChi/factorUniform・-transfer 形の factorUniform)が必須 — 無視します"); delete p.massCalibration; }
     }
   }
   const ov={rotationCurve:false,tempHistogram:false,field:false,spectrum:false,trail:false,monitor:false,boxGraph:false,phaseGraph:false,mechSpectrum:false,emergence:false}; // v1.12: trail/monitor を正式化(第6次裁定 7.5)。boxGraph は第32便(W2)。phaseGraph は第53便 53B(E14)。mechSpectrum は第65便 65A(機構スペクトル診断)。emergence は第82便B(創発モニタ)
@@ -15056,7 +15165,12 @@ function camGestureMoved(){
 //   thermal="spin"(既定): T = I·s² = ½·m·R²·s²(現行 A9。式の並びも現行と1文字も変えていない)
 //   thermal="tint": T = T_int(内部状態変数。マクロ spin は観測温度に現れない)
 function obsTemp(s,i){
-  return (s.Tint? s.Tint[i] : 0.5*s.m[i]*s.R[i]*s.R[i]*s.spin[i]*s.spin[i])*(1-s.lSw[i]);   // 第61便: obsT 係数は廃止(恒等1だった)
+  if(s.Tint) return s.Tint[i]*(1-s.lSw[i]);   // 第61便: obsT 係数は廃止(恒等1だった)
+  // 第233便(第29報「恒星がほぼ減光しない場合、外殻は観測値なので、コアが重い」): 減光しない星(lSw=0)で
+  // 質量コアを持つ粒子は**殻質量だけ**が光る(光らないのはコア)。連星 DFM 版の lSw=massFrac は
+  // (1−lSw)·m_total=m_shell と同値(✴️💫 で T_obs/T_shell=1.000 実測)なので従来式のまま 1 bit 不変
+  const mUse=(s.lSw[i]===0 && s.coreMd && s.coreMd[i] && s.coreMd[i]!==4 && s.coreMF[i]>0)? s.m[i]*(1-s.coreMF[i]) : s.m[i];
+  return 0.5*mUse*s.R[i]*s.R[i]*s.spin[i]*s.spin[i]*(1-s.lSw[i]);
 }
 function tempColor(t){ // t: 0..1
   if(t<0.34){ const k=t/0.34; return `rgb(${106+k*149},${165+k*90},255)`; }
@@ -23408,6 +23522,38 @@ function makeProfileInv(b){
   const tab=sersicSurfCdf((b.profile==="exponential")?1:(b.sersicN||1), b.sersicRe, Rcap, 256);
   return (u)=>profileInterpInv(tab,u);
 }
+// ===== 第233便(第29報): DFM版恒星の構造 v1 — 純関数(力学状態は一切変えない・表示/生成/QA 専用)=====
+// (1) 質量台帳: m_DFM=f·m_obs・殻=m_obs・コア=(f−1)m_obs・massFrac=(f−1)/f(連星較正〔f≈2〕の契約を恒星単体へ
+//     規約転写 — 単体では χ が飽和しないため、その場計算ではなく連星4本の f≈2 を転写する宣言)
+function dfmStarMassLedger(observedMass, factor){
+  const mo=Number(observedMass), f=(factor===undefined)?2:Number(factor);
+  if(!(mo>0) || !(f>=1) || !Number.isFinite(mo) || !Number.isFinite(f)) return null;
+  const total=f*mo, shell=mo, core=total-shell;
+  return {observedMass:mo, factor:f, totalMass:total, shellMass:shell, coreMass:core, coreMassFrac:(total>0)?core/total:0};
+}
+// (2) コア引きずりの無次元強度 D(r)=ω_c(r)·r/√(GM/r) — ω_c=f_c|Ω_c−Ω_s|(R_c/(R_c+r))^q は現行 A8 の差動コア項そのもの
+function dfmCoreDragRatio(c){
+  const r=Number(c.r), M=Number(c.mass), fc=Number(c.coreMassFrac), Rc=Number(c.coreRadius),
+        Oc=Number(c.coreOmega), Os=Number(c.shellOmega||0), G=Number(c.G), q=Number(c.q);
+  if(!(r>0&&M>0&&fc>=0&&Rc>0&&G>0&&q>0) || ![r,M,fc,Rc,Oc,Os,G,q].every(Number.isFinite)) return NaN;
+  const od=fc*Math.abs(Oc-Os)*Math.pow(Rc/(Rc+r),q);
+  return od*r/Math.sqrt(G*M/r);
+}
+// (3) 引きずり外縁 R_drag: D(r)=β の外側解(q>1.5 で有限・r_peak=1.5R_c/(q−1.5)・q=2 遠方で R_drag∝Ω²)。
+//     「恒星の半径はコアの引きずりの影響範囲で決まる」(第29報)の式。β は solid/gas の2値を基準天体で較正し、
+//     他天体は hold-out。S.R を動かさない(診断・生成器 — 動的半径は後段)
+function dfmCoreDragRadius(c){
+  const q=Number(c.q), Rc=Number(c.coreRadius), beta=Number(c.beta);
+  if(!(q>1.5&&Rc>0&&beta>0) || ![q,Rc,beta].every(Number.isFinite)) return null;
+  const rPeak=1.5*Rc/(q-1.5), peak=dfmCoreDragRatio(Object.assign({},c,{r:rPeak}));
+  if(!(peak>beta)) return null;
+  let lo=rPeak, hi=2*rPeak;
+  while(dfmCoreDragRatio(Object.assign({},c,{r:hi}))>beta && hi<Rc*1e12) hi*=2;
+  if(!(hi<Rc*1e12)) return null;
+  for(let k=0;k<96;k++){ const mid=Math.sqrt(lo*hi); if(dfmCoreDragRatio(Object.assign({},c,{r:mid}))>beta) lo=mid; else hi=mid; }
+  return Math.sqrt(lo*hi);
+}
+const DFM_BETA_SOLID=0.014884052256495006;   // 第233便: β_solid — 基準天体 🌞 starMass2DFM(R_ref=25)で較正した唯一の値
 function chiMassFactors(mA, mB, sep, D0, eps, C){
   const d=Math.hypot(sep, eps||0);
   const chi=(w)=>w/((D0||0)+w);
@@ -23421,6 +23567,7 @@ function chiMassFactors(mA, mB, sep, D0, eps, C){
   return {gA, gB, fA:c*gA, fB:c*gB};
 }
 window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extractJSON,
+  dfmStarMassLedger, dfmCoreDragRatio, dfmCoreDragRadius, DFM_BETA_SOLID, obsTemp,   // 第233便: 恒星構造 v1 純関数
   chiMassFactors,   // 第224便: χ-law v1(粒子別質量スケールの較正則 — QA behavior.chi-law が読む)
   coreTiltProxyAudit,   // 第226便提案: core.tilt の投影エネルギー/角力積監査(読み取り専用)
   verify:VERIFY, traceRay, getSystemPrompt, aiCfg, T:(k)=>T(k), lang:()=>LANG,
