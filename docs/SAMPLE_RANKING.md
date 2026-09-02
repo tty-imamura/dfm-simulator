@@ -62,7 +62,7 @@
 | bhCore | B | 5層同居(ただし較正の「核の型」として重要) |
 | bhCoreTilt | A | 軸と減光の問いが単純 |
 | massLadder | S | 1:2:4 比較が非常に明快 |
-| selfRotor | C | 長時間・多機構で成立条件が読みにくい |
+| selfRotor | C | 長時間・多機構で成立条件が読みにくい(第236便: summary に成立条件3つを明記) |
 | starSeed | A | 圧縮とスピンアップを追える |
 
 ### 光の物語
@@ -96,12 +96,12 @@
 | earthMoonFree | S | 重心運動が明快 |
 | mercury | A | 長時間観察が必要 |
 | saturn | B | 否定対照が主題を複雑化 |
-| saturnLayered | C | 二層効果が前面に出ない |
+| saturnLayered | C | 二層効果が前面に出ない(第236便: summary を「あるが微弱」先出しに短文化) |
 | binary | A | 構造が直観的 |
 | fig8 | S | 視覚目標が明快 |
 | counterring | S | 衝突差が即座に見える |
 | agnjet | A | 内縁と双極流が対応 |
-| accretionJet | C | seed 非頑健・dt 未収束(宣言済み) |
+| accretionJet | C | seed 非頑健・dt 未収束(宣言済み・第236便: summary 短文化) |
 | spinup | S | 一因一果 |
 | starcore | A | 無融合対照が強い |
 | starDFM | B | 力学ビット同一 — ☀️ の変種と明示(独立の恒星に数えない) |
@@ -142,7 +142,7 @@
 | siriusABDFM | B | 半径下限・自転代理・較正が同居 |
 | supernovaProgDFM | B | 🥀 の DFM 対 — 台帳と R_drag 逆算の宣言(第233便) |
 | psrDoubleAB | B | 重要だが説明が長い |
-| psrDoubleABDFM | C | 4主題が競合(短文化の第一候補) |
+| psrDoubleABDFM | C | 4主題が競合(第236便: summary を 3001→約900字へ短文化) |
 | gw150914 | A | 二体基準として明快 |
 | gw150914DFM | B | DFM 離散化と外部 Peters が同居 |
 | tuc47 | B | 形は良い・2D 分散は未較正(seed 明示で配置契約は成立 — 第230便) |
