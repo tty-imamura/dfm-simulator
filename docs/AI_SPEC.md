@@ -322,7 +322,7 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 # ジェネレータ(bodiesの要素。typeごとに全フィールド必須)
 - single: {type,m,x,y,vx,vy,spin,pinned} — 粒子1個。pinned:true で力を受けず固定。省略可の rMul(半径倍率 0.2〜40・既定1。R=radiusScale·rMul·√|m|)。
 - ring: {type,n,cx,cy,rIn,rOut,mMin,mMax,spinMin,spinMax,vMode,aroundMass,omega,vNoise,direction,pinned} — 半径rIn〜rOutの環にn個。vMode: "kepler"(aroundMassの周りを公転)|"omega"(v=omega×r)|"none"。direction: 1=反時計,-1=時計。省略可の rMul(0.2〜40)。
-- disk: {type,n,cx,cy,radius,mMin,mMax,spinMin,spinMax,vMode,aroundMass,vScale,direction} — 半径radiusの円盤にn個。vMode: "kepler"(vScaleは倍率,通常1)|"rigid"(vScale=角速度)|"flat"(vScale=一定速さ)|"random"(vScale=速さ)|"none"。省略可の rMul(0.2〜20)。
+- disk: {type,n,cx,cy,radius,mMin,mMax,spinMin,spinMax,vMode,aroundMass,vScale,direction} — 半径radiusの円盤にn個。vMode: "kepler"(vScaleは倍率,通常1)|"rigid"(vScale=角速度)|"flat"(vScale=一定速さ)|"random"(vScale=速さ)|"enclosed"(配置後の実ポテンシャルの円運動解・vScaleは倍率)|"virial"(群のビリアル平衡 ⟨v²⟩=−W/M・vScaleは倍率)|"none"。省略可の rMul(0.2〜20)。
 - box: {type,n,cx,cy,w,h,mMin,mMax,spinMin,spinMax,vScale} — 幅w高さhの矩形にn個、ランダム方向に速さ〜vScale。省略可の rMul(0.2〜20)。
 - ring/disk/box には省略可の bulkVx,bulkVy(母集団の並進速度)を指定できる。移動する天体(vx,vyを持つ single)の周りに円盤・環を置くときは、必ず同じ値を bulkVx,bulkVy に与えて核と一体で動かすこと。
 - single には省略可の zonal(扁平中心天体の帯状重力補正 E13)を指定できる: {"refR":基準半径,"calib":1,"J":{"2":0.0163,"4":-0.0009}}。偶数次 J2〜J12 のみ・|J|≤0.1・refR:1〜5000・calib:0〜2。中心の大質量 pinned 粒子に付けると周回粒子の楕円軌道の近点が前進する(内側ほど速い差動近点移動 — 画面左上に実測/解析の近点移動が表示される)。土星なら J2≈0.0163。要望が扁平天体・歳差・近点移動のときだけ使う高度な属性で、通常のプリセットでは指定しない。

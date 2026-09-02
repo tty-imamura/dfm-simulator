@@ -8531,22 +8531,23 @@ const BUILTIN_PRESETS = [
   notClaim:["cal","dm"],
   obsCard:[
     {q:"質量較正(連星契約の星団側 — 第28報)", model:"平均場 χ̄=0.99670(自己無撞着・全対 W)→ **f=C·2χ̄=1.99340(C=1 ゼロフィット)** を全恒星粒に一様適用・lightSweep=(f−1)/f=0.4983 で見掛け質量=観測側", obs:"—(f は法則の出力・fit ノブは C=1 のまま動かさない)"},
-    {q:"σ hold-out(正直な結果)", model:"**不成立** — 5交差で σ 2.446(24.5 km/s)= 観測 σ₀ 12.4 km/s の **×1.97**。質量2倍の分散上昇が支配的(kF0 対照 2.748 — 引きずりは σ を上げない)", obs:"σ₀=12.4 km/s(CSV — N-body fit 中心値)"},
-    {q:"kF1/kF0 が画面で分かれる(f=2 で初めて)", model:"半光 12.59(kF1)vs 9.02(kF0)— 引きずりは崩壊を緩める。f=1 ではゆらぎ内だった対が、質量2倍で機械的に分離", obs:"—"},
+    {q:"平衡初期化(第235便)", model:"vMode=virial: 配置の実ポテンシャル W=−297.8 から ⟨v²⟩=−W/M(2K=−W)→ σ₀=1.915=√f×観測換算(ビリアル定理の帰結)", obs:"—(🍇 は観測 σ₀ の転写のまま — DFM 版は観測 σ を先置きしない)"},
+    {q:"σ hold-out(正直な結果)", model:"**不成立** — 5交差で σ 2.107(21.1 km/s)= 観測 σ₀ 12.4 km/s の **×1.70**。質量2倍で σ∝√f が構造的(kF0 対照 2.227 — 引きずりは −5%)", obs:"σ₀=12.4 km/s(CSV — N-body fit 中心値)"},
+    {q:"kF1/kF0 が画面で分かれる(f=2)", model:"半光 12.97(kF1)vs 11.81(kF0)— 引きずりは崩壊を緩める(virial 初期化でも分離。旧 random 初期化では 12.59 vs 9.02)", obs:"—"},
     {q:"中心 IMBH(設計判断: 置かない)", model:"3σ 上限 578 M☉=0.0115 単位はマクロ粒(0.147)の 0.078 倍 — N=240 の解像度では力学粒子として置けない(排他帯が配置のビット同一も壊す)。宣言のみ", obs:"IMBH は検出ではなく 3σ 上限 578 M☉"}],
   descStruct:{
-    summary:"**🍇 の対になる DFM 版 — 連星4本で閉じた χ-law の質量補正(f≈2)を星団に適用する hold-out**(第230便・第28報)。粒子・配置は 🍇 と**ビット同一**(seed 2509719581 を共有 — 第230便で無効キー rngSeed を修正)。**平均場 χ̄=W/(D₀+W) の全対実測は 0.99670(飽和)— 連星と同じ極限で f=C·2χ̄=1.99340(C=1・ゼロフィット)**を全恒星粒に一様に掛け、lightSweep=(f−1)/f を宣言して見掛け質量を観測側に戻す(測光相殺 — 第227便の flux 則)。粒子別の暗い核は作らない・不足分を中心1個に積まない(点質量散乱で σ が壊れる — レビュー実測)。中心 IMBH は**設計判断で置かない**(3σ 上限 578 M☉ はマクロ粒の 0.078 倍 — N=240 の解像度未満)。働くのは重力(E4)+空間引きずり(A8/E6′)。**結果(正直な記録): σ hold-out は不成立** — 5交差で σ 24.5 km/s = 観測 12.4 km/s の ×1.97(質量2倍の分散上昇が支配的)。**いっぽう f=2 で kF1/kF0 が初めて画面で分かれる**: 引きずりは崩壊を緩め、半光 12.59 vs 9.02。χ-law の適用域が近接連星に限る可能性の記録(🎻 の e 不成立と同じ流儀 — fit で隠さない)。",
-    observe:"実測(5交差・dt=0.016): **kF1(採用構成)**: σ 1.157→**2.446**(24.5 km/s — 観測 σ₀ 12.4 の ×1.97・hold-out 不成立の機械固定)・半光 13.02→12.59・束縛 94%(実行時総質量で判定)・NaN 0。**kF0 対照(同一 f)**: σ→2.748・半光→**9.02**(強い崩壊)— σ比 kF1/kF0=0.89 で、引きずりは σ を上げず崩壊を緩める側に効く(f=1 ではゆらぎ内で見えなかった対が f=2 で分離)。生成 t=0 は 🍇 と全粒ビット同一(QA が機械固定)。massCalibration 台帳と mMin=0.07375×f・lightSweep=(f−1)/f の整合も QA 照合。",
-    control:"🍇(kF0・f=1 — 重力 E4 のみの観測転写)と対で見る。kFrame を 0 に切ると同じ f=2 の崩壊対照(半光 9.0)。"},
+    summary:"**🍇 の対になる DFM 版 — 連星4本で閉じた χ-law の質量補正(f≈2)を星団に適用する hold-out**(第230便・第28報)。粒子・配置は 🍇 と**ビット同一**(seed 2509719581 を共有 — 第230便で無効キー rngSeed を修正)。**平均場 χ̄=W/(D₀+W) の全対実測は 0.99670(飽和)— 連星と同じ極限で f=C·2χ̄=1.99340(C=1・ゼロフィット)**を全恒星粒に一様に掛け、lightSweep=(f−1)/f を宣言して見掛け質量を観測側に戻す(測光相殺 — 第227便の flux 則)。粒子別の暗い核は作らない・不足分を中心1個に積まない(点質量散乱で σ が壊れる — レビュー実測)。中心 IMBH は**設計判断で置かない**(3σ 上限 578 M☉ はマクロ粒の 0.078 倍 — N=240 の解像度未満)。働くのは重力(E4)+空間引きずり(A8/E6′)。**初期速度は観測 σ の先置きではなく、配置の実ポテンシャルのビリアル平衡解(vMode=virial — 第235便)**: ⟨v²⟩=−W/M から σ₀=1.915(=√f×観測換算 — ビリアル定理 σ²∝GM/R の帰結)。**結果(正直な記録): σ hold-out は不成立** — 5交差で σ 21.1 km/s = 観測 12.4 km/s の ×1.70(質量2倍で σ が √2 倍になる構造的な帰結・引きずりの寄与は −5%)。**f=2 で kF1/kF0 が画面で分かれる**: 引きずりは崩壊を緩め、半光 12.97 vs 11.81。χ-law の適用域が近接連星に限る可能性の記録(🎻 の e 不成立と同じ流儀 — fit で隠さない)。",
+    observe:"実測(5交差・dt=0.016・virial 初期化 σ₀ 1.915): **kF1(採用構成)**: σ 1.915→**2.107**(21.1 km/s — 観測 σ₀ 12.4 の ×1.70・hold-out 不成立の機械固定)・半光 13.02→12.97(ほぼ不変=平衡に近い)・束縛 91%(実行時総質量で判定)・NaN 0。**kF0 対照(同一 f)**: σ→2.227・半光→**11.81** — σ比 kF1/kF0=0.95 で、引きずりは σ を上げず崩壊を緩める側に効く。生成 t=0 の**位置**は 🍇 と全粒ビット同一(virial は速度だけを決める — QA が機械固定)。旧 random 初期化(観測 σ の先置き)では σ 1.157→2.446(×1.97)・半光 12.59/9.02 だった(第230便の記録)。massCalibration 台帳と mMin=0.07375×f・lightSweep=(f−1)/f の整合も QA 照合。",
+    control:"🍇(kF0・f=1 — 重力 E4 のみの観測転写)と対で見る。kFrame を 0 に切ると同じ f=2 の崩壊対照(半光 11.8)。"},
   en:{ name:"47 Tuc (DFM build) — the mean-field χ-law mass hold-out", descStruct:{
-    summary:"THE DFM COUNTERPART of 🍇 — the mass correction the four binaries closed (f≈2, χ-law) applied to a cluster as a HOLD-OUT (wave 230, report 28). Particles and placement are BIT-IDENTICAL to 🍇 (shared seed 2509719581 — wave 230 fixed the dead rngSeed key). The all-pairs MEAN-FIELD χ̄=W/(D₀+W) measures 0.99670 (saturated) — the same limit as the binaries — so f=C·2χ̄=1.99340 (C=1, zero fit) is applied uniformly to every stellar particle, with lightSweep=(f−1)/f declared to return the apparent mass to the observed side (the wave-227 flux rule). No per-particle dark cores; the excess is NOT piled onto one center (point-mass scattering breaks σ — measured in review). The central IMBH is BY DESIGN NOT PLACED (the 3σ upper limit 578 M☉ is 0.078 of one macro particle — below the N=240 resolution). Gravity (E4) + frame dragging (A8/E6′) act. RESULT (honest record): the σ hold-out FAILS — σ reads 24.5 km/s vs the observed 12.4 (×1.97; the doubled-mass dispersion rise dominates). YET f=2 makes kF1/kF0 visibly split for the first time: dragging softens the collapse (half-light 12.59 vs 9.02). A record that the χ-law's domain may be near binaries — not hidden by fitting (the same honesty as 🎻's e).",
-    observe:"Measured (5 crossings, dt=0.016): kF1 (the adopted build): σ 1.157→2.446 (24.5 km/s — ×1.97 of the observed 12.4; the failed hold-out machine-fixed); half-light 13.02→12.59; bound 94% (runtime total mass); zero NaN. kF0 control (same f): σ→2.748, half-light→9.02 (strong collapse) — ratio 0.89: dragging does not raise σ, it softens the collapse (a pair invisible at f=1 splits at f=2). t=0 is bit-identical to 🍇 for every particle (QA-fixed). The massCalibration ledger, mMin=0.07375×f and lightSweep=(f−1)/f are QA-checked for consistency.",
-    control:"Pair with 🍇 (kF0, f=1). Switching kFrame to 0 gives the same-f collapse control (half-light 9.0)."}},
+    summary:"THE DFM COUNTERPART of 🍇 — the mass correction the four binaries closed (f≈2, χ-law) applied to a cluster as a HOLD-OUT (wave 230, report 28). Particles and placement are BIT-IDENTICAL to 🍇 (shared seed 2509719581 — wave 230 fixed the dead rngSeed key). The all-pairs MEAN-FIELD χ̄=W/(D₀+W) measures 0.99670 (saturated) — the same limit as the binaries — so f=C·2χ̄=1.99340 (C=1, zero fit) is applied uniformly to every stellar particle, with lightSweep=(f−1)/f declared to return the apparent mass to the observed side (the wave-227 flux rule). No per-particle dark cores; the excess is NOT piled onto one center (point-mass scattering breaks σ — measured in review). The central IMBH is BY DESIGN NOT PLACED (the 3σ upper limit 578 M☉ is 0.078 of one macro particle — below the N=240 resolution). Gravity (E4) + frame dragging (A8/E6′) act. THE INITIAL VELOCITIES ARE NOT THE OBSERVED σ PLACED IN ADVANCE but the virial equilibrium of the placed potential (vMode=virial, wave 235): ⟨v²⟩=−W/M gives σ₀=1.915 (=√f × the observed conversion — a consequence of the virial theorem σ²∝GM/R). RESULT (honest record): the σ hold-out FAILS — σ reads 21.1 km/s vs the observed 12.4 (×1.70; doubling the mass raises σ by √2 structurally; dragging contributes −5%). f=2 makes kF1/kF0 visibly split: dragging softens the collapse (half-light 12.97 vs 11.81). A record that the χ-law's domain may be near binaries — not hidden by fitting (the same honesty as 🎻's e).",
+    observe:"Measured (5 crossings, dt=0.016, virial start σ₀ 1.915): kF1 (the adopted build): σ 1.915→2.107 (21.1 km/s — ×1.70 of the observed 12.4; the failed hold-out machine-fixed); half-light 13.02→12.97 (nearly unchanged = close to equilibrium); bound 91% (runtime total mass); zero NaN. kF0 control (same f): σ→2.227, half-light→11.81 — ratio 0.95: dragging does not raise σ, it softens the collapse. The t=0 POSITIONS are bit-identical to 🍇 for every particle (virial sets only the velocities — QA-fixed). The old random start (the observed σ placed in advance) gave σ 1.157→2.446 (×1.97) and half-light 12.59/9.02 (the wave-230 record). The massCalibration ledger, mMin=0.07375×f and lightSweep=(f−1)/f are QA-checked for consistency.",
+    control:"Pair with 🍇 (kF0, f=1). Switching kFrame to 0 gives the same-f collapse control (half-light 11.8)."}},
   parameterAudit:{
     observedInputs:["🍇 と同一(CSV 転写)"],
-    fixedConventions:["🍇 と同一の配置(seed 2509719581 共有 — t=0 ビット同一)+kFrame=1(E6′-R)。f は全恒星粒に一様・中心 IMBH は置かない(578 M☉ 上限=解像度未満の設計判断)・粒子別核なし"],
-    fitted:["なし(C=1 のゼロフィット — σ hold-out ×1.97 不成立は正直な記録)"],
-    derived:["平均場 chiMean=0.9967006765347696(自己無撞着・全対 W)","f=C·2χ̄=1.9934013530695391(C=1)— mMin=0.07375×f=0.1470133497888785","lightSweep=(f−1)/f=0.498344877482826(測光相殺 — 見掛け質量=観測側)","σ hold-out: 実測 2.446(24.5 km/s)vs 観測 1.24(12.4 km/s)— ×1.97 不成立","kF1/kF0 の分離(f=2): 半光 12.59 vs 9.02・σ 2.446 vs 2.748"],
+    fixedConventions:["🍇 と同一の配置(seed 2509719581 共有 — t=0 位置ビット同一)+kFrame=1(E6′-R)。f は全恒星粒に一様・中心 IMBH は置かない(578 M☉ 上限=解像度未満の設計判断)・粒子別核なし","初期速度=配置の実ポテンシャルのビリアル平衡解(vMode virial・vScale 1 — 第235便。観測 σ を先置きしない)"],
+    fitted:["なし(C=1 のゼロフィット — σ hold-out ×1.70 不成立は正直な記録)"],
+    derived:["平均場 chiMean=0.9967006765347696(自己無撞着・全対 W)","f=C·2χ̄=1.9934013530695391(C=1)— mMin=0.07375×f=0.1470133497888785","lightSweep=(f−1)/f=0.498344877482826(測光相殺 — 見掛け質量=観測側)","virial 初期化: W=−297.76・M=35.28 → ⟨v²⟩=8.44・σ₀=1.915(=√f×観測換算)","σ hold-out: 実測 2.107(21.1 km/s)vs 観測 1.24(12.4 km/s)— ×1.70 不成立(旧 random 初期化 2.446=×1.97)","kF1/kF0 の分離(f=2): 半光 12.97 vs 11.81・σ 2.107 vs 2.227"],
     numerical:["🍇 と同一(dt=0.016・5交差=3125步)"]},
   massCalibration:{law:"chi-law-v1-meanfield", C:1, meanChi:0.9967006765347696, factorUniform:1.9934013530695391},   // 第230便: 平均場台帳(QA が bodies の m と三者一致を照合)
   activeParams:["kFrame","G","softening"],
@@ -8559,7 +8560,8 @@ const BUILTIN_PRESETS = [
     {type:"disk", n:240, cx:0, cy:0, radius:419, profile:"plummer", plummerScale:12.34,
       mMin:0.1470133497888785, mMax:0.1470133497888785,   // 0.07375×f(f=1.9934013530695391 — 平均場 χ-law・C=1)
       lightSweep:0.498344877482826,                        // (f−1)/f — 測光相殺(第227便 flux 則)
-      spinMin:0, spinMax:0, vMode:"random", vScale:3.0374, direction:1, rMul:0.4}],
+      // 第235便: 初期速度=配置の実ポテンシャルのビリアル平衡解(⟨v²⟩=−W/M)— 観測 σ の先置き(random 3.0374)をやめる
+      spinMin:0, spinMax:0, vMode:"virial", vScale:1, direction:1, rMul:0.4}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false} },
 
 { id:"ngc3198", name:"渦巻銀河 NGC 3198(観測転写)— 指数円盤+NFW 対照", emoji:"🌃", group:"現実との照合・太陽系外",
@@ -8611,22 +8613,22 @@ const BUILTIN_PRESETS = [
   obsCard:[
     {q:"質量較正(連星契約の銀河側 — 第28報)", model:"平均場 χ̄=0.99987(飽和)→恒星円盤に f=C·2χ̄=1.99973(C=1)を一様適用・lightSweep=(f−1)/f", obs:"—(f は法則の出力・fit ノブは C=1)"},
     {q:"HI は f 非適用(宣言)", model:"HI は 21cm 転写の質量 — 恒星の補正則を外挿しない。shell:\"gas\" 宣言(第229便)", obs:"M_HI=1.09×10¹⁰ M☉(CSV — He 込み ×1.33)"},
-    {q:"外縁 hold-out(正直な結果)", model:"**f=2 でも届かない** — 中心核相対の外縁帯 vt 4.92(49 km/s)・最遠 604 単位(kF0 対照 515)", obs:"V_flat=150.1 km/s(SPARC)"},
+    {q:"外縁 hold-out(正直な結果)", model:"**f=2 でも届かない** — 円運動解の t=0 で外帯 v_c 10.2(102 km/s)・t=40 の中心核相対 vt 5.53(55 km/s)・最遠 514(kF0 5.13/568)", obs:"V_flat=150.1 km/s(SPARC)"},
     {q:"中心核(⚫ の縮小 — 自由化)", model:"m=100 単位(宣言値・fit しない)Ω=20・Kcs=0.02。pinned を外し重心系・測定は中心核相対(反跳 43 単位)", obs:"—(SPARC はバルジ無し — 中心核は DFM 仮説)"},
-    {q:"配置と初期場の宣言", model:"seed は 🌃 と共有(排他帯・重心系変換で完全同一ではない)。vMode=flat は f=2 の平衡解ではない(動径緩和大)", obs:"—"}],
+    {q:"配置と初期場の宣言(第235便)", model:"seed は 🌃 と共有(排他帯・重心系変換で完全同一ではない)。初期速度=実ポテンシャルの円運動解(vMode enclosed)。N=300 の自己重力円盤は滑らかな支配場なしに t=40 で散逸(平衡ではない — 記録)", obs:"—(🌃 は観測回転曲線の flat 転写のまま)"}],
   descStruct:{
-    summary:"**🌃 の対になる DFM 版 — 連星の質量補正(χ-law f≈2)を先に適用してから「ハロー無しの引きずりが外縁を支えるか」を測り直す hold-out**(第230便・第28報 — 第228便の f=1 版を置換)。**平均場 χ̄=0.99987(飽和)→ 恒星円盤に f=1.99973(C=1・ゼロフィット)を一様適用**し lightSweep=(f−1)/f で見掛けを観測側へ。**HI(21cm 転写)には掛けない**(恒星の補正則を外挿しない — 宣言)・HI は shell:\"gas\" 宣言(第229便)。中心は暗い回転核 m=100 単位(5×10⁹ M☉ の宣言値・⚫ の縮小)を **pinned を外して重心系に置き**、測定は中心核相対。fit ノブはゼロ(C=1)。働くのは重力(E4)+空間引きずり(A8/E6′)。**結果(正直な記録): f=2 でも届かない** — 外縁帯 vt 49 km/s(観測 150)・最遠 604 単位へ飛散(kF0 対照 515 — 引きずりの寄与は符号こそ正だが桁が足りない)。vMode=flat の初期速度場は f=2 の自己重力平衡解ではないため動径緩和が大きい(次段=平衡初期化の課題として宣言)。中心質量は太らせない(NFW の再発明はしない)。",
-    observe:"実測(t=40・dt=0.016・kF1・halo 無し・中心核相対): 外縁帯(60〜130 単位)vt **4.92**(49 km/s — 観測 150 の 1/3・hold-out 不成立の機械固定)・最遠 **604** 単位(kF0 同構成対照 515)・中心核は残存し反跳で 43 単位歩く(自由中心の記録)・NaN 0・決定性ビット同一。massCalibration 台帳・mMin=1.9×f・lightSweep=(f−1)/f・HI 非適用の整合を QA 照合。",
-    control:"🌃(NFW あり・重力 E4+外力)と対で見る。kFrame=0 で引きずりを切る対照(最遠 515)。回転曲線オーバーレイで外縁の空洞化が見える。"},
+    summary:"**🌃 の対になる DFM 版 — 連星の質量補正(χ-law f≈2)を先に適用してから「ハロー無しの引きずりが外縁を支えるか」を測り直す hold-out**(第230便・第28報 — 第228便の f=1 版を置換)。**平均場 χ̄=0.99987(飽和)→ 恒星円盤に f=1.99973(C=1・ゼロフィット)を一様適用**し lightSweep=(f−1)/f で見掛けを観測側へ。**HI(21cm 転写)には掛けない**(恒星の補正則を外挿しない — 宣言)・HI は shell:\"gas\" 宣言(第229便)。中心は暗い回転核 m=100 単位(5×10⁹ M☉ の宣言値・⚫ の縮小)を **pinned を外して重心系に置き**、測定は中心核相対。fit ノブはゼロ(C=1)。働くのは重力(E4)+空間引きずり(A8/E6′)。**初期速度は観測 V_flat の先置きではなく、配置の実ポテンシャルの円運動解(vMode=enclosed — 第235便)**: t=0 の v_c は内/中/外帯で 142/139/**102** km/s — f=2 のバリオンだけでは外帯が観測 150 に t=0 ですら届かない。**結果(正直な記録): f=2 でも届かない** — t=40 の外縁帯 vt 55 km/s(観測 150)・最遠 514 単位へ散逸(kF0 対照 51 km/s・568 — 引きずりの寄与は +8%)。N=300 の 2D 自己重力円盤は 🌃 の NFW のような滑らかな支配場が無いと平衡を保てない(平衡初期化でも散逸する — 記録)。中心質量は太らせない(NFW の再発明はしない)。",
+    observe:"実測(t=40・dt=0.016・kF1・halo 無し・enclosed 初期化・中心核相対): t=0 の円運動解 v_c 14.2/13.9/10.2(内/中/外帯)→ t=40 の外縁帯(60〜130 単位)vt **5.53**(55 km/s — 観測 150 の 1/3・hold-out 不成立の機械固定)・最遠 **514** 単位(kF0 同構成対照 5.13/568)・中心核は残存し反跳で 76 単位歩く(自由中心の記録 — seed 依存 25〜76)・HI 100 粒は gas 宣言のまま残存・NaN 0・決定性ビット同一。旧 flat 15.01 初期化(観測値の先置き)では vt 4.92・最遠 604 だった(第230便の記録)。massCalibration 台帳・mMin=1.9×f・lightSweep=(f−1)/f・HI 非適用の整合を QA 照合。",
+    control:"🌃(NFW あり・重力 E4+外力)と対で見る。kFrame=0 で引きずりを切る対照(最遠 568)。回転曲線オーバーレイで外縁の空洞化が見える。"},
   en:{ name:"NGC 3198 (DFM build) — stellar mass ×2 + free central rotor, a hold-out", descStruct:{
-    summary:"THE DFM COUNTERPART of 🌃 — the binaries' mass correction (χ-law f≈2) applied FIRST, then re-asking whether dragging holds the outer disk without a halo (wave 230; replaces the f=1 build of wave 228). Mean-field χ̄=0.99987 (saturated) → f=1.99973 (C=1, zero fit) applied uniformly to the STELLAR disk, with lightSweep=(f−1)/f returning the appearance to the observed side. THE HI IS NOT SCALED (a 21 cm transcription — the stellar correction law is not extrapolated; declared), and carries shell:\"gas\" (wave 229). The dark central rotor m=100 units (a declared 5×10⁹ M☉ — a shrunken ⚫) is now FREE (pinned removed, barycentric frame), and all measurements are rotor-relative. Zero fit knobs (C=1). Gravity (E4) + frame dragging (A8/E6′) act. RESULT (honest record): EVEN AT f=2 IT DOES NOT REACH — outer-band vt 49 km/s (observed 150); farthest 604 units (kF0 control 515). The vMode:flat initial field is not the f=2 self-gravitating equilibrium, so radial relaxation is large (declared as the next step: equilibrium initialization). The central mass is NOT inflated (no NFW reinvention).",
-    observe:"Measured (t=40, dt=0.016, kF1, no halo, rotor-relative): outer-band (60–130) vt 4.92 (49 km/s — a third of the observed 150; the failed hold-out machine-fixed); farthest 604 (kF0 control 515); the rotor survives and recoils 43 units (free-center record); zero NaN; bit-identical reruns. The massCalibration ledger, mMin=1.9×f, lightSweep=(f−1)/f and the unscaled HI are QA-checked.",
-    control:"Pair with 🌃 (NFW). kFrame=0 removes dragging (farthest 515). The rotation-curve overlay shows the outer band emptying."}},
+    summary:"THE DFM COUNTERPART of 🌃 — the binaries' mass correction (χ-law f≈2) applied FIRST, then re-asking whether dragging holds the outer disk without a halo (wave 230; replaces the f=1 build of wave 228). Mean-field χ̄=0.99987 (saturated) → f=1.99973 (C=1, zero fit) applied uniformly to the STELLAR disk, with lightSweep=(f−1)/f returning the appearance to the observed side. THE HI IS NOT SCALED (a 21 cm transcription — the stellar correction law is not extrapolated; declared), and carries shell:\"gas\" (wave 229). The dark central rotor m=100 units (a declared 5×10⁹ M☉ — a shrunken ⚫) is now FREE (pinned removed, barycentric frame), and all measurements are rotor-relative. Zero fit knobs (C=1). Gravity (E4) + frame dragging (A8/E6′) act. THE INITIAL VELOCITIES ARE NOT THE OBSERVED V_flat PLACED IN ADVANCE but the circular-orbit solution of the placed potential (vMode=enclosed, wave 235): at t=0 v_c reads 142/139/102 km/s (inner/mid/outer) — with f=2 baryons alone the outer band does not reach the observed 150 even at t=0. RESULT (honest record): EVEN AT f=2 IT DOES NOT REACH — outer-band vt 55 km/s at t=40 (observed 150); farthest 514 units (kF0 control 51 km/s, 568 — dragging contributes +8%). An N=300 2D self-gravitating disk cannot hold equilibrium without a smooth dominant field like 🌃's NFW (it disperses even from the equilibrium start — recorded). The central mass is NOT inflated (no NFW reinvention).",
+    observe:"Measured (t=40, dt=0.016, kF1, no halo, enclosed start, rotor-relative): the t=0 circular solution v_c 14.2/13.9/10.2 (inner/mid/outer) → outer-band (60–130) vt 5.53 at t=40 (55 km/s — a third of the observed 150; the failed hold-out machine-fixed); farthest 514 (kF0 control 5.13/568); the rotor survives and recoils 76 units (free-center record — seed-dependent 25–76); the 100 HI grains keep their gas declaration; zero NaN; bit-identical reruns. The old flat 15.01 start (the observed value placed in advance) gave vt 4.92 and farthest 604 (the wave-230 record). The massCalibration ledger, mMin=1.9×f, lightSweep=(f−1)/f and the unscaled HI are QA-checked.",
+    control:"Pair with 🌃 (NFW). kFrame=0 removes dragging (farthest 568). The rotation-curve overlay shows the outer band emptying."}},
   parameterAudit:{
     observedInputs:["🌃 と同一(バリオン転写)"],
-    fixedConventions:["seed 1573711561 を 🌃 と共有(中心核の排他帯・重心系変換で完全同一にはならない — 宣言)+kFrame=1・halo 無し・中心核 m=100 単位(宣言値・fit しない)Ω=20・Kcs=0.02・pinned なし+balanceFrame・HI は f 非適用+shell:\"gas\""],
-    fitted:["なし(C=1 のゼロフィット — 外縁 49 vs 150 km/s 不成立は正直な記録)"],
-    derived:["平均場 chiMean=0.9998660398257284(自己無撞着・全対 W)","恒星 f=C·2χ̄=1.9997320796514568(C=1)— mMin=1.9×f=3.7994909513377677","lightSweep=(f−1)/f=0.49993301093899795(測光相殺)","外縁 hold-out: vt 4.92(49 km/s)vs 観測 15.01(150 km/s)— 不成立・最遠 604(kF0 515)","中心核の反跳 43 単位(自由中心の記録)"],
+    fixedConventions:["seed 1573711561 を 🌃 と共有(中心核の排他帯・重心系変換で完全同一にはならない — 宣言)+kFrame=1・halo 無し・中心核 m=100 単位(宣言値・fit しない)Ω=20・Kcs=0.02・pinned なし+balanceFrame・HI は f 非適用+shell:\"gas\"","初期速度=配置の実ポテンシャルの円運動解(vMode enclosed・vScale 1 — 第235便。観測 V_flat を先置きしない)"],
+    fitted:["なし(C=1 のゼロフィット — 外縁 55 vs 150 km/s 不成立は正直な記録)"],
+    derived:["平均場 chiMean=0.9998660398257284(自己無撞着・全対 W)","恒星 f=C·2χ̄=1.9997320796514568(C=1)— mMin=1.9×f=3.7994909513377677","lightSweep=(f−1)/f=0.49993301093899795(測光相殺)","enclosed 初期化: t=0 の v_c 14.2/13.9/10.2(内/中/外帯 — 外帯 102 km/s は t=0 ですら観測 150 に届かない)","外縁 hold-out: t=40 vt 5.53(55 km/s)vs 観測 15.01(150 km/s)— 不成立・最遠 514(kF0 5.13/568)〔旧 flat 初期化 4.92/604〕","中心核の反跳 76 単位(自由中心の記録・seed 7 では 44)"],
     numerical:["🌃 と同一(dt=0.016・t=40=2500步)"]},
   massCalibration:{law:"chi-law-v1-meanfield", C:1, meanChi:0.9998660398257284, factorUniform:1.9997320796514568},   // 第230便: 平均場台帳(恒星のみ — QA 照合)
   activeParams:["kFrame","G","softening"],
@@ -8640,11 +8642,12 @@ const BUILTIN_PRESETS = [
     {type:"disk", n:200, cx:0, cy:0, radius:60, profile:"exponential", sersicRe:16.26,
       mMin:3.7994909513377677, mMax:3.7994909513377677,   // 1.9×f(恒星 f=1.9997320796514568 — 平均場 χ-law・C=1)
       lightSweep:0.49993301093899795,                      // (f−1)/f — 測光相殺
-      spinMin:0, spinMax:0, vMode:"flat", vScale:15.01, direction:1, rMul:0.2},
+      // 第235便: 初期速度=配置の実ポテンシャル(全粒・ε=softening)の円運動解 — 観測 V_flat 15.01 の先置きをやめる
+      spinMin:0, spinMax:0, vMode:"enclosed", vScale:1, direction:1, rMul:0.2},
     {type:"disk", n:100, cx:0, cy:0, radius:130, profile:"exponential", sersicRe:31,
       mMin:2.875, mMax:2.875,   // HI は f 非適用(21cm 転写 — 恒星補正則を外挿しない宣言)
       shell:"gas",              // 第229便宣言 — 気体の殻(コヒーレント回転なし)
-      spinMin:0, spinMax:0, vMode:"flat", vScale:15.01, direction:1, rMul:0.2},
+      spinMin:0, spinMax:0, vMode:"enclosed", vScale:1, direction:1, rMul:0.2},   // 第235便: 同上
     {type:"single", m:100, x:0, y:0, vx:0, vy:0, spin:0, pinned:false, radius:2, lightSweep:1,
       core:{mode:"differential", massFrac:0.5, radius:1, omega:20, Kcs:0.02, inertiaScale:100}}],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false} },
@@ -10568,7 +10571,7 @@ function validatePreset(obj){
         out.push(oR);
       } else if(t==="disk"){
         if(!needNum(["n","cx","cy","radius","mMin","mMax","spinMin","spinMax","vScale"])) return;
-        if(["kepler","rigid","flat","random","hubble","none"].indexOf(b.vMode)<0){ bad(at+".vMode が不正"); return; }   // 第31便: hubble(初期 Hubble 流 v=vScale·(r−c))を追加
+        if(["kepler","rigid","flat","random","hubble","none","enclosed","virial"].indexOf(b.vMode)<0){ bad(at+".vMode が不正"); return; }   // 第235便: enclosed(自己無撞着円運動)/virial(ビリアル等方)   // 第31便: hubble(初期 Hubble 流 v=vScale·(r−c))を追加
         if(b.direction!==1 && b.direction!==-1){ bad(at+".direction は 1 か -1"); return; }
         if(b.vMode==="kepler" && !needNum(["aroundMass"])) return;   // 第83便: ring と同条件(kepler 以外は build が参照しない任意キー)
         const oD={type:"disk", n:clamp(Math.round(b.n),0,N_CAP), cx:CO(b.cx,"cx"), cy:CO(b.cy,"cy"), radius:LEN(b.radius,"radius"),
@@ -12363,6 +12366,7 @@ function makeSim(){
           else if(b.vMode==="flat"){ const v=b.vScale*b.direction; vX=v*tx; vY=v*ty; }
           else if(b.vMode==="hubble"){ vX=b.vScale*(x-b.cx)*b.direction; vY=b.vScale*(y-b.cy)*b.direction; }   // 第31便: 初期 Hubble 流 v=H·(r−c)(vScale=H)
           else if(b.vMode==="random"){ const a2=rng()*Math.PI*2, v=b.vScale*rng(); vX=v*Math.cos(a2); vY=v*Math.sin(a2); }
+          else if(b.vMode==="virial"){ const a2=rng()*Math.PI*2, v=rng(); vX=v*Math.cos(a2); vY=v*Math.sin(a2); }   // 第235便: 単位乱数 — 後段の post-pass で √(3·(−W/M))·vScale 倍
           if(b.vMode!=="hubble"){ vX += (rng()*2-1)*0.02; vY += (rng()*2-1)*0.02; }   // 第31便: hubble は共動初期条件を乱さない
           const o={m:b.mMin+(b.mMax-b.mMin)*rng(), x,y,
             vx:vX+(b.bulkVx||0), vy:vY+(b.bulkVy||0),   // v1.18: 母集団の並進速度
@@ -12370,6 +12374,8 @@ function makeSim(){
             };
           if(b.shell) o.shell=b.shell;   // 第230便: 群共通の殻の相(shellGas フラグへ)
           if(cCore) o.core=cCore;   // 第80便: 群コア(付けない構成ではキーごと存在しない = 形も従来どおり)
+          // 第235便: 平衡初期化の後段タグ(全群の配置が終わってから実ポテンシャルで速度を決める)
+          if(b.vMode==="enclosed"||b.vMode==="virial") o.eq={mode:b.vMode, cx:b.cx, cy:b.cy, dir:b.direction, scale:(b.vScale===undefined?1:b.vScale), row:b};
           push(o);
         }
       } else if(b.type==="box"){
@@ -12417,6 +12423,46 @@ function makeSim(){
     // 物理ループへの追加コストは 0(build 時の O(N) 変換1回だけ)。pinned を含む構成では
     // 重心自体が外部規定なので無効化する(validatePreset も同条件で警告つき削除する)
     S.balanceFrame="off";
+    // 第235便(第29報キュー①「星団・銀河の平衡初期化」): 配置完了後の post-pass。
+    // enclosed: 各粒の位置で全配置粒(E4 と同じ Plummer 型・ε=softening)+解析ハローの動径加速度 a_r を評価し
+    //   v_t=√(r·a_r)·vScale·direction(内向きでなければ 0)。flat/kepler の「宣言速度」ではなく実ポテンシャルの円運動解。
+    // virial: 群ごとに W=−G Σ_{i<j} m_i m_j/√(d²+ε²)(群内+群外との対)を評価し ⟨v²⟩=−W/M(2K=−W)となるよう
+    //   単位乱数速度を √(3·(−W/M))·vScale 倍(v=vScale·u の ⟨v²⟩=vScale²/3 規約と同じ換算)。
+    // 未宣言の群は分岐に入らず 1 bit 不変(タグ o.eq を持たない)
+    S.eqInit=null;   // 毎 build でリセット(宣言の無い構成は null — QA が照合)
+    if(P.some(o=>o.eq)){
+      const eps2=(phys.softening||0)*(phys.softening||0), hl=phys.halo||null;
+      const rows=new Map();
+      for(let i=0;i<P.length;i++){ const o=P[i]; if(!o.eq) continue;
+        if(o.eq.mode==="enclosed"){
+          let axp=0, ayp=0;
+          for(let j=0;j<P.length;j++){ if(j===i) continue; const dx=P[j].x-o.x, dy=P[j].y-o.y, d2=dx*dx+dy*dy;
+            const fg=G*P[j].m/Math.pow(d2+eps2,1.5); axp+=fg*dx; ayp+=fg*dy; }
+          if(hl){ const hdx=hl.cx-o.x, hdy=hl.cy-o.y, hr=Math.hypot(hdx,hdy);
+            if(hr>1e-9){ const aH=G*haloMencOf(hl,hr)/(hr*hr); axp+=aH*hdx/hr; ayp+=aH*hdy/hr; } }
+          const rx=o.x-o.eq.cx, ry=o.y-o.eq.cy, r=Math.hypot(rx,ry);
+          if(r>1e-9){ const ar=-(axp*rx+ayp*ry)/r; const v=(ar>0)? Math.sqrt(r*ar)*o.eq.scale*o.eq.dir : 0;
+            o.vx=v*(-ry/r)+(o.vx-0); o.vy=v*(rx/r)+(o.vy-0); }
+        } else if(o.eq.mode==="virial"){
+          if(!rows.has(o.eq.row)) rows.set(o.eq.row,{W:0,M:0,idx:[]});
+          const R=rows.get(o.eq.row); R.M+=o.m; R.idx.push(i);
+        }
+      }
+      for(const [,R] of rows){
+        let W=0;
+        for(const i of R.idx){ const o=P[i]; for(let j=0;j<P.length;j++){ if(j===i) continue;
+          const dx=P[j].x-o.x, dy=P[j].y-o.y; W-=G*o.m*P[j].m/Math.sqrt(dx*dx+dy*dy+eps2); } }
+        // 群内の対は2回数えられている(i,j と j,i)— 群内分は半分・群外分は全額。近似として全体を半分にせず、
+        // 群内対を二重計上から戻す
+        let Win=0; for(const i of R.idx){ const o=P[i]; for(const j of R.idx){ if(j===i) continue;
+          const dx=P[j].x-o.x, dy=P[j].y-o.y; Win-=G*o.m*P[j].m/Math.sqrt(dx*dx+dy*dy+eps2); } }
+        W-=Win*0.5;
+        const v2=(R.M>0 && W<0)? -W/R.M : 0, sc=Math.sqrt(3*v2);
+        for(const i of R.idx){ const o=P[i]; o.vx*=sc*o.eq.scale; o.vy*=sc*o.eq.scale; }
+        R.W=W;
+      }
+      S.eqInit={rows:[...rows.values()].map(R=>({W:R.W,M:R.M,n:R.idx.length}))};
+    }
     if(preset.balanceFrame==="barycentric"){
       if(P.some(o=>o.pinned)) S.balanceFrame="skipped-pinned";
       else{
@@ -19781,7 +19827,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 # ジェネレータ(bodiesの要素。typeごとに全フィールド必須)
 - single: {type,m,x,y,vx,vy,spin,pinned} — 粒子1個。pinned:true で力を受けず固定。省略可の rMul(半径倍率 0.2〜40・既定1。R=radiusScale·rMul·√|m|)。
 - ring: {type,n,cx,cy,rIn,rOut,mMin,mMax,spinMin,spinMax,vMode,aroundMass,omega,vNoise,direction,pinned} — 半径rIn〜rOutの環にn個。vMode: "kepler"(aroundMassの周りを公転)|"omega"(v=omega×r)|"none"。direction: 1=反時計,-1=時計。省略可の rMul(0.2〜40)。
-- disk: {type,n,cx,cy,radius,mMin,mMax,spinMin,spinMax,vMode,aroundMass,vScale,direction} — 半径radiusの円盤にn個。vMode: "kepler"(vScaleは倍率,通常1)|"rigid"(vScale=角速度)|"flat"(vScale=一定速さ)|"random"(vScale=速さ)|"none"。省略可の rMul(0.2〜20)。
+- disk: {type,n,cx,cy,radius,mMin,mMax,spinMin,spinMax,vMode,aroundMass,vScale,direction} — 半径radiusの円盤にn個。vMode: "kepler"(vScaleは倍率,通常1)|"rigid"(vScale=角速度)|"flat"(vScale=一定速さ)|"random"(vScale=速さ)|"enclosed"(配置後の実ポテンシャルの円運動解・vScaleは倍率)|"virial"(群のビリアル平衡 ⟨v²⟩=−W/M・vScaleは倍率)|"none"。省略可の rMul(0.2〜20)。
 - box: {type,n,cx,cy,w,h,mMin,mMax,spinMin,spinMax,vScale} — 幅w高さhの矩形にn個、ランダム方向に速さ〜vScale。省略可の rMul(0.2〜20)。
 - ring/disk/box には省略可の bulkVx,bulkVy(母集団の並進速度)を指定できる。移動する天体(vx,vyを持つ single)の周りに円盤・環を置くときは、必ず同じ値を bulkVx,bulkVy に与えて核と一体で動かすこと。
 - single には省略可の zonal(扁平中心天体の帯状重力補正 E13)を指定できる: {"refR":基準半径,"calib":1,"J":{"2":0.0163,"4":-0.0009}}。偶数次 J2〜J12 のみ・|J|≤0.1・refR:1〜5000・calib:0〜2。中心の大質量 pinned 粒子に付けると周回粒子の楕円軌道の近点が前進する(内側ほど速い差動近点移動 — 画面左上に実測/解析の近点移動が表示される)。土星なら J2≈0.0163。要望が扁平天体・歳差・近点移動のときだけ使う高度な属性で、通常のプリセットでは指定しない。

@@ -8010,14 +8010,14 @@ if (!FAST) {
         const sig = () => { let sx = 0, sy = 0, sxx = 0, syy = 0;
           for (let i = 0; i < S.n; i++) { sx += S.vx[i]; sy += S.vy[i]; sxx += S.vx[i] ** 2; syy += S.vy[i] ** 2; }
           const n = S.n; return Math.sqrt(((sxx / n - (sx / n) ** 2) + (syy / n - (sy / n) ** 2)) / 2); };
-        const r0 = rhl();
+        const r0 = rhl(), s0 = sig();   // 第235便: 初期 σ(virial 初期化の宣言値照合)
         for (let k = 0; k < 3125; k++) S.step(0.016);
         let mTot = 0; for (let i = 0; i < S.n; i++) mTot += Math.abs(S.m[i]);   // 第230便: 実行時総質量(17.7 のハードコードを廃止)
         let bound = 0;
         for (let i = 0; i < S.n; i++) { const r = Math.hypot(S.x[i], S.y[i]);
           if (S.vx[i] ** 2 + S.vy[i] ** 2 < 2 * S.params.G * mTot / Math.max(r, 1)) bound++; }
         const o = []; for (let i = 0; i < 40; i++) o.push(S.x[i], S.y[i], S.vx[i], S.vy[i]);
-        return { t0, r0, r1: rhl(), s1: sig(), bound: bound / S.n, nan: S.hasNaN(), o };
+        return { t0, r0, s0, r1: rhl(), s1: sig(), bound: bound / S.n, nan: S.hasNaN(), o, eq: S.eqInit ? S.eqInit.rows[0] : null };
       };
       const a = run('tuc47');
       const a2 = run('tuc47');
@@ -8030,6 +8030,7 @@ if (!FAST) {
           fOK: Math.abs(b0.mMin / 0.07375 - f) < 1e-12,
           lswOK: Math.abs(b0.lightSweep - (f - 1) / f) < 1e-12,
           chiOK: Math.abs(2 * mc.meanChi - f) < 1e-12,
+          virial: b0.vMode === 'virial' && b0.vScale === 1,   // 第235便: 平衡初期化の宣言
           seedShared: pd.seed === HP.allPresets().find((q) => q.id === 'tuc47').seed }; })();
       return { a, c, d, det: a.o.every((x, i) => Object.is(x, a2.o[i])),
         t0eq: a.t0.every((x, i) => Object.is(x, c.t0[i])), decl };
@@ -8040,14 +8041,16 @@ if (!FAST) {
       && tc.a.r1 > 9 && tc.a.r1 < 12.5                    // 🍇 緩和収縮(記録 10.45)
       && tc.a.s1 > 1.5 && tc.a.s1 < 2.0
       && tc.a.bound >= 0.85 && !tc.a.nan
-      && tc.t0eq === true && dOK                          // 🫐 t0 ビット同一(seed 共有)+f 台帳の三者一致
-      && tc.c.s1 > 2.3 && tc.c.s1 < 2.6                   // 🫐 σ hold-out 不成立(実測 2.446=24.5 km/s vs 観測 12.4 — ×1.97)
-      && tc.c.r1 > 12 && tc.c.r1 < 13.2 && tc.c.bound >= 0.9 && !tc.c.nan
-      && tc.d.s1 > 2.6 && tc.d.s1 < 2.9                   // kF0 対照(2.748)
-      && tc.d.r1 > 8.5 && tc.d.r1 < 9.6                   // f=2 で kF1/kF0 が分離(半光 12.59 vs 9.02)
+      && tc.t0eq === true && dOK                          // 🫐 t0 位置ビット同一(seed 共有)+f 台帳の三者一致+virial 宣言
+      && tc.a.eq === null && tc.c.eq && tc.c.eq.W < -290 && tc.c.eq.W > -305   // 第235便: 🍇 は転写のまま・🫐 は W=−297.8 のビリアル解
+      && tc.c.s0 > 1.85 && tc.c.s0 < 1.98                 // σ₀ 1.915=√f×観測換算(ビリアル定理)
+      && tc.c.s1 > 2.0 && tc.c.s1 < 2.25                  // 🫐 σ hold-out 不成立(実測 2.107=21.1 km/s vs 観測 12.4 — ×1.70)
+      && tc.c.r1 > 12.4 && tc.c.r1 < 13.5 && tc.c.bound >= 0.85 && !tc.c.nan   // 半光 12.97(平衡に近い)
+      && tc.d.s1 > 2.1 && tc.d.s1 < 2.4                   // kF0 対照(2.227)
+      && tc.d.r1 > 11.2 && tc.d.r1 < 12.4                 // f=2 で kF1/kF0 が分離(半光 12.97 vs 11.81)
       && tc.det === true,
       `🍇 kF0: 半光 ${tc.a.r0.toFixed(2)}→${tc.a.r1.toFixed(2)}・σ ${tc.a.s1.toFixed(3)}・束縛 ${(tc.a.bound * 100).toFixed(1)}%(実行時 mTot 判定) / `
-      + `🫐(f=1.9934・C=1): t0=🍇 ビット同一=${tc.t0eq}・台帳三者一致=${dOK}・σ ${tc.c.s1.toFixed(3)}(24.5 km/s — **hold-out ×1.97 不成立の機械固定**)・半光→${tc.c.r1.toFixed(2)} / `
+      + `🫐(f=1.9934・C=1・virial 初期化 W=${tc.c.eq ? tc.c.eq.W.toFixed(1) : '—'}): t0 位置=🍇 ビット同一=${tc.t0eq}・台帳三者一致=${dOK}・σ ${tc.c.s0.toFixed(3)}→${tc.c.s1.toFixed(3)}(21.1 km/s — **hold-out ×1.70 不成立の機械固定**・σ∝√f)・半光→${tc.c.r1.toFixed(2)} / `
       + `kF0 対照: σ ${tc.d.s1.toFixed(3)}・半光→${tc.d.r1.toFixed(2)}(f=2 で kF1/kF0 が画面で分離 — 引きずりは崩壊を緩める)・決定性=${tc.det}`);
   } else {
     console.log('SKIP behavior.tuc47(対象に第228便の 🍇 なし — root 等)');
@@ -8098,6 +8101,7 @@ if (!FAST) {
           hiUnscaled: pd.bodies[1].mMin === 2.875 && pd.bodies[1].lightSweep === undefined,
           hiGas: pd.bodies[1].shell === 'gas',
           freeCenter: pd.bodies[2].pinned === false && pd.balanceFrame === 'barycentric',
+          enclosed: pd.bodies[0].vMode === 'enclosed' && pd.bodies[1].vMode === 'enclosed' && pd.bodies[0].vScale === 1,   // 第235便
           seedShared: pd.seed === HP.allPresets().find((q) => q.id === 'ngc3198').seed }; })();
       return { obs, noH, dfm, fitDecl, decl,
         det: dfm.o.every((x, i) => Object.is(x, dfm2.o[i])) };
@@ -8108,14 +8112,14 @@ if (!FAST) {
       && ng.obs.vt !== null && ng.obs.vt > 10 && ng.obs.vt < 14.5   // 🌃 外縁帯 12.8(128 km/s)
       && ng.obs.nOuter >= 10 && ng.obs.rmax < 200 && !ng.obs.nan
       && (ng.noH.nOuter === 0 || ng.noH.rmax > 300)                 // ハロー除去 → 外縁が空/飛散
-      && ng.dfm.vt !== null && ng.dfm.vt > 4.0 && ng.dfm.vt < 5.8   // 🛞 f=2 でも 49 km/s(観測 150 — hold-out 不成立)
-      && ng.dfm.rmax > 450 && ng.dfm.rmax < 750                     // 飛散(604 — kF0 対照 515 は記録)
-      && ng.dfm.center === true && ng.dfm.cDisp < 100               // 自由中心核の残存+有界反跳(43)
+      && ng.dfm.vt !== null && ng.dfm.vt > 4.6 && ng.dfm.vt < 6.3   // 🛞 f=2・enclosed 初期化でも 55 km/s(観測 150 — hold-out 不成立)
+      && ng.dfm.rmax > 400 && ng.dfm.rmax < 650                     // 散逸(514 — kF0 対照 568 は記録)
+      && ng.dfm.center === true && ng.dfm.cDisp < 150               // 自由中心核の残存+有界反跳(76)
       && ng.dfm.gasN >= 90 && !ng.dfm.nan && ng.det === true        // HI 100粒の gas 宣言が飛散後も ≥90 残存
       && !ng.noH.nan,
       `🌃(NFW=自前 fit 宣言=${ng.fitDecl}): vt ${ng.obs.vt === null ? '—' : ng.obs.vt.toFixed(2)}(128 km/s)・最遠 ${ng.obs.rmax.toFixed(0)} / `
       + `ハロー除去: 外縁 ${ng.noH.nOuter} 粒・最遠 ${ng.noH.rmax.toFixed(0)}(飛散) / `
-      + `🛞(恒星 f=1.99973・C=1・HI 非適用・台帳一致=${dOK}): 中心核相対 vt ${ng.dfm.vt === null ? '—' : ng.dfm.vt.toFixed(2)}(49 km/s — **f=2 でも届かない hold-out の機械固定**)・最遠 ${ng.dfm.rmax.toFixed(0)}・中心核反跳 ${ng.dfm.cDisp.toFixed(1)}・gas 粒 ${ng.dfm.gasN}・決定性=${ng.det}`);
+      + `🛞(恒星 f=1.99973・C=1・HI 非適用・台帳一致=${dOK}): enclosed 初期化・中心核相対 vt ${ng.dfm.vt === null ? '—' : ng.dfm.vt.toFixed(2)}(55 km/s — **f=2・平衡初期化でも届かない hold-out の機械固定**)・最遠 ${ng.dfm.rmax.toFixed(0)}・中心核反跳 ${ng.dfm.cDisp.toFixed(1)}・gas 粒 ${ng.dfm.gasN}・決定性=${ng.det}`);
   } else {
     console.log('SKIP behavior.ngc3198(対象に第228便の 🌃 なし — root 等)');
   }
