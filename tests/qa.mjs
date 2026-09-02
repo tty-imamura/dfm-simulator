@@ -5011,7 +5011,7 @@ if (!FAST) {
         pk.bodies[0].core.tilt = 60;
         const vk = HP.validatePreset(pk);
         return {rows, kcsTiltDropped:vk.ok && vk.preset.bodies[0].core.tilt === undefined,
-          kcsWarn:vk.warnings.some((s) => s.includes('コア軸の引きずりは未実装'))};
+          kcsWarn:vk.warnings.some((s) => s.includes('コア軸の引きずりは未実装') || s.includes('軸の引きずりは Kalign'))};   // 第232便: Kalign 実装で文言更新(併用不可則は不変)
       });
       const [a,b,c] = r.rows;
       add('core.tilt-energy-audit',
@@ -5025,7 +5025,7 @@ if (!FAST) {
         `固定|J|エネルギー比 0/60/90°=${r.rows.map((x) => (x.eFixedMagnitude/a.eFixedMagnitude).toFixed(3)).join('/')} (=1)・` +
         `射影エネルギー比=${r.rows.map((x) => (x.eProjected/a.eProjected).toFixed(3)).join('/')} (=1/.25/0)・` +
         `角力積/|J|=${b.deltaJFromAligned/b.Jmag}/${c.deltaJFromAligned/c.Jmag} (=1/√2)・` +
-        `tilt×Kcs は破棄=${r.kcsTiltDropped}・軸引きずり未実装警告=${r.kcsWarn}`);
+        `tilt×Kcs は破棄=${r.kcsTiltDropped}・軸引きずりの担当警告(Kcs→Kalign)=${r.kcsWarn}`);
     }
   }
 
