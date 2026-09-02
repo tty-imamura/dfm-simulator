@@ -8649,6 +8649,91 @@ const BUILTIN_PRESETS = [
       core:{mode:"differential", massFrac:0.5, radius:1, omega:20, Kcs:0.02, inertiaScale:100}}],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false} },
 
+// ===== 第231便(第28報): 超新星の観測較正版 — 前駆星 🥀 と爆発後 🦀(見立て 🎇 の観測対)=====
+// 観測レコードは paper/data/supernova-observations.csv(ベテルギウス7行+かに星雲/パルサー10行 —
+// モデル依存値は note に宣言)。前駆星と残骸は6桁違う時空スケールなので別族(宣言)。爆発の
+// 瞬間そのものはどの族でも解像しない — 原理は 🎇 が、前後の観測状態はこの2本が担当する。
+{ id:"supernovaProg", name:"超新星前駆星 — ベテルギウス(観測転写)", emoji:"🥀", group:"現実との照合・太陽系外",
+  scaleTier:"stellar",
+  scaleExp:{L:10, T:6, M:29},   // 恒星族(1単位=10¹⁰m/10⁶s/10²⁹kg — ✨ と同族・標準規約 L−T=4・c₀=3×10⁴)
+  sampleClass:"principle",
+  notClaim:["cal","toy"],
+  obsCard:[
+    {q:"質量(Joyce 一組整合)", model:"352.96 単位=3.530×10³¹kg(16.5〜19 M☉ の中央 17.75 を転写)", obs:"M=16.5〜19 M☉(MESA+星震学+流体 — モデル依存を CSV note 宣言)"},
+    {q:"光球半径(同一組)", model:"53.15 単位=5.315×10¹¹m(=764 R☉ — 光球層のみに割り当て)", obs:"R=764 +116/−62 R☉(3σ・モデル依存)・角直径 42.28 mas"},
+    {q:"自転(宣言つき代理値)", model:"Ω=5.531×10⁻³/単位(P_rot/sin i=36 年を sin i=1 で転写 — 💫 A と同じ代理規約)", obs:"P_rot/sin i=36±8 年(ALMA SiO 剛体回転モデル)"},
+    {q:"二層核(コア=残存質量の見立て)", model:"massFrac=0.0789(=1.4 M☉/17.75 — かにパルサー fiducial の器)・Rc=R/2 規約・Ω=0", obs:"—(前駆星コアの直接観測なし — 宣言のみ)"},
+    {q:"転写しないもの(宣言)", model:"光度(距離 197pc 系 — Joyce 168.1pc と混用不可)・質量放出 3.1×10⁻⁶ M☉/yr・脈動・爆発", obs:"CSV に note 込みで収載(較正には距離を選んでから)"}],
+  descStruct:{
+    summary:"**超新星前駆星の観測転写 — ベテルギウス(α Ori)**(第231便・第28報)。🎇(見立て — 高速コアが外殻を吹き飛ばす原理)の**観測対の「前」側**。CSV(supernova-observations.csv)の **Joyce et al. (2020) 一組整合セット**(質量 17.75 M☉ 中央値・光球半径 764 R☉・距離 168.1 pc — 同一モデル解)を恒星族 L10/T6/M29 で置く。自転は P_rot/sin i=36 年の **sin i=1 代理値**(💫 A と同じ宣言規約)。二層核はコア質量比 0.0789=**1.4 M☉(かにパルサーの fiducial)を核の器として宣言**する見立て — 前駆星の中心に将来の中性子星質量が置かれている、という物語の転写(観測ではない — 宣言)。働くのは重力(E4)のみ(単体・kFrame=0)。光度は距離 197 pc 系の値で Joyce 距離と混用できないため転写しない(CSV note の警告を継承)。爆発・脈動・質量放出はモデル化しない。",
+    observe:"実測(500步): 単体静止をビット保持(x=vx=0)・半径 53.15・自転 5.531×10⁻³・コア質量比 0.0789 が転写どおり格納・NaN 0。動く絵ではなく**観測状態の台帳**(🎐 GW150914 基準状態と同じ役割)— 🎇 の初期条件(コア Ω を上げると何が起きるか)と 🦀(爆発後)への橋。QA behavior.supernovaObs が転写値を機械固定。",
+    control:"🎇(原理 — コア Ω 用量反応)・🦀(爆発後 — かに星雲)と3点で読む。コア Ω を編集して回すと 🎇 の筋書きをこの転写質量で試せる(その時点で principle 実験になる — 宣言)。"},
+  en:{ name:"Supernova Progenitor — Betelgeuse (transcribed)", descStruct:{
+    summary:"THE OBSERVED 'BEFORE' STATE of a supernova — Betelgeuse (α Ori), wave 231. The observation-side counterpart of 🎇 (the analogy where a fast core blows off the envelope). The Joyce et al. (2020) SELF-CONSISTENT SET from the CSV (median mass 17.75 Msun, photospheric radius 764 Rsun, distance 168.1 pc — one model solution) is placed in the stellar family L10/T6/M29. Rotation is the sin i=1 PROXY of P_rot/sin i=36 yr (the same declared convention as 💫 A). The two-layer nucleus declares core massFrac 0.0789 = 1.4 Msun — THE CRAB-PULSAR FIDUCIAL AS THE CORE'S RESERVOIR: a transcription of the story that the future neutron-star mass sits at the progenitor's centre (a declaration, not an observation). Only gravity (E4) acts (solo body, kFrame=0). The luminosity is NOT transcribed (it rides the 197 pc distance and cannot be mixed with the Joyce 168.1 pc — the CSV note's warning inherited). No explosion, pulsation or mass loss is modelled.",
+    observe:"Measured (500 steps): rest held to the bit (x=vx=0); radius 53.15, spin 5.531e-3 and core massFrac 0.0789 stored as transcribed; zero NaN. Not a moving picture but a LEDGER OF THE OBSERVED STATE (the same role as 🎐 for GW150914) — a bridge to 🎇 (what happens when the core Ω rises) and 🦀 (after the explosion). QA behavior.supernovaObs machine-fixes the transcription.",
+    control:"Read as a triptych with 🎇 (principle) and 🦀 (after). Editing the core Ω onto this transcribed mass runs the 🎇 story here (which then becomes a principle experiment — declared)."}},
+  parameterAudit:{
+    observedInputs:["Joyce et al. (2020) 一組: M=17.75 M☉(範囲中央)・R=764 R☉・d=168.1 pc","Kervella et al. (2018): P_rot/sin i=36 年(代理 sin i=1)","CSV: paper/data/supernova-observations.csv(モデル依存は note 宣言)"],
+    fixedConventions:["恒星族 L10/T6/M29(c₀=3×10⁴)・kFrame=0・単体","コア=1.4 M☉ fiducial の器(massFrac 0.0789・Rc=R/2 規約・Ω=0・Kcs=0)","光度・質量放出・脈動は転写しない(距離系の混用禁止 — CSV note 継承)"],
+    fitted:["なし(フィットゼロ — 転写のみ)"],
+    derived:["m=352.959 単位(=17.75×1.9885×10³⁰kg/10²⁹)","R=53.1515 単位(=764×6.957×10⁸m/10¹⁰)","Ω=0.00553071981492008(=2π/(36 yr/10⁶s)— sin i=1 代理)"],
+    numerical:["dt=0.016・静止系(数値誤差の入り口なし)"]},
+  activeParams:["G","kFrame","softening"],
+  seed:20260901,
+  camera:{scale:150}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.006, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0,
+    kappaT:7.415555555555556e-9, cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
+    geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:1, timeScale:100, coupleSink:"core"},
+  bodies:[
+    // 光球殻=転写半径・sin i=1 代理自転/コア=1.4 M☉ fiducial の器(見立ての宣言)
+    {type:"single", m:352.959, x:0,y:0, vx:0,vy:0, spin:0.00553071981492008, pinned:false,
+     radius:53.1515, shell:"solid", lightSweep:0,
+     core:{mode:"differential", massFrac:0.07887323943661971, radius:26.57575, omega:0, Kcs:0}}],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
+
+{ id:"crabRemnant", name:"超新星残骸 SN 1054 — かに星雲とパルサー(観測転写)", emoji:"🦀", group:"現実との照合・太陽系外",
+  scaleTier:"galactic",
+  scaleExp:{L:14, T:9, M:35},   // 残骸族(1単位=10¹⁴m/10⁹s/10³⁵kg — L−T=5・c₀=3×10³・M=11+3L−2T の標準 G 関係で G=6.674)
+  sampleClass:"principle",
+  notClaim:["cal","toy"],
+  obsCard:[
+    {q:"膨張速度(転写の本体)", model:"環の動径初速 12.9〜17.1 単位(1290〜1710 km/s — H×r)・平均 15.06(=1506 km/s)", obs:"フィラメント代表 1500 km/s(範囲 700〜1800 — 単一速度場ではない宣言)"},
+    {q:"放出質量と現在半径", model:"M_ej=9.147×10⁻⁵ 単位(光学フィラメント 4.6 M☉)・環 450〜600 単位(現在半径 ≈1.7 pc)", obs:"4.6±1.8 M☉(光学— 全量モデルは 7.2±0.5 M☉ で別管理)"},
+    {q:"殻の運動エネルギー(較正照合)", model:"KE=0.010446 単位=**1.04×10⁵⁰ erg** — SN 1054 モデル帯(5.5×10⁴⁹)と同桁・正準 1e51 の1桁下", obs:"数×10⁴⁹〜10⁵⁰ erg(SN 1054 — 正準 1e51 は比較用と CSV 宣言)"},
+    {q:"年齢の整合(算術)", model:"r/v=527/15.06=35 単位=**1109 年** ≈ 実年齢 972 年(減速・加速史は転写しない宣言)", obs:"爆発 1054 CE(客星記録)"},
+    {q:"パルサー(値域外の宣言)", model:"m=2.78×10⁻⁵ 単位(1.4 M☉ fiducial)・半径は下限規約 0.01(実 12 km は値域外)・**P=33.856 ms は本族で pulse 値域外**(時計チャネル適用は別族の課題)", obs:"P=33.8558552784 ms(MJD 61206)・Ṗ=4.19×10⁻¹³"}],
+  descStruct:{
+    summary:"**超新星の観測転写・「後」側 — SN 1054 の残骸(かに星雲)と残存パルサー**(第231便・第28報)。🎇(見立て)・🥀(前駆星)と3点で読む。残骸族 L14/T9/M35(1単位=10¹⁴m/10⁹s/10³⁵kg — L−T=5・c₀=3×10³・標準 G 関係 M=11+3L−2T で **G=6.674 が実単位の正写像**)。**膨張速度が転写の本体**: フィラメント環(n=72・M_ej=光学 4.6 M☉ — 1粒 1.27×10⁻⁶ 単位は質量下限 10⁻⁶ のすぐ上・クランプなしを実測)に H×r の動径初速で 1290〜1710 km/s(観測範囲 700〜1800 の中央帯)を与え、現在半径 ≈1.7 pc から自由膨張させる。中心は残存パルサー(1.4 M☉ fiducial・完全減光の二層)— **P=33.8558552784 ms(MJD 61206)は本族では pulse チャネルの値域外**で時計は載らない(宣言 — 灯台の原理は 🏮 が担当)。働くのは重力(E4)のみ(自己重力は脱出速度の 10⁴ 倍差で無視可能=自由膨張が正しい帰結)。**較正の照合点**: 殻 KE=1.04×10⁵⁰ erg が SN 1054 パルサー駆動モデル帯(5.5×10⁴⁹)と同桁で、**正準 1e51 erg の1桁下** — 「かに星雲は低エネルギー超新星」という観測既知が転写だけで再現される。年齢の算術 r/v=1109 年 ≈ 実 972 年(減速・加速史は非転写の宣言)。爆発そのもの・PWN・磁場はモデル化しない。",
+    observe:"実測(1000步=507年相当): 平均動径速度 **15.06 単位のまま不変**(自己重力は脱出速度の10⁴倍下 — 純自由膨張)・平均半径 527→768・**殻 KE₀=0.010446 単位=1.04×10⁵⁰ erg**(較正照合の機械固定)・パルサー変位 3.2×10⁻⁵(有界)・環は shell:\"gas\" 宣言(第231便で ring へ拡張)・NaN 0・決定性ビット同一。QA behavior.supernovaObs が膨張率・KE・年齢算術を機械固定。",
+    control:"🥀(前)・🎇(原理)と3点。kFrame は膨張に不干渉(コヒーレント中心スピンなし — 切替対照で確認できる)。vScale(H)を下げると「若い残骸」の見え方。"},
+  en:{ name:"SN 1054 Remnant — the Crab Nebula and Pulsar (transcribed)", descStruct:{
+    summary:"THE OBSERVED 'AFTER' STATE — the SN 1054 remnant (Crab Nebula) and its pulsar (wave 231). Read as a triptych with 🎇 (principle) and 🥀 (before). Remnant family L14/T9/M35 (1 unit = 1e14 m / 1e9 s / 1e35 kg; L−T=5, c₀=3e3; the standard G relation M=11+3L−2T gives G=6.674 as the true mapping). THE EXPANSION VELOCITY IS THE TRANSCRIPTION: a filament ring (n=72, M_ej = the optical 4.6 Msun) gets radial H×r velocities of 1290-1710 km/s (the central band of the observed 700-1800) from the present radius ≈1.7 pc, expanding freely. The centre is the remnant pulsar (1.4 Msun fiducial, fully dimmed two-layer) — P=33.8558552784 ms (MJD 61206) is OUTSIDE the pulse channel's range in this family, so no clock rides here (declared — the lighthouse principle belongs to 🏮). Only gravity (E4) acts (self-gravity sits 4 orders below escape — free expansion is the correct consequence). THE CALIBRATION CHECKPOINT: the shell KE = 1.04e50 erg lands in the SN 1054 pulsar-driven band (5.5e49) and one order BELOW the canonical 1e51 — the known fact that the Crab was a low-energy supernova is reproduced by transcription alone. The age arithmetic r/v = 1109 yr ≈ the real 972 yr (deceleration/acceleration history not transcribed — declared). The explosion itself, PWN and magnetic fields are not modelled.",
+    observe:"Measured (1000 steps ≈ 507 yr): mean radial speed stays 15.06 units (self-gravity 4 orders below escape — pure free expansion); mean radius 527→768; shell KE₀ = 0.010446 units = 1.04e50 erg (the calibration checkpoint machine-fixed); pulsar displacement 3.2e-5 (bounded); the ring carries shell:\"gas\" (extended to rings this wave); zero NaN; bit-identical reruns. QA behavior.supernovaObs fixes the expansion rate, KE and age arithmetic.",
+    control:"Triptych with 🥀 and 🎇. kFrame does not touch the expansion (no coherent central spin — verifiable by toggling). Lowering vScale (H) shows a younger remnant."}},
+  parameterAudit:{
+    observedInputs:["Jodrell Bank エフェメリス: P=33.8558552784 ms・Ṗ=4.19×10⁻¹³(MJD 61206)","フィラメント速度 1500 km/s(範囲 700〜1800)・M_ej(光学)=4.6±1.8 M☉・距離 1.90 kpc・爆発 1054 CE","CSV: paper/data/supernova-observations.csv(E_SN のモデル帯 5.5×10⁴⁹ erg と正準 1e51 の区別込み)"],
+    fixedConventions:["残骸族 L14/T9/M35(G=6.674=標準関係の実写像・c₀=3×10³)・kFrame=0","環 450〜600 単位(現在半径 ≈1.7 pc)・H=v/r̄ の動径場(単一速度場でない旨は CSV 宣言)","パルサー: 1.4 M☉ fiducial・半径下限規約 0.01(実 12 km は値域外)・スピン/pulse とも値域外の宣言つき降格"],
+    fitted:["なし(フィットゼロ — 転写のみ)"],
+    derived:["殻 KE₀=0.01044559 単位=1.04×10⁵⁰ erg(M 単位 10³⁵ kg・v 単位 10⁵ m/s)— SN 1054 モデル帯と同桁・正準 1e51 の1桁下","年齢算術 r/v=35 単位=1109 年(実 972 年 — 減速・加速史は非転写)","平均動径速度 15.06 単位=1506 km/s(転写どおり)"],
+    numerical:["dt=0.016・1000步窓(動径速度は表示桁で不変 — 純自由膨張)"]},
+  activeParams:["G","kFrame","softening"],
+  seed:20260901,
+  camera:{scale:800}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.006, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0,
+    kappaT:7.415555555555556e-7, cLight:3000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
+    geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:1, timeScale:20, coupleSink:"core",
+    dispMag:300, frameReaction:"pairReduced"},
+  bodies:[
+    // フィラメント環(光学 M_ej 転写・H×r の動径膨張 — 観測範囲の中央帯 1290〜1710 km/s)
+    {type:"ring", n:72, cx:0, cy:0, rIn:450, rOut:600, mMin:1.2704305555555556e-6, mMax:1.2704305555555556e-6,
+      spinMin:0, spinMax:0, vMode:"hubble", vScale:0.02857142857142857, omega:0, vNoise:0, pinned:false,
+      direction:1, rMul:20, shell:"gas"},
+    // 残存パルサー(1.4 M☉ fiducial・完全減光の二層 — 時計は本族で値域外の宣言)
+    {type:"single", m:2.7839e-5, x:0,y:0, vx:0,vy:0, spin:0, pinned:false, radius:0.01,
+      lightSweep:1, shell:"solid",
+      core:{mode:"differential", massFrac:0.5, radius:0.01, omega:0, Kcs:0}}],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,monitor:true} },
+
 { id:"saturn", name:"土星の環(実験)", emoji:"🪐", group:"天体の物語",
   scaleTier:"planetary",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
@@ -10304,6 +10389,11 @@ function validatePreset(obj){
         if(b.rMul!==undefined){   // 第36便 C1: 群共通の半径倍率(0.2〜5・既定1)
           if(!isNum(b.rMul)){ bad(at+".rMul が数値ではありません"); return; }
           oR.rMul=wc(b.rMul,0.2,40,"rMul");   /* 第118便: 5→20 / 第121便: 20→40(💍e6 実環代表粒 rMul=31.62) */
+        }
+        // 第231便: 群共通の殻の相(disk と同じ — 第230便の ring 拡張。省略は 1 bit 不変)
+        if(b.shell!==undefined){
+          if(b.shell==="solid"||b.shell==="gas") oR.shell=b.shell;
+          else warnings.push(at+'.shell は "solid"|"gas" のみ — 削除します');
         }
         if(b.tInt!==undefined){   // 第36便 D(台帳4-51): 群共通の内部温度初期値(既定0)
           if(!isNum(b.tInt)){ bad(at+".tInt が数値ではありません"); return; }
@@ -11983,6 +12073,7 @@ function makeSim(){
         if(b.zonal) o.zonal=b.zonal;   // E13(第11次裁定): 扁平中心天体の帯状重力属性
         if(b.core) o.core=b.core;      // 第77便(コアv2): 独立コア(validate 済みオブジェクト)
         if(b.pulse) o.pulse=b.pulse;   // 第226便: パルス時計チャネル(validate 済み・表示診断専用)
+        if(b.shell) o.shell=b.shell;   // 第229便→第231便: 殻の相(検証器は通していたが flag 未伝播だった修正)
         // 第27便: 単体粒子のレール駆動(pinned+railOmega — 円軌道。🕶️ハローの
         // 20体相互散乱による形崩れ対策: 軌道を外部が規定し、u場への運動寄与は維持される)
         // 第32便(台帳4-57): レール中心 railCx/railCy(未指定=原点で従来式と厳密等価)
@@ -12017,6 +12108,7 @@ function makeSim(){
             vy:vt*jit*ty + vr*Math.sin(ang) + (b.bulkVy||0),
             spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:b.pinned?1:0, railOmega:0, rMul:rM, tInt:tI, lightSweep:lS,
             };
+          if(b.shell) o.shell=b.shell;   // 第231便: 群共通の殻の相
           if(cCore) o.core=cCore;   // 第80便: 群コア(付けない構成ではキーごと存在しない = 形も従来どおり)
           // 第31便: railH(膨張レール a(t)=e^{H·t})— pinned リングを相似膨張で規定駆動する。
           // 位置は初期半径から毎step解析再構成(前stepへの加算ではないのでドリフトしない)
