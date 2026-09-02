@@ -5011,7 +5011,7 @@ if (!FAST) {
         pk.bodies[0].core.tilt = 60;
         const vk = HP.validatePreset(pk);
         return {rows, kcsTiltDropped:vk.ok && vk.preset.bodies[0].core.tilt === undefined,
-          kcsWarn:vk.warnings.some((s) => s.includes('コア軸の引きずりは未実装'))};
+          kcsWarn:vk.warnings.some((s) => s.includes('コア軸の引きずりは未実装') || s.includes('軸の引きずりは Kalign'))};   // 第232便: Kalign 実装で文言更新(併用不可則は不変)
       });
       const [a,b,c] = r.rows;
       add('core.tilt-energy-audit',
@@ -5025,7 +5025,7 @@ if (!FAST) {
         `固定|J|エネルギー比 0/60/90°=${r.rows.map((x) => (x.eFixedMagnitude/a.eFixedMagnitude).toFixed(3)).join('/')} (=1)・` +
         `射影エネルギー比=${r.rows.map((x) => (x.eProjected/a.eProjected).toFixed(3)).join('/')} (=1/.25/0)・` +
         `角力積/|J|=${b.deltaJFromAligned/b.Jmag}/${c.deltaJFromAligned/c.Jmag} (=1/√2)・` +
-        `tilt×Kcs は破棄=${r.kcsTiltDropped}・軸引きずり未実装警告=${r.kcsWarn}`);
+        `tilt×Kcs は破棄=${r.kcsTiltDropped}・軸引きずりの担当警告(Kcs→Kalign)=${r.kcsWarn}`);
     }
   }
 
@@ -8314,6 +8314,53 @@ if (!FAST) {
       + `r/v=${sn.crab.ageU.toFixed(1)} 単位=1109 年(実 972 年)・gas 環 ${sn.crab.gas}・パルサー変位 ${sn.crab.pDisp.toExponential(1)}・決定性=${sn.det}`);
   } else {
     console.log('SKIP behavior.supernovaObs(対象に第231便の 🦀 なし — root 等)');
+  }
+}
+
+// ---- 第232便(第28報): behavior.kalign — 整列引きずり(傾いた軸がトルクで逆らいつつ外殻に引き摺られる)----
+// 🌻 パッチ(tilt60・Kalign0.5・殻スピン0.08): θ の指数減衰と方位歳差の共存(螺旋)・|J| 保存・
+// L_z(核+殻)保存・帳簿閉性(ΔE_vis = ΔalignE − Δ散逸)・Kalign 未宣言=0 明示のビット同一・kF0 力学不干渉
+{
+  const hasKal = await page.evaluate(() => { const S = HP.sim; return S.coreKal !== undefined; });
+  if (hasKal) {
+    const ka = await page.evaluate(() => {
+      const run = (kal, steps) => {
+        const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'starDFM')));
+        pd.bodies[0].core.tilt = 60; if (kal !== undefined) pd.bodies[0].core.Kalign = kal;
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+        const Ic = 0.5 * S.coreMF[0] * Math.abs(S.m[0]) * S.RcV[0] * S.RcV[0] * S.coreIS[0];
+        const Ish = 0.5 * Math.abs(S.m[0]) * S.R[0] * S.R[0];
+        const st = () => ({ th: Math.acos(S.coreJ[0] / Math.hypot(S.coreJx[0], S.coreJy[0], S.coreJ[0])) * 180 / Math.PI,
+          az: Math.atan2(S.coreJy[0], S.coreJx[0]), Jm: Math.hypot(S.coreJx[0], S.coreJy[0], S.coreJ[0]),
+          Lz: S.coreJ[0] + Ish * S.spin[0], Evis: S.coreJ[0] ** 2 / (2 * Ic) + 0.5 * Ish * S.spin[0] ** 2,
+          radE: S.radE, alignE: S.alignE, spin: S.spin[0] });
+        const s0 = st(); let azSteps = 0, prevAz = s0.az;
+        for (let k = 0; k < steps; k++) { S.step(0.016);
+          if ((k + 1) % 500 === 0) { const a = st().az; let d = a - prevAz; while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI; azSteps += d; prevAz = a; } }
+        const s1 = st(); const o = []; for (let i = 0; i < 40; i++) o.push(S.x[i], S.y[i]);
+        return { s0, s1, azAdv: azSteps, o, warn: (v.warnings || []).length, nan: S.hasNaN() };
+      };
+      const a = run(0.5, 3000), b = run(undefined, 3000), c = run(0, 3000);
+      const dRadAlign = a.s1.radE - b.s1.radE;   // 整列の散逸(融合放射は b と共通)
+      const closure = (a.s1.Evis - a.s0.Evis) - ((a.s1.alignE - a.s0.alignE) - dRadAlign);
+      return { th0: a.s0.th, th1: a.s1.th, azAdv: a.azAdv, spin0: a.s0.spin, spin1: a.s1.spin,
+        JmRel: Math.abs(a.s1.Jm - a.s0.Jm) / a.s0.Jm, LzRel: Math.abs(a.s1.Lz - a.s0.Lz) / Math.abs(a.s0.Lz),
+        alignE: a.s1.alignE, dRadAlign, closure, bTh: b.s1.th,
+        eqBC: b.o.every((x, i) => Object.is(x, c.o[i])) && b.s1.th === c.s1.th && b.s1.az === c.s1.az && c.s1.alignE === 0,
+        dynEq: a.o.every((x, i) => Object.is(x, b.o[i])), warn: a.warn, nan: a.nan };
+    });
+    add('behavior.kalign',
+      ka.th1 > 8 && ka.th1 < 12.5                       // θ 60°→10.1°(t=48・Kalign 0.5)— 減衰(未宣言対照は 60° のまま)
+      && Math.abs(ka.bTh - 60) < 1e-9
+      && ka.azAdv > 2.5                                 // 方位は歳差し続ける(≈Ω_s·t ≈ 3 rad — 螺旋)
+      && ka.spin1 < ka.spin0 - 0.01                     // 殻は立たせた分だけ遅くなる(反作用)
+      && ka.JmRel < 1e-12 && ka.LzRel < 1e-5            // |J| 保存・L_z(核+殻)保存(殻スピン Float32)
+      && ka.alignE > 0 && ka.dRadAlign > 0 && Math.abs(ka.closure) < 0.05   // 帳簿閉性
+      && ka.eqBC === true && ka.dynEq === true && ka.warn === 0 && !ka.nan,
+      `θ ${ka.th0.toFixed(0)}°→${ka.th1.toFixed(2)}°(t=48・対照 ${ka.bTh.toFixed(1)}°)・方位前進 ${ka.azAdv.toFixed(2)} rad(歳差と共存=螺旋)・殻スピン ${ka.spin0.toFixed(4)}→${ka.spin1.toFixed(4)}(反作用) / `
+      + `|J| ${ka.JmRel.toExponential(1)}・L_z ${ka.LzRel.toExponential(1)}・alignE ${ka.alignE.toFixed(1)}・散逸 ${ka.dRadAlign.toFixed(1)}・閉性残差 ${ka.closure.toExponential(1)} / 未宣言=0 ビット同一=${ka.eqBC}・kF0 力学不干渉=${ka.dynEq}`);
+  } else {
+    console.log('SKIP behavior.kalign(Kalign 未適用 — root 等)');
   }
 }
 
