@@ -8213,46 +8213,59 @@ if (!FAST) {
 }
 
 // ---- 第229便: behavior.supernova — 超新星見立て(🎇)の用量反応の機械固定 ----
-// コア Ω の用量反応(0→40 で脱出率が単調増)+kF0 否定対照(引きずりが機構)+決定性+NaN 0
+// 第234便: spinBurst(保存的爆発)— 帳簿閉性・保存・用量・3対照・dt/2・seed・決定性
 {
-  const hasSN = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'supernovaCore'));
+  const hasSN = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'supernovaCore') && HP.sim.coreBR !== undefined);
   if (hasSN) {
     const sn = await page.evaluate(() => {
-      const run = (omPatch, kfPatch, steps) => {
+      const run = (patch, dt, steps) => {
         const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'supernovaCore')));
-        if (omPatch !== undefined) pd.bodies[0].core.omega = omPatch;
-        if (kfPatch !== undefined) pd.physics.kFrame = kfPatch;
+        if (patch) patch(pd);
         const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
-        for (let k = 0; k < steps; k++) S.step(0.016);
         let ci = 0; for (let i = 0; i < S.n; i++) if (S.m[i] > S.m[ci]) ci = i;
-        let nGas = 0, esc = 0;
+        const tot = () => { let L = S.resL, px = S.resPx, py = S.resPy, ps = 0; for (let i = 0; i < S.n; i++) {
+          L += S.m[i] * (S.x[i] * S.vy[i] - S.y[i] * S.vx[i]) + S.coreJ[i] + 0.5 * S.m[i] * S.R[i] * S.R[i] * S.spin[i];
+          px += S.m[i] * S.vx[i]; py += S.m[i] * S.vy[i]; ps += S.m[i] * Math.hypot(S.vx[i], S.vy[i]); } return { L, px, py, ps }; };
+        const J0 = S.coreJ[ci], t0 = tot();
+        for (let k = 0; k < steps; k++) S.step(dt);
+        const t1 = tot();
+        let nGas = 0, esc = 0, vs = 0;
         for (let i = 0; i < S.n; i++) { if (i === ci) continue; nGas++;
-          const r = Math.hypot(S.x[i] - S.x[ci], S.y[i] - S.y[ci]);
-          if (S.vx[i] ** 2 + S.vy[i] ** 2 > 2 * S.params.G * S.m[ci] / Math.max(r, 1)) esc++; }
+          const r = Math.hypot(S.x[i] - S.x[ci], S.y[i] - S.y[ci]); const v2 = (S.vx[i] - S.vx[ci]) ** 2 + (S.vy[i] - S.vy[ci]) ** 2; vs += Math.sqrt(v2);
+          if (v2 > 2 * S.params.G * S.m[ci] / Math.max(r, 1)) esc++; }
         const o = []; for (let i = 0; i < Math.min(30, S.n); i++) o.push(S.x[i], S.y[i]);
-        const IcE = 0.5 * 0.5 * 600 * 144;
-        return { esc: esc / nGas, radE: S.radE, coreOm: S.coreJ[ci] / IcE, o, nan: S.hasNaN() };
+        return { esc: esc / nGas, vMean: vs / nGas, radE: S.radE, J0, J1: S.coreJ[ci], burstE: S.burstE, burstK: S.burstK, burstL: S.burstL, burstRes: S.burstRes,
+          dLrel: (t1.L - t0.L) / Math.abs(t0.L), dPrel: Math.hypot(t1.px - t0.px, t1.py - t0.py) / t1.ps, kick: Math.hypot(S.vx[ci], S.vy[ci]),
+          clamp: S.clampSN + S.clampRN + S.clampVN + S.clampTN, o, warn: (v.warnings || []).length, nan: S.hasNaN() };
       };
-      const hot = run(undefined, undefined, 6000);   // 既定 Ω=40・kF1
-      const hot2 = run(undefined, undefined, 6000);  // 決定性
-      const quiet = run(0, undefined, 6000);         // Ω=0(静かな星)
-      const kf0 = run(undefined, 0, 6000);           // 引きずり無し
-      return { hot, quiet, kf0, det: hot.o.every((x, i) => Object.is(x, hot2.o[i])) && Object.is(hot.radE, hot2.radE) };
+      const hot = run(null, 0.016, 6000), hot2 = run(null, 0.016, 6000);   // 既定+決定性
+      const half = run(null, 0.008, 12000);                                  // dt/2
+      const s1 = run((pd) => { pd.seed = 1; }, 0.016, 6000), s2 = run((pd) => { pd.seed = 2; }, 0.016, 6000);
+      const lo = run((pd) => { pd.bodies[0].core.burst.frac = 0.00005; }, 0.016, 6000);   // 用量 半分
+      const kf0 = run((pd) => { pd.physics.kFrame = 0; }, 0.016, 6000);                   // burst だけ
+      const quiet = run((pd) => { pd.bodies[0].core.omega = 0; }, 0.016, 6000);           // 放出 E=0
+      const noburst = run((pd) => { delete pd.bodies[0].core.burst; }, 0.016, 6000);      // 第229便の運動学的注入
+      return { hot, half, s1, s2, lo, kf0, quiet, noburst, det: hot.o.every((x, i) => Object.is(x, hot2.o[i])) && Object.is(hot.burstE, hot2.burstE) };
     });
+    const h = sn.hot;
     add('behavior.supernova',
-      sn.hot.esc > 0.55 && sn.hot.esc < 0.78            // 実測 66.1% — 外殻の大半が吹き飛ぶ
-      && sn.quiet.esc < 0.25                             // Ω=0 は落ち込み系(実測 9.3%)
-      && sn.kf0.esc < 0.30                               // kF0 否定対照(実測 17.7% — 機構は A8/E6′)
-      && sn.hot.esc > sn.quiet.esc + 0.3                 // 用量反応の幅
-      && sn.hot.radE > 5 * sn.quiet.radE                 // 増光(実測 17倍)
-      && Math.abs(sn.hot.coreOm - 40) < 1e-9             // Kcs=0 — コア Ω は保持
-      && sn.det === true && !sn.hot.nan && !sn.quiet.nan && !sn.kf0.nan,
-      `🎇 Ω=40+kF1: 脱出率 ${(sn.hot.esc * 100).toFixed(1)}%(55〜78 — 実測 66.1)・radE ${sn.hot.radE.toFixed(0)} / `
-      + `Ω=0: ${(sn.quiet.esc * 100).toFixed(1)}%(<25)・radE ${sn.quiet.radE.toFixed(0)}(増光 ${(sn.hot.radE / sn.quiet.radE).toFixed(1)}倍) / `
-      + `kF0 否定対照: ${(sn.kf0.esc * 100).toFixed(1)}%(<30 — 吹き飛ばしの機構は空間引きずり) / `
-      + `コア Ω 保持=${Math.abs(sn.hot.coreOm - 40) < 1e-9}・決定性=${sn.det}・NaN=${sn.hot.nan}`);
+      h.warn === 0 && h.esc > 0.95 && h.esc <= 1 && h.vMean > 7 && h.vMean < 9.5              // 99.5%・v 8.13
+      && h.J1 < h.J0 && Math.abs((h.J0 - h.J1) - h.burstL) < 1e-9 * Math.abs(h.J0)            // コア J は実際に減る・移送 L=ΔJ
+      && Math.abs(h.burstL - 86.4) < 1e-4                                                     // frac 1e-4 × J₀=864000(Float64 累積 86.399998)
+      && Math.abs(h.burstE - 3455.83) < 0.01                                                  // 放出回転 E(J₀²−J₁²)/2I_c
+      && Math.abs(h.burstE - h.burstK) / h.burstE < 1e-6 && Math.abs(h.burstRes) / h.burstE < 1e-6   // ΔE_core=ΔK_gas+残差(相対 4e-7)
+      && Math.abs(h.dLrel) < 1e-5 && h.dPrel < 1e-5 && h.clamp === 0 && !h.nan                // 総 L・P 保存・クランプ 0
+      && Math.abs(sn.half.esc - h.esc) < 0.03 && sn.s1.esc > 0.95 && sn.s2.esc > 0.95         // dt/2・seed 収束
+      && sn.lo.esc > 0.4 && sn.lo.esc < 0.7 && sn.lo.esc < h.esc                              // 用量 frac 5e-5 → 56.8%
+      && sn.kf0.esc > 0.5 && sn.kf0.esc < 0.8 && sn.kf0.esc < h.esc                           // burst だけ 64.6%
+      && sn.quiet.esc < 0.25 && sn.quiet.burstE === 0                                         // Ω=0: 放出 E=0・16.4%
+      && sn.noburst.esc > 0.6 && sn.noburst.esc < 0.85 && sn.noburst.J1 === sn.noburst.J0     // burst なし: J 不変・74.5%
+      && sn.det === true,
+      `🎇 burst{1,1e-4}: 脱出 ${(h.esc * 100).toFixed(1)}%(dt/2 ${(sn.half.esc * 100).toFixed(1)}・seed ${(sn.s1.esc * 100).toFixed(1)}/${(sn.s2.esc * 100).toFixed(1)})・v ${h.vMean.toFixed(2)} / `
+      + `帳簿: 放出E ${h.burstE.toFixed(2)}=注入KE ${h.burstK.toFixed(2)}(残差 ${h.burstRes.toExponential(1)})・移送L ${h.burstL.toFixed(4)}=J₀−J₁ ${(h.J0 - h.J1).toFixed(4)}・総L ${h.dLrel.toExponential(1)}・P ${h.dPrel.toExponential(1)}・clamp ${h.clamp}・キック ${h.kick.toFixed(2)}(dt/2 ${sn.half.kick.toFixed(2)} — 収束せず・記録のみ) / `
+      + `用量 frac 5e-5: ${(sn.lo.esc * 100).toFixed(1)}% / 対照 kF0 ${(sn.kf0.esc * 100).toFixed(1)}%・Ω0 ${(sn.quiet.esc * 100).toFixed(1)}%・burst なし ${(sn.noburst.esc * 100).toFixed(1)}%(J 不変=${sn.noburst.J1 === sn.noburst.J0})・決定性=${sn.det}`);
   } else {
-    console.log('SKIP behavior.supernova(対象に第229便の 🎇 なし — root 等)');
+    console.log('SKIP behavior.supernova(対象に第234便の burst なし — root 等)');
   }
 }
 
