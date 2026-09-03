@@ -6,6 +6,13 @@
 
 ## v1.44-b1(開発中 — beta)
 
+- **第239便(2026-09-03・第31報)**: **引きずり q のチャネル分離**。①選択粒子の編集パネルに「引きずりq」欄(粒子別
+  `body.dragQ` の表示・編集 — ✴️💫 で見えなかった是正)。②並進×回転 × 殻×コアの 4 象限: `physics.qTrans`/`body.dragQTrans`
+  (並進殻)・`core.dragQTrans`(並進コア)・`core.dragQ`(回転コア)— すべて opt-in・未宣言は 1 bit 不変。合成は足し算。
+  ③`physics.gasCoh`(気体殻のコヒーレンス — 固体より弱い引きずり)。④`dragRef:"interior"` を正名に(`"surface"` は別名 —
+  「内部は完全共動・表面から減衰」で表面が特別とは主張しない)。⑤診断 `HP.dfmInternalEntrainment`(χ_in・η_cf=(1−χ_in)²)・
+  `HP.dfmBinaryInertiaFactor`(解析慣性則 f=1+A — 4 連星の台帳 f を 1% 以内)。⑥✴️ の q_T 掃引は hold-out・不採用
+  (R/a=2.4×10⁻⁴ でスイッチにしかならず、ロゼットと f≈2 は分離できない)。QA `behavior.dragChannels`・凍結参照更新。
 - **第238便(2026-09-03・第30報)**: 実行時 LLM の候補から **Haiku 4.5 を撤去**(既定 Sonnet 5 → 上位 Opus 5 の段構えは
   第170便のまま)。README のコスト記述を Sonnet 5 既定へ更新。
 - **第237便(2026-09-03・第30報)**: **引きずり減衰 q の精査**。①P0 訂正: 「d→0(表面)で強い随伴=MM null と
