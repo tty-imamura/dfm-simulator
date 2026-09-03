@@ -73,17 +73,12 @@ let pk=0; // 対インデックス(pairD 書き込み位置)
         }
         // E2/E3 フレーム速度への寄与(並進 + スピン回転 ẑ×(r−r_j)=(−dy,dx))
         let omj=0, omi=0;
-        // 第237便(第30報): 粒子別 q_i(未宣言=physics.q)と距離基準(surface=表面高度 h=max(0,d−R))。既定は従来式と同一値
         const qj=(hasDQ && dqA[j]>0)? dqA[j] : q, qi=(hasDQ && dqA[i]>0)? dqA[i] : q;
         const hj=dragSurf? Math.max(0,d-Rj) : d, hi=dragSurf? Math.max(0,d-Ri) : d;
+        if(!chOn){ // 既定経路(原文そのまま — 第239便: チャネル分離は else 側)
+        // 第237便(第30報): 粒子別 q_i(未宣言=physics.q)と距離基準(surface=表面高度 h=max(0,d−R))。既定は従来式と同一値
         if(sj!==0){ const tt=Rj/(Rj+hj); omj = (qj===2)? sj*tt*tt : sj*Math.pow(tt,qj); }
         if(si!==0){ const tt=Ri/(Ri+hi); omi = (qi===2)? si*tt*tt : si*Math.pow(tt,qi); }
-        // 第239便(第31報): 気体殻のコヒーレンス C(殻の回転チャネルだけ。コアは固体扱いで C=1)・回転コアの独立 q
-        if(cohOn){ if(sgA[j]) omj*=gasCoh; if(sgA[i]) omi*=gasCoh; }
-        const qcj=(hasCQ && cqA[j]>0)? cqA[j] : qj, qci=(hasCQ && cqA[i]>0)? cqA[i] : qi;
-        // 並進チャネルの伝達率 g_T(既定 1・宣言時のみ核 dragTransG を呼ぶ)。導関数は ∇u 勾配用
-        let gTj=1, gTi=1, dgTj=0, dgTi=0;
-        if(chOn){ gTj=dragTransG(S,j,d,hj,qT,gasCoh,dragSurf); dgTj=_DG.d; gTi=dragTransG(S,i,d,hi,qT,gasCoh,dragSurf); dgTi=_DG.d; }
         // 第81便: コアv1(比率仕様 coreMR/coreSR/coreRR)の分岐は廃止 — コア差動は
         // コアv2(J_core 主変数)の1本だけになった(移行式はインポート側 legacyCoreToV2 が担う)
         // 第77便(コアv2): 独立コア(differential)の差動が A8 と同型で外へ届く —
@@ -93,13 +88,15 @@ let pk=0; // 対インデックス(pairD 書き込み位置)
         // cavity は coreMF=−voidFraction(負の重み)なので、旧 coreMR<0 と同じ符号反転になる
         if(hasCoreV2){
           if(S.coreMd[j]>=2 && S.RcV[j]>0){ const dOm=S.coreOmV[j]-sj;
-            if(dOm!==0){ const tt=S.RcV[j]/(S.RcV[j]+hj); omj += S.coreMF[j]*dOm*((qcj===2)? tt*tt : Math.pow(tt,qcj)); } }
+            if(dOm!==0){ const tt=S.RcV[j]/(S.RcV[j]+hj); omj += S.coreMF[j]*dOm*((qj===2)? tt*tt : Math.pow(tt,qj)); } }
           if(S.coreMd[i]>=2 && S.RcV[i]>0){ const dOm=S.coreOmV[i]-si;
-            if(dOm!==0){ const tt=S.RcV[i]/(S.RcV[i]+hi); omi += S.coreMF[i]*dOm*((qci===2)? tt*tt : Math.pow(tt,qci)); } }
+            if(dOm!==0){ const tt=S.RcV[i]/(S.RcV[i]+hi); omi += S.coreMF[i]*dOm*((qi===2)? tt*tt : Math.pow(tt,qi)); } }
         }
-        // 第239便: 並進項に g_T(既定 1 — 1*v は v と bit 一致)。分母 W(sumW)は E1′ 決定力のまま(光学・時計・χ は不変)
-        uAx[i]+=wj*(gTj*vx[j]+omj*(-dy)); uAy[i]+=wj*(gTj*vy[j]+omj*(dx));
-        uAx[j]+=wi*(gTi*vx[i]+omi*(dy));  uAy[j]+=wi*(gTi*vy[i]+omi*(-dx));
+        uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));
+        uAx[j]+=wi*(vx[i]+omi*(dy));  uAy[j]+=wi*(vy[i]+omi*(-dx));
+        } else { // 第239便: チャネル分離経路(opt-in)— 本体は pairChannelOm(ループ外: 既定経路の JIT を守る)
+          pairChannelOm(S,i,j,d,hj,hi,qj,qi,sj,si,Rj,Ri,dx,dy,wj,wi); omj=_PC.omj; omi=_PC.omi;
+        }
         // ===== 第69便 P4b(E12v2): geoPN=2 の ∇u 用勾配集積(g2on のときだけ走る)=====
         // u=P/W の分子 P_a=Σ_j w_j·c_j,a(c_j=v_j+ω_j(d)·ẑ×(r−r_j))と分母 W の空間勾配を
         // 対ごとに解析で積む: ∂w_j/∂r=−m_j·(r−r_j)·invW³(E1′ Plummer 型の厳密微分)、
@@ -107,6 +104,7 @@ let pk=0; // 対インデックス(pairD 書き込み位置)
         // 0/1 経路はこの分岐を素通り(値・型とも不変)
         if(g2on){
           const idd=(d>1e-9)? 1/d : 0;
+          if(!chOn){ // 既定経路(原文そのまま)
           let domj=0, domi=0;   // ∂ω/∂d(基底+コア差動)
           // 第237便: q_i・距離基準は ②③ のフレーム式と同じ核(surface で d≤R の内側は核が定数 → 勾配 0)
           if(sj!==0 && (!dragSurf || d>Rj)){ const tt=Rj/(Rj+hj), o0=(qj===2)? sj*tt*tt : sj*Math.pow(tt,qj); domj-=qj*o0/(Rj+hj); }
@@ -115,34 +113,31 @@ let pk=0; // 対インデックス(pairD 書き込み位置)
           // 第77便(コアv2): 独立コアの差動勾配(A8 v2 分岐と同じ核。第80便: md≥2 の4モード共通)
           if(hasCoreV2){
             if(S.coreMd[j]>=2 && S.RcV[j]>0){ const dOm=S.coreOmV[j]-sj;
-              if(dOm!==0 && (!dragSurf || d>Rj)){ const tt=S.RcV[j]/(S.RcV[j]+hj), oc=S.coreMF[j]*dOm*((qcj===2)? tt*tt : Math.pow(tt,qcj)); domj-=qcj*oc/(S.RcV[j]+hj); } }
+              if(dOm!==0 && (!dragSurf || d>Rj)){ const tt=S.RcV[j]/(S.RcV[j]+hj), oc=S.coreMF[j]*dOm*((qj===2)? tt*tt : Math.pow(tt,qj)); domj-=qj*oc/(S.RcV[j]+hj); } }
             if(S.coreMd[i]>=2 && S.RcV[i]>0){ const dOm=S.coreOmV[i]-si;
-              if(dOm!==0 && (!dragSurf || d>Ri)){ const tt=S.RcV[i]/(S.RcV[i]+hi), oc=S.coreMF[i]*dOm*((qci===2)? tt*tt : Math.pow(tt,qci)); domi-=qci*oc/(S.RcV[i]+hi); } }
+              if(dOm!==0 && (!dragSurf || d>Ri)){ const tt=S.RcV[i]/(S.RcV[i]+hi), oc=S.coreMF[i]*dOm*((qi===2)? tt*tt : Math.pow(tt,qi)); domi-=qi*oc/(S.RcV[i]+hi); } }
           }
-          // 第239便: 気体コヒーレンスは殻 ω の定数倍なので domj/domi にも同じ倍率(核の一貫性)
-          if(cohOn){ if(sgA[j]) domj*=gasCoh; if(sgA[i]) domi*=gasCoh; }
-          { // i 側(源 j): r−r_j=(dx,dy)、c=(g_T·vx_j−ω_j·dy, g_T·vy_j+ω_j·dx)(第239便: g_T は既定 1・導関数 0)
+          { // i 側(源 j): r−r_j=(dx,dy)、c=(vx_j−ω_j·dy, vy_j+ω_j·dx)
             const gwx=-mj*dx*invd3, gwy=-mj*dy*invd3;
-            const cxv=gTj*vx[j]+omj*(-dy), cyv=gTj*vy[j]+omj*(dx);
+            const cxv=vx[j]+omj*(-dy), cyv=vy[j]+omj*(dx);
             const nx=dx*idd, ny=dy*idd;
             dPxx[i]+=gwx*cxv + wj*(-dy*domj*nx);
             dPxy[i]+=gwy*cxv + wj*(-omj - dy*domj*ny);
             dPyx[i]+=gwx*cyv + wj*( omj + dx*domj*nx);
             dPyy[i]+=gwy*cyv + wj*( dx*domj*ny);
-            if(chOn){ dPxx[i]+=wj*dgTj*nx*vx[j]; dPxy[i]+=wj*dgTj*ny*vx[j]; dPyx[i]+=wj*dgTj*nx*vy[j]; dPyy[i]+=wj*dgTj*ny*vy[j]; }
             dWxA[i]+=gwx; dWyA[i]+=gwy;
           }
-          { // j 側(源 i): r−r_i=(−dx,−dy)、c=(g_T·vx_i+ω_i·dy, g_T·vy_i−ω_i·dx)
+          { // j 側(源 i): r−r_i=(−dx,−dy)、c=(vx_i+ω_i·dy, vy_i−ω_i·dx)
             const gwx=mi*dx*invd3, gwy=mi*dy*invd3;
-            const cxv=gTi*vx[i]+omi*(dy), cyv=gTi*vy[i]+omi*(-dx);
+            const cxv=vx[i]+omi*(dy), cyv=vy[i]+omi*(-dx);
             const nx=-dx*idd, ny=-dy*idd;
             dPxx[j]+=gwx*cxv + wi*( dy*domi*nx);
             dPxy[j]+=gwy*cxv + wi*(-omi + dy*domi*ny);
             dPyx[j]+=gwx*cyv + wi*( omi - dx*domi*nx);
             dPyy[j]+=gwy*cyv + wi*(-dx*domi*ny);
-            if(chOn){ dPxx[j]+=wi*dgTi*nx*vx[i]; dPxy[j]+=wi*dgTi*ny*vx[i]; dPyx[j]+=wi*dgTi*nx*vy[i]; dPyy[j]+=wi*dgTi*ny*vy[i]; }
             dWxA[j]+=gwx; dWyA[j]+=gwy;
           }
+          } else pairChannelGrad(S,i,j,dx,dy,mi,mj,invd3,idd,wj,wi);   // 第239便: 分離経路(ループ外・残りは _PC/S._chG)
         }
         // E5′ スピン斥力(対称化・中心力): F = kRep·μ·(ω_i²+ω_j²)·(r_i−r_j)
         // 第36便 D(台帳4-51 / E5′ 改訂): thermal:"tint" では圧力の源をスピンから内部温度へ移す。

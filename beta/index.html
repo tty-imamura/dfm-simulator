@@ -13464,9 +13464,9 @@ function makeSim(){
     // 第237便(第30報): 粒子別 q_i(hasDragQ)と表面高度基準(dragRef:"interior"・旧名 "surface")は generic 経路(特別化カーネルは単一 q・中心距離が前提)
     const dragSurf=(p[DRAG_REF_KEY]==="surface"||p[DRAG_REF_KEY]==="interior"), dqA=S.dragQ, hasDQ=S.hasDragQ;
     // 第239便(第31報): チャネル分離。chOn(並進 q・コア q・気体コヒーレンスのいずれか宣言)も generic 経路。未宣言は 1 bit 不変
-    const qT=(p.qTrans>0)? p.qTrans : 0, gasCoh=(p.gasCoh!==undefined)? p.gasCoh : 1;
-    const hasQT=(qT>0)||S.hasDragQT, hasCQ=S.hasCoreDQ, cohOn=(gasCoh<1 && S.hasShellGas), chOn=hasQT||hasCQ||cohOn;
-    const cqA=S.coreDQ, sgA=S.shellGas;
+    // (文脈は chanSetup が S._chG に置く — S._core 自体のバイトコード量を増やさないため: 実測でループ内外を問わず関数の
+    //  文字数が閾値を越えると generic 既定経路が約 40% 遅くなる〔JIT 最適化の劣化〕)
+    const chOn=chanSetup(S,p,hasCoreV2,dragSurf);
     if(pairR && (!S._pr || S._pr.nAl!==n)) S._pr={nAl:n, reqX:new Float64Array(n), reqY:new Float64Array(n), hasR:new Uint8Array(n)};
     const reqX=pairR?S._pr.reqX:__DF64, reqY=pairR?S._pr.reqY:__DF64;
     let anyReq=false;
@@ -13679,17 +13679,12 @@ function makeSim(){
         }
         // E2/E3 フレーム速度への寄与(並進 + スピン回転 ẑ×(r−r_j)=(−dy,dx))
         let omj=0, omi=0;
-        // 第237便(第30報): 粒子別 q_i(未宣言=physics.q)と距離基準(surface=表面高度 h=max(0,d−R))。既定は従来式と同一値
         const qj=(hasDQ && dqA[j]>0)? dqA[j] : q, qi=(hasDQ && dqA[i]>0)? dqA[i] : q;
         const hj=dragSurf? Math.max(0,d-Rj) : d, hi=dragSurf? Math.max(0,d-Ri) : d;
+        if(!chOn){ // 既定経路(原文そのまま — 第239便: チャネル分離は else 側)
+        // 第237便(第30報): 粒子別 q_i(未宣言=physics.q)と距離基準(surface=表面高度 h=max(0,d−R))。既定は従来式と同一値
         if(sj!==0){ const tt=Rj/(Rj+hj); omj = (qj===2)? sj*tt*tt : sj*Math.pow(tt,qj); }
         if(si!==0){ const tt=Ri/(Ri+hi); omi = (qi===2)? si*tt*tt : si*Math.pow(tt,qi); }
-        // 第239便(第31報): 気体殻のコヒーレンス C(殻の回転チャネルだけ。コアは固体扱いで C=1)・回転コアの独立 q
-        if(cohOn){ if(sgA[j]) omj*=gasCoh; if(sgA[i]) omi*=gasCoh; }
-        const qcj=(hasCQ && cqA[j]>0)? cqA[j] : qj, qci=(hasCQ && cqA[i]>0)? cqA[i] : qi;
-        // 並進チャネルの伝達率 g_T(既定 1・宣言時のみ核 dragTransG を呼ぶ)。導関数は ∇u 勾配用
-        let gTj=1, gTi=1, dgTj=0, dgTi=0;
-        if(chOn){ gTj=dragTransG(S,j,d,hj,qT,gasCoh,dragSurf); dgTj=_DG.d; gTi=dragTransG(S,i,d,hi,qT,gasCoh,dragSurf); dgTi=_DG.d; }
         // 第81便: コアv1(比率仕様 coreMR/coreSR/coreRR)の分岐は廃止 — コア差動は
         // コアv2(J_core 主変数)の1本だけになった(移行式はインポート側 legacyCoreToV2 が担う)
         // 第77便(コアv2): 独立コア(differential)の差動が A8 と同型で外へ届く —
@@ -13699,13 +13694,15 @@ function makeSim(){
         // cavity は coreMF=−voidFraction(負の重み)なので、旧 coreMR<0 と同じ符号反転になる
         if(hasCoreV2){
           if(S.coreMd[j]>=2 && S.RcV[j]>0){ const dOm=S.coreOmV[j]-sj;
-            if(dOm!==0){ const tt=S.RcV[j]/(S.RcV[j]+hj); omj += S.coreMF[j]*dOm*((qcj===2)? tt*tt : Math.pow(tt,qcj)); } }
+            if(dOm!==0){ const tt=S.RcV[j]/(S.RcV[j]+hj); omj += S.coreMF[j]*dOm*((qj===2)? tt*tt : Math.pow(tt,qj)); } }
           if(S.coreMd[i]>=2 && S.RcV[i]>0){ const dOm=S.coreOmV[i]-si;
-            if(dOm!==0){ const tt=S.RcV[i]/(S.RcV[i]+hi); omi += S.coreMF[i]*dOm*((qci===2)? tt*tt : Math.pow(tt,qci)); } }
+            if(dOm!==0){ const tt=S.RcV[i]/(S.RcV[i]+hi); omi += S.coreMF[i]*dOm*((qi===2)? tt*tt : Math.pow(tt,qi)); } }
         }
-        // 第239便: 並進項に g_T(既定 1 — 1*v は v と bit 一致)。分母 W(sumW)は E1′ 決定力のまま(光学・時計・χ は不変)
-        uAx[i]+=wj*(gTj*vx[j]+omj*(-dy)); uAy[i]+=wj*(gTj*vy[j]+omj*(dx));
-        uAx[j]+=wi*(gTi*vx[i]+omi*(dy));  uAy[j]+=wi*(gTi*vy[i]+omi*(-dx));
+        uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));
+        uAx[j]+=wi*(vx[i]+omi*(dy));  uAy[j]+=wi*(vy[i]+omi*(-dx));
+        } else { // 第239便: チャネル分離経路(opt-in)— 本体は pairChannelOm(ループ外: 既定経路の JIT を守る)
+          pairChannelOm(S,i,j,d,hj,hi,qj,qi,sj,si,Rj,Ri,dx,dy,wj,wi); omj=_PC.omj; omi=_PC.omi;
+        }
         // ===== 第69便 P4b(E12v2): geoPN=2 の ∇u 用勾配集積(g2on のときだけ走る)=====
         // u=P/W の分子 P_a=Σ_j w_j·c_j,a(c_j=v_j+ω_j(d)·ẑ×(r−r_j))と分母 W の空間勾配を
         // 対ごとに解析で積む: ∂w_j/∂r=−m_j·(r−r_j)·invW³(E1′ Plummer 型の厳密微分)、
@@ -13713,6 +13710,7 @@ function makeSim(){
         // 0/1 経路はこの分岐を素通り(値・型とも不変)
         if(g2on){
           const idd=(d>1e-9)? 1/d : 0;
+          if(!chOn){ // 既定経路(原文そのまま)
           let domj=0, domi=0;   // ∂ω/∂d(基底+コア差動)
           // 第237便: q_i・距離基準は ②③ のフレーム式と同じ核(surface で d≤R の内側は核が定数 → 勾配 0)
           if(sj!==0 && (!dragSurf || d>Rj)){ const tt=Rj/(Rj+hj), o0=(qj===2)? sj*tt*tt : sj*Math.pow(tt,qj); domj-=qj*o0/(Rj+hj); }
@@ -13721,34 +13719,31 @@ function makeSim(){
           // 第77便(コアv2): 独立コアの差動勾配(A8 v2 分岐と同じ核。第80便: md≥2 の4モード共通)
           if(hasCoreV2){
             if(S.coreMd[j]>=2 && S.RcV[j]>0){ const dOm=S.coreOmV[j]-sj;
-              if(dOm!==0 && (!dragSurf || d>Rj)){ const tt=S.RcV[j]/(S.RcV[j]+hj), oc=S.coreMF[j]*dOm*((qcj===2)? tt*tt : Math.pow(tt,qcj)); domj-=qcj*oc/(S.RcV[j]+hj); } }
+              if(dOm!==0 && (!dragSurf || d>Rj)){ const tt=S.RcV[j]/(S.RcV[j]+hj), oc=S.coreMF[j]*dOm*((qj===2)? tt*tt : Math.pow(tt,qj)); domj-=qj*oc/(S.RcV[j]+hj); } }
             if(S.coreMd[i]>=2 && S.RcV[i]>0){ const dOm=S.coreOmV[i]-si;
-              if(dOm!==0 && (!dragSurf || d>Ri)){ const tt=S.RcV[i]/(S.RcV[i]+hi), oc=S.coreMF[i]*dOm*((qci===2)? tt*tt : Math.pow(tt,qci)); domi-=qci*oc/(S.RcV[i]+hi); } }
+              if(dOm!==0 && (!dragSurf || d>Ri)){ const tt=S.RcV[i]/(S.RcV[i]+hi), oc=S.coreMF[i]*dOm*((qi===2)? tt*tt : Math.pow(tt,qi)); domi-=qi*oc/(S.RcV[i]+hi); } }
           }
-          // 第239便: 気体コヒーレンスは殻 ω の定数倍なので domj/domi にも同じ倍率(核の一貫性)
-          if(cohOn){ if(sgA[j]) domj*=gasCoh; if(sgA[i]) domi*=gasCoh; }
-          { // i 側(源 j): r−r_j=(dx,dy)、c=(g_T·vx_j−ω_j·dy, g_T·vy_j+ω_j·dx)(第239便: g_T は既定 1・導関数 0)
+          { // i 側(源 j): r−r_j=(dx,dy)、c=(vx_j−ω_j·dy, vy_j+ω_j·dx)
             const gwx=-mj*dx*invd3, gwy=-mj*dy*invd3;
-            const cxv=gTj*vx[j]+omj*(-dy), cyv=gTj*vy[j]+omj*(dx);
+            const cxv=vx[j]+omj*(-dy), cyv=vy[j]+omj*(dx);
             const nx=dx*idd, ny=dy*idd;
             dPxx[i]+=gwx*cxv + wj*(-dy*domj*nx);
             dPxy[i]+=gwy*cxv + wj*(-omj - dy*domj*ny);
             dPyx[i]+=gwx*cyv + wj*( omj + dx*domj*nx);
             dPyy[i]+=gwy*cyv + wj*( dx*domj*ny);
-            if(chOn){ dPxx[i]+=wj*dgTj*nx*vx[j]; dPxy[i]+=wj*dgTj*ny*vx[j]; dPyx[i]+=wj*dgTj*nx*vy[j]; dPyy[i]+=wj*dgTj*ny*vy[j]; }
             dWxA[i]+=gwx; dWyA[i]+=gwy;
           }
-          { // j 側(源 i): r−r_i=(−dx,−dy)、c=(g_T·vx_i+ω_i·dy, g_T·vy_i−ω_i·dx)
+          { // j 側(源 i): r−r_i=(−dx,−dy)、c=(vx_i+ω_i·dy, vy_i−ω_i·dx)
             const gwx=mi*dx*invd3, gwy=mi*dy*invd3;
-            const cxv=gTi*vx[i]+omi*(dy), cyv=gTi*vy[i]+omi*(-dx);
+            const cxv=vx[i]+omi*(dy), cyv=vy[i]+omi*(-dx);
             const nx=-dx*idd, ny=-dy*idd;
             dPxx[j]+=gwx*cxv + wi*( dy*domi*nx);
             dPxy[j]+=gwy*cxv + wi*(-omi + dy*domi*ny);
             dPyx[j]+=gwx*cyv + wi*( omi - dx*domi*nx);
             dPyy[j]+=gwy*cyv + wi*(-dx*domi*ny);
-            if(chOn){ dPxx[j]+=wi*dgTi*nx*vx[i]; dPxy[j]+=wi*dgTi*ny*vx[i]; dPyx[j]+=wi*dgTi*nx*vy[i]; dPyy[j]+=wi*dgTi*ny*vy[i]; }
             dWxA[j]+=gwx; dWyA[j]+=gwy;
           }
+          } else pairChannelGrad(S,i,j,dx,dy,mi,mj,invd3,idd,wj,wi);   // 第239便: 分離経路(ループ外・残りは _PC/S._chG)
         }
         // E5′ スピン斥力(対称化・中心力): F = kRep·μ·(ω_i²+ω_j²)·(r_i−r_j)
         // 第36便 D(台帳4-51 / E5′ 改訂): thermal:"tint" では圧力の源をスピンから内部温度へ移す。
@@ -15500,6 +15495,91 @@ function dragTransG(S,j,d,h,qT,gasCoh,dragSurf){
     if(qc>0){ const hc=dragSurf? Math.max(0,d-Rc) : d, tt=Rc/(Rc+hc); gc=(qc===2)? tt*tt : Math.pow(tt,qc); if(!dragSurf || d>Rc) dgc=-qc*gc/(Rc+hc); } }
   _DG.d=(1-mf)*C*dgs + mf*dgc;
   return (1-mf)*C*gs + mf*gc;
+}
+// 第239便(第31報): チャネル分離経路(opt-in)の対計算 — **インライン対ループの外**に置く(実測: ループ内に置くと実行されなくても
+// generic 既定経路が約 40% 遅くなった〔JIT 最適化の劣化〕。既定経路は原文のまま・分離経路だけがこの関数を呼ぶ)。結果は _PC へ。
+const _PC={omj:0,omi:0,gTj:1,gTi:1,dgTj:0,dgTi:0,qcj:2,qci:2,d:0,hj:0,hi:0,qj:2,qi:2,sj:0,si:0,Rj:0,Ri:0};
+// 1 步 1 回: 分離経路の文脈(S._chG)を作り chOn を返す(S._core の外に置く — 上記の理由)
+function chanSetup(S,p,hasCoreV2,dragSurf){
+  const qT=(p.qTrans>0)? p.qTrans : 0, gasCoh=(p.gasCoh!==undefined)? p.gasCoh : 1;
+  const hasQT=(qT>0)||S.hasDragQT, hasCQ=S.hasCoreDQ, cohOn=(gasCoh<1 && S.hasShellGas), chOn=hasQT||hasCQ||cohOn;
+  if(chOn) S._chG={qT, gasCoh, dragSurf, hasCoreV2, hasCQ, cohOn};
+  return chOn;
+}
+function pairChannelOm(S,i,j,d,hj,hi,qj,qi,sj,si,Rj,Ri,dx,dy,wj,wi){
+  const G=S._chG, qT=G.qT, gasCoh=G.gasCoh, dragSurf=G.dragSurf, hasCoreV2=G.hasCoreV2, hasCQ=G.hasCQ, cohOn=G.cohOn;
+  const sgA=S.shellGas, cqA=S.coreDQ;
+  _PC.d=d; _PC.hj=hj; _PC.hi=hi; _PC.qj=qj; _PC.qi=qi; _PC.sj=sj; _PC.si=si; _PC.Rj=Rj; _PC.Ri=Ri;
+  let omj=0, omi=0;
+  // 第237便(第30報): 粒子別 q_i(未宣言=physics.q)と距離基準(surface=表面高度 h=max(0,d−R))。既定は従来式と同一値
+  if(sj!==0){ const tt=Rj/(Rj+hj); omj = (qj===2)? sj*tt*tt : sj*Math.pow(tt,qj); }
+  if(si!==0){ const tt=Ri/(Ri+hi); omi = (qi===2)? si*tt*tt : si*Math.pow(tt,qi); }
+  // 第239便(第31報): 気体殻のコヒーレンス C(殻の回転チャネルだけ。コアは固体扱いで C=1)・回転コアの独立 q
+  if(cohOn){ if(sgA[j]) omj*=gasCoh; if(sgA[i]) omi*=gasCoh; }
+  const qcj=(hasCQ && cqA[j]>0)? cqA[j] : qj, qci=(hasCQ && cqA[i]>0)? cqA[i] : qi;
+  // 第81便: コアv1(比率仕様 coreMR/coreSR/coreRR)の分岐は廃止 — コア差動は
+  // コアv2(J_core 主変数)の1本だけになった(移行式はインポート側 legacyCoreToV2 が担う)
+  // 第77便(コアv2): 独立コア(differential)の差動が A8 と同型で外へ届く —
+  // ω += (Mc/m)·(Ω_c−s)·f(RcV,d)。coreOmV は substep 冒頭に一括算出(J/I)。
+  // v2 粒子ゼロの宇宙はこの分岐を 1 命令も通らない(hasCoreV2 ローカルゲート)
+  // 第80便: md≥2 = differential(2)/active(3)/cavity(4) が同じ 1 本の式を通る。
+  // cavity は coreMF=−voidFraction(負の重み)なので、旧 coreMR<0 と同じ符号反転になる
+  if(hasCoreV2){
+    if(S.coreMd[j]>=2 && S.RcV[j]>0){ const dOm=S.coreOmV[j]-sj;
+      if(dOm!==0){ const tt=S.RcV[j]/(S.RcV[j]+hj); omj += S.coreMF[j]*dOm*((qcj===2)? tt*tt : Math.pow(tt,qcj)); } }
+    if(S.coreMd[i]>=2 && S.RcV[i]>0){ const dOm=S.coreOmV[i]-si;
+      if(dOm!==0){ const tt=S.RcV[i]/(S.RcV[i]+hi); omi += S.coreMF[i]*dOm*((qci===2)? tt*tt : Math.pow(tt,qci)); } }
+  }
+  const gTj=dragTransG(S,j,d,hj,qT,gasCoh,dragSurf), dgTj=_DG.d, gTi=dragTransG(S,i,d,hi,qT,gasCoh,dragSurf), dgTi=_DG.d;
+  _PC.gTj=gTj; _PC.dgTj=dgTj; _PC.gTi=gTi; _PC.dgTi=dgTi;
+  _PC.omj=omj; _PC.omi=omi; _PC.qcj=qcj; _PC.qci=qci;
+  // 並進項に g_T(分母 W=sumW は E1′ 決定力のまま — 光学・時計・χ は不変)。uAx/vx は S の配列そのもの(S._core のローカル別名と同一)
+  const uAx=S.uAx, uAy=S.uAy, vx=S.vx, vy=S.vy;
+  uAx[i]+=wj*(gTj*vx[j]+omj*(-dy)); uAy[i]+=wj*(gTj*vy[j]+omj*(dx));
+  uAx[j]+=wi*(gTi*vx[i]+omi*(dy));  uAy[j]+=wi*(gTi*vy[i]+omi*(-dx));
+}
+function pairChannelGrad(S,i,j,dx,dy,mi,mj,invd3,idd,wj,wi){
+  const G=S._chG, gasCoh=G.gasCoh, dragSurf=G.dragSurf, hasCoreV2=G.hasCoreV2, cohOn=G.cohOn;
+  const g2=S._g2, dPxx=g2.dPxx, dPxy=g2.dPxy, dPyx=g2.dPyx, dPyy=g2.dPyy, dWxA=g2.dWx, dWyA=g2.dWy, vx=S.vx, vy=S.vy;
+  const d=_PC.d, hj=_PC.hj, hi=_PC.hi, qj=_PC.qj, qi=_PC.qi, sj=_PC.sj, si=_PC.si, Rj=_PC.Rj, Ri=_PC.Ri;
+  const omj=_PC.omj, omi=_PC.omi, gTj=_PC.gTj, gTi=_PC.gTi, dgTj=_PC.dgTj, dgTi=_PC.dgTi;
+  const sgA=S.shellGas, qcj=_PC.qcj, qci=_PC.qci;
+  let domj=0, domi=0;   // ∂ω/∂d(基底+コア差動)
+  // 第237便: q_i・距離基準は ②③ のフレーム式と同じ核(surface で d≤R の内側は核が定数 → 勾配 0)
+  if(sj!==0 && (!dragSurf || d>Rj)){ const tt=Rj/(Rj+hj), o0=(qj===2)? sj*tt*tt : sj*Math.pow(tt,qj); domj-=qj*o0/(Rj+hj); }
+  if(si!==0 && (!dragSurf || d>Ri)){ const tt=Ri/(Ri+hi), o0=(qi===2)? si*tt*tt : si*Math.pow(tt,qi); domi-=qi*o0/(Ri+hi); }
+  // 第81便: コアv1 の勾配分岐は廃止(上の A8 と同じ理由)
+  // 第77便(コアv2): 独立コアの差動勾配(A8 v2 分岐と同じ核。第80便: md≥2 の4モード共通)
+  if(hasCoreV2){
+    if(S.coreMd[j]>=2 && S.RcV[j]>0){ const dOm=S.coreOmV[j]-sj;
+      if(dOm!==0 && (!dragSurf || d>Rj)){ const tt=S.RcV[j]/(S.RcV[j]+hj), oc=S.coreMF[j]*dOm*((qcj===2)? tt*tt : Math.pow(tt,qcj)); domj-=qcj*oc/(S.RcV[j]+hj); } }
+    if(S.coreMd[i]>=2 && S.RcV[i]>0){ const dOm=S.coreOmV[i]-si;
+      if(dOm!==0 && (!dragSurf || d>Ri)){ const tt=S.RcV[i]/(S.RcV[i]+hi), oc=S.coreMF[i]*dOm*((qci===2)? tt*tt : Math.pow(tt,qci)); domi-=qci*oc/(S.RcV[i]+hi); } }
+  }
+  // 第239便: 気体コヒーレンスは殻 ω の定数倍なので domj/domi にも同じ倍率(核の一貫性)
+  if(cohOn){ if(sgA[j]) domj*=gasCoh; if(sgA[i]) domi*=gasCoh; }
+  { // i 側(源 j): r−r_j=(dx,dy)、c=(g_T·vx_j−ω_j·dy, g_T·vy_j+ω_j·dx)(第239便: g_T は既定 1・導関数 0)
+    const gwx=-mj*dx*invd3, gwy=-mj*dy*invd3;
+    const cxv=gTj*vx[j]+omj*(-dy), cyv=gTj*vy[j]+omj*(dx);
+    const nx=dx*idd, ny=dy*idd;
+    dPxx[i]+=gwx*cxv + wj*(-dy*domj*nx);
+    dPxy[i]+=gwy*cxv + wj*(-omj - dy*domj*ny);
+    dPyx[i]+=gwx*cyv + wj*( omj + dx*domj*nx);
+    dPyy[i]+=gwy*cyv + wj*( dx*domj*ny);
+    { dPxx[i]+=wj*dgTj*nx*vx[j]; dPxy[i]+=wj*dgTj*ny*vx[j]; dPyx[i]+=wj*dgTj*nx*vy[j]; dPyy[i]+=wj*dgTj*ny*vy[j]; }
+    dWxA[i]+=gwx; dWyA[i]+=gwy;
+  }
+  { // j 側(源 i): r−r_i=(−dx,−dy)、c=(g_T·vx_i+ω_i·dy, g_T·vy_i−ω_i·dx)
+    const gwx=mi*dx*invd3, gwy=mi*dy*invd3;
+    const cxv=gTi*vx[i]+omi*(dy), cyv=gTi*vy[i]+omi*(-dx);
+    const nx=-dx*idd, ny=-dy*idd;
+    dPxx[j]+=gwx*cxv + wi*( dy*domi*nx);
+    dPxy[j]+=gwy*cxv + wi*(-omi + dy*domi*ny);
+    dPyx[j]+=gwx*cyv + wi*( omi - dx*domi*nx);
+    dPyy[j]+=gwy*cyv + wi*(-dx*domi*ny);
+    { dPxx[j]+=wi*dgTi*nx*vx[i]; dPxy[j]+=wi*dgTi*ny*vx[i]; dPyx[j]+=wi*dgTi*nx*vy[i]; dPyy[j]+=wi*dgTi*ny*vy[i]; }
+    dWxA[j]+=gwx; dWyA[j]+=gwy;
+  }
 }
 function rayField(S, heavy, px, py, kU, eps2, q, kF, BX, WB, bH){
   let gx=0, gy=0, uNx=0, uNy=0, wSum=0;
