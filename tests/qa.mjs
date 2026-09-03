@@ -8668,7 +8668,7 @@ if (!FAST) {
       // ④ 編集欄 #beDq(✴️ A を選択 → 4.611… が見える → 3 へ → 空欄で既定へ)
       HP.loadPreset('alphaCenABDFM', false); HP.selectBody(0, 'A');
       const el = document.getElementById('beDq');
-      const ui = { exists: !!el, shown: el ? el.value : '', rowShown: el ? getComputedStyle(el.parentElement).display !== 'none' : false };
+      const ui = { exists: !!el, shown: el ? el.value : '', rowShown: !!el && el.parentElement.classList.contains('beRow') && document.getElementById('bodyEdit').style.display === 'block' };   // パネル最小化(.min)の永続状態に依らない
       if (el) { el.value = '3'; el.dispatchEvent(new Event('change')); ui.v3 = HP.sim.dragQ[0]; ui.has3 = HP.sim.hasDragQ;
         el.value = ''; el.dispatchEvent(new Event('change')); ui.v0 = HP.sim.dragQ[0]; ui.hasAfterA = HP.sim.hasDragQ;
         HP.selectBody(1, 'A'); ui.shownB = el.value; el.value = '0'; el.dispatchEvent(new Event('change')); ui.hasNone = HP.sim.hasDragQ; }
