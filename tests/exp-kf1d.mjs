@@ -5,7 +5,8 @@
 // 算出則(第122便の抑制率則から導出): スピン項 ω(d)=s·(R/(R+d))^q の振幅超過は
 //   X = 1.25·c₀²R/(GM)(a・s に非依存)なので、参照軌道 a で LT に一致する指数は
 //   **q* = 3 + ln(1.25·c₀²R/(GM)) / ln((R+a)/R)** — 全て既知量から計算で求まる。
-//   d→0(表面)では q によらず ω→s·2^{-q} 級の強い随伴(完全随伴の極限)= MM null と整合。
+//   注意(第237便で訂正): d は中心間距離。源表面は d=R なので ω=s·2^{-q}、d→0 は中心一致である。
+//   MM null との整合性は、往復光速の異方性を導出・検証するまで未判定(表面基準は dragRef:"surface" で別途)。
 // 実行: node tests/exp-kf1d.mjs → tests/out/kf1d-results.json
 import fs from 'node:fs';
 import path from 'node:path';

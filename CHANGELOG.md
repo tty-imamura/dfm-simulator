@@ -6,6 +6,14 @@
 
 ## v1.44-b1(開発中 — beta)
 
+- **第238便(2026-09-03・第30報)**: 実行時 LLM の候補から **Haiku 4.5 を撤去**(既定 Sonnet 5 → 上位 Opus 5 の段構えは
+  第170便のまま)。README のコスト記述を Sonnet 5 既定へ更新。
+- **第237便(2026-09-03・第30報)**: **引きずり減衰 q の精査**。①P0 訂正: 「d→0(表面)で強い随伴=MM null と
+  整合」は誤り — d は中心間距離・源表面 d=R の核は 2⁻q・**MM 整合は未検証**と全箇所を改めた。②**粒子別
+  `body.dragQ`**(E2/E3 引きずり専用・未宣言=physics.q・1個でも宣言があれば generic カーネル経路・融合は重い側
+  継承)— 4 DFM 連星に q_i=q_exact(観測殻質量・参照 a=軌道長半径)を宣言(A 側は現行 q と一致・B 側だけ差)。
+  ③**`physics.dragRef:"surface"`**(opt-in): スピン項・コア項・rayField の距離を表面高度 h=max(0,d−R) に(重力は中心)。
+  ④QA behavior.dragQ / dragSign(4象限の符号対称) / dragRef。⑤🌘❄️✴️ に自転対照の注記。
 - **第236便(2026-09-02・第29報キュー②)**: **C ランク4件の説明短文化**(🥚selfRotor・🎯saturnLayered・⛲accretionJet・
   ⚡psrDoubleABDFM)。summary(ja/en)を結論先行の短文へ書き換え(🥚 成立条件3つ・🎯「あるが微弱」・⛲ 3概念+
   非頑健の宣言先出し・⚡ 3001→約900字)。observe/control/obsCard/pass/fail・claims 句・QA 窓は不変(表示のみ)。

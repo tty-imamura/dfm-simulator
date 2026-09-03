@@ -8474,6 +8474,155 @@ if (!FAST) {
   }
 }
 
+// ---- 第237便(第30報): behavior.dragQ — 粒子別の引きずり減衰指数 q_i(E2/E3 専用)の機械固定 ----
+// 4 DFM 連星の宣言 q_i が観測殻質量・参照 a(軌道長半径)の q_exact と一致/未宣言は 1 bit 不変(特別化カーネル経路)/
+// 宣言時は generic 経路・軌道は q_i≈q なので実質不変/E5′(kRep)の q は global のまま(spin=0 の玩具で dragQ を振っても不変)
+{
+  const hasDQ = await page.evaluate(() => { const S = HP.sim; return S.dragQ !== undefined; });
+  if (hasDQ) {
+    const dq = await page.evaluate(() => {
+      const qexact = (M, R, a, G, c) => { const X = 1.25 * c * c * R / (G * M); const L = Math.log((R + a) / R); return 3 + Math.log(X) / L + 3 * Math.log(a / (R + a)) / L; };
+      const REF = { alphaCenABDFM: 348.54808, siriusABDFM: 295.946476, psrDoubleABDFM: 878.8366, gw150914DFM: 192.8116 };
+      const decl = {};
+      for (const id of Object.keys(REF)) {
+        const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));
+        const v = HP.validatePreset(pd); const p = v.preset; const ph = p.physics;
+        const R = (o) => (typeof o.radius === 'number' && o.radius > 0) ? ph.radiusScale * o.radius : ph.radiusScale * (o.rMul || 1) * Math.sqrt(Math.abs(o.m));
+        const qs = p.bodies.slice(0, 2).map((o) => { const mf = (o.core && o.core.massFrac) || 0; return { decl: o.dragQ, calc: qexact(o.m * (1 - mf), R(o), REF[id], ph.G, ph.cLight) }; });
+        const S = HP.sim; S.build(p); S.step(0.016);
+        decl[id] = { qs, hasDragQ: S.hasDragQ, kKind: S._kKind, dq0: S.dragQ[0], dq1: S.dragQ[1],
+          aOK: Math.abs(qs[0].decl - ph.q) < 1e-4 };   // A 側は現行 q(丸め値)と一致
+      }
+      // 未宣言=特別化経路・宣言=generic 経路で軌道が実質不変(✴️ 500步)
+      const runAC = (strip, swap) => {
+        const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'alphaCenABDFM')));
+        if (strip) for (const b of pd.bodies) delete b.dragQ;
+        if (swap) { const b = pd.bodies; const t = b[0]; b[0] = b[1]; b[1] = t; }
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+        for (let k = 0; k < 500; k++) S.step(0.016);
+        return { x: [S.x[0], S.y[0], S.x[1], S.y[1]], kKind: S._kKind, hasDragQ: S.hasDragQ, warn: (v.warnings || []).length };
+      };
+      const on = runAC(false, false), off = runAC(true, false), sw = runAC(false, true);
+      // 特別化経路の確認は ✨(コアなし): 未宣言=特別化(kKind≠0)・body[0] に dragQ を注入すると generic(0)
+      const runObs = (inject) => { const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'alphaCenAB')));
+        if (inject) pd.bodies[0].dragQ = pd.physics.q; const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+        for (let k = 0; k < 200; k++) S.step(0.016); return { kKind: S._kKind, x: [S.x[0], S.y[0], S.x[1], S.y[1]] }; };
+      const ob0 = runObs(false), ob1 = runObs(true);
+      const obsEq = ob0.x.every((x, i) => Math.abs(x - ob1.x[i]) < 1e-9 * (1 + Math.abs(x)));
+      const sep = (r) => Math.hypot(r.x[0] - r.x[2], r.x[1] - r.x[3]);
+      const relOnOff = Math.abs(sep(on) - sep(off)) / sep(off);
+      const relSwap = Math.abs(sep(on) - sep(sw)) / sep(on);
+      // E5′ の q は global のまま: spin=0・kRep>0 の玩具(E6′ 偶力は reservoir へ記帳し殻スピンを 0 に保つ)で dragQ を振っても 1 bit 不変
+      const toy = (dqv) => {
+        const pd = { name: 'dqRep', description: 'toy', physics: { G: 1, D0: 2, kFrame: 1, q: 3, kRep: 1, muF: 0, gammaN: 0, kappaS: 0, kappaT: 0.02, cLight: 30, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 1, timeScale: 1, coupleSink: 'reservoir' },
+          thermal: 'tint', camera: { scale: 100 }, world: { boundary: 'none', size: 0 },
+          bodies: [{ type: 'single', m: 20, x: -6, y: 0, vx: 0, vy: 0.3, spin: 0, pinned: false, tInt: 2, dragQ: dqv },
+                   { type: 'single', m: 20, x: 6, y: 0, vx: 0, vy: -0.3, spin: 0, pinned: false, tInt: 2, dragQ: dqv }] };
+        const v = HP.validatePreset(pd); if (!v.ok) return { err: v.errors };
+        const S = HP.sim; S.build(v.preset); for (let k = 0; k < 300; k++) S.step(0.016);
+        return { x: [S.x[0], S.y[0], S.x[1], S.y[1]], warn: (v.warnings || []).length };
+      };
+      const t5 = toy(5), t10 = toy(10);
+      const repEq = !t5.err && !t10.err && t5.x.every((x, i) => Object.is(x, t10.x[i]));
+      return { decl, on, off, sw, relOnOff, relSwap, repEq, t5, t10, ob0, ob1, obsEq };
+    });
+    const dOK = Object.values(dq.decl).every((d) => d.hasDragQ === true && d.kKind === 0 && d.qs.every((q) => Math.abs(q.decl - q.calc) < 1e-9) && d.aOK);
+    add('behavior.dragQ',
+      dOK && dq.off.hasDragQ === false && dq.on.kKind === 0 && dq.on.warn === 0
+      && dq.ob0.kKind !== 0 && dq.ob1.kKind === 0 && dq.obsEq === true     // ✨: 未宣言=特別化・注入=generic で軌道一致(kernel.bitident と同型)
+      && dq.relOnOff < 1e-6 && dq.relSwap < 1e-6                     // q_i≈q・スピン項 10⁻¹⁵ → 軌道は実質不変・順序独立
+      && dq.repEq === true,
+      `4 DFM 連星の q_i=q_exact(観測殻質量・参照 a)一致=${dOK}(✴️ A ${dq.decl.alphaCenABDFM.qs[0].decl.toFixed(6)} / B ${dq.decl.alphaCenABDFM.qs[1].decl.toFixed(6)}・💫 B ${dq.decl.siriusABDFM.qs[1].decl.toFixed(6)}) / `
+      + `✨ 未宣言=特別化 kKind=${dq.ob0.kKind}・注入=generic kKind=${dq.ob1.kKind}(軌道一致=${dq.obsEq})・✴️ 分離の相対差 ${dq.relOnOff.toExponential(1)}(500步)・順序交換 ${dq.relSwap.toExponential(1)} / `
+      + `E5′ の q は global のまま(spin=0・kRep=1 で dragQ 5 vs 10 が 1 bit 同一)=${dq.repEq}`);
+  } else {
+    console.log('SKIP behavior.dragQ(第237便 未適用 — root 等)');
+  }
+}
+
+// ---- 第237便(第30報): behavior.dragSign — 4象限の符号対称(公転方向 × 自転方向)。玩具2体(源 R=20・spin ±0.5・プローブ r=60 円軌道)
+// で E6′ キック(kF1−kF0 の Δv)を測る。実測の対称性: キックは**共回り/逆回りの相対関係だけで決まり**、(v,s)→(−v,−s) で不変
+// (D=A)・(−v,s)=(v,−s)(C=B)。共回りは内向き(束縛を強める)・逆回りは外向き。キックは随伴 Δu(A11)の帰結で動径方向に出る ----
+{
+  const hasDQ = await page.evaluate(() => { const S = HP.sim; return S.dragQ !== undefined; });
+  if (hasDQ) {
+    const sg = await page.evaluate(() => {
+      const mk = (vSign, sSign, kf) => ({ name: 'sign', description: 'toy', physics: { G: 4, D0: 2, kFrame: kf, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 0.016666666666666666, cLight: 30, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 1, timeScale: 1 },
+        camera: { scale: 100 }, world: { boundary: 'none', size: 0 },
+        bodies: [{ type: 'single', m: 600, radius: 20, x: 0, y: 0, vx: 0, vy: 0, spin: 0.5 * sSign, pinned: false },
+                 { type: 'single', m: 1, x: 60, y: 0, vx: 0, vy: 6.324555320336759 * vSign, spin: 0, pinned: false }] });
+      const dt = 0.004;
+      const kick = (vSign, sSign, kf) => { const v = HP.validatePreset(mk(vSign, sSign, kf)); const S = HP.sim; S.build(v.preset);
+        S.step(dt);   // 1步目はフレーム場の累積前(引きずり 0)— 2步目のキックを測る
+        const vx0 = S.vx[1], vy0 = S.vy[1]; S.step(dt); return [S.vx[1] - vx0, S.vy[1] - vy0, (v.warnings || []).length]; };
+      const g = kick(1, 1, 0), gC = kick(-1, 1, 0);   // 重力だけ(s に依らない・v の向きで鏡映)
+      const k = (a, b, gg) => { const r = kick(a, b, 1); return [r[0] - gg[0], r[1] - gg[1]]; };
+      const A = k(1, 1, g), B = k(1, -1, g), C = k(-1, 1, gC), D = k(-1, -1, gC);
+      const norm = Math.hypot(A[0], A[1]);
+      const rDA = Math.hypot(D[0] - A[0], D[1] - A[1]) / norm;   // D=A(全反転で不変 — 相対関係は同じ共回り)
+      const rCB = Math.hypot(C[0] - B[0], C[1] - B[1]) / norm;   // C=B(逆回りどうし)
+      const orbit = (sSign) => { const v = HP.validatePreset(mk(1, sSign, 1)); const S = HP.sim; S.build(v.preset);
+        let rs = 0; for (let k2 = 0; k2 < 3000; k2++) { S.step(0.016); rs += Math.hypot(S.x[1] - S.x[0], S.y[1] - S.y[0]); } return rs / 3000; };
+      const rPro = orbit(1), rRet = orbit(-1);
+      return { A, B, C, D, g, rDA, rCB, rPro, rRet, warn: g[2], radialA: Math.abs(A[1]) < 1e-3 * Math.abs(A[0]) };
+    });
+    add('behavior.dragSign',
+      sg.warn === 0 && sg.rDA < 1e-6 && sg.rCB < 1e-6                 // 対称性: D=A・C=B(dt=0.004 で機械精度)
+      && sg.A[0] < 0 && sg.B[0] > 0 && sg.radialA === true              // 共回りは内向き・逆回りは外向き(動径キック)
+      && sg.rPro < sg.rRet * 0.8,                                       // 用量: 共回りで軌道が締まる(平均半径 53.7 vs 94.8)
+      `4象限(玩具 R=20・d=60・q=2・dt=0.004): A=(v+,s+) Δv=(${sg.A[0].toExponential(3)}, ${sg.A[1].toExponential(1)})・B=(v+,s−) (${sg.B[0].toExponential(3)}, ${sg.B[1].toExponential(1)}) / `
+      + `D=A 残差 ${sg.rDA.toExponential(1)}・C=B 残差 ${sg.rCB.toExponential(1)}(キックは共回り/逆回りの相対関係だけで決まる)・共回り=内向き・逆回り=外向き / `
+      + `平均半径 共回り ${sg.rPro.toFixed(2)} vs 逆回り ${sg.rRet.toFixed(2)}(3000步)`);
+  } else {
+    console.log('SKIP behavior.dragSign(第237便 未適用 — root 等)');
+  }
+}
+
+// ---- 第237便(第30報): behavior.dragRef — スピン項の距離基準(center=既定 1 bit 不変/surface=表面高度 h)----
+// 地面 h≈0 の随伴は q によらず 1(中心基準の 2⁻q と 2^q 倍差)・🌘 は月位置の核 1.15 倍で軌道が動く・💿 は環が壊れる(記録)
+{
+  const hasDQ = await page.evaluate(() => { const S = HP.sim; return S.dragQ !== undefined; });
+  if (hasDQ) {
+    const dr = await page.evaluate(() => {
+      const run = (id, ref, steps) => { const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));
+        if (ref) pd.physics.dragRef = ref; const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+        for (let k = 0; k < steps; k++) S.step(0.016);
+        const o = []; for (let i = 0; i < Math.min(8, S.n); i++) o.push(S.x[i], S.y[i]);
+        let rmax = 0; for (let i = 0; i < S.n; i++) rmax = Math.max(rmax, Math.hypot(S.x[i] - S.x[0], S.y[i] - S.y[0]));
+        return { o, kKind: S._kKind, ref: S.params.dragRef, warn: (v.warnings || []).length, rmax, n: S.n }; };
+      const em0 = run('earthMoonRealKF1', null, 300), emC = run('earthMoonRealKF1', 'center', 300), emS = run('earthMoonRealKF1', 'surface', 300);
+      const eqC = em0.o.every((x, i) => Object.is(x, emC.o[i]));
+      const dS = Math.hypot(emS.o[2] - em0.o[2], emS.o[3] - em0.o[3]);
+      // 地面プローブ(円軌道・pinned 源 R=20・q=8.2358): 表面基準/中心基準のキック比 = 核の比 ((R+R+h)/(R+h))^q
+      // (h=0.02 → 300.2・h=0.5 → 272.5)。キックは随伴 Δu の帰結なので円軌道(|u| 一定・向きが回る)で核の比がそのまま出る
+      const probe = (ref, kf, h) => { const x0 = 20 + h, vc = Math.sqrt(4 * 600 / x0);
+        const pd = { name: 'ground', description: 'toy', physics: { G: 4, D0: 2, kFrame: kf, q: 8.2358, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 0.016666666666666666, cLight: 30, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 1, timeScale: 1 },
+          camera: { scale: 100 }, world: { boundary: 'none', size: 0 },
+          bodies: [{ type: 'single', m: 600, radius: 20, x: 0, y: 0, vx: 0, vy: 0, spin: 0.5, pinned: true },
+                   { type: 'single', m: 1e-6, radius: 0.01, x: x0, y: 0, vx: 0, vy: vc, spin: 0, pinned: false }] };
+        if (ref) pd.physics.dragRef = ref;
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset); S.step(0.004);
+        const vx0 = S.vx[1], vy0 = S.vy[1]; S.step(0.004); return [S.vx[1] - vx0, S.vy[1] - vy0, (v.warnings || []).length]; };
+      const ratioAt = (h) => { const g = probe(null, 0, h), c = probe('center', 1, h), sf = probe('surface', 1, h);
+        return { ratio: Math.hypot(sf[0] - g[0], sf[1] - g[1]) / Math.hypot(c[0] - g[0], c[1] - g[1]), analytic: Math.pow((40 + h) / (20 + h), 8.2358), warn: sf[2] }; };
+      const r002 = ratioAt(0.02), r05 = ratioAt(0.5);
+      const sat0 = run('saturnRingRealKF1', null, 500), satS = run('saturnRingRealKF1', 'surface', 500);
+      return { em0, emC, emS, eqC, dS, r002, r05, sat0: { rmax: sat0.rmax, n: sat0.n }, satS: { rmax: satS.rmax, n: satS.n, kKind: satS.kKind } };
+    });
+    add('behavior.dragRef',
+      dr.eqC === true && dr.emC.warn === 0 && dr.emC.ref === undefined      // center は既定と同じ署名(1 bit 不変)
+      && dr.emS.kKind === 0 && dr.emS.ref === 'surface' && dr.dS < 1e-6     // surface は generic 経路。月位置の核は 1.15 倍だがスピン項は LT 級(並進項の 10⁻¹⁴)なので軌道は動かない
+      && dr.r002.warn === 0 && Math.abs(dr.r002.ratio / dr.r002.analytic - 1) < 5e-3   // 地面 h=0.02: キック比 300.2=核の比(2^q 級)
+      && Math.abs(dr.r05.ratio / dr.r05.analytic - 1) < 5e-3                              // h=0.5: 272.5(解析核と 0.5% 以内)
+      && Math.abs(dr.satS.rmax - dr.sat0.rmax) / dr.sat0.rmax < 1e-6,     // 💿 も動かない(qLock でスピン項は a=105 で LT 級 — 核が数万倍でも並進項の 10⁻⁸ 以下)
+      `🌘: center=既定 1 bit 不変=${dr.eqC}・surface(generic)で 300步の月位置差 ${dr.dS.toExponential(2)} 単位(スピン項は LT 級 → 動かない) / `
+      + `地面プローブ(円軌道・R=20・q=8.2358): 表面/中心のキック比 h=0.02 → ${dr.r002.ratio.toFixed(2)}(解析核 ${dr.r002.analytic.toFixed(2)})・h=0.5 → ${dr.r05.ratio.toFixed(2)}(${dr.r05.analytic.toFixed(2)}) — 基準の差は地面でだけ効く / `
+      + `💿 surface: 最遠 ${dr.sat0.rmax.toFixed(6)}→${dr.satS.rmax.toFixed(6)}(相対差 ${(Math.abs(dr.satS.rmax - dr.sat0.rmax) / dr.sat0.rmax).toExponential(1)} — 較正サンプルは表面基準でも動かない)`);
+  } else {
+    console.log('SKIP behavior.dragRef(第237便 未適用 — root 等)');
+  }
+}
+
 // ---- 第224便(第23報): behavior.chi-law — 連星4 DFM の粒子別質量スケール較正則の機械固定 ----
 // (a) massCalibration 台帳(law/fitDt/C/baseMass/factorByBody)が4本すべてに宣言され、
 //     f_i = C×g_i が HP.chiMassFactors の再計算とビット一致
@@ -18933,7 +19082,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
   } else {
     console.log('SKIP wave122.ui(第122便 未適用 — root 等)');
   }
-  // 92-1h) 第123便: qLock(qの自動算出=LT 級振幅規約〔遠方近似〕)・💿共通補正+MM整合・A/B の決定力マップ/線の軌跡修正
+  // 92-1h) 第123便: qLock(qの自動算出=LT 級振幅規約〔遠方近似〕)・💿共通補正・A/B の決定力マップ/線の軌跡修正(MM 整合は第237便で「未検証」へ訂正)
   const has123 = await page.evaluate(() => !!(window.HP && typeof qLockCalc === 'function'));
   if (has123) {
     const r = await page.evaluate(() => {
@@ -20868,7 +21017,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       `(${Object.entries(EXPECT).map(([k, v]) => k + '=' + v).join(' ')}・強制時は全系 generic) / ` +
       `開発フック既定OFF=${r.defOff} / 否定対照(1 ulp 改変を照合器が検出)=${r.neg.detected}件` +
       `(改変成立=${r.neg.changed}) / generic逐語一致(インライン対ループ ≡ 凍結参照 ` +
-      `tests/fixtures/${refName}${w222 ? ' = 第222便〔1PN 偶力ルーティング〕適用後の凍結原文' : ' = 特別化前の root v1.41.0 原文'}` +
+      `tests/fixtures/${refName}${w222 ? ' = 第222便〔1PN 偶力ルーティング〕→第237便〔粒子別 q_i・表面基準〕適用後の凍結原文' : ' = 特別化前の root v1.41.0 原文'}` +
       `${betaLoop ? ' ' + betaLoop.split('\n').length + '行' : ''})=${verbatimOK}` +
       (bad.length ? ` / NG差分=[${bad.slice(0, 3).map((o) => o.id + '@' + o.st + ':' + o.first.join('|')).join(' ')}]` : '') +
       (wrongKind.length ? ` / NG経路=[${wrongKind.slice(0, 3).map((o) => o.id + '=' + o.kind).join(' ')}]` : '') +

@@ -2231,6 +2231,9 @@ const COUPLE_SINK_KEY = "coupleSink", COUPLE_SINKS = ["spin","core","reservoir",
 // 「観測は相対座標」という較正の前提を重心に対しても機械化する宣言キーで、較正ノブではない。
 // frameReaction:"pairReduced" 専用(legacy ③ 経路は対象外 — 宣言時に検証器が警告する)。
 const CM_GAUGE_KEY = "cmGauge", CM_GAUGES = ["barycentric"];
+// 第237便(第30報): dragRef — スピン項(E3/A8)・コア差動項・rayField の距離基準。"center"=既定(中心間距離 d)/
+// "surface"=表面高度 h=max(0,d−R_j)(MM 実験の「物質の近くで強い引きずり」を検証する opt-in スイッチ — 重力 E4 は中心のまま)
+const DRAG_REF_KEY = "dragRef", DRAG_REFS = ["center","surface"];
 // 第197便(M0): physics.halo — 解析的ダークハロー外部項(観測再現版専用)。オブジェクト値の
 // opt-in キーで、省略時はプリセット署名・挙動とも 1 bit 不変(frameReaction と同じ流儀)。
 // **公理ではない**: gravityX/Y と同じ「W に寄与しない宣言的外力」で、時計・光・引きずり・D₀ に
@@ -5353,7 +5356,7 @@ const BUILTIN_PRESETS = [
   descStruct:{
     summary:"🌙(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、共通補正 D₀=0.006+qLock(厳密一致式 q_exact=8.2358 自動算出 — 第172便で規約採用)に較正した版 — 重力(E4)+運動引きずりの二体だけで、恒星月 27.32日と**月の近点回転(実測 約8.85年で一周)**の2観測量を同時に較正再現する(exp-kf1b/kf1c 実測)。純二体のケプラー軌道は閉じた楕円で近点回転を持たない — kFrame=1 の運動引きずりが χ=w/(D₀+w) に比例する順行歳差を作り、D₀ がその較正ノブになる(第120便の一次発見)。測地線 E12・倍精度 stateCarry は雛形の規約どおり。",
     observe:"軌道の向き(近点方向)がゆっくり回る — 実際の月と同じ約8.85年(≈118公転)で一周する。歳差積算 HUD の換算レートと、ゴースト楕円(点線=初期・橙=歳差×20 増幅)で回転が数公転で見える。**HUD の積算は周回内で大きく振動する(局所では逆行にも振れる)— 1公転単位で読むと正味 +0.053 rad/公転(Δϖ比 0.999)**。恒星月は 27.33日(+0.03%)。この 8.85年は較正が使った8公転窓での値で、窓を118公転まで延ばすと 20.78年に遅くなる(歳差は定常ではない — 第135便 emAudit の実測)。機構としての同定は判別サンプル群 ⭕🧲🔆 を参照。正直な明記: 実際の近点回転の主因は太陽摂動(第三体)— 本サンプルは運動引きずりという別機構での較正一致であり、機構の同定を主張しない(観測結果カード)。",
-    control:"本サンプルは**天体の現実較正の雛形**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock。今後の観測較正サンプルは本構成をコピーして作る — PHYSICS §5)。ワンタップ対照A/B: B側 D₀=0.1 に上げると引きずりが 1/16 になり回転がほぼ止まる(χ∝1/D₀ の用量が見える)。kFrame を 0 にすると純ケプラー(閉じた楕円)へ。スピンを 0 にしても歳差は変わらない(運動起源 — exp-kf1b §A。q は自動算出〔qLock〕で、地球スピン項の混入を除く役)。"},
+    control:"本サンプルは**天体の現実較正の雛形**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock。今後の観測較正サンプルは本構成をコピーして作る — PHYSICS §5)。ワンタップ対照A/B: B側 D₀=0.1 に上げると引きずりが 1/16 になり回転がほぼ止まる(χ∝1/D₀ の用量が見える)。kFrame を 0 にすると純ケプラー(閉じた楕円)へ。スピンを 0 にしても歳差は変わらない(運動起源 — exp-kf1b §A。q は自動算出〔qLock〕で、地球スピン項の混入を除く役)。(第237便: 地球スピン 0 が qLock の対照 — 月は同期自転なので切っても公転と区別できない。スピン項の距離基準を表面(dragRef:\"surface\")にすると月位置の核は 1.15 倍。)"},
   en:{name:"Earth & Moon (Real Units, kFrame=1) — apsidal precession 8.85 yr, calibrated",
     parameterAudit:{
       observedInputs:["real G=6.674","real c₀=3×10⁴","the Earth's real mass, radius and rotation (23.93 h)",
@@ -6859,7 +6862,7 @@ const BUILTIN_PRESETS = [
   descStruct:{
     summary:"冥王星(実質量 1.303×10²²kg・実半径 1,188km・実自転 6.3872日〔潮汐固定〕)とカロン(1.586×10²¹kg・606km・同期自転)を、1単位=10⁶m/10²s/10²⁵kg のスケール指数で置いた**二体重心系**の観測転写サンプル(第184便)。出典はコミット済み出典表 paper/data/solar-observations.csv(NASA NSSDC Pluto Fact Sheet のアーカイブ版から 2026-08-23 取得の観測レコードを転写)。実質量比 0.122 は太陽系最大級で、**共通重心が冥王星表面の外(中心から 1.79 冥王星半径)にある** — 二体が互いに振り回し合う姿がそのまま見える。軌道は a=19,596km・e=0(出典の宣言値)・両天体とも自由(pinned なし)・反作用則は frameReaction:\"pairReduced\"(E6′-R — 自由中心の標準・第184便)。黄道北基準では自転・公転とも逆行の系だが、2D 理想化では系平面基準の相対幾何(同期・同方向の潮汐固定)を保存する — 自転だけを負符号で写すと相対幾何が壊れるため採らない(宣言)。q=11.9386 は q_exact を a=19.596 で1回評価した直値。",
     observe:"kFrame=0 の対照では 6.3874 日(観測 6.3872 日・+0.002%)と観測周期をそのまま写し、e=0 の転写どおり半径振れ幅 0.0027% の円軌道を保つ。雛形規約の kFrame=1 では実測 6.40293 日(+0.246%)・半径振れ幅 0.245% — **χ=W/(D₀+W)≈0.92 の近接連星では E6′ の運動引きずりが公転周期を +0.25% 押し上げる**。実較正ファミリーで引きずり項が観測可能量(0.1% 超)を作った初の実在転写であり、診断許容 ±1% 内なのでフィットで消さずに宣言する(Failure First — 「実スケールでは引きずりが効かない」はこの質量比・この近さでは成り立たない)。重心変位は kFrame=1 で 1.5公転あたり最大 0.18 単位(a の 0.9%)・kFrame=0 では機械ゼロ(PN 項の運動量非対称 — 観測量は相対座標で測る)。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.plutoCharonReal)。",
-    control:"ワンタップ対照A/B: B側 kFrame=0 — 周期 +0.246%→+0.002% の差がそのまま E6′ 引きずり項の寄与である(同一初期条件・同一步幅)。トレイルを点けると冥王星が重心のまわりに描く小円(半径 2.13 単位)が見える。physics.frameReaction を削除(=legacy)する実験は 🌇 ほど破壊的ではない(質量比が近く反作用の受け皿が双方にあるため)が、自由中心の標準は E6′-R。粒子表示は実半径のまま(dispMag=1 — カロンは 0.61 単位)。timeScale=1000 で画面1秒≈18.5時間。"},
+    control:"ワンタップ対照A/B: B側 kFrame=0 — 周期 +0.246%→+0.002% の差がそのまま E6′ 引きずり項の寄与である(同一初期条件・同一步幅)。トレイルを点けると冥王星が重心のまわりに描く小円(半径 2.13 単位)が見える。physics.frameReaction を削除(=legacy)する実験は 🌇 ほど破壊的ではない(質量比が近く反作用の受け皿が双方にあるため)が、自由中心の標準は E6′-R。粒子表示は実半径のまま(dispMag=1 — カロンは 0.61 単位)。timeScale=1000 で画面1秒≈18.5時間。(第237便: 双方が潮汐固定なので自転の対照は作れない — 自転は公転のコピー。)"},
   en:{name:"Pluto and Charon (Real Units) — the barycentre outside the primary",
     obsCard:[
       {q:"Orbital period (kFrame=0 control)", model:"6.3874 d (+0.002%)", obs:"6.3872 d"},
@@ -7359,7 +7362,7 @@ const BUILTIN_PRESETS = [
   descStruct:{
     summary:"**まず見えるもの: 楕円軌道そのものがゆっくり回り続ける(ロゼット模様)。これは故障ではなく、近点移動 +4.26°/周(順行)— kFrame=1 の空間引きずり項自身の帰結である**(ニュートン重力だけなら楕円は回らない。geoPN=0 でも +4.63°/周 残り、一般相対論の 1PN 歳差 2.3×10⁻⁶ °/周は6桁小さい — 第211便で機構同定・第215便で説明を前面へ)。観測版 ✨(kFrame=0 — 観測安定則)の**対になる DFM 版**(第203便)。転写幾何は ✨ と同一 —遠点分離 529.61 単位(=a(1+e)・Akeson et al. 2021 の a=23.299 AU・e=0.51947)・遠点接線速度は転写質量での実ケプラー値・両星の自転と半径も転写値。そのうえで **kFrame=1(空間引きずり ON — DFM の計算式)で観測周期 79.762 年を再現する質量を較正する。第224便(第23報・外部レビュー2件の裁定): χ-law 粒子別スケール f_i=C·g_i・g_i=2χ_i** — χ は E6′-R が各粒子で使う局所場分率 χ_i=w_j/(D₀+w_j)(w=相手の決定力)の自己無撞着解で、**f_A=1.81702・f_B=1.84039 の比 1.0129 は法則導出**(フィットしない)。fit は正規化 **C=0.99483 の1ノブ**(2周目 P → 観測周期)で、C=1 のゼロフィット予測は総スケールを 0.52% で当てる。質量は A 1.9602 M☉(3.8979×10³⁰kg)・B 1.6733 M☉(3.3273×10³⁰kg)。質量比が僅かに変わるため位置・速度は観測の相対状態のまま新質量の重心系へ再配分(重心・運動量の注入防止 — 実測 7 単位/公転の歩行を防ぐ)。「質量は軌道から計算式で算出される量なので、計算式が変われば質量も変わる」(原仮定者第8報)— ニュートン式が M_total 3.95×10³⁰kg を出すのと同じ軌道から、DFM 式は ×1.82〜1.84 を出す。**実在の質量の主張ではない**(計算式に条件づけられた較正値 — fidelity は幾何の転写と較正手順の宣言について)。**二層構造(第207便採用 → 第208便完成 — 役割反転)**: ①**外殻(body.radius・body.spin)は転写の光学半径・光学自転そのもの**(A 0.084738・15.9日/B 0.05979336・36.23日 — 実行時も全窓ビットで保持)②E6′-R の偶力(第205便の飽和源)は宣言キー **coupleSink:\"core\" が隠れコアの J_core へ送る**(有効慣性 ζ=27853.1〔inertiaScale〕 — 第207便採用の結合殻容量 ½mR²|R=5 を幾何を変えずコアへ等価移送した導出値。コア半径=殻の半分・Kcs=0。**massFrac=(f_i−1)/f_i(第224便)— 殻質量=観測質量へ戻す記帳**: 較正で足した質量はコア側に置き、光学殻は質量まで観測値になる〔bhCore の「余分はコア側」の型の参照・軌道はビット不変の実測〕)③**二層はトイモデルの近似で、隠れコアは偶力の受け皿であって恒星内部構造(核・対流層)の再現ではない**(コア Ω は観測値を表さない)。働いているのは重力(E4)と空間引きずり(A8/E6′)+測地線1PN(E12)。q=4.6111・D₀=0.006 は ✨ の値をそのまま流用。**重心ゲージ(第209便)**: D₀>0 の系は宣言どおり開放系で、kFrame=1 の自由二体は背景持ち分の共通成分で**重心が歩く**(実測 1公転 14 単位 ≈ a の 2.7% — ✨ と並べた画面で系全体が移動して見える)。孤立連星の較正として **cmGauge:\"barycentric\"** を宣言し、相対キック(D₀ の差動成分を含む)を残して共通加速度だけを除く — 相対軌道の較正は保たれ、重心は ✨ と同桁の機械ゼロに止まる(観測照合は相対座標という前提の機械化。較正ノブではない)。**測光相殺(第227便 — 第26報)**: lightSweep=massFrac=(f−1)/f を宣言 — T_obs=(1−l)T が**観測質量側の T** に一致する(flux 則・tilt 不変・力学ビット不変を実測)。auto 減光からは導けない(実測 10⁻⁵ 桁 — 4桁不足・外部レビュー2件一致)。",
     observe:"実測(3.2公転窓・重心ゲージ込み・第224便の粒子別質量): 周回時間 [79.800, 79.761, 79.749] 年 — **2周目 79.761 年は観測 79.762 年の −0.001%**(fit 対象)。合わせていない側: 1周目の実測離心率 0.51684(転写 0.51947 の −0.51%)・近点 168.7 単位(観測版の 167.5 の +0.7%)— **P に合わせた C が e と近点も ±1% で当てる**(P に合わせた較正に独立 hold-out の e が乗ることが本サンプルの発見〔近点は e との整合表示〕 — 役割反転・重心ゲージ・粒子別化後も保持)。軌道は歳差するロゼットで、**近点移動 +4.26°/周**(順行 — 近点通過方向の実測: 遠点発窓で [4.264, 4.252]°/周)。この歳差(=系全体の見かけの回転)は座標系・表示の不具合ではなく **kF1 空間引きずり項自身の帰結**である — 測地線1PN を切った対照(geoPN=0)でも +4.63°/周 残り、1PN の解析近点移動 Δϖ=6πGM/(c²a(1−e²))=2.3×10⁻⁶ °/周は6桁小さく寄与しない。radial 範囲は1周あたり 〜0.03% ずつ緩やかに収縮する(kF1 に厳密な閉軌道・定常はない — 宣言)。公転の向きは ✨ と同回り(第204便)。役割反転の実測(第208便): **殻スピンのドリフトは A +0.0%・B +0.0%**(3.2公転の min=max が転写値のビット値 — 観測自転 15.9日/36.23日 を実行時も保持)・**clampSN=0**・偶力を受けた**コア Ω のドリフトは A +4.3%・B +9.7%**(観測対象外の内部自由度 — 第222便の 1PN 偶力ルーティング後の実測)・角運動量帳簿(総L+リザーバ)の相対残差 8.9×10⁻¹⁵(機械ゼロ)。重心ゲージの実測(第209便 — 第224便の再配分込み): **3.2公転の重心移動 8.8×10⁻⁶ 単位**(機械ゼロ)・粒子+リザーバの線運動量残差 5.9×10⁻¹⁴。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.alphaCenAB)。",
-    control:"ワンタップ対照A/B: B側 kFrame=0(観測版の計算式側)— **同じ初期状態・同じ較正質量(×1.82/1.84)**では引力が過剰になり、軌道は深い楕円へ落ち込む(推定近点 〜80 単位)。この較正は kFrame=1 専用であることの機械対照。もう1つの否定対照(QA が機械固定): **coupleSink を外す(既定 \"spin\")と、同じ光学半径のまま再び ±40 飽和**する(0.3公転で clampSN ~5.4×10⁴)— 解消の原因が「巨大半径」ではなく**偶力の受け先の付け替え**であることの直接証明。第3の否定対照(QA が機械固定): **cmGauge を外すと重心が歩き出す**(0.5公転で 7.1 単位・1公転で 14-15 単位 — D₀ 開放系の共通成分が原因である直接証明。粒子+リザーバの P は歩行中も 10⁻¹⁴ で閉じる)。コアを外しても(coupleSink:\"core\" のまま)受け皿はリザーバ帳簿へフォールバックし殻は不変(保存的)。観測版 ✨ と本サンプルの対で「同じ観測・違う計算式・違う質量」の二層が見える。timeScale=1000 で画面1秒≈11.6 日・dispMag=300(表示専用 — ✨ と同じ規約)・トレイルで軌道を見る。"},
+    control:"ワンタップ対照A/B: B側 kFrame=0(観測版の計算式側)— **同じ初期状態・同じ較正質量(×1.82/1.84)**では引力が過剰になり、軌道は深い楕円へ落ち込む(推定近点 〜80 単位)。この較正は kFrame=1 専用であることの機械対照。もう1つの否定対照(QA が機械固定): **coupleSink を外す(既定 \"spin\")と、同じ光学半径のまま再び ±40 飽和**する(0.3公転で clampSN ~5.4×10⁴)— 解消の原因が「巨大半径」ではなく**偶力の受け先の付け替え**であることの直接証明。第3の否定対照(QA が機械固定): **cmGauge を外すと重心が歩き出す**(0.5公転で 7.1 単位・1公転で 14-15 単位 — D₀ 開放系の共通成分が原因である直接証明。粒子+リザーバの P は歩行中も 10⁻¹⁴ で閉じる)。コアを外しても(coupleSink:\"core\" のまま)受け皿はリザーバ帳簿へフォールバックし殻は不変(保存的)。観測版 ✨ と本サンプルの対で「同じ観測・違う計算式・違う質量」の二層が見える。timeScale=1000 で画面1秒≈11.6 日・dispMag=300(表示専用 — ✨ と同じ規約)・トレイルで軌道を見る。(第237便: 粒子別 dragQ を宣言 — A は現行 q と一致・B は 4.5259。スピン反転は P に届かない〔相手位置でのスピン項/並進項 ≈10⁻¹⁵〕。)"},
   en:{name:"Alpha Centauri AB (DFM build) — the kF1 mass calibration",
     obsCard:[
       {q:"Orbital period (kFrame=1, χ-law per-body masses)", model:"2nd revolution 79.761 yr (−0.001%) — three revolutions [79.800, 79.761, 79.749]", obs:"79.762 ± 0.019 yr (Akeson et al. 2021 Table 8)"},
@@ -7396,7 +7399,7 @@ const BUILTIN_PRESETS = [
         "cmGauge:\"barycentric\" (wave 209 — the isolated-system barycentric gauge: only the common-mode acceleration of the D₀ open system is removed; relative kicks and the ledger closure are untouched. Not a calibration knob)"],
       fitted:["normalisation C=0.9948256400872665 (the χ-law's single knob — 2nd-revolution P to the observed 79.762 yr under kFrame=1; the per-body ratio f_B/f_A is law-derived, never fitted; D₀=0.006 and q=4.6111 are reused from ✨ as is)",
         "core effective inertia ζ=27853.10245466657 (inertiaScale — the wave-207 fitted coupling-shell capacity I=½mR²|R_shell=5 transferred to the core without changing the geometry, ζ=8·R²_207/R²_opt; the fitted ledger entry carries over the 2026-08-26 adjudication of R_shell)"],
-      derived:["per-body factors f_A=1.8170208808452444, f_B=1.840393402048944 (= C×g_i from chiMassFactors — the massCalibration ledger)",
+      derived:["dragQ (wave 237): A 4.611121739045699 / B 4.525887570719487 — per-body q_exact from the observed shell mass M_shell=m/f at the same reference a=348.54808 (E2/E3 drag only; not a fit knob)","per-body factors f_A=1.8170208808452444, f_B=1.840393402048944 (= C×g_i from chiMassFactors — the massCalibration ledger)",
         "A 1.9602 M☉ = 3.8979×10³⁰ kg and B 1.6733 M☉ = 3.3273×10³⁰ kg (= transcribed masses × f_i)",
         "κ=G/c₀²=7.4156×10⁻⁹","core effective inertia I*=ζ·½·Mc·Rc²: A 489.9, B 205.6 (= the wave-207 shell capacities — the couple's receptacle)",
         "camera.scale=630, timeScale=1000, dispMag=300 (derived from the stated rules; display only)"],
@@ -7468,7 +7471,7 @@ const BUILTIN_PRESETS = [
       "cmGauge:\"barycentric\"(第209便 — 孤立系の重心ゲージ。D₀ 開放系の共通加速度だけを除き相対は不変・帳簿は閉。較正ノブではない)"],
     fitted:["正規化 C=0.9948256400872665(χ-law の唯一のノブ — 2周目 P を kFrame=1 で観測周期 79.762 年へ。f_B/f_A 比は法則導出でフィットしない。D₀=0.006・q=4.6111 は ✨ の値の流用)",
       "コア有効慣性 ζ=27853.10245466657(inertiaScale — 第207便で振って当てた結合殻容量 I=½mR²|R_shell=5 を、幾何を変えずコアへ等価移送した導出値 ζ=8·R²_207/R²_opt。fitted 区分は R_shell の裁定 2026-08-26 を継承)"],
-    derived:["粒子別 f_A=1.8170208808452444・f_B=1.840393402048944(=C×g_i — chiMassFactors・massCalibration 台帳)",
+    derived:["dragQ (wave 237): A 4.611121739045699 / B 4.525887570719487 — per-body q_exact from the observed shell mass M_shell=m/f at the same reference a=348.54808 (E2/E3 drag only; not a fit knob)","粒子別 f_A=1.8170208808452444・f_B=1.840393402048944(=C×g_i — chiMassFactors・massCalibration 台帳)",
       "A 1.9602 M☉=3.8979×10³⁰kg・B 1.6733 M☉=3.3273×10³⁰kg(=転写質量×f_i)",
       "κ=G/c₀²=7.4156×10⁻⁹","コア有効慣性 I*=ζ·½·Mc·Rc²: A 489.9・B 205.6(=第207便の殻容量そのまま — 偶力の受け皿)",
       "camera.scale=630・timeScale=1000・dispMag=300(規約から決定的に算出・表示専用)"],
@@ -7499,10 +7502,10 @@ const BUILTIN_PRESETS = [
     // 第227便(第26報): lightSweep=massFrac=(f−1)/f — χ-law 較正の余分を**測光で相殺**する宣言
     // (flux 則: 固定 M/L で T_obs=(1−l)T_spin=観測質量側の T。tilt に依らず・力学不変。
     //  auto 減光からの導出ではない — auto の実測は 10⁻⁵ 桁で4桁不足〔外部レビュー2件一致〕)
-    {type:"single", m:38.97861928059757, radius:0.084738, x:-243.89405373379003, y:0, vx:0, vy:-0.22531666640184644, spin:4.57371397, pinned:false, pnSource:true,
+    {type:"single", dragQ:4.611121739045699, m:38.97861928059757, radius:0.084738, x:-243.89405373379003, y:0, vx:0, vy:-0.22531666640184644, spin:4.57371397, pinned:false, pnSource:true,
       lightSweep:0.44964859207626795,
       core:{mode:"differential", massFrac:0.44964859207626795, radius:0.042369, omega:4.57371397, Kcs:0, inertiaScale:27853.10245466657}},
-    {type:"single", m:33.27328576952657, radius:0.05979336, x:285.71429738381005, y:0, vx:0, vy:0.26395146599241154, spin:2.00723302, pinned:false,
+    {type:"single", dragQ:4.525887570719487, m:33.27328576952657, radius:0.05979336, x:285.71429738381005, y:0, vx:0, vy:0.26395146599241154, spin:2.00723302, pinned:false,
       lightSweep:0.45663791291216244,
       core:{mode:"differential", massFrac:0.45663791291216244, radius:0.02989668, omega:2.00723302, Kcs:0, inertiaScale:27853.10245466657}}
   ],
@@ -7714,7 +7717,7 @@ const BUILTIN_PRESETS = [
       "lightSweep=massFrac=(f_i−1)/f_i(第227便 — 測光相殺の宣言値。flux 則: 固定 M/L で T_obs=(1−l)T=観測質量側。auto 減光からの導出ではない・tilt 不変・力学ビット不変)",
         "cmGauge:\"barycentric\" (wave 209 — the isolated-system barycentric gauge; not a calibration knob)"],
       fitted:["normalisation C=0.9928781605025547 (the χ-law's single knob — 2nd-revolution P to the observed 50.1284 yr under kFrame=1; the per-body ratio f_B/f_A is law-derived, never fitted; D₀=0.006 and q=4.6761 are reused from 🌟 as is)"],
-      derived:["per-body factors f_A=1.8517342888200075, f_B=1.9150243116874863 (= C×g_i from chiMassFactors — the massCalibration ledger)",
+      derived:["dragQ (wave 237): A 4.676140238926186 / B 4.100469287433549 — per-body q_exact from the observed shell mass M_shell=m/f at the same reference a=295.946476 (E2/E3 drag only; not a fit knob)","per-body factors f_A=1.8517342888200075, f_B=1.9150243116874863 (= C×g_i from chiMassFactors — the massCalibration ledger)",
         "A 3.820 M☉ = 7.5963×10³⁰ kg and B 1.9495 M☉ = 3.8766×10³⁰ kg (= transcribed masses × f_i)",
         "A's shell spin 13.6605 = vsini/R (the declared sin-i=1 proxy; P_rot≈5.32 d)",
         "core effective inertia ζ=14047.117021074499 (inertiaScale — ✴️'s derivation ζ=200/R_A² applied to 💫's optical radius)",
@@ -7796,7 +7799,7 @@ const BUILTIN_PRESETS = [
       "第224便の重心再配分: 位置・速度は観測の相対状態をビット保持したまま新質量の重心系へ再配分",
       "cmGauge:\"barycentric\"(第209便 — 孤立系の重心ゲージ。較正ノブではない)"],
     fitted:["正規化 C=0.9928781605025547(χ-law の唯一のノブ — 2周目 P を kFrame=1 で観測周期 50.1284 年へ。f_B/f_A 比は法則導出でフィットしない。D₀=0.006・q=4.6761 は 🌟 の値の流用)"],
-    derived:["粒子別 f_A=1.8517342888200075・f_B=1.9150243116874863(=C×g_i — chiMassFactors・massCalibration 台帳)",
+    derived:["dragQ (wave 237): A 4.676140238926186 / B 4.100469287433549 — per-body q_exact from the observed shell mass M_shell=m/f at the same reference a=295.946476 (E2/E3 drag only; not a fit knob)","粒子別 f_A=1.8517342888200075・f_B=1.9150243116874863(=C×g_i — chiMassFactors・massCalibration 台帳)",
       "A 3.820 M☉=7.5963×10³⁰kg・B 1.9495 M☉=3.8766×10³⁰kg(=転写質量×f_i)",
       "A の殻自転 13.6605=vsini/R(sin i=1 の宣言つき代理値・P_rot≈5.32日相当)",
       "コア有効慣性 ζ=14047.117021074499(inertiaScale — ✴️ と同じ導出 ζ=200/R_A² を 💫 の光学半径で評価)",
@@ -7823,10 +7826,10 @@ const BUILTIN_PRESETS = [
            // Sirius B の半径は 🌟 と同じ宣言つき下限 0.01(白色矮星の実半径 5.6×10⁻⁴ 単位)
     // 第227便(第26報): lightSweep=massFrac — 測光相殺の宣言(✴️ と同じ。B は殻 spin=0 なので
     // T_obs は恒等 0 — 相殺項は光に顔を出さないが、帳簿の一貫のため宣言する)
-    {type:"single", m:75.9632420553624, radius:0.11932224, x:-159.1375432696385, y:0, vx:0, vy:-0.20124077087446626, spin:13.6604877682484, pinned:false, pnSource:true,
+    {type:"single", dragQ:4.676140238926186, m:75.9632420553624, radius:0.11932224, x:-159.1375432696385, y:0, vx:0, vy:-0.20124077087446626, spin:13.6604877682484, pinned:false, pnSource:true,
       lightSweep:0.4599657164434556,
       core:{mode:"differential", massFrac:0.4599657164434556, radius:0.05966112, omega:13.6604877682484, Kcs:0, inertiaScale:14047.117021074499}},
-    {type:"single", m:38.76570308978797, radius:0.01, x:311.8375975662815, y:0, vx:0, vy:0.3943408779130805, spin:0, pinned:false,
+    {type:"single", dragQ:4.100469287433549, m:38.76570308978797, radius:0.01, x:311.8375975662815, y:0, vx:0, vy:0.3943408779130805, spin:0, pinned:false,
       lightSweep:0.4778134178783259,
       core:{mode:"differential", massFrac:0.4778134178783259, radius:0.01, omega:0, Kcs:0, inertiaScale:14047.117021074499}}
   ],
@@ -8052,7 +8055,7 @@ const BUILTIN_PRESETS = [
         "wave-224 redistribution: positions/velocities are re-split into the new masses' barycentric frame, keeping the observed relative state bit-exactly",
         "cmGauge:\"barycentric\" (wave 209 — the isolated-system barycentric gauge; not a calibration knob)"],
       fitted:["normalisation C=0.999078401008695 (the χ-law's single knob — 2nd-revolution P to the observed 8834.534723278 s under kFrame=1; the per-body ratio is law-derived, never fitted; D₀=0.006 and q=3.1789 are reused from 📻 as is)"],
-      derived:["per-body factors f_A=1.9958493962943922, f_B=1.996003077238511 (= C×g_i from chiMassFactors — the massCalibration ledger)",
+      derived:["dragQ (wave 237): A 3.1788606596895086 / B 3.185016056198988 — per-body q_exact from the observed shell mass M_shell=m/f at the same reference a=878.8366 (E2/E3 drag only; not a fit knob)","per-body factors f_A=1.9958493962943922, f_B=1.996003077238511 (= C×g_i from chiMassFactors — the massCalibration ledger)",
         "A 2.6708 M☉ = 5.3109×10³⁰ kg and B 2.4928 M☉ = 4.9568×10³⁰ kg (= transcribed masses × f_i)",
         "B's core Ω=22.654675 = 2π/P at the observed P=2.77346074724 s (a unit conversion of the observed rotation, not a fit)",
         "κ=G/c₀²=7.4156×10⁻⁷",
@@ -8142,7 +8145,7 @@ const BUILTIN_PRESETS = [
       "第224便の重心再配分: 位置・速度は観測の相対状態をビット保持したまま新質量の重心系へ再配分",
       "cmGauge:\"barycentric\"(第209便 — 孤立系の重心ゲージ。較正ノブではない)"],
     fitted:["正規化 C=0.999078401008695(χ-law の唯一のノブ — 2周目 P を kFrame=1 で観測周期 8834.534723278 s へ。f_B/f_A 比は法則導出でフィットしない。D₀=0.006・q=3.1789 は 📻 の値の流用)"],
-    derived:["粒子別 f_A=1.9958493962943922・f_B=1.996003077238511(=C×g_i — chiMassFactors・massCalibration 台帳)",
+    derived:["dragQ (wave 237): A 3.1788606596895086 / B 3.185016056198988 — per-body q_exact from the observed shell mass M_shell=m/f at the same reference a=878.8366 (E2/E3 drag only; not a fit knob)","粒子別 f_A=1.9958493962943922・f_B=1.996003077238511(=C×g_i — chiMassFactors・massCalibration 台帳)",
       "A 2.6708 M☉=5.3109×10³⁰kg・B 2.4928 M☉=4.9568×10³⁰kg(=転写質量×f_i)",
       "B のコア Ω=22.654675=2π/P(観測 P=2.77346074724 s の単位換算 — fit ではない)",
       "パルス時計チャネル ω_A=2767.998768・ω_B=22.654675(=2π/P の単位換算 — 観測転写・表示診断専用・第226便)",
@@ -8168,12 +8171,12 @@ const BUILTIN_PRESETS = [
            // (規約の半分 0.005875 は値域外 — 下限へ宣言)・ζ=10⁶(上限 — 200/R²=1.45×10⁶ は値域外)。
            // massFrac=(f_i−1)/f_i(第224便 — 殻質量=観測質量の記帳)。
            // 半径は 📻 と同じ宣言つき EOS proxy 0.01175
-    {type:"single", m:5310.921036676575, radius:0.01175, x:-461.50456603504244, y:0, vx:0, vy:-2.7632039964759803, spin:0, pinned:false, pnSource:true,
+    {type:"single", dragQ:3.1788606596895086, m:5310.921036676575, radius:0.01175, x:-461.50456603504244, y:0, vx:0, vy:-2.7632039964759803, spin:0, pinned:false, pnSource:true,
       // 第226便: 運動学パルス時計 — A の観測パルス ω=2768.0/単位(22.699379 ms)を発光スペクトル型の
       // 位相時計として搭載(表示診断専用・力学不干渉。力学の殻±20・コア±50 の値域は不変のまま)
       pulse:{omega:2767.998768, source:"observed"},
       core:{mode:"differential", massFrac:0.4989601911563783, radius:0.01, omega:0, Kcs:0, inertiaScale:1000000}},
-    {type:"single", m:4956.814243757927, radius:0.01175, x:494.47370584127515, y:0, vx:0, vy:2.960602821054544, spin:0, pinned:false, pnSource:true,
+    {type:"single", dragQ:3.185016056198988, m:4956.814243757927, radius:0.01175, x:494.47370584127515, y:0, vx:0, vy:2.960602821054544, spin:0, pinned:false, pnSource:true,
       pulse:{omega:22.654675, source:"observed"},   // 第226便: B も同チャネル(コア転写時計と並置比較できる)
       core:{mode:"differential", massFrac:0.4989987683869158, radius:0.01, omega:22.654675, Kcs:0, inertiaScale:1000000}}
   ],
@@ -8387,7 +8390,7 @@ const BUILTIN_PRESETS = [
         "cmGauge:\"barycentric\" (wave 209 — not a calibration knob)",
         "a declared SNAPSHOT: no merger/chirp/inspiral is reproduced (the DFM contraction is discretization work)"],
       fitted:["normalisation C=0.9956051586812829 (the χ-law's single knob — 2nd-revolution P to the reference 0.181818 s under kFrame=1+geoPN=0; the per-body ratio is law-derived, never fitted; D₀=0.006 and q=3.2552 are reused from 🎐 as is)"],
-      derived:["per-body factors f_A=1.9891253723224223, f_B=1.9894020585967025 (= C×g_i from chiMassFactors — the massCalibration ledger)",
+      derived:["dragQ (wave 237): A 3.2551886003410124 / B 3.250532868800494 — per-body q_exact from the observed shell mass M_shell=m/f at the same reference a=192.8116 (E2/E3 drag only; not a fit knob)","per-body factors f_A=1.9891253723224223, f_B=1.9894020585967025 (= C×g_i from chiMassFactors — the massCalibration ledger)",
         "A 68.82 M☉ = 1.3685×10³² kg and B 59.68 M☉ = 1.1868×10³² kg (= transcribed masses × f_i)",
         "κ=G/c₀²=7.4156×10⁻³",
         "camera.scale=240, timeScale=30, dispMag=1 (derived from the stated rules; display only)"],
@@ -8450,7 +8453,7 @@ const BUILTIN_PRESETS = [
       "cmGauge:\"barycentric\"(第209便 — 較正ノブではない)",
       "スナップショット宣言: 合体・チャープ・実系の周期短縮は再現しない(DFM の縮みは離散化仕事)"],
     fitted:["正規化 C=0.9956051586812829(χ-law の唯一のノブ — 2周目 P を kFrame=1+geoPN=0 で基準周期 0.181818 s へ。f_B/f_A 比は法則導出でフィットしない。D₀=0.006・q=3.2552 は 🎐 の値の流用)"],
-    derived:["粒子別 f_A=1.9891253723224223・f_B=1.9894020585967025(=C×g_i — chiMassFactors・massCalibration 台帳)",
+    derived:["dragQ (wave 237): A 3.2551886003410124 / B 3.250532868800494 — per-body q_exact from the observed shell mass M_shell=m/f at the same reference a=192.8116 (E2/E3 drag only; not a fit knob)","粒子別 f_A=1.9891253723224223・f_B=1.9894020585967025(=C×g_i — chiMassFactors・massCalibration 台帳)",
       "A 68.82 M☉=1.3685×10³²kg・B 59.68 M☉=1.1868×10³²kg(=転写質量×f_i)",
       "κ=G/c₀²=7.4156×10⁻³",
       "camera.scale=240・timeScale=30・dispMag=1(規約から決定的に算出・表示専用)"],
@@ -8472,9 +8475,9 @@ const BUILTIN_PRESETS = [
            //  Ω=0・Kcs=0・半径=殻の半分)— 偶力の受け皿は coupleSink:"reservoir" のまま(軌道ビット
            //  不変を実測)。受け皿をコアへ移す案(外部レビュー)は実測棄却: P 半減 0.0959 秒・e 0.154・
            //  コア Ω 57.9 — 軌道反作用が入り力学が別物になる(QA が否定対照で機械固定)
-    {type:"single", m:1368.5393806692807, radius:10.218554, x:-96.71147418356358, y:0, vx:0, vy:-2.858284325746459, spin:0, pinned:false, pnSource:true,
+    {type:"single", dragQ:3.2551886003410124, m:1368.5393806692807, radius:10.218554, x:-96.71147418356358, y:0, vx:0, vy:-2.858284325746459, spin:0, pinned:false, pnSource:true,
       core:{mode:"differential", massFrac:0.49726648007488816, radius:5.109277, omega:0, Kcs:0}},
-    {type:"single", m:1186.7598934373357, radius:8.8600181, x:111.52505381643644, y:0, vx:0, vy:3.2960961038243233, spin:0, pinned:false, pnSource:true,
+    {type:"single", dragQ:3.250532868800494, m:1186.7598934373357, radius:8.8600181, x:111.52505381643644, y:0, vx:0, vy:3.2960961038243233, spin:0, pinned:false, pnSource:true,
       core:{mode:"differential", massFrac:0.4973364003124705, radius:4.43000905, omega:0, Kcs:0}}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
@@ -9129,20 +9132,20 @@ const BUILTIN_PRESETS = [
   // 第172便(原仮定者裁定): 運用規約を厳密一致式 q_exact=20.4932 へ(旧 遠方近似形 q*≈21.8)。
   // 近点移動は 2×10⁻⁵ rad/公転(実測 1.5867×10⁻⁵ — 窓 1〜3×10⁻⁵ のまま PASS)。随伴プロファイルは
   // 表面高度 h=0.5 で LT の114倍(旧 45倍)→ h=44.7(中心距離 105 = 参照軌道)で **×1.00 の厳密一致**
-  // → 遠方で急減 — **表面に近いほど引きずりが強い**(MM null 結果と整合する構造)
+  // → 遠方で急減 — **表面に近いほど引きずりが強い**(MM null との整合は未検証 — 第237便で訂正)
   // 第148便(統括裁定 — 第147便残課題の rider): fidelity:"real" の**宣言漏れを修正**。
   // 💍 と同一実値・同一スケール指数系(1単位=10⁶m/10²s/10²⁵kg)で、第123便の qLock により
   // kF1 のまま環が実測どおりケプラー化している(第120便当時の「誇張対照」記述は解消済み)。
   fidelity:"real",
   failureFirst:{
     fail:"kFrame=1・q=3 では主星の実自転(10.56時間)のスピン項が環を増速(+4.7%)・内側移動(−2.5%/3周)させ、偏心軌道の近点は 0.23 rad/公転も回る — 実環の厳密ケプラー(Ω∝r^−1.5)から大きく外れる(exp-kf1b §C・kf1d §B)。",
-    pass:"第123便: 共通補正 D₀=0.006+**qLock(q は自動算出)**→ 第172便: 厳密一致式 **q_exact≈20.4932**(宣言参照軌道 a=105。実行時は自由天体距離の中央値で算出するので端数は動く)で、環の近点移動は 2×10⁻⁵ rad/公転へ落ち環・衛星ともケプラー化。随伴は表面近傍で強く(h=0.5 で LT の114倍)、参照軌道=環中央 a=105(h=44.7)でちょうど LT に一致し、その外で急減する — 「表面に近いほど引きずりが強い」= MM 実験の null 結果と整合する構造を、環という表面至近の軌道系で定量化(なお qLock は**有限参照正規化規約**で、遠方近似形 q* なら参照軌道での振幅は LT 振幅×裸比 (a/(R+a))³=0.256 に留まる。第172便で採用した厳密一致式はその裸比を 1 にする — ただし LT の r⁻³ 則の保存でないことは変わらない。第141便→第157便→第172便)。"},
+    pass:"第123便: 共通補正 D₀=0.006+**qLock(q は自動算出)**→ 第172便: 厳密一致式 **q_exact≈20.4932**(宣言参照軌道 a=105。実行時は自由天体距離の中央値で算出するので端数は動く)で、環の近点移動は 2×10⁻⁵ rad/公転へ落ち環・衛星ともケプラー化。随伴は表面近傍で強く(h=0.5 で LT の114倍)、参照軌道=環中央 a=105(h=44.7)でちょうど LT に一致し、その外で急減する — 「表面に近いほど引きずりが強い」随伴プロファイルを、環という表面至近の軌道系で定量化(MM 実験の null 結果との整合は未検証 — 第237便)(なお qLock は**有限参照正規化規約**で、遠方近似形 q* なら参照軌道での振幅は LT 振幅×裸比 (a/(R+a))³=0.256 に留まる。第172便で採用した厳密一致式はその裸比を 1 にする — ただし LT の r⁻³ 則の保存でないことは変わらない。第141便→第157便→第172便)。"},
   obsCard:[
     {q:"環の近点移動(偏心軌道・kF1)", model:"q=3: 0.23 rad/公転 → qLock(q_exact=20.4932): 2×10⁻⁵", obs:"≈0(厳密ケプラー)"},
     {q:"随伴プロファイル(ω_drag/LT)", model:"表面 h=0.5: ×114 → h=44.7(参照軌道 a=105): ×1.00 → タイタン: ≪1", obs:"表面随伴は MM null と整合(較正一致 — 機構同定ではない)"},
     {q:"補正の共通性", model:"D₀=0.006 は 🌘🪨 と共通・q は同一式の自動算出", obs:"—(exp-kf1d)"}],
   descStruct:{
-    summary:"💍(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、共通補正 D₀=0.006+qLock(自動算出 — 第172便で厳密一致式を採用。宣言参照軌道 a=105 での直値は q_exact≈20.4932 で、実行時は自由天体距離の中央値で算出するので端数は動く)を適用した版(第123便→第172便)。土星の環は**表面のすぐ外**を回る軌道系 — 随伴(引きずり)は表面に近いほど強く(h=0.5 で LT の114倍)、参照軌道=環中央 a=105 でちょうど LT に一致し、その外で急減する(qLock 則は**有限参照正規化規約**で、遠方近似形 q* なら宣言参照軌道 a=105 での振幅は LT 振幅×裸比 (a/(R+a))³=0.256 に留まる。厳密一致式はその裸比を 1 にする — どちらの形でも LT の r⁻³ 則も無限遠での非零 LT 比も保存しない。第141便→第157便→第172便)。この「表面に近いほど強い引きずり」はマイケルソン・モーリー実験の null 結果と整合する構造(表面の干渉計は共回りフレームに乗る)。ただしこれは**形状の整合**であって、MM 実験の観測量を導出したものでも定量比較したものでも機構を同定したものでもない — 本サンプルの主結果は環・衛星がケプラー観測に一致することで、随伴プロファイルはその補足にあたる。qLock 下では環の偏心軌道の近点移動が 2×10⁻⁵ rad/公転まで消え、環・衛星6ともケプラー観測に一致する(exp-kf1d §B)。**天体の現実較正の雛形**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock。今後の観測較正サンプルは本構成をコピーして作る — PHYSICS §5)。",
+    summary:"💍(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、共通補正 D₀=0.006+qLock(自動算出 — 第172便で厳密一致式を採用。宣言参照軌道 a=105 での直値は q_exact≈20.4932 で、実行時は自由天体距離の中央値で算出するので端数は動く)を適用した版(第123便→第172便)。土星の環は**表面のすぐ外**を回る軌道系 — 随伴(引きずり)は表面に近いほど強く(h=0.5 で LT の114倍)、参照軌道=環中央 a=105 でちょうど LT に一致し、その外で急減する(qLock 則は**有限参照正規化規約**で、遠方近似形 q* なら宣言参照軌道 a=105 での振幅は LT 振幅×裸比 (a/(R+a))³=0.256 に留まる。厳密一致式はその裸比を 1 にする — どちらの形でも LT の r⁻³ 則も無限遠での非零 LT 比も保存しない。第141便→第157便→第172便)。**マイケルソン・モーリー実験(MM)の null 結果との整合は未検証**(第237便で訂正: d は中心間距離で、源表面 d=R の随伴係数は 2⁻q=6.8×10⁻⁷ に過ぎない。往復光速の異方性という MM の観測量は未実装で、「表面に近いほど強い」形状の類似は根拠にならない — 表面基準は physics.dragRef:\"surface\" の opt-in で別途検証する)。本サンプルの主結果は環・衛星がケプラー観測に一致することで、随伴プロファイルはその補足にあたる。qLock 下では環の偏心軌道の近点移動が 2×10⁻⁵ rad/公転まで消え、環・衛星6ともケプラー観測に一致する(exp-kf1d §B)。**天体の現実較正の雛形**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock。今後の観測較正サンプルは本構成をコピーして作る — PHYSICS §5)。",
     observe:"環・衛星とも 💍 と同じケプラー運動に見える(見えないのが正しい — kF1 でも較正が成り立つ)。ワンタップ対照A/Bで B側 q=3 にすると環が増速+内側移動し偏心軌道の近点が目に見えて回る(スピン項の復活)。q スライダーは自動算出のためグレーアウト。",
     control:"本サンプルは**天体の現実較正の雛形**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock。今後の観測較正サンプルは本構成をコピーして作る — PHYSICS §5)。ワンタップ対照A/B: B側 q=3(第120便の誇張)で引きずりが見える。kFrame=0 にすると 💍 と同一。D₀ は 🌘🪨 と共通の 0.006(運動項較正)。"},
   en:{name:"Saturn's Rings (Real Units, kFrame=1) — surface entrainment & auto-derived q",
@@ -9160,13 +9163,13 @@ const BUILTIN_PRESETS = [
       numerical:["softening ε=0.05","time multiplier timeScale=10","display magnification dispMag=1 (real radii)"]},
     failureFirst:{
       fail:"With kFrame=1 and q=3, the spin term of the primary's real rotation (10.56 h) speeds the ring up (+4.7%), migrates it inward (−2.5% per 3 orbits), and turns eccentric apses by 0.23 rad/orbit — far off the real ring's exact Kepler rotation (exp-kf1b §C, kf1d §B).",
-      pass:"Wave 123 with the joint correction D₀=0.006 plus qLock, and wave 172 with the exact-agreement value q_exact=20.4932: the ring's apsidal drift falls to 2×10⁻⁵ rad/orbit and rings and moons alike become Keplerian. The entrainment profile is strong near the surface (×114 LT at h=0.5), meets the LT level exactly at the reference orbit a=105 (h=44.7, mid-ring), and dies off outward (qLock is a finite-reference normalization rule: with the distant-limit q* the amplitude at the declared reference orbit a=105 stays at the LT amplitude times the bare ratio (a/(R+a))³=0.256, and the exact-agreement form drives that bare ratio to 1 — either way preserving neither the r⁻³ law nor a nonzero LT ratio at infinity — waves 141/157/172) — 'stronger dragging nearer the surface', a structure consistent with the Michelson-Morley null result (a calibrated match, not a mechanism claim)."},
+      pass:"Wave 123 with the joint correction D₀=0.006 plus qLock, and wave 172 with the exact-agreement value q_exact=20.4932: the ring's apsidal drift falls to 2×10⁻⁵ rad/orbit and rings and moons alike become Keplerian. The entrainment profile is strong near the surface (×114 LT at h=0.5), meets the LT level exactly at the reference orbit a=105 (h=44.7, mid-ring), and dies off outward (qLock is a finite-reference normalization rule: with the distant-limit q* the amplitude at the declared reference orbit a=105 stays at the LT amplitude times the bare ratio (a/(R+a))³=0.256, and the exact-agreement form drives that bare ratio to 1 — either way preserving neither the r⁻³ law nor a nonzero LT ratio at infinity — waves 141/157/172) — 'stronger dragging nearer the surface', a structure consistent with the Michelson-Morley null result — UNTESTED (corrected in wave 237; the MM observable is not implemented)."},
     obsCard:[
       {q:"Ring apsidal drift (eccentric, kF1)", model:"q=3: 0.23 rad/orbit → qLock(q_exact=20.4932): 2×10⁻⁵", obs:"≈0 (exact Kepler)"},
       {q:"Entrainment profile (ω_drag/LT)", model:"surface h=0.5: ×114 → h=44.7 (reference orbit a=105): ×1.00 → Titan: ≪1", obs:"surface entrainment consistent with the MM null"},
       {q:"Universality", model:"D₀=0.006 shared with 🌘🪨; q auto-derived from one formula", obs:"— (exp-kf1d)"}],
     descStruct:{
-    summary:"The same real values as 💍 (kFrame=0) with frame dragging (A8/E6′) enabled and the joint correction applied: D₀=0.006 plus qLock (auto-derived; wave 172 adopted the exact-agreement value q_exact=20.4932) (waves 123/172). Saturn's ring orbits JUST outside the surface — entrainment is strongest near the surface (×114 LT at h=0.5), meets the LT level exactly at the reference orbit a=105 (mid-ring), and decays outward (the qLock rule is a finite-reference normalization: with the distant-limit q* the amplitude at the declared reference orbit a=105 stays at the LT amplitude times the bare ratio (a/(R+a))³=0.256, while the exact-agreement form drives that bare ratio to 1, preserving neither the r⁻³ law nor a nonzero LT ratio at infinity — waves 141/157/172). This is one of the three REAL-CALIBRATION TEMPLATES (🪨🌘💿 — real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock; future observation-calibration samples copy this construction — PHYSICS §5). 'Stronger dragging nearer the surface' is the structure consistent with the Michelson-Morley null result (a surface interferometer rides the co-rotating frame). This is a consistency of SHAPE only: the MM observable is neither derived nor quantitatively compared, and no mechanism is identified — the main result of this sample is that rings and moons match Keplerian observation, with the entrainment profile as a side note. Under qLock the eccentric apsidal drift falls to 2×10⁻⁵ rad/orbit — rings and all six moons stay Keplerian (exp-kf1d §B). ",
+    summary:"The same real values as 💍 (kFrame=0) with frame dragging (A8/E6′) enabled and the joint correction applied: D₀=0.006 plus qLock (auto-derived; wave 172 adopted the exact-agreement value q_exact=20.4932) (waves 123/172). Saturn's ring orbits JUST outside the surface — entrainment is strongest near the surface (×114 LT at h=0.5), meets the LT level exactly at the reference orbit a=105 (mid-ring), and decays outward (the qLock rule is a finite-reference normalization: with the distant-limit q* the amplitude at the declared reference orbit a=105 stays at the LT amplitude times the bare ratio (a/(R+a))³=0.256, while the exact-agreement form drives that bare ratio to 1, preserving neither the r⁻³ law nor a nonzero LT ratio at infinity — waves 141/157/172). This is one of the three REAL-CALIBRATION TEMPLATES (🪨🌘💿 — real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock; future observation-calibration samples copy this construction — PHYSICS §5). Consistency with the Michelson-Morley null result is UNTESTED (corrected in wave 237: d is the centre distance, the entrainment at the source surface d=R is only 2^−q=6.8×10⁻⁷, and the MM observable — the round-trip light-speed anisotropy — is not implemented; the surface reference is tested separately via physics.dragRef:\"surface\") — the main result of this sample is that rings and moons match Keplerian observation, with the entrainment profile as a side note. Under qLock the eccentric apsidal drift falls to 2×10⁻⁵ rad/orbit — rings and all six moons stay Keplerian (exp-kf1d §B). ",
     observe:"Rings and moons move exactly as in 💍 (invisible IS correct — the calibration survives kF1). One-tap A/B: side B at q=3 revives the wave-120 exaggeration — the ring speeds up, drifts inward, and eccentric apses visibly rotate. The q slider is greyed out (auto-derived). ",
     control:"This is one of the three REAL-CALIBRATION TEMPLATES (🪨🌘💿 — real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock; future observation-calibration samples copy this construction — PHYSICS §5). One-tap A/B: side B q=3 (the visible-drag contrast). Set kFrame to 0 to recover 💍 exactly. D₀ is 0.006, shared with 🌘🪨 (the motion-term calibration)."}},
   abBody:{ label:{ja:"q=3(引きずりが見える誇張対照)", en:"q=3 (visible-drag contrast)"},
@@ -9189,8 +9192,8 @@ const BUILTIN_PRESETS = [
       chain:{ax:["A5","A8"], eq:["E6′"],
         note:"随伴プロファイル ω_drag/LT の表面近傍(h=0.5)での比 — 参照軌道=環中央 a=105 でちょうど LT に一致し、その外で急減する形の一端。qLock の幾何減衰の帰結であって、この比に合わせて何かを決めてはいない。",
         noteEn:"The entrainment ratio ω_drag/LT just above the surface (h=0.5) — one end of a profile that meets the LT level exactly at the reference orbit a=105 (mid-ring) and decays outward. It is a consequence of qLock's geometric falloff; nothing was tuned to this ratio."},
-      roleNote:"回顧的確認 — 「表面に近いほど引きずりが強い」という**形状**がマイケルソン・モーリーの null 結果と整合する、という限定的な主張。MM 実験の観測量そのものを導出・定量比較しておらず、機構の同定でもない(補足であって主結果ではない)。",
-      roleNoteEn:"Retrospective check — a limited statement that the SHAPE \"dragging is stronger nearer the surface\" is consistent with the Michelson-Morley null result. It neither derives nor quantitatively compares the MM observable, and identifies no mechanism (a side note, not the main result).",
+      roleNote:"回顧的確認 — MM の null 結果との整合は**未検証**(第237便で訂正: d は中心間距離・表面 d=R の随伴は 2⁻q。MM の観測量は未実装)。補足であって主結果ではない。",
+      roleNoteEn:"Retrospective check — consistency with the MM null result is UNTESTED (corrected in wave 237: d is the centre distance; at the source surface d=R the entrainment is 2^−q; the MM observable is not implemented). A side note, not the main result.",
       // 第172便(q_exact 規約採用)で**唯一 窓の再宣言が必要になった項目**。ω_drag/LT は q に指数的に効くので、
       // q が 21.8433(遠方近似形 q*)→ 20.4932(厳密一致式)へ動くと h=0.5 の比は 44.52 → 114.115 になる
       // (解析値 — exp-kf1d §B と同一式・同一入力で再計算)。旧窓 {40,50} は旧 q の値 45 に張った
@@ -10177,6 +10180,12 @@ function validatePreset(obj){
         else if(p.physics[k]!=="spin") ph[k]=p.physics[k];
         continue;
       }
+      // 第237便: dragRef も同じ流儀(非数値キー・既定 "center" は ph へ入れない=署名不変・1 bit 不変)
+      if(k===DRAG_REF_KEY){
+        if(DRAG_REFS.indexOf(p.physics[k])<0) warnings.push('physics.dragRef は "center"/"surface" のみ — 既定(center)に修正');
+        else if(p.physics[k]!=="center") ph[k]=p.physics[k];
+        continue;
+      }
       // 第209便: cmGauge も同じ流儀。pairReduced ③′ 専用(legacy 経路は対象外)
       if(k===CM_GAUGE_KEY){
         if(CM_GAUGES.indexOf(p.physics[k])<0) warnings.push('physics.cmGauge は "barycentric" のみ — 既定(なし)に修正');
@@ -10412,7 +10421,8 @@ function validatePreset(obj){
         for(const oldKey of ["obsT","coreOT"])
           if(b[oldKey]!==undefined){ warnings.push(at+"."+oldKey+" は第61便で廃止されました — 無視します"); delete b[oldKey]; }
         for(const [k,lo,hi] of [["radius",0.01,100],["rMul",0.2,40],   /* 第118便: R 0.01〜100 / 第121便: rMul 上限 40(💍e6 実環代表粒 m=1e-5 の表示半径 0.1=rMul31.62) */
-                                 ["tInt",0,10000]]){
+                                 ["tInt",0,10000],
+                                 ["dragQ",0.5,40]]){   /* 第237便: 粒子別の引きずり減衰指数 q_i(E2/E3 専用・未宣言=physics.q) */
           if(b[k]!==undefined){
             if(!isNum(b[k])){ bad(at+"."+k+" が数値ではありません"); return; }
             o[k]=wc(b[k],lo,hi,k);
@@ -12208,6 +12218,8 @@ function makeSim(){
     // 入れない — 3レビュー一致+「コア構造は近似・シンプルに」の原仮定者指示)。
     // 面内成分ゼロの宇宙は hasCoreTilt=false で全経路素通り(既定 1 bit 不変)
     S.coreJx=new Float64Array(n); S.coreJy=new Float64Array(n); S.hasCoreTilt=false;
+    // 第237便(第30報): 粒子別の引きずり減衰指数 q_i(0=未宣言 → physics.q)。1個でも宣言があれば generic カーネル経路
+    S.dragQ=new Float64Array(n); S.hasDragQ=false;
     // 第80便(コアv2 残段): coreEint=コア内部エネルギー(Float64 — 帳簿 coreSrcE と突き合わせる)・
     // coreSrc=sourceRate(active のみ)・coreOm0=cavity の規定 Ω(空洞は慣性0で J を持てないため、
     // Ω は状態変数ではなく規定値。differential 系は coreOmV=J/I を毎サブステップ再計算する)。
@@ -12288,6 +12300,7 @@ function makeSim(){
         if(b.core) o.core=b.core;      // 第77便(コアv2): 独立コア(validate 済みオブジェクト)
         if(b.pulse) o.pulse=b.pulse;   // 第226便: パルス時計チャネル(validate 済み・表示診断専用)
         if(b.shell) o.shell=b.shell;   // 第229便→第231便: 殻の相(検証器は通していたが flag 未伝播だった修正)
+        if(b.dragQ>0) o.dragQ=b.dragQ;   // 第237便: 粒子別引きずり減衰指数 q_i(未宣言=0 → physics.q)
         // 第27便: 単体粒子のレール駆動(pinned+railOmega — 円軌道。🕶️ハローの
         // 20体相互散乱による形崩れ対策: 軌道を外部が規定し、u場への運動寄与は維持される)
         // 第32便(台帳4-57): レール中心 railCx/railCy(未指定=原点で従来式と厳密等価)
@@ -12515,6 +12528,7 @@ function makeSim(){
       if(o.pulse){ S.pulseOm[i]=o.pulse.omega; S.pulsePh[i]=0; S.hasPulse=true; }
       else { S.pulseOm[i]=0; S.pulsePh[i]=0; }
       S.shellGas[i]=(o.shell==="gas")?1:0;   // 第229便: 殻の相
+      S.dragQ[i]=(o.dragQ>0)? o.dragQ : 0; if(o.dragQ>0) S.hasDragQ=true;   // 第237便
       // 第77便(コアv2): 独立コア。J_core=½·Mc·Rc²·omega で初期化(以後 J が主変数)
       // 第80便: mode を4種へ拡張。cavity は質量0・慣性0なので J を持たず、Ω は規定値 coreOm0。
       // 引きずり重みは coreMF=−voidFraction(旧コアv1 の coreMR<0 と同じ符号反転を「重み」で表す)
@@ -12930,6 +12944,7 @@ function makeSim(){
         let u3a=0;
         for(let k2=0;k2<n;k2++){ if(k2===i||k2===j||dead[k2]) continue; u3a+=pairU(i,k2)+pairU(j,k2); }
         // ---- 融合後の状態を書き込む(格納値を読み戻しながら逐次確定)----
+        if(S.hasDragQ){ S.dragQ[i]=(mi>=mj)? S.dragQ[i] : S.dragQ[j]; }   // 第237便: 重い側の q_i を継承(材料則が決まるまでの規約)
         m[i]=mn; const mS=m[i];                          // Float32 格納後の質量
         x[i]=(mi*xi+mj*xj)/mS; y[i]=(mi*yi+mj*yj)/mS;
         vx[i]=Px/mS; vy[i]=Py/mS;
@@ -13070,7 +13085,7 @@ function makeSim(){
     const k=keep.length;
     const mv=(a)=>{ if(!a) return; for(let t=0;t<k;t++){ const s0=keep[t]; if(s0!==t) a[t]=a[s0]; } };
     for(const key of ["m","x","y","vx","vy","spin","R","rotA","mEff","rotAc",
-      "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","corePump","coreCtr",   // 第77便(コアv2)
+      "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","corePump","coreCtr",   // 第77便(コアv2)
       "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内
       "lSw","radOv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
@@ -13106,7 +13121,7 @@ function makeSim(){
     if(need<=cap) return cap;
     const nc=Math.max(need, cap+Math.max(8, cap>>1));
     for(const key of ["m","x","y","vx","vy","spin","R","rotA","mEff","rotAc",
-      "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","corePump","coreCtr",   // 第77便(コアv2)
+      "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","corePump","coreCtr",   // 第77便(コアv2)
       "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内
       "lSw","radOv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
@@ -13256,7 +13271,7 @@ function makeSim(){
         S.RcV[j]=Math.sqrt(m2t/mT)*S.RcV[i]; S.RcV[i]=Math.sqrt(m1t/mT)*S.RcV[i];
         S.coreJ[j]=S.coreJ[i]-J1c; S.coreJ[i]=J1c;
         S.coreEint[j]=S.coreEint[i]-E1c; S.coreEint[i]=E1c;
-        S.coreKcs[j]=S.coreKcs[i]; S.corePump[j]=S.corePump[i]; S.coreCtr[j]=S.coreCtr[i]; S.coreKal[j]=S.coreKal[i];
+        S.coreKcs[j]=S.coreKcs[i]; S.corePump[j]=S.corePump[i]; S.coreCtr[j]=S.coreCtr[i]; S.coreKal[j]=S.coreKal[i]; S.dragQ[j]=S.dragQ[i];   // 第237便: q_i は両片が継ぐ
         S.coreBR[j]=S.coreBR[i]; S.coreBF[j]=S.coreBF[i];   // 第234便: 率・比率は両片が継ぐ・基準/放出済み |J| は質量比例
         const BJ01=S.coreBJ0[i]*f1; S.coreBJ0[j]=S.coreBJ0[i]-BJ01; S.coreBJ0[i]=BJ01;
         const BJr1=S.coreBJr[i]*f1; S.coreBJr[j]=S.coreBJr[i]-BJr1; S.coreBJr[i]=BJr1;
@@ -13265,7 +13280,7 @@ function makeSim(){
         const Jx1=S.coreJx[i]*f1; S.coreJx[j]=S.coreJx[i]-Jx1; S.coreJx[i]=Jx1;   // 第227便: 面内成分も質量比例
         const Jy1=S.coreJy[i]*f1; S.coreJy[j]=S.coreJy[i]-Jy1; S.coreJy[i]=Jy1;
       } else {
-        S.coreMd[j]=0; S.coreMF[j]=0; S.RcV[j]=0; S.coreJ[j]=0; S.coreKcs[j]=0; S.corePump[j]=0; S.coreCtr[j]=0; S.coreKal[j]=0;
+        S.coreMd[j]=0; S.coreMF[j]=0; S.RcV[j]=0; S.coreJ[j]=0; S.coreKcs[j]=0; S.corePump[j]=0; S.coreCtr[j]=0; S.coreKal[j]=0; S.dragQ[j]=S.dragQ[i];   // 第237便
         S.coreBR[j]=0; S.coreBF[j]=0; S.coreBJ0[j]=0; S.coreBJr[j]=0;   // 第234便
         S.coreEint[j]=0; S.coreSrc[j]=0; S.coreOm0[j]=0; S.coreIS[j]=1; S.coreJm[j]=0;
         S.coreJx[j]=0; S.coreJy[j]=0;   // 第227便
@@ -13411,6 +13426,8 @@ function makeSim(){
     const cplSink=(p[COUPLE_SINK_KEY]==="core")?1:((p[COUPLE_SINK_KEY]==="reservoir")?2:((p[COUPLE_SINK_KEY]==="tilt")?3:0));
     // 第209便: cmGauge(0=既定・素通り/1="barycentric")— 適用本体は cmGaugeSubtract(S._core の外)
     const cmg=(p[CM_GAUGE_KEY]==="barycentric")?1:0;
+    // 第237便(第30報): 粒子別 q_i(hasDragQ)と表面基準(dragRef:"surface")は generic 経路(特別化カーネルは単一 q・中心距離が前提)
+    const dragSurf=(p[DRAG_REF_KEY]==="surface"), dqA=S.dragQ, hasDQ=S.hasDragQ;
     if(pairR && (!S._pr || S._pr.nAl!==n)) S._pr={nAl:n, reqX:new Float64Array(n), reqY:new Float64Array(n), hasR:new Uint8Array(n)};
     const reqX=pairR?S._pr.reqX:__DF64, reqY=pairR?S._pr.reqY:__DF64;
     let anyReq=false;
@@ -13532,7 +13549,7 @@ function makeSim(){
     // phase なし・コアv2 なし・箱なし・機構スペクトル OFF)だけが特別化カーネルへ入る。
     // kernelForceGeneric は QA kernel.bitident 用の開発フック(既定 OFF・判定へ無影響)
     const kKind=(!kernelForceGeneric && kRep===0 && muF===0 && gammaN===0 && kappaS===0 &&
-                 etaRad===0 && !tint && !pc && !hasCoreV2 && !msOn && !B)? (geo?2:1) : 0;
+                 etaRad===0 && !tint && !pc && !hasCoreV2 && !msOn && !B && !hasDQ && !dragSurf)? (geo?2:1) : 0;
     S._kKind=kKind;
     if(kKind!==0){
       // 特別化カーネルが読む分だけを ctx へ書く(generic 専用フィールドは持たない)。
@@ -13623,8 +13640,11 @@ function makeSim(){
         }
         // E2/E3 フレーム速度への寄与(並進 + スピン回転 ẑ×(r−r_j)=(−dy,dx))
         let omj=0, omi=0;
-        if(sj!==0){ const tt=Rj/(Rj+d); omj = (q===2)? sj*tt*tt : sj*Math.pow(tt,q); }
-        if(si!==0){ const tt=Ri/(Ri+d); omi = (q===2)? si*tt*tt : si*Math.pow(tt,q); }
+        // 第237便(第30報): 粒子別 q_i(未宣言=physics.q)と距離基準(surface=表面高度 h=max(0,d−R))。既定は従来式と同一値
+        const qj=(hasDQ && dqA[j]>0)? dqA[j] : q, qi=(hasDQ && dqA[i]>0)? dqA[i] : q;
+        const hj=dragSurf? Math.max(0,d-Rj) : d, hi=dragSurf? Math.max(0,d-Ri) : d;
+        if(sj!==0){ const tt=Rj/(Rj+hj); omj = (qj===2)? sj*tt*tt : sj*Math.pow(tt,qj); }
+        if(si!==0){ const tt=Ri/(Ri+hi); omi = (qi===2)? si*tt*tt : si*Math.pow(tt,qi); }
         // 第81便: コアv1(比率仕様 coreMR/coreSR/coreRR)の分岐は廃止 — コア差動は
         // コアv2(J_core 主変数)の1本だけになった(移行式はインポート側 legacyCoreToV2 が担う)
         // 第77便(コアv2): 独立コア(differential)の差動が A8 と同型で外へ届く —
@@ -13634,9 +13654,9 @@ function makeSim(){
         // cavity は coreMF=−voidFraction(負の重み)なので、旧 coreMR<0 と同じ符号反転になる
         if(hasCoreV2){
           if(S.coreMd[j]>=2 && S.RcV[j]>0){ const dOm=S.coreOmV[j]-sj;
-            if(dOm!==0){ const tt=S.RcV[j]/(S.RcV[j]+d); omj += S.coreMF[j]*dOm*((q===2)? tt*tt : Math.pow(tt,q)); } }
+            if(dOm!==0){ const tt=S.RcV[j]/(S.RcV[j]+hj); omj += S.coreMF[j]*dOm*((qj===2)? tt*tt : Math.pow(tt,qj)); } }
           if(S.coreMd[i]>=2 && S.RcV[i]>0){ const dOm=S.coreOmV[i]-si;
-            if(dOm!==0){ const tt=S.RcV[i]/(S.RcV[i]+d); omi += S.coreMF[i]*dOm*((q===2)? tt*tt : Math.pow(tt,q)); } }
+            if(dOm!==0){ const tt=S.RcV[i]/(S.RcV[i]+hi); omi += S.coreMF[i]*dOm*((qi===2)? tt*tt : Math.pow(tt,qi)); } }
         }
         uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));
         uAx[j]+=wi*(vx[i]+omi*(dy));  uAy[j]+=wi*(vy[i]+omi*(-dx));
@@ -13648,15 +13668,16 @@ function makeSim(){
         if(g2on){
           const idd=(d>1e-9)? 1/d : 0;
           let domj=0, domi=0;   // ∂ω/∂d(基底+コア差動)
-          if(sj!==0){ const tt=Rj/(Rj+d), o0=(q===2)? sj*tt*tt : sj*Math.pow(tt,q); domj-=q*o0/(Rj+d); }
-          if(si!==0){ const tt=Ri/(Ri+d), o0=(q===2)? si*tt*tt : si*Math.pow(tt,q); domi-=q*o0/(Ri+d); }
+          // 第237便: q_i・距離基準は ②③ のフレーム式と同じ核(surface で d≤R の内側は核が定数 → 勾配 0)
+          if(sj!==0 && (!dragSurf || d>Rj)){ const tt=Rj/(Rj+hj), o0=(qj===2)? sj*tt*tt : sj*Math.pow(tt,qj); domj-=qj*o0/(Rj+hj); }
+          if(si!==0 && (!dragSurf || d>Ri)){ const tt=Ri/(Ri+hi), o0=(qi===2)? si*tt*tt : si*Math.pow(tt,qi); domi-=qi*o0/(Ri+hi); }
           // 第81便: コアv1 の勾配分岐は廃止(上の A8 と同じ理由)
           // 第77便(コアv2): 独立コアの差動勾配(A8 v2 分岐と同じ核。第80便: md≥2 の4モード共通)
           if(hasCoreV2){
             if(S.coreMd[j]>=2 && S.RcV[j]>0){ const dOm=S.coreOmV[j]-sj;
-              if(dOm!==0){ const tt=S.RcV[j]/(S.RcV[j]+d), oc=S.coreMF[j]*dOm*((q===2)? tt*tt : Math.pow(tt,q)); domj-=q*oc/(S.RcV[j]+d); } }
+              if(dOm!==0 && (!dragSurf || d>Rj)){ const tt=S.RcV[j]/(S.RcV[j]+hj), oc=S.coreMF[j]*dOm*((qj===2)? tt*tt : Math.pow(tt,qj)); domj-=qj*oc/(S.RcV[j]+hj); } }
             if(S.coreMd[i]>=2 && S.RcV[i]>0){ const dOm=S.coreOmV[i]-si;
-              if(dOm!==0){ const tt=S.RcV[i]/(S.RcV[i]+d), oc=S.coreMF[i]*dOm*((q===2)? tt*tt : Math.pow(tt,q)); domi-=q*oc/(S.RcV[i]+d); } }
+              if(dOm!==0 && (!dragSurf || d>Ri)){ const tt=S.RcV[i]/(S.RcV[i]+hi), oc=S.coreMF[i]*dOm*((qi===2)? tt*tt : Math.pow(tt,qi)); domi-=qi*oc/(S.RcV[i]+hi); } }
           }
           { // i 側(源 j): r−r_j=(dx,dy)、c=(vx_j−ω_j·dy, vy_j+ω_j·dx)
             const gwx=-mj*dx*invd3, gwy=-mj*dy*invd3;
@@ -15420,7 +15441,10 @@ function rayField(S, heavy, px, py, kU, eps2, q, kF, BX, WB, bH){
     const dd=Math.sqrt(d2), w=S.m[i]*inv;   // v1.5: E1′(inv=1/√(d²+ε²) を再利用。dd は下の tt で使用)
     wSum+=w;
     let om=0; const si=S.spin[i];
-    if(si!==0){ const tt=S.R[i]/(S.R[i]+dd); om=(q===2)? si*tt*tt : si*Math.pow(tt,q); }
+    // 第237便: 光線も同じ核 — 粒子別 q_i と距離基準(既定は従来式と同一値)
+    const qi=(S.hasDragQ && S.dragQ[i]>0)? S.dragQ[i] : q;
+    const hh=(S.params[DRAG_REF_KEY]==="surface")? Math.max(0,dd-S.R[i]) : dd;
+    if(si!==0){ const tt=S.R[i]/(S.R[i]+hh); om=(qi===2)? si*tt*tt : si*Math.pow(tt,qi); }
     uNx+=kF*w*(S.vx[i]+om*(-dy)); uNy+=kF*w*(S.vy[i]+om*(dx));
   }
   if(WB>0){ uNx+=kF*WB*(BX.vx - BX.omega*(py-BX.cy) + bH*(px-BX.cx));
@@ -17790,7 +17814,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   if(simB.m.length>=sim.n){
     for(const k of ["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy",
       "mEff","rotAc",                          // 第81便: コアv1(coreMR/coreSR/Rc)は廃止
-      "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","corePump","coreCtr",   // 第77便(コアv2)
+      "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","corePump","coreCtr",   // 第77便(コアv2)
       "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内
       "lSw","radOv",                           // 観測系(第22便 — obsT/coreOT は第61便で廃止)
       "rMulv","lSwAuto",                       // 第36便 C1/C2: 半径倍率・掻出の自動算出フラグ
@@ -17997,7 +18021,7 @@ let ckSnap=null;
 const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU","pinned",
   "mEff","rotAc","lSw","radOv","rMulv","lSwAuto",   // 第81便: コアv1 配列は廃止
   "pulseOm","pulsePh","shellGas",   // 第226便: パルス時計チャネル / 第229便: 殻の相
-  "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","corePump","coreCtr",
+  "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","corePump","coreCtr",
   "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内
   "railR","railAng","railOmega","railCx","railCy","railH",
   "Tint","coordN","coordAcc","shPrev","_phNbrPrev","_phNbrPrevN","_phProf"];
@@ -18195,8 +18219,10 @@ $("#btnPanelClose").addEventListener("click",closePanel);  // v1.17: パネル�
 //   (比は d^{3−q*} で消える — q_exact 規約でも同形の d^{3−q_exact})。
 // (第164便 tests/exp-qexact.mjs が4系の q_exact 走行で全 claims 窓 PASS を機械確認 →
 //  第172便で規約採用: 🪨6.1471→引きずり−5.8e-10・🌘8.2358→Δϖ比0.9992・💿20.4932→環がケプラー化・
-//  🟠12.0586→hold-out 4衛星保持)。d→0(表面)では q によらず強い随伴が残る —
-// 「表面に近いほど引きずりが強い」= マイケルソン・モーリーの null 結果と整合する構造。
+//  🟠12.0586→hold-out 4衛星保持)。**注意(第237便で訂正)**: d は中心間距離。源の表面は d=R なので核は
+//  2⁻q(地球 8.24 → 0.33%・土星 20.5 → 6.8×10⁻⁷)であり、d→0 は表面ではなく中心一致を表す。マイケルソン・
+//  モーリー(MM)の null 結果との整合は、往復光速の異方性という観測量を導出・検証するまで**未判定**
+//  (表面基準の随伴は physics.dragRef:"surface" の opt-in で検証する — 第30報)。
 // qLock はサンプル宣言(トップレベルキー)で、読込時に適用・q 行はグレーアウトされる。
 let qLockOn=false;
 function qLockCalc(S){
@@ -19825,7 +19851,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 9. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 
 # ジェネレータ(bodiesの要素。typeごとに全フィールド必須)
-- single: {type,m,x,y,vx,vy,spin,pinned} — 粒子1個。pinned:true で力を受けず固定。省略可の rMul(半径倍率 0.2〜40・既定1。R=radiusScale·rMul·√|m|)。
+- single: {type,m,x,y,vx,vy,spin,pinned} — 粒子1個。pinned:true で力を受けず固定。省略可の rMul(半径倍率 0.2〜40・既定1。R=radiusScale·rMul·√|m|)。省略可の dragQ(粒子別の引きずり減衰指数 0.5〜40・既定は physics.q)。
 - ring: {type,n,cx,cy,rIn,rOut,mMin,mMax,spinMin,spinMax,vMode,aroundMass,omega,vNoise,direction,pinned} — 半径rIn〜rOutの環にn個。vMode: "kepler"(aroundMassの周りを公転)|"omega"(v=omega×r)|"none"。direction: 1=反時計,-1=時計。省略可の rMul(0.2〜40)。
 - disk: {type,n,cx,cy,radius,mMin,mMax,spinMin,spinMax,vMode,aroundMass,vScale,direction} — 半径radiusの円盤にn個。vMode: "kepler"(vScaleは倍率,通常1)|"rigid"(vScale=角速度)|"flat"(vScale=一定速さ)|"random"(vScale=速さ)|"enclosed"(配置後の実ポテンシャルの円運動解・vScaleは倍率)|"virial"(群のビリアル平衡 ⟨v²⟩=−W/M・vScaleは倍率)|"none"。省略可の rMul(0.2〜20)。
 - box: {type,n,cx,cy,w,h,mMin,mMax,spinMin,spinMax,vScale} — 幅w高さhの矩形にn個、ランダム方向に速さ〜vScale。省略可の rMul(0.2〜20)。
@@ -21469,7 +21495,8 @@ function aiIntakeText(text, opts){
 const AI_PROVIDERS={
   // 第170便(原仮定者許可): 実行時 LLM の既定を Haiku 4.5 → Sonnet 5 へ引き上げ
   // (第25便: Opus 5 は同価格の置き換え上位)。候補の並びも既定を先頭に合わせる
-  anthropic:{ models:["claude-sonnet-5","claude-haiku-4-5","claude-opus-5"],
+  // 第238便(第30報): Haiku は使わない — 候補から撤去(手入力で指定された場合は従来どおり Sonnet 5 へフォールバック)
+  anthropic:{ models:["claude-sonnet-5","claude-opus-5"],
     defModel:"claude-sonnet-5", keyPh:"sk-ant-..." },
   openai:{ models:["gpt-5-mini","gpt-5","gpt-4.1-mini"],
     defModel:"gpt-5-mini", keyPh:"sk-...", defBase:"https://api.openai.com/v1" },

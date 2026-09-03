@@ -73,8 +73,11 @@ let pk=0; // 対インデックス(pairD 書き込み位置)
         }
         // E2/E3 フレーム速度への寄与(並進 + スピン回転 ẑ×(r−r_j)=(−dy,dx))
         let omj=0, omi=0;
-        if(sj!==0){ const tt=Rj/(Rj+d); omj = (q===2)? sj*tt*tt : sj*Math.pow(tt,q); }
-        if(si!==0){ const tt=Ri/(Ri+d); omi = (q===2)? si*tt*tt : si*Math.pow(tt,q); }
+        // 第237便(第30報): 粒子別 q_i(未宣言=physics.q)と距離基準(surface=表面高度 h=max(0,d−R))。既定は従来式と同一値
+        const qj=(hasDQ && dqA[j]>0)? dqA[j] : q, qi=(hasDQ && dqA[i]>0)? dqA[i] : q;
+        const hj=dragSurf? Math.max(0,d-Rj) : d, hi=dragSurf? Math.max(0,d-Ri) : d;
+        if(sj!==0){ const tt=Rj/(Rj+hj); omj = (qj===2)? sj*tt*tt : sj*Math.pow(tt,qj); }
+        if(si!==0){ const tt=Ri/(Ri+hi); omi = (qi===2)? si*tt*tt : si*Math.pow(tt,qi); }
         // 第81便: コアv1(比率仕様 coreMR/coreSR/coreRR)の分岐は廃止 — コア差動は
         // コアv2(J_core 主変数)の1本だけになった(移行式はインポート側 legacyCoreToV2 が担う)
         // 第77便(コアv2): 独立コア(differential)の差動が A8 と同型で外へ届く —
@@ -84,9 +87,9 @@ let pk=0; // 対インデックス(pairD 書き込み位置)
         // cavity は coreMF=−voidFraction(負の重み)なので、旧 coreMR<0 と同じ符号反転になる
         if(hasCoreV2){
           if(S.coreMd[j]>=2 && S.RcV[j]>0){ const dOm=S.coreOmV[j]-sj;
-            if(dOm!==0){ const tt=S.RcV[j]/(S.RcV[j]+d); omj += S.coreMF[j]*dOm*((q===2)? tt*tt : Math.pow(tt,q)); } }
+            if(dOm!==0){ const tt=S.RcV[j]/(S.RcV[j]+hj); omj += S.coreMF[j]*dOm*((qj===2)? tt*tt : Math.pow(tt,qj)); } }
           if(S.coreMd[i]>=2 && S.RcV[i]>0){ const dOm=S.coreOmV[i]-si;
-            if(dOm!==0){ const tt=S.RcV[i]/(S.RcV[i]+d); omi += S.coreMF[i]*dOm*((q===2)? tt*tt : Math.pow(tt,q)); } }
+            if(dOm!==0){ const tt=S.RcV[i]/(S.RcV[i]+hi); omi += S.coreMF[i]*dOm*((qi===2)? tt*tt : Math.pow(tt,qi)); } }
         }
         uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));
         uAx[j]+=wi*(vx[i]+omi*(dy));  uAy[j]+=wi*(vy[i]+omi*(-dx));
@@ -98,15 +101,16 @@ let pk=0; // 対インデックス(pairD 書き込み位置)
         if(g2on){
           const idd=(d>1e-9)? 1/d : 0;
           let domj=0, domi=0;   // ∂ω/∂d(基底+コア差動)
-          if(sj!==0){ const tt=Rj/(Rj+d), o0=(q===2)? sj*tt*tt : sj*Math.pow(tt,q); domj-=q*o0/(Rj+d); }
-          if(si!==0){ const tt=Ri/(Ri+d), o0=(q===2)? si*tt*tt : si*Math.pow(tt,q); domi-=q*o0/(Ri+d); }
+          // 第237便: q_i・距離基準は ②③ のフレーム式と同じ核(surface で d≤R の内側は核が定数 → 勾配 0)
+          if(sj!==0 && (!dragSurf || d>Rj)){ const tt=Rj/(Rj+hj), o0=(qj===2)? sj*tt*tt : sj*Math.pow(tt,qj); domj-=qj*o0/(Rj+hj); }
+          if(si!==0 && (!dragSurf || d>Ri)){ const tt=Ri/(Ri+hi), o0=(qi===2)? si*tt*tt : si*Math.pow(tt,qi); domi-=qi*o0/(Ri+hi); }
           // 第81便: コアv1 の勾配分岐は廃止(上の A8 と同じ理由)
           // 第77便(コアv2): 独立コアの差動勾配(A8 v2 分岐と同じ核。第80便: md≥2 の4モード共通)
           if(hasCoreV2){
             if(S.coreMd[j]>=2 && S.RcV[j]>0){ const dOm=S.coreOmV[j]-sj;
-              if(dOm!==0){ const tt=S.RcV[j]/(S.RcV[j]+d), oc=S.coreMF[j]*dOm*((q===2)? tt*tt : Math.pow(tt,q)); domj-=q*oc/(S.RcV[j]+d); } }
+              if(dOm!==0 && (!dragSurf || d>Rj)){ const tt=S.RcV[j]/(S.RcV[j]+hj), oc=S.coreMF[j]*dOm*((qj===2)? tt*tt : Math.pow(tt,qj)); domj-=qj*oc/(S.RcV[j]+hj); } }
             if(S.coreMd[i]>=2 && S.RcV[i]>0){ const dOm=S.coreOmV[i]-si;
-              if(dOm!==0){ const tt=S.RcV[i]/(S.RcV[i]+d), oc=S.coreMF[i]*dOm*((q===2)? tt*tt : Math.pow(tt,q)); domi-=q*oc/(S.RcV[i]+d); } }
+              if(dOm!==0 && (!dragSurf || d>Ri)){ const tt=S.RcV[i]/(S.RcV[i]+hi), oc=S.coreMF[i]*dOm*((qi===2)? tt*tt : Math.pow(tt,qi)); domi-=qi*oc/(S.RcV[i]+hi); } }
           }
           { // i 側(源 j): r−r_j=(dx,dy)、c=(vx_j−ω_j·dy, vy_j+ω_j·dx)
             const gwx=-mj*dx*invd3, gwy=-mj*dy*invd3;

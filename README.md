@@ -374,7 +374,7 @@ GitHub Actions([.github/workflows/ci.yml](.github/workflows/ci.yml))が push/PR 
 
 ## AI追加機能のコスト
 
-プリセット生成1回 ≈ $0.013〜0.017(約2〜3円、Claude Haiku 4.5)。詳細は MODEL_ROUTING.md のコスト見積りを参照。
+プリセット生成1回 ≈ $0.03〜0.05(約5〜8円、Claude Sonnet 5 既定 — 第170便で Haiku 4.5 から引き上げ・第238便で Haiku は候補から撤去)。
 
 ## 技術メモ
 
