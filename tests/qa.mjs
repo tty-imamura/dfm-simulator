@@ -8645,7 +8645,7 @@ if (!FAST) {
       const emI = run('earthMoonRealKF1', { dragRef: 'interior' }, 300), emS = run('earthMoonRealKF1', { dragRef: 'surface' }, 300);
       // ② 玩具: pinned 源(R=20)・プローブ d=40。G=0 で重力を切り、追跡フレーム u を直接読む
       const base = (src, ph) => ({ name: 'toy', description: 'toy', physics: Object.assign({ G: 0, D0: 2, kFrame: 1, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 0.016666666666666666, cLight: 30, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 0.01, timeScale: 1 }, ph || {}),
-        camera: { scale: 100 }, world: { boundary: 'none', size: 0 }, bodies: [src, { type: 'single', m: 1e-9, radius: 0.01, x: 40, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+        camera: { scale: 100 }, world: { boundary: 'none', size: 0 }, bodies: [src, { type: 'single', m: 1e-6, radius: 0.01, x: 40, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
       const u = (pd) => { const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset); S.step(0.004); S.step(0.004);
         return { ux: S.uPx[1], uy: S.uPy[1], k: S._kKind, warn: (v.warnings || []).length }; };
       const src0 = { type: 'single', m: 100, radius: 20, x: 0, y: 0, vx: 1, vy: 0, spin: 0, pinned: true };
