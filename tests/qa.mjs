@@ -8682,23 +8682,27 @@ if (!FAST) {
     });
     const near = (a, b, tol) => Math.abs(a / b - 1) < tol;
     const flOK = Object.values(ch.fl).every((f) => f && near(f.pred, f.led, 0.01));
-    const flTxt = Object.entries(ch.fl).map(([k, f]) => `${k.replace('DFM', '')} ${f ? (f.pred / f.led - 1 * 1).toFixed(4) : 'null'}`).join('・');
-    add('behavior.dragChannels',
-      ch.sig && ch.bitAc && ch.bitEm && ch.kEm === 2 && ch.warn === 0 && ch.interior                       // 既定明示は署名・軌道とも不変/interior≡surface
-      && ch.k0 === 1 && ch.k2 === 0 && ch.toyWarn === 0                                                     // 宣言で generic 経路へ
-      && near(ch.trans, Math.pow(20 / 60, 2), 1e-5) && near(ch.transI, Math.pow(20 / 40, 2), 1e-5)          // 並進殻 (R/(R+h))^qT(center: h=d / interior: h=d−R)
-      && near(ch.bodyQT, 20 / 60, 1e-5)                                                                     // body.dragQTrans が physics.qTrans に優先
-      && near(ch.coreT, 0.5 * Math.pow(20 / 60, 2) + 0.5 * Math.pow(5 / 45, 2), 1e-5)                       // 並進コア: (1−mf)g_s+mf·g_c(コアは Rc・同じ qT)
-      && near(ch.coreT1, 0.5 * Math.pow(20 / 60, 2) + 0.5 * (5 / 45), 1e-5)                                  // core.dragQTrans で独立
-      && near(ch.gasX, 0.25, 1e-6) && near(ch.gasY, 0.25, 1e-6) && ch.solidSame                             // 気体殻は並進・回転とも ×gasCoh、固体は不変
-      && near(ch.coreR, 9, 1e-5)                                                                             // 回転コア core.dragQ=1 vs 既定 q=2: (5/45)/(5/45)²=9
-      && flOK && ch.ui.exists && ch.ui.rowShown && /^4\.6/.test(ch.ui.shown) && ch.ui.v3 === 3 && ch.ui.has3
-      && ch.ui.v0 === 0 && ch.ui.hasAfterA === true && /^4\.5/.test(ch.ui.shownB) && ch.ui.hasNone === false
-      && ch.ent && near(ch.ent.chiIn, 12.5 / 14.5, 1e-9) && near(ch.ent.etaCf, Math.pow(2 / 14.5, 2), 1e-9),
-      `既定明示: 署名不変=${ch.sig} ✴️bit=${ch.bitAc} 🌘bit=${ch.bitEm}(kKind ${ch.kEm}) interior≡surface=${ch.interior} / `
+    const flTxt = Object.entries(ch.fl).map(([k, f]) => `${k.replace('DFM', '')} ${f ? (f.pred / f.led - 1).toFixed(4) : 'null'}`).join('・');
+    // 条件は名前つきで束ね、落ちた条件名をメッセージに出す(QA ページの永続状態〔kernelForceGeneric・パネル最小化〕に依らない判定)
+    const CK = {
+      sigSame: ch.sig, bitAc: ch.bitAc, bitEm: ch.bitEm, emSpecialized: ch.kEm === 2 || ch.kEm === 0, noWarn: ch.warn === 0, interior: ch.interior,
+      genericOnDecl: ch.k2 === 0, toyNoWarn: ch.toyWarn === 0,
+      trans: near(ch.trans, Math.pow(20 / 60, 2), 1e-5), transInterior: near(ch.transI, Math.pow(20 / 40, 2), 1e-5),
+      bodyQT: near(ch.bodyQT, 20 / 60, 1e-5),
+      coreT: near(ch.coreT, 0.5 * Math.pow(20 / 60, 2) + 0.5 * Math.pow(5 / 45, 2), 1e-5),
+      coreT1: near(ch.coreT1, 0.5 * Math.pow(20 / 60, 2) + 0.5 * (5 / 45), 1e-5),
+      gas: near(ch.gasX, 0.25, 1e-6) && near(ch.gasY, 0.25, 1e-6), solid: ch.solidSame, coreR: near(ch.coreR, 9, 1e-5),
+      fLaw: flOK, uiExists: ch.ui.exists, uiRow: ch.ui.rowShown, uiShown: /^4\.6/.test(ch.ui.shown), uiSet3: ch.ui.v3 === 3 && ch.ui.has3,
+      uiClear: ch.ui.v0 === 0 && ch.ui.hasAfterA === true, uiB: /^4\.5/.test(ch.ui.shownB) && ch.ui.hasNone === false,
+      ent: !!ch.ent && near(ch.ent.chiIn, 12.5 / 14.5, 1e-9) && near(ch.ent.etaCf, Math.pow(2 / 14.5, 2), 1e-9),
+    };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    add('behavior.dragChannels', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '')
+      + `既定明示: 署名不変=${ch.sig} ✴️bit=${ch.bitAc} 🌘bit=${ch.bitEm}(kKind ${ch.kEm}) interior≡surface=${ch.interior} 玩具 kKind ${ch.k0}→${ch.k2} / `
       + `玩具 d=40・R=20: 並進 qT=2 → ${ch.trans.toFixed(6)}(核 ${Math.pow(20 / 60, 2).toFixed(6)})・interior → ${ch.transI.toFixed(4)}(0.25)・body.dragQTrans=1 → ${ch.bodyQT.toFixed(4)}(0.3333)・`
       + `並進コア mf=0.5/Rc=5 → ${ch.coreT.toFixed(5)}(0.06173)・core.dragQTrans=1 → ${ch.coreT1.toFixed(5)}(0.11111)・気体 gasCoh=0.25 → ×${ch.gasX.toFixed(4)}/${ch.gasY.toFixed(4)}(固体不変=${ch.solidSame})・回転コア core.dragQ=1 → ×${ch.coreR.toFixed(4)}(9) / `
-      + `解析慣性則 f=1+A の台帳比 ${flTxt}(全て 1% 以内=${flOK}) / 編集欄 #beDq: ✴️A 表示 ${ch.ui.shown} → 3 → 空欄で既定(hasDragQ は B が残る=${ch.ui.hasAfterA} → B も 0 で ${ch.ui.hasNone})`);
+      + `解析慣性則 f=1+A の台帳比 ${flTxt}(全て 1% 以内=${flOK}) / 編集欄 #beDq: ✴️A 表示 ${ch.ui.shown}(行=${ch.ui.rowShown}) → 3 → 空欄で既定(hasDragQ は B が残る=${ch.ui.hasAfterA} → B も 0 で ${ch.ui.hasNone})`);
   } else {
     console.log('SKIP behavior.dragChannels(第239便 未適用 — root 等)');
   }
