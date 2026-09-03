@@ -8623,6 +8623,91 @@ if (!FAST) {
   }
 }
 
+// ---- 第239便(第31報): behavior.dragChannels — 引きずり q のチャネル分離(並進/回転 × 殻/コア)・気体コヒーレンス・interior 別名・解析慣性則 ----
+// 既定(qTrans/gasCoh/core.dragQ/dragQTrans 未宣言)は 1 bit 不変(特別化カーネル経路も不変)。宣言時は generic 経路で、玩具(pinned 源・
+// 微小プローブ)の追跡フレーム u(S.uPx/uPy)が解析核と一致する: 並進殻 (R/(R+d))^qT・並進コア (1−mf)g_s+mf·g_c・気体殻 ×gasCoh(並進・回転とも)・
+// 回転コア core.dragQ・interior は表面高度 h=max(0,d−R)。dragRef:"interior" は "surface" と bit 一致(正名の付け替え)。
+// 解析慣性則 f=1+k_F(m_A/M·χ_A²+m_B/M·χ_B²)(ChatGPT 第31報)は 4 連星の台帳 f(DFM 総質量/観測総質量)を追加フィットなしで 1% 以内に再現する。
+// 選択粒子の編集パネルに dragQ 欄(#beDq — 第31報「✴️💫 で dragQ が見えない」の是正): 表示・編集・空欄で既定へ・hasDragQ の再計算。
+{
+  const hasCh = await page.evaluate(() => { const S = HP.sim; return S.dragQT !== undefined && typeof HP.dfmBinaryInertiaFactor === 'function'; });
+  if (hasCh) {
+    const ch = await page.evaluate(() => {
+      const run = (id, patch, steps) => { const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));
+        if (patch) Object.assign(pd.physics, patch); const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+        for (let k = 0; k < steps; k++) S.step(0.016);
+        const o = []; for (let i = 0; i < Math.min(6, S.n); i++) o.push(S.x[i], S.y[i], S.vx[i], S.vy[i]);
+        return { o, kKind: S._kKind, warn: (v.warnings || []).length, sig: JSON.stringify(v.preset.physics) }; };
+      const same = (a, b) => a.o.every((x, i) => Object.is(x, b.o[i]));
+      // ① 既定値の明示宣言は署名不変・軌道 bit 不変(✴️ generic・🌘 特別化)
+      const ac0 = run('alphaCenABDFM', null, 200), ac1 = run('alphaCenABDFM', { qTrans: 0, gasCoh: 1 }, 200);
+      const em0 = run('earthMoonRealKF1', null, 200), em1 = run('earthMoonRealKF1', { qTrans: 0, gasCoh: 1 }, 200);
+      const emI = run('earthMoonRealKF1', { dragRef: 'interior' }, 300), emS = run('earthMoonRealKF1', { dragRef: 'surface' }, 300);
+      // ② 玩具: pinned 源(R=20)・プローブ d=40。G=0 で重力を切り、追跡フレーム u を直接読む
+      const base = (src, ph) => ({ name: 'toy', description: 'toy', physics: Object.assign({ G: 0, D0: 2, kFrame: 1, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 0.016666666666666666, cLight: 30, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 0.01, timeScale: 1 }, ph || {}),
+        camera: { scale: 100 }, world: { boundary: 'none', size: 0 }, bodies: [src, { type: 'single', m: 1e-6, radius: 0.01, x: 40, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+      const u = (pd) => { const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset); S.step(0.004); S.step(0.004);
+        return { ux: S.uPx[1], uy: S.uPy[1], k: S._kKind, warn: (v.warnings || []).length }; };
+      const src0 = { type: 'single', m: 100, radius: 20, x: 0, y: 0, vx: 1, vy: 0, spin: 0, pinned: true };
+      const t0 = u(base(src0)), t2 = u(base(src0, { qTrans: 2 })), tI = u(base(src0, { qTrans: 2, dragRef: 'interior' }));
+      const tb = u(base(Object.assign({}, src0, { dragQTrans: 1 }), { qTrans: 2 }));
+      const srcC = Object.assign({}, src0, { core: { mode: 'differential', massFrac: 0.5, radius: 5, omega: 0, Kcs: 0 } });
+      const c0 = u(base(srcC)), c2 = u(base(srcC, { qTrans: 2 }));
+      const srcC1 = JSON.parse(JSON.stringify(srcC)); srcC1.core.dragQTrans = 1; const c1 = u(base(srcC1, { qTrans: 2 }));
+      const srcG = Object.assign({}, src0, { spin: 0.5, shell: 'gas' }), srcS = Object.assign({}, src0, { spin: 0.5 });
+      const g0 = u(base(srcG)), g1 = u(base(srcG, { gasCoh: 0.25 })), s0 = u(base(srcS)), s1 = u(base(srcS, { gasCoh: 0.25 }));
+      const srcR = { type: 'single', m: 100, radius: 20, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true, core: { mode: 'differential', massFrac: 0.5, radius: 5, omega: 1, Kcs: 0 } };
+      const srcR1 = JSON.parse(JSON.stringify(srcR)); srcR1.core.dragQ = 1; const q0 = u(base(srcR)), q1 = u(base(srcR1));
+      // ③ 解析慣性則 vs 台帳
+      const fl = {};
+      for (const [d, o] of [['alphaCenABDFM', 'alphaCenAB'], ['siriusABDFM', 'siriusAB'], ['psrDoubleABDFM', 'psrDoubleAB'], ['gw150914DFM', 'gw150914']]) {
+        const pD = HP.allPresets().find((q) => q.id === d), pO = HP.allPresets().find((q) => q.id === o); if (!pD || !pO) { fl[d] = null; continue; }
+        const mA = pD.bodies[0].m, mB = pD.bodies[1].m, a = Math.hypot(pD.bodies[0].x - pD.bodies[1].x, pD.bodies[0].y - pD.bodies[1].y);
+        const chi = HP.dfmBinaryChi(mA, mB, a, pD.physics.D0, pD.physics.softening);
+        fl[d] = { pred: HP.dfmBinaryInertiaFactor(mA, mB, chi.chiA, chi.chiB, pD.physics.kFrame), led: (mA + mB) / (pO.bodies[0].m + pO.bodies[1].m) }; }
+      // ④ 編集欄 #beDq(✴️ A を選択 → 4.611… が見える → 3 へ → 空欄で既定へ)
+      HP.loadPreset('alphaCenABDFM', false); HP.selectBody(0, 'A');
+      const el = document.getElementById('beDq');
+      const ui = { exists: !!el, shown: el ? el.value : '', rowShown: !!el && el.parentElement.classList.contains('beRow') && document.getElementById('bodyEdit').style.display === 'block' };   // パネル最小化(.min)の永続状態に依らない
+      if (el) { el.value = '3'; el.dispatchEvent(new Event('change')); ui.v3 = HP.sim.dragQ[0]; ui.has3 = HP.sim.hasDragQ;
+        el.value = ''; el.dispatchEvent(new Event('change')); ui.v0 = HP.sim.dragQ[0]; ui.hasAfterA = HP.sim.hasDragQ;
+        HP.selectBody(1, 'A'); ui.shownB = el.value; el.value = '0'; el.dispatchEvent(new Event('change')); ui.hasNone = HP.sim.hasDragQ; }
+      HP.loadPreset('alphaCenABDFM', false);
+      const ent = HP.dfmInternalEntrainment({ m: 100, R: 20, massFrac: 0.5, Rc: 5, spin: 0.5, coreOmega: 2, D0: 2 });
+      return { sig: ac0.sig === ac1.sig && em0.sig === em1.sig, bitAc: same(ac0, ac1), bitEm: same(em0, em1), kEm: em1.kKind, warn: ac1.warn + em1.warn,
+        interior: same(emI, emS) && emI.kKind === 0 && emI.warn === 0,
+        trans: t2.ux / t0.ux, transI: tI.ux / t0.ux, bodyQT: tb.ux / t0.ux, coreT: c2.ux / c0.ux, coreT1: c1.ux / c0.ux,
+        gasX: g1.ux / g0.ux, gasY: g1.uy / g0.uy, solidSame: Object.is(s0.ux, s1.ux) && Object.is(s0.uy, s1.uy), coreR: q1.uy / q0.uy,
+        k0: t0.k, k2: t2.k, toyWarn: t2.warn + c1.warn + g1.warn + q1.warn, fl, ui, ent };
+    });
+    const near = (a, b, tol) => Math.abs(a / b - 1) < tol;
+    const flOK = Object.values(ch.fl).every((f) => f && near(f.pred, f.led, 0.01));
+    const flTxt = Object.entries(ch.fl).map(([k, f]) => `${k.replace('DFM', '')} ${f ? (f.pred / f.led - 1).toFixed(4) : 'null'}`).join('・');
+    // 条件は名前つきで束ね、落ちた条件名をメッセージに出す(QA ページの永続状態〔kernelForceGeneric・パネル最小化〕に依らない判定)
+    const CK = {
+      sigSame: ch.sig, bitAc: ch.bitAc, bitEm: ch.bitEm, emSpecialized: ch.kEm === 2 || ch.kEm === 0, noWarn: ch.warn === 0, interior: ch.interior,
+      genericOnDecl: ch.k2 === 0, toyNoWarn: ch.toyWarn === 0,
+      trans: near(ch.trans, Math.pow(20 / 60, 2), 1e-5), transInterior: near(ch.transI, Math.pow(20 / 40, 2), 1e-5),
+      bodyQT: near(ch.bodyQT, 20 / 60, 1e-5),
+      coreT: near(ch.coreT, 0.5 * Math.pow(20 / 60, 2) + 0.5 * Math.pow(5 / 45, 2), 1e-5),
+      coreT1: near(ch.coreT1, 0.5 * Math.pow(20 / 60, 2) + 0.5 * (5 / 45), 1e-5),
+      gas: near(ch.gasX, 0.25, 1e-6) && near(ch.gasY, 0.25, 1e-6), solid: ch.solidSame, coreR: near(ch.coreR, 9, 1e-5),
+      fLaw: flOK, uiExists: ch.ui.exists, uiRow: ch.ui.rowShown, uiShown: /^4\.6/.test(ch.ui.shown), uiSet3: ch.ui.v3 === 3 && ch.ui.has3,
+      uiClear: ch.ui.v0 === 0 && ch.ui.hasAfterA === true, uiB: /^4\.5/.test(ch.ui.shownB) && ch.ui.hasNone === false,
+      ent: !!ch.ent && near(ch.ent.chiIn, 12.5 / 14.5, 1e-9) && near(ch.ent.etaCf, Math.pow(2 / 14.5, 2), 1e-9),
+    };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    add('behavior.dragChannels', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '')
+      + `既定明示: 署名不変=${ch.sig} ✴️bit=${ch.bitAc} 🌘bit=${ch.bitEm}(kKind ${ch.kEm}) interior≡surface=${ch.interior} 玩具 kKind ${ch.k0}→${ch.k2} / `
+      + `玩具 d=40・R=20: 並進 qT=2 → ${ch.trans.toFixed(6)}(核 ${Math.pow(20 / 60, 2).toFixed(6)})・interior → ${ch.transI.toFixed(4)}(0.25)・body.dragQTrans=1 → ${ch.bodyQT.toFixed(4)}(0.3333)・`
+      + `並進コア mf=0.5/Rc=5 → ${ch.coreT.toFixed(5)}(0.06173)・core.dragQTrans=1 → ${ch.coreT1.toFixed(5)}(0.11111)・気体 gasCoh=0.25 → ×${ch.gasX.toFixed(4)}/${ch.gasY.toFixed(4)}(固体不変=${ch.solidSame})・回転コア core.dragQ=1 → ×${ch.coreR.toFixed(4)}(9) / `
+      + `解析慣性則 f=1+A の台帳比 ${flTxt}(全て 1% 以内=${flOK}) / 編集欄 #beDq: ✴️A 表示 ${ch.ui.shown}(行=${ch.ui.rowShown}) → 3 → 空欄で既定(hasDragQ は B が残る=${ch.ui.hasAfterA} → B も 0 で ${ch.ui.hasNone})`);
+  } else {
+    console.log('SKIP behavior.dragChannels(第239便 未適用 — root 等)');
+  }
+}
+
 // ---- 第224便(第23報): behavior.chi-law — 連星4 DFM の粒子別質量スケール較正則の機械固定 ----
 // (a) massCalibration 台帳(law/fitDt/C/baseMass/factorByBody)が4本すべてに宣言され、
 //     f_i = C×g_i が HP.chiMassFactors の再計算とビット一致

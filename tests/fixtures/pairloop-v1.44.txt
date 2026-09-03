@@ -73,9 +73,10 @@ let pk=0; // 対インデックス(pairD 書き込み位置)
         }
         // E2/E3 フレーム速度への寄与(並進 + スピン回転 ẑ×(r−r_j)=(−dy,dx))
         let omj=0, omi=0;
-        // 第237便(第30報): 粒子別 q_i(未宣言=physics.q)と距離基準(surface=表面高度 h=max(0,d−R))。既定は従来式と同一値
         const qj=(hasDQ && dqA[j]>0)? dqA[j] : q, qi=(hasDQ && dqA[i]>0)? dqA[i] : q;
         const hj=dragSurf? Math.max(0,d-Rj) : d, hi=dragSurf? Math.max(0,d-Ri) : d;
+        if(!chOn){ // 既定経路(原文そのまま — 第239便: チャネル分離は else 側)
+        // 第237便(第30報): 粒子別 q_i(未宣言=physics.q)と距離基準(surface=表面高度 h=max(0,d−R))。既定は従来式と同一値
         if(sj!==0){ const tt=Rj/(Rj+hj); omj = (qj===2)? sj*tt*tt : sj*Math.pow(tt,qj); }
         if(si!==0){ const tt=Ri/(Ri+hi); omi = (qi===2)? si*tt*tt : si*Math.pow(tt,qi); }
         // 第81便: コアv1(比率仕様 coreMR/coreSR/coreRR)の分岐は廃止 — コア差動は
@@ -93,6 +94,9 @@ let pk=0; // 対インデックス(pairD 書き込み位置)
         }
         uAx[i]+=wj*(vx[j]+omj*(-dy)); uAy[i]+=wj*(vy[j]+omj*(dx));
         uAx[j]+=wi*(vx[i]+omi*(dy));  uAy[j]+=wi*(vy[i]+omi*(-dx));
+        } else { // 第239便: チャネル分離経路(opt-in)— 本体は pairChannelOm(ループ外: 既定経路の JIT を守る)
+          pairChannelOm(S,i,j,d,hj,hi,qj,qi,sj,si,Rj,Ri,dx,dy,wj,wi); omj=_PC.omj; omi=_PC.omi;
+        }
         // ===== 第69便 P4b(E12v2): geoPN=2 の ∇u 用勾配集積(g2on のときだけ走る)=====
         // u=P/W の分子 P_a=Σ_j w_j·c_j,a(c_j=v_j+ω_j(d)·ẑ×(r−r_j))と分母 W の空間勾配を
         // 対ごとに解析で積む: ∂w_j/∂r=−m_j·(r−r_j)·invW³(E1′ Plummer 型の厳密微分)、
@@ -100,6 +104,7 @@ let pk=0; // 対インデックス(pairD 書き込み位置)
         // 0/1 経路はこの分岐を素通り(値・型とも不変)
         if(g2on){
           const idd=(d>1e-9)? 1/d : 0;
+          if(!chOn){ // 既定経路(原文そのまま)
           let domj=0, domi=0;   // ∂ω/∂d(基底+コア差動)
           // 第237便: q_i・距離基準は ②③ のフレーム式と同じ核(surface で d≤R の内側は核が定数 → 勾配 0)
           if(sj!==0 && (!dragSurf || d>Rj)){ const tt=Rj/(Rj+hj), o0=(qj===2)? sj*tt*tt : sj*Math.pow(tt,qj); domj-=qj*o0/(Rj+hj); }
@@ -132,6 +137,7 @@ let pk=0; // 対インデックス(pairD 書き込み位置)
             dPyy[j]+=gwy*cyv + wi*(-dx*domi*ny);
             dWxA[j]+=gwx; dWyA[j]+=gwy;
           }
+          } else pairChannelGrad(S,i,j,dx,dy,mi,mj,invd3,idd,wj,wi);   // 第239便: 分離経路(ループ外・残りは _PC/S._chG)
         }
         // E5′ スピン斥力(対称化・中心力): F = kRep·μ·(ω_i²+ω_j²)·(r_i−r_j)
         // 第36便 D(台帳4-51 / E5′ 改訂): thermal:"tint" では圧力の源をスピンから内部温度へ移す。
