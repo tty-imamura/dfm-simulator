@@ -6912,7 +6912,7 @@ if (!FAST) {
           const coreOk = w242
             ? (!c0 && !c1 && pd.bodies[0].lightSweep === undefined && pd.bodies[1].lightSweep === undefined
               && pd.physics.coupleSink === 'reservoir'
-              && pd.physics.frameWeight === 'pull' && pd.physics.D0pull === 0.336
+              && pd.physics.frameWeight === 'pull' && pd.physics.D0pull === 0.324204
               && pd.bodies[0].radius === 0.084738 && pd.bodies[1].radius === 0.05979336
               && pd.bodies[0].spin === SPA && pd.bodies[1].spin === SPB
               && pd.physics.dispMag === 300 && pd.physics.cmGauge === 'barycentric')
@@ -7217,7 +7217,7 @@ if (!FAST) {
               && !pd.bodies[0].core && !pd.bodies[1].core
               && pd.bodies[0].lightSweep === undefined && pd.bodies[1].lightSweep === undefined
               && pd.physics.coupleSink === 'reservoir'
-              && pd.physics.D0pull === 0.336
+              && pd.physics.D0pull === 0.324204
               && /vsini\/R|vsini/.test(pd.descStruct.summary)
               && /隠れコアは持たない/.test(pd.descStruct.summary))
             : w221
@@ -12524,7 +12524,10 @@ if (!FAST) {
       const cat = catV.preset, obs = r1.preset;
       // ビット一致を要求するキー(物理・幾何・スケール・カメラ・世界・オーバーレイ・分類)
       const SAME = ['physics', 'bodies', 'camera', 'world', 'overlays', 'scaleExp', 'scaleTier'];
-      for (const k of SAME) if (JSON.stringify(obs[k]) !== JSON.stringify(cat[k])) bad.push('ビット不一致: ' + k);
+      // 第242便: 既定 pull — レコード経路は pull+D0pull(単位換算)を宣言し、カタログ変種(出典=share 固定の内蔵)は frameWeight:"share" を持つ。
+      // フレーム重みの 2 キーは宣言差として除いて比較する(それ以外の物理は従来どおりビット一致)
+      const stripFW = (o) => { const c = Object.assign({}, o); delete c.frameWeight; delete c.D0pull; return c; };
+      for (const k of SAME) if (JSON.stringify(k === 'physics' ? stripFW(obs[k]) : obs[k]) !== JSON.stringify(k === 'physics' ? stripFW(cat[k]) : cat[k])) bad.push('ビット不一致: ' + k);
       // 数値差の実測(最大相対差 — 宣言許容 1e-8)
       let worst = 0, worstAt = '';
       obs.bodies.forEach((b, i) => {
@@ -12878,6 +12881,7 @@ if (!FAST) {
       }
       // (c) legacy 否定対照: ドリフト外挿検査の差し戻し+短窓の直接破壊
       const legacy = JSON.parse(JSON.stringify(p)); delete legacy.physics.frameReaction;
+      legacy.physics.frameWeight = 'share'; delete legacy.physics.D0pull;   // 第242便: 否定対照は share(χ→1 の自由中心で legacy 反作用が壊す — pairReduced を導入した当時の重み)で走らせる
       const targets = [{ id: 'b', name: FC_RECS[3].body, index: 1, twoBody: true, pObs: pObsU }];
       const dl = HP.astroObsSelfCheck(legacy, targets);
       if (dl.ok) bad.push('legacy 反作用がドリフト外挿検査を通過してしまった');
