@@ -6,6 +6,13 @@
 
 ## v1.44-b1(開発中 — beta)
 
+- **第240便(2026-09-04・第32報)**: ①**接触=完全引きずり `physics.dragRef:"contact"`**(opt-in): フレーム速度の重みを
+  接触距離 w′=m/√(h²+ε²) で評価(W′ 分母・E1′ の W は不変)。予測: 地表の残風 0.07 m/s・古典 MM は高度 90 km まで・
+  10⁻¹⁷ 級は物質面から 20 m まで・GPS 高度は太陽支配(χ 0.02)。現行 center 基準は地表で 28 km/s の残風(MM と不整合 —
+  太陽の W が地球の 14 倍)。②**質量較正を解析慣性則 f=1+A の自己無撞着解へ**(`inertia-law-v1`・fit なし・質量比=観測 —
+  ✴️ 1.844195/💫 1.888128/⚡ 1.997766/🎻 1.998036。P 残差 −0.83/−0.80/−0.16/−0.72% を hold-out 記録)。③✴️ の D₀ 掃引で
+  ロゼットは χ の不飽和分の署名と判明(D₀=10⁻⁴ で +0.08°/周)— f≈2 と D₀ で分離できる(第239便の表現を訂正)。
+  QA `behavior.dragContact`・chi-law の inertia 枝・4 連星 P 窓 1.2%。診断 `HP.dfmContactEntrainment`/`dfmMMAltitudeLimit`/`dfmBinaryMassFactor`。
 - **第239便(2026-09-03・第31報)**: **引きずり q のチャネル分離**。①選択粒子の編集パネルに「引きずりq」欄(粒子別
   `body.dragQ` の表示・編集 — ✴️💫 で見えなかった是正)。②並進×回転 × 殻×コアの 4 象限: `physics.qTrans`/`body.dragQTrans`
   (並進殻)・`core.dragQTrans`(並進コア)・`core.dragQ`(回転コア)— すべて opt-in・未宣言は 1 bit 不変。合成は足し算。
