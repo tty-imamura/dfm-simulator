@@ -6877,6 +6877,9 @@ if (!FAST) {
           camera: q.camera, world: q.world, scaleExp: q.scaleExp });
         eq.same = pick(vb.preset) === pick(r1.preset);
         if (!eq.same) eq.diff = { builtin: pick(vb.preset).slice(0, 400), records: pick(r1.preset).slice(0, 400) };
+        // 第242便 pull: kF1 雛形は自己診断(二体クロージャ)を通過して記録経路は kF1 を構築する — 内蔵 ✨ は裁定の根拠②で kF0 を維持。kFrame 以外はビット一致を要求
+        const pickNoKF = (qq) => { const ph = stripPull(qq.physics); delete ph.kFrame; return canon({ physics: ph, bodies: qq.bodies, camera: qq.camera, world: qq.world, scaleExp: qq.scaleExp }); };
+        eq.recKF = r1.preset.physics.kFrame; eq.sameNoKF = pickNoKF(vb.preset) === pickNoKF(r1.preset);
       }
       // 第203〜209便: ✴️ DFM 版 — 質量較正(f=1.827)+**役割反転二層**(第208便)+**重心ゲージ**
       // (第209便 — cmGauge:"barycentric"。D₀ 開放系の共通加速度を除き重心を機械ゼロに保つ)の機械固定。
@@ -7070,14 +7073,15 @@ if (!FAST) {
       && ac.kf0.comMax < 1e-3 && ac.kf0.pRel < 1e-8   // 第209便: ✨ kF0 の重心は機械ゼロ(対照)
       && (ac.d.pull ? (Math.abs(ac.kf1.growth) < 0.02 && ac.kf1.rmin > 160)   // 第242便 pull: 遠点発 kF1 は −0.43% で近点(167.5)にほぼ届く
         : (ac.kf1.growth < -0.05 && ac.kf1.rmin > 400))   // share 世代: 周期 −13% 縮み・近点に届かない
-      && ac.eq.ok && ac.eq.stab === 'obs-stability' && ac.eq.same === true
+      && ac.eq.ok && (ac.d.pull ? (ac.eq.stab === null && ac.eq.recKF === 1 && ac.eq.sameNoKF === true)   // 第242便 pull: 記録経路は kF1 を構築(自己診断通過)・kFrame 以外は bit 一致
+        : (ac.eq.stab === 'obs-stability' && ac.eq.same === true))
       && dfmOk,
       `宣言=${declOk}(fidelity=real・L10/T6/M29・κ=G/c₀²・**kFrame=0(観測安定則 2026-08-25 裁定の採用側)**・`
       + `A/B 測定側 kFrame=1・両星自由・E6′-R・ts=1000/dm=300・裁定引用あり) / `
       + `kF0(採用側・1.05公転): ${t0 === null ? '—' : t0.toFixed(4) + '年'}(観測 79.762・宣言 79.7647)・`
       + `実測離心率 ${ac.kf0.ecc.toFixed(5)}(転写 0.51947)・座標最大 ${ac.kf0.maxAbs.toFixed(0)}(±5000 内)・重心 ${ac.kf0.comMax.toExponential(1)}(<1e-3) / `
       + `kF1(測定側・遠点発 0.56公転窓 — 第211便): 接触要素周期 ${(ac.kf1.growth * 100).toFixed(1)}%(宣言 pull −0.43%/share −13.0%)・rmin=${ac.kf1.rmin.toFixed(0)}(pull は近点 167.5 にほぼ届く) / `
-      + `経路等価: CSV ${csvRows.length}行 → buildAstroFromRecords が観測安定則発動(${ac.eq.stab})+内蔵とビット一致=${ac.eq.same} / `
+      + `経路等価: CSV ${csvRows.length}行 → buildAstroFromRecords が観測安定則発動(${ac.eq.stab})+内蔵とビット一致=${ac.eq.same}(第242便 pull: 記録経路は kF${ac.eq.recKF}〔自己診断通過〕・kFrame 以外の一致=${ac.eq.sameNoKF}) / `
       + `✴️ DFM版(第242便 pull): 質量係数 f=${dm.w242 ? '1.0000000(=観測質量)' : '1.84419〔share〕'}(台帳込みビット照合 ${dm.massOk})・宣言(kF1・A/B=kF0・外殻=転写光学半径ビット・${dm.w242 ? 'coupleSink:reservoir・コア無し・fitted 0ノブ' : 'coupleSink:core・massFrac=(f−1)/f・fitted 2ノブ'})=${dm.declOk}・`
       + `familyRole: ✴️=primary/✨=variant(第204便) / `
       + `kF1 の2周目 ${dm.p2 === null ? '—' : yr(dm.p2).toFixed(3) + '年'}(観測 79.762・宣言 ${dm.w242 ? '79.303〔hold-out −0.58%〕' : '79.761'})・`
