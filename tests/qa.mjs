@@ -8746,7 +8746,8 @@ if (!FAST) {
       const gps = HP.dfmContactEntrainment({ M: M_E, h: 2.02e7, eps: epsm, D0: D0p, ext, v: vE, c });
       const centerGround = (M_E / R_E) / (D0p + M_S / AUm + M_E / R_E);   // 現行 center 基準の地表 χ
       return { rows, geo2: { ref: v2.preset.physics.dragRef, warned: v2.warnings.some((w) => /contact/.test(w)) },
-        sameI: eI.every((x, i) => Object.is(x, eS[i])), sameS: eS[4] === 0 && eI[4] === 0, diffC: !eI.every((x, i) => Object.is(x, eC[i])) && !e0.every((x, i) => Object.is(x, eC[i])), kC: eC[4], k0: e0[4],
+        // 🌘 は geoPN 経路(E6′ 輸送は不使用)なので contact でも軌道は動かない — 効果は玩具の χ で見る(rows)
+        sameI: eI.every((x, i) => Object.is(x, eS[i])), sameS: eS[4] === 0 && eI[4] === 0, diffC: rows.every((r) => r.chiT !== r.chiC && r.chiT > r.chiC), kC: eC[4], k0: e0[4],
         ground, h5, hMod, gps, centerGround };
     });
     const near = (a, b, tol) => Math.abs(a / b - 1) < tol;
@@ -8758,7 +8759,7 @@ if (!FAST) {
     add('behavior.dragContact', bad.length === 0,
       (bad.length ? `不成立=[${bad.join(',')}] ` : '')
       + `玩具(太陽 10000@2000・地球 1・R=5・ε=0.01): ` + ct.rows.map((r) => `h=${r.h}: center χ ${r.chiC.toFixed(4)}(解析 ${r.chiCan.toFixed(4)})・contact χ ${r.chiT.toFixed(4)}(解析 ${r.chiTan.toFixed(4)})`).join(' / ')
-      + ` / geoPN=2+contact → ${ct.geo2.ref}(警告=${ct.geo2.warned}) / 🌘: interior≡surface=${ct.sameI}(generic)・既定 kKind=${ct.k0}・contact は interior/既定と別=${ct.diffC}(generic) / `
+      + ` / geoPN=2+contact → ${ct.geo2.ref}(警告=${ct.geo2.warned}) / 🌘: interior≡surface=${ct.sameI}(generic)・既定 kKind=${ct.k0}・contact で玩具の χ が center より大=${ct.diffC}(🌘 は geoPN 経路で E6′ 輸送を使わないため軌道は動かない・kKind ${ct.kC}) / `
       + `地球の予測(ε=1 m・D₀=6e16 kg/m・太陽 W=1.33e19): 地表の残風 ${ct.ground.residual.toExponential(2)} m/s(Δc/c ${ct.ground.anisotropy.toExponential(1)})・古典 MM 5 km/s の高度上限 ${(ct.h5 / 1000).toFixed(1)} km・現代 10⁻¹⁷ 級は ${ct.hMod.toFixed(1)} m・GPS 高度 χ=${ct.gps.chi.toFixed(4)}(太陽支配)・現行 center 基準の地表 χ=${ct.centerGround.toFixed(4)}(残風 ${((1 - ct.centerGround) * 29.78).toFixed(1)} km/s — MM と不整合)`);
   } else {
     console.log('SKIP behavior.dragContact(第240便 未適用 — root 等)');
