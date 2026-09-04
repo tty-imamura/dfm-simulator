@@ -6,6 +6,15 @@
 
 ## v1.44-b1(開発中 — beta)
 
+- **第242便(2026-09-04・第34報)**: **`physics.frameWeight` の既定を "pull" へ**(重力の引き m/(d²+ε²)・分母 D0pull+W_B+Σw。未宣言=pull・署名不変。
+  "share" は明示 opt-in)。旧来の内蔵サンプル 89 本+検証フックの宇宙 21 本は `frameWeight:"share"` を明示宣言して 1 bit 不変。現実較正の 10 本を pull へ移行:
+  🌘(D0pull=3.24204e-5+初速の共同再 fit で恒星月 27.32 日と近点移動 8.99 年を同時保持)・🪨(D0pull=3.24204e-3 — 🌘 と物理量 3.24×10⁸ kg/m² で共通。
+  43″/世紀 は不変・引きずり歳差の副記録は −4.93e-10 へ)・✴️💫(観測質量のまま f=1.0000000 — 隠れコア撤去・偶力は reservoir へ)・⚡🎻(f≈2 維持・
+  pull の χ で再導出)・観測版 ✨🌟📻🎐(D0pull 宣言・kFrame=0 の軌道は不変)。💿 は share のまま(代表粒子の自己共動 — 粗視化の人工物・規則は次便)。
+  **指数の一般化 `frameWeight:"pull3"/"pull4"`**(w=m/(d²+ε²)^{p/2}・opt-in)— 近接連星の f≈2 は指数で消えない。abBody.physicsPatch で frameWeight・D0pull 等を宣言可能。
+  診断 `dfmPullEntrainment/dfmBinaryChi/dfmBinaryMassFactor` に指数 p。**注意**: 旧セーブ JSON(frameWeight 未宣言)は pull で走る(D0pull 未宣言は D₀ 流用 —
+  現実較正の連星は質量を再導出しないと壊れる)。第34報の解説「DFM は光を波長で保持 → MM は距離比較のみ」を PHYSICS に記載(第240/241便の残風予測は MM の非観測量)。
+  複素数の重力(回転質量の磁場的項)は検討ノート。QA `behavior.framePull` 第242便版・4 連星の QA を pull の台帳値へ。
 - **第241便(2026-09-04・第33報)**: **`physics.frameWeight:"pull"`+`D0pull`**(opt-in): フレーム速度 u の重みを重力の引き
   m/(d²+ε²) で評価(第33報「メッシュは重力で引く対象に依存」)。E1′ の W は不変・既定 share は 1 bit 不変。帰結: 銀河は無視可・
   地表 χ_E 0.997・GPS 0.95(第240便の share の不整合は解消)・🌘 は D0pull=3.36e-5 で 8.85 年保持・広い連星は観測質量でニュートン
