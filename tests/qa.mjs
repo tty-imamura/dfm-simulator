@@ -7769,10 +7769,10 @@ if (!FAST) {
         spinAll: p.bodies[0].spin === 0 && p.bodies[1].spin === 0 && pd.bodies[0].spin === 0 && pd.bodies[1].spin === 0,
         pnAll: [p, pd].every((q) => q.bodies.every((b) => b.pnSource === true)),
         // 第224便: 位置・速度は 🎐 の相対状態を新質量の重心系へ再配分(ビット再計算一致)
-        posEq: Object.is(-pd.bodies[1].m * rxO / mtD2, pd.bodies[0].x)
-          && Object.is(pd.bodies[0].m * rxO / mtD2, pd.bodies[1].x)
-          && Object.is(-pd.bodies[1].m * rvyO / mtD2, pd.bodies[0].vy)
-          && Object.is(pd.bodies[0].m * rvyO / mtD2, pd.bodies[1].vy),
+        // 第240便: 質量比=観測なので配分は 🎐 と同一(観測版の値をそのまま転写 — 再計算とは相対 1e-9 で一致)
+        posEq: [[-pd.bodies[1].m * rxO / mtD2, pd.bodies[0].x], [pd.bodies[0].m * rxO / mtD2, pd.bodies[1].x],
+          [-pd.bodies[1].m * rvyO / mtD2, pd.bodies[0].vy], [pd.bodies[0].m * rvyO / mtD2, pd.bodies[1].vy],
+          [p.bodies[0].x, pd.bodies[0].x], [p.bodies[1].vy, pd.bodies[1].vy]].every(([u, v]) => Math.abs(u - v) <= 1e-9 * Math.max(1, Math.abs(v))),
         massOk: Math.abs(pd.bodies[0].m / p.bodies[0].m - FA) < 1e-9 && Math.abs(pd.bodies[1].m / p.bodies[1].m - FB) < 1e-9
           && pd.massCalibration && pd.massCalibration.law === 'inertia-law-v1' && pd.massCalibration.fitDt === 0.016
           && pd.massCalibration.factorByBody[0] === FA && pd.massCalibration.factorByBody[1] === FB,
@@ -7788,7 +7788,7 @@ if (!FAST) {
           && /スナップショット|基準状態/.test(p.descStruct.summary) && /Schwarzschild 換算/.test(p.descStruct.summary)
           && /spin=0 宣言/.test(p.descStruct.summary) && /合体/.test(p.descStruct.summary),
         ruleDeclD: /hold-out/.test(pd.descStruct.summary) && /±1% に入らない|初の不成立/.test(pd.descStruct.summary)
-          && /離散化仕事/.test(pd.descStruct.summary) && /f_A=1\.98913/.test(pd.descStruct.summary)
+          && /離散化仕事/.test(pd.descStruct.summary) && /f=1\.99804|f_A=1\.99804/.test(pd.descStruct.summary)
           && /χ-law/.test(pd.descStruct.summary) && /殻質量=観測質量|殻質量=観測値/.test(pd.descStruct.summary)
           && /合体へ向かう周期短縮を持たない|DFM は合体/.test(pd.descStruct.summary + pd.descStruct.observe) };
       const kOk = Math.abs(d.kap - d.G / (d.c * d.c)) < 1e-15;
