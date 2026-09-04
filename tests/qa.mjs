@@ -4949,6 +4949,8 @@ if (!FAST) {
         const pd = HP.allPresets().find((q) => q.id === 'alphaCenABDFM');
         const p2 = JSON.parse(JSON.stringify(pd));
         p2.physics.coupleSink = 'tilt';
+        // 第242便: pull 既定の ✴️ は隠れコアを持たない((f−1)/f<0.01)— 機構検査用に点状コア(share 期の massFrac・殻の半分)を足す(root 等 コア持ちの世代はそのまま)
+        for (const b of p2.bodies) if (!b.core) b.core = { mode: 'differential', massFrac: 0.4577578687079382, radius: b.radius / 2, omega: b.spin, Kcs: 0 };
         delete p2.bodies[0].core.inertiaScale; delete p2.bodies[1].core.inertiaScale;
         const v2 = HP.validatePreset(p2);
         const S = HP.sim; S.build(v2.preset);
