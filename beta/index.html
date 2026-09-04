@@ -2249,7 +2249,11 @@ const DRAG_CONTACT = "contact";
 // physics.qTrans=並進チャネルの減衰指数(0=既定=掛けない)・physics.gasCoh=気体殻(shell:"gas")のコヒーレンス(0〜1・既定 1)。
 // 既定値は ph へ入れない(署名不変)。並進×回転 × 殻×コアの 4 象限: 並進殻 dragQTrans(既定 qTrans)・並進コア core.dragQTrans
 // (既定 = 並進殻)・回転殻 dragQ(既定 physics.q)・回転コア core.dragQ(既定 = 回転殻)。合成は足し算(重み = 質量比)。
-const DRAG_CH_CLAMPS = { qTrans:[0,40], gasCoh:[0,1] }, DRAG_CH_DEFAULT = { qTrans:0, gasCoh:1 };
+const DRAG_CH_CLAMPS = { qTrans:[0,40], gasCoh:[0,1], D0pull:[0,1e6] }, DRAG_CH_DEFAULT = { qTrans:0, gasCoh:1, D0pull:0 };
+// 第241便(第33報「メッシュは決定力場の分率が強い対象より、重力で引っ張られる対象に強く依存する」): physics.frameWeight
+// "share"=既定(E1′ の分率 w=m/√(d²+ε²)・1 bit 不変)/"pull"=フレーム速度 u の重みを重力の引き w=m/(d²+ε²) で評価(分母
+// D0pull+W_B+Σw — D0pull 未宣言は D₀ を流用)。E1′ の W(光学・時計 ψ・E4 重力・反作用配分)は不変。generic 経路・geoPN=2 不可。
+const FRAME_WEIGHT_KEY = "frameWeight", FRAME_WEIGHTS = ["share","pull"];
 // 第197便(M0): physics.halo — 解析的ダークハロー外部項(観測再現版専用)。オブジェクト値の
 // opt-in キーで、省略時はプリセット署名・挙動とも 1 bit 不変(frameReaction と同じ流儀)。
 // **公理ではない**: gravityX/Y と同じ「W に寄与しない宣言的外力」で、時計・光・引きずり・D₀ に
@@ -10202,7 +10206,13 @@ function validatePreset(obj){
         else if(p.physics[k]!=="center") ph[k]=p.physics[k];
         continue;
       }
-      // 第239便(第31報): qTrans/gasCoh — 数値 opt-in(既定値は ph へ入れない=署名不変・1 bit 不変)
+      // 第241便: frameWeight — 非数値 opt-in("share" 既定は ph へ入れない=署名不変)
+      if(k===FRAME_WEIGHT_KEY){
+        if(FRAME_WEIGHTS.indexOf(p.physics[k])<0) warnings.push('physics.frameWeight は "share"/"pull" のみ — 既定(share)に修正');
+        else if(p.physics[k]!=="share") ph[k]=p.physics[k];
+        continue;
+      }
+      // 第239便(第31報): qTrans/gasCoh(第241便: D0pull)— 数値 opt-in(既定値は ph へ入れない=署名不変・1 bit 不変)
       if(k in DRAG_CH_CLAMPS){
         if(!isNum(p.physics[k])){ bad("physics."+k+" が数値ではありません"); continue; }
         const dc=DRAG_CH_CLAMPS[k]; let dv=clamp(p.physics[k],dc[0],dc[1]);
@@ -13478,7 +13488,7 @@ function makeSim(){
     // (文脈は chanSetup が S._chG に置く — S._core 自体のバイトコード量を増やさないため: 実測でループ内外を問わず関数の
     //  文字数が閾値を越えると generic 既定経路が約 40% 遅くなる〔JIT 最適化の劣化〕)
     const chOn=chanSetup(S,p,hasCoreV2,dragSurf,eps2);
-    const sumWu=(chOn && S._chG.contact)? S.sumWu : sumW;   // 第240便: contact ではフレームの分母だけ W′
+    const sumWu=(chOn && (S._chG.contact||S._chG.pull))? S.sumWu : sumW;   // 第240便: contact/第241便: pull ではフレームの分母だけ W′
     if(pairR && (!S._pr || S._pr.nAl!==n)) S._pr={nAl:n, reqX:new Float64Array(n), reqY:new Float64Array(n), hasR:new Uint8Array(n)};
     const reqX=pairR?S._pr.reqX:__DF64, reqY=pairR?S._pr.reqY:__DF64;
     let anyReq=false;
@@ -13548,6 +13558,7 @@ function makeSim(){
     if(B){ const sc=boxScaleAt(B,S.t); bH=sc.H; WB=boxWAt(B,sc.a); S.boxA={a:sc.a,H:bH,W:WB};
       if(sc.clamped) S.clampHN++; }   // 第50便 50E(台帳4-89): H クランプ発動の帳簿
     const bgW=D0+WB;   // 背景決定力の合計(D₀+箱)— E6′ の背景持ち分・リザーバ帳簿に使用
+    const bgWu=(sumWu!==sumW && S._chG.pull)? S._chG.D0p+WB : bgW;   // 第241便: pull はフレーム分母の背景だけ D0pull
     const flrw=!!(B && B.friction==="flrw");   // 第33便: FLRW 摩擦比較モード(既定 dfm では false)
     // レール粒子(pinned+omega/railH)の位置・速度を先に更新
     // 第29便(第25次レビュー P1-1): 構築時のレール候補だけを走査(レール無し宇宙の O(N) 固定費を除去)。
@@ -14236,7 +14247,7 @@ function makeSim(){
       // v1.20: geoPN=1(E12測地線モード)では物質への E6′ を無効化 — 作用由来の式に
       // ニュートン重力+フレーム輸送が含まれるため、別途加えると二重計上になる(BOX_UNIVERSE §5.4)
       // 第31便: UniverseBox の寄与 W_B·u_B を分子・分母へ加える(u_B は粒子位置で評価)
-      const denom=bgW+sumWu[i];   // 第240便: contact では W′(既定は sumW と同一配列)
+      const denom=bgWu+sumWu[i];   // 第240便: contact では W′(既定は sumW と同一配列)/第241便: pull は D0pull+Σm/d²
       if(denom>1e-9 && kFrame>0 && !geo){
         let unx=uAx[i], uny=uAy[i];
         if(WB>0){ const bx=x[i]-B.cx, by=y[i]-B.cy;
@@ -14777,6 +14788,7 @@ function makeSim(){
     if(S.photons && S.photons.length){
       const pp=S.params;
       const O={heavy:[], kU:2*pp.kappaT, eps2:pp.softening*pp.softening, q:pp.q, c0:pp.cLight,
+        D0u:(pp[FRAME_WEIGHT_KEY]==="pull")? ((pp.D0pull>0)? pp.D0pull : pp.D0) : pp.D0,   // 第241便
         D0:pp.D0, kF:pp.kFrame, BX:S.box, WB:0, bH:0};
       for(let i=0;i<n;i++) if(rayHeavy(S,i)) O.heavy.push(i);
       let aO=1;
@@ -14843,7 +14855,7 @@ function makeSim(){
     const N=Math.exp(-psi), A=Math.exp(psi);
     let rvx=0, rvy=0;
     // 第240便: contact ではフレーム u の分母だけ W′(ψ は E1′ の W のまま)
-    const denU=(S._chG && S._chG.contact)? S.params.D0+WB+S.sumWu[i] : denom;
+    const denU=(S._chG && (S._chG.contact||S._chG.pull))? (S._chG.pull? S._chG.D0p : S.params.D0)+WB+S.sumWu[i] : denom;
     if(denU>1e-9){ // フレーム不在(W_ext=0)なら運動は定義されず、運動時間遅れなし(T1 整合)
       rvx=S.vx[i]-(S.uAx[i]+ubx)/denU; rvy=S.vy[i]-(S.uAy[i]+uby)/denU;
     }
@@ -15518,8 +15530,9 @@ const _PC={omj:0,omi:0,gTj:1,gTi:1,dgTj:0,dgTi:0,qcj:2,qci:2,d:0,hj:0,hi:0,qj:2,
 function chanSetup(S,p,hasCoreV2,dragSurf,eps2){
   const qT=(p.qTrans>0)? p.qTrans : 0, gasCoh=(p.gasCoh!==undefined)? p.gasCoh : 1;
   const contact=(p[DRAG_REF_KEY]===DRAG_CONTACT);   // 第240便
-  const hasQT=(qT>0)||S.hasDragQT, hasCQ=S.hasCoreDQ, cohOn=(gasCoh<1 && S.hasShellGas), chOn=hasQT||hasCQ||cohOn||contact;
-  S._chG=chOn? {qT, gasCoh, dragSurf, hasCoreV2, hasCQ, cohOn, contact, eps2} : null;
+  const pull=(p[FRAME_WEIGHT_KEY]==="pull"), D0p=(p.D0pull>0)? p.D0pull : p.D0;   // 第241便(第33報)
+  const hasQT=(qT>0)||S.hasDragQT, hasCQ=S.hasCoreDQ, cohOn=(gasCoh<1 && S.hasShellGas), chOn=hasQT||hasCQ||cohOn||contact||pull;
+  S._chG=chOn? {qT, gasCoh, dragSurf, hasCoreV2, hasCQ, cohOn, contact, pull, D0p, eps2} : null;
   return chOn;
 }
 function pairChannelOm(S,i,j,d,hj,hi,qj,qi,sj,si,Rj,Ri,dx,dy,wj,wi){
@@ -15552,12 +15565,18 @@ function pairChannelOm(S,i,j,d,hj,hi,qj,qi,sj,si,Rj,Ri,dx,dy,wj,wi){
   // 並進項に g_T(分母 W=sumW は E1′ 決定力のまま — 光学・時計・χ は不変)。uAx/vx は S の配列そのもの(S._core のローカル別名と同一)
   const uAx=S.uAx, uAy=S.uAy, vx=S.vx, vy=S.vy;
   // 第240便: contact — フレーム重みを接触距離で評価 w′=m/√(h²+ε²)(分母 W′ は S.sumWu に別集計)。E1′ の W は不変
-  if(G.contact){ const e2=G.eps2, mE=S.mEff; wj=mE[j]/Math.sqrt(hj*hj+e2); wi=mE[i]/Math.sqrt(hi*hi+e2); S.sumWu[i]+=wj; S.sumWu[j]+=wi; }
+  if(G.contact||G.pull){ const e2=G.eps2, mE=S.mEff;
+    if(G.pull){ const q2=d*d+e2; wj=mE[j]/q2; wi=mE[i]/q2; }   // 第241便: 重力の引き m/(d²+ε²)(第33報)
+    else { wj=mE[j]/Math.sqrt(hj*hj+e2); wi=mE[i]/Math.sqrt(hi*hi+e2); }
+    S.sumWu[i]+=wj; S.sumWu[j]+=wi; }
   uAx[i]+=wj*(gTj*vx[j]+omj*(-dy)); uAy[i]+=wj*(gTj*vy[j]+omj*(dx));
   uAx[j]+=wi*(gTi*vx[i]+omi*(dy));  uAy[j]+=wi*(gTi*vy[i]+omi*(-dx));
 }
 function pairChannelGrad(S,i,j,dx,dy,mi,mj,invd3,idd,wj,wi){
   const G=S._chG, gasCoh=G.gasCoh, dragSurf=G.dragSurf, hasCoreV2=G.hasCoreV2, cohOn=G.cohOn;
+  // 第241便(第33報): pull ではフレーム重み w=m/(d²+ε²)・∂w/∂r=−2m(r−r_j)/(d²+ε²)²(share は w=m/√(d²+ε²)・∂w/∂r=−m(r−r_j)·invW³)
+  let gk=invd3;
+  if(G.pull){ const q2=_PC.d*_PC.d+G.eps2; wj=mj/q2; wi=mi/q2; gk=2/(q2*q2); }
   const g2=S._g2, dPxx=g2.dPxx, dPxy=g2.dPxy, dPyx=g2.dPyx, dPyy=g2.dPyy, dWxA=g2.dWx, dWyA=g2.dWy, vx=S.vx, vy=S.vy;
   const d=_PC.d, hj=_PC.hj, hi=_PC.hi, qj=_PC.qj, qi=_PC.qi, sj=_PC.sj, si=_PC.si, Rj=_PC.Rj, Ri=_PC.Ri;
   const omj=_PC.omj, omi=_PC.omi, gTj=_PC.gTj, gTi=_PC.gTi, dgTj=_PC.dgTj, dgTi=_PC.dgTi;
@@ -15577,7 +15596,7 @@ function pairChannelGrad(S,i,j,dx,dy,mi,mj,invd3,idd,wj,wi){
   // 第239便: 気体コヒーレンスは殻 ω の定数倍なので domj/domi にも同じ倍率(核の一貫性)
   if(cohOn){ if(sgA[j]) domj*=gasCoh; if(sgA[i]) domi*=gasCoh; }
   { // i 側(源 j): r−r_j=(dx,dy)、c=(g_T·vx_j−ω_j·dy, g_T·vy_j+ω_j·dx)(第239便: g_T は既定 1・導関数 0)
-    const gwx=-mj*dx*invd3, gwy=-mj*dy*invd3;
+    const gwx=-mj*dx*gk, gwy=-mj*dy*gk;
     const cxv=gTj*vx[j]+omj*(-dy), cyv=gTj*vy[j]+omj*(dx);
     const nx=dx*idd, ny=dy*idd;
     dPxx[i]+=gwx*cxv + wj*(-dy*domj*nx);
@@ -15588,7 +15607,7 @@ function pairChannelGrad(S,i,j,dx,dy,mi,mj,invd3,idd,wj,wi){
     dWxA[i]+=gwx; dWyA[i]+=gwy;
   }
   { // j 側(源 i): r−r_i=(−dx,−dy)、c=(g_T·vx_i+ω_i·dy, g_T·vy_i−ω_i·dx)
-    const gwx=mi*dx*invd3, gwy=mi*dy*invd3;
+    const gwx=mi*dx*gk, gwy=mi*dy*gk;
     const cxv=gTi*vx[i]+omi*(dy), cyv=gTi*vy[i]+omi*(-dx);
     const nx=-dx*idd, ny=-dy*idd;
     dPxx[j]+=gwx*cxv + wi*( dy*domi*nx);
@@ -15604,7 +15623,8 @@ function rayField(S, heavy, px, py, kU, eps2, q, kF, BX, WB, bH){
   // 第239便: 光線も同じチャネル核(既定は呼ばれない)
   const pp=S.params, rqT=(pp.qTrans>0)? pp.qTrans : 0, rCoh=(pp.gasCoh!==undefined)? pp.gasCoh : 1;
   const rCt=(pp[DRAG_REF_KEY]===DRAG_CONTACT), rSurf=(pp[DRAG_REF_KEY]==="surface"||pp[DRAG_REF_KEY]==="interior"||rCt);
-  const rCh=(rqT>0)||S.hasDragQT||S.hasCoreDQ||(rCoh<1 && S.hasShellGas)||rCt;
+  const rPl=(pp[FRAME_WEIGHT_KEY]==="pull");   // 第241便
+  const rCh=(rqT>0)||S.hasDragQT||S.hasCoreDQ||(rCoh<1 && S.hasShellGas)||rCt||rPl;
   let wuSum=0;
   for(const i of heavy){
     const dx=px-S.x[i], dy=py-S.y[i], d2=dx*dx+dy*dy;
@@ -15619,7 +15639,7 @@ function rayField(S, heavy, px, py, kU, eps2, q, kF, BX, WB, bH){
     const hh=rSurf? Math.max(0,dd-S.R[i]) : dd;
     if(si!==0){ const tt=S.R[i]/(S.R[i]+hh); om=(qi===2)? si*tt*tt : si*Math.pow(tt,qi); }
     let gT=1, wu=w;
-    if(rCh){ if(S.shellGas[i]) om*=rCoh; gT=dragTransG(S,i,dd,hh,rqT,rCoh,rSurf); if(rCt) wu=S.m[i]/Math.sqrt(hh*hh+eps2); }
+    if(rCh){ if(S.shellGas[i]) om*=rCoh; gT=dragTransG(S,i,dd,hh,rqT,rCoh,rSurf); if(rPl) wu=S.m[i]/(d2+eps2); else if(rCt) wu=S.m[i]/Math.sqrt(hh*hh+eps2); }
     wuSum+=wu;
     uNx+=kF*wu*(gT*S.vx[i]+om*(-dy)); uNy+=kF*wu*(gT*S.vy[i]+om*(dx));
   }
@@ -15635,7 +15655,7 @@ function rayField(S, heavy, px, py, kU, eps2, q, kF, BX, WB, bH){
 function photonStep(S, ph, dt, O){
   rayField(S, O.heavy, ph.x, ph.y, O.kU, O.eps2, O.q, O.kF, O.BX, O.WB, O.bH);
   const gx=_RF.gx, gy=_RF.gy, uNx=_RF.ux, uNy=_RF.uy;
-  const Wtot=O.D0+O.WB+_RF.w, Wu=O.D0+O.WB+_RF.wu;   // 第240便: 随伴の分母は W′(既定は W と同値)
+  const Wtot=O.D0+O.WB+_RF.w, Wu=O.D0u+O.WB+_RF.wu;   // 第240便: 随伴の分母は W′(既定は W と同値)/第241便: pull は D0pull
   const neff=Math.exp(O.kU*Wtot);            // n_eff = e^{2ψ}(ψ は背景 D₀+W_B を含む全 W)
   const dl=(O.c0/neff)*dt;                   // 弧長 = 局所光速 c₀/n_eff × dt
   let cxv=ph.dx, cyv=ph.dy;
@@ -15657,6 +15677,7 @@ function traceRay(S, px, py, cxv, cyv, dl, maxSteps, emit){
   // 「引きずりなし」の対照実験になる(🌗spinlens)。屈折(ψ=W·κ)は kFrame と無関係のまま。
   // 内蔵プリセットは kFrame=1(💡🌗)または源が静止・無スピン(🔭🛰)のため描画は不変。
   const p=S.params, kU=2*p.kappaT, eps=p.softening, eps2=eps*eps, q=p.q, c0=p.cLight, D0=p.D0, kF=p.kFrame;
+  const D0u=(p[FRAME_WEIGHT_KEY]==="pull")? ((p.D0pull>0)? p.D0pull : D0) : D0;   // 第241便
   const heavy=[];
   for(let i=0;i<S.n;i++) if(rayHeavy(S,i)) heavy.push(i);
   // 第31便: UniverseBox — W_B は一様(∇ψ 寄与なし=光は曲げない)だが、n_eff と
@@ -15693,7 +15714,7 @@ function traceRay(S, px, py, cxv, cyv, dl, maxSteps, emit){
     const dot=gx*cxv+gy*cyv;
     cxv+=(gx-dot*cxv)*dl; cyv+=(gy-dot*cyv)*dl;
     const cl=Math.sqrt(cxv*cxv+cyv*cyv); cxv/=cl; cyv/=cl;
-    const Wtot=D0+WB+wSum, Wu=D0+WB+wuSum;   // 第240便: 随伴の分母は W′(既定は W と同値)
+    const Wtot=D0+WB+wSum, Wu=D0u+WB+wuSum;   // 第240便: 随伴の分母は W′(既定は W と同値)/第241便: pull は D0pull
     const neff=Math.exp(kU*Wtot);            // n_eff = e^{2ψ}(ψ は背景 D₀ を含む全 W)
     const adv=(Wu>1e-9)? (neff/c0)*dl/Wu : 0;
     px+=cxv*dl+uNx*adv; py+=cyv*dl+uNy*adv;
@@ -23949,6 +23970,14 @@ function dfmContactEntrainment(o){
   const res=(1-chi)*v;
   return { w:wp, Wext:W, chi, residual:res, anisotropy:(c>0)? 0.5*(res/c)*(res/c) : null };
 }
+// 第241便(第33報): 重力の引き重みでの局所フレーム分率 χ=(M/d²)/(D0p+Σ M_k/d_k²+M/d²)(d は中心距離・ext も同じ)
+function dfmPullEntrainment(o){
+  const M=Number(o.M), d=Number(o.d), D0p=(o.D0p>=0)? Number(o.D0p) : 0, eps=(o.eps>0)? Number(o.eps) : 0;
+  const ext=Array.isArray(o.ext)? o.ext : []; let W=0; for(const e of ext){ if(e && e.M>0 && e.d>0) W+=Number(e.M)/(Number(e.d)*Number(e.d)+eps*eps); }
+  if(!(M>0 && d>=0)) return null;
+  const w=M/(d*d+eps*eps), chi=w/(D0p+W+w), v=(o.v!==undefined)? Number(o.v) : 0, c=(o.c>0)? Number(o.c) : 0, res=(1-chi)*v;
+  return { w, Wext:W, chi, residual:res, anisotropy:(c>0)? 0.5*(res/c)*(res/c) : null };
+}
 function dfmMMAltitudeLimit(o){
   const M=Number(o.M), D0=(o.D0>=0)? Number(o.D0) : 0, v=Number(o.v), bound=Number(o.bound);
   const ext=Array.isArray(o.ext)? o.ext : []; let W=0; for(const e of ext){ if(e && e.M>0 && e.d>0) W+=Number(e.M)/Number(e.d); }
@@ -23977,7 +24006,7 @@ function dfmBinaryInertiaFactor(mA,mB,chiA,chiB,kFrame){
   return 1+k*((mA/M)*chiA*chiA+(mB/M)*chiB*chiB);
 }
 window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extractJSON,
-  dfmInternalEntrainment, dfmBinaryChi, dfmBinaryInertiaFactor, dragTransG, dfmBinaryMassFactor, dfmContactEntrainment, dfmMMAltitudeLimit,   // 第239便: 内部共動・解析慣性則・並進核(診断)
+  dfmInternalEntrainment, dfmBinaryChi, dfmBinaryInertiaFactor, dragTransG, dfmBinaryMassFactor, dfmContactEntrainment, dfmMMAltitudeLimit, dfmPullEntrainment,   // 第239便: 内部共動・解析慣性則・並進核(診断)
   dfmStarMassLedger, dfmCoreDragRatio, dfmCoreDragRadius, DFM_BETA_SOLID, obsTemp,   // 第233便: 恒星構造 v1 純関数
   chiMassFactors,   // 第224便: χ-law v1(粒子別質量スケールの較正則 — QA behavior.chi-law が読む)
   coreTiltProxyAudit,   // 第226便提案: core.tilt の投影エネルギー/角力積監査(読み取り専用)

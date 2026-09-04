@@ -8766,6 +8766,61 @@ if (!FAST) {
   }
 }
 
+// ---- 第241便(第33報「メッシュは決定力場の分率が強い対象より、重力で引っ張られる対象に強く依存する」): behavior.framePull ----
+// physics.frameWeight:"pull" — フレーム速度 u の重みを重力の引き w=m/(d²+ε²) で評価(分母 D0pull+W_B+Σw)。E1′ の W は不変。
+// 玩具で χ が解析 dfmPullEntrainment と 1e-6 一致/既定 share は 1 bit 不変/🌘 は pull で D0pull=3.36e-5(再較正)のとき近点移動 2.995°/周(8.85 年)
+// を 1 周で再現(窓 ±0.15)/物理予測: 地表 χ_E 0.998・GPS 0.97・月 0.12(較正)・α Cen 相手の χ 10⁻³(ニュートン側)・PSR 0.9999(f≈2 側)。
+{
+  const hasPull = await page.evaluate(() => typeof (window.HP && HP.dfmPullEntrainment) === 'function');
+  if (hasPull) {
+    const fp = await page.evaluate(() => {
+      const base = (h, ph) => ({ name: 'mm', description: 'toy', physics: Object.assign({ G: 6.674, D0: 0.006, kFrame: 1, q: 8.2358, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 7.415555555555556e-9, cLight: 300, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 0.01, timeScale: 1 }, ph || {}),
+        camera: { scale: 1 }, world: { boundary: 'none', size: 0 }, bodies: [{ type: 'single', m: 10000, radius: 50, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true }, { type: 'single', m: 1, radius: 5, x: 2000, y: 0, vx: 0, vy: 1, spin: 0, pinned: true }, { type: 'single', m: 1e-6, radius: 0.01, x: 2005 + h, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+      const u = (pd) => { const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset); S.step(0.004); S.step(0.004); return { uy: S.uPy[2], k: S._kKind, warn: (v.warnings || []).length, sig: JSON.stringify(v.preset.physics) }; };
+      const D0pt = 1e-5, rows = [];
+      for (const h of [0, 1, 10, 100]) { const t = u(base(h, { frameWeight: 'pull', D0pull: D0pt }));
+        const an = HP.dfmPullEntrainment({ M: 1, d: 5 + h, D0p: D0pt, eps: 0.01, ext: [{ M: 10000, d: 2005 + h }], v: 1 });
+        rows.push({ h, chi: t.uy, chiAn: an.chi, k: t.k, warn: t.warn }); }
+      // 既定 share の明示は署名不変・🌘 bit 不変。pull は generic 経路で動く
+      const run = (patch, steps) => { const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'earthMoonRealKF1'))); if (patch) Object.assign(pd.physics, patch);
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset); for (let k = 0; k < steps; k++) S.step(0.016); return { o: [S.x[1], S.y[1], S.vx[1], S.vy[1]], k: S._kKind, sig: JSON.stringify(v.preset.physics), warn: (v.warnings || []).length }; };
+      const e0 = run(null, 300), eS = run({ frameWeight: 'share' }, 300), eP = run({ frameWeight: 'pull', D0pull: 3.36e-5 }, 300);
+      // 🌘 pull 再較正: 1 周の近点移動
+      const peri = (patch) => { const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'earthMoonRealKF1'))); Object.assign(pd.physics, patch);
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset); const dt = 0.016; let t = 0;
+        const rel = () => { const dx = S.x[1] - S.x[0], dy = S.y[1] - S.y[0]; return { r: Math.hypot(dx, dy), th: Math.atan2(dy, dx) }; };
+        let prev2 = null, prev = rel(); const ps = []; for (let k = 0; k < 1600000 && ps.length < 2; k++) { S.step(dt); t += dt; const cur = rel(); if (prev2 && prev.r < prev2.r && prev.r < cur.r) ps.push({ t: t - dt, th: prev.th }); prev2 = prev; prev = cur; }
+        if (ps.length < 2) return null; let d = (ps[1].th - ps[0].th) * 180 / Math.PI; while (d > 180) d -= 360; while (d < -180) d += 360; return { dPeri: d, P: ps[1].t - ps[0].t }; };
+      const pp = peri({ frameWeight: 'pull', D0pull: 3.36e-5 });
+      // 物理予測(kg/m²): D0p=3.36e-5×10¹³=3.36e8
+      const D0P = 3.36e8, ME = 5.972e24, RE = 6.371e6, MS = 1.989e30, AU = 1.496e11, dM = 3.844e8;
+      const ext = [{ M: MS, d: AU }];
+      const ground = HP.dfmPullEntrainment({ M: ME, d: RE, D0p: D0P, ext, v: 29780, c: 2.998e8 });
+      const gps = HP.dfmPullEntrainment({ M: ME, d: 2.656e7, D0p: D0P, ext, v: 29780, c: 2.998e8 });
+      const moon = HP.dfmPullEntrainment({ M: ME, d: dM, D0p: D0P, ext: [] });
+      const acen = HP.dfmPullEntrainment({ M: 1.8e30, d: 3.5e12, D0p: D0P, ext: [] });
+      const psr = HP.dfmPullEntrainment({ M: 2.5e30, d: 9.0e8, D0p: D0P, ext: [] });
+      const galaxy = 1e41 / (2.5e20 * 2.5e20);
+      return { rows, sigSame: e0.sig === eS.sig, bitSame: e0.o.every((x, i) => Object.is(x, eS.o[i])), kDef: e0.k, kPull: eP.k, pullMoves: !e0.o.every((x, i) => Object.is(x, eP.o[i])), warn: eS.warn + eP.warn,
+        pp, ground, gps, moon, acen, psr, galaxyOverD0p: galaxy / D0P };
+    });
+    const near = (a, b, tol) => Math.abs(a / b - 1) < tol;
+    const CK = { toy: fp.rows.every((r) => near(r.chi, r.chiAn, 1e-5) && r.k === 0 && r.warn === 0), sig: fp.sigSame && fp.bitSame && fp.warn === 0 && fp.kDef === 2,
+      pullGeneric: fp.kPull === 0 && fp.pullMoves, moonCal: !!fp.pp && fp.pp.dPeri > 2.85 && fp.pp.dPeri < 3.15,
+      ground: fp.ground.chi > 0.99 && fp.ground.residual < 500, gps: fp.gps.chi > 0.94, moon: fp.moon.chi > 0.10 && fp.moon.chi < 0.14,
+      acen: fp.acen.chi < 2e-3, psr: fp.psr.chi > 0.999, galaxy: fp.galaxyOverD0p < 1e-6 };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    add('behavior.framePull', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '')
+      + `玩具(pull・D0pull=1e-5): ` + fp.rows.map((r) => `h=${r.h}: χ ${r.chi.toFixed(6)}(解析 ${r.chiAn.toFixed(6)})`).join('・')
+      + ` / 既定 share 明示: 署名不変=${fp.sigSame}・🌘 bit 不変=${fp.bitSame}(kKind ${fp.kDef})・pull は generic(kKind ${fp.kPull})で動く=${fp.pullMoves} / `
+      + `🌘 pull 再較正 D0pull=3.36e-5(χ_E(近地点)=0.119): 近点移動 ${fp.pp ? fp.pp.dPeri.toFixed(3) : '—'}°/周(share 較正 2.995・8.85 年) / `
+      + `物理予測(D0p=3.36e8 kg/m²): 地表 χ_E=${fp.ground.chi.toFixed(4)}(残風 ${fp.ground.residual.toFixed(0)} m/s)・GPS ${fp.gps.chi.toFixed(4)}・月 ${fp.moon.chi.toFixed(4)}・α Cen 相手 ${fp.acen.chi.toExponential(2)}・PSR ${fp.psr.chi.toFixed(5)}・銀河/D0p ${fp.galaxyOverD0p.toExponential(1)}(無視できる)`);
+  } else {
+    console.log('SKIP behavior.framePull(第241便 未適用 — root 等)');
+  }
+}
+
 // ---- 第224便(第23報): behavior.chi-law — 連星4 DFM の粒子別質量スケール較正則の機械固定 ----
 // (a) massCalibration 台帳(law/fitDt/C/baseMass/factorByBody)が4本すべてに宣言され、
 //     f_i = C×g_i が HP.chiMassFactors の再計算とビット一致
