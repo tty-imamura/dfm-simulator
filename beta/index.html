@@ -15524,7 +15524,8 @@ const _PC={omj:0,omi:0,gTj:1,gTi:1,dgTj:0,dgTi:0,qcj:2,qci:2,d:0,hj:0,hi:0,qj:2,
 function chanSetup(S,p,hasCoreV2,dragSurf,eps2){
   const qT=(p.qTrans>0)? p.qTrans : 0, gasCoh=(p.gasCoh!==undefined)? p.gasCoh : 1;
   const contact=(p[DRAG_REF_KEY]===DRAG_CONTACT);   // 第240便
-  const pw=frameWeightPow(p), pull=(pw>0), D0p=(p.D0pull>0)? p.D0pull : p.D0;   // 第241便(第33報)/第242便: 既定 pull・指数 pw∈{2,3,4}
+  const fw=p[FRAME_WEIGHT_KEY], pw=(fw===undefined)? 2 : (fw==="pull")? 2 : (fw==="pull3")? 3 : (fw==="pull4")? 4 : 0;   // 第241便(第33報)/第242便: 既定 pull・指数 pw∈{2,3,4}(1 步 1 回 — 関数呼び出しを避ける・perf.starSeed)
+  const pull=(pw>0), D0p=(p.D0pull>0)? p.D0pull : p.D0;
   const hasQT=(qT>0)||S.hasDragQT, hasCQ=S.hasCoreDQ, cohOn=(gasCoh<1 && S.hasShellGas), chOn=hasQT||hasCQ||cohOn||contact||pull;
   S._chG=chOn? {qT, gasCoh, dragSurf, hasCoreV2, hasCQ, cohOn, contact, pull, pw, D0p, eps2} : null;
   return chOn;
