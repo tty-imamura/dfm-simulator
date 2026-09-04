@@ -15522,6 +15522,8 @@ function dragTransG(S,j,d,h,qT,gasCoh,dragSurf){
 const _PC={omj:0,omi:0,gTj:1,gTi:1,dgTj:0,dgTi:0,qcj:2,qci:2,d:0,hj:0,hi:0,qj:2,qi:2,sj:0,si:0,Rj:0,Ri:0};
 // 1 步 1 回: 分離経路の文脈(S._chG)を作り chOn を返す(S._core の外に置く — 上記の理由)
 function chanSetup(S,p,hasCoreV2,dragSurf,eps2){
+  // 第242便: share 明示で分離チャネルが何も無い宇宙(旧来の内蔵サンプル)は最短で抜ける(1 步 1 回の固定費 — perf.starSeed の 3 体級)
+  if(p[FRAME_WEIGHT_KEY]==="share" && !S.hasDragQT && !S.hasCoreDQ && !(p.qTrans>0) && p[DRAG_REF_KEY]!==DRAG_CONTACT && !(S.hasShellGas && p.gasCoh<1)){ S._chG=null; return false; }
   const qT=(p.qTrans>0)? p.qTrans : 0, gasCoh=(p.gasCoh!==undefined)? p.gasCoh : 1;
   const contact=(p[DRAG_REF_KEY]===DRAG_CONTACT);   // 第240便
   const fw=p[FRAME_WEIGHT_KEY], pw=(fw===undefined)? 2 : (fw==="pull")? 2 : (fw==="pull3")? 3 : (fw==="pull4")? 4 : 0;   // 第241便(第33報)/第242便: 既定 pull・指数 pw∈{2,3,4}(1 步 1 回 — 関数呼び出しを避ける・perf.starSeed)
