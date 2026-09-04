@@ -2258,7 +2258,8 @@ const FRAME_WEIGHT_KEY = "frameWeight", FRAME_WEIGHTS = ["share","pull","pull3",
 // 旧来のサンプルは frameWeight:"share" を明示して 1 bit 不変・再較正済みの現実較正サンプル(🌘🪨💿✴️💫⚡🎻 と観測版)は pull)。
 // 一般形 w=m/(d²+ε²)^{p/2}(p=2 pull・3 pull3・4 pull4 — 潮汐力 m/d³ の類推。分母 D0pull+W_B+Σw。D0pull の次元は kg/m^p)。
 const FRAME_WEIGHT_DEFAULT = "pull", FRAME_POWS = { share:0, pull:2, pull3:3, pull4:4 };
-function frameWeightPow(p){ const v=p? p[FRAME_WEIGHT_KEY] : undefined; return (v===undefined||v===null)? FRAME_POWS[FRAME_WEIGHT_DEFAULT] : (FRAME_POWS[v]||0); }
+// 1 步 1〜2 回呼ばれる(chanSetup・光学コンテキスト)— 3 体級の小さな宇宙では 1 步 1.5 µs なので分岐だけの軽い形にする(perf.starSeed)
+function frameWeightPow(p){ const v=p[FRAME_WEIGHT_KEY]; return (v===undefined)? 2 : (v==="pull")? 2 : (v==="pull3")? 3 : (v==="pull4")? 4 : 0; }
 function frameWeightOf(p){ const v=p? p[FRAME_WEIGHT_KEY] : undefined; return (v===undefined||v===null)? FRAME_WEIGHT_DEFAULT : v; }
 // 第197便(M0): physics.halo — 解析的ダークハロー外部項(観測再現版専用)。オブジェクト値の
 // opt-in キーで、省略時はプリセット署名・挙動とも 1 bit 不変(frameReaction と同じ流儀)。
