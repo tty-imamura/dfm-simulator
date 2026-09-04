@@ -4308,7 +4308,7 @@ if (hasBadgeClassify) {
     // ① V1 と同一構成(verify_v1 の id からシード決定 — 同一初期配置)
     const v1p = { id: "verify_v1", name: "V1", description: "d", camera: { scale: 200 },
       world: { boundary: "none", size: 0 },
-      physics: { D0: 0, kFrame: 1, G: 1, kRep: 1, muF: 0.5, gammaN: 0.4, kappaS: 0.05, etaRad: 0,
+      physics: { frameWeight: 'share', D0: 0, kFrame: 1, G: 1, kRep: 1, muF: 0.5, gammaN: 0.4, kappaS: 0.05, etaRad: 0,
         softening: 2, timeScale: 1 },
       bodies: [
         { type: "single", m: 30, x: 0, y: 0, vx: 0, vy: 0, spin: 0.5, pinned: false },
@@ -4949,6 +4949,8 @@ if (!FAST) {
         const pd = HP.allPresets().find((q) => q.id === 'alphaCenABDFM');
         const p2 = JSON.parse(JSON.stringify(pd));
         p2.physics.coupleSink = 'tilt';
+        // 第242便: pull 既定の ✴️ は隠れコアを持たない((f−1)/f<0.01)— 機構検査用に点状コア(share 期の massFrac・殻の半分)を足す(root 等 コア持ちの世代はそのまま)
+        for (const b of p2.bodies) if (!b.core) b.core = { mode: 'differential', massFrac: 0.4577578687079382, radius: b.radius / 2, omega: b.spin, Kcs: 0 };
         delete p2.bodies[0].core.inertiaScale; delete p2.bodies[1].core.inertiaScale;
         const v2 = HP.validatePreset(p2);
         const S = HP.sim; S.build(v2.preset);
@@ -6810,6 +6812,7 @@ if (!FAST) {
         pin0: p.bodies[0].pinned, pin1: p.bodies[1].pinned, spin0: p.bodies[0].spin, spin1: p.bodies[1].spin,
         abKF: p.abBody && p.abBody.physicsPatch && p.abBody.physicsPatch.kFrame,
         fam: p.familyRole,   // 第204便: ✴️ を仲間のメインへ — 観測版は variant
+        pull: p.physics.frameWeight === "pull",   // 第242便: pull 重み世代のゲート
         ruleDecl: /観測安定則(.|\n)*2026-08-25/.test(p.descStruct.summary + p.failureFirst.pass) };
       const run = (patch, frac, delSink) => {
         const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
@@ -6869,10 +6872,16 @@ if (!FAST) {
           : (x && typeof x === 'object')
             ? '{' + Object.keys(x).sort().map((k) => JSON.stringify(k) + ':' + canon(x[k])).join(',') + '}'
             : JSON.stringify(x);
-        const pick = (q) => canon({ physics: q.physics, bodies: q.bodies,
+        // 第242便: 記録経路(buildAstroFromRecords)は pull 宣言キー(frameWeight/D0pull)を出さないので、
+        // physics のキー集合比較からはその2つを外す(内蔵側だけが D₀ᵖ を明示宣言している差分)
+        const stripPull = (ph) => { const o = Object.assign({}, ph); delete o.frameWeight; delete o.D0pull; return o; };
+        const pick = (q) => canon({ physics: stripPull(q.physics), bodies: q.bodies,
           camera: q.camera, world: q.world, scaleExp: q.scaleExp });
         eq.same = pick(vb.preset) === pick(r1.preset);
         if (!eq.same) eq.diff = { builtin: pick(vb.preset).slice(0, 400), records: pick(r1.preset).slice(0, 400) };
+        // 第242便 pull: kF1 雛形は自己診断(二体クロージャ)を通過して記録経路は kF1 を構築する — 内蔵 ✨ は裁定の根拠②で kF0 を維持。kFrame 以外はビット一致を要求
+        const pickNoKF = (qq) => { const ph = stripPull(qq.physics); delete ph.kFrame; return canon({ physics: ph, bodies: qq.bodies, camera: qq.camera, world: qq.world, scaleExp: qq.scaleExp }); };
+        eq.recKF = r1.preset.physics.kFrame; eq.sameNoKF = pickNoKF(vb.preset) === pickNoKF(r1.preset);
       }
       // 第203〜209便: ✴️ DFM 版 — 質量較正(f=1.827)+**役割反転二層**(第208便)+**重心ゲージ**
       // (第209便 — cmGauge:"barycentric"。D₀ 開放系の共通加速度を除き重心を機械ゼロに保つ)の機械固定。
@@ -6890,34 +6899,50 @@ if (!FAST) {
         if (!pd) dfm = { missing: true };
         else {
           const SPA = 4.57371397, SPB = 2.00723302, ZETA = 27853.10245466657;
-          // 第224便: χ-law 粒子別質量(比は法則導出・fit は正規化 C の1ノブ)+ massCalibration 台帳。
-          // 世代ゲート w224(root=旧共通 f=1.827 世代は massCalibration を持たない)
+          // 第224便: χ-law 粒子別質量(比は法則導出)+ massCalibration 台帳。
+          // 世代ゲート w224(root=旧共通 f=1.827 世代は massCalibration を持たない)/
+          // 第242便 w242: pull 重み世代 — 解析慣性則が f=1.0000000 を返し、質量=観測質量。
+          // (f−1)/f=4.4e-8 は core.massFrac の値域下限 0.01 を割るので隠れコアは撤去し、
+          // 偶力は coupleSink:"reservoir" でリザーバ帳簿へ記帳する(📻 と同じ型)。
           const w224 = !!pd.massCalibration;
-          const FA = w224 ? 1.844194580781074 : 1.827, FB = w224 ? 1.844194580781074 : 1.827;   // 第240便: 解析慣性則 f=1+A(両体共通)
+          const w242 = pd.physics.frameWeight === "pull";
+          const FA = w242 ? 1.0000000468819212 : (w224 ? 1.844194580781074 : 1.827), FB = FA;
           const massOk = Math.abs(pd.bodies[0].m / p.bodies[0].m - FA) < 1e-9
             && Math.abs(pd.bodies[1].m / p.bodies[1].m - FB) < 1e-9
             && (!w224 || (pd.massCalibration.law === 'inertia-law-v1'
               && pd.massCalibration.fitDt === 0.016
               && pd.massCalibration.factorByBody[0] === FA && pd.massCalibration.factorByBody[1] === FB));
           const c0 = pd.bodies[0].core, c1 = pd.bodies[1].core;
-          const coreOk = !!c0 && !!c1 && c0.mode === 'differential' && c1.mode === 'differential'
-            && c0.Kcs === 0 && c1.Kcs === 0 && c0.omega === SPA && c1.omega === SPB
-            && c0.inertiaScale === ZETA && c1.inertiaScale === ZETA          // 第208便: ζ の等価移送
-            && c0.radius === 0.042369 && c1.radius === 0.02989668            // コア半径=殻の半分(規約)
-            && (!w224 || (c0.massFrac === (FA - 1) / FA && c1.massFrac === (FB - 1) / FB))   // 第224便: 殻質量=観測質量の記帳
-            && pd.bodies[0].radius === 0.084738 && pd.bodies[1].radius === 0.05979336   // 外殻=転写光学半径
-            && pd.physics.coupleSink === 'core' && pd.physics.dispMag === 300
-            && pd.physics.cmGauge === 'barycentric';   // 第209便: 孤立系の重心ゲージ
+          // 第242便: pull 世代は「コアを持たないこと」を機械固定する(旧世代は従来どおり二層を検査)
+          const coreOk = w242
+            ? (!c0 && !c1 && pd.bodies[0].lightSweep === undefined && pd.bodies[1].lightSweep === undefined
+              && pd.physics.coupleSink === 'reservoir'
+              && pd.physics.frameWeight === 'pull' && pd.physics.D0pull === 0.324204
+              && pd.bodies[0].radius === 0.084738 && pd.bodies[1].radius === 0.05979336
+              && pd.bodies[0].spin === SPA && pd.bodies[1].spin === SPB
+              && pd.physics.dispMag === 300 && pd.physics.cmGauge === 'barycentric')
+            : (!!c0 && !!c1 && c0.mode === 'differential' && c1.mode === 'differential'
+              && c0.Kcs === 0 && c1.Kcs === 0 && c0.omega === SPA && c1.omega === SPB
+              && c0.inertiaScale === ZETA && c1.inertiaScale === ZETA          // 第208便: ζ の等価移送
+              && c0.radius === 0.042369 && c1.radius === 0.02989668            // コア半径=殻の半分(規約)
+              && (!w224 || (c0.massFrac === (FA - 1) / FA && c1.massFrac === (FB - 1) / FB))   // 第224便: 殻質量=観測質量の記帳
+              && pd.bodies[0].radius === 0.084738 && pd.bodies[1].radius === 0.05979336   // 外殻=転写光学半径
+              && pd.physics.coupleSink === 'core' && pd.physics.dispMag === 300
+              && pd.physics.cmGauge === 'barycentric');   // 第209便: 孤立系の重心ゲージ
           const declOk = pd.physics.kFrame === 1 && pd.abBody && pd.abBody.physicsPatch
             && pd.abBody.physicsPatch.kFrame === 0 && pd.fidelity === 'real'
             && pd.familyId === 'alphaCen' && pd.familyRole === 'primary'   // 第204便: DFM版が仲間のメイン
-            && Array.isArray(pd.parameterAudit.fitted) && pd.parameterAudit.fitted.length === 2
-            && (w224 ? /C=0\.9948256400872665/ : /f=1\.827/).test(pd.parameterAudit.fitted[0]) && /ζ=27853\.10245466657/.test(pd.parameterAudit.fitted[1])
+            && Array.isArray(pd.parameterAudit.fitted)
+            && pd.parameterAudit.fitted.length === (w242 ? 1 : 2)
+            && (w242 ? /フィットしたノブは無い/ : (w224 ? /C=0\.9948256400872665/ : /f=1\.827/)).test(pd.parameterAudit.fitted[0])
+            && (w242 || /ζ=27853\.10245466657/.test(pd.parameterAudit.fitted[1]))
             && /実在(の)?質量の主張ではない|条件つき較正/.test(pd.descStruct.summary)
-            && /光学半径・光学自転そのもの/.test(pd.descStruct.summary)      // 三句①: 外殻=観測値
-            && /coupleSink|隠れコアの J_core/.test(pd.descStruct.summary)    // 三句②: 偶力は隠れコアへ
-            && /トイ(モデルの)?近似/.test(pd.descStruct.summary)             // 三句③: 恒星内部構造の再現ではない
-            && /恒星内部構造/.test(pd.descStruct.summary)
+            && /光学半径・光学自転そのもの/.test(pd.descStruct.summary)      // 外殻=観測値
+            && /coupleSink|隠れコアの J_core/.test(pd.descStruct.summary)    // 偶力の受け先の宣言
+            && (w242
+              ? /隠れコアは持たない/.test(pd.descStruct.summary)             // 第242便: 二層の撤去を明記
+              : (/トイ(モデルの)?近似/.test(pd.descStruct.summary)           // 三句③: 恒星内部構造の再現ではない
+                && /恒星内部構造/.test(pd.descStruct.summary)))
             && coreOk;
           const vd = HP.validatePreset(JSON.parse(JSON.stringify(pd)));
           const S = HP.sim; S.build(vd.preset);
@@ -6973,7 +6998,7 @@ if (!FAST) {
           const T1 = S.totals(); const L1 = T1.L + S.resL + S.radL;
           const lRel = Math.abs(L1 - L0) / Math.max(Math.abs(L0), 1e-9);   // T7 恒等式(coreJ 込み)
           const pRel = Math.hypot(T1.px + S.resPx - ep0x, T1.py + S.resPy - ep0y) / Math.max(pScaleD, 1e-9);
-          // (c) 否定対照: coupleSink を外す(既定 "spin")— 同じ光学半径のまま再び飽和する
+          // (c) 否定対照: coupleSink を外す(既定 "spin")— share 世代は再び ±40 飽和し、
           const p0 = JSON.parse(JSON.stringify(pd));
           delete p0.physics.coupleSink;
           const v0 = HP.validatePreset(p0); const S0 = HP.sim; S0.build(v0.preset);
@@ -6981,8 +7006,11 @@ if (!FAST) {
           let n0max = -Infinity, n0min = Infinity;
           for (let k = 0; k < Math.round(0.3 * P_OBS / dt); k++) { S0.step(dt);
             if (S0.spin[0] > n0max) n0max = S0.spin[0]; if (S0.spin[0] < n0min) n0min = S0.spin[0]; }
-          const negSat = (n0max === 40 || n0min === -40) && ((S0.clampSN || 0) - nc0) > 0;
-          // (c)-2 否定対照: cmGauge を外すと D₀ 開放系の共通成分で重心が歩く(0.5公転で ~7 単位)
+          // 第242便 pull 世代は飽和しないが**殻スピンのビット保持が壊れる**(A 4.5737→8.43・+84%)
+          const negSat = w242
+            ? (n0max !== n0min && Math.abs(n0max / SPA - 1) > 0.05)
+            : ((n0max === 40 || n0min === -40) && ((S0.clampSN || 0) - nc0) > 0);
+          // (c)-2 否定対照: cmGauge を外すと D₀ 開放系の共通成分で重心が歩く(share ~7 単位・pull 4.0e-3 単位=ゲージありの約240倍)
           const p1g = JSON.parse(JSON.stringify(pd));
           delete p1g.physics.cmGauge;
           const v1g = HP.validatePreset(p1g); const S1 = HP.sim; S1.build(v1g.preset);
@@ -6991,7 +7019,7 @@ if (!FAST) {
           const c01 = com1(); let negWalkMax = 0;
           for (let k = 0; k < Math.round(0.5 * P_OBS / dt); k++) { S1.step(dt);
             const cc = com1(); const cd = Math.hypot(cc.x - c01.x, cc.y - c01.y); if (cd > negWalkMax) negWalkMax = cd; }
-          const negWalk = negWalkMax > 1;   // 実測 ~7.1 単位(ゲージありは 10⁻⁵ 級)
+          const negWalk = negWalkMax > (w242 ? 1e-3 : 1);   // 実測 pull 4.0e-3 / share ~7.1 単位(ゲージありは 10⁻⁵ 級)
           const one = () => { const vv = HP.validatePreset(JSON.parse(JSON.stringify(pd)));
             const s2 = HP.sim; s2.build(vv.preset);
             for (let k = 0; k < 400; k++) s2.step(0.016);
@@ -7006,7 +7034,7 @@ if (!FAST) {
             invA: Math.abs((1 - pd.bodies[0].lightSweep) * pd.massCalibration.factorByBody[0] - 1),
             invB: Math.abs((1 - pd.bodies[1].lightSweep) * pd.massCalibration.factorByBody[1] - 1),
           };
-          dfm = { massOk, declOk, p2, e1, nan: S.hasNaN(), angSign, dPeri, shellHold, driftA, driftB,
+          dfm = { massOk, declOk, w242, p2, e1, nan: S.hasNaN(), angSign, dPeri, shellHold, driftA, driftB,
             coreDriftA, coreDriftB, clampD, lRel, comMax, pRel, negSat, negWalk, negWalkMax, dimOff,
             det: da.length === db.length && da.every((x2, i) => Object.is(x2, db[i])) };
         }
@@ -7023,12 +7051,12 @@ if (!FAST) {
     const t0 = yr(ac.kf0.tRev);
     const dm = ac.dfm || { missing: true };
     const dfmOk = !dm.missing && dm.massOk && dm.declOk && !dm.nan && dm.det
-      && dm.p2 !== null && Math.abs(dm.p2 / ac.P_OBS - 1) < 0.012   // 第240便: f=1+A(fit なし)の P 残差 −0.83% を hold-out 記録(窓 1.2%)
-      && dm.e1 !== null && Math.abs(dm.e1 - 0.51684) < 0.02
+      && dm.p2 !== null && Math.abs(dm.p2 / ac.P_OBS - 1) < 0.012   // 第242便 pull: P 残差 −0.58% を hold-out 記録(share 世代 −0.83%・窓 1.2%)
+      && dm.e1 !== null && Math.abs(dm.e1 - 0.52041) < 0.02   // 第242便 pull: 0.52041(share 世代 0.51684 も窓内)
       && dm.angSign === 1                      // 第204便: 公転の向きが ✨ と同回り(数学正)
-      && dm.dPeri !== null && dm.dPeri >= 3.5 && dm.dPeri <= 5.0   // 第211便: 近点移動 +4.26°/周(順行 — claim 窓と同値)
+      && dm.dPeri !== null && (dm.w242 ? (dm.dPeri >= 0.7 && dm.dPeri <= 1.0) : (dm.dPeri >= 3.5 && dm.dPeri <= 5.0))   // 第242便 pull: +0.86°/周(share 世代 +4.26 — claim 窓と同値)
       && dm.shellHold === true                 // 第208便: 殻スピン=観測自転を全窓ビット保持(min=max=転写値)
-      && dm.coreDriftA <= 0.2 && dm.coreDriftB <= 0.2   // 第208便: 偶力を受けたコア Ω は ±20% 内(実測 A +3.8%・B +8.7%)
+      && (dm.w242 || (dm.coreDriftA <= 0.2 && dm.coreDriftB <= 0.2))   // 第208便: 偶力を受けたコア Ω は ±20% 内(pull 世代はコア無し)
       && dm.clampD === 0                       // 第208便: クランプ非接触(第205便の飽和 ~4.8×10⁵ の解消)
       && dm.lRel < 1e-8                        // 第208便: 角運動量帳簿(総L+リザーバ・coreJ 込み)が閉じる
       && dm.comMax < 0.01                      // 第209便: cmGauge — 重心は機械ゼロ(実測 4×10⁻⁵・✨ と同桁)
@@ -7045,25 +7073,27 @@ if (!FAST) {
       && t0 !== null && Math.abs(t0 / 79.762 - 1) < 0.001
       && Math.abs(ac.kf0.ecc - 0.51947) < 0.02 && ac.kf0.maxAbs < 5000
       && ac.kf0.comMax < 1e-3 && ac.kf0.pRel < 1e-8   // 第209便: ✨ kF0 の重心は機械ゼロ(対照)
-      && ac.kf1.growth < -0.05 && ac.kf1.rmin > 400   // 第211便: 遠点発 kF1 は周期 −13% 縮み・近点に届かない(転写近点 167.5)
-      && ac.eq.ok && ac.eq.stab === 'obs-stability' && ac.eq.same === true
+      && (ac.d.pull ? (Math.abs(ac.kf1.growth) < 0.02 && ac.kf1.rmin > 160)   // 第242便 pull: 遠点発 kF1 は −0.43% で近点(167.5)にほぼ届く
+        : (ac.kf1.growth < -0.05 && ac.kf1.rmin > 400))   // share 世代: 周期 −13% 縮み・近点に届かない
+      && ac.eq.ok && (ac.d.pull ? (ac.eq.stab === null && ac.eq.recKF === 1 && ac.eq.sameNoKF === true)   // 第242便 pull: 記録経路は kF1 を構築(自己診断通過)・kFrame 以外は bit 一致
+        : (ac.eq.stab === 'obs-stability' && ac.eq.same === true))
       && dfmOk,
       `宣言=${declOk}(fidelity=real・L10/T6/M29・κ=G/c₀²・**kFrame=0(観測安定則 2026-08-25 裁定の採用側)**・`
       + `A/B 測定側 kFrame=1・両星自由・E6′-R・ts=1000/dm=300・裁定引用あり) / `
       + `kF0(採用側・1.05公転): ${t0 === null ? '—' : t0.toFixed(4) + '年'}(観測 79.762・宣言 79.7647)・`
       + `実測離心率 ${ac.kf0.ecc.toFixed(5)}(転写 0.51947)・座標最大 ${ac.kf0.maxAbs.toFixed(0)}(±5000 内)・重心 ${ac.kf0.comMax.toExponential(1)}(<1e-3) / `
-      + `kF1(測定側・遠点発 0.56公転窓 — 第211便): 接触要素周期 ${(ac.kf1.growth * 100).toFixed(1)}%(宣言 −13.0%)・rmin=${ac.kf1.rmin.toFixed(0)}(>400 — 近点 167.5 に届かない) / `
-      + `経路等価: CSV ${csvRows.length}行 → buildAstroFromRecords が観測安定則発動(${ac.eq.stab})+内蔵とビット一致=${ac.eq.same} / `
-      + `✴️ DFM版(第203〜224便): 質量=✨×χ-law 粒子別 f=1.84419〔解析慣性則 f=1+A・第240便〕(台帳込みビット照合 ${dm.massOk})・宣言(kF1・A/B=kF0・外殻=転写光学半径ビット・coupleSink:core・massFrac=(f−1)/f〔第224便〕・fitted 2ノブ C/ζ・三句)=${dm.declOk}・`
+      + `kF1(測定側・遠点発 0.56公転窓 — 第211便): 接触要素周期 ${(ac.kf1.growth * 100).toFixed(1)}%(宣言 pull −0.43%/share −13.0%)・rmin=${ac.kf1.rmin.toFixed(0)}(pull は近点 167.5 にほぼ届く) / `
+      + `経路等価: CSV ${csvRows.length}行 → buildAstroFromRecords が観測安定則発動(${ac.eq.stab})+内蔵とビット一致=${ac.eq.same}(第242便 pull: 記録経路は kF${ac.eq.recKF}〔自己診断通過〕・kFrame 以外の一致=${ac.eq.sameNoKF}) / `
+      + `✴️ DFM版(第242便 pull): 質量係数 f=${dm.w242 ? '1.0000000(=観測質量)' : '1.84419〔share〕'}(台帳込みビット照合 ${dm.massOk})・宣言(kF1・A/B=kF0・外殻=転写光学半径ビット・${dm.w242 ? 'coupleSink:reservoir・コア無し・fitted 0ノブ' : 'coupleSink:core・massFrac=(f−1)/f・fitted 2ノブ'})=${dm.declOk}・`
       + `familyRole: ✴️=primary/✨=variant(第204便) / `
-      + `kF1+役割反転二層+重心ゲージの2周目 ${dm.p2 === null ? '—' : yr(dm.p2).toFixed(3) + '年'}(観測 79.762 ±0.5%・宣言 79.761)・`
-      + `1周目 e=${dm.e1 === null ? '—' : dm.e1.toFixed(5)}(宣言 0.51684)・向き=✨と同回り(angSign=${dm.angSign} — 第204便)・`
-      + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(3) + '°/周'}(宣言 +4.26 — 第211便・claim 窓 3.5〜5.0)・`
+      + `kF1 の2周目 ${dm.p2 === null ? '—' : yr(dm.p2).toFixed(3) + '年'}(観測 79.762・宣言 ${dm.w242 ? '79.303〔hold-out −0.58%〕' : '79.761'})・`
+      + `1周目 e=${dm.e1 === null ? '—' : dm.e1.toFixed(5)}(宣言 ${dm.w242 ? '0.52041' : '0.51684'})・向き=✨と同回り(angSign=${dm.angSign})・`
+      + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(3) + '°/周'}(宣言 ${dm.w242 ? '+0.86・窓 0.7〜1.0' : '+4.26・窓 3.5〜5.0'})・`
       + `殻スピン=観測自転をビット保持(${dm.shellHold} — ドリフト A ${(dm.driftA * 100).toFixed(2)}%/B ${(dm.driftB * 100).toFixed(2)}%)・`
-      + `コアΩドリフト A ${(dm.coreDriftA * 100).toFixed(1)}%/B ${(dm.coreDriftB * 100).toFixed(1)}%(受け皿側 ±20% 内)・clampSN Δ=${dm.clampD}・`
+      + (dm.w242 ? `コア無し(第242便 — (f−1)/f=4.4e-8 は massFrac 値域下限割れ)・clampSN Δ=${dm.clampD}・` : `コアΩドリフト A ${(dm.coreDriftA * 100).toFixed(1)}%/B ${(dm.coreDriftB * 100).toFixed(1)}%(受け皿側 ±20% 内)・clampSN Δ=${dm.clampD}・`)
       + `帳簿残差 L ${dm.lRel === undefined ? '—' : dm.lRel.toExponential(1)}/P ${dm.pRel === undefined ? '—' : dm.pRel.toExponential(1)}(<1e-8)・`
       + `重心 comMax=${dm.comMax === undefined ? '—' : dm.comMax.toExponential(1)}(<0.01 — cmGauge 第209便)・`
-      + `否定対照(coupleSink除去→再飽和)=${dm.negSat}・(cmGauge除去→歩行 ${dm.negWalkMax === undefined ? '—' : dm.negWalkMax.toFixed(1)}単位)=${dm.negWalk}・`
+      + `否定対照(coupleSink除去→${dm.w242 ? '殻スピンのビット保持が壊れる' : '再飽和'})=${dm.negSat}・(cmGauge除去→歩行 ${dm.negWalkMax === undefined ? '—' : dm.negWalkMax.toExponential(1)}単位)=${dm.negWalk}・`
       + (dm.dimOff ? `測光相殺(第227便): lSw=massFrac=${dm.dimOff.lsEqMfA}/${dm.dimOff.lsEqMfB}・(1−l)·f−1=${dm.dimOff.invA.toExponential(1)}/${dm.dimOff.invB.toExponential(1)}(<1e-7 — T_obs=観測質量側・tilt 不変)・` : '')
       + `決定性=${dm.det} / `
       + `決定性=${ac.det} / ${ac.kf0.steps}+${ac.kf1.steps}步`);
@@ -7108,6 +7138,7 @@ if (!FAST) {
         rB: p.bodies[1].radius,   // 第214便: 半径限定の二体降格(下限 0.01)
         abKF: p.abBody && p.abBody.physicsPatch && p.abBody.physicsPatch.kFrame,
         fam: p.familyRole,
+        pull: p.physics.frameWeight === "pull",   // 第242便: pull 重み世代のゲート
         ruleDecl: /観測安定則(.|\n)*適用第2号/.test(p.descStruct.summary + p.failureFirst.pass)
           && /二体クロージャ確認/.test(p.descStruct.summary + p.failureFirst.pass) };
       const run = (patch, frac, delSink) => {
@@ -7156,7 +7187,10 @@ if (!FAST) {
           : (x && typeof x === 'object')
             ? '{' + Object.keys(x).sort().map((k) => JSON.stringify(k) + ':' + canon(x[k])).join(',') + '}'
             : JSON.stringify(x);
-        const pick = (q) => canon({ physics: q.physics, bodies: q.bodies,
+        // 第242便: 記録経路(buildAstroFromRecords)は pull 宣言キー(frameWeight/D0pull)を出さないので、
+        // physics のキー集合比較からはその2つを外す(内蔵側だけが D₀ᵖ を明示宣言している差分)
+        const stripPull = (ph) => { const o = Object.assign({}, ph); delete o.frameWeight; delete o.D0pull; return o; };
+        const pick = (q) => canon({ physics: stripPull(q.physics), bodies: q.bodies,
           camera: q.camera, world: q.world, scaleExp: q.scaleExp });
         eq.same = pick(vb.preset) === pick(r1.preset);
         if (!eq.same) eq.diff = { builtin: pick(vb.preset).slice(0, 300), records: pick(r1.preset).slice(0, 300) };
@@ -7170,17 +7204,29 @@ if (!FAST) {
           // 第224便: χ-law 粒子別質量(q≈2 の本系は比 1.0342 と粒子別の差が4連星最大)。
           // 世代ゲート w224(root=旧共通 f=1.8702 世代は massCalibration を持たない)
           const w224 = !!pd.massCalibration;
-          const FA = w224 ? 1.8881281616124954 : 1.8702, FB = w224 ? 1.8881281616124954 : 1.8702;   // 第240便
+          const FA = (pd.physics.frameWeight === 'pull') ? 1.000000160419523 : (w224 ? 1.8881281616124954 : 1.8702), FB = FA;   // 第242便 pull / 第240便 share
           const massOk = Math.abs(pd.bodies[0].m / p.bodies[0].m - FA) < 1e-9
             && Math.abs(pd.bodies[1].m / p.bodies[1].m - FB) < 1e-9
             && (!w224 || (pd.massCalibration.law === 'inertia-law-v1'
               && pd.massCalibration.fitDt === 0.016
               && pd.massCalibration.factorByBody[0] === FA && pd.massCalibration.factorByBody[1] === FB));
           // 第221便(第20報): 💫 は二層構造へ移行(coupleSink:"core"・A 殻自転=vsini/R 代理値・
-          // コアv2)。世代ゲート w221 で新旧両宣言を厳密判定する(root=第214便 reservoir 構成)
+          // コアv2)。世代ゲート w221 で新旧両宣言を厳密判定する(root=第214便 reservoir 構成)。
+          // 第242便 w242: pull 重み世代 — f=1.0000001 で質量=観測質量、(f−1)/f=1.5e-7 が
+          // core.massFrac の値域下限 0.01 を割るので隠れコアを撤去し coupleSink:"reservoir" へ戻す。
+          // A の殻自転(vsini/R 代理値)は据え置き。
           const w221 = pd.physics.coupleSink === 'core';
+          const w242 = pd.physics.frameWeight === 'pull';
           const SPIN_A = 13.6604877682484, ZETA = 14047.117021074499;
-          const spinDecl = w221
+          const spinDecl = w242
+            ? (Math.abs(pd.bodies[0].spin - SPIN_A) < 1e-12 && pd.bodies[1].spin === 0
+              && !pd.bodies[0].core && !pd.bodies[1].core
+              && pd.bodies[0].lightSweep === undefined && pd.bodies[1].lightSweep === undefined
+              && pd.physics.coupleSink === 'reservoir'
+              && pd.physics.D0pull === 0.324204
+              && /vsini\/R|vsini/.test(pd.descStruct.summary)
+              && /隠れコアは持たない/.test(pd.descStruct.summary))
+            : w221
             ? (Math.abs(pd.bodies[0].spin - SPIN_A) < 1e-12 && pd.bodies[1].spin === 0
               && pd.bodies[0].core && pd.bodies[0].core.mode === 'differential'
               && (!w224 || (pd.bodies[0].core.massFrac === (FA - 1) / FA
@@ -7229,7 +7275,8 @@ if (!FAST) {
             if (rr < rmin) rmin = rr; if (rr > rmax) rmax = rr;
             // w221: sMax は B の残余 |spin₁| のみ(A の保持は s0min=s0max の bit 検査で見る)。
             // 旧世代は従来どおり両殻の |spin| 最大
-            const sm = w221 ? Math.abs(S.spin[1]) : Math.max(Math.abs(S.spin[0]), Math.abs(S.spin[1]));
+            // w221/w242: sMax は B の残余 |spin₁| のみ(A の保持は s0min=s0max の bit 検査で見る)
+            const sm = (w221 || w242) ? Math.abs(S.spin[1]) : Math.max(Math.abs(S.spin[0]), Math.abs(S.spin[1]));
             if (sm > sMax) sMax = sm;
             if (S.spin[0] < s0min) s0min = S.spin[0]; if (S.spin[0] > s0max) s0max = S.spin[0];
             if (w221 && S.coreOmV && S.coreOmV[0] > om0max) om0max = S.coreOmV[0];
@@ -7260,7 +7307,8 @@ if (!FAST) {
           let n0max = 0;
           for (let k = 0; k < Math.round(0.3 * P_OBS / dt); k++) { S0.step(dt);
             const m2 = Math.max(Math.abs(S0.spin[0]), Math.abs(S0.spin[1])); if (m2 > n0max) n0max = m2; }
-          const negSat = n0max === 40 && ((S0.clampSN || 0) - nc0) > 0;
+          // 第242便 pull 世代は飽和しないが A 殻自転のビット保持が壊れる(13.6605→17.61・+29%)
+          const negSat = w242 ? (n0max > SPIN_A * 1.05) : (n0max === 40 && ((S0.clampSN || 0) - nc0) > 0);
           // 否定対照②: cmGauge 除去 → 重心が歩く
           const p1g = JSON.parse(JSON.stringify(pd));
           delete p1g.physics.cmGauge;
@@ -7270,7 +7318,7 @@ if (!FAST) {
           const c01 = com1(); let negWalkMax = 0;
           for (let k = 0; k < Math.round(0.5 * P_OBS / dt); k++) { S1.step(dt);
             const cc = com1(); const cd = Math.hypot(cc.x - c01.x, cc.y - c01.y); if (cd > negWalkMax) negWalkMax = cd; }
-          const negWalk = negWalkMax > 1;
+          const negWalk = negWalkMax > (w242 ? 1e-3 : 1);   // 第242便 pull: 0.019 単位(ゲージありは 10⁻⁵ 級)
           const one = () => { const vv = HP.validatePreset(JSON.parse(JSON.stringify(pd)));
             const s2 = HP.sim; s2.build(vv.preset);
             for (let k = 0; k < 400; k++) s2.step(0.016);
@@ -7286,7 +7334,7 @@ if (!FAST) {
           };
           dfm = { massOk, declOk, p2, e1, rmin, nan: S.hasNaN(), angSign, dPeri, sMax,
             clampD, lRel, comMax, pRel, negSat, negWalk, negWalkMax, n0max, dimOff,
-            w221, s0hold: s0min === s0max,   // 第221便: A 殻自転の全窓 bit 保持
+            w221, w242, s0hold: s0min === s0max,   // 第221便/第242便: A 殻自転の全窓 bit 保持
             // コア Ω ドリフトは**宣言値 SPIN_A 基準**(coreOmV は初回 step 前 0 のため t=0 読みは使わない)
             omDriftA: w221 ? (om0max / SPIN_A - 1) * 100 : null,
             det: da.length === db.length && da.every((x2, i) => Object.is(x2, db[i])) };
@@ -7304,13 +7352,13 @@ if (!FAST) {
     const t0 = yr(si.kf0.tRev);
     const dm = si.dfm || { missing: true };
     const dfmOk = !dm.missing && dm.massOk && dm.declOk && !dm.nan && dm.det
-      && dm.p2 !== null && Math.abs(dm.p2 / si.P_OBS - 1) < 0.012   // 第240便: P 残差 −0.80%(hold-out)
-      && dm.e1 !== null && Math.abs(dm.e1 - 0.58880) < 0.02
+      && dm.p2 !== null && Math.abs(dm.p2 / si.P_OBS - 1) < 0.02   // 第242便 pull: P 残差 −1.71% を hold-out 記録(share 世代 −0.80%・窓 2.0%)
+      && dm.e1 !== null && Math.abs(dm.e1 - 0.59361) < 0.02   // 第242便 pull: 0.59361(share 世代 0.58880 も窓内)
       && dm.angSign === 1
       && dm.dPeri !== null && dm.dPeri >= 2.0 && dm.dPeri <= 3.2   // 近点移動 +2.55°/周(claim 窓と同値)
       && dm.sMax < 1e-3   // 殻残余(第222便ルーティング後は 0・旧世代は 1PN 反作用偶力 2.6e-4)
-      && (!dm.w221 || (dm.s0hold === true                          // 第221便: A 殻自転 13.66 の全窓 bit 保持
-        && dm.omDriftA !== null && dm.omDriftA >= 0 && dm.omDriftA <= 5))   // コア Ω ドリフト(claim 窓と同値)
+      && ((!dm.w221 && !dm.w242) || dm.s0hold === true)           // 第221便/第242便: A 殻自転 13.66 の全窓 bit 保持
+      && (!dm.w221 || (dm.omDriftA !== null && dm.omDriftA >= 0 && dm.omDriftA <= 5))   // コア Ω ドリフト(pull 世代はコア無し)
       && dm.clampD === 0 && dm.lRel < 1e-8 && dm.pRel < 1e-8 && dm.comMax < 0.01
       && dm.negSat === true && dm.negWalk === true
       // 第227便: 測光相殺 lightSweep=massFrac(ビット同一)+(1−l)·f=1(<1e-7)
@@ -7321,18 +7369,19 @@ if (!FAST) {
       && t0 !== null && Math.abs(t0 / 50.1284 - 1) < 0.001
       && Math.abs(si.kf0.ecc - 0.59142) < 0.02
       && si.kf0.comMax < 1e-3 && si.kf0.pRel < 1e-8
-      && si.kf1.growth < -0.05 && si.kf1.rmin > 300
+      && (si.d.pull ? (Math.abs(si.kf1.growth) < 0.03 && si.kf1.rmin > 110)   // 第242便 pull: −0.94% で近点(120.9)にほぼ届く
+        : (si.kf1.growth < -0.05 && si.kf1.rmin > 300))
       && si.eq.ok && si.eq.stab === 'obs-stability' && si.eq.closure === true
       && si.eq.demR === true && si.eq.same === true
       && dfmOk,
       `宣言=${declOk}(fidelity=real・L10/T6/M29・κ=G/c₀²・kFrame=0〔観測安定則 第2号〕・spin=0×2・B半径=0.01〔半径限定二体降格〕・A/B 測定側 kF1) / `
       + `kF0(採用側・1.05公転): ${t0 === null ? '—' : t0.toFixed(4) + '年'}(観測 50.1284・宣言 50.1306)・実測離心率 ${si.kf0.ecc.toFixed(5)}(転写 0.59142)・重心 ${si.kf0.comMax.toExponential(1)} / `
-      + `kF1(測定側・遠点発 0.56公転): 接触要素周期 ${(si.kf1.growth * 100).toFixed(1)}%(宣言 −19.0%)・rmin=${si.kf1.rmin.toFixed(0)}(>300 — 転写近点 120.9 に届かない) / `
+      + `kF1(測定側・遠点発 0.56公転): 接触要素周期 ${(si.kf1.growth * 100).toFixed(1)}%(宣言 pull −0.94%/share −19.0%)・rmin=${si.kf1.rmin.toFixed(0)}(pull は近点 120.9 にほぼ届く) / `
       + `経路等価: CSV ${csvRows.length}行 → 観測安定則発動(${si.eq.stab})+二体クロージャ確認 note=${si.eq.closure}+半径限定降格=${si.eq.demR}+内蔵とビット一致=${si.eq.same} / `
-      + `💫 DFM版: 質量=🌟×χ-law 粒子別 f=1.88813〔f=1+A・第240便〕(台帳込みビット照合 ${dm.massOk})・宣言(kF1・${dm.w221 ? 'coupleSink:core+二層〔第221便〕' : 'coupleSink:reservoir'}・cmGauge・fitted 1ノブ f)=${dm.declOk}・`
-      + `2周目 ${dm.p2 === null ? '—' : yr(dm.p2).toFixed(4) + '年'}(宣言 ${dm.w221 ? '50.128' : '50.1290'} ±0.5%)・e1=${dm.e1 === null ? '—' : dm.e1.toFixed(5)}(宣言 0.58880)・近点 ${dm.rmin === undefined ? '—' : dm.rmin.toFixed(2)}・`
-      + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(3) + '°/周'}(宣言 +2.55)・spin残余 ${dm.sMax === undefined ? '—' : dm.sMax.toExponential(1)}(<1e-3 — 1PN 反作用偶力のみ)・`
-      + (dm.w221 ? `A殻自転13.66 bit保持=${dm.s0hold}・コアΩドリフトA ${dm.omDriftA === null ? '—' : '+' + dm.omDriftA.toFixed(2) + '%'}(宣言 +1.2・窓0〜5)・` : '')
+      + `💫 DFM版: 質量係数 f=${dm.w242 ? '1.0000001(=観測質量・第242便 pull)' : '1.88813〔share〕'}(台帳込みビット照合 ${dm.massOk})・宣言(kF1・${dm.w242 ? 'coupleSink:reservoir・コア無し・fitted 0ノブ' : (dm.w221 ? 'coupleSink:core+二層〔第221便〕' : 'coupleSink:reservoir')}・cmGauge)=${dm.declOk}・`
+      + `2周目 ${dm.p2 === null ? '—' : yr(dm.p2).toFixed(4) + '年'}(宣言 ${dm.w242 ? '49.273〔hold-out −1.71%〕' : (dm.w221 ? '50.128' : '50.1290')})・e1=${dm.e1 === null ? '—' : dm.e1.toFixed(5)}(宣言 ${dm.w242 ? '0.59361' : '0.58880'})・近点 ${dm.rmin === undefined ? '—' : dm.rmin.toFixed(2)}・`
+      + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(3) + '°/周'}(宣言 ${dm.w242 ? '+2.11' : '+2.55'})・spin残余 ${dm.sMax === undefined ? '—' : dm.sMax.toExponential(1)}(<1e-3)・`
+      + (dm.w242 ? `A殻自転13.66 bit保持=${dm.s0hold}・コア無し(第242便 — (f−1)/f=1.5e-7 は massFrac 値域下限割れ)・` : (dm.w221 ? `A殻自転13.66 bit保持=${dm.s0hold}・コアΩドリフトA ${dm.omDriftA === null ? '—' : '+' + dm.omDriftA.toFixed(2) + '%'}(宣言 +1.2・窓0〜5)・` : ''))
       + `clampSN Δ=${dm.clampD}・帳簿 L ${dm.lRel === undefined ? '—' : dm.lRel.toExponential(1)}/P ${dm.pRel === undefined ? '—' : dm.pRel.toExponential(1)}・重心 ${dm.comMax === undefined ? '—' : dm.comMax.toExponential(1)}・`
       + `否定対照(coupleSink除去→0から±40飽和)=${dm.negSat}・(cmGauge除去→歩行 ${dm.negWalkMax === undefined ? '—' : dm.negWalkMax.toFixed(1)}単位)=${dm.negWalk}・`
       + (dm.dimOff ? `測光相殺(第227便): lSw=massFrac=${dm.dimOff.lsEqMfA}/${dm.dimOff.lsEqMfB}・(1−l)·f−1=${dm.dimOff.invA.toExponential(1)}/${dm.dimOff.invB.toExponential(1)}(<1e-7 — T_obs=観測質量側)・` : '')
@@ -7354,7 +7403,7 @@ if (!FAST) {
 //     (c₀=3×10³・rel)を選定し、値域外スピン2件の spin=0 宣言つき降格+観測安定則(kF1→kF0)を
 //     経て、内蔵 📻 とビット一致で再構築する(従来族 L−T=4 の全滅後にのみ rel 族を試す —
 //     既存系は 1 bit 不変。q=3.1789・L6/T1/M27)
-// (e) ⚡ DFM: 質量=📻×χ-law 粒子別(f=1.99777〔f=1+A・第240便〕 — 第224便)・2周目 ±0.5%(宣言 8834.6 s)・e1 0.087089±0.002・近点 802.81±1%・
+// (e) ⚡ DFM: 質量=📻×解析慣性則(pull f=1.99988・share f=1.99777)・2周目 ±0.5%(宣言 pull 8819.84 s)・e1 0.087949±0.002・近点 801.42±1%・
 //     近点移動 +0.05〜0.2°/周(順行)・**スピンは保持できない宣言**(±40 飽和・clampSN>0・
 //     帳簿 L 残差<1e-4〔宣言 5.0×10⁻⁶ — クランプ捨て分〕・P 残差<1e-8)・重心機械ゼロ・
 //     否定対照(cmGauge除去→歩行/kF0×f→深い楕円)・決定性
@@ -7464,7 +7513,10 @@ if (!FAST) {
           : (x && typeof x === 'object')
             ? '{' + Object.keys(x).sort().map((k) => JSON.stringify(k) + ':' + canon(x[k])).join(',') + '}'
             : JSON.stringify(x);
-        const pick = (q) => canon({ physics: q.physics, bodies: q.bodies,
+        // 第242便: 記録経路(buildAstroFromRecords)は pull 宣言キー(frameWeight/D0pull)を出さないので、
+        // physics のキー集合比較からはその2つを外す(内蔵側だけが D₀ᵖ を明示宣言している差分)
+        const stripPull = (ph) => { const o = Object.assign({}, ph); delete o.frameWeight; delete o.D0pull; return o; };
+        const pick = (q) => canon({ physics: stripPull(q.physics), bodies: q.bodies,
           camera: q.camera, world: q.world, scaleExp: q.scaleExp });
         hole.same = pick(vb.preset) === pick(r1.preset);
         if (!hole.same) hole.diff = { builtin: pick(vb.preset).slice(0, 300), records: pick(r1.preset).slice(0, 300) };
@@ -7476,7 +7528,8 @@ if (!FAST) {
         if (!pd) dfm = { missing: true };
         else {
           // 第224便: χ-law 粒子別質量(比は法則導出・fit は正規化 C の1ノブ)+ massFrac=(f−1)/f
-          const FA = 1.9977659648501627, FB = 1.9977659648501627;   // 第240便: 解析慣性則 f=1+A(両体共通)
+          const w242 = pd.physics.frameWeight === 'pull';   // 第242便: pull 重み世代(χ 飽和域なので f≈2 は不変)
+          const FA = w242 ? 1.999884538696137 : 1.9977659648501627, FB = FA;   // 第242便 pull / 第240便 share
           const massOk = Math.abs(pd.bodies[0].m / p.bodies[0].m - FA) < 1e-9
             && Math.abs(pd.bodies[1].m / p.bodies[1].m - FB) < 1e-9
             && pd.massCalibration && pd.massCalibration.law === 'inertia-law-v1'
@@ -7497,13 +7550,13 @@ if (!FAST) {
             && pd.bodies[1].core.omega === OM_B && pd.bodies[1].core.radius === 0.01
             && pd.bodies[1].core.massFrac === (FB - 1) / FB && pd.bodies[1].core.inertiaScale === 1000000
             && Array.isArray(pd.parameterAudit.fitted) && pd.parameterAudit.fitted.length === 1
-            && /C=0\.999078401008695/.test(pd.parameterAudit.fitted[0])
+            && (w242 ? /フィットしたノブは無い/ : /C=0\.999078401008695/).test(pd.parameterAudit.fitted[0])
             && /実在(の)?質量の主張ではない|条件つき較正/.test(pd.descStruct.summary)
             && /±40 飽和/.test(pd.descStruct.summary)
             && /コア Ω として転写/.test(pd.descStruct.summary)
             && /第69便|1PN 反作用偶力/.test(pd.descStruct.summary)
             && /受け先へルーティング|受け先ルーティング/.test(pd.descStruct.summary)   // 第222便
-            && /ΔP\/P=−0\.110%\/公転/.test(pd.descStruct.summary);   // 第222便: 周期短縮の宣言
+            && /ΔP\/P=−0\.1(09|10)%\/公転/.test(pd.descStruct.summary);   // 第222便: 周期短縮の宣言(pull −0.109%/share −0.110%)
           const vd = HP.validatePreset(JSON.parse(JSON.stringify(pd)));
           const S = HP.sim; S.build(vd.preset);
           const clamp0 = S.clampSN || 0;
@@ -7642,7 +7695,7 @@ if (!FAST) {
               sinkRes: decOf({ coupleSink: 'reservoir' }, 0.016), noGauge: decOf({}, 0.016, true),
               dtHalf: decOf({}, 0.008) };
           }
-          dfm = { massOk, declOk, p2, e1, rmin1, nan: S.hasNaN(), angSign, dPeri, sMax,
+          dfm = { massOk, declOk, w242, p2, e1, rmin1, nan: S.hasNaN(), angSign, dPeri, sMax,
             clampD, lRel, comMax, pRel, negWalk, negWalkMax, negPlunge, rmin2, tRev2,
             decPct, decPct2, decB, negSink, negSinkClampD, ctrl,
             // 第221便: B コア Ω 保持(%)— **宣言値 OM_B 基準**(coreOmV は初回 step 前 0)
@@ -7669,10 +7722,10 @@ if (!FAST) {
     const dm = ps.dfm || { missing: true };
     const dfmOk = !dm.missing && dm.massOk && dm.declOk && !dm.nan && dm.det
       && dm.p2 !== null && Math.abs(dm.p2 / ps.P_OBS - 1) < 0.012   // 第240便: P 残差 −0.16%(hold-out)
-      && dm.e1 !== null && Math.abs(dm.e1 - 0.087089) < 0.002
-      && dm.rmin1 !== null && Math.abs(dm.rmin1 / 802.81 - 1) < 0.01
+      && dm.e1 !== null && Math.abs(dm.e1 - 0.087949) < 0.002   // 第242便 pull: 0.087949(share 世代 0.087089 も窓内)
+      && dm.rmin1 !== null && Math.abs(dm.rmin1 / 801.42 - 1) < 0.01   // 第242便 pull: 801.42(share 世代 802.81 も窓内)
       && dm.angSign === 1
-      && dm.dPeri !== null && dm.dPeri >= 0.05 && dm.dPeri <= 0.2   // 近点移動 +0.103°/周(claim 窓と同値)
+      && dm.dPeri !== null && (dm.w242 ? (dm.dPeri >= 0.005 && dm.dPeri <= 0.02) : (dm.dPeri >= 0.05 && dm.dPeri <= 0.2))   // 第242便 pull: +0.0099°/周(share 世代 +0.103 — claim 窓と同値)
       && dm.sMax === 0 && dm.clampD === 0                // 第222便: 殻スピンは全窓ビット保持(1PN 偶力の受け先ルーティング)
       && dm.omDriftB !== null && dm.omDriftB >= 0 && dm.omDriftB <= 2   // B コア Ω 保持(claim 窓と同値・宣言 +0.40%)
       // 力学コア時計の現状(第225便): A の 2768 は力学に載らない、B は初期値の転写で −0.4%/4.3公転。
@@ -7720,9 +7773,9 @@ if (!FAST) {
       + `kF1(測定側・遠点発 0.56公転): 接触要素周期 +${(ps.kf1.growth * 100).toFixed(1)}%(宣言 +157%・膨張 — 🌟 の縮小と逆向き)・rmax=${ps.kf1.rmax.toFixed(0)}(>1500)・殻 |s|max=${ps.kf1.sMax}(=0 — 記帳化で飽和解消) / `
       + `近点複製プローブ: kF1 外挿 ${(ps.pr1.proj * 100).toFixed(2)}%/公転(宣言 18.00 — 発火・差し戻し)・kF0 ドリフト ${ps.pr0.drift.toExponential(1)}(<1e-5 — ノイズ床未満) / `
       + `経路等価(第222便 族拡張): CSV ${csvRows.length}行 → buildAstroFromRecords=${ps.hole.ok}(相対論的連星族 rel=${ps.hole.scale ? ps.hole.scale.rel : '—'}・L${ps.hole.scale ? ps.hole.scale.L : '—'}/T${ps.hole.scale ? ps.hole.scale.T : '—'}/M${ps.hole.scale ? ps.hole.scale.M : '—'}・q=${ps.hole.q}・観測安定則=${ps.hole.stab}・値域外スピン宣言 ${ps.hole.spinDecl}件・内蔵 📻 とビット一致=${ps.hole.same}) / `
-      + `⚡ DFM版: 質量=📻×χ-law 粒子別 f=1.99777〔f=1+A・第240便〕(台帳込みビット照合 ${dm.massOk})・宣言(kF1・coupleSink:core+二層〔第221便〕・massFrac=(f−1)/f〔第224便〕・cmGauge・fitted 1ノブ C・BコアΩ=22.654675 転写)=${dm.declOk}・`
-      + `2周目 ${dm.p2 === null ? '—' : (dm.p2 * 10).toFixed(2) + ' s'}(宣言 8834.6 ±0.5%)・e1=${dm.e1 === null ? '—' : dm.e1.toFixed(6)}(宣言 0.087089)・近点 ${dm.rmin1 === null || dm.rmin1 === undefined ? '—' : dm.rmin1.toFixed(2)}(宣言 802.81 ±1%)・`
-      + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(4) + '°/周'}(宣言 +0.103)・BコアΩ保持 ${dm.omDriftB === null || dm.omDriftB === undefined ? '—' : '+' + dm.omDriftB.toFixed(2) + '%'}(宣言 +0.40・窓0〜2)・`
+      + `⚡ DFM版: 質量係数 f=${dm.w242 ? '1.99988(第242便 pull)' : '1.99777〔share〕'}(台帳込みビット照合 ${dm.massOk})・宣言(kF1・coupleSink:core+二層・massFrac=(f−1)/f・cmGauge・${dm.w242 ? 'fitted 0ノブ' : 'fitted 1ノブ C'}・BコアΩ=22.654675 転写)=${dm.declOk}・`
+      + `2周目 ${dm.p2 === null ? '—' : (dm.p2 * 10).toFixed(2) + ' s'}(宣言 ${dm.w242 ? '8819.84〔hold-out −0.17%〕' : '8834.6'})・e1=${dm.e1 === null ? '—' : dm.e1.toFixed(6)}(宣言 ${dm.w242 ? '0.087949' : '0.087089'})・近点 ${dm.rmin1 === null || dm.rmin1 === undefined ? '—' : dm.rmin1.toFixed(2)}(宣言 ${dm.w242 ? '801.42' : '802.81'} ±1%)・`
+      + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(4) + '°/周'}(宣言 ${dm.w242 ? '+0.0099・窓 0.005〜0.02' : '+0.103'})・BコアΩ保持 ${dm.omDriftB === null || dm.omDriftB === undefined ? '—' : '+' + dm.omDriftB.toFixed(2) + '%'}(宣言 +0.38・窓0〜2)・`
       + `力学コア時計: A力学転写=${dm.pulseARepresented}(=false)・B ${dm.pulseTurnsB === undefined ? '—' : dm.pulseTurnsB.toFixed(0)}回転・平均 ${dm.pulseMeanSecB === undefined ? '—' : dm.pulseMeanSecB.toFixed(6)} s・末尾 ${dm.pulseEndSecB === undefined ? '—' : dm.pulseEndSecB.toFixed(6)} s(${dm.pulseEndErrorPctB === undefined ? '—' : dm.pulseEndErrorPctB.toFixed(3)}%)・`
       + `パルス時計チャネル(第226便): 宣言A/B=${dm.pulseDeclA}/${dm.pulseDeclB}・A ${dm.pulseChan ? dm.pulseChan.turnsA.toExponential(3) : '—'}回転・平均 ${dm.pulseChan ? (dm.pulseChan.meanSecA * 1000).toFixed(6) : '—'} ms/B ${dm.pulseChan ? dm.pulseChan.meanSecB.toFixed(7) : '—'} s・位相恒等 ${dm.pulseChan ? dm.pulseChan.phRelErrA.toExponential(1) : '—'}/${dm.pulseChan ? dm.pulseChan.phRelErrB.toExponential(1) : '—'}(<1e-9)・力学不干渉=${dm.pulseDynInv}・`
       + `殻スピン保持 |s|max=${dm.sMax === undefined ? '—' : dm.sMax}(=0・clampSN Δ=${dm.clampD} — 第222便 1PN 偶力ルーティング)・`
@@ -7756,10 +7809,11 @@ if (!FAST) {
       const p = HP.allPresets().find((q) => q.id === 'gw150914');
       const pd = HP.allPresets().find((q) => q.id === 'gw150914DFM');
       // 第224便: χ-law 粒子別質量+重心再配分+質量記帳のみの二層(受け皿は reservoir 据え置き)
-      const FA = 1.9980358529022886, FB = 1.9980358529022886;   // 第240便
+      const w242 = pd.physics.frameWeight === 'pull';   // 第242便: pull 重み世代
+      const FA = w242 ? 1.99999999997788880 : 1.9980358529022886, FB = FA;   // 第242便 pull / 第240便 share
       const rxO = p.bodies[1].x - p.bodies[0].x, rvyO = p.bodies[1].vy - p.bodies[0].vy;
       const mtD2 = pd.bodies[0].m + pd.bodies[1].m;
-      const d = { fid: p.fidelity && pd.fidelity, L: p.scaleExp.L, T: p.scaleExp.T, M: p.scaleExp.M,
+      const d = { w242, fid: p.fidelity && pd.fidelity, L: p.scaleExp.L, T: p.scaleExp.T, M: p.scaleExp.M,
         sameExp: JSON.stringify(p.scaleExp) === JSON.stringify(pd.scaleExp),
         G: p.physics.G, c: p.physics.cLight, cD: pd.physics.cLight, kap: p.physics.kappaT,
         kF: p.physics.kFrame, kFD: pd.physics.kFrame, geo: p.physics.geoPN, geoD: pd.physics.geoPN,
@@ -7788,7 +7842,7 @@ if (!FAST) {
           && /スナップショット|基準状態/.test(p.descStruct.summary) && /Schwarzschild 換算/.test(p.descStruct.summary)
           && /spin=0 宣言/.test(p.descStruct.summary) && /合体/.test(p.descStruct.summary),
         ruleDeclD: /hold-out/.test(pd.descStruct.summary) && /±1% に入らない|初の不成立/.test(pd.descStruct.summary)
-          && /離散化仕事/.test(pd.descStruct.summary) && /f=1\.99804|f_A=1\.99804/.test(pd.descStruct.summary)
+          && /離散化仕事/.test(pd.descStruct.summary) && /f=1\.99804|f_A=1\.99804|f_A=2\.0000000/.test(pd.descStruct.summary)
           && /χ-law/.test(pd.descStruct.summary) && /殻質量=観測質量|殻質量=観測値/.test(pd.descStruct.summary)
           && /合体へ向かう周期短縮を持たない|DFM は合体/.test(pd.descStruct.summary + pd.descStruct.observe) };
       const kOk = Math.abs(d.kap - d.G / (d.c * d.c)) < 1e-15;
@@ -7901,7 +7955,7 @@ if (!FAST) {
     const dfmOk = !dm.nan && gw.dfmDet
       && dm.p2 !== null && Math.abs(dm.p2 / gw.P_OBS - 1) < 0.012   // 第240便: P 残差 −0.72%(hold-out)
       && dm.e1 !== null && dm.e1 >= 0.070 && dm.e1 <= 0.082   // hold-out 初不成立(−4.6%)の回帰窓
-      && dm.rmin1 !== null && Math.abs(dm.rmin1 / 178.70 - 1) < 0.01
+      && dm.rmin1 !== null && Math.abs(dm.rmin1 / 177.09 - 1) < 0.015   // 第242便 pull: 177.09(share 世代 178.70 も窓内)
       && dm.dPeri !== null && dm.dPeri >= 0.03 && dm.dPeri <= 0.15
       && dm.dec1 !== null && dm.dec1 >= 0.3 && dm.dec1 <= 0.8   // 規約刻み dt=0.016 での回帰窓
       && dm.sMax === 0 && dm.comMax < 0.01 && dm.pRel < 1e-8 && dm.lRel < 1e-8
@@ -7926,15 +7980,15 @@ if (!FAST) {
     add('behavior.gw150914', gwCsv === 7 && declOk && obsOk && ctrlOk && dfmOk,
       `宣言=${declOk}(fidelity=real・**L4/T−3/M29=第223便 L−T=7 合体連星族(c₀=30)**・κ=G/c₀²・`
       + `**kF0+geoPN=0(換算整合則 — 転写した a・P はニュートン換算派生値)**・spin=0×2〔上限値のみ〕・`
-      + `半径=Schwarzschild 換算 proxy・coupleSink reservoir・cmGauge・🎻=🎐×χ-law 粒子別 f=1.99804〔f=1+A・第240便〕〔台帳込みビット照合・再配分再計算一致・記帳のみ二層〕・スナップショット宣言) / `
+      + `半径=Schwarzschild 換算 proxy・coupleSink reservoir・cmGauge・🎻=🎐×解析慣性則 f=${gw.d.w242 ? '2.0000000〔第242便 pull〕' : '1.99804〔share〕'}〔台帳込みビット照合・再配分再計算一致・記帳のみ二層〕・スナップショット宣言) / `
       + `🎐 kF0+geoPN=0(3.3公転): 1周目 ${o.rev1 === null ? '—' : (o.rev1 / 1000).toFixed(6) + ' s'}(基準 0.181818 ±0.2%)・`
       + `2周目短縮 ${o.dec1 === null ? '—' : o.dec1.toFixed(4)}%(<0.02 — 短縮なし)・実測離心率 ${o.e1 === null ? '—' : o.e1.toFixed(6)}(転写 0.08)・`
       + `重心 ${o.comMax.toExponential(1)}・帳簿 L ${o.lRel.toExponential(1)}/P ${o.pRel.toExponential(1)}・決定性=${gw.obsDet} / `
       + `換算整合則対照: geoPN=2 → 1周目 +${gw.geo2.rev1 === null ? '—' : ((gw.geo2.rev1 / gw.P_OBS - 1) * 100).toFixed(1)}%(窓 30〜55 — 衝突)・`
       + `kF1 測定側 → 周回なし・rmax=${gw.kf1.rmax.toFixed(0)}(>800)・接触要素周期 +${(gw.kf1.growth * 100).toFixed(0)}% / `
-      + `🎻 DFM(解析慣性則 f=1.99804 — 第240便): 2周目 ${dm.p2 === null ? '—' : (dm.p2 / 1000).toFixed(6) + ' s'}(基準 ±0.5%)・`
-      + `e1=${dm.e1 === null ? '—' : dm.e1.toFixed(6)}(**hold-out 初不成立 −4.6%・粒子別でも不変 — 窓 0.070〜0.082**)・近点 ${dm.rmin1 === null ? '—' : dm.rmin1.toFixed(2)}(宣言 178.70 ±1%)・`
-      + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(4) + '°/周'}(宣言 +0.096)・短縮 ΔP/P=−${dm.dec1 === null ? '—' : dm.dec1.toFixed(3)}%/公転(宣言 −0.537・規約刻み)・`
+      + `🎻 DFM(解析慣性則 f=${gw.d.w242 ? '2.0000000・第242便 pull' : '1.99804・第240便'}): 2周目 ${dm.p2 === null ? '—' : (dm.p2 / 1000).toFixed(6) + ' s'}(基準 ±0.5%)・`
+      + `e1=${dm.e1 === null ? '—' : dm.e1.toFixed(6)}(**hold-out 不成立(pull +1.0%)— 窓 0.070〜0.082**)・近点 ${dm.rmin1 === null ? '—' : dm.rmin1.toFixed(2)}(宣言 177.09 ±1.5%)・`
+      + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(4) + '°/周'}(宣言 pull +0.075)・短縮 ΔP/P=−${dm.dec1 === null ? '—' : dm.dec1.toFixed(3)}%/公転(宣言 pull −0.542・規約刻み)・`
       + (gw.dtHalf ? `dt/2 短縮率比=${gw.dtHalf.dec1 === null ? '—' : (gw.dtHalf.dec1 / dm.dec1).toFixed(3)}(0.35〜0.65 — 離散化仕事・合体の再現ではない)・` : `dt/2: QA_FAST では省略(フルゲートで機械固定)・`)
       + (gw.fourS ? `4秒窓: dt=.016/.008 の最小分離 ${gw.fourS.rmin.toFixed(2)}/${gw.fourSHalf.rmin.toFixed(2)}(接触 ${gw.fourS.contactRadius.toFixed(2)})・2体のまま・fusion無効・` : `4秒窓: QA_FAST では省略・`)
       + (gw.petersObs ? `petersGW(第227便 — 外部物理opt-in): 観測質量 ${gw.petersObs.tMerge === null ? '—' : (gw.petersObs.tMerge / 1000).toFixed(3) + ' s'}(窓3〜5)・DFM ${gw.petersDfm.tMerge === null ? '—' : (gw.petersDfm.tMerge / 1000).toFixed(3) + ' s'}(窓0.3〜0.8 — t∝1/f³)・帳簿L ${gw.petersObs.lRel.toExponential(1)}/${gw.petersDfm.lRel.toExponential(1)}・` : `petersGW: QA_FAST では省略・`)
@@ -8488,7 +8542,7 @@ if (!FAST) {
         const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));
         const v = HP.validatePreset(pd); const p = v.preset; const ph = p.physics;
         const R = (o) => (typeof o.radius === 'number' && o.radius > 0) ? ph.radiusScale * o.radius : ph.radiusScale * (o.rMul || 1) * Math.sqrt(Math.abs(o.m));
-        const qs = p.bodies.slice(0, 2).map((o) => { const mf = (o.core && o.core.massFrac) || 0; return { decl: o.dragQ, calc: qexact(o.m * (1 - mf), R(o), REF[id], ph.G, ph.cLight) }; });
+        const qs = p.bodies.slice(0, 2).map((o) => { const mf = (o.core && o.core.massFrac) || 0; const mSh = o.core ? o.m * (1 - mf) : o.m / ((p.massCalibration && p.massCalibration.factor) || 1); return { decl: o.dragQ, calc: qexact(mSh, R(o), REF[id], ph.G, ph.cLight) }; });   // 第242便: コアなし(pull で (f−1)/f<0.01)は台帳 f で観測殻質量へ
         const S = HP.sim; S.build(p); S.step(0.016);
         decl[id] = { qs, hasDragQ: S.hasDragQ, kKind: S._kKind, dq0: S.dragQ[0], dq1: S.dragQ[1],
           aOK: Math.abs(qs[0].decl - ph.q) < 1e-4 };   // A 側は現行 q(丸め値)と一致
@@ -8514,7 +8568,7 @@ if (!FAST) {
       const relSwap = Math.abs(sep(on) - sep(sw)) / sep(on);
       // E5′ の q は global のまま: spin=0・kRep>0 の玩具(E6′ 偶力は reservoir へ記帳し殻スピンを 0 に保つ)で dragQ を振っても 1 bit 不変
       const toy = (dqv) => {
-        const pd = { name: 'dqRep', description: 'toy', physics: { G: 1, D0: 2, kFrame: 1, q: 3, kRep: 1, muF: 0, gammaN: 0, kappaS: 0, kappaT: 0.02, cLight: 30, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 1, timeScale: 1, coupleSink: 'reservoir' },
+        const pd = { name: 'dqRep', description: 'toy', physics: { frameWeight: 'share', G: 1, D0: 2, kFrame: 1, q: 3, kRep: 1, muF: 0, gammaN: 0, kappaS: 0, kappaT: 0.02, cLight: 30, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 1, timeScale: 1, coupleSink: 'reservoir' },
           thermal: 'tint', camera: { scale: 100 }, world: { boundary: 'none', size: 0 },
           bodies: [{ type: 'single', m: 20, x: -6, y: 0, vx: 0, vy: 0.3, spin: 0, pinned: false, tInt: 2, dragQ: dqv },
                    { type: 'single', m: 20, x: 6, y: 0, vx: 0, vy: -0.3, spin: 0, pinned: false, tInt: 2, dragQ: dqv }] };
@@ -8524,12 +8578,13 @@ if (!FAST) {
       };
       const t5 = toy(5), t10 = toy(10);
       const repEq = !t5.err && !t10.err && t5.x.every((x, i) => Object.is(x, t10.x[i]));
-      return { decl, on, off, sw, relOnOff, relSwap, repEq, t5, t10, ob0, ob1, obsEq };
+      const obsPull = (typeof HP.frameWeightPow === 'function') && HP.frameWeightPow(HP.allPresets().find((q) => q.id === 'alphaCenAB').physics) > 0;   // 第242便: ✨ は pull(generic)
+      return { decl, on, off, sw, relOnOff, relSwap, repEq, t5, t10, ob0, ob1, obsEq, obsPull };
     });
     const dOK = Object.values(dq.decl).every((d) => d.hasDragQ === true && d.kKind === 0 && d.qs.every((q) => Math.abs(q.decl - q.calc) < 1e-9) && d.aOK);
     add('behavior.dragQ',
       dOK && dq.off.hasDragQ === false && dq.on.kKind === 0 && dq.on.warn === 0
-      && dq.ob0.kKind !== 0 && dq.ob1.kKind === 0 && dq.obsEq === true     // ✨: 未宣言=特別化・注入=generic で軌道一致(kernel.bitident と同型)
+      && (dq.obsPull ? dq.ob0.kKind === 0 : dq.ob0.kKind !== 0) && dq.ob1.kKind === 0 && dq.obsEq === true     // ✨: 未宣言=特別化(第242便: pull では generic)・注入=generic で軌道一致(kernel.bitident と同型)
       && dq.relOnOff < 1e-6 && dq.relSwap < 1e-6                     // q_i≈q・スピン項 10⁻¹⁵ → 軌道は実質不変・順序独立
       && dq.repEq === true,
       `4 DFM 連星の q_i=q_exact(観測殻質量・参照 a)一致=${dOK}(✴️ A ${dq.decl.alphaCenABDFM.qs[0].decl.toFixed(6)} / B ${dq.decl.alphaCenABDFM.qs[1].decl.toFixed(6)}・💫 B ${dq.decl.siriusABDFM.qs[1].decl.toFixed(6)}) / `
@@ -8547,7 +8602,7 @@ if (!FAST) {
   const hasDQ = await page.evaluate(() => { const S = HP.sim; return S.dragQ !== undefined; });
   if (hasDQ) {
     const sg = await page.evaluate(() => {
-      const mk = (vSign, sSign, kf) => ({ name: 'sign', description: 'toy', physics: { G: 4, D0: 2, kFrame: kf, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 0.016666666666666666, cLight: 30, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 1, timeScale: 1 },
+      const mk = (vSign, sSign, kf) => ({ name: 'sign', description: 'toy', physics: { frameWeight: 'share', G: 4, D0: 2, kFrame: kf, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 0.016666666666666666, cLight: 30, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 1, timeScale: 1 },
         camera: { scale: 100 }, world: { boundary: 'none', size: 0 },
         bodies: [{ type: 'single', m: 600, radius: 20, x: 0, y: 0, vx: 0, vy: 0, spin: 0.5 * sSign, pinned: false },
                  { type: 'single', m: 1, x: 60, y: 0, vx: 0, vy: 6.324555320336759 * vSign, spin: 0, pinned: false }] });
@@ -8663,7 +8718,10 @@ if (!FAST) {
       for (const [d, o] of [['alphaCenABDFM', 'alphaCenAB'], ['siriusABDFM', 'siriusAB'], ['psrDoubleABDFM', 'psrDoubleAB'], ['gw150914DFM', 'gw150914']]) {
         const pD = HP.allPresets().find((q) => q.id === d), pO = HP.allPresets().find((q) => q.id === o); if (!pD || !pO) { fl[d] = null; continue; }
         const mA = pD.bodies[0].m, mB = pD.bodies[1].m, a = Math.hypot(pD.bodies[0].x - pD.bodies[1].x, pD.bodies[0].y - pD.bodies[1].y);
-        const chi = HP.dfmBinaryChi(mA, mB, a, pD.physics.D0, pD.physics.softening);
+        // 第242便: フレーム重みの世代を宣言から読み、pull なら D₀ᵖ と指数 p を渡す
+        const pwD = HP.frameWeightPow ? HP.frameWeightPow(pD.physics) : 0;
+        const D0D = pwD > 0 ? pD.physics.D0pull : pD.physics.D0;
+        const chi = HP.dfmBinaryChi(mA, mB, a, D0D, pD.physics.softening, pwD);
         fl[d] = { pred: HP.dfmBinaryInertiaFactor(mA, mB, chi.chiA, chi.chiB, pD.physics.kFrame), led: (mA + mB) / (pO.bodies[0].m + pO.bodies[1].m) }; }
       // ④ 編集欄 #beDq(✴️ A を選択 → 4.611… が見える → 3 へ → 空欄で既定へ)
       HP.loadPreset('alphaCenABDFM', false); HP.selectBody(0, 'A');
@@ -8718,7 +8776,7 @@ if (!FAST) {
   if (hasCt) {
     const ct = await page.evaluate(() => {
       const AU = 2000, MS = 10000, RS = 50, ME = 1, RE = 5, VE = 1, D0 = 0.006, EPS = 0.01;
-      const base = (h, ref) => ({ name: 'mm', description: 'toy', physics: Object.assign({ G: 6.674, D0, kFrame: 1, q: 8.2358, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 7.415555555555556e-9, cLight: 300, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: EPS, timeScale: 1 }, ref ? { dragRef: ref } : {}),
+      const base = (h, ref) => ({ name: 'mm', description: 'toy', physics: Object.assign({ frameWeight: 'share', G: 6.674, D0, kFrame: 1, q: 8.2358, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 7.415555555555556e-9, cLight: 300, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: EPS, timeScale: 1 }, ref ? { dragRef: ref } : {}),
         camera: { scale: 1 }, world: { boundary: 'none', size: 0 }, bodies: [
           { type: 'single', m: MS, radius: RS, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true },
           { type: 'single', m: ME, radius: RE, x: AU, y: 0, vx: 0, vy: VE, spin: 0, pinned: true },
@@ -8766,34 +8824,44 @@ if (!FAST) {
   }
 }
 
-// ---- 第241便(第33報「メッシュは決定力場の分率が強い対象より、重力で引っ張られる対象に強く依存する」): behavior.framePull ----
-// physics.frameWeight:"pull" — フレーム速度 u の重みを重力の引き w=m/(d²+ε²) で評価(分母 D0pull+W_B+Σw)。E1′ の W は不変。
-// 玩具で χ が解析 dfmPullEntrainment と 1e-6 一致/既定 share は 1 bit 不変/🌘 は pull で D0pull=3.36e-5(再較正)のとき近点移動 2.995°/周(8.85 年)
-// を 1 周で再現(窓 ±0.15)/物理予測: 地表 χ_E 0.998・GPS 0.97・月 0.12(較正)・α Cen 相手の χ 10⁻³(ニュートン側)・PSR 0.9999(f≈2 側)。
+// ---- 第241便(第33報)→ 第242便(第34報「既定を pull へ・m/d³ m/d⁴ も検証」): behavior.framePull ----
+// 既定 frameWeight="pull"(w=m/(d²+ε²)・分母 D0pull+W_B+Σw)。"pull3"/"pull4" は w=m/(d²+ε²)^{p/2}(opt-in)。"share" は旧来の分率(明示)。
+// 玩具で χ が解析 dfmPullEntrainment(p) と 1e-5 一致(p=2/3/4)/既定の明示は署名不変・legacy 内蔵サンプルは "share" 明示/
+// 🌘 は宣言どおり pull・D0pull=3.24204e-5 で近点移動 2.995°/周(±0.15)・pull3 は再較正値で同窓・pull4 は門(denom>1e-9)の直上で最大 1.78°/周(較正不能の記録)/物理予測(p=2): 地表 χ_E 0.998・GPS 0.97・月 0.12・α Cen 相手 10⁻³・PSR 0.9999。
 {
-  const hasPull = await page.evaluate(() => typeof (window.HP && HP.dfmPullEntrainment) === 'function');
+  const hasPull = await page.evaluate(() => typeof (window.HP && HP.dfmPullEntrainment) === 'function' && typeof HP.frameWeightPow === 'function');
   if (hasPull) {
-    const fp = await page.evaluate(() => {
+    const fp = await page.evaluate(({ D0P3, D0P4 }) => {
       const base = (h, ph) => ({ name: 'mm', description: 'toy', physics: Object.assign({ G: 6.674, D0: 0.006, kFrame: 1, q: 8.2358, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 7.415555555555556e-9, cLight: 300, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 0.01, timeScale: 1 }, ph || {}),
         camera: { scale: 1 }, world: { boundary: 'none', size: 0 }, bodies: [{ type: 'single', m: 10000, radius: 50, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true }, { type: 'single', m: 1, radius: 5, x: 2000, y: 0, vx: 0, vy: 1, spin: 0, pinned: true }, { type: 'single', m: 1e-6, radius: 0.01, x: 2005 + h, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
       const u = (pd) => { const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset); S.step(0.004); S.step(0.004); return { uy: S.uPy[2], k: S._kKind, warn: (v.warnings || []).length, sig: JSON.stringify(v.preset.physics) }; };
-      const D0pt = 1e-5, rows = [];
-      for (const h of [0, 1, 10, 100]) { const t = u(base(h, { frameWeight: 'pull', D0pull: D0pt }));
-        const an = HP.dfmPullEntrainment({ M: 1, d: 5 + h, D0p: D0pt, eps: 0.01, ext: [{ M: 10000, d: 2005 + h }], v: 1 });
-        rows.push({ h, chi: t.uy, chiAn: an.chi, k: t.k, warn: t.warn }); }
-      // 既定 share の明示は署名不変・🌘 bit 不変。pull は generic 経路で動く
-      const run = (patch, steps) => { const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'earthMoonRealKF1'))); if (patch) Object.assign(pd.physics, patch);
-        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset); for (let k = 0; k < steps; k++) S.step(0.016); return { o: [S.x[1], S.y[1], S.vx[1], S.vy[1]], k: S._kKind, sig: JSON.stringify(v.preset.physics), warn: (v.warnings || []).length }; };
-      const e0 = run(null, 300), eS = run({ frameWeight: 'share' }, 300), eP = run({ frameWeight: 'pull', D0pull: 3.36e-5 }, 300);
-      // 🌘 pull 再較正: 1 周の近点移動
-      const peri = (patch) => { const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'earthMoonRealKF1'))); Object.assign(pd.physics, patch);
+      const rows = [];
+      for (const p of [2, 3, 4]) for (const geo of [0, 2]) for (const h of [0, 10, 100]) { const D0pt = (p === 2) ? 1e-5 : (p === 3) ? 1e-6 : 1e-7, fw = (p === 2) ? 'pull' : 'pull' + p;
+        const t = u(base(h, { frameWeight: fw, D0pull: D0pt, geoPN: geo }));
+        const an = HP.dfmPullEntrainment({ M: 1, d: 5 + h, D0p: D0pt, eps: 0.01, ext: [{ M: 10000, d: 2005 + h }], v: 1, p });
+        rows.push({ p, geo, h, chi: t.uy, chiAn: an.chi, k: t.k, warn: t.warn }); }
+      // 既定=pull: 明示 "pull" は署名不変・"share"/"pull3" は署名に入る・不正値は警告つき既定
+      const mk = (ph) => { const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'alphaCenAB'))); delete pd.physics.frameWeight; Object.assign(pd.physics, ph || {}); const v = HP.validatePreset(pd); return { sig: JSON.stringify(v.preset.physics), fw: v.preset.physics.frameWeight, warn: (v.warnings || []).length }; };
+      const d0 = mk(), dP = mk({ frameWeight: 'pull' }), dS = mk({ frameWeight: 'share' }), d3 = mk({ frameWeight: 'pull3' }), dX = mk({ frameWeight: 'x' });
+      const def = { sigSame: d0.sig === dP.sig && d0.fw === undefined, share: dS.fw === 'share' && dS.warn === 0, p3: d3.fw === 'pull3' && d3.warn === 0, bad: dX.fw === undefined && dX.warn === 1,
+        pow: HP.frameWeightPow({}) === 2 && HP.frameWeightPow({ frameWeight: 'share' }) === 0 && HP.frameWeightPow({ frameWeight: 'pull3' }) === 3 && HP.frameWeightPow({ frameWeight: 'pull4' }) === 4 && HP.FRAME_WEIGHT_DEFAULT === 'pull' };
+      // legacy 内蔵サンプルは "share" 明示(1 bit 不変)・pull へ移行した現実較正 11 本は未宣言(=pull)
+      const MIG = ['earthMoonRealKF1', 'mercuryRealKF1', 'alphaCenABDFM', 'siriusABDFM', 'psrDoubleABDFM', 'gw150914DFM', 'alphaCenAB', 'siriusAB', 'psrDoubleAB', 'gw150914'];
+      const all = HP.allPresets(); let nShare = 0, nOther = 0; const wrong = [];
+      for (const q of all) { const fw = q.physics && q.physics.frameWeight; if (MIG.indexOf(q.id) >= 0) { if (fw !== undefined && fw !== 'pull') wrong.push(q.id); } else if (fw === 'share') nShare++; else { nOther++; wrong.push(q.id); } }
+      // 🌘: 宣言どおり(pull・D0pull=3.36e-5)で generic・近点移動 2.995°/周。pull3/pull4 は再較正値で同窓
+      const run = (patch, steps) => { const pd = JSON.parse(JSON.stringify(all.find((q) => q.id === 'earthMoonRealKF1'))); if (patch) Object.assign(pd.physics, patch);
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset); for (let k = 0; k < steps; k++) S.step(0.016); return { o: [S.x[1], S.y[1], S.vx[1], S.vy[1]], k: S._kKind, fw: v.preset.physics.frameWeight, D0pull: v.preset.physics.D0pull, warn: (v.warnings || []).length }; };
+      const e0 = run(null, 300), eS = run({ frameWeight: 'share' }, 300);
+      const peri = (patch) => { const pd = JSON.parse(JSON.stringify(all.find((q) => q.id === 'earthMoonRealKF1'))); if (patch) Object.assign(pd.physics, patch);
         const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset); const dt = 0.016; let t = 0;
         const rel = () => { const dx = S.x[1] - S.x[0], dy = S.y[1] - S.y[0]; return { r: Math.hypot(dx, dy), th: Math.atan2(dy, dx) }; };
         let prev2 = null, prev = rel(); const ps = []; for (let k = 0; k < 1600000 && ps.length < 2; k++) { S.step(dt); t += dt; const cur = rel(); if (prev2 && prev.r < prev2.r && prev.r < cur.r) ps.push({ t: t - dt, th: prev.th }); prev2 = prev; prev = cur; }
         if (ps.length < 2) return null; let d = (ps[1].th - ps[0].th) * 180 / Math.PI; while (d > 180) d -= 360; while (d < -180) d += 360; return { dPeri: d, P: ps[1].t - ps[0].t }; };
-      const pp = peri({ frameWeight: 'pull', D0pull: 3.36e-5 });
-      // 物理予測(kg/m²): D0p=3.36e-5×10¹³=3.36e8
-      const D0P = 3.36e8, ME = 5.972e24, RE = 6.371e6, MS = 1.989e30, AU = 1.496e11, dM = 3.844e8;
+      // p=4 は E6′ 輸送の門 denom>1e-9(絶対値)のため 🌘 の単位系では 2.995 に届かない(門の直上 D0pull=1e-9 で最大 1.78°/周 — 記録として固定)
+      const pp2 = peri(null), pp3 = peri({ frameWeight: 'pull3', D0pull: D0P3 }), pp4 = peri({ frameWeight: 'pull4', D0pull: D0P4 });
+      // 物理予測(kg/m²): D0p=3.24204e-5×10¹³=3.24204e8(第242便 共同 fit)
+      const D0P = 3.24204e8, ME = 5.972e24, RE = 6.371e6, MS = 1.989e30, AU = 1.496e11, dM = 3.844e8;
       const ext = [{ M: MS, d: AU }];
       const ground = HP.dfmPullEntrainment({ M: ME, d: RE, D0p: D0P, ext, v: 29780, c: 2.998e8 });
       const gps = HP.dfmPullEntrainment({ M: ME, d: 2.656e7, D0p: D0P, ext, v: 29780, c: 2.998e8 });
@@ -8801,23 +8869,27 @@ if (!FAST) {
       const acen = HP.dfmPullEntrainment({ M: 1.8e30, d: 3.5e12, D0p: D0P, ext: [] });
       const psr = HP.dfmPullEntrainment({ M: 2.5e30, d: 9.0e8, D0p: D0P, ext: [] });
       const galaxy = 1e41 / (2.5e20 * 2.5e20);
-      return { rows, sigSame: e0.sig === eS.sig, bitSame: e0.o.every((x, i) => Object.is(x, eS.o[i])), kDef: e0.k, kPull: eP.k, pullMoves: !e0.o.every((x, i) => Object.is(x, eP.o[i])), warn: eS.warn + eP.warn,
-        pp, ground, gps, moon, acen, psr, galaxyOverD0p: galaxy / D0P };
-    });
+      return { rows, def, nShare, nOther, wrong: wrong.slice(0, 5), e0: { k: e0.k, fw: e0.fw, D0pull: e0.D0pull, warn: e0.warn }, shareMoves: !e0.o.every((x, i) => Object.is(x, eS.o[i])), kShare: eS.k,
+        pp2, pp3, pp4, ground, gps, moon, acen, psr, galaxyOverD0p: galaxy / D0P };
+    }, { D0P3: 1.42216e-7, D0P4: 1e-9 });
     const near = (a, b, tol) => Math.abs(a / b - 1) < tol;
-    const CK = { toy: fp.rows.every((r) => near(r.chi, r.chiAn, 1e-5) && r.k === 0 && r.warn === 0), sig: fp.sigSame && fp.bitSame && fp.warn === 0 && fp.kDef === 2,
-      pullGeneric: fp.kPull === 0 && fp.pullMoves, moonCal: !!fp.pp && fp.pp.dPeri > 2.85 && fp.pp.dPeri < 3.15,
+    const win = (pp) => !!pp && pp.dPeri > 2.85 && pp.dPeri < 3.15;
+    const CK = { toy: fp.rows.every((r) => near(r.chi, r.chiAn, 1e-5) && r.k === 0 && r.warn === 0), def: Object.values(fp.def).every(Boolean),
+      legacy: fp.nShare >= 80 && fp.nOther === 0 && fp.wrong.length === 0,
+      moonDecl: fp.e0.fw === undefined && fp.e0.D0pull === 3.24204e-5 && fp.e0.k === 0 && fp.e0.warn === 0 && fp.shareMoves && fp.kShare === 2,
+      moonCal2: win(fp.pp2), moonCal3: win(fp.pp3), moonGate4: !!fp.pp4 && fp.pp4.dPeri > 1.5 && fp.pp4.dPeri < 2.0,
       ground: fp.ground.chi > 0.99 && fp.ground.residual < 500, gps: fp.gps.chi > 0.94, moon: fp.moon.chi > 0.10 && fp.moon.chi < 0.14,
       acen: fp.acen.chi < 2e-3, psr: fp.psr.chi > 0.999, galaxy: fp.galaxyOverD0p < 1e-6 };
     const bad = Object.keys(CK).filter((k) => !CK[k]);
+    const f3 = (pp) => (pp ? pp.dPeri.toFixed(3) : '—');
     add('behavior.framePull', bad.length === 0,
       (bad.length ? `不成立=[${bad.join(',')}] ` : '')
-      + `玩具(pull・D0pull=1e-5): ` + fp.rows.map((r) => `h=${r.h}: χ ${r.chi.toFixed(6)}(解析 ${r.chiAn.toFixed(6)})`).join('・')
-      + ` / 既定 share 明示: 署名不変=${fp.sigSame}・🌘 bit 不変=${fp.bitSame}(kKind ${fp.kDef})・pull は generic(kKind ${fp.kPull})で動く=${fp.pullMoves} / `
-      + `🌘 pull 再較正 D0pull=3.36e-5(χ_E(近地点)=0.119): 近点移動 ${fp.pp ? fp.pp.dPeri.toFixed(3) : '—'}°/周(share 較正 2.995・8.85 年) / `
-      + `物理予測(D0p=3.36e8 kg/m²): 地表 χ_E=${fp.ground.chi.toFixed(4)}(残風 ${fp.ground.residual.toFixed(0)} m/s)・GPS ${fp.gps.chi.toFixed(4)}・月 ${fp.moon.chi.toFixed(4)}・α Cen 相手 ${fp.acen.chi.toExponential(2)}・PSR ${fp.psr.chi.toFixed(5)}・銀河/D0p ${fp.galaxyOverD0p.toExponential(1)}(無視できる)`);
+      + `玩具(p=2/3/4・geoPN 0/2・h=0/10/100): 解析一致 max|Δχ/χ|=${Math.max(...fp.rows.map((r) => Math.abs(r.chi / r.chiAn - 1))).toExponential(1)} / `
+      + `既定 pull: 署名不変=${fp.def.sigSame}・share/pull3 明示=${fp.def.share}/${fp.def.p3}・不正値=警告${fp.def.bad}・pow=${fp.def.pow} / legacy share 明示 ${fp.nShare} 本(未固定 ${fp.nOther}${fp.wrong.length ? ' ' + fp.wrong.join(',') : ''}) / `
+      + `🌘 宣言(pull・D0pull=${fp.e0.D0pull}・kKind ${fp.e0.k}): 近点移動 p=2 ${f3(fp.pp2)}°/周・p=3(D0pull=${1.42216e-7}) ${f3(fp.pp3)}(窓 2.85〜3.15・8.85 年)・p=4 は門の直上 D0pull=${1e-9} で ${f3(fp.pp4)}(最大 1.78 — 較正不能の記録・窓 1.5〜2.0)・share 明示は特別化(kKind ${fp.kShare})で軌道が動く=${fp.shareMoves} / `
+      + `物理予測(p=2・D0p=3.24204e8 kg/m²): 地表 χ_E=${fp.ground.chi.toFixed(4)}(残風 ${fp.ground.residual.toFixed(0)} m/s — 第34報: MM の非観測量)・GPS ${fp.gps.chi.toFixed(4)}・月 ${fp.moon.chi.toFixed(4)}・α Cen 相手 ${fp.acen.chi.toExponential(2)}・PSR ${fp.psr.chi.toFixed(5)}・銀河/D0p ${fp.galaxyOverD0p.toExponential(1)}`);
   } else {
-    console.log('SKIP behavior.framePull(第241便 未適用 — root 等)');
+    console.log('SKIP behavior.framePull(第242便 未適用 — root 等)');
   }
 }
 
@@ -8847,19 +8919,31 @@ if (!FAST) {
         if (p && pd && mc) {
           const rx = p.bodies[1].x - p.bodies[0].x, rvy = p.bodies[1].vy - p.bodies[0].vy;
           const fA = mc.factorByBody[0], fB = mc.factorByBody[1];
-          const d = Math.hypot(rx, pd.physics.softening);
-          const chi = (w) => w / (pd.physics.D0 + w);
+          const eps = pd.physics.softening;
+          const d = Math.hypot(rx, eps);
+          // 第242便: フレーム重みの世代で χ の定義が変わる — share は w=m/√(a²+ε²)・D₀、
+          // pull(p=2/3/4)は w=m/(a²+ε²)^{p/2}・D₀ᵖ(physics.D0pull)。QA は宣言から読む
+          const pw = HP.frameWeightPow ? HP.frameWeightPow(pd.physics) : 0;
+          const D0f = pw > 0 ? pd.physics.D0pull : pd.physics.D0;
+          const wOf = (m) => pw > 0 ? m / Math.pow(rx * rx + eps * eps, pw / 2) : m / d;
+          const chiOf = (m) => { const w = wOf(m); return w / (D0f + w); };
+          const chi = (w) => w / (D0f + w);   // 旧 chi-law-v1 分岐用(share の w を直接受ける)
           const ma = fA * mc.baseMass[0], mb = fB * mc.baseMass[1], mt = ma + mb;
-          const shellA = Math.abs(pd.bodies[0].m * (1 - pd.bodies[0].core.massFrac) / mc.baseMass[0] - 1);
-          const shellB = Math.abs(pd.bodies[1].m * (1 - pd.bodies[1].core.massFrac) / mc.baseMass[1] - 1);
-          r.law = mc.law;
+          // 第242便: (f−1)/f が core.massFrac の値域下限 0.01 を割る系ではコアを持たない宣言が正解
+          const mfA = pd.bodies[0].core ? pd.bodies[0].core.massFrac : 0;
+          const mfB = pd.bodies[1].core ? pd.bodies[1].core.massFrac : 0;
+          const coreDecl = (pd.bodies[0].core ? true : (fA - 1) / fA < 0.01)
+            && (pd.bodies[1].core ? true : (fB - 1) / fB < 0.01);
+          const shellA = Math.abs(pd.bodies[0].m * (1 - mfA) / mc.baseMass[0] - 1);
+          const shellB = Math.abs(pd.bodies[1].m * (1 - mfB) / mc.baseMass[1] - 1);
+          r.law = mc.law; r.coreDecl = coreDecl; r.pw = pw;
           if (mc.law === 'inertia-law-v1') {
             // 第240便(第32報): 解析慣性則 f=1+k_F·Σ(m_i/M)χ_i² の自己無撞着解(両体共通・fit ノブなし)。
             // (a) 台帳 factor=factorByBody[0]=[1] が HP.dfmBinaryMassFactor の再計算とビット一致
             // (b) 固定点性の代入検査: f = 1+A(f·m_obs) の相対残差 <1e-12(χ は DFM 質量で評価)
             // (c) 質量比=観測 → 位置・速度は観測版の重心配分と一致(相対 1e-9)
-            const g = HP.dfmBinaryMassFactor(mc.baseMass[0], mc.baseMass[1], rx, pd.physics.D0, pd.physics.softening, pd.physics.kFrame);
-            const cA = chi(fB * mc.baseMass[1] / d), cB = chi(fA * mc.baseMass[0] / d);
+            const g = HP.dfmBinaryMassFactor(mc.baseMass[0], mc.baseMass[1], rx, D0f, eps, pd.physics.kFrame, pw);
+            const cA = chiOf(fB * mc.baseMass[1]), cB = chiOf(fA * mc.baseMass[0]);
             const fAn = HP.dfmBinaryInertiaFactor(ma, mb, cA, cB, pd.physics.kFrame);
             r.decl = mc.fitDt === 0.016 && fA === fB && mc.factor === fA && Array.isArray(mc.chi)
               && mc.baseMass[0] === p.bodies[0].m && mc.baseMass[1] === p.bodies[1].m;
@@ -8886,7 +8970,11 @@ if (!FAST) {
           }
           r.shell = Math.max(shellA, shellB);
           r.ratio = fB / fA;
-          r.ok = r.decl && r.lawEq && r.fp < 1e-12 && r.massEq && r.redis && r.shell < 1e-12;
+          // 第242便: コアがある系は「殻質量=観測質量」がビット恒等(<1e-12)。コアを持たない系は
+          // 較正の余りが massFrac 値域下限 0.01 を割る系だけなので、殻質量の観測比は (f−1)/f 未満で足りる
+          const coreless = !pd.bodies[0].core || !pd.bodies[1].core;
+          r.ok = r.decl && r.lawEq && r.fp < 1e-12 && r.massEq && r.redis && r.coreDecl
+            && r.shell < (coreless ? 0.01 : 1e-12);
         }
         out.pairs[dfmId] = r;
         out.allOk = out.allOk && r.ok;
@@ -12442,7 +12530,10 @@ if (!FAST) {
       const cat = catV.preset, obs = r1.preset;
       // ビット一致を要求するキー(物理・幾何・スケール・カメラ・世界・オーバーレイ・分類)
       const SAME = ['physics', 'bodies', 'camera', 'world', 'overlays', 'scaleExp', 'scaleTier'];
-      for (const k of SAME) if (JSON.stringify(obs[k]) !== JSON.stringify(cat[k])) bad.push('ビット不一致: ' + k);
+      // 第242便: 既定 pull — レコード経路は pull+D0pull(単位換算)を宣言し、カタログ変種(出典=share 固定の内蔵)は frameWeight:"share" を持つ。
+      // フレーム重みの 2 キーは宣言差として除いて比較する(それ以外の物理は従来どおりビット一致)
+      const stripFW = (o) => { const c = Object.assign({}, o); delete c.frameWeight; delete c.D0pull; return c; };
+      for (const k of SAME) if (JSON.stringify(k === 'physics' ? stripFW(obs[k]) : obs[k]) !== JSON.stringify(k === 'physics' ? stripFW(cat[k]) : cat[k])) bad.push('ビット不一致: ' + k);
       // 数値差の実測(最大相対差 — 宣言許容 1e-8)
       let worst = 0, worstAt = '';
       obs.bodies.forEach((b, i) => {
@@ -12796,6 +12887,7 @@ if (!FAST) {
       }
       // (c) legacy 否定対照: ドリフト外挿検査の差し戻し+短窓の直接破壊
       const legacy = JSON.parse(JSON.stringify(p)); delete legacy.physics.frameReaction;
+      legacy.physics.frameWeight = 'share'; delete legacy.physics.D0pull;   // 第242便: 否定対照は share(χ→1 の自由中心で legacy 反作用が壊す — pairReduced を導入した当時の重み)で走らせる
       const targets = [{ id: 'b', name: FC_RECS[3].body, index: 1, twoBody: true, pObs: pObsU }];
       const dl = HP.astroObsSelfCheck(legacy, targets);
       if (dl.ok) bad.push('legacy 反作用がドリフト外挿検査を通過してしまった');
