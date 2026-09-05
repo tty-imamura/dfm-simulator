@@ -8916,7 +8916,7 @@ if (!FAST) {
       const fsRun = (flag, share) => { const A = single({ m: 100, radius: 1, vy: 1, pinned: true }); if (flag !== undefined) A.frameSource = flag; const ph = share ? { frameWeight: 'share', G: 1 } : { G: 1 }; const w = build([A, single({ m: 1, x: 50 })], ph); return { u: S.uPy[1], ax: S.ax[1], k: S._kKind, w, hasOff: S.hasFrameOff, fs: S.frameSrc ? S.frameSrc[0] : -1 }; };
       const fs0 = fsRun(undefined, false), fsT = fsRun(true, false), fsF = fsRun(false, false), fsS = fsRun(false, true), fsS0 = fsRun(undefined, true);
       // ④ e6Radial:false — 円軌道玩具で E6′ の Δv(kF1−kF0)の重力方向成分が 0 になる・true/未宣言は 1 bit 不変
-      const e6 = (flag) => { const mA = 2, mB = 3, d = 20, G = 1, M = mA + mB; const vc = Math.sqrt(G * M / d); const ph = { G, D0pull: mB / (d * d), geoPN: 0, softening: 0.001, kFrame: 1, frameReaction: 'pairReduced' }; if (flag !== undefined) ph.e6Radial = flag;   // 第243便: e6Radial:false は pairReduced 専用(S._core 外で要求 d_i へ射影)
+      const e6 = (flag) => { const mA = 2, mB = 3, d = 20, G = 1, M = mA + mB; const vc = Math.sqrt(G * M / d); const ph = { G, D0pull: mB / (d * d), geoPN: 0, softening: 0.01, kFrame: 1, frameReaction: 'pairReduced' }; if (flag !== undefined) ph.e6Radial = flag;   // 第243便: e6Radial:false は pairReduced 専用(S._core 外で要求 d_i へ射影)
         const run = (kF) => { const w = build([single({ m: mA, radius: 0.5, x: -d * mB / M, vy: -vc * mB / M }), single({ m: mB, radius: 0.5, x: d * mA / M, vy: vc * mA / M })], Object.assign({}, ph, { kFrame: kF })); const rel = () => [S.vx[0] - S.vx[1], S.vy[0] - S.vy[1], S.x[0] - S.x[1], S.y[0] - S.y[1]]; for (let k = 0; k < 3; k++) S.step(0.001); const a = rel(); S.step(0.001); const b = rel(); return { dv: [b[0] - a[0], b[1] - a[1]], r: [a[2], a[3]], w, x: S.x[0], vy: S.vy[0] }; };
         const k1 = run(1), k0 = run(0); const dvf = [k1.dv[0] - k0.dv[0], k1.dv[1] - k0.dv[1]]; const rr = Math.hypot(k0.r[0], k0.r[1]); const nx = k0.r[0] / rr, ny = k0.r[1] / rr; return { radial: dvf[0] * nx + dvf[1] * ny, tang: -dvf[0] * ny + dvf[1] * nx, w: k1.w, x: k1.x, vy: k1.vy }; };
       const e6u = e6(undefined), e6t = e6(true), e6f = e6(false);
@@ -19591,7 +19591,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       // ⑤ 数値欄拡幅(92px)+セーブ書出しの kappaT 正準
       out.width = src.includes('flex:0 0 92px;width:92px');
       out.saveKap = src.includes('o.kappaT=(o.Kt>=CLAMPS.Kt[1])? 0 : 1/o.Kt; delete o.Kt;')
-        || src.includes('physics:Object.assign({},sim.params),');   // 第128便: params が κ 正準なので直コピー
+        || src.includes('physics:Object.assign({},sim.params),')   // 第128便: params が κ 正準なので直コピー
+        || src.includes('physics:Object.assign({},sim.params,{[FRAME_WEIGHT_KEY]:frameWeightOf(sim.params)}),');   // 第243便: 直コピー+解決済み frameWeight の明示
       HP.loadPreset('saturn', false);
       return out;
     });
@@ -19661,7 +19662,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       out.rayThr = Math.abs(HP.rayMassMin({ kappaT: 0.01, softening: 2 }, 20) - (A / 4) * 20 / 0.01) < 1e-9
         && HP.rayMassMin({ kappaT: 0, softening: 2 }, 20) === Infinity;
       // ⑥ セーブ書出しが params 直コピー(κ 正準なので変換不要)
-      out.save = src.includes('physics:Object.assign({},sim.params),')
+      out.save = (src.includes('physics:Object.assign({},sim.params),')
+        || src.includes('physics:Object.assign({},sim.params,{[FRAME_WEIGHT_KEY]:frameWeightOf(sim.params)}),'))   // 第243便: 直コピー+frameWeight 明示
         && src.includes('item.kappaT=sim.params.kappaT;');
       HP.loadPreset('galaxy', false);
       return out;
