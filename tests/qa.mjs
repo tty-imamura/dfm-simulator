@@ -8858,7 +8858,7 @@ if (!FAST) {
         const rel = () => { const dx = S.x[1] - S.x[0], dy = S.y[1] - S.y[0]; return { r: Math.hypot(dx, dy), th: Math.atan2(dy, dx) }; };
         let prev2 = null, prev = rel(); const ps = []; for (let k = 0; k < 1600000 && ps.length < 2; k++) { S.step(dt); t += dt; const cur = rel(); if (prev2 && prev.r < prev2.r && prev.r < cur.r) ps.push({ t: t - dt, th: prev.th }); prev2 = prev; prev = cur; }
         if (ps.length < 2) return null; let d = (ps[1].th - ps[0].th) * 180 / Math.PI; while (d > 180) d -= 360; while (d < -180) d += 360; return { dPeri: d, P: ps[1].t - ps[0].t }; };
-      // p=4 は E6′ 輸送の門 denom>1e-9(絶対値)のため 🌘 の単位系では 2.995 に届かない(門の直上 D0pull=1e-9 で最大 1.78°/周 — 記録として固定)
+      // p=4: 第242便は E6′ の門 denom>1e-9(絶対値)で D0pull<1e-9 が使えなかった → 第243便で門を >0 に修正(単位不変)。D0pull=1e-9 の 1.74°/周 は履歴比較点(最大値の主張ではない)
       const pp2 = peri(null), pp3 = peri({ frameWeight: 'pull3', D0pull: D0P3 }), pp4 = peri({ frameWeight: 'pull4', D0pull: D0P4 });
       // 物理予測(kg/m²): D0p=3.24204e-5×10¹³=3.24204e8(第242便 共同 fit)
       const D0P = 3.24204e8, ME = 5.972e24, RE = 6.371e6, MS = 1.989e30, AU = 1.496e11, dM = 3.844e8;
@@ -8877,7 +8877,7 @@ if (!FAST) {
     const CK = { toy: fp.rows.every((r) => near(r.chi, r.chiAn, 1e-5) && r.k === 0 && r.warn === 0), def: Object.values(fp.def).every(Boolean),
       legacy: fp.nShare >= 80 && fp.nOther === 0 && fp.wrong.length === 0,
       moonDecl: fp.e0.fw === undefined && fp.e0.D0pull === 3.24204e-5 && fp.e0.k === 0 && fp.e0.warn === 0 && fp.shareMoves && fp.kShare === 2,
-      moonCal2: win(fp.pp2), moonCal3: win(fp.pp3), moonGate4: !!fp.pp4 && fp.pp4.dPeri > 1.5 && fp.pp4.dPeri < 2.0,
+      moonCal2: win(fp.pp2), moonCal3: win(fp.pp3), moonReference4: !!fp.pp4 && fp.pp4.dPeri > 1.5 && fp.pp4.dPeri < 2.0,
       ground: fp.ground.chi > 0.99 && fp.ground.residual < 500, gps: fp.gps.chi > 0.94, moon: fp.moon.chi > 0.10 && fp.moon.chi < 0.14,
       acen: fp.acen.chi < 2e-3, psr: fp.psr.chi > 0.999, galaxy: fp.galaxyOverD0p < 1e-6 };
     const bad = Object.keys(CK).filter((k) => !CK[k]);
@@ -8886,10 +8886,68 @@ if (!FAST) {
       (bad.length ? `不成立=[${bad.join(',')}] ` : '')
       + `玩具(p=2/3/4・geoPN 0/2・h=0/10/100): 解析一致 max|Δχ/χ|=${Math.max(...fp.rows.map((r) => Math.abs(r.chi / r.chiAn - 1))).toExponential(1)} / `
       + `既定 pull: 署名不変=${fp.def.sigSame}・share/pull3 明示=${fp.def.share}/${fp.def.p3}・不正値=警告${fp.def.bad}・pow=${fp.def.pow} / legacy share 明示 ${fp.nShare} 本(未固定 ${fp.nOther}${fp.wrong.length ? ' ' + fp.wrong.join(',') : ''}) / `
-      + `🌘 宣言(pull・D0pull=${fp.e0.D0pull}・kKind ${fp.e0.k}): 近点移動 p=2 ${f3(fp.pp2)}°/周・p=3(D0pull=${1.42216e-7}) ${f3(fp.pp3)}(窓 2.85〜3.15・8.85 年)・p=4 は門の直上 D0pull=${1e-9} で ${f3(fp.pp4)}(最大 1.78 — 較正不能の記録・窓 1.5〜2.0)・share 明示は特別化(kKind ${fp.kShare})で軌道が動く=${fp.shareMoves} / `
+      + `🌘 宣言(pull・D0pull=${fp.e0.D0pull}・kKind ${fp.e0.k}): 近点移動 p=2 ${f3(fp.pp2)}°/周・p=3(D0pull=${1.42216e-7}) ${f3(fp.pp3)}(窓 2.85〜3.15・8.85 年)・p=4 の履歴比較点 D0pull=${1e-9} で ${f3(fp.pp4)}(窓 1.5〜2.0 — 第243便で門を >0 にしたので最大値の主張ではない)・share 明示は特別化(kKind ${fp.kShare})で軌道が動く=${fp.shareMoves} / `
       + `物理予測(p=2・D0p=3.24204e8 kg/m²): 地表 χ_E=${fp.ground.chi.toFixed(4)}(残風 ${fp.ground.residual.toFixed(0)} m/s — 第34報: MM の非観測量)・GPS ${fp.gps.chi.toFixed(4)}・月 ${fp.moon.chi.toFixed(4)}・α Cen 相手 ${fp.acen.chi.toExponential(2)}・PSR ${fp.psr.chi.toFixed(5)}・銀河/D0p ${fp.galaxyOverD0p.toExponential(1)}`);
   } else {
     console.log('SKIP behavior.framePull(第242便 未適用 — root 等)');
+  }
+}
+
+// ---- 第243便(第35報 — Gemini/Grok/ChatGPT の合意点): behavior.frameConsistency / frameSourceToy / e6RadialToy / gravMagToy ----
+// ChatGPT 6.1: gasCoh<1 かつ差動コアで geoPN=2 の解析勾配 ∇u が数値微分と 30% ずれていた(殻項だけに掛けるべき gasCoh をコア項込みで掛けていた)→ 1e-3 以内。
+// ChatGPT 6.2: E6′ の門 denom>1e-9(絶対値)は質量と D0 を同率で縮めると u が 0 になった(単位依存)→ >0 で単位不変(u・時計とも同値)。
+// Grok A / Gemini 4.2(裁定 B7): body.frameSource:false はフレーム源から外れる(重力は残る)・未宣言は 1 bit 不変。
+// Grok C / Gemini 4.3(A1(b)/B6 の玩具): physics.e6Radial:false は E6′ の Δu から重力方向成分を落とす(接線結合だけ)・未宣言は不変。
+// Grok B(A3 の玩具): physics.gravMag は源の並進の横向き渦度 ẑ×v_j を u に足す用量(0=不変)。
+{
+  const has243 = await page.evaluate(() => typeof (window.HP && HP.e6Proj) === 'function' && typeof HP.dfmBinaryMassFactorLinear === 'function');
+  if (has243) {
+    const r = await page.evaluate(() => {
+      const S = HP.sim; const single = (o) => Object.assign({ type: 'single', m: 1, radius: 0.01, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }, o);
+      const build = (bodies, ph) => { const v = HP.validatePreset({ name: 'fc', description: 'd', camera: { scale: 1 }, world: { boundary: 'none', size: 0 },
+        physics: Object.assign({ G: 0, D0: 0.006, kFrame: 1, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 0, etaRad: 0, cLight: 30000, geoPN: 0, softening: 0.05, radiusScale: 1, massFloor: 1e-6, timeScale: 1, frameWeight: 'pull', D0pull: 0.01, stateCarry: 'double', frameReaction: 'pairReduced', coupleSink: 'reservoir', bM: 1, pRad: 4, gravityX: 0, gravityY: 0, lambdaPN: 1, pnAlpha: 1.5 }, ph), bodies });
+        if (!v.ok) throw Error(JSON.stringify(v.errors)); S.build(v.preset); S.step(0.0001); return v.warnings.length; };
+      // ① gasCoh 勾配(geoPN=2・気体殻+差動コア)の解析 J と中心差分
+      const grad = []; for (const gasCoh of [0.25, 1]) for (const core of [false, true]) { const read = (x) => { const src = single({ m: 100, radius: 20, spin: 0.5, pinned: true, shell: 'gas' }); if (core) src.core = { mode: 'differential', massFrac: 0.4, radius: 5, omega: 1, Kcs: 0 }; const w = build([src, single({ x })], { geoPN: 2, gasCoh }); const u = S.uPy[1], den = S.params.D0pull + S.sumWu[1]; return { u, J: (S._g2.dPyx[1] - u * S._g2.dWx[1]) / den, w }; };
+        const h = 0.02, a = read(40), l = read(40 - h), rr = read(40 + h); const fd = (rr.u - l.u) / (2 * h); grad.push({ gasCoh, core, rel: Math.abs((a.J - fd) / fd), warn: a.w }); }
+      // ② 単位不変: 質量・D0・D0pull を 1e-6 倍しても u と時計が同値
+      const sc = []; for (const geoPN of [0, 2]) for (const scale of [1, 1e-6]) { build([single({ m: 100 * scale, radius: 1, vy: 1, pinned: true }), single({ m: scale, x: 1000 })], { geoPN, cLight: 10, D0: 0.006 * scale, D0pull: 0.0001 * scale }); S.tau[1] = 0; S.tauUpdate(1, 1); sc.push({ geoPN, scale, u: S.uPy[1], hasU: S.hasU[1], tau: S.tau[1] }); }
+      // ③ frameSource:false — 源 A(frameSource:false)は u に寄与せず・重力は残る。未宣言(true)は 1 bit 不変
+      const fsRun = (flag, share) => { const A = single({ m: 100, radius: 1, vy: 1, pinned: true }); if (flag !== undefined) A.frameSource = flag; const ph = share ? { frameWeight: 'share', G: 1 } : { G: 1 }; const w = build([A, single({ m: 1, x: 50 })], ph); return { u: S.uPy[1], ax: S.ax[1], k: S._kKind, w, hasOff: S.hasFrameOff, fs: S.frameSrc ? S.frameSrc[0] : -1 }; };
+      const fs0 = fsRun(undefined, false), fsT = fsRun(true, false), fsF = fsRun(false, false), fsS = fsRun(false, true), fsS0 = fsRun(undefined, true);
+      // ④ e6Radial:false — 円軌道玩具で E6′ の Δv(kF1−kF0)の重力方向成分が 0 になる・true/未宣言は 1 bit 不変
+      const e6 = (flag) => { const mA = 2, mB = 3, d = 20, G = 1, M = mA + mB; const vc = Math.sqrt(G * M / d); const ph = { G, D0pull: mB / (d * d), geoPN: 0, softening: 0.01, kFrame: 1, frameReaction: 'pairReduced' }; if (flag !== undefined) ph.e6Radial = flag;   // 第243便: e6Radial:false は pairReduced 専用(S._core 外で要求 d_i へ射影)
+        const run = (kF) => { const w = build([single({ m: mA, radius: 0.5, x: -d * mB / M, vy: -vc * mB / M }), single({ m: mB, radius: 0.5, x: d * mA / M, vy: vc * mA / M })], Object.assign({}, ph, { kFrame: kF })); const rel = () => [S.vx[0] - S.vx[1], S.vy[0] - S.vy[1], S.x[0] - S.x[1], S.y[0] - S.y[1]]; for (let k = 0; k < 3; k++) S.step(0.001); const a = rel(); S.step(0.001); const b = rel(); return { dv: [b[0] - a[0], b[1] - a[1]], r: [a[2], a[3]], w, x: S.x[0], vy: S.vy[0] }; };
+        const k1 = run(1), k0 = run(0); const dvf = [k1.dv[0] - k0.dv[0], k1.dv[1] - k0.dv[1]]; const rr = Math.hypot(k0.r[0], k0.r[1]); const nx = k0.r[0] / rr, ny = k0.r[1] / rr; return { radial: dvf[0] * nx + dvf[1] * ny, tang: -dvf[0] * ny + dvf[1] * nx, w: k1.w, x: k1.x, vy: k1.vy }; };
+      const e6u = e6(undefined), e6t = e6(true), e6f = e6(false);
+      // ⑤ gravMag — 用量 0 は 1 bit 不変・用量 1 は動く源の側方に横向きの u(ẑ×v)を作る
+      const gm = (k) => { const ph = { G: 0, D0pull: 2, geoPN: 0, softening: 1 }; if (k !== undefined) ph.gravMag = k; const w = build([single({ m: 400, radius: 8, vx: 2, pinned: true }), single({ m: 1, radius: 1, y: 40 })], ph); return { ux: S.uPx[1], uy: S.uPy[1], w, k: S._kKind }; };
+      const gm0 = gm(undefined), gmZ = gm(0), gm1 = gm(1);
+      // ⑥ 一次の慣性則(診断)— χ→1 で χ² 則と一致し、χ≈0.5 では f が異なる
+      const lin = HP.dfmBinaryInertiaFactorLinear(1, 1, 0.5, 0.5, 1), quad = HP.dfmBinaryInertiaFactor(1, 1, 0.5, 0.5, 1), lin1 = HP.dfmBinaryInertiaFactorLinear(1, 1, 1, 1, 1);
+      return { grad, sc, fs0, fsT, fsF, fsS, fsS0, e6u, e6t, e6f, gm0, gmZ, gm1, lin, quad, lin1 };
+    });
+    const CK = { grad: r.grad.every((g) => g.rel < 1e-3 && g.warn === 0),
+      scale: r.sc.every((x) => x.hasU === 1 && Math.abs(x.u - 0.5) < 1e-6 && Math.abs(x.tau - Math.sqrt(1 - 0.25 / 100)) < 1e-6),
+      fsDefault: r.fs0.w === 0 && r.fsT.w === 0 && Object.is(r.fs0.u, r.fsT.u) && r.fs0.hasOff === false && r.fs0.fs === 1,
+      fsOff: r.fsF.w === 0 && r.fsF.hasOff === true && r.fsF.fs === 0 && r.fsF.u === 0 && Object.is(r.fsF.ax, r.fs0.ax) && r.fsF.k === 0,
+      fsShare: r.fsS.w === 0 && r.fsS.u === 0 && r.fsS0.u > 0,
+      e6Default: r.e6u.w === 0 && r.e6t.w === 0 && Object.is(r.e6u.x, r.e6t.x) && Object.is(r.e6u.vy, r.e6t.vy) && Math.abs(r.e6u.radial) > 1e-9,
+      e6Off: r.e6f.w === 0 && Math.abs(r.e6f.radial) < 1e-12 && Math.abs(r.e6f.tang - r.e6u.tang) < 1e-9,
+      gmDefault: r.gm0.w === 0 && r.gmZ.w === 0 && Object.is(r.gm0.ux, r.gmZ.ux) && Object.is(r.gm0.uy, r.gmZ.uy) && Math.abs(r.gm0.uy) < 1e-12,
+      gmOn: r.gm1.w === 0 && r.gm1.k === 0 && r.gm1.uy > 0 && Math.abs(r.gm1.ux - r.gm0.ux) < 1e-12,
+      linear: Math.abs(r.lin - 1.5) < 1e-12 && Math.abs(r.quad - 1.25) < 1e-12 && Math.abs(r.lin1 - 2) < 1e-12 };
+    const bad = Object.keys(CK).filter((k) => !CK[k]);
+    add('behavior.frameConsistency', bad.length === 0,
+      (bad.length ? `不成立=[${bad.join(',')}] ` : '')
+      + `gasCoh 勾配(geoPN=2・解析 J vs 中心差分): ` + r.grad.map((g) => `C=${g.gasCoh}${g.core ? '+コア' : ''} ${g.rel.toExponential(1)}`).join('・') + `(<1e-3 — 第243便で殻項だけに掛ける) / `
+      + `単位不変(質量・D0・D0pull ×1e-6): u=${r.sc.map((x) => x.u.toFixed(4)).join('/')}・τ=${r.sc.map((x) => x.tau.toFixed(6)).join('/')}(門 >0) / `
+      + `frameSource: 未宣言≡true(bit)=${CK.fsDefault}・false で u=0(重力 ax 不変=${Object.is(r.fsF.ax, r.fs0.ax)}・generic)=${CK.fsOff}・share でも同じ=${CK.fsShare} / `
+      + `e6Radial: 未宣言≡true(bit)=${CK.e6Default}・false で Δv の重力方向成分 ${r.e6f.radial.toExponential(1)}(→0)・接線成分は不変=${CK.e6Off} / `
+      + `gravMag: 0≡未宣言(bit)=${CK.gmDefault}・k=1 で動く源の側方に u_y=${r.gm1.uy.toExponential(2)}(ẑ×v)=${CK.gmOn} / `
+      + `一次則 f(χ=0.5)=${r.lin}(χ² 則 ${r.quad})・χ=1 で ${r.lin1}`);
+  } else {
+    console.log('SKIP behavior.frameConsistency(第243便 未適用 — root 等)');
   }
 }
 
@@ -19533,7 +19591,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       // ⑤ 数値欄拡幅(92px)+セーブ書出しの kappaT 正準
       out.width = src.includes('flex:0 0 92px;width:92px');
       out.saveKap = src.includes('o.kappaT=(o.Kt>=CLAMPS.Kt[1])? 0 : 1/o.Kt; delete o.Kt;')
-        || src.includes('physics:Object.assign({},sim.params),');   // 第128便: params が κ 正準なので直コピー
+        || src.includes('physics:Object.assign({},sim.params),')   // 第128便: params が κ 正準なので直コピー
+        || src.includes('physics:Object.assign({},sim.params,{[FRAME_WEIGHT_KEY]:frameWeightOf(sim.params)}),');   // 第243便: 直コピー+解決済み frameWeight の明示
       HP.loadPreset('saturn', false);
       return out;
     });
@@ -19603,7 +19662,8 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
       out.rayThr = Math.abs(HP.rayMassMin({ kappaT: 0.01, softening: 2 }, 20) - (A / 4) * 20 / 0.01) < 1e-9
         && HP.rayMassMin({ kappaT: 0, softening: 2 }, 20) === Infinity;
       // ⑥ セーブ書出しが params 直コピー(κ 正準なので変換不要)
-      out.save = src.includes('physics:Object.assign({},sim.params),')
+      out.save = (src.includes('physics:Object.assign({},sim.params),')
+        || src.includes('physics:Object.assign({},sim.params,{[FRAME_WEIGHT_KEY]:frameWeightOf(sim.params)}),'))   // 第243便: 直コピー+frameWeight 明示
         && src.includes('item.kappaT=sim.params.kappaT;');
       HP.loadPreset('galaxy', false);
       return out;

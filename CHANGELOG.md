@@ -6,6 +6,15 @@
 
 ## v1.44-b1(開発中 — beta)
 
+- **第243便(2026-09-05・第35報)**: 3 審査(Gemini/Grok/ChatGPT)の合意点を実装。**gasCoh の勾配の不整合を修正**(FD 相対誤差 0.298 → 1.8e-7 —
+  gasCoh+geoPN=2 の宇宙だけ変わる)。**分母の門 1e-9(絶対値)→ >0**(単位不変 — 既定経路は bit 不変。副作用で 🌘 の p=4 が較正可能に:
+  D0pull=5.658e-10+s=1.00117 で 2.995°/周と 27.3201 日を同時保持)。**`body.frameSource:false`**(単体/ring/disk — 粗視化の代表粒子を
+  フレーム u の源から除く。重力・光学 W は残す。💿 で環の膨張は消えるが近点ドリフトは −8.1e-6 と claim 窓の下 → 💿 は share のまま)。
+  **`physics.e6Radial:false`**(pairReduced 専用の玩具 — E6′ の要求から重力方向成分を落とす。✴️💫 の P 残差改善・ロゼット −21%、⚡🎻 は観測質量 f=1 で
+  現行と同じ残差 — 裁定へ)。**`physics.gravMag`**(玩具 — 源の並進の横向き渦度 ẑ×v_j。⚡🎻 はどの用量でも壊れる)。診断 `dfmBinaryInertiaFactorLinear`/
+  `dfmBinaryMassFactorLinear`(一次則 f=1+k(αχA+βχB) — 台帳は二次則のまま・裁定へ)。**旧セーブ**: frameWeight 未宣言/現実較正で D0pull 無しを
+  読込時に警告(ja/en)し、保存時は解決済み frameWeight を書く。✴️💫 カードの近点行を先頭へ。環質量の監査(💿 1.2e22 kg=Cassini の 779 倍)を PHYSICS に記録。
+  QA `behavior.frameConsistency`。perf: e6 射影は S._core 外(ループ内だと starSeed 1.13)。
 - **第242便(2026-09-04・第34報)**: **`physics.frameWeight` の既定を "pull" へ**(重力の引き m/(d²+ε²)・分母 D0pull+W_B+Σw。未宣言=pull・署名不変。
   "share" は明示 opt-in)。旧来の内蔵サンプル 89 本+検証フックの宇宙 21 本は `frameWeight:"share"` を明示宣言して 1 bit 不変。現実較正の 10 本を pull へ移行:
   🌘(D0pull=3.24204e-5+初速の共同再 fit で恒星月 27.32 日と近点移動 8.99 年を同時保持)・🪨(D0pull=3.24204e-3 — 🌘 と物理量 3.24×10⁸ kg/m² で共通。
