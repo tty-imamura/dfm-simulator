@@ -3229,7 +3229,7 @@ DFM の解説: 「箱宇宙の知見で、DFM は光の状態を『波長』で�
 
 - **既定は "pull"**(`physics.frameWeight` 未宣言=pull=重力の引き w=m/(d²+ε²)・分母 D0pull+W_B+Σw)。**旧来の内蔵サンプル
   (89 本)と検証フックの宇宙(21 本)は `frameWeight:"share"` を明示宣言**して 1 bit 不変(履歴は資産 — 物語系サンプルの移行は
-  裁定事項)。pull へ移行したのは現実較正の 11 本: 🌘🪨💿(D0pull 再較正)・✴️💫⚡🎻(質量を pull の χ で再導出)と観測版
+  裁定事項)。pull へ移行したのは現実較正の 10 本: 🌘🪨(D0pull 再較正 — 💿 は share のまま・下記)・✴️💫⚡🎻(質量を pull の χ で再導出)と観測版
   ✨🌟📻🎐(kFrame=0 — 軌道は不変・ワンタップ kFrame=1 が pull の予測になる)。D0pull 未宣言は D₀ を流用(旧セーブ JSON は
   pull で走る — CHANGELOG 参照)。既定が変わったので pull は ph に入れず(署名不変)、"share"/"pull3"/"pull4" が明示宣言。
 - **指数の一般化 `frameWeight:"pull3"/"pull4"`(opt-in)**: w=m/(d²+ε²)^{p/2}(p=3 は潮汐力 m/d³ の類推・p=4 は更に急峻)。

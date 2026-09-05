@@ -989,6 +989,8 @@ ja: {
   ioNote:"インポートは「単独プリセット / プリセット配列 / {customPresets:[…]} / バックアップ全体」のどの形式でも自動判別します。パラメータが全く同じデータは取り込まず、名前が同じでパラメータが異なるデータは名前にサフィックスを付けて追加します。インポートしたプリセットは保存一覧にも登録されます。",
   ioNoteSum:"インポート",   // 第36便 B4(原仮定者指示): 折畳み見出し
   presetMissing:"元プリセットが見つからないため読込を中止しました(β専用サンプルのセーブを旧版で開いた可能性 — 対応する版で読み込んでください)",
+  fwUndeclared:"このセーブは frameWeight 未宣言 — 第242便以降の既定 pull(重力の引き m/d²)で走ります。旧来の挙動に戻すには physics.frameWeight:\"share\" を宣言してください",
+  fwNoD0pull:"注意: D0pull 未宣言の現実較正(DFM 版/KF1)は pull では周期が数十% ずれます — 第242便の再較正版サンプルから読み直してください",
   resetDone:"初期配置に戻しました(パラメータは保持)", defaultsDone:"プリセットの既定値に戻しました",
   diverged:"数値が発散しました。パラメータを見直すか「⏮ 初めから」を押してください。",
   aiProvHead:"AIプロバイダ", aiProvLabel:"プロバイダ", aiModelLabel:"モデル", aiUrlLabel:"API URL",
@@ -1555,6 +1557,8 @@ en: {
   ioNote:"Import auto-detects any of: a single preset / an array of presets / {customPresets:[…]} / a full backup. Data with identical parameters is skipped; data whose name collides but whose parameters differ is added with a name suffix. Imported presets are also registered in the saved list.",
   ioNoteSum:"Import",   // 第36便 B4
   presetMissing:"Original preset not found — load aborted (this save may come from a newer/beta build; open it there instead)",
+  fwUndeclared:"This save declares no frameWeight — it runs under the wave-242 default pull (gravitational pull m/d²). Declare physics.frameWeight:\"share\" to restore the old behaviour",
+  fwNoD0pull:"Caution: a real-calibration (DFM/KF1) save without D0pull drifts by tens of percent in period under pull — reload it from the wave-242 recalibrated sample",
   resetDone:"Reset to initial layout (parameters kept)", defaultsDone:"Restored preset defaults",
   diverged:"Simulation diverged. Adjust parameters or press ⏮ Restart.",
   aiProvHead:"AI provider", aiProvLabel:"Provider", aiModelLabel:"Model", aiUrlLabel:"API URL",
@@ -2249,13 +2253,17 @@ const DRAG_CONTACT = "contact";
 // physics.qTrans=並進チャネルの減衰指数(0=既定=掛けない)・physics.gasCoh=気体殻(shell:"gas")のコヒーレンス(0〜1・既定 1)。
 // 既定値は ph へ入れない(署名不変)。並進×回転 × 殻×コアの 4 象限: 並進殻 dragQTrans(既定 qTrans)・並進コア core.dragQTrans
 // (既定 = 並進殻)・回転殻 dragQ(既定 physics.q)・回転コア core.dragQ(既定 = 回転殻)。合成は足し算(重み = 質量比)。
-const DRAG_CH_CLAMPS = { qTrans:[0,40], gasCoh:[0,1], D0pull:[0,1e6] }, DRAG_CH_DEFAULT = { qTrans:0, gasCoh:1, D0pull:0 };
+const DRAG_CH_CLAMPS = { qTrans:[0,40], gasCoh:[0,1], D0pull:[0,1e6], gravMag:[0,10] }, DRAG_CH_DEFAULT = { qTrans:0, gasCoh:1, D0pull:0, gravMag:0 };
+// 第243便(第35報・Grok B / Gemini 4.1): physics.gravMag=「複素数の重力」の玩具 — 源の並進が作る横向きの渦度 ẑ×v_j を u に足す用量
+// (u += w_j·k_gm·(−v_yj, v_xj)。既定 0=1 bit 不変・opt-in・force ではなく u の項なので E6′/geoPN=2 の反作用経路をそのまま通る)。
+// physics.e6Radial=false(第35報・Grok C / Gemini 4.3 — A1(b)/B6 の玩具): E6′ の Δu から局所重力方向の成分を落とし、接線結合だけ残す。
+// body.frameSource=false(第35報・Grok A / Gemini 4.2 — 裁定 B7): 粗視化の代表粒子をフレーム u の源から除く(重力 E4・光学 W は残す)。
 // 第241便(第33報「メッシュは決定力場の分率が強い対象より、重力で引っ張られる対象に強く依存する」): physics.frameWeight
-// "share"=既定(E1′ の分率 w=m/√(d²+ε²)・1 bit 不変)/"pull"=フレーム速度 u の重みを重力の引き w=m/(d²+ε²) で評価(分母
-// D0pull+W_B+Σw — D0pull 未宣言は D₀ を流用)。E1′ の W(光学・時計 ψ・E4 重力・反作用配分)は不変。generic 経路・geoPN=2 不可。
+// "share"=旧来の E1′ 分率 w=m/√(d²+ε²)(第242便から明示 opt-in・1 bit 不変)/"pull"=フレーム速度 u の重みを重力の引き w=m/(d²+ε²)
+// で評価(分母 D0pull+W_B+Σw — D0pull 未宣言は D₀ を流用)。E1′ の W(光学・時計 ψ・E4 重力・反作用配分)は不変。generic 経路(geoPN=2 は pull 勾配で対応)。
 const FRAME_WEIGHT_KEY = "frameWeight", FRAME_WEIGHTS = ["share","pull","pull3","pull4"];
 // 第242便(第34報「既定を pull へ切り替え: 進める」+「m/d³・m/d⁴ も検証」): **既定は "pull"**(未宣言=pull。"share" は明示 opt-in —
-// 旧来のサンプルは frameWeight:"share" を明示して 1 bit 不変・再較正済みの現実較正サンプル(🌘🪨💿✴️💫⚡🎻 と観測版)は pull)。
+// 旧来のサンプルは frameWeight:"share" を明示して 1 bit 不変・再較正済みの現実較正サンプル(🌘🪨✴️💫⚡🎻 と観測版 — 💿 は share のまま)は pull)。
 // 一般形 w=m/(d²+ε²)^{p/2}(p=2 pull・3 pull3・4 pull4 — 潮汐力 m/d³ の類推。分母 D0pull+W_B+Σw。D0pull の次元は kg/m^p)。
 const FRAME_WEIGHT_DEFAULT = "pull", FRAME_POWS = { share:0, pull:2, pull3:3, pull4:4 };
 // 1 步 1〜2 回呼ばれる(chanSetup・光学コンテキスト)— 3 体級の小さな宇宙では 1 步 1.5 µs なので分岐だけの軽い形にする(perf.starSeed)
@@ -7375,12 +7383,12 @@ const BUILTIN_PRESETS = [
   fidelity:"real",   // 幾何(遠点分離・遠点速度・自転・半径)は ✨ と同じ転写。質量だけが宣言つき1ノブ較正
   notClaim:["solar_cal"],
   obsCard:[
+    {q:"軌道の形(歳差の定量)", model:"歳差するロゼット — 近点移動 +0.89°/周(順行・実測。share 重み期は +4.26°/周 — f が 1 へ落ちてもロゼットは残る)", obs:"—(準安定の宣言。1PN 解析値 2.3×10⁻⁶°/周は無関係)"},
     {q:"公転周期(kFrame=1・pull 重み・観測質量)", model:"2周目 79.286 年(−0.60% — hold-out。フィットしたノブは無い)", obs:"79.762 ± 0.019 年(Akeson et al. 2021 Table 8)"},
     {q:"実測離心率(1周目の半径比振れ幅)", model:"0.52041(+0.17%)", obs:"e=0.51947 ± 0.00015(転写)"},
     {q:"解析慣性則(第242便 — pull 重み)", model:"f=1+k_F·Σ(m_i/M)χ_i² の自己無撞着解 f_A=1.0000000・f_B=1.0000000(χ_A=1.99×10⁻⁴・χ_B=2.36×10⁻⁴)— フィットしたノブは無い", obs:"—(w=m/(d²+ε²)・D₀ᵖ=0.324204 単位に条件づけられた値)"},
     {q:"外殻の半径と自転(第208便 — 役割反転)", model:"半径 0.084738/0.05979336・自転 15.9日/36.23日 — ライブ状態が全窓ビットで保持(ドリフト A +0.0%・B +0.0%・clampSN=0)", obs:"A 1.2175 R☉・15.9日/B 0.8591 R☉・36.23日(転写)"},
     {q:"DFM 質量(条件つき較正 — 実在値の主張ではない)", model:"A 1.0788 M☉・B 0.9092 M☉ = 観測質量そのもの(f−1=4.4×10⁻⁸)。share 重み期は f=1.84419(第240便)", obs:"—(pull 重み下の kFrame=1 の計算式に条件づけられた較正値)"},
-    {q:"軌道の形(歳差の定量)", model:"歳差するロゼット — 近点移動 +0.89°/周(順行・実測。share 重み期は +4.26°/周 — f が 1 へ落ちてもロゼットは残る)", obs:"—(準安定の宣言。1PN 解析値 2.3×10⁻⁶°/周は無関係)"},
     {q:"偶力の受け皿(第242便 — 隠れコアは持たない)", model:"coupleSink=reservoir。E6′-R/1PN 偶力はリザーバ帳簿へ直接記帳。(f−1)/f=4.4×10⁻⁸ は massFrac 値域 0.01 の下限割れのため二層は撤去", obs:"—(帳簿量 — 観測値を表さない)"},
     {q:"重心(第209便 — cmGauge:barycentric)", model:"2.2公転の重心移動 1.7×10⁻⁵ 単位(機械ゼロ)・粒子+リザーバ P 残差 6.4×10⁻¹⁴", obs:"—(D₀ 開放系の共通成分は除く宣言 — 観測照合は相対座標)"}],
   failureFirst:{
@@ -7392,12 +7400,12 @@ const BUILTIN_PRESETS = [
     control:"ワンタップ対照A/B: B側 kFrame=0(観測版の計算式側)— pull では質量が観測値そのものなので、B 側は観測版 ✨ とまったく同じ軌道になる(質量較正が要らないことの直接対照)。否定対照①(QA が機械固定): **coupleSink を外すと殻スピンのビット保持が壊れ**、A の自転が転写値 4.5737 から 8.43(+84%)まで歩く(0.3公転)— 保持の駆動因は受け先の宣言であることの直接証明。否定対照②(QA が機械固定): **cmGauge を外すと重心が歩き出す**(0.5公転で 0.0040 単位 = ゲージありの約240倍)。観測版 ✨ と本サンプルの対で「同じ観測・違う計算式・pull では同じ質量」が見える。timeScale=1000 で画面1秒≈11.6 日・dispMag=300(表示専用 — ✨ と同じ規約)・トレイルで軌道を見る。(第237便: 粒子別 dragQ を宣言 — A 4.6111/B 4.5259。dragQ は観測殻質量から導く量なので f に依らない。)"},
   en:{name:"Alpha Centauri AB (DFM build) — pull weight, observed masses under kF1",
     obsCard:[
+      {q:"Orbit shape (precession quantified)", model:"a precessing rosette — perihelion advance +0.89°/rev prograde (share era +4.26°/rev; the rosette survives while f collapses to 1)", obs:"— (declared quasi-stability; the analytic 1PN 2.3e-6°/rev is irrelevant)"},
       {q:"Orbital period (kFrame=1, pull weight, observed masses)", model:"2nd revolution 79.286 yr (−0.60% — a hold-out; nothing was fitted)", obs:"79.762 ± 0.019 yr (Akeson et al. 2021 Table 8)"},
       {q:"Measured eccentricity (radius-ratio wobble, 1st revolution)", model:"0.52041 (+0.17%)", obs:"e=0.51947 ± 0.00015 (transcribed)"},
       {q:"Analytic inertia law (wave 242 — pull weight)", model:"f=1+k_F·Σ(m_i/M)χ_i² solved self-consistently gives f_A=1.0000000, f_B=1.0000000 (χ_A=1.92e-4, χ_B=2.28e-4) — no fitted knob", obs:"— (conditioned on w=m/(d²+ε²) and D₀ᵖ=0.324204 units)"},
       {q:"Shell radius and rotation (wave 208 — role reversal)", model:"radii 0.084738/0.05979336, rotations 15.9 d/36.23 d — held bit-exactly by the live state (drift A +0.0% / B +0.0%, clampSN=0)", obs:"A 1.2175 R☉, 15.9 d / B 0.8591 R☉, 36.23 d (transcribed)"},
       {q:"DFM masses (a conditional calibration — NOT a claim about the real masses)", model:"A 1.0788 M☉, B 0.9092 M☉ = the observed masses (f−1=4.4e-8). Share era: f=1.84419 (wave 240)", obs:"— (a value conditioned on the kFrame=1 formula under the pull weight)"},
-      {q:"Orbit shape (precession quantified)", model:"a precessing rosette — perihelion advance +0.89°/rev prograde (share era +4.26°/rev; the rosette survives while f collapses to 1)", obs:"— (declared quasi-stability; the analytic 1PN 2.3e-6°/rev is irrelevant)"},
       {q:"Couple sink (wave 242 — no hidden core)", model:"coupleSink=reservoir: the E6′-R and 1PN couples go straight into the reservoir ledger. (f−1)/f=4.4e-8 is below the massFrac floor 0.01, so the two-layer core is withdrawn", obs:"— (ledger quantities; not observables)"},
       {q:"Barycentre (wave 209 — cmGauge:barycentric)", model:"CM shift 1.7e-5 units over 2.2 orbits (machine zero); particle+reservoir P residual 6.4e-14", obs:"— (the D₀ common mode is removed by declaration; comparison is in relative coordinates)"}],
     failureFirst:{
@@ -7679,12 +7687,12 @@ const BUILTIN_PRESETS = [
                      // 第221便(第20報): A の殻自転は vsini/R(sin i=1)の宣言つき代理値。第242便: 隠れコアは撤去(pull で f→1)
   notClaim:["solar_cal"],
   obsCard:[
+    {q:"軌道の形", model:"歳差するロゼット — 近点移動 +2.20°/周(順行・実測。share 重み期は +2.55°/周)", obs:"—(準安定の宣言)"},
     {q:"公転周期(kFrame=1・pull 重み・観測質量)", model:"2周目 49.242 年(−1.77% — hold-out。フィットしたノブは無い)", obs:"50.1284 年(転写)"},
     {q:"実測離心率(1周目の半径比振れ幅)", model:"0.59361(+0.36%)", obs:"e=0.59142 ± 0.00037(転写)"},
     {q:"近点(合わせていない側)", model:"120.10 単位(観測版 120.92 の −0.65%)", obs:"—(遠点固定下で e から決まる整合表示)"},
     {q:"DFM 質量(条件つき較正 — 実在値の主張ではない)", model:"A 2.0630 M☉・B 1.0180 M☉ = 観測質量そのもの(f−1=1.5×10⁻⁷)。share 重み期は f=1.88813(第240便)", obs:"—(pull 重み下の kFrame=1 の計算式に条件づけられた較正値)"},
     {q:"解析慣性則(第242便 — pull 重み)", model:"f=1+k_F·Σ(m_i/M)χ_i² の自己無撞着解 f_A=1.0000001・f_B=1.0000001(χ_A=2.81×10⁻⁴・χ_B=5.70×10⁻⁴)— フィットしたノブは無い", obs:"—(w=m/(d²+ε²)・D₀ᵖ=0.324204 単位に条件づけられた値)"},
-    {q:"軌道の形", model:"歳差するロゼット — 近点移動 +2.20°/周(順行・実測。share 重み期は +2.55°/周)", obs:"—(準安定の宣言)"},
     {q:"A の殻自転(第221便 — 宣言つき代理値)", model:"spin=13.6605・ドリフト +0.0%(3.2公転でビット不変)。B は spin=0 のままで残余 |s|max 0.0", obs:"vsini=16.3±0.1 km/s(Takeda 2020)/ B は現代的直接測定なし"},
     {q:"偶力の受け皿と重心(第242便)", model:"coupleSink=reservoir(隠れコアなし: (f−1)/f=1.5×10⁻⁷ は massFrac 値域 0.01 の下限割れ)。3.2公転の重心移動 1.1×10⁻⁵ 単位・帳簿 L 2.9×10⁻¹⁴", obs:"—(帳簿量 — 観測値を表さない)"}
 ],
@@ -7697,12 +7705,12 @@ const BUILTIN_PRESETS = [
     control:"ワンタップ対照A/B: B側 kFrame=0(観測版の計算式側)— pull では質量が観測値そのものなので、B 側は観測版 🌟 とまったく同じ軌道になる(質量較正が要らないことの直接対照)。否定対照①(QA が機械固定): **coupleSink を外すと殻スピンのビット保持が壊れ**、A の自転が 13.6605 から 17.61(+29%)まで歩く(0.3公転)— 保持の駆動因は受け先の宣言であることの直接証明。否定対照②(QA が機械固定): **cmGauge を外すと重心が歩き出す**(0.5公転で 0.019 単位 = ゲージありの約1700倍)。timeScale=300 で画面1秒≈3.5 日・dispMag=300(表示専用)・トレイルで軌道を見る。"},
   en:{name:"Sirius AB (DFM build) — pull weight, observed masses under kF1",
     obsCard:[
+      {q:"Orbit shape", model:"a precessing rosette — perihelion advance +2.20°/rev prograde (share era +2.55°/rev)", obs:"— (declared quasi-stability)"},
       {q:"Orbital period (kFrame=1, pull weight, observed masses)", model:"2nd revolution 49.242 yr (−1.77% — a hold-out; nothing was fitted)", obs:"50.1284 yr (transcribed)"},
       {q:"Measured eccentricity (radius-ratio wobble, 1st revolution)", model:"0.59361 (+0.36%)", obs:"e=0.59142 ± 0.00037 (transcribed)"},
       {q:"Perihelion (the unfitted side)", model:"120.10 units (−0.65% of the observation build s 120.92)", obs:"— (e s consistency image under the fixed apoapsis)"},
       {q:"DFM masses (a conditional calibration — NOT real-mass claims)", model:"A 2.0630 M☉, B 1.0180 M☉ = the observed masses (f−1=1.5e-7). Share era: f=1.88813 (wave 240)", obs:"— (a value conditioned on the kFrame=1 formula under the pull weight)"},
       {q:"Analytic inertia law (wave 242 — pull weight)", model:"f=1+k_F·Σ(m_i/M)χ_i² solved self-consistently gives f_A=1.0000001, f_B=1.0000001 (χ_A=2.72e-4, χ_B=5.50e-4) — no fitted knob", obs:"— (conditioned on w=m/(d²+ε²) and D₀ᵖ=0.324204 units)"},
-      {q:"Orbit shape", model:"a precessing rosette — perihelion advance +2.20°/rev prograde (share era +2.55°/rev)", obs:"— (declared quasi-stability)"},
       {q:"A s shell rotation (wave 221 — a declared proxy)", model:"spin=13.6605, drift +0.0% (bit-invariant over 3.2 orbits); B stays spin=0 with residual |s|max 0.0", obs:"vsini=16.3±0.1 km/s (Takeda 2020) / B: no modern measurement"},
       {q:"Couple sink and barycentre (wave 242)", model:"coupleSink=reservoir (no hidden core: (f−1)/f=1.5e-7 is below the massFrac floor 0.01); CM shift 1.1e-5 units over 3.2 orbits; ledger L 2.9e-14", obs:"— (ledger quantities; not observables)"}
 ],
@@ -10201,7 +10209,16 @@ function validatePreset(obj){
         else if(p.physics[k]!==FRAME_WEIGHT_DEFAULT) ph[k]=p.physics[k];
         continue;
       }
-      // 第239便(第31報): qTrans/gasCoh(第241便: D0pull)— 数値 opt-in(既定値は ph へ入れない=署名不変・1 bit 不変)
+      // 第243便: e6Radial — boolean opt-in(false だけを ph へ・true/未宣言=現行=署名不変)
+      if(k==="e6Radial"){
+        if(p.physics[k]===false){
+          if(p.physics[FRAME_REACTION_KEY]==="pairReduced") ph[k]=false;
+          else warnings.push('physics.e6Radial:false は frameReaction:"pairReduced" 専用 — 無視します');
+        }
+        else if(p.physics[k]!==true) warnings.push('physics.e6Radial は true/false のみ — 既定(true)に修正');
+        continue;
+      }
+      // 第239便(第31報): qTrans/gasCoh(第241便: D0pull・第243便: gravMag)— 数値 opt-in(既定値は ph へ入れない=署名不変・1 bit 不変)
       if(k in DRAG_CH_CLAMPS){
         if(!isNum(p.physics[k])){ bad("physics."+k+" が数値ではありません"); continue; }
         const dc=DRAG_CH_CLAMPS[k]; let dv=clamp(p.physics[k],dc[0],dc[1]);
@@ -10458,6 +10475,11 @@ function validatePreset(obj){
             o[k]=wc(b[k],lo,hi,k);
           }
         }
+        // 第243便(裁定 B7): frameSource:false — 粗視化の代表粒子をフレーム u の源から除く(重力・光学 W・反作用は従来どおり)。未宣言=true(1 bit 不変)
+        if(b.frameSource!==undefined){
+          if(b.frameSource===false) o.frameSource=false;
+          else if(b.frameSource!==true) warnings.push(at+".frameSource は true/false のみ — 無視します");
+        }
         // 第77便(コアv2): core:{} — 中心コアの独立サブシステム(opt-in。第80便で disk/ring 群にも開放)。
         // J_core を主変数とする絶対量管理(第81便でコアの唯一の仕様になった):
         //   mode:"rigid"(殻と剛体回転 — パワーボールの「軸固定」対照)|"differential"(独立Ω)|
@@ -10576,6 +10598,10 @@ function validatePreset(obj){
           if(b.shell==="solid"||b.shell==="gas") oR.shell=b.shell;
           else warnings.push(at+'.shell は "solid"|"gas" のみ — 削除します');
         }
+        if(b.frameSource!==undefined){   // 第243便: 群共通の frameSource:false(粗視化の代表粒子をフレーム源から除く)
+          if(b.frameSource===false) oR.frameSource=false;
+          else if(b.frameSource!==true) warnings.push(at+".frameSource は true/false のみ — 無視します");
+        }
         if(b.tInt!==undefined){   // 第36便 D(台帳4-51): 群共通の内部温度初期値(既定0)
           if(!isNum(b.tInt)){ bad(at+".tInt が数値ではありません"); return; }
           oR.tInt=wc(b.tInt,0,10000,"tInt");
@@ -10638,6 +10664,10 @@ function validatePreset(obj){
         if(b.shell!==undefined){
           if(b.shell==="solid"||b.shell==="gas") oD.shell=b.shell;
           else warnings.push(at+'.shell は "solid"|"gas" のみ — 削除します');
+        }
+        if(b.frameSource!==undefined){   // 第243便: 群共通の frameSource:false(粗視化の代表粒子をフレーム源から除く)
+          if(b.frameSource===false) oD.frameSource=false;
+          else if(b.frameSource!==true) warnings.push(at+".frameSource は true/false のみ — 無視します");
         }
         // 第228便(第27報 裁定GO): 観測プロファイル生成器 — 投影面密度の逆関数サンプリング。
         // profile 省略・"uniform" は現行の一様円盤(r=R√u)とビット一致(キーも付けない=署名不変)
@@ -12259,6 +12289,7 @@ function makeSim(){
     // 第239便(第31報): チャネル分離 — 並進殻 dragQT・回転コア coreDQ・並進コア coreDQT(0=未宣言)。hasShellGas は gasCoh 用
     S.dragQT=new Float64Array(n); S.coreDQ=new Float64Array(n); S.coreDQT=new Float64Array(n);
     S.hasDragQT=false; S.hasCoreDQ=false; S.hasShellGas=false;
+    S.frameSrc=new Uint8Array(n).fill(1); S.hasFrameOff=false;   // 第243便: フレーム源フラグ(frameSource:false で 0)
     // 第80便(コアv2 残段): coreEint=コア内部エネルギー(Float64 — 帳簿 coreSrcE と突き合わせる)・
     // coreSrc=sourceRate(active のみ)・coreOm0=cavity の規定 Ω(空洞は慣性0で J を持てないため、
     // Ω は状態変数ではなく規定値。differential 系は coreOmV=J/I を毎サブステップ再計算する)。
@@ -12340,6 +12371,7 @@ function makeSim(){
         if(b.core) o.core=b.core;      // 第77便(コアv2): 独立コア(validate 済みオブジェクト)
         if(b.pulse) o.pulse=b.pulse;   // 第226便: パルス時計チャネル(validate 済み・表示診断専用)
         if(b.shell) o.shell=b.shell;   // 第229便→第231便: 殻の相(検証器は通していたが flag 未伝播だった修正)
+        if(b.frameSource===false) o.frameSource=false;   // 第243便: フレーム源フラグ(検証器→展開の伝播。第231便の shell と同じ型の取りこぼしを実測で発見して修正)
         if(b.dragQ>0) o.dragQ=b.dragQ;   // 第237便: 粒子別引きずり減衰指数 q_i(未宣言=0 → physics.q)
         if(b.dragQTrans>0) o.dragQTrans=b.dragQTrans;   // 第239便: 並進チャネル(未宣言=0 → physics.qTrans)
         // 第27便: 単体粒子のレール駆動(pinned+railOmega — 円軌道。🕶️ハローの
@@ -12377,6 +12409,7 @@ function makeSim(){
             spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:b.pinned?1:0, railOmega:0, rMul:rM, tInt:tI, lightSweep:lS,
             };
           if(b.shell) o.shell=b.shell;   // 第231便: 群共通の殻の相
+          if(b.frameSource===false) o.frameSource=false;   // 第243便: 群共通の frameSource:false
           if(cCore) o.core=cCore;   // 第80便: 群コア(付けない構成ではキーごと存在しない = 形も従来どおり)
           // 第31便: railH(膨張レール a(t)=e^{H·t})— pinned リングを相似膨張で規定駆動する。
           // 位置は初期半径から毎step解析再構成(前stepへの加算ではないのでドリフトしない)
@@ -12427,6 +12460,7 @@ function makeSim(){
             spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:0, railOmega:0, rMul:rM, tInt:tI, lightSweep:lS,
             };
           if(b.shell) o.shell=b.shell;   // 第230便: 群共通の殻の相(shellGas フラグへ)
+          if(b.frameSource===false) o.frameSource=false;   // 第243便: 群共通の frameSource:false
           if(cCore) o.core=cCore;   // 第80便: 群コア(付けない構成ではキーごと存在しない = 形も従来どおり)
           // 第235便: 平衡初期化の後段タグ(全群の配置が終わってから実ポテンシャルで速度を決める)
           if(b.vMode==="enclosed"||b.vMode==="virial") o.eq={mode:b.vMode, cx:b.cx, cy:b.cy, dir:b.direction, scale:(b.vScale===undefined?1:b.vScale), row:b};
@@ -12572,6 +12606,7 @@ function makeSim(){
       if(o.shell==="gas") S.hasShellGas=true;   // 第239便
       S.dragQ[i]=(o.dragQ>0)? o.dragQ : 0; if(o.dragQ>0) S.hasDragQ=true;   // 第237便
       S.dragQT[i]=(o.dragQTrans>0)? o.dragQTrans : 0; if(o.dragQTrans>0) S.hasDragQT=true;   // 第239便
+      S.frameSrc[i]=(o.frameSource===false)? 0 : 1; if(o.frameSource===false) S.hasFrameOff=true;   // 第243便
       S.coreDQ[i]=0; S.coreDQT[i]=0;
       // 第77便(コアv2): 独立コア。J_core=½·Mc·Rc²·omega で初期化(以後 J が主変数)
       // 第80便: mode を4種へ拡張。cavity は質量0・慣性0なので J を持たず、Ω は規定値 coreOm0。
@@ -12992,6 +13027,7 @@ function makeSim(){
         // ---- 融合後の状態を書き込む(格納値を読み戻しながら逐次確定)----
         if(S.hasDragQ){ S.dragQ[i]=(mi>=mj)? S.dragQ[i] : S.dragQ[j]; }   // 第237便: 重い側の q_i を継承(材料則が決まるまでの規約)
         if(S.hasDragQT){ S.dragQT[i]=(mi>=mj)? S.dragQT[i] : S.dragQT[j]; }   // 第239便: 並進も同じ規約
+        if(S.hasFrameOff){ S.frameSrc[i]=(mi>=mj)? S.frameSrc[i] : S.frameSrc[j]; }   // 第243便: 重い側の宣言を継ぐ
         if(S.hasCoreDQ){ S.coreDQ[i]=(mi>=mj)? S.coreDQ[i] : S.coreDQ[j]; S.coreDQT[i]=(mi>=mj)? S.coreDQT[i] : S.coreDQT[j]; }
         m[i]=mn; const mS=m[i];                          // Float32 格納後の質量
         x[i]=(mi*xi+mj*xj)/mS; y[i]=(mi*yi+mj*yj)/mS;
@@ -13321,6 +13357,7 @@ function makeSim(){
         S.coreEint[j]=S.coreEint[i]-E1c; S.coreEint[i]=E1c;
         S.coreKcs[j]=S.coreKcs[i]; S.corePump[j]=S.corePump[i]; S.coreCtr[j]=S.coreCtr[i]; S.coreKal[j]=S.coreKal[i]; S.dragQ[j]=S.dragQ[i];   // 第237便: q_i は両片が継ぐ
         S.dragQT[j]=S.dragQT[i]; S.coreDQ[j]=S.coreDQ[i]; S.coreDQT[j]=S.coreDQT[i];   // 第239便
+        S.frameSrc[j]=S.frameSrc[i];   // 第243便
         S.coreBR[j]=S.coreBR[i]; S.coreBF[j]=S.coreBF[i];   // 第234便: 率・比率は両片が継ぐ・基準/放出済み |J| は質量比例
         const BJ01=S.coreBJ0[i]*f1; S.coreBJ0[j]=S.coreBJ0[i]-BJ01; S.coreBJ0[i]=BJ01;
         const BJr1=S.coreBJr[i]*f1; S.coreBJr[j]=S.coreBJr[i]-BJr1; S.coreBJr[i]=BJr1;
@@ -13331,6 +13368,7 @@ function makeSim(){
       } else {
         S.coreMd[j]=0; S.coreMF[j]=0; S.RcV[j]=0; S.coreJ[j]=0; S.coreKcs[j]=0; S.corePump[j]=0; S.coreCtr[j]=0; S.coreKal[j]=0; S.dragQ[j]=S.dragQ[i];   // 第237便
         S.dragQT[j]=S.dragQT[i]; S.coreDQ[j]=0; S.coreDQT[j]=0;   // 第239便
+        S.frameSrc[j]=S.frameSrc[i];   // 第243便
         S.coreBR[j]=0; S.coreBF[j]=0; S.coreBJ0[j]=0; S.coreBJr[j]=0;   // 第234便
         S.coreEint[j]=0; S.coreSrc[j]=0; S.coreOm0[j]=0; S.coreIS[j]=1; S.coreJm[j]=0;
         S.coreJx[j]=0; S.coreJy[j]=0;   // 第227便
@@ -13482,7 +13520,7 @@ function makeSim(){
     // (文脈は chanSetup が S._chG に置く — S._core 自体のバイトコード量を増やさないため: 実測でループ内外を問わず関数の
     //  文字数が閾値を越えると generic 既定経路が約 40% 遅くなる〔JIT 最適化の劣化〕)
     const chOn=chanSetup(S,p,hasCoreV2,dragSurf,eps2);
-    const sumWu=(chOn && (S._chG.contact||S._chG.pull))? S.sumWu : sumW;   // 第240便: contact/第241便: pull ではフレームの分母だけ W′
+    const sumWu=(chOn && S._chG.fsep)? S.sumWu : sumW;   // 第240便: contact/第241便: pull/第243便: frameSource ではフレームの分母だけ別集計
     if(pairR && (!S._pr || S._pr.nAl!==n)) S._pr={nAl:n, reqX:new Float64Array(n), reqY:new Float64Array(n), hasR:new Uint8Array(n)};
     const reqX=pairR?S._pr.reqX:__DF64, reqY=pairR?S._pr.reqY:__DF64;
     let anyReq=false;
@@ -14242,7 +14280,7 @@ function makeSim(){
       // ニュートン重力+フレーム輸送が含まれるため、別途加えると二重計上になる(BOX_UNIVERSE §5.4)
       // 第31便: UniverseBox の寄与 W_B·u_B を分子・分母へ加える(u_B は粒子位置で評価)
       const denom=bgWu+sumWu[i];   // 第240便: contact では W′(既定は sumW と同一配列)/第241便: pull は D0pull+Σm/d²
-      if(denom>1e-9 && kFrame>0 && !geo){
+      if(denom>0 && kFrame>0 && !geo){   // 第243便(ChatGPT 6.2): 絶対値の門 1e-9 → 正の有限分母(単位不変)
         let unx=uAx[i], uny=uAy[i];
         if(WB>0){ const bx=x[i]-B.cx, by=y[i]-B.cy;
           unx+=WB*(B.vx - B.omega*by + bH*bx); uny+=WB*(B.vy + B.omega*bx + bH*by); }
@@ -14268,7 +14306,7 @@ function makeSim(){
       // w=v−kF·u。Δv の反作用 Δp_i は E6′ と同一の③パス(φ_ij 対分配+残余トルク+背景リザーバ)
       // へ流す(§18.4 裁定=反作用返し)。legacy E6′ の Δv=kF·Δu はこの式の
       // 「勾配補正・渦度なし」離散版 — geoPN=2 が連続極限の正式形(§18.2)
-      else if(denom>1e-9 && g2on){
+      else if(denom>0 && g2on){   // 第243便: 門 >0
         let unx=uAx[i], uny=uAy[i];
         let pxx=dPxx[i], pxy=dPxy[i], pyx=dPyx[i], pyy=dPyy[i];
         if(WB>0){ const bx=x[i]-B.cx, by=y[i]-B.cy;
@@ -14409,7 +14447,7 @@ function makeSim(){
       if(!Warr||Warr.length<n) Warr=S._Warr=new Float64Array(n);
       if(!hasD||hasD.length<n) hasD=S._hasD=new Uint8Array(n);
       for(let i0=0;i0<n;i0++){ const W0=bgW+sumW[i0]; Warr[i0]=W0;
-        hasD[i0]=((dpx[i0]!==0||dpy[i0]!==0)&&W0>1e-9)?1:0; }
+        hasD[i0]=((dpx[i0]!==0||dpy[i0]!==0)&&W0>0)?1:0; }   // 第243便: 門 >0
       let pk2=0;
       for(let i=0;i<n;i++){
         const mi=m[i], xi=x[i], yi=y[i];
@@ -14513,13 +14551,14 @@ function makeSim(){
     // ・背景 D₀+W_B 分: φ_bg·d_i を粒子へ、−m_i·φ_bg·d_i をリザーバへ(D₀>0 の系は意図的に開放系)。
     // REACTION_DV_CAP は最終防壁として維持(発動は clampRN に計数 — 正常域では 0 を要求する)。
     // O(N²) 内から S.xxx を読まない(第77便のゼロコスト原則): W・リザーバ帳簿はローカルに集積する
+    if(pairR && anyReq && p.e6Radial===false) e6ProjReq(S,n,reqX,reqY);   // 第243便: e6Radial:false — 要求 d_i から重力方向成分を落とす(S._core 外・1 步 1 回。pairReduced 専用)
     if(pairR && anyReq){
       accVx.fill(0,0,n); accVy.fill(0,0,n); accS.fill(0,0,n);
       const hasR=S._pr.hasR;
       let Warr=S._Warr;
       if(!Warr||Warr.length<n) Warr=S._Warr=new Float64Array(n);
       for(let i0=0;i0<n;i0++){ const W0=bgW+sumW[i0]; Warr[i0]=W0;
-        hasR[i0]=((reqX[i0]!==0||reqY[i0]!==0)&&W0>1e-9)?1:0; }
+        hasR[i0]=((reqX[i0]!==0||reqY[i0]!==0)&&W0>0)?1:0; }   // 第243便: 門 >0
       let rPx=0, rPy=0, rL=0;   // リザーバ帳簿(pinned 相手・背景持ち分・上限残余)の局所集積
       let pk2=0;
       for(let i=0;i<n;i++){
@@ -14849,8 +14888,8 @@ function makeSim(){
     const N=Math.exp(-psi), A=Math.exp(psi);
     let rvx=0, rvy=0;
     // 第240便: contact ではフレーム u の分母だけ W′(ψ は E1′ の W のまま)
-    const denU=(S._chG && (S._chG.contact||S._chG.pull))? (S._chG.pull? S._chG.D0p : S.params.D0)+WB+S.sumWu[i] : denom;
-    if(denU>1e-9){ // フレーム不在(W_ext=0)なら運動は定義されず、運動時間遅れなし(T1 整合)
+    const denU=(S._chG && S._chG.fsep)? (S._chG.pull? S._chG.D0p : S.params.D0)+WB+S.sumWu[i] : denom;   // 第243便: frameSource も別集計
+    if(denU>0){   // 第243便: 門 >0 // フレーム不在(W_ext=0)なら運動は定義されず、運動時間遅れなし(T1 整合)
       rvx=S.vx[i]-(S.uAx[i]+ubx)/denU; rvy=S.vy[i]-(S.uAy[i]+uby)/denU;
     }
     const c0=S.params.cLight;
@@ -15523,13 +15562,14 @@ const _PC={omj:0,omi:0,gTj:1,gTi:1,dgTj:0,dgTi:0,qcj:2,qci:2,d:0,hj:0,hi:0,qj:2,
 // 1 步 1 回: 分離経路の文脈(S._chG)を作り chOn を返す(S._core の外に置く — 上記の理由)
 function chanSetup(S,p,hasCoreV2,dragSurf,eps2){
   // 第242便: share 明示で分離チャネルが何も無い宇宙(旧来の内蔵サンプル)は最短で抜ける(1 步 1 回の固定費 — perf.starSeed の 3 体級)
-  if(p[FRAME_WEIGHT_KEY]==="share" && !S.hasDragQT && !S.hasCoreDQ && !(p.qTrans>0) && p[DRAG_REF_KEY]!==DRAG_CONTACT && !(S.hasShellGas && p.gasCoh<1)){ S._chG=null; return false; }
+  if(p[FRAME_WEIGHT_KEY]==="share" && !S.hasDragQT && !S.hasCoreDQ && !(p.qTrans>0) && p[DRAG_REF_KEY]!==DRAG_CONTACT && !(S.hasShellGas && p.gasCoh<1) && !S.hasFrameOff && !(p.gravMag>0)){ S._chG=null; return false; }
   const qT=(p.qTrans>0)? p.qTrans : 0, gasCoh=(p.gasCoh!==undefined)? p.gasCoh : 1;
   const contact=(p[DRAG_REF_KEY]===DRAG_CONTACT);   // 第240便
   const fw=p[FRAME_WEIGHT_KEY], pw=(fw===undefined)? 2 : (fw==="pull")? 2 : (fw==="pull3")? 3 : (fw==="pull4")? 4 : 0;   // 第241便(第33報)/第242便: 既定 pull・指数 pw∈{2,3,4}(1 步 1 回 — 関数呼び出しを避ける・perf.starSeed)
   const pull=(pw>0), D0p=(p.D0pull>0)? p.D0pull : p.D0;
-  const hasQT=(qT>0)||S.hasDragQT, hasCQ=S.hasCoreDQ, cohOn=(gasCoh<1 && S.hasShellGas), chOn=hasQT||hasCQ||cohOn||contact||pull;
-  S._chG=chOn? {qT, gasCoh, dragSurf, hasCoreV2, hasCQ, cohOn, contact, pull, pw, D0p, eps2} : null;
+  const gm=(p.gravMag>0)? p.gravMag : 0, fsOff=(S.hasFrameOff===true);   // 第243便: gravMag 玩具・frameSource:false
+  const hasQT=(qT>0)||S.hasDragQT, hasCQ=S.hasCoreDQ, cohOn=(gasCoh<1 && S.hasShellGas), chOn=hasQT||hasCQ||cohOn||contact||pull||fsOff||(gm>0);
+  S._chG=chOn? {qT, gasCoh, dragSurf, hasCoreV2, hasCQ, cohOn, contact, pull, pw, D0p, eps2, gm, fsOff, fsep:(contact||pull||fsOff)} : null;
   return chOn;
 }
 function pairChannelOm(S,i,j,d,hj,hi,qj,qi,sj,si,Rj,Ri,dx,dy,wj,wi){
@@ -15566,11 +15606,27 @@ function pairChannelOm(S,i,j,d,hj,hi,qj,qi,sj,si,Rj,Ri,dx,dy,wj,wi){
     if(G.pull){ const q2=d*d+e2;   // 第241便: 重力の引き m/(d²+ε²)(第33報)/第242便: 一般指数 m/(d²+ε²)^{p/2}
       if(G.pw===2){ wj=mE[j]/q2; wi=mE[i]/q2; }
       else { const iw=(G.pw===3)? 1/(q2*Math.sqrt(q2)) : 1/(q2*q2); wj=mE[j]*iw; wi=mE[i]*iw; } }
-    else { wj=mE[j]/Math.sqrt(hj*hj+e2); wi=mE[i]/Math.sqrt(hi*hi+e2); }
-    S.sumWu[i]+=wj; S.sumWu[j]+=wi; }
+    else { wj=mE[j]/Math.sqrt(hj*hj+e2); wi=mE[i]/Math.sqrt(hi*hi+e2); } }
+  const gm=G.gm;
+  if(G.fsOff){ const fs=S.frameSrc;   // 第243便: frameSource:false の粒子はフレーム源にならない(分子・分母とも)。受ける側には従来どおり効く
+    if(fs[j]){ S.sumWu[i]+=wj; uAx[i]+=wj*(gTj*vx[j]+omj*(-dy)-gm*vy[j]); uAy[i]+=wj*(gTj*vy[j]+omj*(dx)+gm*vx[j]); }
+    if(fs[i]){ S.sumWu[j]+=wi; uAx[j]+=wi*(gTi*vx[i]+omi*(dy)-gm*vy[i]);  uAy[j]+=wi*(gTi*vy[i]+omi*(-dx)+gm*vx[i]); }
+    return; }
+  if(G.contact||G.pull){ S.sumWu[i]+=wj; S.sumWu[j]+=wi; }
+  if(gm!==0){   // 第243便: gravMag 玩具 — 横向きの渦度 ẑ×v_j=(−v_yj, v_xj) を用量 k_gm で足す
+    uAx[i]+=wj*(gTj*vx[j]+omj*(-dy)-gm*vy[j]); uAy[i]+=wj*(gTj*vy[j]+omj*(dx)+gm*vx[j]);
+    uAx[j]+=wi*(gTi*vx[i]+omi*(dy)-gm*vy[i]);  uAy[j]+=wi*(gTi*vy[i]+omi*(-dx)+gm*vx[i]);
+    return; }
   uAx[i]+=wj*(gTj*vx[j]+omj*(-dy)); uAy[i]+=wj*(gTj*vy[j]+omj*(dx));
   uAx[j]+=wi*(gTi*vx[i]+omi*(dy));  uAy[j]+=wi*(gTi*vy[i]+omi*(-dx));
 }
+// 第243便(A1(b)/B6 の玩具・Grok C / Gemini 4.3): E6′ の Δu から局所重力方向(a_i の向き)の成分を落とす — 接線結合だけ残す。
+// 本番の公理ではない(physics.e6Radial:false の opt-in)。S._core の外に置く(バイトコード量の閾値 — 第239便 §4.5)
+function e6Proj(gx,gy,ux,uy,out){ const a2=gx*gx+gy*gy; if(a2>0){ const pr=(ux*gx+uy*gy)/a2; ux-=pr*gx; uy-=pr*gy; } out.x=ux; out.y=uy; return out; }
+const _E6={x:0,y:0};
+// 要求 d_i(reqX/reqY = kF·Δu)へ一括適用する。S._core の E6′ ループ内に置くと perf.starSeed が 1.06→1.13 に跳ねた(第243便実測 — 対照の除去版 0.94)。
+// 射影は線形なので kF·Δu へ掛けても Δu へ掛けても同じ(丸め差のみ)。legacy 反作用経路(速度へ直接書く)は対象外(検証器が pairReduced 専用と警告)
+function e6ProjReq(S,n,reqX,reqY){ const ax=S.ax, ay=S.ay; for(let i=0;i<n;i++){ const rx=reqX[i], ry=reqY[i]; if(rx===0&&ry===0) continue; e6Proj(ax[i],ay[i],rx,ry,_E6); reqX[i]=_E6.x; reqY[i]=_E6.y; } }
 function pairChannelGrad(S,i,j,dx,dy,mi,mj,invd3,idd,wj,wi){
   const G=S._chG, gasCoh=G.gasCoh, dragSurf=G.dragSurf, hasCoreV2=G.hasCoreV2, cohOn=G.cohOn;
   // 第241便(第33報): pull ではフレーム重み w=m/(d²+ε²)・∂w/∂r=−2m(r−r_j)/(d²+ε²)²(share は w=m/√(d²+ε²)・∂w/∂r=−m(r−r_j)·invW³)
@@ -15586,6 +15642,9 @@ function pairChannelGrad(S,i,j,dx,dy,mi,mj,invd3,idd,wj,wi){
   // 第237便: q_i・距離基準は ②③ のフレーム式と同じ核(surface で d≤R の内側は核が定数 → 勾配 0)
   if(sj!==0 && (!dragSurf || d>Rj)){ const tt=Rj/(Rj+hj), o0=(qj===2)? sj*tt*tt : sj*Math.pow(tt,qj); domj-=qj*o0/(Rj+hj); }
   if(si!==0 && (!dragSurf || d>Ri)){ const tt=Ri/(Ri+hi), o0=(qi===2)? si*tt*tt : si*Math.pow(tt,qi); domi-=qi*o0/(Ri+hi); }
+  // 第239便: 気体コヒーレンスは殻 ω の定数倍なので domj/domi にも同じ倍率(核の一貫性)
+  // 第243便(ChatGPT 6.1 の指摘): pairChannelOm と同じく**殻項だけ**に掛ける — コア項を足す前に適用(旧: コア項込みで掛けていた → gasCoh<1 かつ差動コアで ∇u が 30% ずれた)
+  if(cohOn){ if(sgA[j]) domj*=gasCoh; if(sgA[i]) domi*=gasCoh; }
   // 第81便: コアv1 の勾配分岐は廃止(上の A8 と同じ理由)
   // 第77便(コアv2): 独立コアの差動勾配(A8 v2 分岐と同じ核。第80便: md≥2 の4モード共通)
   if(hasCoreV2){
@@ -15594,11 +15653,10 @@ function pairChannelGrad(S,i,j,dx,dy,mi,mj,invd3,idd,wj,wi){
     if(S.coreMd[i]>=2 && S.RcV[i]>0){ const dOm=S.coreOmV[i]-si;
       if(dOm!==0 && (!dragSurf || d>Ri)){ const tt=S.RcV[i]/(S.RcV[i]+hi), oc=S.coreMF[i]*dOm*((qci===2)? tt*tt : Math.pow(tt,qci)); domi-=qci*oc/(S.RcV[i]+hi); } }
   }
-  // 第239便: 気体コヒーレンスは殻 ω の定数倍なので domj/domi にも同じ倍率(核の一貫性)
-  if(cohOn){ if(sgA[j]) domj*=gasCoh; if(sgA[i]) domi*=gasCoh; }
-  { // i 側(源 j): r−r_j=(dx,dy)、c=(g_T·vx_j−ω_j·dy, g_T·vy_j+ω_j·dx)(第239便: g_T は既定 1・導関数 0)
+  const gm=G.gm, fsA=G.fsOff? S.frameSrc : null;   // 第243便: gravMag の c ベクトル・frameSource:false の源は勾配にも寄与しない
+  if(!fsA || fsA[j]){ // i 側(源 j): r−r_j=(dx,dy)、c=(g_T·vx_j−ω_j·dy, g_T·vy_j+ω_j·dx)(第239便: g_T は既定 1・導関数 0)
     const gwx=-mj*dx*gk, gwy=-mj*dy*gk;
-    const cxv=gTj*vx[j]+omj*(-dy), cyv=gTj*vy[j]+omj*(dx);
+    const cxv=(gm!==0)? gTj*vx[j]+omj*(-dy)-gm*vy[j] : gTj*vx[j]+omj*(-dy), cyv=(gm!==0)? gTj*vy[j]+omj*(dx)+gm*vx[j] : gTj*vy[j]+omj*(dx);
     const nx=dx*idd, ny=dy*idd;
     dPxx[i]+=gwx*cxv + wj*(-dy*domj*nx);
     dPxy[i]+=gwy*cxv + wj*(-omj - dy*domj*ny);
@@ -15607,9 +15665,9 @@ function pairChannelGrad(S,i,j,dx,dy,mi,mj,invd3,idd,wj,wi){
     { dPxx[i]+=wj*dgTj*nx*vx[j]; dPxy[i]+=wj*dgTj*ny*vx[j]; dPyx[i]+=wj*dgTj*nx*vy[j]; dPyy[i]+=wj*dgTj*ny*vy[j]; }
     dWxA[i]+=gwx; dWyA[i]+=gwy;
   }
-  { // j 側(源 i): r−r_i=(−dx,−dy)、c=(g_T·vx_i+ω_i·dy, g_T·vy_i−ω_i·dx)
+  if(!fsA || fsA[i]){ // j 側(源 i): r−r_i=(−dx,−dy)、c=(g_T·vx_i+ω_i·dy, g_T·vy_i−ω_i·dx)
     const gwx=mi*dx*gk, gwy=mi*dy*gk;
-    const cxv=gTi*vx[i]+omi*(dy), cyv=gTi*vy[i]+omi*(-dx);
+    const cxv=(gm!==0)? gTi*vx[i]+omi*(dy)-gm*vy[i] : gTi*vx[i]+omi*(dy), cyv=(gm!==0)? gTi*vy[i]+omi*(-dx)+gm*vx[i] : gTi*vy[i]+omi*(-dx);
     const nx=-dx*idd, ny=-dy*idd;
     dPxx[j]+=gwx*cxv + wi*( dy*domi*nx);
     dPxy[j]+=gwy*cxv + wi*(-omi + dy*domi*ny);
@@ -15625,7 +15683,8 @@ function rayField(S, heavy, px, py, kU, eps2, q, kF, BX, WB, bH){
   const pp=S.params, rqT=(pp.qTrans>0)? pp.qTrans : 0, rCoh=(pp.gasCoh!==undefined)? pp.gasCoh : 1;
   const rCt=(pp[DRAG_REF_KEY]===DRAG_CONTACT), rSurf=(pp[DRAG_REF_KEY]==="surface"||pp[DRAG_REF_KEY]==="interior"||rCt);
   const rPw=frameWeightPow(pp), rPl=(rPw>0);   // 第241便(第242便: 既定 pull・一般指数)
-  const rCh=(rqT>0)||S.hasDragQT||S.hasCoreDQ||(rCoh<1 && S.hasShellGas)||rCt||rPl;
+  const rFs=(S.hasFrameOff===true), rGm=(pp.gravMag>0)? pp.gravMag : 0;   // 第243便: frameSource:false・gravMag
+  const rCh=(rqT>0)||S.hasDragQT||S.hasCoreDQ||(rCoh<1 && S.hasShellGas)||rCt||rPl||rFs||(rGm>0);
   let wuSum=0;
   for(const i of heavy){
     const dx=px-S.x[i], dy=py-S.y[i], d2=dx*dx+dy*dy;
@@ -15640,9 +15699,11 @@ function rayField(S, heavy, px, py, kU, eps2, q, kF, BX, WB, bH){
     const hh=rSurf? Math.max(0,dd-S.R[i]) : dd;
     if(si!==0){ const tt=S.R[i]/(S.R[i]+hh); om=(qi===2)? si*tt*tt : si*Math.pow(tt,qi); }
     let gT=1, wu=w;
-    if(rCh){ if(S.shellGas[i]) om*=rCoh; gT=dragTransG(S,i,dd,hh,rqT,rCoh,rSurf); if(rPl){ const q2=d2+eps2; wu=(rPw===2)? S.m[i]/q2 : (rPw===3)? S.m[i]/(q2*Math.sqrt(q2)) : S.m[i]/(q2*q2); } else if(rCt) wu=S.m[i]/Math.sqrt(hh*hh+eps2); }
+    if(rCh){ if(S.shellGas[i]) om*=rCoh; gT=dragTransG(S,i,dd,hh,rqT,rCoh,rSurf); if(rPl){ const q2=d2+eps2; wu=(rPw===2)? S.m[i]/q2 : (rPw===3)? S.m[i]/(q2*Math.sqrt(q2)) : S.m[i]/(q2*q2); } else if(rCt) wu=S.m[i]/Math.sqrt(hh*hh+eps2);
+      if(rFs && !S.frameSrc[i]) wu=0; }   // 第243便: frameSource:false はフレーム源にならない(光学 W は残す)
     wuSum+=wu;
-    uNx+=kF*wu*(gT*S.vx[i]+om*(-dy)); uNy+=kF*wu*(gT*S.vy[i]+om*(dx));
+    if(rGm!==0){ uNx+=kF*wu*(gT*S.vx[i]+om*(-dy)-rGm*S.vy[i]); uNy+=kF*wu*(gT*S.vy[i]+om*(dx)+rGm*S.vx[i]); }   // 第243便: gravMag
+    else { uNx+=kF*wu*(gT*S.vx[i]+om*(-dy)); uNy+=kF*wu*(gT*S.vy[i]+om*(dx)); }
   }
   if(WB>0){ uNx+=kF*WB*(BX.vx - BX.omega*(py-BX.cy) + bH*(px-BX.cx));
             uNy+=kF*WB*(BX.vy + BX.omega*(px-BX.cx) + bH*(py-BX.cy)); }
@@ -15663,7 +15724,7 @@ function photonStep(S, ph, dt, O){
   const dot=gx*cxv+gy*cyv;
   cxv+=(gx-dot*cxv)*dl; cyv+=(gy-dot*cyv)*dl;
   const cl=Math.sqrt(cxv*cxv+cyv*cyv); cxv/=cl; cyv/=cl;
-  const adv=(Wu>1e-9)? (neff/O.c0)*dl/Wu : 0;
+  const adv=(Wu>0)? (neff/O.c0)*dl/Wu : 0;   // 第243便: 門 >0
   ph.x+=cxv*dl+uNx*adv; ph.y+=cyv*dl+uNy*adv;
   ph.dx=cxv; ph.dy=cyv;
 }
@@ -15717,7 +15778,7 @@ function traceRay(S, px, py, cxv, cyv, dl, maxSteps, emit){
     const cl=Math.sqrt(cxv*cxv+cyv*cyv); cxv/=cl; cyv/=cl;
     const Wtot=D0+WB+wSum, Wu=D0u+WB+wuSum;   // 第240便: 随伴の分母は W′(既定は W と同値)/第241便: pull は D0pull
     const neff=Math.exp(kU*Wtot);            // n_eff = e^{2ψ}(ψ は背景 D₀ を含む全 W)
-    const adv=(Wu>1e-9)? (neff/c0)*dl/Wu : 0;
+    const adv=(Wu>0)? (neff/c0)*dl/Wu : 0;   // 第243便: 門 >0
     px+=cxv*dl+uNx*adv; py+=cyv*dl+uNy*adv;
     // 第82便 A: 体積吸収 — dτ_ref = kAbs·ρ_local·ds(ds は光路長 dl。u 随伴による余分な変位は
     // 媒質そのものの移動なので光路長には数えない)。位置は emit と同じ更新後の点で評価する
@@ -17894,6 +17955,12 @@ function loadSave(s, selValue){
     delete s.physics.Kt;
   }
   sim.params=Object.assign({},DEFAULT_PHYSICS,s.physics); sim.updateRadii();
+  // 第243便(裁定 B5・第35報 Grok E): frameWeight 未宣言のセーブは既定 pull で走る(第242便)— 読込時に周知。
+  // D0pull 未宣言の現実較正 DFM 連星は周期が数十% ずれる(第242便 −42〜−53%)ので強い警告
+  if(s.physics && s.physics[FRAME_WEIGHT_KEY]===undefined && sim.params.kFrame>0){
+    notify(T("fwUndeclared"),6000);
+    if(!(s.physics.D0pull>0) && /DFM$|RealKF1$/.test(String(s.presetId||""))) setTimeout(()=>notify(T("fwNoD0pull"),8000),1200);
+  }
   if(s.cameraScale) camScale=s.cameraScale;
   // 第33便(台帳4-64): 箱パラメータの復元。プリセットに箱が無いのに保存側にだけ universeBox が
   // あるケースは適用しない(挙動の混乱防止 — 箱の無いプリセットへ箱設定だけが亡霊的に残るのを防ぐ)。
@@ -19673,7 +19740,7 @@ $("#btnSave").addEventListener("click",()=>{
   const name=($("#saveName").value.trim()||T("untitled")+" "+new Date().toLocaleString(LANG==="en"?"en-US":"ja-JP"));
   const item={ name, comment:$("#saveComment").value, savedAt:new Date().toISOString(),
     presetId:currentPreset.id, presetName:currentPreset.name,
-    physics:Object.assign({},sim.params),   // 第128便: params 自体が κ 正準になったので直コピー(旧: Kt→kappaT 変換 IIFE)
+    physics:Object.assign({},sim.params,{[FRAME_WEIGHT_KEY]:frameWeightOf(sim.params)}),   // 第128便: params 直コピー/第243便(裁定 B5): 解決済み frameWeight を明示(将来の既定変更に対して保存の法則を固定)
     cameraScale:camScale };
   // 第33便(台帳4-64): sim.box があれば箱パラメータの実行中編集をセーブへ含める
   // (photonEmit は含めない — プリセット由来のまま。実装3)
@@ -24008,6 +24075,25 @@ function dfmBinaryMassFactor(mAobs,mBobs,a,D0,eps,kFrame,p){
     if(nf===f) break; f=nf; }
   return { f, chiA:chi.chiA, chiB:chi.chiB, iters };
 }
+// 第243便(第35報 ChatGPT 3.1): E6′-R の対配分+背景配分を合わせると円軌道・一定 χ で Δv_AB=d_A−d_B → f=1+k_F(αχ_A+βχ_B)(一次)。
+// 第240便の χ² 則(f=1+k_F Σ(m_i/M)χ_i²)は対配分だけを数えた形 — χ→1 では両者とも 2、広い連星(χ~10⁻⁴)では f−1 の次数が違う。
+// 台帳(inertia-law-v1)は本便では据え置き(裁定 A6)。QA behavior.chi-law が両者を並記する
+function dfmBinaryInertiaFactorLinear(mA,mB,chiA,chiB,kFrame){
+  mA=Number(mA); mB=Number(mB); chiA=Number(chiA); chiB=Number(chiB);
+  const k=(kFrame===undefined)? 1 : Number(kFrame), M=mA+mB;
+  if(!(mA>0 && mB>0 && M>0 && chiA>=0 && chiA<=1 && chiB>=0 && chiB<=1 && k>=0) || ![mA,mB,chiA,chiB,k].every(Number.isFinite)) return NaN;
+  return 1+k*((mA/M)*chiA+(mB/M)*chiB);
+}
+function dfmBinaryMassFactorLinear(mAobs,mBobs,a,D0,eps,kFrame,p){
+  mAobs=Number(mAobs); mBobs=Number(mBobs);
+  if(!(mAobs>0 && mBobs>0 && a>0)) return null;
+  let f=2, iters=0, chi=null;
+  for(let k=0;k<500;k++){ iters=k+1; chi=dfmBinaryChi(f*mAobs,f*mBobs,a,D0,eps,p);
+    const nf=dfmBinaryInertiaFactorLinear(f*mAobs,f*mBobs,chi.chiA,chi.chiB,kFrame);
+    if(!Number.isFinite(nf)) return null;
+    if(nf===f) break; f=nf; }
+  return { f, chiA:chi.chiA, chiB:chi.chiB, iters };
+}
 function dfmBinaryInertiaFactor(mA,mB,chiA,chiB,kFrame){
   mA=Number(mA); mB=Number(mB); chiA=Number(chiA); chiB=Number(chiB);
   const k=(kFrame===undefined)? 1 : Number(kFrame), M=mA+mB;
@@ -24015,6 +24101,7 @@ function dfmBinaryInertiaFactor(mA,mB,chiA,chiB,kFrame){
   return 1+k*((mA/M)*chiA*chiA+(mB/M)*chiB*chiB);
 }
 window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extractJSON, frameWeightPow, frameWeightOf, FRAME_WEIGHT_DEFAULT,   // 第242便
+  e6Proj, dfmBinaryInertiaFactorLinear, dfmBinaryMassFactorLinear,   // 第243便
   dfmInternalEntrainment, dfmBinaryChi, dfmBinaryInertiaFactor, dragTransG, dfmBinaryMassFactor, dfmContactEntrainment, dfmMMAltitudeLimit, dfmPullEntrainment,   // 第239便: 内部共動・解析慣性則・並進核(診断)
   dfmStarMassLedger, dfmCoreDragRatio, dfmCoreDragRadius, DFM_BETA_SOLID, obsTemp,   // 第233便: 恒星構造 v1 純関数
   chiMassFactors,   // 第224便: χ-law v1(粒子別質量スケールの較正則 — QA behavior.chi-law が読む)
