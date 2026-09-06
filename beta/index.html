@@ -9968,7 +9968,8 @@ const BUILTIN_PRESETS = [
   camera:{scale:260}, world:{boundary:"none",size:0}, seed:20260906,
   physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
-    pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:1, spinSpin:200, stateCarry:"double"},
+    pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:1, spinSpin:200, stateCarry:"double",
+    frameWeight:"share"},   // 第242便の規約: 移行済み現実較正 11 本以外は "share" 明示(kFrame=0 なので値は力学に効かない — QA behavior.framePull)
   bodies:[
     // 遠点(分離 162 = a(1+e)・a=120・e=0.35)から出発する等質量の束縛楕円。両星とも同じ向きの自転
     {type:"single", m:100, x:-81,y:0, vx:0,vy:-0.4479031, spin:1.5, pinned:false, radius:3},
