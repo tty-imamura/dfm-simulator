@@ -2254,6 +2254,31 @@ const DRAG_CONTACT = "contact";
 // 既定値は ph へ入れない(署名不変)。並進×回転 × 殻×コアの 4 象限: 並進殻 dragQTrans(既定 qTrans)・並進コア core.dragQTrans
 // (既定 = 並進殻)・回転殻 dragQ(既定 physics.q)・回転コア core.dragQ(既定 = 回転殻)。合成は足し算(重み = 質量比)。
 const DRAG_CH_CLAMPS = { qTrans:[0,40], gasCoh:[0,1], D0pull:[0,1e6], gravMag:[0,10] }, DRAG_CH_DEFAULT = { qTrans:0, gasCoh:1, D0pull:0, gravMag:0 };
+// ===== 第245便補足1(第37報・ChatGPT v3 §6.2): physics.spinSpin — スピン双極子間の静的力(玩具・既定 OFF)=====
+// 発端は第37報の仮説「恒星の重力磁気を磁気双極子に見立てると μ∝m·ω·R²、恒星同士の力は (μ₁·μ₂)/r⁴ に比例する」。
+// **現行核にはこの力は無い**(否定対照を先に機械化した — QA behavior.spinDipole): 静止した2体は
+// 半径方向に 1 bit も動かない(E6′ は Δu を通して働き、静止系では接線方向の随伴だけが残る)。
+// 本キーはその不在を埋める **opt-in の玩具**で、DFM の公理からの帰結ではない(petersGW と同じ外部物理枠)。
+//   Q_i = ½·m_i·R_i²·s_i(殻。エンジンの殻慣性 I=½mR² と同じ規約)+ ½·M_c·R_c²·Ω_c(コアv2 の**幾何**慣性 —
+//        有効慣性倍率 ζ=coreIS は掛けない。rigid は殻と共回転なので追加なし・cavity は慣性0で寄与なし)
+//   C = λ·G/c²(λ=physics.spinSpin・無次元)、ρ²=r²+ε²(ε=softening)
+//   U_SS = C[ Q₁·Q₂/ρ³ − 3(Q₁·r̂)(Q₂·r̂)/ρ³ ] → 2D の面外スピン(z ベクトル)では Q·r=0 なので U = C·Q₁Q₂/ρ³
+//   F₁ = −∇₁U = 3C·Q₁Q₂·r/ρ⁵ (λ>0 で平行スピンは**斥力** → 近点は逆行・λ<0 で引力 → 順行)。面外スピンなのでトルクは 0。
+// 値域は正気度クランプ [−1e16, 1e16](実較正系で観測に効く λ は 10¹⁴〜10¹⁵ 台 — PHYSICS §「第245便」)。
+// 既定 0 は ph へ入れない(署名不変)・S.hasSpinSpin=false で step から 1 度も呼ばれない(1 bit 不変)。
+const SPIN_SPIN_KEY = "spinSpin", SPIN_SPIN_CLAMP = [-1e16, 1e16];
+// スピン双極子モーメント Q_i(z 成分・上式そのもの)。表示・QA・監査が同じ量を読むための純関数
+function spinDipoleMoment(S, i){
+  if(!(i>=0 && i<S.n)) return 0;
+  const R=S.R[i];
+  let Q=0.5*S.m[i]*R*R*S.spin[i];
+  const md=S.coreMd[i];
+  if(md===2 || md===3){   // differential / active のみ(rigid=殻と共回転・cavity=慣性0)
+    const Mc=S.coreMF[i]*Math.abs(S.m[i]), Rc=S.RcV[i], Ic=0.5*Mc*Rc*Rc*S.coreIS[i];
+    if(Ic>1e-12) Q+=0.5*Mc*Rc*Rc*(S.coreJ[i]/Ic);   // =J_c/ζ(幾何慣性で読み直したコアの寄与)
+  }
+  return Q;
+}
 // 第243便(第35報・Grok B / Gemini 4.1): physics.gravMag=「複素数の重力」の玩具 — 源の並進が作る横向きの渦度 ẑ×v_j を u に足す用量
 // (u += w_j·k_gm·(−v_yj, v_xj)。既定 0=1 bit 不変・opt-in・force ではなく u の項なので E6′/geoPN=2 の反作用経路をそのまま通る)。
 // physics.e6Radial=false(第35報・Grok C / Gemini 4.3 — A1(b)/B6 の玩具): E6′ の Δu から局所重力方向の成分を落とし、接線結合だけ残す。
@@ -9915,6 +9940,48 @@ const BUILTIN_PRESETS = [
            shed:{omegaCrit:10, frac:0.5, n:16, rLaunch:1.5, jFrac:0.3, once:true}}}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
 
+// ===== 第245便補足1(第37報): スピン双極子の連星(physics.spinSpin の玩具の実演)=====
+{ id:"spinDipoleBinary", name:"スピン双極子の連星 — 自転が押し合うと近点が逆行する(玩具)", emoji:"⚙️", group:"天体の物語",
+  scaleTier:"stellar", sampleClass:"principle", notClaim:["cal"],
+  obsCard:[
+    {q:"否定対照(現行核)", model:"λ=0 のワンタップ対照は近点移動 −0.00049°/周(ソフトニング残差だけ)= 閉じた楕円", obs:"—(原理サンプル — 観測転写はしない)"},
+    {q:"λ=200 の近点移動", model:"**−0.97984°/周(逆行)**。平行スピン+λ>0=斥力の帰結。λ=400 で −1.94576(1.986倍=一次)", obs:"—"},
+    {q:"解析予測との照合", model:"Δϖ=−6πβ/(αp²)・β=λGQ₁Q₂/c²=101250 → −0.98619°/周。実測はその **99.4%**", obs:"—"},
+    {q:"スピン双極子モーメント Q", model:"Q=½mR²s=½·100·9·1.5=**675**(両星とも同じ・面外 z なのでトルクは無い)", obs:"—"},
+    {q:"dt/2 収束", model:"dt=0.016 の −0.9798409 と dt=0.008 の −0.9798379 が相対 **3.0×10⁻⁶** で一致", obs:"—"},
+    {q:"符号の対称性", model:"片方反転で +0.99264°/周(順行)・両方反転で λ=+200 とビット同一・spin 0 は λ=0 とビット同一", obs:"—"},
+    {q:"太陽系較正への足し方", model:"**足さない**。同じ λ を実較正へ共通に入れると水星 −1.2×10⁴″/世紀・月 −0.43°/周 ずれる", obs:"—"},
+    {q:"用量の位置づけ", model:"λ は無次元の**玩具の用量**で、DFM の公理からは決まらない(petersGW と同じ外部枠)", obs:"—"}],
+  descStruct:{
+    summary:"**自転する2つの星が、互いを押し合って近点を逆に回す**(第245便補足1 — 第37報)。仮説は「恒星の重力磁気を磁気双極子に見立てると μ∝m·ω·R²、恒星同士の力は (μ₁·μ₂)/r⁴ に比例する」。**現行核にはこの静的な力は無い** — 静止した2つの自転体を置いても半径方向には 1 ビットも動かない(残るのは E6′ の接線方向の随伴だけ。QA behavior.spinDipole の否定対照)。本サンプルはその不在を **physics.spinSpin=λ という opt-in の玩具**で埋めて、力が在るとどう見えるかだけを示す: Q_i=½m_iR_i²s_i(コアv2 があれば ½M_cR_c²Ω_c を足す)・C=λG/c²・U=C·Q₁Q₂/ρ³・F=3C·Q₁Q₂·r/ρ⁵。面外スピンなのでトルクは無い。**λ は DFM の公理から決まらない**(petersGW と同じ外部物理オーバーレイの枠)し、**太陽系較正には足さない** — 同じ λ を実較正サンプルへ共通に入れると水星の近点移動が −1.2×10⁴″/世紀・月の近点回転が −0.43°/周ずれて、観測と桁で壊れる(第37報 補足1 の実測)。",
+    observe:"実測(dt=0.016・遠点発の3公転窓・等質量二体 m=100・a=120・e=0.35・R=3・s=1.5 → Q=675): **近点移動 −0.97984°/周(逆行)**。λ=0 の対照は −0.00049°/周(ソフトニング ε=0.1 由来の残差だけ = 閉じた楕円)で、**λ=0 は spinSpin 未宣言とビット同一**・**spin=0 は λ=200 でも λ=0 とビット同一**(Q=0 の対は素通り)。解析予測 Δϖ=−6πβ/(αp²)(β=λGQ₁Q₂/c²=101250・α=Gm²=10⁴・p=a(1−e²)=105.3)は **−0.98619°/周**で、実測はその **99.4%**。dt/2(0.008)では −0.9798379 と相対 **3.0×10⁻⁶** で一致する。片方のスピンだけ反転すると **+0.99264°/周(順行=引力)**・両方反転すると λ=+200 と**ビット同一**(Q₁Q₂ が不変)。λ を 2 倍(400)にすると −1.94576°/周(**1.986 倍** = 一次)。近点通過の周期は 584.53(λ=0 は 584.03 — +0.086%)・離心率 0.34815(λ=0 は 0.35000)・安全クランプ 0・NaN 0・検証器の警告 0・再走行ビット同一。QA `behavior.spinDipole` が否定対照(静止2体の半径方向 Δv=0)・λ=0≡未宣言のビット同一・−∇U 中心差分・1/16 スケーリング・符号反転・本サンプルの符号を機械固定する。",
+    control:"ワンタップ対照A/B: **B 側は λ=0**(=現行核そのもの — 近点は回らない)。おすすめの手動対照: 片方の spin を −1.5 にすると引力になり近点が**順行**へ反転する/両方を −1.5 にすると λ=+200 のときと同じ動き(Q₁Q₂ が不変)/spin=0 にすると λ をいくら上げても何も起きない(Q=0 の対は素通り)/λ を 2 倍にすると近点移動もほぼ 2 倍(一次)。"},
+  en:{name:"Spin-Dipole Binary — Two Spins Pushing Each Other Regress the Periapsis (toy)", descStruct:{
+    summary:"TWO SPINNING STARS PUSH EACH OTHER AND WALK THE PERIAPSIS BACKWARDS (wave 245 supplement 1, report 37). The hypothesis: read a star's gravitomagnetism as a magnetic dipole μ∝m·ω·R², and the force between two stars goes as (μ₁·μ₂)/r⁴. THE CURRENT KERNEL HAS NO SUCH STATIC FORCE — place two spinning bodies at rest and they do not move radially by a single bit (all that survives is E6′'s TANGENTIAL entrainment; this is the negative control in QA behavior.spinDipole). This sample fills that absence with an OPT-IN TOY, physics.spinSpin=λ, purely to show what the force would look like: Q_i=½m_iR_i²s_i (plus ½M_cR_c²Ω_c when a v2 core exists), C=λG/c², U=C·Q₁Q₂/ρ³, F=3C·Q₁Q₂·r/ρ⁵. With out-of-plane spins there is no torque. λ IS NOT FIXED BY THE DFM AXIOMS (it sits in the same external-overlay frame as petersGW) and IT IS NOT ADDED TO THE SOLAR-SYSTEM CALIBRATIONS — feeding the same λ into the real-calibration samples shifts Mercury's perihelion by −1.2e4 arcsec/century and the Moon's apsidal motion by −0.43°/orbit, breaking the observations by orders of magnitude (measured in report 37 supplement 1).",
+    observe:"Measured (dt=0.016, a 3-orbit window from apoapsis; equal masses m=100, a=120, e=0.35, R=3, s=1.5, so Q=675): THE PERIAPSIS REGRESSES BY −0.97984°/ORBIT. The λ=0 control gives −0.00049°/orbit — nothing but the ε=0.1 softening residual, i.e. a closed ellipse — and λ=0 IS BIT-IDENTICAL TO NOT DECLARING spinSpin AT ALL, while spin=0 AT λ=200 IS BIT-IDENTICAL TO λ=0 (pairs with Q=0 are skipped). The analytic prediction Δϖ=−6πβ/(αp²) with β=λGQ₁Q₂/c²=101250, α=Gm²=1e4 and p=a(1−e²)=105.3 is −0.98619°/orbit, so THE MEASUREMENT IS 99.4% OF IT. At dt/2 (0.008) the value is −0.9798379 — agreeing to 3.0e-6 relative. Flip ONE spin and it becomes +0.99264°/orbit (prograde, i.e. attractive); flip BOTH and the run is BIT-IDENTICAL to λ=+200 (Q₁Q₂ is unchanged). Double λ to 400 and the shift is −1.94576°/orbit (1.986×, i.e. first order). The periapsis-passage period is 584.53 against 584.03 at λ=0 (+0.086%) and the eccentricity 0.34815 against 0.35000; zero safety clamps, zero NaN, zero validator warnings, bit-identical reruns. QA behavior.spinDipole machine-fixes the negative control (two bodies at rest move zero radially), the λ=0 ≡ undeclared bit-identity, the −∇U central-difference check, the 1/16 scaling, the sign flips and this sample's sign.",
+    control:"One-tap A/B: THE B SIDE IS λ=0 — the current kernel itself, with no precession. Suggested manual controls: flip one spin to −1.5 and the force becomes attractive, turning the periapsis PROGRADE; flip both and nothing changes (Q₁Q₂ is unchanged); set spin=0 and no λ does anything at all (pairs with Q=0 are skipped); double λ and the precession roughly doubles (it is first order)."}},
+  parameterAudit:{
+    observedInputs:["なし(原理トイ — 観測値は1つも転写していない)"],
+    fixedConventions:["等質量二体・kFrame=0(E6′ を切って**スピン双極子の力だけ**を見る)・kRep=muF=γN=κ_S=κ=0・geoPN=0・境界なし",
+      "Q=½mR²s(エンジンの殻慣性 I=½mR² と同じ規約)・C=λG/c²・ρ²=r²+ε²・面外スピン(2D の z ベクトル)"],
+    fitted:["なし(λ=200 は**見えるようにするための用量**であってフィットではない — 観測に合わせた量が1つも無い)"],
+    derived:["Q=675(両星)","解析予測 Δϖ=−6πλGQ²/(c²·Gm²·p²)"],
+    numerical:["dt=0.016・3公転窓・dt/2 対照"]},
+  activeParams:["G","cLight","softening"],
+  validT:1752,
+  abBody:{ label:{ja:"λ=0(現行核 — 静的スピン間力は無い)", en:"λ=0 (the current kernel — no static spin-spin force)"},
+    physicsPatch:{spinSpin:0} },
+  camera:{scale:260}, world:{boundary:"none",size:0}, seed:20260906,
+  physics:{G:1, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0,
+    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
+    pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:1, spinSpin:200, stateCarry:"double",
+    frameWeight:"share"},   // 第242便の規約: 移行済み現実較正 11 本以外は "share" 明示(kFrame=0 なので値は力学に効かない — QA behavior.framePull)
+  bodies:[
+    // 遠点(分離 162 = a(1+e)・a=120・e=0.35)から出発する等質量の束縛楕円。両星とも同じ向きの自転
+    {type:"single", m:100, x:-81,y:0, vx:0,vy:-0.4479031, spin:1.5, pinned:false, radius:3},
+    {type:"single", m:100, x: 81,y:0, vx:0,vy: 0.4479031, spin:1.5, pinned:false, radius:3}],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,trailTargets:"all",monitor:true} },
+
 // 第77便: 🌱starSeed — 星の種ローター(コアv2 の実演)。裁定(2026-08-05): コアのスピン加速の
 // 主要因=自己重力圧縮(contract — J保存で Ω=J/I 上昇・核融合は密度増の副産物)。さらに加速する
 // 副機構としてパワーボール原理(ジャイロ器具の2Dアナログ — 殻の振動加速度が「手首の揺すり」。
@@ -10368,6 +10435,15 @@ function validatePreset(obj){
       if(k==="petersGW"){
         if(p.physics[k]===true) ph[k]=true;
         else warnings.push("physics.petersGW は true のみ受理(外部物理オーバーレイ・既定OFF)— 削除します");
+        continue;
+      }
+      // 第245便補足1(第37報): spinSpin — スピン双極子間力の用量 λ(**玩具の opt-in・既定 0 = OFF**)。
+      // 0 は ph へ入れない(省略時と 0 明示でプリセット署名・エクスポート JSON が 1 文字も変わらない)
+      if(k===SPIN_SPIN_KEY){
+        if(!isNum(p.physics[k])){ bad("physics."+k+" が数値ではありません"); continue; }
+        const sv=clamp(p.physics[k],SPIN_SPIN_CLAMP[0],SPIN_SPIN_CLAMP[1]);
+        if(sv!==p.physics[k]) warnings.push("physics."+k+" を値域に修正");
+        if(sv!==0) ph[k]=sv;
         continue;
       }
       // 第114便: stateCarry も同じ流儀(非数値キー・既定は ph へ入れない=署名不変)
@@ -11367,6 +11443,8 @@ function validatePreset(obj){
             // 第242便: frameWeight(文字列)と D0pull/qTrans/gasCoh(DRAG_CH_CLAMPS)を B 側でも宣言できる(🌙💍 のワンタップが pull 較正へ)
             if(k===FRAME_WEIGHT_KEY){ if(FRAME_WEIGHTS.indexOf(A.physicsPatch[k])>=0) physicsPatch[k]=A.physicsPatch[k]; else warnings.push("abBody.physicsPatch.frameWeight が不正 — 無視します"); continue; }
             if(k in DRAG_CH_CLAMPS){ if(isNum(A.physicsPatch[k])) physicsPatch[k]=clamp(A.physicsPatch[k],DRAG_CH_CLAMPS[k][0],DRAG_CH_CLAMPS[k][1]); else warnings.push("abBody.physicsPatch."+k+" が数値でないため無視"); continue; }
+            // 第245便補足1: spinSpin(λ=0 のノックアウト対照を B 側で作れるようにする — 🧲 のワンタップ)
+            if(k===SPIN_SPIN_KEY){ if(isNum(A.physicsPatch[k])) physicsPatch[k]=clamp(A.physicsPatch[k],SPIN_SPIN_CLAMP[0],SPIN_SPIN_CLAMP[1]); else warnings.push("abBody.physicsPatch."+k+" が数値でないため無視"); continue; }
             if(!(k in CLAMPS)){ warnings.push("abBody.physicsPatch の未知キー "+k+" を無視"); continue; }
             if(!isNum(A.physicsPatch[k])){ warnings.push("abBody.physicsPatch."+k+" が数値でないため無視"); continue; }
             physicsPatch[k]=clamp(A.physicsPatch[k],CLAMPS[k][0],CLAMPS[k][1]);
@@ -13008,6 +13086,11 @@ function makeSim(){
       S.R[i]=(S.radOv[i]>0)? rs*S.radOv[i] : rsi*Math.sqrt(Math.abs(S.mEff[i]));
     }
     S._rsUsed=rs;   // 第36便 C1: 直近に反映した radiusScale(_core の追従判定に使用)
+    // 第245便補足1(第37報): スピン双極子間力の有無フラグ。params を差し替える経路(build・プリセット読込・
+    // セーブ復元・A/B の physicsPatch・チェックポイント復元)は例外なく直後に updateRadii() を呼ぶので、
+    // 唯一ここで張り直せば全経路が揃う。未宣言・0 は false = S.step の真偽値1つだけを読んで素通りする
+    const __ss=S.params[SPIN_SPIN_KEY];
+    S.hasSpinSpin=(__ss>0 || __ss<0);
   };
   // 第36便 C2: 掻出の実効値(auto の粒子は lS_eff、それ以外は指定値)。lSw[i] が常に実効値なので
   // 参照側は分岐不要 — 監査・UI 用の明示アクセサとして公開する(HP.sim.lSwEff(i))
@@ -13076,7 +13159,50 @@ function makeSim(){
     const L1=m1*(S.x[0]*S.vy[0]-S.y[0]*S.vx[0])+m2*(S.x[1]*S.vy[1]-S.y[1]*S.vx[1]);
     S.radE+=KE0-KE1; S.radL+=L0-L1;
   };
+  // 第245便補足1(第37報・ChatGPT v3 §6.2): スピン双極子間の静的力(physics.spinSpin — **玩具の opt-in**)。
+  // S._core の**外**の O(N²) パスで、ステップ冒頭に速度キック Δv=a·dt を与える。semi(既定)では
+  // v′=v+(a_grav+a_SS)dt → x′=x+v′dt となり、「E4 の加速度に足してから速度更新」と厳密に同義になる
+  // (leapfrog では 1 步 1 回の 1 次分割 — 玩具の宣言済みの限界)。λ=0・未宣言は S.hasSpinSpin=false で
+  // 1 度も呼ばれない(既定経路 1 bit 不変 — QA kernel/behavior.spinDipole)。
+  //   F_i = 3·C·Q_i·Q_j·(r_i−r_j)/ρ⁵ 、C=λ·G/c²、ρ²=r²+ε²(U=C·Q_iQ_j/ρ³ の −∇。面外スピンなのでトルクなし)
+  // 蓄積は Float64・pinned は規定運動なので受け取らない(相手側の力は等量反対のまま = 相互作用は
+  // 常に対称に評価する)。Q=0 の対は素通り(💫⚡🎻 のようにスピンを持たない系は宣言しても何も起きない)
+  S._spinSpin = function(dt){
+    const n=S.n, p=S.params, lam=p[SPIN_SPIN_KEY];
+    if(!(n>1) || !(lam>0 || lam<0)) return;
+    const c=p.cLight, C=lam*p.G/(c*c), eps2=p.softening*p.softening;
+    if(!(C!==0)) return;
+    let Q=S._ssQ; if(!Q || Q.length<n){ Q=S._ssQ=new Float64Array(n); }
+    let AX=S._ssAx; if(!AX || AX.length<n){ AX=S._ssAx=new Float64Array(n); S._ssAy=new Float64Array(n); }
+    const AY=S._ssAy;
+    let any=false;
+    for(let i=0;i<n;i++){ const q=spinDipoleMoment(S,i); Q[i]=q; AX[i]=0; AY[i]=0; if(q!==0) any=true; }
+    if(!any) return;
+    const x=S.x, y=S.y, mEff=S.mEff;
+    for(let i=0;i<n;i++){
+      const qi=Q[i]; if(qi===0) continue;
+      for(let j=i+1;j<n;j++){
+        const qj=Q[j]; if(qj===0) continue;
+        const dx=x[i]-x[j], dy=y[i]-y[j], rho2=dx*dx+dy*dy+eps2, rho=Math.sqrt(rho2);
+        const f=3*C*qi*qj/(rho2*rho2*rho);   // F/|r| の係数(F=f·(r_i−r_j))
+        const fx=f*dx, fy=f*dy;
+        AX[i]+=fx; AY[i]+=fy; AX[j]-=fx; AY[j]-=fy;   // 等量反対(運動量は厳密に閉じる)
+      }
+    }
+    const vx=S.vx, vy=S.vy, pin=S.pinned, carV=!!S.carVx, carVx=S.carVx, carVy=S.carVy;
+    for(let i=0;i<n;i++){
+      if(pin[i]) continue;
+      const im=dt/mEff[i], ddx=AX[i]*im, ddy=AY[i]*im;
+      if(ddx===0 && ddy===0) continue;
+      if(carV){   // 第114便 stateCarry:"double" と同じ補償和(Float32 の ulp 未満の増分を落とさない)
+        const addX=ddx+carVx[i], v0x=vx[i]; vx[i]=v0x+addX; carVx[i]=addX-(vx[i]-v0x);
+        const addY=ddy+carVy[i], v0y=vy[i]; vy[i]=v0y+addY; carVy[i]=addY-(vy[i]-v0y);
+      } else { vx[i]+=ddx; vy[i]+=ddy; }
+    }
+  };
   S.step = function(dt){
+    // 第245便補足1: スピン双極子間力は積分器の**前**(=E4 の加速度に足すのと同義 — 上のコメント)
+    if(S.hasSpinSpin) S._spinSpin(dt);
     if(S.integrator==="leapfrog"){ S._core(dt,1); S._core(dt,2); }
     else S._core(dt,0);
     if(S.params.petersGW===true) S._petersGW(dt);   // 第227便: 外部物理オーバーレイ(既定 OFF=素通り)
@@ -13131,6 +13257,8 @@ function makeSim(){
     const G=p.G, eps2=p.softening*p.softening, kRep=p.kRep, q=p.q;
     const urep=!!(Tint && kRep>0 && q>1);
     const ue1=urep? 2*q-2 : 0, ue2=urep? 2*q-1 : 0, ui1=urep? 1/ue1 : 0, ui2=urep? 1/ue2 : 0;
+    // 第245便補足1: スピン双極子間ポテンシャル U_SS=C·Q_aQ_b/ρ³(λ=0・未宣言では ssC=0 = 加算行に入らない)
+    const ssC=S.hasSpinSpin? p[SPIN_SPIN_KEY]*G/(p.cLight*p.cLight) : 0;
     return (a,b)=>{
       const dx=x[a]-x[b], dy=y[a]-y[b], d2=dx*dx+dy*dy, dd=Math.sqrt(d2);
       const ma=m[a], mb=m[b], ms=ma+mb;
@@ -13148,6 +13276,10 @@ function makeSim(){
             U+=kRep*(ea*eb/es)*Math.sqrt(Ta*Tb)
               *(urepPhi(R[a],R[a]/(R[a]+dd),ue1,ue2,ui1,ui2)+urepPhi(R[b],R[b]/(R[b]+dd),ue1,ue2,ui1,ui2));
         }
+      }
+      if(ssC!==0){   // 第245便補足1: 対ポテンシャルへ U_SS を足す(帳簿=融合・分裂・エネルギー診断が同じ式を読む)
+        const qa=spinDipoleMoment(S,a), qb=spinDipoleMoment(S,b);
+        if(qa!==0 && qb!==0){ const rho=Math.sqrt(d2+eps2); U+=ssC*qa*qb/(rho*rho*rho); }
       }
       return U;
     };
@@ -18579,6 +18711,8 @@ function abStart(key, valB, bodyPatch){
         // 第242便: frameWeight・D0pull 等(検証器が通した値をそのまま B 側へ)
         if(k===FRAME_WEIGHT_KEY){ ab.simB.params[k]=bodyPatch.physicsPatch[k]; continue; }
         if(k in DRAG_CH_CLAMPS){ ab.simB.params[k]=clamp(bodyPatch.physicsPatch[k],DRAG_CH_CLAMPS[k][0],DRAG_CH_CLAMPS[k][1]); continue; }
+        // 第245便補足1: spinSpin(B 側の λ。updateRadii が hasSpinSpin を張り直す)
+        if(k===SPIN_SPIN_KEY){ ab.simB.params[k]=clamp(bodyPatch.physicsPatch[k],SPIN_SPIN_CLAMP[0],SPIN_SPIN_CLAMP[1]); continue; }
         if(!(k in CLAMPS)) continue;
         ab.simB.params[k]=clamp(bodyPatch.physicsPatch[k],CLAMPS[k][0],CLAMPS[k][1]);
       }
@@ -24481,6 +24615,19 @@ function dfmBinaryInertiaFactor(mA,mB,chiA,chiB,kFrame){
   return 1+k*((mA/M)*chiA*chiA+(mB/M)*chiB*chiB);
 }
 window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extractJSON, frameWeightPow, frameWeightOf, FRAME_WEIGHT_DEFAULT,   // 第242便
+  // 第245便補足1(第37報): スピン双極子間力(physics.spinSpin — 玩具の opt-in)。QA・実験ハーネスが
+  // エンジンと同じ式を読むための公開フック。dfmSpinDipoleMoment(i)=Q_i・dfmSpinSpinU(a,b)=U_SS・
+  // dfmSpinSpinEta(a,b)=|F_SS|/|F_N|(λ=1 換算の無次元比)。いずれも読み取り専用(力学へ書かない)
+  dfmSpinDipoleMoment:(i,S)=>spinDipoleMoment(S||sim,i), SPIN_SPIN_CLAMP,
+  dfmSpinSpinU:(a,b,lam,S)=>{ const T=S||sim, p=T.params, e2=p.softening*p.softening;
+    const dx=T.x[a]-T.x[b], dy=T.y[a]-T.y[b], rho=Math.sqrt(dx*dx+dy*dy+e2);
+    return (lam*p.G/(p.cLight*p.cLight))*spinDipoleMoment(T,a)*spinDipoleMoment(T,b)/(rho*rho*rho); },
+  dfmSpinSpinEta:(a,b,S)=>{ const T=S||sim, p=T.params, e2=p.softening*p.softening;
+    const dx=T.x[a]-T.x[b], dy=T.y[a]-T.y[b], rho2=dx*dx+dy*dy+e2;
+    const Qa=spinDipoleMoment(T,a), Qb=spinDipoleMoment(T,b), c=p.cLight;
+    // |F_SS|/|F_N| = 3|Q_aQ_b|/(c²·|m_a m_b|·ρ²) (λ=1。分母もエンジンの softened 重力 G m_am_b r/ρ³ で揃える)
+    const den=c*c*Math.abs(T.m[a]*T.m[b])*rho2;
+    return (den>0)? 3*Math.abs(Qa*Qb)/den : 0; },
   e6Proj, dfmBinaryInertiaFactorLinear, dfmBinaryMassFactorLinear,   // 第243便
   dfmInternalEntrainment, dfmBinaryChi, dfmBinaryInertiaFactor, dragTransG, dfmBinaryMassFactor, dfmContactEntrainment, dfmMMAltitudeLimit, dfmPullEntrainment,   // 第239便: 内部共動・解析慣性則・並進核(診断)
   dfmGpsSpeedTerms,   // 第244便: GPS 速度項の分解(一次+二次)

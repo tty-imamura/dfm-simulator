@@ -8548,6 +8548,166 @@ if (!FAST) {
   }
 }
 
+// ---- 第245便補足1(第37報): behavior.spinDipole — スピン双極子間の静的力(physics.spinSpin の玩具)----
+// ①否定対照(**本便の主結果**): 静止した2つの自転体は現行核で半径方向に 1 bit も動かない
+//   (pinned は全量ビット 0・自由でも半径方向の変位は厳密 0。残るのは E6′ の接線随伴だけで、
+//    スピン 0 でも kFrame=0 でも厳密に 0 = スピン起源・引きずり経路)。λ=0 と λ 未宣言で同一
+// ②λ=0 ≡ 未宣言のビット同一(⚙️ サンプルの近点3回窓)
+// ③力 = −∇U の中心差分照合(12 構成・相対 1e-8 未満)・等量反対
+// ④距離2倍 → 1/16(1/r⁴ 則)・⑤片方のスピン反転で符号反転・両方反転で不変・Q=0 の対は素通り
+// ⑥⚙️ spinDipoleBinary が宣言どおりの符号(逆行)と大きさ(解析値の ±3%)で走り、警告/NaN/クランプ 0
+// ⑦検証器: 0 は署名へ入れない(未宣言と同一)・値域クランプ・非数はエラー
+{
+  const hasSS = await page.evaluate(() => typeof HP.sim._spinSpin === 'function'
+    && typeof HP.dfmSpinDipoleMoment === 'function'
+    && HP.allPresets().some((q) => q.id === 'spinDipoleBinary'));
+  if (hasSS) {
+    const sd = await page.evaluate(() => {
+      const PH = (o) => Object.assign({ G: 1, D0: 2, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0,
+        kappaS: 0, kappaT: 0, cLight: 3, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0,
+        geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 0.1, timeScale: 1 }, o || {});
+      const mk = (bodies, ph) => ({ name: 'ss', description: 'd', camera: { scale: 200 },
+        world: { boundary: 'none', size: 0 }, physics: PH(ph), bodies });
+      const B = (x, y, m, R, s, pin) => ({ type: 'single', m, x, y, vx: 0, vy: 0, spin: s,
+        pinned: !!pin, radius: R });
+      const build = (bodies, ph) => { const v = HP.validatePreset(mk(bodies, ph));
+        const S = HP.sim; S.build(v.preset); return { v, S }; };
+      // ---- ① 否定対照: 静止した2つの自転体(G=0・kRep=0・kFrame=1・pull・D0pull=2・spin 2/2)----
+      const ctlPh = (extra) => Object.assign({ G: 0, kFrame: 1, kRep: 0, softening: 0.1,
+        frameWeight: 'pull', D0pull: 2 }, extra || {});
+      const ctl = (pin, ph, steps) => { const { S } = build(
+        [B(-20, 0, 10, 2, 2, pin), B(20, 0, 10, 2, 2, pin)], ctlPh(ph));
+        for (let k = 0; k < (steps || 2000); k++) S.step(0.016);
+        return { vr: [S.vx[0], S.vx[1]], vt: [S.vy[0], S.vy[1]],
+          xr: [S.x[0] + 20, S.x[1] - 20], yt: [S.y[0], S.y[1]] }; };
+      const cPin = ctl(true, null), cFree = ctl(false, null);
+      const cFree0 = ctl(false, { spinSpin: 0 });
+      const cFree1000 = ctl(false, null, 1000);
+      const cSpin0 = (() => { const { S } = build([B(-20, 0, 10, 2, 0), B(20, 0, 10, 2, 0)], ctlPh());
+        for (let k = 0; k < 2000; k++) S.step(0.016);
+        return Math.abs(S.vx[0]) + Math.abs(S.vy[0]) + Math.abs(S.vx[1]) + Math.abs(S.vy[1]); })();
+      const cKF0 = (() => { const { S } = build([B(-20, 0, 10, 2, 2), B(20, 0, 10, 2, 2)], ctlPh({ kFrame: 0 }));
+        for (let k = 0; k < 2000; k++) S.step(0.016);
+        return Math.abs(S.vx[0]) + Math.abs(S.vy[0]) + Math.abs(S.vx[1]) + Math.abs(S.vy[1]); })();
+      // ---- ③ 力 = −∇U(中心差分)・等量反対 ----
+      let gWorst = 0, gOpp = 0;
+      for (let k = 0; k < 12; k++) {
+        const ang = k * 0.41, rr = 3 + k * 0.9, lam = (k % 2 ? -1 : 1) * (1 + k), eps = 0.37;
+        const bodies = [B(0, 0, 1 + 0.3 * k, 0.5 + 0.05 * k, 0.7 - 0.06 * k),
+          B(rr * Math.cos(ang), rr * Math.sin(ang), 2 + 0.11 * k, 0.8 + 0.03 * k, -0.4 + 0.09 * k)];
+        const ph = { spinSpin: lam, G: 1, cLight: 3, softening: eps, stateCarry: 'double' };
+        const { S } = build(bodies, ph);
+        const C = lam * S.params.G / (S.params.cLight * S.params.cLight), e2 = eps * eps;
+        const Q1 = HP.dfmSpinDipoleMoment(0), Q2 = HP.dfmSpinDipoleMoment(1);
+        const U = (dx, dy) => { const ax = (S.x[0] + dx) - S.x[1], ay = (S.y[0] + dy) - S.y[1];
+          const ro = Math.sqrt(ax * ax + ay * ay + e2); return C * Q1 * Q2 / (ro * ro * ro); };
+        const h = 1e-5, fxN = -(U(h, 0) - U(-h, 0)) / (2 * h), fyN = -(U(0, h) - U(0, -h)) / (2 * h);
+        const b2 = build(bodies, ph); const dt = 1e-6; b2.S._spinSpin(dt);
+        const fx = b2.S.vx[0] * b2.S.mEff[0] / dt, fy = b2.S.vy[0] * b2.S.mEff[0] / dt;
+        const gx = b2.S.vx[1] * b2.S.mEff[1] / dt, gy = b2.S.vy[1] * b2.S.mEff[1] / dt;
+        const mag = Math.max(Math.hypot(fxN, fyN), 1e-300);
+        gWorst = Math.max(gWorst, Math.hypot(fx - fxN, fy - fyN) / mag);
+        gOpp = Math.max(gOpp, Math.hypot(fx + gx, fy + gy) / mag);
+      }
+      // ---- ④⑤ 1/16 スケーリング・符号 ----
+      const F = (rr, s1, s2, lam) => { const { S } = build([B(0, 0, 1, 1, s1), B(rr, 0, 1, 1, s2)],
+        { spinSpin: lam, G: 1, cLight: 3, softening: 0.01, stateCarry: 'double' });
+        const dt = 1e-6; S._spinSpin(dt); return S.vx[0] * S.mEff[0] / dt; };
+      const f10 = F(10, 1, 1, 1), f20 = F(20, 1, 1, 1), f40 = F(40, 1, 1, 1);
+      const pp = f10, pm = F(10, 1, -1, 1), mm = F(10, -1, -1, 1), ln = F(10, 1, 1, -1);
+      // ---- ②⑥ ⚙️ サンプル ----
+      const smp = (lam, dt, mut, maxPeri) => {
+        const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'spinDipoleBinary')));
+        if (lam === 'drop') { pd.physics = Object.assign({}, pd.physics); delete pd.physics.spinSpin; }
+        else if (lam !== null) pd.physics = Object.assign({}, pd.physics, { spinSpin: lam });
+        if (mut) mut(pd);
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+        const st = dt || 0.016, maxSteps = Math.round(6 * 584.03 / st);
+        let r2 = 0, r1 = 0, t1 = 0, t2 = 0; const angs = [], ks = []; let rmin = Infinity, rmax = -Infinity;
+        for (let k = 0; k < maxSteps; k++) {
+          S.step(st);
+          const dx = S.x[1] - S.x[0], dy = S.y[1] - S.y[0], rr = Math.hypot(dx, dy), th = Math.atan2(dy, dx);
+          if (rr < rmin) rmin = rr; if (rr > rmax) rmax = rr;
+          if (k >= 2 && r1 < r2 && r1 < rr) {
+            const dd = (r2 - 2 * r1 + rr), fr = (dd !== 0) ? 0.5 * (r2 - rr) / dd : 0;
+            let a1 = t2, a2 = t1, a3 = th;
+            while (a2 - a1 > Math.PI) a2 -= 2 * Math.PI; while (a2 - a1 < -Math.PI) a2 += 2 * Math.PI;
+            while (a3 - a2 > Math.PI) a3 -= 2 * Math.PI; while (a3 - a2 < -Math.PI) a3 += 2 * Math.PI;
+            angs.push(a2 + 0.5 * fr * (a3 - a1) + 0.5 * fr * fr * (a3 - 2 * a2 + a1)); ks.push(k - 1 + fr);
+            if (angs.length >= (maxPeri || 3)) break;
+          }
+          r2 = r1; r1 = rr; t2 = t1; t1 = th;
+        }
+        const d = []; for (let i = 1; i < angs.length; i++) { let z = angs[i] - angs[i - 1];
+          while (z > Math.PI) z -= 2 * Math.PI; while (z < -Math.PI) z += 2 * Math.PI; d.push(z * 180 / Math.PI); }
+        const o = []; for (let i = 0; i < S.n; i++) o.push(S.x[i], S.y[i], S.vx[i], S.vy[i]);   // spin は比較に含めない(反転対照は軌道の同一性を見る)
+        return { nPeri: angs.length, dPeri: d.length ? d.reduce((a, b) => a + b, 0) / d.length : null,
+          e: (rmax - rmin) / (rmax + rmin), o, Q: [HP.dfmSpinDipoleMoment(0), HP.dfmSpinDipoleMoment(1)],
+          warn: (v.warnings || []).length, clamp: S.clampVN + S.clampSN + S.clampRN + S.clampTN,
+          nan: S.hasNaN(), hasSS: S.hasSpinSpin };
+      };
+      const sBase = smp(null, 0.016), sZero = smp(0, 0.016), sDrop = smp('drop', 0.016);
+      const sHalf = smp(null, 0.008), sFlip = smp(null, 0.016, (p) => { p.bodies[1].spin = -1.5; });
+      const sBoth = smp(null, 0.016, (p) => { p.bodies[0].spin = -1.5; p.bodies[1].spin = -1.5; });
+      const sS0 = smp(null, 0.016, (p) => { p.bodies[0].spin = 0; p.bodies[1].spin = 0; });
+      const sDbl = smp(400, 0.016);
+      const bit = (a, b) => a.o.length === b.o.length && a.o.every((z, i) => Object.is(z, b.o[i]));
+      // 解析予測(β=λGQ₁Q₂/c²・α=Gm²・p=a(1−e²))
+      const Q0 = 675, ana = -6 * Math.PI * (200 * 1 * Q0 * Q0 / 900)
+        / (1 * 100 * 100 * Math.pow(120 * (1 - 0.35 * 0.35), 2)) * 180 / Math.PI;
+      // ---- ⑦ 検証器 ----
+      const vp = (val) => HP.validatePreset(mk([B(0, 0, 1, 1, 1)], { spinSpin: val }));
+      const v0 = vp(0), vC = vp(1e20), vB = vp('x'), vN = vp(-3.5);
+      return {
+        cPin, cFree, cFree0, cFree1000, cSpin0, cKF0,
+        gWorst, gOpp, f10, f20, f40, r1: f10 / f20, r2: f20 / f40,
+        pp, pm, mm, ln,
+        sBase, sZero, sDrop, sHalf, sFlip, sBoth, sS0, sDbl, ana,
+        zeroBit: bit(sZero, sDrop), bothBit: bit(sBoth, sBase), s0Bit: bit(sS0, sZero),
+        onMoves: !bit(sBase, sZero),
+        valid: { zeroDrop: v0.ok && v0.preset.physics.spinSpin === undefined,
+          clamped: vC.ok && vC.preset.physics.spinSpin === 1e16 && (vC.warnings || []).some((w) => /spinSpin/.test(w)),
+          badErr: !vB.ok, negKept: vN.ok && vN.preset.physics.spinSpin === -3.5 } };
+    });
+    // 否定対照の判定: pinned は全量ビット 0・自由は**半径方向**が厳密 0(接線は E6′ の随伴で残る)
+    const zeroAll = (o) => o.vr.every((z) => z === 0) && o.vt.every((z) => z === 0)
+      && o.xr.every((z) => z === 0) && o.yt.every((z) => z === 0);
+    const radZero = (o) => o.xr.every((z) => z === 0);
+    const tanNZ = (o) => Math.abs(o.vt[0]) > 0 && Math.abs(o.vt[0] + o.vt[1]) < 1e-12;
+    const tLin = Math.abs(sd.cFree.vt[0] / sd.cFree1000.vt[0] - 2);
+    const ctlSame = sd.cFree.vt[0] === sd.cFree0.vt[0] && sd.cFree.vr[0] === sd.cFree0.vr[0];
+    const s = sd.sBase, anaRel = Math.abs(s.dPeri / sd.ana - 1);
+    const dtRel = Math.abs(sd.sHalf.dPeri / s.dPeri - 1);
+    const linRel = Math.abs(sd.sDbl.dPeri / s.dPeri / 2 - 1);
+    add('behavior.spinDipole',
+      zeroAll(sd.cPin) && radZero(sd.cFree) && tanNZ(sd.cFree) && tLin < 0.02
+      && sd.cSpin0 === 0 && sd.cKF0 === 0 && ctlSame
+      && sd.gWorst < 1e-8 && sd.gOpp < 1e-12
+      && Math.abs(sd.r1 - 16) < 1e-3 && Math.abs(sd.r2 - 16) < 1e-3
+      && sd.pp < 0 && Math.abs(sd.pm + sd.pp) < 1e-18 && sd.mm === sd.pp && Math.abs(sd.ln + sd.pp) < 1e-18
+      && sd.zeroBit && sd.bothBit && sd.s0Bit && sd.onMoves
+      && s.warn === 0 && s.clamp === 0 && !s.nan && s.hasSS === true
+      && s.Q[0] === 675 && s.Q[1] === 675 && s.dPeri < -0.9 && s.dPeri > -1.1
+      && anaRel < 0.03 && dtRel < 1e-4 && linRel < 0.02
+      && sd.sFlip.dPeri > 0.9
+      && sd.sZero.hasSS === false && Math.abs(sd.sZero.dPeri) < 0.01
+      && sd.valid.zeroDrop && sd.valid.clamped && sd.valid.badErr && sd.valid.negKept,
+      `否定対照(静止2体・G=0・kF1・pull・spin 2/2・2000步): pinned 全量ビット0=${zeroAll(sd.cPin)}・` +
+      `自由の半径方向 Δx=0(厳密)=${radZero(sd.cFree)}・Δv_r ${sd.cFree.vr[0].toExponential(2)}(接線から二次で誘導)・` +
+      `接線 Δv_t ${sd.cFree.vt[0].toExponential(3)}(等量反対・時間に一次=${tLin.toExponential(1)})・` +
+      `spin0 で ${sd.cSpin0}・kFrame0 で ${sd.cKF0}(=スピン起源の E6′ 随伴)・λ=0 は対照と同一=${ctlSame} / ` +
+      `実装: 力=−∇U 相対 ${sd.gWorst.toExponential(1)}(12構成)・等量反対 ${sd.gOpp.toExponential(1)}・` +
+      `距離2倍で 1/${sd.r1.toFixed(4)}・1/${sd.r2.toFixed(4)}・平行スピン λ>0 は斥力=${sd.pp < 0}・片方反転で符号反転・両方反転で不変 / ` +
+      `⚙️ spinDipoleBinary: Q=${s.Q[0]}・近点移動 ${s.dPeri.toFixed(6)}°/周(解析 ${sd.ana.toFixed(6)}・比 ${(s.dPeri / sd.ana).toFixed(4)})・` +
+      `dt/2 ${sd.sHalf.dPeri.toFixed(6)}(相対 ${dtRel.toExponential(1)})・λ2倍 ${sd.sDbl.dPeri.toFixed(6)}(${(sd.sDbl.dPeri / s.dPeri).toFixed(3)}倍)・` +
+      `片方反転 ${sd.sFlip.dPeri.toFixed(6)}(順行)・λ=0 ${sd.sZero.dPeri.toExponential(2)}・` +
+      `λ=0≡未宣言ビット同一=${sd.zeroBit}・spin0≡λ=0=${sd.s0Bit}・両方反転≡基準=${sd.bothBit}・警告 ${s.warn}・クランプ ${s.clamp}・NaN=${s.nan} / ` +
+      `検証器: 0 は署名へ入れない=${sd.valid.zeroDrop}・値域クランプ=${sd.valid.clamped}・非数エラー=${sd.valid.badErr}・負値保持=${sd.valid.negKept}`);
+  } else {
+    console.log('SKIP behavior.spinDipole(対象に第245便補足1の spinSpin なし — root 等)');
+  }
+}
+
 // ---- 第231便(第28報): behavior.supernovaObs — 超新星の観測転写(🥀 前駆星/🦀 残骸)----
 // 🥀: Joyce 一組整合の転写値+静止ビット保持。🦀: 膨張速度の転写(1506 km/s)・殻 KE=1.04e50 erg
 // (SN 1054 モデル帯と同桁・正準 1e51 の1桁下)・年齢算術・自由膨張・gas 宣言・決定性
