@@ -8327,6 +8327,28 @@ if (!FAST) {
   }
 }
 
+// ---- 第244便(ChatGPT v2 8.2): behavior.burstRecipients — spinBurst の受け手は気体殻だけ・I_g=0 ではコア J も引き落とさない ----
+// 再現(修正前): 固体 2 粒が放出され(v 7.41)、気体 1 粒では コア J が 1.371 減るのに粒子 L は 0(角運動量の消失)。修正後: 両方とも放出なし・J 不変。気体 2 粒は L=ΔJ・K=E のまま
+{
+  const rows = await page.evaluate(() => {
+    const source = HP.allPresets().find((p) => p.id === 'supernovaCore');
+    if (!source || HP.sim.coreBR === undefined) return null;
+    return [['solid', 2], ['gas', 1], ['gas', 2]].map(([shell, n]) => {
+      const p = JSON.parse(JSON.stringify(source));
+      Object.assign(p.physics, { G: 0, kFrame: 0, geoPN: 0, kRep: 0, etaRad: 0 });
+      p.bodies = [p.bodies[0], ...Array.from({ length: n }, (_, k) => ({ type: 'single', shell, m: 1, radius: 1, x: k ? -100 : 100, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }))];
+      const v = HP.validatePreset(p); if (!v.ok) throw new Error(JSON.stringify(v.errors));
+      const S = HP.sim; S.build(v.preset); const j0 = S.coreJ[0]; S.step(0.016);
+      let L = 0, K = 0; for (let k = 1; k < S.n; k++) { L += S.m[k] * (S.x[k] * S.vy[k] - S.y[k] * S.vx[k]); K += 0.5 * S.m[k] * (S.vx[k] ** 2 + S.vy[k] ** 2); }
+      return { shell, n, warn: v.warnings.length, dJ: j0 - S.coreJ[0], L, K, E: S.burstE, gasDisk: source.bodies[1].shell === 'gas' };
+    });
+  });
+  if (rows) add('behavior.burstRecipients', rows.every((r) => r.warn === 0 && r.gasDisk
+    && (r.shell === 'solid' || r.n === 1 ? r.dJ === 0 && r.K === 0 && r.E === 0 : r.dJ > 0 && Math.abs(r.L - r.dJ) < 1e-6 * r.dJ && Math.abs(r.K - r.E) < 1e-6 * r.E)),
+    rows.map((r) => `${r.shell}×${r.n}: ΔJ=${r.dJ.toExponential(3)} L=${r.L.toExponential(3)} K=${r.K.toExponential(3)} E=${r.E.toExponential(3)}`).join(' / ') + ` / 🎇 disk shell:"gas"=${rows[0].gasDisk}`);
+  else console.log('SKIP behavior.burstRecipients(supernovaCore なし — root 等)');
+}
+
 // ---- 第231便(第28報): behavior.supernovaObs — 超新星の観測転写(🥀 前駆星/🦀 残骸)----
 // 🥀: Joyce 一組整合の転写値+静止ビット保持。🦀: 膨張速度の転写(1506 km/s)・殻 KE=1.04e50 erg
 // (SN 1054 モデル帯と同桁・正準 1e51 の1桁下)・年齢算術・自由膨張・gas 宣言・決定性
@@ -8925,7 +8947,10 @@ if (!FAST) {
       const gm0 = gm(undefined), gmZ = gm(0), gm1 = gm(1);
       // ⑥ 一次の慣性則(診断)— χ→1 で χ² 則と一致し、χ≈0.5 では f が異なる
       const lin = HP.dfmBinaryInertiaFactorLinear(1, 1, 0.5, 0.5, 1), quad = HP.dfmBinaryInertiaFactor(1, 1, 0.5, 0.5, 1), lin1 = HP.dfmBinaryInertiaFactorLinear(1, 1, 1, 1, 1);
-      return { grad, sc, fs0, fsT, fsF, fsS, fsS0, e6u, e6t, e6f, gm0, gmZ, gm1, lin, quad, lin1 };
+      // 第244便(ChatGPT v2 7.3): 非等質量で α=m_A/M(χ_A に掛かる)・β=m_B/M — (2,3,χ 0.5/0.4) → 1.44(逆なら 1.46)。GPS 速度項の分解(一次+二次)も固定
+      const linUnequal = HP.dfmBinaryInertiaFactorLinear(2, 3, 0.5, 0.4, 1);
+      const gps = HP.dfmGpsSpeedTerms({ chiGround: 0.9972003, chiSat: 0.9534760, V: 29780, vOrb: 3874, vRot: 464.6 });
+      return { grad, sc, fs0, fsT, fsF, fsS, fsS0, e6u, e6t, e6f, gm0, gmZ, gm1, lin, quad, lin1, linUnequal, gps };
     });
     const CK = { grad: r.grad.every((g) => g.rel < 1e-3 && g.warn === 0),
       scale: r.sc.every((x) => x.hasU === 1 && Math.abs(x.u - 0.5) < 1e-6 && Math.abs(x.tau - Math.sqrt(1 - 0.25 / 100)) < 1e-6),
@@ -8936,7 +8961,8 @@ if (!FAST) {
       e6Off: r.e6f.w === 0 && Math.abs(r.e6f.radial) < 1e-12 && Math.abs(r.e6f.tang - r.e6u.tang) < 1e-9,
       gmDefault: r.gm0.w === 0 && r.gmZ.w === 0 && Object.is(r.gm0.ux, r.gmZ.ux) && Object.is(r.gm0.uy, r.gmZ.uy) && Math.abs(r.gm0.uy) < 1e-12,
       gmOn: r.gm1.w === 0 && r.gm1.k === 0 && r.gm1.uy > 0 && Math.abs(r.gm1.ux - r.gm0.ux) < 1e-12,
-      linear: Math.abs(r.lin - 1.5) < 1e-12 && Math.abs(r.quad - 1.25) < 1e-12 && Math.abs(r.lin1 - 2) < 1e-12 };
+      linear: Math.abs(r.lin - 1.5) < 1e-12 && Math.abs(r.quad - 1.25) < 1e-12 && Math.abs(r.lin1 - 2) < 1e-12 && Math.abs(r.linUnequal - 1.44) < 1e-12,
+      gps: !!r.gps && Math.abs(r.gps.quadratic + 0.919) < 0.01 && Math.abs(r.gps.firstSatAmp - 5.16) < 0.02 && Math.abs(r.gps.firstGroundAmp - 0.0372) < 0.001 };
     const bad = Object.keys(CK).filter((k) => !CK[k]);
     add('behavior.frameConsistency', bad.length === 0,
       (bad.length ? `不成立=[${bad.join(',')}] ` : '')
@@ -8945,7 +8971,7 @@ if (!FAST) {
       + `frameSource: 未宣言≡true(bit)=${CK.fsDefault}・false で u=0(重力 ax 不変=${Object.is(r.fsF.ax, r.fs0.ax)}・generic)=${CK.fsOff}・share でも同じ=${CK.fsShare} / `
       + `e6Radial: 未宣言≡true(bit)=${CK.e6Default}・false で Δv の重力方向成分 ${r.e6f.radial.toExponential(1)}(→0)・接線成分は不変=${CK.e6Off} / `
       + `gravMag: 0≡未宣言(bit)=${CK.gmDefault}・k=1 で動く源の側方に u_y=${r.gm1.uy.toExponential(2)}(ẑ×v)=${CK.gmOn} / `
-      + `一次則 f(χ=0.5)=${r.lin}(χ² 則 ${r.quad})・χ=1 で ${r.lin1}`);
+      + `一次則 f(χ=0.5)=${r.lin}(χ² 則 ${r.quad})・χ=1 で ${r.lin1}・非等質量(2,3;0.5,0.4)=${r.linUnequal.toFixed(4)} / GPS 速度項(μs/日): 二次 ${r.gps ? r.gps.quadratic.toFixed(3) : '-'}・一次振幅 衛星 ${r.gps ? r.gps.firstSatAmp.toFixed(3) : '-'}・地上 ${r.gps ? r.gps.firstGroundAmp.toFixed(4) : '-'}`);
   } else {
     console.log('SKIP behavior.frameConsistency(第243便 未適用 — root 等)');
   }

@@ -9790,8 +9790,8 @@ const BUILTIN_PRESETS = [
     // = コア J_z の 10⁻⁴ を回転 E ごとガスへ保存的に移送(E_rot 1.73×10⁷ ≫ 束縛 5×10³ の桁差)
     {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.1, pinned:false, tInt:2, lightSweep:0,
      shell:"solid", core:{mode:"differential", massFrac:0.5, radius:12, omega:40, Kcs:0, burst:{rate:1, frac:0.0001}}},
-    // 赤色巨星のエンベロープ役(☀️ と同一のガス球・同一 seed)
-    {type:"disk", n:200, cx:0,cy:0, radius:200, mMin:1,mMax:1,
+    // 赤色巨星のエンベロープ役(☀️ と同一のガス球・同一 seed)。第244便: shell:"gas" を明示(burst の受け手は気体殻だけ — 説明「ガス 200 粒」と宣言の食い違いを修正)
+    {type:"disk", shell:"gas", n:200, cx:0,cy:0, radius:200, mMin:1,mMax:1,
      spinMin:0,spinMax:0, tInt:2, vMode:"kepler", aroundMass:600, vScale:0.6, direction:1}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
@@ -10318,7 +10318,9 @@ function validatePreset(obj){
     // 黙って書き換わり「検証成功・警告なし」なのに実行値が入力と違う、を防ぐ
     let at="";
     const wc=(v,lo,hi,k)=>{ const c=clamp(v,lo,hi); if(c!==v) warnings.push(at+"."+k+" を値域に修正"); return c; };
-    const CO=(v,k)=>wc(v,-5000,5000,k), LEN=(v,k)=>wc(v,0,5000,k), MASS=(v,k)=>wc(v,1e-6,MASS_CAP,k),   /* 第118便: 質量下限 0.01→1e-6(実単位サンプルの実質量 — 水星 3.3e-4 等を被覆) */
+    // 第244便(裁定 B7′): 質量下限は physics.massFloor(1e-9〜)を宣言すればそこまで下げられる(💿 の環を観測総質量 1.3e-8/粒で置くため)。未宣言は 1e-6 で従来どおり
+    const massLo=(p.physics && isNum(p.physics.massFloor) && p.physics.massFloor>0 && p.physics.massFloor<1e-6)? Math.max(1e-9,p.physics.massFloor) : 1e-6;
+    const CO=(v,k)=>wc(v,-5000,5000,k), LEN=(v,k)=>wc(v,0,5000,k), MASS=(v,k)=>wc(v,massLo,MASS_CAP,k),   /* 第118便: 質量下限 0.01→1e-6(実単位サンプルの実質量 — 水星 3.3e-4 等を被覆) */
           VEL=(v,k)=>wc(v,-50,50,k), SPN=(v,k)=>wc(v,-20,20,k);
     // 第80便(コアv2): core:{} の検証を single/disk/ring で共有する(第77便は single 限定の
     // インライン実装だった)。戻り値: 正規化オブジェクト / null=core を採用しない(警告済み) /
@@ -11797,40 +11799,44 @@ function coreV2UpdatePass(S, m, spin, pinned, ax, ay, R, dt){
       // 残りが基準 |J| の 1e−9 を切ったら打ち切り(以後は分岐に入らない)
       let rem=S.coreBF[i]*S.coreBJ0[i]-S.coreBJr[i];
       let dJ=rem*(1-Math.exp(-S.coreBR[i]*dt));
-      if(rem<1e-9*S.coreBJ0[i]){ dJ=rem; S.coreBJr[i]=S.coreBF[i]*S.coreBJ0[i]; }
+      if(rem<1e-9*S.coreBJ0[i]) dJ=rem;
       if(dJ>Math.abs(J0)) dJ=Math.abs(J0);
       if(dJ>0){
         const J1=J0-sg*dJ, dE=(J0*J0-J1*J1)/(2*Ic);
         const n=S.n, x=S.x, y=S.y, vx=S.vx, vy=S.vy;
-        let Mg=0, cx=0, cy=0;
-        for(let k=0;k<n;k++){ if(k===i||pinned[k]) continue; Mg+=m[k]; cx+=m[k]*x[k]; cy+=m[k]*y[k]; }
+        // 第244便(ChatGPT v2 8.2 — 再現済み): 受け手は**気体殻(shell:"gas")・正質量・自由**の粒子だけ(固体は放出しない)。
+        // 受け手を配列に集め、I_g が正の有限値でなければコア J も引き落とさない(気体 1 粒では L が消えていた)
+        const gas=[]; let Mg=0, cx=0, cy=0;
+        for(let k=0;k<n;k++){ if(k===i||pinned[k]||!S.shellGas[k]||!(m[k]>0)) continue; gas.push(k); Mg+=m[k]; cx+=m[k]*x[k]; cy+=m[k]*y[k]; }
         if(Mg>0){
           cx/=Mg; cy/=Mg;
           let Ig=0, K0=0;
-          for(let k=0;k<n;k++){ if(k===i||pinned[k]) continue; const dx=x[k]-cx, dy=y[k]-cy;
+          for(const k of gas){ const dx=x[k]-cx, dy=y[k]-cy;
             Ig+=m[k]*(dx*dx+dy*dy); K0+=0.5*m[k]*(vx[k]*vx[k]+vy[k]*vy[k]); }
+          if(Ig>0 && Number.isFinite(Ig)){
           // ① 剛体回転モード(L=ΔJ・P=0)
-          if(Ig>0){ const w=sg*dJ/Ig;
-            for(let k=0;k<n;k++){ if(k===i||pinned[k]) continue; const dx=x[k]-cx, dy=y[k]-cy; vx[k]-=w*dy; vy[k]+=w*dx; } }
-          let K1=0; for(let k=0;k<n;k++){ if(k===i||pinned[k]) continue; K1+=0.5*m[k]*(vx[k]*vx[k]+vy[k]*vy[k]); }
+          const w=sg*dJ/Ig;
+          for(const k of gas){ const dx=x[k]-cx, dy=y[k]-cy; vx[k]-=w*dy; vy[k]+=w*dx; }
+          let K1=0; for(const k of gas){ K1+=0.5*m[k]*(vx[k]*vx[k]+vy[k]*vy[k]); }
           const dEr=dE-(K1-K0);
           // ② 動径−質量平均モード(P=0・L=0): A a²+B a−ΔE_r=0 の外向き解
           let ubx=0, uby=0;
-          for(let k=0;k<n;k++){ if(k===i||pinned[k]) continue; const dx=x[k]-cx, dy=y[k]-cy, r=Math.hypot(dx,dy);
+          for(const k of gas){ const dx=x[k]-cx, dy=y[k]-cy, r=Math.hypot(dx,dy);
             if(r>0){ ubx+=m[k]*dx/r; uby+=m[k]*dy/r; } }
           ubx/=Mg; uby/=Mg;
           let A=0, B=0;
-          for(let k=0;k<n;k++){ if(k===i||pinned[k]) continue; const dx=x[k]-cx, dy=y[k]-cy, r=Math.hypot(dx,dy);
+          for(const k of gas){ const dx=x[k]-cx, dy=y[k]-cy, r=Math.hypot(dx,dy);
             const wx=(r>0? dx/r:0)-ubx, wy=(r>0? dy/r:0)-uby;
             A+=0.5*m[k]*(wx*wx+wy*wy); B+=m[k]*(vx[k]*wx+vy[k]*wy); }
           const disc=B*B+4*A*dEr;
           if(A>0 && disc>=0){ const a=(-B+Math.sqrt(disc))/(2*A);
-            for(let k=0;k<n;k++){ if(k===i||pinned[k]) continue; const dx=x[k]-cx, dy=y[k]-cy, r=Math.hypot(dx,dy);
+            for(const k of gas){ const dx=x[k]-cx, dy=y[k]-cy, r=Math.hypot(dx,dy);
               vx[k]+=a*((r>0? dx/r:0)-ubx); vy[k]+=a*((r>0? dy/r:0)-uby); } }
-          let K2=0; for(let k=0;k<n;k++){ if(k===i||pinned[k]) continue; K2+=0.5*m[k]*(vx[k]*vx[k]+vy[k]*vy[k]); }
-          S.coreJ[i]=J1; if(S.coreBJr[i]<S.coreBF[i]*S.coreBJ0[i]) S.coreBJr[i]+=dJ;
+          let K2=0; for(const k of gas){ K2+=0.5*m[k]*(vx[k]*vx[k]+vy[k]*vy[k]); }
+          S.coreJ[i]=J1; S.coreBJr[i]=Math.min(S.coreBF[i]*S.coreBJ0[i], S.coreBJr[i]+dJ);
           S.burstE+=dE; S.burstK+=K2-K0; S.burstL+=sg*dJ; S.burstRes+=dE-(K2-K0);
           Om=S.coreJ[i]/Ic;
+          }
         }
       }
     }
@@ -24054,6 +24060,20 @@ function dfmPullEntrainment(o){
   const w=M*wf(d), chi=w/(D0p+W+w), v=(o.v!==undefined)? Number(o.v) : 0, c=(o.c>0)? Number(o.c) : 0, res=(1-chi)*v;
   return { w, Wext:W, chi, residual:res, anisotropy:(c>0)? 0.5*(res/c)*(res/c) : null, p };
 }
+// 第244便(裁定 A5′ — ChatGPT v2 7.1): GPS 速度項の分解。共通座標で w_sat=v_orb+δ_sat・w_ground=v_rot+δ_ground、δ_i=(1−χ_i)V
+// (V=太陽系に対する地球の速度 — 各時計がそれぞれのフレームに対して持つ残風)と置くと、通常の速度二乗差に
+// 2(v_orb·δ_sat − v_rot·δ_ground) + |δ_sat|² − |δ_ground|² が加わる。一次の交差項は向きに依存して時間平均で消え得るが振幅は残り、
+// 二次項は残る — 「(1−χ)²」でも「一次だけ」でもない。感度診断であって GPS の予測残差そのものではない(重力項・座標・伝播は別)。
+// 返値: 追加時計レート [μs/日] — quadratic(二次項の平均)・firstSatAmp/firstGroundAmp(交差項の最大振幅)。全て「衛星−地上」の向き
+function dfmGpsSpeedTerms(o){
+  const chiG=Number(o.chiGround), chiS=Number(o.chiSat), V=Number(o.V), vOrb=Number(o.vOrb), vRot=Number(o.vRot), c=(o.c>0)? Number(o.c) : 299792458;
+  if(![chiG,chiS,V,vOrb,vRot].every(Number.isFinite) || chiG<0 || chiG>1 || chiS<0 || chiS>1) return null;
+  const dS=(1-chiS)*V, dG=(1-chiG)*V, c2=c*c, usPerDay=86400e6;
+  return { deltaSat:dS, deltaGround:dG,
+    quadratic:-((dS*dS-dG*dG)/(2*c2))*usPerDay,        // 二次項: −(|δ_s|²−|δ_g|²)/(2c²)
+    firstSatAmp:(vOrb*dS/c2)*usPerDay,                  // 一次交差項(衛星)の振幅: v_orb·δ_s/c²
+    firstGroundAmp:(vRot*dG/c2)*usPerDay };             // 一次交差項(地上自転)の振幅: v_rot·δ_g/c²
+}
 function dfmMMAltitudeLimit(o){
   const M=Number(o.M), D0=(o.D0>=0)? Number(o.D0) : 0, v=Number(o.v), bound=Number(o.bound);
   const ext=Array.isArray(o.ext)? o.ext : []; let W=0; for(const e of ext){ if(e && e.M>0 && e.d>0) W+=Number(e.M)/Number(e.d); }
@@ -24103,6 +24123,7 @@ function dfmBinaryInertiaFactor(mA,mB,chiA,chiB,kFrame){
 window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extractJSON, frameWeightPow, frameWeightOf, FRAME_WEIGHT_DEFAULT,   // 第242便
   e6Proj, dfmBinaryInertiaFactorLinear, dfmBinaryMassFactorLinear,   // 第243便
   dfmInternalEntrainment, dfmBinaryChi, dfmBinaryInertiaFactor, dragTransG, dfmBinaryMassFactor, dfmContactEntrainment, dfmMMAltitudeLimit, dfmPullEntrainment,   // 第239便: 内部共動・解析慣性則・並進核(診断)
+  dfmGpsSpeedTerms,   // 第244便: GPS 速度項の分解(一次+二次)
   dfmStarMassLedger, dfmCoreDragRatio, dfmCoreDragRadius, DFM_BETA_SOLID, obsTemp,   // 第233便: 恒星構造 v1 純関数
   chiMassFactors,   // 第224便: χ-law v1(粒子別質量スケールの較正則 — QA behavior.chi-law が読む)
   coreTiltProxyAudit,   // 第226便提案: core.tilt の投影エネルギー/角力積監査(読み取り専用)
