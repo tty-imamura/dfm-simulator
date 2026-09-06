@@ -20325,8 +20325,10 @@ const ASTRO_CATALOG = {
     variants:{
       kf0:{ src:"saturnRingReal",    name:{ja:"空間引きずりOFF(kFrame=0)",en:"frame dragging off (kFrame=0)"},
         physics:astroPh({frameWeight:"share", G:6.674, D0:0.1,   kFrame:0, q:3,    softening:0.05, timeScale:10, dispMag:1}) },
-      kf1:{ src:"saturnRingRealKF1", name:{ja:"共通補正つき(kFrame=1・q_exact=20.4932)",en:"with the shared correction (kFrame=1, q_exact=20.4932)"},
-        physics:astroPh({frameWeight:"share", G:6.674, D0:0.006, kFrame:1, q:20.4932, softening:0.05, timeScale:10, dispMag:1}) } },
+      kf1:{ src:"saturnRingRealKF1", name:{ja:"共通補正つき(kFrame=1・q_exact=20.4932・観測環質量)",en:"with the shared correction (kFrame=1, q_exact=20.4932, observed ring mass)"},
+        // 第244便(裁定 B7′): 出典 💿 と同じく pull・D0pull・massFloor 1e-8。環帯は ringPatch で観測総質量(1.283e-8/粒)+frameSource:false に上書き(kf0 の帯は不変)
+        physics:astroPh({frameWeight:"pull", D0pull:3.24204e-5, massFloor:1e-8, G:6.674, D0:0.006, kFrame:1, q:20.4932, softening:0.05, timeScale:10, dispMag:1}),
+        ringPatch:{mMin:1.283e-8, mMax:1.283e-8, frameSource:false} } },
     defVariant:"kf1" },
 
   // ---- 土星の帯状重力(扁平)と環のテスト粒子(出典: saturnZonalD68)----
@@ -20421,7 +20423,7 @@ function buildAstroPreset(spec, sysOverride){
   } else {
     bodies.push(mkCenter());
     if(wantRings && sys.ringsAfterSats===false)
-      for(const band of sys.rings.bands) bodies.push(Object.assign({}, band));
+      for(const band of sys.rings.bands) bodies.push(Object.assign({}, band, vr.ringPatch||{}));   // 第244便: 変種別の環帯上書き(未宣言は恒等)
     for(const {s,i} of sats){
       // 位相は宣言的規則(カタログ順 × phaseStep)。部分選択でも各天体の位相は不変
       const th=sys.phase0 + i*sys.phaseStep, cs=astroCos(th), sn=astroSin(th);
@@ -20435,7 +20437,7 @@ function buildAstroPreset(spec, sysOverride){
         vx:-v*sn*dir, vy:v*cs*dir, spin:s.spin, pinned:false});
     }
     if(wantRings && sys.ringsAfterSats!==false)
-      for(const band of sys.rings.bands) bodies.push(Object.assign({}, band));
+      for(const band of sys.rings.bands) bodies.push(Object.assign({}, band, vr.ringPatch||{}));   // 第244便
   }
   const nm=sats.map(({s})=>astroName(s.name)).concat(wantRings? [astroName(sys.rings.name)] : []);
   const en=(LANG==="en");

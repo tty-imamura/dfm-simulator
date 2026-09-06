@@ -8868,7 +8868,7 @@ if (!FAST) {
       const def = { sigSame: d0.sig === dP.sig && d0.fw === undefined, share: dS.fw === 'share' && dS.warn === 0, p3: d3.fw === 'pull3' && d3.warn === 0, bad: dX.fw === undefined && dX.warn === 1,
         pow: HP.frameWeightPow({}) === 2 && HP.frameWeightPow({ frameWeight: 'share' }) === 0 && HP.frameWeightPow({ frameWeight: 'pull3' }) === 3 && HP.frameWeightPow({ frameWeight: 'pull4' }) === 4 && HP.FRAME_WEIGHT_DEFAULT === 'pull' };
       // legacy 内蔵サンプルは "share" 明示(1 bit 不変)・pull へ移行した現実較正 11 本は未宣言(=pull)
-      const MIG = ['earthMoonRealKF1', 'mercuryRealKF1', 'alphaCenABDFM', 'siriusABDFM', 'psrDoubleABDFM', 'gw150914DFM', 'alphaCenAB', 'siriusAB', 'psrDoubleAB', 'gw150914'];
+      const MIG = ['earthMoonRealKF1', 'mercuryRealKF1', 'saturnRingRealKF1', 'alphaCenABDFM', 'siriusABDFM', 'psrDoubleABDFM', 'gw150914DFM', 'alphaCenAB', 'siriusAB', 'psrDoubleAB', 'gw150914'];   // 第244便: 💿 も pull へ(観測環質量+frameSource:false)
       const all = HP.allPresets(); let nShare = 0, nOther = 0; const wrong = [];
       for (const q of all) { const fw = q.physics && q.physics.frameWeight; if (MIG.indexOf(q.id) >= 0) { if (fw !== undefined && fw !== 'pull') wrong.push(q.id); } else if (fw === 'share') nShare++; else { nOther++; wrong.push(q.id); } }
       // 🌘: 宣言どおり(pull・D0pull=3.36e-5)で generic・近点移動 2.995°/周。pull3/pull4 は再較正値で同窓
@@ -11409,9 +11409,11 @@ if (!FAST) {
       if (rmHi.length && impl.rMulSingleRing) impl.rMulSingleRing = [impl.rMulSingleRing[0], Math.max(impl.rMulSingleRing[1], Math.max(...rmHi))];
       const rm3 = betaHtml2.match(/p\.rays\s*=\s*\{\s*n:\s*clamp\(Math\.round\(p\.rays\.n\)\s*,\s*(\d+)\s*,\s*(\d+)\)\s*,\s*spread:\s*clamp\(p\.rays\.spread\s*,\s*([\d.]+)\s*,\s*([\d.]+)\)/);
       if (rm3) { impl.raysN = [+rm3[1], +rm3[2]]; impl.raysSpread = [+rm3[3], +rm3[4]]; }
-      const m4 = betaHtml2.match(/MASS=\(v,k\)=>wc\(v,\s*([\d.eE+-]+)\s*,\s*MASS_CAP/);
+      // 第244便: 下限は physics.massFloor で opt-in で下がる(massLo)— 既定リテラルは massLo の定義行(… : 1e-6)から抽出
+      const m4 = betaHtml2.match(/MASS=\(v,k\)=>wc\(v,\s*(?:massLo|([\d.eE+-]+))\s*,\s*MASS_CAP/);
+      const m4lo = betaHtml2.match(/const massLo=[^;]*:\s*([\d.eE+-]+);/);
       const mcap = betaHtml2.match(/const MASS_CAP=(\d+)/);
-      if (m4 && mcap) impl.mass = [+m4[1], +mcap[1]];
+      if (m4 && mcap) impl.mass = [+(m4[1] !== undefined ? m4[1] : (m4lo ? m4lo[1] : NaN)), +mcap[1]];
       const m5 = betaHtml2.match(/const CO=\(v,k\)=>wc\(v,\s*(-?\d+)\s*,\s*(\d+)/);
       if (m5) impl.coord = [+m5[1], +m5[2]];
       const m6 = betaHtml2.match(/LEN=\(v,k\)=>wc\(v,\s*(\d+)\s*,\s*(\d+)/);
@@ -21336,7 +21338,7 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     await kp.goto(INDEX, { waitUntil: 'load' });
     await kp.waitForFunction(() => !!(window.HP && HP.sim));
     const EXPECT = {
-      saturnRingRealKF1: 'pn', jupiterGalilean: 'pn', solarInner: 'pn', mercury: 'pn',
+      saturnRingRealKF1: 'generic', jupiterGalilean: 'pn', solarInner: 'pn', mercury: 'pn',   // 第244便: 💿 は pull+frameSource:false → generic
       galaxyDB: 'plain', echo: 'plain',
       selfRotor: 'generic', bhCore: 'generic', galaxy: 'generic', convection: 'generic',
     };
