@@ -5112,6 +5112,10 @@ if (!FAST) {
           Kcs: -3, inertiaScale: 1e9, tilt: 720 });
         const cl = { mf: S.coreMF[0], rc: S.RcV[0], kcs: S.coreKcs[0], is: S.coreIS[0],
           om: (S.RcV[0] > 0) ? S.coreJm[0] / (0.5 * S.coreMF[0] * Math.abs(S.m[0]) * S.RcV[0] * S.RcV[0] * S.coreIS[0]) : 0 };
+        // 第245便: massFrac の上限は検証器 vCore から読む(beta 0.95 / root 0.6 — 同値であることが検査の主旨)
+        { const pc = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.bodies.some((b) => b.type === 'single'))));
+          const b0 = pc.bodies.find((b) => b.type === 'single'); b0.core = { mode: 'differential', massFrac: 5, radius: 1, omega: 1, Kcs: 0 };
+          const vc = HP.validatePreset(pc); cl.capMf = (vc.ok && vc.preset.bodies.find((b) => b.type === 'single').core) ? vc.preset.bodies.find((b) => b.type === 'single').core.massFrac : NaN; }
         // コアの無い粒子への付与(UI 既定と同型)→ 除去で復帰
         S.applyCoreEdit(1, { mode: 'differential', massFrac: 0.3,
           radius: Math.max(0.01, Math.min(200, S.R[1] / 2)),
@@ -5128,13 +5132,13 @@ if (!FAST) {
         && r.off.md === 0 && r.off.j === 0 && r.off.jm === 0 && r.off.has === false
         && r.on.md === 2 && Object.is(r.on.j, r.jBuild) && Object.is(r.on.jm, r.jmBuild)
         && r.on.has === true && r.on.mf === Math.fround(0.3) && r.on.rc === 7.5 && r.on.is === 1 && r.on.kcs === 0
-        && r.cl.mf === Math.fround(0.95) && r.cl.rc === Math.fround(0.01) && r.cl.kcs === 0 && r.cl.is === 1e6   // 第245便: 上限 0.6 → 0.95(残骸の値域契約)
+        && r.cl.mf === Math.fround(r.cl.capMf) && r.cl.rc === Math.fround(0.01) && r.cl.kcs === 0 && r.cl.is === 1e6   // 第245便: 上限は検証器と同値(beta 0.95・root 0.6)
         && Math.abs(r.cl.om / 50 - 1) < 1e-5
         && r.sqTilt90 < 1e-9
         && r.add1.md === 2 && r.add1.has === true && r.md1After === 0,
         `applyCoreEdit=build 鏡写し: J/|J| ビット一致=${Object.is(r.on.j, r.jBuild)}/${Object.is(r.on.jm, r.jmBuild)} / ` +
         `無効化: coreMd=0・J=0・hasCoreV2=${r.off.has}(false)→再付与で復帰(有効=フィールド追加/無効=無視) / ` +
-        `クランプ(vCore 同値): massFrac ${r.cl.mf}(0.95)・radius ${r.cl.rc}(0.01)・Kcs ${r.cl.kcs}(0)・ζ ${r.cl.is}(1e6)・Ω ${r.cl.om.toFixed(1)}(50) / ` +
+        `クランプ(vCore 同値): massFrac ${r.cl.mf}(検証器 ${r.cl.capMf})・radius ${r.cl.rc}(0.01)・Kcs ${r.cl.kcs}(0)・ζ ${r.cl.is}(1e6)・Ω ${r.cl.om.toFixed(1)}(50) / ` +
         `tilt:90 の描画入力 |J_z|/|J|=${r.sqTilt90.toExponential(1)}(<1e-9 — エッジオン楕円=横棒) / ` +
         `コア無し粒子への付与→除去=OK / 編集 DOM 8要素=${r.dom}`);
     }
