@@ -264,9 +264,14 @@ const w5cDrMulti = await page.evaluate(() => {
 });
 
 // 第37便 Wave D: 新サンプルの有無(beta 先行 — root には無い)。後段の各セクションのガード式と同一
+const w5cHasAgnjet = await page.evaluate(() => HP.allPresets().some(p => p.id === 'agnjet'));
 const w5cHasCosmicweb = await page.evaluate(() => HP.allPresets().some(p => p.id === 'cosmicweb'));
 // 第39便 39A(台帳4-74): 🌪️spinup(収縮とスピン加速)の有無(beta 先行 — root には無い)
 const w5cHasSpinup = await page.evaluate(() => HP.allPresets().some(p => p.id === 'spinup'));
+// 第46便 46S(台帳4-68c 再挑戦): ☀️starcore(恒星の内部 — 融合を熱源とする)の有無(beta 先行 — root には無い)
+// 第245便: beta では ☀️starcore を廃止したが、**未昇格の root index.html はまだ持っており**、
+//          その claims が testId で behavior.starcore を指す(qa.testid-live)。root 昇格時に削除する
+const hasStarcore = await page.evaluate(() => HP.allPresets().some(p => p.id === 'starcore'));
 
 // bands(behavior.darkrotorLong の環帯定義。元コード2875行と同一)
 const w5cBands = [[80, 120], [120, 160], [160, 200], [200, 240]];
@@ -836,6 +841,26 @@ const W5C_UNITS = {
     }
     const sep = Math.hypot(s.x[stars[0]] - s.x[stars[1]], s.y[stars[0]] - s.y[stars[1]]);
     return { sep, keep, free, nan: s.hasNaN() };
+  }) },
+  // 第37便 D2(台帳4-68a): 🌋agnjet の双極性。既定(kRep=2)と対照(kRep=0)を 4000步 走らせ、
+  // 「内縁(初期 |x|≤80)起源のガスのうち r>300 へ出たもの」の方位分布を測る。
+  // 極方向 = ±y から30°以内(等方なら 1/3)。重い(341粒子×4000步×2本)ので !FAST のユニット
+  agnjet: { enabled: !FAST && w5cHasAgnjet, weight: 90, run: (pg) => pg.evaluate(() => {
+    const s = HP.sim;
+    const run = (kRep) => {
+      const p = JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'agnjet')));
+      if (kRep !== undefined) p.physics.kRep = kRep;
+      s.build(p);
+      const x0 = Array.from(s.x);
+      const inner = []; for (let i = 1; i < s.n; i++) if (Math.abs(x0[i]) <= 80) inner.push(i);
+      for (let k = 0; k < 4000; k++) s.step(0.016);
+      let pol = 0, eq = 0, tot = 0;
+      for (const i of inner) { const r = Math.hypot(s.x[i], s.y[i]); if (r < 300) continue;
+        tot++; if (Math.abs(s.y[i]) / r > 0.8660254) pol++; if (Math.abs(s.x[i]) / r > 0.8660254) eq++; }
+      return { nInner: inner.length, tot, pol, eq, frac: tot ? pol / tot : 0, nan: s.hasNaN() };
+    };
+    const def = run(undefined), ctrl = run(0);
+    return { jetDef: def, jetCtrl: ctrl };
   }) },
   // 第39便 39A(台帳4-74): 🌪️spinup の収縮とスピン加速。6000步(= 収縮が底に達した直後。
   // 底は5000步で最小値の1.05倍以内に入り、以後24000步まで平坦)。240粒子×6000步と軽い。
@@ -16980,6 +17005,41 @@ if (hasSwAutoCb) {
   }
 }
 
+// ---- 第245便: 本ブロックは beta では廃止した ☀️starcore / 🌋agnjet のもの。**未昇格の root index.html がまだ両サンプルを持ち、その claims が testId でここを指す**ため、root のカバレッジと
+// ---- qa.testid-live を守る目的で残置する(beta では has* ガードで SKIP)。root へ昇格した時点で削除する ----
+// ---- 7z13) D2: behavior.agnjet — 円盤の内縁で摩擦加熱されたガスが、抵抗の少ない極方向(±y)へ
+// ----      抜けて双極の噴出になる(圧力 E5′ + 幾何 の 2D アナロジー)。
+// ----      判定量: 内縁(初期 |x|≤80)起源のガスのうち 4000步後に r>300 へ出たものの方位が
+// ----      ±y から30°以内に入る割合。等方なら 1/3 なので、その2倍(=2/3)を要求する。
+// ----      A/B 対照は kRep=0(熱の斥力を切る)。重いので W5c ユニット(!FAST)----
+{
+  if (!FAST && w5cHasAgnjet) {
+    const r = await w5cGetUnit('agnjet');
+    const d = r.jetDef, c = r.jetCtrl;
+    const ratio = c.frac > 0 ? d.frac / c.frac : Infinity;
+    // 実測(beta 2026-07-27・旧配置。1000步ごと・内縁起源 37 粒子中):
+    //   步数        1000  2000  3000  4000  5000  6000
+    //   既定 kRep=2  —    0.895 0.815 0.839 0.758 0.758(極/赤道 4000步で 26/0)
+    //   対照 kRep=0  —    0.583 0.526 0.542 0.560 0.560
+    // 第218便再実測(除外の恒久原理化 — ガス帯がエンジン表面直上 r≈19 から始まる配置。
+    //   内縁起源 75 粒子中・gen-w218d):
+    //   步数        2000   3000   4000   5000   6000
+    //   既定 kRep=2  0.786  0.688  0.652  0.623  0.614(極/赤道 4000步で 43/9・脱出66)
+    //   対照 kRep=0  0.600  0.455  0.415  0.411  0.426(比 1.31〜1.57)
+    // 閾値: 極方向割合 ≥ 0.52(旧 2/3 — 旧実測 0.839÷1.26 と同じマージン則で 0.652÷1.26≈0.52。
+    //       窓 2000〜6000步の最小 0.614 でも 1.18倍上。等方 1/3 の 1.56 倍)/
+    //       対照比 ≥ 1.25(実測 1.57)/ 脱出数 ≥ 20(実測 66)。旧配置の root は 0.839 で
+    //       新閾値も大きく上回るため世代分岐は不要(検査の意味は不変・弱化は宣言済み再較正)
+    add('behavior.agnjet',
+      !d.nan && !c.nan && d.tot >= 20 && d.frac >= 0.52 && ratio >= 1.25,
+      `4000步・内縁(初期|x|≤80)起源で r>300 へ出たガス: 既定(kRep=2) ${d.tot}個中 極方向(±y±30°)=${d.pol} ` +
+      `赤道方向(±x±30°)=${d.eq} → 割合=${d.frac.toFixed(3)}(等方=1/3 の ${(d.frac * 3).toFixed(2)}倍・閾値 0.52〔第218便再較正〕) / ` +
+      `対照(kRep=0) ${c.tot}個中 極=${c.pol} 赤道=${c.eq} → 割合=${c.frac.toFixed(3)}(比=${ratio.toFixed(2)}倍 ≥1.25)`);
+  } else {
+    console.log('SKIP behavior.agnjet(QA_FAST=1 または対象に 🌋agnjet なし — 第37便 D2 未適用の root 等)');
+  }
+}
+
 // ---- 7z13b) 第39便 39A(台帳4-74): behavior.spinup — 圧力を切った自己重力雲が縮み、内側半質量
 // ----      (コア)の回転が ω ∝ 1/R² に沿って速くなる。外部駆動ゼロの完全閉鎖系なので、
 // ----      リザーバ帳簿が全ゼロのまま L_z が閉じることも同時に機械証明する ----
@@ -17025,6 +17085,148 @@ if (hasSwAutoCb) {
       `6.414〜8.462・71.8〜92.9% — 上のコメントの「閾値の根拠と限界」を参照)`);
   } else {
     console.log('SKIP behavior.spinup(QA_FAST=1 または対象に 🌪️spinup なし — 第39便 39A 未適用の root 等)');
+  }
+}
+
+// ---- 第245便: 本ブロックは beta では廃止した ☀️starcore / 🌋agnjet のもの。**未昇格の root index.html がまだ両サンプルを持ち、その claims が testId でここを指す**ため、root のカバレッジと
+// ---- qa.testid-live を守る目的で残置する(beta では has* ガードで SKIP)。root へ昇格した時点で削除する ----
+// ---- 7z13c) 第46便 46S(台帳4-68c 再挑戦・原仮定者裁定「進める」): behavior.starcore ----
+// ---- ☀️starcore は「重力収縮 → 融合加熱 → 放射」を1画面で示すサンプル。熱を作る経路を融合だけに
+// ----   絞ってある(γn=0・μF=0 で接触は完全弾性・kRep=0 で圧力なし・κs=0 で伝導なし)ので、
+// ----   熱の出入りは「融合で入る Q」と「E11 で出る radE」の2本だけになり、帳簿が閉じる。
+// ----   本テストは説明文の主張を**そのまま数値判定**する(claims の testId もここを指す):
+// ----     ① 融合が起きて燃料が減る(fusN・残ガス数)
+// ----     ② 温度が上がって保たれる(T_mean)
+// ----     ③ 融合を切った対照より放射エネルギーが桁で大きい(radE 比)= 第37便 D の否定的結論の裏返し
+// ----     ④ 融合が入れた熱 Q=ΔH+radE の大半が同じ窓で放射される(準定常)・対照では Q≡0
+// ----     ⑤ 温度は力に一切入らない(etaRad=0 にしても軌道が bit 一致)
+// ----     ⑥ 第一法則(KE+熱−重力+E9ばね+U_rep+radE+fusU+wallKE)が丸め水準で閉じる
+// ----   決定論(seed 20260730 固定)。QA_FAST でも実行する(第46便 46S の完遂条件) ----
+{
+  if (hasStarcore) {
+    const r = await page.evaluate(() => {
+      const S = HP.sim;
+      const P = HP.allPresets().find((p) => p.id === 'starcore');
+      // 第一法則の物差しは fusion.* / exp-45-* と同一式 + 円境界の wallKE(反発係数<1 で壁に吸われた分)
+      const energy = () => {
+        const G = S.params.G, eps2 = S.params.softening * S.params.softening, C = S.params.cHeat;
+        let E = 0;
+        for (let i = 0; i < S.n; i++) {
+          E += 0.5 * S.m[i] * (S.vx[i] * S.vx[i] + S.vy[i] * S.vy[i]);
+          E += 0.25 * S.m[i] * S.R[i] * S.R[i] * S.spin[i] * S.spin[i];
+          E += C * S.m[i] * S.Tint[i];
+        }
+        for (let i = 0; i < S.n; i++) for (let j = i + 1; j < S.n; j++) {
+          const dx = S.x[i] - S.x[j], dy = S.y[i] - S.y[j], d2 = dx * dx + dy * dy, d = Math.sqrt(d2);
+          E -= G * S.m[i] * S.m[j] / Math.sqrt(d2 + eps2);
+          const sumR = S.R[i] + S.R[j];
+          if (d < sumR) {
+            const muM = S.m[i] * S.m[j] / (S.m[i] + S.m[j]);
+            const maxInv = Math.max(1 / S.m[i], 1 / S.m[j]);
+            const CK96 = (typeof S.params.contactK === 'number') ? S.params.contactK : 40, CC96 = (typeof S.params.contactCap === 'number') ? S.params.contactCap : 8;   // 第96便: contactK/contactCap 対応
+            const xO = sumR - d, xC = CC96 / (maxInv * CK96 * muM);
+            E += (xO <= xC) ? 0.5 * CK96 * muM * xO * xO : 0.5 * CK96 * muM * xC * xC + (CC96 / maxInv) * (xO - xC);
+          }
+        }
+        // 第47便 47A(台帳4-86): pinned 熱浴のリザーバ pinHeat も保持量に加える(案B)。
+        // ☀️starcore は κs=0(46S がこの帳簿漏れを避けるために選んだ構成)なので pinHeat≡0
+        return E + HP.urepEnergy(S) + S.radE + S.fusU + S.wallKE + (S.pinHeat || 0);
+      };
+      const escale = () => {
+        const G = S.params.G, eps2 = S.params.softening * S.params.softening, C = S.params.cHeat;
+        let A = 0;
+        for (let i = 0; i < S.n; i++) A += 0.5 * S.m[i] * (S.vx[i] * S.vx[i] + S.vy[i] * S.vy[i]) + C * S.m[i] * S.Tint[i];
+        for (let i = 0; i < S.n; i++) for (let j = i + 1; j < S.n; j++) {
+          const dx = S.x[i] - S.x[j], dy = S.y[i] - S.y[j], d2 = dx * dx + dy * dy;
+          A += G * S.m[i] * S.m[j] / Math.sqrt(d2 + eps2);
+        }
+        return A + Math.abs(S.radE) + Math.abs(S.fusU) + Math.abs(S.wallKE);
+      };
+      const stats = () => {
+        let Tm = 0, Tmax = 0, rr = 0, nG = 0, H = 0, mass = 0;
+        const C = S.params.cHeat;
+        for (let i = 0; i < S.n; i++) {
+          const T = S.Tint[i];
+          if (!S.pinned[i]) { Tm += T; nG++; rr += Math.hypot(S.x[i], S.y[i]); }
+          if (T > Tmax) Tmax = T;
+          H += C * S.m[i] * T; mass += S.m[i];
+        }
+        return { n: S.n, nG, T: nG ? Tm / nG : 0, Tmax, rMean: nG ? rr / nG : 0, H, mass,
+          fusN: S.fusN, radE: S.radE, fusU: S.fusU, wallKE: S.wallKE };
+      };
+      const run = (patch, steps, dropFusion, ckEvery) => {
+        const p = JSON.parse(JSON.stringify(P));
+        if (patch) Object.assign(p.physics, patch);
+        if (dropFusion) delete p.fusion;
+        S.build(p);
+        const s0 = stats(), E0 = energy();
+        const ck = [];
+        for (let k = 0; k < steps; k++) {
+          S.step(0.016);
+          // bit 一致の照合キー: 粒子数・融合回数・平均半径(ガスのみ・小数6桁)
+          if (ckEvery && (k + 1) % ckEvery === 0) ck.push([S.n, S.fusN, stats().rMean.toFixed(6)]);
+        }
+        return { s0, s1: stats(), E0, E1: energy(), sc: escale(), ck, nan: S.hasNaN() };
+      };
+      HP.loadPreset('starcore', false);   // 正規経路で1回読む(currentPreset 同期)
+      // 第96便: c₀=30 相似変換世代は validT 192→384 — 步数は validT から導出(両世代対応)
+      const scSteps = Math.round((P.validT || 192) / 0.016);
+      const main = run(null, scSteps);          // 既定(t≈validT)
+      const ctrl = run(null, scSteps, true);    // 対照: 同一初期配置で融合だけ切る
+      const a6 = run(null, scSteps / 2, false, scSteps / 24);            // etaRad 既定(12点)
+      const b6 = run({ etaRad: 0 }, scSteps / 2, false, scSteps / 24);   // 対照: 放射を切っても軌道は変わらないはず
+      return { main, ctrl, ckN: a6.ck.length,
+        bitSame: JSON.stringify(a6.ck) === JSON.stringify(b6.ck),
+        thermal: S.thermal, dFrac: P.fusion ? P.fusion.dFrac : null,
+        hasFission: !!(P.fusion && P.fusion.fission), validT: P.validT,
+        psi: HP.strongFieldPsi(P), cls: HP.classifyPreset(P) };
+    });
+    const m = r.main, c = r.ctrl;
+    const Q = m.s1.H - m.s0.H + m.s1.radE;         // 融合が入れた熱(帳簿が閉じるので etaRad に依らない)
+    const Qc = c.s1.H - c.s0.H + c.s1.radE;        // 対照は熱源が無いので厳密に 0
+    const radFrac = Q > 0 ? m.s1.radE / Q : 0;     // そのうち窓内に放射で出た割合
+    const ratio = c.s1.radE > 0 ? m.s1.radE / c.s1.radE : Infinity;
+    const relE = Math.abs(m.E1 - m.E0) / m.sc;
+    const massOk = Math.abs(m.s1.mass - m.s0.mass) < 1e-3 * m.s0.mass;   // 融合は質量保存
+    // 実測(beta・内蔵プリセットそのもの・seed 20260730 固定で決定論・12000步=t≈192。46S):
+    //   融合124回 / ガス 200→76粒 / T_mean 2.000→4.911(最高66.93)/ radE=4554.6 /
+    //   Q=ΔH+radE=5312.5(etaRad=0 でも同値 = 帳簿が閉じている)/ radE/Q=85.7% /
+    //   fusU=−1827.3 / wallKE=40.5 / |ΔE|/scale=2.0e-3 / NaN なし。
+    //   対照(融合だけ切る): T_mean 2.000→0.491・radE=60.4・Q=−0.0(厳密)→ radE 比 75.46倍。
+    //   etaRad=0 の 6000步 12点 [n,fusN,rMean] は既定と完全一致(温度は力に入らない)。
+    // 閾値: 融合≥90回(実測124・dt 1/2・1/4 で 122/113・3seed で 116/114 = 余裕1.27倍)/
+    //   残ガス 40〜130粒(実測76)/ T_mean 3.0〜9.0(実測4.911・dt 収束 3.73〜4.91)/
+    //   radE 比≥40(実測75.46・dt 収束 67.1〜83.8)/ radE/Q 0.70〜1.00(実測0.857)/
+    //   |Qc|<0.01(対照の熱源ゼロ)/ |ΔE|/scale<1e-2(実測2.0e-3 = 5倍の余裕)/ bit 一致 / NaN なし。
+    // **閾値の性格**: 固定 seed の軌道に対する回帰検出であって seed 頑健性の主張ではない
+    //   (3seed の実測幅は上のコメントのとおりで、いずれも閾値の内側)。
+    // 第96便: c₀=30 世代は validT=384(t'=t/k)・T_int は ×k²=0.25 スケール量だが放射冷却
+    // (Λ∝ηT^p)の相似は近似のため再実測で窓を再較正: T=3.115(窓1.5〜6.5)・radFrac=0.724
+    const c30sc = r.validT === 384;
+    const tLo = c30sc ? 1.5 : 3.0, tHi = c30sc ? 6.5 : 9.0;
+    add('behavior.starcore',
+      !m.nan && !c.nan && r.thermal === 'tint' && r.dFrac === 0.35 && !r.hasFission
+      && (r.validT === 192 || r.validT === 384)
+      && massOk && r.bitSame && r.ckN === 12
+      && m.s1.fusN >= 90 && m.s1.nG >= 40 && m.s1.nG <= 130
+      && m.s1.T >= tLo && m.s1.T <= tHi
+      && ratio >= 40 && radFrac >= 0.70 && radFrac <= 1.0
+      && Math.abs(Qc) < 0.01 && relE < 1e-2,
+      `12000步(t≈192=validT・seed固定で決定論) 融合=${m.s1.fusN}回(≥90) ガス ${m.s0.nG}→${m.s1.nG}粒` +
+      `(燃料消費 ${((1 - m.s1.nG / m.s0.nG) * 100).toFixed(1)}%・窓40〜130) T_mean ${m.s0.T.toFixed(3)}→${m.s1.T.toFixed(3)}` +
+      `(窓3.0〜9.0・最高${m.s1.Tmax.toFixed(2)}) radE=${m.s1.radE.toFixed(1)} / ` +
+      `対照(融合だけ切る): T_mean ${c.s0.T.toFixed(3)}→${c.s1.T.toFixed(3)} radE=${c.s1.radE.toFixed(1)} ` +
+      `→ **放射エネルギー比=${ratio.toFixed(2)}倍**(≥40) / 熱収支: 融合が入れた熱 Q=ΔH+radE=${Q.toFixed(1)}・` +
+      `そのうち放射で出た割合=${(radFrac * 100).toFixed(1)}%(窓70〜100%)・対照の Q=${Qc.toFixed(4)}(≈0 = 熱源なし) / ` +
+      `etaRad=0 対照との bit 一致(6000步 ${r.ckN}点の [n,fusN,rMean])=${r.bitSame}(温度は力に一切入らない) / ` +
+      `保存: 質量 ${m.s0.mass.toFixed(1)}→${m.s1.mass.toFixed(1)}(融合は質量保存=${massOk})・` +
+      `fusU=${m.s1.fusU.toFixed(1)}・wallKE=${m.s1.wallKE.toFixed(1)}・|ΔE|/scale=${relE.toExponential(2)}(<1e-2) ` +
+      `NaN=${m.nan || c.nan} / バッジ: 分類=${r.cls.layers.join('+')}・温度モード=${r.thermal}・` +
+      `閉鎖系=${r.cls.closed}(中心核が pinned なので false)・ψ_static=${r.psi.toFixed(4)}` +
+      `(強場バッジ=${r.cls.strongField} — 0.5 未満なので付かない) / ` +
+      `46S の較正実測 = 124回/76粒/4.911/4554.6/75.46倍/85.7%/2.0e-3`);
+  } else {
+    console.log('SKIP behavior.starcore(対象に ☀️starcore なし — 第46便 46S 未適用の root 等)');
   }
 }
 
