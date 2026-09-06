@@ -21520,8 +21520,10 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
           const d = cmp(g.s, a.s);
           out.minKeys = Math.min(out.minKeys, Object.keys(a.s).length);
           // 第244便: 💿 は beta で pull+frameSource:false(generic)・root は share 明示(pn)— 期待経路はプリセットの宣言から決める
-          const pw = HP.allPresets().find((q) => q.id === id), wantK = (id === 'saturnRingRealKF1')
-            ? ((pw && pw.physics && pw.physics.frameWeight === 'share') ? 'pn' : 'generic') : EXPECT[id];
+          // root は frameWeight 未宣言(旧既定 share)・beta は "pull" 宣言 → 未宣言は HP.FRAME_WEIGHT_DEFAULT(無ければ share)で判定
+          const pw = HP.allPresets().find((q) => q.id === id), fwP = pw && pw.physics ? pw.physics.frameWeight : undefined;
+          const fwEff = (fwP !== undefined) ? fwP : (typeof HP.FRAME_WEIGHT_DEFAULT === 'string' ? HP.FRAME_WEIGHT_DEFAULT : 'share');
+          const wantK = (id === 'saturnRingRealKF1') ? (fwEff === 'share' ? 'pn' : 'generic') : EXPECT[id];
           out.rows.push({ id, st, diff: d.length, first: d.slice(0, 4),
             kind: a.kind, forcedKind: g.kind, want: wantK });
         }
