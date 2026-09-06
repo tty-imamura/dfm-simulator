@@ -9821,7 +9821,7 @@ const BUILTIN_PRESETS = [
     numerical:["dt=0.016・2000步(静止系 — 数値誤差の入り口がない)"]},
   activeParams:["kFrame","G","softening"],
   massCalibration:{law:"chi-law-v1-transfer", C:1, factorUniform:2},   // 台帳 f=2 の規約転写(殻 150+コア 150)
-  camera:{scale:320}, world:{boundary:"none",size:0}, seed:20260906, validT:32,
+  camera:{scale:40}, world:{boundary:"none",size:0}, seed:20260906, validT:32,   // scale は配置の広がり(R=8)に合わせる(ai.stabilize の妥当域)
   physics:{G:4, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
     cLight:30, bM:1, etaRad:0, pRad:2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
     pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2, coupleSink:"reservoir", frameWeight:"share"},
@@ -9843,11 +9843,11 @@ const BUILTIN_PRESETS = [
     {q:"パルス時計(比較マーカー)", model:"pulse:{omega:22.654675}(第226便チャネル・力学不干渉)", obs:"J0737−3039B の観測自転 — **別天体**の fiducial を比較マーカーとして置く宣言"},
     {q:"実測(2000步)", model:"単体静止をビット保持・コア J=77.9182 が全窓不変(Kcs=0)・位相 φ=ωt・NaN 0", obs:"—"}],
   descStruct:{
-    summary:"**🌹 超新星前駆星(DFM版)の「その後」だけを置いた雛形**(第244便 — 第36報「内部構造」)。仮定: 中性子星は前駆星の**育ったコア**である。🌹(m=705.918 — 台帳 f=2: 殻 352.959〔観測転写〕+コア 352.959)から殻が去り、**コア 352.959 だけが残った状態**を単体で置く。幾何も台帳も 🌹 から連続で受け取る: 殻=🌹 のコア半径 **10.6303 の器**・コア=Rc=R/5=**2.12606**(🌹 と同じ規約)・自転は殻もコアも 🌹 のコア Ω=**0.1953545**(**収縮によるスピンアップは入れない** — 崩壊の力学はモデル化しないため)。**時計は第226便の運動学パルスチャネル** pulse:{omega:22.654675, source:\"observed\"} を載せるが、これは J0737−3039B の観測自転=**別天体の fiducial を比較マーカーとして置く宣言**(🥀 の 1.4 M☉ マーカーと同じ規約)であって、この残骸の周期の予測ではない。**役割の分担**: 灯台の原理(傾いた軸・位相恒等・楕円スポーク)は 🏮 pulsarSolo が担い、こちらは**質量台帳の連続**(前駆星のコア → 残骸)だけを担う(傾き 0・面内)。崩壊・ニュートリノ・状態方程式・磁場・TOA はモデル化しない。",
+    summary:"**🌹 超新星前駆星(DFM版)の「その後」だけを置いた雛形**(第244便 — 第36報「内部構造」)。仮定: 中性子星は前駆星の**育ったコア**である。🌹(m=705.918 — 台帳 f=2: 殻 352.959〔観測転写〕+コア 352.959)から殻が去り、**コア 352.959 だけが残った状態**を単体で置く。幾何も台帳も 🌹 から連続で受け取る: 殻=🌹 のコア半径 **10.6303 の器**・コア=Rc=R/5=**2.12606**(🌹 と同じ規約)・自転は殻もコアも 🌹 のコア Ω=**0.1953545**(**収縮によるスピンアップは入れない** — 崩壊の力学はモデル化しないため)。**時計は第226便の運動学パルスチャネル** pulse:{omega:22.654675, source:\"observed\"} を載せるが、これは J0737−3039B の観測自転=**別天体の fiducial を比較マーカーとして置く宣言**(🥀 の 1.4 M☉ マーカーと同じ規約)であって、この残骸の周期の予測ではない。**役割の分担**: 灯台の原理(傾いた軸・位相恒等・楕円スポーク)は 🏮 pulsarSolo が担い、こちらは**質量台帳の連続**(前駆星のコア → 残骸)だけを担う(傾き 0・面内)。単体なので力学は静止のまま(空間引きずり A8/E6′ は相手が要る — 働くのは重力 E4 のみ)。崩壊・ニュートリノ・状態方程式・磁場・TOA はモデル化しない。",
     observe:"実測(2000步=t32): 単体静止をビット保持(x=vx=0)・**コア J=77.9182 が全窓で厳密不変**(Kcs=0)・Ω_c=0.1953545 保持・R=10.6303・massFrac 0.5・**パルス位相 φ=ω·t が成立**(力学 Ω とは独立の運動学チャネル — 第226便の設計どおり)・警告 0・NaN 0・クランプ 0。QA `behavior.remnantSamples` が機械固定する。",
     control:"おすすめA/B: pulse を外すと時計だけが消えて軌道は 1 bit も変わらない(第226便の除去対照)。core.Kcs を上げるとコア J が殻へ緩和する。🌹(前)→ 🔵(後)・🏮(灯台の原理)と読む。"},
   en:{name:"Neutron-Star Remnant Core — Only 🌹's Core Is Left (DFM)", descStruct:{
-    summary:"THE 'AFTER' OF 🌹 (the DFM supernova progenitor) ALONE, as a template (wave 244, report 36). Assumption: a neutron star IS the grown core of the progenitor. From 🌹 (m=705.918 — ledger f=2: shell 352.959 transcribed from observation + core 352.959) the shell is gone and ONLY THE CORE 352.959 REMAINS, placed as a solo body. Geometry and ledger are inherited from 🌹: the shell is the container of 🌹's CORE RADIUS 10.6303, the core keeps Rc=R/5=2.12606 (the same convention), and both shell and core spin at 🌹's core Ω=0.1953545 (NO SPIN-UP FROM COLLAPSE — the dynamics of collapse are not modelled). The clock is the wave-226 kinematic pulse channel, pulse:{omega:22.654675, source:\"observed\"}, but that is the observed spin of J0737−3039B — A DIFFERENT OBJECT'S FIDUCIAL PLACED AS A COMPARISON MARKER (the same convention as 🥀's 1.4 Msun marker), not a prediction of this remnant's period. DIVISION OF ROLES: the lighthouse principle (tilted axis, phase identity, elliptical spokes) belongs to 🏮 pulsarSolo; this sample carries only the CONTINUITY OF THE MASS LEDGER (progenitor core → remnant), with tilt 0 and in-plane. Collapse, neutrinos, the equation of state, magnetic fields and TOAs are not modelled.",
+    summary:"THE 'AFTER' OF 🌹 (the DFM supernova progenitor) ALONE, as a template (wave 244, report 36). Assumption: a neutron star IS the grown core of the progenitor. From 🌹 (m=705.918 — ledger f=2: shell 352.959 transcribed from observation + core 352.959) the shell is gone and ONLY THE CORE 352.959 REMAINS, placed as a solo body. Geometry and ledger are inherited from 🌹: the shell is the container of 🌹's CORE RADIUS 10.6303, the core keeps Rc=R/5=2.12606 (the same convention), and both shell and core spin at 🌹's core Ω=0.1953545 (NO SPIN-UP FROM COLLAPSE — the dynamics of collapse are not modelled). The clock is the wave-226 kinematic pulse channel, pulse:{omega:22.654675, source:\"observed\"}, but that is the observed spin of J0737−3039B — A DIFFERENT OBJECT'S FIDUCIAL PLACED AS A COMPARISON MARKER (the same convention as 🥀's 1.4 Msun marker), not a prediction of this remnant's period. DIVISION OF ROLES: the lighthouse principle (tilted axis, phase identity, elliptical spokes) belongs to 🏮 pulsarSolo; this sample carries only the CONTINUITY OF THE MASS LEDGER (progenitor core → remnant), with tilt 0 and in-plane. Being solo the dynamics stay at rest (frame dragging A8/E6′ needs a partner — only gravity E4 acts). Collapse, neutrinos, the equation of state, magnetic fields and TOAs are not modelled.",
     observe:"Measured (2000 steps = t32): rest held to the bit (x=vx=0); THE CORE J=77.9182 IS EXACTLY CONSTANT throughout (Kcs=0); Ω_c=0.1953545 held; R=10.6303; massFrac 0.5; THE PULSE PHASE φ=ω·t holds (a kinematic channel independent of the dynamical Ω — exactly the wave-226 design); zero warnings, zero NaN, zero clamps. QA behavior.remnantSamples machine-fixes it.",
     control:"Suggested A/B: removing pulse removes only the clock and the orbit does not change by one bit (the wave-226 removal control). Raising core.Kcs relaxes the core J into the shell. Read 🌹 (before) → 🔵 (after) alongside 🏮 (the lighthouse principle)."}},
   parameterAudit:{
@@ -13622,7 +13622,7 @@ function makeSim(){
   S._shed = function(){
     const n0=S.n;
     for(let i=0;i<n0;i++){
-      if(!(S.shdOc[i]>0) || S.shdDn[i] || S.pinned[i]) continue;
+      if(!(S.shdOc[i]>0) || S.shdDn[i]===1 || S.pinned[i]) continue;   // shdDn: 1=発火済/断念(2 以上は見送り回数)
       const md=S.coreMd[i]; if(md!==2 && md!==3) continue;        // J を持つコア(differential/active)だけ
       const M=S.m[i]; if(!(M>0)) continue;
       const mfr=S.coreMF[i]; if(!(mfr>0)) continue;
@@ -13713,9 +13713,12 @@ function makeSim(){
       const Ktan=(rL>0)? (Jg*Jg)/(2*Mg*rL*rL) : 0;
       const avail=dErel-dU-dEsh-Ktan;
       if(!(avail>=0) || !isFinite(avail)){
-        // 帳簿を破る状態は書かない — 試行状態を捨てて元へ戻す(次のステップで Ω が上がれば再挑戦する)
+        // 帳簿を破る状態は書かない — 試行状態を捨てて元へ戻す(次のステップで Ω が上がれば再挑戦する)。
+        // 再挑戦は 1 回あたり O(n_G·N) の対エネルギー評価を要するので上限を置く(shdDn: 0=未発火・
+        // 1=発火済/断念・2 以上=見送り回数+1。254 回で断念して以後この分岐に入らない)
         m[i]=M; R[i]=R0; S.coreMF[i]=mfr; S.mEff[i]=mE0; S.n=j0; S.linNext=lnx;
         S.shedSkip++;
+        S.shdDn[i]=(S.shdDn[i]>=254)? 1 : ((S.shdDn[i]||1)+1);
         continue;
       }
       const vr=Math.sqrt(2*avail/Mg), vt=(rL>0)? Jg/(Mg*rL) : 0;
