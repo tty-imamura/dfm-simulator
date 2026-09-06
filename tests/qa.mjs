@@ -21519,8 +21519,11 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
           const g = run(id, st, true), a = run(id, st, false);
           const d = cmp(g.s, a.s);
           out.minKeys = Math.min(out.minKeys, Object.keys(a.s).length);
+          // 第244便: 💿 は beta で pull+frameSource:false(generic)・root は share 明示(pn)— 期待経路はプリセットの宣言から決める
+          const pw = HP.allPresets().find((q) => q.id === id), wantK = (id === 'saturnRingRealKF1')
+            ? ((pw && pw.physics && pw.physics.frameWeight === 'share') ? 'pn' : 'generic') : EXPECT[id];
           out.rows.push({ id, st, diff: d.length, first: d.slice(0, 4),
-            kind: a.kind, forcedKind: g.kind, want: EXPECT[id] });
+            kind: a.kind, forcedKind: g.kind, want: wantK });
         }
       }
       // 否定対照: 照合器に 1 ulp ずらした状態を食わせる(比較器が空回りしていないことの実測)
