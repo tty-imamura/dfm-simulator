@@ -6901,17 +6901,21 @@ if (!FAST) {
           const SPA = 4.57371397, SPB = 2.00723302, ZETA = 27853.10245466657;
           // 第224便: χ-law 粒子別質量(比は法則導出)+ massCalibration 台帳。
           // 世代ゲート w224(root=旧共通 f=1.827 世代は massCalibration を持たない)/
-          // 第242便 w242: pull 重み世代 — 解析慣性則が f=1.0000000 を返し、質量=観測質量。
-          // (f−1)/f=4.4e-8 は core.massFrac の値域下限 0.01 を割るので隠れコアは撤去し、
+          // 第242便 w242: pull 重み世代 — 第245便 A6 の一次則で f=1.0002158(質量=観測質量の +0.022%)。
+          // (f−1)/f=2.157e-4(第245便 一次則)は core.massFrac の値域下限 0.01 を割るので隠れコアは撤去し、
           // 偶力は coupleSink:"reservoir" でリザーバ帳簿へ記帳する(📻 と同じ型)。
           const w224 = !!pd.massCalibration;
           const w242 = pd.physics.frameWeight === "pull";
-          const FA = w242 ? 1.0000000468819212 : (w224 ? 1.844194580781074 : 1.827), FB = FA;
+          // 第245便(裁定 A6): 台帳は一次則 f=1+k_F(αχ_A+βχ_B)へ切替 — 不動点 1.0002157798299423
+          //   (χ² 則の 1.0000000468819212 は台帳 factorQuad に併記して残す)
+          const FA = w242 ? 1.0002157798299423 : (w224 ? 1.844194580781074 : 1.827), FB = FA;
+          const FQ = 1.0000000468819212;
           const massOk = Math.abs(pd.bodies[0].m / p.bodies[0].m - FA) < 1e-9
             && Math.abs(pd.bodies[1].m / p.bodies[1].m - FB) < 1e-9
-            && (!w224 || (pd.massCalibration.law === 'inertia-law-v1'
+            && (!w224 || ((w242 ? pd.massCalibration.law === 'inertia-law-lin-v1' : pd.massCalibration.law === 'inertia-law-v1')
               && pd.massCalibration.fitDt === 0.016
-              && pd.massCalibration.factorByBody[0] === FA && pd.massCalibration.factorByBody[1] === FB));
+              && pd.massCalibration.factorByBody[0] === FA && pd.massCalibration.factorByBody[1] === FB
+              && (!w242 || (pd.massCalibration.factor === FA && pd.massCalibration.factorQuad === FQ))));   // 第245便: 一次則が台帳・χ² 則は併記
           const c0 = pd.bodies[0].core, c1 = pd.bodies[1].core;
           // 第242便: pull 世代は「コアを持たないこと」を機械固定する(旧世代は従来どおり二層を検査)
           const coreOk = w242
@@ -7052,9 +7056,9 @@ if (!FAST) {
     const dm = ac.dfm || { missing: true };
     const dfmOk = !dm.missing && dm.massOk && dm.declOk && !dm.nan && dm.det
       && dm.p2 !== null && Math.abs(dm.p2 / ac.P_OBS - 1) < 0.012   // 第242便 pull: P 残差 −0.58% を hold-out 記録(share 世代 −0.83%・窓 1.2%)
-      && dm.e1 !== null && Math.abs(dm.e1 - 0.52041) < 0.02   // 第242便 pull: 0.52041(share 世代 0.51684 も窓内)
+      && dm.e1 !== null && Math.abs(dm.e1 - 0.52051) < 0.02   // 第245便 一次則: 0.52051(χ² 則 0.52041・share 世代 0.51684 も窓内)
       && dm.angSign === 1                      // 第204便: 公転の向きが ✨ と同回り(数学正)
-      && dm.dPeri !== null && (dm.w242 ? (dm.dPeri >= 0.7 && dm.dPeri <= 1.0) : (dm.dPeri >= 3.5 && dm.dPeri <= 5.0))   // 第242便 pull: +0.86°/周(share 世代 +4.26 — claim 窓と同値)
+      && dm.dPeri !== null && (dm.w242 ? (dm.dPeri >= 0.7 && dm.dPeri <= 1.0) : (dm.dPeri >= 3.5 && dm.dPeri <= 5.0))   // 第245便 一次則: +0.886°/周(χ² 則 +0.893・share 世代 +4.26 — claim 窓と同値)
       && dm.shellHold === true                 // 第208便: 殻スピン=観測自転を全窓ビット保持(min=max=転写値)
       && (dm.w242 || (dm.coreDriftA <= 0.2 && dm.coreDriftB <= 0.2))   // 第208便: 偶力を受けたコア Ω は ±20% 内(pull 世代はコア無し)
       && dm.clampD === 0                       // 第208便: クランプ非接触(第205便の飽和 ~4.8×10⁵ の解消)
@@ -7084,13 +7088,13 @@ if (!FAST) {
       + `実測離心率 ${ac.kf0.ecc.toFixed(5)}(転写 0.51947)・座標最大 ${ac.kf0.maxAbs.toFixed(0)}(±5000 内)・重心 ${ac.kf0.comMax.toExponential(1)}(<1e-3) / `
       + `kF1(測定側・遠点発 0.56公転窓 — 第211便): 接触要素周期 ${(ac.kf1.growth * 100).toFixed(1)}%(宣言 pull −0.43%/share −13.0%)・rmin=${ac.kf1.rmin.toFixed(0)}(pull は近点 167.5 にほぼ届く) / `
       + `経路等価: CSV ${csvRows.length}行 → buildAstroFromRecords が観測安定則発動(${ac.eq.stab})+内蔵とビット一致=${ac.eq.same}(第242便 pull: 記録経路は kF${ac.eq.recKF}〔自己診断通過〕・kFrame 以外の一致=${ac.eq.sameNoKF}) / `
-      + `✴️ DFM版(第242便 pull): 質量係数 f=${dm.w242 ? '1.0000000(=観測質量)' : '1.84419〔share〕'}(台帳込みビット照合 ${dm.massOk})・宣言(kF1・A/B=kF0・外殻=転写光学半径ビット・${dm.w242 ? 'coupleSink:reservoir・コア無し・fitted 0ノブ' : 'coupleSink:core・massFrac=(f−1)/f・fitted 2ノブ'})=${dm.declOk}・`
+      + `✴️ DFM版(第245便 一次則): 質量係数 f=${dm.w242 ? '1.0002158(=観測質量+0.022%・χ² 則 1.0000000)' : '1.84419〔share〕'}(台帳込みビット照合 ${dm.massOk})・宣言(kF1・A/B=kF0・外殻=転写光学半径ビット・${dm.w242 ? 'coupleSink:reservoir・コア無し・fitted 0ノブ' : 'coupleSink:core・massFrac=(f−1)/f・fitted 2ノブ'})=${dm.declOk}・`
       + `familyRole: ✴️=primary/✨=variant(第204便) / `
-      + `kF1 の2周目 ${dm.p2 === null ? '—' : yr(dm.p2).toFixed(3) + '年'}(観測 79.762・宣言 ${dm.w242 ? '79.303〔hold-out −0.58%〕' : '79.761'})・`
-      + `1周目 e=${dm.e1 === null ? '—' : dm.e1.toFixed(5)}(宣言 ${dm.w242 ? '0.52041' : '0.51684'})・向き=✨と同回り(angSign=${dm.angSign})・`
-      + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(3) + '°/周'}(宣言 ${dm.w242 ? '+0.86・窓 0.7〜1.0' : '+4.26・窓 3.5〜5.0'})・`
+      + `kF1 の2周目 ${dm.p2 === null ? '—' : yr(dm.p2).toFixed(3) + '年'}(観測 79.762・宣言 ${dm.w242 ? '79.269〔hold-out −0.62%〕' : '79.761'})・`
+      + `1周目 e=${dm.e1 === null ? '—' : dm.e1.toFixed(5)}(宣言 ${dm.w242 ? '0.52051' : '0.51684'})・向き=✨と同回り(angSign=${dm.angSign})・`
+      + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(3) + '°/周'}(宣言 ${dm.w242 ? '+0.886・窓 0.7〜1.0' : '+4.26・窓 3.5〜5.0'})・`
       + `殻スピン=観測自転をビット保持(${dm.shellHold} — ドリフト A ${(dm.driftA * 100).toFixed(2)}%/B ${(dm.driftB * 100).toFixed(2)}%)・`
-      + (dm.w242 ? `コア無し(第242便 — (f−1)/f=4.4e-8 は massFrac 値域下限割れ)・clampSN Δ=${dm.clampD}・` : `コアΩドリフト A ${(dm.coreDriftA * 100).toFixed(1)}%/B ${(dm.coreDriftB * 100).toFixed(1)}%(受け皿側 ±20% 内)・clampSN Δ=${dm.clampD}・`)
+      + (dm.w242 ? `コア無し(第242便 — (f−1)/f=2.157e-4 は massFrac 値域下限割れ)・clampSN Δ=${dm.clampD}・` : `コアΩドリフト A ${(dm.coreDriftA * 100).toFixed(1)}%/B ${(dm.coreDriftB * 100).toFixed(1)}%(受け皿側 ±20% 内)・clampSN Δ=${dm.clampD}・`)
       + `帳簿残差 L ${dm.lRel === undefined ? '—' : dm.lRel.toExponential(1)}/P ${dm.pRel === undefined ? '—' : dm.pRel.toExponential(1)}(<1e-8)・`
       + `重心 comMax=${dm.comMax === undefined ? '—' : dm.comMax.toExponential(1)}(<0.01 — cmGauge 第209便)・`
       + `否定対照(coupleSink除去→${dm.w242 ? '殻スピンのビット保持が壊れる' : '再飽和'})=${dm.negSat}・(cmGauge除去→歩行 ${dm.negWalkMax === undefined ? '—' : dm.negWalkMax.toExponential(1)}単位)=${dm.negWalk}・`
@@ -7204,15 +7208,19 @@ if (!FAST) {
           // 第224便: χ-law 粒子別質量(q≈2 の本系は比 1.0342 と粒子別の差が4連星最大)。
           // 世代ゲート w224(root=旧共通 f=1.8702 世代は massCalibration を持たない)
           const w224 = !!pd.massCalibration;
-          const FA = (pd.physics.frameWeight === 'pull') ? 1.000000160419523 : (w224 ? 1.8881281616124954 : 1.8702), FB = FA;   // 第242便 pull / 第240便 share
+          // 第245便(裁定 A6): 一次則の不動点 1.0003769425929947(χ² 則 1.000000160419523 は factorQuad に併記)
+          const FA = (pd.physics.frameWeight === 'pull') ? 1.0003769425929947 : (w224 ? 1.8881281616124954 : 1.8702), FB = FA;   // 第242便 pull / 第240便 share
+          const FQ = 1.000000160419523;
           const massOk = Math.abs(pd.bodies[0].m / p.bodies[0].m - FA) < 1e-9
             && Math.abs(pd.bodies[1].m / p.bodies[1].m - FB) < 1e-9
-            && (!w224 || (pd.massCalibration.law === 'inertia-law-v1'
+            && (!w224 || (pd.massCalibration.law === (pd.physics.frameWeight === 'pull' ? 'inertia-law-lin-v1' : 'inertia-law-v1')
               && pd.massCalibration.fitDt === 0.016
-              && pd.massCalibration.factorByBody[0] === FA && pd.massCalibration.factorByBody[1] === FB));
+              && pd.massCalibration.factorByBody[0] === FA && pd.massCalibration.factorByBody[1] === FB
+              && (pd.physics.frameWeight !== 'pull'
+                || (pd.massCalibration.factor === FA && pd.massCalibration.factorQuad === FQ))));   // 第245便: 一次則が台帳・χ² 則は併記
           // 第221便(第20報): 💫 は二層構造へ移行(coupleSink:"core"・A 殻自転=vsini/R 代理値・
           // コアv2)。世代ゲート w221 で新旧両宣言を厳密判定する(root=第214便 reservoir 構成)。
-          // 第242便 w242: pull 重み世代 — f=1.0000001 で質量=観測質量、(f−1)/f=1.5e-7 が
+          // 第242便 w242: pull 重み世代 — 第245便 A6 の一次則で f=1.0003769(質量=観測質量の +0.038%)、(f−1)/f=3.8e-4 が
           // core.massFrac の値域下限 0.01 を割るので隠れコアを撤去し coupleSink:"reservoir" へ戻す。
           // A の殻自転(vsini/R 代理値)は据え置き。
           const w221 = pd.physics.coupleSink === 'core';
@@ -7353,7 +7361,7 @@ if (!FAST) {
     const dm = si.dfm || { missing: true };
     const dfmOk = !dm.missing && dm.massOk && dm.declOk && !dm.nan && dm.det
       && dm.p2 !== null && Math.abs(dm.p2 / si.P_OBS - 1) < 0.02   // 第242便 pull: P 残差 −1.71% を hold-out 記録(share 世代 −0.80%・窓 2.0%)
-      && dm.e1 !== null && Math.abs(dm.e1 - 0.59361) < 0.02   // 第242便 pull: 0.59361(share 世代 0.58880 も窓内)
+      && dm.e1 !== null && Math.abs(dm.e1 - 0.59377) < 0.02   // 第245便 一次則: 0.59377(χ² 則 0.59361・share 世代 0.58880 も窓内)
       && dm.angSign === 1
       && dm.dPeri !== null && dm.dPeri >= 2.0 && dm.dPeri <= 3.2   // 近点移動 +2.55°/周(claim 窓と同値)
       && dm.sMax < 1e-3   // 殻残余(第222便ルーティング後は 0・旧世代は 1PN 反作用偶力 2.6e-4)
@@ -7378,10 +7386,10 @@ if (!FAST) {
       + `kF0(採用側・1.05公転): ${t0 === null ? '—' : t0.toFixed(4) + '年'}(観測 50.1284・宣言 50.1306)・実測離心率 ${si.kf0.ecc.toFixed(5)}(転写 0.59142)・重心 ${si.kf0.comMax.toExponential(1)} / `
       + `kF1(測定側・遠点発 0.56公転): 接触要素周期 ${(si.kf1.growth * 100).toFixed(1)}%(宣言 pull −0.94%/share −19.0%)・rmin=${si.kf1.rmin.toFixed(0)}(pull は近点 120.9 にほぼ届く) / `
       + `経路等価: CSV ${csvRows.length}行 → 観測安定則発動(${si.eq.stab})+二体クロージャ確認 note=${si.eq.closure}+半径限定降格=${si.eq.demR}+内蔵とビット一致=${si.eq.same} / `
-      + `💫 DFM版: 質量係数 f=${dm.w242 ? '1.0000001(=観測質量・第242便 pull)' : '1.88813〔share〕'}(台帳込みビット照合 ${dm.massOk})・宣言(kF1・${dm.w242 ? 'coupleSink:reservoir・コア無し・fitted 0ノブ' : (dm.w221 ? 'coupleSink:core+二層〔第221便〕' : 'coupleSink:reservoir')}・cmGauge)=${dm.declOk}・`
-      + `2周目 ${dm.p2 === null ? '—' : yr(dm.p2).toFixed(4) + '年'}(宣言 ${dm.w242 ? '49.273〔hold-out −1.71%〕' : (dm.w221 ? '50.128' : '50.1290')})・e1=${dm.e1 === null ? '—' : dm.e1.toFixed(5)}(宣言 ${dm.w242 ? '0.59361' : '0.58880'})・近点 ${dm.rmin === undefined ? '—' : dm.rmin.toFixed(2)}・`
-      + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(3) + '°/周'}(宣言 ${dm.w242 ? '+2.11' : '+2.55'})・spin残余 ${dm.sMax === undefined ? '—' : dm.sMax.toExponential(1)}(<1e-3)・`
-      + (dm.w242 ? `A殻自転13.66 bit保持=${dm.s0hold}・コア無し(第242便 — (f−1)/f=1.5e-7 は massFrac 値域下限割れ)・` : (dm.w221 ? `A殻自転13.66 bit保持=${dm.s0hold}・コアΩドリフトA ${dm.omDriftA === null ? '—' : '+' + dm.omDriftA.toFixed(2) + '%'}(宣言 +1.2・窓0〜5)・` : ''))
+      + `💫 DFM版: 質量係数 f=${dm.w242 ? '1.0003769(=観測質量+0.038%・第245便 一次則)' : '1.88813〔share〕'}(台帳込みビット照合 ${dm.massOk})・宣言(kF1・${dm.w242 ? 'coupleSink:reservoir・コア無し・fitted 0ノブ' : (dm.w221 ? 'coupleSink:core+二層〔第221便〕' : 'coupleSink:reservoir')}・cmGauge)=${dm.declOk}・`
+      + `2周目 ${dm.p2 === null ? '—' : yr(dm.p2).toFixed(4) + '年'}(宣言 ${dm.w242 ? '49.225〔hold-out −1.80%〕' : (dm.w221 ? '50.128' : '50.1290')})・e1=${dm.e1 === null ? '—' : dm.e1.toFixed(5)}(宣言 ${dm.w242 ? '0.59377' : '0.58880'})・近点 ${dm.rmin === undefined ? '—' : dm.rmin.toFixed(2)}・`
+      + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(3) + '°/周'}(宣言 ${dm.w242 ? '+2.197' : '+2.55'})・spin残余 ${dm.sMax === undefined ? '—' : dm.sMax.toExponential(1)}(<1e-3)・`
+      + (dm.w242 ? `A殻自転13.66 bit保持=${dm.s0hold}・コア無し(第242便 — (f−1)/f=3.768e-4 は massFrac 値域下限割れ)・` : (dm.w221 ? `A殻自転13.66 bit保持=${dm.s0hold}・コアΩドリフトA ${dm.omDriftA === null ? '—' : '+' + dm.omDriftA.toFixed(2) + '%'}(宣言 +1.2・窓0〜5)・` : ''))
       + `clampSN Δ=${dm.clampD}・帳簿 L ${dm.lRel === undefined ? '—' : dm.lRel.toExponential(1)}/P ${dm.pRel === undefined ? '—' : dm.pRel.toExponential(1)}・重心 ${dm.comMax === undefined ? '—' : dm.comMax.toExponential(1)}・`
       + `否定対照(coupleSink除去→0から±40飽和)=${dm.negSat}・(cmGauge除去→歩行 ${dm.negWalkMax === undefined ? '—' : dm.negWalkMax.toFixed(1)}単位)=${dm.negWalk}・`
       + (dm.dimOff ? `測光相殺(第227便): lSw=massFrac=${dm.dimOff.lsEqMfA}/${dm.dimOff.lsEqMfB}・(1−l)·f−1=${dm.dimOff.invA.toExponential(1)}/${dm.dimOff.invB.toExponential(1)}(<1e-7 — T_obs=観測質量側)・` : '')
@@ -7403,7 +7411,7 @@ if (!FAST) {
 //     (c₀=3×10³・rel)を選定し、値域外スピン2件の spin=0 宣言つき降格+観測安定則(kF1→kF0)を
 //     経て、内蔵 📻 とビット一致で再構築する(従来族 L−T=4 の全滅後にのみ rel 族を試す —
 //     既存系は 1 bit 不変。q=3.1789・L6/T1/M27)
-// (e) ⚡ DFM: 質量=📻×解析慣性則(pull f=1.99988・share f=1.99777)・2周目 ±0.5%(宣言 pull 8819.84 s)・e1 0.087949±0.002・近点 801.42±1%・
+// (e) ⚡ DFM: 質量=📻×解析慣性則(第245便 一次則 f=1.99994・χ² 則 1.99988・share 1.99777)・2周目 ±0.5%(宣言 8819.36 s)・e1 0.087977±0.002・近点 801.37±1%・
 //     近点移動 +0.05〜0.2°/周(順行)・**スピンは保持できない宣言**(±40 飽和・clampSN>0・
 //     帳簿 L 残差<1e-4〔宣言 5.0×10⁻⁶ — クランプ捨て分〕・P 残差<1e-8)・重心機械ゼロ・
 //     否定対照(cmGauge除去→歩行/kF0×f→深い楕円)・決定性
@@ -7529,12 +7537,15 @@ if (!FAST) {
         else {
           // 第224便: χ-law 粒子別質量(比は法則導出・fit は正規化 C の1ノブ)+ massFrac=(f−1)/f
           const w242 = pd.physics.frameWeight === 'pull';   // 第242便: pull 重み世代(χ 飽和域なので f≈2 は不変)
-          const FA = w242 ? 1.999884538696137 : 1.9977659648501627, FB = FA;   // 第242便 pull / 第240便 share
+          // 第245便(裁定 A6): 一次則の不動点 1.999942269345993(χ² 則 1.999884538696137 は factorQuad に併記)
+          const FA = w242 ? 1.999942269345993 : 1.9977659648501627, FB = FA;   // 第242便 pull / 第240便 share
+          const FQ = 1.999884538696137;
           const massOk = Math.abs(pd.bodies[0].m / p.bodies[0].m - FA) < 1e-9
             && Math.abs(pd.bodies[1].m / p.bodies[1].m - FB) < 1e-9
-            && pd.massCalibration && pd.massCalibration.law === 'inertia-law-v1'
+            && pd.massCalibration && pd.massCalibration.law === (w242 ? 'inertia-law-lin-v1' : 'inertia-law-v1')
             && pd.massCalibration.fitDt === 0.016
-            && pd.massCalibration.factorByBody[0] === FA && pd.massCalibration.factorByBody[1] === FB;
+            && pd.massCalibration.factorByBody[0] === FA && pd.massCalibration.factorByBody[1] === FB
+            && (!w242 || (pd.massCalibration.factor === FA && pd.massCalibration.factorQuad === FQ));   // 第245便: 一次則が台帳・χ² 則は併記
           // 第221便(第20報): コアv2 有効 — B の観測自転 ω=22.654675 をコア Ω として転写
           // (殻値域 ±20 の外・コア Ω 値域 ±50 内)。A は ±50 も超えるため受け皿(Ω₀=0)
           const OM_B = 22.654675;
@@ -7556,7 +7567,7 @@ if (!FAST) {
             && /コア Ω として転写/.test(pd.descStruct.summary)
             && /第69便|1PN 反作用偶力/.test(pd.descStruct.summary)
             && /受け先へルーティング|受け先ルーティング/.test(pd.descStruct.summary)   // 第222便
-            && /ΔP\/P=−0\.1(09|10)%\/公転/.test(pd.descStruct.summary);   // 第222便: 周期短縮の宣言(pull −0.109%/share −0.110%)
+            && /ΔP\/P=−0\.1(09|10|11)%\/公転/.test(pd.descStruct.summary);   // 第222便: 周期短縮の宣言(第245便 一次則 −0.111%/χ² 則 −0.109%/share −0.110%)
           const vd = HP.validatePreset(JSON.parse(JSON.stringify(pd)));
           const S = HP.sim; S.build(vd.preset);
           const clamp0 = S.clampSN || 0;
@@ -7722,10 +7733,10 @@ if (!FAST) {
     const dm = ps.dfm || { missing: true };
     const dfmOk = !dm.missing && dm.massOk && dm.declOk && !dm.nan && dm.det
       && dm.p2 !== null && Math.abs(dm.p2 / ps.P_OBS - 1) < 0.012   // 第240便: P 残差 −0.16%(hold-out)
-      && dm.e1 !== null && Math.abs(dm.e1 - 0.087949) < 0.002   // 第242便 pull: 0.087949(share 世代 0.087089 も窓内)
-      && dm.rmin1 !== null && Math.abs(dm.rmin1 / 801.42 - 1) < 0.01   // 第242便 pull: 801.42(share 世代 802.81 も窓内)
+      && dm.e1 !== null && Math.abs(dm.e1 - 0.087977) < 0.002   // 第245便 一次則: 0.087977(χ² 則 0.087949・share 世代 0.087089 も窓内)
+      && dm.rmin1 !== null && Math.abs(dm.rmin1 / 801.37 - 1) < 0.01   // 第245便 一次則: 801.37(χ² 則 801.42・share 世代 802.81 も窓内)
       && dm.angSign === 1
-      && dm.dPeri !== null && (dm.w242 ? (dm.dPeri >= 0.005 && dm.dPeri <= 0.02) : (dm.dPeri >= 0.05 && dm.dPeri <= 0.2))   // 第242便 pull: +0.0099°/周(share 世代 +0.103 — claim 窓と同値)
+      && dm.dPeri !== null && (dm.w242 ? (dm.dPeri >= 0.005 && dm.dPeri <= 0.02) : (dm.dPeri >= 0.05 && dm.dPeri <= 0.2))   // 第245便 一次則: +0.0088°/周(χ² 則 +0.0123・share 世代 +0.103 — claim 窓と同値)
       && dm.sMax === 0 && dm.clampD === 0                // 第222便: 殻スピンは全窓ビット保持(1PN 偶力の受け先ルーティング)
       && dm.omDriftB !== null && dm.omDriftB >= 0 && dm.omDriftB <= 2   // B コア Ω 保持(claim 窓と同値・宣言 +0.40%)
       // 力学コア時計の現状(第225便): A の 2768 は力学に載らない、B は初期値の転写で −0.4%/4.3公転。
@@ -7773,9 +7784,9 @@ if (!FAST) {
       + `kF1(測定側・遠点発 0.56公転): 接触要素周期 +${(ps.kf1.growth * 100).toFixed(1)}%(宣言 +157%・膨張 — 🌟 の縮小と逆向き)・rmax=${ps.kf1.rmax.toFixed(0)}(>1500)・殻 |s|max=${ps.kf1.sMax}(=0 — 記帳化で飽和解消) / `
       + `近点複製プローブ: kF1 外挿 ${(ps.pr1.proj * 100).toFixed(2)}%/公転(宣言 18.00 — 発火・差し戻し)・kF0 ドリフト ${ps.pr0.drift.toExponential(1)}(<1e-5 — ノイズ床未満) / `
       + `経路等価(第222便 族拡張): CSV ${csvRows.length}行 → buildAstroFromRecords=${ps.hole.ok}(相対論的連星族 rel=${ps.hole.scale ? ps.hole.scale.rel : '—'}・L${ps.hole.scale ? ps.hole.scale.L : '—'}/T${ps.hole.scale ? ps.hole.scale.T : '—'}/M${ps.hole.scale ? ps.hole.scale.M : '—'}・q=${ps.hole.q}・観測安定則=${ps.hole.stab}・値域外スピン宣言 ${ps.hole.spinDecl}件・内蔵 📻 とビット一致=${ps.hole.same}) / `
-      + `⚡ DFM版: 質量係数 f=${dm.w242 ? '1.99988(第242便 pull)' : '1.99777〔share〕'}(台帳込みビット照合 ${dm.massOk})・宣言(kF1・coupleSink:core+二層・massFrac=(f−1)/f・cmGauge・${dm.w242 ? 'fitted 0ノブ' : 'fitted 1ノブ C'}・BコアΩ=22.654675 転写)=${dm.declOk}・`
-      + `2周目 ${dm.p2 === null ? '—' : (dm.p2 * 10).toFixed(2) + ' s'}(宣言 ${dm.w242 ? '8819.84〔hold-out −0.17%〕' : '8834.6'})・e1=${dm.e1 === null ? '—' : dm.e1.toFixed(6)}(宣言 ${dm.w242 ? '0.087949' : '0.087089'})・近点 ${dm.rmin1 === null || dm.rmin1 === undefined ? '—' : dm.rmin1.toFixed(2)}(宣言 ${dm.w242 ? '801.42' : '802.81'} ±1%)・`
-      + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(4) + '°/周'}(宣言 ${dm.w242 ? '+0.0099・窓 0.005〜0.02' : '+0.103'})・BコアΩ保持 ${dm.omDriftB === null || dm.omDriftB === undefined ? '—' : '+' + dm.omDriftB.toFixed(2) + '%'}(宣言 +0.38・窓0〜2)・`
+      + `⚡ DFM版: 質量係数 f=${dm.w242 ? '1.99994(第245便 一次則・χ² 則 1.99988)' : '1.99777〔share〕'}(台帳込みビット照合 ${dm.massOk})・宣言(kF1・coupleSink:core+二層・massFrac=(f−1)/f・cmGauge・${dm.w242 ? 'fitted 0ノブ' : 'fitted 1ノブ C'}・BコアΩ=22.654675 転写)=${dm.declOk}・`
+      + `2周目 ${dm.p2 === null ? '—' : (dm.p2 * 10).toFixed(2) + ' s'}(宣言 ${dm.w242 ? '8819.36〔hold-out −0.17%〕' : '8834.6'})・e1=${dm.e1 === null ? '—' : dm.e1.toFixed(6)}(宣言 ${dm.w242 ? '0.087977' : '0.087089'})・近点 ${dm.rmin1 === null || dm.rmin1 === undefined ? '—' : dm.rmin1.toFixed(2)}(宣言 ${dm.w242 ? '801.37' : '802.81'} ±1%)・`
+      + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(4) + '°/周'}(宣言 ${dm.w242 ? '+0.0088・窓 0.005〜0.02' : '+0.103'})・BコアΩ保持 ${dm.omDriftB === null || dm.omDriftB === undefined ? '—' : '+' + dm.omDriftB.toFixed(2) + '%'}(宣言 +0.38・窓0〜2)・`
       + `力学コア時計: A力学転写=${dm.pulseARepresented}(=false)・B ${dm.pulseTurnsB === undefined ? '—' : dm.pulseTurnsB.toFixed(0)}回転・平均 ${dm.pulseMeanSecB === undefined ? '—' : dm.pulseMeanSecB.toFixed(6)} s・末尾 ${dm.pulseEndSecB === undefined ? '—' : dm.pulseEndSecB.toFixed(6)} s(${dm.pulseEndErrorPctB === undefined ? '—' : dm.pulseEndErrorPctB.toFixed(3)}%)・`
       + `パルス時計チャネル(第226便): 宣言A/B=${dm.pulseDeclA}/${dm.pulseDeclB}・A ${dm.pulseChan ? dm.pulseChan.turnsA.toExponential(3) : '—'}回転・平均 ${dm.pulseChan ? (dm.pulseChan.meanSecA * 1000).toFixed(6) : '—'} ms/B ${dm.pulseChan ? dm.pulseChan.meanSecB.toFixed(7) : '—'} s・位相恒等 ${dm.pulseChan ? dm.pulseChan.phRelErrA.toExponential(1) : '—'}/${dm.pulseChan ? dm.pulseChan.phRelErrB.toExponential(1) : '—'}(<1e-9)・力学不干渉=${dm.pulseDynInv}・`
       + `殻スピン保持 |s|max=${dm.sMax === undefined ? '—' : dm.sMax}(=0・clampSN Δ=${dm.clampD} — 第222便 1PN 偶力ルーティング)・`
@@ -7810,7 +7821,9 @@ if (!FAST) {
       const pd = HP.allPresets().find((q) => q.id === 'gw150914DFM');
       // 第224便: χ-law 粒子別質量+重心再配分+質量記帳のみの二層(受け皿は reservoir 据え置き)
       const w242 = pd.physics.frameWeight === 'pull';   // 第242便: pull 重み世代
-      const FA = w242 ? 1.99999999997788880 : 1.9980358529022886, FB = FA;   // 第242便 pull / 第240便 share
+      // 第245便(裁定 A6): 一次則の不動点 1.9999999999889444(χ² 則 1.9999999999778888 は factorQuad に併記)
+      const FA = w242 ? 1.9999999999889444 : 1.9980358529022886, FB = FA;   // 第242便 pull / 第240便 share
+      const FQ = 1.9999999999778888;
       const rxO = p.bodies[1].x - p.bodies[0].x, rvyO = p.bodies[1].vy - p.bodies[0].vy;
       const mtD2 = pd.bodies[0].m + pd.bodies[1].m;
       const d = { w242, fid: p.fidelity && pd.fidelity, L: p.scaleExp.L, T: p.scaleExp.T, M: p.scaleExp.M,
@@ -7828,8 +7841,9 @@ if (!FAST) {
           [-pd.bodies[1].m * rvyO / mtD2, pd.bodies[0].vy], [pd.bodies[0].m * rvyO / mtD2, pd.bodies[1].vy],
           [p.bodies[0].x, pd.bodies[0].x], [p.bodies[1].vy, pd.bodies[1].vy]].every(([u, v]) => Math.abs(u - v) <= 1e-9 * Math.max(1, Math.abs(v))),
         massOk: Math.abs(pd.bodies[0].m / p.bodies[0].m - FA) < 1e-9 && Math.abs(pd.bodies[1].m / p.bodies[1].m - FB) < 1e-9
-          && pd.massCalibration && pd.massCalibration.law === 'inertia-law-v1' && pd.massCalibration.fitDt === 0.016
-          && pd.massCalibration.factorByBody[0] === FA && pd.massCalibration.factorByBody[1] === FB,
+          && pd.massCalibration && pd.massCalibration.law === (w242 ? 'inertia-law-lin-v1' : 'inertia-law-v1') && pd.massCalibration.fitDt === 0.016
+          && pd.massCalibration.factorByBody[0] === FA && pd.massCalibration.factorByBody[1] === FB
+          && (!w242 || (pd.massCalibration.factor === FA && pd.massCalibration.factorQuad === FQ)),   // 第245便: 一次則が台帳・χ² 則は併記
         // 第224便: 質量記帳のみの二層 — massFrac=(f−1)/f・Ω=0・Kcs=0(受け皿はコアではない)
         coreD: pd.bodies[0].core && pd.bodies[1].core
           && pd.bodies[0].core.mode === 'differential' && pd.bodies[1].core.mode === 'differential'
@@ -7980,13 +7994,13 @@ if (!FAST) {
     add('behavior.gw150914', gwCsv === 7 && declOk && obsOk && ctrlOk && dfmOk,
       `宣言=${declOk}(fidelity=real・**L4/T−3/M29=第223便 L−T=7 合体連星族(c₀=30)**・κ=G/c₀²・`
       + `**kF0+geoPN=0(換算整合則 — 転写した a・P はニュートン換算派生値)**・spin=0×2〔上限値のみ〕・`
-      + `半径=Schwarzschild 換算 proxy・coupleSink reservoir・cmGauge・🎻=🎐×解析慣性則 f=${gw.d.w242 ? '2.0000000〔第242便 pull〕' : '1.99804〔share〕'}〔台帳込みビット照合・再配分再計算一致・記帳のみ二層〕・スナップショット宣言) / `
+      + `半径=Schwarzschild 換算 proxy・coupleSink reservoir・cmGauge・🎻=🎐×解析慣性則 f=${gw.d.w242 ? '2.0000000〔第245便 一次則・χ² 則との差は 11 桁目〕' : '1.99804〔share〕'}〔台帳込みビット照合・再配分再計算一致・記帳のみ二層〕・スナップショット宣言) / `
       + `🎐 kF0+geoPN=0(3.3公転): 1周目 ${o.rev1 === null ? '—' : (o.rev1 / 1000).toFixed(6) + ' s'}(基準 0.181818 ±0.2%)・`
       + `2周目短縮 ${o.dec1 === null ? '—' : o.dec1.toFixed(4)}%(<0.02 — 短縮なし)・実測離心率 ${o.e1 === null ? '—' : o.e1.toFixed(6)}(転写 0.08)・`
       + `重心 ${o.comMax.toExponential(1)}・帳簿 L ${o.lRel.toExponential(1)}/P ${o.pRel.toExponential(1)}・決定性=${gw.obsDet} / `
       + `換算整合則対照: geoPN=2 → 1周目 +${gw.geo2.rev1 === null ? '—' : ((gw.geo2.rev1 / gw.P_OBS - 1) * 100).toFixed(1)}%(窓 30〜55 — 衝突)・`
       + `kF1 測定側 → 周回なし・rmax=${gw.kf1.rmax.toFixed(0)}(>800)・接触要素周期 +${(gw.kf1.growth * 100).toFixed(0)}% / `
-      + `🎻 DFM(解析慣性則 f=${gw.d.w242 ? '2.0000000・第242便 pull' : '1.99804・第240便'}): 2周目 ${dm.p2 === null ? '—' : (dm.p2 / 1000).toFixed(6) + ' s'}(基準 ±0.5%)・`
+      + `🎻 DFM(一次則 f=${gw.d.w242 ? '2.0000000・第245便 A6' : '1.99804・第240便'}): 2周目 ${dm.p2 === null ? '—' : (dm.p2 / 1000).toFixed(6) + ' s'}(基準 ±0.5%)・`
       + `e1=${dm.e1 === null ? '—' : dm.e1.toFixed(6)}(**hold-out 不成立(pull +1.0%)— 窓 0.070〜0.082**)・近点 ${dm.rmin1 === null ? '—' : dm.rmin1.toFixed(2)}(宣言 177.09 ±1.5%)・`
       + `近点移動 ${dm.dPeri === null ? '—' : '+' + dm.dPeri.toFixed(4) + '°/周'}(宣言 pull +0.075)・短縮 ΔP/P=−${dm.dec1 === null ? '—' : dm.dec1.toFixed(3)}%/公転(宣言 pull −0.542・規約刻み)・`
       + (gw.dtHalf ? `dt/2 短縮率比=${gw.dtHalf.dec1 === null ? '—' : (gw.dtHalf.dec1 / dm.dec1).toFixed(3)}(0.35〜0.65 — 離散化仕事・合体の再現ではない)・` : `dt/2: QA_FAST では省略(フルゲートで機械固定)・`)
@@ -9206,17 +9220,35 @@ if (!FAST) {
           const shellA = Math.abs(pd.bodies[0].m * (1 - mfA) / mc.baseMass[0] - 1);
           const shellB = Math.abs(pd.bodies[1].m * (1 - mfB) / mc.baseMass[1] - 1);
           r.law = mc.law; r.coreDecl = coreDecl; r.pw = pw;
-          if (mc.law === 'inertia-law-v1') {
-            // 第240便(第32報): 解析慣性則 f=1+k_F·Σ(m_i/M)χ_i² の自己無撞着解(両体共通・fit ノブなし)。
-            // (a) 台帳 factor=factorByBody[0]=[1] が HP.dfmBinaryMassFactor の再計算とビット一致
+          if (mc.law === 'inertia-law-v1' || mc.law === 'inertia-law-lin-v1') {
+            // 第240便(第32報): 解析慣性則の自己無撞着解(両体共通・fit ノブなし)。
+            // **第245便(裁定 A6)**: 台帳は一次則 f=1+k_F(αχ_A+βχ_B)(law:"inertia-law-lin-v1")へ切替。
+            //   χ² 則 f=1+k_F·Σ(m_i/M)χ_i²(第240便)は factorQuad/chiQuad に併記して A-B 対照を残す。
+            // (a) 台帳 factor=factorByBody[0]=[1] が **宣言された法則**の不動点の再計算とビット一致
+            //     (linear なら HP.dfmBinaryMassFactorLinear・v1 なら HP.dfmBinaryMassFactor)
+            // (a′) 第245便: 併記された χ² 則の値 factorQuad が HP.dfmBinaryMassFactor の再計算とビット一致し、
+            //     両者の差(f_lin/f_quad−1)を報告する(乗り換えの用量が説明文の数値と同期していること)
             // (b) 固定点性の代入検査: f = 1+A(f·m_obs) の相対残差 <1e-12(χ は DFM 質量で評価)
             // (c) 質量比=観測 → 位置・速度は観測版の重心配分と一致(相対 1e-9)
-            const g = HP.dfmBinaryMassFactor(mc.baseMass[0], mc.baseMass[1], rx, D0f, eps, pd.physics.kFrame, pw);
+            const linLaw = mc.law === 'inertia-law-lin-v1';
+            const g = linLaw
+              ? HP.dfmBinaryMassFactorLinear(mc.baseMass[0], mc.baseMass[1], rx, D0f, eps, pd.physics.kFrame, pw)
+              : HP.dfmBinaryMassFactor(mc.baseMass[0], mc.baseMass[1], rx, D0f, eps, pd.physics.kFrame, pw);
+            const gq = HP.dfmBinaryMassFactor(mc.baseMass[0], mc.baseMass[1], rx, D0f, eps, pd.physics.kFrame, pw);
             const cA = chiOf(fB * mc.baseMass[1]), cB = chiOf(fA * mc.baseMass[0]);
-            const fAn = HP.dfmBinaryInertiaFactor(ma, mb, cA, cB, pd.physics.kFrame);
+            const fAn = linLaw
+              ? HP.dfmBinaryInertiaFactorLinear(ma, mb, cA, cB, pd.physics.kFrame)
+              : HP.dfmBinaryInertiaFactor(ma, mb, cA, cB, pd.physics.kFrame);
+            r.lin = linLaw;
             r.decl = mc.fitDt === 0.016 && fA === fB && mc.factor === fA && Array.isArray(mc.chi)
-              && mc.baseMass[0] === p.bodies[0].m && mc.baseMass[1] === p.bodies[1].m;
+              && mc.baseMass[0] === p.bodies[0].m && mc.baseMass[1] === p.bodies[1].m
+              && (!linLaw || (Array.isArray(mc.chiQuad) && Object.is(mc.chi[0], g.chiA) && Object.is(mc.chi[1], g.chiB)
+                && Object.is(mc.chiQuad[0], gq.chiA) && Object.is(mc.chiQuad[1], gq.chiB)));
             r.lawEq = !!g && Object.is(g.f, fA) && Object.is(g.f, fB);
+            // 第245便 (a′): χ² 則の併記がビット一致(A-B 対照が生きている)
+            r.quadEq = !linLaw || (!!gq && Object.is(mc.factorQuad, gq.f));
+            r.fDecl = fA; r.fQuad = gq ? gq.f : null;
+            r.dQuadPct = (gq && gq.f) ? (fA / gq.f - 1) * 100 : null;
             r.fp = Math.abs(fAn / fA - 1);
             r.massEq = Object.is(ma, pd.bodies[0].m) && Object.is(mb, pd.bodies[1].m);
             const near = (u, v) => Math.abs(u - v) <= 1e-9 * Math.max(1, Math.abs(v));
@@ -9243,6 +9275,7 @@ if (!FAST) {
           // 較正の余りが massFrac 値域下限 0.01 を割る系だけなので、殻質量の観測比は (f−1)/f 未満で足りる
           const coreless = !pd.bodies[0].core || !pd.bodies[1].core;
           r.ok = r.decl && r.lawEq && r.fp < 1e-12 && r.massEq && r.redis && r.coreDecl
+            && (r.quadEq === undefined || r.quadEq === true)   // 第245便: χ² 則の併記もビット一致
             && r.shell < (coreless ? 0.01 : 1e-12);
         }
         out.pairs[dfmId] = r;
@@ -9252,7 +9285,9 @@ if (!FAST) {
       const pd0 = HP.allPresets().find((q) => q.id === 'alphaCenABDFM');
       const v1 = HP.validatePreset(JSON.parse(JSON.stringify(pd0)));
       out.vOk = v1.ok && v1.warnings.length === 0 && v1.preset.massCalibration
-        && v1.preset.massCalibration.law === 'inertia-law-v1'   // 第240便
+        && v1.preset.massCalibration.law === 'inertia-law-lin-v1'   // 第245便(裁定 A6): 台帳は一次則
+        && v1.preset.massCalibration.factorQuad === pd0.massCalibration.factorQuad   // χ² 則の併記が正規化で保持される
+        && Array.isArray(v1.preset.massCalibration.chiQuad) && v1.preset.massCalibration.chiQuad.length === 2
         && v1.preset.massCalibration.factorByBody[0] === pd0.massCalibration.factorByBody[0]
         && v1.preset.massCalibration.factor === pd0.massCalibration.factor && v1.preset.massCalibration.chi.length === 2;
       const bad = JSON.parse(JSON.stringify(pd0));
@@ -9263,9 +9298,12 @@ if (!FAST) {
       return out;
     });
     const pr = cl.pairs;
-    const fmt = (id) => { const r = pr[id] || {}; return `${id}: 台帳=${r.decl} 法則一致=${r.lawEq} 固定点残差=${r.fp === undefined ? '—' : r.fp.toExponential(1)} 質量=${r.massEq} 再配分=${r.redis} 殻=${r.shell === undefined ? '—' : r.shell.toExponential(1)} 比=${r.ratio === undefined ? '—' : r.ratio.toFixed(6)}`; };
+    // 第245便(裁定 A6): 宣言された一次則の不動点と、併記された χ² 則の不動点を**並記**する
+    const fmt = (id) => { const r = pr[id] || {}; return `${id}: 台帳=${r.decl} 法則一致=${r.lawEq} 固定点残差=${r.fp === undefined ? '—' : r.fp.toExponential(1)} 質量=${r.massEq} 再配分=${r.redis} 殻=${r.shell === undefined ? '—' : r.shell.toExponential(1)} 比=${r.ratio === undefined ? '—' : r.ratio.toFixed(6)}`
+      + (r.lin ? ` / 宣言=一次則 f_lin=${r.fDecl} × χ²則(併記)f_quad=${r.fQuad}(一致=${r.quadEq}・差 ${r.dQuadPct === null ? '—' : r.dQuadPct.toExponential(3) + '%'})` : ''); };
     add('behavior.chi-law', cl.allOk && cl.vOk && cl.vBad,
-      `質量較正則(第240便: inertia-law-v1 — f=1+k_F·Σ(m_i/M)χ_i² の自己無撞着解・両体共通・質量比=観測・fit ノブなし / 第224便 chi-law-v1 は f_i=C·2χ_i): `
+      `質量較正則(**第245便 裁定 A6: 台帳=inertia-law-lin-v1 — 一次則 f=1+k_F(αχ_A+βχ_B) の自己無撞着解**・両体共通・質量比=観測・fit ノブなし。`
+      + `第240便の χ² 則 f=1+k_F·Σ(m_i/M)χ_i² は factorQuad/chiQuad に併記して A-B 対照を残す / 第224便 chi-law-v1 は f_i=C·2χ_i): `
       + `4連星の massCalibration 台帳×chiMassFactors 再計算×bodies が三者ビット一致+固定点性の代入検査+`
       + `殻質量=観測質量+重心再配分の再計算一致 / ${fmt('alphaCenABDFM')} / ${fmt('siriusABDFM')} / `
       + `${fmt('psrDoubleABDFM')} / ${fmt('gw150914DFM')} / validator 受理(警告0)=${cl.vOk}・不正形無視=${cl.vBad}`);
