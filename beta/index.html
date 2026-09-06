@@ -2859,7 +2859,7 @@ const BUILTIN_PRESETS = [
     {q:"内訳: 重力項", model:"+45.7μs/日(ψ=GM/(rc²) の差)", obs:"—"},
     {q:"内訳: 運動項", model:"−7.2μs/日(衛星の二次ドップラー −v²/2c²)", obs:"—"},
     {q:"画面のアナログ(重力項:運動項)", model:"半径比を実 GPS(R⊕/r_GPS)に合わせたので、画面上の比も 6.3 になる", obs:"—(45.7/7.2=6.3)"},
-    {q:"DFM 速度項の感度(pull・χ 地表 0.9972/衛星 0.9535)", model:"二次 −0.92μs/日・一次交差項の振幅 衛星 5.16/地上 0.037μs/日(第245便・予測残差ではない)", obs:"GR 正味は χ=1 の式(比較用)"}],
+    {q:"DFM 速度項の感度(pull・χ 地表 0.9972/衛星 0.9535)", model:"二次 −0.92μs/日・一次交差項の振幅 衛星 5.16/地上 0.037μs/日(感度診断 — 予測残差ではない)", obs:"GR 正味は χ=1 の式(比較用)"}],
   descStruct:{
     summary:"GPS の時計差を「重力項」と「速度項」に分解して見せるサンプル。中心天体のまわりに時計を3つ置く: 地上時計(r=60・静止)、周回衛星(r=250・運動)、そして衛星と同じ半径に置いた静止参照時計(r=250)。3つの時計をタップして固有時(τ/t)を比べると、時計則(A7′/E7R: dτ/dt=√(N²−A²|v−u|²/c₀²))の差が2つの原因にきれいに分かれる。κ=G/cLight²(=1/3600)を満たす構成なので、これは物理対応条件つきの縮尺模型である(🛰️ 本体は見やすさ優先の誇張アナログでこの条件を満たしていない)。",
     observe:"SI の式レベル出力(κ=G/c² の1本・観測入力は論文1 Table I の転記のみ・自由パラメータなし)は、GPS 時計の正味 +38.5μs/日(重力項 +45.7・運動項 −7.2。観測≈+38.6μs/日)。入力は地球質量 5.972×10²⁴kg・地上半径 6.371×10⁶m・軌道半径 2.6562×10⁷m で、衛星速度は円軌道の √(GM/r) から出る。画面のアナログでは: 地上時計(r=60)がいちばん遅く、静止参照時計(r=250)がいちばん速く、周回衛星(r=250)はその中間 — 参照時計との差が**運動項だけ**、地上時計との差が**重力項と運動項の合計**になる(差の引き算で2項が分離できる)。衛星が参照時計とすれ違う瞬間は同じ場所・同じ重力なのに時計だけが違う: そこに残るのは速度の効果だけである。半径比 60:250 は実 GPS の R⊕/r_GPS=0.2399 の転記(丸め)なので、画面上の重力項:運動項の比も実 GPS と同じ 6.3 になる — 誇張しているのは効果の大きさだけで、内訳の比は誇張していない。",
@@ -2870,7 +2870,7 @@ const BUILTIN_PRESETS = [
       {q:"Breakdown: gravity term", model:"+45.7 μs/day (the difference in ψ=GM/(rc²))", obs:"—"},
       {q:"Breakdown: motion term", model:"−7.2 μs/day (the satellite's second-order Doppler, −v²/2c²)", obs:"—"},
       {q:"On-screen analog (gravity : motion)", model:"the radius ratio is transcribed from the real GPS R⊕/r_GPS, so the on-screen ratio is 6.3 as well", obs:"— (45.7/7.2 = 6.3)"},
-      {q:"DFM speed-term sensitivity (pull; χ ground 0.9972 / satellite 0.9535)", model:"quadratic −0.92 μs/day; first-order cross-term amplitude satellite 5.16 / ground 0.037 μs/day (wave 245; a sensitivity, not a residual)", obs:"the GR net rate is the χ=1 formula (comparison)"}],
+      {q:"DFM speed-term sensitivity (pull; χ ground 0.9972 / satellite 0.9535)", model:"quadratic −0.92 μs/day; first-order cross-term amplitude sat 5.16 / ground 0.037 μs/day (sensitivity, not a residual)", obs:"the GR net rate is the χ=1 formula (comparison)"}],
     parameterAudit:{
       observedInputs:["Earth mass 5.972×10²⁴ kg","ground-clock radius 6.371×10⁶ m","GPS orbit radius 2.6562×10⁷ m",
         "ground rotation speed v_ground=Ω⊕R⊕=0.465 km/s","G and c (CODATA-consistent standard reference values)"],
