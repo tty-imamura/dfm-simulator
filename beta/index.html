@@ -9146,7 +9146,7 @@ const BUILTIN_PRESETS = [
   // 適用 — 環の偏心軌道の近点移動は q=3 の 0.23 rad/公転 → 2×10⁻⁵ へ落ち、環・衛星とも
   // ケプラー化(exp-kf1d §B)。
   // 第172便(原仮定者裁定): 運用規約を厳密一致式 q_exact=20.4932 へ(旧 遠方近似形 q*≈21.8)。
-  // 近点移動は 2×10⁻⁵ rad/公転(実測 1.5867×10⁻⁵ — 窓 1〜3×10⁻⁵ のまま PASS)。随伴プロファイルは
+  // 近点移動は 2×10⁻⁵ rad/公転(実測 1.5867×10⁻⁵ — 窓 1〜3×10⁻⁵ のまま PASS)→ 第244便: 環を観測総質量+非フレーム源にして **8×10⁻⁶(逆行・LT 型)** へ再宣言。随伴プロファイルは
   // 表面高度 h=0.5 で LT の114倍(旧 45倍)→ h=44.7(中心距離 105 = 参照軌道)で **×1.00 の厳密一致**
   // → 遠方で急減 — **表面に近いほど引きずりが強い**(MM null との整合は未検証 — 第237便で訂正)
   // 第148便(統括裁定 — 第147便残課題の rider): fidelity:"real" の**宣言漏れを修正**。
@@ -9155,33 +9155,32 @@ const BUILTIN_PRESETS = [
   fidelity:"real",
   failureFirst:{
     fail:"kFrame=1・q=3 では主星の実自転(10.56時間)のスピン項が環を増速(+4.7%)・内側移動(−2.5%/3周)させ、偏心軌道の近点は 0.23 rad/公転も回る — 実環の厳密ケプラー(Ω∝r^−1.5)から大きく外れる(exp-kf1b §C・kf1d §B)。",
-    pass:"第123便: 共通補正 D₀=0.006+**qLock(q は自動算出)**→ 第172便: 厳密一致式 **q_exact≈20.4932**(宣言参照軌道 a=105。実行時は自由天体距離の中央値で算出するので端数は動く)で、環の近点移動は 2×10⁻⁵ rad/公転へ落ち環・衛星ともケプラー化。随伴は表面近傍で強く(h=0.5 で LT の114倍)、参照軌道=環中央 a=105(h=44.7)でちょうど LT に一致し、その外で急減する — 「表面に近いほど引きずりが強い」随伴プロファイルを、環という表面至近の軌道系で定量化(MM 実験の null 結果との整合は未検証 — 第237便)(なお qLock は**有限参照正規化規約**で、遠方近似形 q* なら参照軌道での振幅は LT 振幅×裸比 (a/(R+a))³=0.256 に留まる。第172便で採用した厳密一致式はその裸比を 1 にする — ただし LT の r⁻³ 則の保存でないことは変わらない。第141便→第157便→第172便)。"},
+    pass:"第123便: 共通補正 D₀=0.006+**qLock(q は自動算出)**→ 第172便: 厳密一致式 **q_exact≈20.4932**(宣言参照軌道 a=105。実行時は自由天体距離の中央値で算出するので端数は動く)で、環の近点移動は 2×10⁻⁵ rad/公転へ落ち環・衛星ともケプラー化(第244便: 環を観測総質量 1.54×10¹⁹ kg・非フレーム源に直すと **8×10⁻⁶ rad/公転(逆行)** — 旧値の 6 割は代表粒子 10²⁰ kg どうしの巻き込み〔スピン 0 でも 2.4×10⁻⁵ 残る〕で、新値はスピン 0 で厳密 0・反転で符号反転する LT 型)。随伴は表面近傍で強く(h=0.5 で LT の114倍)、参照軌道=環中央 a=105(h=44.7)でちょうど LT に一致し、その外で急減する — 「表面に近いほど引きずりが強い」随伴プロファイルを、環という表面至近の軌道系で定量化(MM 実験の null 結果との整合は未検証 — 第237便)(なお qLock は**有限参照正規化規約**で、遠方近似形 q* なら参照軌道での振幅は LT 振幅×裸比 (a/(R+a))³=0.256 に留まる。第172便で採用した厳密一致式はその裸比を 1 にする — ただし LT の r⁻³ 則の保存でないことは変わらない。第141便→第157便→第172便)。"},
   obsCard:[
-    {q:"環の近点移動(偏心軌道・kF1)", model:"q=3: 0.23 rad/公転 → qLock(q_exact=20.4932): 2×10⁻⁵", obs:"≈0(厳密ケプラー)"},
+    {q:"環の近点移動(偏心軌道・kF1)", model:"q=3: 0.23 rad/公転 → qLock(q_exact=20.4932)+観測環質量: 8×10⁻⁶(逆行・スピン 0 で厳密 0)", obs:"≈0(厳密ケプラー)"},
     {q:"随伴プロファイル(ω_drag/LT)", model:"表面 h=0.5: ×114 → h=44.7(参照軌道 a=105): ×1.00 → タイタン: ≪1", obs:"表面随伴は MM null と整合(較正一致 — 機構同定ではない)"},
     {q:"補正の共通性", model:"D₀=0.006 は 🌘🪨 と共通・q は同一式の自動算出", obs:"—(exp-kf1d)"}],
   descStruct:{
-    summary:"💍(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、共通補正 D₀=0.006+qLock(自動算出 — 第172便で厳密一致式を採用。宣言参照軌道 a=105 での直値は q_exact≈20.4932 で、実行時は自由天体距離の中央値で算出するので端数は動く)を適用した版(第123便→第172便)。土星の環は**表面のすぐ外**を回る軌道系 — 随伴(引きずり)は表面に近いほど強く(h=0.5 で LT の114倍)、参照軌道=環中央 a=105 でちょうど LT に一致し、その外で急減する(qLock 則は**有限参照正規化規約**で、遠方近似形 q* なら宣言参照軌道 a=105 での振幅は LT 振幅×裸比 (a/(R+a))³=0.256 に留まる。厳密一致式はその裸比を 1 にする — どちらの形でも LT の r⁻³ 則も無限遠での非零 LT 比も保存しない。第141便→第157便→第172便)。**マイケルソン・モーリー実験(MM)の null 結果との整合は未検証**(第237便で訂正: d は中心間距離で、源表面 d=R の随伴係数は 2⁻q=6.8×10⁻⁷ に過ぎない。往復光速の異方性という MM の観測量は未実装で、「表面に近いほど強い」形状の類似は根拠にならない — 表面高度基準は physics.dragRef:\"interior\"(旧名 \"surface\" — 第239便: 「内部は完全共動・表面から減衰」の意で、表面が特別に強いとは主張しない)の opt-in で別途検証する)。本サンプルの主結果は環・衛星がケプラー観測に一致することで、随伴プロファイルはその補足にあたる。qLock 下では環の偏心軌道の近点移動が 2×10⁻⁵ rad/公転まで消え、環・衛星6ともケプラー観測に一致する(exp-kf1d §B)。**天体の現実較正の雛形**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock。今後の観測較正サンプルは本構成をコピーして作る — PHYSICS §5)。",
+    summary:"💍(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、共通補正 D₀=0.006+qLock(自動算出 — 第172便で厳密一致式を採用。宣言参照軌道 a=105 での直値は q_exact≈20.4932 で、実行時は自由天体距離の中央値で算出するので端数は動く)を適用した版(第123便→第172便)。土星の環は**表面のすぐ外**を回る軌道系 — 随伴(引きずり)は表面に近いほど強く(h=0.5 で LT の114倍)、参照軌道=環中央 a=105 でちょうど LT に一致し、その外で急減する(qLock 則は**有限参照正規化規約**で、遠方近似形 q* なら宣言参照軌道 a=105 での振幅は LT 振幅×裸比 (a/(R+a))³=0.256 に留まる。厳密一致式はその裸比を 1 にする — どちらの形でも LT の r⁻³ 則も無限遠での非零 LT 比も保存しない。第141便→第157便→第172便)。**マイケルソン・モーリー実験(MM)の null 結果との整合は未検証**(第237便で訂正: d は中心間距離で、源表面 d=R の随伴係数は 2⁻q=6.8×10⁻⁷ に過ぎない。往復光速の異方性という MM の観測量は未実装で、「表面に近いほど強い」形状の類似は根拠にならない — 表面高度基準は physics.dragRef:\"interior\"(旧名 \"surface\" — 第239便: 「内部は完全共動・表面から減衰」の意で、表面が特別に強いとは主張しない)の opt-in で別途検証する)。本サンプルの主結果は環・衛星がケプラー観測に一致することで、随伴プロファイルはその補足にあたる。qLock 下では環の偏心軌道の近点移動が 8×10⁻⁶ rad/公転(逆行・LT 型 — 第244便: 環を観測総質量 1.54×10¹⁹ kg・pull・非フレーム源に直した値。旧 2×10⁻⁵ は 10²⁰ kg/粒の代表粒子どうしの巻き込みを含む粗視化の人工物)まで消え、環・衛星6ともケプラー観測に一致する(exp-kf1d §B の構成を第244便が再走行)。**天体の現実較正の雛形**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock。今後の観測較正サンプルは本構成をコピーして作る — PHYSICS §5)。",
     observe:"環・衛星とも 💍 と同じケプラー運動に見える(見えないのが正しい — kF1 でも較正が成り立つ)。ワンタップ対照A/Bで B側 q=3 にすると環が増速+内側移動し偏心軌道の近点が目に見えて回る(スピン項の復活)。q スライダーは自動算出のためグレーアウト。",
     control:"本サンプルは**天体の現実較正の雛形**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock。今後の観測較正サンプルは本構成をコピーして作る — PHYSICS §5)。ワンタップ対照A/B: B側 q=3(第120便の誇張)で引きずりが見える。kFrame=0 にすると 💍 と同一。D₀ は 🌘🪨 と共通の 0.006(運動項較正)。"},
   en:{name:"Saturn's Rings (Real Units, kFrame=1) — surface entrainment & auto-derived q",
     parameterAudit:{
       observedInputs:["real G=6.674","real c₀=3×10⁴","Saturn's real mass, radius and rotation (10.56 h)",
         "the real radii of the C/B/A bands and the real position of the Cassini division",
-        "the real orbital radii and masses of the six major moons"],
+        "the real orbital radii and masses of the six major moons","(wave 244) the Cassini ring total mass 1.54×10¹⁹ kg (1.283×10¹⁷ kg per grain = total/120; no longer a representative choice)"],
       fixedConventions:["per-sample scale exponents (1 unit = 10⁶ m / 10² s / 10²⁵ kg)","kFrame=1 (frame dragging on)",
-        "kRep=muF=γN=κ_S=0","geoPN=2, λ_PN=1, pnα=1.5","pnSource:true, stateCarry:\"double\", massFloor=1e-6",
-        "Saturn is pinned (an external constraint of the exhibit)","40 representative grains per band"],
-      fitted:["D₀=0.006 (the shared value fixed by the joint fit on 🌘, used as is — zero re-tuning here)",
-        "representative grain mass m=10⁻⁵ (=10²⁰ kg — the same representative choice as 💍; not a fit to an observable)"],
+        "kRep=muF=γN=κ_S=0","geoPN=2, λ_PN=1, pnα=1.5","pnSource:true, stateCarry:\"double\", massFloor=1e-8 (wave 244: lowered so the observed ring mass is accepted)",
+        "Saturn is pinned (an external constraint of the exhibit)","40 grains per band, frameSource:false (grains are not frame sources — wave 244)","frameWeight pull with the shared physical D0p=3.24204×10⁸ kg/m² (D0pull=3.24204e-5 in this unit system)"],
+      fitted:["D₀=0.006 (the shared value fixed by the joint fit on 🌘, used as is — zero re-tuning here)"],
       derived:["q=20.4932 (auto-derived by qLock, exact-agreement form q_exact = q* + 3·ln(a/(R+a))/ln((R+a)/R), a_ref = median free-body distance; the distant-limit q*≈21.8 is N/A as the operating convention from wave 172)",
         "κ=G/c₀²=7.4156×10⁻⁹"],
       numerical:["softening ε=0.05","time multiplier timeScale=10","display magnification dispMag=1 (real radii)"]},
     failureFirst:{
       fail:"With kFrame=1 and q=3, the spin term of the primary's real rotation (10.56 h) speeds the ring up (+4.7%), migrates it inward (−2.5% per 3 orbits), and turns eccentric apses by 0.23 rad/orbit — far off the real ring's exact Kepler rotation (exp-kf1b §C, kf1d §B).",
-      pass:"Wave 123 with the joint correction D₀=0.006 plus qLock, and wave 172 with the exact-agreement value q_exact=20.4932: the ring's apsidal drift falls to 2×10⁻⁵ rad/orbit and rings and moons alike become Keplerian. The entrainment profile is strong near the surface (×114 LT at h=0.5), meets the LT level exactly at the reference orbit a=105 (h=44.7, mid-ring), and dies off outward (qLock is a finite-reference normalization rule: with the distant-limit q* the amplitude at the declared reference orbit a=105 stays at the LT amplitude times the bare ratio (a/(R+a))³=0.256, and the exact-agreement form drives that bare ratio to 1 — either way preserving neither the r⁻³ law nor a nonzero LT ratio at infinity — waves 141/157/172) — 'stronger dragging nearer the surface', a structure consistent with the Michelson-Morley null result — UNTESTED (corrected in wave 237; the MM observable is not implemented)."},
+      pass:"Wave 123 with the joint correction D₀=0.006 plus qLock, and wave 172 with the exact-agreement value q_exact=20.4932: the ring's apsidal drift falls to 2×10⁻⁵ rad/orbit and rings and moons alike become Keplerian (wave 244: with the ring at its observed total mass 1.54×10¹⁹ kg and excluded from the frame sources it is 8×10⁻⁶ rad/orbit, retrograde — 60% of the old value was the 10²⁰ kg representative grains entraining each other, 2.4×10⁻⁵ surviving at spin 0; the new value is exactly 0 at spin 0 and flips sign with the spin, an LT-type signature). The entrainment profile is strong near the surface (×114 LT at h=0.5), meets the LT level exactly at the reference orbit a=105 (h=44.7, mid-ring), and dies off outward (qLock is a finite-reference normalization rule: with the distant-limit q* the amplitude at the declared reference orbit a=105 stays at the LT amplitude times the bare ratio (a/(R+a))³=0.256, and the exact-agreement form drives that bare ratio to 1 — either way preserving neither the r⁻³ law nor a nonzero LT ratio at infinity — waves 141/157/172) — 'stronger dragging nearer the surface', a structure consistent with the Michelson-Morley null result — UNTESTED (corrected in wave 237; the MM observable is not implemented)."},
     obsCard:[
-      {q:"Ring apsidal drift (eccentric, kF1)", model:"q=3: 0.23 rad/orbit → qLock(q_exact=20.4932): 2×10⁻⁵", obs:"≈0 (exact Kepler)"},
+      {q:"Ring apsidal drift (eccentric, kF1)", model:"q=3: 0.23 rad/orbit → qLock(q_exact=20.4932)+observed ring mass: 8×10⁻⁶ (retrograde; exactly 0 at spin 0)", obs:"≈0 (exact Kepler)"},
       {q:"Entrainment profile (ω_drag/LT)", model:"surface h=0.5: ×114 → h=44.7 (reference orbit a=105): ×1.00 → Titan: ≪1", obs:"surface entrainment consistent with the MM null"},
       {q:"Universality", model:"D₀=0.006 shared with 🌘🪨; q auto-derived from one formula", obs:"— (exp-kf1d)"}],
     descStruct:{
@@ -9197,12 +9196,12 @@ const BUILTIN_PRESETS = [
     { id:"saturnRingRealKF1.ring-apsidal-drift", kind:"semantic", prov:"simulated", role:"retrospective_check",
       metric:"ringApsidalDriftRadPerOrbit",
       chain:{ax:["A5","A8"], eq:["E4","E6′"],
-        note:"qLock(第172便の厳密一致式 q_exact=20.4932)下で環の偏心軌道の近点移動が消え、環・衛星ともケプラー観測に一致することの実測(exp-kf1d §B の構成を第164便 exp-qexact が q_exact で再走行 — a=80 プローブで 1.5867×10⁻⁵ rad/公転)。q=3 では 0.23 rad/公転 と桁で外れる。",
-        noteEn:"Under qLock (wave 172's exact-agreement q_exact=20.4932) the eccentric apsidal drift of the ring vanishes and rings and moons match Keplerian observation (exp-kf1d §B, re-run at q_exact by wave 164's exp-qexact — 1.5867×10⁻⁵ rad/orbit on the a=80 probe); at q=3 it is 0.23 rad/orbit, orders away."},
+        note:"qLock(第172便の厳密一致式 q_exact=20.4932)下で環の偏心軌道の近点移動が消え、環・衛星ともケプラー観測に一致することの実測(exp-kf1d §B の構成・a=80 プローブ)。第244便: 環を観測総質量(1.283e-8/粒)・pull・非フレーム源に直して再走行 — **−8.065×10⁻⁶ rad/公転(逆行)**。旧値 +1.5867×10⁻⁵ は 10²⁰ kg/粒どうしの巻き込みを含み(スピン 0 でも +2.39×10⁻⁵)、新値はスピン 0 で厳密 0・スピン反転で符号反転・dt/2 で 6×10⁻⁶ 相対・半径で急減(a=105 で 1/14.6)する LT 型の奇関数成分だけである。値は宣言 q=20.4932 に強く依存する(実行時 qLock 値 20.1251 では −1.05×10⁻⁵・q*=21.40 では −4.2×10⁻⁶)。q=3 では 0.23 rad/公転 と桁で外れる。",
+        noteEn:"Under qLock (wave 172's exact-agreement q_exact=20.4932) the eccentric apsidal drift of the ring vanishes and rings and moons match Keplerian observation (exp-kf1d §B construction, a=80 probe). Wave 244 re-ran it with the ring at its observed total mass (1.283e-8 per grain), pull weighting and the grains excluded from the frame sources: −8.065×10⁻⁶ rad/orbit (retrograde). The old +1.5867×10⁻⁵ included the 10²⁰ kg grains entraining each other (+2.39×10⁻⁵ survived at spin 0); the new value is exactly 0 at spin 0, flips sign with Saturn's spin, converges to 6×10⁻⁶ relative at dt/2 and falls off steeply with radius (÷14.6 at a=105) — a pure odd-in-spin LT-type signature. It depends strongly on the declared q=20.4932 (−1.05×10⁻⁵ at the runtime qLock value 20.1251, −4.2×10⁻⁶ at q*=21.40). At q=3 it is 0.23 rad/orbit, orders away."},
       roleNote:"回顧的確認 — この系は共通補正(D₀・qLock)の規則を決める過程で参照した系で、本サンプル内での fit はゼロ(D₀ は 🌘 で決めた共通値・q は自動算出)。",
       roleNoteEn:"Retrospective check — this system took part in forming the joint-correction rule (D₀, qLock); zero fits were performed inside this sample (D₀ is the shared value from 🌘, q is auto-derived).",
-      expected:{min:1e-5, max:3e-5}, descScale:1e-5,
-      descPattern:"近点移動が (\\d+)×10⁻⁵ rad/公転" },
+      expected:{min:7.3e-6, max:8.9e-6}, descScale:1e-6,   // 第244便: 再宣言(|Δϖ|・逆行。実測 8.065e-6 に −9.5%/+10.4%。S1/S4/dt/2 の散らばり 0.83%)
+      descPattern:"近点移動が (\\d+)×10⁻⁶ rad/公転" },
     { id:"saturnRingRealKF1.surface-entrainment", kind:"semantic", prov:"simulated", role:"retrospective_check",
       metric:"entrainmentOverLTAtSurface",
       chain:{ax:["A5","A8"], eq:["E6′"],
@@ -9221,29 +9220,31 @@ const BUILTIN_PRESETS = [
   ],
   parameterAudit:{
     observedInputs:["実 G=6.674","実 c₀=3×10⁴","土星の実質量・実半径・実自転(10.56時間)",
-      "環 C/B/A 帯の実半径とカッシーニの間隙の実位置","主要衛星6の実軌道半径・実質量"],
+      "環 C/B/A 帯の実半径とカッシーニの間隙の実位置","主要衛星6の実軌道半径・実質量","(第244便)Cassini の環総質量 1.54×10¹⁹ kg(1.283×10¹⁷ kg/粒=総質量/120 — 代表値ではなく観測入力)"],
     fixedConventions:["サンプル別スケール指数(1単位=10⁶m/10²s/10²⁵kg)","kFrame=1(空間引きずり ON)",
-      "kRep=muF=γN=κ_S=0","geoPN=2・λ_PN=1・pnα=1.5","pnSource:true・stateCarry:\"double\"・massFloor=1e-6",
-      "土星 pinned(展示系の外部拘束)","環は各帯40粒の代表粒"],
-    fitted:["D₀=0.006(🌘 の共同フィットで決めた共通値をそのまま使用 — 本サンプルでの再調整はゼロ)",
-      "環粒の代表質量 m=10⁻⁵(=10²⁰kg — 💍 と同じ代表値の選択。観測量への fit ではない)"],
+      "kRep=muF=γN=κ_S=0","geoPN=2・λ_PN=1・pnα=1.5","pnSource:true・stateCarry:\"double\"・massFloor=1e-8(第244便: 観測環質量を受理するため下げた)",
+      "土星 pinned(展示系の外部拘束)","環は各帯40粒・frameSource:false(環はフレーム源にならない — 第244便)","frameWeight pull・物理共通 D0p=3.24204×10⁸ kg/m²(本単位系で D0pull=3.24204e-5)"],
+    fitted:["D₀=0.006(🌘 の共同フィットで決めた共通値をそのまま使用 — 本サンプルでの再調整はゼロ)"],
     derived:["q=20.4932(qLock 自動算出 — 厳密一致式 q_exact = q* + 3·ln(a/(R+a))/ln((R+a)/R)・a_ref=自由天体距離の中央値。遠方近似形 q*≈21.8 は第172便以降 運用規約としては N/A)",
       "κ=G/c₀²=7.4156×10⁻⁹"],
     numerical:["ソフトニング ε=0.05","時間倍率 timeScale=10","粒子表示倍率 dispMag=1(実半径のまま)"]},
   activeParams:["D0","kFrame","dispMag"],
   camera:{scale:1300}, world:{boundary:"none",size:0},
-  physics:{frameWeight:"share", G:6.674, D0:0.006, kFrame:1, q:20.4932, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
-    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+  // 第244便(裁定 B7′ — 3 審査 v2 一致・Opus S 実測): pull(D0pull=3.24204e-5 — 🌘 と同じ指数系で物理共通 D0p)+環を**観測総質量**(Cassini 1.54×10¹⁹ kg → 1.283e-8/粒×120)+
+  // frameSource:false(環は u の源ではない)。massFloor 1e-8 は検証器の質量下限を環質量まで下げるため。r_max の門・qLock・環の形は不変。
+  // 旧 1e20 kg/粒(779 倍)の近点ドリフト 1.59e-5 はスピン 0 でも 2.39e-5 残る粗視化の人工物だった — 新構成では スピン 0 で厳密 0・反転で厳密符号反転(LT 型)
+  physics:{frameWeight:"pull", D0pull:3.24204e-5, G:6.674, D0:0.006, kFrame:1, q:20.4932, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+    cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-8,
     geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:10, dispMag:1, stateCarry:"double"},
   bodies:[   // 第121便: 惑星(e6)実単位 — 土星 5.6834e26kg/6.03e7m/自転10.56h。環=実半径 C/B/A 帯
              // (粒 m=1e20kg・R=1e5m)。主要衛星6(ミマス/エンケラドス/テティス/ディオネ/レア/タイタン —
              // 実軌道半径・実質量・ケプラー初速・60°間隔配置。タイタンは同期自転)
     {type:"single", m:56.834, radius:60.3, x:0,y:0, vx:0,vy:0, spin:0.016528, pinned:true, pnSource:true},
-    {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:74.658,rOut:92.0, mMin:0.00001,mMax:0.00001,
+    {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:74.658,rOut:92.0, mMin:1.283e-8,mMax:1.283e-8, frameSource:false,   // 第244便: 観測総質量・非フレーム源
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false},
-    {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:92.0,rOut:117.58, mMin:0.00001,mMax:0.00001,
+    {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:92.0,rOut:117.58, mMin:1.283e-8,mMax:1.283e-8, frameSource:false,   // 第244便: 観測総質量・非フレーム源
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false},
-    {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:122.17,rOut:136.775, mMin:0.00001,mMax:0.00001,
+    {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:122.17,rOut:136.775, mMin:1.283e-8,mMax:1.283e-8, frameSource:false,   // 第244便: 観測総質量・非フレーム源
      spinMin:0,spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false},
     {type:"single", m:0.00000375, radius:0.198, x:185.5,y:0, vx:0,vy:1.43, spin:0, pinned:false},
     {type:"single", m:0.0000108, radius:0.252, x:119.0,y:206.1, vx:-1.0933,vy:0.6312, spin:0, pinned:false},
