@@ -9795,6 +9795,119 @@ const BUILTIN_PRESETS = [
      spinMin:0,spinMax:0, tInt:2, vMode:"kepler", aroundMass:600, vScale:0.6, direction:1}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
+// ===== 第244便(第36報「内部構造」): 天体の内部構造 3本 =====
+// 仮定(原仮定者・第36報): 白色矮星・中性子星は赤色巨星の**育ったコア**であり、
+// 限界を超えた殻はガスへ割れて出る(質量放出・超新星の放出物)。
+// ⚪🔵 は「残骸だけを置く」静的な雛形(🍂/🌹 の続き)、🎆 は放出そのものを保存的に起こす宣言。
+{ id:"whiteDwarfDFM", name:"白色矮星 — 赤色巨星の育ったコアだけが残る(DFM版)", emoji:"⚪", group:"天体の物語",
+  scaleTier:"stellar", sampleClass:"principle", notClaim:["cal"],
+  obsCard:[
+    {q:"質量台帳の連続", model:"m=300 は 🍂 の中心天体(600=殻300+コア300)の**コア側 300** をそのまま置いたもの", obs:"—(原理サンプル — 観測転写はしない)"},
+    {q:"二層の役割", model:"殻=観測半径の器 radius=8(明示指定)・コア=育った核 massFrac 0.5・Rc=5・Ω=10・Kcs=0", obs:"—(白色矮星の縮退圧・冷却曲線はモデル化しない)"},
+    {q:"実測(2000步)", model:"単体静止をビット保持・コア J=18750 が全窓不変(Kcs=0)・NaN 0・警告 0", obs:"—"}],
+  descStruct:{
+    summary:"**🍂 赤色巨星の「その後」だけを置いた雛形**(第244便 — 第36報「内部構造」)。仮定: 白色矮星は赤色巨星の**育ったコア**である。🍂 の中心天体(m=600 — 台帳 f=2: 殻 300+コア 300)からエンベロープと殻の外側が去り、**コア 300 だけが残った状態**を単体で置く(m=300)。残骸自身もふたたび二層で読む: **殻=観測半径の器**(radius=8 の明示指定 — 質量→半径写像ではなく「観測された半径」を入れる器としての宣言)、**コア=育った核**(differential・massFrac 0.5・Rc=5・Ω=10・Kcs=0 — コアの J は殻へ漏れない)。単体なので力学は静止のまま(引きずり A8/E6′ は相手が要る・働くのは重力 E4 のみ)。**縮退圧・冷却曲線・結晶化・チャンドラセカール限界はモデル化しない** — 「コアが残る」という構造の宣言だけを持つ principle 雛形。放出の過程そのものは 🎆 envelopeShedDFM が担う。",
+    observe:"実測(2000步=t32): 位置・速度・殻スピンは全窓ビット0のまま(単体静止の保持)・**コア J=18750 が全窓で厳密不変**(Kcs=0 なので殻へ漏れない)・Ω_c=10 保持・R=8(明示半径)・massFrac 0.5・警告 0・NaN 0・クランプ 0。QA `behavior.remnantSamples` が機械固定する。",
+    control:"おすすめA/B: core.Kcs を上げるとコア J が殻スピンへ緩和して Ω_c が落ちる(残骸の「固まり方」の対照)。core.omega=0 にすると回らない残骸。🍂(前)→ ⚪(後)→ 🎆(放出の過程)と3点で読む。"},
+  en:{name:"White Dwarf — Only the Red Giant's Grown Core Is Left (DFM)", descStruct:{
+    summary:"THE 'AFTER' OF 🍂 ALONE, as a template (wave 244, report 36 'interior structure'). Assumption: a white dwarf IS the grown core of a red giant. From 🍂's central body (m=600 — ledger f=2: shell 300 + core 300) the envelope and the outer shell are gone and ONLY THE CORE 300 REMAINS, placed as a solo body (m=300). The remnant is itself read as two layers: THE SHELL IS THE OBSERVED-RADIUS CONTAINER (radius=8 declared explicitly — a container for an observed radius, not the mass→radius map), and THE CORE IS THE GROWN NUCLEUS (differential, massFrac 0.5, Rc=5, Ω=10, Kcs=0 — the core's J never leaks into the shell). Being solo, the dynamics stay at rest (frame dragging A8/E6′ needs a partner; only gravity E4 acts). DEGENERACY PRESSURE, COOLING CURVES, CRYSTALLISATION AND THE CHANDRASEKHAR LIMIT ARE NOT MODELLED — a principle template that only declares the structure 'the core is what remains'. The shedding process itself belongs to 🎆 envelopeShedDFM.",
+    observe:"Measured (2000 steps = t32): position, velocity and shell spin stay bit-zero in every window (rest is held); THE CORE J=18750 IS EXACTLY CONSTANT throughout (Kcs=0, so nothing leaks to the shell); Ω_c=10 held; R=8 (the explicit radius); massFrac 0.5; zero warnings, zero NaN, zero clamps. QA behavior.remnantSamples machine-fixes it.",
+    control:"Suggested A/B: raising core.Kcs relaxes the core J into the shell spin and Ω_c falls (a control on how 'solid' the remnant is). core.omega=0 gives a non-rotating remnant. Read 🍂 (before) → ⚪ (after) → 🎆 (the process) as a triptych."}},
+  parameterAudit:{
+    observedInputs:["なし(トイ残骸 — 🍂 の台帳 f=2 の読み替え)"],
+    fixedConventions:["単体・pinned なし・kFrame=1(相手がいないので静止)・shell:\"solid\"・lightSweep=0","殻=観測半径の器 radius=8(明示指定)・コア=育った核 massFrac 0.5・Rc=5・Kcs=0"],
+    fitted:["なし"],
+    derived:["m=300(🍂 中心天体のコア側)・M_c=150・I_c=1875・J_c=18750・Ω_c=10"],
+    numerical:["dt=0.016・2000步(静止系 — 数値誤差の入り口がない)"]},
+  activeParams:["kFrame","G","softening"],
+  massCalibration:{law:"chi-law-v1-transfer", C:1, factorUniform:2},   // 台帳 f=2 の規約転写(殻 150+コア 150)
+  camera:{scale:320}, world:{boundary:"none",size:0}, seed:20260906, validT:32,
+  physics:{G:4, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+    cLight:30, bM:1, etaRad:0, pRad:2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
+    pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2, coupleSink:"reservoir", frameWeight:"share"},
+  bodies:[
+    // 殻=観測半径の器(明示半径 8)・コア=育った核(Ω=10・Kcs=0 — J は殻へ漏れない)
+    {type:"single", m:300, x:0,y:0, vx:0,vy:0, spin:0.08, pinned:false, radius:8,
+     shell:"solid", lightSweep:0,
+     core:{mode:"differential", massFrac:0.5, radius:5, omega:10, Kcs:0}}],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
+
+{ id:"nsRemnantDFM", name:"中性子星の残骸核 — 🌹 前駆星のコアだけが残る(DFM版)", emoji:"🔵", group:"天体の物語",
+  scaleTier:"stellar",
+  scaleExp:{L:10, T:6, M:29},   // 🌹 と同じ恒星族(1単位=10¹⁰m/10⁶s/10²⁹kg — c₀=30000 が実 c の正写像)
+  sampleClass:"principle", notClaim:["cal"],
+  obsCard:[
+    {q:"質量台帳の連続", model:"m=352.959 は 🌹(705.918=殻352.959+コア352.959)の**コア側**をそのまま置いたもの", obs:"—(前駆星コアの直接観測はない — 宣言のみ)"},
+    {q:"幾何の連続", model:"殻=🌹 のコア半径 10.6303 の器・コア=Rc=R/5=2.12606(🌹 と同じ規約)", obs:"—"},
+    {q:"自転の連続", model:"殻・コアとも 🌹 のコア Ω=0.1953545 を引き継ぐ(収縮によるスピンアップは入れない)", obs:"—(観測値ではない — 🌹 の逆算値の転写)"},
+    {q:"パルス時計(比較マーカー)", model:"pulse:{omega:22.654675}(第226便チャネル・力学不干渉)", obs:"J0737−3039B の観測自転 — **別天体**の fiducial を比較マーカーとして置く宣言"},
+    {q:"実測(2000步)", model:"単体静止をビット保持・コア J=77.9182 が全窓不変(Kcs=0)・位相 φ=ωt・NaN 0", obs:"—"}],
+  descStruct:{
+    summary:"**🌹 超新星前駆星(DFM版)の「その後」だけを置いた雛形**(第244便 — 第36報「内部構造」)。仮定: 中性子星は前駆星の**育ったコア**である。🌹(m=705.918 — 台帳 f=2: 殻 352.959〔観測転写〕+コア 352.959)から殻が去り、**コア 352.959 だけが残った状態**を単体で置く。幾何も台帳も 🌹 から連続で受け取る: 殻=🌹 のコア半径 **10.6303 の器**・コア=Rc=R/5=**2.12606**(🌹 と同じ規約)・自転は殻もコアも 🌹 のコア Ω=**0.1953545**(**収縮によるスピンアップは入れない** — 崩壊の力学はモデル化しないため)。**時計は第226便の運動学パルスチャネル** pulse:{omega:22.654675, source:\"observed\"} を載せるが、これは J0737−3039B の観測自転=**別天体の fiducial を比較マーカーとして置く宣言**(🥀 の 1.4 M☉ マーカーと同じ規約)であって、この残骸の周期の予測ではない。**役割の分担**: 灯台の原理(傾いた軸・位相恒等・楕円スポーク)は 🏮 pulsarSolo が担い、こちらは**質量台帳の連続**(前駆星のコア → 残骸)だけを担う(傾き 0・面内)。崩壊・ニュートリノ・状態方程式・磁場・TOA はモデル化しない。",
+    observe:"実測(2000步=t32): 単体静止をビット保持(x=vx=0)・**コア J=77.9182 が全窓で厳密不変**(Kcs=0)・Ω_c=0.1953545 保持・R=10.6303・massFrac 0.5・**パルス位相 φ=ω·t が成立**(力学 Ω とは独立の運動学チャネル — 第226便の設計どおり)・警告 0・NaN 0・クランプ 0。QA `behavior.remnantSamples` が機械固定する。",
+    control:"おすすめA/B: pulse を外すと時計だけが消えて軌道は 1 bit も変わらない(第226便の除去対照)。core.Kcs を上げるとコア J が殻へ緩和する。🌹(前)→ 🔵(後)・🏮(灯台の原理)と読む。"},
+  en:{name:"Neutron-Star Remnant Core — Only 🌹's Core Is Left (DFM)", descStruct:{
+    summary:"THE 'AFTER' OF 🌹 (the DFM supernova progenitor) ALONE, as a template (wave 244, report 36). Assumption: a neutron star IS the grown core of the progenitor. From 🌹 (m=705.918 — ledger f=2: shell 352.959 transcribed from observation + core 352.959) the shell is gone and ONLY THE CORE 352.959 REMAINS, placed as a solo body. Geometry and ledger are inherited from 🌹: the shell is the container of 🌹's CORE RADIUS 10.6303, the core keeps Rc=R/5=2.12606 (the same convention), and both shell and core spin at 🌹's core Ω=0.1953545 (NO SPIN-UP FROM COLLAPSE — the dynamics of collapse are not modelled). The clock is the wave-226 kinematic pulse channel, pulse:{omega:22.654675, source:\"observed\"}, but that is the observed spin of J0737−3039B — A DIFFERENT OBJECT'S FIDUCIAL PLACED AS A COMPARISON MARKER (the same convention as 🥀's 1.4 Msun marker), not a prediction of this remnant's period. DIVISION OF ROLES: the lighthouse principle (tilted axis, phase identity, elliptical spokes) belongs to 🏮 pulsarSolo; this sample carries only the CONTINUITY OF THE MASS LEDGER (progenitor core → remnant), with tilt 0 and in-plane. Collapse, neutrinos, the equation of state, magnetic fields and TOAs are not modelled.",
+    observe:"Measured (2000 steps = t32): rest held to the bit (x=vx=0); THE CORE J=77.9182 IS EXACTLY CONSTANT throughout (Kcs=0); Ω_c=0.1953545 held; R=10.6303; massFrac 0.5; THE PULSE PHASE φ=ω·t holds (a kinematic channel independent of the dynamical Ω — exactly the wave-226 design); zero warnings, zero NaN, zero clamps. QA behavior.remnantSamples machine-fixes it.",
+    control:"Suggested A/B: removing pulse removes only the clock and the orbit does not change by one bit (the wave-226 removal control). Raising core.Kcs relaxes the core J into the shell. Read 🌹 (before) → 🔵 (after) alongside 🏮 (the lighthouse principle)."}},
+  parameterAudit:{
+    observedInputs:["なし(🌹 の転写値の読み替え — Joyce 一組整合セットは 🌹 側で宣言)","J0737−3039B の観測自転 22.654675(**別天体** — 比較マーカーとしてのみ)"],
+    fixedConventions:["恒星族 L10/T6/M29・単体・kFrame=1(相手なし)・shell:\"solid\"・lightSweep=0・傾き 0(面内)","台帳 f=2 の連続(殻 176.4795+コア 176.4795)・Rc=R/5・Kcs=0"],
+    fitted:["なし"],
+    derived:["m=352.959(🌹 のコア側)・R=10.6303(🌹 の Rc)・Rc=2.12606・Ω=0.1953545025834873(🌹 の逆算値の転写)","I_c=0.5·176.4795·2.12606²=398.855・J_c=77.9182(格納値からの実測)"],
+    numerical:["dt=0.016・2000步(静止系)"]},
+  activeParams:["G","kFrame","softening"],
+  massCalibration:{law:"chi-law-v1-transfer", C:1, factorUniform:2},
+  camera:{scale:150}, world:{boundary:"none",size:0}, seed:20260906, validT:32,
+  physics:{G:6.674, D0:0.006, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0,
+    kappaT:7.415555555555556e-9, cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
+    geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:1, timeScale:100, coupleSink:"reservoir", frameWeight:"share"},
+  bodies:[
+    // 殻=🌹 のコア半径の器・コア=Rc=R/5(🌹 と同じ規約)・pulse=別天体 fiducial の比較マーカー(表示専用)
+    {type:"single", m:352.959, x:0,y:0, vx:0,vy:0, spin:0.1953545025834873, pinned:false,
+     radius:10.6303, shell:"solid", lightSweep:0, pulse:{omega:22.654675, source:"observed"},
+     core:{mode:"differential", massFrac:0.5, radius:2.12606, omega:0.1953545025834873, Kcs:0}}],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
+
+{ id:"envelopeShedDFM", name:"エンベロープの分割放出 — 限界回転のコアが殻をガスへ割って出す(DFM版)", emoji:"🎆", group:"天体の物語",
+  scaleTier:"stellar", sampleClass:"principle", notClaim:["cal"],
+  obsCard:[
+    {q:"発火(コアの限界回転)", model:"Ω_c=10.0054 で1回だけ(t=12.784・798步)。dt/2 でも Ω=10.0021・t=12.776 と同じ Ω", obs:"—(原理サンプル — 観測転写はしない)"},
+    {q:"質量の帳簿 ΔM", model:"600 = 残骸 450 + ガス 16×9.375。総質量の相対誤差 **0**(Float32 の ulp 格子で厳密に割る)", obs:"—"},
+    {q:"運動量の帳簿 ΔP", model:"対称対の放出 → **残骸キック 8.8×10⁻⁸**(乱数キックは足さない)・発火1步の |ΔP|/Σm|v|=**0**", obs:"—"},
+    {q:"角運動量の帳簿 ΔL", model:"移送 L=607.5=jFrac 0.3×J_c 2025・殻スピン 0.08→0.142222(I_s·s 保存)・発火1步の |ΔL|/L=**0**", obs:"—"},
+    {q:"エネルギーの帳簿 ΔE", model:"解放回転E **5166.53** = ΔKE 13610.0 + ΔU −8443.47 + 残差 −3.8×10⁻⁴(相対 7.4×10⁻⁸)", obs:"—"},
+    {q:"脱出した割合", model:"16/16=**100%**。ΔU 項だけで脱出速度ちょうどが出る(規約の帰結 — 予測ではない)", obs:"—"}],
+  descStruct:{
+    summary:"**限界まで回ったコアが殻をガスへ割って放り出す**(第244便 — 第36報「内部構造」)。仮定: 赤色巨星の殻はコアの回転が限界を超えると保持できず、粒へ割れて出る(質量放出・超新星の放出物)。宣言は **core.shed{omegaCrit, frac, n, rLaunch, jFrac, once}** 1つ。コアは **contract=0.02**(第77便 — 収縮で J 保存のまま Ω が上がる既存機構)で Ω=6 から自走し、**Ω_c が omegaCrit=10 に達したステップ末に1回だけ**発火して、殻質量 300 の frac=0.5 を n=16 粒のガスへ割り、親半径の rLaunch=1.5 倍の円周へ**対称対で**置く。**新しい物理法則も較正定数も足していない** — 粒子を増やす経路は分裂(第45便 _grow)、移送 J はコア J から(第234便 burst と同じ会計)、ポテンシャルはエンジン自身の対エネルギー(E4 重力+softening・E9 ばね・E5′ 斥力)。**保存の契約**: 質量は Float32 の ulp 格子で**ビット厳密**・運動量は対称配置で残骸キック 0(丸め残差だけ帳簿 P へ)・角運動量は移送 L と殻スピンの解き直しで閉じ・エネルギーは**解放回転E = ΔKE + ΔU + 残差**。収支が負なら**発火しない**(帳簿を破る状態は書かない)。**正直な限界**: エンジンは点粒子の自己重力エネルギーを持たないので、殻を半径 r_L へ出す操作は必ず**脱出速度ちょうど**を解放する — 「必ず全部飛ぶ」は規約の帰結であって予測ではない。実在の質量放出(輻射圧・脈動・ダスト駆動・ニュートリノ)はモデル化しない。",
+    observe:"実測(2000步=t32・dt=0.016): **発火は 798步(t=12.784)で1回だけ**・そのときの Ω_c=10.0054(dt/2 では 1596步・t=12.776・Ω=10.0021 — 同じ Ω で発火)・見送り 0 回。帳簿(**発火の1步で測る** — 単体なので他の力は働かない): 質量 600→**450+16×9.375=600(相対誤差 0)**・**解放回転E 5166.53 = ΔKE 13609.99 + ΔU −8443.47 + 残差 −3.8×10⁻⁴(相対 7.4×10⁻⁸)**・移送 L=607.5(=0.3×J_c 2025)・殻スピン 0.08→0.142222(I_s·s 保存の帰結)・残骸のコア質量 300 は不変(massFrac 0.5→0.666667)・**残骸キック 8.8×10⁻⁸**・**発火1步の ΔM/ΔP/ΔL の相対誤差はいずれも厳密 0**(帳簿込み)。2000步の通算: |ΔP|/Σm|v| 4.7×10⁻⁸・|ΔL|/L 6.3×10⁻⁸・脱出 16/16(100%)・ガス粒は全て shell:\"gas\"・安全クランプ 全 0・NaN 0・決定性ビット同一。**shed を外すと単体のまま(粒子は増えず質量も 600 のまま)**。QA `behavior.envelopeShed` が発火の一回性・4帳簿・決定性・dt/2・偶数 n・未宣言サンプルのビット同一を機械固定する。",
+    control:"おすすめA/B: core.shed.frac=0.2(ΔM=60・残骸 540)・n=32(粒 4.6875 が 32 個)・jFrac=0(**解放回転E がほぼ 0 になり ΔU だけで出る**)・rLaunch=3(遠くへ出すと ΔU が浅くなる)。core.shed を外すと単体の恒星のまま。🍂(前)→ 🎆(放出)→ ⚪🔵(残骸)と読む。"},
+  en:{name:"Envelope Shedding — a Core at Its Spin Limit Splits the Shell into Gas (DFM)", descStruct:{
+    summary:"A CORE SPUN TO ITS LIMIT SPLITS THE SHELL INTO GAS AND THROWS IT OUT (wave 244, report 36 'interior structure'). Assumption: a red giant's shell cannot be held once the core's rotation passes a limit, and it breaks into grains (mass loss, supernova ejecta). ONE DECLARATION does it: core.shed{omegaCrit, frac, n, rLaunch, jFrac, once}. The core spins itself up from Ω=6 through contract=0.02 (the wave-77 mechanism — J conserved while Ω rises), and AT THE END OF THE FIRST STEP WHERE Ω_c REACHES omegaCrit=10 it fires exactly once: frac=0.5 of the 300 shell mass becomes n=16 gas grains placed IN SYMMETRIC PAIRS on a circle of rLaunch=1.5 parent radii. NO NEW PHYSICAL LAW AND NO FITTED CONSTANT is added — particles are created through the fission path (wave 45, _grow), the transferred J comes out of the core J (the same accounting as wave 234's burst), and the potential is the engine's own pair energy (E4 gravity with its softening, E9 springs, E5′ repulsion). THE CONSERVATION CONTRACT: mass is EXACT TO THE BIT (split on the Float32 ulp lattice); momentum has ZERO remnant kick by symmetry (only the rounding residual is booked); angular momentum closes through the transferred L and a re-solved shell spin; energy closes as RELEASED ROTATIONAL ENERGY = ΔKE + ΔU + residual. If the budget is negative THE EVENT DOES NOT FIRE (a state that breaks the ledger is never written). AN HONEST LIMIT: the engine carries no self-gravitational energy for a point particle, so moving the shell out to radius r_L always releases EXACTLY THE ESCAPE SPEED — 'everything always escapes' is a consequence of the convention, not a prediction. Real mass loss (radiation pressure, pulsation, dust driving, neutrinos) is not modelled.",
+    observe:"Measured (2000 steps = t32, dt=0.016): IT FIRES ONCE, AT STEP 798 (t=12.784), with Ω_c=10.0054 (at dt/2: step 1596, t=12.776, Ω=10.0021 — the same Ω); zero skipped attempts. Ledgers (MEASURED ACROSS THE FIRING STEP — the body is solo, so no other force acts): mass 600 → 450 + 16×9.375 = 600 (RELATIVE ERROR 0); RELEASED ROTATIONAL ENERGY 5166.53 = ΔKE 13609.99 + ΔU −8443.47 + residual −3.8e-4 (7.4e-8 relative); transferred L = 607.5 (= 0.3 × J_c 2025); shell spin 0.08 → 0.142222 (the consequence of I_s·s conservation); the remnant's core mass 300 is unchanged (massFrac 0.5 → 0.666667); REMNANT KICK 8.8e-8; THE RELATIVE ERRORS OF ΔM, ΔP AND ΔL ACROSS THE FIRING STEP ARE ALL EXACTLY 0 (ledger-inclusive). Over the 2000 steps: |ΔP|/Σm|v| 4.7e-8, |ΔL|/L 6.3e-8, 16/16 grains escape (100%), every grain carries shell:\"gas\", all safety clamps 0, zero NaN, bit-identical reruns. REMOVE shed AND IT STAYS A SOLO BODY (no new particles, mass still 600). QA behavior.envelopeShed machine-fixes the single firing, the four ledgers, determinism, dt/2, even n and the bit-identity of samples without the declaration.",
+    control:"Suggested A/B: core.shed.frac=0.2 (a light shedding), n=32 (finer grains), jFrac=0 (no tangential component — a purely radial release), rLaunch=3 (further out, so ΔU is shallower). Remove core.shed and it stays an ordinary solo star. Read 🍂 (before) → 🎆 (the shedding) → ⚪🔵 (the remnants)."}},
+  parameterAudit:{
+    observedInputs:["なし(原理トイ — 🍂 の台帳 f=2 の読み替え)"],
+    fixedConventions:["単体・kFrame=1・pairReduced+重心系・coupleSink reservoir・境界なし・融合なし・etaRad=0(放出だけを見る)","台帳 f=2(殻 300+コア 300・massFrac 0.5・Rc=1.5・Kcs=0)・shed の面内・対称・傾き 0 規約"],
+    fitted:["なし(shed の 5 値は用量ノブの宣言であってフィットではない)"],
+    derived:["発火 Ω_c=10.0054(contract 0.02 で Ω=6 から自走 — J_c=2025 一定・I_c が縮む)","解放回転E 5166.53=(J₀²−J₁²)/2I_c・移送 L 607.5・ΔU −8443.47(engine の対エネルギー)"],
+    numerical:["dt=0.016・2000步・dt/2 対照 4000步(発火 Ω は 3×10⁻⁴ 以内で一致)"]},
+  activeParams:["kFrame","G","softening"],
+  thermal:"tint", validT:32,
+  massCalibration:{law:"chi-law-v1-transfer", C:1, factorUniform:2},
+  balanceFrame:"barycentric",
+  camera:{scale:320}, world:{boundary:"none",size:0}, seed:20260906,
+  physics:{G:4, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+    cLight:30, bM:1, etaRad:0, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
+    pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2, frameReaction:"pairReduced", coupleSink:"reservoir", frameWeight:"share"},
+  bodies:[
+    // 台帳 f=2 の恒星(殻 300+コア 300)。contract でコアが自走し、Ω_c=10 で殻の半分が 16 粒のガスへ割れる
+    {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.08, pinned:false, tInt:2, lightSweep:0,
+     shell:"solid",
+     core:{mode:"differential", massFrac:0.5, radius:1.5, omega:6, Kcs:0, contract:0.02,
+           shed:{omegaCrit:10, frac:0.5, n:16, rLaunch:1.5, jFrac:0.3, once:true}}}],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
+
 // 第77便: 🌱starSeed — 星の種ローター(コアv2 の実演)。裁定(2026-08-05): コアのスピン加速の
 // 主要因=自己重力圧縮(contract — J保存で Ω=J/I 上昇・核融合は密度増の副産物)。さらに加速する
 // 副機構としてパワーボール原理(ジャイロ器具の2Dアナログ — 殻の振動加速度が「手首の揺すり」。
@@ -10385,6 +10498,43 @@ function validatePreset(obj){
           b.frac=(c.burst.frac===undefined)?1:(isNum(c.burst.frac)? wc(c.burst.frac,0,1,"core.burst.frac") : 1);
           for(const k of Object.keys(c.burst)) if(k!=="rate" && k!=="frac") warnings.push(at+".core.burst の未知キー("+String(k).slice(0,20)+")— 無視");
           oc.burst=b;
+        }
+      }
+      // 第244便(第36報「内部構造」): shed — エンベロープの分割放出 envelopeShed。仮定「白色矮星・
+      // 中性子星は赤色巨星の育ったコアで、限界を超えた殻はガスへ割れて出る」を宣言1つで置く。
+      // {omegaCrit:発火する |Ω_c|(>0), frac:放出する**殻質量**の比(0,0.6], n:粒数(4〜64・偶数),
+      //  rLaunch:放出半径(親半径 R 単位・>0), jFrac:コア J の移送比 [0,1](既定0), once:true(既定・1回だけ)}。
+      // 不正値は**警告つきで shed だけを落とす**(コアの他キーは生かす)。opt-in — 省略は 1 bit 不変
+      if(c.shed!==undefined){
+        const SD=c.shed;
+        if(cav) warnings.push(at+".core.shed は cavity では無効 — 無視します");
+        else if(!SD || typeof SD!=="object" || Array.isArray(SD))
+          warnings.push(at+".core.shed はオブジェクト {omegaCrit, frac, n, rLaunch} が必要 — shed を無視します");
+        else if(!isNum(SD.omegaCrit) || !(SD.omegaCrit>0))
+          warnings.push(at+".core.shed.omegaCrit は正の数値が必要 — shed を無視します");
+        else if(!isNum(SD.frac) || !(SD.frac>0))
+          warnings.push(at+".core.shed.frac は正の数値が必要 — shed を無視します");
+        else if(!isNum(SD.n))
+          warnings.push(at+".core.shed.n は数値が必要 — shed を無視します");
+        else if(!isNum(SD.rLaunch) || !(SD.rLaunch>0))
+          warnings.push(at+".core.shed.rLaunch は正の数値が必要 — shed を無視します");
+        else {
+          const sd={omegaCrit:wc(SD.omegaCrit,1e-6,1e6,"core.shed.omegaCrit"),
+                    frac:wc(SD.frac,1e-6,0.6,"core.shed.frac")};
+          let np=Math.round(SD.n); if(np%2!==0) np+=1;              // 偶数化(対称対の配置が P=0 の根拠)
+          np=clamp(np,4,64);
+          if(np!==SD.n) warnings.push(at+".core.shed.n を偶数・値域[4,64]に修正");
+          sd.n=np;
+          sd.rLaunch=wc(SD.rLaunch,0.01,100,"core.shed.rLaunch");
+          if(SD.jFrac===undefined) sd.jFrac=0;
+          else if(!isNum(SD.jFrac)){ warnings.push(at+".core.shed.jFrac が数値でないため 0 に修正"); sd.jFrac=0; }
+          else sd.jFrac=wc(SD.jFrac,0,1,"core.shed.jFrac");
+          if(SD.once!==undefined && SD.once!==true) warnings.push(at+".core.shed.once は第244便初版では true のみ — true に修正");
+          sd.once=true;
+          for(const k of Object.keys(SD))
+            if(["omegaCrit","frac","n","rLaunch","jFrac","once"].indexOf(k)<0)
+              warnings.push(at+".core.shed の未知キー("+String(k).slice(0,20)+")— 無視");
+          oc.shed=sd;
         }
       }
       return oc;
@@ -12275,6 +12425,12 @@ function makeSim(){
     S.coreKal=F();   // 第232便: 整列引きずり率(Kalign — 省略 0)
     // 第234便: spinBurst — 放出率・総比率・基準 |J|(build 時)・放出済み |J|(累積)。省略 0 = 分岐に入らない
     S.coreBR=F(); S.coreBF=F(); S.coreBJ0=new Float64Array(n); S.coreBJr=new Float64Array(n);
+    // 第244便(第36報「内部構造」): envelopeShed — コア Ω が限界に達したら殻の一部をガス粒へ割る
+    // 保存的な質量放出。shdOc=発火閾値 |Ω_c|(0=未宣言 → どの分岐にも入らない)・shdFr=放出する殻質量の比・
+    // shdNp=粒数(偶数)・shdRL=放出半径(親半径 R 単位)・shdJF=コア J の移送比・shdDn=発火済み(once)
+    S.shdOc=new Float64Array(n); S.shdFr=new Float64Array(n); S.shdNp=new Float64Array(n);
+    S.shdRL=new Float64Array(n); S.shdJF=new Float64Array(n); S.shdDn=new Uint8Array(n);
+    S.hasShed=false;
     // 第208便: coreIS=コアの有効慣性倍率 ζ(既定1。I*_c=ζ·½·Mc·Rc² — 全 I_c 計算が共通で乗じる)
     S.coreIS=new Float64Array(n); S.coreIS.fill(1);
     // 第210便: coreJm=|J| 容量(=I*·|ω₀| — coupleSink:"tilt" の軸傾き経路の上限。既定0)
@@ -12637,6 +12793,10 @@ function makeSim(){
         // 第234便: burst 宣言 → 率・比率・基準 |J|(z 成分の絶対値 — 放出は J_z から)。未宣言は 0
         if(c.burst){ S.coreBR[i]=c.burst.rate; S.coreBF[i]=c.burst.frac; S.coreBJ0[i]=Math.abs(S.coreJ[i]); S.coreBJr[i]=0; }
         else { S.coreBR[i]=0; S.coreBF[i]=0; S.coreBJ0[i]=0; S.coreBJr[i]=0; }
+        // 第244便: shed 宣言 → 発火閾値・放出比・粒数・放出半径・J 移送比。未宣言は 0(hasShed も立たない)
+        if(c.shed){ S.shdOc[i]=c.shed.omegaCrit; S.shdFr[i]=c.shed.frac; S.shdNp[i]=c.shed.n;
+          S.shdRL[i]=c.shed.rLaunch; S.shdJF[i]=c.shed.jFrac; S.shdDn[i]=0; S.hasShed=true; }
+        else { S.shdOc[i]=0; S.shdFr[i]=0; S.shdNp[i]=0; S.shdRL[i]=0; S.shdJF[i]=0; S.shdDn[i]=0; }
         S.coreSrc[i]=c.sourceRate||0; S.coreEint[i]=c.internalEnergy||0;
         S.hasCoreV2=true;
       } else { S.coreMd[i]=0; S.coreMF[i]=0; S.RcV[i]=0; S.coreJ[i]=0; S.coreIS[i]=1; S.coreJm[i]=0;
@@ -12786,6 +12946,9 @@ function makeSim(){
     S.pinHeat=0;   // 第47便 47A(台帳4-86): pinned 熱浴の帳簿もリセット
     S.coreWork=0;  // 第77便(コアv2): パワーボール仕事+収縮の回転エネルギー増(外部仕事の明示帳簿)
     S.burstE=0; S.burstK=0; S.burstL=0; S.burstRes=0;   // 第234便: spinBurst 帳簿(放出回転E・注入KE・移送L・残差)
+    // 第244便: envelopeShed 帳簿(解放回転E・ΔKE・ΔU・移送L・放出質量・残差・回数・発火 Ω・発火時刻・見送り回数)
+    S.shedE=0; S.shedK=0; S.shedU=0; S.shedL=0; S.shedM=0; S.shedRes=0;
+    S.shedNev=0; S.shedOm=0; S.shedT=0; S.shedSkip=0;
     S.alignE=0;    // 第232便: 整列で隠れ成分(J⊥)から z 機関へ現れた回転エネルギーの累積(帳簿)
     // 第80便(コアv2): coreSrcE = active コアの sourceRate による**外部注入エネルギーの累積**
     // (fusU/coreWork と同格のリザーバ帳簿)。恒等式は Σ_i E_int,i − Σ_i E_int,i(t=0) = coreSrcE。
@@ -12903,6 +13066,9 @@ function makeSim(){
     // 第44便 44B(台帳4-68c): 融合はサブステップ末(E系適用後)。fusion 未指定では null 判定 1 回
     // 第45便 45B(台帳4-68d): 分裂は融合の**後**(同一サブステップで新生対が再融合しないための第1の柵)
     if(S.fusion){ S._fuse(); if(S.fusion.fission) S._fission(); }
+    // 第244便(第36報): envelopeShed はステップ末(融合・分裂の後)。未宣言はフラグ1つで素通り =
+    // 1步あたりの追加コストは真偽値の読みだけ(S._core の中には 1 命令も足していない — 第208便の教訓)
+    if(S.hasShed) S._shed();
   };
   // 第35便(台帳4-62): Loschmidt echo — t が echoFlipAt に達した最初のステップ終端で、
   // 全粒子の v と s の符号を一度だけ反転する(pinned 含む・再反転はしない)。
@@ -13171,6 +13337,7 @@ function makeSim(){
     for(const key of ["m","x","y","vx","vy","spin","R","rotA","mEff","rotAc",
       "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","dragQT","coreDQ","coreDQT","corePump","coreCtr",   // 第77便(コアv2)
       "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内
+      "shdOc","shdFr","shdNp","shdRL","shdJF","shdDn",   // 第244便: envelopeShed の宣言・発火済みフラグ
       "lSw","radOv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
@@ -13207,6 +13374,7 @@ function makeSim(){
     for(const key of ["m","x","y","vx","vy","spin","R","rotA","mEff","rotAc",
       "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","dragQT","coreDQ","coreDQT","corePump","coreCtr",   // 第77便(コアv2)
       "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内
+      "shdOc","shdFr","shdNp","shdRL","shdJF","shdDn",   // 第244便: envelopeShed の宣言・発火済みフラグ
       "lSw","radOv","rMulv","lSwAuto","uPx","uPy","tau",
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
@@ -13412,6 +13580,169 @@ function makeSim(){
         rL:(lSc>0? Math.abs(eL)/lSc : 0), rE:(eSc>0? Math.abs(eE)/eSc : 0)});
       if(S.fisLog.length>64) S.fisLog.shift();
       S.fisN++;
+    }
+  };
+  // ===== 第244便(第36報「内部構造」): エンベロープの分割放出(envelopeShed)=====
+  // 仮定(第36報): 白色矮星・中性子星は赤色巨星の**育ったコア**であり、限界を超えた殻はガス粒へ
+  // 割れて出る(質量放出・超新星の放出物)。**新しい物理法則は足していない** — 既存機構の合成:
+  //   ・粒子を増やす経路は分裂(第45便 _grow)と同一
+  //   ・移送する角運動量はコア J から出す(第234便 spinBurst と同じ会計)
+  //   ・エネルギー源はコアの回転エネルギー解放 ΔE=J₀²/2I_c₀ − J₁²/2I_c₁(burst と同形)
+  //   ・ポテンシャルは engine 自身の対エネルギー _mkPairU(E4 重力+softening・E9 ばね・E5′ 斥力)
+  // 発火: 差動/active コアの |Ω_c|=|J_c/I_c| が宣言 omegaCrit に達した最初のステップ末に1回(once)。
+  // 保存の契約(すべて**格納後の値**で測って閉じる):
+  //   質量  M = M_r + Σm_k。Float32 の ulp 格子 u=ulp32(M) の整数倍で割るので**ビット厳密**
+  //         (m_k=K·u・M_g=n·K·u・M_r=M−M_g はいずれも Float32 で表現できる)
+  //   運動量 ガスは半径 r_L=rLaunch·R の円周上に**対称対**(θ と θ+π)で置く。等質量なので
+  //         Σm_kδ_k=0・Σm_kδv_k=0 が厳密に立ち、**残骸のキックは 0**(乱数キックは足さない)。
+  //         格納丸めの残差だけを resPx/resPy へ回収する(総 P = Σmv + 帳簿P)
+  //   角運動量 移送 J_g=jFrac·J_c はガスの**軌道 L** へ(接線速度 v_t=J_g/(M_g r_L))。殻スピンは
+  //         L の恒等式から解き直し(対称配置では I_s·s 保存に一致)、残差は resL へ
+  //   エネルギー ΔE_release = ΔKE(ガス+残骸並進+殻回転) + ΔU + 残差。
+  //         接線 KE = J_g²/(2 M_g r_L²)・残りが外向き動径速度 v_r。**残りが負なら発火しない**
+  //         (帳簿を破る状態は書かない — 見送りは shedSkip に数える)
+  // 帳簿: shedE(解放回転E)・shedK(ΔKE)・shedU(ΔU)・shedL(移送L)・shedM(放出質量)・
+  //       shedRes(残差)・shedNev(回数)・shedOm(発火 Ω)・shedT(発火時刻)・shedSkip(見送り)
+  // 初版は**面内・対称・傾き 0**(J の面内成分 J_x/J_y は残骸に残す)。ガス粒は shell:"gas"・
+  // frameSource と tInt は親を継ぎ、半径は engine の質量→半径写像 R=rs·rMul·√|m|。
+  // shed 未宣言の宇宙は S.hasShed が偽で **1 度も呼ばれない**(既定経路は 1 bit 不変)
+  const _shF32=new Float32Array(1), _shU32=new Uint32Array(_shF32.buffer);
+  const ulp32=(v)=>{ _shF32[0]=Math.abs(v); const e=(_shU32[0]>>>23)&0xff;
+    return (e===0)? 1.401298464324817e-45 : Math.pow(2,e-150); };   // 正規数: 値=1.m·2^(e−127) ⇒ ulp=2^(e−150)
+  // _grow(第45便)が扱わない粒子配列を同じ確保長へ揃える(shed 経路だけが呼ぶ)。
+  // 既定値は alloc と同じ(frameSrc だけ 1・他は 0)。angNbr 系は per-substep の作業配列なので破棄して作り直させる
+  S._shedGrowExtra = function(nc){
+    for(const kf of [["coreOmV",0],["sumWu",0],["pnOv",0],["frameSrc",1],
+                     ["coordN",0],["coordAcc",0],["shPrev",0]]){
+      const a=S[kf[0]]; if(!a || a.length>=nc) continue;
+      const b=new a.constructor(nc); if(kf[1]) b.fill(kf[1]); b.set(a); S[kf[0]]=b;
+    }
+    S.angNbr=null; S.angNbrN=null;
+  };
+  S._shed = function(){
+    const n0=S.n;
+    for(let i=0;i<n0;i++){
+      if(!(S.shdOc[i]>0) || S.shdDn[i] || S.pinned[i]) continue;
+      const md=S.coreMd[i]; if(md!==2 && md!==3) continue;        // J を持つコア(differential/active)だけ
+      const M=S.m[i]; if(!(M>0)) continue;
+      const mfr=S.coreMF[i]; if(!(mfr>0)) continue;
+      const Rc=S.RcV[i], zeta=S.coreIS[i], Mc=mfr*M;
+      const Ic0=0.5*Mc*Rc*Rc*zeta; if(!(Ic0>1e-12)) continue;
+      const Jc0=S.coreJ[i], Om=Jc0/Ic0;
+      if(!(Math.abs(Om)>=S.shdOc[i])) continue;                    // ← 発火条件(これ以外の分岐には入らない)
+      const nG=Math.round(S.shdNp[i]);
+      if(!(nG>=4) || (nG%2)!==0 || S.n+nG>2000) continue;
+      // ---- ① 質量の割り方(Float32 ulp 格子 — 質量はビット厳密に閉じる)----
+      const Ms=M-Mc, dMs=S.shdFr[i]*Ms;
+      if(!(dMs>0)) continue;
+      const u=ulp32(M), K=Math.round(dMs/(nG*u));
+      if(!(K>=1)) continue;
+      const mk=K*u, Mg=nG*mk, Mr=M-Mg;
+      if(!(Mg>0) || !(Mr>Mc)) continue;                            // 殻を全部は出さない(コアは残骸に残る)
+      const mf1=Math.fround(Mc/Mr);
+      const Ic1=0.5*mf1*Mr*Rc*Rc*zeta; if(!(Ic1>1e-12)) continue;
+      const rs=S.params.radiusScale, mfl=(S.params.massFloor>0)? S.params.massFloor : 0.01;
+      const X0=S.x[i], Y0=S.y[i], VX0=S.vx[i], VY0=S.vy[i], SP0=S.spin[i], R0=S.R[i];
+      const rL=S.shdRL[i]*R0; if(!(rL>0)) continue;
+      const R1=(S.radOv[i]>0)? R0 : Math.fround(rs*S.rMulv[i]*Math.sqrt(Mr));
+      const Rk=Math.fround(rs*S.rMulv[i]*Math.sqrt(mk));
+      if(!(R1>0) || !(Rk>0)) continue;
+      const Jg=S.shdJF[i]*Jc0, Jc1=Jc0-Jg;
+      const dErel=(Jc0*Jc0)/(2*Ic0)-(Jc1*Jc1)/(2*Ic1);             // コアの回転エネルギー解放(burst と同形)
+      // ---- ② 発火前のスナップショット(格納値からの Float64)----
+      const pairU0=S._mkPairU();
+      let U0=0; for(let k=0;k<n0;k++) if(k!==i) U0+=pairU0(i,k);
+      const KE0=0.5*M*(VX0*VX0+VY0*VY0), Erot0=0.25*M*R0*R0*SP0*SP0;
+      const Lloc0=M*(X0*VY0-Y0*VX0)+0.5*M*R0*R0*SP0+Jc0;
+      const Px0=M*VX0, Py0=M*VY0;
+      const mE0=S.mEff[i], lnx=S.linNext;
+      // ---- ③ 試行状態(質量・半径・位置)を書く。速度は ⑤ で決まるので後回し ----
+      const j0=S.n, nAll=j0+nG;
+      S._grow(nAll); S._shedGrowExtra(S.m.length);
+      const m=S.m, x=S.x, y=S.y, vx=S.vx, vy=S.vy, spin=S.spin, R=S.R;
+      const cs=new Float64Array(nG);                               // 対称対の単位ベクトル(θ と θ+π を符号反転で作る)
+      for(let h=0;h<nG/2;h++){ const th=2*Math.PI*h/nG; cs[2*h]=Math.cos(th); cs[2*h+1]=Math.sin(th); }
+      m[i]=Mr; R[i]=R1; S.coreMF[i]=mf1;
+      S.mEff[i]=(Math.abs(Mr)<mfl)? mfl : Mr;
+      for(let h=0;h<nG/2;h++){
+        const c=cs[2*h], s=cs[2*h+1], ja=j0+2*h, jb=ja+1;
+        x[ja]=Math.fround(X0+rL*c); y[ja]=Math.fround(Y0+rL*s);
+        x[jb]=Math.fround(X0-rL*c); y[jb]=Math.fround(Y0-rL*s);
+        for(let t=0;t<2;t++){
+          const jj=(t===0)? ja : jb;
+          m[jj]=mk; R[jj]=Rk; spin[jj]=0; vx[jj]=0; vy[jj]=0;
+          S.mEff[jj]=(Math.abs(mk)<mfl)? mfl : mk;
+          S.rotA[jj]=S.rotA[i]; S.rotAc[jj]=S.rotAc[i];
+          S.rMulv[jj]=S.rMulv[i]; S.radOv[jj]=0;
+          S.coreMd[jj]=0; S.coreMF[jj]=0; S.RcV[jj]=0; S.coreJ[jj]=0; S.coreIS[jj]=1; S.coreJm[jj]=0;
+          S.coreKcs[jj]=0; S.corePump[jj]=0; S.coreCtr[jj]=0; S.coreKal[jj]=0; S.coreOmV[jj]=0;
+          S.coreBR[jj]=0; S.coreBF[jj]=0; S.coreBJ0[jj]=0; S.coreBJr[jj]=0;
+          S.coreEint[jj]=0; S.coreSrc[jj]=0; S.coreOm0[jj]=0; S.coreJx[jj]=0; S.coreJy[jj]=0;
+          S.shdOc[jj]=0; S.shdFr[jj]=0; S.shdNp[jj]=0; S.shdRL[jj]=0; S.shdJF[jj]=0; S.shdDn[jj]=0;
+          S.dragQ[jj]=S.dragQ[i]; S.dragQT[jj]=S.dragQT[i]; S.coreDQ[jj]=0; S.coreDQT[jj]=0;
+          S.frameSrc[jj]=S.frameSrc[i];                            // 第243便: フレーム源は親を継ぐ
+          S.lSw[jj]=S.lSw[i]; S.lSwAuto[jj]=S.lSwAuto[i]; S.tau[jj]=S.tau[i];
+          S.hasU[jj]=S.hasU[i]; S.pinned[jj]=0;
+          S.pulseOm[jj]=0; S.pulsePh[jj]=0;                        // 第226便: 放出片は時計を持たない
+          S.shellGas[jj]=1;                                        // 第229便: 放出片は気体の殻
+          if(S.Tint) S.Tint[jj]=S.Tint[i];                         // tInt は親を継ぐ(C·m·T の総和は不変)
+          S.railR[jj]=0; S.railAng[jj]=0; S.railOmega[jj]=0; S.railCx[jj]=0; S.railCy[jj]=0; S.railH[jj]=0;
+          S.accVx[jj]=0; S.accVy[jj]=0; S.accS[jj]=0;
+          S.ax[jj]=0; S.ay[jj]=0; S.sumW[jj]=0; S.uAx[jj]=0; S.uAy[jj]=0;
+          S.ds[jj]=0; S.dpx[jj]=0; S.dpy[jj]=0; S.uPx[jj]=0; S.uPy[jj]=0;
+          if(S.sumWu) S.sumWu[jj]=0;
+          if(S.pnOv) S.pnOv[jj]=0;
+          if(S.duT) S.duT[jj]=0;
+          if(S.dQi) S.dQi[jj]=0;
+          if(S.arep){ S.arep[jj]=0; S.arepD[jj]=0; }
+          if(S.echoX0){ S.echoX0[jj]=x[jj]; S.echoY0[jj]=y[jj]; }
+        }
+      }
+      S.n=nAll;
+      // ---- ④ ΔU(engine の対エネルギー — 位置・質量・半径・T だけに依る = 速度非依存)----
+      const pairU1=S._mkPairU();
+      let U1=0;
+      for(let k=0;k<nAll;k++){ if(k!==i) U1+=pairU1(i,k); }                       // 残骸 ⇄ 全員
+      for(let a=j0;a<nAll;a++) for(let b=a+1;b<nAll;b++) U1+=pairU1(a,b);         // ガス ⇄ ガス
+      for(let a=j0;a<nAll;a++) for(let k=0;k<j0;k++){ if(k!==i) U1+=pairU1(a,k); } // ガス ⇄ その他
+      const dU=U1-U0;
+      // ---- ⑤ 収支: 解放回転E − ΔU − Δ(殻回転E) − 接線KE = 動径KE ----
+      const Is0=0.5*M*R0*R0, Is1=0.5*Mr*R1*R1;
+      const sp1t=(Is1>1e-12)? (Is0*SP0/Is1) : 0;                    // 対称放出では I_s·s 保存(⑥で厳密に解き直す)
+      const dEsh=0.5*Is1*sp1t*sp1t-0.5*Is0*SP0*SP0;
+      const Ktan=(rL>0)? (Jg*Jg)/(2*Mg*rL*rL) : 0;
+      const avail=dErel-dU-dEsh-Ktan;
+      if(!(avail>=0) || !isFinite(avail)){
+        // 帳簿を破る状態は書かない — 試行状態を捨てて元へ戻す(次のステップで Ω が上がれば再挑戦する)
+        m[i]=M; R[i]=R0; S.coreMF[i]=mfr; S.mEff[i]=mE0; S.n=j0; S.linNext=lnx;
+        S.shedSkip++;
+        continue;
+      }
+      const vr=Math.sqrt(2*avail/Mg), vt=(rL>0)? Jg/(Mg*rL) : 0;
+      for(let h=0;h<nG/2;h++){
+        const c=cs[2*h], s=cs[2*h+1], ja=j0+2*h, jb=ja+1;
+        vx[ja]=Math.fround(VX0+vr*c-vt*s); vy[ja]=Math.fround(VY0+vr*s+vt*c);
+        vx[jb]=Math.fround(VX0-vr*c+vt*s); vy[jb]=Math.fround(VY0-vr*s-vt*c);
+      }
+      // ---- ⑥ 格納値で測り直して P・L を厳密に閉じる(残差はリザーバ帳簿へ)----
+      let gpx=0, gpy=0, gL=0, gKE=0;
+      for(let a=j0;a<nAll;a++){ gpx+=mk*vx[a]; gpy+=mk*vy[a];
+        gL+=mk*(x[a]*vy[a]-y[a]*vx[a]); gKE+=0.5*mk*(vx[a]*vx[a]+vy[a]*vy[a]); }
+      const VXr=Math.fround((Px0-gpx)/Mr), VYr=Math.fround((Py0-gpy)/Mr);
+      vx[i]=VXr; vy[i]=VYr;
+      S.resPx-=(Mr*VXr+gpx)-Px0; S.resPy-=(Mr*VYr+gpy)-Py0;
+      const Lrest=Mr*(X0*VYr-Y0*VXr)+Jc1+gL;
+      const SP1=Math.fround((Is1>1e-12)? (Lloc0-Lrest)/Is1 : 0);
+      spin[i]=SP1;
+      S.resL-=(Lrest+Is1*SP1)-Lloc0;
+      S.coreJ[i]=Jc1; S.coreOmV[i]=Jc1/Ic1;
+      // ---- ⑦ 帳簿(解放回転E = ΔKE + ΔU + 残差)----
+      const dK=(0.5*Mr*(VXr*VXr+VYr*VYr)+gKE+0.25*Mr*R1*R1*SP1*SP1)-(KE0+Erot0);
+      S.shedE+=dErel; S.shedK+=dK; S.shedU+=dU; S.shedL+=Jg; S.shedM+=Mg;
+      S.shedRes+=dErel-(dK+dU);
+      S.shedNev++; S.shedOm=Math.abs(Om); S.shedT=S.t;
+      S.shdDn[i]=1; S.hasShellGas=true;
+      if(S.linId) for(let a=j0;a<nAll;a++){ S.linId[a]=S.linNext++; S.linN[a]=0; }   // 第100便: 放出片は新系譜ID
     }
   };
   // 1サブステップ(PHYSICS.md v1.1 §5 数値スキーム: ①全対 → ②粒子 → ③反作用対 → ④位置)
@@ -17371,6 +17702,7 @@ function syncHud(){
     if(sim.coreWork) txt+=`\nコア仕事W=${fmt(sim.coreWork)}`;
     if(sim.alignE) txt+=`\n整列E=${fmt(sim.alignE)}`;   // 第232便
     if(sim.burstE) txt+=`\n爆発E=${fmt(sim.burstE)}(注入KE ${fmt(sim.burstK)}・残差 ${fmt(sim.burstRes)})`;   // 第234便
+    if(sim.shedNev) txt+=`\n放出=${sim.shedNev}回 ΔM=${fmt(sim.shedM)}  解放E=${fmt(sim.shedE)}(ΔKE ${fmt(sim.shedK)}+ΔU ${fmt(sim.shedU)}・残差 ${fmt(sim.shedRes)})`;   // 第244便
     if(sim.coreSrcE) txt+=`\nコア注入E=${fmt(sim.coreSrcE)}`;   // 第80便: active コアの外部注入(累積)
     // 第50便 50E(台帳4-89): 安全クランプの帳簿 — 発動があったときだけ1行追記
     // (保存則主張の構成では厳密0で不可視のまま。発動していたら保存則の主張域外であることの明示)
@@ -18081,6 +18413,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
       "mEff","rotAc",                          // 第81便: コアv1(coreMR/coreSR/Rc)は廃止
       "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","dragQT","coreDQ","coreDQT","corePump","coreCtr",   // 第77便(コアv2)
       "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内
+      "shdOc","shdFr","shdNp","shdRL","shdJF","shdDn",   // 第244便: envelopeShed の宣言・発火済みフラグ
       "lSw","radOv",                           // 観測系(第22便 — obsT/coreOT は第61便で廃止)
       "rMulv","lSwAuto",                       // 第36便 C1/C2: 半径倍率・掻出の自動算出フラグ
       // 第45便 45B: 転写長は「A 側の生存粒子数 sim.n」に固定する(分裂で確保長が A 側だけ
@@ -18123,6 +18456,10 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   // 帳簿を 0 のままにすると B 側だけ Σ(E_int−E_int0)=coreSrcE の恒等式が破れる)
   simB.coreWork=sim.coreWork; simB.coreSrcE=sim.coreSrcE; simB.alignE=sim.alignE;   // 第232便
   simB.burstE=sim.burstE; simB.burstK=sim.burstK; simB.burstL=sim.burstL; simB.burstRes=sim.burstRes;   // 第234便
+  // 第244便: envelopeShed 帳簿(放出済みの粒子は上の配列転写で B 側へ渡っているので、帳簿も揃える)
+  simB.shedE=sim.shedE; simB.shedK=sim.shedK; simB.shedU=sim.shedU; simB.shedL=sim.shedL;
+  simB.shedM=sim.shedM; simB.shedRes=sim.shedRes; simB.shedNev=sim.shedNev;
+  simB.shedOm=sim.shedOm; simB.shedT=sim.shedT; simB.shedSkip=sim.shedSkip; simB.hasShed=sim.hasShed;
   // 第35便(台帳4-62): 積分器と echo の状態も転写(build 済みなので echoX0/Y0 は同一配置。
   // 反転済みフラグ・RMS だけは現在値を引き継ぐ — A/B を反転後に開始しても再反転しない)
   simB.integrator=sim.integrator; simB.echoFlipAt=sim.echoFlipAt;
@@ -18291,9 +18628,11 @@ const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU",
   "pulseOm","pulsePh","shellGas",   // 第226便: パルス時計チャネル / 第229便: 殻の相
   "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","dragQT","coreDQ","coreDQT","corePump","coreCtr",
   "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内
+      "shdOc","shdFr","shdNp","shdRL","shdJF","shdDn",   // 第244便: envelopeShed の宣言・発火済みフラグ
   "railR","railAng","railOmega","railCx","railCy","railH",
   "Tint","coordN","coordAcc","shPrev","_phNbrPrev","_phNbrPrevN","_phProf"];
 const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wallKE","pinHeat","coreWork","coreSrcE","alignE","burstE","burstK","burstL","burstRes",
+  "shedE","shedK","shedU","shedL","shedM","shedRes","shedNev","shedOm","shedT","shedSkip",   // 第244便: envelopeShed 帳簿
   "clampVN","clampSN","clampHN","clampAN","clampRN","clampTN","angOvfN","_phAcc","_phNbrInit",
   "fusN","fusU","fusPx","fusPy","fusL","fisN","aEffRef","_bhLastA","_bhLastT","_bhAcc"];
 function ckInvalidate(){ ckSnap=null; $("#btnCkLoad").disabled=true; }

@@ -8327,6 +8327,140 @@ if (!FAST) {
   }
 }
 
+// ---- 第244便(第36報「内部構造」): behavior.envelopeShed — エンベロープの分割放出 ----
+// 🎆 envelopeShedDFM: 発火の一回性(once)・4帳簿(質量/運動量/角運動量/エネルギー)の閉性・
+// 決定性・dt/2 の同 Ω 発火・偶数 n・ガス粒の shell:"gas"・残骸が同じ index にコアを保つこと・
+// 否定対照(shed を外す/検証器が落とす = 粒子が増えずビット同一)・検証器の警告つき破棄。
+// 帳簿は**発火の1步**で測る(🎆 は単体なので他の力が働かず、事象だけが分離できる)
+{
+  const hasShed = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'envelopeShedDFM')
+    && typeof HP.sim._shed === 'function');
+  if (hasShed) {
+    const sh = await page.evaluate(() => {
+      const get = (id) => JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));
+      const tot = (S) => { const t = S.totals(); let mm = 0, ps = 0;
+        for (let i = 0; i < S.n; i++) { mm += S.m[i]; ps += S.m[i] * Math.hypot(S.vx[i], S.vy[i]); }
+        return { L: t.L + S.resL + S.radL, px: t.px + S.resPx, py: t.py + S.resPy, m: mm, ps }; };
+      const run = (patch, dt, steps) => {
+        const pd = get('envelopeShedDFM'); if (patch) patch(pd);
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+        let pre = null, post = null, fireStep = -1;
+        for (let k = 0; k < steps; k++) {
+          const before = (S.shedNev === 0) ? tot(S) : null;
+          S.step(dt);
+          if (fireStep < 0 && S.shedNev > 0) { fireStep = k; pre = before; post = tot(S); }
+        }
+        let esc = 0, nGas = 0, gas = 0;
+        for (let i = 0; i < S.n; i++) { if (S.shellGas[i]) gas++;
+          if (i === 0) continue; nGas++;
+          const r = Math.hypot(S.x[i] - S.x[0], S.y[i] - S.y[0]);
+          const v2 = (S.vx[i] - S.vx[0]) ** 2 + (S.vy[i] - S.vy[0]) ** 2;
+          if (v2 > 2 * S.params.G * S.m[0] / Math.max(r, 1e-9)) esc++; }
+        const o = []; for (let i = 0; i < Math.min(20, S.n); i++) o.push(S.x[i], S.y[i], S.vx[i], S.vy[i]);
+        return { warn: (v.warnings || []).length, n: S.n, fireStep, nev: S.shedNev, skip: S.shedSkip,
+          om: S.shedOm, tFire: S.shedT, shedE: S.shedE, shedK: S.shedK, shedU: S.shedU,
+          shedL: S.shedL, shedM: S.shedM, shedRes: S.shedRes,
+          evM: pre ? Math.abs(post.m - pre.m) / pre.m : null,
+          evP: pre ? Math.hypot(post.px - pre.px, post.py - pre.py) / Math.max(post.ps, 1e-9) : null,
+          evL: pre ? Math.abs(post.L - pre.L) / Math.abs(pre.L) : null,
+          mR: S.m[0], mfR: S.coreMF[0], mdR: S.coreMd[0], JcR: S.coreJ[0], spinR: S.spin[0],
+          mk: S.m[1] || 0, kick: Math.hypot(S.vx[0], S.vy[0]), esc, nGas, gas,
+          clamp: S.clampVN + S.clampSN + S.clampRN + S.clampTN, nan: S.hasNaN(), o };
+      };
+      const a = run(null, 0.016, 2000), b = run(null, 0.016, 2000);
+      const half = run(null, 0.008, 4000);
+      const off = run((pd) => { delete pd.bodies[0].core.shed; }, 0.016, 2000);
+      const bad = run((pd) => { pd.bodies[0].core.shed.omegaCrit = -1; }, 0.016, 2000);   // 検証器が落とす = off と同一
+      const jf0 = run((pd) => { pd.bodies[0].core.shed.jFrac = 0; }, 0.016, 2000);
+      // 🎇(shed 未宣言)は本便の追加に一切触れない
+      const sn = (() => { const pd = get('supernovaCore'); const v = HP.validatePreset(pd);
+        const S = HP.sim; S.build(v.preset); const n0 = S.n;
+        for (let k = 0; k < 300; k++) S.step(0.016);
+        return { n0, n1: S.n, nev: S.shedNev, has: S.hasShed }; })();
+      // 検証器: 不正値は警告つきで shed だけ落ちる(コアの他キーは生きる)
+      const vB = HP.validatePreset((() => { const pd = get('envelopeShedDFM');
+        pd.bodies[0].core.shed = { omegaCrit: 0, frac: 0.5, n: 16, rLaunch: 1.5 }; return pd; })());
+      const vO = HP.validatePreset((() => { const pd = get('envelopeShedDFM');
+        pd.bodies[0].core.shed.n = 15; return pd; })());
+      const vU = HP.validatePreset((() => { const pd = get('envelopeShedDFM');
+        pd.bodies[0].core.shed.zzz = 1; return pd; })());
+      return { a, b, half, off, bad, jf0, sn,
+        det: a.o.every((x, i) => Object.is(x, b.o[i])),
+        offBit: off.o.length === bad.o.length && off.o.every((x, i) => Object.is(x, bad.o[i])),
+        vDrop: vB.ok && vB.preset.bodies[0].core.shed === undefined
+          && vB.preset.bodies[0].core.massFrac === 0.5
+          && (vB.warnings || []).some((w) => /shed\.omegaCrit/.test(w)),
+        vEven: vO.ok && vO.preset.bodies[0].core.shed.n === 16
+          && (vO.warnings || []).some((w) => /shed\.n/.test(w)),
+        vUnk: vU.ok && (vU.warnings || []).some((w) => /shed の未知キー/.test(w)) };
+    });
+    const h = sh.a;
+    const relE = Math.abs(h.shedRes) / Math.max(Math.abs(h.shedE), Math.abs(h.shedK));
+    const relOm = Math.abs(sh.half.om - h.om) / h.om;
+    add('behavior.envelopeShed',
+      h.warn === 0 && h.nev === 1 && h.skip === 0 && sh.b.nev === 1                       // 発火は1回だけ(once)
+      && h.n === 17 && h.gas === 16 && h.nGas === 16 && (h.nGas % 2) === 0                // 偶数 n・ガスは shell:"gas"
+      && h.evM < 1e-9 && h.evP < 1e-6 && h.evL < 1e-6 && relE < 1e-6                       // 4帳簿(発火の1步)
+      && Math.abs(h.shedM - 150) < 1e-9 && Math.abs(h.mR - 450) < 1e-9                     // 放出 ΔM=150・残骸 450
+      && Math.abs(h.mfR * h.mR - 300) < 1e-3 && h.mdR === 2                                // コア質量 300 は残骸に残る(同 index)
+      && Math.abs(h.shedL - 607.5) < 1e-6 && h.kick < 1e-6                                 // 移送 L=jFrac·J_c・対称放出でキック 0
+      && sh.det === true && relOm < 1e-3 && sh.half.nev === 1                              // 決定性・dt/2 は同じ Ω で発火
+      && sh.off.n === 1 && sh.off.nev === 0 && sh.bad.n === 1 && sh.offBit === true         // 否定対照: 宣言なし=粒子は増えずビット同一
+      && Math.abs(sh.jf0.shedE) < 1e-2 && sh.jf0.nev === 1                                 // jFrac=0 → 解放回転E ≈ 0(ΔU だけで出る)
+      && sh.sn.nev === 0 && sh.sn.has === false                                             // 🎇(shed 未宣言)は本便の経路に入らない(n は融合で減る — 第44便)
+      && sh.vDrop && sh.vEven && sh.vUnk
+      && h.clamp === 0 && !h.nan,
+      `🎆 shed{Ω*10, frac0.5, n16, r1.5, jF0.3}: 発火 ${h.nev}回 ${h.fireStep}步(t=${h.tFire.toFixed(3)}・Ω=${h.om.toFixed(4)}` +
+      `・dt/2 は Ω=${sh.half.om.toFixed(4)}〔相対 ${relOm.toExponential(1)}〕)・見送り ${h.skip} / ` +
+      `帳簿(発火の1步): ΔM ${h.evM.toExponential(1)}・ΔP ${h.evP.toExponential(1)}・ΔL ${h.evL.toExponential(1)}・` +
+      `解放E ${h.shedE.toFixed(2)}=ΔKE ${h.shedK.toFixed(2)}+ΔU ${h.shedU.toFixed(2)}+残差 ${h.shedRes.toExponential(1)}(相対 ${relE.toExponential(1)}) / ` +
+      `放出 ΔM=${h.shedM}(${h.nGas}粒×${h.mk})・残骸 m=${h.mR}(コア質量 ${(h.mfR * h.mR).toFixed(2)}・md=${h.mdR})・移送L ${h.shedL}・キック ${h.kick.toExponential(1)}・脱出 ${h.esc}/${h.nGas} / ` +
+      `対照: 宣言なし n=${sh.off.n}(検証器破棄版とビット同一=${sh.offBit})・jFrac0 解放E ${sh.jf0.shedE.toExponential(1)}・🎇 shedNev ${sh.sn.nev}(hasShed=${sh.sn.has}・n ${sh.sn.n0}→${sh.sn.n1} は融合による減) / ` +
+      `検証器: 不正値破棄=${sh.vDrop}・奇数n→偶数=${sh.vEven}・未知キー警告=${sh.vUnk}・決定性=${sh.det}・clamp ${h.clamp}`);
+  } else {
+    console.log('SKIP behavior.envelopeShed(対象に第244便の shed なし — root 等)');
+  }
+}
+
+// ---- 第244便(第36報): behavior.remnantSamples — 残骸の雛形(⚪ 白色矮星・🔵 中性子星の残骸核)----
+// 警告 0 で検証を通り、2000步で NaN 0・単体静止をビット保持・Kcs=0 なのでコア J は厳密不変・
+// 🔵 は第226便の運動学パルス時計を持つ(位相 φ=ω·t が力学と独立に成立する)
+{
+  const hasRem = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'whiteDwarfDFM')
+    && HP.allPresets().some((q) => q.id === 'nsRemnantDFM'));
+  if (hasRem) {
+    const rm = await page.evaluate(() => {
+      const run = (id) => {
+        const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+        const J0 = S.coreJ[0], sp0 = S.spin[0], R0 = S.R[0], m0 = S.m[0];
+        for (let k = 0; k < 2000; k++) S.step(0.016);
+        return { warn: (v.warnings || []).length, warns: (v.warnings || []).slice(0, 3),
+          J0, J1: S.coreJ[0], m: m0, mf: S.coreMF[0], R: R0, md: S.coreMd[0],
+          still: S.x[0] === 0 && S.y[0] === 0 && S.vx[0] === 0 && S.vy[0] === 0,
+          spinKept: S.spin[0] === sp0, om: S.coreOmV[0],
+          pulseOm: S.pulseOm[0], phRatio: S.pulseOm[0] ? S.pulsePh[0] / (S.pulseOm[0] * S.t) : null,
+          nan: S.hasNaN(), clamp: S.clampVN + S.clampSN + S.clampRN + S.clampTN };
+      };
+      return { wd: run('whiteDwarfDFM'), ns: run('nsRemnantDFM') };
+    });
+    const w = rm.wd, s = rm.ns;
+    add('behavior.remnantSamples',
+      w.warn === 0 && s.warn === 0                                                   // 警告 0 で検証を通る
+      && w.still && s.still && w.spinKept && s.spinKept                              // 単体静止のビット保持
+      && w.J1 === w.J0 && s.J1 === s.J0 && w.md === 2 && s.md === 2                  // Kcs=0 → コア J は厳密不変
+      && Math.abs(w.J0 - 18750) < 1e-9 && Math.abs(w.m - 300) < 1e-9 && Math.abs(w.R - 8) < 1e-9
+      && Math.abs(s.m - 352.959) < 1e-3 && Math.abs(s.R - 10.6303) < 1e-3
+      && s.pulseOm > 0 && Math.abs(s.phRatio - 1) < 1e-9 && w.pulseOm === 0          // 🔵 は時計を持ち φ=ω·t(⚪ は持たない)
+      && !w.nan && !s.nan && w.clamp === 0 && s.clamp === 0,
+      `⚪ whiteDwarfDFM: m=${w.m}・R=${w.R}・massFrac ${w.mf}・コア J ${w.J0}→${w.J1}(不変=${w.J1 === w.J0}・Ω=${w.om})・静止=${w.still}・警告 ${w.warn}・NaN=${w.nan} / ` +
+      `🔵 nsRemnantDFM: m=${s.m.toFixed(4)}・R=${s.R.toFixed(4)}・コア J ${s.J0.toFixed(4)}(不変=${s.J1 === s.J0}・Ω=${s.om.toFixed(7)})・` +
+      `pulse ω=${s.pulseOm}(位相比 ${s.phRatio === null ? '—' : s.phRatio.toFixed(12)})・静止=${s.still}・警告 ${s.warn}・NaN=${s.nan}`);
+  } else {
+    console.log('SKIP behavior.remnantSamples(対象に第244便の ⚪🔵 なし — root 等)');
+  }
+}
+
 // ---- 第231便(第28報): behavior.supernovaObs — 超新星の観測転写(🥀 前駆星/🦀 残骸)----
 // 🥀: Joyce 一組整合の転写値+静止ビット保持。🦀: 膨張速度の転写(1506 km/s)・殻 KE=1.04e50 erg
 // (SN 1054 モデル帯と同桁・正準 1e51 の1桁下)・年齢算術・自由膨張・gas 宣言・決定性
