@@ -8471,6 +8471,30 @@ if (!FAST) {
   else console.log('SKIP behavior.envelopeShedMulti(🎆 なし — root 等)');
 }
 
+// ---- 第245便(ChatGPT v3 4.2): behavior.remnantRange — 放出後の残骸(massFrac 2/3)を同値で再検証・再確定しても Mc・J が切られない ----
+// 再現(修正前): 🎆 発火後の残骸 massFrac=0.6667 を validatePreset/applyCoreEdit に再入力すると上限 0.6 で切られ、コア質量 300 → 270。
+{
+  const rr = await page.evaluate(() => {
+    const base = HP.allPresets().find((p) => p.id === 'envelopeShedDFM');
+    if (!base || !HP.sim._shed) return null;
+    const v = HP.validatePreset(JSON.parse(JSON.stringify(base))); const S = HP.sim; S.build(v.preset);
+    for (let k = 0; k < 3000 && S.shedNev === 0; k++) S.step(0.016);
+    const mf = S.coreMF[0], Mc = S.coreMF[0] * S.m[0], J = S.coreJ[0], Rc = S.RcV[0];
+    // 同値の再検証(プリセットに残骸の massFrac を書いて検証器へ)
+    const p2 = JSON.parse(JSON.stringify(base)); p2.bodies[0].m = S.m[0]; p2.bodies[0].core.massFrac = mf; delete p2.bodies[0].core.shed; delete p2.bodies[0].core.contract;
+    const v2 = HP.validatePreset(p2);
+    // 同値の再確定(編集器へ同じ値を渡す)
+    const cfg = { mode: 'differential', massFrac: mf, radius: Rc, omega: J / (0.5 * Mc * Rc * Rc * S.coreIS[0]), Kcs: 0, inertiaScale: S.coreIS[0], tilt: 0 };
+    S.applyCoreEdit(0, cfg);
+    return { fired: S.shedNev, mf, warn2: (v2.warnings || []).filter((w) => /massFrac/.test(w)).length, mf2: v2.ok ? v2.preset.bodies[0].core.massFrac : null,
+      McAfter: S.coreMF[0] * S.m[0], Mc, JAfter: S.coreJ[0], J };
+  });
+  if (rr) add('behavior.remnantRange', rr.fired === 1 && rr.mf > 0.6 && rr.warn2 === 0 && rr.mf2 !== null && Math.abs(rr.mf2 - rr.mf) < 1e-6
+    && Math.abs(rr.McAfter - rr.Mc) < 1e-3 * rr.Mc && Math.abs(rr.JAfter - rr.J) < 1e-6 * Math.abs(rr.J),
+    `🎆 発火=${rr.fired}・残骸 massFrac=${rr.mf.toFixed(6)} / 再検証: massFrac 警告 ${rr.warn2}・値 ${rr.mf2} / 再確定: Mc ${rr.Mc.toFixed(3)}→${rr.McAfter.toFixed(3)}・J ${rr.J.toFixed(3)}→${rr.JAfter.toFixed(3)}`);
+  else console.log('SKIP behavior.remnantRange(🎆 なし — root 等)');
+}
+
 // ---- 第244便(第36報): behavior.remnantSamples — 残骸の雛形(⚪ 白色矮星・🔵 中性子星の残骸核)----
 // 警告 0 で検証を通り、2000步で NaN 0・単体静止をビット保持・Kcs=0 なのでコア J は厳密不変・
 // 🔵 は第226便の運動学パルス時計を持つ(位相 φ=ω·t が力学と独立に成立する)
