@@ -8444,6 +8444,33 @@ if (!FAST) {
   }
 }
 
+// ---- 第245便(ChatGPT v3 4.1): behavior.envelopeShedMulti — 同じステップ末に複数の親が放出しても全対エネルギーが閉じる ----
+// 再現(修正前): 親 2 体(x=0/1000・Ω=15・contract 0・殻 spin 0)で _shed() を 1 回 → 全エネルギー +360.12(2 体目の U0 が 1 体目の新生粒を含まず二重計上)。修正後 7e-11
+{
+  const results = await page.evaluate(() => {
+    const base = HP.allPresets().find((p) => p.id === 'envelopeShedDFM');
+    if (!base || !HP.sim._shed) return null;
+    const energy = (S) => { const pair = S._mkPairU(); let E = 0, U = 0;
+      for (let i = 0; i < S.n; i++) {
+        E += 0.5 * S.m[i] * (S.vx[i] ** 2 + S.vy[i] ** 2) + 0.25 * S.m[i] * S.R[i] ** 2 * S.spin[i] ** 2;
+        const I = 0.5 * S.m[i] * S.coreMF[i] * S.RcV[i] ** 2 * S.coreIS[i];
+        if (I > 0) E += (S.coreJ[i] ** 2 + S.coreJx[i] ** 2 + S.coreJy[i] ** 2) / (2 * I);
+        for (let j = i + 1; j < S.n; j++) U += pair(i, j); }
+      return { E: E + U, U }; };
+    return [1, 2].map((count) => {
+      const p = JSON.parse(JSON.stringify(base)); delete p.balanceFrame;
+      p.bodies = Array.from({ length: count }, (_, i) => { const b = JSON.parse(JSON.stringify(base.bodies[0])); b.x = i * 1000; b.spin = 0; b.core.contract = 0; b.core.omega = 15; return b; });
+      const v = HP.validatePreset(p); if (!v.ok) throw new Error(JSON.stringify(v.errors));
+      const S = HP.sim; S.build(v.preset);
+      const before = energy(S); S._shed(); const after = energy(S);
+      return { count, events: S.shedNev, n: S.n, warnings: (v.warnings || []).length, closure: after.E - before.E + S.shedRes, potentialMismatch: S.shedU - (after.U - before.U) };
+    });
+  });
+  if (results) add('behavior.envelopeShedMulti', results.every((r) => r.events === r.count && r.n === 17 * r.count && r.warnings === 0 && Math.abs(r.closure) < 1e-6 && Math.abs(r.potentialMismatch) < 1e-6),
+    results.map((r) => `親${r.count}: 発火${r.events}・n=${r.n}・閉性 ${r.closure.toExponential(2)}・ΔU 差 ${r.potentialMismatch.toExponential(2)}`).join(' / '));
+  else console.log('SKIP behavior.envelopeShedMulti(🎆 なし — root 等)');
+}
+
 // ---- 第244便(第36報): behavior.remnantSamples — 残骸の雛形(⚪ 白色矮星・🔵 中性子星の残骸核)----
 // 警告 0 で検証を通り、2000步で NaN 0・単体静止をビット保持・Kcs=0 なのでコア J は厳密不変・
 // 🔵 は第226便の運動学パルス時計を持つ(位相 φ=ω·t が力学と独立に成立する)

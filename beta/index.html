@@ -13658,7 +13658,9 @@ function makeSim(){
       const dErel=(Jc0*Jc0)/(2*Ic0)-(Jc1*Jc1)/(2*Ic1);             // コアの回転エネルギー解放(burst と同形)
       // ---- ② 発火前のスナップショット(格納値からの Float64)----
       const pairU0=S._mkPairU();
-      let U0=0; for(let k=0;k<n0;k++) if(k!==i) U0+=pairU0(i,k);
+      // 第245便(ChatGPT v3 4.1): 同じステップ末に先に放出した親のガス粒も U0 に含める(k<n0 だと既存の負の対ポテンシャルを
+      // 「新たに解放した E」として二重計上 — 親 2 体で +360 の増分を再現)。外側の親ループは n0 のまま(新生粒は再帰発火しない)
+      let U0=0; for(let k=0;k<S.n;k++) if(k!==i) U0+=pairU0(i,k);
       const KE0=0.5*M*(VX0*VX0+VY0*VY0), Erot0=0.25*M*R0*R0*SP0*SP0;
       const Lloc0=M*(X0*VY0-Y0*VX0)+0.5*M*R0*R0*SP0+Jc0;
       const Px0=M*VX0, Py0=M*VY0;
