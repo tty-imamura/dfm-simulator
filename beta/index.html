@@ -512,6 +512,10 @@
       <!-- 第22便: 半径R(明示指定)・光掻き出し(To×/TcO× は第61便で廃止) -->
       <div class="beRow"><label id="beLr">R</label><input type="text" id="beR" inputmode="decimal" autocomplete="off"></div>
       <div class="beRow"><label id="beLdq">引きずりq</label><input type="text" id="beDq" inputmode="decimal" autocomplete="off" placeholder="既定(physics.q)"></div>
+      <!-- 第245便(原仮定者指示「パルス周期が画面から読めない」): 第226便の運動学パルスチャネルの
+           読み取り専用表示。宣言 ω から周期 P=2π/ω を出し、時間スケール指数で実時間へ換算して見せる
+           (🏮 の「2.773 s」がここに出る)。pulse を持たない粒子では行ごと非表示。表示専用 — 物理不変 -->
+      <div class="beRow" id="bePulseRow" style="display:none"><label id="beLpulse">パルス</label><input type="text" id="bePulse" readonly tabindex="-1" inputmode="text" autocomplete="off"></div>
       <!-- 第37便 A2(原仮定者指示): 「auto」チェックボックス — ON で lightSweep="auto" を設定し
            数値欄を読み取り専用にする。OFF は従来の数値入力に戻る。
            第38便(原仮定者指示・構造のみ。ラベル文字列の改称は次波38B): #beLsw の固定幅指定を
@@ -941,6 +945,7 @@ ja: {
   beTitle:"選択粒子の編集", bePinned:"固定(pinned)",
   beLsw:"減光",   // 第22便: 光掻き出し(lightSweep)ラベル
   beLdq:"引きずりq", beDqPh:"既定 q=",   // 第239便: 粒子別 dragQ 欄
+  beLpulse:"パルス", bePulseTurns:"回転",   // 第245便: パルス時計の読み取り専用表示(周期 P・実時間換算・累積回転数)
   beLswAuto:"自動",   // 第37便 A2(原仮定者指示): 掻出autoの可視化チェックボックス
   // 第80便C: コアv2(第77便)の読み取り専用内訳ブロックのラベル
   beCoreTitle:"コア内訳(v2)", beCoreMode:"種別", beCoreOm:"Ωc/Ωs/Δ", beCoreJ:"Jc/Ic/Kc", beCoreLs:"殻/コア/合成",
@@ -1509,6 +1514,7 @@ en: {
   beTitle:"Edit selected body", bePinned:"Pinned",
   beLsw:"dimming",   // 第22便: lightSweep label
   beLdq:"drag q", beDqPh:"default q=",   // 第239便
+  beLpulse:"pulse", bePulseTurns:"turns",   // 第245便
   beLswAuto:"auto",   // 第37便 A2(原仮定者指示): sweep auto checkbox
   // 第80便C: read-only core-v2 (wave 77) breakdown block labels
   beCoreTitle:"Core (v2)", beCoreMode:"type", beCoreOm:"Ωc/Ωs/Δ", beCoreJ:"Jc/Ic/Kc", beCoreLs:"shell/core/mix",
@@ -4087,7 +4093,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:false,monitor:false} },
 // 第75便: ⏳nebulaBipolar — 双極星雲(原仮定者指示「双極星雲: 進める」)。中心の重殻ダーク
 // ローター(自由)+赤道の pinned 重殻ダークアーク(±x を挟む±50°・暗黒帯)+高スピンガス。
-// 機構は 🌋agnjet と同じ「E5′圧力+幾何」— 赤道が塞がれ、抵抗の少ない極方向(±y)だけが
+// 機構は「E5′圧力+幾何」(旧 🌋agnjet — 第245便で廃止)— 赤道が塞がれ、抵抗の少ない極方向(±y)だけが
 // 出口になってローブが立つ。実測 tests/exp-4-76.mjs(seed 20260804・6000步)
 { id:"nebulaBipolar", catalog:"extended", name:"双極星雲 — 暗黒トーラスと極方向ローブ", emoji:"⏳", group:"ローターの物語",
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
@@ -4103,11 +4109,11 @@ const BUILTIN_PRESETS = [
   // ⑥時間窓(2500〜3250步で脱出開始・4000步以降ほぼ横ばい)。tests/exp-4-88.mjs
   emergence:"E1",
   descStruct:{
-    summary:"惑星状星雲や双極星雲の「暗い帯+明るい2つのローブ」を、ダークローター部品で組んだ思考実験。中心に重殻ダークローター(殻はゆっくり・コアは高速 — 2層減光〔第75便拡張〕で真っ暗)、赤道(±x)を挟む±50°に重殻ダークアーク22個(暗黒トーラスの2D断面)、内側に高スピン=高温のガス60個。ガスは熱の斥力(E5′)で押し合うが、赤道はアークに塞がれている — 抵抗の少ない極方向(±y)だけが出口になり、上下2つの光るローブになる(🌋と同じ「圧力+幾何」の機構を星雲の構成で)。実在の惑星状星雲・双極流の再現主張ではない(Negative Claims)。",
+    summary:"惑星状星雲や双極星雲の「暗い帯+明るい2つのローブ」を、ダークローター部品で組んだ思考実験。中心に重殻ダークローター(殻はゆっくり・コアは高速 — 2層減光〔第75便拡張〕で真っ暗)、赤道(±x)を挟む±50°に重殻ダークアーク22個(暗黒トーラスの2D断面)、内側に高スピン=高温のガス60個。ガスは熱の斥力(E5′)で押し合うが、赤道はアークに塞がれている — 抵抗の少ない極方向(±y)だけが出口になり、上下2つの光るローブになる(「圧力+幾何」だけの機構を星雲の構成で — 同じ機構の円盤版 🌋 は第245便で廃止)。実在の惑星状星雲・双極流の再現主張ではない(Negative Claims)。",
     observe:"実測(seed固定・6000步): 系外(r>200)へ達したガス42体のうち±y30°以内が0.76(等方なら1/3 — 2.3倍の集中。第218便: アーク22体の除外が実半径8基準になった配置での実測 — 旧配置では37体・0.62)。中心は減光1.00・アーク帯は平均0.94で真っ暗(c₀=30 で飽和側 — v1.38〔c₀=40〕は0.92。脱出数・極方向比など力学量は全て v1.38 と一致) — 「暗い帯に挟まれた明るいローブ」の明暗が立つ。アークは pinned(外部固定)なので閉鎖系ではない(バッジ参照)。熱圧を切った対照(kRep=0)では脱出が0体になり、ローブは立たない — 圧力が唯一の駆動源であることの機械対照。※創発の標準試験(第84便B・詳細はdocs/PHYSICS.md「創発水準(E0〜E3)と標準試験」): このサンプルはまず構成で水準が決まる — 24体の定義のうち22体(赤道ダークアーク)がpinnedで、ローブを立てている「赤道を塞ぐ幾何」そのものが外から固定されている。したがって閉鎖系ではなく、E水準は**E1(外部駆動下の自己組織化)**であって、閉鎖系を要件とするE2/E3には定義上該当しない — 昇格しないことがこのサンプルの正しい着地である。そのうえで、E1の中身(局所則から秩序が立つこと)がどれだけ頑健かを4試験で実測した。【多seed16】20260804〜20260819の16seedで極方向比は0.556〜0.762(中央0.652)に分布し、16seedを通した極方向比の最小は0.556 — 等方の1/3に対して最小でも1.67倍(中央1.96倍)の集中が残る(第218便の配置で再実測 — 第84便B 当時は 0.537〜0.833)。脱出は37〜50体/60、中心の減光は16seedすべてで1.000、アーク帯の平均減光も0.944でほぼ一定(c₀=30 飽和側 — v1.38 は0.918)。圧力オフ対照の脱出は16seedで最大0体(全16seedで厳密に0)。※上の固定seed窓0.65〜0.88は内蔵seed1本のドリフト検出用であって、seedを通した再現幅(0.556〜0.762)はそれより広い — 固定seed窓を再現性の主張として読んではいけない。【粒子数スケーリング】(以下④〜⑥は第84便B当時の配置での実測 — 第218便の再実測は多seed16のみ)ガスn=30/60/120で極方向比の中央値は0.750/0.677/0.653、脱出率は0.57〜0.77でほぼ一定、圧力オフ対照はどのnでも脱出0 — 特定の粒子数の離散模様ではない。ただしnはガスの総質量でもあり半径30の円盤への充填密度でもあるので、粒子数だけを独立に振れる設計ではない(アークの幾何と中心質量はnによらず不変なので、「幾何が絞っているか」という問いの側は分離できている)。【摂動回復】3000步(脱出が始まった直後)でガスだけに等方の速度ノイズを入れ、注入より後にr>200を跨いだ粒子だけの極方向比を測った。速さRMSの25%/50%/100%では0.818/0.787/0.776(中央値)で、無摂動の0.714〜0.826と同水準 — 方位をかき混ぜても幾何が絞り直す。200%で0.647・400%で0.526まで薄まる(等方1/3へ近づく)が、400%でもまだ1.58倍の集中が残る。【時間窓】脱出は2500〜3250步で始まり3500〜3750步で10体に達し、極方向比は4000步以降ほぼ横ばい — validT 96(6000步)は立ち上がりが終わった側にある。なおpinnedを含む系なので帳簿込みの角運動量は閉じない(|ΔL|/L_scaleは最大1.7e-2)— これも「閉鎖系ではない」ことの機械的な現れである。実測ハーネス: tests/exp-4-88.mjs。",
     control:"おすすめA/B: A/B比較で kRep=0 にすると圧力が消え、脱出は0体になってローブが立たない。なお「ガスのスピンを0にする」だけでは対照にならない — 中心とアークの回転が E6′残余トルクでガスへスピンを再注入し、圧力が再点火する。圧力を確実に切る対照は kRep=0 である。中心天体・アークを粒子タップすると「コア内訳(v2)」で Ω_c と2層減光の内訳が読める。"},
   en:{name:"Bipolar Nebula — Dark Torus and Polar Lobes", descStruct:{
-    summary:"The 'dark band + two bright lobes' of planetary and bipolar nebulae, assembled from dark-rotor parts: a heavy-shell dark rotor at the center (slow shell, fast core — pitch dark via the Wave-75 two-layer dimming), 22 heavy-shell dark arcs within ±50° of the equator (±x; the 2D cross-section of a dark torus), and 60 high-spin (=hot) gas particles inside. The gas pushes outward with thermal repulsion (E5′), but the equator is blocked by the arcs — the only low-resistance exit is the polar direction (±y), so two glowing lobes rise (the same 'pressure + geometry' mechanism as 🌋, in nebula form). Not a claim to reproduce real planetary nebulae or bipolar outflows (Negative Claims). ",
+    summary:"The 'dark band + two bright lobes' of planetary and bipolar nebulae, assembled from dark-rotor parts: a heavy-shell dark rotor at the center (slow shell, fast core — pitch dark via the Wave-75 two-layer dimming), 22 heavy-shell dark arcs within ±50° of the equator (±x; the 2D cross-section of a dark torus), and 60 high-spin (=hot) gas particles inside. The gas pushes outward with thermal repulsion (E5′), but the equator is blocked by the arcs — the only low-resistance exit is the polar direction (±y), so two glowing lobes rise (the 'pressure + geometry' mechanism alone, in nebula form; the disc version 🌋 was retired in wave 245). Not a claim to reproduce real planetary nebulae or bipolar outflows (Negative Claims). ",
     observe:"Measured (fixed seed, 6000 steps): of the 42 gas particles that reach beyond r>200, a fraction 0.76 lies within 30° of ±y (isotropic would be 1/3 — a 2.3× concentration; wave 218: measured on the layout whose arc exclusion is the actual radius 8 — the old layout gave 37 particles at 0.62). The center is dimmed at 1.00 and the arc band averages 0.94 (saturated under c₀=30 — v1.38 at c₀=40 measured 0.92; every dynamical quantity, escape count and polar fraction included, matches v1.38) — bright lobes framed by a dark band. The arcs are pinned (externally held), so the system is not closed (see badges). In the pressure-off control (kRep=0) zero particles escape and no lobes form — a machine control showing pressure is the only driver. Standard emergence tests (Wave 84B; see docs/PHYSICS.md \u00a7Emergence levels and the standard tests): the level of this sample is settled by its construction first \u2014 22 of the 24 body definitions (the equatorial dark arcs) are pinned, so the very geometry that blocks the equator and raises the lobes is held in place from outside. It is therefore not a closed system, and its emergence level is E1 (self-organisation under external drive); by definition it does not qualify for E2 or E3, which require a closed system. Not being promoted is the correct landing for this sample. What was then measured is how robust the E1 content \u2014 order arising from local rules \u2014 actually is. [Many seeds, 16] Over seeds 20260804\u201320260819 the polar fraction spans 0.556\u20130.762 (median 0.652), so the smallest across the sixteen is 0.556 \u2014 still a concentration of 1.67\u00d7 over the isotropic 1/3 (median 1.96\u00d7; re-measured on the wave-218 layout \u2014 wave 84B read 0.537\u20130.833). Escapes run 37\u201350 of 60, the centre dims to 1.000 in every one of the sixteen, and the arc band averages 0.944 throughout (saturated under c₀=30 — v1.38 measured 0.918). The pressure-off control escapes at most 0 particles across the sixteen seeds (exactly 0 in all of them). Note that the fixed-seed window of 0.65\u20130.88 above is a drift check on the built-in seed alone: the spread across seeds (0.556\u20130.762) is wider than that, so the fixed-seed window must not be read as a reproducibility claim. [Particle-count scaling] (the tests below were measured on the wave-84B layout \u2014 wave 218 re-measured the 16-seed sweep only) At gas n=30/60/120 the median polar fraction is 0.750/0.677/0.653 and the escape rate stays at 0.57\u20130.77, with the pressure-off control escaping 0 at every n \u2014 not a discrete artefact of one particle count. Note, though, that n is also the gas's total mass and its packing density inside a radius-30 disk, so particle count cannot be varied independently here (the arc geometry and the central mass do stay fixed with n, which is what isolates the question of whether the geometry does the collimating). [Perturbation recovery] At step 3000, just after escapes begin, isotropic velocity noise was injected into the gas alone, and the polar fraction was measured over only those particles that crossed r>200 after the injection. At 25%/50%/100% of the speed RMS it comes out at 0.818/0.787/0.776 (medians), the same level as the unperturbed 0.714\u20130.826 \u2014 stir the directions and the geometry re-collimates them. At 200% it thins to 0.647 and at 400% to 0.526 (drifting towards the isotropic 1/3), yet even at 400% a concentration of 1.58\u00d7 remains. [Time window] Escapes begin between steps 2500 and 3250, reach ten particles by steps 3500\u20133750, and the polar fraction is essentially flat from step 4000 on \u2014 validT 96 (6000 steps) sits past the rise. Because the system contains pinned bodies, its ledger-inclusive angular momentum does not close (|\u0394L|/L_scale up to 1.7e-2), which is itself a machine-readable sign that this is not a closed system. Measurement harness: tests/exp-4-88.mjs. ",
     control:"Suggested A/B: start an A/B comparison with kRep=0 and the pressure vanishes — zero particles escape and no lobes form. Note that merely zeroing the gas spins is not a control: the rotation of the center and the arcs re-injects spin into the gas through the E6′ residual torque, and the pressure re-ignites. The reliable pressure-off control is kRep=0. Tap the center or an arc to read its Core (v2) breakdown \u2014 \u03a9_c and the two-layer dimming split."}},
   activeParams:["kRep","cLight","kFrame"],
@@ -4116,7 +4122,7 @@ const BUILTIN_PRESETS = [
     { id:"nebulaBipolar.polar-fraction", kind:"fixed-seed", prov:"simulated", metric:"polarFraction",
       expected:{min:0.65, max:0.88},   // 第218便実測0.762(アーク22体の除外が実半径8基準に。第81便0.622・第75便v1 0.610)
       descPattern:"±y30°以内が(\\d+\\.\\d+)",
-      control:{patch:{kRep:0}, expected:{min:0, max:3},   // 実測0(kRep=0 の圧力オフ — agnjet と同書式)
+      control:{patch:{kRep:0}, expected:{min:0, max:3},   // 実測0(kRep=0 の圧力オフ — 旧 🌋 と同書式)
         descPattern:"対照\\(kRep=0\\)では脱出が(\\d+)体"},
       testId:"claim.nebulabipolar-polar" },
     // 第84便B(創発の標準試験の展開): 多seed 頑健性。判定量は「seed 集合を通した極方向比の
@@ -5181,7 +5187,7 @@ const BUILTIN_PRESETS = [
 // 第220便(第19報 原仮定者指示): そのグループを「現実との照合・太陽系」と「現実との照合・太陽系外」
 // の2つへ分割(表示・分類専用 — 配列順・物理・claims・ファミリー id は不変。太陽系側=☄️🪨🌞🌙🌘
 // ⭕🧲🔆📶📐💍💿📡🟠🌇🥔❄️💠🌊 の19本・太陽系外側=✨✴️🌟💫+📻⚡ の6本)。
-// 天体の物語には物語・トイ系(🌍🌕⭐♾️💥🌋🌪️☀️ 等)が残る(🌱starSeed は第151便で
+// 天体の物語には物語・トイ系(🌍🌕⭐♾️💥🌪️🎆 等)が残る(🌱starSeed は第151便で
 // 新グループ「ローターの物語」へ移動 — 配列上の位置はこの区間のまま)。
 // 第149便(原仮定者裁定): グループを跨いでいたファミリーを分割し、天体の物語側は自前の
 // ファミリーを持つ — 🌍earthMoon(primary)+🌕earthMoonFree(variant)= "earthmoonToy"、
@@ -8753,19 +8759,19 @@ const BUILTIN_PRESETS = [
     {q:"質量台帳 f=2", model:"705.918 単位=殻 352.959(観測転写)+コア 352.959(massFrac 0.5)", obs:"M_obs=17.75 M☉(Joyce 一組)— DFM 総質量 35.5 M☉ は実在主張ではない"},
     {q:"光球半径=R_drag", model:"53.1515 単位(転写値そのまま)— コア Ω=0.19535 を R_drag=R から逆算(β_solid)", obs:"R=764 R☉(3σ・モデル依存)— 半径の仮定を式にした派生値"},
     {q:"コア半径・自転", model:"Rc=R/5=10.6303・殻 Ω=5.531×10⁻³(sin i=1 代理)・Kcs=0・kFrame=1", obs:"—(前駆星コアの直接観測なし — 宣言のみ)"},
-    {q:"較正の性質", model:"f=2 は連星契約の規約転写(chi-law-v1-transfer・C=1)・β_solid は 🍊 で較正(hold-out)", obs:"—"}],
+    {q:"較正の性質", model:"f=2 は連星契約の規約転写(chi-law-v1-transfer・C=1)・β_solid は 🍊(第245便で廃止)で較正(hold-out)", obs:"—"}],
   descStruct:{
-    summary:"**🥀 の DFM 対 — 質量台帳 f=2 の超新星前駆星**(第233便 — 第29報①③)。🥀 の転写幾何(光球 53.15・自転 sin i=1 代理・単体静止)はそのままに、**総質量を 705.918=2×352.959** とし、殻=観測値 352.959・コア=余り 352.959(massFrac 0.5・Rc=R/5)に置く(dfmStarMassLedger — 連星契約 f≈2 の規約転写・massCalibration law:\"chi-law-v1-transfer\")。**コア Ω=0.1953545 は「恒星の半径=コアの引きずりの影響範囲」の仮定から逆算**した派生値: β_solid(🍊 で較正)を用い、引きずり強度 D(r)=ω_c r/√(GM/r)(A8 の差動コア項)が β を切る外縁 R_drag が光球半径 53.1515 に一致する Ω を求めた(観測値ではない — β の hold-out 第1号)。1.4 M☉ の器は 🥀 の比較マーカーで、こちらのコアは DFM の重いコア。kFrame=1(単体なので力学は静止のまま — 引きずりの相手がいない・働くのは重力 E4 のみ)。測光は殻質量分岐(lightSweep=0 & コアあり → T_obs は殻質量 352.959 で)。超新星(コアが中性子星まで成長しスピンで外殻を吹き飛ばす)は第234便 spinBurst の宣言。",
+    summary:"**🥀 の DFM 対 — 質量台帳 f=2 の超新星前駆星**(第233便 — 第29報①③)。🥀 の転写幾何(光球 53.15・自転 sin i=1 代理・単体静止)はそのままに、**総質量を 705.918=2×352.959** とし、殻=観測値 352.959・コア=余り 352.959(massFrac 0.5・Rc=R/5)に置く(dfmStarMassLedger — 連星契約 f≈2 の規約転写・massCalibration law:\"chi-law-v1-transfer\")。**コア Ω=0.1953545 は「恒星の半径=コアの引きずりの影響範囲」の仮定から逆算**した派生値: β_solid(🍊〔第245便で廃止〕で較正)を用い、引きずり強度 D(r)=ω_c r/√(GM/r)(A8 の差動コア項)が β を切る外縁 R_drag が光球半径 53.1515 に一致する Ω を求めた(観測値ではない — β の hold-out 第1号)。1.4 M☉ の器は 🥀 の比較マーカーで、こちらのコアは DFM の重いコア。kFrame=1(単体なので力学は静止のまま — 引きずりの相手がいない・働くのは重力 E4 のみ)。測光は殻質量分岐(lightSweep=0 & コアあり → T_obs は殻質量 352.959 で)。超新星(コアが中性子星まで成長しスピンで外殻を吹き飛ばす)は第234便 spinBurst の宣言。",
     observe:"実測(500步): 単体静止をビット保持(x=vx=0)・m 705.918・massFrac 0.5・R 53.1515・警告 0・NaN 0。R_drag 診断=53.1515(定義により再現 — 予測ではない)。T_obs は殻質量 352.959 で計算される(🥀 も同じ分岐で 352.959×(1−0.0789))。QA behavior.starStructure が機械固定。",
-    control:"🥀(観測転写)・🎇(原理)・🦀(爆発後)と読む。core.omega を上げると R_drag 診断が Ω² で伸びる(赤色巨星化の診断 — 🍂 と同じ式)。"},
+    control:"🥀(観測転写)・🎇(原理)・🦀(爆発後)と読む。core.omega を上げると R_drag 診断が Ω² で伸びる(赤色巨星化の診断 — 旧 🍂〔第245便で廃止〕と同じ式)。"},
   en:{ name:"Supernova Progenitor (DFM) — Mass Ledger f=2, Photosphere = the Core's Drag Edge", descStruct:{
-    summary:"THE DFM COUNTERPART OF 🥀 — a supernova progenitor under the mass ledger f=2 (wave 233). The 🥀 transcription geometry (photosphere 53.15, sin i=1 spin proxy, solo body at rest) is kept, but the TOTAL MASS IS 705.918 = 2×352.959: shell = the observed 352.959, core = the remainder 352.959 (massFrac 0.5, Rc=R/5) — dfmStarMassLedger, the binary contract f≈2 transferred by convention (massCalibration law chi-law-v1-transfer). THE CORE Ω=0.1953545 IS DERIVED FROM THE ASSUMPTION 'STELLAR RADIUS = THE REACH OF THE CORE'S DRAGGING': with β_solid (calibrated on 🍊), the Ω at which the drag edge R_drag — where D(r)=ω_c r/√(GM/r) (the A8 differential-core term) crosses β — equals the photospheric radius 53.1515 (not an observation — the first hold-out of β). The 1.4 Msun vessel is 🥀's comparison marker; this core is the DFM heavy core. kFrame=1 (a solo body, so the dynamics stay at rest — nothing to drag; only gravity E4 acts). Photometry uses the shell-mass branch (lightSweep=0 with a core → T_obs from the shell mass 352.959). The supernova itself (the core growing to a neutron star and blowing off the envelope by spin) is declared for wave 234 (spinBurst).",
+    summary:"THE DFM COUNTERPART OF 🥀 — a supernova progenitor under the mass ledger f=2 (wave 233). The 🥀 transcription geometry (photosphere 53.15, sin i=1 spin proxy, solo body at rest) is kept, but the TOTAL MASS IS 705.918 = 2×352.959: shell = the observed 352.959, core = the remainder 352.959 (massFrac 0.5, Rc=R/5) — dfmStarMassLedger, the binary contract f≈2 transferred by convention (massCalibration law chi-law-v1-transfer). THE CORE Ω=0.1953545 IS DERIVED FROM THE ASSUMPTION 'STELLAR RADIUS = THE REACH OF THE CORE'S DRAGGING': with β_solid (calibrated on 🍊, retired in wave 245), the Ω at which the drag edge R_drag — where D(r)=ω_c r/√(GM/r) (the A8 differential-core term) crosses β — equals the photospheric radius 53.1515 (not an observation — the first hold-out of β). The 1.4 Msun vessel is 🥀's comparison marker; this core is the DFM heavy core. kFrame=1 (a solo body, so the dynamics stay at rest — nothing to drag; only gravity E4 acts). Photometry uses the shell-mass branch (lightSweep=0 with a core → T_obs from the shell mass 352.959). The supernova itself (the core growing to a neutron star and blowing off the envelope by spin) is declared for wave 234 (spinBurst).",
     observe:"Measured (500 steps): rest held to the bit (x=vx=0); m 705.918, massFrac 0.5, R 53.1515; zero warnings, zero NaN. R_drag diagnostic = 53.1515 (reproduced by definition — not a prediction). T_obs is computed from the shell mass 352.959 (🥀 takes the same branch: 352.959×(1−0.0789)). QA behavior.starStructure machine-fixes it.",
-    control:"Read with 🥀 (transcription), 🎇 (principle) and 🦀 (after). Raising core.omega stretches the R_drag diagnostic as Ω² (the red-giant diagnostic — the same formula as 🍂)."}},
+    control:"Read with 🥀 (transcription), 🎇 (principle) and 🦀 (after). Raising core.omega stretches the R_drag diagnostic as Ω² (the red-giant diagnostic — the same formula as the retired 🍂)."}},
   parameterAudit:{
     observedInputs:["Joyce et al. (2020) 一組: M=17.75 M☉(範囲中央)・R=764 R☉(🥀 と同一の転写)","Kervella et al. (2018): P_rot/sin i=36 年(代理 sin i=1)"],
     fixedConventions:["恒星族 L10/T6/M29・単体・kFrame=1(相手なし)","f=2 規約転写(chi-law-v1-transfer・C=1)・殻=観測値・コア=余り(massFrac 0.5)・Rc=R/5・Kcs=0・lightSweep=0"],
-    fitted:["なし(β_solid は 🍊 で較正 — 本サンプルでは hold-out)"],
+    fitted:["なし(β_solid は 🍊〔第245便で廃止〕で較正 — 本サンプルでは hold-out)"],
     derived:["m=705.918(=2×352.959)・shell 352.959・core 352.959(dfmStarMassLedger)","Ω_core=0.1953545025834873(R_drag=53.1515 の逆算 — dfmCoreDragRadius・β_solid・G=6.674・q=2)"],
     numerical:["dt=0.016・静止系(数値誤差の入り口なし)"]},
   activeParams:["G","kFrame","softening"],
@@ -9365,175 +9371,6 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,spectrum:true} },
 
-// 第37便 D2(台帳4-68a・Gemini 案A): AGN 類似の双極ジェット。
-// 機構は「摩擦加熱(E9′→T_int)+熱の斥力(E5′)+幾何(薄く長い帯)」の3点だけで、
-// 磁気流体・相対論的ジェットの主張は一切しない(2D の圧力+幾何アナロジー)。
-// 設計上の要点(実測で確定):
-//  ・γn=0.05(ほぼ弾性)が必須。既定 0.4 だと接触で運動エネルギーが熱へ落ちてしまい、
-//    極方向へ跳ね返る前に散逸する(実測: 内縁起源ガスの極方向割合 0.53 → γn=0.05 で 0.84)。
-//  ・帯は長く薄く(w=560・h=14)。赤道方向へ抜けるには帯の全長を押しのける必要があるので、
-//    抵抗の少ない ±y だけが出口になる。
-//  ・kFrame=0(要因分離 — 引きずりは本サンプルの主張ではない)。中心天体のスピンは
-//    減光 auto(lS_eff=1 → 観測温度0=見掛けは暗い「エンジン」)にだけ効く。
-// 実測(2026-07-27・beta・内蔵プリセットそのもの。内縁=初期 |x|≤80 起源のガスのうち r>300 へ出たもの。
-// 「極方向」= ±y から30°以内 = 等方なら 1/3):
-//  步数     : 1000  2000  3000  4000
-//  極方向割合: —     0.895 0.815 0.839   (既定 kRep=2)
-//  対照     : —     0.583 0.526 0.542   (kRep=0 — E5′ を切ると等方寄りに戻る)
-//  4000步で 極24〜26本 / 赤道0本。全ガスで測っても 0.689(等方の 2.07 倍)
-{ id:"agnjet", name:"AGN類似 — 円盤の内縁と双極ジェット", emoji:"🌋", group:"天体の物語",
-  scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
-  sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
-  notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
-  descStruct:{
-    summary:"中心の超大質量天体(m=2000・減光=auto → 観測温度0で見掛けは真っ暗な「エンジン」)と、x軸方向に長く薄く伸びた冷たいガスの帯。ガスは自己重力で内側へ落ち、内縁で押し合い擦れ合って摩擦加熱される(E9′ → 内部温度T_int)。温まったガスは熱の斥力=圧力(E5′)で押し返すが、赤道方向(±x)へ抜けるには帯の全長を押しのけねばならない — 抵抗の少ない極方向(±y)だけが出口になり、上下2本の噴出流になる。",
-    observe:"実測: 内縁から出て系外(r>300)へ達したガスの65%が±y方向±30°以内に入る(等方なら1/3 — 1.95倍の集中。4000步で極43本・赤道9本。第218便: 群生成の除外が実半径基準になり、ガス帯がエンジン表面直上〔r≈19〕から始まる配置での実測 — 旧配置〔質量由来の除外44.7が内縁〕では84%だった)。色=温度で、内縁が赤熱し噴流が冷えながら伸びるのが見える。要因分離のため空間引きずりkFrameと自発放射は切ってある(中心のスピンは減光=自光の抑制にだけ効く)。※これは圧力と幾何だけで双極性が出るという2Dのアナロジーであり、実在のAGN・磁気流体ジェット・相対論的ジェットの再現主張ではない(Negative Claims 1/2)。",
-    control:"おすすめA/B: 熱の斥力kRepを0にすると押し返す圧力が消え、噴出は等方寄りに戻る(実測42% — それでも等方の1/3よりなお高く、幾何と重力の寄与が残る)。"},
-  en:{name:"An AGN Analogue — Inner Disk and Bipolar Jets", descStruct:{
-    summary:"A supermassive body at the center (m=2000, dimming=auto → observed temperature 0, so the 'engine' itself looks pitch dark) and a cold gas band stretched long and thin along the x axis. The gas falls inward under self-gravity and is heated by friction where it crowds together at the inner edge (E9′ → internal temperature T_int). The warmed gas pushes back with thermal repulsion = pressure (E5′), but escaping along the equator (±x) means shoving the whole length of the band aside — so the only low-resistance exit is the polar direction (±y), and the outflow collimates into two jets. ",
-    observe:"Measured: 65% of the gas that leaves the inner region and reaches r>300 lies within 30° of the ±y axis (isotropic would be 1/3 — a 1.95× concentration; at 4000 steps, 43 polar vs 9 equatorial. Wave 218: the placement exclusion is now the actual radius, so the gas band starts right above the engine surface at r≈19 — on the old layout, whose inner edge sat at the legacy mass-derived 44.7, this read 84%). Color = temperature: watch the inner edge glow and the jets cool as they stretch. Frame dragging and spontaneous radiation are switched off to isolate the factors (the central spin only feeds the dimming channel). Note: this is a 2D analogy showing that pressure plus geometry alone produce bipolarity — not a claim to reproduce real AGN, MHD jets or relativistic jets (Negative Claims 1/2). ",
-    control:"Suggested A/B: set the thermal repulsion kRep to 0 and the pushing pressure disappears, and the outflow returns toward isotropy (measured 42% — still well above the isotropic 1/3, so geometry and gravity keep contributing)."}},
-  activeParams:["kRep","muF","gammaN","cHeat"],
-  thermal:"tint",
-  validT:64,   // 第39便 39E(台帳4-75 E2): 説明文の実測窓(4000步=t≈64)と一致
-  // 第40便 40B パイロット(台帳4-78・claims 新設キー — 表示なし・データ層のみ): 説明文中の
-  // 既存実測値(極方向割合の既定/対照)をそのまま転記。control.patch は engine 未接続の記述用
-  // メタデータ(UI表示・engine適用は次便裁定)。expected は実測値を含む窓で、QA claims.sync-pilot
-  // が説明文中の数値・behavior.agnjet の閾値(既定 frac≥2/3・対照比 ratio≥1.25)と機械照合する
-  // 第42便 42A(台帳4-78 A案): descPattern を追記(claims.sync による汎用照合へ移行)
-  claims:[
-    { id:"agnjet.polar-fraction", kind:"fixed-seed", prov:"simulated", metric:"polarFraction",
-      expected:{min:0.58, max:0.75},   // 第218便実測0.6515(4000步 — 除外の恒久原理化で内縁がエンジン表面直上〔r≈19〕に。旧配置〔レガシー除外44.7〕実測0.839)
-      descPattern:"(\\d+(?:\\.\\d+)?)%が±y", descScale:0.01,
-      control:{patch:{kRep:0}, expected:{min:0.33, max:0.46},   // 第218便実測0.4151(kRep=0。旧配置0.542)
-        descPattern:"実測(\\d+(?:\\.\\d+)?)%", descScale:0.01},
-      testId:"behavior.agnjet" }
-  ],
-  camera:{scale:320}, world:{boundary:"none",size:0}, seed:20260727,
-  physics:{G:1, D0:2, kFrame:0, q:2, kRep:2, muF:0.6, gammaN:0.05, kappaS:0.05, kappaT:0.016666666666666666,
-    cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
-    radiusScale:1, softening:3, timeScale:2, frameWeight:"share"},
-  bodies:[
-    // 中心の「エンジン」(自由・減光 auto。半径18 は見た目の指定 — 第218便: 除外の恒久原理化で
-    // ガス配置の除外も実半径 18+1 になった。旧世代は質量由来のレガシー式 √2000=44.7 が暗黙の
-    // 内縁を作っていたが、以後の内縁は「エンジン表面のすぐ外」— 実測を再宣言済み。
-    // 明示 |x|=45 ギャップの2帯構成も実測したが集中が弱く不採用〔gen-w218c: frac 0.550・
-    // 対照比 1.25 — 本観測量は配置ドローに敏感で、旧宣言 0.84 は広い空洞側の1ドロー〕)
-    {type:"single", m:2000, x:0,y:0, vx:0,vy:0, spin:2, radius:18, lightSweep:"auto", pinned:false, tInt:0},
-    // 冷たいガスの帯(x方向に長く・y方向に薄く)
-    {type:"box", rMul:4, n:340, cx:0,cy:0, w:560,h:14, mMin:0.05,mMax:0.05,
-     spinMin:0,spinMax:0, tInt:0.01, vScale:0.05}
-  ],
-  overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled"} },
-
-// 第221便②(統括裁定 2026-08-27「降着とジェットを1サンプルで」): ⛲accretionJet —
-// 質量降着とジェットの**概念導入**(トイ)。既存機構だけで組んである(物理コアの変更はゼロ):
-//   ・降着 = 融合(fusion:{dFrac:0.7} + thermal:"tint" — ☀️starcore/🥚selfRotor と同じ機構)。
-//     主星は pinned:false なので融合の対象になり、触れたガスを飲んで質量が増える。
-//   ・スピンアップ = 回っている円盤が運ぶ角運動量が接触摩擦(A9/E9)で殻スピンへ入り、
-//     コア⇄殻の τ_cs 結合(core.Kcs=0.5・第78便の再定義)で J_core へ伝わる。コアv2 は
-//     mode:"differential"(軸自由)で pump=0・contract=0 = 育つ源は殻からの流入だけ。
-//   ・ジェット = 🌋agnjet の機構の再利用(内縁の摩擦加熱 E9′→T_int → 熱の斥力 E5′ が押し返す
-//     → 赤道は帯に塞がれ ±y だけが出口)。帯は x 方向に薄く長い2群(バルク速度 ±0.5 で回転)。
-// 配置(すべて自由・pinned ゼロ・balanceFrame barycentric = 閉鎖系):
-//   主星 m=40・R=4(コンパクト)/ 伴星 m=15・x=200・円軌道初速 vy=1.28 /
-//   円盤 = 帯2群(cx=±70・120×12・90粒ずつ・m=0.3・bulkVy=±0.5)/ 伴星からの流れ 30粒(cx=165)
-// 実測(seed 20260827 固定・6000步=t≈96・dt=0.016。実測ハーネスはセッション内スクラッチ
-// (_scratch-*.mjs は .gitignore 対象)で、同じ量は QA behavior.accretionJet が毎回その場で測る):
-//   既定      : 降着20回・m 40→46.60(×1.1650)・Ω_core 0.0200→0.1910(×9.550)・
-//               殻スピン 0→0.1913・T_p 34.2・粒子 212→116・融合96回・NaN/クランプ 0・帳簿 [0,0,0]
-//   脱出(内縁起源 初期|x|≤45・r>150): 5体中 極方向(±y±30°)3体=60.0%・赤道方向(±x±30°)**0体**
-//               (r>60/80/100/120 のどの半径で数えても赤道は0本)
-//   対照 kRep=0 : 脱出**0体**・そのぶん全部落ちて m ×1.8625(降着56回)・T_p 140.3
-//   対照 融合なし: m ×1.0000(厳密)・脱出0体
-//   対照 円盤の回転なし(帯の bulkVy=0): Ω_core 倍率 −1.273(|·|=1.27 = ゼロ近傍・符号も定まらない)
-// **限界の正直な記録**(説明文にも書いてある): 本サンプルは固定 seed・固定刻み幅の有限時間デモ。
-//   ・3seed(20260827/28/29)で 降着20/19/26回・m ×1.1650/1.1500/1.2100・Ω倍率 9.55/4.77/7.71・
-//     極方向割合 0.600/0.667/0.200 — 極方向割合は seed 頑健ではない(赤道0本は3seed中2seedで成立)。
-//   ・dt を半分(0.008・同じ t=96)にすると降着は 20→2回・m ×1.1650→×1.0225 に落ちる。接触斥力の
-//     障壁をどれだけ深く跨げるかが数値解像度に依存するため。降着量は dt 収束していない。
-//   よって claims/QA は「この固定構成の回帰検出」として置く(🌪️spinup の閾値と同じ位置づけ)。
-{ id:"accretionJet", name:"降着とジェット — コンパクト連星の類似", emoji:"⛲", group:"天体の物語",
-  scaleTier:"stellar",
-  sampleClass:"composite",
-  notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
-  descStruct:{
-    summary:"**降着・スピンアップ・ジェットの3概念を1画面に置くトイ**(固定 seed・固定刻みの有限時間デモ — 極方向割合は seed 非頑健・降着量は dt 未収束と宣言済み。実在の降着円盤・X線連星・相対論的ジェット・エディントン限界の再現主張ではない)。回転するコンパクトな主星(m=40・半径4・コアv2 差動)と伴星(m=15・x=200)、伴星から流れ出して主星を取り巻く冷たいガス 210 粒(x 軸方向に薄く長い2群=真横から見た降着円盤の 2D アナロジー・バルク速度 ±0.5)。①降着: ガスは自己重力(E4)で落ち、主星に触れたものは融合して飲み込まれ質量が増える。②スピンアップ: 円盤の角運動量が接触摩擦(A9/E9)で殻スピンへ、τ_cs 結合(K_cs=0.5)でコアの J_core へ伝わる(pump・contract は切ってあり源は殻からの流入だけ)。③ジェット: 落ちきれないガスは内縁で摩擦加熱(E9′→T_int)され圧力(E5′)で押し返されるが、帯に塞がれた赤道(±x)ではなく極方向(±y)だけが出口になる。",
-    observe:"実測(seed 20260827固定・6000步=t≈96): ①降着 — 主星への融合が20回起き、主星の質量は初期の1.165倍(40→46.60)へ育つ。融合を切った対照では主星の質量は1.000倍のまま(厳密に不変)。②スピンアップ — コア角速度Ω_coreは0.0200から0.1910へ、初期の9.55倍になる(J_core 0.270→2.579・I_coreは融合しても一定なので比はそのままJの比。殻スピンも0→0.191)。円盤の回転を切った対照(帯のバルク速度=0)では倍率の絶対値が1.27にとどまり符号も定まらない — 回っている円盤が運んでくる角運動量が唯一の供給源で、これは降着×回転(パルサーのリサイクリング)の類似。③ジェット — 内縁起源(初期|x|≤45)のガスのうち系外(r>150)へ出たのは5体で、そのうち60.0%が±y方向±30°以内に入る(等方なら1/3 — 1.80倍の集中)。赤道方向(±x±30°)への脱出は0体で、r>60・80・100・120のどの半径で数えても赤道は0本のまま=帯が完全に塞いでいる。熱の斥力kRepを0にすると脱出は0体になり、そのぶんガスは落ちるだけになって主星の質量は1.86倍まで暴走する — 圧力は噴出の唯一の駆動源であると同時に降着の調節弁でもある。色=温度で、内縁が赤熱し噴流が冷えながら伸びるのが見える。※限界の正直な記録: 本サンプルは固定seed・固定刻み幅の有限時間デモである。3seed(20260827/28/29)では降着20/19/26回・質量比1.165/1.150/1.210・Ω倍率9.55/4.77/7.71・極方向割合0.600/0.667/0.200で、極方向割合はseed頑健ではない。刻み幅を半分(dt=0.008・同じt=96)にすると降着は20→2回・質量比1.165→1.023まで落ちる — 接触斥力の障壁をどれだけ深く跨げるかが数値解像度に依存するためで、降着量はdt収束していない。QAはこの固定構成の回帰検出として機能する。要因分離のため空間引きずりkFrameと自発放射etaRadは切ってある。pinnedはゼロでbalanceFrameは重心系なので系は閉じており、リザーバ帳簿[resPx,resPy,resL]は全ゼロ・NaNもクランプも0のまま。※これは降着とジェットという2つの概念を1画面に置いたトイ構成であり、実在の降着円盤・X線連星・相対論的ジェット・エディントン限界の再現主張ではない(Negative Claims 1/2)。",
-    control:"おすすめA/B: 熱の斥力kRepを0にすると押し返す圧力が消えて噴出が完全に止まり(脱出0体)、ガスは落ちるだけになって主星は1.86倍まで太る。muFを0にすると内縁の摩擦加熱が止まり、Gを下げると降着そのものが起きにくくなる。"},
-  en:{name:"Accretion and Jet — a compact-binary analogue", descStruct:{
-    summary:"A TOY THAT PUTS THREE CONCEPTS — ACCRETION, SPIN-UP AND A JET — ON ONE SCREEN (a finite-time demonstration at one fixed seed and one fixed step: the polar fraction is not seed-robust and the accreted amount is not dt-converged, both declared; not a claim to reproduce real accretion disks, X-ray binaries, relativistic jets or the Eddington limit). A rotating compact primary (m=40, radius 4, Core v2 differential), a companion (m=15 at x=200), and 210 grains of cold gas streaming off the companion to wrap around the primary (two thin, long groups along the x axis — a 2D analogue of an accretion disk seen edge-on, bulk velocity ±0.5). (1) Accretion: the gas falls in under self-gravity (E4) and whatever touches the primary fuses into it, so its mass grows. (2) Spin-up: the disk's angular momentum enters the shell spin through contact friction (A9/E9) and reaches the core's J_core through the τ_cs coupling (K_cs=0.5); pump and contraction are off, so the inflow from the shell is the only source. (3) Jet: gas that fails to fall in is heated by friction at the inner edge (E9′ → T_int) and pushed back by pressure (E5′); with the equator (±x) blocked by the band, the polar direction (±y) is the only exit. ",
-    observe:"Measured (fixed seed 20260827, 6000 steps = t≈96): (1) Accretion — 20 fusions onto the primary, whose mass grows to 1.165× its initial value (40→46.60). With fusion switched off the primary's mass stays at 1.000× (exactly unchanged). (2) Spin-up — the core angular velocity Ω_core goes from 0.0200 to 0.1910, a factor of 9.55 (J_core 0.270→2.579; I_core is unchanged by fusion here, so the ratio is just the ratio of J. The shell spin likewise goes 0→0.191). In the control with the disk rotation switched off (band bulk velocity = 0) the magnitude of the ratio stays at 1.27 and even its sign is undetermined — the angular momentum carried in by the rotating disk is the only supply, an analogue of accretion × rotation (pulsar recycling). (3) Jet — of the gas originating at the inner edge (initial |x|≤45), 5 grains reach r>150, and 60.0% of them lie within 30° of the ±y axis (isotropic would be 1/3 — a 1.80× concentration). Escapes within 30° of the equator (±x) number 0, and the equatorial count stays at 0 whichever radius you count at (r>60, 80, 100, 120): the band blocks it completely. Set the thermal repulsion kRep to 0 and the escapes drop to 0, while the gas simply falls in and the primary's mass runs away to 1.86× — pressure is at once the only driver of the outflow and the throttle on the accretion. Colour = temperature: watch the inner edge glow and the jets cool as they stretch. An honest record of the limits: this is a finite-time demonstration at one fixed seed and one fixed step size. Over three seeds (20260827/28/29) the accretion count is 20/19/26, the mass ratio 1.165/1.150/1.210, the Ω factor 9.55/4.77/7.71 and the polar fraction 0.600/0.667/0.200 — the polar fraction is not seed-robust. Halving the step (dt=0.008 over the same t=96) drops the accretion from 20 to 2 events and the mass ratio from 1.165 to 1.023: how deeply a grain can cross the contact-repulsion barrier depends on the numerical resolution, so the accreted amount is not converged in dt. The QA gate therefore works as a regression check on this fixed configuration. Frame dragging and spontaneous radiation are switched off to isolate the factors. Nothing is pinned and balanceFrame is barycentric, so the system is closed: the reservoir ledgers [resPx, resPy, resL] stay at zero and there is no NaN and no clamping. Note: this is a toy that puts the two concepts of accretion and a jet on one screen — not a claim to reproduce real accretion disks, X-ray binaries, relativistic jets or the Eddington limit (Negative Claims 1/2). ",
-    control:"Suggested A/B: set the thermal repulsion kRep to 0 and the pushing pressure disappears — the outflow stops completely (0 escapes) and the gas merely falls in, fattening the primary to 1.86×. Set muF to 0 to stop the frictional heating at the inner edge, or lower G to make accretion itself harder."}},
-  activeParams:["kRep","muF","gammaN","G"],
-  thermal:"tint",
-  fusion:{dFrac:0.7},        // 融合(上限 1/√2 の直下 — 🥚selfRotor と同値)
-  balanceFrame:"barycentric",// 第80便 A: 生成時1回の重心系変換(pinned ゼロの閉鎖系)
-  validT:96,                 // 実測窓(6000步=t≈96)と一致
-  claims:[
-    { id:"accretionJet.primary-mass-growth", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
-      metric:"primaryMassRatio",
-      chain:{ax:["A6","A13"], eq:["E4","E9"],
-        note:"自己重力(A6/E4)で落ちてきたガスが接触(E9)を経て融合し、主星の質量が増える量。融合則は質量・運動量・角運動量を厳密に保存する(A13)ので、増えた分は必ずガスから来ている。",
-        noteEn:"How much the primary's mass grows as gas that fell in under self-gravity (A6/E4) makes contact (E9) and fuses. The fusion rule conserves mass, momentum and angular momentum exactly (A13), so every bit of the growth comes from the gas."},
-      roleNote:"回顧的確認 — 固定seedの回帰窓。較正ノブは使っていないが、降着量はseed(1.150〜1.210)と刻み幅(dt半分で1.023)に依存する。",
-      roleNoteEn:"Retrospective check — a regression window at a fixed seed. No calibration knob is spent, but the accreted amount depends on the seed (1.150–1.210) and on the step size (1.023 at half the step).",
-      expected:{min:1.05, max:1.35},   // 実測1.1650(3seed 1.150〜1.210)
-      descPattern:"主星の質量は初期の(\\d+\\.\\d+)倍", testId:"behavior.accretionJet",
-      control:{patch:{fusion:null}, expected:{min:0.999, max:1.001},
-        descPattern:"対照では主星の質量は(\\d+\\.\\d+)倍のまま"} },   // 融合オフ: 厳密に1.000
-    { id:"accretionJet.core-spinup", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
-      metric:"coreOmegaRatio",
-      chain:{ax:["A9","A13"], eq:["E9"],
-        note:"回っている円盤の角運動量が接触摩擦(A9/E9: 並進運動→スピン)で殻へ入り、コア⇄殻の τ_cs 結合で J_core へ移る。交換は等量反対符号なので総角運動量は保存する(A13/T7)。",
-        noteEn:"The angular momentum of the rotating disk enters the shell through contact friction (A9/E9: translation → spin) and moves on to J_core through the core–shell τ_cs coupling. The exchange is equal and opposite, so the total angular momentum is conserved (A13/T7)."},
-      roleNote:"回顧的確認 — 固定seedの回帰窓。窓は3seedの実測幅(4.77〜9.55)を内側に含む。",
-      roleNoteEn:"Retrospective check — a regression window at a fixed seed, wide enough to contain the three-seed spread (4.77–9.55).",
-      expected:{min:3.0, max:16.0},   // 実測9.550(3seed 9.55/4.77/7.71)
-      descPattern:"初期の(\\d+\\.\\d+)倍になる", testId:"behavior.accretionJet",
-      control:{patch:{bulkVy:0}, expected:{min:0, max:3.0},
-        descPattern:"倍率の絶対値が(\\d+\\.\\d+)にとどまり"} },   // 円盤の回転オフ: |−1.273|
-    { id:"accretionJet.polar-fraction", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
-      metric:"polarFraction",
-      chain:{ax:["A9","A10"], eq:["E9","E5′"],
-        note:"内縁で摩擦加熱(A9/E9′)されたガスを熱の斥力=圧力(A10/E5′)が押し返すとき、赤道は帯に塞がれているので極方向だけが出口になる — 圧力と幾何だけで双極性が出ることの定量(🌋agnjet と同じ測り方)。",
-        noteEn:"When thermal repulsion = pressure (A10/E5′) pushes back gas heated by friction at the inner edge (A9/E9′), the equator is blocked by the band and only the poles are an exit — the quantification that pressure plus geometry alone produce bipolarity."},
-      roleNote:"回顧的確認 — 固定seedの回帰窓。脱出5体の小標本で、極方向割合はseed頑健ではない(3seed 0.200〜0.667)。頑健なのは赤道0本のほう。",
-      roleNoteEn:"Retrospective check — a regression window at a fixed seed. The sample is only 5 escapes and the polar fraction is not seed-robust (0.200–0.667 over three seeds); what is robust is the zero equatorial count.",
-      expected:{min:0.45, max:1.0}, descScale:0.01,   // 実測0.600(等方1/3の1.80倍)
-      descPattern:"そのうち(\\d+(?:\\.\\d+)?)%が±y", testId:"behavior.accretionJet" },
-    { id:"accretionJet.pressure-off-control", kind:"fixed-seed", prov:"simulated", role:"negative_control",
-      metric:"escapeCountNoPressure",
-      chain:{ax:["A10"], eq:["E5′"],
-        note:"熱の斥力を切った対照(kRep=0)では系外へ出るガスが厳密に0体になることの定量。噴出の駆動源が圧力(E5′)以外の何か(初速・重力散乱・回転)ではないことの機械固定であり、同時に降着が1.86倍まで暴走する=圧力が降着の調節弁でもあることの数字でもある。",
-        noteEn:"Quantifies that with thermal repulsion off (kRep=0) exactly zero grains leave the system — machine-fixing that the outflow is driven by pressure (E5′) and not by initial velocities, gravitational scattering or rotation. It is also the number showing accretion then runs away to 1.86×."},
-      roleNote:"陰性対照 — 圧力を切ったときに噴出が残らないことを固定する。較正ノブは1つも使っていない。",
-      roleNoteEn:"Negative control — it fixes that no outflow survives when pressure is switched off. No calibration knob is spent.",
-      expected:{min:0, max:0},
-      descPattern:"kRepを0にすると脱出は(\\d+)体になり", testId:"behavior.accretionJet" }
-  ],
-  camera:{scale:260}, world:{boundary:"none",size:0}, seed:20260827,
-  physics:{G:6, D0:2, kFrame:0, q:2, kRep:2, muF:0.6, gammaN:0.05, kappaS:0.05, kappaT:0.016666666666666666,
-    cLight:30/* 第97便: c₀のみ一律規約の30 */, bM:1, etaRad:0, pRad:2, cHeat:0.2, gravityX:0, gravityY:0,
-    geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2, frameWeight:"share"},
-  bodies:[
-    // コンパクト主星(自由・融合の対象。半径4は見た目の指定 = ガス配置の除外も実半径基準で 4+1)
-    // コアv2: 差動(軸自由)・pump/contract なし → J_core が育つ源は τ_cs 経由の殻からの流入だけ
-    {type:"single", m:40, x:0,y:0, vx:0,vy:0, spin:0, radius:4, pinned:false, tInt:0, lightSweep:"auto",
-     core:{mode:"differential", massFrac:0.3, radius:1.5, omega:0.02, Kcs:0.5}},
-    // 伴星(自由・円軌道初速 vy=√(G(m₁+m₂)/a)=1.28。窓 t≈96 は公転周期のごく一部)
-    {type:"single", m:15, x:200,y:0, vx:0,vy:1.28, spin:0, radius:5, pinned:false, tInt:0},
-    // 降着円盤(真横から見た2Dアナロジー): x方向に薄く長い帯を左右2群に割り、バルク速度 ±0.5 で回す
-    {type:"box", rMul:1.1, n:90, cx:70,cy:0, w:120,h:12, mMin:0.3,mMax:0.3,
-     spinMin:0,spinMax:0, tInt:0.01, vScale:0.05, bulkVy:0.5},
-    {type:"box", rMul:1.1, n:90, cx:-70,cy:0, w:120,h:12, mMin:0.3,mMax:0.3,
-     spinMin:0,spinMax:0, tInt:0.01, vScale:0.05, bulkVy:-0.5},
-    // 伴星から流れ出したガス(円盤の外縁と伴星のあいだ)
-    {type:"box", rMul:1.1, n:30, cx:165,cy:0, w:40,h:8, mMin:0.3,mMax:0.3,
-     spinMin:0,spinMax:0, tInt:0.01, vScale:0.05, bulkVy:0.5}
-  ],
-  overlays:{rotationCurve:false,tempHistogram:true,field:false,trail:true,trailTargets:"sampled",monitor:true} },
-
 // 第39便 39A(台帳4-74・第38便 38C の実験2 = 台帳4-68c を土台に): 収縮とスピン加速。
 // 外部駆動が一切ない完全閉鎖系(kFrame=0・箱なし・ピンなし・一様重力なし)で、自己重力だけで
 // 縮む雲の内側半質量(コア)が ω ∝ 1/R² に沿って速く回るところを見せる。
@@ -9566,7 +9403,7 @@ const BUILTIN_PRESETS = [
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   descStruct:{
     summary:"外から何も加えない、ゆっくり回るガス雲(240粒・剛体回転ω₀=0.00675)。",
-    observe:"圧力(E5′)を切ってあるので雲は自己重力だけで自由落下的に縮み、内側半質量=コアの半径が3.06倍縮む間にコアの回転が8.50倍速くなる — 角運動量保存が予言する(R₀/R)²=9.36倍に対して実測は一致90.8%(足りない9.2%は、コアが外側へ渡した軌道角運動量の割合と恒等的に一致する)。6000步で底に達し、以後は平坦。※主張はコア限定: 系全体で見ると回転はむしろ遅くなる(ω_eff×0.275)— 質量の約4%(240個中9個)が遠くへ逃げてΣmr²を支配してしまうため。色=温度。縮むと接触摩擦(E9)で内部温度が上がり(2.0→5.2)、放射(E11)で冷えていく(→0.34)— ケルビン・ヘルムホルツ収縮に似た温度の履歴だが、これは解放された重力エネルギーの行き先の記録であって、冷却が収縮を駆動しているのではない。既定はkRep=0なので温度は力に一切入らない受動的な目印で、冷却を切っても(etaRad=0)軌道は1ビットも変わらない(実測: 力学量が完全一致・変わるのは色と放射エネルギーだけ)。運動量・角運動量はリザーバ帳簿ゼロのまま厳密に閉じる(モニタ表示・|ΔL|/L_scale=1.7e-6)。※有限時間の収縮過程であって定常状態の主張ではない(☀️定常放射が内部熱源なしには成立しないという否定的結論と矛盾しない)。実在の星形成や原始星の再現を主張するものではない(Negative Claims 1/2)。",
+    observe:"圧力(E5′)を切ってあるので雲は自己重力だけで自由落下的に縮み、内側半質量=コアの半径が3.06倍縮む間にコアの回転が8.50倍速くなる — 角運動量保存が予言する(R₀/R)²=9.36倍に対して実測は一致90.8%(足りない9.2%は、コアが外側へ渡した軌道角運動量の割合と恒等的に一致する)。6000步で底に達し、以後は平坦。※主張はコア限定: 系全体で見ると回転はむしろ遅くなる(ω_eff×0.275)— 質量の約4%(240個中9個)が遠くへ逃げてΣmr²を支配してしまうため。色=温度。縮むと接触摩擦(E9)で内部温度が上がり(2.0→5.2)、放射(E11)で冷えていく(→0.34)— ケルビン・ヘルムホルツ収縮に似た温度の履歴だが、これは解放された重力エネルギーの行き先の記録であって、冷却が収縮を駆動しているのではない。既定はkRep=0なので温度は力に一切入らない受動的な目印で、冷却を切っても(etaRad=0)軌道は1ビットも変わらない(実測: 力学量が完全一致・変わるのは色と放射エネルギーだけ)。運動量・角運動量はリザーバ帳簿ゼロのまま厳密に閉じる(モニタ表示・|ΔL|/L_scale=1.7e-6)。※有限時間の収縮過程であって定常状態の主張ではない(「内部熱源なしに定常放射は成立しない」という否定的結論と矛盾しない)。実在の星形成や原始星の再現を主張するものではない(Negative Claims 1/2)。",
     control:"おすすめA/B: kRepを1にすると圧力が収縮を支え、縮みは3.06倍→2.59倍、回転は8.50倍→4.26倍に鈍る。"},
   en:{name:"Contraction and Spin-Up", descStruct:{
     summary:"A slowly rotating gas cloud with nothing applied from outside (240 grains, rigid rotation ω₀=0.00675). ",
@@ -9597,218 +9434,56 @@ const BUILTIN_PRESETS = [
      spinMin:0,spinMax:0, tInt:2, vMode:"rigid", aroundMass:0, vScale:0.00675, direction:1}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
-// 第46便 46S(台帳4-68c 再挑戦・原仮定者裁定「進める」): ☀️starcore — 恒星内部(融合を熱源とする)。
-// 設計の要点(第44便 44B の提言 + 第45便 45B の申し送りを反映):
-//   (1) 熱を作る経路を**融合だけ**に絞る: γn=0・μF=0(接触は完全弾性 = E9 散逸ゼロ)・
-//       kRep=0(E5′ 圧力ゼロ)。第44便の kRep>0 構成では、融合体の高温が第三者との U_rep を
-//       跳ね上げ、その差額 dU3 がリザーバ fusU から支払われて系が自壊した(46S 実測:
-//       kRep=2 では fusU=−1.0e5 に対し radE=8.2e4 = 「放射」の大半がリザーバ由来だった)。
-//       kRep=0 では fusU は融合対の重力束縛 uGrav の退避分だけになり、熱の出所は
-//       ΔKE + U_spring だけになる(第一法則の物差しで確認済み)。
-//   (2) fission は**使わない**(第45便 45B(2b) の判断委任に対する 46S の結論)。fusU の
-//       サイクルドリフトを持ち込む必要がなく、「融合が燃料を食い尽くすまでの有限過程」として
-//       誠実に設計できるため。燃料が続く区間を validT=192 で明示する。
-//   (3) **kappaS=0(E10′ 伝導も切る)**: 伝導は pinned へ流れ込んだ分が dQi のまま適用されず
-//       (② の先頭で pinned は continue する)帳簿に載らないので、kappaS>0 では「融合が入れた熱」
-//       Q=ΔH+radE が etaRad の値で変わってしまう(46S 実測: kappaS=0.05 では etaRad=1.6e-3 で
-//       Q=4594 なのに etaRad=0 では Q=2645 = 1949 の未帳簿漏れ)。kappaS=0 では両者が
-//       Q=5312.5 で完全一致し、対照(融合なし)の Q は厳密に 0.0 になる = 熱の出入りは
-//       「融合で入る」「E11 で出る」の 2 本だけ。
-//   (4) dt 収束を実測してから説明文に書いた(第45便 45B(1))。dt 0.016/0.008/0.004(いずれも
-//       t≈192 まで)で 融合124/122/113回・radE 4555/5059/4053・T_mean 4.91/4.26/3.73・
-//       残粒子 77/79/88 = 主張値は刻み幅を 1/4 にしても保つ。3seed(20260730/31/32)でも
-//       融合124/116/114回・radE 4555/4084/4112・T_mean 4.91/3.89/4.27 と頑健。
-//       対照(融合なし)の radE=60.4 は初期熱の解析的な放出そのもので dt にも seed にも依らない。
-{ id:"starcore", name:"恒星の内部 — 融合を熱源とする", emoji:"☀️", group:"天体の物語",
-  scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
-  sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
-  notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
-  descStruct:{
-    summary:"中心の重い核のまわりを回るガス粒が、深く潜り込むと融合して熱を放ち、星のように光り続けるしくみを見るサンプル。※実在の恒星のモデルではない — 「内部に熱源が無ければ放射は続かない」ことの裏返しとして、融合という熱源があれば放射が続くことを示すトイ構成(質量欠損・放射圧・核種・静水圧平衡は扱わない)。中心に固定した重い核(m=600)と、その周りを回る200粒のガス(サブケプラー初速 0.6倍)。ガスは核の重力で落ち込み、深く潜り込んだ対どうしが融合する(中心距離が d<0.35·(R_i+R_j) まで近づくと1つの粒子になる)。融合で消えた対の相対運動エネルギーΔKEと接触ばね(E9)の弾性エネルギーはそのまま内部温度T_intへ入り、そこから放射(E11: Λ=η_rad·T²)で外へ出ていく — これが「重力収縮→融合加熱→放射」の一本道。",
-    observe:"12000步(t≈192)の実測: 融合124回・ガスは200粒→76粒(燃料の62%を消費)・平均温度T_int 2.00→4.91(最高66.9)・放射エネルギー radE=4555。同じ初期配置で融合だけを切った対照では熱源が無くなり、温度は2.00→0.49へ単調に下がって放射も60.4で止まる — 放射エネルギーは75.4倍。否定的結論「内部熱源なしに定常放射は成立しない」の裏返しで、融合という熱源があれば星は放射し続けられる、という主張。熱収支: この宇宙で熱が出入りする経路は「融合で入る」「E11で出る」の2本だけ(γn=0・μF=0で接触は完全弾性・kRep=0で圧力なし・κs=0で伝導なし)なので帳簿が閉じる — 融合が入れた熱 Q=ΔH+radE=5313 は etaRad を変えても同値で、対照ではQ=0.0(厳密)。そのQの85.7%が同じ窓のうちに放射で出ていく(残りは温度上昇として溜まる)= 供給と損失がほぼ釣り合った準定常。※点火の原因が重力であることは用量反応で分離した: Gだけを4→2→1に下げ、力学時間の伸び(∝1/√G)に合わせて走行時間も揃えても、融合の熱注入は5313→1719→697と落ちる。※温度は力に一切入らない受動的な目印なので、放射を切っても(etaRad=0)軌道は1ビットも変わらない(実測: 粒子数・融合回数・平均半径が全チェックポイントで完全一致し、温度だけが2.00→48.23まで溜まる)。※有効窓 validT=192 の根拠は燃料: さらに倍のt=384まで走らせても融合は18回しか増えず、放射レートは23.7/時間→8.0/時間(3.0倍暗い)まで落ちる — 燃料切れの余生に入るので主張はここまで。※質量は融合で保存する(現実の核融合の質量欠損はモデル化していない)。中心核は位置を固定した外部拘束(融合の対象外・温度一定のリザーバ)で、系は閉じていない。実在の恒星の核融合・進化を再現する主張ではない(Negative Claims 1/2)。",
-    control:"おすすめA/B: etaRad=0で「冷えない星」、G=2で「点火しにくい星」。"},
-  en:{name:"Stellar Interior — Fusion as the Heat Source", descStruct:{
-    summary:"A sample watching gas particles orbiting a heavy central core fuse when they dive in deep enough, releasing heat and letting the whole thing keep shining like a star. Not a model of a real star — this toy setup shows the converse of “without an internal heat source, radiation cannot continue”: given fusion as that heat source, radiation keeps going (mass defect, radiation pressure, nuclide species and hydrostatic equilibrium are not modeled). A heavy pinned core (m=600) with 200 gas grains orbiting it on sub-Keplerian orbits (0.6×). The gas falls in under the core\u2019s gravity, and pairs that penetrate deeply enough fuse — once their centres come within d<0.35·(R_i+R_j) they become one particle. The relative kinetic energy ΔKE of the pair and the elastic energy of the contact spring (E9) that vanish in the merger go straight into the internal temperature T_int, and leave again as radiation (E11: Λ=η_rad·T²). That is the whole chain: gravitational compression → fusion heating → radiation. ",
-    observe:"Measured over 12000 steps (t≈192): 124 fusions, the gas goes from 200 to 76 grains (62% of the fuel burned), mean T_int 2.00→4.91 (peak 66.9), radiated energy radE=4555. A control with the same initial layout and fusion switched off has no heat source at all: the temperature falls monotonically 2.00→0.49 and the radiation stalls at 60.4 — a factor of 75.4 in radiated energy. This is the converse of the negative result that steady radiation cannot hold without an internal heat source: given fusion as a heat source, the star can keep radiating. Heat budget: heat can only enter through fusion and leave through E11 in this universe (γn=0 and μF=0 make contacts perfectly elastic, kRep=0 removes pressure, κs=0 removes conduction), so the ledger closes — the heat fusion injects, Q=ΔH+radE=5313, is the same whatever etaRad is set to, and the control gives Q=0.0 exactly. 85.7% of that Q leaves as radiation within the same window (the rest accumulates as temperature): supply and loss nearly balance, a quasi-steady state. The causal role of gravity was isolated by a dose–response: lowering only G from 4 to 2 to 1, and stretching the run to match the dynamical time (∝1/√G), the fusion heat input falls 5313→1719→697. Temperature never enters the forces, so turning the radiation off (etaRad=0) does not change the trajectories by a single bit (measured: particle count, fusion count and mean radius identical at every checkpoint; only the temperature differs, accumulating to 48.23). The valid window validT=192 is set by the fuel: running twice as far, to t=384, adds only 18 more fusions and the radiated rate drops from 23.7 to 8.0 per unit time (3.0× dimmer) — beyond that the star is living off the ashes. Mass is conserved in fusion (the mass defect of real nuclear fusion is not modelled). The central core is an externally pinned constraint, excluded from fusion and held at constant temperature, so the system is not closed. Not a claim to reproduce real stellar fusion or stellar evolution (Negative Claims 1/2).",
-    control:"Suggested A/B: etaRad=0 for a star that cannot cool, G=2 for a star that barely ignites."}},
-  activeParams:["G","etaRad","cHeat"],
-  thermal:"tint",           // 第36便 D(台帳4-51): 温度は内部状態変数 T_int(fusion の前提)
-  fusion:{dFrac:0.35},      // 第44便 44B(台帳4-68c): 融合。fission は使わない(上のコメント(2))
-  validT:192,               // 第39便 39E(台帳4-75 E2): 燃料が有意に続く実測区間(12000步=t≈192)
-  // 第42便 42A(台帳4-78 A案): claims — 説明文の主要数値を機械可読化。窓は QA behavior.starcore の
-  // 閾値(fusN≥90・T_mean 3.0〜9.0・radE比≥40)に直結させ、dt 収束(dt 1/2・1/4 で 113〜124回・
-  // T_mean 3.73〜4.91・radE比 67.1〜83.8)と 3seed(114〜124回・3.89〜4.91・67.6〜75.4)の
-  // 実測幅を必ず内側に含むように取った
-  claims:[
-    { id:"starcore.fusion-count", kind:"fixed-seed", prov:"simulated", metric:"fusionEvents",
-      expected:{min:90, max:170},   // 実測124(dt収束113〜124・3seed 114〜124。behavior.starcore: fusN≥90)
-      descPattern:"融合(\\d+)回・ガスは", testId:"behavior.starcore" },
-    { id:"starcore.mean-tint", kind:"fixed-seed", prov:"simulated", metric:"meanTintGas",
-      chain:{ax:["A9","A12′"], eq:["E9","E11"],
-        note:"融合を熱源とした内部温度の定常値 — 熱源・伝導・放射の3則だけで決まり、温度に較正ノブを当てていない。",
-        noteEn:"The steady internal temperature with fusion as the heat source — set by the heating, conduction and radiation laws alone, with no calibration knob on temperature."},
-      expected:{min:3.0, max:9.0},   // 実測4.91(dt収束3.73〜4.91・3seed 3.89〜4.91)
-      descPattern:"平均温度T_int 2\\.00→(\\d+\\.\\d+)", testId:"behavior.starcore" },
-    { id:"starcore.radiation-ratio", kind:"fixed-seed", prov:"simulated", metric:"radERatioVsNoFusion",
-      chain:{ax:["A12","A12′"], eq:["E11"],
-        note:"融合なしの対照に対する放射エネルギー比 — 帳簿(radE)の閉性(A12′)から出る量で、比そのものに較正は入っていない。",
-        noteEn:"The radiated-energy ratio against the no-fusion control — a quantity that follows from the closure of the radE ledger (A12′), with no calibration entering the ratio."},
-      expected:{min:40, max:130},   // 実測75.4倍(融合あり radE=4555 対 融合なし radE=60.4)
-      descPattern:"放射エネルギーは(\\d+\\.\\d+)倍", testId:"behavior.starcore" }
-  ],
-  camera:{scale:320}, world:{boundary:"circle",size:300}, seed:20260730,
-  // ψ_static = m/(R·Kt) = 600/(24.49·60) = 0.408 < 0.5 なので強場トイ領域バッジは付かない(46S 実測)
-  physics:{G:4, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0,
-    kappaS:0/* 伝導も切る — pinned へ流れた熱は帳簿に載らないため(設計コメント(3))*/, kappaT:0.016666666666666666,
-    cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0.0016/* 第39便の tint 較正系(🌈coolrace と同値)。46S の実測較正:
-    12000步(t≈192)で etaRad を振ると 4e-4/8e-4/1.6e-3/3.2e-3/6.4e-3 → T_mean 11.20/7.51/4.91/3.16/2.02・
-    radE 3769/4218/4555/4800/4976(投入熱 Q=5312.5 は5点とも同値 = 帳簿が閉じている)・
-    放射率 radE/Q 70.9/79.4/85.7/90.4/93.7%。1.6e-3 は「T_mean が初期値2.0の約2.5倍に保たれる(=星が熱い)」
-    かつ「投入熱の85.7%が窓内に出ていく(=供給と損失がほぼ釣り合う)」両立点。6.4e-3 では T_mean が初期値と
-    見分けられなくなり、4e-4 では熱が溜まって釣り合わない */,
-    pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
-    radiusScale:1, softening:3, timeScale:2, frameWeight:"share"},
-  bodies:[
-    // 中心核(固定・R=√600≈24.5)。pinned は融合の対象外なので「燃料」はガス200粒だけ
-    {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0, pinned:true, tInt:2},
-    // ガス球(自由・サブケプラー初速 0.6倍 → 落ち込みながら回る。tInt=2 は kRep=0 なので力に効かない)
-    {type:"disk", n:200, cx:0,cy:0, radius:200, mMin:1,mMax:1,
-     spinMin:0,spinMax:0, tInt:2, vMode:"kepler", aroundMass:600, vScale:0.6, direction:1}
-  ],
-  // 温度ヒストグラム(左右の平均温度)は球対称の星では意味を持たないので出さない(🌪️spinup と同じ)
-  overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
-// 第229便(第27報): 3天体雛形 — 恒星 🌻・パルサー灯台 🏮・超新星見立て 🎇(+⚫ の横倒し変種 🪩)。
+// 第229便(第27報): 天体雛形 — パルサー灯台 🏮・超新星見立て 🎇(恒星 🌻 は第245便で廃止)。
 // 共通の文法: 殻=光学(shell:"solid"|"gas" 宣言)・コア=エンジン・融合=熱源・減光=見た目・傾き=z射影。
 // 新しい法則は足さない — 既存 primitive の合成(3層化設計の第2段。第1段= shell 宣言は検証器)
-{ id:"starDFM", name:"恒星の二層雛形 — 光球の殻+差動コア", emoji:"🌻", group:"天体の物語",
-  scaleTier:"stellar", sampleClass:"composite", notClaim:["toy"],
-  descStruct:{
-    summary:"☀️(融合を熱源とする恒星)に**二層の核**を与えた恒星雛形(第229便 — 第27報の3天体雛形①)。層0=差動コア(質量比0.3・Ω=0.5・傾き7° — 太陽の自転軸傾斜に相当する宣言値)・層1=光球の殻(shell:\"solid\" 宣言・遅い自転 0.08・lightSweep=0 で明るいまま)・層2=☀️ と同一のガス200粒(融合の燃料)。働いているのは重力(E4)+接触ばね(E9)+放射(E11)で、kFrame=0 なのでコアは力学に一切入らない — **☀️ と全チェックポイントでビット同一**(同一 seed)。コアの意味はここでは「軸を持つ器」: 殻スピン 0.08 が第227便のジャイロ歳差でコア軸の方位を回す(dJ⊥/dt=Ω_s ẑ×J⊥ — 仕事0)。実在の恒星内部(対流層・輻射層)の再現ではない(トイ近似の宣言)。",
-    observe:"実測(6000步=t96・☀️ と同一 seed): 位置ハッシュ・粒子数(114)・radE(2532.9)が**☀️ とビット同一** — コア・殻スピン・傾きは kFrame=0 の力学に1bitも入らない(番号の付いた器)。いっぽうコア軸の方位は殻スピンに引かれて**歳差**する: 6000步で 80°(=0.08×96 rad−360° — 解析値と桁一致・スポーク描画で見える)。傾き7°は不変・|J| も不変(仕事0の歳差)。QA behavior.templates229 が「ビット同一+方位窓」を機械固定。",
-    control:"おすすめA/B: core.tilt を 0↔60 に振ってもビット同一のまま(z射影は描画と減光のみ)。**core.Kalign:0.5 を足すと傾いた軸が歳差しながら殻の回転軸へ立ち上がる(螺旋 — 第232便・軌道は不変)**。kFrame=1 にすると空間引きずり(A8/E6′)が入り ☀️ から分岐する — その先の用量反応は 🎇 が担当。"},
-  en:{name:"Two-Layer Star Template — Photosphere Shell + Differential Core", descStruct:{
-    summary:"The star template (wave 229): ☀️ (fusion-heated star) given a TWO-LAYER nucleus. Layer 0 = a differential core (massFrac 0.3, Ω=0.5, tilt 7° — a declared value corresponding to the Sun's axial tilt); layer 1 = the photosphere shell (declared shell:\"solid\", slow spin 0.08, lightSweep=0 so it stays bright); layer 2 = the same 200 gas grains as ☀️ (fusion fuel). Gravity (E4), contact springs (E9) and radiation (E11) act; with kFrame=0 the core never enters the dynamics — BIT-IDENTICAL to ☀️ at every checkpoint (same seed). What the core adds here is an axis: the shell spin 0.08 precesses the core's azimuth via the wave-227 gyro term (work-free). Not a model of real stellar interiors (declared toy approximation).",
-    observe:"Measured (6000 steps = t96, same seed as ☀️): position hash, particle count (114) and radE (2532.9) are BIT-IDENTICAL to ☀️ — core, shell spin and tilt never enter kFrame=0 dynamics. The core axis azimuth, though, PRECESSES under the shell spin: 80° in 6000 steps (=0.08×96 rad −360°, matching the analytic value; visible in the spoke drawing). Tilt 7° and |J| are unchanged (work-free precession). QA behavior.templates229 machine-fixes the bit identity and the azimuth window.",
-    control:"Suggested A/B: sweeping core.tilt 0↔60 stays bit-identical (the z-projection only affects drawing and dimming). Setting kFrame=1 brings in frame dragging (A8/E6′) and the run departs from ☀️ — that dose-response belongs to 🎇."}},
-  activeParams:["kFrame","G","etaRad"],
-  thermal:"tint", fusion:{dFrac:0.35}, validT:192,
-  camera:{scale:320}, world:{boundary:"circle",size:300}, seed:20260730,
-  physics:{G:4, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
-    cLight:30, bM:1, etaRad:0.0016, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
-    pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2, frameWeight:"share"},
-  bodies:[
-    // 層0+1: 二層の核(☀️ の pinned 核+差動コア。kF0 なのでコアは力学不干渉 — QA が機械固定)
-    {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.08, pinned:true, tInt:2, lightSweep:0,
-     shell:"solid", core:{mode:"differential", massFrac:0.3, radius:12, omega:0.5, Kcs:0, tilt:7}},
-    // 層2: ☀️ と同一のガス球(同一 seed で配置もビット同一)
-    {type:"disk", n:200, cx:0,cy:0, radius:200, mMin:1,mMax:1,
-     spinMin:0,spinMax:0, tInt:2, vMode:"kepler", aroundMass:600, vScale:0.6, direction:1}
-  ],
-  overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
-// 第233便(第29報): DFM版恒星の構造 v1 — 質量台帳 f=2(殻=観測値・コアが重い)・引きずり外縁 R_drag(D(r)=β の
-// 外側解 — Ω で伸びる)・測光の殻質量分岐。🍊=🌻 の f=2 契約版(基準天体 — β_solid をここで較正)・
-// 🍂=赤色巨星→白色矮星(コア Ω 用量で包絡が流出)・🌹=🥀 の DFM 対(§現実との照合)。純関数 dfmStarMassLedger/
-// dfmCoreDragRatio/dfmCoreDragRadius(HP 公開)は力学状態を一切変えない(S.R は動的に変えない — 診断値)
-{ id:"starMass2DFM", name:"恒星の質量台帳 f=2 — 殻は観測値・コアが重い(DFM版)", emoji:"🍊", group:"天体の物語",
-  scaleTier:"stellar", sampleClass:"composite", notClaim:["toy"],
-  descStruct:{
-    summary:"**DFM版恒星の質量台帳 f=2**(第233便 — 第29報①)。連星較正 ✴️💫⚡🎻 で4例とも f≈2 に収束した「DFM の計算式では恒星質量が観測換算の約2倍」を恒星単体へ**規約転写**する(massCalibration law:\"chi-law-v1-transfer\"・C=1・f=2 — 単体では χ が飽和しないため法則導出ではなく契約の転写と宣言)。台帳: **殻=観測値 300・コア=余り 300・総質量 600=☀️🌻 の m と同じ**(massFrac=(f−1)/f=0.5・dfmStarMassLedger)。ほぼ減光しない恒星(lightSweep=0)なので外殻が観測値でコアが重い。コア半径 R/5=5(規約上限)・Ω=0.5・傾き 7°・Kcs=0・kFrame=1 で引きずり(A8/E6′)が入り 🌻(kF0)から分岐する。働くのは重力(E4)+引きずり+接触ばね(E9)+融合の熱源+放射(E11)。**引きずり外縁 R_drag**: 無次元強度 D(r)=ω_c(r)·r/√(GM/r)(ω_c は A8 の差動コア項そのもの)が β を切る外側半径を「コアの引きずりの影響範囲」と定義し、**本サンプルを基準天体として β_solid=0.014884 を R_ref=25(≈殻半径 24.5)で較正**(唯一の値 — 他天体では hold-out)。R_drag は Ω で伸びる(Ω=0.5→25・1→228・2→1063 — q=2 の遠方で ∝Ω²)。半径 S.R は動的に変えず診断値に留める(parameterAudit.derived)。実在の恒星内部の再現ではない。",
-    observe:"実測(6000步=t96・☀️ と同一 seed): 融合 **87 回=kF0(☀️🌻)と同数**・radE **2137.8(kF0 2532.9 — 引きずりが落ち込みを緩め放射が 16% 減る)**・平均 T_int 4.81・clampSN 0(coupleSink:\"reservoir\" で反作用は帳簿へ)・NaN 0。コア Ω=2 では融合 83・T_int 3.67(引きずりが強いほど燃えにくい — 🎇 の手前の用量域)。R_drag 診断 25.000(較正点 — 定義の再現であって予測ではない)。QA behavior.starStructure(挙動)・behavior.dfm-star-structure(純関数)が機械固定。",
-    control:"おすすめA/B: kFrame=0 で 🌻 と同じ落ち込み(融合 87・radE 2533)、core.omega=2 で燃えにくい星(融合 83)。core.omega を上げると R_drag 診断が Ω² で伸びる — 🍂(赤色巨星)への橋。"},
-  en:{name:"Stellar Mass Ledger f=2 — Shell Is the Observed Value, the Core Is Heavy (DFM)", descStruct:{
-    summary:"THE DFM STELLAR MASS LEDGER f=2 (wave 233). The binary calibrations ✴️💫⚡🎻 all converged on f≈2 (\"under the DFM formula a star's mass is about twice the observed conversion\"); here that contract is TRANSFERRED BY CONVENTION to a single star (massCalibration law chi-law-v1-transfer, C=1, f=2 — declared a transfer, not a law derivation, since χ does not saturate for a solo star). Ledger: shell = observed 300, core = the remainder 300, total 600 = the same m as ☀️🌻 (massFrac=(f−1)/f=0.5, dfmStarMassLedger). A star that hardly dims (lightSweep=0), so the envelope is the observed value and the core is heavy. Core radius R/5=5 (the convention's cap), Ω=0.5, tilt 7°, Kcs=0; kFrame=1 brings in frame dragging (A8/E6′) and the run departs from 🌻 (kF0). Gravity (E4), dragging, contact springs (E9), fusion heating and radiation (E11) act. THE DRAG OUTER EDGE R_drag: the dimensionless strength D(r)=ω_c(r)·r/√(GM/r) (ω_c is exactly the A8 differential-core term) crossing β defines the reach of the core's dragging; THIS SAMPLE IS THE REFERENCE BODY that calibrates β_solid=0.014884 at R_ref=25 (≈ the shell radius 24.5) — the only fitted value; every other body is a hold-out. R_drag grows with Ω (Ω=0.5→25, 1→228, 2→1063 — ∝Ω² far out for q=2). S.R is never changed dynamically; R_drag stays a diagnostic (parameterAudit.derived). Not a model of real stellar interiors.",
-    observe:"Measured (6000 steps = t96, same seed as ☀️): 87 fusions = THE SAME COUNT AS kF0 (☀️🌻); radE 2137.8 (kF0 2532.9 — dragging softens the infall and the radiation drops 16%); mean T_int 4.81; clampSN 0 (coupleSink reservoir books the reaction); zero NaN. With core Ω=2: 83 fusions, T_int 3.67 (stronger dragging burns less — the dose range just below 🎇). R_drag diagnostic 25.000 (the calibration point — a reproduction of the definition, not a prediction). QA behavior.starStructure and behavior.dfm-star-structure machine-fix these.",
-    control:"Suggested A/B: kFrame=0 gives the same infall as 🌻 (87 fusions, radE 2533); core.omega=2 gives a star that burns less (83 fusions). Raising core.omega stretches the R_drag diagnostic as Ω² — the bridge to 🍂 (red giant)."}},
-  parameterAudit:{
-    observedInputs:["なし(トイ恒星 — ☀️🌻 の m=600 を『観測換算 300 の 2 倍』と読む台帳)"],
-    fixedConventions:["f=2 規約転写(chi-law-v1-transfer・C=1)・殻=観測値・コア=余り(massFrac 0.5)","Rc=R/5=5(上限規約)・Ω=0.5・tilt 7°・Kcs=0・lightSweep=0・kFrame=1・pairReduced・coupleSink reservoir"],
-    fitted:["β_solid=0.014884052256495006(R_drag=R_ref=25 で較正 — 唯一のノブ・本サンプルが基準天体)"],
-    derived:["台帳: total 600・shell 300・core 300・coreMassFrac 0.5(dfmStarMassLedger)","R_drag(Ω=0.5)=25.000(較正点)・Ω=1 → 228.07・Ω=2 → 1063.2(dfmCoreDragRadius・q=2 遠方 ∝Ω²)"],
-    numerical:["dt=0.016・6000步・seed 20260730(☀️ と同一)"]},
-  activeParams:["kFrame","G","etaRad"],
-  thermal:"tint", fusion:{dFrac:0.35}, validT:96,
-  massCalibration:{law:"chi-law-v1-transfer", C:1, factorUniform:2},   // 第233便: 規約転写台帳(宣言専用)
-  camera:{scale:320}, world:{boundary:"circle",size:300}, seed:20260730,
-  physics:{G:4, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
-    cLight:30, bM:1, etaRad:0.0016, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
-    pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2, frameReaction:"pairReduced", coupleSink:"reservoir", frameWeight:"share"},
-  bodies:[
-    // 二層核: 殻 300(観測値・光球・lightSweep 0)+重いコア 300(Rc=R/5・Ω=0.5・tilt 7°)。kF1 で引きずりが入る
-    {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.08, pinned:true, tInt:2, lightSweep:0,
-     shell:"solid", core:{mode:"differential", massFrac:0.5, radius:5, omega:0.5, Kcs:0, tilt:7}},
-    // ☀️ と同一のガス球(同一 seed)
-    {type:"disk", n:200, cx:0,cy:0, radius:200, mMin:1,mMax:1,
-     spinMin:0,spinMax:0, tInt:2, vMode:"kepler", aroundMass:600, vScale:0.6, direction:1}
-  ],
-  overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
-{ id:"redGiantDFM", name:"赤色巨星から白色矮星へ — コアのスピン用量で外殻ガスが流出する(DFM版)", emoji:"🍂", group:"天体の物語",
-  scaleTier:"stellar", sampleClass:"principle", notClaim:["toy"],
-  descStruct:{
-    summary:"**DFM版赤色巨星→白色矮星の見立て**(第233便 — 第29報②)。仮定: 赤色巨星はコアのスピン増で膨らみ、外殻ガス層が流出して残ったコアが白色矮星になる。構成は ☀️ 型: **自由な中心天体**(m=600 — 台帳 f=2: 殻 300+コア 300・massFrac 0.5・Rc=5)+ガス包絡 200 粒(☀️ と同一 seed)・**融合なし**(流出率を熱源と混ぜない)・kFrame=1・pairReduced+重心系(中心も自由 — 反跳を記録)・coupleSink:\"reservoir\"。コア **Ω=10 を用量ノブ**にして引きずり(A8/E6′)で包絡を掃き出す(働くのは重力 E4+引きずり+接触ばね E9+放射 E11)。**「膨らんで見える」は流出するガスの描画と R_drag 診断**(β_solid で Ω=10 → 2.9×10⁴・Ω=40 → 4.7×10⁵ — 🍊 の較正値の外挿=hold-out)**であって、束縛半径の増加ではない**(実測は縮む — 残った粒の平均 r 139→62)。流出後に残る中心天体=白色矮星の雛形(同じ粒子・質量台帳は連続 — 昇格処理なし)。実在の赤色巨星・白色矮星(対流・質量放出・縮退圧)の再現ではない。",
-    observe:"実測(3000步=t48・用量反応): 脱出速度超えの包絡粒 **Ω=0/5/10/20/40 → 27.0/35.5/46.5/54.5/64.0%**(単調増)・kFrame=0(Ω20)18.5%(引きずりを切ると流出しない対照)・Ω=10 で残った粒の平均 r **138.8→62.2(縮む)**・最遠 251(境界 300 内)・中心変位 5.98(有界の反跳)・clampSN 0・NaN 0。Ω=0 の 27% は ☀️ 型の初期サブケプラー配置に固有の背景流出。QA behavior.starStructure が窓を機械固定。",
-    control:"おすすめA/B: core.omega=0(静かな星 — 背景 27%)・40(激しい流出 64% — 🎇 の手前)・kFrame=0(流出しない対照 18.5%)。R_drag 診断は Ω² で伸びる。"},
-  en:{name:"Red Giant to White Dwarf — the Core-Spin Dose Drives the Envelope Off (DFM)", descStruct:{
-    summary:"THE DFM RED GIANT → WHITE DWARF ANALOGY (wave 233). Assumption: a red giant swells as its core spins up; the gas envelope streams away and the core that remains is the white dwarf. The build is ☀️-type: a FREE central body (m=600 — ledger f=2: shell 300 + core 300, massFrac 0.5, Rc=5) plus a 200-grain gas envelope (same seed as ☀️), NO fusion (so the outflow rate is not mixed with a heat source), kFrame=1, pairReduced in the barycentric frame (the centre is free — its recoil is recorded), coupleSink reservoir. The core Ω=10 IS THE DOSE KNOB: frame dragging (A8/E6′) sweeps the envelope out (gravity E4, dragging, contact springs E9 and radiation E11 act). 'LOOKING SWOLLEN' IS THE DRAWING OF THE OUTFLOWING GAS PLUS THE R_drag DIAGNOSTIC (with β_solid: Ω=10 → 2.9e4, Ω=40 → 4.7e5 — an extrapolation of the 🍊 calibration, i.e. a hold-out), NOT A GROWTH OF THE BOUND RADIUS (measured: it shrinks — mean r of the remaining grains 139→62). The central body left after the outflow is the white-dwarf template (the same particle; the mass ledger is continuous — no promotion step). Not a model of real red giants or white dwarfs (convection, mass loss, degeneracy pressure).",
-    observe:"Measured (3000 steps = t48, dose-response): envelope grains above escape speed at Ω=0/5/10/20/40 → 27.0/35.5/46.5/54.5/64.0% (monotone); kFrame=0 (Ω20) 18.5% (switch the dragging off and nothing streams away — the control); at Ω=10 the mean r of the remaining grains goes 138.8→62.2 (it shrinks); farthest 251 (inside the 300 boundary); centre displacement 5.98 (a bounded recoil); clampSN 0; zero NaN. The 27% at Ω=0 is the background outflow inherent in the ☀️-type sub-Keplerian start. QA behavior.starStructure machine-fixes the windows.",
-    control:"Suggested A/B: core.omega=0 (a quiet star — the 27% background), 40 (violent outflow 64% — just below 🎇), kFrame=0 (the no-outflow control 18.5%). The R_drag diagnostic stretches as Ω²."}},
-  parameterAudit:{
-    observedInputs:["なし(トイ恒星 — 台帳 f=2 の読み替え)"],
-    fixedConventions:["中心自由(pinned なし・balanceFrame barycentric・pairReduced)・融合なし・coupleSink reservoir","台帳 f=2(殻 300+コア 300・massFrac 0.5・Rc=5・Kcs=0・lightSweep 0)・コア Ω=10(用量ノブ)"],
-    fitted:["なし(β_solid は 🍊 で較正 — 本サンプルの R_drag は外挿=hold-out)"],
-    derived:["R_drag(β_solid): Ω=10 → 28899・Ω=40 → 468305(診断 — 束縛半径ではない)","流出率 Ω=0/5/10/20/40 → 27.0/35.5/46.5/54.5/64.0%(3000步)・kF0(Ω20)18.5%"],
-    numerical:["dt=0.016・3000步・seed 20260730(☀️ と同一)"]},
-  activeParams:["kFrame","G"],
-  thermal:"tint", validT:48,
-  massCalibration:{law:"chi-law-v1-transfer", C:1, factorUniform:2},
-  balanceFrame:"barycentric",
-  camera:{scale:320}, world:{boundary:"circle",size:300}, seed:20260730,
-  physics:{G:4, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
-    cLight:30, bM:1, etaRad:0.0016, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
-    pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2, frameReaction:"pairReduced", coupleSink:"reservoir", frameWeight:"share"},
-  bodies:[
-    // 自由な二層核(流出後に残る=白色矮星の雛形)。コア Ω=10 が用量ノブ(引きずりの源)
-    {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.08, pinned:false, tInt:2, lightSweep:0,
-     shell:"solid", core:{mode:"differential", massFrac:0.5, radius:5, omega:10, Kcs:0}},
-    // ガス包絡(☀️ と同一のガス球・同一 seed — 融合なしなので粒数は保存)
-    {type:"disk", n:200, cx:0,cy:0, radius:200, mMin:1,mMax:1,
-     spinMin:0,spinMax:0, tInt:2, vMode:"kepler", aroundMass:600, vScale:0.6, direction:1}
-  ],
-  overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
 { id:"pulsarSolo", name:"パルサー灯台(単体)— 傾いた軸と運動学の時計", emoji:"🏮", group:"天体の物語",
   scaleTier:"stellar", sampleClass:"principle", notClaim:["toy"],
-  scaleExp:{L:4, T:1, M:27},   // 第232便(第28報「見た目が小さすぎる」): 距離スケール指数を調整 — 1単位=10⁴m/10s/10²⁷kg で
-                               // 半径 1.2=12 km(NS fiducial)・m=2784=1.4 M☉・pulse 周期 2.773 s(J0737B)が実寸で読める(G/c は toy のまま — 宣言)
+  scaleExp:{L:3, T:1, M:27},   // 第245便(原仮定者指示): 距離スケール指数を L4 → **L3** へ。1単位=10³m/10s/10²⁷kg で
+                               // 半径 12=12 km(NS fiducial)・m=2784=1.4 M☉・pulse 周期 2.773 s(J0737B)が実寸で読める
+                               // (第232便の L4 では半径 1.2 単位=12 km。同じ実寸を保ったまま器の数値を 10 倍にした — G/c は toy のまま)
+  obsCard:[
+    {q:"パルス周期(画面で読める)", model:"P=2π/ω=0.277346 単位 → 時間指数 T=1 で **2.773 s**(粒子を選ぶと編集パネル「パルス」欄と画面下換算行に出る)", obs:"J0737−3039B の観測自転 ω=22.654675/単位(周期 2.773 s)の転写"},
+    {q:"半径・質量(器の宣言)", model:"半径 12 単位 → L=3 で **12 km**(NS fiducial)・m=2784 単位 → M=27 で **1.4 M☉**", obs:"—(器の宣言であって力学較正の主張ではない)"},
+    {q:"実測(1000步)", model:"静止をビット保持・位相 φ=ω·t が比 1.000000000・Jz/|J|=cos45°=0.707107・警告 0・NaN 0", obs:"—"}],
   descStruct:{
-    summary:"パルサーを**1体の灯台**として置く雛形(第229便 — 3天体雛形②)。連星較正 ⚡(J0737−3039)から較正部分を外し、原理だけを残す: 殻= spin 0(観測自転 22.65/単位は殻値域 ±20 の外 — ⚡ と同じ宣言つき降格)・shell:\"solid\"・**時計は第226便の運動学パルスチャネル** pulse:{omega:22.654675, source:\"observed\"}(J0737−3039B の観測転写 — パルス=コアスピン随伴の発光スペクトル・力学不干渉)・コアにも同じ Ω を転写(コア値域 ±50 内)・**軸の傾き45°**(灯台の斜め — 描画は楕円スポーク)。減光は宣言値 lightSweep=0.85(トイの暗さ — auto では 0.008 しか出ない単体構成)。**第232便: 距離スケール指数 L4/T1/M27 を宣言**(第28報「見た目が小さすぎる」)— 半径 1.2 単位=**12 km**(NS fiducial)・質量 2784 単位=**1.4 M☉**・パルス周期 **2.773 s**(J0737B)が実寸で読める(G・c₀ は toy のまま — 力学較正の主張ではない)。重力(E4)・空間引きずり(A8/E6′)は相手がいないため静止のまま。TOA・パルスプロファイルの再現は主張しない。",
-    observe:"実測(1000步): ①**静止の保持** — 位置・速度・殻スピンは全窓ビット0のまま(単体+kFrame=1 でも E6′ は相手が要る)。②**時計の恒等** — パルス位相 φ=ω·t が比 1.000000000(9桁)で成立し、**傾き45°でも割れない**(位相は運動学積分で、力学 Ω_z=|Ω|cos45° の射影を経由しない — 第226便チャネルの設計どおり)。③Jz/|J|=cos45°=0.707107(z射影の宣言どおり)・lightSweep 0.85 保持。QA behavior.templates229 が機械固定。",
-    control:"おすすめA/B: core.tilt 45↔0 でスポーク描画が楕円↔円に変わる(時計・力学は不変)。pulse を外すと時計が消える(軌道は1bitも変わらない — 第226便の除去対照と同じ)。"},
+    summary:"パルサーを**1体の灯台**として置く雛形(第229便 — 3天体雛形②)。連星較正 ⚡(J0737−3039)から較正部分を外し、原理だけを残す: 殻= spin 0(観測自転 22.65/単位は殻値域 ±20 の外 — ⚡ と同じ宣言つき降格)・shell:\"solid\"・**時計は第226便の運動学パルスチャネル** pulse:{omega:22.654675, source:\"observed\"}(J0737−3039B の観測転写 — パルス=コアスピン随伴の発光スペクトル・力学不干渉)・コアにも同じ Ω を転写(コア値域 ±50 内)・**軸の傾き45°**(灯台の斜め — 描画は楕円スポーク)。減光は宣言値 lightSweep=0.85(トイの暗さ — auto では 0.008 しか出ない単体構成)。**第245便: 距離スケール指数を L3/T1/M27 へ**(原仮定者指示)— 1単位=10³m として**半径 12 単位=12 km**(NS fiducial)・質量 2784 単位=**1.4 M☉**・パルス周期 **2.773 s**(J0737B)。第232便の L4(半径 1.2 単位)と実寸は同一で、器の数値だけを 10 倍にした転写である(G・c₀ は toy のまま — 力学較正の主張ではない)。**第245便: 周期を画面から読めるようにした** — 粒子を選ぶと編集パネルに「パルス」行(ω・周期 P・実時間換算・累積回転数)が出て、画面下の換算行にも同じ周期が並ぶ(表示専用・力学には 1 bit も入らない)。重力(E4)・空間引きずり(A8/E6′)は相手がいないため静止のまま。TOA・パルスプロファイルの再現は主張しない。",
+    observe:"実測(1000步): ①**静止の保持** — 位置・速度・殻スピンは全窓ビット0のまま(単体+kFrame=1 でも E6′ は相手が要る)。②**時計の恒等** — パルス位相 φ=ω·t が比 1.000000000(9桁)で成立し、**傾き45°でも割れない**(位相は運動学積分で、力学 Ω_z=|Ω|cos45° の射影を経由しない — 第226便チャネルの設計どおり)。③Jz/|J|=cos45°=0.707107(z射影の宣言どおり)・lightSweep 0.85 保持。④**周期の表示**(第245便): 編集パネルの「パルス」行が P=0.277346 単位 ≈ **2.773 s**(T=1)を出し、φ の累積回転数も並ぶ。QA behavior.templates229 と ui.pulse-readout が機械固定。",
+    control:"おすすめA/B: core.tilt 45↔0 でスポーク描画が楕円↔円に変わる(時計・力学は不変)。pulse を外すと時計が消える(軌道は1bitも変わらない — 第226便の除去対照と同じ)。時間スケール指数 T を動かすと表示周期だけが動く(物理は不変)。"},
   en:{name:"Pulsar Lighthouse (Solo) — Tilted Axis, Kinematic Clock", descStruct:{
-    summary:"A pulsar as a SINGLE lighthouse (wave 229, template 2). The calibration part of the binary ⚡ (J0737−3039) is removed, keeping the principles: shell spin 0 (the observed 22.65/unit is outside the shell range ±20 — the same declared demotion as ⚡); shell:\"solid\"; the CLOCK is the wave-226 kinematic pulse channel pulse:{omega:22.654675, source:\"observed\"} (transcribed from J0737−3039B — the pulse is an emission spectrum riding the core spin, never entering dynamics); the same Ω transcribed onto the core (within the core range ±50); AXIS TILT 45° (the lighthouse slant — drawn as elliptical spokes). Dimming is the declared toy value lightSweep=0.85 (auto yields only 0.008 in this solo configuration). WAVE 232: the scale exponents L4/T1/M27 are declared (report 28: 'too small on screen') — radius 1.2 units = 12 km (the NS fiducial), mass 2784 units = 1.4 Msun, pulse period 2.773 s (J0737B) all read at true scale (G and c₀ stay toy — no dynamical-calibration claim). Gravity (E4) and frame dragging (A8/E6′) have no partner, so it rests. No claim to reproduce TOAs or pulse profiles.",
-    observe:"Measured (1000 steps): (1) REST HOLDS — position, velocity and shell spin stay bit-zero in every window. (2) CLOCK IDENTITY — the pulse phase φ=ω·t holds to ratio 1.000000000 (9 digits), UNBROKEN by the 45° tilt (the phase is a kinematic integral and never passes through the dynamical z-projection Ω_z=|Ω|cos45° — exactly the wave-226 channel design). (3) Jz/|J|=cos45°=0.707107 as declared; lightSweep stays 0.85. QA behavior.templates229 machine-fixes all three.",
-    control:"Suggested A/B: core.tilt 45↔0 switches the spokes ellipse↔circle (clock and dynamics unchanged). Removing pulse removes the clock (orbits unchanged to the bit — same as the wave-226 removal control)."}},
+    summary:"A pulsar as a SINGLE lighthouse (wave 229, template 2). The calibration part of the binary ⚡ (J0737−3039) is removed, keeping the principles: shell spin 0 (the observed 22.65/unit is outside the shell range ±20 — the same declared demotion as ⚡); shell:\"solid\"; the CLOCK is the wave-226 kinematic pulse channel pulse:{omega:22.654675, source:\"observed\"} (transcribed from J0737−3039B — the pulse is an emission spectrum riding the core spin, never entering dynamics); the same Ω transcribed onto the core (within the core range ±50); AXIS TILT 45° (the lighthouse slant — drawn as elliptical spokes). Dimming is the declared toy value lightSweep=0.85 (auto yields only 0.008 in this solo configuration). WAVE 245: the scale exponents are now L3/T1/M27 — with 1 unit = 10³ m the RADIUS 12 UNITS = 12 km (the NS fiducial), the mass 2784 units = 1.4 Msun and the pulse period = 2.773 s (J0737B). The true scale is identical to wave 232's L4 (radius 1.2 units); only the numbers in the vessel were multiplied by ten (G and c₀ stay toy — no dynamical-calibration claim). WAVE 245 ALSO MADE THE PERIOD READABLE ON SCREEN: selecting the body adds a \"pulse\" row to the edit panel (ω, period P, its real-time conversion and the accumulated turns), and the same period appears in the on-screen conversion line (display only — not one bit enters the dynamics). Gravity (E4) and frame dragging (A8/E6′) have no partner, so it rests. No claim to reproduce TOAs or pulse profiles.",
+    observe:"Measured (1000 steps): (1) REST HOLDS — position, velocity and shell spin stay bit-zero in every window. (2) CLOCK IDENTITY — the pulse phase φ=ω·t holds to ratio 1.000000000 (9 digits), UNBROKEN by the 45° tilt (the phase is a kinematic integral and never passes through the dynamical z-projection Ω_z=|Ω|cos45° — exactly the wave-226 channel design). (3) Jz/|J|=cos45°=0.707107 as declared; lightSweep stays 0.85. (4) THE PERIOD IS DISPLAYED (wave 245): the edit panel's \"pulse\" row reads P=0.277346 units ≈ 2.773 s (T=1) together with the accumulated turns of φ. QA behavior.templates229 and ui.pulse-readout machine-fix these.",
+    control:"Suggested A/B: core.tilt 45↔0 switches the spokes ellipse↔circle (clock and dynamics unchanged). Removing pulse removes the clock (orbits unchanged to the bit — same as the wave-226 removal control). Moving the time-scale exponent T changes only the displayed period."}},
   activeParams:["kFrame","G","softening"],
-  camera:{scale:80}, world:{boundary:"none",size:0}, seed:20260901,
+  camera:{scale:800}, world:{boundary:"none",size:0}, seed:20260901,
   physics:{G:1, D0:0.006, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0,
     kappaT:0.0011111111111111111, cLight:30/* 正典 c₀(第97便規則)。時計は運動学チャネルで c 非依存・減光は宣言値 */, bM:1, etaRad:0, pRad:2, gravityX:0, gravityY:0,
     geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:1, timeScale:10, coupleSink:"core", frameWeight:"share"},
   bodies:[
     // 殻=光学(spin0 の宣言つき降格)・コア=時計の器(Ω 転写・tilt45)・pulse=表示専用の位相時計
-    // 第232便: 半径 1.2(=12 km @L4)・m=2784(=1.4 M☉ @M27)— 見た目の大型化は距離スケール指数の宣言で(toy 単位の変更ではない)
-    {type:"single", m:2784, x:0,y:0, vx:0,vy:0, spin:0, pinned:false, radius:1.2,
+    // 第245便: 半径 12(=12 km @L3)・コア半径 6(=R/2 — 第232便の比を保つ)・m=2784(=1.4 M☉ @M27)
+    {type:"single", m:2784, x:0,y:0, vx:0,vy:0, spin:0, pinned:false, radius:12,
      shell:"solid", lightSweep:0.85, pulse:{omega:22.654675, source:"observed"},
-     core:{mode:"differential", massFrac:0.5, radius:0.6, omega:22.654675, Kcs:0, tilt:45}}
+     core:{mode:"differential", massFrac:0.5, radius:6, omega:22.654675, Kcs:0, tilt:45}}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
-{ id:"supernovaCore", name:"超新星の見立て — 速すぎるコアが回転エネルギーを支払って外殻を吹き飛ばす", emoji:"🎇", group:"天体の物語",
+{ id:"supernovaCore", name:"超新星の見立て — 速すぎる小さなコアが殻を割り、回転エネルギーで吹き飛ばす", emoji:"🎇", group:"天体の物語",
   scaleTier:"stellar", sampleClass:"principle", notClaim:["toy"],
+  obsCard:[
+    {q:"分割の発火(第245便)", model:"contract 0.02 で Ω_c=40→60 に達した 637步(t=10.208)で **1回だけ** core.shed が発火(dt/2 でも同じ Ω・t)", obs:"—(原理サンプル — 観測転写はしない)"},
+    {q:"割れた殻(第245便)", model:"殻の frac=0.5 が **64 粒×2.3516=150.5** のガスへ。残骸 450.5(コア 300 は残る・massFrac 0.5→0.6659)", obs:"—"},
+    {q:"分割の帳簿 ΔE", model:"jFrac=0 なので解放回転E ≈ 0.11・**ΔU −8919.11 = ΔKE 8919.22**(脱出速度ちょうど — 規約の帰結)", obs:"—"},
+    {q:"爆発の帳簿(burst)", model:"移送 L **259.2**=frac 2.7×10⁻³×J₀ 96000=J₀−J₁・放出回転E **10788.58**", obs:"—"},
+    {q:"小さいコアの代償", model:"Rc 12→4 で引きずり到達 (Rc/(Rc+d))² が桁落ちするため、同じ「ほぼ全部飛ぶ」に burst 用量 10⁻⁴→2.7×10⁻³ が要る", obs:"—(用量は宣言 — フィットではない)"},
+    {q:"脱出した割合", model:"259/261=**99.2%**(dt/2 260/261)・平均相対速度 7.5・キック 0.028(発火時 0.050)", obs:"—"}],
   descStruct:{
-    summary:"「コアのスピンが速すぎると外殻が吹き飛ぶ」という本モデルの計算上の知見を**超新星爆発の見立て**として1サンプルにする(第229便 — 第27報④・**第234便で保存的な爆発 spinBurst へ改訂**〔第29報③〕)。☀️ と同一のガス200粒(赤色巨星のエンベロープ役)+同一の中心核(台帳 f=2: 殻 300+コア 300・massFrac 0.5)に**高速の差動コア(Ω=40・Kcs=0)**を入れ kFrame=1 にする。第234便からコアは**回転エネルギーを実際に支払う**: core.burst{rate:1, frac:1e-4} が各步コア J_z を目標 (1−frac)J₀ へ時定数 1/rate で減らし、ΔJ をガス重心まわりの**剛体回転モード**へ(Σm(r−r_cm)=0 なので P=0 のまま L=ΔJ)、残りの回転 E を P・L を射影除去した**動径モード**へ 2次方程式の外向き解で厳密に注入する(丸め残差だけ burstRes 帳簿 — burstE/K/L は HUD「爆発E」)。放出比 frac=10⁻⁴ は E_rot=J²/2I_c=1.73×10⁷ に対しガスの束縛 ~5×10³ という桁差の帰結(frac 2.5×10⁻⁴ でも全粒が即時脱出する)。中心は**自由**(pairReduced+重心系 — 中性子星キックが測れる)・境界なし・coupleSink:\"reservoir\"。並走機構=空間引きずり(A8/E6′ — Kcs=0 なので J は減らず、こちらは運動学的注入)。働くのは重力(E4)+引きずり+接触ばね(E9)+融合の熱源+放射(E11)。**実在の超新星機構(ニュートリノ加熱・衝撃波・⁵⁶Ni・光度曲線・磁場)はモデル化しない** — 回転駆動の殻放出という遠い類推(磁気回転駆動超新星の方向)の principle トイ。残るのは裸の二層核=「中性子星として残るコア」の見立て(パルス時計は観測転写が無いため付けない — source:\"observed\" 規約)。",
-    observe:"実測(6000步=t96): 脱出速度超えのエンベロープ粒 **99.5%**(dt/2 99.0・seed 別 99.5/98.9 — 収束)・平均相対速度 8.13(7.85〜8.67)・**放出回転 E=注入 KE=3455.83**(残差 1.3×10⁻³=相対 4×10⁻⁷ — Float32 速度の丸め)・**移送 L=86.4=J₀−J₁(ビット一致)**・総角運動量の相対ドリフト 4×10⁻⁷・|ΔP|/Σm|v| 3×10⁻⁷・**安全クランプ 全 0**・決定性ビット同一・NaN 0。用量反応: frac 5×10⁻⁵/10⁻⁴/2×10⁻⁴ → 56.8/99.5/100%。対照: kFrame=0(burst だけ・引きずり無し)64.6%・core.omega=0(放出 E=0)16.4%・burst なし(第229便の運動学的引きずりだけ・自由中心)74.5%(旧 pinned 版 66.1%)。**中性子星キック(中心速度)0.98 は dt/2 で 1.70・seed で 1.15/1.31 と収束しない**(非対称落ち込みのカオス — 記録のみ・主張しない)。QA behavior.supernova が帳簿閉性(ΔE_core=ΔK_gas+残差)・保存(ΔJ_core+ΔL_gas=0・総 L・P)・用量・3対照・dt/2・seed を機械固定。",
-    control:"おすすめA/B: core.burst.frac=5e-5(半分だけ吹き飛ぶ 56.8%)・kFrame=0(burst だけ 64.6%)・core.omega=0(静かな星 16.4%)。core.burst を外すと第229便の運動学的注入(74.5%)に戻る。"},
-  en:{name:"A Supernova Analogy — a Too-Fast Core Pays Its Rotational Energy to Blow Off the Envelope", descStruct:{
-    summary:"The model's computational finding that A CORE SPINNING TOO FAST BLOWS OFF THE SHELL, staged as a SUPERNOVA ANALOGY (wave 229; REVISED IN WAVE 234 INTO A CONSERVATIVE EXPLOSION, spinBurst). The same 200 gas grains as ☀️ (playing a red giant's envelope) and the same central nucleus (ledger f=2: shell 300 + core 300, massFrac 0.5), with a FAST DIFFERENTIAL CORE (Ω=40, Kcs=0) and kFrame=1. From wave 234 the core ACTUALLY PAYS ITS ROTATIONAL ENERGY: core.burst{rate:1, frac:1e-4} lowers the core J_z each step toward (1−frac)J₀ with time constant 1/rate, hands ΔJ to the gas as a RIGID-ROTATION MODE about the gas barycentre (Σm(r−r_cm)=0, so P stays 0 while L=ΔJ), and injects the remaining rotational energy exactly into a RADIAL MODE with the P and L modes projected out (the outward root of a quadratic; only the rounding residual is booked to burstRes — burstE/K/L show in the HUD as 爆発E). frac=1e-4 follows from the scale gap: E_rot=J²/2I_c=1.73e7 against an envelope binding of ~5e3 (even frac 2.5e-4 ejects every grain at once). The centre is FREE (pairReduced, barycentric — a neutron-star kick can be measured), no boundary, coupleSink reservoir. Frame dragging (A8/E6′) runs alongside (Kcs=0, so it does not reduce J — that part is kinematic injection). Gravity (E4), dragging, contact springs (E9), fusion heating and radiation (E11) act. REAL SUPERNOVA MECHANISMS (neutrino heating, shock revival, 56Ni, light curves, magnetic fields) ARE NOT MODELLED — a distant analogy of rotation-driven envelope ejection (toward magnetorotational supernovae), a principle-class toy. What remains is the bare two-layer nucleus — the analogy's neutron-star remnant (no pulse clock: nothing observed to transcribe).",
-    observe:"Measured (6000 steps = t96): envelope grains above escape speed 99.5% (dt/2 99.0, other seeds 99.5/98.9 — converged); mean relative speed 8.13 (7.85–8.67); RELEASED ROTATIONAL ENERGY = INJECTED KE = 3455.83 (residual 1.3e-3 = 4e-7 relative — Float32 velocity rounding); TRANSFERRED L = 86.4 = J₀−J₁ to the bit; total angular momentum drifts 4e-7 relative, |ΔP|/Σm|v| 3e-7; ALL SAFETY CLAMPS 0; bit-identical reruns; zero NaN. Dose: frac 5e-5/1e-4/2e-4 → 56.8/99.5/100%. Controls: kFrame=0 (burst alone, no dragging) 64.6%; core.omega=0 (no energy to release) 16.4%; no burst (wave-229 kinematic dragging only, free centre) 74.5% (the old pinned build gave 66.1%). THE NEUTRON-STAR KICK (centre speed) 0.98 DOES NOT CONVERGE (1.70 at dt/2, 1.15/1.31 across seeds — the chaos of asymmetric infall; recorded, not claimed). QA behavior.supernova machine-fixes the ledger closure (ΔE_core=ΔK_gas+residual), conservation (ΔJ_core+ΔL_gas=0, total L and P), the dose, the three controls, dt/2 and seeds.",
-    control:"Suggested A/B: core.burst.frac=5e-5 (only half blows off, 56.8%), kFrame=0 (burst alone, 64.6%), core.omega=0 (a quiet star, 16.4%). Removing core.burst returns to the wave-229 kinematic injection (74.5%)."}},
+    summary:"「コアのスピンが速すぎると外殻が吹き飛ぶ」という本モデルの計算上の知見を**超新星爆発の見立て**として1サンプルにする(第229便 — 第27報④・第234便で保存的な爆発 spinBurst へ改訂・**第245便で「殻が割れて出る」分割放出 core.shed を併載**)。ガス 200 粒(赤色巨星のエンベロープ役・shell:\"gas\")+中心核(台帳 f=2: 殻 300+コア 300・massFrac 0.5)に**小さく速い差動コア(Rc=4・Ω=40・Kcs=0)**を入れ kFrame=1 にする。**第245便の変更**: ①コア半径を 12 → **4** へ縮めた(原仮定者指示 — エンジンは小さく密であるべき)。②**contract=0.02** を足してコアが自走し、Ω_c が **omegaCrit=60** に達した 1 步で **core.shed** が発火する — 殻質量の frac=0.5 が **n=64 粒**のガスへ割れ、親半径の rLaunch=1.5 倍の円周へ対称対で置かれる(jFrac=0 なので移送 J は 0 = コア J は burst 側の会計だけで動く)。③コアを小さくすると引きずり到達 (Rc/(Rc+d))² が桁で落ちるので、同じ「ほぼ全部飛ぶ」を出すには burst の用量を 10⁻⁴ → **2.7×10⁻³** へ上げる必要がある(実測 — 用量は宣言であってフィットではないが、この上げ幅そのものが小さいコアの帰結の記録)。burst の会計は第234便のまま: core.burst{rate:1, frac:2.7e-3} が各步コア J_z を目標 (1−frac)J₀ へ時定数 1/rate で減らし、ΔJ をガス重心まわりの剛体回転モードへ、残りの回転 E を動径モードへ厳密に注入する。中心は**自由**(pairReduced+重心系 — 中性子星キックが測れる)・境界なし・coupleSink:\"reservoir\"。働くのは重力(E4)+引きずり+接触ばね(E9)+融合の熱源+放射(E11)。**実在の超新星機構(ニュートリノ加熱・衝撃波・⁵⁶Ni・光度曲線・磁場)はモデル化しない** — 回転駆動の殻放出という遠い類推(磁気回転駆動超新星の方向)の principle トイ。残るのは裸の二層核=「中性子星として残るコア」の見立て(パルス時計は観測転写が無いため付けない — source:\"observed\" 規約。時計つきの残骸は 🔵)。",
+    observe:"実測(6000步=t96・dt=0.016): **分割は 637步(t=10.208・Ω_c=60.009)で 1 回だけ**(dt/2 では 1275步・同じ t=10.208・Ω=60.009 — 発火 Ω が刻み幅に依らない)・見送り 0。分割の帳簿(発火の1步): ΔM 相対 0・ΔP 1.1×10⁻⁹・ΔL 1.4×10⁻⁹・**解放回転E 0.113 = ΔKE 8919.22 + ΔU −8919.11 + 残差 3.5×10⁻⁵**(jFrac=0 なので ΔU だけで出る = 脱出速度ちょうど)。爆発の帳簿: **移送 L 259.2 = J₀−J₁**(ビット一致・J₀=96000)・**放出回転E 10788.58**。通算: 脱出速度超え **259/261=99.2%**(dt/2 260/261)・平均相対速度 7.5・|ΔP|/Σm|v| 4.5×10⁻⁸・|ΔL|/L 1.8×10⁻⁶・**安全クランプ 全 0**・NaN 0・決定性ビット同一・粒子数 262(=1+200 のガスが融合で減り +64 の放出片)。**中性子星キック 0.028(発火時 0.050・dt/2 0.030)**。QA behavior.supernova が帳簿閉性・保存・用量・3対照・dt/2・seed・分割の一回性を機械固定。",
+    control:"おすすめA/B: core.burst.frac=1.35e-3(半分の用量)・kFrame=0(burst だけ)・core.omega=0(静かな星 — 放出E 0 で分割も起きない)。core.shed を外すと殻は割れず爆発だけになる・core.burst を外すと分割だけが残る。⚪(白色矮星の道)→ 🎆(分割の機構)→ 🔵(中性子星の道)と読む。"},
+  en:{name:"A Supernova Analogy — a Small, Too-Fast Core Splits the Shell and Blows It Off", descStruct:{
+    summary:"The model's computational finding that A CORE SPINNING TOO FAST BLOWS OFF THE SHELL, staged as a SUPERNOVA ANALOGY (wave 229; wave 234 made the explosion conservative, spinBurst; WAVE 245 ADDS THE SPLIT-OFF core.shed SO THE SHELL VISIBLY BREAKS). 200 gas grains (a red giant's envelope, shell:\"gas\") plus a central nucleus (ledger f=2: shell 300 + core 300, massFrac 0.5) with a SMALL, FAST DIFFERENTIAL CORE (Rc=4, Ω=40, Kcs=0) and kFrame=1. WAVE 245 CHANGES: (1) the core radius went 12 → 4 (the engine should be small and dense). (2) contract=0.02 lets the core spin itself up, and in the single step where Ω_c reaches omegaCrit=60 core.shed FIRES ONCE — frac=0.5 of the shell mass becomes n=64 gas grains placed in symmetric pairs on a circle of rLaunch=1.5 parent radii (jFrac=0, so no J is transferred by the split; the core J moves only through the burst ledger). (3) A SMALLER CORE COSTS REACH: the dragging factor (Rc/(Rc+d))² drops by orders, so producing the same 'almost everything escapes' needs the burst dose raised from 1e-4 to 2.7e-3 (measured — the dose is a declaration, not a fit, but the size of the raise is itself the record of what a small core costs). The burst accounting is unchanged from wave 234: core.burst{rate:1, frac:2.7e-3} lowers the core J_z toward (1−frac)J₀ with time constant 1/rate, hands ΔJ to the gas as a rigid-rotation mode about its barycentre and injects the remaining rotational energy exactly into a radial mode. The centre is FREE (pairReduced, barycentric — a neutron-star kick can be measured), no boundary, coupleSink reservoir. Gravity (E4), dragging, contact springs (E9), fusion heating and radiation (E11) act. REAL SUPERNOVA MECHANISMS (neutrino heating, shock revival, 56Ni, light curves, magnetic fields) ARE NOT MODELLED — a principle-class toy, a distant analogy of rotation-driven envelope ejection. What remains is the bare two-layer nucleus; the clock-carrying remnant is 🔵.",
+    observe:"Measured (6000 steps = t96, dt=0.016): THE SPLIT FIRES ONCE, AT STEP 637 (t=10.208, Ω_c=60.009); at dt/2 it fires at step 1275 with the same t and Ω — the firing Ω does not depend on the step size; zero skipped attempts. Split ledgers across the firing step: ΔM relative 0, ΔP 1.1e-9, ΔL 1.4e-9; RELEASED ROTATIONAL ENERGY 0.113 = ΔKE 8919.22 + ΔU −8919.11 + residual 3.5e-5 (jFrac=0, so the release is the potential term alone = exactly the escape speed). Burst ledger: TRANSFERRED L 259.2 = J₀−J₁ to the bit (J₀=96000); RELEASED ROTATIONAL ENERGY 10788.58. Totals: 259/261 = 99.2% of the grains exceed escape speed (260/261 at dt/2); mean relative speed 7.5; |ΔP|/Σm|v| 4.5e-8; |ΔL|/L 1.8e-6; ALL SAFETY CLAMPS 0; zero NaN; bit-identical reruns; 262 particles (200 gas reduced by fusion, plus the 64 shed grains). NEUTRON-STAR KICK 0.028 (0.050 at the firing step, 0.030 at dt/2). QA behavior.supernova machine-fixes the ledgers, conservation, the dose, the three controls, dt/2, seeds and the single firing of the split.",
+    control:"Suggested A/B: core.burst.frac=1.35e-3 (half the dose), kFrame=0 (burst alone), core.omega=0 (a quiet star — no released energy and no split). Remove core.shed and only the explosion is left; remove core.burst and only the split remains. Read ⚪ (the white-dwarf road) → 🎆 (the mechanism) → 🔵 (the neutron-star road)."}},
   activeParams:["kFrame","G","etaRad"],
   thermal:"tint", fusion:{dFrac:0.35}, validT:96,
   massCalibration:{law:"chi-law-v1-transfer", C:1, factorUniform:2},   // 第234便: 台帳 f=2(殻 300+コア 300)
@@ -9818,111 +9493,124 @@ const BUILTIN_PRESETS = [
     cLight:30, bM:1, etaRad:0.0016, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
     pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2, frameReaction:"pairReduced", coupleSink:"reservoir", frameWeight:"share"},
   bodies:[
-    // 崩壊済みの高速コア(Ω=40・Kcs=0 — 引きずりの源)+光球殻。第234便: 中心自由・burst{rate 1, frac 1e-4}
-    // = コア J_z の 10⁻⁴ を回転 E ごとガスへ保存的に移送(E_rot 1.73×10⁷ ≫ 束縛 5×10³ の桁差)
+    // 第245便: 小さく速いコア(Rc=4・Ω=40・Kcs=0)+ contract 0.02 の自走 + Ω_c=60 で殻の半分を 64 粒へ割る shed。
+    // burst{rate 1, frac 2.7e-3} = コア J_z の 2.7×10⁻³ を回転 E ごとガスへ保存的に移送(小さいコアの引きずり減を補う用量)
     {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.1, pinned:false, tInt:2, lightSweep:0,
-     shell:"solid", core:{mode:"differential", massFrac:0.5, radius:12, omega:40, Kcs:0, burst:{rate:1, frac:0.0001}}},
-    // 赤色巨星のエンベロープ役(☀️ と同一のガス球・同一 seed)。第244便: shell:"gas" を明示(burst の受け手は気体殻だけ — 説明「ガス 200 粒」と宣言の食い違いを修正)
+     shell:"solid", core:{mode:"differential", massFrac:0.5, radius:4, omega:40, Kcs:0, contract:0.02,
+       burst:{rate:1, frac:0.0027},
+       shed:{omegaCrit:60, frac:0.5, n:64, rLaunch:1.5, jFrac:0, once:true}}},
+    // 赤色巨星のエンベロープ役(第244便: shell:"gas" を明示 — burst の受け手は気体殻だけ)
     {type:"disk", shell:"gas", n:200, cx:0,cy:0, radius:200, mMin:1,mMax:1,
      spinMin:0,spinMax:0, tInt:2, vMode:"kepler", aroundMass:600, vScale:0.6, direction:1}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
-// ===== 第244便(第36報「内部構造」): 天体の内部構造 3本 =====
-// 仮定(原仮定者・第36報): 白色矮星・中性子星は赤色巨星の**育ったコア**であり、
+// ===== 第244便(第36報「内部構造」)→ 第245便(原仮定者指示「分割を見せる」): 状態変化の 4 本 =====
+// 仮定(原仮定者・第36報): 白色矮星・中性子星は前駆星の**育ったコア**であり、
 // 限界を超えた殻はガスへ割れて出る(質量放出・超新星の放出物)。
-// ⚪🔵 は「残骸だけを置く」静的な雛形(🍂/🌹 の続き)、🎆 は放出そのものを保存的に起こす宣言。
-{ id:"whiteDwarfDFM", name:"白色矮星 — 赤色巨星の育ったコアだけが残る(DFM版)", emoji:"⚪", group:"天体の物語",
+// 第245便: ⚪🔵 は「残骸だけを置く静的な雛形」から **前駆星が殻を割って残骸になる過程**へ改める。
+// 4 本とも 🎆 の core.shed を機構とし、**小さいコア**(Rc≪R)と**密な分割**(n=32〜64)で揃えた。
+{ id:"whiteDwarfDFM", name:"白色矮星 — 赤色巨星が殻を割って出し、育ったコアが残る(DFM版)", emoji:"⚪", group:"天体の物語",
   scaleTier:"stellar", sampleClass:"principle", notClaim:["cal"],
   obsCard:[
-    {q:"質量台帳の連続", model:"m=300 は 🍂 の中心天体(600=殻300+コア300)の**コア側 300** をそのまま置いたもの", obs:"—(原理サンプル — 観測転写はしない)"},
-    {q:"二層の役割", model:"殻=観測半径の器 radius=8(明示指定)・コア=育った核 massFrac 0.5・Rc=5・Ω=10・Kcs=0", obs:"—(白色矮星の縮退圧・冷却曲線はモデル化しない)"},
-    {q:"実測(2000步)", model:"単体静止をビット保持・コア J=18750 が全窓不変(Kcs=0)・NaN 0・警告 0", obs:"—"}],
+    {q:"発火(コアの限界回転)", model:"contract 0.02 で Ω_c=6→12 に達した 1083步(t=17.344・Ω=12.0073)で1回だけ。dt/2 でも Ω=12.0035・t=17.336", obs:"—(原理サンプル — 観測転写はしない)"},
+    {q:"質量の帳簿 ΔM", model:"600 = 残骸 420 + ガス **48×3.75=180**(殻 300 の frac=0.6)。相対誤差 **0**(Float32 の ulp 格子)", obs:"—"},
+    {q:"残るもの=白色矮星の器", model:"コア 300 は残骸に残る(massFrac 0.5→0.714286)。**殻を全部は出せない**(engine の契約 Mr>Mc)ので「コアだけ」にはならない", obs:"—(縮退圧・冷却曲線・チャンドラセカール限界はモデル化しない)"},
+    {q:"角運動量の帳簿 ΔL", model:"移送 L=259.2=jFrac 0.2×J_c 1296・殻スピン 0.08→0.163265(I_s·s 保存)・発火1步の |ΔL|/L=9.3×10⁻¹⁶", obs:"—"},
+    {q:"エネルギーの帳簿 ΔE", model:"解放回転E **2801.06** = ΔKE 10595.96 + ΔU −7794.90 + 残差 1.7×10⁻⁴(相対 1.6×10⁻⁸)", obs:"—"},
+    {q:"脱出した割合", model:"48/48=**100%**(dt/2 も 48/48)・残骸キック 1.8×10⁻⁸(対称対の放出)", obs:"—"}],
   descStruct:{
-    summary:"**🍂 赤色巨星の「その後」だけを置いた雛形**(第244便 — 第36報「内部構造」)。仮定: 白色矮星は赤色巨星の**育ったコア**である。🍂 の中心天体(m=600 — 台帳 f=2: 殻 300+コア 300)からエンベロープと殻の外側が去り、**コア 300 だけが残った状態**を単体で置く(m=300)。残骸自身もふたたび二層で読む: **殻=観測半径の器**(radius=8 の明示指定 — 質量→半径写像ではなく「観測された半径」を入れる器としての宣言)、**コア=育った核**(differential・massFrac 0.5・Rc=5・Ω=10・Kcs=0 — コアの J は殻へ漏れない)。単体なので力学は静止のまま(引きずり A8/E6′ は相手が要る・働くのは重力 E4 のみ)。**縮退圧・冷却曲線・結晶化・チャンドラセカール限界はモデル化しない** — 「コアが残る」という構造の宣言だけを持つ principle 雛形。放出の過程そのものは 🎆 envelopeShedDFM が担う。",
-    observe:"実測(2000步=t32): 位置・速度・殻スピンは全窓ビット0のまま(単体静止の保持)・**コア J=18750 が全窓で厳密不変**(Kcs=0 なので殻へ漏れない)・Ω_c=10 保持・R=8(明示半径)・massFrac 0.5・警告 0・NaN 0・クランプ 0。QA `behavior.remnantSamples` が機械固定する。",
-    control:"おすすめA/B: core.Kcs を上げるとコア J が殻スピンへ緩和して Ω_c が落ちる(残骸の「固まり方」の対照)。core.omega=0 にすると回らない残骸。🍂(前)→ ⚪(後)→ 🎆(放出の過程)と3点で読む。"},
-  en:{name:"White Dwarf — Only the Red Giant's Grown Core Is Left (DFM)", descStruct:{
-    summary:"THE 'AFTER' OF 🍂 ALONE, as a template (wave 244, report 36 'interior structure'). Assumption: a white dwarf IS the grown core of a red giant. From 🍂's central body (m=600 — ledger f=2: shell 300 + core 300) the envelope and the outer shell are gone and ONLY THE CORE 300 REMAINS, placed as a solo body (m=300). The remnant is itself read as two layers: THE SHELL IS THE OBSERVED-RADIUS CONTAINER (radius=8 declared explicitly — a container for an observed radius, not the mass→radius map), and THE CORE IS THE GROWN NUCLEUS (differential, massFrac 0.5, Rc=5, Ω=10, Kcs=0 — the core's J never leaks into the shell). Being solo, the dynamics stay at rest (frame dragging A8/E6′ needs a partner; only gravity E4 acts). DEGENERACY PRESSURE, COOLING CURVES, CRYSTALLISATION AND THE CHANDRASEKHAR LIMIT ARE NOT MODELLED — a principle template that only declares the structure 'the core is what remains'. The shedding process itself belongs to 🎆 envelopeShedDFM.",
-    observe:"Measured (2000 steps = t32): position, velocity and shell spin stay bit-zero in every window (rest is held); THE CORE J=18750 IS EXACTLY CONSTANT throughout (Kcs=0, so nothing leaks to the shell); Ω_c=10 held; R=8 (the explicit radius); massFrac 0.5; zero warnings, zero NaN, zero clamps. QA behavior.remnantSamples machine-fixes it.",
-    control:"Suggested A/B: raising core.Kcs relaxes the core J into the shell spin and Ω_c falls (a control on how 'solid' the remnant is). core.omega=0 gives a non-rotating remnant. Read 🍂 (before) → ⚪ (after) → 🎆 (the process) as a triptych."}},
+    summary:"**赤色巨星が殻を割って出し、育ったコアが残る**(第244便 — 第36報「内部構造」・**第245便で「残骸だけを置く静的な雛形」から放出の過程そのものへ改訂**〔原仮定者指示「分割を見せる」〕)。仮定: 白色矮星は赤色巨星の**育ったコア**である。置くのは**前駆星 1 体**(m=600 — 台帳 f=2: 殻 300+コア 300・massFrac 0.5)で、コアは 🎆 と同じ**小さいコア**(Rc=1.2 — 殻半径 24.5 の 5%)。**contract=0.02** でコアが自走し(第77便 — J 保存のまま Ω が上がる)、**Ω_c が omegaCrit=12 に達したステップ末に1回だけ** core.shed が発火して、殻質量 300 の **frac=0.6** を **n=48 粒**のガスへ割り、親半径の rLaunch=2 倍の円周へ**対称対で**置く(🎆 の n=32 よりさらに密な分割 — 第245便の指示)。**残るのが白色矮星の器**: m=420(コア 300+残った殻 120・massFrac 0.714286)。働いているのは**重力(E4)**と接触ばね(E9)・熱の斥力(E5′)だけで、放出のポテンシャルはこのエンジン自身の対エネルギーである(単体なので空間引きずり A8/E6′ は相手がおらず効かない)。**正直な限界その1**: engine の保存契約は「殻を全部は出さない」(残骸質量 > コア質量)なので、**1回の放出で「コアだけ」にはならない** — 「白色矮星=コアだけ」は理想化であって、このサンプルが到達する状態ではない。**正直な限界その2**: 点粒子の自己重力エネルギーを持たないので、殻を半径 r_L へ出す操作は必ず**脱出速度ちょうど**を解放する(「必ず全部飛ぶ」は規約の帰結・予測ではない)。**縮退圧・冷却曲線・結晶化・チャンドラセカール限界はモデル化しない**。放出の機構そのもの(4帳簿の閉性)は 🎆 envelopeShedDFM が担う。",
+    observe:"実測(2000步=t32・dt=0.016): **発火は 1083步(t=17.344)で1回だけ**・そのときの Ω_c=12.0073(dt/2 では 2166步・t=17.336・Ω=12.0035 — 同じ Ω で発火)・見送り 0。帳簿(**発火の1步で測る** — 単体なので他の力は働かない): 質量 600→**420+48×3.75=600(相対誤差 0)**・**解放回転E 2801.06 = ΔKE 10595.96 + ΔU −7794.90 + 残差 1.7×10⁻⁴(相対 1.6×10⁻⁸)**・移送 L=259.2(=0.2×J_c 1296)・殻スピン 0.08→0.163265・残骸のコア質量 300 は不変(massFrac 0.5→0.714286)・**残骸キック 1.8×10⁻⁸**・発火1步の ΔM/ΔP は厳密 0・ΔL は 9.3×10⁻¹⁶。2000步の通算: |ΔP|/Σm|v| 4.6×10⁻⁸・|ΔL|/L 5.9×10⁻⁷・脱出 48/48(100%・dt/2 も 48/48)・ガス粒は全て shell:\"gas\"・安全クランプ 全 0・NaN 0・警告 0。QA `behavior.remnantSamples` が機械固定する。",
+    control:"おすすめA/B: core.shed.frac=0.3(軽い放出 — 残骸 510)・n=16(粗い分割)・jFrac=0(解放回転E がほぼ 0 になり ΔU だけで出る)・core.shed を外すと割れない赤色巨星のまま。🎆(機構)→ ⚪(白色矮星の道)→ 🔵(中性子星の道)・🎇(爆発)と読む。"},
+  en:{name:"White Dwarf — a Red Giant Splits Its Shell Off and the Grown Core Remains (DFM)", descStruct:{
+    summary:"A RED GIANT SPLITS ITS SHELL INTO GAS AND THE GROWN CORE REMAINS (wave 244, report 36; WAVE 245 TURNED IT FROM A STATIC 'REMNANT ONLY' TEMPLATE INTO THE SHEDDING PROCESS ITSELF). Assumption: a white dwarf IS the grown core of a red giant. What is placed is THE PROGENITOR, one body (m=600 — ledger f=2: shell 300 + core 300, massFrac 0.5) whose core is SMALL, as in 🎆 (Rc=1.2, i.e. 5% of the 24.5 shell radius). contract=0.02 spins the core up (wave 77 — J conserved while Ω rises) and AT THE END OF THE FIRST STEP WHERE Ω_c REACHES omegaCrit=12, core.shed fires exactly once: frac=0.6 of the 300 shell mass becomes n=48 gas grains placed in symmetric pairs on a circle of rLaunch=2 parent radii (a finer split than 🎆's n=32 — the wave-245 instruction). WHAT REMAINS IS THE WHITE-DWARF VESSEL: m=420 (core 300 plus the 120 of shell that stayed, massFrac 0.714286). Only GRAVITY (E4), contact springs (E9) and thermal repulsion (E5′) act, and the ejection potential is the engine\u0027s own pair energy (being solo, frame dragging A8/E6′ has no partner). HONEST LIMIT 1: the engine's conservation contract never sheds the WHOLE shell (remnant mass must exceed the core mass), so ONE EVENT NEVER LEAVES 'THE CORE ALONE' — 'a white dwarf is the core alone' is an idealisation this sample does not reach. HONEST LIMIT 2: with no self-gravitational energy for a point particle, moving the shell out to r_L always releases EXACTLY THE ESCAPE SPEED ('everything escapes' is a consequence of the convention, not a prediction). DEGENERACY PRESSURE, COOLING CURVES, CRYSTALLISATION AND THE CHANDRASEKHAR LIMIT ARE NOT MODELLED. The mechanism itself (the closure of the four ledgers) belongs to 🎆 envelopeShedDFM.",
+    observe:"Measured (2000 steps = t32, dt=0.016): IT FIRES ONCE, AT STEP 1083 (t=17.344) with Ω_c=12.0073 (at dt/2: step 2166, t=17.336, Ω=12.0035 — the same Ω); zero skipped attempts. Ledgers (MEASURED ACROSS THE FIRING STEP — the body is solo, so no other force acts): mass 600 → 420 + 48×3.75 = 600 (RELATIVE ERROR 0); RELEASED ROTATIONAL ENERGY 2801.06 = ΔKE 10595.96 + ΔU −7794.90 + residual 1.7e-4 (1.6e-8 relative); transferred L = 259.2 (= 0.2 × J_c 1296); shell spin 0.08 → 0.163265; the remnant's core mass 300 is unchanged (massFrac 0.5 → 0.714286); REMNANT KICK 1.8e-8; ΔM and ΔP across the firing step are exactly 0 and ΔL is 9.3e-16. Over the 2000 steps: |ΔP|/Σm|v| 4.6e-8, |ΔL|/L 5.9e-7, 48/48 grains escape (also 48/48 at dt/2), every grain carries shell:\"gas\", all safety clamps 0, zero NaN, zero warnings. QA behavior.remnantSamples machine-fixes it.",
+    control:"Suggested A/B: core.shed.frac=0.3 (a light shedding — remnant 510), n=16 (a coarser split), jFrac=0 (released rotational energy ≈ 0, the potential term alone). Remove core.shed and it stays an unbroken red giant. Read 🎆 (the mechanism) → ⚪ (the white-dwarf road) → 🔵 (the neutron-star road) and 🎇 (the explosion)."}},
   parameterAudit:{
-    observedInputs:["なし(トイ残骸 — 🍂 の台帳 f=2 の読み替え)"],
-    fixedConventions:["単体・pinned なし・kFrame=1(相手がいないので静止)・shell:\"solid\"・lightSweep=0","殻=観測半径の器 radius=8(明示指定)・コア=育った核 massFrac 0.5・Rc=5・Kcs=0"],
-    fitted:["なし"],
-    derived:["m=300(🍂 中心天体のコア側)・M_c=150・I_c=1875・J_c=18750・Ω_c=10"],
-    numerical:["dt=0.016・2000步(静止系 — 数値誤差の入り口がない)"]},
+    observedInputs:["なし(トイ前駆星 — 台帳 f=2 の読み替え)"],
+    fixedConventions:["単体・kFrame=1・pairReduced+重心系・coupleSink reservoir・境界なし・融合なし・etaRad=0(放出だけを見る)","台帳 f=2(殻 300+コア 300・massFrac 0.5・Rc=1.2・Kcs=0)・shed の面内・対称・傾き 0 規約"],
+    fitted:["なし(shed の 5 値は用量ノブの宣言であってフィットではない)"],
+    derived:["発火 Ω_c=12.0073(contract 0.02 で Ω=6 から自走 — J_c=1296 一定・I_c が縮む)","解放回転E 2801.06=(J₀²−J₁²)/2I_c・移送 L 259.2・ΔU −7794.90(engine の対エネルギー)・残骸 420"],
+    numerical:["dt=0.016・2000步・dt/2 対照 4000步(発火 Ω は 3×10⁻⁴ 以内で一致)"]},
   activeParams:["kFrame","G","softening"],
-  massCalibration:{law:"chi-law-v1-transfer", C:1, factorUniform:2},   // 台帳 f=2 の規約転写(殻 150+コア 150)
-  camera:{scale:40}, world:{boundary:"none",size:0}, seed:20260906, validT:32,   // scale は配置の広がり(R=8)に合わせる(ai.stabilize の妥当域)
+  thermal:"tint", validT:32,
+  massCalibration:{law:"chi-law-v1-transfer", C:1, factorUniform:2},   // 台帳 f=2 の規約転写(殻 300+コア 300)
+  balanceFrame:"barycentric",
+  camera:{scale:320}, world:{boundary:"none",size:0}, seed:20260906,
   physics:{G:4, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
-    cLight:30, bM:1, etaRad:0, pRad:2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
-    pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2, coupleSink:"reservoir", frameWeight:"share"},
+    cLight:30, bM:1, etaRad:0, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
+    pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2, frameReaction:"pairReduced", coupleSink:"reservoir", frameWeight:"share"},
   bodies:[
-    // 殻=観測半径の器(明示半径 8)・コア=育った核(Ω=10・Kcs=0 — J は殻へ漏れない)
-    {type:"single", m:300, x:0,y:0, vx:0,vy:0, spin:0.08, pinned:false, radius:8,
-     shell:"solid", lightSweep:0,
-     core:{mode:"differential", massFrac:0.5, radius:5, omega:10, Kcs:0}}],
+    // 前駆星(赤色巨星の見立て・台帳 f=2)。小さいコア(Rc=1.2)が contract で自走し、Ω_c=12 で殻の 0.6 が 48 粒へ割れる
+    {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.08, pinned:false, tInt:2, lightSweep:0,
+     shell:"solid",
+     core:{mode:"differential", massFrac:0.5, radius:1.2, omega:6, Kcs:0, contract:0.02,
+           shed:{omegaCrit:12, frac:0.6, n:48, rLaunch:2, jFrac:0.2, once:true}}}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
 
-{ id:"nsRemnantDFM", name:"中性子星の残骸核 — 🌹 前駆星のコアだけが残る(DFM版)", emoji:"🔵", group:"天体の物語",
+{ id:"nsRemnantDFM", name:"中性子星 — 前駆星が殻を爆発的に割って出し、時計つきの核が残る(DFM版)", emoji:"🔵", group:"天体の物語",
   scaleTier:"stellar",
   scaleExp:{L:10, T:6, M:29},   // 🌹 と同じ恒星族(1単位=10¹⁰m/10⁶s/10²⁹kg — c₀=30000 が実 c の正写像)
   sampleClass:"principle", notClaim:["cal"],
   obsCard:[
-    {q:"質量台帳の連続", model:"m=352.959 は 🌹(705.918=殻352.959+コア352.959)の**コア側**をそのまま置いたもの", obs:"—(前駆星コアの直接観測はない — 宣言のみ)"},
-    {q:"幾何の連続", model:"殻=🌹 のコア半径 10.6303 の器・コア=Rc=R/5=2.12606(🌹 と同じ規約)", obs:"—"},
-    {q:"自転の連続", model:"殻・コアとも 🌹 のコア Ω=0.1953545 を引き継ぐ(収縮によるスピンアップは入れない)", obs:"—(観測値ではない — 🌹 の逆算値の転写)"},
-    {q:"パルス時計(比較マーカー)", model:"pulse:{omega:22.654675}(第226便チャネル・力学不干渉)", obs:"J0737−3039B の観測自転 — **別天体**の fiducial を比較マーカーとして置く宣言"},
-    {q:"実測(2000步)", model:"単体静止をビット保持・コア J=77.9182 が全窓不変(Kcs=0)・位相 φ=ωt・NaN 0", obs:"—"}],
+    {q:"前駆星の台帳(🌹 の転写)", model:"m=705.918(殻 352.959〔観測転写〕+コア 352.959)・殻半径=🌹 の光球 53.1515・コア Rc=R/10=5.31515", obs:"—(前駆星コアの直接観測はない — 宣言のみ)"},
+    {q:"発火(第245便)", model:"contract 0.036 で Ω_c が 2 倍(0.390709)に達した 601步(t=9.632)で1回だけ。dt/2 でも同じ t・Ω", obs:"—"},
+    {q:"割れた殻", model:"殻 352.959 の frac=0.5 が **64 粒×2.75751=176.480** のガスへ。残骸 529.4376(コア 352.959 は残る)", obs:"—"},
+    {q:"時計は残骸に残る", model:"放出片は pulse を持たない(第226便規約)が、**残骸は pulse ω=22.654675 を保つ** — φ=ω·t が発火後も成立", obs:"J0737−3039B の観測自転 — **別天体**の fiducial を比較マーカーとして置く宣言"},
+    {q:"エネルギーの帳簿 ΔE", model:"解放回転E **97.073** = ΔKE 7294.61 + ΔU −7197.54 + 残差 1.3×10⁻⁴(相対 1.8×10⁻⁸)・移送 L 292.193", obs:"—"},
+    {q:"脱出した割合", model:"64/64=**100%**(dt/2 も 64/64)・残骸キック 発火時 0 → t=32 で 0.157(dt/2 0.202 — N体発展・収束せず記録のみ)", obs:"—"}],
   descStruct:{
-    summary:"**🌹 超新星前駆星(DFM版)の「その後」だけを置いた雛形**(第244便 — 第36報「内部構造」)。仮定: 中性子星は前駆星の**育ったコア**である。🌹(m=705.918 — 台帳 f=2: 殻 352.959〔観測転写〕+コア 352.959)から殻が去り、**コア 352.959 だけが残った状態**を単体で置く。幾何も台帳も 🌹 から連続で受け取る: 殻=🌹 のコア半径 **10.6303 の器**・コア=Rc=R/5=**2.12606**(🌹 と同じ規約)・自転は殻もコアも 🌹 のコア Ω=**0.1953545**(**収縮によるスピンアップは入れない** — 崩壊の力学はモデル化しないため)。**時計は第226便の運動学パルスチャネル** pulse:{omega:22.654675, source:\"observed\"} を載せるが、これは J0737−3039B の観測自転=**別天体の fiducial を比較マーカーとして置く宣言**(🥀 の 1.4 M☉ マーカーと同じ規約)であって、この残骸の周期の予測ではない。**役割の分担**: 灯台の原理(傾いた軸・位相恒等・楕円スポーク)は 🏮 pulsarSolo が担い、こちらは**質量台帳の連続**(前駆星のコア → 残骸)だけを担う(傾き 0・面内)。単体なので力学は静止のまま(空間引きずり A8/E6′ は相手が要る — 働くのは重力 E4 のみ)。崩壊・ニュートリノ・状態方程式・磁場・TOA はモデル化しない。",
-    observe:"実測(2000步=t32): 単体静止をビット保持(x=vx=0)・**コア J=77.9182 が全窓で厳密不変**(Kcs=0)・Ω_c=0.1953545 保持・R=10.6303・massFrac 0.5・**パルス位相 φ=ω·t が成立**(力学 Ω とは独立の運動学チャネル — 第226便の設計どおり)・警告 0・NaN 0・クランプ 0。QA `behavior.remnantSamples` が機械固定する。",
-    control:"おすすめA/B: pulse を外すと時計だけが消えて軌道は 1 bit も変わらない(第226便の除去対照)。core.Kcs を上げるとコア J が殻へ緩和する。🌹(前)→ 🔵(後)・🏮(灯台の原理)と読む。"},
-  en:{name:"Neutron-Star Remnant Core — Only 🌹's Core Is Left (DFM)", descStruct:{
-    summary:"THE 'AFTER' OF 🌹 (the DFM supernova progenitor) ALONE, as a template (wave 244, report 36). Assumption: a neutron star IS the grown core of the progenitor. From 🌹 (m=705.918 — ledger f=2: shell 352.959 transcribed from observation + core 352.959) the shell is gone and ONLY THE CORE 352.959 REMAINS, placed as a solo body. Geometry and ledger are inherited from 🌹: the shell is the container of 🌹's CORE RADIUS 10.6303, the core keeps Rc=R/5=2.12606 (the same convention), and both shell and core spin at 🌹's core Ω=0.1953545 (NO SPIN-UP FROM COLLAPSE — the dynamics of collapse are not modelled). The clock is the wave-226 kinematic pulse channel, pulse:{omega:22.654675, source:\"observed\"}, but that is the observed spin of J0737−3039B — A DIFFERENT OBJECT'S FIDUCIAL PLACED AS A COMPARISON MARKER (the same convention as 🥀's 1.4 Msun marker), not a prediction of this remnant's period. DIVISION OF ROLES: the lighthouse principle (tilted axis, phase identity, elliptical spokes) belongs to 🏮 pulsarSolo; this sample carries only the CONTINUITY OF THE MASS LEDGER (progenitor core → remnant), with tilt 0 and in-plane. Being solo the dynamics stay at rest (frame dragging A8/E6′ needs a partner — only gravity E4 acts). Collapse, neutrinos, the equation of state, magnetic fields and TOAs are not modelled.",
-    observe:"Measured (2000 steps = t32): rest held to the bit (x=vx=0); THE CORE J=77.9182 IS EXACTLY CONSTANT throughout (Kcs=0); Ω_c=0.1953545 held; R=10.6303; massFrac 0.5; THE PULSE PHASE φ=ω·t holds (a kinematic channel independent of the dynamical Ω — exactly the wave-226 design); zero warnings, zero NaN, zero clamps. QA behavior.remnantSamples machine-fixes it.",
-    control:"Suggested A/B: removing pulse removes only the clock and the orbit does not change by one bit (the wave-226 removal control). Raising core.Kcs relaxes the core J into the shell. Read 🌹 (before) → 🔵 (after) alongside 🏮 (the lighthouse principle)."}},
+    summary:"**🌹 超新星前駆星(DFM版)が殻を爆発的に割って出し、時計つきの核が残る**(第244便 — 第36報「内部構造」・**第245便で「残骸だけを置く静的な雛形」から放出の過程へ改訂**〔原仮定者指示「分割を見せる」〕)。仮定: 中性子星は前駆星の**育ったコア**である。置くのは**前駆星 1 体**: m=705.918(台帳 f=2 — 殻 352.959〔観測転写〕+コア 352.959)・殻半径=🌹 の光球 **53.1515**(明示宣言の器)・コアは第245便の小さいコア規約で **Rc=R/10=5.31515**(第244便の R/5 から半分へ — 原仮定者指示)・自転は 🌹 のコア **Ω=0.1953545** の転写。**contract=0.036** でコアが自走し、**Ω_c が 2 倍(omegaCrit=0.390709)に達したステップ末に1回だけ** core.shed が発火して、殻質量の **frac=0.5** を **n=64 粒**のガスへ割り、親半径の rLaunch=2 倍の円周へ対称対で置く。働いているのは**重力(E4)**と接触ばね(E9)・熱の斥力(E5′)だけ(単体なので空間引きずり A8/E6′ は相手がおらず効かない)。**時計の帰属**(第245便の要点): 第226便の運動学パルスチャネル pulse:{omega:22.654675, source:\"observed\"} は**親に載っているので残骸が引き継ぎ**、放出片は時計を持たない(shed は新生粒の pulse だけを 0 にする)— **爆発を挟んでも φ=ω·t が割れない**。ただしこの ω は J0737−3039B の観測自転=**別天体の fiducial を比較マーカーとして置く宣言**(🥀 の 1.4 M☉ マーカーと同じ規約)であって、この残骸の周期の予測ではない。**正直な限界**: ①engine の契約で殻は全部は出せないので、残骸は 529.4376(コア 352.959+残った殻 176.479)= 「コアだけ」ではない。②残骸の半径は宣言値 53.1515 のまま(中性子星の実半径 12 km は **🏮 が実寸の器で持つ**)。③崩壊・ニュートリノ・状態方程式・磁場・TOA・収縮によるスピンアップはモデル化しない。灯台の原理(傾いた軸・楕円スポーク)は 🏮 が担う。",
+    observe:"実測(2000步=t32・dt=0.016): **発火は 601步(t=9.632・Ω_c=0.390849)で1回だけ**(dt/2 では 1203步・同じ t=9.632・Ω=0.390849)・見送り 0。帳簿(発火の1步): 質量 705.918→**529.4376+64×2.75751(相対誤差 0)**・ΔP 厳密 0・|ΔL|/L 9.8×10⁻¹⁶・**解放回転E 97.073 = ΔKE 7294.61 + ΔU −7197.54 + 残差 1.3×10⁻⁴(相対 1.8×10⁻⁸)**・移送 L 292.193(=0.3×J_c 973.977)。**時計**: 残骸の pulse ω=22.654675 が発火後も残り、位相 φ=ω·t が成立する(放出片は ω=0)。通算: 脱出 **64/64(100%・dt/2 も 64/64)**・|ΔP|/Σm|v| 2.4×10⁻⁶・|ΔL|/L 3.3×10⁻⁶・安全クランプ 全 0・NaN 0・警告 0。**残骸キック**は発火時 0(対称対)で、その後の N 体発展で 0.157(dt/2 では 0.202)まで育つ — 収束しない量なので**記録のみ**。QA `behavior.remnantSamples` が機械固定する。",
+    control:"おすすめA/B: pulse を外すと時計だけが消えて軌道は 1 bit も変わらない(第226便の除去対照)。core.shed を外すと割れない前駆星のまま。core.shed.n=16 で粗い分割。🌹(前駆星の転写)→ 🔵(爆発と残骸)・🏮(灯台の原理・実寸の器)と読む。"},
+  en:{name:"Neutron Star — the Progenitor Splits Its Shell Off and a Clock-Carrying Core Remains (DFM)", descStruct:{
+    summary:"🌹 THE DFM SUPERNOVA PROGENITOR SPLITS ITS SHELL INTO GAS AND A CLOCK-CARRYING CORE REMAINS (wave 244, report 36; WAVE 245 TURNED THE STATIC 'REMNANT ONLY' TEMPLATE INTO THE PROCESS). Assumption: a neutron star IS the grown core of the progenitor. What is placed is THE PROGENITOR, one body: m=705.918 (ledger f=2 — shell 352.959 transcribed from observation + core 352.959), shell radius = 🌹's photosphere 53.1515 (an explicitly declared vessel), and under the wave-245 small-core convention Rc = R/10 = 5.31515 (halved from wave 244's R/5), spinning at 🌹's transcribed core Ω=0.1953545. contract=0.036 spins the core up and AT THE END OF THE FIRST STEP WHERE Ω_c DOUBLES (omegaCrit=0.390709) core.shed fires exactly once: frac=0.5 of the shell mass becomes n=64 gas grains on a circle of rLaunch=2 parent radii, in symmetric pairs. Only GRAVITY (E4), contact springs (E9) and thermal repulsion (E5′) act (being solo, frame dragging A8/E6′ has no partner). WHERE THE CLOCK GOES (the wave-245 point): the wave-226 kinematic pulse channel pulse:{omega:22.654675, source:\"observed\"} sits on the PARENT, so THE REMNANT INHERITS IT while the shed grains carry no clock (shed zeroes the pulse only on the newborn grains) — φ=ω·t SURVIVES THE EXPLOSION UNBROKEN. That ω is the observed spin of J0737−3039B, A DIFFERENT OBJECT'S FIDUCIAL PLACED AS A COMPARISON MARKER (the same convention as 🥀's 1.4 Msun marker), not a prediction of this remnant's period. HONEST LIMITS: (1) the engine never sheds the whole shell, so the remnant is 529.4376 (core 352.959 plus the 176.479 of shell that stayed) — not 'the core alone'. (2) The remnant keeps the declared radius 53.1515; a neutron star's real 12 km lives in 🏮, which carries the true-scale vessel. (3) Collapse, neutrinos, the equation of state, magnetic fields, TOAs and spin-up by contraction are not modelled. The lighthouse principle (tilted axis, elliptical spokes) belongs to 🏮.",
+    observe:"Measured (2000 steps = t32, dt=0.016): IT FIRES ONCE, AT STEP 601 (t=9.632, Ω_c=0.390849); at dt/2, step 1203 with the same t and Ω; zero skipped attempts. Ledgers across the firing step: mass 705.918 → 529.4376 + 64×2.75751 (RELATIVE ERROR 0); ΔP exactly 0; |ΔL|/L 9.8e-16; RELEASED ROTATIONAL ENERGY 97.073 = ΔKE 7294.61 + ΔU −7197.54 + residual 1.3e-4 (1.8e-8 relative); transferred L 292.193 (= 0.3 × J_c 973.977). THE CLOCK: the remnant keeps pulse ω=22.654675 after the firing and φ=ω·t continues to hold (the shed grains have ω=0). Totals: 64/64 grains escape (also 64/64 at dt/2); |ΔP|/Σm|v| 2.4e-6; |ΔL|/L 3.3e-6; all safety clamps 0; zero NaN; zero warnings. THE REMNANT KICK is 0 at the firing step (symmetric pairs) and grows to 0.157 over the window (0.202 at dt/2) — a non-converged quantity, RECORDED ONLY. QA behavior.remnantSamples machine-fixes it.",
+    control:"Suggested A/B: removing pulse removes only the clock and the orbit does not change by one bit (the wave-226 removal control). Remove core.shed and it stays an unbroken progenitor; core.shed.n=16 gives a coarser split. Read 🌹 (the transcribed progenitor) → 🔵 (the explosion and the remnant) alongside 🏮 (the lighthouse principle and the true-scale vessel)."}},
   parameterAudit:{
     observedInputs:["なし(🌹 の転写値の読み替え — Joyce 一組整合セットは 🌹 側で宣言)","J0737−3039B の観測自転 22.654675(**別天体** — 比較マーカーとしてのみ)"],
-    fixedConventions:["恒星族 L10/T6/M29・単体・kFrame=1(相手なし)・shell:\"solid\"・lightSweep=0・傾き 0(面内)","台帳 f=2 の連続(殻 176.4795+コア 176.4795)・Rc=R/5・Kcs=0"],
-    fitted:["なし"],
-    derived:["m=352.959(🌹 のコア側)・R=10.6303(🌹 の Rc)・Rc=2.12606・Ω=0.1953545025834873(🌹 の逆算値の転写)","I_c=0.5·176.4795·2.12606²=398.855・J_c=77.9182(格納値からの実測)"],
-    numerical:["dt=0.016・2000步(静止系)"]},
+    fixedConventions:["恒星族 L10/T6/M29・単体・kFrame=1(相手なし)・shell:\"solid\"・lightSweep=0・傾き 0(面内)","台帳 f=2(殻 352.959+コア 352.959)・第245便の小さいコア Rc=R/10・Kcs=0・shed の面内・対称規約"],
+    fitted:["なし(shed の 5 値・contract は用量ノブの宣言であってフィットではない)"],
+    derived:["I_c=0.5·352.959·5.31515²=4986.0・J_c(発火時)=973.977・Ω 発火 0.390849(=2×転写 Ω)","解放回転E 97.073・移送 L 292.193・ΔU −7197.54・残骸 529.4376(コア 352.959+殻 176.479)"],
+    numerical:["dt=0.016・2000步・dt/2 対照 4000步(発火 t・Ω が一致)"]},
   activeParams:["G","kFrame","softening"],
   massCalibration:{law:"chi-law-v1-transfer", C:1, factorUniform:2},
-  camera:{scale:150}, world:{boundary:"none",size:0}, seed:20260906, validT:32,
+  balanceFrame:"barycentric",
+  camera:{scale:200}, world:{boundary:"none",size:0}, seed:20260906, validT:32,
   physics:{G:6.674, D0:0.006, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0,
     kappaT:7.415555555555556e-9, cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0,
     geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:1, timeScale:100, coupleSink:"reservoir", frameWeight:"share"},
   bodies:[
-    // 殻=🌹 のコア半径の器・コア=Rc=R/5(🌹 と同じ規約)・pulse=別天体 fiducial の比較マーカー(表示専用)
-    {type:"single", m:352.959, x:0,y:0, vx:0,vy:0, spin:0.1953545025834873, pinned:false,
-     radius:10.6303, shell:"solid", lightSweep:0, pulse:{omega:22.654675, source:"observed"},
-     core:{mode:"differential", massFrac:0.5, radius:2.12606, omega:0.1953545025834873, Kcs:0}}],
+    // 前駆星(🌹 の転写幾何)。第245便: 小さいコア Rc=R/10 が contract 0.036 で自走し、Ω が 2 倍で殻の半分を 64 粒へ割る。
+    // pulse は**親に載る**ので残骸が時計を引き継ぐ(放出片は時計を持たない — 第226便規約)
+    {type:"single", m:705.918, x:0,y:0, vx:0,vy:0, spin:0.00553071981492008, pinned:false,
+     radius:53.1515, shell:"solid", lightSweep:0, pulse:{omega:22.654675, source:"observed"},
+     core:{mode:"differential", massFrac:0.5, radius:5.31515, omega:0.1953545025834873, Kcs:0, contract:0.036,
+           shed:{omegaCrit:0.390709005166975, frac:0.5, n:64, rLaunch:2, jFrac:0.3, once:true}}}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
 
 { id:"envelopeShedDFM", name:"エンベロープの分割放出 — 限界回転のコアが殻をガスへ割って出す(DFM版)", emoji:"🎆", group:"天体の物語",
   scaleTier:"stellar", sampleClass:"principle", notClaim:["cal"],
   obsCard:[
     {q:"発火(コアの限界回転)", model:"Ω_c=10.0054 で1回だけ(t=12.784・798步)。dt/2 でも Ω=10.0021・t=12.776 と同じ Ω", obs:"—(原理サンプル — 観測転写はしない)"},
-    {q:"質量の帳簿 ΔM", model:"600 = 残骸 450 + ガス 16×9.375。総質量の相対誤差 **0**(Float32 の ulp 格子で厳密に割る)", obs:"—"},
-    {q:"運動量の帳簿 ΔP", model:"対称対の放出 → **残骸キック 8.8×10⁻⁸**(乱数キックは足さない)・発火1步の |ΔP|/Σm|v|=**0**", obs:"—"},
-    {q:"角運動量の帳簿 ΔL", model:"移送 L=607.5=jFrac 0.3×J_c 2025・殻スピン 0.08→0.142222(I_s·s 保存)・発火1步の |ΔL|/L=**0**", obs:"—"},
-    {q:"エネルギーの帳簿 ΔE", model:"解放回転E **5166.53** = ΔKE 13610.0 + ΔU −8443.47 + 残差 −3.8×10⁻⁴(相対 7.4×10⁻⁸)", obs:"—"},
-    {q:"脱出した割合", model:"16/16=**100%**。ΔU 項だけで脱出速度ちょうどが出る(規約の帰結 — 予測ではない)", obs:"—"}],
+    {q:"質量の帳簿 ΔM", model:"600 = 残骸 450 + ガス 32×4.6875。総質量の相対誤差 **0**(Float32 の ulp 格子で厳密に割る)", obs:"—"},
+    {q:"運動量の帳簿 ΔP", model:"対称対の放出 → **残骸キック 2.7×10⁻⁷**(乱数キックは足さない)・発火1步の |ΔP|/Σm|v|=**0**", obs:"—"},
+    {q:"角運動量の帳簿 ΔL", model:"移送 L=607.5=jFrac 0.3×J_c 2025・殻スピン 0.08→0.142222(I_s·s 保存)・発火1步の |ΔL|/L=2.2×10⁻¹⁶", obs:"—"},
+    {q:"エネルギーの帳簿 ΔE", model:"解放回転E **5166.53** = ΔKE 13853.60 + ΔU −8687.08 + 残差 −1.8×10⁻⁵(相対 1.3×10⁻⁹)", obs:"—"},
+    {q:"脱出した割合", model:"32/32=**100%**。ΔU 項だけで脱出速度ちょうどが出る(規約の帰結 — 予測ではない)", obs:"—"}],
   descStruct:{
-    summary:"**限界まで回ったコアが殻をガスへ割って放り出す**(第244便 — 第36報「内部構造」)。仮定: 赤色巨星の殻はコアの回転が限界を超えると保持できず、粒へ割れて出る(質量放出・超新星の放出物)。宣言は **core.shed{omegaCrit, frac, n, rLaunch, jFrac, once}** 1つ。コアは **contract=0.02**(第77便 — 収縮で J 保存のまま Ω が上がる既存機構)で Ω=6 から自走し、**Ω_c が omegaCrit=10 に達したステップ末に1回だけ**発火して、殻質量 300 の frac=0.5 を n=16 粒のガスへ割り、親半径の rLaunch=1.5 倍の円周へ**対称対で**置く。**新しい物理法則も較正定数も足していない** — 粒子を増やす経路は分裂(第45便 _grow)、移送 J はコア J から(第234便 burst と同じ会計)、ポテンシャルはエンジン自身の対エネルギー(E4 重力+softening・E9 ばね・E5′ 斥力)。**保存の契約**: 質量は Float32 の ulp 格子で**ビット厳密**・運動量は対称配置で残骸キック 0(丸め残差だけ帳簿 P へ)・角運動量は移送 L と殻スピンの解き直しで閉じ・エネルギーは**解放回転E = ΔKE + ΔU + 残差**。収支が負なら**発火しない**(帳簿を破る状態は書かない)。**正直な限界**: エンジンは点粒子の自己重力エネルギーを持たないので、殻を半径 r_L へ出す操作は必ず**脱出速度ちょうど**を解放する — 「必ず全部飛ぶ」は規約の帰結であって予測ではない。実在の質量放出(輻射圧・脈動・ダスト駆動・ニュートリノ)はモデル化しない。",
-    observe:"実測(2000步=t32・dt=0.016): **発火は 798步(t=12.784)で1回だけ**・そのときの Ω_c=10.0054(dt/2 では 1596步・t=12.776・Ω=10.0021 — 同じ Ω で発火)・見送り 0 回。帳簿(**発火の1步で測る** — 単体なので他の力は働かない): 質量 600→**450+16×9.375=600(相対誤差 0)**・**解放回転E 5166.53 = ΔKE 13609.99 + ΔU −8443.47 + 残差 −3.8×10⁻⁴(相対 7.4×10⁻⁸)**・移送 L=607.5(=0.3×J_c 2025)・殻スピン 0.08→0.142222(I_s·s 保存の帰結)・残骸のコア質量 300 は不変(massFrac 0.5→0.666667)・**残骸キック 8.8×10⁻⁸**・**発火1步の ΔM/ΔP/ΔL の相対誤差はいずれも厳密 0**(帳簿込み)。2000步の通算: |ΔP|/Σm|v| 4.7×10⁻⁸・|ΔL|/L 6.3×10⁻⁸・脱出 16/16(100%)・ガス粒は全て shell:\"gas\"・安全クランプ 全 0・NaN 0・決定性ビット同一。**shed を外すと単体のまま(粒子は増えず質量も 600 のまま)**。QA `behavior.envelopeShed` が発火の一回性・4帳簿・決定性・dt/2・偶数 n・未宣言サンプルのビット同一を機械固定する。",
-    control:"おすすめA/B: core.shed.frac=0.2(ΔM=60・残骸 540)・n=32(粒 4.6875 が 32 個)・jFrac=0(**解放回転E がほぼ 0 になり ΔU だけで出る**)・rLaunch=3(遠くへ出すと ΔU が浅くなる)。core.shed を外すと単体の恒星のまま。🍂(前)→ 🎆(放出)→ ⚪🔵(残骸)と読む。"},
+    summary:"**限界まで回ったコアが殻をガスへ割って放り出す**(第244便 — 第36報「内部構造」)。仮定: 赤色巨星の殻はコアの回転が限界を超えると保持できず、粒へ割れて出る(質量放出・超新星の放出物)。宣言は **core.shed{omegaCrit, frac, n, rLaunch, jFrac, once}** 1つ。コアは **contract=0.02**(第77便 — 収縮で J 保存のまま Ω が上がる既存機構)で Ω=6 から自走し、**Ω_c が omegaCrit=10 に達したステップ末に1回だけ**発火して、殻質量 300 の frac=0.5 を **n=32 粒**のガスへ割り(第245便 — 原仮定者指示で分割を密に。粒は 9.375 → 4.6875)、親半径の rLaunch=1.5 倍の円周へ**対称対で**置く。**新しい物理法則も較正定数も足していない** — 粒子を増やす経路は分裂(第45便 _grow)、移送 J はコア J から(第234便 burst と同じ会計)、ポテンシャルはエンジン自身の対エネルギー(E4 重力+softening・E9 ばね・E5′ 斥力)。**保存の契約**: 質量は Float32 の ulp 格子で**ビット厳密**・運動量は対称配置で残骸キック 0(丸め残差だけ帳簿 P へ)・角運動量は移送 L と殻スピンの解き直しで閉じ・エネルギーは**解放回転E = ΔKE + ΔU + 残差**。収支が負なら**発火しない**(帳簿を破る状態は書かない)。**正直な限界**: エンジンは点粒子の自己重力エネルギーを持たないので、殻を半径 r_L へ出す操作は必ず**脱出速度ちょうど**を解放する — 「必ず全部飛ぶ」は規約の帰結であって予測ではない。実在の質量放出(輻射圧・脈動・ダスト駆動・ニュートリノ)はモデル化しない。",
+    observe:"実測(2000步=t32・dt=0.016): **発火は 798步(t=12.784)で1回だけ**・そのときの Ω_c=10.0054(dt/2 では 1596步・t=12.776・Ω=10.0021 — 同じ Ω で発火)・見送り 0 回。帳簿(**発火の1步で測る** — 単体なので他の力は働かない): 質量 600→**450+32×4.6875=600(相対誤差 0)**・**解放回転E 5166.53 = ΔKE 13853.60 + ΔU −8687.08 + 残差 −1.8×10⁻⁵(相対 1.3×10⁻⁹)**・移送 L=607.5(=0.3×J_c 2025)・殻スピン 0.08→0.142222(I_s·s 保存の帰結)・残骸のコア質量 300 は不変(massFrac 0.5→0.666667)・**残骸キック 2.7×10⁻⁷**・**発火1步の ΔM/ΔP の相対誤差は厳密 0**・ΔL は 2.2×10⁻¹⁶(帳簿込み)。2000步の通算: |ΔP|/Σm|v| 8.9×10⁻⁸・|ΔL|/L 4.8×10⁻⁶・脱出 32/32(100%)・ガス粒は全て shell:\"gas\"・安全クランプ 全 0・NaN 0・決定性ビット同一。**shed を外すと単体のまま(粒子は増えず質量も 600 のまま)**。QA `behavior.envelopeShed` が発火の一回性・4帳簿・決定性・dt/2・偶数 n・未宣言サンプルのビット同一を機械固定する。",
+    control:"おすすめA/B: core.shed.frac=0.2(ΔM=60・残骸 540)・n=64(粒 2.34375 が 64 個)・jFrac=0(**解放回転E がほぼ 0 になり ΔU だけで出る**)・rLaunch=3(遠くへ出すと ΔU が浅くなる)。core.shed を外すと単体の恒星のまま。⚪(白色矮星の道)・🔵(中性子星の道)・🎇(爆発)と 4 本で読む。"},
   en:{name:"Envelope Shedding — a Core at Its Spin Limit Splits the Shell into Gas (DFM)", descStruct:{
-    summary:"A CORE SPUN TO ITS LIMIT SPLITS THE SHELL INTO GAS AND THROWS IT OUT (wave 244, report 36 'interior structure'). Assumption: a red giant's shell cannot be held once the core's rotation passes a limit, and it breaks into grains (mass loss, supernova ejecta). ONE DECLARATION does it: core.shed{omegaCrit, frac, n, rLaunch, jFrac, once}. The core spins itself up from Ω=6 through contract=0.02 (the wave-77 mechanism — J conserved while Ω rises), and AT THE END OF THE FIRST STEP WHERE Ω_c REACHES omegaCrit=10 it fires exactly once: frac=0.5 of the 300 shell mass becomes n=16 gas grains placed IN SYMMETRIC PAIRS on a circle of rLaunch=1.5 parent radii. NO NEW PHYSICAL LAW AND NO FITTED CONSTANT is added — particles are created through the fission path (wave 45, _grow), the transferred J comes out of the core J (the same accounting as wave 234's burst), and the potential is the engine's own pair energy (E4 gravity with its softening, E9 springs, E5′ repulsion). THE CONSERVATION CONTRACT: mass is EXACT TO THE BIT (split on the Float32 ulp lattice); momentum has ZERO remnant kick by symmetry (only the rounding residual is booked); angular momentum closes through the transferred L and a re-solved shell spin; energy closes as RELEASED ROTATIONAL ENERGY = ΔKE + ΔU + residual. If the budget is negative THE EVENT DOES NOT FIRE (a state that breaks the ledger is never written). AN HONEST LIMIT: the engine carries no self-gravitational energy for a point particle, so moving the shell out to radius r_L always releases EXACTLY THE ESCAPE SPEED — 'everything always escapes' is a consequence of the convention, not a prediction. Real mass loss (radiation pressure, pulsation, dust driving, neutrinos) is not modelled.",
-    observe:"Measured (2000 steps = t32, dt=0.016): IT FIRES ONCE, AT STEP 798 (t=12.784), with Ω_c=10.0054 (at dt/2: step 1596, t=12.776, Ω=10.0021 — the same Ω); zero skipped attempts. Ledgers (MEASURED ACROSS THE FIRING STEP — the body is solo, so no other force acts): mass 600 → 450 + 16×9.375 = 600 (RELATIVE ERROR 0); RELEASED ROTATIONAL ENERGY 5166.53 = ΔKE 13609.99 + ΔU −8443.47 + residual −3.8e-4 (7.4e-8 relative); transferred L = 607.5 (= 0.3 × J_c 2025); shell spin 0.08 → 0.142222 (the consequence of I_s·s conservation); the remnant's core mass 300 is unchanged (massFrac 0.5 → 0.666667); REMNANT KICK 8.8e-8; THE RELATIVE ERRORS OF ΔM, ΔP AND ΔL ACROSS THE FIRING STEP ARE ALL EXACTLY 0 (ledger-inclusive). Over the 2000 steps: |ΔP|/Σm|v| 4.7e-8, |ΔL|/L 6.3e-8, 16/16 grains escape (100%), every grain carries shell:\"gas\", all safety clamps 0, zero NaN, bit-identical reruns. REMOVE shed AND IT STAYS A SOLO BODY (no new particles, mass still 600). QA behavior.envelopeShed machine-fixes the single firing, the four ledgers, determinism, dt/2, even n and the bit-identity of samples without the declaration.",
-    control:"Suggested A/B: core.shed.frac=0.2 (a light shedding), n=32 (finer grains), jFrac=0 (no tangential component — a purely radial release), rLaunch=3 (further out, so ΔU is shallower). Remove core.shed and it stays an ordinary solo star. Read 🍂 (before) → 🎆 (the shedding) → ⚪🔵 (the remnants)."}},
+    summary:"A CORE SPUN TO ITS LIMIT SPLITS THE SHELL INTO GAS AND THROWS IT OUT (wave 244, report 36 'interior structure'). Assumption: a red giant's shell cannot be held once the core's rotation passes a limit, and it breaks into grains (mass loss, supernova ejecta). ONE DECLARATION does it: core.shed{omegaCrit, frac, n, rLaunch, jFrac, once}. The core spins itself up from Ω=6 through contract=0.02 (the wave-77 mechanism — J conserved while Ω rises), and AT THE END OF THE FIRST STEP WHERE Ω_c REACHES omegaCrit=10 it fires exactly once: frac=0.5 of the 300 shell mass becomes n=32 gas grains (wave 245 made the split finer at the adjudicator's instruction — the grains went 9.375 → 4.6875) placed IN SYMMETRIC PAIRS on a circle of rLaunch=1.5 parent radii. NO NEW PHYSICAL LAW AND NO FITTED CONSTANT is added — particles are created through the fission path (wave 45, _grow), the transferred J comes out of the core J (the same accounting as wave 234's burst), and the potential is the engine's own pair energy (E4 gravity with its softening, E9 springs, E5′ repulsion). THE CONSERVATION CONTRACT: mass is EXACT TO THE BIT (split on the Float32 ulp lattice); momentum has ZERO remnant kick by symmetry (only the rounding residual is booked); angular momentum closes through the transferred L and a re-solved shell spin; energy closes as RELEASED ROTATIONAL ENERGY = ΔKE + ΔU + residual. If the budget is negative THE EVENT DOES NOT FIRE (a state that breaks the ledger is never written). AN HONEST LIMIT: the engine carries no self-gravitational energy for a point particle, so moving the shell out to radius r_L always releases EXACTLY THE ESCAPE SPEED — 'everything always escapes' is a consequence of the convention, not a prediction. Real mass loss (radiation pressure, pulsation, dust driving, neutrinos) is not modelled.",
+    observe:"Measured (2000 steps = t32, dt=0.016): IT FIRES ONCE, AT STEP 798 (t=12.784), with Ω_c=10.0054 (at dt/2: step 1596, t=12.776, Ω=10.0021 — the same Ω); zero skipped attempts. Ledgers (MEASURED ACROSS THE FIRING STEP — the body is solo, so no other force acts): mass 600 → 450 + 32×4.6875 = 600 (RELATIVE ERROR 0); RELEASED ROTATIONAL ENERGY 5166.53 = ΔKE 13853.60 + ΔU −8687.08 + residual −1.8e-5 (1.3e-9 relative); transferred L = 607.5 (= 0.3 × J_c 2025); shell spin 0.08 → 0.142222 (the consequence of I_s·s conservation); the remnant's core mass 300 is unchanged (massFrac 0.5 → 0.666667); REMNANT KICK 2.7e-7; the relative errors of ΔM and ΔP across the firing step are EXACTLY 0 and ΔL is 2.2e-16 (ledger-inclusive). Over the 2000 steps: |ΔP|/Σm|v| 8.9e-8, |ΔL|/L 4.8e-6, 32/32 grains escape (100%), every grain carries shell:\"gas\", all safety clamps 0, zero NaN, bit-identical reruns. REMOVE shed AND IT STAYS A SOLO BODY (no new particles, mass still 600). QA behavior.envelopeShed machine-fixes the single firing, the four ledgers, determinism, dt/2, even n and the bit-identity of samples without the declaration.",
+    control:"Suggested A/B: core.shed.frac=0.2 (a light shedding), n=64 (finer grains, 2.34375 each), jFrac=0 (no tangential component — a purely radial release), rLaunch=3 (further out, so ΔU is shallower). Remove core.shed and it stays an ordinary solo star. Read it with ⚪ (the white-dwarf road), 🔵 (the neutron-star road) and 🎇 (the explosion)."}},
   parameterAudit:{
-    observedInputs:["なし(原理トイ — 🍂 の台帳 f=2 の読み替え)"],
+    observedInputs:["なし(原理トイ — 台帳 f=2 の読み替え)"],
     fixedConventions:["単体・kFrame=1・pairReduced+重心系・coupleSink reservoir・境界なし・融合なし・etaRad=0(放出だけを見る)","台帳 f=2(殻 300+コア 300・massFrac 0.5・Rc=1.5・Kcs=0)・shed の面内・対称・傾き 0 規約"],
     fitted:["なし(shed の 5 値は用量ノブの宣言であってフィットではない)"],
-    derived:["発火 Ω_c=10.0054(contract 0.02 で Ω=6 から自走 — J_c=2025 一定・I_c が縮む)","解放回転E 5166.53=(J₀²−J₁²)/2I_c・移送 L 607.5・ΔU −8443.47(engine の対エネルギー)"],
+    derived:["発火 Ω_c=10.0054(contract 0.02 で Ω=6 から自走 — J_c=2025 一定・I_c が縮む)","解放回転E 5166.53=(J₀²−J₁²)/2I_c・移送 L 607.5・ΔU −8687.08(engine の対エネルギー・n=32)"],
     numerical:["dt=0.016・2000步・dt/2 対照 4000步(発火 Ω は 3×10⁻⁴ 以内で一致)"]},
   activeParams:["kFrame","G","softening"],
   thermal:"tint", validT:32,
@@ -9933,11 +9621,11 @@ const BUILTIN_PRESETS = [
     cLight:30, bM:1, etaRad:0, pRad:2, cHeat:0.2, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
     pnAlpha:1.5, radiusScale:1, softening:3, timeScale:2, frameReaction:"pairReduced", coupleSink:"reservoir", frameWeight:"share"},
   bodies:[
-    // 台帳 f=2 の恒星(殻 300+コア 300)。contract でコアが自走し、Ω_c=10 で殻の半分が 16 粒のガスへ割れる
+    // 台帳 f=2 の恒星(殻 300+コア 300)。contract でコアが自走し、Ω_c=10 で殻の半分が 32 粒のガスへ割れる(第245便: n 16→32 の密な分割)
     {type:"single", m:600, x:0,y:0, vx:0,vy:0, spin:0.08, pinned:false, tInt:2, lightSweep:0,
      shell:"solid",
      core:{mode:"differential", massFrac:0.5, radius:1.5, omega:6, Kcs:0, contract:0.02,
-           shed:{omegaCrit:10, frac:0.5, n:16, rLaunch:1.5, jFrac:0.3, once:true}}}],
+           shed:{omegaCrit:10, frac:0.5, n:32, rLaunch:1.5, jFrac:0.3, once:true}}}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
 
 // ===== 第245便補足1(第37報): スピン双極子の連星(physics.spinSpin の玩具の実演)=====
@@ -12422,7 +12110,7 @@ function makeSim(){
     // 第47便 47A(台帳4-86 / 統括裁定=案B「pinned を外部熱浴として扱う」): E10′(κs 熱伝導)は
     // 計算段階では pinned 天体との対も熱を交換するのに、適用段階の②粒子ループが pinned を
     // continue するため、pinned が受け取るはずの dQi はどのリザーバにも載らずに消えていた
-    // (第46便 46S が ☀️starcore で実測: kappaS=0.05 では Q=ΔH+radE が etaRad の値で変わり
+    // (第46便 46S が ☀️starcore〔第245便で廃止〕で実測: kappaS=0.05 では Q=ΔH+radE が etaRad の値で変わり
     //  1949 の未帳簿漏れ。κs=0 の構成は無影響)。pinHeat = radE/fusU/wallEin と同格のリザーバで、
     // **pinned 宛の dQi の累計**(Float64)を持つ。符号は「粒子系から見た出入り」:
     //   pinHeat>0 = 粒子系 → 外部拘束(pinned)へ出た熱 / pinHeat<0 = 外部拘束から入った熱。
@@ -17469,6 +17157,14 @@ function selConvLinesNow(){
           +" ・ T "+fmtSecs(Torb*Math.pow(10,ef.eT))+" ・ ϖ "+pomDeg.toFixed(1)+"°");
       } else lines.push("≈ "+T("orbUnbound"));
     }
+  }
+  // 第245便(原仮定者指示): パルス時計を持つ粒子は周期 P=2π/|ω| を実時間換算で併記する
+  // (🏮 の 2.773 s。表示専用 — 力学には 1 bit も入らない)
+  if(sim.pulseOm && sim.pulseOm[i]){
+    const Pu=2*Math.PI/Math.abs(sim.pulseOm[i]);
+    lines.push("≈ pulse P "+fmtSecs(Pu*Math.pow(10,ef.eT))
+      +" ・ ω "+sciFmt(Math.abs(sim.pulseOm[i])*Math.pow(10,-ef.eT))+"/s"
+      +" ・ "+fmt(sim.pulsePh[i]/(2*Math.PI))+" "+T("bePulseTurns"));
   }
   return lines;
 }
@@ -22775,6 +22471,7 @@ function applyLang(){
   $("#beTitle").textContent=T("beTitle"); $("#beLp").textContent=T("bePinned");
   $("#beLsw").textContent=T("beLsw");   // 第22便
   $("#beLdq").textContent=T("beLdq");   // 第239便
+  $("#beLpulse").textContent=T("beLpulse");   // 第245便: パルス時計行
   $("#beLswAuto").textContent=T("beLswAuto");   // 第37便 A2
   // 第80便C: コアv2内訳ブロックのラベル
   $("#beLcvTitle").textContent=T("beCoreTitle"); $("#beLcvMode").textContent=T("beCoreMode");
@@ -23386,6 +23083,23 @@ function updateBodyEdit(){
     }
     $("#beCvLs").value=(lsS!==null)? `${fmt(lsS)}/${fmt(lsC)}/${fmt(lsMix)}` : `—/—/${fmt(lsMix)}`;
     $("#beCvLs").title=$("#beCvLs").value;   // 第92便: 見切れ対策の補助(全文ツールチップ)
+  }
+  // 第245便(原仮定者指示): パルス時計の読み取り専用表示 — 宣言 ω(rad/モデル時間単位)から
+  // 周期 P=2π/|ω| を出し、時間スケール指数 eT で実時間へ換算して並べる。累積位相は回転数で出す。
+  // 表示専用(canvas の換算行 selConvLinesNow と同じ換算式)— 物理配列へは一切書かない
+  const prow=$("#bePulseRow");
+  if(prow){
+    const pom=(S.pulseOm && i<S.pulseOm.length)? S.pulseOm[i] : 0;
+    if(pom){
+      const Pu=2*Math.PI/Math.abs(pom);
+      const ef=scaleEffNow();
+      const real=ef? fmtSecs(Pu*Math.pow(10,ef.eT)) : null;
+      const turns=(S.pulsePh? S.pulsePh[i] : 0)/(2*Math.PI);
+      prow.style.display="";
+      $("#bePulse").value="P "+fmt(Pu)+(real? " \u2248 "+real : "")   // 第245便: 周期を先頭に置き、狭い欄でも実時間が見切れないようにする
+        +" \u30fb \u03c9 "+fmt(pom)+" \u30fb "+fmt(turns)+" "+T("bePulseTurns");
+      $("#bePulse").title=$("#bePulse").value;
+    } else prow.style.display="none";
   }
   // 第100便 EXT-10: 形成系譜 — 吸収イベント(S.linLog・安定ID)から選択粒子の履歴を表示。
   // 読み取り専用の表示層(物理配列へは一切書かない)。running 中は既存の毎フレーム更新経路で追随。
@@ -24491,7 +24205,7 @@ function dfmCoreDragRadius(c){
   for(let k=0;k<96;k++){ const mid=Math.sqrt(lo*hi); if(dfmCoreDragRatio(Object.assign({},c,{r:mid}))>beta) lo=mid; else hi=mid; }
   return Math.sqrt(lo*hi);
 }
-const DFM_BETA_SOLID=0.014884052256495006;   // 第233便: β_solid — 基準天体 🌞 starMass2DFM(R_ref=25)で較正した唯一の値
+const DFM_BETA_SOLID=0.014884052256495006;   // 第233便: β_solid — 基準天体 🍊 starMass2DFM(R_ref=25)で較正した唯一の値(第245便で当該サンプルは廃止 — 較正の由来は履歴として残す)
 function chiMassFactors(mA, mB, sep, D0, eps, C){
   const d=Math.hypot(sep, eps||0);
   const chi=(w)=>w/((D0||0)+w);
