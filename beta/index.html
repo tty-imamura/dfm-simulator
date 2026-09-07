@@ -6539,7 +6539,8 @@ const BUILTIN_PRESETS = [
     {q:"20イオ公転窓の軌道保持(kFrame=1)", model:"|Δa|/a=0.0114/0.0704/0.0721/0.1421%(NaN なし)", obs:"—(事前登録窓は 2% 未満)"},
     {q:"フレーム回転の内訳", model:"自転引きずりは全系の 1.55×10⁻⁵(イオ)〜2.96×10⁻¹²(カリスト)— 衛星どうしの運動引きずりが支配", obs:"—"},
     {q:"払った較正", model:"衛星別 fit ゼロ(共有 D₀=0.006 のみ・q は qLock 則の算出値 — 第172便で厳密一致式 q_exact=12.0586 へ)", obs:"—"},
-    {q:"ラプラス共鳴", model:"周期比 2.006938 / 2.014512(記録のみ — 再現は要求していない)", obs:"2.007295 / 2.014697"}],
+    {q:"ラプラス共鳴", model:"周期比 2.006938 / 2.014512(記録のみ — 再現は要求していない)", obs:"2.007295 / 2.014697"},
+    {q:"スピン双極子モーメント Q(第246便d)", model:"Q_木 8.53×10³⁸ / Q_土 1.69×10³⁸ kg m²/s = 木星が 5.05 倍。環の違いは Q ではなく r/R(イオ 5.9)", obs:"—(½mR²Ω の台帳・観測転写ではない)"}],
   failureFirst:{
     fail:"hold-out は落ちうる。木星系は χ=w/(D₀+w) が 0.944〜0.987 と 🌘(参照点 0.215)の4倍以上あり、**引きずりが薄まらない**領域である。ここで D₀ や q を木星系向けに引き直せば、それは hold-out ではなく4本目の較正になってしまう。実際、qLock の幾何減衰を外した q=3 の対照では恒星公転周期が観測から 1.4604/1.0865/0.7048/0.3545% ずれ、事前登録窓 ±1% をイオとエウロパの2衛星で割る(残る2衛星は窓内。半径方向には4衛星とも保持され NaN も出ない — 壊れるのではなく周期がずれる)。また事前登録の JW4 のうち『フレーム ω の符号=自転と同方向』は、**全系の実測では成立しない**(4衛星とも逆行の瞬時値)— 全系の ω は木星の自転を 0 にしてもほとんど変わらないからである。",
     pass:"規則を1つも動かさずに通った。**共通補正 D₀=0.006 をそのまま使い、q は qLock 則を参照軌道=イオで1回だけ評価した直値を宣言する**(第138便は遠方近似形の 12.30、第172便からは厳密一致式 q_exact=12.0586 — 衛星別の fit はゼロ。周期ずれ・|Δa|/a は記録桁で同一)。kFrame=0 の転写で恒星公転周期は観測と最大 0.0681% のずれ(JW1 PASS)、kFrame=1 でも 20イオ公転窓で4衛星とも NaN なし・|Δa|/a が イオ 0.0114%・エウロパ 0.0704%・ガニメデ 0.0721%・カリスト 0.1421% で、4衛星とも事前登録窓 2% の 1/14 以下、周期も ±0.052% 以内を保つ(JW2 PASS)。60イオ公転へ延ばしても 0.0145/0.0799/0.0721/0.1421% で崩れない。JW4 の符号については、**自転引きずりだけを取り出したチャネル(木星+その衛星の2体)では4衛星とも順行**で、しかも解析形 χ·s·(R/(R+r))^q と4桁一致する(tests/exp-jupiter.mjs)。"},
@@ -6574,7 +6575,8 @@ const BUILTIN_PRESETS = [
       {q:"Orbit retention over 20 Io orbits (kFrame=1)", model:"|Δa|/a = 0.0114/0.0704/0.0721/0.1421% (no NaN)", obs:"— (the pre-registered window is under 2%)"},
       {q:"Where the frame rotation comes from", model:"spin dragging is 1.55×10⁻⁵ (Io) to 2.96×10⁻¹² (Callisto) of the total — moon-to-moon motion dragging dominates", obs:"—"},
       {q:"Calibration spent here", model:"zero per-moon fits (only the shared D₀=0.006; q is the qLock rule's output)", obs:"—"},
-      {q:"The Laplace resonance", model:"period ratios 2.006938 / 2.014512 (recorded only — reproduction was never required)", obs:"2.007295 / 2.014697"}],
+      {q:"The Laplace resonance", model:"period ratios 2.006938 / 2.014512 (recorded only — reproduction was never required)", obs:"2.007295 / 2.014697"},
+      {q:"Spin-dipole moment Q (wave 246d)", model:"Q_J 8.53e38 vs Q_S 1.69e38 kg m²/s — Jupiter is 5.05× larger; a ring vs moons is r/R (Io 5.9), not Q", obs:"— (a ½mR²Ω ledger, not a transcribed observable)"}],
     failureFirst:{
       fail:"A hold-out can fail. In the Jovian system χ=w/(D₀+w) runs 0.944–0.987, more than four times the 0.215 at 🌘's reference orbit, so the dragging is NOT diluted here. Re-deriving D₀ or q for Jupiter would turn this into a fourth calibration rather than a hold-out. And indeed the q=3 control (the geometric falloff of qLock removed) shifts the sidereal periods by 1.4604/1.0865/0.7048/0.3545% from observation, breaking the ±1% window on two of them (Io and Europa; the other two stay inside, and all four orbits are still retained with no NaN — the periods shift, the system does not break). One clause of the pre-registered JW4 — that the frame rotation ω should share the sign of the spin — DOES NOT HOLD on the full system: all four moons show a retrograde instantaneous value, because the total ω barely changes when Jupiter's spin is set to zero.",
       pass:"It passed without moving a single rule. The shared correction D₀=0.006 is used as is, and q is the qLock rule evaluated ONCE at the reference orbit = Io, declared as a literal (12.30 in the distant-limit form measured by wave 138; q_exact=12.0586 from wave 172 on) — zero per-moon fits, and the period deviations and |Δa|/a are identical to the recorded digits either way. The kFrame=0 transcription reproduces the sidereal periods to within 0.0681% (JW1 PASS); at kFrame=1 all four moons survive a 20-Io-orbit window with no NaN and |Δa|/a of 0.0114/0.0704/0.0721/0.1421% — under a fourteenth of the pre-registered 2% — while the periods hold to ±0.052% (JW2 PASS). Stretching to 60 Io orbits gives 0.0145/0.0799/0.0721/0.1421%. On the JW4 sign question, the channel that isolates spin dragging (Jupiter plus one moon) IS prograde on all four moons and agrees with the analytic form χ·s·(R/(R+r))^q to four digits (tests/exp-jupiter.mjs)."},
@@ -9200,7 +9202,8 @@ const BUILTIN_PRESETS = [
   obsCard:[
     {q:"環の近点移動(偏心軌道・kF1)", model:"q=3: 0.23 rad/公転 → qLock(q_exact=20.4932)+観測環質量: 8×10⁻⁶(逆行・スピン 0 で厳密 0)", obs:"≈0(厳密ケプラー)"},
     {q:"随伴プロファイル(ω_drag/LT)", model:"表面 h=0.5: ×114 → h=44.7(参照軌道 a=105): ×1.00 → タイタン: ≪1", obs:"表面随伴は MM null と整合(較正一致 — 機構同定ではない)"},
-    {q:"補正の共通性", model:"D₀=0.006 は 🌘🪨 と共通・q は同一式の自動算出", obs:"—(exp-kf1d)"}],
+    {q:"補正の共通性", model:"D₀=0.006 は 🌘🪨 と共通・q は同一式の自動算出", obs:"—(exp-kf1d)"},
+    {q:"環と衛星を分けるもの(第246便d)", model:"Q は木星が土星の 5.05 倍。環か衛星かは Q ではなく r/R — C環 1.24 に対しイオ 5.9", obs:"—(r/R は観測半径の比)"}],
   descStruct:{
     summary:"💍(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、共通補正 D₀=0.006+qLock(自動算出 — 第172便で厳密一致式を採用。宣言参照軌道 a=105 での直値は q_exact≈20.4932 で、実行時は自由天体距離の中央値で算出するので端数は動く)を適用した版(第123便→第172便)。土星の環は**表面のすぐ外**を回る軌道系 — 随伴(引きずり)は表面に近いほど強く(h=0.5 で LT の114倍)、参照軌道=環中央 a=105 でちょうど LT に一致し、その外で急減する(qLock 則は**有限参照正規化規約**で、遠方近似形 q* なら宣言参照軌道 a=105 での振幅は LT 振幅×裸比 (a/(R+a))³=0.256 に留まる。厳密一致式はその裸比を 1 にする — どちらの形でも LT の r⁻³ 則も無限遠での非零 LT 比も保存しない。第141便→第157便→第172便)。**マイケルソン・モーリー実験(MM)の null 結果との整合は未検証**(第237便で訂正: d は中心間距離で、源表面 d=R の随伴係数は 2⁻q=6.8×10⁻⁷ に過ぎない。往復光速の異方性という MM の観測量は未実装で、「表面に近いほど強い」形状の類似は根拠にならない — 表面高度基準は physics.dragRef:\"interior\"(旧名 \"surface\" — 第239便: 「内部は完全共動・表面から減衰」の意で、表面が特別に強いとは主張しない)の opt-in で別途検証する)。本サンプルの主結果は環・衛星がケプラー観測に一致することで、随伴プロファイルはその補足にあたる。qLock 下では環の偏心軌道の近点移動が 8×10⁻⁶ rad/公転(逆行・LT 型 — 第244便: 環を観測総質量 1.54×10¹⁹ kg・pull・非フレーム源に直した値。旧 2×10⁻⁵ は 10²⁰ kg/粒の代表粒子どうしの巻き込みを含む粗視化の人工物)まで消え、環・衛星6ともケプラー観測に一致する(exp-kf1d §B の構成を第244便が再走行)。**天体の現実較正の雛形**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock。今後の観測較正サンプルは本構成をコピーして作る — PHYSICS §5)。",
     observe:"環・衛星とも 💍 と同じケプラー運動に見える(見えないのが正しい — kF1 でも較正が成り立つ)。ワンタップ対照A/Bで B側 q=3 にすると環が増速+内側移動し偏心軌道の近点が目に見えて回る(スピン項の復活)。q スライダーは自動算出のためグレーアウト。",
@@ -9223,7 +9226,8 @@ const BUILTIN_PRESETS = [
     obsCard:[
       {q:"Ring apsidal drift (eccentric, kF1)", model:"q=3: 0.23 rad/orbit → qLock(q_exact=20.4932)+observed ring mass: 8×10⁻⁶ (retrograde; exactly 0 at spin 0)", obs:"≈0 (exact Kepler)"},
       {q:"Entrainment profile (ω_drag/LT)", model:"surface h=0.5: ×114 → h=44.7 (reference orbit a=105): ×1.00 → Titan: ≪1", obs:"surface entrainment consistent with the MM null"},
-      {q:"Universality", model:"D₀=0.006 shared with 🌘🪨; q auto-derived from one formula", obs:"— (exp-kf1d)"}],
+      {q:"Universality", model:"D₀=0.006 shared with 🌘🪨; q auto-derived from one formula", obs:"— (exp-kf1d)"},
+      {q:"What separates a ring from moons (wave 246d)", model:"Jupiter's Q is 5.05× Saturn's; ring-vs-moon is r/R, not Q — the C ring at 1.24 R against Io at 5.9 R", obs:"— (r/R from observed radii)"}],
     descStruct:{
     summary:"The same real values as 💍 (kFrame=0) with frame dragging (A8/E6′) enabled and the joint correction applied: D₀=0.006 plus qLock (auto-derived; wave 172 adopted the exact-agreement value q_exact=20.4932) (waves 123/172). Saturn's ring orbits JUST outside the surface — entrainment is strongest near the surface (×114 LT at h=0.5), meets the LT level exactly at the reference orbit a=105 (mid-ring), and decays outward (the qLock rule is a finite-reference normalization: with the distant-limit q* the amplitude at the declared reference orbit a=105 stays at the LT amplitude times the bare ratio (a/(R+a))³=0.256, while the exact-agreement form drives that bare ratio to 1, preserving neither the r⁻³ law nor a nonzero LT ratio at infinity — waves 141/157/172). This is one of the three REAL-CALIBRATION TEMPLATES (🪨🌘💿 — real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock; future observation-calibration samples copy this construction — PHYSICS §5). Consistency with the Michelson-Morley null result is UNTESTED (corrected in wave 237: d is the centre distance, the entrainment at the source surface d=R is only 2^−q=6.8×10⁻⁷, and the MM observable — the round-trip light-speed anisotropy — is not implemented; the surface-height reference is tested separately via physics.dragRef:\"interior\" (formerly \"surface\" — wave 239: it means matter-enclosed interiors co-move fully and drag decays outward from the surface, not that surfaces are special)) — the main result of this sample is that rings and moons match Keplerian observation, with the entrainment profile as a side note. Under qLock the eccentric apsidal drift falls to 2×10⁻⁵ rad/orbit — rings and all six moons stay Keplerian (exp-kf1d §B). ",
     observe:"Rings and moons move exactly as in 💍 (invisible IS correct — the calibration survives kF1). One-tap A/B: side B at q=3 revives the wave-120 exaggeration — the ring speeds up, drifts inward, and eccentric apses visibly rotate. The q slider is greyed out (auto-derived). ",
@@ -9672,6 +9676,60 @@ const BUILTIN_PRESETS = [
     // 遠点(分離 162 = a(1+e)・a=120・e=0.35)から出発する等質量の束縛楕円。両星とも同じ向きの自転
     {type:"single", m:100, x:-81,y:0, vx:0,vy:-0.4479031, spin:1.5, pinned:false, radius:3},
     {type:"single", m:100, x: 81,y:0, vx:0,vy: 0.4479031, spin:1.5, pinned:false, radius:3}],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,trailTargets:"all",monitor:true} },
+
+// ===== 第246便d(第38報 思考実験⑥): 気体の殻の表面随伴(physics.gasCoh の原理サンプル)=====
+// 第38報の「太陽や土星の外殻は気体で密度が低いので、表面での引きずりは地球表面ほど強くない」を
+// **既存キー1つ(physics.gasCoh)だけ**で測る。新しい力も新しい係数も足していない。
+{ id:"gasCohSurface", name:"気体の殻の表面随伴 — 外殻が気体だと引きずりは弱い", emoji:"🌬️", group:"天体の物語",
+  scaleTier:"planetary", sampleClass:"principle", notClaim:["cal"],
+  obsCard:[
+    {q:"表面(h=0.01R)の随伴速度 |u_φ|", model:"気体殻 gasCoh=0.3: **0.4942248** / 固体扱い(gasCoh=1): **1.6474160**", obs:"—(原理サンプル — 観測転写はしない)"},
+    {q:"比は何で決まるか", model:"**比=0.3000000=gasCoh そのもの**。コアの無い天体では殻の ω に定数を掛けるだけだから", obs:"—"},
+    {q:"コアがあると", model:"差動コア(massFrac 0.3・Rc=4・Ω=0.5)を足すと比は 0.5128(gasCoh=0.3 より**大きい**)", obs:"—"},
+    {q:"見える形(t=48・3000步)", model:"真上に打ち上げた粒子の曲がり角 **−24.06°**(気体)対 **−56.36°**(固体扱い)", obs:"—"},
+    {q:"曲がりの正体", model:"E6′ は u の**変化**に応答する: 遠方 u→0 まで登ると Δv_t → −u_φ(表面)= gasCoh に比例", obs:"—"},
+    {q:"否定対照", model:"gasCoh=1 は shell 未宣言(固体)と **500步ビット同一**。gasCoh=0 で |u_φ| は厳密 0", obs:"—"},
+    {q:"較正系との関係", model:"**触らない**。太陽・土星(🪨💿)は shell:\"gas\" 未宣言=固体として随伴しており本便でも不変", obs:"—"},
+    {q:"dt/2 収束", model:"曲がり角 −24.0579 対 −24.0585(相対 1.8×10⁻⁵)・警告 0・クランプ 0・NaN 0", obs:"—"}],
+  descStruct:{
+    summary:"**外殻が気体だと、同じ自転でも表面の引きずりが弱い**(第246便d — 第38報の思考実験⑥「太陽や土星の外殻は気体で密度が低いので、表面での引きずりは地球表面ほど強くない」)。使うのは**既存キー1つ**、`physics.gasCoh`(気体殻 `shell:\"gas\"` の回転コヒーレンス 0〜1・既定 1 — 第239便)だけで、新しい力も新しい係数も足していない。構成: 同じ質量・半径・自転(m=100・R=10・s=0.2)の中心天体を固定して置き、表面高度 **h=0.01R=0.1** の円周に**微小質量の試験粒子8個**(m=10⁻⁶・`frameSource:false` = 自分はフレームの源にならない)を並べ、真上(半径方向)へ速さ 1 で打ち上げる。重力は切ってある(G=0)ので、粒子を曲げるのは**空間の引きずりだけ**である。A 側は気体殻(gasCoh=0.3)・ワンタップ対照 B 側は **gasCoh=1**(=固体の殻と厳密に同じ扱い)。**測る量は u_φ**(粒子の位置での決定フレーム u の接線成分)で、E6′ が応答するのは u そのものではなく **u の変化**であることも同時に見せる。",
+    observe:"実測(dt=0.016): 表面 h=0.1 での **|u_φ| は 0.4942248(気体 gasCoh=0.3)対 1.6474160(gasCoh=1)で、比は 0.3000000 = gasCoh そのもの**(Float32 の丸めまで厳密。gasCoh を 0.75/0.5/0.25/0.1 に振っても比は毎回 gasCoh に一致し、gasCoh=0 では |u_φ| が厳密 0)。理由は式の形そのもので、コアの無い天体では気体コヒーレンスが**殻の ω に定数を掛けるだけ**だから比が gasCoh に落ちる。**差動コアを足すと比は上がる**: massFrac 0.3・Rc=4・Ω_c=0.5 のコアを入れると比は gasCoh=0.5/0.3/0.25 に対して 0.6520/0.5128/0.4781 で、いずれも gasCoh より大きい — gasCoh は**殻の項にしか掛からず**、コアの差動項は固体のまま残るからである(第243便の修正どおり)。見える形: t=48(3000步)で粒子の速度は打ち上げ方向から **−24.06°(気体)対 −56.36°(固体扱い)**に曲がり、横向き速度は −0.451886 対 −1.588284 になる。この曲がりは **E6′ が u の変化に応答する**ことの直接の帰結で、遠方で u→0 まで登りきると Δv_t は −u_φ(表面) に漸近する(t=48 で漸近値の 91.4%/96.4%)— だから**曲がりの大きさも gasCoh に比例する**。否定対照: **gasCoh=1 は shell 宣言なし(固体)と 500步ビット同一**・shell:\"gas\" を宣言しても gasCoh 未宣言(=1)なら同じくビット同一。dt/2 で曲がり角は −24.0585(相対 1.8×10⁻⁵)。警告 0・クランプ 0・NaN 0・再走行ビット同一。QA `behavior.gasCohSurface` が「比=gasCoh(コアなし)」「gasCoh に単調」「コアありでは比>gasCoh」「gasCoh=1≡固体のビット同一」を機械固定する。",
+    control:"ワンタップ対照A/B: **B 側は gasCoh=1** — 気体の殻を固体とまったく同じ扱いに戻す(粒子は倍以上に曲がる)。おすすめの手動対照: gasCoh を 0 にすると表面の随伴が厳密に消えて粒子はまっすぐ飛ぶ/中心天体の spin を 0 にしても同じくまっすぐ(随伴はスピン起源)/kFrame=0 でも同じ(引きずり経路)。**較正サンプル(🪨💿)は触っていない** — 太陽も土星も現行では shell:\"gas\" を宣言しておらず固体として随伴しており、本便はその宣言を変えていない。この比を実天体の較正へ持ち込むには、気体殻のコヒーレンスを独立に決める観測が要る(まだ無い)。"},
+  en:{name:"Gas-Envelope Surface Entrainment — a Gaseous Shell Drags More Weakly", descStruct:{
+    summary:"A GASEOUS OUTER SHELL DRAGS MORE WEAKLY THAN A SOLID ONE AT THE SAME SPIN (wave 246d, from report 38's thought experiment 6: 'the outer shells of the Sun and Saturn are low-density gas, so the dragging at their surface is not as strong as at Earth's surface'). It uses ONE EXISTING KEY, physics.gasCoh — the rotational coherence (0–1, default 1) of a shell declared shell:\"gas\" (wave 239) — and adds no new force and no new coefficient. The setup: a pinned central body of fixed mass, radius and spin (m=100, R=10, s=0.2), with EIGHT TINY TEST PARTICLES (m=1e-6, frameSource:false, so they are not frame sources themselves) on a circle at surface height h=0.01R=0.1, each launched straight up (radially) at speed 1. Gravity is switched off (G=0), so the ONLY thing that bends them is the dragging of space. Side A is the gas envelope (gasCoh=0.3); the one-tap control B is gasCoh=1, which is treated exactly like a solid shell. THE MEASURED QUANTITY IS u_φ, the tangential component of the determinacy frame u at the particle's position — and the sample also shows that E6′ responds not to u itself but to the CHANGE in u.",
+    observe:"Measured (dt=0.016): at the surface height h=0.1, |u_φ| IS 0.4942248 (gas, gasCoh=0.3) AGAINST 1.6474160 (gasCoh=1) — A RATIO OF 0.3000000, EXACTLY gasCoh (to the Float32 rounding). Sweeping gasCoh over 0.75/0.5/0.25/0.1 reproduces the ratio every time, and at gasCoh=0 the entrainment is exactly zero. The reason is the shape of the formula: with no core, the gas coherence simply multiplies the shell's ω by a constant, so the ratio collapses onto gasCoh. ADD A DIFFERENTIAL CORE AND THE RATIO RISES: with massFrac 0.3, Rc=4, Ω_c=0.5 the ratios at gasCoh=0.5/0.3/0.25 are 0.6520/0.5128/0.4781, all ABOVE gasCoh — because gasCoh multiplies ONLY THE SHELL TERM while the core's differential term stays solid (the wave-243 correction). What you see: by t=48 (3000 steps) the particle velocity has swung −24.06° (gas) against −56.36° (solid-equivalent) away from the launch direction, with a sideways speed of −0.451886 against −1.588284. That bend is the direct consequence of E6′ RESPONDING TO THE CHANGE IN u: climbing out to where u→0 drives Δv_t toward −u_φ(surface) (91.4%/96.4% of that asymptote at t=48), SO THE SIZE OF THE BEND IS PROPORTIONAL TO gasCoh TOO. Negative controls: gasCoh=1 IS BIT-IDENTICAL TO NOT DECLARING A SHELL AT ALL over 500 steps, and declaring shell:\"gas\" without gasCoh (=1) is bit-identical as well. At dt/2 the bend is −24.0585 (1.8e-5 relative). Zero warnings, zero clamps, zero NaN, bit-identical reruns. QA behavior.gasCohSurface machine-fixes 'ratio = gasCoh (no core)', monotonicity in gasCoh, 'ratio > gasCoh with a core', and the gasCoh=1 ≡ solid bit-identity.",
+    control:"One-tap A/B: SIDE B IS gasCoh=1 — the gaseous shell treated exactly like a solid one (the particles bend more than twice as far). Suggested manual controls: set gasCoh to 0 and the surface entrainment vanishes exactly, so the particles fly straight; set the central spin to 0 and they fly straight too (the entrainment is spin-borne); kFrame=0 does the same (it is the dragging channel). THE CALIBRATION SAMPLES (🪨💿) WERE NOT TOUCHED — neither the Sun nor Saturn currently declares shell:\"gas\", so both still entrain as solids, and this wave did not change that declaration. Carrying this ratio into a real-body calibration would need an observation that fixes the gas shell's coherence independently; there is none yet."}},
+  parameterAudit:{
+    observedInputs:["なし(原理サンプル — 観測値は1つも転写していない)"],
+    fixedConventions:["中心天体は pinned(展示の外部拘束)・G=0(引きずりだけを見る)・kRep=muF=γN=κ_S=κ=0・geoPN=0・境界なし",
+      "dragRef:\"interior\"(表面高度 h=max(0,d−R) 基準 — 第239便)・frameWeight:\"share\"・試験粒子は frameSource:false かつ m=10⁻⁶(粒子どうしは引きずり合わない)",
+      "気体殻のコヒーレンスは**殻の回転項にだけ**掛かる(コア差動項は固体扱い — 第243便の修正)"],
+    fitted:["なし(gasCoh=0.3 は**見えるようにするための用量**であってフィットではない)"],
+    derived:["|u_φ|(h=0.01R)= 0.4942248(gasCoh=0.3)/ 1.6474160(gasCoh=1)— 比 0.3000000=gasCoh",
+      "曲がり角 −24.06°/−56.36°(t=48)・漸近値 Δv_t → −u_φ(表面)"],
+    numerical:["dt=0.016・3000步(t=48)・dt/2 対照 6000步(相対 1.8×10⁻⁵)"]},
+  activeParams:["kFrame","q","softening"],
+  validT:48,
+  abBody:{ label:{ja:"gasCoh=1(気体の殻を固体と同じ扱いに戻す)", en:"gasCoh=1 (treat the gaseous shell exactly like a solid one)"},
+    physicsPatch:{gasCoh:1} },
+  camera:{scale:90}, world:{boundary:"none",size:0}, seed:20260907,
+  physics:{G:0, D0:2, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0,
+    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
+    pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, dragRef:"interior",
+    gasCoh:0.3, frameWeight:"share"},
+  bodies:[
+    // 気体の外殻を持つ中心天体(固定)。同じ質量・半径・自転で殻の相だけが対照と違う
+    {type:"single", m:100, x:0,y:0, vx:0,vy:0, spin:0.2, pinned:true, radius:10, shell:"gas"},
+    // 表面高度 h=0.01R=0.1 の円周から真上へ打ち上げる試験粒子(半径 0.05 = 接触ばねに触れない)
+    {type:"single", m:0.000001, x:10.1,y:0, vx:1,vy:0, spin:0, pinned:false, radius:0.05, frameSource:false},
+    {type:"single", m:0.000001, x:7.14177849,y:7.14177849, vx:0.7071067811865476,vy:0.7071067811865476, spin:0, pinned:false, radius:0.05, frameSource:false},
+    {type:"single", m:0.000001, x:0,y:10.1, vx:0,vy:1, spin:0, pinned:false, radius:0.05, frameSource:false},
+    {type:"single", m:0.000001, x:-7.14177849,y:7.14177849, vx:-0.7071067811865476,vy:0.7071067811865476, spin:0, pinned:false, radius:0.05, frameSource:false},
+    {type:"single", m:0.000001, x:-10.1,y:0, vx:-1,vy:0, spin:0, pinned:false, radius:0.05, frameSource:false},
+    {type:"single", m:0.000001, x:-7.14177849,y:-7.14177849, vx:-0.7071067811865476,vy:-0.7071067811865476, spin:0, pinned:false, radius:0.05, frameSource:false},
+    {type:"single", m:0.000001, x:0,y:-10.1, vx:0,vy:-1, spin:0, pinned:false, radius:0.05, frameSource:false},
+    {type:"single", m:0.000001, x:7.14177849,y:-7.14177849, vx:0.7071067811865476,vy:-0.7071067811865476, spin:0, pinned:false, radius:0.05, frameSource:false}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,trailTargets:"all",monitor:true} },
 
 // 第77便: 🌱starSeed — 星の種ローター(コアv2 の実演)。裁定(2026-08-05): コアのスピン加速の
@@ -24352,7 +24410,76 @@ function dfmBinaryInertiaFactor(mA,mB,chiA,chiB,kFrame){
   if(!(mA>0 && mB>0 && M>0 && chiA>=0 && chiA<=1 && chiB>=0 && chiB<=1 && k>=0) || ![mA,mB,chiA,chiB,k].every(Number.isFinite)) return NaN;
   return 1+k*((mA/M)*chiA*chiA+(mB/M)*chiB*chiB);
 }
+// ===== 第246便d(第38報「思考実験」の検証)— 純関数の台帳 ====================================
+// 4 つとも **読み取り専用の算術**で、力学へは 1 バイトも書かない(petersGW・spinSpin と違い
+// エンジンの経路に接続すらしていない)。「宣言された構造モデルの上での帰結」を、説明文の
+// 数字ではなく関数として置くための道具立て — QA がこの関数の値を機械固定する。
+//
+// ① dfmPlanetSpinMoment({m,R,P}) — 惑星のスピン双極子モーメント Q=½mR²·(2π/P) を **SI 実単位**で。
+//    引数は m[kg]・R[m]・P[s](サンプルのスケール単位ではなく観測値そのもの)。規約は
+//    spinDipoleMoment(S,i) の殻項と同一(一様球殻ではなく I=½mR² のエンジン規約 — 実慣性
+//    モーメント係数 C=I/mR²〔木星 0.254・土星 0.210〕は**使っていない**ので、これは
+//    「同じ規約で並べた台帳」であって惑星の実 J の推定値ではない)。
+//    返り値: {Q, Qm=Q/m, Qfield=Q/R³, I, Omega}。Qfield は「同じ r/R での場の強さ」を比べる量
+//    (双極子場 ∝ Q/r³ を r=xR で評価すると Q/(x³R³) — x が同じなら Q/R³ の比になる)。
+function dfmPlanetSpinMoment(o){
+  if(!o || typeof o!=="object") return null;
+  const m=Number(o.m), R=Number(o.R), P=Number(o.P);
+  if(!(m>0 && R>0 && P>0) || ![m,R,P].every(Number.isFinite)) return null;
+  const I=0.5*m*R*R, Om=2*Math.PI/P, Q=I*Om;
+  return { Q, Qm:Q/m, Qfield:Q/(R*R*R), I, Omega:Om };
+}
+// ② dfmSpinMomentRatio(a,b) — 2 天体の Q 比・Q/m 比・同じ r/R での場の比(Q/R³ 比)を一度に返す
+function dfmSpinMomentRatio(a,b){
+  const A=dfmPlanetSpinMoment(a), B=dfmPlanetSpinMoment(b);
+  if(!A || !B) return null;
+  return { Q:A.Q/B.Q, perMass:A.Qm/B.Qm, field:A.Qfield/B.Qfield, a:A, b:B };
+}
+// ③ dfmContractBudget({Mc,J,R0,R1,G,a,kappa}) — コアが R0→R1 へ縮むときのエネルギー予算。
+//    dUbind=a·G·Mc²(1/R1−1/R0) は「解放される結合エネルギー」(a は密度分布の形状係数 —
+//    一様球なら 3/5。**宣言された構造モデル**であって DFM の公理からの帰結ではない)、
+//    dErot=J²/(2κMc)(1/R1²−1/R0²) は「J 保存のまま Ω が上がるぶんの回転エネルギー増」
+//    (I=κ·Mc·Rc² — κ はエンジンの殻規約なら 1/2)。avail=dUbind−dErot が負なら
+//    「その収縮は自分の回転で止まる」。**本体には接続しない**(S4 第 2 段の宣言どおり)。
+function dfmContractBudget(o){
+  if(!o || typeof o!=="object") return null;
+  const Mc=Number(o.Mc), J=Number(o.J), R0=Number(o.R0), R1=Number(o.R1);
+  const G=(o.G===undefined)?1:Number(o.G), a=(o.a===undefined)?0.6:Number(o.a);
+  const k=(o.kappa===undefined)?0.5:Number(o.kappa);
+  if(!(Mc>0 && R0>0 && R1>0 && k>0) || ![Mc,J,R0,R1,G,a,k].every(Number.isFinite)) return null;
+  const dUbind=a*G*Mc*Mc*(1/R1-1/R0);
+  const dErot=(J*J)/(2*k*Mc)*(1/(R1*R1)-1/(R0*R0));
+  return { dUbind, dErot, avail:dUbind-dErot };
+}
+// ④ dfmCoreQ({Mc,Rc,J,zeta}) — 収縮するコアのスピン双極子モーメント。**Q=J/ζ**(ζ=inertiaScale)。
+//    Q=½McRc²·Ω・Ω=J/(ζ·½McRc²) なので Mc も Rc も約分で消える = **J が保存する収縮では
+//    Ω がいくら上がっても Q は 1 も増えない**。spinDipoleMoment(S,i) のコア項と同一の量。
+function dfmCoreQ(o){
+  if(!o || typeof o!=="object") return null;
+  const J=Number(o.J), z=(o.zeta===undefined)?1:Number(o.zeta);
+  const Mc=Number(o.Mc), Rc=Number(o.Rc);
+  if(!(z>0) || !Number.isFinite(J) || !Number.isFinite(z)) return null;
+  const out={ Q:J/z };
+  if(Mc>0 && Rc>0 && Number.isFinite(Mc) && Number.isFinite(Rc)){
+    out.I=0.5*Mc*Rc*Rc; out.omega=J/(out.I*z);
+  }
+  return out;
+}
+// ⑤ dfmDipoleDiscStability(eta) — 中心力 −A/r² に「平行スピン+λ>0 の斥力双極子」+B/r⁴ を
+//    重ねた**固定軸・テスト粒子近似**の 3 つの振動数比(η=(B/r⁴)/(A/r²) = |F_SS|/|F_N|)。
+//      Ω²/Ω_N² = 1−η(円軌道の公転)・κ²/Ω_N² = 1+η(面内エピサイクル)・ν_z²/Ω_N² = 1−3η(面外)
+//    ν_z² は η>1/3 で負 = **薄いディスクは面外に不安定**。「双極子を強めれば環やディスクが
+//    安定する」は一般化できない、の否定対照(2D の本体コードでは面外自由度が無く見られない)。
+function dfmDipoleDiscStability(eta){
+  const e=Number(eta);
+  if(!Number.isFinite(e)) return null;
+  return { eta:e, orbit:1-e, radial:1+e, vertical:1-3*e, stable:(e<1/3) };
+}
 window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extractJSON, frameWeightPow, frameWeightOf, FRAME_WEIGHT_DEFAULT,   // 第242便
+  // 第246便d(第38報): 思考実験の検証で使う純関数(読み取り専用 — 力学へは接続しない)。
+  // 惑星 Q 台帳・収縮の E 予算と Q 不変・双極子ディスクの面外安定性。QA behavior.planetSpinMoment /
+  // behavior.contractBudget / behavior.dipoleDiscStability が値を機械固定する
+  dfmPlanetSpinMoment, dfmSpinMomentRatio, dfmContractBudget, dfmCoreQ, dfmDipoleDiscStability,
   // 第245便補足1(第37報): スピン双極子間力(physics.spinSpin — 玩具の opt-in)。QA・実験ハーネスが
   // エンジンと同じ式を読むための公開フック。dfmSpinDipoleMoment(i)=Q_i・dfmSpinSpinU(a,b)=U_SS・
   // dfmSpinSpinEta(a,b)=|F_SS|/|F_N|(λ=1 換算の無次元比)。いずれも読み取り専用(力学へ書かない)
