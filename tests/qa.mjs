@@ -8998,6 +8998,146 @@ if (!FAST) {
   }
 }
 
+// ---- 第246便(第38報 最優先): behavior.compactSpinSpin — 観測 Q の転写(body.spinDipole)----
+// 原仮定者(第38報)「コンパクト天体は気体の外殻が無いので、観測値の高速な自転と小さな半径が
+// そのまま使える」。⚡ の A/B に観測自転(22.699379 ms / 2.773461 s)と半径(11.75 km)を転写し、
+// spinSpin の Q を Q=½mR²ω へ上書きする**読み取り専用**チャネルを機械固定する:
+//   ① 宣言した Q が Q=½mR²ω にビット一致(エンジン・公開フック・式の3者が同じ値)
+//   ② 宣言を外した ⚡ と**ビット同一**(既定経路に 1 bit も入らない)
+//   ③ λ=0 を明示しても**ビット同一**(源を増やすだけで力は増えない)
+//   ④ ⚡ の η(λ=1)< 1e-14 — 観測の自転と半径をそのまま使うと重力磁気は効かない(本便の主結果)。
+//      エンジンの η と純関数 dfmCompactSpinSpinLadder(質量が約分された形)が 1e-12 で一致
+//   ⑤ 検証器: 非数・半径≤0・不正 source は削除+警告/値域クランプ/source 既定は "observed"
+//   ⑥ **D2 の測定手続きの契約**(値は窓にしない — 数字は PHYSICS の表に置く): 近点検出 2 方式が
+//      5.6 公転窓で近点をちょうど 5 個返す・半周ジャンプ 0・近点 r<(rmin+rmax)/2・2 方式の周期一致。
+//      柵の必要性も固定する(stateCarry を legacy に落とすと放物線方式の生候補が 5 個を大きく超える)
+{
+  const hasCS = await page.evaluate(() => typeof HP.dfmCompactSpinSpinLadder === 'function'
+    && HP.allPresets().some((q) => q.id === 'psrDoubleABDFM'
+      && (q.bodies || []).some((b) => b && b.spinDipole)));
+  if (hasCS) {
+    const cs = await page.evaluate(() => {
+      const get = () => JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'psrDoubleABDFM')));
+      const build = (pd) => { const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset); return { v, S }; };
+      // ---- ①④ 宣言された Q と η ----
+      const base = get(), { v: v0, S } = build(get());
+      const A = base.bodies[0].spinDipole, B = base.bodies[1].spinDipole;
+      const QaF = 0.5 * S.m[0] * A.radius * A.radius * A.omega;
+      const QbF = 0.5 * S.m[1] * B.radius * B.radius * B.omega;
+      const Qa = HP.dfmSpinDipoleMoment(0), Qb = HP.dfmSpinDipoleMoment(1);
+      const eta = HP.dfmSpinSpinEta(0, 1);
+      const r0 = Math.hypot(S.x[1] - S.x[0], S.y[1] - S.y[0]);
+      const ld = HP.dfmCompactSpinSpinLadder(A, B, r0, S.params.cLight, S.params.softening);
+      // ---- ②③ ビット同一(4 公転ではなく短窓で十分 — 差は 1 步目で出る)----
+      const orb = (mut) => { const pd = get(); if (mut) mut(pd);
+        const { S: T } = build(pd);
+        for (let k = 0; k < 4000; k++) T.step(0.016);
+        const o = []; for (let i = 0; i < T.n; i++) o.push(T.x[i], T.y[i], T.vx[i], T.vy[i]);
+        return { o, hasSS: T.hasSpinSpin, hasDip: T.hasSpinDip, q: [HP.dfmSpinDipoleMoment(0, T), HP.dfmSpinDipoleMoment(1, T)] }; };
+      const oDecl = orb(null);
+      const oDrop = orb((p) => { for (const b of p.bodies) delete b.spinDipole; });
+      const oZero = orb((p) => { p.physics = Object.assign({}, p.physics, { spinSpin: 0 }); });
+      const bit = (a, b) => a.o.length === b.o.length && a.o.every((z, i) => Object.is(z, b.o[i]));
+      // ---- ⑤ 検証器 ----
+      const vb = (sd) => { const pd = get(); pd.bodies[0] = Object.assign({}, pd.bodies[0], { spinDipole: sd });
+        return HP.validatePreset(pd); };
+      const vNaN = vb({ omega: 'x', radius: 0.01 }), vR0 = vb({ omega: 1, radius: 0 });
+      const vSrc = vb({ omega: 1, radius: 0.01, source: 'guessed' });
+      const vDef = vb({ omega: 1, radius: 0.01 });
+      const vCl = vb({ omega: 1e12, radius: 0.01, source: 'declared' });
+      const bad = (r) => r.ok && r.preset.bodies[0].spinDipole === undefined
+        && (r.warnings || []).some((w) => /spinDipole/.test(w));
+      // ---- ⑥ 近点検出器の契約 ----
+      const detect = (carry, dt) => {
+        const pd = get(); pd.physics = Object.assign({}, pd.physics);
+        if (carry === 'legacy') delete pd.physics.stateCarry; else pd.physics.stateCarry = 'double';
+        const { S: T } = build(pd);
+        const steps = Math.round(5.6 * 881.9 / dt);
+        const rawA = [], rawB = [];
+        let r2 = 0, r1 = 0, t2 = 0, t1 = 0, rd1 = 0, rMin = Infinity, rMax = -Infinity;
+        for (let k = 0; k < steps; k++) {
+          T.step(dt);
+          const dx = T.x[1] - T.x[0], dy = T.y[1] - T.y[0];
+          const rr = Math.hypot(dx, dy), th = Math.atan2(dy, dx);
+          const rd = (dx * (T.vx[1] - T.vx[0]) + dy * (T.vy[1] - T.vy[0])) / rr;
+          if (rr < rMin) rMin = rr; if (rr > rMax) rMax = rr;
+          if (k >= 1 && rd1 < 0 && rd >= 0) {                 // 方式A: ṙ の − → + 交差
+            const fr = (rd !== rd1) ? (-rd1 / (rd - rd1)) : 0;
+            let a1 = t1, a2 = th; while (a2 - a1 > Math.PI) a2 -= 2 * Math.PI; while (a2 - a1 < -Math.PI) a2 += 2 * Math.PI;
+            rawA.push({ ang: a1 + fr * (a2 - a1), k: k - 1 + fr, r: rr });
+          }
+          if (k >= 2 && r1 < r2 && r1 < rr) {                 // 方式B: 距離極小の放物線頂点
+            const dd = (r2 - 2 * r1 + rr), fr = (dd !== 0) ? 0.5 * (r2 - rr) / dd : 0;
+            let a1 = t2, a2 = t1, a3 = th;
+            while (a2 - a1 > Math.PI) a2 -= 2 * Math.PI; while (a2 - a1 < -Math.PI) a2 += 2 * Math.PI;
+            while (a3 - a2 > Math.PI) a3 -= 2 * Math.PI; while (a3 - a2 < -Math.PI) a3 += 2 * Math.PI;
+            rawB.push({ ang: a2 + 0.5 * fr * (a3 - a1) + 0.5 * fr * fr * (a3 - 2 * a2 + a1), k: k - 1 + fr, r: r1 });
+          }
+          r2 = r1; r1 = rr; t2 = t1; t1 = th; rd1 = rd;
+        }
+        const fence = (raw) => {                              // 3 つの柵(近点/遠点・一周1つ・半周ジャンプ)
+          const mid = 0.5 * (rMin + rMax), keep = [];
+          let apo = 0, dup = 0, jump = 0;
+          for (const p of raw) {
+            if (!(p.r < mid)) { apo++; continue; }
+            if (keep.length && (p.k - keep[keep.length - 1].k) * dt < 0.5 * 881.9) { dup++; continue; }
+            keep.push(p);
+          }
+          const use = keep.slice(0, 5), ang = [];
+          for (let i = 0; i < use.length; i++) { let a = use[i].ang;
+            if (i) { let z = a - ang[i - 1]; while (z > Math.PI) z -= 2 * Math.PI; while (z < -Math.PI) z += 2 * Math.PI;
+              if (Math.abs(z) > Math.PI / 2) { jump++; break; } a = ang[i - 1] + z; }
+            ang.push(a); }
+          const per = []; for (let i = 1; i < use.length; i++) per.push((use[i].k - use[i - 1].k) * dt);
+          return { nRaw: raw.length, n: ang.length, apo, dup, jump, per,
+            allPeri: use.every((p) => p.r < mid) };
+        };
+        return { A: fence(rawA), B: fence(rawB), rMin, rMax, nan: T.hasNaN(),
+          clamp: T.clampVN + T.clampSN + T.clampRN + T.clampTN };
+      };
+      const dD = detect('double', 0.016), dL = detect('legacy', 0.016);
+      const pRel = Math.max(...dD.A.per.map((p, i) => Math.abs(p / dD.B.per[i] - 1)));
+      return {
+        warn: (v0.warnings || []).length, Qa, Qb, QaF, QbF,
+        qExact: Object.is(Qa, QaF) && Object.is(Qb, QbF),
+        qOv: [HP.dfmSpinDipoleQov(0), HP.dfmSpinDipoleQov(1)], hasDip: S.hasSpinDip,
+        eta, etaLad: ld.eta, etaRel: Math.abs(eta / ld.eta - 1), r0,
+        bitDrop: bit(oDecl, oDrop), bitZero: bit(oDecl, oZero),
+        declHasSS: oDecl.hasSS, declHasDip: oDecl.hasDip, dropHasDip: oDrop.hasDip,
+        valid: { nan: bad(vNaN), r0: bad(vR0), src: bad(vSrc),
+          def: vDef.ok && vDef.preset.bodies[0].spinDipole.source === 'observed',
+          clamp: vCl.ok && vCl.preset.bodies[0].spinDipole.omega === HP.SPIN_DIP_OM_CLAMP[1]
+            && vCl.preset.bodies[0].spinDipole.source === 'declared'
+            && (vCl.warnings || []).some((w) => /spinDipole/.test(w)) },
+        det: { D: dD, L: dL, pRel } };
+    });
+    const d = cs.det;
+    add('behavior.compactSpinSpin',
+      cs.warn === 0 && cs.qExact && cs.hasDip === true                                  // ①
+      && cs.qOv[0] === cs.QaF && cs.qOv[1] === cs.QbF
+      && cs.bitDrop && cs.bitZero && cs.declHasSS === false                              // ②③
+      && cs.declHasDip === true && cs.dropHasDip === false
+      && cs.eta < 1e-14 && cs.eta > 0 && cs.etaRel < 1e-12                               // ④
+      && cs.valid.nan && cs.valid.r0 && cs.valid.src && cs.valid.def && cs.valid.clamp   // ⑤
+      && d.D.A.n === 5 && d.D.B.n === 5 && d.D.A.jump === 0 && d.D.B.jump === 0          // ⑥
+      && d.D.A.allPeri && d.D.B.allPeri && d.pRel < 1e-3
+      && d.L.A.n === 5 && d.L.B.n === 5 && d.L.B.nRaw > 5                                // 柵の必要性
+      && !d.D.nan && d.D.clamp === 0 && !d.L.nan && d.L.clamp === 0,
+      `観測 Q の転写: Q_A=${cs.Qa.toFixed(6)}・Q_B=${cs.Qb.toFixed(6)}(=½mR²ω にビット一致=${cs.qExact}・` +
+      `hasSpinDip=${cs.hasDip})・宣言を外すとビット同一=${cs.bitDrop}・λ=0 明示でビット同一=${cs.bitZero}` +
+      `(宣言だけでは hasSpinSpin=${cs.declHasSS}) / ` +
+      `**η(λ=1)=${cs.eta.toExponential(4)}**(遠点 r=${cs.r0.toFixed(3)}・純関数と相対 ${cs.etaRel.toExponential(1)}` +
+      `— 観測の自転と半径をそのまま使うと重力磁気は 10⁻¹⁶ 台) / ` +
+      `検証器: 非数削除=${cs.valid.nan}・半径0削除=${cs.valid.r0}・不正 source 削除=${cs.valid.src}・` +
+      `source 既定 observed=${cs.valid.def}・値域クランプ=${cs.valid.clamp} / ` +
+      `近点検出器の契約(5.6公転・dt=0.016): double A ${d.D.A.n}個(生 ${d.D.A.nRaw}・遠点棄却 ${d.D.A.apo}・重複 ${d.D.A.dup}・ジャンプ ${d.D.A.jump})・` +
+      `B ${d.D.B.n}個(生 ${d.D.B.nRaw}・遠点 ${d.D.B.apo}・重複 ${d.D.B.dup})・2方式の周期一致 ${d.pRel.toExponential(1)}・` +
+      `legacy では B の生候補が ${d.L.B.nRaw} 個(柵が必要)→ 柵の後は ${d.L.B.n} 個`);
+  } else {
+    console.log('SKIP behavior.compactSpinSpin(対象に第246便の spinDipole なし — root 等)');
+  }
+}
+
 // ---- 第246便(第38報・ChatGPT v4 §5.1/5.2): behavior.spinSpinEvents — spinSpin は滑らかな力だけでなく**事象**(融合・放出)でも E を閉じる ----
 // ①融合: 消滅する対の U_SS が帳簿(fusU リザーバ)へ入る(修正前は λ=200 で −99750 の漏れ)。λ=0 と λ=200 で閉性が同じ
 // ②放出: U₁ を放出後の殻スピン・コア J で評価する(修正前は λ=1e6 で +3.9e6 の漏れ)。閉性 <1e-6・残差比 <5e-6
