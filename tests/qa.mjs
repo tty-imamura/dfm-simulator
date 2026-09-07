@@ -8775,6 +8775,301 @@ if (!FAST) {
   }
 }
 
+// ==== 第246便d(第38報「思考実験」の検証)========================================================
+// 第38報の 6 点を「測れる形」に落として機械固定する。**新しい力は 1 つも足していない**
+// (引きずりは既存の u チャネル・相互モーメントは既存の physics.spinSpin・気体殻は既存の
+//  physics.gasCoh・収縮は既存の core.contract — 第三の係数は導入していない)。
+
+// ---- 第246便d ①②: behavior.channelSeparation — 引きずり(u)と相互モーメント(spinSpin)は別チャネル ----
+// 思考実験①「重力磁気は、重力磁気が強い粒子同士で強く働く」/②「引きずりは相手の重力磁気に
+// 無関係に影響する」の機械固定。同じ配置(源: m=100・R=3・spin=2・pinned / 受け手: 分離 20)で
+//   u チャネル: 受け手の spin を 0/+1/−1 に変えても **受け手位置の u と軌道がビット同一**
+//               (自分の Q は自分が受ける引きずりに 1 bit も入らない)
+//   spinSpin チャネル: 同じ配置の単独キック F_x が **受け手の spin に厳密比例**(0/+/−)
+// ①の「強い同士で強く」は Q₁Q₂ という**定義の帰結**であって新しい発見ではない、という位置づけ。
+{
+  const hasCS = await page.evaluate(() => typeof HP.sim._spinSpin === 'function'
+    && 'uPx' in HP.sim && typeof HP.dfmSpinDipoleMoment === 'function');
+  if (hasCS) {
+    const cs = await page.evaluate(() => {
+      const PH = (o) => Object.assign({ G: 1, D0: 2, kFrame: 1, q: 2, kRep: 0, muF: 0, gammaN: 0,
+        kappaS: 0, kappaT: 0, cLight: 3, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0,
+        geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 0.1, timeScale: 1,
+        frameWeight: 'share' }, o || {});
+      const mk = (sRecv, ph) => ({ name: 'cs', description: 'd', camera: { scale: 200 },
+        world: { boundary: 'none', size: 0 }, physics: PH(ph),
+        bodies: [{ type: 'single', m: 100, x: 0, y: 0, vx: 0, vy: 0, spin: 2, pinned: true, radius: 3 },
+          { type: 'single', m: 100, x: 20, y: 0, vx: 0, vy: 0, spin: sRecv, pinned: false, radius: 3 }] });
+      const run = (sRecv, ph) => { const v = HP.validatePreset(mk(sRecv, ph));
+        const S = HP.sim; S.build(v.preset);
+        for (let k = 0; k < 500; k++) S.step(0.016);
+        return { u: [S.uPx[1], S.uPy[1]], p: [S.x[1], S.y[1], S.vx[1], S.vy[1]],
+          warn: (v.warnings || []).length, nan: S.hasNaN() }; };
+      // 単独キック: S._spinSpin(dt) だけを 1 回呼んで F=Δv·m_eff/dt を読む(積分器を通さない)
+      const kick = (sRecv) => { const v = HP.validatePreset(mk(sRecv, { spinSpin: 200, stateCarry: 'double' }));
+        const S = HP.sim; S.build(v.preset); const dt = 1e-6; S._spinSpin(dt);
+        return { Fx: S.vx[1] * S.mEff[1] / dt, Fy: S.vy[1] * S.mEff[1] / dt,
+          Q: HP.dfmSpinDipoleMoment(1), Qsrc: HP.dfmSpinDipoleMoment(0) }; };
+      const bit = (a, b) => a.length === b.length && a.every((z, i) => Object.is(z, b[i]));
+      const g = [run(0), run(1), run(-1)];                       // G=1(重力あり)
+      const d = [run(0, { G: 0 }), run(1, { G: 0 }), run(-1, { G: 0 })];   // G=0(引きずりだけ)
+      const k = [kick(0), kick(1), kick(-1)];
+      return { g, d, k,
+        uBitG: bit(g[0].u, g[1].u) && bit(g[0].u, g[2].u),
+        trajBitG: bit(g[0].p, g[1].p) && bit(g[0].p, g[2].p),
+        uBitD: bit(d[0].u, d[1].u) && bit(d[0].u, d[2].u),
+        trajBitD: bit(d[0].p, d[1].p) && bit(d[0].p, d[2].p),
+        uNonZero: d[0].u[1] !== 0 };
+    });
+    const k = cs.k;
+    add('behavior.channelSeparation',
+      cs.uBitG && cs.trajBitG && cs.uBitD && cs.trajBitD && cs.uNonZero
+      && cs.g.every((r) => r.warn === 0 && !r.nan)
+      && k[0].Fx === 0 && k[0].Fy === 0 && k[0].Q === 0
+      && k[1].Fx > 0 && k[2].Fx < 0 && Object.is(k[1].Fx, -k[2].Fx)
+      && k[1].Q === 450 && k[2].Q === -450 && k[0].Qsrc === 900
+      && k[1].Fy === 0 && k[2].Fy === 0,
+      `u チャネル(源 spin=2・pinned・受け手 spin 0/+1/−1・500步): 受け手位置の u ビット同一=${cs.uBitD}` +
+      `(G=1 でも ${cs.uBitG})・軌道ビット同一=${cs.trajBitD}(G=1 でも ${cs.trajBitG})・` +
+      `u_y(G=0)=${cs.d[0].u[1].toExponential(6)}(非零=${cs.uNonZero}) → **引きずりは受け手の Q に依らない** / ` +
+      `spinSpin チャネル(同配置・λ=200・Q_源=${k[0].Qsrc}): F_x=${k[0].Fx} / ${k[1].Fx.toFixed(6)} / ${k[2].Fx.toFixed(6)}・` +
+      `Q_受=${k[0].Q}/${k[1].Q}/${k[2].Q} → **受け手の spin に厳密比例**(符号反転で等量・F_y=0)。` +
+      `「強い同士で強く働く」は F∝Q₁Q₂ という定義の帰結であって新しい発見ではない`);
+  } else {
+    console.log('SKIP behavior.channelSeparation(対象に第246便d の u 公開値/spinSpin なし — root 等)');
+  }
+}
+
+// ---- 第246便d ③④: behavior.planetSpinMoment — 惑星の Q 台帳(HP.dfmPlanetSpinMoment)----
+// 思考実験④「惑星の重力磁気は土星が木星より強い」の機械照合。JPL 値(木星 1.898125e27 kg・
+// 71492 km・0.41354 d / 土星 5.68317e26 kg・60268 km・0.44401 d)を Q=½mR²·2π/P で並べると
+// **木星が 5.05 倍**(Q/m でも 1.51 倍・同じ r/R での場でも 3.02 倍)で、「土星の方が強い」は成立しない。
+// 環と衛星の違いは Q ではなく **r/R**(土星 C 環 1.24 / イオ 5.9)— 思考実験③ の再定式化。
+{
+  const hasPQ = await page.evaluate(() => typeof HP.dfmPlanetSpinMoment === 'function'
+    && typeof HP.dfmSpinMomentRatio === 'function');
+  if (hasPQ) {
+    const pq = await page.evaluate(() => {
+      const D = 86400;
+      const JUP = { m: 1.898125e27, R: 71492e3, P: 0.41354 * D };
+      const SAT = { m: 5.68317e26, R: 60268e3, P: 0.44401 * D };
+      const j = HP.dfmPlanetSpinMoment(JUP), s = HP.dfmPlanetSpinMoment(SAT);
+      const r = HP.dfmSpinMomentRatio(SAT, JUP);
+      return { j, s, r,
+        // r/R 台帳(観測半径の比 — 純粋な算術)
+        rR: { cring: 74658e3 / SAT.R, io: 421800e3 / JUP.R },
+        bad: [HP.dfmPlanetSpinMoment(null), HP.dfmPlanetSpinMoment({ m: -1, R: 1, P: 1 }),
+          HP.dfmPlanetSpinMoment({ m: 1, R: 1, P: 0 }), HP.dfmSpinMomentRatio(JUP, null)] };
+    });
+    const near = (a, b, t) => Math.abs(a / b - 1) < t;
+    add('behavior.planetSpinMoment',
+      near(pq.j.Q, 8.530182e38, 1e-6) && near(pq.s.Q, 1.690470e38, 1e-6)
+      && near(pq.r.Q, 0.198175, 1e-5) && near(pq.r.perMass, 0.661886, 1e-5)
+      && near(pq.r.field, 0.330797, 1e-5)
+      && pq.r.Q < 1 && pq.r.perMass < 1 && pq.r.field < 1
+      && near(pq.rR.cring, 1.2388, 1e-3) && near(pq.rR.io, 5.9000, 1e-3)
+      && pq.bad.every((z) => z === null),
+      `Q=½mR²·2π/P(SI): 木星 ${pq.j.Q.toExponential(6)} / 土星 ${pq.s.Q.toExponential(6)} kg m²/s → ` +
+      `Q_土/Q_木=${pq.r.Q.toFixed(6)}(木星が ${(1 / pq.r.Q).toFixed(2)} 倍)・` +
+      `Q/m 比 ${pq.r.perMass.toFixed(6)}・同じ r/R での場(Q/R³)比 ${pq.r.field.toFixed(6)} → ` +
+      `**「土星の重力磁気は木星より強い」はこの台帳では成立しない**(3 指標とも木星が上) / ` +
+      `環と衛星を分けるのは r/R: 土星 C 環 ${pq.rR.cring.toFixed(4)} 対 イオ ${pq.rR.io.toFixed(4)} / ` +
+      `不正入力は null=${pq.bad.every((z) => z === null)}(内部構造・扁平率はモデル化しない — ` +
+      `慣性モーメント係数 C は使わず I=½mR² のエンジン規約で並べた台帳)`);
+  } else {
+    console.log('SKIP behavior.planetSpinMoment(対象に第246便d の惑星 Q 台帳なし — root 等)');
+  }
+}
+
+// ---- 第246便d ⑥: behavior.gasCohSurface — 気体の殻の表面随伴(🌬️ と physics.gasCoh)----
+// 思考実験⑥「太陽や土星の外殻は気体で密度が低いので、表面での引きずりは地球表面ほど強くない」。
+// 表面高度 h=0.01R の試験粒子(frameSource:false・微小質量)の位置で決定フレーム u の接線成分を測る:
+//   コアなし → **比 = gasCoh に厳密一致**(殻の ω に定数を掛けるだけ)・gasCoh に単調・gasCoh=0 で 0
+//   コアあり → 比 > gasCoh(gasCoh は殻項にしか掛からない — 第243便の修正)
+//   gasCoh=1(と gasCoh 未宣言)は shell 未宣言(固体)と 500步ビット同一
+// **較正系(🪨💿)は触っていない** — 太陽・土星は shell:"gas" を宣言しておらず固体として随伴する。
+{
+  const hasGC = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'gasCohSurface')
+    && 'uPx' in HP.sim);
+  if (hasGC) {
+    const gc = await page.evaluate(() => {
+      const mk = (coh, gas, core) => {
+        const b0 = { type: 'single', m: 100, x: 0, y: 0, vx: 0, vy: 0, spin: 0.2, pinned: true,
+          radius: 10 };
+        if (gas) b0.shell = 'gas';
+        if (core) b0.core = { mode: 'differential', massFrac: 0.3, radius: 4, omega: 0.5, Kcs: 0 };
+        const ph = { G: 0, D0: 2, kFrame: 1, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 0,
+          cLight: 30, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1,
+          pnAlpha: 1.5, radiusScale: 1, softening: 0.05, timeScale: 1, dragRef: 'interior',
+          frameWeight: 'share' };
+        if (coh !== undefined) ph.gasCoh = coh;
+        return { name: 'g', description: 'd', camera: { scale: 90 },
+          world: { boundary: 'none', size: 0 }, seed: 20260907, physics: ph,
+          bodies: [b0, { type: 'single', m: 0.000001, x: 10.1, y: 0, vx: 1, vy: 0, spin: 0,
+            pinned: false, radius: 0.05, frameSource: false }] }; };
+      // |u_φ|(表面 h=0.01R)— 1 步だけ進めて粒子位置の u の接線成分を読む
+      const uphi = (coh, gas, core) => { const v = HP.validatePreset(mk(coh, gas, core));
+        const S = HP.sim; S.build(v.preset); S.step(0.016);
+        const d = Math.hypot(S.x[1], S.y[1]);
+        return { u: (S.uPx[1] * (-S.y[1]) + S.uPy[1] * S.x[1]) / d, warn: (v.warnings || []).length }; };
+      const solid = uphi(undefined, false, false);
+      const sweep = {}; for (const c of [1, 0.75, 0.5, 0.3, 0.25, 0.1, 0]) sweep[c] = uphi(c, true, false).u;
+      const cSolid = uphi(undefined, false, true).u;
+      const cSweep = {}; for (const c of [0.5, 0.3, 0.25]) cSweep[c] = uphi(c, true, true).u;
+      // gasCoh=1 / 未宣言 ≡ 固体(shell 未宣言)のビット同一(500步・全状態)
+      const runO = (coh, gas) => { const v = HP.validatePreset(mk(coh, gas, false));
+        const S = HP.sim; S.build(v.preset); for (let k = 0; k < 500; k++) S.step(0.016);
+        const o = []; for (let i = 0; i < S.n; i++) o.push(S.x[i], S.y[i], S.vx[i], S.vy[i]); return o; };
+      const oSolid = runO(undefined, false), oGas1 = runO(1, true), oGasU = runO(undefined, true);
+      const bit = (a, b) => a.length === b.length && a.every((z, i) => Object.is(z, b[i]));
+      // 内蔵 🌬️ サンプル(A=gasCoh 0.3)とワンタップ対照(B=gasCoh 1)
+      const smp = (patch, steps, dt) => {
+        const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'gasCohSurface')));
+        if (patch) pd.physics = Object.assign({}, pd.physics, patch);
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+        let u0 = 0;
+        for (let k = 0; k < steps; k++) { S.step(dt);
+          if (k === 0) { const d = Math.hypot(S.x[1], S.y[1]);
+            u0 = (S.uPx[1] * (-S.y[1]) + S.uPy[1] * S.x[1]) / d; } }
+        return { u0, vx: S.vx[1], vy: S.vy[1], deg: Math.atan2(S.vy[1], S.vx[1]) * 180 / Math.PI,
+          warn: (v.warnings || []).length, clamp: S.clampVN + S.clampSN + S.clampRN + S.clampTN,
+          nan: S.hasNaN(), n: S.n, coh: v.preset.physics.gasCoh, gas: S.shellGas[0],
+          abCoh: (pd.abBody && pd.abBody.physicsPatch) ? pd.abBody.physicsPatch.gasCoh : null }; };
+      const A = smp(null, 3000, 0.016), B = smp({ gasCoh: 1 }, 3000, 0.016);
+      const Ah = smp(null, 6000, 0.008);
+      return { solid: solid.u, sweep, cSolid, cSweep, A, B, Ah,
+        bitGas1: bit(oSolid, oGas1), bitGasU: bit(oSolid, oGasU),
+        warn: solid.warn };
+    });
+    const rel = (a, b) => Math.abs(a / b - 1);
+    const rat = (c) => gc.sweep[c] / gc.solid;
+    const cRat = (c) => gc.cSweep[c] / gc.cSolid;
+    const mono = [1, 0.75, 0.5, 0.3, 0.25, 0.1, 0].every((c, i, arr) =>
+      i === 0 || gc.sweep[c] < gc.sweep[arr[i - 1]]);
+    add('behavior.gasCohSurface',
+      gc.solid > 0 && rat(1) === 1 && gc.sweep[0] === 0 && mono
+      && [0.75, 0.5, 0.3, 0.25, 0.1].every((c) => rel(rat(c), c) < 1e-6)
+      && [0.5, 0.3, 0.25].every((c) => cRat(c) > c) && cRat(0.5) > cRat(0.3) && cRat(0.3) > cRat(0.25)
+      && gc.bitGas1 && gc.bitGasU
+      && gc.A.n === 9 && gc.A.gas === 1 && gc.A.coh === 0.3 && gc.A.abCoh === 1
+      && gc.B.coh === undefined && gc.B.gas === 1   // 既定 1 は署名へ入れない(第239便の規約)
+      && rel(gc.A.u0 / gc.B.u0, 0.3) < 1e-6
+      && gc.A.deg < 0 && gc.B.deg < gc.A.deg && Math.abs(gc.A.vy / gc.B.vy) < 1
+      && rel(gc.Ah.deg, gc.A.deg) < 1e-3
+      && gc.A.warn === 0 && gc.B.warn === 0 && gc.A.clamp === 0 && gc.B.clamp === 0
+      && !gc.A.nan && !gc.B.nan,
+      `|u_φ|(表面 h=0.01R・コアなし): 固体 ${gc.solid.toFixed(7)} / ` +
+      [0.75, 0.5, 0.3, 0.25, 0.1, 0].map((c) => `gasCoh ${c}→比 ${rat(c).toFixed(9)}`).join('・') +
+      `(**比=gasCoh に厳密一致**・単調=${mono}・gasCoh=0 で厳密 0) / ` +
+      `コアあり(massFrac 0.3・Rc=4・Ω_c=0.5): 比 ${[0.5, 0.3, 0.25].map((c) => `${c}→${cRat(c).toFixed(4)}`).join('・')}` +
+      `(**いずれも gasCoh より大きい** — gasCoh は殻項にしか掛からない) / ` +
+      `gasCoh=1≡固体ビット同一=${gc.bitGas1}・gasCoh 未宣言の gas 殻≡固体=${gc.bitGasU} / ` +
+      `🌬️ gasCohSurface(n=${gc.A.n}・A=gasCoh ${gc.A.coh}・対照 B=${gc.A.abCoh}〔既定 1 は署名へ入らない=${gc.B.coh === undefined}〕): ` +
+      `u_φ ${gc.A.u0.toFixed(7)} 対 ${gc.B.u0.toFixed(7)}` +
+      `(比 ${(gc.A.u0 / gc.B.u0).toFixed(7)})・t=48 の曲がり角 ${gc.A.deg.toFixed(4)}° 対 ${gc.B.deg.toFixed(4)}°` +
+      `(dt/2 ${gc.Ah.deg.toFixed(4)}°・相対 ${rel(gc.Ah.deg, gc.A.deg).toExponential(1)})・` +
+      `横向き速度 ${gc.A.vy.toFixed(6)} 対 ${gc.B.vy.toFixed(6)}・警告 ${gc.A.warn}・クランプ ${gc.A.clamp}・NaN=${gc.A.nan}`);
+  } else {
+    console.log('SKIP behavior.gasCohSurface(対象に第246便d の 🌬️ なし — root 等)');
+  }
+}
+
+// ---- 第246便d ⑤: behavior.contractBudget — コア収縮の E 予算と Q 不変 ----
+// 思考実験⑤「WD/NS の質量は元の赤色巨星とあまり変わらない → 質量はコアに集中し、成長すると
+// コア半径が縮む」。①エネルギー予算 dUbind=aGMc²(1/R1−1/R0) 対 dErot=J²/(2κMc)(1/R1²−1/R0²)
+// の表を固定(ChatGPT v4: M=100・R 10→5・G=1・a=0.6・κ=0.5 で J=100 → 600/3/597・
+// J=2000 → 600/1200/−600 = **回転が速すぎる核は自分の遠心力で収縮が止まる**)。
+// ②既存の core.contract を 200 步走らせ、**Ω は R⁻² で上がるのに Q=J/ζ はビット不変**であること
+// を機械固定する(「回転が速くなっても重力磁気モーメントは増えない」)。
+// **結合エネルギーの式は宣言された構造モデル**で、本体には接続しない(S4 第 2 段)。
+{
+  const hasCB = await page.evaluate(() => typeof HP.dfmContractBudget === 'function'
+    && typeof HP.dfmCoreQ === 'function' && typeof HP.coreState === 'function');
+  if (hasCB) {
+    const cb = await page.evaluate(() => {
+      const base = { Mc: 100, R0: 10, R1: 5, G: 1, a: 0.6, kappa: 0.5 };
+      const b1 = HP.dfmContractBudget(Object.assign({ J: 100 }, base));
+      const b2 = HP.dfmContractBudget(Object.assign({ J: 2000 }, base));
+      const b0 = HP.dfmContractBudget(Object.assign({ J: 0 }, base));
+      // 既存 core.contract の実走(殻 spin=0 なので Q はコア項だけ)
+      const pd = { name: 'c', description: 'd', camera: { scale: 200 },
+        world: { boundary: 'none', size: 0 },
+        physics: { G: 0, D0: 2, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, kappaT: 0,
+          cLight: 30, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 0, lambdaPN: 1,
+          pnAlpha: 1.5, radiusScale: 1, softening: 1, timeScale: 1, frameWeight: 'share' },
+        bodies: [{ type: 'single', m: 100, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false,
+          radius: 10, core: { mode: 'differential', massFrac: 0.5, radius: 5, omega: 4,
+            inertiaScale: 2, Kcs: 0, contract: 0.02 } }] };
+      const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+      const snap = () => ({ J: S.coreJ[0], Rc: S.RcV[0], zeta: S.coreIS[0],
+        om: HP.coreState(0).omega, Qledger: HP.dfmCoreQ({ Mc: 50, Rc: S.RcV[0], J: S.coreJ[0],
+          zeta: S.coreIS[0] }).Q, Qeng: HP.dfmSpinDipoleMoment(0) });
+      const s0 = snap(); const mid = [];
+      for (let k = 0; k < 200; k++) { S.step(0.016); if (k % 50 === 49) mid.push(snap()); }
+      const s1 = snap();
+      return { b0, b1, b2, s0, s1, mid,
+        qBit: mid.every((t) => Object.is(t.Qledger, s0.Qledger)) && Object.is(s1.Qledger, s0.Qledger),
+        jBit: mid.every((t) => Object.is(t.J, s0.J)) && Object.is(s1.J, s0.J),
+        qEngRel: Math.abs(s1.Qeng / s0.Qeng - 1),
+        omPred: s0.om * Math.pow(s0.Rc / s1.Rc, 2),
+        warn: (v.warnings || []).length, clamp: S.clampVN + S.clampSN + S.clampRN, nan: S.hasNaN(),
+        bad: [HP.dfmContractBudget(null), HP.dfmContractBudget({ Mc: -1, J: 1, R0: 1, R1: 1 }),
+          HP.dfmCoreQ({ J: 1, zeta: 0 })] };
+    });
+    const eq = (a, b) => Math.abs(a - b) < 1e-9;
+    add('behavior.contractBudget',
+      eq(cb.b1.dUbind, 600) && eq(cb.b1.dErot, 3) && eq(cb.b1.avail, 597)
+      && eq(cb.b2.dUbind, 600) && eq(cb.b2.dErot, 1200) && eq(cb.b2.avail, -600)
+      && eq(cb.b0.dErot, 0) && eq(cb.b0.avail, 600)
+      && cb.b1.avail > 0 && cb.b2.avail < 0
+      && cb.qBit && cb.jBit && cb.qEngRel < 1e-12
+      && cb.s0.Qledger === 2500 && cb.s1.Rc < cb.s0.Rc && cb.s1.om > cb.s0.om
+      && Math.abs(cb.s1.om / cb.omPred - 1) < 1e-9
+      && cb.warn === 0 && cb.clamp === 0 && !cb.nan
+      && cb.bad.every((z) => z === null),
+      `E 予算(Mc=100・R 10→5・G=1・a=0.6・κ=0.5): 解放 ΔU_bind=${cb.b1.dUbind} 一定・` +
+      `回転増 ΔE_rot は J=0 → ${cb.b0.dErot} / J=100 → ${cb.b1.dErot} / J=2000 → ${cb.b2.dErot}・` +
+      `差引 ${cb.b0.avail} / ${cb.b1.avail} / ${cb.b2.avail} → **J=2000 では収支が負 = 収縮は自分の回転で止まる** / ` +
+      `core.contract 実走(200步・massFrac 0.5・Rc 5・ζ=2・contract 0.02): ` +
+      `Rc ${cb.s0.Rc}→${cb.s1.Rc.toFixed(9)}・Ω ${cb.s0.om}→${cb.s1.om.toFixed(9)}` +
+      `(R⁻² 予測 ${cb.omPred.toFixed(9)} と一致)・J ビット不変=${cb.jBit}・` +
+      `**Q=J/ζ=${cb.s0.Qledger} がビット不変=${cb.qBit}**(エンジンの Q も相対 ${cb.qEngRel.toExponential(1)})` +
+      ` → **回転が速くなっても Q は増えない**。結合エネルギーの式は宣言された構造モデルで本体には接続しない`);
+  } else {
+    console.log('SKIP behavior.contractBudget(対象に第246便d の収縮予算台帳なし — root 等)');
+  }
+}
+
+// ---- 第246便d(否定対照): behavior.dipoleDiscStability — 強い双極子は薄いディスクを安定化しない ----
+// 思考実験③「相対的に重力磁気が強いと、環や系を持つ」への否定対照。中心力 −A/r² に平行スピンの
+// 斥力双極子 +B/r⁴ を重ねた**固定軸・テスト粒子近似**では、η=|F_SS|/|F_N| に対して
+//   Ω²/Ω_N²=1−η(公転)・κ²/Ω_N²=1+η(面内)・**ν_z²/Ω_N²=1−3η(面外)**
+// で、η>1/3 では ν_z²<0 = 面外に不安定になる。2D の本体コードには面外自由度が無いので
+// 「双極子を強めれば環が安定する」は**本体では検証できない**(見えないだけ)ことを明示する。
+{
+  const hasDS = await page.evaluate(() => typeof HP.dfmDipoleDiscStability === 'function');
+  if (hasDS) {
+    const ds = await page.evaluate(() => ({
+      e0: HP.dfmDipoleDiscStability(0), e1: HP.dfmDipoleDiscStability(0.1),
+      e4: HP.dfmDipoleDiscStability(0.4), eC: HP.dfmDipoleDiscStability(1 / 3),
+      bad: [HP.dfmDipoleDiscStability('x'), HP.dfmDipoleDiscStability(NaN)] }));
+    const eq = (a, b) => Math.abs(a - b) < 1e-12;
+    add('behavior.dipoleDiscStability',
+      eq(ds.e0.orbit, 1) && eq(ds.e0.radial, 1) && eq(ds.e0.vertical, 1) && ds.e0.stable === true
+      && eq(ds.e1.orbit, 0.9) && eq(ds.e1.radial, 1.1) && eq(ds.e1.vertical, 0.7) && ds.e1.stable === true
+      && eq(ds.e4.orbit, 0.6) && eq(ds.e4.radial, 1.4) && eq(ds.e4.vertical, -0.2) && ds.e4.stable === false
+      && ds.e4.vertical < 0 && ds.eC.stable === false
+      && ds.bad.every((z) => z === null),
+      `固定軸・テスト粒子近似の振動数比(η=|F_SS|/|F_N|): ` +
+      [['η=0', ds.e0], ['η=0.1', ds.e1], ['η=0.4', ds.e4]].map(([n, o]) =>
+        `${n}→公転 ${o.orbit}・面内 ${o.radial}・**面外 ${o.vertical}**(安定=${o.stable})`).join(' / ') +
+      ` → **ν_z²=1−3η は η>1/3 で負**(境界 η=1/3 も不安定側)= 強い双極子は薄いディスクを` +
+      `必ずしも安定化しない。2D の本体コードには面外自由度が無いので、この否定は本体では見えない`);
+  } else {
+    console.log('SKIP behavior.dipoleDiscStability(対象に第246便d の面外安定性台帳なし — root 等)');
+  }
+}
+
 // ---- 第231便(第28報): behavior.supernovaObs — 超新星の観測転写(🥀 前駆星/🦀 残骸)----
 // 🥀: Joyce 一組整合の転写値+静止ビット保持。🦀: 膨張速度の転写(1506 km/s)・殻 KE=1.04e50 erg
 // (SN 1054 モデル帯と同桁・正準 1e51 の1桁下)・年齢算術・自由膨張・gas 宣言・決定性
