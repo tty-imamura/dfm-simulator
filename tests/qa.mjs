@@ -7992,6 +7992,297 @@ if (!FAST) {
   }
 }
 
+// ---- 第247便b(第39報): behavior.petersScale — 放射束の**用量** physics.petersScale ----
+// (a) 検証器: 0〜100 の有限数のみ受理(負・非数・101 は致命)。**1 は ph へ入れない**
+//     (未宣言とエクスポート JSON が 1 文字も変わらない)・0 は保持する
+// (b) a=0 は宣言だけで 1 bit も動かない — petersGW:true+a=0 の 1000 步が**オーバーレイ無しとビット同一**
+// (c) a=1 明示は未宣言とビット同一 / a=0.5 は 1 步の放射力積(Δv_rel)がちょうど半分
+// (d) 運動量は厳密保存・エネルギーは適用前後の厳密差分で radE へ(帳簿は機械ゼロ)
+// 第247便b 未適用の対象(root 等)は自動 SKIP する
+{
+  const hasDose = await page.evaluate(() => {
+    const p = HP.allPresets().find((q) => q.id === 'gw150914DFM');
+    if (!p) return false;
+    const c = JSON.parse(JSON.stringify(p)); c.physics.petersGW = true; c.physics.petersScale = 0.5;
+    const v = HP.validatePreset(c);
+    return v.ok && v.preset.physics.petersScale === 0.5;
+  });
+  if (hasDose) {
+    const r = await page.evaluate(() => {
+      const base = () => JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'gw150914DFM')));
+      const mk = (phys) => { const p = base(); Object.assign(p.physics, phys); return p; };
+      // (a) 検証器
+      const vOne = HP.validatePreset(mk({ petersGW: true, petersScale: 1 }));
+      const vZero = HP.validatePreset(mk({ petersGW: true, petersScale: 0 }));
+      const bads = [-1, 101, 'x', NaN, Infinity].map((x) => HP.validatePreset(mk({ petersGW: true, petersScale: x })).ok);
+      const vDir = HP.validatePreset(mk({ petersGW: true, petersDirection: 'tangential' }));
+      const vDirBad = HP.validatePreset(mk({ petersGW: true, petersDirection: 'radial' }));
+      const schema = {
+        oneDropped: vOne.ok && vOne.preset.physics.petersScale === undefined,   // 1 は署名に入れない
+        zeroKept: vZero.ok && vZero.preset.physics.petersScale === 0,
+        badAllFatal: bads.every((ok) => ok === false),
+        dirKept: vDir.ok && vDir.preset.physics.petersDirection === 'tangential',
+        dirBadFatal: vDirBad.ok === false,
+      };
+      // (b)(c) ビット比較(1000 步)
+      const run = (p) => { const v = HP.validatePreset(p); if (!v.ok) return 'NG';
+        const S = HP.sim; S.build(v.preset);
+        for (let i = 0; i < 1000; i++) S.step(0.016);
+        return [S.x[0], S.y[0], S.vx[0], S.vy[0], S.x[1], S.y[1], S.vx[1], S.vy[1], S.radE, S.radL].join(','); };
+      const noOverlay = run(base());
+      const doseZero = run(mk({ petersGW: true, petersScale: 0 }));
+      const doseUndecl = run(mk({ petersGW: true }));
+      const doseOne = run(mk({ petersGW: true, petersScale: 1 }));
+      // (c)(d) 1 步の力積の線形性(a=1 と a=0.5)+ 帳簿
+      const kick = (dose) => { const v = HP.validatePreset(mk({ petersGW: true, petersScale: dose }));
+        const S = HP.sim; S.build(v.preset);
+        const m = [S.m[0], S.m[1]];
+        const p0 = [m[0] * S.vx[0] + m[1] * S.vx[1], m[0] * S.vy[0] + m[1] * S.vy[1]];
+        const k0 = 0.5 * m[0] * (S.vx[0] ** 2 + S.vy[0] ** 2) + 0.5 * m[1] * (S.vx[1] ** 2 + S.vy[1] ** 2);
+        const v0 = [S.vx[0], S.vy[0], S.vx[1], S.vy[1]];
+        S._petersGW(0.016);
+        const k1 = 0.5 * m[0] * (S.vx[0] ** 2 + S.vy[0] ** 2) + 0.5 * m[1] * (S.vx[1] ** 2 + S.vy[1] ** 2);
+        const p1 = [m[0] * S.vx[0] + m[1] * S.vx[1], m[0] * S.vy[0] + m[1] * S.vy[1]];
+        return { dv: Math.hypot(S.vx[1] - v0[2], S.vy[1] - v0[3]), radE: S.radE,
+          ledger: Math.abs(k1 - k0 + S.radE), dP: Math.hypot(p1[0] - p0[0], p1[1] - p0[1]) }; };
+      const k1 = kick(1), kHalf = kick(0.5);
+      return { schema, bitZero: doseZero === noOverlay, bitOne: doseOne === doseUndecl,
+        moved: doseUndecl !== noOverlay, ratio: kHalf.dv / k1.dv,
+        ledger: Math.max(k1.ledger, kHalf.ledger), dP: Math.max(k1.dP, kHalf.dP), radE1: k1.radE };
+    });
+    const schemaOk = Object.values(r.schema).every(Boolean);
+    add('behavior.petersScale',
+      schemaOk && r.bitZero && r.bitOne && r.moved && Math.abs(r.ratio / 0.5 - 1) < 1e-8
+      && r.ledger < 1e-8 && r.dP < 1e-8,
+      `検証器: a=1 は署名に入れない=${r.schema.oneDropped}・a=0 は保持=${r.schema.zeroKept}・`
+      + `不正値(−1/101/文字列/NaN/∞)は全て致命=${r.schema.badAllFatal}・`
+      + `petersDirection "tangential" のみ受理=${r.schema.dirKept}/不正は致命=${r.schema.dirBadFatal} / `
+      + `a=0 はオーバーレイ無しとビット同一(1000步)=${r.bitZero}・a=1 明示は未宣言とビット同一=${r.bitOne}`
+      + `(オーバーレイ自体は動いている=${r.moved})/ `
+      + `用量の線形性: a=0.5 の 1 步 Δv_rel が a=1 の ${r.ratio.toFixed(12)}(=0.5 — 差は速度差の`
+      + `桁落ちだけ ${Math.abs(r.ratio / 0.5 - 1).toExponential(1)})・`
+      + `帳簿 |ΔKE+radE|=${r.ledger.toExponential(1)}・運動量残差 ${r.dP.toExponential(1)}(いずれも <1e-8)`);
+  } else {
+    console.log('SKIP behavior.petersScale(対象に第247便b の petersScale なし — root 等)');
+  }
+}
+
+// ---- 第247便b(第39報・ChatGPT v5 §6.3/6.4): behavior.petersDirection — 放射の**方向** ----
+// (a) 接線モードでは放射キックが**半径方向速度を 1 bit も変えない**(x 軸上の二体で Δv_x=0 厳密)。
+//     従来方向は変える(否定対照)。両モードとも |ΔKE+radE| は機械ゼロで閉じる
+// (b) 接触→融合の遅れの刻み依存: 従来方向は dt/2 で **1.5 倍以上**(実測 2.00 — Δv≤0.5|v| の
+//     安全制限が半径方向の落下に掛かる)、接線モードは **1.5 倍未満**(実測 1.00)。
+//     フルゲートのみ(QA_FAST では省略)----
+{
+  const hasDir = await page.evaluate(() => {
+    const p = HP.allPresets().find((q) => q.id === 'gw150914DFM');
+    if (!p) return false;
+    const c = JSON.parse(JSON.stringify(p)); c.physics.petersGW = true; c.physics.petersDirection = 'tangential';
+    const v = HP.validatePreset(c);
+    return v.ok && v.preset.physics.petersDirection === 'tangential';
+  });
+  if (hasDir) {
+    const r = await page.evaluate(({ FAST }) => {
+      const base = () => JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'gw150914DFM')));
+      const mk = (phys) => { const p = base(); Object.assign(p.physics, phys); return p; };
+      // (a) 半径方向の不変性: 二体は x 軸上に並んでいるので、半径方向 = x 方向
+      const radial = (dir) => { const v = HP.validatePreset(mk(dir
+        ? { petersGW: true, petersScale: 0.1, petersDirection: dir } : { petersGW: true, petersScale: 0.1 }));
+        const S = HP.sim; S.build(v.preset);
+        S.vx[0] = 0.2; S.vx[1] = -0.2;   // 半径方向へ寄せる(y=0 の並び)
+        const m = [S.m[0], S.m[1]];
+        const k0 = 0.5 * m[0] * (S.vx[0] ** 2 + S.vy[0] ** 2) + 0.5 * m[1] * (S.vx[1] ** 2 + S.vy[1] ** 2);
+        const vr = S.vx[1] - S.vx[0];
+        S._petersGW(0.016);
+        const k1 = 0.5 * m[0] * (S.vx[0] ** 2 + S.vy[0] ** 2) + 0.5 * m[1] * (S.vx[1] ** 2 + S.vy[1] ** 2);
+        return { dvr: S.vx[1] - S.vx[0] - vr, ledger: Math.abs(k1 - k0 + S.radE), radE: S.radE }; };
+      const tan = radial('tangential'), leg = radial(null);
+      // (b) 接触→融合の遅れの刻み依存(a=1 で早く合体させる — フルゲートのみ)
+      const lagOf = (dir, dt) => { const p = mk(dir
+        ? { petersGW: true, petersDirection: dir, spinSpin: 1 } : { petersGW: true, spinSpin: 1 });
+        p.thermal = 'tint'; p.fusion = { dFrac: 0.7 };
+        for (const b of p.bodies) b.spinDipole = { radius: b.radius,
+          omega: 2 * 0.7 * p.physics.G * b.m / (p.physics.cLight * b.radius * b.radius), source: 'declared' };
+        const v = HP.validatePreset(p); if (!v.ok) return null;
+        const S = HP.sim; S.build(v.preset);
+        const R01 = S.R[0] + S.R[1]; let contact = null;
+        while (S.t < 2000) { S.step(dt);
+          if (S.n === 1) return { contact, merge: S.t, lag: S.t - contact, fusN: S.fusN, nan: S.hasNaN() };
+          if (contact === null && Math.hypot(S.x[1] - S.x[0], S.y[1] - S.y[0]) <= R01) contact = S.t; }
+        return null; };
+      const lags = FAST ? null : { t2: lagOf('tangential', 0.002), t1: lagOf('tangential', 0.001),
+        l2: lagOf(null, 0.002), l1: lagOf(null, 0.001) };
+      return { tan, leg, lags };
+    }, { FAST });
+    const l = r.lags;
+    const lagOk = l === null || (l.t2 && l.t1 && l.l2 && l.l1
+      && l.t1.lag / l.t2.lag < 1.5 && l.l1.lag / l.l2.lag > 1.5
+      && [l.t2, l.t1, l.l2, l.l1].every((x) => x.fusN === 1 && !x.nan));
+    add('behavior.petersDirection',
+      r.tan.dvr === 0 && r.leg.dvr !== 0 && r.tan.ledger < 1e-8 && r.leg.ledger < 1e-8
+      && r.tan.radE > 0 && r.leg.radE > 0 && lagOk,
+      `接線モード: 放射キックによる半径方向速度の変化=${r.tan.dvr}(**0 厳密**)・帳簿 |ΔKE+radE|=`
+      + `${r.tan.ledger.toExponential(1)}・radE=${r.tan.radE.toExponential(3)}(正) / `
+      + `否定対照(従来方向): 半径方向 Δv=${r.leg.dvr.toExponential(2)}(≠0)・帳簿 ${r.leg.ledger.toExponential(1)} / `
+      + (l ? `接触→融合の遅れ(a=1・χ=0.7・λ=1): 接線 ${(l.t2.lag / 1000).toFixed(6)}→${(l.t1.lag / 1000).toFixed(6)} 秒`
+          + `(dt/2 比 ${(l.t1.lag / l.t2.lag).toFixed(3)} — 窓 <1.5)・従来方向 ${(l.l2.lag / 1000).toFixed(6)}→`
+          + `${(l.l1.lag / 1000).toFixed(6)} 秒(比 ${(l.l1.lag / l.l2.lag).toFixed(3)} — 窓 >1.5 = 1/dt で伸びる)`
+        : '遅れの刻み依存: QA_FAST では省略(フルゲートで機械固定)'));
+  } else {
+    console.log('SKIP behavior.petersDirection(対象に第247便b の petersDirection なし — root 等)');
+  }
+}
+
+// ---- 第247便b(第39報): behavior.gwMerge4s — ⏰ 約4秒の合体(較正 variant)の機械固定 ----
+// (a) 宣言: familyId=gw150914 の variant・sampleClass=calibration・notClaim に cal/solar_cal・
+//     petersGW+a=0.1313+tangential+λ=1・質量とコアは 🎻 とビット同一・χ=0.7 の spinDipole 両体
+// (b) 🎻 本体が第247便b で 1 bit も動いていない(petersScale/petersDirection 未宣言)
+// (c) 実測(dt=0.002・フルゲートのみ): 融合1回・NaN 0・集計クランプ 0・拡張 L 相対残差 <1e-12・
+//     融合時刻が **3.8〜4.2 秒**の窓に入る ----
+{
+  const hasM4 = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'gw150914Merge4s'));
+  if (hasM4) {
+    const r = await page.evaluate(({ FAST }) => {
+      const P = (id) => HP.allPresets().find((q) => q.id === id);
+      const p = P('gw150914Merge4s'), pd = P('gw150914DFM');
+      const d = { fam: p.familyId, role: p.familyRole, cls: p.sampleClass, group: p.group === pd.group,
+        nc: (p.notClaim || []).slice().sort().join(','),
+        gw: p.physics.petersGW, dose: p.physics.petersScale, dir: p.physics.petersDirection,
+        lam: p.physics.spinSpin, kF: p.physics.kFrame, geo: p.physics.geoPN,
+        thermal: p.thermal, dFrac: p.fusion && p.fusion.dFrac,
+        massEq: p.bodies.every((b, i) => b.m === pd.bodies[i].m && b.radius === pd.bodies[i].radius
+          && b.x === pd.bodies[i].x && b.vy === pd.bodies[i].vy),
+        coreEq: JSON.stringify(p.bodies.map((b) => b.core)) === JSON.stringify(pd.bodies.map((b) => b.core)),
+        // Q=χGm²/c を ½mR²ω で宣言している(source:"declared")
+        chi: p.bodies.map((b) => b.spinDipole && b.spinDipole.source === 'declared'
+          ? b.spinDipole.omega * b.spinDipole.radius * b.spinDipole.radius * p.physics.cLight / (2 * p.physics.G * b.m) : null),
+        // 🎻 本体は第247便b の宣言を持たない(既定経路 1 bit 不変の宣言側)
+        dfmClean: pd.physics.petersScale === undefined && pd.physics.petersDirection === undefined
+          && pd.physics.petersGW === undefined && pd.physics.spinSpin === undefined };
+      let run = null;
+      if (!FAST) {
+        const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+        if (!v.ok) run = { err: true };
+        else { const S = HP.sim; S.build(v.preset);
+          const L0 = S.totals().L + S.resL + S.radL;
+          const R01 = S.R[0] + S.R[1]; let contact = null, tM = null;
+          while (S.t < 8000) { S.step(0.002);
+            if (S.n === 1) { tM = S.t; break; }
+            if (contact === null && Math.hypot(S.x[1] - S.x[0], S.y[1] - S.y[0]) <= R01) contact = S.t; }
+          const L1 = S.totals().L + S.resL + S.radL;
+          run = { tMerge: tM, contact, fusN: S.fusN, n: S.n, nan: S.hasNaN(),
+            clamps: S.clampVN + S.clampSN + (S.clampRN || 0) + (S.clampTN || 0),
+            radE: S.radE, lRel: Math.abs(L1 - L0) / Math.max(1, Math.abs(L0)) }; }
+      }
+      return { d, run };
+    }, { FAST });
+    const d = r.d;
+    const declOk = d.fam === 'gw150914' && d.role === 'variant' && d.cls === 'calibration' && d.group
+      && d.nc === 'cal,solar_cal' && d.gw === true && d.dose === 0.1313 && d.dir === 'tangential'
+      && d.lam === 1 && d.kF === 1 && d.geo === 0 && d.thermal === 'tint' && d.dFrac === 0.7
+      && d.massEq && d.coreEq && d.chi.every((x) => x !== null && Math.abs(x - 0.7) < 1e-9) && d.dfmClean;
+    const runOk = r.run === null || (!r.run.err && r.run.fusN === 1 && r.run.n === 1 && !r.run.nan
+      && r.run.clamps === 0 && r.run.lRel < 1e-12
+      && r.run.tMerge !== null && r.run.tMerge >= 3800 && r.run.tMerge <= 4200);
+    add('behavior.gwMerge4s', declOk && runOk,
+      `宣言=${declOk}(⏰=gw150914 の variant・calibration・notClaim=[${d.nc}]・petersGW+a=${d.dose}+`
+      + `方向=${d.dir}・λ=${d.lam}・kF=${d.kF}/geoPN=${d.geo}・thermal=${d.thermal}/dFrac=${d.dFrac}・`
+      + `質量とコアは 🎻 とビット同一=${d.massEq && d.coreEq}・χ=[${d.chi.map((x) => x && x.toFixed(3))}]〔=χGm²/c〕・`
+      + `**🎻 本体は第247便b の宣言を1つも持たない=${d.dfmClean}**)/ `
+      + (r.run ? `実測(dt=0.002): 接触 ${(r.run.contact / 1000).toFixed(6)} 秒 → 融合 ${(r.run.tMerge / 1000).toFixed(6)} 秒`
+          + `(窓 3.8〜4.2 — 用量 a=0.1313 の**合わせ込み**。最細刻み dt=0.0005 では 3.962839 秒・一次外挿 3.992 秒)・`
+          + `融合 ${r.run.fusN} 回・NaN=${r.run.nan}・集計クランプ ${r.run.clamps}・帳簿 L ${r.run.lRel.toExponential(1)}(<1e-12)`
+        : '実測: QA_FAST では省略(フルゲートで機械固定)'));
+  } else {
+    console.log('SKIP behavior.gwMerge4s(対象に第247便b の ⏰ なし — root 等)');
+  }
+}
+
+// ---- 第247便b(第39報・Grok v5 §5B): behavior.gwSpinDipole — Kerr Q の λ=1 原理サンプル ----
+// (a) 宣言: principle・claim 窓なし・**観測質量**(🎐 とビット同一)・kFrame=0・spinSpin=1・
+//     spinDipole は source:"declared" で Q=χGm²/c(χ=0.7)
+// (b) η: 純関数 dfmCompactSpinSpinLadder とエンジンの力の比が**厳密一致**(現在分離・r=5R_s)
+// (c) λ=0 対照は spinDipole 未宣言の走行と**ビット同一**(宣言だけでは 1 bit も動かない)
+// (d) 近点移動: λ=+1 は逆行・λ=−1(Kidder 符号)で**符号反転**・dt/2 で 1e-3 以内に一致 ----
+{
+  const hasSD = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'gw150914SpinDipole'));
+  if (hasSD) {
+    const r = await page.evaluate(() => {
+      const P = (id) => HP.allPresets().find((q) => q.id === id);
+      const p = P('gw150914SpinDipole'), po = P('gw150914');
+      const d = { fam: p.familyId, role: p.familyRole, cls: p.sampleClass, group: p.group === po.group,
+        nc: (p.notClaim || []).slice().sort().join(','), noClaims: p.claims === undefined,
+        kF: p.physics.kFrame, geo: p.physics.geoPN, lam: p.physics.spinSpin,
+        gwOff: p.physics.petersGW === undefined && p.physics.petersScale === undefined,
+        obsMass: p.bodies.every((b, i) => b.m === po.bodies[i].m && b.radius === po.bodies[i].radius
+          && b.x === po.bodies[i].x && b.vy === po.bodies[i].vy),   // **観測質量**(f≈2 の較正質量ではない)
+        chi: p.bodies.map((b) => b.spinDipole && b.spinDipole.source === 'declared'
+          ? b.spinDipole.omega * b.spinDipole.radius * b.spinDipole.radius * p.physics.cLight / (2 * p.physics.G * b.m) : null),
+        ab: p.abBody && p.abBody.physicsPatch && p.abBody.physicsPatch.spinSpin };
+      // (b) η の純関数一致
+      const v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+      const S = HP.sim; S.build(v.preset);
+      const ph = v.preset.physics, b0 = v.preset.bodies[0], b1 = v.preset.bodies[1];
+      const Q = [HP.dfmSpinDipoleMoment(0), HP.dfmSpinDipoleMoment(1)];
+      const sep = Math.hypot(S.x[1] - S.x[0], S.y[1] - S.y[0]);
+      const r5 = 5 * (b0.radius + b1.radius);
+      const lad = (rr) => HP.dfmCompactSpinSpinLadder(
+        { radius: b0.spinDipole.radius, omega: b0.spinDipole.omega },
+        { radius: b1.spinDipole.radius, omega: b1.spinDipole.omega }, rr, ph.cLight, ph.softening, 1e-3);
+      const rho2 = sep * sep + ph.softening * ph.softening, rho = Math.sqrt(rho2);
+      const Fss = Math.abs(3 * (ph.spinSpin * ph.G / (ph.cLight * ph.cLight)) * Q[0] * Q[1] * sep / (rho2 * rho2 * rho));
+      const Fn = ph.G * S.m[0] * S.m[1] * sep / (rho2 * rho);
+      const eta = { pure: lad(sep).eta, engine: Fss / Fn, at5Rs: lad(r5).eta, r5, sep, Q };
+      // (c)(d) 走行(3.3公転窓・dt=0.016)
+      const run = (lam, dt, drop) => { const q = JSON.parse(JSON.stringify(p));
+        if (lam === null) delete q.physics.spinSpin; else q.physics.spinSpin = lam;
+        if (drop) for (const b of q.bodies) delete b.spinDipole;
+        const vv = HP.validatePreset(q); if (!vv.ok) return null;
+        const T = HP.sim; T.build(vv.preset);
+        const L0 = T.totals().L + T.resL + T.radL;
+        let prevR = null, prev2R = null, prevT = null; const peri = [];
+        for (let k = 0; k < Math.ceil(600 / dt); k++) { T.step(dt);
+          const dx = T.x[1] - T.x[0], dy = T.y[1] - T.y[0], rr = Math.hypot(dx, dy);
+          if (prevR !== null && prev2R !== null && prevR < prev2R && prevR < rr) peri.push([prevT, Math.atan2(dy, dx)]);
+          prev2R = prevR; prevR = rr; prevT = (k + 1) * dt; }
+        const L1 = T.totals().L + T.resL + T.radL;
+        let dPeri = null;
+        if (peri.length >= 2) { let dd = peri[1][1] - peri[0][1];
+          while (dd > Math.PI) dd -= 2 * Math.PI; while (dd < -Math.PI) dd += 2 * Math.PI; dPeri = dd * 180 / Math.PI; }
+        return { dPeri, nan: T.hasNaN(), clamps: T.clampVN + T.clampSN + (T.clampRN || 0) + (T.clampTN || 0),
+          lRel: Math.abs(L1 - L0) / Math.max(1, Math.abs(L0)),
+          state: [T.x[0], T.y[0], T.vx[0], T.vy[0], T.x[1], T.y[1], T.vx[1], T.vy[1]].join(',') }; };
+      const one = run(1, 0.016), zero = run(0, 0.016), neg = run(-1, 0.016);
+      const off = run(0, 0.016, true), half = run(1, 0.008);
+      return { d, eta, one, zero, neg, off, half };
+    });
+    const d = r.d, e = r.eta;
+    const declOk = d.fam === 'gw150914' && d.role === 'variant' && d.cls === 'principle' && d.group
+      && d.nc === 'cal,solar_cal' && d.noClaims && d.kF === 0 && d.geo === 0 && d.lam === 1 && d.gwOff
+      && d.obsMass && d.chi.every((x) => x !== null && Math.abs(x - 0.7) < 1e-9) && d.ab === -1;
+    const etaRel = Math.abs(e.pure / e.engine - 1);
+    const etaOk = etaRel < 1e-12 && e.pure > 5e-4 && e.pure < 1e-3 && e.at5Rs > 3e-3 && e.at5Rs < 4e-3;
+    const runOk = r.one.dPeri < -0.2 && r.neg.dPeri > 0.2 && Math.abs(r.zero.dPeri) < 0.01
+      && r.zero.state === r.off.state                                   // λ=0 ≡ spinDipole 未宣言(ビット同一)
+      && Math.abs(r.half.dPeri / r.one.dPeri - 1) < 1e-3                // dt/2 収束
+      && [r.one, r.zero, r.neg].every((x) => !x.nan && x.clamps === 0 && x.lRel < 1e-9);
+    add('behavior.gwSpinDipole', declOk && etaOk && runOk,
+      `宣言=${declOk}(⚛️=gw150914 の variant・**principle**〔claim 窓なし=${d.noClaims}〕・notClaim=[${d.nc}]・`
+      + `kF=${d.kF}/geoPN=${d.geo}・λ=${d.lam}・放射オーバーレイなし=${d.gwOff}・**観測質量が 🎐 とビット同一=${d.obsMass}**`
+      + `〔f≈2 の較正質量を使うと GR 比が4倍に歪む — 第38報〕・χ=[${d.chi.map((x) => x && x.toFixed(3))}]・A/B λ=${d.ab}) / `
+      + `η=|F_SS|/|F_N|: 純関数 ${e.pure.toExponential(6)} = エンジン ${e.engine.toExponential(6)}`
+      + `(相対差 ${etaRel.toExponential(1)} <1e-12)・`
+      + `現在分離 ${e.sep.toFixed(4)} / r=5R_s(${e.r5.toFixed(4)})で ${e.at5Rs.toExponential(6)}・`
+      + `Q=[${e.Q.map((q) => q.toFixed(1))}](=χGm²/c) / `
+      + `近点移動(3.3公転・dt=0.016): λ=+1 ${r.one.dPeri.toFixed(6)}°/周(逆行)・λ=0 ${r.zero.dPeri.toFixed(6)}(数値床)・`
+      + `λ=−1 ${r.neg.dPeri.toFixed(6)}(**符号反転**)・dt/2 ${r.half.dPeri.toFixed(6)}(相対 `
+      + `${Math.abs(r.half.dPeri / r.one.dPeri - 1).toExponential(1)})・`
+      + `λ=0 は spinDipole 未宣言とビット同一=${r.zero.state === r.off.state}・帳簿 L ${r.one.lRel.toExponential(1)}・クランプ 0`);
+  } else {
+    console.log('SKIP behavior.gwSpinDipole(対象に第247便b の ⚛️ なし — root 等)');
+  }
+}
+
 // ---- 第228便(第27報 裁定GO): gen.profile — 観測プロファイル生成器の機械固定 ----
 // (a) Plummer: 中央値=a(投影半質量の解析恒等・N標本ゆらぎ内)・(b) King: 全点 r≤rt・CDF 単調
 // (c) Sérsic n=1(=exponential): 中央値≈Re・(d) seed 決定性(同構成2回ビット一致)
@@ -10507,9 +10798,10 @@ if (!FAST) {
       const d0 = mk(), dP = mk({ frameWeight: 'pull' }), dS = mk({ frameWeight: 'share' }), d3 = mk({ frameWeight: 'pull3' }), dX = mk({ frameWeight: 'x' });
       const def = { sigSame: d0.sig === dP.sig && d0.fw === undefined, share: dS.fw === 'share' && dS.warn === 0, p3: d3.fw === 'pull3' && d3.warn === 0, bad: dX.fw === undefined && dX.warn === 1,
         pow: HP.frameWeightPow({}) === 2 && HP.frameWeightPow({ frameWeight: 'share' }) === 0 && HP.frameWeightPow({ frameWeight: 'pull3' }) === 3 && HP.frameWeightPow({ frameWeight: 'pull4' }) === 4 && HP.FRAME_WEIGHT_DEFAULT === 'pull' };
-      // legacy 内蔵サンプルは "share" 明示(1 bit 不変)・pull へ移行した現実較正 11 本は未宣言(=pull)
+      // legacy 内蔵サンプルは "share" 明示(1 bit 不変)・pull 世代の現実較正 14 本は未宣言か "pull" 明示
+      // 第247便b: ⏰ gw150914Merge4s(🎻 の複製)と ⚛️ gw150914SpinDipole(🎐 の複製)も pull 世代
       const MIG = ['earthMoonRealKF1', 'mercuryRealKF1', 'saturnRingRealKF1', 'alphaCenABDFM', 'siriusABDFM', 'psrDoubleABDFM', 'gw150914DFM', 'alphaCenAB', 'siriusAB', 'psrDoubleAB', 'gw150914',
-        'psrDoubleABSpinCal'];   // 第244便: 💿 も pull へ(観測環質量+frameSource:false)/ 第247便a: 🧿(⚡ の較正候補 variant — ⚡ と同じ pull 宣言)
+        'psrDoubleABSpinCal', 'gw150914Merge4s', 'gw150914SpinDipole'];   // 第244便: 💿 も pull へ(観測環質量+frameSource:false)/ 第247便a: 🧿(⚡ の較正候補 variant — ⚡ と同じ pull 宣言)
       const all = HP.allPresets(); let nShare = 0, nOther = 0; const wrong = [];
       for (const q of all) { const fw = q.physics && q.physics.frameWeight; if (MIG.indexOf(q.id) >= 0) { if (fw !== undefined && fw !== 'pull') wrong.push(q.id); } else if (fw === 'share') nShare++; else { nOther++; wrong.push(q.id); } }
       // 🌘: 宣言どおり(pull・D0pull=3.36e-5)で generic・近点移動 2.995°/周。pull3/pull4 は再較正値で同窓
