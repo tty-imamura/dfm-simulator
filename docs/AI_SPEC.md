@@ -758,7 +758,12 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 - `physics.halo` は観測再現版専用の外部項(公理ではない — docs/PHYSICS.md の該当節参照)。
   生成 AI はこのキーを使わない。
 - **観測 Q の転写(第246便 — `body.spinDipole`)**: single に `{"omega":自転角速度, "radius":半径, "source":"observed"|"declared"}` を宣言すると `physics.spinSpin`(玩具のスピン双極子間力)の Q_i **だけ**を Q=½m·radius²·omega へ上書きする読み取り専用の源になる(力学の殻 spin ±20・コア Ω ±50 には一切書かない・未宣言は 1 bit 不変)。**生成 AI はこのキーを使わない** — コンパクト天体連星の観測転写(docs/PHYSICS.md 第246便b の節)専用である。
+  第247便a: 宣言フラグ `ssDeclared` を内部に持つようになり、**`omega:0` の明示宣言は Q=0 のまま**(従来式へは戻らない)= ゼロスピンの否定対照が作れる。
 - **放射オーバーレイの用量と方向(第247便b — `physics.petersScale` / `physics.petersDirection`)**: `petersGW` を宣言した二体でだけ効く外部物理の付帯キー。`petersScale` は放射束の倍率(0〜100・既定 1・0 で完全に素通り・1 は署名に入れない)、`petersDirection:"tangential"` は放射キックを相対接線速度 v_t=(r×v)/|r| だけに与える(半径方向の落下速度は変えない。未宣言=従来方向)。値域は入力契約であって物理法則ではなく、**用量は合わせ込みのノブ**である。**生成 AI はこのキーを使わない** — コンパクト天体連星の較正 variant(docs/PHYSICS.md 第247便b の節)専用である。
+- **引きずり場の倍精度化(第247便a — `physics.framePrecision`)**: `"double"` を宣言すると引きずり場の実行状態配列
+  (uPx/uPy/uAx/uAy/sumW/sumWu/dpx/dpy/pairD)だけが Float64 になる(`stateCarry:"double"` が倍精度にするのは x/y/v/a だけ)。
+  省略・`"single"` は Float32 のままで**プリセット署名も挙動も 1 bit 不変**。**生成 AI はこのキーを使わない** — E6′ の差分経路の
+  数値床を切り分けるための実験機能である(docs/PHYSICS.md 第247便a の節)。
 - **観測安定則(第199便 M1 — 2026-08-25 裁定)**: 観測値再現版は、観測値で安定する計算式を
   採用する(観測値自体が計算式で算出されている為)。kFrame=1 雛形が自己診断で永年不安定と
   差し戻される系に限り kFrame=0 で採用し、引きずりは A/B の**測定側**として保持する

@@ -9429,6 +9429,301 @@ if (!FAST) {
   }
 }
 
+// ---- 第247便a(第39報 最優先「係数や質量の補正も含めて様々な手段を講じる」): behavior.compactMeasures ----
+// 第246便b の続き。3 つの実装(A/B/C)と 1 つの結論(E)を機械固定する:
+//   A) ssDeclared — spinDipole:{omega:0,…} の**明示ゼロは Q=0**(旧実装は殻の従来式へ戻る不具合。
+//      ChatGPT v5 §3.2)。宣言フラグは融合で消え・放出片は持たず・残骸(親 index)は保持し、
+//      配列拡張(_grow)・A/B 転写・チェックポイントの全経路で index が揃う
+//   B) SS の半キック分割 — leapfrog では `_spinSpin` を前後の dt/2 に分ける(ChatGPT v5 §7)。
+//      可逆性試験(前進 → v 反転 → 前進)の位置誤差が 1 次分割の 10⁻⁵ 級から**丸めの床**へ落ちる。
+//      semi(既定)は従来どおり 1 回・**S.step が半キック分割とビット一致**することも固定する
+//   C) physics.framePrecision:"double" — 引きずり場の 9 配列だけ Float64(ChatGPT v5 §4)。
+//      宣言で型が変わる/未宣言は Float32 のまま/署名は 1 文字も変わらない/⚡ の 100 步は
+//      native と一致しない(=経路が実在する)/**dt を半分にしても近点移動が ±10% 以内**
+//      (native は同じ操作で 1.5 倍以上動く — 数値床の否定対照。QA_FAST では省略)
+//   E) HP.dfmCompactMeasures — 「手段」表の正本(⚡ NS–NS・🎻 BH・🪨 太陽–水星を**同じ無次元則**で同時評価)。
+//      ①kind "spin" では質量補正 f が η から約分される ②kind "kerr" では f² で効く
+//      ③Δϖ = −2π·η(r=p) の恒等式 ④エンジンの η と 1e-12 で一致 ⑤**どの則も 3 系を同時に満たさない**
+{
+  const has247 = await page.evaluate(() => typeof HP.dfmCompactMeasures === 'function'
+    && Array.isArray(HP.FRAME_PRECISIONS) && typeof HP.dfmSpinDipoleDeclared === 'function'
+    && HP.allPresets().some((q) => q.id === 'psrDoubleABSpinCal'));
+  if (has247) {
+    const r = await page.evaluate(() => {
+      const S = HP.sim;
+      const clone = (id) => JSON.parse(JSON.stringify(HP.allPresets().find((p) => p.id === id)));
+      const build = (p) => { const v = HP.validatePreset(p); if (!v.ok) throw Error(JSON.stringify(v.errors)); S.build(v.preset); return v; };
+      const snap = () => { const o = []; for (let i = 0; i < S.n; i++) o.push(S.x[i], S.y[i], S.vx[i], S.vy[i]); return o; };
+      const same = (a, b) => a.length === b.length && a.every((z, i) => Object.is(z, b[i]));
+
+      // ---------------------------------------------------------------- A) ssDeclared
+      const decl = {};
+      const zeroDecl = () => { const p = clone('spinDipoleBinary'); delete p.abBody;
+        p.bodies[0].spinDipole = { omega: 0, radius: 3, source: 'declared' }; return p; };
+      build(zeroDecl());
+      decl.zeroQ = HP.dfmSpinDipoleMoment(0);            // 明示ゼロ → 0(旧実装は 675 へ戻っていた)
+      decl.zeroFlag = HP.dfmSpinDipoleDeclared(0);       // true(宣言済み)
+      decl.otherQ = HP.dfmSpinDipoleMoment(1);           // 未宣言 → 従来式 ½mR²s
+      decl.otherFlag = HP.dfmSpinDipoleDeclared(1);      // false
+      const run = (p, n) => { build(p); for (let k = 0; k < n; k++) S.step(0.016); return snap(); };
+      const aZero = run(zeroDecl(), 400);
+      const pLam0 = clone('spinDipoleBinary'); delete pLam0.abBody;
+      pLam0.physics = Object.assign({}, pLam0.physics, { spinSpin: 0 });
+      const aLam0 = run(pLam0, 400);
+      const pPlain = clone('spinDipoleBinary'); delete pPlain.abBody;
+      const aPlain = run(pPlain, 400);
+      decl.bitZeroIsLamZero = same(aZero, aLam0);        // Q=0 の対は素通り = λ=0 とビット同一
+      decl.differsFromPlain = !same(aZero, aPlain);      // 否定対照が「効いている」こと
+      // 融合: 宣言も Q も消える(合体後の自転は観測に無い)
+      {
+        const p = clone('spinDipoleBinary'); delete p.abBody; p.thermal = 'tint'; p.fusion = { dFrac: 0.7 };
+        p.bodies.forEach((b, i) => Object.assign(b, { x: i, y: 0, vx: 0, vy: 0,
+          spinDipole: { omega: 2, radius: 3, source: 'declared' } }));
+        build(p); S._fuse();
+        decl.fuseN = S.n; decl.fuseFlag = HP.dfmSpinDipoleDeclared(0); decl.fuseQov = HP.dfmSpinDipoleQov(0);
+      }
+      // 放出(_grow を通る): 残骸=親 index は保持・放出片は持たない
+      {
+        const p = clone('envelopeShedDFM'); delete p.balanceFrame;
+        p.bodies[0].core.omega = 15; p.bodies[0].core.contract = 0;
+        p.bodies[0].spinDipole = { omega: 3, radius: 2, source: 'declared' };
+        build(p); const n0 = S.n; S._shed();
+        decl.shedGrew = S.n > n0; decl.shedParent = HP.dfmSpinDipoleDeclared(0);
+        let childBad = 0;
+        for (let i = n0; i < S.n; i++) if (HP.dfmSpinDipoleDeclared(i) || HP.dfmSpinDipoleQov(i) !== 0) childBad++;
+        decl.shedChildBad = childBad;
+        decl.shedLen = S.ssDec.length === S.m.length;    // _grow が同じ長さで揃える
+      }
+      // A/B 転写とチェックポイント(index の揃い)
+      {
+        HP.loadPreset('psrDoubleABSpinCal', false);
+        HP.abStart();
+        const B = HP.ab() && HP.ab().simB;
+        decl.abFlag = !!B && !!B.ssDec && B.ssDec[0] === 1 && B.ssDec[1] === 1;
+        HP.abStop();
+      }
+
+      // ---------------------------------------------------------------- B) 半キック分割
+      const half = { rows: [] };
+      const trial = (lam, dt, T, kind) => {
+        const p = clone('spinDipoleBinary'); delete p.abBody;
+        p.integrator = 'leapfrog'; p.physics = Object.assign({}, p.physics, { spinSpin: lam });
+        build(p);
+        const x0 = []; for (let i = 0; i < S.n; i++) x0.push(S.x[i], S.y[i]);
+        const n = Math.round(T / dt);
+        const oldF = () => { S._spinSpin(dt); S._core(dt, 1); S._core(dt, 2); };
+        const halfF = () => { S._spinSpin(dt * .5); S._core(dt, 1); S._core(dt, 2); S._spinSpin(dt * .5); };
+        const engF = () => S.step(dt);
+        const f = (kind === 'old') ? oldF : (kind === 'engine') ? engF : halfF;
+        for (let k = 0; k < n; k++) f();
+        const mid = snap();
+        for (let i = 0; i < S.n; i++) { S.vx[i] = -S.vx[i]; S.vy[i] = -S.vy[i]; }
+        for (let k = 0; k < n; k++) f();
+        let e = 0;
+        for (let i = 0; i < S.n; i++) e = Math.max(e, Math.abs(S.x[i] - x0[2 * i]), Math.abs(S.y[i] - x0[2 * i + 1]));
+        return { kind, lam, err: e, mid };
+      };
+      const tOld = trial(200, 0.016, 150, 'old');
+      const tHalf = trial(200, 0.016, 150, 'half');
+      const tEng = trial(200, 0.016, 150, 'engine');
+      const tCtl = trial(0, 0.016, 150, 'engine');
+      half.old = tOld.err; half.half = tHalf.err; half.engine = tEng.err; half.ctrl = tCtl.err;
+      half.engineIsHalfKick = same(tHalf.mid, tEng.mid);
+      // semi(既定)は 1 回のまま = ⚙️ 本体はビット不変
+      {
+        const p = clone('spinDipoleBinary'); delete p.abBody;
+        const a = run(p, 300);
+        build(clone('spinDipoleBinary'));
+        const b = []; for (let k = 0; k < 300; k++) { S._spinSpin(0.016); S._core(0.016, 0); }
+        for (let i = 0; i < S.n; i++) b.push(S.x[i], S.y[i], S.vx[i], S.vy[i]);
+        half.semiUnchanged = same(a, b);
+      }
+
+      // ---------------------------------------------------------------- C) framePrecision
+      const frame = {};
+      const KS = HP.FRAME_F64_ARRS.concat(['pairD']);
+      build(clone('psrDoubleABDFM'));
+      frame.single = KS.every((k) => S[k].constructor === Float32Array) && S.framePrec === 'single';
+      const pD = clone('psrDoubleABDFM'); pD.physics.framePrecision = 'double';
+      const vD = build(pD);
+      frame.double = KS.every((k) => S[k].constructor === Float64Array) && S.framePrec === 'double';
+      frame.kept = vD.preset.physics.framePrecision === 'double';
+      const pS = clone('psrDoubleABDFM'); pS.physics.framePrecision = 'single';
+      frame.sigDropped = HP.validatePreset(pS).preset.physics.framePrecision === undefined;
+      const pX = clone('psrDoubleABDFM'); pX.physics.framePrecision = 'quad';
+      const vX = HP.validatePreset(pX);
+      frame.badWarn = (vX.warnings || []).some((w) => /framePrecision/.test(w))
+        && vX.preset.physics.framePrecision === undefined;
+      const n100 = run(clone('psrDoubleABDFM'), 100);
+      const d100 = run((() => { const q = clone('psrDoubleABDFM'); q.physics.framePrecision = 'double'; return q; })(), 100);
+      frame.bit100 = same(n100, d100);
+      frame.max100 = Math.max.apply(null, n100.map((z, i) => Math.abs(z - d100[i])));
+      // _grow が Float64 の pairD を Float32 へ落とさない
+      { const q = clone('psrDoubleABDFM'); q.physics.framePrecision = 'double'; build(q);
+        S._grow(S.n + 4);
+        frame.growKeeps = S.pairD.constructor === Float64Array && S.uPx.constructor === Float64Array; }
+
+      // ---------------------------------------------------------------- E) 「手段」表
+      const psr = HP.allPresets().find((q) => q.id === 'psrDoubleABDFM');
+      const gw = HP.allPresets().find((q) => q.id === 'gw150914DFM');
+      const me = HP.allPresets().find((q) => q.id === 'mercuryRealKF1');
+      const fP = psr.massCalibration.factor, fG = gw.massCalibration.factor;
+      const NS = { name: 'NS', G: psr.physics.G, c: psr.physics.cLight, eps: psr.physics.softening,
+        r: Math.abs(psr.bodies[1].x - psr.bodies[0].x),
+        a: { m: psr.bodies[0].m / fP, R: psr.bodies[0].spinDipole.radius, omega: psr.bodies[0].spinDipole.omega },
+        b: { m: psr.bodies[1].m / fP, R: psr.bodies[1].spinDipole.radius, omega: psr.bodies[1].spinDipole.omega },
+        orbit: { a: 878.8366, e: 0.087777036 } };
+      const mA = gw.bodies[0].m / fG, mB = gw.bodies[1].m / fG, cG = gw.physics.cLight, GG = gw.physics.G;
+      const RsA = 2 * GG * mA / (cG * cG), RsB = 2 * GG * mB / (cG * cG), RsT = 2 * GG * (mA + mB) / (cG * cG);
+      const BH = (rr) => ({ name: 'BH', G: GG, c: cG, eps: gw.physics.softening, r: rr,
+        a: { m: mA, kind: 'kerr', chi: 0.7, Rbody: RsA }, b: { m: mB, kind: 'kerr', chi: 0.7, Rbody: RsB } });
+      const SM = { name: 'SM', G: me.physics.G, c: me.physics.cLight, eps: me.physics.softening, r: me.bodies[1].x,
+        a: { m: me.bodies[0].m, R: me.bodies[0].radius, omega: me.bodies[0].spin },
+        b: { m: me.bodies[1].m, R: me.bodies[1].radius, omega: me.bodies[1].spin },
+        orbit: { a: 579.09, e: 0.20563, orbitsPerCentury: 100 * 365.25 / 87.9691 } };
+      const M = HP.dfmCompactMeasures;
+      const meas = {};
+      const nsBase = M(NS, {}), bh5 = M(BH(5 * RsT), {});
+      meas.massCancel = Math.abs(M(NS, { f: 2 }).eta / nsBase.eta - 1);           // ① f は約分
+      meas.kerrF2 = Math.abs(M(BH(5 * RsT), { f: 2 }).eta / bh5.eta - 4);          // ② f² で効く
+      const atP = M(Object.assign({}, NS, { r: nsBase.p, eps: 0 }), {});
+      meas.periIdentity = Math.abs(nsBase.dPeriRad / (-2 * Math.PI * atP.eta) - 1); // ③ Δϖ=−2πη(p)
+      { build(clone('psrDoubleABDFM'));
+        meas.etaEngineRel = Math.abs(HP.dfmSpinSpinEta(0, 1) / nsBase.eta - 1); }   // ④ エンジンと一致
+      meas.XiBH = bh5.Xi[0];
+      meas.XiNS = nsBase.Xi;
+      meas.etaBase = { NS: nsBase.eta, BH5: bh5.eta, SM: M(SM, {}).eta };
+      // α・β を「⚡ の η を 1e-5 にする」条件から解析で解く(2 次方程式)
+      const Rt = 1e-5 / nsBase.eta;
+      const quad = (A, B) => { const a = A * B, b = A + B, c = 1 - Rt;
+        return (a !== 0) ? (-b + Math.sqrt(b * b - 4 * a * c)) / (2 * a) : -c / b; };
+      const alpha = quad(nsBase.Xi[0] ** 2, nsBase.Xi[1] ** 2), betaR = quad(nsBase.Xi[0], nsBase.Xi[1]);
+      meas.alpha = alpha; meas.betaR = betaR;
+      const RULES = [['base', {}], ['massF', { f: 2 }], ['lamCommon', { lambda: 1e11 }],
+        ['compact', { alphaXi: alpha }], ['inertia', { betaXi: betaR }], ['kidder', { lambda: -1 }]];
+      meas.rows = RULES.map(([id, rule]) => {
+        const v = { NS: M(NS, rule), BH5: M(BH(5 * RsT), rule), SM: M(SM, rule) };
+        const ok = { visible: Math.abs(v.NS.eta) >= 1e-5 * (1 - 1e-6),
+          bhBound: Math.abs(v.BH5.eta) <= 0.1,
+          solarSafe: Math.abs(v.SM.dPeriArcsecPerCentury) <= 0.1 };
+        return { id, etaNS: v.NS.eta, etaBH: v.BH5.eta, sunArcsec: v.SM.dPeriArcsecPerCentury,
+          ok, all: ok.visible && ok.bhBound && ok.solarSafe };
+      });
+      meas.anyAllThree = meas.rows.some((x) => x.all);                              // ⑤ 1 つも無い
+      meas.gNeedNS = Math.sqrt(Rt); meas.gMaxBH = Math.sqrt(0.1 / Math.abs(bh5.eta));
+      meas.gDrop = meas.gNeedNS / meas.gMaxBH;
+      meas.bad = M(null, {}) === null && M({ G: 1 }, {}) === null;                  // 不正入力は null
+
+      // ---------------------------------------------------------------- 🧿 variant の宣言
+      const sp = HP.allPresets().find((q) => q.id === 'psrDoubleABSpinCal');
+      const F = sp.massCalibration.factor;
+      const smp = { warn: HP.validatePreset(clone('psrDoubleABSpinCal')).warnings.length,
+        f: F, lam: sp.physics.spinSpin, fp: sp.physics.framePrecision,
+        role: sp.familyRole, fam: sp.familyId, cls: sp.sampleClass, fid: sp.fidelity,
+        nc: (sp.notClaim || []).indexOf('solar_cal') >= 0,
+        massOk: Math.abs(sp.bodies[0].m / sp.massCalibration.baseMass[0] - F) < 1e-12
+          && Math.abs(sp.bodies[1].m / sp.massCalibration.baseMass[1] - F) < 1e-12
+          && sp.bodies[0].core.massFrac === (F - 1) / F && sp.bodies[1].core.massFrac === (F - 1) / F,
+        fitted: (sp.parameterAudit.fitted || []).length,
+        fittedDecl: /調整量/.test((sp.parameterAudit.fitted || []).join(''))
+          && /λ=1×10¹¹/.test((sp.parameterAudit.fitted || []).join('')),
+        noKnobless: !/フィットしたノブは無い/.test(JSON.stringify(sp)),
+        primaryUntouched: HP.allPresets().find((q) => q.id === 'psrDoubleABDFM').physics.spinSpin === undefined
+          && HP.allPresets().find((q) => q.id === 'psrDoubleABDFM').physics.framePrecision === undefined };
+      HP.loadPreset('saturn', false);
+      return { decl, half, frame, meas, smp };
+    });
+
+    // C の重い部分(dt 半減の収束契約)は QA_FAST では省く
+    let conv = null;
+    if (!FAST) {
+      conv = await page.evaluate(() => {
+        const peri = (prec, dt) => {
+          const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'psrDoubleABDFM')));
+          pd.physics = Object.assign({}, pd.physics);
+          if (prec === 'frame') pd.physics.framePrecision = 'double';
+          const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+          const steps = Math.round(5.6 * 881.9 / dt);
+          const raw = []; let rd1 = 0, t1 = 0, rMin = Infinity, rMax = -Infinity;
+          for (let k = 0; k < steps; k++) {
+            S.step(dt);
+            const dx = S.x[1] - S.x[0], dy = S.y[1] - S.y[0];
+            const rr = Math.hypot(dx, dy), th = Math.atan2(dy, dx);
+            const dvx = S.vx[1] - S.vx[0], dvy = S.vy[1] - S.vy[0];
+            const rd = (dx * dvx + dy * dvy) / rr;
+            if (rr < rMin) rMin = rr; if (rr > rMax) rMax = rr;
+            if (k >= 1 && rd1 < 0 && rd >= 0) {
+              const fr = (rd !== rd1) ? (-rd1 / (rd - rd1)) : 0;
+              let a1 = t1, a2 = th; while (a2 - a1 > Math.PI) a2 -= 2 * Math.PI; while (a2 - a1 < -Math.PI) a2 += 2 * Math.PI;
+              raw.push({ ang: a1 + fr * (a2 - a1), k: k - 1 + fr, r: rr });
+            }
+            t1 = th; rd1 = rd;
+          }
+          const mid = 0.5 * (rMin + rMax), keep = [];
+          for (const q of raw.filter((z) => z.r < mid))
+            if (!keep.length || (q.k - keep[keep.length - 1].k) * dt >= 0.5 * 881.9) keep.push(q);
+          const use = keep.slice(0, 5), ang = [];
+          for (let i = 0; i < use.length; i++) {
+            let a = use[i].ang;
+            if (i) { let z = a - ang[i - 1]; while (z > Math.PI) z -= 2 * Math.PI; while (z < -Math.PI) z += 2 * Math.PI; a = ang[i - 1] + z; }
+            ang.push(a);
+          }
+          const n = ang.length, mx = (n - 1) / 2, my = ang.reduce((a, b) => a + b, 0) / n;
+          let sxy = 0, sxx = 0;
+          for (let i = 0; i < n; i++) { sxy += (i - mx) * (ang[i] - my); sxx += (i - mx) * (i - mx); }
+          return { n, slopeDeg: (sxy / sxx) * 180 / Math.PI };
+        };
+        const f8 = peri('frame', 0.008), f4 = peri('frame', 0.004);
+        const n8 = peri('native', 0.008), n4 = peri('native', 0.004);
+        return { f8, f4, n8, n4,
+          frameRel: Math.abs(f4.slopeDeg / f8.slopeDeg - 1), nativeRel: Math.abs(n4.slopeDeg / n8.slopeDeg - 1) };
+      });
+      await page.evaluate(() => HP.loadPreset('saturn', false));
+    }
+
+    const d = r.decl, h = r.half, f = r.frame, m = r.meas, s = r.smp;
+    add('behavior.compactMeasures',
+      d.zeroQ === 0 && d.zeroFlag === true && d.otherQ !== 0 && d.otherFlag === false          // A
+      && d.bitZeroIsLamZero && d.differsFromPlain
+      && d.fuseN === 1 && d.fuseFlag === false && d.fuseQov === 0
+      && d.shedGrew && d.shedParent === true && d.shedChildBad === 0 && d.shedLen && d.abFlag
+      && h.old > 1e-7 && h.half < 1e-11 && h.half <= 100 * h.ctrl                              // B
+      && h.engineIsHalfKick && h.semiUnchanged
+      && f.single && f.double && f.kept && f.sigDropped && f.badWarn                           // C
+      && f.bit100 === false && f.max100 > 0 && f.max100 < 1e-4 && f.growKeeps
+      && (!conv || (conv.frameRel < 0.1 && conv.nativeRel > 0.1 && conv.f4.n === 5 && conv.n4.n === 5))
+      && m.massCancel < 1e-12 && m.kerrF2 < 1e-9 && m.periIdentity < 1e-12                     // E
+      && m.etaEngineRel < 1e-12 && Math.abs(m.XiBH - 0.5) < 1e-12 && m.bad
+      && m.anyAllThree === false && m.gDrop > 1e4
+      && m.rows.find((x) => x.id === 'base').ok.bhBound
+      && m.rows.find((x) => x.id === 'lamCommon').ok.visible
+      && !m.rows.find((x) => x.id === 'lamCommon').ok.solarSafe
+      && m.rows.find((x) => x.id === 'compact').ok.visible
+      && !m.rows.find((x) => x.id === 'compact').ok.bhBound
+      && m.rows.find((x) => x.id === 'compact').ok.solarSafe
+      && s.warn === 0 && s.lam === 1e11 && s.fp === 'double' && s.role === 'variant'           // 🧿
+      && s.fam === 'psr' && s.cls === 'calibration' && s.fid === 'real' && s.nc
+      && s.massOk && s.fitted === 2 && s.fittedDecl && s.noKnobless && s.primaryUntouched,
+      `A) 明示 ω=0 → Q=${d.zeroQ}(宣言フラグ=${d.zeroFlag}・未宣言側は従来式 ${d.otherQ})・` +
+      `λ=0 とビット同一=${d.bitZeroIsLamZero}(未宣言とは相違=${d.differsFromPlain})・` +
+      `融合で消滅=${d.fuseFlag === false}・放出片は非宣言 ${d.shedChildBad}件・残骸は保持=${d.shedParent}・A/B 転写=${d.abFlag} / ` +
+      `B) 可逆性(150 単位往復・λ=200): 1 次分割 ${h.old.toExponential(3)} → **半キック ${h.half.toExponential(3)}**` +
+      `(λ=0 の床 ${h.ctrl.toExponential(3)})・S.step が半キックとビット一致=${h.engineIsHalfKick}・semi は不変=${h.semiUnchanged} / ` +
+      `C) framePrecision: 宣言で Float64=${f.double}・未宣言は Float32=${f.single}・"single" は署名から落ちる=${f.sigDropped}・` +
+      `不正値は警告=${f.badWarn}・⚡ 100 步は native と相違(最大 ${f.max100.toExponential(2)})・_grow が型を保つ=${f.growKeeps}` +
+      (conv ? `・**dt 半減の収束: frame ${conv.f8.slopeDeg.toFixed(9)}→${conv.f4.slopeDeg.toFixed(9)}(${(conv.frameRel * 100).toFixed(2)}%)` +
+        ` / native ${conv.n8.slopeDeg.toFixed(9)}→${conv.n4.slopeDeg.toFixed(9)}(${(conv.nativeRel * 100).toFixed(1)}%)**` : '(収束契約は QA_FAST で省略)') + ' / ' +
+      `E) 手段表: η(λ=1) ⚡ ${m.etaBase.NS.toExponential(3)}・🎻 5R_s ${m.etaBase.BH5.toExponential(3)}・🪨 ${m.etaBase.SM.toExponential(3)}(Ξ=${m.XiNS.map((x) => x.toFixed(3)).join('/')} vs ${m.XiBH})・` +
+      `質量補正は spin で約分(${m.massCancel.toExponential(1)})・kerr では f²(${m.kerrF2.toExponential(1)})・Δϖ=−2πη(${m.periIdentity.toExponential(1)})・` +
+      `α=${m.alpha.toExponential(4)}(⚡ を η=1e-5 にする値)で 🎻 は ${m.rows.find((x) => x.id === 'compact').etaBH.toExponential(2)}・` +
+      `🪨 は ${m.rows.find((x) => x.id === 'compact').sunArcsec.toExponential(2)}″/世紀 / ` +
+      `**3 系を同時に満たす則=${m.anyAllThree ? 'あり' : 'なし'}**(単調 g(Ξ) には ${m.gDrop.toExponential(2)} 倍の落差が要る) / ` +
+      `🧿 psrDoubleABSpinCal: f=${s.f}・λ=${s.lam.toExponential(0)}・fitted ${s.fitted}件・⚡ 本体は不変=${s.primaryUntouched}`);
+  } else {
+    console.log('SKIP behavior.compactMeasures(対象に第247便a の framePrecision/dfmCompactMeasures なし — root 等)');
+  }
+}
+
 // ---- 第246便(第38報・ChatGPT v4 §5.1/5.2): behavior.spinSpinEvents — spinSpin は滑らかな力だけでなく**事象**(融合・放出)でも E を閉じる ----
 // ①融合: 消滅する対の U_SS が帳簿(fusU リザーバ)へ入る(修正前は λ=200 で −99750 の漏れ)。λ=0 と λ=200 で閉性が同じ
 // ②放出: U₁ を放出後の殻スピン・コア J で評価する(修正前は λ=1e6 で +3.9e6 の漏れ)。閉性 <1e-6・残差比 <5e-6
@@ -10306,9 +10601,10 @@ if (!FAST) {
       const d0 = mk(), dP = mk({ frameWeight: 'pull' }), dS = mk({ frameWeight: 'share' }), d3 = mk({ frameWeight: 'pull3' }), dX = mk({ frameWeight: 'x' });
       const def = { sigSame: d0.sig === dP.sig && d0.fw === undefined, share: dS.fw === 'share' && dS.warn === 0, p3: d3.fw === 'pull3' && d3.warn === 0, bad: dX.fw === undefined && dX.warn === 1,
         pow: HP.frameWeightPow({}) === 2 && HP.frameWeightPow({ frameWeight: 'share' }) === 0 && HP.frameWeightPow({ frameWeight: 'pull3' }) === 3 && HP.frameWeightPow({ frameWeight: 'pull4' }) === 4 && HP.FRAME_WEIGHT_DEFAULT === 'pull' };
-      // legacy 内蔵サンプルは "share" 明示(1 bit 不変)・pull 世代の現実較正 13 本は未宣言か "pull" 明示
+      // legacy 内蔵サンプルは "share" 明示(1 bit 不変)・pull 世代の現実較正 14 本は未宣言か "pull" 明示
       // 第247便b: ⏰ gw150914Merge4s(🎻 の複製)と ⚛️ gw150914SpinDipole(🎐 の複製)も pull 世代
-      const MIG = ['earthMoonRealKF1', 'mercuryRealKF1', 'saturnRingRealKF1', 'alphaCenABDFM', 'siriusABDFM', 'psrDoubleABDFM', 'gw150914DFM', 'alphaCenAB', 'siriusAB', 'psrDoubleAB', 'gw150914', 'gw150914Merge4s', 'gw150914SpinDipole'];   // 第244便: 💿 も pull へ(観測環質量+frameSource:false)
+      const MIG = ['earthMoonRealKF1', 'mercuryRealKF1', 'saturnRingRealKF1', 'alphaCenABDFM', 'siriusABDFM', 'psrDoubleABDFM', 'gw150914DFM', 'alphaCenAB', 'siriusAB', 'psrDoubleAB', 'gw150914',
+        'psrDoubleABSpinCal', 'gw150914Merge4s', 'gw150914SpinDipole'];   // 第244便: 💿 も pull へ(観測環質量+frameSource:false)/ 第247便a: 🧿(⚡ の較正候補 variant — ⚡ と同じ pull 宣言)
       const all = HP.allPresets(); let nShare = 0, nOther = 0; const wrong = [];
       for (const q of all) { const fw = q.physics && q.physics.frameWeight; if (MIG.indexOf(q.id) >= 0) { if (fw !== undefined && fw !== 'pull') wrong.push(q.id); } else if (fw === 'share') nShare++; else { nOther++; wrong.push(q.id); } }
       // 🌘: 宣言どおり(pull・D0pull=3.36e-5)で generic・近点移動 2.995°/周。pull3/pull4 は再較正値で同窓
@@ -21482,7 +21778,16 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     // 第223便: 🎐🎻 GW150914(観測版+DFM版 — 連星ブラックホールの基準状態)を追加 — 25→27
     const gen223 = await page.evaluate(() =>
       HP.allPresets().some((p) => p.id === 'gw150914'));
-    const want = gen223 ? 'alphaCenAB,alphaCenABDFM,earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+    // 第247便a: 🧿 psrDoubleABSpinCal(⚡ の較正候補 variant — f と λ を回した比較サンプル。
+    // 幾何・半径 proxy・自転は ⚡📻 と同じ転写でスケール換算込みの実較正)を追加 — 27→28
+    const gen247 = await page.evaluate(() =>
+      HP.allPresets().some((p) => p.id === 'psrDoubleABSpinCal'));
+    const want = gen247 ? 'alphaCenAB,alphaCenABDFM,earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+        + 'gw150914,gw150914DFM,'
+        + 'jupiterGalilean,marsMoonsReal,mercuryReal,mercuryRealKF1,neptuneReal,plutoCharonReal,'
+        + 'psrDoubleAB,psrDoubleABDFM,psrDoubleABSpinCal,qLockRadialAudit,qLockRadialAuditQ3,saturnRingReal,saturnRingRealKF1,saturnZonalD68,'
+        + 'siriusAB,siriusABDFM,solarInner,uranusReal,venusReal'
+      : gen223 ? 'alphaCenAB,alphaCenABDFM,earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
         + 'gw150914,gw150914DFM,'
         + 'jupiterGalilean,marsMoonsReal,mercuryReal,mercuryRealKF1,neptuneReal,plutoCharonReal,'
         + 'psrDoubleAB,psrDoubleABDFM,qLockRadialAudit,qLockRadialAuditQ3,saturnRingReal,saturnRingRealKF1,saturnZonalD68,'

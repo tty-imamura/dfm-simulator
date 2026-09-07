@@ -2289,8 +2289,13 @@ const SPIN_DIP_OM_CLAMP = [-1e6, 1e6], SPIN_DIP_R_CLAMP = [1e-12, 1e12];
 // スピン双極子モーメント Q_i(z 成分・上式そのもの)。表示・QA・監査が同じ量を読むための純関数
 function spinDipoleMoment(S, i){
   if(!(i>=0 && i<S.n)) return 0;
-  const ov=S.ssQov;                       // 第246便: 観測 Q の転写(0=未宣言 → 従来式)
-  if(ov && ov[i]!==0) return ov[i];
+  // 第247便a(ChatGPT v5 §3.2 の境界不具合): 数値 Q(ssQov)と**宣言フラグ**(ssDec)を分ける。
+  // spinDipole:{omega:0,…} の**明示ゼロ**は「Q=0 の否定対照」であって従来式(½mR²s+コア)への
+  // 差し戻しではない — 旧実装は ssQov[i]!==0 で判定していたため、殻が回っている粒子の明示 ω=0 が
+  // 殻の Q へ戻る不具合になっていた。宣言済みは 0 でも上書きする。ssDec が無い状態(旧セーブ・
+  // 未 build の S 等)は従来どおり「0=未宣言」に落とす(後方互換)
+  const ov=S.ssQov, dc=S.ssDec;
+  if(ov && (dc? dc[i]!==0 : ov[i]!==0)) return ov[i];
   const R=S.R[i];
   let Q=0.5*S.m[i]*R*R*S.spin[i];
   const md=S.coreMd[i];
@@ -2313,6 +2318,73 @@ function dfmCompactSpinSpinLadder(a, b, r, c, eps, target){
   const rho2=rr*rr+e*e;
   const eta=0.75*Math.abs(Ra*Ra*wa)*Math.abs(Rb*Rb*wb)/(cc*cc*rho2);
   return { eta, lamTarget:(eta>0? tg/eta : Infinity), vA:Math.abs(Ra*wa)/cc, vB:Math.abs(Rb*wb)/cc, rho:Math.sqrt(rho2) };
+}
+// ===== 第247便a(第39報「係数や質量の補正も含めて様々な手段を講じる」)=====
+// dfmCompactMeasures(sys, rule) — **3 系を同じ無次元則で評価する**純関数(状態を 1 bit も読み書きしない。
+// 表・QA・報告・PHYSICS.md が同じ数字を読むための正本)。第39報の問い「係数や質量の補正で、コンパクト連星の
+// 重力磁気を強くできるか」を、⚡(NS–NS)・🎻(BH・Kerr)・🪨(太陽–水星)の 3 系で**同時に**測るための器。
+//   sys = { name, G, c, r, eps, a:body, b:body, orbit:{a,e,orbitsPerCentury} }
+//     body = { m, kind:"spin"|"kerr", R, omega, chi, Rbody }
+//       kind "spin"(既定): Q = ½·(f·m)·R²·ω          … 観測の自転と半径をそのまま入れる転写
+//       kind "kerr"      : Q = χ·G·(f·m)²/c           … Kerr の J(BH は自転の直接観測が無い宣言値)
+//       Rbody = コンパクトネス Ξ=G·m/(R_body·c²) を測る半径(未指定は R)。**Ξ は観測質量 m で測る**
+//       (較正質量 f·m で測ると f≈2 が Ξ まで倍にしてしまう — 補正則の入力は観測量に限る)
+//   rule = { lambda, f, alphaXi, betaXi }  … **天体名を持たない**無次元則(これが「共通則」の条件)
+//     λ_eff = λ·(1+α·Ξ_a²)·(1+α·Ξ_b²)   … ① コンパクトネス依存の結合補正(Gemini v5 §3.3 ①)
+//     Q_i  ×= (1+β·Ξ_i)                  … ② 相対論的慣性補正 Γ=κMR²Ω(1+βΞ)(Gemini v5 §3.3 ②)
+//     f     … ③ 質量補正(較正質量)。**kind "spin" では η から約分され、"kerr" では f² で効く**
+//   η = |F_SS|/|F_N| = 3·λ_eff·Q_a·Q_b/(c²·m_a·m_b·ρ²)、ρ²=r²+ε²(m は較正質量 f·m)
+//   Δϖ = −6π·β_SS/(α_N·p²) [rad/公転](⚙️ と同じ解析式・β_SS=λ_eff·G·Q_aQ_b/c²・α_N=G·m_am_b・
+//     p=a(1−e²))= **−2π·η(r=p)**。1/r⁴ 項が近点をどれだけ動かすかを、太陽系の観測(″/世紀)へ換算する
+function dfmCompactMeasures(sys, rule){
+  if(!sys || typeof sys!=="object") return null;
+  const G=Number(sys.G), c=Number(sys.c), r=Number(sys.r), eps=Number(sys.eps||0);
+  if(![G,c,r,eps].every(Number.isFinite) || !(G>0 && c>0 && r>0)) return null;
+  const R=rule||{};
+  const lam0=(R.lambda===undefined)? 1 : Number(R.lambda);
+  const fM=(R.f===undefined)? 1 : Number(R.f);
+  const aX=Number(R.alphaXi||0), bX=Number(R.betaXi||0);
+  if(![lam0,fM,aX,bX].every(Number.isFinite)) return null;
+  const one=(b)=>{
+    if(!b || typeof b!=="object") return null;
+    const m0=Number(b.m); if(!Number.isFinite(m0)) return null;
+    const m=fM*m0;                                       // ③ 質量補正(エンジンが積分する較正質量)
+    const Rb=Number((b.Rbody!==undefined)? b.Rbody : b.R);
+    const Xi=(Number.isFinite(Rb) && Rb>0)? G*Math.abs(m0)/(Rb*c*c) : 0;   // Ξ は観測質量で測る
+    let Q;
+    if(b.kind==="kerr"){
+      const chi=Number(b.chi); if(!Number.isFinite(chi)) return null;
+      Q=chi*G*m*m/c;
+    } else {
+      const Rr=Number(b.R), w=Number(b.omega);
+      if(!Number.isFinite(Rr) || !Number.isFinite(w)) return null;
+      Q=0.5*m*Rr*Rr*w;
+    }
+    Q*=(1+bX*Xi);                                        // ② 慣性補正
+    return { m, m0, Xi, Q, kind:(b.kind==="kerr")? "kerr" : "spin" };
+  };
+  const A=one(sys.a), B=one(sys.b);
+  if(!A || !B) return null;
+  const lam=lam0*(1+aX*A.Xi*A.Xi)*(1+aX*B.Xi*B.Xi);      // ① コンパクトネス補正
+  const rho2=r*r+eps*eps;
+  const beta=lam*G*A.Q*B.Q/(c*c);                        // U_SS=β/ρ³
+  const alphaN=G*A.m*B.m;                                // U_N=−α_N/ρ
+  if(!(alphaN!==0)) return null;
+  const eta=3*beta/(alphaN*rho2);
+  const out={ name:String(sys.name||""), lamEff:lam, Xi:[A.Xi,B.Xi], Q:[A.Q,B.Q], m:[A.m,B.m],
+    kind:[A.kind,B.kind], rho:Math.sqrt(rho2), beta, alphaN, eta,
+    etaPerLambda:(lam0!==0)? eta/lam0 : eta };
+  const ob=sys.orbit;
+  if(ob && Number.isFinite(Number(ob.a)) && Number.isFinite(Number(ob.e))){
+    const aa=Number(ob.a), ee=Number(ob.e), pp=aa*(1-ee*ee);
+    if(pp>0){
+      const dRad=-6*Math.PI*beta/(alphaN*pp*pp);          // = −2π·η(r=p)
+      out.p=pp; out.dPeriRad=dRad; out.dPeriDeg=dRad*180/Math.PI;
+      const opc=Number(ob.orbitsPerCentury);
+      if(Number.isFinite(opc)) out.dPeriArcsecPerCentury=dRad*206264.80624709636*opc;
+    }
+  }
+  return out;
 }
 // 第243便(第35報・Grok B / Gemini 4.1): physics.gravMag=「複素数の重力」の玩具 — 源の並進が作る横向きの渦度 ẑ×v_j を u に足す用量
 // (u += w_j·k_gm·(−v_yj, v_xj)。既定 0=1 bit 不変・opt-in・force ではなく u の項なので E6′/geoPN=2 の反作用経路をそのまま通る)。
@@ -2341,6 +2413,17 @@ const HALO_MODELS=["uniform","nfw","burkert"];
 // 問題(第113便 実測比 0.23〜0.26)の解消。既定("legacy"/省略)は従来どおり 1 bit も不変。
 // 第40便 4-81(E6′ 反作用の Float64 アキュムレータ)と同型の解法の速度版・opt-in
 const STATE_CARRY_KEY = "stateCarry", STATE_CARRIES = ["legacy","double"];
+// 第247便a(第39報・ChatGPT v5 §4): framePrecision — **引きずり場**の実行状態の数値表現(opt-in・実験機能)。
+// stateCarry:"double" が倍精度にするのは軌道状態(x/y/v/a)だけで、フレーム u とその勾配・重み和
+//   uPx/uPy(フレーム速度)・uAx/uAy(反作用アキュムレータ)・sumW/sumWu(重み和)・dpx/dpy(対勾配)・pairD(対距離)
+// は Float32 のままだった。E6′/geoPN=2 は **u_now − u_prev** の差分を直接使うため、刻みを小さくするほど
+// この丸めが相対的に効き、⚡ の近点移動が dt で収束しない「数値床」を作っていた(第246便b D2 の実測)。
+// "double" 宣言でこの 9 配列だけを Float64 にする(**全エンジンの倍精度化ではない**)。未宣言は
+// Float32 のまま = プリセット署名も既定経路も 1 bit 不変。**丸めの改善であって E6′ の時間積分を
+// 2 次化する変更ではない**(周期の一次ドリフトは残る — 較正には使わない)
+const FRAME_PRECISION_KEY = "framePrecision", FRAME_PRECISIONS = ["single","double"];
+// 第247便a: 倍精度化する引きずり場の配列(build が alloc 直後に差し替える。参照の掴み直しは不要)
+const FRAME_F64_ARRS = ["uPx","uPy","uAx","uAy","sumW","sumWu","dpx","dpy"];
 // 第82便 A(光学輸送拡張): 体積吸収・波長依存(赤化)・散乱の opt-in パラメータ。
 // **観測層のみ** — 力学・時計(τ)・既存の減光(lightSweep=自光の掻き出し)には一切触れない。
 // 効くのは光線積分器 traceRay の光学的深さ τ_λ と、その表示(光線の減光・拡散光・スペクトル)だけ。
@@ -8091,7 +8174,7 @@ const BUILTIN_PRESETS = [
     {q:"公転周期(kFrame=1・χ-law 粒子別質量)", model:"2周目 8819.36 秒(−0.17%)— 周回時間 [8829.44, 8819.36, 8809.60] 秒", obs:"8834.534723278 s(Hu et al. 2022)"},
     {q:"hold-out(離心率と近点 — 第246便で1行に統合)", model:"e=0.087977(+0.23%)・近点 801.37 単位(観測版 801.72 の −0.04%)— P 較正が hold-out の e も当てる(3例目)", obs:"e=0.087777036(転写)/ 近点は照合のみ — fit の対象ではない"},
     {q:"DFM 質量(条件つき較正 — 実在値の主張ではない)", model:"f=1.99994(一次則 f=1+k_F(αχ_A+βχ_B) の不動点・fit なし — 第245便A6。χ² 則 1.99988 併記): A 2.6756/B 2.4971 M☉。殻質量=観測値", obs:"—(kFrame=1 の計算式に条件づけられた較正値・第224便の χ-law)"},
-    {q:"公転周期の短縮(第21報の問い → 第223便で機構確定)", model:"dt=0.016 で ΔP/P=−0.111%/公転(kF0 で消滅・各対照で不変)。**dt 収束実測で dt にほぼ線形 → 連続極限で消える離散化仕事**(0.1107→0.0553→0.0290%)", obs:"kF1 の連続力学は周期を保つと整合(近点移動 +0.0088°/周は dt 収束 — 物理)。Peters 式 GW との比 8.8×10⁸ 倍は記録 — 短縮は数値起源で物理比較ではない"},
+    {q:"公転周期の短縮(第21報の問い → 第223便で機構確定)", model:"dt=0.016 で ΔP/P=−0.111%/公転(kF0 で消滅・各対照で不変)。**dt 収束実測で dt にほぼ線形 → 連続極限で消える離散化仕事**(0.1107→0.0553→0.0290%)", obs:"kF1 の連続力学は周期を保つと整合(近点移動 +0.0088°/周は数値床 — 第246便 D2: dt 収束せず・未認定)。Peters 比 8.8×10⁸ は記録 — 短縮は数値起源"},
     {q:"パルス時計(第221→226便)", model:"第226便: 運動学パルス時計チャネル — A/B のパルスを観測転写の位相時計として搭載(力学不干渉・診断専用)。原理: パルス=コアスピン随伴の発光スペクトル(21cm 線の類推 — 発光振動数≠力学角速度)", obs:"A 22.699379 ms(2768.0/単位 — 両値域外でも本チャネルに載る)・B 2.773461 s(MNRAS 368 283)。B コア Ω は初期値転写(−0.4%/4.3公転・刻み依存)。TOA 再現は主張しない"},
     {q:"殻スピンと重心(第222便 — 保持成立+cmGauge)", model:"1PN 偶力ルーティング(第21報 GO)後、殻スピンのドリフト 0.0%(全窓ビット保持)・clampSN=0・帳簿 L 残差 2.0×10⁻¹⁴(機械ゼロ)。重心 3.7×10⁻⁴/4.3公転・P 残差 1.5×10⁻¹⁴", obs:"—(第220〜221便では ±40 飽和・帳簿残差 4.1×10⁻⁶ を宣言していた — 受け先ルーティングで解消。否定対照: coupleSink 除去で ±40 飽和が再現〔clampSN 8.6×10³/0.3公転〕)"},
     {q:"χ-law(第224便 — 粒子別 f と f≈2 の説明)", model:"χ 飽和域(w≫D₀)で f→2 に張り付く — f_PSR≈1.996 は法則の帰結。f=1+A はゼロフィット 0.09%(4連星最良)", obs:"—(f 系列の単調性の議論は χ-law が置き換えた — C 系列 ≤0.7% が記録)"},
@@ -8108,7 +8191,7 @@ const BUILTIN_PRESETS = [
       {q:"Orbital period (kFrame=1, χ-law per-body masses)", model:"2nd revolution 8819.36 s (−0.17%) — revolution times [8829.44, 8819.36, 8809.60] s", obs:"8834.534723278 s (Hu et al. 2022)"},
       {q:"Hold-outs (eccentricity and periastron — merged into one row in wave 246)", model:"e=0.087977 (+0.23%); periastron 801.37 units (−0.04% of the observation build's 801.72) — the calibration fitted to P also lands the hold-out e (3rd reproduction of the ✨✴️🌟💫 structure)", obs:"e=0.087777036 (transcribed); the periastron is compared only, never fitted"},
       {q:"DFM masses (a conditional calibration — NOT real-mass claims)", model:"f=1.99994 (the LINEAR law f=1+k_F(αχ_A+βχ_B), self-consistent; observed mass ratio — wave 245 A6; the χ² law gives 1.99988): A 2.6756 M☉, B 2.4971 M☉; shell mass = observed (massFrac=(f−1)/f) — ratio 1.00008 at χ saturation", obs:"— (a calibration conditioned on the kFrame=1 formula — the wave-224 χ-law)"},
-      {q:"Period contraction (the 21st report's question → mechanism settled in wave 223)", model:"−0.111%/orbit at dt=0.016 (vanishes at kF0; invariant under all controls). CONVERGENCE: nearly linear in dt (0.1107→0.0553→0.0290%) → discretization work that vanishes in the continuum limit", obs:"The continuum kF1 dynamics keeps the period (the periastron advance +0.10°/rev IS dt-converged — physics). The 8.8×10⁸× Peters ratio is recorded — the contraction is numerical in origin, not a physical comparison"},
+      {q:"Period contraction (the 21st report's question → mechanism settled in wave 223)", model:"−0.111%/orbit at dt=0.016 (vanishes at kF0; invariant under all controls). CONVERGENCE: nearly linear in dt (0.1107→0.0553→0.0290%) → discretization work that vanishes in the continuum limit", obs:"The continuum kF1 dynamics keeps the period (the +0.0088°/rev advance is a numerical floor — D2, wave 246: not dt-converged, unadjudicated). The 8.8×10⁸× Peters ratio is recorded — the contraction is numerical in origin"},
       {q:"The pulse clocks (waves 221→226)", model:"wave 226: a KINEMATIC PULSE-CLOCK CHANNEL carries both pulses as observed-transcribed phase clocks (display/diagnostic only — zero dynamics coupling). Principle: the pulse is an emission spectrum riding the core spin (21-cm hyperfine analogy — emitted frequency ≠ mechanical angular velocity)", obs:"A 22.699379 ms (2768.0/unit — outside both dynamic ranges, yet carried by this channel); B 2.773461 s (MNRAS 368 283). B's core Ω stays a transcribed initial value (−0.4% per 4.3 orbits — step-size dependent). No TOA claim"},
       {q:"Shell spins and barycentre (wave 222 — the hold succeeds, + cmGauge)", model:"after the 1PN-couple sink routing (the 21st report's GO), the shell-spin drift is 0.0% (bit-held over the whole window), clampSN=0, ledger L residual 2.0×10⁻¹⁴ (machine zero). CM shift 3.7×10⁻⁴ per 4.3 orbits; P residual 1.5×10⁻¹⁴", obs:"— (waves 220–221 declared the ±40 saturation and a 4.1×10⁻⁶ ledger residual — resolved by routing the couple through the coupleSink declaration. Negative control: removing coupleSink reproduces the saturation, clampSN 8.6×10³ per 0.3 orbit. cmGauge removes the D₀ common mode by declaration)"},
       {q:"χ-law (wave 224 — per-body f and why f≈2)", model:"in the χ-saturated regime (w≫D₀) f pins to 2 — f_PSR≈1.996 is the law's consequence. f=1+A is the best zero-fit of the four (0.09%)", obs:"— (the χ-law replaces the old monotonicity record; the C series ≤0.7% is the cross-system record)"},
@@ -8176,8 +8259,8 @@ const BUILTIN_PRESETS = [
     { id:"psrDoubleABDFM.periastron-advance", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
       metric:"dfmPeriAdvanceDeg",
       chain:{ax:["A4","A5","A8"], eq:["E4","E6′"],
-        note:"ロゼット歳差の定量: 近点移動 +0.0088°/周(順行 — 近点通過方向の実測)。kF1 引きずり項自身の帰結であることの機構同定は ✴️ 第211便を参照 — 本 claim は第3の連星での定量記録(照合: 転写量からの 1PN 解析値 4.72×10⁻³ °/公転の約22倍 — fit で消さず宣言する)。",
-        noteEn:"Quantifies the rosette precession: periastron advance +0.0088°/rev prograde (measured from the periastron-passage directions). The mechanism identification (the kF1 dragging term itself) is on ✴️, wave 211 — this claim records the quantity on a third binary (about 22× the 1PN analytic 4.72×10⁻³ °/orbit from the transcribed quantities; declared, not fitted away)."},
+        note:"ロゼット歳差の定量: 近点移動 +0.0088°/周(順行 — 近点通過方向の実測)。kF1 引きずり項自身の帰結であることの機構同定は ✴️ 第211便を参照 — 本 claim は第3の連星での定量記録(照合: 転写量からの 1PN 解析値 4.72×10⁻³ °/公転の約22倍 — fit で消さず宣言する)。**第246便 D2: この値は dt 収束しない数値床(回帰窓 — 観測歳差の再現ではない・現行判定は PHYSICS〔第247便 — 統括〕の表)**。",
+        noteEn:"Quantifies the rosette precession: periastron advance +0.0088°/rev prograde (measured from the periastron-passage directions). The mechanism identification (the kF1 dragging term itself) is on ✴️, wave 211 — this claim records the quantity on a third binary (about 22× the 1PN analytic 4.72×10⁻³ °/orbit from the transcribed quantities; declared, not fitted away). WAVE 246 D2: this value is a numerical floor that does not converge in dt (a regression window, not a reproduction of the observed precession — the current verdict is the table in PHYSICS 〔wave 247 — steward〕)."},
       roleNote:"回顧的確認 — 較正ノブはゼロ。歳差は fit で消さずそのまま宣言する。",
       roleNoteEn:"Retrospective check — zero calibration knobs. The precession is declared, not fitted away.",
       expected:{min:0.005, max:0.02},
@@ -8267,6 +8350,119 @@ const BUILTIN_PRESETS = [
       pulse:{omega:22.654675, source:"observed"},   // 第226便: B も同チャネル(コア転写時計と並置比較できる)
       spinDipole:{omega:22.654675, radius:0.01175, source:"observed"},   // 第246便: B の観測自転 2.773461 s も同じ器へ
       core:{mode:"differential", massFrac:0.49998556691988266, radius:0.01, omega:22.654675, Kcs:0, inertiaScale:1000000}}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+// ===== 第247便a(第39報 最優先「係数や質量の補正も含めて様々な手段を講じる」): ⚡ の較正候補 variant 🧿 =====
+// ⚡ psrDoubleABDFM を複製し、**f と λ を調整して**近点移動 0.004730957°/周(観測 16.899323°/yr と
+// P=8834.534723278 s からの換算)へ合わせにいった**比較サンプル**。⚡ 本体は 1 bit も変えない
+// (⚡ の「フィットしたノブは無い」という宣言はそのまま — 本サンプルは**2 つのノブを回した別の系譜**)。
+// **この λ は共通則にできない**: 同じ λ=1e11 を 🎻(BH)へ入れると η=3.7×10⁸ で束縛連星が壊れ、
+// 🪨(太陽–水星)では 1/r⁴ 項が −1.5″/世紀 を足す(3 系同時評価 = HP.dfmCompactMeasures)。
+{ id:"psrDoubleABSpinCal", name:"二重パルサー J0737−3039A/B(スピン–スピン較正候補)— f と λ を回した比較 variant", emoji:"🧿", group:"現実との照合・太陽系外",
+  familyId:"psr", familyRole:"variant",   // 仲間のメインは ⚡(primary)。本サンプルは較正候補の枝
+  scaleTier:"planetary",
+  scaleExp:{L:6, T:1, M:27},
+  sampleClass:"calibration",
+  fidelity:"real",   // 幾何・半径 proxy・自転は ⚡📻 と同じ転写。**質量係数 f と用量 λ の 2 つが fit**
+  notClaim:["solar_cal"],
+  obsCard:[
+    {q:"近点移動(**fit 対象** — 2 ノブを回した先)", model:"0.004732°/周(dt=0.001・frame 倍精度・検出器 2 方式の差 2.7×10⁻⁷)", obs:"0.004730957°/周(16.899323°/yr と P から換算・Kramer 2021)"},
+    {q:"公転周期(照合先 — fit していない)", model:"近点間 8834.018 s(−0.0059%)・dt 外挿 8834.62 s(+0.0010%)", obs:"8834.534723278 s(Hu et al. 2022)"},
+    {q:"**調整した量は 2 つ**(⚡ 本体の「ノブなし」とは別系譜)", model:"f=1.999914(一次則の不動点 1.999942 の −0.00141%)・λ=1×10¹¹", obs:"—(いずれも fit。実在質量・物理係数の主張ではない)"},
+    {q:"スピン–スピン比 η=|F_SS|/|F_N|(遠点)", model:"η=1.09×10⁻⁵(物理係数 λ=1 なら 1.09×10⁻¹⁶ — λ が 11 桁を作っている)", obs:"—(η は質量が約分され観測の自転と半径だけで決まる)"},
+    {q:"**共通則にできない**(3 系同時評価)", model:"同じ λ を 🎻 へ: η=3.7×10⁸(束縛を失う)/🪨 へ: −1.5″/世紀(43″ 較正を壊す)", obs:"—(HP.dfmCompactMeasures が表を再現する純関数)"},
+    {q:"数値床(第247便a の framePrecision)", model:"frame 倍精度で dt .002→.001 の差 1.8×10⁻⁶°/周。native は逆に発散(0.0110→0.0277)", obs:"—(丸めの改善であって時間積分の 2 次化ではない)"}],
+  failureFirst:{
+    fail:"**この較正は普遍則ではない。** ①λ=1×10¹¹ は物理係数 G/c²(λ=1)の 10¹¹ 倍で、DFM の公理からは決まらない外部オーバーレイの用量である。②同じ λ を 🎻(GW150914・Kerr の Q=χGm²/c・χ=0.7)へ入れると合体直前で η=3.7×10⁸ となり、通常の束縛連星を保てない。③同じ λ を 🪨(太陽–水星)へ入れると 1/r⁴ 項が近日点移動へ −1.5″/世紀 を足し、43″/世紀 の較正(実測一致 0.2%)を壊す。④コンパクトネス Ξ=GM/(Rc²) に単調な補正(λ_eff=λ₀(1+αΞ²) や Γ(1+βΞ))で ⚡ を見えるようにしても、Ξ_BH=0.5 > Ξ_NS≈0.16 なので BH 側が必ず先に壊れる(実測: η_BH=3.0×10¹⁰ / 3.2×10⁹)。⑤保存力のスピン–スピンはエネルギーを持ち去らないので、チャープも合体も作らない。⑥観測の近点移動はスピン–スピン以外(1PN・スピン–軌道)を含む総量であり、本サンプルはその全量を 1 つの 1/r⁴ 項へ押し込んでいる。⑦半径 11.75 km は EOS proxy であって A/B 個別の観測半径ではない。",
+    pass:"**それでも「作れる」ことは示せた。** 引きずり場の倍精度化(physics.framePrecision:\"double\" — 第247便a)で ⚡ の近点移動の数値床を外すと、未較正の値は dt→0 で 0.00945°/周 へ収束する(dt .002→.001 の変化 1.8×10⁻⁶・検出器 2 方式の差 2.7×10⁻⁷)。この収束した床の上で、質量係数を f=1.999914(一次則の不動点から −0.00141%)へわずかに下げ、スピン–スピンの用量を λ=1×10¹¹ に取ると、**近点移動 0.004732°/周が観測換算 0.004730957°/周 と +0.03% で一致**する。周期は fit していないのに近点間 8834.018 s(−0.0059%)・dt 外挿 8834.62 s(+0.0010%)に入る。つまり**現象論的な 1/r⁴ 項で二重パルサーの近点移動を作ることはできる** — できないのは、その同じ係数を BH と太陽系へ持って行くことである(上の fail 参照)。⚡ 本体(primary)はこの 2 ノブを持たない — 本サンプルは**枝**であって、⚡ の主張を置き換えない。"},
+  descStruct:{
+    summary:"**⚡ を複製して、係数(λ)と質量(f)の 2 つのノブを回した較正候補**(第247便a — 第39報「係数や質量の補正も含めて様々な手段を講じる」)。1単位=10⁶m/10¹s/10²⁷kg(⚡📻 と同じ L−T=5 相対論的連星族)。重力(E4)と kFrame=1 の運動引きずり(A8/E6′)は ⚡ と同じで、足したのは **physics.spinSpin=1×10¹¹**(面外スピン双極子どうしの静的な 1/r⁴ 力 — 玩具の外部オーバーレイ)と **physics.framePrecision:\"double\"**(引きずり場 u の配列だけを Float64 にする実験機能)の 2 つ。",
+    observe:"実測(5.6公転窓・近点 5 個の位相 fit・dt=0.001): **近点移動 0.004732°/周**(観測換算 0.004730957°/周 の +0.03%)。近点間の周期は 8834.018 秒(観測 8834.534723278 秒の −0.0059%)で、dt 0.002→0.001 の一次外挿は 8834.62 秒(+0.0010%)。λ=0 の対照(A/B の B 側)では同じ窓で **+0.009449°/周** — **差 −0.004717°/周 の全部が λ の 1/r⁴ 項**である(解析値 −2π·η(p) と 3 桁一致)。η=|F_SS|/|F_N| は遠点で 1.09×10⁻⁵(λ=1 の物理係数なら 1.09×10⁻¹⁶)。",
+    control:"ワンタップ対照A/B: B側 **spinSpin=0**(スピン–スピン力だけを切る)— 近点移動が +0.009449°/周 へ戻る(**スピン–スピンの寄与 −0.004717°/周 が消える** — 総量は順行のまま)。**この λ を他の系へ持って行ってはいけない**: 🎻(BH)で η=3.7×10⁸・🪨(太陽–水星)で −1.5″/世紀 になる(純関数 HP.dfmCompactMeasures が 3 系同時に評価する)。"},
+  en:{name:"Double Pulsar J0737−3039A/B (spin–spin calibration candidate) — two knobs turned",
+    obsCard:[
+      {q:"Periastron advance (THE FIT TARGET — two knobs turned)", model:"0.004732°/orbit (dt=0.001, double-precision frame; the two detectors differ by 2.7e-7)", obs:"0.004730957°/orbit (converted from 16.899323°/yr and P; Kramer 2021)"},
+      {q:"Orbital period (a comparison target, NOT fitted)", model:"periastron-to-periastron 8834.018 s (−0.0059%); dt-extrapolated 8834.62 s (+0.0010%)", obs:"8834.534723278 s (Hu et al. 2022)"},
+      {q:"TWO quantities were adjusted (unlike ⚡, which has none)", model:"f=1.999914 (−0.00141% off the linear law's fixed point 1.999942) and λ=1e11", obs:"— (both fitted; not claims about real masses or a physical coefficient)"},
+      {q:"Spin–spin ratio η=|F_SS|/|F_N| (apoapsis)", model:"η=1.09e-5 (at the physical coefficient λ=1 it is 1.09e-16 — λ supplies 11 orders)", obs:"— (η cancels the masses; it is set by the observed spins and radii alone)"},
+      {q:"THIS IS NOT A UNIVERSAL LAW (three systems at once)", model:"the same λ gives η=3.7e8 for 🎻 (unbound) and −1.5 arcsec/century for 🪨 (breaks the 43″ calibration)", obs:"— (HP.dfmCompactMeasures reproduces the table as a pure function)"},
+      {q:"The numerical floor (wave 247a's framePrecision)", model:"with the double frame, dt .002→.001 moves it by 1.8e-6°/orbit; the native path diverges (0.0110→0.0277)", obs:"— (a rounding fix, NOT a second-order time integrator)"}],
+    failureFirst:{
+      fail:"THIS CALIBRATION IS NOT A UNIVERSAL LAW. (1) λ=1e11 is 1e11 times the physical coefficient G/c² (λ=1) and is not fixed by the DFM axioms — it is an external overlay dose. (2) Feeding the same λ to 🎻 (GW150914, Kerr Q=χGm²/c at χ=0.7) gives η=3.7e8 just before merger: no bound binary survives. (3) Feeding it to 🪨 (Sun–Mercury) adds −1.5 arcsec/century to the perihelion, breaking a calibration that agrees to 0.2%. (4) Making ⚡ visible through a correction that is MONOTONE in the compactness Ξ=GM/(Rc²) — λ_eff=λ₀(1+αΞ²) or Γ(1+βΞ) — always breaks the black hole first, because Ξ_BH=0.5 > Ξ_NS≈0.16 (measured: η_BH=3.0e10 and 3.2e9). (5) A conservative spin–spin force carries no energy away, so it produces neither chirp nor merger. (6) The observed periastron advance is a TOTAL that includes 1PN and spin–orbit terms; this sample pushes all of it into a single 1/r⁴ term. (7) The 11.75 km radius is an EOS proxy, not a measured radius of A or B.",
+      pass:"IT CAN NEVERTHELESS BE BUILT. Removing the numerical floor with physics.framePrecision:\"double\" (wave 247a — Float64 for the dragging-field arrays only) makes the uncalibrated periastron advance converge to 0.00945°/orbit as dt→0 (dt .002→.001 changes it by 1.8e-6; the two detectors differ by 2.7e-7). On that converged floor, lowering the mass factor slightly to f=1.999914 (−0.00141% off the linear law's fixed point) and setting the spin–spin dose to λ=1e11 lands the periastron advance at 0.004732°/orbit, within +0.03% of the observationally converted 0.004730957°/orbit. The period, which was not fitted, comes out at 8834.018 s (−0.0059%) and extrapolates to 8834.62 s (+0.0010%). So a phenomenological 1/r⁴ term CAN reproduce the double pulsar's periastron advance — what it cannot do is carry the same coefficient to black holes and to the solar system (see the failure above). ⚡ itself (the primary) has neither knob; this is a BRANCH and does not replace ⚡'s claim.",
+    },
+    descStruct:{
+      summary:"⚡ COPIED, WITH TWO KNOBS TURNED: the coefficient λ and the mass factor f (wave 247a — report 39, \"use every means including coefficient and mass corrections\"). 1 unit = 10⁶ m / 10¹ s / 10²⁷ kg (the same L−T=5 relativistic-binary family as ⚡📻). Gravity (E4) and the kFrame=1 motion dragging (A8/E6′) are exactly ⚡'s; what is added is physics.spinSpin=1e11 (the static 1/r⁴ force between out-of-plane spin dipoles — a toy external overlay) and physics.framePrecision:\"double\" (an experimental flag that puts only the dragging-field arrays in Float64).",
+      observe:"Measured (a 5.6-orbit window, phase fit over 5 periastra, dt=0.001): PERIASTRON ADVANCE 0.004732°/orbit, +0.03% of the converted observation 0.004730957°/orbit. The periastron-to-periastron period is 8834.018 s (−0.0059% of 8834.534723278 s) and extrapolates linearly in dt to 8834.62 s (+0.0010%). The λ=0 control (the B side of the A/B) gives +0.009449°/orbit over the same window, so the whole difference of −0.004717°/orbit is the 1/r⁴ term (matching the analytic −2π·η(p) to three digits). η=|F_SS|/|F_N| is 1.09e-5 at apoapsis (1.09e-16 at the physical coefficient λ=1).",
+      control:"One-tap A/B: the B side sets spinSpin=0 (only the spin–spin force is switched off) and the advance returns to +0.009449°/orbit — the spin–spin contribution of −0.004717°/orbit disappears, while the total stays prograde. DO NOT CARRY THIS λ TO OTHER SYSTEMS: it gives η=3.7e8 for 🎻 and −1.5 arcsec/century for 🪨 (the pure function HP.dfmCompactMeasures evaluates all three at once)."},
+    parameterAudit:{
+      observedInputs:["real G=6.674","real c₀=3×10³ (the L−T=5 relativistic-binary family)",
+        "the same transcribed geometry as ⚡📻: apoapsis separation a(1+e)=955.98 units and the real Kepler apoapsis speed",
+        "radii = the declared EOS proxy 11.75 km (no direct A/B radius observation exists)",
+        "the observed spins (A 22.699379 ms, B 2.773461 s) — transcribed into the spinDipole Q",
+        "the periastron advance 0.004730957°/orbit, converted from 16.899323°/yr and P=8834.534723278 s (THE FIT TARGET)",
+        "the observed period 8834.534723278 s (a comparison target — NOT fitted)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10⁶ m / 10¹ s / 10²⁷ kg — same as ⚡📻)",
+        "kFrame=1 (⚡'s DFM formula)",
+        "frameReaction:\"pairReduced\" (E6′-R), kRep=muF=γN=κ_S=0 / geoPN=2, λ_PN=1, pnα=1.5 / stateCarry:\"double\"",
+        "physics.framePrecision:\"double\" (wave 247a — Float64 for the nine dragging-field arrays only; experimental)",
+        "initial state = the apoapsis of the observed orbit (two-body barycentric, both free — wave-211 alignment)",
+        "shell spin=0, coupleSink:\"core\", cmGauge:\"barycentric\"",
+        "core: differential, radius 0.01, massFrac=(f−1)/f, Kcs=0, ζ=1e6 (the same construction as ⚡)"],
+      fitted:["the mass factor f=1.999914 (−0.00141% off ⚡'s linear-law fixed point 1.999942269345993) — ADJUSTED",
+        "the spin–spin dose λ=1e11 (physics.spinSpin) — ADJUSTED; the physical coefficient G/c² is λ=1"],
+      derived:["A 5321.736877473953 / B 4966.526512176474 (= observed mass × f)",
+        "massFrac=(f−1)/f=0.4999784990754602 (shell mass = the observed mass — the wave-224 convention)",
+        "κ=G/c₀²=7.4156×10⁻⁷","camera.scale=1100, timeScale=300, dispMag=1000 (fixed by convention)",
+        "η at apoapsis with λ=1e11 is 1.09e-5 (= λ·(3/4)(v_A/c)(v_B/c)R_AR_B/ρ²)"],
+      numerical:["softening ε=0.05","time multiplier timeScale=300","display magnification dispMag=1000",
+        "measurement dt=0.001 (two periastron detectors, a phase fit over 5 periastra, a 5.6-orbit window — the wave-246b procedure)"]}},
+  abBody:{ label:{ja:"spinSpin=0(スピン–スピン力だけを切る — 差の全部が 1/r⁴ 項)", en:"spinSpin=0 (only the spin–spin force off — the whole difference is the 1/r⁴ term)"},
+    physicsPatch:{spinSpin:0} },
+  parameterAudit:{
+    observedInputs:["実 G=6.674","実 c₀=3×10³(L−T=5 相対論的連星族)",
+      "⚡📻 と同じ転写幾何: 遠点分離 a(1+e)=955.98 単位・転写質量での実ケプラー遠点速度",
+      "半径=宣言つき EOS proxy 11.75 km(A/B 固有の直接半径観測は存在しない)",
+      "観測の自転(A 22.699379 ms / B 2.773461 s)— spinDipole の Q へ転写",
+      "近点移動 0.004730957°/周(16.899323°/yr と P=8834.534723278 s からの換算 — **fit の対象**)",
+      "観測周期 8834.534723278 s(**照合先** — fit していない)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁶m/10¹s/10²⁷kg — ⚡📻 と同一)",
+      "kFrame=1(⚡ と同じ DFM の計算式)",
+      "frameReaction:\"pairReduced\"(E6′-R)・kRep=muF=γN=κ_S=0 / geoPN=2・λ_PN=1・pnα=1.5 / stateCarry:\"double\"",
+      "physics.framePrecision:\"double\"(第247便a — 引きずり場の 9 配列だけ Float64。実験機能)",
+      "初期状態=観測軌道の遠点(二体重心系・両星自由 — 第211便の整列規約)",
+      "殻 spin=0 宣言(A は両値域外・B は殻値域外)・coupleSink:\"core\"・cmGauge:\"barycentric\"",
+      "コア: mode=differential・半径 0.01・massFrac=(f−1)/f・Kcs=0・ζ=10⁶(⚡ と同じ建付け)"],
+    fitted:["質量係数 f=1.999914(⚡ の一次則の不動点 1.999942269345993 から −0.00141% — **調整量**)",
+      "スピン–スピンの用量 λ=1×10¹¹(physics.spinSpin — **調整量**。物理係数 G/c² は λ=1)"],
+    derived:["A 5321.736877473953 / B 4966.526512176474(=観測質量 × f)",
+      "massFrac=(f−1)/f=0.4999784990754602(殻質量=観測質量の記帳 — 第224便の規約)",
+      "κ=G/c₀²=7.4156×10⁻⁷","camera.scale=1100・timeScale=300・dispMag=1000(規約から決定的に算出)",
+      "η(遠点・λ=1e11)=1.09×10⁻⁵(=λ×(3/4)(v_A/c)(v_B/c)R_AR_B/ρ²)"],
+    numerical:["ソフトニング ε=0.05","時間倍率 timeScale=300","粒子表示倍率 dispMag=1000(表示専用)",
+      "測定 dt=0.001(近点検出 2 方式・5 近点の位相 fit・5.6公転窓 — 第246便b の手続き)"]},
+  activeParams:["kFrame","q","D0"],
+  camera:{scale:1100}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.006, kFrame:1, q:3.1789, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-7,
+    cLight:3000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:300, dispMag:1000,
+    stateCarry:"double", framePrecision:"double", spinSpin:1e11,
+    frameReaction:"pairReduced", coupleSink:"core", cmGauge:"barycentric", frameWeight:"pull", D0pull:3.24204e-7},
+  massCalibration:{law:"spin-spin-cal-v1", fitDt:0.001,   // 第247便a: **f と λ の 2 ノブを回した**較正候補(⚡ の「ノブなし」台帳とは別物)
+    baseMass:[2660.982861, 2483.370041], factor:1.999914, factorByBody:[1.999914, 1.999914]},
+    // 用量 λ=1e11 と参照 f(⚡ の一次則 1.999942269345993)は parameterAudit.fitted / derived に宣言する
+    //(massCalibration は質量係数の台帳で、未知キーは検証器が落とす — 第247便a)
+  bodies:[ // ⚡ と同じ遠点状態(位置・速度は**質量比だけ**で決まるので f を変えても 1 bit 不変)。
+           // 質量だけ f=1.999914 倍・massFrac=(f−1)/f。spinDipole(観測 Q の転写)は ⚡ と同一。
+    {type:"single", dragQ:3.1788606596895086, m:5321.736877473953, radius:0.01175, x:-461.48618600827865, y:0, vx:0, vy:-2.763093948239957, spin:0, pinned:false, pnSource:true,
+      pulse:{omega:2767.998768, source:"observed"},
+      spinDipole:{omega:2767.998768, radius:0.01175, source:"observed"},
+      core:{mode:"differential", massFrac:0.4999784990754602, radius:0.01, omega:0, Kcs:0, inertiaScale:1000000}},
+    {type:"single", dragQ:3.185016056198988, m:4966.526512176474, radius:0.01175, x:494.49208586803894, y:0, vx:0, vy:2.9607128692905675, spin:0, pinned:false, pnSource:true,
+      pulse:{omega:22.654675, source:"observed"},
+      spinDipole:{omega:22.654675, radius:0.01175, source:"observed"},
+      core:{mode:"differential", massFrac:0.4999784990754602, radius:0.01, omega:22.654675, Kcs:0, inertiaScale:1000000}}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -10399,6 +10595,12 @@ function validatePreset(obj){
         if(sv!==0) ph[k]=sv;
         continue;
       }
+      // 第247便a: framePrecision も同じ流儀(既定 "single" は ph へ入れない=署名不変)
+      if(k===FRAME_PRECISION_KEY){
+        if(FRAME_PRECISIONS.indexOf(p.physics[k])<0) warnings.push('physics.framePrecision は "single"/"double" のみ — 既定(single)に修正');
+        else if(p.physics[k]!=="single") ph[k]=p.physics[k];
+        continue;
+      }
       // 第114便: stateCarry も同じ流儀(非数値キー・既定は ph へ入れない=署名不変)
       if(k===STATE_CARRY_KEY){
         if(STATE_CARRIES.indexOf(p.physics[k])<0) warnings.push('physics.stateCarry は "legacy"/"double" のみ — 既定(legacy)に修正');
@@ -12509,7 +12711,8 @@ function makeSim(){
     S.pulseOm=new Float64Array(n); S.pulsePh=new Float64Array(n); S.hasPulse=false;
     // 第246便(第38報): 観測 Q の転写 — spinDipole 宣言があれば Q_i=½m·radius²·omega を保持する
     // (0=未宣言 = 従来式)。spinDipoleMoment だけが読む源で、力学配列(spin/coreJ/mEff)とは独立
-    S.ssQov=new Float64Array(n); S.hasSpinDip=false;
+    // 第247便a: ssDec=宣言フラグ(1=spinDipole を宣言した粒子 — 数値 0 でも上書きする)
+    S.ssQov=new Float64Array(n); S.ssDec=new Uint8Array(n); S.hasSpinDip=false;
     S.shellGas=new Uint8Array(n);   // 第229便: shell:"gas" 宣言(意味論は検証器の Kcs=0 強制+表示)
     S.lSw=F();S.radOv=F();    // 観測系(第22便 — obsT/coreOT は第61便で廃止)
     // 第77便(コアv2): 独立コア(opt-in。第80便で disk/ring 群にも開放)。J_core が主変数
@@ -12829,6 +13032,13 @@ function makeSim(){
     // (床 ≈1e-6 rad/orbit @3000公転・位相ジッタ3対で機械確定)が残り実水星深度の 1PN
     // (5e-7 rad/orbit)を覆う — 状態も倍精度化して初めて直接実測が成立する。
     // ここは alloc 直後・状態充填(P.forEach)前なので参照の掴み直しは不要
+    // 第247便a(ChatGPT v5 §4): framePrecision:"double" — 引きずり場の 9 配列だけを Float64 へ。
+    // stateCarry と同じ位置(alloc 直後・状態充填前)なので参照の掴み直しは不要。未宣言は素通り
+    if(phys[FRAME_PRECISION_KEY]==="double"){
+      for(const k of FRAME_F64_ARRS) S[k]=new Float64Array(P.length);
+      S.pairD=new Float64Array(Math.max(1,P.length*(P.length-1)/2));
+      S.framePrec="double";
+    } else S.framePrec="single";
     if(phys[STATE_CARRY_KEY]==="double"){
       S.ax=new Float64Array(P.length); S.ay=new Float64Array(P.length);
       S.x=new Float64Array(P.length); S.y=new Float64Array(P.length);
@@ -12862,8 +13072,10 @@ function makeSim(){
       else { S.pulseOm[i]=0; S.pulsePh[i]=0; }
       // 第246便: 観測 Q の転写(spinDipole:{omega,radius} — 未宣言=0 で従来と厳密等価)。
       // 質量は**エンジンが積分している m**(S.m[i]=Float32 の格納値)を使う — 表示・QA・力の3者が同じ Q を読む
-      if(o.spinDipole){ const R0=o.spinDipole.radius; S.ssQov[i]=0.5*S.m[i]*R0*R0*o.spinDipole.omega; S.hasSpinDip=true; }
-      else S.ssQov[i]=0;
+      // 第247便a: 宣言フラグを別に立てる(明示 ω=0 → Q=0 の否定対照が従来式へ戻らない)
+      if(o.spinDipole){ const R0=o.spinDipole.radius; S.ssQov[i]=0.5*S.m[i]*R0*R0*o.spinDipole.omega;
+        S.ssDec[i]=1; S.hasSpinDip=true; }
+      else { S.ssQov[i]=0; S.ssDec[i]=0; }
       S.shellGas[i]=(o.shell==="gas")?1:0;   // 第229便: 殻の相
       if(o.shell==="gas") S.hasShellGas=true;   // 第239便
       S.dragQ[i]=(o.dragQ>0)? o.dragQ : 0; if(o.dragQ>0) S.hasDragQ=true;   // 第237便
@@ -13229,10 +13441,20 @@ function makeSim(){
     }
   };
   S.step = function(dt){
-    // 第245便補足1: スピン双極子間力は積分器の**前**(=E4 の加速度に足すのと同義 — 上のコメント)
-    if(S.hasSpinSpin) S._spinSpin(dt);
-    if(S.integrator==="leapfrog"){ S._core(dt,1); S._core(dt,2); }
-    else S._core(dt,0);
+    // 第245便補足1: スピン双極子間力は積分器の**前**(=E4 の加速度に足すのと同義 — 上のコメント)。
+    // 第247便a(ChatGPT v5 §7): leapfrog では**前後の半キック(dt/2 ×2)に分ける**。1 步 1 回の
+    // 1 次分割は時間反転対称性を壊し、可逆性試験(150 単位前進 → v 反転 → 150 単位)で位置誤差が
+    // 1e-3 級残る。半キック分割にすると同じ試験が 1e-13 級(丸め)まで落ちる。semi(既定の
+    // semi-implicit)は「v を更新してから x」の 1 次系なので従来どおり 1 回のままにする。
+    // spinSpin 未宣言(hasSpinSpin=false)ではどちらの枝も 1 度も呼ばれない = 既定経路 1 bit 不変
+    if(S.integrator==="leapfrog"){
+      if(S.hasSpinSpin) S._spinSpin(dt*0.5);
+      S._core(dt,1); S._core(dt,2);
+      if(S.hasSpinSpin) S._spinSpin(dt*0.5);
+    } else {
+      if(S.hasSpinSpin) S._spinSpin(dt);
+      S._core(dt,0);
+    }
     if(S.params.petersGW===true) S._petersGW(dt);   // 第227便: 外部物理オーバーレイ(既定 OFF=素通り)
     if(S.echoFlipAt!==null) S._echo();
     // 第44便 44B(台帳4-68c): 融合はサブステップ末(E系適用後)。fusion 未指定では null 判定 1 回
@@ -13453,7 +13675,7 @@ function makeSim(){
           }
         }
         // (obsT/coreOT は第61便で廃止 — 質量重み合成も不要に)
-        S.ssQov[i]=0;   // 第246便: 観測 Q は融合で消滅する(合体後の自転は観測に無い — 従来式 ½mR²s へ戻る)
+        S.ssQov[i]=0; S.ssDec[i]=0;   // 第246便: 観測 Q は融合で消滅する(合体後の自転は観測に無い — 従来式 ½mR²s へ戻る。第247便a: 宣言フラグも落とす)
         S.lSw[i]=S.lSw[i]*wi+S.lSw[j]*wj; S.lSwAuto[i]=S.lSwAuto[heavy];
         S.tau[i]=S.tau[i]*wi+S.tau[j]*wj;
         S.hasU[i]=S.hasU[i]|S.hasU[j];
@@ -13526,7 +13748,7 @@ function makeSim(){
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
       "Tint","dQi","arep","arepD","duT","echoX0","echoY0",
-      "linId","linN","pulseOm","pulsePh","shellGas","ssQov"]) mv(S[key]);   // 第100便 EXT-10: 形成系譜 / 第226便: パルス時計 / 第246便: 観測 Q
+      "linId","linN","pulseOm","pulsePh","shellGas","ssQov","ssDec"]) mv(S[key]);   // 第100便 EXT-10: 形成系譜 / 第226便: パルス時計 / 第246便: 観測 Q / 第247便a: 宣言フラグ
     // 旧 index → 新 index の写像(消えた粒子は融合先へ写す)
     const nm=new Int32Array(n).fill(-1);
     for(let t=0;t<k;t++) nm[keep[t]]=t;
@@ -13563,14 +13785,15 @@ function makeSim(){
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
       "Tint","dQi","arep","arepD","duT","echoX0","echoY0",
-      "linId","linN","pulseOm","pulsePh","shellGas","ssQov"]){   // 第100便 EXT-10: 形成系譜 / 第226便: パルス時計 / 第246便: 観測 Q
+      "linId","linN","pulseOm","pulsePh","shellGas","ssQov","ssDec"]){   // 第100便 EXT-10: 形成系譜 / 第226便: パルス時計 / 第246便: 観測 Q / 第247便a: 宣言フラグ
       const a=S[key]; if(!a) continue;
       const b=new a.constructor(nc); b.set(a); S[key]=b;
     }
     for(let i=cap;i<nc;i++){ S.rMulv[i]=1; S.coreMd[i]=0; S.coreMF[i]=0; S.coreJ[i]=0;
       S.coreEint[i]=0; S.coreSrc[i]=0; S.coreOm0[i]=0; S.coreIS[i]=1;
       S.linId[i]=-1; S.linN[i]=0; }   // alloc と同じ既定値(+コアv2・第80便/第100便/第208便: ζ=1)
-    S.pairD=new Float32Array(Math.max(1,nc*(nc-1)/2));
+    // 第247便a: framePrecision:"double" の Float64 pairD を Float32 へ落とさない(型を引き継ぐ)
+    S.pairD=new (S.pairD? S.pairD.constructor : Float32Array)(Math.max(1,nc*(nc-1)/2));
     S.railIdx=null; S.periDet=null;     // index 依存のキャッシュは作り直させる
     S._fusDead=null; S._fusInto=null; S._ts=null;
     return nc;
@@ -13729,7 +13952,7 @@ function makeSim(){
       S.lSw[j]=S.lSw[i]; S.lSwAuto[j]=S.lSwAuto[i]; S.tau[j]=S.tau[i];
       S.rotA[j]=S.rotA[i]; S.rotAc[j]=S.rotAc[i]; S.hasU[j]=S.hasU[i]; S.pinned[j]=0;
       S.pulseOm[j]=0; S.pulsePh[j]=0;   // 第226便: 分裂片は時計を持たない(観測転写の帰属が未定義)
-      S.ssQov[j]=0; S.ssQov[i]=0;       // 第246便: 観測 Q も分裂で消滅(両片とも従来式へ戻る)
+      S.ssQov[j]=0; S.ssQov[i]=0; S.ssDec[j]=0; S.ssDec[i]=0;   // 第246便: 観測 Q も分裂で消滅(両片とも従来式へ戻る。第247便a: 宣言フラグも)
       S.shellGas[j]=S.shellGas[i];   // 第229便: 分裂片は親の相を引き継ぐ
       for(const k2 of [i,j]){
         S.railR[k2]=0; S.railAng[k2]=0; S.railOmega[k2]=0; S.railCx[k2]=0; S.railCy[k2]=0; S.railH[k2]=0;
@@ -13884,7 +14107,7 @@ function makeSim(){
           S.lSw[jj]=S.lSw[i]; S.lSwAuto[jj]=S.lSwAuto[i]; S.tau[jj]=S.tau[i];
           S.hasU[jj]=S.hasU[i]; S.pinned[jj]=0;
           S.pulseOm[jj]=0; S.pulsePh[jj]=0;                        // 第226便: 放出片は時計を持たない
-          S.ssQov[jj]=0;                                           // 第246便: 放出片は観測 Q を持たない(残骸=親 index はそのまま保持)
+          S.ssQov[jj]=0; S.ssDec[jj]=0;                            // 第246便: 放出片は観測 Q を持たない(残骸=親 index はそのまま保持。第247便a: 宣言フラグも)
           S.shellGas[jj]=1;                                        // 第229便: 放出片は気体の殻
           if(S.Tint) S.Tint[jj]=S.Tint[i];                         // tInt は親を継ぐ(C·m·T の総和は不変)
           S.railR[jj]=0; S.railAng[jj]=0; S.railOmega[jj]=0; S.railCx[jj]=0; S.railCy[jj]=0; S.railH[jj]=0;
@@ -18652,7 +18875,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
       // 伸びていても RangeError にならない。fission の無い宇宙では sim[k].length===sim.n なので
       // subarray は配列そのものと等しく、従来と 1 ビットも変わらない)
       "railR","railAng","railOmega","railCx","railCy",
-      "pulseOm","pulsePh","shellGas","ssQov"]) simB[k].set(sim[k].subarray(0,sim.n));   // 第226便: パルス時計 / 第246便: 観測 Q
+      "pulseOm","pulsePh","shellGas","ssQov","ssDec"]) simB[k].set(sim[k].subarray(0,sim.n));   // 第226便: パルス時計 / 第246便: 観測 Q / 第247便a: 宣言フラグ
     simB.hasCoreV2=sim.hasCoreV2; simB.hasLSwAuto=sim.hasLSwAuto; simB._rsUsed=sim._rsUsed;
     simB.hasPulse=sim.hasPulse;   // 第226便
     simB.hasCoreTilt=sim.hasCoreTilt;   // 第227便
@@ -18859,7 +19082,7 @@ function applyPhaseEdits(S,o){
 let ckSnap=null;
 const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU","pinned",
   "mEff","rotAc","lSw","radOv","rMulv","lSwAuto",   // 第81便: コアv1 配列は廃止
-  "pulseOm","pulsePh","shellGas","ssQov",   // 第226便: パルス時計チャネル / 第229便: 殻の相 / 第246便: 観測 Q の転写
+  "pulseOm","pulsePh","shellGas","ssQov","ssDec",   // 第226便: パルス時計チャネル / 第229便: 殻の相 / 第246便: 観測 Q の転写 / 第247便a: 宣言フラグ
   "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","dragQT","coreDQ","coreDQT","corePump","coreCtr",
   "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内
       "shdOc","shdFr","shdNp","shdRL","shdJF","shdDn","shdRI","shdLy","shdOn","shdCd","shdNx",   // 第244便: envelopeShed の宣言・発火済みフラグ / 第246便: 多層・反復
@@ -24788,6 +25011,9 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // dfmSpinDipoleQov(i)=転写された Q(0=未宣言)・dfmCompactSpinSpinLadder=質量の約分した η と到達 λ
   dfmSpinDipoleQov:(i,S)=>{ const T=S||sim; return (T.ssQov && i>=0 && i<T.n)? T.ssQov[i] : 0; },
   dfmCompactSpinSpinLadder, SPIN_DIP_OM_CLAMP, SPIN_DIP_R_CLAMP,
+  // 第247便a(第39報): 宣言フラグの読み出し・3 系同時評価の純関数・framePrecision の値域
+  dfmSpinDipoleDeclared:(i,S)=>{ const T=S||sim; return !!(T.ssDec && i>=0 && i<T.n && T.ssDec[i]); },
+  dfmCompactMeasures, FRAME_PRECISIONS, FRAME_F64_ARRS,
   dfmSpinSpinU:(a,b,lam,S)=>{ const T=S||sim, p=T.params, e2=p.softening*p.softening;
     const dx=T.x[a]-T.x[b], dy=T.y[a]-T.y[b], rho=Math.sqrt(dx*dx+dy*dy+e2);
     return (lam*p.G/(p.cLight*p.cLight))*spinDipoleMoment(T,a)*spinDipoleMoment(T,b)/(rho*rho*rho); },
