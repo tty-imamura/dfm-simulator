@@ -2273,6 +2273,10 @@ const DRAG_CH_CLAMPS = { qTrans:[0,40], gasCoh:[0,1], D0pull:[0,1e6], gravMag:[0
 // 値域は正気度クランプ [−1e16, 1e16](実較正系で観測に効く λ は 10¹⁴〜10¹⁵ 台 — PHYSICS §「第245便」)。
 // 既定 0 は ph へ入れない(署名不変)・S.hasSpinSpin=false で step から 1 度も呼ばれない(1 bit 不変)。
 const SPIN_SPIN_KEY = "spinSpin", SPIN_SPIN_CLAMP = [-1e16, 1e16];
+// 第246便(ChatGPT v4 §5.3/5.4): コアv2 の**実行状態**の値域(編集入口 S.applyCoreEdit が使う)。入力の値域(検証器 vCore:
+// massFrac 0.01〜0.95・Ω ±50)はプリセット/AI 生成の推奨範囲で、収縮(Ω↑)や放出(massFrac↑)を経た実行状態はこれを
+// 超えて正当。有限殻 0<Mc<M(massFrac<1)は維持(Mc=M の裸のコアは終端状態の別設計 — S4 第 2 段)
+const CORE_RUN_CLAMPS = { massFrac:[0.01, 0.999], omega:[-1e4, 1e4] };
 // スピン双極子モーメント Q_i(z 成分・上式そのもの)。表示・QA・監査が同じ量を読むための純関数
 function spinDipoleMoment(S, i){
   if(!(i>=0 && i<S.n)) return 0;
@@ -9597,13 +9601,13 @@ const BUILTIN_PRESETS = [
     {q:"運動量の帳簿 ΔP", model:"対称対の放出 → **残骸キック 2.7×10⁻⁷**(乱数キックは足さない)・発火1步の |ΔP|/Σm|v|=**0**", obs:"—"},
     {q:"角運動量の帳簿 ΔL", model:"移送 L=607.5=jFrac 0.3×J_c 2025・殻スピン 0.08→0.142222(I_s·s 保存)・発火1步の |ΔL|/L=2.2×10⁻¹⁶", obs:"—"},
     {q:"エネルギーの帳簿 ΔE", model:"解放回転E **5166.53** = ΔKE 13853.60 + ΔU −8687.08 + 残差 −1.8×10⁻⁵(相対 1.3×10⁻⁹)", obs:"—"},
-    {q:"脱出した割合", model:"32/32=**100%**。ΔU 項だけで脱出速度ちょうどが出る(規約の帰結 — 予測ではない)", obs:"—"}],
+    {q:"脱出した割合", model:"32/32=**100%**。ΔU 項が脱出速度相当を与える(点粒子に自己重力 E が無い規約の帰結 — 常にちょうどとは限らない・予測ではない)", obs:"—"}],
   descStruct:{
-    summary:"**限界まで回ったコアが殻をガスへ割って放り出す**(第244便 — 第36報「内部構造」)。仮定: 赤色巨星の殻はコアの回転が限界を超えると保持できず、粒へ割れて出る(質量放出・超新星の放出物)。宣言は **core.shed{omegaCrit, frac, n, rLaunch, jFrac, once}** 1つ。コアは **contract=0.02**(第77便 — 収縮で J 保存のまま Ω が上がる既存機構)で Ω=6 から自走し、**Ω_c が omegaCrit=10 に達したステップ末に1回だけ**発火して、殻質量 300 の frac=0.5 を **n=32 粒**のガスへ割り(第245便 — 原仮定者指示で分割を密に。粒は 9.375 → 4.6875)、親半径の rLaunch=1.5 倍の円周へ**対称対で**置く。**新しい物理法則も較正定数も足していない** — 粒子を増やす経路は分裂(第45便 _grow)、移送 J はコア J から(第234便 burst と同じ会計)、ポテンシャルはエンジン自身の対エネルギー(E4 重力+softening・E9 ばね・E5′ 斥力)。**保存の契約**: 質量は Float32 の ulp 格子で**ビット厳密**・運動量は対称配置で残骸キック 0(丸め残差だけ帳簿 P へ)・角運動量は移送 L と殻スピンの解き直しで閉じ・エネルギーは**解放回転E = ΔKE + ΔU + 残差**。収支が負なら**発火しない**(帳簿を破る状態は書かない)。**正直な限界**: エンジンは点粒子の自己重力エネルギーを持たないので、殻を半径 r_L へ出す操作は必ず**脱出速度ちょうど**を解放する — 「必ず全部飛ぶ」は規約の帰結であって予測ではない。実在の質量放出(輻射圧・脈動・ダスト駆動・ニュートリノ)はモデル化しない。",
+    summary:"**限界まで回ったコアが殻をガスへ割って放り出す**(第244便 — 第36報「内部構造」)。仮定: 赤色巨星の殻はコアの回転が限界を超えると保持できず、粒へ割れて出る(質量放出・超新星の放出物)。宣言は **core.shed{omegaCrit, frac, n, rLaunch, jFrac, once}** 1つ。コアは **contract=0.02**(第77便 — 収縮で J 保存のまま Ω が上がる既存機構)で Ω=6 から自走し、**Ω_c が omegaCrit=10 に達したステップ末に1回だけ**発火して、殻質量 300 の frac=0.5 を **n=32 粒**のガスへ割り(第245便 — 原仮定者指示で分割を密に。粒は 9.375 → 4.6875)、親半径の rLaunch=1.5 倍の円周へ**対称対で**置く。**新しい物理法則も較正定数も足していない** — 粒子を増やす経路は分裂(第45便 _grow)、移送 J はコア J から(第234便 burst と同じ会計)、ポテンシャルはエンジン自身の対エネルギー(E4 重力+softening・E9 ばね・E5′ 斥力)。**保存の契約**: 質量は Float32 の ulp 格子で**ビット厳密**・運動量は対称配置で残骸キック 0(丸め残差だけ帳簿 P へ)・角運動量は移送 L と殻スピンの解き直しで閉じ・エネルギーは**解放回転E = ΔKE + ΔU + 残差**。収支が負なら**発火しない**(帳簿を破る状態は書かない)。**正直な限界**: エンジンは点粒子の自己重力エネルギーを持たないので、殻を半径 r_L へ出す操作は**脱出速度相当**を解放する(第245便訂正: 現象論的規則 — 常にちょうどとは言えない)— 「必ず全部飛ぶ」は規約の帰結であって予測ではない。実在の質量放出(輻射圧・脈動・ダスト駆動・ニュートリノ)はモデル化しない。",
     observe:"実測(2000步=t32・dt=0.016): **発火は 798步(t=12.784)で1回だけ**・そのときの Ω_c=10.0054(dt/2 では 1596步・t=12.776・Ω=10.0021 — 同じ Ω で発火)・見送り 0 回。帳簿(**発火の1步で測る** — 単体なので他の力は働かない): 質量 600→**450+32×4.6875=600(相対誤差 0)**・**解放回転E 5166.53 = ΔKE 13853.60 + ΔU −8687.08 + 残差 −1.8×10⁻⁵(相対 1.3×10⁻⁹)**・移送 L=607.5(=0.3×J_c 2025)・殻スピン 0.08→0.142222(I_s·s 保存の帰結)・残骸のコア質量 300 は不変(massFrac 0.5→0.666667)・**残骸キック 2.7×10⁻⁷**・**発火1步の ΔM/ΔP の相対誤差は厳密 0**・ΔL は 2.2×10⁻¹⁶(帳簿込み)。2000步の通算: |ΔP|/Σm|v| 8.9×10⁻⁸・|ΔL|/L 4.8×10⁻⁶・脱出 32/32(100%)・ガス粒は全て shell:\"gas\"・安全クランプ 全 0・NaN 0・決定性ビット同一。**shed を外すと単体のまま(粒子は増えず質量も 600 のまま)**。QA `behavior.envelopeShed` が発火の一回性・4帳簿・決定性・dt/2・偶数 n・未宣言サンプルのビット同一を機械固定する。",
     control:"おすすめA/B: core.shed.frac=0.2(ΔM=60・残骸 540)・n=64(粒 2.34375 が 64 個)・jFrac=0(**解放回転E がほぼ 0 になり ΔU だけで出る**)・rLaunch=3(遠くへ出すと ΔU が浅くなる)。core.shed を外すと単体の恒星のまま。⚪(白色矮星の道)・🔵(中性子星の道)・🎇(爆発)と 4 本で読む。"},
   en:{name:"Envelope Shedding — a Core at Its Spin Limit Splits the Shell into Gas (DFM)", descStruct:{
-    summary:"A CORE SPUN TO ITS LIMIT SPLITS THE SHELL INTO GAS AND THROWS IT OUT (wave 244, report 36 'interior structure'). Assumption: a red giant's shell cannot be held once the core's rotation passes a limit, and it breaks into grains (mass loss, supernova ejecta). ONE DECLARATION does it: core.shed{omegaCrit, frac, n, rLaunch, jFrac, once}. The core spins itself up from Ω=6 through contract=0.02 (the wave-77 mechanism — J conserved while Ω rises), and AT THE END OF THE FIRST STEP WHERE Ω_c REACHES omegaCrit=10 it fires exactly once: frac=0.5 of the 300 shell mass becomes n=32 gas grains (wave 245 made the split finer at the adjudicator's instruction — the grains went 9.375 → 4.6875) placed IN SYMMETRIC PAIRS on a circle of rLaunch=1.5 parent radii. NO NEW PHYSICAL LAW AND NO FITTED CONSTANT is added — particles are created through the fission path (wave 45, _grow), the transferred J comes out of the core J (the same accounting as wave 234's burst), and the potential is the engine's own pair energy (E4 gravity with its softening, E9 springs, E5′ repulsion). THE CONSERVATION CONTRACT: mass is EXACT TO THE BIT (split on the Float32 ulp lattice); momentum has ZERO remnant kick by symmetry (only the rounding residual is booked); angular momentum closes through the transferred L and a re-solved shell spin; energy closes as RELEASED ROTATIONAL ENERGY = ΔKE + ΔU + residual. If the budget is negative THE EVENT DOES NOT FIRE (a state that breaks the ledger is never written). AN HONEST LIMIT: the engine carries no self-gravitational energy for a point particle, so moving the shell out to radius r_L always releases EXACTLY THE ESCAPE SPEED — 'everything always escapes' is a consequence of the convention, not a prediction. Real mass loss (radiation pressure, pulsation, dust driving, neutrinos) is not modelled.",
+    summary:"A CORE SPUN TO ITS LIMIT SPLITS THE SHELL INTO GAS AND THROWS IT OUT (wave 244, report 36 'interior structure'). Assumption: a red giant's shell cannot be held once the core's rotation passes a limit, and it breaks into grains (mass loss, supernova ejecta). ONE DECLARATION does it: core.shed{omegaCrit, frac, n, rLaunch, jFrac, once}. The core spins itself up from Ω=6 through contract=0.02 (the wave-77 mechanism — J conserved while Ω rises), and AT THE END OF THE FIRST STEP WHERE Ω_c REACHES omegaCrit=10 it fires exactly once: frac=0.5 of the 300 shell mass becomes n=32 gas grains (wave 245 made the split finer at the adjudicator's instruction — the grains went 9.375 → 4.6875) placed IN SYMMETRIC PAIRS on a circle of rLaunch=1.5 parent radii. NO NEW PHYSICAL LAW AND NO FITTED CONSTANT is added — particles are created through the fission path (wave 45, _grow), the transferred J comes out of the core J (the same accounting as wave 234's burst), and the potential is the engine's own pair energy (E4 gravity with its softening, E9 springs, E5′ repulsion). THE CONSERVATION CONTRACT: mass is EXACT TO THE BIT (split on the Float32 ulp lattice); momentum has ZERO remnant kick by symmetry (only the rounding residual is booked); angular momentum closes through the transferred L and a re-solved shell spin; energy closes as RELEASED ROTATIONAL ENERGY = ΔKE + ΔU + residual. If the budget is negative THE EVENT DOES NOT FIRE (a state that breaks the ledger is never written). AN HONEST LIMIT: the engine carries no self-gravitational energy for a point particle, so moving the shell out to radius r_L releases ROUGHLY THE ESCAPE SPEED (wave 245 correction: a phenomenological rule — not always exactly) — 'everything always escapes' is a consequence of the convention, not a prediction. Real mass loss (radiation pressure, pulsation, dust driving, neutrinos) is not modelled.",
     observe:"Measured (2000 steps = t32, dt=0.016): IT FIRES ONCE, AT STEP 798 (t=12.784), with Ω_c=10.0054 (at dt/2: step 1596, t=12.776, Ω=10.0021 — the same Ω); zero skipped attempts. Ledgers (MEASURED ACROSS THE FIRING STEP — the body is solo, so no other force acts): mass 600 → 450 + 32×4.6875 = 600 (RELATIVE ERROR 0); RELEASED ROTATIONAL ENERGY 5166.53 = ΔKE 13853.60 + ΔU −8687.08 + residual −1.8e-5 (1.3e-9 relative); transferred L = 607.5 (= 0.3 × J_c 2025); shell spin 0.08 → 0.142222 (the consequence of I_s·s conservation); the remnant's core mass 300 is unchanged (massFrac 0.5 → 0.666667); REMNANT KICK 2.7e-7; the relative errors of ΔM and ΔP across the firing step are EXACTLY 0 and ΔL is 2.2e-16 (ledger-inclusive). Over the 2000 steps: |ΔP|/Σm|v| 8.9e-8, |ΔL|/L 4.8e-6, 32/32 grains escape (100%), every grain carries shell:\"gas\", all safety clamps 0, zero NaN, bit-identical reruns. REMOVE shed AND IT STAYS A SOLO BODY (no new particles, mass still 600). QA behavior.envelopeShed machine-fixes the single firing, the four ledgers, determinism, dt/2, even n and the bit-identity of samples without the declaration.",
     control:"Suggested A/B: core.shed.frac=0.2 (a light shedding), n=64 (finer grains, 2.34375 each), jFrac=0 (no tangential component — a purely radial release), rLaunch=3 (further out, so ΔU is shallower). Remove core.shed and it stays an ordinary solo star. Read it with ⚪ (the white-dwarf road), 🔵 (the neutron-star road) and 🎇 (the explosion)."}},
   parameterAudit:{
@@ -12798,8 +12802,11 @@ function makeSim(){
       S.coreKcs[i]=0; S.corePump[i]=0; S.coreCtr[i]=0; S.coreSrc[i]=0; S.coreEint[i]=0; S.coreOm0[i]=0;
       S.coreJx[i]=0; S.coreJy[i]=0;   // 第227便
     } else {
-      const mF=clamp(cfg.massFrac, 0.01, 0.95), Rc=clamp(cfg.radius, 0.01, 200);   // 第245便: 残骸の値域契約(検証器と同じ 0.95)
-      const om=clamp(cfg.omega, -50, 50), ks=clamp(cfg.Kcs, 0, 10);
+      // 第246便(ChatGPT v4 §5.3/5.4): **実行状態の値域**(CORE_RUN_CLAMPS)は入力の値域(検証器 vCore: massFrac ≤0.95・
+      // Ω ±50 — プリセット/AI の初期入力の推奨範囲)より広い。収縮で Ω が 50 を超え、放出で massFrac が 0.95 を超えるのは
+      // 正当な実行状態なので、同じ状態を同値で再確定しても Mc・J を切らない(実測: 🎇 700 步後の同値再確定で J −19.9%)
+      const mF=clamp(cfg.massFrac, CORE_RUN_CLAMPS.massFrac[0], CORE_RUN_CLAMPS.massFrac[1]), Rc=clamp(cfg.radius, 0.01, 200);
+      const om=clamp(cfg.omega, CORE_RUN_CLAMPS.omega[0], CORE_RUN_CLAMPS.omega[1]), ks=clamp(cfg.Kcs, 0, 10);
       const iS=clamp(cfg.inertiaScale, 1e-3, 1e6), th=clamp(cfg.tilt, 0, 180);
       const Mc=mF*Math.abs(S.m[i]), ct=Math.cos(th*Math.PI/180);
       S.coreMd[i]=(cfg.mode==="rigid")?1:((cfg.mode==="active")?3:2);
@@ -13028,6 +13035,11 @@ function makeSim(){
         // これを取りこぼすと N≥3 で第一法則が破れる(実測: 3体連鎖で ΔE≈6.5 = E の 10%)
         let u3a=0;
         for(let k2=0;k2<n;k2++){ if(k2===i||k2===j||dead[k2]) continue; u3a+=pairU(i,k2)+pairU(j,k2); }
+        // 第246便(ChatGPT v4 §5.1): 消滅する対そのもののスピン双極子ポテンシャル U_SS(第245便補足1)。pairU は
+        // 重力+ばね+反発+U_SS の和なので差分で取り出す(λ=0・未宣言では厳密 0 = 旧経路と 1 bit 不変)。第三者側の
+        // 変化は u3a で読めていたが、消える対の U_SS だけが帳簿から落ちていた(実測: λ=200 で −99750 の漏れ)。
+        // 重力と同じく負にも正にもなるので熱ではなく既存の park(fusU リザーバ)へ置く
+        const uSS=S.hasSpinSpin? (pairU(i,j)-uGrav-uRep-uSpr) : 0;
         // ---- 融合後の状態を書き込む(格納値を読み戻しながら逐次確定)----
         if(S.hasDragQ){ S.dragQ[i]=(mi>=mj)? S.dragQ[i] : S.dragQ[j]; }   // 第237便: 重い側の q_i を継承(材料則が決まるまでの規約)
         if(S.hasDragQT){ S.dragQT[i]=(mi>=mj)? S.dragQT[i] : S.dragQT[j]; }   // 第239便: 並進も同じ規約
@@ -13121,7 +13133,7 @@ function makeSim(){
         const KE1=0.5*mS*(VX*VX+VY*VY)+0.5*In*SP*SP;
         const dKE=KE0-KE1;
         // 内部温度: 顕熱+ΔKE+消滅した正値対ポテンシャル。C·m′≤0 や T′<0 の分はリザーバへ
-        let heat=H0+dKE+uRep+uSpr+coreHeat, park=uGrav;   // 第227便: コア回転 KE の欠損も熱へ
+        let heat=H0+dKE+uRep+uSpr+coreHeat, park=uGrav+uSS;   // 第227便: コア回転 KE の欠損も熱へ/第246便: 消滅対の U_SS も park へ
         const cm=C*mS;
         if(Tint && cm>0){
           const Tn=heat/cm;
@@ -13137,11 +13149,11 @@ function makeSim(){
         //      Float32 状態配列への格納丸め 1 回分だけ。その分は fusPx/fusPy/fusL へ回収する)----
         const ePx=mS*VX-Px, ePy=mS*VY-Py;
         const eL=(mS*(X*VY-Y*VX)+In*SP)-Ltot;
-        const eE=(KE1+H1+park)-(KE0+H0+uGrav+uRep+uSpr);
+        const eE=(KE1+H1+park)-(KE0+H0+uGrav+uRep+uSpr+uSS);   // 第246便: U_SS を両辺に
         S.fusPx-=ePx; S.fusPy-=ePy; S.fusL-=eL;
         const pSc=Math.abs(mi*vxi)+Math.abs(mj*vxj)+Math.abs(mi*vyi)+Math.abs(mj*vyj);
         const lSc=Math.abs(mi*(xi*vyi-yi*vxi))+Math.abs(Ii*si)+Math.abs(mj*(xj*vyj-yj*vxj))+Math.abs(Ij*sj);
-        const eSc=Math.abs(KE0)+Math.abs(H0)+Math.abs(uGrav)+uRep+uSpr;
+        const eSc=Math.abs(KE0)+Math.abs(H0)+Math.abs(uGrav)+uRep+uSpr+Math.abs(uSS);
         // 第45便 45B: 吸熱融合(ΔKE<0)の調査用に heat(=H0+ΔKE+U_rep+U_spring)と確定した T′、
         // T<0 クランプ(リザーバ退避)が発火したかを監査へ出す。判定には使わない追加情報のみ
         S.fusLog.push({t:S.t, i, j, m:mS, R:RS, d, dFrac:d/sumR, dKE, uGrav, uRep, uSpr, park, dU3,
@@ -13540,12 +13552,16 @@ function makeSim(){
       }
       S.n=nAll;
       // ---- ④ ΔU(engine の対エネルギー — 位置・質量・半径・T だけに依る = 速度非依存)----
+      // 第246便(ChatGPT v4 §5.2): spinSpin が有効なら U は放出後の殻スピン・コア J にも依る。⑥ で確定する値の
+      // 暫定値(I_s·s 保存の sp1t と Jc1)を置いて評価し、評価後に元へ戻す(λ=0・未宣言は分岐に入らず 1 bit 不変)
+      if(S.hasSpinSpin){ const Is1t=0.5*Mr*R1*R1; spin[i]=Math.fround((Is1t>1e-12)? (0.5*M*R0*R0*SP0)/Is1t : 0); S.coreJ[i]=Jc1; }
       const pairU1=S._mkPairU();
       let U1=0;
       for(let k=0;k<nAll;k++){ if(k!==i) U1+=pairU1(i,k); }                       // 残骸 ⇄ 全員
       for(let a=j0;a<nAll;a++) for(let b=a+1;b<nAll;b++) U1+=pairU1(a,b);         // ガス ⇄ ガス
       for(let a=j0;a<nAll;a++) for(let k=0;k<j0;k++){ if(k!==i) U1+=pairU1(a,k); } // ガス ⇄ その他
-      const dU=U1-U0;
+      let dU=U1-U0;
+      if(S.hasSpinSpin){ spin[i]=SP0; S.coreJ[i]=Jc0; }   // 第246便: 暫定値を戻す(見送り時に旧状態が残るように)
       // ---- ⑤ 収支: 解放回転E − ΔU − Δ(殻回転E) − 接線KE = 動径KE ----
       const Is0=0.5*M*R0*R0, Is1=0.5*Mr*R1*R1;
       const sp1t=(Is1>1e-12)? (Is0*SP0/Is1) : 0;                    // 対称放出では I_s·s 保存(⑥で厳密に解き直す)
@@ -13579,6 +13595,14 @@ function makeSim(){
       spin[i]=SP1;
       S.resL-=(Lrest+Is1*SP1)-Lloc0;
       S.coreJ[i]=Jc1; S.coreOmV[i]=Jc1/Ic1;
+      // 第246便: 丸め後の最終スピンで U を測り直し、暫定値との差は shedRes へ落とす(spinSpin 有効時のみ)
+      if(S.hasSpinSpin){
+        const pairF=S._mkPairU(); let Uf=0;
+        for(let k=0;k<nAll;k++){ if(k!==i) Uf+=pairF(i,k); }
+        for(let a=j0;a<nAll;a++) for(let b=a+1;b<nAll;b++) Uf+=pairF(a,b);
+        for(let a=j0;a<nAll;a++) for(let k=0;k<j0;k++){ if(k!==i) Uf+=pairF(a,k); }
+        dU=Uf-U0;
+      }
       // ---- ⑦ 帳簿(解放回転E = ΔKE + ΔU + 残差)----
       const dK=(0.5*Mr*(VXr*VXr+VYr*VYr)+gKE+0.25*Mr*R1*R1*SP1*SP1)-(KE0+Erot0);
       S.shedE+=dErel; S.shedK+=dK; S.shedU+=dU; S.shedL+=Jg; S.shedM+=Mg;
@@ -24332,7 +24356,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 第245便補足1(第37報): スピン双極子間力(physics.spinSpin — 玩具の opt-in)。QA・実験ハーネスが
   // エンジンと同じ式を読むための公開フック。dfmSpinDipoleMoment(i)=Q_i・dfmSpinSpinU(a,b)=U_SS・
   // dfmSpinSpinEta(a,b)=|F_SS|/|F_N|(λ=1 換算の無次元比)。いずれも読み取り専用(力学へ書かない)
-  dfmSpinDipoleMoment:(i,S)=>spinDipoleMoment(S||sim,i), SPIN_SPIN_CLAMP,
+  dfmSpinDipoleMoment:(i,S)=>spinDipoleMoment(S||sim,i), SPIN_SPIN_CLAMP, CORE_RUN_CLAMPS,   // 第246便: 実行状態の値域(QA が読む)
   dfmSpinSpinU:(a,b,lam,S)=>{ const T=S||sim, p=T.params, e2=p.softening*p.softening;
     const dx=T.x[a]-T.x[b], dy=T.y[a]-T.y[b], rho=Math.sqrt(dx*dx+dy*dy+e2);
     return (lam*p.G/(p.cLight*p.cLight))*spinDipoleMoment(T,a)*spinDipoleMoment(T,b)/(rho*rho*rho); },
