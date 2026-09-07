@@ -5126,11 +5126,26 @@ if (!FAST) {
         S.applyCoreEdit(1, null);
         const dom = ['beCvOn', 'beCvEdit', 'beCvMF', 'beCvR', 'beCvOm0', 'beCvKcs', 'beCvTilt', 'beCvIS']
           .every((id) => !!document.getElementById(id));
-        return { jBuild, jmBuild, sqTilt90, off, on, cl, add1, md1After: S.coreMd[1], dom };
+        // 第247便c(E1 (3)): 編集パネルは**変わった欄だけ**を適用する。表示は fmt で丸めた派生値なので、
+        // 何も触らずに change を投げても Mc・J は 1 bit も動かない(丸め往復で J を作り直さない)。
+        // MF 欄だけを書き換えたときは Mc が変わり **J は 1 bit も動かない**(J が主変数)
+        const ui = (typeof HP.selectBody === 'function' && HP.sim.editLog !== undefined) ? (() => {
+          HP.selectBody(0, 'A'); HP.sim.editLog.length = 0;
+          const J0u = S.coreJ[0], mf0u = S.coreMF[0];
+          document.getElementById('beCvKcs').dispatchEvent(new Event('change'));   // 触らずに再確定
+          const noop = { J: S.coreJ[0], mf: S.coreMF[0], log: HP.sim.editLog.length };
+          document.getElementById('beCvMF').value = '0.4';
+          document.getElementById('beCvMF').dispatchEvent(new Event('change'));
+          const mfEdit = { J: S.coreJ[0], mf: S.coreMF[0], log: HP.sim.editLog.length };
+          return { J0u, mf0u, noop, mfEdit };
+        })() : null;
+        return { jBuild, jmBuild, sqTilt90, off, on, cl, add1, md1After: S.coreMd[1], dom, ui };
       });
       await page.evaluate(() => HP.loadPreset('saturn', false));
+      const uiOK = !r.ui || (Object.is(r.ui.noop.J, r.ui.J0u) && r.ui.noop.mf === r.ui.mf0u && r.ui.noop.log === 0
+        && Object.is(r.ui.mfEdit.J, r.ui.J0u) && r.ui.mfEdit.mf === Math.fround(0.4) && r.ui.mfEdit.log === 1);
       add('core.edit-ui',
-        r.dom
+        r.dom && uiOK
         && r.off.md === 0 && r.off.j === 0 && r.off.jm === 0 && r.off.has === false
         && r.on.md === 2 && Object.is(r.on.j, r.jBuild) && Object.is(r.on.jm, r.jmBuild)
         && r.on.has === true && r.on.mf === Math.fround(0.3) && r.on.rc === 7.5 && r.on.is === 1 && r.on.kcs === 0
@@ -5142,7 +5157,9 @@ if (!FAST) {
         `無効化: coreMd=0・J=0・hasCoreV2=${r.off.has}(false)→再付与で復帰(有効=フィールド追加/無効=無視) / ` +
         `クランプ(実行状態の値域): massFrac ${r.cl.mf}(上限 ${r.cl.capMf})・radius ${r.cl.rc}(0.01)・Kcs ${r.cl.kcs}(0)・ζ ${r.cl.is}(1e6)・Ω ${r.cl.om.toFixed(1)}(${r.cl.capOm}) / ` +
         `tilt:90 の描画入力 |J_z|/|J|=${r.sqTilt90.toExponential(1)}(<1e-9 — エッジオン楕円=横棒) / ` +
-        `コア無し粒子への付与→除去=OK / 編集 DOM 8要素=${r.dom}`);
+        `コア無し粒子への付与→除去=OK / 編集 DOM 8要素=${r.dom}` +
+        (r.ui ? ` / **第247便c(E1)**: 何も触らずに change → Mc・J とも bit 不変(${Object.is(r.ui.noop.J, r.ui.J0u)}・台帳 ${r.ui.noop.log}行)・` +
+          `MF 欄だけ 0.4 へ → massFrac ${r.ui.mfEdit.mf} に変わり **J は bit 不変**(${Object.is(r.ui.mfEdit.J, r.ui.J0u)}・台帳 ${r.ui.mfEdit.log}行)` : ''));
     }
   }
 
@@ -9479,9 +9496,15 @@ if (!FAST) {
   }
 }
 
-// ---- 第246便(ChatGPT v4 §5.3/5.4): behavior.runStateEdit — 実行状態は入力の値域を超えて正当。同値の再確定で Mc・J を切らない ----
+// ---- 第246便(ChatGPT v4 §5.3/5.4)+ 第247便c E1: behavior.runStateEdit — 実行状態の主変数は Mc と J ----
 // 🎇 supernovaCore を 700 步走らせる(収縮で Ω_c>50・放出で massFrac>0.6)→ 最大質量の残骸に現在の MF・Rc・Ω・ζ をそのまま
-// S.applyCoreEdit へ渡す → J が bit 不変(修正前は ω 上限 ±50 で J −19.9%)。massFrac=0.979(0.95 放出後)も同様
+// S.applyCoreEdit へ渡す → J が bit 不変(修正前は ω 上限 ±50 で J −19.9%)。massFrac=0.979(0.95 放出後)も同様。
+// 第247便c(E1)で足す契約:
+//   (a) **{Mc, J} の直接入力**が丸めを通さずそのまま入る(読み戻して再確定しても bit 不変)
+//   (b) **変わった欄だけが主変数へ入る** — Mc だけ変えても J は 1 bit も動かない(J が主・ω が派生)
+//   (c) **丸め往復の同値再確定でも動かない** — 表示規約(Ω0=|J|/I*・θ)と coreState 規約(符号つき Ω=J_z/I*)のどちらでも
+//   (d) 実際に動いた編集だけ **S.editLog** に (t,i,ΔMc,ΔJ,ΔE_rot) が積まれる(同値再確定は 1 行も残さない)
+//   (e) **MF=1 は裸コア終端(coreBare)のときだけ**許され、通常は 0.999 で切られる
 {
   const has = await page.evaluate(() => !!HP.CORE_RUN_CLAMPS && HP.allPresets().some((q) => q.id === 'supernovaCore'));
   if (has) {
@@ -9497,14 +9520,55 @@ if (!FAST) {
       // 0.95 の残骸が放出で 0.979 になった状態の再確定(検証器の上限 0.95 を超える実行状態)
       S.applyCoreEdit(im, { mode: 'differential', massFrac: 0.979381442, radius: Rc, omega: om, Kcs: 0, inertiaScale: zeta, tilt: 0 });
       const mfHi = S.coreMF[im];
-      return { ev: S.shedNev, om, J0, J1, mf, mf1, mfHi, capMf: HP.CORE_RUN_CLAMPS.massFrac[1], capOm: HP.CORE_RUN_CLAMPS.omega[1] };
+      const e1 = (typeof HP.coreLedger === 'function') ? (() => {
+        // 第247便c(E1): 主変数の契約を測る。編集台帳は空から始める
+        S.editLog.length = 0;
+        const J2 = S.coreJ[im], mf2 = S.coreMF[im], Mc2 = mf2 * Math.abs(S.m[im]);
+        // (a) {Mc, J} 直接入力 → そのまま。読み戻して再確定しても bit 不変
+        S.applyCoreEdit(im, { Mc: Mc2, J: J2 });
+        const aJ = S.coreJ[im], aMf = S.coreMF[im], aLog = S.editLog.length;
+        // (b) Mc だけを変える(J は主変数なので 1 bit も動かない)
+        const mfNew = Math.fround(mf2 * 0.5);
+        S.applyCoreEdit(im, { massFrac: mfNew });
+        const bJ = S.coreJ[im], bMf = S.coreMF[im], bLog = S.editLog.length;
+        const bRec = S.editLog[S.editLog.length - 1] || {};
+        // (c) 丸め往復の同値再確定 — 2 つの読み戻し規約のどちらでも動かない
+        const IcC = 0.5 * (S.coreMF[im] * Math.abs(S.m[im])) * S.RcV[im] * S.RcV[im] * S.coreIS[im];
+        const omPanel = S.coreJm[im] / IcC, omState = S.coreJ[im] / IcC;
+        const thPanel = (S.coreJm[im] > 0) ? Math.acos(Math.max(-1, Math.min(1, S.coreJ[im] / S.coreJm[im]))) * 180 / Math.PI : 0;
+        S.applyCoreEdit(im, { mode: 'differential', massFrac: S.coreMF[im], radius: S.RcV[im],
+          omega: omPanel, Kcs: S.coreKcs[im], inertiaScale: S.coreIS[im], tilt: thPanel });
+        const cJ1 = S.coreJ[im];
+        S.applyCoreEdit(im, { mode: 'differential', massFrac: S.coreMF[im], radius: S.RcV[im],
+          omega: omState, Kcs: S.coreKcs[im], inertiaScale: S.coreIS[im], tilt: 0 });
+        const cJ2 = S.coreJ[im], cLog = S.editLog.length;
+        // (e) MF=1 は終端のときだけ
+        S.applyCoreEdit(im, { massFrac: 1 });
+        const eCap = S.coreMF[im];
+        S.coreBare[im] = 1; S.applyCoreEdit(im, { massFrac: 1 });
+        const eBare = S.coreMF[im]; S.coreBare[im] = 0;
+        return { aJ, aMf, aLog, bJ, bMf, bLog, bdMc: bRec.dMc, bdJ: bRec.dJ, cJ1, cJ2, cLog,
+          J2, mf2, mfNew, eCap, eBare, capMf: HP.CORE_RUN_CLAMPS.massFrac[1] };
+      })() : null;
+      return { ev: S.shedNev, om, J0, J1, mf, mf1, mfHi, e1,
+        capMf: HP.CORE_RUN_CLAMPS.massFrac[1], capOm: HP.CORE_RUN_CLAMPS.omega[1] };
     });
     await page.evaluate(() => HP.loadPreset('saturn', false));
+    const e = r.e1;
+    const e1OK = !e || (Object.is(e.aJ, e.J2) && e.aMf === e.mf2 && e.aLog === 0     // (a)
+      && Object.is(e.bJ, e.J2) && e.bMf === e.mfNew && e.bLog === 1                  // (b)
+      && e.bdJ === 0 && e.bdMc < 0                                                   // (d) ΔJ=0・ΔMc<0 が 1 行だけ
+      && Object.is(e.cJ1, e.J2) && Object.is(e.cJ2, e.J2) && e.cLog === 1            // (c) 同値再確定は 0 行
+      && e.eCap === Math.fround(e.capMf) && e.eBare === 1);                          // (e)
     add('behavior.runStateEdit',
       r.ev >= 1 && r.om > 50 && Object.is(r.J1, r.J0) && r.mf1 === r.mf && r.mfHi === Math.fround(0.979381442)
-      && r.capMf < 1 && r.capOm >= 1e3,
+      && r.capMf < 1 && r.capOm >= 1e3 && e1OK,
       `🎇 700步: Ω_c=${r.om.toFixed(2)}(>50 — 収縮の実行状態)・同値再確定で J ${r.J0.toFixed(3)}→${r.J1.toFixed(3)}(bit 同一=${Object.is(r.J1, r.J0)})・` +
-      `massFrac ${r.mf}→${r.mf1}・0.979(0.95 放出後)の再確定 ${r.mfHi}(切らない)。実行状態の値域 massFrac ≤${r.capMf}・Ω ±${r.capOm}(入力の値域 0.95/±50 とは別)`);
+      `massFrac ${r.mf}→${r.mf1}・0.979(0.95 放出後)の再確定 ${r.mfHi}(切らない)。実行状態の値域 massFrac ≤${r.capMf}・Ω ±${r.capOm}(入力の値域 0.95/±50 とは別)` +
+      (e ? ` / **E1(第247便c)**: {Mc,J} 直接入力は bit 不変(J ${Object.is(e.aJ, e.J2)}・台帳 ${e.aLog}行)・` +
+        `Mc だけ半分にしても **J は 1 bit も動かない**(${Object.is(e.bJ, e.J2)}・台帳 1 行 ΔMc=${(e.bdMc || 0).toFixed(3)}・ΔJ=${e.bdJ})・` +
+        `丸め往復の同値再確定(パネル規約 Ω0=|J|/I*・θ / coreState 規約 符号つき Ω)とも J bit 不変=${Object.is(e.cJ1, e.J2)}/${Object.is(e.cJ2, e.J2)}(台帳は増えない)・` +
+        `MF=1 は通常 ${e.eCap}(上限 ${e.capMf})で切られ、裸コア終端 coreBare=1 のときだけ ${e.eBare}` : ' / E1 未適用'));
   } else {
     console.log('SKIP behavior.runStateEdit(対象に CORE_RUN_CLAMPS なし — root 等)');
   }
@@ -9772,6 +9836,139 @@ if (!FAST) {
       ` → **回転が速くなっても Q は増えない**。結合エネルギーの式は宣言された構造モデルで本体には接続しない`);
   } else {
     console.log('SKIP behavior.contractBudget(対象に第246便d の収縮予算台帳なし — root 等)');
+  }
+}
+
+// ---- 第247便c(S4 第 2 段 — 3審査 v5 一致): behavior.coreTerminal ----
+// 既存 core.contract を**重複せず**、同じ位置で「そのステップの収縮量」だけを削る 2 つの門と、
+// shed の**裸コア終端**を機械固定する。固定する内容:
+//   ①**既定経路 1 bit 不変** — rTarget/bindLedger 未宣言なら ⚪ の 6000 步は第246便と同値
+//     (発火 7 回・残骸 509.914306640625・massFrac 0.9413347244262695・裸コアに至らない)
+//   ②**台帳は軌跡を変えない** — bindLedger を宣言しても avail>0 の間は**ビット同一**(予算門 0 回)
+//   ③**予算門は avail<0 でだけ働く** — コア Ω を 40 にすると bindHold=1(1 步ぶんの収縮を行わない)。
+//     本体の判定は純関数 dfmContractBudget と同じ式(同じ入力で符号が一致することを直接照合)
+//   ④**rTarget 到達で停止** — Rc が fround(0.6) に張り付き、発火が 7→5 回に減って裸コアに至らない
+//   ⑤**裸コア終端** — 🔘 の 7 回目で殻を全部出して Mc=M(massFrac=1・coreBare=1)・器の半径が残る。
+//     事象の閉性は _shed() の直接呼び出しで ΔM/ΔP 厳密 0・ΔL・全E ≤1e-9、**2 回目は発火しない**
+//   ⑥ U_bind=−a·G·Mc²/Rc が coreState から読める(記録専用 — 力学は 1 bit も読まない)
+{
+  const hasTerm = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'whiteDwarfBareDFM')
+    && typeof HP.coreLedger === 'function' && HP.sim.coreRT !== undefined);
+  if (hasTerm) {
+    const ct = await page.evaluate(() => {
+      const get = (id) => JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));
+      const dump = (S) => { const a = [];
+        for (const k of ['x', 'y', 'vx', 'vy', 'spin', 'coreJ', 'RcV', 'coreMF', 'm', 'R'])
+          a.push(k + ':' + Array.prototype.join.call(S[k].subarray(0, S.n), ','));
+        return a.join('|'); };
+      const tot = (S) => { const t = S.totals(); let mm = 0, ps = 0;
+        for (let i = 0; i < S.n; i++) { mm += S.m[i]; ps += S.m[i] * Math.hypot(S.vx[i], S.vy[i]); }
+        return { L: t.L + S.resL + S.radL, px: t.px + S.resPx, py: t.py + S.resPy, m: mm, ps }; };
+      const energy = (S) => { const pair = S._mkPairU(); let E = 0;
+        for (let i = 0; i < S.n; i++) {
+          E += 0.5 * S.m[i] * (S.vx[i] ** 2 + S.vy[i] ** 2) + 0.25 * S.m[i] * S.R[i] ** 2 * S.spin[i] ** 2;
+          const I = 0.5 * S.m[i] * S.coreMF[i] * S.RcV[i] ** 2 * S.coreIS[i];
+          if (I > 0) E += (S.coreJ[i] ** 2 + S.coreJx[i] ** 2 + S.coreJy[i] ** 2) / (2 * I);
+          for (let j = i + 1; j < S.n; j++) E += pair(i, j); }
+        return E; };
+      const run = (id, patch, steps, dt) => {
+        const pd = get(id); if (patch) patch(pd);
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+        const ev = []; let prev = 0;
+        for (let k = 0; k < steps; k++) { S.step(dt);
+          if (S.shedNev > prev) { ev.push({ t: +S.t.toFixed(4), om: S.shedOm, bare: S.coreBare[0], m: S.m[0] }); prev = S.shedNev; } }
+        let esc = 0, nGas = 0;
+        for (let i = 1; i < S.n; i++) { nGas++;
+          const r = Math.hypot(S.x[i] - S.x[0], S.y[i] - S.y[0]);
+          const v2 = (S.vx[i] - S.vx[0]) ** 2 + (S.vy[i] - S.vy[0]) ** 2;
+          if (v2 > 2 * S.params.G * S.m[0] / Math.max(r, 1e-9)) esc++; }
+        return { warn: (v.warnings || []).length, nev: S.shedNev, skip: S.shedSkip, n: S.n, ev,
+          mR: S.m[0], mf: S.coreMF[0], Rc: S.RcV[0], R: S.R[0], bare: S.coreBare[0], sp: S.spin[0],
+          esc, nGas, hash: dump(S), led: HP.coreLedger(), cs: HP.coreState(0),
+          shedM: S.shedM, shedE: S.shedE, shedK: S.shedK, shedU: S.shedU, shedRes: S.shedRes,
+          clamp: S.clampVN + S.clampSN + S.clampRN + S.clampTN, nan: S.hasNaN() };
+      };
+      const bareOnly = (pd) => { delete pd.bodies[0].core.bindLedger; delete pd.bodies[0].core.bindA; };
+      const A = run('whiteDwarfBareDFM', null, 6000, 0.016);              // 台帳+終端(サンプルそのもの)
+      const noLed = run('whiteDwarfBareDFM', bareOnly, 6000, 0.016);      // 台帳を外す(②)
+      const base = run('whiteDwarfDFM', null, 6000, 0.016);               // ⚪ 本体(①)
+      const noBare = run('whiteDwarfBareDFM', (pd) => { delete pd.bodies[0].core.shed.bare;
+        delete pd.bodies[0].core.shed.bareBelow; }, 6000, 0.016);         // bare を外す = ⚪ と同じ
+      const abs = run('whiteDwarfBareDFM', (pd) => { pd.bodies[0].core.shed.bareBelow = 40; }, 6000, 0.016);
+      const rt = run('whiteDwarfBareDFM', (pd) => { pd.bodies[0].core.rTarget = 0.6; }, 6000, 0.016);   // ④
+      const fast = run('whiteDwarfBareDFM', (pd) => { pd.bodies[0].core.omega = 40; }, 6000, 0.016);    // ③
+      const half = run('whiteDwarfBareDFM', null, 12000, 0.008);
+      // ③′ 本体の門と純関数の一致(同じ入力で avail の符号が一致する)
+      const budget = (() => {
+        const b6 = HP.dfmContractBudget({ Mc: 480, J: 2073.6, R0: 1.2, R1: 1.2 * Math.exp(-0.02 * 0.016),
+          G: 4, a: 0.6, kappa: 0.5 });
+        const b40 = HP.dfmContractBudget({ Mc: 480, J: 13824, R0: 1.2, R1: 1.2 * Math.exp(-0.02 * 0.016),
+          G: 4, a: 0.6, kappa: 0.5 });
+        return { a6: b6.avail, a40: b40.avail };
+      })();
+      // ⑤ 事象そのものの閉性 — _shed() を直接呼ぶ(N 体積分誤差を混ぜない)
+      const direct = (() => {
+        const pd = get('whiteDwarfBareDFM');
+        pd.bodies[0].core.contract = 0; pd.bodies[0].core.omega = 20; pd.bodies[0].core.massFrac = 0.95;
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+        const rows = [];
+        for (let k = 0; k < 3; k++) {
+          const eB = energy(S), tB = tot(S), nev0 = S.shedNev, res0 = S.shedRes;
+          S._shed();
+          const eA = energy(S), tA = tot(S);
+          rows.push({ fired: S.shedNev - nev0, bare: S.coreBare[0], mf: S.coreMF[0], m: S.m[0], R: S.R[0],
+            dM: Math.abs(tA.m - tB.m), dP: Math.hypot(tA.px - tB.px, tA.py - tB.py),
+            dL: Math.abs(tA.L - tB.L), closure: eA - eB + (S.shedRes - res0) }); }
+        return { warn: (v.warnings || []).length, rows, bareN: S.bareN, bareM: S.bareM,
+          Ub: HP.coreState(0).Ubind, UbPred: -0.6 * 4 * S.m[0] * S.coreMF[0] * S.m[0] * S.coreMF[0] / S.RcV[0] };
+      })();
+      return { A, noLed, base, noBare, abs, rt, fast, half, budget, direct,
+        bitLed: A.hash === noLed.hash, bitBare: noBare.hash === base.hash };
+    });
+    await page.evaluate(() => HP.loadPreset('saturn', false));
+    const A = ct.A, d = ct.direct;
+    const last = A.ev[A.ev.length - 1];
+    add('behavior.coreTerminal',
+      A.warn === 0 && !A.nan && A.clamp === 0 && A.skip === 0
+      // ① 既定経路(未宣言)は第246便のまま — ⚪ 本体・bare を外した版とも同値
+      && ct.base.nev === 7 && ct.base.bare === 0 && ct.base.mR === 509.914306640625
+      && Math.abs(ct.base.mf - 0.9413347244262695) < 1e-12 && ct.bitBare
+      // ② 台帳を宣言しても軌跡はビット同一(予算門は 0 回)
+      && ct.bitLed && A.led.bindHold === 0 && A.led.bindStop === 0
+      // ③ 予算門は avail<0 でだけ働く(純関数と符号が一致)
+      && ct.budget.a6 > 0 && ct.budget.a40 < 0 && ct.fast.led.bindHold >= 1
+      && ct.fast.bare === 1 && ct.fast.mf === 1
+      // ④ rTarget 到達で停止(Rc が張り付き・発火が減り・裸コアに至らない)
+      && ct.rt.nev === 5 && ct.rt.bare === 0 && Math.abs(ct.rt.Rc - 0.6) < 1e-6
+      && ct.rt.led.bindStop > 1000 && ct.rt.led.bareN === 0
+      // ⑤ 裸コア終端 — 7 回目・Mc=M・器の半径・帳簿の閉性・2 回目は発火しない
+      && A.nev === 7 && last.bare === 1 && A.mf === 1 && A.mR === 480 && A.bare === 1
+      && Math.abs(A.R - 22.726205825805664) < 1e-9 && A.esc === 84 && A.nGas === 84
+      && Math.abs(A.shedM - 120) < 1e-9 && A.led.bareN === 1 && Math.abs(A.led.bareM - 36.48046875) < 1e-9
+      && ct.abs.bare === 1 && ct.abs.mf === 1 && ct.abs.nev === 7                                  //   絶対質量の書き方でも同じ
+      && ct.half.nev === 7 && ct.half.bare === 1 && ct.half.mf === 1                               //   dt/2 でも同じ
+      && d.warn === 0 && d.rows[0].fired === 1 && d.rows[0].bare === 1 && d.rows[0].mf === 1
+      && d.rows[0].dM === 0 && d.rows[0].dP === 0 && d.rows[0].dL < 1e-9
+      && Math.abs(d.rows[0].closure) < 1e-9 && d.rows[1].fired === 0 && d.rows[2].fired === 0
+      && d.bareN === 1
+      // ⑥ U_bind の記録(状態関数 −a·G·Mc²/Rc)
+      && Math.abs(d.Ub / d.UbPred - 1) < 1e-12 && A.cs.bindLedger === 'pairU' && A.cs.bindA === 0.6
+      && A.led.bindRel > A.led.bindRot * 10,
+      `既定経路(未宣言)= 第246便のまま: ⚪ 6000步 発火 ${ct.base.nev}回・残骸 ${ct.base.mR}(massFrac ${ct.base.mf.toFixed(9)})・裸コア=${ct.base.bare}(0)・` +
+      `bare を外した 🔘 と ⚪ がビット同一=${ct.bitBare} / ` +
+      `結合 E 台帳: bindLedger 有無で 6000步ビット同一=${ct.bitLed}(予算門 ${A.led.bindHold}回・rTarget 停止 ${A.led.bindStop}步)・` +
+      `解放 ΔU_bind ${A.led.bindRel.toFixed(1)} 対 ΔE_rot ${A.led.bindRot.toFixed(1)}(${(A.led.bindRel / A.led.bindRot).toFixed(1)} 倍の余裕)・` +
+      `U_bind=−a·G·Mc²/Rc の相対一致 ${Math.abs(d.Ub / d.UbPred - 1).toExponential(1)} / ` +
+      `予算門: 純関数 avail(Ω=6)=${ct.budget.a6.toFixed(2)}>0 / avail(Ω=40)=${ct.budget.a40.toFixed(2)}<0 → ` +
+      `本体も Ω=40 で ${ct.fast.led.bindHold} 回**収縮を行わない**(その後 J が落ちて再開・終端 massFrac ${ct.fast.mf}) / ` +
+      `rTarget=0.6: Rc ${ct.rt.Rc.toFixed(8)} に張り付き ${ct.rt.led.bindStop} 步停止・発火 ${ct.rt.nev}回(7→5)・裸コア ${ct.rt.bare}(0) / ` +
+      `🔘 裸コア終端: 発火 ${A.nev}回・**${A.ev.length}回目 t=${last.t} で殻を全部**(累積 ${A.shedM.toFixed(3)}=殻の全部)→ 残骸 ${A.mR}=コア・massFrac ${A.mf}・` +
+      `器の半径 R=${A.R.toFixed(4)}(√M へ戻さない)・殻スピン ${A.sp.toFixed(4)}・脱出 ${A.esc}/${A.nGas}・dt/2 も ${ct.half.nev}回で同じ終端・` +
+      `bareBelow=40(絶対質量)でも ${ct.abs.nev}回で同じ終端 / ` +
+      `事象の閉性(_shed 直接): ΔM ${d.rows[0].dM}・ΔP ${d.rows[0].dP}・ΔL ${d.rows[0].dL.toExponential(1)}・全E ${d.rows[0].closure.toExponential(1)}・` +
+      `2/3 回目は発火しない(${d.rows[1].fired}/${d.rows[2].fired}) = **終端は 1 回だけ**`);
+  } else {
+    console.log('SKIP behavior.coreTerminal(対象に第247便c の S4 第 2 段なし — root 等)');
   }
 }
 
