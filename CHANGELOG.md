@@ -21,6 +21,12 @@
   **正直な限界(3 審査 v4)**: B9(1) 連続 shed だけでは**裸のコアに至らない**(終端状態は次便)・B9(2) burst 用量 2.7e-3 は**現象論としての宣言**。
   QA: `behavior.supernova` を新構成で全面書き直し、**`behavior.shedLayers`・`behavior.shedRepeat` を新設**、`behavior.remnantSamples` は ⚪ 単独へ縮小
   (🔵 の参照を撤去)。🎆 envelopeShedDFM(基準機構)は不変・既定経路は第245便とビット同一・root(index.html)は未改変(SKIP 分岐を維持)。
+- **第246便(2026-09-07・第38報)**: 3 審査 v4(ChatGPT/Grok/Gemini)の合意点を検証優先で実施。**a(統括)**: ChatGPT v4 §5.1/5.2 の**事象会計の穴を修正** —
+  融合で消滅する対の U_SS が帳簿から落ちていた(λ=200 で −99750 の漏れ → 消滅対の U_SS を fusU リザーバへ・閉性は λ=0 と同一)/放出の U₁ を放出後の
+  殻スピン・コア J で評価(λ=1e6 で +3.9e6 の漏れ → 閉性 7e-9)。QA `behavior.spinSpinEvents`。§5.3/5.4 **実行状態の値域契約**: 編集入口
+  S.applyCoreEdit は入力の値域(検証器 massFrac ≤0.95・Ω ±50)ではなく実行状態の値域 `CORE_RUN_CLAMPS`(massFrac ≤0.999・Ω ±1e4)で切る —
+  🎇 700 步後(Ω_c=62.4)の同値再確定で J −19.9% だったものが bit 不変に(QA `behavior.runStateEdit`・core.edit-ui の期待を更新)。
+  §5.5 🎆 の「脱出速度ちょうど」の旧表現を現象論へ(PHYSICS の重複行 4 本を除去)。
 - **第245便(2026-09-07・第37報)**: 3 審査 v3(ChatGPT/Grok/Gemini)の合意点を検証優先で実施。**A1′ を閉じる(現行 E6′ 維持 — f≈2 は規約依存の較正結果)**。
   **core.shed の保存則の穴を修正**(同じステップ末に複数の親が放出すると先行の新生粒を U0 に含めず二重計上 — 親 2 体で +0.48% を再現・修正後 4e-11。QA envelopeShedMulti)。
   **残骸の massFrac 値域契約**(検証器/編集器/AI 仕様の上限 0.6 → 0.95 — 放出後の 2/3 を再検証・再確定しても Mc・J が切られない。QA remnantRange)。

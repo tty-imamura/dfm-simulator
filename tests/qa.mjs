@@ -5115,7 +5115,9 @@ if (!FAST) {
         // 第245便: massFrac の上限は検証器 vCore から読む(beta 0.95 / root 0.6 — 同値であることが検査の主旨)
         { const pc = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.bodies.some((b) => b.type === 'single'))));
           const b0 = pc.bodies.find((b) => b.type === 'single'); b0.core = { mode: 'differential', massFrac: 5, radius: 1, omega: 1, Kcs: 0 };
-          const vc = HP.validatePreset(pc); cl.capMf = (vc.ok && vc.preset.bodies.find((b) => b.type === 'single').core) ? vc.preset.bodies.find((b) => b.type === 'single').core.massFrac : NaN; }
+          const vc = HP.validatePreset(pc); cl.capMf = (vc.ok && vc.preset.bodies.find((b) => b.type === 'single').core) ? vc.preset.bodies.find((b) => b.type === 'single').core.massFrac : NaN;
+          // 第246便(ChatGPT v4 §5.3/5.4): 実行状態の値域 HP.CORE_RUN_CLAMPS がある版では編集入口はそちら(massFrac 0.999・Ω ±1e4)で切る
+          cl.capOm = 50; if (HP.CORE_RUN_CLAMPS) { cl.capMf = Math.min(5, HP.CORE_RUN_CLAMPS.massFrac[1]); cl.capOm = Math.min(999, HP.CORE_RUN_CLAMPS.omega[1]); } }
         // コアの無い粒子への付与(UI 既定と同型)→ 除去で復帰
         S.applyCoreEdit(1, { mode: 'differential', massFrac: 0.3,
           radius: Math.max(0.01, Math.min(200, S.R[1] / 2)),
@@ -5133,12 +5135,12 @@ if (!FAST) {
         && r.on.md === 2 && Object.is(r.on.j, r.jBuild) && Object.is(r.on.jm, r.jmBuild)
         && r.on.has === true && r.on.mf === Math.fround(0.3) && r.on.rc === 7.5 && r.on.is === 1 && r.on.kcs === 0
         && r.cl.mf === Math.fround(r.cl.capMf) && r.cl.rc === Math.fround(0.01) && r.cl.kcs === 0 && r.cl.is === 1e6   // 第245便: 上限は検証器と同値(beta 0.95・root 0.6)
-        && Math.abs(r.cl.om / 50 - 1) < 1e-5
+        && Math.abs(r.cl.om / r.cl.capOm - 1) < 1e-5   // 第246便: 実行状態の値域(beta ±1e4 → 999 のまま/root 50)
         && r.sqTilt90 < 1e-9
         && r.add1.md === 2 && r.add1.has === true && r.md1After === 0,
         `applyCoreEdit=build 鏡写し: J/|J| ビット一致=${Object.is(r.on.j, r.jBuild)}/${Object.is(r.on.jm, r.jmBuild)} / ` +
         `無効化: coreMd=0・J=0・hasCoreV2=${r.off.has}(false)→再付与で復帰(有効=フィールド追加/無効=無視) / ` +
-        `クランプ(vCore 同値): massFrac ${r.cl.mf}(検証器 ${r.cl.capMf})・radius ${r.cl.rc}(0.01)・Kcs ${r.cl.kcs}(0)・ζ ${r.cl.is}(1e6)・Ω ${r.cl.om.toFixed(1)}(50) / ` +
+        `クランプ(実行状態の値域): massFrac ${r.cl.mf}(上限 ${r.cl.capMf})・radius ${r.cl.rc}(0.01)・Kcs ${r.cl.kcs}(0)・ζ ${r.cl.is}(1e6)・Ω ${r.cl.om.toFixed(1)}(${r.cl.capOm}) / ` +
         `tilt:90 の描画入力 |J_z|/|J|=${r.sqTilt90.toExponential(1)}(<1e-9 — エッジオン楕円=横棒) / ` +
         `コア無し粒子への付与→除去=OK / 編集 DOM 8要素=${r.dom}`);
     }
@@ -8993,6 +8995,83 @@ if (!FAST) {
       `検証器: 0 は署名へ入れない=${sd.valid.zeroDrop}・値域クランプ=${sd.valid.clamped}・非数エラー=${sd.valid.badErr}・負値保持=${sd.valid.negKept}`);
   } else {
     console.log('SKIP behavior.spinDipole(対象に第245便補足1の spinSpin なし — root 等)');
+  }
+}
+
+// ---- 第246便(第38報・ChatGPT v4 §5.1/5.2): behavior.spinSpinEvents — spinSpin は滑らかな力だけでなく**事象**(融合・放出)でも E を閉じる ----
+// ①融合: 消滅する対の U_SS が帳簿(fusU リザーバ)へ入る(修正前は λ=200 で −99750 の漏れ)。λ=0 と λ=200 で閉性が同じ
+// ②放出: U₁ を放出後の殻スピン・コア J で評価する(修正前は λ=1e6 で +3.9e6 の漏れ)。閉性 <1e-6・残差比 <5e-6
+// ③λ=0・未宣言は旧経路と bit 同一(既存の envelopeShed/fusion QA が担保)
+{
+  const hasSS = await page.evaluate(() => typeof HP.sim._spinSpin === 'function' && HP.allPresets().some((q) => q.id === 'spinDipoleBinary')
+    && HP.allPresets().some((q) => q.id === 'envelopeShedDFM'));
+  if (hasSS) {
+    const r = await page.evaluate(() => {
+      const clone = (id) => JSON.parse(JSON.stringify(HP.allPresets().find((p) => p.id === id)));
+      const build = (p) => { const v = HP.validatePreset(p); if (!v.ok) throw Error(JSON.stringify(v.errors)); HP.sim.build(v.preset); };
+      const E = (S) => { let e = 0; const U = S._mkPairU();
+        for (let i = 0; i < S.n; i++) {
+          e += .5 * S.m[i] * (S.vx[i] ** 2 + S.vy[i] ** 2) + .25 * S.m[i] * S.R[i] ** 2 * S.spin[i] ** 2;
+          if (S.Tint) e += S.params.cHeat * S.m[i] * S.Tint[i];
+          const I = .5 * S.m[i] * S.coreMF[i] * S.RcV[i] ** 2 * S.coreIS[i];
+          if (I > 0) e += (S.coreJ[i] ** 2 + S.coreJx[i] ** 2 + S.coreJy[i] ** 2) / (2 * I);
+          for (let j = i + 1; j < S.n; j++) e += U(i, j);
+        } return e; };
+      const fusion = [0, 200].map((lam) => {
+        const p = clone('spinDipoleBinary'); delete p.abBody; p.physics.spinSpin = lam; p.thermal = 'tint'; p.fusion = { dFrac: .7 };
+        p.bodies.forEach((b, i) => Object.assign(b, { x: i, y: 0, vx: 0, vy: 0 })); build(p);
+        const S = HP.sim, e0 = E(S), u0 = S.fusU; S._fuse();
+        return { lam, n: S.n, error: E(S) - e0 + S.fusU - u0 };
+      });
+      const shed = [0, 1e6].map((lam) => {
+        const p = clone('envelopeShedDFM'); delete p.balanceFrame; p.physics.spinSpin = lam; p.bodies[0].core.omega = 15; p.bodies[0].core.contract = 0;
+        const b = JSON.parse(JSON.stringify(p.bodies[0])); b.x = 100; b.spin = 1; delete b.core.shed; p.bodies.push(b); build(p);
+        const S = HP.sim, e0 = E(S); S._shed();
+        return { lam, events: S.shedNev, error: E(S) - e0 + S.shedRes,
+          residualFraction: Math.abs(S.shedRes) / Math.max(Math.abs(S.shedK), Math.abs(S.shedU), 1) };
+      });
+      return { fusion, shed };
+    });
+    await page.evaluate(() => HP.loadPreset('saturn', false));
+    add('behavior.spinSpinEvents',
+      r.fusion.every((x) => x.n === 1 && Math.abs(x.error) < 1e-3)
+      && Math.abs(r.fusion[1].error - r.fusion[0].error) < 1e-6
+      && r.shed.every((x) => x.events === 1 && Math.abs(x.error) < 1e-6 && x.residualFraction < 5e-6),
+      `融合: λ=0 閉性 ${r.fusion[0].error.toExponential(2)}・λ=200 ${r.fusion[1].error.toExponential(2)}(差 ${Math.abs(r.fusion[1].error - r.fusion[0].error).toExponential(1)} <1e-6 — 消滅対の U_SS を park へ) / ` +
+      `放出: λ=0 閉性 ${r.shed[0].error.toExponential(2)}・λ=1e6 ${r.shed[1].error.toExponential(2)}(残差比 ${r.shed[1].residualFraction.toExponential(1)} <5e-6 — U₁ を放出後スピン・J で評価)`);
+  } else {
+    console.log('SKIP behavior.spinSpinEvents(対象に spinSpin なし — root 等)');
+  }
+}
+
+// ---- 第246便(ChatGPT v4 §5.3/5.4): behavior.runStateEdit — 実行状態は入力の値域を超えて正当。同値の再確定で Mc・J を切らない ----
+// 🎇 supernovaCore を 700 步走らせる(収縮で Ω_c>50・放出で massFrac>0.6)→ 最大質量の残骸に現在の MF・Rc・Ω・ζ をそのまま
+// S.applyCoreEdit へ渡す → J が bit 不変(修正前は ω 上限 ±50 で J −19.9%)。massFrac=0.979(0.95 放出後)も同様
+{
+  const has = await page.evaluate(() => !!HP.CORE_RUN_CLAMPS && HP.allPresets().some((q) => q.id === 'supernovaCore'));
+  if (has) {
+    const r = await page.evaluate(() => {
+      const p = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'supernovaCore')));
+      const v = HP.validatePreset(p); const S = HP.sim; S.build(v.preset);
+      for (let k = 0; k < 700; k++) S.step(.016);
+      let im = 0; for (let i = 1; i < S.n; i++) if (S.m[i] > S.m[im]) im = i;
+      const mf = S.coreMF[im], Mc = mf * S.m[im], Rc = S.RcV[im], zeta = S.coreIS[im], J0 = S.coreJ[im];
+      const om = J0 / (0.5 * Mc * Rc * Rc * zeta);
+      S.applyCoreEdit(im, { mode: 'differential', massFrac: mf, radius: Rc, omega: om, Kcs: S.coreKcs[im], inertiaScale: zeta, tilt: 0 });
+      const J1 = S.coreJ[im], mf1 = S.coreMF[im];
+      // 0.95 の残骸が放出で 0.979 になった状態の再確定(検証器の上限 0.95 を超える実行状態)
+      S.applyCoreEdit(im, { mode: 'differential', massFrac: 0.979381442, radius: Rc, omega: om, Kcs: 0, inertiaScale: zeta, tilt: 0 });
+      const mfHi = S.coreMF[im];
+      return { ev: S.shedNev, om, J0, J1, mf, mf1, mfHi, capMf: HP.CORE_RUN_CLAMPS.massFrac[1], capOm: HP.CORE_RUN_CLAMPS.omega[1] };
+    });
+    await page.evaluate(() => HP.loadPreset('saturn', false));
+    add('behavior.runStateEdit',
+      r.ev >= 1 && r.om > 50 && Object.is(r.J1, r.J0) && r.mf1 === r.mf && r.mfHi === Math.fround(0.979381442)
+      && r.capMf < 1 && r.capOm >= 1e3,
+      `🎇 700步: Ω_c=${r.om.toFixed(2)}(>50 — 収縮の実行状態)・同値再確定で J ${r.J0.toFixed(3)}→${r.J1.toFixed(3)}(bit 同一=${Object.is(r.J1, r.J0)})・` +
+      `massFrac ${r.mf}→${r.mf1}・0.979(0.95 放出後)の再確定 ${r.mfHi}(切らない)。実行状態の値域 massFrac ≤${r.capMf}・Ω ±${r.capOm}(入力の値域 0.95/±50 とは別)`);
+  } else {
+    console.log('SKIP behavior.runStateEdit(対象に CORE_RUN_CLAMPS なし — root 等)');
   }
 }
 
