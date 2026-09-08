@@ -228,8 +228,11 @@ if (want(2)) {
         probes.push({ type: 'single', m: 0.01, x: px, y: py, vx: 0, vy: 0, spin: 0, pinned: true });
       const s = HP.sim;
       s.build({ id: 'p2fig2', name: 'Vbox', camera: { scale: 300 }, world: { boundary: 'none', size: 0 },
+        // 第248便: 第242便で未宣言の frameWeight の既定が share→pull になったため、論文2の図2(V23a/V24a と同じ
+        // share 則で測った利得)を再現するには share を明示する(paper2.yml は paper/** 変更時のみ走るので第242便以降
+        // 初めて露見した — 本文 Eq.(1) g(0)=1/2 は share 則の帰結)
         physics: { G: 0, D0: 0, kFrame: 1, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, etaRad: 0,
-          Kt: 10000, cLight: 100, softening: EPS, timeScale: 1 },
+          Kt: 10000, cLight: 100, softening: EPS, timeScale: 1, frameWeight: 'share' },
         bodies: [ring].concat(probes), overlays: {} });
       s.step(0.016);
       const n0 = s.n - 4;
@@ -294,8 +297,9 @@ if (want(3)) {
       const s = HP.sim;
       s.build({ id: 'p2fig3', name: 'V25', camera: { scale: 300 }, world: { boundary: 'none', size: 0 },
         universeBox: { mode: 'exp', H0: HH, D: D, dPower: 0, L: 260, cx: 0, cy: 0, vx: 0, vy: 0, omega: 0, amp: 0, freq: 0, phase: 0 },
+        // 第248便: 図 2 と同じ理由(第242便の既定 pull 化)で V25 の share 則を明示
         physics: { G: 1, D0: 0, kFrame: 1, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, etaRad: 0,
-          Kt: 10000, cLight: 100, radiusScale: rs, softening: SOFT, timeScale: 1 },
+          Kt: 10000, cLight: 100, radiusScale: rs, softening: SOFT, timeScale: 1, frameWeight: 'share' },
         bodies: [
           { type: 'single', m: m, x: -dSep / 2, y: 0, vx: -HH * dSep / 2, vy: -vOrb, spin: 0, pinned: false },
           { type: 'single', m: m, x: dSep / 2, y: 0, vx: HH * dSep / 2, vy: vOrb, spin: 0, pinned: false }

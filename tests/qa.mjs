@@ -165,6 +165,25 @@ if (!TARGET.startsWith('beta/')) {
   add('docs.gravity-params', phys.includes('gravityX') && phys.includes('gravityY'), '');
 }
 
+// ---- 0e2) 第248便b: SO 参照積分器の自己検証(Node のみ・ブラウザ不要)----
+//   tests/exp-w248b-so.mjs は**エンジンの外の独立参照**(SO の力はエンジンに入れていない)。
+//   --check は ①Hamiltonian 勾配 vs 数値微分の一致 ②E の保存 ③総 J=L+S₁+S₂ の保存
+//   ④|S₁|・|S₂| の保存 を dt 3 段で確かめ、落ちれば非ゼロ終了する。参照の健全性だけを固定する
+//   (⚡ の実測値そのものは docs/PHYSICS.md の第248便b 節が記録)。
+{
+  let ok = false, detail = '';
+  try {
+    const so = JSON.parse(execSync('node tests/exp-w248b-so.mjs --check',
+      { cwd: ROOT, stdio: 'pipe' }).toString());
+    ok = !!(so.checks && so.checks.pass);
+    const g = Math.max(...so.gradient.map((r) => r.relMaxDiff));
+    const e = Math.max(...so.conservationTilted.map((r) => r.relE));
+    const jj = Math.max(...so.conservationTilted.map((r) => r.relJ));
+    detail = `grad ${g.toExponential(1)} / relE ${e.toExponential(1)} / relJ ${jj.toExponential(1)}`;
+  } catch (err) { detail = String((err && err.stdout) || err).slice(0, 200); }
+  add('behavior.w248b-so-reference', ok, detail);
+}
+
 const browser = await getBrowser();
 const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
 const pageErrors = [];
@@ -8542,6 +8561,51 @@ if (!FAST) {
   }
 }
 
+// ---- 第248便(ChatGPT v6 §4.1): behavior.coreEditAzimuth — 歳差で回った方位を編集後も保つ ----
+// 🪩 bhCoreTilt を 300 步走らせると殻スピンの方位歳差で Jy≠0 になる。この状態で
+//   (a) {Kcs:0}(J に触れない編集)→ Jx/Jy が bit 不変(修正前は Jy が 0 に戻され方位が消えた)
+//   (b) {tilt:60} → |J| 保存・方位 atan2(Jy,Jx) 保存(θ だけ回す)
+//   (c) {Jy:v} → 指定した成分だけ動き、editLog に dJy が記帳される
+//   (d) {J:Jz} 直接宣言 → 従来どおり面内成分 0(J は J_z の意味)
+{
+  const has = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'bhCoreTilt') && !!HP.CORE_RUN_CLAMPS);
+  if (has) {
+    const r = await page.evaluate(() => {
+      const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'bhCoreTilt')));
+      const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+      for (let k = 0; k < 300; k++) S.step(0.016);
+      const jx0 = S.coreJx[0], jy0 = S.coreJy[0], jz0 = S.coreJ[0];
+      const az0 = Math.atan2(jy0, jx0), jm0 = Math.hypot(jx0, jy0, jz0);
+      if (!S.editLog) S.editLog = []; S.editLog.length = 0;
+      S.applyCoreEdit(0, { Kcs: 0 });
+      const a = { jx: S.coreJx[0], jy: S.coreJy[0], jz: S.coreJ[0], log: S.editLog.length };
+      S.applyCoreEdit(0, { tilt: 60 });
+      const b = { az: Math.atan2(S.coreJy[0], S.coreJx[0]), jm: Math.hypot(S.coreJx[0], S.coreJy[0], S.coreJ[0]),
+        th: Math.acos(S.coreJ[0] / S.coreJm[0]) * 180 / Math.PI, log: S.editLog.length };
+      const jxB = S.coreJx[0], jzB = S.coreJ[0];
+      S.applyCoreEdit(0, { Jy: jm0 * 0.25 });
+      const rec = S.editLog[S.editLog.length - 1] || {};
+      const c = { jx: S.coreJx[0], jy: S.coreJy[0], jz: S.coreJ[0], dJy: rec.dJy, log: S.editLog.length };
+      S.applyCoreEdit(0, { J: jzB });
+      const d = { jx: S.coreJx[0], jy: S.coreJy[0], jz: S.coreJ[0] };
+      return { jx0, jy0, jz0, az0, jm0, a, b, jxB, jzB, c, d, nan: S.hasNaN() };
+    });
+    await page.evaluate(() => HP.loadPreset('saturn', false));
+    const wrap = (x) => Math.atan2(Math.sin(x), Math.cos(x));
+    add('behavior.coreEditAzimuth',
+      Math.abs(r.jy0) > 1e-3 * r.jm0                                                  // 歳差で Jy が立っている前提
+      && Object.is(r.a.jx, r.jx0) && Object.is(r.a.jy, r.jy0) && Object.is(r.a.jz, r.jz0) && r.a.log === 0   // (a)
+      && Math.abs(wrap(r.b.az - r.az0)) < 1e-9 && Math.abs(r.b.jm / r.jm0 - 1) < 1e-9 && Math.abs(r.b.th - 60) < 1e-6 && r.b.log === 1   // (b)
+      && Object.is(r.c.jx, r.jxB) && Object.is(r.c.jz, r.jzB) && Math.abs(r.c.jy - r.jm0 * 0.25) < 1e-12 && typeof r.c.dJy === 'number' && r.c.log === 2   // (c)
+      && r.d.jx === 0 && r.d.jy === 0 && Object.is(r.d.jz, r.jzB) && !r.nan,          // (d)
+      `🪩 300步: 方位 ${(r.az0 * 180 / Math.PI).toFixed(2)}°(Jy/|J|=${(r.jy0 / r.jm0).toFixed(3)})→ {Kcs:0} で Jx/Jy bit 不変=${Object.is(r.a.jy, r.jy0)}(台帳 ${r.a.log}行)・` +
+      `{tilt:60} で方位保存 |Δaz|=${Math.abs(wrap(r.b.az - r.az0)).toExponential(1)}・|J| 比 ${(r.b.jm / r.jm0).toFixed(9)}・θ=${r.b.th.toFixed(3)}°・` +
+      `{Jy} 編集は Jy だけ(dJy=${(r.c.dJy || 0).toExponential(2)})・{J} 直接宣言は面内 0=${r.d.jx === 0 && r.d.jy === 0}`);
+  } else {
+    console.log('SKIP behavior.coreEditAzimuth(対象に 🪩 なし — root 等)');
+  }
+}
+
 // ---- 第245便(原仮定者指示「パルス周期 2.773 s が画面から読めない」): ui.pulse-readout ----
 // 🏮 pulsarSolo を正規経路で読み、200步 走らせて粒子を選ぶと
 //   ① DOM の読み取り専用欄 #bePulse に「ω … ・ P … ≈ 2.773 s ・ … 回転」が出る(en は turns)
@@ -10929,7 +10993,9 @@ if (!FAST) {
       // legacy 内蔵サンプルは "share" 明示(1 bit 不変)・pull 世代の現実較正 14 本は未宣言か "pull" 明示
       // 第247便b: ⏰ gw150914Merge4s(🎻 の複製)と ⚛️ gw150914SpinDipole(🎐 の複製)も pull 世代
       const MIG = ['earthMoonRealKF1', 'mercuryRealKF1', 'saturnRingRealKF1', 'alphaCenABDFM', 'siriusABDFM', 'psrDoubleABDFM', 'gw150914DFM', 'alphaCenAB', 'siriusAB', 'psrDoubleAB', 'gw150914',
-        'psrDoubleABSpinCal', 'gw150914Merge4s', 'gw150914SpinDipole', 'mmPhaseToy'];   // 第244便: 💿 も pull へ(観測環質量+frameSource:false)/ 第247便a: 🧿(⚡ の較正候補 variant — ⚡ と同じ pull 宣言)/ 第247便d: 🪞 mmPhaseToy(pull 明示の原理サンプル)
+        'psrDoubleABSpinCal', 'gw150914Merge4s', 'gw150914SpinDipole', 'mmPhaseToy',
+        'psrJ1757DFM', 'psrJ1946DFM',
+        'galaxyFieldLines', 'galaxyTiltPrecess', 'galaxyBarRotors'];   // 第244便: 💿 も pull へ(観測環質量+frameSource:false)/ 第247便a: 🧿(⚡ の較正候補 variant — ⚡ と同じ pull 宣言)/ 第247便d: 🪞 mmPhaseToy(pull 明示の原理サンプル)/ 第248便a: 🧮🩺(⚡ の処方をそのまま当てた NS 連星 hold-out — ⚡ と同じ pull 宣言) / 第248便c: 🍥🪁🍢(銀河形態の原理サンプル — pull 既定)
       const all = HP.allPresets(); let nShare = 0, nOther = 0; const wrong = [];
       for (const q of all) { const fw = q.physics && q.physics.frameWeight; if (MIG.indexOf(q.id) >= 0) { if (fw !== undefined && fw !== 'pull') wrong.push(q.id); } else if (fw === 'share') nShare++; else { nOther++; wrong.push(q.id); } }
       // 🌘: 宣言どおり(pull・D0pull=3.36e-5)で generic・近点移動 2.995°/周。pull3/pull4 は再較正値で同窓
@@ -22107,7 +22173,17 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     // 幾何・半径 proxy・自転は ⚡📻 と同じ転写でスケール換算込みの実較正)を追加 — 27→28
     const gen247 = await page.evaluate(() =>
       HP.allPresets().some((p) => p.id === 'psrDoubleABSpinCal'));
-    const want = gen247 ? 'alphaCenAB,alphaCenABDFM,earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+    // 第248便a: 🧮🩺 psrJ1757DFM / psrJ1946DFM(⚡ の処方をそのまま当てた NS 連星 hold-out —
+    // 幾何・半径 proxy・自転は ⚡📻 と同じ転写でスケール換算込みの実較正)を追加 — 28→30
+    const gen248 = await page.evaluate(() =>
+      HP.allPresets().some((p) => p.id === 'psrJ1757DFM'));
+    const want = gen248 ? 'alphaCenAB,alphaCenABDFM,earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+        + 'gw150914,gw150914DFM,'
+        + 'jupiterGalilean,marsMoonsReal,mercuryReal,mercuryRealKF1,neptuneReal,plutoCharonReal,'
+        + 'psrDoubleAB,psrDoubleABDFM,psrDoubleABSpinCal,psrJ1757DFM,psrJ1946DFM,'
+        + 'qLockRadialAudit,qLockRadialAuditQ3,saturnRingReal,saturnRingRealKF1,saturnZonalD68,'
+        + 'siriusAB,siriusABDFM,solarInner,uranusReal,venusReal'
+      : gen247 ? 'alphaCenAB,alphaCenABDFM,earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
         + 'gw150914,gw150914DFM,'
         + 'jupiterGalilean,marsMoonsReal,mercuryReal,mercuryRealKF1,neptuneReal,plutoCharonReal,'
         + 'psrDoubleAB,psrDoubleABDFM,psrDoubleABSpinCal,qLockRadialAudit,qLockRadialAuditQ3,saturnRingReal,saturnRingRealKF1,saturnZonalD68,'
