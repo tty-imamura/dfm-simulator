@@ -8542,6 +8542,51 @@ if (!FAST) {
   }
 }
 
+// ---- 第248便(ChatGPT v6 §4.1): behavior.coreEditAzimuth — 歳差で回った方位を編集後も保つ ----
+// 🪩 bhCoreTilt を 300 步走らせると殻スピンの方位歳差で Jy≠0 になる。この状態で
+//   (a) {Kcs:0}(J に触れない編集)→ Jx/Jy が bit 不変(修正前は Jy が 0 に戻され方位が消えた)
+//   (b) {tilt:60} → |J| 保存・方位 atan2(Jy,Jx) 保存(θ だけ回す)
+//   (c) {Jy:v} → 指定した成分だけ動き、editLog に dJy が記帳される
+//   (d) {J:Jz} 直接宣言 → 従来どおり面内成分 0(J は J_z の意味)
+{
+  const has = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'bhCoreTilt') && !!HP.CORE_RUN_CLAMPS);
+  if (has) {
+    const r = await page.evaluate(() => {
+      const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'bhCoreTilt')));
+      const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+      for (let k = 0; k < 300; k++) S.step(0.016);
+      const jx0 = S.coreJx[0], jy0 = S.coreJy[0], jz0 = S.coreJ[0];
+      const az0 = Math.atan2(jy0, jx0), jm0 = Math.hypot(jx0, jy0, jz0);
+      if (!S.editLog) S.editLog = []; S.editLog.length = 0;
+      S.applyCoreEdit(0, { Kcs: 0 });
+      const a = { jx: S.coreJx[0], jy: S.coreJy[0], jz: S.coreJ[0], log: S.editLog.length };
+      S.applyCoreEdit(0, { tilt: 60 });
+      const b = { az: Math.atan2(S.coreJy[0], S.coreJx[0]), jm: Math.hypot(S.coreJx[0], S.coreJy[0], S.coreJ[0]),
+        th: Math.acos(S.coreJ[0] / S.coreJm[0]) * 180 / Math.PI, log: S.editLog.length };
+      const jxB = S.coreJx[0], jzB = S.coreJ[0];
+      S.applyCoreEdit(0, { Jy: jm0 * 0.25 });
+      const rec = S.editLog[S.editLog.length - 1] || {};
+      const c = { jx: S.coreJx[0], jy: S.coreJy[0], jz: S.coreJ[0], dJy: rec.dJy, log: S.editLog.length };
+      S.applyCoreEdit(0, { J: jzB });
+      const d = { jx: S.coreJx[0], jy: S.coreJy[0], jz: S.coreJ[0] };
+      return { jx0, jy0, jz0, az0, jm0, a, b, jxB, jzB, c, d, nan: S.hasNaN() };
+    });
+    await page.evaluate(() => HP.loadPreset('saturn', false));
+    const wrap = (x) => Math.atan2(Math.sin(x), Math.cos(x));
+    add('behavior.coreEditAzimuth',
+      Math.abs(r.jy0) > 1e-3 * r.jm0                                                  // 歳差で Jy が立っている前提
+      && Object.is(r.a.jx, r.jx0) && Object.is(r.a.jy, r.jy0) && Object.is(r.a.jz, r.jz0) && r.a.log === 0   // (a)
+      && Math.abs(wrap(r.b.az - r.az0)) < 1e-9 && Math.abs(r.b.jm / r.jm0 - 1) < 1e-9 && Math.abs(r.b.th - 60) < 1e-6 && r.b.log === 1   // (b)
+      && Object.is(r.c.jx, r.jxB) && Object.is(r.c.jz, r.jzB) && Math.abs(r.c.jy - r.jm0 * 0.25) < 1e-12 && typeof r.c.dJy === 'number' && r.c.log === 2   // (c)
+      && r.d.jx === 0 && r.d.jy === 0 && Object.is(r.d.jz, r.jzB) && !r.nan,          // (d)
+      `🪩 300步: 方位 ${(r.az0 * 180 / Math.PI).toFixed(2)}°(Jy/|J|=${(r.jy0 / r.jm0).toFixed(3)})→ {Kcs:0} で Jx/Jy bit 不変=${Object.is(r.a.jy, r.jy0)}(台帳 ${r.a.log}行)・` +
+      `{tilt:60} で方位保存 |Δaz|=${Math.abs(wrap(r.b.az - r.az0)).toExponential(1)}・|J| 比 ${(r.b.jm / r.jm0).toFixed(9)}・θ=${r.b.th.toFixed(3)}°・` +
+      `{Jy} 編集は Jy だけ(dJy=${(r.c.dJy || 0).toExponential(2)})・{J} 直接宣言は面内 0=${r.d.jx === 0 && r.d.jy === 0}`);
+  } else {
+    console.log('SKIP behavior.coreEditAzimuth(対象に 🪩 なし — root 等)');
+  }
+}
+
 // ---- 第245便(原仮定者指示「パルス周期 2.773 s が画面から読めない」): ui.pulse-readout ----
 // 🏮 pulsarSolo を正規経路で読み、200步 走らせて粒子を選ぶと
 //   ① DOM の読み取り専用欄 #bePulse に「ω … ・ P … ≈ 2.773 s ・ … 回転」が出る(en は turns)

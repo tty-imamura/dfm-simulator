@@ -13547,7 +13547,8 @@ function makeSim(){
       const has=(k)=>{ const v=cfg[k]; return v!==undefined && v!==null && typeof v==="number" && isFinite(v); };
       // ---- 現在の派生値(編集パネル・HP.coreState・QA が読み戻すのと同じ式)----
       const mfCur=S.coreMF[i], rcCur=S.RcV[i], zCur=S.coreIS[i], JmCur=S.coreJm[i];
-      const JzCur=S.coreJ[i], JxCur=S.coreJx[i], McCur=mfCur*Mabs;
+      const JzCur=S.coreJ[i], JxCur=S.coreJx[i], JyCur=S.coreJy[i], McCur=mfCur*Mabs;
+      const azCur=Math.atan2(JyCur,JxCur);   // 第248便(ChatGPT v6 §4.1): 歳差で回った方位を編集後も保つ(方位0規約の廃止)
       const IcCur=0.5*McCur*rcCur*rcCur*zCur;   // エンジン各所と**同じ結合順**(Mc=mf·|m| を先に作る)
       const omCur=(IcCur>1e-12)? JmCur/IcCur : 0;            // パネル欄の Ω0=|J|/I*
       const omSgn=(IcCur>1e-12)? JzCur/IcCur : 0;            // coreState の Ω_c=J_z/I*(符号つき)
@@ -13570,22 +13571,28 @@ function makeSim(){
       const chgTh=!Object.is(th, thCur);
       // 同値の判定は 2 つの読み戻し規約の**どちらか**に一致すれば「変わっていない」:
       //   ① パネル規約(Ω0=|J|/I* と θ)  ② coreState/QA 規約(符号つき Ω=J_z/I*・θ=0・面内成分なし)
-      const sameOm=(Object.is(om, omCur) && !chgTh) || (Object.is(om, omSgn) && th===0 && JxCur===0);
-      let Jz, Jx, Jm;
-      if(has("J")){                       // 主変数を直接 — 丸めを 1 度も通さない
-        Jz=cfg.J; Jx=has("Jx")? cfg.Jx : 0; Jm=(Jx===0)? Math.abs(Jz) : Math.hypot(Jx, Jz);
+      const sameOm=(Object.is(om, omCur) && !chgTh) || (Object.is(om, omSgn) && th===0 && JxCur===0 && JyCur===0);
+      let Jz, Jx, Jy, Jm;
+      if(has("J") || has("Jx") || has("Jy")){   // 主変数を直接 — 丸めを 1 度も通さない(J は J_z の意味)
+        // J の直接宣言は従来どおり面内成分 0 が既定。Jx/Jy だけの編集は指定した成分だけを動かす
+        Jz=has("J")? cfg.J : JzCur;
+        Jx=has("Jx")? cfg.Jx : (has("J")? 0 : JxCur);
+        Jy=has("Jy")? cfg.Jy : (has("J")? 0 : JyCur);
+        Jm=(Jx===0 && Jy===0)? Math.abs(Jz) : Math.hypot(Jx, Jy, Jz);
       } else if(sameOm){                  // (1) 同値再確定 — Mc/Rc/ζ が変わっても J は主変数なので不変
-        Jz=JzCur; Jx=JxCur; Jm=JmCur;
+        Jz=JzCur; Jx=JxCur; Jy=JyCur; Jm=JmCur;
       } else if(has("omega") || !chgTh){  // ω の編集 — build と同一式で |J| を作り直す
         const ct=Math.cos(th*Math.PI/180);
         Jz=0.5*Mc*Rc*Rc*iS*om*ct; Jm=Math.abs(0.5*Mc*Rc*Rc*iS*om);
-        Jx=0.5*Mc*Rc*Rc*iS*om*Math.sin(th*Math.PI/180);
-      } else {                            // θ だけの編集 — |J| を保って向きだけ回す(主変数の回転)
-        Jm=JmCur; Jz=JmCur*Math.cos(th*Math.PI/180); Jx=JmCur*Math.sin(th*Math.PI/180);
+        const jp=0.5*Mc*Rc*Rc*iS*om*Math.sin(th*Math.PI/180);
+        Jx=jp*Math.cos(azCur); Jy=jp*Math.sin(azCur);
+      } else {                            // θ だけの編集 — |J| を保って向きだけ回す(主変数の回転・方位は現状維持)
+        Jm=JmCur; Jz=JmCur*Math.cos(th*Math.PI/180);
+        const jp=JmCur*Math.sin(th*Math.PI/180); Jx=jp*Math.cos(azCur); Jy=jp*Math.sin(azCur);
       }
       S.coreMd[i]=(cfg.mode==="rigid")?1:((cfg.mode==="active")?3:((cfg.mode==="differential")?2:(S.coreMd[i]||2)));
       S.coreMF[i]=mF; S.RcV[i]=Rc; S.coreIS[i]=iS;
-      S.coreJ[i]=Jz; S.coreJm[i]=Jm; S.coreJx[i]=Jx; S.coreJy[i]=0;   // 第227便: 方位0規約
+      S.coreJ[i]=Jz; S.coreJm[i]=Jm; S.coreJx[i]=Jx; S.coreJy[i]=Jy;   // 第248便: 方位を保つ(第227便の方位0規約は build 時のみ)
       S.coreKcs[i]=ks; S.coreOm0[i]=0;
       // 第247便c(S4 第 2 段): 終端 rTarget・結合 E 台帳も実行時に付け外しできる(未指定は現状維持)
       if(cfg.rTarget!==undefined) S.coreRT[i]=(cfg.rTarget>0)? cfg.rTarget : 0;
@@ -13595,11 +13602,11 @@ function makeSim(){
       // ---- (3) 主変数が動いた編集だけ記帳する(同値再確定は 1 行も残さない)----
       const IcNew=0.5*Mc*Rc*Rc*iS;
       const ErNew=(IcNew>1e-12)? (Jm*Jm)/(2*IcNew) : 0;
-      if(!Object.is(Mc,McCur) || !Object.is(Jz,JzCur) || !Object.is(Jx,JxCur)
+      if(!Object.is(Mc,McCur) || !Object.is(Jz,JzCur) || !Object.is(Jx,JxCur) || !Object.is(Jy,JyCur)
          || !Object.is(Rc,rcCur) || !Object.is(iS,zCur)){
         if(!S.editLog) S.editLog=[];
         if(S.editLog.length<500)
-          S.editLog.push({t:S.t, i, dMc:Mc-McCur, dJ:Jz-JzCur, dJx:Jx-JxCur, dErot:ErNew-ErCur});
+          S.editLog.push({t:S.t, i, dMc:Mc-McCur, dJ:Jz-JzCur, dJx:Jx-JxCur, dJy:Jy-JyCur, dErot:ErNew-ErCur});
       }
     }
     let any=false; for(let k=0;k<S.n;k++) if(S.coreMd[k]!==0){ any=true; break; }
