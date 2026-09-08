@@ -328,6 +328,7 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 - single には省略可の zonal(扁平中心天体の帯状重力補正 E13)を指定できる: {"refR":基準半径,"calib":1,"J":{"2":0.0163,"4":-0.0009}}。偶数次 J2〜J12 のみ・|J|≤0.1・refR:1〜5000・calib:0〜2。中心の大質量 pinned 粒子に付けると周回粒子の楕円軌道の近点が前進する(内側ほど速い差動近点移動 — 画面左上に実測/解析の近点移動が表示される)。土星なら J2≈0.0163。要望が扁平天体・歳差・近点移動のときだけ使う高度な属性で、通常のプリセットでは指定しない。
 - single/ring/disk には省略可の core(コアv2 — 中心コアの独立サブシステム)を指定できる: {"mode":"rigid"|"differential"|"active"|"cavity","massFrac":0.01〜0.95,"radius":0.01〜200,"omega":−50〜50,"Kcs":0〜10,"pump":0〜5,"contract":0〜0.2,"sourceRate":0〜100,"voidFraction":0.01〜1}。m は総質量のままで、massFrac=Mc/m・radius=コア半径 R_c(絶対値)・omega=初期コア角速度 Ω_c(角運動量 J=½·Mc·R_c²·Ω として保持され、以後 J が主変数)。差動分だけが ω += (Mc/m)·(Ω_c−s)·(R_c/(R_c+d))^q として追加の空間引きずりに効く。mode: rigid=殻と剛体回転(差動なし)・differential=独立回転・active=differential+sourceRate で内部エネルギー注入・cavity=空洞(massFrac の代わりに voidFraction。引きずりの符号が反転)。Kcs はコア⇄殻のトルク結合(緩和率)・contract は収縮率(J 保存で Ω 上昇)・pump はパワーボール係数。要望がコア/深部回転・空洞天体・2層天体・ダークローターのときだけ使う高度な属性。
 - core.shed(省略可・第244便/第246便): コアの回転が限界を超えたら**殻の一部をガス粒へ割って放出する**保存的な質量放出。{"omegaCrit":発火する|Ω_c|,"frac":放出する殻質量の比(0〜0.6],"n":粒数(4〜128・偶数),"rLaunch":放出半径(親半径R単位),"jFrac":コアJの移送比0〜1,"once":true/false,"rInner":最内層の半径(親半径R単位・既定=rLaunch),"layers":層数1〜8(既定1・n は layers×偶数へ正規化),"cooldown":再発火までの最短時間(once:false のときだけ効く)}。layers≧2 なら粒は rInner·R〜rLaunch·R の等間隔の層に置かれる(元の半径の円周だけでなくコアとの間にも配置される)。once:false は「Ω が再び omegaCrit を超えたら再発火」= 外殻が徐々に剥がれる。質量・運動量・角運動量・エネルギーは帳簿込みで閉じ、収支が負なら発火しない。core.burst(省略可・第234便): {"rate":放出率,"frac":放出する|J|の総比率} でコアの回転エネルギーを気体殻へ保存的に注入する(爆発)。要望が質量放出・恒星風・超新星・白色矮星/中性子星のときだけ使う高度な属性。
+- core.rTarget / core.bindLedger / core.shed.bare(省略可・第247便c — コア収縮の終端と裸コア終端): "rTarget":収縮の終端半径(0〜200・既定0=無制限 — contract は到達で止まる)。"bindLedger":"pairU" は「点粒子に自己重力エネルギーは無い」ことの宣言で、結合Eの状態関数 U_bind=−a·G·Mc²/R_c("bindA"=a・0〜10・既定0.6)を記録専用で持ち、各ステップの収縮に avail=ΔU_bind−ΔE_rot<0 ならその収縮を行わない予算門が掛かる。core.shed の "bare":true と "bareBelow":しきい値(≤1 はコア質量比・>1 は絶対質量・既定0.01)は、殻質量がしきい値を下回ったら次の発火で残りの殻を全部出して Mc=M(massFrac=1)の終端状態にする(保存契約「残骸>コア」の唯一の例外・1粒子1回だけ)。いずれも opt-in で未宣言なら従来と1bit不変。要望が「コアの収縮がどこで止まるか」「回転が速すぎて縮めない核」「白色矮星/中性子星が最後に裸のコアになる」のときだけ使う高度な属性。
 - single には省略可の radius(半径の明示指定 0.01〜100。未指定は radiusScale·rMul·√|m|)・lightSweep(減光 0〜1 — 高速スピンコアが自星の光を外に出さない: 観測温度が0になり見掛けは冷たい。放射冷却も(1−lS)倍)を指定できる。要望がダークマター/ダークローター・見えない天体・拡がった天体のときだけ使う高度な属性で、通常のプリセットでは指定しない。disk/ring にも群共通の lightSweep(数値か "auto")を指定できる(恒星集団の減光実験用)。
 - single には省略可の railOmega(±2・pinned時のみ): 円レール駆動の角速度。railCx/railCy でレール中心を指定(既定は原点)。
 
@@ -758,6 +759,13 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 - `physics.halo` は観測再現版専用の外部項(公理ではない — docs/PHYSICS.md の該当節参照)。
   生成 AI はこのキーを使わない。
 - **観測 Q の転写(第246便 — `body.spinDipole`)**: single に `{"omega":自転角速度, "radius":半径, "source":"observed"|"declared"}` を宣言すると `physics.spinSpin`(玩具のスピン双極子間力)の Q_i **だけ**を Q=½m·radius²·omega へ上書きする読み取り専用の源になる(力学の殻 spin ±20・コア Ω ±50 には一切書かない・未宣言は 1 bit 不変)。**生成 AI はこのキーを使わない** — コンパクト天体連星の観測転写(docs/PHYSICS.md 第246便b の節)専用である。
+  第247便a: 宣言フラグ `ssDeclared` を内部に持つようになり、**`omega:0` の明示宣言は Q=0 のまま**(従来式へは戻らない)= ゼロスピンの否定対照が作れる。
+- **放射オーバーレイの用量と方向(第247便b — `physics.petersScale` / `physics.petersDirection`)**: `petersGW` を宣言した二体でだけ効く外部物理の付帯キー。`petersScale` は放射束の倍率(0〜100・既定 1・0 で完全に素通り・1 は署名に入れない)、`petersDirection:"tangential"` は放射キックを相対接線速度 v_t=(r×v)/|r| だけに与える(半径方向の落下速度は変えない。未宣言=従来方向)。値域は入力契約であって物理法則ではなく、**用量は合わせ込みのノブ**である。**生成 AI はこのキーを使わない** — コンパクト天体連星の較正 variant(docs/PHYSICS.md 第247便b の節)専用である。
+- **引きずり場の倍精度化(第247便a — `physics.framePrecision`)**: `"double"` を宣言すると引きずり場の実行状態配列
+  (uPx/uPy/uAx/uAy/sumW/sumWu/dpx/dpy/pairD)だけが Float64 になる(`stateCarry:"double"` が倍精度にするのは x/y/v/a だけ)。
+  省略・`"single"` は Float32 のままで**プリセット署名も挙動も 1 bit 不変**。**生成 AI はこのキーを使わない** — E6′ の差分経路の
+  数値床を切り分けるための実験機能である(docs/PHYSICS.md 第247便a の節)。
+- **MM 2 腕干渉計の位相玩具(第247便d・裁定 A5′(2))**: 内蔵の原理サンプル **🪞 `mmPhaseToy`** が 1 本増えた。位相は新しい物理キーではなく**読み取り専用の純関数** `HP.dfmMMPhase(cfg)`(装置の往復到着時刻 → 到着時間差 Δt と干渉位相差 Δφ=2πcΔt/λ を**別々に**返す)と `HP.dfmFrameAt(x,y)`(光が感じる決定フレーム u と局所光速の 1 点評価)が出すもので、**プリセットの物理キーは 1 つも増えていない**(装置は既存の `pinned`+`railOmega` のレール規定運動と `frameSource:false` だけで作ってある)。**生成 AI はこの 2 関数を使わない**(プリセット JSON からは呼べない — docs/PHYSICS.md 第247便d の節)。
 - **観測安定則(第199便 M1 — 2026-08-25 裁定)**: 観測値再現版は、観測値で安定する計算式を
   採用する(観測値自体が計算式で算出されている為)。kFrame=1 雛形が自己診断で永年不安定と
   差し戻される系に限り kFrame=0 で採用し、引きずりは A/B の**測定側**として保持する
