@@ -5,6 +5,9 @@ tests/out/*
 !tests/out/qa-results.json
 !tests/out/qa-results-beta.json
 !tests/out/perf-results.json
+# 第249便b: 現実較正 31 本の棚卸し(第41報 W2)の結果正本 — QA `docs.calaudit-sync` が
+# 「列挙 id = sampleClass:"calibration" の集合」と「判定語彙が 5 区分」を機械固定するのでコミットする
+!tests/out/calaudit-w249.json
 # 第134便: kF1 較正ハーネスの実測正本(論文3 再現性 — 外部レビュー P0 対応。
 # 本文の中心値〔q*=6.16/8.25/21.8・drag −5.6e-10・第122便 q*=4.59〕を提出コミットから再生成可能に)
 !tests/out/coreshell-results.json
