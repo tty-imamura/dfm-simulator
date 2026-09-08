@@ -165,6 +165,25 @@ if (!TARGET.startsWith('beta/')) {
   add('docs.gravity-params', phys.includes('gravityX') && phys.includes('gravityY'), '');
 }
 
+// ---- 0e2) 第248便b: SO 参照積分器の自己検証(Node のみ・ブラウザ不要)----
+//   tests/exp-w248b-so.mjs は**エンジンの外の独立参照**(SO の力はエンジンに入れていない)。
+//   --check は ①Hamiltonian 勾配 vs 数値微分の一致 ②E の保存 ③総 J=L+S₁+S₂ の保存
+//   ④|S₁|・|S₂| の保存 を dt 3 段で確かめ、落ちれば非ゼロ終了する。参照の健全性だけを固定する
+//   (⚡ の実測値そのものは docs/PHYSICS.md の第248便b 節が記録)。
+{
+  let ok = false, detail = '';
+  try {
+    const so = JSON.parse(execSync('node tests/exp-w248b-so.mjs --check',
+      { cwd: ROOT, stdio: 'pipe' }).toString());
+    ok = !!(so.checks && so.checks.pass);
+    const g = Math.max(...so.gradient.map((r) => r.relMaxDiff));
+    const e = Math.max(...so.conservationTilted.map((r) => r.relE));
+    const jj = Math.max(...so.conservationTilted.map((r) => r.relJ));
+    detail = `grad ${g.toExponential(1)} / relE ${e.toExponential(1)} / relJ ${jj.toExponential(1)}`;
+  } catch (err) { detail = String((err && err.stdout) || err).slice(0, 200); }
+  add('behavior.w248b-so-reference', ok, detail);
+}
+
 const browser = await getBrowser();
 const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
 const pageErrors = [];
