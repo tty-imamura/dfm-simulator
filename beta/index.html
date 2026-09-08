@@ -9739,6 +9739,61 @@ const BUILTIN_PRESETS = [
     {type:"single", m:0.000001, x:7.14177849,y:-7.14177849, vx:0.7071067811865476,vy:-0.7071067811865476, spin:0, pinned:false, radius:0.05, frameSource:false}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true,trailTargets:"all",monitor:true} },
 
+// 第247便d(裁定 A5′(2)): 🪞mmPhaseToy — MM 2 腕干渉計の位相玩具。画面は「装置が随伴 u の中を動く」
+// 姿だけを見せ、位相の数字は純関数 HP.dfmMMPhase(解析器)が出す。**新しい力は 1 つも足していない**
+// (光の追跡と Δφ=2πcΔt/λ の換算だけ)。「DFM は MM null を予測する」とは書かない — 測った Δφ を並べる
+{ id:"mmPhaseToy", name:"2腕の往復位相 — 正対照が先", emoji:"🪞", group:"光の物語",
+  scaleTier:"planetary", sampleClass:"principle", notClaim:["cal","solar_cal"],
+  obsCard:[
+    {q:"(1) 静止・等長 2 腕(装置の null 確認)", model:"Δt=**厳密 0**(ビット)・Δφ=**厳密 0** — 解析形も追跡値も 0", obs:"—(原理サンプル — 観測転写はしない)"},
+    {q:"(2) 静止・腕長差 ΔL(**正対照を先に**)", model:"Δφ=**4πΔL/λ**。解析形は相対 **0**・追跡値は ΔL=λ/4 でも **5.9×10⁻¹⁰**", obs:"—"},
+    {q:"(3) 装置が動く・u=0(古典 MM)", model:"L=11m・λ=500nm・v=29.98km/s(β=10⁻⁴)で Δφ=**1.38230 rad=0.22000 縞**・90° 回転で符号反転", obs:"—"},
+    {q:"(4) 随伴 u の中(地表相当 h=0.01R)", model:"エンジンの χ=**0.977554** → Δφ=**6.9646×10⁻⁴ rad**(古典の **1/1985**)", obs:"—"},
+    {q:"(4) 高度で変わる(h/R=0.01→10)", model:"χ 0.9776/0.8237/0.4417/0.1084/0.0062 → 減衰 **1985/32.2/3.21/1.26/1.01** 倍", obs:"—"},
+    {q:"(4) 素材(気体殻 gasCoh=0.3)", model:"同じ高度で χ 0.9776→**0.293266**・Δφ 7.0×10⁻⁴→**0.69042 rad**(減衰 1985→**2.00**)", obs:"—"},
+    {q:"(5) サニャック対照(回転)", model:"閉路 A=1m²・Ω=1000rad/s で Δφ=**167.668 rad**=8πAΩ/(λc)(相対 3×10⁻¹¹・面積比例・符号反転)", obs:"—"},
+    {q:"言わないこと", model:"**「DFM は MM null を予測する」とは書かない**。null は残風 w=v−u→0 の条件。到着時間差と位相差は別記録", obs:"—"}],
+  descStruct:{
+    summary:"**2 本の腕を往復した光の位相差を、正対照から順に積み上げて測る玩具**(第247便d — 裁定 A5′(2))。既存の光子・光線に「位相」を足すのではなく、原理サンプル専用の**解析器**(純関数 `HP.dfmMMPhase`)で実装した。装置は共通光源 S・分岐器 B・鏡 M1(腕 1)・鏡 M2(腕 2)・検出器 D(B と同位置・**同一時計**)で、**光源も分岐器も鏡も検出器も一緒に動く**。光は A11/E8R の規約どおり「**局所メッシュ速度 u に対して**速さ c で直進する」(`photonStep` の変位 ĉ·dl+u·dt と同じ形)ので、1 脚の到着時刻 τ は |Q(t₀+τ)−P−u·τ|=c·τ の根として解ける。画面が見せるのは**装置の姿**だけ: 自転する中心天体(m=100・R=10・spin=0.2・pinned)の**表面高度 h=0.01R** に、レール規定運動(`pinned`+`railOmega`=0.2)で回る 3 つの微小天体(`frameSource:false`・m=10⁻⁶)が分岐器 B と鏡 M1(半径方向・腕 0.8)と鏡 M2(接線方向・腕 0.8)を演じる。**エンジンが決めるのは無次元の χ=|u|/|v| だけ**で(`HP.dfmFrameAt` が光と同じ核 `rayField` から読む)、位相の数字は**SI の 1887 年干渉計**(L=11 m・λ=500 nm・v=29.98 km/s)で回す。ワンタップ対照 B 側は **kFrame=0**(引きずり無し=エーテル静止の古典)。",
+    observe:"**階段(1)〜(5)**。(1) 静止・等長 2 腕: Δt も Δφ も**ビット厳密 0**(装置の null 確認)。(2) 静止・腕長差 ΔL の**正対照**: Δφ は **4πΔL/λ** に一致する(解析形は相対 0・追跡値は ΔL=1 mm で 1.0×10⁻¹²・ΔL=λ/4 でも 5.9×10⁻¹⁰)。(3) 装置が一様速度 v で動き u=0(**引きずり無し=古典**): L=11 m・λ=500 nm・v=29.9792458 km/s(β=10⁻⁴)で **Δφ=1.3823008 rad = 0.2200000 縞**(古典 MM の近似 2π(L/λ)(v/c)² と相対 1.25×10⁻⁸ 一致 — 差は O(β²) の打ち切り)。装置を **90° 回すと符号が反転**する(相対 0)。(4) 同じ装置を**中心天体の随伴 u の中**に置くと Δφ は **(1−χ)²** 倍に落ちる: 表面高度 h=0.01R で χ=**0.977554** → Δφ=**6.9646×10⁻⁴ rad**(古典の **1/1985**)。高度を上げると χ 0.9776→0.8237(h=0.1R)→0.4417(0.5R)→0.1084(2R)→0.0062(10R)で、減衰は **1985→32.2→3.21→1.26→1.01 倍**と**古典へ戻る**。素材を気体殻にする(`gasCoh`=0.3)と同じ高度で χ=**0.293266**・Δφ=**0.69042 rad**(減衰 2.00 倍だけ)。**u=v ちょうどで解析形は厳密 0**(追跡値の床は 5.0×10⁻⁸ rad = 古典の 2.8×10⁷ 分の 1)。(5) **サニャック対照**は同じ規約(同じ脚・同じ Δφ=2πcΔt/λ)で回す: 閉路 A=1 m²・Ω=1000 rad/s で **Δφ=167.668 rad = 8πAΩ/(λc)**(相対 3×10⁻¹¹)・面積を 4 倍にすると 4 倍・Ω の符号で反転。**回転しない閉路を一様速度で動かすと Δt は厳密 0**(サニャックは回転の量である)。**到着時間差 Δt と干渉位相差 Δφ は別々に返す** — 光子 2 本の到着比較だけでは干渉位相を検証したことにならないからである。QA `behavior.mmPhase` が階段(1)(2)(3)(5)の解析一致・(4)の u 内での減少・A/B の bit 契約・純関数の決定性を機械固定する。",
+    control:"ワンタップ対照A/B: **B 側は kFrame=0** — 引きずりを完全に切った「エーテル静止の古典」で、装置位置の u が厳密 0 になり Δφ は満額の 1.3823 rad(0.22 縞)へ戻る。おすすめの手動対照: `railOmega` を 0.1955 前後にすると装置が**随伴した空間と一緒に動く**ので残風 w=v−u がほぼ消える(Δφ が 10⁻⁶ 級へ)/中心天体の `spin` を 0 にすると u=0 になり古典へ戻る/`q` を上げると表面随伴が急峻になり高度依存が強くなる/`kappaT` を 0 にすると**光を曲げる源が 1 つも無くなり**(rayHeavy の閾値)光にとって u=0 になる — 光の随伴と粒子の随伴が別集合であることの確認。**較正系(🪨🌘💿)は触っていない**: 本サンプルは較正に 1 つも足しておらず、地表 χ の証明にもしていない。",},
+  en:{name:"Two-Arm Round-Trip Phase — Positive Control First", descStruct:{
+    summary:"A TOY THAT BUILDS UP THE PHASE DIFFERENCE OF LIGHT ROUND-TRIPPING TWO ARMS, STARTING FROM THE POSITIVE CONTROLS (wave 247d, ruling A5′(2)). Rather than bolting a phase onto the existing photons and rays, it is implemented as a dedicated ANALYSER for principle samples — the pure function HP.dfmMMPhase. The apparatus is a common source S, a beam splitter B, mirror M1 (arm 1), mirror M2 (arm 2) and a detector D at B's position ON THE SAME CLOCK, and THE SOURCE, SPLITTER, MIRRORS AND DETECTOR ALL MOVE TOGETHER. Light follows the A11/E8R convention — it travels at speed c RELATIVE TO THE LOCAL MESH VELOCITY u (the same form as photonStep's displacement ĉ·dl + u·dt) — so the arrival time τ of one leg is the root of |Q(t₀+τ) − P − u·τ| = c·τ. What the screen shows is only the SHAPE of the apparatus: a spinning pinned central body (m=100, R=10, spin=0.2) with three tiny bodies (frameSource:false, m=1e-6) carried on a rail (pinned + railOmega=0.2) at surface height h=0.01R, playing the splitter B, mirror M1 (radial, arm 0.8) and mirror M2 (tangential, arm 0.8). THE ENGINE SUPPLIES ONLY THE DIMENSIONLESS χ = |u|/|v| (read by HP.dfmFrameAt from rayField, the very kernel light uses); the phase numbers are then run on the SI 1887 INTERFEROMETER (L=11 m, λ=500 nm, v=29.98 km/s). The one-tap control B is kFrame=0 — no dragging at all, the classical ether-at-rest case.",
+    observe:"THE STAIRCASE (1)–(5). (1) Static, equal arms: both Δt and Δφ are BIT-EXACTLY ZERO (the instrument's own null check). (2) Static with an arm-length difference ΔL — THE POSITIVE CONTROL, PASSED FIRST: Δφ equals 4πΔL/λ (relative 0 for the closed form; 1.0e-12 for the traced value at ΔL=1 mm and 5.9e-10 even at ΔL=λ/4). (3) The apparatus moving uniformly at v with u=0 (NO DRAGGING = CLASSICAL): with L=11 m, λ=500 nm, v=29.9792458 km/s (β=1e-4), Δφ = 1.3823008 rad = 0.2200000 FRINGE, agreeing with the classical MM approximation 2π(L/λ)(v/c)² to 1.25e-8 (the difference is the O(β²) truncation). ROTATING THE APPARATUS BY 90° FLIPS THE SIGN exactly. (4) Put the same apparatus INSIDE THE CENTRAL BODY'S ENTRAINED u and Δφ falls by (1−χ)²: at surface height h=0.01R, χ=0.977554 gives Δφ=6.9646e-4 rad, 1/1985 of the classical value. Climb, and χ goes 0.9776 → 0.8237 (h=0.1R) → 0.4417 (0.5R) → 0.1084 (2R) → 0.0062 (10R), so the suppression falls 1985 → 32.2 → 3.21 → 1.26 → 1.01 AND THE CLASSICAL VALUE COMES BACK. Make the shell gaseous (gasCoh=0.3) and at the same height χ=0.293266 with Δφ=0.69042 rad (only a factor 2.00). AT u=v EXACTLY THE CLOSED FORM IS EXACTLY ZERO (the traced value's floor is 5.0e-8 rad, 2.8e7 times below classical). (5) THE SAGNAC CONTROL shares the convention (same leg solver, same Δφ=2πcΔt/λ): a closed loop of A=1 m² at Ω=1000 rad/s gives Δφ = 167.668 rad = 8πAΩ/(λc) to 3e-11, quadruples with four times the area, and flips with the sign of Ω. A NON-ROTATING LOOP CARRIED AT UNIFORM VELOCITY GIVES EXACTLY ZERO — Sagnac is a rotation quantity. THE ARRIVAL-TIME DIFFERENCE Δt AND THE INTERFERENCE PHASE Δφ ARE RETURNED SEPARATELY, because comparing the arrival of two photons is not by itself a test of interference phase. QA behavior.mmPhase machine-fixes steps (1)(2)(3)(5) against their closed forms, the fall inside u for (4), the A/B bit contract, and the determinism of the pure function.",
+    control:"One-tap A/B: SIDE B IS kFrame=0 — dragging switched off entirely, the classical ether-at-rest case: u at the apparatus is exactly zero and Δφ returns to the full 1.3823 rad (0.22 fringe). Suggested manual controls: set railOmega near 0.1955 so the apparatus RIDES WITH THE ENTRAINED SPACE and the residual wind w=v−u nearly vanishes (Δφ drops to the 1e-6 level); set the central spin to 0 and u=0 brings the classical value back; raise q to sharpen the surface entrainment and strengthen the altitude dependence; set kappaT to 0 and NO BODY QUALIFIES AS A RAY SOURCE any more (the rayHeavy threshold), so light sees u=0 — a check that light's entrainment and matter's entrainment read different source sets. THE CALIBRATION SAMPLES (🪨🌘💿) WERE NOT TOUCHED: this sample adds nothing to the calibration and is not offered as proof of the surface χ."}},
+  parameterAudit:{
+    observedInputs:["SI 装置の 3 値のみ(L=11 m・λ=500 nm・v=29.9792458 km/s=地球の公転速度 — 1887 年の装置と地球軌道の桁を借りた**表示の単位**であって、天体の観測転写ではない)"],
+    fixedConventions:["中心天体は pinned(展示の外部拘束)・G=0(引きずりだけを見る)・kRep=muF=γN=κ_S=0・geoPN=0・境界なし",
+      "dragRef:\"interior\"(表面高度 h=max(0,d−R) 基準 — 第239便)・frameWeight:\"pull\"(既定・第242便)・装置は frameSource:false かつ m=10⁻⁶(装置どうしは引きずり合わない)",
+      "装置はレール規定運動(pinned+railOmega=0.2)— 中心天体の自転と同じ角速度で回る「地表の実験室」",
+      "光は局所メッシュ速度 u に対して速さ c(A11/E8R)。位相は Δφ=2πc·Δt/λ の**換算**であって波動の干渉そのものではない",
+      "u は装置内で**一様**とみなす(装置は u の変化スケールより小さいとする)"],
+    fitted:["なし(railOmega=0.2 と gasCoh=0.3 は**見えるようにするための用量**であってフィットではない)"],
+    derived:["χ=|u|/|v|(h=0.01R)= 0.977554(kFrame=1)/ 0.000000(kFrame=0)・気体殻 gasCoh=0.3 で 0.293266",
+      "Δφ(SI 1887 装置)= 1.3823008 rad(χ=0)/ 6.9646×10⁻⁴ rad(χ=0.977554)— 比は (1−χ)²",
+      "サニャック Δφ=8πAΩ/(λc)= 167.668 rad(A=1 m²・Ω=1000 rad/s)"],
+    numerical:["解析器は固定点反復(既定 200 回・|v−u|≪c で線形収束)。位相は倍精度・エンジンの状態は 1 バイトも書き換えない"]},
+  activeParams:["kFrame","q","kappaT","softening"],
+  validT:32,   // レール 1 周 = 2π/0.2 ≈ 31.4
+  abBody:{ label:{ja:"kFrame=0(引きずり無し=エーテル静止の古典)", en:"kFrame=0 (no dragging — the classical ether at rest)"},
+    physicsPatch:{kFrame:0} },
+  camera:{scale:30}, world:{boundary:"none",size:0}, seed:20260907,
+  physics:{G:0, D0:2, D0pull:0.00275, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1,
+    pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1, dragRef:"interior",
+    frameWeight:"pull"},
+  bodies:[
+    // 自転する中心天体(固定)— 光を曲げる源(rayHeavy)でもあり、随伴 u の唯一の源でもある
+    {type:"single", m:100, x:0,y:0, vx:0,vy:0, spin:0.2, pinned:true, radius:10},
+    // 装置(レール規定運動 railOmega=0.2 — 中心天体の自転と同じ角速度で表面高度 h=0.01R を回る)
+    // 分岐器 B(=光源 S・検出器 D と同位置・同一時計)
+    {type:"single", m:0.000001, x:10.1,y:0, vx:0,vy:0, spin:0, pinned:true, radius:0.15, frameSource:false, railOmega:0.2},
+    // 鏡 M1(腕 1 = 半径方向・長さ 0.8)
+    {type:"single", m:0.000001, x:10.9,y:0, vx:0,vy:0, spin:0, pinned:true, radius:0.15, frameSource:false, railOmega:0.2},
+    // 鏡 M2(腕 2 = 接線方向・長さ 0.8)
+    {type:"single", m:0.000001, x:10.1,y:0.8, vx:0,vy:0, spin:0, pinned:true, radius:0.15, frameSource:false, railOmega:0.2}],
+  overlays:{rotationCurve:false,tempHistogram:false,field:true,trail:true,trailTargets:"all",monitor:true} },
+
 // 第77便: 🌱starSeed — 星の種ローター(コアv2 の実演)。裁定(2026-08-05): コアのスピン加速の
 // 主要因=自己重力圧縮(contract — J保存で Ω=J/I 上昇・核融合は密度増の副産物)。さらに加速する
 // 副機構としてパワーボール原理(ジャイロ器具の2Dアナログ — 殻の振動加速度が「手首の揺すり」。
@@ -24568,7 +24623,113 @@ function dfmDipoleDiscStability(eta){
   if(!Number.isFinite(e)) return null;
   return { eta:e, orbit:1-e, radial:1+e, vertical:1-3*e, stable:(e<1/3) };
 }
+// ===== 第247便d(裁定 A5′(2))— MM 2 腕干渉計の位相玩具 =========================================
+// 原理サンプル専用の **解析器**(純関数)。既存の光子/光線に「位相」を足すのではなく、
+// A11/E8R の規約 —「光は**局所メッシュ速度 u に対して**速さ c で直進する」(photonStep の
+// 変位 ĉ·dl + u·dt と同じ形)— だけを使って、剛体運動する装置の往復到着時刻を解く。
+//
+// 装置(2 次元・幾何光学): 共通光源 S と分岐器 B と検出器 D は**同位置・同一時計**(局所 (0,0))、
+//   鏡 M1 が腕 1(局所 (L1,0))・鏡 M2 が腕 2(局所 (0,L2))。装置は剛体運動
+//   X(t)=X₀+v·t、向き φ(t)=θ₀+Ω·t(光源・分岐器・鏡・検出器が**すべて一緒に動く**)。
+// 1 脚の解: 出発点 P(時刻 t₀)から装置固定点 Q(t) へ届く到着時刻 τ は
+//   |Q(t₀+τ) − P − u·τ| = c·τ  の根。|v−u| ≪ c なので固定点反復が線形収束する(決定的)。
+// **到着時間差 Δt と干渉位相差 Δφ=2πc·Δt/λ は別の量として返す**(光子 2 本の到着時刻だけでは
+//   干渉位相を検証したことにならない — ChatGPT v2 7.2。第244便 PHYSICS の「MM の null は未証明」)。
+// 正直な限界: 2D・幾何光学・**位相は c·Δt/λ の換算**であって波動の干渉そのものではない。
+//   u は**一様**(装置は u の変化スケールより小さいとする)— 回転する u 場(サニャックの引きずり
+//   打ち消し)はこの玩具では表せない。装置の温度・剛性・鏡の反射位相は扱わない。
+// **これは「DFM が MM null を予測する」ことの証明ではない**。測った Δφ を並べ、null に**近づく
+//   条件**(残風 w=v−u が 0 に向かうこと)を表で示すだけである。較正(🪨🌘💿)には足さない。
+//
+// cfg: { c(局所光速)・lambda・L1・L2・theta0・omega(装置の回転 Ω)・v:{x,y}|vx,vy(装置速度)・
+//        u:{x,y}|ux,uy(局所メッシュ速度)・x0,y0・loop:[[x,y],…](サニャック対照の閉路・局所座標)・iters }
+// 返値: dt(到着時間差)・dphi(干渉位相差)・dtExact/dphiExact(Ω=0 の解析形 — 桁落ちしない差の形)・
+//        dphiGeom=4π(L1−L2)/λ(静止の正対照)・dphiClassicMM=2π(L/λ)β²(等長・古典 MM の近似)・
+//        sagnac{dt,dphi,dtExact=4AΩ/c²,dphiExact=8πAΩ/(λc),area}
+function dfmMMPhase(cfg){
+  const o=cfg||{};
+  const c=(o.c>0)? Number(o.c) : 299792458, lam=(o.lambda>0)? Number(o.lambda) : 5e-7;
+  const L1=Number((o.L1!==undefined)? o.L1 : 1), L2=Number((o.L2!==undefined)? o.L2 : L1);
+  const th0=(o.theta0!==undefined)? Number(o.theta0) : 0, Om=(o.omega!==undefined)? Number(o.omega) : 0;
+  const vx=Number((o.v && o.v.x!==undefined)? o.v.x : (o.vx||0)), vy=Number((o.v && o.v.y!==undefined)? o.v.y : (o.vy||0));
+  const ux=Number((o.u && o.u.x!==undefined)? o.u.x : (o.ux||0)), uy=Number((o.u && o.u.y!==undefined)? o.u.y : (o.uy||0));
+  const X0=Number(o.x0||0), Y0=Number(o.y0||0);
+  const it=(o.iters>0)? Math.min(500,Math.round(o.iters)) : 200;
+  if(!(c>0 && lam>0 && L1>=0 && L2>=0)) return null;
+  if(![L1,L2,th0,Om,vx,vy,ux,uy,X0,Y0].every(Number.isFinite)) return null;
+  const c2=c*c, wx=vx-ux, wy=vy-uy, w2=wx*wx+wy*wy;
+  if(!(w2<c2)) return null;   // 残風が光速以上の入力は受け付けない(玩具の適用域外)
+  const at=(t,px,py)=>{ const a=th0+Om*t, ca=Math.cos(a), sa=Math.sin(a);
+    return { x:X0+vx*t+px*ca-py*sa, y:Y0+vy*t+px*sa+py*ca }; };
+  // Math.hypot は実装依存の精度を持つので、決定性のために展開形 sqrt(dx²+dy²) を使う
+  const nrm=(dx,dy)=>Math.sqrt(dx*dx+dy*dy);
+  const leg=(t0,Px,Py,qx,qy)=>{   // |Q(t₀+τ)−P−u·τ| = c·τ の固定点反復(|v−u|≪c で線形収束)
+    const Q0=at(t0,qx,qy); let tau=nrm(Q0.x-Px,Q0.y-Py)/c, prev=NaN;
+    for(let k=0;k<it;k++){ const Q=at(t0+tau,qx,qy);
+      const nt=nrm(Q.x-Px-ux*tau, Q.y-Py-uy*tau)/c;
+      if(Object.is(nt,tau)){ tau=nt; break; }
+      if(Object.is(nt,prev)){ tau=(nt<tau)? nt : tau; break; }   // 2 周期の振動は小さい方で止める
+      prev=tau; tau=nt; }
+    return tau; };
+  const armT=(Lx,Ly)=>{ const B0=at(0,0,0), t1=leg(0,B0.x,B0.y,Lx,Ly);
+    const M=at(t1,Lx,Ly), t2=leg(t1,M.x,M.y,0,0);
+    return { tOut:t1, tBack:t2, t:t1+t2 }; };
+  const a1=armT(L1,0), a2=armT(0,L2);
+  const dt=a1.t-a2.t, dphi=2*Math.PI*c*dt/lam;
+  // Ω=0 の解析形: 腕 L・残風との角 α の往復は T=(2L/c)·√(1−β²sin²α)/(1−β²)。
+  // 差は T₁−T₂ = 2[(L1−L2)·g₁ + L2·(g₁−g₂)]/(c²−w²)、g=√(par²+c²−w²)、
+  // g₁−g₂=(par₁²−par₂²)/(g₁+g₂) と書けば**桁落ちしない**(等長でも ΔL でも相対 10⁻¹⁵ 級)
+  let dtEx=null, dphiEx=null;
+  if(Om===0){
+    const c1=Math.cos(th0), s1=Math.sin(th0);
+    const par1=wx*c1+wy*s1, par2=-wx*s1+wy*c1;
+    const g1=Math.sqrt(par1*par1+c2-w2), g2=Math.sqrt(par2*par2+c2-w2);
+    dtEx=2*((L1-L2)*g1+L2*((par1*par1-par2*par2)/(g1+g2)))/(c2-w2);
+    dphiEx=2*Math.PI*c*dtEx/lam;
+  }
+  // サニャック対照(回転)— 同じ規約(同じ leg・同じ Δφ=2πcΔt/λ)を静止 null と共有する
+  let sag=null;
+  if(Array.isArray(o.loop) && o.loop.length>=3){
+    const LP=o.loop.map(p=>[Number(p[0]),Number(p[1])]), np=LP.length;
+    if(LP.every(p=>Number.isFinite(p[0]) && Number.isFinite(p[1]))){
+      const go=(dir)=>{ let t=0, cur=at(0,LP[0][0],LP[0][1]);
+        for(let k=1;k<=np;k++){ const q=LP[(dir>0? k : (np-k))%np];
+          t+=leg(t,cur.x,cur.y,q[0],q[1]); cur=at(t,q[0],q[1]); }
+        return t; };
+      const tCcw=go(1), tCw=go(-1);
+      let A=0; for(let k=0;k<np;k++){ const q=LP[(k+1)%np]; A+=LP[k][0]*q[1]-q[0]*LP[k][1]; } A*=0.5;
+      const sdt=tCcw-tCw;
+      sag={ area:A, tCcw, tCw, dt:sdt, dphi:2*Math.PI*c*sdt/lam,
+        dtExact:4*A*Om/c2, dphiExact:8*Math.PI*A*Om/(lam*c) };
+    }
+  }
+  const bw=Math.sqrt(w2)/c, Lm=0.5*(L1+L2);
+  return { c, lambda:lam, L1, L2, theta0:th0, omega:Om, w:{x:wx,y:wy}, beta:bw,
+    arm1:a1, arm2:a2, dt, dphi, fringes:dphi/(2*Math.PI), dtExact:dtEx, dphiExact:dphiEx,
+    dphiGeom:4*Math.PI*(L1-L2)/lam, dphiClassicMM:2*Math.PI*(Lm/lam)*bw*bw, sagnac:sag };
+}
+// 第247便d: **光が感じる**決定フレーム u と局所光速 c/n_eff の 1 点評価(読み取り専用)。
+// traceRay/photonStep が使う共有カーネル rayField をそのまま呼ぶので、返す u は
+// 「光の位置更新に入る u」そのもの(粒子側の S.uPx/uPy は E6′ 用で源集合が違う — 光は
+// rayHeavy を満たす天体だけに引きずられる。κ_T=0 では光の源が 1 つも無く u=0 になる)。
+// S を 1 バイトも書き換えない(モジュール内スクラッチ _RF のみ・力学へは接続しない)
+function dfmFrameAt(px,py,S){
+  const T=S||sim; if(!T || !(T.n>0)) return null;
+  px=Number(px); py=Number(py); if(!Number.isFinite(px) || !Number.isFinite(py)) return null;
+  const p=T.params, kU=2*p.kappaT, eps=p.softening, eps2=eps*eps, q=p.q, c0=p.cLight, D0=p.D0, kF=p.kFrame;
+  const D0u=(frameWeightPow(p)>0)? ((p.D0pull>0)? p.D0pull : D0) : D0;
+  const heavy=[]; for(let i=0;i<T.n;i++) if(rayHeavy(T,i)) heavy.push(i);
+  const BX=T.box; let WB=0, bH=0;
+  if(BX){ const sc=boxScaleAt(BX,T.t); WB=boxWAt(BX,sc.a); bH=sc.H; }
+  rayField(T, heavy, px, py, kU, eps2, q, kF, BX, WB, bH);
+  const Wt=D0+WB+_RF.w, Wu=D0u+WB+_RF.wu, neff=Math.exp(kU*Wt);
+  return { ux:(Wu>0)? _RF.ux/Wu : 0, uy:(Wu>0)? _RF.uy/Wu : 0,
+    W:Wt, Wu, neff, cLocal:c0/neff, sources:heavy.length };
+}
 window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extractJSON, frameWeightPow, frameWeightOf, FRAME_WEIGHT_DEFAULT,   // 第242便
+  // 第247便d(裁定 A5′(2)): MM 2 腕干渉計の位相玩具(純関数の解析器)と、光が感じる u の 1 点評価。
+  // どちらも読み取り専用で力学へは接続しない。QA behavior.mmPhase が階段(1)〜(5)を機械固定する
+  dfmMMPhase, dfmFrameAt,
   // 第246便d(第38報): 思考実験の検証で使う純関数(読み取り専用 — 力学へは接続しない)。
   // 惑星 Q 台帳・収縮の E 予算と Q 不変・双極子ディスクの面外安定性。QA behavior.planetSpinMoment /
   // behavior.contractBudget / behavior.dipoleDiscStability が値を機械固定する

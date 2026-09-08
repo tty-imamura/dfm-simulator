@@ -9414,6 +9414,134 @@ if (!FAST) {
   }
 }
 
+// ---- 第247便d(裁定 A5′(2)): behavior.mmPhase — MM 2 腕干渉計の位相玩具(🪞 と HP.dfmMMPhase)----
+// 合格条件(3 審査 v3〜v5 一致)を **階段の順**で機械固定する:
+//   (1) 共通光源・同一検出器時計で **等長静止 2 腕が同位相**(Δt も Δφ もビット厳密 0 — 装置の null 確認)
+//   (2) **腕長差 ΔL の正対照を先に通す**(Δφ=4πΔL/λ — 解析形は相対 0・追跡値は ΔL=λ/4 でも 1e-9 未満)
+//   (3) 光源・分岐器・鏡・検出器が**動く**構成の往復位相(古典 MM 2π(L/λ)β² と O(β²) の打ち切りまで一致・
+//       装置を 90° 回すと符号反転)
+//   (4) 引きずり有無/高度/素材(gasCoh)で予測差を記録(エンジンの χ=|u|/|v| が (1−χ)² で効く)
+//   (5) Sagnac(回転)対照と静止 null が**同じ規約**(同じ脚・同じ Δφ=2πcΔt/λ)を共有する
+//   (6) **到着時間差 Δt と干渉位相差 Δφ は別の量**として返る(光子 2 本の到着比較では null を証明できない)
+//   (7) 較正(🪨🌘💿)には足さない・地表 χ の証明にしない → 本テストは値の合否だけを見て claim 窓にしない
+// **「DFM が MM null を予測する」とは決め打ちしない** — 測った Δφ を並べ、null に近づく条件だけを見る。
+{
+  const hasMM = await page.evaluate(() => !!(window.HP && typeof HP.dfmMMPhase === 'function'
+    && typeof HP.dfmFrameAt === 'function' && HP.allPresets().some((q) => q.id === 'mmPhaseToy')));
+  if (hasMM) {
+    const mm = await page.evaluate(() => {
+      const C = 299792458, LAM = 5e-7, L = 11, V = 29979.2458;   // 1887 年の装置と地球の公転速度(β=1e-4)
+      const P = (o) => HP.dfmMMPhase(o);
+      // (1) 静止・等長 2 腕
+      const s1 = P({ c: C, lambda: LAM, L1: L, L2: L });
+      // (2) 静止・腕長差 ΔL(正対照)
+      const s2 = [1e-3, 1e-4, 1.25e-7].map((dL) => { const r = P({ c: C, lambda: LAM, L1: L + dL, L2: L });
+        return { dL, dt: r.dt, dphi: r.dphi, ex: r.dphiExact, geom: r.dphiGeom }; });
+      // (3) 装置が動く・u=0(古典 MM)+ 90° 回転の符号反転
+      const s3 = [1e-4, 1e-3, 1e-2].map((b) => { const v = b * C;
+        const r = P({ c: C, lambda: LAM, L1: L, L2: L, vx: v });
+        const r90 = P({ c: C, lambda: LAM, L1: L, L2: L, vx: v, theta0: Math.PI / 2 });
+        return { b, dt: r.dt, dphi: r.dphi, ex: r.dphiExact, cls: r.dphiClassicMM,
+          ex90: r90.dphiExact, fr: r.fringes, beta: r.beta }; });
+      // (4) 随伴 u の中 — エンジンが決めるのは無次元の χ=|u|/|v| だけ
+      const mk = (patch, d, gas) => { const pd = JSON.parse(JSON.stringify(
+        HP.allPresets().find((q) => q.id === 'mmPhaseToy')));
+        if (patch) pd.physics = Object.assign({}, pd.physics, patch);
+        if (gas) pd.bodies[0].shell = 'gas';
+        if (d !== undefined) { pd.bodies[1].x = d; pd.bodies[2].x = d + 0.8; pd.bodies[3].x = d; }
+        return pd; };
+      const chiAt = (patch, d, gas) => { const pd = mk(patch, d, gas);
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+        const f = HP.dfmFrameAt(S.x[1], S.y[1], S);
+        const uu = Math.hypot(f.ux, f.uy), vv = Math.hypot(S.vx[1], S.vy[1]);
+        return { u: uu, v: vv, chi: (vv > 0) ? uu / vv : 0, warn: (v.warnings || []).length,
+          n: S.n, cLocal: f.cLocal, src: f.sources }; };
+      const A = chiAt(null, undefined, false);                  // 既定(kFrame=1・固体殻・h=0.01R)
+      const B = chiAt({ kFrame: 0 }, undefined, false);          // ワンタップ対照 B(引きずり無し)
+      const G = chiAt({ gasCoh: 0.3 }, undefined, true);         // 素材(気体殻)
+      const alt = [10.1, 11, 15, 30, 110].map((d) => ({ d, chi: chiAt(null, d, false).chi }));
+      const dphiOf = (chi) => P({ c: C, lambda: LAM, L1: L, L2: L, vx: V, ux: chi * V });
+      const dA = dphiOf(A.chi), dB = dphiOf(B.chi), dG = dphiOf(G.chi), dU = dphiOf(1);
+      // (5) Sagnac(回転)対照 — 静止 null と同じ規約
+      const sq = (a) => [[0, 0], [a, 0], [a, a], [0, a]];
+      const g1 = P({ c: C, lambda: LAM, L1: L, L2: L, omega: 1000, loop: sq(1) }).sagnac;
+      const g4 = P({ c: C, lambda: LAM, L1: L, L2: L, omega: 1000, loop: sq(2) }).sagnac;
+      const gN = P({ c: C, lambda: LAM, L1: L, L2: L, omega: -1000, loop: sq(1) }).sagnac;
+      const gT = P({ c: C, lambda: LAM, L1: L, L2: L, omega: 0, vx: 1000, loop: sq(1) }).sagnac;
+      // (6) 到着時間差と干渉位相差が別の量であること(片方だけ 0 にできる — 換算は 2πc/λ)
+      const sepOk = (s3[0].dt !== 0) && ('dt' in s1) && ('dphi' in s1)
+        && Math.abs((s3[0].dphi / s3[0].dt) / (2 * Math.PI * C / LAM) - 1) < 1e-12;
+      // 純関数の決定性(同じ cfg で 2 回 — 全数値がビット同一)+ エンジンを 1 バイトも書き換えない
+      const key = (r) => [r.dt, r.dphi, r.dtExact, r.dphiExact, r.arm1.t, r.arm2.t,
+        r.sagnac ? r.sagnac.dt : 0];
+      const cfgD = { c: C, lambda: LAM, L1: L + 3e-4, L2: L, vx: 1234.5, uy: 67.8,
+        omega: 0.25, theta0: 0.3, loop: sq(1.5) };
+      const d1 = key(P(cfgD)), d2 = key(P(cfgD));
+      const det = d1.length === d2.length && d1.every((z, i) => Object.is(z, d2[i]));
+      const S2 = HP.sim; { const v2 = HP.validatePreset(mk(null, undefined, false)); S2.build(v2.preset); }
+      for (let k = 0; k < 200; k++) S2.step(0.016);
+      const snap = () => { const o = []; for (let i = 0; i < S2.n; i++)
+        o.push(S2.x[i], S2.y[i], S2.vx[i], S2.vy[i], S2.spin[i]); return o; };
+      const b0 = snap(); HP.dfmFrameAt(S2.x[1], S2.y[1], S2); HP.dfmFrameAt(0, 0, S2); const b1 = snap();
+      const readOnly = b0.every((z, i) => Object.is(z, b1[i]));
+      // 入力の門(適用域外は null)
+      const gate = P({ c: C, lambda: LAM, L1: L, L2: L, vx: 2 * C }) === null
+        && P({ c: C, lambda: LAM, L1: NaN, L2: L }) === null;
+      const smp = HP.allPresets().find((q) => q.id === 'mmPhaseToy');
+      return { s1, s2, s3, A, B, G, alt, det, readOnly, sepOk, gate,
+        dA: dA.dphiExact, dB: dB.dphiExact, dG: dG.dphiExact,
+        dAt: dA.dphi, dUt: dU.dphi, dUx: dU.dphiExact,
+        g1, g4, gN, gT,
+        card: (smp.obsCard || []).length, ab: smp.abBody ? smp.abBody.physicsPatch : null,
+        cls: smp.sampleClass, nc: [].concat(smp.notClaim || []) };
+    });
+    const rel = (a, b) => Math.abs(a / b - 1);
+    const S1 = mm.s1, s3a = mm.s3[0];
+    const step1 = Object.is(S1.dt, 0) && Object.is(S1.dphi, 0) && Object.is(S1.dtExact, 0)
+      && Object.is(S1.dphiExact, 0);
+    const step2 = mm.s2.every((r) => rel(r.ex, r.geom) < 1e-14 && rel(r.dphi, r.geom) < 1e-9);
+    const step3 = rel(s3a.ex, s3a.cls) < 3e-8 && rel(s3a.dphi, s3a.ex) < 1e-5
+      && Math.abs(s3a.fr - 0.22) < 1e-6
+      && mm.s3.every((r) => rel(r.ex90, -r.ex) < 1e-12)
+      && mm.s3.every((r) => rel(r.ex, r.cls) < 2 * r.b * r.b);
+    const step4 = mm.A.chi > 0.9775 && mm.A.chi < 0.9776 && mm.B.chi === 0 && mm.B.u === 0
+      && rel(mm.G.chi / mm.A.chi, 0.3) < 1e-9
+      && mm.alt.every((r, i, a) => i === 0 || r.chi < a[i - 1].chi)   // 高度が上がるほど χ は下がる
+      && rel(mm.dA / mm.dB, (1 - mm.A.chi) * (1 - mm.A.chi)) < 1e-7   // (1−χ)² 則(残差は O(β²)=1.25e-8)
+      && rel(mm.dG / mm.dB, (1 - mm.G.chi) * (1 - mm.G.chi)) < 1e-7
+      && mm.dA < mm.dB / 1000 && Object.is(mm.dUx, 0)   // u=v ちょうどで解析形は厳密 0
+      && mm.A.warn === 0 && mm.A.n === 4 && mm.A.src === 1;
+    const step5 = rel(mm.g1.dt, mm.g1.dtExact) < 1e-6 && rel(mm.g1.dphi, mm.g1.dphiExact) < 1e-6
+      && mm.g1.area === 1 && mm.g4.area === 4 && rel(mm.g4.dphi / mm.g1.dphi, 4) < 1e-6
+      && rel(mm.gN.dphi, -mm.g1.dphi) < 1e-12 && Object.is(mm.gT.dt, 0);
+    add('behavior.mmPhase',
+      step1 && step2 && step3 && step4 && step5 && mm.det && mm.readOnly && mm.sepOk && mm.gate
+      && mm.card === 8 && mm.cls === 'principle' && mm.ab && mm.ab.kFrame === 0
+      && mm.nc.indexOf('cal') >= 0,
+      `(1) 静止・等長: Δt=${S1.dt}・Δφ=${S1.dphi}(**ビット厳密 0**=${step1}) / ` +
+      `(2) ΔL の正対照: ${mm.s2.map((r) => `ΔL=${r.dL}→Δφ ${r.ex.toFixed(9)}(4πΔL/λ と相対 ` +
+        `${rel(r.ex, r.geom).toExponential(1)}・追跡 ${rel(r.dphi, r.geom).toExponential(1)})`).join(' / ')} / ` +
+      `(3) 古典 MM(L=11m・λ=500nm): ${mm.s3.map((r) => `β=${r.b}→Δφ ${r.ex.toFixed(7)} rad` +
+        `(${(r.ex / (2 * Math.PI)).toFixed(7)} 縞・2π(L/λ)β² と相対 ${rel(r.ex, r.cls).toExponential(1)})`).join(' / ')}` +
+      `・90° 回転で符号反転(相対 ${rel(mm.s3[0].ex90, -mm.s3[0].ex).toExponential(1)}) / ` +
+      `(4) 随伴 u の中: χ(h=0.01R)=${mm.A.chi.toFixed(6)}(kFrame=0 では ${mm.B.chi})・` +
+      `気体殻 gasCoh=0.3 で ${mm.G.chi.toFixed(6)}(比 ${(mm.G.chi / mm.A.chi).toFixed(9)}=gasCoh)・` +
+      `高度 ${mm.alt.map((r) => `h/R=${((r.d - 10) / 10).toFixed(2)}→χ ${r.chi.toFixed(4)}`).join('・')}` +
+      `(単調減少) → Δφ ${mm.dA.toExponential(4)} 対 ${mm.dB.toFixed(7)} rad(**古典の 1/` +
+      `${(mm.dB / mm.dA).toFixed(0)}**・気体殻では 1/${(mm.dB / mm.dG).toFixed(2)})・` +
+      `u=v ちょうどで解析形は厳密 0(追跡値の床 ${mm.dUt.toExponential(1)} rad) / ` +
+      `(5) サニャック(同じ規約): A=1m²・Ω=1000rad/s で Δφ ${mm.g1.dphi.toFixed(6)} rad` +
+      `(8πAΩ/(λc) と相対 ${rel(mm.g1.dphi, mm.g1.dphiExact).toExponential(1)}・面積 4 倍で ` +
+      `${(mm.g4.dphi / mm.g1.dphi).toFixed(6)} 倍・符号反転)・**回転しない閉路の並進は Δt 厳密 0**=` +
+      `${Object.is(mm.gT.dt, 0)} / ` +
+      `(6) 到着時間差と干渉位相は別記録(Δφ/Δt=2πc/λ)=${mm.sepOk}・純関数の決定性=${mm.det}・` +
+      `エンジン無改変=${mm.readOnly}・適用域外は null=${mm.gate}・🪞 カード ${mm.card} 行・` +
+      `対照 B=kFrame ${mm.ab ? mm.ab.kFrame : '—'}・notClaim=[${mm.nc.join(',')}]`);
+  } else {
+    console.log('SKIP behavior.mmPhase(対象に第247便d の 🪞/HP.dfmMMPhase なし — root 等)');
+  }
+}
+
 // ---- 第246便d ⑤: behavior.contractBudget — コア収縮の E 予算と Q 不変 ----
 // 思考実験⑤「WD/NS の質量は元の赤色巨星とあまり変わらない → 質量はコアに集中し、成長すると
 // コア半径が縮む」。①エネルギー予算 dUbind=aGMc²(1/R1−1/R0) 対 dErot=J²/(2κMc)(1/R1²−1/R0²)

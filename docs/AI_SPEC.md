@@ -758,6 +758,7 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 - `physics.halo` は観測再現版専用の外部項(公理ではない — docs/PHYSICS.md の該当節参照)。
   生成 AI はこのキーを使わない。
 - **観測 Q の転写(第246便 — `body.spinDipole`)**: single に `{"omega":自転角速度, "radius":半径, "source":"observed"|"declared"}` を宣言すると `physics.spinSpin`(玩具のスピン双極子間力)の Q_i **だけ**を Q=½m·radius²·omega へ上書きする読み取り専用の源になる(力学の殻 spin ±20・コア Ω ±50 には一切書かない・未宣言は 1 bit 不変)。**生成 AI はこのキーを使わない** — コンパクト天体連星の観測転写(docs/PHYSICS.md 第246便b の節)専用である。
+- **MM 2 腕干渉計の位相玩具(第247便d・裁定 A5′(2))**: 内蔵の原理サンプル **🪞 `mmPhaseToy`** が 1 本増えた。位相は新しい物理キーではなく**読み取り専用の純関数** `HP.dfmMMPhase(cfg)`(装置の往復到着時刻 → 到着時間差 Δt と干渉位相差 Δφ=2πcΔt/λ を**別々に**返す)と `HP.dfmFrameAt(x,y)`(光が感じる決定フレーム u と局所光速の 1 点評価)が出すもので、**プリセットの物理キーは 1 つも増えていない**(装置は既存の `pinned`+`railOmega` のレール規定運動と `frameSource:false` だけで作ってある)。**生成 AI はこの 2 関数を使わない**(プリセット JSON からは呼べない — docs/PHYSICS.md 第247便d の節)。
 - **観測安定則(第199便 M1 — 2026-08-25 裁定)**: 観測値再現版は、観測値で安定する計算式を
   採用する(観測値自体が計算式で算出されている為)。kFrame=1 雛形が自己診断で永年不安定と
   差し戻される系に限り kFrame=0 で採用し、引きずりは A/B の**測定側**として保持する
