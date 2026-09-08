@@ -9370,6 +9370,122 @@ if (!FAST) {
   }
 }
 
+// ---- 第249便c(第41報 W3・案A): behavior.axisForce-bitIdentity / behavior.axisForce-conservation ----
+// physics.axisForce = 有限範囲の二極軸ポテンシャル Φ_A=−A·exp(−d²/R_b²)·(u²−v²)/(d²+r_c²)(玩具の opt-in)。
+//   (a) **既定経路 1 bit 不変**: 未宣言のサンプル 2 本(🎡 galaxyStd・🕶️ darkrotor)を 300 步走らせ、
+//       physics.axisForce:{A:0,…} を**明示**した側と全状態がビット同一・プリセット署名も同一。
+//       A=0 は検証器が「なし」へ正規化するので、宣言してもエクスポート JSON が 1 文字も変わらない。
+//   (b) **反作用で総 P・総 L が閉じる**: 重力を切った玩具(G=0・kFrame=0・軸力だけ)で 400 步。
+//       各星への力 F_i の合計 −ΣF_i を中心天体へ(運動量)、軸トルク −Σ(d_i×F_i)_z を中心天体の
+//       殻スピンへ(角運動量)返す実装なので、stateCarry:"double" では残差が丸め級(<1e-9 相対)。
+//       φ 固定は保存力(外部駆動の仕事 axisWorkE が厳密 0)・omegaAxis 宣言時だけ axisWorkE≠0。
+//       力が −∇Φ であることは純関数 HP.dfmAxisPotential と有限差分の一致で押さえる。
+{
+  const hasAF = await page.evaluate(() => typeof HP.dfmAxisPotential === 'function'
+    && typeof HP.validateAxisForce === 'function');
+  if (hasAF) {
+    const af = await page.evaluate(() => {
+      const snap = (S) => { const o = [];
+        for (let i = 0; i < S.n; i++) o.push(S.x[i], S.y[i], S.vx[i], S.vy[i], S.spin[i]); return o; };
+      const go = (id, patch) => { const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));
+        if (patch) Object.assign(pd.physics, patch);
+        const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
+        for (let k = 0; k < 300; k++) S.step(0.016);
+        return { s: snap(S), sig: JSON.stringify(v.preset.physics), warn: (v.warnings || []).length,
+          has: S.hasAxisForce, nan: S.hasNaN() }; };
+      const bit = [];
+      for (const id of ['galaxyStd', 'darkrotor']) {
+        const a = go(id, null), b = go(id, { axisForce: { A: 0, Rb: 50, rc: 2 } });
+        bit.push({ id, bitSame: a.s.every((z, i) => Object.is(z, b.s[i])), sigSame: a.sig === b.sig,
+          warn: b.warn, hasA: a.has, hasB: b.has, nan: a.nan || b.nan });
+      }
+      // ---- 保存の玩具(G=0・軸力だけ)----
+      const mk = (carry, ax, integ) => { const ph = { G: 0, D0: 1, kFrame: 0, q: 2, kRep: 0, muF: 0,
+          gammaN: 0, kappaS: 0, kappaT: 0, cLight: 300, bM: 1, etaRad: 0, pRad: 4, gravityX: 0,
+          gravityY: 0, geoPN: 0, lambdaPN: 1, pnAlpha: 1.5, radiusScale: 1, softening: 2,
+          timeScale: 1, axisForce: ax };
+        if (carry) ph.stateCarry = 'double';
+        const pd = { id: 'axcons', name: 'axcons', emoji: 'x', description: '軸力の保存検査',
+          camera: { scale: 1 }, world: { boundary: 'none', size: 0 }, seed: 1, physics: ph,
+          bodies: [{ type: 'single', m: 1000, x: 0, y: 0, vx: 0, vy: 0, spin: 0.5, pinned: false, radius: 10 },
+            { type: 'single', m: 1, x: 40, y: 20, vx: 0.1, vy: -0.2, spin: 0, pinned: false, radius: 1 },
+            { type: 'single', m: 2, x: -70, y: 35, vx: -0.05, vy: 0.15, spin: 0, pinned: false, radius: 1 },
+            { type: 'single', m: 1.5, x: 15, y: -90, vx: 0.2, vy: 0.05, spin: 0, pinned: false, radius: 1 }] };
+        if (integ) pd.integrator = integ;
+        return pd; };
+      const cons = (carry, ax, integ) => { const v = HP.validatePreset(mk(carry, ax, integ));
+        if (!v.ok) return { err: v.errors };
+        const S = HP.sim; S.build(v.preset);
+        const T0 = S.totals(), P0 = [T0.px + S.resPx, T0.py + S.resPy], L0 = T0.L + S.resL;
+        for (let k = 0; k < 400; k++) S.step(0.01);
+        const T1 = S.totals(), P1 = [T1.px + S.resPx, T1.py + S.resPy], L1 = T1.L + S.resL;
+        let pS = 0, lS = 0;
+        for (let i = 0; i < S.n; i++) { pS += Math.abs(S.m[i] * S.vx[i]) + Math.abs(S.m[i] * S.vy[i]);
+          lS += Math.abs(S.m[i] * (S.x[i] * S.vy[i] - S.y[i] * S.vx[i]))
+            + 0.5 * Math.abs(S.m[i]) * S.R[i] * S.R[i] * Math.abs(S.spin[i]); }
+        return { relP: (Math.abs(P1[0] - P0[0]) + Math.abs(P1[1] - P0[1])) / pS,
+          relL: Math.abs(L1 - L0) / lS, axisW: S.axisWorkE, axisU: S.axisU,
+          spinMoved: S.spin[0] !== 0.5, nan: S.hasNaN(), warn: (v.warnings || []).length }; };
+      const AX = { A: 200, Rb: 120, rc: 5, axis: 0.3 };
+      const fixed = cons(true, AX), leap = cons(true, AX, 'leapfrog');
+      const driven = cons(true, Object.assign({ omegaAxis: 0.05 }, AX));
+      // ---- 力 = −∇Φ(純関数と有限差分)----
+      const cfg = { A: 3.5, Rb: 120, rc: 7, phi: 0.4 }; let gmax = 0;
+      for (const [dx, dy] of [[10, 3], [-40, 60], [5, -90], [130, 20], [0.5, 0.2]]) {
+        const h = 1e-4, f = (a, b) => HP.dfmAxisPotential(a, b, cfg).U;
+        const gx = -(f(dx + h, dy) - f(dx - h, dy)) / (2 * h), gy = -(f(dx, dy + h) - f(dx, dy - h)) / (2 * h);
+        const q = HP.dfmAxisPotential(dx, dy, cfg);
+        gmax = Math.max(gmax, Math.abs(gx - q.ax), Math.abs(gy - q.ay));
+      }
+      // π 回転で同じ(二極)・軸に沿う側が谷(Φ<0・A>0)
+      const pAx = HP.dfmAxisPotential(50, 0, { A: 1, Rb: 1e4, rc: 1, phi: 0 });
+      const pPe = HP.dfmAxisPotential(0, 50, { A: 1, Rb: 1e4, rc: 1, phi: 0 });
+      const pFlip = HP.dfmAxisPotential(-50, 0, { A: 1, Rb: 1e4, rc: 1, phi: 0 });
+      // ---- 検証器 ----
+      const vv = (a) => HP.validateAxisForce(a);
+      const valid = {
+        zeroDrop: vv({ A: 0, Rb: 50 }).ok && vv({ A: 0, Rb: 50 }).axisForce === null,
+        nullOk: vv(null).ok && vv(null).axisForce === null,
+        badA: !vv({ Rb: 50 }).ok, badAxis: !vv({ A: 1, axis: 'x' }).ok,
+        badSrc: !vv({ A: 1, source: -1 }).ok,
+        spinOk: vv({ A: 1, axis: 'spin' }).ok && vv({ A: 1, axis: 'spin' }).axisForce.axis === 'spin',
+        dflt: (() => { const z = vv({ A: 2 }).axisForce;
+          return z.Rb === HP.AXIS_FORCE_DEFAULT.Rb && z.rc === HP.AXIS_FORCE_DEFAULT.rc
+            && z.axis === 0 && z.source === 0 && z.omegaAxis === undefined; })(),
+        clamp: vv({ A: 1e12, Rb: 1e12 }).axisForce.A === HP.AXIS_FORCE_CLAMPS.A[1],
+        idem: (() => { const a = vv({ A: 5, Rb: 33, rc: 2, axis: 0.7, source: 1, omegaAxis: 0.1 }).axisForce;
+          return JSON.stringify(vv(a).axisForce) === JSON.stringify(a); })() };
+      return { bit, fixed, leap, driven, gmax, pAx: pAx.U, pPe: pPe.U, pFlip: pFlip.U, valid };
+    });
+    const bitOK = af.bit.every((r) => r.bitSame && r.sigSame && r.warn === 0 && !r.hasA && !r.hasB && !r.nan);
+    add('behavior.axisForce-bitIdentity', bitOK,
+      (bitOK ? '' : '不成立 ')
+      + `未宣言 = A:0 明示(300 步): `
+      + af.bit.map((r) => `${r.id} ビット同一=${r.bitSame}・署名同一=${r.sigSame}・警告${r.warn}・hasAxisForce ${r.hasA}/${r.hasB}`).join(' / ')
+      + ` / 検証器: A=0 は「なし」へ正規化=${af.valid.zeroDrop}・null 受理=${af.valid.nullOk}・A 欠落エラー=${af.valid.badA}・`
+      + `axis 不正エラー=${af.valid.badAxis}・source 不正エラー=${af.valid.badSrc}・axis:"spin" 受理=${af.valid.spinOk}・`
+      + `既定値(R_b/r_c/axis/source)=${af.valid.dflt}・値域クランプ=${af.valid.clamp}・冪等=${af.valid.idem}`);
+    const CN = { grad: af.gmax < 1e-8,
+      dipole: af.pAx < 0 && af.pPe > 0 && Math.abs(af.pFlip - af.pAx) < 1e-12,
+      fixP: af.fixed.relP < 1e-9, fixL: af.fixed.relL < 1e-9,
+      fixWork: af.fixed.axisW === 0, fixSpin: af.fixed.spinMoved,
+      leapP: af.leap.relP < 1e-9, leapL: af.leap.relL < 1e-9,
+      drivenP: af.driven.relP < 1e-9, drivenL: af.driven.relL < 1e-9,
+      drivenWork: af.driven.axisW !== 0,
+      clean: !af.fixed.nan && !af.driven.nan && af.fixed.warn === 0 };
+    const badCN = Object.keys(CN).filter((k) => !CN[k]);
+    add('behavior.axisForce-conservation', badCN.length === 0,
+      (badCN.length ? `不成立=[${badCN.join(',')}] ` : '')
+      + `力=−∇Φ の有限差分最大差 ${af.gmax.toExponential(1)}・二極(軸上 Φ=${af.pAx.toFixed(4)}<0・直交 Φ=${af.pPe.toFixed(4)}>0・π 回転で同一=${Math.abs(af.pFlip - af.pAx) < 1e-12}) / `
+      + `玩具(G=0・軸力だけ・400 步・stateCarry double): 軸固定 |ΔP|/P=${af.fixed.relP.toExponential(2)}・|ΔL|/L=${af.fixed.relL.toExponential(2)}・`
+      + `外部駆動の仕事=${af.fixed.axisW}(保存力なので厳密 0)・中心スピンが軸トルクを受けた=${af.fixed.spinMoved} / `
+      + `leapfrog(前後半キック) |ΔP|/P=${af.leap.relP.toExponential(2)}・|ΔL|/L=${af.leap.relL.toExponential(2)} / `
+      + `Ω_axis=0.05 の外部駆動 |ΔP|/P=${af.driven.relP.toExponential(2)}・|ΔL|/L=${af.driven.relL.toExponential(2)}・axisWorkE=${af.driven.axisW.toExponential(2)}(≠0 = 非保存の宣言)`);
+  } else {
+    console.log('SKIP behavior.axisForce-*(対象に第249便c の axisForce なし — root 等)');
+  }
+}
+
 // ---- 第246便(第38報 最優先): behavior.compactSpinSpin — 観測 Q の転写(body.spinDipole)----
 // 原仮定者(第38報)「コンパクト天体は気体の外殻が無いので、観測値の高速な自転と小さな半径が
 // そのまま使える」。⚡ の A/B に観測自転(22.699379 ms / 2.773461 s)と半径(11.75 km)を転写し、
@@ -10996,7 +11112,8 @@ if (!FAST) {
         'psrDoubleABSpinCal', 'gw150914Merge4s', 'gw150914SpinDipole', 'mmPhaseToy',
         'psrJ1757DFM', 'psrJ1946DFM',
         'psrDoubleABPN', 'psrJ1757PN', 'psrJ1946PN',
-        'galaxyFieldLines', 'galaxyTiltPrecess', 'galaxyBarRotors'];   // 第244便: 💿 も pull へ(観測環質量+frameSource:false)/ 第247便a: 🧿(⚡ の較正候補 variant — ⚡ と同じ pull 宣言)/ 第247便d: 🪞 mmPhaseToy(pull 明示の原理サンプル)/ 第248便a: 🧮🩺(⚡ の処方をそのまま当てた NS 連星 hold-out — ⚡ と同じ pull 宣言) / 第248便c: 🍥🪁🍢(銀河形態の原理サンプル — pull 既定)/ 第249便a: 🪶🪃🪀(NS 応答候補 λ_PN=1/f の variant — 複製元と同じ pull 宣言)
+        'galaxyFieldLines', 'galaxyTiltPrecess', 'galaxyBarRotors',
+        'axisBarStill', 'axisBarArms', 'axisBarReach'];   // 第244便: 💿 も pull へ(観測環質量+frameSource:false)/ 第247便a: 🧿(⚡ の較正候補 variant — ⚡ と同じ pull 宣言)/ 第247便d: 🪞 mmPhaseToy(pull 明示の原理サンプル)/ 第248便a: 🧮🩺(⚡ の処方をそのまま当てた NS 連星 hold-out — ⚡ と同じ pull 宣言) / 第248便c: 🍥🪁🍢(銀河形態の原理サンプル — pull 既定)/ 第249便a: 🪶🪃🪀(NS 応答候補 λ_PN=1/f の variant — 複製元と同じ pull 宣言) / 第249便c: 🥢🎏🎚️(axisForce 玩具の原理サンプル — pull 既定)
       const all = HP.allPresets(); let nShare = 0, nOther = 0; const wrong = [];
       for (const q of all) { const fw = q.physics && q.physics.frameWeight; if (MIG.indexOf(q.id) >= 0) { if (fw !== undefined && fw !== 'pull') wrong.push(q.id); } else if (fw === 'share') nShare++; else { nOther++; wrong.push(q.id); } }
       // 🌘: 宣言どおり(pull・D0pull=3.36e-5)で generic・近点移動 2.995°/周。pull3/pull4 は再較正値で同窓
