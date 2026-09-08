@@ -3,8 +3,8 @@
   "wave": "第249便b",
   "target": "beta/index.html",
   "dtBase": 0.016,
-  "budgetSecLight": 12,
-  "budgetSecHeavy": 36,
+  "budgetSecLight": 30,
+  "budgetSecHeavy": 90,
   "orbMax": 60,
   "verdicts": [
    "合",
@@ -7339,6 +7339,738 @@
    ]
   },
   {
+   "id": "psrDoubleABPN",
+   "emoji": "🪶",
+   "name": "二重パルサー J0737−3039A/B(NS 応答候補 λ_PN=1/f)— 1PN の強さだけを観測質量へ戻す",
+   "version": "dfm",
+   "referenceKind": null,
+   "massCalibration": {
+    "law": "inertia-law-lin-v1",
+    "factor": 1.999942269345993
+   },
+   "scaleExpT": 1,
+   "run": {
+    "n": 2,
+    "dt": 0.016,
+    "steps": 1385472,
+    "wallSec": 2.637,
+    "orbits": [
+     {
+      "label": "B",
+      "rev": 25,
+      "periA": 25,
+      "periB": 25
+     }
+    ],
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "dtHalf": {
+     "dt": 0.008,
+     "steps": 2770943
+    }
+   },
+   "correlates": {
+    "nu": 0.24970199255011252,
+    "chiA": 0.9999403473682839,
+    "chiB": 0.9999443287852461,
+    "chi": 0.9999423380767649,
+    "GMac2": 0.0000043476083505799055,
+    "aOverR": 74780.31136350277,
+    "e": 0.08798492783140648,
+    "spinRatio": 0,
+    "kFrame": 1,
+    "frameWeight": "pull",
+    "D0eff": 3.24204e-7,
+    "massFactor": 1.999942269345993,
+    "mainTarget": "B"
+   },
+   "quantities": [
+    {
+     "name": "近点移動(本 variant の主眼 — 旧則の約2倍を直す)",
+     "kind": "precession",
+     "version": "dfm",
+     "target": "B",
+     "declaredModel": "+0.0047309°/周(dt=0.0005・引きずり場 倍精度・検出器 2 方式の差 6×10⁻⁸)= 観測の −0.0013%",
+     "declaredObs": "+0.0047310°/周(ω̇=16.899323°/yr と P=8834.5347 s の換算・Kramer 2021)",
+     "model": 0.0047309,
+     "obs": 0.004731,
+     "obsErr": null,
+     "meas": 0.004890340400219372,
+     "unit": "deg/orbit",
+     "residualPct": 3.36800676853461,
+     "modelResidualPct": 3.3701917229147242,
+     "verdict": "否",
+     "method": "近点移動 検出器A(ṙ 交差・近点 25 個の直線 fit)",
+     "note": null,
+     "standard": false,
+     "detail": {
+      "detectorA": 0.004890340400219372,
+      "residA": 0.0011621617268332866,
+      "nPeriA": 25,
+      "detectorB": 0.004970039099102714,
+      "residB": 0.001351324576682845,
+      "nPeriB": 25,
+      "floorDeg": 0.000697297036099972,
+      "pRevSec": 8819.35098349881,
+      "revN": 25,
+      "eMeasured": 0.08798492783140648
+     },
+     "guideTolerance": true,
+     "toleranceUsedPct": 1,
+     "strictOK": false
+    },
+    {
+     "name": "宣言したのは 2 つだけ(**既存キー**)",
+     "kind": "other",
+     "version": "dfm",
+     "target": null,
+     "model": "λ_PN=1/f=0.50001443(f=1.99994 は ⚡ の周期較正の値)・cLight=2997.92458(299792458 m/s の換算)・κ=G/c² 同期",
+     "obs": "—(新キーは作らない。λ_PN·fM=M となる — 質量は 1 bit も変えていない)",
+     "obsErr": null,
+     "meas": null,
+     "unit": null,
+     "residualPct": null,
+     "verdict": "転",
+     "method": "declaration",
+     "standard": false,
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+    },
+    {
+     "name": "**現象論の候補であって完成ではない**",
+     "kind": "other",
+     "version": "dfm",
+     "target": null,
+     "model": "作用原理・保存則は未導出。時間依存の f を局所場から動的に作る設計も無い",
+     "obs": "—(claim 窓は付けない。⚡ 本体〔primary〕の「ノブなし」宣言は 1 bit 不変)",
+     "obsErr": null,
+     "meas": null,
+     "unit": null,
+     "residualPct": null,
+     "verdict": "転",
+     "method": "declaration",
+     "standard": false,
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+    },
+    {
+     "name": "fit と hold-out の線引き(第41報 H1)",
+     "kind": "other",
+     "version": "dfm",
+     "target": null,
+     "model": "fit は ⚡ の f だけ。ただし **3 系の結果を見て λ_PN=1/f を選んだ**ので 3 系は法則選択の開発検証集合",
+     "obs": "—(次の確認は別系・別時期を凍結した hold-out で行う。入力質量は GR 由来のまま)",
+     "obsErr": null,
+     "meas": null,
+     "unit": null,
+     "residualPct": null,
+     "verdict": "転",
+     "method": "declaration",
+     "standard": false,
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+    },
+    {
+     "name": "旧則との差(A/B 対照で見える)",
+     "kind": "other",
+     "version": "dfm",
+     "target": null,
+     "model": "λ_PN=1 に戻すと +0.0094486°/周(観測の +99.7%)— 差の全部が λ_PN の 1 本",
+     "obs": "—(第248便b の監査: 較正質量 f≈2 が E12 の 1PN チャネルへ入っていた)",
+     "obsErr": null,
+     "meas": null,
+     "unit": null,
+     "residualPct": null,
+     "verdict": "転",
+     "method": "declaration",
+     "standard": false,
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+    },
+    {
+     "name": "公転周期(合わせていない)",
+     "kind": "period",
+     "version": "dfm",
+     "target": "B",
+     "declaredModel": "近点間 8833.27 秒(−0.0143%)・同方向 8832.99 秒(−0.0175%)(dt=0.0005)",
+     "declaredObs": "8834.534723278 s(Hu et al. 2022)",
+     "model": 8833.27,
+     "obs": 8834.534723278,
+     "obsErr": null,
+     "meas": 8819.35098349881,
+     "unit": "s",
+     "residualPct": -0.171868018574676,
+     "modelResidualPct": -0.15757490149389317,
+     "verdict": "合",
+     "method": "同方向1周(2周目 — obsCard の数え方)",
+     "note": "**周期の定義依存**: 同方向1周 -0.1719% / 近点間 -1.3772%",
+     "standard": false,
+     "detail": {
+      "revSec": [
+       8828.886535970038,
+       8819.35098349881,
+       8809.65567411133,
+       8799.960607801559,
+       8790.265784562383,
+       8780.571204389153
+      ],
+      "periASec": 8712.862380537987,
+      "periBSec": 8712.863760007305,
+      "oscSec": 3364.3762704885185,
+      "revN": 25,
+      "aOscMean": 581.4908486974387,
+      "aOsc0": 619.206903073789
+     },
+     "residualPctPeri": -1.3772354351545077,
+     "defDiffPct": -1.2074426242936311,
+     "guideTolerance": true,
+     "toleranceUsedPct": 1,
+     "strictOK": false
+    },
+    {
+     "name": "離心率(合わせていない)",
+     "kind": "ecc",
+     "version": "dfm",
+     "target": "B",
+     "declaredModel": "実測 0.087874(転写比 +0.111%)",
+     "declaredObs": "0.087777036(転写)",
+     "model": 0.087874,
+     "obs": 0.087777036,
+     "obsErr": null,
+     "meas": 0.08798492783140648,
+     "unit": "-",
+     "residualPct": 0.23684079672782887,
+     "modelResidualPct": 0.1262350995817672,
+     "verdict": "合",
+     "method": "1周目の半径比 proxy (r_max−r_min)/(r_max+r_min)",
+     "note": null,
+     "standard": false,
+     "detail": {
+      "rMin1": 801.3590600134547,
+      "rMax1": 955.9782570288603,
+      "eProxyAll": 0.09618524269161369,
+      "eOscMean": 0.5048131088588205,
+      "eOsc0": 0.543875346238504,
+      "revN": 25
+     },
+     "guideTolerance": true,
+     "toleranceUsedPct": 1,
+     "strictOK": false
+    },
+    {
+     "name": "刻み依存(連続極限の確定ではない)",
+     "kind": "other",
+     "version": "dfm",
+     "target": null,
+     "model": "dt 0.002→0.001→0.0005 で 0.0047325→0.0047313→0.0047309・3 点の一次外挿 0.0047303。NaN・clamp とも 0",
+     "obs": "—(3 点の傾向であって収束の証明ではない — 中心値一致を完成証明にしない)",
+     "obsErr": null,
+     "meas": null,
+     "unit": null,
+     "residualPct": null,
+     "verdict": "転",
+     "method": "declaration",
+     "standard": false,
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+    }
+   ],
+   "tally": {
+    "合": 2,
+    "窓": 0,
+    "否": 1,
+    "従": 0,
+    "転": 5
+   },
+   "notes": [
+    "dt 収束(主対象 B): 周期 8819.35098 → 8826.62239 s(0.0824%) / 近点移動 4.8903e-3 → 4.7616e-3 °/周"
+   ]
+  },
+  {
+   "id": "psrJ1757PN",
+   "emoji": "🪃",
+   "name": "PSR J1757−1854(NS 応答候補 λ_PN=1/f)— ⚡ の処方に 1/f を足して当てた 2 例目",
+   "version": "dfm",
+   "referenceKind": null,
+   "massCalibration": {
+    "law": "inertia-law-lin-v1",
+    "factor": 1.9998956627766773
+   },
+   "scaleExpT": 1,
+   "run": {
+    "n": 2,
+    "dt": 0.016,
+    "steps": 3534675,
+    "wallSec": 6.054,
+    "orbits": [
+     {
+      "label": "B",
+      "rev": 37,
+      "periA": 37,
+      "periB": 37
+     }
+    ],
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "dtHalf": {
+     "dt": 0.008,
+     "steps": 7069351
+    }
+   },
+   "correlates": {
+    "nu": 0.24989428578811188,
+    "chiA": 0.9997366377695805,
+    "chiB": 0.9997255821093131,
+    "chi": 0.9997311099394468,
+    "GMac2": 0.000003053101979889388,
+    "aOverR": 112494.38505520743,
+    "e": 0.6060066571661781,
+    "spinRatio": 0,
+    "kFrame": 1,
+    "frameWeight": "pull",
+    "D0eff": 3.24204e-7,
+    "massFactor": 1.9998956627766773,
+    "mainTarget": "B"
+   },
+   "quantities": [
+    {
+     "name": "近点移動(本 variant の主眼 — 旧則の約2倍を直す)",
+     "kind": "precession",
+     "version": "dfm",
+     "target": "B",
+     "declaredModel": "+0.0052117°/周(dt=0.0005・引きずり場 倍精度・検出器 2 方式の差 2×10⁻⁸)= 観測の +0.062%",
+     "declaredObs": "+0.0052085°/周(ω̇=10.3651°/yr と P=15857.669 s の換算・2018 転写)",
+     "model": 0.0052117,
+     "obs": 0.0052085,
+     "obsErr": null,
+     "meas": 0.005296837588483418,
+     "unit": "deg/orbit",
+     "residualPct": 1.6960274260039976,
+     "modelResidualPct": 1.63358574905344,
+     "verdict": "否",
+     "method": "近点移動 検出器A(ṙ 交差・近点 37 個の直線 fit)",
+     "note": null,
+     "standard": false,
+     "detail": {
+      "detectorA": 0.005296837588483418,
+      "residA": 0.00021816700274065987,
+      "nPeriA": 37,
+      "detectorB": 0.005318344154164493,
+      "residB": 0.00022110829017875402,
+      "nPeriB": 37,
+      "floorDeg": 0.00010759930294202877,
+      "pRevSec": 15801.966489971855,
+      "revN": 37,
+      "eMeasured": 0.6060066571661781
+     },
+     "guideTolerance": true,
+     "toleranceUsedPct": 1,
+     "strictOK": false
+    },
+    {
+     "name": "宣言したのは 2 つだけ(**既存キー**)",
+     "kind": "other",
+     "version": "dfm",
+     "target": null,
+     "model": "λ_PN=1/f=0.50002609(f=1.9998957 は本系で一次則を1回評価した値)・cLight=2997.92458・κ=G/c² 同期",
+     "obs": "—(新キーは作らない。λ_PN·fM=M となる — 質量は 🧮 と 1 bit 同一)",
+     "obsErr": null,
+     "meas": null,
+     "unit": null,
+     "residualPct": null,
+     "verdict": "転",
+     "method": "declaration",
+     "standard": false,
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+    },
+    {
+     "name": "**現象論の候補であって完成ではない**",
+     "kind": "other",
+     "version": "dfm",
+     "target": null,
+     "model": "作用原理・保存則は未導出。λ_PN=1/f は 3 系を見て選んだ法則で、本系は凍結 hold-out ではない",
+     "obs": "—(claim 窓は付けない。🧮 本体の宣言は 1 bit 不変)",
+     "obsErr": null,
+     "meas": null,
+     "unit": null,
+     "residualPct": null,
+     "verdict": "転",
+     "method": "declaration",
+     "standard": false,
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+    },
+    {
+     "name": "新しい観測表との比較(第249便a で CSV へ別版追加)",
+     "kind": "other",
+     "version": "dfm",
+     "target": null,
+     "model": "Singha et al. 2026 Table 2 換算 0.0052084°/周に対しては +0.063%(ω̇=10.364986°/yr・Pb=0.183537823671 d)",
+     "obs": "—(arXiv は egress 遮断で一次表を直接未確認。桁の照合は WebSearch の要旨のみ)",
+     "obsErr": null,
+     "meas": null,
+     "unit": null,
+     "residualPct": null,
+     "verdict": "転",
+     "method": "declaration",
+     "standard": false,
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+    },
+    {
+     "name": "旧則との差(A/B 対照で見える)",
+     "kind": "other",
+     "version": "dfm",
+     "target": null,
+     "model": "λ_PN=1 に戻すと +0.0104067°/周(観測の +99.8%)— 差の全部が λ_PN の 1 本",
+     "obs": "—(第248便b の監査: 較正質量 f≈2 が E12 の 1PN チャネルへ入っていた)",
+     "obsErr": null,
+     "meas": null,
+     "unit": null,
+     "residualPct": null,
+     "verdict": "転",
+     "method": "declaration",
+     "standard": false,
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+    },
+    {
+     "name": "公転周期(合わせていない)",
+     "kind": "period",
+     "version": "dfm",
+     "target": "B",
+     "declaredModel": "近点間 15852.64 秒(−0.0317%)・同方向 15851.35 秒(−0.0398%)(dt=0.0005)",
+     "declaredObs": "15857.669019168 s(Pb=0.18353783587 d・Cameron et al. 2018)",
+     "model": 15852.64,
+     "obs": 15857.669019168,
+     "obsErr": null,
+     "meas": 15801.966489971855,
+     "unit": "s",
+     "residualPct": -0.35126555566782747,
+     "modelResidualPct": -0.31965344591275613,
+     "verdict": "合",
+     "method": "同方向1周(2周目 — obsCard の数え方)",
+     "note": "**周期の定義依存**: 同方向1周 -0.3513% / 近点間 -4.0258%",
+     "standard": false,
+     "detail": {
+      "revSec": [
+       15836.917067356844,
+       15801.966489971855,
+       15766.922615665535,
+       15731.945277779687,
+       15697.034310186964,
+       15662.189547276694
+      ],
+      "periASec": 15219.273933803272,
+      "periBSec": 15219.274014917319,
+      "oscSec": 6752.92952630014,
+      "revN": 37,
+      "aOscMean": 929.204710214758,
+      "aOsc0": 1177.4573459059156
+     },
+     "residualPctPeri": -4.02578137173293,
+     "defDiffPct": -3.6874686232145133,
+     "guideTolerance": true,
+     "toleranceUsedPct": 1,
+     "strictOK": false
+    },
+    {
+     "name": "離心率(合わせていない)",
+     "kind": "ecc",
+     "version": "dfm",
+     "target": "B",
+     "declaredModel": "実測 0.605948(転写比 +0.022%)",
+     "declaredObs": "0.6058142(転写)",
+     "model": 0.605948,
+     "obs": 0.6058142,
+     "obsErr": null,
+     "meas": 0.6060066571661781,
+     "unit": "-",
+     "residualPct": 0.031768348476827725,
+     "modelResidualPct": 0.009680231006296463,
+     "verdict": "合",
+     "method": "1周目の半径比 proxy (r_max−r_min)/(r_max+r_min)",
+     "note": null,
+     "standard": false,
+     "detail": {
+      "rMin1": 520.7839561107515,
+      "rMax1": 2122.834092686623,
+      "eProxyAll": 0.6125906574775912,
+      "eOscMean": 0.7070724701324084,
+      "eOsc0": 0.8028968130203311,
+      "revN": 37
+     },
+     "guideTolerance": true,
+     "toleranceUsedPct": 1,
+     "strictOK": true
+    },
+    {
+     "name": "刻み依存(連続極限の確定ではない)",
+     "kind": "other",
+     "version": "dfm",
+     "target": null,
+     "model": "dt 0.002→0.001→0.0005 で 0.0052127→0.0052120→0.0052117・3 点の一次外挿 0.0052113。NaN・clamp とも 0",
+     "obs": "—(3 点の傾向であって収束の証明ではない)",
+     "obsErr": null,
+     "meas": null,
+     "unit": null,
+     "residualPct": null,
+     "verdict": "転",
+     "method": "declaration",
+     "standard": false,
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+    }
+   ],
+   "tally": {
+    "合": 2,
+    "窓": 0,
+    "否": 1,
+    "従": 0,
+    "転": 5
+   },
+   "notes": [
+    "dt 収束(主対象 B): 周期 15801.9665 → 15828.2857 s(0.1666%) / 近点移動 5.2968e-3 → 5.2506e-3 °/周"
+   ]
+  },
+  {
+   "id": "psrJ1946PN",
+   "emoji": "🪀",
+   "name": "PSR J1946+2052(NS 応答候補 λ_PN=1/f)— ⚡ の処方に 1/f を足して当てた 3 例目",
+   "version": "dfm",
+   "referenceKind": null,
+   "massCalibration": {
+    "law": "inertia-law-lin-v1",
+    "factor": 1.999965529570855
+   },
+   "scaleExpT": 1,
+   "run": {
+    "n": 2,
+    "dt": 0.016,
+    "steps": 1040661,
+    "wallSec": 1.763,
+    "orbits": [
+     {
+      "label": "B",
+      "rev": 24,
+      "periA": 25,
+      "periB": 25
+     }
+    ],
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "dtHalf": {
+     "dt": 0.008,
+     "steps": 2081321
+    }
+   },
+   "correlates": {
+    "nu": 0.24995001412821236,
+    "chiA": 0.9999604437791544,
+    "chiB": 0.9999615468000705,
+    "chi": 0.9999609952896125,
+    "GMac2": 0.0000051120165239621,
+    "aOverR": 62240.01257837391,
+    "e": 0.06409547380928876,
+    "spinRatio": 0,
+    "kFrame": 1,
+    "frameWeight": "pull",
+    "D0eff": 3.24204e-7,
+    "massFactor": 1.999965529570855,
+    "mainTarget": "B"
+   },
+   "quantities": [
+    {
+     "name": "近点移動(本 variant の主眼 — 旧則の約2倍を直す)",
+     "kind": "precession",
+     "version": "dfm",
+     "target": "B",
+     "declaredModel": "+0.0055409°/周(dt=0.0005・引きずり場 倍精度・検出器 2 方式の差 1×10⁻⁷)= 観測の −0.027%",
+     "declaredObs": "+0.0055424°/周(ω̇=25.79205°/yr と P=6781.367 s の換算)",
+     "model": 0.0055409,
+     "obs": 0.0055424,
+     "obsErr": null,
+     "meas": 0.005958620113763342,
+     "unit": "deg/orbit",
+     "residualPct": 7.509745124194243,
+     "modelResidualPct": 7.538849532807711,
+     "verdict": "否",
+     "method": "近点移動 検出器A(ṙ 交差・近点 25 個の直線 fit)",
+     "note": null,
+     "standard": false,
+     "detail": {
+      "detectorA": 0.005958620113763342,
+      "residA": 0.0031842348989410078,
+      "nPeriA": 25,
+      "detectorB": 0.006070385108276795,
+      "residB": 0.0038707869276151585,
+      "nPeriB": 25,
+      "floorDeg": 0.0019105409393646046,
+      "pRevSec": 6766.744252193997,
+      "revN": 24,
+      "eMeasured": 0.06409547380928876
+     },
+     "guideTolerance": true,
+     "toleranceUsedPct": 1,
+     "strictOK": false
+    },
+    {
+     "name": "宣言したのは 2 つだけ(**既存キー**)",
+     "kind": "other",
+     "version": "dfm",
+     "target": null,
+     "model": "λ_PN=1/f=0.50000862(f=1.9999655 は本系で一次則を1回評価した値)・cLight=2997.92458・κ=G/c² 同期",
+     "obs": "—(新キーは作らない。λ_PN·fM=M となる — 質量は 🩺 と 1 bit 同一)",
+     "obsErr": null,
+     "meas": null,
+     "unit": null,
+     "residualPct": null,
+     "verdict": "転",
+     "method": "declaration",
+     "standard": false,
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+    },
+    {
+     "name": "**現象論の候補であって完成ではない**",
+     "kind": "other",
+     "version": "dfm",
+     "target": null,
+     "model": "作用原理・保存則は未導出。λ_PN=1/f は 3 系を見て選んだ法則で、本系は凍結 hold-out ではない",
+     "obs": "—(claim 窓は付けない。🩺 本体の宣言は 1 bit 不変)",
+     "obsErr": null,
+     "meas": null,
+     "unit": null,
+     "residualPct": null,
+     "verdict": "転",
+     "method": "declaration",
+     "standard": false,
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+    },
+    {
+     "name": "新しい観測表との比較(第249便a で CSV へ別版追加)",
+     "kind": "other",
+     "version": "dfm",
+     "target": null,
+     "model": "Meng et al. 2025 DDFWHE 表の Pb=0.07848805554 d 換算 0.0055424°/周に対しても −0.027%(ω̇ は同値)",
+     "obs": "—(ω̇=25.79205(40)°/yr は照合済み。Pb・e の 2025 表の桁は未確認 — CSV の note 参照)",
+     "obsErr": null,
+     "meas": null,
+     "unit": null,
+     "residualPct": null,
+     "verdict": "転",
+     "method": "declaration",
+     "standard": false,
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+    },
+    {
+     "name": "旧則との差(A/B 対照で見える)",
+     "kind": "other",
+     "version": "dfm",
+     "target": null,
+     "model": "λ_PN=1 に戻すと +0.0110679°/周(観測の +99.7%)— 差の全部が λ_PN の 1 本",
+     "obs": "—(第248便b の監査: 較正質量 f≈2 が E12 の 1PN チャネルへ入っていた)",
+     "obsErr": null,
+     "meas": null,
+     "unit": null,
+     "residualPct": null,
+     "verdict": "転",
+     "method": "declaration",
+     "standard": false,
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+    },
+    {
+     "name": "公転周期(合わせていない)",
+     "kind": "period",
+     "version": "dfm",
+     "target": "B",
+     "declaredModel": "近点間 6780.50 秒(−0.0128%)・同方向 6780.23 秒(−0.0168%)(dt=0.0005)",
+     "declaredObs": "6781.366656 s(Pb=0.07848804 d・Meng et al. 2025)",
+     "model": 6780.5,
+     "obs": 6781.366656,
+     "obsErr": null,
+     "meas": 6766.744252193997,
+     "unit": "s",
+     "residualPct": -0.21562620851749875,
+     "modelResidualPct": -0.2028721747069176,
+     "verdict": "合",
+     "method": "同方向1周(2周目 — obsCard の数え方)",
+     "note": "**周期の定義依存**: 同方向1周 -0.2156% / 近点間 -1.7692%",
+     "standard": false,
+     "detail": {
+      "revSec": [
+       6776.174682143797,
+       6766.744252193997,
+       6757.1539863233875,
+       6747.563884529527,
+       6737.973946810248,
+       6728.384173163072
+      ],
+      "periASec": 6661.3921898412955,
+      "periBSec": 6661.3949768290595,
+      "oscSec": 2568.6227457338055,
+      "revN": 24,
+      "aOscMean": 482.35470425162947,
+      "aOsc0": 507.98772157193116
+     },
+     "residualPctPeri": -1.7691782828547393,
+     "defDiffPct": -1.55690917856905,
+     "guideTolerance": true,
+     "toleranceUsedPct": 1,
+     "strictOK": false
+    },
+    {
+     "name": "離心率(合わせていない)",
+     "kind": "ecc",
+     "version": "dfm",
+     "target": "B",
+     "declaredModel": "実測 0.063949(転写比 +0.158%)",
+     "declaredObs": "0.063848(転写)",
+     "model": 0.063949,
+     "obs": 0.063848,
+     "obsErr": null,
+     "meas": 0.06409547380928876,
+     "unit": "-",
+     "residualPct": 0.3875983731499171,
+     "modelResidualPct": 0.22904784951876525,
+     "verdict": "合",
+     "method": "1周目の半径比 proxy (r_max−r_min)/(r_max+r_min)",
+     "note": null,
+     "standard": false,
+     "detail": {
+      "rMin1": 684.4458364166367,
+      "rMax1": 778.1944591751504,
+      "eProxyAll": 0.0749796597667889,
+      "eOscMean": 0.502490782406823,
+      "eOsc0": 0.5319159260882091,
+      "revN": 24
+     },
+     "guideTolerance": true,
+     "toleranceUsedPct": 1,
+     "strictOK": false
+    },
+    {
+     "name": "刻み依存(連続極限の確定ではない)",
+     "kind": "other",
+     "version": "dfm",
+     "target": null,
+     "model": "dt 0.002→0.001→0.0005 で 0.0055436→0.0055417→0.0055409・3 点の一次外挿 0.0055400。NaN・clamp とも 0",
+     "obs": "—(3 点の傾向であって収束の証明ではない)",
+     "obsErr": null,
+     "meas": null,
+     "unit": null,
+     "residualPct": null,
+     "verdict": "転",
+     "method": "declaration",
+     "standard": false,
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)"
+    }
+   ],
+   "tally": {
+    "合": 2,
+    "窓": 0,
+    "否": 1,
+    "従": 0,
+    "転": 5
+   },
+   "notes": [
+    "dt 収束(主対象 B): 周期 6766.74425 → 6773.93679 s(0.1063%) / 近点移動 5.9586e-3 → 5.6572e-3 °/周"
+   ]
+  },
+  {
    "id": "gw150914",
    "emoji": "🎐",
    "name": "GW150914(実単位)— 連星ブラックホールの基準状態",
@@ -9105,7 +9837,7 @@
  "correlation": {
   "method": "spearman",
   "target": "主要周期残差 |%|(DFM 版・理論対照を除く)",
-  "n": 16,
+  "n": 19,
   "rows": [
    {
     "id": "earthMoonRealKF1",
@@ -9378,6 +10110,60 @@
     "mainTarget": "B"
    },
    {
+    "id": "psrDoubleABPN",
+    "emoji": "🪶",
+    "residPct": 0.171868018574676,
+    "nu": 0.24970199255011252,
+    "chiA": 0.9999403473682839,
+    "chiB": 0.9999443287852461,
+    "chi": 0.9999423380767649,
+    "GMac2": 0.0000043476083505799055,
+    "aOverR": 74780.31136350277,
+    "e": 0.08798492783140648,
+    "spinRatio": 0,
+    "kFrame": 1,
+    "frameWeight": "pull",
+    "D0eff": 3.24204e-7,
+    "massFactor": 1.999942269345993,
+    "mainTarget": "B"
+   },
+   {
+    "id": "psrJ1757PN",
+    "emoji": "🪃",
+    "residPct": 0.35126555566782747,
+    "nu": 0.24989428578811188,
+    "chiA": 0.9997366377695805,
+    "chiB": 0.9997255821093131,
+    "chi": 0.9997311099394468,
+    "GMac2": 0.000003053101979889388,
+    "aOverR": 112494.38505520743,
+    "e": 0.6060066571661781,
+    "spinRatio": 0,
+    "kFrame": 1,
+    "frameWeight": "pull",
+    "D0eff": 3.24204e-7,
+    "massFactor": 1.9998956627766773,
+    "mainTarget": "B"
+   },
+   {
+    "id": "psrJ1946PN",
+    "emoji": "🪀",
+    "residPct": 0.21562620851749875,
+    "nu": 0.24995001412821236,
+    "chiA": 0.9999604437791544,
+    "chiB": 0.9999615468000705,
+    "chi": 0.9999609952896125,
+    "GMac2": 0.0000051120165239621,
+    "aOverR": 62240.01257837391,
+    "e": 0.06409547380928876,
+    "spinRatio": 0,
+    "kFrame": 1,
+    "frameWeight": "pull",
+    "D0eff": 3.24204e-7,
+    "massFactor": 1.999965529570855,
+    "mainTarget": "B"
+   },
+   {
     "id": "gw150914DFM",
     "emoji": "🎻",
     "residPct": 0.8715276316306222,
@@ -9399,8 +10185,8 @@
   "pairs": [
    {
     "correlate": "nu",
-    "n": 16,
-    "rho": 0.7216502671678424,
+    "n": 19,
+    "rho": 0.6766420120294692,
     "samples": [
      "🌘",
      "🧲",
@@ -9417,13 +10203,16 @@
      "🧿",
      "🧮",
      "🩺",
+     "🪶",
+     "🪃",
+     "🪀",
      "🎻"
     ]
    },
    {
     "correlate": "chi",
-    "n": 16,
-    "rho": 0.041176470588235294,
+    "n": 19,
+    "rho": 0.15371115668736116,
     "samples": [
      "🌘",
      "🧲",
@@ -9440,13 +10229,16 @@
      "🧿",
      "🧮",
      "🩺",
+     "🪶",
+     "🪃",
+     "🪀",
      "🎻"
     ]
    },
    {
     "correlate": "GMac2",
-    "n": 16,
-    "rho": 0.3088235294117647,
+    "n": 19,
+    "rho": 0.36666666666666664,
     "samples": [
      "🌘",
      "🧲",
@@ -9463,13 +10255,16 @@
      "🧿",
      "🧮",
      "🩺",
+     "🪶",
+     "🪃",
+     "🪀",
      "🎻"
     ]
    },
    {
     "correlate": "aOverR",
-    "n": 16,
-    "rho": 0.3352941176470588,
+    "n": 19,
+    "rho": 0.4017543859649123,
     "samples": [
      "🌘",
      "🧲",
@@ -9486,13 +10281,16 @@
      "🧿",
      "🧮",
      "🩺",
+     "🪶",
+     "🪃",
+     "🪀",
      "🎻"
     ]
    },
    {
     "correlate": "e",
-    "n": 16,
-    "rho": 0.6411764705882353,
+    "n": 19,
+    "rho": 0.6894736842105263,
     "samples": [
      "🌘",
      "🧲",
@@ -9509,13 +10307,16 @@
      "🧿",
      "🧮",
      "🩺",
+     "🪶",
+     "🪃",
+     "🪀",
      "🎻"
     ]
    },
    {
     "correlate": "spinRatio",
-    "n": 16,
-    "rho": -0.20897850190928624,
+    "n": 19,
+    "rho": -0.2825382878552921,
     "samples": [
      "🌘",
      "🧲",
@@ -9532,6 +10333,9 @@
      "🧿",
      "🧮",
      "🩺",
+     "🪶",
+     "🪃",
+     "🪀",
      "🎻"
     ]
    }
@@ -9547,17 +10351,17 @@
   }
  },
  "summary": {
-  "nPresets": 31,
+  "nPresets": 34,
   "tally": {
-   "合": 55,
+   "合": 61,
    "窓": 7,
-   "否": 5,
+   "否": 8,
    "従": 3,
-   "転": 191
+   "転": 206
   },
   "byVersion": {
    "obs": 10,
-   "dfm": 21
+   "dfm": 24
   }
  }
 }

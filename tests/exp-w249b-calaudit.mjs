@@ -78,6 +78,10 @@ const CFG = {
   psrDoubleABSpinCal: { c: 0, o: [[1, 'B']] },
   psrJ1757DFM:        { c: 0, o: [[1, 'B']] },
   psrJ1946DFM:        { c: 0, o: [[1, 'B']] },
+  // 第249便a の λ_PN=1/f variant(⚡🧮🩺 と同じ器で測る — 近点移動は候補の応答そのものなので「従」にしない)
+  psrDoubleABPN:      { c: 0, o: [[1, 'B']] },
+  psrJ1757PN:         { c: 0, o: [[1, 'B']] },
+  psrJ1946PN:         { c: 0, o: [[1, 'B']] },
   gw150914:           { c: 0, o: [[1, 'B']] },
   gw150914DFM:        { c: 0, o: [[1, 'B']] },
   gw150914Merge4s:    { c: 0, o: [[1, 'B']], orbMax: 3, note: '合体サンプル(外部放射オーバーレイ)— 3 公転で打ち切る' },
