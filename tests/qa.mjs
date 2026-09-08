@@ -10974,7 +10974,8 @@ if (!FAST) {
       // legacy 内蔵サンプルは "share" 明示(1 bit 不変)・pull 世代の現実較正 14 本は未宣言か "pull" 明示
       // 第247便b: ⏰ gw150914Merge4s(🎻 の複製)と ⚛️ gw150914SpinDipole(🎐 の複製)も pull 世代
       const MIG = ['earthMoonRealKF1', 'mercuryRealKF1', 'saturnRingRealKF1', 'alphaCenABDFM', 'siriusABDFM', 'psrDoubleABDFM', 'gw150914DFM', 'alphaCenAB', 'siriusAB', 'psrDoubleAB', 'gw150914',
-        'psrDoubleABSpinCal', 'gw150914Merge4s', 'gw150914SpinDipole', 'mmPhaseToy'];   // 第244便: 💿 も pull へ(観測環質量+frameSource:false)/ 第247便a: 🧿(⚡ の較正候補 variant — ⚡ と同じ pull 宣言)/ 第247便d: 🪞 mmPhaseToy(pull 明示の原理サンプル)
+        'psrDoubleABSpinCal', 'gw150914Merge4s', 'gw150914SpinDipole', 'mmPhaseToy',
+        'psrJ1757DFM', 'psrJ1946DFM'];   // 第244便: 💿 も pull へ(観測環質量+frameSource:false)/ 第247便a: 🧿(⚡ の較正候補 variant — ⚡ と同じ pull 宣言)/ 第247便d: 🪞 mmPhaseToy(pull 明示の原理サンプル)/ 第248便a: 🧮🩺(⚡ の処方をそのまま当てた NS 連星 hold-out — ⚡ と同じ pull 宣言)
       const all = HP.allPresets(); let nShare = 0, nOther = 0; const wrong = [];
       for (const q of all) { const fw = q.physics && q.physics.frameWeight; if (MIG.indexOf(q.id) >= 0) { if (fw !== undefined && fw !== 'pull') wrong.push(q.id); } else if (fw === 'share') nShare++; else { nOther++; wrong.push(q.id); } }
       // 🌘: 宣言どおり(pull・D0pull=3.36e-5)で generic・近点移動 2.995°/周。pull3/pull4 は再較正値で同窓
@@ -22152,7 +22153,17 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     // 幾何・半径 proxy・自転は ⚡📻 と同じ転写でスケール換算込みの実較正)を追加 — 27→28
     const gen247 = await page.evaluate(() =>
       HP.allPresets().some((p) => p.id === 'psrDoubleABSpinCal'));
-    const want = gen247 ? 'alphaCenAB,alphaCenABDFM,earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+    // 第248便a: 🧮🩺 psrJ1757DFM / psrJ1946DFM(⚡ の処方をそのまま当てた NS 連星 hold-out —
+    // 幾何・半径 proxy・自転は ⚡📻 と同じ転写でスケール換算込みの実較正)を追加 — 28→30
+    const gen248 = await page.evaluate(() =>
+      HP.allPresets().some((p) => p.id === 'psrJ1757DFM'));
+    const want = gen248 ? 'alphaCenAB,alphaCenABDFM,earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+        + 'gw150914,gw150914DFM,'
+        + 'jupiterGalilean,marsMoonsReal,mercuryReal,mercuryRealKF1,neptuneReal,plutoCharonReal,'
+        + 'psrDoubleAB,psrDoubleABDFM,psrDoubleABSpinCal,psrJ1757DFM,psrJ1946DFM,'
+        + 'qLockRadialAudit,qLockRadialAuditQ3,saturnRingReal,saturnRingRealKF1,saturnZonalD68,'
+        + 'siriusAB,siriusABDFM,solarInner,uranusReal,venusReal'
+      : gen247 ? 'alphaCenAB,alphaCenABDFM,earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
         + 'gw150914,gw150914DFM,'
         + 'jupiterGalilean,marsMoonsReal,mercuryReal,mercuryRealKF1,neptuneReal,plutoCharonReal,'
         + 'psrDoubleAB,psrDoubleABDFM,psrDoubleABSpinCal,qLockRadialAudit,qLockRadialAuditQ3,saturnRingReal,saturnRingRealKF1,saturnZonalD68,'
