@@ -2273,6 +2273,35 @@ const DRAG_CH_CLAMPS = { qTrans:[0,40], gasCoh:[0,1], D0pull:[0,1e6], gravMag:[0
 // 値域は正気度クランプ [−1e16, 1e16](実較正系で観測に効く λ は 10¹⁴〜10¹⁵ 台 — PHYSICS §「第245便」)。
 // 既定 0 は ph へ入れない(署名不変)・S.hasSpinSpin=false で step から 1 度も呼ばれない(1 bit 不変)。
 const SPIN_SPIN_KEY = "spinSpin", SPIN_SPIN_CLAMP = [-1e16, 1e16];
+// ===== 第249便c(第41報 W3・3審査 v7 の第一候補「案A」): physics.axisForce =====
+// **有限範囲の二極軸ポテンシャル**(玩具の opt-in・既定 OFF)。原仮定者(第41報)の見立て
+// 「銀河が回転していなければ、真っ直ぐな棒状に恒星が集まる。まるで静電気の様に棒状に恒星を
+//  引き寄せる力を仮定する/中心には腕を発生させる軸がある/棒形成力は外縁までは届かない」
+// を、**軸に沿う方向だけを好む有限到達の角度ポテンシャル**として書いたものである。
+//   軸 e=(cosφ,sinφ)・e⊥=(−sinφ,cosφ)・d=r_i−r_src・u=e·d・v=e⊥·d(u²+v²=|d|²)として
+//     Φ_A(d) = −A·exp(−|d|²/R_b²)·(u²−v²)/(|d|²+r_c²)      [単位質量あたり]
+//     F_i = −m_i∇Φ_A
+//   ・u²−v² = |d|²cos2(θ−φ) なので π 回転で同じ = **二極**(m=2 の腕・棒が自然に出る)
+//   ・exp(−|d|²/R_b²) が**有限到達**(R_b が棒の到達長 — 外縁には届かない)
+//   ・r_c は原点の正則化(|d|→0 で有限)
+// **DFM の公理からの帰結ではない**(petersGW・spinSpin と同じ外部オーバーレイの枠)。
+// 磁荷・電荷・実在の磁場を主張しない — 「軸に沿う選択的引力」を表すトイ有効ポテンシャルである。
+// **実宇宙の渦状腕理論・ダークマターの主張ではない**(T4)。
+//   宣言: physics.axisForce={A, Rb, rc, axis:"spin"|<角度 rad>, source:<中心天体 index 既定 0>, omegaAxis?}
+//   ・axis が数値なら**空間に固定した宣言値**、"spin" なら中心天体のコア軸(coreJx/coreJy)の
+//     面内方位(コアが無い/面内成分ゼロなら 0)。omegaAxis を宣言すると φ(t)=φ₀+Ω_axis·t の**外部駆動**
+//   ・**反作用**: 各星への力の合計 −ΣF_i を中心天体へ(運動量厳密)、軸トルク −Σ(d_i×F_i)_z を
+//     中心天体の殻スピンへ(角運動量厳密。殻 spin の値域 ±40 に当たった分だけリザーバ帳簿 resL へ)
+//   ・**エネルギー**: φ 固定なら保存力なので U_axis=Σ m_iΦ_A を S.axisU に持つ(E 台帳の読み口)。
+//     φ が時間変化する構成(axis:"spin" でコアが歳差する・omegaAxis≠0)は**外部駆動**であり、
+//     現位置で評価した ΔU(φ_new)−ΔU(φ_old) を S.axisWorkE へ記帳する(閉じた系ではない宣言)
+//   ・**軸は反作用で回らない**: 案A の I_b Ω̇_b=−Σm_i(r_i×a_i)_z は本便では未実装で、
+//     軸の向きは宣言(またはコア J の方位)である。その分は上の axisWorkE に現れる
+// **未宣言(または A=0)は 1 bit 不変**: A=0 は ph へ入れない(署名・エクスポート JSON が
+// 1 文字も変わらない)・S.hasAxisForce=false で S.step の真偽値 1 つを読んで素通りする。
+const AXIS_FORCE_KEY = "axisForce";
+const AXIS_FORCE_CLAMPS = { A:[-1e6,1e6], Rb:[0.01,1e5], rc:[1e-6,1e5], omegaAxis:[-100,100] };
+const AXIS_FORCE_DEFAULT = { Rb:100, rc:1, axis:0, source:0 };
 // 第246便(ChatGPT v4 §5.3/5.4): コアv2 の**実行状態**の値域(編集入口 S.applyCoreEdit が使う)。入力の値域(検証器 vCore:
 // massFrac 0.01〜0.95・Ω ±50)はプリセット/AI 生成の推奨範囲で、収縮(Ω↑)や放出(massFrac↑)を経た実行状態はこれを
 // 超えて正当。有限殻 0<Mc<M(massFrac<1)は維持(Mc=M の裸のコアは終端状態の別設計 — S4 第 2 段)
@@ -5008,7 +5037,7 @@ const BUILTIN_PRESETS = [
     {q:"言わないこと", model:"**実宇宙の棒渦巻銀河・渦状腕理論・ダークマターの主張ではない**(T4)。棒の寿命や共鳴の再現でもない", obs:"—"}],
   descStruct:{
     summary:"棒渦巻銀河の**見た目**を、ローターの棒+配置則の腕で組み上げた原理サンプル(第248便c)。原仮定者の見立て「棒渦巻銀河は、中心天体群が、分子や連なった磁石の様に安定している」をそのまま形にした。中心には **ダークローター 5 体**(半径 18・スピン 2.0・減光 1)を x=0,±60,±120 の等間隔直線に並べ、剛体回転の初速 v=Ω×r と**共通のスピン向き**(E6′ の共回転)を与えてある。**質量と Ω は選んだ値ではなく解いた値である**: 両端対を m=300 に決めると、5 体の共線鎖が剛体回転の**相対平衡**(内側対と外側対が同じ Ω で同時に円運動する)になる条件から、中心の質量 **M₀=420.063690** と **Ω=0.03245021**(回転周期 約12,100 步)が一意に決まる — これが「分子・連なった磁石のように安定している」の中身である。🕶️ の対向 2 ローター(x=±200・m150・R18・spin2.0)をスケール調整して 5 体へ伸ばした構成で、**新しい力は 1 つも足していない**(重力磁気ダイポールもスピン軌道結合もばね結合も採らない — 3審査 v6 の一致)。そのまわりに回転支持の円盤(140 体・r=170〜300)と、**棒の両端から出る 2 本腕**(180 体)を置く。腕は 🍥 と同じ配置則 **φ_k(r)=φ0+2πk/m−ln(r/r0)/tan(i)+δφ**(m=2・i=25°・r0=130・φ0=0 と π = 棒の向き・δφ=±15/r)で、t=0 に 1 回だけ評価した固定座標である。**腕は配置則で置いたのであって、棒の動力学から生えたのではない。** 全 325 体が自由(pinned なし・境界なし)で、生成時に 1 回だけ重心系へ移してある。",
-    observe:"実測(tests/exp-w248c.mjs・12000步=t192・dt=0.016 固定・粒子 325): ①**棒は相対平衡から始まり、しばらく直線を保つ** — 端点の位置角差(内側対 ±60 と外側対 ±120 の間、および両端どうしの最大値)は t=0 で 0.00°、2000步でも **0.62°**(このとき棒長の収縮は r_in 60→57.3・r_out 120→113.3 の 6% に留まる)。**5° を超えるのが 3250步(t=52)・15° を超えるのが 4000步(t=64)**。②**その先は崩れる** — 共線配置は一般に**線形不安定**なので、厳密な相対平衡から始めても摂動は育つ。6000步で曲がり 20.8°、8000步には内側対のほうが外に出て(r_in 150.2・r_out 102.5)順序が入れ替わり、12000步には 5 体が r≈220〜245 へ散る。**原仮定者の「分子や連なった磁石の様に安定している」は、この宇宙の法則の内側では「相対平衡はちょうど 1 つ存在し、そこから数千步は直線を保つが、共線鎖である以上いつかは解ける」という形で実現する。**③**腕は走行中ずっと見えている** — A2 帯平均(環帯[140,180][180,220][220,260][260,300])は 0.526(t=0)→0.449(3000步)→0.272(6000步・最小)→0.465(12000步)で、**12000步を通して 2×ノイズ床(0.21→0.28)を割らない**(🍥 の 7500步より長い — 外側の帯ほど公転周期が長く、巻き込みが遅いためである)。ピッチ角は t=0 で **26.5°・後行**(配置 i=25° を回収)→20.9°(1500步)→14.4°(3000步)→10.2°(4500步)。④健全性: 恒星保持 95.6%・NaN 0・速度クランプ 0・|ΔL|/L_scale=6.9×10⁻⁷。※**腕は配置則で置いた — 棒の動力学から生えたのではない。** ※**実宇宙の棒渦巻銀河・渦状腕理論・ダークマターの主張ではない**(T4)。棒の寿命や共鳴(ILR/OLR)の再現でもない。**claim 窓(regression window)は 1 つも張っていない。**",
+    observe:"実測(tests/exp-w248c.mjs・12000步=t192・dt=0.016 固定・粒子 325): ①**棒は相対平衡から始まり、しばらく直線を保つ** — 端点の位置角差(内側対 ±60 と外側対 ±120 の間、および両端どうしの最大値)は t=0 で 0.00°、2000步でも **0.62°**(このとき棒長の収縮は r_in 60→57.3・r_out 120→113.3 の 6% に留まる)。**5° を超えるのが 3250步(t=52)・15° を超えるのが 4000步(t=64)**。②**その先は崩れる** — 共線配置は一般に**線形不安定**なので、厳密な相対平衡から始めても摂動は育つ。6000步で曲がり 20.8°、8000步には内側対のほうが外に出て(r_in 150.2・r_out 102.5)順序が入れ替わり、12000步には 5 体が r≈220〜245 へ散る。**原仮定者の「分子や連なった磁石の様に安定している」は、この宇宙の法則の内側では「相対平衡はちょうど 1 つ存在し、そこから数千步は直線を保つが、共線鎖である以上いつかは解ける」という形で実現する。**③**腕は走行中ずっと見えている** — A2 帯平均(環帯[140,180][180,220][220,260][260,300])は 0.526(t=0)→0.449(3000步)→0.272(6000步・最小)→0.465(12000步)で、**12000步を通して 2×ノイズ床(0.21→0.28)を割らない**(🍥 の 7500步より長い — 外側の帯ほど公転周期が長く、巻き込みが遅いためである)。ピッチ角は t=0 で **26.5°・後行**(配置 i=25° を回収)→20.9°(1500步)→14.4°(3000步)→10.2°(4500步)。④健全性: 恒星保持 95.6%・NaN 0・速度クランプ 0・|ΔL|/L_scale=6.9×10⁻⁷。※**腕は配置則で置いた — 棒の動力学から生えたのではない。** ※**実宇宙の棒渦巻銀河・渦状腕理論・ダークマターの主張ではない**(T4)。棒の寿命や共鳴(ILR/OLR)の再現でもない。**claim 窓(regression window)は 1 つも張っていない。**※第249便c 追記: 本サンプルは案A(physics.axisForce)の**崩壊の負対照**でもある — 棒を支える力を持たない共線ローター鎖はいつか解けるので、🥢🎏🎚️ の軸ポテンシャルと並べて「棒を何が支えているか」を対で読める(数値・bodies は 1 bit も変えていない)。",
     control:"おすすめA/B: **kFrame=0** で引きずりを切ると、棒は純重力の 5 体問題になる — 棒の保持がどこまで引きずりのおかげかが分かる。ローターをタップして **spin を 0** にすると共回転の見立てが消える。**G** を上げると棒が縮み、下げるとほどける。棒そのものの長さ・間隔・体数を変えたいときは配置が初期条件なので別サンプルが要る(スライダーには無い)。"},
   en:{name:"Barred Spiral — a Bar of Chained Rotors", obsCard:[
     {q:"What is the bar made of?", model:"Five dark rotors (outer pairs m=300, CENTER M0=420.06, R=18, spin 2.0, dimming 1) at x = 0, +-60, +-120, rigidly rotating at Omega=0.03245021. All of them free", obs:"— (a principle sample; no observation is transcribed)"},
@@ -5020,7 +5049,7 @@ const BUILTIN_PRESETS = [
     {q:"What this does not claim", model:"NOT a claim about real barred spirals, spiral-arm theory or dark matter (T4). Not a reproduction of bar lifetimes or resonances", obs:"—"}],
     descStruct:{
     summary:"A principle sample that builds the LOOK of a barred spiral from a bar of rotors plus rule-placed arms (wave 248c). It renders the original hypothesist's image directly: “in a barred spiral the central bodies are stable, like a molecule or a chain of magnets.” FIVE DARK ROTORS (radius 18, spin 2.0, dimming 1) are lined up at x = 0, +-60, +-120, given a rigid-rotation velocity v = Omega x r and a COMMON SPIN SENSE (co-rotation, E6'). THE MASSES AND OMEGA WERE SOLVED FOR, NOT CHOSEN: fix the two outer pairs at m=300, and the requirement that the five-body collinear chain be a RELATIVE EQUILIBRIUM under rigid rotation (inner and outer pairs both on circular orbits at the same Omega) fixes the central mass at M0 = 420.063690 and Omega = 0.03245021 (a rotation period of about 12,100 steps) uniquely. That is what being stable like a molecule or a chain of magnets amounts to here. It extends the two opposing rotors of the dark-rotor galaxy (x=+-200, m=150, R=18, spin 2.0) to a chain of five at a rescaled separation, and NOT ONE NEW FORCE IS ADDED (no gravitomagnetic dipole, no spin-orbit coupling, no spring bonds — the agreement of the three reviews). Around it sit a rotation-supported disk (140 stars, r=170-300) and TWO ARMS LEAVING THE ENDS OF THE BAR (180 stars). The arms use the same placement rule as the face-on sample, phi_k(r) = phi0 + 2*pi*k/m - ln(r/r0)/tan(i) + delta_phi (m=2, i=25 deg, r0=130, phi0 = 0 and pi = the bar's direction, delta_phi = +-15/r), evaluated once at t=0 and baked in. THE ARMS WERE PLACED BY A RULE; THEY DID NOT GROW OUT OF THE BAR'S DYNAMICS. All 325 bodies are free (no pins, no boundary), shifted once into the barycentric frame at build time.",
-    observe:"Measured (tests/exp-w248c.mjs, 12000 steps = t192, dt fixed at 0.016, 325 particles). (1) THE BAR STARTS AT A RELATIVE EQUILIBRIUM AND HOLDS ITS LINE FOR A WHILE: the end-point position-angle difference (between the inner pair at +-60 and the outer pair at +-120, and between the two ends, taking the largest) is 0.00 deg at t=0 and still only 0.62 deg at 2000 steps, where the bar has contracted by just 6% (r_in 60 to 57.3, r_out 120 to 113.3). IT PASSES 5 DEG AT 3250 STEPS (t=52) AND 15 DEG AT 4000 STEPS (t=64). (2) AFTER THAT IT COMES APART: collinear configurations are generically LINEARLY UNSTABLE, so perturbations grow even from an exact relative equilibrium. The bend is 20.8 deg at 6000 steps; by 8000 steps the inner pair has moved outside the outer pair (r_in 150.2 against r_out 102.5) and the ordering has swapped; by 12000 steps all five have scattered to r about 220-245. SO THE IMAGE OF BEING STABLE LIKE A MOLECULE OR A CHAIN OF MAGNETS COMES OUT, INSIDE THIS UNIVERSE, AS: there is exactly one relative equilibrium, it holds its line for a few thousand steps, and being a collinear chain it eventually unwinds. (3) THE ARMS STAY VISIBLE THROUGHOUT: the A2 band mean (annuli [140,180][180,220][220,260][260,300]) runs 0.526 (t=0), 0.449 (3000 steps), 0.272 (6000, its minimum), 0.465 (12000), NEVER FALLING BELOW TWICE THE NOISE FLOOR (0.21 rising to 0.28) over the whole 12000 steps — longer than the face-on sample 7500, because the outer annuli have longer orbital periods and wind up more slowly. The pitch angle is 26.5 deg TRAILING at t=0 (recovering the placed i=25 deg), then 20.9 (1500 steps), 14.4 (3000) and 10.2 (4500). (4) Health: 95.6% of the stars retained, zero NaN, zero velocity clamps, |dL|/L_scale = 6.9e-7. THE ARMS WERE PLACED BY A RULE; THEY DID NOT GROW OUT OF THE BAR DYNAMICS. Not a claim about real barred spirals, spiral-arm theory or dark matter (T4), and not a reproduction of bar lifetimes or resonances (ILR/OLR). NOT ONE REGRESSION WINDOW IS DECLARED.",
+    observe:"Measured (tests/exp-w248c.mjs, 12000 steps = t192, dt fixed at 0.016, 325 particles). (1) THE BAR STARTS AT A RELATIVE EQUILIBRIUM AND HOLDS ITS LINE FOR A WHILE: the end-point position-angle difference (between the inner pair at +-60 and the outer pair at +-120, and between the two ends, taking the largest) is 0.00 deg at t=0 and still only 0.62 deg at 2000 steps, where the bar has contracted by just 6% (r_in 60 to 57.3, r_out 120 to 113.3). IT PASSES 5 DEG AT 3250 STEPS (t=52) AND 15 DEG AT 4000 STEPS (t=64). (2) AFTER THAT IT COMES APART: collinear configurations are generically LINEARLY UNSTABLE, so perturbations grow even from an exact relative equilibrium. The bend is 20.8 deg at 6000 steps; by 8000 steps the inner pair has moved outside the outer pair (r_in 150.2 against r_out 102.5) and the ordering has swapped; by 12000 steps all five have scattered to r about 220-245. SO THE IMAGE OF BEING STABLE LIKE A MOLECULE OR A CHAIN OF MAGNETS COMES OUT, INSIDE THIS UNIVERSE, AS: there is exactly one relative equilibrium, it holds its line for a few thousand steps, and being a collinear chain it eventually unwinds. (3) THE ARMS STAY VISIBLE THROUGHOUT: the A2 band mean (annuli [140,180][180,220][220,260][260,300]) runs 0.526 (t=0), 0.449 (3000 steps), 0.272 (6000, its minimum), 0.465 (12000), NEVER FALLING BELOW TWICE THE NOISE FLOOR (0.21 rising to 0.28) over the whole 12000 steps — longer than the face-on sample 7500, because the outer annuli have longer orbital periods and wind up more slowly. The pitch angle is 26.5 deg TRAILING at t=0 (recovering the placed i=25 deg), then 20.9 (1500 steps), 14.4 (3000) and 10.2 (4500). (4) Health: 95.6% of the stars retained, zero NaN, zero velocity clamps, |dL|/L_scale = 6.9e-7. THE ARMS WERE PLACED BY A RULE; THEY DID NOT GROW OUT OF THE BAR DYNAMICS. Not a claim about real barred spirals, spiral-arm theory or dark matter (T4), and not a reproduction of bar lifetimes or resonances (ILR/OLR). NOT ONE REGRESSION WINDOW IS DECLARED. Added in wave 249c: this sample is also the NEGATIVE CONTROL FOR COLLAPSE against proposal A (physics.axisForce) — a collinear rotor chain with nothing holding the bar together eventually comes apart, so reading it beside the axis-potential samples shows what is holding a bar up (not one bit of its numbers or bodies was changed).",
     control:"Suggested A/B: kFrame=0 switches off dragging and leaves a pure-gravity five-body bar, showing how much of the bar's coherence the dragging was providing. Tap a rotor and set its spin to 0 to break the co-rotation picture. Raising G shrinks the bar, lowering it unwinds. The bar's length, spacing and body count are initial conditions, so changing them needs another sample rather than a slider."}},
   activeParams:["kFrame","G","D0"],
   validT:192,   // 実測窓(12000步=t192)。棒の直線保持は本文のとおり内側の部分窓
@@ -5113,6 +5142,141 @@ const BUILTIN_PRESETS = [
 
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:true} },
+// ===== 第249便c(第41報 W3・3審査 v7 の第一候補「案A」): 軸ポテンシャルの原理サンプル 3 本 =====
+// 原仮定者(第41報)の見立てを、**配置則ではなく力**で試す 3 本。共通の初期円盤(中心天体 1 体 m=2500・
+// R=15・spin1.2・**自由**+恒星 320 体の軸対称円盤 r≤260・seed 20260909)を使い、
+//   🥢 回転ゼロ + 強い軸力 → **真っ直ぐな棒**            (A=300・R_b=120)
+//   🎏 回転支持 + 弱い軸力 → **内側の棒 + 外側の 2 本腕** (A=15・R_b=110・軸の回転 Ω_b=0.04)
+//   🎚️ 回転ゼロ + 強い軸力・**R_b を半分**  → **短い棒**  (A=300・R_b=60)
+// の 3 通りだけを変える。**恒星の初期位置・質量は 3 本とも 1 体ずつ同一**(vMode:"none" と "kepler" は
+// 乱数消費が同じなので、速度だけが違う — QA/ハーネスで機械確認する)。
+// **claim 窓(regression window)は 1 つも張らない**(較正していないから — 第248便c と同じ方針)。
+// **ダークローターは入れない**(安定門〔受入条件 6 項目〕を通っていない — docs/PHYSICS.md〔第249便c〕)。
+{ id:"axisBarStill", name:"回転ゼロの棒 — 軸に集まる恒星", emoji:"🥢", group:"銀河の物語",
+  scaleTier:"galactic", sampleClass:"principle",
+  notClaim:["galaxy","dm"],
+  obsCard:[
+    {q:"何を試したか", model:"**配置則ではなく力**で棒を作る。physics.axisForce(案A)を宣言した軸対称円盤に、回転を与えずに走らせる", obs:"—(原理サンプル — 観測転写はしない)"},
+    {q:"式", model:"Φ_A=−A·exp(−d²/R_b²)·(u²−v²)/(d²+r_c²)(u=e·d・v=e⊥·d・e=軸)。A=300・R_b=120・r_c=6・軸は x 方向で固定", obs:"—"},
+    {q:"棒はできるか", model:"できる。A₂(全域)は 0.073(t=0)→ 500步 0.221 → 3000步 0.565。棒の長さは 500步で **140**(R_b=120 の約 1.2 倍)", obs:"—"},
+    {q:"外縁まで届くか", model:"**届かない**。500步の A₂ は r<140 で 0.78〜0.93、r>150 では 0.06〜0.29(雑音床 0.2 級)— 棒の端が R_b で決まる", obs:"—"},
+    {q:"反作用", model:"力の合計 −ΣF_i を中心天体へ・軸トルク −Σ(d×F)_z を中心天体のスピンへ返す(**外部駆動ではない** — Ω_axis 未宣言なので axisWorkE=0)", obs:"—"},
+    {q:"較正", model:"**していない**。claim 窓も regression window も付けない — 目的は見立ての検証である", obs:"—"},
+    {q:"言わないこと", model:"**実宇宙の渦状腕理論・ダークマターの主張ではない**(T4)。案A は DFM の公理からの帰結ではない外部オーバーレイの玩具である", obs:"—"}],
+  descStruct:{
+    summary:"**回転していない円盤に「軸へ引き寄せる力」を入れると、恒星が真っ直ぐな棒に集まる**ことを、配置則ではなく**力**で見せる原理サンプル(第249便c)。原仮定者(第41報)の見立て「銀河が回転していなければ、真っ直ぐな棒状に恒星が集まる。まるで静電気の様に棒状に恒星を引き寄せる力を仮定する」をそのまま式にした。足したのは **physics.axisForce**(3審査 v7 の第一候補「案A」— **有限範囲の二極軸ポテンシャル**)ひとつだけである。単位質量あたり **Φ_A=−A·exp(−|d|²/R_b²)·(u²−v²)/(|d|²+r_c²)**(d=中心天体からの相対位置・u=e·d・v=e⊥·d・e=(cosφ,sinφ)=軸)で、力は F=−m∇Φ_A。u²−v²=|d|²cos2(θ−φ) なので **π 回転で同じ = 二極**(腕の本数を増やすノブは持たない — 見立てが 2 極だからである)、exp(−|d|²/R_b²) が **有限の到達長 R_b**(= 棒は外縁まで届かない)、r_c が中心の正則化である。本サンプルは **A=300・R_b=120・r_c=6・軸は x 方向で固定**。初期条件は中心天体 1 体(m=2500・R=15・スピン 1.2・**pinned ではない**)+**軸対称の円盤 320 体**(r≤260・速度ゼロ = 回転支持なし)だけで、腕も棒も**置いていない**。**反作用を取る**: 各星への力の合計 −ΣF_i を中心天体へ(運動量厳密)、軸トルク −Σ(d_i×F_i)_z を中心天体の殻スピンへ(角運動量厳密)返すので、この宇宙の帳簿は閉じたままである。Ω_axis を宣言していないので**保存力**で、外部駆動の仕事は厳密に 0。**案A は DFM の公理からの帰結ではない**(petersGW・spinSpin と同じ外部オーバーレイの枠の玩具である)。",
+    observe:"実測(tests/exp-w249c.mjs・3000 步=t48・dt=0.016 固定・321 体): ①**軸対称から棒が生える** — A₂ 帯平均(環帯[40,80][80,120][120,160][160,200])は t=0 で 0.121 = **雑音床 0.137 を下回る**(=構造なし)ところから、500 步 0.557・1000 步 0.775・1500 步 0.788(峰)へ立ち上がる。全域 A₂ も 0.073→0.565(3000 步)。**置いた形が減衰する第248便c の 3 本(🍥🪁🍢)とは向きが逆である。** ②**棒の端は R_b が決める** — 500 步の半径プロファイルは r<140 で A₂ 0.78〜0.93、r>150 では 0.06〜0.29(雑音床 0.2 級)。**棒の長さ 140 は R_b=120 の 1.17 倍**で、その外側は軸対称のまま残る = 見立ての「棒は銀河の外縁までは届かない」がそのまま出る。③**濃さは A・長さは R_b** — 同じ円盤・同じ 500 步で A を半分(150)にしても棒長はほとんど動かない(R_b=60 で 80・R_b=120 で 120)。R_b を変えると 60→80・80→120・120→140・200→180 と**単調に伸びる**(🎚️ を参照)。④**回転支持が無いので円盤は縮む** — 保持は 1000 步まで 100%、3000 步で 86.3%(自由落下で中心へ落ち、一部が散る)。ピッチ角の当てはめは 500 步 54.8°→1500 步 89.9°で、**90° に近づく = 巻いていない直線**という読み方をする。⑤健全性: NaN 0・速度クランプ 0・スピンクランプ 0・|ΔP|/P=6.0×10⁻⁶・|ΔL|/L=1.3×10⁻⁶(321 体 Float32 の床)・**外部駆動の仕事 axisWorkE=0(厳密)**。重力を切った玩具では反作用の残差が |ΔP|/P=3.3×10⁻¹⁷・|ΔL|/L=1.4×10⁻¹⁶(QA behavior.axisForce-conservation)。※**実宇宙の渦状腕理論・ダークマターの主張ではない**(T4)。**claim 窓(regression window)は 1 つも張っていない。**",
+    control:"おすすめA/B: JSON の **physics.axisForce.A を 0** にすると軸の力が完全に消え、**未宣言とビット同一**の自由落下する軸対称円盤に戻る(= 棒は軸力だけが作っている、の否定対照)。**R_b** を変えると棒の長さが変わる(🎚️ が R_b=60 の対照)。**axis** に角度(rad)を入れると棒の向きが変わる。回転を入れた版が 🎏 で、**同じ強さ A=300 を回転円盤に入れると円盤の 12.5% が散る**(だから 🎏 は A=15 である)。"},
+  en:{name:"A Bar With No Rotation — Stars Gathering Onto the Axis", obsCard:[
+    {q:"What is being tried?", model:"A BAR MADE BY A FORCE, not by a placement rule: physics.axisForce (proposal A) is declared on an axisymmetric disk that is given no rotation at all", obs:"— (a principle sample; no observation is transcribed)"},
+    {q:"The formula", model:"Phi_A = -A exp(-d^2/Rb^2) (u^2-v^2)/(d^2+rc^2), with u = e.d, v = e_perp.d and e the axis. A=300, Rb=120, rc=6, axis fixed along x", obs:"—"},
+    {q:"Does a bar form?", model:"Yes. The global A2 runs 0.073 (t=0), 0.221 (500 steps), 0.565 (3000). The bar length at 500 steps is 140, about 1.2 Rb", obs:"—"},
+    {q:"Does it reach the rim?", model:"NO. At 500 steps A2 is 0.78-0.93 inside r=140 and only 0.06-0.29 beyond r=150 (the noise floor is about 0.2) — the bar ends where Rb says", obs:"—"},
+    {q:"Reaction", model:"The summed force -sum(F_i) goes to the central body and the axis torque -sum(d x F)_z into its spin. NOT externally driven (no Omega_axis is declared, so axisWorkE = 0)", obs:"—"},
+    {q:"Calibration", model:"NONE. No claim window and no regression window — the point is to test the image, not to fit anything", obs:"—"},
+    {q:"What this does not claim", model:"NOT a claim about real spiral-arm theory or dark matter (T4). Proposal A is a toy overlay, not a consequence of the DFM axioms", obs:"—"}],
+    descStruct:{
+    summary:"A principle sample that makes a bar WITH A FORCE rather than with a placement rule (wave 249c). It renders the original hypothesist's image directly: if the galaxy is not rotating, the stars gather into a straight bar, as if a static-electric force pulled them onto a rod. Exactly one thing is added: physics.axisForce, the first candidate of the three reviews (proposal A) — A FINITE-RANGE TWO-POLE AXIS POTENTIAL. Per unit mass Phi_A = -A exp(-|d|^2/Rb^2) (u^2-v^2)/(|d|^2+rc^2), with d the position relative to the central body, u = e.d, v = e_perp.d and e = (cos phi, sin phi) the axis; the force is F = -m grad Phi_A. Since u^2-v^2 = |d|^2 cos 2(theta-phi), the potential is UNCHANGED BY A HALF TURN, i.e. TWO-POLE (there is no knob for more arms — the image is a dipole), exp(-|d|^2/Rb^2) gives it a FINITE REACH Rb (the bar does not get to the rim) and rc regularises the centre. Here A=300, Rb=120, rc=6 and the axis is fixed along x. The initial state is one central body (m=2500, R=15, spin 1.2, NOT PINNED) plus an AXISYMMETRIC DISK of 320 stars (r <= 260) at rest — no arms and no bar are placed. THE REACTION IS TAKEN: the summed force -sum(F_i) goes to the central body (momentum exact) and the axis torque -sum(d_i x F_i)_z into its shell spin (angular momentum exact), so the ledger stays closed. No Omega_axis is declared, so the force is conservative and the external work is exactly zero. PROPOSAL A IS NOT A CONSEQUENCE OF THE DFM AXIOMS — it is a toy in the same external-overlay frame as petersGW and spinSpin.",
+    observe:"Measured (tests/exp-w249c.mjs, 3000 steps = t48, dt fixed at 0.016, 321 bodies). (1) A BAR GROWS OUT OF AN AXISYMMETRIC DISK: the A2 band mean (annuli [40,80][80,120][120,160][160,200]) starts at 0.121, BELOW the 0.137 noise floor (no structure), and rises to 0.557 (500 steps), 0.775 (1000) and 0.788 (1500, its peak); the global A2 runs 0.073 to 0.565. That is the opposite direction from the three wave-248c samples, whose placed shapes only decay. (2) THE END OF THE BAR IS SET BY Rb: at 500 steps the radial profile is A2 0.78-0.93 inside r=140 and 0.06-0.29 beyond r=150 (the noise floor is about 0.2). The bar length 140 is 1.17 times Rb=120 and everything outside stays axisymmetric — exactly the image that the bar does not reach the rim. (3) A SETS THE CONTRAST, Rb SETS THE LENGTH: halving A to 150 barely moves the length (80 at Rb=60, 120 at Rb=120), while changing Rb moves it monotonically: 60 to 80, 80 to 120, 120 to 140, 200 to 180. (4) WITHOUT ROTATION SUPPORT THE DISK CONTRACTS: 100% of the stars are retained through 1000 steps and 86.3% at 3000. The pitch-angle fit runs 54.8 degrees at 500 steps to 89.9 at 1500 — approaching 90 degrees, i.e. NOT WOUND, a straight line. (5) Health: zero NaN, zero velocity clamps, zero spin clamps, |dP|/P = 6.0e-6, |dL|/L = 1.3e-6 (the Float32 floor for 321 bodies) and axisWorkE exactly 0. In a gravity-free toy the reaction residuals are 3.3e-17 and 1.4e-16 (QA behavior.axisForce-conservation). Not a claim about real spiral arms or dark matter (T4). NOT ONE REGRESSION WINDOW IS DECLARED.",
+    control:"Suggested A/B: setting physics.axisForce.A to 0 in the JSON removes the axis force completely and returns a BIT-IDENTICAL free-falling axisymmetric disk — the negative control showing the bar is made by the axis force alone. Changing Rb changes the bar length (the reach sample runs Rb=60). Putting an angle in radians into axis turns the bar. The rotating version is the arms sample; note that its A=15 is deliberate, since putting this A=300 into a rotating disk scatters 12.5% of the stars."}},
+  activeParams:["kFrame","G","D0"],
+  validT:48,
+  balanceFrame:"barycentric",
+  camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260909,
+  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:3, timeScale:3, stateCarry:"double",
+    axisForce:{A:300, Rb:120, rc:6, axis:0, source:0}},
+  bodies:[
+    {type:"single", m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:false, radius:15},
+    {type:"disk", rMul:1.2, n:320, cx:0,cy:0, radius:260, mMin:0.16,mMax:0.5,
+     spinMin:0,spinMax:0, vMode:"none", aroundMass:2500, vScale:1, direction:1,
+     omega:0, vNoise:0, bulkVx:0, bulkVy:0, pinned:false}],
+  overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false} },
+
+{ id:"axisBarArms", name:"内側の棒と外側の2本腕 — 回転する円盤", emoji:"🎏", group:"銀河の物語",
+  scaleTier:"galactic", sampleClass:"principle",
+  notClaim:["galaxy","dm"],
+  obsCard:[
+    {q:"🥢 との違い", model:"**円盤に回転支持を与えた**(恒星の初期位置・質量は 🥢 と 1 体ずつ同一)。軸力は弱く A=15・R_b=110・軸の回転 Ω_b=0.04", obs:"—(原理サンプル — 観測転写はしない)"},
+    {q:"何が出るか", model:"内側は棒(位相 ψ がほぼ一定)、外へ行くほど巻き込む **後行の 2 本腕**。3000步で A₂ 帯平均 0.560・ピッチ角 42.6°・後行(保持 100%)", obs:"—"},
+    {q:"棒の外はどうなるか", model:"差動回転で流される。r>190 の A₂ は 0.06〜0.29 = 雑音床 — **軸力の到達(R_b)より外には構造が立たない**", obs:"—"},
+    {q:"軸は外部駆動", model:"Ω_axis=0.04 を宣言している(φ(t)=Ω_b·t)。**保存力ではない** — 場へ入れた仕事は S.axisWorkE に記帳する", obs:"—"},
+    {q:"回転が要る強さ", model:"🥢 の A=300 を回転円盤へ入れると 3000 步で保持が 100%→**87.5%** に落ちる。回転支持があれば **A=15 で足りる**(同窓 100%)", obs:"—"},
+    {q:"較正", model:"**していない**。claim 窓も regression window も付けない", obs:"—"},
+    {q:"言わないこと", model:"**実宇宙の渦状腕理論・密度波理論・ダークマターの主張ではない**(T4)。腕の寿命・共鳴の再現でもない", obs:"—"}],
+  descStruct:{
+    summary:"**同じ円盤に回転支持を与えると、内側は棒のまま、外へ行くほど巻き込む 2 本の腕になる**ことを見せる原理サンプル(第249便c)。恒星の初期位置と質量は 🥢 と **1 体ずつビット同一**で、違うのは(a)速度が回転支持 v_t=√(G·2500/r) であること、(b)軸ポテンシャル(案A)の強さと軸の回転だけである。式は 🥢 と同じ **Φ_A=−A·exp(−|d|²/R_b²)·(u²−v²)/(|d|²+r_c²)** で、本サンプルは **A=15(🥢 の 1/20)・R_b=110・r_c=6・軸の回転 Ω_axis=0.04**(φ(t)=Ω_b·t)。中心天体(m=2500・R=15・スピン 1.2)は **pinned ではない**ので反作用(並進 −ΣF_i と軸トルク)を実際に受ける。**引きずり(A8/E6′)は外縁まで到達している**(kFrame=1)ので、円盤を回しているのは既存の DFM の機構で、案A が足したのは棒と腕の角度をそろえる力だけである。**軸の回転は外部駆動である**: Ω_axis を宣言した瞬間にポテンシャルは時間に依存し、保存力ではなくなる — 場へ入れた仕事は S.axisWorkE に記帳して「閉じた系ではない」ことを宣言する(3審査 v7 の案A は軸自身の運動方程式 I_b Ω̇_b=−Σm_i(r_i×a_i)_z を持つが、**本便では未実装**であり、その分がこの仕事に現れる)。**案A は DFM の公理からの帰結ではない**(外部オーバーレイの玩具)。",
+    observe:"実測(tests/exp-w249c.mjs・6000 步=t96・dt=0.016 固定・321 体): ①**軸対称から後行の 2 本腕が生える** — A₂ 帯平均(環帯[60,100][100,140][140,180][180,220])は 0.154(t=0・雑音床 0.130)→ 1500 步 0.339 → **3000 步 0.560(峰)** → 5250 步 0.385。ピッチ角は 2250 步 23.4°・**3000 步 42.6°**・3750 步 34.2°・4500 步 48.8° で、**いずれも後行**(trailing — 🍥 の i=20°・🍢 の i=25° と同じ向き)。②**内側は棒・外側は巻き込み** — 3000 步の位相 ψ(r) は r=50 で −47.6°、70 で −42.2°、90 で −59.7°、110 で −66.3°、130 で −74.9°、150 で −90°、170 で −99.3° と**単調に減る**(= 巻き込み)。A₂ は r=90〜170 で 0.53〜0.92。③**棒の外は流される** — **r>190 では A₂ が 0.06〜0.29 = 雑音床まで落ちる**。軸力の到達 R_b=110 より外には構造が立たず、差動回転が形を消す。④**強さは回転の有無で桁が違う(本便の負の発見)** — 同じ 3000 步窓で、この回転円盤に 🥢 の **A=300** を入れると A₂ 帯平均は 0.672 まで上がる代わりに**恒星の保持が 100%→87.5% に落ちる**。逆に回転ゼロの円盤へ **A=15** を入れると A₂ 帯平均 0.223・**棒の長さ 0**(A=300 なら 0.753・棒長 200)で棒が育たない。**「回転がゼロなら棒」は成り立つが、同じ強さの力で「回転すると腕」は成り立たない** — 案A の単一の到達長では棒と腕の役割を分けられず、**案D(棒の力と腕の力の到達長を分ける)が要る**、というのが本便の結論である(docs/PHYSICS.md〔第249便c〕)。⑤健全性: 保持 3000 步 100%・6000 步 91.6%・NaN 0・クランプ 0・|ΔP|/P=2.9×10⁻⁶・|ΔL|/L=2.0×10⁻⁶・**外部駆動の仕事 axisWorkE=−220(3000 步)/ −240(6000 步)**。※**実宇宙の渦状腕理論・密度波理論・ダークマターの主張ではない**(T4)。**claim 窓は 1 つも張っていない。**",
+    control:"おすすめA/B: **physics.axisForce.A を 0** にすると軸の力が消えて、ただの回転円盤(未宣言とビット同一)に戻る — 腕は軸力だけが作っている、の否定対照。**omegaAxis を 0** にすると軸が空間に固定され、腕の巻き込みが弱くなる(位相がそろわない)。**R_b** を伸ばすと構造の届く半径が伸び、**A** を上げると濃くなる代わりに円盤が散る。回転を止めた版が 🥢、R_b を半分にした版が 🎚️ である。"},
+  en:{name:"An Inner Bar and Two Outer Arms — the Rotating Disk", obsCard:[
+    {q:"What differs from the still disk", model:"THE DISK IS ROTATION-SUPPORTED (star positions and masses are identical body by body). The axis force is weak: A=15, Rb=110, axis pattern speed Omega_b=0.04", obs:"— (a principle sample; no observation is transcribed)"},
+    {q:"What comes out", model:"An inner bar (nearly constant phase) that winds up outward into TWO TRAILING ARMS. At 3000 steps the A2 band mean is 0.560 and the pitch angle 42.6 degrees, trailing", obs:"—"},
+    {q:"What happens outside the bar", model:"Differential rotation shears it away: beyond r=190 the A2 falls to 0.06-0.29, the noise floor — NO STRUCTURE STANDS UP BEYOND THE REACH Rb", obs:"—"},
+    {q:"The axis is externally driven", model:"Omega_axis=0.04 is declared (phi(t) = Omega_b t), so this is NOT a conservative force — the work put into the field is booked into S.axisWorkE", obs:"—"},
+    {q:"How strong it may be", model:"The still sample's A=300 drops the retention of a rotating disk from 100% to 87.5% over 3000 steps. With rotation support A=15 is enough (100% over the same window)", obs:"—"},
+    {q:"Calibration", model:"NONE. No claim window and no regression window", obs:"—"},
+    {q:"What this does not claim", model:"NOT a claim about real spiral arms, density-wave theory or dark matter (T4), and not a reproduction of arm lifetimes or resonances", obs:"—"}],
+    descStruct:{
+    summary:"A principle sample showing that the SAME disk, once it is rotation-supported, keeps a bar on the inside and winds up into TWO ARMS further out (wave 249c). The star positions and masses are BIT-IDENTICAL body by body to the still sample; what differs is (a) the velocities, now rotation support v_t = sqrt(G*2500/r), and (b) the strength and pattern speed of the axis potential (proposal A). The formula is the same, Phi_A = -A exp(-|d|^2/Rb^2) (u^2-v^2)/(|d|^2+rc^2), with A=15 (one twentieth of the still sample), Rb=110, rc=6 and an axis pattern speed Omega_axis=0.04, i.e. phi(t) = Omega_b t. The central body (m=2500, R=15, spin 1.2) is NOT PINNED and really takes the reaction (the summed force and the axis torque). Frame dragging (A8/E6') reaches the rim (kFrame=1), so the disk is being turned by the existing DFM mechanism and all proposal A adds is the force that lines up the angles. THE ROTATION OF THE AXIS IS EXTERNALLY DRIVEN: declaring Omega_axis makes the potential time dependent and no longer conservative, so the work put into the field is booked into S.axisWorkE as an explicit statement that this is not a closed system (the three reviews' proposal A carries an equation of motion for the axis itself, I_b dOmega_b/dt = -sum m_i (r_i x a_i)_z, WHICH THIS WAVE DOES NOT IMPLEMENT; that omission is what shows up as this work). Proposal A is NOT a consequence of the DFM axioms.",
+    observe:"Measured (tests/exp-w249c.mjs, 6000 steps = t96, dt fixed at 0.016, 321 bodies). (1) TWO TRAILING ARMS GROW OUT OF AN AXISYMMETRIC DISK: the A2 band mean (annuli [60,100][100,140][140,180][180,220]) runs 0.154 at t=0 (noise floor 0.130), 0.339 (1500 steps), 0.560 (3000, its peak) and 0.385 (5250). The pitch angle is 23.4 degrees at 2250 steps, 42.6 at 3000, 34.2 at 3750 and 48.8 at 4500 — ALL TRAILING, the same sense as the placement-rule samples. (2) A BAR INSIDE, WINDING OUTSIDE: at 3000 steps the phase psi(r) falls monotonically, -47.6 degrees at r=50, -42.2 at 70, -59.7 at 90, -66.3 at 110, -74.9 at 130, -90 at 150 and -99.3 at 170, with A2 between 0.53 and 0.92 over r = 90-170. (3) OUTSIDE THE BAR IT IS SHEARED AWAY: beyond r=190 the A2 falls to 0.06-0.29, the noise floor. Nothing stands up past the reach Rb=110; differential rotation erases it. (4) THE REQUIRED STRENGTH DIFFERS BY AN ORDER OF MAGNITUDE WITH AND WITHOUT ROTATION (the negative finding of this wave): over the same 3000-step window, putting the still sample's A=300 into this rotating disk raises the A2 band mean to 0.672 but drops the retention from 100% to 87.5%; conversely putting A=15 into the non-rotating disk gives an A2 band mean of 0.223 and a BAR LENGTH OF 0 (against 0.753 and 200 at A=300). So 'no rotation gives a bar' holds, but 'the same force under rotation gives arms' does not — a single reach Rb cannot separate the roles of bar and arms, and proposal D (separate reaches for the bar force and the arm force) is needed. (5) Health: 100% of stars retained at 3000 steps, 91.6% at 6000, zero NaN, zero clamps, |dP|/P = 2.9e-6, |dL|/L = 2.0e-6, and axisWorkE = -220 at 3000 steps, -240 at 6000. Not a claim about real spiral arms, density-wave theory or dark matter (T4). NOT ONE REGRESSION WINDOW IS DECLARED.",
+    control:"Suggested A/B: setting physics.axisForce.A to 0 removes the axis force and leaves a plain rotating disk, bit-identical to not declaring it — the negative control showing the arms are made by the axis force alone. Setting omegaAxis to 0 fixes the axis in space and the winding weakens because the phases no longer line up. Raising Rb extends how far the structure reaches; raising A deepens it but scatters the disk. The non-rotating version is the still sample and the half-reach version is the reach sample."}},
+  activeParams:["kFrame","G","D0"],
+  validT:72,
+  balanceFrame:"barycentric",
+  camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260909,
+  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:3, timeScale:3, stateCarry:"double",
+    axisForce:{A:15, Rb:110, rc:6, axis:0, source:0, omegaAxis:0.04}},
+  bodies:[
+    {type:"single", m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:false, radius:15},
+    {type:"disk", rMul:1.2, n:320, cx:0,cy:0, radius:260, mMin:0.16,mMax:0.5,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2500, vScale:1, direction:1,
+     omega:0, vNoise:0, bulkVx:0, bulkVy:0, pinned:false}],
+  overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false} },
+
+{ id:"axisBarReach", name:"棒の到達長 R_b — 外縁までは届かない", emoji:"🎚️", group:"銀河の物語",
+  scaleTier:"galactic", sampleClass:"principle",
+  notClaim:["galaxy","dm"],
+  obsCard:[
+    {q:"🥢 との違い", model:"**R_b だけを半分にした**(120 → 60)。A=300・r_c=6・回転ゼロ・恒星の初期位置と質量は 🥢 と 1 体ずつ同一", obs:"—(原理サンプル — 観測転写はしない)"},
+    {q:"何が変わるか", model:"棒が短くなる。500步の棒の長さは **80**(🥢 は 140)— **棒の長さは R_b で決まる**(実測 L≈0.9〜1.5·R_b)", obs:"—"},
+    {q:"外側はどうなるか", model:"軸対称のまま残る。500步の A₂ は r>100 で 0.01〜0.2(雑音床)— 「棒形成力は外縁まで届かない」の直接の対照", obs:"—"},
+    {q:"R_b の掃引", model:"tests/exp-w249c.mjs が R_b=60/80/120/200 の棒長を同じ 500步で測る(60→80・80→120・120→140・200→180)", obs:"—"},
+    {q:"反作用", model:"🥢 と同じ(−ΣF_i を中心天体へ・軸トルクをスピンへ)。Ω_axis 未宣言なので保存力・axisWorkE=0", obs:"—"},
+    {q:"較正", model:"**していない**。claim 窓も regression window も付けない", obs:"—"},
+    {q:"言わないこと", model:"**実宇宙の棒渦巻銀河・渦状腕理論・ダークマターの主張ではない**(T4)", obs:"—"}],
+  descStruct:{
+    summary:"**「棒は銀河の外縁までは届かない」を、到達長 R_b だけを変えて示す対照サンプル**(第249便c)。🥢 と**同じ初期円盤**(恒星の位置・質量が 1 体ずつビット同一・回転ゼロ)・**同じ強さ A=300**・同じ r_c=6・同じ軸の向きで、**R_b を 120 から 60 へ半分にした**だけの版である。式は 🥢 と同じ **Φ_A=−A·exp(−|d|²/R_b²)·(u²−v²)/(|d|²+r_c²)** で、exp(−|d|²/R_b²) が力の到達長そのものを与える。原仮定者(第41報)の見立て「棒渦巻銀河は、棒状構造を形成する力が非常に強い為、安定している。**しかし、銀河の外縁までは届かない**」の、**ノブの側**の実験である。中心天体は 🥢 と同じく **pinned ではない**(反作用を受ける)。Ω_axis は宣言していないので**保存力**(外部駆動の仕事は厳密に 0)。**案A は DFM の公理からの帰結ではない**(外部オーバーレイの玩具)。**ダークローターは入れていない**(受入条件 6 項目〔拘束なし平衡・±1% 摂動・軸 50 回転・棒の曲がり/長さ/脱落/A₂ を別指標・dt/2 と複数 seed・帳簿の閉性〕を通していないため — docs/PHYSICS.md〔第249便c〕)。",
+    observe:"実測(tests/exp-w249c.mjs・3000 步=t48・dt=0.016 固定・321 体): ①**棒が短くなる** — 500 步の棒の長さ(中心から連続して A₂>0.5 を保つ最外縁)は **80**。🥢(R_b=120)の 140 に対して**短い**。500 步の半径プロファイルは r<90 で A₂ 0.68〜0.93、r>110 では 0.01〜0.21(雑音床 0.2 級)で、**外側の円盤は軸対称のまま残る**。②**棒の長さは R_b で決まる** — 同じ円盤・同じ A=300・同じ 500 步で R_b を掃引すると **R_b=60→棒長 80(L/R_b=1.33)・80→120(1.50)・120→140(1.17)・200→180(0.90)** と**単調に伸びる**。恒星の保持はどの R_b でも 500 步で 100%。③**A を変えても長さはほとんど動かない** — A=150 にすると R_b=60 で 80・R_b=120 で 120(A=300 では 80・140)。**長さを決めるのは R_b、濃さを決めるのが A** である(全域 A₂ は R_b=60 で 0.116・200 で 0.356)。④健全性: 3000 步で保持 90.9%(回転支持が無いので自由落下で縮む)・NaN 0・速度クランプ 0・スピンクランプ 0・|ΔP|/P=1.6×10⁻⁶・|ΔL|/L=1.1×10⁻⁶・**外部駆動の仕事 axisWorkE=0(厳密)**。※**実宇宙の棒渦巻銀河・渦状腕理論・ダークマターの主張ではない**(T4)。**claim 窓は 1 つも張っていない。**",
+    control:"おすすめA/B: **physics.axisForce.Rb** を 60↔120↔200 と変えると、棒の長さが 80↔140↔180 と動く(このサンプルの主題)。**A** を上げ下げすると濃さだけが変わる。**A=0** にすると未宣言とビット同一の自由落下円盤へ戻る。R_b=120 の版が 🥢、回転支持を足した版が 🎏 である。棒を「置いた」版(配置則)との対照は 🍢 で、そちらは**棒を支える力が無いので解ける**(崩壊の負対照)。"},
+  en:{name:"The Reach of the Bar, Rb — It Does Not Get to the Rim", obsCard:[
+    {q:"What differs from the still bar", model:"ONLY Rb IS HALVED (120 to 60). A=300, rc=6, no rotation, and the star positions and masses are identical body by body", obs:"— (a principle sample; no observation is transcribed)"},
+    {q:"What changes", model:"The bar gets shorter: 80 at 500 steps against 140 — THE BAR LENGTH IS SET BY Rb (measured L is about 0.9-1.5 Rb)", obs:"—"},
+    {q:"What happens outside", model:"It stays axisymmetric: beyond r=100 the A2 is 0.01-0.2, the noise floor — the direct control for 'the bar-forming force does not reach the rim'", obs:"—"},
+    {q:"The Rb sweep", model:"tests/exp-w249c.mjs measures the bar length at the same 500 steps for Rb = 60/80/120/200 (giving 80/120/140/180)", obs:"—"},
+    {q:"Reaction", model:"As in the still sample: -sum(F_i) to the central body, the axis torque into its spin. No Omega_axis is declared, so the force is conservative and axisWorkE = 0", obs:"—"},
+    {q:"Calibration", model:"NONE. No claim window and no regression window", obs:"—"},
+    {q:"What this does not claim", model:"NOT a claim about real barred spirals, spiral-arm theory or dark matter (T4)", obs:"—"}],
+    descStruct:{
+    summary:"A control sample that shows 'the bar does not get to the rim of the galaxy' by changing ONLY the reach Rb (wave 249c). It uses the SAME initial disk as the still sample (star positions and masses bit-identical body by body, no rotation), the SAME strength A=300, the same rc=6 and the same axis direction, with Rb HALVED from 120 to 60. The formula is unchanged, Phi_A = -A exp(-|d|^2/Rb^2) (u^2-v^2)/(|d|^2+rc^2), and the Gaussian factor is literally the reach of the force. This is the knob-side experiment for the original hypothesist's image: 'in a barred spiral the bar-forming force is very strong and therefore stable, BUT IT DOES NOT REACH THE RIM OF THE GALAXY.' The central body is NOT PINNED and takes the reaction. No Omega_axis is declared, so the force is conservative and the external work is exactly zero. Proposal A is NOT a consequence of the DFM axioms. NO DARK ROTOR IS INCLUDED, because the six acceptance conditions (an unconstrained equilibrium, +-1% perturbations, at least 50 axis rotations, bar bend / length / losses / A2 tracked separately, dt/2 and several seeds, and a closed ledger) have not been passed.",
+    observe:"Measured (tests/exp-w249c.mjs, 3000 steps = t48, dt fixed at 0.016, 321 bodies). (1) THE BAR GETS SHORTER: at 500 steps the bar length (the outermost annulus keeping A2 > 0.5 continuously from the centre) is 80, against 140 for Rb=120. The radial profile at 500 steps is A2 0.68-0.93 inside r=90 and only 0.01-0.21 beyond r=110 (noise floor about 0.2), so the outer disk STAYS AXISYMMETRIC. (2) THE LENGTH IS SET BY Rb: sweeping Rb on the same disk at the same A=300 and the same 500 steps gives 60 to 80 (L/Rb = 1.33), 80 to 120 (1.50), 120 to 140 (1.17) and 200 to 180 (0.90), monotonically. Retention is 100% at 500 steps for every Rb. (3) CHANGING A BARELY MOVES THE LENGTH: at A=150 it is 80 for Rb=60 and 120 for Rb=120 (against 80 and 140 at A=300). Rb SETS THE LENGTH, A SETS THE CONTRAST (the global A2 is 0.116 at Rb=60 and 0.356 at Rb=200). (4) Health: 90.9% of the stars retained at 3000 steps (without rotation support the disk falls in), zero NaN, zero velocity clamps, zero spin clamps, |dP|/P = 1.6e-6, |dL|/L = 1.1e-6 and axisWorkE exactly 0. Not a claim about real barred spirals, spiral-arm theory or dark matter (T4). NOT ONE REGRESSION WINDOW IS DECLARED.",
+    control:"Suggested A/B: moving physics.axisForce.Rb between 60, 120 and 200 moves the bar length between 80, 140 and 180 — the subject of this sample. Moving A changes only the contrast. Setting A to 0 returns a free-falling disk that is bit-identical to not declaring the force at all. The Rb=120 version is the still sample and the rotation-supported version is the arms sample. The contrast with a bar that was PLACED rather than grown is the chained-rotor sample, which comes apart because nothing holds its bar together."}},
+  activeParams:["kFrame","G","D0"],
+  validT:48,
+  balanceFrame:"barycentric",
+  camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260909,
+  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:3, timeScale:3, stateCarry:"double",
+    axisForce:{A:300, Rb:60, rc:6, axis:0, source:0}},
+  bodies:[
+    {type:"single", m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:false, radius:15},
+    {type:"disk", rMul:1.2, n:320, cx:0,cy:0, radius:260, mMin:0.16,mMax:0.5,
+     spinMin:0,spinMax:0, vMode:"none", aroundMass:2500, vScale:1, direction:1,
+     omega:0, vNoise:0, bulkVx:0, bulkVy:0, pinned:false}],
+  overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false} },
 { id:"selfRotor", name:"自己形成ダークローター — 種から育つ暗い中心", emoji:"🥚", group:"ローターの物語",
   scaleTier:"stellar",   // → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"composite",
@@ -11329,6 +11493,36 @@ function validateHalo(h){
   }
   return {ok:true, halo:out};
 }
+// 第249便c: physics.axisForce の検証(halo と同じ流儀のオブジェクト値 opt-in)。
+// **A=0 は「なし」へ正規化する** — 宣言してもプリセット署名・エクスポート JSON・実行の
+// 1 bit が変わらないため(spinSpin の λ=0 と同じ契約)。出力は常に正準形なので冪等
+// (validate(validate(p)) が同一 = QA preset.roundtrip-builtins の要件)。
+function validateAxisForce(a){
+  if(a===null) return {ok:true, axisForce:null};
+  if(!a || typeof a!=="object" || Array.isArray(a))
+    return {ok:false, err:"physics.axisForce はオブジェクト({A,Rb,rc,axis,source,omegaAxis})か null"};
+  if(!isNum(a.A)) return {ok:false, err:"physics.axisForce.A(強度)は数値"};
+  const A=clamp(a.A,AXIS_FORCE_CLAMPS.A[0],AXIS_FORCE_CLAMPS.A[1]);
+  if(A===0) return {ok:true, axisForce:null};   // A=0 = 未宣言(1 bit 不変)
+  const out={A};
+  const num=(k,dflt)=>{ if(a[k]===undefined) return dflt; if(!isNum(a[k])) return null;
+    return clamp(a[k],AXIS_FORCE_CLAMPS[k][0],AXIS_FORCE_CLAMPS[k][1]); };
+  out.Rb=num("Rb",AXIS_FORCE_DEFAULT.Rb); if(out.Rb===null) return {ok:false, err:"physics.axisForce.Rb(到達長)は数値"};
+  out.rc=num("rc",AXIS_FORCE_DEFAULT.rc); if(out.rc===null) return {ok:false, err:"physics.axisForce.rc(中心正則化)は数値"};
+  if(a.axis===undefined) out.axis=AXIS_FORCE_DEFAULT.axis;
+  else if(a.axis==="spin") out.axis="spin";
+  else if(isNum(a.axis)) out.axis=a.axis;
+  else return {ok:false, err:'physics.axisForce.axis は "spin" か角度(rad の数値)'};
+  if(a.source===undefined) out.source=AXIS_FORCE_DEFAULT.source;
+  else if(Number.isInteger(a.source) && a.source>=0 && a.source<4096) out.source=a.source;
+  else return {ok:false, err:"physics.axisForce.source は 0 以上の整数(中心天体の index)"};
+  if(a.omegaAxis!==undefined){
+    if(!isNum(a.omegaAxis)) return {ok:false, err:"physics.axisForce.omegaAxis は数値"};
+    const w=clamp(a.omegaAxis,AXIS_FORCE_CLAMPS.omegaAxis[0],AXIS_FORCE_CLAMPS.omegaAxis[1]);
+    if(w!==0) out.omegaAxis=w;   // 0 は入れない(未宣言と署名同一)
+  }
+  return {ok:true, axisForce:out};
+}
 function validatePreset(obj){
   const errors=[], warnings=[];
   // 第86便(外部レビュー P0-3): 旧コアキー(コアv1)から コアv2 へ**実際に移行したか**の機械可読フラグ。
@@ -11461,6 +11655,14 @@ function validatePreset(obj){
         const sv=clamp(p.physics[k],SPIN_SPIN_CLAMP[0],SPIN_SPIN_CLAMP[1]);
         if(sv!==p.physics[k]) warnings.push("physics."+k+" を値域に修正");
         if(sv!==0) ph[k]=sv;
+        continue;
+      }
+      // 第249便c(第41報 W3・案A): axisForce — 有限範囲の二極軸ポテンシャル(**玩具の opt-in・既定 OFF**)。
+      // halo と同じオブジェクト値キーで、A=0 は「なし」へ正規化する(宣言と未宣言で署名が 1 文字も変わらない)
+      if(k===AXIS_FORCE_KEY){
+        const av=validateAxisForce(p.physics[k]);
+        if(!av.ok){ bad(av.err); continue; }
+        if(av.axisForce!==null) ph[k]=av.axisForce;
         continue;
       }
       // 第247便a: framePrecision も同じ流儀(既定 "single" は ph へ入れない=署名不変)
@@ -12545,6 +12747,13 @@ function validatePreset(obj){
             if(k in DRAG_CH_CLAMPS){ if(isNum(A.physicsPatch[k])) physicsPatch[k]=clamp(A.physicsPatch[k],DRAG_CH_CLAMPS[k][0],DRAG_CH_CLAMPS[k][1]); else warnings.push("abBody.physicsPatch."+k+" が数値でないため無視"); continue; }
             // 第245便補足1: spinSpin(λ=0 のノックアウト対照を B 側で作れるようにする — 🧲 のワンタップ)
             if(k===SPIN_SPIN_KEY){ if(isNum(A.physicsPatch[k])) physicsPatch[k]=clamp(A.physicsPatch[k],SPIN_SPIN_CLAMP[0],SPIN_SPIN_CLAMP[1]); else warnings.push("abBody.physicsPatch."+k+" が数値でないため無視"); continue; }
+            // 第249便c: axisForce(A=0 のノックアウト対照を B 側で作れるようにする — halo と同じ扱い)
+            if(k===AXIS_FORCE_KEY){
+              const av=validateAxisForce(A.physicsPatch[k]);
+              if(!av.ok){ warnings.push("abBody.physicsPatch.axisForce が不正 — 無視します("+av.err+")"); continue; }
+              physicsPatch[k]=av.axisForce;   // null も有効値(=なし=A側の力を切る)
+              continue;
+            }
             if(!(k in CLAMPS)){ warnings.push("abBody.physicsPatch の未知キー "+k+" を無視"); continue; }
             if(!isNum(A.physicsPatch[k])){ warnings.push("abBody.physicsPatch."+k+" が数値でないため無視"); continue; }
             physicsPatch[k]=clamp(A.physicsPatch[k],CLAMPS[k][0],CLAMPS[k][1]);
@@ -14202,6 +14411,8 @@ function makeSim(){
       S.angNbr=null; S.angNbrN=null; S.angOvfN=0; }
     S._phAcc=0;
     S.resPx=0; S.resPy=0; S.resL=0; S.radE=0; S.radL=0;
+    // 第249便c: 軸ポテンシャルの読み口(U_axis = Σ m_iΦ_A・外部駆動の仕事)。未宣言なら常に 0
+    S.axisU=0; S.axisWorkE=0; S.axisPhi=0; S.axisPhi0=null;
     S.wallEin=0; S.wallEout=0; S.wallKE=0;   // 第37便 C1(台帳4-70): 壁帳簿もリセット
     S.pinHeat=0;   // 第47便 47A(台帳4-86): pinned 熱浴の帳簿もリセット
     S.coreWork=0;  // 第77便(コアv2): パワーボール仕事+収縮の回転エネルギー増(外部仕事の明示帳簿)
@@ -14261,6 +14472,9 @@ function makeSim(){
     // 唯一ここで張り直せば全経路が揃う。未宣言・0 は false = S.step の真偽値1つだけを読んで素通りする
     const __ss=S.params[SPIN_SPIN_KEY];
     S.hasSpinSpin=(__ss>0 || __ss<0);
+    // 第249便c: 軸ポテンシャル(案A)の有無フラグも同じ場所で張る(未宣言・A=0 は false = 素通り)
+    const __af=S.params[AXIS_FORCE_KEY];
+    S.hasAxisForce=!!(__af && (__af.A>0 || __af.A<0));
   };
   // 第36便 C2: 掻出の実効値(auto の粒子は lS_eff、それ以外は指定値)。lSw[i] が常に実効値なので
   // 参照側は分岐不要 — 監査・UI 用の明示アクセサとして公開する(HP.sim.lSwEff(i))
@@ -14451,6 +14665,81 @@ function makeSim(){
       } else { vx[i]+=ddx; vy[i]+=ddy; }
     }
   };
+  // ===== 第249便c(第41報 W3・案A): 有限範囲の二極軸ポテンシャル(physics.axisForce)=====
+  // 軸の向き φ を返す純関数(状態を書き換えない)。数値宣言は空間固定・"spin" は中心天体の
+  // コア軸(coreJx/coreJy)の面内方位・omegaAxis を宣言すると φ(t)=φ₀+Ω_axis·t の外部駆動。
+  S._axisAngle = function(){
+    const cf=S.params[AXIS_FORCE_KEY]; if(!cf) return 0;
+    let phi=0;
+    if(cf.axis==="spin"){
+      const i=(cf.source<S.n)? cf.source : 0;
+      if(S.coreJx && (S.coreJx[i]!==0 || S.coreJy[i]!==0)) phi=Math.atan2(S.coreJy[i],S.coreJx[i]);
+    } else if(typeof cf.axis==="number") phi=cf.axis;
+    if(cf.omegaAxis) phi+=cf.omegaAxis*S.t;
+    return phi;
+  };
+  // 力の本体。_spinSpin と同じ「S._core の**外**の 1 パス・ステップ冒頭の速度キック Δv=a·dt」で、
+  // semi(既定)では「E4 の加速度に足してから速度更新」と厳密に同義になる(leapfrog は前後の半キック)。
+  //   Φ_A=−A·E·W/D、E=exp(−s/R_b²)、W=(dx²−dy²)cos2φ+2dx·dy·sin2φ(=u²−v²)、D=s+r_c²、s=|d|²
+  //   ∇(E·W/D) = E/D·∇W − 2d·E·W·(1/R_b²+1/D)/D 、∇W=(2dx·cos2φ+2dy·sin2φ, −2dy·cos2φ+2dx·sin2φ)
+  //   a_i=−∇Φ_A=A·∇(E·W/D) 、F_i=m_eff,i·a_i(mEff は engine の慣性正本 — 除算保護つき質量)
+  // 反作用は ①中心天体へ −ΣF_i(運動量厳密) ②中心天体の殻スピンへ −Σ(d_i×F_i)_z(角運動量厳密。
+  // 殻 spin の値域 ±40 に当たった分だけ resL へ記帳して帳簿を閉じる)。pinned は規定運動なので受け取らない
+  // (その場合の帳簿は閉じない — 展示拘束を宣言した構成の既知の限界で、既存の pinned と同じ扱い)。
+  S._axisForce = function(dt){
+    const n=S.n, cf=S.params[AXIS_FORCE_KEY];
+    if(!cf || !(n>1)) return;
+    const A=cf.A; if(!(A>0 || A<0)) return;
+    const src=(cf.source>=0 && cf.source<n)? cf.source : 0;
+    const phi=S._axisAngle(), c2=Math.cos(2*phi), s2=Math.sin(2*phi);
+    const iR2=1/(cf.Rb*cf.Rb), rc2=cf.rc*cf.rc;
+    // 外部駆動の仕事: 前ステップの φ と今の φ を**同じ位置で**評価した U の差(φ 固定なら厳密に 0)
+    const phiP=(S.axisPhi0===null)? phi : S.axisPhi0;
+    const drive=(phiP!==phi), cp=drive? Math.cos(2*phiP) : c2, sp=drive? Math.sin(2*phiP) : s2;
+    const x=S.x, y=S.y, mEff=S.mEff, vx=S.vx, vy=S.vy, pin=S.pinned;
+    const carV=!!S.carVx, carVx=S.carVx, carVy=S.carVy;
+    const x0=x[src], y0=y[src];
+    let sfx=0, sfy=0, stq=0, U=0, Up=0;
+    for(let i=0;i<n;i++){
+      if(i===src) continue;
+      const dx=x[i]-x0, dy=y[i]-y0, s=dx*dx+dy*dy;
+      const W=(dx*dx-dy*dy)*c2 + 2*dx*dy*s2;
+      const E=Math.exp(-s*iR2), D=s+rc2, g=A*E/D;
+      const h=W*(iR2+1/D);
+      const mi=mEff[i];
+      const fx=mi*g*((2*dx*c2+2*dy*s2) - 2*dx*h);
+      const fy=mi*g*((-2*dy*c2+2*dx*s2) - 2*dy*h);
+      U-=mi*g*W;                                   // Φ_A=−A·E·W/D なので m·Φ = −m·g·W
+      if(drive) Up-=mi*A*E*((dx*dx-dy*dy)*cp + 2*dx*dy*sp)/D;
+      sfx+=fx; sfy+=fy; stq+=dx*fy-dy*fx;
+      if(pin[i]) continue;
+      const ddx=fx*dt/mi, ddy=fy*dt/mi;
+      if(carV){   // stateCarry:"double" と同じ補償和(Float32 の ulp 未満の増分を落とさない)
+        const addX=ddx+carVx[i], v0x=vx[i]; vx[i]=v0x+addX; carVx[i]=addX-(vx[i]-v0x);
+        const addY=ddy+carVy[i], v0y=vy[i]; vy[i]=v0y+addY; carVy[i]=addY-(vy[i]-v0y);
+      } else { vx[i]+=ddx; vy[i]+=ddy; }
+    }
+    S.axisU=U; S.axisPhi=phi;
+    if(drive) S.axisWorkE+=U-Up;                   // 外部駆動が場へ入れた仕事(φ 固定なら呼ばれない)
+    S.axisPhi0=phi;
+    if(!pin[src]){
+      // ① 並進の反作用 −ΣF_i
+      const ims=dt/mEff[src];
+      if(carV){
+        const addX=-sfx*ims+carVx[src], v0x=vx[src]; vx[src]=v0x+addX; carVx[src]=addX-(vx[src]-v0x);
+        const addY=-sfy*ims+carVy[src], v0y=vy[src]; vy[src]=v0y+addY; carVy[src]=addY-(vy[src]-v0y);
+      } else { vx[src]-=sfx*ims; vy[src]-=sfy*ims; }
+      // ② 軸トルクの反作用 −Σ(d_i×F_i)_z を殻スピンへ(I=½mR²)。値域 ±40 の超過分は resL へ
+      const I=0.5*mEff[src]*S.R[src]*S.R[src];
+      if(I>1e-12){
+        let s1=S.spin[src]-stq*dt/I;
+        if(s1>40){ S.resL+=(s1-40)*I; s1=40; S.clampSN++; }
+        else if(s1<-40){ S.resL+=(s1+40)*I; s1=-40; S.clampSN++; }
+        S.spin[src]=s1;
+        S.resL+=(s1-S.spin[src])*I;   // Float32 格納丸めの残差を帳簿へ(総L+帳簿は閉じる — resPx と同格)
+      } else S.resL-=stq*dt;
+    } else { S.resPx-=sfx*dt; S.resPy-=sfy*dt; S.resL-=stq*dt; }   // pinned 中心は帳簿へ
+  };
   S.step = function(dt){
     // 第245便補足1: スピン双極子間力は積分器の**前**(=E4 の加速度に足すのと同義 — 上のコメント)。
     // 第247便a(ChatGPT v5 §7): leapfrog では**前後の半キック(dt/2 ×2)に分ける**。1 步 1 回の
@@ -14460,10 +14749,13 @@ function makeSim(){
     // spinSpin 未宣言(hasSpinSpin=false)ではどちらの枝も 1 度も呼ばれない = 既定経路 1 bit 不変
     if(S.integrator==="leapfrog"){
       if(S.hasSpinSpin) S._spinSpin(dt*0.5);
+      if(S.hasAxisForce) S._axisForce(dt*0.5);   // 第249便c: 案A も同じ位置(未宣言は真偽値 1 つで素通り)
       S._core(dt,1); S._core(dt,2);
+      if(S.hasAxisForce) S._axisForce(dt*0.5);
       if(S.hasSpinSpin) S._spinSpin(dt*0.5);
     } else {
       if(S.hasSpinSpin) S._spinSpin(dt);
+      if(S.hasAxisForce) S._axisForce(dt);
       S._core(dt,0);
     }
     if(S.params.petersGW===true) S._petersGW(dt);   // 第227便: 外部物理オーバーレイ(既定 OFF=素通り)
@@ -20042,6 +20334,9 @@ function abStart(key, valB, bodyPatch){
         if(k in DRAG_CH_CLAMPS){ ab.simB.params[k]=clamp(bodyPatch.physicsPatch[k],DRAG_CH_CLAMPS[k][0],DRAG_CH_CLAMPS[k][1]); continue; }
         // 第245便補足1: spinSpin(B 側の λ。updateRadii が hasSpinSpin を張り直す)
         if(k===SPIN_SPIN_KEY){ ab.simB.params[k]=clamp(bodyPatch.physicsPatch[k],SPIN_SPIN_CLAMP[0],SPIN_SPIN_CLAMP[1]); continue; }
+        // 第249便c: axisForce(B 側で軸の力を切る/差し替える。updateRadii が hasAxisForce を張り直す)
+        if(k===AXIS_FORCE_KEY){ const av=validateAxisForce(bodyPatch.physicsPatch[k]);
+          if(av.ok){ if(av.axisForce===null) delete ab.simB.params[k]; else ab.simB.params[k]=av.axisForce; } continue; }
         if(!(k in CLAMPS)) continue;
         ab.simB.params[k]=clamp(bodyPatch.physicsPatch[k],CLAMPS[k][0],CLAMPS[k][1]);
       }
@@ -20187,6 +20482,8 @@ $("#btnReset").addEventListener("click",()=>{
           // 第202便: halo レシピも⏮のたびに再適用(abStart と同じ扱い — null=ノックアウト有効)
           if(k==="halo"){ const hv=validateHalo(ab.bodyPatch.physicsPatch[k]);
             if(hv.ok) ab.simB.params.halo=hv.halo; continue; }
+          if(k===AXIS_FORCE_KEY){ const av=validateAxisForce(ab.bodyPatch.physicsPatch[k]);   // 第249便c
+            if(av.ok){ if(av.axisForce===null) delete ab.simB.params[k]; else ab.simB.params[k]=av.axisForce; } continue; }
           if(k in CLAMPS) ab.simB.params[k]=clamp(ab.bodyPatch.physicsPatch[k],CLAMPS[k][0],CLAMPS[k][1]);
         }
         if(!isNum(ab.bodyPatch.physicsPatch.kappaT) && isNum(ab.bodyPatch.physicsPatch.Kt))
@@ -26248,6 +26545,17 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   claimRole, ROLE_CLASSES,  // 第133便 P0: 主張の役割分類のQA用(宣言専用 — 表示のみ)
   OBS_FAMILY,   // 第193便: 観測転写ファミリーの凍結リスト(C案二層化 — QA claims.obs-family 用)
   HALO_MODELS, validateHalo,   // 第197便(M0): 解析ハローキットの世代検出・QA 用
+  AXIS_FORCE_KEY, AXIS_FORCE_CLAMPS, AXIS_FORCE_DEFAULT, validateAxisForce,   // 第249便c(案A): 軸ポテンシャルの世代検出・QA 用
+  // 第249便c: 案A のポテンシャルと力の**純関数**(状態を 1 bit も読み書きしない — QA・報告・
+  // PHYSICS.md が同じ式を読むための正本)。Φ_A=−A·exp(−s/R_b²)·(u²−v²)/(s+r_c²)、F=−m∇Φ_A
+  dfmAxisPotential:(dx,dy,cfg)=>{
+    const c=cfg||{}; const A=Number(c.A), Rb=Number(c.Rb), rc=Number(c.rc), phi=Number(c.phi||0);
+    if(![A,Rb,rc,phi,dx,dy].every(Number.isFinite) || !(Rb>0) || !(rc>0)) return null;
+    const c2=Math.cos(2*phi), s2=Math.sin(2*phi), s=dx*dx+dy*dy;
+    const W=(dx*dx-dy*dy)*c2+2*dx*dy*s2, E=Math.exp(-s/(Rb*Rb)), D=s+rc*rc, g=A*E/D, h=W*(1/(Rb*Rb)+1/D);
+    return { U:-g*W, ax:g*((2*dx*c2+2*dy*s2)-2*dx*h), ay:g*((-2*dy*c2+2*dx*s2)-2*dy*h),
+      W, E, D, cos2:(s>0? W/s : 1) };
+  },
   grSI, GR_SI_INPUTS,  // 第148便: 弱場GR較正の式レベル出力(SI)— 表示・QA 専用の純関数
   // 第132便: EXT-06 較正台帳(自動算出)と EXT-02 第2段 主張の連鎖のQA用フック。
   // どちらも表示専用の純関数 — 呼んでも sim・プリセットを1バイトも書き換えない
