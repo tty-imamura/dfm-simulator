@@ -184,6 +184,55 @@ if (!TARGET.startsWith('beta/')) {
   add('behavior.w248b-so-reference', ok, detail);
 }
 
+// ---- 0e3) 第249便b: docs.calaudit-sync — 現実較正 31 本の棚卸し結果の同期(fs のみ・軽量)----
+//   tests/exp-w249b-calaudit.mjs が出す tests/out/calaudit-w249.json について、
+//     ① 列挙した preset id の集合が、対象 HTML の sampleClass:"calibration" の集合と**厳密一致**する
+//     ② すべての量の verdict が 5 区分(合/窓/否/従/転)のいずれかである
+//     ③ 理論対照の印(referenceKind:"theory-control")を持つ preset は JSON 側でも印が付いている
+//   を機械固定する。**値そのものは窓にしない**(棚卸しは記録であって回帰窓ではない)。
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const block = (html.match(/const BUILTIN_PRESETS = \[([\s\S]*?)\n\];/) || [, ''])[1];
+  if (!/referenceKind:"theory-control"/.test(block)) {
+    console.log('SKIP docs.calaudit-sync(対象に第249便b の referenceKind 宣言なし — 旧世代の root 等)');
+  } else {
+    const marks = [...block.matchAll(/\{ id:"(\w+)"/g)];
+    const calIds = [], theoryIds = [];
+    for (let i = 0; i < marks.length; i++) {
+      const seg = block.slice(marks[i].index, (i + 1 < marks.length) ? marks[i + 1].index : block.length);
+      if (seg.includes('sampleClass:"calibration"')) calIds.push(marks[i][1]);
+      if (seg.includes('referenceKind:"theory-control"')) theoryIds.push(marks[i][1]);
+    }
+    const VERDICTS = ['合', '窓', '否', '従', '転'];
+    let ok = false, detail = '';
+    try {
+      const j = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
+      const got = (j.presets || []).map((p) => p.id).sort();
+      const want = calIds.slice().sort();
+      const miss = want.filter((x) => !got.includes(x));
+      const extra = got.filter((x) => !want.includes(x));
+      const badVerdict = [];
+      let nQ = 0;
+      for (const p of (j.presets || [])) for (const q of (p.quantities || [])) {
+        nQ++;
+        if (VERDICTS.indexOf(q.verdict) < 0) badVerdict.push(`${p.id}:${String(q.verdict)}`);
+      }
+      const theoryMiss = theoryIds.filter((id) => {
+        const p = (j.presets || []).find((x) => x.id === id);
+        return !p || p.referenceKind !== 'theory-control';
+      });
+      ok = miss.length === 0 && extra.length === 0 && badVerdict.length === 0
+        && theoryMiss.length === 0 && got.length > 0;
+      detail = `${got.length}/${want.length} 本・量 ${nQ} 件`
+        + (miss.length ? ` / JSON 不在: ${miss.join(' ')}` : '')
+        + (extra.length ? ` / HTML 不在: ${extra.join(' ')}` : '')
+        + (badVerdict.length ? ` / 未知の判定: ${badVerdict.slice(0, 4).join(' ')}` : '')
+        + (theoryMiss.length ? ` / 理論対照の印なし: ${theoryMiss.join(' ')}` : '');
+    } catch (err) { detail = 'calaudit-w249.json が読めない: ' + String(err).slice(0, 120); }
+    add('docs.calaudit-sync', ok, detail);
+  }
+}
+
 const browser = await getBrowser();
 const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
 const pageErrors = [];
