@@ -10929,7 +10929,7 @@ if (!FAST) {
       // legacy 内蔵サンプルは "share" 明示(1 bit 不変)・pull 世代の現実較正 14 本は未宣言か "pull" 明示
       // 第247便b: ⏰ gw150914Merge4s(🎻 の複製)と ⚛️ gw150914SpinDipole(🎐 の複製)も pull 世代
       const MIG = ['earthMoonRealKF1', 'mercuryRealKF1', 'saturnRingRealKF1', 'alphaCenABDFM', 'siriusABDFM', 'psrDoubleABDFM', 'gw150914DFM', 'alphaCenAB', 'siriusAB', 'psrDoubleAB', 'gw150914',
-        'psrDoubleABSpinCal', 'gw150914Merge4s', 'gw150914SpinDipole'];   // 第244便: 💿 も pull へ(観測環質量+frameSource:false)/ 第247便a: 🧿(⚡ の較正候補 variant — ⚡ と同じ pull 宣言)
+        'psrDoubleABSpinCal', 'gw150914Merge4s', 'gw150914SpinDipole', 'mmPhaseToy'];   // 第244便: 💿 も pull へ(観測環質量+frameSource:false)/ 第247便a: 🧿(⚡ の較正候補 variant — ⚡ と同じ pull 宣言)/ 第247便d: 🪞 mmPhaseToy(pull 明示の原理サンプル)
       const all = HP.allPresets(); let nShare = 0, nOther = 0; const wrong = [];
       for (const q of all) { const fw = q.physics && q.physics.frameWeight; if (MIG.indexOf(q.id) >= 0) { if (fw !== undefined && fw !== 'pull') wrong.push(q.id); } else if (fw === 'share') nShare++; else { nOther++; wrong.push(q.id); } }
       // 🌘: 宣言どおり(pull・D0pull=3.36e-5)で generic・近点移動 2.995°/周。pull3/pull4 は再較正値で同窓
