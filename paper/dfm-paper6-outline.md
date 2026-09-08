@@ -6,8 +6,8 @@ claim** about real gravitomagnetism; it records what a 2D dragging-field toy mod
 
 ## 0. Abstract (draft sentence)
 A 2D dragging-field toy model (DFM) with one frame field u, a pull-weighted transport law (E6′) and an inertia law
-f = 1 + k_F(αχ_A + βχ_B) is calibrated on the Earth–Moon and Saturn-ring systems and then tested, without re-fitting, on compact
-binaries (PSR J0737−3039A/B, GW150914). We report nine negative results with their numerical controls (step-size convergence,
+f = 1 + k_F(αχ_A + βχ_B) is assessed with an explicit parameter-and-data ledger. Earth–Moon and Saturn calibrations,
+the J0737 calibration example, and conditional compact-binary hold-outs are distinguished. We report ten negative results within the tested model family, with numerical controls (step-size convergence,
 Float32/Float64 drag-field precision, detector method), and state the limits of the model as verdicts fixed to one line each.
 
 ## 1. Model summary (what is actually integrated)
@@ -19,7 +19,7 @@ Float32/Float64 drag-field precision, detector method), and state the limits of 
 
 ## 2. Calibration set and hold-outs (declared, not inferred)
 - Fit: 🌘 Earth–Moon (D0pull, 8.85-yr apsidal cycle), 🪨 Mercury, 💿 Saturn ring (frameSource), ⚡ J0737 (f only).
-- Hold-out: 🎻 GW150914 eccentricity (fails: +1.0%), PSR J1757−1854 / J1946+2052 (wave 248 — companion spin unknown → sensitivity band).
+- Conditional hold-outs: PSR J1757−1854 / J1946+2052 (GR-derived input masses and unknown companion spins must be declared; after a law is chosen on these three systems they become a development set and a fresh frozen hold-out is required). GW150914's +1.0% eccentricity offset is relative to an adopted central value, not a rejection at observational confidence; retain it as a historical morphology case.
 - Rule: a knob fitted on a two-body system means something else in a three-body one (🔆 audit C).
 
 ## 3. Numerical controls (methods section)
@@ -29,7 +29,7 @@ Float32/Float64 drag-field precision, detector method), and state the limits of 
 4. Period shortening −0.111%/orbit is discretization work (linear in dt) — reported as a numerical, not physical, effect.
 5. Same-value re-confirmation contract for run-state edits (bit-invariance) so that UI round-trips never inject drift.
 
-## 4. Nine negative results (one line each; details per wave in docs/PHYSICS.md)
+## 4. Ten negative results (one line each; details per wave in docs/PHYSICS.md)
 1. Static 1/r⁴ term is absent from E6′ (a moving probe erases spin dragging outside the reference orbit).
 2. A common λ that fixes ⚡ destroys the solar system (🪨 −1.51″/century).
 3. ⚡ precession floor was Float32 numerics; after removal the value (0.00945°/orbit) is still 2× the observed 0.00473 — not a reproduction.
@@ -38,7 +38,8 @@ Float32/Float64 drag-field precision, detector method), and state the limits of 
 6. Saturn's Q < Jupiter's Q under the DFM ledger — the "Saturn stronger" thought experiment is not supported.
 7. Observed-Q transcription for ⚡ gives η = 1.09×10⁻¹⁶ — gravitomagnetism is invisible at the pulsar separation.
 8. E6′ spin transport scales as q and contributes 1e-10 — it is not a spin–orbit term.
-9. No single dimensionless law (f, common λ, compactness Ξ, inertia β) satisfies ⚡, GW150914 and the solar system at once — a Ξ-monotone law breaks the BH first (Ξ_BH = 0.5 > Ξ_NS = 0.16).
+9. The tested common-dose and monotone-compactness candidates (f, common λ, compactness Ξ, inertia β) did not meet the joint NS/BH/solar constraints — a Ξ-monotone law breaks the BH first (Ξ_BH = 0.5 > Ξ_NS = 0.16). This is a conditional negative for the tested family, not a no-go theorem for new laws; BH rebuilding is a separate task.
+10. Period P and apsidal advance ω̇ cannot be satisfied by the same mass factor f under the current uncorrected E12 (wave 248b): Δϖ_DFM = f × Δϖ_GR to 5 digits on three DNS (1.998/1.998/1.997). Candidate fix under test: λ_PN = 1/f (existing key) with the exact speed of light (wave 249a).
 
 ## 5. What the model can show (positive, bounded)
 - Calibrated apsidal precession from motion dragging (window-declared; not steady over 118 orbits — audit).
@@ -55,7 +56,7 @@ Float32/Float64 drag-field precision, detector method), and state the limits of 
 | 🧿 | f = 1.999914, λ = 1e11 | phenomenological calibration example, not a law |
 
 ## 7. Reproducibility
-- Every number above is a QA gate (`tests/qa.mjs`) or an `experiments/*.mjs` harness with a JSON output; figures regenerate from `tests/out/*.json`.
+- Map each reported number to its exact measurement window, detector, source record and code hash. Wave-248/249 harnesses are `tests/exp-w248a.mjs`, `tests/exp-w248b-audit.mjs`, `tests/exp-w248b-so.mjs`, `tests/exp-w248c.mjs` and `tests/exp-w249*.mjs`; their output JSON is archived under `tests/out/`. Saved QA results are regression evidence, not an independent rerun.
 - Commit/tag to be fixed at manuscript v0.1.
 
 ## 8. Not in this paper
