@@ -10995,7 +10995,8 @@ if (!FAST) {
       const MIG = ['earthMoonRealKF1', 'mercuryRealKF1', 'saturnRingRealKF1', 'alphaCenABDFM', 'siriusABDFM', 'psrDoubleABDFM', 'gw150914DFM', 'alphaCenAB', 'siriusAB', 'psrDoubleAB', 'gw150914',
         'psrDoubleABSpinCal', 'gw150914Merge4s', 'gw150914SpinDipole', 'mmPhaseToy',
         'psrJ1757DFM', 'psrJ1946DFM',
-        'galaxyFieldLines', 'galaxyTiltPrecess', 'galaxyBarRotors'];   // 第244便: 💿 も pull へ(観測環質量+frameSource:false)/ 第247便a: 🧿(⚡ の較正候補 variant — ⚡ と同じ pull 宣言)/ 第247便d: 🪞 mmPhaseToy(pull 明示の原理サンプル)/ 第248便a: 🧮🩺(⚡ の処方をそのまま当てた NS 連星 hold-out — ⚡ と同じ pull 宣言) / 第248便c: 🍥🪁🍢(銀河形態の原理サンプル — pull 既定)
+        'psrDoubleABPN', 'psrJ1757PN', 'psrJ1946PN',
+        'galaxyFieldLines', 'galaxyTiltPrecess', 'galaxyBarRotors'];   // 第244便: 💿 も pull へ(観測環質量+frameSource:false)/ 第247便a: 🧿(⚡ の較正候補 variant — ⚡ と同じ pull 宣言)/ 第247便d: 🪞 mmPhaseToy(pull 明示の原理サンプル)/ 第248便a: 🧮🩺(⚡ の処方をそのまま当てた NS 連星 hold-out — ⚡ と同じ pull 宣言) / 第248便c: 🍥🪁🍢(銀河形態の原理サンプル — pull 既定)/ 第249便a: 🪶🪃🪀(NS 応答候補 λ_PN=1/f の variant — 複製元と同じ pull 宣言)
       const all = HP.allPresets(); let nShare = 0, nOther = 0; const wrong = [];
       for (const q of all) { const fw = q.physics && q.physics.frameWeight; if (MIG.indexOf(q.id) >= 0) { if (fw !== undefined && fw !== 'pull') wrong.push(q.id); } else if (fw === 'share') nShare++; else { nOther++; wrong.push(q.id); } }
       // 🌘: 宣言どおり(pull・D0pull=3.36e-5)で generic・近点移動 2.995°/周。pull3/pull4 は再較正値で同窓
@@ -11039,6 +11040,60 @@ if (!FAST) {
       + `物理予測(p=2・D0p=3.24204e8 kg/m²): 地表 χ_E=${fp.ground.chi.toFixed(4)}(残風 ${fp.ground.residual.toFixed(0)} m/s — 第34報: MM の非観測量)・GPS ${fp.gps.chi.toFixed(4)}・月 ${fp.moon.chi.toFixed(4)}・α Cen 相手 ${fp.acen.chi.toExponential(2)}・PSR ${fp.psr.chi.toFixed(5)}・銀河/D0p ${fp.galaxyOverD0p.toExponential(1)}`);
   } else {
     console.log('SKIP behavior.framePull(第242便 未適用 — root 等)');
+  }
+}
+
+// ---- 第249便a(第41報 W1): behavior.w249a-pnResponse — NS 応答候補 λ_PN=1/f の**宣言だけ**を固定する。
+// ----   ① 🪶 psrDoubleABPN / 🪃 psrJ1757PN / 🪀 psrJ1946PN の physics.lambdaPN が、
+// ----      **同じサンプルの massCalibration.factor の逆数**(±1e-9)であること — 1/f が独立ノブでないことの機械固定。
+// ----   ② cLight が正確値 2997.92458(=299,792,458 m/s の単位換算)で、κ=G/c² が同期していること。
+// ----   ③ 複製元(⚡🧮🩺)の physics/bodies/massCalibration が**本体不変**であること:
+// ----      variant と本体の差は lambdaPN・cLight・kappaT(と ⚡ 側の framePrecision)だけで、
+// ----      bodies と massCalibration は JSON ビット同一。
+// ----   軽量(積分なし・宣言の読み出しだけ)なので FAST でも実行する。数値の実測は tests/exp-w249a.mjs。
+{
+  const has249 = await page.evaluate(() => !!HP.allPresets().find((q) => q.id === 'psrDoubleABPN'));
+  if (has249) {
+    const r = await page.evaluate(() => {
+      const PAIR = [['psrDoubleABPN', 'psrDoubleABDFM'], ['psrJ1757PN', 'psrJ1757DFM'], ['psrJ1946PN', 'psrJ1946DFM']];
+      const C_EXACT = 2997.92458;
+      const P = (id) => HP.allPresets().find((q) => q.id === id);
+      const bad = [], rows = [];
+      for (const [vid, bid] of PAIR) {
+        const v = P(vid), b = P(bid);
+        if (!v || !b) { bad.push(vid + ': サンプルが無い'); continue; }
+        const f = v.massCalibration && v.massCalibration.factor;
+        const lam = v.physics.lambdaPN;
+        if (!(typeof f === 'number' && f > 0)) { bad.push(vid + ': massCalibration.factor が無い'); continue; }
+        if (!(Math.abs(lam - 1 / f) < 1e-9)) bad.push(`${vid}: λ_PN=${lam} が 1/f=${1 / f} と一致しない`);
+        if (v.physics.cLight !== C_EXACT) bad.push(`${vid}: cLight=${v.physics.cLight} が ${C_EXACT} でない`);
+        if (!(Math.abs(v.physics.kappaT - v.physics.G / (C_EXACT * C_EXACT)) < 1e-18))
+          bad.push(`${vid}: κ=${v.physics.kappaT} が G/c² と同期していない`);
+        if (v.physics.framePrecision !== 'double') bad.push(vid + ': framePrecision が double でない');
+        // 本体不変: bodies / massCalibration は複製元とビット同一
+        if (JSON.stringify(v.bodies) !== JSON.stringify(b.bodies)) bad.push(vid + ': bodies が複製元と不一致');
+        if (JSON.stringify(v.massCalibration) !== JSON.stringify(b.massCalibration)) bad.push(vid + ': massCalibration が複製元と不一致');
+        // 複製元の physics との差は lambdaPN・cLight・kappaT・framePrecision の 4 キーだけ
+        const keys = new Set([...Object.keys(v.physics), ...Object.keys(b.physics)]);
+        const diff = [...keys].filter((k) => !Object.is(v.physics[k], b.physics[k])).sort();
+        const ALLOW = ['cLight', 'framePrecision', 'kappaT', 'lambdaPN'];
+        if (diff.some((k) => ALLOW.indexOf(k) < 0)) bad.push(`${vid}: physics の差が ${JSON.stringify(diff)} で許容 4 キーを超える`);
+        // 複製元(本体)は旧則のまま: λ_PN=1・c=3000・κ=G/3000²
+        if (b.physics.lambdaPN !== 1) bad.push(`${bid}: 本体の λ_PN が 1 でない(本体不変が壊れた)`);
+        if (b.physics.cLight !== 3000) bad.push(`${bid}: 本体の cLight が 3000 でない(本体不変が壊れた)`);
+        if (!(Math.abs(b.physics.kappaT - b.physics.G / 9e6) < 1e-18)) bad.push(`${bid}: 本体の κ が G/3000² でない`);
+        rows.push(`${vid}: f=${f} λ=${lam} diff=${JSON.stringify(diff)}`);
+      }
+      return { bad, rows };
+    });
+    add('behavior.w249a-pnResponse', r.bad.length === 0,
+      (r.bad.length ? `不成立=[${r.bad.slice(0, 6).join(' / ')}] ` : '')
+      + `NS 応答候補 3 本(🪶🪃🪀)の宣言固定: λ_PN=1/f(massCalibration.factor の逆数・±1e-9)・`
+      + `c=2997.92458(299,792,458 m/s の単位換算)・κ=G/c² 同期・framePrecision:"double" / `
+      + `複製元(⚡🧮🩺)は旧則のまま(λ_PN=1・c=3000)で bodies と massCalibration はビット同一 — `
+      + `physics の差は lambdaPN/cLight/kappaT/framePrecision の 4 キーだけ / ${r.rows.join(' | ')}`);
+  } else {
+    console.log('SKIP behavior.w249a-pnResponse(第249便a 未適用 — root 等)');
   }
 }
 
@@ -22177,7 +22232,17 @@ if (!FAST && w5cDrFree && w5cDrMulti) {
     // 幾何・半径 proxy・自転は ⚡📻 と同じ転写でスケール換算込みの実較正)を追加 — 28→30
     const gen248 = await page.evaluate(() =>
       HP.allPresets().some((p) => p.id === 'psrJ1757DFM'));
-    const want = gen248 ? 'alphaCenAB,alphaCenABDFM,earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+    // 第249便a: 🪶🪃🪀 psrDoubleABPN / psrJ1757PN / psrJ1946PN(NS 応答候補 λ_PN=1/f の variant —
+    // 幾何・質量・半径 proxy・自転は複製元とビット同一の実較正)を追加 — 30→33 へ強化追随
+    const gen249 = await page.evaluate(() =>
+      HP.allPresets().some((p) => p.id === 'psrDoubleABPN'));
+    const want = gen249 ? 'alphaCenAB,alphaCenABDFM,earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
+        + 'gw150914,gw150914DFM,'
+        + 'jupiterGalilean,marsMoonsReal,mercuryReal,mercuryRealKF1,neptuneReal,plutoCharonReal,'
+        + 'psrDoubleAB,psrDoubleABDFM,psrDoubleABPN,psrDoubleABSpinCal,psrJ1757DFM,psrJ1757PN,psrJ1946DFM,psrJ1946PN,'
+        + 'qLockRadialAudit,qLockRadialAuditQ3,saturnRingReal,saturnRingRealKF1,saturnZonalD68,'
+        + 'siriusAB,siriusABDFM,solarInner,uranusReal,venusReal'
+      : gen248 ? 'alphaCenAB,alphaCenABDFM,earthMoonReal,earthMoonRealKF1,emAuditDFM,emAuditNewton,emAuditSolar,'
         + 'gw150914,gw150914DFM,'
         + 'jupiterGalilean,marsMoonsReal,mercuryReal,mercuryRealKF1,neptuneReal,plutoCharonReal,'
         + 'psrDoubleAB,psrDoubleABDFM,psrDoubleABSpinCal,psrJ1757DFM,psrJ1946DFM,'
