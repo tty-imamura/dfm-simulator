@@ -233,6 +233,60 @@ if (!TARGET.startsWith('beta/')) {
   }
 }
 
+// ---- 0e4) 第250便d: docs.period-definitions — 周期の 2 定義の併記と推定器つき宣言(裁定 I6/I7)----
+//   第249便b の棚卸しで、kF1 サンプルの公転周期は「同方向1周」と「近点間」で残差が符号ごと割れる
+//   ことが分かった(定義依存)。裁定 I6 は obsCard の周期欄に **2 定義を併記**し判定は近点間で行う
+//   ことを、裁定 I7 は歳差・近点移動の宣言値に **推定器名(estimator)と測定窓(window)**を
+//   付けることを求める。本ブロックは fs のみ(軽量)で
+//     ① 対象 13 本の obsCard に「同方向1周」「近点間」の語が両方あること
+//     ② 近点間の実測値(calaudit の棚卸しから書き写した数)が obsCard に載っていること
+//     ③ en 側にも同方向/近点間の語があること
+//     ④ 推定器つき宣言の 3 本(☄️🪨📡)に estimator=RL-gradient と window=… があること
+//   を機械固定する。**値の窓は張らない**(表示の宣言であって回帰窓ではない — 第249便b と同方針)。
+//   第250便d 未適用の対象(root 等)は SKIP する ----
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const block = (html.match(/const BUILTIN_PRESETS = \[([\s\S]*?)\n\];/) || [, ''])[1];
+  if (!/第250便d/.test(block)) {
+    console.log('SKIP docs.period-definitions(対象に第250便d の 2 定義併記なし — 旧世代の root 等)');
+  } else {
+    // 近点間の実測値(tests/out/calaudit-w249.json の dt 既定。⚡🧮🩺🪶🪃🪀 は宣言値=収束 dt の近点間)
+    const PERI = {
+      earthMoonRealKF1: '27.5228', emAuditDFM: '27.5325', plutoCharonReal: '6.43719',
+      saturnZonalD68: '5.0625', alphaCenABDFM: '79.796', siriusABDFM: '50.151',
+      psrDoubleABDFM: '8712.96', psrJ1757DFM: '15853.35', psrJ1946DFM: '6780.92',
+      psrDoubleABPN: '8833.27', psrJ1757PN: '15852.64', psrJ1946PN: '6780.50',
+      gw150914DFM: '0.178304',
+    };
+    const EST = { mercuryReal: '600公転', mercuryRealKF1: '600公転', saturnZonalD68: '60公転' };
+    const marks = [...block.matchAll(/\{ id:"(\w+)"/g)];
+    const seg = {};
+    for (let i = 0; i < marks.length; i++)
+      seg[marks[i][1]] = block.slice(marks[i].index, (i + 1 < marks.length) ? marks[i + 1].index : block.length);
+    const bad = [];
+    let nDef = 0, nEst = 0;
+    for (const id of Object.keys(PERI)) {
+      const s = seg[id];
+      if (!s) { bad.push(id + ':不在'); continue; }
+      const ja = s.includes('同方向1周') && s.includes('近点間');
+      const en = /same-direction/.test(s) && /periapsis-to-periapsis|periastron-to-periastron|periapsis to periapsis/.test(s);
+      const val = s.includes(PERI[id]);
+      if (ja && en && val) nDef++;
+      else bad.push(id + ':' + (ja ? '' : 'ja語') + (en ? '' : ' en語') + (val ? '' : ' 値' + PERI[id]));
+    }
+    for (const id of Object.keys(EST)) {
+      const s = seg[id];
+      if (s && s.includes('estimator=RL-gradient') && s.includes('window=' + EST[id])) nEst++;
+      else bad.push(id + ':推定器宣言なし');
+    }
+    add('docs.period-definitions',
+      bad.length === 0 && nDef === Object.keys(PERI).length && nEst === Object.keys(EST).length,
+      `2 定義の併記 ${nDef}/${Object.keys(PERI).length}本(ja「同方向1周」「近点間」+ en + 近点間の実測値)/ `
+      + `推定器つき宣言(estimator=RL-gradient・window) ${nEst}/${Object.keys(EST).length}本(☄️🪨📡)`
+      + (bad.length ? ` / NG: ${bad.slice(0, 5).join(' ')}` : ''));
+  }
+}
+
 const browser = await getBrowser();
 const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
 const pageErrors = [];
