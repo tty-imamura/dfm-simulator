@@ -233,6 +233,118 @@ if (!TARGET.startsWith('beta/')) {
   }
 }
 
+// ---- 0e3b) 第251便c: docs.calaudit-period — 棚卸しの**周期の定義契約**と σ の転写(fs のみ)----
+//   tests/exp-w249b-calaudit.mjs の第251便c 契約を、出力 JSON の側で機械固定する。
+//   固定するのは **4 条件 + σ の転写**であって、値そのものではない(棚卸しは記録であって回帰窓ではない):
+//     ① 明示した離心タイミング連星(⚡📻🧿🪶🧮🪃🩺🪀 と将来の B1534 系)の period 行は
+//        **近点間(periodDef:"periastron")で判定**されている(同方向1周を優先しない)。
+//     ② 近点が測れない行は **meas=null の「未測定」**であり、同方向1周・接触要素へ**置換していない**
+//        (meas は periASec とビット一致し、revSec[1]/oscSec を採っていない)。
+//     ③ dt/2 段の ε_num も**同じ定義**で作られている(numBoundDef:"periastron")。
+//     ④ 門の definitionMatches は**同じ定義の検出器 A/B の広がり**(gate.defSpreadPct)で決まり、
+//        **定義違いの広がり**(gate.defSpreadCrossDefPct)は別欄に残るだけで σ と比較されていない。
+//     ⑤ 視覚連星(✨✴️🌟💫)は従来どおり periodDef:"revolution"。
+//     ⑥ σ は paper/data/solar-observations.csv の **sigma 列**から来ており(gate.sigmaFrom:"csv")、
+//        CSV の値とビット一致する。sigma 列が空欄の行からは σ を作っていない。
+{
+  const CAL_JSON = path.join(ROOT, 'tests', 'out', 'calaudit-w249.json');
+  const CAL_CSV = path.join(ROOT, 'paper', 'data', 'solar-observations.csv');
+  let ok = false, detail = '';
+  try {
+    const j = JSON.parse(fs.readFileSync(CAL_JSON, 'utf8'));
+    // CSV の sigma 列(最初の行のみ採る — 別版レコードは混ぜない規約)
+    const sigCsv = new Map();
+    for (const line of fs.readFileSync(CAL_CSV, 'utf8').split('\n')) {
+      if (!line.trim() || line.startsWith('body,')) continue;
+      const cols = []; let cur = '', inQ = false;
+      for (const ch of line) {
+        if (inQ) { if (ch === '"') inQ = false; else cur += ch; }
+        else if (ch === '"') inQ = true;
+        else if (ch === ',') { cols.push(cur); cur = ''; }
+        else cur += ch;
+      }
+      cols.push(cur);
+      const k = cols[0] + '|' + cols[1];
+      if (!sigCsv.has(k)) sigCsv.set(k, { raw: cols[8], note: cols[7] || '' });
+    }
+    const ECC = ['psrDoubleAB', 'psrDoubleABDFM', 'psrDoubleABSpinCal', 'psrDoubleABPN',
+      'psrJ1757DFM', 'psrJ1757PN', 'psrJ1946DFM', 'psrJ1946PN'];
+    const VIS = ['alphaCenAB', 'alphaCenABDFM', 'siriusAB', 'siriusABDFM'];
+    const bad = [];
+    let nPeri = 0, nRev = 0, nSigCsv = 0, nUnmeasured = 0;
+    for (const p of (j.presets || [])) {
+      for (const q of (p.quantities || [])) {
+        if (q.kind === 'period' && ECC.includes(p.id)) {
+          // ①
+          if (q.periodDef !== 'periastron' && q.periodDef !== 'unmeasured') {
+            bad.push(`①${p.id}:periodDef=${q.periodDef}`); continue; }
+          const d = q.detail || {};
+          if (q.periodDef === 'periastron') {
+            nPeri++;
+            // ② 近点間の値そのものを採っている(同方向1周・接触要素へ置換していない)
+            if (!Object.is(q.meas, d.periASec)) bad.push(`②${p.id}:meas≠periASec`);
+            if (Array.isArray(d.revSec) && d.revSec.length > 1 && Object.is(q.meas, d.revSec[1])
+              && !Object.is(d.periASec, d.revSec[1])) bad.push(`②${p.id}:同方向1周を採っている`);
+          } else {
+            nUnmeasured++;
+            if (q.meas !== null) bad.push(`②${p.id}:未測定なのに meas がある`);
+          }
+          // ③ dt 2 段の ε_num も同じ定義
+          if (q.numBoundDef !== 'periastron') bad.push(`③${p.id}:numBoundDef=${q.numBoundDef}`);
+          if (!/近点間|未測定/.test(String(q.method))) bad.push(`①${p.id}:method に近点間が無い`);
+        }
+        if (q.kind === 'period' && VIS.includes(p.id)) {   // ⑤
+          if (q.periodDef !== 'revolution' && q.periodDef !== 'osculating')
+            bad.push(`⑤${p.id}:periodDef=${q.periodDef}`);
+          else nRev++;
+        }
+        const g = q.gate || null;
+        if (g) {
+          // ④ 定義差(crossDef)は**別欄に残るだけ**で、門の判定へは入っていない。
+          //    離心率は「同じ定義の 2 検出器」が無いので defMeta=false(=昇格させない)が既定。
+          if (q.kind === 'ecc' && g.defMeta === true) bad.push(`④${p.id}:ecc に defMeta=true`);
+          if (q.kind === 'period' && g.defMeta === true
+            && !(q.detail && typeof q.detail.periodDef === 'string'))
+            bad.push(`④${p.id}:定義メタデータの無い period 行に defMeta=true`);
+          if (g.status === '合(3σ)' && g.defMeta !== true) bad.push(`④${p.id}:定義未宣言のまま 3σ 合`);
+          // ⑥ σ の出所と値
+          if (g.sigmaFrom === 'csv') {
+            nSigCsv++;
+            const src = g.sigmaSource || {};
+            const row = sigCsv.get(`${src.body}|${src.quantity}`);
+            if (!row) bad.push(`⑥${p.id}:CSV 行なし ${src.body}|${src.quantity}`);
+            else if (!(row.raw && row.raw.trim() !== '' && Object.is(Number(row.raw), src.sigma)))
+              bad.push(`⑥${p.id}:CSV の sigma と不一致 ${src.body}|${src.quantity}`);
+            else if (src.primaryVerified !== /sigma_primary=verified/.test(row.note))
+              bad.push(`⑥${p.id}:sigma_primary の印が不一致`);
+          }
+          if (g.sigma !== undefined && g.sigma !== null && g.sigmaFrom === null)
+            bad.push(`⑥${p.id}:σ があるのに出所が無い`);
+        }
+      }
+    }
+    // ⑥' **J0737 の ω̇ は CSV に行が無い**(第251便c: 足すと 📻 の経路等価テストが壊れる —
+    //     buildAstroFromRecords は periastron_advance を知らず「CSV 10 行 → 内蔵とビット一致」が
+    //     成立しなくなる。値は obsCard 側に残したまま、CSV へは足さないことをここに固定する)。
+    //     行が無いことは「σ=0」ではなく「**未記録**」である。
+    if (sigCsv.has('PSR J0737-3039 B|periastron_advance'))
+      bad.push('⑥\':J0737 の ω̇ 行が CSV に足されている(📻 の経路等価テストが壊れる)');
+    // ⑥'' sigma 列が空欄の行からは σ を作らない(空欄=未記録であって 0 ではない)
+    for (const [k, v] of sigCsv) {
+      if (v.raw !== undefined && String(v.raw).trim() !== '' && !(Number(v.raw) > 0))
+        bad.push(`⑥'':sigma 列が正の数でない ${k}`);
+    }
+    const gs = (j.summary && j.summary.gate) ? j.summary.gate : {};
+    ok = bad.length === 0 && nPeri > 0 && nRev > 0 && nSigCsv > 0;
+    detail = `離心タイミング連星の period 行 ${nPeri} 件を**近点間**で判定(未測定 ${nUnmeasured} 件)・`
+      + `視覚連星は同方向1周のまま ${nRev} 件・CSV の sigma 列から転写した σ ${nSigCsv} 件`
+      + `(一次表の印つき ${gs.sourceVerified === undefined ? '—' : gs.sourceVerified} 件)・`
+      + `門の内訳 ${JSON.stringify(gs.byStatus || {})}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : '');
+  } catch (err) { detail = 'calaudit-w249.json / CSV が読めない: ' + String(err).slice(0, 140); }
+  add('docs.calaudit-period', ok, detail);
+}
+
 // ---- 0e4) 第250便d: docs.period-definitions — 周期の 2 定義の併記と推定器つき宣言(裁定 I6/I7)----
 //   第249便b の棚卸しで、kF1 サンプルの公転周期は「同方向1周」と「近点間」で残差が符号ごと割れる
 //   ことが分かった(定義依存)。裁定 I6 は obsCard の周期欄に **2 定義を併記**し判定は近点間で行う
@@ -10579,7 +10691,17 @@ if (!FAST) {
       const gate = W(Object.assign({}, base, { omega: 1 })) === null
         && W(Object.assign({}, base, { vx: 2 * C })) === null
         && W(Object.assign({}, base, { vD: { x: 2 * C, y: 0 } })) === null
-        && W(Object.assign({}, base, { L1: NaN })) === null;
+        && W(Object.assign({}, base, { L1: NaN })) === null
+        // 第251便c(ChatGPT §8.3 の回帰): **c と lambda0 の非有限**も null になること。
+        // 「>0」の門は Infinity>0 が真なので素通りしていた(NaN の値が返っていた)
+        && W(Object.assign({}, base, { c: Infinity })) === null
+        && W(Object.assign({}, base, { lambda0: Infinity })) === null
+        && W(Object.assign({}, base, { lambda: Infinity, lambda0: undefined })) === null
+        // **c:NaN / lambda0:NaN は null にならない**(既定値へ落ちる — `(o.c>0)` が偽なので
+        // 299792458 が入る「省略と同じ扱い」の経路)。これは第251便c で直していない既知の穴で、
+        // ここに固定して**そう振る舞うこと自体**を記録する(黙って通っているのではない)
+        && W(Object.assign({}, base, { c: NaN })) !== null
+        && W(Object.assign({}, base, { c: NaN })).c === 299792458;
       const P = (r) => ({ l1: r.arm1.lambdaOut, l2: r.arm2.lambdaOut,
         c1: r.arm1.lambdaCommon, c2: r.arm2.lambdaCommon, D1: r.arm1.D, D2: r.arm2.D,
         r1: r.arm1.nuD / r.nu0, r2: r.arm2.nuD / r.nu0,
@@ -10642,9 +10764,110 @@ if (!FAST) {
       `(W5) 検出器だけ (1000,5000) m/s: ν_D/ν₀=${mw.w5.r1}, ${mw.w5.r2}` +
       `(Δν=${mw.w5.dnu.toExponential(3)} Hz)→ **補正後 ${mw.w5.cr1}, ${mw.w5.cr2}(ΔνCorr=${mw.w5.dcorr})** / ` +
       `iters 200/500 でビット同一=${mw.iterSame}・純関数の決定性=${mw.det}・` +
-      `適用域外(回転境界・超光速・NaN)は null=${mw.gate}`);
+      `適用域外(回転境界・超光速・NaN・**c/λ₀ の非有限**〔第251便c の回帰〕)は null=${mw.gate}`);
   } else {
     console.log('SKIP behavior.mmWavelength(対象に第250便b の HP.dfmMMWavelength なし — root 等)');
+  }
+}
+
+// ---- 第251便c(第43報): behavior.mmPhaseCount — MM の**位相計数**(HP.dfmMMPhaseCount)----
+// 原仮定者(第43報・修正版)の解説を器へ載せた純関数の値を機械固定する。3 審査 v9 の指摘を
+// **すべて同じ表で対照する**ための 3 規約(stretch / galilean / comoving)を並べる:
+//   (C1) 原仮定者の数値(L=3・λ₀=1・β=0.5・c=1・stretch): 往路 d=6・λ=2・N₊=3 / 復路 d=2・λ=2/3・
+//        N₋=3 / N=6(静止と同じ)/ T=8 対 Trest=6 —— **すべてビット厳密**
+//   (C2) galilean(第250便b の境界規約 ω−V·k 保存=古典ドップラー)では λ₊=λ₀(1−β)=0.5(圧縮)・
+//        λ₋=λ₀(1+β)=1.5 なので **N=13.333…≠6**(距離/波長 は運動で不変にならない)
+//   (C3) comoving(随伴 u=V)では N=6・T=6(β の効果が全部消える)
+//   (C4) β=0 では 3 規約が**ビット厳密に一致**する(規約の差は β の 1 次以上にしか現れない)
+//   (C5) 直交腕: T⊥=2L/(c√(1−β²))(L=3 で 2×3/√0.75)。stretch は λ⊥=λ₀/√(1−β²) の伸縮で
+//        **N⊥=N**(式で一致 — ビット厳密)/ galilean は λ⊥=λ₀(1−β²) なので **N⊥≠N**
+//   (C6) ChatGPT §7 の L=10 表(c=λ₀=1・β=0.5)を stretch/galilean **両方**で再現:
+//        T∥=26.6667・T⊥=23.0940・ΔT=ν₀ΔT=3.5727 縞(T は波長規約に依らない)
+//   (C7) 門: β≥1・非有限(**c・lambda0 を含む**)・未知の rule は null / 純関数の決定性
+// **「DFM が MM null を予測する」とは決め打ちしない** — N の一致と到着時刻の一致は別の量である。
+{
+  const hasPC = await page.evaluate(() => !!(window.HP && typeof HP.dfmMMPhaseCount === 'function'));
+  if (hasPC) {
+    const pc = await page.evaluate(() => {
+      const P = (o) => HP.dfmMMPhaseCount(o);
+      const B3 = { L: 3, lambda0: 1, beta: 0.5, c: 1 };
+      const s3 = P(Object.assign({}, B3, { rule: 'stretch' }));
+      const g3 = P(Object.assign({}, B3, { rule: 'galilean' }));
+      const c3 = P(Object.assign({}, B3, { rule: 'comoving' }));
+      const z = ['stretch', 'galilean', 'comoving'].map((r) => P({ L: 3, lambda0: 1, beta: 0, c: 1, rule: r }));
+      const B10 = { L: 10, lambda0: 1, beta: 0.5, c: 1 };
+      const s10 = P(Object.assign({}, B10, { rule: 'stretch' }));
+      const g10 = P(Object.assign({}, B10, { rule: 'galilean' }));
+      const K = (r) => (r === null ? null : [r.dOut, r.lambdaOut, r.NOut, r.dBack, r.lambdaBack, r.NBack,
+        r.N, r.T, r.Trest, r.Tperp, r.Nperp, r.dN, r.dT, r.dPhiFixedLambda]);
+      const cfgD = { L: 7.25, lambda0: 0.3, beta: -0.375, c: 2.5, rule: 'galilean' };
+      const d1 = K(P(cfgD)), d2 = K(P(cfgD));
+      const det = d1.every((v, i) => Object.is(v, d2[i]));
+      const gate = P({ L: 3, beta: 1 }) === null && P({ L: 3, beta: -1 }) === null
+        && P({ L: 3, beta: 0.5, c: Infinity }) === null
+        && P({ L: 3, beta: 0.5, lambda0: Infinity }) === null
+        && P({ L: NaN }) === null && P({ L: 3, rule: 'ether' }) === null
+        && P({ L: 3, c: 0 }) === null && P({ L: -1 }) === null;
+      const noPerp = P(Object.assign({}, B3, { rule: 'stretch', perp: false }));
+      return { s3: K(s3), g3: K(g3), c3: K(c3), z: z.map(K), s10: K(s10), g10: K(g10),
+        s3m: s3.perpMatchesN, g3m: g3.perpMatchesN, c3m: c3.perpMatchesN,
+        s3rel: s3.NClosedRel, g3rel: g3.NClosedRel, c3rel: c3.NClosedRel,
+        g3lamPerp: g3.lambdaPerp, s3lamPerp: s3.lambdaPerp, s3leg: s3.dPerpLeg,
+        noPerp: [noPerp.Tperp, noPerp.Nperp, noPerp.dN, noPerp.dT, noPerp.dPhiFixedLambda],
+        note: s3.perpNote, gnote: g3.perpNote, det, gate };
+    });
+    const [dO, lO, nO, dB, lB, nB, N, T, Tr, Tp, Np, dN, dT] = pc.s3;
+    const E = (a, b) => Object.is(a, b);
+    const TPERP3 = 2 * 3 / Math.sqrt(1 - 0.25);
+    // (C1) 原仮定者の数値をビット厳密で固定(6 / 2 / 3 / 2 / 2/3 / 3 / 6 / 8 / 6)
+    const c1 = E(dO, 6) && E(lO, 2) && E(nO, 3) && E(dB, 2) && E(lB, 1 / 1.5) && E(nB, 3)
+      && E(N, 6) && E(T, 8) && E(Tr, 6) && pc.s3rel === 0;
+    // (C2) galilean は N が 6 にならない(距離/波長 は運動で不変ではない)
+    const c2 = E(pc.g3[1], 0.5) && E(pc.g3[4], 1.5) && E(pc.g3[2], 12)
+      && Math.abs(pc.g3[6] - 40 / 3) < 1e-14 && pc.g3[6] !== 6 && pc.g3rel === 0
+      && E(pc.g3[7], 8);                                   // T は波長規約に依らず 8
+    // (C3) comoving: N=6・T=6(β の効果が消える)
+    const c3 = E(pc.c3[6], 6) && E(pc.c3[7], 6) && E(pc.c3[9], 6) && E(pc.c3[10], 6)
+      && E(pc.c3[2], 3) && E(pc.c3[5], 3) && pc.c3rel === 0;
+    // (C4) β=0 で 3 規約がビット厳密に一致
+    const c4 = pc.z[0].every((v, i) => Object.is(v, pc.z[1][i]) && Object.is(v, pc.z[2][i]))
+      && E(pc.z[0][6], 6) && E(pc.z[0][7], 6) && E(pc.z[0][12], 0);
+    // (C5) 直交腕: T⊥=2L/(c√(1−β²))・stretch は N⊥=N(ビット厳密)・galilean は N⊥≠N
+    const c5 = E(Tp, TPERP3) && E(Np, 6) && E(dN, 0) && pc.s3m === true
+      && E(pc.s3leg, 3 / Math.sqrt(0.75)) && E(pc.s3lamPerp, 1 / Math.sqrt(0.75))
+      && E(pc.g3[9], TPERP3) && E(pc.g3lamPerp, 0.75) && pc.g3m === false
+      && Math.abs(pc.g3[10] / (2 * (3 / Math.sqrt(0.75)) / 0.75) - 1) < 1e-14
+      && Math.abs(dT - (8 - TPERP3)) < 1e-15 && pc.c3m === true
+      && pc.noPerp.every((v) => v === null);
+    // (C6) ChatGPT §7 の L=10 表を stretch/galilean 両方で再現(T は規約に依らない)
+    const rel = (a, b) => Math.abs(a / b - 1);
+    const c6 = rel(pc.s10[7], 80 / 3) < 1e-15 && rel(pc.s10[9], 20 / Math.sqrt(0.75)) < 1e-15
+      && Math.abs(pc.s10[12] - 3.572655899081635) < 1e-14
+      && E(pc.s10[6], 20) && E(pc.s10[10], 20) && E(pc.s10[11], 0)
+      && E(pc.g10[7], pc.s10[7]) && E(pc.g10[9], pc.s10[9]) && E(pc.g10[12], pc.s10[12])
+      && E(pc.g10[2], 40) && Math.abs(pc.g10[5] - 40 / 9) < 1e-14
+      && Math.abs(pc.g10[6] - 400 / 9) < 1e-13
+      && Math.abs(pc.g10[10] / (20 / Math.pow(0.75, 1.5)) - 1) < 1e-13;
+    add('behavior.mmPhaseCount',
+      c1 && c2 && c3 && c4 && c5 && c6 && pc.det && pc.gate,
+      `(C1) **原仮定者の修正版**(L=3・λ₀=1・β=0.5・c=1・stretch): 往路 d=${dO}・λ=${lO}・N₊=${nO} / ` +
+      `復路 d=${dB}・λ=${lB.toFixed(6)}(=2/3)・N₋=${nB} / **N=${N}(静止でも 6)**・` +
+      `T=${T} 対 Trest=${Tr}(**6 対 8**)— すべてビット厳密=${c1} / ` +
+      `(C2) galilean(第250便b の ω−V·k 保存): λ₊=${pc.g3[1]}(圧縮)・λ₋=${pc.g3[4]} → ` +
+      `N₊=${pc.g3[2]}・N₋=${pc.g3[5].toFixed(6)}・**N=${pc.g3[6].toFixed(6)}≠6**(T は同じ ${pc.g3[7]}) / ` +
+      `(C3) comoving(随伴 u=V): N=${pc.c3[6]}・T=${pc.c3[7]}・T⊥=${pc.c3[9]} / ` +
+      `(C4) β=0 で 3 規約がビット一致=${c4} / ` +
+      `(C5) 直交腕 T⊥=2L/(c√(1−β²))=${Tp.toFixed(9)}(片道 ${pc.s3leg.toFixed(9)})・` +
+      `stretch は λ⊥=${pc.s3lamPerp.toFixed(9)} で **N⊥=${Np}=N(ΔN=${dN})**・` +
+      `galilean は λ⊥=${pc.g3lamPerp}(=λ₀(1−β²))で **N⊥=${pc.g3[10].toFixed(6)}≠N** / ` +
+      `**ΔT=${dT.toFixed(9)} は stretch でも 0 にならない**(N の一致は到着時刻の一致ではない) / ` +
+      `(C6) ChatGPT §7 の L=10 表: T∥=${pc.s10[7].toFixed(4)}・T⊥=${pc.s10[9].toFixed(4)}・` +
+      `ν₀ΔT=${pc.s10[12].toFixed(4)} 縞(stretch/galilean で同値=${E(pc.g10[12], pc.s10[12])})・` +
+      `N は stretch ${pc.s10[6]}(N⊥ ${pc.s10[10]}) 対 galilean ${pc.g10[6].toFixed(4)}` +
+      `(N⊥ ${pc.g10[10].toFixed(4)}) / ` +
+      `(C7) 決定性=${pc.det}・門(β≥1・c/λ₀ の非有限・未知 rule)は null=${pc.gate}`);
+  } else {
+    console.log('SKIP behavior.mmPhaseCount(対象に第251便c の HP.dfmMMPhaseCount なし — root 等)');
   }
 }
 

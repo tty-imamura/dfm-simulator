@@ -95,6 +95,70 @@ const THEORY_CONTROL = ['qLockRadialAudit', 'qLockRadialAuditQ3', 'emAuditNewton
 // 較正の従属量(第248便b の現行判定): NS 連星 DFM 版の近点移動は較正質量 f≈2 の帰結であって独立予言ではない
 const DEPENDENT = { psrDoubleABDFM: ['precession'], psrJ1757DFM: ['precession'], psrJ1946DFM: ['precession'] };
 
+// ---------------------------------------------------------------- 第251便c(第43報 W3・ChatGPT §8.1)
+// **周期の定義契約**(裁定 I6 の次段)。パルサータイミングの離心連星では、観測の P_b は
+// **近点間の平均周期**として定義されている。棚卸しの検出器はこれまで「同方向1周」を優先し、
+// 取れなければ接触要素へ落としていたが、**大きく歳差する軌道では両者が数 % 違う**ので、
+// 定義の取り違えがそのまま系統誤差になる(🪐 D68 で 2.0% — 第250便c の近点移動換算で判明済み)。
+// そこで、**明示した ID の離心タイミング連星に限り**判定を近点間周期へ固定する:
+//   ① 判定量は近点間周期(検出器A)。同方向1周は別欄に残す(residualPctRev)。
+//   ② dt/2 段の ε_num も**同じ定義**で作る(rawMeas 側も近点間)。
+//   ③ 検出器 A/B は**同じ近点間周期どうし**で比べる(detPairSec)。
+//   ④ 近点が測れない対象は**他の周期へ黙って置換しない** — 「未測定」を返す(meas=null → 転)。
+// **視覚連星・円軌道・惑星/衛星系は従来どおり**(同方向1周 → 接触要素)。ID は明示列挙であって
+// 自動判定ではない(「離心率がいくつ以上」のような閾値は置かない — 定義は宣言である)。
+const ECC_TIMING_BINARY = new Set([
+  'psrDoubleAB', 'psrDoubleABDFM', 'psrDoubleABSpinCal', 'psrDoubleABPN',   // 📻⚡🧿🪶 J0737−3039A/B
+  'psrJ1757DFM', 'psrJ1757PN',                                             // 🧮🪃 J1757−1854
+  'psrJ1946DFM', 'psrJ1946PN',                                             // 🩺🪀 J1946+2052
+  // PSR B1534+12 系(第251便c 時点では**プリセットが無い** — CSV に観測行だけがある)。
+  // 将来サンプルを起こしたときに定義契約が自動で効くよう、ID を先に置いておく。
+  'psrB1534', 'psrB1534DFM', 'psrB1534PN',
+]);
+
+// ---------------------------------------------------------------- 第251便c(第43報 W3・ChatGPT §8.1)
+// **観測 σ の転写**。paper/data/solar-observations.csv に本便で足した **sigma 列**(末尾列 —
+// 既存 8 列の並びは 1 バイトも動かしていないので、cols[0..7] で読む既存の器はそのまま動く)から
+// 観測誤差を読み、obsCard の文面に ± が書かれていない量へ充填する。**CSV が正本**で、この検証器
+// には観測数値を 1 つも書かない(手打ちの数字を増やさない)。同じ量に複数の版レコードがある系
+// (J1757/J1946 の 2026 年版)は**最初の行**だけを採る — プリセットが使っているのがその行だから。
+// sigma_primary=verified/unverified は CSV の note に書いてある機械可読な印で、門の sourceVerified
+// (一次表の照合が済んでいるか)へそのまま渡す。
+function loadSigmaTable() {
+  const txt = fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8');
+  const m = new Map();
+  for (const line of txt.split('\n')) {
+    if (!line.trim() || line.startsWith('body,')) continue;
+    const cols = []; let cur = '', inQ = false;
+    for (const ch of line) {
+      if (inQ) { if (ch === '"') inQ = false; else cur += ch; }
+      else if (ch === '"') inQ = true;
+      else if (ch === ',') { cols.push(cur); cur = ''; }
+      else cur += ch;
+    }
+    cols.push(cur);
+    const key = cols[0] + '|' + cols[1];
+    if (m.has(key)) continue;                       // **最初の行**を採る(別版レコードは混ぜない)
+    const sg = (cols[8] !== undefined && cols[8].trim() !== '') ? Number(cols[8]) : null;
+    m.set(key, { body: cols[0], quantity: cols[1], value: Number(cols[2]), unit: cols[3],
+      source: cols[4], sigma: (Number.isFinite(sg) && sg > 0) ? sg : null,
+      primaryVerified: /sigma_primary=verified/.test(cols[7] || '') });
+  }
+  return m;
+}
+const SIGMA_TABLE = (() => { try { return loadSigmaTable(); }
+  catch (e) { console.error('[w249b] sigma 表が読めない: ' + String(e).slice(0, 140)); return new Map(); } })();
+// preset id → CSV の body 名(**相対軌道の要素を持つ行** = 伴星側の行)
+const SIGMA_BODY = {
+  psrDoubleAB: 'PSR J0737-3039 B', psrDoubleABDFM: 'PSR J0737-3039 B',
+  psrDoubleABSpinCal: 'PSR J0737-3039 B', psrDoubleABPN: 'PSR J0737-3039 B',
+  psrJ1757DFM: 'PSR J1757-1854', psrJ1757PN: 'PSR J1757-1854',
+  psrJ1946DFM: 'PSR J1946+2052', psrJ1946PN: 'PSR J1946+2052',
+  alphaCenAB: 'Alpha Centauri B', alphaCenABDFM: 'Alpha Centauri B',
+  siriusAB: 'Sirius B', siriusABDFM: 'Sirius B',
+};
+const SIGMA_QUANT = { period: 'orbital_period', ecc: 'eccentricity', precession: 'periastron_advance' };
+
 // ---------------------------------------------------------------- 単位(観測欄の数値を秒へ)
 const SEC = { '日': 86400, 'd': 86400, '年': 3.15576e7, 'yr': 3.15576e7, '時間': 3600, 'h': 3600,
   '秒': 1, 's': 1, 'ms': 1e-3 };
@@ -480,6 +544,10 @@ const VER = { OK: '合', WIN: '窓', NG: '否', DEP: '従', TR: '転' };
 //     |y_sim − y_obs| ≤ 3σ_obs + ε_num 、 ε_num ≤ 0.3σ_obs
 // ε_num は**保守的な決定論的数値誤差幅**(本便では dt 2 段 — 既定 0.016 と 0.008 — の同じ検出器の
 // 差)であり、観測残差を見て増やすフィット項ではない。
+// **第251便c(ChatGPT §8.1)**: ε_num は「dt 2 段の差」そのものではなく**宣言**である。ここに置くのは
+// 「dt/2 と dt/4 の差の上限として記録した値」で、収束次数を添えて `numBoundDecl` に残す
+// (本便の走行は dt と dt/2 の 2 段なので **収束次数は未測定**(order:null)— 次数 p が既知なら真の
+//  誤差は |y(dt)−y(dt/2)|/(2^p−1) 程度で、記録値はその上限側である)。
 //   ・観測誤差が読めない / 定義(検出器・周期の定義)が観測精度で一致しない / 一次表が未確認 → **未判定**
 //   ・数値が収束していない(dt 2 段が無い・ε_num が 0.3σ を超える)              → **数値未解決**
 // ±1% の目安(guideTolerance)は**観測一致ではない**。この門を通らない「合」は目安合である。
@@ -641,20 +709,64 @@ for (const P of out.presets) {
   };
 
   // 測定値の充填(obs は呼び出し側が入れる)
+  // 第251便c: 周期の定義契約(ECC_TIMING_BINARY のコメント参照)
+  const periastronFirst = ECC_TIMING_BINARY.has(d.id);
+  // 第251便c: CSV の sigma 列を**門(assessObservation)専用の別欄** q.obsSigmaCsv へ載せる。
+  // **5 区分(合/窓/否/従/転)の経路には入れない** — 5 区分は来歴・解釈の欄として不変に保つ
+  // という第250便c の設計をそのまま守る(σ が効くのは門だけ)。
+  const sigBody = SIGMA_BODY[d.id] || null;
+  const applySigma = (q, t, kind, toJudgedUnit) => {
+    if (!sigBody || t.label !== cfg.orbiters[0][1]) return q;
+    const row = SIGMA_TABLE.get(sigBody + '|' + SIGMA_QUANT[kind]);
+    if (!row) { q.sigmaNote = `CSV に ${sigBody}|${SIGMA_QUANT[kind]} の行が無い`; return q; }
+    q.sigmaSource = { body: row.body, quantity: row.quantity, unit: row.unit, sigma: row.sigma,
+      source: String(row.source).slice(0, 90), primaryVerified: row.primaryVerified };
+    q.sigmaPrimaryVerified = !!row.primaryVerified;
+    if (row.sigma === null) { q.sigmaNote = 'CSV の sigma 列が空欄(**未記録**であって 0 ではない)'; return q; }
+    let s = null;
+    if (kind === 'period' && row.unit === 's') s = row.sigma;
+    else if (kind === 'ecc' && row.unit === '1') s = row.sigma;
+    else if (kind === 'precession' && row.unit === 'deg/yr' && typeof toJudgedUnit === 'function')
+      s = toJudgedUnit(row.sigma);
+    if (Number.isFinite(s) && s > 0) {
+      q.obsSigmaCsv = s;
+      q.sigmaNote = `σ=${s} を CSV(${row.body}|${row.quantity}・${row.unit})から転写`
+        + `(sigma_primary=${row.primaryVerified ? 'verified' : 'unverified'})`;
+    } else q.sigmaNote = `CSV の σ の単位(${row.unit})が判定量へ換算できない — 転写しない`;
+    return q;
+  };
   const fillPeriod = (q, t) => {
     const revs = revSecOf(t);
     const pRev = pRevSec(t), pOsc = pOscSec(t);
     const pPeriA = (t.A.perMean !== null) ? t.A.perMean * P.toSec : null;
     const pPeriB = (t.B.perMean !== null) ? t.B.perMean * P.toSec : null;
-    q.meas = (pRev !== null) ? pRev : pOsc;
+    if (periastronFirst) {
+      // ①④ 近点間で判定する。近点が測れなければ**未測定**(同方向1周・接触要素へ置換しない)
+      q.periodDef = (pPeriA !== null) ? 'periastron' : 'unmeasured';
+      q.meas = pPeriA;
+      q.method = (pPeriA !== null)
+        ? `近点間周期(検出器A・ṙ の −→+ 交差 ${t.A.nPeri} 個の平均 — 第251便c の定義契約)`
+        : '**未測定**: 近点が測れない(窓不足・縮退)— 他の周期定義へは置換しない(第251便c の定義契約)';
+      if (pPeriA === null) q.note = (q.note ? q.note + ' / ' : '')
+        + '離心タイミング連星の判定量は近点間周期だが**近点が測れない**ため未測定とする'
+        + `(同方向1周 ${pRev === null ? '—' : pRev.toPrecision(9) + ' s'}・接触要素 `
+        + `${pOsc === null ? '—' : pOsc.toPrecision(9) + ' s'} は detail に残すが判定には使わない)`;
+    } else {
+      q.periodDef = (pRev !== null) ? 'revolution' : ((pOsc !== null) ? 'osculating' : 'unmeasured');
+      q.meas = (pRev !== null) ? pRev : pOsc;
+      q.method = (pRev !== null) ? '同方向1周(2周目 — obsCard の数え方)'
+        : '接触要素の平均 P(1公転が時間予算に収まらない)';
+    }
     q.unit = 's';
-    q.method = (pRev !== null) ? '同方向1周(2周目 — obsCard の数え方)'
-      : '接触要素の平均 P(1公転が時間予算に収まらない)';
     q.detail = { revSec: revs.slice(0, 6), periASec: pPeriA, periBSec: pPeriB, oscSec: pOsc,
-      revN: t.revN, aOscMean: t.oscA, aOsc0: t.osc0.a };
-    if (pPeriA !== null && pRev !== null && q.obs) {
-      q.residualPctPeri = pct(pPeriA, q.obs);
-      q.defDiffPct = pct(pPeriA, pRev);
+      revN: t.revN, aOscMean: t.oscA, aOsc0: t.osc0.a,
+      periodDef: q.periodDef,
+      // ③ 検出器 A/B は**同じ近点間周期どうし**で比べる(定義違いの広がりは crossDef 側へ)
+      detPairSec: (pPeriA !== null && pPeriB !== null) ? [pPeriA, pPeriB] : null };
+    if (q.obs) {
+      if (pPeriA !== null) q.residualPctPeri = pct(pPeriA, q.obs);
+      if (pRev !== null) q.residualPctRev = pct(pRev, q.obs);
+      if (pPeriA !== null && pRev !== null) q.defDiffPct = pct(pPeriA, pRev);
     }
     return q;
   };
@@ -741,12 +853,14 @@ for (const P of out.presets) {
         else if (ov) q.note = '観測欄の単位が読めない(率の宣言など)';
         if (mv && mv.unit && SEC[mv.unit]) q.model = mv.v * SEC[mv.unit];
         fillPeriod(q, t);
+        applySigma(q, t, 'period');
       } else if (kind === 'ecc') {
         const rg = noObs ? null : parseRange(row.obs);
         if (rg) { q.obsRange = rg; q.obs = 0.5 * (rg.lo + rg.hi); }
         else if (ov) { q.obs = ov.v; q.obsErr = ov.err; }
         if (mv) q.model = mv.v;
         fillEcc(q, t);
+        applySigma(q, t, 'ecc');
       } else if (kind === 'precession') {
         // 第250便c(第42報 W3): slopeDeg は**近点番号に対する**傾きなので、観測の °/日・°/年を
         // °/周へ直す換算にも**同じ近点間隔(近点間周期)**を使う。以前は同方向1周(revP)を使い、
@@ -764,6 +878,8 @@ for (const P of out.presets) {
         if (obsRate) {
           q.obs = conv(obsRate); q.model = conv(modRate);
           fillPrec(q, t);
+          // 第251便c: CSV の σ は deg/yr。判定量は °/周なので**観測値と同じ換算**(近点間周期)を掛ける
+          applySigma(q, t, 'precession', (s) => conv({ kind: 'deg-per-year', v: s }));
         } else if (ov && ov.unit && SEC[ov.unit] && /周期/.test(row.q)) {
           // 「近点回転の周期 8.85 年」型 — 実測 Δϖ から 360°/Δϖ×P で周期へ換算して照合する
           q.obs = ov.v * SEC[ov.unit]; q.obsErr = (ov.err !== null) ? ov.err * SEC[ov.unit] : null;
@@ -829,12 +945,13 @@ for (const P of out.presets) {
       q.modelResidualPct = pct(q.meas, q.model);
     }
     // 周期の 2 定義が許容の内外に分かれた行に印を付ける(外部レビュー)
-    if (q.kind === 'period' && Number.isFinite(q.residualPct) && Number.isFinite(q.residualPctPeri)) {
+    if (q.kind === 'period' && Number.isFinite(q.residualPctRev) && Number.isFinite(q.residualPctPeri)) {
       const tol = q.toleranceUsedPct;
-      const inRev = Math.abs(q.residualPct) <= tol, inPeri = Math.abs(q.residualPctPeri) <= tol;
-      if (inRev !== inPeri || Math.sign(q.residualPct) !== Math.sign(q.residualPctPeri)) {
+      const inRev = Math.abs(q.residualPctRev) <= tol, inPeri = Math.abs(q.residualPctPeri) <= tol;
+      if (inRev !== inPeri || Math.sign(q.residualPctRev) !== Math.sign(q.residualPctPeri)) {
         q.note = (q.note ? q.note + ' / ' : '')
-          + `**周期の定義依存**: 同方向1周 ${q.residualPct.toFixed(4)}% / 近点間 ${q.residualPctPeri.toFixed(4)}%`;
+          + `**周期の定義依存**: 同方向1周 ${q.residualPctRev.toFixed(4)}% / 近点間 ${q.residualPctPeri.toFixed(4)}%`
+          + `(判定に採ったのは ${q.periodDef === 'periastron' ? '**近点間**' : q.periodDef})`;
       }
     }
   }
@@ -854,7 +971,10 @@ for (const P of out.presets) {
   // 門そのものは --merge で持ち越した過去分にも掛けるため、**併合の後**に一括で付ける(下記)。
   const halfOf = (t) => (half ? (half.targets[base.targets.indexOf(t)] || null) : null);
   const rawMeas = (q, t) => { if (!t) return null;
-    if (q.kind === 'period') { const a = pRevSec(t); return (a !== null) ? a : pOscSec(t); }
+    // 第251便c: ε_num も**同じ定義**で作る(離心タイミング連星は dt/2 でも近点間)
+    if (q.kind === 'period') {
+      if (periastronFirst) return (t.A.perMean !== null) ? t.A.perMean * P.toSec : null;
+      const a = pRevSec(t); return (a !== null) ? a : pOscSec(t); }
     if (q.kind === 'ecc') return eMeas(t);
     if (q.kind === 'precession') {
       if (q.unit === 's') { const sl = t.A.slopeDeg;
@@ -866,6 +986,18 @@ for (const P of out.presets) {
     const t = base.targets.find((z) => z.label === q.target) || null;
     const mHalf = rawMeas(q, halfOf(t));
     q.numBoundDt2 = (Number.isFinite(mHalf) && Number.isFinite(q.meas)) ? Math.abs(q.meas - mHalf) : null;
+    // 第251便c: ε_num を作った**定義**を記録する(dt 2 段で定義が食い違っていないことの機械確認)
+    if (q.kind === 'period') q.numBoundDef = periastronFirst ? 'periastron' : 'revolution-or-osculating';
+    // 第251便c: ε_num は「dt 2 段の差」ではなく**宣言**である。dt/2 と dt/4 の差の上限として
+    // 記録し、収束次数を添える(本便の走行は dt と dt/2 の 2 段なので、次数は 2 段からの推定
+    // であって測定ではない — order:null は「次数未測定」を意味する)。
+    q.numBoundDecl = (q.numBoundDt2 === null) ? null : {
+      value: q.numBoundDt2,
+      basis: 'dt=0.016 と dt/2=0.008 の同じ検出器の差(**上限としての宣言** — dt/4 は走らせていない)',
+      order: null,
+      orderNote: 'dt/4 を走らせていないので収束次数は未測定。次数 p が既知なら真の誤差は '
+        + '|y(dt)−y(dt/2)|/(2^p−1) 程度で、ここに置いた値はその上限側の宣言である',
+      steps: 2 };
   }
 
   const tally = {}; for (const v of Object.values(VER)) tally[v] = 0;
@@ -941,20 +1073,52 @@ const spreadPct = (vals) => { const v = vals.filter((z) => Number.isFinite(z) &&
   const lo = Math.min(...v), hi = Math.max(...v);
   return 100 * Math.abs(hi - lo) / Math.abs(hi); };
 for (const r of merged) for (const q of (r.quantities || [])) {
-  const sig = (Number.isFinite(q.obsErr) && q.obsErr > 0) ? q.obsErr : null;
+  // 第251便c: obsCard の文面に ± が無い量は **CSV の sigma 列**(q.obsSigmaCsv)を使う。
+  // 一次表の照合(sourceVerified)は CSV の sigma_primary=verified を通ってきた σ にだけ立つ。
+  // **CSV(出典表)を優先する** — obsCard の ± は同じ一次表の表示側の写しなので、出所の印
+  // (sigma_primary)を持っている CSV 側を正本に採る。両方あるときの差は sigmaCardVsCsvRel に残す。
+  const sigCard = (Number.isFinite(q.obsErr) && q.obsErr > 0) ? q.obsErr : null;
+  const sigCsv = (Number.isFinite(q.obsSigmaCsv) && q.obsSigmaCsv > 0) ? q.obsSigmaCsv : null;
+  const sig = (sigCsv !== null) ? sigCsv : sigCard;
+  const sigFrom = (sigCsv !== null) ? 'csv' : ((sigCard !== null) ? 'obsCard' : null);
   const sigPct = (sig !== null && Number.isFinite(q.obs) && q.obs !== 0) ? 100 * Math.abs(sig / q.obs) : null;
   const d = q.detail || {};
-  let defSpread = null;
-  if (q.kind === 'period') defSpread = spreadPct([d.revSec ? d.revSec[1] : null, d.periASec, d.oscSec]);
-  else if (q.kind === 'precession') defSpread = spreadPct([d.detectorA, d.detectorB]);
-  else if (q.kind === 'ecc') defSpread = spreadPct([q.meas, d.eProxyAll, d.eOscMean]);
+  // 第251便c(ChatGPT §8.1): **定義差は誤差ではない**。門の definitionMatches が見るのは
+  // 「**同じ定義**の検出器 A/B が観測精度 σ_rel の中で一致するか」(detSpread)だけである。
+  // 定義違いの広がり(同方向1周/近点間/接触要素・窓と接触要素)は crossDef として**別欄に残し、
+  // σ とは比較しない**。旧 JSON の行(定義メタデータ periodDef が無い)は昇格させない。
+  let detSpread = null, crossDef = null, defMeta = true, defNote = '';
+  if (q.kind === 'period') {
+    detSpread = spreadPct(Array.isArray(d.detPairSec) ? d.detPairSec : []);
+    crossDef = spreadPct([d.revSec ? d.revSec[1] : null, d.periASec, d.oscSec]);
+    defMeta = (typeof d.periodDef === 'string');
+    defNote = defMeta
+      ? `判定した定義=${d.periodDef}・検出器 A/B(同じ定義)の広がり=${detSpread === null ? '—' : detSpread.toExponential(2) + '%'}`
+        + `(定義違いの広がり ${crossDef === null ? '—' : crossDef.toExponential(2) + '%'} は σ と比較しない)`
+      : '**定義メタデータが無い行**(第251便c 以前の JSON)— 定義が宣言されるまで昇格させない';
+  } else if (q.kind === 'precession') {
+    detSpread = spreadPct([d.detectorA, d.detectorB]);   // 同じ「近点方位の直線 fit」の 2 検出器
+    defNote = `検出器 A/B(同じ近点方位 fit)の広がり=${detSpread === null ? '—' : detSpread.toExponential(2) + '%'}`;
+  } else if (q.kind === 'ecc') {
+    crossDef = spreadPct([q.meas, d.eProxyAll, d.eOscMean]);
+    defMeta = false;   // 同じ定義の 2 検出器が無い(1周目の窓・全窓・接触要素は別定義)
+    defNote = '離心率は**同じ定義の 2 検出器が無い**(1周目の半径比・全窓・接触要素は別の量)— '
+      + `定義違いの広がり ${crossDef === null ? '—' : crossDef.toExponential(2) + '%'} は σ と比較しない`;
+  }
   const numBound = Number.isFinite(q.numBoundDt2) ? q.numBoundDt2 : null;
   const g = assessObservation({ value: q.meas, reference: q.obs, sigma: sig, numBound,
     converged: numBound !== null,
-    definitionMatches: (defSpread !== null && sigPct !== null) ? (defSpread <= sigPct) : false,
-    sourceVerified: PRIMARY_VERIFIED.has(`${r.id}|${q.target}|${q.kind}`) });
+    definitionMatches: (defMeta && detSpread !== null && sigPct !== null) ? (detSpread <= sigPct) : false,
+    sourceVerified: PRIMARY_VERIFIED.has(`${r.id}|${q.target}|${q.kind}`)
+      || (sigFrom === 'csv' && q.sigmaPrimaryVerified === true) });
   g.key = `${r.id}|${q.target}|${q.kind}`;
-  g.sigmaRelPct = sigPct; g.defSpreadPct = defSpread; g.numBound = numBound;
+  g.sigmaRelPct = sigPct; g.numBound = numBound;
+  g.sigma = sig; g.sigmaFrom = sigFrom; g.sigmaSource = q.sigmaSource || null;
+  g.sigmaCardVsCsvRel = (sigCard !== null && sigCsv !== null) ? Math.abs(sigCard / sigCsv - 1) : null;
+  g.detSpreadPct = detSpread; g.defSpreadCrossDefPct = crossDef;
+  g.defSpreadPct = detSpread;   // 後方互換の欄名(中身は**同じ定義どうし**の広がりへ変わった)
+  g.defMeta = defMeta; g.definitionNote = defNote;
+  g.numBoundDecl = q.numBoundDecl || null;   // ε_num は「宣言」である(dt/4 は走らせていない)
   // 参考(判定ではない): 来歴・定義の条件を外し、3σ+ε_num の算術だけを見たときの成否
   g.arithOnly = (sig !== null && numBound !== null && Number.isFinite(q.meas) && Number.isFinite(q.obs))
     ? (Math.abs(q.meas - q.obs) <= 3 * sig + numBound) : null;
@@ -980,10 +1144,18 @@ out.summary = { nPresets: merged.length,
     dfm: merged.filter((r) => r.version === 'dfm').length },
   gate: { rule: '|y_sim−y_obs| ≤ 3σ_obs + ε_num(ε_num ≤ 0.3σ_obs・ε_num は dt 2 段の差)',
     byStatus: gateStatus, byReason: gateReason,
-    withSigma: allQ.filter((q) => Number.isFinite(q.obsErr) && q.obsErr > 0).length,
+    withSigma: allQ.filter((q) => (q.gate && Number.isFinite(q.gate.sigma) && q.gate.sigma > 0)).length,
+    withSigmaBySource: {
+      obsCard: allQ.filter((q) => q.gate && q.gate.sigmaFrom === 'obsCard').length,
+      csv: allQ.filter((q) => q.gate && q.gate.sigmaFrom === 'csv').length },
+    sourceVerified: allQ.filter((q) => q.sigmaPrimaryVerified === true
+      && q.gate && q.gate.sigmaFrom === 'csv').length,
     arithOnlyPass: allQ.filter((q) => q.gate && q.gate.arithOnly === true).length,
-    note: '5 区分(合/窓/否/従/転)は来歴・解釈の欄として不変。門は別欄であり、'
-      + '一次表の照合(PRIMARY_VERIFIED)は第250便c 時点で 0 件なので「未判定」が既定である。' },
+    note: '5 区分(合/窓/否/従/転)は来歴・解釈の欄として不変(**CSV の σ は 5 区分の経路へ入れない** '
+      + '— 第251便c: σ が効くのは門だけ)。門は別欄であり、第251便c で観測 σ の転写(paper/data/'
+      + 'solar-observations.csv の sigma 列)と一次表の照合印(sigma_primary)が入った。'
+      + '定義の一致は**同じ定義の検出器 A/B の広がり**だけで見る(定義違いの広がりは σ と比較しない)。'
+      + 'ε_num は dt 2 段の差を**上限として宣言**した量で、dt/4 は走らせていない(収束次数は未測定)。' },
   agreementBreakdown: { verdictOK: okQ.length, sigma3: okSigma3, guide: okGuide,
     unassessed: okQ.length - okSigma3 - okGuide,
     note: '「合」の内訳: sigma3 = 機械門を通った 3σ 一致 / guide = 観測誤差が読めないときの ±1% 目安'
