@@ -233,6 +233,60 @@ if (!TARGET.startsWith('beta/')) {
   }
 }
 
+// ---- 0e4) 第250便d: docs.period-definitions — 周期の 2 定義の併記と推定器つき宣言(裁定 I6/I7)----
+//   第249便b の棚卸しで、kF1 サンプルの公転周期は「同方向1周」と「近点間」で残差が符号ごと割れる
+//   ことが分かった(定義依存)。裁定 I6 は obsCard の周期欄に **2 定義を併記**し判定は近点間で行う
+//   ことを、裁定 I7 は歳差・近点移動の宣言値に **推定器名(estimator)と測定窓(window)**を
+//   付けることを求める。本ブロックは fs のみ(軽量)で
+//     ① 対象 13 本の obsCard に「同方向1周」「近点間」の語が両方あること
+//     ② 近点間の実測値(calaudit の棚卸しから書き写した数)が obsCard に載っていること
+//     ③ en 側にも同方向/近点間の語があること
+//     ④ 推定器つき宣言の 3 本(☄️🪨📡)に estimator=RL-gradient と window=… があること
+//   を機械固定する。**値の窓は張らない**(表示の宣言であって回帰窓ではない — 第249便b と同方針)。
+//   第250便d 未適用の対象(root 等)は SKIP する ----
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const block = (html.match(/const BUILTIN_PRESETS = \[([\s\S]*?)\n\];/) || [, ''])[1];
+  if (!/第250便d/.test(block)) {
+    console.log('SKIP docs.period-definitions(対象に第250便d の 2 定義併記なし — 旧世代の root 等)');
+  } else {
+    // 近点間の実測値(tests/out/calaudit-w249.json の dt 既定。⚡🧮🩺🪶🪃🪀 は宣言値=収束 dt の近点間)
+    const PERI = {
+      earthMoonRealKF1: '27.5228', emAuditDFM: '27.5325', plutoCharonReal: '6.43719',
+      saturnZonalD68: '5.0625', alphaCenABDFM: '79.796', siriusABDFM: '50.151',
+      psrDoubleABDFM: '8712.96', psrJ1757DFM: '15853.35', psrJ1946DFM: '6780.92',
+      psrDoubleABPN: '8833.27', psrJ1757PN: '15852.64', psrJ1946PN: '6780.50',
+      gw150914DFM: '0.178304',
+    };
+    const EST = { mercuryReal: '600公転', mercuryRealKF1: '600公転', saturnZonalD68: '60公転' };
+    const marks = [...block.matchAll(/\{ id:"(\w+)"/g)];
+    const seg = {};
+    for (let i = 0; i < marks.length; i++)
+      seg[marks[i][1]] = block.slice(marks[i].index, (i + 1 < marks.length) ? marks[i + 1].index : block.length);
+    const bad = [];
+    let nDef = 0, nEst = 0;
+    for (const id of Object.keys(PERI)) {
+      const s = seg[id];
+      if (!s) { bad.push(id + ':不在'); continue; }
+      const ja = s.includes('同方向1周') && s.includes('近点間');
+      const en = /same-direction/.test(s) && /periapsis-to-periapsis|periastron-to-periastron|periapsis to periapsis/.test(s);
+      const val = s.includes(PERI[id]);
+      if (ja && en && val) nDef++;
+      else bad.push(id + ':' + (ja ? '' : 'ja語') + (en ? '' : ' en語') + (val ? '' : ' 値' + PERI[id]));
+    }
+    for (const id of Object.keys(EST)) {
+      const s = seg[id];
+      if (s && s.includes('estimator=RL-gradient') && s.includes('window=' + EST[id])) nEst++;
+      else bad.push(id + ':推定器宣言なし');
+    }
+    add('docs.period-definitions',
+      bad.length === 0 && nDef === Object.keys(PERI).length && nEst === Object.keys(EST).length,
+      `2 定義の併記 ${nDef}/${Object.keys(PERI).length}本(ja「同方向1周」「近点間」+ en + 近点間の実測値)/ `
+      + `推定器つき宣言(estimator=RL-gradient・window) ${nEst}/${Object.keys(EST).length}本(☄️🪨📡)`
+      + (bad.length ? ` / NG: ${bad.slice(0, 5).join(' ')}` : ''));
+  }
+}
+
 const browser = await getBrowser();
 const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
 const pageErrors = [];
@@ -9419,16 +9473,28 @@ if (!FAST) {
   }
 }
 
-// ---- 第249便c(第41報 W3・案A): behavior.axisForce-bitIdentity / behavior.axisForce-conservation ----
+// ---- 第249便c(第41報 W3・案A)+ 第250便c(第42報 W3): behavior.axisForce-bitIdentity /
+// ---- behavior.axisForce-conservation / behavior.axisForce-energy ----
 // physics.axisForce = 有限範囲の二極軸ポテンシャル Φ_A=−A·exp(−d²/R_b²)·(u²−v²)/(d²+r_c²)(玩具の opt-in)。
 //   (a) **既定経路 1 bit 不変**: 未宣言のサンプル 2 本(🎡 galaxyStd・🕶️ darkrotor)を 300 步走らせ、
 //       physics.axisForce:{A:0,…} を**明示**した側と全状態がビット同一・プリセット署名も同一。
 //       A=0 は検証器が「なし」へ正規化するので、宣言してもエクスポート JSON が 1 文字も変わらない。
 //   (b) **反作用で総 P・総 L が閉じる**: 重力を切った玩具(G=0・kFrame=0・軸力だけ)で 400 步。
-//       各星への力 F_i の合計 −ΣF_i を中心天体へ(運動量)、軸トルク −Σ(d_i×F_i)_z を中心天体の
-//       殻スピンへ(角運動量)返す実装なので、stateCarry:"double" では残差が丸め級(<1e-9 相対)。
+//       各星への力 F_i の合計 −ΣF_i を中心天体へ(運動量)、軸トルク −Σ(d_i×F_i)_z は**外部軸の
+//       リザーバ resL へ**(第250便c の帳簿修正 — 殻スピンには入れない)返す実装なので、
+//       stateCarry:"double" では残差が丸め級(<1e-9 相対)。
 //       φ 固定は保存力(外部駆動の仕事 axisWorkE が厳密 0)・omegaAxis 宣言時だけ axisWorkE≠0。
 //       力が −∇Φ であることは純関数 HP.dfmAxisPotential と有限差分の一致で押さえる。
+//   (c) **第250便c: 固定軸で総エネルギーが 2 次収束する**(behavior.axisForce-energy)。
+//       同じ玩具・同じ模型時間 4 を dt=0.01/0.005/0.0025 の leapfrog で走らせ、K+E_spin+U_axis の
+//       変化を測る。U はキャッシュ(S.axisU)を読まず**毎回現位置から** HP.dfmAxisPotential で
+//       再計算する。判定は「最細刻みの |ΔE|/|U_initial| が上限以下」かつ「刻み幅を半分にすると
+//       誤差が約 1/4(2 次収束比 3.5〜4.5)」の**両方**。修正前は殻スピンへ入れた反作用の仕事が
+//       相殺されず、dt を細かくしても |ΔE|/|U₀|≈58.5 のまま動かなかった(第250便c 実測)。
+//       ※ 大きくて動かない中心の回転エネルギーで割って誤差を小さく見せない — 分母は |U_initial|。
+//       同ブロックで **pinned の帳簿 4 条件**(中心/受け手の固定有無)も検査する。中心を原点外
+//       (100,50)に置いた 1 キックで、修正前は ΔL=−2.76(pinned 中心の反力のモーメント落ち)/
+//       +3.87(受け手 pinned の未適用力)等になっていた。4 条件すべてで ΔP・ΔL が丸め級になる。
 {
   const hasAF = await page.evaluate(() => typeof HP.dfmAxisPotential === 'function'
     && typeof HP.validateAxisForce === 'function');
@@ -9462,22 +9528,49 @@ if (!FAST) {
             { type: 'single', m: 1.5, x: 15, y: -90, vx: 0.2, vy: 0.05, spin: 0, pinned: false, radius: 1 }] };
         if (integ) pd.integrator = integ;
         return pd; };
-      const cons = (carry, ax, integ) => { const v = HP.validatePreset(mk(carry, ax, integ));
+      // 第250便c: 総エネルギー K+E_spin+U_axis。U は S.axisU を読まず**毎回現位置から**再計算する
+      const energy = (S, ax) => { let E = 0, U = 0;
+        for (let i = 0; i < S.n; i++) {
+          E += 0.5 * S.m[i] * (S.vx[i] * S.vx[i] + S.vy[i] * S.vy[i])
+            + 0.25 * S.m[i] * S.R[i] * S.R[i] * S.spin[i] * S.spin[i];
+          if (i) U += S.m[i] * HP.dfmAxisPotential(S.x[i] - S.x[0], S.y[i] - S.y[0],
+            Object.assign({}, ax, { phi: S._axisAngle() })).U;
+        }
+        return { E: E + U, U }; };
+      const cons = (carry, ax, integ, dt = 0.01) => { const v = HP.validatePreset(mk(carry, ax, integ));
         if (!v.ok) return { err: v.errors };
         const S = HP.sim; S.build(v.preset);
         const T0 = S.totals(), P0 = [T0.px + S.resPx, T0.py + S.resPy], L0 = T0.L + S.resL;
-        for (let k = 0; k < 400; k++) S.step(0.01);
+        const E0 = energy(S, ax);
+        for (let k = 0; k < Math.round(4 / dt); k++) S.step(dt);
         const T1 = S.totals(), P1 = [T1.px + S.resPx, T1.py + S.resPy], L1 = T1.L + S.resL;
         let pS = 0, lS = 0;
         for (let i = 0; i < S.n; i++) { pS += Math.abs(S.m[i] * S.vx[i]) + Math.abs(S.m[i] * S.vy[i]);
           lS += Math.abs(S.m[i] * (S.x[i] * S.vy[i] - S.y[i] * S.vx[i]))
             + 0.5 * Math.abs(S.m[i]) * S.R[i] * S.R[i] * Math.abs(S.spin[i]); }
+        const E1 = energy(S, ax);
         return { relP: (Math.abs(P1[0] - P0[0]) + Math.abs(P1[1] - P0[1])) / pS,
           relL: Math.abs(L1 - L0) / lS, axisW: S.axisWorkE, axisU: S.axisU,
+          relE: Math.abs(E1.E - E0.E) / Math.max(1, Math.abs(E0.U)),
           spinMoved: S.spin[0] !== 0.5, nan: S.hasNaN(), warn: (v.warnings || []).length }; };
       const AX = { A: 200, Rb: 120, rc: 5, axis: 0.3 };
       const fixed = cons(true, AX), leap = cons(true, AX, 'leapfrog');
+      const leapFine = cons(true, AX, 'leapfrog', 0.005);
+      const leapFinest = cons(true, AX, 'leapfrog', 0.0025);
       const driven = cons(true, Object.assign({ omegaAxis: 0.05 }, AX));
+      // ---- 第250便c: pinned の帳簿 4 条件(中心 (100,50)・受け手 (140,70) の 1 キック)----
+      const pinCase = (pinC, pinR) => {
+        const pd = mk(true, AX, null);
+        pd.bodies = [{ type: 'single', m: 1000, x: 100, y: 50, vx: 0, vy: 0, spin: 0.5, pinned: pinC, radius: 10 },
+          { type: 'single', m: 1, x: 140, y: 70, vx: 0, vy: 0, spin: 0, pinned: pinR, radius: 1 }];
+        const v = HP.validatePreset(pd); if (!v.ok) return { err: v.errors };
+        const S = HP.sim; S.build(v.preset);
+        const T0 = S.totals(), P0 = [T0.px + S.resPx, T0.py + S.resPy], L0 = T0.L + S.resL;
+        S._axisForce(0.01);
+        const T1 = S.totals(), P1 = [T1.px + S.resPx, T1.py + S.resPy], L1 = T1.L + S.resL;
+        return { dP: Math.max(Math.abs(P1[0] - P0[0]), Math.abs(P1[1] - P0[1])), dL: Math.abs(L1 - L0) }; };
+      const pinLedger = [[false, false], [true, false], [false, true], [true, true]]
+        .map(([a, b]) => ({ c: a, r: b, z: pinCase(a, b) }));
       // ---- 力 = −∇Φ(純関数と有限差分)----
       const cfg = { A: 3.5, Rb: 120, rc: 7, phi: 0.4 }; let gmax = 0;
       for (const [dx, dy] of [[10, 3], [-40, 60], [5, -90], [130, 20], [0.5, 0.2]]) {
@@ -9504,7 +9597,8 @@ if (!FAST) {
         clamp: vv({ A: 1e12, Rb: 1e12 }).axisForce.A === HP.AXIS_FORCE_CLAMPS.A[1],
         idem: (() => { const a = vv({ A: 5, Rb: 33, rc: 2, axis: 0.7, source: 1, omegaAxis: 0.1 }).axisForce;
           return JSON.stringify(vv(a).axisForce) === JSON.stringify(a); })() };
-      return { bit, fixed, leap, driven, gmax, pAx: pAx.U, pPe: pPe.U, pFlip: pFlip.U, valid };
+      return { bit, fixed, leap, leapFine, leapFinest, driven, pinLedger,
+        gmax, pAx: pAx.U, pPe: pPe.U, pFlip: pFlip.U, valid };
     });
     const bitOK = af.bit.every((r) => r.bitSame && r.sigSame && r.warn === 0 && !r.hasA && !r.hasB && !r.nan);
     add('behavior.axisForce-bitIdentity', bitOK,
@@ -9517,7 +9611,8 @@ if (!FAST) {
     const CN = { grad: af.gmax < 1e-8,
       dipole: af.pAx < 0 && af.pPe > 0 && Math.abs(af.pFlip - af.pAx) < 1e-12,
       fixP: af.fixed.relP < 1e-9, fixL: af.fixed.relL < 1e-9,
-      fixWork: af.fixed.axisW === 0, fixSpin: af.fixed.spinMoved,
+      // 第250便c: 中心の殻スピンは軸トルクを受け取らない(外部軸のリザーバ resL が受ける)
+      fixWork: af.fixed.axisW === 0, fixSpin: !af.fixed.spinMoved,
       leapP: af.leap.relP < 1e-9, leapL: af.leap.relL < 1e-9,
       drivenP: af.driven.relP < 1e-9, drivenL: af.driven.relL < 1e-9,
       drivenWork: af.driven.axisW !== 0,
@@ -9527,9 +9622,25 @@ if (!FAST) {
       (badCN.length ? `不成立=[${badCN.join(',')}] ` : '')
       + `力=−∇Φ の有限差分最大差 ${af.gmax.toExponential(1)}・二極(軸上 Φ=${af.pAx.toFixed(4)}<0・直交 Φ=${af.pPe.toFixed(4)}>0・π 回転で同一=${Math.abs(af.pFlip - af.pAx) < 1e-12}) / `
       + `玩具(G=0・軸力だけ・400 步・stateCarry double): 軸固定 |ΔP|/P=${af.fixed.relP.toExponential(2)}・|ΔL|/L=${af.fixed.relL.toExponential(2)}・`
-      + `外部駆動の仕事=${af.fixed.axisW}(保存力なので厳密 0)・中心スピンが軸トルクを受けた=${af.fixed.spinMoved} / `
+      + `外部駆動の仕事=${af.fixed.axisW}(保存力なので厳密 0)・軸トルクは resL へ(中心スピン不変=${!af.fixed.spinMoved}) / `
       + `leapfrog(前後半キック) |ΔP|/P=${af.leap.relP.toExponential(2)}・|ΔL|/L=${af.leap.relL.toExponential(2)} / `
       + `Ω_axis=0.05 の外部駆動 |ΔP|/P=${af.driven.relP.toExponential(2)}・|ΔL|/L=${af.driven.relL.toExponential(2)}・axisWorkE=${af.driven.axisW.toExponential(2)}(≠0 = 非保存の宣言)`);
+    // ---- 第250便c(第42報 W3): 固定軸の総エネルギー収束 + pinned 帳簿 4 条件 ----
+    const eSeq = [af.leap, af.leapFine, af.leapFinest].map((r) => r.relE);
+    const eRatio = [eSeq[0] / eSeq[1], eSeq[1] / eSeq[2]];
+    const badPin = af.pinLedger.filter((q) => !(q.z && q.z.dP < 1e-12 && q.z.dL < 1e-9));
+    const EN = { cap: eSeq[2] < 1e-5,
+      order: eRatio.every((r) => r > 3.5 && r < 4.5),
+      spinFixed: !af.leap.spinMoved && !af.leapFinest.spinMoved,
+      pin: badPin.length === 0 };
+    const badEN = Object.keys(EN).filter((k) => !EN[k]);
+    add('behavior.axisForce-energy', badEN.length === 0,
+      (badEN.length ? `不成立=[${badEN.join(',')}] ` : '')
+      + `固定軸(G=0・軸力だけ・leapfrog・模型時間 4・U は毎回現位置から再計算): `
+      + `|ΔE|/|U₀| (dt=.01/.005/.0025)=${eSeq.map((r) => r.toExponential(3)).join('/')}・`
+      + `2 次収束比=${eRatio.map((r) => r.toFixed(2)).join('/')}(3.5〜4.5)・最細刻み<1e-5=${EN.cap}・`
+      + `中心スピン不変=${EN.spinFixed} / pinned 帳簿 4 条件(中心 (100,50)・受け手 (140,70) の 1 キック): `
+      + af.pinLedger.map((q) => `中心pin=${q.c}/受け手pin=${q.r} |ΔP|max=${(q.z.dP || 0).toExponential(1)}・|ΔL|=${(q.z.dL || 0).toExponential(1)}`).join(' / '));
   } else {
     console.log('SKIP behavior.axisForce-*(対象に第249便c の axisForce なし — root 等)');
   }
@@ -10421,6 +10532,122 @@ if (!FAST) {
   }
 }
 
+// ---- 第250便b(第42報 W2): behavior.mmWavelength — MM の**波長チャネル**(HP.dfmMMWavelength)----
+// 原仮定者(第42報)の指示「別々の方向に発射した光子が、反射して戻って来た時の波長を比較する。…
+// 観測位置が移動していても、ドップラー効果を考慮して一致する事を確認する」に対応する階段 W1〜W5 を、
+// behavior.mmPhase と**同じ様式**(SI 1887 装置 L=11 m・λ₀=500 nm・v=29.9792458 km/s・c=299792458)で
+// 機械固定する。規約は ω=u·k+c|k|(非分散)・移動境界で ω−V·k 保存・検出器の読み ν_D=(ω−V_D·k)/2π。
+//   (W1) 静止・等長      → λ₁=λ₂=λ₀ が**ビット厳密**・Δν=0・Δφ=0
+//   (W2) 静止・ΔL=λ/4    → **Δλ=0・Δν=0(ビット厳密)なのに Δφ=π** — 波長比較の null と距離の正対照が
+//                          分かれる(**波長一致 ≠ 位相一致**。本便の核)
+//   (W3) 装置 v・u=0     → 共移動検出器の帰還周波数は**両腕とも ν_D/ν₀=1**・同一 +x 出力へ再合成した
+//                          共通波長も**ビット厳密に一致**、**それでも Δφ=0.22 縞が残る**・90° で符号反転。
+//                          一方**戻り方向の空間波長は O(β) で違う**(腕ごとに戻る向きが違うため)
+//   (W4) 随伴 u=V        → Δλ・Δν・Δφ が全部 0(χ<1 では位相だけ (1−χ)² で残る)
+//   (W5) 検出器だけ動く   → 補正前 Δν≠0(比 1.0000033/1.0000167)・**ドップラー補正後は W1 に戻る**
+// **「DFM が MM null を予測する」とは決め打ちしない**。共移動検出器の帰還周波数一致は
+// **ドップラーの相殺**であって光速不変の証明ではない、も本テストの前提(値の合否だけを見る)。
+{
+  const hasMW = await page.evaluate(() => !!(window.HP && typeof HP.dfmMMWavelength === 'function'
+    && typeof HP.dfmMMPhase === 'function'));
+  if (hasMW) {
+    const mw = await page.evaluate(() => {
+      const C = 299792458, LAM = 5e-7, L = 11, V = 29979.2458;
+      const W = (o) => HP.dfmMMWavelength(o);
+      const base = { c: C, lambda0: LAM, L1: L, L2: L };
+      const w1 = W(Object.assign({}, base));
+      const dL = 1.25e-7;                                   // ΔL=λ/4 → 往復 λ/2 → Δφ=π
+      const w2 = W(Object.assign({}, base, { L1: L + dL }));
+      const w3 = W(Object.assign({}, base, { vx: V }));                  // 戻り方向のまま
+      const w3o = W(Object.assign({}, base, { vx: V, nOut: [1, 0] }));   // 同一 +x 出力へ再合成
+      const w3r = W(Object.assign({}, base, { vx: V, theta0: Math.PI / 2, nOut: [1, 0] }));
+      const w4 = W(Object.assign({}, base, { vx: V, ux: V, nOut: [1, 0] }));
+      const VD = { x: V + 1000, y: 5000 };
+      const w5 = W(Object.assign({}, base, { vx: V, vD: VD, nOut: [1, 0] }));
+      // 根探索の許容 2 段(iters 200 / 500)でビット同一 = 解析根なので dt/精度に依存しない
+      const kk = (r) => [r.arm1.lambdaOut, r.arm2.lambdaOut, r.arm1.lambdaCommon, r.arm2.lambdaCommon,
+        r.arm1.nuD, r.arm2.nuD, r.arm1.D, r.arm2.D, r.dLambdaOut, r.dNu, r.phase.dphi];
+      const i200 = kk(W(Object.assign({}, base, { vx: V, nOut: [1, 0], iters: 200 })));
+      const i500 = kk(W(Object.assign({}, base, { vx: V, nOut: [1, 0], iters: 500 })));
+      const iterSame = i200.every((z, i) => Object.is(z, i500[i]));
+      // 決定性(同じ cfg で 2 回 — 全数値ビット同一)
+      const cfgD = { c: C, lambda0: LAM, L1: L + 3e-4, L2: L, vx: 1234.5, uy: 67.8,
+        theta0: 0.3, vD: { x: 2000, y: -300 }, nOut: [0.6, 0.8] };
+      const d1 = kk(W(cfgD)), d2 = kk(W(cfgD));
+      const det = d1.every((z, i) => Object.is(z, d2[i]));
+      // 適用域外は null(**回転境界は扱わない**・超光速の残風・非数)
+      const gate = W(Object.assign({}, base, { omega: 1 })) === null
+        && W(Object.assign({}, base, { vx: 2 * C })) === null
+        && W(Object.assign({}, base, { vD: { x: 2 * C, y: 0 } })) === null
+        && W(Object.assign({}, base, { L1: NaN })) === null;
+      const P = (r) => ({ l1: r.arm1.lambdaOut, l2: r.arm2.lambdaOut,
+        c1: r.arm1.lambdaCommon, c2: r.arm2.lambdaCommon, D1: r.arm1.D, D2: r.arm2.D,
+        r1: r.arm1.nuD / r.nu0, r2: r.arm2.nuD / r.nu0,
+        cr1: r.arm1.nuCorr / r.nu0, cr2: r.arm2.nuCorr / r.nu0,
+        rho: [r.arm1.rhoFwd, r.arm1.rhoBack, r.arm2.rhoFwd, r.arm2.rhoBack],
+        longRel: Math.max(Math.abs(r.arm1.nuDlong / r.arm1.nuD - 1), Math.abs(r.arm2.nuDlong / r.arm2.nuD - 1)),
+        dl: r.dLambdaOut, dc: r.dLambdaCommon, dnu: r.dNu, dcorr: r.dNuCorr,
+        dphi: r.phase.dphiExact, fr: r.phase.fringes, dt: r.phase.dt });
+      return { nu0: w1.nu0, lam0: LAM, dL, w1: P(w1), w2: P(w2), w3: P(w3), w3o: P(w3o),
+        w3r: P(w3r), w4: P(w4), w5: P(w5), iterSame, det, gate };
+    });
+    const rel = (a, b) => Math.abs(a / b - 1);
+    const Z = (x) => Object.is(x, 0);
+    // (W1) 静止・等長: 戻り波長も共通出力波長も λ₀ ちょうど・Δν も Δφ も 0(ビット厳密)
+    const wa1 = Object.is(mw.w1.l1, mw.lam0) && Object.is(mw.w1.l2, mw.lam0)
+      && Z(mw.w1.dl) && Z(mw.w1.dc) && Z(mw.w1.dnu) && Z(mw.w1.dphi)
+      && mw.w1.D1 === 1 && mw.w1.D2 === 1;
+    // (W2) 静止・ΔL: **Δλ=0・Δν=0 のまま Δφ=π**(距離チャネルだけが動く)
+    //   Δφ が π と 2.5e-9 ずれるのは L1−L2 の桁落ち(ulp(11 m)=1.8e-15 m 対 ΔL=125 nm)であって物理ではない
+    const wa2 = Object.is(mw.w2.l1, mw.lam0) && Object.is(mw.w2.l2, mw.lam0)
+      && Z(mw.w2.dl) && Z(mw.w2.dc) && Z(mw.w2.dnu)
+      && rel(mw.w2.dphi, Math.PI) < 1e-8 && Math.abs(mw.w2.dt) > 0;
+    // (W3) 装置が動く: ν 一致・共通出力波長一致(ビット厳密)・**それでも 0.22 縞**・90° で符号反転
+    const b1 = 1e-4;
+    const wa3 = mw.w3o.r1 === 1 && mw.w3o.r2 === 1 && Object.is(mw.w3o.dc, 0)
+      && Object.is(mw.w3o.c1, mw.w3o.c2)
+      && rel(mw.w3o.c1, mw.lam0 * (1 - b1)) < 1e-12                 // 共通出力 = λ₀(1−β) = 499.95 nm
+      && rel(mw.w3.l1, mw.lam0 * (1 + b1)) < 1e-12                  // 平行腕の戻り = λ₀(1+β) = 500.05 nm
+      && rel(mw.w3.l2, mw.lam0 * (1 - b1 * b1)) < 1e-11             // 直交腕の戻り = λ₀(1−β²)
+      && Math.abs(mw.w3.dl / mw.lam0 - b1 * (1 + b1)) < 1e-12       // 戻り方向どうしは O(β) で違う
+      && Math.abs(mw.w3o.fr - 0.22) < 1e-6                          // 位相は 0.22 縞のまま残る
+      && rel(mw.w3r.dphi, -mw.w3o.dphi) < 1e-12                     // 90° 回転で符号反転
+      && Object.is(mw.w3r.dc, 0)
+      && mw.w3.rho.every((z) => Math.abs(z - 1) < 1e-12)            // ρ=(ω−V·k)/2πν₀ は往復で不変
+      && mw.w3.longRel < 1e-12;                                      // 長い道(ω−V_D·k)と比の形が一致
+    // (W4) 随伴 u=V: 波長も周波数も位相も全部 0
+    const wa4 = Object.is(mw.w4.l1, mw.lam0) && Object.is(mw.w4.l2, mw.lam0)
+      && Z(mw.w4.dl) && Z(mw.w4.dc) && Z(mw.w4.dnu) && Z(mw.w4.dphi)
+      && mw.w4.r1 === 1 && mw.w4.r2 === 1;
+    // (W5) 検出器だけ動く: 補正前は Δν≠0(既知の 2 比)、**補正後は W1 に戻る**
+    const wa5 = Math.abs(mw.w5.r1 - 1.0000033353074211) < 1e-12
+      && Math.abs(mw.w5.r2 - 1.0000166778712793) < 1e-12
+      && mw.w5.dnu !== 0 && Object.is(mw.w5.dcorr, 0)
+      && mw.w5.cr1 === 1 && mw.w5.cr2 === 1
+      && Object.is(mw.w5.dc, 0);                                     // 装置側の共通出力波長は動かない
+    add('behavior.mmWavelength',
+      wa1 && wa2 && wa3 && wa4 && wa5 && mw.iterSame && mw.det && mw.gate,
+      `(W1) 静止・等長: λ₁=λ₂=λ₀=${(mw.w1.l1 * 1e9).toFixed(6)}nm(**ビット厳密**)・Δν=${mw.w1.dnu}・` +
+      `Δφ=${mw.w1.dphi} / ` +
+      `(W2) 静止・ΔL=λ/4: **Δλ=${mw.w2.dl}・Δν=${mw.w2.dnu} のまま Δφ=${mw.w2.dphi.toFixed(9)}` +
+      `(=π と相対 ${rel(mw.w2.dphi, Math.PI).toExponential(1)} — L₁−L₂ の桁落ち)**=波長の null と` +
+      `距離の正対照が分かれる / ` +
+      `(W3) 装置 v(β=1e-4)・u=0: 戻り波長は平行腕 ${(mw.w3.l1 * 1e9).toFixed(6)}nm 対 直交腕 ` +
+      `${(mw.w3.l2 * 1e9).toFixed(6)}nm(**方向が違うので O(β) で違う**)/ 同一 +x 出力へ再合成すると` +
+      `両腕とも ${(mw.w3o.c1 * 1e9).toFixed(6)}nm(Δλ=${mw.w3o.dc} ビット厳密)・共移動検出器の` +
+      `**帰還周波数は ν_D/ν₀=${mw.w3o.r1}, ${mw.w3o.r2}**・**それでも Δφ=${mw.w3o.dphi.toFixed(9)} rad=` +
+      `${mw.w3o.fr.toFixed(7)} 縞**(90° 回転で符号反転 相対 ${rel(mw.w3r.dphi, -mw.w3o.dphi).toExponential(1)})・` +
+      `ρ 不変 ${Math.max(...mw.w3.rho.map((z) => Math.abs(z - 1))).toExponential(1)} / ` +
+      `(W4) 随伴 u=V: Δλ=${mw.w4.dl}・Δν=${mw.w4.dnu}・Δφ=${mw.w4.dphi} / ` +
+      `(W5) 検出器だけ (1000,5000) m/s: ν_D/ν₀=${mw.w5.r1}, ${mw.w5.r2}` +
+      `(Δν=${mw.w5.dnu.toExponential(3)} Hz)→ **補正後 ${mw.w5.cr1}, ${mw.w5.cr2}(ΔνCorr=${mw.w5.dcorr})** / ` +
+      `iters 200/500 でビット同一=${mw.iterSame}・純関数の決定性=${mw.det}・` +
+      `適用域外(回転境界・超光速・NaN)は null=${mw.gate}`);
+  } else {
+    console.log('SKIP behavior.mmWavelength(対象に第250便b の HP.dfmMMWavelength なし — root 等)');
+  }
+}
+
 // ---- 第246便d ⑤: behavior.contractBudget — コア収縮の E 予算と Q 不変 ----
 // 思考実験⑤「WD/NS の質量は元の赤色巨星とあまり変わらない → 質量はコアに集中し、成長すると
 // コア半径が縮む」。①エネルギー予算 dUbind=aGMc²(1/R1−1/R0) 対 dErot=J²/(2κMc)(1/R1²−1/R0²)
@@ -10647,6 +10874,134 @@ if (!FAST) {
       `必ずしも安定化しない。2D の本体コードには面外自由度が無いので、この否定は本体では見えない`);
   } else {
     console.log('SKIP behavior.dipoleDiscStability(対象に第246便d の面外安定性台帳なし — root 等)');
+  }
+}
+
+// ---- 第250便a(第42報 W1): behavior.dragChannels250 — 引きずりの 2 チャネル(回転/並進)----
+// 原仮定者の見立て「コンパクト天体連星同士では引きずりが消える」を、**どのチャネルの話か**まで
+// 分けて機械固定する。回転チャネル η_rot=s(R/(R+d))^q/n は J0737 の転写値で 10⁻¹¹〜10⁻¹³ =
+// **サイズ比ゲート (R/(R+d))^q≈2.3×10⁻¹⁶ で消える**。一方 並進チャネル χ は同じ系で ≈1(飽和)で、
+// 恒星連星(αCen/シリウス)では χ≈2〜6×10⁻⁴ — **消えるのは回転チャネルだけ**である。
+{
+  const hasDC = await page.evaluate(() => typeof HP.dfmDragChannels === 'function');
+  if (hasDC) {
+    const dc = await page.evaluate(() => {
+      // J0737−3039A/B の転写値(⚡ psrDoubleABDFM の宣言そのもの)+ 観測公転の平均運動
+      const R = 0.01175, d = 955.9782718763176, n = 2 * Math.PI / 883.4534723278;
+      const A = HP.dfmDragChannels({ R, d, q: 3.1788606596895086, s: 2767.998768, n, chi: 0.9999403473682839 });
+      const B = HP.dfmDragChannels({ R, d, q: 3.185016056198988, s: 22.654675, n, chi: 0.9999443287852461 });
+      // s に厳密比例(回転チャネルは自転の一次)
+      const half = HP.dfmDragChannels({ R, d, q: 3.1788606596895086, s: 2767.998768 / 2, n });
+      // q を上げるとゲートは単調に落ちる(サイズ比が 1 未満だから)
+      const gq = [3, 3.1788606596895086, 4, 5].map((q) => HP.dfmDragChannels({ R, d, q, s: 1, n }).gate);
+      // 恒星連星の χ(✴️ αCenAB DFM / 💫 SiriusAB DFM の実測値 — CH 表と同じ数)
+      const star = HP.dfmDragChannels({ R: 0.084738, d: 348.54808, q: 4.611121739045699, s: 4.57371397, n: 1, chi: 1.988e-4 });
+      return { A, B, half, gq, star,
+        bad: [HP.dfmDragChannels(null), HP.dfmDragChannels({ R: 0, d: 1, q: 2 }),
+          HP.dfmDragChannels({ R: 1, d: -1, q: 2 }), HP.dfmDragChannels({ R: 1, d: 1, q: NaN })] };
+    });
+    const near = (a, b, t) => Math.abs(a / b - 1) < t;
+    add('behavior.dragChannels250',
+      near(dc.A.sizeRatio, 1.2290923263967048e-5, 1e-12)
+      && near(dc.A.gate, 2.457385930035465e-16, 1e-9) && near(dc.B.gate, 2.292175218822333e-16, 1e-9)
+      && near(dc.A.etaRot, 9.564077210807213e-11, 1e-9) && near(dc.B.etaRot, 7.301455840029772e-13, 1e-9)
+      && near(dc.half.etaRot, dc.A.etaRot / 2, 1e-12)
+      && dc.gq.every((g, i) => i === 0 || g < dc.gq[i - 1])
+      && dc.A.chi > 0.999 && dc.B.chi > 0.999 && dc.star.chi < 1e-3
+      && dc.A.ratio < 1e-9 && dc.B.ratio < 1e-9
+      && dc.A.etaRot < 1e-9 && dc.B.etaRot < 1e-9
+      && dc.bad.every((z) => z === null),
+      `J0737 の 2 チャネル(R=11.75 km proxy・d=近点側の遠点分離 955.978・n=2π/P_obs): ` +
+      `**回転チャネル** サイズ比 ${dc.A.sizeRatio.toExponential(4)} → ゲート (R/(R+d))^q=${dc.A.gate.toExponential(4)}(A)/` +
+      `${dc.B.gate.toExponential(4)}(B) → η_rot=${dc.A.etaRot.toExponential(4)}(A の自転が源)/` +
+      `${dc.B.etaRot.toExponential(4)}(B) / **並進チャネル** χ=${dc.A.chi.toFixed(6)}(飽和)→ ` +
+      `比 η_rot/χ=${dc.A.ratio.toExponential(3)} = **消えるのは回転チャネルだけ**。` +
+      `恒星連星(✴️ αCen)は同じ器で χ=${dc.star.chi.toExponential(3)} = 並進チャネルが 4 桁弱い side / ` +
+      `η_rot は s に厳密比例(半分で ${(dc.half.etaRot / dc.A.etaRot).toFixed(6)})・q を上げるとゲートは単調減少 / ` +
+      `不正入力は null=${dc.bad.every((z) => z === null)}`);
+  } else {
+    console.log('SKIP behavior.dragChannels250(対象に第250便a の 2 チャネル台帳なし — root 等)');
+  }
+}
+
+// ---- 第250便a: behavior.tidalSpinScale — ラグビーボール尺度(潮汐 vs 自転遠心)----
+// 見立て「潮汐力でロックされ自転軸方向にラグビーボールの様に引き伸ばされ、自転遠心と拮抗している」を
+// 無次元の桁で機械固定する。J0737 の転写値では **ε_tide/ε_rot = 4.2×10⁻¹²(A)/6.7×10⁻⁸(B)** で、
+// **どちらも自転遠心(オブレート)側が桁違いに勝つ**(拮抗しない)。しかも A と B で 4 桁違うので
+// **両体が同じ形にはならない**、が第一予測である。
+{
+  const hasTS = await page.evaluate(() => typeof HP.dfmTidalSpinScale === 'function');
+  if (hasTS) {
+    const ts = await page.evaluate(() => {
+      const G = 6.674e-11, R = 1.175e4, dPeri = 8.788366e8 * (1 - 0.087777036);
+      const mA = 2.660982861e30, mB = 2.483370041e30;
+      const A = HP.dfmTidalSpinScale({ m: mA, mComp: mB, R, d: dPeri, Omega: 2 * Math.PI / 0.02269937898645, G });
+      const B = HP.dfmTidalSpinScale({ m: mB, mComp: mA, R, d: dPeri, Omega: 2 * Math.PI / 2.77346074724, G });
+      // ε_tide ∝ d⁻³(距離 2 倍で 1/8)・ε_rot ∝ Ω²(Ω 2 倍で 4 倍)
+      const far = HP.dfmTidalSpinScale({ m: mA, mComp: mB, R, d: 2 * dPeri, Omega: 2 * Math.PI / 0.02269937898645, G });
+      const fast = HP.dfmTidalSpinScale({ m: mA, mComp: mB, R, d: dPeri, Omega: 4 * Math.PI / 0.02269937898645, G });
+      return { A, B, far, fast,
+        bad: [HP.dfmTidalSpinScale(null), HP.dfmTidalSpinScale({ m: 0, mComp: 1, R: 1, d: 1, Omega: 1 }),
+          HP.dfmTidalSpinScale({ m: 1, mComp: 1, R: 1, d: 0, Omega: 1 }), HP.dfmTidalSpinScale({ m: 1, mComp: 1, R: 1, d: 1, Omega: NaN })] };
+    });
+    const near = (a, b, t) => Math.abs(a / b - 1) < t;
+    add('behavior.tidalSpinScale',
+      near(ts.A.epsTide, 2.9382283977257893e-15, 1e-9) && near(ts.A.epsRot, 6.998695606205695e-4, 1e-9)
+      && near(ts.B.epsTide, 3.3735475150915487e-15, 1e-9) && near(ts.B.epsRot, 5.023444972272679e-8, 1e-9)
+      && near(ts.A.ratio, 4.198251450056611e-12, 1e-8) && near(ts.B.ratio, 6.71560559279961e-8, 1e-8)
+      && ts.A.shape === 'oblate' && ts.B.shape === 'oblate'
+      && near(ts.far.epsTide, ts.A.epsTide / 8, 1e-12) && near(ts.fast.epsRot, ts.A.epsRot * 4, 1e-12)
+      && ts.A.ratio < 1 && ts.B.ratio < 1 && (ts.B.ratio / ts.A.ratio) > 1e3
+      && ts.bad.every((z) => z === null),
+      `J0737(R=11.75 km EOS proxy・近点距離 ${(8.788366e8 * (1 - 0.087777036)).toExponential(5)} m・観測自転): ` +
+      `A ε_tide=${ts.A.epsTide.toExponential(3)} / ε_rot=${ts.A.epsRot.toExponential(3)} → 比 ${ts.A.ratio.toExponential(3)}・` +
+      `B ε_tide=${ts.B.epsTide.toExponential(3)} / ε_rot=${ts.B.epsRot.toExponential(3)} → 比 ${ts.B.ratio.toExponential(3)} → ` +
+      `**両体とも ε_rot 側(オブレート)が勝ち、拮抗しない**。A と B の比は ${(ts.B.ratio / ts.A.ratio).toExponential(2)} 倍違う = ` +
+      `**両体が同じ形にはならない**(第一予測) / ε_tide ∝ d⁻³・ε_rot ∝ Ω² を機械固定 / ` +
+      `不正入力は null=${ts.bad.every((z) => z === null)}。半径は EOS proxy・質量は転写なので DFM の内部構造の測定ではない`);
+  } else {
+    console.log('SKIP behavior.tidalSpinScale(対象に第250便a のラグビーボール尺度なし — root 等)');
+  }
+}
+
+// ---- 第250便a: behavior.inducedPair — 誘起応答(ファンデルワールス相当)の U と F ----
+// U=−C₆/(r²+r_c²)³+C₁₂/(r²+r_c²)⁶ と F=−dU/dr の一致(有限差分)・引力型 C₆>0 の符号・単調減衰。
+// **エンジンの力へは接続していない**(独立 RK4 の tests/exp-w250a-induced.mjs が符号を確かめる器)。
+{
+  const hasIP = await page.evaluate(() => typeof HP.dfmInducedPair === 'function');
+  if (hasIP) {
+    const ip = await page.evaluate(() => {
+      let maxRel = 0, n = 0;
+      for (const C6 of [0, 1e-3, 1, 7.5]) for (const C12 of [0, 1e-6, 2]) for (const rc of [0, 1e-4, 0.3])
+        for (const r of [0.2, 0.5, 1, 2, 5, 20]) {
+          const h = 1e-6 * r;
+          const a = HP.dfmInducedPair({ r: r + h, C6, C12, rc }), b = HP.dfmInducedPair({ r: r - h, C6, C12, rc });
+          const m = HP.dfmInducedPair({ r, C6, C12, rc });
+          const fd = -(a.U - b.U) / (2 * h);
+          if (Math.abs(fd) > 1e-9) { const rel = Math.abs(m.F - fd) / Math.abs(fd); if (rel > maxRel) maxRel = rel; n++; }
+        }
+      const mono = [0.5, 1, 2, 4, 8].map((r) => HP.dfmInducedPair({ r, C6: 1, C12: 0, rc: 1e-4 }));
+      const rep = HP.dfmInducedPair({ r: 0.5, C6: 0, C12: 1, rc: 1e-4 });   // C₁₂ 単独は斥力
+      const one = HP.dfmInducedPair({ r: 1, C6: 1, C12: 0, rc: 0 });        // r_c=0・r=1 の素の値
+      return { n, maxRel, mono: mono.map((z) => ({ U: z.U, F: z.F })), rep, one,
+        bad: [HP.dfmInducedPair(null), HP.dfmInducedPair({ r: -1 }), HP.dfmInducedPair({ r: 0, rc: 0 }),
+          HP.dfmInducedPair({ r: 1, C6: NaN })] };
+    });
+    const eq = (a, b) => Math.abs(a - b) < 1e-12;
+    add('behavior.inducedPair',
+      ip.maxRel < 1e-6 && ip.n >= 100
+      && ip.mono.every((z) => z.F < 0 && z.U < 0)
+      && ip.mono.every((z, i) => i === 0 || Math.abs(z.F) < Math.abs(ip.mono[i - 1].F))
+      && ip.rep.F > 0
+      && eq(ip.one.U, -1) && eq(ip.one.F, -6)
+      && ip.bad.every((z) => z === null),
+      `U=−C₆/(r²+r_c²)³+C₁₂/(r²+r_c²)⁶・F=−dU/dr: **有限差分との最大相対差 ${ip.maxRel.toExponential(3)}**(${ip.n} 点)/ ` +
+      `引力型 C₆=1・C₁₂=0・r_c=0・r=1 で U=${ip.one.U}・F=${ip.one.F}(=−6C₆/r⁷·r) / ` +
+      `C₆>0 は全域で F<0(引力)かつ |F| は r とともに単調減衰・C₁₂ 単独は F=${ip.rep.F.toExponential(3)}>0(斥力)/ ` +
+      `不正入力は null=${ip.bad.every((z) => z === null)}。**この関数はエンジンの力へ接続していない** — ` +
+      `独立 RK4(tests/exp-w250a-induced.mjs)が「引力型 C₆ は近点を前進させる」の符号を確定する`);
+  } else {
+    console.log('SKIP behavior.inducedPair(対象に第250便a の誘起応答なし — root 等)');
   }
 }
 

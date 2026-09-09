@@ -13,6 +13,10 @@
 //   ⑤ **axisForce=0 とのビット同一性**(🎡 galaxyStd・🕶️ darkrotor を 300 步)
 //   ⑥ dt/2 での安定(同じ模型時間まで走らせて A₂ と棒長を比べる)
 //   ⑦ A・R_b の 2×2 掃引(A=150/300 × R_b=60/120)+ R_b=60/80/120/200 の棒長表
+//   ⑧ **第250便c 追加**: E6′ 反作用の速度上限 clampRN(R=reaction。1 サブステップの |Δv|≤16)の
+//      **発動回数**を、同じ模型時間 8(dt=0.016 の 500 步 / dt=0.008 の 1000 步 / dt=0.004 の 2000 步)で
+//      A₂・棒長・保持率と**同時に**測る。上限を消す・値を大きくすることで解決したことにはしない —
+//      「NaN なし・帳簿 P/L 保存」は形が連続力学から生成された保証にならない、という記録である
 //   計測式(a2 / pitchFit)は tests/exp-4-88.mjs(= qa.mjs behavior.darkrotorLong /
 //   behavior.darkrotor-pitch)から**一字も変えずに移植**した。
 //
@@ -126,7 +130,7 @@ const run = (cfg) => page.evaluate((o) => {
     relP: +(((Math.abs(P1[0] - P0v[0]) + Math.abs(P1[1] - P0v[1])) / Math.max(pS, 1e-9)).toExponential(2)),
     relL: +((Math.abs(L1 - L0) / Math.max(lS, 1e-9)).toExponential(2)),
     axisU: S.axisU, axisW: S.axisWorkE, spin0: S.spin[0],
-    nan: S.hasNaN(), clampV: S.clampVN, clampS: S.clampSN, kKind: S._kKind };
+    nan: S.hasNaN(), clampV: S.clampVN, clampS: S.clampSN, clampR: S.clampRN, kKind: S._kKind };
 }, cfg);
 
 const CFG = {
@@ -136,7 +140,7 @@ const CFG = {
 };
 
 const out = { target: TARGET, generatedAt: new Date().toISOString(), runs: {}, bitIdentity: null,
-  conservation: null, dtHalf: {}, sweep: [], reachTable: [] };
+  conservation: null, dtHalf: {}, sweep: [], reachTable: [], reactionCap: {} };
 
 // ---- ① 3 本の本走行 --------------------------------------------------------------------
 for (const id of have) {
@@ -299,6 +303,23 @@ if (have.includes('axisBarStill')) {
   out.cross.stillWeakA = { avg: weak.series[1].avg, glob: weak.series[1].glob, barLen: weak.series[1].barLen,
     keepPct: weak.keepPct, baseAvg: base.series[1].avg, baseBarLen: base.series[1].barLen };
   console.log(`   回転ゼロの円盤に A=15(🎏 の強さ)を入れる: A2帯 ${weak.series[1].avg}・棒長 ${weak.series[1].barLen}(A=300 は ${base.series[1].avg}・${base.series[1].barLen})`);
+}
+
+// ---- ⑧ 第250便c: E6′ 反作用の速度上限 clampRN の発動(同じ模型時間 8 で dt / dt/2 / dt/4)------
+console.log(`\n== 反作用の速度上限 clampRN の発動(模型時間 8・|Δv|≤16)==`);
+for (const id of have) {
+  const rows = [];
+  for (const [dt, blk] of [[0.016, 500], [0.008, 1000], [0.004, 2000]]) {
+    const r = await run(Object.assign({}, CFG[id], { blk, nBlk: 1, dt }));
+    const e = r.series[1];
+    rows.push({ dt, steps: blk, tModel: +(dt * blk).toFixed(3), clampR: r.clampR, clampV: r.clampV,
+      clampS: r.clampS, a2band: e.avg, glob: e.glob, barLen: e.barLen, keepPct: r.keepPct,
+      relP: r.relP, relL: r.relL, nan: r.nan });
+    console.log(`  ${id} dt=${dt}(${blk} 步・t=${(dt * blk).toFixed(2)}): clampRN=${r.clampR}`
+      + ` A2帯=${e.avg} 全A2=${e.glob} 棒長=${e.barLen} 保持=${r.keepPct}%`
+      + ` |ΔP|/P=${r.relP} |ΔL|/L=${r.relL} NaN=${r.nan}`);
+  }
+  out.reactionCap[id] = rows;
 }
 
 fs.writeFileSync(path.join(OUT_DIR, 'exp-w249c.json'), JSON.stringify(out, null, 2));
